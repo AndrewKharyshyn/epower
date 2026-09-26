@@ -1,0 +1,14 @@
+{
+  "_note": "KPI specs for delta_report.py. Extend after grepping summary_arrays.json for the headline keys (degradation slopes, cell-spread trend, f_gen, cycle projections). Paths below are evidenced in refresh_seasonal_kpis.py / release_check.py.",
+  "kpis": [
+    {"name": "meta.totalDrives", "path": ["meta", "totalDrives"], "ci": null},
+    {"name": "EnergyIntensity.all (kWh/100km, canonical-clean)", "path": ["seasonalCharts", "charts", "EnergyIntensity", "data", "all", "value"],
+     "ci": [["seasonalCharts", "charts", "EnergyIntensity", "data", "all", "ci95", "lo"], ["seasonalCharts", "charts", "EnergyIntensity", "data", "all", "ci95", "hi"]]},
+    {"name": "EnergyIntensity.warm", "path": ["seasonalCharts", "charts", "EnergyIntensity", "data", "warm", "value"],
+     "ci": [["seasonalCharts", "charts", "EnergyIntensity", "data", "warm", "ci95", "lo"], ["seasonalCharts", "charts", "EnergyIntensity", "data", "warm", "ci95", "hi"]]},
+    {"name": "EnergyIntensity.shoulder", "path": ["seasonalCharts", "charts", "EnergyIntensity", "data", "shoulder", "value"],
+     "ci": [["seasonalCharts", "charts", "EnergyIntensity", "data", "shoulder", "ci95", "lo"], ["seasonalCharts", "charts", "EnergyIntensity", "data", "shoulder", "ci95", "hi"]]},
+    {"name": "generatorTractionRecon.corpus.fGen", "path": ["generatorTractionRecon", "corpus", "fGen"], "ci": null},
+    {"name": "generatorTractionRecon.corpus.etaBus", "path": ["generatorTractionRecon", "corpus", "etaBus"], "ci": null}
+  ]
+}

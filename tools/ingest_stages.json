@@ -1,0 +1,21 @@
+{
+  "_note": "Stage list for tools/run_ingest.py. 'verified' = command is evidenced in release_check.py / project code; false = reconcile against the real scripts in the first Code session. A stage failing stops the run; nothing is retried automatically.",
+  "stages": [
+    {"id": "preflight", "title": "Import/integrity check (presence + master MD5 + raw manifest names)",
+     "cmd": ["python3", "tools/verify_import.py", "--quick"], "verified": true},
+    {"id": "ingest_core", "title": "Protocol steps 1-5: analyze_bytes, append+sort, postprocess_master, ML16 restore, build_summary_arrays, crosscheck inject, corpus_manifest, determinism",
+     "cmd": ["python3", "tools/ingest_core.py"], "verified": false, "implemented": false},
+    {"id": "post_steps", "title": "M284 post-steps (records, seasonal KPI refresh, registry) - idempotent",
+     "cmd": ["bash", "apply_m284_post.sh"], "verified": true, "outputs": ["summary_arrays.json", "summary_config.json"]},
+    {"id": "cohort_arrays", "title": "Per-cohort arrays regenerate",
+     "cmd": ["python3", "cohort_arrays.py"], "verified": true, "outputs": ["cohort_arrays.json"]},
+    {"id": "build_html", "title": "Build dashboard (REQUIRED_BLOCKS + stale-key gates)",
+     "cmd": ["node", "build_html.js"], "verified": true, "outputs": ["xtrail_dashboard.html"]},
+    {"id": "jsdom", "title": "9-tab jsdom validation + semantic assertions",
+     "cmd": ["node", "validate_jsdom.js"], "verified": true},
+    {"id": "release_check", "title": "Clean-environment release gate (authoritative)",
+     "cmd": ["python3", "release_check.py"], "verified": true},
+    {"id": "state", "title": "Regenerate STATE.md",
+     "cmd": ["python3", "tools/state.py"], "verified": true}
+  ]
+}
