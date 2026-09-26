@@ -1,0 +1,48 @@
+{
+  "_purpose": "Warm-only regression anchor. DO NOT regenerate without a logged, documented correction. Future seasonal runs are asserted against this.",
+  "frozenAtUtc": "2026-09-11T22:31:38.060801+00:00",
+  "seasonalCoreVersion": "seasonal_core_v1.0.0",
+  "thermalRegimeVersion": "regime_v1_5_15",
+  "thresholds": {
+    "cold_max_c": 5.0,
+    "warm_min_c": 15.0,
+    "_convention": "cold: t<=5 ; shoulder: 5<t<15 ; warm: t>=15",
+    "_sensitivityAlternatives": [
+      {
+        "cold_max_c": 3.0,
+        "warm_min_c": 12.0
+      },
+      {
+        "cold_max_c": 7.0,
+        "warm_min_c": 18.0
+      }
+    ]
+  },
+  "sourceMasterMd5": "0b3c7d1cf2e00615c2fdfbe2d2531d2e",
+  "warm": {
+    "n_drives": 322,
+    "km": 7803.6,
+    "independent_days": 80,
+    "date_range": [
+      "2026-05-11",
+      "2026-09-10"
+    ],
+    "ambient_range_c": [
+      15.0,
+      37.0
+    ],
+    "metrics": {
+      "distance_km": 7803.6,
+      "gross_throughput_kwh": 1266.6483,
+      "gross_throughput_kwh_per100km": 16.23158926649239,
+      "engine_on_pct": 34.73229813664596,
+      "ev_dist_pct": 48.93871875,
+      "soc_range_span_pp": 21.0375,
+      "soc_mean_wtd_pct": 61.6203125,
+      "regen_share_of_charge": 26.816825396825394,
+      "standstill_draw_kw": 1.3671153846153847,
+      "vsag_R_pack_mohm": 124.38485436893204,
+      "rf_n_cycles": 24.446875
+    }
+  }
+}

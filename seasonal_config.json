@@ -1,0 +1,89 @@
+{
+  "_provenance": "Seasonal-management foundation config. Created as an additive layer over drive_master.csv (read-only). Thresholds are reporting bins over continuous variables; run sensitivity with alternative boundaries. Corpus at creation: 367 warm-season drives 2026-05-11..2026-09-10, 0 cold / 45 shoulder / 322 warm. Cold + shoulder cohorts populate as future drives are ingested.",
+  "seasonalCoreVersion": "seasonal_core_v1.0.0",
+  "thermalRegimeVersion": "regime_v1_5_15",
+  "projectTimezone": "Europe/Kyiv",
+
+  "thermalThresholds": {
+    "cold_max_c": 5.0,
+    "warm_min_c": 15.0,
+    "_convention": "cold: t<=5 ; shoulder: 5<t<15 ; warm: t>=15",
+    "_sensitivityAlternatives": [
+      {"cold_max_c": 3.0, "warm_min_c": 12.0},
+      {"cold_max_c": 7.0, "warm_min_c": 18.0}
+    ]
+  },
+
+  "ambient": {
+    "primarySource": "manual_ambientByDrive",
+    "_policy": "Ambient is supplied MANUALLY per drive via ambientByDrive (driver-recorded, originating from the vehicle's ambient readout). This is the authoritative ambient measurement channel. The raw per-second vehicle-ambient PID is NOT used as an ambient source (sparse ~4/367, not the study's ambient channel) and is excluded from raw_temp_pass.py. A historical-weather substitution is marked explicitly via a per-drive source override when used.",
+    "defaultSource": "vehicle_sensor",
+    "defaultUncertaintyClass": "vehicle_uncalibrated",
+    "sourceEnum": ["vehicle_sensor", "weather_station", "weather_reanalysis", "manual"],
+    "uncertaintyEnum": ["vehicle_uncalibrated", "weather_station", "weather_reanalysis", "unknown"],
+    "_legacyReader": "arrays [start,end] / [start,interim,end] / scalar default to vehicle_sensor unless an explicit per-drive weather-source override exists"
+  },
+
+  "coldSoak": {
+    "parkCoolingTauHours": 17.6,
+    "packAmbientTolC": 3.0,
+    "engineAmbientTolC": 5.0,
+    "longPark6h": 6.0,
+    "longPark12h": 12.0,
+    "_note": "confirmed requires long gap + consistent continuity + observed start-thermal proximity to ambient; 6h alone is 'long parked', not 'cold soaked' (tau=17.6h -> ~29% recovery at 6h)"
+  },
+
+  "continuity": {
+    "odoToleranceKm": 1.0
+  },
+
+  "payload": {
+    "occupantMassKg": 75,
+    "cargoMidpointsKg": {"0_20": 10, "21_50": 35, "51_100": 75, "101_200": 150},
+    "cargoOver200Handling": "lower_bound_only_no_midpoint",
+    "classes": {
+      "P0_minimal": "<=25",
+      "P1_light": ">25..100",
+      "P2_moderate": ">100..250",
+      "P3_heavy": ">250 or lower-bound band sufficient",
+      "PU_unknown": "insufficient info"
+    },
+    "_note": "nominal stratification/sensitivity only; kept separate from the modeled class-conditional VEHICLE_MASS_KG operating masses"
+  },
+
+  "hvacClasses": {
+    "H0": "climate off",
+    "H1": "normal climate, no defrost",
+    "H2": "defrost < 25% of drive",
+    "H3": "substantial defrost or max heat >= 25% of drive",
+    "HU": "unknown or repeatedly changing"
+  },
+  "cruiseClasses": {
+    "C0": "not used", "C1": "<25%", "C2": "~25-75%", "C3": ">75%", "CU": "unknown"
+  },
+
+  "aggregationRules": {
+    "totals": "sum underlying observations",
+    "perDistanceRate": "100 * sum(quantity) / sum(distance)",
+    "eventsPer100km": "100 * sum(events) / sum(distance)",
+    "hourlyRate": "sum(events) / sum(valid_hours)",
+    "median": "recompute from pooled selected observations; never average seasonal medians",
+    "driveMean": "drive-weighted (label explicitly)",
+    "dayMean": "aggregate within day first, then day-weighted",
+    "allPeriod": "compute from all selected observations; never average warm and cold headline cards"
+  },
+
+  "cohorts": {
+    "allLabel": "All observations",
+    "_allYearGate": "rename to 'All year' only after a complete 12-month observation window exists; a typical/reference year requires explicit exposure weights and is labelled separately",
+    "segmentedControl": ["All observations", "Warm", "Shoulder", "Cold"],
+    "keepShoulderVisible": true
+  },
+
+  "warnings": {
+    "minIndependentDaysPerCohort": 5,
+    "minDrivesPerCohort": 8,
+    "requirePidCoveragePct": 60.0,
+    "twelveMonthWindowRequiredForAllYear": true
+  }
+}

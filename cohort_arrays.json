@@ -1,0 +1,2687 @@
+{
+ "_provenance": {
+  "layer": "cohort_arrays Phase 1 (thermal charts)",
+  "seasonalCoreVersion": "seasonal_core_v1.0.0",
+  "generatedFrom": "seasonal_drive_master.csv + drive_master.csv (read-only)",
+  "rule": "per-cohort recompute via ratio-of-sums / pooled median / drive-day weighting; no baked corpus-wide arrays; empty cohorts -> nulls, never zero-as-real; comparison type gated by dependency class; rates expose paired_n/paired_km (M291); energy rates and the adjusted energy contrast use canonical-clean eligibility (ens_invalid/ens_outlier_v2 excluded; M295)"
+ },
+ "cohorts": [
+  "All observations",
+  "Warm",
+  "Shoulder",
+  "Cold"
+ ],
+ "comparisonPrimitives": {
+  "scalar_dumbbell": "per-cohort scalar with warm-relative delta + CI (CI when >=2 cohorts have support)",
+  "distribution_overlay": "shared-axis per-cohort histograms",
+  "multiline_curve": "per-cohort fitted/binned curves (Phase-1 staged charts)"
+ },
+ "adjustedContrastAvailable": false,
+ "dataReadyCharts": [
+  "RegenChart",
+  "BatteryThermalChart",
+  "BmsVcmChart",
+  "CycleRateChart",
+  "EngineCyclingChart",
+  "SocLevelSensitivityChart",
+  "TempChart"
+ ],
+ "phase2Charts": [
+  "EfficChart",
+  "SpeedChart",
+  "DriveDurationDist",
+  "DriveTypeChart"
+ ],
+ "warmupCharts": [
+  "WarmupCurve"
+ ],
+ "frozenCharts": {
+  "BaroCompensation": "barometric-compensation method/constant — not season-dependent",
+  "EfcDefinitionCard": "EFC/FCE/Rainflow-EFC definitions — constants, not season-dependent",
+  "CalibrationCard": "current-sensor offset / sign convention — manifest constant, fixed under filter",
+  "ExposureTotalsCard": "distance / gross-throughput totals — exposure, labelled 'Exposure total' not a rate"
+ },
+ "stagedCharts": {
+  "SocHysteresisChart": "fitted SoC-control surface (m119v2) — needs per-cohort refit (degenerate without cold data)",
+  "BufferImpulseChart": "per-second engine-start SoC/current transients — needs raw current+engine-state extraction",
+  "RampLatencyChart": "per-second engine-on→target-RPM latency — needs raw RPM+engine-state extraction",
+  "CycleProjectionChart": "seasonalAssumptions extrapolation — model, labelled separately from observed"
+ },
+ "charts": {
+  "RegenChart": {
+   "dependencyClass": "thermal",
+   "comparisonType": "scalar_dumbbell",
+   "dataReady": true,
+   "metrics": {
+    "regen_share_of_charge": {
+     "All observations": {
+      "n": 431,
+      "value": 28.006264501160093,
+      "pooled_median": 25.1,
+      "p10": 8.9,
+      "p90": 46.2,
+      "day_weighted_mean": 27.815192452475063,
+      "vs_warm_pct": 2.45
+     },
+     "Warm": {
+      "n": 359,
+      "value": 27.337047353760447,
+      "pooled_median": 25.5,
+      "p10": 9.9,
+      "p90": 44.14,
+      "day_weighted_mean": 27.207405303030303,
+      "vs_warm_pct": null
+     },
+     "Shoulder": {
+      "n": 72,
+      "value": 31.34305555555555,
+      "pooled_median": 23.4,
+      "p10": 3.2700000000000005,
+      "p90": 98.72999999999998,
+      "day_weighted_mean": 29.209968944099376,
+      "vs_warm_pct": 14.65
+     },
+     "Cold": {
+      "n": 0,
+      "value": null,
+      "pooled_median": null,
+      "p10": null,
+      "p90": null,
+      "vs_warm_pct": null
+     }
+    },
+    "regen_peak_Crate": {
+     "All observations": {
+      "n": 388,
+      "value": 14.88298969072165,
+      "pooled_median": 11.2,
+      "p10": 6.3,
+      "p90": 31.93,
+      "day_weighted_mean": 15.118320707070708,
+      "vs_warm_pct": -4.55
+     },
+     "Warm": {
+      "n": 335,
+      "value": 15.592537313432835,
+      "pooled_median": 11.7,
+      "p10": 6.5,
+      "p90": 32.36,
+      "day_weighted_mean": 15.324175234487734,
+      "vs_warm_pct": null
+     },
+     "Shoulder": {
+      "n": 53,
+      "value": 10.398113207547171,
+      "pooled_median": 8.1,
+      "p10": 6.1,
+      "p90": 18.0,
+      "day_weighted_mean": 10.166376811594203,
+      "vs_warm_pct": -33.31
+     },
+     "Cold": {
+      "n": 0,
+      "value": null,
+      "pooled_median": null,
+      "p10": null,
+      "p90": null,
+      "vs_warm_pct": null
+     }
+    },
+    "motor_regen_lower_pct": {
+     "All observations": {
+      "n": 431,
+      "value": 23.328770301624132,
+      "pooled_median": 20.7,
+      "p10": 6.8,
+      "p90": 38.9,
+      "day_weighted_mean": 22.933332274609448,
+      "vs_warm_pct": 2.51
+     },
+     "Warm": {
+      "n": 359,
+      "value": 22.75682451253482,
+      "pooled_median": 20.9,
+      "p10": 7.4,
+      "p90": 36.98,
+      "day_weighted_mean": 22.471955266955266,
+      "vs_warm_pct": null
+     },
+     "Shoulder": {
+      "n": 72,
+      "value": 26.180555555555557,
+      "pooled_median": 17.299999999999997,
+      "p10": 2.6200000000000006,
+      "p90": 74.88,
+      "day_weighted_mean": 24.138881987577637,
+      "vs_warm_pct": 15.04
+     },
+     "Cold": {
+      "n": 0,
+      "value": null,
+      "pooled_median": null,
+      "p10": null,
+      "p90": null,
+      "vs_warm_pct": null
+     }
+    },
+    "motor_regen_upper_pct": {
+     "All observations": {
+      "n": 431,
+      "value": 49.61090487238979,
+      "pooled_median": 48.9,
+      "p10": 31.8,
+      "p90": 67.6,
+      "day_weighted_mean": 48.26097637869377,
+      "vs_warm_pct": -0.44
+     },
+     "Warm": {
+      "n": 359,
+      "value": 49.828969359331474,
+      "pooled_median": 49.0,
+      "p10": 34.04,
+      "p90": 67.22,
+      "day_weighted_mean": 49.0639393939394,
+      "vs_warm_pct": null
+     },
+     "Shoulder": {
+      "n": 72,
+      "value": 48.52361111111111,
+      "pooled_median": 47.55,
+      "p10": 29.1,
+      "p90": 74.97999999999999,
+      "day_weighted_mean": 47.84646997929607,
+      "vs_warm_pct": -2.62
+     },
+     "Cold": {
+      "n": 0,
+      "value": null,
+      "pooled_median": null,
+      "p10": null,
+      "p90": null,
+      "vs_warm_pct": null
+     }
+    }
+   },
+   "coverage": {
+    "All observations": {
+     "n_drives": 446,
+     "km": 8559.94,
+     "independent_days": 96,
+     "date_range": [
+      "2026-05-11",
+      "2026-09-22"
+     ],
+     "ambient_range_c": [
+      7.5,
+      37.0
+     ]
+    },
+    "Warm": {
+     "n_drives": 366,
+     "km": 8099.7,
+     "independent_days": 90,
+     "date_range": [
+      "2026-05-11",
+      "2026-09-20"
+     ],
+     "ambient_range_c": [
+      15.0,
+      37.0
+     ]
+    },
+    "Shoulder": {
+     "n_drives": 80,
+     "km": 460.24,
+     "independent_days": 26,
+     "date_range": [
+      "2026-05-12",
+      "2026-09-22"
+     ],
+     "ambient_range_c": [
+      7.5,
+      14.8
+     ]
+    },
+    "Cold": {
+     "n_drives": 0,
+     "km": 0,
+     "independent_days": 0,
+     "date_range": null,
+     "ambient_range_c": null
+    }
+   }
+  },
+  "BatteryThermalChart": {
+   "dependencyClass": "thermal",
+   "comparisonType": "distribution_overlay",
+   "dataReady": true,
+   "metrics": {
+    "pack_temp_start_c": {
+     "All observations": {
+      "n": 439,
+      "value": 27.210041002277904,
+      "pooled_median": 26.833,
+      "p10": 18.0,
+      "p90": 37.25,
+      "day_weighted_mean": 26.25476789663553,
+      "hist": {
+       "edges": [
+        -10,
+        -5,
+        0,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45,
+        50
+       ],
+       "counts": [
+        0,
+        0,
+        0,
+        0,
+        11,
+        73,
+        95,
+        92,
+        91,
+        58,
+        19,
+        0
+       ],
+       "n": 439
+      },
+      "vs_warm_pct": -4.81
+     },
+     "Warm": {
+      "n": 362,
+      "value": 28.584947513812157,
+      "pooled_median": 28.5835,
+      "p10": 19.5167,
+      "p90": 37.75,
+      "day_weighted_mean": 27.13277103174603,
+      "hist": {
+       "edges": [
+        -10,
+        -5,
+        0,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45,
+        50
+       ],
+       "counts": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        40,
+        73,
+        90,
+        83,
+        56,
+        19,
+        0
+       ],
+       "n": 362
+      },
+      "vs_warm_pct": null
+     },
+     "Shoulder": {
+      "n": 77,
+      "value": 20.746194805194808,
+      "pooled_median": 19.667,
+      "p10": 14.6002,
+      "p90": 31.1,
+      "day_weighted_mean": 20.664743238095237,
+      "hist": {
+       "edges": [
+        -10,
+        -5,
+        0,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45,
+        50
+       ],
+       "counts": [
+        0,
+        0,
+        0,
+        0,
+        10,
+        33,
+        22,
+        2,
+        8,
+        2,
+        0,
+        0
+       ],
+       "n": 77
+      },
+      "vs_warm_pct": -27.42
+     },
+     "Cold": {
+      "n": 0,
+      "value": null,
+      "pooled_median": null,
+      "p10": null,
+      "p90": null,
+      "hist": {
+       "edges": [
+        -10,
+        -5,
+        0,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45,
+        50
+       ],
+       "counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+       ],
+       "n": 0
+      },
+      "vs_warm_pct": null
+     }
+    },
+    "pack_temp_time_mean_c": {
+     "All observations": {
+      "n": 439,
+      "value": 28.992553530751707,
+      "pooled_median": 29.245,
+      "p10": 19.4764,
+      "p90": 38.372,
+      "day_weighted_mean": 28.393285839978734,
+      "vs_warm_pct": -4.98
+     },
+     "Warm": {
+      "n": 362,
+      "value": 30.511729281767952,
+      "pooled_median": 30.490499999999997,
+      "p10": 21.7154,
+      "p90": 38.9937,
+      "day_weighted_mean": 29.341685825753522,
+      "vs_warm_pct": null
+     },
+     "Shoulder": {
+      "n": 77,
+      "value": 21.850454545454543,
+      "pooled_median": 20.774,
+      "p10": 15.437000000000001,
+      "p90": 33.1994,
+      "day_weighted_mean": 21.860699523809526,
+      "vs_warm_pct": -28.39
+     },
+     "Cold": {
+      "n": 0,
+      "value": null,
+      "pooled_median": null,
+      "p10": null,
+      "p90": null,
+      "vs_warm_pct": null
+     }
+    },
+    "pack_temp_max_c": {
+     "All observations": {
+      "n": 439,
+      "value": 31.104211845102505,
+      "pooled_median": 31.0,
+      "p10": 20.950000000000003,
+      "p90": 41.5,
+      "day_weighted_mean": 30.705906879699246,
+      "vs_warm_pct": -4.86
+     },
+     "Warm": {
+      "n": 362,
+      "value": 32.69474861878453,
+      "pooled_median": 32.5,
+      "p10": 23.025,
+      "p90": 42.0,
+      "day_weighted_mean": 31.670650722311397,
+      "vs_warm_pct": null
+     },
+     "Shoulder": {
+      "n": 77,
+      "value": 23.626623376623378,
+      "pooled_median": 22.0,
+      "p10": 17.0,
+      "p90": 35.400000000000006,
+      "day_weighted_mean": 23.663666666666668,
+      "vs_warm_pct": -27.74
+     },
+     "Cold": {
+      "n": 0,
+      "value": null,
+      "pooled_median": null,
+      "p10": null,
+      "p90": null,
+      "vs_warm_pct": null
+     }
+    },
+    "pack_spread_time_mean_c": {
+     "All observations": {
+      "n": 438,
+      "value": 2.768513698630137,
+      "pooled_median": 1.8925,
+      "p10": 0.5398000000000001,
+      "p90": 6.869,
+      "day_weighted_mean": 2.647032161662215,
+      "vs_warm_pct": -5.88
+     },
+     "Warm": {
+      "n": 362,
+      "value": 2.9413453038674033,
+      "pooled_median": 2.08,
+      "p10": 0.5374,
+      "p90": 6.992100000000002,
+      "day_weighted_mean": 2.6085456170857855,
+      "vs_warm_pct": null
+     },
+     "Shoulder": {
+      "n": 76,
+      "value": 1.9452894736842108,
+      "pooled_median": 1.3039999999999998,
+      "p10": 0.5985,
+      "p90": 4.548500000000001,
+      "day_weighted_mean": 2.0410443452380953,
+      "vs_warm_pct": -33.86
+     },
+     "Cold": {
+      "n": 0,
+      "value": null,
+      "pooled_median": null,
+      "p10": null,
+      "p90": null,
+      "vs_warm_pct": null
+     }
+    }
+   },
+   "coverage": {
+    "All observations": {
+     "n_drives": 446,
+     "km": 8559.94,
+     "independent_days": 96,
+     "date_range": [
+      "2026-05-11",
+      "2026-09-22"
+     ],
+     "ambient_range_c": [
+      7.5,
+      37.0
+     ]
+    },
+    "Warm": {
+     "n_drives": 366,
+     "km": 8099.7,
+     "independent_days": 90,
+     "date_range": [
+      "2026-05-11",
+      "2026-09-20"
+     ],
+     "ambient_range_c": [
+      15.0,
+      37.0
+     ]
+    },
+    "Shoulder": {
+     "n_drives": 80,
+     "km": 460.24,
+     "independent_days": 26,
+     "date_range": [
+      "2026-05-12",
+      "2026-09-22"
+     ],
+     "ambient_range_c": [
+      7.5,
+      14.8
+     ]
+    },
+    "Cold": {
+     "n_drives": 0,
+     "km": 0,
+     "independent_days": 0,
+     "date_range": null,
+     "ambient_range_c": null
+    }
+   }
+  },
+  "BmsVcmChart": {
+   "dependencyClass": "thermal",
+   "comparisonType": "scalar_dumbbell",
+   "dataReady": true,
+   "metrics": {
+    "vcm_coolant_start_c": {
+     "All observations": {
+      "n": 440,
+      "value": 28.157954545454544,
+      "pooled_median": 27.0,
+      "p10": 20.0,
+      "p90": 37.0,
+      "day_weighted_mean": 27.68076270221007,
+      "vs_warm_pct": -4.39
+     },
+     "Warm": {
+      "n": 362,
+      "value": 29.450276243093924,
+      "pooled_median": 29.0,
+      "p10": 23.0,
+      "p90": 38.0,
+      "day_weighted_mean": 28.409057874085963,
+      "vs_warm_pct": null
+     },
+     "Shoulder": {
+      "n": 78,
+      "value": 22.16025641025641,
+      "pooled_median": 23.0,
+      "p10": 15.7,
+      "p90": 27.0,
+      "day_weighted_mean": 21.992952380952378,
+      "vs_warm_pct": -24.75
+     },
+     "Cold": {
+      "n": 0,
+      "value": null,
+      "pooled_median": null,
+      "p10": null,
+      "p90": null,
+      "vs_warm_pct": null
+     }
+    },
+    "engine_coolant_start_c": {
+     "All observations": {
+      "n": 439,
+      "value": 49.37129840546697,
+      "pooled_median": 50.0,
+      "p10": 21.0,
+      "p90": 75.19999999999999,
+      "day_weighted_mean": 46.36774196578884,
+      "vs_warm_pct": -3.68
+     },
+     "Warm": {
+      "n": 364,
+      "value": 51.25686813186813,
+      "pooled_median": 51.75,
+      "p10": 23.0,
+      "p90": 77.69999999999999,
+      "day_weighted_mean": 46.968183421516756,
+      "vs_warm_pct": null
+     },
+     "Shoulder": {
+      "n": 75,
+      "value": 40.22,
+      "pooled_median": 43.0,
+      "p10": 16.4,
+      "p90": 58.800000000000004,
+      "day_weighted_mean": 39.927014652014655,
+      "vs_warm_pct": -21.53
+     },
+     "Cold": {
+      "n": 0,
+      "value": null,
+      "pooled_median": null,
+      "p10": null,
+      "p90": null,
+      "vs_warm_pct": null
+     }
+    },
+    "oil_temp_start_c": {
+     "All observations": {
+      "n": 435,
+      "value": 45.259770114942526,
+      "pooled_median": 45.0,
+      "p10": 20.0,
+      "p90": 70.0,
+      "day_weighted_mean": 42.618593227103865,
+      "vs_warm_pct": -4.17
+     },
+     "Warm": {
+      "n": 363,
+      "value": 47.231404958677686,
+      "pooled_median": 48.0,
+      "p10": 22.0,
+      "p90": 71.0,
+      "day_weighted_mean": 43.53208553791887,
+      "vs_warm_pct": null
+     },
+     "Shoulder": {
+      "n": 72,
+      "value": 35.31944444444444,
+      "pooled_median": 38.0,
+      "p10": 16.0,
+      "p90": 49.9,
+      "day_weighted_mean": 34.33540372670807,
+      "vs_warm_pct": -25.22
+     },
+     "Cold": {
+      "n": 0,
+      "value": null,
+      "pooled_median": null,
+      "p10": null,
+      "p90": null,
+      "vs_warm_pct": null
+     }
+    }
+   },
+   "coverage": {
+    "All observations": {
+     "n_drives": 446,
+     "km": 8559.94,
+     "independent_days": 96,
+     "date_range": [
+      "2026-05-11",
+      "2026-09-22"
+     ],
+     "ambient_range_c": [
+      7.5,
+      37.0
+     ]
+    },
+    "Warm": {
+     "n_drives": 366,
+     "km": 8099.7,
+     "independent_days": 90,
+     "date_range": [
+      "2026-05-11",
+      "2026-09-20"
+     ],
+     "ambient_range_c": [
+      15.0,
+      37.0
+     ]
+    },
+    "Shoulder": {
+     "n_drives": 80,
+     "km": 460.24,
+     "independent_days": 26,
+     "date_range": [
+      "2026-05-12",
+      "2026-09-22"
+     ],
+     "ambient_range_c": [
+      7.5,
+      14.8
+     ]
+    },
+    "Cold": {
+     "n_drives": 0,
+     "km": 0,
+     "independent_days": 0,
+     "date_range": null,
+     "ambient_range_c": null
+    }
+   }
+  },
+  "CycleRateChart": {
+   "dependencyClass": "thermal",
+   "comparisonType": "scalar_dumbbell",
+   "dataReady": true,
+   "metrics": {
+    "rf_n_cycles": {
+     "All observations": {
+      "n": 444,
+      "value": 20.24436936936937,
+      "pooled_median": 7.5,
+      "p10": 2.0,
+      "p90": 51.24999999999997,
+      "day_weighted_mean": 21.484714518698894,
+      "vs_warm_pct": -10.44
+     },
+     "Warm": {
+      "n": 364,
+      "value": 22.603021978021978,
+      "pooled_median": 8.0,
+      "p10": 2.5,
+      "p90": 55.04999999999998,
+      "day_weighted_mean": 22.258183421516755,
+      "vs_warm_pct": null
+     },
+     "Shoulder": {
+      "n": 80,
+      "value": 9.5125,
+      "pooled_median": 3.75,
+      "p10": 1.0,
+      "p90": 20.35000000000003,
+      "day_weighted_mean": 9.950228937728939,
+      "vs_warm_pct": -57.91
+     },
+     "Cold": {
+      "n": 0,
+      "value": null,
+      "pooled_median": null,
+      "p10": null,
+      "p90": null,
+      "vs_warm_pct": null
+     }
+    },
+    "rf_efc": {
+     "All observations": {
+      "n": 444,
+      "value": 0.8295326576576577,
+      "pooled_median": 0.33625000000000005,
+      "p10": 0.12825,
+      "p90": 2.021,
+      "day_weighted_mean": 0.8946208307028619,
+      "vs_warm_pct": -10.54
+     },
+     "Warm": {
+      "n": 364,
+      "value": 0.9272802197802197,
+      "pooled_median": 0.39875000000000005,
+      "p10": 0.1425,
+      "p90": 2.3015,
+      "day_weighted_mean": 0.9279110559964727,
+      "vs_warm_pct": null
+     },
+     "Shoulder": {
+      "n": 80,
+      "value": 0.38478124999999996,
+      "pooled_median": 0.21,
+      "p10": 0.05925,
+      "p90": 0.9525000000000026,
+      "day_weighted_mean": 0.40400114468864473,
+      "vs_warm_pct": -58.5
+     },
+     "Cold": {
+      "n": 0,
+      "value": null,
+      "pooled_median": null,
+      "p10": null,
+      "p90": null,
+      "vs_warm_pct": null
+     }
+    }
+   },
+   "coverage": {
+    "All observations": {
+     "n_drives": 446,
+     "km": 8559.94,
+     "independent_days": 96,
+     "date_range": [
+      "2026-05-11",
+      "2026-09-22"
+     ],
+     "ambient_range_c": [
+      7.5,
+      37.0
+     ]
+    },
+    "Warm": {
+     "n_drives": 366,
+     "km": 8099.7,
+     "independent_days": 90,
+     "date_range": [
+      "2026-05-11",
+      "2026-09-20"
+     ],
+     "ambient_range_c": [
+      15.0,
+      37.0
+     ]
+    },
+    "Shoulder": {
+     "n_drives": 80,
+     "km": 460.24,
+     "independent_days": 26,
+     "date_range": [
+      "2026-05-12",
+      "2026-09-22"
+     ],
+     "ambient_range_c": [
+      7.5,
+      14.8
+     ]
+    },
+    "Cold": {
+     "n_drives": 0,
+     "km": 0,
+     "independent_days": 0,
+     "date_range": null,
+     "ambient_range_c": null
+    }
+   }
+  },
+  "EngineCyclingChart": {
+   "dependencyClass": "thermal",
+   "comparisonType": "scalar_dumbbell",
+   "dataReady": true,
+   "metrics": {
+    "engine_on_pct": {
+     "All observations": {
+      "n": 446,
+      "value": 32.76345291479821,
+      "pooled_median": 30.15,
+      "p10": 18.0,
+      "p90": 53.55,
+      "day_weighted_mean": 32.88361810064935,
+      "vs_warm_pct": -2.62
+     },
+     "Warm": {
+      "n": 366,
+      "value": 33.64453551912568,
+      "pooled_median": 30.6,
+      "p10": 19.45,
+      "p90": 54.5,
+      "day_weighted_mean": 32.80859832451499,
+      "vs_warm_pct": null
+     },
+     "Shoulder": {
+      "n": 80,
+      "value": 28.732499999999998,
+      "pooled_median": 25.4,
+      "p10": 0.0,
+      "p90": 51.52000000000001,
+      "day_weighted_mean": 30.112692307692306,
+      "vs_warm_pct": -14.6
+     },
+     "Cold": {
+      "n": 0,
+      "value": null,
+      "pooled_median": null,
+      "p10": null,
+      "p90": null,
+      "vs_warm_pct": null
+     }
+    },
+    "starts_per_100km": {
+     "All observations": {
+      "n": 0,
+      "value": 918.5792519684106,
+      "paired_n": 434,
+      "paired_km": 8359.54,
+      "pooled_median": null,
+      "p10": null,
+      "p90": null,
+      "day_weighted_mean": null,
+      "vs_warm_pct": 2.07
+     },
+     "Warm": {
+      "n": 0,
+      "value": 899.9532845978059,
+      "paired_n": 361,
+      "paired_km": 7920.3,
+      "pooled_median": null,
+      "p10": null,
+      "p90": null,
+      "day_weighted_mean": null,
+      "vs_warm_pct": null
+     },
+     "Shoulder": {
+      "n": 0,
+      "value": 1254.4394863855757,
+      "paired_n": 73,
+      "paired_km": 439.24,
+      "pooled_median": null,
+      "p10": null,
+      "p90": null,
+      "day_weighted_mean": null,
+      "vs_warm_pct": 39.39
+     },
+     "Cold": {
+      "n": 0,
+      "value": null,
+      "paired_n": 0,
+      "paired_km": 0,
+      "pooled_median": null,
+      "p10": null,
+      "p90": null,
+      "day_weighted_mean": null,
+      "vs_warm_pct": null
+     }
+    }
+   },
+   "coverage": {
+    "All observations": {
+     "n_drives": 446,
+     "km": 8559.94,
+     "independent_days": 96,
+     "date_range": [
+      "2026-05-11",
+      "2026-09-22"
+     ],
+     "ambient_range_c": [
+      7.5,
+      37.0
+     ]
+    },
+    "Warm": {
+     "n_drives": 366,
+     "km": 8099.7,
+     "independent_days": 90,
+     "date_range": [
+      "2026-05-11",
+      "2026-09-20"
+     ],
+     "ambient_range_c": [
+      15.0,
+      37.0
+     ]
+    },
+    "Shoulder": {
+     "n_drives": 80,
+     "km": 460.24,
+     "independent_days": 26,
+     "date_range": [
+      "2026-05-12",
+      "2026-09-22"
+     ],
+     "ambient_range_c": [
+      7.5,
+      14.8
+     ]
+    },
+    "Cold": {
+     "n_drives": 0,
+     "km": 0,
+     "independent_days": 0,
+     "date_range": null,
+     "ambient_range_c": null
+    }
+   }
+  },
+  "SocLevelSensitivityChart": {
+   "dependencyClass": "thermal",
+   "comparisonType": "distribution_overlay",
+   "dataReady": true,
+   "metrics": {
+    "soc_mean_wtd_pct": {
+     "All observations": {
+      "n": 444,
+      "value": 61.943243243243245,
+      "pooled_median": 62.349999999999994,
+      "p10": 55.173,
+      "p90": 67.337,
+      "day_weighted_mean": 62.0099359968735,
+      "vs_warm_pct": 0.86
+     },
+     "Warm": {
+      "n": 364,
+      "value": 61.4121978021978,
+      "pooled_median": 62.010000000000005,
+      "p10": 55.053,
+      "p90": 66.76,
+      "day_weighted_mean": 61.37777341269841,
+      "vs_warm_pct": null
+     },
+     "Shoulder": {
+      "n": 80,
+      "value": 64.3595,
+      "pooled_median": 63.875,
+      "p10": 57.006,
+      "p90": 72.868,
+      "day_weighted_mean": 64.81410347985349,
+      "vs_warm_pct": 4.8
+     },
+     "Cold": {
+      "n": 0,
+      "value": null,
+      "pooled_median": null,
+      "p10": null,
+      "p90": null,
+      "vs_warm_pct": null
+     }
+    },
+    "soc_range_span_pp": {
+     "All observations": {
+      "n": 444,
+      "value": 20.27927927927928,
+      "pooled_median": 19.5,
+      "p10": 11.5,
+      "p90": 30.0,
+      "day_weighted_mean": 20.817402259199135,
+      "hist": {
+       "edges": [
+        0,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45,
+        50,
+        55
+       ],
+       "counts": [
+        3,
+        19,
+        96,
+        105,
+        88,
+        82,
+        39,
+        10,
+        2,
+        0,
+        0
+       ],
+       "n": 444
+      },
+      "vs_warm_pct": -0.96
+     },
+     "Warm": {
+      "n": 364,
+      "value": 20.475274725274726,
+      "pooled_median": 20.0,
+      "p10": 12.0,
+      "p90": 30.0,
+      "day_weighted_mean": 20.680304232804232,
+      "hist": {
+       "edges": [
+        0,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45,
+        50,
+        55
+       ],
+       "counts": [
+        2,
+        9,
+        76,
+        93,
+        73,
+        73,
+        29,
+        7,
+        2,
+        0,
+        0
+       ],
+       "n": 364
+      },
+      "vs_warm_pct": null
+     },
+     "Shoulder": {
+      "n": 80,
+      "value": 19.3875,
+      "pooled_median": 18.5,
+      "p10": 8.45,
+      "p90": 31.550000000000004,
+      "day_weighted_mean": 20.004578754578752,
+      "hist": {
+       "edges": [
+        0,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45,
+        50,
+        55
+       ],
+       "counts": [
+        1,
+        10,
+        20,
+        12,
+        15,
+        9,
+        10,
+        3,
+        0,
+        0,
+        0
+       ],
+       "n": 80
+      },
+      "vs_warm_pct": -5.31
+     },
+     "Cold": {
+      "n": 0,
+      "value": null,
+      "pooled_median": null,
+      "p10": null,
+      "p90": null,
+      "hist": {
+       "edges": [
+        0,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45,
+        50,
+        55
+       ],
+       "counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+       ],
+       "n": 0
+      },
+      "vs_warm_pct": null
+     }
+    }
+   },
+   "coverage": {
+    "All observations": {
+     "n_drives": 446,
+     "km": 8559.94,
+     "independent_days": 96,
+     "date_range": [
+      "2026-05-11",
+      "2026-09-22"
+     ],
+     "ambient_range_c": [
+      7.5,
+      37.0
+     ]
+    },
+    "Warm": {
+     "n_drives": 366,
+     "km": 8099.7,
+     "independent_days": 90,
+     "date_range": [
+      "2026-05-11",
+      "2026-09-20"
+     ],
+     "ambient_range_c": [
+      15.0,
+      37.0
+     ]
+    },
+    "Shoulder": {
+     "n_drives": 80,
+     "km": 460.24,
+     "independent_days": 26,
+     "date_range": [
+      "2026-05-12",
+      "2026-09-22"
+     ],
+     "ambient_range_c": [
+      7.5,
+      14.8
+     ]
+    },
+    "Cold": {
+     "n_drives": 0,
+     "km": 0,
+     "independent_days": 0,
+     "date_range": null,
+     "ambient_range_c": null
+    }
+   }
+  },
+  "TempChart": {
+   "dependencyClass": "thermal",
+   "comparisonType": "distribution_overlay",
+   "dataReady": true,
+   "metrics": {
+    "ambient_time_mean_c": {
+     "All observations": {
+      "n": 446,
+      "value": 20.6777466367713,
+      "pooled_median": 21.0,
+      "p10": 13.0,
+      "p90": 29.0,
+      "day_weighted_mean": 20.959405043740983,
+      "hist": {
+       "edges": [
+        -15,
+        -10,
+        -5,
+        0,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40
+       ],
+       "counts": [
+        0,
+        0,
+        0,
+        0,
+        9,
+        71,
+        104,
+        157,
+        74,
+        29,
+        2
+       ],
+       "n": 446
+      },
+      "vs_warm_pct": -8.3
+     },
+     "Warm": {
+      "n": 366,
+      "value": 22.548292349726776,
+      "pooled_median": 22.0,
+      "p10": 17.0,
+      "p90": 29.0,
+      "day_weighted_mean": 22.23400595238095,
+      "hist": {
+       "edges": [
+        -15,
+        -10,
+        -5,
+        0,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40
+       ],
+       "counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        104,
+        157,
+        74,
+        29,
+        2
+       ],
+       "n": 366
+      },
+      "vs_warm_pct": null
+     },
+     "Shoulder": {
+      "n": 80,
+      "value": 12.120000000000001,
+      "pooled_median": 12.0,
+      "p10": 9.0,
+      "p90": 14.0,
+      "day_weighted_mean": 12.16172161172161,
+      "hist": {
+       "edges": [
+        -15,
+        -10,
+        -5,
+        0,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40
+       ],
+       "counts": [
+        0,
+        0,
+        0,
+        0,
+        9,
+        71,
+        0,
+        0,
+        0,
+        0,
+        0
+       ],
+       "n": 80
+      },
+      "vs_warm_pct": -46.25
+     },
+     "Cold": {
+      "n": 0,
+      "value": null,
+      "pooled_median": null,
+      "p10": null,
+      "p90": null,
+      "hist": {
+       "edges": [
+        -15,
+        -10,
+        -5,
+        0,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40
+       ],
+       "counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+       ],
+       "n": 0
+      },
+      "vs_warm_pct": null
+     }
+    },
+    "pack_temp_time_mean_c": {
+     "All observations": {
+      "n": 439,
+      "value": 28.992553530751707,
+      "pooled_median": 29.245,
+      "p10": 19.4764,
+      "p90": 38.372,
+      "day_weighted_mean": 28.393285839978734,
+      "vs_warm_pct": -4.98
+     },
+     "Warm": {
+      "n": 362,
+      "value": 30.511729281767952,
+      "pooled_median": 30.490499999999997,
+      "p10": 21.7154,
+      "p90": 38.9937,
+      "day_weighted_mean": 29.341685825753522,
+      "vs_warm_pct": null
+     },
+     "Shoulder": {
+      "n": 77,
+      "value": 21.850454545454543,
+      "pooled_median": 20.774,
+      "p10": 15.437000000000001,
+      "p90": 33.1994,
+      "day_weighted_mean": 21.860699523809526,
+      "vs_warm_pct": -28.39
+     },
+     "Cold": {
+      "n": 0,
+      "value": null,
+      "pooled_median": null,
+      "p10": null,
+      "p90": null,
+      "vs_warm_pct": null
+     }
+    }
+   },
+   "coverage": {
+    "All observations": {
+     "n_drives": 446,
+     "km": 8559.94,
+     "independent_days": 96,
+     "date_range": [
+      "2026-05-11",
+      "2026-09-22"
+     ],
+     "ambient_range_c": [
+      7.5,
+      37.0
+     ]
+    },
+    "Warm": {
+     "n_drives": 366,
+     "km": 8099.7,
+     "independent_days": 90,
+     "date_range": [
+      "2026-05-11",
+      "2026-09-20"
+     ],
+     "ambient_range_c": [
+      15.0,
+      37.0
+     ]
+    },
+    "Shoulder": {
+     "n_drives": 80,
+     "km": 460.24,
+     "independent_days": 26,
+     "date_range": [
+      "2026-05-12",
+      "2026-09-22"
+     ],
+     "ambient_range_c": [
+      7.5,
+      14.8
+     ]
+    },
+    "Cold": {
+     "n_drives": 0,
+     "km": 0,
+     "independent_days": 0,
+     "date_range": null,
+     "ambient_range_c": null
+    }
+   }
+  },
+  "SocHysteresisChart": {
+   "dependencyClass": "thermal",
+   "dataReady": false,
+   "stagedReason": "fitted SoC-control surface (m119v2) — needs per-cohort refit (degenerate without cold data)"
+  },
+  "BufferImpulseChart": {
+   "dependencyClass": "thermal",
+   "dataReady": false,
+   "stagedReason": "per-second engine-start SoC/current transients — needs raw current+engine-state extraction"
+  },
+  "RampLatencyChart": {
+   "dependencyClass": "thermal",
+   "dataReady": false,
+   "stagedReason": "per-second engine-on→target-RPM latency — needs raw RPM+engine-state extraction"
+  },
+  "CycleProjectionChart": {
+   "dependencyClass": "thermal",
+   "dataReady": false,
+   "stagedReason": "seasonalAssumptions extrapolation — model, labelled separately from observed"
+  },
+  "EfficChart": {
+   "dependencyClass": "season_associated",
+   "comparisonType": "scalar_dumbbell_adjusted",
+   "dataReady": true,
+   "metrics": {
+    "gross_throughput_kwh_per100km": {
+     "All observations": {
+      "n": 430,
+      "eligibility": "canonical_clean",
+      "value": 17.34557095427517,
+      "paired_n": 430,
+      "paired_km": 8331.14,
+      "pooled_median": 31.01969696969697,
+      "p10": 16.25269541778976,
+      "p90": 43.55851351351352,
+      "day_weighted_mean": 29.543420971435363,
+      "vs_warm_pct": 2.87
+     },
+     "Warm": {
+      "n": 358,
+      "eligibility": "canonical_clean",
+      "value": 16.861519601648002,
+      "paired_n": 358,
+      "paired_km": 7912.6,
+      "pooled_median": 30.57753246753247,
+      "p10": 15.342859454018756,
+      "p90": 43.40045454545455,
+      "day_weighted_mean": 29.434412406096268,
+      "vs_warm_pct": null
+     },
+     "Shoulder": {
+      "n": 72,
+      "eligibility": "canonical_clean",
+      "value": 26.49667893152388,
+      "paired_n": 72,
+      "paired_km": 418.54,
+      "pooled_median": 32.965,
+      "p10": 23.204452092052534,
+      "p90": 45.40384615384615,
+      "day_weighted_mean": 33.36416413553247,
+      "vs_warm_pct": 57.14
+     },
+     "Cold": {
+      "n": 0,
+      "eligibility": "canonical_clean",
+      "value": null,
+      "paired_n": 0,
+      "paired_km": 0,
+      "pooled_median": null,
+      "p10": null,
+      "p90": null,
+      "day_weighted_mean": null,
+      "vs_warm_pct": null
+     }
+    }
+   },
+   "coverage": {
+    "All observations": {
+     "n_drives": 446,
+     "km": 8559.94,
+     "independent_days": 96,
+     "date_range": [
+      "2026-05-11",
+      "2026-09-22"
+     ],
+     "ambient_range_c": [
+      7.5,
+      37.0
+     ]
+    },
+    "Warm": {
+     "n_drives": 366,
+     "km": 8099.7,
+     "independent_days": 90,
+     "date_range": [
+      "2026-05-11",
+      "2026-09-20"
+     ],
+     "ambient_range_c": [
+      15.0,
+      37.0
+     ]
+    },
+    "Shoulder": {
+     "n_drives": 80,
+     "km": 460.24,
+     "independent_days": 26,
+     "date_range": [
+      "2026-05-12",
+      "2026-09-22"
+     ],
+     "ambient_range_c": [
+      7.5,
+      14.8
+     ]
+    },
+    "Cold": {
+     "n_drives": 0,
+     "km": 0,
+     "independent_days": 0,
+     "date_range": null,
+     "ambient_range_c": null
+    }
+   },
+   "requiresAdjustment": true,
+   "adjusted": {
+    "warm_vs_shoulder": {
+     "outcome": "gross_throughput_kwh_per100km",
+     "cohortA": "warm",
+     "cohortB": "shoulder",
+     "estimatorVersion": "seasonal_adjust_v2.0.0",
+     "nA": 358,
+     "nB": 72,
+     "nDaysA": 88,
+     "nDaysB": 23,
+     "nDays": 92,
+     "covariates": [
+      "speed_mean_moving",
+      "stationary_pct",
+      "pct_highway",
+      "distance_km"
+     ],
+     "inputAudit": {
+      "nInCohorts": 446,
+      "nDroppedNonFinite": 16,
+      "nSingletonClusters": 0
+     },
+     "nBootRequested": 2000,
+     "nBootValid": 2000,
+     "bootFailureRate": 0.0,
+     "bootFailureReasons": {},
+     "seed": 42,
+     "status": "available",
+     "adjustedDiff": -2.4466,
+     "rawDiff": 3.9462,
+     "rawDiffOnSupport": 0.3994,
+     "overlapWeightedDiff": -2.0106,
+     "estimatorGap": 0.4359,
+     "modelDependent": false,
+     "ci95": [
+      -4.579,
+      -0.4027
+     ],
+     "ci90": [
+      -4.2833,
+      -0.8237
+     ],
+     "bootSe": 1.0669,
+     "pBoot": 0.03,
+     "bootBias": -0.1956,
+     "nOnSupport": {
+      "A": 277,
+      "B": 71
+     },
+     "outcomeModel": "per_cohort_ols",
+     "commonSupport": {
+      "ok": true,
+      "method": "categorical strata + propensity min-max overlap + overlap-weight ESS",
+      "overlap": 0.88,
+      "overlapMin": 0.774,
+      "retainedFraction": {
+       "A": 0.774,
+       "B": 0.986
+      },
+      "propensityRange": [
+       0.0304,
+       0.3567
+      ],
+      "sharedStrata": [
+       "urban"
+      ],
+      "trimmedStrata": [
+       "highway",
+       "mixed",
+       "mixed_highway"
+      ],
+      "ess": {
+       "A": 240.4,
+       "B": 70.5
+      },
+      "smdUnweighted": {
+       "speed_mean_moving": 0.418,
+       "stationary_pct": 0.121,
+       "pct_highway": 0.168,
+       "distance_km": 0.129
+      },
+      "smdOverlapWeighted": {
+       "speed_mean_moving": 0.116,
+       "stationary_pct": 0.012,
+       "pct_highway": 0.005,
+       "distance_km": 0.008
+      },
+      "balanceOk": false,
+      "reason": null
+     },
+     "warnings": [
+      "residual_imbalance: max |SMD| after overlap weighting = 0.12 (> 0.1)",
+      "estimand_restricted_to_shared_strata: highway,mixed,mixed_highway rows excluded (75)"
+     ],
+     "estimand": "average B-minus-A difference over the common-support population (shared strata and propensity overlap); not the pooled-corpus ATE",
+     "interpretation": "seasonal operating difference standardized to the common-support composition; may include unmeasured cabin-heating/defrost demand (no HVAC telemetry)"
+    },
+    "warm_vs_cold": {
+     "outcome": "gross_throughput_kwh_per100km",
+     "cohortA": "warm",
+     "cohortB": "cold",
+     "estimatorVersion": "seasonal_adjust_v2.0.0",
+     "nA": 358,
+     "nB": 0,
+     "nDaysA": 88,
+     "nDaysB": 0,
+     "nDays": 88,
+     "covariates": [
+      "speed_mean_moving",
+      "stationary_pct",
+      "pct_highway",
+      "distance_km"
+     ],
+     "inputAudit": {
+      "nInCohorts": 366,
+      "nDroppedNonFinite": 8,
+      "nSingletonClusters": 0
+     },
+     "status": "unavailable",
+     "reasonCode": "empty_cohort",
+     "reason": "empty cohort (A=358, B=0)"
+    }
+   }
+  },
+  "SpeedChart": {
+   "dependencyClass": "season_associated",
+   "comparisonType": "distribution_overlay",
+   "dataReady": true,
+   "metrics": {
+    "speed_mean_moving": {
+     "All observations": {
+      "n": 443,
+      "value": 34.67471783295711,
+      "pooled_median": 27.7,
+      "p10": 17.62,
+      "p90": 64.32000000000001,
+      "day_weighted_mean": 36.126736424394316,
+      "hist": {
+       "edges": [
+        0,
+        10,
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+       ],
+       "counts": [
+        0,
+        82,
+        165,
+        65,
+        49,
+        30,
+        21,
+        14,
+        10,
+        5
+       ],
+       "n": 441
+      },
+      "vs_warm_pct": -5.95
+     },
+     "Warm": {
+      "n": 364,
+      "value": 36.86895604395604,
+      "pooled_median": 29.700000000000003,
+      "p10": 18.130000000000003,
+      "p90": 67.93999999999998,
+      "day_weighted_mean": 37.048786338505444,
+      "hist": {
+       "edges": [
+        0,
+        10,
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+       ],
+       "counts": [
+        0,
+        52,
+        132,
+        57,
+        44,
+        27,
+        21,
+        14,
+        10,
+        5
+       ],
+       "n": 362
+      },
+      "vs_warm_pct": null
+     },
+     "Shoulder": {
+      "n": 79,
+      "value": 24.564556962025314,
+      "pooled_median": 21.3,
+      "p10": 16.580000000000002,
+      "p90": 39.86,
+      "day_weighted_mean": 25.460485347985347,
+      "hist": {
+       "edges": [
+        0,
+        10,
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+       ],
+       "counts": [
+        0,
+        30,
+        33,
+        8,
+        5,
+        3,
+        0,
+        0,
+        0,
+        0
+       ],
+       "n": 79
+      },
+      "vs_warm_pct": -33.37
+     },
+     "Cold": {
+      "n": 0,
+      "value": null,
+      "pooled_median": null,
+      "p10": null,
+      "p90": null,
+      "hist": {
+       "edges": [
+        0,
+        10,
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+       ],
+       "counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+       ],
+       "n": 0
+      },
+      "vs_warm_pct": null
+     }
+    }
+   },
+   "coverage": {
+    "All observations": {
+     "n_drives": 446,
+     "km": 8559.94,
+     "independent_days": 96,
+     "date_range": [
+      "2026-05-11",
+      "2026-09-22"
+     ],
+     "ambient_range_c": [
+      7.5,
+      37.0
+     ]
+    },
+    "Warm": {
+     "n_drives": 366,
+     "km": 8099.7,
+     "independent_days": 90,
+     "date_range": [
+      "2026-05-11",
+      "2026-09-20"
+     ],
+     "ambient_range_c": [
+      15.0,
+      37.0
+     ]
+    },
+    "Shoulder": {
+     "n_drives": 80,
+     "km": 460.24,
+     "independent_days": 26,
+     "date_range": [
+      "2026-05-12",
+      "2026-09-22"
+     ],
+     "ambient_range_c": [
+      7.5,
+      14.8
+     ]
+    },
+    "Cold": {
+     "n_drives": 0,
+     "km": 0,
+     "independent_days": 0,
+     "date_range": null,
+     "ambient_range_c": null
+    }
+   },
+   "requiresAdjustment": false
+  },
+  "DriveDurationDist": {
+   "dependencyClass": "season_associated",
+   "comparisonType": "distribution_overlay",
+   "dataReady": true,
+   "metrics": {
+    "distance_km": {
+     "All observations": {
+      "n": 446,
+      "value": 19.192690582959642,
+      "pooled_median": 3.6,
+      "p10": 1.15,
+      "p90": 46.75,
+      "day_weighted_mean": 20.44288769390332,
+      "hist": {
+       "edges": [
+        0,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45,
+        50
+       ],
+       "counts": [
+        250,
+        48,
+        31,
+        17,
+        15,
+        13,
+        14,
+        2,
+        10,
+        3
+       ],
+       "n": 403
+      },
+      "vs_warm_pct": -13.27
+     },
+     "Warm": {
+      "n": 366,
+      "value": 22.130327868852458,
+      "pooled_median": 4.6,
+      "p10": 1.3,
+      "p90": 61.4,
+      "day_weighted_mean": 21.336141093474428,
+      "hist": {
+       "edges": [
+        0,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45,
+        50
+       ],
+       "counts": [
+        187,
+        45,
+        26,
+        15,
+        13,
+        11,
+        13,
+        2,
+        8,
+        3
+       ],
+       "n": 323
+      },
+      "vs_warm_pct": null
+     },
+     "Shoulder": {
+      "n": 80,
+      "value": 5.753,
+      "pooled_median": 2.4,
+      "p10": 0.7,
+      "p90": 16.60000000000001,
+      "day_weighted_mean": 6.113809523809524,
+      "hist": {
+       "edges": [
+        0,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45,
+        50
+       ],
+       "counts": [
+        63,
+        3,
+        5,
+        2,
+        2,
+        2,
+        1,
+        0,
+        2,
+        0
+       ],
+       "n": 80
+      },
+      "vs_warm_pct": -74.0
+     },
+     "Cold": {
+      "n": 0,
+      "value": null,
+      "pooled_median": null,
+      "p10": null,
+      "p90": null,
+      "hist": {
+       "edges": [
+        0,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45,
+        50
+       ],
+       "counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+       ],
+       "n": 0
+      },
+      "vs_warm_pct": null
+     }
+    }
+   },
+   "coverage": {
+    "All observations": {
+     "n_drives": 446,
+     "km": 8559.94,
+     "independent_days": 96,
+     "date_range": [
+      "2026-05-11",
+      "2026-09-22"
+     ],
+     "ambient_range_c": [
+      7.5,
+      37.0
+     ]
+    },
+    "Warm": {
+     "n_drives": 366,
+     "km": 8099.7,
+     "independent_days": 90,
+     "date_range": [
+      "2026-05-11",
+      "2026-09-20"
+     ],
+     "ambient_range_c": [
+      15.0,
+      37.0
+     ]
+    },
+    "Shoulder": {
+     "n_drives": 80,
+     "km": 460.24,
+     "independent_days": 26,
+     "date_range": [
+      "2026-05-12",
+      "2026-09-22"
+     ],
+     "ambient_range_c": [
+      7.5,
+      14.8
+     ]
+    },
+    "Cold": {
+     "n_drives": 0,
+     "km": 0,
+     "independent_days": 0,
+     "date_range": null,
+     "ambient_range_c": null
+    }
+   },
+   "requiresAdjustment": false
+  },
+  "DriveTypeChart": {
+   "dependencyClass": "season_associated",
+   "comparisonType": "distribution_overlay",
+   "dataReady": true,
+   "metrics": {
+    "stationary_pct": {
+     "All observations": {
+      "n": 446,
+      "value": 20.182511210762332,
+      "pooled_median": 17.75,
+      "p10": 5.6,
+      "p90": 36.55,
+      "day_weighted_mean": 21.164083243145743,
+      "hist": {
+       "edges": [
+        0,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45,
+        50
+       ],
+       "counts": [
+        38,
+        55,
+        85,
+        81,
+        62,
+        47,
+        23,
+        25,
+        7,
+        6
+       ],
+       "n": 429
+      },
+      "vs_warm_pct": 4.56
+     },
+     "Warm": {
+      "n": 366,
+      "value": 19.30273224043716,
+      "pooled_median": 16.95,
+      "p10": 5.4,
+      "p90": 35.400000000000006,
+      "day_weighted_mean": 20.303728835978838,
+      "hist": {
+       "edges": [
+        0,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45,
+        50
+       ],
+       "counts": [
+        33,
+        50,
+        74,
+        65,
+        50,
+        36,
+        18,
+        20,
+        4,
+        4
+       ],
+       "n": 354
+      },
+      "vs_warm_pct": null
+     },
+     "Shoulder": {
+      "n": 80,
+      "value": 24.2075,
+      "pooled_median": 21.0,
+      "p10": 7.370000000000001,
+      "p90": 42.20000000000002,
+      "day_weighted_mean": 25.26906593406593,
+      "hist": {
+       "edges": [
+        0,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45,
+        50
+       ],
+       "counts": [
+        5,
+        5,
+        11,
+        16,
+        12,
+        11,
+        5,
+        5,
+        3,
+        2
+       ],
+       "n": 75
+      },
+      "vs_warm_pct": 25.41
+     },
+     "Cold": {
+      "n": 0,
+      "value": null,
+      "pooled_median": null,
+      "p10": null,
+      "p90": null,
+      "hist": {
+       "edges": [
+        0,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45,
+        50
+       ],
+       "counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+       ],
+       "n": 0
+      },
+      "vs_warm_pct": null
+     }
+    }
+   },
+   "coverage": {
+    "All observations": {
+     "n_drives": 446,
+     "km": 8559.94,
+     "independent_days": 96,
+     "date_range": [
+      "2026-05-11",
+      "2026-09-22"
+     ],
+     "ambient_range_c": [
+      7.5,
+      37.0
+     ]
+    },
+    "Warm": {
+     "n_drives": 366,
+     "km": 8099.7,
+     "independent_days": 90,
+     "date_range": [
+      "2026-05-11",
+      "2026-09-20"
+     ],
+     "ambient_range_c": [
+      15.0,
+      37.0
+     ]
+    },
+    "Shoulder": {
+     "n_drives": 80,
+     "km": 460.24,
+     "independent_days": 26,
+     "date_range": [
+      "2026-05-12",
+      "2026-09-22"
+     ],
+     "ambient_range_c": [
+      7.5,
+      14.8
+     ]
+    },
+    "Cold": {
+     "n_drives": 0,
+     "km": 0,
+     "independent_days": 0,
+     "date_range": null,
+     "ambient_range_c": null
+    }
+   },
+   "requiresAdjustment": false
+  },
+  "WarmupCurve": {
+   "dependencyClass": "thermal",
+   "comparisonType": "multiline_curve",
+   "dataReady": true,
+   "series": {
+    "oil": {
+     "All observations": [
+      {
+       "elapsed_s": 30,
+       "mean_c": 45.27,
+       "n": 428
+      },
+      {
+       "elapsed_s": 60,
+       "mean_c": 45.36,
+       "n": 433
+      },
+      {
+       "elapsed_s": 120,
+       "mean_c": 47.04,
+       "n": 433
+      },
+      {
+       "elapsed_s": 300,
+       "mean_c": 56.47,
+       "n": 427
+      },
+      {
+       "elapsed_s": 600,
+       "mean_c": 64.09,
+       "n": 390
+      }
+     ],
+     "Warm": [
+      {
+       "elapsed_s": 30,
+       "mean_c": 47.28,
+       "n": 357
+      },
+      {
+       "elapsed_s": 60,
+       "mean_c": 47.36,
+       "n": 362
+      },
+      {
+       "elapsed_s": 120,
+       "mean_c": 49.24,
+       "n": 361
+      },
+      {
+       "elapsed_s": 300,
+       "mean_c": 58.89,
+       "n": 356
+      },
+      {
+       "elapsed_s": 600,
+       "mean_c": 66.18,
+       "n": 330
+      }
+     ],
+     "Shoulder": [
+      {
+       "elapsed_s": 30,
+       "mean_c": 35.18,
+       "n": 71
+      },
+      {
+       "elapsed_s": 60,
+       "mean_c": 35.15,
+       "n": 71
+      },
+      {
+       "elapsed_s": 120,
+       "mean_c": 35.97,
+       "n": 72
+      },
+      {
+       "elapsed_s": 300,
+       "mean_c": 44.34,
+       "n": 71
+      },
+      {
+       "elapsed_s": 600,
+       "mean_c": 52.63,
+       "n": 60
+      }
+     ],
+     "Cold": [
+      {
+       "elapsed_s": 30,
+       "mean_c": null,
+       "n": 0
+      },
+      {
+       "elapsed_s": 60,
+       "mean_c": null,
+       "n": 0
+      },
+      {
+       "elapsed_s": 120,
+       "mean_c": null,
+       "n": 0
+      },
+      {
+       "elapsed_s": 300,
+       "mean_c": null,
+       "n": 0
+      },
+      {
+       "elapsed_s": 600,
+       "mean_c": null,
+       "n": 0
+      }
+     ]
+    },
+    "engine_coolant": {
+     "All observations": [
+      {
+       "elapsed_s": 30,
+       "mean_c": 49.19,
+       "n": 425
+      },
+      {
+       "elapsed_s": 60,
+       "mean_c": 49.11,
+       "n": 433
+      },
+      {
+       "elapsed_s": 120,
+       "mean_c": 53.72,
+       "n": 434
+      },
+      {
+       "elapsed_s": 300,
+       "mean_c": 70.0,
+       "n": 428
+      },
+      {
+       "elapsed_s": 600,
+       "mean_c": 75.21,
+       "n": 390
+      }
+     ],
+     "Warm": [
+      {
+       "elapsed_s": 30,
+       "mean_c": 51.28,
+       "n": 354
+      },
+      {
+       "elapsed_s": 60,
+       "mean_c": 51.23,
+       "n": 362
+      },
+      {
+       "elapsed_s": 120,
+       "mean_c": 56.38,
+       "n": 361
+      },
+      {
+       "elapsed_s": 300,
+       "mean_c": 72.76,
+       "n": 356
+      },
+      {
+       "elapsed_s": 600,
+       "mean_c": 77.52,
+       "n": 330
+      }
+     ],
+     "Shoulder": [
+      {
+       "elapsed_s": 30,
+       "mean_c": 38.76,
+       "n": 71
+      },
+      {
+       "elapsed_s": 60,
+       "mean_c": 38.28,
+       "n": 71
+      },
+      {
+       "elapsed_s": 120,
+       "mean_c": 40.56,
+       "n": 73
+      },
+      {
+       "elapsed_s": 300,
+       "mean_c": 56.32,
+       "n": 72
+      },
+      {
+       "elapsed_s": 600,
+       "mean_c": 62.5,
+       "n": 60
+      }
+     ],
+     "Cold": [
+      {
+       "elapsed_s": 30,
+       "mean_c": null,
+       "n": 0
+      },
+      {
+       "elapsed_s": 60,
+       "mean_c": null,
+       "n": 0
+      },
+      {
+       "elapsed_s": 120,
+       "mean_c": null,
+       "n": 0
+      },
+      {
+       "elapsed_s": 300,
+       "mean_c": null,
+       "n": 0
+      },
+      {
+       "elapsed_s": 600,
+       "mean_c": null,
+       "n": 0
+      }
+     ]
+    }
+   },
+   "bins": [
+    30,
+    60,
+    120,
+    300,
+    600
+   ],
+   "coverage": {
+    "All observations": {
+     "n_drives": 446,
+     "km": 8559.94,
+     "independent_days": 96,
+     "date_range": [
+      "2026-05-11",
+      "2026-09-22"
+     ],
+     "ambient_range_c": [
+      7.5,
+      37.0
+     ]
+    },
+    "Warm": {
+     "n_drives": 366,
+     "km": 8099.7,
+     "independent_days": 90,
+     "date_range": [
+      "2026-05-11",
+      "2026-09-20"
+     ],
+     "ambient_range_c": [
+      15.0,
+      37.0
+     ]
+    },
+    "Shoulder": {
+     "n_drives": 80,
+     "km": 460.24,
+     "independent_days": 26,
+     "date_range": [
+      "2026-05-12",
+      "2026-09-22"
+     ],
+     "ambient_range_c": [
+      7.5,
+      14.8
+     ]
+    },
+    "Cold": {
+     "n_drives": 0,
+     "km": 0,
+     "independent_days": 0,
+     "date_range": null,
+     "ambient_range_c": null
+    }
+   }
+  },
+  "BaroCompensation": {
+   "dependencyClass": "not_applicable",
+   "frozen": true,
+   "note": "barometric-compensation method/constant — not season-dependent",
+   "comparisonType": "none"
+  },
+  "EfcDefinitionCard": {
+   "dependencyClass": "not_applicable",
+   "frozen": true,
+   "note": "EFC/FCE/Rainflow-EFC definitions — constants, not season-dependent",
+   "comparisonType": "none"
+  },
+  "CalibrationCard": {
+   "dependencyClass": "not_applicable",
+   "frozen": true,
+   "note": "current-sensor offset / sign convention — manifest constant, fixed under filter",
+   "comparisonType": "none"
+  },
+  "ExposureTotalsCard": {
+   "dependencyClass": "not_applicable",
+   "frozen": true,
+   "note": "distance / gross-throughput totals — exposure, labelled 'Exposure total' not a rate",
+   "comparisonType": "none"
+  }
+ }
+}

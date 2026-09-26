@@ -1,0 +1,885 @@
+{
+ "_meta": {
+  "generated": "2026-09-12T12:28:41.820801Z",
+  "corpus": {
+   "drives": 410,
+   "km": 8128.8,
+   "warm": 322,
+   "shoulder": 45,
+   "cold": 0,
+   "dateRange": "2026-05-11..2026-09-10",
+   "masterMd5": "0b3c7d1cf2e00615c2fdfbe2d2531d2e",
+   "thermalRegimeVersion": "regime_v1_5_15"
+  },
+  "cohortKey": "thermal_regime (regime_v1_5_15)",
+  "displayModes": [
+   "all",
+   "compare",
+   "warm",
+   "shoulder",
+   "cold"
+  ],
+  "note": "compare is a display mode, not a cohort. cold currently empty (0 drives).",
+  "confidenceLegend": {
+   "traced": "verified against code/schema",
+   "inferred_from_contract": "classified from the chart's consumed data contract; confirm builder before Phase-2 costing"
+  },
+  "tallies": {
+   "behaviour": {
+    "D": 6,
+    "A": 23,
+    "B": 19,
+    "X": 1,
+    "REMOVE": 1,
+    "C": 1
+   },
+   "phase": {
+    "fixed": 6,
+    "1+2": 3,
+    "2": 17,
+    "1": 8,
+    "stage": 4,
+    "3": 11,
+    "excluded": 1,
+    "4": 1
+   },
+   "feasibility": {
+    "staged/fixed/excluded": 13,
+    "feasible_now": 38
+   },
+   "componentsInventoried": 51
+  },
+  "integrationLog": {
+   "phase0b_seed": [
+    "EnergyIntensity",
+    "StartsPer100km",
+    "CohortExposure"
+   ],
+   "phase1_native": [
+    "DriveTypeChart",
+    "DriveDurationDist",
+    "SocLevelSensitivityChart"
+   ],
+   "nativeEquivalence": "all==primary verified via real builders (category_A / _soc_level_sensitivity)",
+   "phase2_raw_data": [
+    "speedDist",
+    "rpmDistribution",
+    "torqueBySpeed",
+    "socBySpeed",
+    "cycleBySpeed",
+    "engineOnBySpeed",
+    "engineStartsByType",
+    "engineOnDuration",
+    "regenByZone",
+    "regenByTempMeasured",
+    "regenCaptureMeasured",
+    "turboByRpm",
+    "terrainTorqueDist",
+    "batteryThermalCurve",
+    "socBands",
+    "warmupCurve"
+   ],
+   "phase2_ui_wired": [
+    "SpeedChart",
+    "RpmDistributionChart",
+    "TorqueChart",
+    "SocBySpeed",
+    "TurboPatternChart",
+    "BatteryOperatingMap"
+   ],
+   "ui_wired_total": [
+    "DriveTypeChart",
+    "DriveDurationDist",
+    "SocLevelSensitivityChart",
+    "SpeedChart",
+    "RpmDistributionChart",
+    "TorqueChart",
+    "SocBySpeed",
+    "TurboPatternChart",
+    "BatteryOperatingMap",
+    "EngineCyclingChart",
+    "CycleRateChart",
+    "WarmupCurve",
+    "TerrainChart",
+    "BatteryThermalChart"
+   ],
+   "raw_data_unwired": [
+    "cycleBySpeed",
+    "engineOnBySpeed",
+    "engineStartsByType",
+    "engineOnDuration",
+    "regenByZone",
+    "regenByTempMeasured",
+    "regenCaptureMeasured",
+    "terrainTorqueDist",
+    "batteryThermalCurve",
+    "warmupCurve"
+   ],
+   "staged_needs_builder_investigation": {
+    "RegenChart": "regenCaptureMeta (13 reads) is inline-computed in build_summary_arrays from regen aggregates — needs extraction into a callable to run per cohort (no standalone builder)"
+   }
+  }
+ },
+ "components": {
+  "BmsVcmChart": {
+   "tab": "charts",
+   "src": [
+    "socVcmMapping",
+    "socVcmPoints"
+   ],
+   "behaviour": "D",
+   "pipeline": "fixed",
+   "unit": "pooled/reference",
+   "phase": "fixed",
+   "gate": "none",
+   "feasible": false,
+   "action": "Keep fixed & identical in all 5 modes; remove experimental seasonal substitute; drop from seasonal registry.",
+   "conf": "traced"
+  },
+  "CRateRiskMap": {
+   "tab": "charts",
+   "src": [
+    "cRatePoints",
+    "cRateRefLines",
+    "peakChargeA",
+    "tPeakC",
+    "tPeakDrive"
+   ],
+   "behaviour": "D",
+   "pipeline": "fixed",
+   "unit": "scatter+reference",
+   "phase": "fixed",
+   "gate": "none",
+   "feasible": false,
+   "action": "Temp-vs-C-rate safety envelope + reference lines; treat as fixed reference (shares BMS/VCM C-rate surface). Label 'Not affected by cohort filter'.",
+   "conf": "inferred_from_contract"
+  },
+  "CycleProjectionChart": {
+   "tab": "charts",
+   "src": [
+    "cycleCumulative",
+    "cycleAtOdo",
+    "annualKm",
+    "scenarioThresholdGtc"
+   ],
+   "behaviour": "D",
+   "pipeline": "fixed",
+   "unit": "model projection",
+   "phase": "fixed",
+   "gate": "none",
+   "feasible": false,
+   "action": "Lifetime scenario projection (SCENARIO_THRESHOLD_GTC verified:false). Label 'Model scenario'; do not cohort.",
+   "conf": "traced"
+  },
+  "EnergyArchitecture": {
+   "tab": "charts",
+   "src": [
+    "energyPath",
+    "evTraction",
+    "generatorTractionRecon",
+    "driveTypes"
+   ],
+   "behaviour": "D",
+   "pipeline": "fixed",
+   "unit": "schematic",
+   "phase": "fixed",
+   "gate": "none",
+   "feasible": false,
+   "action": "Architecture schematic/definition. Keep fixed; label not-affected.",
+   "conf": "inferred_from_contract"
+  },
+  "CycleRateChart": {
+   "tab": "charts",
+   "src": [
+    "cycleByType",
+    "cycleBySpeed",
+    "cycleBySpeedMeta"
+   ],
+   "behaviour": "A",
+   "pipeline": "mixed",
+   "unit": "cycleByType=per-drive rf(A); cycleBySpeed=pooled 1Hz(B)",
+   "phase": "1+2",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Rebuild BOTH native views per cohort on original basis (GTC/100km). Replace experimental mean rf_n_cycles/rf_efc proxy. byType master; bySpeed raw pass.",
+   "conf": "traced"
+  },
+  "EngineCyclingChart": {
+   "tab": "charts",
+   "src": [
+    "engineStartsByType",
+    "engineOnDuration",
+    "engineOnBySpeed"
+   ],
+   "behaviour": "A",
+   "pipeline": "mixed",
+   "unit": "startsByType/onDuration=per-drive(A); onBySpeed=1Hz(B)",
+   "phase": "1+2",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Generate all THREE native structures per cohort. Replace experimental engine_on_pct+broken starts/100km proxy. Use authoritative debounced start count (not n_sign_crossings).",
+   "conf": "traced"
+  },
+  "RegenChart": {
+   "tab": "charts",
+   "src": [
+    "regenByType",
+    "regenByZone",
+    "regenByTempMeasured",
+    "regenCaptureMeasured"
+   ],
+   "behaviour": "A",
+   "pipeline": "mixed",
+   "unit": "byType=per-drive(A); byZone/byTemp/capture=1Hz(B)",
+   "phase": "1+2",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Generate source/speed-zone/pack-temp/capture views per cohort. Replace 4 scalar-metric proxy.",
+   "conf": "traced"
+  },
+  "SocBySpeed": {
+   "tab": "charts",
+   "src": [
+    "socBySpeed"
+   ],
+   "behaviour": "A",
+   "pipeline": "raw",
+   "unit": "pooled 1Hz SoC by speed-zone",
+   "phase": "2",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Recompute per cohort in the raw pass.",
+   "conf": "inferred_from_contract"
+  },
+  "WarmupCurve": {
+   "tab": "charts",
+   "src": [
+    "warmupCurve",
+    "hvcEngine80C"
+   ],
+   "behaviour": "A",
+   "pipeline": "master",
+   "unit": "per-drive coolant-max vs trip-distance",
+   "phase": "1",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Make original distance-domain curve cohort-aware. Do NOT substitute an elapsed-time oil/coolant curve.",
+   "conf": "inferred_from_contract"
+  },
+  "GeneratorTractionRecon": {
+   "tab": "charts",
+   "src": [
+    "generatorTractionRecon"
+   ],
+   "behaviour": "A",
+   "pipeline": "fuelsubset",
+   "unit": "ratio-of-sums over fuel-PID subset",
+   "phase": "stage",
+   "gate": "thin_subset",
+   "feasible": false,
+   "action": "Fuel-PID subset only (135/367 drives, ~17% km, urban/cold-skewed). Cohort split too thin to be honest. Stage as UNSUPPORTED with coverage reason.",
+   "conf": "traced"
+  },
+  "SpeedChart": {
+   "tab": "distribution",
+   "src": [
+    "speedDist"
+   ],
+   "behaviour": "B",
+   "pipeline": "raw",
+   "unit": "pooled 1Hz time-weighted instantaneous speed",
+   "phase": "2",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Recompute pooled 1Hz time-weighted distribution per cohort. Replace experimental per-drive moving-mean-speed proxy.",
+   "conf": "traced",
+   "coverageStatus": "integrated_phase2_wired"
+  },
+  "DriveTypeChart": {
+   "tab": "distribution",
+   "src": [
+    "driveTypes",
+    "totalDrives",
+    "totalHours"
+   ],
+   "behaviour": "B",
+   "pipeline": "master",
+   "unit": "drive/km/hr/distance/duration composition by type",
+   "phase": "1",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Recompute composition object per cohort. Replace experimental stationary-time-distribution substitute. Label composition-sensitive.",
+   "conf": "traced",
+   "coverageStatus": "integrated_phase1"
+  },
+  "DriveDurationDist": {
+   "tab": "charts/distribution",
+   "src": [
+    "driveDurationDist"
+   ],
+   "behaviour": "B",
+   "pipeline": "master",
+   "unit": "per-drive duration distribution by drive type",
+   "phase": "1",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Use actual DURATION (not distance) with original drive-type grouping.",
+   "conf": "traced",
+   "coverageStatus": "integrated_phase1"
+  },
+  "SocLevelSensitivityChart": {
+   "tab": "charts/distribution",
+   "src": [
+    "dodSocLevelSensitivity"
+   ],
+   "behaviour": "A",
+   "pipeline": "master",
+   "unit": "damage share by mean cycle-SoC band",
+   "phase": "1",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Recompute original damage-band structure per cohort, or mark unsupported. Replace mean-SoC/range-distribution substitute.",
+   "conf": "traced",
+   "coverageStatus": "integrated_phase1"
+  },
+  "DepartureArrival": {
+   "tab": "distribution",
+   "src": [
+    "departureArrival"
+   ],
+   "behaviour": "A",
+   "pipeline": "master",
+   "unit": "per-drive start-vs-end thermal comparison",
+   "phase": "1",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Cohort-aware from per-drive start/end temps.",
+   "conf": "inferred_from_contract"
+  },
+  "AuxLoadAmbient": {
+   "tab": "distribution",
+   "src": [
+    "auxLoadAmbient"
+   ],
+   "behaviour": "A",
+   "pipeline": "master",
+   "unit": "standstill aux draw vs ambient (per-drive)",
+   "phase": "1",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Already ambient-resolved; cohort split adds little. Integrate as A with note, or keep fixed.",
+   "conf": "inferred_from_contract"
+  },
+  "TorqueChart": {
+   "tab": "distribution",
+   "src": [
+    "torqueBySpeed"
+   ],
+   "behaviour": "B",
+   "pipeline": "raw",
+   "unit": "pooled 1Hz torque by speed",
+   "phase": "2",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Recompute per cohort in raw pass.",
+   "conf": "inferred_from_contract",
+   "coverageStatus": "integrated_phase2_wired"
+  },
+  "RpmSpeedSync": {
+   "tab": "distribution",
+   "src": [
+    "rpmSpeedSync",
+    "rpmDistribution"
+   ],
+   "behaviour": "B",
+   "pipeline": "raw",
+   "unit": "1Hz RPM-speed synchronisation",
+   "phase": "2",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Recompute per cohort in raw pass.",
+   "conf": "inferred_from_contract"
+  },
+  "CrawlStopGo": {
+   "tab": "distribution",
+   "src": [
+    "crawlStopGo"
+   ],
+   "behaviour": "B",
+   "pipeline": "raw",
+   "unit": "1Hz crawl/stop-go census",
+   "phase": "2",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Recompute per cohort in raw pass.",
+   "conf": "inferred_from_contract"
+  },
+  "AccelDecelEnvelopes": {
+   "tab": "distribution",
+   "src": [
+    "accelDecelEnvelopes"
+   ],
+   "behaviour": "B",
+   "pipeline": "raw",
+   "unit": "1Hz accel/decel envelope",
+   "phase": "2",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Recompute per cohort in raw pass.",
+   "conf": "inferred_from_contract"
+  },
+  "DrivingStateTaxonomy": {
+   "tab": "distribution",
+   "src": [
+    "drivingStateTaxonomy"
+   ],
+   "behaviour": "B",
+   "pipeline": "raw",
+   "unit": "1Hz state taxonomy time-share",
+   "phase": "2",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Recompute per cohort in raw pass.",
+   "conf": "inferred_from_contract"
+  },
+  "EnergyShifting": {
+   "tab": "distribution",
+   "src": [
+    "energyShifting"
+   ],
+   "behaviour": "B",
+   "pipeline": "raw",
+   "unit": "1Hz energy-shifting",
+   "phase": "2",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Recompute per cohort in raw pass.",
+   "conf": "inferred_from_contract"
+  },
+  "EvTraction": {
+   "tab": "distribution",
+   "src": [
+    "evTraction"
+   ],
+   "behaviour": "B",
+   "pipeline": "mixed",
+   "unit": "EV share (distance/time)",
+   "phase": "1",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Ratio-of-sums per cohort; label composition-sensitive.",
+   "conf": "inferred_from_contract"
+  },
+  "TerrainChart": {
+   "tab": "distribution",
+   "src": [
+    "terrainTorqueDist",
+    "terrainTorqueDistLow",
+    "terrainCoverage",
+    "crossVehicle"
+   ],
+   "behaviour": "B",
+   "pipeline": "raw",
+   "unit": "1Hz terrain torque dist (FWD)",
+   "phase": "2",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Cohort FWD terrain torque only; KEEP crossVehicle (e-4ORCE) segregated & fixed.",
+   "conf": "traced"
+  },
+  "VgtAirPath": {
+   "tab": "distribution",
+   "src": [
+    "vgtAirPath"
+   ],
+   "behaviour": "B",
+   "pipeline": "raw",
+   "unit": "1Hz VGT/air-path",
+   "phase": "2",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Recompute per cohort in raw pass.",
+   "conf": "inferred_from_contract"
+  },
+  "MountainPattern": {
+   "tab": "distribution",
+   "src": [
+    "mountainPattern"
+   ],
+   "behaviour": "B",
+   "pipeline": "raw",
+   "unit": "route/terrain pattern",
+   "phase": "2",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Recompute per cohort; label route-mediated (composition).",
+   "conf": "inferred_from_contract"
+  },
+  "LowSpeedDissipation": {
+   "tab": "distribution",
+   "src": [
+    "lowSpeedDissipation",
+    "dissipationCensus",
+    "oemTechReview",
+    "terrainCoverage"
+   ],
+   "behaviour": "A",
+   "pipeline": "raw",
+   "unit": "1Hz low-speed dissipation census",
+   "phase": "2",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Cohort dissipation views; keep oemTechReview (external ref) fixed.",
+   "conf": "inferred_from_contract"
+  },
+  "ThermalFuelPenalty": {
+   "tab": "distribution",
+   "src": [
+    "thermalFuelPenalty"
+   ],
+   "behaviour": "A",
+   "pipeline": "raw",
+   "unit": "cold-start fuel penalty",
+   "phase": "stage",
+   "gate": "cold_required",
+   "feasible": false,
+   "action": "Genuinely thermal; only warm/shoulder present. Stage; unavailable-until-cold.",
+   "conf": "inferred_from_contract"
+  },
+  "ThermalWarmupLag": {
+   "tab": "distribution",
+   "src": [
+    "thermalWarmupLag"
+   ],
+   "behaviour": "A",
+   "pipeline": "raw",
+   "unit": "warm-up lag trajectory",
+   "phase": "stage",
+   "gate": "cold_required",
+   "feasible": false,
+   "action": "Thermal; warm/shoulder only informative. Stage/thermal, cold-gated.",
+   "conf": "inferred_from_contract"
+  },
+  "BufferDebtRecovery": {
+   "tab": "distribution",
+   "src": [
+    "bufferDebtRecovery"
+   ],
+   "behaviour": "A",
+   "pipeline": "raw",
+   "unit": "event: buffer-debt recovery",
+   "phase": "3",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Phase-3 event chart; support-gate per cohort.",
+   "conf": "inferred_from_contract"
+  },
+  "EngineStartContext": {
+   "tab": "distribution",
+   "src": [
+    "engineStartContext"
+   ],
+   "behaviour": "B",
+   "pipeline": "raw",
+   "unit": "event context",
+   "phase": "3",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Phase-3 event chart; support-gate.",
+   "conf": "inferred_from_contract"
+  },
+  "EngineStateMachine": {
+   "tab": "distribution",
+   "src": [
+    "engineStateMachine",
+    "engineDwellSurvival"
+   ],
+   "behaviour": "A",
+   "pipeline": "raw",
+   "unit": "semi-Markov state model",
+   "phase": "3",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Phase-3 fitted; per-cohort refit; support-gate.",
+   "conf": "inferred_from_contract"
+  },
+  "HandoffSequence": {
+   "tab": "distribution",
+   "src": [
+    "handoffSequence"
+   ],
+   "behaviour": "B",
+   "pipeline": "raw",
+   "unit": "event sequence",
+   "phase": "3",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Phase-3 event chart; support-gate.",
+   "conf": "inferred_from_contract"
+  },
+  "HighSocRegen": {
+   "tab": "distribution",
+   "src": [
+    "highSocRegen"
+   ],
+   "behaviour": "A",
+   "pipeline": "raw",
+   "unit": "high-SoC regen event",
+   "phase": "3",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Phase-3; thermal-candidate; support-gate.",
+   "conf": "inferred_from_contract"
+  },
+  "CellSpreadRelaxation": {
+   "tab": "distribution",
+   "src": [
+    "cellSpreadRelaxation"
+   ],
+   "behaviour": "A",
+   "pipeline": "raw",
+   "unit": "cell-spread relaxation (fitted)",
+   "phase": "3",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Phase-3 fitted thermal; support-gate.",
+   "conf": "inferred_from_contract"
+  },
+  "SocBalancedFuel": {
+   "tab": "distribution",
+   "src": [
+    "socBalancedFuel"
+   ],
+   "behaviour": "B",
+   "pipeline": "fuelsubset",
+   "unit": "SoC-balanced fuel",
+   "phase": "stage",
+   "gate": "thin_subset",
+   "feasible": false,
+   "action": "Fuel-PID subset; stage as coverage-limited.",
+   "conf": "inferred_from_contract"
+  },
+  "FullCellCaseStudy": {
+   "tab": "distribution",
+   "src": [
+    "fullCellCaseStudy"
+   ],
+   "behaviour": "D",
+   "pipeline": "fixed",
+   "unit": "single-drive case study",
+   "phase": "fixed",
+   "gate": "none",
+   "feasible": false,
+   "action": "Single named drive; not cohortable. Keep fixed.",
+   "conf": "inferred_from_contract"
+  },
+  "BaroCompensation": {
+   "tab": "distribution",
+   "src": [
+    "baroCompensation"
+   ],
+   "behaviour": "D",
+   "pipeline": "fixed",
+   "unit": "altitude/baro reference",
+   "phase": "fixed",
+   "gate": "none",
+   "feasible": false,
+   "action": "Physical reference; not thermal. Keep frozen.",
+   "conf": "traced"
+  },
+  "CrossVehicle": {
+   "tab": "health",
+   "src": [
+    "crossVehicle"
+   ],
+   "behaviour": "X",
+   "pipeline": "fixed",
+   "unit": "e-4ORCE AWD (segregated)",
+   "phase": "excluded",
+   "gate": "none",
+   "feasible": false,
+   "action": "e-4ORCE rail — EXCLUDED by hard rule (no FWD/AWD mixing). Never cohort.",
+   "conf": "traced"
+  },
+  "BufferImpulseChart": {
+   "tab": "highway vs city",
+   "src": [
+    "bufferImpulse"
+   ],
+   "behaviour": "A",
+   "pipeline": "raw",
+   "unit": "event: buffer impulse",
+   "phase": "3",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Phase-3 event; support-gate (7-event constraint noted in study).",
+   "conf": "inferred_from_contract"
+  },
+  "EngineStartProcess": {
+   "tab": "highway vs city",
+   "src": [
+    "bufferImpulse",
+    "rampLatency",
+    "startEventChain",
+    "startEventReconcile"
+   ],
+   "behaviour": "A",
+   "pipeline": "raw",
+   "unit": "event composite",
+   "phase": "3",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Phase-3 event composite; support-gate.",
+   "conf": "inferred_from_contract"
+  },
+  "RampLatencyChart": {
+   "tab": "highway vs city",
+   "src": [
+    "rampLatency"
+   ],
+   "behaviour": "A",
+   "pipeline": "raw",
+   "unit": "event: ramp latency",
+   "phase": "3",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Phase-3 event; support-gate.",
+   "conf": "inferred_from_contract"
+  },
+  "RpmDistributionChart": {
+   "tab": "highway vs city",
+   "src": [
+    "rpmDistribution"
+   ],
+   "behaviour": "B",
+   "pipeline": "raw",
+   "unit": "1Hz RPM histogram (13 bins)",
+   "phase": "2",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Recompute per cohort in raw pass; preserve 13-bin edges + overflow.",
+   "conf": "traced",
+   "coverageStatus": "integrated_phase2_wired"
+  },
+  "SocHysteresisChart": {
+   "tab": "highway vs city",
+   "src": [
+    "socHysteresis",
+    "socHysteresisV2"
+   ],
+   "behaviour": "A",
+   "pipeline": "raw",
+   "unit": "M119 SoC hysteresis surface (fitted)",
+   "phase": "3",
+   "gate": "cold_required",
+   "feasible": false,
+   "action": "Per-cohort refit ~690s/1.9GB EACH; Cold impossible. Stage; model-unavailable-until-cold.",
+   "conf": "traced"
+  },
+  "SocHysteresisV2": {
+   "tab": "highway vs city",
+   "src": [
+    "socHysteresisV2"
+   ],
+   "behaviour": "A",
+   "pipeline": "raw",
+   "unit": "M119-v2 surface (fitted)",
+   "phase": "3",
+   "gate": "cold_required",
+   "feasible": false,
+   "action": "Expensive per-cohort refit; stage.",
+   "conf": "traced"
+  },
+  "TurboPatternChart": {
+   "tab": "highway vs city",
+   "src": [
+    "turboByRpm",
+    "records"
+   ],
+   "behaviour": "B",
+   "pipeline": "raw",
+   "unit": "turbo pattern by RPM",
+   "phase": "2",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Recompute per cohort in raw pass.",
+   "conf": "inferred_from_contract"
+  },
+  "BatteryDrawSpectrum": {
+   "tab": "overview",
+   "src": [
+    "efficiencyBands"
+   ],
+   "behaviour": "B",
+   "pipeline": "raw",
+   "unit": "battery draw spectrum / efficiency bands",
+   "phase": "2",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Recompute per cohort in raw pass.",
+   "conf": "inferred_from_contract"
+  },
+  "BatteryOperatingMap": {
+   "tab": "overview",
+   "src": [
+    "socBands"
+   ],
+   "behaviour": "A",
+   "pipeline": "raw",
+   "unit": "SoC-band operating map",
+   "phase": "2",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Recompute per cohort in raw pass.",
+   "conf": "inferred_from_contract"
+  },
+  "BatteryThermalChart": {
+   "tab": "thermal",
+   "src": [
+    "batteryThermalCurve",
+    "batteryThermalMeta",
+    "sensorSummary",
+    "tPeakC",
+    "tPeakDrive"
+   ],
+   "behaviour": "A",
+   "pipeline": "raw",
+   "unit": "multi-sensor elapsed-drive thermal trajectory",
+   "phase": "2",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Generate original sensor CURVES per cohort. Replace drive-level start/mean/max summary substitute.",
+   "conf": "traced"
+  },
+  "SeasonalCohorts": {
+   "tab": "seasonal",
+   "src": [
+    "<120 keys>"
+   ],
+   "behaviour": "REMOVE",
+   "pipeline": "n/a",
+   "unit": "experimental tab",
+   "phase": "4",
+   "gate": "none",
+   "feasible": true,
+   "action": "Dismantle: remove from tabs[], remove render block, retire component; migrate coverage/colour/availability helpers into shared cohort utils.",
+   "conf": "traced"
+  },
+  "ExposureTotalsCard": {
+   "tab": "global",
+   "src": [
+    "totalKm",
+    "grossThroughputKwh",
+    "eventCounts"
+   ],
+   "behaviour": "C",
+   "pipeline": "master",
+   "unit": "exposure totals",
+   "phase": "1",
+   "gate": "warm_shoulder_ok",
+   "feasible": true,
+   "action": "Changes with cohort as EXPOSURE. Label 'Cohort exposure', not a seasonal effect.",
+   "conf": "traced"
+  }
+ }
+}
