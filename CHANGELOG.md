@@ -1,3 +1,12 @@
+## M305 (2026-09-29): F03 sensitivity: fresh master rebuild from today's raw vs published (no data changed)
+
+**Rationale.** Non-destructive clean-room rebuild (analyses/F03/): 116/186 columns drift (M293 baseline 24/186); aggregate corpus sums move <=0.35%; canonical exclusion set differs by one drive (ens_outlier_v2 2->3) - escalated to Director. Published master/arrays remain reference of record; per-headline delta vs CI not yet computed.
+
+**State.** `drive_master.csv` 446 rows, MD5 `0bcfc400d8ce2a0b15cdc7f3ddd8efff`.
+
+**Files.** `analyses/F03/README.md`, `analyses/F03/refit_today_vs_published.json`, `analyses/F03/per_file_drift.json`.
+
+
 ## M304 (2026-09-29): F03 opened: raw content provenance; owner decision reclassified
 
 **Rationale.** Andrii approved (2026-09-29) reclassifying the raw/ decision from accepted limitation to open integrity item F03 after blind audit + Director (Opus) review; all raw files are phone exports, no other originals exist. Published master/arrays remain reference of record; fresh rebuild = provenance sensitivity. Wording constraints and ingestion conditions recorded in CLAUDE.md. Sensitivity recomputation (fresh master from today's raw, per-file drift inventory) started; no pipeline data changed.

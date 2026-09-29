@@ -1,0 +1,647 @@
+{
+ "nRowsPublished": 446,
+ "nRowsRebuilt": 446,
+ "fileSetIdentical": true,
+ "columnsPublished": 189,
+ "columnsRebuilt": 186,
+ "columnsOnlyInRebuilt": [],
+ "columnsOnlyInPublished": [
+  "distance_endpoint_raw_km",
+  "distance_reset_repaired",
+  "distance_source"
+ ],
+ "columnsCompared": 186,
+ "columnsIdentical": 70,
+ "columnsDrifted": {
+  "odo_start": {
+   "nRowsDiffer": 33,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.5
+  },
+  "odo_end": {
+   "nRowsDiffer": 36,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.5
+  },
+  "distance_km": {
+   "nRowsDiffer": 47,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 2.94
+  },
+  "speed_avg_trip_final": {
+   "nRowsDiffer": 5,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.4
+  },
+  "gross_discharge_kwh": {
+   "nRowsDiffer": 267,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.0364
+  },
+  "gross_charge_kwh": {
+   "nRowsDiffer": 256,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.0054
+  },
+  "n_sign_crossings": {
+   "nRowsDiffer": 250,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 156.0
+  },
+  "gross_throughput_kwh": {
+   "nRowsDiffer": 259,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.0387
+  },
+  "net_draw_kwh": {
+   "nRowsDiffer": 266,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.0341
+  },
+  "gtc": {
+   "nRowsDiffer": 249,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.0184
+  },
+  "fce": {
+   "nRowsDiffer": 237,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.0092
+  },
+  "net_draw_per100km": {
+   "nRowsDiffer": 207,
+   "nNullPatternMismatch": 1,
+   "maxAbsDiff": 0.97
+  },
+  "peak_discharge_kw": {
+   "nRowsDiffer": 191,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.2
+  },
+  "peak_charge_kw": {
+   "nRowsDiffer": 195,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.2
+  },
+  "peak_I_discharge": {
+   "nRowsDiffer": 244,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.5
+  },
+  "peak_I_charge": {
+   "nRowsDiffer": 246,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.5
+  },
+  "V_pack_median": {
+   "nRowsDiffer": 14,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.5
+  },
+  "cap_ah_est": {
+   "nRowsDiffer": 13,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.01
+  },
+  "charge_eng_on_kwh": {
+   "nRowsDiffer": 252,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.0038
+  },
+  "charge_eng_off_kwh": {
+   "nRowsDiffer": 243,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.0034
+  },
+  "charge_fraction": {
+   "nRowsDiffer": 111,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.6
+  },
+  "regen_share_of_charge": {
+   "nRowsDiffer": 74,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.2
+  },
+  "charge_eng_only_kwh": {
+   "nRowsDiffer": 249,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.0759
+  },
+  "charge_dual_kwh": {
+   "nRowsDiffer": 231,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.0737
+  },
+  "charge_pure_regen_kwh": {
+   "nRowsDiffer": 232,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.025
+  },
+  "charge_lowtq_engoff_kwh": {
+   "nRowsDiffer": 222,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.024
+  },
+  "motor_regen_lower_pct": {
+   "nRowsDiffer": 135,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 1.0
+  },
+  "motor_regen_upper_pct": {
+   "nRowsDiffer": 185,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 5.4
+  },
+  "dual_peak_A": {
+   "nRowsDiffer": 244,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 9.7
+  },
+  "dual_peak_Crate": {
+   "nRowsDiffer": 98,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 1.6
+  },
+  "regen_peak_A": {
+   "nRowsDiffer": 229,
+   "nNullPatternMismatch": 2,
+   "maxAbsDiff": 0.5
+  },
+  "regen_peak_Crate": {
+   "nRowsDiffer": 103,
+   "nNullPatternMismatch": 2,
+   "maxAbsDiff": 0.1
+  },
+  "eng_charge_peak_A": {
+   "nRowsDiffer": 245,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.5
+  },
+  "eng_charge_peak_Crate": {
+   "nRowsDiffer": 104,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.1
+  },
+  "T1_at_peak_Crate": {
+   "nRowsDiffer": 3,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 1.0
+  },
+  "deficit_80_120_s": {
+   "nRowsDiffer": 74,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 101.4
+  },
+  "deficit_80_120_pct": {
+   "nRowsDiffer": 74,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 5.0
+  },
+  "engon_dis_share_80_120": {
+   "nRowsDiffer": 74,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 5.0
+  },
+  "blend_s_80_120": {
+   "nRowsDiffer": 64,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 18.6
+  },
+  "steer_s_80_120": {
+   "nRowsDiffer": 67,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 91.7
+  },
+  "blend_share_80_120": {
+   "nRowsDiffer": 71,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 4.8
+  },
+  "highspeed_discharge_s_130p": {
+   "nRowsDiffer": 5,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 6.7
+  },
+  "highspeed_discharge_longest_run_s_130p": {
+   "nRowsDiffer": 1,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.3
+  },
+  "standstill_draw_kw": {
+   "nRowsDiffer": 262,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.18
+  },
+  "energy_residual_kwh": {
+   "nRowsDiffer": 266,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.0341
+  },
+  "cell_spread_mean_mv": {
+   "nRowsDiffer": 8,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 4.1
+  },
+  "cell_spread_max_mv": {
+   "nRowsDiffer": 9,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 77.0
+  },
+  "cell_spread_p95_mv": {
+   "nRowsDiffer": 9,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 84.0
+  },
+  "cell_spread_loaded_mean_mv": {
+   "nRowsDiffer": 93,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 4.0
+  },
+  "cell_spread_loaded_max_mv": {
+   "nRowsDiffer": 10,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 78.0
+  },
+  "cell_spread_loaded_p95_mv": {
+   "nRowsDiffer": 99,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 82.8
+  },
+  "n_loaded_spread_samples": {
+   "nRowsDiffer": 195,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 31.0
+  },
+  "target_torque_max": {
+   "nRowsDiffer": 253,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.5
+  },
+  "target_torque_min": {
+   "nRowsDiffer": 257,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.5
+  },
+  "eng_load_abs_mean": {
+   "nRowsDiffer": 33,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.1
+  },
+  "eng_load_abs_max": {
+   "nRowsDiffer": 141,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.5
+  },
+  "eng_load_abs_p95": {
+   "nRowsDiffer": 130,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.5
+  },
+  "eng_load_calc_mean": {
+   "nRowsDiffer": 12,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.1
+  },
+  "accel_max_g": {
+   "nRowsDiffer": 80,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.001
+  },
+  "accel_min_g": {
+   "nRowsDiffer": 77,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.001
+  },
+  "accel_p95_g": {
+   "nRowsDiffer": 60,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.001
+  },
+  "accel_p05_g": {
+   "nRowsDiffer": 65,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.001
+  },
+  "n_vsag_rest": {
+   "nRowsDiffer": 267,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 169.0
+  },
+  "n_vsag_load": {
+   "nRowsDiffer": 141,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 18.0
+  },
+  "ev_dist_scale_k": {
+   "nRowsDiffer": 269,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.0085
+  },
+  "ev_dist_km": {
+   "nRowsDiffer": 235,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.235
+  },
+  "ev_dist_pct": {
+   "nRowsDiffer": 127,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.23
+  },
+  "ev_batt_kwh": {
+   "nRowsDiffer": 257,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.0093
+  },
+  "ev_kwh_per100km": {
+   "nRowsDiffer": 215,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.52
+  },
+  "ev_n_runs": {
+   "nRowsDiffer": 1,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 1.0
+  },
+  "ev_run_max_km": {
+   "nRowsDiffer": 202,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.024
+  },
+  "ev_run_p50_km": {
+   "nRowsDiffer": 125,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.113
+  },
+  "ev_run_p90_km": {
+   "nRowsDiffer": 187,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.013
+  },
+  "ev_runs_lt05": {
+   "nRowsDiffer": 1,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 1.0
+  },
+  "ev_runs_05_1": {
+   "nRowsDiffer": 3,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 1.0
+  },
+  "ev_runs_1_2": {
+   "nRowsDiffer": 4,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 1.0
+  },
+  "ev_runs_2_3": {
+   "nRowsDiffer": 2,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 1.0
+  },
+  "ev_runs_ge3": {
+   "nRowsDiffer": 1,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 1.0
+  },
+  "ev_nr_km": {
+   "nRowsDiffer": 153,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 1.036
+  },
+  "ev_nr_kwh": {
+   "nRowsDiffer": 190,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.1118
+  },
+  "ev_nr_run_max_km": {
+   "nRowsDiffer": 130,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.011
+  },
+  "vsag_R_pack_mohm": {
+   "nRowsDiffer": 184,
+   "nNullPatternMismatch": 5,
+   "maxAbsDiff": 13.09
+  },
+  "vsag_R_iqr_mohm": {
+   "nRowsDiffer": 184,
+   "nNullPatternMismatch": 5,
+   "maxAbsDiff": 23.48
+  },
+  "vsag_I_mean_A": {
+   "nRowsDiffer": 151,
+   "nNullPatternMismatch": 5,
+   "maxAbsDiff": 2.3
+  },
+  "vsag_soc_mean": {
+   "nRowsDiffer": 65,
+   "nNullPatternMismatch": 5,
+   "maxAbsDiff": 0.5
+  },
+  "vreg_R_pack_mohm": {
+   "nRowsDiffer": 165,
+   "nNullPatternMismatch": 1,
+   "maxAbsDiff": 2.43
+  },
+  "n_vreg_samples": {
+   "nRowsDiffer": 160,
+   "nNullPatternMismatch": 1,
+   "maxAbsDiff": 69.0
+  },
+  "vreg_I_p95_A": {
+   "nRowsDiffer": 151,
+   "nNullPatternMismatch": 1,
+   "maxAbsDiff": 0.9
+  },
+  "I_offset_A_applied": {
+   "nRowsDiffer": 432,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.0013
+  },
+  "offset_kwh_removed": {
+   "nRowsDiffer": 332,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.002
+  },
+  "net_draw_kwh_corr": {
+   "nRowsDiffer": 367,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.0348
+  },
+  "energy_residual_kwh_corr": {
+   "nRowsDiffer": 367,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.0348
+  },
+  "net_draw_per100km_corr": {
+   "nRowsDiffer": 249,
+   "nNullPatternMismatch": 1,
+   "maxAbsDiff": 1.08
+  },
+  "implied_offset_A_drive": {
+   "nRowsDiffer": 262,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.122
+  },
+  "cell_spread_loaded_p95_adj_mv": {
+   "nRowsDiffer": 410,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 82.8
+  },
+  "iso_outlier": {
+   "nRowsDiffer": 15,
+   "nNullPatternMismatch": 2,
+   "maxAbsDiff": null
+  },
+  "iso_score": {
+   "nRowsDiffer": 431,
+   "nNullPatternMismatch": 2,
+   "maxAbsDiff": 0.1804
+  },
+  "lof_score": {
+   "nRowsDiffer": 432,
+   "nNullPatternMismatch": 2,
+   "maxAbsDiff": 1.7555
+  },
+  "f_iso": {
+   "nRowsDiffer": 13,
+   "nNullPatternMismatch": 2,
+   "maxAbsDiff": null
+  },
+  "f_lof": {
+   "nRowsDiffer": 20,
+   "nNullPatternMismatch": 2,
+   "maxAbsDiff": null
+  },
+  "f_mad": {
+   "nRowsDiffer": 28,
+   "nNullPatternMismatch": 2,
+   "maxAbsDiff": null
+  },
+  "f_domain": {
+   "nRowsDiffer": 0,
+   "nNullPatternMismatch": 2,
+   "maxAbsDiff": null
+  },
+  "ens_outlier": {
+   "nRowsDiffer": 18,
+   "nNullPatternMismatch": 2,
+   "maxAbsDiff": null
+  },
+  "cell_spread_loaded_p95_adj_hub_mv": {
+   "nRowsDiffer": 256,
+   "nNullPatternMismatch": 16,
+   "maxAbsDiff": 1.5
+  },
+  "f_domain_2p": {
+   "nRowsDiffer": 1,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": null
+  },
+  "I_offset_2p_A_applied": {
+   "nRowsDiffer": 432,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.0011
+  },
+  "offset_2p_kwh_removed": {
+   "nRowsDiffer": 289,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.0016
+  },
+  "net_draw_kwh_corr2p": {
+   "nRowsDiffer": 351,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.0346
+  },
+  "energy_residual_kwh_corr2p": {
+   "nRowsDiffer": 351,
+   "nNullPatternMismatch": 0,
+   "maxAbsDiff": 0.0346
+  },
+  "net_draw_per100km_corr2p": {
+   "nRowsDiffer": 239,
+   "nNullPatternMismatch": 1,
+   "maxAbsDiff": 1.09
+  },
+  "f_iso_i": {
+   "nRowsDiffer": 18,
+   "nNullPatternMismatch": 2,
+   "maxAbsDiff": null
+  },
+  "f_lof_i": {
+   "nRowsDiffer": 20,
+   "nNullPatternMismatch": 2,
+   "maxAbsDiff": null
+  },
+  "f_mad_i": {
+   "nRowsDiffer": 21,
+   "nNullPatternMismatch": 2,
+   "maxAbsDiff": null
+  },
+  "ens_invalid": {
+   "nRowsDiffer": 1,
+   "nNullPatternMismatch": 2,
+   "maxAbsDiff": null
+  },
+  "ens_extreme": {
+   "nRowsDiffer": 21,
+   "nNullPatternMismatch": 2,
+   "maxAbsDiff": null
+  },
+  "ens_outlier_v2": {
+   "nRowsDiffer": 1,
+   "nNullPatternMismatch": 2,
+   "maxAbsDiff": null
+  }
+ },
+ "nullPatternMismatchFiles": [
+  "20260515_222240.csv",
+  "20260523_113305.csv",
+  "20260609_132041.csv",
+  "20260609_164033.csv",
+  "20260610_094100.csv",
+  "20260618_124611.csv",
+  "20260620_182933.csv",
+  "20260625_122850.csv",
+  "20260627_085219.csv",
+  "20260627_093529.csv",
+  "20260714_165014.csv",
+  "20260718_113222.csv",
+  "20260718_161611.csv",
+  "20260718_163414.csv",
+  "20260718_220312.csv",
+  "20260721_194652.csv",
+  "20260723_113724.csv",
+  "20260725_113418.csv",
+  "20260813_145651.csv",
+  "20260813_150341.csv",
+  "20260814_102213.csv",
+  "20260817_175652.csv",
+  "20260830_192834.csv",
+  "20260906_122920.csv",
+  "20260908_074435.csv"
+ ],
+ "exclusionSets": {
+  "ens_invalid": {
+   "publishedN": 2,
+   "rebuiltN": 3,
+   "identicalFileSetOnCommonRows": false,
+   "nOnlyPublished": 0,
+   "nOnlyRebuilt": 1
+  },
+  "ens_outlier_v2": {
+   "publishedN": 2,
+   "rebuiltN": 3,
+   "identicalFileSetOnCommonRows": false,
+   "nOnlyPublished": 0,
+   "nOnlyRebuilt": 1
+  },
+  "ens_extreme": {
+   "publishedN": 24,
+   "rebuiltN": 27,
+   "identicalFileSetOnCommonRows": false,
+   "nOnlyPublished": 9,
+   "nOnlyRebuilt": 12
+  }
+ }
+}
