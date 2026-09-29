@@ -61,6 +61,19 @@ the main session dispatches all of them. Agents exchange JSON briefs (<2 KB), ne
 Escalate: any new headline figure or method change -> blind audit; any figure entering the article -> Opus audit
 plus Andrii's sign-off recorded in `docs/claim_register.csv`.
 
+### Effort by role and task type (set per dispatch, escalate on a trigger, not a hunch)
+| Work | Model / effort | Notes |
+|---|---|---|
+| Run scripts, inventory, MD5/row-count checks, log triage | `data-worker` Haiku, low | Deterministic; no interpretation, no code edits. |
+| Tooling, tests, ingestion code, routine fixes | Sonnet main, medium | Read real signatures with grep first; known-answer test for new estimators. |
+| Blind reproduction and method review | `analytical-auditor` Sonnet, high (Opus for article-bound/thesis-level) | Independence matters more than speed; give claim + data path only. |
+| Methodology, go/no-go on a figure, article claims | `research-director` Opus, high | Compact JSON briefs only; needs Andrii sign-off for article figures. |
+
+Escalation triggers: a flag in `delta_report.json`, a new headline figure, a method change, a KPI outside its previous CI,
+or a failed gate that is not a plain environment error. No trigger -> stay at the cheap tier. Effort never replaces the
+gates (script-written numbers, blind reproduction, Director decision). Each dispatch states scope and a stop condition
+(e.g. "resampling unit and leakage only" vs "full method review") and returns a JSON brief (<2 KB).
+
 ## Open items (verify against CHANGELOG/disk before acting)
 - Clean-room raw->master rebuild is an OPEN item (published master differs from a fresh rebuild in ML columns).
 - F02 (raw-archive byte identity) blocked: requires an unavailable raw archive.
