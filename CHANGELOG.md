@@ -1,3 +1,12 @@
+## M304 (2026-09-29): F03 opened: raw content provenance; owner decision reclassified
+
+**Rationale.** Andrii approved (2026-09-29) reclassifying the raw/ decision from accepted limitation to open integrity item F03 after blind audit + Director (Opus) review; all raw files are phone exports, no other originals exist. Published master/arrays remain reference of record; fresh rebuild = provenance sensitivity. Wording constraints and ingestion conditions recorded in CLAUDE.md. Sensitivity recomputation (fresh master from today's raw, per-file drift inventory) started; no pipeline data changed.
+
+**State.** `drive_master.csv` 446 rows, MD5 `0bcfc400d8ce2a0b15cdc7f3ddd8efff`.
+
+**Files.** `CLAUDE.md`.
+
+
 ## M303 (2026-09-29): ingest_core audit follow-up: atomic writes, BaseException rollback (tested)
 
 **Rationale.** Blind audit verdict revise: master reproduced independently; fixes applied (atomic writes, rollback on any BaseException, tested with an injected failure). Audit found and the author reproduced that raw/ files failing manifest sha256 do not reproduce the published per-drive values (raw content differs from the build input), which explains the ~1,130-leaf arrays gap; the owner decision treating raw/ as original is contradicted and is escalated. No pipeline data changed.
