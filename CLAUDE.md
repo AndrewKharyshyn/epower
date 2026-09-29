@@ -74,6 +74,11 @@ or a failed gate that is not a plain environment error. No trigger -> stay at th
 gates (script-written numbers, blind reproduction, Director decision). Each dispatch states scope and a stop condition
 (e.g. "resampling unit and leakage only" vs "full method review") and returns a JSON brief (<2 KB).
 
+## Owner decisions
+- 2026-09-29 (Andrii): the CSVs in `raw/` are treated as the original raw data. 335/457 differ from `raw_manifest.json`
+  sha256/normHash (row counts all match); this is accepted by owner decision, not verified. Do not "fix" raw files or the
+  manifest; report the mismatch as a disclosed limitation. `tools/verify_import.py` (full mode) will keep reporting it.
+
 ## Open items (verify against CHANGELOG/disk before acting)
 - Clean-room raw->master rebuild is an OPEN item (published master differs from a fresh rebuild in ML columns).
 - F02 (raw-archive byte identity) blocked: requires an unavailable raw archive.
