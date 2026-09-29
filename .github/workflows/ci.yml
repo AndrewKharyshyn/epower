@@ -21,12 +21,10 @@ jobs:
         env: {XT_RAW_DIR: raw}
       - name: Unit tests
         run: |
-          for t in test_seasonal_adjust test_seasonal test_assumptions_registry test_track4 test_cohort_rates; do python $t.py; done
+          for t in test_seasonal_adjust test_seasonal test_assumptions_registry test_track4 test_cohort_rates test_post_step_idempotent; do python $t.py; done
   release-gate:
-    # Authoritative gate. Non-blocking until the open post-step idempotence defect (patch_m284_data.py re-stamps
-    # _artifactStamps) is resolved; remove continue-on-error then.
+    # Authoritative gate (blocking).
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

@@ -43,13 +43,17 @@ st = arr["_artifactStamps"]
 now = st.get("assumptionsRegistry", {}).get("generatedAt") or datetime.datetime.now(datetime.timezone.utc).isoformat()
 note = "M284 (2026-09-19): "
 # new key: stamp cloned from constantProvenance (same corpus/config provenance), config hash of the M284 config
-st["assumptionsRegistry"] = dict(copy.deepcopy(st["constantProvenance"]), generatedAt=now, fullConfigHash=cfg_md5,
-    computationStatus="computed", computationStatusNote=note + "typed assumptions registry built by build_assumptions_registry.py; corpusHash unchanged.")
+import re
+def _stamped(n):  # M300 idempotence: a block whose note already cites milestone M284 or later is stamped; never re-stamp it
+    return re.search(r"\bM(28[4-9]|29\d|[3-9]\d\d)\b", n or "") is not None
+if "assumptionsRegistry" not in st:  # content above is always rebuilt; the provenance stamp is written once
+    st["assumptionsRegistry"] = dict(copy.deepcopy(st["constantProvenance"]), generatedAt=now, fullConfigHash=cfg_md5,
+        computationStatus="computed", computationStatusNote=note + "typed assumptions registry built by build_assumptions_registry.py; corpusHash unchanged.")
 for k, why in (("determinism", "harness/scope/release-test labelling only; no recomputation."),
                ("generatorTractionRecon", "limitations[0:2] now derived from arrays (derived_literals.py); no numeric change.")):
     prev = st[k].get("computationStatusNote", "")
-    if note in prev:
-        continue  # M285: already stamped; do NOT re-stamp (it reset generatedAt over later refreshes -> post-step was not a no-op)
+    if note in prev or _stamped(prev) or st[k].get("fullConfigHash"):
+        continue  # already stamped (M284 text or any later milestone note): do NOT re-stamp (fullConfigHash/generatedAt untouched)
     st[k] = dict(st[k], generatedAt=now, fullConfigHash=cfg_md5,
                  computationStatusNote=(prev + " | " if prev else "") + note + why + " corpusHash unchanged.")
 json.dump(arr, open(ARR, "w"), ensure_ascii=False, indent=1)

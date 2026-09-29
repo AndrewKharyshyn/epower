@@ -144,6 +144,17 @@ def payload_warnings(arrays_path):
     if bad:
         warns.append(f"malformed ISO date tokens present {bad} - fn[:8] day-key defect; source fixed "
                      f"(_day_key), clears on the next ThermalFuelPenalty raw-pass regen (also widens its CIs)")
+    # M300 (Director): every stamp's fullConfigHash should equal md5(summary_config.json). WARN until the
+    # 5fb4cded... (stamped) vs on-disk config mismatch is investigated; then promote to FAIL.
+    import hashlib
+    cfg = Path(arrays_path).with_name("summary_config.json")
+    if cfg.exists():
+        h = hashlib.md5(cfg.read_bytes()).hexdigest()
+        stale = sorted({v.get("fullConfigHash") for v in sa.get("_artifactStamps", {}).values()
+                        if isinstance(v, dict) and v.get("fullConfigHash") not in (None, h)})
+        if stale:
+            warns.append(f"_artifactStamps fullConfigHash {stale} != md5(summary_config.json) {h} - stamped under a "
+                         f"different config revision; under investigation (M300)")
     return warns
 
 def main():

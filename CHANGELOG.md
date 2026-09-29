@@ -1,3 +1,12 @@
+## M300 (2026-09-29): Post-step idempotence fix; records_disclosure in post-step; release gate green
+
+**Rationale.** patch_m284_data.py no longer re-stamps blocks that already carry a stamp (guard was keyed to M284 note text that M293 replaced); apply_m284_post.sh now ends with records_disclosure.py. No change to shipped arrays; no numeric change. Shipped stamps carry fullConfigHash 5fb4cded..., which differs from md5 of on-disk summary_config.json (762f737a...); WARN check added, cause under investigation, no re-stamp. Director (Opus) decision: option A.
+
+**State.** `drive_master.csv` 446 rows, MD5 `0bcfc400d8ce2a0b15cdc7f3ddd8efff`.
+
+**Files.** `patch_m284_data.py`, `apply_m284_post.sh`, `release_check.py`, `test_post_step_idempotent.py`, `.github/workflows/ci.yml`.
+
+
 ## M294–M299 (2026-09-25): Independent audit of 24 Sep 2026 — feasible items implemented on the live 446-drive basis; semantic release gate added; full gate chain green
 
 **Trigger.** The independent dashboard audit dated 24 Sep 2026 (written against the 22 Sep / 410-drive release). Every finding was first re-checked against the live 446-drive payload, then the feasible ones were implemented in the order the audit recommends. `drive_master.csv` was not changed (MD5 **0bcfc400** before and after). All post-steps are idempotent: re-running them reproduces `summary_arrays.json` byte for byte.
