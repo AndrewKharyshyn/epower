@@ -3,7 +3,7 @@
 
 Usage: python tools/verify_import.py [--raw-dir DIR] [--quick] [--expect-master-md5 MD5]
 Checks: (1) required scripts/data present; (2) raw CSVs vs raw_manifest.json sha256 (name variants tolerated:
-'YYYYMMDD HHMMSS.csv' as stored in Project Knowledge, 'YYYYMMDD_HHMMSS.csv', archive-native names); (3) drive_master.csv
+'YYYYMMDD HHMMSS.csv' as stored in Project Knowledge, 'YYYYMMDD_HHMMSS.csv', 'YYYY-MM-DD HH-MM-SS.csv', archive-native names); (3) drive_master.csv
 row count / MD5 (optionally against --expect-master-md5); (4) project_paths import. Exit 0 only if nothing required is missing
 and no hash mismatches."""
 import argparse, hashlib, json, os, re, sys
@@ -37,12 +37,23 @@ def variants(name):
     return list(dict.fromkeys(v))
 
 
+_DIGITS_INDEX = {}
+
+
+def _digits(name):
+    return re.sub(r"\D", "", name.rsplit(".", 1)[0])
+
+
 def find(root, name):
     for v in variants(name):
         p = os.path.join(root, v)
         if os.path.isfile(p):
             return p
-    return None
+    # Fallback: match on the digits of the timestamp, so 'YYYY-MM-DD HH-MM-SS.csv' == 'YYYYMMDD_HHMMSS.csv'.
+    if root not in _DIGITS_INDEX:
+        _DIGITS_INDEX[root] = {_digits(f): f for f in os.listdir(root) if f.lower().endswith(".csv")}
+    f = _DIGITS_INDEX[root].get(_digits(name)) if re.match(r"^\d{8}", _digits(name)) else None
+    return os.path.join(root, f) if f else None
 
 
 def main():
@@ -74,7 +85,7 @@ def main():
         man = json.load(open(mp, encoding="utf-8"))
         missing, mismatch, ok = [], [], 0
         for r in man.get("files", []):
-            p = find(raw, r["raw_name"])
+            p = find(raw, r["raw_name"]) or (P(r["raw_name"]) if os.path.isfile(P(r["raw_name"])) else None)
             if p is None:
                 missing.append(r["raw_name"]); continue
             if a.quick:
