@@ -25,3 +25,10 @@ Deterministic, idempotent, additive ingestion of new raw drive CSVs. Reads real 
 - Raw copies in the repo: 335/457 fail sha256/normHash vs `raw_manifest.json` (row counts match). Originals required.
 - `release_check.py`: "post-step is a no-op on shipped summary_arrays.json" fails because `patch_m284_data.py` re-stamps
   `_artifactStamps` (fullConfigHash, M284 notes overwrite M293 notes). Needs a Director-reviewed fix.
+
+## Result (2026-09-29, M302) - known-answer test in a scratch copy
+- Held-out last drive re-ingested into a 445-row master: resulting `drive_master.csv` MD5 == published `0bcfc400...`; 0/16 ML diffs; 0 pre-existing-row diffs; 446 rows.
+- Manifest: only the held-out record's sha256/normHash differ from published (disclosed raw-copy mismatch); order fixed to published order.
+- Arrays: incremental ingest vs a full-master control build differ only in post-step labels (determinism scope) and crossVehicle (not injected in control): 0 numeric leaf diffs.
+- NOT reproduced: published `summary_arrays.json` vs a fresh build in this checkout differ in ~1,130 non-stamp leaves (both the control and the ingest run), e.g. accelDecelEnvelopes, highSocRegen, crawlStopGo, mountainPattern, energyUncertaintyMC, thermalFuelPenalty. Cause not established (candidates: raw copies not byte-identical to the originals, library versions, carried-forward blocks). Post-ingest results are therefore internally consistent but not proven identical to the M299 publication. Blind audit + Director review still pending before ingesting real new drives.
+- Runtime of the arrays step: ~35 min.

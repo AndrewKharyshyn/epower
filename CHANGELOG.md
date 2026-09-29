@@ -1,3 +1,12 @@
+## M302 (2026-09-29): Implement tools/ingest_core.py (additive ingestion, gated, backup/restore)
+
+**Rationale.** ingest_core.py implemented per analyses/M300_ingest_core_spec.md; known-answer test (held-out drive) reproduces the published drive_master MD5 with 0/16 ML diffs; incremental arrays equal a full-master control build. Fresh arrays differ from the published M299 arrays in ~1,130 leaves (cause not established; raw copies not byte-identical, disclosed). Blind audit and Director review pending. Manifest updated append-only.
+
+**State.** `drive_master.csv` 446 rows, MD5 `0bcfc400d8ce2a0b15cdc7f3ddd8efff`.
+
+**Files.** `tools/ingest_core.py`, `tools/ingest_stages.json`, `analyses/M300_ingest_core_spec.md`, `.gitignore`.
+
+
 ## M301 (2026-09-29): Retire claim register; dashboard-change rule; skills updated
 
 **Rationale.** claim-check skill, tools/claim_check.py and docs/claim_register.csv retired (owner decision; register was empty and unused). Article sign-off now recorded in the CHANGELOG entry. Standing rule added: a content change to xtrail_dashboard.html is presented in the session and pushed to GitHub with its sources. No data or numeric change.
