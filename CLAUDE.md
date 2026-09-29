@@ -53,6 +53,18 @@ plus one line stating what changed and which `S.*` keys it binds to; (2) commit 
 working branch together with the sources (`xtrail_summary.jsx`, `summary_arrays.json`, `cohort_arrays.json`) in the same
 commit, so the repo dashboard always matches its sources. Do not open a PR unless Andrii asks.
 
+## Version control (standing)
+- `main` = last validated state only: `release_check.py` green, CHANGELOG `M###` entry present, commit tagged `M###`.
+- One short-lived branch per milestone (ingestion batch, method change, tooling change). The session's assigned branch
+  (`claude/...`) is that branch; push only there, never to another branch without Andrii's permission.
+- Only one ingestion branch open at a time: `drive_master.csv`/`summary_*.json` conflict across parallel ingestions.
+  Merge before starting the next.
+- Offer a pull request (do not create it unless Andrii asks) when the milestone is complete, the release gate is green, the
+  CHANGELOG entry is written and any required audit/Director decision is done. Never for work in progress or a red gate.
+  Use a merge commit (not squash) so `M###` history survives. PR body follows the repo template if one exists.
+- After a PR is merged, restart the branch from the latest `main` (`git fetch origin main && git checkout -B <branch> origin/main`);
+  never stack new commits on merged history.
+
 ## Workflow entry points
 - Routine ingestion: skill `ingest-drive` (runs `python tools/run_ingest.py`; stops on any failed gate).
 - New analysis / method change: skill `new-analysis` (pre-registered spec, blind audit, Director decision).
