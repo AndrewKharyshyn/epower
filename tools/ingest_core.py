@@ -59,6 +59,7 @@ def raw_index(raw_dir):
 
 def stage_raw(dm_files, new_map, raw_dir, e4_files):
     """Symlink raw_only/<master key> -> real raw file. Returns the staging dir."""
+    raw_dir = os.path.abspath(raw_dir)
     if os.path.isdir(STAGING):
         shutil.rmtree(STAGING)
     os.makedirs(STAGING)
