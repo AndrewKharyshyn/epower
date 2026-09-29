@@ -1,3 +1,12 @@
+## M303 (2026-09-29): ingest_core audit follow-up: atomic writes, BaseException rollback (tested)
+
+**Rationale.** Blind audit verdict revise: master reproduced independently; fixes applied (atomic writes, rollback on any BaseException, tested with an injected failure). Audit found and the author reproduced that raw/ files failing manifest sha256 do not reproduce the published per-drive values (raw content differs from the build input), which explains the ~1,130-leaf arrays gap; the owner decision treating raw/ as original is contradicted and is escalated. No pipeline data changed.
+
+**State.** `drive_master.csv` 446 rows, MD5 `0bcfc400d8ce2a0b15cdc7f3ddd8efff`.
+
+**Files.** `tools/ingest_core.py`, `analyses/M300_ingest_core_spec.md`.
+
+
 ## M302 (2026-09-29): Implement tools/ingest_core.py (additive ingestion, gated, backup/restore)
 
 **Rationale.** ingest_core.py implemented per analyses/M300_ingest_core_spec.md; known-answer test (held-out drive) reproduces the published drive_master MD5 with 0/16 ML diffs; incremental arrays equal a full-master control build. Fresh arrays differ from the published M299 arrays in ~1,130 leaves (cause not established; raw copies not byte-identical, disclosed). Blind audit and Director review pending. Manifest updated append-only.

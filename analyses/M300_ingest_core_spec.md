@@ -32,3 +32,14 @@ Deterministic, idempotent, additive ingestion of new raw drive CSVs. Reads real 
 - Arrays: incremental ingest vs a full-master control build differ only in post-step labels (determinism scope) and crossVehicle (not injected in control): 0 numeric leaf diffs.
 - NOT reproduced: published `summary_arrays.json` vs a fresh build in this checkout differ in ~1,130 non-stamp leaves (both the control and the ingest run), e.g. accelDecelEnvelopes, highSocRegen, crawlStopGo, mountainPattern, energyUncertaintyMC, thermalFuelPenalty. Cause not established (candidates: raw copies not byte-identical to the originals, library versions, carried-forward blocks). Post-ingest results are therefore internally consistent but not proven identical to the M299 publication. Blind audit + Director review still pending before ingesting real new drives.
 - Runtime of the arrays step: ~35 min.
+
+## Blind audit (2026-09-29, Sonnet auditor, verdict: revise)
+- Master known-answer reproduced independently: MD5 0bcfc400..., 0 ML16 diffs, 0 pre-existing-row diffs. Scope: master CSV only.
+- ingest_core review: gates strict (CSV-text compare), no held-out leakage into ML16 restore. Fixed after audit: atomic writes (tmp+replace),
+  BaseException rollback (tested by injected KeyboardInterrupt after master+manifest were written: all 4 files restored identical),
+  redundant branch in master_key. Open (documented, not fixed): report file / raw_cache side effects are not rolled back; manifest
+  hashes for old records fail on-disk verification, so corpusHash/contentHash attest nothing about raw/.
+- Reproduction gap cause (confirmed, reproduced by the author too): raw copies whose sha256 FAILS the manifest (333/446 in the auditor's
+  count) do not reproduce the published per-drive master values (15 sampled: 442 differing cells; 15 sampled hash-matching files: 0 diffs).
+  So today's raw/ is not the raw content the published master/arrays were built from. Incremental == full-master control in all raw-pass keys.
+  This contradicts the 2026-09-29 owner decision "raw/ treated as original" -> escalated to Andrii and the Director.

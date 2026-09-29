@@ -38,6 +38,20 @@ class Gate(Exception):
     pass
 
 
+def _atomic(path, writer):
+    """Write to a temp file in the same directory, then os.replace (no truncated target on a crash)."""
+    tmp = path + ".tmp"
+    writer(tmp)
+    os.replace(tmp, path)
+
+
+def write_json(path, obj, **kw):
+    def w(t):
+        with open(t, "w", encoding="utf-8") as f:
+            json.dump(obj, f, **kw)
+    _atomic(path, w)
+
+
 def md5(path):
     return hashlib.md5(open(path, "rb").read()).hexdigest()
 
@@ -47,9 +61,7 @@ def digits(name):
 
 
 def master_key(basename):
-    """'file' key for a NEW drive, following the latest master rows: archive-native names keep the dash form with '_'."""
-    if re.match(r"^\d{4}-\d{2}-\d{2}[ _]\d{2}-\d{2}-\d{2}\.csv$", basename):
-        return basename.replace(" ", "_")
+    """'file' key for a NEW drive, following the latest master rows: names use '_' as the date/time separator."""
     return basename.replace(" ", "_")
 
 
@@ -238,16 +250,16 @@ def main():
         man, added = step2_manifest(new_paths, dm_new["file"])
         report["manifest_records_added"] = added
         # master written first (determinism + arrays + crosschecks read it from disk)
-        dm_new.to_csv(os.path.join(ROOT, "drive_master.csv"), index=False)
-        json.dump(man, open(os.path.join(ROOT, "raw_manifest.json"), "w", encoding="utf-8"), indent=1, ensure_ascii=False)
+        _atomic(os.path.join(ROOT, "drive_master.csv"), lambda t: dm_new.to_csv(t, index=False))
+        write_json(os.path.join(ROOT, "raw_manifest.json"), man, indent=1, ensure_ascii=False)
         block, _ = step3_determinism(os.path.join(ROOT, "drive_master.csv"))
         cfg = json.load(open(os.path.join(ROOT, "summary_config.json")))
         cfg.setdefault("auditMetadata", {})["determinism"] = block
-        json.dump(cfg, open(os.path.join(ROOT, "summary_config.json"), "w"), ensure_ascii=False, indent=1)
+        write_json(os.path.join(ROOT, "summary_config.json"), cfg, ensure_ascii=False, indent=1)
         dm_disk = pd.read_csv(os.path.join(ROOT, "drive_master.csv"), low_memory=False)
         arrays = step4_arrays(dm_disk, stage, a.recompute_m119v2)
         arrays["determinism"] = block
-        json.dump(arrays, open(os.path.join(ROOT, "summary_arrays.json"), "w"), ensure_ascii=False, indent=1)
+        write_json(os.path.join(ROOT, "summary_arrays.json"), arrays, ensure_ascii=False, indent=1)
         import crosscheck_vehicles as cv, crosscheck_events as ce
         m0 = md5(os.path.join(ROOT, "drive_master.csv"))
         cv.inject(arrays_path=os.path.join(ROOT, "summary_arrays.json"), master_csv=os.path.join(ROOT, "drive_master.csv"),
@@ -258,10 +270,10 @@ def main():
             raise Gate("crosscheck inject changed drive_master.csv")
         report.update(status="ok", rows_after=len(dm_disk), md5_after=m0, backup=os.path.relpath(bdir, ROOT))
         rc = 0
-    except Exception as ex:
+    except BaseException as ex:   # incl. KeyboardInterrupt/SystemExit: never leave a partial write
         for f in OUT_FILES:
             shutil.copy2(os.path.join(bdir, f), os.path.join(ROOT, f))
-        report.update(status="gate_failed" if isinstance(ex, Gate) else "error", error=str(ex),
+        report.update(status="gate_failed" if isinstance(ex, Gate) else "error", error=repr(ex),
                       trace=None if isinstance(ex, Gate) else traceback.format_exc()[-1500:], restored_from=os.path.relpath(bdir, ROOT))
         rc = 1
     finally:
