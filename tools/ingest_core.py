@@ -149,6 +149,7 @@ def step2_manifest(new_paths, dm_files_all):
                       "normHash": cm._norm_hash(p), "bytes": nbytes, "rows": rows, "role": "canonical", "mode": mode,
                       "exclusion_reason": ""})
     man["files"].extend(added)
+    man["files"].sort(key=lambda r: r["raw_name"] or "~")   # published order = sorted by raw_name
     recs = man["files"]
     canon = [r for r in recs if r["role"] == "canonical"]
     roles = {}
@@ -159,7 +160,7 @@ def step2_manifest(new_paths, dm_files_all):
     man["roles"] = roles
     integ = man["integrity"]
     integ.update({"nCanonical": roles.get("canonical", 0), "nMasterRows": len(dm_files_all),
-                  "nFilesOnDisk": integ.get("nFilesOnDisk", 0) + len(added)})
+                  "nFilesOnDisk": max(integ.get("nFilesOnDisk", 0), 0) + len(added)})
     integ["oneToOneCanonical"] = integ["clean"] = (integ["nCanonical"] == integ["nMasterRows"]
                                                    and not roles.get("orphan") and not roles.get("missing"))
     snap = dt.datetime.now(dt.timezone.utc)
