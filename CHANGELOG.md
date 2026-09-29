@@ -1,3 +1,12 @@
+## M301 (2026-09-29): Retire claim register; dashboard-change rule; skills updated
+
+**Rationale.** claim-check skill, tools/claim_check.py and docs/claim_register.csv retired (owner decision; register was empty and unused). Article sign-off now recorded in the CHANGELOG entry. Standing rule added: a content change to xtrail_dashboard.html is presented in the session and pushed to GitHub with its sources. No data or numeric change.
+
+**State.** `drive_master.csv` 446 rows, MD5 `0bcfc400d8ce2a0b15cdc7f3ddd8efff`.
+
+**Files.** `CLAUDE.md`, `.claude/skills/ingest-drive/SKILL.md`, `.claude/skills/new-analysis/SKILL.md`, `MIGRATION.md`.
+
+
 ## M300 (2026-09-29): Post-step idempotence fix; records_disclosure in post-step; release gate green
 
 **Rationale.** patch_m284_data.py no longer re-stamps blocks that already carry a stamp (guard was keyed to M284 note text that M293 replaced); apply_m284_post.sh now ends with records_disclosure.py. No change to shipped arrays; no numeric change. Shipped stamps carry fullConfigHash 5fb4cded..., which differs from md5 of on-disk summary_config.json (762f737a...); WARN check added, cause under investigation, no re-stamp. Director (Opus) decision: option A.

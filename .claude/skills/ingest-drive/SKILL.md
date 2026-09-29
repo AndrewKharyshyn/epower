@@ -17,3 +17,5 @@ Preconditions: new CSVs are in `raw/` (do not modify existing files). `export XT
 6. `python tools/changelog_draft.py --id M### --title "..." --rationale "..."` (prepends by concatenation). Then
    `python tools/state.py`, `python release_check.py`, commit and tag `M###`.
 7. Report to Andrii: what changed (files), gate results, flags. No number is quoted unless taken from a script output.
+8. Dashboard: if `xtrail_dashboard.html` changed in content, follow the "Dashboard change rule" in `CLAUDE.md`: show it here
+   (`SendUserFile`, `display: "render"`) with a one-line list of what changed, and commit + push it to GitHub with its sources.

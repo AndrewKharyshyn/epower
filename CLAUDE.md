@@ -46,10 +46,17 @@ Every applied change is recorded: newest first, `## M###` prefix, prepended by c
 boundary-spanning `str_replace` on a heading). Use `python tools/changelog_draft.py ...`; the model writes only the
 rationale line. Large function insertions: two-step marker-then-body pattern.
 
+## Dashboard change rule (standing)
+Whenever `xtrail_dashboard.html` is rebuilt with a content change (new/changed figure, KPI, tab or wording; not a
+byte-identical rebuild): (1) present it in the session: `SendUserFile` with `display: "render"` on `xtrail_dashboard.html`,
+plus one line stating what changed and which `S.*` keys it binds to; (2) commit it and push it to GitHub on the session's
+working branch together with the sources (`xtrail_summary.jsx`, `summary_arrays.json`, `cohort_arrays.json`) in the same
+commit, so the repo dashboard always matches its sources. Do not open a PR unless Andrii asks.
+
 ## Workflow entry points
 - Routine ingestion: skill `ingest-drive` (runs `python tools/run_ingest.py`; stops on any failed gate).
 - New analysis / method change: skill `new-analysis` (pre-registered spec, blind audit, Director decision).
-- Article claims: skill `claim-check` (`docs/claim_register.csv`).
+- Article claims: no register (retired M301). A figure entering the article needs an Opus audit and Andrii's explicit sign-off, recorded in the CHANGELOG entry.
 - Release gate (authoritative, clean environment): `python release_check.py`.
 - jsdom validation needs `node_modules` (`npm ci`); wait a full 300 ms per tab before targeting content.
 
@@ -59,7 +66,7 @@ failures; NO code edits, NO gate bypass), `analytical-auditor` (Sonnet: blind re
 `research-director` (Opus: methodology, interpretation, go/no-go on figures). Subagents cannot spawn subagents;
 the main session dispatches all of them. Agents exchange JSON briefs (<2 KB), never prose summaries of numbers.
 Escalate: any new headline figure or method change -> blind audit; any figure entering the article -> Opus audit
-plus Andrii's sign-off recorded in `docs/claim_register.csv`.
+plus Andrii's sign-off recorded in the CHANGELOG entry.
 
 ### Effort by role and task type (set per dispatch, escalate on a trigger, not a hunch)
 | Work | Model / effort | Notes |

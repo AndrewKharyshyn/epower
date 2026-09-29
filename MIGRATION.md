@@ -6,8 +6,8 @@ Built 2026-09-25 from the Project (89 docs, 470 files) plus two files you upload
 | Item | Status |
 |---|---|
 | `CLAUDE.md`, `.claude/agents/` (3), `.claude/skills/` (3), `.claude/settings.json` (path-guard hook) | ready |
-| `tools/` state, verify_import, run_ingest (+ stage list), data_health, delta_report, changelog_draft, claim_check, script_index, guard_paths | tested on the real data |
-| `docs/` findings-and-methods, workflow-and-tools, overview (from Claude memory), script_index, claim_register.csv | ready |
+| `tools/` state, verify_import, run_ingest (+ stage list), data_health, delta_report, changelog_draft, script_index, guard_paths | tested on the real data |
+| `docs/` findings-and-methods, workflow-and-tools, overview (from Claude memory), script_index | ready |
 | Byte-exact copies of: `CHANGELOG.md`, `xtrail_summary.jsx` (your upload), `drive_master.csv`, `compute_summary_arrays.py`, `summary_config.json`, `summary_arrays.json` | included, verified |
 | `tools/ingest_core.py` | STUB (fails loudly, exit 3): fill in the first Code session (section 5) |
 | Remaining ~80 scripts/JSON/CSV and the 470 raw CSVs | NOT included: see section 3 |
@@ -43,3 +43,6 @@ Alternative: if you can attach files in a session, I can place them in the repo 
 
 ## 6. Design reference
 Process design (tiers, flows A/B/C, reliability hardening): the "e-POWER Study: Agent and Script Process Design" doc created in chat.
+
+
+_M301: `claim-check` skill, `tools/claim_check.py` and `docs/claim_register.csv` were retired by Andrii's decision._
