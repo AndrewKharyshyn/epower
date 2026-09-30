@@ -22,3 +22,12 @@ Hash-verified drives (H, n=109) reported separately (medians in f3_results.json)
 - The fresh spread variance is 112.8 vs 19.0 published (driven by the 100.0 values).
 ## F5 - why the mixed-effects fit becomes singular in the fresh data
 P: nObs 423, nDays 92, groupVar 1.35, converged. A (P-exclusion): LinAlgError('Singular matrix'); persists when the published spread is restored on the 99 altered drives => caused by the altered covariate peak_I_discharge (244 drives differ) and/or the altered spread inputs jointly, not by spread alone. The gate (tools/ingest_core.estimator_gate, tests/synthetic/test_estimator_gate.py) now aborts on a changed primary estimator or degenerate flag unless acknowledged; release_check WARNs on degenerate mixed fits.
+
+## Blind audit (Sonnet auditor, 2026-09-30): verdict ACCEPT - F1, F1b, F2 (P, A_Pexcl) and F3 reproduced independently (slopes/CIs/AUC identical to 4 dp; permutation p 0.116 vs author 0.123 = Monte-Carlo noise)
+Audit notes carried into the wording of this record (no numbers changed):
+- F1: 347 drives selected, but 22 have NaN spread in both P and A, so 324 drives / 86 days enter the fit.
+- F1b: 152 observations, 25 days, Aug-Sep only (~1 month): shorter than the spec's own 2-month minimum for a trend claim; its CI [-3.6, +2.7] contains both the published and the rebuild slope, so it is uninformative and NOT confirmation. S' lies wholly inside S (not independent).
+- F2: influence for A_Pexcl is 1.69 SE over the five leave-one-month-out fits and 1.91 SE including the May-Jun exclusion. Month is confounded with hash status.
+- F3: permutation shuffles labels globally; a month-stratified null gives p 0.102 (same conclusion). The day-blocked CV named in Amendment 1 was NOT implemented (permutation null used, which the amendment allowed as an alternative). p = (null>=obs).mean() without +1 correction. "Not explained by pre-listed features" does not mean "no difference" (n=99/group).
+- Dataset alignment uses row position (.values); correct here (checked with a file-key join), fragile for future use.
+- No multiplicity control across 4 datasets x 6 fits: all results are descriptive.

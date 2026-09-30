@@ -19,7 +19,7 @@ test_assumptions_registry.py refresh_seasonal_kpis.py records_resistance.py reco
 test_track4.py apply_m284_post.sh dump_tabs.js semantic_gate.py test_cohort_rates.py records_disclosure.py release_check.py
 compute_summary_arrays.py compute_drive_summary_v6.py m119v2_model.py energy_mc_precompute.py energy_uncertainty_mc.py
 determinism_check.py ml16_determinism_check.py drive_raw_cache.py degradation_trends.py ingest_e4orce.py crosscheck_vehicles.py
-crosscheck_events.py corpus_manifest.py raw_manifest.json CHANGELOG.md requirements.txt""".split()
+crosscheck_events.py corpus_manifest.py raw_manifest.json CHANGELOG.md requirements.txt f03_provenance_flag.py f03_provenance.json""".split()
 OPTIONAL = """warm_baseline_freeze.json event_ledger.json compute_seasonal.py seasonal_config.json seasonal_arrays.json test_seasonal.py
 xtrail_dashboard.html e4orce_master.csv e4orce_ambient.csv fuel_recon_master.csv fuel_recon.py recon_engine.py""".split()
 

@@ -10,3 +10,4 @@ python3 "$(S records_resistance.py)"     # excitation-gated pack-resistance-prox
 python3 "$(S records_rainflow.py)"       # rainflow exposure records
 python3 "$(S cohort_distributions.py)"   # per-drive cohort distributions for ECDF small multiples
 python3 "$(S records_disclosure.py)"     # M291/B8 disclosure contract; must follow records_* (they rebuild record entries)
+python3 "$(S f03_provenance_flag.py)"       # M307/F03: provenance-sensitivity notice (from f03_provenance.json); must be last
