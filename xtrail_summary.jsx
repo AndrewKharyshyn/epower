@@ -340,8 +340,11 @@ const AMB_COH = {warm:{fg:"#c2410c",bg:"#fff7ed",label:"Warm"}, shoulder:{fg:"#1
 // CSV of the rows currently shown (M315): one line per drive, interim readings joined with ";".
 function ambientCsv(rows) {
   const esc = v => { const s = v==null ? "" : String(v); return /[",\n]/.test(s) ? '"'+s.replace(/"/g,'""')+'"' : s; };
-  const head = ["date","time","drive_no","km","start_c","interim_c","end_c","mean_c","cohort","file"];
-  return [head.join(",")].concat(rows.map(r=>[r.d,r.t,r.n,r.k,r.a[0],r.a.slice(1,-1).join(";"),r.a[r.a.length-1],r.m,r.c,r.f].map(esc).join(","))).join("\n")+"\n";
+  const head = ["date","time","drive_no","km","start_c","interim_c","end_c","mean_c","cohort","pack_start_c","oil_start_c","coolant_start_c",
+    "oil_30s_c","oil_60s_c","oil_120s_c","oil_300s_c","oil_600s_c","coolant_30s_c","coolant_60s_c","coolant_120s_c","coolant_300s_c","coolant_600s_c","cold_soak_status","file"];
+  const at = (a,i) => (a && a[i]!=null ? a[i] : "");
+  return [head.join(",")].concat(rows.map(r=>[r.d,r.t,r.n,r.k,r.a[0],r.a.slice(1,-1).join(";"),r.a[r.a.length-1],r.m,r.c,r.p,r.o,r.w,
+    at(r.ow,0),at(r.ow,1),at(r.ow,2),at(r.ow,3),at(r.ow,4),at(r.cw,0),at(r.cw,1),at(r.cw,2),at(r.cw,3),at(r.cw,4),r.cs,r.f].map(esc).join(","))).join("\n")+"\n";
 }
 function AmbientTempTable({ T }) {
   const rows = T.rows || [];
@@ -351,6 +354,10 @@ function AmbientTempTable({ T }) {
   const [coh,setCoh] = useState("all");
   const [lo,setLo] = useState("");
   const [hi,setHi] = useState("");
+  const [showStart,setShowStart] = useState(false);          // M316: pack / oil / coolant start temperatures, warm-up and cold-soak columns
+  const fn = v => (v==null ? "\u2014" : fmt(v));
+  const CS = {not_cold_soaked:{fg:"#475569",bg:"#f1f5f9",label:"not cold-soaked"}, probable:{fg:"#b45309",bg:"#fffbeb",label:"probable"}, cold_soaked:{fg:"#0e7490",bg:"#ecfeff",label:"cold-soaked"}, unknown:{fg:"#94a3b8",bg:"#f8fafc",label:"unknown"}};
+  const wu = (arr, secs) => (arr||[]).map((v,i)=>(secs&&secs[i]!=null?secs[i]+" s":"")+": "+(v==null?"\u2014":fmt(v))+"\u00B0C").join(" \u00B7 ");
   const [openM,setOpenM] = useState(lastMonth ? {[lastMonth]:true} : {});
   const [openD,setOpenD] = useState({});
   const qn = q.trim().toLowerCase();
@@ -359,7 +366,7 @@ function AmbientTempTable({ T }) {
   const resetView = on => { setOpenD({}); setOpenM(!on && lastMonth ? {[lastMonth]:true} : {}); };
   const view = React.useMemo(()=>{
     const hay = r => { const m=+r.d.slice(5,7), dd=+r.d.slice(8,10), mn=AMB_MON[m-1];
-      return [r.d, mn, mn.slice(0,3)+" "+dd, mn.slice(0,3)+" "+String(dd).padStart(2,"0"), r.t, "d"+r.n, r.f, r.a.map(fmt).join(" ")].join(" ").toLowerCase(); };
+      return [r.d, mn, mn.slice(0,3)+" "+dd, mn.slice(0,3)+" "+String(dd).padStart(2,"0"), r.t, "d"+r.n, r.f, r.cs||"", r.a.map(fmt).join(" ")].join(" ").toLowerCase(); };
     const loN = lo==="" ? null : +lo, hiN = hi==="" ? null : +hi;
     const inRange = r => (loN==null && hiN==null) || r.a.some(v => (loN==null || v>=loN) && (hiN==null || v<=hiN));
     const f = rows.filter(r => (!qn || hay(r).includes(qn)) && (coh==="all" || r.c===coh) && inRange(r));
@@ -398,6 +405,7 @@ function AmbientTempTable({ T }) {
         <button style={btn} onClick={()=>{ const m={},d={}; view.months.forEach(M=>{ m[M.key]=true; M.days.forEach(D=>{ d[D.date]=true; }); }); setOpenM(m); setOpenD(d); }}>Expand all</button>
         <button style={btn} onClick={()=>{ const m={},d={}; view.months.forEach(M=>{ m[M.key]=false; M.days.forEach(D=>{ d[D.date]=false; }); }); setOpenM(m); setOpenD(d); }}>Collapse all</button>
         <button style={btn} onClick={()=>{ setQ(""); setCoh("all"); setLo(""); setHi(""); resetView(false); }}>Latest month only</button>
+        <button data-amb-start style={chip(showStart)} aria-pressed={showStart} onClick={()=>setShowStart(s=>!s)}>{showStart?"Hide":"Show"} start temperatures &amp; warm-up</button>
       </div>
       <div style={{display:"flex",flexWrap:"wrap",gap:6,alignItems:"center",marginBottom:8,fontSize:10.5,color:"#64748b"}}>
         <span>Thermal class:</span>
@@ -441,8 +449,8 @@ function AmbientTempTable({ T }) {
                       </button>
                       {dopen && (
                         <div style={{overflowX:"auto"}}>
-                          <table style={{borderCollapse:"collapse",width:"100%",minWidth:700}}>
-                            <thead><tr><th style={th}>Drive</th><th style={th}>Start time</th><th style={th}>km</th><th style={th}>Start °C</th><th style={th}>Interim °C</th><th style={th}>End °C</th><th style={th}>End − start</th><th style={th} title="Time-weighted mean ambient of the drive (seasonal master)">Mean °C</th><th style={th}>Thermal class</th></tr></thead>
+                          <table style={{borderCollapse:"collapse",width:"100%",minWidth:showStart?1120:700}}>
+                            <thead><tr><th style={th}>Drive</th><th style={th}>Start time</th><th style={th}>km</th><th style={th}>Start °C</th><th style={th}>Interim °C</th><th style={th}>End °C</th><th style={th}>End − start</th><th style={th} title="Time-weighted mean ambient of the drive (seasonal master)">Mean °C</th><th style={th}>Thermal class</th>{showStart && <><th style={th} title="HV-battery pack temperature at the start of the drive">Pack start °C</th><th style={th}>Oil start °C</th><th style={th}>Coolant start °C</th><th style={th} title="Oil temperature 5 minutes after its first valid reading (hover a cell for the whole series)">Oil +5 min °C</th><th style={th} title="Engine-coolant temperature 5 minutes after its first valid reading">Coolant +5 min °C</th><th style={th} title="Cold-soak status of the drive (seasonal master)">Cold soak</th></>}</tr></thead>
                             <tbody>
                               {D.rows.map(r=>{
                                 const s0=r.a[0], e0=r.a[r.a.length-1], mid=r.a.slice(1,-1), dl=e0-s0;
@@ -455,6 +463,12 @@ function AmbientTempTable({ T }) {
                                     <td style={td}>{dl===0?"0":(dl>0?"+":"−")+Math.abs(dl).toFixed(1)}</td>
                                     <td style={td}>{r.m==null?"—":r.m.toFixed(1)}</td>
                                     <td style={td}>{AMB_COH[r.c] ? <span style={{display:"inline-block",padding:"0 7px",borderRadius:999,fontSize:9.5,fontWeight:700,color:AMB_COH[r.c].fg,background:AMB_COH[r.c].bg}}>{AMB_COH[r.c].label}</span> : r.c}</td>
+                                    {showStart && <>
+                                      <td style={td}>{fn(r.p)}</td><td style={td}>{fn(r.o)}</td><td style={td}>{fn(r.w)}</td>
+                                      <td style={td} title={"Oil: "+wu(r.ow,T.warmupSeconds)}>{fn((r.ow||[])[3])}</td>
+                                      <td style={td} title={"Coolant: "+wu(r.cw,T.warmupSeconds)}>{fn((r.cw||[])[3])}</td>
+                                      <td style={td}>{CS[r.cs] ? <span style={{display:"inline-block",padding:"0 7px",borderRadius:999,fontSize:9.5,fontWeight:700,color:CS[r.cs].fg,background:CS[r.cs].bg}}>{CS[r.cs].label}</span> : (r.cs||"\u2014")}</td>
+                                    </>}
                                   </tr>
                                 );
                               })}
@@ -10763,7 +10777,8 @@ export default function App() {
               any interim readings taken during it (chronological, {S.ambientTable.nInterimDrives} drives have them) and the end of the drive. They are entered by hand from the dashboard readout, are
               not calibrated (vehicle sensor, uncalibrated class) and set the thermal cohort of each drive. † marks {S.ambientTable.nSingleValueLegacy} older drives stored as a single value, shown as start = end.
               Open a month, then a day; or type a date, time or temperature to jump to matching drives. Narrow the list by thermal class (warm ≥15°C, shoulder 5–15°C, cold ≤5°C; a class with fewer than {S.ambientTable.cohortMinDrives} drives is listed but not analysed as a cohort*)
-              or by temperature range, and download what you see as CSV.
+              or by temperature range, and download what you see as CSV. "Show start temperatures &amp; warm-up" adds the pack, oil and engine-coolant temperatures at the start of each drive, oil and coolant {S.ambientTable.warmupSeconds ? S.ambientTable.warmupSeconds[3]/60 : "—"} minutes after their first valid
+              reading (hover a cell for the 30 s–{S.ambientTable.warmupSeconds ? S.ambientTable.warmupSeconds[4]/60 : "—"} min series) and the cold-soak status ({S.ambientTable.nWithStartTemps} of {S.ambientTable.nDrives} drives have all three start temperatures); the CSV always carries the full series.
             </div>
             <AmbientTempTable T={S.ambientTable}/>
           </Section>)}

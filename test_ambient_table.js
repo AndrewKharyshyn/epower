@@ -61,11 +61,31 @@ let fails=0;const ok=(label,c)=>{console.log((c?'PASS ':'FAIL ')+label);if(!c)fa
   click(root.querySelector('[data-amb-csv]'));await sleep(150);
   const csv=blob?await new Promise(res=>{const fr=new dom.window.FileReader();fr.onload=()=>res(fr.result);fr.readAsText(blob);}):'';
   const lines=csv.trim().split('\n');
-  ok(`CSV export has a header and one line per visible drive (${band.length})`, lines.length===band.length+1 && lines[0]==='date,time,drive_no,km,start_c,interim_c,end_c,mean_c,cohort,file');
+  ok(`CSV export has a header and one line per visible drive (${band.length})`, lines.length===band.length+1 && lines[0]==='date,time,drive_no,km,start_c,interim_c,end_c,mean_c,cohort,pack_start_c,oil_start_c,coolant_start_c,oil_30s_c,oil_60s_c,oil_120s_c,oil_300s_c,oil_600s_c,coolant_30s_c,coolant_60s_c,coolant_120s_c,coolant_300s_c,coolant_600s_c,cold_soak_status,file');
   const bi=band.find(r=>r.a.length>2)||band[0], bl=lines.find(l=>l.endsWith(','+bi.f));
+  const bf=bl?bl.split(','):[];
+  ok('CSV row carries pack/oil/coolant start temperatures, the warm-up series and the cold-soak status (M316)', !!bl && bf[9]===String(bi.p??'') && bf[10]===String(bi.o??'') && bf[11]===String(bi.w??'') && bf[15]===String(bi.ow[3]??'') && bf[20]===String(bi.cw[3]??'') && bf[22]===bi.cs);
   ok('CSV row carries start, interim (";"-joined), end, mean, class and file id', !!bl && bl.split(',')[4]===String(bi.a[0]) && bl.split(',')[5]===bi.a.slice(1,-1).join(';') && bl.split(',')[6]===String(bi.a[bi.a.length-1]) && bl.split(',')[8]===bi.c);
   setNum(root.querySelector('[data-amb-lo]'),'');setNum(root.querySelector('[data-amb-hi]'),'');await sleep(150);
   ok('clearing the range restores the default collapsed view', root.querySelectorAll('tbody tr').length===0);
+  // ── M316: start temperatures, warm-up and cold-soak columns (toggle) ──
+  const f1=v=>Number.isInteger(v)?String(v):v.toFixed(1);
+  ok('start-temperature columns are hidden by default', !root.textContent.includes('Pack start'));
+  click(btn('Expand all'));await sleep(200);
+  click(root.querySelector('[data-amb-start]'));await sleep(250);
+  const hd=root.querySelector('thead').textContent;
+  ok('toggle adds the pack, oil, coolant, +5 min and cold-soak columns', ['Pack start','Oil start','Coolant start','Oil +5 min','Coolant +5 min','Cold soak'].every(h=>hd.includes(h)));
+  const rowOf=r=>[...root.querySelectorAll('tbody tr')].find(x=>x.closest('[data-amb-date]').getAttribute('data-amb-date')===r.d && x.querySelectorAll('td')[0].textContent==='D'+r.n);
+  const full=T.rows.find(r=>r.p!=null&&r.o!=null&&r.w!=null&&r.ow[3]!=null&&r.cw[3]!=null&&r.cs==='probable')||T.rows.find(r=>r.p!=null&&r.o!=null&&r.w!=null&&r.ow[3]!=null&&r.cw[3]!=null);
+  const c=[...rowOf(full).querySelectorAll('td')].map(x=>x.textContent);
+  ok('a drive row shows its exact pack / oil / coolant start and +5 min values', c[9]===f1(full.p)&&c[10]===f1(full.o)&&c[11]===f1(full.w)&&c[12]===f1(full.ow[3])&&c[13]===f1(full.cw[3]));
+  ok('the cold-soak status is labelled', c[14]===({not_cold_soaked:'not cold-soaked',probable:'probable',cold_soaked:'cold-soaked',unknown:'unknown'}[full.cs]));
+  const miss=T.rows.find(r=>r.p==null||r.o==null||r.w==null);
+  if(miss){const cm=[...rowOf(miss).querySelectorAll('td')].map(x=>x.textContent);ok('a drive with a missing start temperature shows an em dash, not 0 or NaN', (miss.p==null?cm[9]==='—':true)&&(miss.o==null?cm[10]==='—':true)&&(miss.w==null?cm[11]==='—':true)&&!cm.some(x=>x==='NaN'));}
+  ok('warm-up series is available on hover (title attribute)', (rowOf(full).querySelectorAll('td')[12].getAttribute('title')||'').includes('300 s'));
+  click(root.querySelector('[data-amb-start]'));await sleep(200);
+  ok('toggling off hides the extra columns again', !root.querySelector('thead').textContent.includes('Pack start'));
+  click(btn('Collapse all'));await sleep(150);
   ok('no console errors while interacting', errs.length===0);
   if(errs.length)console.log(errs.slice(0,3).join('\n'));
   console.log(fails?`FAILED ${fails}`:'AMBIENT TABLE TEST PASSED');process.exit(fails?1:0);
