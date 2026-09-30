@@ -1,0 +1,327 @@
+{
+ "published": "summary_arrays.json",
+ "fresh": "/tmp/claude-0/-home-user-epower/244c7349-69d0-524b-9e24-79e4320bb9c4/scratchpad/scA/summary_arrays.json",
+ "nKpis": 32,
+ "escalate": [
+  "degradation.cellSpread.clusterRobustOLS.slope (mV/mo)",
+  "cellHealthTrend.olsSlopeMvPerMo"
+ ],
+ "kpis": [
+  {
+   "name": "meta.totalDrives",
+   "published": 446,
+   "fresh": 446,
+   "absDelta": 0,
+   "relDeltaPct": 0.0,
+   "status": "same"
+  },
+  {
+   "name": "meta.totalKm",
+   "published": 8559.9,
+   "fresh": 8557.3,
+   "absDelta": -2.6,
+   "relDeltaPct": -0.0304,
+   "status": "changed_no_ci"
+  },
+  {
+   "name": "meta.gtcSum",
+   "published": 688.2,
+   "fresh": 688.3,
+   "absDelta": 0.1,
+   "relDeltaPct": 0.0145,
+   "publishedCI": [
+    687.9436,
+    691.4952
+   ],
+   "freshInsidePublishedCI": true,
+   "deltaInPublishedCIWidths": 0.0282,
+   "status": "inside_ci"
+  },
+  {
+   "name": "meta.fceSum",
+   "published": 344.1,
+   "fresh": 344.1,
+   "absDelta": 0.0,
+   "relDeltaPct": 0.0,
+   "publishedCI": [
+    343.9718,
+    345.7476
+   ],
+   "freshInsidePublishedCI": true,
+   "deltaInPublishedCIWidths": 0.0,
+   "status": "same"
+  },
+  {
+   "name": "meta.rfEfcSum",
+   "published": 368.3,
+   "fresh": 368.3,
+   "absDelta": 0.0,
+   "relDeltaPct": 0.0,
+   "status": "same"
+  },
+  {
+   "name": "meta.offset2pA",
+   "published": -0.3872,
+   "fresh": -0.3861,
+   "absDelta": 0.0011,
+   "relDeltaPct": 0.2841,
+   "publishedCI": [
+    -0.4227,
+    -0.35
+   ],
+   "freshInsidePublishedCI": true,
+   "deltaInPublishedCIWidths": 0.0151,
+   "status": "inside_ci"
+  },
+  {
+   "name": "meta.grossThroughputKwh",
+   "published": 1445.3,
+   "fresh": 1445.3,
+   "absDelta": 0.0,
+   "relDeltaPct": 0.0,
+   "publishedCI": [
+    1444.6815,
+    1452.1399
+   ],
+   "freshInsidePublishedCI": true,
+   "deltaInPublishedCIWidths": 0.0,
+   "status": "same"
+  },
+  {
+   "name": "generatorTractionRecon.corpus.fGen",
+   "published": 0.477,
+   "fresh": 0.478,
+   "absDelta": 0.001,
+   "relDeltaPct": 0.2096,
+   "status": "changed_no_ci"
+  },
+  {
+   "name": "generatorTractionRecon.corpus.etaEng",
+   "published": 0.355,
+   "fresh": 0.355,
+   "absDelta": 0.0,
+   "relDeltaPct": 0.0,
+   "status": "same"
+  },
+  {
+   "name": "generatorTractionRecon.corpus.etaBus",
+   "published": 0.329,
+   "fresh": 0.329,
+   "absDelta": 0.0,
+   "relDeltaPct": 0.0,
+   "status": "same"
+  },
+  {
+   "name": "generatorTractionRecon.crossval.pearsonR",
+   "published": 0.997,
+   "fresh": 0.997,
+   "absDelta": 0.0,
+   "relDeltaPct": 0.0,
+   "status": "same"
+  },
+  {
+   "name": "degradation.cellSpread.mixedEffects.slope (mV/mo)",
+   "published": -0.0163,
+   "fresh": null,
+   "status": "path_missing"
+  },
+  {
+   "name": "degradation.cellSpread.clusterRobustOLS.slope (mV/mo)",
+   "published": 0.0115,
+   "fresh": -1.6668,
+   "absDelta": -1.6783,
+   "relDeltaPct": -14593.913,
+   "publishedCI": [
+    -0.2892,
+    0.3122
+   ],
+   "freshInsidePublishedCI": false,
+   "deltaInPublishedCIWidths": -2.7907,
+   "status": "OUTSIDE_CI"
+  },
+  {
+   "name": "degradation.cellSpread.pTOST",
+   "published": 0.0772,
+   "fresh": 0.9944,
+   "absDelta": 0.9172,
+   "relDeltaPct": 1188.0829,
+   "status": "changed_no_ci"
+  },
+  {
+   "name": "degradation.cellSpread.equivalent [decision]",
+   "published": false,
+   "fresh": false,
+   "status": "same"
+  },
+  {
+   "name": "degradation.resistanceVreg.clusterRobustOLS.slope (mOhm/mo)",
+   "published": 0.8714,
+   "fresh": 0.9582,
+   "absDelta": 0.0868,
+   "relDeltaPct": 9.961,
+   "publishedCI": [
+    -0.4295,
+    2.1722
+   ],
+   "freshInsidePublishedCI": true,
+   "deltaInPublishedCIWidths": 0.0334,
+   "status": "inside_ci"
+  },
+  {
+   "name": "degradation.resistanceVreg.pTOST",
+   "published": 0.6884,
+   "fresh": 0.7321,
+   "absDelta": 0.0437,
+   "relDeltaPct": 6.3481,
+   "status": "changed_no_ci"
+  },
+  {
+   "name": "degradation.resistanceVreg.equivalent [decision]",
+   "published": false,
+   "fresh": false,
+   "status": "same"
+  },
+  {
+   "name": "cellHealthTrend.olsSlopeMvPerMo",
+   "published": 0.01,
+   "fresh": -1.55,
+   "absDelta": -1.56,
+   "relDeltaPct": -15600.0,
+   "publishedCI": [
+    -0.3,
+    0.3
+   ],
+   "freshInsidePublishedCI": false,
+   "deltaInPublishedCIWidths": -2.6,
+   "status": "OUTSIDE_CI"
+  },
+  {
+   "name": "powerFade.slopeMohmPerMoTctrl",
+   "published": 0.658,
+   "fresh": 0.724,
+   "absDelta": 0.066,
+   "relDeltaPct": 10.0304,
+   "publishedCI": [
+    -0.848,
+    2.339
+   ],
+   "freshInsidePublishedCI": true,
+   "deltaInPublishedCIWidths": 0.0207,
+   "status": "inside_ci"
+  },
+  {
+   "name": "powerFade.mdeMohmPerMo",
+   "published": 1.593,
+   "fresh": 1.599,
+   "absDelta": 0.006,
+   "relDeltaPct": 0.3766,
+   "status": "changed_no_ci"
+  },
+  {
+   "name": "offsetUncertainty.pointEstimateA",
+   "published": -0.3872,
+   "fresh": -0.3861,
+   "absDelta": 0.0011,
+   "relDeltaPct": 0.2841,
+   "publishedCI": [
+    -0.4227,
+    -0.35
+   ],
+   "freshInsidePublishedCI": true,
+   "deltaInPublishedCIWidths": 0.0151,
+   "status": "inside_ci"
+  },
+  {
+   "name": "energyPath.throughputKwh",
+   "published": 1445.08,
+   "fresh": 1444.73,
+   "absDelta": -0.35,
+   "relDeltaPct": -0.0242,
+   "status": "changed_no_ci"
+  },
+  {
+   "name": "energyPath.asymmetryPct",
+   "published": 6.2,
+   "fresh": 6.2,
+   "absDelta": 0.0,
+   "relDeltaPct": 0.0,
+   "status": "same"
+  },
+  {
+   "name": "energyPath.engOnChargePct",
+   "published": 65.4,
+   "fresh": 65.4,
+   "absDelta": 0.0,
+   "relDeltaPct": 0.0,
+   "status": "same"
+  },
+  {
+   "name": "energyPath.regenTouchedPct",
+   "published": 49.6,
+   "fresh": 49.3,
+   "absDelta": -0.3,
+   "relDeltaPct": -0.6048,
+   "status": "changed_no_ci"
+  },
+  {
+   "name": "highSocRegen.peakP95Kw",
+   "published": 35.63,
+   "fresh": 35.58,
+   "absDelta": -0.05,
+   "relDeltaPct": -0.1403,
+   "publishedCI": [
+    34.31,
+    36.55
+   ],
+   "freshInsidePublishedCI": true,
+   "deltaInPublishedCIWidths": -0.0223,
+   "status": "inside_ci"
+  },
+  {
+   "name": "highSocRegen.highSocP95Kw",
+   "published": 30.32,
+   "fresh": 30.32,
+   "absDelta": 0.0,
+   "relDeltaPct": 0.0,
+   "status": "same"
+  },
+  {
+   "name": "highSocRegen.engineOnSharePct",
+   "published": 67.59,
+   "fresh": 67.56,
+   "absDelta": -0.03,
+   "relDeltaPct": -0.0444,
+   "status": "changed_no_ci"
+  },
+  {
+   "name": "EnergyIntensity.all (kWh/100km)",
+   "published": 17.345570954275164,
+   "fresh": 17.340750654151762,
+   "absDelta": -0.00482,
+   "relDeltaPct": -0.0278,
+   "publishedCI": [
+    15.79508770769226,
+    19.690905334669786
+   ],
+   "freshInsidePublishedCI": true,
+   "deltaInPublishedCIWidths": -0.0012,
+   "status": "inside_ci"
+  },
+  {
+   "name": "EnergyIntensity.warm",
+   "published": 16.861519601648006,
+   "fresh": 16.860840610112092,
+   "absDelta": -0.000679,
+   "relDeltaPct": -0.004,
+   "status": "changed_no_ci"
+  },
+  {
+   "name": "EnergyIntensity.shoulder",
+   "published": 26.49667893152387,
+   "fresh": 26.42391772303277,
+   "absDelta": -0.072761,
+   "relDeltaPct": -0.2746,
+   "status": "changed_no_ci"
+  }
+ ]
+}

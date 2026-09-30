@@ -35,6 +35,7 @@ STAGING = os.path.join(ROOT, "raw_only")
 
 
 CARRIED = []
+INHERITED_NOTES = []
 
 
 class Gate(Exception):
@@ -205,9 +206,18 @@ def carry_forward(arrays, prev):
     for k in carried:
         arrays[k] = prev[k]
     stamps = arrays.setdefault("_artifactStamps", {})
+    pst = prev.get("_artifactStamps") or {}
     for k in carried:                                   # provenance stamps travel with their blocks
-        if k not in stamps and k in (prev.get("_artifactStamps") or {}):
-            stamps[k] = prev["_artifactStamps"][k]
+        if k not in stamps and k in pst:
+            stamps[k] = pst[k]
+    # Blocks the build DID recompute keep their history note when the fresh stamp has none (post-step scripts such as
+    # records_resistance.py append to / rewrite that note and expect it to exist). Values/hash/time stay fresh.
+    inherited = []
+    for k, s in stamps.items():
+        if isinstance(s, dict) and "computationStatusNote" not in s and "computationStatusNote" in (pst.get(k) or {}):
+            s["computationStatusNote"] = pst[k]["computationStatusNote"]
+            inherited.append(k)
+    INHERITED_NOTES[:] = sorted(inherited)
     return carried
 
 
@@ -287,7 +297,7 @@ def main():
                   e4_master=os.path.join(ROOT, "e4orce_master.csv"), raw_dir=stage, verbose=False)
         if md5(os.path.join(ROOT, "drive_master.csv")) != m0:
             raise Gate("crosscheck inject changed drive_master.csv")
-        report.update(carried_forward_keys_stale_until_stage_runs=list(CARRIED), status="ok", rows_after=len(dm_disk), md5_after=m0, backup=os.path.relpath(bdir, ROOT))
+        report.update(carried_forward_keys_stale_until_stage_runs=list(CARRIED), stamp_notes_inherited=list(INHERITED_NOTES),status="ok", rows_after=len(dm_disk), md5_after=m0, backup=os.path.relpath(bdir, ROOT))
         rc = 0
     except BaseException as ex:   # incl. KeyboardInterrupt/SystemExit: never leave a partial write
         for f in OUT_FILES:
