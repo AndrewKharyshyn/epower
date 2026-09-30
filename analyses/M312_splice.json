@@ -1,0 +1,31 @@
+{
+ "script_sha256": "a01191918c5473337ae5ee15abfa49d3e720770ccad9d695beccb54a06baf20f",
+ "md5_before": "5197ab6dc2a44b99ccb246af03f8f6b0",
+ "rows": 489,
+ "n_days": 104,
+ "target_column": "cell_spread_loaded_p95_adj_hub_mv",
+ "rows_changed_text": 412,
+ "rows_old_nonnull": 437,
+ "rows_new_nonnull": 465,
+ "other_columns_changed": 0,
+ "ml16_diffs": "0/16",
+ "m19b_trend": {
+  "exclusion": "ens_outlier_v2",
+  "slope_hub_mv_per_month": 0.151,
+  "boot_ci95_mv_per_month": [
+   -0.131,
+   0.384
+  ],
+  "p_slope_gt0": 0.838,
+  "n_clean": 465,
+  "n_boot": 4000,
+  "huber_coef": {
+   "intercept": 15.955577577042344,
+   "bT": 0.046343673034057085,
+   "bI": 0.04477724793494088,
+   "I_ref": 101.9,
+   "n_days": 100
+  }
+ },
+ "md5_after": "bd9d10726bb064d857cf9ff98d2b7338"
+}

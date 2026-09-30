@@ -17,7 +17,7 @@ jobs:
       - name: Compile all Python
         run: python -m compileall -q *.py tools
       - name: Import integrity (files present, raw names/rows, master MD5)
-        run: python tools/verify_import.py --quick --expect-master-md5 0bcfc400d8ce2a0b15cdc7f3ddd8efff
+        run: python tools/verify_import.py --quick --expect-master-md5 bd9d10726bb064d857cf9ff98d2b7338
         env: {XT_RAW_DIR: raw}
       - name: Unit tests
         run: |

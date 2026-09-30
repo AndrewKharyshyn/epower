@@ -1184,53 +1184,9 @@ def _v5_postprocess_master(dm, verbose=True):
                               'domain': int(f_dom.sum()),
                               'ens_outlier': int(ens.sum())}
 
-    # ---------- M19: robust spread adjustment + bootstrap trend CI ----
-    if len(sc) >= 20 and 'date' in dm.columns:
-        try:
-            from sklearn.linear_model import HuberRegressor
-            clean = dm.loc[sc.index]
-            keep = ~clean['ens_outlier'].fillna(False).astype(bool).values \
-                if 'ens_outlier' in clean.columns else np.ones(len(clean), bool)
-            cc = clean[keep].dropna(subset=['date'])
-            Xh = cc[['T_pack_mean_avg', 'peak_I_discharge']].values
-            yh = cc['cell_spread_loaded_p95_mv'].values
-            hub = HuberRegressor(epsilon=1.35, max_iter=500).fit(Xh, yh)
-            I_ref = float(cc['peak_I_discharge'].median())
-            ref = hub.predict([[SPREAD_T_REF, I_ref]])[0]
-            adj_h = ref + (yh - hub.predict(Xh))
-            dm.loc[cc.index, 'cell_spread_loaded_p95_adj_hub_mv'] = \
-                np.round(adj_h, 1)
-            dt = pd.to_datetime(cc['date'])
-            t_mo = ((dt - dt.min()).dt.days / 30.44).values
-            slope = float(np.polyfit(t_mo, adj_h, 1)[0])
-            # cluster-by-day bootstrap of the OLS-adjusted slope
-            days = dt.dt.date.values
-            uniq = np.unique(days)
-            rng_ = np.random.default_rng(42)
-            boot = []
-            for _ in range(N_BOOT):
-                pick = rng_.choice(uniq, size=len(uniq), replace=True)
-                idx = np.concatenate(
-                    [np.where(days == d)[0] for d in pick])
-                if len(np.unique(t_mo[idx])) < 3:
-                    continue
-                b1 = np.linalg.lstsq(
-                    np.column_stack([np.ones(len(idx)), Xh[idx]]),
-                    yh[idx], rcond=None)[0]
-                a1 = (b1[0] + b1[1] * SPREAD_T_REF + b1[2] * I_ref) \
-                    + (yh[idx] - np.column_stack(
-                        [np.ones(len(idx)), Xh[idx]]) @ b1)
-                boot.append(float(np.polyfit(t_mo[idx], a1, 1)[0]))
-            boot = np.asarray(boot)
-            lo, hi = np.percentile(boot, [2.5, 97.5])
-            report['spread_trend'] = {
-                'slope_hub_mv_per_month': round(slope, 3),
-                'boot_ci95_mv_per_month': [round(float(lo), 3),
-                                           round(float(hi), 3)],
-                'p_slope_gt0': round(float((boot > 0).mean()), 3),
-                'n_clean': int(len(cc)), 'n_boot': int(len(boot))}
-        except Exception as ex:
-            report['spread_trend_error'] = str(ex)
+    # ---------- M19: moved to m19b_huber_adjust (M312, 2026-09-30) ----------
+    # The Huber spread adjustment + trend report used to run here on the v5 ensemble keep set (~ens_outlier, refit on every run and
+    # only afterwards restored from ML16). It now runs after ens_outlier_v2 exists, on the canonical keep set: see m19b_huber_adjust.
 
     if verbose:
         print('postprocess_master:', report)
@@ -1823,6 +1779,13 @@ def postprocess_master(dm, verbose=True):
     except Exception as ex:
         report['spread_trend_v2_error'] = str(ex)
 
+    # ---------- M19b (M312): Huber spread adjustment on the canonical keep set (~ens_outlier_v2) ----------
+    dm, _m19b = m19b_huber_adjust(dm)
+    if 'error' in _m19b:
+        report['spread_trend_error'] = _m19b['error']
+    else:
+        report['spread_trend'] = {k: v for k, v in _m19b.items() if k != 'huber_coef'}
+
     # ---------- M25: T-controlled power-fade trend (report only) ----------
     try:
         report['power_fade_trend'] = _powerfade_trend(dm)
@@ -1832,6 +1795,61 @@ def postprocess_master(dm, verbose=True):
     if verbose:
         print('postprocess_master(v6):', json.dumps(report, default=str)[:2000])
     return dm, report
+
+
+def m19b_huber_adjust(dm, exclusion_col='ens_outlier_v2'):
+    """M312 (2026-09-30), exclusion alignment. Robust (Huber) T/I-deconfounded loaded cell-spread level
+    `cell_spread_loaded_p95_adj_hub_mv` and its trend report, fitted on the canonical keep set ~ens_outlier_v2.
+
+    Same estimator as the former in-line M19 (HuberRegressor epsilon 1.35, max_iter 500; regressors T_pack_mean_avg and
+    peak_I_discharge; reference SPREAD_T_REF and I_ref = median peak_I_discharge of the kept rows; day-clustered bootstrap of the
+    OLS-adjusted slope, seed 42, N_BOOT draws). Only the keep set changed (was ~ens_outlier). The column is FULLY REWRITTEN:
+    a value for every kept row, NaN elsewhere. Falls back to ens_outlier on a pre-v6 master that has no ens_outlier_v2.
+    Returns (dm, spread_trend_report_or_error_dict). Single source: tools/m312_huber_alignment.py and tools/ingest_core.py import this."""
+    dm = dm.copy()
+    col = exclusion_col if exclusion_col in dm.columns else 'ens_outlier'
+    sc = dm.dropna(subset=['cell_spread_loaded_p95_mv', 'T_pack_mean_avg', 'peak_I_discharge'])
+    info = {'exclusion': col}
+    dm['cell_spread_loaded_p95_adj_hub_mv'] = np.nan
+    if len(sc) >= 20 and 'date' in dm.columns:
+        try:
+            from sklearn.linear_model import HuberRegressor
+            keep = ~sc[col].fillna(False).astype(bool).values if col in sc.columns else np.ones(len(sc), bool)
+            cc = sc[keep].dropna(subset=['date'])
+            Xh = cc[['T_pack_mean_avg', 'peak_I_discharge']].values
+            yh = cc['cell_spread_loaded_p95_mv'].values
+            hub = HuberRegressor(epsilon=1.35, max_iter=500).fit(Xh, yh)
+            I_ref = float(cc['peak_I_discharge'].median())
+            ref = hub.predict([[SPREAD_T_REF, I_ref]])[0]
+            adj_h = ref + (yh - hub.predict(Xh))
+            dm.loc[cc.index, 'cell_spread_loaded_p95_adj_hub_mv'] = np.round(adj_h, 1)
+            dt = pd.to_datetime(cc['date'])
+            t_mo = ((dt - dt.min()).dt.days / 30.44).values
+            slope = float(np.polyfit(t_mo, adj_h, 1)[0])
+            days = dt.dt.date.values
+            uniq = np.unique(days)
+            rng_ = np.random.default_rng(42)
+            boot = []
+            for _ in range(N_BOOT):
+                pick = rng_.choice(uniq, size=len(uniq), replace=True)
+                idx = np.concatenate([np.where(days == d)[0] for d in pick])
+                if len(np.unique(t_mo[idx])) < 3:
+                    continue
+                X1 = np.column_stack([np.ones(len(idx)), Xh[idx]])
+                b1 = np.linalg.lstsq(X1, yh[idx], rcond=None)[0]
+                a1 = (b1[0] + b1[1] * SPREAD_T_REF + b1[2] * I_ref) + (yh[idx] - X1 @ b1)
+                boot.append(float(np.polyfit(t_mo[idx], a1, 1)[0]))
+            boot = np.asarray(boot)
+            lo, hi = np.percentile(boot, [2.5, 97.5])
+            info.update({'slope_hub_mv_per_month': round(slope, 3),
+                         'boot_ci95_mv_per_month': [round(float(lo), 3), round(float(hi), 3)],
+                         'p_slope_gt0': round(float((boot > 0).mean()), 3),
+                         'n_clean': int(len(cc)), 'n_boot': int(len(boot)),
+                         'huber_coef': {'intercept': float(hub.intercept_), 'bT': float(hub.coef_[0]), 'bI': float(hub.coef_[1]),
+                                        'I_ref': I_ref, 'n_days': int(len(uniq))}})
+        except Exception as ex:
+            info['error'] = str(ex)
+    return dm, info
 
 
 def _spread_trend(dm, keep_mask):

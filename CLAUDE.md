@@ -51,7 +51,7 @@ Whenever `xtrail_dashboard.html` is rebuilt with a content change (new/changed f
 byte-identical rebuild): (1) present it in the session: `SendUserFile` with `display: "render"` on `xtrail_dashboard.html`,
 plus one line stating what changed and which `S.*` keys it binds to; (2) commit it and push it to GitHub on the session's
 working branch together with the sources (`xtrail_summary.jsx`, `summary_arrays.json`, `cohort_arrays.json`) in the same
-commit, so the repo dashboard always matches its sources. Do not open a PR unless Andrii asks.
+commit, so the repo dashboard always matches its sources. The agent opens the PR itself (see Version control); Andrii does not.
 
 ## Version control (standing)
 - `main` = last validated state only: `release_check.py` green, CHANGELOG `M###` entry present, commit tagged `M###`.
@@ -59,9 +59,11 @@ commit, so the repo dashboard always matches its sources. Do not open a PR unles
   (`claude/...`) is that branch; push only there, never to another branch without Andrii's permission.
 - Only one ingestion branch open at a time: `drive_master.csv`/`summary_*.json` conflict across parallel ingestions.
   Merge before starting the next.
-- Offer a pull request (do not create it unless Andrii asks) when the milestone is complete, the release gate is green, the
-  CHANGELOG entry is written and any required audit/Director decision is done. Never for work in progress or a red gate.
-  Use a merge commit (not squash) so `M###` history survives. PR body follows the repo template if one exists.
+- The agent opens the pull request itself (owner decision 2026-09-30: Andrii neither opens PRs nor merges; do not hand him a compare
+  link or ask him to click) when the milestone is complete, the release gate is green, the CHANGELOG entry is written and any required
+  audit/Director decision is done. Never for work in progress or a red gate. If no tool can open the PR (no `gh`, no GitHub connector,
+  Chrome extension not connected), say so and name what is missing; do not stop at a compare URL, and do not use stored credentials or
+  tokens to call the API. Use a merge commit (not squash) so `M###` history survives. PR body follows the repo template if one exists.
 - Merging is done by the agent, not by Andrii (owner decision 2026-09-30). Merge only when ALL hold on the PR's current head: every CI
   check green (no pending/red; `release-gate` included), the PR is not a draft and has no merge conflict, no open review thread
   waiting on the agent, the CHANGELOG `M###` entry exists and any required blind audit / Director decision is recorded. Use
