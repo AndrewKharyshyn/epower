@@ -288,6 +288,18 @@ def main():
         report.update(status="noop", rows_after=len(dm_old), md5_after=report["md5_before"])
         json.dump(report, open(rpath, "w"), indent=1)
         print(json.dumps(report, indent=1)); return 0
+    # M308 input-plausibility gate (fail closed): a flagged NEW file is quarantined = the whole ingestion stops, nothing is written,
+    # nothing is repaired. Andrii decides (Director review before any flagged file is ingested).
+    import plausibility_gate as pg
+    gate = [pg.check_path(p) for p in new_paths]
+    report["plausibility_checked"] = sum(1 for r in gate if r["checked"])
+    quarantined = [{"file": r["file"], "flags": r["flags"]} for r in gate if r["flags"]]
+    report["quarantined"] = quarantined
+    if quarantined:
+        report["status"] = "quarantined"
+        report["note"] = "input-plausibility gate (M308) flagged new file(s); nothing ingested or written; Andrii/Director decide"
+        json.dump(report, open(rpath, "w"), indent=1)
+        print(json.dumps(report, indent=1)); return 1
     if a.dry_run:
         report["status"] = "dry_run"
         print(json.dumps(report, indent=1)); return 0

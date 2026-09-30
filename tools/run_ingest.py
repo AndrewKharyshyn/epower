@@ -51,7 +51,10 @@ def main():
         t0 = time.time()
         log = os.path.join(rd, s["id"] + ".log")
         with open(log, "w") as lf:
-            r = subprocess.run(s["cmd"], cwd=ROOT, env=env, stdout=lf, stderr=subprocess.STDOUT)
+            senv = dict(env)
+            for k, v in (s.get("env") or {}).items():          # per-stage env; "$ROOT" expands to the repo root
+                senv[k] = v.replace("$ROOT", ROOT)
+            r = subprocess.run(s["cmd"], cwd=ROOT, env=senv, stdout=lf, stderr=subprocess.STDOUT)
         rec = {"id": s["id"], "rc": r.returncode, "seconds": round(time.time() - t0, 1),
                "outputs": {o: sha(os.path.join(ROOT, o)) for o in s.get("outputs", [])}}
         if r.returncode == 3 and s.get("implemented") is False:
