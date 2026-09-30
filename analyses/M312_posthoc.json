@@ -1,0 +1,15 @@
+{
+ "status": "POST-HOC, not pre-registered (prompted by the blind audit)",
+ "master_md5": "bd9d10726bb064d857cf9ff98d2b7338",
+ "common_rows": 465,
+ "n_days": 100,
+ "slope_fitA_on_common_rows_mv_per_month": 0.037298040327361635,
+ "slope_fitB_on_common_rows_mv_per_month": 0.08311149474164971,
+ "difference_B_minus_A": 0.04581345441428807,
+ "difference_ci95_day_clustered_bootstrap": [
+  -0.003999572551764517,
+  0.10028713133489778
+ ],
+ "failed_draws": 0,
+ "note": "fit A = Huber on ~ens_outlier rows, applied to all common rows; fit B = Huber on ~ens_outlier_v2 rows (== the common rows)"
+}
