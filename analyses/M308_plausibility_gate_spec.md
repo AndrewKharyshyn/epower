@@ -1,4 +1,4 @@
-# M308 spec (DRAFT, needs Andrii's sign-off before implementation): input-plausibility gate for NEW drives
+# M308 spec (APPROVED by Andrii 2026-09-30; implementation pending): input-plausibility gate for NEW drives
 Origin: Director decision on M307 (2026-09-30). Purpose: prevent silently ingesting corrupted or precision-reduced exports (F03 mechanism candidates).
 Scope: NEW raw files only, at ingestion (`tools/ingest_core.py`, before analyze_bytes). Never applied retroactively to the published master (that would be a method change needing its own spec).
 Thresholds fixed now, before any new data is seen:
@@ -8,3 +8,6 @@ Thresholds fixed now, before any new data is seen:
 Action on a flag: the file is quarantined (not ingested), listed in the ingest report with the reasons; nothing is repaired or edited; Andrii decides.
 Tests: known-answer on (a) the 6 drives with 0.1 V quantisation and a 53.0 V value (must flag), (b) hash-verified files (must pass), (c) synthetic values just inside/outside each threshold.
 Escalation: any flagged file goes to the Director before any decision to ingest it.
+
+## Sign-off
+Andrii approved the policy and thresholds above on 2026-09-30 ("Approve"). F03 remains OPEN (not reclassified). Implementation is the next milestone (M308) and must pass the known-answer tests listed before any ingestion.
