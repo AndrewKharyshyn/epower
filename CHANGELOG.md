@@ -1,3 +1,12 @@
+## M306 (2026-09-30): F03 headline sensitivity: 32 KPIs, Director decision (downgrade to sensitivity)
+
+**Rationale.** Full-chain fresh rebuilds (A: fresh master, B: ML16 restored) vs published: energy/GTR/resistance/power-fade headlines robust (<=0.6%, inside CIs, decisions unchanged); cell-spread slope not robust (+0.012 -> -1.67 mV/mo, mixed-effects fit fails and silently falls back to OLS) and traced to hash-failing early-month files only. Director: fresh result = provenance sensitivity; published stays reference of record; wording constraints and follow-ups F1-F5 in analyses/F03/README.md. ingest_core now carries forward downstream-owned keys/stamps; recon_engine BASE env-aware. No published data changed; Andrii sign-off needed for the dashboard flag.
+
+**State.** `drive_master.csv` 446 rows, MD5 `0bcfc400d8ce2a0b15cdc7f3ddd8efff`.
+
+**Files.** `analyses/F03/README.md`, `analyses/F03/headline_delta_scenarioA.json`, `analyses/F03/headline_delta_scenarioB.json`, `tools/f03_headline_kpis.json`, `tools/f03_headline_delta.py`, `tools/ingest_core.py`, `recon_engine.py`.
+
+
 ## M305 (2026-09-29): F03 sensitivity: fresh master rebuild from today's raw vs published (no data changed)
 
 **Rationale.** Non-destructive clean-room rebuild (analyses/F03/): 116/186 columns drift (M293 baseline 24/186); aggregate corpus sums move <=0.35%; canonical exclusion set differs by one drive (ens_outlier_v2 2->3) - escalated to Director. Published master/arrays remain reference of record; per-headline delta vs CI not yet computed.
