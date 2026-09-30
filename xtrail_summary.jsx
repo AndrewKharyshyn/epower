@@ -336,18 +336,33 @@ function GeneralGroup({ title, children }) {
 // M314: Thermal tab — every drive's ambient temperatures (start / interim / end), grouped month -> date, collapsible and searchable.
 // Bound to S.ambientTable (tools/build_ambient_table.py from summary_config.json ambientByDrive); no literals.
 const AMB_MON = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const AMB_COH = {warm:{fg:"#c2410c",bg:"#fff7ed",label:"Warm"}, shoulder:{fg:"#1d4ed8",bg:"#eff6ff",label:"Shoulder"}, cold:{fg:"#0e7490",bg:"#ecfeff",label:"Cold"}};
+// CSV of the rows currently shown (M315): one line per drive, interim readings joined with ";".
+function ambientCsv(rows) {
+  const esc = v => { const s = v==null ? "" : String(v); return /[",\n]/.test(s) ? '"'+s.replace(/"/g,'""')+'"' : s; };
+  const head = ["date","time","drive_no","km","start_c","interim_c","end_c","mean_c","cohort","file"];
+  return [head.join(",")].concat(rows.map(r=>[r.d,r.t,r.n,r.k,r.a[0],r.a.slice(1,-1).join(";"),r.a[r.a.length-1],r.m,r.c,r.f].map(esc).join(","))).join("\n")+"\n";
+}
 function AmbientTempTable({ T }) {
   const rows = T.rows || [];
   const fmt = v => (Number.isInteger(v) ? String(v) : v.toFixed(1));
   const lastMonth = rows.length ? rows[rows.length-1].d.slice(0,7) : null;
   const [q,setQ] = useState("");
+  const [coh,setCoh] = useState("all");
+  const [lo,setLo] = useState("");
+  const [hi,setHi] = useState("");
   const [openM,setOpenM] = useState(lastMonth ? {[lastMonth]:true} : {});
   const [openD,setOpenD] = useState({});
   const qn = q.trim().toLowerCase();
+  const active = !!qn || coh!=="all" || lo!=="" || hi!=="";
+  // every filter change resets the group states: matches open automatically; with no filter the default view (latest month) returns
+  const resetView = on => { setOpenD({}); setOpenM(!on && lastMonth ? {[lastMonth]:true} : {}); };
   const view = React.useMemo(()=>{
     const hay = r => { const m=+r.d.slice(5,7), dd=+r.d.slice(8,10), mn=AMB_MON[m-1];
       return [r.d, mn, mn.slice(0,3)+" "+dd, mn.slice(0,3)+" "+String(dd).padStart(2,"0"), r.t, "d"+r.n, r.f, r.a.map(fmt).join(" ")].join(" ").toLowerCase(); };
-    const f = qn ? rows.filter(r=>hay(r).includes(qn)) : rows;
+    const loN = lo==="" ? null : +lo, hiN = hi==="" ? null : +hi;
+    const inRange = r => (loN==null && hiN==null) || r.a.some(v => (loN==null || v>=loN) && (hiN==null || v<=hiN));
+    const f = rows.filter(r => (!qn || hay(r).includes(qn)) && (coh==="all" || r.c===coh) && inRange(r));
     const months = [], mi = {};
     f.forEach(r=>{ const mk=r.d.slice(0,7);
       if(!(mk in mi)){ mi[mk]=months.length; months.push({key:mk,days:[],dayIdx:{}}); }
@@ -355,23 +370,50 @@ function AmbientTempTable({ T }) {
       if(!(r.d in M.dayIdx)){ M.dayIdx[r.d]=M.days.length; M.days.push({date:r.d,rows:[]}); }
       M.days[M.dayIdx[r.d]].rows.push(r); });
     return {f, months};
-  },[rows,qn]);
+  },[rows,qn,coh,lo,hi]);
   const rng = rs => { let lo=Infinity,hi=-Infinity; rs.forEach(r=>r.a.forEach(v=>{ if(v<lo)lo=v; if(v>hi)hi=v; }));
     return lo===hi ? fmt(lo)+"°C" : fmt(lo)+"–"+fmt(hi)+"°C"; };
   const dow = d => ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][new Date(d+"T00:00:00Z").getUTCDay()];
-  const mOpen = k => (openM[k]!==undefined ? openM[k] : !!qn);
-  const dOpen = d => (openD[d]!==undefined ? openD[d] : !!qn);
+  const mOpen = k => (openM[k]!==undefined ? openM[k] : active);
+  const dOpen = d => (openD[d]!==undefined ? openD[d] : active);
+  const download = () => {
+    if (typeof Blob === "undefined" || typeof URL === "undefined" || typeof URL.createObjectURL !== "function") return;   // no blob downloads in this environment: do nothing rather than throw
+    try {
+      const blob = new Blob([ambientCsv(view.f)], {type:"text/csv;charset=utf-8"});
+      const url = URL.createObjectURL(blob), a = document.createElement("a");
+      a.href = url; a.download = "ambient_temperatures_per_drive.csv"; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=>{ try { URL.revokeObjectURL(url); } catch (e) {} }, 1000);
+    } catch (e) { /* download blocked by the host page: nothing to do */ }
+  };
+  const chip = (on) => ({fontSize:10,padding:"2px 9px",borderRadius:999,border:"1px solid "+(on?"#0f172a":"#cbd5e1"),background:on?"#0f172a":"#fff",color:on?"#fff":"#334155",cursor:"pointer",fontFamily:"inherit"});
+  const num = {width:58,fontSize:11,padding:"3px 6px",borderRadius:6,border:"1px solid #cbd5e1",fontFamily:"inherit"};
   const btn = {fontSize:10,padding:"3px 9px",borderRadius:6,border:"1px solid #cbd5e1",background:"#f8fafc",color:"#334155",cursor:"pointer",fontFamily:"inherit"};
   const th = {textAlign:"left",padding:"4px 8px",fontSize:9.5,fontWeight:700,color:"#64748b",borderBottom:"1px solid #e2e8f0",whiteSpace:"nowrap"};
   const td = {padding:"3px 8px",fontSize:10.5,color:"#334155",fontVariantNumeric:"tabular-nums",borderBottom:"1px solid #f1f5f9",whiteSpace:"nowrap"};
   return (
     <div data-amb-table="1">
       <div style={{display:"flex",flexWrap:"wrap",gap:6,alignItems:"center",marginBottom:8}}>
-        <input type="search" value={q} onChange={e=>{ const v=e.target.value; setQ(v); setOpenD({}); setOpenM(v.trim()==="" && lastMonth ? {[lastMonth]:true} : {}); }} placeholder="Find a drive: 2026-09-27, Sep 27, September, 13:43, 21.5 …" aria-label="Find a drive by date, time or temperature"
+        <input type="search" value={q} onChange={e=>{ const v=e.target.value; setQ(v); resetView(v.trim()!=="" || coh!=="all" || lo!=="" || hi!==""); }} placeholder="Find a drive: 2026-09-27, Sep 27, September, 13:43, 21.5 …" aria-label="Find a drive by date, time or temperature"
           style={{flex:"1 1 260px",minWidth:200,fontSize:11,padding:"5px 9px",borderRadius:6,border:"1px solid #cbd5e1",fontFamily:"inherit"}}/>
         <button style={btn} onClick={()=>{ const m={},d={}; view.months.forEach(M=>{ m[M.key]=true; M.days.forEach(D=>{ d[D.date]=true; }); }); setOpenM(m); setOpenD(d); }}>Expand all</button>
         <button style={btn} onClick={()=>{ const m={},d={}; view.months.forEach(M=>{ m[M.key]=false; M.days.forEach(D=>{ d[D.date]=false; }); }); setOpenM(m); setOpenD(d); }}>Collapse all</button>
-        <button style={btn} onClick={()=>{ setQ(""); setOpenM(lastMonth?{[lastMonth]:true}:{}); setOpenD({}); }}>Latest month only</button>
+        <button style={btn} onClick={()=>{ setQ(""); setCoh("all"); setLo(""); setHi(""); resetView(false); }}>Latest month only</button>
+      </div>
+      <div style={{display:"flex",flexWrap:"wrap",gap:6,alignItems:"center",marginBottom:8,fontSize:10.5,color:"#64748b"}}>
+        <span>Thermal class:</span>
+        <button data-amb-coh="all" style={chip(coh==="all")} onClick={()=>{ setCoh("all"); resetView(!!qn || lo!=="" || hi!==""); }}>All {rows.length}</button>
+        {["warm","shoulder","cold"].map(c=>(
+          <button key={c} data-amb-coh={c} style={chip(coh===c)} title={c==="cold" && T.cohortMinDrives ? "Below the "+T.cohortMinDrives+"-drive minimum: listed here, but not analysed as a cohort (M310)" : undefined}
+            onClick={()=>{ setCoh(c); resetView(true); }}>{AMB_COH[c].label}{c==="cold" && T.cohortMinDrives && (T.cohortCounts||{}).cold<T.cohortMinDrives ? "*" : ""} {(T.cohortCounts||{})[c]}</button>
+        ))}
+        <span style={{marginLeft:8}}>Any reading between</span>
+        <input data-amb-lo type="number" step="0.5" value={lo} placeholder="min" aria-label="Minimum ambient temperature, °C" style={num}
+          onChange={e=>{ const v=e.target.value; setLo(v); resetView(!!qn || coh!=="all" || v!=="" || hi!==""); }}/>
+        <span>and</span>
+        <input data-amb-hi type="number" step="0.5" value={hi} placeholder="max" aria-label="Maximum ambient temperature, °C" style={num}
+          onChange={e=>{ const v=e.target.value; setHi(v); resetView(!!qn || coh!=="all" || lo!=="" || v!==""); }}/>
+        <span>°C</span>
+        <button data-amb-csv style={{...btn,marginLeft:"auto"}} onClick={download} disabled={view.f.length===0}>Download CSV ({view.f.length} drives)</button>
       </div>
       <div style={{fontSize:10,color:"#64748b",marginBottom:8}}>
         {view.f.length} of {rows.length} drives shown · {view.months.length} month{view.months.length===1?"":"s"}{view.f.length ? " · "+rng(view.f) : ""}
@@ -399,8 +441,8 @@ function AmbientTempTable({ T }) {
                       </button>
                       {dopen && (
                         <div style={{overflowX:"auto"}}>
-                          <table style={{borderCollapse:"collapse",width:"100%",minWidth:520}}>
-                            <thead><tr><th style={th}>Drive</th><th style={th}>Start time</th><th style={th}>km</th><th style={th}>Start °C</th><th style={th}>Interim °C</th><th style={th}>End °C</th><th style={th}>End − start</th></tr></thead>
+                          <table style={{borderCollapse:"collapse",width:"100%",minWidth:700}}>
+                            <thead><tr><th style={th}>Drive</th><th style={th}>Start time</th><th style={th}>km</th><th style={th}>Start °C</th><th style={th}>Interim °C</th><th style={th}>End °C</th><th style={th}>End − start</th><th style={th} title="Time-weighted mean ambient of the drive (seasonal master)">Mean °C</th><th style={th}>Thermal class</th></tr></thead>
                             <tbody>
                               {D.rows.map(r=>{
                                 const s0=r.a[0], e0=r.a[r.a.length-1], mid=r.a.slice(1,-1), dl=e0-s0;
@@ -411,6 +453,8 @@ function AmbientTempTable({ T }) {
                                     <td style={td}>{mid.length ? mid.map(fmt).join(" → ") : <span style={{color:"#94a3b8"}}>{"—"}</span>}</td>
                                     <td style={{...td,fontWeight:700,color:"#0f172a"}}>{fmt(e0)}{r.s ? <span title="single recorded value (legacy entry): start = end" style={{color:"#b45309"}}> {"†"}</span> : null}</td>
                                     <td style={td}>{dl===0?"0":(dl>0?"+":"−")+Math.abs(dl).toFixed(1)}</td>
+                                    <td style={td}>{r.m==null?"—":r.m.toFixed(1)}</td>
+                                    <td style={td}>{AMB_COH[r.c] ? <span style={{display:"inline-block",padding:"0 7px",borderRadius:999,fontSize:9.5,fontWeight:700,color:AMB_COH[r.c].fg,background:AMB_COH[r.c].bg}}>{AMB_COH[r.c].label}</span> : r.c}</td>
                                   </tr>
                                 );
                               })}
@@ -10718,7 +10762,8 @@ export default function App() {
               Driver-recorded vehicle readouts for all {S.ambientTable.nDrives} drives on {S.ambientTable.nDays} days ({S.ambientTable.rangeC[0]}–{S.ambientTable.rangeC[1]}°C): the temperature at the start of the drive,
               any interim readings taken during it (chronological, {S.ambientTable.nInterimDrives} drives have them) and the end of the drive. They are entered by hand from the dashboard readout, are
               not calibrated (vehicle sensor, uncalibrated class) and set the thermal cohort of each drive. † marks {S.ambientTable.nSingleValueLegacy} older drives stored as a single value, shown as start = end.
-              Open a month, then a day; or type a date, time or temperature to jump to matching drives.
+              Open a month, then a day; or type a date, time or temperature to jump to matching drives. Narrow the list by thermal class (warm ≥15°C, shoulder 5–15°C, cold ≤5°C; a class with fewer than {S.ambientTable.cohortMinDrives} drives is listed but not analysed as a cohort*)
+              or by temperature range, and download what you see as CSV.
             </div>
             <AmbientTempTable T={S.ambientTable}/>
           </Section>)}
