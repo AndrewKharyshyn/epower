@@ -1,0 +1,43 @@
+{
+ "spec": "analyses/M317_spec.md rev 2",
+ "n_sims": 500,
+ "draws_per_interval": 1000,
+ "n_days": 100,
+ "drives_per_day_distribution": {
+  "n_days_real": 104,
+  "mean": 4.6826923076923075,
+  "max": 12
+ },
+ "design": {
+  "b_T": 0.05,
+  "b_I": 0.045,
+  "planted_time_slope_mv_per_month": 0.3,
+  "T_trend_per_day": 0.18,
+  "I_trend_per_day": 0.3,
+  "day_effect_sd": 1.0,
+  "noise": "0.8 x Student t(3)"
+ },
+ "estimand_theta_mv_per_month": 0.11338761780493503,
+ "point_estimate": {
+  "mean": 0.09203130469758454,
+  "sd": 0.06188226943121277,
+  "bias": -0.02135631310735049,
+  "mc_se_of_mean": 0.0027674592210029797
+ },
+ "primary": {
+  "n_valid": 500,
+  "coverage": 1.0,
+  "mc_se": 0.0,
+  "pass_band_0.92_0.98": false,
+  "mean_half_width": 0.25963925723256515
+ },
+ "S1": {
+  "n_valid": 500,
+  "coverage": 0.948,
+  "mc_se": 0.009929350431926557,
+  "pass_band_0.92_0.98": true,
+  "mean_half_width": 0.12383618817811878
+ },
+ "bias_within_2_mc_se": false,
+ "seconds": 1682
+}
