@@ -100,6 +100,7 @@ function buildS(config, arrays) {
     determinism: A.determinism || null,           // F-03 reproducibility proof
     masterRefitAudit: A.masterRefitAudit || null,  // M285 clean-room raw->master rebuild vs published master (original-era raw; reference of record)
     masterRefitProvenance: A.masterRefitProvenance || null,  // M311 rebuild from the repository raw archive: provenance sensitivity (F03)
+    ambientTable: A.ambientTable || null,          // M314 per-drive ambient temperatures (start / interim / end), tools/build_ambient_table.py
     rawManifest: A.rawManifest || null,           // F-02/F-19 corpus manifest
     constantProvenance: A.constantProvenance || null,      // F-09
     gpsAltitudeCoverage: A.gpsAltitudeCoverage || null,    // new grade channel
@@ -329,6 +330,102 @@ function GeneralGroup({ title, children }) {
     <div style={{marginBottom:12}}>
       <div style={{fontSize:11,fontWeight:700,color:"#0f172a",margin:"0 0 2px 0"}}>{title}</div>
       {children}
+    </div>
+  );
+}
+// M314: Thermal tab — every drive's ambient temperatures (start / interim / end), grouped month -> date, collapsible and searchable.
+// Bound to S.ambientTable (tools/build_ambient_table.py from summary_config.json ambientByDrive); no literals.
+const AMB_MON = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+function AmbientTempTable({ T }) {
+  const rows = T.rows || [];
+  const fmt = v => (Number.isInteger(v) ? String(v) : v.toFixed(1));
+  const lastMonth = rows.length ? rows[rows.length-1].d.slice(0,7) : null;
+  const [q,setQ] = useState("");
+  const [openM,setOpenM] = useState(lastMonth ? {[lastMonth]:true} : {});
+  const [openD,setOpenD] = useState({});
+  const qn = q.trim().toLowerCase();
+  const view = React.useMemo(()=>{
+    const hay = r => { const m=+r.d.slice(5,7), dd=+r.d.slice(8,10), mn=AMB_MON[m-1];
+      return [r.d, mn, mn.slice(0,3)+" "+dd, mn.slice(0,3)+" "+String(dd).padStart(2,"0"), r.t, "d"+r.n, r.f, r.a.map(fmt).join(" ")].join(" ").toLowerCase(); };
+    const f = qn ? rows.filter(r=>hay(r).includes(qn)) : rows;
+    const months = [], mi = {};
+    f.forEach(r=>{ const mk=r.d.slice(0,7);
+      if(!(mk in mi)){ mi[mk]=months.length; months.push({key:mk,days:[],dayIdx:{}}); }
+      const M=months[mi[mk]];
+      if(!(r.d in M.dayIdx)){ M.dayIdx[r.d]=M.days.length; M.days.push({date:r.d,rows:[]}); }
+      M.days[M.dayIdx[r.d]].rows.push(r); });
+    return {f, months};
+  },[rows,qn]);
+  const rng = rs => { let lo=Infinity,hi=-Infinity; rs.forEach(r=>r.a.forEach(v=>{ if(v<lo)lo=v; if(v>hi)hi=v; }));
+    return lo===hi ? fmt(lo)+"°C" : fmt(lo)+"–"+fmt(hi)+"°C"; };
+  const dow = d => ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][new Date(d+"T00:00:00Z").getUTCDay()];
+  const mOpen = k => (openM[k]!==undefined ? openM[k] : !!qn);
+  const dOpen = d => (openD[d]!==undefined ? openD[d] : !!qn);
+  const btn = {fontSize:10,padding:"3px 9px",borderRadius:6,border:"1px solid #cbd5e1",background:"#f8fafc",color:"#334155",cursor:"pointer",fontFamily:"inherit"};
+  const th = {textAlign:"left",padding:"4px 8px",fontSize:9.5,fontWeight:700,color:"#64748b",borderBottom:"1px solid #e2e8f0",whiteSpace:"nowrap"};
+  const td = {padding:"3px 8px",fontSize:10.5,color:"#334155",fontVariantNumeric:"tabular-nums",borderBottom:"1px solid #f1f5f9",whiteSpace:"nowrap"};
+  return (
+    <div data-amb-table="1">
+      <div style={{display:"flex",flexWrap:"wrap",gap:6,alignItems:"center",marginBottom:8}}>
+        <input type="search" value={q} onChange={e=>{ const v=e.target.value; setQ(v); setOpenD({}); setOpenM(v.trim()==="" && lastMonth ? {[lastMonth]:true} : {}); }} placeholder="Find a drive: 2026-09-27, Sep 27, September, 13:43, 21.5 …" aria-label="Find a drive by date, time or temperature"
+          style={{flex:"1 1 260px",minWidth:200,fontSize:11,padding:"5px 9px",borderRadius:6,border:"1px solid #cbd5e1",fontFamily:"inherit"}}/>
+        <button style={btn} onClick={()=>{ const m={},d={}; view.months.forEach(M=>{ m[M.key]=true; M.days.forEach(D=>{ d[D.date]=true; }); }); setOpenM(m); setOpenD(d); }}>Expand all</button>
+        <button style={btn} onClick={()=>{ const m={},d={}; view.months.forEach(M=>{ m[M.key]=false; M.days.forEach(D=>{ d[D.date]=false; }); }); setOpenM(m); setOpenD(d); }}>Collapse all</button>
+        <button style={btn} onClick={()=>{ setQ(""); setOpenM(lastMonth?{[lastMonth]:true}:{}); setOpenD({}); }}>Latest month only</button>
+      </div>
+      <div style={{fontSize:10,color:"#64748b",marginBottom:8}}>
+        {view.f.length} of {rows.length} drives shown · {view.months.length} month{view.months.length===1?"":"s"}{view.f.length ? " · "+rng(view.f) : ""}
+        {qn && view.f.length===0 ? " — no drive matches this search" : ""}
+      </div>
+      {view.months.map(M=>{
+        const mo = mOpen(M.key), nM = M.days.reduce((s,D)=>s+D.rows.length,0), mr = M.days.flatMap(D=>D.rows);
+        return (
+          <div key={M.key} data-amb-month={M.key} style={{marginBottom:6,border:"1px solid #e2e8f0",borderRadius:8,overflow:"hidden"}}>
+            <button onClick={()=>setOpenM(s=>({...s,[M.key]:!mo}))} aria-expanded={mo}
+              style={{width:"100%",textAlign:"left",display:"flex",justifyContent:"space-between",gap:8,padding:"7px 11px",background:mo?"#f1f5f9":"#f8fafc",border:"none",cursor:"pointer",fontFamily:"inherit"}}>
+              <span style={{fontSize:11.5,fontWeight:700,color:"#0f172a"}}>{AMB_MON[+M.key.slice(5,7)-1]} {M.key.slice(0,4)} <span style={{fontWeight:500,color:"#64748b"}}>· {nM} drives · {M.days.length} day{M.days.length===1?"":"s"} · {rng(mr)}</span></span>
+              <span style={{fontSize:10,color:"#64748b",flexShrink:0}}>{mo?"− collapse":"+ expand"}</span>
+            </button>
+            {mo && (
+              <div style={{padding:"4px 8px 8px",background:"#fff"}}>
+                {M.days.map(D=>{
+                  const dopen = dOpen(D.date);
+                  return (
+                    <div key={D.date} data-amb-date={D.date} style={{marginTop:4,border:"1px solid #f1f5f9",borderRadius:6,overflow:"hidden"}}>
+                      <button onClick={()=>setOpenD(s=>({...s,[D.date]:!dopen}))} aria-expanded={dopen}
+                        style={{width:"100%",textAlign:"left",display:"flex",justifyContent:"space-between",gap:8,padding:"5px 9px",background:dopen?"#f8fafc":"#fff",border:"none",cursor:"pointer",fontFamily:"inherit"}}>
+                        <span style={{fontSize:11,fontWeight:600,color:"#0f172a"}}>{dow(D.date)} {D.date} <span style={{fontWeight:500,color:"#64748b"}}>· {D.rows.length} drive{D.rows.length===1?"":"s"} · {rng(D.rows)}</span></span>
+                        <span style={{fontSize:10,color:"#94a3b8",flexShrink:0}}>{dopen?"−":"+"}</span>
+                      </button>
+                      {dopen && (
+                        <div style={{overflowX:"auto"}}>
+                          <table style={{borderCollapse:"collapse",width:"100%",minWidth:520}}>
+                            <thead><tr><th style={th}>Drive</th><th style={th}>Start time</th><th style={th}>km</th><th style={th}>Start °C</th><th style={th}>Interim °C</th><th style={th}>End °C</th><th style={th}>End − start</th></tr></thead>
+                            <tbody>
+                              {D.rows.map(r=>{
+                                const s0=r.a[0], e0=r.a[r.a.length-1], mid=r.a.slice(1,-1), dl=e0-s0;
+                                return (
+                                  <tr key={r.f}>
+                                    <td style={td}>D{r.n}</td><td style={td}>{r.t}</td><td style={td}>{r.k==null?"—":r.k.toFixed(1)}</td>
+                                    <td style={{...td,fontWeight:700,color:"#0f172a"}}>{fmt(s0)}</td>
+                                    <td style={td}>{mid.length ? mid.map(fmt).join(" → ") : <span style={{color:"#94a3b8"}}>{"—"}</span>}</td>
+                                    <td style={{...td,fontWeight:700,color:"#0f172a"}}>{fmt(e0)}{r.s ? <span title="single recorded value (legacy entry): start = end" style={{color:"#b45309"}}> {"†"}</span> : null}</td>
+                                    <td style={td}>{dl===0?"0":(dl>0?"+":"−")+Math.abs(dl).toFixed(1)}</td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -10615,6 +10712,16 @@ export default function App() {
               Warmup time constant <strong style={{color:"#0f172a"}}>τ ≈ {TS.tauWarmupMinMedian} min</strong> (IQR {TS.tauWarmupMinIQR?.[0]}–{TS.tauWarmupMinIQR?.[1]} min, range {TS.tauWarmupMinRange?.[0]}–{TS.tauWarmupMinRange?.[1]} min); steady-state median {TS.TssMedianC}°C from a {TS.T0MedianC}°C start (median rise {TS.riseMedianC}°C); fit quality R² median {TS.fitR2Median} (min {TS.fitR2Min}). <strong>Event-scale impulse response is not resolvable</strong> — the pack thermal mass low-pass-filters transient load steps far below the ~6 s pack-temperature PID cadence (minute-scale load explains ≈0% of the pack's dT/dt), so the meaningful thermal response lives at the bulk-warmup timescale, not the per-acceleration one. The pack therefore heats under load with τ ≈ {TS.tauWarmupMinMedian} min but cools when parked with τ ≈ {S.heatSoakCarryover?.soakTauH} h — an <strong>asymmetric time constant</strong> (~{S.heatSoakCarryover?.soakTauH!=null?Math.round(S.heatSoakCarryover.soakTauH*60/TS.tauWarmupMinMedian):"—"}× slower cooling): active dissipation heating vs passive convection to ambient.
             </div>
           </Section>);})()}
+        {S.ambientTable && S.ambientTable.rows && S.ambientTable.rows.length>0 && (
+          <Section title="Ambient Temperature per Drive — Start / Interim / End" accent="#0ea5e9">
+            <div style={{fontSize:10.5,color:"#64748b",lineHeight:1.6,marginBottom:10}}>
+              Driver-recorded vehicle readouts for all {S.ambientTable.nDrives} drives on {S.ambientTable.nDays} days ({S.ambientTable.rangeC[0]}–{S.ambientTable.rangeC[1]}°C): the temperature at the start of the drive,
+              any interim readings taken during it (chronological, {S.ambientTable.nInterimDrives} drives have them) and the end of the drive. They are entered by hand from the dashboard readout, are
+              not calibrated (vehicle sensor, uncalibrated class) and set the thermal cohort of each drive. † marks {S.ambientTable.nSingleValueLegacy} older drives stored as a single value, shown as start = end.
+              Open a month, then a day; or type a date, time or temperature to jump to matching drives.
+            </div>
+            <AmbientTempTable T={S.ambientTable}/>
+          </Section>)}
       </>)}
 
       {/* ── RECORDS ── */}
