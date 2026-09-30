@@ -77,6 +77,15 @@
    "verified": true
   },
   {
+   "id": "build_ambient_table",
+   "title": "Per-drive ambient table (start/interim/end) for the Thermal tab from summary_config.json ambientByDrive (M314)",
+   "cmd": [
+    "python3",
+    "tools/build_ambient_table.py"
+   ],
+   "verified": true
+  },
+  {
    "id": "fuel_recon",
    "title": "fuel_recon.py --all (fuel_recon_master.csv; raw read from staged raw_only/)",
    "cmd": [

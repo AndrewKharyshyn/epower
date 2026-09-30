@@ -27,7 +27,7 @@ from pathlib import Path
 SRC = Path(os.environ.get("XT_WORK", Path(__file__).resolve().parent))
 SEARCH = [SRC, SRC / "claude", SRC / "seasonal", SRC / "track3", SRC / "track4"]
 REQUIRED = ["xtrail_summary.jsx", "summary_arrays.json", "summary_config.json", "build_html.js", "validate_jsdom.js",
-            "test_cold_fixture.js", "package.json", "package-lock.json", "drive_master.csv", "soc_patterns.json",
+            "test_cold_fixture.js", "test_ambient_table.js", "package.json", "package-lock.json", "drive_master.csv", "soc_patterns.json",
             "seasonal_core.py", "seasonal_adjust.py", "test_seasonal_adjust.py", "cohort_arrays.py", "cohort_arrays.json",
             "seasonal_drive_master.csv", "seasonal_dependency.json", "raw_temperature_triplets.csv",
             "project_paths.py", "derived_literals.py", "build_assumptions_registry.py", "model_constants.py",
@@ -150,6 +150,14 @@ def payload_checks(arrays_path):
     checks["session ledgers cover the newest drive date and agree with the master (M313)"] = bool(
         newest and sla and all(newest not in ((sla.get(k) or {}).get("datesUncovered") or []) and (sla.get(k) or {}).get("nMismatched") == 0
                                for k in ("sessions", "sessionGroups")))
+
+    # (6) M314: the Thermal-tab ambient table lists EVERY drive (count == corpus), each with a valid [start, *interim, end] list, and reaches the newest date.
+    at = sa.get("ambientTable") or {}
+    arows = at.get("rows") or []
+    checks["ambient table covers every drive with [start, *interim, end] (M314)"] = bool(
+        arows and len(arows) == at.get("nDrives") == (sa.get("meta") or {}).get("totalDrives")
+        and all(isinstance(r.get("a"), list) and len(r["a"]) >= 2 and all(isinstance(x, (int, float)) for x in r["a"]) for r in arows)
+        and newest and max(r["d"] for r in arows) == newest)
     return checks
 
 def payload_warnings(arrays_path):
@@ -194,7 +202,7 @@ def main():
         if fails: return
         run(["npm", "ci", "--no-audit", "--no-fund"], tmp)
         if fails: return
-        run(["node", "build_html.js"], tmp); run(["node", "validate_jsdom.js"], tmp); run(["node", "test_cold_fixture.js"], tmp)
+        run(["node", "build_html.js"], tmp); run(["node", "validate_jsdom.js"], tmp); run(["node", "test_cold_fixture.js"], tmp); run(["node", "test_ambient_table.js"], tmp)   # M314: ambient table section (Thermal tab)
         # M299: semantic release gate — rendered prose (every tab x All/Warm/Shoulder/Compare) vs the one payload
         run(["node", "dump_tabs.js"], tmp, "render per-tab/per-mode text (dump_tabs.js)")
         run([sys.executable, "semantic_gate.py"], tmp, "semantic gate: forbidden wording + prose==payload + mode behaviour (M299)")

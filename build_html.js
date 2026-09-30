@@ -94,6 +94,7 @@ const REQUIRED_BLOCKS=[
   'seasonalCharts',
   'evidenceLedger',
   'masterRefitAudit',
+  'ambientTable',           // M314: per-drive ambient temperatures for the Thermal tab table (tools/build_ambient_table.py)
   'masterRefitProvenance',  // M311: rebuild from the repository raw archive, labelled provenance sensitivity (tools/build_refit_provenance.py)
   'provenanceSensitivity'   // M307/F03: computed provenance-sensitivity notice (f03_provenance_flag.py)
 ];
