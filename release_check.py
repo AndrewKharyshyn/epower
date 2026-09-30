@@ -33,7 +33,7 @@ REQUIRED = ["xtrail_summary.jsx", "summary_arrays.json", "summary_config.json", 
             "project_paths.py", "derived_literals.py", "build_assumptions_registry.py", "model_constants.py",
             "patch_m284_data.py", "test_assumptions_registry.py", "refresh_seasonal_kpis.py", "records_resistance.py",
             "records_rainflow.py", "cohort_distributions.py", "test_track4.py", "apply_m284_post.sh",
-            "dump_tabs.js", "semantic_gate.py", "test_cohort_rates.py", "records_disclosure.py"]
+            "dump_tabs.js", "semantic_gate.py", "test_cohort_rates.py", "records_disclosure.py", "f03_provenance_flag.py", "f03_provenance.json"]
 OPTIONAL = ["warm_baseline_freeze.json", "event_ledger.json", "compute_seasonal.py", "seasonal_config.json",
             "seasonal_arrays.json", "test_seasonal.py"]
 LEGACY_NEEDS = ["test_seasonal.py", "compute_seasonal.py", "seasonal_config.json", "seasonal_arrays.json",
@@ -144,6 +144,22 @@ def payload_warnings(arrays_path):
     if bad:
         warns.append(f"malformed ISO date tokens present {bad} - fn[:8] day-key defect; source fixed "
                      f"(_day_key), clears on the next ThermalFuelPenalty raw-pass regen (also widens its CIs)")
+    # M307 (Director, F5): degenerate mixed-effects fits are reported (the released estimator is then the cluster-robust OLS).
+    for m, d in (sa.get("degradationTrends") or {}).items():
+        if isinstance(d, dict) and (d.get("mixedEffects") or {}).get("degenerate"):
+            warns.append(f"degradationTrends.{m}: mixed-effects degenerate -> primaryEstimator={d.get('primaryEstimator')} "
+                         f"(fallback is disclosed; ingest_core aborts if it CHANGES vs the previous arrays)")
+    # M300 (Director): every stamp's fullConfigHash should equal md5(summary_config.json). WARN until the
+    # 5fb4cded... (stamped) vs on-disk config mismatch is investigated; then promote to FAIL.
+    import hashlib
+    cfg = Path(arrays_path).with_name("summary_config.json")
+    if cfg.exists():
+        h = hashlib.md5(cfg.read_bytes()).hexdigest()
+        stale = sorted({v.get("fullConfigHash") for v in sa.get("_artifactStamps", {}).values()
+                        if isinstance(v, dict) and v.get("fullConfigHash") not in (None, h)})
+        if stale:
+            warns.append(f"_artifactStamps fullConfigHash {stale} != md5(summary_config.json) {h} - stamped under a "
+                         f"different config revision; under investigation (M300)")
     return warns
 
 def main():

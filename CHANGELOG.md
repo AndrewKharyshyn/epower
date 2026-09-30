@@ -1,3 +1,75 @@
+## M307 (2026-09-30): F03 follow-ups F1-F3/F5 and provenance-sensitivity dashboard notice
+
+**Rationale.** Pre-registered spec (+Amendment 1) then F1/F1b/F2/F4/F3 computed and blind-audited (accept, reproduced to 4 dp); Director: accept with wording revisions, F03 stays open. F5: ingest_core estimator gate (+known-answer test, CI), release_check WARN. New computed key provenanceSensitivity (tools/f03_provenance_build.py -> f03_provenance.json -> f03_provenance_flag.py in apply_m284_post.sh) rendered as a data-provenance notice in the degradation tab (rebuild slope kept in payload only). No published numeric value changed; summary_arrays.json gained one key + stamp. M308 plausibility-gate spec drafted, awaiting Andrii sign-off.
+
+**State.** `drive_master.csv` 446 rows, MD5 `0bcfc400d8ce2a0b15cdc7f3ddd8efff`.
+
+**Files.** `analyses/M307_f03_cellspread_spec.md`, `analyses/F03/M307_results.md`, `analyses/M308_plausibility_gate_spec.md`, `tools/f03_followups.py`, `tools/f03_f3_inspect.py`, `tools/f03_provenance_build.py`, `f03_provenance_flag.py`, `f03_provenance.json`, `summary_arrays.json`, `xtrail_summary.jsx`, `xtrail_dashboard.html`, `build_html.js`, `apply_m284_post.sh`, `release_check.py`, `tools/ingest_core.py`, `tests/synthetic/test_estimator_gate.py`.
+
+
+## M306 (2026-09-30): F03 headline sensitivity: 32 KPIs, Director decision (downgrade to sensitivity)
+
+**Rationale.** Full-chain fresh rebuilds (A: fresh master, B: ML16 restored) vs published: energy/GTR/resistance/power-fade headlines robust (<=0.6%, inside CIs, decisions unchanged); cell-spread slope not robust (+0.012 -> -1.67 mV/mo, mixed-effects fit fails and silently falls back to OLS) and traced to hash-failing early-month files only. Director: fresh result = provenance sensitivity; published stays reference of record; wording constraints and follow-ups F1-F5 in analyses/F03/README.md. ingest_core now carries forward downstream-owned keys/stamps; recon_engine BASE env-aware. No published data changed; Andrii sign-off needed for the dashboard flag.
+
+**State.** `drive_master.csv` 446 rows, MD5 `0bcfc400d8ce2a0b15cdc7f3ddd8efff`.
+
+**Files.** `analyses/F03/README.md`, `analyses/F03/headline_delta_scenarioA.json`, `analyses/F03/headline_delta_scenarioB.json`, `tools/f03_headline_kpis.json`, `tools/f03_headline_delta.py`, `tools/ingest_core.py`, `recon_engine.py`.
+
+
+## M305 (2026-09-29): F03 sensitivity: fresh master rebuild from today's raw vs published (no data changed)
+
+**Rationale.** Non-destructive clean-room rebuild (analyses/F03/): 116/186 columns drift (M293 baseline 24/186); aggregate corpus sums move <=0.35%; canonical exclusion set differs by one drive (ens_outlier_v2 2->3) - escalated to Director. Published master/arrays remain reference of record; per-headline delta vs CI not yet computed.
+
+**State.** `drive_master.csv` 446 rows, MD5 `0bcfc400d8ce2a0b15cdc7f3ddd8efff`.
+
+**Files.** `analyses/F03/README.md`, `analyses/F03/refit_today_vs_published.json`, `analyses/F03/per_file_drift.json`.
+
+
+## M304 (2026-09-29): F03 opened: raw content provenance; owner decision reclassified
+
+**Rationale.** Andrii approved (2026-09-29) reclassifying the raw/ decision from accepted limitation to open integrity item F03 after blind audit + Director (Opus) review; all raw files are phone exports, no other originals exist. Published master/arrays remain reference of record; fresh rebuild = provenance sensitivity. Wording constraints and ingestion conditions recorded in CLAUDE.md. Sensitivity recomputation (fresh master from today's raw, per-file drift inventory) started; no pipeline data changed.
+
+**State.** `drive_master.csv` 446 rows, MD5 `0bcfc400d8ce2a0b15cdc7f3ddd8efff`.
+
+**Files.** `CLAUDE.md`.
+
+
+## M303 (2026-09-29): ingest_core audit follow-up: atomic writes, BaseException rollback (tested)
+
+**Rationale.** Blind audit verdict revise: master reproduced independently; fixes applied (atomic writes, rollback on any BaseException, tested with an injected failure). Audit found and the author reproduced that raw/ files failing manifest sha256 do not reproduce the published per-drive values (raw content differs from the build input), which explains the ~1,130-leaf arrays gap; the owner decision treating raw/ as original is contradicted and is escalated. No pipeline data changed.
+
+**State.** `drive_master.csv` 446 rows, MD5 `0bcfc400d8ce2a0b15cdc7f3ddd8efff`.
+
+**Files.** `tools/ingest_core.py`, `analyses/M300_ingest_core_spec.md`.
+
+
+## M302 (2026-09-29): Implement tools/ingest_core.py (additive ingestion, gated, backup/restore)
+
+**Rationale.** ingest_core.py implemented per analyses/M300_ingest_core_spec.md; known-answer test (held-out drive) reproduces the published drive_master MD5 with 0/16 ML diffs; incremental arrays equal a full-master control build. Fresh arrays differ from the published M299 arrays in ~1,130 leaves (cause not established; raw copies not byte-identical, disclosed). Blind audit and Director review pending. Manifest updated append-only.
+
+**State.** `drive_master.csv` 446 rows, MD5 `0bcfc400d8ce2a0b15cdc7f3ddd8efff`.
+
+**Files.** `tools/ingest_core.py`, `tools/ingest_stages.json`, `analyses/M300_ingest_core_spec.md`, `.gitignore`.
+
+
+## M301 (2026-09-29): Retire claim register; dashboard-change rule; skills updated
+
+**Rationale.** claim-check skill, tools/claim_check.py and docs/claim_register.csv retired (owner decision; register was empty and unused). Article sign-off now recorded in the CHANGELOG entry. Standing rule added: a content change to xtrail_dashboard.html is presented in the session and pushed to GitHub with its sources. No data or numeric change.
+
+**State.** `drive_master.csv` 446 rows, MD5 `0bcfc400d8ce2a0b15cdc7f3ddd8efff`.
+
+**Files.** `CLAUDE.md`, `.claude/skills/ingest-drive/SKILL.md`, `.claude/skills/new-analysis/SKILL.md`, `MIGRATION.md`.
+
+
+## M300 (2026-09-29): Post-step idempotence fix; records_disclosure in post-step; release gate green
+
+**Rationale.** patch_m284_data.py no longer re-stamps blocks that already carry a stamp (guard was keyed to M284 note text that M293 replaced); apply_m284_post.sh now ends with records_disclosure.py. No change to shipped arrays; no numeric change. Shipped stamps carry fullConfigHash 5fb4cded..., which differs from md5 of on-disk summary_config.json (762f737a...); WARN check added, cause under investigation, no re-stamp. Director (Opus) decision: option A.
+
+**State.** `drive_master.csv` 446 rows, MD5 `0bcfc400d8ce2a0b15cdc7f3ddd8efff`.
+
+**Files.** `patch_m284_data.py`, `apply_m284_post.sh`, `release_check.py`, `test_post_step_idempotent.py`, `.github/workflows/ci.yml`.
+
+
 ## M294–M299 (2026-09-25): Independent audit of 24 Sep 2026 — feasible items implemented on the live 446-drive basis; semantic release gate added; full gate chain green
 
 **Trigger.** The independent dashboard audit dated 24 Sep 2026 (written against the 22 Sep / 410-drive release). Every finding was first re-checked against the live 446-drive payload, then the feasible ones were implemented in the order the audit recommends. `drive_master.csv` was not changed (MD5 **0bcfc400** before and after). All post-steps are idempotent: re-running them reproduces `summary_arrays.json` byte for byte.

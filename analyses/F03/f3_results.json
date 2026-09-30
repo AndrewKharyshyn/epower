@@ -1,0 +1,88 @@
+{
+ "nD": 99,
+ "nC": 99,
+ "nH": 109,
+ "features": [
+  "f01_max_decimals",
+  "f02_distinct_cellV",
+  "f03_quant_step_V",
+  "f04_nan_frac_cellV",
+  "f05_dup_timestamps",
+  "f06_nonmonotonic_time",
+  "f07_rows_minus_manifest",
+  "f08_spike_count_z6",
+  "f09_p95_loaded_pipeline",
+  "f10_p95_loaded_median3",
+  "f11_zero_spread_frac",
+  "f12_bytes_per_row"
+ ],
+ "aucPerFeature": {
+  "f01_max_decimals": 0.5303030303030303,
+  "f02_distinct_cellV": 0.5278543005815733,
+  "f03_quant_step_V": 0.5909090909090908,
+  "f04_nan_frac_cellV": 0.5227527803285379,
+  "f05_dup_timestamps": 0.500867258443016,
+  "f06_nonmonotonic_time": 0.5,
+  "f07_rows_minus_manifest": 0.5,
+  "f08_spike_count_z6": 0.5114784205693297,
+  "f09_p95_loaded_pipeline": 0.543362922150801,
+  "f10_p95_loaded_median3": 0.5580042852770125,
+  "f11_zero_spread_frac": 0.5193347617590042,
+  "f12_bytes_per_row": 0.5377002346699317
+ },
+ "bestFeature": "f03_quant_step_V",
+ "bestAUC": 0.5909090909090908,
+ "permutationNullMaxAUC": {
+  "n": 1000,
+  "seed": 42,
+  "p": 0.123,
+  "null95": 0.6055274971941638
+ },
+ "explains": false,
+ "medianByGroup": {
+  "D": {
+   "f01_max_decimals": 3.0,
+   "f02_distinct_cellV": 284.0,
+   "f03_quant_step_V": 0.001,
+   "f04_nan_frac_cellV": 0.959186,
+   "f05_dup_timestamps": 0.0,
+   "f06_nonmonotonic_time": 0.0,
+   "f07_rows_minus_manifest": 0.0,
+   "f08_spike_count_z6": 1.0,
+   "f09_p95_loaded_pipeline": 22.95,
+   "f10_p95_loaded_median3": 23.95,
+   "f11_zero_spread_frac": 0.00125,
+   "f12_bytes_per_row": 75.277155
+  },
+  "C": {
+   "f01_max_decimals": 3.0,
+   "f02_distinct_cellV": 300.0,
+   "f03_quant_step_V": 0.001,
+   "f04_nan_frac_cellV": 0.959191,
+   "f05_dup_timestamps": 0.0,
+   "f06_nonmonotonic_time": 0.0,
+   "f07_rows_minus_manifest": 0.0,
+   "f08_spike_count_z6": 1.0,
+   "f09_p95_loaded_pipeline": 23.0,
+   "f10_p95_loaded_median3": 23.0,
+   "f11_zero_spread_frac": 0.001294,
+   "f12_bytes_per_row": 75.329293
+  },
+  "H": {
+   "f01_max_decimals": 3.0,
+   "f02_distinct_cellV": 441.0,
+   "f03_quant_step_V": 0.001,
+   "f04_nan_frac_cellV": 0.951022,
+   "f05_dup_timestamps": 0.0,
+   "f06_nonmonotonic_time": 0.0,
+   "f07_rows_minus_manifest": 0.0,
+   "f08_spike_count_z6": 1.0,
+   "f09_p95_loaded_pipeline": 21.1,
+   "f10_p95_loaded_median3": 21.75,
+   "f11_zero_spread_frac": 0.0,
+   "f12_bytes_per_row": 119.205125
+  }
+ },
+ "matching": "C = hash-failing identical-spread drives, matched by calendar month (seed 42); H = hash-verified reported separately",
+ "wording": "any mechanism is a 'candidate mechanism (hypothesis)'; originals unavailable"
+}

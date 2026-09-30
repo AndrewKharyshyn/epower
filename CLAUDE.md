@@ -46,10 +46,34 @@ Every applied change is recorded: newest first, `## M###` prefix, prepended by c
 boundary-spanning `str_replace` on a heading). Use `python tools/changelog_draft.py ...`; the model writes only the
 rationale line. Large function insertions: two-step marker-then-body pattern.
 
+## Dashboard change rule (standing)
+Whenever `xtrail_dashboard.html` is rebuilt with a content change (new/changed figure, KPI, tab or wording; not a
+byte-identical rebuild): (1) present it in the session: `SendUserFile` with `display: "render"` on `xtrail_dashboard.html`,
+plus one line stating what changed and which `S.*` keys it binds to; (2) commit it and push it to GitHub on the session's
+working branch together with the sources (`xtrail_summary.jsx`, `summary_arrays.json`, `cohort_arrays.json`) in the same
+commit, so the repo dashboard always matches its sources. Do not open a PR unless Andrii asks.
+
+## Version control (standing)
+- `main` = last validated state only: `release_check.py` green, CHANGELOG `M###` entry present, commit tagged `M###`.
+- One short-lived branch per milestone (ingestion batch, method change, tooling change). The session's assigned branch
+  (`claude/...`) is that branch; push only there, never to another branch without Andrii's permission.
+- Only one ingestion branch open at a time: `drive_master.csv`/`summary_*.json` conflict across parallel ingestions.
+  Merge before starting the next.
+- Offer a pull request (do not create it unless Andrii asks) when the milestone is complete, the release gate is green, the
+  CHANGELOG entry is written and any required audit/Director decision is done. Never for work in progress or a red gate.
+  Use a merge commit (not squash) so `M###` history survives. PR body follows the repo template if one exists.
+- Merging is done by the agent, not by Andrii (owner decision 2026-09-30). Merge only when ALL hold on the PR's current head: every CI
+  check green (no pending/red; `release-gate` included), the PR is not a draft and has no merge conflict, no open review thread
+  waiting on the agent, the CHANGELOG `M###` entry exists and any required blind audit / Director decision is recorded. Use
+  `merge_method: merge` with `expectedHeadSha`. Never merge on red or pending CI, never force-push or bypass a gate; if a condition
+  fails, fix it or tell Andrii what blocks. After the merge, restart the branch from `main` and push (see the rule below).
+- After a PR is merged, restart the branch from the latest `main` (`git fetch origin main && git checkout -B <branch> origin/main`);
+  never stack new commits on merged history.
+
 ## Workflow entry points
 - Routine ingestion: skill `ingest-drive` (runs `python tools/run_ingest.py`; stops on any failed gate).
 - New analysis / method change: skill `new-analysis` (pre-registered spec, blind audit, Director decision).
-- Article claims: skill `claim-check` (`docs/claim_register.csv`).
+- Article claims: no register (retired M301). A figure entering the article needs an Opus audit and Andrii's explicit sign-off, recorded in the CHANGELOG entry.
 - Release gate (authoritative, clean environment): `python release_check.py`.
 - jsdom validation needs `node_modules` (`npm ci`); wait a full 300 ms per tab before targeting content.
 
@@ -59,11 +83,41 @@ failures; NO code edits, NO gate bypass), `analytical-auditor` (Sonnet: blind re
 `research-director` (Opus: methodology, interpretation, go/no-go on figures). Subagents cannot spawn subagents;
 the main session dispatches all of them. Agents exchange JSON briefs (<2 KB), never prose summaries of numbers.
 Escalate: any new headline figure or method change -> blind audit; any figure entering the article -> Opus audit
-plus Andrii's sign-off recorded in `docs/claim_register.csv`.
+plus Andrii's sign-off recorded in the CHANGELOG entry.
+
+### Effort by role and task type (set per dispatch, escalate on a trigger, not a hunch)
+| Work | Model / effort | Notes |
+|---|---|---|
+| Run scripts, inventory, MD5/row-count checks, log triage | `data-worker` Haiku, low | Deterministic; no interpretation, no code edits. |
+| Tooling, tests, ingestion code, routine fixes | Sonnet main, medium | Read real signatures with grep first; known-answer test for new estimators. |
+| Blind reproduction and method review | `analytical-auditor` Sonnet, high (Opus for article-bound/thesis-level) | Independence matters more than speed; give claim + data path only. |
+| Methodology, go/no-go on a figure, article claims | `research-director` Opus, high | Compact JSON briefs only; needs Andrii sign-off for article figures. |
+
+Escalation triggers: a flag in `delta_report.json`, a new headline figure, a method change, a KPI outside its previous CI,
+or a failed gate that is not a plain environment error. No trigger -> stay at the cheap tier. Effort never replaces the
+gates (script-written numbers, blind reproduction, Director decision). Each dispatch states scope and a stop condition
+(e.g. "resampling unit and leakage only" vs "full method review") and returns a JSON brief (<2 KB).
+
+## Owner decisions
+- 2026-09-29 (Andrii), superseding the earlier same-day decision "raw/ treated as original": open integrity item **F03
+  (raw content provenance)**, linked to F02. 335/457 files in `raw/` fail `raw_manifest.json` sha256 AND normHash (row counts
+  match); a stratified re-analysis showed hash-matching files reproduce the published master exactly (0 cells) while
+  hash-failing files do not (442 cells in 15 sampled). All raw files are phone exports; no other originals exist.
+  Reference of record for published figures = the published master/arrays (`drive_master.csv` MD5 `0bcfc400...`);
+  a fresh rebuild from today's `raw/` is a **provenance-sensitivity analysis**, not a correction. Do not switch silently.
+- Wording (Director, 2026-09-29): never "reproducible from raw data" for raw-pass keys. Disclose: "published values derived from
+  the M299 corpus; 335/457 archived raw copies do not match recorded hashes and do not reproduce per-drive values; originals
+  unavailable". Call fresh-rebuild deltas "provenance sensitivity", never "corrections"/"errors". No new article figure from
+  raw-pass keys until F03 is resolved or Andrii signs off a disclosed dual report. A delta that moves a figure outside its CI or
+  flips a TOST/decision outcome escalates to the Director.
+- Ingesting new drives (new phone exports) is allowed under: sha256/normHash of each new file recorded at ingestion and an
+  off-chat backup kept; 0/16 ML diffs and 0 pre-existing-row diffs gates; arrays step attributed via a no-new-drive control build
+  (or splice) so provenance drift is not mixed into new-data changes; post-ingest arrays labelled "not M299-reproducible".
+- Do not modify raw files or `raw_manifest.json` records; `tools/verify_import.py` (full mode) keeps reporting the mismatch.
 
 ## Open items (verify against CHANGELOG/disk before acting)
 - Clean-room raw->master rebuild is an OPEN item (published master differs from a fresh rebuild in ML columns).
-- F02 (raw-archive byte identity) blocked: requires an unavailable raw archive.
+- F02 (raw-archive byte identity) blocked: requires an unavailable raw archive. F03 (raw content provenance): see Owner decisions.
 - `recon_engine.py` battery-current sign convention: confirm resolution in CHANGELOG (M258+); GTR headline must
   match `fuel_recon_master.csv` regenerated by `fuel_recon.py --all`.
 - Bring-forward: `assemble()` in `m119v2_model.py` methodology text; `corpus_manifest._classify` e4orce bug.

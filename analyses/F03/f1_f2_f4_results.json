@@ -1,0 +1,656 @@
+{
+ "published_reference": {
+  "slope": 0.0115,
+  "ci": [
+   -0.2892,
+   0.3122
+  ]
+ },
+ "decisionEstimator": "clusterRobustOLS t(G-1); no day-bootstrap",
+ "datasets": {
+  "P": {
+   "full": {
+    "nObs": 423,
+    "nDays": 92,
+    "windowMonths": 4.27,
+    "olsSlope": 0.0115,
+    "olsSE": 0.1534,
+    "olsCI95": [
+     -0.2892,
+     0.3122
+    ],
+    "mixedDegenerate": false,
+    "mixedSlope": -0.0163,
+    "pTOST": 0.0772,
+    "error": null,
+    "ciContainsPublishedSlope": true,
+    "ciContainsOwnFullSlope": true
+   },
+   "leaveOneMonthOut": {
+    "2026-05": {
+     "nObs": 396,
+     "nDays": 86,
+     "windowMonths": 3.65,
+     "olsSlope": -0.0822,
+     "olsSE": 0.2189,
+     "olsCI95": [
+      -0.5112,
+      0.3468
+     ],
+     "mixedDegenerate": false,
+     "mixedSlope": -0.1044,
+     "pTOST": 0.248,
+     "error": null,
+     "ciContainsPublishedSlope": true,
+     "ciContainsOwnFullSlope": true,
+     "influence_absDeltaSlope_over_fullSE": 0.611
+    },
+    "2026-06": {
+     "nObs": 361,
+     "nDays": 74,
+     "windowMonths": 4.27,
+     "olsSlope": 0.0428,
+     "olsSE": 0.1711,
+     "olsCI95": [
+      -0.2925,
+      0.3781
+     ],
+     "mixedDegenerate": true,
+     "mixedSlope": null,
+     "pTOST": 0.1364,
+     "error": null,
+     "ciContainsPublishedSlope": true,
+     "ciContainsOwnFullSlope": true,
+     "influence_absDeltaSlope_over_fullSE": 0.204
+    },
+    "2026-07": {
+     "nObs": 330,
+     "nDays": 72,
+     "windowMonths": 4.27,
+     "olsSlope": 0.0228,
+     "olsSE": 0.1533,
+     "olsCI95": [
+      -0.2777,
+      0.3232
+     ],
+     "mixedDegenerate": true,
+     "mixedSlope": null,
+     "pTOST": 0.0885,
+     "error": null,
+     "ciContainsPublishedSlope": true,
+     "ciContainsOwnFullSlope": true,
+     "influence_absDeltaSlope_over_fullSE": 0.074
+    },
+    "2026-08": {
+     "nObs": 319,
+     "nDays": 66,
+     "windowMonths": 4.27,
+     "olsSlope": 0.1309,
+     "olsSE": 0.1501,
+     "olsCI95": [
+      -0.1634,
+      0.4251
+     ],
+     "mixedDegenerate": true,
+     "mixedSlope": 0.1201,
+     "pTOST": 0.2518,
+     "error": null,
+     "ciContainsPublishedSlope": true,
+     "ciContainsOwnFullSlope": true,
+     "influence_absDeltaSlope_over_fullSE": 0.778
+    },
+    "2026-09": {
+     "nObs": 286,
+     "nDays": 70,
+     "windowMonths": 3.55,
+     "olsSlope": -0.3527,
+     "olsSE": 0.2557,
+     "olsCI95": [
+      -0.8538,
+      0.1484
+     ],
+     "mixedDegenerate": true,
+     "mixedSlope": null,
+     "pTOST": 0.681,
+     "error": null,
+     "ciContainsPublishedSlope": true,
+     "ciContainsOwnFullSlope": true,
+     "influence_absDeltaSlope_over_fullSE": 2.374
+    }
+   },
+   "maxInfluence": 2.374,
+   "excludeMayJun": {
+    "nObs": 334,
+    "nDays": 68,
+    "windowMonths": 2.69,
+    "olsSlope": -0.178,
+    "olsSE": 0.3824,
+    "olsCI95": [
+     -0.9274,
+     0.5714
+    ],
+    "mixedDegenerate": false,
+    "mixedSlope": -0.1569,
+    "pTOST": 0.4442,
+    "error": null,
+    "ciContainsPublishedSlope": true,
+    "ciContainsOwnFullSlope": true
+   },
+   "nFitsCIContainPublished": 6,
+   "nFits": 6,
+   "confoundingNote": "month is confounded with hash status (no hash-verified drives in May-Jul): date effect and alteration effect are not separable"
+  },
+  "A_Pexcl": {
+   "full": {
+    "nObs": 423,
+    "nDays": 92,
+    "windowMonths": 4.27,
+    "olsSlope": -1.6234,
+    "olsSE": 0.555,
+    "olsCI95": [
+     -2.7112,
+     -0.5357
+    ],
+    "mixedDegenerate": true,
+    "mixedSlope": null,
+    "pTOST": 0.993,
+    "error": null,
+    "ciContainsPublishedSlope": false,
+    "ciContainsOwnFullSlope": true
+   },
+   "leaveOneMonthOut": {
+    "2026-05": {
+     "nObs": 396,
+     "nDays": 86,
+     "windowMonths": 3.65,
+     "olsSlope": -2.2121,
+     "olsSE": 0.7971,
+     "olsCI95": [
+      -3.7744,
+      -0.6499
+     ],
+     "mixedDegenerate": true,
+     "mixedSlope": null,
+     "pTOST": 0.9925,
+     "error": null,
+     "ciContainsPublishedSlope": false,
+     "ciContainsOwnFullSlope": true,
+     "influence_absDeltaSlope_over_fullSE": 1.061
+    },
+    "2026-06": {
+     "nObs": 361,
+     "nDays": 74,
+     "windowMonths": 4.27,
+     "olsSlope": -0.6838,
+     "olsSE": 0.4049,
+     "olsCI95": [
+      -1.4773,
+      0.1098
+     ],
+     "mixedDegenerate": true,
+     "mixedSlope": null,
+     "pTOST": 0.866,
+     "error": null,
+     "ciContainsPublishedSlope": true,
+     "ciContainsOwnFullSlope": false,
+     "influence_absDeltaSlope_over_fullSE": 1.693
+    },
+    "2026-07": {
+     "nObs": 330,
+     "nDays": 72,
+     "windowMonths": 4.27,
+     "olsSlope": -1.7804,
+     "olsSE": 0.631,
+     "olsCI95": [
+      -3.0172,
+      -0.5436
+     ],
+     "mixedDegenerate": true,
+     "mixedSlope": null,
+     "pTOST": 0.9917,
+     "error": null,
+     "ciContainsPublishedSlope": false,
+     "ciContainsOwnFullSlope": true,
+     "influence_absDeltaSlope_over_fullSE": 0.283
+    },
+    "2026-08": {
+     "nObs": 319,
+     "nDays": 66,
+     "windowMonths": 4.27,
+     "olsSlope": -1.4767,
+     "olsSE": 0.5594,
+     "olsCI95": [
+      -2.5731,
+      -0.3804
+     ],
+     "mixedDegenerate": true,
+     "mixedSlope": null,
+     "pTOST": 0.9852,
+     "error": null,
+     "ciContainsPublishedSlope": false,
+     "ciContainsOwnFullSlope": true,
+     "influence_absDeltaSlope_over_fullSE": 0.264
+    },
+    "2026-09": {
+     "nObs": 286,
+     "nDays": 70,
+     "windowMonths": 3.55,
+     "olsSlope": -2.4224,
+     "olsSE": 0.8153,
+     "olsCI95": [
+      -4.0204,
+      -0.8245
+     ],
+     "mixedDegenerate": true,
+     "mixedSlope": null,
+     "pTOST": 0.9955,
+     "error": null,
+     "ciContainsPublishedSlope": false,
+     "ciContainsOwnFullSlope": true,
+     "influence_absDeltaSlope_over_fullSE": 1.44
+    }
+   },
+   "maxInfluence": 1.693,
+   "excludeMayJun": {
+    "nObs": 334,
+    "nDays": 68,
+    "windowMonths": 2.69,
+    "olsSlope": -0.5609,
+    "olsSE": 0.5233,
+    "olsCI95": [
+     -1.5866,
+     0.4648
+    ],
+    "mixedDegenerate": true,
+    "mixedSlope": null,
+    "pTOST": 0.7342,
+    "error": null,
+    "ciContainsPublishedSlope": true,
+    "ciContainsOwnFullSlope": false
+   },
+   "nFitsCIContainPublished": 2,
+   "nFits": 6,
+   "confoundingNote": "month is confounded with hash status (no hash-verified drives in May-Jul): date effect and alteration effect are not separable"
+  },
+  "A_ownExcl": {
+   "full": {
+    "nObs": 422,
+    "nDays": 92,
+    "windowMonths": 4.27,
+    "olsSlope": -1.6668,
+    "olsSE": 0.5547,
+    "olsCI95": [
+     -2.754,
+     -0.5796
+    ],
+    "mixedDegenerate": true,
+    "mixedSlope": null,
+    "pTOST": 0.9944,
+    "error": null,
+    "ciContainsPublishedSlope": false,
+    "ciContainsOwnFullSlope": true
+   },
+   "leaveOneMonthOut": {
+    "2026-05": {
+     "nObs": 395,
+     "nDays": 86,
+     "windowMonths": 3.65,
+     "olsSlope": -2.2668,
+     "olsSE": 0.7962,
+     "olsCI95": [
+      -3.8274,
+      -0.7062
+     ],
+     "mixedDegenerate": true,
+     "mixedSlope": null,
+     "pTOST": 0.9938,
+     "error": null,
+     "ciContainsPublishedSlope": false,
+     "ciContainsOwnFullSlope": true,
+     "influence_absDeltaSlope_over_fullSE": 1.082
+    },
+    "2026-06": {
+     "nObs": 360,
+     "nDays": 74,
+     "windowMonths": 4.27,
+     "olsSlope": -0.7262,
+     "olsSE": 0.4024,
+     "olsCI95": [
+      -1.5149,
+      0.0626
+     ],
+     "mixedDegenerate": true,
+     "mixedSlope": null,
+     "pTOST": 0.8884,
+     "error": null,
+     "ciContainsPublishedSlope": true,
+     "ciContainsOwnFullSlope": false,
+     "influence_absDeltaSlope_over_fullSE": 1.696
+    },
+    "2026-07": {
+     "nObs": 329,
+     "nDays": 72,
+     "windowMonths": 4.27,
+     "olsSlope": -1.8173,
+     "olsSE": 0.6311,
+     "olsCI95": [
+      -3.0543,
+      -0.5804
+     ],
+     "mixedDegenerate": true,
+     "mixedSlope": null,
+     "pTOST": 0.9929,
+     "error": null,
+     "ciContainsPublishedSlope": false,
+     "ciContainsOwnFullSlope": true,
+     "influence_absDeltaSlope_over_fullSE": 0.271
+    },
+    "2026-08": {
+     "nObs": 318,
+     "nDays": 66,
+     "windowMonths": 4.27,
+     "olsSlope": -1.5279,
+     "olsSE": 0.5583,
+     "olsCI95": [
+      -2.6221,
+      -0.4338
+     ],
+     "mixedDegenerate": true,
+     "mixedSlope": null,
+     "pTOST": 0.9883,
+     "error": null,
+     "ciContainsPublishedSlope": false,
+     "ciContainsOwnFullSlope": true,
+     "influence_absDeltaSlope_over_fullSE": 0.25
+    },
+    "2026-09": {
+     "nObs": 286,
+     "nDays": 70,
+     "windowMonths": 3.55,
+     "olsSlope": -2.4224,
+     "olsSE": 0.8153,
+     "olsCI95": [
+      -4.0204,
+      -0.8245
+     ],
+     "mixedDegenerate": true,
+     "mixedSlope": null,
+     "pTOST": 0.9955,
+     "error": null,
+     "ciContainsPublishedSlope": false,
+     "ciContainsOwnFullSlope": true,
+     "influence_absDeltaSlope_over_fullSE": 1.362
+    }
+   },
+   "maxInfluence": 1.696,
+   "excludeMayJun": {
+    "nObs": 333,
+    "nDays": 68,
+    "windowMonths": 2.69,
+    "olsSlope": -0.6309,
+    "olsSE": 0.5183,
+    "olsCI95": [
+     -1.6467,
+     0.3849
+    ],
+    "mixedDegenerate": true,
+    "mixedSlope": null,
+    "pTOST": 0.778,
+    "error": null,
+    "ciContainsPublishedSlope": true,
+    "ciContainsOwnFullSlope": false
+   },
+   "nFitsCIContainPublished": 2,
+   "nFits": 6,
+   "confoundingNote": "month is confounded with hash status (no hash-verified drives in May-Jul): date effect and alteration effect are not separable"
+  },
+  "B_Pexcl": {
+   "full": {
+    "nObs": 423,
+    "nDays": 92,
+    "windowMonths": 4.27,
+    "olsSlope": -1.6234,
+    "olsSE": 0.555,
+    "olsCI95": [
+     -2.7112,
+     -0.5357
+    ],
+    "mixedDegenerate": true,
+    "mixedSlope": null,
+    "pTOST": 0.993,
+    "error": null,
+    "ciContainsPublishedSlope": false,
+    "ciContainsOwnFullSlope": true
+   },
+   "leaveOneMonthOut": {
+    "2026-05": {
+     "nObs": 396,
+     "nDays": 86,
+     "windowMonths": 3.65,
+     "olsSlope": -2.2121,
+     "olsSE": 0.7971,
+     "olsCI95": [
+      -3.7744,
+      -0.6499
+     ],
+     "mixedDegenerate": true,
+     "mixedSlope": null,
+     "pTOST": 0.9925,
+     "error": null,
+     "ciContainsPublishedSlope": false,
+     "ciContainsOwnFullSlope": true,
+     "influence_absDeltaSlope_over_fullSE": 1.061
+    },
+    "2026-06": {
+     "nObs": 361,
+     "nDays": 74,
+     "windowMonths": 4.27,
+     "olsSlope": -0.6838,
+     "olsSE": 0.4049,
+     "olsCI95": [
+      -1.4773,
+      0.1098
+     ],
+     "mixedDegenerate": true,
+     "mixedSlope": null,
+     "pTOST": 0.866,
+     "error": null,
+     "ciContainsPublishedSlope": true,
+     "ciContainsOwnFullSlope": false,
+     "influence_absDeltaSlope_over_fullSE": 1.693
+    },
+    "2026-07": {
+     "nObs": 330,
+     "nDays": 72,
+     "windowMonths": 4.27,
+     "olsSlope": -1.7804,
+     "olsSE": 0.631,
+     "olsCI95": [
+      -3.0172,
+      -0.5436
+     ],
+     "mixedDegenerate": true,
+     "mixedSlope": null,
+     "pTOST": 0.9917,
+     "error": null,
+     "ciContainsPublishedSlope": false,
+     "ciContainsOwnFullSlope": true,
+     "influence_absDeltaSlope_over_fullSE": 0.283
+    },
+    "2026-08": {
+     "nObs": 319,
+     "nDays": 66,
+     "windowMonths": 4.27,
+     "olsSlope": -1.4767,
+     "olsSE": 0.5594,
+     "olsCI95": [
+      -2.5731,
+      -0.3804
+     ],
+     "mixedDegenerate": true,
+     "mixedSlope": null,
+     "pTOST": 0.9852,
+     "error": null,
+     "ciContainsPublishedSlope": false,
+     "ciContainsOwnFullSlope": true,
+     "influence_absDeltaSlope_over_fullSE": 0.264
+    },
+    "2026-09": {
+     "nObs": 286,
+     "nDays": 70,
+     "windowMonths": 3.55,
+     "olsSlope": -2.4224,
+     "olsSE": 0.8153,
+     "olsCI95": [
+      -4.0204,
+      -0.8245
+     ],
+     "mixedDegenerate": true,
+     "mixedSlope": null,
+     "pTOST": 0.9955,
+     "error": null,
+     "ciContainsPublishedSlope": false,
+     "ciContainsOwnFullSlope": true,
+     "influence_absDeltaSlope_over_fullSE": 1.44
+    }
+   },
+   "maxInfluence": 1.693,
+   "excludeMayJun": {
+    "nObs": 334,
+    "nDays": 68,
+    "windowMonths": 2.69,
+    "olsSlope": -0.5609,
+    "olsSE": 0.5233,
+    "olsCI95": [
+     -1.5866,
+     0.4648
+    ],
+    "mixedDegenerate": true,
+    "mixedSlope": null,
+    "pTOST": 0.7342,
+    "error": null,
+    "ciContainsPublishedSlope": true,
+    "ciContainsOwnFullSlope": false
+   },
+   "nFitsCIContainPublished": 2,
+   "nFits": 6,
+   "confoundingNote": "month is confounded with hash status (no hash-verified drives in May-Jul): date effect and alteration effect are not separable"
+  }
+ },
+ "F1": {
+  "label": "identical cell_spread_loaded_p95_mv in P and A",
+  "nDrivesSubset": 347,
+  "nDrivesTotal": 446,
+  "fit": {
+   "nObs": 324,
+   "nDays": 86,
+   "windowMonths": 4.27,
+   "olsSlope": 0.1165,
+   "olsSE": 0.1898,
+   "olsCI95": [
+    -0.2556,
+    0.4885
+   ],
+   "mixedDegenerate": true,
+   "mixedSlope": null,
+   "pTOST": 0.2725,
+   "error": null,
+   "ciContainsPublishedSlope": true,
+   "ciContainsOwnFullSlope": false
+  },
+  "perMonth": {
+   "2026-05": {
+    "nDrives": 18,
+    "nDays": 6
+   },
+   "2026-06": {
+    "nDrives": 39,
+    "nDays": 17
+   },
+   "2026-07": {
+    "nDrives": 55,
+    "nDays": 18
+   },
+   "2026-08": {
+    "nDrives": 75,
+    "nDays": 23
+   },
+   "2026-09": {
+    "nDrives": 137,
+    "nDays": 22
+   }
+  },
+  "outcomes": {
+   "containsPublishedSlope": true,
+   "overlapsZero": true,
+   "containsPublishedButExcludesZero": false,
+   "containsBothPublishedAndAFull": false,
+   "containsAFull": false
+  },
+  "limits": "subset selected on the outcome difference itself: descriptive, not a confirmatory test; subset where published and fresh values coincide"
+ },
+ "F1b": {
+  "label": "hash-verified OR zero drift on fixed non-cell-voltage column list",
+  "nDrivesSubset": 168,
+  "nDrivesTotal": 446,
+  "fit": {
+   "nObs": 152,
+   "nDays": 25,
+   "windowMonths": 0.79,
+   "olsSlope": -0.4661,
+   "olsSE": 1.6153,
+   "olsCI95": [
+    -3.6321,
+    2.6999
+   ],
+   "mixedDegenerate": false,
+   "mixedSlope": -0.2099,
+   "pTOST": 0.557,
+   "error": null,
+   "ciContainsPublishedSlope": true,
+   "ciContainsOwnFullSlope": true
+  },
+  "perMonth": {
+   "2026-08": {
+    "nDrives": 15,
+    "nDays": 3
+   },
+   "2026-09": {
+    "nDrives": 137,
+    "nDays": 22
+   }
+  },
+  "outcomes": {
+   "containsPublishedSlope": true,
+   "overlapsZero": true,
+   "containsPublishedButExcludesZero": false,
+   "containsBothPublishedAndAFull": true,
+   "containsAFull": true
+  },
+  "overlapWithF1": {
+   "nBoth": 168,
+   "nOnlyS": 179,
+   "nOnlySprime": 0
+  },
+  "nHashVerified": 113,
+  "nHashFailing": 333,
+  "limits": "not conditioned on the outcome value but correlated with the alteration mechanism: descriptive"
+ },
+ "F4": {
+  "nObs": 109,
+  "nDays": 25,
+  "windowMonths": 0.79,
+  "olsSlope": -1.0405,
+  "olsSE": 1.7113,
+  "olsCI95": [
+   -4.3947,
+   2.3136
+  ],
+  "mixedDegenerate": false,
+  "mixedSlope": -0.9646,
+  "pTOST": 0.6796,
+  "error": null,
+  "mde80_mV_per_mo": 4.998,
+  "note": "no May-Jul coverage; report MDE only, no trend claim"
+ }
+}

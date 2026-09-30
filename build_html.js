@@ -93,7 +93,8 @@ const REQUIRED_BLOCKS=[
   '_artifactStamps',
   'seasonalCharts',
   'evidenceLedger',
-  'masterRefitAudit'
+  'masterRefitAudit',
+  'provenanceSensitivity'   // M307/F03: computed provenance-sensitivity notice (f03_provenance_flag.py)
 ];
 const missing=REQUIRED_BLOCKS.filter(k=>arraysObj[k]==null);
 if(missing.length){

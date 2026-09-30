@@ -1,0 +1,18 @@
+# F03 sensitivity: fresh raw->master rebuild from today's raw/ vs published drive_master.csv (2026-09-29)
+Produced by master_refit_audit.rebuild/compare (clean-room, drive_master.csv not modified), 446 rows, file set identical.
+- `refit_today_vs_published.json`: column-level comparison. Today: 70/186 columns identical, 116 drifted. M293 baseline (original-era raw): 162/186 identical, 24 drifted.
+- `per_file_drift.json`: drive -> drifted columns (all 446 drives drift in >=1 column, dominated by the known ML-refit columns and the corpus-level offset-derived `_corr` columns; per-drive counts are not a measure of provenance alone).
+- 92 columns drift now that did not at M293 (energy/charge splits, peaks, cell spread, accel, odo...) = raw-content effect.
+- Aggregate effect on corpus sums (published -> fresh): gross_throughput +0.004%, gross_discharge +0.01%, gross_charge -0.002%, gtc +0.004%, fce +0.004%, distance_km -0.03%, net_draw_kwh -0.20%, energy_residual_kwh -0.35% (sums over 446 drives).
+- Canonical exclusion sets differ: ens_invalid / ens_outlier_v2 2 -> 3 drives (1 only in fresh), ens_extreme 24 -> 27. ESCALATE to Director (may change the canonical-clean population).
+- Not done: per-headline-key delta vs published day-clustered CI (needs the headline KPI list in tools/kpi_paths.json and a fresh arrays build from the fresh master, ~35 min).
+Language: this is "provenance sensitivity", not a correction.
+
+## Headline sensitivity (2026-09-30, M306) - 32 KPIs, published vs fresh (scenario A: fresh master; B: fresh master + ML16 restored)
+Files: `headline_delta_scenarioA.json`, `headline_delta_scenarioB.json` (tools/f03_headline_delta.py, spec tools/f03_headline_kpis.json).
+- Robust (inside published CI, decisions unchanged): energy/throughput/GTR headlines (<=0.6%), EnergyIntensity, resistance (vreg) slope, powerFade slope; both TOST flags unchanged.
+- NOT robust: degradation.cellSpread clusterRobustOLS slope +0.0115 [-0.289,+0.312] -> -1.667 [-2.754,-0.580] (A), -1.623 (B); pTOST 0.077 -> 0.994; mixed-effects primary fails (singular) in the fresh run -> silent fallback to OLS. cellHealthTrend slope +0.01 -> -1.55/-1.50.
+- Mechanism: fresh cell_spread_loaded_p95_mv differs in 99/446 drives, all hash-failing (0/113 hash-verified differ); mean shift May +3.0, Jun +6.9, Jul +0.9, Aug +0.04, Sep 0.0 mV; hash-verified coverage is 0 in May-Jul, 11 in Aug, 102 in Sep (confounded with date).
+- Scenario A exclusions: ens_invalid/outlier_v2 2->3, ens_extreme 24->27 (sensitivity-only).
+- Director decision (Opus, 2026-09-29/30): DOWNGRADE fresh result to provenance sensitivity; the published cell-spread result stays reference of record, qualified. Wording: "no detectable cell-spread trend over 4.3 months; equivalence not established" (never "no degradation"); never claim a spread decrease/balancing/improvement, never claim the published estimate is verified against originals or that growth is excluded. Not article-eligible until F03 resolved or Andrii signs a disclosed dual report.
+- Follow-ups (Director): F1 refit on the 347 drives identical in both builds; F2 leave-one-month-out / exclude May-Jun (both builds); F3 per-file inspection of the 99 drives' cell-voltage channels (highest value); F4 hash-verified-only = MDE only; F5 diagnose the singular mixed-effects fit - a failed primary must FAIL the gate, not fall back silently. Blind audit of F1-F3 before wording changes. Dashboard degradation tab flagged via an S.* key (needs Andrii sign-off). Gates before next ingestion: (a) estimator-fallback gate (F5); (b) Scenario A exclusion change stays sensitivity-only.

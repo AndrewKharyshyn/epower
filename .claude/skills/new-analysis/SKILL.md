@@ -13,3 +13,6 @@ description: Add or change an analysis/method (new dashboard figure, new estimat
 4. Dispatch `analytical-auditor` with claim + data path only (blind). Article-bound or thesis-level: use an Opus audit.
 5. Dispatch `research-director` with spec + result JSON + audit JSON + `data_health.json`. Record deviations from the spec.
 6. Update the dashboard/CHANGELOG (`tools/changelog_draft.py`), commit, tag.
+7. Dashboard: if `xtrail_dashboard.html` changed in content, follow the "Dashboard change rule" in `CLAUDE.md`: show it here
+   (`SendUserFile`, `display: "render"`) with a one-line list of what changed (which `S.*` keys), and commit + push it to GitHub
+   with its sources in the same commit.
