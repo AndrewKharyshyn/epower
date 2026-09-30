@@ -13,7 +13,7 @@ Amendment 1 (2026-09-30, from the corpus scan on existing files, before any new 
     in the available data; recorded, not silently dropped.
 Files with no Max/Min cell-voltage columns (7 early files) produce no flags (nothing to check).
 Usage: python tools/plausibility_gate.py FILE [FILE ...]   |   python tools/plausibility_gate.py --scan RAW_DIR OUT.json"""
-import io, json, os, re, sys
+import hashlib, io, json, os, re, sys
 import numpy as np
 import pandas as pd
 
@@ -28,7 +28,7 @@ def check_bytes(csv_bytes, name="<bytes>"):
     cols = [c for c in d.columns if any(k in c for k in COLS)]
     flags, stats = [], {"cellVoltageColumns": cols}
     if not cols:
-        return {"file": name, "flags": flags, "stats": stats, "checked": False}
+        return {"file": name, "flags": flags, "stats": stats, "checked": False, "sha256": hashlib.sha256(csv_bytes).hexdigest()}
     v = pd.concat([pd.to_numeric(d[c], errors="coerce") for c in cols]).dropna()
     stats["nValues"] = int(len(v))
     if len(v):
@@ -44,7 +44,9 @@ def check_bytes(csv_bytes, name="<bytes>"):
             stats["minStepV"] = round(step, 6)
             if step >= STEP_MAX_OK - 1e-12:
                 flags.append({"rule": "R2_quantisation", "minStepV": round(step, 6), "threshold": STEP_MAX_OK})
-    return {"file": name, "flags": flags, "stats": stats, "checked": True}
+    if not len(v):                                   # NaN-only / non-numeric cell-voltage columns: nothing was actually checked
+        return {"file": name, "flags": flags, "stats": stats, "checked": False, "sha256": hashlib.sha256(csv_bytes).hexdigest()}
+    return {"file": name, "flags": flags, "stats": stats, "checked": True, "sha256": hashlib.sha256(csv_bytes).hexdigest()}
 
 
 def check_path(path):

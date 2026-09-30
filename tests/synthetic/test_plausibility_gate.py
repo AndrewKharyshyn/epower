@@ -29,6 +29,20 @@ assert pg.check_bytes(g)["flags"] == [], "G01 group column must be ignored"
 # file without cell-voltage columns: nothing to check, no flags
 n = pg.check_bytes(b"time,[BMS] HV Battery Current (A)\n2026-09-01 10:00:00,1.0\n"); assert n["flags"] == [] and n["checked"] is False
 
+# TOCTOU guard + unchecked visibility
+import ingest_core as ic
+tmpf = tempfile.NamedTemporaryFile(suffix=".csv", delete=False); tmpf.write(mk(fine, fine)); tmpf.close()
+res = pg.check_path(tmpf.name); assert res["sha256"] and res["checked"]
+ic.GATED_SHA[tmpf.name] = res["sha256"]; assert ic.read_gated(tmpf.name)
+open(tmpf.name, "ab").write(b"2026-09-01 10:01:00,10.5,53.0,3.6\n")
+try:
+    ic.read_gated(tmpf.name); raise SystemExit("FAIL: changed file was not detected")
+except ic.Gate as e:
+    assert "TOCTOU" in str(e)
+os.unlink(tmpf.name)
+nan_only = pg.check_bytes(b"time,[BMS] Max Cell Voltage (V),[BMS] Min Cell Voltage (V)\n2026-09-01 10:00:00,,\n")
+assert nan_only["checked"] is False and nan_only["flags"] == [], nan_only
+
 # (a)/(b) real corpus files (raw/ is in the repo): known-bad set must flag, hash-verified samples must pass
 RAW = os.path.join(ROOT, "raw")
 bad = ["2026-06-09 13-20-41.csv", "2026-06-10 09-41-00.csv", "2026-06-11 06-11-20.csv", "2026-06-18 12-46-11.csv",
