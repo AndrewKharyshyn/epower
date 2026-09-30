@@ -353,7 +353,7 @@ def main():
                   e4_master=os.path.join(ROOT, "e4orce_master.csv"), raw_dir=stage, verbose=False)
         if md5(os.path.join(ROOT, "drive_master.csv")) != m0:
             raise Gate("crosscheck inject changed drive_master.csv")
-        report.update(carried_forward_keys_stale_until_stage_runs=list(CARRIED), stamp_notes_inherited=list(INHERITED_NOTES),status="ok", rows_after=len(dm_disk), md5_after=m0, backup=os.path.relpath(bdir, ROOT))
+        report.update(carried_forward_keys_stale_until_stage_runs=list(CARRIED), stamp_notes_inherited=list(INHERITED_NOTES), estimator_changes_acknowledged={"changes": list(EST_CHANGES), "reason": ACK["reason"]}, status="ok", rows_after=len(dm_disk), md5_after=m0, backup=os.path.relpath(bdir, ROOT))
         rc = 0
     except BaseException as ex:   # incl. KeyboardInterrupt/SystemExit: never leave a partial write
         for f in OUT_FILES:
