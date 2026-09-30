@@ -154,9 +154,10 @@ def payload_checks(arrays_path):
     # (6) M314: the Thermal-tab ambient table lists EVERY drive (count == corpus), each with a valid [start, *interim, end] list, and reaches the newest date.
     at = sa.get("ambientTable") or {}
     arows = at.get("rows") or []
-    checks["ambient table covers every drive with [start, *interim, end] (M314)"] = bool(
+    checks["ambient table covers every drive with [start, *interim, end] and a thermal class (M314/M315)"] = bool(
         arows and len(arows) == at.get("nDrives") == (sa.get("meta") or {}).get("totalDrives")
         and all(isinstance(r.get("a"), list) and len(r["a"]) >= 2 and all(isinstance(x, (int, float)) for x in r["a"]) for r in arows)
+        and all(r.get("c") in ("warm", "shoulder", "cold") for r in arows) and sum((at.get("cohortCounts") or {}).values()) == len(arows)   # M315: thermal class per drive
         and newest and max(r["d"] for r in arows) == newest)
     return checks
 
