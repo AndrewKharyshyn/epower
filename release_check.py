@@ -158,6 +158,9 @@ def payload_checks(arrays_path):
         arows and len(arows) == at.get("nDrives") == (sa.get("meta") or {}).get("totalDrives")
         and all(isinstance(r.get("a"), list) and len(r["a"]) >= 2 and all(isinstance(x, (int, float)) for x in r["a"]) for r in arows)
         and all(r.get("c") in ("warm", "shoulder", "cold") for r in arows) and sum((at.get("cohortCounts") or {}).values()) == len(arows)   # M315: thermal class per drive
+        and all(isinstance(r.get("ow"), list) and len(r["ow"]) == 5 and isinstance(r.get("cw"), list) and len(r["cw"]) == 5
+                and r.get("cs") in ("not_cold_soaked", "probable", "cold_soaked", "unknown") for r in arows)                # M316: warm-up series + cold-soak status per drive
+        and at.get("nWithStartTemps") == sum(1 for r in arows if r.get("p") is not None and r.get("o") is not None and r.get("w") is not None)
         and newest and max(r["d"] for r in arows) == newest)
 
     # (7) M317: Huber spread-fit provenance (append-only history) agrees with the published cellHealthTrend numbers (n and the interval are the SAME object).
