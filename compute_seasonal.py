@@ -256,6 +256,22 @@ def build(master_path=None, out_dir=None):
         }
         derived.append(d)
 
+    # M310: minimum-support rule. A thermal cohort with fewer drives than cohorts.minDrivesForStatistics is NOT analysed as a cohort:
+    # its drives keep the physical classification in thermal_regime_raw but get thermal_regime = '<raw>_insufficient', so every builder
+    # that filters on thermal_regime == 'cold' (etc.) sees an empty cohort (null-with-reason, never a KPI from a handful of drives).
+    # 'All observations' is unaffected (it does not filter on regime). The rule lifts automatically when the cohort reaches the minimum.
+    _min_n = int(cfg["cohorts"].get("minDrivesForStatistics", 10))
+    _cnt = {}
+    for d in derived:
+        _cnt[d["thermal_regime"]] = _cnt.get(d["thermal_regime"], 0) + 1
+    for d in derived:
+        raw_regime = d["thermal_regime"]
+        d["thermal_regime_raw"] = raw_regime
+        d["cohort_suppressed_reason"] = None
+        if raw_regime in ("warm", "shoulder", "cold") and _cnt[raw_regime] < _min_n:
+            d["thermal_regime"] = f"{raw_regime}_insufficient"
+            d["cohort_suppressed_reason"] = f"cohort_below_min_support:{_cnt[raw_regime]}<{_min_n}"
+
     # second pass: parking continuity + cold-soak (needs ordered neighbours)
     derived.sort(key=lambda x: x["local_iso"])
     prev = None

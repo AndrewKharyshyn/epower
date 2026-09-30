@@ -10,7 +10,7 @@ P = lambda *a: os.path.join(ROOT, *a)
 
 
 def jload(p):
-    return json.load(open(p)) if os.path.exists(p) else None
+    return json.load(open(p, encoding="utf-8")) if os.path.exists(p) else None
 
 
 def main():
@@ -37,13 +37,13 @@ def main():
         lines.append("**Files.** " + ", ".join(f"`{f}`" for f in a.files) + ".")
         lines.append("")
     entry = "\n".join(lines) + "\n"
-    old = open(P("CHANGELOG.md"), encoding="utf-8").read()
+    old = open(P("CHANGELOG.md"), encoding="utf-8", newline="").read()
     m = re.search(r"(?m)^## M\d", old)
     pos = m.start() if m else 0
     new = old[:pos] + entry + "\n" + old[pos:]
     if a.dry_run:
         print(entry); return
-    open(P("CHANGELOG.md"), "w", encoding="utf-8").write(new)
+    open(P("CHANGELOG.md"), "w", encoding="utf-8", newline="\n").write(new)
     print(f"prepended {a.id} ({len(entry)} chars); CHANGELOG now {len(new)} chars")
 
 

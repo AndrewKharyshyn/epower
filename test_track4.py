@@ -56,6 +56,9 @@ ok("6 new records present exactly once; metric names unique", all(ms.count(m) ==
 CD = A["cohortDistributions"]; fresh = CDm.build()
 ok("7 cohortDistributions == rebuild", CD == fresh)
 ok("7 per-cohort arrays sorted", all(v == sorted(v) for m in CD["metrics"].values() for v in m["cohorts"].values() if v))
-ok("7 warm+shoulder n == all n (engine_on_pct)", len(CD["metrics"]["engine_on_pct"]["cohorts"]["warm"]) + len(CD["metrics"]["engine_on_pct"]["cohorts"]["shoulder"]) == len(CD["metrics"]["engine_on_pct"]["cohorts"]["all"]))
+import pandas as _pd
+_sdm = _pd.read_csv("seasonal_drive_master.csv", low_memory=False)       # M310 minimum-support rule: drives of a cohort below the minimum sit in 'all' only
+_nsup = int((_sdm["thermal_regime"].astype(str).str.endswith("_insufficient") & _sdm["engine_on_pct"].notna()).sum())
+ok("7 warm+shoulder+suppressed(below min support) n == all n (engine_on_pct)", len(CD["metrics"]["engine_on_pct"]["cohorts"]["warm"]) + len(CD["metrics"]["engine_on_pct"]["cohorts"]["shoulder"]) + _nsup == len(CD["metrics"]["engine_on_pct"]["cohorts"]["all"]))
 ok("7 no fabricated Cold distribution", all(m["cohorts"]["cold"] is None for m in CD["metrics"].values()))
 print(f"\n{len(P)} passed, {len(F)} failed"); sys.exit(1 if F else 0)

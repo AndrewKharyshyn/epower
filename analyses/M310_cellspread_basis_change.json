@@ -1,0 +1,55 @@
+{
+ "metric": "degradationTrends.cellSpread (loaded p95 cell spread, mV per month)",
+ "generatedBy": "degradation_trends.build on HEAD drive_master.csv (446) vs live drive_master.csv (489); session M310",
+ "old_446": {
+  "primaryEstimator": "mixedEffects",
+  "mixedEffects": {
+   "converged": true,
+   "degenerate": null,
+   "degenerateNote": null,
+   "groupVar": 1.346279,
+   "slope": -0.0163,
+   "se": 0.1866,
+   "ci95": [
+    -0.382,
+    0.3495
+   ]
+  },
+  "clusterRobustOLS": {
+   "slope": 0.0115,
+   "se": 0.1534,
+   "ci95": [
+    -0.2892,
+    0.3122
+   ],
+   "nObs": 423,
+   "nDays": 92,
+   "formula": "y ~ months + T + I"
+  }
+ },
+ "new_489": {
+  "primaryEstimator": "clusterRobustOLS",
+  "mixedEffects": {
+   "converged": null,
+   "degenerate": true,
+   "degenerateNote": "mixed model failed to fit (LinAlgError('Singular matrix')). Cluster-robust OLS is authoritative for this metric; both the released slope and the TOST use its slope/SE. The mixed-effects block is retained for transparency only (M155, 2026-08-22).",
+   "groupVar": null,
+   "slope": null,
+   "se": null,
+   "ci95": null
+  },
+  "clusterRobustOLS": {
+   "slope": 0.1611,
+   "se": 0.1472,
+   "ci95": [
+    -0.1274,
+    0.4495
+   ],
+   "nObs": 465,
+   "nDays": 100,
+   "formula": "y ~ months + T + I"
+  }
+ },
+ "newOLS_inside_previous_released_mixedCI": true,
+ "newOLS_inside_previous_OLS_CI": true
+}

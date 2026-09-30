@@ -77,7 +77,9 @@
     "allLabel": "All observations",
     "_allYearGate": "rename to 'All year' only after a complete 12-month observation window exists; a typical/reference year requires explicit exposure weights and is labelled separately",
     "segmentedControl": ["All observations", "Warm", "Shoulder", "Cold"],
-    "keepShoulderVisible": true
+    "keepShoulderVisible": true,
+    "minDrivesForStatistics": 10,
+    "_minDrivesForStatistics": "M310: a thermal cohort with fewer drives is relabelled '<regime>_insufficient' in the seasonal master (thermal_regime_raw keeps the physical class) and every cohort builder sees it as empty; matches the dashboard's minimum of 10"
   },
 
   "warnings": {

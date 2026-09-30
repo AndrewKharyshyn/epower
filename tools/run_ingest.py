@@ -43,6 +43,10 @@ def main():
         return 0
     os.makedirs(rd, exist_ok=True)
     env = dict(os.environ)
+    env.setdefault("PYTHONUTF8", "1")          # repo files are UTF-8; Windows default (cp1251/cp1252) breaks open() without encoding=
+    env.setdefault("PYTHONIOENCODING", "utf-8")
+    shim = os.path.join(ROOT, "tools", "eol_shim")      # text-mode writes default to LF (repo canonical bytes; see tools/eol_shim/sitecustomize.py)
+    env["PYTHONPATH"] = shim + (os.pathsep + env["PYTHONPATH"] if env.get("PYTHONPATH") else "")
     if os.path.isdir(os.path.join(ROOT, "raw")):
         env.setdefault("XT_RAW_DIR", os.path.join(ROOT, "raw"))
     status = {"run": ts, "stages": [], "result": "ok"}

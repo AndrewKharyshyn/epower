@@ -3,7 +3,7 @@
 
 Additive, idempotent ingestion of NEW raw drive CSVs. Never calls run_pipeline() (no full reprocess, no ML refit drift).
 
-Usage: python tools/ingest_core.py [--dry-run] [--recompute-m119v2] [--ack-estimator-change REASON]      (run from anywhere; works in the repo root)
+Usage: python tools/ingest_core.py [--dry-run] [--recompute-m119v2] [--ack-estimator-change REASON] [--ack-recalibration REASON]      (run from anywhere; works in the repo root)
 Exit codes: 0 ok / no-op, 1 gate failed (nothing written, backups restored), 2 usage/setup error.
 Writes (only on success): drive_master.csv, raw_manifest.json (append-only), summary_config.json (determinism block),
 summary_arrays.json, tools/ingest_core_report.json. Backups of every file it touches: runs/ingest_core_<ts>/backup/.
@@ -38,6 +38,8 @@ GATED_SHA = {}          # path -> sha256 of the bytes the plausibility gate saw 
 CARRIED = []
 INHERITED_NOTES = []
 EST_CHANGES = []
+RECAL = {}
+RUN = {"dir": None}
 
 
 class Gate(Exception):
@@ -75,6 +77,18 @@ def raw_index(raw_dir):
     return {digits(f): os.path.join(raw_dir, f) for f in os.listdir(raw_dir) if f.lower().endswith(".csv")}
 
 
+def _link(src, dst):
+    """Symlink raw_only/<key> -> raw file; on Windows without the symlink privilege (WinError 1314) fall back to a hardlink
+    (same volume, read-only share of the same bytes), then to a copy. raw_only/ is git-ignored and rebuilt each run."""
+    try:
+        os.symlink(src, dst)
+    except OSError:
+        try:
+            os.link(src, dst)
+        except OSError:
+            shutil.copy2(src, dst)
+
+
 def stage_raw(dm_files, new_map, raw_dir, e4_files):
     """Symlink raw_only/<master key> -> real raw file. Returns the staging dir."""
     raw_dir = os.path.abspath(raw_dir)
@@ -86,15 +100,15 @@ def stage_raw(dm_files, new_map, raw_dir, e4_files):
         real = idx.get(digits(f))
         if real is None:
             raise Gate(f"raw file for master row {f} not found in {raw_dir}")
-        os.symlink(real, os.path.join(STAGING, f))
+        _link(real, os.path.join(STAGING, f))
     for key, real in new_map.items():
-        os.symlink(real, os.path.join(STAGING, key))
+        _link(real, os.path.join(STAGING, key))
     for f in e4_files:                                  # e-4ORCE / comparison files keep their raw names
         if os.path.exists(os.path.join(raw_dir, f)):
-            os.symlink(os.path.join(raw_dir, f), os.path.join(STAGING, f))
+            _link(os.path.join(raw_dir, f), os.path.join(STAGING, f))
     for f in os.listdir(raw_dir):
         if "_comparison" in f.lower() and not os.path.exists(os.path.join(STAGING, f)):
-            os.symlink(os.path.join(raw_dir, f), os.path.join(STAGING, f))
+            _link(os.path.join(raw_dir, f), os.path.join(STAGING, f))
     shutil.copy(os.path.join(ROOT, "raw_manifest.json"), os.path.join(STAGING, "raw_manifest.json"))
     return STAGING
 
@@ -156,7 +170,20 @@ def step1_master(dm_old, new_paths):
     if ml_diffs:
         raise Gate(f"ML16 restore not byte-exact: {ml_diffs}")
     if diffs:
-        raise Gate(f"pre-existing rows changed by the new corpus (non-ML columns): {diffs}")
+        import recal_gate as rg
+        unlisted = {c: n for c, n in diffs.items() if c not in rg.RECAL_COLS}
+        if unlisted:                                   # incl. implied_offset_A_drive (per-drive, must be invariant): hard fail, no ack
+            raise Gate(f"pre-existing rows changed outside the recalibration allow-list (non-ML columns): {unlisted}")
+        if RUN["dir"]:                                 # candidate (NOT canonical) master kept for audit of the new rows
+            dm_new.to_csv(os.path.join(RUN["dir"], "candidate_master.csv"), index=False)
+        rec, hard = rg.evaluate(dm_old, dm_new, diffs)
+        rec["pre_ingest_master_md5"] = md5(os.path.join(ROOT, "drive_master.csv"))
+        rec["pre_ingest_archive"] = os.path.relpath(os.path.join(RUN["dir"], "backup", "drive_master.csv"), ROOT) if RUN["dir"] else None
+        RECAL.update(rec)
+        if RUN["dir"]:
+            write_json(os.path.join(RUN["dir"], "recalibration.json"), rec, indent=1)
+        if hard and not ACK["recal"]:
+            raise Gate(f"corpus-refit recalibration HARD FLAG {hard} (blind audit + Director; rerun with --ack-recalibration REASON); see recalibration.json")
     os.remove(tmp)
     return dm_new, {"ml16_diffs": f"{len(ml_diffs)}/16", "preexisting_row_diffs": 0}
 
@@ -252,7 +279,7 @@ def estimator_gate(prev, arrays, ack=None):
     return changes
 
 
-ACK = {"reason": None}
+ACK = {"reason": None, "recal": None}
 
 
 def step4_arrays(dm, raw_stage, recompute_m119v2):
@@ -284,9 +311,11 @@ def main():
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--raw-dir", default=os.environ.get("XT_RAW_DIR") or os.path.join(ROOT, "raw"))
     ap.add_argument("--recompute-m119v2", action="store_true")
-    ap.add_argument("--ack-estimator-change", metavar="REASON", help="acknowledge a changed degradation primary estimator (recorded in the report)")
+    ap.add_argument("--ack-recalibration", metavar="REASON", default=os.environ.get("XT_ACK_RECALIBRATION") or None, help="acknowledge a recalibration HARD flag after blind audit + Director review (recorded)")
+    ap.add_argument("--ack-estimator-change", metavar="REASON", default=os.environ.get("XT_ACK_ESTIMATOR_CHANGE") or None, help="acknowledge a changed degradation primary estimator (recorded in the report)")
     a = ap.parse_args()
     ACK["reason"] = a.ack_estimator_change
+    ACK["recal"] = a.ack_recalibration
     import pandas as pd
     report = {"tool": "ingest_core", "started": dt.datetime.now(dt.timezone.utc).isoformat(), "raw_dir": a.raw_dir}
     dm_old = pd.read_csv(os.path.join(ROOT, "drive_master.csv"), low_memory=False)
@@ -320,6 +349,7 @@ def main():
     ts = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     bdir = os.path.join(ROOT, "runs", f"ingest_core_{ts}", "backup")
     os.makedirs(bdir)
+    RUN["dir"] = os.path.dirname(bdir)
     for f in OUT_FILES:
         shutil.copy2(os.path.join(ROOT, f), bdir)
     try:
@@ -353,7 +383,7 @@ def main():
                   e4_master=os.path.join(ROOT, "e4orce_master.csv"), raw_dir=stage, verbose=False)
         if md5(os.path.join(ROOT, "drive_master.csv")) != m0:
             raise Gate("crosscheck inject changed drive_master.csv")
-        report.update(carried_forward_keys_stale_until_stage_runs=list(CARRIED), stamp_notes_inherited=list(INHERITED_NOTES), estimator_changes_acknowledged={"changes": list(EST_CHANGES), "reason": ACK["reason"]}, status="ok", rows_after=len(dm_disk), md5_after=m0, backup=os.path.relpath(bdir, ROOT))
+        report.update(carried_forward_keys_stale_until_stage_runs=list(CARRIED), stamp_notes_inherited=list(INHERITED_NOTES), estimator_changes_acknowledged={"changes": list(EST_CHANGES), "reason": ACK["reason"]}, recalibration=({"soft_flags": RECAL.get("soft_flags"), "hard_flags": RECAL.get("hard_flags"), "acknowledged": ACK["recal"]} if RECAL else None), status="ok", rows_after=len(dm_disk), md5_after=m0, backup=os.path.relpath(bdir, ROOT))
         rc = 0
     except BaseException as ex:   # incl. KeyboardInterrupt/SystemExit: never leave a partial write
         for f in OUT_FILES:

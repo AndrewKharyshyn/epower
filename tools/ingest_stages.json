@@ -37,6 +37,15 @@
    "verified": true
   },
   {
+   "id": "raw_temp_pass",
+   "title": "Raw-temperature triplets over staged raw (new drives must not enter seasonal master as 'unavailable')",
+   "cmd": [
+    "python3",
+    "tools/run_raw_temp_pass.py"
+   ],
+   "verified": true
+  },
+  {
    "id": "compute_seasonal",
    "title": "Seasonal recompute (seasonal_drive_master.csv, seasonal_arrays.json)",
    "cmd": [
@@ -48,6 +57,15 @@
     "seasonal_drive_master.csv",
     "seasonal_arrays.json"
    ]
+  },
+  {
+   "id": "refresh_cohort_meta",
+   "title": "cohortMeta + seasonalCharts._meta cohort counts/hashes (must precede refresh_gtr_headline)",
+   "cmd": [
+    "python3",
+    "tools/refresh_cohort_meta.py"
+   ],
+   "verified": true
   },
   {
    "id": "fuel_recon",
@@ -78,6 +96,15 @@
    ]
   },
   {
+   "id": "f03_provenance_build",
+   "title": "F03 provenance artifact (raw hash status incl. new files) before post_steps injects it",
+   "cmd": [
+    "python3",
+    "tools/f03_provenance_build.py"
+   ],
+   "verified": true
+  },
+  {
    "id": "post_steps",
    "title": "M284 post-steps (records, seasonal KPI refresh, registry) - idempotent",
    "cmd": [
@@ -101,6 +128,15 @@
    "outputs": [
     "cohort_arrays.json"
    ]
+  },
+  {
+   "id": "comparison_cube",
+   "title": "typed class x cohort comparison cube (M297) on the live corpus",
+   "cmd": [
+    "python3",
+    "m297_comparison_cube.py"
+   ],
+   "verified": true
   },
   {
    "id": "build_html",

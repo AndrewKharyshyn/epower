@@ -1,3 +1,27 @@
+## M310 (2026-09-30): Routine ingestion of 43 new drives (Sep 23-30): corpus 446 -> 489; LF line-ending shim, raw-temperature stage, cohort minimum-support rule, estimator basis change acknowledged
+
+**Rationale.** User batch of 43 drives, ODO 44912, ambients per the standard [start,*interim,end] protocol (docs/ambient_specs/2026-09-23_to_09-30.json). Master 489 rows MD5 5197ab6dc2a44b99ccb246af03f8f6b0 (LF bytes; first attempt on Windows produced a CRLF master 28b8d82a and was discarded, pipeline now writes LF via tools/eol_shim). ML16 0/16; plausibility 43/43; corpus-refit recalibration (M309 gate) soft flags only: spread joint block-null rank p=0.036 (= p_min over 27 overlapping blocks; a first p=0.00025 was a resampling artefact, corrected), b0 shift suggestive not established, bT not identifiable from the batch. cellSpread primary estimator mixedEffects -> clusterRobustOLS (mixed fit failed, LinAlgError singular matrix, not variance collapse; leave-new-out reproduces the old fit): released slope 0.1611 mV/month CI [-0.1274, 0.4495] (100 days, 465 obs) vs previous released -0.0163 [-0.382, 0.3495] and previous OLS 0.0115 [-0.2892, 0.3122]; TOST basis unchanged; blind audit reproduces within 0.0012 (its extra observation is the ens_outlier_v2 exclusion). New M310 rules: cohort minimum-support (10 drives; Cold has 2 drives dated 2026-09-30 at +5 C, labelled cold_insufficient, raw class kept in thermal_regime_raw, all/warm/shoulder unchanged); raw_temp_pass and refresh_cohort_meta and f03_provenance_build and comparison_cube are now ingest stages; restamp_blocks.py re-issues stamps with disclosure. masterRefitAudit CARRIED at the 446 basis: a clean-room rebuild from this checkout raw archive drifts in 117/186 columns (446-basis 24) because today raw files do not byte-match the originals (F03/F02 open item), evidence in analyses/M310_refit_audit_489_todays_raw.json; republication pending Director. socHysteresisV2 still carried at 410 (waived per standing policy); 46 seasonal charts carried at the 410 basis. release_check.py PASSED (Windows portability fixes only: npm.cmd resolution, LF shim).
+
+**State.** `drive_master.csv` 489 rows, MD5 `5197ab6dc2a44b99ccb246af03f8f6b0`.
+
+**Gates (runs/20260930T132533Z).** compute_seasonal=ok; refresh_cohort_meta=ok; fuel_recon=ok; refresh_gtr_headline=ok; f03_provenance_build=ok; post_steps=ok; cohort_arrays=ok; comparison_cube=ok -> ok.
+
+**Delta flags.** none.
+
+**Files.** `drive_master.csv`, `raw_manifest.json`, `summary_arrays.json`, `summary_config.json`, `tools/recal_gate.py`, `tools/eol_shim/sitecustomize.py`, `tools/normalize_eol.py`, `tools/restamp_blocks.py`, `tools/refresh_cohort_meta.py`, `tools/run_raw_temp_pass.py`, `compute_seasonal.py`, `seasonal_config.json`, `test_track4.py`, `release_check.py`.
+
+
+## M309 (2026-09-30): Corpus-refit recalibration gate in ingest_core (allow-list of 12 columns, bootstrap-CI flags) and ambient protocol tool
+
+**Rationale.** Adding drives re-estimates the corpus-wide current offset (offset cascade, 10 cols) and the spread-model OLS/Huber refit (2 cols); the byte-identical gate wrongly failed this designed recalibration. Director-conditioned policy approved by Andrii 2026-09-30: only these 12 columns may change on pre-existing rows, all else hard-fails (incl. implied_offset_A_drive); day-clustered bootstrap (seed 42, 4000) soft/hard flags, hard needs --ack-recalibration after blind audit + Director; pre-ingest master archived in runs/ingest_core_<ts>/backup; recalibration.json written. Also tools/ambient_protocol.py + ingest-drive skill ambient rule ([start,*interim,end], 1 value -> start=end).
+
+**State.** `drive_master.csv` 446 rows, MD5 `0bcfc400d8ce2a0b15cdc7f3ddd8efff`.
+
+**Gates (runs/20260930T084550Z).** preflight=ok; ingest_core=gate_failed -> gate_failed.
+
+**Files.** `tools/recal_gate.py`, `tools/ingest_core.py`, `tools/ambient_protocol.py`, `tests/synthetic/test_recal_gate.py`, `tests/test_ambient_protocol.py`, `.claude/skills/ingest-drive/SKILL.md`.
+
+
 ## M308 (2026-09-30): Input-plausibility gate (fail-closed), ingest stages, battery-temp CSV in ingest_core
 
 **Rationale.** Andrii-approved policy implemented with two data-forced amendments (analyses/M308_plausibility_gate_spec.md): R1/R2 on single-cell Max/Min columns only (G01 is a two-cell group voltage) and R3 (0.5 A precision) not implemented (0.5 A is the normal resolution). Corpus scan: 9/441 checked files flag, all hash-failing, 0/113 hash-verified. ingest_core quarantines the whole batch on a flag (nothing ingested, TOCTOU sha guard, unchecked files reported); blind audit accepted. Ingest stages stage_raw, compute_seasonal, fuel_recon, refresh_gtr_headline added; battery_temp_extremes.csv refreshed inside ingest_core before the arrays build (else two records rows drop); battery_temp_extremes.py base path env-aware. Open: speedSplit has no auto-splice. No published value changed.

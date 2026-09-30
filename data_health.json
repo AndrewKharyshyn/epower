@@ -1,0 +1,182 @@
+{
+ "n_drives": 489,
+ "n_days": 104,
+ "date_range": [
+  "2026-05-11",
+  "2026-09-30"
+ ],
+ "duplicate_file_keys": 0,
+ "missingness_gt5pct": {
+  "distance_endpoint_raw_km": 0.998,
+  "energy_null_reason": 0.996,
+  "blend_share_80_120": 0.73,
+  "deficit_80_120_pct": 0.722,
+  "engon_dis_share_80_120": 0.722,
+  "vreg_I_p95_A": 0.558,
+  "vreg_R_pack_mohm": 0.558,
+  "n_vreg_samples": 0.558,
+  "vsag_R_iqr_mohm": 0.474,
+  "vsag_soc_mean": 0.474,
+  "vsag_R_pack_mohm": 0.474,
+  "vsag_I_mean_A": 0.474,
+  "T_intake": 0.448,
+  "ev_nr_kwh": 0.321,
+  "ev_nr_run_max_km": 0.321,
+  "ev_nr_km": 0.321,
+  "map_kpa_max_eng_on": 0.164,
+  "distance_source": 0.162,
+  "distance_reset_repaired": 0.162,
+  "regen_peak_Crate": 0.135,
+  "regen_peak_A": 0.135,
+  "map_kpa_max": 0.115,
+  "map_kpa_mean": 0.115,
+  "boost_max": 0.115,
+  "eng_charge_peak_Crate": 0.112,
+  "eng_charge_peak_A": 0.112,
+  "cell_spread_loaded_p95_adj_hub_mv": 0.106,
+  "ev_kwh_per100km": 0.102,
+  "dual_peak_A": 0.082,
+  "dual_peak_Crate": 0.082,
+  "T_motor_max": 0.072,
+  "implied_offset_A_drive": 0.057,
+  "T1_at_peak_Crate": 0.051,
+  "T1_at_peak_Crate_isFallback": 0.051
+ },
+ "n_ens_invalid": 2,
+ "n_ens_outlier_v2": 2,
+ "n_ens_extreme": 28,
+ "I_offset_2p_A_applied": [
+  -0.3869
+ ],
+ "I_offset_A_applied": [
+  -0.3858
+ ],
+ "last_n": 30,
+ "shift_last_n_vs_rest": {
+  "gross_throughput_kwh": {
+   "smd": -0.403,
+   "n_new": 30,
+   "n_old": 445,
+   "ks": 0.37
+  },
+  "distance_km": {
+   "smd": -0.367,
+   "n_new": 30,
+   "n_old": 459,
+   "ks": 0.388
+  },
+  "engine_on_pct": {
+   "smd": -0.373,
+   "n_new": 30,
+   "n_old": 459,
+   "ks": 0.226
+  },
+  "ev_dist_pct": {
+   "smd": 0.248,
+   "n_new": 30,
+   "n_old": 456,
+   "ks": 0.182
+  },
+  "soc_band": {
+   "smd": -0.715,
+   "n_new": 30,
+   "n_old": 457,
+   "ks": 0.418
+  },
+  "regen_share_of_charge": {
+   "smd": 0.029,
+   "n_new": 30,
+   "n_old": 444,
+   "ks": 0.179
+  },
+  "standstill_draw_kw": {
+   "smd": -0.302,
+   "n_new": 30,
+   "n_old": 438,
+   "ks": 0.315
+  },
+  "vsag_R_pack_mohm": {
+   "smd": 0.511,
+   "n_new": 10,
+   "n_old": 247,
+   "ks": 0.293
+  },
+  "vreg_R_pack_mohm": {
+   "smd": -0.095,
+   "n_new": 6,
+   "n_old": 210,
+   "ks": 0.271
+  },
+  "cell_spread_loaded_p95_adj_mv": {
+   "smd": 0.608,
+   "n_new": 30,
+   "n_old": 436,
+   "ks": 0.411
+  },
+  "T_pack_mean_avg": {
+   "smd": -0.628,
+   "n_new": 30,
+   "n_old": 452,
+   "ks": 0.27
+  },
+  "speed_mean_moving": {
+   "smd": -0.43,
+   "n_new": 30,
+   "n_old": 456,
+   "ks": 0.236
+  },
+  "rf_n_cycles": {
+   "smd": -0.377,
+   "n_new": 30,
+   "n_old": 457,
+   "ks": 0.391
+  },
+  "peak_discharge_kw": {
+   "smd": -0.508,
+   "n_new": 30,
+   "n_old": 445,
+   "ks": 0.301
+  },
+  "peak_I_charge": {
+   "smd": 0.296,
+   "n_new": 30,
+   "n_old": 445,
+   "ks": 0.216
+  },
+  "n_I_samples": {
+   "smd": -0.494,
+   "n_new": 30,
+   "n_old": 459,
+   "ks": 0.459
+  },
+  "I_sample_period_s": {
+   "smd": 0.351,
+   "n_new": 30,
+   "n_old": 447,
+   "ks": 0.62
+  }
+ },
+ "shift_flags": [
+  "soc_band",
+  "vsag_R_pack_mohm",
+  "cell_spread_loaded_p95_adj_mv",
+  "T_pack_mean_avg",
+  "peak_discharge_kw",
+  "n_I_samples",
+  "I_sample_period_s"
+ ],
+ "cohorts": {
+  "cold": {
+   "n_drives": 2,
+   "n_days": 1
+  },
+  "shoulder": {
+   "n_drives": 100,
+   "n_days": 33
+  },
+  "warm": {
+   "n_drives": 387,
+   "n_days": 93
+  }
+ }
+}

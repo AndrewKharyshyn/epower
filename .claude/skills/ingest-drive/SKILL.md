@@ -19,3 +19,16 @@ Preconditions: new CSVs are in `raw/` (do not modify existing files). `export XT
 7. Report to Andrii: what changed (files), gate results, flags. No number is quoted unless taken from a script output.
 8. Dashboard: if `xtrail_dashboard.html` changed in content, follow the "Dashboard change rule" in `CLAUDE.md`: show it here
    (`SendUserFile`, `display: "render"`) with a one-line list of what changed, and commit + push it to GitHub with its sources.
+
+## Ambient temperature protocol (standard, Andrii 2026-09-30)
+Ambients come from the driver (per drive, in start-time order per day: D1, D2, ...) and are stored in
+`summary_config.json -> ambientByDrive[<file>]` as a list `[start, *interim, end]`, always len >= 2:
+- 1 value  -> start = end (`+10` -> `[10, 10]`)
+- 2 values -> `[start, end]` (`+12->+13` -> `[12, 13]`)
+- 3+ values -> `[start, interim..., end]`, chronological (`+17->+19->+17` -> `[17, 19, 17]`)
+Consumers read start = `a[0]`, end = `a[-1]`, drive mean = `mean(a)`; never `a[1]` as "end".
+Before `run_ingest.py` (ingest_core has no ambient logic): write the day-keyed spec JSON
+(`{"YYYY-MM-DD": ["+10", "+12->+13", ...]}`), then
+`python tools/ambient_protocol.py add --spec spec.json` (dry-run; fails on drive-count mismatch per day or duplicates),
+rerun with `--write`, and `python tools/ambient_protocol.py check` must exit 0 for new entries. Ambients are
+driver-recorded (`vehicle_sensor`), never from the raw PID.

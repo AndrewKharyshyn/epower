@@ -47,7 +47,13 @@ def find(name):
     return None
 
 def run(cmd, cwd, label=None, must=True):
-    r = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True)
+    exe = shutil.which(str(cmd[0])) if sys.platform == "win32" else None       # Windows: npm/node resolve to .cmd/.exe shims
+    env = None
+    if sys.platform == "win32":     # repo bytes are LF; Windows text-mode writes would make byte-identity checks (post-step no-op) fail on CRLF
+        shim = str(Path(__file__).resolve().parent / "tools" / "eol_shim")
+        env = dict(os.environ, PYTHONPATH=shim + (os.pathsep + os.environ["PYTHONPATH"] if os.environ.get("PYTHONPATH") else ""),
+                   PYTHONUTF8="1")
+    r = subprocess.run([exe, *cmd[1:]] if exe else cmd, cwd=cwd, capture_output=True, text=True, encoding="utf-8", errors="replace", env=env)
     ok = r.returncode == 0
     print(("PASS " if ok else "FAIL ") + (label or " ".join(map(str, cmd))))
     if not ok:
