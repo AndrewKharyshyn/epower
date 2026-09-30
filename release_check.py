@@ -140,7 +140,7 @@ def payload_checks(arrays_path):
 
     # (5) M313 standing rule: new drives are added to the "Sessions (grouped by phase)" ledgers (sessionGroups and sessions) on EVERY
     #     ingestion (tools/extend_session_ledgers.py). The newest corpus date must be covered in both ledgers and no ledger row may
-    #     disagree with the master (older dates that were never grouped, e.g. Sep 04-11, stay a disclosed pre-existing gap).
+    #     disagree with the master (the historical Sep 04-11 window was backfilled in M313).
     import datetime as _dt
     sla = sa.get("sessionLedgerAudit") or {}
     try:

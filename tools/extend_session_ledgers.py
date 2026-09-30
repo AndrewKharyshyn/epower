@@ -4,7 +4,7 @@ per-day panel) to every calendar day of drive_master.csv that is newer than the 
 added to that section on EVERY ingestion). One row per new day in each ledger; every number is computed from drive_master.csv, seasonal_drive_master.csv,
 raw_temperature_triplets.csv, summary_config.json ambientByDrive and the raw CSV headers, never typed. Then regenerates the sessionLedgerAudit block in
 summary_arrays.json (compute_summary_arrays._session_ledger_audit; additive splice, only that key may change).
-Older uncovered dates (e.g. Sep 04-11) are a pre-existing, disclosed gap and are NOT touched unless --from-date is given.
+Older uncovered dates are NOT touched unless --from-date is given (M313 used it to backfill Sep 04-11); new rows are inserted chronologically.
 Usage: python tools/extend_session_ledgers.py [--from-date YYYY-MM-DD] [--dry-run] [--check-day YYYY-MM-DD]   (--check-day prints the generated rows for an existing day)"""
 import argparse, datetime as dt, hashlib, json, os, re, sys
 import numpy as np
@@ -80,6 +80,26 @@ def build_rows(day, g, prev_sig, sigs, amb, sdm, trip):
     return group, sess, [starts[-1]]
 
 
+def first_md(name):
+    """(month, day) of the first date token of a ledger row name ('Sep 22', 'May 11-18', 'Jun 29 - Jul 07'); None for names without one."""
+    m = re.search(r"([A-Za-z]{3})\s*0?(\d{1,2})", str(name))
+    return (MON.index(m.group(1).title()) + 1, int(m.group(2))) if m and m.group(1).title() in MON else None
+
+
+def insert_chrono(rows, new_rows, days):
+    """Insert each new row before the first existing row whose first date is later (keeps the ledgers chronological when backfilling)."""
+    out = list(rows)
+    for day, r in sorted(zip(days, new_rows), key=lambda x: x[0]):
+        pos = len(out)
+        for i, e in enumerate(out):
+            md = first_md(e.get("name"))
+            if md is not None and md > (day.month, day.day):
+                pos = i
+                break
+        out.insert(pos, r)
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--from-date")
@@ -123,8 +143,8 @@ def main():
         return
     names_g = {r["name"] for r in cfg["sessionGroups"]}
     assert not any(r["name"] in names_g for r in out_g), "a generated day already exists in sessionGroups"
-    cfg["sessionGroups"] = cfg["sessionGroups"] + out_g
-    cfg["sessions"] = cfg["sessions"] + out_s
+    cfg["sessionGroups"] = insert_chrono(cfg["sessionGroups"], out_g, targets)
+    cfg["sessions"] = insert_chrono(cfg["sessions"], out_s, targets)
     res = {"added_days": [r["name"] for r in out_g], "added_drives": int(sum(r["drives"] for r in out_g)), "added_km": round(sum(r["km"] for r in out_g), 1)}
     if not a.dry_run:
         with open("summary_config.json", "w", encoding="utf-8") as f:

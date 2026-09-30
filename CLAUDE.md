@@ -52,7 +52,7 @@ On EVERY ingestion the new drives must appear in the dashboard section "Sessions
 ledgers that nothing else extends, so this is enforced: stage `extend_session_ledgers` (`tools/extend_session_ledgers.py`, numbers
 computed from the master, never typed) runs in `tools/ingest_stages.json`, and `release_check.py` fails if the newest drive date is
 not covered or a ledger row disagrees with the master (`sessionLedgerAudit`). An ingestion is not complete until the new days show in
-that section (verify in the rebuilt dashboard). Older never-grouped dates (Sep 04-11) are a disclosed pre-existing gap.
+that section (verify in the rebuilt dashboard). The historical Sep 04-11 gap was backfilled in M313 (`--from-date` backfills any uncovered window).
 
 ## Dashboard change rule (standing)
 Whenever `xtrail_dashboard.html` is rebuilt with a content change (new/changed figure, KPI, tab or wording; not a
