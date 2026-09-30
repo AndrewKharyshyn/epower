@@ -153,6 +153,8 @@ def step1_master(dm_old, new_paths):
     for c in ML16:
         if c in dm_new.columns and c in old.columns:
             dm_new.loc[is_old, c] = old[c].reindex(dm_new.loc[is_old, "file"]).values
+    # ---- M312: the Huber spread adjustment must be a function of the PUBLISHED (restored) ens_outlier_v2, not of the refit one used inside postprocess_master
+    dm_new, _m19b = v6.m19b_huber_adjust(dm_new)
     # ---- GATES (compare through CSV text, exactly what lands on disk)
     tmp = os.path.join(ROOT, "runs", "_ingest_core_tmp_master.csv")
     os.makedirs(os.path.dirname(tmp), exist_ok=True)
