@@ -62,6 +62,11 @@ commit, so the repo dashboard always matches its sources. Do not open a PR unles
 - Offer a pull request (do not create it unless Andrii asks) when the milestone is complete, the release gate is green, the
   CHANGELOG entry is written and any required audit/Director decision is done. Never for work in progress or a red gate.
   Use a merge commit (not squash) so `M###` history survives. PR body follows the repo template if one exists.
+- Merging is done by the agent, not by Andrii (owner decision 2026-09-30). Merge only when ALL hold on the PR's current head: every CI
+  check green (no pending/red; `release-gate` included), the PR is not a draft and has no merge conflict, no open review thread
+  waiting on the agent, the CHANGELOG `M###` entry exists and any required blind audit / Director decision is recorded. Use
+  `merge_method: merge` with `expectedHeadSha`. Never merge on red or pending CI, never force-push or bypass a gate; if a condition
+  fails, fix it or tell Andrii what blocks. After the merge, restart the branch from `main` and push (see the rule below).
 - After a PR is merged, restart the branch from the latest `main` (`git fetch origin main && git checkout -B <branch> origin/main`);
   never stack new commits on merged history.
 
