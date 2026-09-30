@@ -46,6 +46,14 @@ Every applied change is recorded: newest first, `## M###` prefix, prepended by c
 boundary-spanning `str_replace` on a heading). Use `python tools/changelog_draft.py ...`; the model writes only the
 rationale line. Large function insertions: two-step marker-then-body pattern.
 
+## Session ledgers (standing, owner decision 2026-09-30)
+On EVERY ingestion the new drives must appear in the dashboard section "Sessions (grouped by phase)": `summary_config.json`
+`sessionGroups` (that section) and `sessions` (the detailed per-day panel) get one row per new calendar day. They are hand-curated
+ledgers that nothing else extends, so this is enforced: stage `extend_session_ledgers` (`tools/extend_session_ledgers.py`, numbers
+computed from the master, never typed) runs in `tools/ingest_stages.json`, and `release_check.py` fails if the newest drive date is
+not covered or a ledger row disagrees with the master (`sessionLedgerAudit`). An ingestion is not complete until the new days show in
+that section (verify in the rebuilt dashboard). Older never-grouped dates (Sep 04-11) are a disclosed pre-existing gap.
+
 ## Dashboard change rule (standing)
 Whenever `xtrail_dashboard.html` is rebuilt with a content change (new/changed figure, KPI, tab or wording; not a
 byte-identical rebuild): (1) present it in the session: `SendUserFile` with `display: "render"` on `xtrail_dashboard.html`,

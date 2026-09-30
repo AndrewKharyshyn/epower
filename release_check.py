@@ -137,6 +137,19 @@ def payload_checks(arrays_path):
         and (r["disclosure"]["excludedByCap"] == 0 or "rawExtremum" in r["disclosure"])
         for r in recs)
     checks["records disclosure contract present (no silent sane_max drops)"] = b8_ok
+
+    # (5) M313 standing rule: new drives are added to the "Sessions (grouped by phase)" ledgers (sessionGroups and sessions) on EVERY
+    #     ingestion (tools/extend_session_ledgers.py). The newest corpus date must be covered in both ledgers and no ledger row may
+    #     disagree with the master (older dates that were never grouped, e.g. Sep 04-11, stay a disclosed pre-existing gap).
+    import datetime as _dt
+    sla = sa.get("sessionLedgerAudit") or {}
+    try:
+        newest = _dt.datetime.strptime(sa["meta"]["dateRange"].split("–")[-1].strip(), "%b %d, %Y").date().isoformat()
+    except Exception:
+        newest = None
+    checks["session ledgers cover the newest drive date and agree with the master (M313)"] = bool(
+        newest and sla and all(newest not in ((sla.get(k) or {}).get("datesUncovered") or []) and (sla.get(k) or {}).get("nMismatched") == 0
+                               for k in ("sessions", "sessionGroups")))
     return checks
 
 def payload_warnings(arrays_path):
