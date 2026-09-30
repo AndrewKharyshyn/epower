@@ -51,3 +51,38 @@ pass build_html gates, jsdom, semantic_gate (forbidden-wording) and release_chec
 - F3: falsified as "explanatory" if no raw-file property separates D from C (AUC < 0.9); then the mechanism is reported as unexplained.
 - F5: gate must fail on the flipped-estimator synthetic and pass on the unchanged one.
 - Blind audit (analytical-auditor) reproduces F1 and F2 for P from the master and spec only; Director decision before any wording changes.
+
+---
+## Amendment 1 (2026-09-30, BEFORE any F1/F2/F3 run; from Director spec review "revise")
+Only a tool sanity check preceded this amendment: `tools/f03_followups.fit()` on the published master reproduced the published cellSpread record
+(OLS slope 0.0115, CI [-0.2892, 0.3122], nObs 423, nDays 92, mixed slope -0.0163, pTOST 0.0772). No F1/F2/F3 output existed.
+1. Decision estimator (all F1/F2/F1b rules): cluster-robust OLS with t(G-1) reference, whatever `primaryEstimator` says. Mixed effects is reported
+   alongside with its `degenerate` flag and is never used to decide. CI method identical to the published one; NO day-bootstrap is used
+   (deviation from the standing default, stated for comparability).
+2. Exclusion: primary = P's `ens_outlier_v2` applied to P, A and B (A's own 3 excluded drives are ignored in the primary). Secondary = A with its
+   own exclusion. Datasets reported: P, A(P-excl), A(own-excl), B.
+3. F1 outcomes (in addition to those above): (i) S-CI contains the published slope but excludes 0; (ii) S-CI contains BOTH the published slope and
+   the A-full slope -> "uninformative"; also report whether the S-CI contains the A-full slope. Report nDrives and nDays per calendar month for S.
+   Wording: "subset where published and fresh values coincide" (not "provenance-stable"/"verified"); at most "not contradicted".
+4. F2: each fit is reported against both the published slope and the dataset's own full-data slope. Influence = max|slope_LOMO - slope_full| /
+   SE_full (pre-defined). Month is confounded with hash status (no hash-verified drives in May-Jul): a May-Jun effect cannot be split into a date
+   effect and an alteration effect; stated with every F2 result.
+5. F3: D = the drives with spread differences P vs A. Matched comparison C = hash-failing drives with identical spread in the SAME calendar months
+   (matched by month, drawn without replacement, seed 42, ratio up to 1:1 per month). Hash-verified drives (Aug-Sep) are reported separately, not
+   pooled into C. Pre-listed feature set (12 features, fixed now): (1) cell-voltage decimal digits (max, over the 4 cell-voltage-group columns), (2)
+   distinct-value count of cell voltage, (3) quantisation step (min positive diff between sorted distinct values), (4) NaN fraction of cell voltage
+   columns, (5) duplicated-timestamp count, (6) non-monotonic-time count, (7) row count minus manifest rows, (8) spike count (|z|>6 on cell
+   spread), (9) p95 loaded spread recomputed as pipeline (analyze_bytes), (10) p95 loaded spread recomputed from a 3-sample median-filtered copy of each cell voltage, (11) fraction of samples with cell spread = 0, (12) file size/rows ratio. Definition of the two recomputations: (9) = the pipeline's own
+   value from today's file; (10) = the same statistic after the 3-sample median filter. Discrimination test: AUC
+   per feature; the best AUC is judged against a permutation null of the MAXIMUM AUC over the 12 features (1000 permutations, seed 42) and
+   day-blocked CV. "Explains" requires max-AUC >= 0.9 AND permutation p < 0.05; any mechanism is worded "candidate mechanism (hypothesis)" even at
+   AUC = 1 because the originals are unavailable.
+6. F1b (outcome-blind subset S'): hash-verified drives PLUS hash-failing drives with zero P/A drift (tol 1e-9) on this column list, fixed now and
+   excluding every cell-voltage-derived column: n_raw_rows, duration_s, distance_km, gross_throughput_kwh, gross_discharge_kwh, gross_charge_kwh,
+   peak_discharge_kw, peak_charge_kw, peak_I_discharge, peak_I_charge, V_pack_median, net_draw_kwh. It does not condition on the outcome value but
+   is correlated with the alteration mechanism: descriptive. Report the S vs S' overlap and the same outcomes as F1.
+7. F4 (hash-verified-only): MDE only (no May-Jul coverage, no slope).
+8. F5 gate also triggers on a change of the `degenerate` flag (implemented and tested: tests/synthetic/test_estimator_gate.py).
+9. Blind audit also covers F1b and the F3 permutation null.
+Language additions: "candidate mechanism (hypothesis)"; "provenance sensitivity"; keep "equivalence not established"; never "no degradation",
+"balancing", "confirmed", "correct" or "original".
