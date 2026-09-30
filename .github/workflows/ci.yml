@@ -22,6 +22,7 @@ jobs:
       - name: Unit tests
         run: |
           for t in test_seasonal_adjust test_seasonal test_assumptions_registry test_track4 test_cohort_rates test_post_step_idempotent; do python $t.py; done
+          python tests/synthetic/test_estimator_gate.py
   release-gate:
     # Authoritative gate (blocking).
     runs-on: ubuntu-latest

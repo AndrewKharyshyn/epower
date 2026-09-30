@@ -3,7 +3,7 @@
 
 Additive, idempotent ingestion of NEW raw drive CSVs. Never calls run_pipeline() (no full reprocess, no ML refit drift).
 
-Usage: python tools/ingest_core.py [--dry-run] [--recompute-m119v2]      (run from anywhere; works in the repo root)
+Usage: python tools/ingest_core.py [--dry-run] [--recompute-m119v2] [--ack-estimator-change REASON]      (run from anywhere; works in the repo root)
 Exit codes: 0 ok / no-op, 1 gate failed (nothing written, backups restored), 2 usage/setup error.
 Writes (only on success): drive_master.csv, raw_manifest.json (append-only), summary_config.json (determinism block),
 summary_arrays.json, tools/ingest_core_report.json. Backups of every file it touches: runs/ingest_core_<ts>/backup/.
@@ -36,6 +36,7 @@ STAGING = os.path.join(ROOT, "raw_only")
 
 CARRIED = []
 INHERITED_NOTES = []
+EST_CHANGES = []
 
 
 class Gate(Exception):
@@ -221,6 +222,29 @@ def carry_forward(arrays, prev):
     return carried
 
 
+def estimator_gate(prev, arrays, ack=None):
+    """M307/F5: a degradation metric whose primary estimator (or mixed-effects degenerate flag) changed vs the previous arrays
+    aborts the ingestion unless acknowledged (--ack-estimator-change "<reason>"). A silent mixedEffects->clusterRobustOLS
+    fallback changes the released slope basis (Director, 2026-09-30). Returns the list of changes (also for the report)."""
+    changes = []
+    pd_, ad = (prev.get("degradationTrends") or {}), (arrays.get("degradationTrends") or {})
+    for m, a in ad.items():
+        p = pd_.get(m)
+        if not isinstance(a, dict) or not isinstance(p, dict) or "primaryEstimator" not in a:
+            continue
+        pe, ae = p.get("primaryEstimator"), a.get("primaryEstimator")
+        pdg = bool((p.get("mixedEffects") or {}).get("degenerate", False))
+        adg = bool((a.get("mixedEffects") or {}).get("degenerate", False))
+        if pe != ae or pdg != adg:
+            changes.append({"metric": m, "primaryEstimator": [pe, ae], "mixedEffectsDegenerate": [pdg, adg]})
+    if changes and not ack:
+        raise Gate(f"estimator fallback/change vs previous arrays (needs --ack-estimator-change \"<reason>\"): {changes}")
+    return changes
+
+
+ACK = {"reason": None}
+
+
 def step4_arrays(dm, raw_stage, recompute_m119v2):
     import compute_summary_arrays as csa
     import drive_raw_cache as drc
@@ -240,6 +264,7 @@ def step4_arrays(dm, raw_stage, recompute_m119v2):
         raise Gate("energyUncertaintyMC.recomputeMode != 'fresh' (recompute_energy_mc must run on every ingestion)")
     if (cfg.get("sessions") or cfg.get("sessionGroups")) and not arrays.get("sessionLedgerAudit"):
         raise Gate("sessionLedgerAudit is null although config declares sessions (P0-14)")
+    EST_CHANGES[:] = estimator_gate(prev, arrays, ACK["reason"])
     CARRIED[:] = carry_forward(arrays, prev)   # reported by main(); NOT stored in the arrays file
     return arrays
 
@@ -249,7 +274,9 @@ def main():
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--raw-dir", default=os.environ.get("XT_RAW_DIR") or os.path.join(ROOT, "raw"))
     ap.add_argument("--recompute-m119v2", action="store_true")
+    ap.add_argument("--ack-estimator-change", metavar="REASON", help="acknowledge a changed degradation primary estimator (recorded in the report)")
     a = ap.parse_args()
+    ACK["reason"] = a.ack_estimator_change
     import pandas as pd
     report = {"tool": "ingest_core", "started": dt.datetime.now(dt.timezone.utc).isoformat(), "raw_dir": a.raw_dir}
     dm_old = pd.read_csv(os.path.join(ROOT, "drive_master.csv"), low_memory=False)
