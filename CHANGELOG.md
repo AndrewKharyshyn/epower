@@ -1,3 +1,12 @@
+## M307 (2026-09-30): F03 follow-ups F1-F3/F5 and provenance-sensitivity dashboard notice
+
+**Rationale.** Pre-registered spec (+Amendment 1) then F1/F1b/F2/F4/F3 computed and blind-audited (accept, reproduced to 4 dp); Director: accept with wording revisions, F03 stays open. F5: ingest_core estimator gate (+known-answer test, CI), release_check WARN. New computed key provenanceSensitivity (tools/f03_provenance_build.py -> f03_provenance.json -> f03_provenance_flag.py in apply_m284_post.sh) rendered as a data-provenance notice in the degradation tab (rebuild slope kept in payload only). No published numeric value changed; summary_arrays.json gained one key + stamp. M308 plausibility-gate spec drafted, awaiting Andrii sign-off.
+
+**State.** `drive_master.csv` 446 rows, MD5 `0bcfc400d8ce2a0b15cdc7f3ddd8efff`.
+
+**Files.** `analyses/M307_f03_cellspread_spec.md`, `analyses/F03/M307_results.md`, `analyses/M308_plausibility_gate_spec.md`, `tools/f03_followups.py`, `tools/f03_f3_inspect.py`, `tools/f03_provenance_build.py`, `f03_provenance_flag.py`, `f03_provenance.json`, `summary_arrays.json`, `xtrail_summary.jsx`, `xtrail_dashboard.html`, `build_html.js`, `apply_m284_post.sh`, `release_check.py`, `tools/ingest_core.py`, `tests/synthetic/test_estimator_gate.py`.
+
+
 ## M306 (2026-09-30): F03 headline sensitivity: 32 KPIs, Director decision (downgrade to sensitivity)
 
 **Rationale.** Full-chain fresh rebuilds (A: fresh master, B: ML16 restored) vs published: energy/GTR/resistance/power-fade headlines robust (<=0.6%, inside CIs, decisions unchanged); cell-spread slope not robust (+0.012 -> -1.67 mV/mo, mixed-effects fit fails and silently falls back to OLS) and traced to hash-failing early-month files only. Director: fresh result = provenance sensitivity; published stays reference of record; wording constraints and follow-ups F1-F5 in analyses/F03/README.md. ingest_core now carries forward downstream-owned keys/stamps; recon_engine BASE env-aware. No published data changed; Andrii sign-off needed for the dashboard flag.

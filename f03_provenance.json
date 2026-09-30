@@ -11,9 +11,9 @@
  },
  "referenceOfRecord": "published master/arrays (drive_master.csv MD5 in meta/rawManifest); the rebuild is a provenance-sensitivity analysis, not a correction",
  "disclosure": "Published values derived from the M299 corpus; 335/457 archived raw copies do not match recorded hashes and do not reproduce per-drive values; originals unavailable.",
- "sensitivityStatement": "In a provenance-sensitivity rebuild from today's raw files the cell-spread slope was not robust (sign and magnitude changed); the difference is confined to hash-failing early-month files and is confounded with calendar month. It is a sensitivity result, not a finding.",
+ "sensitivityStatement": "In a provenance-sensitivity rebuild from today's raw files the cell-spread slope was not robust (sign and magnitude changed); the difference arises only in hash-failing files (all hash-matching files reproduce the published values exactly) and cannot be separated from calendar month. It is a sensitivity result, not a finding.",
  "wording": [
-  "no detectable cell-spread trend over the observation window; equivalence not established (not 'no degradation')",
+  "no detectable cell-spread trend over the 4.27-month window; equivalence not established (not 'no degradation')",
   "provenance sensitivity, never 'correction' or 'error'",
   "never 'reproducible from raw data' for raw-pass keys; the published estimate is not verified against originals"
  ],
@@ -63,11 +63,24 @@
    "degradation.cellSpread.clusterRobustOLS.slope (mV/mo)",
    "cellHealthTrend.olsSlopeMvPerMo"
   ],
-  "decisionFlipsCount": 0
+  "nInsidePublishedCI": 7,
+  "nUnchanged": 12,
+  "nChangedNoPublishedCI": 10,
+  "nNotComparable": 1,
+  "maxAbsRelDeltaPctNoCI": 0.605,
+  "decisionFlipsCount": 0,
+  "cellSpreadTostP": {
+   "published": 0.0772,
+   "rebuild": 0.9944,
+   "equivalentPublished": false,
+   "equivalentRebuild": false
+  }
  },
  "followUps": {
   "F1_coincidentSubset": {
-   "nDrives": 347,
+   "nDrivesSelected": 347,
+   "nObs": 324,
+   "nDays": 86,
    "slope": 0.1165,
    "ci95": [
     -0.2556,
@@ -77,7 +90,9 @@
    "reading": "not contradicted (descriptive; selected on the outcome difference)"
   },
   "F1b_outcomeBlindSubset": {
-   "nDrives": 168,
+   "nDrivesSelected": 168,
+   "nObs": 152,
+   "nDays": 25,
    "slope": -0.4661,
    "ci95": [
     -3.6321,
@@ -93,7 +108,7 @@
    "explainedByPrelistedFeature": false,
    "bestAUC": 0.591,
    "permutationP": 0.123,
-   "reading": "mechanism unexplained by the 12 pre-listed raw-file features (candidate mechanisms remain hypotheses; originals unavailable)"
+   "reading": "mechanism unexplained by the 12 pre-listed raw-file features (AUC < 0.9 is not 'no difference'; candidate mechanisms remain hypotheses, originals unavailable)"
   }
  },
  "sources": {

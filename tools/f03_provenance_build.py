@@ -25,6 +25,9 @@ hd = J("analyses", "F03", "headline_delta_scenarioA.json")
 K = {k["name"]: k for k in hd["kpis"]}
 f12 = J("analyses", "F03", "f1_f2_f4_results.json")
 f3 = J("analyses", "F03", "f3_results.json")
+WINDOW = J("summary_arrays.json")["degradationTrends"]["cellSpread"]["windowMonths"]
+st = [k["status"] for k in hd["kpis"]]
+others = [k for k in hd["kpis"] if k["status"] == "changed_no_ci"]
 sel = lambda n: {"published": K[n]["published"], "sensitivity": K[n]["fresh"], "status": K[n]["status"]}
 
 out = {
@@ -35,8 +38,9 @@ out = {
     "disclosure": (f"Published values derived from the M299 corpus; {fail_all}/{ok_all + fail_all} archived raw copies do not match recorded hashes and do not "
                    "reproduce per-drive values; originals unavailable."),
     "sensitivityStatement": ("In a provenance-sensitivity rebuild from today's raw files the cell-spread slope was not robust (sign and magnitude changed); "
-                             "the difference is confined to hash-failing early-month files and is confounded with calendar month. It is a sensitivity result, not a finding."),
-    "wording": ["no detectable cell-spread trend over the observation window; equivalence not established (not 'no degradation')",
+                             "the difference arises only in hash-failing files (all hash-matching files reproduce the published values exactly) and cannot be separated "
+                             "from calendar month. It is a sensitivity result, not a finding."),
+    "wording": [f"no detectable cell-spread trend over the {WINDOW}-month window; equivalence not established (not 'no degradation')",
                 "provenance sensitivity, never 'correction' or 'error'",
                 "never 'reproducible from raw data' for raw-pass keys; the published estimate is not verified against originals"],
     "metrics": [
@@ -49,16 +53,22 @@ out = {
         {"key": "powerFade.slopeMohmPerMoTctrl", "robust": True, **sel("powerFade.slopeMohmPerMoTctrl")},
     ],
     "headlineKpis": {"nCompared": hd["nKpis"], "nOutsidePublishedCI": len(hd["escalate"]), "escalated": hd["escalate"],
-                     "decisionFlipsCount": sum(1 for k in hd["kpis"] if k["status"] == "flip")},
+                     "nInsidePublishedCI": st.count("inside_ci"), "nUnchanged": st.count("same"),
+                     "nChangedNoPublishedCI": len(others), "nNotComparable": st.count("path_missing"),
+                     "maxAbsRelDeltaPctNoCI": round(max(abs(k["relDeltaPct"]) for k in others if k.get("relDeltaPct") is not None and "pTOST" not in k["name"]), 3),   # p-values excluded (reported separately)
+                     "decisionFlipsCount": sum(1 for k in hd["kpis"] if k["status"] == "flip"),
+                     "cellSpreadTostP": {"published": K["degradation.cellSpread.pTOST"]["published"], "rebuild": K["degradation.cellSpread.pTOST"]["fresh"],
+                                         "equivalentPublished": K["degradation.cellSpread.equivalent [decision]"]["published"],
+                                         "equivalentRebuild": K["degradation.cellSpread.equivalent [decision]"]["fresh"]}},
     "followUps": {
-        "F1_coincidentSubset": {"nDrives": f12["F1"]["nDrivesSubset"], "slope": f12["F1"]["fit"]["olsSlope"], "ci95": f12["F1"]["fit"]["olsCI95"],
+        "F1_coincidentSubset": {"nDrivesSelected": f12["F1"]["nDrivesSubset"], "nObs": f12["F1"]["fit"]["nObs"], "nDays": f12["F1"]["fit"]["nDays"], "slope": f12["F1"]["fit"]["olsSlope"], "ci95": f12["F1"]["fit"]["olsCI95"],
                                 "containsPublishedSlope": f12["F1"]["outcomes"]["containsPublishedSlope"], "reading": "not contradicted (descriptive; selected on the outcome difference)"},
-        "F1b_outcomeBlindSubset": {"nDrives": f12["F1b"]["nDrivesSubset"], "slope": f12["F1b"]["fit"]["olsSlope"], "ci95": f12["F1b"]["fit"]["olsCI95"],
+        "F1b_outcomeBlindSubset": {"nDrivesSelected": f12["F1b"]["nDrivesSubset"], "nObs": f12["F1b"]["fit"]["nObs"], "nDays": f12["F1b"]["fit"]["nDays"], "slope": f12["F1b"]["fit"]["olsSlope"], "ci95": f12["F1b"]["fit"]["olsCI95"],
                                    "reading": "uninformative (Aug-Sep only, interval contains both published and rebuild slope)"},
         "F2": {"P_nFitsCIContainPublished": f"{f12['datasets']['P']['nFitsCIContainPublished']}/{f12['datasets']['P']['nFits']}",
                "rebuild_nFitsCIContainPublished": f"{f12['datasets']['A_Pexcl']['nFitsCIContainPublished']}/{f12['datasets']['A_Pexcl']['nFits']}"},
         "F3": {"explainedByPrelistedFeature": f3["explains"], "bestAUC": round(f3["bestAUC"], 3), "permutationP": f3["permutationNullMaxAUC"]["p"],
-               "reading": "mechanism unexplained by the 12 pre-listed raw-file features (candidate mechanisms remain hypotheses; originals unavailable)"},
+               "reading": "mechanism unexplained by the 12 pre-listed raw-file features (AUC < 0.9 is not 'no difference'; candidate mechanisms remain hypotheses, originals unavailable)"},
     },
     "sources": {p: md5(*p.split("/")) for p in ("raw_manifest.json", "analyses/F03/headline_delta_scenarioA.json",
                                                 "analyses/F03/f1_f2_f4_results.json", "analyses/F03/f3_results.json")},
