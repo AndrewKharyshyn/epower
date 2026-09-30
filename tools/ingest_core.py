@@ -30,7 +30,7 @@ os.chdir(ROOT)
 
 ML16 = ['drive_cluster_k3', 'iso_outlier', 'iso_score', 'lof_score', 'f_iso', 'f_lof', 'f_mad', 'f_domain', 'ens_outlier',
         'f_domain_2p', 'f_iso_i', 'f_lof_i', 'f_mad_i', 'ens_invalid', 'ens_extreme', 'ens_outlier_v2']
-OUT_FILES = ["drive_master.csv", "raw_manifest.json", "summary_config.json", "summary_arrays.json"]
+OUT_FILES = ["drive_master.csv", "raw_manifest.json", "summary_config.json", "summary_arrays.json", "battery_temp_extremes.csv"]
 STAGING = os.path.join(ROOT, "raw_only")
 
 
@@ -338,6 +338,10 @@ def main():
         cfg.setdefault("auditMetadata", {})["determinism"] = block
         write_json(os.path.join(ROOT, "summary_config.json"), cfg, ensure_ascii=False, indent=1)
         dm_disk = pd.read_csv(os.path.join(ROOT, "drive_master.csv"), low_memory=False)
+        # battery_temp_extremes.csv must cover the CURRENT corpus before the arrays build (else compute_summary_arrays._records()
+        # silently omits the two battery-temperature-minimum rows: row count != len(dm)).
+        import battery_temp_extremes as bte
+        _atomic(os.path.join(ROOT, "battery_temp_extremes.csv"), lambda t: bte.raw_pass(dm_disk, stage).to_csv(t, index=False))
         arrays = step4_arrays(dm_disk, stage, a.recompute_m119v2)
         arrays["determinism"] = block
         write_json(os.path.join(ROOT, "summary_arrays.json"), arrays, ensure_ascii=False, indent=1)

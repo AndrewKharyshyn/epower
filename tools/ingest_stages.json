@@ -1,5 +1,5 @@
 {
- "_note": "Stage list for tools/run_ingest.py. 'verified' = command is evidenced in release_check.py / project code; false = reconcile against the real scripts in the first Code session. A stage failing stops the run; nothing is retried automatically.",
+ "_note": "Stage list for tools/run_ingest.py. 'verified' = command is evidenced in release_check.py / project code; false = reconcile against the real scripts in the first Code session. A stage failing stops the run; nothing is retried automatically. M308: stage_raw..refresh_gtr_headline added (verified in a scratch chain, 2026-09-30). Open: generatorTractionRecon.speedSplit has no auto-splice (speed_split.py only writes speed_split.json); the arrays carry the previous block.",
  "stages": [
   {
    "id": "preflight",
@@ -24,6 +24,56 @@
     "drive_master.csv",
     "raw_manifest.json",
     "summary_config.json",
+    "summary_arrays.json"
+   ]
+  },
+  {
+   "id": "stage_raw",
+   "title": "Stage raw_only/ (master-key symlinks + drive_master.csv + manifest) for the raw-pass scripts",
+   "cmd": [
+    "python3",
+    "tools/stage_raw.py"
+   ],
+   "verified": true
+  },
+  {
+   "id": "compute_seasonal",
+   "title": "Seasonal recompute (seasonal_drive_master.csv, seasonal_arrays.json)",
+   "cmd": [
+    "python3",
+    "compute_seasonal.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "seasonal_drive_master.csv",
+    "seasonal_arrays.json"
+   ]
+  },
+  {
+   "id": "fuel_recon",
+   "title": "fuel_recon.py --all (fuel_recon_master.csv; raw read from staged raw_only/)",
+   "cmd": [
+    "python3",
+    "fuel_recon.py",
+    "--all"
+   ],
+   "env": {
+    "XT_RAW_DIR": "$ROOT/raw_only"
+   },
+   "verified": true,
+   "outputs": [
+    "fuel_recon_master.csv"
+   ]
+  },
+  {
+   "id": "refresh_gtr_headline",
+   "title": "refresh_gtr_headline.py (generatorTractionRecon headline + cohort splits from fuel_recon_master.csv)",
+   "cmd": [
+    "python3",
+    "refresh_gtr_headline.py"
+   ],
+   "verified": true,
+   "outputs": [
     "summary_arrays.json"
    ]
   },

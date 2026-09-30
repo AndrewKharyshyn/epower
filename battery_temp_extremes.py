@@ -152,7 +152,8 @@ def build_records(dm, res):
 
 if __name__ == '__main__':
     dm = pd.read_csv('drive_master.csv')
-    res = raw_pass(dm, '/mnt/project')
+    import os
+    res = raw_pass(dm, os.environ.get('XT_RAW_DIR') or '/mnt/project')   # M308: env-aware (unset -> legacy path, unchanged behaviour)
     res.to_csv('battery_temp_extremes.csv', index=False)
     recs = build_records(dm, res)
     import json
