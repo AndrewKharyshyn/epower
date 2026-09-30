@@ -2,7 +2,8 @@ import pandas as pd, numpy as np, warnings, json
 warnings.filterwarnings('ignore')
 import model_constants as MC
 
-BASE='/mnt/project/'
+import os
+BASE=(os.environ.get('XT_RAW_DIR') or '/mnt/project').rstrip('/')+'/'   # M306: env-aware (unset -> legacy path, unchanged behaviour)
 CH = {
  'I':'[BMS] HV Battery Current (A)','V':'[BMS] HV Battery voltage (V)','soc':'[BMS] HV State of charge (%)',
  'speed':'Швидкість автомобіля (km/h)','rpm':'Оберти двигуна (rpm)',

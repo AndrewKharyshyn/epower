@@ -34,6 +34,9 @@ OUT_FILES = ["drive_master.csv", "raw_manifest.json", "summary_config.json", "su
 STAGING = os.path.join(ROOT, "raw_only")
 
 
+CARRIED = []
+
+
 class Gate(Exception):
     pass
 
@@ -193,6 +196,21 @@ def step3_determinism(master_path):
     return block, full
 
 
+def carry_forward(arrays, prev):
+    """Top-level keys the arrays build does not produce (GTR, seasonalCharts, cohort*, records*, registry, crossVehicle,
+    masterRefitAudit...) are owned by downstream stages/scripts. Carry the previous block forward so those stages
+    (apply_m284_post.sh, fuel_recon/refresh_gtr_headline, seasonal chain) can refresh them instead of crashing.
+    Returns the carried key names (recorded in the report: these blocks are STALE until their stage has run)."""
+    carried = sorted(k for k in prev if k not in arrays)
+    for k in carried:
+        arrays[k] = prev[k]
+    stamps = arrays.setdefault("_artifactStamps", {})
+    for k in carried:                                   # provenance stamps travel with their blocks
+        if k not in stamps and k in (prev.get("_artifactStamps") or {}):
+            stamps[k] = prev["_artifactStamps"][k]
+    return carried
+
+
 def step4_arrays(dm, raw_stage, recompute_m119v2):
     import compute_summary_arrays as csa
     import drive_raw_cache as drc
@@ -212,6 +230,7 @@ def step4_arrays(dm, raw_stage, recompute_m119v2):
         raise Gate("energyUncertaintyMC.recomputeMode != 'fresh' (recompute_energy_mc must run on every ingestion)")
     if (cfg.get("sessions") or cfg.get("sessionGroups")) and not arrays.get("sessionLedgerAudit"):
         raise Gate("sessionLedgerAudit is null although config declares sessions (P0-14)")
+    CARRIED[:] = carry_forward(arrays, prev)   # reported by main(); NOT stored in the arrays file
     return arrays
 
 
@@ -268,7 +287,7 @@ def main():
                   e4_master=os.path.join(ROOT, "e4orce_master.csv"), raw_dir=stage, verbose=False)
         if md5(os.path.join(ROOT, "drive_master.csv")) != m0:
             raise Gate("crosscheck inject changed drive_master.csv")
-        report.update(status="ok", rows_after=len(dm_disk), md5_after=m0, backup=os.path.relpath(bdir, ROOT))
+        report.update(carried_forward_keys_stale_until_stage_runs=list(CARRIED), status="ok", rows_after=len(dm_disk), md5_after=m0, backup=os.path.relpath(bdir, ROOT))
         rc = 0
     except BaseException as ex:   # incl. KeyboardInterrupt/SystemExit: never leave a partial write
         for f in OUT_FILES:
