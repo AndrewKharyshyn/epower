@@ -94,6 +94,7 @@ const REQUIRED_BLOCKS=[
   'seasonalCharts',
   'evidenceLedger',
   'masterRefitAudit',
+  'masterRefitProvenance',  // M311: rebuild from the repository raw archive, labelled provenance sensitivity (tools/build_refit_provenance.py)
   'provenanceSensitivity'   // M307/F03: computed provenance-sensitivity notice (f03_provenance_flag.py)
 ];
 const missing=REQUIRED_BLOCKS.filter(k=>arraysObj[k]==null);
