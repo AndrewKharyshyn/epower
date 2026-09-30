@@ -1,0 +1,7261 @@
+{
+ "summary": {
+  "nFiles": 448,
+  "nChecked": 441,
+  "nFlagged": 9,
+  "flagged": [
+   "2026-05-15 22-22-40.csv",
+   "2026-05-23 11-33-05.csv",
+   "2026-06-09 13-20-41.csv",
+   "2026-06-10 09-41-00.csv",
+   "2026-06-11 06-11-20.csv",
+   "2026-06-18 12-46-11.csv",
+   "2026-06-25 12-28-50.csv",
+   "2026-06-27 08-52-19.csv",
+   "2026-07-23 11-37-24.csv"
+  ]
+ },
+ "results": [
+  {
+   "file": "2026-05-11 18-57-09.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": []
+   },
+   "checked": false
+  },
+  {
+   "file": "2026-05-12 11-16-17.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": []
+   },
+   "checked": false
+  },
+  {
+   "file": "2026-05-12 19-50-20.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": []
+   },
+   "checked": false
+  },
+  {
+   "file": "2026-05-12 21-55-42.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": []
+   },
+   "checked": false
+  },
+  {
+   "file": "2026-05-13 18-03-35.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": []
+   },
+   "checked": false
+  },
+  {
+   "file": "2026-05-13 18-29-50.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 9656,
+    "min": 3.495,
+    "max": 4.036,
+    "nDistinct": 423,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-13 22-42-32.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 566,
+    "min": 3.867,
+    "max": 3.954,
+    "nDistinct": 46,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-14 08-04-26.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 444,
+    "min": 3.793,
+    "max": 4.04,
+    "nDistinct": 173,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-14 09-30-59.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 504,
+    "min": 3.57,
+    "max": 3.875,
+    "nDistinct": 211,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-14 09-44-36.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 532,
+    "min": 3.524,
+    "max": 3.918,
+    "nDistinct": 226,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-15 07-40-31.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 464,
+    "min": 3.596,
+    "max": 4.098,
+    "nDistinct": 244,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-15 07-52-07.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 646,
+    "min": 3.764,
+    "max": 4.041,
+    "nDistinct": 189,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-15 19-15-51.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 536,
+    "min": 3.577,
+    "max": 3.897,
+    "nDistinct": 199,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-15 19-47-44.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1042,
+    "min": 3.584,
+    "max": 4.058,
+    "nDistinct": 273,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-15 22-22-40.csv",
+   "flags": [
+    {
+     "rule": "R1_cell_voltage_range",
+     "nOutOfRange": 1,
+     "min": 3.582,
+     "max": 53.0,
+     "range": [
+      2.5,
+      4.3
+     ]
+    }
+   ],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1780,
+    "min": 3.582,
+    "max": 53.0,
+    "nDistinct": 257,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-16 12-15-20.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 316,
+    "min": 3.529,
+    "max": 4.007,
+    "nDistinct": 180,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-16 12-59-03.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 450,
+    "min": 3.472,
+    "max": 3.974,
+    "nDistinct": 181,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-16 13-14-23.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1734,
+    "min": 3.515,
+    "max": 3.944,
+    "nDistinct": 324,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-16 13-43-39.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1024,
+    "min": 3.533,
+    "max": 3.913,
+    "nDistinct": 243,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-16 17-50-04.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 386,
+    "min": 3.583,
+    "max": 3.83,
+    "nDistinct": 143,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-16 18-20-41.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 272,
+    "min": 3.625,
+    "max": 3.85,
+    "nDistinct": 126,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-16 19-11-21.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2164,
+    "min": 3.552,
+    "max": 3.921,
+    "nDistinct": 273,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-17 11-21-15.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 484,
+    "min": 3.541,
+    "max": 3.969,
+    "nDistinct": 179,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-17 12-01-00.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1234,
+    "min": 3.571,
+    "max": 3.856,
+    "nDistinct": 222,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-17 14-17-12.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 732,
+    "min": 3.592,
+    "max": 3.901,
+    "nDistinct": 195,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-17 14-54-35.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1236,
+    "min": 3.521,
+    "max": 3.923,
+    "nDistinct": 244,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-18 07-38-27.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 970,
+    "min": 3.59,
+    "max": 3.855,
+    "nDistinct": 183,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-23 11-33-05.csv",
+   "flags": [
+    {
+     "rule": "R1_cell_voltage_range",
+     "nOutOfRange": 1,
+     "min": 3.57,
+     "max": 53.0,
+     "range": [
+      2.5,
+      4.3
+     ]
+    }
+   ],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 543,
+    "min": 3.57,
+    "max": 53.0,
+    "nDistinct": 170,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-23 12-08-59.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 990,
+    "min": 3.482,
+    "max": 3.975,
+    "nDistinct": 255,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-23 12-49-43.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 470,
+    "min": 3.527,
+    "max": 3.909,
+    "nDistinct": 219,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-23 13-10-19.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 7494,
+    "min": 3.516,
+    "max": 3.979,
+    "nDistinct": 355,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-23 14-46-29.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1600,
+    "min": 3.552,
+    "max": 4.013,
+    "nDistinct": 282,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-23 18-32-18.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 852,
+    "min": 3.552,
+    "max": 3.941,
+    "nDistinct": 260,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-23 21-04-27.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 836,
+    "min": 3.61,
+    "max": 3.881,
+    "nDistinct": 198,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-23 21-33-00.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3816,
+    "min": 3.538,
+    "max": 3.96,
+    "nDistinct": 316,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-23 22-21-03.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 4156,
+    "min": 3.573,
+    "max": 4.041,
+    "nDistinct": 401,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-31 18-36-45.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 5252,
+    "min": 3.496,
+    "max": 4.075,
+    "nDistinct": 435,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-05-31 20-06-37.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1380,
+    "min": 3.529,
+    "max": 3.94,
+    "nDistinct": 250,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-03 12-20-08.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 778,
+    "min": 3.583,
+    "max": 4.052,
+    "nDistinct": 278,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-03 12-49-19.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 844,
+    "min": 3.515,
+    "max": 3.941,
+    "nDistinct": 231,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-09 13-20-41.csv",
+   "flags": [
+    {
+     "rule": "R1_cell_voltage_range",
+     "nOutOfRange": 2,
+     "min": 3.5,
+     "max": 53.0,
+     "range": [
+      2.5,
+      4.3
+     ]
+    },
+    {
+     "rule": "R2_quantisation",
+     "minStepV": 0.1,
+     "threshold": 0.05
+    }
+   ],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 5734,
+    "min": 3.5,
+    "max": 53.0,
+    "nDistinct": 7,
+    "minStepV": 0.1
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-09 15-30-39.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 4250,
+    "min": 3.577,
+    "max": 4.009,
+    "nDistinct": 286,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-09 16-40-33.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 8766,
+    "min": 3.533,
+    "max": 4.114,
+    "nDistinct": 414,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-09 22-30-56.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3070,
+    "min": 3.577,
+    "max": 4.132,
+    "nDistinct": 385,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-10 09-41-00.csv",
+   "flags": [
+    {
+     "rule": "R1_cell_voltage_range",
+     "nOutOfRange": 6,
+     "min": 3.5,
+     "max": 53.0,
+     "range": [
+      2.5,
+      4.3
+     ]
+    },
+    {
+     "rule": "R2_quantisation",
+     "minStepV": 0.1,
+     "threshold": 0.05
+    }
+   ],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 5812,
+    "min": 3.5,
+    "max": 53.0,
+    "nDistinct": 8,
+    "minStepV": 0.1
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-10 10-54-54.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 8586,
+    "min": 3.531,
+    "max": 4.125,
+    "nDistinct": 422,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-11 06-11-20.csv",
+   "flags": [
+    {
+     "rule": "R1_cell_voltage_range",
+     "nOutOfRange": 2,
+     "min": 3.6,
+     "max": 53.0,
+     "range": [
+      2.5,
+      4.3
+     ]
+    },
+    {
+     "rule": "R2_quantisation",
+     "minStepV": 0.1,
+     "threshold": 0.05
+    }
+   ],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 12767,
+    "min": 3.6,
+    "max": 53.0,
+    "nDistinct": 7,
+    "minStepV": 0.1
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-11 10-05-10.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1868,
+    "min": 3.537,
+    "max": 3.981,
+    "nDistinct": 284,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-11 13-43-47.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 4156,
+    "min": 3.604,
+    "max": 3.967,
+    "nDistinct": 322,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-11 20-38-50.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 718,
+    "min": 3.618,
+    "max": 3.833,
+    "nDistinct": 147,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-11 21-51-31.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3254,
+    "min": 3.551,
+    "max": 3.926,
+    "nDistinct": 311,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-12 14-24-00.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 497,
+    "min": 3.6,
+    "max": 3.952,
+    "nDistinct": 211,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-12 15-27-40.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 7528,
+    "min": 3.553,
+    "max": 4.094,
+    "nDistinct": 372,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-12 17-07-59.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 9760,
+    "min": 3.538,
+    "max": 4.008,
+    "nDistinct": 378,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-13 10-15-00.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 8079,
+    "min": 3.435,
+    "max": 4.094,
+    "nDistinct": 440,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-13 18-12-21.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 926,
+    "min": 3.51,
+    "max": 3.943,
+    "nDistinct": 283,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-13 19-59-20.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 5236,
+    "min": 3.573,
+    "max": 4.072,
+    "nDistinct": 358,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-14 13-34-31.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3090,
+    "min": 3.544,
+    "max": 4.017,
+    "nDistinct": 352,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-16 16-05-33.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 390,
+    "min": 3.457,
+    "max": 3.964,
+    "nDistinct": 207,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-16 16-26-43.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 754,
+    "min": 3.545,
+    "max": 3.917,
+    "nDistinct": 243,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-17 15-09-30.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 430,
+    "min": 3.43,
+    "max": 3.956,
+    "nDistinct": 239,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-17 15-21-14.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1046,
+    "min": 3.536,
+    "max": 3.978,
+    "nDistinct": 289,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-18 12-46-11.csv",
+   "flags": [
+    {
+     "rule": "R1_cell_voltage_range",
+     "nOutOfRange": 2,
+     "min": 3.5,
+     "max": 53.0,
+     "range": [
+      2.5,
+      4.3
+     ]
+    },
+    {
+     "rule": "R2_quantisation",
+     "minStepV": 0.1,
+     "threshold": 0.05
+    }
+   ],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1096,
+    "min": 3.5,
+    "max": 53.0,
+    "nDistinct": 6,
+    "minStepV": 0.1
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-18 15-05-16.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 494,
+    "min": 3.551,
+    "max": 3.924,
+    "nDistinct": 200,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-19 12-24-07.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 16606,
+    "min": 3.497,
+    "max": 4.035,
+    "nDistinct": 439,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-19 18-01-38.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 5152,
+    "min": 3.521,
+    "max": 4.047,
+    "nDistinct": 347,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-19 19-09-27.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 10672,
+    "min": 3.588,
+    "max": 4.119,
+    "nDistinct": 381,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-19 21-09-59.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 15280,
+    "min": 3.572,
+    "max": 4.08,
+    "nDistinct": 433,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-20 09-00-55.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2176,
+    "min": 3.48,
+    "max": 3.955,
+    "nDistinct": 347,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-20 10-53-53.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2016,
+    "min": 3.523,
+    "max": 4.027,
+    "nDistinct": 383,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-20 13-58-38.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 654,
+    "min": 3.509,
+    "max": 3.8,
+    "nDistinct": 195,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-20 16-56-02.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3114,
+    "min": 3.532,
+    "max": 3.895,
+    "nDistinct": 307,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-20 18-08-17.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 380,
+    "min": 3.586,
+    "max": 3.76,
+    "nDistinct": 123,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-20 18-29-33.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2212,
+    "min": 3.541,
+    "max": 3.929,
+    "nDistinct": 299,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-20 19-29-22.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 680,
+    "min": 3.606,
+    "max": 3.92,
+    "nDistinct": 205,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-20 22-00-01.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 944,
+    "min": 3.505,
+    "max": 3.876,
+    "nDistinct": 229,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-21 12-44-57.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 842,
+    "min": 3.614,
+    "max": 3.913,
+    "nDistinct": 198,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-21 14-52-49.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 744,
+    "min": 3.496,
+    "max": 3.859,
+    "nDistinct": 236,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-21 16-46-17.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 12954,
+    "min": 3.53,
+    "max": 4.098,
+    "nDistinct": 411,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-21 21-22-14.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 262,
+    "min": 3.555,
+    "max": 3.87,
+    "nDistinct": 156,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-21 21-32-41.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1604,
+    "min": 3.545,
+    "max": 3.99,
+    "nDistinct": 302,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-22 20-38-03.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 991,
+    "min": 3.607,
+    "max": 3.919,
+    "nDistinct": 250,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-22 21-20-51.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1051,
+    "min": 3.597,
+    "max": 3.919,
+    "nDistinct": 244,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-22 21-41-45.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 340,
+    "min": 3.575,
+    "max": 3.913,
+    "nDistinct": 152,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-22 22-00-01.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 438,
+    "min": 3.574,
+    "max": 3.925,
+    "nDistinct": 163,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-24 11-23-35.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 570,
+    "min": 3.527,
+    "max": 3.898,
+    "nDistinct": 206,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-24 13-07-57.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1560,
+    "min": 3.54,
+    "max": 3.915,
+    "nDistinct": 251,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-25 12-28-50.csv",
+   "flags": [
+    {
+     "rule": "R1_cell_voltage_range",
+     "nOutOfRange": 1,
+     "min": 3.586,
+     "max": 53.0,
+     "range": [
+      2.5,
+      4.3
+     ]
+    }
+   ],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 399,
+    "min": 3.586,
+    "max": 53.0,
+    "nDistinct": 122,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-25 15-39-01.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 634,
+    "min": 3.481,
+    "max": 3.922,
+    "nDistinct": 215,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-25 21-05-02.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 438,
+    "min": 3.596,
+    "max": 3.936,
+    "nDistinct": 179,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-25 21-27-37.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1640,
+    "min": 3.46,
+    "max": 4.075,
+    "nDistinct": 340,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-27 08-52-19.csv",
+   "flags": [
+    {
+     "rule": "R1_cell_voltage_range",
+     "nOutOfRange": 4,
+     "min": 3.6,
+     "max": 53.0,
+     "range": [
+      2.5,
+      4.3
+     ]
+    },
+    {
+     "rule": "R2_quantisation",
+     "minStepV": 0.1,
+     "threshold": 0.05
+    }
+   ],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 554,
+    "min": 3.6,
+    "max": 53.0,
+    "nDistinct": 6,
+    "minStepV": 0.1
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-27 09-35-29.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 392,
+    "min": 3.555,
+    "max": 3.891,
+    "nDistinct": 187,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-27 11-14-49.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 798,
+    "min": 3.593,
+    "max": 3.938,
+    "nDistinct": 234,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-27 11-44-35.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 14233,
+    "min": 3.53,
+    "max": 4.028,
+    "nDistinct": 394,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-27 14-49-29.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1790,
+    "min": 3.61,
+    "max": 3.997,
+    "nDistinct": 270,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-27 15-44-30.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 10014,
+    "min": 3.548,
+    "max": 4.033,
+    "nDistinct": 380,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-27 17-51-20.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 8958,
+    "min": 3.519,
+    "max": 4.109,
+    "nDistinct": 418,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-29 17-24-08.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 328,
+    "min": 3.555,
+    "max": 3.936,
+    "nDistinct": 168,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-29 17-52-48.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 88,
+    "min": 3.573,
+    "max": 3.717,
+    "nDistinct": 60,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-06-29 18-06-47.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1272,
+    "min": 3.485,
+    "max": 3.95,
+    "nDistinct": 296,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-02 19-34-33.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 558,
+    "min": 3.507,
+    "max": 3.886,
+    "nDistinct": 191,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-02 20-46-13.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2532,
+    "min": 3.546,
+    "max": 3.916,
+    "nDistinct": 307,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-05 10-50-38.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 604,
+    "min": 3.593,
+    "max": 3.952,
+    "nDistinct": 201,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-05 12-20-16.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1326,
+    "min": 3.338,
+    "max": 3.952,
+    "nDistinct": 310,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-07 21-35-01.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1870,
+    "min": 3.512,
+    "max": 4.061,
+    "nDistinct": 396,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-07 22-29-59.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1568,
+    "min": 3.593,
+    "max": 3.916,
+    "nDistinct": 258,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-09 21-51-55.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3975,
+    "min": 3.413,
+    "max": 4.049,
+    "nDistinct": 414,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-11 16-02-53.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 8868,
+    "min": 3.546,
+    "max": 4.071,
+    "nDistinct": 453,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-11 17-40-10.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2666,
+    "min": 3.546,
+    "max": 4.005,
+    "nDistinct": 332,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-11 22-16-18.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2466,
+    "min": 3.513,
+    "max": 3.944,
+    "nDistinct": 317,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-12 10-54-13.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1902,
+    "min": 3.382,
+    "max": 4.043,
+    "nDistinct": 357,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-12 15-58-18.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1108,
+    "min": 3.444,
+    "max": 3.989,
+    "nDistinct": 305,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-12 17-40-20.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 886,
+    "min": 3.562,
+    "max": 3.912,
+    "nDistinct": 248,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-12 21-04-39.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1498,
+    "min": 3.58,
+    "max": 3.939,
+    "nDistinct": 306,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-13 13-20-33.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 7454,
+    "min": 3.549,
+    "max": 4.041,
+    "nDistinct": 389,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-13 18-29-53.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3142,
+    "min": 3.388,
+    "max": 3.958,
+    "nDistinct": 328,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-13 20-30-27.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 884,
+    "min": 3.53,
+    "max": 3.933,
+    "nDistinct": 263,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-13 21-45-05.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 4550,
+    "min": 3.532,
+    "max": 3.94,
+    "nDistinct": 328,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-14 11-00-56.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 300,
+    "min": 3.496,
+    "max": 3.998,
+    "nDistinct": 178,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-14 11-36-19.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 418,
+    "min": 3.524,
+    "max": 3.964,
+    "nDistinct": 174,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-14 11-52-10.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 876,
+    "min": 3.489,
+    "max": 3.925,
+    "nDistinct": 244,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-14 12-37-12.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 828,
+    "min": 3.559,
+    "max": 4.071,
+    "nDistinct": 317,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-14 14-58-46.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 440,
+    "min": 3.438,
+    "max": 3.986,
+    "nDistinct": 243,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-14 15-31-51.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2470,
+    "min": 3.574,
+    "max": 3.978,
+    "nDistinct": 312,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-14 16-18-33.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2324,
+    "min": 3.573,
+    "max": 4.035,
+    "nDistinct": 344,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-14 16-50-14.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 622,
+    "min": 3.643,
+    "max": 3.906,
+    "nDistinct": 197,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-14 17-02-17.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 562,
+    "min": 3.632,
+    "max": 3.997,
+    "nDistinct": 195,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-15 16-06-47.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3282,
+    "min": 3.61,
+    "max": 4.043,
+    "nDistinct": 333,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-15 19-43-09.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3984,
+    "min": 3.533,
+    "max": 3.949,
+    "nDistinct": 335,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-16 06-26-06.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1594,
+    "min": 3.512,
+    "max": 4.03,
+    "nDistinct": 355,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-16 06-56-00.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 9526,
+    "min": 3.593,
+    "max": 4.06,
+    "nDistinct": 343,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-16 09-47-56.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 6994,
+    "min": 3.556,
+    "max": 4.064,
+    "nDistinct": 376,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-16 11-51-34.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 15576,
+    "min": 3.505,
+    "max": 4.027,
+    "nDistinct": 407,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-16 18-07-27.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3168,
+    "min": 3.546,
+    "max": 3.963,
+    "nDistinct": 289,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-16 19-42-01.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1782,
+    "min": 3.6,
+    "max": 3.824,
+    "nDistinct": 192,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-16 21-53-56.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2274,
+    "min": 3.527,
+    "max": 3.892,
+    "nDistinct": 240,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-16 22-43-47.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 704,
+    "min": 3.602,
+    "max": 3.824,
+    "nDistinct": 156,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-17 10-34-48.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1570,
+    "min": 3.549,
+    "max": 3.939,
+    "nDistinct": 292,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-17 13-43-02.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2160,
+    "min": 3.551,
+    "max": 3.866,
+    "nDistinct": 239,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-17 16-36-35.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1014,
+    "min": 3.522,
+    "max": 3.782,
+    "nDistinct": 160,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-18 11-32-22.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1392,
+    "min": 3.577,
+    "max": 3.861,
+    "nDistinct": 191,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-18 12-51-00.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2124,
+    "min": 3.507,
+    "max": 3.912,
+    "nDistinct": 277,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-18 14-58-14.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 4948,
+    "min": 3.562,
+    "max": 4.014,
+    "nDistinct": 349,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-18 16-16-11.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 722,
+    "min": 3.551,
+    "max": 3.941,
+    "nDistinct": 233,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-18 16-34-14.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3336,
+    "min": 3.552,
+    "max": 3.962,
+    "nDistinct": 325,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-18 20-33-13.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1682,
+    "min": 3.609,
+    "max": 4.014,
+    "nDistinct": 300,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-18 21-38-32.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1390,
+    "min": 3.559,
+    "max": 3.939,
+    "nDistinct": 280,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-18 22-03-12.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 436,
+    "min": 3.557,
+    "max": 3.848,
+    "nDistinct": 178,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-19 15-43-51.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3978,
+    "min": 3.58,
+    "max": 4.102,
+    "nDistinct": 452,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-19 17-12-52.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 400,
+    "min": 3.585,
+    "max": 3.855,
+    "nDistinct": 152,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-19 18-44-33.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1918,
+    "min": 3.569,
+    "max": 3.985,
+    "nDistinct": 317,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-19 20-49-58.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3124,
+    "min": 3.516,
+    "max": 4.041,
+    "nDistinct": 447,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-19 21-29-12.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 524,
+    "min": 3.63,
+    "max": 3.855,
+    "nDistinct": 138,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-19 21-41-17.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 790,
+    "min": 3.588,
+    "max": 3.91,
+    "nDistinct": 222,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-20 11-38-26.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1309,
+    "min": 3.439,
+    "max": 4.127,
+    "nDistinct": 440,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-20 13-40-59.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 15394,
+    "min": 3.564,
+    "max": 4.074,
+    "nDistinct": 412,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-20 16-53-07.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 4430,
+    "min": 3.548,
+    "max": 4.057,
+    "nDistinct": 395,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-20 17-42-10.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2430,
+    "min": 3.533,
+    "max": 3.936,
+    "nDistinct": 299,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-20 19-00-55.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2030,
+    "min": 3.595,
+    "max": 3.972,
+    "nDistinct": 284,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-20 20-48-35.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 6516,
+    "min": 3.522,
+    "max": 4.122,
+    "nDistinct": 452,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-21 11-42-46.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2203,
+    "min": 3.504,
+    "max": 4.05,
+    "nDistinct": 399,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-21 12-25-03.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 744,
+    "min": 3.578,
+    "max": 3.787,
+    "nDistinct": 185,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-21 17-26-32.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2164,
+    "min": 3.485,
+    "max": 4.079,
+    "nDistinct": 427,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-21 19-33-30.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 259,
+    "min": 3.563,
+    "max": 3.837,
+    "nDistinct": 128,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-21 19-46-52.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 492,
+    "min": 3.522,
+    "max": 3.925,
+    "nDistinct": 204,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-21 20-05-34.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1978,
+    "min": 3.496,
+    "max": 3.981,
+    "nDistinct": 318,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-22 12-12-52.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 536,
+    "min": 3.508,
+    "max": 3.96,
+    "nDistinct": 241,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-22 13-41-52.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 960,
+    "min": 3.514,
+    "max": 3.961,
+    "nDistinct": 297,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-22 16-33-39.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 220,
+    "min": 3.504,
+    "max": 3.887,
+    "nDistinct": 144,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-22 18-48-14.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 702,
+    "min": 3.588,
+    "max": 4.052,
+    "nDistinct": 272,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-22 20-48-10.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 164,
+    "min": 3.527,
+    "max": 3.803,
+    "nDistinct": 80,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-22 21-08-50.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 374,
+    "min": 3.532,
+    "max": 4.023,
+    "nDistinct": 196,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-23 11-37-24.csv",
+   "flags": [
+    {
+     "rule": "R1_cell_voltage_range",
+     "nOutOfRange": 2,
+     "min": 3.4,
+     "max": 53.0,
+     "range": [
+      2.5,
+      4.3
+     ]
+    },
+    {
+     "rule": "R2_quantisation",
+     "minStepV": 0.1,
+     "threshold": 0.05
+    }
+   ],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 7856,
+    "min": 3.4,
+    "max": 53.0,
+    "nDistinct": 9,
+    "minStepV": 0.1
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-23 13-23-56.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1492,
+    "min": 3.517,
+    "max": 4.099,
+    "nDistinct": 350,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-23 17-30-55.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 5084,
+    "min": 3.509,
+    "max": 4.019,
+    "nDistinct": 376,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-23 20-00-33.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 126,
+    "min": 3.576,
+    "max": 3.819,
+    "nDistinct": 78,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-23 21-00-16.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1062,
+    "min": 3.523,
+    "max": 3.913,
+    "nDistinct": 301,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-23 21-18-41.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 612,
+    "min": 3.651,
+    "max": 3.982,
+    "nDistinct": 231,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-23 21-54-45.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 4940,
+    "min": 3.598,
+    "max": 4.088,
+    "nDistinct": 411,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-24 11-49-05.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 352,
+    "min": 3.388,
+    "max": 3.903,
+    "nDistinct": 196,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-24 14-48-54.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 456,
+    "min": 3.525,
+    "max": 3.954,
+    "nDistinct": 218,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-24 16-58-58.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3712,
+    "min": 3.545,
+    "max": 4.059,
+    "nDistinct": 389,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-24 17-48-28.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 4100,
+    "min": 3.54,
+    "max": 4.053,
+    "nDistinct": 413,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-24 20-42-59.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 4396,
+    "min": 3.562,
+    "max": 4.102,
+    "nDistinct": 419,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-25 11-34-18.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 7205,
+    "min": 3.431,
+    "max": 4.08,
+    "nDistinct": 494,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-25 12-52-21.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2442,
+    "min": 3.612,
+    "max": 3.969,
+    "nDistinct": 312,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-25 13-30-48.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 900,
+    "min": 3.582,
+    "max": 3.937,
+    "nDistinct": 256,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-25 14-00-26.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 13726,
+    "min": 3.562,
+    "max": 4.096,
+    "nDistinct": 447,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-25 16-37-49.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 786,
+    "min": 3.588,
+    "max": 4.043,
+    "nDistinct": 266,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-26 10-33-26.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 18400,
+    "min": 3.579,
+    "max": 4.085,
+    "nDistinct": 434,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-26 14-17-38.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 14140,
+    "min": 3.531,
+    "max": 4.062,
+    "nDistinct": 398,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-26 17-22-44.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 13570,
+    "min": 3.53,
+    "max": 4.069,
+    "nDistinct": 413,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-26 20-01-46.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 8854,
+    "min": 3.568,
+    "max": 4.065,
+    "nDistinct": 385,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-07-30 22-06-51.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 4746,
+    "min": 3.51,
+    "max": 4.046,
+    "nDistinct": 394,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-01 18-06-17.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2602,
+    "min": 3.439,
+    "max": 4.033,
+    "nDistinct": 419,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-01 20-53-20.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3520,
+    "min": 3.547,
+    "max": 4.102,
+    "nDistinct": 340,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-02 08-12-26.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 774,
+    "min": 3.513,
+    "max": 3.951,
+    "nDistinct": 275,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-02 09-33-39.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1022,
+    "min": 3.533,
+    "max": 3.92,
+    "nDistinct": 296,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-02 13-24-22.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 12040,
+    "min": 3.544,
+    "max": 4.05,
+    "nDistinct": 406,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-02 15-33-06.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2236,
+    "min": 3.568,
+    "max": 3.94,
+    "nDistinct": 270,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-02 16-30-37.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1198,
+    "min": 3.523,
+    "max": 3.89,
+    "nDistinct": 228,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-02 18-43-02.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2557,
+    "min": 3.517,
+    "max": 4.016,
+    "nDistinct": 344,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-02 19-36-54.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3156,
+    "min": 3.548,
+    "max": 3.948,
+    "nDistinct": 314,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-02 21-33-51.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1042,
+    "min": 3.517,
+    "max": 3.927,
+    "nDistinct": 220,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-03 18-19-23.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 4616,
+    "min": 3.494,
+    "max": 4.003,
+    "nDistinct": 385,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-03 19-38-40.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3322,
+    "min": 3.565,
+    "max": 4.072,
+    "nDistinct": 360,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-03 21-59-20.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3788,
+    "min": 3.587,
+    "max": 3.931,
+    "nDistinct": 322,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-04 15-34-53.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1464,
+    "min": 3.55,
+    "max": 4.033,
+    "nDistinct": 303,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-04 15-59-49.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1154,
+    "min": 3.572,
+    "max": 3.926,
+    "nDistinct": 251,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-04 19-19-29.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 534,
+    "min": 3.559,
+    "max": 3.856,
+    "nDistinct": 158,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-04 19-42-34.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 442,
+    "min": 3.585,
+    "max": 3.801,
+    "nDistinct": 163,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-04 20-00-03.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 674,
+    "min": 3.606,
+    "max": 4.031,
+    "nDistinct": 270,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-04 20-13-51.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 7214,
+    "min": 3.532,
+    "max": 4.006,
+    "nDistinct": 346,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-04 21-54-37.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 5924,
+    "min": 3.532,
+    "max": 4.052,
+    "nDistinct": 381,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-06 15-54-44.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3212,
+    "min": 3.533,
+    "max": 4.068,
+    "nDistinct": 396,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-08 12-25-45.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1266,
+    "min": 3.573,
+    "max": 3.928,
+    "nDistinct": 258,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-08 12-47-14.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1208,
+    "min": 3.573,
+    "max": 3.998,
+    "nDistinct": 257,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-08 13-04-11.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 350,
+    "min": 3.607,
+    "max": 3.868,
+    "nDistinct": 144,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-08 16-02-15.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 6420,
+    "min": 3.548,
+    "max": 4.067,
+    "nDistinct": 377,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-08 20-18-00.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 6418,
+    "min": 3.52,
+    "max": 4.033,
+    "nDistinct": 398,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-09 12-00-00.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 528,
+    "min": 3.461,
+    "max": 3.966,
+    "nDistinct": 218,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-09 12-36-55.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 340,
+    "min": 3.549,
+    "max": 3.779,
+    "nDistinct": 154,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-09 12-45-23.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 296,
+    "min": 3.565,
+    "max": 3.73,
+    "nDistinct": 104,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-09 13-05-57.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 166,
+    "min": 3.611,
+    "max": 3.78,
+    "nDistinct": 101,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-09 13-18-03.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 550,
+    "min": 3.577,
+    "max": 3.948,
+    "nDistinct": 217,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-09 18-17-39.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 758,
+    "min": 3.361,
+    "max": 3.961,
+    "nDistinct": 250,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-09 19-12-54.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 308,
+    "min": 3.516,
+    "max": 3.964,
+    "nDistinct": 171,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-09 19-21-00.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 512,
+    "min": 3.583,
+    "max": 3.974,
+    "nDistinct": 197,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-10 15-13-56.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 460,
+    "min": 3.482,
+    "max": 3.927,
+    "nDistinct": 244,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-10 15-22-12.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 620,
+    "min": 3.503,
+    "max": 3.976,
+    "nDistinct": 234,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-12 08-52-29.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 730,
+    "min": 3.509,
+    "max": 3.92,
+    "nDistinct": 224,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-12 09-35-11.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 640,
+    "min": 3.394,
+    "max": 3.87,
+    "nDistinct": 203,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-13 11-52-20.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1180,
+    "min": 3.515,
+    "max": 4.004,
+    "nDistinct": 350,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-13 14-46-01.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 148,
+    "min": 3.58,
+    "max": 3.982,
+    "nDistinct": 95,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-13 14-56-51.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 144,
+    "min": 3.648,
+    "max": 4.011,
+    "nDistinct": 94,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-13 15-03-41.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 478,
+    "min": 3.615,
+    "max": 3.995,
+    "nDistinct": 164,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-14 10-10-07.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 483,
+    "min": 3.599,
+    "max": 3.834,
+    "nDistinct": 163,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-14 10-22-13.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 554,
+    "min": 3.552,
+    "max": 3.736,
+    "nDistinct": 122,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-14 12-14-38.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 855,
+    "min": 3.529,
+    "max": 4.03,
+    "nDistinct": 262,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-14 12-23-08.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 858,
+    "min": 3.489,
+    "max": 4.101,
+    "nDistinct": 251,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-14 18-22-03.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 4825,
+    "min": 3.487,
+    "max": 4.094,
+    "nDistinct": 465,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-14 21-34-16.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 4762,
+    "min": 3.545,
+    "max": 4.0,
+    "nDistinct": 339,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-16 12-48-17.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": []
+   },
+   "checked": false
+  },
+  {
+   "file": "2026-08-16 14-40-03.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": []
+   },
+   "checked": false
+  },
+  {
+   "file": "2026-08-16 16-53-56.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1894,
+    "min": 3.54,
+    "max": 3.867,
+    "nDistinct": 237,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-16 17-16-38.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1962,
+    "min": 3.518,
+    "max": 3.905,
+    "nDistinct": 291,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-16 17-35-27.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 360,
+    "min": 3.62,
+    "max": 3.958,
+    "nDistinct": 152,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-16 17-42-35.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 524,
+    "min": 3.581,
+    "max": 3.958,
+    "nDistinct": 200,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-17 08-48-21.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3096,
+    "min": 3.523,
+    "max": 4.08,
+    "nDistinct": 419,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-17 17-56-52.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 876,
+    "min": 3.494,
+    "max": 3.903,
+    "nDistinct": 239,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-17 18-18-18.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 918,
+    "min": 3.552,
+    "max": 3.879,
+    "nDistinct": 232,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-17 18-35-43.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 8834,
+    "min": 3.506,
+    "max": 4.028,
+    "nDistinct": 413,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-18 09-25-16.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2408,
+    "min": 3.558,
+    "max": 4.007,
+    "nDistinct": 365,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-18 11-12-00.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 5716,
+    "min": 3.508,
+    "max": 3.966,
+    "nDistinct": 350,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-18 12-41-41.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 798,
+    "min": 3.407,
+    "max": 3.885,
+    "nDistinct": 201,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-18 14-05-44.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3714,
+    "min": 3.473,
+    "max": 3.944,
+    "nDistinct": 351,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-18 15-01-10.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1232,
+    "min": 3.531,
+    "max": 3.897,
+    "nDistinct": 242,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-19 12-37-47.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 560,
+    "min": 3.466,
+    "max": 3.928,
+    "nDistinct": 225,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-19 12-49-07.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 5405,
+    "min": 3.411,
+    "max": 4.016,
+    "nDistinct": 393,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-19 13-59-03.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 5529,
+    "min": 3.519,
+    "max": 3.938,
+    "nDistinct": 351,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-20 10-57-58.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 10132,
+    "min": 3.516,
+    "max": 4.028,
+    "nDistinct": 427,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-20 20-18-53.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 4850,
+    "min": 3.493,
+    "max": 3.941,
+    "nDistinct": 334,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-20 21-49-27.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 5132,
+    "min": 3.538,
+    "max": 3.958,
+    "nDistinct": 368,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-20 22-50-27.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1182,
+    "min": 3.599,
+    "max": 3.958,
+    "nDistinct": 234,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-21 08-19-39.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 8194,
+    "min": 3.533,
+    "max": 4.019,
+    "nDistinct": 423,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-21 19-37-13.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2647,
+    "min": 3.543,
+    "max": 3.855,
+    "nDistinct": 227,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-21 20-52-25.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3726,
+    "min": 3.497,
+    "max": 3.909,
+    "nDistinct": 348,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-21 22-51-37.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 5268,
+    "min": 3.559,
+    "max": 4.0,
+    "nDistinct": 375,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-22 10-21-39.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2555,
+    "min": 3.573,
+    "max": 4.016,
+    "nDistinct": 347,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-22 11-03-17.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 5606,
+    "min": 3.533,
+    "max": 3.991,
+    "nDistinct": 361,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-22 14-17-15.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3564,
+    "min": 3.543,
+    "max": 3.989,
+    "nDistinct": 342,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-22 17-35-39.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2450,
+    "min": 3.536,
+    "max": 3.962,
+    "nDistinct": 285,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-22 19-13-24.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2184,
+    "min": 3.59,
+    "max": 3.967,
+    "nDistinct": 313,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-22 20-53-59.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1430,
+    "min": 3.581,
+    "max": 3.926,
+    "nDistinct": 280,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-22 21-50-52.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 4972,
+    "min": 3.578,
+    "max": 3.98,
+    "nDistinct": 339,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-23 15-29-57.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3836,
+    "min": 3.491,
+    "max": 3.995,
+    "nDistinct": 424,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-23 16-13-15.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2564,
+    "min": 3.549,
+    "max": 3.977,
+    "nDistinct": 359,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-23 21-01-16.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 5728,
+    "min": 3.532,
+    "max": 4.029,
+    "nDistinct": 395,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-24 08-18-23.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 4180,
+    "min": 3.499,
+    "max": 4.109,
+    "nDistinct": 409,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-24 10-46-12.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3942,
+    "min": 3.543,
+    "max": 3.953,
+    "nDistinct": 346,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-24 13-36-02.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2250,
+    "min": 3.537,
+    "max": 3.927,
+    "nDistinct": 337,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-24 17-45-11.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 4136,
+    "min": 3.509,
+    "max": 3.952,
+    "nDistinct": 370,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-24 20-26-35.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3431,
+    "min": 3.548,
+    "max": 3.938,
+    "nDistinct": 336,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-24 21-20-48.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 4903,
+    "min": 3.583,
+    "max": 3.958,
+    "nDistinct": 313,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-24 22-24-25.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1066,
+    "min": 3.599,
+    "max": 3.937,
+    "nDistinct": 222,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-25 10-26-04.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3858,
+    "min": 3.45,
+    "max": 3.999,
+    "nDistinct": 426,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-25 12-32-47.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3669,
+    "min": 3.485,
+    "max": 3.947,
+    "nDistinct": 314,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-25 18-34-27.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 7752,
+    "min": 3.508,
+    "max": 3.985,
+    "nDistinct": 373,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-26 20-37-39.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 8712,
+    "min": 3.442,
+    "max": 4.002,
+    "nDistinct": 426,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-26 22-45-18.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 6874,
+    "min": 3.458,
+    "max": 3.953,
+    "nDistinct": 371,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-28 20-20-30.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 8253,
+    "min": 3.583,
+    "max": 3.997,
+    "nDistinct": 349,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-29 10-04-47.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 7074,
+    "min": 3.497,
+    "max": 4.094,
+    "nDistinct": 490,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-29 19-14-04.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1612,
+    "min": 3.537,
+    "max": 3.895,
+    "nDistinct": 232,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-29 19-30-46.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 734,
+    "min": 3.407,
+    "max": 3.976,
+    "nDistinct": 303,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-29 19-41-21.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1020,
+    "min": 3.525,
+    "max": 3.938,
+    "nDistinct": 234,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-30 12-10-43.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1320,
+    "min": 3.505,
+    "max": 3.991,
+    "nDistinct": 349,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-30 12-28-01.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3622,
+    "min": 3.427,
+    "max": 4.043,
+    "nDistinct": 428,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-30 12-54-10.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 12386,
+    "min": 3.529,
+    "max": 4.014,
+    "nDistinct": 363,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-30 15-53-18.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 6858,
+    "min": 3.48,
+    "max": 4.082,
+    "nDistinct": 345,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-30 16-59-26.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 10038,
+    "min": 3.568,
+    "max": 4.017,
+    "nDistinct": 355,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-30 19-09-07.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1934,
+    "min": 3.554,
+    "max": 3.966,
+    "nDistinct": 260,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-30 19-28-34.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2743,
+    "min": 3.513,
+    "max": 4.065,
+    "nDistinct": 380,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-30 20-06-17.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 952,
+    "min": 3.543,
+    "max": 3.925,
+    "nDistinct": 247,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-31 13-44-03.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1780,
+    "min": 3.49,
+    "max": 3.894,
+    "nDistinct": 284,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-31 20-16-58.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1258,
+    "min": 3.559,
+    "max": 3.83,
+    "nDistinct": 209,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-08-31 20-38-55.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 5204,
+    "min": 3.582,
+    "max": 3.922,
+    "nDistinct": 311,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-01 07-49-17.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 920,
+    "min": 3.594,
+    "max": 3.82,
+    "nDistinct": 188,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-01 08-09-56.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1174,
+    "min": 3.571,
+    "max": 3.821,
+    "nDistinct": 182,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-01 11-15-43.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1774,
+    "min": 3.481,
+    "max": 3.875,
+    "nDistinct": 259,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-01 11-28-14.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1910,
+    "min": 3.527,
+    "max": 3.885,
+    "nDistinct": 227,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-02 07-43-00.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 856,
+    "min": 3.531,
+    "max": 3.782,
+    "nDistinct": 185,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-02 07-53-16.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3732,
+    "min": 3.497,
+    "max": 3.95,
+    "nDistinct": 342,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-02 20-17-04.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1066,
+    "min": 3.504,
+    "max": 3.922,
+    "nDistinct": 251,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-02 20-33-18.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 612,
+    "min": 3.557,
+    "max": 3.81,
+    "nDistinct": 168,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-02 20-46-46.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3164,
+    "min": 3.562,
+    "max": 3.96,
+    "nDistinct": 324,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-02 21-15-11.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2316,
+    "min": 3.55,
+    "max": 3.898,
+    "nDistinct": 256,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-03 07-48-22.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 959,
+    "min": 3.57,
+    "max": 3.916,
+    "nDistinct": 239,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-03 08-02-32.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 456,
+    "min": 3.606,
+    "max": 3.815,
+    "nDistinct": 117,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-03 08-23-26.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1022,
+    "min": 3.6,
+    "max": 3.858,
+    "nDistinct": 201,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-03 20-05-14.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 924,
+    "min": 3.535,
+    "max": 3.893,
+    "nDistinct": 240,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-03 21-38-55.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2951,
+    "min": 3.57,
+    "max": 3.954,
+    "nDistinct": 338,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-04 07-51-23.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 810,
+    "min": 3.541,
+    "max": 3.916,
+    "nDistinct": 262,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-04 08-03-52.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 832,
+    "min": 3.674,
+    "max": 3.819,
+    "nDistinct": 131,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-04 20-34-11.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 4674,
+    "min": 3.452,
+    "max": 4.047,
+    "nDistinct": 416,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-05 10-31-57.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 976,
+    "min": 3.537,
+    "max": 3.956,
+    "nDistinct": 240,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-05 10-48-41.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1194,
+    "min": 3.452,
+    "max": 3.89,
+    "nDistinct": 263,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-05 11-04-15.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1072,
+    "min": 3.507,
+    "max": 3.928,
+    "nDistinct": 281,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-05 12-23-11.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1242,
+    "min": 3.558,
+    "max": 3.874,
+    "nDistinct": 244,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-05 12-35-11.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 392,
+    "min": 3.571,
+    "max": 3.723,
+    "nDistinct": 101,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-05 12-44-50.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 911,
+    "min": 3.583,
+    "max": 3.828,
+    "nDistinct": 192,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-05 16-23-10.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 782,
+    "min": 3.539,
+    "max": 4.001,
+    "nDistinct": 261,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-05 16-31-45.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 756,
+    "min": 3.55,
+    "max": 3.984,
+    "nDistinct": 228,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-05 16-48-24.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3742,
+    "min": 3.537,
+    "max": 3.981,
+    "nDistinct": 320,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-05 17-23-22.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2553,
+    "min": 3.563,
+    "max": 4.012,
+    "nDistinct": 326,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-05 17-52-45.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 531,
+    "min": 3.535,
+    "max": 3.982,
+    "nDistinct": 207,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-05 18-32-26.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1596,
+    "min": 3.51,
+    "max": 3.911,
+    "nDistinct": 230,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-06 12-15-20.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1064,
+    "min": 3.523,
+    "max": 3.992,
+    "nDistinct": 316,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-06 12-29-20.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1242,
+    "min": 3.497,
+    "max": 3.786,
+    "nDistinct": 186,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-06 13-07-54.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 418,
+    "min": 3.52,
+    "max": 3.885,
+    "nDistinct": 187,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-06 13-19-45.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 646,
+    "min": 3.491,
+    "max": 3.927,
+    "nDistinct": 234,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-06 13-48-27.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 508,
+    "min": 3.59,
+    "max": 3.871,
+    "nDistinct": 139,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-06 19-51-40.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 740,
+    "min": 3.543,
+    "max": 3.939,
+    "nDistinct": 259,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-06 20-15-52.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1685,
+    "min": 3.478,
+    "max": 4.019,
+    "nDistinct": 342,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-07 07-45-34.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 760,
+    "min": 3.535,
+    "max": 4.066,
+    "nDistinct": 314,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-07 08-02-14.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 282,
+    "min": 3.727,
+    "max": 3.927,
+    "nDistinct": 119,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-07 08-18-55.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 442,
+    "min": 3.541,
+    "max": 3.833,
+    "nDistinct": 162,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-07 08-25-22.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 270,
+    "min": 3.617,
+    "max": 3.732,
+    "nDistinct": 82,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-07 16-55-32.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 584,
+    "min": 3.552,
+    "max": 3.95,
+    "nDistinct": 232,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-07 17-16-59.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 440,
+    "min": 3.566,
+    "max": 3.855,
+    "nDistinct": 183,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-07 17-27-45.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 172,
+    "min": 3.537,
+    "max": 3.785,
+    "nDistinct": 94,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-07 17-46-00.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 474,
+    "min": 3.521,
+    "max": 3.917,
+    "nDistinct": 187,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-08 07-44-35.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 698,
+    "min": 3.542,
+    "max": 4.112,
+    "nDistinct": 292,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-08 07-59-34.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 638,
+    "min": 3.663,
+    "max": 4.026,
+    "nDistinct": 221,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-08 08-55-30.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1644,
+    "min": 3.548,
+    "max": 3.899,
+    "nDistinct": 265,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-08 12-31-56.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 570,
+    "min": 3.531,
+    "max": 3.915,
+    "nDistinct": 191,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-08 12-47-26.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 644,
+    "min": 3.553,
+    "max": 3.914,
+    "nDistinct": 225,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-09 07-39-50.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 538,
+    "min": 3.573,
+    "max": 4.071,
+    "nDistinct": 252,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-09 07-56-11.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 702,
+    "min": 3.613,
+    "max": 3.927,
+    "nDistinct": 203,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-09 13-35-03.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 422,
+    "min": 3.564,
+    "max": 3.922,
+    "nDistinct": 196,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-09 14-05-27.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 210,
+    "min": 3.511,
+    "max": 3.716,
+    "nDistinct": 97,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-09 14-37-11.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 580,
+    "min": 3.576,
+    "max": 3.879,
+    "nDistinct": 199,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-09 15-37-31.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 520,
+    "min": 3.582,
+    "max": 3.947,
+    "nDistinct": 214,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-09 15-45-48.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 630,
+    "min": 3.532,
+    "max": 3.932,
+    "nDistinct": 247,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-10 07-43-44.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 678,
+    "min": 3.389,
+    "max": 3.916,
+    "nDistinct": 239,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-10 07-59-08.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 400,
+    "min": 3.624,
+    "max": 3.812,
+    "nDistinct": 122,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-10 08-16-13.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 466,
+    "min": 3.554,
+    "max": 3.885,
+    "nDistinct": 191,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-10 13-56-48.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 496,
+    "min": 3.509,
+    "max": 3.89,
+    "nDistinct": 197,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-10 14-32-02.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1264,
+    "min": 3.561,
+    "max": 3.894,
+    "nDistinct": 241,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-11 07-42-27.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 720,
+    "min": 3.604,
+    "max": 4.061,
+    "nDistinct": 263,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-11 08-01-27.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 780,
+    "min": 3.629,
+    "max": 3.928,
+    "nDistinct": 198,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-11 15-04-47.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 418,
+    "min": 3.59,
+    "max": 3.891,
+    "nDistinct": 177,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-11 15-23-18.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 538,
+    "min": 3.549,
+    "max": 3.881,
+    "nDistinct": 185,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-11 19-24-41.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 610,
+    "min": 3.597,
+    "max": 3.946,
+    "nDistinct": 220,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-11 19-37-40.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1402,
+    "min": 3.571,
+    "max": 3.897,
+    "nDistinct": 234,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-11 21-57-07.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3686,
+    "min": 3.542,
+    "max": 4.076,
+    "nDistinct": 394,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-12 13-25-13.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 310,
+    "min": 3.488,
+    "max": 3.883,
+    "nDistinct": 168,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-12 13-33-36.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 988,
+    "min": 3.5,
+    "max": 3.915,
+    "nDistinct": 268,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-12 13-57-02.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 492,
+    "min": 3.51,
+    "max": 3.973,
+    "nDistinct": 215,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-12 14-15-41.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 636,
+    "min": 3.538,
+    "max": 3.986,
+    "nDistinct": 243,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-12 14-48-27.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 484,
+    "min": 3.551,
+    "max": 3.966,
+    "nDistinct": 187,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-12 15-01-43.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 512,
+    "min": 3.596,
+    "max": 3.814,
+    "nDistinct": 164,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-12 16-59-34.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2562,
+    "min": 3.554,
+    "max": 4.016,
+    "nDistinct": 352,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-13 11-48-59.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 492,
+    "min": 3.514,
+    "max": 3.996,
+    "nDistinct": 238,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-13 12-01-09.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 262,
+    "min": 3.606,
+    "max": 4.005,
+    "nDistinct": 149,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-13 12-08-25.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 206,
+    "min": 3.64,
+    "max": 3.827,
+    "nDistinct": 101,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-13 12-22-44.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 584,
+    "min": 3.538,
+    "max": 3.884,
+    "nDistinct": 217,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-13 13-01-46.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3610,
+    "min": 3.477,
+    "max": 3.986,
+    "nDistinct": 397,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-13 13-46-17.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3954,
+    "min": 3.605,
+    "max": 3.993,
+    "nDistinct": 305,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-13 17-11-06.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1836,
+    "min": 3.527,
+    "max": 3.95,
+    "nDistinct": 285,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-13 19-00-19.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 284,
+    "min": 3.455,
+    "max": 3.862,
+    "nDistinct": 141,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-13 19-10-18.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1198,
+    "min": 3.552,
+    "max": 3.944,
+    "nDistinct": 268,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-13 19-45-44.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 3622,
+    "min": 3.602,
+    "max": 4.059,
+    "nDistinct": 340,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-13 20-30-29.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2904,
+    "min": 3.515,
+    "max": 4.012,
+    "nDistinct": 374,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-14 07-36-58.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 666,
+    "min": 3.51,
+    "max": 4.024,
+    "nDistinct": 270,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-14 07-50-59.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 816,
+    "min": 3.662,
+    "max": 3.956,
+    "nDistinct": 213,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-14 16-56-10.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 581,
+    "min": 3.516,
+    "max": 3.927,
+    "nDistinct": 211,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-14 17-08-07.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1836,
+    "min": 3.478,
+    "max": 3.936,
+    "nDistinct": 267,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-14 18-09-48.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 678,
+    "min": 3.612,
+    "max": 4.051,
+    "nDistinct": 246,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-14 18-49-32.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 744,
+    "min": 3.582,
+    "max": 3.937,
+    "nDistinct": 242,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-15 07-49-33.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 670,
+    "min": 3.542,
+    "max": 4.072,
+    "nDistinct": 296,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-15 08-06-11.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1414,
+    "min": 3.69,
+    "max": 4.0,
+    "nDistinct": 256,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-15 14-44-40.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 504,
+    "min": 3.601,
+    "max": 3.922,
+    "nDistinct": 198,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-16 07-35-39.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 716,
+    "min": 3.582,
+    "max": 4.106,
+    "nDistinct": 274,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-16 07-49-37.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1010,
+    "min": 3.721,
+    "max": 4.054,
+    "nDistinct": 242,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-16 13-54-36.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 238,
+    "min": 3.689,
+    "max": 3.841,
+    "nDistinct": 108,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-16 14-01-15.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 534,
+    "min": 3.534,
+    "max": 3.889,
+    "nDistinct": 201,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-16 14-40-56.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 661,
+    "min": 3.552,
+    "max": 3.968,
+    "nDistinct": 204,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-16 18-07-46.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 318,
+    "min": 3.59,
+    "max": 3.841,
+    "nDistinct": 141,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-16 18-17-21.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 432,
+    "min": 3.581,
+    "max": 3.834,
+    "nDistinct": 150,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-16 19-00-34.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1356,
+    "min": 3.568,
+    "max": 3.897,
+    "nDistinct": 242,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-16 19-29-42.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1904,
+    "min": 3.533,
+    "max": 4.018,
+    "nDistinct": 310,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-17 07-42-09.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 656,
+    "min": 3.574,
+    "max": 4.041,
+    "nDistinct": 272,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-17 08-01-31.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 292,
+    "min": 3.671,
+    "max": 3.894,
+    "nDistinct": 118,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-17 08-17-51.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 502,
+    "min": 3.547,
+    "max": 3.802,
+    "nDistinct": 178,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-17 18-42-24.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 194,
+    "min": 3.58,
+    "max": 3.909,
+    "nDistinct": 127,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-17 18-50-09.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 202,
+    "min": 3.633,
+    "max": 3.744,
+    "nDistinct": 83,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-17 19-54-00.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2976,
+    "min": 3.549,
+    "max": 3.928,
+    "nDistinct": 291,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-18 07-43-41.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 632,
+    "min": 3.613,
+    "max": 4.023,
+    "nDistinct": 208,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-18 08-01-32.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 770,
+    "min": 3.675,
+    "max": 3.93,
+    "nDistinct": 177,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-19 09-36-29.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1072,
+    "min": 3.554,
+    "max": 3.889,
+    "nDistinct": 243,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-19 12-04-29.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 322,
+    "min": 3.549,
+    "max": 3.919,
+    "nDistinct": 168,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-19 12-17-53.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 574,
+    "min": 3.451,
+    "max": 3.956,
+    "nDistinct": 243,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-19 12-56-56.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 602,
+    "min": 3.497,
+    "max": 4.032,
+    "nDistinct": 294,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-19 13-06-20.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 704,
+    "min": 3.565,
+    "max": 3.939,
+    "nDistinct": 246,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-19 15-44-41.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1316,
+    "min": 3.512,
+    "max": 3.919,
+    "nDistinct": 278,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-19 17-22-21.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 934,
+    "min": 3.537,
+    "max": 3.839,
+    "nDistinct": 166,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-19 17-42-40.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1514,
+    "min": 3.43,
+    "max": 4.133,
+    "nDistinct": 366,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-20 06-44-20.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2146,
+    "min": 3.576,
+    "max": 4.07,
+    "nDistinct": 365,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-20 10-38-25.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 514,
+    "min": 3.569,
+    "max": 3.954,
+    "nDistinct": 191,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-20 11-23-27.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 448,
+    "min": 3.595,
+    "max": 3.916,
+    "nDistinct": 176,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-20 18-02-44.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 602,
+    "min": 3.528,
+    "max": 3.887,
+    "nDistinct": 214,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-20 19-27-18.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 636,
+    "min": 3.592,
+    "max": 3.87,
+    "nDistinct": 154,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-20 20-25-25.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 450,
+    "min": 3.549,
+    "max": 3.902,
+    "nDistinct": 186,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-20 20-52-42.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 186,
+    "min": 3.61,
+    "max": 3.745,
+    "nDistinct": 74,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-20 20-59-21.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 680,
+    "min": 3.587,
+    "max": 3.841,
+    "nDistinct": 175,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-21 07-36-37.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 690,
+    "min": 3.591,
+    "max": 3.963,
+    "nDistinct": 240,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-21 07-50-20.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 914,
+    "min": 3.604,
+    "max": 3.952,
+    "nDistinct": 213,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-21 12-02-22.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 630,
+    "min": 3.546,
+    "max": 3.976,
+    "nDistinct": 253,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-21 20-35-24.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 728,
+    "min": 3.616,
+    "max": 4.013,
+    "nDistinct": 264,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-21 20-55-26.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1902,
+    "min": 3.575,
+    "max": 4.008,
+    "nDistinct": 356,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-22 07-45-42.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 708,
+    "min": 3.601,
+    "max": 4.068,
+    "nDistinct": 284,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-22 07-59-37.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 696,
+    "min": 3.747,
+    "max": 4.053,
+    "nDistinct": 215,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-22 11-55-57.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 1230,
+    "min": 3.636,
+    "max": 4.069,
+    "nDistinct": 327,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-22 16-13-42.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 312,
+    "min": 3.653,
+    "max": 3.914,
+    "nDistinct": 169,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-22 16-21-26.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 372,
+    "min": 3.586,
+    "max": 3.778,
+    "nDistinct": 125,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-22 21-59-14.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 522,
+    "min": 3.604,
+    "max": 4.121,
+    "nDistinct": 246,
+    "minStepV": 0.001
+   },
+   "checked": true
+  },
+  {
+   "file": "2026-09-22 22-14-10.csv",
+   "flags": [],
+   "stats": {
+    "cellVoltageColumns": [
+     "[BMS] Max Cell Voltage (V)",
+     "[BMS] Min Cell Voltage (V)"
+    ],
+    "nValues": 2652,
+    "min": 3.566,
+    "max": 4.044,
+    "nDistinct": 373,
+    "minStepV": 0.001
+   },
+   "checked": true
+  }
+ ]
+}

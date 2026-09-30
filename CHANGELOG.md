@@ -1,3 +1,12 @@
+## M308 (2026-09-30): Input-plausibility gate (fail-closed), ingest stages, battery-temp CSV in ingest_core
+
+**Rationale.** Andrii-approved policy implemented with two data-forced amendments (analyses/M308_plausibility_gate_spec.md): R1/R2 on single-cell Max/Min columns only (G01 is a two-cell group voltage) and R3 (0.5 A precision) not implemented (0.5 A is the normal resolution). Corpus scan: 9/441 checked files flag, all hash-failing, 0/113 hash-verified. ingest_core quarantines the whole batch on a flag (nothing ingested, TOCTOU sha guard, unchecked files reported); blind audit accepted. Ingest stages stage_raw, compute_seasonal, fuel_recon, refresh_gtr_headline added; battery_temp_extremes.csv refreshed inside ingest_core before the arrays build (else two records rows drop); battery_temp_extremes.py base path env-aware. Open: speedSplit has no auto-splice. No published value changed.
+
+**State.** `drive_master.csv` 446 rows, MD5 `0bcfc400d8ce2a0b15cdc7f3ddd8efff`.
+
+**Files.** `analyses/M308_plausibility_gate_spec.md`, `analyses/M308_corpus_scan.json`, `tools/plausibility_gate.py`, `tools/ingest_core.py`, `tools/ingest_stages.json`, `tools/stage_raw.py`, `tools/run_ingest.py`, `tests/synthetic/test_plausibility_gate.py`, `battery_temp_extremes.py`, `.github/workflows/ci.yml`, `CLAUDE.md`.
+
+
 ## M307 (2026-09-30): F03 follow-ups F1-F3/F5 and provenance-sensitivity dashboard notice
 
 **Rationale.** Pre-registered spec (+Amendment 1) then F1/F1b/F2/F4/F3 computed and blind-audited (accept, reproduced to 4 dp); Director: accept with wording revisions, F03 stays open. F5: ingest_core estimator gate (+known-answer test, CI), release_check WARN. New computed key provenanceSensitivity (tools/f03_provenance_build.py -> f03_provenance.json -> f03_provenance_flag.py in apply_m284_post.sh) rendered as a data-provenance notice in the degradation tab (rebuild slope kept in payload only). No published numeric value changed; summary_arrays.json gained one key + stamp. M308 plausibility-gate spec drafted, awaiting Andrii sign-off.

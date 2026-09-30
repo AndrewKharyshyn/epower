@@ -30,10 +30,11 @@ os.chdir(ROOT)
 
 ML16 = ['drive_cluster_k3', 'iso_outlier', 'iso_score', 'lof_score', 'f_iso', 'f_lof', 'f_mad', 'f_domain', 'ens_outlier',
         'f_domain_2p', 'f_iso_i', 'f_lof_i', 'f_mad_i', 'ens_invalid', 'ens_extreme', 'ens_outlier_v2']
-OUT_FILES = ["drive_master.csv", "raw_manifest.json", "summary_config.json", "summary_arrays.json"]
+OUT_FILES = ["drive_master.csv", "raw_manifest.json", "summary_config.json", "summary_arrays.json", "battery_temp_extremes.csv"]
 STAGING = os.path.join(ROOT, "raw_only")
 
 
+GATED_SHA = {}          # path -> sha256 of the bytes the plausibility gate saw (TOCTOU guard: ingest must read the same bytes)
 CARRIED = []
 INHERITED_NOTES = []
 EST_CHANGES = []
@@ -108,12 +109,21 @@ def detect_new(dm, raw_dir):
     return [f for f in kept if cm._canonical(os.path.basename(f)) not in have]
 
 
+def read_gated(path):
+    """Read a NEW raw file and verify it is byte-identical to what the plausibility gate checked."""
+    b = open(path, "rb").read()
+    want = GATED_SHA.get(path)
+    if want is not None and hashlib.sha256(b).hexdigest() != want:
+        raise Gate(f"{os.path.basename(path)} changed after the plausibility gate checked it (TOCTOU)")
+    return b
+
+
 def step1_master(dm_old, new_paths):
     import pandas as pd
     import compute_drive_summary_v6 as v6
     rows = []
     for p in new_paths:
-        r = v6.analyze_bytes(open(p, "rb").read(), master_key(os.path.basename(p)))
+        r = v6.analyze_bytes(read_gated(p), master_key(os.path.basename(p)))
         d, tm = v6._date_from_name(p)
         r.setdefault("date", d)
         r.setdefault("time_start", r.get("time_start") or tm)
@@ -288,6 +298,21 @@ def main():
         report.update(status="noop", rows_after=len(dm_old), md5_after=report["md5_before"])
         json.dump(report, open(rpath, "w"), indent=1)
         print(json.dumps(report, indent=1)); return 0
+    # M308 input-plausibility gate (fail closed): a flagged NEW file is quarantined = the whole ingestion stops, nothing is written,
+    # nothing is repaired. Andrii decides (Director review before any flagged file is ingested).
+    import plausibility_gate as pg
+    gate = [pg.check_path(p) for p in new_paths]
+    report["plausibility_checked"] = sum(1 for r in gate if r["checked"])
+    quarantined = [{"file": r["file"], "flags": r["flags"]} for r in gate if r["flags"]]
+    report["quarantined"] = quarantined
+    report["plausibility_unchecked"] = [r["file"] for r in gate if not r["checked"]]   # no usable Max/Min cell-voltage data: NOT gated (schema-drift visibility)
+    for p, r in zip(new_paths, gate):
+        GATED_SHA[p] = r["sha256"]
+    if quarantined:
+        report["status"] = "quarantined"
+        report["note"] = "input-plausibility gate (M308) flagged new file(s); nothing ingested and no corpus file written (only this report); Andrii/Director decide"
+        json.dump(report, open(rpath, "w"), indent=1)
+        print(json.dumps(report, indent=1)); return 1
     if a.dry_run:
         report["status"] = "dry_run"
         print(json.dumps(report, indent=1)); return 0
@@ -313,6 +338,10 @@ def main():
         cfg.setdefault("auditMetadata", {})["determinism"] = block
         write_json(os.path.join(ROOT, "summary_config.json"), cfg, ensure_ascii=False, indent=1)
         dm_disk = pd.read_csv(os.path.join(ROOT, "drive_master.csv"), low_memory=False)
+        # battery_temp_extremes.csv must cover the CURRENT corpus before the arrays build (else compute_summary_arrays._records()
+        # silently omits the two battery-temperature-minimum rows: row count != len(dm)).
+        import battery_temp_extremes as bte
+        _atomic(os.path.join(ROOT, "battery_temp_extremes.csv"), lambda t: bte.raw_pass(dm_disk, stage).to_csv(t, index=False))
         arrays = step4_arrays(dm_disk, stage, a.recompute_m119v2)
         arrays["determinism"] = block
         write_json(os.path.join(ROOT, "summary_arrays.json"), arrays, ensure_ascii=False, indent=1)
@@ -324,7 +353,7 @@ def main():
                   e4_master=os.path.join(ROOT, "e4orce_master.csv"), raw_dir=stage, verbose=False)
         if md5(os.path.join(ROOT, "drive_master.csv")) != m0:
             raise Gate("crosscheck inject changed drive_master.csv")
-        report.update(carried_forward_keys_stale_until_stage_runs=list(CARRIED), stamp_notes_inherited=list(INHERITED_NOTES),status="ok", rows_after=len(dm_disk), md5_after=m0, backup=os.path.relpath(bdir, ROOT))
+        report.update(carried_forward_keys_stale_until_stage_runs=list(CARRIED), stamp_notes_inherited=list(INHERITED_NOTES), estimator_changes_acknowledged={"changes": list(EST_CHANGES), "reason": ACK["reason"]}, status="ok", rows_after=len(dm_disk), md5_after=m0, backup=os.path.relpath(bdir, ROOT))
         rc = 0
     except BaseException as ex:   # incl. KeyboardInterrupt/SystemExit: never leave a partial write
         for f in OUT_FILES:
