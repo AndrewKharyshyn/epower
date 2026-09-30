@@ -679,18 +679,19 @@ def _cell_health_trend(dm, n_boot=4000, seed=42):
                                        gh['cell_spread_loaded_p95_adj_hub_mv'].values)
             out['huberSlopeMvPerMo'] = round(float(hub.coef_[0]), 2)
             out['nHuber'] = int(len(gh))
-            # M317: interval for THIS slope (second-stage Huber slope of the stored adjusted series): day-clustered percentile bootstrap,
-            # conditional on the first-stage fit (spec analyses/M317_spec.md; S1 two-stage and week-block sensitivities live in spreadFitProvenance).
+            # M317 (+Amendment 1): interval for THIS slope (second-stage Huber slope of the stored adjusted series): S1 = two-stage day-clustered percentile
+            # bootstrap (refit first stage, recompute I_ref and the adjusted values, refit the slope; the only interval that passed calibration). Conditional and
+            # week-block sensitivities live in spreadFitProvenance (spec analyses/M317_spec.md).
             try:
                 import sys as _sys, os as _os
                 _sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'tools'))
                 import huber_slope_ci as _hsc
-                _ci = _hsc.primary_ci(mh, gh['cell_spread_loaded_p95_adj_hub_mv'].values, _hsc.day_labels(gh['date']),
-                                      n_boot=n_boot, seed=seed)
+                _ci = _hsc.two_stage_ci(mh, gh['T_pack_mean_avg'].values, gh['peak_I_discharge'].values, gh['cell_spread_loaded_p95_mv'].values,
+                                        _hsc.day_labels(gh['date']), n_boot=n_boot, seed=seed)
                 out['huberSlopeCi95'] = None if _ci['inconclusive'] else [round(_ci['ci95'][0], 2), round(_ci['ci95'][1], 2)]
                 out['huberSlopeCiFailedDraws'] = int(_ci['failed_draws'] + _ci['nonconverged_draws'])
-                out['huberSlopeCiMethod'] = ('Day-clustered percentile bootstrap (%d draws, seed %d, %d days) of the second-stage Huber slope of the stored '
-                                             'Huber-adjusted series, conditional on the first-stage fit. Non-authoritative.' % (n_boot, seed, _ci['n_groups'])
+                out['huberSlopeCiMethod'] = ('Two-stage day-clustered percentile bootstrap (%d draws, seed %d, %d days): per draw the first-stage Huber fit, I_ref and the adjusted '
+                                             'values are recomputed before the second-stage Huber slope. Calibrated in simulation; non-authoritative.' % (n_boot, seed, _ci['n_groups'])
                                              + (' INCONCLUSIVE: more than 1% of draws failed or did not converge.' if _ci['inconclusive'] else ''))
             except Exception as _ex:
                 out['huberSlopeCi95'] = None

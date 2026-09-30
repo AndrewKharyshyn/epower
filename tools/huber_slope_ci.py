@@ -2,7 +2,7 @@
 (compute_summary_arrays._cell_health_trend), tools/record_spread_fit.py, the calibration run and the tests.
 
 Objects
-  primary  : second-stage HuberRegressor slope of the STORED adjusted series (rounded to 0.1 mV) on months, day-clustered percentile bootstrap, CONDITIONAL on the
+  conditional (called primary in functions): second-stage HuberRegressor slope of the STORED adjusted series (rounded to 0.1 mV) on months, day-clustered percentile bootstrap, CONDITIONAL on the
              first-stage fit (the adjusted series is held fixed).
   S1       : two-stage: per draw refit the first-stage Huber (T, peak current; epsilon 1.35, max_iter 500) on the resampled kept rows, recompute I_ref from the resample
              (T_ref fixed), recompute every resampled row's adjusted value UNROUNDED, refit the second-stage slope.
@@ -109,17 +109,20 @@ def day_labels(dates):
 
 def bundle(kept, stored_adj, n_boot=4000, seed=42):
     """kept: DataFrame of the canonical-clean kept rows with date, T, I, y columns (in the same order as stored_adj).
-    Returns the primary interval, S1, S2 (week blocks, conditional) and S2-S1 (week blocks, two-stage), plus the point slope and the 'materially wider' verdicts."""
+    Amendment 1 (Director 2026-09-30): S1 (two-stage, day-clustered) is the HEADLINE interval (the only one that passed calibration design 1; design 2 is checked before merge).
+    Also returned: the conditional interval (conservative sensitivity: it over-covers in calibration), S2 (7-day blocks, conditional) and S2_S1 (7-day blocks, two-stage), which are
+    UNCALIBRATED sensitivities, each with a 'materially wider than S1' flag (half-width ratio > 1.2) and its ratio."""
     m = months_since_first(kept["date"])
     days, weeks = day_labels(kept["date"]), week_labels(kept["date"])
-    out = {"point_slope_mv_per_month": second_stage_slope(m, stored_adj), "n": int(len(kept)), "n_days": int(len(np.unique(days))), "seed": seed}
-    out["primary"] = primary_ci(m, stored_adj, days, n_boot, seed)
-    out["S1"] = two_stage_ci(m, kept[T_COL].values, kept[I_COL].values, kept[Y_COL].values, days, n_boot, seed)
-    out["S2"] = primary_ci(m, stored_adj, weeks, n_boot, seed, "S2 (7-day blocks, conditional)")
-    out["S2_S1"] = two_stage_ci(m, kept[T_COL].values, kept[I_COL].values, kept[Y_COL].values, weeks, n_boot, seed, "S2-S1 (7-day blocks, two-stage)")
-    base = out["primary"].get("half_width")
-    for k in ("S1", "S2", "S2_S1"):
+    T, I, Y = kept[T_COL].values, kept[I_COL].values, kept[Y_COL].values
+    out = {"point_slope_mv_per_month": second_stage_slope(m, stored_adj), "n": int(len(kept)), "n_days": int(len(np.unique(days))), "seed": seed, "headline": "S1"}
+    out["S1"] = two_stage_ci(m, T, I, Y, days, n_boot, seed, "S1 (day-clustered, two-stage; headline)")
+    out["conditional"] = primary_ci(m, stored_adj, days, n_boot, seed, "conditional (day-clustered, first stage held fixed; conservative sensitivity)")
+    out["S2"] = primary_ci(m, stored_adj, weeks, n_boot, seed, "S2 (7-day blocks, conditional; uncalibrated)")
+    out["S2_S1"] = two_stage_ci(m, T, I, Y, weeks, n_boot, seed, "S2-S1 (7-day blocks, two-stage; uncalibrated)")
+    base = out["S1"].get("half_width")
+    for k in ("conditional", "S2", "S2_S1"):
         hw = out[k].get("half_width")
-        out[k]["materially_wider_than_primary"] = bool(base and hw and hw / base > 1.2)
-        out[k]["half_width_ratio_to_primary"] = float(hw / base) if base and hw else None
+        out[k]["materially_wider_than_S1"] = bool(base and hw and hw / base > 1.2)
+        out[k]["half_width_ratio_to_S1"] = float(hw / base) if base and hw else None
     return out
