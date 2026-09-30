@@ -86,6 +86,15 @@
    "verified": true
   },
   {
+   "id": "record_spread_fit",
+   "title": "Append the M19b Huber fit record to spread_fit_history.json and publish spreadFitProvenance (incl. Part B intervals, bT stability flag) (M317)",
+   "cmd": [
+    "python3",
+    "tools/record_spread_fit.py"
+   ],
+   "verified": true
+  },
+  {
    "id": "fuel_recon",
    "title": "fuel_recon.py --all (fuel_recon_master.csv; raw read from staged raw_only/)",
    "cmd": [

@@ -1,0 +1,47 @@
+{
+ "spec": "analyses/M317_spec.md rev 2 + Amendment 1",
+ "design": "design2",
+ "n_sims": 500,
+ "draws_per_interval": 1000,
+ "n_days": 100,
+ "drives_per_day_distribution": {
+  "n_days_real": 104,
+  "mean": 4.6826923076923075,
+  "max": 12
+ },
+ "design_parameters": {
+  "b_T": 0.05,
+  "b_I": 0.045,
+  "planted_time_slope_mv_per_month": 0.3,
+  "co_trend_scale": 0.25,
+  "T_trend_per_day": 0.045,
+  "I_trend_per_day": 0.075,
+  "day_effect_sd": 1.0,
+  "noise": "0.8 x Student t(3)"
+ },
+ "estimand_theta_mv_per_month": 0.2965380798635927,
+ "point_estimate": {
+  "mean": 0.2569953662412491,
+  "sd": 0.12107204193590886,
+  "bias": -0.03954271362234363,
+  "mc_se_of_mean": 0.005414506318867949
+ },
+ "primary": {
+  "n_valid": 500,
+  "coverage": 0.954,
+  "mc_se": 0.009368457717255283,
+  "pass_band_0.92_0.98": true,
+  "mean_half_width": 0.25836494370820273
+ },
+ "S1": {
+  "n_valid": 500,
+  "coverage": 0.932,
+  "mc_se": 0.01125841907196565,
+  "pass_band_0.92_0.98": true,
+  "mean_half_width": 0.235858713634435
+ },
+ "conditional_to_S1_half_width_ratio": 1.0954225083608777,
+ "bias_spec_criterion_within_2_bootstrap_SE": true,
+ "bias_script_check_within_2_mc_se": false,
+ "seconds": 1788
+}

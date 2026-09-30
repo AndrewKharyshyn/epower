@@ -159,6 +159,19 @@ def payload_checks(arrays_path):
         and all(isinstance(r.get("a"), list) and len(r["a"]) >= 2 and all(isinstance(x, (int, float)) for x in r["a"]) for r in arows)
         and all(r.get("c") in ("warm", "shoulder", "cold") for r in arows) and sum((at.get("cohortCounts") or {}).values()) == len(arows)   # M315: thermal class per drive
         and newest and max(r["d"] for r in arows) == newest)
+
+    # (7) M317: Huber spread-fit provenance (append-only history) agrees with the published cellHealthTrend numbers (n and the interval are the SAME object).
+    sfp = sa.get("spreadFitProvenance") or {}
+    lat, cht = sfp.get("latest") or {}, sa.get("cellHealthTrend") or {}
+    hist = sfp.get("history") or []
+    pci = ((lat.get("slopeII") or {}).get("S1") or {}).get("ci95")          # Amendment 1: S1 (two-stage) is the published interval
+    checks["spread-fit provenance consistent with cellHealthTrend (n, Huber slope interval, history) (M317)"] = bool(
+        lat and hist and sfp.get("nRecords") == len(hist) and hist[-1].get("masterMd5") == lat.get("masterMd5")
+        and len(((lat.get("data") or {}).get("keepSetSha256")) or "") == 64
+        and (lat.get("data") or {}).get("nClean") == cht.get("nHuber")
+        and ((cht.get("huberSlopeCi95") is None) == (pci is None or ((lat.get("slopeII") or {}).get("S1") or {}).get("inconclusive") is True))
+        and (pci is None or (cht.get("huberSlopeCi95") and all(abs(round(x, 2) - y) < 1e-9 for x, y in zip(pci, cht["huberSlopeCi95"]))))
+        and all(((sfp.get("calibration") or {}).get(d) or {}).get("S1PassBand") is True for d in ("design1", "design2")))   # S1 calibrated in both simulation designs (Amendment 1)
     return checks
 
 def payload_warnings(arrays_path):
