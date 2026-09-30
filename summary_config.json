@@ -417,6 +417,70 @@
    "note": "Five legs, 16.1km / 41.3min, 4.3663 kWh gross, GTC 2.0792. Three cold-morning micro-trips (D1–D3, +14°C constant, all under 1.5km) precede two evening legs (D4/D5, +19→+15→+14°C) — D4 a short 1.8km hop and D5 an 11.0km dominant leg that sets the day's thermal ceiling (35.0°C pack-mean), resolves the batch's only vreg resistance window (113.91mΩ), and is the day's only leg with any highway-speed-band time (1.7% pct_highway, 96.0km/h peak) though still below the rule-based urban/highway threshold. All five ens_outlier_v2-clean, sign_check ok, fully urban by pct_highway threshold."
   },
   {
+   "name": "Sep 4",
+   "phase": "Routine ingestion, three legs across the full day; PID configuration differs from the previous drive; ambient 13–19°C",
+   "drives": 3,
+   "km": 20.6,
+   "type": "urban",
+   "note": "Three urban legs, 20.6km / 42.2min, 5.6939 kWh gross, GTC 2.7113, -0.0229 kWh net corr2p sum (near-neutral). Ambients 13–19°C; thermal regime (raw class): 2 shoulder, 1 warm. Largest SoC swing: D3 (20:34, 18.3km, +19→18°C) SoC 48→74 (+26.5pp). Longest leg: D3 (20:34, 18.3km, +19→18°C). 3 of 3 ens_outlier_v2-clean, 3 of 3 sign_check ok."
+  },
+  {
+   "name": "Sep 5",
+   "phase": "Routine ingestion, twelve legs across the full day; PID configuration differs from the previous drive; ambient 19–22°C",
+   "drives": 12,
+   "km": 39.1,
+   "type": "urban",
+   "note": "Twelve urban legs, 39.1km / 104.4min, 11.8267 kWh gross, GTC 5.6318, -0.3497 kWh net corr2p sum (net-charge bias). Ambients 19–22°C; thermal regime (raw class): 12 warm. Largest SoC swing: D7 (16:23, 1.9km, +22°C) SoC 46→70 (+23.0pp). Longest leg: D10 (17:23, 10.6km, +21°C). 12 of 12 ens_outlier_v2-clean, 12 of 12 sign_check ok."
+  },
+  {
+   "name": "Sep 6",
+   "phase": "Routine ingestion, seven legs across the full day; PID configuration differs from the previous drive; ambient 13–16°C",
+   "drives": 7,
+   "km": 17.9,
+   "type": "urban",
+   "note": "Seven urban legs, 17.9km / 91.8min, 6.1549 kWh gross, GTC 2.9309, -0.1410 kWh net corr2p sum (net-charge bias). Ambients 13–16°C; thermal regime (raw class): 6 shoulder, 1 warm. Largest SoC swing: D6 (19:52, 2.5km, +13°C) SoC 46→72 (+25.0pp). Longest leg: D7 (20:16, 7.9km, +13°C). Unwarmed starts (oil and coolant within 3°C of ambient): D1 (oil 17°C / coolant 18°C at +16°C). 7 of 7 ens_outlier_v2-clean, 7 of 7 sign_check ok."
+  },
+  {
+   "name": "Sep 7",
+   "phase": "Routine ingestion, eight legs across the full day; PID configuration differs from the previous drive; ambient 11–20°C",
+   "drives": 8,
+   "km": 11.6,
+   "type": "urban",
+   "note": "Eight urban legs, 11.6km / 42.4min, 3.8741 kWh gross, GTC 1.8448, -0.0181 kWh net corr2p sum (near-neutral). Ambients 11–20°C; thermal regime (raw class): 4 shoulder, 4 warm. Largest SoC swing: D1 (07:45, 2.4km, +11°C) SoC 48→80 (+32.5pp). Longest leg: D5 (16:55, 2.5km, +20°C). 8 of 8 ens_outlier_v2-clean, 8 of 8 sign_check ok."
+  },
+  {
+   "name": "Sep 8",
+   "phase": "Routine ingestion, five legs within a short window; PID configuration differs from the previous drive; ambient 9–23°C",
+   "drives": 5,
+   "km": 13.8,
+   "type": "urban",
+   "note": "Five urban legs, 13.8km / 52.2min, 4.8711 kWh gross, GTC 2.3195, -0.1087 kWh net corr2p sum (net-charge bias). Ambients 9–23°C; thermal regime (raw class): 3 shoulder, 2 warm. Largest SoC swing: D1 (07:44, 2.4km, +9°C) SoC 46→81 (+35.0pp). Longest leg: D3 (08:55, 4.1km, +10°C). 5 of 5 ens_outlier_v2-clean, 5 of 5 sign_check ok."
+  },
+  {
+   "name": "Sep 9",
+   "phase": "Routine ingestion, seven legs across the full day; PID configuration differs from the previous drive; ambient 12–29°C",
+   "drives": 7,
+   "km": 14.0,
+   "type": "urban",
+   "note": "Seven urban legs, 14.0km / 46.4min, 5.3429 kWh gross, GTC 2.5442, -0.3631 kWh net corr2p sum (net-charge bias). Ambients 12–29°C; thermal regime (raw class): 5 warm, 2 shoulder. Largest SoC swing: D1 (07:40, 2.4km, +12°C) SoC 45→74 (+29.5pp). Longest leg: D2 (07:56, 2.5km, +12°C). Unwarmed starts (oil and coolant within 3°C of ambient): D3 (oil 29°C / coolant 31°C at +29°C). 7 of 7 ens_outlier_v2-clean, 7 of 7 sign_check ok."
+  },
+  {
+   "name": "Sep 10",
+   "phase": "Routine ingestion, five legs within a short window; PID configuration differs from the previous drive; ambient 16–25°C",
+   "drives": 5,
+   "km": 11.7,
+   "type": "urban",
+   "note": "Five urban legs, 11.7km / 42.7min, 4.1888 kWh gross, GTC 1.9946, +0.1811 kWh net corr2p sum (net-discharge bias). Ambients 16–25°C; thermal regime (raw class): 5 warm. Largest SoC swing: D1 (07:44, 2.4km, +16°C) SoC 52→72 (+19.0pp). Longest leg: D5 (14:32, 4.4km, +25°C). 5 of 5 ens_outlier_v2-clean, 5 of 5 sign_check ok."
+  },
+  {
+   "name": "Sep 11",
+   "phase": "Routine ingestion, seven legs across the full day; no PID-configuration change; ambient 13–20°C",
+   "drives": 7,
+   "km": 35.5,
+   "type": "urban",
+   "note": "Seven urban legs, 35.5km / 102.2min, 10.2790 kWh gross, GTC 4.8948, -0.2980 kWh net corr2p sum (net-charge bias). Ambients 13–20°C; thermal regime (raw class): 4 warm, 3 shoulder. Largest SoC swing: D7 (21:57, 20.9km, +13°C) SoC 48→78 (+30.5pp). Longest leg: D7 (21:57, 20.9km, +13°C). 7 of 7 ens_outlier_v2-clean, 7 of 7 sign_check ok."
+  },
+  {
    "name": "Sep 12",
    "phase": "Routine ingestion, seven legs across the afternoon-evening; no PID-configuration change; six short stop-start hops plus one dominant 17.5km highway-touching leg",
    "drives": 7,
@@ -503,6 +567,70 @@
    "km": 26.5,
    "type": "urban",
    "note": "Seven legs, 26.5km / 79.4min, 7.5527 kWh gross, GTC 3.5965. Net-charge bias (-0.1393 kWh corr2p sum). Ambients 8–11°C — the coldest day of the batch, all seven in the shoulder cohort. D6 (+9°C) posts +34.5pp, the batch's largest single-drive swing; D7 (+9→8°C) closes the day and the ingestion batch. All seven ens_outlier_v2-clean, sign_check ok, fully urban."
+  },
+  {
+   "name": "Sep 23",
+   "phase": "Routine ingestion, four legs across the full day; no PID-configuration change; ambient 10–12°C",
+   "drives": 4,
+   "km": 6.9,
+   "type": "urban",
+   "note": "Four urban legs, 6.9km / 28.2min, 2.9316 kWh gross, GTC 1.3961, -0.6834 kWh net corr2p sum (net-charge bias). Ambients 10–12°C; thermal regime (raw class): 4 shoulder. Largest SoC swing: D1 (07:39, 1.3km, +10°C) SoC 46→76 (+29.5pp). Longest leg: D4 (18:33, 3.4km, +12°C). 4 of 4 ens_outlier_v2-clean, 4 of 4 sign_check ok."
+  },
+  {
+   "name": "Sep 24",
+   "phase": "Routine ingestion, two legs within a short window; PID configuration differs from the previous drive; ambient 8–10°C",
+   "drives": 2,
+   "km": 13.7,
+   "type": "urban",
+   "note": "Two urban legs, 13.7km / 34.0min, 3.9735 kWh gross, GTC 1.8921, +0.0010 kWh net corr2p sum (near-neutral). Ambients 8–10°C; thermal regime (raw class): 2 shoulder. Largest SoC swing: D1 (20:28, 7.0km, +10°C) SoC 48→80 (+31.5pp). Longest leg: D1 (20:28, 7.0km, +10°C). 2 of 2 ens_outlier_v2-clean, 2 of 2 sign_check ok."
+  },
+  {
+   "name": "Sep 25",
+   "phase": "Routine ingestion, five legs within a short window; PID configuration differs from the previous drive; ambient 12–13°C",
+   "drives": 5,
+   "km": 15.0,
+   "type": "urban",
+   "note": "Five urban legs, 15.0km / 52.7min, 5.0002 kWh gross, GTC 2.3810, -0.2023 kWh net corr2p sum (net-charge bias). Ambients 12–13°C; thermal regime (raw class): 5 shoulder. Largest SoC swing: D1 (13:48, 0.7km, +12°C) SoC 50→80 (+29.5pp). Longest leg: D3 (14:30, 5.7km, +12→13°C). Unwarmed starts (oil and coolant within 3°C of ambient): D1 (oil 13°C / coolant 13°C at +12°C). 5 of 5 ens_outlier_v2-clean, 5 of 5 sign_check ok."
+  },
+  {
+   "name": "Sep 26",
+   "phase": "Routine ingestion, nine legs across the full day; PID configuration differs from the previous drive; ambient 11–19°C",
+   "drives": 9,
+   "km": 74.7,
+   "type": "urban",
+   "note": "Nine legs, 74.7km / 129.1min, 17.1849 kWh gross, GTC 8.1832, +0.0275 kWh net corr2p sum (near-neutral). Ambients 11–19°C; thermal regime (raw class): 8 warm, 1 shoulder. Largest SoC swing: D6 (16:47, 30.2km, +17→19→17°C) SoC 50→71 (+21.5pp). Longest leg: D6 (16:47, 30.2km, +17→19→17°C). Unwarmed starts (oil and coolant within 3°C of ambient): D1 (oil 14°C / coolant 18°C at +18°C). 9 of 9 ens_outlier_v2-clean, 9 of 9 sign_check ok."
+  },
+  {
+   "name": "Sep 27",
+   "phase": "Routine ingestion, twelve legs across the full day; PID configuration differs from the previous drive; ambient 10–21°C",
+   "drives": 12,
+   "km": 35.9,
+   "type": "urban",
+   "note": "Twelve urban legs, 35.9km / 105.8min, 12.0447 kWh gross, GTC 5.7355, -0.4294 kWh net corr2p sum (net-charge bias). Ambients 10–21°C; thermal regime (raw class): 11 warm, 1 shoulder. Largest SoC swing: D11 (19:57, 5.4km, +15°C) SoC 48→68 (+21.0pp). Longest leg: D5 (15:12, 10.6km, +20→19°C). Unwarmed starts (oil and coolant within 3°C of ambient): D1 (oil 18°C / coolant 21°C at +21°C). 12 of 12 ens_outlier_v2-clean, 12 of 12 sign_check ok."
+  },
+  {
+   "name": "Sep 28",
+   "phase": "Routine ingestion, one leg within a short window; PID configuration differs from the previous drive; ambient 9–12°C",
+   "drives": 1,
+   "km": 18.9,
+   "type": "urban",
+   "note": "One urban leg, 18.9km / 38.7min, 5.1208 kWh gross, GTC 2.4385, +0.0618 kWh net corr2p sum (net-discharge bias). Ambients 9–12°C; thermal regime (raw class): 1 shoulder. Largest SoC swing: D1 (21:24, 18.9km, +12→9→10°C) SoC 50→70 (+20.0pp). Longest leg: D1 (21:24, 18.9km, +12→9→10°C). 1 of 1 ens_outlier_v2-clean, 1 of 1 sign_check ok."
+  },
+  {
+   "name": "Sep 29",
+   "phase": "Routine ingestion, six legs across the full day; PID configuration differs from the previous drive; ambient 9–13°C",
+   "drives": 6,
+   "km": 10.1,
+   "type": "urban",
+   "note": "Six urban legs, 10.1km / 32.1min, 3.8489 kWh gross, GTC 1.8329, -0.3111 kWh net corr2p sum (net-charge bias). Ambients 9–13°C; thermal regime (raw class): 6 shoulder. Largest SoC swing: D1 (10:00, 1.3km, +13°C) SoC 45→64 (+18.5pp). Longest leg: D5 (22:10, 2.5km, +9°C). Unwarmed starts (oil and coolant within 3°C of ambient): D1 (oil 13°C / coolant 14°C at +13°C). 6 of 6 ens_outlier_v2-clean, 6 of 6 sign_check ok."
+  },
+  {
+   "name": "Sep 30",
+   "phase": "Routine ingestion, four legs within a short window; PID configuration differs from the previous drive; ambient 5–15°C",
+   "drives": 4,
+   "km": 5.1,
+   "type": "urban",
+   "note": "Four urban legs, 5.1km / 22.0min, 1.9852 kWh gross, GTC 0.9453, -0.0288 kWh net corr2p sum (near-neutral). Ambients 5–15°C; thermal regime (raw class): 2 cold, 2 warm. Largest SoC swing: D1 (08:09, 1.2km, +5°C) SoC 46→64 (+18.0pp). Longest leg: D2 (08:21, 1.3km, +5°C). 4 of 4 ens_outlier_v2-clean, 4 of 4 sign_check ok."
   }
  ],
  "sessions": [
@@ -990,6 +1118,62 @@
    "note": "Five legs across the morning and evening (07:49→21:39), 16.1km / 41.3min combined, 4.3663 kWh gross throughput, GTC 2.0792, FCE 1.0397, rf_efc 1.165 — three short cold-morning micro-trips at the day's coldest constant ambient (+14°C), then two evening legs bracketing a mild +19→+15→+14°C swing. D1 (074822, 1.2km, urban, +14°C): SoC 58.0→69.5 (net-charging, the batch's largest SoC swing on a 6.2-minute trip, M35 short-trip denominator); coolant 23°C/oil 42°C — essentially cold-start; cell_spread_loaded_p95 18.8mV raw/23.8mV adj (n small); net corr2p -16.66/100km (-0.1999 kWh, short-trip artefact); sign_check ok, f_domain-clean, ens_outlier_v2-clean; ev_dist_pct 48.29%, speed_max 29.0km/h. D2 (080232, 0.6km, urban, +14°C): the batch's shortest leg; SoC 69.0→61.5 (net-discharge); coolant 24°C/oil 41°C — still cold; cell_spread_loaded_p95 24.8mV raw/27.4mV adj, hub-adjusted spread unresolved (window too short); net corr2p +23.03/100km (+0.1382 kWh, short-trip artefact); sign_check ok, f_domain-clean, ens_outlier_v2-clean — notably this file flips from v5-flagged (ens_outlier) to v2-unflagged under the refit on the 320-drive corpus (canonical ens_outlier_v2 status unchanged at both points: clean); ev_dist_pct 100.0% (fully electric distance), speed_max 27.0km/h. D3 (082326, 1.5km, urban, +14°C): SoC 60.5→64.5 (net-charging); coolant 26°C/oil 43°C, marginally further along warm-up than D1/D2; cell_spread_loaded_p95 17.5mV raw/22.2mV adj; net corr2p -3.61/100km (-0.0542 kWh); sign_check ok, f_domain-clean, ens_outlier_v2-clean; ev_dist_pct 78.95%, speed_max 28.0km/h — closes the cold-morning cluster. D4 (200514, 1.8km, urban, +19°C, evening): SoC 56.0→63.5 (net-charging); T_pack_mean_max 33.0°C — warm from the day's ambient plus cumulative heat soak; coolant 29°C/oil 57°C (oil markedly ahead of coolant, consistent with a brief hop after a longer prior period of engine operation rather than a genuine cold start); cell_spread_loaded_p95 23.6mV raw/25.3mV adj; net corr2p -6.27/100km (-0.1129 kWh); sign_check ok, f_domain-clean, ens_outlier_v2-clean; ev_dist_pct 50.0%, speed_max 42.0km/h. D5 (213855, 11.0km, mixed_like by ML cluster, +15→+14°C, evening): the day's dominant leg by both distance (68% of the day's combined 16.1km) and duration (19.0min); SoC 62.0→61.0 (near-neutral); T_pack_mean_max 35.0°C — the day's and batch's thermal ceiling; coolant 28°C/oil 74°C; the only leg in this 5-drive batch long enough to resolve a vreg pack-resistance window (113.91mΩ); cell_spread_loaded_p95 20.0mV raw/19.8mV adj; net corr2p +0.10/100km (+0.0115 kWh, essentially net-neutral over 11km); sign_check ok, f_domain-clean, ens_outlier_v2-clean; ev_dist_pct 52.23%, speed_max 96.0km/h — the batch's fastest leg by a wide margin, and pct_highway 1.7% — the day's only leg with any 80-120km/h band time (still rule-classified urban by the 80% pct_highway threshold, but the ML cluster agrees this time: mixed_like). All five legs f_domain-clean, ens_outlier_v2-clean, fully consistent 78/79-column raw schema (header-verified before ingestion, not assumed) — no PID-configuration change. Corpus-level, Sep 3 brings the study to 320 drives / 8,003.0km / 1,263.71 kWh gross throughput / GTC 601.77 / FCE 300.88 / rf_efc 329.65. Dash odometer 43,983km as of Sep 2 → 44,012km as of Sep 3 (+29km) against 16.1km of combined OBD trip distance — consistent with the corpus's opportunistic (not exhaustive) sampling."
   },
   {
+   "name": "Sep 4",
+   "drives": 3,
+   "km": 20.6,
+   "type": "urban",
+   "note": "Three urban legs (07:51→20:34), 20.6km / 42.2min, 5.6939 kWh gross, GTC 2.7113, -0.0229 kWh net corr2p sum (near-neutral). Ambients 13–19°C; thermal regime (raw class): 2 shoulder, 1 warm. Largest SoC swing: D3 (20:34, 18.3km, +19→18°C) SoC 48→74 (+26.5pp). Longest leg: D3 (20:34, 18.3km, +19→18°C). 3 of 3 ens_outlier_v2-clean, 3 of 3 sign_check ok."
+  },
+  {
+   "name": "Sep 5",
+   "drives": 12,
+   "km": 39.1,
+   "type": "urban",
+   "note": "Twelve urban legs (10:32→18:32), 39.1km / 104.4min, 11.8267 kWh gross, GTC 5.6318, -0.3497 kWh net corr2p sum (net-charge bias). Ambients 19–22°C; thermal regime (raw class): 12 warm. Largest SoC swing: D7 (16:23, 1.9km, +22°C) SoC 46→70 (+23.0pp). Longest leg: D10 (17:23, 10.6km, +21°C). 12 of 12 ens_outlier_v2-clean, 12 of 12 sign_check ok."
+  },
+  {
+   "name": "Sep 6",
+   "drives": 7,
+   "km": 17.9,
+   "type": "urban",
+   "note": "Seven urban legs (12:15→20:16), 17.9km / 91.8min, 6.1549 kWh gross, GTC 2.9309, -0.1410 kWh net corr2p sum (net-charge bias). Ambients 13–16°C; thermal regime (raw class): 6 shoulder, 1 warm. Largest SoC swing: D6 (19:52, 2.5km, +13°C) SoC 46→72 (+25.0pp). Longest leg: D7 (20:16, 7.9km, +13°C). Unwarmed starts (oil and coolant within 3°C of ambient): D1 (oil 17°C / coolant 18°C at +16°C). 7 of 7 ens_outlier_v2-clean, 7 of 7 sign_check ok."
+  },
+  {
+   "name": "Sep 7",
+   "drives": 8,
+   "km": 11.6,
+   "type": "urban",
+   "note": "Eight urban legs (07:45→17:46), 11.6km / 42.4min, 3.8741 kWh gross, GTC 1.8448, -0.0181 kWh net corr2p sum (near-neutral). Ambients 11–20°C; thermal regime (raw class): 4 shoulder, 4 warm. Largest SoC swing: D1 (07:45, 2.4km, +11°C) SoC 48→80 (+32.5pp). Longest leg: D5 (16:55, 2.5km, +20°C). 8 of 8 ens_outlier_v2-clean, 8 of 8 sign_check ok."
+  },
+  {
+   "name": "Sep 8",
+   "drives": 5,
+   "km": 13.8,
+   "type": "urban",
+   "note": "Five urban legs (07:44→12:47), 13.8km / 52.2min, 4.8711 kWh gross, GTC 2.3195, -0.1087 kWh net corr2p sum (net-charge bias). Ambients 9–23°C; thermal regime (raw class): 3 shoulder, 2 warm. Largest SoC swing: D1 (07:44, 2.4km, +9°C) SoC 46→81 (+35.0pp). Longest leg: D3 (08:55, 4.1km, +10°C). 5 of 5 ens_outlier_v2-clean, 5 of 5 sign_check ok."
+  },
+  {
+   "name": "Sep 9",
+   "drives": 7,
+   "km": 14.0,
+   "type": "urban",
+   "note": "Seven urban legs (07:40→15:46), 14.0km / 46.4min, 5.3429 kWh gross, GTC 2.5442, -0.3631 kWh net corr2p sum (net-charge bias). Ambients 12–29°C; thermal regime (raw class): 5 warm, 2 shoulder. Largest SoC swing: D1 (07:40, 2.4km, +12°C) SoC 45→74 (+29.5pp). Longest leg: D2 (07:56, 2.5km, +12°C). Unwarmed starts (oil and coolant within 3°C of ambient): D3 (oil 29°C / coolant 31°C at +29°C). 7 of 7 ens_outlier_v2-clean, 7 of 7 sign_check ok."
+  },
+  {
+   "name": "Sep 10",
+   "drives": 5,
+   "km": 11.7,
+   "type": "urban",
+   "note": "Five urban legs (07:44→14:32), 11.7km / 42.7min, 4.1888 kWh gross, GTC 1.9946, +0.1811 kWh net corr2p sum (net-discharge bias). Ambients 16–25°C; thermal regime (raw class): 5 warm. Largest SoC swing: D1 (07:44, 2.4km, +16°C) SoC 52→72 (+19.0pp). Longest leg: D5 (14:32, 4.4km, +25°C). 5 of 5 ens_outlier_v2-clean, 5 of 5 sign_check ok."
+  },
+  {
+   "name": "Sep 11",
+   "drives": 7,
+   "km": 35.5,
+   "type": "urban",
+   "note": "Seven urban legs (07:42→21:57), 35.5km / 102.2min, 10.2790 kWh gross, GTC 4.8948, -0.2980 kWh net corr2p sum (net-charge bias). Ambients 13–20°C; thermal regime (raw class): 4 warm, 3 shoulder. Largest SoC swing: D7 (21:57, 20.9km, +13°C) SoC 48→78 (+30.5pp). Longest leg: D7 (21:57, 20.9km, +13°C). 7 of 7 ens_outlier_v2-clean, 7 of 7 sign_check ok."
+  },
+  {
    "name": "Sep 12",
    "drives": 7,
    "km": 30.6,
@@ -1065,6 +1249,62 @@
    "km": 26.5,
    "type": "urban",
    "note": "Seven urban legs across the full day (07:45→22:14), 26.5km / 79.4min, 7.5527 kWh gross, GTC 3.5965, -0.1393 kWh net corr2p sum. Ambients 8–11°C — the coldest day of the batch, all seven in the shoulder cohort. D1 (07:45, 1.2km, +9°C): fully unwarmed cold start (oil 14°C / coolant 15°C = ambient), SoC 48→80 (+32.0pp), the batch's most extreme short-trip net-charge (net corr2p -39.27/100km, M35 short-denominator). D6 (21:59, +9°C) posts +34.5pp, the batch's largest single-drive swing. D7 (22:14, 16.5km, +9→8°C) is the longest leg of the whole batch and closes the ingestion. All seven ens_outlier_v2-clean, sign_check ok."
+  },
+  {
+   "name": "Sep 23",
+   "drives": 4,
+   "km": 6.9,
+   "type": "urban",
+   "note": "Four urban legs (07:39→18:33), 6.9km / 28.2min, 2.9316 kWh gross, GTC 1.3961, -0.6834 kWh net corr2p sum (net-charge bias). Ambients 10–12°C; thermal regime (raw class): 4 shoulder. Largest SoC swing: D1 (07:39, 1.3km, +10°C) SoC 46→76 (+29.5pp). Longest leg: D4 (18:33, 3.4km, +12°C). 4 of 4 ens_outlier_v2-clean, 4 of 4 sign_check ok."
+  },
+  {
+   "name": "Sep 24",
+   "drives": 2,
+   "km": 13.7,
+   "type": "urban",
+   "note": "Two urban legs (20:28→22:29), 13.7km / 34.0min, 3.9735 kWh gross, GTC 1.8921, +0.0010 kWh net corr2p sum (near-neutral). Ambients 8–10°C; thermal regime (raw class): 2 shoulder. Largest SoC swing: D1 (20:28, 7.0km, +10°C) SoC 48→80 (+31.5pp). Longest leg: D1 (20:28, 7.0km, +10°C). 2 of 2 ens_outlier_v2-clean, 2 of 2 sign_check ok."
+  },
+  {
+   "name": "Sep 25",
+   "drives": 5,
+   "km": 15.0,
+   "type": "urban",
+   "note": "Five urban legs (13:48→20:14), 15.0km / 52.7min, 5.0002 kWh gross, GTC 2.3810, -0.2023 kWh net corr2p sum (net-charge bias). Ambients 12–13°C; thermal regime (raw class): 5 shoulder. Largest SoC swing: D1 (13:48, 0.7km, +12°C) SoC 50→80 (+29.5pp). Longest leg: D3 (14:30, 5.7km, +12→13°C). Unwarmed starts (oil and coolant within 3°C of ambient): D1 (oil 13°C / coolant 13°C at +12°C). 5 of 5 ens_outlier_v2-clean, 5 of 5 sign_check ok."
+  },
+  {
+   "name": "Sep 26",
+   "drives": 9,
+   "km": 74.7,
+   "type": "urban",
+   "note": "Nine urban legs (12:08→20:01), 74.7km / 129.1min, 17.1849 kWh gross, GTC 8.1832, +0.0275 kWh net corr2p sum (near-neutral). Ambients 11–19°C; thermal regime (raw class): 8 warm, 1 shoulder. Largest SoC swing: D6 (16:47, 30.2km, +17→19→17°C) SoC 50→71 (+21.5pp). Longest leg: D6 (16:47, 30.2km, +17→19→17°C). Unwarmed starts (oil and coolant within 3°C of ambient): D1 (oil 14°C / coolant 18°C at +18°C). 9 of 9 ens_outlier_v2-clean, 9 of 9 sign_check ok."
+  },
+  {
+   "name": "Sep 27",
+   "drives": 12,
+   "km": 35.9,
+   "type": "urban",
+   "note": "Twelve urban legs (13:44→22:05), 35.9km / 105.8min, 12.0447 kWh gross, GTC 5.7355, -0.4294 kWh net corr2p sum (net-charge bias). Ambients 10–21°C; thermal regime (raw class): 11 warm, 1 shoulder. Largest SoC swing: D11 (19:57, 5.4km, +15°C) SoC 48→68 (+21.0pp). Longest leg: D5 (15:12, 10.6km, +20→19°C). Unwarmed starts (oil and coolant within 3°C of ambient): D1 (oil 18°C / coolant 21°C at +21°C). 12 of 12 ens_outlier_v2-clean, 12 of 12 sign_check ok."
+  },
+  {
+   "name": "Sep 28",
+   "drives": 1,
+   "km": 18.9,
+   "type": "urban",
+   "note": "One urban leg (21:24→21:24), 18.9km / 38.7min, 5.1208 kWh gross, GTC 2.4385, +0.0618 kWh net corr2p sum (net-discharge bias). Ambients 9–12°C; thermal regime (raw class): 1 shoulder. Largest SoC swing: D1 (21:24, 18.9km, +12→9→10°C) SoC 50→70 (+20.0pp). Longest leg: D1 (21:24, 18.9km, +12→9→10°C). 1 of 1 ens_outlier_v2-clean, 1 of 1 sign_check ok."
+  },
+  {
+   "name": "Sep 29",
+   "drives": 6,
+   "km": 10.1,
+   "type": "urban",
+   "note": "Six urban legs (10:00→22:23), 10.1km / 32.1min, 3.8489 kWh gross, GTC 1.8329, -0.3111 kWh net corr2p sum (net-charge bias). Ambients 9–13°C; thermal regime (raw class): 6 shoulder. Largest SoC swing: D1 (10:00, 1.3km, +13°C) SoC 45→64 (+18.5pp). Longest leg: D5 (22:10, 2.5km, +9°C). Unwarmed starts (oil and coolant within 3°C of ambient): D1 (oil 13°C / coolant 14°C at +13°C). 6 of 6 ens_outlier_v2-clean, 6 of 6 sign_check ok."
+  },
+  {
+   "name": "Sep 30",
+   "drives": 4,
+   "km": 5.1,
+   "type": "urban",
+   "note": "Four urban legs (08:09→10:52), 5.1km / 22.0min, 1.9852 kWh gross, GTC 0.9453, -0.0288 kWh net corr2p sum (near-neutral). Ambients 5–15°C; thermal regime (raw class): 2 cold, 2 warm. Largest SoC swing: D1 (08:09, 1.2km, +5°C) SoC 46→64 (+18.0pp). Longest leg: D2 (08:21, 1.3km, +5°C). 4 of 4 ens_outlier_v2-clean, 4 of 4 sign_check ok."
   }
  ],
  "speedDist": {

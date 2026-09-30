@@ -68,6 +68,15 @@
    "verified": true
   },
   {
+   "id": "extend_session_ledgers",
+   "title": "Add every new drive day to the Sessions (grouped by phase) ledgers (sessionGroups + sessions) and regenerate sessionLedgerAudit (standing rule M313)",
+   "cmd": [
+    "python3",
+    "tools/extend_session_ledgers.py"
+   ],
+   "verified": true
+  },
+  {
    "id": "fuel_recon",
    "title": "fuel_recon.py --all (fuel_recon_master.csv; raw read from staged raw_only/)",
    "cmd": [
