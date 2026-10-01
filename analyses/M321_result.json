@@ -1,0 +1,258 @@
+{
+ "spec": "analyses/M321_spec.md",
+ "spec_rev": 3,
+ "master_md5": "bd9d10726bb064d857cf9ff98d2b7338",
+ "cache_sha256": "b43202892fb3a30adfa23fbc4a3d83baf44168e89f6c0adbf855f9aab29041b4",
+ "selection_code_sha256": "43adc2c074b574d18f169a734408d0ac8ca26fae1c7cf06d630131c794d9d322",
+ "cache_stats": {
+  "start": {
+   "distinctValues": 165
+  },
+  "stop": {
+   "distinctValues": 152
+  }
+ },
+ "labels": "model-derived monitoring statistics; F03 label of the V2 block applies",
+ "equivalenceWithM320": {
+  "start": {
+   "candidates": [
+    {
+     "name": "P5",
+     "exact": true
+    },
+    {
+     "name": "P50",
+     "exact": true
+    },
+    {
+     "name": "P95",
+     "exact": true
+    }
+   ],
+   "rangeFromCache": [
+    11.0,
+    45.75
+   ],
+   "rangeInArrays": [
+    11.0,
+    45.75
+   ],
+   "rangeConsistent": true
+  },
+  "stop": {
+   "candidates": [
+    {
+     "name": "P5",
+     "exact": true
+    },
+    {
+     "name": "P50",
+     "exact": true
+    },
+    {
+     "name": "P95",
+     "exact": true
+    }
+   ],
+   "rangeFromCache": [
+    11.5,
+    45.75
+   ],
+   "rangeInArrays": [
+    11.5,
+    45.75
+   ],
+   "rangeConsistent": true
+  }
+ },
+ "pathEquivalence": {
+  "checked": 109,
+  "mismatches": []
+ },
+ "currentCorpus": {
+  "status": "ok",
+  "warningCodes": [],
+  "information": []
+ },
+ "w2Rev2VsRev3": {
+  "start": {
+   "lowestFinalLevel": 20.0,
+   "rev2LiteralW2": [
+    {
+     "level": 17.5,
+     "nEvents": 181,
+     "nDays": 56,
+     "nAtRiskS": 25143,
+     "admissible": true
+    }
+   ],
+   "rev3W2": [],
+   "bandAtBound": {
+    "level": 15.0,
+    "nEvents": 70,
+    "nDays": 32,
+    "nAtRiskS": 11776,
+    "admissible": false
+   }
+  },
+  "stop": {
+   "lowestFinalLevel": 20.0,
+   "rev2LiteralW2": [
+    {
+     "level": 17.5,
+     "nEvents": 160,
+     "nDays": 52,
+     "nAtRiskS": 13879,
+     "admissible": true
+    }
+   ],
+   "rev3W2": [],
+   "bandAtBound": {
+    "level": 15.0,
+    "nEvents": 60,
+    "nDays": 26,
+    "nAtRiskS": 6983,
+    "admissible": false
+   }
+  }
+ },
+ "scenarios": {
+  "forwardReplay410": {
+   "status": "ok",
+   "codes": [
+    "W3i:start"
+   ],
+   "warnings": [],
+   "information": [
+    "W3-info (start): the observed pack temperature 11-45.75 C extends beyond the fit-basis range 13.25-45.75 C (690 at-risk s, 4 events, 4 days outside)"
+   ],
+   "ladder410FinalLevels": {
+    "start": [
+     20.0,
+     42.5
+    ],
+    "stop": [
+     20.0,
+     42.5
+    ]
+   },
+   "rev2LiteralW2OnReplay": {
+    "start": [
+     {
+      "level": 17.5,
+      "nEvents": 181,
+      "nDays": 56,
+      "nAtRiskS": 25143,
+      "admissible": true
+     }
+    ],
+    "stop": [
+     {
+      "level": 17.5,
+      "nEvents": 160,
+      "nDays": 52,
+      "nAtRiskS": 13879,
+      "admissible": true
+     }
+    ]
+   }
+  },
+  "injectedColdDrives": {
+   "status": "warn-newspec",
+   "codes": [
+    "W1:start:P5",
+    "W1:stop:P5",
+    "W2:start:-7.5",
+    "W2:stop:-7.5",
+    "W3:start",
+    "W3:stop",
+    "W3i:start",
+    "W3i:stop"
+   ],
+   "warnings": [
+    "W1 shift of the corpus pack-temperature distribution (start): P5 18.75 -> -5 C (>= one grid step); seasonal and confounded, a refit decision, not model invalidity",
+    "W2 cold candidate (start): the -7.5 C band passes the support gate (144 events, 12 event days) - early support (< 20 event days); a colder level needs a new spec, no silent refit",
+    "W3 range extension (start): observed -5-45.75 C vs fit-basis 11-45.75 C (>= one grid step); the fit has no data there: a new spec is needed",
+    "W1 shift of the corpus pack-temperature distribution (stop): P5 19.75 -> -5 C (>= one grid step); seasonal and confounded, a refit decision, not model invalidity",
+    "W2 cold candidate (stop): the -7.5 C band passes the support gate (144 events, 12 event days) - early support (< 20 event days); a colder level needs a new spec, no silent refit",
+    "W3 range extension (stop): observed -5-45.75 C vs fit-basis 11.5-45.75 C (>= one grid step); the fit has no data there: a new spec is needed"
+   ],
+   "information": [
+    "W3-info (start): the observed pack temperature -5-45.75 C extends beyond the fit-basis range 11-45.75 C (24000 at-risk s, 144 events, 12 days outside)",
+    "W3-info (stop): the observed pack temperature -5-45.75 C extends beyond the fit-basis range 11.5-45.75 C (24000 at-risk s, 144 events, 12 days outside)"
+   ]
+  },
+  "injectedCreep0p25": {
+   "status": "ok",
+   "codes": [
+    "W3i:start",
+    "W3i:stop"
+   ],
+   "warnings": [],
+   "information": [
+    "W3-info (start): the observed pack temperature 10.75-45.75 C extends beyond the fit-basis range 11-45.75 C (100 at-risk s, 0 events, 1 days outside)",
+    "W3-info (stop): the observed pack temperature 11.25-45.75 C extends beyond the fit-basis range 11.5-45.75 C (100 at-risk s, 0 events, 1 days outside)"
+   ]
+  },
+  "boundary_passes_100": {
+   "status": "warn-newspec",
+   "codes": [
+    "W2:start:15",
+    "W2:stop:15"
+   ],
+   "warnings": [
+    "W2 cold candidate (start): the 15 C band passes the support gate (100 events, 33 event days) - boundary-dependent (the gate flips without the shared endpoint rows); a colder level needs a new spec, no silent refit",
+    "W2 cold candidate (stop): the 15 C band passes the support gate (100 events, 27 event days) - boundary-dependent (the gate flips without the shared endpoint rows); a colder level needs a new spec, no silent refit"
+   ],
+   "information": [],
+   "w2Candidates": {
+    "start": [
+     15.0
+    ],
+    "stop": [
+     15.0
+    ]
+   }
+  },
+  "boundary_fails_99": {
+   "status": "ok",
+   "codes": [],
+   "warnings": [],
+   "information": [],
+   "w2Candidates": {
+    "start": [],
+    "stop": []
+   }
+  },
+  "boundaryBase": {
+   "start": {
+    "level": 15.0,
+    "haveEvents": 70,
+    "haveDays": 32
+   },
+   "stop": {
+    "level": 15.0,
+    "haveEvents": 60,
+    "haveDays": 26
+   }
+  },
+  "f03HashChange": {
+   "status": "ok",
+   "codes": [],
+   "warnings": [],
+   "information": [],
+   "flag": [
+    "20260511_185709.csv"
+   ]
+  },
+  "selectionCodeChange": {
+   "status": "cache-invalid",
+   "codes": [],
+   "warnings": [],
+   "information": [],
+   "gateFails": [
+    "M321: selection code changed since the cache basis (status cache-invalid): re-run tools/m321_ladder_monitor.py rebase"
+   ]
+  }
+ }
+}

@@ -6028,6 +6028,7 @@ function SocHysteresisV2() {
   // levels; day-clustered bootstrap CIs); nothing is typed here. Model-derived and associational (pack temperature is confounded with
   // season, date and pack age), never a measured effect.
   const TL = V.tempLadder || null;
+  const MON = V.tempLadderMonitor || null;
   const divColor = (v, vmax) => {
     const t = Math.max(-1, Math.min(1, vmax > 0 ? v / vmax : 0));
     const tgt = hx(t >= 0 ? "#b91c1c" : "#1d4ed8"), a = Math.abs(t);
@@ -6122,12 +6123,21 @@ function SocHysteresisV2() {
     return (
       <div style={{ marginTop: 12, padding: 8, background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 6 }}>
         <div style={{ fontSize: 10.5, fontWeight: 700, color: "#0f172a", marginBottom: 3 }}>Pack-temperature contrast <span style={{ color: "#94a3b8", fontWeight: 400 }}>(data-derived levels; ladder basis {TL.start.basisNDrives} drives)</span></div>
+        {MON && (
+          <div style={{ background: MON.status === "ok" ? "#f0fdf4" : "#fffbeb", border: "1px solid " + (MON.status === "ok" ? "#bbf7d0" : "#fde68a"), borderRadius: 6, padding: "5px 8px", marginBottom: 6, fontSize: 9.5, lineHeight: 1.5, color: MON.status === "ok" ? "#166534" : "#92400e" }}>
+            <strong style={{ color: "#0f172a" }}>Ladder drift monitor ({MON.status}). </strong>Ladder basis {MON.basisNDrives} drives; current corpus {MON.currentNDrives} drives ({MON.newDrivesSinceBasis} new since the basis).
+            {(MON.warnings || []).map((w, k) => <span key={"w" + k}><br />{w}.</span>)}
+            {(MON.information || []).map((w, k) => <span key={"i" + k}><br />{w}.</span>)}
+            {((MON.f03ProvenanceFlag || {}).basisFilesWithChangedRawSha256 || []).length ? <span><br />F03 provenance flag: {MON.f03ProvenanceFlag.basisFilesWithChangedRawSha256.length} basis file(s) have a changed raw hash (reported separately; not counted as drift).</span> : null}
+            <br /><span style={{ color: "#94a3b8" }}>{MON.policy}</span>
+          </div>
+        )}
         <div style={{ fontSize: 9, color: "#64748b", lineHeight: 1.5, marginBottom: 5 }}>
           Levels are the seconds-weighted low and high percentiles of the at-risk pack temperature, kept only where the band around the level carries enough events and event days, and shown as separate levels only if the contrast between them is distinct (day-clustered bootstrap, {TL.start.bootstrap.draws} draws, seed {TL.start.bootstrap.seed}; lower bound of the contrast at least log 1.25). Model-derived and associational: pack temperature is confounded with season, date and pack age. Not M299-reproducible (F03).
           <br />{sideNote("start")}
           <br />{sideNote("stop")}
           {["start", "stop"].map(t => (TL[t].notes || []).map((n, k) => <span key={t + k}><br />{t === "start" ? "START" : "STOP"} note: {n}.</span>))}
-          <br />Observed pack temperature {TL.start.tpackMinC}–{TL.start.tpackMaxC}°C (start) and {TL.stop.tpackMinC}–{TL.stop.tpackMaxC}°C (stop); no surface is shown outside it, and levels without data are refused, not extrapolated.
+          <br />Fit-basis pack-temperature range {TL.start.tpackMinC}–{TL.start.tpackMaxC}°C (start) and {TL.stop.tpackMinC}–{TL.stop.tpackMaxC}°C (stop){MON ? `; current observed range ${MON.sides.start.observedRangeC[0]}–${MON.sides.start.observedRangeC[1]}°C (start) and ${MON.sides.stop.observedRangeC[0]}–${MON.sides.stop.observedRangeC[1]}°C (stop)` : ""}; no surface is shown outside the fit-basis range, and levels without data are refused, not extrapolated.
         </div>
         {vmax > 0 && (
           <div style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center", marginBottom: 6 }}>

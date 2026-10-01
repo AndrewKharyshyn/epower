@@ -95,6 +95,20 @@
    "verified": true
   },
   {
+   "id": "m321_ladder_monitor",
+   "title": "M119-v2 pack-temperature ladder drift monitor: extend the exact histogram cache for new files from the staged raw_only/, recompute socHysteresisV2.tempLadderMonitor (report-only; W2/W3 need an acknowledgement, never a silent refit) (M321)",
+   "cmd": [
+    "python3",
+    "tools/m321_ladder_monitor.py",
+    "update"
+   ],
+   "verified": false,
+   "outputs": [
+    "summary_arrays.json",
+    "analyses/M321_tpack_cache.json"
+   ]
+  },
+  {
    "id": "fuel_recon",
    "title": "fuel_recon.py --all (fuel_recon_master.csv; raw read from staged raw_only/)",
    "cmd": [

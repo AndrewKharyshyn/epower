@@ -31926,6 +31926,193 @@
     },
     "coreSupportDiagnostic": "uninformative under a cell-uniform model; not robustness evidence"
    }
+  },
+  "tempLadderMonitor": {
+   "masterMd5": "bd9d10726bb064d857cf9ff98d2b7338",
+   "basisNDrives": 489,
+   "currentNDrives": 489,
+   "newDrivesSinceBasis": 0,
+   "cacheSha256": "b43202892fb3a30adfa23fbc4a3d83baf44168e89f6c0adbf855f9aab29041b4",
+   "selectionCodeSha256": "43adc2c074b574d18f169a734408d0ac8ca26fae1c7cf06d630131c794d9d322",
+   "policy": "W2/W3 start a new spec; no silent refit. W1/W4 call for a refit decision. Model-derived monitoring statistics; the F03 label of the V2 block applies.",
+   "generated": "2026-10-01T20:51:26+00:00",
+   "f03ProvenanceFlag": {
+    "basisFilesWithChangedRawSha256": [],
+    "note": "reported separately; basis entries are frozen and never recomputed into drift"
+   },
+   "sides": {
+    "start": {
+     "quantilesPooled": {
+      "P5": {
+       "quantileValue": 18.75,
+       "snapped": 20.0,
+       "dayWeightedQuantileValue": 17.0,
+       "dayWeightedSnapped": 17.5
+      },
+      "P50": {
+       "quantileValue": 33.0,
+       "snapped": 32.5,
+       "dayWeightedQuantileValue": 29.25,
+       "dayWeightedSnapped": 30.0
+      },
+      "P95": {
+       "quantileValue": 41.5,
+       "snapped": 42.5,
+       "dayWeightedQuantileValue": 40.5,
+       "dayWeightedSnapped": 40.0
+      }
+     },
+     "quantilesBasis": {
+      "P5": {
+       "quantileValue": 18.75,
+       "snapped": 20.0,
+       "dayWeightedQuantileValue": 17.0,
+       "dayWeightedSnapped": 17.5
+      },
+      "P50": {
+       "quantileValue": 33.0,
+       "snapped": 32.5,
+       "dayWeightedQuantileValue": 29.25,
+       "dayWeightedSnapped": 30.0
+      },
+      "P95": {
+       "quantileValue": 41.5,
+       "snapped": 42.5,
+       "dayWeightedQuantileValue": 40.5,
+       "dayWeightedSnapped": 40.0
+      }
+     },
+     "quantilesNew": null,
+     "carriedQuantileValues": {
+      "P5": 18.75,
+      "P50": 33.0,
+      "P95": 41.5
+     },
+     "supportAtCarriedLevels": {
+      "20": {
+       "nEvents": 297,
+       "nDays": 68,
+       "nAtRiskS": 38347,
+       "admissible": true
+      },
+      "42.5": {
+       "nEvents": 1015,
+       "nDays": 19,
+       "nAtRiskS": 41365,
+       "admissible": true
+      }
+     },
+     "observedRangeC": [
+      11.0,
+      45.75
+     ],
+     "fitBasisRangeC": [
+      11.0,
+      45.75
+     ],
+     "fitBasisRangeArraysC": [
+      11.0,
+      45.75
+     ],
+     "outsideFitRange": {
+      "nAtRiskS": 0,
+      "nEvents": 0,
+      "nDays": 0
+     },
+     "coldCandidates": [],
+     "coldCandidate": null,
+     "warnings": [],
+     "information": []
+    },
+    "stop": {
+     "quantilesPooled": {
+      "P5": {
+       "quantileValue": 19.75,
+       "snapped": 20.0,
+       "dayWeightedQuantileValue": 15.75,
+       "dayWeightedSnapped": 15.0
+      },
+      "P50": {
+       "quantileValue": 35.5,
+       "snapped": 35.0,
+       "dayWeightedQuantileValue": 28.5,
+       "dayWeightedSnapped": 27.5
+      },
+      "P95": {
+       "quantileValue": 42.0,
+       "snapped": 42.5,
+       "dayWeightedQuantileValue": 40.25,
+       "dayWeightedSnapped": 40.0
+      }
+     },
+     "quantilesBasis": {
+      "P5": {
+       "quantileValue": 19.75,
+       "snapped": 20.0,
+       "dayWeightedQuantileValue": 15.75,
+       "dayWeightedSnapped": 15.0
+      },
+      "P50": {
+       "quantileValue": 35.5,
+       "snapped": 35.0,
+       "dayWeightedQuantileValue": 28.5,
+       "dayWeightedSnapped": 27.5
+      },
+      "P95": {
+       "quantileValue": 42.0,
+       "snapped": 42.5,
+       "dayWeightedQuantileValue": 40.25,
+       "dayWeightedSnapped": 40.0
+      }
+     },
+     "quantilesNew": null,
+     "carriedQuantileValues": {
+      "P5": 19.75,
+      "P50": 35.5,
+      "P95": 42.0
+     },
+     "supportAtCarriedLevels": {
+      "20": {
+       "nEvents": 276,
+       "nDays": 66,
+       "nAtRiskS": 19703,
+       "admissible": true
+      },
+      "42.5": {
+       "nEvents": 1021,
+       "nDays": 19,
+       "nAtRiskS": 46695,
+       "admissible": true
+      }
+     },
+     "observedRangeC": [
+      11.5,
+      45.75
+     ],
+     "fitBasisRangeC": [
+      11.5,
+      45.75
+     ],
+     "fitBasisRangeArraysC": [
+      11.5,
+      45.75
+     ],
+     "outsideFitRange": {
+      "nAtRiskS": 0,
+      "nEvents": 0,
+      "nDays": 0
+     },
+     "coldCandidates": [],
+     "coldCandidate": null,
+     "warnings": [],
+     "information": []
+    }
+   },
+   "warningCodes": [],
+   "warningSetHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "warnings": [],
+   "information": [],
+   "status": "ok"
   }
  },
  "headroomUtilization": {
@@ -45350,7 +45537,7 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "computationStatusNote": "M318: M119-v2 fresh refit on all 489 drives with the corrected day key (_day_key restored, 104 days) and the project bootstrap standard (4000 draws, seed 42); rolling-origin CV recomputed; M119 socHysteresis recomputed and byte-identical. Fitted on today's raw/ (F03): not M299-reproducible, not article-eligible. See analyses/M318_spec.md | M320: surfaces re-levelled and tempLadder added (support-gated data-driven pack-temperature ladder; fitted model unchanged)."
+   "computationStatusNote": "M318: M119-v2 fresh refit on all 489 drives with the corrected day key (_day_key restored, 104 days) and the project bootstrap standard (4000 draws, seed 42); rolling-origin CV recomputed; M119 socHysteresis recomputed and byte-identical. Fitted on today's raw/ (F03): not M299-reproducible, not article-eligible. See analyses/M318_spec.md | M320: surfaces re-levelled and tempLadder added (support-gated data-driven pack-temperature ladder; fitted model unchanged). | M321: tempLadderMonitor added (report-only drift monitor for the M320 ladder; fit and ladder unchanged)."
   },
   "headroomUtilization": {
    "corpusHash": "bd9d10726bb064d857cf9ff98d2b7338",
