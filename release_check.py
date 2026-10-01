@@ -175,6 +175,19 @@ def payload_checks(arrays_path):
         and ((cht.get("huberSlopeCi95") is None) == (pci is None or ((lat.get("slopeII") or {}).get("S1") or {}).get("inconclusive") is True))
         and (pci is None or (cht.get("huberSlopeCi95") and all(abs(round(x, 2) - y) < 1e-9 for x, y in zip(pci, cht["huberSlopeCi95"]))))
         and all(((sfp.get("calibration") or {}).get(d) or {}).get("S1PassBand") is True for d in ("design1", "design2")))   # S1 calibrated in both simulation designs (Amendment 1)
+
+    # (8) M321: the M119-v2 pack-temperature ladder drift monitor is present, current and consistent with the ladder basis; a V2 refit without a
+    #     re-derived ladder, a stale cache or changed selection code, or an unacknowledged W2/W3 (new-spec trigger) FAILS here (spec analyses/M321_spec.md).
+    #     Evaluated against the repository tree (SRC), because it hashes tools/ and analyses/ files that the clean-environment copy does not carry.
+    try:
+        sys.path.insert(0, str(SRC / "tools"))
+        import m321_ladder_monitor as _m321
+        _f, _w = _m321.gate(sa, root=str(SRC))
+    except Exception as _e:
+        _f = [f"M321: ladder-monitor gate could not run: {_e}"]
+    for _x in _f:
+        checks["M321: " + _x.replace("M321: ", "")] = False
+    checks["ladder drift monitor present, current and consistent with the ladder basis (M321)"] = not _f
     return checks
 
 def payload_warnings(arrays_path):
@@ -204,6 +217,12 @@ def payload_warnings(arrays_path):
         if stale:
             warns.append(f"_artifactStamps fullConfigHash {stale} != md5(summary_config.json) {h} - stamped under a "
                          f"different config revision; under investigation (M300)")
+    try:
+        sys.path.insert(0, str(SRC / "tools"))
+        import m321_ladder_monitor as _m321
+        warns.extend(_m321.gate(sa, root=str(SRC))[1])     # M321: W1 / W3-info / W4 / F03 flags are WARN (W2 / W3 are gated by acknowledgement)
+    except Exception:
+        pass
     return warns
 
 def main():
