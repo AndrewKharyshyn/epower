@@ -50,6 +50,19 @@
  "I_offset_A_applied": [
   -0.3858
  ],
+ "channel_status": {
+  "T_intake": {
+   "status": "unavailable",
+   "sentinel_c": -100.0,
+   "last_valid_drive": "20260824_081823.csv",
+   "last_valid_date": "2026-08-24",
+   "n_drives_after_last_valid": 211,
+   "n_nan_after_last_valid": 211,
+   "n_days_after_last_valid": 37,
+   "context": "owner report: onset right after the battery-controller software update following the first drive of 2026-08-24; cause not established from the CSVs; reactivation attempt pending. Raw channel is a constant -100 degC from 2026-08-24 10:46:12; the master NaNs it via the lo=-40 bound. Pack sensors 1-4 checked: no evidence of change. Cold-start flag (warmupPoints) maps NaN to False = no data, not warm.",
+   "ref": "CHANGELOG M319"
+  }
+ },
  "last_n": 30,
  "shift_last_n_vs_rest": {
   "gross_throughput_kwh": {
