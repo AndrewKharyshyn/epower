@@ -1084,12 +1084,16 @@ def _support_mask(cc, soc_ax, spd_ax, min_n=20):
     return mask
 
 
-def _surfaces(res, spec, cc):
+def _surfaces(res, spec, cc, temp_levels=None):
     """SoC x speed transition-probability grids at selectable temperature,
     demand and current-state-duration levels, plus the observed-support mask."""
-    temp_levels = [{'label': 'cool ~20C', 'value': 20.0},
-                   {'label': 'warm ~28C', 'value': 28.0},
-                   {'label': 'hot ~35C', 'value': 35.0}]
+    # M320: `temp_levels` lets the caller supply the data-driven, support-gated
+    # ladder (tools/m320_ladder.py); the legacy fixed literals remain the default
+    # so a call without it is byte-identical to the M318 surfaces.
+    if temp_levels is None:
+        temp_levels = [{'label': 'cool ~20C', 'value': 20.0},
+                       {'label': 'warm ~28C', 'value': 28.0},
+                       {'label': 'hot ~35C', 'value': 35.0}]
     dq = np.nanpercentile(cc['demand'], [25, 50, 90])
     demand_levels = [{'label': 'low', 'value': round(float(dq[0]), 2), 'pctile': 25},
                      {'label': 'median', 'value': round(float(dq[1]), 2), 'pctile': 50},
