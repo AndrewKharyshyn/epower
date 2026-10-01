@@ -1,0 +1,759 @@
+{
+ "spec": "analyses/M318_spec.md",
+ "spec_blob": "45787766ab67294a41713f317a25127c9e65ad17",
+ "master_md5": "bd9d10726bb064d857cf9ff98d2b7338",
+ "script_sha256": "d1d75bf4ab0aa96cba0ad847b7212aa2aa02560f01d6bd4b4d94c2854ec9f845",
+ "m119v2_model_sha256": "1bdc24f6eff2fef12dde224b742086213b95cb35637a25a33ae4f444c2342be3",
+ "days": {
+  "R1_b300": {
+   "start_included": 90,
+   "stop_included": 89,
+   "start_complete_case": 86,
+   "stop_complete_case": 87,
+   "master_dates": 90,
+   "n_drives": 410
+  },
+  "R1_b4000": {
+   "start_included": 90,
+   "stop_included": 89,
+   "start_complete_case": 86,
+   "stop_complete_case": 87,
+   "master_dates": 90,
+   "n_drives": 410
+  },
+  "R2": {
+   "start_included": 104,
+   "stop_included": 103,
+   "start_complete_case": 100,
+   "stop_complete_case": 101,
+   "master_dates": 104,
+   "n_drives": 489
+  },
+  "S1_b300": {
+   "start_included": 104,
+   "stop_included": 103,
+   "start_complete_case": 100,
+   "stop_complete_case": 101,
+   "master_dates": 104,
+   "n_drives": 489
+  },
+  "S3_clean": {
+   "start_included": 104,
+   "stop_included": 103,
+   "start_complete_case": 100,
+   "stop_complete_case": 101,
+   "master_dates": 104,
+   "n_drives": 487
+  }
+ },
+ "ladder_fiveVarDur": {
+  "R0_HEAD_410": {
+   "start": {
+    "logLoss": 0.070487,
+    "logLossCI": [
+     0.06212,
+     0.07743
+    ],
+    "prAuc": 0.0575,
+    "prAucCI": [
+     0.05174,
+     0.06222
+    ],
+    "brier": 0.014691
+   },
+   "stop": {
+    "logLoss": 0.074177,
+    "logLossCI": [
+     0.06848,
+     0.08235
+    ],
+    "prAuc": 0.0893,
+    "prAucCI": [
+     0.08352,
+     0.09733
+    ],
+    "brier": 0.017056
+   }
+  },
+  "R1_b300": {
+   "start": {
+    "logLoss": 0.070488,
+    "logLossCI": [
+     0.06212,
+     0.07743
+    ],
+    "prAuc": 0.0575,
+    "prAucCI": [
+     0.05173,
+     0.06217
+    ],
+    "brier": 0.014692
+   },
+   "stop": {
+    "logLoss": 0.074191,
+    "logLossCI": [
+     0.06849,
+     0.08236
+    ],
+    "prAuc": 0.0892,
+    "prAucCI": [
+     0.08343,
+     0.09729
+    ],
+    "brier": 0.017058
+   }
+  },
+  "R1_b4000": {
+   "start": {
+    "logLoss": 0.070488,
+    "logLossCI": [
+     0.06256,
+     0.07759
+    ],
+    "prAuc": 0.0575,
+    "prAucCI": [
+     0.05172,
+     0.06216
+    ],
+    "brier": 0.014692
+   },
+   "stop": {
+    "logLoss": 0.074191,
+    "logLossCI": [
+     0.06783,
+     0.08215
+    ],
+    "prAuc": 0.0892,
+    "prAucCI": [
+     0.08273,
+     0.09755
+    ],
+    "brier": 0.017058
+   }
+  },
+  "R2": {
+   "start": {
+    "logLoss": 0.067482,
+    "logLossCI": [
+     0.06004,
+     0.07433
+    ],
+    "prAuc": 0.0572,
+    "prAucCI": [
+     0.05229,
+     0.06134
+    ],
+    "brier": 0.013987
+   },
+   "stop": {
+    "logLoss": 0.074,
+    "logLossCI": [
+     0.06816,
+     0.08136
+    ],
+    "prAuc": 0.0945,
+    "prAucCI": [
+     0.08902,
+     0.10127
+    ],
+    "brier": 0.016905
+   }
+  },
+  "S1_b300": {
+   "start": {
+    "logLoss": 0.067482,
+    "logLossCI": [
+     0.06027,
+     0.07514
+    ],
+    "prAuc": 0.0572,
+    "prAucCI": [
+     0.05255,
+     0.0613
+    ],
+    "brier": 0.013987
+   },
+   "stop": {
+    "logLoss": 0.074,
+    "logLossCI": [
+     0.06793,
+     0.08208
+    ],
+    "prAuc": 0.0945,
+    "prAucCI": [
+     0.08868,
+     0.10054
+    ],
+    "brier": 0.016905
+   }
+  },
+  "S3_clean": {
+   "start": {
+    "logLoss": 0.067484,
+    "logLossCI": [
+     0.06004,
+     0.07433
+    ],
+    "prAuc": 0.0572,
+    "prAucCI": [
+     0.0523,
+     0.06134
+    ],
+    "brier": 0.013988
+   },
+   "stop": {
+    "logLoss": 0.074009,
+    "logLossCI": [
+     0.06817,
+     0.08138
+    ],
+    "prAuc": 0.0945,
+    "prAucCI": [
+     0.08902,
+     0.10128
+    ],
+    "brier": 0.016908
+   }
+  }
+ },
+ "events": {
+  "R0_HEAD_410": {
+   "start": 5210,
+   "stop": 5199
+  },
+  "R1_b300": {
+   "start": 5210,
+   "stop": 5199
+  },
+  "R1_b4000": {
+   "start": 5210,
+   "stop": 5199
+  },
+  "R2": {
+   "start": 5450,
+   "stop": 5431
+  },
+  "S1_b300": {
+   "start": 5450,
+   "stop": 5431
+  },
+  "S3_clean": {
+   "start": 5431,
+   "stop": 5413
+  }
+ },
+ "rollingOrigin_origins": {
+  "start": 12,
+  "stop": 13
+ },
+ "labels": "model-derived; not M299-reproducible (F03); not article-eligible",
+ "ladder_all_rungs": {
+  "R0_HEAD_410": {
+   "start": {
+    "socOnly": {
+     "logLoss": 0.078036,
+     "logLossCI": null,
+     "prAuc": 0.0212,
+     "prAucCI": [
+      0.01818,
+      0.02442
+     ],
+     "brier": 0.014999
+    },
+    "socSpeed": {
+     "logLoss": 0.072025,
+     "logLossCI": null,
+     "prAuc": 0.0455,
+     "prAucCI": null,
+     "brier": 0.014783
+    },
+    "fourVar": {
+     "logLoss": 0.071019,
+     "logLossCI": null,
+     "prAuc": 0.0532,
+     "prAucCI": null,
+     "brier": 0.014732
+    },
+    "fiveVarDur": {
+     "logLoss": 0.070487,
+     "logLossCI": [
+      0.06212,
+      0.07743
+     ],
+     "prAuc": 0.0575,
+     "prAucCI": [
+      0.05174,
+      0.06222
+     ],
+     "brier": 0.014691
+    }
+   },
+   "stop": {
+    "socOnly": {
+     "logLoss": 0.086336,
+     "logLossCI": null,
+     "prAuc": 0.0375,
+     "prAucCI": [
+      0.03516,
+      0.04014
+     ],
+     "brier": 0.01766
+    },
+    "socSpeed": {
+     "logLoss": 0.083479,
+     "logLossCI": null,
+     "prAuc": 0.0472,
+     "prAucCI": null,
+     "brier": 0.017646
+    },
+    "fourVar": {
+     "logLoss": 0.075322,
+     "logLossCI": null,
+     "prAuc": 0.0816,
+     "prAucCI": null,
+     "brier": 0.017155
+    },
+    "fiveVarDur": {
+     "logLoss": 0.074177,
+     "logLossCI": [
+      0.06848,
+      0.08235
+     ],
+     "prAuc": 0.0893,
+     "prAucCI": [
+      0.08352,
+      0.09733
+     ],
+     "brier": 0.017056
+    }
+   }
+  },
+  "R1_b300": {
+   "start": {
+    "socOnly": {
+     "logLoss": 0.078036,
+     "logLossCI": null,
+     "prAuc": 0.0212,
+     "prAucCI": [
+      0.01818,
+      0.02442
+     ],
+     "brier": 0.014999
+    },
+    "socSpeed": {
+     "logLoss": 0.072025,
+     "logLossCI": null,
+     "prAuc": 0.0455,
+     "prAucCI": null,
+     "brier": 0.014783
+    },
+    "fourVar": {
+     "logLoss": 0.07102,
+     "logLossCI": null,
+     "prAuc": 0.0532,
+     "prAucCI": null,
+     "brier": 0.014732
+    },
+    "fiveVarDur": {
+     "logLoss": 0.070488,
+     "logLossCI": [
+      0.06212,
+      0.07743
+     ],
+     "prAuc": 0.0575,
+     "prAucCI": [
+      0.05173,
+      0.06217
+     ],
+     "brier": 0.014692
+    }
+   },
+   "stop": {
+    "socOnly": {
+     "logLoss": 0.086336,
+     "logLossCI": null,
+     "prAuc": 0.0375,
+     "prAucCI": [
+      0.03516,
+      0.04014
+     ],
+     "brier": 0.01766
+    },
+    "socSpeed": {
+     "logLoss": 0.083479,
+     "logLossCI": null,
+     "prAuc": 0.0472,
+     "prAucCI": null,
+     "brier": 0.017646
+    },
+    "fourVar": {
+     "logLoss": 0.075336,
+     "logLossCI": null,
+     "prAuc": 0.0816,
+     "prAucCI": null,
+     "brier": 0.017156
+    },
+    "fiveVarDur": {
+     "logLoss": 0.074191,
+     "logLossCI": [
+      0.06849,
+      0.08236
+     ],
+     "prAuc": 0.0892,
+     "prAucCI": [
+      0.08343,
+      0.09729
+     ],
+     "brier": 0.017058
+    }
+   }
+  },
+  "R1_b4000": {
+   "start": {
+    "socOnly": {
+     "logLoss": 0.078036,
+     "logLossCI": null,
+     "prAuc": 0.0212,
+     "prAucCI": [
+      0.01827,
+      0.02433
+     ],
+     "brier": 0.014999
+    },
+    "socSpeed": {
+     "logLoss": 0.072025,
+     "logLossCI": null,
+     "prAuc": 0.0455,
+     "prAucCI": null,
+     "brier": 0.014783
+    },
+    "fourVar": {
+     "logLoss": 0.07102,
+     "logLossCI": null,
+     "prAuc": 0.0532,
+     "prAucCI": null,
+     "brier": 0.014732
+    },
+    "fiveVarDur": {
+     "logLoss": 0.070488,
+     "logLossCI": [
+      0.06256,
+      0.07759
+     ],
+     "prAuc": 0.0575,
+     "prAucCI": [
+      0.05172,
+      0.06216
+     ],
+     "brier": 0.014692
+    }
+   },
+   "stop": {
+    "socOnly": {
+     "logLoss": 0.086336,
+     "logLossCI": null,
+     "prAuc": 0.0375,
+     "prAucCI": [
+      0.03517,
+      0.04008
+     ],
+     "brier": 0.01766
+    },
+    "socSpeed": {
+     "logLoss": 0.083479,
+     "logLossCI": null,
+     "prAuc": 0.0472,
+     "prAucCI": null,
+     "brier": 0.017646
+    },
+    "fourVar": {
+     "logLoss": 0.075336,
+     "logLossCI": null,
+     "prAuc": 0.0816,
+     "prAucCI": null,
+     "brier": 0.017156
+    },
+    "fiveVarDur": {
+     "logLoss": 0.074191,
+     "logLossCI": [
+      0.06783,
+      0.08215
+     ],
+     "prAuc": 0.0892,
+     "prAucCI": [
+      0.08273,
+      0.09755
+     ],
+     "brier": 0.017058
+    }
+   }
+  },
+  "R2": {
+   "start": {
+    "socOnly": {
+     "logLoss": 0.074855,
+     "logLossCI": null,
+     "prAuc": 0.0212,
+     "prAucCI": [
+      0.01835,
+      0.02401
+     ],
+     "brier": 0.014281
+    },
+    "socSpeed": {
+     "logLoss": 0.068894,
+     "logLossCI": null,
+     "prAuc": 0.0459,
+     "prAucCI": null,
+     "brier": 0.014067
+    },
+    "fourVar": {
+     "logLoss": 0.067935,
+     "logLossCI": null,
+     "prAuc": 0.0532,
+     "prAucCI": null,
+     "brier": 0.014021
+    },
+    "fiveVarDur": {
+     "logLoss": 0.067482,
+     "logLossCI": [
+      0.06004,
+      0.07433
+     ],
+     "prAuc": 0.0572,
+     "prAucCI": [
+      0.05229,
+      0.06134
+     ],
+     "brier": 0.013987
+    }
+   },
+   "stop": {
+    "socOnly": {
+     "logLoss": 0.086099,
+     "logLossCI": null,
+     "prAuc": 0.0352,
+     "prAucCI": [
+      0.03262,
+      0.03806
+     ],
+     "brier": 0.01758
+    },
+    "socSpeed": {
+     "logLoss": 0.084138,
+     "logLossCI": null,
+     "prAuc": 0.0433,
+     "prAucCI": null,
+     "brier": 0.017674
+    },
+    "fourVar": {
+     "logLoss": 0.075151,
+     "logLossCI": null,
+     "prAuc": 0.0876,
+     "prAucCI": null,
+     "brier": 0.016993
+    },
+    "fiveVarDur": {
+     "logLoss": 0.074,
+     "logLossCI": [
+      0.06816,
+      0.08136
+     ],
+     "prAuc": 0.0945,
+     "prAucCI": [
+      0.08902,
+      0.10127
+     ],
+     "brier": 0.016905
+    }
+   }
+  },
+  "S1_b300": {
+   "start": {
+    "socOnly": {
+     "logLoss": 0.074855,
+     "logLossCI": null,
+     "prAuc": 0.0212,
+     "prAucCI": [
+      0.01835,
+      0.02411
+     ],
+     "brier": 0.014281
+    },
+    "socSpeed": {
+     "logLoss": 0.068894,
+     "logLossCI": null,
+     "prAuc": 0.0459,
+     "prAucCI": null,
+     "brier": 0.014067
+    },
+    "fourVar": {
+     "logLoss": 0.067935,
+     "logLossCI": null,
+     "prAuc": 0.0532,
+     "prAucCI": null,
+     "brier": 0.014021
+    },
+    "fiveVarDur": {
+     "logLoss": 0.067482,
+     "logLossCI": [
+      0.06027,
+      0.07514
+     ],
+     "prAuc": 0.0572,
+     "prAucCI": [
+      0.05255,
+      0.0613
+     ],
+     "brier": 0.013987
+    }
+   },
+   "stop": {
+    "socOnly": {
+     "logLoss": 0.086099,
+     "logLossCI": null,
+     "prAuc": 0.0352,
+     "prAucCI": [
+      0.03277,
+      0.03799
+     ],
+     "brier": 0.01758
+    },
+    "socSpeed": {
+     "logLoss": 0.084138,
+     "logLossCI": null,
+     "prAuc": 0.0433,
+     "prAucCI": null,
+     "brier": 0.017674
+    },
+    "fourVar": {
+     "logLoss": 0.075151,
+     "logLossCI": null,
+     "prAuc": 0.0876,
+     "prAucCI": null,
+     "brier": 0.016993
+    },
+    "fiveVarDur": {
+     "logLoss": 0.074,
+     "logLossCI": [
+      0.06793,
+      0.08208
+     ],
+     "prAuc": 0.0945,
+     "prAucCI": [
+      0.08868,
+      0.10054
+     ],
+     "brier": 0.016905
+    }
+   }
+  },
+  "S3_clean": {
+   "start": {
+    "socOnly": {
+     "logLoss": 0.074858,
+     "logLossCI": null,
+     "prAuc": 0.0212,
+     "prAucCI": [
+      0.01834,
+      0.02401
+     ],
+     "brier": 0.014282
+    },
+    "socSpeed": {
+     "logLoss": 0.068897,
+     "logLossCI": null,
+     "prAuc": 0.0459,
+     "prAucCI": null,
+     "brier": 0.014068
+    },
+    "fourVar": {
+     "logLoss": 0.067938,
+     "logLossCI": null,
+     "prAuc": 0.0532,
+     "prAucCI": null,
+     "brier": 0.014022
+    },
+    "fiveVarDur": {
+     "logLoss": 0.067484,
+     "logLossCI": [
+      0.06004,
+      0.07433
+     ],
+     "prAuc": 0.0572,
+     "prAucCI": [
+      0.0523,
+      0.06134
+     ],
+     "brier": 0.013988
+    }
+   },
+   "stop": {
+    "socOnly": {
+     "logLoss": 0.086109,
+     "logLossCI": null,
+     "prAuc": 0.0352,
+     "prAucCI": [
+      0.03262,
+      0.03807
+     ],
+     "brier": 0.017583
+    },
+    "socSpeed": {
+     "logLoss": 0.084147,
+     "logLossCI": null,
+     "prAuc": 0.0433,
+     "prAucCI": null,
+     "brier": 0.017676
+    },
+    "fourVar": {
+     "logLoss": 0.07516,
+     "logLossCI": null,
+     "prAuc": 0.0876,
+     "prAucCI": null,
+     "brier": 0.016995
+    },
+    "fiveVarDur": {
+     "logLoss": 0.074009,
+     "logLossCI": [
+      0.06817,
+      0.08138
+     ],
+     "prAuc": 0.0945,
+     "prAucCI": [
+      0.08902,
+      0.10128
+     ],
+     "brier": 0.016908
+    }
+   }
+  }
+ },
+ "daysNamed": {
+  "start": {
+   "notIncluded": [],
+   "droppedByCompleteCase": [
+    "2026-05-11",
+    "2026-05-12",
+    "2026-05-13",
+    "2026-05-14"
+   ]
+  },
+  "stop": {
+   "notIncluded": [
+    "2026-05-11"
+   ],
+   "droppedByCompleteCase": [
+    "2026-05-12",
+    "2026-05-13"
+   ]
+  }
+ },
+ "partA_socHysteresis": {
+  "freshRecomputeEqualsHEAD": true,
+  "note": "recomputed on 489 drives in the final run (csa._soc_hysteresis_summary); no splice"
+ },
+ "audit2_residual": {
+  "stops": "pipeline 5431 vs auditor 5430: one drive 2026-09-22_07-45-42; attributed (not re-run) to the auditor's grid-end floor vs the pipeline's ceil"
+ }
+}
