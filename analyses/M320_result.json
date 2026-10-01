@@ -1,0 +1,622 @@
+{
+ "spec": "analyses/M320_spec.md",
+ "spec_commit": "5d15f63",
+ "master_md5": "bd9d10726bb064d857cf9ff98d2b7338",
+ "tool_sha256": "9d3994e6c02f3489afb2f43ec61d19827a43d3ee8177827b2509db18359ca192",
+ "labels": "model-derived, associational, not M299-reproducible (F03), not article-eligible",
+ "start": {
+  "tpackRangeC": [
+   11.0,
+   45.75
+  ],
+  "linearTailsC": [
+   18.75,
+   41.5
+  ],
+  "candidates": [
+   {
+    "name": "P5",
+    "quantileValue": 18.75,
+    "snapped": 20.0,
+    "dayWeightedSnapped": 17.5,
+    "nEvents": 297,
+    "nDays": 68,
+    "nAtRiskS": 38347,
+    "admissible": true
+   },
+   {
+    "name": "P50",
+    "quantileValue": 33.0,
+    "snapped": 32.5,
+    "dayWeightedSnapped": 30.0,
+    "nEvents": 1191,
+    "nDays": 70,
+    "nAtRiskS": 95603,
+    "admissible": true
+   },
+   {
+    "name": "P95",
+    "quantileValue": 41.5,
+    "snapped": 42.5,
+    "dayWeightedSnapped": 40.0,
+    "nEvents": 1015,
+    "nDays": 19,
+    "nAtRiskS": 41365,
+    "admissible": true
+   }
+  ],
+  "fewDaysFlag": {
+   "P5": false,
+   "P50": false,
+   "P95": true
+  },
+  "finalLevels": [
+   20.0,
+   42.5
+  ],
+  "referenceValue": 20.0,
+  "statement": null,
+  "needsDirector": false,
+  "bootstrap": {
+   "draws": 4000,
+   "seed": 42,
+   "failedDraws": 0,
+   "failedRate": 0.0,
+   "type": "day-clustered percentile, whole-pipeline refit per draw, levels held fixed",
+   "delta": 0.223144,
+   "decision": "primary cell only (median demand, 15 s); distinct = percentile AND basic lower bound >= delta"
+  },
+  "katMaxAbsDiffVsM318": 0.0,
+  "stability410": [
+   {
+    "name": "P5",
+    "value410": 20.0,
+    "value489": 20.0
+   },
+   {
+    "name": "P50",
+    "value410": 35.0,
+    "value489": 32.5
+   },
+   {
+    "name": "P95",
+    "value410": 42.5,
+    "value489": 42.5
+   }
+  ],
+  "pairsPrimary": [
+   {
+    "a": 20.0,
+    "b": 28.0,
+    "D": 0.05616,
+    "ci95Pct": [
+     0.00327,
+     0.17876
+    ],
+    "basicLower": -0.06644,
+    "bias": 0.01542,
+    "failedDraws": 0,
+    "status": "indistinct"
+   },
+   {
+    "a": 20.0,
+    "b": 32.5,
+    "D": 0.1396,
+    "ci95Pct": [
+     0.01171,
+     0.28366
+    ],
+    "basicLower": -0.00446,
+    "bias": 0.0024,
+    "failedDraws": 0,
+    "status": "indistinct"
+   },
+   {
+    "a": 20.0,
+    "b": 35.0,
+    "D": 0.21681,
+    "ci95Pct": [
+     0.05879,
+     0.37777
+    ],
+    "basicLower": 0.05585,
+    "bias": 0.00161,
+    "failedDraws": 0,
+    "status": "indistinct"
+   },
+   {
+    "a": 20.0,
+    "b": 42.5,
+    "D": 0.59916,
+    "ci95Pct": [
+     0.33597,
+     0.88224
+    ],
+    "basicLower": 0.31607,
+    "bias": 0.00778,
+    "failedDraws": 0,
+    "status": "distinct"
+   },
+   {
+    "a": 28.0,
+    "b": 32.5,
+    "D": 0.08344,
+    "ci95Pct": [
+     0.01124,
+     0.14999
+    ],
+    "basicLower": 0.0169,
+    "bias": -0.00135,
+    "failedDraws": 0,
+    "status": "indistinct"
+   },
+   {
+    "a": 28.0,
+    "b": 35.0,
+    "D": 0.16065,
+    "ci95Pct": [
+     0.04376,
+     0.26665
+    ],
+    "basicLower": 0.05466,
+    "bias": -0.00139,
+    "failedDraws": 0,
+    "status": "indistinct"
+   },
+   {
+    "a": 28.0,
+    "b": 42.5,
+    "D": 0.543,
+    "ci95Pct": [
+     0.34058,
+     0.76345
+    ],
+    "basicLower": 0.32254,
+    "bias": 0.00476,
+    "failedDraws": 0,
+    "status": "distinct"
+   },
+   {
+    "a": 32.5,
+    "b": 35.0,
+    "D": 0.07721,
+    "ci95Pct": [
+     0.03559,
+     0.11971
+    ],
+    "basicLower": 0.03471,
+    "bias": 0.00059,
+    "failedDraws": 0,
+    "status": "indistinct"
+   },
+   {
+    "a": 32.5,
+    "b": 42.5,
+    "D": 0.45955,
+    "ci95Pct": [
+     0.26007,
+     0.69065
+    ],
+    "basicLower": 0.22845,
+    "bias": 0.00686,
+    "failedDraws": 0,
+    "status": "distinct"
+   },
+   {
+    "a": 35.0,
+    "b": 42.5,
+    "D": 0.38234,
+    "ci95Pct": [
+     0.18447,
+     0.61233
+    ],
+    "basicLower": 0.15236,
+    "bias": 0.00627,
+    "failedDraws": 0,
+    "status": "indistinct"
+   }
+  ],
+  "secondaryStatusByCell": {
+   "demandLow": [
+    "indistinct",
+    "indistinct",
+    "indistinct",
+    "distinct",
+    "indistinct",
+    "indistinct",
+    "distinct",
+    "indistinct",
+    "borderline",
+    "indistinct"
+   ],
+   "demandHigh": [
+    "indistinct",
+    "indistinct",
+    "indistinct",
+    "distinct",
+    "indistinct",
+    "indistinct",
+    "distinct",
+    "indistinct",
+    "distinct",
+    "borderline"
+   ],
+   "dur2s": [
+    "indistinct",
+    "indistinct",
+    "indistinct",
+    "distinct",
+    "indistinct",
+    "indistinct",
+    "distinct",
+    "indistinct",
+    "distinct",
+    "indistinct"
+   ],
+   "dur60s": [
+    "indistinct",
+    "indistinct",
+    "indistinct",
+    "distinct",
+    "indistinct",
+    "indistinct",
+    "distinct",
+    "indistinct",
+    "distinct",
+    "indistinct"
+   ]
+  },
+  "selectedContrast": {
+   "logHr": 0.5992,
+   "ci95": [
+    0.336,
+    0.8822
+   ],
+   "hazardRatio": 1.821,
+   "hazardRatioCi95": [
+    1.399,
+    2.416
+   ],
+   "cellsSupportedBoth": 49,
+   "spreadAcrossCellsLogUnits": 0.0
+  },
+  "coreSupportDiagnostic": {
+   "cellsOf140": 140,
+   "bandSecondsLow": 38347,
+   "bandSecondsHigh": 41363,
+   "cellsWithAnySecondLow": 69,
+   "cellsWithAnySecondHigh": 74,
+   "byMinN": {
+    "20": {
+     "cells": 49,
+     "secondsInCells": 77217,
+     "D": 0.5992,
+     "ci95": [
+      0.336,
+      0.8822
+     ]
+    },
+    "50": {
+     "cells": 38,
+     "secondsInCells": 70715,
+     "D": 0.5992,
+     "ci95": [
+      0.336,
+      0.8822
+     ]
+    },
+    "100": {
+     "cells": 34,
+     "secondsInCells": 66491,
+     "D": 0.5992,
+     "ci95": [
+      0.336,
+      0.8822
+     ]
+    },
+    "200": {
+     "cells": 31,
+     "secondsInCells": 63543,
+     "D": 0.5992,
+     "ci95": [
+      0.336,
+      0.8822
+     ]
+    }
+   }
+  },
+  "notes": [
+   "legacy 20 vs 28 C not distinct (premise holds)",
+   "42.5 C level rests on events from 19 calendar days (<20: limited day support; few clusters for the day bootstrap); hot-band days are seasonally clustered",
+   "42.5 C lies beyond the boundary knot (41.5 C): linear tail (spline-constrained)",
+   "day-weighted quantile levels differ (method disagreement; at-risk-seconds weighting pre-registered): P5 20 vs 17.5 C; P50 32.5 vs 30 C; P95 42.5 vs 40 C",
+   "P50 level changed between the 410- and 489-drive corpora (35 -> 32.5 C)"
+  ],
+  "uniformityNote": "the fitted model has pack temperature interacting only with demand (no interaction with SoC or speed), so this uniformity is a model property, not an observation",
+  "config": {
+   "uniformSpreadThreshold": 0.02,
+   "step": 2.5,
+   "band": 2.5,
+   "gateEvents": 100,
+   "gateDays": 10,
+   "minCellSeconds": 20,
+   "delta": 0.223144,
+   "contrastCell": "median demand, 15 s duration"
+  },
+  "coreSupportDiagnosticLabel": "uninformative under a cell-uniform model; not robustness evidence"
+ },
+ "stop": {
+  "tpackRangeC": [
+   11.5,
+   45.75
+  ],
+  "linearTailsC": [
+   19.75,
+   42.0
+  ],
+  "candidates": [
+   {
+    "name": "P5",
+    "quantileValue": 19.75,
+    "snapped": 20.0,
+    "dayWeightedSnapped": 15.0,
+    "nEvents": 276,
+    "nDays": 66,
+    "nAtRiskS": 19703,
+    "admissible": true
+   },
+   {
+    "name": "P50",
+    "quantileValue": 35.5,
+    "snapped": 35.0,
+    "dayWeightedSnapped": 27.5,
+    "nEvents": 1762,
+    "nDays": 55,
+    "nAtRiskS": 111074,
+    "admissible": true
+   },
+   {
+    "name": "P95",
+    "quantileValue": 42.0,
+    "snapped": 42.5,
+    "dayWeightedSnapped": 40.0,
+    "nEvents": 1021,
+    "nDays": 19,
+    "nAtRiskS": 46695,
+    "admissible": true
+   }
+  ],
+  "fewDaysFlag": {
+   "P5": false,
+   "P50": false,
+   "P95": true
+  },
+  "finalLevels": [
+   20.0,
+   42.5
+  ],
+  "referenceValue": 20.0,
+  "statement": null,
+  "needsDirector": false,
+  "bootstrap": {
+   "draws": 4000,
+   "seed": 42,
+   "failedDraws": 0,
+   "failedRate": 0.0,
+   "type": "day-clustered percentile, whole-pipeline refit per draw, levels held fixed",
+   "delta": 0.223144,
+   "decision": "primary cell only (median demand, 15 s); distinct = percentile AND basic lower bound >= delta"
+  },
+  "katMaxAbsDiffVsM318": 0.0,
+  "stability410": [
+   {
+    "name": "P5",
+    "value410": 20.0,
+    "value489": 20.0
+   },
+   {
+    "name": "P50",
+    "value410": 35.0,
+    "value489": 35.0
+   },
+   {
+    "name": "P95",
+    "value410": 42.5,
+    "value489": 42.5
+   }
+  ],
+  "pairsPrimary": [
+   {
+    "a": 20.0,
+    "b": 28.0,
+    "D": 0.59363,
+    "ci95Pct": [
+     0.39851,
+     0.82913
+    ],
+    "basicLower": 0.35812,
+    "bias": 0.01286,
+    "failedDraws": 0,
+    "status": "distinct"
+   },
+   {
+    "a": 20.0,
+    "b": 35.0,
+    "D": 0.62934,
+    "ci95Pct": [
+     0.38157,
+     0.88081
+    ],
+    "basicLower": 0.37787,
+    "bias": 0.00409,
+    "failedDraws": 0,
+    "status": "distinct"
+   },
+   {
+    "a": 20.0,
+    "b": 42.5,
+    "D": 0.77678,
+    "ci95Pct": [
+     0.506,
+     1.10852
+    ],
+    "basicLower": 0.44504,
+    "bias": 0.01897,
+    "failedDraws": 0,
+    "status": "distinct"
+   },
+   {
+    "a": 28.0,
+    "b": 35.0,
+    "D": 0.03571,
+    "ci95Pct": [
+     0.00197,
+     0.17136
+    ],
+    "basicLower": -0.09993,
+    "bias": 0.0283,
+    "failedDraws": 0,
+    "status": "indistinct"
+   },
+   {
+    "a": 28.0,
+    "b": 42.5,
+    "D": 0.18315,
+    "ci95Pct": [
+     0.02203,
+     0.38692
+    ],
+    "basicLower": -0.02062,
+    "bias": 0.00917,
+    "failedDraws": 0,
+    "status": "indistinct"
+   },
+   {
+    "a": 35.0,
+    "b": 42.5,
+    "D": 0.14744,
+    "ci95Pct": [
+     0.01358,
+     0.35183
+    ],
+    "basicLower": -0.05695,
+    "bias": 0.01649,
+    "failedDraws": 0,
+    "status": "indistinct"
+   }
+  ],
+  "secondaryStatusByCell": {
+   "demandLow": [
+    "distinct",
+    "distinct",
+    "distinct",
+    "indistinct",
+    "borderline",
+    "indistinct"
+   ],
+   "demandHigh": [
+    "indistinct",
+    "indistinct",
+    "indistinct",
+    "indistinct",
+    "indistinct",
+    "indistinct"
+   ],
+   "dur2s": [
+    "distinct",
+    "distinct",
+    "distinct",
+    "indistinct",
+    "indistinct",
+    "indistinct"
+   ],
+   "dur60s": [
+    "distinct",
+    "distinct",
+    "distinct",
+    "indistinct",
+    "indistinct",
+    "indistinct"
+   ]
+  },
+  "selectedContrast": {
+   "logHr": 0.7768,
+   "ci95": [
+    0.506,
+    1.1085
+   ],
+   "hazardRatio": 2.175,
+   "hazardRatioCi95": [
+    1.659,
+    3.03
+   ],
+   "cellsSupportedBoth": 57,
+   "spreadAcrossCellsLogUnits": 0.0
+  },
+  "coreSupportDiagnostic": {
+   "cellsOf140": 140,
+   "bandSecondsLow": 19703,
+   "bandSecondsHigh": 46605,
+   "cellsWithAnySecondLow": 87,
+   "cellsWithAnySecondHigh": 86,
+   "byMinN": {
+    "20": {
+     "cells": 57,
+     "secondsInCells": 61067,
+     "D": 0.7768,
+     "ci95": [
+      0.506,
+      1.1085
+     ]
+    },
+    "50": {
+     "cells": 42,
+     "secondsInCells": 55326,
+     "D": 0.7768,
+     "ci95": [
+      0.506,
+      1.1085
+     ]
+    },
+    "100": {
+     "cells": 29,
+     "secondsInCells": 50257,
+     "D": 0.7768,
+     "ci95": [
+      0.506,
+      1.1085
+     ]
+    },
+    "200": {
+     "cells": 17,
+     "secondsInCells": 28062,
+     "D": 0.7768,
+     "ci95": [
+      0.506,
+      1.1085
+     ]
+    }
+   }
+  },
+  "notes": [
+   "legacy premise not supported: 20 vs 28 C differ",
+   "no further change established between 28 and 42.5 C",
+   "42.5 C level rests on events from 19 calendar days (<20: limited day support; few clusters for the day bootstrap); hot-band days are seasonally clustered",
+   "42.5 C lies beyond the boundary knot (42 C): linear tail (spline-constrained)",
+   "day-weighted quantile levels differ (method disagreement; at-risk-seconds weighting pre-registered): P5 20 vs 15 C; P50 35 vs 27.5 C; P95 42.5 vs 40 C",
+   "secondary cell demandHigh: indistinct (primary: distinct); reported as method disagreement"
+  ],
+  "uniformityNote": "the fitted model has pack temperature interacting only with demand (no interaction with SoC or speed), so this uniformity is a model property, not an observation",
+  "config": {
+   "uniformSpreadThreshold": 0.02,
+   "step": 2.5,
+   "band": 2.5,
+   "gateEvents": 100,
+   "gateDays": 10,
+   "minCellSeconds": 20,
+   "delta": 0.223144,
+   "contrastCell": "median demand, 15 s duration"
+  },
+  "coreSupportDiagnosticLabel": "uninformative under a cell-uniform model; not robustness evidence"
+ }
+}

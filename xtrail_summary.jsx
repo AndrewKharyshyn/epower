@@ -5866,7 +5866,14 @@ function SocHysteresisChart() {
 function SocHysteresisV2() {
   const V = S.socHysteresisV2;
   if (!V || !V.surfaces) return null;
-  const [ti, setTi] = useState(1);   // temperature level
+  // M320: the pack-temperature levels are data-derived (S.socHysteresisV2.tempLadder, support-gated); start on the reference level.
+  const _refI = (() => {
+    const L = V.tempLadder && V.tempLadder.start, lv = V.surfaces.start && V.surfaces.start.tempLevels;
+    if (!L || !lv) return 0;
+    const k = lv.findIndex(l => l.value === L.referenceValue);
+    return k >= 0 ? k : 0;
+  })();
+  const [ti, setTi] = useState(_refI);   // temperature level
   const [di, setDi] = useState(1);   // demand level
   const [ui, setUi] = useState(0);   // state-duration level
 
@@ -5966,8 +5973,12 @@ function SocHysteresisV2() {
   // heatmap surface
   const Surface = ({ tag, title }) => {
     const s = V.surfaces[tag];
-    const soc = s.socAxis, spd = s.speedAxis, mask = s.supportMask;
-    const grid = s.grids["T" + ti + "_D" + di + "_U" + ui];
+    const soc = s.socAxis, spd = s.speedAxis;
+    // M320: levels may differ per side; use this side's own level and its pack-temperature-CONDITIONAL support mask
+    // (falls back to the marginal SoC x speed mask for a block without supportMaskByLevel).
+    const tiS = Math.min(ti, s.tempLevels.length - 1);
+    const mask = (s.supportMaskByLevel && s.supportMaskByLevel[tiS]) || s.supportMask;
+    const grid = s.grids["T" + tiS + "_D" + di + "_U" + ui];
     if (!grid) return null;
     let gmax = 1e-6;
     for (let i = 0; i < soc.length; i++) for (let j = 0; j < spd.length; j++)
@@ -5992,7 +6003,7 @@ function SocHysteresisV2() {
     const xticks = soc.filter((_, i) => i % 2 === 0);
     return (
       <div style={{ textAlign: "center" }}>
-        <div style={{ fontSize: 10, fontWeight: 700, color: "#0f172a", marginBottom: 2 }}>{title} <span style={{ color: "#94a3b8", fontWeight: 400 }}>(peak {(gmax * 100).toFixed(1)}%)</span></div>
+        <div style={{ fontSize: 10, fontWeight: 700, color: "#0f172a", marginBottom: 2 }}>{title} <span style={{ color: "#94a3b8", fontWeight: 400 }}>(peak {(gmax * 100).toFixed(1)}%)</span> <span style={{ color: "#64748b", fontWeight: 400 }}>· {s.tempLevels[tiS] ? s.tempLevels[tiS].label : ""}</span></div>
         <svg width={W} height={Hh}>
           {cells}
           {yticks.map(v => { const j = spd.indexOf(v); const y = mt + (spd.length - 1 - j) * ch + ch / 2; return <text key={"y" + v} x={ml - 3} y={y + 2} fontSize="7" fill="#64748b" textAnchor="end">{v}</text>; })}
@@ -6012,6 +6023,136 @@ function SocHysteresisV2() {
       </div>
     );
   };
+
+  // ── M320: pack-temperature contrast. Every number below is read from S.socHysteresisV2.tempLadder (support-gated, data-derived
+  // levels; day-clustered bootstrap CIs); nothing is typed here. Model-derived and associational (pack temperature is confounded with
+  // season, date and pack age), never a measured effect.
+  const TL = V.tempLadder || null;
+  const divColor = (v, vmax) => {
+    const t = Math.max(-1, Math.min(1, vmax > 0 ? v / vmax : 0));
+    const tgt = hx(t >= 0 ? "#b91c1c" : "#1d4ed8"), a = Math.abs(t);
+    return `rgb(${lerp(255, tgt[0], a)},${lerp(255, tgt[1], a)},${lerp(255, tgt[2], a)})`;
+  };
+  const DiffMap = ({ tag, m, vmax, refValue }) => {
+    const s = V.surfaces[tag], soc = s.socAxis, spd = s.speedAxis;
+    const cw = 20, ch = 13, ml = 30, mt = 4, mb = 20;
+    const W = ml + soc.length * cw + 6, Hh = mt + spd.length * ch + mb;
+    const cells = [];
+    for (let i = 0; i < soc.length; i++) {
+      for (let j = 0; j < spd.length; j++) {
+        const x = ml + i * cw, y = mt + (spd.length - 1 - j) * ch;
+        const sup = m.supported[i][j] === 1, hat = m.ciIncludesZero[i][j] === 1;
+        cells.push(
+          <g key={i + "_" + j}>
+            <rect x={x} y={y} width={cw - 0.5} height={ch - 0.5} fill={sup ? divColor(m.logHr[i][j], vmax) : "#eef2f6"}>
+              <title>{sup ? `SoC ${soc[i]}%, ${spd[j]} km/h: log-HR ${m.logHr[i][j].toFixed(2)} [${m.lo[i][j].toFixed(2)}, ${m.hi[i][j].toFixed(2)}]${hat ? " (95% CI includes 0)" : ""}` : `SoC ${soc[i]}%, ${spd[j]} km/h: not supported at both levels`}</title>
+            </rect>
+            {sup && hat ? <line x1={x} y1={y + ch - 0.5} x2={x + cw - 0.5} y2={y} stroke="#475569" strokeWidth="0.6" /> : null}
+          </g>);
+      }
+    }
+    const yticks = spd.filter((_, j) => j % 3 === 0), xticks = soc.filter((_, i) => i % 2 === 0);
+    return (
+      <div style={{ textAlign: "center" }}>
+        <div style={{ fontSize: 10, fontWeight: 700, color: "#0f172a", marginBottom: 2 }}>{tag === "start" ? "START" : "STOP"}: {m.value}°C vs {refValue}°C <span style={{ color: "#94a3b8", fontWeight: 400 }}>(log hazard ratio)</span></div>
+        <svg width={W} height={Hh}>
+          {cells}
+          {yticks.map(v => { const j = spd.indexOf(v); const y = mt + (spd.length - 1 - j) * ch + ch / 2; return <text key={"y" + v} x={ml - 3} y={y + 2} fontSize="7" fill="#64748b" textAnchor="end">{v}</text>; })}
+          {xticks.map(v => { const i = soc.indexOf(v); const x = ml + i * cw + cw / 2; return <text key={"x" + v} x={x} y={Hh - 8} fontSize="7" fill="#64748b" textAnchor="middle">{v}</text>; })}
+          <text x={ml} y={Hh - 1} fontSize="7.5" fill="#475569">SoC (%) →</text>
+          <text x={9} y={mt + (spd.length * ch) / 2} fontSize="7.5" fill="#475569" textAnchor="middle" transform={`rotate(-90 9 ${mt + (spd.length * ch) / 2})`}>speed (km/h)</text>
+        </svg>
+      </div>
+    );
+  };
+  const TempProfile = ({ tag }) => {
+    const B = TL && TL[tag];
+    if (!B || !B.profile || !B.profile.x.length) return null;
+    const P = B.profile, W = 330, Hh = 124, mg = { l: 36, r: 8, t: 14, b: 30 };
+    const xmin = B.tpackMinC, xmax = B.tpackMaxC;
+    const ymax = Math.max(...P.hi, 1e-6);
+    const sx = x => mg.l + (x - xmin) / (xmax - xmin) * (W - mg.l - mg.r);
+    const sy = p => Hh - mg.b - (p / ymax) * (Hh - mg.t - mg.b);
+    const n = P.x.length;
+    const line = P.x.map((x, i) => (i ? "L" : "M") + sx(x).toFixed(1) + " " + sy(P.hazard[i]).toFixed(1)).join(" ");
+    const band = P.x.map((x, i) => (i ? "L" : "M") + sx(x).toFixed(1) + " " + sy(P.hi[i]).toFixed(1)).join(" ") + " " +
+      P.x.map((x, i) => "L" + sx(P.x[n - 1 - i]).toFixed(1) + " " + sy(P.lo[n - 1 - i]).toFixed(1)).join(" ") + " Z";
+    const rugMax = Math.max(...B.rug.map(r => r.nAtRiskS), 1);
+    const tailLo = B.linearTailBelowC, tailHi = B.linearTailAboveC;
+    return (
+      <div style={{ textAlign: "center", width: W }}>
+        <svg width={W} height={Hh} style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 4 }}>
+          <text x={mg.l} y={10} fontSize="8" fill="#475569" fontWeight="700">{tag === "start" ? "P(start)" : "P(stop)"} vs pack temperature (median SoC, speed, demand)</text>
+          {tailLo > xmin ? <rect x={sx(xmin)} y={mg.t} width={sx(tailLo) - sx(xmin)} height={Hh - mg.t - mg.b} fill="#fef3c7" opacity="0.7" /> : null}
+          {tailHi < xmax ? <rect x={sx(tailHi)} y={mg.t} width={sx(xmax) - sx(tailHi)} height={Hh - mg.t - mg.b} fill="#fef3c7" opacity="0.7" /> : null}
+          <path d={band} fill="#93c5fd" opacity="0.45" />
+          <path d={line} fill="none" stroke="#2563eb" strokeWidth="1.6" />
+          {B.levels.map((l, k) => <g key={k}><line x1={sx(l.value)} x2={sx(l.value)} y1={mg.t} y2={Hh - mg.b} stroke="#0f172a" strokeWidth="0.8" strokeDasharray="3 2" /><text x={sx(l.value)} y={Hh - mg.b + 20} fontSize="7" fill="#0f172a" textAnchor="middle">{l.value}°C</text></g>)}
+          {B.rug.map((r, k) => { const x0 = Math.max(r.binLowC, xmin), x1 = Math.min(r.binLowC + 2.5, xmax); if (x1 <= x0) return null; const h = (r.nAtRiskS / rugMax) * 11; return <rect key={k} x={sx(x0)} y={Hh - mg.b + 2} width={Math.max(sx(x1) - sx(x0) - 0.5, 0.5)} height={h} fill="#94a3b8"><title>{`${r.binLowC}…${r.binLowC + 2.5}°C: ${r.nAtRiskS} at-risk s, ${r.nEvents} events`}</title></rect>; })}
+          <text x={2} y={sy(ymax) + 3} fontSize="7" fill="#94a3b8">{(ymax * 100).toFixed(1)}%</text>
+          <text x={2} y={Hh - mg.b} fontSize="7" fill="#94a3b8">0</text>
+          <text x={mg.l} y={Hh - 3} fontSize="7" fill="#94a3b8">{xmin.toFixed(0)}</text>
+          <text x={W - mg.r} y={Hh - 3} fontSize="7" fill="#94a3b8" textAnchor="end">{xmax.toFixed(0)}°C</text>
+        </svg>
+      </div>
+    );
+  };
+  const ladderPanel = (() => {
+    if (!TL || !TL.start || !TL.stop) return null;
+    // A pack-temperature contrast that is the same in every SoC x speed cell (the case when the fitted model has no temperature interaction
+    // with SoC or speed) is shown as one hazard-ratio card instead of a one-colour map; detected from the data, not assumed.
+    const mapStats = m => {
+      const v = [], lo = [], hi = [];
+      m.logHr.forEach((row, i) => row.forEach((x, j) => { if (m.supported[i][j] === 1) { v.push(x); lo.push(m.lo[i][j]); hi.push(m.hi[i][j]); } }));
+      const mean = a => a.reduce((p, q) => p + q, 0) / (a.length || 1);
+      return { n: v.length, spread: v.length ? Math.max(...v) - Math.min(...v) : 0, v: mean(v), lo: mean(lo), hi: mean(hi) };
+    };
+    const uniTol = (TL.start.config && TL.start.config.uniformSpreadThreshold) || 0;
+    const isUniform = m => mapStats(m).spread < uniTol;
+    let anyHeat = false;
+    ["start", "stop"].forEach(t => (TL[t].diffMaps || []).forEach(m => { if (!isUniform(m)) anyHeat = true; }));
+    let vmax = 0;
+    ["start", "stop"].forEach(t => (TL[t].diffMaps || []).forEach(m => m.logHr.forEach((row, i) => row.forEach((v, j) => { if (m.supported[i][j] === 1) vmax = Math.max(vmax, Math.abs(v)); }))));
+    const sideNote = t => {
+      const B = TL[t];
+      const lv = B.levels.map(l => `${l.role} ${l.value}°C (${l.nEvents} events, ${l.nDays} days)`).join("; ");
+      const few = B.levels.filter(l => B.fewDaysFlag && B.fewDaysFlag[l.name]).map(l => `${l.value}°C band rests on ${l.nDays} event days`);
+      return `${t === "start" ? "START" : "STOP"}: ${lv}${few.length ? " — caution: " + few.join(", ") : ""}${B.statement ? " — " + B.statement : ""}.`;
+    };
+    return (
+      <div style={{ marginTop: 12, padding: 8, background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 6 }}>
+        <div style={{ fontSize: 10.5, fontWeight: 700, color: "#0f172a", marginBottom: 3 }}>Pack-temperature contrast <span style={{ color: "#94a3b8", fontWeight: 400 }}>(data-derived levels; ladder basis {TL.start.basisNDrives} drives)</span></div>
+        <div style={{ fontSize: 9, color: "#64748b", lineHeight: 1.5, marginBottom: 5 }}>
+          Levels are the seconds-weighted low and high percentiles of the at-risk pack temperature, kept only where the band around the level carries enough events and event days, and shown as separate levels only if the contrast between them is distinct (day-clustered bootstrap, {TL.start.bootstrap.draws} draws, seed {TL.start.bootstrap.seed}; lower bound of the contrast at least log 1.25). Model-derived and associational: pack temperature is confounded with season, date and pack age. Not M299-reproducible (F03).
+          <br />{sideNote("start")}
+          <br />{sideNote("stop")}
+          {["start", "stop"].map(t => (TL[t].notes || []).map((n, k) => <span key={t + k}><br />{t === "start" ? "START" : "STOP"} note: {n}.</span>))}
+          <br />Observed pack temperature {TL.start.tpackMinC}–{TL.start.tpackMaxC}°C (start) and {TL.stop.tpackMinC}–{TL.stop.tpackMaxC}°C (stop); no surface is shown outside it, and levels without data are refused, not extrapolated.
+        </div>
+        {vmax > 0 && (
+          <div style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center", marginBottom: 6 }}>
+            {["start", "stop"].map(t => (TL[t].diffMaps || []).map((m, k) => {
+              if (!isUniform(m)) return <DiffMap key={t + k} tag={t} m={m} vmax={vmax} refValue={TL[t].referenceValue} />;
+              const st = mapStats(m);
+              return (
+                <div key={t + k} style={{ minWidth: 230, maxWidth: 330, padding: "6px 10px", background: "#fff", border: "1px solid #e2e8f0", borderRadius: 4, fontSize: 9.5, color: "#334155", lineHeight: 1.5 }}>
+                  <div style={{ fontWeight: 700, color: "#0f172a" }}>{t === "start" ? "START" : "STOP"}: {m.value}°C vs {TL[t].referenceValue}°C</div>
+                  <div>hazard ratio {Math.exp(st.v).toFixed(2)} <span style={{ color: "#64748b" }}>[{Math.exp(st.lo).toFixed(2)}, {Math.exp(st.hi).toFixed(2)}]</span></div>
+                  <div style={{ color: "#94a3b8", fontSize: 8.5 }}>the same in all {st.n} SoC × speed cells supported at both levels (spread {st.spread.toFixed(3)} log units); {TL[t].config ? TL[t].config.contrastCell : ""}; 95% day-clustered interval. {TL[t].uniformityNote}.</div>
+                </div>
+              );
+            }))}
+          </div>
+        )}
+        {anyHeat && <div style={{ fontSize: 9, color: "#94a3b8", textAlign: "center", marginBottom: 6 }}>Diverging scale shared across maps (±{vmax.toFixed(2)} log hazard ratio; red = higher hazard than the reference level). Hatched cells: the 95% CI includes 0. Grey: not supported at both levels.</div>}
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "center" }}>
+          <TempProfile tag="start" />
+          <TempProfile tag="stop" />
+        </div>
+        <div style={{ fontSize: 9, color: "#94a3b8", textAlign: "center", marginTop: 3 }}>Band: 95% day-clustered interval. Grey bars: at-risk seconds per temperature bin. Amber: linear tail (spline-constrained, beyond the boundary knots). Dashed lines: the selected levels.</div>
+      </div>
+    );
+  })();
 
   const Sel = ({ items, cur, set, lbl }) => (
     <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 9.5 }}>
@@ -6085,6 +6226,7 @@ function SocHysteresisV2() {
       <div style={{ fontSize: 9, color: "#94a3b8", marginTop: 4, textAlign: "center" }}>
         Colour scales to each surface's own peak; grey cells are SoC × speed combinations outside the observed data support and are not extrapolated.
       </div>
+      {ladderPanel}
     </div>
   );
 }
