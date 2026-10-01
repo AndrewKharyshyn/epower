@@ -22,6 +22,50 @@ SPD_EDGES = np.arange(-5.0, 135.1, 10.0)     # = SURF_SPEED (0..130 step 10, +/-
 NC = (len(SOC_EDGES) - 1) * (len(SPD_EDGES) - 1)
 SEC_CELLS = (("demandLow", 0, 15.0), ("demandHigh", 2, 15.0), ("dur2s", 1, 2.0), ("dur60s", 1, 60.0))   # (name, demand idx 0/1/2, duration s)
 LEGACY = (20.0, 28.0, 35.0)
+UNIFORM_SPREAD = 0.02    # a contrast whose spread across the supported SoC x speed cells is below this (log units) is shown as one hazard-ratio card
+
+
+def annotate_block(block):
+    """Data-derived disclosure strings and config for the dashboard (nothing is typed in the JSX). Director wording, M320."""
+    m = _model()
+    notes = []
+    pr = {(r["a"], r["b"]): r for r in block["pairs"]}
+    g = lambda v: f"{v:g}"
+    r2028 = pr.get((20.0, 28.0))
+    if r2028:
+        st = r2028["primary"]["status"]
+        notes.append(f"legacy premise not supported: {g(r2028['a'])} vs {g(r2028['b'])} C differ" if st == "distinct" else
+                     f"legacy {g(r2028['a'])} vs {g(r2028['b'])} C {'not distinct (premise holds)' if st == 'indistinct' else st}")
+        hi = block["levels"][-1]["value"]
+        r_hi = pr.get((28.0, hi))
+        if st == "distinct" and r_hi and r_hi["primary"]["status"] == "indistinct":
+            notes.append(f"no further change established between 28 and {g(hi)} C")
+    for l in block["levels"]:
+        if block["fewDaysFlag"].get(l["name"]):
+            notes.append(f"{g(l['value'])} C level rests on events from {l['nDays']} calendar days (<20: limited day support; few clusters for the day bootstrap); "
+                         f"hot-band days are seasonally clustered")
+        if l["value"] > block["linearTailAboveC"] or l["value"] < block["linearTailBelowC"]:
+            kn = block["linearTailAboveC"] if l["value"] > block["linearTailAboveC"] else block["linearTailBelowC"]
+            notes.append(f"{g(l['value'])} C lies beyond the boundary knot ({g(kn)} C): linear tail (spline-constrained)")
+    dw = [f"{c['name']} {g(c['snapped'])} vs {g(c['dayWeightedSnapped'])} C" for c in block["candidates"] if c["snapped"] != c["dayWeightedSnapped"]]
+    if dw:
+        notes.append("day-weighted quantile levels differ (method disagreement; at-risk-seconds weighting pre-registered): " + "; ".join(dw))
+    for c in block.get("stability410") or []:
+        if c["value410"] != c["value489"]:
+            notes.append(f"{c['name']} level changed between the 410- and 489-drive corpora ({g(c['value410'])} -> {g(c['value489'])} C)")
+    sel = pr.get((block["levels"][0]["value"], block["levels"][-1]["value"])) if len(block["levels"]) > 1 else None
+    if sel:
+        for k in ("demandLow", "demandHigh", "dur2s", "dur60s"):
+            if sel[k]["status"] != sel["primary"]["status"]:
+                notes.append(f"secondary cell {k}: {sel[k]['status']} (primary: {sel['primary']['status']}); reported as method disagreement")
+    block["notes"] = notes
+    inter = sorted({b if a == "tpack" else a for a, b in m.INTERACTIONS if "tpack" in (a, b)})
+    block["uniformityNote"] = ("the fitted model has pack temperature interacting only with " + " and ".join(inter) +
+                               " (no interaction with SoC or speed), so this uniformity is a model property, not an observation")
+    block["config"] = {"uniformSpreadThreshold": UNIFORM_SPREAD, "step": STEP, "band": BAND, "gateEvents": GATE_EVENTS, "gateDays": GATE_DAYS,
+                       "minCellSeconds": MIN_N, "delta": round(DELTA, 6), "contrastCell": "median demand, 15 s duration"}
+    block["coreSupportDiagnostic"] = "uninformative under a cell-uniform model; not robustness evidence"
+    return block
 
 
 def snap(x):
@@ -329,7 +373,7 @@ def cmd_apply(a):
     ladder = {}
     for side in ("start", "stop"):
         R = json.load(open(os.path.join(a.out, f"tempLadder_{side}.json"), encoding="utf-8"))
-        ladder[side] = R["block"]
+        ladder[side] = annotate_block(R["block"])
         v2["surfaces"][side] = R["surfaces"]
     v2["tempLadder"] = ladder
     st = A["_artifactStamps"]["socHysteresisV2"]

@@ -6107,7 +6107,8 @@ function SocHysteresisV2() {
       const mean = a => a.reduce((p, q) => p + q, 0) / (a.length || 1);
       return { n: v.length, spread: v.length ? Math.max(...v) - Math.min(...v) : 0, v: mean(v), lo: mean(lo), hi: mean(hi) };
     };
-    const isUniform = m => mapStats(m).spread < 0.02;
+    const uniTol = (TL.start.config && TL.start.config.uniformSpreadThreshold) || 0;
+    const isUniform = m => mapStats(m).spread < uniTol;
     let anyHeat = false;
     ["start", "stop"].forEach(t => (TL[t].diffMaps || []).forEach(m => { if (!isUniform(m)) anyHeat = true; }));
     let vmax = 0;
@@ -6120,11 +6121,12 @@ function SocHysteresisV2() {
     };
     return (
       <div style={{ marginTop: 12, padding: 8, background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 6 }}>
-        <div style={{ fontSize: 10.5, fontWeight: 700, color: "#0f172a", marginBottom: 3 }}>Pack-temperature contrast <span style={{ color: "#94a3b8", fontWeight: 400 }}>(data-derived levels, basis {TL.start.basisNDrives} drives)</span></div>
+        <div style={{ fontSize: 10.5, fontWeight: 700, color: "#0f172a", marginBottom: 3 }}>Pack-temperature contrast <span style={{ color: "#94a3b8", fontWeight: 400 }}>(data-derived levels; ladder basis {TL.start.basisNDrives} drives)</span></div>
         <div style={{ fontSize: 9, color: "#64748b", lineHeight: 1.5, marginBottom: 5 }}>
           Levels are the seconds-weighted low and high percentiles of the at-risk pack temperature, kept only where the band around the level carries enough events and event days, and shown as separate levels only if the contrast between them is distinct (day-clustered bootstrap, {TL.start.bootstrap.draws} draws, seed {TL.start.bootstrap.seed}; lower bound of the contrast at least log 1.25). Model-derived and associational: pack temperature is confounded with season, date and pack age. Not M299-reproducible (F03).
           <br />{sideNote("start")}
           <br />{sideNote("stop")}
+          {["start", "stop"].map(t => (TL[t].notes || []).map((n, k) => <span key={t + k}><br />{t === "start" ? "START" : "STOP"} note: {n}.</span>))}
           <br />Observed pack temperature {TL.start.tpackMinC}–{TL.start.tpackMaxC}°C (start) and {TL.stop.tpackMinC}–{TL.stop.tpackMaxC}°C (stop); no surface is shown outside it, and levels without data are refused, not extrapolated.
         </div>
         {vmax > 0 && (
@@ -6136,7 +6138,7 @@ function SocHysteresisV2() {
                 <div key={t + k} style={{ minWidth: 230, maxWidth: 330, padding: "6px 10px", background: "#fff", border: "1px solid #e2e8f0", borderRadius: 4, fontSize: 9.5, color: "#334155", lineHeight: 1.5 }}>
                   <div style={{ fontWeight: 700, color: "#0f172a" }}>{t === "start" ? "START" : "STOP"}: {m.value}°C vs {TL[t].referenceValue}°C</div>
                   <div>hazard ratio {Math.exp(st.v).toFixed(2)} <span style={{ color: "#64748b" }}>[{Math.exp(st.lo).toFixed(2)}, {Math.exp(st.hi).toFixed(2)}]</span></div>
-                  <div style={{ color: "#94a3b8", fontSize: 8.5 }}>the same in all {st.n} SoC × speed cells supported at both levels (spread {st.spread.toFixed(3)} log units); median demand, settled state; 95% day-clustered interval</div>
+                  <div style={{ color: "#94a3b8", fontSize: 8.5 }}>the same in all {st.n} SoC × speed cells supported at both levels (spread {st.spread.toFixed(3)} log units); {TL[t].config ? TL[t].config.contrastCell : ""}; 95% day-clustered interval. {TL[t].uniformityNote}.</div>
                 </div>
               );
             }))}

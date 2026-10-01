@@ -2,7 +2,7 @@
  "spec": "analyses/M320_spec.md",
  "spec_commit": "5d15f63",
  "master_md5": "bd9d10726bb064d857cf9ff98d2b7338",
- "tool_sha256": "c19810a61f9110f24ed1977db3fc2998b31ba6c7a39013ae35722ef81b46c769",
+ "tool_sha256": "9d3994e6c02f3489afb2f43ec61d19827a43d3ee8177827b2509db18359ca192",
  "labels": "model-derived, associational, not M299-reproducible (F03), not article-eligible",
  "start": {
   "tpackRangeC": [
@@ -324,7 +324,26 @@
      ]
     }
    }
-  }
+  },
+  "notes": [
+   "legacy 20 vs 28 C not distinct (premise holds)",
+   "42.5 C level rests on events from 19 calendar days (<20: limited day support; few clusters for the day bootstrap); hot-band days are seasonally clustered",
+   "42.5 C lies beyond the boundary knot (41.5 C): linear tail (spline-constrained)",
+   "day-weighted quantile levels differ (method disagreement; at-risk-seconds weighting pre-registered): P5 20 vs 17.5 C; P50 32.5 vs 30 C; P95 42.5 vs 40 C",
+   "P50 level changed between the 410- and 489-drive corpora (35 -> 32.5 C)"
+  ],
+  "uniformityNote": "the fitted model has pack temperature interacting only with demand (no interaction with SoC or speed), so this uniformity is a model property, not an observation",
+  "config": {
+   "uniformSpreadThreshold": 0.02,
+   "step": 2.5,
+   "band": 2.5,
+   "gateEvents": 100,
+   "gateDays": 10,
+   "minCellSeconds": 20,
+   "delta": 0.223144,
+   "contrastCell": "median demand, 15 s duration"
+  },
+  "coreSupportDiagnosticLabel": "uninformative under a cell-uniform model; not robustness evidence"
  },
  "stop": {
   "tpackRangeC": [
@@ -578,6 +597,26 @@
      ]
     }
    }
-  }
+  },
+  "notes": [
+   "legacy premise not supported: 20 vs 28 C differ",
+   "no further change established between 28 and 42.5 C",
+   "42.5 C level rests on events from 19 calendar days (<20: limited day support; few clusters for the day bootstrap); hot-band days are seasonally clustered",
+   "42.5 C lies beyond the boundary knot (42 C): linear tail (spline-constrained)",
+   "day-weighted quantile levels differ (method disagreement; at-risk-seconds weighting pre-registered): P5 20 vs 15 C; P50 35 vs 27.5 C; P95 42.5 vs 40 C",
+   "secondary cell demandHigh: indistinct (primary: distinct); reported as method disagreement"
+  ],
+  "uniformityNote": "the fitted model has pack temperature interacting only with demand (no interaction with SoC or speed), so this uniformity is a model property, not an observation",
+  "config": {
+   "uniformSpreadThreshold": 0.02,
+   "step": 2.5,
+   "band": 2.5,
+   "gateEvents": 100,
+   "gateDays": 10,
+   "minCellSeconds": 20,
+   "delta": 0.223144,
+   "contrastCell": "median demand, 15 s duration"
+  },
+  "coreSupportDiagnosticLabel": "uninformative under a cell-uniform model; not robustness evidence"
  }
 }
