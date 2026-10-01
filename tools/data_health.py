@@ -45,6 +45,22 @@ def main():
                 if ks_2samp:
                     d["ks"] = round(float(ks_2samp(x, y).statistic), 3)
                 shift[c] = d
+    # channel-availability events: counts are computed from the master; cause/reactivation are owner-reported context
+    if {"T_intake", "date", "time_start"} <= set(dm.columns):
+        ch = dm.sort_values(["date", "time_start"]).reset_index(drop=True)
+        valid = ch.index[ch["T_intake"].notna()]
+        if len(valid) and valid[-1] < len(ch) - 1:
+            lv = int(valid[-1]); after = ch.iloc[lv + 1:]
+            out["channel_status"] = {"T_intake": {
+                "status": "unavailable", "sentinel_c": -100.0,
+                "last_valid_drive": str(ch.at[lv, "file"]), "last_valid_date": str(ch.at[lv, "date"]),
+                "n_drives_after_last_valid": int(len(after)), "n_nan_after_last_valid": int(after["T_intake"].isna().sum()),
+                "n_days_after_last_valid": int(after["date"].nunique()),
+                "context": "owner report: onset right after the battery-controller software update following the first drive of "
+                           "2026-08-24; cause not established from the CSVs; reactivation attempt pending. Raw channel is a constant "
+                           "-100 degC from 2026-08-24 10:46:12; the master NaNs it via the lo=-40 bound. Pack sensors 1-4 checked: no "
+                           "evidence of change. Cold-start flag (warmupPoints) maps NaN to False = no data, not warm.",
+                "ref": "CHANGELOG M319"}}
     out["last_n"] = a.last
     out["shift_last_n_vs_rest"] = shift
     out["shift_flags"] = [c for c, d in shift.items() if abs(d["smd"]) > 0.5 or d.get("ks", 0) > 0.4]
