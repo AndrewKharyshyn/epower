@@ -171,13 +171,33 @@ try:
         "missing ladder": mut(lambda B: B["socHysteresisV2"].pop("tempLadder")),
         "unacknowledged warn-newspec": mut(lambda B: B["socHysteresisV2"]["tempLadderMonitor"].update(status="warn-newspec", warningSetHash="a" * 64, warnings=["W2 test"])),
     }
+    expect = {"missing block": "tempLadderMonitor missing", "wrong masterMd5": "masterMd5", "wrong counts": "currentNDrives", "wrong cacheSha256": "cacheSha256",
+              "selection code changed": "selection code", "basis != corpusSizeAtRecompute": "basisNDrives", "missing ladder": "tempLadder missing",
+              "unacknowledged warn-newspec": "acknowledgement"}
     for name, B in cases.items():
         f, w = M.gate(B, tmp)
         assert f, f"gate must FAIL for: {name}"
+        assert any(expect[name] in x for x in f), f"gate fails for the wrong reason in case {name}: {f}"      # the intended condition fired, not another one
     # acknowledged warn-newspec passes
     B = cases["unacknowledged warn-newspec"]
-    open(os.path.join(tmp, "analyses", "M321_acknowledgements.json"), "w").write(json.dumps([{"warningSetHash": "a" * 64, "ref": "M999 test", "date": "2026-10-01"}]))
-    assert M.gate(B, tmp)[0] == [], M.gate(B, tmp)
+    mon_b = B["socHysteresisV2"]["tempLadderMonitor"]
+    open(os.path.join(tmp, "CHANGELOG.md"), "w").write("## M999 (2026-10-01): test entry\n\nbody\n")
+    open(os.path.join(tmp, "analyses", "M998_spec.md"), "w").write("spec")
+    good = {"warningSetHash": "a" * 64, "ref": "M999 test", "date": "2026-10-01", "selectionCodeSha256": mon_b["selectionCodeSha256"], "basisNDrives": mon_b["basisNDrives"]}
+    ackf = os.path.join(tmp, "analyses", "M321_acknowledgements.json")
+    write_ack = lambda rec: open(ackf, "w").write(json.dumps([rec]))
+    write_ack(good)
+    assert M.gate(B, tmp)[0] == [], M.gate(B, tmp)                                   # a CHANGELOG-heading ref on this basis passes
+    write_ack({**good, "ref": "M998_spec.md"})
+    assert M.gate(B, tmp)[0] == [], M.gate(B, tmp)                                   # an existing analyses/ spec file ref passes
+    for name, rec in {"unresolvable CHANGELOG ref": {**good, "ref": "M1234 nonexistent"}, "unresolvable spec ref": {**good, "ref": "analyses/nope_spec.md"},
+                      "empty ref": {**good, "ref": ""}, "old basis (selection code)": {**good, "selectionCodeSha256": "0" * 64},
+                      "old basis (basisNDrives)": {**good, "basisNDrives": 1}, "wrong warning set": {**good, "warningSetHash": "b" * 64},
+                      "legacy ack without basis identity": {k: v for k, v in good.items() if k not in ("selectionCodeSha256", "basisNDrives")}}.items():
+        write_ack(rec)
+        f, _ = M.gate(B, tmp)
+        assert any("acknowledgement" in x for x in f), f"ack must be rejected: {name}: {f}"
+    write_ack(good)
     # file-set mismatch: the cache lacks a master file
     cache2 = copy.deepcopy(cache); cache2["entries"].pop(gfiles[0])
     open(cpath, "w", encoding="utf-8", newline="\n").write(json.dumps(cache2, sort_keys=True, separators=(",", ":")))

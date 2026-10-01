@@ -223,6 +223,29 @@ def build_monitor(arrays, cache, files, master_md5, raw_sha_now=None, now=None):
 
 
 # ------------------------------------------------------------------ gate (imported by release_check.py)
+def ref_resolves(ref, root=ROOT):
+    """An acknowledgement `ref` must name an existing CHANGELOG '## M###' heading (first token, e.g. 'M322 ...') or an existing analyses/<spec> file."""
+    import re
+    ref = str(ref or "").strip()
+    if not ref:
+        return False
+    tok = ref.split()[0]
+    if re.fullmatch(r"M\d+", tok):
+        cl = os.path.join(root, "CHANGELOG.md")
+        if not os.path.exists(cl):
+            return False
+        with open(cl, "r", encoding="utf-8", errors="replace") as f:
+            return any(line.startswith("## " + tok + " ") or line.rstrip() == "## " + tok for line in f)
+    return os.path.isfile(os.path.join(root, "analyses", os.path.basename(tok))) or os.path.isfile(os.path.join(root, tok))
+
+
+def ack_valid(a, mon, root=ROOT):
+    """Hash + resolvable ref + the ack was written for THIS basis (selection-code hash and basis size): an ack from an old basis cannot clear a
+    recurring warning set after a rebase (Director C1). The date is typed by hand and is not checked."""
+    return bool(a.get("warningSetHash") == mon.get("warningSetHash") and ref_resolves(a.get("ref"), root)
+                and a.get("selectionCodeSha256") == mon.get("selectionCodeSha256") and a.get("basisNDrives") == mon.get("basisNDrives"))
+
+
 def gate(arrays, root=ROOT):
     """-> (fails, warns). Spec item 7."""
     fails, warns = [], []
@@ -257,8 +280,9 @@ def gate(arrays, root=ROOT):
         fails.append("M321: selection code changed since the cache basis (status cache-invalid): re-run tools/m321_ladder_monitor.py rebase")
     if mon.get("status") == "warn-newspec":
         acks = json.load(open(os.path.join(root, "analyses", "M321_acknowledgements.json"), encoding="utf-8")) if os.path.exists(os.path.join(root, "analyses", "M321_acknowledgements.json")) else []
-        if not any(a.get("warningSetHash") == mon.get("warningSetHash") and a.get("ref") for a in acks):
-            fails.append(f"M321: W2/W3 active ({'; '.join(mon.get('warnings', []))}) without an acknowledgement record for warningSetHash {mon.get('warningSetHash')[:12]}")
+        if not any(ack_valid(a, mon, root) for a in acks):
+            fails.append(f"M321: W2/W3 active ({'; '.join(mon.get('warnings', []))}) without a valid acknowledgement record for warningSetHash {mon.get('warningSetHash')[:12]} "
+                         f"(needs warningSetHash, a ref naming an existing CHANGELOG '## M###' heading or analyses/ spec file, and this basis: selectionCodeSha256 + basisNDrives)")
     for x in mon.get("warnings", []) + mon.get("information", []):
         warns.append("M321 " + x)
     for f in (mon.get("f03ProvenanceFlag") or {}).get("basisFilesWithChangedRawSha256", []):
