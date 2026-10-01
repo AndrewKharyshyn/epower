@@ -124,6 +124,7 @@ from __future__ import annotations
 import gc
 import io
 import math
+import re
 import warnings
 
 import numpy as np
@@ -892,9 +893,17 @@ def _metrics(y, p):
     }
 
 
-def day_bootstrap(tbl, p, fn, b=300, seed=0):
+# M318: project-standard day-clustered percentile bootstrap (4000 draws, seed 42). The legacy
+# defaults (b=300, seed=0) are reachable by setting these module variables (M318 sensitivity S1/R1).
+BOOT_B = 4000
+BOOT_SEED = 42
+
+
+def day_bootstrap(tbl, p, fn, b=None, seed=None):
     """Day-clustered bootstrap CI of a scalar metric fn(y,p): resample whole
     days with replacement, recompute on the pooled OOS predictions."""
+    b = BOOT_B if b is None else b
+    seed = BOOT_SEED if seed is None else seed
     rng = np.random.default_rng(seed)
     y = tbl['y'].values.astype(float)
     days = tbl['day'].values
@@ -1239,6 +1248,18 @@ def assemble(S, T, ladder_start, ladder_stop, sens_start, sens_stop,
 # ==========================================================================
 # pipeline entry point
 # ==========================================================================
+_DAY_KEY_RE = re.compile(r'(\d{4})\D?(\d{2})\D?(\d{2})')
+
+
+def _day_key(fn):
+    """Calendar-day key YYYY-MM-DD from a compact (20260910_074344.csv) or dash
+    (2026-09-10_07-43-44.csv) file name. Re-applies the M286 P0-1 fix: the former
+    fn[:8] returned '2026-09-' for every dash-format name, merging distinct
+    calendar days into one cluster (M318 blind audit)."""
+    m = _DAY_KEY_RE.search(str(fn))
+    return "%s-%s-%s" % m.groups() if m else str(fn)[:10]
+
+
 def _corpus_tables(dm, raw_loader=None, raw_dir=None):
     import os as _os
     S, T, cov, srcs = [], [], 0, {}
@@ -1263,7 +1284,7 @@ def _corpus_tables(dm, raw_loader=None, raw_dir=None):
             df = read_needed(fn)
         if df is None:
             continue
-        sr, tr, dc = drive_samples(df, fn, fn[:8])
+        sr, tr, dc = drive_samples(df, fn, _day_key(fn))
         if sr is None and tr is None:
             continue
         g = build_grid(df)
