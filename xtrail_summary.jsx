@@ -7441,6 +7441,91 @@ function FuelDistributionTrend(){
     </div>}
   </div></FxCohortGate>;
 }
+// M339 Fuel analytics v2 (FUEL-03 stationary vs moving fuel, FUEL-02 warm-up trajectory): every figure binds to S.fuelStates / S.fuelWarmup (tools/fuel_analytics2.py)
+const FS_COL={stationary:"#f59e0b",moving:"#2563eb",unknown:"#94a3b8"};
+const fsPct=(v,d=1)=>v==null?"n/a":(v*100).toFixed(d)+"%";
+function fsGroups(coh){
+  if(coh==="all") return [["all","All data","#334155"]];
+  if(coh==="compare") return [["cohort warm","Warm",COHORT_META.warm.col],["cohort shoulder","Shoulder",COHORT_META.shoulder.col]].concat(cohortAvailable("cold")?[["cohort cold","Cold",COHORT_META.cold.col]]:[]);
+  return [["cohort "+coh,(COHORT_META[coh]||{label:coh}).label,(COHORT_META[coh]||{}).col||"#334155"]];
+}
+function FxStack({rows,w=320}){
+  const h=Math.max(60,rows.length*22+18), l=96, bw=w-l-8;
+  return <svg width="100%" viewBox={`0 0 ${w} ${h}`} style={{overflow:"visible"}} data-fs-stack="1">
+    {rows.map((r,i)=>{ let x=l; return <g key={r.label}><text x={l-4} y={i*22+16} fontSize={8.5} textAnchor="end" fill="#334155">{r.label}</text>
+      {["stationary","moving","unknown"].map(s=>{ const wv=Math.max(0,(r.share[s]||0))*bw, xx=x; x+=wv; return <rect key={s} x={xx} y={i*22+6} width={wv} height={13} fill={FS_COL[s]} stroke={r.col} strokeWidth={r.border?1:0}><title>{`${r.label}: ${s} ${fsPct(r.share[s],2)}`}</title></rect>; })}</g>; })}
+    {[0,0.5,1].map(v=><text key={v} x={l+v*bw} y={h-3} fontSize={8} textAnchor="middle" fill="#64748b">{v*100}%</text>)}
+  </svg>;
+}
+function FuelStates(){
+  const Z=S.fuelStates; if(!Z) return null;
+  const coh=useCohort(); const grp=fsGroups(coh);
+  const bandKeys=["band 0.5-2","band 2-5","band 5-10","band 10-20","band 20+"];
+  const rowsFor=keys=>keys.map(k=>Z.groups[k]?{label:k.replace("band ","")+(k.startsWith("band")?" km":""),share:{stationary:Z.groups[k].stationaryShare?.est,moving:Z.groups[k].movingShare?.est,unknown:Z.groups[k].unknownShare?.est},col:"#334155"}:null).filter(Boolean);
+  const V=Z.variants, C=Z.chargingSubState, cov=Z.coverage, st=Z.strata, sr=Z.speedResolutionKmh;
+  return <FxCohortGate coh={coh} chart="Fuel by speed state"><div data-fuel-states="1">
+    <FxScopeNote coh={coh}/>
+    {coh==="all"?<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:12}}>
+      <div><div style={{fontSize:10,fontWeight:700,color:"#334155"}}>Share of logged litres by speed state, per trip-distance band</div><FxStack rows={rowsFor(["all"].concat(bandKeys))}/></div>
+      <div><div style={{fontSize:10,fontWeight:700,color:"#334155"}}>By drive type and thermal cohort</div><FxStack rows={rowsFor(Object.keys(Z.groups).filter(k=>k.startsWith("driveType")||k.startsWith("cohort")))}/></div></div>
+    :<div><div style={{fontSize:10,fontWeight:700,color:"#334155"}}>Share of logged litres by speed state, per cohort</div>
+      <FxStack rows={grp.map(([k,lab,col])=>Z.groups[k]?{label:lab,share:{stationary:Z.groups[k].stationaryShare?.est,moving:Z.groups[k].movingShare?.est,unknown:Z.groups[k].unknownShare?.est},col,border:true}:{label:lab+" (n=0)",share:{},col}) }/></div>}
+    <div style={{fontSize:10,color:"#64748b",margin:"2px 0 6px"}}>{Object.keys(FS_COL).map(k=><span key={k} style={{marginRight:10}}><span style={{display:"inline-block",width:9,height:9,background:FS_COL[k],marginRight:3}}></span>{k}</span>)} (state colours are fixed across views; cohort borders mark cohorts)</div>
+    <table style={{fontSize:10,borderCollapse:"collapse"}}><thead><tr style={{color:"#64748b"}}><th style={{padding:"2px 8px",textAlign:"left"}}>group</th><th style={{padding:"2px 8px"}}>trips · days</th><th style={{padding:"2px 8px"}}>litres</th><th style={{padding:"2px 8px"}}>stationary share (95% CI)</th><th style={{padding:"2px 8px"}}>unknown</th><th style={{padding:"2px 8px",textAlign:"left"}}>support</th></tr></thead><tbody>
+      {(coh==="all"?["all"].concat(bandKeys).concat(Object.keys(Z.groups).filter(k=>k.startsWith("driveType")||k.startsWith("cohort"))):grp.map(g=>g[0])).filter(k=>Z.groups[k]).map(k=>{const e=Z.groups[k]; return <tr key={k} style={{borderTop:"1px solid #f1f5f9"}}><td style={{padding:"2px 8px"}}>{k}</td><td style={{padding:"2px 8px",textAlign:"center"}}>{e.nTrips} · {e.nDays}</td><td style={{padding:"2px 8px",textAlign:"center"}}>{e.litres}</td>
+        <td style={{padding:"2px 8px",textAlign:"center",fontWeight:700}}>{fsPct(e.stationaryShare?.est,2)}{e.stationaryShare?.ci95?` (${fsPct(e.stationaryShare.ci95[0],2)}–${fsPct(e.stationaryShare.ci95[1],2)})`:""}</td><td style={{padding:"2px 8px",textAlign:"center"}}>{fsPct(e.unknownShare?.est,2)}</td><td style={{padding:"2px 8px"}}>{e.support}</td></tr>;})}</tbody></table>
+    {coh==="all"&&<div style={{fontSize:10.5,color:"#334155",marginTop:6}}>
+      <div>States are temporal states of the logged fuel rate (Car Scanner ELM OBD2), not exclusive fuel-source allocations: stationary fuel is the litres logged while speed was at or below 1 km/h, on the rate series' own clock (each interval owned by its end sample, capped at 5 s). Speed is logged at {sr.OBD} km/h resolution (OBD) and {sr.VCM} km/h (VCM), so thresholds of 0.5 and 1 km/h are the same bin; {Z.strata.nObd} of {Z.nAnalysis} trips use the OBD channel.</div>
+      <div style={{marginTop:3}}>Sensitivity of the overall stationary share: {["thr1","thr2","thr3","thr1d","thr2d","thr3d","cap2","cap10"].map(k=>`${({thr1:"1 km/h",thr2:"2 km/h",thr3:"3 km/h",thr1d:"1 km/h with a 5 s dwell rule",thr2d:"2 km/h with dwell",thr3d:"3 km/h with dwell",cap2:"dt cap 2 s",cap10:"dt cap 10 s"})[k]} ${fsPct(V[k].stationary,2)}`).join("; ")}.</div>
+      <div style={{marginTop:3}}>Definitions written by the script: {Z.definitions.clock}; {Z.definitions.speedPriority}; dwell: {Z.definitions.dwell}. Trips using the VCM speed channel: {Z.strata.nVcm}{Z.strata.vcmOnlyStationary&&Z.strata.vcmOnlyStationary.nDays!=null?` (${fxN(Z.strata.vcmOnlyStationary)}: ${fsPct(Z.strata.vcmOnlyStationary.est,2)}, points only)`:""}. Litres may be biased slightly downward by rate gaps.</div>
+      <div style={{marginTop:3}}>Hash-passing / hash-failing raw files: {fsPct(st.hashPassStationary.est,2)} ({fxN(st.hashPassStationary)}) / {fsPct(st.hashFailStationary.est,2)} ({fxN(st.hashFailStationary)}), not a paired test. The speed and HV-current columns of raw/ were not compared with the verified originals (F03-unchecked).</div>
+      <div style={{marginTop:3}}>Fuel consumed during net pack charging (a temporal state of the logged rate, not an allocation of fuel to the battery; battery offset is estimated; {C.nTripsWithBatteryInputs} trips with battery inputs): hash-passing trips log {C.byDeadbandKw["db0.1"].hashPass.stationary} L while stationary and {C.byDeadbandKw["db0.1"].hashPass.moving} L while moving with net pack power below −0.1 kW; hash-failing files carry rounded raw/ current (F03-unchecked).</div>
+      <div style={{marginTop:3}}>Coverage: the rate integral is {fsPct(cov.integralOverCounter,2)} above the logged counter; {fsPct(cov.lostSecondsShare,2)} of logged seconds lie in rate gaps above 5 s (their litres are not counted). Basis: raw/, provenance-sensitive (F03); not M299-reproducible.</div></div>}
+  </div></FxCohortGate>;
+}
+function FxLines({series,xlim,ylim,xticks,yticks,xl,yl,w=300,h=190}){
+  const m={l:38,r:8,t:8,b:30};
+  const fx=v=>m.l+(v-xlim[0])/(xlim[1]-xlim[0])*(w-m.l-m.r), fy=v=>h-m.b-(v-ylim[0])/(ylim[1]-ylim[0])*(h-m.t-m.b);
+  return <svg width="100%" viewBox={`0 0 ${w} ${h}`} style={{overflow:"visible"}} data-fx-lines="1">
+    <rect x={m.l} y={m.t} width={w-m.l-m.r} height={h-m.t-m.b} fill="#fafafa" stroke="#e2e8f0"/>
+    {xticks.map(v=><text key={"x"+v} x={fx(v)} y={h-m.b+12} fontSize={8} textAnchor="middle" fill="#64748b">{v}</text>)}
+    {yticks.map(v=><text key={"y"+v} x={m.l-5} y={fy(v)+3} fontSize={8} textAnchor="end" fill="#64748b">{v}</text>)}
+    <text x={(w+m.l-m.r)/2} y={h-4} fontSize={8.5} textAnchor="middle" fill="#334155">{xl}</text>
+    <text x={9} y={(h-m.b+m.t)/2} fontSize={8.5} textAnchor="middle" fill="#334155" transform={`rotate(-90 9 ${(h-m.b+m.t)/2})`}>{yl}</text>
+    {series.map(s=><g key={s.key}>
+      {s.pts.filter(p=>p.est!=null&&p.ci95).length>1&&<path d={s.pts.filter(p=>p.est!=null&&p.ci95).map((p,i)=>`${i?"L":"M"}${fx(p.pos).toFixed(1)} ${fy(p.ci95[1]).toFixed(1)}`).join(" ")+" "+s.pts.filter(p=>p.est!=null&&p.ci95).reverse().map(p=>`L${fx(p.pos).toFixed(1)} ${fy(p.ci95[0]).toFixed(1)}`).join(" ")+" Z"} fill={s.col} fillOpacity={0.14} stroke="none"/>}
+      <path d={s.pts.filter(p=>p.est!=null&&p.ci95).map((p,i)=>`${i?"L":"M"}${fx(p.pos).toFixed(1)} ${fy(p.est).toFixed(1)}`).join(" ")} fill="none" stroke={s.col} strokeWidth={1.6} strokeDasharray={s.dash||""}/>
+      {s.pts.filter(p=>p.est!=null&&!p.ci95).map(p=><circle key={p.pos} cx={fx(p.pos)} cy={fy(p.est)} r={2} fill="none" stroke={s.col}/>)}</g>)}
+  </svg>;
+}
+function FuelWarmup(){
+  const Z=S.fuelWarmup; if(!Z) return null;
+  const coh=useCohort(); const [axis,setAxis]=useState("time"); const [pop,setPop]=useState("all"); const [curve,setCurve]=useState("distCumTotal");
+  const bands=Object.keys(Z.bands).filter(b=>b!=="oil-fallback"), key=axis==="time"?"timeCum":curve, grid=axis==="time"?Z.timeGridS:Z.distGridKm;
+  const cohs=coh==="all"?[["all","All data","#334155"]]:coh==="compare"?[["warm","Warm",COHORT_META.warm.col],["shoulder","Shoulder",COHORT_META.shoulder.col]]:[[coh,(COHORT_META[coh]||{label:coh}).label,(COHORT_META[coh]||{}).col||"#334155"]];
+  const popLab={all:"all contributing trips",h300:axis==="time"?"trips reaching 300 s":"trips reaching 2.5 km",h600:axis==="time"?"trips reaching 600 s":"trips reaching 5 km"};
+  const sets=(c,b)=>(Z.groups[c+"|"+b]?.sets[pop]||{})[key]||[];
+  const ymax=Math.max(0.001,...cohs.flatMap(([c])=>bands.flatMap(b=>sets(c,b).map(p=>p.ci95?p.ci95[1]:(p.est||0)))))*1.08;
+  const yt=[0,Math.round(ymax/2*1000)/1000,Math.round(ymax*1000)/1000];
+  const btn=(on,f,t)=><button onClick={f} style={{fontSize:10,padding:"2px 7px",marginRight:4,border:"1px solid "+(on?"#334155":"#e2e8f0"),borderRadius:6,background:on?"#e2e8f0":"#fff",cursor:"pointer"}}>{t}</button>;
+  return <FxCohortGate coh={coh} chart="Warm-up fuel trajectory"><div data-fuel-warmup="1">
+    <FxScopeNote coh={coh}/>
+    <div style={{marginBottom:6}}>{btn(axis==="time",()=>setAxis("time"),"time since first engine start")}{btn(axis==="dist",()=>setAxis("dist"),"distance since first engine start")}
+      <span style={{marginLeft:8}}>{["all","h300","h600"].map(p=><span key={p}>{btn(pop===p,()=>setPop(p),popLab[p])}</span>)}</span>
+      {axis==="dist"&&<span style={{marginLeft:8}}>{btn(curve==="distCumTotal",()=>setCurve("distCumTotal"),"total litres")}{btn(curve==="distCumStationary",()=>setCurve("distCumStationary"),"stationary litres")}{btn(curve==="distCumMoving",()=>setCurve("distCumMoving"),"moving litres")}</span>}</div>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:12}}>
+      {cohs.map(([c,lab,col])=><div key={c}>{coh!=="all"&&<div style={{fontSize:10,fontWeight:700,color:col}}>{lab}</div>}
+        <FxLines series={bands.map(b=>({key:b,col:FX_TEMP_COL[b],pts:sets(c,b)}))} xlim={[0,grid[grid.length-1]]} ylim={[0,ymax]} xticks={axis==="time"?[0,200,400,600]:[0,1,2,3,4,5]} yticks={yt} xl={axis==="time"?"seconds since first engine start":"km since first engine start"} yl="mean cumulative logged litres per trip"/></div>)}
+    </div>
+    <div style={{fontSize:10,color:"#64748b",margin:"2px 0 6px"}}>{bands.map(b=><span key={b} style={{marginRight:10}}><span style={{display:"inline-block",width:14,borderTop:`2px solid ${FX_TEMP_COL[b]}`,verticalAlign:"middle",marginRight:3}}></span>{Z.bands[b]}</span>)} · shaded = pointwise 95% CI (day-clustered, not a simultaneous band); open circles = positions with too few trips or days for an interval; populations: {popLab[pop]}.</div>
+    {coh==="all"&&<div>
+      <table style={{fontSize:10,borderCollapse:"collapse"}}><thead><tr style={{color:"#64748b"}}><th style={{padding:"2px 8px",textAlign:"left"}}>{axis==="time"?"seconds":"km"} since first engine start</th>{bands.map(b=><th key={b} style={{padding:"2px 8px"}}>{b}: trips · days · mean litres</th>)}</tr></thead><tbody>
+        {grid.map((gp,j)=>({gp,j})).filter(x=>(axis==="time"?[1,4,9,14,19]:[3,7,9,14,19]).includes(x.j)).map(({gp,j})=><tr key={gp} style={{borderTop:"1px solid #f1f5f9"}}><td style={{padding:"2px 8px"}}>{gp}</td>{bands.map(b=>{const p=sets("all",b)[j]; return <td key={b} style={{padding:"2px 8px",textAlign:"center"}}>{p&&p.est!=null?`${p.n} · ${p.days} · ${p.est.toFixed(3)}${p.ci95?` (${p.ci95[0].toFixed(3)}–${p.ci95[1].toFixed(3)})`:" (points only)"}`:"no trips"}</td>;})}</tr>)}</tbody></table>
+      <table style={{fontSize:10,borderCollapse:"collapse",margin:"8px 0 4px"}}><thead><tr style={{color:"#64748b"}}><th style={{padding:"2px 8px",textAlign:"left"}}>moving-sample L/100 km in 0.5 km intervals after the first engine start</th>{bands.map(b=><th key={b} style={{padding:"2px 8px"}}>{b}</th>)}</tr></thead><tbody>
+        {Z.intervalsKm.map((iv,j)=><tr key={j} style={{borderTop:"1px solid #f1f5f9"}}><td style={{padding:"2px 8px"}}>{iv[0]}–{iv[1]} km</td>{bands.map(b=>{const e=Z.groups["all|"+b].intervalConsumption[j]; return <td key={b} style={{padding:"2px 8px",textAlign:"center"}}>{e.est!=null?`${e.est.toFixed(1)}${e.ci95?` (${e.ci95[0].toFixed(1)}–${e.ci95[1].toFixed(1)})`:" (points only)"} · n ${e.n}`:"no trips"}</td>;})}</tr>)}</tbody></table>
+      <div style={{fontSize:10.5,color:"#334155",marginTop:6}}>These curves describe logged fuel after the first observed engine start (first sample with engine speed above 400 rpm and a positive logged rate), grouped by the engine-coolant temperature logged at that moment. They are associations: initial coolant temperature is confounded with trip length, season, speed profile and the unlogged time since the previous drive, and the curves make no causal or thermal-penalty claim. A trip contributes to a position only if it reaches it without a rate gap above 5 s (no zero-filled continuation), so the all-contributing curves mix different trip populations; the constant-population views hold the trips fixed ({Object.entries(Z.constantPopulationCounts).filter(([b])=>b!=="oil-fallback").map(([b,v])=>`${b}: ${v.h300} trips reach 300 s, ${v.h600} reach 600 s`).join("; ")}). {Z.excluded.leftCensored} trips whose engine was already running at the first logged sample are excluded (left-censored), {Z.excluded.noT0} have no engine start and {Z.excluded.noInitialTemp} no usable initial temperature (older than {Z.initialTempMaxStalenessS} s). Interval ownership: {Z.definitions.intervalOwnership} Oil-temperature fallback is a separate stratum and has {Z.groups["all|oil-fallback"].nTrips} trips. The existing cold-start fuel-rate association (above) is a separate, adjusted analysis and is unchanged. Basis: raw/, provenance-sensitive (F03); not M299-reproducible.</div></div>}
+  </div></FxCohortGate>;
+}
 function FuelBasisBanner(){
   const FC=S.fuelContract;
   if(!FC) return <div data-fuel-banner="1" style={{padding:10,background:"#fef2f2",border:"1px solid #fecaca",borderRadius:8,marginBottom:10,fontSize:11,color:"#991b1b"}}>Fuel contract block missing from the payload (tools/fuel_contract.py was not run).</div>;
@@ -10546,6 +10631,8 @@ export default function App() {
         <Section seasonAware title={`Fuel data consistency: rate integral versus counter (logged/app-calculated; ${S.fuelAnalytics?.reconciliation?.analysisEligible} trips)`} accent="#0f766e"><FuelAgreement/></Section>
         <Section seasonAware title="Fuel consumption versus trip length (logged counter; descriptive)" accent="#0f766e"><FuelVsTripLength/></Section>
         <Section seasonAware title="Trip consumption distribution and pooled 14-day windows (logged counter; descriptive)" accent="#0f766e"><FuelDistributionTrend/></Section>
+        <Section seasonAware title="Fuel by speed state: stationary fuel and moving fuel (logged rate; temporal states)" accent="#0f766e"><FuelStates/></Section>
+        <Section seasonAware title="Warm-up fuel trajectory after the first engine start (logged rate; descriptive associations)" accent="#0f766e"><FuelWarmup/></Section>
       </>)}
       {tab==="distribution"&&(<>
         <Section seasonAware title="Drive Type Distribution"><DriveTypeChart/></Section>

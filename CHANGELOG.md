@@ -1,3 +1,16 @@
+## M339 (2026-10-02): Fuel analytics v2: FUEL-03 stationary vs moving fuel and FUEL-02 warm-up trajectory (fuelStates, fuelWarmup)
+
+**Rationale.** Two observed-fuel views in the Fuel tab from script-written additive payload keys (tools/fuel_analytics2.py, 21 known-answer tests); spec rev 3 after two Director passes; blind audit partial (all FUEL-03 figures and FUEL-02 curves reproduced; one interval-ownership rule disagreement of 0.1 L/100 km and one trip, stated and not tuned away); Director decision go. Stationary fuel (logged rate at speed <= 1 km/h) is 2.22% of logged litres (CI 1.37-3.47%, 242 trips, 48 days, unknown 0.05%): a temporal state, not an allocation or waste; 0.5 and 1 km/h are the same bin (integer km/h). Warm-up curves by initial coolant are descriptive associations (confounded with trip length, season, speed profile, unlogged soak time), pointwise CIs, no zero-filled continuation, left-censored trips excluded (4). Deviations: separate keys instead of extending ThermalFuelPenalty (follow-up: unification); dwell definition and interval-ownership rule written after the audit. Speed and HV columns raw-vs-originals unchecked (needs Andrii permission). No stop condition fired. Not M299-reproducible; no article figure.
+
+**State.** `drive_master.csv` 489 rows, MD5 `bd9d10726bb064d857cf9ff98d2b7338`.
+
+**Gates (runs/20260930T142615Z).** stage_raw=ok; raw_temp_pass=ok; compute_seasonal=ok; refresh_cohort_meta=ok; fuel_recon=ok; refresh_gtr_headline=ok; f03_provenance_build=ok; post_steps=ok; cohort_arrays=ok; comparison_cube=ok -> ok.
+
+**Delta flags.** none.
+
+**Files.** `tools/fuel_analytics2.py`, `tools/ingest_stages.json`, `tests/synthetic/test_fuel_analytics2.py`, `summary_arrays.json`, `xtrail_summary.jsx`, `xtrail_dashboard.html`, `language_gate.py`, `semantic_gate.py`, `analyses/M339_spec.md`, `analyses/M339_fuel_analytics2_preview.json`.
+
+
 ## M338 (2026-10-02): Single assumed-E10 fuel-energy basis for the SoC-balanced scenario (audit C05); one stored figure moves
 
 **Rationale.** SoC-balanced builder LHV 8.9 -> 8.5843 kWh/L from model_constants (control reproduced the stored block leaf-for-leaf; 22 allow-listed leaves changed; regression leaves identical): fleet balanced 5.479 -> 5.472 L/100 km, correction -0.211 -> -0.219, CI 5.262-5.699 -> 5.255-5.690 (a basis-consistency shift of about 4% of the CI half-width, not a finding); blind audit confirmed; assumed E10, composition not measured; unverified CAP 2.1 kWh dominates (CAP 5.0 would give about -0.52); fuelContract lhvRatio 1 and banner bound to payload; old 'LHV 8.9' wording added as gate rule; ingestion carry-forward safe (builder is the source of truth); no article figure.
