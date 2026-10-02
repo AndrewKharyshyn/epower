@@ -45,7 +45,7 @@ out = {
     "sensitivityStatement": ("In a provenance-sensitivity rebuild from today's raw/ files (lower-precision re-exports for the hash-failing drives) the cell-spread slope was not robust (sign and magnitude changed); "
                              "the difference arises only in hash-failing files (all hash-matching files reproduce the published values exactly) and cannot be separated "
                              "from calendar month. It is a sensitivity result computed from raw/ re-exports, not a finding; no cell-spread estimate has been recomputed from the originals."),
-    "wording": [f"no detectable cell-spread trend over the {WINDOW}-month window; equivalence not established (not 'no degradation')",
+    "wording": [f"cell-spread trend not resolved over the {WINDOW}-month window; equivalence not established (not 'no degradation')",
                 "provenance sensitivity, never 'correction' or 'error'",
                 "never 'reproducible from raw data' for raw-pass keys; say 'a rebuild from the sha256-verified originals is consistent with the published raw-derived non-ML per-drive values' (never 'proven', 'authenticated', 'corrections')"],
     "metrics": [
