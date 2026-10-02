@@ -117,19 +117,24 @@ def main():
     man = {r["record_id"]: r for r in json.load(open("raw_manifest.json", encoding="utf-8"))["files"]}
     names = {key_digits(n): n for n in os.listdir("raw") if key_digits(n)}
     cohort = dict(zip(sm.file.map(key_digits), sm.thermal_regime))
-    rec, why = [], {"outlier_or_no_km": 0, "no_raw": 0, "no_counter_or_rate": 0}
+    rec = []
+    why = {"no_raw": 0, "no_counter_column": 0, "counter_flat_or_rate_unusable": 0, "usable_but_outlier_or_no_km": 0}
+    flat_km = []
     elig_contract = 0
     for _, m in dm.iterrows():
         k = key_digits(m["file"])
-        if str(m.get("ens_outlier_v2")) == "True" or not (float(m["distance_km"]) > 0):
-            why["outlier_or_no_km"] += 1; continue
         if k not in names:
             why["no_raw"] += 1; continue
         p = os.path.join("raw", names[k])
         T = read_trip(p)
-        if not (T["counterUsable"] and T["rateUsable"]):
-            why["no_counter_or_rate"] += 1; continue
+        usable = T["counterUsable"] and T["rateUsable"]
+        if not T["colCounter"]:
+            why["no_counter_column"] += 1; continue
+        if not usable:
+            why["counter_flat_or_rate_unusable"] += 1; flat_km.append(float(m["distance_km"])); continue
         elig_contract += 1
+        if str(m.get("ens_outlier_v2")) == "True" or not (float(m["distance_km"]) > 0):
+            why["usable_but_outlier_or_no_km"] += 1; continue
         c, r, t = T["counter"], T["rate"], T["t"]
         i0, i1 = c.first_valid_index(), c.last_valid_index()
         t0, t1 = t.loc[i0], t.loc[i1]
@@ -163,8 +168,12 @@ def main():
     n_reset = int(d.reset.sum())
     ok = d[~d.reset].copy()
     ok["rate100"] = 100.0 * ok.V_cnt / ok.km
-    recon = {"contractEligibleAfterOutlierKmMask": elig_contract, "excludedReset": n_reset, "analysisEligible": int(len(ok)), "auditReference": 234,
-             "notIn": why, "counterResolutionL": round(res_cnt, 6), "resetThresholdL": reset_thr, "relDiffFloorL": floor,
+    recon = {"canonicalDrives": int(len(dm)), "fuelContractUsable": elig_contract, "removedByCanonicalCleanMask": why["usable_but_outlier_or_no_km"], "excludedReset": n_reset,
+             "analysisEligible": int(len(ok)), "kmBelow0p5NotInRatePanels": int((ok.km < 0.5).sum()), "fuel01Trips": int((ok.km >= 0.5).sum()), "fuel11PrimaryTrips": int((ok.km >= 2).sum()),
+             "auditReference": 234, "withoutFuelData": {"noCounterColumn": why["no_counter_column"], "counterFlatOrRateUnusable": why["counter_flat_or_rate_unusable"],
+             "flatShareUnder2km": round(float(np.mean(np.array(flat_km) < 2)), 3) if flat_km else None,
+             "note": "selection on a counter increment > 0 is resolution-driven and may bias short-trip band rates upward"}, "noRaw": why["no_raw"],
+             "counterResolutionL": round(res_cnt, 6), "resetThresholdL": reset_thr, "relDiffFloorL": floor,
              "eligibilityRule": "ELIG-A (fuelContract): counter >=2 numeric with max>min AND rate any value >0; canonical-clean (ens_outlier_v2 not True), km>0"}
     # ---------------- FUEL-12 ----------------
     f12 = ok.copy()
@@ -190,7 +199,8 @@ def main():
             "nRelativeShown": int(f12.rel.notna().sum()), "nBelowFloor": int(f12.rel.isna().sum()), "nFlag5pct": int(f12.flag5.sum()),
             "integrationVariants": variants, "f03Sensitivity": sens_f03, "auditR9Reference": {"trips": 234, "aggregateRelDiff": 0.0024, "role": "regression reference for the frozen audit data, not an acceptance tolerance"},
             "stopRuleTriggered": stop12, "stopRule": "CI lower > +1% or CI upper < -1% or |point| > 1% of counter volume",
-            "limits": "both series come from the same app: agreement does not establish independence or external accuracy"}
+            "reviewMargin": {"value": 0.01, "status": "arbitrary review margin, fixed in advance; not a justified equivalence bound", "ciInsideMargin": bool(lo > -0.01 and hi < 0.01)},
+            "limits": "both series come from the same app: agreement does not establish independence or external accuracy; an internal consistency check whose size and sign depend on the integration dt cap (5 s base, 2 s flips the sign); not a bias estimate"}
     # ---------------- FUEL-01 ----------------
     s01 = ok[ok.km >= 0.5].copy()
     s01["band"] = pd.cut(s01.km, KM_EDGES, right=False, labels=BAND_LABELS)
@@ -260,7 +270,7 @@ def main():
         return out
     f11["trend"] = {"primaryWindowDays": 14, "secondaryWindowDays": 7, "windowAnchor": str(anchor.date()) + " (Monday)", "nonOverlapping": True,
                     "emptyWindows": "gaps (no interpolation)", "windows14": trend(14), "windows7": trend(7)}
-    f11["limits"] = "short-trip and thermal-composition drift can be misread as a seasonal trend; composition annotations are per window; rates are not SoC-corrected"
+    f11["limits"] = "short-trip and thermal-composition drift can be misread as a change over time; composition annotations are per window; rates are not SoC-corrected"
     trips = [{"id": r.id, "day": r.day, "km": round(r.km, 3), "V_cnt": round(r.V_cnt, 4), "V_int": None if not np.isfinite(r.V_int) else round(r.V_int, 4),
               "durationS": None if not np.isfinite(r.durationS) else round(r.durationS, 0), "dSocPp": None if not np.isfinite(r.dSocPp) else round(r.dSocPp, 1),
               "startCoolant": None if not np.isfinite(r.startCoolant) else round(r.startCoolant, 1), "tempBand": r.tempBand, "tempSource": r.tempSource,
@@ -276,10 +286,24 @@ def main():
     if "--no-write" in sys.argv:
         return
     A = json.load(open(ARR, encoding="utf-8"))
-    before = {k: json.dumps(v, sort_keys=True) for k, v in A.items() if k != "fuelAnalytics"}
+    import copy, datetime
+    skip = ("fuelAnalytics", "_artifactStamps")
+    stamps_before = {k: json.dumps(v, sort_keys=True) for k, v in A["_artifactStamps"].items() if k != "fuelAnalytics"}
+    before = {k: json.dumps(v, sort_keys=True) for k, v in A.items() if k not in skip}
     status = "added" if "fuelAnalytics" not in A else ("unchanged" if A["fuelAnalytics"] == json.loads(json.dumps(block, default=float)) else "replaced")
     A["fuelAnalytics"] = json.loads(json.dumps(block, default=float))
-    assert before == {k: json.dumps(v, sort_keys=True) for k, v in A.items() if k != "fuelAnalytics"}
+    live = block["inputs"]["driveMasterMd5"]
+    old = A["_artifactStamps"].get("fuelAnalytics")
+    if not (isinstance(old, dict) and old.get("upstreamHashes") == block["inputs"] and old.get("corpusHash") == live):
+        st = copy.deepcopy(A["_artifactStamps"]["fuelContract"])
+        st.update(corpusHash=live, generatedAt=datetime.datetime.now(datetime.timezone.utc).isoformat(), computationStatus="computed",
+                  computationStatusNote="M337: fuelAnalytics computed by tools/fuel_analytics.py from raw/ fuel columns and the master; additive, no published value recomputed; not M299-reproducible.",
+                  upstreamHashes=dict(block["inputs"]))
+        st.pop("carriedForward", None)
+        A["_artifactStamps"]["fuelAnalytics"] = st
+        status = "stamp-updated" if status == "unchanged" else status
+    assert before == {k: json.dumps(v, sort_keys=True) for k, v in A.items() if k not in skip}
+    assert stamps_before == {k: json.dumps(v, sort_keys=True) for k, v in A["_artifactStamps"].items() if k != "fuelAnalytics"}
     if not dry and status != "unchanged":
         with open(ARR, "w", encoding="utf-8", newline="\n") as f:
             json.dump(A, f, ensure_ascii=False, indent=1)

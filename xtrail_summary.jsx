@@ -7313,6 +7313,134 @@ function HandoffSequence() {
 
 
 // M334 (owner decision O1): the Fuel tab banner renders ONLY from the script-written S.fuelContract (tools/fuel_contract.py); no number is typed here.
+// M337 Fuel analytics v1 (FUEL-12, FUEL-01, FUEL-11): every figure binds to S.fuelAnalytics (script-written by tools/fuel_analytics.py)
+const FX_TEMP_COL={"<40C":"#2563eb","40-60C":"#f59e0b",">=60C":"#dc2626",unknown:"#94a3b8"};
+const fxPct=(v,d=2)=>(v>0?"+":v<0?"−":"")+Math.abs(v*100).toFixed(d)+"%";
+const fxCi=(a,d=2)=>`${fxPct(a[0],d)} to ${fxPct(a[1],d)}`;
+const fxN=e=>e?`${e.nTrips} trips, ${e.nDays} days`:"";
+function fxPanels(coh,trips){
+  if(coh==="compare") return ["warm","shoulder"].concat(cohortAvailable("cold")?["cold"]:[]).map(k=>({key:k,label:COHORT_META[k].label,col:COHORT_META[k].col,trips:trips.filter(t=>t.cohort===k)}));
+  if(coh==="all") return [{key:"all",label:"All data",col:"#334155",trips}];
+  return [{key:coh,label:(COHORT_META[coh]||{label:coh}).label,col:(COHORT_META[coh]||{}).col||"#334155",trips:trips.filter(t=>t.cohort===coh)}];
+}
+function FxPlot({pts,xlim,ylim,xlog,xticks,yticks,xl,yl,w=300,h=190,zero}){
+  const m={l:38,r:8,t:8,b:30};
+  const fx=v=>m.l+(xlog?(Math.log(v)-Math.log(xlim[0]))/(Math.log(xlim[1])-Math.log(xlim[0])):(v-xlim[0])/(xlim[1]-xlim[0]))*(w-m.l-m.r);
+  const fy=v=>h-m.b-(v-ylim[0])/(ylim[1]-ylim[0])*(h-m.t-m.b);
+  return <svg width="100%" viewBox={`0 0 ${w} ${h}`} style={{overflow:"visible"}} data-fx-plot="1">
+    <rect x={m.l} y={m.t} width={w-m.l-m.r} height={h-m.t-m.b} fill="#fafafa" stroke="#e2e8f0"/>
+    {zero!=null&&<line x1={m.l} x2={w-m.r} y1={fy(zero)} y2={fy(zero)} stroke="#94a3b8" strokeDasharray="3 2"/>}
+    {xticks.map(v=><g key={"x"+v}><line x1={fx(v)} x2={fx(v)} y1={h-m.b} y2={h-m.b+3} stroke="#94a3b8"/><text x={fx(v)} y={h-m.b+12} fontSize={8} textAnchor="middle" fill="#64748b">{v}</text></g>)}
+    {yticks.map(v=><g key={"y"+v}><line x1={m.l-3} x2={m.l} y1={fy(v)} y2={fy(v)} stroke="#94a3b8"/><text x={m.l-5} y={fy(v)+3} fontSize={8} textAnchor="end" fill="#64748b">{v}</text></g>)}
+    <text x={(w+m.l-m.r)/2} y={h-4} fontSize={8.5} textAnchor="middle" fill="#334155">{xl}</text>
+    <text x={9} y={(h-m.b+m.t)/2} fontSize={8.5} textAnchor="middle" fill="#334155" transform={`rotate(-90 9 ${(h-m.b+m.t)/2})`}>{yl}</text>
+    {pts.map((p,i)=><circle key={i} cx={fx(p.x)} cy={fy(Math.max(ylim[0],Math.min(ylim[1],p.y)))} r={p.gap?3:2.2} fill={p.col} fillOpacity={0.65} stroke={p.gap?"#0f172a":"none"} strokeWidth={p.gap?0.8:0}/>)}
+  </svg>;
+}
+function FxCohortGate({coh,chart,children}){
+  if(coh!=="all"&&coh!=="compare"&&!cohortAvailable(coh)) return <ColdNoData chart={chart} cohort={coh}/>;
+  return children;
+}
+function FxScopeNote({coh}){
+  return coh==="all"?null:<div data-fx-cohort-note="1" style={{fontSize:9.5,color:"#b45309",marginBottom:4}}>Cohort view: individual trips of the selected thermal cohort are shown on common axes; the intervals and band statistics in the All-data view are corpus-wide and are not recomputed per cohort.</div>;
+}
+function FuelAgreement(){
+  const Z=S.fuelAnalytics; if(!Z) return null;
+  const coh=useCohort(); const F=Z.fuel12, R=Z.reconciliation, W=R.withoutFuelData;
+  const trips=Z.trips.filter(t=>!t.reset&&t.V_int!=null);
+  const lim=Math.max(...trips.map(t=>(t.V_int+t.V_cnt)/2)), dl=Math.max(...trips.map(t=>Math.abs(t.V_int-t.V_cnt)));
+  const xt=[0,Math.round(lim/2*10)/10,Math.round(lim*10)/10], yt=[-Math.round(dl*100)/100,0,Math.round(dl*100)/100];
+  const V=F.integrationVariants;
+  return <FxCohortGate coh={coh} chart="Rate-integral versus counter"><div data-fuel-agreement="1">
+    <FxScopeNote coh={coh}/>
+    <div style={{display:"grid",gridTemplateColumns:coh==="compare"?"repeat(auto-fit,minmax(260px,1fr))":"minmax(260px,420px)",gap:10}}>
+      {fxPanels(coh,trips).map(p=><div key={p.key}><div style={{fontSize:10,fontWeight:700,color:p.col}}>{p.label} · {p.trips.length} trips</div>
+        <FxPlot pts={p.trips.map(t=>({x:(t.V_int+t.V_cnt)/2,y:t.V_int-t.V_cnt,col:p.col,gap:t.gap}))} xlim={[0,lim]} ylim={[-dl,dl]} xticks={xt} yticks={yt} xl="mean of rate integral and counter (L)" yl="rate integral − counter (L)" zero={0}/></div>)}
+    </div>
+    <div style={{fontSize:10,color:"#64748b",margin:"2px 0 6px"}}>Each point is one trip (outlined = a gap above {5} s in the logged rate); positive = rate integral above counter.</div>
+    {coh==="all"&&<div style={{fontSize:10.5,color:"#334155"}}>
+      <div>Rate integral minus counter: <strong>{fxPct(F.aggregate.est)} of counter volume</strong> (95% CI {fxCi(F.aggregate.ci95)}; {fxN(F.aggregate)}; 5 s dt cap). This is inside the review margin of ±1%, an arbitrary margin fixed in advance, not a justified equivalence bound. With a 2 s dt cap it is {fxPct(V.cap2s.est)} (CI {fxCi(V.cap2s.ci95)}); trapezoid {fxPct(V.trapezoid.est)}, 10 s cap {fxPct(V.cap10s.est)}.</div>
+      <div style={{marginTop:3}}>Its size and sign depend on the integration step against the logger sampling period, so this is an internal consistency check of two logged/app-calculated series (Car Scanner ELM OBD2), not a bias estimate. Agreement does not establish independence or external accuracy (same app).</div>
+      <table style={{fontSize:10,borderCollapse:"collapse",margin:"6px 0"}}><tbody>
+        <tr><td style={{padding:"2px 8px"}}>Trips with |difference| above 5% of their mean (≥ {R.relDiffFloorL} L)</td><td style={{padding:"2px 8px",fontWeight:700}}>{F.nFlag5pct} of {F.nRelativeShown}</td></tr>
+        <tr><td style={{padding:"2px 8px"}}>Gap-free trips / trips with a rate gap above 5 s</td><td style={{padding:"2px 8px",fontWeight:700}}>{fxPct(V.gapFreeTripsBase.est)} ({V.gapFreeTripsBase.nTrips} trips) / {V.gappedTripsBase.nTrips!=null?`${fxPct(V.gappedTripsBase.est)} (${V.gappedTripsBase.nTrips} trips, not interpretable)`:"n/a"}</td></tr>
+        <tr><td style={{padding:"2px 8px"}}>Hash-passing / hash-failing raw files (not a paired test)</td><td style={{padding:"2px 8px",fontWeight:700}}>{fxPct(F.f03Sensitivity.hashPass.est)} ({fxN(F.f03Sensitivity.hashPass)}) / {fxPct(F.f03Sensitivity.hashFail.est)} ({fxN(F.f03Sensitivity.hashFail)})</td></tr>
+      </tbody></table>
+      <div style={{fontSize:9.5,color:"#b45309"}}>{R.canonicalDrives} canonical drives → {W.noCounterColumn} without the counter column → {W.counterFlatOrRateUnusable} with a flat counter or unusable rate ({Math.round(W.flatShareUnder2km*100)}% under 2 km; selection on a counter increment may bias short-trip rates upward) → {R.fuelContractUsable} usable by the fuel contract → {R.removedByCanonicalCleanMask} removed as a canonical outlier → {R.analysisEligible} analysis trips (the audit reference of {R.auditReference} trips is a frozen-version count, not a tolerance). Basis: raw/, provenance-sensitive (F03): the read-only comparison with the sha256-verified originals shifts the rate-integral totals by about +0.2%, the same size as this estimate. Not M299-reproducible.</div>
+    </div>}
+  </div></FxCohortGate>;
+}
+function FuelVsTripLength(){
+  const Z=S.fuelAnalytics; if(!Z) return null;
+  const coh=useCohort(); const F=Z.fuel01, R=Z.reconciliation;
+  const all=Z.trips.filter(t=>!t.reset); const rate=all.filter(t=>t.km>=0.5), short=all.filter(t=>t.km<0.5);
+  const lm=Math.max(...rate.map(t=>t.V_cnt)), rm=Math.max(...rate.map(t=>100*t.V_cnt/t.km));
+  const kt=[0.5,1,2,5,10,20,50], rmax=Math.ceil(rm/5)*5;
+  const colOf=t=>FX_TEMP_COL[t.tempBand]||"#94a3b8";
+  return <FxCohortGate coh={coh} chart="Consumption versus trip length"><div data-fuel-vs-length="1">
+    <FxScopeNote coh={coh}/>
+    {fxPanels(coh,rate).map(p=><div key={p.key} style={{marginBottom:6}}>
+      {coh!=="all"&&<div style={{fontSize:10,fontWeight:700,color:p.col}}>{p.label} · {p.trips.length} trips</div>}
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))",gap:10}}>
+        <FxPlot pts={p.trips.map(t=>({x:t.km,y:t.V_cnt,col:coh==="compare"?p.col:colOf(t)}))} xlim={[0.5,Math.max(...rate.map(t=>t.km))*1.05]} ylim={[0,Math.ceil(lm)]} xlog xticks={kt} yticks={[0,Math.round(lm/2*10)/10,Math.ceil(lm)]} xl="trip distance (km, log scale)" yl="logged fuel counter (L)"/>
+        <FxPlot pts={p.trips.map(t=>({x:t.km,y:100*t.V_cnt/t.km,col:coh==="compare"?p.col:colOf(t)}))} xlim={[0.5,Math.max(...rate.map(t=>t.km))*1.05]} ylim={[0,rmax]} xlog xticks={kt} yticks={[0,rmax/2,rmax]} xl="trip distance (km, log scale)" yl="L/100 km (counter ÷ distance)"/>
+      </div></div>)}
+    <div style={{fontSize:10,color:"#64748b",margin:"2px 0 6px"}}>Identical trips in both panels ({R.fuel01Trips} trips with distance ≥ 0.5 km). {coh!=="compare"&&<>Colour = first logged engine-coolant temperature (oil as fallback):{" "}{Object.keys(FX_TEMP_COL).map(k=><span key={k} style={{marginRight:8}}><span style={{display:"inline-block",width:8,height:8,borderRadius:4,background:FX_TEMP_COL[k],marginRight:3}}></span>{k}</span>)}</>}</div>
+    {coh==="all"&&<div>
+      <table style={{fontSize:10,borderCollapse:"collapse"}}><thead><tr style={{color:"#64748b"}}><th style={{padding:"2px 8px",textAlign:"left"}}>distance band (km)</th><th style={{padding:"2px 8px"}}>trips · days</th><th style={{padding:"2px 8px"}}>pooled L/100 km (95% CI)</th><th style={{padding:"2px 8px",textAlign:"left"}}>support</th></tr></thead>
+        <tbody>{F.bands.map(b=><tr key={b.band} style={{borderTop:"1px solid #f1f5f9"}}><td style={{padding:"2px 8px"}}>{b.band}</td><td style={{padding:"2px 8px",textAlign:"center"}}>{b.nTrips} · {b.nDays}</td>
+          <td style={{padding:"2px 8px",textAlign:"center",fontWeight:700}}>{b.pooledL100?`${b.pooledL100.est.toFixed(2)} (${b.pooledL100.ci95[0].toFixed(2)}–${b.pooledL100.ci95[1].toFixed(2)})`:"points only"}</td><td style={{padding:"2px 8px"}}>{b.support}</td></tr>)}
+          <tr style={{borderTop:"1px solid #cbd5e1",fontWeight:700}}><td style={{padding:"2px 8px"}}>all ≥ 0.5 km</td><td style={{padding:"2px 8px",textAlign:"center"}}>{F.pooledAll.nTrips} · {F.pooledAll.nDays}</td><td style={{padding:"2px 8px",textAlign:"center"}}>{F.pooledAll.est.toFixed(2)} ({F.pooledAll.ci95[0].toFixed(2)}–{F.pooledAll.ci95[1].toFixed(2)})</td><td></td></tr></tbody></table>
+      <div style={{fontSize:10.5,color:"#334155",marginTop:6}}>Pooled rates are ratios of summed litres to summed km (day-clustered bootstrap, seed 42, 4000 draws); they are descriptive. Trip length is confounded with start temperature, speed mix and season, so no cause is attributed to the pattern (the existing cold-start fuel-rate association is a separate, adjusted analysis). Rates are not corrected for the SoC change. The {R.withoutFuelData.counterFlatOrRateUnusable} trips excluded for a flat counter or unusable rate are mostly short, so short-trip bands may be biased upward. Basis: raw/, provenance-sensitive (F03); not M299-reproducible.</div>
+    </div>}
+    <div data-fuel-short-trips="1" style={{fontSize:10,color:"#64748b",marginTop:6}}>Trips under 0.5 km are not in the rate panels (litres versus duration): {short.length?short.map(t=>`${t.id.replace(".csv","")}: ${t.V_cnt.toFixed(3)} L in ${t.durationS==null?"n/a":Math.round(t.durationS)+" s"}`).join("; "):"none"}.</div>
+  </div></FxCohortGate>;
+}
+function fxEcdf(trips,weighted){
+  const a=trips.map(t=>({r:100*t.V_cnt/t.km,w:weighted?t.km:1})).sort((x,y)=>x.r-y.r), tot=a.reduce((s,x)=>s+x.w,0);
+  let c=0; return a.map(x=>{c+=x.w; return {x:x.r,y:c/tot};});
+}
+function FuelDistributionTrend(){
+  const Z=S.fuelAnalytics; if(!Z) return null;
+  const coh=useCohort(); const F=Z.fuel11, D=F.distribution.primary_km_ge_2;
+  const prim=Z.trips.filter(t=>!t.reset&&t.km>=2);
+  const w=300,h=190,m={l:38,r:8,t:8,b:30}, xmax=Math.ceil(Math.max(...prim.map(t=>100*t.V_cnt/t.km))/2)*2;
+  const fx=v=>m.l+v/xmax*(w-m.l-m.r), fy=v=>h-m.b-v*(h-m.t-m.b);
+  const path=pts=>pts.map((p,i)=>`${i?"L":"M"}${fx(p.x).toFixed(1)} ${fy(p.y).toFixed(1)}`).join(" ");
+  const series=coh==="compare"?fxPanels("compare",prim).flatMap(p=>[{k:p.key+"t",lab:p.label+" trip-weighted",col:p.col,dash:p.key==="shoulder"?"6 3":"",pts:fxEcdf(p.trips,false)},{k:p.key+"d",lab:p.label+" distance-weighted",col:p.col,dash:"1.5 2",pts:fxEcdf(p.trips,true)}])
+    :fxPanels(coh,prim).flatMap(p=>[{k:"t",lab:"trip-weighted",col:"#2563eb",dash:"",pts:fxEcdf(p.trips,false)},{k:"d",lab:"distance-weighted",col:"#dc2626",dash:"",pts:fxEcdf(p.trips,true)}]);
+  const win=F.trend.windows14, ovl=F.trend.windows14.every(a=>F.trend.windows14.every(b=>!a.pooledL100.ci95||!b.pooledL100.ci95||(a.pooledL100.ci95[0]<=b.pooledL100.ci95[1]&&b.pooledL100.ci95[0]<=a.pooledL100.ci95[1]))), ws=Math.max(...win.map(x=>x.pooledL100.ci95?x.pooledL100.ci95[1]:x.pooledL100.est))*1.1;
+  const tx=i=>m.l+(i+0.5)/win.length*(w-m.l-m.r), ty=v=>h-m.b-v/ws*(h-m.t-m.b);
+  return <FxCohortGate coh={coh} chart="Consumption distribution and chronological trend"><div data-fuel-distribution="1">
+    <FxScopeNote coh={coh}/>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:12}}>
+      <div><div style={{fontSize:10,fontWeight:700,color:"#334155"}}>Empirical distribution of trip L/100 km (trips ≥ 2 km)</div>
+        <svg width="100%" viewBox={`0 0 ${w} ${h}`} style={{overflow:"visible"}} data-fx-ecdf="1">
+          <rect x={m.l} y={m.t} width={w-m.l-m.r} height={h-m.t-m.b} fill="#fafafa" stroke="#e2e8f0"/>
+          {[0,0.5,1].map(v=><text key={v} x={m.l-5} y={fy(v)+3} fontSize={8} textAnchor="end" fill="#64748b">{v}</text>)}
+          {[0,xmax/2,xmax].map(v=><text key={v} x={fx(v)} y={h-m.b+12} fontSize={8} textAnchor="middle" fill="#64748b">{v}</text>)}
+          <text x={(w+m.l-m.r)/2} y={h-4} fontSize={8.5} textAnchor="middle" fill="#334155">trip consumption (L/100 km)</text>
+          {series.map(s=><path key={s.k} d={path(s.pts)} fill="none" stroke={s.col} strokeWidth={1.6} strokeDasharray={s.dash}/>)}
+        </svg>
+        <div style={{fontSize:9.5,color:"#64748b"}}>{series.map(s=><span key={s.k} style={{marginRight:10}}><span style={{display:"inline-block",width:14,borderTop:`2px ${s.dash?"dashed":"solid"} ${s.col}`,verticalAlign:"middle",marginRight:3}}></span>{s.lab}</span>)}</div></div>
+      <div><div style={{fontSize:10,fontWeight:700,color:"#334155"}}>Pooled consumption per {F.trend.primaryWindowDays}-day window (non-overlapping, Monday anchor)</div>
+        <svg width="100%" viewBox={`0 0 ${w} ${h}`} style={{overflow:"visible"}} data-fx-trend="1">
+          <rect x={m.l} y={m.t} width={w-m.l-m.r} height={h-m.t-m.b} fill="#fafafa" stroke="#e2e8f0"/>
+          {[0,Math.round(ws/2*10)/10,Math.round(ws*10)/10].map(v=><text key={v} x={m.l-5} y={ty(v)+3} fontSize={8} textAnchor="end" fill="#64748b">{v}</text>)}
+          {win.map((x,i)=><g key={x.start}>{x.pooledL100.ci95&&<line x1={tx(i)} x2={tx(i)} y1={ty(x.pooledL100.ci95[0])} y2={ty(x.pooledL100.ci95[1])} stroke="#64748b"/>}
+            <circle cx={tx(i)} cy={ty(x.pooledL100.est)} r={3.2} fill="#2563eb"/><text x={tx(i)} y={h-m.b+12} fontSize={7.5} textAnchor="middle" fill="#64748b">{x.start.slice(5)}</text></g>)}
+          <text x={9} y={(h-m.b+m.t)/2} fontSize={8.5} textAnchor="middle" fill="#334155" transform={`rotate(-90 9 ${(h-m.b+m.t)/2})`}>pooled L/100 km</text>
+        </svg></div>
+    </div>
+    {coh==="all"&&<div>
+      <table style={{fontSize:10,borderCollapse:"collapse",margin:"6px 0"}}><thead><tr style={{color:"#64748b"}}><th style={{padding:"2px 8px",textAlign:"left"}}>trips ≥ 2 km ({fxN(D)})</th>{["q10","q25","q50","q75","q90"].map(q=><th key={q} style={{padding:"2px 8px"}}>{q}</th>)}</tr></thead><tbody>
+        {[["trip-weighted","tripWeighted","trip_"],["distance-weighted","distanceWeighted","dist_"]].map(([lab,k,pre])=><tr key={k} style={{borderTop:"1px solid #f1f5f9"}}><td style={{padding:"2px 8px"}}>{lab} L/100 km (95% CI)</td>{["q10","q25","q50","q75","q90"].map(q=><td key={q} style={{padding:"2px 8px",textAlign:"center"}}>{D.est[k][q].toFixed(2)}{D.ci95?<span style={{color:"#94a3b8"}}> ({D.ci95[pre+q][0].toFixed(1)}–{D.ci95[pre+q][1].toFixed(1)})</span>:""}</td>)}</tr>)}</tbody></table>
+      <table style={{fontSize:10,borderCollapse:"collapse"}}><thead><tr style={{color:"#64748b"}}><th style={{padding:"2px 8px",textAlign:"left"}}>window start</th><th style={{padding:"2px 8px"}}>trips · days</th><th style={{padding:"2px 8px"}}>pooled L/100 km (95% CI)</th><th style={{padding:"2px 8px"}}>km in trips &lt; 5 km</th><th style={{padding:"2px 8px"}}>trips with start coolant &lt; 40 °C</th><th style={{padding:"2px 8px",textAlign:"left"}}>support</th></tr></thead><tbody>
+        {win.map(x=><tr key={x.start} style={{borderTop:"1px solid #f1f5f9"}}><td style={{padding:"2px 8px"}}>{x.start}</td><td style={{padding:"2px 8px",textAlign:"center"}}>{x.nTrips} · {x.nDays}</td><td style={{padding:"2px 8px",textAlign:"center",fontWeight:700}}>{x.pooledL100.est.toFixed(2)}{x.pooledL100.ci95?` (${x.pooledL100.ci95[0].toFixed(2)}–${x.pooledL100.ci95[1].toFixed(2)})`:""}</td><td style={{padding:"2px 8px",textAlign:"center"}}>{Math.round(x.shareKmInTripsUnder5km*100)}%</td><td style={{padding:"2px 8px",textAlign:"center"}}>{Math.round(x.shareTripsStartCoolantUnder40C*100)}%</td><td style={{padding:"2px 8px"}}>{x.support}</td></tr>)}</tbody></table>
+      <div style={{fontSize:10.5,color:"#334155",marginTop:6}}>The trip-weighted and distance-weighted distributions are separate statistics: the trip-weighted median is {D.est.tripWeighted.q50.toFixed(2)} and the distance-weighted median {D.est.distanceWeighted.q50.toFixed(2)} L/100 km, because short, high-rate trips weigh more by count than by distance. {ovl?"The window CIs overlap":"Some window CIs do not overlap"}; the share of km in trips under 5 km goes from {Math.round(win[0].shareKmInTripsUnder5km*100)}% to {Math.round(win[win.length-1].shareKmInTripsUnder5km*100)}%, so the windows are descriptive only: they show a change in trip mix, not a consumption trend, with no trend test and no seasonal reading. Windows without eligible trips would be gaps. Rates are not corrected for the SoC change. Basis: raw/, provenance-sensitive (F03); not M299-reproducible.</div>
+    </div>}
+  </div></FxCohortGate>;
+}
 function FuelBasisBanner(){
   const FC=S.fuelContract;
   if(!FC) return <div data-fuel-banner="1" style={{padding:10,background:"#fef2f2",border:"1px solid #fecaca",borderRadius:8,marginBottom:10,fontSize:11,color:"#991b1b"}}>Fuel contract block missing from the payload (tools/fuel_contract.py was not run).</div>;
@@ -10413,6 +10541,9 @@ export default function App() {
         <GeneratorTractionRecon/>
         <Section title={`SoC-Balanced Fuel Consumption (accumulator subset${S.socBalancedFuel?.dateSpan ? `, ${S.socBalancedFuel.dateSpan[0]}–${S.socBalancedFuel.dateSpan[1]}` : ""})`} accent="#16a34a"><SocBalancedFuel/></Section>
         <Section seasonAware title={`Cold-start fuel-rate association (adjusted; accumulator subset${S.thermalFuelPenalty?.dateSpan ? `, ${S.thermalFuelPenalty.dateSpan[0]}–${S.thermalFuelPenalty.dateSpan[1]}` : ""})`} accent="#dc2626"><ThermalFuelPenalty/></Section>
+        <Section seasonAware title={`Fuel data consistency: rate integral versus counter (logged/app-calculated; ${S.fuelAnalytics?.reconciliation?.analysisEligible} trips)`} accent="#0f766e"><FuelAgreement/></Section>
+        <Section seasonAware title="Fuel consumption versus trip length (logged counter; descriptive)" accent="#0f766e"><FuelVsTripLength/></Section>
+        <Section seasonAware title="Trip consumption distribution and pooled 14-day windows (logged counter; descriptive)" accent="#0f766e"><FuelDistributionTrend/></Section>
       </>)}
       {tab==="distribution"&&(<>
         <Section seasonAware title="Drive Type Distribution"><DriveTypeChart/></Section>

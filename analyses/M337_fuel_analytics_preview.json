@@ -7,15 +7,22 @@
  },
  "method": "day-clustered percentile bootstrap (seed 42, 4000 draws), ratio-of-sums; day = trip start date; interval only with >=7 distinct days (5-6 low-cluster, <5 points only)",
  "reconciliation": {
-  "contractEligibleAfterOutlierKmMask": 242,
+  "canonicalDrives": 489,
+  "fuelContractUsable": 243,
+  "removedByCanonicalCleanMask": 1,
   "excludedReset": 0,
   "analysisEligible": 242,
+  "kmBelow0p5NotInRatePanels": 3,
+  "fuel01Trips": 239,
+  "fuel11PrimaryTrips": 173,
   "auditReference": 234,
-  "notIn": {
-   "outlier_or_no_km": 5,
-   "no_raw": 0,
-   "no_counter_or_rate": 242
+  "withoutFuelData": {
+   "noCounterColumn": 226,
+   "counterFlatOrRateUnusable": 20,
+   "flatShareUnder2km": 0.8,
+   "note": "selection on a counter increment > 0 is resolution-driven and may bias short-trip band rates upward"
   },
+  "noRaw": 0,
   "counterResolutionL": 0.0001,
   "resetThresholdL": 0.01,
   "relDiffFloorL": 0.05,
@@ -116,7 +123,12 @@
   },
   "stopRuleTriggered": false,
   "stopRule": "CI lower > +1% or CI upper < -1% or |point| > 1% of counter volume",
-  "limits": "both series come from the same app: agreement does not establish independence or external accuracy"
+  "reviewMargin": {
+   "value": 0.01,
+   "status": "arbitrary review margin, fixed in advance; not a justified equivalence bound",
+   "ciInsideMargin": true
+  },
+  "limits": "both series come from the same app: agreement does not establish independence or external accuracy; an internal consistency check whose size and sign depend on the integration dt cap (5 s base, 2 s flips the sign); not a bias estimate"
  },
  "fuel01": {
   "eligibility": "ELIG-A, no reset, km >= 0.5 (identical ids in both panels); trip fuel = counter delta; rate = 100*V/km",
@@ -985,7 +997,7 @@
     }
    ]
   },
-  "limits": "short-trip and thermal-composition drift can be misread as a seasonal trend; composition annotations are per window; rates are not SoC-corrected"
+  "limits": "short-trip and thermal-composition drift can be misread as a change over time; composition annotations are per window; rates are not SoC-corrected"
  },
  "trips": [
   {
