@@ -198,6 +198,32 @@
    ]
   },
   {
+   "id": "refresh_master_seasonal",
+   "title": "M296/M341 master-class seasonalCharts regenerated per thermal cohort on the live corpus (parity-guarded against the fresh top-level blocks; re-applies m295_payload.py)",
+   "cmd": [
+    "python3",
+    "m296_refresh_master_seasonal.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json"
+   ]
+  },
+  {
+   "id": "refresh_raw_seasonal",
+   "title": "M341 RAW-class seasonalCharts (37) regenerated per thermal cohort from the staged raw_only/ and the frame cache (parity-guarded; about 20 min uncached; a chart that fails parity stays carried forward and is listed)",
+   "cmd": [
+    "python3",
+    "tools/regen_seasonal_raw.py",
+    "--splice"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json",
+    "analyses/M341_check.json"
+   ]
+  },
+  {
    "id": "cohort_arrays",
    "title": "Per-cohort arrays regenerate",
    "cmd": [

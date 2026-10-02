@@ -5089,6 +5089,7 @@ function SpeedChart() {
   const data={all:_sd.overall,city:_sd.city,highway:_sd.highway};
   const vals=data[view];
   const colors=["#475569","#3b82f6","#22c55e","#eab308","#f97316","#ef4444"];
+  const notObserved=!vals.some(v=>v>0);        // M341: an all-zero class array means no such drives in this cohort: shown as not observed, never as zeros
   const maxV=Math.max(...vals);
   // M26: caption computed live from S.speedDist (dynamic — no hand-typed %s)
   const domIdx=vals.indexOf(maxV);
@@ -5106,7 +5107,8 @@ function SpeedChart() {
           <button key={k} onClick={()=>setView(k)} style={{padding:"3px 10px",borderRadius:5,border:"1px solid #e2e8f0",fontSize:10,background:view===k?"#1e293b":"#f1f5f9",color:view===k?"#f8fafc":"#374151",cursor:"pointer"}}>{l}</button>
         ))}
       </div>
-      <div style={{display:"flex",alignItems:"flex-end",gap:4,height:100,padding:"0 4px"}}>
+      {notObserved&&<div data-not-observed="1" style={{fontSize:11,color:"#64748b",background:"#f8fafc",border:"1px dashed #cbd5e1",borderRadius:6,padding:"10px 12px",margin:"6px 0"}}>Not observed: no {view==="city"?"city":"highway"} drives in this cohort, so no speed-zone shares are shown (this is a missing class, not zero time in every zone).</div>}
+      {!notObserved&&<div style={{display:"flex",alignItems:"flex-end",gap:4,height:100,padding:"0 4px"}}>
         {zones.map((z,i)=>{
           const pct=vals[i]; const h=(pct/maxV)*88;
           return (
@@ -5116,13 +5118,13 @@ function SpeedChart() {
             </div>
           );
         })}
-      </div>
-      <div style={{display:"flex",gap:4,marginTop:4}}>
+      </div>}
+      {!notObserved&&<div style={{display:"flex",gap:4,marginTop:4}}>
         {zones.map((z,i)=><div key={z} style={{flex:1,textAlign:"center",fontSize:8,color:"#64748b"}}>{z}<br/>km/h</div>)}
-      </div>
-      <div style={{marginTop:8,fontSize:10,color:"#64748b"}}>
+      </div>}
+      {!notObserved&&<div style={{marginTop:8,fontSize:10,color:"#64748b"}}>
         {captions[view]}
-      </div>
+      </div>}
     </div>
   );
 }

@@ -1,0 +1,973 @@
+{
+ "milestone": "M341",
+ "mode": "--check",
+ "cacheIndex": {
+  "frameEntries": 489,
+  "nonFrameEntries": [
+   "manifest.json"
+  ],
+  "framesEqualMasterFiles": true,
+  "explanation": "entries = one frame per master drive plus manifest.json"
+ },
+ "nLive": 489,
+ "cohortSizes": {
+  "all": 489,
+  "warm": 387,
+  "shoulder": 100,
+  "cold_ins": 2
+ },
+ "cacheSchemaVersion": 7,
+ "cacheEntries": 490,
+ "charts": {
+  "SpeedDist": {
+   "class": "core(category_B)",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 0,
+    "violations": [],
+    "notComparable": 0,
+    "nViolations": 0,
+    "nConserved": 0
+   },
+   "corpusDerivedCutpointLines": [],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "RpmDistribution": {
+   "class": "core(category_B)",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 67,
+    "violations": [],
+    "notComparable": 0,
+    "nViolations": 0,
+    "nConserved": 67
+   },
+   "corpusDerivedCutpointLines": [],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "TorqueBySpeed": {
+   "class": "core(category_B)",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 0,
+    "violations": [],
+    "notComparable": 0,
+    "nViolations": 0,
+    "nConserved": 0
+   },
+   "corpusDerivedCutpointLines": [],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "SocBySpeed": {
+   "class": "core(category_B)",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 0,
+    "violations": [],
+    "notComparable": 0,
+    "nViolations": 0,
+    "nConserved": 0
+   },
+   "corpusDerivedCutpointLines": [],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "CycleBySpeed": {
+   "class": "core(category_B)",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 0,
+    "violations": [],
+    "notComparable": 0,
+    "nViolations": 0,
+    "nConserved": 0
+   },
+   "corpusDerivedCutpointLines": [],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "EngineOnBySpeed": {
+   "class": "core(category_B)",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 0,
+    "violations": [],
+    "notComparable": 0,
+    "nViolations": 0,
+    "nConserved": 0
+   },
+   "corpusDerivedCutpointLines": [],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "EngineStartsByType": {
+   "class": "core(category_B)",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 0,
+    "violations": [],
+    "notComparable": 0,
+    "nViolations": 0,
+    "nConserved": 0
+   },
+   "corpusDerivedCutpointLines": [],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "EngineOnDuration": {
+   "class": "core(category_B)",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 0,
+    "violations": [],
+    "notComparable": 0,
+    "nViolations": 0,
+    "nConserved": 0
+   },
+   "corpusDerivedCutpointLines": [],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "RegenByZone": {
+   "class": "core(category_B)",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 0,
+    "violations": [],
+    "notComparable": 0,
+    "nViolations": 0,
+    "nConserved": 0
+   },
+   "corpusDerivedCutpointLines": [],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "RegenByTempMeasured": {
+   "class": "core(category_B)",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 5,
+    "violations": [],
+    "notComparable": 0,
+    "nViolations": 0,
+    "nConserved": 5
+   },
+   "corpusDerivedCutpointLines": [],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "RegenCaptureMeasured": {
+   "class": "core(category_B)",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 0,
+    "violations": [],
+    "notComparable": 0,
+    "nViolations": 0,
+    "nConserved": 0
+   },
+   "corpusDerivedCutpointLines": [],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "TurboByRpm": {
+   "class": "core(category_B)",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 0,
+    "violations": [],
+    "notComparable": 0,
+    "nViolations": 0,
+    "nConserved": 0
+   },
+   "corpusDerivedCutpointLines": [],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "TerrainTorqueDist": {
+   "class": "core(category_B)",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 0,
+    "violations": [],
+    "notComparable": 0,
+    "nViolations": 0,
+    "nConserved": 0
+   },
+   "corpusDerivedCutpointLines": [],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "BatteryThermalCurve": {
+   "class": "core(category_B)",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 0,
+    "violations": [],
+    "notComparable": 0,
+    "nViolations": 0,
+    "nConserved": 0
+   },
+   "corpusDerivedCutpointLines": [],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "SocBands": {
+   "class": "core(category_B)",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 8,
+    "violations": [],
+    "notComparable": 8,
+    "nViolations": 0,
+    "nConserved": 0
+   },
+   "corpusDerivedCutpointLines": [],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "WarmupCurve": {
+   "class": "core(category_B)",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 5,
+    "violations": [],
+    "notComparable": 3,
+    "nViolations": 0,
+    "nConserved": 2
+   },
+   "corpusDerivedCutpointLines": [],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "TerrainTorqueDistLow": {
+   "class": "core(category_B)",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 0,
+    "violations": [],
+    "notComparable": 0,
+    "nViolations": 0,
+    "nConserved": 0
+   },
+   "corpusDerivedCutpointLines": [],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "BatteryThermalMeta": {
+   "class": "core(category_B)",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 0,
+    "violations": [],
+    "notComparable": 0,
+    "nViolations": 0,
+    "nConserved": 0
+   },
+   "corpusDerivedCutpointLines": [],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "SensorSummary": {
+   "class": "core(category_B)",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 0,
+    "violations": [],
+    "notComparable": 0,
+    "nViolations": 0,
+    "nConserved": 0
+   },
+   "corpusDerivedCutpointLines": [],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "HvcEngine80C": {
+   "class": "core(category_B)",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 0,
+    "violations": [],
+    "notComparable": 0,
+    "nViolations": 0,
+    "nConserved": 0
+   },
+   "corpusDerivedCutpointLines": [],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "CycleBySpeedMeta": {
+   "class": "core(category_B)",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 1,
+    "violations": [],
+    "notComparable": 0,
+    "nViolations": 0,
+    "nConserved": 1
+   },
+   "corpusDerivedCutpointLines": [],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "RegenCaptureMeasuredMassUncertainty": {
+   "class": "core(category_B)",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 0,
+    "violations": [],
+    "notComparable": 0,
+    "nViolations": 0,
+    "nConserved": 0
+   },
+   "corpusDerivedCutpointLines": [],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "TerrainCoverage": {
+   "class": "core(category_B)",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 0,
+    "violations": [],
+    "notComparable": 0,
+    "nViolations": 0,
+    "nConserved": 0
+   },
+   "corpusDerivedCutpointLines": [],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "ThermalWarmupLag": {
+   "class": "builder",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 9,
+    "violations": [],
+    "notComparable": 9,
+    "nViolations": 0,
+    "nConserved": 0
+   },
+   "corpusDerivedCutpointLines": [
+    "'p25': round(float(_np.percentile(v, 25)), 1),",
+    "'p75': round(float(_np.percentile(v, 75)), 1), 'n': int(v.size)}",
+    "'ci95': [round(float(_np.percentile(meds, 2.5)), 1),",
+    "round(float(_np.percentile(meds, 97.5)), 1)],"
+   ],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "ThermalFuelPenalty": {
+   "class": "builder",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 1,
+    "violations": [],
+    "notComparable": 1,
+    "nViolations": 0,
+    "nConserved": 0
+   },
+   "corpusDerivedCutpointLines": [
+    "return round(float(np.percentile(v, p)), 3)",
+    "'ci95': [round(float(np.percentile(cb, 2.5)), 3), round(float(np.percentile(cb, 97.5)), 3)],",
+    "'resolvedAboveUnity': bool(np.percentile(cb, 2.5) > 1.0),",
+    "'matched2040Ci95': [round(float(np.percentile(db, 2.5)), 3),",
+    "round(float(np.percentile(db, 97.5)), 3)],",
+    "ci95 = ([round(float(np.percentile(boots, 2.5)), 2),",
+    "round(float(np.percentile(boots, 97.5)), 2)]"
+   ],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": true
+  },
+  "HighSocRegen": {
+   "class": "builder",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 1,
+    "violations": [],
+    "notComparable": 1,
+    "nViolations": 0,
+    "nConserved": 0
+   },
+   "corpusDerivedCutpointLines": [],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": true
+  },
+  "BufferDebtRecovery": {
+   "class": "builder",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 11,
+    "violations": [],
+    "notComparable": 11,
+    "nViolations": 0,
+    "nConserved": 0
+   },
+   "corpusDerivedCutpointLines": [
+    "'p25': round(float(_np.percentile(v, 25)), 3),",
+    "'p75': round(float(_np.percentile(v, 75)), 3), 'n': int(v.size)}",
+    "'ci95': [round(float(_np.percentile(meds, 2.5)), 3),",
+    "round(float(_np.percentile(meds, 97.5)), 3)],"
+   ],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": true
+  },
+  "HandoffSequence": {
+   "class": "builder",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 6,
+    "violations": [],
+    "notComparable": 3,
+    "nViolations": 0,
+    "nConserved": 3
+   },
+   "corpusDerivedCutpointLines": [
+    "'p25': round(float(_np.percentile(v, 25)), 1),",
+    "'p75': round(float(_np.percentile(v, 75)), 1), 'n': int(v.size)}",
+    "'ci95': [round(float(_np.percentile(meds, 2.5)), 1),",
+    "round(float(_np.percentile(meds, 97.5)), 1)],"
+   ],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "EngineStartContext": {
+   "class": "builder",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 8,
+    "violations": [],
+    "notComparable": 1,
+    "nViolations": 0,
+    "nConserved": 7
+   },
+   "corpusDerivedCutpointLines": [
+    "def _engine_start_context(dm, frame_loader=None, sample_n=12):",
+    "'ci95': [round(float(_np.percentile(meds, 2.5)), 3),",
+    "round(float(_np.percentile(meds, 97.5)), 3)],"
+   ],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "CellSpreadRelaxation": {
+   "class": "builder",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 5,
+    "violations": [],
+    "notComparable": 5,
+    "nViolations": 0,
+    "nConserved": 0
+   },
+   "corpusDerivedCutpointLines": [
+    "'p25': round(float(_np.percentile(v, 25)), 2),",
+    "'p75': round(float(_np.percentile(v, 75)), 2), 'n': int(v.size)}",
+    "'ci95': [round(float(_np.percentile(meds, 2.5)), 2),",
+    "round(float(_np.percentile(meds, 97.5)), 2)],"
+   ],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": true
+  },
+  "DepartureArrival": {
+   "class": "builder",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 18,
+    "violations": [],
+    "notComparable": 2,
+    "nViolations": 0,
+    "nConserved": 16
+   },
+   "corpusDerivedCutpointLines": [
+    "'p25': round(float(_np.percentile(d, 25)), 3),",
+    "'p75': round(float(_np.percentile(d, 75)), 3), 'n': int(d.size)}",
+    "'ci95': [round(float(_np.percentile(meds, 2.5)), 3),",
+    "round(float(_np.percentile(meds, 97.5)), 3)],"
+   ],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "RpmSpeedSync": {
+   "class": "builder",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 4,
+    "violations": [],
+    "notComparable": 1,
+    "nViolations": 0,
+    "nConserved": 3
+   },
+   "corpusDerivedCutpointLines": [
+    "'ci95': [round(float(_np.percentile(meds, 2.5)), 3),",
+    "round(float(_np.percentile(meds, 97.5)), 3)],",
+    "'p25': round(float(_np.percentile(v, 25)), 3),",
+    "'p75': round(float(_np.percentile(v, 75)), 3), 'n': int(v.size)}"
+   ],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "EnergyShifting": {
+   "class": "builder",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 2,
+    "violations": [],
+    "notComparable": 1,
+    "nViolations": 0,
+    "nConserved": 1
+   },
+   "corpusDerivedCutpointLines": [
+    "'p25': round(float(_np.percentile(v, 25)), 3),",
+    "'p75': round(float(_np.percentile(v, 75)), 3), 'n': int(v.size)}",
+    "'ci95': [round(float(_np.percentile(meds, 2.5)), 3),",
+    "round(float(_np.percentile(meds, 97.5)), 3)],"
+   ],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "VgtAirPath": {
+   "class": "builder",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 5,
+    "violations": [],
+    "notComparable": 5,
+    "nViolations": 0,
+    "nConserved": 0
+   },
+   "corpusDerivedCutpointLines": [
+    "'p25': round(float(_np.percentile(v, 25)), 2),",
+    "'p75': round(float(_np.percentile(v, 75)), 2), 'n': int(v.size)}",
+    "'ci95': [round(float(_np.percentile(meds, 2.5)), 2),",
+    "round(float(_np.percentile(meds, 97.5)), 2)],"
+   ],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": true
+  },
+  "EngineStateMachine": {
+   "class": "builder",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 20,
+    "violations": [],
+    "notComparable": 11,
+    "nViolations": 0,
+    "nConserved": 9
+   },
+   "corpusDerivedCutpointLines": [
+    "'p25': round(float(_np.percentile(v, 25)), 3),",
+    "'p75': round(float(_np.percentile(v, 75)), 3), 'n': int(v.size)}",
+    "'ci95': [round(float(_np.percentile(meds, 2.5)), 3),",
+    "round(float(_np.percentile(meds, 97.5)), 3)],"
+   ],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "AccelDecelEnvelopes": {
+   "class": "builder",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 2,
+    "violations": [],
+    "notComparable": 2,
+    "nViolations": 0,
+    "nConserved": 0
+   },
+   "corpusDerivedCutpointLines": [
+    "'accelP95AbsGPerS': (round(float(_np.percentile(jerk['accel'], 95)), 3)",
+    "'decelP95AbsGPerS': (round(float(_np.percentile(jerk['decel'], 95)), 3)"
+   ],
+   "cohortRelativeCutpoints": [],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  },
+  "CrawlStopGo": {
+   "class": "builder",
+   "topLevelStatus": "computed",
+   "parity": true,
+   "conservation": {
+    "nCountLeaves": 49,
+    "violations": [
+     {
+      "path": "/restartProbability/byPrecedingEngineState[0]/n",
+      "all": 186,
+      "parts[warm,shoulder,coldBelowSupport]": [
+       123,
+       60,
+       0
+      ]
+     },
+     {
+      "path": "/restartProbability/byPrecedingEngineState[1]/n",
+      "all": 2032,
+      "parts[warm,shoulder,coldBelowSupport]": [
+       1665,
+       361,
+       0
+      ]
+     }
+    ],
+    "notComparable": 26,
+    "nViolations": 2,
+    "nConserved": 21
+   },
+   "corpusDerivedCutpointLines": [
+    "'ci95': [round(float(np.percentile(props, 2.5)), 4),",
+    "round(float(np.percentile(props, 97.5)), 4)],",
+    "terc = np.percentile(vpeaks, [33.3, 66.7])",
+    "v_terc = np.percentile([c['vPeak'] for c in cyc_valid], [33.3, 66.7])",
+    "d_terc = np.percentile(decel_vals, [33.3, 66.7])",
+    "terc = np.percentile(vals, [33.3, 66.7])"
+   ],
+   "cohortRelativeCutpoints": [
+    "terc = np.percentile(vpeaks, [33.3, 66.7])",
+    "v_terc = np.percentile([c['vPeak'] for c in cyc_valid], [33.3, 66.7])",
+    "d_terc = np.percentile(decel_vals, [33.3, 66.7])",
+    "terc = np.percentile(vals, [33.3, 66.7])"
+   ],
+   "cohortNone": {
+    "warm": false,
+    "shoulder": false
+   },
+   "coldBelowSupportNone": false
+  }
+ },
+ "timings": {
+  "category_B_all_s": 23.5,
+  "category_B_warm_s": 19.5,
+  "category_B_shoulder_s": 3.9,
+  "category_B_cold_ins_s": 0.1,
+  "ThermalWarmupLag_all_s": 7.5,
+  "ThermalFuelPenalty_all_s": 214.1,
+  "HighSocRegen_all_s": 23.0,
+  "BufferDebtRecovery_all_s": 51.1,
+  "HandoffSequence_all_s": 14.3,
+  "EngineStartContext_all_s": 18.7,
+  "CellSpreadRelaxation_all_s": 7.7,
+  "DepartureArrival_all_s": 13.2,
+  "RpmSpeedSync_all_s": 8.5,
+  "EnergyShifting_all_s": 8.1,
+  "VgtAirPath_all_s": 66.2,
+  "EngineStateMachine_all_s": 10.1,
+  "AccelDecelEnvelopes_all_s": 10.2,
+  "CrawlStopGo_all_s": 109.6,
+  "ThermalWarmupLag_warm_s": 6.2,
+  "ThermalFuelPenalty_warm_s": 177.4,
+  "HighSocRegen_warm_s": 23.3,
+  "BufferDebtRecovery_warm_s": 47.4,
+  "HandoffSequence_warm_s": 12.6,
+  "EngineStartContext_warm_s": 15.9,
+  "CellSpreadRelaxation_warm_s": 6.4,
+  "DepartureArrival_warm_s": 11.6,
+  "RpmSpeedSync_warm_s": 6.9,
+  "EnergyShifting_warm_s": 6.8,
+  "VgtAirPath_warm_s": 52.1,
+  "EngineStateMachine_warm_s": 8.6,
+  "AccelDecelEnvelopes_warm_s": 8.3,
+  "CrawlStopGo_warm_s": 90.9,
+  "ThermalWarmupLag_shoulder_s": 2.2,
+  "ThermalFuelPenalty_shoulder_s": 82.0,
+  "HighSocRegen_shoulder_s": 5.2,
+  "BufferDebtRecovery_shoulder_s": 4.9,
+  "HandoffSequence_shoulder_s": 2.8,
+  "EngineStartContext_shoulder_s": 2.2,
+  "CellSpreadRelaxation_shoulder_s": 1.4,
+  "DepartureArrival_shoulder_s": 2.2,
+  "RpmSpeedSync_shoulder_s": 1.5,
+  "EnergyShifting_shoulder_s": 1.4,
+  "VgtAirPath_shoulder_s": 14.2,
+  "EngineStateMachine_shoulder_s": 2.3,
+  "AccelDecelEnvelopes_shoulder_s": 1.9,
+  "CrawlStopGo_shoulder_s": 19.4,
+  "ThermalWarmupLag_cold_ins_s": 0.0,
+  "ThermalFuelPenalty_cold_ins_s": 0.2,
+  "HighSocRegen_cold_ins_s": 0.0,
+  "BufferDebtRecovery_cold_ins_s": 0.0,
+  "HandoffSequence_cold_ins_s": 0.0,
+  "EngineStartContext_cold_ins_s": 0.0,
+  "CellSpreadRelaxation_cold_ins_s": 0.0,
+  "DepartureArrival_cold_ins_s": 0.0,
+  "RpmSpeedSync_cold_ins_s": 0.0,
+  "EnergyShifting_cold_ins_s": 0.0,
+  "VgtAirPath_cold_ins_s": 0.0,
+  "EngineStateMachine_cold_ins_s": 0.0,
+  "AccelDecelEnvelopes_cold_ins_s": 0.0,
+  "CrawlStopGo_cold_ins_s": 0.3
+ },
+ "rawDir": "raw_only/ (staged raw/; F03 provenance-sensitive)",
+ "filesLoaded": {
+  "all": {
+   "subset": 489,
+   "framesLoaded": 489,
+   "none": 0
+  },
+  "warm": {
+   "subset": 387,
+   "framesLoaded": 387,
+   "none": 0
+  },
+  "shoulder": {
+   "subset": 100,
+   "framesLoaded": 100,
+   "none": 0
+  },
+  "cold_ins": {
+   "subset": 2,
+   "framesLoaded": 2,
+   "none": 0
+  }
+ },
+ "builderLoads": {
+  "all": {
+   "framesLoaded": 8802,
+   "none": 0,
+   "errors": 0,
+   "rawFilesLoaded": 1467,
+   "note": "cumulative over all builder calls of this cohort (each builder loads the files it needs)"
+  },
+  "warm": {
+   "framesLoaded": 6966,
+   "none": 0,
+   "errors": 0,
+   "rawFilesLoaded": 1161,
+   "note": "cumulative over all builder calls of this cohort (each builder loads the files it needs)"
+  },
+  "shoulder": {
+   "framesLoaded": 1800,
+   "none": 0,
+   "errors": 0,
+   "rawFilesLoaded": 300,
+   "note": "cumulative over all builder calls of this cohort (each builder loads the files it needs)"
+  },
+  "cold_ins": {
+   "framesLoaded": 34,
+   "none": 0,
+   "errors": 0,
+   "rawFilesLoaded": 4,
+   "note": "cumulative over all builder calls of this cohort (each builder loads the files it needs)"
+  }
+ },
+ "parityPassed": [
+  "AccelDecelEnvelopes",
+  "BatteryThermalCurve",
+  "BatteryThermalMeta",
+  "BufferDebtRecovery",
+  "CellSpreadRelaxation",
+  "CrawlStopGo",
+  "CycleBySpeed",
+  "CycleBySpeedMeta",
+  "DepartureArrival",
+  "EnergyShifting",
+  "EngineOnBySpeed",
+  "EngineOnDuration",
+  "EngineStartContext",
+  "EngineStartsByType",
+  "EngineStateMachine",
+  "HandoffSequence",
+  "HighSocRegen",
+  "HvcEngine80C",
+  "RegenByTempMeasured",
+  "RegenByZone",
+  "RegenCaptureMeasured",
+  "RegenCaptureMeasuredMassUncertainty",
+  "RpmDistribution",
+  "RpmSpeedSync",
+  "SensorSummary",
+  "SocBands",
+  "SocBySpeed",
+  "SpeedDist",
+  "TerrainCoverage",
+  "TerrainTorqueDist",
+  "TerrainTorqueDistLow",
+  "ThermalFuelPenalty",
+  "ThermalWarmupLag",
+  "TorqueBySpeed",
+  "TurboByRpm",
+  "VgtAirPath",
+  "WarmupCurve"
+ ],
+ "parityFailed": [],
+ "totalSeconds": 1228.1
+}
