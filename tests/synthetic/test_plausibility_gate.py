@@ -23,6 +23,21 @@ coarse = [3.5, 3.6, 3.7, 3.8, 3.9]
 r = pg.check_bytes(mk(coarse, coarse)); assert [f["rule"] for f in r["flags"]] == ["R2_quantisation"], r
 r = pg.check_bytes(mk([3.5, 3.549, 3.598, 3.647, 3.696], coarse[:1])); assert r["flags"] == [], r
 r = pg.check_bytes(mk([3.5, 3.6, 3.7, 3.8], [3.5])); assert r["flags"] == [], "< 5 distinct values: R2 not applied"
+# GateA2: mixed grid (Max on a 0.1 V grid, Min fine) must flag R2 on [Max] only; the pooled M308 statistic did not (documented miss)
+r = pg.check_bytes(mk(coarse, fine)); fl = [f for f in r["flags"] if f["rule"] == "R2_quantisation"]
+assert len(fl) == 1 and fl[0]["channels"] == ["[BMS] Max Cell Voltage (V)"], r
+assert r["stats"]["minStepV"] < 0.05, "pooled minimum is fine, i.e. the old pooled rule would have passed this file"
+r = pg.check_bytes(mk(fine, coarse)); fl = [f for f in r["flags"] if f["rule"] == "R2_quantisation"]
+assert len(fl) == 1 and fl[0]["channels"] == ["[BMS] Min Cell Voltage (V)"], r
+r = pg.check_bytes(mk(coarse, coarse)); fl = [f for f in r["flags"] if f["rule"] == "R2_quantisation"]
+assert len(fl) == 1 and fl[0]["channels"] == ["[BMS] Max Cell Voltage (V)", "[BMS] Min Cell Voltage (V)"], "ONE flag listing both channels"
+# per-channel boundary 0.0499 passes / 0.05 flags; a channel with < 5 distinct values is untested (reported as partial), never flags
+r = pg.check_bytes(mk([3.5, 3.5499, 3.5998, 3.6497, 3.6996], fine)); assert r["flags"] == [] and r["partial"] is False, r
+r = pg.check_bytes(mk([3.5, 3.55, 3.6, 3.65, 3.7], fine)); assert [f["rule"] for f in r["flags"]] == ["R2_quantisation"], r
+r = pg.check_bytes(mk([3.5, 3.6, 3.7, 3.8], fine)); assert r["flags"] == [] and r["partial"] and r["untestedChannels"] == ["[BMS] Max Cell Voltage (V)"], r
+assert r["stats"]["channels"]["[BMS] Max Cell Voltage (V)"]["status"] == "untested_few_distinct"
+# one all-NaN channel + one coarse channel: the coarse one still flags, the NaN one is reported untested
+r = pg.check_bytes(mk(coarse, [])); assert [f["rule"] for f in r["flags"]] == ["R2_quantisation"] and r["untestedChannels"] == ["[BMS] Min Cell Voltage (V)"], r
 # group-voltage columns are out of scope (Amendment 1): a 7.8 V G01 column must not flag
 g = (HDR.strip() + ",G01 Cell Voltage  (V)\n" + "".join(f"2026-09-01 10:00:{i:02d},10.5,{fine[i]},{fine[i]},7.8\n" for i in range(7))).encode()
 assert pg.check_bytes(g)["flags"] == [], "G01 group column must be ignored"
@@ -53,9 +68,13 @@ good = ["2026-09-22 07-45-42.csv", "2026-09-22 11-55-57.csv", "2026-09-21 07-36-
 for f in bad:
     rules = sorted(x["rule"] for x in pg.check_path(os.path.join(RAW, f))["flags"])
     assert rules == ["R1_cell_voltage_range", "R2_quantisation"], (f, rules)
+# GateA2 (M324): per channel, the 3 R1-only files each carry ONE coarse channel (the pooled M308 statistic hid it)
+r1_only_channels = {"2026-05-15 22-22-40.csv": ["[BMS] Min Cell Voltage (V)"], "2026-05-23 11-33-05.csv": ["[BMS] Max Cell Voltage (V)"],
+                    "2026-06-25 12-28-50.csv": ["[BMS] Min Cell Voltage (V)"]}
 for f in r1_only:
-    rules = [x["rule"] for x in pg.check_path(os.path.join(RAW, f))["flags"]]
-    assert rules == ["R1_cell_voltage_range"], (f, rules)
+    fl = pg.check_path(os.path.join(RAW, f))["flags"]
+    assert [x["rule"] for x in fl] == ["R1_cell_voltage_range", "R2_quantisation"], (f, fl)
+    assert fl[1]["channels"] == r1_only_channels[f], (f, fl[1])
 for f in good:
     assert pg.check_path(os.path.join(RAW, f))["flags"] == [], f
 

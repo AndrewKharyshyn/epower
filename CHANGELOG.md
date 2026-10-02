@@ -1,3 +1,16 @@
+## M324 (2026-10-02): GateA2: per-channel R2 in the M308 plausibility gate and per-file signal-representation record (flag-only, new files only)
+
+**Rationale.** Owner GO 2026-10-01 (audit v3 C13.2/C01/C3.1). Pre-registered spec rev 2 (Director review applied before code). The pooled M308 R2 statistic could miss a mixed-grid file; R2 now tests the Max and Min cell-voltage columns separately (same 0.05 V threshold, one flag listing the channels, per-channel tested/untested status, plausibility_partial in the ingest report). New tools/signal_representation.py writes one descriptive record per NEW file to signal_representation.json (hashes, header fingerprint, cadence, per-channel grid/decimals/range), additive, atomic, byte-identical on re-run, fail-closed on a sha256 conflict, written last by ingest_core. Corpus scan: 9 R2 flags, all the known 9 files (the 3 earlier R1-only files each carry one coarse channel); 0 false positives in 113 hash-verified, 43 new and 333 originals. Blind audit (analytical-auditor) reproduces the rule exactly. Scratch end-to-end ingestion of a held-out drive: status ok, 0/16 ML diffs, 0 pre-existing row diffs, master MD5 == published after LF normalisation. One existing test line updated deliberately (R1-only files now R1+R2). No change to raw, raw_manifest, drive_master, arrays or dashboard. Andrii to confirm the amendment text at the PR.
+
+**State.** `drive_master.csv` 489 rows, MD5 `bd9d10726bb064d857cf9ff98d2b7338`.
+
+**Gates (runs/20260930T142615Z).** stage_raw=ok; raw_temp_pass=ok; compute_seasonal=ok; refresh_cohort_meta=ok; fuel_recon=ok; refresh_gtr_headline=ok; f03_provenance_build=ok; post_steps=ok; cohort_arrays=ok; comparison_cube=ok -> ok.
+
+**Delta flags.** none.
+
+**Files.** `tools/plausibility_gate.py`, `tools/signal_representation.py`, `tools/ingest_core.py`, `tests/synthetic/test_plausibility_gate.py`, `tests/synthetic/test_signal_representation.py`, `.github/workflows/ci.yml`, `docs/workflow-and-tools.md`, `analyses/M324_gatea2_spec.md`, `analyses/M324_result.md`, `analyses/M324_gatea2_corpus_scan.json`, `analyses/M324_audit`.
+
+
 ## M323 (2026-10-02): F03 originals recovered: 333 sha256-verified originals reproduce the published raw-derived values (read-only; CLAUDE.md owner decisions updated)
 
 **Rationale.** Owner request after external audit v3. Read-only sweep found byte-identical originals for all 333 hash-failing raw files (sha256 = raw_manifest); raw/ copies are lower-precision re-exports. Pre-registered rebuild from originals (analyses/F03_originals/): 161/186 columns identical vs 69/186 from raw/; 0 raw-derived non-ML columns drift on the 333 swapped drives; residual 25 ML/refit columns are deterministic, identical under Python 3.11.15 and 3.12, and also drift on the 43 hash-verified new drives. Director ruling: revise (wording only, F03 stays open); blind audit (analytical-auditor, 41+10 drives) 0 original-vs-published mismatches vs both masters, raw/ copies mismatch on 36/41. Andrii approved the CLAUDE.md update 2026-10-02 (counts 333/489, originals clause, audit-triage decisions O1-O3, GateA2 GO); re-anchoring NOT decided; no data, raw, manifest, arrays or dashboard changed.
