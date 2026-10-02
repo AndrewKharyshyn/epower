@@ -1,0 +1,101 @@
+p52.1 | 52 | 3852 | INFO | n/a | - | - | Appendix D heading. Literal hygiene is handled by the M322 sweep plus the M323 lints.
+D-0 | 52 | 3854 | INFO | NV | - | - | Treat 12,838/7,250/669 as the audit's inventory, not a bug count. The companion evidence is not in the repo, so do not import counts.
+D-L1 | 52 | 3861 | BACKLOG | V | NEW:narrative-fn | L | Derive empirical sentences from a metric view-model (value, estimator, eligibility, coverage, CI, hash) after M327. M322 makes static assertions payload-conditional.
+D-L2 | 52 | 3866 | STALE | V | - | - | The typed assumptions registry already exists (build_assumptions_registry.py, M284, drift test). Backlog: add range and sensitivity fields.
+D-L3 | 52 | 3869 | FIX-NOW | V | M323 | M | Physical x grids feed coordinates (F11, CmpLines X(i)). Add threshold boundary tests and label each construct.
+D-L4 | 52 | 3872 | INFO | n/a | - | - | Keep style/layout literals. Act only where they distort scale, hide support or break accessibility (F32 backlog).
+D-L5 | 52 | 3875 | FIX-NOW | NV | M323 | S | Stale-basis lint: historical values only inside dated history/disclosure blocks, never driving current conclusions.
+D-L6 | 52 | 3879 | FIX-NOW | V | M322 | M | Sweep the words only/majority/no observations/warm-season/limit/efficiency/bulk/conserved: make them payload-conditional or remove them.
+D-1 | 52 | 3885 | FIX-NOW | V | M322 | S | Replace '410/410 byte-identical' at jsx:11622 with counts bound to f03_provenance.json (156 match / 333 fail of 489). Use F03 provenance-sensitivity wording.
+D-2 | 52 | 3890 | FIX-NOW | V | M322 | S | 'No sub-15 C' at jsx:1840,2259,2809,6527,7301,10082 is contradicted by the repo's Records 'Battery temp min 11 C'. State that sub-zero winter driving is unobserved.
+D-3 | 52 | 3894 | FIX-NOW | V | M322 | S | Replace 'no Cold' at jsx:4462,11086,11160,11204,11224,11350,11495 with the bound observed count (2 drives / 1 date); inference stays suppressed (M310).
+D-4 | 52 | 3897 | FIX-NOW | V | M322 | S | jsx:4567 'battery buffer supplies the larger share': reword as a model-derived residual share under the priors, not metered. Value repair belongs to M329.
+D-5 | 52 | 3903 | FIX-NOW | V | M323 | M | 'Conserved' (jsx:4311-4555) becomes a model accounting sketch with a visible residual. No Sankey until F04 closes.
+D-6 | 52 | 3907 | FIX-NOW | V | M322 | S | jsx:4570 'BSFC anchor grounded in this corpus' overclaims: RPM occupancy grounds the band, not BSFC. Best point comes from TR89; the surface is a prior.
+D-7 | 53 | 3919 | FIX-NOW | V | M322 | S | jsx:4569 'brake-thermal efficiency': label as a model-derived engine-brake/fuel ratio. 35.18 vs 35.3 is a mask question, scripted in M329.
+D-8 | 53 | 3924 | FIX-NOW | V | M322 | S | η tank→bus KPI (jsx:4547): label as a model-derived index affected by SoC drift, regen and unmetered auxiliary loads.
+D-9 | 53 | 3926 | FIX-NOW | V | M321 | S | Bind Records 'Longest sustained 130+ discharge' to highspeed_discharge_longest_run_s_130p. Show the cumulative 142.6 s figure separately (F06).
+D-10 | 53 | 3930 | FIX-NOW | V | M321 | S | Records intake max is a trip mean. Relabel it and add a native-max sidecar (F07).
+D-11 | 53 | 3933 | FIX-NOW | V | M321 | S | compute_summary_arrays.py:1417-1419 'bulk-cell ... fixed ~9 C gradient ... drives Arrhenius': replace with co-paired probe-mean wording.
+D-12 | 53 | 3938 | FIX-NOW | V | M322 | S | summary_config.json:121 'shared coolant loop' conflicts with the repo's cabin-air inlet Records notes and R2. Coolant topology is unestablished.
+D-13 | 53 | 3942 | FIX-NOW | V | M322 | S | jsx:9375 'Engine-start proxy (sign crossings)' becomes battery-current direction reversals per 100 km, distinct from RPM onsets (F10).
+D-14 | 53 | 3946 | FIX-NOW | NV | M324 | S | Rename 'Combustion penalty' (jsx:9431) to temperature-associated excess fuel rate with confounders. Moves into the Fuel tab with ThermalFuelPenalty.
+D-15 | 53 | 3949 | FIX-NOW | V | M322 | S | jsx:11387 'No detectable cell-spread trend' and the axis 'zero — no fade' (jsx:2512) become: trend not resolved, equivalence not established, provenance-sensitive.
+D-16 | 53 | 3953 | FIX-NOW | V | M322 | S | mdeMohmPerMo 1.656 is a bootstrap CI half-width: relabel it so. A power MDE is backlog (F22).
+D-17 | 53 | 3956 | FIX-NOW | V | M322 | S | jsx:10323 'measured transient buffering' becomes a baseline-relative start-impulse index. Actual positive discharge is SPEC-FIRST (F28).
+D-18 | 53 | 3960 | FIX-NOW | V | M322 | S | jsx:7889 'generator repays' (tone=measured) becomes observed net pack-energy recovery; generator and regen are not separately metered.
+D-19 | 53 | 3963 | FIX-NOW | V | M322 | S | Rename 'Flat cruise' labels (compute_summary_arrays.py:4336-4337) to torque bands. Grade is a hypothesis unless altitude is quality-controlled.
+D-20 | 53 | 3967 | FIX-NOW | NV | M322 | S | Selector text: the cohort applies to marked cohort-native panels; corpus-wide panels carry an All-data badge (M323 lint).
+p53.1 | 53 | 3971 | INFO | n/a | - | - | The stale-facts list has 7 bullets, not 5; mapped to D-S1..D-S7.
+D-S1 | 53 | 3972 | FIX-NOW | NV | M327 | M | Regenerate the 410/446/374-era cohort charts on 489 drives. EnergyPath/EV figures are script-written from the clean contract.
+D-S2 | 54 | 3980 | FIX-NOW | V | M323 | S | chart_registry.json (2026-09-12, 410 drives) has zero consumers: RETIRE under O2 unless M323 adds a generator and a consumer.
+D-S3 | 54 | 3982 | FIX-NOW | V | M322 | M | Fix the _staleness text (374 vs 410). Label sensitivity_gtr.py SHIPPED fgen 0.488 as the M279 basis (current fGen 0.467); rebuild in M329.
+D-S4 | 54 | 3985 | FIX-NOW | NV | M326 | M | Diagnose ambient bins 416 vs ~482 in a sidecar. Captions come from the payload; drop whole-corpus warm-season language.
+D-S5 | 54 | 3987 | FIX-NOW | V | M321 | S | 0.01 kWh/100km floor (Records Jul15 D2), 143 s, intake label, 9 C gradient and the discharge-share disclosure column all go to M321.
+D-S6 | 54 | 3990 | FIX-NOW | NV | M323 | S | Restamp fullConfigHash against summary_config (WARN then FAIL). Docs corpus facts generated in M322; dated history kept separate.
+D-S7 | 54 | 3993 | FIX-NOW | V | M322 | S | 'no fuel-rate PID on the great majority' (compute_summary_arrays.py:15111) is false: 263/489 headers. Source-label the 20/44 C bands (jsx:4462,10855).
+D-C | 54 | 3995 | BACKLOG | n/a | NEW:narrative-fn | L | Per-metric narrative function bound to the chart contract. The S.allReference corpus object lands first in M327.
+p55.1 | 55 | 4006 | INFO | n/a | - | - | Appendix E heading. Any removal is a separate housekeeping milestone with its own release_check and CHANGELOG entry.
+E-1 | 55 | 4011 | INFO | V | - | - | KEEP raw/, raw_manifest.json, configs, source, lockfiles, STATE/CHANGELOG. Consistent with F03 and the integrity rules.
+E-1b | 55 | 4019 | BACKLOG | NV | NEW:housekeeping | S | Verify the two discontinued comparison files stay excluded and the nine e-4ORCE files segregated. Fix the open corpus_manifest._classify e4orce bug.
+E-2 | 55 | 4023 | INFO | V | M323 | - | KEEP master, arrays, warm_baseline_freeze.json, f03_provenance.json, analyses/F03/. F03 forbids deletion; the M323 build manifest hash-indexes them.
+E-3 | 55 | 4037 | FIX-NOW | V | NEW:housekeeping | S | _det1/_det2 are scratch outputs of test_seasonal.py t15. ARCHIVE-WITH-HASH the contents, move t15 to tempfile dirs, then RETIRE both directories.
+E-4 | 55 | 4048 | FIX-NOW | V | NEW:housekeeping | S | Five *_backup.json files: zero consumers (scan plus Grep of py/js/sh/json). Confirm git-tracked, ARCHIVE-WITH-HASH, then RETIRE (O2).
+E-5a | 55 | 4061 | INFO | V | - | - | KEEP apply_m284_post.sh and patch_m284_data.py: used by release_check.py, ingest_core.py, verify_import.py, refresh_seasonal_kpis.py.
+E-5b | 55 | 4062 | FIX-NOW | V | NEW:housekeeping | S | m294_patch.py: zero consumers and no ingest stage. RETIRE; git history keeps the bytes.
+E-5c | 55 | 4063 | BACKLOG | V | M327 | S | KEEP m295_payload.py and m296_refresh_master_seasonal.py: nine arrays blocks say refreshedBy m296. Retire both after M327 regenerates those blocks.
+E-5d | 55 | 4065 | INFO | V | - | - | KEEP m297_comparison_cube.py: it is the active comparison_cube stage (tools/ingest_stages.json:164).
+E-5e | 55 | 4066 | FIX-NOW | V | NEW:housekeeping | S | kpi_ci.py, kpi_ci_splice.py, kpi_ci_splice2.py, kpi_ci3_splice.py, kpi_ci3_extract.py: no consumers outside the family and no stage. RETIRE.
+E-5f | 55 | 4067 | BACKLOG | n/a | - | L | Folding corrections into builders and replacing text splices with typed dependencies waits for the MIGRATION.md reproduction test.
+E-6a | 55 | 4075 | STALE | V | - | - | battery_temp_extremes, raw_temperature_triplets and seasonal_drive_master CSVs are already regenerated by their scripts every ingestion. KEEP.
+E-6b | 55 | 4078 | INFO | V | - | - | KEEP fuel_recon_master.csv: regenerated by fuel_recon.py --all, and the GTR headline must match it.
+E-6c | 55 | 4078 | INFO | V | - | - | crossval.csv: generating code and Path A coefficients are lost (arrays M280 note), so it cannot be regenerated. KEEP, ARCHIVE-WITH-HASH.
+E-6d | 55 | 4079 | OWNER | V | NEW:housekeeping | S | f01_perdrive_correction.csv: zero consumers and no writer; probably F01 evidence. ARCHIVE-WITH-HASH; KEEP until Andrii confirms its origin.
+E-6e | 55 | 4080 | INFO | V | - | - | KEEP sustained_current_peaks.csv and c1_joint_temp_crate_results.csv: their writer scripts exist.
+E-6f | 55 | 4082 | OWNER | V | M321 | S | highspeed_130_runlength_check.csv: zero consumers and no writer. KEEP as F06 evidence until M321 scripts an equivalent; then Andrii decides.
+E-6g | 55 | 4083 | FIX-NOW | NV | M323 | M | The build manifest records inputs, masks and algorithm/config version per computed table. No hand-kept tables beside a generator.
+E-7a | 55 | 4090 | INFO | V | - | - | KEEP dashboard html, cohort/seasonal arrays, data_health, delta_report, determinism_check, event_ledger: all consumed by gates, tests or agents.
+E-7b | 55 | 4093 | FIX-NOW | V | M323 | S | chart_registry.json: no consumer in py/js/sh/json/tools/jsdom and stale. RETIRE (same ruling as D-S2).
+E-7c | 55 | 4097 | FIX-NOW | NV | M323 | M | The hash-indexed release bundle is the M323 build manifest, with the F03 historical-release exception stated.
+E-8 | 56 | 4113 | FIX-NOW | V | M322 | S | KEEP soc_patterns.json (O2). Label the section illustrative; jsx:10138 wrongly says it is generated by the absent extract_soc_patterns.py.
+E-9 | 56 | 4122 | BACKLOG | V | NEW:housekeeping | S | recon_engine.py:146 (__main__) reads the absent header_scan.csv. Remove the debug path or derive it from the header inventory; main recon unaffected.
+E-10 | 56 | 4130 | FIX-NOW | NV | M322 | M | docs/overview.md and provenance subblocks: generated counts/dates; historical constants move to dated notes.
+p56.1 | 56 | 4138 | INFO | V | - | - | 'Derived does not mean safe to delete' matches F03. A textual reference graph is not proof of use; retire evidence must include a path-variable Grep.
+p56.2 | 56 | 4142 | INFO | n/a | - | - | Heading of the files-needed table.
+E-N1 | 56 | 4146 | BLOCKED | V | M322 | - | The original 333 canonical CSVs do not exist (F03). In M322, update CLAUDE.md '335/457' to the f03_provenance.json basis.
+E-N2 | 56 | 4156 | OWNER | V | - | - | Andrii to supply the Article-10 table image and page (summary_config.json:3435). Until then label the transcription unverified.
+E-N3 | 56 | 4165 | STALE | V | M322 | - | Resolved by O2: soc_patterns kept as a labelled illustration outside quantitative evidence. Recovering the extractor is BLOCKED.
+E-O1 | 56 | 4174 | BLOCKED | n/a | - | - | Calibrated capacity/Ah and chemistry need a reference test. CAP_KWH=2.1 stays verified:false.
+E-O2 | 56 | 4175 | BLOCKED | n/a | - | - | Synchronized generator/inverter/motor branch power needs instrumentation; it would close F04 allocation.
+E-O3 | 56 | 4175 | BLOCKED | n/a | - | - | No load/temperature BSFC map is available; the surface stays a prior.
+E-O4 | 56 | 4175 | OWNER | n/a | - | - | Ask Andrii whether ECU/app PID scaling and latency documentation exists (linked to the F-R1 fuel PID question).
+E-O5 | 56 | 4176 | BLOCKED | n/a | - | - | Battery fan/cooling topology needs the service manual; that would close D-12.
+E-O6 | 56 | 4177 | BLOCKED | n/a | - | - | Capacity/OCV/impedance reference tests need workshop access; they are the only route to direct health.
+E-O7 | 56 | 4177 | BACKLOG | n/a | - | - | Winter observations accrue via routine ingestion. Cold inference unlocks only under the M310/M327 support rule.
+p57.1 | 57 | 4185 | INFO | n/a | - | - | Heading of the audit-scripts table.
+E-S1 | 57 | 4188 | BLOCKED | V | - | - | independent_audit.py is not in the repo. If Andrii supplies the ZIP, store it read-only under analyses/; its outputs are known-answer targets only.
+E-S2 | 57 | 4192 | BLOCKED | V | - | - | supplemental_checks.py is absent. Its checks become targets for M325/M328/M329.
+E-S3 | 57 | 4195 | BLOCKED | V | M327 | - | dashboard_data_validation.py is absent. The 50-contract comparison is reimplemented as the M327 parity gate.
+E-S4 | 57 | 4198 | BLOCKED | V | - | - | dashboard_audit.mjs is absent; validate_jsdom.js is the repo equivalent. Chromium three-width checks are backlog.
+E-S5 | 57 | 4201 | INFO | V | - | - | build_report.py and report_content.py are absent; building the audit report is out of scope.
+E-S6 | 57 | 4204 | BLOCKED | NV | - | - | Ask Andrii for the evidence CSV/JSON/logs. They supplement the authentic logs and do not replace them; agreed.
+p57.2 | 57 | 4208 | INFO | NV | - | - | Canonical time keys, no raw renames, comparison and e-4ORCE exclusions: consistent with repo rules.
+p57.3 | 57 | 4213 | INFO | V | - | - | Seed 42 / 4000 day resamples matches the standard. The 2000-draw circular block is a sensitivity only, not an adopted interval.
+E-S7 | 57 | 4217 | BLOCKED | NV | - | - | The example commands need the absent scripts and cannot be run from the repo.
+p57.4 | 57 | 4223 | INFO | n/a | - | - | The audit is a proposal only; implementation goes through milestones; nothing is certified.
+p58.1 | 58 | 4231 | INFO | n/a | - | - | References heading.
+p58.2 | 58 | 4232 | INFO | n/a | - | - | Other-chemistry parameters are not transferable; consistent with CAP verified:false and Wikner used as a cross-check only.
+R1 | 58 | 4236 | INFO | V | - | - | model_constants.py:4,26 BSFC_FLOOR 217 at 2000 rpm is consistent. The OPT central 228 is a prior; jsx:4570 'grounded' overclaims (D-6).
+R2 | 58 | 4241 | INFO | V | M322 | - | The air inlets agree with the repo's Records intake notes. summary_config.json:121 'shared coolant loop' is inconsistent (D-12).
+R3 | 58 | 4247 | INFO | V | - | - | Not cited in the repo; no current claim depends on it. Any ageing-model transfer needs chemistry calibration.
+R4 | 58 | 4252 | INFO | V | M321 | - | Not cited. Parked storage is unlogged, so 'drives Arrhenius calendar aging' (compute_summary_arrays.py:1419) overclaims (D-11).
+R5 | 58 | 4257 | INFO | V | M322 | - | Wikner is used at summary_config.json:3467 and jsx:1519/1522 ('protective/elevated per Wikner'). Soften to a cross-check, not a transferable ladder.
+R6 | 58 | 4262 | INFO | n/a | - | - | Not cited. Supports keeping the resistance proxy parsimonious given asynchronous low-rate sampling.
+R7 | 59 | 4273 | INFO | V | - | - | Supports the existing day-blocked CV and the M320 rollingOrigin.
+R8 | 59 | 4278 | INFO | V | - | - | Supports the CLAUDE.md wording rule that TOST 'not established' is not 'no degradation'.
+R9 | 59 | 4283 | INFO | n/a | M329 | - | Path A vs Path B agreement: paired, common-mask Bland-Altman with dependence disclosed.
+R10 | 59 | 4288 | INFO | n/a | M330 | - | Overlap weighting is an optional alternative; it cannot create Cold support.
+R11 | 59 | 4293 | INFO | n/a | M322 | - | Cell spread is not a degradation diagnostic; supports the D-15 wording.
+R12 | 59 | 4298 | INFO | V | M322 | - | jsx:11503 'Road grade is no longer unmeasured' while GPS speed is in only 53/489 files: restate as partial coverage (D-19).
+R13 | 59 | 4304 | INFO | NV | - | - | Generic OBD integration is not new: novelty framing in the article is Andrii-gated.
+R14 | 59 | 4310 | INFO | n/a | M328 | - | SoC-correction precedent for SoC-balanced fuel; it is not a certification claim.

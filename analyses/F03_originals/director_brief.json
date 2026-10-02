@@ -1,0 +1,8 @@
+{"task":"F03-originals step 1b ruling","spec":"analyses/F03_originals/spec.md (pre-registered before run)",
+"inputs":["analyses/F03_originals/A_raw_today.json","analyses/F03_originals/B_originals.json","analyses/audit_v3_triage/step1a_originals_result.md","CLAUDE.md Owner decisions F03"],
+"result":{"A_raw_today":{"identical":69,"drifted":117,"nullPatternMismatchFiles":10},
+"B_originals(333 swapped)":{"identical":161,"drifted":25,"nullPatternMismatchFiles":3},
+"B_drifted_columns":"all ML/domain-model outputs (iso/lof scores+flags, ens_*, I_offset_2p, offset_2p-derived corr2p, cell_spread_adj_hub) + distance_km 1 row (documented M286 repair); raw-derived non-ML columns reproduce (net_draw_per100km, _corr: 207/270 rows drift in A, 0 in B)",
+"exclusionSet":"ens_outlier_v2 rebuilt 3 vs published 2 in both A and B"},
+"questions":["Is the evidence sufficient to state that published per-drive raw-derived values derive from the originals and raw/ copies are lossy re-exports (wording allowed)?","Residual ML drift in B: refit nondeterminism/ML16 freeze, or something the originals do not explain?","Should we re-anchor (raw/ replaced by originals via separate decision) or add originals as a second archive, and what gate/tests before any change?","Which BLOCKED/OWNER ledger rows (F01, F01.r2, C3.18, C14.9, C14.12, E-N1, p1.6) can be re-ruled; does the F03 wording in CLAUDE.md/dashboard change?","Limits: only B vs published master compared; arrays/dashboard not rebuilt; 156 hash-passing files untouched; Python 3.12 not 3.11"],
+"return":"JSON brief <2KB: decision, wording, conditions, next steps"}

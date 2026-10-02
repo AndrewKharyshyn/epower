@@ -1,0 +1,93 @@
+p22.1 | 22 | 2321 | INFO | n/a | - | - | Chapter 6 heading; the rulings are in the rows below.
+p22.2 | 22 | 2322 | INFO | n/a | M325 | - | Use the framing "estimator reproduced, raw provenance unstable" in the M325 sensitivity text. Call the deltas provenance sensitivity, never corrections.
+p22.3 | 22 | 2323 | SPEC-FIRST | n/a | M325 | M | Build a script-written Figure-4 equivalent: slopes by data basis with day-cluster intervals. Caption says neither healing nor degradation is established. Dashboard-only (F03).
+p22.4 | 22 | 2330 | INFO | V | - | - | The published +0.1611, 465 drives/100 days, stays the headline (degradationTrends.cellSpread). No action.
+p22.5 | 22 | 2333 | SPEC-FIRST | NV | M325 | S | Add a day-bootstrap row (seed 42, 4000 draws) as a sampling-dependence sensitivity. Never the headline.
+p22.6 | 22 | 2336 | SPEC-FIRST | NV | M325 | S | Add a 7-logged-day circular-block row as a sensitivity. Use 4000 draws, not 2000; state the deviation if kept.
+p22.7+p22.8 | 22 | 2339 | SPEC-FIRST | NV | M325 | M | Current-raw response rows (published controls / current controls): script-written and labelled provenance sensitivity. Escalate to the Director, because they exclude zero with the opposite sign.
+p22.9 | 22 | 2345 | SPEC-FIRST | NV | M325 | S | Add a hash-matched subset row (target +1.155, 151 drives/33 days). Disclose that the date range is narrower and the subset is selected. Descriptive only.
+p22.10 | 22 | 2349 | INFO | V | - | - | Estimator matches degradation_trends.py (MONTH_DAYS=30.4375; TOST df=nDays-1). No action.
+p22.11 | 22 | 2352 | FIX-NOW | n/a | M322 | S | Wording: bootstrap and block intervals probe sampling dependence, not raw authenticity or calibration.
+p22.12 | 22 | 2354 | FIX-NOW | V | M322 | S | Label the published interval "cluster-robust normal (z)". Any t(G-1) interval is a sensitivity, not a silent switch.
+p22.13 | 22 | 2355 | INFO | n/a | - | - | Agreed: the single-stage OLS vs two-stage Huber difference is not a bug. Keep the non-authoritative interval out of the headline.
+p22.14 | 22 | 2358 | INFO | n/a | - | - | Resistance-proxy heading.
+p22.15 | 22 | 2359 | INFO | V | - | - | powerFade +0.077 [-1.547, 1.765], 216/80, nBoot 4000, cadenceControlled is reproduced. No action.
+p22.16 | 22 | 2361 | SPEC-FIRST | V | M325 | S | CHG: released resistance TOST uses the uncadenced slope 0.4472 and median 121.8 vs powerFade 126.8. Disclose now; aligning the basis needs a spec.
+p23.1 | 23 | 2369 | FIX-NOW | n/a | M322 | S | Label current median period and row coverage as instrumentation covariates, not ageing.
+p23.2 | 23 | 2370 | FIX-NOW | V | M322 | S | bTMohmPerDegC=-2.516 exists. Note that unmatched absolute maxima are not health indicators.
+p23.3 | 23 | 2372 | FIX-NOW | V | M322 | S | rMedianMohm 126.8 is labelled "load-excited in-drive proxy, not calibrated pulse DCIR" everywhere it shows.
+p23.4 | 23 | 2374 | INFO | n/a | - | - | Equivalence/precision heading.
+p23.5 | 23 | 2375 | INFO | V | - | - | pTOST 0.3159, delta 0.2318, equivalent false. "Not established" wording is already bound (jsx:11119,11274).
+p23.6 | 23 | 2377 | FIX-NOW | n/a | M322 | S | State that the loaded-spread bound is unvalidated and not a manufacturer capacity-health criterion.
+p23.7 | 23 | 2379 | OWNER | NV | - | - | Article-10 source table/image is missing from the repo. Andrii supplies the source, or the officialDisclosureCorrelation text is labelled untraceable.
+p23.8 | 23 | 2381 | FIX-NOW | n/a | M322 | S | Bounds and monitoring-horizon prose: fractional OEM rise does not validate linear extrapolation of the proxy trend.
+p23.9 | 23 | 2383 | FIX-NOW | V | M322 | S | Same as F22: rename mdeMohmPerMo 1.656 to CI half-width. Never type 2.37.
+p23.10 | 23 | 2385 | BACKLOG | n/a | NEW:power-sim | M | Day-cluster power simulation for a real MDE (F22.r2); detectionHorizon gets an assumptions label meanwhile.
+p23.11 | 23 | 2388 | STALE | D | - | - | Audit's "410-drive" basis is stale: socHysteresisV2 is now 489 drives/104 days, refit M318.
+p23.12 | 23 | 2390 | FIX-NOW | V | M322 | S | rollingOrigin exists and renders (jsx:10353). Wording: held-day = interpolation; forecast claims only from rollingOrigin.
+p23.13 | 23 | 2393 | INFO | V | - | - | Prespecified detector/target and whole-day holdout are already the standard (CLAUDE.md, M320 spec). No random KFold found.
+p23.14 | 23 | 2394 | BACKLOG | n/a | NEW:spec-template | S | Add to the new-analysis spec template: preprocessing/tuning inside folds, later temporal holdout, calibration+PR, day-clustered event CIs.
+p23.15 | 23 | 2395 | FIX-NOW | n/a | M322 | S | Declare a multiplicity policy for exploratory families (already in M322 scope).
+p23.16 | 23 | 2396 | FIX-NOW | V | M322 | S | riskColdEngineBattery.compare p is 0.0 (arrays:7175,7190). Render "p<0.001" through one formatter; payload carries a pFloor.
+p23.17 | 23 | 2397 | FIX-NOW | n/a | M323 | S | Lint: every significance badge shows the effect size and CI next to it.
+p24.1 | 24 | 2404 | INFO | n/a | - | - | Chapter 7 heading. The table has 13 rows, not 15.
+p24.2 | 24 | 2408 | BACKLOG | NV | NEW:integration-conv | M | Retain native integration. Add interpolation, offset and clock sensitivity (integration-convention table). Calibrated reference power is BLOCKED.
+p24.3 | 24 | 2415 | FIX-NOW | n/a | M322 | S | Label Rainflow/EFC and depth-squared as exposure proxies. Keep the three EFC quantities distinct. Damage-law calibration is BLOCKED.
+p24.4 | 24 | 2423 | FIX-NOW | V | M322 | S | kLadderScenarios/dodSocLevelSensitivity/cycleLife move to labelled scenarios (verified:false); remove from empirical conclusions. No deletion (O2).
+p24.5 | 24 | 2431 | FIX-NOW | NV | M322 | S | Remove "direct SOH" wording for loaded spread and V-regression. Reference capacity/OCV/impedance tests are BLOCKED.
+p24.6 | 24 | 2438 | SPEC-FIRST | n/a | M329 | L | Rework GTR as a structural model (F04/F16/F19), Path A vs Path B, Opus blind audit.
+p24.7 | 24 | 2445 | SPEC-FIRST | n/a | M330 | L | Warm/Shoulder as association only (M322 wording). Matched/continuous-temperature contrasts in M330; no Cold extrapolation.
+p24.8 | 24 | 2451 | STALE | V | - | - | No random/event CV found in .py; day-blocked CV is the standard, and rollingOrigin is present in socHysteresisV2.
+p24.9 | 24 | 2458 | SPEC-FIRST | V | NEW:dwell-trunc | S | No left-truncation handling exists in code. Spec: mark/exclude initial spells, day-bootstrap bands, at-risk counts.
+p24.10 | 24 | 2464 | FIX-NOW | n/a | M322 | S | Remove memoryless/controller-intent narrative wording. A semi-Markov model is opportunity 2 (OWNER).
+p24.11 | 24 | 2470 | SPEC-FIRST | n/a | M328 | - | Fuel per distance with SOC accounting goes into M328 (accumulator, charge-sustaining diagnostic, CAP sweep).
+p24.12 | 24 | 2476 | FIX-NOW | V | M322 | S | Change jsx:4571 "Two independent paths agree... Pearson r" to association wording. Bland-Altman paired residuals go in the M329 spec.
+p24.13 | 24 | 2482 | FIX-NOW | V | M322 | S | platingShare (arrays:8216) and risk bands: label as assumptions; "no observed plating diagnosis".
+p24.14 | 24 | 2488 | FIX-NOW | V | M322 | S | Same as F22/p23.9: rename the MDE; design simulation stays BACKLOG.
+p25.1 | 25 | 2500 | INFO | n/a | - | - | Agreed: retire transfers and mislabels, not old tools.
+p25.2 | 25 | 2504 | FIX-NOW | n/a | M322 | S | Add a script-bound "What the data cannot identify" box to Methodology, listing the six limits below.
+p25.3 | 25 | 2505 | INFO | n/a | M322 | - | Limit: no absolute SOH, LLI/LAM, plating or pack life without reference tests.
+p25.4 | 25 | 2507 | INFO | n/a | M322 | - | Limit: no physical direct/buffered split, drivetrain efficiencies or BSFC surface (consistent with "estimated").
+p25.5 | 25 | 2509 | INFO | n/a | M322 | - | Limit: no high-frequency DCIR from asynchronous polling.
+p25.6 | 25 | 2511 | INFO | n/a | M322 | - | Limit: no separate heat capacity/conductance from a one-pole fit.
+p25.7 | 25 | 2513 | INFO | n/a | M322 | - | Limit: no winter consumption/ageing from 2 Cold drives/1 date (M310); no AWD/FWD fleet effects.
+p25.8 | 25 | 2515 | INFO | n/a | M322 | - | Limit: no causal controller reason; a mask ending is not a boundary cause.
+p26.1 | 26 | 2523 | INFO | n/a | - | - | Chapter 8 heading.
+p26.2 | 26 | 2524 | OWNER | n/a | NEW:article-scope | - | Framing as a case study of activity and observability limits; Andrii decides the thesis framing.
+p26.3 | 26 | 2533 | OWNER | n/a | NEW:article-scope | - | "Authenticate raw versions" is impossible (F03). Use provenance-disclosed dual-report wording; missingness/epoch manifest feasible.
+p26.4 | 26 | 2540 | OWNER | n/a | NEW:article-scope | - | Methodological novelty only via validated observability/gap-sensitivity framework.
+p26.5 | 26 | 2546 | OWNER | n/a | NEW:article-scope | - | Control-strategy description is feasible: event/hazard refresh with rolling validation, no intent claims.
+p26.6 | 26 | 2554 | INFO | n/a | - | - | Health/degradation "not established" matches CLAUDE.md TOST wording.
+p26.7 | 26 | 2558 | INFO | n/a | M329 | - | Generator reconstruction "exploratory model only" matches "estimated/model-derived" wording.
+p26.8 | 26 | 2564 | INFO | n/a | M323 | - | UI inconsistency is covered by M322/M323/M327.
+p26.9 | 26 | 2570 | OWNER | n/a | NEW:article-scope | - | Suggested title is Andrii's call. Replace "authenticated dataset" with "provenance-disclosed".
+p26.10 | 26 | 2572 | FIX-NOW | n/a | M322 | S | Every figure carries a measured/proxy/model/scenario label and traces to file IDs, config hash and estimator.
+p26.11 | 26 | 2573 | FIX-NOW | NV | M322 | S | Grep and remove "first-ever"/"novel method" claims absent a systematic search.
+p26.12 | 26 | 2575 | OWNER | n/a | NEW:article-scope | L | Opp1 energy ledger: feasible on published master (reference of record). Needs M321-M323, M325 and integration-convention table; "authenticated" is not available.
+p26.13 | 26 | 2579 | OWNER | V | NEW:article-scope | L | Opp2 start hazard: socHysteresisV2 cloglog 489/104 with rollingOrigin exists. Semi-Markov needs a spec, F10 detector (M327) and M320 merged.
+p27.1 | 27 | 2590 | OWNER | n/a | NEW:article-scope | L | Opp3 buffer dynamics: feasible after F28 actual-positive-discharge spec and clock-bound censoring; raw-pass, so F03 dual report.
+p27.2 | 27 | 2595 | OWNER | n/a | NEW:article-scope | M | Opp4 thermal: thermalStepResponse exists; needs M326 intake sidecar. Report identifiability only; raw-pass.
+p27.3 | 27 | 2599 | OWNER | n/a | NEW:article-scope | L | Opp5 SoC-balanced fuel: needs M324 (E10 basis) and M328; accumulator subset only; fuel is raw-pass, so dual report.
+p27.4 | 27 | 2603 | OWNER | n/a | NEW:article-scope | L | Opp6 continuous-temperature fuel: after M328 and M330; overlap restriction; never extrapolate Cold.
+p27.5 | 27 | 2607 | OWNER | n/a | BACKLOG | M | Opp7 matched-pulse proxy: resolution-limited; needs M325 grid/GateA2. No DCIR claim; low priority.
+p27.6 | 27 | 2612 | OWNER | NV | BACKLOG | L | Opp8 grade braking: GPS speed only in 53/489 files; weak support. Not recommended for the article.
+p27.7 | 27 | 2616 | OWNER | n/a | NEW:article-scope | M | Opp9 epoch fingerprints: dailyFingerprints exists. Needs GateA2 signal_representation and F03 hash status as an epoch covariate. Feasible QC.
+p27.8 | 27 | 2620 | OWNER | n/a | NEW:article-scope | M | Opp10 envelopes: after M321 (C04 ties) and M327; observed envelopes distinct from OEM limits.
+p27.9 | 27 | 2624 | OWNER | n/a | NEW:article-scope | S | Pre-declare a small primary-question set before any article figure. Withdrawn values go to supplementary history.
+p28.1 | 28 | 2634 | INFO | n/a | - | - | Chapter 9 heading; mapping below.
+p28.2 | 28 | 2639 | FIX-NOW | n/a | M323 | S | Stamp masterMD5/config hash and data-version label on every released value. "Obtain originals" is BLOCKED (F03).
+p28.3 | 28 | 2647 | FIX-NOW | n/a | M321 | - | Hard errors: covered by M321 (floor, record, intake) and M322 (Cold observed counts).
+p28.4 | 28 | 2655 | SPEC-FIRST | n/a | M327 | - | Regenerate 50 contracts in M327; chart_registry regenerated-and-consumed or retired in M323.
+p28.5 | 28 | 2664 | SPEC-FIRST | n/a | M329 | - | GTR node residuals within tolerance before conserved-flow wording; gate stays in every mode (M323).
+p28.6 | 28 | 2674 | FIX-NOW | n/a | M322 | - | Interpretation labels: M322 wording plus M325 provenance-sensitive health.
+p28.7 | 28 | 2683 | FIX-NOW | n/a | M323 | M | Numeric joins in M323. 390/740/1440 widths, keyboard/export accessibility stay BACKLOG (F32). Repo palette kept.
+p28.8 | 28 | 2692 | FIX-NOW | V | M323 | M | No CI-type field exists anywhere in arrays. Add a ciType per interval and a release_check gate; stale-contract/Records-statistic gates.
+p28.9 | 28 | 2699 | BLOCKED | V | - | - | rollingOrigin is done for socHysteresisV2 (STALE part). Winter and reference measurements need new data or instrumentation.
+p28.10 | 28 | 2706 | FIX-NOW | n/a | M323 | M | Primary-All == Compare-All with key join and numeric x (F11); parity WARN, then FAIL after M327.
+p28.11 | 28 | 2708 | FIX-NOW | V | M323 | S | release_check sums ambientTable cohortCounts (line 160); extend to seasonalCharts._meta (=489 incl. Cold/unknown).
+p28.12 | 28 | 2710 | FIX-NOW | n/a | M321 | M | Records statistic/cap/mask/ties go in M321 (C04). Gap-breaking continuous runs go in M326 (F06.r2 sidecar).
+p28.13 | 28 | 2712 | SPEC-FIRST | n/a | M329 | - | Common clock/mask closure in M329. Never zero-fill missing PIDs: tri-state engine state in M328.
+p28.14 | 28 | 2714 | FIX-NOW | n/a | M322 | S | Ratio keys declare numerator/denominator rows; mean vs energy-weighted efficiency labels distinct (F16/F19 in M329).
+p29.1 | 29 | 2722 | FIX-NOW | V | M323 | S | Caption jsx:1247 is correct, but comment jsx:1233 says "IQR box (p10-p90)". Fix it and lint IQR captions bound to p10/p90.
+p29.2 | 29 | 2724 | FIX-NOW | n/a | M323 | S | seasonAware lint: narrative from the selected metric object; historical references carry release dates; global badge in filtered modes.
+p29.3 | 29 | 2726 | FIX-NOW | n/a | M323 | S | Gate the forbidden phrases "reproducible from raw"/"authentic". Wording: a front-end rebuild does not certify raw-to-result reproduction (F03 owner decision).

@@ -1,0 +1,66 @@
+p30.0 | 30 | 2734 | INFO | V | - | - | Appendix A heading; records block summary_arrays.json:6093-6747 holds 41 entries; all values/holders below match disk.
+p30.1 | 30 | 2735 | INFO | V | - | - | 41 stored, heading counts 40 (jsx:10789 filters auditOnly); audit-only row still rendered greyed below with reason. No action.
+p30.2 | 30 | 2736 | INFO | V | - | - | 40/41 holder contracts match; the failure is A-34 (F06). Holder matches do not validate labels; label fixes listed per row.
+p30.3 | 30 | 2738 | INFO | n/a | - | - | Raw provenance limitation is F03; add holderHashStatus per record (C04 field, M321).
+p30.4 | 30 | 2739 | SPEC-FIRST | NV | M325 | M | Script-written current-raw loaded-p95 sensitivity incl. all tied holders; label provenance sensitivity; published 54 mV record stays reference of record.
+p30.5 | 30 | 2741 | INFO | NV | M325 | - | Jun09 27 mV (master) vs 100 mV (current raw, 657 pairs) is a known-answer target for the M325 script, never typed.
+p30.6 | 30 | 2742 | BLOCKED | n/a | - | - | Originals unavailable (owner F03). No rebaselining; wording: data-version discrepancy, not a physical record or health finding.
+A-1 | 30 | 2749 | FIX-NOW | V | M321 | S | Holder matches; add statistic=native probe max (row-max T1-T4 peaks, cap 80), nEligible/nDays; keep sampled-extremum wording.
+A-2.r1 | 30 | 2755 | FIX-NOW | V | M321 | S | Add tiedHolders (3) and statistic=per-drive max of row-mean; builder idxmax keeps first tie only (compute_summary_arrays.py:1266).
+A-2.r2 | 30 | 2755 | FIX-NOW | V | M321 | S | Delete 'bulk-cell', 'fixed ~9 C gradient', 'drives Arrhenius' (cs_arrays:1417-1419); A-1 holder itself shows 51 vs 46 C (5 C).
+A-2.r3 | 30 | 2755 | SPEC-FIRST | V | M326 | M | Complete-four-probe pack-mean Record holder from sidecar (C02); row-mean skipping missing probes stays labelled until then.
+A-3 | 30 | 2760 | FIX-NOW | V | M321 | S | Delete 'deliberately runs hot for combustion efficiency' and 'thermally isolated from HV loop' (cs_arrays:1422-1423); observed coolant maximum only.
+A-4 | 30 | 2766 | FIX-NOW | V | M321 | S | Delete 'circuit the battery and motor share' (pack has intake-air channel; shared loop unestablished); label VCM/HV coolant channel maximum.
+A-5 | 30 | 2771 | FIX-NOW | V | M321 | S | Delete '~150 C class limit' and 'shared cooling environment' causal clause (cs_arrays:1431-1433); observed motor-sensor maximum, cap 130.
+A-6 | 30 | 2776 | FIX-NOW | V | M321 | S | Replace 'slowest thermal mass/last to steady state' with observed oil peak; peak is not sustained exposure.
+A-7 | 30 | 2781 | FIX-NOW | V | M321 | S | F07: native intake_max from battery_temp_extremes sidecar (target 36.0 C same holder, script-written); remove 'floor the pack can be cooled to' bound claim.
+A-8 | 30 | 2786 | FIX-NOW | V | M321 | S | Holder matches (205.1 A); disclose C-rate basis = median cap_ah_est (assumed Ah); statistic=native sample max.
+A-9 | 30 | 2793 | FIX-NOW | V | M321 | S | Holder matches; state sign convention (charge negative in master, magnitude shown); observed pulse peak, not acceptance limit.
+A-10 | 30 | 2799 | FIX-NOW | V | M321 | S | Replace 'traction-motor demand the pack alone had to cover' with pack-terminal I*V discharge peak; not exclusive traction demand.
+A-11 | 31 | 2815 | FIX-NOW | V | M321 | S | Replace 'generator surplus plus regen' with pack-terminal charge power; source not isolated. Add cap 150 to disclosure CAPPED list.
+A-12 | 31 | 2820 | FIX-NOW | V | M321 | S | Rename to engine-on + braking-torque state peak (v6:715,729); delete 'two charge paths summing' and 'architecture worst-case'.
+A-13.r1 | 31 | 2827 | FIX-NOW | D | M321 | S | CHG-note: code is engine-off charge (v6:735, no torque gate), not braking proxy; rename 'engine-off charge peak'.
+A-13.r2 | 31 | 2827 | SPEC-FIRST | V | M326 | M | Unknown-RPM support count for engine-state records via F13.r1 sidecar; eng_on treats unknown as off.
+A-14.r1 | 31 | 2833 | FIX-NOW | D | M321 | S | Audit's 'non-braking' premise wrong: v6:739 is engine-on any torque, superset of dual, hence 213 A = A-12. Rename 'engine-on charge peak'.
+A-14.r2 | 31 | 2833 | FIX-NOW | V | M321 | S | Delete 'generator alone' and 'decomposes dual record into two physical sources'; a non-braking peak needs a sidecar (backlog).
+A-15 | 31 | 2839 | FIX-NOW | V | M321 | S | Add tiedHolders (2); 'commanded target torque, not measured shaft output'; delete 'full output ceiling'.
+A-16 | 31 | 2844 | INFO | V | - | - | Holder matches; cap 300 and 10 artefacts to 1712.5% already disclosed (records_disclosure). No action.
+A-17 | 31 | 2850 | INFO | V | - | - | Holder matches; note claims no rated point. No action beyond C04 fields.
+A-18 | 31 | 2855 | FIX-NOW | NV | M321 | S | Add tiedHolders (2); state boost derivation (calculated vs dedicated PID); remove 'high-power operating point' inference.
+A-19 | 31 | 2861 | FIX-NOW | NV | M321 | S | Delete 'independent sensor corroborating the boost channel' until derivation is known; absolute MAP maximum.
+A-20 | 31 | 2867 | FIX-NOW | D | M321 | S | Repo says speed-derived, not a g-sensor (audit premise off); disclose differentiation window; statistic shows two extrema/holders.
+A-21 | 31 | 2874 | FIX-NOW | V | M321 | S | Remove 'verified as real' and 'most likely to move degradation conclusions'; observed speed sample maximum.
+A-22 | 31 | 2880 | FIX-NOW | V | M321 | S | Replace 'most sustained high-load duty cycle' with per-drive moving mean; not a sustained-speed record.
+A-23 | 31 | 2885 | FIX-NOW | V | M321 | S | Remove 'where the pack reaches thermal equilibrium'; keep 284.20 km display; distance and duration separate extrema.
+A-24 | 32 | 2902 | FIX-NOW | V | M321 | S | Replace 'continuous key-on session/thermal plateau' with maximum logged trip duration; not continuous engine-on.
+A-25 | 32 | 2907 | FIX-NOW | V | M321 | S | Remove 'what ages the buffer'; gross directional pack-terminal throughput, not propulsion energy or capacity loss.
+A-26 | 32 | 2912 | FIX-NOW | D | M321 | S | Max-min equals largest rainflow half-cycle range by construction; reword 'deepest DoD event' to largest half-cycle range, not full-cycle DoD.
+A-27 | 32 | 2917 | INFO | V | - | - | Holder matches; note already states 1% floor, half-cycles 0.5, length dependence. No action.
+A-28 | 32 | 2923 | FIX-NOW | V | M322 | S | Label 'SoC-rainflow EFC' per three-EFC disambiguation; keep coulometric FCE side note; distinguish from GTC.
+A-29 | 32 | 2929 | INFO | V | M321 | - | auditOnly already set with reason; add nEligible 44 and nDays via C04 fields.
+A-30 | 32 | 2936 | INFO | V | - | - | Holder matches; note states uncorrected/endpoint-dominated. Holder is a 0.4 km trip: follow-up, no silent gate change.
+A-31 | 32 | 2942 | INFO | V | - | - | Holder matches; note already disclaims controller ceiling. No action.
+A-32 | 32 | 2948 | FIX-NOW | V | M321 | S | Remove 'floor is defended by starting the generator'; BMS SoC register minimum, not a proven protective floor.
+A-33.r1 | 32 | 2952 | FIX-NOW | V | M321 | S | records_disclosure.py:41 maps prefix to soc_band (keptExtremum 40.5); bind to deficit_80_120_pct with valid gate.
+A-33.r2 | 32 | 2952 | FIX-NOW | V | M321 | S | Expose eligible n (valid >=120 s) and nDays; remove hand-typed ~38%/~43%/~62% literals from note or bind to keys.
+A-34.r1 | 32 | 2959 | FIX-NOW | V | M321 | S | F06: bind to highspeed_discharge_longest_run_s_130p (v6:831); 19.2 s Jul14 D4 is a script known-answer target only.
+A-34.r2 | 32 | 2959 | FIX-NOW | V | M321 | S | SUPPORT prefix 'Longest 130+' (records_disclosure.py:48) never matches metric; fix prefix; add cumulative exposure as separate field.
+A-35.r1 | 32 | 2966 | FIX-NOW | V | M321 | S | Delete 'polarization/thermal artifact, not divergence, collapses back' sole-mechanism claim; statistic=per-drive loaded p95 maximum.
+A-35.r2 | 32 | 2966 | FIX-NOW | V | M321 | S | Add provenance note: published 54 mV stays; current-raw value is M325 provenance sensitivity, never replaces.
+A-36 | 32 | 2974 | FIX-NOW | V | M321 | S | Replace 'transient at a current step' with single sampled loaded extreme, alignment/quantization sensitive.
+A-37 | 33 | 2991 | FIX-NOW | V | M321 | S | Holder matches; label null as IID resampled-residual reference, not a day-clustered CI; keep gate-instability text.
+A-38 | 33 | 3000 | FIX-NOW | V | M321 | S | Statistic = max of per-trip median engine-off standstill power (v6:834-837); delete 'Sets the upper bound'.
+A-39 | 33 | 3006 | FIX-NOW | V | M321 | S | Note says 'zero speed' but v6:591 uses <3 km/h; state threshold and distance >0.5 km.
+A-40 | 33 | 3011 | FIX-NOW | V | M321 | S | Add tiedHolders (2, probe/file); battery_temp_extremes.py:119 idxmin keeps first only.
+A-41 | 33 | 3016 | INFO | V | - | - | Holder matches; native intake_min is the statistic A-7 must adopt (F07). No action here.
+A-X0 | 33 | 3021 | INFO | n/a | - | - | Additional-extremes table: each needs native-extrema sidecar and spec; none enters article without Opus audit and sign-off.
+A-X1 | 33 | 3024 | SPEC-FIRST | NV | NEW:M332-records-v2 | L | Rolling 1/5/10/30 s current/power exposure on contiguous supported clocks, gap rules, ties (merges F21.r3 backlog).
+A-X2 | 33 | 3027 | SPEC-FIRST | NV | NEW:M332-records-v2 | M | Pack-temp/SoC-conditional pulse peaks; Cold descriptive_only per M310; no plating or OEM-limit inference.
+A-X3 | 33 | 3030 | SPEC-FIRST | NV | NEW:M332-records-v2 | M | Native temperature rise rate, inter-probe and intake-probe gap; requires M326 sidecars; fixed window, min support.
+A-X4 | 33 | 3033 | BACKLOG | V | NEW:M332-records-v2 | S | evTraction runMax exists (cs_arrays:1694); add speed/RPM overlap and sampled max speed after F13 sidecar.
+A-X5 | 33 | 3036 | SPEC-FIRST | NV | NEW:M332-records-v2 | M | Depends on F10 start detector (M327); explicit censoring rules; starts per km and per observed RPM hour.
+A-X6 | 33 | 3039 | SPEC-FIRST | NV | NEW:M332-records-v2 | M | Depends on F28 actual positive discharge estimand; debt/recovery half-time with censoring.
+A-X7 | 33 | 3042 | SPEC-FIRST | NV | M331 | M | After M328/M329; raw-pass fuel keys dashboard-only under F03; merge with FUEL-14.
+A-X8 | 33 | 3045 | SPEC-FIRST | NV | NEW:M332-records-v2 | M | Data-quality extremes (PID gaps, coverage, pairing lag, counter repairs) as gates for scientific extrema; build first in M332.
+A-C.r1 | 33 | 3048 | FIX-NOW | V | M321 | S | C04: every record gets statistic (native vs per-drive aggregate), threshold/window/cap, nEligible, nDays, tiedHolders, file/time, quality flags.
+A-C.r2 | 33 | 3049 | FIX-NOW | V | M323 | S | Release check: FORBIDDEN 'rated maximum'/'upper bound of capability'/'class limit' in records notes; statistic-identity check (F33).

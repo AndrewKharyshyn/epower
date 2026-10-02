@@ -1,0 +1,132 @@
+F9.1 | F9 | 313 | INFO | n/a | - | - | Section heading; rulings in FUEL-09 and FUEL-10 rows.
+FUEL-09 | F9 | 314 | SPEC-FIRST | V | M331 | L | Feasible on ~263 fuel-rate files (RPM 489); reuse _engine_start_triggers (compute_summary_arrays.py:6050) after F10 detector spec and F13 unknown-RPM fix (M329).
+FUEL-09.Q | F9 | 315 | SPEC-FIRST | n/a | M331 | - | Pre-register estimand: observed post-start fuel volume, cold first start vs warm restart; descriptive, day-clustered; not a causal restart cost.
+FUEL-09.C | F9 | 316 | SPEC-FIRST | V | M331 | M | Trigger bridges RPM gaps via dropna(): add gap/file-start censoring; classify starts by coolant/oil start temperature and soak, not T_intake (dead since 2026-08-24).
+FUEL-09.P | F9 | 319 | SPEC-FIRST | n/a | M331 | M | Event-aligned L/h profiles plus post-window mL dots; support strip with events, trips, dates; split by start condition before cohort.
+FUEL-09.A1 | F9 | 322 | SPEC-FIRST | n/a | M331 | S | Declare minimum samples/coverage per window; label missing pre-start context; synthetic known-answer tests for one-sample and gap windows.
+FUEL-09.A2 | F9 | 323 | FIX-NOW | V | M322 | S | Wording "fuel in the post-start window"; no restart/cold-start "penalty" without counterfactual; qualify jsx:10191 title together with F26.
+FUEL-09.A3 | F9 | 323 | INFO | NV | - | - | F-R4 motivates event/state treatment only; cite as motivation, never as validation of an effect size.
+FUEL-10 | F9 | 325 | SPEC-FIRST | V | M330 | L | Pre-register with F25/C03; Warm/Shoulder inference only after M327 days/exposure gate; Cold descriptive-only per M310.
+FUEL-10.Q | F9 | 326 | SPEC-FIRST | n/a | M330 | - | Declare shared support (driving class, distance, stops, initial engine temperature) before any adjusted contrast.
+FUEL-10.C | F9 | 327 | SPEC-FIRST | n/a | M330 | M | Pooled observed ratio-of-sums first; standardized estimate with fixed declared weights; joint day bootstrap (seed 42, 4000); report unsupported draws.
+FUEL-10.P | F9 | 331 | SPEC-FIRST | V | M330 | M | Dot-and-interval for Warm/Shoulder with trips, dates, km; Cold per-trip points in separate descriptive strip (refines round-1); difference plot only for declared target.
+FUEL-10.A1 | F9 | 334 | INFO | V | - | - | Confirmed Cold = 2 trips, 1 date (2026-09-30), 1.2 and 1.3 km urban (fuel_recon_master.csv:259-260); description only, matches M310.
+FUEL-10.A2 | F9 | 335 | SPEC-FIRST | NV | M328 | S | Contract clause: fuel views use fuel-subset masks and subset n only; never reuse corpus throughput contrasts or corpus cohort counts.
+FUEL-10.A3 | F9 | 335 | SPEC-FIRST | V | M327 | S | M310 10-drive floor is not adequacy; add days/exposure criterion (seasonal_config minIndependentDaysPerCohort is only a warning).
+F9.2 | F9 | 337 | FIX-NOW | V | M324 | S | Title fuel views by estimand on migration (e.g. GTR Compare "Fuel L/100km" -> observed pooled consumption, flow subset).
+F9.3 | F9 | 338 | SPEC-FIRST | n/a | M330 | S | Every adjusted output states residual route/HVAC confounding and that adjustment cannot create Cold support.
+F10.1 | F10 | 344 | INFO | n/a | - | - | Section heading; rulings in FUEL-11 and FUEL-12 rows.
+FUEL-11 | F10 | 345 | SPEC-FIRST | V | M328 | M | Feasible (counter/flow ~263 files); no fuel ECDF or trend exists; build in fuel_analytics.py reusing CmpEcdfPanel pattern (M284).
+FUEL-11.Q | F10 | 346 | SPEC-FIRST | n/a | M328 | - | Declare "unusual" rule (distance-group quantiles) and trend windows before computing; descriptive only.
+FUEL-11.C | F10 | 348 | SPEC-FIRST | n/a | M328 | S | Separate trip-weighted and distance-weighted ECDF statistics; trend = sum(L)/sum(km) per declared window with exposure fields.
+FUEL-11.P | F10 | 351 | SPEC-FIRST | V | M328 | S | Numeric date axis with gaps (F11 lesson: CmpLines index x); cohort colour plus dash/marker per M270.
+FUEL-11.A1 | F10 | 354 | SPEC-FIRST | V | M328 | S | Enforce existing aggregationRules (ratio-of-sums, seasonal_config.json:65) with a known-answer test; no averaged rates or summed percentages.
+FUEL-11.A2 | F10 | 354 | SPEC-FIRST | n/a | M328 | S | Payload carries window order/overlap, coverage and trip mix per window; annotations generated from them.
+FUEL-11.A3 | F10 | 355 | SPEC-FIRST | V | M328 | S | Below declared per-bin n render points, not KDE; apply same threshold to CmpViolinPanel (M285d) for fuel.
+FUEL-12 | F10 | 357 | SPEC-FIRST | V | M328 | M | Channels: counter 263, flow 263, related rate 264 (test equality), app average 260; existing views mix bases (counter vs flow).
+FUEL-12.Q | F10 | 358 | SPEC-FIRST | n/a | M328 | - | Estimand: internal consistency of logger fuel fields on common endpoints; explicitly not external calibration.
+FUEL-12.C | F10 | 359 | SPEC-FIRST | V | M328 | M | Pair flow integral and counter delta on identical endpoints; Bland-Altman with grid, reset/gap, F03 hash flags; app average after reset-window check.
+FUEL-12.P | F10 | 362 | SPEC-FIRST | n/a | M328 | S | Difference-vs-mean plot, residual table, coverage summary, flagged-trip filter; relative differences only above declared resolution floor.
+FUEL-12.A1 | F10 | 365 | SPEC-FIRST | NV | M328 | S | Known-answer targets: 234 gap-free trips +0.240% and manifest-matched 142/33; pin to raw sha256 set; regression check, not tolerance.
+FUEL-12.A2 | F10 | 366 | SPEC-FIRST | n/a | M328 | S | Label agreement as internal consistency; independence unknown until logger/PID definitions exist (C14 request).
+F10.2 | F10 | 368 | SPEC-FIRST | n/a | M328 | S | Quality view with four labelled layers: provenance (F03 hash status), integration sensitivity, logger consistency, model validity.
+F10.3 | F10 | 369 | FIX-NOW | V | M322 | S | Reword jsx:4571 "Two independent paths agree ... Pearson r": report ratio offset only; state correlation does not validate the generator split.
+F11.1 | F11 | 375 | INFO | n/a | - | - | Section heading.
+FUEL-13 | F11 | 376 | DECLINE | n/a | - | - | Owner O3 rejected fuel cost; no work; leave raw cost channels unused.
+FUEL-13.Q | F11 | 377 | DECLINE | n/a | - | - | Owner O3 rejected fuel cost; no work.
+FUEL-13.C | F11 | 378 | DECLINE | n/a | - | - | Owner O3; app-cost field validation also not pursued.
+FUEL-13.P | F11 | 381 | DECLINE | n/a | - | - | Owner O3 rejected fuel cost; no work.
+FUEL-13.A | F11 | 383 | DECLINE | n/a | - | - | Owner O3; nothing to build or validate.
+FUEL-14 | F11 | 385 | SPEC-FIRST | V | M331 | M | After C04 (M321); no fuel Records exist (records_disclosure.py); reuse disclosure contract checked by release_check B8.
+FUEL-14.Q | F11 | 386 | SPEC-FIRST | n/a | M331 | - | Define each record's metric, eligibility and denominator before ranking.
+FUEL-14.C | F11 | 387 | SPEC-FIRST | n/a | M331 | M | Versioned min-distance and near-neutral SoC groups; rolling window, completeness, contiguity rules; no-increment trips kept separate.
+FUEL-14.P | F11 | 390 | SPEC-FIRST | n/a | M331 | S | Fuel Records table in Fuel tab, linked from Records; Compare applies identical qualification per cohort; ties retained.
+FUEL-14.A1 | F11 | 392 | SPEC-FIRST | n/a | M331 | S | Version min-distance and SoC rules as sensitivity choices; report native and rolling peaks as separate records.
+FUEL-14.A2 | F11 | 392 | SPEC-FIRST | V | M331 | S | Holder fields per C04 plus numerator, denominator, temperature, SoC change, F03 status; quantized/missing fuel never a best-economy record.
+F11.2 | F11 | 395 | INFO | n/a | - | - | Subsection heading; rulings in F11.3-F11.11.
+F11.3 | F11 | 396 | FIX-NOW | V | M323 | S | GtrFlowGate (jsx:4465) shows residuals; add fuel basis, source boundaries, eligible mask, assumptions; move residual computation to Python payload.
+F11.4 | F11 | 396 | INFO | V | - | - | Confirmed 15.94 vs 8.64+8.35=16.99 (summary_arrays.json:54184-54189); use +1.05 as script-written M329 known-answer.
+F11.5 | F11 | 398 | SPEC-FIRST | V | M329 | L | Repair common-mask node ledger (F04; Path A vs Path B; Opus blind audit) before any conserved Sankey.
+F11.6 | F11 | 398 | FIX-NOW | V | M322 | S | Qualify jsx:4567-4568 ("corroborated through the fuel channel", "monotonically"): f_gen is a sensitivity index until M329 closes F04.
+F11.7 | F11 | 398 | FIX-NOW | V | M323 | S | F20: Compare branch jsx:4493 renders GtrSankeyMultiples without GtrFlowGate; wrap it and show residual per cohort.
+F11.8 | F11 | 399 | INFO | n/a | - | - | Agreed: moving GTR into Fuel (M324) does not close F04; move only after the M323 gate.
+F11.9 | F11 | 400 | FIX-NOW | V | M322 | S | Label η_eng, η tank->bus, tank->traction (jsx:4547, 4569, 9398) as implied by assumed BSFC surface; drop "two-thirds lost as heat" finding.
+F11.10 | F11 | 401 | INFO | V | - | - | No fuel-saving chart exists (grep); add none without independent power data and a defensible counterfactual.
+F11.11 | F11 | 402 | DECLINE | V | - | - | No CO2 output exists; out of thesis scope; if ever requested, require E10-specific factor and tailpipe-only boundary.
+F12.1 | F12 | 408 | INFO | n/a | - | - | Section heading.
+F12.2 | F12 | 410 | FIX-NOW | V | M323 | M | Shared bins, axis limits and eligibility across cohorts; fix index-based CmpLines x (F11); fuel charts inherit via contract.
+F12.3 | F12 | 411 | FIX-NOW | NV | M323 | S | Show chart-specific subset n (trips, dates, km) per cohort panel, not only corpus cohort counts (jsx:9860).
+F12.4 | F12 | 411 | FIX-NOW | V | M322 | S | Keep All optional (default Warm vs Shoulder, jsx:9872); relabel as pooled overlapping reference incl. suppressed Cold drives, from payload.
+FUEL-01.cmp | F12 | 416 | SPEC-FIRST | n/a | M328 | S | Aligned per-cohort scatter panels with paired litres/rate views and shared axes; temperature scale distinct from cohort palette.
+FUEL-02.cmp | F12 | 421 | SPEC-FIRST | V | M328 | S | Numeric distance axis; keep M270 cohort encoding (colour+dash+marker); encode start condition by facet, not line style.
+FUEL-03.cmp | F12 | 426 | SPEC-FIRST | n/a | M328 | S | Adjacent stacked bars, volume and share separately; unknown state hatched light grey, distinct from All grey #64748B.
+FUEL-04.cmp | F12 | 431 | SPEC-FIRST | n/a | M328 | S | Shared SoC-change axis and neutral window across cohorts; scenario by marker; observed and scenario never merged.
+FUEL-05.cmp | F12 | 436 | SPEC-FIRST | n/a | M331 | S | Two decimated example trips with IDs and conditions; colour = signal; payload-size design first.
+FUEL-06.cmp | F12 | 441 | SPEC-FIRST | n/a | M331 | M | Side-by-side maps on one sequential L/h scale; difference map only for cells meeting declared per-cohort support.
+FUEL-07.cmp | F12 | 446 | SPEC-FIRST | n/a | M331 | S | Same stop/speed bins across cohorts; km and dates per bin; exposure distributions alongside.
+FUEL-08.cmp | F12 | 451 | SPEC-FIRST | n/a | M331 | S | After F13 unknown-RPM state (M329): aligned panels, one SoC-change colour scale; optional neutral-SoC subset.
+FUEL-09.cmp | F12 | 456 | SPEC-FIRST | n/a | M331 | S | Same time origin and windows across cohorts; events, trips, dates shown; split by start condition first.
+FUEL-10.cmp | F12 | 461 | SPEC-FIRST | V | M330 | S | Marker = target (observed/standardized); Cold never gets interval or pooled point (M310; 2 trips, 1 date).
+FUEL-11.cmp | F12 | 466 | SPEC-FIRST | n/a | M328 | S | ECDF overlays plus actual-date trend panels with support strips; no index-aligned time axes.
+FUEL-12.cmp | F12 | 471 | SPEC-FIRST | n/a | M328 | S | One residual scale across cohorts; gap, resolution and F03 provenance flags per trip.
+FUEL-13.cmp | F12 | 476 | DECLINE | n/a | - | - | Cost comparison dropped with FUEL-13 (owner O3).
+FUEL-14.cmp | F12 | 476 | SPEC-FIRST | n/a | M331 | S | Identical qualification per cohort; display missing support and ties explicitly.
+Recon.cmp | F12 | 481 | FIX-NOW | V | M323 | M | Per-cohort ledger tables with residual and model-derived status in Compare; assumption-sensitivity panel; no Sankey until M329.
+F12.5 | F12 | 486 | DECLINE | V | - | - | Keep repo palette (#E69F00/#7C3AED/#0072B2, All #64748B; jsx:9162-9166) per round-1; meanings already stable with dash/marker cues.
+F12.6 | F12 | 487 | SPEC-FIRST | V | M331 | S | Fuel-rate maps: sequential L/h scale and separate zero-centred diverging scale; no fuel heatmap exists yet (battery maps only).
+F12.7 | F12 | 488 | SPEC-FIRST | NV | M328 | S | Presentation spec: state colours disjoint from cohort palette (highway #f97316 near Warm #E69F00, jsx:9883).
+F13.1 | F13 | 494 | INFO | n/a | - | - | Section heading.
+F13.2 | F13 | 495 | INFO | V | - | - | Compliant: cohort from classify_thermal_regime on ambient mean, regime_v1_5_15 (compute_seasonal.py:146); months only feed meteorological_season.
+F13.3 | F13 | 496 | FIX-NOW | V | M322 | S | Expose ambient source counts per cohort (recorded vs substituted); payload carries source/uncertaintyClass (compute_seasonal.py:140), jsx shows none.
+F13.4 | F13 | 496 | SPEC-FIRST | V | M328 | S | Carry initial coolant/oil temperature (seasonal master start fields) as covariates separate from ambient cohort.
+F13.5 | F13 | 500 | SPEC-FIRST | n/a | M328 | S | Generate the observed-rate sentence from contract fields (rate, km, trips, dates); no typed numbers.
+F13.6 | F13 | 502 | FIX-NOW | V | M324 | S | Until M328 disclose each view's basis: _soc_balanced_fuel counter + speed-integral km vs fuel_recon.py flow + master km.
+F13.7 | F13 | 503 | SPEC-FIRST | NV | M328 | S | Interval masks report covered/excluded distance and time; partial intervals never labelled complete trips.
+F13.8 | F13 | 506 | FIX-NOW | V | M322 | M | Replace Cold "no_observations"/"0 drives"/"no Cold" (refresh_seasonal_kpis.py:81; jsx:4462,9225,9260,9284,9864,11086-11495) with observed drives/dates, below support.
+F13.9 | F13 | 507 | SPEC-FIRST | V | M328 | S | Fuel contract status descriptive_only for Cold: per-trip litres, km, L/100km, SoC change; no pooled card, interval or Compare series.
+F13.10 | F13 | 509 | INFO | V | - | - | Mechanism exists (cohortOr no substitution, ColdNoData, release_check B7 null-with-reason); Fuel tab reuses it, naming the prerequisite.
+F13.11 | F13 | 512 | SPEC-FIRST | NV | M328 | S | Stationary template from contract; describe simultaneous battery state; never attribute all stationary fuel to charging.
+F13.12 | F13 | 515 | FIX-NOW | V | M324 | S | SocBalancedFuel: observed and scenario-corrected side by side, with η sweep, CAP_KWH=2.1 verified:false, E10 basis (C05), "model-dependent".
+F13.13 | F13 | 518 | SPEC-FIRST | n/a | M330 | S | Difference sentence names target, unit, common support and interval; unsupported contrasts render unavailable.
+F13.14 | F13 | 521 | FIX-NOW | n/a | M323 | S | Gate: forbid "no difference"/"equal consumption"/"no effect" where interval contains zero; mirror TOST "not established" rule.
+F13.15 | F13 | 524 | FIX-NOW | V | M323 | S | Assumptions, residual, identification limits beside GTR in All, cohort and Compare (Compare lacks them, jsx:4493).
+F13.16 | F13 | 527 | INFO | n/a | - | - | Subsection heading; rulings in F13.17-F13.21.
+F13.17 | F13 | 528 | SPEC-FIRST | n/a | M328 | M | Fuel prose generated from chart view-model fields; semantic_gate prose==payload covers every Fuel sentence.
+F13.18 | F13 | 529 | FIX-NOW | V | M322 | M | Make static assertions payload-conditional: jsx:2927,3664,7125,7176-7177,7437,8880,9400,9864; "no pure-highway fuel" contradicted in flow subset (2 highway rows).
+F13.19 | F13 | 530 | SPEC-FIRST | V | M328 | S | Ship decisions and ranks as booleans from unrounded values; jsx derives none from rounded numbers today (axis padding only, jsx:9560).
+F13.20 | F13 | 532 | SPEC-FIRST | V | M328 | M | Fuel tab cohort-native for cards, traces, Records, footnotes, strips, downloads, titles, switches; legacy sections keep All-reference badge.
+F13.21 | F13 | 533 | FIX-NOW | V | M323 | S | Gate: in Warm/Shoulder/Compare dumps each section is cohort-native or shows data-allref-badge (jsx:215).
+F14.1 | F14 | 539 | INFO | n/a | - | - | Section heading.
+F14.2 | F14 | 543 | SPEC-FIRST | V | M328 | L | Create fuel_analytics.py (absent): source policy, interval masks, support, quality, provenance; reuse loaders; JSX renders only.
+F14.3 | F14 | 548 | SPEC-FIRST | V | M328 | M | Route _soc_balanced_fuel (:11608), _thermal_fuel_penalty (:13776, :13994) through contract; observed/scenario separate; additive splice; blind-audit deltas.
+F14.4 | F14 | 552 | SPEC-FIRST | V | M328 | M | Same Fuel schema for All/Warm/Shoulder/Cold with chart masks; Cold descriptive_only under M310; declare Compare targets.
+F14.5 | F14 | 556 | SPEC-FIRST | n/a | M328 | S | Contract fields: schema version, script/config sha256, raw sha256 set and F03 status, coverage, assumptions; "not M299-reproducible".
+F14.6 | F14 | 559 | FIX-NOW | V | M323 | M | chart_registry.json stale (2026-09-12, 410 drives, "135/367") and unconsumed: regenerate by script and consume in gate, else retire (O2).
+F14.7 | F14 | 562 | FIX-NOW | V | M324 | M | Add Fuel tab (O1; tab list jsx:9882 lacks it); migrate views, anchors, cross-links, exports; layouts/prose follow M328+; present and commit per rule.
+F14.8 | F14 | 565 | SPEC-FIRST | V | M329 | L | fuel_recon.py: common-mask node conservation and source-overlap repair (F04); explicit residual until closed.
+F14.9 | F14 | 569 | INFO | n/a | - | - | Subsection heading; rulings in F14.10-F14.17.
+F14.10 | F14 | 572 | FIX-NOW | V | M323 | S | Gate now: GTR closure residual present in every mode (F33); basis-declaration check added with F13.6 in M324.
+F14.11 | F14 | 572 | SPEC-FIRST | n/a | M328 | M | Counter/flow/same-clock-distance reconciliation with declared tolerances; no hidden zero-fill, reset loss or partial-window mismatch.
+F14.12 | F14 | 576 | FIX-NOW | V | M323 | M | Extend dump_tabs.js/semantic_gate.py matrix to every chart x All/Warm/Shoulder/Compare; Cold via test_cold_fixture.js variants.
+F14.13 | F14 | 579 | FIX-NOW | V | M323 | S | Add Cold fixture variant n=2 drives/1 date expecting observed counts and descriptive-only text, never "0 drives"/"no Cold".
+F14.14 | F14 | 579 | SPEC-FIRST | n/a | M328 | M | Synthetic boundary tests for the fuel builder: zero distance, no increment, resets, gaps, missing speed/RPM/I/V/T/SoC, ties.
+F14.15 | F14 | 582 | FIX-NOW | V | M323 | S | Add FORBIDDEN fuel phrases (fuel saved by regeneration, restart penalty, measured BSFC/efficiency, winter effect, "no Cold" while observed) to semantic_gate.py.
+F14.16 | F14 | 585 | BACKLOG | V | - | - | Keyboard/responsive accessibility stays with F32 backlog; colour+cue done (M270); shared scales via F11 (M323).
+F14.17 | F14 | 588 | FIX-NOW | V | M323 | M | release_check writes build manifest (master MD5, arrays and raw sha256, script/config hashes); "immutable input" = pinned current raw, per F03.
+F14.18 | F14 | 591 | FIX-NOW | n/a | M328 | S | Release gate fails if a Fuel chart renders without a passing contract status.
+F14.19 | F14 | 591 | INFO | V | - | - | Unavailable-state mechanism exists (ColdNoData, null-with-reason); Fuel charts reuse it and name the missing prerequisite.
+F14.20 | F14 | 592 | FIX-NOW | n/a | M324 | S | Fuel-tab banner from payload: logger-derived raw-pass values (F03), model-derived generator split, fuel calibration not validated.
+F15.1 | F15 | 599 | INFO | n/a | - | - | Section heading.
+F15.2 | F15 | 600 | OWNER | n/a | - | - | Article directions are Andrii-gated; fuel keys are raw-pass, so F03 blocks article figures without his signed dual report.
+F15.3 | F15 | 601 | OWNER | V | NEW:fuel-article-spec | L | Go/no-go; if go, pre-register held-out-date model; startup term is association; Cold support absent, use initial engine temperature.
+F15.4 | F15 | 605 | OWNER | n/a | NEW:fuel-article-spec | L | Depends on FUEL-06/FUEL-09 (M331); no generator output inferred from fuel-derived power beyond labelled GTR reconstruction.
+F15.5 | F15 | 608 | OWNER | V | NEW:fuel-article-spec | M | Most feasible (builds on FUEL-12); dual report all vs manifest-matched subsets (F03); independence claim needs logger/PID definitions.
+F15.6 | F15 | 611 | INFO | n/a | - | - | Agreed: cited studies motivate distinctions, never validate vehicle, logger or effect sizes; carry into article wording.
+F15.7 | F15 | 613 | INFO | V | - | - | R7 (Roberts 2017) and R9 (Bland-Altman 1986), audit lines 4273/4283, are used consistently with FUEL-12 and day-blocked validation.
+F15.8 | F15 | 614 | INFO | n/a | - | - | Subsection heading.
+F-R1 | F15 | 615 | INFO | NV | - | - | Plausible logger documentation supporting the shared-derivation caveat; verify URL content before citing.
+F-R2 | F15 | 619 | INFO | NV | - | - | Inconsistent record: SAE 2026-01-0422 vs JSAE URL token sae2026-01.315; verify before citing; S-factor method not transferable to uncontrolled journeys.
+F-R3 | F15 | 624 | INFO | NV | - | - | Official DOE/EPA cold-weather page; background only; its percentages are not estimates for this vehicle.
+F-R4 | F15 | 629 | INFO | NV | - | - | Plausible (arXiv 2203.16126, TCST DOI); motivation for event/state treatment only; confirm publication details before citing.
+F15.9 | F15 | 634 | INFO | n/a | - | - | Addendum asserts no new results; its numbers are known-answer targets, never typed into the repo.
+F15.10 | F15 | 635 | BLOCKED | V | - | - | Originals unavailable (f03_provenance originalsAvailable:false); Article-10 table and logger/PID definitions need external input; Andrii decides requests.

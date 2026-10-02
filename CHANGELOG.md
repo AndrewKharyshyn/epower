@@ -1,3 +1,16 @@
+## M323 (2026-10-02): F03 originals recovered: 333 sha256-verified originals reproduce the published raw-derived values (read-only; CLAUDE.md owner decisions updated)
+
+**Rationale.** Owner request after external audit v3. Read-only sweep found byte-identical originals for all 333 hash-failing raw files (sha256 = raw_manifest); raw/ copies are lower-precision re-exports. Pre-registered rebuild from originals (analyses/F03_originals/): 161/186 columns identical vs 69/186 from raw/; 0 raw-derived non-ML columns drift on the 333 swapped drives; residual 25 ML/refit columns are deterministic, identical under Python 3.11.15 and 3.12, and also drift on the 43 hash-verified new drives. Director ruling: revise (wording only, F03 stays open); blind audit (analytical-auditor, 41+10 drives) 0 original-vs-published mismatches vs both masters, raw/ copies mismatch on 36/41. Andrii approved the CLAUDE.md update 2026-10-02 (counts 333/489, originals clause, audit-triage decisions O1-O3, GateA2 GO); re-anchoring NOT decided; no data, raw, manifest, arrays or dashboard changed.
+
+**State.** `drive_master.csv` 489 rows, MD5 `bd9d10726bb064d857cf9ff98d2b7338`.
+
+**Gates (runs/20260930T142615Z).** stage_raw=ok; raw_temp_pass=ok; compute_seasonal=ok; refresh_cohort_meta=ok; fuel_recon=ok; refresh_gtr_headline=ok; f03_provenance_build=ok; post_steps=ok; cohort_arrays=ok; comparison_cube=ok -> ok.
+
+**Delta flags.** none.
+
+**Files.** `CLAUDE.md`, `analyses/F03_originals`, `analyses/audit_v3_triage`, `tools/originals_recover.py`, `tools/f03_originals_groups.py`.
+
+
 ## M322 (2026-10-02): New-spec template and acknowledgement helper for M321 ladder-monitor warnings (cold-season preparation)
 
 **Rationale.** Owner request (prepare the new-spec template now; the cold season will likely raise W2/W3, and the M321 gate then FAILs until a valid acknowledgement exists). Tooling and documentation only: analyses/TEMPLATE_ladder_warning_spec.md (pre-registration skeleton: trigger copied from the monitor block, one question, ranked options report-only / explicit V2 refit with a no-new-drive control / colder fourth level / cold-regime model extension, design and accept-reject rules imported from the M320/M321 specs, falsification, procedure) and tools/m321_acknowledge.py (writes ONE acknowledgement record for the current warning set: refuses unless the monitor status is warn-newspec, requires a ref that resolves to an existing CHANGELOG '## M###' heading or analyses/ spec file, carries the warning-set hash and the current basis identity so it satisfies the gate's ack_valid exactly, idempotent, LF; a deliberate manual step after the Director's decision, never run from ingestion) with tests/synthetic/test_m321_acknowledge.py. No change to the monitor, the gate, the ladder, the model, the surfaces or any figure; summary_arrays.json and the dashboard are untouched; not article-eligible. No new method or headline figure, so no blind audit or Director decision is required.
