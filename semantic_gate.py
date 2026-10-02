@@ -102,6 +102,10 @@ _mde = A.get("powerFade", {}).get("mdeRisePctPerYr")
 ok("A2 REQUIRED power-fade precision stated as a CI half-width with the payload value",
    any(f"95% CI half-width ±{_mde}%/yr" in t for t in T.values()), str(_mde))
 ok("A2 REQUIRED health conclusion reads 'Cell-spread trend not resolved'", any("Cell-spread trend not resolved" in t for t in T.values()))
+# W4a (M329)
+ok("A2 REQUIRED depth-squared weighted cycle sum wording present", any("depth-squared weighted cycle sum" in t for t in T.values()))
+ok("A2 REQUIRED regen-by-temperature Compare title says pack-temperature bin", any("pack-temperature bin" in t for t in T.values()))
+ok("A2 REQUIRED current-direction reversals label present", any("Current-direction reversals" in t for t in T.values()))
 ok("A2 REQUIRED selector label reads 'Thermal cohort'", any("Thermal cohort" in t for t in T.values()))
 ok("A2 REQUIRED HVAC caveat states sub-15 C ambient is limited", any("Ambient below 15 °C is limited" in t for t in T.values()))
 

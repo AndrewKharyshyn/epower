@@ -43,7 +43,7 @@ METRICS = [
      "ratio of sums, 100·Σkwh/Σkm"),
     ("gross_discharge_100km", "Pack gross discharge", "kWh/100 km", "ratio", "gross_discharge_kwh", "distance_km",
      "ratio of sums, 100·Σkwh/Σkm (outbound battery work)"),
-    ("starts_100km", "Engine-start proxy (current sign crossings)", "/100 km", "ratio", "n_sign_crossings", "distance_km",
+    ("starts_100km", "Current-direction reversals (pack-current sign crossings)", "/100 km", "ratio", "n_sign_crossings", "distance_km",
      "ratio of sums; n_sign_crossings is a start PROXY, not a counted start"),
     ("engoff_brake_share", "Engine-off braking share of pack charge", "%", "share", "charge_pure_regen_kwh", "gross_charge_kwh",
      "ratio of sums, 100·Σ engine-off braking charge / Σ pack charge (operating-state proxy, not metered regen)"),
