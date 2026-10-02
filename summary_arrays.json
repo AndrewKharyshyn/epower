@@ -7151,7 +7151,7 @@
   "fceOverStandardEfc": 1.032,
   "gtcIsStandard": false,
   "standardEquivalent": "FCE",
-  "note": "GTC is a local double-counting convention, not a recognised metric. FCE is the quantity that corresponds to the standard equivalent-full-cycle (EFC) definition; the residual gap from 1.000 is charge/discharge asymmetry (round-trip loss), not a definitional difference. Every figure here scales linearly with CAP_KWH, which is itself unverified."
+  "note": "GTC is a local double-counting convention, not a recognised metric. FCE is the quantity that corresponds to the standard equivalent-full-cycle (EFC) definition; the residual gap from 1.000 is charge-discharge imbalance (SoC drift, unlogged use, sensor-offset residual, auxiliaries), not a definitional difference. Every figure here scales linearly with CAP_KWH, which is itself unverified."
  },
  "riskColdEngineBattery": {
   "replaces": "Engine cold on short trips",
@@ -56194,17 +56194,17 @@
    {
     "term": "η_eng",
     "value": "0.355",
-    "meaning": "Engine brake-thermal efficiency: mechanical output ÷ fuel chemical energy."
+    "meaning": "Model-derived engine-brake/fuel ratio (implied by the assumed BSFC surface): mechanical output ÷ fuel chemical energy."
    },
    {
-    "term": "η tank→bus",
+    "term": "Net traction-bus/fuel index",
     "value": "0.329",
-    "meaning": "Whole-chain efficiency from fuel chemical energy to electricity actually reaching the HV bus (includes generator + power-electronics losses)."
+    "meaning": "Model-derived index of electricity reaching the HV bus per fuel chemical energy (implied by the assumed BSFC surface; includes generator + power-electronics losses; affected by SoC drift, regen and unmetered auxiliary loads)."
    },
    {
     "term": "Path A / Path B",
     "value": "road-load / fuel-BSFC",
-    "meaning": "Two independent generator-output estimates: Path A from vehicle speed/road-load, Path B (primary, used for headline figures) from measured fuel flow through the BSFC surface."
+    "meaning": "Two generator-output estimates with shared priors: Path A from vehicle speed/road-load, Path B (primary, used for headline figures) from the logged (app-calculated) fuel rate through the assumed BSFC surface."
    },
    {
     "term": "Generator-coincident",
@@ -56251,7 +56251,7 @@
     "regime": "HIGH",
     "rpmRange": ">2400 rpm, or boost >0.30 bar",
     "centralBsfc": "265 g/kWh",
-    "note": "enrichment"
+    "note": "assumed high-load (boost proxy)"
    }
   ],
   "audit": [
@@ -56397,7 +56397,7 @@
    "Highway (n=2) and mixed-highway (n=5) drive-type splits are thin, fuel-instrumented samples; read as indicative, not settled.",
    "The generator→traction path has no logged PID anywhere in the corpus (§20 identifiability gap): every number in this section is a model-derived allocation, never a direct measurement.",
    "217 g/kWh (Nissan TR No.89) is a floor/optimum for the BSFC surface, never a flat conversion factor; TR No.90 (a different, 50%-efficiency concept engine) is corroborating context only, never a calibration input.",
-   "The Path A (road-load) vs Path B (fuel/BSFC) cross-validation stands at its 82-drive fuel subset (all 82 are in the current corpus). Its generator statistics are sign-invariant: Path B generator energy is fuel-derived and therefore unchanged by the M265 battery-current fix — verified by re-running the corrected engine on the same 82 drives (E_gen 15.74→15.74 kWh/100 km, Pearson r 0.997, ratio median 1.177 all identical, M280) — so its figures are current, not stale. It is NOT expanded to the full clean subset because Path A's road-load coefficients (m, C_rr, C_dA, η_dt) were not preserved and re-introducing them would be assumption, not measurement. (As a by-product, the sign fix moved Path B distance-weighted traction 23.19→18.00 kWh/100 km, into near-agreement with the independent Path A road-load traction 17.45 — an independent corroboration of M265.) The sensitivity table was recomputed to the current corpus at the corrected sign (M279). The headline corpus figures, drive-type split, RPM empirical-grounding sample (410 drives, refreshed M281), and the speed-binned traction split (M255) are current.",
+   "The Path A (road-load) vs Path B (fuel/BSFC) cross-validation stands at its 82-drive fuel subset (all 82 are in the current corpus). Its generator statistics are sign-invariant: Path B generator energy is fuel-derived and therefore unchanged by the M265 battery-current fix — verified by re-running the corrected engine on the same 82 drives (E_gen 15.74→15.74 kWh/100 km, ratio median 1.177 and the correlation all identical, M280) — so its figures are current, not stale. It is NOT expanded to the full clean subset because Path A's road-load coefficients (m, C_rr, C_dA, η_dt) were not preserved and re-introducing them would be assumption, not measurement. (As a by-product, the sign fix moved Path B distance-weighted traction 23.19→18.00 kWh/100 km, closer to the Path A road-load traction 17.45; Path A and Path B share priors, so this is not an independent check of M265.) The sensitivity table was recomputed to the current corpus at the corrected sign (M279). The headline corpus figures, drive-type split, RPM empirical-grounding sample (410 drives, refreshed M281), and the speed-binned traction split (M255) are current.",
    "The per-second 'engine-state simultaneity by drive type' sub-analysis was rebuilt (M282) from recon_engine.central_estimate_v2_persample at the corrected M265 sign; its lost classification code was reconstructed and validated by the per-drive persample→aggregate energy identity (exact) and by threshold-robustness of the four-state split. The corrected sign inverted the earlier (sign-flipped) reading: urban engine-on time is predominantly battery-CHARGING, not battery-assisting. It covers the fuel-instrumented drives only (engine-on seconds; engine-off EV driving excluded by construction), and §4a's M41/M42 decomposition applies to the high-speed gen+battery-discharge state — it is SoC-steering with generator headroom, not saturation.",
    "The per-second ‘supply split by vehicle speed’ sub-analysis was rebuilt this session (M255): its lost classification code was reconstructed from recon_engine.py’s already-verified per-drive reconstruction machinery (central_estimate_v2_persample, a byte-identical copy of the trusted aggregate formula that additionally exposes per-second arrays), and the per-drive sums were validated to reproduce fuel_recon_master.csv’s shipped figures to <0.01 kWh/100km on all 145 fuel-instrumented drives before the speed-binned output was trusted. (This same session also found fuel_recon_master.csv itself 10 drives stale — missing the entire 2026-09-11 seven-drive ingestion batch plus two older files — and refreshed it 138→145 rows before rebuilding this sub-analysis, which is why the headline corpus figures above shifted slightly from their last-published values.) The 120+ bin is thin (n=11 drives, 16.5 km) — read as indicative."
   ],

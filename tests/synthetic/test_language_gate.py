@@ -67,6 +67,24 @@ assert lg.scan_text("not a demonstrated thermal equilibrium") == [] and lg.scan_
 assert lg.scan_text("does not establish thermal equilibrium") == []
 assert "W6-literal38" in lg.scan_text("calc engine load during these discharge seconds averages ~38%") and "W6-literal38" in lg.scan_text("calculated engine load during these discharge seconds averages ~38% (p95 ~43%)")
 assert "W6-nearequilibrium" in lg.scan_text("warm starts are already near equilibrium and rise only a few degrees") and lg.scan_text("warm starts begin close to their peak") == []
+# W1a rules
+for old, rid in [("The battery is a buffer, corroborated through the fuel channel.", "W1-buffercorroborated"), ("Roughly two-thirds of fuel energy is lost as engine heat", "W1-twothirds"),
+                 ("at a near-neutral net of +0.3 kWh/100 km", "W1-nearneutral"), ("The BSFC anchor is grounded in this corpus, not assumed.", "W1-grounded"),
+                 ("Two independent paths agree in shape.", "W1-independentpaths"), ("the buffer conclusion does not depend on any one assumption", "W1-robust"),
+                 ("whole-chain tank→bus efficiency", "W1-tank"), ("Tank→traction η = 18%", "W1-tank"), ("Only Fuel (chem) is measured", "W1-fuelchemmeasured"),
+                 ("The generator repays half the debt", "W1-repays"), ("Engine-Start Context Taxonomy (why the generator fires)", "W1-whygen"),
+                 ("of measured transient buffering", "W1-transient"), ("the charge/discharge round-trip-loss gap", "W1-roundtrip"), ("charge/discharge round-trip-loss asymmetry", "W1-roundtrip")]:
+    assert rid in lg.scan_text(old), (old, lg.scan_text(old))
+for old in ["The pattern is the buffer thesis in miniature", "This is the per-second core of the buffer argument.", "the bidirectional signature of a power buffer.", "The buffer does the heavy lifting precisely where",
+            "The buffer is real and bidirectional", "and the buffer covers the gap", "so the buffer's relative role recedes", "the buffer conclusion does not hinge on any one assumption"]:
+    assert any(r in lg.scan_text(old) for r in ("W1-bufferthesis", "W1-robust")), old
+assert lg.scan_text("a bidirectional pattern consistent with a power-buffer role (a state-mix description, not a validation of the generator split)") == []
+assert "W1-enrichment" in lg.scan_text("enrichment") and lg.scan_text("isolates enrichment cold friction from duty cycle") == []        # longer ThermalFuelPenalty texts are W1b
+assert "W1-independentcorrob" in lg.scan_text("an independent corroboration of M265.")
+for ok_text in ["f_gen is a model-derived sensitivity index, not a metered split", "net traction/fuel index (model-derived)", "not a measured round-trip inefficiency",
+                "Fuel is logged volume x assumed E10 LHV (the logged fuel rate is app-calculated)", "Net pack energy recovers half the debt", "assumed high-load (boost proxy)",
+                "Path A and Path B share priors, so this is a consistency check on M265, not an independent corroboration"]:
+    assert lg.scan_text(ok_text) in ([], ["W1-independentcorrob"]) and not any(r.startswith("W1-") and r != "W1-independentcorrob" for r in lg.scan_text(ok_text)), (ok_text, lg.scan_text(ok_text))
 # hedged, correct text must NOT fail
 for ok in ["engine brake thermal efficiency is therefore model-derived", "the logged fuel rate is calculated by the logger app and present on a subset of drives",
            "cycles with a range below 1.0 pp are dropped", "the remainder are excluded from GTC, not counted as zero", "156 of 489 canonical archived copies match the manifest"]:

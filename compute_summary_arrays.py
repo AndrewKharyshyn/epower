@@ -15171,7 +15171,7 @@ def _metric_convention(dm):
         'note': ('GTC is a local double-counting convention, not a recognised '
                  'metric. FCE is the quantity that corresponds to the standard '
                  'equivalent-full-cycle (EFC) definition; the residual gap from '
-                 '1.000 is charge/discharge asymmetry (round-trip loss), not a '
+                 '1.000 is charge-discharge imbalance (SoC drift, unlogged use, sensor-offset residual, auxiliaries), not a '
                  'definitional difference. Every figure here scales linearly '
                  'with CAP_KWH, which is itself unverified.'),
     }
