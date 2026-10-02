@@ -2,7 +2,7 @@
 import json, os, re
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.join(HERE, "..", "..")
 J = lambda f: json.load(open(os.path.join(ROOT, f), encoding="utf-8"))
-FORBIDDEN = ["originals unavailable", "originals are unavailable", "proven", "reproducible from raw data", "corrections", "410/410", "re-serialization (BOM",
+FORBIDDEN = ["originals unavailable", "originals are unavailable", "proven", "reproducible from raw data", "corrections", "410/410", "re-serializ",
              "authenticated"]
 
 def strings(o):
@@ -21,7 +21,10 @@ body = {k: v for k, v in prov.items() if k != "wording"}
 for t in strings(body):
     for f in FORBIDDEN:
         assert not re.search(r"(?<![A-Za-z])" + re.escape(f) + r"(?![A-Za-z])", t), (f, t[:120])   # word-bounded: 'provenance' contains 'proven'
-assert any("never 'proven'" in t and "sha256-verified originals" in t for t in prov["wording"])
+assert any("never 'proven'" in t and "sha256-verified originals is consistent with the published raw-derived non-ML" in t for t in prov["wording"])
+_rp = os.path.join(ROOT, "tabtext", "conclusions__all.txt")
+if os.path.exists(_rp):    # rendered footer (written by dump_tabs.js; git-ignored, so only checked when present)
+    assert not re.search(r"re-?serializ", open(_rp, encoding="utf-8").read()), "rendered footer must not carry the re-serialization wording"
 
 # counts come from the manifests, not from typing
 canon = [r for r in rm["files"] if r["role"] == "canonical"]
@@ -42,6 +45,7 @@ assert not os.path.isabs(om["location"].split(": ", 1)[-1]), "location note must
 # dashboard source and built HTML carry no hard-coded 410/410 or the re-serialization explanation
 for f in ("xtrail_summary.jsx", "xtrail_dashboard.html"):
     t = open(os.path.join(ROOT, f), encoding="utf-8").read()
-    for bad in ("410/410", "re-serialization (BOM", "to confirm data identity independently of byte-level transfer artifacts"):
+    for bad in ("410/410", "to confirm data identity independently of byte-level transfer artifacts"):
         assert bad not in t, (f, bad)
+    assert not re.search(r"re-?serializ", t), (f, "re-serialization wording")
 print("OK f03 provenance wording and originals manifest")

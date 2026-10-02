@@ -47,7 +47,7 @@ out = {
                              "from calendar month. It is a sensitivity result computed from raw/ re-exports, not a finding; no cell-spread estimate has been recomputed from the originals."),
     "wording": [f"no detectable cell-spread trend over the {WINDOW}-month window; equivalence not established (not 'no degradation')",
                 "provenance sensitivity, never 'correction' or 'error'",
-                "never 'reproducible from raw data' for raw-pass keys; say 'consistent with the published raw-derived per-drive values deriving from the sha256-verified originals' (never 'proven', 'authenticated', 'corrections')"],
+                "never 'reproducible from raw data' for raw-pass keys; say 'a rebuild from the sha256-verified originals is consistent with the published raw-derived non-ML per-drive values' (never 'proven', 'authenticated', 'corrections')"],
     "metrics": [
         {"key": "degradationTrends.cellSpread.clusterRobustOLS.slope (mV/month)", "robust": False,
          **sel("degradation.cellSpread.clusterRobustOLS.slope (mV/mo)"),

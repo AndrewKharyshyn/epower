@@ -11,3 +11,5 @@ Spec: analyses/M325_spec.md rev 2 (pre-registered; Director spec review applied 
 - Tests: tests/synthetic/test_f03_provenance_wording.py (all strings of the block, counts from manifests, forbidden phrases word-bounded, manifest consistency, no 410/410 in jsx/html).
 ## Not done / limits
 Re-anchoring undecided (Andrii). No headline figure recomputed on an originals basis (separate milestone with its own spec). ML columns stay refit-dependent.
+## Director decision (post-implementation)
+Decision "revise" with one blocking issue, now fixed: the Methods footer said the 333 are "lower-precision re-exports ..., not transfer re-serializations" (a negative mechanism claim the data does not support; the plural escaped the word-bounded test). Clause removed, test widened to `re-?serializ`, rendered footer re-checked (0 hits in all 36 tab dumps). Also applied: wording[2] reworded ("a rebuild from the sha256-verified originals is consistent with the published raw-derived non-ML per-drive values"). The footer shows "(held outside the repository; inventory only, re-anchoring undecided)" instead of the raw status string (no person named on the dashboard).
