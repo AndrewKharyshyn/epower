@@ -11536,8 +11536,8 @@ def _thermal_warmup_lag(dm, frame_loader=None):
 # energy from the buffer (flattering the raw figure); one that ends higher-SoC
 # spent fuel charging it (penalising it). H corrects this with a PHYSICAL energy-
 # equivalence: dFuel = dE_batt / (eta * LHV), dE_batt = dSoC/100 * CAP_KWH, over a
-# disclosed generator-efficiency range eta in {0.25,0.30,0.35} (LHV gasoline 8.9
-# kWh/L). It also reports a charge-balancing regression (fuel ~ dist + dE) as a
+# disclosed generator-efficiency range eta in {0.25,0.30,0.35} (assumed E10 LHV
+# from model_constants, see _HF_LHV; M338). It also reports a charge-balancing regression (fuel ~ dist + dE) as a
 # descriptive cross-check -- but the dE coefficient is NOT identifiable here (the
 # 2.1 kWh buffer's per-trip energy variance is tiny), so NO generator-efficiency
 # is claimed from it. ACCUMULATOR SUBSET (grows as fuel-logged drives are
@@ -11555,7 +11555,10 @@ _HF_SOC = '[BMS] HV State of charge (%)'
 _HF_SPD_VCM = '[VCM] Vehicle Speed (km/h)'
 _HF_SPD_OBD = '\u0428\u0432\u0438\u0434\u043a\u0456\u0441\u0442\u044c \u0430\u0432\u0442\u043e\u043c\u043e\u0431\u0456\u043b\u044f (km/h)'
 _HF_CAP_KWH = 2.1          # verified:false (disclosed)
-_HF_LHV = 8.9              # gasoline LHV ~32 MJ/L
+import model_constants as _mc_hf
+# M338 (audit C05): ONE assumed E10 basis for the SoC-balanced scenario, taken from model_constants (no typed literal): density x LHV -> kWh/L.
+# The fuel composition is NOT measured; the value is stored rounded to 4 dp (lhvKwhPerL), computed with the full constant.
+_HF_LHV = _mc_hf.RHO_G_PER_L[0] * _mc_hf.LHV_MJ_PER_KG[0] / 3.6 / 1000.0
 _HF_ETAS = [0.25, 0.30, 0.35]
 
 
@@ -11683,7 +11686,7 @@ def _soc_balanced_fuel(dm, raw_loader=None, raw_dir=None):
         'nDrives': len(rows), 'nDays': len(days),
         'dateSpan': [min(days), max(days)] if days else None,
         'totalDistKm': round(tot_dist, 1), 'totalFuelL': round(tot_fuel, 2),
-        'capKwhAssumed': _HF_CAP_KWH, 'capVerified': False, 'lhvKwhPerL': _HF_LHV,
+        'capKwhAssumed': _HF_CAP_KWH, 'capVerified': False, 'lhvKwhPerL': round(_HF_LHV, 4),
         'rawFleetL100': round(raw_fleet, 3),
         'rawPerTripL100': mi(rawL100),
         'socBalancedFleetL100': head['fleetL100'],
@@ -11706,7 +11709,8 @@ def _soc_balanced_fuel(dm, raw_loader=None, raw_dir=None):
             'integral, dSoC = end-start. Raw L/100km is confounded by SoC drift; '
             'SoC-balancing subtracts the equivalent fuel of the net battery-energy '
             'change, dFuel = dE/(eta*LHV) with dE = dSoC/100*CAP_KWH (CAP=2.1 kWh, '
-            'verified:false), swept over eta in {0.25,0.30,0.35} (LHV 8.9 kWh/L); '
+            f'verified:false), swept over eta in {{0.25,0.30,0.35}} (assumed E10 basis: {_mc_hf.RHO_G_PER_L[0]:g} g/L x {_mc_hf.LHV_MJ_PER_KG[0]:g} MJ/kg = {_HF_LHV:.4f} kWh/L; fuel composition not measured); '
+            'the correction scales as CAP/(eta*LHV), so the unverified CAP is the dominant uncertainty and harmonising LHV does not validate it; '
             'headline eta=0.30. Day-clustered bootstrap (seed 42, 4000 draws) on the '
             'balanced fleet fuel consumption (L/100km; lower=better -- this is a '
             'consumption metric, not economy in the km/L sense). A charge-balancing '

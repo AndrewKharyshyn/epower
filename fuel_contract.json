@@ -87,7 +87,7 @@
  "lhvBases": [
   {
    "name": "SoC-balanced fuel (accumulator-subset scenario)",
-   "kWhPerL": 8.9,
+   "kWhPerL": 8.5843,
    "where": "summary_arrays.socBalancedFuel.lhvKwhPerL"
   },
   {
@@ -101,9 +101,9 @@
    "where": "L/h from the logged rate; no energy conversion"
   }
  ],
- "lhvRatio": 1.0368,
+ "lhvRatio": 1.0,
  "lhvRatioDefinition": "SoC-balanced constant / E10 constant",
- "lhvStatus": "unharmonised (audit C05): the two energy constants coexist; a single E10 basis changes a stored correction and has its own audit",
+ "lhvStatus": "harmonised (M338): one assumed E10 basis (composition not measured)",
  "subsets": {
   "socBalanced": {
    "nDrives": 230,

@@ -126,6 +126,7 @@ RULES = [
     Rule("M337-loggerbias", "regex", "M337 Director: the rate-integral minus counter difference is a consistency check dependent on the dt cap, not a logger bias", rx=r"\blogger bias\b|\bcounter bias\b"),
     Rule("M337-startupfuel", "regex", "M337 Director/audit: a short-trip rate is not fuel wasted at startup", rx=r"\bfuel wasted at start ?up\b"),
     Rule("M337-seasonal", "regex", "M337 Director: the 14-day windows show trip-mix change, not a seasonal trend or an increase in consumption", rx=r"\bseasonal (?:consumption )?trend\b|\bconsumption increased\b|\bconsumption rose\b"),
+    Rule("M338-lhv89", "regex", "M338/C05: the SoC-balanced scenario uses the single assumed E10 basis from model_constants; the old literal LHV 8.9 kWh/L basis is retired", rx=r"\blhv 8 9 kwh l\b|\bgasoline lhv 32 mj l\b"),
     Rule("M336-nodeclosed", "regex", "M336 Director: the generator node is consistent within the dual bracket, not closed under the pre-registered +/-5% rule; no 'node closed/balanced/closure achieved' wording", rx=r"\bgenerator node (?:is )?(?:closed|balanced)\b|\bnode closure (?:achieved|reached)\b"),
     Rule("M336-fullcorpusfgen", "regex", "M336 Director: the closure f_gen covers the fuel-PID subset only, never the full corpus", rx=r"\bfull corpus f gen\b"),
     Rule("W1-independentcorrob", "regex", "p19.13/F10.3: Path A and Path B share priors; not an independent corroboration of M265", rx=r"\bindependent corroboration of m265\b", scope=("payload",)),

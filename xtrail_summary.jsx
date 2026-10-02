@@ -7457,7 +7457,9 @@ function FuelBasisBanner(){
       <thead><tr><th style={th}>view</th><th style={th}>litres from</th><th style={th}>km from</th><th style={th}>energy basis</th><th style={th}>status</th></tr></thead>
       <tbody>{(FC.viewBasis||[]).map(v=><tr key={v.view} style={{borderTop:"1px solid #fde68a"}}><td style={td}>{v.view}</td><td style={td}>{v.litresFrom}</td><td style={td}>{v.kmFrom}</td><td style={td}>{v.energyBasis}</td><td style={td}>{v.status}</td></tr>)}</tbody>
     </table></div>
-    <div style={{marginTop:6}}>Two fuel-energy constants are in use and are <strong>not harmonised</strong> (audit C05): {(FC.lhvBases||[]).filter(b=>b.kWhPerL!=null).map(b=>`${b.name} ${b.kWhPerL} kWh/L`).join(" vs ")} ({FC.lhvRatioDefinition} = {FC.lhvRatio}). Harmonising them would change a stored correction and needs its own audit.</div>
+    <div style={{marginTop:6}}>{FC.lhvRatio===1
+      ? <>One assumed E10 fuel-energy basis is used in the SoC-balanced scenario and in the generator reconstruction (audit C05, harmonised in M338): {(FC.lhvBases||[]).filter(b=>b.kWhPerL!=null).map(b=>`${b.name} ${b.kWhPerL} kWh/L`).join("; ")} ({FC.lhvRatioDefinition} = {FC.lhvRatio}). The fuel composition is not measured, and the SoC-balanced correction still rests on the unverified CAP_KWH of 2.1 kWh.</>
+      : <>Two fuel-energy constants are in use and are <strong>not harmonised</strong> (audit C05): {(FC.lhvBases||[]).filter(b=>b.kWhPerL!=null).map(b=>`${b.name} ${b.kWhPerL} kWh/L`).join(" vs ")} ({FC.lhvRatioDefinition} = {FC.lhvRatio}). Harmonising them would change a stored correction and needs its own audit.</>}</div>
   </div>;
 }
 function SocBalancedFuel() {
