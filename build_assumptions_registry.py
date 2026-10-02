@@ -140,7 +140,7 @@ def build(cfg, arr):
         usedBy=["cold-fuel fraction", "generator energy"], sensitivity="Cold penalty OFF / x1.45 bracket the generator estimate (see sensitivity table).",
         band=[MC.COLD_MULT[1], MC.COLD_MULT[2]])
     th = sm["thresholds"]
-    add(id="thermal_regime_bins", symbol="thermal_regime (" + sm["thermalRegimeVersion"] + ")", label="Seasonal cohort thresholds (drive-mean ambient)",
+    add(id="thermal_regime_bins", symbol="thermal_regime (" + sm["thermalRegimeVersion"] + ")", label="Ambient thermal regime thresholds (drive-mean ambient)",
         raw=th, value=f'cold {th["cold"]} degC; shoulder {th["shoulder"]} degC; warm {th["warm"]} degC', unit="degC",
         klass="policy", verified=False, source="reporting bins over a continuous variable; versioned in seasonal_config.json",
         usedBy=["Warm / Shoulder / Cold cohort selector", "seasonal contrast"],

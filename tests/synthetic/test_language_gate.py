@@ -27,6 +27,13 @@ assert lg.scan_text("the great majority of cycles are shallow") == []
 assert lg.hit_ctx("measured", ["fuel", "generator"], "fuel energy is measured by the shunt")
 assert not lg.hit_ctx("measured", ["fuel", "generator"], "fuel energy is not measured here")
 assert not lg.hit_ctx("measured", ["fuel", "generator"], "the odometer is measured and the weather was warm and the road long and fuel")   # outside the 4-token window
+# W2a rules
+assert "W2-nocold" in lg.scan_text("(Warm/Shoulder; no Cold)") and "W2-nocold" in lg.scan_text("regimes; No Cold) winter")
+assert lg.scan_text("no cold-pack thermal behaviour observed") == [] and lg.scan_text("no cold soak was verified") == []      # near-misses must pass
+assert "W2-sub15" in lg.scan_text("No sub-15°C pack data exists") and "W2-sub15" in lg.scan_text("no sub-15 °C ambient data")
+assert "W2-seasonlabel" in lg.scan_text("All-data reference · season filter does not apply") and lg.scan_text("thermal-cohort filter does not apply") == []
+assert "W2-warmseason-corpus" in lg.scan_text("the whole corpus is warm-season, so pack") and "W2-warmseason-corpus" in lg.scan_text("Warm-season data only.")
+assert lg.scan_text("Cold: 2 observed drives on 1 date (2026-09-30), below the minimum support") == []
 # hedged, correct text must NOT fail
 for ok in ["engine brake thermal efficiency is therefore model-derived", "the logged fuel rate is calculated by the logger app and present on a subset of drives",
            "cycles with a range below 1.0 pp are dropped", "the remainder are excluded from GTC, not counted as zero", "156 of 489 canonical archived copies match the manifest"]:

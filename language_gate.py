@@ -51,8 +51,9 @@ def hit_ctx(term, near, text, window=4, allow_negated=True):
 
 
 class Rule:
-    def __init__(self, rid, kind, why, phrase=None, rx=None, term=None, near=(), window=4):
+    def __init__(self, rid, kind, why, phrase=None, rx=None, term=None, near=(), window=4, scope=("dom", "payload", "config", "jsx")):
         self.rid, self.kind, self.why, self.phrase, self.term, self.near, self.window = rid, kind, why, phrase, term, tuple(near), window
+        self.scope = tuple(scope)     # where the rule is enforced; a narrower scope is a documented, temporary exemption (see the wave addendum)
         self.rx = re.compile(rx) if rx else None
 
     def hits(self, text):
@@ -74,6 +75,12 @@ RULES = [
     Rule("W0-zerogtc", "regex", "p4.3: non-integrable logs carry no GTC value (missing), they are not 'contributing 0.0 / 0 / zero GTC'", rx=r"\bcontribut\w* (?:0 0|0|zero) gtc\b"),
     Rule("W0-fuelflow-avail", "regex", "F34.r3/F2.22: 'fuel-flow/injector data not available', 'requires fuel-flow data the logger does not provide', 'carries no fuel-flow channel' are false (fuel rate is logged, app-calculated, on a subset)",
          rx=r"\bfuel flow (?:\w+ ){0,3}(?:data|channel)s?\b(?: \w+){0,6} (?:not available|not provide|does not provide)|\bcarries no fuel flow\b"),
+    Rule("W2-nocold", "regex", "F13.8/D-3/F24: 'no Cold' is false (2 observed drives on 1 date, below support); say 'Cold: N observed, below support'",
+         rx=r"\bno cold\b(?! (?:pack|soak|start|season|ambient|cohort|temperature|content))"),
+    Rule("W2-sub15", "regex", "D-2/F24/p21.10: 'no sub-15 C data' contradicted (pack probes reach the 'Battery temp min' record; Cold ambient 5 C observed)", rx=r"\bno sub 15"),
+    Rule("W2-seasonlabel", "regex", "C11.2/p20.2: the cohort filter is a thermal (ambient) cohort, not a calendar season", rx=r"\bseason filter\b"),
+    Rule("W2-warmseason-corpus", "regex", "p21.10: the logged corpus is not 'warm-season only' (Warm + Shoulder, Cold observed on 2 drives)",
+         rx=r"\bwhole corpus is warm season\b|\bwarm season data only\b", scope=("dom", "payload", "jsx")),   # config: only the dated drivingMixNote (L1344) is allow-listed -> W2b
     Rule("M325-410", "phrase", "F01.r3/D-1: 410/410 byte-identical is contradicted (333/489 fail)", phrase="410/410"),
     Rule("M325-reserialize", "regex", "F01.r3/Cs-76: transfer re-serialization is not the established cause", rx=r"\bre ?serializ\w*"),
     Rule("M325-originals", "regex", "E-N1: originals were recovered (M323)", rx=r"\boriginals (?:are )?unavailable\b"),
