@@ -61,6 +61,7 @@ def main():
     ap.add_argument("--raw-dir")
     ap.add_argument("--quick", action="store_true", help="skip raw sha256 (presence only)")
     ap.add_argument("--expect-master-md5")
+    ap.add_argument("--originals-dir", help="folder of the external originals listed in originals_manifest.json (default: the manifest's relative location)")
     a = ap.parse_args()
     raw = a.raw_dir or os.environ.get("XT_RAW_DIR") or (P("raw") if os.path.isdir(P("raw")) else ROOT)
     rep = {"missing_required": [], "missing_optional": [], "raw": {}, "master": {}}
@@ -96,6 +97,19 @@ def main():
                 mismatch.append(r["raw_name"])
         rep["raw"] = {"raw_dir": raw, "manifest_files": len(man.get("files", [])), "ok": ok,
                       "missing": missing, "sha256_mismatch": mismatch, "sha_checked": not a.quick}
+    # M325: optional, report-only check of the external originals inventory (never affects the exit status; absent folder = "not checked", never "ok")
+    omp = P("originals_manifest.json")
+    if os.path.exists(omp):
+        om = json.load(open(omp, encoding="utf-8"))
+        odir = a.originals_dir or os.path.normpath(os.path.join(ROOT, om["location"].split(": ", 1)[-1]))
+        if a.quick:
+            rep["originals"] = {"status": "not checked (quick mode)", "nRecords": om["nRecords"]}
+        elif not os.path.isdir(odir):
+            rep["originals"] = {"status": "not checked (originals folder absent)", "nRecords": om["nRecords"]}
+        else:
+            bad = [r["record_id"] for r in om["records"]
+                   if not os.path.isfile(os.path.join(odir, r["record_id"])) or sha256(os.path.join(odir, r["record_id"])) != r["sha256"]]
+            rep["originals"] = {"status": "ok" if not bad else "mismatch", "nRecords": om["nRecords"], "bad": bad}
     fail = bool(rep["missing_required"] or rep["raw"].get("sha256_mismatch") or rep["raw"].get("missing")
                 or (a.expect_master_md5 and not rep["master"].get("matches_expected", False)))
     rep["status"] = "FAIL" if fail else "OK"

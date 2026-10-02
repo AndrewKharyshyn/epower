@@ -1,0 +1,13 @@
+# M325 result (2026-10-02): F03 follow-up after the originals were recovered
+Spec: analyses/M325_spec.md rev 2 (pre-registered; Director spec review applied before code).
+## A. Grid check of the 9 files flagged R2 (tools/f03_grid_check.py -> analyses/M325_grid_check.json; blind reproduction analyses/M325_audit/)
+- All 9 are in the hash-failing set. Originals: grid_step 0.001 V on both cell-voltage channels in all 9 (no original >= 0.05 V). Master-builder outputs (analyze_bytes, pre-postprocess) cell_spread_loaded_p95/max/mean_mv and n_loaded_spread_samples from the ORIGINAL equal the published master row in 9/9 (tol 1e-9); from the raw/ copy in 0/9.
+- Known-answer target from the audit (38.0-82.8 mV): |raw/ copy p95 - published| min/max = 38.0 / 82.8 mV (0.1 mV rounding): MATCH. Wording: "coarse" is per channel (2 drives Min only, 1 drive Max only, 6 both); do not say every raw copy sits on a 0.1 V grid.
+- Scope: spread outputs of 9 drives only; descriptive; says nothing about whole-row equality or any cell-spread trend.
+## B/C/D. originals_manifest.json, provenance block, dashboard
+- originals_manifest.json (tools/originals_manifest.py): 333 records, every sha256 == raw_manifest.json; archiveOfRecord false; inventory only. Absent folder -> nothing written; verify_import reports "not checked", never "ok", never fails on it.
+- f03_provenance.json / summary_arrays.json provenanceSensitivity: disclosure rebuilt from canonical counts (333/489), originalsAvailable true, new `originals` block, sensitivityStatement says raw/ re-exports and no originals-based estimate, F3 reading and wording scrubbed. Arrays deep-diff: only provenanceSensitivity leaves (7 paths); drive_master.csv, raw/, raw_manifest.json unchanged.
+- Dashboard (xtrail_summary.jsx Methods footer): the hard-coded "byte-identical ... 410/410", "verified one-to-one by two fingerprints", the "transfer re-serialization, not a data difference" explanation and the "confirm data identity independently of byte-level transfer artifacts" clause are replaced by text generated from S.provenanceSensitivity (raw, originals). Rendered in jsdom: 0 console errors, none of the forbidden phrases in any of the 36 tab dumps; the notice and footer show 333/489 and 156/489.
+- Tests: tests/synthetic/test_f03_provenance_wording.py (all strings of the block, counts from manifests, forbidden phrases word-bounded, manifest consistency, no 410/410 in jsx/html).
+## Not done / limits
+Re-anchoring undecided (Andrii). No headline figure recomputed on an originals basis (separate milestone with its own spec). ML columns stay refit-dependent.

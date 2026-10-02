@@ -25,6 +25,7 @@ jobs:
           python tests/synthetic/test_estimator_gate.py
           python tests/synthetic/test_plausibility_gate.py
           python tests/synthetic/test_signal_representation.py
+          python tests/synthetic/test_f03_provenance_wording.py
   release-gate:
     # Authoritative gate (blocking).
     runs-on: ubuntu-latest
