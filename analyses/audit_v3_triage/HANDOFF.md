@@ -61,3 +61,10 @@ The audit lists ten possible papers (pack-energy ledger, engine-start hazard mod
 - Decide re-anchoring only after step 1 results. Provide the audit's evidence ZIP (chart_parity, hash_validation, statistical_validation) if he has it (known-answer targets).
 - Optional: fill-up records (litres + odometer) for an external fuel check; the app's fuel-calculation setting.
 - Approve a CLAUDE.md wording fix (333/489) when step 1 is settled.
+
+## 10. Update 2026-10-02 (after M323 merged to main, tag M323)
+- Step 1 (originals) DONE: M323 = F03 originals recovered; see `analyses/F03_originals/RESULT.md` (G1-G4 passed, Python 3.11.15 and 3.12 identical). CLAUDE.md Owner decisions updated with Andrii's approval (2026-10-02). Re-anchoring still NOT decided.
+- M321/M322 were taken by M119-v2 ladder work; the milestone numbers in section 6 are proposals. Director re-ruled 18 ledger rows on the originals evidence (`rerule_M323.txt`, applied to `ledger/P*.txt`, `ledger_all.tsv` recompiled): new proposed M324 = F03 follow-up (refresh stale `f03_provenance.json` originalsAvailable:false/"335/500"; read-only grid check of the 9 coarse-voltage originals, C3.18/C14.12; F01 footer; originals manifest prep pending Andrii). Rows still labelled M325/M328 use round-1 plan labels: renumber from the CHANGELOG head.
+- Director caveats: cell_spread_adj_hub is among the 25 drifted ML/refit columns, so confirm the F02 response column is non-drifting before attributing the opposite-sign slope to the re-exports; ~12% of the 333 raw/ copies may be value-neutral; do not carry the CHANGELOG word "reproduce" into dashboard/article.
+- Next: GateA2 spec (before the next ingestion), then M324.
+- Numbering update: GateA2 takes M324 (spec `analyses/M324_gatea2_spec.md` rev 2, Director spec review "revise" applied; implementation pending); the Director's "M324 = F03 follow-up" shifts to M325 (f03_provenance.json refresh, 9-coarse-file originals grid check C3.18/C14.12, F01 footer). Ledger rows still say M324/M325 from the re-ruling: renumber when each spec is written.

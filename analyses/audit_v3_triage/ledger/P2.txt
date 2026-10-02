@@ -1,13 +1,13 @@
 C1.1 | C1 | 642 | INFO | V | - | - | Audit basis is the M316 archive; repo is at M319 with M320 in flight, so check M317-M320 before acting.
 C1.2 | C1 | 646 | INFO | n/a | - | - | Structure note: C-pages precede the original 59 pages; no action.
 C1.3 | C1 | 648 | INFO | n/a | - | - | Summary table; each row ruled below with its detailed section.
-C1.4 | C1 | 650 | SPEC-FIRST | V | M325 | M | Refit current-raw spread trend with and without the 9 M308-flagged files; known-answers -1.393/+0.117; label provenance sensitivity.
+C1.4 | C1 | 650 | SPEC-FIRST | V | M325 | M | CHG: add an originals-rebuild basis as a known-answer row; label raw/ fits as lower-precision re-export sensitivity; keep the with/without-9-files fits.
 C1.5 | C1 | 654 | SPEC-FIRST | V | M326 | M | Published pack-mean Record (46 C, Aug16 D4) is an available-probe row mean (v6:954); complete-four-probe sidecar decides the holder.
 C1.6 | C1 | 657 | SPEC-FIRST | V | M330 | M | Pooled +57.7% equals published vs_warm_pct 57.71; add urban, shared-date, strata targets beside existing adjusted contrast; association only.
 C1.7 | C1 | 661 | SPEC-FIRST | V | M328 | M | No flow-vs-accumulator check exists (recon_engine only prints fuel_used_L); implement as FUEL-12; internal consistency, not calibration.
 C1.8 | C1 | 665 | INFO | V | - | - | 500 raw = 489 canonical + 11 excluded (f03_provenance.json); metrics already use per-metric non-null eligibility.
 C2.1 | C2 | 672 | INFO | V | - | - | Current-raw negative slope tied to 9 coarse copies among 333 hash-failing files; supports the F03 reference-of-record ruling.
-C01 | C2 | 677 | SPEC-FIRST | V | M325 | M | Record per-file grid; exclude coarse copies from current-raw health fits only; published master untouched; call it measurement quality, not battery condition.
+C01 | C2 | 677 | SPEC-FIRST | V | M325 | M | CHG: if the originals are finer (C3.18), the grid belongs to the archived raw/ re-exports, not the logger; exclude coarse copies only from raw/ sensitivity fits.
 C02 | C2 | 682 | FIX-NOW | V | M322 | S | Relabel T_pack_mean_* surfaces as available-probe row mean; check each "4-sensor mean" text (jsx:11085, 11458) against its estimator.
 C03 | C2 | 685 | SPEC-FIRST | V | M330 | M | Adjusted urban-support contrast exists (seasonal_adjust v2, -1.32 [-3.79, 0.56]); add audit targets as reported method disagreement plus composition table.
 C04 | C2 | 689 | FIX-NOW | V | M321 | M | Extend records_disclosure (has nNonNull, cap, winnerValidity) with statistic, tiedHolders, nDays, holderHashStatus, masterMD5, recorded grid.
@@ -30,7 +30,7 @@ C3.14 | C3 | 765 | DECLINE | V | M325 | - | Keep published single-sample Record 
 C3.15 | C3 | 769 | INFO | V | M325 | - | Quote +/-100 mV bound and 40.8 mV uniform-scenario uncertainty (arithmetic checked) as conditional scenarios, never file properties.
 C3.16 | C3 | 776 | INFO | V | - | - | No jitter or de-rounding: already policy (M308 flags, never repairs; raw read-only).
 C3.17 | C3 | 777 | FIX-NOW | V | M325 | S | Label the 9 copies' grid issue in M325 and f03 payloads; files stay byte-unchanged.
-C3.18 | C3 | 778 | BLOCKED | V | - | - | Unrounded exports: owner states only phone exports exist (F03 decision 2026-09-29); keep request open, no work.
+C3.18 | C3 | 778 | FIX-NOW | NV | M324 | S | CHG (was BLOCKED): sha256-verified originals of the 9 coarse files are recovered; script-check their cell-voltage grid against the raw/ copies; read-only, report-only.
 C4.1 | C4 | 784 | FIX-NOW | n/a | M325 | S | State in outputs: a subset change changes the target; cell spread is a health proxy, not capacity SOH.
 C4.2 | C4 | 788 | SPEC-FIRST | n/a | M325 | M | Script-write the 4-row trend table (published/current x all/finer-grid) with drives, days and intervals.
 C4.3 | C4 | 793 | INFO | V | - | - | Matches published 0.1611 on 465/100; interval differs only by critical value (repo z, audit t99).
@@ -38,7 +38,7 @@ C4.4 | C4 | 797 | FIX-NOW | V | M325 | S | Replace stale f03 current-raw slope (
 C4.5 | C4 | 801 | SPEC-FIRST | NV | M325 | - | Published values on the 456-drive finer-grid subset; known-answer +0.151.
 C4.6 | C4 | 805 | SPEC-FIRST | NV | M325 | - | Current raw on finer-grid subset; known-answer +0.117; closes M307 Director follow-up (9 flagged, 6 as sensitivity).
 C4.7 | C4 | 809 | INFO | NV | M326 | - | Complete-four-probe covariate swap (+0.1181) is an M326 sensitivity; it does not explain the sign reversal.
-C4.8 | C4 | 814 | BLOCKED | NV | M325 | - | List finer-grid drives still differing >=1 mV in M325 payload; cause attribution needs originals.
+C4.8 | C4 | 814 | SPEC-FIRST | NV | M325 | S | CHG (was BLOCKED): attribute the >=1 mV finer-grid differences by diffing original vs raw/ per drive; call it a re-export artefact only if the diff explains it.
 C5.1 | C5 | 823 | SPEC-FIRST | V | M325 | S | Run six pairing settings; published convention is SPREAD_TOL 300 ms, V_ALIGN_TOL 1500 ms (v6:247,249).
 C5.2 | C5 | 830 | INFO | NV | M325 | - | 0.1/0.3 s: known-answer row.
 C5.3 | C5 | 834 | INFO | NV | M325 | - | 0.1/1.5 s: known-answer row.
@@ -93,7 +93,7 @@ C8.7 | C8 | 1019 | SPEC-FIRST | n/a | M329 | M | Stable-state auxiliary estimato
 C9.1 | C9 | 1025 | SPEC-FIRST | V | M328 | M | FUEL-12: trapezoid plus left/right rectangles, gaps flagged first, no BSFC/density/LHV; recon_engine integrates right-end flow*dt.
 C9.2 | C9 | 1035 | SPEC-FIRST | NV | M328 | - | All positive-delta trips: known-answer 243/48, ratio 1.002399.
 C9.3 | C9 | 1039 | SPEC-FIRST | NV | M328 | - | Primary summary on gap-free trips: known-answer 234/48, 1.002396; day bootstrap seed 42, 4000.
-C9.4 | C9 | 1043 | SPEC-FIRST | NV | M328 | - | Report hash-matched stratum separately (known-answer 142/33) as provenance check of the fuel channels.
+C9.4 | C9 | 1043 | SPEC-FIRST | NV | M328 | S | CHG: primary provenance check = read-only original-vs-raw/ diff of the fuel counter and rate channels on all fuel files; the 142/33 stratum becomes secondary.
 C9.5 | C9 | 1046 | SPEC-FIRST | n/a | M328 | S | Bland-Altman difference-vs-mean chart in the Fuel tab (O1), script-written keys, n trips and days shown.
 C9.6 | C9 | 1047 | BLOCKED | n/a | - | - | Channel independence needs logger/PID definitions (C14.13).
 C9.7 | C9 | 1048 | SPEC-FIRST | NV | M328 | - | Known-answers +0.240%, median 0.448 mL; empirical quantiles are descriptive, not limits of agreement.
@@ -171,8 +171,8 @@ C14.N1 | C14 | 1298 | INFO | n/a | M325 | - | Cite NIST TN1297 Type B for the co
 C14.N2 | C14 | 1302 | INFO | n/a | M325 | - | Cite TN1297 Appendix A: min/max selection and shared acquisition break independence.
 C14.A1 | C14 | 1306 | INFO | n/a | M328 | - | Cite Bland-Altman (1986) in FUEL-12.
 C14.8 | C14 | 1311 | INFO | n/a | - | - | References support methods, not this vehicle or logger.
-C14.9 | C14 | 1313 | BLOCKED | V | - | - | 333 originals: owner states none exist (F03); keep open, no work.
+C14.9 | C14 | 1313 | STALE | V | - | - | CHG (was BLOCKED): 333/333 originals sha256-verified and recovered (M323, kept outside the repo); what remains is Andrii's re-anchoring decision (see F01).
 C14.10 | C14 | 1315 | BLOCKED | n/a | - | - | Article-10 manufacturer table needs external input (F23).
 C14.11 | C14 | 1315 | BLOCKED | V | - | - | extract_soc_patterns.py absent; keep soc_patterns.json, label illustrative (O2).
-C14.12 | C14 | 1316 | BLOCKED | V | - | - | Unrounded exports for the 9 coarse files: none exist per owner (same as C3.18).
+C14.12 | C14 | 1316 | FIX-NOW | NV | M324 | S | CHG (was BLOCKED): same check as C3.18; the originals of the 9 coarse files exist; the grid check decides whether unrounded exports are still needed.
 C14.13 | C14 | 1317 | OWNER | n/a | - | - | Andrii: identify logger app/version and PID formulas for fuel rate and used-fuel accumulator.

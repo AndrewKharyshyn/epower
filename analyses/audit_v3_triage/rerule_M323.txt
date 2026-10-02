@@ -1,0 +1,18 @@
+F15.10 | F15 | 635 | BLOCKED | V | - | - | CHG: drop the originals clause (recovered M323); still blocked on the Article-10 table and logger/PID definitions; Andrii decides the requests.
+C1.4 | C1 | 650 | SPEC-FIRST | V | M325 | M | CHG: add an originals-rebuild basis as a known-answer row; label raw/ fits as lower-precision re-export sensitivity; keep the with/without-9-files fits.
+C01 | C2 | 677 | SPEC-FIRST | V | M325 | M | CHG: if the originals are finer (C3.18), the grid belongs to the archived raw/ re-exports, not the logger; exclude coarse copies only from raw/ sensitivity fits.
+C3.18 | C3 | 778 | FIX-NOW | NV | M324 | S | CHG (was BLOCKED): sha256-verified originals of the 9 coarse files are recovered; script-check their cell-voltage grid against the raw/ copies; read-only, report-only.
+C4.8 | C4 | 814 | SPEC-FIRST | NV | M325 | S | CHG (was BLOCKED): attribute the >=1 mV finer-grid differences by diffing original vs raw/ per drive; call it a re-export artefact only if the diff explains it.
+C9.4 | C9 | 1043 | SPEC-FIRST | NV | M328 | S | CHG: primary provenance check = read-only original-vs-raw/ diff of the fuel counter and rate channels on all fuel files; the 142/33 stratum becomes secondary.
+C14.9 | C14 | 1313 | STALE | V | - | - | CHG (was BLOCKED): 333/333 originals sha256-verified and recovered (M323, kept outside the repo); what remains is Andrii's re-anchoring decision (see F01).
+C14.12 | C14 | 1316 | FIX-NOW | NV | M324 | S | CHG (was BLOCKED): same check as C3.18; the originals of the 9 coarse files exist; the grid check decides whether unrounded exports are still needed.
+F01 | 5 | 1532 | OWNER | V | M324 | S | CHG: originals obtained (M323); Andrii decides re-anchoring: preferred is a second sha256-manifested archive; no silent raw/ swap; no-new-drive control build first.
+F01.r2 | 5 | 1538 | STALE | V | - | - | CHG: read-only ZIP sweep done in M323 (zip_sweep_report.json), 333/333 sha256 matches; no re-anchoring done.
+p22.3 | 22 | 2323 | SPEC-FIRST | n/a | M325 | M | CHG: data bases = published, originals rebuild, raw/ re-export; day-cluster intervals; caption: neither healing nor degradation established; dashboard-only while F03 open.
+p22.7+p22.8 | 22 | 2339 | SPEC-FIRST | NV | M325 | M | CHG: escalation answered: opposite-sign rows come from raw/ re-exports; show them as re-export sensitivity next to an originals row; first confirm the response column does not drift.
+p22.9 | 22 | 2345 | SPEC-FIRST | NV | M325 | S | CHG: the full originals-basis row replaces this as the provenance check; keep the hash-matched subset (target +1.155, 151/33) as a secondary descriptive known-answer only.
+p26.3 | 26 | 2533 | OWNER | n/a | NEW:article-scope | - | CHG: hash authentication is now possible (333 sha256-verified originals); wording "consistent with ... originals", never authenticated/proven; dual report until Andrii decides.
+p30.4 | 30 | 2739 | SPEC-FIRST | NV | M325 | M | CHG: add an originals basis; label the 100 mV p95 ties a raw/ re-export grid artefact if the originals differ; the published 54 mV record stays the reference.
+p30.6 | 30 | 2742 | FIX-NOW | NV | M324 | S | CHG (was BLOCKED): originals exist and no rebaselining is needed; wording: raw/ re-export discrepancy; published record consistent with originals, pending the C3.18 check.
+Cs-62.r2 | 50 | 3790 | SPEC-FIRST | NV | M325 | M | CHG: "current archive" = raw/ lower-precision re-exports; show it next to the published and originals-rebuild values, labelled re-export sensitivity.
+E-N1 | 56 | 4146 | FIX-NOW | V | M324 | S | CHG (was BLOCKED): originals recovered; CLAUDE.md already says 333/489; script-update stale f03_provenance.json (originalsAvailable:false, "335/500", "originals unavailable").

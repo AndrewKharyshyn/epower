@@ -40,9 +40,9 @@ p4.15 | 4 | 1516 | INFO | V | - | - | Audit stack Py3.12.14/numpy2.3.5/pandas2.2
 p4.16 | 4 | 1518 | INFO | V | - | - | No bitwise cross-version claim; master and archive unchanged. Accept.
 p5.1 | 5 | 1527 | INFO | n/a | - | - | Chapter 2 heading.
 p5.2 | 5 | 1528 | INFO | n/a | - | - | P0/P1/P2 used as scheduling input only; not safety advice.
-F01 | 5 | 1532 | OWNER | V | NEW:F03-zip-sweep | S | CHG (was BLOCKED): Investigation folder holds 38 exported_records ZIPs plus untouched-project and M294-M299 ZIPs, never hash-swept against raw_manifest.json.
+F01 | 5 | 1532 | OWNER | V | M324 | S | CHG: originals obtained (M323); Andrii decides re-anchoring: preferred is a second sha256-manifested archive; no silent raw/ swap; no-new-drive control build first.
 F01.r1 | 5 | 1537 | STALE | V | - | - | Already policy: published master is reference of record; rebuilds are provenance sensitivity (M305-M311).
-F01.r2 | 5 | 1538 | OWNER | V | NEW:F03-zip-sweep | S | CHG (was BLOCKED): read-only sha256/normHash sweep of those ZIPs; report-only; any re-anchoring only by Andrii's decision.
+F01.r2 | 5 | 1538 | STALE | V | - | - | CHG: read-only ZIP sweep done in M323 (zip_sweep_report.json), 333/333 sha256 matches; no re-anchoring done.
 F01.r3 | 5 | 1538 | FIX-NOW | V | M322 | S | jsx:11622 410/410 byte-identical contradicts 333/489 failing. Generate footer from f03_provenance.json.
 F01.r4 | 5 | 1539 | INFO | V | - | - | Already rule: raw files and manifest records never modified; verify_import keeps reporting mismatch.
 F01.ev | 5 | 1540 | INFO | V | - | - | raw_manifest.json, provenanceSensitivity, jsx:11622 exist; hash_validation.csv is audit-ZIP only.

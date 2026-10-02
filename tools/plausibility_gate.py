@@ -4,7 +4,8 @@ incl. the Amendment 1 refinements below). Flags, never repairs; a flagged file i
 
 Rules (thresholds fixed before any new data; applied to NEW files only, never retroactively to the published master):
   R1 cell-voltage range: any non-null value of '[BMS] Max Cell Voltage (V)' / '[BMS] Min Cell Voltage (V)' outside [2.5, 4.3] V.
-  R2 quantisation: min positive difference between sorted distinct values of those two columns >= 0.05 V (needs >= 5 distinct values).
+  R2 quantisation: min positive difference between sorted distinct values >= 0.05 V (needs >= 5 distinct values), tested PER CHANNEL
+     (GateA2, M324: each of the Max/Min columns on its own; one flag lists the channels that trip; the pooled M308 statistic missed mixed-grid files).
 Amendment 1 (2026-09-30, from the corpus scan on existing files, before any new drive is ingested):
   * R1/R2 apply to the single-cell Max/Min columns only. 'G01..Gnn Cell Voltage' are cell-GROUP voltages (G01 ~ 7.4-8.2 V, two cells in
     series) and would flag every file from mid-August (incl. all 113 hash-verified files); they are out of scope of the approved thresholds.
@@ -23,30 +24,53 @@ MIN_DISTINCT = 5
 COLS = ("Max Cell Voltage", "Min Cell Voltage")
 
 
+GATE_VERSION = "M308+GateA2"
+
+
+def _channel_r2(series):
+    """One cell-voltage column on its own. Returns (status, nDistinct, minStep). status: tested / untested_nan / untested_few_distinct."""
+    v = pd.to_numeric(series, errors="coerce").dropna()
+    if not len(v):
+        return "untested_nan", 0, None
+    dist = np.sort(v.unique())
+    if len(dist) < MIN_DISTINCT:
+        return "untested_few_distinct", int(len(dist)), None
+    return "tested", int(len(dist)), float(np.diff(dist).min())
+
+
 def check_bytes(csv_bytes, name="<bytes>"):
     d = pd.read_csv(io.BytesIO(csv_bytes), low_memory=False)
     cols = [c for c in d.columns if any(k in c for k in COLS)]
     flags, stats = [], {"cellVoltageColumns": cols}
+    sha = hashlib.sha256(csv_bytes).hexdigest()
     if not cols:
-        return {"file": name, "flags": flags, "stats": stats, "checked": False, "sha256": hashlib.sha256(csv_bytes).hexdigest()}
+        return {"file": name, "flags": flags, "stats": stats, "checked": False, "partial": False, "sha256": sha}
     v = pd.concat([pd.to_numeric(d[c], errors="coerce") for c in cols]).dropna()
     stats["nValues"] = int(len(v))
-    if len(v):
-        stats["min"], stats["max"] = float(v.min()), float(v.max())
-        out = v[(v < V_MIN) | (v > V_MAX)]
-        if len(out):
-            flags.append({"rule": "R1_cell_voltage_range", "nOutOfRange": int(len(out)), "min": float(v.min()), "max": float(v.max()),
-                          "range": [V_MIN, V_MAX]})
-        dist = np.sort(v.unique())
-        stats["nDistinct"] = int(len(dist))
-        if len(dist) >= MIN_DISTINCT:
-            step = float(np.diff(dist).min())
-            stats["minStepV"] = round(step, 6)
-            if step >= STEP_MAX_OK - 1e-12:
-                flags.append({"rule": "R2_quantisation", "minStepV": round(step, 6), "threshold": STEP_MAX_OK})
     if not len(v):                                   # NaN-only / non-numeric cell-voltage columns: nothing was actually checked
-        return {"file": name, "flags": flags, "stats": stats, "checked": False, "sha256": hashlib.sha256(csv_bytes).hexdigest()}
-    return {"file": name, "flags": flags, "stats": stats, "checked": True, "sha256": hashlib.sha256(csv_bytes).hexdigest()}
+        return {"file": name, "flags": flags, "stats": stats, "checked": False, "partial": False, "sha256": sha}
+    stats["min"], stats["max"] = float(v.min()), float(v.max())
+    out = v[(v < V_MIN) | (v > V_MAX)]
+    if len(out):                                      # R1 stays pooled (a range violation anywhere is a violation)
+        flags.append({"rule": "R1_cell_voltage_range", "nOutOfRange": int(len(out)), "min": float(v.min()), "max": float(v.max()),
+                      "range": [V_MIN, V_MAX]})
+    # R2 (GateA2, amendment 2): each matched column on its own; ONE flag listing the channels that trip.
+    chan = {}
+    for c in cols:
+        st, nd, step = _channel_r2(d[c])
+        chan[c] = {"status": st, "nDistinct": nd, "minStepV": None if step is None else round(step, 6)}
+    stats["channels"] = chan
+    pooled = np.sort(v.unique())                      # pooled statistic kept for comparison with the M308 scan (informational)
+    stats["nDistinct"] = int(len(pooled))
+    if len(pooled) >= MIN_DISTINCT:
+        stats["minStepV"] = round(float(np.diff(pooled).min()), 6)
+    tripped = {c: x["minStepV"] for c, x in chan.items() if x["status"] == "tested" and x["minStepV"] >= STEP_MAX_OK - 1e-12}
+    if tripped:
+        flags.append({"rule": "R2_quantisation", "channels": sorted(tripped), "minStepV": tripped and min(tripped.values()),
+                      "perChannelMinStepV": tripped, "threshold": STEP_MAX_OK})
+    untested = sorted(c for c, x in chan.items() if x["status"] != "tested")
+    return {"file": name, "flags": flags, "stats": stats, "checked": True, "partial": bool(untested), "untestedChannels": untested,
+            "gateVersion": GATE_VERSION, "sha256": sha}
 
 
 def check_path(path):

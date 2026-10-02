@@ -337,6 +337,7 @@ def main():
     quarantined = [{"file": r["file"], "flags": r["flags"]} for r in gate if r["flags"]]
     report["quarantined"] = quarantined
     report["plausibility_unchecked"] = [r["file"] for r in gate if not r["checked"]]   # no usable Max/Min cell-voltage data: NOT gated (schema-drift visibility)
+    report["plausibility_partial"] = [{"file": r["file"], "untestedChannels": r["untestedChannels"]} for r in gate if r.get("partial")]   # GateA2: a channel without a usable R2 test (visibility, not a quarantine)
     for p, r in zip(new_paths, gate):
         GATED_SHA[p] = r["sha256"]
     if quarantined:
@@ -386,6 +387,12 @@ def main():
         if md5(os.path.join(ROOT, "drive_master.csv")) != m0:
             raise Gate("crosscheck inject changed drive_master.csv")
         report.update(carried_forward_keys_stale_until_stage_runs=list(CARRIED), stamp_notes_inherited=list(INHERITED_NOTES), estimator_changes_acknowledged={"changes": list(EST_CHANGES), "reason": ACK["reason"]}, recalibration=({"soft_flags": RECAL.get("soft_flags"), "hard_flags": RECAL.get("hard_flags"), "acknowledged": ACK["recal"]} if RECAL else None), status="ok", rows_after=len(dm_disk), md5_after=m0, backup=os.path.relpath(bdir, ROOT))
+        # M324 GateA2: per-file signal-representation record (additive, atomic; written last so a failed earlier step leaves no orphan entry)
+        import signal_representation as sr
+        sr_added, sr_same, _ = sr.write_entries(
+            os.path.join(ROOT, "signal_representation.json"),
+            {master_key(os.path.basename(p)): sr.build_record(read_gated(p), g) for p, g in zip(new_paths, gate)})
+        report["signal_representation"] = {"added": sr_added, "unchanged": sr_same}
         rc = 0
     except BaseException as ex:   # incl. KeyboardInterrupt/SystemExit: never leave a partial write
         for f in OUT_FILES:

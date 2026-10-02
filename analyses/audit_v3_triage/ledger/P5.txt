@@ -2,9 +2,9 @@ p30.0 | 30 | 2734 | INFO | V | - | - | Appendix A heading; records block summary
 p30.1 | 30 | 2735 | INFO | V | - | - | 41 stored, heading counts 40 (jsx:10789 filters auditOnly); audit-only row still rendered greyed below with reason. No action.
 p30.2 | 30 | 2736 | INFO | V | - | - | 40/41 holder contracts match; the failure is A-34 (F06). Holder matches do not validate labels; label fixes listed per row.
 p30.3 | 30 | 2738 | INFO | n/a | - | - | Raw provenance limitation is F03; add holderHashStatus per record (C04 field, M321).
-p30.4 | 30 | 2739 | SPEC-FIRST | NV | M325 | M | Script-written current-raw loaded-p95 sensitivity incl. all tied holders; label provenance sensitivity; published 54 mV record stays reference of record.
+p30.4 | 30 | 2739 | SPEC-FIRST | NV | M325 | M | CHG: add an originals basis; label the 100 mV p95 ties a raw/ re-export grid artefact if the originals differ; the published 54 mV record stays the reference.
 p30.5 | 30 | 2741 | INFO | NV | M325 | - | Jun09 27 mV (master) vs 100 mV (current raw, 657 pairs) is a known-answer target for the M325 script, never typed.
-p30.6 | 30 | 2742 | BLOCKED | n/a | - | - | Originals unavailable (owner F03). No rebaselining; wording: data-version discrepancy, not a physical record or health finding.
+p30.6 | 30 | 2742 | FIX-NOW | NV | M324 | S | CHG (was BLOCKED): originals exist and no rebaselining is needed; wording: raw/ re-export discrepancy; published record consistent with originals, pending the C3.18 check.
 A-1 | 30 | 2749 | FIX-NOW | V | M321 | S | Holder matches; add statistic=native probe max (row-max T1-T4 peaks, cap 80), nEligible/nDays; keep sampled-extremum wording.
 A-2.r1 | 30 | 2755 | FIX-NOW | V | M321 | S | Add tiedHolders (3) and statistic=per-drive max of row-mean; builder idxmax keeps first tie only (compute_summary_arrays.py:1266).
 A-2.r2 | 30 | 2755 | FIX-NOW | V | M321 | S | Delete 'bulk-cell', 'fixed ~9 C gradient', 'drives Arrhenius' (cs_arrays:1417-1419); A-1 holder itself shows 51 vs 46 C (5 C).

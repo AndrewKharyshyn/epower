@@ -1,11 +1,11 @@
 p22.1 | 22 | 2321 | INFO | n/a | - | - | Chapter 6 heading; the rulings are in the rows below.
 p22.2 | 22 | 2322 | INFO | n/a | M325 | - | Use the framing "estimator reproduced, raw provenance unstable" in the M325 sensitivity text. Call the deltas provenance sensitivity, never corrections.
-p22.3 | 22 | 2323 | SPEC-FIRST | n/a | M325 | M | Build a script-written Figure-4 equivalent: slopes by data basis with day-cluster intervals. Caption says neither healing nor degradation is established. Dashboard-only (F03).
+p22.3 | 22 | 2323 | SPEC-FIRST | n/a | M325 | M | CHG: data bases = published, originals rebuild, raw/ re-export; day-cluster intervals; caption: neither healing nor degradation established; dashboard-only while F03 open.
 p22.4 | 22 | 2330 | INFO | V | - | - | The published +0.1611, 465 drives/100 days, stays the headline (degradationTrends.cellSpread). No action.
 p22.5 | 22 | 2333 | SPEC-FIRST | NV | M325 | S | Add a day-bootstrap row (seed 42, 4000 draws) as a sampling-dependence sensitivity. Never the headline.
 p22.6 | 22 | 2336 | SPEC-FIRST | NV | M325 | S | Add a 7-logged-day circular-block row as a sensitivity. Use 4000 draws, not 2000; state the deviation if kept.
-p22.7+p22.8 | 22 | 2339 | SPEC-FIRST | NV | M325 | M | Current-raw response rows (published controls / current controls): script-written and labelled provenance sensitivity. Escalate to the Director, because they exclude zero with the opposite sign.
-p22.9 | 22 | 2345 | SPEC-FIRST | NV | M325 | S | Add a hash-matched subset row (target +1.155, 151 drives/33 days). Disclose that the date range is narrower and the subset is selected. Descriptive only.
+p22.7+p22.8 | 22 | 2339 | SPEC-FIRST | NV | M325 | M | CHG: escalation answered: opposite-sign rows come from raw/ re-exports; show them as re-export sensitivity next to an originals row; first confirm the response column does not drift.
+p22.9 | 22 | 2345 | SPEC-FIRST | NV | M325 | S | CHG: the full originals-basis row replaces this as the provenance check; keep the hash-matched subset (target +1.155, 151/33) as a secondary descriptive known-answer only.
 p22.10 | 22 | 2349 | INFO | V | - | - | Estimator matches degradation_trends.py (MONTH_DAYS=30.4375; TOST df=nDays-1). No action.
 p22.11 | 22 | 2352 | FIX-NOW | n/a | M322 | S | Wording: bootstrap and block intervals probe sampling dependence, not raw authenticity or calibration.
 p22.12 | 22 | 2354 | FIX-NOW | V | M322 | S | Label the published interval "cluster-robust normal (z)". Any t(G-1) interval is a sensitivity, not a silent switch.
@@ -54,7 +54,7 @@ p25.7 | 25 | 2513 | INFO | n/a | M322 | - | Limit: no winter consumption/ageing 
 p25.8 | 25 | 2515 | INFO | n/a | M322 | - | Limit: no causal controller reason; a mask ending is not a boundary cause.
 p26.1 | 26 | 2523 | INFO | n/a | - | - | Chapter 8 heading.
 p26.2 | 26 | 2524 | OWNER | n/a | NEW:article-scope | - | Framing as a case study of activity and observability limits; Andrii decides the thesis framing.
-p26.3 | 26 | 2533 | OWNER | n/a | NEW:article-scope | - | "Authenticate raw versions" is impossible (F03). Use provenance-disclosed dual-report wording; missingness/epoch manifest feasible.
+p26.3 | 26 | 2533 | OWNER | n/a | NEW:article-scope | - | CHG: hash authentication is now possible (333 sha256-verified originals); wording "consistent with ... originals", never authenticated/proven; dual report until Andrii decides.
 p26.4 | 26 | 2540 | OWNER | n/a | NEW:article-scope | - | Methodological novelty only via validated observability/gap-sensitivity framework.
 p26.5 | 26 | 2546 | OWNER | n/a | NEW:article-scope | - | Control-strategy description is feasible: event/hazard refresh with rolling validation, no intent claims.
 p26.6 | 26 | 2554 | INFO | n/a | - | - | Health/degradation "not established" matches CLAUDE.md TOST wording.

@@ -264,17 +264,17 @@ P1b	F-R2	F15	619	INFO	NV	-	-	Inconsistent record: SAE 2026-01-0422 vs JSAE URL t
 P1b	F-R3	F15	624	INFO	NV	-	-	Official DOE/EPA cold-weather page; background only; its percentages are not estimates for this vehicle.
 P1b	F-R4	F15	629	INFO	NV	-	-	Plausible (arXiv 2203.16126, TCST DOI); motivation for event/state treatment only; confirm publication details before citing.
 P1b	F15.9	F15	634	INFO	n/a	-	-	Addendum asserts no new results; its numbers are known-answer targets, never typed into the repo.
-P1b	F15.10	F15	635	BLOCKED	V	-	-	Originals unavailable (f03_provenance originalsAvailable:false); Article-10 table and logger/PID definitions need external input; Andrii decides requests.
+P1b	F15.10	F15	635	BLOCKED	V	-	-	CHG: drop the originals clause (recovered M323); still blocked on the Article-10 table and logger/PID definitions; Andrii decides the requests.
 P2	C1.1	C1	642	INFO	V	-	-	Audit basis is the M316 archive; repo is at M319 with M320 in flight, so check M317-M320 before acting.
 P2	C1.2	C1	646	INFO	n/a	-	-	Structure note: C-pages precede the original 59 pages; no action.
 P2	C1.3	C1	648	INFO	n/a	-	-	Summary table; each row ruled below with its detailed section.
-P2	C1.4	C1	650	SPEC-FIRST	V	M325	M	Refit current-raw spread trend with and without the 9 M308-flagged files; known-answers -1.393/+0.117; label provenance sensitivity.
+P2	C1.4	C1	650	SPEC-FIRST	V	M325	M	CHG: add an originals-rebuild basis as a known-answer row; label raw/ fits as lower-precision re-export sensitivity; keep the with/without-9-files fits.
 P2	C1.5	C1	654	SPEC-FIRST	V	M326	M	Published pack-mean Record (46 C, Aug16 D4) is an available-probe row mean (v6:954); complete-four-probe sidecar decides the holder.
 P2	C1.6	C1	657	SPEC-FIRST	V	M330	M	Pooled +57.7% equals published vs_warm_pct 57.71; add urban, shared-date, strata targets beside existing adjusted contrast; association only.
 P2	C1.7	C1	661	SPEC-FIRST	V	M328	M	No flow-vs-accumulator check exists (recon_engine only prints fuel_used_L); implement as FUEL-12; internal consistency, not calibration.
 P2	C1.8	C1	665	INFO	V	-	-	500 raw = 489 canonical + 11 excluded (f03_provenance.json); metrics already use per-metric non-null eligibility.
 P2	C2.1	C2	672	INFO	V	-	-	Current-raw negative slope tied to 9 coarse copies among 333 hash-failing files; supports the F03 reference-of-record ruling.
-P2	C01	C2	677	SPEC-FIRST	V	M325	M	Record per-file grid; exclude coarse copies from current-raw health fits only; published master untouched; call it measurement quality, not battery condition.
+P2	C01	C2	677	SPEC-FIRST	V	M325	M	CHG: if the originals are finer (C3.18), the grid belongs to the archived raw/ re-exports, not the logger; exclude coarse copies only from raw/ sensitivity fits.
 P2	C02	C2	682	FIX-NOW	V	M322	S	Relabel T_pack_mean_* surfaces as available-probe row mean; check each "4-sensor mean" text (jsx:11085, 11458) against its estimator.
 P2	C03	C2	685	SPEC-FIRST	V	M330	M	Adjusted urban-support contrast exists (seasonal_adjust v2, -1.32 [-3.79, 0.56]); add audit targets as reported method disagreement plus composition table.
 P2	C04	C2	689	FIX-NOW	V	M321	M	Extend records_disclosure (has nNonNull, cap, winnerValidity) with statistic, tiedHolders, nDays, holderHashStatus, masterMD5, recorded grid.
@@ -297,7 +297,7 @@ P2	C3.14	C3	765	DECLINE	V	M325	-	Keep published single-sample Record (147 mV, Ju
 P2	C3.15	C3	769	INFO	V	M325	-	Quote +/-100 mV bound and 40.8 mV uniform-scenario uncertainty (arithmetic checked) as conditional scenarios, never file properties.
 P2	C3.16	C3	776	INFO	V	-	-	No jitter or de-rounding: already policy (M308 flags, never repairs; raw read-only).
 P2	C3.17	C3	777	FIX-NOW	V	M325	S	Label the 9 copies' grid issue in M325 and f03 payloads; files stay byte-unchanged.
-P2	C3.18	C3	778	BLOCKED	V	-	-	Unrounded exports: owner states only phone exports exist (F03 decision 2026-09-29); keep request open, no work.
+P2	C3.18	C3	778	FIX-NOW	NV	M324	S	CHG (was BLOCKED): sha256-verified originals of the 9 coarse files are recovered; script-check their cell-voltage grid against the raw/ copies; read-only, report-only.
 P2	C4.1	C4	784	FIX-NOW	n/a	M325	S	State in outputs: a subset change changes the target; cell spread is a health proxy, not capacity SOH.
 P2	C4.2	C4	788	SPEC-FIRST	n/a	M325	M	Script-write the 4-row trend table (published/current x all/finer-grid) with drives, days and intervals.
 P2	C4.3	C4	793	INFO	V	-	-	Matches published 0.1611 on 465/100; interval differs only by critical value (repo z, audit t99).
@@ -305,7 +305,7 @@ P2	C4.4	C4	797	FIX-NOW	V	M325	S	Replace stale f03 current-raw slope (-1.6668, 44
 P2	C4.5	C4	801	SPEC-FIRST	NV	M325	-	Published values on the 456-drive finer-grid subset; known-answer +0.151.
 P2	C4.6	C4	805	SPEC-FIRST	NV	M325	-	Current raw on finer-grid subset; known-answer +0.117; closes M307 Director follow-up (9 flagged, 6 as sensitivity).
 P2	C4.7	C4	809	INFO	NV	M326	-	Complete-four-probe covariate swap (+0.1181) is an M326 sensitivity; it does not explain the sign reversal.
-P2	C4.8	C4	814	BLOCKED	NV	M325	-	List finer-grid drives still differing >=1 mV in M325 payload; cause attribution needs originals.
+P2	C4.8	C4	814	SPEC-FIRST	NV	M325	S	CHG (was BLOCKED): attribute the >=1 mV finer-grid differences by diffing original vs raw/ per drive; call it a re-export artefact only if the diff explains it.
 P2	C5.1	C5	823	SPEC-FIRST	V	M325	S	Run six pairing settings; published convention is SPREAD_TOL 300 ms, V_ALIGN_TOL 1500 ms (v6:247,249).
 P2	C5.2	C5	830	INFO	NV	M325	-	0.1/0.3 s: known-answer row.
 P2	C5.3	C5	834	INFO	NV	M325	-	0.1/1.5 s: known-answer row.
@@ -360,7 +360,7 @@ P2	C8.7	C8	1019	SPEC-FIRST	n/a	M329	M	Stable-state auxiliary estimator only via 
 P2	C9.1	C9	1025	SPEC-FIRST	V	M328	M	FUEL-12: trapezoid plus left/right rectangles, gaps flagged first, no BSFC/density/LHV; recon_engine integrates right-end flow*dt.
 P2	C9.2	C9	1035	SPEC-FIRST	NV	M328	-	All positive-delta trips: known-answer 243/48, ratio 1.002399.
 P2	C9.3	C9	1039	SPEC-FIRST	NV	M328	-	Primary summary on gap-free trips: known-answer 234/48, 1.002396; day bootstrap seed 42, 4000.
-P2	C9.4	C9	1043	SPEC-FIRST	NV	M328	-	Report hash-matched stratum separately (known-answer 142/33) as provenance check of the fuel channels.
+P2	C9.4	C9	1043	SPEC-FIRST	NV	M328	S	CHG: primary provenance check = read-only original-vs-raw/ diff of the fuel counter and rate channels on all fuel files; the 142/33 stratum becomes secondary.
 P2	C9.5	C9	1046	SPEC-FIRST	n/a	M328	S	Bland-Altman difference-vs-mean chart in the Fuel tab (O1), script-written keys, n trips and days shown.
 P2	C9.6	C9	1047	BLOCKED	n/a	-	-	Channel independence needs logger/PID definitions (C14.13).
 P2	C9.7	C9	1048	SPEC-FIRST	NV	M328	-	Known-answers +0.240%, median 0.448 mL; empirical quantiles are descriptive, not limits of agreement.
@@ -438,10 +438,10 @@ P2	C14.N1	C14	1298	INFO	n/a	M325	-	Cite NIST TN1297 Type B for the conditional r
 P2	C14.N2	C14	1302	INFO	n/a	M325	-	Cite TN1297 Appendix A: min/max selection and shared acquisition break independence.
 P2	C14.A1	C14	1306	INFO	n/a	M328	-	Cite Bland-Altman (1986) in FUEL-12.
 P2	C14.8	C14	1311	INFO	n/a	-	-	References support methods, not this vehicle or logger.
-P2	C14.9	C14	1313	BLOCKED	V	-	-	333 originals: owner states none exist (F03); keep open, no work.
+P2	C14.9	C14	1313	STALE	V	-	-	CHG (was BLOCKED): 333/333 originals sha256-verified and recovered (M323, kept outside the repo); what remains is Andrii's re-anchoring decision (see F01).
 P2	C14.10	C14	1315	BLOCKED	n/a	-	-	Article-10 manufacturer table needs external input (F23).
 P2	C14.11	C14	1315	BLOCKED	V	-	-	extract_soc_patterns.py absent; keep soc_patterns.json, label illustrative (O2).
-P2	C14.12	C14	1316	BLOCKED	V	-	-	Unrounded exports for the 9 coarse files: none exist per owner (same as C3.18).
+P2	C14.12	C14	1316	FIX-NOW	NV	M324	S	CHG (was BLOCKED): same check as C3.18; the originals of the 9 coarse files exist; the grid check decides whether unrounded exports are still needed.
 P2	C14.13	C14	1317	OWNER	n/a	-	-	Andrii: identify logger app/version and PID formulas for fuel rate and used-fuel accumulator.
 P3	p1.1	1	1324	INFO	V	-	-	Audit baseline M316; M317-M319 landed later. F30 refreshed by M318; F07 now also censored from 2026-08-24 (M319).
 P3	p1.2	1	1330	INFO	V	-	-	Accept verdict: strong energy ledger, inconsistent dashboard, no validated health or lifespan claims; frames M321-M331 order.
@@ -485,9 +485,9 @@ P3	p4.15	4	1516	INFO	V	-	-	Audit stack Py3.12.14/numpy2.3.5/pandas2.2.3 vs pins 
 P3	p4.16	4	1518	INFO	V	-	-	No bitwise cross-version claim; master and archive unchanged. Accept.
 P3	p5.1	5	1527	INFO	n/a	-	-	Chapter 2 heading.
 P3	p5.2	5	1528	INFO	n/a	-	-	P0/P1/P2 used as scheduling input only; not safety advice.
-P3	F01	5	1532	OWNER	V	NEW:F03-zip-sweep	S	CHG (was BLOCKED): Investigation folder holds 38 exported_records ZIPs plus untouched-project and M294-M299 ZIPs, never hash-swept against raw_manifest.json.
+P3	F01	5	1532	OWNER	V	M324	S	CHG: originals obtained (M323); Andrii decides re-anchoring: preferred is a second sha256-manifested archive; no silent raw/ swap; no-new-drive control build first.
 P3	F01.r1	5	1537	STALE	V	-	-	Already policy: published master is reference of record; rebuilds are provenance sensitivity (M305-M311).
-P3	F01.r2	5	1538	OWNER	V	NEW:F03-zip-sweep	S	CHG (was BLOCKED): read-only sha256/normHash sweep of those ZIPs; report-only; any re-anchoring only by Andrii's decision.
+P3	F01.r2	5	1538	STALE	V	-	-	CHG: read-only ZIP sweep done in M323 (zip_sweep_report.json), 333/333 sha256 matches; no re-anchoring done.
 P3	F01.r3	5	1538	FIX-NOW	V	M322	S	jsx:11622 410/410 byte-identical contradicts 333/489 failing. Generate footer from f03_provenance.json.
 P3	F01.r4	5	1539	INFO	V	-	-	Already rule: raw files and manifest records never modified; verify_import keeps reporting mismatch.
 P3	F01.ev	5	1540	INFO	V	-	-	raw_manifest.json, provenanceSensitivity, jsx:11622 exist; hash_validation.csv is audit-ZIP only.
@@ -773,12 +773,12 @@ P4a	p21.15	21	2310	FIX-NOW	NV	M323	S	Render All as nested reference; no All-vers
 P4a	p21.16	21	2312	FIX-NOW	NV	M322	S	Show climate-normals source, period and version with All-year scenarios; caption 'scenario, not measured annual limit or lifetime'.
 P4b	p22.1	22	2321	INFO	n/a	-	-	Chapter 6 heading; the rulings are in the rows below.
 P4b	p22.2	22	2322	INFO	n/a	M325	-	Use the framing "estimator reproduced, raw provenance unstable" in the M325 sensitivity text. Call the deltas provenance sensitivity, never corrections.
-P4b	p22.3	22	2323	SPEC-FIRST	n/a	M325	M	Build a script-written Figure-4 equivalent: slopes by data basis with day-cluster intervals. Caption says neither healing nor degradation is established. Dashboard-only (F03).
+P4b	p22.3	22	2323	SPEC-FIRST	n/a	M325	M	CHG: data bases = published, originals rebuild, raw/ re-export; day-cluster intervals; caption: neither healing nor degradation established; dashboard-only while F03 open.
 P4b	p22.4	22	2330	INFO	V	-	-	The published +0.1611, 465 drives/100 days, stays the headline (degradationTrends.cellSpread). No action.
 P4b	p22.5	22	2333	SPEC-FIRST	NV	M325	S	Add a day-bootstrap row (seed 42, 4000 draws) as a sampling-dependence sensitivity. Never the headline.
 P4b	p22.6	22	2336	SPEC-FIRST	NV	M325	S	Add a 7-logged-day circular-block row as a sensitivity. Use 4000 draws, not 2000; state the deviation if kept.
-P4b	p22.7+p22.8	22	2339	SPEC-FIRST	NV	M325	M	Current-raw response rows (published controls / current controls): script-written and labelled provenance sensitivity. Escalate to the Director, because they exclude zero with the opposite sign.
-P4b	p22.9	22	2345	SPEC-FIRST	NV	M325	S	Add a hash-matched subset row (target +1.155, 151 drives/33 days). Disclose that the date range is narrower and the subset is selected. Descriptive only.
+P4b	p22.7+p22.8	22	2339	SPEC-FIRST	NV	M325	M	CHG: escalation answered: opposite-sign rows come from raw/ re-exports; show them as re-export sensitivity next to an originals row; first confirm the response column does not drift.
+P4b	p22.9	22	2345	SPEC-FIRST	NV	M325	S	CHG: the full originals-basis row replaces this as the provenance check; keep the hash-matched subset (target +1.155, 151/33) as a secondary descriptive known-answer only.
 P4b	p22.10	22	2349	INFO	V	-	-	Estimator matches degradation_trends.py (MONTH_DAYS=30.4375; TOST df=nDays-1). No action.
 P4b	p22.11	22	2352	FIX-NOW	n/a	M322	S	Wording: bootstrap and block intervals probe sampling dependence, not raw authenticity or calibration.
 P4b	p22.12	22	2354	FIX-NOW	V	M322	S	Label the published interval "cluster-robust normal (z)". Any t(G-1) interval is a sensitivity, not a silent switch.
@@ -827,7 +827,7 @@ P4b	p25.7	25	2513	INFO	n/a	M322	-	Limit: no winter consumption/ageing from 2 Col
 P4b	p25.8	25	2515	INFO	n/a	M322	-	Limit: no causal controller reason; a mask ending is not a boundary cause.
 P4b	p26.1	26	2523	INFO	n/a	-	-	Chapter 8 heading.
 P4b	p26.2	26	2524	OWNER	n/a	NEW:article-scope	-	Framing as a case study of activity and observability limits; Andrii decides the thesis framing.
-P4b	p26.3	26	2533	OWNER	n/a	NEW:article-scope	-	"Authenticate raw versions" is impossible (F03). Use provenance-disclosed dual-report wording; missingness/epoch manifest feasible.
+P4b	p26.3	26	2533	OWNER	n/a	NEW:article-scope	-	CHG: hash authentication is now possible (333 sha256-verified originals); wording "consistent with ... originals", never authenticated/proven; dual report until Andrii decides.
 P4b	p26.4	26	2540	OWNER	n/a	NEW:article-scope	-	Methodological novelty only via validated observability/gap-sensitivity framework.
 P4b	p26.5	26	2546	OWNER	n/a	NEW:article-scope	-	Control-strategy description is feasible: event/hazard refresh with rolling validation, no intent claims.
 P4b	p26.6	26	2554	INFO	n/a	-	-	Health/degradation "not established" matches CLAUDE.md TOST wording.
@@ -868,9 +868,9 @@ P5	p30.0	30	2734	INFO	V	-	-	Appendix A heading; records block summary_arrays.jso
 P5	p30.1	30	2735	INFO	V	-	-	41 stored, heading counts 40 (jsx:10789 filters auditOnly); audit-only row still rendered greyed below with reason. No action.
 P5	p30.2	30	2736	INFO	V	-	-	40/41 holder contracts match; the failure is A-34 (F06). Holder matches do not validate labels; label fixes listed per row.
 P5	p30.3	30	2738	INFO	n/a	-	-	Raw provenance limitation is F03; add holderHashStatus per record (C04 field, M321).
-P5	p30.4	30	2739	SPEC-FIRST	NV	M325	M	Script-written current-raw loaded-p95 sensitivity incl. all tied holders; label provenance sensitivity; published 54 mV record stays reference of record.
+P5	p30.4	30	2739	SPEC-FIRST	NV	M325	M	CHG: add an originals basis; label the 100 mV p95 ties a raw/ re-export grid artefact if the originals differ; the published 54 mV record stays the reference.
 P5	p30.5	30	2741	INFO	NV	M325	-	Jun09 27 mV (master) vs 100 mV (current raw, 657 pairs) is a known-answer target for the M325 script, never typed.
-P5	p30.6	30	2742	BLOCKED	n/a	-	-	Originals unavailable (owner F03). No rebaselining; wording: data-version discrepancy, not a physical record or health finding.
+P5	p30.6	30	2742	FIX-NOW	NV	M324	S	CHG (was BLOCKED): originals exist and no rebaselining is needed; wording: raw/ re-export discrepancy; published record consistent with originals, pending the C3.18 check.
 P5	A-1	30	2749	FIX-NOW	V	M321	S	Holder matches; add statistic=native probe max (row-max T1-T4 peaks, cap 80), nEligible/nDays; keep sampled-extremum wording.
 P5	A-2.r1	30	2755	FIX-NOW	V	M321	S	Add tiedHolders (3) and statistic=per-drive max of row-mean; builder idxmax keeps first tie only (compute_summary_arrays.py:1266).
 P5	A-2.r2	30	2755	FIX-NOW	V	M321	S	Delete 'bulk-cell', 'fixed ~9 C gradient', 'drives Arrhenius' (cs_arrays:1417-1419); A-1 holder itself shows 51 vs 46 C (5 C).
@@ -1097,7 +1097,7 @@ P7	Cs-59	50	3777	FIX-NOW	V	M321	M	F06 continuous 130+ -> longest_run. F07 intake
 P7	Cs-60	50	3783	FIX-NOW	NV	M322	S	Lead with proxy-only outcomes and F03 provenance sensitivity. "Equivalence not established", never "no degradation".
 P7	Cs-61	50	3786	FIX-NOW	NV	M322	S	Recast thresholds as assumptions and monitored exposures. No plating, safe-limit, capacity or lifetime inference.
 P7	Cs-62	50	3789	FIX-NOW	V	M322	S	Keep the single-stage control. Rename the MDE field (F22). "Spread trend / V-regression is not direct SOH".
-P7	Cs-62.r2	50	3790	SPEC-FIRST	NV	M325	M	Current-archive sensitivity and cadence-controlled resistance shown beside published values (provenance sensitivity wording).
+P7	Cs-62.r2	50	3790	SPEC-FIRST	NV	M325	M	CHG: "current archive" = raw/ lower-precision re-exports; show it next to the published and originals-rebuild values, labelled re-export sensitivity.
 P7	Cs-63	50	3794	INFO	V	-	-	Keep the nine-file e-4ORCE rail segregated (jsx:8803). No raw recomputation. Unit/basis caveats ride along in the M322 sweep.
 P7	Cs-64	50	3798	FIX-NOW	NV	M322	S	Annotation does not make vehicles equivalent. Show uncertainty and T/SoC/load/cadence support. Vehicle-specific energy normalization.
 P7	Cs-65	50	3802	FIX-NOW	NV	M322	S	Make missing strata and support explicit. "Nine captures do not estimate an AWD/FWD population effect".
@@ -1176,7 +1176,7 @@ P8	E-9	56	4122	BACKLOG	V	NEW:housekeeping	S	recon_engine.py:146 (__main__) reads
 P8	E-10	56	4130	FIX-NOW	NV	M322	M	docs/overview.md and provenance subblocks: generated counts/dates; historical constants move to dated notes.
 P8	p56.1	56	4138	INFO	V	-	-	'Derived does not mean safe to delete' matches F03. A textual reference graph is not proof of use; retire evidence must include a path-variable Grep.
 P8	p56.2	56	4142	INFO	n/a	-	-	Heading of the files-needed table.
-P8	E-N1	56	4146	BLOCKED	V	M322	-	The original 333 canonical CSVs do not exist (F03). In M322, update CLAUDE.md '335/457' to the f03_provenance.json basis.
+P8	E-N1	56	4146	FIX-NOW	V	M324	S	CHG (was BLOCKED): originals recovered; CLAUDE.md already says 333/489; script-update stale f03_provenance.json (originalsAvailable:false, "335/500", "originals unavailable").
 P8	E-N2	56	4156	OWNER	V	-	-	Andrii to supply the Article-10 table image and page (summary_config.json:3435). Until then label the transcription unverified.
 P8	E-N3	56	4165	STALE	V	M322	-	Resolved by O2: soc_patterns kept as a labelled illustration outside quantitative evidence. Recovering the extractor is BLOCKED.
 P8	E-O1	56	4174	BLOCKED	n/a	-	-	Calibrated capacity/Ah and chemistry need a reference test. CAP_KWH=2.1 stays verified:false.
