@@ -57,6 +57,10 @@ assert "W4-ambientbin" in lg.scan_text("Apparent KE recovery proxy by ambient bi
 assert "W4-pureregenkpi" in lg.scan_text("peak charging ceiling (pure regen)") and lg.scan_text("peak charging ceiling (engine-off braking; classifier-conditional)") == []
 assert lg.scan_text("high-SoC reduction (pure regen)") == ["W4-pureregenkpi"]
 assert "W4-startproxy" in lg.scan_text("Engine-start proxy per 100 km") and lg.scan_text("Current-direction reversals per 100 km, not a counted engine start") == []
+# W5a rules
+assert "W5-preinstr" in lg.scan_text("is the pre-instrumentation-era files with no pack-temperature channel at all, unrelated to ambient coverage")
+assert lg.scan_text("is drives that do not enter the ambient rows (no parseable recorded ambient value, or no Sensor-1 pack-temperature trajectory)") == []
+assert "W5-novel" in lg.scan_text("the first-ever study") and "W5-novel" in lg.scan_text("a novel method") and lg.scan_text("the first drives of May") == []
 # hedged, correct text must NOT fail
 for ok in ["engine brake thermal efficiency is therefore model-derived", "the logged fuel rate is calculated by the logger app and present on a subset of drives",
            "cycles with a range below 1.0 pp are dropped", "the remainder are excluded from GTC, not counted as zero", "156 of 489 canonical archived copies match the manifest"]:
