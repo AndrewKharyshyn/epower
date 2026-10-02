@@ -117,6 +117,13 @@ ok("A2 REQUIRED section titles 'Net pack-energy recovery' and 'Observed engine-s
 # M333: the GTR closure residual is visible in every mode (F14.10), without any reveal
 for _m in ("all", "warm", "shoulder", "compare"):
     ok(f"A2 REQUIRED GTR closure residual present in the Fuel {_m} dump", "Allocation excess over generator output" in T.get(f"fuel__{_m}", ""))
+# M336: interval accounting block present with the required Director wording (Fuel All dump), numbers bound to the payload
+_z = (A.get("generatorTractionRecon") or {}).get("gtrClosure") or {}
+_fa = T.get("fuel__all", "").replace("  ", " ")
+ok("A2 REQUIRED M336 closure block wording (consistent within the dual bracket; not closed; CI straddles 0.5; residual; provenance)",
+   all(x in _fa for x in ["consistent within the dual bracket; not closed under the pre-registered", "straddles 0.5", "Battery → traction is a model residual", "provenance-sensitive (F03)", "bounding cases, not calibrated intervals"]))
+ok("A2 REQUIRED M336 closure block numbers equal the payload",
+   bool(_z) and f"{_z['fGen']['est']} ({_z['fGen']['ci95'][0]} to {_z['fGen']['ci95'][1]})" in _fa and f"{_z['scope']['nDrives']} of {_z['scope']['nCanonical']} drives" in _fa)
 # M334: Fuel tab banner and scenario wording present in every mode dump
 for _m in ("all", "warm", "shoulder", "compare"):
     ok(f"A2 REQUIRED Fuel basis banner and SoC-balanced scenario wording in the Fuel {_m} dump",

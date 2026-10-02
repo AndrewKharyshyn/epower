@@ -4519,11 +4519,33 @@ function GtrAccountingTable({cols}){
     </div>
   </div>;
 }
+// M336: interval accounting of the generator node, bound to S.generatorTractionRecon.gtrClosure (script-written by tools/gtr_closure_block.py)
+function GtrClosureBlock(){
+  const Z=S.generatorTractionRecon?.gtrClosure;
+  if(!Z) return null;
+  const pc=v=>(v>0?"+":"")+(v*100).toFixed(1)+"%", ci=a=>`${(a[0]*100).toFixed(1)} to ${(a[1]*100).toFixed(1)}%`;
+  const P=Z.per100km, sc=Z.scope;
+  return <div data-gtr-closure="1" style={{fontSize:10,color:"#334155",border:"1px solid #e2e8f0",borderRadius:6,padding:"6px 8px",margin:"6px 0",background:"#f8fafc"}}>
+    <div style={{fontWeight:700,marginBottom:3}}>Generator node: interval accounting (model-derived, corpus-wide)</div>
+    <div>Generator branches are consistent within the dual bracket; not closed under the pre-registered ±{(Z.nodeExcess.tolerance*100).toFixed(0)}% rule.
+      Generator → battery is bracketed between the engine-on charge ({P.genToBattEngineOn}) and that plus the engine-on braking-torque (dual) charge ({P.genToBattUpper}) kWh/100 km, because the dual charge cannot be split between generator and braking with the logged channels.</div>
+    <table style={{borderCollapse:"collapse",margin:"4px 0"}}><tbody>
+      <tr><td style={{padding:"2px 6px"}}>Modelled generator electricity · generator → traction (kWh/100 km)</td><td style={{padding:"2px 6px",fontWeight:700}}>{P.generator} · {P.genToTraction}</td></tr>
+      <tr><td style={{padding:"2px 6px"}}>Branch excess over generator, upper bracket (95% CI)</td><td style={{padding:"2px 6px",fontWeight:700}}>{pc(Z.nodeExcess.relToGenerator)} ({ci(Z.nodeExcess.ci95)})</td></tr>
+      <tr><td style={{padding:"2px 6px"}}>Branch excess over generator, dual charge excluded (95% CI)</td><td style={{padding:"2px 6px",fontWeight:700}}>{pc(Z.excessWithoutDual.relToGenerator)} ({ci(Z.excessWithoutDual.ci95)})</td></tr>
+      <tr><td style={{padding:"2px 6px"}}>Model-derived f_gen (95% CI)</td><td style={{padding:"2px 6px",fontWeight:700}}>{Z.fGen.est} ({Z.fGen.ci95[0]} to {Z.fGen.ci95[1]})</td></tr>
+      <tr><td style={{padding:"2px 6px"}}>Implied closure parameter α* (95% CI)</td><td style={{padding:"2px 6px",fontWeight:700}}>{Z.alphaStar.est} ({Z.alphaStar.ci95[0]} to {Z.alphaStar.ci95[1]})</td></tr>
+    </tbody></table>
+    <div>The 95% CI of the model-derived f_gen straddles 0.5, so the generator/battery supply split is not established; the point estimate is below 0.5 in all {Z.fGen.nVariants} sensitivity variants ({Z.fGen.variantMin} to {Z.fGen.variantMax}). Battery → traction is a model residual. α* is an {Z.alphaStar.label} (variants {Z.alphaStar.variantMin} to {Z.alphaStar.variantMax}).</div>
+    <div style={{color:"#b45309",marginTop:3}}>Scope: fuel-PID subset ({sc.nDrives} of {sc.nCanonical} drives, {sc.nDays} days, {sc.km} km), raw/ basis, provenance-sensitive (F03). {sc.excludedNoBatteryInputs.length} drives ({sc.excludedNoBatteryInputs.map(x=>x.replace(".csv","")).join(", ")}) lack battery inputs in the master and are excluded; {sc.publishedRowsWithFgenOne.length} of them have published reconstruction rows that give f_gen = 1 by construction. Variants are descriptive with no multiplicity control; offset and BSFC corners are bounding cases, not calibrated intervals. {Z._staleness}.</div>
+  </div>;
+}
 function GtrFlowGate({F,corpus,children}){
   const [show,setShow]=useState(false);
   if(!F) return null;
   return <div data-gtr-flow-gate="1">
     <GtrAccountingTable cols={[{key:"corpus",label:"",F,corpus}]}/>
+    <GtrClosureBlock/>
     <button onClick={()=>setShow(v=>!v)} style={{fontSize:10,padding:"3px 8px",border:"1px solid #e2e8f0",borderRadius:6,background:"#f8fafc",cursor:"pointer"}}>{show?"Hide":"Show"} allocation sketch (not a conserved flow)</button>
     {show&&<GtrRevealCtx.Provider value={true}><div style={{marginTop:6,opacity:0.85}}>{children}</div></GtrRevealCtx.Provider>}
   </div>;
@@ -10022,6 +10044,7 @@ function GtrSankeyMultiples(){
   return <div style={{marginTop:10}}>
     <div style={{fontSize:11,fontWeight:700,color:"#0f172a",marginBottom:3}}>Model accounting per cohort (per 100&nbsp;km)</div>
     <GtrAccountingTable cols={cohorts.map(o=>({key:o.s.key,label:o.s.label,col:o.s.col,F:o.d.flows,corpus:o.d.corpus,n:o.d.nDrives,km:o.d.kmProduction}))}/>
+    <GtrClosureBlock/>
     <button data-gtr-compare-reveal="1" onClick={()=>setShowSk(v=>!v)} style={{fontSize:10,padding:"3px 8px",border:"1px solid #e2e8f0",borderRadius:6,background:"#f8fafc",cursor:"pointer",marginBottom:6}}>{showSk?"Hide":"Show"} allocation sketches (not conserved flows)</button>
     {showSk&&<GtrRevealCtx.Provider value={true}><div>
     <div style={{fontSize:9,color:"#94a3b8",marginBottom:6}}>Allocation sketches, one per cohort, at identical node positions and scale (ribbon thickness is comparable across panels); model-derived and not conserved: the branches do not close. Fuel is logged volume × assumed E10 LHV (the logged fuel rate is app-calculated).</div>

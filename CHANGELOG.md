@@ -1,3 +1,16 @@
+## M336 (2026-10-02): GTR repair step 3: interval accounting block gtrClosure (additive), blind-audited; Sankey stays hidden
+
+**Rationale.** F04 is not repaired by closing the branches: the generator node is consistent within the dual bracket but not closed under the pre-registered +/-5% rule (257 fuel-PID drives, excess +6.45% CI 4.9-8.6, f_gen 0.466 CI 0.381-0.544 straddles 0.5); script-written payload block, accounting-table companion, language-gate rules; displayed f_gen, Sankey and thesis wording unchanged; 3 drives with NaN battery inputs excluded (published rows for two give f_gen=1, disclosed, repair is a separate milestone needing sign-off).
+
+**State.** `drive_master.csv` 489 rows, MD5 `bd9d10726bb064d857cf9ff98d2b7338`.
+
+**Gates (runs/20260930T142615Z).** stage_raw=ok; raw_temp_pass=ok; compute_seasonal=ok; refresh_cohort_meta=ok; fuel_recon=ok; refresh_gtr_headline=ok; f03_provenance_build=ok; post_steps=ok; cohort_arrays=ok; comparison_cube=ok -> ok.
+
+**Delta flags.** none.
+
+**Files.** `tools/gtr_closure_diag.py`, `tools/gtr_interval_sens.py`, `tools/gtr_closure_block.py`, `summary_arrays.json`, `xtrail_summary.jsx`, `xtrail_dashboard.html`, `language_gate.py`, `semantic_gate.py`, `analyses/M336_gtr_repair_spec.md`, `analyses/M336_step2_design.md`, `analyses/M336_step2_result.md`.
+
+
 ## M335 (2026-10-02): Housekeeping: retire 20 unused tracked files; test_seasonal t15 uses temp dirs
 
 **Rationale.** Files with no consumer outside the audit archive (_det1/_det2 test artefacts, five *_backup.json, m294_patch, kpi_ci* family, chart_registry.json) removed; sha256 manifest in analyses/M335_retired_files_manifest.json; no figure or gate change.
