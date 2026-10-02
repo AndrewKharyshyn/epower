@@ -34,6 +34,18 @@ assert "W2-sub15" in lg.scan_text("No sub-15°C pack data exists") and "W2-sub15
 assert "W2-seasonlabel" in lg.scan_text("All-data reference · season filter does not apply") and lg.scan_text("thermal-cohort filter does not apply") == []
 assert "W2-warmseason-corpus" in lg.scan_text("the whole corpus is warm-season, so pack") and "W2-warmseason-corpus" in lg.scan_text("Warm-season data only.")
 assert lg.scan_text("Cold: 2 observed drives on 1 date (2026-09-30), below the minimum support") == []
+# W3a rules
+assert "W3-measuredfade" in lg.scan_text("Power fade is measured (M25)") and "W3-measuredfade" in lg.scan_text("the measured power-fade trend")
+assert lg.scan_text("a proxy, not a power-fade measurement") == []
+assert "W3-nodetectable" in lg.scan_text("No detectable cell-spread trend at 8741 km") and lg.scan_text("Cell-spread trend not resolved at 8741 km") == []
+assert "W3-nofade" in lg.scan_text("zero — no fade") and lg.scan_text("zero trend") == []
+assert "W3-mde" in lg.scan_text("MDE ±1.7%/yr") and "W3-mde" in lg.scan_text("the minimum detectable effect") and "W3-mde" in lg.scan_text("read with its detection limit")
+assert lg.scan_text("95% CI half-width ±1.7%/yr (precision, not a power calculation)") == []
+assert "W3-mde" in lg.scan_text("minimum detectable fade") and "W3-mde" in lg.scan_text("not yet resolvable now") and "W3-mde" in lg.scan_text("would need a 24-month window")
+assert lg.scan_text("equals the half-width after ~24 months (planning figure, ~50% power)") == []
+assert lg.scan_text("gap detection and the PID cadence") == []
+assert "W3-wikner" in lg.scan_text("(5%, protective per Wikner)") and "W3-wikner" in lg.scan_text("elevated per Wikner") and lg.scan_text("lower-weight rung: assumed, Wikner cross-check") == []
+assert "W3-sharedcoolant" in lg.scan_text("ambient, tracking the shared coolant loop and sustained load") and lg.scan_text("tracking sustained load") == []
 # hedged, correct text must NOT fail
 for ok in ["engine brake thermal efficiency is therefore model-derived", "the logged fuel rate is calculated by the logger app and present on a subset of drives",
            "cycles with a range below 1.0 pp are dropped", "the remainder are excluded from GTC, not counted as zero", "156 of 489 canonical archived copies match the manifest"]:

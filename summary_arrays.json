@@ -8812,7 +8812,7 @@
   },
   "power": {
    "mechanism": "internal-resistance rise (power capability loss)",
-   "evidenceStatus": "MEASURED - null result with stated detection limit",
+   "evidenceStatus": "PROXY - no resolved trend; precision stated as a CI half-width",
    "observable": "vreg_R_pack_mohm",
    "projectedBy": null,
    "whyNotProjected": "No validated resistance-vs-throughput law exists for this pack, and the measured trend is statistically indistinguishable from zero, so any extrapolation would be slope-noise multiplied by time. Reported as a monitored level + interval, deliberately WITHOUT a crossing year.",
@@ -8955,7 +8955,7 @@
     "expectedIncreasePctSoFar": 17.6,
     "detectionFloorPctSoFar": 33.7,
     "withinDetectionFloor": true,
-    "note": "Linear-in-throughput approximation ONLY, for sanity-checking the null result -- not a fitted degradation law. At the current mileage fraction of the official 190,000 km life point (23.5%), the disclosed lifetime IR rise implies an expected-so-far increase (~17.6%) at or below this window's own detection floor (±33.7% over 2.15yr) -- i.e. the M25 null result is consistent with, not in tension with, the official trajectory at this mileage."
+    "note": "Linear-in-throughput approximation ONLY, for sanity-checking the null result -- not a fitted degradation law. At the current mileage fraction of the official 190,000 km life point (23.5%), the disclosed lifetime IR rise implies an expected-so-far increase (~17.6%) at or below this window's own CI half-width (±33.7% over 2.15yr) -- i.e. the M25 interval does not exclude the official trajectory at this mileage (a consistency check, not a validation)."
    }
   },
   "capacityFadeAnchor": {
@@ -9041,7 +9041,7 @@
     "official": "25.8% power / +75.0% IR @ 190,000 km",
     "ours": "slope 0.077 mΩ/mo, 95% CI [-1.547, 1.765], null",
     "verdict": "consistent_null",
-    "note": "Linear-in-throughput approximation ONLY, for sanity-checking the null result -- not a fitted degradation law. At the current mileage fraction of the official 190,000 km life point (23.5%), the disclosed lifetime IR rise implies an expected-so-far increase (~17.6%) at or below this window's own detection floor (±33.7% over 2.15yr) -- i.e. the M25 null result is consistent with, not in tension with, the official trajectory at this mileage."
+    "note": "Linear-in-throughput approximation ONLY, for sanity-checking the null result -- not a fitted degradation law. At the current mileage fraction of the official 190,000 km life point (23.5%), the disclosed lifetime IR rise implies an expected-so-far increase (~17.6%) at or below this window's own CI half-width (±33.7% over 2.15yr) -- i.e. the M25 interval does not exclude the official trajectory at this mileage (a consistency check, not a validation)."
    },
    {
     "parameter": "Round-trip efficiency",
@@ -56698,7 +56698,7 @@
   "disclosure": "Published values derived from the M299 corpus; 333/489 canonical raw copies in raw/ do not match recorded hashes (lower-precision re-exports); sha256-verified originals exist for all 333, and a rebuild from them is consistent with the published raw-derived non-ML per-drive values (M323); ML/refit columns are not reproduced by a refit from either source; F03 is open, re-anchoring undecided.",
   "sensitivityStatement": "In a provenance-sensitivity rebuild from today's raw/ files (lower-precision re-exports for the hash-failing drives) the cell-spread slope was not robust (sign and magnitude changed); the difference arises only in hash-failing files (all hash-matching files reproduce the published values exactly) and cannot be separated from calendar month. It is a sensitivity result computed from raw/ re-exports, not a finding; no cell-spread estimate has been recomputed from the originals.",
   "wording": [
-   "no detectable cell-spread trend over the 4.53-month window; equivalence not established (not 'no degradation')",
+   "cell-spread trend not resolved over the 4.53-month window; equivalence not established (not 'no degradation')",
    "provenance sensitivity, never 'correction' or 'error'",
    "never 'reproducible from raw data' for raw-pass keys; say 'a rebuild from the sha256-verified originals is consistent with the published raw-derived non-ML per-drive values' (never 'proven', 'authenticated', 'corrections')"
   ],

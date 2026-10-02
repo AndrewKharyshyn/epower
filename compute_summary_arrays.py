@@ -2613,8 +2613,8 @@ def _fade_modes(dm, cyc, seasonal, power_fade):
                      'the table is not an end-of-life estimate.')},
         'power': {
             'mechanism': 'internal-resistance rise (power capability loss)',
-            'evidenceStatus': ('MEASURED - null result with stated detection '
-                               'limit'),
+            'evidenceStatus': ('PROXY - no resolved trend; precision stated as a '
+                               'CI half-width'),
             'observable': (power_fade or {}).get('basis'),
             'projectedBy': None,
             'whyNotProjected': (
@@ -2790,10 +2790,10 @@ def _official_disclosure_correlation(dm, cfg, cyc, fade_modes, power_fade):
                      f"({round(km_frac*100,1)}%), the disclosed lifetime IR "
                      f"rise implies an expected-so-far increase "
                      f"(~{expected_pct_so_far}%) at or below this window's "
-                     f"own detection floor (\u00b1{mde_pct_so_far}% over "
-                     f"{round(yr_now,2)}yr) -- i.e. the M25 null result is "
-                     'consistent with, not in tension with, the official '
-                     'trajectory at this mileage.')}
+                     f"own CI half-width (\u00b1{mde_pct_so_far}% over "
+                     f"{round(yr_now,2)}yr) -- i.e. the M25 interval does not "
+                     'exclude the official trajectory at this mileage (a '
+                     'consistency check, not a validation).')}
     else:
         resistance['trendContext'] = None
 

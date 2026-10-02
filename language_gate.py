@@ -81,6 +81,13 @@ RULES = [
     Rule("W2-seasonlabel", "regex", "C11.2/p20.2: the cohort filter is a thermal (ambient) cohort, not a calendar season", rx=r"\bseason filter\b"),
     Rule("W2-warmseason-corpus", "regex", "p21.10: the logged corpus is not 'warm-season only' (Warm + Shoulder, Cold observed on 2 drives)",
          rx=r"\bwhole corpus is warm season\b|\bwarm season data only\b", scope=("dom", "payload", "jsx")),   # config: only the dated drivingMixNote (L1344) is allow-listed -> W2b
+    Rule("W3-measuredfade", "regex", "Cs-74: the V-regression resistance is a load-excited proxy; power fade is not 'measured'", rx=r"\bmeasured power fade\b|\bpower fade is measured\b|\bpower fade(?: \w+){0,5} is measured\b"),
+    Rule("W3-nodetectable", "regex", "D-15/R11: 'no detectable cell-spread trend' -> trend not resolved, equivalence not established, provenance-sensitive", rx=r"\bno detectable cell spread trend\b"),
+    Rule("W3-nofade", "regex", "D-15: the axis zero is 'zero trend', not 'no fade'", rx=r"\bzero no fade\b"),
+    Rule("W3-mde", "regex", "F22/D-16/p23.9: mdeRisePctPerYr is a bootstrap CI half-width, not a detection-power / minimum-detectable-effect calculation",
+         rx=r"\bmde\b|\bminimum detectable\b|\bdetection (?:limit|floor|power)\b|\b(?:not yet )?resolvable now\b|\bwould need a \d+ month window\b"),
+    Rule("W3-wikner", "regex", "R5: the Wikner ladder is a cross-check, not a transferable 'protective/elevated' classification", rx=r"\b(?:protective|elevated) per wikner\b"),
+    Rule("W3-sharedcoolant", "regex", "D-12/F27.r1/R2: coolant-loop topology is unestablished", rx=r"\bshared (?:liquid )?coolant loop\b"),
     Rule("M325-410", "phrase", "F01.r3/D-1: 410/410 byte-identical is contradicted (333/489 fail)", phrase="410/410"),
     Rule("M325-reserialize", "regex", "F01.r3/Cs-76: transfer re-serialization is not the established cause", rx=r"\bre ?serializ\w*"),
     Rule("M325-originals", "regex", "E-N1: originals were recovered (M323)", rx=r"\boriginals (?:are )?unavailable\b"),

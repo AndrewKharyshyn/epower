@@ -97,6 +97,11 @@ _cd = sorted({r["d"] for r in _crow})
 _cn = _cm.get("nObserved", len(_crow))
 _cexp = f"Cold: {_cn} observed {'drive' if _cn == 1 else 'drives'} on {len(_cd)} {'date' if len(_cd) == 1 else 'dates'} ({', '.join(_cd)}), below the minimum support"
 ok("A2 REQUIRED Cold observed count and date shown from the payload", any(_cexp in t for t in T.values()), _cexp)
+# W3a (M328): precision wording bound to the payload value; the cell-spread conclusion says 'not resolved'
+_mde = A.get("powerFade", {}).get("mdeRisePctPerYr")
+ok("A2 REQUIRED power-fade precision stated as a CI half-width with the payload value",
+   any(f"95% CI half-width ±{_mde}%/yr" in t for t in T.values()), str(_mde))
+ok("A2 REQUIRED health conclusion reads 'Cell-spread trend not resolved'", any("Cell-spread trend not resolved" in t for t in T.values()))
 ok("A2 REQUIRED selector label reads 'Thermal cohort'", any("Thermal cohort" in t for t in T.values()))
 ok("A2 REQUIRED HVAC caveat states sub-15 C ambient is limited", any("Ambient below 15 °C is limited" in t for t in T.values()))
 
