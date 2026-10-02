@@ -1,0 +1,42 @@
+id	pg	ln	class	ver	ms	eff	action
+F2.6	F2	53	SPEC-FIRST	V	M328	M	One observed pooled L/100 km from the contract; reconcile counter-based socBalancedFuel.rawFleetL100 with rate-based GTR corpus.fuelL; report disagreement; dashboard-only (F03).
+F3.14	F3	127	SPEC-FIRST	V	M328	M	Schema extends existing key stamps (corpusHash/configHash/upstreamHashes) with per-file sha256 and manifest-match flag (F03), masks, support, uncertainty, rounding.
+FUEL-01.Q	F5	186	SPEC-FIRST	V	M328	M	Feasible (counter/rate 263 files, distance, SoC endpoints); estimand: ratio-of-sums L/100 km by distance band, day-clustered CI; dashboard-only (F03 raw-pass).
+FUEL-05.Q	F7	253	SPEC-FIRST	n/a	M331	M	Kept in M331 (audit: first release) for payload design; take example trips from hash-matching raw files so traces match the published master.
+FUEL-12.C	F10	359	SPEC-FIRST	V	M328	M	Pair flow integral and counter delta on identical endpoints; Bland-Altman with grid, reset/gap, F03 hash flags; app average after reset-window check.
+F10.2	F10	368	SPEC-FIRST	n/a	M328	S	Quality view with four labelled layers: provenance (F03 hash status), integration sensitivity, logger consistency, model validity.
+FUEL-14.A2	F11	392	SPEC-FIRST	V	M331	S	Holder fields per C04 plus numerator, denominator, temperature, SoC change, F03 status; quantized/missing fuel never a best-economy record.
+FUEL-12.cmp	F12	471	SPEC-FIRST	n/a	M328	S	One residual scale across cohorts; gap, resolution and F03 provenance flags per trip.
+F13.19	F13	530	SPEC-FIRST	V	M328	S	Ship decisions and ranks as booleans from unrounded values; jsx derives none from rounded numbers today (axis padding only, jsx:9560).
+F14.2	F14	543	SPEC-FIRST	V	M328	L	Create fuel_analytics.py (absent): source policy, interval masks, support, quality, provenance; reuse loaders; JSX renders only.
+F14.5	F14	556	SPEC-FIRST	n/a	M328	S	Contract fields: schema version, script/config sha256, raw sha256 set and F03 status, coverage, assumptions; "not M299-reproducible".
+F15.2	F15	600	OWNER	n/a	-	-	Article directions are Andrii-gated; fuel keys are raw-pass, so F03 blocks article figures without his signed dual report.
+F15.5	F15	608	OWNER	V	NEW:fuel-article-spec	M	Most feasible (builds on FUEL-12); dual report all vs manifest-matched subsets (F03); independence claim needs logger/PID definitions.
+F15.10	F15	635	BLOCKED	V	-	-	Originals unavailable (f03_provenance originalsAvailable:false); Article-10 table and logger/PID definitions need external input; Andrii decides requests.
+C1.4	C1	650	SPEC-FIRST	V	M325	M	Refit current-raw spread trend with and without the 9 M308-flagged files; known-answers -1.393/+0.117; label provenance sensitivity.
+C01	C2	677	SPEC-FIRST	V	M325	M	Record per-file grid; exclude coarse copies from current-raw health fits only; published master untouched; call it measurement quality, not battery condition.
+C3.18	C3	778	BLOCKED	V	-	-	Unrounded exports: owner states only phone exports exist (F03 decision 2026-09-29); keep request open, no work.
+C4.8	C4	814	BLOCKED	NV	M325	-	List finer-grid drives still differing >=1 mV in M325 payload; cause attribution needs originals.
+C9.4	C9	1043	SPEC-FIRST	NV	M328	-	Report hash-matched stratum separately (known-answer 142/33) as provenance check of the fuel channels.
+C12.18	C12	1215	SPEC-FIRST	V	M325	S	Grid marks and resolution panel apply to the current-raw sensitivity; published values are not from coarse copies.
+C14.9	C14	1313	BLOCKED	V	-	-	333 originals: owner states none exist (F03); keep open, no work.
+C14.12	C14	1316	BLOCKED	V	-	-	Unrounded exports for the 9 coarse files: none exist per owner (same as C3.18).
+p1.6	1	1341	OWNER	V	-	S	Companion evidence ZIP (chart_parity, hash_validation, statistical_validation) absent from repo and Investigation folder; Andrii to supply for known-answer tests.
+F01	5	1532	OWNER	V	NEW:F03-zip-sweep	S	CHG (was BLOCKED): Investigation folder holds 38 exported_records ZIPs plus untouched-project and M294-M299 ZIPs, never hash-swept against raw_manifest.json.
+F01.r1	5	1537	STALE	V	-	-	Already policy: published master is reference of record; rebuilds are provenance sensitivity (M305-M311).
+F01.r2	5	1538	OWNER	V	NEW:F03-zip-sweep	S	CHG (was BLOCKED): read-only sha256/normHash sweep of those ZIPs; report-only; any re-anchoring only by Andrii's decision.
+p22.3	22	2323	SPEC-FIRST	n/a	M325	M	Build a script-written Figure-4 equivalent: slopes by data basis with day-cluster intervals. Caption says neither healing nor degradation is established. Dashboard-only (F03).
+p22.7+p22.8	22	2339	SPEC-FIRST	NV	M325	M	Current-raw response rows (published controls / current controls): script-written and labelled provenance sensitivity. Escalate to the Director, because they exclude zero with the opposite sign.
+p22.9	22	2345	SPEC-FIRST	NV	M325	S	Add a hash-matched subset row (target +1.155, 151 drives/33 days). Disclose that the date range is narrower and the subset is selected. Descriptive only.
+p26.3	26	2533	OWNER	n/a	NEW:article-scope	-	Authenticate raw versions is impossible (F03). Use provenance-disclosed dual-report wording; missingness/epoch manifest feasible.
+p26.9	26	2570	OWNER	n/a	NEW:article-scope	-	Suggested title is Andrii's call. Replace "authenticated dataset" with "provenance-disclosed".
+p27.1	27	2590	OWNER	n/a	NEW:article-scope	L	Opp3 buffer dynamics: feasible after F28 actual-positive-discharge spec and clock-bound censoring; raw-pass, so F03 dual report.
+p27.2	27	2595	OWNER	n/a	NEW:article-scope	M	Opp4 thermal: thermalStepResponse exists; needs M326 intake sidecar. Report identifiability only; raw-pass.
+p27.3	27	2599	OWNER	n/a	NEW:article-scope	L	Opp5 SoC-balanced fuel: needs M324 (E10 basis) and M328; accumulator subset only; fuel is raw-pass, so dual report.
+p27.7	27	2616	OWNER	n/a	NEW:article-scope	M	Opp9 epoch fingerprints: dailyFingerprints exists. Needs GateA2 signal_representation and F03 hash status as an epoch covariate. Feasible QC.
+p30.4	30	2739	SPEC-FIRST	NV	M325	M	Script-written current-raw loaded-p95 sensitivity incl. all tied holders; label provenance sensitivity; published 54 mV record stays reference of record.
+p30.6	30	2742	BLOCKED	n/a	-	-	Originals unavailable (owner F03). No rebaselining; wording: data-version discrepancy, not a physical record or health finding.
+A-X7	33	3042	SPEC-FIRST	NV	M331	M	After M328/M329; raw-pass fuel keys dashboard-only under F03; merge with FUEL-14.
+Cs-62.r2	50	3790	SPEC-FIRST	NV	M325	M	Current-archive sensitivity and cadence-controlled resistance shown beside published values (provenance sensitivity wording).
+E-6d	55	4079	OWNER	V	NEW:housekeeping	S	f01_perdrive_correction.csv: zero consumers and no writer; probably F01 evidence. ARCHIVE-WITH-HASH; KEEP until Andrii confirms its origin.
+E-N1	56	4146	BLOCKED	V	M322	-	The original 333 canonical CSVs do not exist (F03). In M322, update CLAUDE.md '335/457' to the f03_provenance.json basis.
