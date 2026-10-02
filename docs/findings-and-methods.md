@@ -51,3 +51,9 @@ and disk are ground truth. Items marked (verify) were written before M264-M299.
 - Use `pdftotext -layout` for PDF text extraction; `str_replace` on multi-line targets must match byte-for-byte.
 - jsdom validation: cycle all tabs with a full `await sleep(300)` per tab before targeting specific content.
 - `_artifact_stamp` must be called after `constantProvenance` is assembled in the `arrays` dict.
+
+## Multiplicity policy (M330, F30.r5)
+- Exploratory families are labelled exploratory and carry no family-wise claim.
+- A formal claim names ONE pre-registered primary estimand per family (spec before data, blind audit, Director decision).
+- Secondary and sensitivity results are reported with their intervals and are never promoted after the fact.
+- Method disagreement (for example Path A vs Path B) is reported, not tuned away.

@@ -1,6 +1,6 @@
 # Study overview (imported from Claude memory `overview`, last updated 2026-09-20; trimmed of stale "current state")
 
-For the CURRENT state run `python tools/state.py` (as of 2026-09-25: CHANGELOG head M294-M299, 446 drives, `drive_master.csv` MD5 `0bcfc400d8ce2a0b15cdc7f3ddd8efff`).
+For the CURRENT state run `python tools/state.py` (writes STATE.md); counts, dates and the corpus MD5 are not repeated here.
 
 ## Purpose and thesis
 Longitudinal OBD-II telemetry study of a Nissan X-Trail T33 e-POWER (FWD), a series hybrid whose HV battery works as a power buffer, not an energy reservoir.
@@ -18,7 +18,7 @@ Targets: Applied Energy or IEEE TVT. Interactive React/JSX dashboard (`xtrail_su
 
 ## Generator->traction reconstruction sub-study
 - Model-derived (Path B: fuel flow -> BSFC surface with 217 g/kWh floor -> generator brake -> DC-bus balance), modules `fuel_recon.py`, `recon_engine.py`, `model_constants.py`; `drive_master.csv` read-only.
-- Fuel channel caveats: fuel-flow PID on a minority of drives (urban/cold-skewed); highway f_gen rests on few drives.
+- Fuel channel caveats: the logged fuel rate/counter (app-calculated by the logger) is present on a subset of drives; coverage is not repeated here; highway f_gen rests on few drives.
 - P_aux is directly measured at standstill (Parasitic Draws / `auxLoadAmbient`, median ~1.2 kW, scaling 1.0->1.9 kW with ambient); in-motion aux is not separable.
 - History: the M245-M249 headline f_gen 0.60-0.69 was invalidated by a battery-current sign error (see findings-and-methods.md); live payload f_gen = 0.477 (2026-09-25).
 - Pending: BEV side-by-side (section 17); engine load/MAP in `classify_regime()`; E10-vs-E0 anchor residual; fuel/oil/AFR/MAP pipeline integration; rebuilding per-second sub-analyses (speedSplit, simultaneity, crossval, rpmFinding, sensitivity) to the current basis (files `speed_split.py`, `simultaneity_gtr.py`, `crossval_gtr.py`, `sensitivity_gtr.py`, `rpm_opt_pass.py` now exist).
@@ -28,8 +28,8 @@ Targets: Applied Energy or IEEE TVT. Interactive React/JSX dashboard (`xtrail_su
 - TOST bounds locked at M108 (cell-spread 0.2315 mV/month, resistance 0.5439 mOhm/month): verdict "not established, window too short".
 - Energy MC policy (M217): full recompute every ingestion.
 - RPM histogram: the 1,400-1,600 rpm bin split into two setpoints (~1,500 and ~1,589) at M218.
-- Enhancement plan M220-M228 and the independent audit (33 findings F01-F33) closed except F02 (needs an unavailable raw archive).
-- M119-v2 (socHysteresisV2) fully recomputed at M264 on 410 drives; `recompute_m119v2` stays False for routine ingestion.
+- Enhancement plan M220-M228 and the independent audit (33 findings F01-F33) closed except F02; F03 (raw provenance) is open: originals recovered outside raw/ in M323, re-anchoring undecided.
+- M119-v2 (socHysteresisV2) fully recomputed at M264 (basis recorded in the CHANGELOG; M320-M321 replaced the fixed ladder); `recompute_m119v2` stays False for routine ingestion.
 
 ## Known artifacts
 - `degradation_trends.json` is an orphaned stale snapshot (decision pending: regenerate, retire, or document).
