@@ -108,6 +108,8 @@ ok("A2 REQUIRED regen-by-temperature Compare title says pack-temperature bin", a
 ok("A2 REQUIRED current-direction reversals label present", any("Current-direction reversals" in t for t in T.values()))
 # W5a (M330)
 ok("A2 REQUIRED ambient-axis gap described as drives that do not enter the ambient rows", any("drives that do not enter the ambient rows" in t for t in T.values()))
+# W6a (M331)
+ok("A2 REQUIRED SoC-pattern section states the extractor is absent / panels illustrative", any("extractor script is not in this repository" in t for t in T.values()))
 ok("A2 REQUIRED selector label reads 'Thermal cohort'", any("Thermal cohort" in t for t in T.values()))
 ok("A2 REQUIRED HVAC caveat states sub-15 C ambient is limited", any("Ambient below 15 °C is limited" in t for t in T.values()))
 
