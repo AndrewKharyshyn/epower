@@ -43,6 +43,8 @@ CAPPED = [
 ]
 # additional minimum-support / eligibility notes for pooled or gated records
 SUPPORT = {
+    "Longest contiguous 130+": "contiguous run of net discharge above 130 km/h from the per-drive run column; capped timeline steps are summed across log gaps (gaps are not broken), so it can overstate a run; 0 s reported as unavailable",
+    "Cumulative 130+": "cumulative time in net discharge above 130 km/h in one drive (not a continuous run)",
     "Most stationary": "eligible drives require distance_km > 0.5 km (excludes standstill-only logs)",
     "Lowest net battery draw": "SoC-neutral pool: |soc_delta_kwh| < 0.05 and net_draw > 0",
     "Longest 130+": "longest contiguous engine-on discharge run above 130 km/h; 0 s reported as unavailable",
@@ -110,7 +112,22 @@ def apply(arr, dm):
     for r in recs:
         metric = r.get("metric", "")
         disc = None
+        if metric.startswith("Battery intake air temperature max"):
+            # M340 (audit F07): native-sample maximum from the raw side-pass CSV (battery_temp_extremes.csv), canonical-clean winners only
+            _te_p = os.path.join(WORK, "battery_temp_extremes.csv")
+            if os.path.exists(_te_p):
+                import hashlib as _hl
+                _te = pd.read_csv(_te_p)
+                if "intake_max_raw" in _te.columns:
+                    disc = _cap_disclosure(_te, "intake_max_raw", 80, "max", "C", "intake-air temperature (native samples, battery_temp_extremes.csv)")
+                    disc["sidecar"] = "battery_temp_extremes.csv"
+                    _bad = set(dm.loc[dm.ens_invalid.astype(str).str.lower().eq("true") | dm.ens_outlier_v2.astype(str).str.lower().eq("true"), "file"])
+                    disc["nNonNullCanonicalClean"] = int(_te[~_te.file.isin(_bad)]["intake_max_raw"].notna().sum())
+                    disc["capAppliesTo"] = "each drive's native maximum: a drive whose maximum exceeds the cap is excluded whole"
+                    disc["sidecarSha256"] = _hl.sha256(open(_te_p, "rb").read()).hexdigest()
         for prefix, col, cap, direction, unit, chan_note in CAPPED:
+            if disc is not None:
+                break
             if metric.startswith(prefix) and col in dm.columns:
                 disc = _cap_disclosure(dm, col, cap, direction, unit, chan_note)
                 break

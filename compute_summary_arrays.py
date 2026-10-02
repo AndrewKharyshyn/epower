@@ -555,6 +555,12 @@ def _as_bool(s):
     return s.map(lambda x: x is True or str(x).strip().lower() == 'true').astype(bool)
 
 
+def _canonical_bad(dm):
+    """M340 (audit F05/F06/F07): the shared canonical exclusion for extrema and floors: ens_invalid or ens_outlier_v2 is True
+    (the M295 pattern); rows with a missing flag are not excluded, as everywhere in this builder. Returns a bool Series."""
+    return _as_bool(dm['ens_invalid']) | _as_bool(dm['ens_outlier_v2'])
+
+
 def _dist_class(km):
     """Legacy distance-only bucket (M21: superseded by drive_type for all
     condition-semantics arrays; retained only as a reference/legacy helper,
@@ -1384,11 +1390,19 @@ def _records(dm):
     dur_h = float(dm.at[dur_i, 'duration_s']) / 3600 if dur_i is not None else None
     thr, thr_i = sane_max('gross_throughput_kwh', 100)
     band, band_i = sane_max('soc_band', 100)
-    hs_i = dm['highspeed_discharge_s_130p'].idxmax() \
-        if dm['highspeed_discharge_s_130p'].notna().any() else None
-    hs = float(dm.at[hs_i, 'highspeed_discharge_s_130p']) if hs_i is not None else None
+    # M340 (audit F06): the contiguous-run record uses the contiguous-run column; the cumulative exposure is a separate record.
+    # Both pools use the shared canonical mask. The master column sums capped timeline steps across log gaps (v6, DT_CAP): gaps are not broken.
+    _hs_ok = ~_canonical_bad(dm)
+    _hs_run = dm['highspeed_discharge_longest_run_s_130p'].where(_hs_ok).dropna()
+    hs_i = _hs_run.idxmax() if len(_hs_run) else None
+    hs = float(_hs_run.loc[hs_i]) if hs_i is not None else None
     if hs is not None and hs <= 0:
         hs, hs_i = None, None
+    _hs_cum = dm['highspeed_discharge_s_130p'].where(_hs_ok).dropna()
+    hsc_i = _hs_cum.idxmax() if len(_hs_cum) else None
+    hsc = float(_hs_cum.loc[hsc_i]) if hsc_i is not None else None
+    if hsc is not None and hsc <= 0:
+        hsc, hsc_i = None, None
     vmov, vmov_i = sane_max('speed_mean_moving', 200)
     ss_i = dm['standstill_draw_kw'].idxmax() \
         if dm['standstill_draw_kw'].notna().any() else None
@@ -1438,10 +1452,7 @@ def _records(dm):
          ('class', 'trip', 'engon')),
         ('Battery intake air temperature max',
          f"{tin:.1f}\u00b0C" if tin is not None else None, tin_i,
-         'Hottest cabin-sourced cooling air presented to the pack inlet. The '
-         'floor the pack can be cooled to: forced convection cannot pull cells '
-         'below their own intake, so this bounds the achievable pack minimum '
-         'on a hot day.',
+         'Per-drive mean intake-air temperature (fallback only: the native-sample record is built from the raw side-pass when it is available).',
          ('class', 'trip', 'pack')),
         # ---- electrical / C-rate ----
         ('Peak discharge current',
@@ -1597,11 +1608,17 @@ def _records(dm):
          '>=5 s) fires 0 s corpus-wide. Gated to drives with >=120 s of band '
          'time (M14).',
          ('class', 'trip', 'engon')),
-        ('Longest sustained 130+ km/h discharge',
-         f"{hs:.0f} s" if hs is not None else None, hs_i,
-         'Longest continuous stretch of net discharge above 130 km/h (an observed '
-         'run maximum, not a limit set by the SoC floor; read beside cumulative '
-         '130+ km/h exposure).',
+        ('Longest contiguous 130+ km/h discharge run',
+         f"{hs:.1f} s" if hs is not None else None, hs_i,
+         'Longest contiguous run of net discharge above 130 km/h, taken from the per-drive run column '
+         '(capped timeline steps are summed across log gaps, so a gap does not break a run and the value can '
+         'overstate it). An observed run maximum: not a limit set by the SoC floor and not evidence that the '
+         'SoC floor forced a speed compromise. Cumulative exposure is a separate row below.',
+         ('class', 'vmax', 'soc')),
+        ('Cumulative 130+ km/h discharge exposure (single drive)',
+         f"{hsc:.0f} s" if hsc is not None else None, hsc_i,
+         'Largest total time in one drive spent in net discharge above 130 km/h, added up across separate '
+         'stretches (cumulative exposure, not a continuous run). Read beside the contiguous-run row above.',
          ('class', 'vmax', 'soc')),
         # ---- cell / parasitic ----
         ('Cell spread under load (per-drive p95)',
@@ -1673,7 +1690,11 @@ def _records(dm):
             _te = pd.read_csv(_te_path)
             if len(_te) == len(dm):
                 for _m, _r in _bte.build_records(dm, _te).items():
-                    out.append(_r)
+                    _pos = [k for k, x in enumerate(out) if x['metric'] == _m]
+                    if _pos:
+                        out[_pos[0]] = _r          # M340: native-sample intake-air maximum replaces the per-drive-mean row in place
+                    else:
+                        out.append(_r)
     except Exception:
         pass  # side-pass unavailable this session -- degrade gracefully, don't fail _records()
 
@@ -14932,7 +14953,8 @@ def _battery_draw_gross(dm):
     # item 10: dataset-wide floor. >0.5 km gate matches the distance floor
     # already used for the 'Most stationary' record in _records(), avoiding
     # sub-trip normalization noise.
-    pool = thr100[dm['distance_km'] > 0.5].dropna()
+    # M340 (audit F05): the shared canonical mask is applied INSIDE the builder; drive, n and ctx come from this same pool.
+    pool = thr100[(dm['distance_km'] > 0.5) & ~_canonical_bad(dm)].dropna()
     if len(pool):
         i = pool.idxmin()
         out['floor'] = {
@@ -14947,7 +14969,7 @@ def _battery_draw_gross(dm):
     # item 3: floor restricted to the originally-stated matching condition
     # (sustained 65-90 km/h moving average, fully warm engine >=85C coolant).
     cond = (dm['speed_mean_moving'].between(65, 90)
-            & (dm['T_eng_coolant_max'] >= 85))
+            & (dm['T_eng_coolant_max'] >= 85) & ~_canonical_bad(dm))
     pool2 = thr100[cond].dropna()
     if len(pool2):
         i2 = pool2.idxmin()
