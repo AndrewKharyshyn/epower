@@ -152,6 +152,8 @@ if _fs and _fw:
     ok("A2 REQUIRED M339 numbers equal the payload (overall stationary share and CI, trips/days, left-censored count)",
        f"{_g['nTrips']} · {_g['nDays']}" in _fxd and f"{_g['stationaryShare']['est']*100:.2f}% ({_g['stationaryShare']['ci95'][0]*100:.2f}%" in _fxd
        and f"{_fw['excluded']['leftCensored']} trips whose engine was already running" in _fxd)
+# M342 (Cs-41): the engine-off (EV) traction text states that engine-off movement does not identify the energy source
+ok("A2 REQUIRED engine-off traction text says engine-off movement does not identify the energy origin", any("Engine-off movement does not identify the energy’s origin" in t for t in T.values()))
 # M334: Fuel tab banner and scenario wording present in every mode dump
 for _m in ("all", "warm", "shoulder", "compare"):
     ok(f"A2 REQUIRED Fuel basis banner and SoC-balanced scenario wording in the Fuel {_m} dump",

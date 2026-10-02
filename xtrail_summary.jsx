@@ -6358,6 +6358,11 @@ function EvTraction() {
         this is the <strong style={{color:"#0f172a"}}>conservative</strong> reading of
         &ldquo;electric&rdquo;. {E.nValid} of {E.nDrives} drives pass the channel-coverage,
         poll-rate and odometer-reconstruction gates ({E.kmValid} km, {E.nRuns} runs).
+        {" "}&ldquo;Pure-electric&rdquo; here means engine-off (eng_rpm ≤ 400), not the source of the energy.
+        Engine-off movement does not identify the energy&rsquo;s origin: the charge drawn from the pack
+        was put there earlier, either by the fuel-driven generator or by regeneration, and that origin
+        is not attributed here; within-run regeneration is accounted only through the unassisted
+        (regen &lt; 20% of throughput) split.
       </div>
 
       <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:8,marginBottom:12}}>
@@ -6412,7 +6417,7 @@ function EvTraction() {
           <div style={{fontSize:9,color:"#64748b",marginTop:6,lineHeight:1.6}}>
             Run length is near <strong style={{color:"#0f172a"}}>invariant across drive type</strong>
             {" "}(class medians {Math.min(...D.map(d=>d.runMedianKm))}–{Math.max(...D.map(d=>d.runMedianKm))} km).
-            Drive type modulates how <em>often</em> an electric window opens
+            Drive type modulates how <em>often</em> an engine-off window opens
             ({Math.min(...D.map(d=>d.runsPer10km))}→{Math.max(...D.map(d=>d.runsPer10km))} per 10 km),
             not how far it runs — the signature of a buffer-limited architecture.
           </div>
