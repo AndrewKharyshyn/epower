@@ -183,16 +183,14 @@ def t14():
 
 # 15 — determinism: two runs, identical outputs
 def t15():
-    import compute_seasonal as csx
-    r1 = csx.build(out_dir=os.path.join(HERE, "_det1"))
-    r2 = csx.build(out_dir=os.path.join(HERE, "_det2"))
-    import hashlib
+    import compute_seasonal as csx, hashlib, tempfile
     def h(p):
         return hashlib.md5(open(p, "rb").read()).hexdigest()
-    same_master = h(os.path.join(HERE, "_det1", "seasonal_drive_master.csv")) == \
-                  h(os.path.join(HERE, "_det2", "seasonal_drive_master.csv"))
-    same_arrays = h(os.path.join(HERE, "_det1", "seasonal_arrays.json")) == \
-                  h(os.path.join(HERE, "_det2", "seasonal_arrays.json"))
+    with tempfile.TemporaryDirectory() as d1, tempfile.TemporaryDirectory() as d2:
+        r1 = csx.build(out_dir=d1)
+        r2 = csx.build(out_dir=d2)
+        same_master = h(os.path.join(d1, "seasonal_drive_master.csv")) == h(os.path.join(d2, "seasonal_drive_master.csv"))
+        same_arrays = h(os.path.join(d1, "seasonal_arrays.json")) == h(os.path.join(d2, "seasonal_arrays.json"))
     ok("15 deterministic seasonal master", same_master)
     ok("15 deterministic arrays", same_arrays)
     ok("15 master md5 unchanged by build", r1["master_md5_unchanged"] and r2["master_md5_unchanged"])
