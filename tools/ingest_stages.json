@@ -186,6 +186,18 @@
    ]
   },
   {
+   "id": "fuel_analytics2",
+   "title": "M339 fuel analytics v2 (FUEL-03 stationary vs moving fuel, FUEL-02 warm-up trajectory) -> fuelStates, fuelWarmup (additive; after fuel_analytics; not M299-reproducible)",
+   "cmd": [
+    "python3",
+    "tools/fuel_analytics2.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json"
+   ]
+  },
+  {
    "id": "cohort_arrays",
    "title": "Per-cohort arrays regenerate",
    "cmd": [
