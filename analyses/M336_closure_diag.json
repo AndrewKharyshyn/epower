@@ -1,0 +1,110 @@
+{
+ "milestone": "M336",
+ "step": 1,
+ "basis": "raw/ via XT_RAW_DIR (F03: lower-precision re-exports; published-pipeline basis); canonical-clean (ens_outlier_v2 False), distance>0, fuel PID",
+ "n_drives": 259,
+ "n_days": 50,
+ "km": 2003.04,
+ "skipped": {
+  "no_file": 0,
+  "no_fuel": 224,
+  "outlier": 5,
+  "none": 1
+ },
+ "per100km_totals": {
+  "E_gen": 15.937,
+  "E_gen_ps": 15.937,
+  "g2t": 8.639,
+  "g2b_master": 8.32,
+  "g2b_model": 7.297,
+  "eng_only": 5.632,
+  "dual": 2.688,
+  "regen": 2.977,
+  "b2t": 9.847,
+  "trac": 18.487,
+  "excess": 1.025,
+  "excess_engonly": -1.663,
+  "excess_ps": 1.025,
+  "gen_def_gap": 0.0,
+  "batt_resid": 1.45,
+  "batt_resid_modelg2b": 0.425
+ },
+ "relative_to_generator": {
+  "excess": {
+   "est": 0.0643,
+   "ci95": [
+    0.0486,
+    0.0858
+   ],
+   "closed": false
+  },
+  "excess_engonly": {
+   "est": -0.1044,
+   "ci95": [
+    -0.1334,
+    -0.0814
+   ],
+   "closed": false
+  },
+  "excess_ps": {
+   "est": 0.0643,
+   "ci95": [
+    0.0486,
+    0.0858
+   ],
+   "closed": false
+  },
+  "gen_def_gap": {
+   "est": 0.0,
+   "ci95": [
+    -0.0,
+    0.0
+   ],
+   "closed": true
+  }
+ },
+ "closure_rule": "95% day-clustered CI of excess/E_gen inside +/-5% overall and per drive-type stratum with n>=10",
+ "strata": {
+  "highway": {
+   "n": 2,
+   "days": 1,
+   "excess_rel": "n<10: not evaluated"
+  },
+  "mixed": {
+   "n": 11,
+   "days": 9,
+   "excess_rel": {
+    "est": 0.0333,
+    "ci95": [
+     0.0247,
+     0.04
+    ],
+    "closed": true
+   }
+  },
+  "mixed_highway": {
+   "n": 5,
+   "days": 3,
+   "excess_rel": "n<10: not evaluated"
+  },
+  "urban": {
+   "n": 241,
+   "days": 50,
+   "excess_rel": {
+    "est": 0.0887,
+    "ci95": [
+     0.0767,
+     0.104
+    ],
+    "closed": false
+   }
+  }
+ },
+ "exploratory_corr_with_excess_per_km": {
+  "dual_share": 0.608,
+  "gen_per_km": 0.124,
+  "gen_def_gap": 0.029
+ },
+ "share_drives_excess_positive": 0.88,
+ "share_dual_in_g2b_master": 0.3231
+}
