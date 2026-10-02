@@ -37371,7 +37371,7 @@
   "totalFuelL": 112.64,
   "capKwhAssumed": 2.1,
   "capVerified": false,
-  "lhvKwhPerL": 8.9,
+  "lhvKwhPerL": 8.5843,
   "rawFleetL100": 5.691,
   "rawPerTripL100": {
    "median": 6.409,
@@ -37379,13 +37379,13 @@
    "p75": 8.316,
    "n": 230
   },
-  "socBalancedFleetL100": 5.479,
-  "socBalancedFleetDelta": -0.211,
+  "socBalancedFleetL100": 5.472,
+  "socBalancedFleetDelta": -0.219,
   "socBalancedFleetBoot": {
-   "bootMedian": 5.481,
+   "bootMedian": 5.474,
    "ci95": [
-    5.262,
-    5.699
+    5.255,
+    5.69
    ],
    "nDrives": 230,
    "nDays": 48
@@ -37393,27 +37393,27 @@
   "byEta": [
    {
     "eta": 0.25,
-    "fleetL100": 5.437,
-    "fleetDelta": -0.253,
-    "perTripMedianL100": 5.788,
-    "perTripCorrMedian": 1.4,
-    "perTripCorrP95": 8.305
+    "fleetL100": 5.428,
+    "fleetDelta": -0.263,
+    "perTripMedianL100": 5.77,
+    "perTripCorrMedian": 1.452,
+    "perTripCorrP95": 8.61
    },
    {
     "eta": 0.3,
-    "fleetL100": 5.479,
-    "fleetDelta": -0.211,
-    "perTripMedianL100": 5.955,
-    "perTripCorrMedian": 1.167,
-    "perTripCorrP95": 6.921
+    "fleetL100": 5.472,
+    "fleetDelta": -0.219,
+    "perTripMedianL100": 5.963,
+    "perTripCorrMedian": 1.21,
+    "perTripCorrP95": 7.175
    },
    {
     "eta": 0.35,
-    "fleetL100": 5.509,
-    "fleetDelta": -0.181,
-    "perTripMedianL100": 6.164,
-    "perTripCorrMedian": 1.0,
-    "perTripCorrP95": 5.932
+    "fleetL100": 5.503,
+    "fleetDelta": -0.188,
+    "perTripMedianL100": 6.094,
+    "perTripCorrMedian": 1.037,
+    "perTripCorrP95": 6.15
    }
   ],
   "dSoCPerTrip": {
@@ -37430,7 +37430,7 @@
    "r2": 0.976,
    "dERegCoeffIdentifiable": false
   },
-  "methodology": "Fuel-accumulator subset (2026-08-12 to 2026-09-30, 48 days, 230 drives): drives carrying the monotonic used-fuel accumulator \"Використане паливо (L)\"; trip fuel = accumulator delta, distance = speed integral, dSoC = end-start. Raw L/100km is confounded by SoC drift; SoC-balancing subtracts the equivalent fuel of the net battery-energy change, dFuel = dE/(eta*LHV) with dE = dSoC/100*CAP_KWH (CAP=2.1 kWh, verified:false), swept over eta in {0.25,0.30,0.35} (LHV 8.9 kWh/L); headline eta=0.30. Day-clustered bootstrap (seed 42, 4000 draws) on the balanced fleet fuel consumption (L/100km; lower=better -- this is a consumption metric, not economy in the km/L sense). A charge-balancing regression (fuel ~ dist + dE) is reported as a descriptive cross-check, but the dE coefficient is NOT identifiable (the 2.1 kWh buffer gives tiny per-trip energy variance) so NO generator efficiency is claimed. SUBSET CAVEATS: urban-dominated (no pure-highway fuel), warm-season only (no seasonal-cold penalty) -- do not generalise beyond the covered date span above. Single vehicle / ~single driver."
+  "methodology": "Fuel-accumulator subset (2026-08-12 to 2026-09-30, 48 days, 230 drives): drives carrying the monotonic used-fuel accumulator \"Використане паливо (L)\"; trip fuel = accumulator delta, distance = speed integral, dSoC = end-start. Raw L/100km is confounded by SoC drift; SoC-balancing subtracts the equivalent fuel of the net battery-energy change, dFuel = dE/(eta*LHV) with dE = dSoC/100*CAP_KWH (CAP=2.1 kWh, verified:false), swept over eta in {0.25,0.30,0.35} (assumed E10 basis: 751 g/L x 41.15 MJ/kg = 8.5843 kWh/L; fuel composition not measured); the correction scales as CAP/(eta*LHV), so the unverified CAP is the dominant uncertainty and harmonising LHV does not validate it; headline eta=0.30. Day-clustered bootstrap (seed 42, 4000 draws) on the balanced fleet fuel consumption (L/100km; lower=better -- this is a consumption metric, not economy in the km/L sense). A charge-balancing regression (fuel ~ dist + dE) is reported as a descriptive cross-check, but the dE coefficient is NOT identifiable (the 2.1 kWh buffer gives tiny per-trip energy variance) so NO generator efficiency is claimed. SUBSET CAVEATS: urban-dominated (no pure-highway fuel), warm-season only (no seasonal-cold penalty) -- do not generalise beyond the covered date span above. Single vehicle / ~single driver."
  },
  "handoffSequence": {
   "nHandoffs": 5630,
@@ -91365,7 +91365,7 @@
   "lhvBases": [
    {
     "name": "SoC-balanced fuel (accumulator-subset scenario)",
-    "kWhPerL": 8.9,
+    "kWhPerL": 8.5843,
     "where": "summary_arrays.socBalancedFuel.lhvKwhPerL"
    },
    {
@@ -91379,9 +91379,9 @@
     "where": "L/h from the logged rate; no energy conversion"
    }
   ],
-  "lhvRatio": 1.0368,
+  "lhvRatio": 1.0,
   "lhvRatioDefinition": "SoC-balanced constant / E10 constant",
-  "lhvStatus": "unharmonised (audit C05): the two energy constants coexist; a single E10 basis changes a stored correction and has its own audit",
+  "lhvStatus": "harmonised (M338): one assumed E10 basis (composition not measured)",
   "subsets": {
    "socBalanced": {
     "nDrives": 230,

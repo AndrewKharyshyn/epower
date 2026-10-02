@@ -1,3 +1,18 @@
+## M338 (2026-10-02): Single assumed-E10 fuel-energy basis for the SoC-balanced scenario (audit C05); one stored figure moves
+
+**Rationale.** SoC-balanced builder LHV 8.9 -> 8.5843 kWh/L from model_constants (control reproduced the stored block leaf-for-leaf; 22 allow-listed leaves changed; regression leaves identical): fleet balanced 5.479 -> 5.472 L/100 km, correction -0.211 -> -0.219, CI 5.262-5.699 -> 5.255-5.690 (a basis-consistency shift of about 4% of the CI half-width, not a finding); blind audit confirmed; assumed E10, composition not measured; unverified CAP 2.1 kWh dominates (CAP 5.0 would give about -0.52); fuelContract lhvRatio 1 and banner bound to payload; old 'LHV 8.9' wording added as gate rule; ingestion carry-forward safe (builder is the source of truth); no article figure.
+
+**Result (script-written, `analyses/M338_result.json`).** LHV 8.9 -> 8.5843 kWh/L; SoC-balanced fleet L/100 km at eta 0.30 5.479 -> 5.472, correction -0.211 -> -0.219 (about -0.008, audit reference -0.00776), bootstrap 5.262-5.699 -> 5.255-5.690, n = 230 trips on 48 days; the new level is inside the old CI, the sign is unchanged, no escalation. Blind audit confirmed: deltas exact; levels and CI within 0.003 because the audit used a different distance rule (trapezoid, 10 s cap): reported as method disagreement, not tuned away. Deviation recorded: the trip eligibility rule was not in the spec and is stated after the fact (>= 10 fuel samples, accumulator delta in (0.01, 30] L, integrated distance >= 1 km, SoC channel present); this selection raises the raw L/100 km slightly. The correction scales as CAP/(eta*LHV): CAP 2.1 kWh (verified:false; 5 Ah OEM lead) dominates (about -0.52 at CAP 5.0), the E10 span 8.50-8.70 kWh/L is not propagated, the CI is conditional on eta, CAP and LHV. Basis raw/ (F03 provenance-sensitive; sha256 of the 230 files read recorded); wording: assumed E10 basis, fuel composition not measured; the fuel counter is logged/app-calculated. No article figure; no Andrii sign-off required (Director decision: go).
+
+**State.** `drive_master.csv` 489 rows, MD5 `bd9d10726bb064d857cf9ff98d2b7338`.
+
+**Gates (runs/20260930T142615Z).** stage_raw=ok; raw_temp_pass=ok; compute_seasonal=ok; refresh_cohort_meta=ok; fuel_recon=ok; refresh_gtr_headline=ok; f03_provenance_build=ok; post_steps=ok; cohort_arrays=ok; comparison_cube=ok -> ok.
+
+**Delta flags.** none.
+
+**Files.** `compute_summary_arrays.py`, `tools/m338_lhv_splice.py`, `tools/fuel_contract.py`, `fuel_contract.json`, `summary_arrays.json`, `xtrail_summary.jsx`, `xtrail_dashboard.html`, `language_gate.py`, `semantic_gate.py`, `analyses/M338_spec.md`, `analyses/M338_result.md`, `analyses/M338_result.json`.
+
+
 ## M337 (2026-10-02): Fuel analytics v1: FUEL-12 rate integral vs counter, FUEL-01 consumption vs trip length, FUEL-11 distribution and 14-day windows (fuelAnalytics)
 
 **Rationale.** Three observed-fuel views in the Fuel tab from a script-written additive payload key; blind audit confirmed all figures; Director decision go with required/forbidden wording; FUEL-12 is an internal consistency check (+0.26% CI +0.19..+0.31, 242 trips/48 days; sign flips at a 2 s dt cap), not a bias estimate; review margin +/-1% is arbitrary; F03 read-only fuel-column check raw vs originals recorded; 1% margin and 234-trip audit reference are not tolerances; not M299-reproducible; no article figure; GTR, E10 constants and CAP unchanged.

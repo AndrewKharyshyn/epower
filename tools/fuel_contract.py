@@ -108,7 +108,8 @@ out = {
         {"name": "Cold-start thermal fuel view", "kWhPerL": None, "where": "L/h from the logged rate; no energy conversion"}],
     "lhvRatio": round(lhv_sb / e10, 4) if lhv_sb else None,
     "lhvRatioDefinition": "SoC-balanced constant / E10 constant",
-    "lhvStatus": "unharmonised (audit C05): the two energy constants coexist; a single E10 basis changes a stored correction and has its own audit",
+    "lhvStatus": ("harmonised (M338): one assumed E10 basis (composition not measured)" if (lhv_sb and abs(lhv_sb - e10) < 5e-5)
+                  else "unharmonised (audit C05): the two energy constants coexist; a single E10 basis changes a stored correction and has its own audit"),
     "subsets": {"socBalanced": {"nDrives": sb.get("nDrives"), "nDays": sb.get("nDays"), "dateSpan": sb.get("dateSpan")},
                 "thermalPenalty": {"nColdStartDrives": tf.get("nColdStartDrives"), "nDays": tf.get("nDays"), "dateSpan": tf.get("dateSpan")}},
     "viewBasis": [
