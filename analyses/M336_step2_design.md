@@ -33,3 +33,8 @@ Any 2b variant that moves f_gen across 0.5 stops the milestone for Opus audit + 
 - Sankey (Director Q3): stays hidden. The 2026-10-02 owner decision requires closed generator branches; an unallocated band brackets, it does not close. A band version may be built behind `GtrFlowGate` (no Compare bypass); revealing it needs the blind audit, the H5-H7/BSFC outcome and Andrii's explicit sign-off.
 - Scope labels: fuel-PID subset only (259 of 489; 224 without fuel PID), not generalised to the full corpus; basis raw/ is "provenance-sensitive" (F03).
 - Thesis risk HIGH: E_gen/G scale errors move alpha* and f_gen; "battery majority" (about 53/47, residual-based) is not supported by 2a. Andrii sign-off required.
+
+## Rev 3 (blind audit verdict "partial": changes applied)
+- Mask: drives with NaN `I_offset_A_applied` or NaN charge-class columns are excluded and listed (3 drives); the published-recon NaN-offset defect is disclosed, not corrected here.
+- Stop rule re-specified: the CI arm is vacuous when the baseline CI contains 0.5. The rule is now on POINT estimates: any variant or corner whose f_gen point estimate crosses 0.5 stops the milestone for Opus audit and Andrii sign-off; separately, the headline wording must state that the CI straddles 0.5 whatever the point estimates.
+- Added anchoring-off companions for lag and offset; BSFC floor clipping and the offset/corner calibration caveats are disclosed; sensitivities are descriptive (no multiplicity control); the dual-sample check is a consistency check, not independent.

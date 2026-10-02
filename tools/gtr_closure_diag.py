@@ -67,6 +67,8 @@ def main():
         if raw is None or not os.path.exists(RE.BASE + raw): skipped["no_file"] += 1; continue
         if m.get("ens_outlier_v2") is True or str(m.get("ens_outlier_v2")) == "True" or not (float(m["distance_km"]) > 0): skipped["outlier"] += 1; continue
         if not FR._has_fuel(RE.BASE + raw): skipped["no_fuel"] += 1; continue
+        if pd.isna(m.get("I_offset_A_applied")) or pd.isna(m.get("charge_eng_only_kwh")) or pd.isna(m.get("charge_dual_kwh")):
+            skipped["no_battery_inputs"] = skipped.get("no_battery_inputs", 0) + 1; continue   # M336 audit: NaN offset => zero battery power in the published recon
         r = per_drive(f, m, raw)
         if r is None: skipped["none"] += 1; continue
         rows.append(r)

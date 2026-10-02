@@ -129,11 +129,15 @@ def main():
     dm = pd.read_csv(os.path.join(ROOT, "drive_master.csv"))
     names = _raw_names()
     drives = []
+    excluded_no_battery = []
     for _, m in dm.iterrows():
         raw = names.get(_norm(m["file"]))
         if raw is None or str(m.get("ens_outlier_v2")) == "True" or not (float(m["distance_km"]) > 0):
             continue
         if not FR._has_fuel(RE.BASE + raw):
+            continue
+        if pd.isna(m.get("I_offset_A_applied")) or pd.isna(m.get("charge_eng_only_kwh")) or pd.isna(m.get("charge_dual_kwh")):
+            excluded_no_battery.append(m["file"])   # M336 audit: NaN offset => zero battery power in the published recon (f_gen=1.0 by construction)
             continue
         off = float(m.get("I_offset_A_applied", 0.0) or 0.0)
         g = load(raw, off)
@@ -150,9 +154,11 @@ def main():
          "paux_0.2": {"paux": 0.2}, "paux_1.2": {"paux": 1.2}, "paux_0_nonphysical_bound": {"paux": 0.0}, "anchor_off": {"anchor": False},
          "lag_-5s": {"lag": -5.0}, "lag_-2s": {"lag": -2.0}, "lag_+2s": {"lag": 2.0}, "lag_+5s": {"lag": 5.0},
          "offset_-1A": {"off_extra": -1.0}, "offset_+1A": {"off_extra": 1.0},
+         "lag_-5s_anchor_off": {"lag": -5.0, "anchor": False}, "lag_+5s_anchor_off": {"lag": 5.0, "anchor": False},
+         "offset_-1A_anchor_off": {"off_extra": -1.0, "anchor": False}, "offset_+1A_anchor_off": {"off_extra": 1.0, "anchor": False},
          "corner_high_G": {"scen": "optimistic", "eta_gen": 0.97, "eta_pe": 0.99, "paux": 0.2},
          "corner_low_G": {"scen": "conservative", "eta_gen": 0.93, "eta_pe": 0.96, "paux": 1.2}}
-    res = {"milestone": "M336", "step": 2, "scope": "fuel-PID subset only; raw/ basis (F03: provenance-sensitive)", "n_drives": len(drives),
+    res = {"milestone": "M336", "step": 2, "scope": "fuel-PID subset only; raw/ basis (F03: provenance-sensitive)", "n_drives": len(drives), "excluded_no_battery_inputs": excluded_no_battery,
            "logger_median_dt_s": round(sample_dt, 3), "variants": {}, "strata": {}}
     base_rows = None
     for name, kw in V.items():
