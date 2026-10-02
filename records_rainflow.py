@@ -21,7 +21,7 @@ def build(dm):
     med100 = float(100 * ok.rf_n_cycles.sum() / ok.distance_km.sum())          # ratio-of-sums
     wid = dm.loc[dm.rf_dod_max_pct.idxmax()]
     h1 = dm.loc[dm.rf_n_cycles.idxmax()]; h2 = dm.loc[dm.rf_efc.idxmax()]
-    common = ("Rainflow on the raw SoC trace, 1.0% amplitude floor (twice the PID quantisation step); half-cycles count 0.5. "
+    common = ("Rainflow on the raw SoC trace, cycles with a range below 1.0 pp dropped (twice the PID quantisation step); half-cycles count 0.5. "
               "Counts scale with drive length and SoC-PID sampling, so read together with distance. k=2 damage is a separate, non-fitted proxy and is not used here. "
               f"Corpus ratio-of-sums cycle density {med100:.1f} cycles/100 km over {len(ok)} drives.")
     r1 = {"metric": M1, "value": f"{h1.rf_n_cycles:g} cycles", "drive": lab(h1.file),

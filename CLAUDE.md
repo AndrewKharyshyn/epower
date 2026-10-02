@@ -54,6 +54,9 @@ computed from the master, never typed) runs in `tools/ingest_stages.json`, and `
 not covered or a ledger row disagrees with the master (`sessionLedgerAudit`). An ingestion is not complete until the new days show in
 that section (verify in the rebuilt dashboard). The historical Sep 04-11 gap was backfilled in M313 (`--from-date` backfills any uncovered window).
 
+## Language gate (standing, M326)
+Forbidden/required wording lives in `language_gate.py` (RULES) and is enforced by `semantic_gate.py` check A2 on the rendered tab dumps, payload string values, `summary_config.json` and `xtrail_summary.jsx` strings (comments WARN). Matching is normalised (NFKC, punctuation collapsed, plural-safe, stripped form, context rules). Every wording fix adds the OLD wording as a rule with its ledger id; a wave (spec `analyses/M326_spec.md`) never renames payload keys.
+
 ## Dashboard change rule (standing)
 Whenever `xtrail_dashboard.html` is rebuilt with a content change (new/changed figure, KPI, tab or wording; not a
 byte-identical rebuild): (1) present it in the session: `SendUserFile` with `display: "render"` on `xtrail_dashboard.html`,
@@ -138,6 +141,7 @@ gates (script-written numbers, blind reproduction, Director decision). Each disp
   deltas inside CI). Until then F03 stays open; the dashboard F03 disclosure uses the allowed wording from M325 (generated from `f03_provenance.json`, canonical counts 333/489); article wording stays unchanged (the Ukrainian companion is out of scope); and no new article figure from
   raw-derived keys without the Opus audit and Andrii's sign-off. F03 ledger rows (F01, F01.r2, C3.18, C14.9, C14.12, E-N1, p1.6)
   are re-ruled by the Director per row.
+- 2026-10-02 (Andrii): the GTR flow diagram (Sankey) in section 4b stays HIDDEN behind its reveal button (`GtrFlowGate`) until the GTR repair (M329) closes the generator branches; Compare mode must not bypass the gate (planned in the Compare/GTR-gate milestone). Do not show it by default before that.
 - 2026-10-01/02 (Andrii), external audit v3 triage (`analyses/audit_v3_triage/`; ledger of 1,214 rows, not committed): single
   top-level Fuel tab holds all fuel charts (the code's host tab is named "charts"); retire UNUSED files only (`soc_patterns.json`,
   `f01_perdrive_correction.csv`, `highspeed_130_runlength_check.csv` are kept); fuel cost (FUEL-13) rejected; GateA2 (M308
