@@ -1,0 +1,41 @@
+_det1	exists=True	n_consumers=1	.\test_seasonal.py
+_det2	exists=True	n_consumers=1	.\test_seasonal.py
+ambient_samples_backup.json	exists=True	n_consumers=0	
+energy_flows_per100km_backup.json	exists=True	n_consumers=0	
+energy_mc_precompute_backup.json	exists=True	n_consumers=0	
+mc_corpus_backup.json	exists=True	n_consumers=0	
+sensitivity_backup.json	exists=True	n_consumers=0	
+apply_m284_post.sh	exists=True	n_consumers=7	.\MIGRATION.md, .\analyses\M307_f03_cellspread_spec.md, .\f03_provenance_flag.py, .\release_check.py, .\test_post_step_idempotent.py, .\tools\ingest_core.py, .\tools\verify_import.py
+patch_m284_data.py	exists=True	n_consumers=5	.\analyses\M300_ingest_core_spec.md, .\apply_m284_post.sh, .\refresh_seasonal_kpis.py, .\release_check.py, .\tools\verify_import.py
+m294_patch.py	exists=True	n_consumers=0	
+m295_payload.py	exists=True	n_consumers=1	.\m296_refresh_master_seasonal.py
+m296_refresh_master_seasonal.py	exists=True	n_consumers=0	
+m297_comparison_cube.py	exists=True	n_consumers=0	
+kpi_ci_splice.py	exists=True	n_consumers=0	
+kpi_ci_splice2.py	exists=True	n_consumers=0	
+kpi_ci3_splice.py	exists=True	n_consumers=1	.\kpi_ci3_extract.py
+kpi_ci3_extract.py	exists=True	n_consumers=0	
+kpi_ci.py	exists=True	n_consumers=0	
+header_scan.csv	exists=False	n_consumers=1	.\recon_engine.py
+soc_patterns.json	exists=True	n_consumers=4	.\build_html.js, .\release_check.py, .\tools\verify_import.py, .\xtrail_summary.jsx
+extract_soc_patterns.py	exists=False	n_consumers=2	.\build_html.js, .\xtrail_summary.jsx
+warm_baseline_freeze.json	exists=True	n_consumers=4	.\freeze_warm_baseline.py, .\release_check.py, .\test_seasonal.py, .\tools\verify_import.py
+f03_provenance.json	exists=True	n_consumers=5	.\apply_m284_post.sh, .\f03_provenance_flag.py, .\release_check.py, .\tools\f03_provenance_build.py, .\tools\verify_import.py
+battery_temp_extremes.csv	exists=True	n_consumers=4	.\analyses\M308_plausibility_gate_spec.md, .\battery_temp_extremes.py, .\compute_summary_arrays.py, .\tools\ingest_core.py
+raw_temperature_triplets.csv	exists=True	n_consumers=10	.\analyses\M312_spec.md, .\cohort_arrays.py, .\compute_seasonal.py, .\raw_temp_pass.py, .\release_check.py, .\test_seasonal.py, .\tools\build_ambient_table.py, .\tools\extend_session_ledgers.py, .\tools\run_raw_temp_pass.py, .\tools\verify_import.py
+seasonal_drive_master.csv	exists=True	n_consumers=23	.\audit\audit_m310.py, .\cohort_arrays.py, .\cohort_distributions.py, .\cohort_fixes_p0.py, .\compute_seasonal.py, .\docs\workflow-and-tools.md, .\kpi_ci_splice.py, .\kpi_ci_splice2.py, .\m294_patch.py, .\m296_refresh_master_seasonal.py, .\m297_comparison_cube.py, .\refresh_gtr_headline.py
+fuel_recon_master.csv	exists=True	n_consumers=11	.\CLAUDE.md, .\analyses\M312_spec.md, .\docs\findings-and-methods.md, .\fuel_recon.py, .\kpi_ci_splice.py, .\refresh_gtr_headline.py, .\sensitivity_gtr.py, .\speed_split.py, .\tools\verify_import.py, .\wire_gtr_seasonal.py, .\xtrail_summary.jsx
+crossval.csv	exists=True	n_consumers=1	.\crossval_gtr.py
+f01_perdrive_correction.csv	exists=True	n_consumers=0	
+sustained_current_peaks.csv	exists=True	n_consumers=1	.\sustained_current_peaks.py
+c1_joint_temp_crate_results.csv	exists=True	n_consumers=1	.\c1_joint_temp_crate.py
+highspeed_130_runlength_check.csv	exists=True	n_consumers=0	
+xtrail_dashboard.html	exists=True	n_consumers=14	.\.claude\skills\ingest-drive\SKILL.md, .\.claude\skills\new-analysis\SKILL.md, .\CLAUDE.md, .\MIGRATION.md, .\build_html.js, .\docs\overview.md, .\dump_tabs.js, .\release_check.py, .\semantic_gate.py, .\test_ambient_table.js, .\tools\verify_import.py, .\validate_jsdom.js
+cohort_arrays.json	exists=True	n_consumers=7	.\CLAUDE.md, .\analyses\M312_spec.md, .\build_seasonal_dashboard.py, .\cohort_arrays.py, .\docs\workflow-and-tools.md, .\release_check.py, .\tools\verify_import.py
+seasonal_arrays.json	exists=True	n_consumers=9	.\analyses\M312_spec.md, .\build_seasonal_dashboard.py, .\compute_seasonal.py, .\docs\workflow-and-tools.md, .\freeze_warm_baseline.py, .\release_check.py, .\seasonal_integration.py, .\test_seasonal.py, .\tools\verify_import.py
+chart_registry.json	exists=True	n_consumers=0	
+data_health.json	exists=True	n_consumers=5	.\.claude\agents\research-director.md, .\.claude\skills\new-analysis\SKILL.md, .\tools\data_health.py, .claude\agents\research-director.md, .claude\skills\new-analysis\SKILL.md
+delta_report.json	exists=True	n_consumers=7	.\.claude\agents\research-director.md, .\.claude\skills\ingest-drive\SKILL.md, .\CLAUDE.md, .\tools\changelog_draft.py, .\tools\delta_report.py, .claude\agents\research-director.md, .claude\skills\ingest-drive\SKILL.md
+determinism_check.json	exists=True	n_consumers=3	.\MIGRATION.md, .\determinism_check.py, .\docs\workflow-and-tools.md
+event_ledger.json	exists=True	n_consumers=4	.\compute_seasonal.py, .\release_check.py, .\test_seasonal.py, .\tools\verify_import.py
+ambient_samples.json	exists=True	n_consumers=1	.\compute_seasonal.py

@@ -1,0 +1,178 @@
+C1.1 | C1 | 642 | INFO | V | - | - | Audit basis is the M316 archive; repo is at M319 with M320 in flight, so check M317-M320 before acting.
+C1.2 | C1 | 646 | INFO | n/a | - | - | Structure note: C-pages precede the original 59 pages; no action.
+C1.3 | C1 | 648 | INFO | n/a | - | - | Summary table; each row ruled below with its detailed section.
+C1.4 | C1 | 650 | SPEC-FIRST | V | M325 | M | Refit current-raw spread trend with and without the 9 M308-flagged files; known-answers -1.393/+0.117; label provenance sensitivity.
+C1.5 | C1 | 654 | SPEC-FIRST | V | M326 | M | Published pack-mean Record (46 C, Aug16 D4) is an available-probe row mean (v6:954); complete-four-probe sidecar decides the holder.
+C1.6 | C1 | 657 | SPEC-FIRST | V | M330 | M | Pooled +57.7% equals published vs_warm_pct 57.71; add urban, shared-date, strata targets beside existing adjusted contrast; association only.
+C1.7 | C1 | 661 | SPEC-FIRST | V | M328 | M | No flow-vs-accumulator check exists (recon_engine only prints fuel_used_L); implement as FUEL-12; internal consistency, not calibration.
+C1.8 | C1 | 665 | INFO | V | - | - | 500 raw = 489 canonical + 11 excluded (f03_provenance.json); metrics already use per-metric non-null eligibility.
+C2.1 | C2 | 672 | INFO | V | - | - | Current-raw negative slope tied to 9 coarse copies among 333 hash-failing files; supports the F03 reference-of-record ruling.
+C01 | C2 | 677 | SPEC-FIRST | V | M325 | M | Record per-file grid; exclude coarse copies from current-raw health fits only; published master untouched; call it measurement quality, not battery condition.
+C02 | C2 | 682 | FIX-NOW | V | M322 | S | Relabel T_pack_mean_* surfaces as available-probe row mean; check each "4-sensor mean" text (jsx:11085, 11458) against its estimator.
+C03 | C2 | 685 | SPEC-FIRST | V | M330 | M | Adjusted urban-support contrast exists (seasonal_adjust v2, -1.32 [-3.79, 0.56]); add audit targets as reported method disagreement plus composition table.
+C04 | C2 | 689 | FIX-NOW | V | M321 | M | Extend records_disclosure (has nNonNull, cap, winnerValidity) with statistic, tiedHolders, nDays, holderHashStatus, masterMD5, recorded grid.
+C05 | C2 | 692 | FIX-NOW | V | M324 | S | Derive _HF_LHV (CSA:11554, 8.9) from model_constants E10 density x LHV; scripted delta; Sonnet blind audit.
+C2.2 | C2 | 697 | INFO | n/a | - | - | Priority legend; P0 binds current-raw claims, not the M299-derived published values.
+C3.1 | C3 | 705 | FIX-NOW | V | M325 | S | Add per-file, per-channel recorded-grid inventory; label it "grid of this CSV copy", not sensor resolution or rounding rule.
+C3.2 | C3 | 709 | FIX-NOW | V | M325 | S | Script-write the 9-file grid table (channel grids, current vs published p95) from the M308 scan list.
+C3.3 | C3 | 716 | INFO | V | M325 | - | 20260515_222240: Min channel 100 mV, Max 1 mV; M308 flagged R1 only (53.0 V); pooled R2 minStep 0.001 missed it.
+C3.4 | C3 | 721 | INFO | V | M325 | - | 20260523_113305: Min 1 mV, Max 100 mV; R1-only flag; pooled R2 missed the coarse channel.
+C3.5 | C3 | 726 | INFO | V | M325 | - | 20260609_132041: both channels 100 mV (R1+R2); published p95 stays; known-answer row.
+C3.6 | C3 | 731 | INFO | V | M325 | - | 20260610_094100: both channels 100 mV; published p95 stays; known-answer row.
+C3.7 | C3 | 736 | INFO | V | M325 | - | 20260611_061120: both channels 100 mV; published p95 stays; known-answer row.
+C3.8 | C3 | 741 | INFO | V | M325 | - | 20260618_124611: both channels 100 mV; published p95 stays; known-answer row.
+C3.9 | C3 | 746 | INFO | V | M325 | - | 20260625_122850: Min 100 mV, Max 1 mV; R1-only flag; pooled R2 missed the coarse channel.
+C3.10 | C3 | 751 | INFO | V | M325 | - | 20260627_085219: both channels 100 mV; published p95 stays; known-answer row.
+C3.11 | C3 | 756 | INFO | V | M325 | - | 20260723_113724: both channels 100 mV; also current-raw single-sample holder; published Records unchanged.
+C3.12 | C3 | 761 | INFO | V | M325 | - | Grid detector drops the 53.0 V sentinel (M308 R1) first and requires >=4 distinct valid values per channel.
+C3.13 | C3 | 762 | DECLINE | V | M325 | - | Six 100 mV p95 ties never become Records; report zero-spread share per file, labelled mean of drive fractions, in M325 only.
+C3.14 | C3 | 765 | DECLINE | V | M325 | - | Keep published single-sample Record (147 mV, Jul23 D1); show current-raw 200 mV only in M325 panel with grid mark and lags.
+C3.15 | C3 | 769 | INFO | V | M325 | - | Quote +/-100 mV bound and 40.8 mV uniform-scenario uncertainty (arithmetic checked) as conditional scenarios, never file properties.
+C3.16 | C3 | 776 | INFO | V | - | - | No jitter or de-rounding: already policy (M308 flags, never repairs; raw read-only).
+C3.17 | C3 | 777 | FIX-NOW | V | M325 | S | Label the 9 copies' grid issue in M325 and f03 payloads; files stay byte-unchanged.
+C3.18 | C3 | 778 | BLOCKED | V | - | - | Unrounded exports: owner states only phone exports exist (F03 decision 2026-09-29); keep request open, no work.
+C4.1 | C4 | 784 | FIX-NOW | n/a | M325 | S | State in outputs: a subset change changes the target; cell spread is a health proxy, not capacity SOH.
+C4.2 | C4 | 788 | SPEC-FIRST | n/a | M325 | M | Script-write the 4-row trend table (published/current x all/finer-grid) with drives, days and intervals.
+C4.3 | C4 | 793 | INFO | V | - | - | Matches published 0.1611 on 465/100; interval differs only by critical value (repo z, audit t99).
+C4.4 | C4 | 797 | FIX-NOW | V | M325 | S | Replace stale f03 current-raw slope (-1.6668, 446 basis) with script-written 465/100 fit; known-answer -1.393.
+C4.5 | C4 | 801 | SPEC-FIRST | NV | M325 | - | Published values on the 456-drive finer-grid subset; known-answer +0.151.
+C4.6 | C4 | 805 | SPEC-FIRST | NV | M325 | - | Current raw on finer-grid subset; known-answer +0.117; closes M307 Director follow-up (9 flagged, 6 as sensitivity).
+C4.7 | C4 | 809 | INFO | NV | M326 | - | Complete-four-probe covariate swap (+0.1181) is an M326 sensitivity; it does not explain the sign reversal.
+C4.8 | C4 | 814 | BLOCKED | NV | M325 | - | List finer-grid drives still differing >=1 mV in M325 payload; cause attribution needs originals.
+C5.1 | C5 | 823 | SPEC-FIRST | V | M325 | S | Run six pairing settings; published convention is SPREAD_TOL 300 ms, V_ALIGN_TOL 1500 ms (v6:247,249).
+C5.2 | C5 | 830 | INFO | NV | M325 | - | 0.1/0.3 s: known-answer row.
+C5.3 | C5 | 834 | INFO | NV | M325 | - | 0.1/1.5 s: known-answer row.
+C5.4 | C5 | 838 | INFO | NV | M325 | - | 0.3/0.3 s: known-answer row.
+C5.5 | C5 | 842 | INFO | V | M325 | - | 0.3/1.5 s equals the published pipeline convention; baseline row.
+C5.6 | C5 | 846 | INFO | NV | M325 | - | 0.5/0.3 s: known-answer row.
+C5.7 | C5 | 850 | INFO | NV | M325 | - | 0.5/1.5 s: known-answer row.
+C5.8 | C5 | 854 | FIX-NOW | V | M321 | S | Rewrite spread Record notes as quantiles of asynchronously paired Vmax-Vmin samples; drop typed "polarization artifact, ~10 mV baseline" claims.
+C5.9 | C5 | 857 | INFO | V | M325 | - | Model equals published y ~ months + T + I (30.4375-day month, CSA:656); reproduce with seed 42, 4000 draws.
+C5.10 | C5 | 860 | FIX-NOW | n/a | M322 | S | Trend interval captions state they omit data-version, rounding-model and sensor-calibration uncertainty.
+C6.1 | C6 | 866 | SPEC-FIRST | V | M326 | - | Code path confirmed (3 s asof, skipna mean); known-answers 119/482 partial-row drives, 1.96% rows, 99 drives.
+C6.2 | C6 | 872 | FIX-NOW | V | M321 | S | Disclose pack-mean Record as available-probe maximum, possibly one probe; holder change waits M326.
+C6.3 | C6 | 878 | INFO | V | M326 | - | 20260816_171638 is the published holder; its complete-four maximum is an M326 known-answer.
+C6.4 | C6 | 882 | FIX-NOW | NV | M321 | S | 20260816_173527 ties at 46 C: list via tiedHolders until M326 replaces the statistic.
+C6.5 | C6 | 886 | FIX-NOW | NV | M321 | S | 20260816_174235 ties at 46 C: list via tiedHolders until M326 replaces the statistic.
+C6.6 | C6 | 890 | SPEC-FIRST | NV | M326 | M | Complete-four-probe Record (known-answer 45.75 C, Jul20 D3, 481 drives); display 0.1 C precision.
+C6.7 | C6 | 891 | FIX-NOW | n/a | M323 | S | Release check compares Record holder, statistic and unrounded value, not the rounded display string (F33).
+C6.8 | C6 | 893 | SPEC-FIRST | NV | M326 | - | Carry complete-row coverage into downstream models; known-answers max per-drive change 1.467 C, median 0.
+C6.9 | C6 | 896 | SPEC-FIRST | V | M326 | M | Sidecar, never master: available_probe_mean, complete_four_probe_mean, probe_count, alignment lags, complete-row count, coverage.
+C6.10 | C6 | 898 | FIX-NOW | V | M322 | S | Name partial estimators: v6 and raw_temp_pass (>=1 probe) "available-probe mean"; m119v2 already states ">=3 of 4".
+C6.11 | C6 | 900 | SPEC-FIRST | V | M326 | M | Recompute thermal Records, bins, covariates together; isolation diff over T_pack_mean consumers (CSA 689, 2721, 3066, 3270, 15189); M320 untouched.
+C6.12 | C6 | 900 | FIX-NOW | V | M321 | S | Delete "bulk-cell temperature", "drives Arrhenius aging" and "fixed ~9 C gradient" from the pack-mean Record note (CSA:1417).
+C6.13 | C6 | 902 | INFO | V | - | - | Source confirmed at v6:954; cited evidence files absent from repo (see C14.1).
+C7.1 | C7 | 910 | INFO | V | - | - | Frozen-holder vs current-raw distinction matches F03 owner decision; current-raw extrema never replace published Records.
+C7.2 | C7 | 916 | BACKLOG | n/a | - | M | Optional current-raw Records sensitivity table (like M306 KPIs) after M321 fields; never replaces published.
+C7.3 | C7 | 921 | DECLINE | V | M325 | - | 200 mV current-raw single sample does not replace published 147 mV (same holder); sensitivity panel only.
+C7.4 | C7 | 925 | DECLINE | V | M325 | - | 100 mV p95 ties are all coarse copies; published 54 mV (Sep06 D2) stays.
+C7.5 | C7 | 931 | INFO | V | - | - | RPM 4634 agrees with published (Jun10 D2).
+C7.6 | C7 | 935 | INFO | V | - | - | Oil 105 C agrees with published (Aug08 D4).
+C7.7 | C7 | 939 | INFO | V | - | - | Engine coolant 102 C agrees with published (Jul21 D1).
+C7.8 | C7 | 943 | INFO | V | - | - | HV coolant 47 C agrees with published (Aug06 D1).
+C7.9 | C7 | 947 | INFO | V | - | - | Motor 100 C agrees with published (Jun27 D7).
+C7.10 | C7 | 951 | FIX-NOW | NV | M321 | S | Published torque Record lists Jul05 D2 only; disclose the Sep19 tie via tiedHolders.
+C7.11 | C7 | 955 | BACKLOG | V | - | S | No torque-minimum Record in _records; add only with a defined statistic and support.
+C7.12 | C7 | 959 | INFO | V | - | - | SoC max 88.0% agrees (Jul19 D1).
+C7.13 | C7 | 963 | INFO | V | - | - | SoC min 42.5% agrees (Sep16 D1).
+C7.14 | C7 | 967 | FIX-NOW | V | M321 | S | Intake Record is a trip-mean max (v6:972); relabel or bind raw-pass batt_intake_max_c; disclose M319 outage from 2026-08-24.
+C7.15 | C7 | 971 | SPEC-FIRST | NV | M326 | - | Complete-four-probe mean maximum: M326 known-answer.
+C7.16 | C7 | 975 | BACKLOG | NV | - | S | Spatial-range Record later; its 12 C maximum already contradicts the typed "fixed ~9 C" note (C6.12).
+C7.17 | C7 | 981 | INFO | V | - | - | 2.90 kW uses a different state mask; published 2.84 kW (Aug30 D4) stays.
+C7.18 | C7 | 985 | DECLINE | V | - | - | 20.47 kW transient is neither a Record nor an auxiliary-power estimate (round-1).
+C7.19 | C7 | 989 | FIX-NOW | V | M321 | S | Bind 130+ Record to highspeed_discharge_longest_run_s_130p (v6:831); known-answer 19.2 s, Jul14 D4 (F06).
+C7.20 | C7 | 993 | BACKLOG | NV | - | S | Two-endpoint 130+ run as a disclosed detector-convention sensitivity.
+C7.21 | C7 | 997 | FIX-NOW | NV | M321 | S | Records carry holder hash status from f03 hash validation, all tied holders, per-statistic nEligible.
+C8.1 | C8 | 1005 | FIX-NOW | V | M321 | S | Unrounded known-answer 19.248 s for the F06 fix (same change as C7.19).
+C8.2 | C8 | 1007 | BACKLOG | NV | - | S | 18.004 s two-endpoint value: sensitivity only, not a calibrated event boundary.
+C8.3 | C8 | 1008 | FIX-NOW | V | M321 | S | 143 s is cumulative; fix the Record label and the wrong "longest contiguous" support text (records_disclosure.py:48).
+C8.4 | C8 | 1010 | FIX-NOW | V | M321 | S | Disclose detector with value: dt capped at 5 s (DT_CAP_S) instead of run-breaking, right-end rule, speed source.
+C8.5 | C8 | 1013 | FIX-NOW | V | M321 | S | Reword standstill Record ("Sets the upper bound"): per-drive median engine-off standstill draw, not an auxiliary-power bound.
+C8.6 | C8 | 1018 | INFO | V | - | - | P_AUX_KW (0.50, 0.20, 1.20) unchanged (model_constants.py:20); observed maxima never replace it.
+C8.7 | C8 | 1019 | SPEC-FIRST | n/a | M329 | M | Stable-state auxiliary estimator only via spec inside M329 auxiliary scenarios.
+C9.1 | C9 | 1025 | SPEC-FIRST | V | M328 | M | FUEL-12: trapezoid plus left/right rectangles, gaps flagged first, no BSFC/density/LHV; recon_engine integrates right-end flow*dt.
+C9.2 | C9 | 1035 | SPEC-FIRST | NV | M328 | - | All positive-delta trips: known-answer 243/48, ratio 1.002399.
+C9.3 | C9 | 1039 | SPEC-FIRST | NV | M328 | - | Primary summary on gap-free trips: known-answer 234/48, 1.002396; day bootstrap seed 42, 4000.
+C9.4 | C9 | 1043 | SPEC-FIRST | NV | M328 | - | Report hash-matched stratum separately (known-answer 142/33) as provenance check of the fuel channels.
+C9.5 | C9 | 1046 | SPEC-FIRST | n/a | M328 | S | Bland-Altman difference-vs-mean chart in the Fuel tab (O1), script-written keys, n trips and days shown.
+C9.6 | C9 | 1047 | BLOCKED | n/a | - | - | Channel independence needs logger/PID definitions (C14.13).
+C9.7 | C9 | 1048 | SPEC-FIRST | NV | M328 | - | Known-answers +0.240%, median 0.448 mL; empirical quantiles are descriptive, not limits of agreement.
+C9.8 | C9 | 1052 | SPEC-FIRST | n/a | M328 | S | Never use correlation as the agreement criterion; check volume-dependent differences.
+C9.9 | C9 | 1053 | SPEC-FIRST | n/a | M328 | S | Pre-declare acceptable error, day-cluster intervals and log-ratio diagnostics before computing.
+C9.10 | C9 | 1055 | INFO | n/a | - | - | Wording: agreement cannot show which channel is correct or independent.
+C9.11 | C9 | 1057 | SPEC-FIRST | NV | M328 | - | Rules: count and exclude zero-delta trips from relative stats; gap >5 s rule; accumulator reset check as gate.
+C10.1 | C10 | 1065 | INFO | V | - | - | fuel_recon_master.csv has 261 rows; reproduction validates fuel arithmetic, not generator allocation.
+C10.2 | C10 | 1069 | FIX-NOW | n/a | M328 | S | Store unrounded trip litres and km beside the rounded L/100 km.
+C10.3 | C10 | 1071 | INFO | V | M328 | - | Unknown RPM counted as off (recon_engine.py:52 fillna(0)>400); known-answers 0.10732 L low-RPM, 0.21528 L unknown.
+C10.4 | C10 | 1073 | SPEC-FIRST | V | M328 | M | Tri-state engine state (on/off/unknown) with volume per state; check start/stop alignment before excluding low-RPM fuel.
+C10.5 | C10 | 1076 | INFO | V | M324 | - | Two fuel-energy constants confirmed on disk (C05).
+C10.6 | C10 | 1079 | INFO | V | M324 | - | Canonical basis 751 g/L x 41.15 MJ/kg = 8.58435 kWh/L (model_constants.py:11-12).
+C10.7 | C10 | 1081 | FIX-NOW | V | M324 | S | Replace _HF_LHV=8.9 (CSA:11554) with the MC-derived value; payload lhvKwhPerL follows.
+C10.8 | C10 | 1083 | INFO | V | - | - | +3.677% relative difference is arithmetically correct.
+C10.9 | C10 | 1085 | FIX-NOW | NV | M324 | S | Regenerate the SoC-balanced correction, not algebra; known-answer about -0.00776 L/100 km; report delta with CI.
+C10.10 | C10 | 1090 | FIX-NOW | V | M324 | S | Module H imports MC fuel triples (point, lo, hi); any alternative basis is a named scenario.
+C10.11 | C10 | 1091 | FIX-NOW | V | M322 | S | Relabel "Fuel (chem) measured" (jsx:9804, 9807) as logged volume x assumed E10 LHV; composition not measured.
+C10.12 | C10 | 1093 | INFO | V | - | - | Already compliant: pack I x V measured; generator and traction branches labelled reconstructed.
+C10.13 | C10 | 1099 | SPEC-FIRST | V | M329 | L | Covered by F04/F16/F19 (M329); the volume check does not close GTR structural gaps.
+C11.1 | C11 | 1108 | INFO | n/a | - | - | Section heading; rows follow.
+C11.2 | C11 | 1110 | FIX-NOW | V | M322 | S | Rename UI "Season" selector and "season filter" badge (jsx:9270, 215) to "Thermal cohort"; cohorts are ambient classes.
+C11.3 | C11 | 1111 | INFO | V | - | - | 379 Warm / 92 Shoulder match cohort_arrays EfficChart paired_n.
+C11.4 | C11 | 1111 | FIX-NOW | NV | M322 | S | Throughput captions: gross pack-terminal charge+discharge per 100 km; not fuel, not net traction energy, not causal.
+C11.5 | C11 | 1114 | SPEC-FIRST | n/a | M330 | M | Four named targets, joint calendar-day bootstrap; standardized interval labelled conditional with retained-draw count.
+C11.6 | C11 | 1120 | INFO | V | M330 | - | All-eligible rates equal published ratio-of-sums (16.991/26.797); interval [6.65, 13.50] is a known-answer.
+C11.7 | C11 | 1124 | SPEC-FIRST | NV | M330 | - | Shared-date target: known-answer +1.81 [-4.38, 7.41].
+C11.8 | C11 | 1128 | SPEC-FIRST | NV | M330 | - | Urban-only ratio-of-sums: known-answer +0.02; report beside the g-computation contrast (-1.32).
+C11.9 | C11 | 1132 | SPEC-FIRST | NV | M330 | - | Strata-standardized: known-answer -0.77; exploratory sensitivity only.
+C11.10 | C11 | 1136 | SPEC-FIRST | n/a | M330 | - | Wording: an interval including zero is not absence of a temperature effect; sign depends on population.
+C11.11 | C11 | 1140 | SPEC-FIRST | NV | M330 | - | Shared-date joint resampling keeps each date's trips together; known-answers 21 dates, ratio 1.0731.
+C11.12 | C11 | 1144 | FIX-NOW | V | M327 | S | Script-written exposure table per cohort (median km, minutes, <=5 km trips and km share); distribution overlays already exist.
+C11.13 | C11 | 1152 | INFO | NV | M327 | - | Shoulder exposure row: known-answer.
+C11.14 | C11 | 1157 | INFO | NV | M327 | - | Warm exposure row: known-answer.
+C12.1 | C12 | 1167 | SPEC-FIRST | n/a | M330 | M | Adopt the audit's strata and gates verbatim as replication target; declare them seen before the spec; no tuning.
+C12.2 | C12 | 1173 | SPEC-FIRST | n/a | M330 | S | Script-write the strata table: trips, dates, rates, target km weight per cell.
+C12.3 | C12 | 1177 | INFO | NV | M330 | - | (0,2] stratum: known-answer row.
+C12.4 | C12 | 1181 | INFO | NV | M330 | - | (2,5] stratum: known-answer row.
+C12.5 | C12 | 1185 | INFO | NV | M330 | - | (5,10] stratum: 7 Shoulder trips; flag thin support.
+C12.6 | C12 | 1189 | INFO | NV | M330 | - | (10,20] stratum: 7 Shoulder trips; flag thin support.
+C12.7 | C12 | 1193 | INFO | NV | M330 | - | (20,50]: 38% of target weight rests on 6 Shoulder trips; disclose thin-stratum dominance.
+C12.8 | C12 | 1197 | SPEC-FIRST | NV | M330 | - | Standardized rates apply to the shared target only; known-answers 27.5972/26.8265.
+C12.9 | C12 | 1198 | SPEC-FIRST | n/a | M330 | - | Report omitted draws (audit 150/4000); interval conditional, never primary inference.
+C12.10 | C12 | 1201 | BACKLOG | n/a | - | L | More days per stratum or a validated hierarchical/partial-pooling model before any formal seasonal claim.
+C12.11 | C12 | 1203 | SPEC-FIRST | n/a | M330 | - | List confounders (route, speed, stops, HVAC, inventory, engine warm state, time of day) in spec and labels.
+C12.12 | C12 | 1206 | STALE | V | - | - | Cold already suppressed by the M310 minimum-support rule (cohort_arrays Cold n 0, warm_vs_cold nB 0).
+C12.13 | C12 | 1207 | FIX-NOW | NV | M323 | S | Compare throughput: aligned cohort points with n drives and days beneath each point.
+C12.14 | C12 | 1209 | FIX-NOW | V | M323 | S | Separate Shoulder-minus-Warm panel showing the existing adjusted contrast with its target named; more targets after M330.
+C12.15 | C12 | 1210 | SPEC-FIRST | n/a | M330 | M | Pooled, urban-only and shared-date views; standardization labelled exploratory with composition and support caveat.
+C12.16 | C12 | 1211 | FIX-NOW | V | M323 | S | Palette already matches (COHORT_COL jsx:9166); only render All as a dashed grey overlapping reference.
+C12.17 | C12 | 1213 | FIX-NOW | n/a | M326 | S | Separate hottest-probe and complete-four-probe panels and symbols; annotate partial availability; show NA.
+C12.18 | C12 | 1215 | SPEC-FIRST | V | M325 | S | Grid marks and resolution panel apply to the current-raw sensitivity; published values are not from coarse copies.
+C12.19 | C12 | 1216 | INFO | n/a | M327 | - | Supplements the 50 Compare contracts regenerated in M327.
+C13.1 | C13 | 1223 | INFO | n/a | - | - | Method-repair table; rows ruled individually.
+C13.2 | C13 | 1227 | FIX-NOW | V | NEW:GateA2 | S | Per-file signal-representation JSON (channel grid, cadence, range, sha256) at ingestion; R2 per channel; Andrii signs the gate amendment.
+C13.3 | C13 | 1231 | FIX-NOW | V | M321 | M | Records keep support, timestamp, tied holders and alignment lags (sidecar where raw-derived).
+C13.4 | C13 | 1233 | SPEC-FIRST | V | M328 | M | Unknown stays unknown: engine state (recon_engine fillna(0)) and cold-start flag (NaN to False, M319 open item) via tri-state specs.
+C13.5 | C13 | 1236 | FIX-NOW | V | M327 | S | Ratio-of-sums with paired_n/paired_km exists (M284/M291); add explicit numerator and standardized weights with stratum support.
+C13.6 | C13 | 1240 | FIX-NOW | V | M322 | S | Wording: fuel agreement is internal; generator allocation unvalidated; cell spread is a health proxy without reference measurement.
+C13.7 | C13 | 1245 | FIX-NOW | V | M323 | M | Bind Record prose to structured fields; remove typed numbers in notes (~9 C, ~10 mV, ~150 C); F33 rejects stale payloads.
+C13.8 | C13 | 1249 | OWNER | n/a | - | - | Article directions are Andrii-gated; no work before his decision.
+C13.9 | C13 | 1250 | OWNER | n/a | - | - | Direction 1 (measurement quality) would rest on M325; replication across loggers or vehicles is unavailable.
+C13.10 | C13 | 1254 | OWNER | n/a | - | - | Direction 2 (thermal cohorts) only after M330; single-vehicle observational.
+C13.11 | C13 | 1258 | OWNER | n/a | - | - | Direction 3 (thermal sampling) only after M326.
+C13.12 | C13 | 1262 | INFO | n/a | - | - | Audit independence (no project functions imported) noted; blind audits keep that standard.
+C13.13 | C13 | 1268 | STALE | V | - | - | Hysteresis model retrained in M318 (489 drives, 104 days); the other non-coverage items are audit limits.
+C14.1 | C14 | 1277 | OWNER | V | - | - | Evidence bundle (continuation_manifest.json, CSV/JSON) absent from repo; Andrii may supply it for a read-only archive.
+C14.2 | C14 | 1286 | OWNER | V | - | - | continuation_checks.py absent; known-answer source only, never a pipeline dependency.
+C14.3 | C14 | 1289 | OWNER | V | - | - | continuation_resolution_refit.py absent; known-answer source for M325/M326 only.
+C14.4 | C14 | 1292 | DECLINE | n/a | - | - | build_continuation_report.py is the auditor's report builder; no repo use.
+C14.5 | C14 | 1294 | DECLINE | n/a | - | - | Keep project seed 42 and 4000 draws, not audit seeds 43/44/45; compare within Monte-Carlo noise.
+C14.6 | C14 | 1295 | INFO | n/a | - | - | Explicit formulas aid blind reproduction.
+C14.7 | C14 | 1297 | INFO | n/a | - | - | Reference block (N1, N2, A1).
+C14.N1 | C14 | 1298 | INFO | n/a | M325 | - | Cite NIST TN1297 Type B for the conditional rounding scenario.
+C14.N2 | C14 | 1302 | INFO | n/a | M325 | - | Cite TN1297 Appendix A: min/max selection and shared acquisition break independence.
+C14.A1 | C14 | 1306 | INFO | n/a | M328 | - | Cite Bland-Altman (1986) in FUEL-12.
+C14.8 | C14 | 1311 | INFO | n/a | - | - | References support methods, not this vehicle or logger.
+C14.9 | C14 | 1313 | BLOCKED | V | - | - | 333 originals: owner states none exist (F03); keep open, no work.
+C14.10 | C14 | 1315 | BLOCKED | n/a | - | - | Article-10 manufacturer table needs external input (F23).
+C14.11 | C14 | 1315 | BLOCKED | V | - | - | extract_soc_patterns.py absent; keep soc_patterns.json, label illustrative (O2).
+C14.12 | C14 | 1316 | BLOCKED | V | - | - | Unrounded exports for the 9 coarse files: none exist per owner (same as C3.18).
+C14.13 | C14 | 1317 | OWNER | n/a | - | - | Andrii: identify logger app/version and PID formulas for fuel rate and used-fuel accumulator.

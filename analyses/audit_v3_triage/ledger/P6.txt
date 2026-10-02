@@ -1,0 +1,89 @@
+B-0.1 | 34 | 3057 | INFO | n/a | - | - | Appendix B heading; 50 seasonalCharts contracts confirmed in _staleness (37 raw@410, 9 master@446, 2@489, 2@446).
+B-0.2 | 34 | 3059 | FIX-NOW | V | M323 | S | Mismatch = freshness failure: stale-basis gate must flag both 410 and 446 bases vs live 489; parity WARN->FAIL after M327.
+B-0.3 | 34 | 3062 | INFO | n/a | - | - | Audit's numeric raw verification covers chapters 3-6 only; other builders reviewed by source/render. Mismatch counts are NV targets.
+B-0.4 | 34 | 3064 | STALE | V | - | - | Palette #E69F00/#7C3AED/#0072B2 with markers/dashes already in CMP_SERIES jsx:9307-9310; keep.
+B-0.5 | 34 | 3065 | STALE | V | - | - | All already optional grey #64748b dashed reference (jsx:9307); keep.
+B-0.6 | 34 | 3066 | BACKLOG | n/a | M323 | S | Keep class/state colours inside cohort facets; apply when RegenByType/BatteryThermalCurve facets are built.
+B-0.7 | 34 | 3066 | INFO | n/a | - | - | Accept principle: no forced overlay/paired-row/Sankey; no Sankey anywhere until F04 closes.
+B-EnergyIntensity | 34 | 3068 | SPEC-FIRST | V | M330 | M | Contract fresh@489 (M295). Warm-Shoulder contrast via M330 spec; Cold descriptive point only, no interval; add pipelineClass field (M327).
+B-StartsPer100km | 34 | 3073 | FIX-NOW | V | M322/M327 | S | Rename to current-direction reversals per 100 km (label still says start proxy); detector + engine-hours norm SPEC-FIRST M327; seed 20260919->42.
+B-CohortExposure | 34 | 3078 | FIX-NOW | NV | M323 | S | Render aligned support table (drives, km, hours, days, observed/eligible/unsupported); hours/days fields from M327 F08.r3; no common axis.
+B-DriveTypeChart | 34 | 3083 | FIX-NOW | V | M323/M327 | M | Regen@489 (M296 basis 446); add distance and time share panels, label totals and unknown class.
+B-DriveDurationDist | 34 | 3089 | FIX-NOW | V | M323/M327 | S | Regen@489; log-duration axis in minutes, day support, missing vs zero distinguished; q1/q3 box already correct.
+B-SocLevelSensitivityChart | 35 | 3101 | FIX-NOW | V | M322/M327 | S | Label SoC weights as assumed scenario multipliers, not measured ageing; separate observed cycles panel; regen@489.
+B-SpeedDist | 35 | 3107 | SPEC-FIRST | V | M327 | M | Stale@410; regenerate with time and distance shares, identical bins, unknown-speed coverage; never mix per-drive means with pooled shares.
+B-RpmDistribution | 35 | 3112 | FIX-NOW | V | M323/M327 | M | Bins include '0 (engine off)' under engine-on title; separate Off, variable-width histogram facets, no connected line; regen stale@410.
+B-TorqueBySpeed | 35 | 3118 | FIX-NOW | V | M322/M327 | S | Label signed commanded torque (not shaft torque), fixed zero line, keep quantile bands; facets BACKLOG; regen stale@410.
+B-SocBySpeed | 35 | 3124 | FIX-NOW | V | M323/M327 | S | Fixed 0-100% axis, n samples/drives/days per cell, empty cells as NA; regen stale@410.
+B-CycleBySpeed | 35 | 3129 | SPEC-FIRST | V | M327 | M | Regen stale@410 with supported bin-distance denominator and day-clustered CI; keep pooled rate separate from drive distribution.
+B-EngineOnBySpeed | 35 | 3135 | FIX-NOW | V | M323/M327 | S | Fixed 0-100% axis; unsupported Shoulder high-speed bins NA not zero; observed-RPM denominators and day CI at M327 regen.
+B-EngineStartsByType | 36 | 3147 | SPEC-FIRST | V | M327 | M | Same detector as F10.r2; ordinary onsets vs thermal cold starts separate; label events vs occupancy; regen stale@410.
+B-EngineOnDuration | 36 | 3153 | FIX-NOW | V | M323/M327 | S | Title says p10/p90, footer says q1-q3 (jsx:9522); parameterize caption; terminal censoring note; segments/drives/days counts.
+B-RegenByZone | 36 | 3159 | FIX-NOW | V | M322/M327 | S | Proxy label present; disclose fixed mass prior and grade sensitivity, braking-event/day support; regen stale@410.
+B-RegenByTempMeasured | 36 | 3165 | FIX-NOW | V | M322/M327 | S | Compare title says 'ambient bin' (jsx:9325); confirm builder temperature source, relabel pack temperature; regen with shared bins.
+B-RegenCaptureMeasured | 36 | 3171 | FIX-NOW | V | M323/M327 | S | CmpLines index x (F11): numeric speed coordinates, support gaps; 'apparent recovery proxy' wording, no efficiency claim; regen stale@410.
+B-TurboByRpm | 36 | 3177 | FIX-NOW | V | M323/M327 | S | Fixed % axis, boost-observable coverage; boost magnitude panel (kPa) at regen; stale@410.
+B-TerrainTorqueDist | 36 | 3183 | FIX-NOW | NV | M322/M327 | S | Rename uphill/downhill to torque-load proxy classes; state 80-120 km/h band; regen stale@410.
+B-BatteryThermalCurve | 37 | 3195 | FIX-NOW | V | M322/M326 | M | Compare averages available probes only (jsx:9361); label 'mean of available probes'; four-probe facets; complete-probe mean via M326 sidecar.
+B-SocBands | 37 | 3201 | FIX-NOW | V | M323/M327 | S | Data carry lo/hi only, so whiskers duplicate the box while the footer claims min/max. Caption 'box=IQR'; keep IQR; add min/max at regen.
+B-WarmupCurve | 37 | 3206 | SPEC-FIRST | V | M323/M327 | M | Numeric km x (F11, M323); true pooled median curves replace n-weighted class-median average (jsx:9349-9356); 80 C ref, censoring.
+B-RegenByType | 37 | 3212 | FIX-NOW | V | M323/M327 | S | State labels already neutral (jsx:9463); add kWh/100 km totals, cohorts as panels; regen@489 (basis 446).
+B-CycleByType | 37 | 3218 | FIX-NOW | NV | M322/M327 | S | State headline statistic (mean drive rate vs ratio-of-sums); label lo/hi as observed range, not CI; regen@489.
+B-RegenByTypeMeta | 37 | 3224 | FIX-NOW | V | M327 | S | Regenerate in lockstep with RegenByType on same pool; show as ledger beside chart, not a flow chart.
+B-TerrainTorqueDistLow | 37 | 3230 | FIX-NOW | NV | M322/M327 | S | Explicit 40-70 km/h band, shared bin widths, grade reading labelled hypothesis; separate panel from high-speed; regen stale@410.
+B-BatteryThermalMeta | 38 | 3242 | SPEC-FIRST | V | M327 | S | Regenerate with the curve (drives, probe availability, minutes, date range, estimator); never copy old counts.
+B-SensorSummary | 38 | 3248 | SPEC-FIRST | V | M326/M327 | M | Explicit mean/max/min and co-pairing rules; pack-air vs coolant distinct; missing probe must not change mean meaning.
+B-HvcEngine80C | 38 | 3254 | FIX-NOW | V | M327/M322 | S | Verified 53%/n404 primary vs 60%/n326 seasonal; store numeric pct/n/nDays/eligibility not prose; label stale difference until regen.
+B-CycleBySpeedMeta | 38 | 3259 | FIX-NOW | V | M327 | S | Regenerate in lockstep with CycleBySpeed; expose observed km/time and gap exclusions; single count source.
+B-RegenCaptureMeasuredMassUncertainty | 38 | 3265 | FIX-NOW | NV | M322/M323 | S | Label as assumed mass-scenario envelope, never 95% CI; neutral shading; regen stale@410 at M327.
+B-TerrainCoverage | 38 | 3271 | FIX-NOW | NV | M322/M327 | S | Label torque-proxy classification vs GPS grade (GPS present in few files); coverage matrix BACKLOG; regen stale@410.
+B-EfficiencyBands | 38 | 3277 | STALE | V | M327 | S | Already relabelled 'Gross pack discharge per 100 km' (jsx:9319); only regen@489 and common breakpoints remain.
+B-ThermalWarmupLag | 39 | 3289 | SPEC-FIRST | NV | M327 | M | Survival curves with right-censoring and at-risk counts; coolant/oil separate panels; interim label 'median among drives reaching threshold'.
+B-EnergyPath | 39 | 3295 | FIX-NOW | V | M323/M327 | S | Compare shows raw kWh totals across unequal exposure (jsx:9383); normalize per 100 km, charge/discharge separate; no Sankey.
+B-ThermalFuelPenalty | 39 | 3301 | FIX-NOW | V | M324/M328 | M | Rename 'Combustion penalty' (jsx:9431) to adjusted fuel-rate association (M324); adjusted forest with day CI SPEC-FIRST M328; dashboard-only (F03).
+B-EvTraction | 39 | 3307 | FIX-NOW | NV | M322/M327 | S | Label zero RPM as engine-off movement, not fuel-free provenance; fixed 0-100% axes; run-length ECDF BACKLOG; regen@489.
+B-HighSocRegen | 39 | 3313 | FIX-NOW | NV | M322/M327 | S | No categorical high-SoC mechanism claim; motored-engine signature vs dissipated power distinguished; matched heatmap BACKLOG; regen stale@410.
+B-BufferDebtRecovery | 39 | 3319 | FIX-NOW | NV | M322/M327 | S | Rename net pack-energy recovery; generator repayment not metered; censored recovery-time distribution SPEC-FIRST backlog; regen stale@410.
+B-HandoffSequence | 39 | 3325 | FIX-NOW | NV | M322/M327 | S | State marginal medians are not one realized sequence; timing-resolution band and boost-observable denominator; regen stale@410.
+B-EngineStartContext | 40 | 3337 | FIX-NOW | NV | M322/M327 | S | Replace 'why the generator fires' with observed context; multi-label, no 100% exclusive stack; report unclassified events/days; regen.
+B-CellSpreadRelaxation | 40 | 3343 | FIX-NOW | NV | M322/M325 | S | Half-time below PID cadence labelled unresolved; resolution band in mV; ties to M325 grid table; regen stale@410.
+B-DepartureArrival | 40 | 3349 | FIX-NOW | V | M323/M327 | S | Zero line, separate kW and engine-on panels (jsx:9432 no CI); day-bootstrap CI added at M327 regen.
+B-RpmSpeedSync | 40 | 3355 | FIX-NOW | NV | M322/M327 | S | Rho and slope labelled descriptive associations; no gearing or causal coupling claim; regen stale@410.
+B-EnergyShifting | 40 | 3361 | FIX-NOW | V | M322/M323 | S | Zero line; separate occupancy vs net battery kW; state aux/braking ambiguity; keep 'Exploratory' note; regen stale@410.
+B-VgtAirPath | 40 | 3367 | FIX-NOW | NV | M322/M327 | S | Label ECU-coordinate tracking error incl. sampling lag, not calibrated actuator accuracy; state channel definitions; regen stale@410.
+B-EngineStateMachine | 40 | 3372 | FIX-NOW | V | M323/M327 | S | Title '% of engine-on time' includes Off (jsx:9339-9341); retitle '% of observed time incl. Off'; transition heatmap BACKLOG.
+B-AccelDecelEnvelopes | 41 | 3385 | FIX-NOW | V | M323/M327 | M | Compare shows only km/drive counts; render accel/decel quantile bands on numeric speed x, signed zero-centred, support per bin.
+B-CrawlStopGo | 41 | 3391 | FIX-NOW | NV | M322/M327 | S | Separate gross discharge, recovered charge, signed net Wh/cycle; cycle vs launch denominators; detector sensitivity note; regen.
+B-GeneratorTractionRecon | 41 | 3397 | FIX-NOW | V | M323/M329 | M | Numeric match @446 (M293). GtrFlowGate in Compare (F20) and accounting table with residual; f_gen sensitivity forest at M329.
+B-fam-0 | 42 | 3409 | INFO | n/a | - | - | Families table heading.
+B-fam-1 | 42 | 3412 | FIX-NOW | NV | M322 | S | Label VCM display as nonlinear mapping of BMS SoC, not a capacity measurement; identity-line facets BACKLOG.
+B-fam-2 | 42 | 3417 | FIX-NOW | V | M322 | S | Heat/cold risk bands (jsx:3503 'calendar aging accelerates') labelled generic assumptions; A/kW primary, C secondary (CAP_KWH verified:false).
+B-fam-3 | 42 | 3422 | FIX-NOW | V | M322 | S | GTC and rainflow EFC share one chart (jsx:1646); state distinct definitions, no energy closure; calendar-date x, missing intervals.
+B-fam-4 | 42 | 3427 | FIX-NOW | V | M322 | S | Keep scenario wording (jsx:11262 already disclaims life multiplier); separate annualized extrapolation from measured exposure.
+B-fam-5 | 42 | 3431 | FIX-NOW | V | M322 | S | F22: rename CI half-width/MDE to precision; power simulation panel stays backlog.
+B-fam-6 | 42 | 3435 | FIX-NOW | NV | M322 | S | F28 rename; mark subsecond lag limited by asynchronous PID clocks; actual positive discharge SPEC-FIRST (backlog).
+B-fam-7 | 42 | 3439 | BACKLOG | NV | - | M | Shared probability scale, sparse-support stipple, rolling out-of-time calibration (needs spec); no controller-intent wording (M322).
+B-fam-8 | 42 | 3443 | FIX-NOW | NV | M322 | S | Keep case-study label and selection rule; anonymous min/max channels cannot identify a degrading cell.
+B-fam-9 | 42 | 3447 | FIX-NOW | NV | M327/M322 | S | batteryTempRanges refresh at M327; no fixed spatial gradient or measured-equilibrium wording.
+B-fam-10 | 42 | 3451 | FIX-NOW | NV | M322 | S | Show at-risk drive counts versus elapsed time; no universal asymptote claim.
+B-fam-11 | 42 | 3455 | FIX-NOW | NV | M322/M326 | S | Disclose parking heat/HVAC confounding; ambient source native vs interpolated (F09 sidecar).
+B-fam-12 | 42 | 3459 | FIX-NOW | V | M322 | S | Heat-soak section (jsx:10700): logged gap is not necessarily parking duration; keep continuity classes.
+B-fam-13 | 42 | 3464 | FIX-NOW | NV | M322 | S | Label selected identifiable fits, not generalisable; one-pole fit cannot separate heating, cooling, equilibrium.
+B-fam-14 | 43 | 3476 | FIX-NOW | NV | M321 | S | Selection-sensitivity note on resistance records; matched T/SoC/load comparison SPEC-FIRST backlog.
+B-fam-15 | 43 | 3480 | FIX-NOW | V | M321 | M | C04 disclosure fields; F06 cumulative vs contiguous records; corpus-wide badge in filtered modes; no rated-limit language.
+B-fam-16 | 43 | 3484 | FIX-NOW | NV | M322 | S | Unmatched-stratum warnings; capacity-invariant observables; matched tables SPEC-FIRST backlog; corpus_manifest e4orce bug remains open.
+B-fam-17 | 43 | 3489 | FIX-NOW | NV | M322/M323 | M | Evidence labels: observed association / model scenario / not established; prose bound to the same contract facts (lint).
+B-vis-0 | 43 | 3495 | INFO | n/a | - | - | Interaction weaknesses heading.
+B-vis-1 | 43 | 3496 | INFO | V | M323 | S | Cold disabled per M310 (keep); add Cold n=2 synthetic fixture to jsdom suite.
+B-vis-2 | 43 | 3499 | INFO | NV | M323 | S | Clean render does not establish prose/contract correctness; adopt replay as jsdom regression if script supplied.
+B-vis-3 | 43 | 3502 | FIX-NOW | V | M323 | S | Empty-selection message exists (jsx:9687); extend explicit NA marks to CmpLines categories and KPI rows.
+B-vis-4 | 43 | 3505 | FIX-NOW | V | M323 | S | CmpBars labels all at cy-6 (jsx:9637); offset per cohort or facet rows.
+B-vis-5 | 43 | 3507 | FIX-NOW | V | M323 | S | Parameterize CmpBox footer (jsx:9522) per spec interval; SocBands stays IQR, do not change quantiles.
+B-vis-6 | 43 | 3510 | FIX-NOW | V | M323 | S | F11: CmpLines X(i) index (jsx:9656); numeric x, join by value; categorical bins stay categorical.
+B-vis-7 | 43 | 3512 | FIX-NOW | V | M323 | S | RPM compare: drop Off from engine-on normalization; variable-width histogram, no connecting line.
+B-vis-8 | 43 | 3514 | FIX-NOW | V | M323 | M | CmpKpi has no numeric ticks and a grey connector across cohorts (jsx:9566); value/interval/support table; contrast column only after M330.
+B-vis-9 | 43 | 3517 | FIX-NOW | V | M323 | S | CmpEcdfPanel extent/clip pools All with subgroups (jsx:9711,9715); exclude All from extent, count unique files, state bandwidth.
+B-vis-10 | 43 | 3520 | FIX-NOW | NV | M323 | S | Raise Compare SVG text floor (6.5-7 px now) to >=9 px; global >=12 px guidance stays backlog (F32), not a gate.
+B-vis-11 | 44 | 3529 | BACKLOG | NV | - | M | F32 accessibility: ARIA summaries, keyboard focus, CSV/table alternatives.
+B-fig5 | 44 | 3532 | FIX-NOW | V | M323 | S | Add jsdom assertion that WarmupCurve x positions are proportional to km (closes Figure 5 with F11).
+B-fig6 | 44 | 3534 | FIX-NOW | V | M323 | S | Add jsdom assertion that RPM Compare title matches denominator and Off is not on the engine-on scale (Figure 6).

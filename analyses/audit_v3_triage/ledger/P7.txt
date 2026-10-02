@@ -1,0 +1,93 @@
+Cs-0 | 45 | 3544 | FIX-NOW | V | M323 | M | All 76 titles exist (jsx 9936-11517; 4b at 4525; cross-vehicle 8803-9087). Keep corpus badges; add seasonAware global-S lint (M323); fix the mixed prose in M322.
+Cs-1 | 45 | 3549 | FIX-NOW | NV | M322 | S | Overview. Split logged km from paired-energy and EV-eligible counts via S.eligibility. Give S.odometer and car age a source date (unsourced at jsx:11622).
+Cs-2 | 45 | 3553 | FIX-NOW | NV | M322 | S | Overview jsx:9946. Keep the ledger (standing rule). Label sessions vs drives vs dates with script counts. Move ingestion history into a Collapsible.
+Cs-3 | 45 | 3557 | FIX-NOW | NV | M322 | S | Overview jsx:10035. Reword SoC start/stop bands as observed strategy associations. Separate engine restarts from thermal cold starts. Cohort data refresh depends on M327.
+Cs-4 | 45 | 3560 | FIX-NOW | V | M321 | S | F05: mask both floor pools (compute_summary_arrays.py:14927). Label gross discharge, gross throughput and signed net separately. Use one ens_outlier_v2 mask for bands and prose.
+Cs-5 | 45 | 3564 | FIX-NOW | NV | M322 | S | Charts jsx:10058. Separate the GTC caption from the FCE/standard-EFC/Rainflow definitions. Label pooled rate vs per-drive distribution. Subtab refresh via M327 contracts.
+Cs-6 | 45 | 3567 | FIX-NOW | V | M322 | S | jsx:1200 says "Engine cold-starts" but counts RPM onsets >=MIN_ENGINE_START_S (csa.py:4125-4137). Relabel. p10/p90 footer matches csa:4299. Fix the "IQR" comment at jsx:1233.
+Cs-6.r2 | 45 | 3568 | SPEC-FIRST | V | M327 | M | Cohort StartsPer100km is proxy:n_sign_crossings (cohort_fixes_p0.py:111). Replace it with cohort RPM onsets. Add censoring and observed-RPM coverage. Label it a proxy until then.
+Cs-7 | 45 | 3570 | FIX-NOW | V | M322 | S | F22: rename mdeMohmPerMo (not "detection power"). Refresh legacy scenario inputs. State that absolute resistance and a no-signal interval are not capacity health.
+Cs-8 | 45 | 3574 | FIX-NOW | NV | M322 | S | Keep the apparent-KE wording and mass sensitivity. Label the bin as 4-probe mean at the decel sample (csa:4602). Show clean vs unfiltered n in every subtab.
+Cs-8.r2 | 45 | 3576 | SPEC-FIRST | n/a | NEW:grade-aware | L | Grade/road-load/braking-matched regen analysis on QC GPS-altitude drives only. Not a wording fix.
+Cs-9 | 45 | 3578 | FIX-NOW | NV | M322 | S | Retain. Caption: display mapping is not independent capacity/SoH calibration. Keep common SoC axes and quantization.
+Cs-10 | 46 | 3587 | FIX-NOW | NV | M322 | S | Label C-rate as conditional on CAP_KWH=2.1 (verified:false). Risk regions illustrative, not OEM limits or a plating diagnosis.
+Cs-10.r2 | 46 | 3588 | BACKLOG | V | - | M | Sustained-window C-rate exposure is a documented gap (jsx:11532) and needs a raw pass, so spec first when scheduled.
+Cs-11 | 46 | 3590 | FIX-NOW | V | M323 | M | Numeric distance x-axis (F11). Cold flag is T_intake<30 C (csa:1096): relabel as intake-cold, distinct from ambient class and coolant cold-soak.
+Cs-11.r2 | 46 | 3591 | SPEC-FIRST | n/a | M326 | M | Defined warm-up curve estimator with censoring of unachieved thresholds. Pre-register.
+Cs-12 | 46 | 3593 | FIX-NOW | NV | M322 | S | State the actual IQR convention. Report samples vs drives/days. Replace strategy-intent claims with observed bands. Mask refresh in M327.
+Cs-13 | 46 | 3596 | FIX-NOW | NV | M324 | S | Stays in charts (measured pack-terminal), cross-linked from Fuel. Show unknown-state energy. Explain why the direct bus path is unmetered.
+Cs-14 | 46 | 3599 | FIX-NOW | V | M323 | M | F20: GtrFlowGate bypass in Compare (jsx:4493). Accounting table with visible residual, no Sankey. Per-subanalysis freshness stamps. Move to Fuel in M324.
+Cs-14.r2 | 46 | 3601 | SPEC-FIRST | V | M329 | L | F04 nonclosure, efficiency pooling, missing power. BSFC, aux (0.5 vs ~1.2 kW) and allocation as priors. Path A/B, Opus blind.
+Cs-15 | 46 | 3604 | FIX-NOW | V | M322 | S | Title and banner already "Illustrative" (jsx:10142-10143). KEEP soc_patterns.json (O2). Add source drive IDs and "extractor absent; not regenerable". Bind the ~38% literal (jsx:10150).
+Cs-15.r2 | 46 | 3605 | BLOCKED | V | - | - | extract_soc_patterns.py is absent, so it cannot be recovered. Retiring the file is declined per O2; the panel stays out of quantitative evidence.
+Cs-16 | 46 | 3608 | FIX-NOW | NV | M322 | S | Separate count/distance/time panels with CLASS_ORDER keys. Show the unknown-class drive count from the master (audit target 3).
+Cs-17 | 46 | 3612 | FIX-NOW | NV | M327 | S | Title is live but the cohort contract is on the 410 basis: regenerate. Label missing-speed handling. Shared Compare bins (M323).
+Cs-18 | 46 | 3615 | FIX-NOW | NV | M322 | S | Label "target (commanded) motor torque". No mechanical power from the rejected motor-RPM channel. Keep sign and support.
+Cs-19 | 46 | 3619 | FIX-NOW | NV | M322 | S | Signed torque-bin names. Flat/uphill/downhill only as context hypotheses (no grade). Show QC GPS coverage.
+Cs-20 | 46 | 3622 | FIX-NOW | NV | M322 | S | "Signature consistent with dissipation; energy not metered; mechanism not identified".
+Cs-20.r2 | 46 | 3623 | BACKLOG | n/a | - | M | High-SoC conditional distributions matched on support, temperature and state need a spec.
+Cs-21 | 46 | 3626 | FIX-NOW | NV | M322 | S | Per-phase mask labels. Show signed net and positive-direction energies separately (splice if a new key).
+Cs-22 | 47 | 3635 | FIX-NOW | NV | M323 | M | Shared physical-speed axis. Signed accel/decel facets. Distribution bands distinct from uncertainty. Per-bin support in the tails.
+Cs-23 | 47 | 3638 | FIX-NOW | NV | M322 | S | "Descriptive correlation; mechanical decoupling is known architecture, not inferred here".
+Cs-24 | 47 | 3641 | FIX-NOW | V | M322 | S | Retitle jsx:10176 to "Observed engine-start contexts". Keep multi-label and unclassified shares. Note RPM-on may include motoring.
+Cs-25 | 47 | 3644 | FIX-NOW | V | M322 | S | Retitle jsx:10177 to "Net pack-energy recovery". Separate regen return from generator contribution. Label the exponential as schematic.
+Cs-25.r2 | 47 | 3646 | SPEC-FIRST | n/a | NEW:event-aligned-recovery | L | Event-aligned recovery trajectories with censoring, day-clustered.
+Cs-26 | 47 | 3648 | FIX-NOW | NV | M322 | S | "Descriptive transition matrix; no Markov-control claim". Same time resolution across cohorts.
+Cs-26.r2 | 47 | 3649 | BACKLOG | n/a | - | M | Dwell/history-dependence test before any Markov interpretation.
+Cs-27 | 47 | 3651 | SPEC-FIRST | NV | M330 | M | Paired within-trip deltas, matching overlap, day-cluster CI, missing-channel coverage. Interim label: "pooled group levels".
+Cs-28 | 47 | 3654 | FIX-NOW | NV | M322 | S | Occupancy denominator = observed RPM time incl. engine-off. Unknown-state handling from M326 sidecar. Keep censoring. Note left-truncated initial states.
+Cs-29 | 47 | 3657 | FIX-NOW | NV | M322 | S | Coolant and oil as separate states. Count unachieved thresholds. Polling-uncertainty note. Cold descriptive_only.
+Cs-30 | 47 | 3660 | FIX-NOW | V | M324 | M | Move to Fuel. C05 single E10 basis. Remove literals jsx:7131/7139/7158. No measured tank-to-wheel wording. Reset/SoC-drift checks in M328 (FUEL-12).
+Cs-31 | 47 | 3664 | FIX-NOW | NV | M322 | S | Splice-refresh. Show the two-day Shoulder concentration. Cadence/timing uncertainty beside sub-second lags.
+Cs-32 | 47 | 3667 | FIX-NOW | NV | M322 | S | "Exploratory proxy, not cell health". A zero half-time means "unresolved at cadence". Matched T/I/SoC tied to M325.
+Cs-33 | 47 | 3670 | FIX-NOW | NV | M322 | S | Keep subset coverage. "ECU-coordinate tracking, not calibrated actuator accuracy; no efficiency surface".
+Cs-34 | 47 | 3673 | FIX-NOW | NV | M322 | S | Keep "thin". "High-SoC motoring does not identify a regen-limit mechanism".
+Cs-34.r2 | 47 | 3674 | BACKLOG | n/a | - | M | Condition on pack T, SoC and braking opportunity (spec first).
+Cs-35 | 47 | 3676 | FIX-NOW | NV | M322 | S | "Descriptive net low-speed pack power; no fuel-battery-traction transfer without branch metering".
+Cs-36 | 48 | 3685 | FIX-NOW | V | M322 | S | Baro ~90 m/LSB, 0.0146% of rows (jsx:11523). Disclose quantization and route/temperature confounding. No grade claims.
+Cs-37 | 48 | 3688 | FIX-NOW | NV | M322 | S | "Engine-off pack-load proxy". HVAC and DC-DC not individually metered. HV coolant loop is separate from the pack's air cooling.
+Cs-38 | 48 | 3691 | FIX-NOW | NV | M322 | S | Disclose the case-selection rule and clock/scaling checks. No individual-cell degradation claim from anonymous min/max.
+Cs-39 | 48 | 3694 | FIX-NOW | NV | M324 | M | Move to Fuel. Rename to "adjusted fuel-rate association". Crude vs RPM/load-matched ratios. Live date span and support. No causal temperature isolation.
+Cs-40 | 48 | 3697 | FIX-NOW | NV | M322 | S | Mark old grade narratives superseded. Terrain claims only on QC altitude-covered drives.
+Cs-40.r2 | 48 | 3699 | SPEC-FIRST | n/a | NEW:grade-aware | L | Explicit road-load model (shared with Cs-8.r2/19/20).
+Cs-41 | 48 | 3700 | FIX-NOW | NV | M322 | S | Headline from the clean ev_valid pool (audit target 405). Separate engine-off distance, discharge and longest run. Energy source unidentified.
+Cs-42 | 48 | 3704 | FIX-NOW | NV | M322 | S | "Observed logged-sequence transitions". Keep unknowns and unlogged-gap markers. No daily-behaviour inference.
+Cs-43 | 48 | 3709 | FIX-NOW | V | M322 | S | F08: one observed-count source (Cold 2 drives/1 date shown, inference suppressed). Per-metric files/days/km and estimand. Arrays in M327.
+Cs-44 | 48 | 3712 | FIX-NOW | NV | M322 | S | "Non-significant is not equivalence; not a precise seasonal effect".
+Cs-44.r2 | 48 | 3713 | SPEC-FIRST | n/a | M330 | M | Trip-length and thermal-state stratification with overlap reporting.
+Cs-45 | 48 | 3715 | FIX-NOW | V | M322 | S | Keep the badge. highwayVsCity is pipeline-bound (summary_arrays.json), not static. Add per-row unit and denominator. Stale-basis check in M323.
+Cs-46 | 48 | 3718 | FIX-NOW | NV | M322 | S | Saturation and intent not metered. Reserve at another condition does not prove reserve at the limiter.
+Cs-47 | 48 | 3722 | FIX-NOW | NV | M322 | S | Label the triangle schematic. Bind 115 kW and 96.1 kWh to S.* as baseline-relative indices.
+Cs-47.r2 | 48 | 3724 | SPEC-FIRST | n/a | M331 | M | F28.r2 actual positive discharge plus timing sensitivity.
+Cs-48 | 49 | 3732 | FIX-NOW | NV | M322 | S | Separate boost magnitude from active share. No enrichment inferred from pressure.
+Cs-49 | 49 | 3735 | FIX-NOW | V | M323 | M | Compare (jsx:5145): engine-on denominator and variable bin widths. "fuelled" = boost/load-inferred combustion, label inferred. Explain the ~1% RPM-hours denominator gap.
+Cs-50 | 49 | 3740 | FIX-NOW | V | M322 | S | jsx:10554 ">40 minutes" contradicts the >60-row gate (jsx:3809). Drop "pooled warm-season" for selected cohorts. Mean is not calibrated bulk temperature.
+Cs-51 | 49 | 3744 | FIX-NOW | NV | M326 | M | F09: regenerate ambient bins (416 vs ~482). Extrema vs typical peaks. List missing-S1 drives. Remove "~4-6 C cooler" literal (jsx:10590).
+Cs-52 | 49 | 3747 | FIX-NOW | V | M322 | S | Remove "thermal accumulator reaching equilibrium" and "reaches thermal equilibrium" (jsx:10634, 10646). Show per-bin at-risk counts.
+Cs-52.r2 | 49 | 3748 | BACKLOG | n/a | - | M | Survivor-conditional uncertainty bands for the late-time curve.
+Cs-53 | 49 | 3750 | FIX-NOW | V | M322 | S | Literals "Jun29 D1 -11 C", "+16 to +26 C", "three Jul11 drives" (jsx:10658-10660): bind or remove. Per-drive ambient source/interpolation metadata.
+Cs-54 | 49 | 3753 | STALE | V | - | - | Text already hedges topology (jsx:10663-10665). No shared-liquid-loop assertion found. Add an air-inlet note only with a cited source.
+Cs-55 | 49 | 3756 | FIX-NOW | V | M322 | S | Hand-typed rows (jsx:10674-10677) violate S.*: bind or mark as dated assumptions. Separate key-on standstill from car-off standby. 2.84 kW = max of medians.
+Cs-56 | 49 | 3759 | FIX-NOW | NV | M322 | S | Gaps are parking bounds. Keep continuity/unknown-use flags. No exclusive residual-heat attribution.
+Cs-57 | 49 | 3762 | FIX-NOW | NV | M322 | S | "Case-study time constants, n=TS.nFits". Remove intrinsic heat-capacity/conductance derivations.
+Cs-57.r2 | 49 | 3763 | BACKLOG | n/a | - | S | Publish fit residual diagnostics and intervals.
+Cs-58 | 49 | 3766 | FIX-NOW | V | M322 | S | Keep the Cold rows here. Reconcile S.ambientTable counts with the selector (one source). jsx:10777 "entered by hand" vs native/interpolated: state provenance per drive.
+Cs-59 | 50 | 3777 | FIX-NOW | V | M321 | M | F06 continuous 130+ -> longest_run. F07 intake max. C04 statistic/tie fields. C-rate conditional on CAP. Drop mechanism prose. 40 visible + 1 auditOnly is intentional (jsx:10789).
+Cs-60 | 50 | 3783 | FIX-NOW | NV | M322 | S | Lead with proxy-only outcomes and F03 provenance sensitivity. "Equivalence not established", never "no degradation".
+Cs-61 | 50 | 3786 | FIX-NOW | NV | M322 | S | Recast thresholds as assumptions and monitored exposures. No plating, safe-limit, capacity or lifetime inference.
+Cs-62 | 50 | 3789 | FIX-NOW | V | M322 | S | Keep the single-stage control. Rename the MDE field (F22). "Spread trend / V-regression is not direct SOH".
+Cs-62.r2 | 50 | 3790 | SPEC-FIRST | NV | M325 | M | Current-archive sensitivity and cadence-controlled resistance shown beside published values (provenance sensitivity wording).
+Cs-63 | 50 | 3794 | INFO | V | - | - | Keep the nine-file e-4ORCE rail segregated (jsx:8803). No raw recomputation. Unit/basis caveats ride along in the M322 sweep.
+Cs-64 | 50 | 3798 | FIX-NOW | NV | M322 | S | Annotation does not make vehicles equivalent. Show uncertainty and T/SoC/load/cadence support. Vehicle-specific energy normalization.
+Cs-65 | 50 | 3802 | FIX-NOW | NV | M322 | S | Make missing strata and support explicit. "Nine captures do not estimate an AWD/FWD population effect".
+Cs-66 | 50 | 3805 | FIX-NOW | NV | M322 | S | Shared detector definitions. Report clock quality. "Observational, clustered within few drives/days".
+Cs-67 | 50 | 3808 | FIX-NOW | NV | M322 | S | Keep units and masks. Logger-configuration differences are not vehicle mechanisms. RPM/boost is not calibrated output.
+Cs-68 | 50 | 3811 | FIX-NOW | NV | M322 | S | Same zero-RPM movement label as Cs-41. Capacity-invariant quantities. Disclose speed/current/T overlap gaps.
+Cs-69 | 51 | 3821 | FIX-NOW | NV | M322 | M | Bind facts to current S.* contracts. Promote F03 (333/489), stale-comparison and flow-nonclosure (F04) limits to the top.
+Cs-70 | 51 | 3824 | FIX-NOW | V | M321 | S | Floor jsx:11016 (F05 mask). False "no fuel-flow channel" at jsx:11016 -> M322. Present f_gen as model-derived, not certain.
+Cs-71 | 51 | 3827 | FIX-NOW | NV | M322 | M | Concise estimand/mask/clock/uncertainty glossary. Milestone history into a Collapsible. Separate statistical from structural uncertainty.
+Cs-72 | 51 | 3830 | FIX-NOW | V | M322 | S | Move the Wikner ratioVsFlat multipliers and "~10x mitigation" (jsx:11359, 11361) to labelled diagnostics. Bind the Arrhenius literals (jsx:11348). Fix the stale "May-Jun"/"no Cold" text.
+Cs-73 | 51 | 3833 | FIX-NOW | V | M322 | S | Retitle to "consistency checks". Mark "confirmed" only for independent signals or held-out tests. Literals jsx:11378/11386. Per-item input/version scope.
+Cs-74 | 51 | 3836 | FIX-NOW | V | M322 | S | "Power fade is measured" (jsx:11629) and "measured power-fade trend" (jsx:11618) -> load-excited resistance proxy. Hypothesis tier (jsx:11393) already present.
+Cs-75 | 51 | 3839 | FIX-NOW | NV | M322 | S | Reorder: originals (F03), calibrated branch power/capacity, winter logging, temporal holdout. Split derivable from instrumentation-required.
+Cs-76 | 51 | 3842 | FIX-NOW | V | M322 | S | Replace jsx:11622 "410/410 byte-identical ... transfer re-serialization, not a data difference" with f03_provenance-bound owner wording. Remove no-fuel text (11347, 11531). Date historical slopes.

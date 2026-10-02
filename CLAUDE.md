@@ -110,16 +110,41 @@ gates (script-written numbers, blind reproduction, Director decision). Each disp
 
 ## Owner decisions
 - 2026-09-29 (Andrii), superseding the earlier same-day decision "raw/ treated as original": open integrity item **F03
-  (raw content provenance)**, linked to F02. 335/457 files in `raw/` fail `raw_manifest.json` sha256 AND normHash (row counts
+  (raw content provenance)**, linked to F02. 335/457 files in `raw/` (at that time; 333/489 on the current corpus) fail `raw_manifest.json` sha256 AND normHash (row counts
   match); a stratified re-analysis showed hash-matching files reproduce the published master exactly (0 cells) while
-  hash-failing files do not (442 cells in 15 sampled). All raw files are phone exports; no other originals exist.
+  hash-failing files do not (442 cells in 15 sampled). (The same-day statement "no other originals exist" is superseded by the
+  2026-10-02 entry below.)
   Reference of record for published figures = the published master/arrays (`drive_master.csv` MD5 `0bcfc400...`);
   a fresh rebuild from today's `raw/` is a **provenance-sensitivity analysis**, not a correction. Do not switch silently.
-- Wording (Director, 2026-09-29): never "reproducible from raw data" for raw-pass keys. Disclose: "published values derived from
-  the M299 corpus; 335/457 archived raw copies do not match recorded hashes and do not reproduce per-drive values; originals
-  unavailable". Call fresh-rebuild deltas "provenance sensitivity", never "corrections"/"errors". No new article figure from
+- Wording (Director, 2026-09-29; counts and originals clause revised 2026-10-02): never "reproducible from raw data" for
+  raw-pass keys. Disclose: "published values derived from the M299 corpus; 333/489 archived raw copies in `raw/` do not match
+  recorded hashes (lower-precision re-exports); sha256-verified originals exist and are consistent with the published per-drive
+  raw-derived values (see 2026-10-02 entry)". Never "proven", never "corrections". Call fresh-rebuild deltas "provenance sensitivity", never "corrections"/"errors". No new article figure from
   raw-pass keys until F03 is resolved or Andrii signs off a disclosed dual report. A delta that moves a figure outside its CI or
   flips a TOST/decision outcome escalates to the Director.
+- 2026-10-02 (Andrii, after Director ruling "revise" and a blind audit): **originals recovered**. A read-only sweep of the
+  Investigation folder (loose CSVs + 43 ZIPs; `analyses/audit_v3_triage/zip_sweep_report.json`) found a byte-identical original
+  (sha256 = `raw_manifest.json`) for all 333 hash-failing canonical files; copies are in `<Investigation>/originals_recovered/`
+  (outside the repo, produced by `tools/originals_recover.py`; do not place them in `raw/`). The `raw/` copies of these files are
+  lower-precision re-exports (e.g. HV current -2.5999 -> -3). Evidence (`analyses/F03_originals/`, spec pre-registered): rebuild
+  from the originals gives 161/186 identical columns vs 69/186 from `raw/`; 0 raw-derived non-ML columns drift on the 333 swapped
+  drives; the 25 remaining drifted columns are ML/refit outputs and drift identically on the 43 hash-verified new drives, are
+  deterministic run to run and identical under Python 3.11.15 and 3.12 (ML16 frozen historic fit; not raw content). Blind audit:
+  0 mismatches original-vs-published (41 drives, vs both current master and 0bcfc400); `raw/` copies mismatch on 36/41 (the 5
+  matches differ only in GPS cells, i.e. ~12% of the 333 may be value-neutral). Allowed wording: "consistent with the published
+  raw-derived per-drive values deriving from the sha256-verified originals; the archived `raw/` copies of 333 files are
+  lower-precision re-exports". NOT yet decided and NOT to be done silently: re-anchoring (originals as a second sha256-manifested
+  archive is the preferred path; swapping `raw/` only by Andrii's separate decision after a no-new-drive arrays control build with
+  deltas inside CI). Until then F03 stays open, the dashboard/article F03 wording is unchanged, and no new article figure from
+  raw-derived keys without the Opus audit and Andrii's sign-off. F03 ledger rows (F01, F01.r2, C3.18, C14.9, C14.12, E-N1, p1.6)
+  are re-ruled by the Director per row.
+- 2026-10-01/02 (Andrii), external audit v3 triage (`analyses/audit_v3_triage/`; ledger of 1,214 rows, not committed): single
+  top-level Fuel tab holds all fuel charts (the code's host tab is named "charts"); retire UNUSED files only (`soc_patterns.json`,
+  `f01_perdrive_correction.csv`, `highspeed_130_runlength_check.csv` are kept); fuel cost (FUEL-13) rejected; GateA2 (M308
+  plausibility gate: per-channel resolution check + `signal_representation.json`, flag-only, never repairs) is GO after M320-M322
+  and before the next ingestion, needs spec + Sonnet audit. The logger is Car Scanner ELM OBD2: fuel rate/counter are
+  app-calculated, so say "logged/app-calculated", never "measured". The OEM Article-10 rated capacity (5 Ah) vs `CAP_KWH=2.1`
+  is a lead only: do not change `CAP_KWH` silently. Audit figures are known-answer targets, never typed into the repo.
 - Ingesting new drives (new phone exports) is allowed under: sha256/normHash of each new file recorded at ingestion and an
   off-chat backup kept; 0/16 ML diffs and 0 pre-existing-row diffs gates; arrays step attributed via a no-new-drive control build
   (or splice) so provenance drift is not mixed into new-data changes; post-ingest arrays labelled "not M299-reproducible".
@@ -127,7 +152,10 @@ gates (script-written numbers, blind reproduction, Director decision). Each disp
 
 ## Open items (verify against CHANGELOG/disk before acting)
 - Clean-room raw->master rebuild is an OPEN item (published master differs from a fresh rebuild in ML columns).
-- F02 (raw-archive byte identity) blocked: requires an unavailable raw archive. F03 (raw content provenance): see Owner decisions.
+- F02 (raw-archive byte identity): the originals for the 333 hash-failing files now exist outside `raw/` (see Owner decisions
+  2026-10-02), so F02 is no longer blocked for those; the 156 hash-passing files already match. F03 (raw content provenance) stays
+  open until Andrii decides on re-anchoring. Audit v3 follow-up plan: `analyses/audit_v3_triage/HANDOFF.md` (milestone numbers there
+  are proposals, renumber from the CHANGELOG head).
 - `recon_engine.py` battery-current sign convention: confirm resolution in CHANGELOG (M258+); GTR headline must
   match `fuel_recon_master.csv` regenerated by `fuel_recon.py --all`.
 - `generatorTractionRecon.speedSplit` has no auto-splice: `speed_split.py` only writes `speed_split.json`; ingestion carries the previous block forward (stale until a splice script exists).

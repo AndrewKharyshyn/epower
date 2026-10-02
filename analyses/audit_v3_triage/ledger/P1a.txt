@@ -1,0 +1,134 @@
+F1.1 | F1 | 3 | INFO | n/a | - | - | Addendum v3 title and version header; no action.
+F1.2 | F1 | 5 | FIX-NOW | V | M324 | S | Owner confirmed O1 in chat; CHANGELOG has no Fuel-tab entry yet; record O1 in the M324 entry.
+F1.3 | F1 | 6 | FIX-NOW | V | M324 | S | Move the three fuel-channel views (jsx:10136,10182,10191); fuel-state charts (RpmDistribution fuelled/motored) stay cross-linked, pending Andrii; other tabs link to Fuel.
+F1.4 | F1 | 8 | FIX-NOW | V | M324 | S | No "Energy" tab exists; measured architecture stays in "charts" (jsx:9882,10121); add link to Fuel models; renaming the tab needs Andrii.
+F1.5 | F1 | 9 | INFO | n/a | - | - | Specification only, nothing certified as implemented; addendum placement supersedes v2 navigation advice.
+F1.6 | F1 | 13 | INFO | n/a | - | - | Delivery-phase table heading.
+F1.7 | F1 | 15 | SPEC-FIRST | V | M328 | L | No fuel contract exists (no fuel_analytics.py); masks M328, residual gate M323/M329, seasonal routing M327; M324 goes first because it adds no estimand.
+F1.8 | F1 | 18 | SPEC-FIRST | n/a | M328 | L | Migration in M324; overview, FUEL-01..04 and FUEL-12 in M328; FUEL-05 stays in M331 for payload design (stated deviation).
+F1.9 | F1 | 21 | SPEC-FIRST | n/a | M331 | L | FUEL-06/07/08 in M331, FUEL-10 in M330, FUEL-09 after the F10 detector, FUEL-11 already in M328.
+F1.10 | F1 | 24 | DECLINE | n/a | - | - | Owner rejected fuel cost (O3); cost channels are neither ingested nor displayed.
+F1.11 | F1 | 25 | SPEC-FIRST | n/a | M331 | M | Fuel Records only after C04 (M321); model-derived accounting only after the F20 gate (M323) and the F04 repair (M329).
+F1.12 | F1 | 27 | INFO | n/a | - | - | Dated-baseline table heading.
+F1.13 | F1 | 30 | SPEC-FIRST | NV | M328 | S | 262 trips/52 dates is a known-answer target for the contract script; headers (263 counter, 263 rate) show presence only.
+F1.14 | F1 | 33 | SPEC-FIRST | V | M328 | S | fuel_recon_master.csv has 261 data rows; the contract reproduces rows/dates/km by script and reports differences, never typed.
+F1.15 | F1 | 34 | SPEC-FIRST | NV | M329 | S | GTR repair lists rows lacking a model allocation, with the reason; no silent drop.
+F1.16 | F1 | 36 | SPEC-FIRST | V | M328 | S | No counter-vs-integral check exists; script it and call it internal consistency; uninformative if the counter integrates the same app rate (F-R1).
+F1.17 | F1 | 39 | FIX-NOW | V | M324 | S | Remove hand-typed fuel literals (jsx:7131 "3%", 7158 "~2.5", 7139 "under 0.1 L", which contradicts 2.1 kWh / 8.9 kWh/L).
+F1.18 | F1 | 40 | INFO | n/a | - | - | Use FUEL-xx IDs in specs and CHANGELOG, distinct from findings F01-F34.
+F2.1 | F2 | 47 | INFO | n/a | - | - | Section heading: tab structure and migration.
+F2.2 | F2 | 48 | FIX-NOW | V | M324 | S | Add "fuel" to tabs (jsx:9882); reuse global CohortSelector and Compare (jsx:9264,9916); Cold stays suppressed (M310).
+F2.3 | F2 | 48 | FIX-NOW | V | M324 | S | Cohort state is app-level and survives tab switches (jsx:9921); add a jsdom assertion that the selection persists into Fuel.
+F2.4 | F2 | 49 | FIX-NOW | V | M324 | S | cohortOr returns all-data in Compare (jsx:9247); each Fuel chart implements CompareBlock or carries the all-data badge.
+F2.5 | F2 | 49 | FIX-NOW | n/a | M324 | S | Compact local section index (Overview, Trips, Hybrid, Comparisons, Quality, Models); no nested chart tabs.
+F2.6 | F2 | 53 | SPEC-FIRST | V | M328 | M | One observed pooled L/100 km from the contract; reconcile counter-based socBalancedFuel.rawFleetL100 with rate-based GTR corpus.fuelL; report disagreement; dashboard-only (F03).
+F2.7 | F2 | 56 | FIX-NOW | n/a | M324 | S | Create the section; host the renamed thermal-fuel view; FUEL-01/02 arrive in M328.
+F2.8 | F2 | 58 | FIX-NOW | n/a | M324 | S | Create the section; host SocBalancedFuel; FUEL-03/04 in M328, FUEL-05..08 in M331, FUEL-09 after F10.
+F2.9 | F2 | 60 | SPEC-FIRST | n/a | M328 | S | FUEL-11 in M328, FUEL-10 in M330; every comparison labels observed versus adjusted target.
+F2.10 | F2 | 62 | SPEC-FIRST | V | M328 | S | FUEL-12 in M328, FUEL-14 after C04; coverage text comes from finite-sample channel counts, not the current wrong-PID coverage key.
+F2.11 | F2 | 64 | DECLINE | n/a | - | - | Drop "Costs": FUEL-13 rejected (O3); the section becomes "Models".
+F2.12 | F2 | 65 | SPEC-FIRST | V | M329 | L | Model label exists (jsx:4527); GTR enters Fuel/Models only as the M323 gated table; full view after the F04 repair (M329).
+F2.13 | F2 | 67 | INFO | n/a | - | - | Migration table heading.
+F2.14 | F2 | 70 | FIX-NOW | V | M324 | M | Move SocBalancedFuel (jsx:10182); observed figure first with its own day-clustered CI (none now); corrected value as scenario, not "measured"/"validated" (jsx:7136,7141).
+F2.15 | F2 | 71 | SPEC-FIRST | V | M328 | M | Extend with FUEL-04 and a near-neutral subset; _soc_balanced_fuel has none, fuel_recon uses +/-2 pp (fuel_recon.py:54).
+F2.16 | F2 | 73 | FIX-NOW | V | M324 | S | Move ThermalFuelPenalty (jsx:10191) to Trips and warm-up; update its Compare entry (jsx:9429) and registry tab (chart_registry.json:536).
+F2.17 | F2 | 74 | SPEC-FIRST | V | M328 | M | Extend _thermal_fuel_penalty and _continuous (compute_summary_arrays.py:13776,13994) with FUEL-02 curves and temperature response; no parallel builder.
+F2.18 | F2 | 75 | FIX-NOW | V | M324 | S | A stratified observational contrast does not warrant "penalty": rename; drop "cost in fuel" and the measured badge (jsx:7363-7389); fix registry unit (chart_registry.json:542).
+F2.19 | F2 | 77 | FIX-NOW | V | M324 | M | Move GTR only after the M323 gate; the same commit updates build_html.js:23-27 (requires Sankey markers) and validate_jsdom.js:192-197.
+F2.20 | F2 | 78 | FIX-NOW | V | M323 | S | Show the residual row in All, cohort and Compare; relabel "Fuel (chem) measured" (jsx:9804,9807) as logged volume times assumed E10 constants.
+F2.21 | F2 | 80 | FIX-NOW | V | M328 | S | Rebind Compare fuel KPIs (jsx:9396,9430) and conclusion references to contract keys, each linking to its canonical Fuel chart.
+F2.22 | F2 | 83 | FIX-NOW | V | M322 | S | No competing copies found; fix false "no fuel-flow data" text (jsx:11016,11045,11347,11531); add L/h-rate coverage beside the 6-file g/s PID key.
+F2.23 | F2 | 84 | FIX-NOW | V | M324 | S | Keep EnergyArchitecture (jsx:10121-10135); add a cross-link and a boundary note: measured at the pack shunt versus fuel-channel, model-derived.
+F2.24 | F2 | 87 | FIX-NOW | V | M324 | S | Replace "4b"/"§4b" references (jsx:4127,4423,4492,4525,4629; build_html.js:14,27) with named Fuel-section references.
+F2.25 | F2 | 87 | FIX-NOW | V | M324 | M | Update together: tabs, index, registry tab/action (stale "135/367" at chart_registry.json:280; ThermalFuelPenalty feasible:false), seasonal entries, jsdom, links.
+F2.26 | F2 | 88 | INFO | D | - | - | CHG: was FIX-NOW; no URL anchors exist (no location.hash or scrollIntoView in jsx), so nothing to redirect; keep new index anchors stable.
+F3.1 | F3 | 95 | INFO | n/a | - | - | Section heading: source and metric contracts.
+F3.2 | F3 | 96 | INFO | n/a | - | - | Contract channel definitions use the exact raw headers.
+F3.3 | F3 | 96 | FIX-NOW | V | M328 | S | Coverage must count finite samples per channel; _audit_raw_manifest reads only the header line (compute_summary_arrays.py:15738).
+F3.4 | F3 | 97 | SPEC-FIRST | V | M328 | M | Read native timestamps and keep source metadata; builders now resample to 1 Hz means with 3 s/15 s ffill (compute_summary_arrays.py:11592,13747).
+F3.5 | F3 | 98 | BLOCKED | NV | M328 | S | F-R1 unknown (MAF present in 263 files); Andrii checks the app fuel source; test rate during inferred fuel-cut/motored intervals; say "logged", not "measured".
+F3.6 | F3 | 102 | SPEC-FIRST | V | M328 | M | Counter QA: resets, negative steps, valid endpoints, grid, continuity; last-minus-first (11581) and cummax (13748) currently mask resets.
+F3.7 | F3 | 105 | SPEC-FIRST | V | M328 | M | Integrate at native cadence with gaps visible; recon_engine caps dt at 5 s and drops unknown-RPM fuel (recon_engine.py:15,52,83).
+F3.8 | F3 | 108 | FIX-NOW | V | M328 | S | Scripted equality/timing test of Миттєва (264 files) against Витрати (263); no script uses it until the test passes.
+F3.9 | F3 | 111 | SPEC-FIRST | V | M328 | S | App trip-average L/100 km (260 files, unused): FUEL-12 validation target on matched windows only; uninitialised values excluded.
+F3.10 | F3 | 114 | BACKLOG | V | - | S | Today/week/lifetime counters (264 files, unused): reconcile only where reset windows and denominators can be reconstructed.
+F3.11 | F3 | 117 | INFO | V | - | - | App 10-s average (157 files) is never consumed; any smoothing recomputes a fuel/distance window inside the contract.
+F3.12 | F3 | 121 | DECLINE | n/a | - | - | Fuel-cost channels out of scope (O3, FUEL-13 rejected); not ingested.
+F3.13 | F3 | 124 | INFO | V | - | - | Fuel-derived hp (264 files) unused; contract marks it non-independent: never a load substitute or a BSFC/efficiency check.
+F3.14 | F3 | 127 | SPEC-FIRST | V | M328 | M | Schema extends existing key stamps (corpusHash/configHash/upstreamHashes) with per-file sha256 and manifest-match flag (F03), masks, support, uncertainty, rounding.
+F3.15 | F3 | 131 | SPEC-FIRST | n/a | M331 | S | Fuel Records (FUEL-14) carry native timestamp, file, statistic, tied holders, resolution and lag; reuse the C04 schema (M321).
+F3.16 | F3 | 133 | SPEC-FIRST | V | M328 | M | Five masks plus a declared ens_outlier_v2 policy (fuel builders unfiltered); _hf_perdrive makes observed L/100 km require SoC (compute_summary_arrays.py:11596).
+F3.17 | F3 | 134 | INFO | NV | - | - | Logs without I/V enter fuel-only masks; battery-dependent views drop them and report counts.
+F3.18 | F3 | 134 | INFO | V | - | - | Already enforced (project_paths.py:55-61, corpus_manifest.py:95); M328 test asserts the fuel population is a subset of master files.
+F4.1 | F4 | 141 | INFO | n/a | - | - | Section heading: calculations and safeguards.
+F4.2 | F4 | 144 | SPEC-FIRST | V | M328 | M | Sum reset-free valid segments and report the covered fraction; replaces whole-file deltas (compute_summary_arrays.py:11581,13787; recon_engine.py:88).
+F4.3 | F4 | 148 | SPEC-FIRST | V | M328 | M | Declare the rule (now right-endpoint rectangle, dt capped at 5 s), bridge gap and boundaries; report unknown-fuel time; fuel_recon adopts it in M329.
+F4.4 | F4 | 152 | FIX-NOW | V | M324 | S | Pooled values are already ratio-of-sums (11629); label "naive trip penalty" and "Warm-up L/100 ratio" as median per-trip ratios (13818-13824; jsx:9430).
+F4.5 | F4 | 155 | SPEC-FIRST | V | M328 | M | Endpoint-matched distance; fuel_recon divides the engine-on integral by full-file distance (fuel_recon.py:94,103); record speed source (VCM 230, OBD 489 files).
+F4.6 | F4 | 159 | SPEC-FIRST | V | M328 | S | One versioned threshold; repo mixes 3 km/h (v6:591) with 1.0 km/h plus speed fillna(0) (v6:1375,1477); add unknown class and dwell sensitivity.
+F4.7 | F4 | 162 | SPEC-FIRST | V | M328 | M | States plus unknown reconcile to the same-clock integral; unknown-RPM fuel is currently dropped (recon_engine.py:52,67,83): F13 dependency.
+F4.8 | F4 | 165 | SPEC-FIRST | V | M328 | S | Primary +/-2 pp band (fuel_recon.py:54) with sensitivity bands; show BMS-reported start/end SoC; descriptive only, never "zero energy change".
+F4.9 | F4 | 168 | FIX-NOW | V | M324 | S | Label the corrected value as a scenario (CAP 2.1 verified:false); eta is fuel-to-bus, not "generator efficiency" (jsx:7178); C05 LHV basis.
+F4.10 | F4 | 172 | SPEC-FIRST | V | M328 | S | Contract test bans averaging instantaneous or trip rates; L/h below the declared speed; distance cut-offs (11594, 13811) declared as eligibility, with counts.
+F4.11 | F4 | 173 | FIX-NOW | V | M328 | S | Keep zero-increment trips, labelled "no recorded fuel increment"; dropping <=0.01/0.02 L (11582, 13787) biases pooled L/100 km upward; blind repro.
+F4.12 | F4 | 176 | SPEC-FIRST | V | M330 | S | Contrast CIs resample dates jointly across cohorts; single-cohort day bootstraps (seed 42, 4000; 11656, 13891) already comply.
+F4.13 | F4 | 176 | INFO | n/a | - | - | Any predictive fuel model uses day-blocked CV with preprocessing inside folds; none is planned for FUEL-01..08.
+F4.14 | F4 | 177 | SPEC-FIRST | V | M328 | S | Each output separates dispersion, CI of the mean, resolution and scenario band; socBalancedFuel has a CI only on the corrected value.
+F4.15 | F4 | 178 | SPEC-FIRST | NV | M328 | S | Store drive_type, stop fraction, length, thermal state, HVAC proxy and start SoC per trip; HVAC proxy availability unverified; association wording.
+F5.1 | F5 | 185 | INFO | n/a | - | - | Section heading: trip length and warm-up.
+FUEL-01.Q | F5 | 186 | SPEC-FIRST | V | M328 | M | Feasible (counter/rate 263 files, distance, SoC endpoints); estimand: ratio-of-sums L/100 km by distance band, day-clustered CI; dashboard-only (F03 raw-pass).
+FUEL-01.C | F5 | 189 | SPEC-FIRST | V | M328 | S | Reset-checked litres and endpoint-matched km; store start coolant/oil (per drive, M316), dSoC and quality; trend fits cluster by date with a thermal covariate.
+FUEL-01.P | F5 | 192 | SPEC-FIRST | n/a | M328 | S | Two aligned scatters with start-temperature colour or facets and explicit log ticks; Compare uses small multiples with shared scales; Cold suppressed (M310).
+FUEL-01.A1 | F5 | 195 | SPEC-FIRST | n/a | M328 | S | Test identical eligible trip-ID sets across panels; tooltips show litres, km, temperature, date, dSoC and source file.
+FUEL-01.A2 | F5 | 196 | SPEC-FIRST | n/a | M328 | S | Zero-distance journeys appear only in a duration-versus-litres view, counted; no L/100 km for them.
+FUEL-01.A3 | F5 | 196 | FIX-NOW | V | M324 | S | Relabel intercept "per-trip fixed fuel (cold-start/idle)" (jsx:7166,7171) as unattributed; add day-clustered CIs to the regression terms or remove them.
+FUEL-02.Q | F5 | 198 | SPEC-FIRST | V | M328 | M | Feasible on the existing cold-start grid (_of_grid: counter, coolant, oil, speed, RPM, load, SoC); Cold band suppressed.
+FUEL-02.C | F5 | 201 | SPEC-FIRST | n/a | M328 | M | Declare the alignment event and initial coolant/oil bands; cumulative fuel on time and distance; stationary fuel separate; censor at trip end and gaps.
+FUEL-02.P | F5 | 205 | SPEC-FIRST | V | M328 | S | Curves plus interval and support panels; cold first starts versus warm restarts; Compare curves wait for the F11 CmpLines x-axis fix (M323).
+FUEL-02.A1 | F5 | 208 | SPEC-FIRST | V | M328 | S | No continuation across trip end or unsupported gaps; the 15 s forward-fill (compute_summary_arrays.py:13701) bridges gaps silently.
+FUEL-02.A2 | F5 | 208 | SPEC-FIRST | n/a | M328 | S | Fixed-population curves to declared horizons, or truncate where support falls; show n per position; no silent change in composition.
+FUEL-02.A3 | F5 | 209 | SPEC-FIRST | n/a | M328 | S | Label missing initial temperature, or exclude it and show a count.
+FUEL-02.A4 | F5 | 209 | FIX-NOW | V | M324 | S | Association wording now: replace "cost in fuel", "penalty" and the measured badge (jsx:7363-7389); causal claims need an identifying design, and none exists.
+FUEL-02.FR1 | F5 | 211 | SPEC-FIRST | V | M328 | M | Extend the existing thermal-fuel builder, no separate scalar; replace the cummax reset masking (13748) first.
+FUEL-02.FR2 | F5 | 212 | SPEC-FIRST | n/a | M328 | S | Scalar, curves, support and prose all come from one builder output; prose binds to keys.
+FUEL-02.FR3 | F5 | 213 | SPEC-FIRST | n/a | M328 | S | Show initial coolant/oil band and ambient cohort as separate dimensions; the cohort comes from the validated thermal policy.
+F6.1 | F6 | 220 | INFO | n/a | - | - | Section heading: stationary fuel and charge balance.
+FUEL-03.Q | F6 | 221 | SPEC-FIRST | V | M328 | M | Feasible (rate 263 files, speed 489); estimand: litres and share by state including unknown, day-clustered CI.
+FUEL-03.C1 | F6 | 223 | SPEC-FIRST | n/a | M328 | M | Integrate the native rate on a common speed clock; allocate stationary, moving and unknown; report coverage.
+FUEL-03.C2 | F6 | 224 | SPEC-FIRST | n/a | M328 | S | Pre-register headline speed/dwell thresholds; report 1 and 3 km/h and dwell alternatives as sensitivity.
+FUEL-03.C3 | F6 | 225 | SPEC-FIRST | V | M328 | S | Battery sub-class only with valid I/V and the M265 sign (raw charge-positive); engine-state split waits for the F13 sidecar.
+FUEL-03.P | F6 | 226 | SPEC-FIRST | n/a | M328 | S | Paired stacked bars (litres, shares) by trip-length band; fixed state colours; Compare marks cohorts with borders.
+FUEL-03.A1 | F6 | 229 | SPEC-FIRST | n/a | M328 | S | Test: state sums plus unknown equal the shared-window integral within declared tolerance; unknown is always drawn.
+FUEL-03.A2 | F6 | 230 | SPEC-FIRST | n/a | M328 | S | Wording "stationary fuel", "fuel consumed during net pack charging": temporal co-occurrence, not source allocation or waste.
+FUEL-04.Q | F6 | 232 | SPEC-FIRST | V | M328 | M | Feasible (soc_start/soc_end in master, recomputed on the fuel interval); show the observed relationship before any correction.
+FUEL-04.C | F6 | 235 | SPEC-FIRST | n/a | M328 | S | dSoC on the validated fuel/distance interval; contract defines the near-neutral band and the correction; distance facets.
+FUEL-04.P | F6 | 238 | SPEC-FIRST | n/a | M328 | S | Scatter of dSoC (pp) against L/100 km with zero line, distance facets, common Compare axes and an observed/near-neutral/scenario table.
+FUEL-04.A1 | F6 | 241 | FIX-NOW | V | M324 | S | Add a CAP sweep beside the eta sweep (only byEta exists, compute_summary_arrays.py:11640); assumptions block; start-SoC tooltips arrive with M328.
+FUEL-04.A2 | F6 | 241 | INFO | V | - | - | Already stated that the battery-energy coefficient is not identifiable (11710; jsx:7180); add "does not identify CAP, eta or HEV factor".
+F6.2 | F6 | 244 | SPEC-FIRST | V | M328 | M | SocBalancedFuel uses the shared observed-fuel contract and gets cohort wiring (not seasonAware now, jsx:10182); retire _hf_perdrive eligibility.
+F6.3 | F6 | 244 | FIX-NOW | V | M324 | S | No control may swap observed for corrected; the observed headline leads and the scenario panel is separate (jsx:7128-7148).
+F6.4 | F6 | 245 | SPEC-FIRST | n/a | M328 | S | Near-neutral and corrected results each show their own trips/dates/km support.
+F7.1 | F7 | 252 | INFO | n/a | - | - | Section heading: trip trace and operating map.
+FUEL-05.Q | F7 | 253 | SPEC-FIRST | n/a | M331 | M | Kept in M331 (audit: first release) for payload design; take example trips from hash-matching raw files so traces match the published master.
+FUEL-05.C | F7 | 255 | SPEC-FIRST | n/a | M331 | M | Native timestamps and a documented alignment tolerance; decimation must preserve events, extremes and exact integrals.
+FUEL-05.P | F7 | 258 | SPEC-FIRST | n/a | M331 | S | Linked panels with one time axis and cursor and separate unit scales; two chosen trips labelled example, not cohort estimate.
+FUEL-05.A1 | F7 | 261 | SPEC-FIRST | n/a | M331 | S | Missing I/V removes only the battery panel; native gaps drawn; selector honours cohort and quality masks.
+FUEL-05.A2 | F7 | 262 | SPEC-FIRST | n/a | M331 | S | Cursor shows sample times and lag; cumulative litres reconcile to the window; start markers only from the RPM detector (F10).
+FUEL-06.Q | F7 | 263 | SPEC-FIRST | V | M331 | M | Feasible (RPM 489, calc load 484, absolute load 478, rate 263 files); reuse RPM x load bins (compute_summary_arrays.py:13702-13703).
+FUEL-06.C | F7 | 265 | SPEC-FIRST | n/a | M331 | S | Fixed shared bins; per cell time-weighted rate, time, litres, trips and dates; record the exact load PID; never fuel-derived hp.
+FUEL-06.P | F7 | 268 | SPEC-FIRST | n/a | M331 | S | Rate and occupancy heatmaps; contribution view changes the unit; Compare uses identical bins and colour limits; differences only where both cohorts are supported.
+FUEL-06.A1 | F7 | 271 | SPEC-FIRST | n/a | M331 | S | No interpolation; declared sparse-cell threshold; weights by elapsed time, not row counts or forward-filled seconds.
+FUEL-06.A2 | F7 | 272 | SPEC-FIRST | n/a | M331 | S | Title it "fuel-use map", never BSFC or thermal efficiency; keep the Path B BSFC surface (a model) separate.
+F7.2 | F7 | 274 | INFO | V | - | - | Consistent with the buffer thesis; never state that fuel use measures generator electrical power (CLAUDE.md).
+F8.1 | F8 | 282 | INFO | n/a | - | - | Section heading: stops, speed and EV share.
+FUEL-07.Q | F8 | 283 | SPEC-FIRST | V | M331 | M | Feasible (speed 489, fuel 263 files); estimand: pooled L/100 km by stop-fraction band within length strata, day-clustered.
+FUEL-07.C | F8 | 285 | SPEC-FIRST | V | M331 | S | Recompute stop fraction and moving-time mean speed on the fuel interval; master stationary_pct and speed_mean_moving are full-file (v6:591-596).
+FUEL-07.P | F8 | 288 | SPEC-FIRST | n/a | M331 | S | Scatter with length facets plus a moving-speed curve; Compare uses shared panels or binned curves after the F11 fix; distributions below.
+FUEL-07.A1 | F8 | 291 | SPEC-FIRST | V | M331 | S | Missing speed is unknown, never stationary (do not reuse v6:1477 fillna(0)); identical restrictions for both cohorts.
+FUEL-07.A2 | F8 | 291 | SPEC-FIRST | n/a | M331 | S | No aerodynamic or traffic causal reading of marginal speed curves without conditioning.
+FUEL-08.Q | F8 | 293 | SPEC-FIRST | V | M331 | M | After the F13 sidecar (M329); EV share is an upper bound (debounce/asof bias, v6:1439-1442).
+FUEL-08.C | F8 | 295 | SPEC-FIRST | V | M331 | S | Reuse guarded ev_dist logic (unknown RPM never engine-off, v6:1489-1490) on the fuel interval; keep engine-off time share separate.
+FUEL-08.P | F8 | 298 | SPEC-FIRST | n/a | M331 | S | Scatter of EV% against L/100 km coloured by dSoC, length facets; independent near-neutral subset; zero-fuel label follows the counter grid.
+FUEL-08.A1 | F8 | 301 | SPEC-FIRST | V | M331 | S | Same eligible interval or a disclosed mismatch; unknown RPM never engine-off (fillna(0) at v6:615,700 is F13).
+FUEL-08.A2 | F8 | 302 | SPEC-FIRST | n/a | M331 | S | State that EV share shows neither free energy, nor a regeneration fuel saving, nor tank-to-wheel efficiency.
+F8.2 | F8 | 304 | INFO | V | - | - | Associations only; a high EV share can reflect earlier fuel-charged SoC (buffer thesis); captions keep length, temperature, route and SoC balance.

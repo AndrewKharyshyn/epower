@@ -1,0 +1,12 @@
+{
+ "verdict": "supports",
+ "n_drives": "41 hash-failing (sampled of 333) + 10 hash-passing controls; 333/333 originals sha256 match raw_manifest",
+ "original_vs_published": "0 mismatches in all 41 drives, 72-156 non-ML non-corpus columns compared each (tol 1e-9), against both current master (bd9d1072) and old master 23d0397 (MD5 0bcfc400 confirmed; all 41 sampled keys present in it; 10 controls: 7 present, 0 mismatches)",
+ "raw_copy_vs_published": "36/41 drives mismatch (1496 cell mismatches, 80 distinct columns; mostly energy/peak/charge cols e.g. gross_discharge_kwh, net_draw_kwh, gtc, fce, ev_dist_scale_k); 5/41 (all Sep 4-17: 20260904203411, 20260905103157, 20260911215707, 20260914075059, 20260917080131) match with 0 mismatches. Controls (10 hash-passing): 0 mismatches.",
+ "exceptions": "No column where original fails but raw matches. Claim 'raw copies do NOT reproduce' is false for 5/41 sampled (~12%) Sep drives: hash fails there but derived values identical (likely serialization-only difference); extrapolation suggests roughly 12% of the 333 are value-neutral.",
+ "limits": "Stratified by month (5 months) and quartile of mean max abs numeric diff; not full 333. Only columns returned by analyze_bytes (pre-postprocess) compared; postprocess-only columns skipped. Hash-pass controls drawn from raw/ files with no original. Old-master comparison used same sampled keys present in old master (corpus 446 vs 489 rows).",
+ "files": [
+  "analyses/F03_originals/G4_audit/g4.py",
+  "analyses/F03_originals/G4_audit/results.json"
+ ]
+}

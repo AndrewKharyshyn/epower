@@ -1,0 +1,115 @@
+p14.1 | 14 | 1901 | INFO | n/a | - | - | None; Chapter 3 heading, units ruled in p14.2-p16.8.
+p14.2 | 14 | 1903 | INFO | V | - | - | Keep definitions; Q=2.1 already disclosed as assumed (metricConvention capVerified:false, summary_arrays.json:7141-7142).
+p14.3 | 14 | 1908 | FIX-NOW | NV | M323 | S | Add release_check test: pooled kWh/100 km equals 100·ΣE/Σkm on identical eligible rows; label per-drive means 'mean of trips'.
+p14.4 | 14 | 1915 | INFO | V | - | - | Use as known-answer in M323 count/sum parity (totalKm 8740.2, summary_arrays.json:4); no display change.
+p14.5 | 14 | 1918 | FIX-NOW | V | M322 | S | Label metricConvention totals (1497.36, summary_arrays.json:7145) 'all 475 energy rows incl. 2 ens_invalid'; keep for exposure, never as rate numerator.
+p14.6 | 14 | 1921 | INFO | V | - | - | Use as known-answer (throughputKwh 1497.17, summary_arrays.json:7220) in M323 parity test.
+p14.7 | 14 | 1924 | INFO | NV | - | - | Use as known-answer in M323 closure/ledger test; no display change.
+p14.8 | 14 | 1927 | FIX-NOW | NV | M323 | S | Add test: gross intensity uses clean paired rows only (target 17.5901); fail any key dividing by all logged km.
+p14.9 | 14 | 1931 | FIX-NOW | V | M322 | S | Caption GTC/FCE (713.0/356.5, :7147) 'nominal-energy-normalised turnover, Q assumed, 475-row pool'; never lifetime or consumed cycles.
+p14.10 | 14 | 1935 | INFO | NV | - | - | Use as known-answer; clean-vs-all gap (0.09 GTC) immaterial; do not add a second headline.
+p14.11 | 14 | 1939 | FIX-NOW | V | M322 | S | Confirm floor is range-based, then replace jsx:11622 '1.0%-SoC amplitude floor' with '>=1.0 pp cycle range'; state 487 traces.
+p14.12 | 14 | 1943 | INFO | NV | - | - | Use 36.7331 as pre-rounding known-answer; master gap is per-drive rounding only.
+p14.13 | 14 | 1948 | FIX-NOW | NV | M323 | S | Bind EV-share KPI to pooled ΣEV km/Σkm on canonical-clean drives with n; test target 34.8416% on 405 drives.
+p14.14 | 14 | 1953 | FIX-NOW | NV | M322 | S | Label pooled engine-on share 'duration-weighted, extrapolated over RPM gaps'; keep distinct from per-drive medians (engineCycling).
+p14.15 | 14 | 1957 | BACKLOG | NV | - | S | Add script-written RPM-observed-hours denominator as sensitivity beside logged-duration engine-on share.
+p14.16 | 14 | 1962 | FIX-NOW | V | M323 | S | Add release_check closure (none exists): gross=charge+discharge, four buckets=charge (<=2e-4 kWh/drive); caption 'arithmetic, not attribution'.
+p15.1 | 15 | 1972 | INFO | V | - | - | None; corroborates M229 zero-crossing integration (compute_drive_summary_v6.py:620).
+p15.2 | 15 | 1980 | FIX-NOW | V | M322 | S | Relabel energyUncertaintyMC nominalReleased 1497.4181 (:41810) as current-raw basis, not M299-reproducible; master 1497.36 stays reference.
+p15.3 | 15 | 1984 | INFO | NV | - | - | None; negligible voltage-alignment sensitivity.
+p15.4 | 15 | 1988 | FIX-NOW | D | M322 | S | Fix registry usedBy (build_assumptions_registry.py:156 says gross/GTC; v6:1499-1501 excludes offset) to net draw; disclose +0.34% variant.
+p15.5 | 15 | 1992 | INFO | NV | - | - | None; documents ~4.6% naive-trapezoid overstatement that M229 avoids.
+p15.6 | 15 | 1996 | INFO | NV | - | - | None; interpolation convention, not ground truth.
+p15.7 | 15 | 2000 | BACKLOG | n/a | - | M | Defer integration-convention table beside energyUncertaintyMC, captioned 'numerical conventions, not confidence bounds'; spec first.
+p15.8 | 15 | 2002 | FIX-NOW | V | M325 | S | Add throughput provenance-sensitivity row (156 matched vs 333 failing, f03_provenance.json) to F03 metrics; never 'reproduces'.
+p15.9 | 15 | 2006 | INFO | NV | - | - | None; Rainflow-EFC reproduced per drive; keep S-bound <=2 pp share (jsx:11076).
+p15.10 | 15 | 2011 | FIX-NOW | V | M322 | S | Rename 'cumulative damage'/'full-DoD-equivalents' (jsx:11076, 11258) to 'depth-squared weighted cycle sum, generic k=2, uncalibrated'.
+p16.1 | 16 | 2019 | FIX-NOW | NV | M322 | S | Add limitation: per-trip counting with residual half-cycles, not a stitched lifetime trace across parking or unlogged use.
+p16.2 | 16 | 2021 | FIX-NOW | NV | M322 | S | Caption FCE-vs-Rainflow-EFC agreement as corroboration only; never proof of capacity, conservation or shallow-cycle lifetime multiplier.
+p16.3 | 16 | 2024 | INFO | NV | - | - | None; no out-of-order native timestamps reported.
+p16.4 | 16 | 2026 | INFO | V | - | - | None; Sep06 D2 repair recorded (distance_reset_repaired, distance_source; data_health.json).
+p16.5 | 16 | 2028 | FIX-NOW | NV | M328 | S | State fuel-used and trip counters' calibration unverified in fuel contract; add negative-step test to fuel_analytics.
+p16.6 | 16 | 2030 | INFO | n/a | - | - | Adopt as standing wording: stored decimals never imply sensor accuracy.
+p16.7 | 16 | 2032 | FIX-NOW | NV | M322 | M | Display sensible significant figures; keep full precision in CSV/JSON exports and new sidecars; master rounding stays frozen.
+p16.8 | 16 | 2033 | FIX-NOW | V | M322 | S | Show energyUncertaintyMC (systematic) separately from day-cluster CI per energy KPI; list unquantified calibration, clock skew, quantization.
+p17.1 | 17 | 2041 | INFO | n/a | - | - | None; Chapter 4 heading.
+p17.2 | 17 | 2043 | STALE | V | - | - | Keep heading (jsx:10121, 3963) and boundary statement; old HV-Bus heading absent from registry/docs.
+p17.3 | 17 | 2051 | INFO | NV | - | - | Use pack charge as known-answer in M323 closure test.
+p17.4 | 17 | 2054 | INFO | NV | - | - | Use as known-answer; never present discharge as a share of charge.
+p17.5 | 17 | 2058 | INFO | NV | - | - | Use as known-answer (engine-on/non-braking) in M323 closure test.
+p17.6 | 17 | 2061 | INFO | NV | - | - | Use as known-answer (engine-on/braking overlap) in M323 closure test.
+p17.7 | 17 | 2064 | INFO | NV | - | - | Use as known-answer (engine-off/braking) in M323 closure test.
+p17.8 | 17 | 2067 | INFO | NV | - | - | Use as known-answer (engine-off residual) in M323 closure test.
+p17.9 | 17 | 2070 | FIX-NOW | V | M322 | S | Qualify 'Pure regen' (jsx:6746-6800) and 'Regenerative charge: measured' (summary_arrays.json:54346-54348) as classifier-conditional regen-at-pack proxy.
+p17.10 | 17 | 2074 | SPEC-FIRST | NV | M329 | M | Per F13: unknown RPM/torque as fifth charge bucket in a sidecar, never master columns; show it in the ledger.
+p17.11 | 17 | 2075 | FIX-NOW | V | M322 | S | Replace 'round-trip-loss gap/asymmetry' (jsx:599, 10936) with charge-discharge imbalance (SoC drift, unlogged use, offset, auxiliaries); jsx:4173 already correct.
+p17.12 | 17 | 2077 | STALE | V | - | - | Keep topology-only schematic (jsx:3940-3960, M63); never draw a direct/buffered fraction on it.
+p17.13 | 17 | 2079 | FIX-NOW | V | M322 | S | Script-generate fuel coverage (drives, days, km share) replacing compute_summary_arrays.py:15111 'great majority/MAF handful' and audit[0] '181/410'.
+p17.14 | 17 | 2081 | FIX-NOW | V | M322 | S | Reword jsx:3956-3957 comment: 'currently recorded channels do not meter it; OEM channels or meters could'; rendered texts already qualified.
+p17.15 | 17 | 2084 | INFO | V | - | - | None; priors match model_constants.py:16-34, recon_engine.py:163-164; LHV basis alignment stays C05 (M324).
+p17.16 | 17 | 2090 | FIX-NOW | NV | M322 | S | Label BSFC regime surface 'assumed, keyed on RPM/boost bins', not a measured engine map, wherever GTR appears.
+p18.1 | 18 | 2100 | FIX-NOW | V | M322 | S | Replace jsx:4570 'grounded in this corpus, not assumed': 217 g/kWh optimum sourced (TR89); surface assumed; OPT occupancy observed.
+p18.2 | 18 | 2102 | FIX-NOW | V | M322 | S | Rename HIGH note 'enrichment' (summary_arrays.json:54316) to 'assumed high-load (boost proxy)'; enrichment untested despite logged fuel/air-ratio channel.
+p18.3 | 18 | 2104 | FIX-NOW | n/a | M323 | M | Build identical-row GTR accounting table: support drives/days/km, eligibility rule, every node, residual column.
+p18.4 | 18 | 2107 | FIX-NOW | V | M329 | S | Disclose 'clean = f_gen non-null' (wire_gtr_seasonal.py:6,37) and ens_invalid overlap in M323 table; apply canonical mask in M329.
+p18.5 | 18 | 2113 | INFO | V | - | - | Use generator 15.94 (productionCheck, summary_arrays.json:54471) as M329 blind-reproduction known-answer.
+p18.6 | 18 | 2118 | FIX-NOW | V | M322 | S | Reword summary_arrays.json:54338: traction is a model residual; battery-to-traction is not the measured shunt.
+p18.7 | 18 | 2122 | INFO | V | M329 | - | Keep 'sensitivity index' wording (jsx:4482); M329 spec states generator-first allocation (recon_engine.py:189).
+p18.8 | 18 | 2126 | SPEC-FIRST | V | M329 | S | Per F16: replace engineBrake=fuelChem×wavg(eta) (wire_gtr_seasonal.py:62) with E_gen/(eta_gen·eta_PE) on identical rows; target 17.2095.
+p18.9 | 18 | 2130 | SPEC-FIRST | V | M329 | S | Per F16: etaEng/etaBus as Σout/Σin, not distance-weighted ratio means (:49-50; docstring :7-8 wrong); targets 0.3518/0.3258.
+p18.10 | 18 | 2134 | SPEC-FIRST | V | M329 | M | Per F04: close generator node on a common mask; show residual in every mode until within declared tolerance.
+p18.11 | 18 | 2138 | SPEC-FIRST | V | M329 | M | Per F04: derive gen-to-batt from model output, not master buckets (recon_engine.py:193), or show both; pre-repair target -1.0229.
+p18.12 | 18 | 2143 | SPEC-FIRST | V | M329 | M | Report engine-on/braking overlap (inside gen-to-batt, recon_engine.py:193) as unattributed range under Path A and Path B.
+p18.13 | 18 | 2145 | FIX-NOW | V | M322 | S | Label battery-to-traction 'residual: modeled traction minus modeled generator-to-traction' (recon_engine.py:194) everywhere; not metered.
+p18.14 | 18 | 2146 | SPEC-FIRST | V | M329 | M | Per F19: report kd/kc anchor distribution (recon_engine.py:183-185), flag extremes, publish anchored vs unanchored variants.
+p18.15 | 18 | 2149 | FIX-NOW | V | M323 | S | Per F20: route Compare through GtrFlowGate; identical nonclosure warning in All, cohort and Compare modes.
+p18.16 | 18 | 2150 | FIX-NOW | V | M323 | M | Replace ribbon/Sankey (jsx:4482 'allocation sketch') with energy/coverage/residual table in all modes until F04 closes.
+p18.17 | 18 | 2151 | FIX-NOW | V | M322 | S | Delete 'near-neutral net' (jsx:4552); describe battery remainder as unclosed, prior-dependent model residual.
+p19.1 | 19 | 2159 | SPEC-FIRST | NV | M329 | M | Pre-register structural grid P_aux {0.5,1.2,2.0} × anchored/unanchored on native fuel clock, explicit masks; report as sensitivity.
+p19.2 | 19 | 2163 | INFO | NV | M329 | - | Reproduce by script as grid known-answer (unanchored, 0.5 kW); never type the value.
+p19.3 | 19 | 2166 | INFO | NV | M329 | - | Reproduce by script as grid known-answer (unanchored, 1.2 kW); never type the value.
+p19.4 | 19 | 2169 | INFO | NV | M329 | - | Reproduce by script as grid known-answer (unanchored, 2.0 kW); never type the value.
+p19.5 | 19 | 2172 | INFO | NV | M329 | - | Reproduce by script as grid known-answer (anchored, 0.5 kW); never type the value.
+p19.6 | 19 | 2175 | INFO | NV | M329 | - | Reproduce by script as grid known-answer (anchored, 1.2 kW); never type the value.
+p19.7 | 19 | 2178 | INFO | NV | M329 | - | Reproduce by script as grid known-answer (anchored, 2.0 kW, above 0.5); never type the value.
+p19.8 | 19 | 2181 | FIX-NOW | n/a | M329 | S | Caption grid 'assumption sensitivity, not confidence interval'; never merge with day-cluster CI.
+p19.9 | 19 | 2184 | INFO | NV | M329 | - | Record 0.4655 vs 0.4675 as reimplementation disagreement in M329 blind audit; not a metered fraction.
+p19.10 | 19 | 2186 | SPEC-FIRST | V | M329 | S | Justify P_aux 0.5 kW (model_constants.py:20) against own measured standstill aux ~1.2 kW (summary_arrays.json:54353); report f_gen there.
+p19.11 | 19 | 2187 | FIX-NOW | V | M322 | S | Rewrite jsx:4572 'robust... does not depend on any one assumption': f_gen 0.46-0.51 straddles 0.5; battery majority not established.
+p19.12 | 19 | 2189 | SPEC-FIRST | NV | M329 | S | Pre-register charge-sustaining subset as diagnostic (target 0.5042, 53 drives/31 days); never a substitute headline.
+p19.13 | 19 | 2192 | FIX-NOW | V | M322 | S | Present crossval (summary_arrays.json:54366) as ratio median 1.177, IQR 0.995-1.282, shared priors; drop r=0.997 as agreement evidence.
+p19.14 | 19 | 2193 | SPEC-FIRST | NV | M329 | M | Add paired Path A/B residual plots by ambient regime, operating regime, logging epoch, coverage on crossval.csv (82 drives).
+p19.15 | 19 | 2194 | BLOCKED | n/a | - | - | Record instrumentation need (OEM generator/inverter PID or DC clamp meter); Andrii decides feasibility.
+p19.16 | 19 | 2195 | FIX-NOW | V | M323 | S | Stamp crossval/speedSplit/simultaneity/rpmFinding/sensitivity with script, input sha256, n, days, date; release_check WARN then FAIL on stale basis.
+p19.17 | 19 | 2195 | FIX-NOW | V | M329 | M | Rerun speed_split/simultaneity_gtr/rpm_opt_pass/sensitivity_gtr after repair; add splice stages to ingest_stages.json (CLAUDE.md speedSplit open item).
+p20.1 | 20 | 2203 | INFO | n/a | - | - | None; Chapter 5 heading.
+p20.2 | 20 | 2205 | FIX-NOW | V | M322 | S | Rename 'Seasonal cohort thresholds' (build_assumptions_registry.py:143) and '-season drives' (jsx:9260) to 'ambient thermal regime'; thresholds unchanged.
+p20.3 | 20 | 2206 | FIX-NOW | V | M322 | S | Per F08: reconcile cohortCounts.cold 0 (summary_arrays.json:54874) vs 2 (:73741) and build_assumptions_registry.py:151; show 2 boundary drives.
+p20.4 | 20 | 2207 | FIX-NOW | NV | M322 | S | Separate cold ambient, cold pack, cold engine start and verified cold soak in glossary and captions; never interchange.
+p20.5 | 20 | 2208 | FIX-NOW | n/a | M327 | S | Build script-written regime table: drives, dates, km, clean n/km, pooled intensity; Cold row descriptive only.
+p20.6 | 20 | 2215 | FIX-NOW | V | M322 | S | Show Cold as descriptive point (2 drives, 1 date) without interval or inference; keep M310 suppression.
+p20.7 | 20 | 2220 | INFO | V | M327 | - | Use as M327 parity known-answer; Shoulder n=100 matches cohortCounts.
+p20.8 | 20 | 2225 | INFO | V | M327 | - | Use as M327 parity known-answer; Warm n=387 matches cohortCounts.
+p20.9 | 20 | 2230 | FIX-NOW | n/a | M322 | S | Caption regime bars: different route/duration mixes, not seasonal effects; intervals only where computed.
+p20.10 | 20 | 2233 | FIX-NOW | NV | M327 | M | Add script-written composition table: drive classes, pooled and mean-trip engine-on share, clean EV share; label each estimator.
+p20.11 | 20 | 2241 | INFO | NV | M327 | - | Use as composition-table known-answer (Cold).
+p20.12 | 20 | 2246 | INFO | NV | M327 | - | Use as composition-table known-answer (Shoulder; no highway strata).
+p20.13 | 20 | 2251 | INFO | NV | M327 | - | Use as composition-table known-answer (Warm; pooled-vs-mean gap shows estimator matters).
+p20.14 | 20 | 2257 | STALE | V | - | - | Joint day-stratified bootstrap exists (seasonal_adjust.py:275-296; cohort_arrays.py:272-275); M323 verifies every displayed difference uses it.
+p20.15 | 20 | 2259 | SPEC-FIRST | NV | M330 | M | Per F25: restrict contrasts to common-support strata; state fleet-wide or annual seasonal effect not identifiable.
+p21.1 | 21 | 2268 | FIX-NOW | V | M327 | M | Add splice stage refreshing batteryTempRanges (n 169/158/89=416; full-pass only, compute_summary_arrays.py:16533); label not M299-reproducible.
+p21.2 | 21 | 2275 | FIX-NOW | V | M327 | S | Refresh Cool bin (169 vs 215); post-refresh known-answer n 215, median peak 26 C; extrema 11-49 unchanged.
+p21.3 | 21 | 2279 | FIX-NOW | V | M327 | S | Refresh Mild bin (158 vs 178); post-refresh known-answer n 178, median peak 32 C; extrema 14-51 unchanged.
+p21.4 | 21 | 2283 | INFO | V | - | - | None; Hot bin matches (89/39 C, 17-50); include in refresh parity test.
+p21.5 | 21 | 2287 | FIX-NOW | V | M322 | S | Label each ambient chart's definition: endpoint-pair mean (compute_summary_arrays.py:14636) vs time-weighted mean (seasonal_core.py:193); register both.
+p21.6 | 21 | 2289 | FIX-NOW | V | M322 | S | Show ambient_time_mean_kind per row; relabel 'vehicle_sensor' (tools/build_ambient_table.py:50) as driver-recorded readings, interpolated between.
+p21.7 | 21 | 2291 | FIX-NOW | NV | M327 | L | Bind cohort prose to the chart's contract object: n, days, span, ambient definition, estimator, missingness, inference status.
+p21.8 | 21 | 2292 | FIX-NOW | V | M327 | M | Add explicit S.allReference (none exists) for Records, Health, case studies, labelled 'All reference' under cohorts.
+p21.9 | 21 | 2293 | FIX-NOW | V | M323 | S | Add lint flagging global S reads inside seasonAware sections (jsx:10121 section reads S.energyPath.n at :10127).
+p21.10 | 21 | 2297 | FIX-NOW | V | M322 | S | Replace 'whole corpus is warm-season' (jsx:2809), 'No sub-15 C ambient data' (:7301), 'Warm-season data only' (:11439, 11489) with S-bound counts.
+p21.11 | 21 | 2300 | FIX-NOW | NV | M327 | S | Use Warm-eligible values and actual temperature/exposure range; whole-corpus extrema only as labelled All reference.
+p21.12 | 21 | 2303 | FIX-NOW | NV | M327 | S | Use urban/duration strata with n/days/coverage; state high-speed cells unobserved.
+p21.13 | 21 | 2306 | FIX-NOW | V | M322 | S | Fix ColdNoData (jsx:9254-9262, reads cold=0): list 2 drives, date, ambient, 'insufficient support'; no curves, no winter inference.
+p21.14 | 21 | 2309 | FIX-NOW | NV | M323 | M | Compare: common definitions, one refresh stamp, explicit NA cells; differences only via adjusted_contrast joint-day CI.
+p21.15 | 21 | 2310 | FIX-NOW | NV | M323 | S | Render All as nested reference; no All-versus-cohort tests or intervals treating All as independent.
+p21.16 | 21 | 2312 | FIX-NOW | NV | M322 | S | Show climate-normals source, period and version with All-year scenarios; caption 'scenario, not measured annual limit or lifetime'.
