@@ -1,0 +1,1004 @@
+{
+ "summary": {
+  "n": 9,
+  "all_in_hash_failing_set": true,
+  "originals_reproduce_published_all_outputs": true,
+  "originals_max_grid_step": 0.001,
+  "originals_any_grid_step_ge_0p05": false,
+  "raw_copy_abs_p95_diff_mv_min_max": [
+   38.0,
+   82.8
+  ],
+  "raw_copy_reproduces_published_p95": [
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false
+  ]
+ },
+ "files": [
+  {
+   "file": "2026-05-15 22-22-40.csv",
+   "record_id": "20260515_222240.csv",
+   "master_key": "20260515_222240.csv",
+   "raw_hash_failing": true,
+   "original": {
+    "channels": {
+     "[BMS] Max Cell Voltage (V)": {
+      "n_nonnull": 890,
+      "n_distinct": 253,
+      "min": 3.582,
+      "max": 3.969,
+      "grid_step": 0.001,
+      "max_decimals": 3,
+      "decimals_share": {
+       "1": 0.010112,
+       "2": 0.105618,
+       "3": 0.88427
+      },
+      "share_on_0p1_grid": 0.010112
+     },
+     "[BMS] Min Cell Voltage (V)": {
+      "n_nonnull": 890,
+      "n_distinct": 260,
+      "min": 3.572,
+      "max": 52.998,
+      "grid_step": 0.001,
+      "max_decimals": 3,
+      "decimals_share": {
+       "1": 0.016854,
+       "2": 0.097753,
+       "3": 0.885393
+      },
+      "share_on_0p1_grid": 0.016854
+     }
+    },
+    "analyze": {
+     "cell_spread_loaded_p95_mv": 24.0,
+     "cell_spread_loaded_max_mv": 34.0,
+     "cell_spread_loaded_mean_mv": 14.8,
+     "n_loaded_spread_samples": 101.0
+    },
+    "minus_published": {
+     "cell_spread_loaded_p95_mv": 0.0,
+     "cell_spread_loaded_max_mv": 0.0,
+     "cell_spread_loaded_mean_mv": 0.0,
+     "n_loaded_spread_samples": 0.0
+    }
+   },
+   "raw_copy": {
+    "channels": {
+     "[BMS] Max Cell Voltage (V)": {
+      "n_nonnull": 890,
+      "n_distinct": 253,
+      "min": 3.582,
+      "max": 3.969,
+      "grid_step": 0.001,
+      "max_decimals": 3,
+      "decimals_share": {
+       "1": 0.010112,
+       "2": 0.105618,
+       "3": 0.88427
+      },
+      "share_on_0p1_grid": 0.010112
+     },
+     "[BMS] Min Cell Voltage (V)": {
+      "n_nonnull": 890,
+      "n_distinct": 6,
+      "min": 3.6,
+      "max": 53.0,
+      "grid_step": 0.1,
+      "max_decimals": 1,
+      "decimals_share": {
+       "0": 0.003371,
+       "1": 0.996629
+      },
+      "share_on_0p1_grid": 1.0
+     }
+    },
+    "analyze": {
+     "cell_spread_loaded_p95_mv": 62.0,
+     "cell_spread_loaded_max_mv": 74.0,
+     "cell_spread_loaded_mean_mv": 14.2,
+     "n_loaded_spread_samples": 101.0
+    },
+    "minus_published": {
+     "cell_spread_loaded_p95_mv": 38.0,
+     "cell_spread_loaded_max_mv": 40.0,
+     "cell_spread_loaded_mean_mv": -0.6,
+     "n_loaded_spread_samples": 0.0
+    }
+   },
+   "published": {
+    "cell_spread_loaded_p95_mv": 24.0,
+    "cell_spread_loaded_max_mv": 34.0,
+    "cell_spread_loaded_mean_mv": 14.8,
+    "n_loaded_spread_samples": 101.0
+   },
+   "identical_value_share": {
+    "[BMS] Max Cell Voltage (V)": {
+     "n_both": 890,
+     "share_identical": 1.0
+    },
+    "[BMS] Min Cell Voltage (V)": {
+     "n_both": 890,
+     "share_identical": 0.016854
+    }
+   }
+  },
+  {
+   "file": "2026-05-23 11-33-05.csv",
+   "record_id": "20260523_113305.csv",
+   "master_key": "20260523_113305.csv",
+   "raw_hash_failing": true,
+   "original": {
+    "channels": {
+     "[BMS] Max Cell Voltage (V)": {
+      "n_nonnull": 272,
+      "n_distinct": 160,
+      "min": 3.574,
+      "max": 52.997,
+      "grid_step": 0.001,
+      "max_decimals": 3,
+      "decimals_share": {
+       "1": 0.014706,
+       "2": 0.102941,
+       "3": 0.882353
+      },
+      "share_on_0p1_grid": 0.014706
+     },
+     "[BMS] Min Cell Voltage (V)": {
+      "n_nonnull": 271,
+      "n_distinct": 167,
+      "min": 3.57,
+      "max": 3.926,
+      "grid_step": 0.001,
+      "max_decimals": 3,
+      "decimals_share": {
+       "1": 0.00738,
+       "2": 0.081181,
+       "3": 0.911439
+      },
+      "share_on_0p1_grid": 0.00738
+     }
+    },
+    "analyze": {
+     "cell_spread_loaded_p95_mv": 17.0,
+     "cell_spread_loaded_max_mv": 24.0,
+     "cell_spread_loaded_mean_mv": 12.5,
+     "n_loaded_spread_samples": 31.0
+    },
+    "minus_published": {
+     "cell_spread_loaded_p95_mv": 0.0,
+     "cell_spread_loaded_max_mv": 0.0,
+     "cell_spread_loaded_mean_mv": 0.0,
+     "n_loaded_spread_samples": 0.0
+    }
+   },
+   "raw_copy": {
+    "channels": {
+     "[BMS] Max Cell Voltage (V)": {
+      "n_nonnull": 272,
+      "n_distinct": 5,
+      "min": 3.6,
+      "max": 53.0,
+      "grid_step": 0.1,
+      "max_decimals": 1,
+      "decimals_share": {
+       "0": 0.003676,
+       "1": 0.996324
+      },
+      "share_on_0p1_grid": 1.0
+     },
+     "[BMS] Min Cell Voltage (V)": {
+      "n_nonnull": 271,
+      "n_distinct": 167,
+      "min": 3.57,
+      "max": 3.926,
+      "grid_step": 0.001,
+      "max_decimals": 3,
+      "decimals_share": {
+       "1": 0.00738,
+       "2": 0.081181,
+       "3": 0.911439
+      },
+      "share_on_0p1_grid": 0.00738
+     }
+    },
+    "analyze": {
+     "cell_spread_loaded_p95_mv": 59.5,
+     "cell_spread_loaded_max_mv": 61.0,
+     "cell_spread_loaded_mean_mv": 8.5,
+     "n_loaded_spread_samples": 31.0
+    },
+    "minus_published": {
+     "cell_spread_loaded_p95_mv": 42.5,
+     "cell_spread_loaded_max_mv": 37.0,
+     "cell_spread_loaded_mean_mv": -4.0,
+     "n_loaded_spread_samples": 0.0
+    }
+   },
+   "published": {
+    "cell_spread_loaded_p95_mv": 17.0,
+    "cell_spread_loaded_max_mv": 24.0,
+    "cell_spread_loaded_mean_mv": 12.5,
+    "n_loaded_spread_samples": 31.0
+   },
+   "identical_value_share": {
+    "[BMS] Max Cell Voltage (V)": {
+     "n_both": 272,
+     "share_identical": 0.014706
+    },
+    "[BMS] Min Cell Voltage (V)": {
+     "n_both": 271,
+     "share_identical": 1.0
+    }
+   }
+  },
+  {
+   "file": "2026-06-09 13-20-41.csv",
+   "record_id": "20260609_132041.csv",
+   "master_key": "20260609_132041.csv",
+   "raw_hash_failing": true,
+   "original": {
+    "channels": {
+     "[BMS] Max Cell Voltage (V)": {
+      "n_nonnull": 2867,
+      "n_distinct": 333,
+      "min": 3.549,
+      "max": 52.997,
+      "grid_step": 0.001,
+      "max_decimals": 3,
+      "decimals_share": {
+       "0": 0.000349,
+       "1": 0.010115,
+       "2": 0.086502,
+       "3": 0.903035
+      },
+      "share_on_0p1_grid": 0.010464
+     },
+     "[BMS] Min Cell Voltage (V)": {
+      "n_nonnull": 2867,
+      "n_distinct": 333,
+      "min": 3.538,
+      "max": 52.998,
+      "grid_step": 0.001,
+      "max_decimals": 3,
+      "decimals_share": {
+       "1": 0.011859,
+       "2": 0.085106,
+       "3": 0.903035
+      },
+      "share_on_0p1_grid": 0.011859
+     }
+    },
+    "analyze": {
+     "cell_spread_loaded_p95_mv": 27.0,
+     "cell_spread_loaded_max_mv": 62.0,
+     "cell_spread_loaded_mean_mv": 14.8,
+     "n_loaded_spread_samples": 660.0
+    },
+    "minus_published": {
+     "cell_spread_loaded_p95_mv": 0.0,
+     "cell_spread_loaded_max_mv": 0.0,
+     "cell_spread_loaded_mean_mv": 0.0,
+     "n_loaded_spread_samples": 0.0
+    }
+   },
+   "raw_copy": {
+    "channels": {
+     "[BMS] Max Cell Voltage (V)": {
+      "n_nonnull": 2867,
+      "n_distinct": 7,
+      "min": 3.5,
+      "max": 53.0,
+      "grid_step": 0.1,
+      "max_decimals": 1,
+      "decimals_share": {
+       "0": 0.012208,
+       "1": 0.987792
+      },
+      "share_on_0p1_grid": 1.0
+     },
+     "[BMS] Min Cell Voltage (V)": {
+      "n_nonnull": 2867,
+      "n_distinct": 7,
+      "min": 3.5,
+      "max": 53.0,
+      "grid_step": 0.1,
+      "max_decimals": 1,
+      "decimals_share": {
+       "0": 0.009418,
+       "1": 0.990582
+      },
+      "share_on_0p1_grid": 1.0
+     }
+    },
+    "analyze": {
+     "cell_spread_loaded_p95_mv": 100.0,
+     "cell_spread_loaded_max_mv": 100.0,
+     "cell_spread_loaded_mean_mv": 12.9,
+     "n_loaded_spread_samples": 657.0
+    },
+    "minus_published": {
+     "cell_spread_loaded_p95_mv": 73.0,
+     "cell_spread_loaded_max_mv": 38.0,
+     "cell_spread_loaded_mean_mv": -1.9,
+     "n_loaded_spread_samples": -3.0
+    }
+   },
+   "published": {
+    "cell_spread_loaded_p95_mv": 27.0,
+    "cell_spread_loaded_max_mv": 62.0,
+    "cell_spread_loaded_mean_mv": 14.8,
+    "n_loaded_spread_samples": 660.0
+   },
+   "identical_value_share": {
+    "[BMS] Max Cell Voltage (V)": {
+     "n_both": 2867,
+     "share_identical": 0.010464
+    },
+    "[BMS] Min Cell Voltage (V)": {
+     "n_both": 2867,
+     "share_identical": 0.011859
+    }
+   }
+  },
+  {
+   "file": "2026-06-10 09-41-00.csv",
+   "record_id": "20260610_094100.csv",
+   "master_key": "20260610_094100.csv",
+   "raw_hash_failing": true,
+   "original": {
+    "channels": {
+     "[BMS] Max Cell Voltage (V)": {
+      "n_nonnull": 2903,
+      "n_distinct": 356,
+      "min": 3.55,
+      "max": 52.997,
+      "grid_step": 0.001,
+      "max_decimals": 3,
+      "decimals_share": {
+       "1": 0.010679,
+       "2": 0.088185,
+       "3": 0.901137
+      },
+      "share_on_0p1_grid": 0.010679
+     },
+     "[BMS] Min Cell Voltage (V)": {
+      "n_nonnull": 2909,
+      "n_distinct": 348,
+      "min": 3.524,
+      "max": 52.998,
+      "grid_step": 0.001,
+      "max_decimals": 3,
+      "decimals_share": {
+       "1": 0.012375,
+       "2": 0.089034,
+       "3": 0.898591
+      },
+      "share_on_0p1_grid": 0.012375
+     }
+    },
+    "analyze": {
+     "cell_spread_loaded_p95_mv": 26.0,
+     "cell_spread_loaded_max_mv": 62.0,
+     "cell_spread_loaded_mean_mv": 15.8,
+     "n_loaded_spread_samples": 459.0
+    },
+    "minus_published": {
+     "cell_spread_loaded_p95_mv": 0.0,
+     "cell_spread_loaded_max_mv": 0.0,
+     "cell_spread_loaded_mean_mv": 0.0,
+     "n_loaded_spread_samples": 0.0
+    }
+   },
+   "raw_copy": {
+    "channels": {
+     "[BMS] Max Cell Voltage (V)": {
+      "n_nonnull": 2903,
+      "n_distinct": 7,
+      "min": 3.6,
+      "max": 53.0,
+      "grid_step": 0.1,
+      "max_decimals": 1,
+      "decimals_share": {
+       "0": 0.017913,
+       "1": 0.982087
+      },
+      "share_on_0p1_grid": 1.0
+     },
+     "[BMS] Min Cell Voltage (V)": {
+      "n_nonnull": 2909,
+      "n_distinct": 8,
+      "min": 3.5,
+      "max": 53.0,
+      "grid_step": 0.1,
+      "max_decimals": 1,
+      "decimals_share": {
+       "0": 0.012032,
+       "1": 0.987968
+      },
+      "share_on_0p1_grid": 1.0
+     }
+    },
+    "analyze": {
+     "cell_spread_loaded_p95_mv": 100.0,
+     "cell_spread_loaded_max_mv": 100.0,
+     "cell_spread_loaded_mean_mv": 16.8,
+     "n_loaded_spread_samples": 453.0
+    },
+    "minus_published": {
+     "cell_spread_loaded_p95_mv": 74.0,
+     "cell_spread_loaded_max_mv": 38.0,
+     "cell_spread_loaded_mean_mv": 1.0,
+     "n_loaded_spread_samples": -6.0
+    }
+   },
+   "published": {
+    "cell_spread_loaded_p95_mv": 26.0,
+    "cell_spread_loaded_max_mv": 62.0,
+    "cell_spread_loaded_mean_mv": 15.8,
+    "n_loaded_spread_samples": 459.0
+   },
+   "identical_value_share": {
+    "[BMS] Max Cell Voltage (V)": {
+     "n_both": 2903,
+     "share_identical": 0.010679
+    },
+    "[BMS] Min Cell Voltage (V)": {
+     "n_both": 2909,
+     "share_identical": 0.012375
+    }
+   }
+  },
+  {
+   "file": "2026-06-11 06-11-20.csv",
+   "record_id": "20260611_061120.csv",
+   "master_key": "20260611_061120.csv",
+   "raw_hash_failing": true,
+   "original": {
+    "channels": {
+     "[BMS] Max Cell Voltage (V)": {
+      "n_nonnull": 6384,
+      "n_distinct": 373,
+      "min": 3.576,
+      "max": 52.997,
+      "grid_step": 0.001,
+      "max_decimals": 3,
+      "decimals_share": {
+       "0": 0.000157,
+       "1": 0.012375,
+       "2": 0.091635,
+       "3": 0.895833
+      },
+      "share_on_0p1_grid": 0.012531
+     },
+     "[BMS] Min Cell Voltage (V)": {
+      "n_nonnull": 6383,
+      "n_distinct": 375,
+      "min": 3.562,
+      "max": 52.998,
+      "grid_step": 0.001,
+      "max_decimals": 3,
+      "decimals_share": {
+       "0": 0.000157,
+       "1": 0.01316,
+       "2": 0.092746,
+       "3": 0.893937
+      },
+      "share_on_0p1_grid": 0.013317
+     }
+    },
+    "analyze": {
+     "cell_spread_loaded_p95_mv": 28.0,
+     "cell_spread_loaded_max_mv": 75.0,
+     "cell_spread_loaded_mean_mv": 17.1,
+     "n_loaded_spread_samples": 1068.0
+    },
+    "minus_published": {
+     "cell_spread_loaded_p95_mv": 0.0,
+     "cell_spread_loaded_max_mv": 0.0,
+     "cell_spread_loaded_mean_mv": 0.0,
+     "n_loaded_spread_samples": 0.0
+    }
+   },
+   "raw_copy": {
+    "channels": {
+     "[BMS] Max Cell Voltage (V)": {
+      "n_nonnull": 6384,
+      "n_distinct": 7,
+      "min": 3.6,
+      "max": 53.0,
+      "grid_step": 0.1,
+      "max_decimals": 1,
+      "decimals_share": {
+       "0": 0.018484,
+       "1": 0.981516
+      },
+      "share_on_0p1_grid": 1.0
+     },
+     "[BMS] Min Cell Voltage (V)": {
+      "n_nonnull": 6383,
+      "n_distinct": 6,
+      "min": 3.6,
+      "max": 53.0,
+      "grid_step": 0.1,
+      "max_decimals": 1,
+      "decimals_share": {
+       "0": 0.01081,
+       "1": 0.98919
+      },
+      "share_on_0p1_grid": 1.0
+     }
+    },
+    "analyze": {
+     "cell_spread_loaded_p95_mv": 100.0,
+     "cell_spread_loaded_max_mv": 100.0,
+     "cell_spread_loaded_mean_mv": 16.0,
+     "n_loaded_spread_samples": 1047.0
+    },
+    "minus_published": {
+     "cell_spread_loaded_p95_mv": 72.0,
+     "cell_spread_loaded_max_mv": 25.0,
+     "cell_spread_loaded_mean_mv": -1.1,
+     "n_loaded_spread_samples": -21.0
+    }
+   },
+   "published": {
+    "cell_spread_loaded_p95_mv": 28.0,
+    "cell_spread_loaded_max_mv": 75.0,
+    "cell_spread_loaded_mean_mv": 17.1,
+    "n_loaded_spread_samples": 1068.0
+   },
+   "identical_value_share": {
+    "[BMS] Max Cell Voltage (V)": {
+     "n_both": 6384,
+     "share_identical": 0.012531
+    },
+    "[BMS] Min Cell Voltage (V)": {
+     "n_both": 6383,
+     "share_identical": 0.013317
+    }
+   }
+  },
+  {
+   "file": "2026-06-18 12-46-11.csv",
+   "record_id": "20260618_124611.csv",
+   "master_key": "20260618_124611.csv",
+   "raw_hash_failing": true,
+   "original": {
+    "channels": {
+     "[BMS] Max Cell Voltage (V)": {
+      "n_nonnull": 548,
+      "n_distinct": 225,
+      "min": 3.527,
+      "max": 52.997,
+      "grid_step": 0.001,
+      "max_decimals": 3,
+      "decimals_share": {
+       "1": 0.009124,
+       "2": 0.10219,
+       "3": 0.888686
+      },
+      "share_on_0p1_grid": 0.009124
+     },
+     "[BMS] Min Cell Voltage (V)": {
+      "n_nonnull": 548,
+      "n_distinct": 232,
+      "min": 3.513,
+      "max": 52.998,
+      "grid_step": 0.001,
+      "max_decimals": 3,
+      "decimals_share": {
+       "1": 0.010949,
+       "2": 0.069343,
+       "3": 0.919708
+      },
+      "share_on_0p1_grid": 0.010949
+     }
+    },
+    "analyze": {
+     "cell_spread_loaded_p95_mv": 17.2,
+     "cell_spread_loaded_max_mv": 22.0,
+     "cell_spread_loaded_mean_mv": 13.2,
+     "n_loaded_spread_samples": 37.0
+    },
+    "minus_published": {
+     "cell_spread_loaded_p95_mv": 0.0,
+     "cell_spread_loaded_max_mv": 0.0,
+     "cell_spread_loaded_mean_mv": 0.0,
+     "n_loaded_spread_samples": 0.0
+    }
+   },
+   "raw_copy": {
+    "channels": {
+     "[BMS] Max Cell Voltage (V)": {
+      "n_nonnull": 548,
+      "n_distinct": 6,
+      "min": 3.5,
+      "max": 53.0,
+      "grid_step": 0.1,
+      "max_decimals": 1,
+      "decimals_share": {
+       "0": 0.001825,
+       "1": 0.998175
+      },
+      "share_on_0p1_grid": 1.0
+     },
+     "[BMS] Min Cell Voltage (V)": {
+      "n_nonnull": 548,
+      "n_distinct": 6,
+      "min": 3.5,
+      "max": 53.0,
+      "grid_step": 0.1,
+      "max_decimals": 1,
+      "decimals_share": {
+       "0": 0.001825,
+       "1": 0.998175
+      },
+      "share_on_0p1_grid": 1.0
+     }
+    },
+    "analyze": {
+     "cell_spread_loaded_p95_mv": 100.0,
+     "cell_spread_loaded_max_mv": 100.0,
+     "cell_spread_loaded_mean_mv": 11.1,
+     "n_loaded_spread_samples": 36.0
+    },
+    "minus_published": {
+     "cell_spread_loaded_p95_mv": 82.8,
+     "cell_spread_loaded_max_mv": 78.0,
+     "cell_spread_loaded_mean_mv": -2.1,
+     "n_loaded_spread_samples": -1.0
+    }
+   },
+   "published": {
+    "cell_spread_loaded_p95_mv": 17.2,
+    "cell_spread_loaded_max_mv": 22.0,
+    "cell_spread_loaded_mean_mv": 13.2,
+    "n_loaded_spread_samples": 37.0
+   },
+   "identical_value_share": {
+    "[BMS] Max Cell Voltage (V)": {
+     "n_both": 548,
+     "share_identical": 0.009124
+    },
+    "[BMS] Min Cell Voltage (V)": {
+     "n_both": 548,
+     "share_identical": 0.010949
+    }
+   }
+  },
+  {
+   "file": "2026-06-25 12-28-50.csv",
+   "record_id": "20260625_122850.csv",
+   "master_key": "20260625_122850.csv",
+   "raw_hash_failing": true,
+   "original": {
+    "channels": {
+     "[BMS] Max Cell Voltage (V)": {
+      "n_nonnull": 199,
+      "n_distinct": 118,
+      "min": 3.586,
+      "max": 3.869,
+      "grid_step": 0.001,
+      "max_decimals": 3,
+      "decimals_share": {
+       "1": 0.005025,
+       "2": 0.120603,
+       "3": 0.874372
+      },
+      "share_on_0p1_grid": 0.005025
+     },
+     "[BMS] Min Cell Voltage (V)": {
+      "n_nonnull": 200,
+      "n_distinct": 116,
+      "min": 3.57,
+      "max": 52.997,
+      "grid_step": 0.001,
+      "max_decimals": 3,
+      "decimals_share": {
+       "2": 0.1,
+       "3": 0.9
+      },
+      "share_on_0p1_grid": 0.0
+     }
+    },
+    "analyze": {
+     "cell_spread_loaded_p95_mv": 21.1,
+     "cell_spread_loaded_max_mv": 23.0,
+     "cell_spread_loaded_mean_mv": 14.8,
+     "n_loaded_spread_samples": 20.0
+    },
+    "minus_published": {
+     "cell_spread_loaded_p95_mv": 0.0,
+     "cell_spread_loaded_max_mv": 0.0,
+     "cell_spread_loaded_mean_mv": 0.0,
+     "n_loaded_spread_samples": 0.0
+    }
+   },
+   "raw_copy": {
+    "channels": {
+     "[BMS] Max Cell Voltage (V)": {
+      "n_nonnull": 199,
+      "n_distinct": 118,
+      "min": 3.586,
+      "max": 3.869,
+      "grid_step": 0.001,
+      "max_decimals": 3,
+      "decimals_share": {
+       "1": 0.005025,
+       "2": 0.120603,
+       "3": 0.874372
+      },
+      "share_on_0p1_grid": 0.005025
+     },
+     "[BMS] Min Cell Voltage (V)": {
+      "n_nonnull": 200,
+      "n_distinct": 5,
+      "min": 3.6,
+      "max": 53.0,
+      "grid_step": 0.1,
+      "max_decimals": 1,
+      "decimals_share": {
+       "0": 0.005,
+       "1": 0.995
+      },
+      "share_on_0p1_grid": 1.0
+     }
+    },
+    "analyze": {
+     "cell_spread_loaded_p95_mv": 59.1,
+     "cell_spread_loaded_max_mv": 62.0,
+     "cell_spread_loaded_mean_mv": 11.5,
+     "n_loaded_spread_samples": 20.0
+    },
+    "minus_published": {
+     "cell_spread_loaded_p95_mv": 38.0,
+     "cell_spread_loaded_max_mv": 39.0,
+     "cell_spread_loaded_mean_mv": -3.3,
+     "n_loaded_spread_samples": 0.0
+    }
+   },
+   "published": {
+    "cell_spread_loaded_p95_mv": 21.1,
+    "cell_spread_loaded_max_mv": 23.0,
+    "cell_spread_loaded_mean_mv": 14.8,
+    "n_loaded_spread_samples": 20.0
+   },
+   "identical_value_share": {
+    "[BMS] Max Cell Voltage (V)": {
+     "n_both": 199,
+     "share_identical": 1.0
+    },
+    "[BMS] Min Cell Voltage (V)": {
+     "n_both": 200,
+     "share_identical": 0.0
+    }
+   }
+  },
+  {
+   "file": "2026-06-27 08-52-19.csv",
+   "record_id": "20260627_085219.csv",
+   "master_key": "20260627_085219.csv",
+   "raw_hash_failing": true,
+   "original": {
+    "channels": {
+     "[BMS] Max Cell Voltage (V)": {
+      "n_nonnull": 276,
+      "n_distinct": 178,
+      "min": 3.594,
+      "max": 52.996,
+      "grid_step": 0.001,
+      "max_decimals": 3,
+      "decimals_share": {
+       "1": 0.01087,
+       "2": 0.108696,
+       "3": 0.880435
+      },
+      "share_on_0p1_grid": 0.01087
+     },
+     "[BMS] Min Cell Voltage (V)": {
+      "n_nonnull": 278,
+      "n_distinct": 167,
+      "min": 3.577,
+      "max": 52.997,
+      "grid_step": 0.001,
+      "max_decimals": 3,
+      "decimals_share": {
+       "1": 0.010791,
+       "2": 0.064748,
+       "3": 0.92446
+      },
+      "share_on_0p1_grid": 0.010791
+     }
+    },
+    "analyze": {
+     "cell_spread_loaded_p95_mv": 20.9,
+     "cell_spread_loaded_max_mv": 23.0,
+     "cell_spread_loaded_mean_mv": 14.3,
+     "n_loaded_spread_samples": 43.0
+    },
+    "minus_published": {
+     "cell_spread_loaded_p95_mv": 0.0,
+     "cell_spread_loaded_max_mv": 0.0,
+     "cell_spread_loaded_mean_mv": 0.0,
+     "n_loaded_spread_samples": 0.0
+    }
+   },
+   "raw_copy": {
+    "channels": {
+     "[BMS] Max Cell Voltage (V)": {
+      "n_nonnull": 276,
+      "n_distinct": 6,
+      "min": 3.6,
+      "max": 53.0,
+      "grid_step": 0.1,
+      "max_decimals": 1,
+      "decimals_share": {
+       "0": 0.018116,
+       "1": 0.981884
+      },
+      "share_on_0p1_grid": 1.0
+     },
+     "[BMS] Min Cell Voltage (V)": {
+      "n_nonnull": 278,
+      "n_distinct": 6,
+      "min": 3.6,
+      "max": 53.0,
+      "grid_step": 0.1,
+      "max_decimals": 1,
+      "decimals_share": {
+       "0": 0.017986,
+       "1": 0.982014
+      },
+      "share_on_0p1_grid": 1.0
+     }
+    },
+    "analyze": {
+     "cell_spread_loaded_p95_mv": 100.0,
+     "cell_spread_loaded_max_mv": 100.0,
+     "cell_spread_loaded_mean_mv": 16.3,
+     "n_loaded_spread_samples": 43.0
+    },
+    "minus_published": {
+     "cell_spread_loaded_p95_mv": 79.1,
+     "cell_spread_loaded_max_mv": 77.0,
+     "cell_spread_loaded_mean_mv": 2.0,
+     "n_loaded_spread_samples": 0.0
+    }
+   },
+   "published": {
+    "cell_spread_loaded_p95_mv": 20.9,
+    "cell_spread_loaded_max_mv": 23.0,
+    "cell_spread_loaded_mean_mv": 14.3,
+    "n_loaded_spread_samples": 43.0
+   },
+   "identical_value_share": {
+    "[BMS] Max Cell Voltage (V)": {
+     "n_both": 276,
+     "share_identical": 0.01087
+    },
+    "[BMS] Min Cell Voltage (V)": {
+     "n_both": 278,
+     "share_identical": 0.010791
+    }
+   }
+  },
+  {
+   "file": "2026-07-23 11-37-24.csv",
+   "record_id": "20260723_113724.csv",
+   "master_key": "20260723_113724.csv",
+   "raw_hash_failing": true,
+   "original": {
+    "channels": {
+     "[BMS] Max Cell Voltage (V)": {
+      "n_nonnull": 3928,
+      "n_distinct": 441,
+      "min": 3.393,
+      "max": 52.996,
+      "grid_step": 0.001,
+      "max_decimals": 3,
+      "decimals_share": {
+       "0": 0.000764,
+       "1": 0.012729,
+       "2": 0.087831,
+       "3": 0.898676
+      },
+      "share_on_0p1_grid": 0.013493
+     },
+     "[BMS] Min Cell Voltage (V)": {
+      "n_nonnull": 3928,
+      "n_distinct": 433,
+      "min": 3.371,
+      "max": 52.997,
+      "grid_step": 0.001,
+      "max_decimals": 3,
+      "decimals_share": {
+       "1": 0.00891,
+       "2": 0.092159,
+       "3": 0.898931
+      },
+      "share_on_0p1_grid": 0.00891
+     }
+    },
+    "analyze": {
+     "cell_spread_loaded_p95_mv": 27.0,
+     "cell_spread_loaded_max_mv": 147.0,
+     "cell_spread_loaded_mean_mv": 17.1,
+     "n_loaded_spread_samples": 821.0
+    },
+    "minus_published": {
+     "cell_spread_loaded_p95_mv": 0.0,
+     "cell_spread_loaded_max_mv": 0.0,
+     "cell_spread_loaded_mean_mv": 0.0,
+     "n_loaded_spread_samples": 0.0
+    }
+   },
+   "raw_copy": {
+    "channels": {
+     "[BMS] Max Cell Voltage (V)": {
+      "n_nonnull": 3928,
+      "n_distinct": 9,
+      "min": 3.4,
+      "max": 53.0,
+      "grid_step": 0.1,
+      "max_decimals": 1,
+      "decimals_share": {
+       "0": 0.02113,
+       "1": 0.97887
+      },
+      "share_on_0p1_grid": 1.0
+     },
+     "[BMS] Min Cell Voltage (V)": {
+      "n_nonnull": 3928,
+      "n_distinct": 9,
+      "min": 3.4,
+      "max": 53.0,
+      "grid_step": 0.1,
+      "max_decimals": 1,
+      "decimals_share": {
+       "0": 0.014257,
+       "1": 0.985743
+      },
+      "share_on_0p1_grid": 1.0
+     }
+    },
+    "analyze": {
+     "cell_spread_loaded_p95_mv": 100.0,
+     "cell_spread_loaded_max_mv": 200.0,
+     "cell_spread_loaded_mean_mv": 15.5,
+     "n_loaded_spread_samples": 806.0
+    },
+    "minus_published": {
+     "cell_spread_loaded_p95_mv": 73.0,
+     "cell_spread_loaded_max_mv": 53.0,
+     "cell_spread_loaded_mean_mv": -1.6,
+     "n_loaded_spread_samples": -15.0
+    }
+   },
+   "published": {
+    "cell_spread_loaded_p95_mv": 27.0,
+    "cell_spread_loaded_max_mv": 147.0,
+    "cell_spread_loaded_mean_mv": 17.1,
+    "n_loaded_spread_samples": 821.0
+   },
+   "identical_value_share": {
+    "[BMS] Max Cell Voltage (V)": {
+     "n_both": 3928,
+     "share_identical": 0.013493
+    },
+    "[BMS] Min Cell Voltage (V)": {
+     "n_both": 3928,
+     "share_identical": 0.00891
+    }
+   }
+  }
+ ]
+}
