@@ -88,6 +88,13 @@ RULES = [
          rx=r"\bmde\b|\bminimum detectable\b|\bdetection (?:limit|floor|power)\b|\b(?:not yet )?resolvable now\b|\bwould need a \d+ month window\b"),
     Rule("W3-wikner", "regex", "R5: the Wikner ladder is a cross-check, not a transferable 'protective/elevated' classification", rx=r"\b(?:protective|elevated) per wikner\b"),
     Rule("W3-sharedcoolant", "regex", "D-12/F27.r1/R2: coolant-loop topology is unestablished", rx=r"\bshared (?:liquid )?coolant loop\b"),
+    Rule("W4-measuredcapture", "regex", "F29: KE recovery is an apparent proxy (assumed mass, classifier), not a measured capture efficiency", rx=r"\bmeasured capture (?:efficiency|by pack)\b"),
+    Rule("W4-fulldod", "regex", "p15.10/p24.3: the k=2 sum is an uncalibrated depth-squared weighted cycle sum, not 'cumulative damage' / 'full-DoD-equivalents'", rx=r"\bfull dod equivalents?\b|\bcumulative damage\b"),
+    Rule("W4-10x", "regex", "p15.10/p24.4: the ~10x depth 'mitigation' is a scenario, not a measured effect", rx=r"\b10(?:x| x)? (?:depth )?mitigation\b|\broughly a 10(?:x| x)? (?:depth )?(?:mitigation|longer)\b"),   # '10×' normalises to '10'
+    Rule("W4-ambientbin", "regex", "F12.r3/B-RegenByTempMeasured: the bins are PACK temperature (mean T1-T4 at the decel sample), not ambient", rx=r"\brecovery proxy by ambient bin\b"),
+    Rule("W4-pureregenkpi", "regex", "p17.9: engine-off braking regen-at-pack is classifier-conditional (the enum 'Pure regen' stays internal)",
+         rx=r"\b(?:peak charging ceiling|high soc ceiling|high soc reduction) pure regen\b"),
+    Rule("W4-startproxy", "regex", "B-StartsPer100km/F10.r1: n_sign_crossings counts pack-current direction reversals, not engine starts", rx=r"\bengine start proxy\b"),
     Rule("M325-410", "phrase", "F01.r3/D-1: 410/410 byte-identical is contradicted (333/489 fail)", phrase="410/410"),
     Rule("M325-reserialize", "regex", "F01.r3/Cs-76: transfer re-serialization is not the established cause", rx=r"\bre ?serializ\w*"),
     Rule("M325-originals", "regex", "E-N1: originals were recovered (M323)", rx=r"\boriginals (?:are )?unavailable\b"),

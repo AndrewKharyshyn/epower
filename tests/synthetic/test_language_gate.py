@@ -46,6 +46,17 @@ assert lg.scan_text("equals the half-width after ~24 months (planning figure, ~5
 assert lg.scan_text("gap detection and the PID cadence") == []
 assert "W3-wikner" in lg.scan_text("(5%, protective per Wikner)") and "W3-wikner" in lg.scan_text("elevated per Wikner") and lg.scan_text("lower-weight rung: assumed, Wikner cross-check") == []
 assert "W3-sharedcoolant" in lg.scan_text("ambient, tracking the shared coolant loop and sustained load") and lg.scan_text("tracking sustained load") == []
+# W4a rules
+assert "W4-measuredcapture" in lg.scan_text("= measured capture efficiency — the fraction") and "W4-measuredcapture" in lg.scan_text("measured capture by pack temperature (M22)")
+assert lg.scan_text("apparent kinetic-energy recovery proxy") == [] and lg.scan_text("apparent KE recovery by pack temperature") == []
+assert "W4-fulldod" in lg.scan_text("the cumulative damage is only 99 full-DoD-equivalents") and "W4-fulldod" in lg.scan_text("full-DoD-equivalent cycles")
+assert lg.scan_text("a full-DoD cycle unchanged") == [] and lg.scan_text("depth-squared weighted cycle sum (generic k=2, uncalibrated)") == []
+assert "W4-10x" in lg.scan_text("roughly a 10× depth mitigation") and "W4-10x" in lg.scan_text("(~10× mitigation).") and "W4-10x" in lg.scan_text("roughly a 10x mitigation")
+assert lg.scan_text("a depth-weighting scenario, not a measured mitigation") == [] and lg.scan_text("10 drives were mitigated") == []
+assert "W4-ambientbin" in lg.scan_text("Apparent KE recovery proxy by ambient bin (%)") and lg.scan_text("recovery proxy by pack-temperature bin") == []
+assert "W4-pureregenkpi" in lg.scan_text("peak charging ceiling (pure regen)") and lg.scan_text("peak charging ceiling (engine-off braking; classifier-conditional)") == []
+assert lg.scan_text("high-SoC reduction (pure regen)") == ["W4-pureregenkpi"]
+assert "W4-startproxy" in lg.scan_text("Engine-start proxy per 100 km") and lg.scan_text("Current-direction reversals per 100 km, not a counted engine start") == []
 # hedged, correct text must NOT fail
 for ok in ["engine brake thermal efficiency is therefore model-derived", "the logged fuel rate is calculated by the logger app and present on a subset of drives",
            "cycles with a range below 1.0 pp are dropped", "the remainder are excluded from GTC, not counted as zero", "156 of 489 canonical archived copies match the manifest"]:
