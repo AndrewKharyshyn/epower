@@ -56513,6 +56513,95 @@
    "reason": "The generating script for this key is not present in Project Knowledge this session (2026-09-16 ingestion). Carried forward BYTE-IDENTICAL from the prior build (374-drive / M256 corpus basis) rather than recomputed -- it does NOT reflect the current 410-drive corpus. Restore the source script and re-run to refresh.",
    "basisNDrives": 374,
    "liveNDrives": 410
+  },
+  "gtrClosure": {
+   "basis": "fuel-PID subset, model-derived; raw/ basis, provenance-sensitive (F03); not M299-reproducible",
+   "scope": {
+    "nDrives": 257,
+    "nDays": 50,
+    "km": 1996.2,
+    "nCanonical": 489,
+    "excludedNoBatteryInputs": [
+     "20260512_195020.csv",
+     "20260813_145651.csv",
+     "20260813_150341.csv"
+    ],
+    "excludedNote": "NaN battery offset or NaN charge-class columns in the master: where the published reconstruction has a row for such a drive it gives zero battery power, so f_gen = 1 by construction",
+    "publishedRowsWithFgenOne": [
+     "20260813_145651.csv",
+     "20260813_150341.csv"
+    ],
+    "excludedWithoutPublishedRow": [
+     "20260512_195020.csv"
+    ]
+   },
+   "per100km": {
+    "generator": 15.928,
+    "genToTraction": 8.608,
+    "genToBattEngineOn": 5.651,
+    "genToBattDual": 2.697,
+    "genToBattUpper": 8.348,
+    "regenToBatt": 2.987,
+    "battToTractionResidual": 9.881
+   },
+   "nodeExcess": {
+    "relToGenerator": 0.0645,
+    "ci95": [
+     0.0488,
+     0.0862
+    ],
+    "tolerance": 0.05,
+    "closedUnderRule": false
+   },
+   "excessWithoutDual": {
+    "relToGenerator": -0.1048,
+    "ci95": [
+     -0.1341,
+     -0.0816
+    ]
+   },
+   "interval": {
+    "lo": -0.1048,
+    "hi": 0.0645,
+    "zeroInsideAllVariants": true,
+    "nVariants": 23
+   },
+   "fGen": {
+    "est": 0.4656,
+    "ci95": [
+     0.3806,
+     0.5442
+    ],
+    "ciContains0p5": true,
+    "variantMin": 0.4213,
+    "variantMax": 0.4895,
+    "pointBelow0p5AllVariants": true,
+    "nVariants": 23,
+    "stopTriggered": false
+   },
+   "alphaStar": {
+    "est": 0.619,
+    "ci95": [
+     0.59,
+     0.642
+    ],
+    "variantMin": 0.209,
+    "variantMax": 0.761,
+    "nInfeasibleDrivesBaseline": 15,
+    "label": "implied closure parameter solved from the same data; not an estimate of the generator share of the dual charge"
+   },
+   "method": "day-clustered percentile bootstrap (seed 42, 4000 draws), corpus ratio-of-sums",
+   "sources": {
+    "closureDiag": {
+     "path": "analyses/M336_closure_diag.json",
+     "sha256": "e045c8f6fa2096fa18d30d72bbcd5f97529d98a347a9e4e32734d164892da360"
+    },
+    "step2": {
+     "path": "analyses/M336_step2_result.json",
+     "sha256": "eb4c4178db36d077faba22588f942b650e0c2e0bf443f305b91ddc7d3cc1a2ca"
+    }
+   },
+   "_staleness": "computed at M336 on the 489-drive master; carried forward by ingestion; re-run tools/gtr_closure_diag.py, tools/gtr_interval_sens.py and tools/gtr_closure_block.py to refresh"
   }
  },
  "masterRefitAudit": {

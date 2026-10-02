@@ -120,6 +120,8 @@ RULES = [
     Rule("W1-transient", "regex", "F28/D-17: baseline-relative start-impulse index, not 'measured transient buffering' or a capacity multiple", rx=r"\bmeasured transient buffering\b"),
     Rule("W1-roundtrip", "regex", "p17.11: the FCE/EFC gap is a charge-discharge imbalance, not a 'round-trip loss' gap/asymmetry", rx=r"\bround trip loss (?:gap|asymmetry)\b|\basymmetry round trip loss\b"),
     Rule("W1-enrichment", "regex", "p18.2: the HIGH regime note is 'assumed high-load (boost proxy)'; enrichment is untested", rx=r"^enrichment$", scope=("payload",)),
+    Rule("M336-nodeclosed", "regex", "M336 Director: the generator node is consistent within the dual bracket, not closed under the pre-registered +/-5% rule; no 'node closed/balanced/closure achieved' wording", rx=r"\bgenerator node (?:is )?(?:closed|balanced)\b|\bnode closure (?:achieved|reached)\b"),
+    Rule("M336-fullcorpusfgen", "regex", "M336 Director: the closure f_gen covers the fuel-PID subset only, never the full corpus", rx=r"\bfull corpus f gen\b"),
     Rule("W1-independentcorrob", "regex", "p19.13/F10.3: Path A and Path B share priors; not an independent corroboration of M265", rx=r"\bindependent corroboration of m265\b", scope=("payload",)),
     # M333: GTR accounting gate
     Rule("W7-conserved", "regex", "M333/D-5/F04: the generator branches do not close; the revealed sketch is an allocation sketch, not a 'conserved cascade/split' or a 'separate Sankey' per cohort",
