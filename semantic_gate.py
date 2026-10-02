@@ -124,6 +124,22 @@ ok("A2 REQUIRED M336 closure block wording (consistent within the dual bracket; 
    all(x in _fa for x in ["consistent within the dual bracket; not closed under the pre-registered", "straddles 0.5", "Battery → traction is a model residual", "provenance-sensitive (F03)", "bounding cases, not calibrated intervals"]))
 ok("A2 REQUIRED M336 closure block numbers equal the payload",
    bool(_z) and f"{_z['fGen']['est']} ({_z['fGen']['ci95'][0]} to {_z['fGen']['ci95'][1]})" in _fa and f"{_z['scope']['nDrives']} of {_z['scope']['nCanonical']} drives" in _fa)
+# M337: Fuel analytics v1 wording and payload-bound numbers (Fuel All dump)
+_fx = (A.get("fuelAnalytics") or {})
+_fxd = T.get("fuel__all", "")
+ok("A2 REQUIRED M337 FUEL-12 wording (consistency check, dt-cap dependence, same app, review margin, F03, not M299-reproducible)",
+   all(x in _fxd for x in ["internal consistency check of two logged/app-calculated series", "not a bias estimate", "Agreement does not establish independence or external accuracy (same app)",
+                           "arbitrary margin fixed in advance", "raw/, provenance-sensitive (F03)", "Not M299-reproducible"]))
+ok("A2 REQUIRED M337 FUEL-01/11 wording (descriptive, SoC not corrected, confounded, trip mix not a consumption trend)",
+   all(x in _fxd for x in ["no cause is attributed to the pattern", "Rates are not corrected for the SoC change", "short-trip bands may be biased upward",
+                           "not a consumption trend", "no trend test and no seasonal reading"]))
+if _fx:
+    _a = _fx["fuel12"]["aggregate"]
+    ok("A2 REQUIRED M337 numbers equal the payload (trips/days, pooled rate, reconciliation chain)",
+       f"{_a['nTrips']} trips, {_a['nDays']} days" in _fxd and f"{_fx['fuel01']['pooledAll']['est']:.2f} ({_fx['fuel01']['pooledAll']['ci95'][0]:.2f}" in _fxd
+       and f"{_fx['reconciliation']['canonicalDrives']} canonical drives" in _fxd and f"{_fx['reconciliation']['analysisEligible']} analysis trips" in _fxd)
+for _m in ("warm", "shoulder", "compare"):
+    ok(f"A2 REQUIRED M337 cohort note present in the Fuel {_m} dump", "individual trips of the selected thermal cohort" in T.get(f"fuel__{_m}", ""))
 # M334: Fuel tab banner and scenario wording present in every mode dump
 for _m in ("all", "warm", "shoulder", "compare"):
     ok(f"A2 REQUIRED Fuel basis banner and SoC-balanced scenario wording in the Fuel {_m} dump",

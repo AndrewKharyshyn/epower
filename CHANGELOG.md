@@ -1,3 +1,16 @@
+## M337 (2026-10-02): Fuel analytics v1: FUEL-12 rate integral vs counter, FUEL-01 consumption vs trip length, FUEL-11 distribution and 14-day windows (fuelAnalytics)
+
+**Rationale.** Three observed-fuel views in the Fuel tab from a script-written additive payload key; blind audit confirmed all figures; Director decision go with required/forbidden wording; FUEL-12 is an internal consistency check (+0.26% CI +0.19..+0.31, 242 trips/48 days; sign flips at a 2 s dt cap), not a bias estimate; review margin +/-1% is arbitrary; F03 read-only fuel-column check raw vs originals recorded; 1% margin and 234-trip audit reference are not tolerances; not M299-reproducible; no article figure; GTR, E10 constants and CAP unchanged.
+
+**State.** `drive_master.csv` 489 rows, MD5 `bd9d10726bb064d857cf9ff98d2b7338`.
+
+**Gates (runs/20260930T142615Z).** stage_raw=ok; raw_temp_pass=ok; compute_seasonal=ok; refresh_cohort_meta=ok; fuel_recon=ok; refresh_gtr_headline=ok; f03_provenance_build=ok; post_steps=ok; cohort_arrays=ok; comparison_cube=ok -> ok.
+
+**Delta flags.** none.
+
+**Files.** `tools/fuel_analytics.py`, `tools/f03_fuel_columns_check.py`, `tools/ingest_stages.json`, `tests/synthetic/test_fuel_analytics.py`, `summary_arrays.json`, `xtrail_summary.jsx`, `xtrail_dashboard.html`, `language_gate.py`, `semantic_gate.py`, `analyses/M337_spec.md`, `analyses/M337_f03_fuel_check_result.md`, `analyses/M337_fuel_analytics_preview.json`.
+
+
 ## M336 (2026-10-02): GTR repair step 3: interval accounting block gtrClosure (additive), blind-audited; Sankey stays hidden
 
 **Rationale.** F04 is not repaired by closing the branches: the generator node is consistent within the dual bracket but not closed under the pre-registered +/-5% rule (257 fuel-PID drives, excess +6.45% CI 4.9-8.6, f_gen 0.466 CI 0.381-0.544 straddles 0.5); script-written payload block, accounting-table companion, language-gate rules; displayed f_gen, Sankey and thesis wording unchanged; 3 drives with NaN battery inputs excluded (published rows for two give f_gen=1, disclosed, repair is a separate milestone needing sign-off).

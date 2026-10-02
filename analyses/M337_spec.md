@@ -1,0 +1,62 @@
+# M337 Fuel analytics v1 (FUEL-12, FUEL-01, FUEL-11): pre-registered spec rev 2 (Director changes applied; work in progress)
+
+Origin: audit v3 fuel addendum (FUEL-01, -11, -12), owner decision O1 (single Fuel tab), plan order agreed 2026-10-02 (GTR M336 merged). Predecessors: M334 `fuelContract` (coverage, definitions, E10 basis banner).
+Scope of v1: three NEW observed-fuel views, one script-written payload key `fuelAnalytics`, no change to any existing figure, to `CAP_KWH`, to the E10 constants (C05) or to the GTR block. FUEL-02/03/04 follow later.
+
+## 0. Language and basis (binding)
+The logger (Car Scanner ELM OBD2) calculates the fuel rate (L/h) and the fuel counter: they are "logged/app-calculated", never "measured fuel" or "meter". Volumes are litres as logged. No energy, cost, BSFC or generator quantity appears in these views. Basis: `raw/` (F03: provenance-sensitive), reported per view together with an F03 sensitivity (section 5). Agreement of rate-integral and counter does not establish independence or external accuracy (both derive from the same app).
+
+## 1. Common eligibility and units
+- Trip = one canonical drive file (`drive_master.csv` row, `ens_outlier_v2` not True, `distance_km > 0`).
+- Fuel-usable trip: fuel counter column present with >= 2 numeric samples and max > min AND rate column present with >= 10 samples (the `fuelContract` definition; expected about 243 trips, from 2026-08).
+- Counter reset flag: any decrease of the counter by more than 0.01 L inside the file. Reset trips are excluded from all three views and listed (ids and count) in the payload.
+- Distance = master `distance_km` (canonical, reset-repaired); never the logger's own average fields (their reset window and update timing are not established; FUEL-12 average-field validation is OUT of v1).
+- Resampling unit for every interval: calendar day; day-clustered percentile bootstrap, seed 42, 4000 draws; every estimate reports n (trips, days). Ratio-of-sums only; never an average of per-trip L/100 km into a fleet rate; never summed percentages.
+- Strata/bands with < 5 distinct days are not interval-estimated: individual points are shown and the band is labelled "sparse (n days)".
+
+## 2. FUEL-12: rate-integral versus counter agreement
+- Per trip: V_cnt = counter(last valid) - counter(first valid); V_int = integral of the logged rate between the same two sample times (time-weighted rectangle rule on the logged timestamps, per-sample dt capped at `recon_engine.DT_CAP` = 5 s as in the pipeline; sensitivity: trapezoid, cap 2 s and 10 s). Both in litres on the same endpoints.
+- Per trip: difference d = V_int - V_cnt and mean m = (V_int + V_cnt)/2; difference-versus-mean plot (litres); relative difference d/m is shown only where m >= 0.05 L (declared resolution floor); trips below the floor appear in the litre plot only.
+- Corpus: aggregate relative difference = sum(d)/sum(V_cnt) with the day-clustered CI; median and IQR of per-trip relative difference as descriptors (not a fleet rate); count of trips with |d/m| > 5% (flag, filterable list in the payload: id, date, V_int, V_cnt, d, flags).
+- Regression reference (audit R9, frozen data version): 234 trips with +0.240% aggregate difference. It is a known-answer reference for the audit's frozen data, NOT an acceptance tolerance: this milestone reports our value, the trip count, and the difference to the reference, and must not tune any step to match it.
+- Distinguish, in the text: logger consistency (this view) from numerical-integration sensitivity (the variants above) from fuel-meter accuracy (not tested) from model validity (not tested). A high correlation does not validate a fuel meter or the generator split.
+
+## 3. FUEL-01: consumption versus trip length
+- Trip fuel V = V_cnt (counter basis; V_int shown only in FUEL-12). Rate r = 100 V / km.
+- Eligible: fuel-usable, no reset flag, km >= 0.5 (zero/short-distance journeys are not in the rate panel; they appear only in the litres panel with a note).
+- Panels (identical eligible trip ids): (a) litres versus km, (b) L/100 km versus km; colour by start thermal state: first valid engine-coolant sample in bands {< 40 C, 40-60 C, >= 60 C, unknown} (oil as fallback; bands are descriptive, not the cold gate of the model). Tooltip: trip id, date, litres, km, L/100 km, start coolant, SoC change (soc_end - soc_start, percentage points), source flags.
+- Distance bands (fixed a priori): [0.5,2), [2,5), [5,10), [10,20), [20,inf) km. Per band: n trips, n days, pooled rate (ratio of sums) with day-clustered CI; bands with < 5 days are marked sparse. Also the same pooled rates split by start-temperature band where n days >= 5.
+- Any fitted line is descriptive (log-km on pooled rate by band, not a regression intercept) and is not interpreted as "fuel wasted at startup"; the existing cold-start fuel-rate association (ThermalFuelPenalty) is unchanged and cross-referenced.
+
+## 4. FUEL-11: consumption distribution and chronological trend
+- Distribution: eligible trips with km >= 2 (rate stable enough; sensitivity km >= 0.5 and >= 5). Two separate statistics: trip-weighted ECDF of r and distance-weighted ECDF of r (weights = km); quantiles (10/25/50/75/90) of each with day-clustered CIs; the two are labelled and never mixed. Distance groups as in section 3 (ECDF per group where >= 5 days, else points).
+- Trend: pooled consumption = sum(V)/sum(km) x 100 over calendar windows of 7 days (Monday start, non-overlapping; sensitivity 14 days); per window: litres, km, trips, days, CI (day-clustered within the window if >= 5 days, else "sparse"); windows with no eligible trip are gaps (no interpolation, no continuous seasonal story). Composition annotation per window: share of km in trips < 5 km and share of trips with start coolant < 40 C, so changes in trip mix are visible. Window ordering and non-overlap are disclosed.
+- Compare mode: Warm / Shoulder overlays use the thermal-cohort label of each trip from `seasonal_drive_master.csv`; Cold has n = 0 (shown as such). Cohort colour and line style per the dashboard convention (S.driveTypes / cohort palette), no new hex.
+
+## 5. Provenance (F03) sensitivity
+Per view, re-estimate the headline (aggregate relative difference; pooled rate by band; pooled trend) on the subset of trips whose `raw/` file passes the `raw_manifest.json` sha256 (hash-passing), and report both numbers side by side. Fuel columns may be unaffected by the HV-current precision issue; that is a hypothesis to be shown, not assumed. The sha256-verified originals live outside the repo and are not used.
+
+## 6. Implementation contract
+- `tools/fuel_analytics.py` (new, script-written payload key `fuelAnalytics`, additive leaf splice into `summary_arrays.json`, idempotent, asserts no other leaf changes; carried forward or recomputed on every ingestion per CLAUDE.md fuel rule, add to `tools/ingest_stages.json` after `fuel_contract`). Per-trip rows are stored (about 243 rows) so the dashboard binds every plotted point to the payload; no typed literals.
+- Known-answer tests (`tests/synthetic/`): synthetic drive with constant rate and a counter that increments consistently -> d = 0; a 1.0% biased counter -> aggregate +/-1.0%; a reset trip is excluded and listed; band edges inclusive/exclusive as specified; ECDF weighting (trip vs distance) on a two-trip example.
+- Dashboard: three new components in the Fuel tab after the fuel-basis banner; every displayed figure bound to `S.fuelAnalytics.*`; language gate additions (forbidden: "fuel meter", "measured fuel", "accurate/validated fuel", "fuel wasted at startup", "average of trip L/100 km as fleet rate"; required: "logged/app-calculated", n (trips, days), F03 label, "agreement does not establish independence"); `semantic_gate` REQUIRED checks; jsdom test for the three components in All/Warm/Shoulder/Compare/Cold.
+- Not in v1: FUEL-02/03/04/05/06-10, app-average validation, E10 harmonisation, any energy/cost conversion, any change to `fuelContract`, to GTR or to the Sankey.
+
+## 7. Decision rules and stop conditions
+- FUEL-12 agreement is reported as an estimate with CI; it is not accepted or rejected against 0.240%. If the aggregate difference CI excludes 0 by more than 1% of volume, the view is shown with a "logger inconsistency" flag and the milestone stops for Director review before wording.
+- Any figure entering the article needs the Opus audit and Andrii's sign-off (recorded in the CHANGELOG entry); v1 is dashboard-only.
+- Blind audit (analytical-auditor): claim = FUEL-12 aggregate and per-band pooled rates on the stated eligibility, data path only; Director decision before the dashboard build.
+
+## Rev 2 (Director verdict "revise": changes applied; these override the text above where they conflict)
+1. One eligibility definition, named: ELIG-A = the `fuelContract` rule (counter: >= 2 numeric values with max > min; rate: any value > 0), NOT the fuel_recon ">= 10 rate samples" rule. The tool reports the reconciliation: contract usable (243) vs analysis-eligible vs the audit's 234 (counts by reason: reset, km, outlier, missing).
+2. FUEL-01 uses identical trip ids in both panels (km >= 0.5, no reset flag). Zero- and short-distance (km < 0.5) fuel-usable trips are shown in a separate duration/fuel view (litres versus duration), never in the rate panels.
+3. Stop rule (FUEL-12), exact: stop for Director review if the aggregate-difference CI lower bound > +1% OR upper bound < -1% of counter volume, OR the point estimate lies outside +/-1%.
+4. Sign and denominator: aggregate = sum(V_int - V_cnt)/sum(V_cnt), with the sign stated on the plot (positive = rate integral above counter), and sum(d)/mean-volume also reported; the R9 convention is checked by script and stated, not assumed.
+5. Per-trip rows carry: gap flag (any raw dt > DT_CAP = 5 s, recon_engine.py:15), hash-status flag (sha256 of the raw file equals the manifest: pass/fail), thermal-source flag (coolant vs oil fallback), reset flag. The integration variants (trapezoid; cap 2 s and 10 s) are rated against the gap flag (shown separately for gap-free and gapped trips).
+6. Trend windows: primary 14-day windows, secondary 7-day; any window or band with fewer than 7 distinct days is labelled "low-cluster CI" (5 to 6 days) or is points-only (< 5 days). Sparse-band threshold for FUEL-01 bands becomes 7 days for an interval estimate, 5 to 6 days labelled low-cluster.
+7. A trip's calendar day = the date of its start timestamp (`time_start`), for midnight-crossing trips too; the bootstrap cluster key is that date.
+8. Compare mode specified for all three: FUEL-01 aligned cohort panels with common axes (same km and L/100 km limits, same litres limit; points coloured by cohort, Cold shown as n = 0); FUEL-12 aligned cohort difference-versus-mean panels with common limits and cohort markers; FUEL-11 overlaid ECDFs with cohort colour and line style.
+9. Resolution constants are script-written, not typed: the counter resolution (smallest positive counter increment) and rate resolution are measured from the logged values in the tool; the 0.05 L relative-difference floor is accepted only if >= 10x the counter resolution (else the floor is raised and reported), and the 0.01 L reset threshold must exceed the counter resolution (else raised); the values used are recorded in the payload.
+10. F03 sensitivity wording: the hash-passing subset is date-confounded with the hash-failing set, so the side-by-side is "not a paired test" and is reported with n (trips, days) of each subset. The clean test (read-only comparison of the fuel columns of the `raw/` copies against the sha256-verified originals in `originals_recovered/`, outside the repo, nothing copied into `raw/`) is OPTIONAL and runs only if Andrii allows it; it does not re-anchor anything. 
+11. Limits stated in the dashboard text: trip rates are not corrected for the SoC change (charge-sustaining balance) and SoC change confounds short trips; both series come from the same app; short-trip and thermal composition drift can be misread as a seasonal trend (composition annotations are per window); post-ingest recomputes are labelled "not M299-reproducible"; the thermal band source (coolant, oil fallback) is flagged per trip.
+12. Distance-weighted quantiles: the weighted quantile of r with weights km (lowest r at which cumulative km share >= q); the bootstrap recomputes it on each day-resample (weights from the resample). Trip-weighted quantiles use the usual empirical quantile (type 7) on the resample.
