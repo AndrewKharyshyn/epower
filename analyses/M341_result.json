@@ -1,0 +1,1590 @@
+{
+ "milestone": "M341",
+ "liveNDrives": 489,
+ "cohortSizes": {
+  "all": 489,
+  "warm": 387,
+  "shoulder": 100,
+  "cold_ins": 2
+ },
+ "cacheSchemaVersion": 7,
+ "cacheEntries": 490,
+ "parityPassed": 37,
+ "parityFailed": [],
+ "timingsS": {
+  "category_B_all_s": 23.5,
+  "category_B_warm_s": 19.5,
+  "category_B_shoulder_s": 3.9,
+  "category_B_cold_ins_s": 0.1,
+  "ThermalWarmupLag_all_s": 7.5,
+  "ThermalFuelPenalty_all_s": 214.1,
+  "HighSocRegen_all_s": 23.0,
+  "BufferDebtRecovery_all_s": 51.1,
+  "HandoffSequence_all_s": 14.3,
+  "EngineStartContext_all_s": 18.7,
+  "CellSpreadRelaxation_all_s": 7.7,
+  "DepartureArrival_all_s": 13.2,
+  "RpmSpeedSync_all_s": 8.5,
+  "EnergyShifting_all_s": 8.1,
+  "VgtAirPath_all_s": 66.2,
+  "EngineStateMachine_all_s": 10.1,
+  "AccelDecelEnvelopes_all_s": 10.2,
+  "CrawlStopGo_all_s": 109.6,
+  "ThermalWarmupLag_warm_s": 6.2,
+  "ThermalFuelPenalty_warm_s": 177.4,
+  "HighSocRegen_warm_s": 23.3,
+  "BufferDebtRecovery_warm_s": 47.4,
+  "HandoffSequence_warm_s": 12.6,
+  "EngineStartContext_warm_s": 15.9,
+  "CellSpreadRelaxation_warm_s": 6.4,
+  "DepartureArrival_warm_s": 11.6,
+  "RpmSpeedSync_warm_s": 6.9,
+  "EnergyShifting_warm_s": 6.8,
+  "VgtAirPath_warm_s": 52.1,
+  "EngineStateMachine_warm_s": 8.6,
+  "AccelDecelEnvelopes_warm_s": 8.3,
+  "CrawlStopGo_warm_s": 90.9,
+  "ThermalWarmupLag_shoulder_s": 2.2,
+  "ThermalFuelPenalty_shoulder_s": 82.0,
+  "HighSocRegen_shoulder_s": 5.2,
+  "BufferDebtRecovery_shoulder_s": 4.9,
+  "HandoffSequence_shoulder_s": 2.8,
+  "EngineStartContext_shoulder_s": 2.2,
+  "CellSpreadRelaxation_shoulder_s": 1.4,
+  "DepartureArrival_shoulder_s": 2.2,
+  "RpmSpeedSync_shoulder_s": 1.5,
+  "EnergyShifting_shoulder_s": 1.4,
+  "VgtAirPath_shoulder_s": 14.2,
+  "EngineStateMachine_shoulder_s": 2.3,
+  "AccelDecelEnvelopes_shoulder_s": 1.9,
+  "CrawlStopGo_shoulder_s": 19.4,
+  "ThermalWarmupLag_cold_ins_s": 0.0,
+  "ThermalFuelPenalty_cold_ins_s": 0.2,
+  "HighSocRegen_cold_ins_s": 0.0,
+  "BufferDebtRecovery_cold_ins_s": 0.0,
+  "HandoffSequence_cold_ins_s": 0.0,
+  "EngineStartContext_cold_ins_s": 0.0,
+  "CellSpreadRelaxation_cold_ins_s": 0.0,
+  "DepartureArrival_cold_ins_s": 0.0,
+  "RpmSpeedSync_cold_ins_s": 0.0,
+  "EnergyShifting_cold_ins_s": 0.0,
+  "VgtAirPath_cold_ins_s": 0.0,
+  "EngineStateMachine_cold_ins_s": 0.0,
+  "AccelDecelEnvelopes_cold_ins_s": 0.0,
+  "CrawlStopGo_cold_ins_s": 0.3
+ },
+ "conservation": {
+  "nConservedLeaves": 135,
+  "nonConserving": {
+   "CrawlStopGo": {
+    "nLeaves": 2,
+    "examples": [
+     {
+      "path": "/restartProbability/byPrecedingEngineState[0]/n",
+      "all": 186,
+      "parts[warm,shoulder,coldBelowSupport]": [
+       123,
+       60,
+       0
+      ]
+     },
+     {
+      "path": "/restartProbability/byPrecedingEngineState[1]/n",
+      "all": 2032,
+      "parts[warm,shoulder,coldBelowSupport]": [
+       1665,
+       361,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  "rule": "warm + shoulder + the 2 below-support cold drives == all (count leaves; floats compared at their rounding)"
+ },
+ "cohortRelativeCutpoints": {
+  "CrawlStopGo": [
+   "terc = np.percentile(vpeaks, [33.3, 66.7])",
+   "v_terc = np.percentile([c['vPeak'] for c in cyc_valid], [33.3, 66.7])",
+   "d_terc = np.percentile(decel_vals, [33.3, 66.7])",
+   "terc = np.percentile(vals, [33.3, 66.7])"
+  ]
+ },
+ "chartsRefreshedRaw": [
+  "AccelDecelEnvelopes",
+  "BatteryThermalCurve",
+  "BatteryThermalMeta",
+  "BufferDebtRecovery",
+  "CellSpreadRelaxation",
+  "CrawlStopGo",
+  "CycleBySpeed",
+  "CycleBySpeedMeta",
+  "DepartureArrival",
+  "EnergyShifting",
+  "EngineOnBySpeed",
+  "EngineOnDuration",
+  "EngineStartContext",
+  "EngineStartsByType",
+  "EngineStateMachine",
+  "HandoffSequence",
+  "HighSocRegen",
+  "HvcEngine80C",
+  "RegenByTempMeasured",
+  "RegenByZone",
+  "RegenCaptureMeasured",
+  "RegenCaptureMeasuredMassUncertainty",
+  "RpmDistribution",
+  "RpmSpeedSync",
+  "SensorSummary",
+  "SocBands",
+  "SocBySpeed",
+  "SpeedDist",
+  "TerrainCoverage",
+  "TerrainTorqueDist",
+  "TerrainTorqueDistLow",
+  "ThermalFuelPenalty",
+  "ThermalWarmupLag",
+  "TorqueBySpeed",
+  "TurboByRpm",
+  "VgtAirPath",
+  "WarmupCurve"
+ ],
+ "masterClassBasis": {
+  "DriveTypeChart": {
+   "basisBefore": 446,
+   "basisAfter": 489
+  },
+  "DriveDurationDist": {
+   "basisBefore": 446,
+   "basisAfter": 489
+  },
+  "SocLevelSensitivityChart": {
+   "basisBefore": 446,
+   "basisAfter": 489
+  },
+  "RegenByType": {
+   "basisBefore": 446,
+   "basisAfter": 489
+  },
+  "CycleByType": {
+   "basisBefore": 446,
+   "basisAfter": 489
+  },
+  "RegenByTypeMeta": {
+   "basisBefore": 446,
+   "basisAfter": 489
+  },
+  "EfficiencyBands": {
+   "basisBefore": 446,
+   "basisAfter": 489
+  },
+  "EnergyPath": {
+   "basisBefore": 446,
+   "basisAfter": 489
+  },
+  "EvTraction": {
+   "basisBefore": 446,
+   "basisAfter": 489
+  }
+ },
+ "headlineBeforeAfter": {
+  "SpeedDist.overall (% time per zone)": {
+   "all": {
+    "before": [
+     15.5,
+     21.9,
+     24.8,
+     22.5,
+     14.6,
+     0.6
+    ],
+    "after": [
+     16.1,
+     23.0,
+     25.0,
+     21.5,
+     13.8,
+     0.6
+    ]
+   },
+   "warm": {
+    "before": [
+     14.8,
+     20.6,
+     24.4,
+     23.8,
+     15.7,
+     0.7
+    ],
+    "after": [
+     15.2,
+     21.1,
+     24.5,
+     23.2,
+     15.3,
+     0.7
+    ]
+   },
+   "shoulder": {
+    "before": [
+     23.6,
+     36.2,
+     30.1,
+     8.5,
+     1.5,
+     0.1
+    ],
+    "after": [
+     23.7,
+     38.0,
+     29.5,
+     7.7,
+     1.1,
+     0.0
+    ]
+   }
+  },
+  "RpmDistribution.pooledPct": {
+   "all": {
+    "before": [
+     55.4,
+     2.4,
+     0.1,
+     2.7,
+     0.2,
+     1.7,
+     1.8,
+     26.1,
+     0.9,
+     2.4,
+     3.0,
+     2.3,
+     0.9
+    ],
+    "after": [
+     56.5,
+     2.3,
+     0.1,
+     3.0,
+     0.2,
+     1.8,
+     1.8,
+     25.3,
+     0.9,
+     2.3,
+     2.8,
+     2.1,
+     0.9
+    ]
+   },
+   "warm": {
+    "before": [
+     54.2,
+     2.4,
+     0.1,
+     2.4,
+     0.1,
+     1.6,
+     1.8,
+     27.1,
+     1.0,
+     2.6,
+     3.2,
+     2.5,
+     1.0
+    ],
+    "after": [
+     54.9,
+     2.4,
+     0.1,
+     2.5,
+     0.1,
+     1.6,
+     1.8,
+     26.6,
+     0.9,
+     2.5,
+     3.1,
+     2.4,
+     1.0
+    ]
+   },
+   "shoulder": {
+    "before": [
+     69.0,
+     1.9,
+     0.1,
+     5.8,
+     0.3,
+     2.6,
+     1.9,
+     16.3,
+     0.3,
+     0.7,
+     0.6,
+     0.3,
+     0.1
+    ],
+    "after": [
+     69.3,
+     1.6,
+     0.1,
+     7.0,
+     0.3,
+     2.8,
+     1.7,
+     15.5,
+     0.2,
+     0.5,
+     0.5,
+     0.2,
+     0.1
+    ]
+   }
+  },
+  "EngineStartsByType.avg (/100 km: urban, mixed, mixed_highway, highway)": {
+   "all": {
+    "before": [
+     108,
+     69,
+     77,
+     47
+    ],
+    "after": [
+     105,
+     71,
+     77,
+     47
+    ]
+   },
+   "warm": {
+    "before": [
+     111,
+     69,
+     77,
+     47
+    ],
+    "after": [
+     109,
+     69,
+     77,
+     47
+    ]
+   },
+   "shoulder": {
+    "before": [
+     92
+    ],
+    "after": [
+     93,
+     104
+    ]
+   }
+  },
+  "WarmupCurve urban @1.0 km (med, p25, p75, n)": {
+   "all": {
+    "before": [
+     59.7,
+     43.0,
+     67.0,
+     155
+    ],
+    "after": [
+     57.0,
+     42.5,
+     66.0,
+     195
+    ]
+   },
+   "warm": {
+    "before": [
+     61.0,
+     46.0,
+     68.0,
+     125
+    ],
+    "after": [
+     60.9,
+     46.4,
+     68.0,
+     142
+    ]
+   },
+   "shoulder": {
+    "before": [
+     45.0,
+     35.5,
+     57.5,
+     30
+    ],
+    "after": [
+     48.5,
+     35.0,
+     58.2,
+     52
+    ]
+   }
+  },
+  "BufferDebtRecovery (nDrivesCovered, nEvents, half-time median s)": {
+   "all": {
+    "before": [
+     300,
+     2485,
+     8.0
+    ],
+    "after": [
+     335,
+     2549,
+     8.0
+    ]
+   },
+   "warm": {
+    "before": [
+     262,
+     2326,
+     8.0
+    ],
+    "after": [
+     277,
+     2370,
+     8.0
+    ]
+   },
+   "shoulder": {
+    "before": [
+     38,
+     159,
+     7.0
+    ],
+    "after": [
+     58,
+     179,
+     7.0
+    ]
+   }
+  },
+  "CrawlStopGo (keys present)": {
+   "all": {
+    "before": [
+     "byDriveType",
+     "conditionalMagnitude",
+     "coveredKm",
+     "cyclesPerDrive",
+     "methodology",
+     "movingSegmentComparison"
+    ],
+    "after": [
+     "byDriveType",
+     "conditionalMagnitude",
+     "coveredKm",
+     "cyclesPerDrive",
+     "methodology",
+     "movingSegmentComparison"
+    ]
+   },
+   "warm": {
+    "before": [
+     "byDriveType",
+     "conditionalMagnitude",
+     "coveredKm",
+     "cyclesPerDrive",
+     "methodology",
+     "movingSegmentComparison"
+    ],
+    "after": [
+     "byDriveType",
+     "conditionalMagnitude",
+     "coveredKm",
+     "cyclesPerDrive",
+     "methodology",
+     "movingSegmentComparison"
+    ]
+   },
+   "shoulder": {
+    "before": [
+     "byDriveType",
+     "conditionalMagnitude",
+     "coveredKm",
+     "cyclesPerDrive",
+     "methodology",
+     "movingSegmentComparison"
+    ],
+    "after": [
+     "byDriveType",
+     "conditionalMagnitude",
+     "coveredKm",
+     "cyclesPerDrive",
+     "methodology",
+     "movingSegmentComparison"
+    ]
+   }
+  }
+ },
+ "coverageBeforeAfter": {
+  "SpeedDist": {
+   "all": {
+    "before": {
+     "n_drives": 410,
+     "km": 8437.74
+    },
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": {
+     "n_drives": 346,
+     "km": 8033.3
+    },
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": {
+     "n_drives": 64,
+     "km": 404.44
+    },
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "RpmDistribution": {
+   "all": {
+    "before": {
+     "n_drives": 410,
+     "km": 8437.74
+    },
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": {
+     "n_drives": 346,
+     "km": 8033.3
+    },
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": {
+     "n_drives": 64,
+     "km": 404.44
+    },
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "TorqueBySpeed": {
+   "all": {
+    "before": {
+     "n_drives": 410,
+     "km": 8437.74
+    },
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": {
+     "n_drives": 346,
+     "km": 8033.3
+    },
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": {
+     "n_drives": 64,
+     "km": 404.44
+    },
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "SocBySpeed": {
+   "all": {
+    "before": {
+     "n_drives": 410,
+     "km": 8437.74
+    },
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": {
+     "n_drives": 346,
+     "km": 8033.3
+    },
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": {
+     "n_drives": 64,
+     "km": 404.44
+    },
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "CycleBySpeed": {
+   "all": {
+    "before": {
+     "n_drives": 410,
+     "km": 8437.74
+    },
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": {
+     "n_drives": 346,
+     "km": 8033.3
+    },
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": {
+     "n_drives": 64,
+     "km": 404.44
+    },
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "EngineOnBySpeed": {
+   "all": {
+    "before": {
+     "n_drives": 410,
+     "km": 8437.74
+    },
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": {
+     "n_drives": 346,
+     "km": 8033.3
+    },
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": {
+     "n_drives": 64,
+     "km": 404.44
+    },
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "EngineStartsByType": {
+   "all": {
+    "before": {
+     "n_drives": 410,
+     "km": 8437.74
+    },
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": {
+     "n_drives": 346,
+     "km": 8033.3
+    },
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": {
+     "n_drives": 64,
+     "km": 404.44
+    },
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "EngineOnDuration": {
+   "all": {
+    "before": {
+     "n_drives": 410,
+     "km": 8437.74
+    },
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": {
+     "n_drives": 346,
+     "km": 8033.3
+    },
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": {
+     "n_drives": 64,
+     "km": 404.44
+    },
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "RegenByZone": {
+   "all": {
+    "before": {
+     "n_drives": 410,
+     "km": 8437.74
+    },
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": {
+     "n_drives": 346,
+     "km": 8033.3
+    },
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": {
+     "n_drives": 64,
+     "km": 404.44
+    },
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "RegenByTempMeasured": {
+   "all": {
+    "before": {
+     "n_drives": 410,
+     "km": 8437.74
+    },
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": {
+     "n_drives": 346,
+     "km": 8033.3
+    },
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": {
+     "n_drives": 64,
+     "km": 404.44
+    },
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "RegenCaptureMeasured": {
+   "all": {
+    "before": {
+     "n_drives": 410,
+     "km": 8437.74
+    },
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": {
+     "n_drives": 346,
+     "km": 8033.3
+    },
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": {
+     "n_drives": 64,
+     "km": 404.44
+    },
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "TurboByRpm": {
+   "all": {
+    "before": {
+     "n_drives": 410,
+     "km": 8437.74
+    },
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": {
+     "n_drives": 346,
+     "km": 8033.3
+    },
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": {
+     "n_drives": 64,
+     "km": 404.44
+    },
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "TerrainTorqueDist": {
+   "all": {
+    "before": {
+     "n_drives": 410,
+     "km": 8437.74
+    },
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": {
+     "n_drives": 346,
+     "km": 8033.3
+    },
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": {
+     "n_drives": 64,
+     "km": 404.44
+    },
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "BatteryThermalCurve": {
+   "all": {
+    "before": {
+     "n_drives": 410,
+     "km": 8437.74
+    },
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": {
+     "n_drives": 346,
+     "km": 8033.3
+    },
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": {
+     "n_drives": 64,
+     "km": 404.44
+    },
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "SocBands": {
+   "all": {
+    "before": {
+     "n_drives": 410,
+     "km": 8437.74
+    },
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": {
+     "n_drives": 346,
+     "km": 8033.3
+    },
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": {
+     "n_drives": 64,
+     "km": 404.44
+    },
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "WarmupCurve": {
+   "all": {
+    "before": {
+     "n_drives": 410,
+     "km": 8437.74
+    },
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": {
+     "n_drives": 346,
+     "km": 8033.3
+    },
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": {
+     "n_drives": 64,
+     "km": 404.44
+    },
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "TerrainTorqueDistLow": {
+   "all": {
+    "before": null,
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": null,
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": null,
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "BatteryThermalMeta": {
+   "all": {
+    "before": null,
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": null,
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": null,
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "SensorSummary": {
+   "all": {
+    "before": null,
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": null,
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": null,
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "HvcEngine80C": {
+   "all": {
+    "before": null,
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": null,
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": null,
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "CycleBySpeedMeta": {
+   "all": {
+    "before": null,
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": null,
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": null,
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "RegenCaptureMeasuredMassUncertainty": {
+   "all": {
+    "before": null,
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": null,
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": null,
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "TerrainCoverage": {
+   "all": {
+    "before": null,
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": null,
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": null,
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "ThermalWarmupLag": {
+   "all": {
+    "before": null,
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": null,
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": null,
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "ThermalFuelPenalty": {
+   "all": {
+    "before": null,
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": null,
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": null,
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "HighSocRegen": {
+   "all": {
+    "before": null,
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": null,
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": null,
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "BufferDebtRecovery": {
+   "all": {
+    "before": null,
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": null,
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": null,
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "HandoffSequence": {
+   "all": {
+    "before": null,
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": null,
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": null,
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "EngineStartContext": {
+   "all": {
+    "before": null,
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": null,
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": null,
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "CellSpreadRelaxation": {
+   "all": {
+    "before": null,
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": null,
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": null,
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "DepartureArrival": {
+   "all": {
+    "before": null,
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": null,
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": null,
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "RpmSpeedSync": {
+   "all": {
+    "before": null,
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": null,
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": null,
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "EnergyShifting": {
+   "all": {
+    "before": null,
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": null,
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": null,
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "VgtAirPath": {
+   "all": {
+    "before": null,
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": null,
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": null,
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "EngineStateMachine": {
+   "all": {
+    "before": null,
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": null,
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": null,
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "AccelDecelEnvelopes": {
+   "all": {
+    "before": null,
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": null,
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": null,
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  },
+  "CrawlStopGo": {
+   "all": {
+    "before": null,
+    "after": {
+     "n_drives": 489,
+     "km": 8740.24
+    }
+   },
+   "warm": {
+    "before": null,
+    "after": {
+     "n_drives": 387,
+     "km": 8181.4
+    }
+   },
+   "shoulder": {
+    "before": null,
+    "after": {
+     "n_drives": 100,
+     "km": 556.34
+    }
+   }
+  }
+ },
+ "filesLoaded": {
+  "all": {
+   "subset": 489,
+   "framesLoaded": 489,
+   "none": 0
+  },
+  "warm": {
+   "subset": 387,
+   "framesLoaded": 387,
+   "none": 0
+  },
+  "shoulder": {
+   "subset": 100,
+   "framesLoaded": 100,
+   "none": 0
+  },
+  "cold_ins": {
+   "subset": 2,
+   "framesLoaded": 2,
+   "none": 0
+  }
+ },
+ "builderLoads": {
+  "all": {
+   "framesLoaded": 8802,
+   "none": 0,
+   "errors": 0,
+   "rawFilesLoaded": 1467,
+   "note": "cumulative over all builder calls of this cohort (each builder loads the files it needs)"
+  },
+  "warm": {
+   "framesLoaded": 6966,
+   "none": 0,
+   "errors": 0,
+   "rawFilesLoaded": 1161,
+   "note": "cumulative over all builder calls of this cohort (each builder loads the files it needs)"
+  },
+  "shoulder": {
+   "framesLoaded": 1800,
+   "none": 0,
+   "errors": 0,
+   "rawFilesLoaded": 300,
+   "note": "cumulative over all builder calls of this cohort (each builder loads the files it needs)"
+  },
+  "cold_ins": {
+   "framesLoaded": 34,
+   "none": 0,
+   "errors": 0,
+   "rawFilesLoaded": 4,
+   "note": "cumulative over all builder calls of this cohort (each builder loads the files it needs)"
+  }
+ },
+ "totalSecondsUncached": 1228.1,
+ "cacheIndex": {
+  "frameEntries": 489,
+  "nonFrameEntries": [
+   "manifest.json"
+  ],
+  "framesEqualMasterFiles": true,
+  "explanation": "entries = one frame per master drive plus manifest.json"
+ },
+ "crawlStopGoNonConservationCause": "restartProbability.byPrecedingEngineState n: all minus (warm + shoulder) = the cycles of the 2 below-support cold drives (one calendar day), which the builder's dayboot_prop returns as n = 0 (it needs >= 3 distinct days); not event pairing across drives",
+ "blindAuditReported": {
+  "verdict": "partial",
+  "toleranceFromAuditorAllCalibration": "speed zones <= 0.2 pt (All), 0.3 (Warm), 0.5 (Shoulder); rpm off-bin within 0.01-0.02 h, transition bins 1-18% (auditor resampling differs); warm-up median exact (n off by one, cold-start gate inferred); engine starts per 100 km Shoulder exact",
+  "open": "speed-channel rule: the auditor's best fit is the OBD channel only, the stated priority rule (VCM if >= 20 native samples) fits worse; unresolved, same estimator as released",
+  "source": "audit report this session (not script-written)"
+ },
+ "allowListNote": "deep-diff vs git HEAD: only seasonalCharts changed (46 charts: 37 raw-class by M341, 9 master-class re-run at 489 by m296_refresh_master_seasonal.py); 0 leaves outside seasonalCharts",
+ "limits": "raw/ basis via raw_only (F03 provenance-sensitive); shoulder is a late-season batch (mostly September, 98% urban): season-associated, not a temperature effect; cohort numbers carry no CI unless the builder emits one"
+}
