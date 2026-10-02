@@ -121,6 +121,10 @@ RULES = [
     Rule("W1-roundtrip", "regex", "p17.11: the FCE/EFC gap is a charge-discharge imbalance, not a 'round-trip loss' gap/asymmetry", rx=r"\bround trip loss (?:gap|asymmetry)\b|\basymmetry round trip loss\b"),
     Rule("W1-enrichment", "regex", "p18.2: the HIGH regime note is 'assumed high-load (boost proxy)'; enrichment is untested", rx=r"^enrichment$", scope=("payload",)),
     Rule("W1-independentcorrob", "regex", "p19.13/F10.3: Path A and Path B share priors; not an independent corroboration of M265", rx=r"\bindependent corroboration of m265\b", scope=("payload",)),
+    # M333: GTR accounting gate
+    Rule("W7-conserved", "regex", "M333/D-5/F04: the generator branches do not close; the revealed sketch is an allocation sketch, not a 'conserved cascade/split' or a 'separate Sankey' per cohort",
+         rx=r"\bconserved cascade\b|\btraction supply split conserved\b|\beach cohort is a separate sankey\b"),
+    Rule("W7-sensitivityindex", "regex", "M333/W1a: f_gen is an allocation index, not a 'sensitivity index'", rx=r"\bf gen is a sensitivity index\b"),
     Rule("M325-410", "phrase", "F01.r3/D-1: 410/410 byte-identical is contradicted (333/489 fail)", phrase="410/410"),
     Rule("M325-reserialize", "regex", "F01.r3/Cs-76: transfer re-serialization is not the established cause", rx=r"\bre ?serializ\w*"),
     Rule("M325-originals", "regex", "E-N1: originals were recovered (M323)", rx=r"\boriginals (?:are )?unavailable\b"),

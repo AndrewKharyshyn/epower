@@ -16,7 +16,7 @@ package.json package-lock.json drive_master.csv soc_patterns.json seasonal_core.
 cohort_arrays.py cohort_arrays.json seasonal_drive_master.csv seasonal_dependency.json raw_temperature_triplets.csv
 project_paths.py derived_literals.py build_assumptions_registry.py model_constants.py patch_m284_data.py
 test_assumptions_registry.py refresh_seasonal_kpis.py records_resistance.py records_rainflow.py cohort_distributions.py
-test_track4.py apply_m284_post.sh dump_tabs.js semantic_gate.py test_cohort_rates.py records_disclosure.py release_check.py
+test_track4.py apply_m284_post.sh dump_tabs.js test_gtr_gate.js semantic_gate.py test_cohort_rates.py records_disclosure.py release_check.py
 compute_summary_arrays.py compute_drive_summary_v6.py m119v2_model.py energy_mc_precompute.py energy_uncertainty_mc.py
 determinism_check.py ml16_determinism_check.py drive_raw_cache.py degradation_trends.py ingest_e4orce.py crosscheck_vehicles.py
 crosscheck_events.py corpus_manifest.py raw_manifest.json CHANGELOG.md requirements.txt f03_provenance_flag.py f03_provenance.json language_gate.py""".split()

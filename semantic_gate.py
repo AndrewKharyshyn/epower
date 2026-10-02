@@ -114,6 +114,9 @@ ok("A2 REQUIRED SoC-pattern section states the extractor is absent / panels illu
 ok("A2 REQUIRED f_gen stated as a model-derived allocation index", any("f_gen is a model-derived allocation index" in t for t in T.values()))
 ok("A2 REQUIRED section titles 'Net pack-energy recovery' and 'Observed engine-start contexts'",
    any("Net pack-energy recovery" in t for t in T.values()) and any("Observed engine-start contexts" in t for t in T.values()))
+# M333: the GTR closure residual is visible in every mode (F14.10), without any reveal
+for _m in ("all", "warm", "shoulder", "compare"):
+    ok(f"A2 REQUIRED GTR closure residual present in the Charts {_m} dump", "Allocation excess over generator output" in T.get(f"charts__{_m}", ""))
 ok("A2 REQUIRED selector label reads 'Thermal cohort'", any("Thermal cohort" in t for t in T.values()))
 ok("A2 REQUIRED HVAC caveat states sub-15 C ambient is limited", any("Ambient below 15 °C is limited" in t for t in T.values()))
 

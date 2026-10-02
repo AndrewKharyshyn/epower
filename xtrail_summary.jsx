@@ -4327,7 +4327,8 @@ function RTPctBar({ data, valueKey, color }) {
       shared scale, so fuel visibly dwarfs delivered traction. Every figure binds
       to F.* (S.generatorTractionRecon.flows) — nothing hand-typed. ── */
 function RTFlowSchematic({ F, corpus, scale }) {
-  if (!F || !corpus) return null;
+  const revealed = React.useContext(GtrRevealCtx);      // M333: never renders outside an explicit reveal
+  if (!F || !corpus || !revealed) return null;
   const CFUEL="#64748b", CCOMB="#c2410c", CELEC="#7c3aed", CBATT="#0f766e",
         CREGEN="#22c55e", CLOSS="#cbd5e1";
   const s = (scale!=null && isFinite(scale)) ? scale : 130 / F.fuelChem;   // M277: shared px-per-(kWh/100km) scale for compare small-multiples; default = self-scale
@@ -4366,9 +4367,9 @@ function RTFlowSchematic({ F, corpus, scale }) {
   const viewBoxH=legY+20;
 
   return (
-    <svg width="100%" viewBox={`0 0 ${VBW} ${viewBoxH}`} style={{overflow:"visible"}}>
-      {/* ============ TIER 1 — generation cascade (conserved) ============ */}
-      {L(30,18,"1 · Fuel \u2192 HV bus  (conserved cascade)","#0f172a","start",800,9.5)}
+    <svg data-gtr-sankey="1" width="100%" viewBox={`0 0 ${VBW} ${viewBoxH}`} style={{overflow:"visible"}}>
+      {/* ============ TIER 1 — generation cascade (allocation sketch, not conserved) ============ */}
+      {L(30,18,"1 · Fuel \u2192 HV bus  (allocation sketch, not conserved)","#0f172a","start",800,9.5)}
       {/* Fuel -> Engine brake (top slice) and Fuel -> heat loss (bottom slice) */}
       <Ribbon x1={xF+nb} y1={T} x2={xE} y2={T} t={hBrake} fill={CCOMB} op={0.30}/>
       <Ribbon x1={xF+nb} y1={T+hBrake} x2={xE+nb} y2={T+hBrake+18} t={hEloss} fill={CLOSS} op={0.7}/>
@@ -4392,8 +4393,8 @@ function RTFlowSchematic({ F, corpus, scale }) {
       {/* divider */}
       <line x1={20} y1={228} x2={VBW-20} y2={228} stroke="#e2e8f0" strokeWidth={1} strokeDasharray="3 3"/>
 
-      {/* ============ TIER 2 — traction supply split (conserved) ============ */}
-      {L(30,242,"2 · Traction supply split  (conserved)","#0f172a","start",800,9.5)}
+      {/* ============ TIER 2 — traction supply split (closes by construction) ============ */}
+      {L(30,242,"2 · Traction supply split  (split closes by construction; battery arm is a modelled residual)","#0f172a","start",800,9.5)}
       {/* feeds -> traction */}
       <Ribbon x1={xSrc+80} y1={yCo} x2={xTr} y2={yTr} t={hCo} fill={CELEC} op={0.32}/>
       <Ribbon x1={xSrc+80} y1={yBt} x2={xTr} y2={yTr+hCo} t={hBt} fill={CBATT} op={0.32}/>
@@ -4407,8 +4408,8 @@ function RTFlowSchematic({ F, corpus, scale }) {
       {/* labels */}
       {L(xSrc+80-13,yCo-10,`Generator-coincident  ${F.genToTraction}`,"#6d28d9","start",800)}
       {L(xSrc+80-13,subLabelY,`f_gen = ${(corpus.fGen*100).toFixed(0)}% of traction`,"#6d28d9")}
-      {L(xSrc,yBt-10,`Battery buffer \u2192 ${F.battToTraction}`,"#0f766e","start",800)}
-      {L(xSrc,subLabel2Y,`in ${(F.genToBatt+F.regenToBatt).toFixed(1)} (gen ${F.genToBatt} + regen ${F.regenToBatt}) \u00b7 net ${(F.genToBatt+F.regenToBatt-F.battToTraction>=0?"+":"")}${(F.genToBatt+F.regenToBatt-F.battToTraction).toFixed(1)}`,"#64748b")}
+      {L(xSrc,yBt-10,`Battery arm \u2192 ${F.battToTraction}`,"#0f766e","start",800)}
+      {L(xSrc,subLabel2Y,`in ${(F.genToBatt+F.regenToBatt).toFixed(1)} (gen ${F.genToBatt} + regen ${F.regenToBatt}) \u00b7 unclosed remainder ${(gtrAccounting(F).battResidRaw>=0?"+":"")}${gtrAccounting(F).battResidRaw.toFixed(1)}`,"#64748b")}
       {L(xTr+nb+2,yTr+hTr/2-3,"Traction","#6d28d9","start",800)}
       {L(xTr+nb+2,yTr+hTr/2+7,`gross ${F.tractionGross}`,"#6d28d9")}
 
@@ -4416,7 +4417,7 @@ function RTFlowSchematic({ F, corpus, scale }) {
       <g>
         <rect x={30} y={legY} width={9} height={9} rx={2} fill={CCOMB}/><text x={42} y={legY+8} fontSize={7.5} fill="#64748b">combustion</text>
         <rect x={110} y={legY} width={9} height={9} rx={2} fill={CELEC}/><text x={122} y={legY+8} fontSize={7.5} fill="#64748b">electrical</text>
-        <rect x={182} y={legY} width={9} height={9} rx={2} fill={CBATT}/><text x={194} y={legY+8} fontSize={7.5} fill="#64748b">battery buffer</text>
+        <rect x={182} y={legY} width={9} height={9} rx={2} fill={CBATT}/><text x={194} y={legY+8} fontSize={7.5} fill="#64748b">battery arm</text>
         <rect x={272} y={legY} width={9} height={9} rx={2} fill={CREGEN}/><text x={284} y={legY+8} fontSize={7.5} fill="#64748b">regen</text>
         <rect x={330} y={legY} width={9} height={9} rx={2} fill={CLOSS}/><text x={342} y={legY+8} fontSize={7.5} fill="#64748b">loss</text>
       </g>
@@ -4471,27 +4472,59 @@ function HealthStatusCard(){
     <div style={{fontSize:9,color:"#94a3b8",marginTop:4}}>Single corpus, {M294.dateRange} ({M294.regimesObserved} analysed; Cold: {M294.coldNote}). A CI spanning zero is neither proof of degradation nor proof of stability. Reference lines (20 °C, 44 °C) are generic Li-ion guidance, not validated Nissan limits.</div>
   </div>;
 }
-function GtrFlowGate({F,children}){
-  const [show,setShow]=useState(false);
-  if(!F) return null;
+// M333 (audit F20/F04.r1/F11.3/p18.15): ONE accounting helper and ONE table used in every mode (All, cohort, Compare); RTFlowSchematic renders only inside
+// GtrRevealCtx (= an explicit reveal), so no code path can show a Sankey by default. Owner decision 2026-10-02: the Sankey stays hidden until M329.
+const GTR_CLOSE_TOL=0.05;          // kWh/100 km (unchanged since M298)
+const GtrRevealCtx=React.createContext(false);
+function gtrAccounting(F){
   const r2=v=>Math.round(v*100)/100;
   const genOut=r2((F.genToTraction||0)+(F.genToBatt||0)), genExcess=r2(genOut-(F.generatorElec||0));
   const battIn=r2((F.genToBatt||0)+(F.regenToBatt||0)), battResid=r2(battIn-(F.battToTraction||0));
-  const balanced=Math.abs(genExcess)<0.05&&Math.abs(battResid)<0.05;
-  const row=(k,v,st)=><tr key={k}><td style={{padding:"3px 6px"}}>{k}</td><td style={{padding:"3px 6px",textAlign:"right",fontWeight:700}}>{v}</td><td style={{padding:"3px 6px",fontSize:9,color:st==="measured"?"#15803d":st==="residual"?"#dc2626":"#b45309"}}>{st}</td></tr>;
-  return <div data-gtr-flow-gate="1">
-    <table style={{fontSize:10,borderCollapse:"collapse",marginBottom:6}}><tbody>
-      {row("Modelled generator electricity",F.generatorElec,"modelled (fuel subset, BSFC/η assumptions)")}
-      {row("Generator → traction + generator → battery",`${F.genToTraction} + ${F.genToBatt} = ${genOut}`,"modelled allocation")}
-      {row("Allocation excess over generator output",(genExcess>0?"+":"")+genExcess,"residual")}
-      {row("Battery inflow (generator + engine-off braking) vs battery → traction",`${battIn} vs ${F.battToTraction}`,"modelled")}
-      {row("Unreconciled battery remainder (SoC change / losses / aux not closed)",(battResid>0?"+":"")+battResid,"residual")}
-    </tbody></table>
+  const battResidRaw=(F.genToBatt||0)+(F.regenToBatt||0)-(F.battToTraction||0);
+  return {genOut,genExcess,battIn,battResid,battResidRaw,balanced:Math.abs(genExcess)<GTR_CLOSE_TOL&&Math.abs(battResid)<GTR_CLOSE_TOL};
+}
+function GtrAccountingTable({cols}){
+  const sg=v=>(v>0?"+":"")+v;
+  const acc=cols.filter(c=>c&&c.F).map(c=>({c,a:gtrAccounting(c.F)}));
+  if(!acc.length) return null;
+  const allClose=acc.every(x=>x.a.balanced);
+  const stc=st=>st==="logged"?"#15803d":st==="residual"?"#dc2626":"#b45309";
+  const rows=[
+    ["Fuel (logged volume × assumed E10 LHV)",x=>x.c.F.fuelChem,"logged"],
+    ["Engine brake (model-derived)",x=>x.c.F.engineBrake,"modelled"],
+    ["Engine heat loss (model-derived)",x=>x.c.F.engineLoss,"modelled"],
+    ["Modelled generator electricity",x=>x.c.F.generatorElec,"modelled (fuel subset, BSFC/η assumptions)"],
+    ["Generator / power-electronics loss (model-derived)",x=>x.c.F.genpeLoss,"modelled"],
+    ["η_eng index (implied by the assumed BSFC surface)",x=>x.c.corpus?.etaEng,"modelled"],
+    ["Net traction-bus/fuel index (model-derived)",x=>x.c.corpus?.etaBus,"modelled"],
+    ["Generator → traction + generator → battery",x=>`${x.c.F.genToTraction} + ${x.c.F.genToBatt} = ${x.a.genOut}`,"modelled allocation"],
+    ["Allocation excess over generator output",x=>sg(x.a.genExcess),"residual"],
+    ["Battery inflow (generator + engine-off braking) vs battery → traction",x=>`${x.a.battIn} vs ${x.c.F.battToTraction}`,"modelled"],
+    ["Unreconciled battery remainder (SoC change / losses / aux not closed)",x=>sg(x.a.battResid),"residual"],
+    ["Closure (tolerance "+GTR_CLOSE_TOL+" kWh/100 km)",x=>x.a.balanced?"closes":"does not close","residual"],
+  ];
+  return <div data-gtr-accounting="1" style={{overflowX:"auto"}}>
+    <table style={{fontSize:10,borderCollapse:"collapse",marginBottom:6}}>
+      <thead><tr><th style={{padding:"3px 6px",textAlign:"left",color:"#64748b",fontWeight:600}}>kWh/100 km (model accounting)</th>
+        {acc.map(x=><th key={x.c.key} style={{padding:"3px 6px",textAlign:"right",color:x.c.col||"#334155"}}>{x.c.label||"corpus"}{x.c.n!=null&&<span style={{color:"#94a3b8",fontWeight:400}}>{" "}· {x.c.n} drives{x.c.km!=null?` · ${x.c.km} km`:""}</span>}</th>)}
+        <th style={{padding:"3px 6px",textAlign:"left",color:"#64748b",fontWeight:600}}>status</th></tr></thead>
+      <tbody>{rows.map(([k,f,st])=><tr key={k} style={{borderTop:"1px solid #f1f5f9"}}>
+        <td style={{padding:"3px 6px"}}>{k}</td>
+        {acc.map(x=>{ const v=f(x); return <td key={x.c.key} style={{padding:"3px 6px",textAlign:"right",fontWeight:700,fontVariantNumeric:"tabular-nums"}}>{v!=null&&v!==""?v:"—"}</td>; })}
+        <td style={{padding:"3px 6px",fontSize:9,color:stc(st)}}>{st}</td></tr>)}</tbody>
+    </table>
     <div style={{fontSize:9.5,color:"#b45309",marginBottom:6}}>
-      {balanced?"Branches close within 0.05 kWh/100 km.":"The branches do not close, so the ribbon diagram below is an allocation sketch, not a conserved Sankey. The engine-on/braking overlap bin is not a physically separated generator branch; f_gen is a sensitivity index, not an identified share of motor electricity."}
+      {allClose?`Branches close within ${GTR_CLOSE_TOL} kWh/100 km.`:`The branches do not close (tolerance ${GTR_CLOSE_TOL} kWh/100 km), so any allocation sketch is not a conserved Sankey. The engine-on/braking overlap bin is not a physically separated generator branch; f_gen is an allocation index, not an identified share of motor electricity. Every flow here is model-derived from the fuel subset and reads raw-derived keys (see the F03 provenance notice).`}
     </div>
+  </div>;
+}
+function GtrFlowGate({F,corpus,children}){
+  const [show,setShow]=useState(false);
+  if(!F) return null;
+  return <div data-gtr-flow-gate="1">
+    <GtrAccountingTable cols={[{key:"corpus",label:"",F,corpus}]}/>
     <button onClick={()=>setShow(v=>!v)} style={{fontSize:10,padding:"3px 8px",border:"1px solid #e2e8f0",borderRadius:6,background:"#f8fafc",cursor:"pointer"}}>{show?"Hide":"Show"} allocation sketch (not a conserved flow)</button>
-    {show&&<div style={{marginTop:6,opacity:0.85}}>{children}</div>}
+    {show&&<GtrRevealCtx.Provider value={true}><div style={{marginTop:6,opacity:0.85}}>{children}</div></GtrRevealCtx.Provider>}
   </div>;
 }
 function GeneratorTractionRecon() {
@@ -4558,11 +4591,11 @@ function GeneratorTractionRecon() {
       </div>
 
       <Callout kind="method">
-        <strong>Energy flow (corpus, per 100 km).</strong> Fuel chemical <strong>{F.fuelChem}</strong> → engine brake <strong>{F.engineBrake}</strong> (heat loss {F.engineLoss}) → generator electrical <strong>{F.generatorElec}</strong> (gen/PE loss {F.genpeLoss}) → HV bus. Traction gross <strong>{F.tractionGross}</strong> splits into a generator-coincident part <strong>{F.genToTraction}</strong> and a battery-buffer part <strong>{F.battToTraction}</strong> — the one identity that closes exactly ({F.genToTraction} + {F.battToTraction} = {F.tractionGross}). The buffer is itself replenished by the generator ({F.genToBatt}) and by regen ({F.regenToBatt}), returning {F.battToTraction} to the motor, leaving an unclosed remainder of {(F.genToBatt+F.regenToBatt-F.battToTraction>=0?"+":"")}{(F.genToBatt+F.regenToBatt-F.battToTraction).toFixed(1)} kWh/100&nbsp;km (a prior-dependent model residual) — the battery arm is modelled as time-shifted generator energy plus recovered braking (not metered), rather than a second fuel source. Net traction/fuel index (model-derived) = {(F.etaTankToTraction*100).toFixed(0)}%.
+        <strong>Energy flow (corpus, per 100 km).</strong> Fuel chemical <strong>{F.fuelChem}</strong> → engine brake <strong>{F.engineBrake}</strong> (heat loss {F.engineLoss}) → generator electrical <strong>{F.generatorElec}</strong> (gen/PE loss {F.genpeLoss}) → HV bus. Traction gross <strong>{F.tractionGross}</strong> splits into a generator-coincident part <strong>{F.genToTraction}</strong> and a battery-buffer part <strong>{F.battToTraction}</strong> — the one identity that closes exactly ({F.genToTraction} + {F.battToTraction} = {F.tractionGross}). The buffer is itself replenished by the generator ({F.genToBatt}) and by regen ({F.regenToBatt}), returning {F.battToTraction} to the motor, leaving an unclosed remainder of {(gtrAccounting(F).battResidRaw>=0?"+":"")}{gtrAccounting(F).battResidRaw.toFixed(1)} kWh/100&nbsp;km (a prior-dependent model residual) — the battery arm is modelled as time-shifted generator energy plus recovered braking (not metered), rather than a second fuel source. Net traction/fuel index (model-derived) = {(F.etaTankToTraction*100).toFixed(0)}%.
       </Callout>
 
       <div style={{fontSize:12,fontWeight:700,color:"#0f172a",margin:"10px 0 4px"}}>Model reconstruction — branch estimates (per 100 km), not a conserved physical flow</div>
-      <GtrFlowGate F={F}>
+      <GtrFlowGate F={F} corpus={C.corpus}>
         <RTFlowSchematic F={F} corpus={C.corpus}/>
       </GtrFlowGate>
 
@@ -9950,6 +9983,7 @@ function CmpViolinPanel(){
 }
 function CompareMulti({ids}){ return <React.Fragment>{ids.map(id=><CompareBlock key={id} id={id}/>)}</React.Fragment>; }
 function GtrSankeyMultiples(){
+  const [showSk,setShowSk]=useState(false);
   // M277 (audit Section 9): energy flows compared as SEPARATE Sankey small
   // multiples at identical node positions and a shared scale (not overlaid),
   // plus a difference table. Node positions in RTFlowSchematic are fixed
@@ -9965,8 +9999,11 @@ function GtrSankeyMultiples(){
   const byKey={}; cohorts.forEach(o=>byKey[o.s.key]=o.d.flows);
   const rows=[["fuelChem","Fuel (logged volume × assumed E10 LHV)","logged"],["generatorElec","Generator (elec)","reconstructed"],["genToTraction","Gen\u2192traction","reconstructed"],["battToTraction","Batt\u2192traction","reconstructed"],["tractionGross","Traction gross","reconstructed"],["etaTankToTraction","Net traction/fuel index","reconstructed"]];
   return <div style={{marginTop:10}}>
-    <div style={{fontSize:11,fontWeight:700,color:"#0f172a",marginBottom:3}}>Energy-flow small multiples (per 100&nbsp;km, shared scale)</div>
-    <div style={{fontSize:9,color:"#94a3b8",marginBottom:6}}>Flows are not overlaid: each cohort is a separate Sankey at identical node positions and scale, so ribbon thickness is comparable across panels. Fuel is logged volume × assumed E10 LHV (the logged fuel rate is app-calculated); every flow here is model-derived.</div>
+    <div style={{fontSize:11,fontWeight:700,color:"#0f172a",marginBottom:3}}>Model accounting per cohort (per 100&nbsp;km)</div>
+    <GtrAccountingTable cols={cohorts.map(o=>({key:o.s.key,label:o.s.label,col:o.s.col,F:o.d.flows,corpus:o.d.corpus,n:o.d.nDrives,km:o.d.kmProduction}))}/>
+    <button data-gtr-compare-reveal="1" onClick={()=>setShowSk(v=>!v)} style={{fontSize:10,padding:"3px 8px",border:"1px solid #e2e8f0",borderRadius:6,background:"#f8fafc",cursor:"pointer",marginBottom:6}}>{showSk?"Hide":"Show"} allocation sketches (not conserved flows)</button>
+    {showSk&&<GtrRevealCtx.Provider value={true}><div>
+    <div style={{fontSize:9,color:"#94a3b8",marginBottom:6}}>Allocation sketches, one per cohort, at identical node positions and scale (ribbon thickness is comparable across panels); model-derived and not conserved: the branches do not close. Fuel is logged volume × assumed E10 LHV (the logged fuel rate is app-calculated).</div>
     <div style={{display:"grid",gridTemplateColumns:cohorts.length>1?"repeat(auto-fit,minmax(280px,1fr))":"1fr",gap:12}}>
       {cohorts.map(o=><div key={o.s.key} style={{border:"1px solid #eef2f7",borderRadius:8,padding:6}}>
         <div style={{fontSize:10,fontWeight:700,color:o.s.col,marginBottom:2}}>
@@ -9975,7 +10012,7 @@ function GtrSankeyMultiples(){
         </div>
         <RTFlowSchematic F={o.d.flows} corpus={o.d.corpus} scale={scale}/>
       </div>)}
-    </div>
+    </div></div></GtrRevealCtx.Provider>}
     {(byKey.warm&&byKey.shoulder)&&<div style={{marginTop:8,overflowX:"auto"}}>
       <div style={{fontSize:10,fontWeight:700,color:"#334155",marginBottom:2}}>Difference table (Warm − Shoulder, kWh/100&nbsp;km)</div>
       <table style={{fontSize:10,borderCollapse:"collapse",minWidth:360}}>

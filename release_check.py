@@ -27,7 +27,7 @@ from pathlib import Path
 SRC = Path(os.environ.get("XT_WORK", Path(__file__).resolve().parent))
 SEARCH = [SRC, SRC / "claude", SRC / "seasonal", SRC / "track3", SRC / "track4"]
 REQUIRED = ["xtrail_summary.jsx", "summary_arrays.json", "summary_config.json", "build_html.js", "validate_jsdom.js",
-            "test_cold_fixture.js", "test_ambient_table.js", "package.json", "package-lock.json", "drive_master.csv", "soc_patterns.json",
+            "test_cold_fixture.js", "test_ambient_table.js", "test_gtr_gate.js", "package.json", "package-lock.json", "drive_master.csv", "soc_patterns.json",
             "seasonal_core.py", "seasonal_adjust.py", "test_seasonal_adjust.py", "cohort_arrays.py", "cohort_arrays.json",
             "seasonal_drive_master.csv", "seasonal_dependency.json", "raw_temperature_triplets.csv",
             "project_paths.py", "derived_literals.py", "build_assumptions_registry.py", "model_constants.py",
@@ -238,7 +238,7 @@ def main():
         if fails: return
         run(["npm", "ci", "--no-audit", "--no-fund"], tmp)
         if fails: return
-        run(["node", "build_html.js"], tmp); run(["node", "validate_jsdom.js"], tmp); run(["node", "test_cold_fixture.js"], tmp); run(["node", "test_ambient_table.js"], tmp)   # M314: ambient table section (Thermal tab)
+        run(["node", "build_html.js"], tmp); run(["node", "validate_jsdom.js"], tmp); run(["node", "test_cold_fixture.js"], tmp); run(["node", "test_ambient_table.js"], tmp); run(["node", "test_gtr_gate.js"], tmp)   # M333: GTR accounting gate in every mode; M314: ambient table section (Thermal tab)
         # M299: semantic release gate — rendered prose (every tab x All/Warm/Shoulder/Compare) vs the one payload
         run(["node", "dump_tabs.js"], tmp, "render per-tab/per-mode text (dump_tabs.js)")
         run([sys.executable, "semantic_gate.py"], tmp, "semantic gate: forbidden wording + prose==payload + mode behaviour (M299)")
