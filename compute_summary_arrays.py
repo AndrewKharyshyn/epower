@@ -1542,7 +1542,8 @@ def _records(dm):
          f"{longest['distance_km']:.2f} km / {longest['duration_s']/60:.0f}min"
          if longest is not None else None, longest_idx,
          'Greatest distance in one key-cycle. Long drives dominate throughput '
-         'and are where the pack reaches thermal equilibrium.',
+         'and are where the pack reaches its highest sustained temperatures '
+         '(a finite maximum, not an established equilibrium).',
          ('class', 'vmov', 'pack')),
         ('Longest duration drive',
          f"{dur_h:.2f} hr" if dur_h is not None else None, dur_i,

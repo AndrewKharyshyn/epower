@@ -61,6 +61,12 @@ assert "W4-startproxy" in lg.scan_text("Engine-start proxy per 100 km") and lg.s
 assert "W5-preinstr" in lg.scan_text("is the pre-instrumentation-era files with no pack-temperature channel at all, unrelated to ambient coverage")
 assert lg.scan_text("is drives that do not enter the ambient rows (no parseable recorded ambient value, or no Sensor-1 pack-temperature trajectory)") == []
 assert "W5-novel" in lg.scan_text("the first-ever study") and "W5-novel" in lg.scan_text("a novel method") and lg.scan_text("the first drives of May") == []
+# W6a rules
+assert "W6-equilibrium" in lg.scan_text("the pack reaches thermal equilibrium and holds") and "W6-accumulator" in lg.scan_text("the signature of a thermal accumulator reaching equilibrium")
+assert lg.scan_text("not a demonstrated thermal equilibrium") == [] and lg.scan_text("a finite maximum, not an established equilibrium") == []
+assert lg.scan_text("does not establish thermal equilibrium") == []
+assert "W6-literal38" in lg.scan_text("calc engine load during these discharge seconds averages ~38%") and "W6-literal38" in lg.scan_text("calculated engine load during these discharge seconds averages ~38% (p95 ~43%)")
+assert "W6-nearequilibrium" in lg.scan_text("warm starts are already near equilibrium and rise only a few degrees") and lg.scan_text("warm starts begin close to their peak") == []
 # hedged, correct text must NOT fail
 for ok in ["engine brake thermal efficiency is therefore model-derived", "the logged fuel rate is calculated by the logger app and present on a subset of drives",
            "cycles with a range below 1.0 pp are dropped", "the remainder are excluded from GTC, not counted as zero", "156 of 489 canonical archived copies match the manifest"]:

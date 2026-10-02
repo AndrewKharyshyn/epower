@@ -99,6 +99,11 @@ RULES = [
          rx=r"\bpre instrumentation era files\b|\bno pack temperature channel at all\b"),
     Rule("W5-novel", "regex", "p26.11: no 'first-ever' / 'novel method' claims without a systematic search (regression guard)",
          rx=r"\bfirst ever\b|\bnovel (?:method|approach)\b|\bunprecedented\b"),
+    Rule("W6-equilibrium", "ctx", "Cs-52: a finite maximum over a bounded window does not establish thermal equilibrium (negated forms such as 'not a demonstrated thermal equilibrium' pass)",
+         term="thermal equilibrium", near=("reaches", "reaching", "accumulator", "signature", "holds"), window=6),
+    Rule("W6-accumulator", "phrase", "Cs-52: 'thermal accumulator reaching equilibrium' is an unestablished mechanism claim", phrase="thermal accumulator"),
+    Rule("W6-nearequilibrium", "regex", "Cs-52: warm starts 'are already near equilibrium' is an unestablished claim; say they begin close to their peak", rx=r"\b(?:already )?near equilibrium\b"),
+    Rule("W6-literal38", "regex", "Cs-15/E-8: unbound literal 'calc engine load ... averages ~38%' removed from the SoC-pattern section", rx=r"\bcalc(?:ulated)? engine load during these discharge seconds averages 38\b", scope=("jsx",)),   # the same M41 literal in 3 builder/payload strings needs a computed key: W6b
     Rule("M325-410", "phrase", "F01.r3/D-1: 410/410 byte-identical is contradicted (333/489 fail)", phrase="410/410"),
     Rule("M325-reserialize", "regex", "F01.r3/Cs-76: transfer re-serialization is not the established cause", rx=r"\bre ?serializ\w*"),
     Rule("M325-originals", "regex", "E-N1: originals were recovered (M323)", rx=r"\boriginals (?:are )?unavailable\b"),
