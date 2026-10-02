@@ -85,6 +85,10 @@ for ok_text in ["f_gen is a model-derived sensitivity index, not a metered split
                 "Fuel is logged volume x assumed E10 LHV (the logged fuel rate is app-calculated)", "Net pack energy recovers half the debt", "assumed high-load (boost proxy)",
                 "Path A and Path B share priors, so this is a consistency check on M265, not an independent corroboration"]:
     assert lg.scan_text(ok_text) in ([], ["W1-independentcorrob"]) and not any(r.startswith("W1-") and r != "W1-independentcorrob" for r in lg.scan_text(ok_text)), (ok_text, lg.scan_text(ok_text))
+# M333 rules
+assert "W7-conserved" in lg.scan_text("1 · Fuel → HV bus  (conserved cascade)") and "W7-conserved" in lg.scan_text("2 · Traction supply split  (conserved)")
+assert "W7-conserved" in lg.scan_text("each cohort is a separate Sankey at identical node positions") and "W7-sensitivityindex" in lg.scan_text("f_gen is a sensitivity index, not an identified share")
+assert lg.scan_text("allocation sketch, not conserved") == [] and lg.scan_text("f_gen is an allocation index") == []
 # hedged, correct text must NOT fail
 for ok in ["engine brake thermal efficiency is therefore model-derived", "the logged fuel rate is calculated by the logger app and present on a subset of drives",
            "cycles with a range below 1.0 pp are dropped", "the remainder are excluded from GTC, not counted as zero", "156 of 489 canonical archived copies match the manifest"]:

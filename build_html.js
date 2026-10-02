@@ -23,8 +23,8 @@ let src=fs.readFileSync('xtrail_summary.jsx','utf8');
 const JSX_COMPONENT_CONTRACT=[
   // component-defining signature            // revision-distinctive marker(s)
   {name:'GeneratorTractionRecon', def:'function GeneratorTractionRecon()',
-   markers:['function RTFlowSchematic','conserved cascade','◆ Key findings','⚠ Limitations','RTFlowSchematic F={F}'],
-   note:'§4b Generator→Traction: Sankey + consolidated Key-findings/Limitations (M249)'},
+   markers:['function RTFlowSchematic','allocation sketch, not conserved','function GtrAccountingTable','GtrRevealCtx','◆ Key findings','⚠ Limitations','RTFlowSchematic F={F}'],
+   note:'§4b Generator→Traction: gated allocation sketch + accounting table (M333) + consolidated Key-findings/Limitations (M249)'},
 ];
 const contractFailures=[];
 for(const c of JSX_COMPONENT_CONTRACT){
