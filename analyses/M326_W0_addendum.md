@@ -15,7 +15,7 @@ N3 builder compute_summary_arrays.py (~5114) and payload leaf rfDodHistogram.met
  OLD: "RF_FLOOR_PCT=1.0 amplitude floor"  NEW: "RF_FLOOR_PCT=1.0 cycle-range floor (pp)"   (the builder formats the value with %.1f; only the words change)
 N4 xtrail_summary.jsx Methods footer (Data provenance paragraph):
  (a) OLD: "the remainder are early-May logs that predate the full PID set and contribute 0.0 GTC"
-     NEW: "the remainder have no integrable energy trace (including early-May logs that predate the full PID set) and are excluded from GTC, not counted as zero"
+     NEW: "the remainder have no integrable energy trace (including early-May logs that predate the full PID set) and carry no GTC value (missing, not counted as zero) and add nothing to GTC sums"
  (b) OLD: "(1.0%-SoC amplitude floor, twice the PID quantization step, to exclude single-LSB chatter)"
      NEW: "(cycles with a range below {S.rfDodHistogram?.floorPct} pp are dropped, twice the PID quantization step, to exclude single-LSB chatter; {S.rfDodHistogram?.nFilesUsed} SoC traces)"   [bound to payload]
 ## Language gate (infrastructure, same milestone)
@@ -23,4 +23,15 @@ New module language_gate.py (normaliser + matcher + RULES) used by semantic_gate
 W0 FORBIDDEN (regex over the normalised text): "no fuel rate pid", "great majority of drives" (near fuel), "no fuel flow (data|channel)", "amplitude floor", "contribute 0 0 gtc", plus regression guards from M325: "410/410", "re serializ", "originals unavailable".
 W0 REQUIRED (bound to payload values): the footer shows {rfDodHistogram.nFilesUsed} SoC traces and the phrase "cycle range"; the fuel-unobservable text names "logger app" and "subset of drives".
 Tests: tests/synthetic/test_language_gate.py with known-answer fixtures (positive hits incl. plural, concatenated-words and arrow variants; hedged/negated forms must NOT fail; payload key names ignored; comments WARN) and a regression test that the 26 existing semantic_gate FORBIDDEN entries still fire on synthetic text.
-Isolation: drive_master.csv, raw/, raw_manifest.json unchanged; summary_arrays.json deep-diff = exactly the 8 leaves above (4 unobservable[1].why, 2 records notes, 1 methodology; plus nothing else); jsdom text diff = only the replaced strings; release_check green.
+Isolation: drive_master.csv, raw/, raw_manifest.json unchanged; summary_arrays.json deep-diff = exactly the 7 leaves above (4 unobservable[1].why, 2 records notes, 1 methodology; nothing else); jsdom text diff = only the replaced strings; release_check green.
+
+## Addendum A1 (found by the new gate during implementation; same wave): four more false fuel-flow sentences in xtrail_summary.jsx
+The normalised-text rule found them (a plain grep missed them: hyphen/dash variants). Exact replacements:
+ R1 OLD "This is a battery-work floor, not a fuel-economy figure — the OBD stream carries no fuel-flow channel."
+    NEW "This is a battery-work floor, not a fuel-economy figure; the logged fuel rate is app-calculated (not an ECU measurement) and covers only a subset of drives."
+ R2 OLD "fuel-flow / injector data are not available to confirm it."   NEW "no injector data exist, and the logged fuel rate is app-calculated from air flow, so neither confirms it."
+ R3 OLD "real efficiency would require fuel-flow data, which the OBD logger does not provide."   NEW "a fuel-efficiency figure would require a calibrated fuel measurement; the logged fuel rate is app-calculated (air-flow based) and covers only a subset of drives."
+ R4 OLD "that would require fuel-flow data the logger does not provide."   NEW "that would require a calibrated fuel measurement (the logged fuel rate is app-calculated and covers only a subset of drives)."
+Still true and untouched: "{C.nProduction} of those drives carry the fuel-flow PID" (bound to the payload).
+
+## Addendum A2 (Director per-wave review, 'revise'): p4.3 footer wording is now "carry no GTC value (missing, not counted as zero) and add nothing to GTC sums" (per-drive gtc is unset, but per-km intensities divide gtc.sum() by the km of clean drives, so 'excluded from GTC' was unverified); R2 reads "no injector data are logged, and the logged fuel rate is app-calculated (air-flow based), so neither confirms it." Gate: new rule W0-fuelflow-avail (R2-R4 and 'carries no fuel-flow channel', fixture shows 'drives carry the fuel-flow PID' does not fire); W0-zerogtc widened to 'contribute 0 / 0.0 / zero GTC'. 'air-flow based' is sourced from audit_v3_triage/HANDOFF.md item 2 (the logger's app calculation), not from app documentation. Logged for C05: the heuristic block still uses 8.9 kWh/L (compute_summary_arrays.py ~11554) while model_constants uses the E10 value.

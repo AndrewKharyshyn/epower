@@ -5111,8 +5111,8 @@ def _rf_dod_histogram(dm, raw_loader, frame_loader=None, floor_pct=None):
             'M149 (2026-08-21) reproducible recompute, restoring the M146 '
             'audit methodology: full-corpus rainflow decomposition run '
             'directly on raw SoC traces of every file in drive_master.csv '
-            '(rainflow==3.2.0, extract_cycles, RF_FLOOR_PCT=%.1f amplitude '
-            'floor -- identical to the M17/compute_drive_summary_v6.py '
+            '(rainflow==3.2.0, extract_cycles, RF_FLOOR_PCT=%.1f cycle-range '
+            'floor (pp) -- identical to the M17/compute_drive_summary_v6.py '
             'per-drive convention). Cross-validated every regen: recomputed '
             'total cycle count and rf_damage_k2 (k=2) sum match '
             'drive_master.csv\'s rf_n_cycles / rf_damage_k2 column sums to '
@@ -15108,10 +15108,13 @@ def _energy_path(dm):
                      'logged channel, so the direct/buffered split cannot be '
                      'derived from this data at any sample rate')},
             {'quantity': 'engine brake thermal efficiency / fuel energy in',
-             'why': ('no fuel-rate PID on the great majority of drives; MAF '
-                     'appears on a handful of early logs only, and '
-                     'MAF-derived power is an air-side estimate, not a '
-                     'fuel-energy measurement')},
+             'why': ('the logged fuel rate and fuel counter are calculated by '
+                     'the logger app (Car Scanner, air-flow based) and are '
+                     'present on a subset of drives; they are not an ECU fuel '
+                     'measurement, so fuel energy in is logged volume x assumed '
+                     'E10 LHV; MAF appears on a handful of early logs only, and '
+                     'MAF-derived power is an air-side estimate; engine brake '
+                     'thermal efficiency is therefore model-derived')},
             {'quantity': 'component efficiencies (generator, inverter, motor)',
              'why': ('each needs input and output power at the same node '
                      'simultaneously; only one side of each node is '

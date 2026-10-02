@@ -1,0 +1,25 @@
+{
+ "wave": "W0 (provenance footer and false literals)",
+ "rule": "wording only; no number or estimand changes; payload leaves spliced by exact old string; 7 payload leaves + jsx text; language gate A2 added",
+ "changes": [
+  {"id": "F2.22/F34.r3/Cs-76/D-S7", "where": "builder compute_summary_arrays.py + payload energyPath.unobservable[1].why (x4 incl. seasonalCharts all/warm/shoulder)",
+   "old": "no fuel-rate PID on the great majority of drives; MAF appears on a handful of early logs only, and MAF-derived power is an air-side estimate, not a fuel-energy measurement",
+   "new": "the logged fuel rate and fuel counter are calculated by the logger app (Car Scanner, air-flow based) and are present on a subset of drives; they are not an ECU fuel measurement, so fuel energy in is logged volume x assumed E10 LHV; MAF appears on a handful of early logs only, and MAF-derived power is an air-side estimate; engine brake thermal efficiency is therefore model-derived"},
+  {"id": "p14.11", "where": "records_rainflow.py + payload records[26].note, records[27].note",
+   "old": "Rainflow on the raw SoC trace, 1.0% amplitude floor (twice the PID quantisation step);",
+   "new": "Rainflow on the raw SoC trace, cycles with a range below 1.0 pp dropped (twice the PID quantisation step);",
+   "evidence": "compute_drive_summary_v6.py:865 filters c[0] of rainflow.extract_cycles = cycle range"},
+  {"id": "p14.11", "where": "compute_summary_arrays.py + payload rfDodHistogram.methodology", "old": "RF_FLOOR_PCT=1.0 amplitude floor", "new": "RF_FLOOR_PCT=1.0 cycle-range floor (pp)"},
+  {"id": "p4.3", "where": "xtrail_summary.jsx Methods footer",
+   "old": "the remainder are early-May logs that predate the full PID set and contribute 0.0 GTC",
+   "new": "the remainder have no integrable energy trace (including early-May logs that predate the full PID set) and carry no GTC value (missing, not counted as zero) and add nothing to GTC sums"},
+  {"id": "p14.11", "where": "xtrail_summary.jsx Methods footer",
+   "old": "(1.0%-SoC amplitude floor, twice the PID quantization step, to exclude single-LSB chatter)",
+   "new": "(cycles with a range below {S.rfDodHistogram.floorPct} pp are dropped, twice the PID quantization step, to exclude single-LSB chatter; {S.rfDodHistogram.nFilesUsed} SoC traces)  [renders: 1 pp, 487 SoC traces]"},
+  {"id": "F34.r3/F2.22 (A1, found by the gate)", "where": "xtrail_summary.jsx (4 sentences)",
+   "old": ["the OBD stream carries no fuel-flow channel.", "fuel-flow / injector data are not available to confirm it.", "real efficiency would require fuel-flow data, which the OBD logger does not provide.", "that would require fuel-flow data the logger does not provide."],
+   "new": ["the logged fuel rate is app-calculated (not an ECU measurement) and covers only a subset of drives.", "no injector data are logged, and the logged fuel rate is app-calculated (air-flow based), so neither confirms it.", "a fuel-efficiency figure would require a calibrated fuel measurement; the logged fuel rate is app-calculated (air-flow based) and covers only a subset of drives.", "that would require a calibrated fuel measurement (the logged fuel rate is app-calculated and covers only a subset of drives)."]}
+ ],
+ "gate": "language_gate.py + semantic_gate.py A2 (8 rules incl. M325 regression guards; 109 checks pass); tests/synthetic/test_language_gate.py",
+ "not_in_W0": "coverage count key for fuel rate (p17.13), F2.22 new key, Compare-mode gate, any W1-W6 wording"
+}

@@ -33,7 +33,7 @@ REQUIRED = ["xtrail_summary.jsx", "summary_arrays.json", "summary_config.json", 
             "project_paths.py", "derived_literals.py", "build_assumptions_registry.py", "model_constants.py",
             "patch_m284_data.py", "test_assumptions_registry.py", "refresh_seasonal_kpis.py", "records_resistance.py",
             "records_rainflow.py", "cohort_distributions.py", "test_track4.py", "apply_m284_post.sh",
-            "dump_tabs.js", "semantic_gate.py", "test_cohort_rates.py", "records_disclosure.py", "f03_provenance_flag.py", "f03_provenance.json"]
+            "dump_tabs.js", "semantic_gate.py", "test_cohort_rates.py", "records_disclosure.py", "f03_provenance_flag.py", "f03_provenance.json", "language_gate.py"]
 OPTIONAL = ["warm_baseline_freeze.json", "event_ledger.json", "compute_seasonal.py", "seasonal_config.json",
             "seasonal_arrays.json", "test_seasonal.py"]
 LEGACY_NEEDS = ["test_seasonal.py", "compute_seasonal.py", "seasonal_config.json", "seasonal_arrays.json",

@@ -6525,7 +6525,7 @@
    "metric": "Rainflow — most counted cycles in one drive",
    "value": "226.5 cycles",
    "drive": "Jul20 D2",
-   "note": "Set on a 159.5 km drive (142 cycles/100 km, 7.05 EFC, deepest cycle 28% DoD). Rainflow on the raw SoC trace, 1.0% amplitude floor (twice the PID quantisation step); half-cycles count 0.5. Counts scale with drive length and SoC-PID sampling, so read together with distance. k=2 damage is a separate, non-fitted proxy and is not used here. Corpus ratio-of-sums cycle density 108.1 cycles/100 km over 484 drives.",
+   "note": "Set on a 159.5 km drive (142 cycles/100 km, 7.05 EFC, deepest cycle 28% DoD). Rainflow on the raw SoC trace, cycles with a range below 1.0 pp dropped (twice the PID quantisation step); half-cycles count 0.5. Counts scale with drive length and SoC-PID sampling, so read together with distance. k=2 damage is a separate, non-fitted proxy and is not used here. Corpus ratio-of-sums cycle density 108.1 cycles/100 km over 484 drives.",
    "disclosure": {
     "eligibilityRule": "corpus argmax/argmin over non-null drives; no plausibility cap applied (or cap not exceeded)",
     "excludedByCap": 0,
@@ -6539,7 +6539,7 @@
    "metric": "Rainflow — largest equivalent-full-cycle (EFC) drive",
    "value": "8.56 EFC",
    "drive": "Jun19 D1",
-   "note": "Set on a 284.2 km drive (212.5 cycles, deepest cycle 33% DoD, coulometric FCE 8.45). Rainflow on the raw SoC trace, 1.0% amplitude floor (twice the PID quantisation step); half-cycles count 0.5. Counts scale with drive length and SoC-PID sampling, so read together with distance. k=2 damage is a separate, non-fitted proxy and is not used here. Corpus ratio-of-sums cycle density 108.1 cycles/100 km over 484 drives. The deepest single rainflow cycle in the corpus (40.5% DoD) is on Jul19 D1; it coincides with the 'Widest SoC excursion' record.",
+   "note": "Set on a 284.2 km drive (212.5 cycles, deepest cycle 33% DoD, coulometric FCE 8.45). Rainflow on the raw SoC trace, cycles with a range below 1.0 pp dropped (twice the PID quantisation step); half-cycles count 0.5. Counts scale with drive length and SoC-PID sampling, so read together with distance. k=2 damage is a separate, non-fitted proxy and is not used here. Corpus ratio-of-sums cycle density 108.1 cycles/100 km over 484 drives. The deepest single rainflow cycle in the corpus (40.5% DoD) is on Jul19 D1; it coincides with the 'Widest SoC excursion' record.",
    "disclosure": {
     "eligibilityRule": "corpus argmax/argmin over non-null drives; no plausibility cap applied (or cap not exceeded)",
     "excludedByCap": 0,
@@ -7264,7 +7264,7 @@
    },
    {
     "quantity": "engine brake thermal efficiency / fuel energy in",
-    "why": "no fuel-rate PID on the great majority of drives; MAF appears on a handful of early logs only, and MAF-derived power is an air-side estimate, not a fuel-energy measurement"
+    "why": "the logged fuel rate and fuel counter are calculated by the logger app (Car Scanner, air-flow based) and are present on a subset of drives; they are not an ECU fuel measurement, so fuel energy in is logged volume x assumed E10 LHV; MAF appears on a handful of early logs only, and MAF-derived power is an air-side estimate; engine brake thermal efficiency is therefore model-derived"
    },
    {
     "quantity": "component efficiencies (generator, inverter, motor)",
@@ -9313,7 +9313,7 @@
    "rfDamageK2SumMaster": 36.73,
    "rfDamageK2SumRecomputed": 36.73
   },
-  "methodology": "M149 (2026-08-21) reproducible recompute, restoring the M146 audit methodology: full-corpus rainflow decomposition run directly on raw SoC traces of every file in drive_master.csv (rainflow==3.2.0, extract_cycles, RF_FLOOR_PCT=1.0 amplitude floor -- identical to the M17/compute_drive_summary_v6.py per-drive convention). Cross-validated every regen: recomputed total cycle count and rf_damage_k2 (k=2) sum match drive_master.csv's rf_n_cycles / rf_damage_k2 column sums to full precision, confirming methodology fidelity. Now produced by build_summary_arrays() itself (previously an out-of-band M146 injection with no reproducing code -- disclosed M148, fixed M149, same defect class as F-12/P0-14). 2 file(s) lack the SoC PID entirely (excluded, consistent with NaN rf_* columns in the master)."
+  "methodology": "M149 (2026-08-21) reproducible recompute, restoring the M146 audit methodology: full-corpus rainflow decomposition run directly on raw SoC traces of every file in drive_master.csv (rainflow==3.2.0, extract_cycles, RF_FLOOR_PCT=1.0 cycle-range floor (pp) -- identical to the M17/compute_drive_summary_v6.py per-drive convention). Cross-validated every regen: recomputed total cycle count and rf_damage_k2 (k=2) sum match drive_master.csv's rf_n_cycles / rf_damage_k2 column sums to full precision, confirming methodology fidelity. Now produced by build_summary_arrays() itself (previously an out-of-band M146 injection with no reproducing code -- disclosed M148, fixed M149, same defect class as F-12/P0-14). 2 file(s) lack the SoC PID entirely (excluded, consistent with NaN rf_* columns in the master)."
  },
  "speedDist": {
   "zones": [
@@ -64010,7 +64010,7 @@
        },
        {
         "quantity": "engine brake thermal efficiency / fuel energy in",
-        "why": "no fuel-rate PID on the great majority of drives; MAF appears on a handful of early logs only, and MAF-derived power is an air-side estimate, not a fuel-energy measurement"
+        "why": "the logged fuel rate and fuel counter are calculated by the logger app (Car Scanner, air-flow based) and are present on a subset of drives; they are not an ECU fuel measurement, so fuel energy in is logged volume x assumed E10 LHV; MAF appears on a handful of early logs only, and MAF-derived power is an air-side estimate; engine brake thermal efficiency is therefore model-derived"
        },
        {
         "quantity": "component efficiencies (generator, inverter, motor)",
@@ -64072,7 +64072,7 @@
        },
        {
         "quantity": "engine brake thermal efficiency / fuel energy in",
-        "why": "no fuel-rate PID on the great majority of drives; MAF appears on a handful of early logs only, and MAF-derived power is an air-side estimate, not a fuel-energy measurement"
+        "why": "the logged fuel rate and fuel counter are calculated by the logger app (Car Scanner, air-flow based) and are present on a subset of drives; they are not an ECU fuel measurement, so fuel energy in is logged volume x assumed E10 LHV; MAF appears on a handful of early logs only, and MAF-derived power is an air-side estimate; engine brake thermal efficiency is therefore model-derived"
        },
        {
         "quantity": "component efficiencies (generator, inverter, motor)",
@@ -64134,7 +64134,7 @@
        },
        {
         "quantity": "engine brake thermal efficiency / fuel energy in",
-        "why": "no fuel-rate PID on the great majority of drives; MAF appears on a handful of early logs only, and MAF-derived power is an air-side estimate, not a fuel-energy measurement"
+        "why": "the logged fuel rate and fuel counter are calculated by the logger app (Car Scanner, air-flow based) and are present on a subset of drives; they are not an ECU fuel measurement, so fuel energy in is logged volume x assumed E10 LHV; MAF appears on a handful of early logs only, and MAF-derived power is an air-side estimate; engine brake thermal efficiency is therefore model-derived"
        },
        {
         "quantity": "component efficiencies (generator, inverter, motor)",
