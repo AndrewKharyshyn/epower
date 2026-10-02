@@ -1,0 +1,251 @@
+wave	id	class	ver	effort	action
+W1 GTR / fuel / generator language	F2.22	FIX-NOW	V	S	No competing copies found; fix false "no fuel-flow data" text (jsx:11016,11045,11347,11531); add L/h-rate coverage beside the 6-file g/s PID key.
+W1 GTR / fuel / generator language	FUEL-09.A2	FIX-NOW	V	S	Wording "fuel in the post-start window"; no restart/cold-start "penalty" without counterfactual; qualify jsx:10191 title together with F26.
+W1 GTR / fuel / generator language	F10.3	FIX-NOW	V	S	Reword jsx:4571 "Two independent paths agree ... Pearson r": report ratio offset only; state correlation does not validate the generator split.
+W1 GTR / fuel / generator language	F11.6	FIX-NOW	V	S	Qualify jsx:4567-4568 ("corroborated through the fuel channel", "monotonically"): f_gen is a sensitivity index until M329 closes F04.
+W1 GTR / fuel / generator language	F11.9	FIX-NOW	V	S	Label η_eng, η tank->bus, tank->traction (jsx:4547, 4569, 9398) as implied by assumed BSFC surface; drop "two-thirds lost as heat" finding.
+W1 GTR / fuel / generator language	F13.18	FIX-NOW	V	M	Make static assertions payload-conditional: jsx:2927,3664,7125,7176-7177,7437,8880,9400,9864; "no pure-highway fuel" contradicted in flow subset (2 highway rows).
+W1 GTR / fuel / generator language	C11.4	FIX-NOW	NV	S	Throughput captions: gross pack-terminal charge+discharge per 100 km; not fuel, not net traction energy, not causal.
+W1 GTR / fuel / generator language	C13.6	FIX-NOW	V	S	Wording: fuel agreement is internal; generator allocation unvalidated; cell spread is a health proxy without reference measurement.
+W1 GTR / fuel / generator language	F02.r2	FIX-NOW	NV	S	Every cell-spread and degradation view carries the F03 caveat; no physical ageing interpretation.
+W1 GTR / fuel / generator language	F08	FIX-NOW	V	S	cohortCounts cold 0 (sum 487) while _meta nObserved.cold 2; CohortExposure all-km includes 2.5 km Cold.
+W1 GTR / fuel / generator language	F12	FIX-NOW	V	S	Bins include 0 (engine off); state machine includes Off; regen bins use mean T1-T4 (compute_summary_arrays.py:4602).
+W1 GTR / fuel / generator language	F16.r3	FIX-NOW	V	S	CHG (label only): call etaEng distance-weighted mean of per-drive eta.
+W1 GTR / fuel / generator language	F17	FIX-NOW	V	S	wire_gtr_seasonal.py:52 net/fuel; jsx:4552, 4569, 9804 say tank-to-traction eta.
+W1 GTR / fuel / generator language	F17.r1	FIX-NOW	V	S	Rename model-derived net traction-bus/fuel-energy index everywhere.
+W1 GTR / fuel / generator language	F17.r3	FIX-NOW	V	S	Grep gate: no measured or tank-to-wheel wording for this index.
+W1 GTR / fuel / generator language	F18	FIX-NOW	V	S	Priors confirmed (model_constants.py BSFC, COLD_MULT 1.25, P_AUX 0.5, boost 0.30 enrichment); f_gen is model allocation.
+W1 GTR / fuel / generator language	F18.r1	FIX-NOW	V	S	Per-constant class measured/external/assumed in model_constants and assumptionsRegistry; update release_check entry count.
+W1 GTR / fuel / generator language	F28.r3	FIX-NOW	V	S	No sole generator-lag attribution; methodology already partly hedged.
+W1 GTR / fuel / generator language	F34	FIX-NOW	V	S	docs/overview.md:3 (446), :32 (410) stale; no-fuel claim sits in jsx:11016, not docs; extractor absent.
+W1 GTR / fuel / generator language	F34.r3	FIX-NOW	V	S	Generate docs/overview.md counts via tools/state.py; delete jsx:11016 no fuel-flow channel (fuel rate in 263 files).
+W1 GTR / fuel / generator language	p17.9	FIX-NOW	V	S	Qualify 'Pure regen' (jsx:6746-6800) and 'Regenerative charge: measured' (summary_arrays.json:54346-54348) as classifier-conditional regen-at-pack proxy.
+W1 GTR / fuel / generator language	p17.11	FIX-NOW	V	S	Replace 'round-trip-loss gap/asymmetry' (jsx:599, 10936) with charge-discharge imbalance (SoC drift, unlogged use, offset, auxiliaries); jsx:4173 already correct.
+W1 GTR / fuel / generator language	p17.13	FIX-NOW	V	S	Script-generate fuel coverage (drives, days, km share) replacing compute_summary_arrays.py:15111 'great majority/MAF handful' and audit[0] '181/410'.
+W1 GTR / fuel / generator language	p17.14	FIX-NOW	V	S	Reword jsx:3956-3957 comment: 'currently recorded channels do not meter it; OEM channels or meters could'; rendered texts already qualified.
+W1 GTR / fuel / generator language	p17.16	FIX-NOW	NV	S	Label BSFC regime surface 'assumed, keyed on RPM/boost bins', not a measured engine map, wherever GTR appears.
+W1 GTR / fuel / generator language	p18.1	FIX-NOW	V	S	Replace jsx:4570 'grounded in this corpus, not assumed': 217 g/kWh optimum sourced (TR89); surface assumed; OPT occupancy observed.
+W1 GTR / fuel / generator language	p18.2	FIX-NOW	V	S	Rename HIGH note 'enrichment' (summary_arrays.json:54316) to 'assumed high-load (boost proxy)'; enrichment untested despite logged fuel/air-ratio channel.
+W1 GTR / fuel / generator language	p18.6	FIX-NOW	V	S	Reword summary_arrays.json:54338: traction is a model residual; battery-to-traction is not the measured shunt.
+W1 GTR / fuel / generator language	p18.13	FIX-NOW	V	S	Label battery-to-traction 'residual: modeled traction minus modeled generator-to-traction' (recon_engine.py:194) everywhere; not metered.
+W1 GTR / fuel / generator language	p18.17	FIX-NOW	V	S	Delete 'near-neutral net' (jsx:4552); describe battery remainder as unclosed, prior-dependent model residual.
+W1 GTR / fuel / generator language	p19.11	FIX-NOW	V	S	Rewrite jsx:4572 'robust... does not depend on any one assumption': f_gen 0.46-0.51 straddles 0.5; battery majority not established.
+W1 GTR / fuel / generator language	p19.13	FIX-NOW	V	S	Present crossval (summary_arrays.json:54366) as ratio median 1.177, IQR 0.995-1.282, shared priors; drop r=0.997 as agreement evidence.
+W1 GTR / fuel / generator language	p25.4	INFO	n/a	-	Limit: no physical direct/buffered split, drivetrain efficiencies or BSFC surface (consistent with "estimated").
+W1 GTR / fuel / generator language	p28.6	FIX-NOW	n/a	-	Interpretation labels: M322 wording plus M325 provenance-sensitive health.
+W1 GTR / fuel / generator language	B-SocLevelSensitivityChart	FIX-NOW	V	S	Label SoC weights as assumed scenario multipliers, not measured ageing; separate observed cycles panel; regen@489.
+W1 GTR / fuel / generator language	B-TorqueBySpeed	FIX-NOW	V	S	Label signed commanded torque (not shaft torque), fixed zero line, keep quantile bands; facets BACKLOG; regen stale@410.
+W1 GTR / fuel / generator language	B-RegenByZone	FIX-NOW	V	S	Proxy label present; disclose fixed mass prior and grade sensitivity, braking-event/day support; regen stale@410.
+W1 GTR / fuel / generator language	B-RegenByTempMeasured	FIX-NOW	V	S	Compare title says 'ambient bin' (jsx:9325); confirm builder temperature source, relabel pack temperature; regen with shared bins.
+W1 GTR / fuel / generator language	B-TerrainTorqueDist	FIX-NOW	NV	S	Rename uphill/downhill to torque-load proxy classes; state 80-120 km/h band; regen stale@410.
+W1 GTR / fuel / generator language	B-CycleByType	FIX-NOW	NV	S	State headline statistic (mean drive rate vs ratio-of-sums); label lo/hi as observed range, not CI; regen@489.
+W1 GTR / fuel / generator language	B-TerrainTorqueDistLow	FIX-NOW	NV	S	Explicit 40-70 km/h band, shared bin widths, grade reading labelled hypothesis; separate panel from high-speed; regen stale@410.
+W1 GTR / fuel / generator language	B-RegenCaptureMeasuredMassUncertainty	FIX-NOW	NV	S	Label as assumed mass-scenario envelope, never 95% CI; neutral shading; regen stale@410 at M327.
+W1 GTR / fuel / generator language	B-TerrainCoverage	FIX-NOW	NV	S	Label torque-proxy classification vs GPS grade (GPS present in few files); coverage matrix BACKLOG; regen stale@410.
+W1 GTR / fuel / generator language	B-EvTraction	FIX-NOW	NV	S	Label zero RPM as engine-off movement, not fuel-free provenance; fixed 0-100% axes; run-length ECDF BACKLOG; regen@489.
+W1 GTR / fuel / generator language	B-HighSocRegen	FIX-NOW	NV	S	No categorical high-SoC mechanism claim; motored-engine signature vs dissipated power distinguished; matched heatmap BACKLOG; regen stale@410.
+W1 GTR / fuel / generator language	B-BufferDebtRecovery	FIX-NOW	NV	S	Rename net pack-energy recovery; generator repayment not metered; censored recovery-time distribution SPEC-FIRST backlog; regen stale@410.
+W1 GTR / fuel / generator language	B-HandoffSequence	FIX-NOW	NV	S	State marginal medians are not one realized sequence; timing-resolution band and boost-observable denominator; regen stale@410.
+W1 GTR / fuel / generator language	B-EngineStartContext	FIX-NOW	NV	S	Replace 'why the generator fires' with observed context; multi-label, no 100% exclusive stack; report unclassified events/days; regen.
+W1 GTR / fuel / generator language	B-CellSpreadRelaxation	FIX-NOW	NV	S	Half-time below PID cadence labelled unresolved; resolution band in mV; ties to M325 grid table; regen stale@410.
+W1 GTR / fuel / generator language	B-RpmSpeedSync	FIX-NOW	NV	S	Rho and slope labelled descriptive associations; no gearing or causal coupling claim; regen stale@410.
+W1 GTR / fuel / generator language	B-EnergyShifting	FIX-NOW	V	S	Zero line; separate occupancy vs net battery kW; state aux/braking ambiguity; keep 'Exploratory' note; regen stale@410.
+W1 GTR / fuel / generator language	B-VgtAirPath	FIX-NOW	NV	S	Label ECU-coordinate tracking error incl. sampling lag, not calibrated actuator accuracy; state channel definitions; regen stale@410.
+W1 GTR / fuel / generator language	B-CrawlStopGo	FIX-NOW	NV	S	Separate gross discharge, recovered charge, signed net Wh/cycle; cycle vs launch denominators; detector sensitivity note; regen.
+W1 GTR / fuel / generator language	Cs-9	FIX-NOW	NV	S	Retain. Caption: display mapping is not independent capacity/SoH calibration. Keep common SoC axes and quantization.
+W1 GTR / fuel / generator language	Cs-15	FIX-NOW	V	S	Title and banner already "Illustrative" (jsx:10142-10143). KEEP soc_patterns.json (O2). Add source drive IDs and "extractor absent; not regenerable". Bind the ~38% literal (jsx:10150).
+W1 GTR / fuel / generator language	Cs-20	FIX-NOW	NV	S	Signature consistent with dissipation; energy not metered; mechanism not identified.
+W1 GTR / fuel / generator language	Cs-24	FIX-NOW	V	S	Retitle jsx:10176 to "Observed engine-start contexts". Keep multi-label and unclassified shares. Note RPM-on may include motoring.
+W1 GTR / fuel / generator language	Cs-25	FIX-NOW	V	S	Retitle jsx:10177 to "Net pack-energy recovery". Separate regen return from generator contribution. Label the exponential as schematic.
+W1 GTR / fuel / generator language	Cs-34	FIX-NOW	NV	S	Keep "thin". "High-SoC motoring does not identify a regen-limit mechanism".
+W1 GTR / fuel / generator language	Cs-35	FIX-NOW	NV	S	Descriptive net low-speed pack power; no fuel-battery-traction transfer without branch metering.
+W1 GTR / fuel / generator language	Cs-41	FIX-NOW	NV	S	Headline from the clean ev_valid pool (audit target 405). Separate engine-off distance, discharge and longest run. Energy source unidentified.
+W1 GTR / fuel / generator language	Cs-53	FIX-NOW	V	S	Literals "Jun29 D1 -11 C", "+16 to +26 C", "three Jul11 drives" (jsx:10658-10660): bind or remove. Per-drive ambient source/interpolation metadata.
+W1 GTR / fuel / generator language	Cs-68	FIX-NOW	NV	S	Same zero-RPM movement label as Cs-41. Capacity-invariant quantities. Disclose speed/current/T overlap gaps.
+W1 GTR / fuel / generator language	Cs-76	FIX-NOW	V	S	Replace jsx:11622 "410/410 byte-identical ... transfer re-serialization, not a data difference" with f03_provenance-bound owner wording. Remove no-fuel text (11347, 11531). Date historical slopes.
+W1 GTR / fuel / generator language	D-4	FIX-NOW	V	S	jsx:4567 'battery buffer supplies the larger share': reword as a model-derived residual share under the priors, not metered. Value repair belongs to M329.
+W1 GTR / fuel / generator language	D-6	FIX-NOW	V	S	jsx:4570 'BSFC anchor grounded in this corpus' overclaims: RPM occupancy grounds the band, not BSFC. Best point comes from TR89; the surface is a prior.
+W1 GTR / fuel / generator language	D-7	FIX-NOW	V	S	jsx:4569 'brake-thermal efficiency': label as a model-derived engine-brake/fuel ratio. 35.18 vs 35.3 is a mask question, scripted in M329.
+W1 GTR / fuel / generator language	D-8	FIX-NOW	V	S	η tank→bus KPI (jsx:4547): label as a model-derived index affected by SoC drift, regen and unmetered auxiliary loads.
+W1 GTR / fuel / generator language	D-18	FIX-NOW	V	S	jsx:7889 'generator repays' (tone=measured) becomes observed net pack-energy recovery; generator and regen are not separately metered.
+W1 GTR / fuel / generator language	D-S7	FIX-NOW	V	S	'no fuel-rate PID on the great majority' (compute_summary_arrays.py:15111) is false: 263/489 headers. Source-label the 20/44 C bands (jsx:4462,10855).
+W2 Thermal cohort / Cold counts / ambient	F12.4	FIX-NOW	V	S	Keep All optional (default Warm vs Shoulder, jsx:9872); relabel as pooled overlapping reference incl. suppressed Cold drives, from payload.
+W2 Thermal cohort / Cold counts / ambient	F13.3	FIX-NOW	V	S	Expose ambient source counts per cohort (recorded vs substituted); payload carries source/uncertaintyClass (compute_seasonal.py:140), jsx shows none.
+W2 Thermal cohort / Cold counts / ambient	F13.8	FIX-NOW	V	M	Replace Cold "no_observations"/"0 drives"/"no Cold" (refresh_seasonal_kpis.py:81; jsx:4462,9225,9260,9284,9864,11086-11495) with observed drives/dates, below support.
+W2 Thermal cohort / Cold counts / ambient	C11.2	FIX-NOW	V	S	Rename UI "Season" selector and "season filter" badge (jsx:9270, 215) to "Thermal cohort"; cohorts are ambient classes.
+W2 Thermal cohort / Cold counts / ambient	F08.r1	FIX-NOW	V	S	Publish observed, eligible, inferenceAvailable per cohort; observed sums to 489; keep M310 suppression.
+W2 Thermal cohort / Cold counts / ambient	F08.r2	FIX-NOW	V	S	Cold slot links to the two ambient-table rows, labelled insufficient support; no statistics or winter generalisation.
+W2 Thermal cohort / Cold counts / ambient	F10	FIX-NOW	V	S	cohort_arrays.py:157 uses n_sign_crossings; 918.58, nPool 446; chart_registry.json:220 already flags proxy.
+W2 Thermal cohort / Cold counts / ambient	F24	FIX-NOW	V	M	Literals confirmed: compute_summary_arrays.py:2524,2958,3306,13459,17372; jsx:7301 no sub-15 C ambient; jsx:11086 no Cold.
+W2 Thermal cohort / Cold counts / ambient	F24.r1	FIX-NOW	n/a	S	Glossary: ambient thermal cohort, pack temperature, engine thermal state, cold soak; apply in sweep.
+W2 Thermal cohort / Cold counts / ambient	F24.r2	FIX-NOW	V	M	Bind counts and dates to CohortExposure and channel minima (pack probes from 11 C); no literals.
+W2 Thermal cohort / Cold counts / ambient	F24.r3	FIX-NOW	V	S	State winter generalisation unavailable; Shoulder 100 drives and pack probes to 11 C are observed.
+W2 Thermal cohort / Cold counts / ambient	F25.r3	FIX-NOW	n/a	S	CHG (wording only): no causal seasonal-penalty language.
+W2 Thermal cohort / Cold counts / ambient	p20.2	FIX-NOW	V	S	Rename 'Seasonal cohort thresholds' (build_assumptions_registry.py:143) and '-season drives' (jsx:9260) to 'ambient thermal regime'; thresholds unchanged.
+W2 Thermal cohort / Cold counts / ambient	p20.3	FIX-NOW	V	S	Per F08: reconcile cohortCounts.cold 0 (summary_arrays.json:54874) vs 2 (:73741) and build_assumptions_registry.py:151; show 2 boundary drives.
+W2 Thermal cohort / Cold counts / ambient	p20.4	FIX-NOW	NV	S	Separate cold ambient, cold pack, cold engine start and verified cold soak in glossary and captions; never interchange.
+W2 Thermal cohort / Cold counts / ambient	p20.6	FIX-NOW	V	S	Show Cold as descriptive point (2 drives, 1 date) without interval or inference; keep M310 suppression.
+W2 Thermal cohort / Cold counts / ambient	p20.9	FIX-NOW	n/a	S	Caption regime bars: different route/duration mixes, not seasonal effects; intervals only where computed.
+W2 Thermal cohort / Cold counts / ambient	p21.5	FIX-NOW	V	S	Label each ambient chart's definition: endpoint-pair mean (compute_summary_arrays.py:14636) vs time-weighted mean (seasonal_core.py:193); register both.
+W2 Thermal cohort / Cold counts / ambient	p21.6	FIX-NOW	V	S	Show ambient_time_mean_kind per row; relabel 'vehicle_sensor' (tools/build_ambient_table.py:50) as driver-recorded readings, interpolated between.
+W2 Thermal cohort / Cold counts / ambient	p21.10	FIX-NOW	V	S	Replace 'whole corpus is warm-season' (jsx:2809), 'No sub-15 C ambient data' (:7301), 'Warm-season data only' (:11439, 11489) with S-bound counts.
+W2 Thermal cohort / Cold counts / ambient	p21.13	FIX-NOW	V	S	Fix ColdNoData (jsx:9254-9262, reads cold=0): list 2 drives, date, ambient, 'insufficient support'; no curves, no winter inference.
+W2 Thermal cohort / Cold counts / ambient	p21.16	FIX-NOW	NV	S	Show climate-normals source, period and version with All-year scenarios; caption 'scenario, not measured annual limit or lifetime'.
+W2 Thermal cohort / Cold counts / ambient	p23.16	FIX-NOW	V	S	riskColdEngineBattery.compare p is 0.0 (arrays:7175,7190). Render "p<0.001" through one formatter; payload carries a pFloor.
+W2 Thermal cohort / Cold counts / ambient	p25.7	INFO	n/a	-	Limit: no winter consumption/ageing from 2 Cold drives/1 date (M310); no AWD/FWD fleet effects.
+W2 Thermal cohort / Cold counts / ambient	B-fam-11	FIX-NOW	NV	S	Disclose parking heat/HVAC confounding; ambient source native vs interpolated (F09 sidecar).
+W2 Thermal cohort / Cold counts / ambient	B-fam-12	FIX-NOW	V	S	Heat-soak section (jsx:10700): logged gap is not necessarily parking duration; keep continuity classes.
+W2 Thermal cohort / Cold counts / ambient	B-fam-13	FIX-NOW	NV	S	Label selected identifiable fits, not generalisable; one-pole fit cannot separate heating, cooling, equilibrium.
+W2 Thermal cohort / Cold counts / ambient	Cs-26	FIX-NOW	NV	S	Descriptive transition matrix; no Markov-control claim. Same time resolution across cohorts.
+W2 Thermal cohort / Cold counts / ambient	Cs-29	FIX-NOW	NV	S	Coolant and oil as separate states. Count unachieved thresholds. Polling-uncertainty note. Cold descriptive_only.
+W2 Thermal cohort / Cold counts / ambient	Cs-43	FIX-NOW	V	S	F08: one observed-count source (Cold 2 drives/1 date shown, inference suppressed). Per-metric files/days/km and estimand. Arrays in M327.
+W2 Thermal cohort / Cold counts / ambient	Cs-44	FIX-NOW	NV	S	Non-significant is not equivalence; not a precise seasonal effect.
+W2 Thermal cohort / Cold counts / ambient	Cs-50	FIX-NOW	V	S	jsx:10554 ">40 minutes" contradicts the >60-row gate (jsx:3809). Drop "pooled warm-season" for selected cohorts. Mean is not calibrated bulk temperature.
+W2 Thermal cohort / Cold counts / ambient	Cs-55	FIX-NOW	V	S	Hand-typed rows (jsx:10674-10677) violate S.*: bind or mark as dated assumptions. Separate key-on standstill from car-off standby. 2.84 kW = max of medians.
+W2 Thermal cohort / Cold counts / ambient	Cs-58	FIX-NOW	V	S	Keep the Cold rows here. Reconcile S.ambientTable counts with the selector (one source). jsx:10777 "entered by hand" vs native/interpolated: state provenance per drive.
+W2 Thermal cohort / Cold counts / ambient	Cs-72	FIX-NOW	V	S	Move the Wikner ratioVsFlat multipliers and "~10x mitigation" (jsx:11359, 11361) to labelled diagnostics. Bind the Arrhenius literals (jsx:11348). Fix the stale "May-Jun"/"no Cold" text.
+W2 Thermal cohort / Cold counts / ambient	D-L6	FIX-NOW	V	M	Sweep the words only/majority/no observations/warm-season/limit/efficiency/bulk/conserved: make them payload-conditional or remove them.
+W2 Thermal cohort / Cold counts / ambient	D-2	FIX-NOW	V	S	'No sub-15 C' at jsx:1840,2259,2809,6527,7301,10082 is contradicted by the repo's Records 'Battery temp min 11 C'. State that sub-zero winter driving is unobserved.
+W2 Thermal cohort / Cold counts / ambient	D-3	FIX-NOW	V	S	Replace 'no Cold' at jsx:4462,11086,11160,11204,11224,11350,11495 with the bound observed count (2 drives / 1 date); inference stays suppressed (M310).
+W2 Thermal cohort / Cold counts / ambient	D-20	FIX-NOW	NV	S	Selector text: the cohort applies to marked cohort-native panels; corpus-wide panels carry an All-data badge (M323 lint).
+W3 Health / degradation / proxy labels	C5.10	FIX-NOW	n/a	S	Trend interval captions state they omit data-version, rounding-model and sensor-calibration uncertainty.
+W3 Health / degradation / proxy labels	C6.10	FIX-NOW	V	S	Name partial estimators: v6 and raw_temp_pass (>=1 probe) "available-probe mean"; m119v2 already states ">=3 of 4".
+W3 Health / degradation / proxy labels	F21.r4	FIX-NOW	V	S	20/44 C bands illustrative; rename platingShare to modelled cold-exposure cycle share (M28 assumption); no plating inference.
+W3 Health / degradation / proxy labels	F22	FIX-NOW	V	S	mdeMohmPerMo under M61 detection power (compute_summary_arrays.py:2341-2346). 2.37 is audit illustration, never displayed.
+W3 Health / degradation / proxy labels	F22.r1	FIX-NOW	V	S	Rename ciHalfWidthMohmPerMo in builder and jsx (2462-2485) together; label 95% CI half-width.
+W3 Health / degradation / proxy labels	F22.r3	FIX-NOW	V	S	Label horizonBasis T^-1.5 as assumption-based planning sensitivity, not forecast.
+W3 Health / degradation / proxy labels	F23	FIX-NOW	V	S	Confirmed: unloaded 11.1-to-50 mV mapped onto loaded p95 slope; resistance bound from image, no URL captured.
+W3 Health / degradation / proxy labels	F23.r1	FIX-NOW	V	S	Keep frozen M207 bounds; label provisional engineering scenarios; no bound change.
+W3 Health / degradation / proxy labels	F23.r2	FIX-NOW	V	S	Drop OEM-criterion framing (degradation_trends.py:22, displays) until observable and source validated.
+W3 Health / degradation / proxy labels	F27	FIX-NOW	V	S	Notes confirmed: :1417-1419 fixed 9 C/bulk/Arrhenius, :1426-1428 shared liquid loop, :1432 150 C, :1492, :1609.
+W3 Health / degradation / proxy labels	F27.r1	FIX-NOW	V	S	Remove fixed gradient (own data: median 1.2 C, max 6 C), 150 C limit, shared-loop topology.
+W3 Health / degradation / proxy labels	F27.r2	FIX-NOW	V	S	Say measured-probe mean, commanded torque, observed pack-terminal power.
+W3 Health / degradation / proxy labels	F27.r3	FIX-NOW	V	S	Polarization and cooling stated as compatible hypotheses.
+W3 Health / degradation / proxy labels	F28	FIX-NOW	V	S	Peak 115.46 kW above 73.3 kW record; totalWh 96119.5; jsx:10323 measured transient buffering, 45.8x pack.
+W3 Health / degradation / proxy labels	F28.r1	FIX-NOW	V	S	Rename baseline-relative incremental impulse index; drop capacity-multiple framing.
+W3 Health / degradation / proxy labels	F31	FIX-NOW	V	S	Docstring claims day-cluster bootstrap (records_resistance.py:5); code is IID residual null (:52-54) with noise verdict (:90-91).
+W3 Health / degradation / proxy labels	p22.11	FIX-NOW	n/a	S	Wording: bootstrap and block intervals probe sampling dependence, not raw authenticity or calibration.
+W3 Health / degradation / proxy labels	p22.12	FIX-NOW	V	S	Label the published interval "cluster-robust normal (z)". Any t(G-1) interval is a sensitivity, not a silent switch.
+W3 Health / degradation / proxy labels	p23.1	FIX-NOW	n/a	S	Label current median period and row coverage as instrumentation covariates, not ageing.
+W3 Health / degradation / proxy labels	p23.2	FIX-NOW	V	S	bTMohmPerDegC=-2.516 exists. Note that unmatched absolute maxima are not health indicators.
+W3 Health / degradation / proxy labels	p23.3	FIX-NOW	V	S	rMedianMohm 126.8 is labelled "load-excited in-drive proxy, not calibrated pulse DCIR" everywhere it shows.
+W3 Health / degradation / proxy labels	p23.6	FIX-NOW	n/a	S	State that the loaded-spread bound is unvalidated and not a manufacturer capacity-health criterion.
+W3 Health / degradation / proxy labels	p23.8	FIX-NOW	n/a	S	Bounds and monitoring-horizon prose: fractional OEM rise does not validate linear extrapolation of the proxy trend.
+W3 Health / degradation / proxy labels	p23.9	FIX-NOW	V	S	Same as F22: rename mdeMohmPerMo 1.656 to CI half-width. Never type 2.37.
+W3 Health / degradation / proxy labels	p23.12	FIX-NOW	V	S	rollingOrigin exists and renders (jsx:10353). Wording: held-day = interpolation; forecast claims only from rollingOrigin.
+W3 Health / degradation / proxy labels	p23.15	FIX-NOW	n/a	S	Declare a multiplicity policy for exploratory families (already in M322 scope).
+W3 Health / degradation / proxy labels	p24.3	FIX-NOW	n/a	S	Label Rainflow/EFC and depth-squared as exposure proxies. Keep the three EFC quantities distinct. Damage-law calibration is BLOCKED.
+W3 Health / degradation / proxy labels	p24.4	FIX-NOW	V	S	kLadderScenarios/dodSocLevelSensitivity/cycleLife move to labelled scenarios (verified:false); remove from empirical conclusions. No deletion (O2).
+W3 Health / degradation / proxy labels	p24.5	FIX-NOW	NV	S	Remove "direct SOH" wording for loaded spread and V-regression. Reference capacity/OCV/impedance tests are BLOCKED.
+W3 Health / degradation / proxy labels	p24.10	FIX-NOW	n/a	S	Remove memoryless/controller-intent narrative wording. A semi-Markov model is opportunity 2 (OWNER).
+W3 Health / degradation / proxy labels	p24.12	FIX-NOW	V	S	Change jsx:4571 "Two independent paths agree... Pearson r" to association wording. Bland-Altman paired residuals go in the M329 spec.
+W3 Health / degradation / proxy labels	p24.13	FIX-NOW	V	S	platingShare (arrays:8216) and risk bands: label as assumptions; "no observed plating diagnosis".
+W3 Health / degradation / proxy labels	p24.14	FIX-NOW	V	S	Same as F22/p23.9: rename the MDE; design simulation stays BACKLOG.
+W3 Health / degradation / proxy labels	p25.2	FIX-NOW	n/a	S	Add a script-bound "What the data cannot identify" box to Methodology, listing the six limits below.
+W3 Health / degradation / proxy labels	p25.3	INFO	n/a	-	Limit: no absolute SOH, LLI/LAM, plating or pack life without reference tests.
+W3 Health / degradation / proxy labels	p25.5	INFO	n/a	-	Limit: no high-frequency DCIR from asynchronous polling.
+W3 Health / degradation / proxy labels	p25.6	INFO	n/a	-	Limit: no separate heat capacity/conductance from a one-pole fit.
+W3 Health / degradation / proxy labels	p25.8	INFO	n/a	-	Limit: no causal controller reason; a mask ending is not a boundary cause.
+W3 Health / degradation / proxy labels	B-fam-2	FIX-NOW	V	S	Heat/cold risk bands (jsx:3503 'calendar aging accelerates') labelled generic assumptions; A/kW primary, C secondary (CAP_KWH verified:false).
+W3 Health / degradation / proxy labels	B-fam-4	FIX-NOW	V	S	Keep scenario wording (jsx:11262 already disclaims life multiplier); separate annualized extrapolation from measured exposure.
+W3 Health / degradation / proxy labels	B-fam-5	FIX-NOW	V	S	F22: rename CI half-width/MDE to precision; power simulation panel stays backlog.
+W3 Health / degradation / proxy labels	B-fam-6	FIX-NOW	NV	S	F28 rename; mark subsecond lag limited by asynchronous PID clocks; actual positive discharge SPEC-FIRST (backlog).
+W3 Health / degradation / proxy labels	B-fam-8	FIX-NOW	NV	S	Keep case-study label and selection rule; anonymous min/max channels cannot identify a degrading cell.
+W3 Health / degradation / proxy labels	Cs-7	FIX-NOW	V	S	F22: rename mdeMohmPerMo (not "detection power"). Refresh legacy scenario inputs. State that absolute resistance and a no-signal interval are not capacity health.
+W3 Health / degradation / proxy labels	Cs-10	FIX-NOW	NV	S	Label C-rate as conditional on CAP_KWH=2.1 (verified:false). Risk regions illustrative, not OEM limits or a plating diagnosis.
+W3 Health / degradation / proxy labels	Cs-31	FIX-NOW	NV	S	Splice-refresh. Show the two-day Shoulder concentration. Cadence/timing uncertainty beside sub-second lags.
+W3 Health / degradation / proxy labels	Cs-32	FIX-NOW	NV	S	Exploratory proxy, not cell health. A zero half-time means "unresolved at cadence". Matched T/I/SoC tied to M325.
+W3 Health / degradation / proxy labels	Cs-38	FIX-NOW	NV	S	Disclose the case-selection rule and clock/scaling checks. No individual-cell degradation claim from anonymous min/max.
+W3 Health / degradation / proxy labels	Cs-60	FIX-NOW	NV	S	Lead with proxy-only outcomes and F03 provenance sensitivity. "Equivalence not established", never "no degradation".
+W3 Health / degradation / proxy labels	Cs-61	FIX-NOW	NV	S	Recast thresholds as assumptions and monitored exposures. No plating, safe-limit, capacity or lifetime inference.
+W3 Health / degradation / proxy labels	Cs-62	FIX-NOW	V	S	Keep the single-stage control. Rename the MDE field (F22). "Spread trend / V-regression is not direct SOH".
+W3 Health / degradation / proxy labels	Cs-73	FIX-NOW	V	S	Retitle to "consistency checks". Mark "confirmed" only for independent signals or held-out tests. Literals jsx:11378/11386. Per-item input/version scope.
+W3 Health / degradation / proxy labels	Cs-74	FIX-NOW	V	S	Power fade is measured (jsx:11629) and "measured power-fade trend" (jsx:11618) -> load-excited resistance proxy. Hypothesis tier (jsx:11393) already present.
+W3 Health / degradation / proxy labels	D-15	FIX-NOW	V	S	jsx:11387 'No detectable cell-spread trend' and the axis 'zero — no fade' (jsx:2512) become: trend not resolved, equivalence not established, provenance-sensitive.
+W3 Health / degradation / proxy labels	D-16	FIX-NOW	V	S	mdeMohmPerMo 1.656 is a bootstrap CI half-width: relabel it so. A power MDE is backlog (F22).
+W3 Health / degradation / proxy labels	D-17	FIX-NOW	V	S	jsx:10323 'measured transient buffering' becomes a baseline-relative start-impulse index. Actual positive discharge is SPEC-FIRST (F28).
+W3 Health / degradation / proxy labels	R5	INFO	V	-	Wikner is used at summary_config.json:3467 and jsx:1519/1522 ('protective/elevated per Wikner'). Soften to a cross-check, not a transferable ladder.
+W3 Health / degradation / proxy labels	R11	INFO	n/a	-	Cell spread is not a degradation diagnostic; supports the D-15 wording.
+W4 Records / EFC / GTC / throughput labels	p4.3	FIX-NOW	V	S	Footer jsx:11622 calls no-energy drives early-May logs contributing 0.0 GTC; non-integrable files include 2026-08-13. Bind to F-18 denominators.
+W4 Records / EFC / GTC / throughput labels	F10.r1	FIX-NOW	V	S	Rename current-direction reversals per 100 km (title, unit, Compare); detector replacement in M327.
+W4 Records / EFC / GTC / throughput labels	F12.r1	FIX-NOW	V	S	Derive Compare titles and denominators from contract statisticalUnit; jsdom assertion.
+W4 Records / EFC / GTC / throughput labels	F12.r2	FIX-NOW	V	S	Keep Off; label percent of observed time incl. engine off; no renormalised estimand.
+W4 Records / EFC / GTC / throughput labels	F12.r3	FIX-NOW	V	S	Label co-timed pack temperature (mean T1-T4); n counts 1 Hz decel samples, not drives.
+W4 Records / EFC / GTC / throughput labels	F21	FIX-NOW	V	S	cap_ah_est = CAP_KWH/median V (v6:682-686) confirmed; transcribed OEM table lists 5.0 Ah (unverified).
+W4 Records / EFC / GTC / throughput labels	F21.r1	FIX-NOW	V	S	A and kW primary axes; C-rate secondary.
+W4 Records / EFC / GTC / throughput labels	F21.r2	FIX-NOW	V	S	Label C-rate capacity-conditional; show assumed Ah (CAP_KWH verified:false) and note the 5.0 Ah disclosure.
+W4 Records / EFC / GTC / throughput labels	F26	FIX-NOW	V	S	Combustion penalty ratio label (jsx:9431) confirmed; ThermalFuelPenalty carried at 410 basis.
+W4 Records / EFC / GTC / throughput labels	F29	FIX-NOW	V	S	jsx:3222 says measured capture efficiency; other sites already say apparent KE recovery proxy.
+W4 Records / EFC / GTC / throughput labels	F29.r1	FIX-NOW	V	S	Apparent-KE-proxy labels everywhere; keep key names; terrain names labelled load proxies.
+W4 Records / EFC / GTC / throughput labels	F31.r1	FIX-NOW	V	S	Relabel IID residual-model reference distribution; drop noise verdict; add day dependence; gate sensitivity exists (:80).
+W4 Records / EFC / GTC / throughput labels	p14.5	FIX-NOW	V	S	Label metricConvention totals (1497.36, summary_arrays.json:7145) 'all 475 energy rows incl. 2 ens_invalid'; keep for exposure, never as rate numerator.
+W4 Records / EFC / GTC / throughput labels	p14.9	FIX-NOW	V	S	Caption GTC/FCE (713.0/356.5, :7147) 'nominal-energy-normalised turnover, Q assumed, 475-row pool'; never lifetime or consumed cycles.
+W4 Records / EFC / GTC / throughput labels	p14.11	FIX-NOW	V	S	Confirm floor is range-based, then replace jsx:11622 '1.0%-SoC amplitude floor' with '>=1.0 pp cycle range'; state 487 traces.
+W4 Records / EFC / GTC / throughput labels	p14.14	FIX-NOW	NV	S	Label pooled engine-on share 'duration-weighted, extrapolated over RPM gaps'; keep distinct from per-drive medians (engineCycling).
+W4 Records / EFC / GTC / throughput labels	p15.2	FIX-NOW	V	S	Relabel energyUncertaintyMC nominalReleased 1497.4181 (:41810) as current-raw basis, not M299-reproducible; master 1497.36 stays reference.
+W4 Records / EFC / GTC / throughput labels	p15.4	FIX-NOW	D	S	Fix registry usedBy (build_assumptions_registry.py:156 says gross/GTC; v6:1499-1501 excludes offset) to net draw; disclose +0.34% variant.
+W4 Records / EFC / GTC / throughput labels	p15.10	FIX-NOW	V	S	Rename 'cumulative damage'/'full-DoD-equivalents' (jsx:11076, 11258) to 'depth-squared weighted cycle sum, generic k=2, uncalibrated'.
+W4 Records / EFC / GTC / throughput labels	p16.1	FIX-NOW	NV	S	Add limitation: per-trip counting with residual half-cycles, not a stitched lifetime trace across parking or unlogged use.
+W4 Records / EFC / GTC / throughput labels	p16.2	FIX-NOW	NV	S	Caption FCE-vs-Rainflow-EFC agreement as corroboration only; never proof of capacity, conservation or shallow-cycle lifetime multiplier.
+W4 Records / EFC / GTC / throughput labels	p16.7	FIX-NOW	NV	M	Display sensible significant figures; keep full precision in CSV/JSON exports and new sidecars; master rounding stays frozen.
+W4 Records / EFC / GTC / throughput labels	p16.8	FIX-NOW	V	S	Show energyUncertaintyMC (systematic) separately from day-cluster CI per energy KPI; list unquantified calibration, clock skew, quantization.
+W4 Records / EFC / GTC / throughput labels	A-28	FIX-NOW	V	S	Label 'SoC-rainflow EFC' per three-EFC disambiguation; keep coulometric FCE side note; distinguish from GTC.
+W4 Records / EFC / GTC / throughput labels	B-fam-3	FIX-NOW	V	S	GTC and rainflow EFC share one chart (jsx:1646); state distinct definitions, no energy closure; calendar-date x, missing intervals.
+W4 Records / EFC / GTC / throughput labels	Cs-5	FIX-NOW	NV	S	Charts jsx:10058. Separate the GTC caption from the FCE/standard-EFC/Rainflow definitions. Label pooled rate vs per-drive distribution. Subtab refresh via M327 contracts.
+W4 Records / EFC / GTC / throughput labels	D-12	FIX-NOW	V	S	summary_config.json:121 'shared coolant loop' conflicts with the repo's cabin-air inlet Records notes and R2. Coolant topology is unestablished.
+W4 Records / EFC / GTC / throughput labels	D-13	FIX-NOW	V	S	jsx:9375 'Engine-start proxy (sign crossings)' becomes battery-current direction reversals per 100 km, distinct from RPM onsets (F10).
+W4 Records / EFC / GTC / throughput labels	R2	INFO	V	-	The air inlets agree with the repo's Records intake notes. summary_config.json:121 'shared coolant loop' is inconsistent (D-12).
+W5 Overview / Methods / limits box / docs	C02	FIX-NOW	V	S	Relabel T_pack_mean_* surfaces as available-probe row mean; check each "4-sensor mean" text (jsx:11085, 11458) against its estimator.
+W5 Overview / Methods / limits box / docs	F01.r3	FIX-NOW	V	S	jsx:11622 410/410 byte-identical contradicts 333/489 failing. Generate footer from f03_provenance.json.
+W5 Overview / Methods / limits box / docs	F09.r2	FIX-NOW	V	S	CHG: jsx:10630 calls the gap pre-instrumentation files without pack channel; false. Show computed per-channel missingness.
+W5 Overview / Methods / limits box / docs	F09.r3	FIX-NOW	V	S	CHG: title and caption say Sensor-1 (hottest probe) range, not pack or bulk temperature.
+W5 Overview / Methods / limits box / docs	F30.r5	FIX-NOW	n/a	S	CHG: write multiplicity policy in docs/findings-and-methods.md (exploratory labelled; formal claims one pre-registered primary per family).
+W5 Overview / Methods / limits box / docs	F34.r4	FIX-NOW	V	S	Per O2 keep soc_patterns.json; label section illustrative; extractor recovery blocked.
+W5 Overview / Methods / limits box / docs	p26.10	FIX-NOW	n/a	S	Every figure carries a measured/proxy/model/scenario label and traces to file IDs, config hash and estimator.
+W5 Overview / Methods / limits box / docs	p26.11	FIX-NOW	NV	S	Grep and remove "first-ever"/"novel method" claims absent a systematic search.
+W5 Overview / Methods / limits box / docs	p28.14	FIX-NOW	n/a	S	Ratio keys declare numerator/denominator rows; mean vs energy-weighted efficiency labels distinct (F16/F19 in M329).
+W5 Overview / Methods / limits box / docs	Cs-1	FIX-NOW	NV	S	Overview. Split logged km from paired-energy and EV-eligible counts via S.eligibility. Give S.odometer and car age a source date (unsourced at jsx:11622).
+W5 Overview / Methods / limits box / docs	Cs-2	FIX-NOW	NV	S	Overview jsx:9946. Keep the ledger (standing rule). Label sessions vs drives vs dates with script counts. Move ingestion history into a Collapsible.
+W5 Overview / Methods / limits box / docs	Cs-3	FIX-NOW	NV	S	Overview jsx:10035. Reword SoC start/stop bands as observed strategy associations. Separate engine restarts from thermal cold starts. Cohort data refresh depends on M327.
+W5 Overview / Methods / limits box / docs	Cs-69	FIX-NOW	NV	M	Bind facts to current S.* contracts. Promote F03 (333/489), stale-comparison and flow-nonclosure (F04) limits to the top.
+W5 Overview / Methods / limits box / docs	Cs-71	FIX-NOW	NV	M	Concise estimand/mask/clock/uncertainty glossary. Milestone history into a Collapsible. Separate statistical from structural uncertainty.
+W5 Overview / Methods / limits box / docs	Cs-75	FIX-NOW	NV	S	Reorder: originals (F03), calibrated branch power/capacity, winter logging, temporal holdout. Split derivable from instrumentation-required.
+W5 Overview / Methods / limits box / docs	D-1	FIX-NOW	V	S	Replace '410/410 byte-identical' at jsx:11622 with counts bound to f03_provenance.json (156 match / 333 fail of 489). Use F03 provenance-sensitivity wording.
+W5 Overview / Methods / limits box / docs	D-S3	FIX-NOW	V	M	Fix the _staleness text (374 vs 410). Label sensitivity_gtr.py SHIPPED fgen 0.488 as the M279 basis (current fGen 0.467); rebuild in M329.
+W5 Overview / Methods / limits box / docs	E-10	FIX-NOW	NV	M	docs/overview.md and provenance subblocks: generated counts/dates; historical constants move to dated notes.
+W5 Overview / Methods / limits box / docs	R12	INFO	V	-	jsx:11503 'Road grade is no longer unmeasured' while GPS speed is in only 53/489 files: restate as partial coverage (D-19).
+W6 Remaining chart/caption rows (by tab)	C10.11	FIX-NOW	V	S	Relabel "Fuel (chem) measured" (jsx:9804, 9807) as logged volume x assumed E10 LHV; composition not measured.
+W6 Remaining chart/caption rows (by tab)	B-StartsPer100km	FIX-NOW	V	S	Rename to current-direction reversals per 100 km (label still says start proxy); detector + engine-hours norm SPEC-FIRST M327; seed 20260919->42.
+W6 Remaining chart/caption rows (by tab)	B-BatteryThermalCurve	FIX-NOW	V	M	Compare averages available probes only (jsx:9361); label 'mean of available probes'; four-probe facets; complete-probe mean via M326 sidecar.
+W6 Remaining chart/caption rows (by tab)	B-fam-1	FIX-NOW	NV	S	Label VCM display as nonlinear mapping of BMS SoC, not a capacity measurement; identity-line facets BACKLOG.
+W6 Remaining chart/caption rows (by tab)	B-fam-10	FIX-NOW	NV	S	Show at-risk drive counts versus elapsed time; no universal asymptote claim.
+W6 Remaining chart/caption rows (by tab)	B-fam-16	FIX-NOW	NV	S	Unmatched-stratum warnings; capacity-invariant observables; matched tables SPEC-FIRST backlog; corpus_manifest e4orce bug remains open.
+W6 Remaining chart/caption rows (by tab)	B-fam-17	FIX-NOW	NV	M	Evidence labels: observed association / model scenario / not established; prose bound to the same contract facts (lint).
+W6 Remaining chart/caption rows (by tab)	Cs-6	FIX-NOW	V	S	jsx:1200 says "Engine cold-starts" but counts RPM onsets >=MIN_ENGINE_START_S (csa.py:4125-4137). Relabel. p10/p90 footer matches csa:4299. Fix the "IQR" comment at jsx:1233.
+W6 Remaining chart/caption rows (by tab)	Cs-8	FIX-NOW	NV	S	Keep the apparent-KE wording and mass sensitivity. Label the bin as 4-probe mean at the decel sample (csa:4602). Show clean vs unfiltered n in every subtab.
+W6 Remaining chart/caption rows (by tab)	Cs-12	FIX-NOW	NV	S	State the actual IQR convention. Report samples vs drives/days. Replace strategy-intent claims with observed bands. Mask refresh in M327.
+W6 Remaining chart/caption rows (by tab)	Cs-16	FIX-NOW	NV	S	Separate count/distance/time panels with CLASS_ORDER keys. Show the unknown-class drive count from the master (audit target 3).
+W6 Remaining chart/caption rows (by tab)	Cs-18	FIX-NOW	NV	S	Label "target (commanded) motor torque". No mechanical power from the rejected motor-RPM channel. Keep sign and support.
+W6 Remaining chart/caption rows (by tab)	Cs-19	FIX-NOW	NV	S	Signed torque-bin names. Flat/uphill/downhill only as context hypotheses (no grade). Show QC GPS coverage.
+W6 Remaining chart/caption rows (by tab)	Cs-21	FIX-NOW	NV	S	Per-phase mask labels. Show signed net and positive-direction energies separately (splice if a new key).
+W6 Remaining chart/caption rows (by tab)	Cs-23	FIX-NOW	NV	S	Descriptive correlation; mechanical decoupling is known architecture, not inferred here.
+W6 Remaining chart/caption rows (by tab)	Cs-28	FIX-NOW	NV	S	Occupancy denominator = observed RPM time incl. engine-off. Unknown-state handling from M326 sidecar. Keep censoring. Note left-truncated initial states.
+W6 Remaining chart/caption rows (by tab)	Cs-33	FIX-NOW	NV	S	Keep subset coverage. "ECU-coordinate tracking, not calibrated actuator accuracy; no efficiency surface".
+W6 Remaining chart/caption rows (by tab)	Cs-36	FIX-NOW	V	S	Baro ~90 m/LSB, 0.0146% of rows (jsx:11523). Disclose quantization and route/temperature confounding. No grade claims.
+W6 Remaining chart/caption rows (by tab)	Cs-37	FIX-NOW	NV	S	Engine-off pack-load proxy. HVAC and DC-DC not individually metered. HV coolant loop is separate from the pack's air cooling.
+W6 Remaining chart/caption rows (by tab)	Cs-40	FIX-NOW	NV	S	Mark old grade narratives superseded. Terrain claims only on QC altitude-covered drives.
+W6 Remaining chart/caption rows (by tab)	Cs-42	FIX-NOW	NV	S	Observed logged-sequence transitions. Keep unknowns and unlogged-gap markers. No daily-behaviour inference.
+W6 Remaining chart/caption rows (by tab)	Cs-45	FIX-NOW	V	S	Keep the badge. highwayVsCity is pipeline-bound (summary_arrays.json), not static. Add per-row unit and denominator. Stale-basis check in M323.
+W6 Remaining chart/caption rows (by tab)	Cs-46	FIX-NOW	NV	S	Saturation and intent not metered. Reserve at another condition does not prove reserve at the limiter.
+W6 Remaining chart/caption rows (by tab)	Cs-47	FIX-NOW	NV	S	Label the triangle schematic. Bind 115 kW and 96.1 kWh to S.* as baseline-relative indices.
+W6 Remaining chart/caption rows (by tab)	Cs-48	FIX-NOW	NV	S	Separate boost magnitude from active share. No enrichment inferred from pressure.
+W6 Remaining chart/caption rows (by tab)	Cs-52	FIX-NOW	V	S	Remove "thermal accumulator reaching equilibrium" and "reaches thermal equilibrium" (jsx:10634, 10646). Show per-bin at-risk counts.
+W6 Remaining chart/caption rows (by tab)	Cs-56	FIX-NOW	NV	S	Gaps are parking bounds. Keep continuity/unknown-use flags. No exclusive residual-heat attribution.
+W6 Remaining chart/caption rows (by tab)	Cs-57	FIX-NOW	NV	S	Case-study time constants, n=TS.nFits. Remove intrinsic heat-capacity/conductance derivations.
+W6 Remaining chart/caption rows (by tab)	Cs-64	FIX-NOW	NV	S	Annotation does not make vehicles equivalent. Show uncertainty and T/SoC/load/cadence support. Vehicle-specific energy normalization.
+W6 Remaining chart/caption rows (by tab)	Cs-65	FIX-NOW	NV	S	Make missing strata and support explicit. "Nine captures do not estimate an AWD/FWD population effect".
+W6 Remaining chart/caption rows (by tab)	Cs-66	FIX-NOW	NV	S	Shared detector definitions. Report clock quality. "Observational, clustered within few drives/days".
+W6 Remaining chart/caption rows (by tab)	Cs-67	FIX-NOW	NV	S	Keep units and masks. Logger-configuration differences are not vehicle mechanisms. RPM/boost is not calibrated output.
+W6 Remaining chart/caption rows (by tab)	D-19	FIX-NOW	V	S	Rename 'Flat cruise' labels (compute_summary_arrays.py:4336-4337) to torque bands. Grade is a hypothesis unless altitude is quality-controlled.
+W6 Remaining chart/caption rows (by tab)	E-8	FIX-NOW	V	S	KEEP soc_patterns.json (O2). Label the section illustrative; jsx:10138 wrongly says it is generated by the absent extract_soc_patterns.py.
+W6 Remaining chart/caption rows (by tab)	E-N3	STALE	V	-	Resolved by O2: soc_patterns kept as a labelled illustration outside quantitative evidence. Recovering the extractor is BLOCKED.
