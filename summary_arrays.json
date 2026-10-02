@@ -8099,7 +8099,7 @@
   "hardeningMethod": "M223.2 (P1.5, enhancement plan): statistical hardening layer over regimeTransition's (M142) first-order countMatrix -- Jeffreys-Dirichlet + day-clustered-bootstrap per-cell uncertainty, independence-residual heatmap, a day-block-preserving label-permutation test (seed=42, 4000 draws), a second-order (previous-two-drive-type) model with BIC/likelihood-ratio comparison against a first-order re-fit on the identical triples sample, transitions conditioned on parking-gap bin / time-of-day / weekday (the SAME gap bins interDriveCarryover/M223.1 uses), leave-one-day-out predictive log-likelihood, row-wise Shannon entropy and expected run length, and an explicit link back to interDriveCarryover. regimeTransition's own pre-existing fields (countMatrix, cells, stationary, persistence, sessionVariants, etc.) are computed by _regime_transition, UNCHANGED by this function."
  },
  "seasonalLife": {
-  "basis": "M28 model-based all-year extrapolation (no sub-15C pack data in corpus; assumption-driven, superseded by real winter logs)",
+  "basis": "M28 model-based all-year extrapolation (the cold tail below the lowest logged pack-probe reading is modelled, not observed; assumption-driven, superseded by real winter logs)",
   "annualKm": 20824,
   "carAgeNow": 2.1465,
   "odometer": 44699,
@@ -8570,10 +8570,10 @@
      }
     ]
    },
-   "note": "MEASURED high-T cycle-damage sensitivity (whole corpus is warm-season, so pack thermal exposure is characterised directly). Reported as a labelled sensitivity only, never folded into the primary crossing. Calendar-aging axis (calendarLifeYrShaded) is duty-blended/parked-dominated and is NOT affected by this in-drive cycling term."
+   "note": "MEASURED high-T cycle-damage sensitivity (the logged corpus is almost entirely Warm and Shoulder ambient class (Cold-class drives are below minimum support), so pack thermal exposure is characterised directly for that range). Reported as a labelled sensitivity only, never folded into the primary crossing. Calendar-aging axis (calendarLifeYrShaded) is duty-blended/parked-dominated and is NOT affected by this in-drive cycling term."
   },
   "assumptions": {
-   "_provenance": "M28 (2026-07-10). Inputs for the all-year seasonal cycle-life extrapolation. monthlyTempC = user-supplied Kyiv monthly mean daily temperatures (external climatology; NOT measured by this study; note it diverges by up to 1.1C from the older archived 'climate' block, which is retained unchanged per provenance convention). All model parameters below are assumptions carried with lo/mid/hi bands because the corpus contains no sub-15C pack data; consumptionSlopePerC is anchored to the 15-30% hybrid winter consumption penalty range reported in cold-climate fleet literature, coldSoakRetention encodes inter-drive pack cooling under the 5-6 short-city-drives/day working pattern, and platingDamageWeights are generic NMC low-temperature stress multipliers (sensitivity only, not fitted to this pack).",
+   "_provenance": "M28 (2026-07-10). Inputs for the all-year seasonal cycle-life extrapolation. monthlyTempC = user-supplied Kyiv monthly mean daily temperatures (external climatology; NOT measured by this study; note it diverges by up to 1.1C from the older archived 'climate' block, which is retained unchanged per provenance convention). All model parameters below are assumptions carried with lo/mid/hi bands because the cold tail below the lowest logged pack-probe reading is modelled, not observed; consumptionSlopePerC is anchored to the 15-30% hybrid winter consumption penalty range reported in cold-climate fleet literature, coldSoakRetention encodes inter-drive pack cooling under the 5-6 short-city-drives/day working pattern, and platingDamageWeights are generic NMC low-temperature stress multipliers (sensitivity only, not fitted to this pack).",
    "months": [
     "Jan",
     "Feb",
@@ -8635,7 +8635,7 @@
      2.0,
      2.5
     ],
-    "_provenance": "M85 (2026-08-05): high-temperature cycle-damage sensitivity, symmetric to the cold platingDamageWeights. Unlike the cold tail, this one is MEASURED: the whole corpus is warm-season, so pack thermal exposure is characterised directly (time-weighted mean pack ~34.2C, 54.3% of drive-time >=35C, highway thermal rise +17C above ambient). A hot class-month is one whose modeled pack temp (ambient + measured per-class rise) exceeds tempThresholdC; its cycles are damage-weighted either by the per-temp Arrhenius factor (arrhenius block, Ea/refC) or by the flatDamageWeights ladder. Reported as a labelled sensitivity only, never folded into the primary crossing (same discipline as plating). This is a CYCLE-damage overlay; the calendar-aging axis (calendarLifeYrShaded) is duty-blended and dominated by the parked/winter state, so it is NOT changed by this term.",
+    "_provenance": "M85 (2026-08-05): high-temperature cycle-damage sensitivity, symmetric to the cold platingDamageWeights. Unlike the cold tail, this one is MEASURED: the logged corpus is almost entirely Warm and Shoulder ambient class (Cold-class drives are below minimum support), so pack thermal exposure is characterised directly for that range (time-weighted mean pack ~34.2C, 54.3% of drive-time >=35C, highway thermal rise +17C above ambient). A hot class-month is one whose modeled pack temp (ambient + measured per-class rise) exceeds tempThresholdC; its cycles are damage-weighted either by the per-temp Arrhenius factor (arrhenius block, Ea/refC) or by the flatDamageWeights ladder. Reported as a labelled sensitivity only, never folded into the primary crossing (same discipline as plating). This is a CYCLE-damage overlay; the calendar-aging axis (calendarLifeYrShaded) is duty-blended and dominated by the parked/winter state, so it is NOT changed by this term.",
     "note": "High-T stress is the in-drive cycling accelerant (pack does its charge/discharge work at ~35C, ~1.95x calendar-basis Arrhenius acceleration vs 25C). It is distinct from and opposite to the cold plating tail; both are carried so the two ends of the temperature axis are visible."
    },
    "workSeasonTempThresholdC": 12.0,
@@ -8794,7 +8794,7 @@
      "label": "All-year model (M28)",
      "color": "#ec4899",
      "primary": false,
-     "basis": "seasonal re-weighting of the same measured intensities over Kyiv climate normals; no sub-15 C pack data exists",
+     "basis": "seasonal re-weighting of the same measured intensities over Kyiv climate normals; the cold tail below the lowest logged pack-probe reading is modelled, not observed",
      "rateGtcYr": 1880,
      "accumulatedGtc": 4036,
      "gtcPerKm": null,
@@ -41989,7 +41989,7 @@
     "p75Kw": 2.282
    }
   ],
-  "interpretation": "Standstill draw rises monotonically with ambient temperature above ~15 C, consistent with an AC-compressor climate-load proxy, but no HVAC state channel exists (compressor on/off, fan speed, setpoint) so this is a descriptive correlation, NOT a mechanism claim. No sub-15 C data exists (warm-season corpus) -- this characterises the warm end of the range only.",
+  "interpretation": "Standstill draw rises monotonically with ambient temperature above ~15 C, consistent with an AC-compressor climate-load proxy, but no HVAC state channel exists (compressor on/off, fan speed, setpoint) so this is a descriptive correlation, NOT a mechanism claim. Ambient below ~15 C is thinly observed (the Cold class is below minimum support) -- this characterises the warm end of the range only.",
   "methodology": "Extends standstillStats (M26): per-drive standstill_draw_kw (key-on, stationary median draw, from drive_master, ens-unfiltered to match the M26 scope) paired with the drive-start ambient temperature (ambientByDrive[file][0]). Spearman rank correlation (day-clustered bootstrap, seed 42, 4000 draws); an OLS slope (kW/C) is reported as a descriptive summary, not a causal estimate. Binned median/IQR by ambient band. EXPLORATORY -- no HVAC state channel, no causality claim. Single vehicle / ~single driver."
  },
  "fullCellCaseStudy": {
@@ -43962,7 +43962,7 @@
    "highwayVsCity": "M30 (2026-07-12, audit): all 10 Comparison-tab rows now computed -- 6 from drive_master (SoC band, net discharge, engine-ON fraction, battery temp Sensor 1, peak charge/discharge currents; true-extrema basis for records-like claims, ens_outlier_v2-clean basis for typical-range claims) + 4 from the raw 1 Hz pass (engine trigger/stop SoC IQR, turbo activity, engine-reaches-80C timing). Supersedes the hand-authored config block, which had drifted (highway SoC band claimed 60-82% vs the observed 44.5-84.5%, and used a 12-drive highway-only basis instead of the 23-drive mixed_highway+highway blended class used everywhere else). M86 (2026-08-05): the table itself migrated from City/Mixed/Highway (3 columns, Highway = mixed_highway+highway blended) to native CLASS_ORDER (4 columns: Urban/Mixed/Mixed Highway/Highway), matching driveTypes/engineStartsByType elsewhere in the dashboard. 'city' is retained as an alias of 'urban' in every underlying dict for any not-yet-migrated consumer. The cycle-life scenario projection (S.cycleLife, a DIFFERENT section) intentionally keeps the blended 3-way convention -- see _cycle_projection’s docstring.",
    "_clean_basis": "M23 (2026-07-09): all ens-clean aggregates (driveTypes avg*, cycleByType, efficiencyBands, cycleLife intensities) now filter on ens_outlier_v2 (domain-invalid | intensity-extreme) instead of the v5 magnitude-based ens_outlier, re-admitting the four long-highway record drives (169-284 km) that carried 31% of valid 80-120 band time and 27% of throughput.",
    "speedDist": "M26 (2026-07-09): time-weighted zone shares from raw speed samples (dt-weighted, 5s-capped), all drives; overall + urban-class (city) + highway-blended-class (mixed_highway+highway). Supersedes the hand-authored config block, which implied a nonexistent single 1,091 km highway drive and diverged from current data by up to 3x (120+ share: 8.6% claimed vs 0.3% measured; 90-120: 38.8% claimed vs 21.6% measured).",
-   "seasonalLife": "M28 (2026-07-10): all-year seasonal extrapolation of the cycle projection. MODEL-BASED, not measured — no sub-15C pack data exists in the corpus. Inputs: user-supplied Kyiv monthly mean temps + literature-anchored cold-consumption slope / cold-soak retention / plating weights (all carried as lo-mid-hi bands in config.seasonalAssumptions); data-derived per-class efc/km, thermal rise, regen shares, C-rates. Same gross-EFC-vs-20000 frame as cycleLife; plating acceleration reported only as a labeled damage-weighted sensitivity, never blended into the primary crossing. Superseded by winter logging when available.",
+   "seasonalLife": "M28 (2026-07-10): all-year seasonal extrapolation of the cycle projection. MODEL-BASED, not measured — the cold tail below the lowest logged pack-probe reading is modelled, not observed. Inputs: user-supplied Kyiv monthly mean temps + literature-anchored cold-consumption slope / cold-soak retention / plating weights (all carried as lo-mid-hi bands in config.seasonalAssumptions); data-derived per-class efc/km, thermal rise, regen shares, C-rates. Same gross-EFC-vs-20000 frame as cycleLife; plating acceleration reported only as a labeled damage-weighted sensitivity, never blended into the primary crossing. Superseded by winter logging when available.",
    "thermalConvergence": "M33 (2026-07-13): Sensor-1 first/peak/last trajectory for every drive >60 min (raw pass), sorted by duration. Replaces the hand-authored \"17 drives >60min\" list that ended Jun27 and had gone stale (now longDrivesN drives, incl. Jul11/Jul13 long drives the static list omitted). Exact reproduction of the archived Sensor-1 values on shared drives.",
    "batteryVsAmbient": "M33 (2026-07-13): pack-mean (4-sensor) first/peak/last battery temp joined to per-drive ambients from config.ambientByDrive (ambient is a manual field -- no OBD outside-air channel), with battery-minus-ambient deltas. Replaces the hand-authored ambient log that ended Jul07. Only drives with a recorded ambient appear; drives lacking one are omitted.",
    "standstillStats": "M26 (2026-07-09): drives/samples/median/range of standstill_draw_kw, all drives (unfiltered, matching the Parasitic Draws caption's \"all drives\" scope). Backs the caption text directly; the hand-typed snapshot it replaces (92 drives / 10,665 samples / -1.27 kW) had drifted from 96 / 10,867 / -1.245 kW.",
@@ -46884,7 +46884,7 @@
    {
     "id": "thermal_regime_bins",
     "symbol": "thermal_regime (regime_v1_5_15)",
-    "label": "Seasonal cohort thresholds (drive-mean ambient)",
+    "label": "Ambient thermal regime thresholds (drive-mean ambient)",
     "raw": {
      "cold": "<=5",
      "shoulder": ">5 && <15",

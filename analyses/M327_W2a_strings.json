@@ -1,0 +1,25 @@
+{
+ "wave": "W2a (thermal cohort, Cold counts, ambient / pack-temperature literals)",
+ "binding": "Cold text is generated from the payload: S.cohortMeta.cold.nObserved + the cold rows of S.ambientTable (2 drives, 1 date 2026-09-30); pack minimum from the 'Battery temp min' record (11 C). No payload key added or renamed.",
+ "jsx": [
+  {"id": "C11.2/p20.2", "old": "Season (selector label)", "new": "Thermal cohort"},
+  {"id": "C11.2/D-20", "old": "All-data reference · season filter does not apply", "new": "All-data reference · thermal-cohort filter does not apply"},
+  {"id": "D-20/F08.r2", "old": "Season filter applies only to sections without an All-data reference tag; ... (Cold: {cohortCount(cold)}).", "new": "The thermal-cohort filter (ambient classes, not calendar seasons) applies only to sections without an All-data reference tag; ... (Cold: {observed n} observed, below support)."},
+  {"id": "p21.13/F13.8", "old": "{label} cohort has {n} drives; ... will populate once enough {label}-season drives are logged.", "new": "Cold: {M294.coldNote}. The cohort view requires at least 10 drives, so no curves, no statistics and no winter inference are shown ... The all-data figures are not substituted."},
+  {"id": "F13.8/D-3/F24 (7 sites)", "old": "({regimes}; no Cold)", "new": "({regimes} analysed; Cold: 2 observed drives on 1 date (2026-09-30), below the minimum support (descriptive only, no statistics))"},
+  {"id": "D-2/F24", "old": "no sub-15 °C pack data", "new": "the lowest logged pack-probe reading is {Battery temp min record}"},
+  {"id": "D-2", "old": "No sub-15°C data exists (warm-season corpus); the 10–15°C bin has only N drives.", "new": "Ambient below 15 °C is thinly observed: the 10–15 °C bin has only N drives, and the Cold class is {coldNote}."},
+  {"id": "D-2", "old": "No sub-15 °C ambient data exists, so this is warm-season cold-starts.", "new": "Ambient below 15 °C is observed only for the Cold class ({coldNote}), so these are mild-ambient cold-starts."},
+  {"id": "p21.10", "old": "the whole corpus is warm-season, so pack thermal exposure is characterised directly", "new": "the logged corpus spans the {Warm/Shoulder} ambient classes ({date range}), so pack thermal exposure is characterised directly"},
+  {"id": "p21.10", "old": "Warm-season data only.", "new": "Data span {date range} ({classes} ambient classes analysed; Cold: {coldNote})."},
+  {"id": "p20.4/F24.r1/p25.7", "old": "(absent)", "new": "Terms paragraph: thermal cohort = class of drive-mean ambient temperature, not a calendar season; pack temperature = logged pack-probe readings (row-wise mean/min over available probes); cold ambient, cold pack, cold engine start and verified cold soak are different states; winter consumption and ageing cannot be inferred: Cold is {coldNote}."}
+ ],
+ "payload_and_config": [
+  {"id": "p20.2", "where": "build_assumptions_registry.py + assumptionsRegistry.entries[thermal_regime_bins].label", "old": "Seasonal cohort thresholds (drive-mean ambient)", "new": "Ambient thermal regime thresholds (drive-mean ambient)", "thresholds": "unchanged"},
+  {"id": "D-2/F24", "where": "compute_summary_arrays.py x4 + 4 payload leaves", "old": "no sub-15 C pack data exists / (no sub-15C pack data in corpus; ...) / No sub-15 C data exists (warm-season corpus) / no sub-15C pack data exists in the corpus.", "new": "the cold tail below the lowest logged pack-probe reading is modelled, not observed (and 'Ambient below ~15 C is thinly observed (the Cold class is below minimum support)' for the HVAC interpretation)"},
+  {"id": "D-2/p21.10", "where": "summary_config.json (2 provenance strings, raw-text exact replacement) + payload copies (seasonalLife.assumptions._provenance, .hotTail._provenance) + builder hotTail note", "old": "because the corpus contains no sub-15C pack data; / the whole corpus is warm-season, so pack thermal exposure is characterised directly", "new": "because the cold tail below the lowest logged pack-probe reading is modelled, not observed; / the logged corpus spans the Warm and Shoulder ambient classes, so pack thermal exposure is characterised directly"}
+ ],
+ "gate": "W2-nocold (negative look-ahead keeps 'no cold-pack', 'no cold content'), W2-sub15 (prefix match incl. sub-15C), W2-seasonlabel, W2-warmseason-corpus (scope dom/payload/jsx; config dated drivingMixNote deferred to W2b); REQUIRED: Cold count+date bound to payload, selector label, HVAC thinly-observed text; 131 checks pass",
+ "isolation": "arrays deep-diff = 8 leaves; summary_config.json = 2 strings; drive_master.csv, raw/, raw_manifest.json unchanged",
+ "deferred_W2b": "F08/p20.3/Cs-43 (cohortCounts observed vs eligible: DATA), Cs-53/55/58 (hand-typed rows, per-drive ambient provenance), B-fam-11, F12.4, F25.r3, p20.9, p21.16, Cs-26/29/44/50/72, B-fam-12/13, Cs-6, F27, D-12/R2, D-L6, remaining 'warm-season' mentions (jsx L1837, 2259, 2310, 3809, 7277, 7329, 7588; config drivingMixNote)"
+}

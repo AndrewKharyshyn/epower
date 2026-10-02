@@ -2520,8 +2520,9 @@ def _fade_modes(dm, cyc, seasonal, power_fade):
         rows.append({'label': 'All-year model (M28)', 'color': '#ec4899',
                      'primary': False,
                      'basis': ('seasonal re-weighting of the same measured '
-                               'intensities over Kyiv climate normals; no '
-                               'sub-15 C pack data exists'),
+                               'intensities over Kyiv climate normals; the cold '
+                               'tail below the lowest logged pack-probe reading '
+                               'is modelled, not observed'),
                      'rateGtcYr': round(seasonal['rate']['mid']),
                      'accumulatedGtc': round(seasonal['accumulated']['mid']),
                      'gtcPerKm': None, 'measured': False,
@@ -3295,16 +3296,18 @@ def _seasonal_projection(dm, odometer_km, cfg, obs_mix=None):
                               ay_hs, ay_af, ay_flat),
         'observed': _hot_block(obs_rate['mid'], obs_acc['mid'], obs_base,   # M92
                                obs_hs, obs_af, obs_flat),
-        'note': ('MEASURED high-T cycle-damage sensitivity (whole corpus is '
-                 'warm-season, so pack thermal exposure is characterised '
-                 'directly). Reported as a labelled sensitivity only, never '
+        'note': ('MEASURED high-T cycle-damage sensitivity (the logged corpus is '
+                 'almost entirely Warm and Shoulder ambient class (Cold-class drives '
+                 'are below minimum support), so pack thermal exposure is '
+                 'characterised directly for that range). Reported as a labelled sensitivity only, never '
                  'folded into the primary crossing. Calendar-aging axis '
                  '(calendarLifeYrShaded) is duty-blended/parked-dominated and '
                  'is NOT affected by this in-drive cycling term.')}
 
     return {
-        'basis': 'M28 model-based all-year extrapolation (no sub-15C pack data '
-                 'in corpus; assumption-driven, superseded by real winter logs)',
+        'basis': 'M28 model-based all-year extrapolation (the cold tail below the '
+                 'lowest logged pack-probe reading is modelled, not observed; '
+                 'assumption-driven, superseded by real winter logs)',
         'annualKm': round(annual_km), 'carAgeNow': round(age_yr, 4),
         'odometer': round(odo),
         'intensityGtcPerKm': {k: round(v, 4) for k, v in lvl.items()},
@@ -13537,9 +13540,9 @@ def _aux_load_ambient(dm, ambient_by_drive=None):
             'Standstill draw rises monotonically with ambient temperature above '
             '~15 C, consistent with an AC-compressor climate-load proxy, but no '
             'HVAC state channel exists (compressor on/off, fan speed, setpoint) so '
-            'this is a descriptive correlation, NOT a mechanism claim. No sub-15 C '
-            'data exists (warm-season corpus) -- this characterises the warm end of '
-            'the range only.'),
+            'this is a descriptive correlation, NOT a mechanism claim. Ambient below '
+            '~15 C is thinly observed (the Cold class is below minimum support) -- '
+            'this characterises the warm end of the range only.'),
         'methodology': (
             'Extends standstillStats (M26): per-drive standstill_draw_kw (key-on, '
             'stationary median draw, from drive_master, ens-unfiltered to match '
@@ -17372,7 +17375,7 @@ def build_summary_arrays(dm, raw_loader=None, with_raw=True, odometer_km=None,
                         '90-120: 38.8% claimed vs 21.6% measured).',
             'seasonalLife': 'M28 (2026-07-10): all-year seasonal extrapolation '
                             'of the cycle projection. MODEL-BASED, not measured '
-                            '— no sub-15C pack data exists in the corpus. '
+                            '— the cold tail below the lowest logged pack-probe reading is modelled, not observed. '
                             'Inputs: user-supplied Kyiv monthly mean temps + '
                             'literature-anchored cold-consumption slope / cold-'
                             'soak retention / plating weights (all carried as '

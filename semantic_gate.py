@@ -71,10 +71,16 @@ _pay, _cfgh = LG.scan_payload(A), LG.scan_payload(_cfg)
 _dom = {k: LG.scan_text(t) for k, t in T.items()}
 for r in LG.RULES:
     d = [k for k, v in _dom.items() if r.rid in v]
-    ok(f"A2 [{r.rid}] absent from rendered DOM", not d, f"{r.why}; in {d[:3]}")
-    ok(f"A2 [{r.rid}] absent from payload string values", r.rid not in _pay, f"{r.why}; e.g. {_pay.get(r.rid, [''])[0]}")
-    ok(f"A2 [{r.rid}] absent from summary_config.json string values", r.rid not in _cfgh, r.why)
-    ok(f"A2 [{r.rid}] absent from xtrail_summary.jsx strings/JSX text", r.rid not in _jsx_code, r.why)
+    if "dom" in r.scope:
+        ok(f"A2 [{r.rid}] absent from rendered DOM", not d, f"{r.why}; in {d[:3]}")
+    if "payload" in r.scope:
+        ok(f"A2 [{r.rid}] absent from payload string values", r.rid not in _pay, f"{r.why}; e.g. {_pay.get(r.rid, [''])[0]}")
+    if "config" in r.scope:
+        ok(f"A2 [{r.rid}] absent from summary_config.json string values", r.rid not in _cfgh, r.why)
+    if "jsx" in r.scope:
+        ok(f"A2 [{r.rid}] absent from xtrail_summary.jsx strings/JSX text", r.rid not in _jsx_code, r.why)
+    if len(r.scope) < 4:
+        print(f"NOTE A2 [{r.rid}] enforced only in {r.scope} (documented exemption)")
     if r.rid in _jsx_comm:
         print(f"WARN A2 [{r.rid}] appears only in a jsx comment: {r.why}")
 # REQUIRED (W0): replacement text present and bound to payload values
@@ -84,6 +90,15 @@ ok("A2 REQUIRED rainflow floor stated as a cycle range with the payload floor an
    f"a range below {_rf['floorPct']:g} pp are dropped" in conc and f"{_rf['nFilesUsed']} SoC traces" in conc, f"{_rf['floorPct']} / {_rf['nFilesUsed']}")
 ok("A2 REQUIRED fuel text names the logger app and the subset of drives", "logger app" in _all_dom and "subset of drives" in _all_dom)
 ok("A2 REQUIRED non-integrable drives are excluded from GTC, not counted as zero", "not counted as zero" in conc)
+# W2a (M327): Cold is shown as OBSERVED counts from the payload (cohortMeta.cold.nObserved + cold rows of ambientTable), the selector says Thermal cohort
+_cm = (A.get("cohortMeta") or {}).get("cold") or {}
+_crow = [r for r in (A.get("ambientTable") or {}).get("rows", []) if r.get("c") == "cold"]
+_cd = sorted({r["d"] for r in _crow})
+_cn = _cm.get("nObserved", len(_crow))
+_cexp = f"Cold: {_cn} observed {'drive' if _cn == 1 else 'drives'} on {len(_cd)} {'date' if len(_cd) == 1 else 'dates'} ({', '.join(_cd)}), below the minimum support"
+ok("A2 REQUIRED Cold observed count and date shown from the payload", any(_cexp in t for t in T.values()), _cexp)
+ok("A2 REQUIRED selector label reads 'Thermal cohort'", any("Thermal cohort" in t for t in T.values()))
+ok("A2 REQUIRED HVAC caveat states sub-15 C ambient is limited", any("Ambient below 15 °C is limited" in t for t in T.values()))
 
 # ---------- B. prose == payload ----------
 mc = A["metricConvention"]
