@@ -89,6 +89,16 @@ for ok_text in ["f_gen is a model-derived sensitivity index, not a metered split
 assert "W7-conserved" in lg.scan_text("1 · Fuel → HV bus  (conserved cascade)") and "W7-conserved" in lg.scan_text("2 · Traction supply split  (conserved)")
 assert "W7-conserved" in lg.scan_text("each cohort is a separate Sankey at identical node positions") and "W7-sensitivityindex" in lg.scan_text("f_gen is a sensitivity index, not an identified share")
 assert lg.scan_text("allocation sketch, not conserved") == [] and lg.scan_text("f_gen is an allocation index") == []
+# M334 rules
+for old, rid in [("Cold-Start Thermal Fuel Penalty", "W8-penalty"), ("what does cold-engine warm-up actually cost in fuel?", "W8-penalty"), ("naive trip penalty", "W8-penalty"),
+                 ("The naive 1.4× trip-level penalty decomposes cleanly", "W8-penalty"), ("the combustion-penalty result rests largely", "W8-penalty"), ("ambient-driven, not a winter penalty", "W8-penalty"),
+                 ("at 2.1 kWh the whole pack holds under 0.1 L of fuel-equivalent", "W8-literals"), ("per-trip |correction| p95 up to ~2.5 for short high-drift trips", "W8-literals"), ("≈3% — small", "W8-literals"),
+                 ("per-trip fixed fuel (cold-start/idle)", "W8-fixedfuel"), ("4b — Generator→Traction Electrical Energy", "W8-4b"), ("see section 4b", "W8-4b")]:
+    assert rid in lg.scan_text(old), (old, lg.scan_text(old))
+assert "W8-ecufuel" in lg.scan_text("Fuel flow measured: ECU fuel-flow PID, 181/410 drives")
+for ok_text in ["Cold-start fuel-rate association (adjusted)", "an association, not a cost estimate and not a causal effect", "naive trip ratio", "per-trip intercept (unattributed)",
+                "the cold-penalty perturbation of P_aux", "SoC-balanced scenario (η=0.30)"]:
+    assert not any(r.startswith("W8-") for r in lg.scan_text(ok_text)), (ok_text, lg.scan_text(ok_text))
 # hedged, correct text must NOT fail
 for ok in ["engine brake thermal efficiency is therefore model-derived", "the logged fuel rate is calculated by the logger app and present on a subset of drives",
            "cycles with a range below 1.0 pp are dropped", "the remainder are excluded from GTC, not counted as zero", "156 of 489 canonical archived copies match the manifest"]:

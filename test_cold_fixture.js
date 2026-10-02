@@ -39,7 +39,7 @@ async function load(hp){
   const d=dom.window.document, click=el=>el.dispatchEvent(new dom.window.MouseEvent('click',{bubbles:true}));
   return {d,click,errors,txt:()=>d.getElementById('root').textContent,win:dom.window};
 }
-const TABS=['overview','charts','distribution','highway vs city','thermal','records','health','cross-vehicle','conclusions'];
+const TABS=['overview','charts','fuel','distribution','highway vs city','thermal','records','health','cross-vehicle','conclusions'];
 const fails=[];const ok=(c,m)=>{if(!c)fails.push(m);else console.log('  ok:',m);};
 const btn=(P,m)=>P.d.querySelector(`button[data-cohort-btn="${m}"]`);
 const openAll=async(P)=>{for(const b of [...P.d.querySelectorAll('button')].filter(b=>!TABS.includes(b.textContent.trim().toLowerCase())&&!b.hasAttribute('data-cohort-btn')&&!b.hasAttribute('data-cmp-btn')).slice(0,200)){P.click(b);await sleep(4);}await sleep(150);};
