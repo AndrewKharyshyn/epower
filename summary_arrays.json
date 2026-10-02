@@ -6196,16 +6196,22 @@
   },
   {
    "metric": "Battery intake air temperature max",
-   "value": "32.8°C",
+   "value": "36.0°C",
    "drive": "Aug22 D4",
-   "note": "Hottest cabin-sourced cooling air presented to the pack inlet. The floor the pack can be cooled to: forced convection cannot pull cells below their own intake, so this bounds the achievable pack minimum on a hot day. Set on: urban · 5.7 km / 16 min · pack mean 40°C.",
+   "note": "Highest single native sample of the intake-air temperature channel presented to the pack inlet (row-level maximum over the drive logs, the same native-sample basis as the minimum row; valid range -40 to 80 °C; a drive whose maximum exceeds 80 °C is excluded whole). The channel has been unavailable since 2026-08-24 (M319). Set on: urban · 5.7 km / 16 min · pack mean 40°C.",
    "disclosure": {
-    "eligibilityRule": "sanity cap: T_intake <= 80 C (physical-plausibility bound on intake-air temperature)",
-    "column": "T_intake",
+    "eligibilityRule": "sanity cap: intake_max_raw <= 80 C (physical-plausibility bound on intake-air temperature (native samples, battery_temp_extremes.csv))",
+    "column": "intake_max_raw",
     "cap": 80,
     "nNonNull": 270,
-    "excludedByCap": 0,
-    "keptExtremum": 32.8,
+    "excludedByCap": 13,
+    "keptExtremum": 36.0,
+    "rawExtremum": 107.0,
+    "excludedNote": "13 drive(s) with intake_max_raw up to 107.0 C excluded as out-of-range artefacts (> 80 C cap); the reported record is the max of the in-range values.",
+    "sidecar": "battery_temp_extremes.csv",
+    "nNonNullCanonicalClean": 269,
+    "capAppliesTo": "each drive's native maximum: a drive whose maximum exceeds the cap is excluded whole",
+    "sidecarSha256": "5a24565219dbb3da4b26073baebdeee2623477d3493af3e834357486bce9f654",
     "winnerValidity": "canonical_clean",
     "winnerFiles": [
      "20260822_173539.csv"
@@ -6632,13 +6638,29 @@
    }
   },
   {
-   "metric": "Longest sustained 130+ km/h discharge",
-   "value": "143 s",
-   "drive": "Jul26 D2",
-   "note": "Longest continuous stretch of net discharge above 130 km/h (an observed run maximum, not a limit set by the SoC floor; read beside cumulative 130+ km/h exposure). Set on: highway · peak 157 km/h · SoC 59.0-80.0%.",
+   "metric": "Longest contiguous 130+ km/h discharge run",
+   "value": "19.2 s",
+   "drive": "Jul14 D4",
+   "note": "Longest contiguous run of net discharge above 130 km/h, taken from the per-drive run column (capped timeline steps are summed across log gaps, so a gap does not break a run and the value can overstate it). An observed run maximum: not a limit set by the SoC floor and not evidence that the SoC floor forced a speed compromise. Cumulative exposure is a separate row below. Set on: mixed-highway · peak 170 km/h · SoC 51.5-78.0%.",
    "disclosure": {
     "eligibilityRule": "corpus argmax/argmin over non-null drives; no plausibility cap applied (or cap not exceeded)",
     "excludedByCap": 0,
+    "minSupport": "contiguous run of net discharge above 130 km/h from the per-drive run column; capped timeline steps are summed across log gaps (gaps are not broken), so it can overstate a run; 0 s reported as unavailable",
+    "winnerValidity": "canonical_clean",
+    "winnerFiles": [
+     "20260714_123712.csv"
+    ]
+   }
+  },
+  {
+   "metric": "Cumulative 130+ km/h discharge exposure (single drive)",
+   "value": "143 s",
+   "drive": "Jul26 D2",
+   "note": "Largest total time in one drive spent in net discharge above 130 km/h, added up across separate stretches (cumulative exposure, not a continuous run). Read beside the contiguous-run row above. Set on: highway · peak 157 km/h · SoC 59.0-80.0%.",
+   "disclosure": {
+    "eligibilityRule": "corpus argmax/argmin over non-null drives; no plausibility cap applied (or cap not exceeded)",
+    "excludedByCap": 0,
+    "minSupport": "cumulative time in net discharge above 130 km/h in one drive (not a continuous run)",
     "winnerValidity": "canonical_clean",
     "winnerFiles": [
      "20260726_141738.csv"
@@ -7106,10 +7128,10 @@
  },
  "batteryDrawGross": {
   "floor": {
-   "kwh100": 0.01,
-   "drive": "May13 D2",
-   "n": 467,
-   "ctx": "20.7 km / 58 min · 40 km/h moving avg · urban"
+   "kwh100": 6.42,
+   "drive": "Jun27 D5",
+   "n": 465,
+   "ctx": "32.7 km / 20 min · 106 km/h moving avg · highway"
   },
   "floorWarmHwy": {
    "kwh100": 8.13,
@@ -44439,7 +44461,7 @@
    "configHash": "47b499142f5b3664e9efdd64cb3dfc32",
    "fullConfigHash": "1c2afc165c604e36471c351435aa807d",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-09-30T12:22:32.928188+00:00",
+   "generatedAt": "2026-10-02T17:08:43.673250+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "f6ef0a9e345198c7928a028ec13edbb206b692ed5f5f8179b048cb695a956d6a",
@@ -44447,7 +44469,7 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "computationStatusNote": "records computed by _records() (compute_summary_arrays.build_summary_arrays). | M284: added excitation-gated pack-resistance-proxy record (method, gate, covariates, bootstrap interval, gate sensitivity; not SOH) per audit Sec 10. | M284: added two rainflow-exposure records (cycle count, EFC); k=2 damage kept separate (audit Sec 10).",
+   "computationStatusNote": "M340: contiguous 130+ km/h run row, new cumulative-exposure row and native-sample intake-air maximum row (audit F06/F07); other rows unchanged. | M284: added excitation-gated pack-resistance-proxy record (method, gate, covariates, bootstrap interval, gate sensitivity; not SOH) per audit Sec 10. | M284: added two rainflow-exposure records (cycle count, EFC); k=2 damage kept separate (audit Sec 10).",
    "reissuedFrom": "5197ab6dc2a44b99ccb246af03f8f6b0",
    "reissueNote": "M312: master hash re-issued; only cell_spread_loaded_p95_adj_hub_mv changed (per-column hash check); block content unchanged unless listed (cellHealthTrend)."
   },
@@ -44526,7 +44548,7 @@
    "configHash": "47b499142f5b3664e9efdd64cb3dfc32",
    "fullConfigHash": "1c2afc165c604e36471c351435aa807d",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-09-30T12:22:32.928188+00:00",
+   "generatedAt": "2026-10-02T17:08:43.673250+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "f6ef0a9e345198c7928a028ec13edbb206b692ed5f5f8179b048cb695a956d6a",
@@ -44535,7 +44557,8 @@
    },
    "computationStatus": "computed",
    "reissuedFrom": "5197ab6dc2a44b99ccb246af03f8f6b0",
-   "reissueNote": "M312: master hash re-issued; only cell_spread_loaded_p95_adj_hub_mv changed (per-column hash check); block content unchanged unless listed (cellHealthTrend)."
+   "reissueNote": "M312: master hash re-issued; only cell_spread_loaded_p95_adj_hub_mv changed (per-column hash check); block content unchanged unless listed (cellHealthTrend).",
+   "computationStatusNote": "M340: floor recomputed with the shared canonical mask inside the builder (audit F05); floorWarmHwy unchanged; drive, n and context from the same pool."
   },
   "thermalHighwayBand": {
    "corpusHash": "bd9d10726bb064d857cf9ff98d2b7338",
@@ -46381,7 +46404,7 @@
    "configHash": "47b499142f5b3664e9efdd64cb3dfc32",
    "fullConfigHash": "1c2afc165c604e36471c351435aa807d",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-09-30T12:22:32.928188+00:00",
+   "generatedAt": "2026-10-02T17:08:43.673250+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "f6ef0a9e345198c7928a028ec13edbb206b692ed5f5f8179b048cb695a956d6a",
@@ -46521,7 +46544,7 @@
    "configHash": "47b499142f5b3664e9efdd64cb3dfc32",
    "fullConfigHash": "1c2afc165c604e36471c351435aa807d",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-09-30T12:22:32.928188+00:00",
+   "generatedAt": "2026-10-02T17:08:43.673250+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "f6ef0a9e345198c7928a028ec13edbb206b692ed5f5f8179b048cb695a956d6a",

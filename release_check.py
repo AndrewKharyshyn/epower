@@ -27,7 +27,7 @@ from pathlib import Path
 SRC = Path(os.environ.get("XT_WORK", Path(__file__).resolve().parent))
 SEARCH = [SRC, SRC / "claude", SRC / "seasonal", SRC / "track3", SRC / "track4"]
 REQUIRED = ["xtrail_summary.jsx", "summary_arrays.json", "summary_config.json", "build_html.js", "validate_jsdom.js",
-            "test_cold_fixture.js", "test_ambient_table.js", "test_gtr_gate.js", "test_fuel_tab.js", "package.json", "package-lock.json", "drive_master.csv", "soc_patterns.json",
+            "test_cold_fixture.js", "test_ambient_table.js", "test_gtr_gate.js", "test_fuel_tab.js", "package.json", "package-lock.json", "drive_master.csv", "battery_temp_extremes.csv", "soc_patterns.json",
             "seasonal_core.py", "seasonal_adjust.py", "test_seasonal_adjust.py", "cohort_arrays.py", "cohort_arrays.json",
             "seasonal_drive_master.csv", "seasonal_dependency.json", "raw_temperature_triplets.csv",
             "project_paths.py", "derived_literals.py", "build_assumptions_registry.py", "model_constants.py",
@@ -188,6 +188,19 @@ def payload_checks(arrays_path):
     for _x in _f:
         checks["M321: " + _x.replace("M321: ", "")] = False
     checks["ladder drift monitor present, current and consistent with the ladder basis (M321)"] = not _f
+
+    # (9) M340 (audit F07): the raw side-pass CSV that feeds the native intake-air extrema rows covers EXACTLY the master files (same order) and carries
+    #     intake_max: a stale side-pass is a release failure, never a silent omission of the rows (the in-builder fallback stays, but is no longer the only guard).
+    try:
+        import csv as _csv
+        _d = Path(arrays_path).parent
+        _mf = [r["file"] for r in _csv.DictReader(open(_d / "drive_master.csv", encoding="utf-8"))]
+        _tr = _csv.DictReader(open(_d / "battery_temp_extremes.csv", encoding="utf-8"))
+        _tf = [r["file"] for r in _tr]
+        _te_ok = _mf == _tf and "intake_max" in (_tr.fieldnames or [])
+    except Exception:
+        _te_ok = False
+    checks["battery_temp_extremes.csv covers exactly the master files and carries intake_max (M340: stale side-pass fails, never silent)"] = bool(_te_ok)
     return checks
 
 def payload_warnings(arrays_path):

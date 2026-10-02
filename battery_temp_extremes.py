@@ -86,6 +86,7 @@ def _ctx(dm, idx, keys):
 
 
 FLOOR = -40.0
+CEIL = 80.0      # M340: same plausibility cap as the Records rule for intake-air temperature (T_intake <= 80 C)
 SENSOR_COLS = [f'[BMS] HV Battery Temperature Sensor {i} (\u2103)' for i in range(1, 5)]
 INTAKE_COL = '[BMS] HV Battery Intake Air Temperature (\u2103)'
 
@@ -105,12 +106,23 @@ def raw_pass(dm, raw_dir):
             pack_min_sensor = int(pack.loc[ridx].idxmin()[len('[BMS] HV Battery Temperature Sensor ')])
         intake_s = df[INTAKE_COL].where(df[INTAKE_COL] >= FLOOR) if INTAKE_COL in df.columns else pd.Series(dtype=float)
         intake_min = float(intake_s.min()) if intake_s.notna().any() else np.nan
-        rows.append((f, pack_min, pack_min_sensor, intake_min))
-    return pd.DataFrame(rows, columns=['file', 'pack_min', 'pack_min_sensor', 'intake_min'])
+        # M340 (audit F07): native valid-sample maximum, same floor and the Records ceiling; never a per-drive mean
+        intake_v = df[INTAKE_COL].where((df[INTAKE_COL] >= FLOOR) & (df[INTAKE_COL] <= CEIL)) if INTAKE_COL in df.columns else pd.Series(dtype=float)
+        intake_max = float(intake_v.max()) if intake_v.notna().any() else np.nan
+        intake_max_raw = float(intake_s.max()) if intake_s.notna().any() else np.nan     # before the ceiling: for the records disclosure (excludedByCap, rawExtremum)
+        rows.append((f, pack_min, pack_min_sensor, intake_min, intake_max, intake_max_raw))
+    return pd.DataFrame(rows, columns=['file', 'pack_min', 'pack_min_sensor', 'intake_min', 'intake_max', 'intake_max_raw'])
+
+
+def _canonical_bad_files(dm):
+    """M340: shared canonical exclusion (ens_invalid or ens_outlier_v2 is True; a missing flag is not excluded), as compute_summary_arrays._canonical_bad."""
+    f = lambda c: dm[c].map(lambda x: x is True or str(x).strip().lower() == 'true')
+    return set(dm.loc[f('ens_invalid') | f('ens_outlier_v2'), 'file'])
 
 
 def build_records(dm, res):
     file_to_idx = {row['file']: idx for idx, row in dm.iterrows()}
+    res = res[~res['file'].isin(_canonical_bad_files(dm))]      # M340: one canonical mask for every side-pass extremum
 
     out = {}
     # ---- Battery temp min ----
@@ -139,13 +151,28 @@ def build_records(dm, res):
         drive2 = _day_label(dm, idx2) if idx2 is not None else None
         ctx2 = _ctx(dm, idx2, ('class', 'trip', 'pack')) if idx2 is not None else ''
         why2 = ('Coldest cabin-sourced cooling air presented to the pack inlet on '
-                'this dataset\u2019s coldest mornings \u2014 the counterpart to the '
-                'intake-air maximum above, and the low end of the range the pack\u2019s '
+                'this dataset\u2019s coldest mornings \u2014 the native-sample '
+                'counterpart of the intake-air maximum row (same basis), and the low end of the range the pack\u2019s '
                 'passive thermal environment has to work with.')
         rec2 = {'metric': 'Battery intake air temperature min',
                 'value': f"{w2['intake_min']:.1f}\u00b0C", 'drive': drive2 or ''}
         rec2['note'] = f"{why2} Set on: {ctx2}." if ctx2 else why2
         out['Battery intake air temperature min'] = rec2
+
+    # ---- Battery intake air temperature max (M340, audit F07: native-sample maximum, same basis as the minimum row) ----
+    if 'intake_max' in res.columns:
+        sub3 = res.dropna(subset=['intake_max'])
+        if len(sub3):
+            w3 = sub3.loc[sub3['intake_max'].idxmax()]
+            idx3 = file_to_idx.get(w3['file'])
+            drive3 = _day_label(dm, idx3) if idx3 is not None else None
+            ctx3 = _ctx(dm, idx3, ('class', 'trip', 'pack')) if idx3 is not None else ''
+            why3 = ('Highest single native sample of the intake-air temperature channel presented to the pack inlet '
+                    '(row-level maximum over the drive logs, the same native-sample basis as the minimum row; valid range '
+                    '-40 to 80 °C; a drive whose maximum exceeds 80 °C is excluded whole). The channel has been unavailable since 2026-08-24 (M319).')
+            rec3 = {'metric': 'Battery intake air temperature max', 'value': f"{w3['intake_max']:.1f}°C", 'drive': drive3 or ''}
+            rec3['note'] = f"{why3} Set on: {ctx3}." if ctx3 else why3
+            out['Battery intake air temperature max'] = rec3
 
     return out
 
