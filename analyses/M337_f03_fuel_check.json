@@ -1,0 +1,45 @@
+{
+ "milestone": "M337",
+ "check": "F03 fuel columns raw/ vs sha256-verified originals (read-only)",
+ "originalsDir": "../../originals_recovered (outside repo)",
+ "nManifestRecords": 333,
+ "nWithFuelColumns": 108,
+ "skipped": {
+  "no_orig": 0,
+  "no_raw": 0,
+  "no_fuel_col": 225
+ },
+ "counter": {
+  "nFilesCompared": 107,
+  "filesAllCellsEqual": 49,
+  "minCellsEqualShare": 0.0,
+  "maxAbsDiffOverFiles": 0.0049997186529516235
+ },
+ "rate": {
+  "nFilesCompared": 107,
+  "filesAllCellsEqual": 48,
+  "minCellsEqualShare": 0.4801627670396745,
+  "maxAbsDiffOverFiles": 0.24999769404530525
+ },
+ "lifetime": {
+  "nFilesCompared": 107,
+  "filesAllCellsEqual": 43,
+  "minCellsEqualShare": 0.0,
+  "maxAbsDiffOverFiles": 0.005000000000002558
+ },
+ "V_cnt": {
+  "n": 107,
+  "sumRaw": 56.105700000000006,
+  "sumOrig": 56.101239643808206,
+  "aggRelDiff": 7.95054836598749e-05,
+  "maxAbsTripDiffL": 0.004837100774723879
+ },
+ "V_int": {
+  "n": 107,
+  "sumRaw": 56.483946861111114,
+  "sumOrig": 56.354443899774736,
+  "aggRelDiff": 0.002298007971947989,
+  "maxAbsTripDiffL": 0.00875231654797659
+ },
+ "rowsEqualAll": true
+}
