@@ -27,7 +27,7 @@ async function main(){
   // ---------- real payload ----------
   const {d,click,errs}=boot(HTML);
   await sleep(900);
-  click([...d.querySelectorAll('button')].find(b=>b.textContent.trim().toLowerCase()==='charts'));await sleep(500);
+  click([...d.querySelectorAll('button')].find(b=>b.textContent.trim().toLowerCase()==='fuel'));await sleep(500);
   const sk=()=>d.querySelectorAll('svg[data-gtr-sankey]').length;
   for(const mode of ['all','warm','shoulder','compare']){
     const mb=d.querySelector(`button[data-cohort-btn="${mode}"]`);
@@ -87,7 +87,7 @@ async function main(){
   ok('balanced guard: patch target found in the built HTML', n>=1, `n=${n}`);
   if(n>=1){
     const b=boot(HTML.split(OLD).join(NEW));await sleep(900);
-    b.click([...b.d.querySelectorAll('button')].find(x=>x.textContent.trim().toLowerCase()==='charts'));await sleep(500);
+    b.click([...b.d.querySelectorAll('button')].find(x=>x.textContent.trim().toLowerCase()==='fuel'));await sleep(500);
     const acc=b.d.querySelector('[data-gtr-accounting]');
     ok('balanced guard: closure text shown, no warning', !!acc&&acc.textContent.includes('Branches close within 0.05')&&!acc.textContent.includes('do not close'), acc?acc.textContent.slice(-160):'no table');
     ok('balanced guard: residual cells read +0/0', !!acc&&['0','+0'].some(v=>rowCells(acc,'Allocation excess over generator output')[0]===v));

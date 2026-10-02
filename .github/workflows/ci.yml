@@ -28,6 +28,7 @@ jobs:
           python tests/synthetic/test_f03_provenance_wording.py
           python tests/synthetic/test_language_gate.py
           node test_gtr_gate.js
+          node test_fuel_tab.js
   release-gate:
     # Authoritative gate (blocking).
     runs-on: ubuntu-latest

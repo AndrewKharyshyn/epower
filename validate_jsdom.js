@@ -1,4 +1,4 @@
-// jsdom 9-tab click-through validation for xtrail_dashboard.html.
+// jsdom 10-tab click-through validation for xtrail_dashboard.html.
 // Follows the project's React-18/jsdom timing notes: MessageChannel polyfill
 // via setImmediate, 800ms initial settle, 320ms inter-click, and
 // dispatchEvent(MouseEvent{bubbles:true}) rather than .click().
@@ -38,7 +38,7 @@ const click = el => el.dispatchEvent(new window.MouseEvent('click', { bubbles: t
     console.error('FAIL: #root did not render'); process.exit(1);
   }
   // tab buttons = the 10 capitalized nav buttons at the top
-  const tabLabels = ['overview', 'charts', 'distribution', 'highway vs city', 'thermal',
+  const tabLabels = ['overview', 'charts', 'fuel', 'distribution', 'highway vs city', 'thermal',
                      'records', 'health', 'cross-vehicle', 'conclusions'];
   const allBtns = () => Array.from(doc.querySelectorAll('button'));
   const tabButtons = allBtns().filter(b => tabLabels.includes(b.textContent.trim().toLowerCase()));
@@ -56,7 +56,7 @@ const click = el => el.dispatchEvent(new window.MouseEvent('click', { bubbles: t
   await sleep(200);
   const v2 = doc.body.innerHTML.includes('P(engine start next second)') ||
              doc.body.innerHTML.includes('five-variable duration');
-  console.log('tabs clicked:', tabsClicked, '/ 9; inner buttons clicked:', innerClicked);
+  console.log('tabs clicked:', tabsClicked, '/ 10; inner buttons clicked:', innerClicked);
   console.log('M119-v2 section rendered:', v2);
   console.log('console errors captured:', errors.length);
   errors.slice(0, 12).forEach(e => console.log('  ERR:', e.slice(0, 200)));
@@ -215,8 +215,8 @@ const click = el => el.dispatchEvent(new window.MouseEvent('click', { bubbles: t
   semWarn.forEach(w => console.log('  SEM-WARN:', w));
   semFail.forEach(f => console.log('  SEM-FAIL:', f));
 
-  const hardFail = errors.length || tabsClicked !== 9 || semFail.length;
+  const hardFail = errors.length || tabsClicked !== 10 || semFail.length;
   if (hardFail) { console.error('VALIDATION FAILED'); process.exit(1); }
-  console.log(`VALIDATION PASSED — 9 tabs, 0 console errors, ${semWarn.length} semantic warning(s)`);
+  console.log(`VALIDATION PASSED — 10 tabs, 0 console errors, ${semWarn.length} semantic warning(s)`);
   process.exit(0);
 })();

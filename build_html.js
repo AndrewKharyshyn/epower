@@ -97,7 +97,8 @@ const REQUIRED_BLOCKS=[
   'spreadFitProvenance',    // M317: Huber spread-fit provenance record (tools/record_spread_fit.py) referenced by the M19 block prose
   'ambientTable',           // M314: per-drive ambient temperatures for the Thermal tab table (tools/build_ambient_table.py)
   'masterRefitProvenance',  // M311: rebuild from the repository raw archive, labelled provenance sensitivity (tools/build_refit_provenance.py)
-  'provenanceSensitivity'   // M307/F03: computed provenance-sensitivity notice (f03_provenance_flag.py)
+  'provenanceSensitivity',  // M307/F03: computed provenance-sensitivity notice (f03_provenance_flag.py)
+  'fuelContract'            // M334: Fuel-tab disclosure block (tools/fuel_contract.py -> fuel_contract_flag.py)
 ];
 const missing=REQUIRED_BLOCKS.filter(k=>arraysObj[k]==null);
 if(missing.length){
@@ -150,6 +151,9 @@ if(stale.length){
       // like one. Recomputation happens ONLY on the user's explicit demand
       // (recompute_m119v2=True); this gate never asks for or implies it.
       disclosed:o=>!!(o&&o.recomputeMode==='carriedForward'&&o.frozenBasis===true) },
+    { key:'fuelContract',   // M334: stale when the corpus grew and tools/fuel_contract.py was not re-run
+      basis:o=>o&&o.coverage&&o.coverage.nCanonical, kind:'drives',
+      disclosed:o=>false },
     { key:'energyUncertaintyMC',
       basis:o=>o&&o.grossThroughputMC&&o.grossThroughputMC.nominalReleasedThroughputKwh, kind:'gross',
       disclosed:o=>!!(o&&o.grossThroughputMC&&o.grossThroughputMC.dataQualityNote) },

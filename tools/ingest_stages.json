@@ -137,6 +137,21 @@
    ]
   },
   {
+   "id": "fuel_contract_build",
+   "title": "M334 fuel contract (coverage from raw headers/values, fuel_recon_master.csv, constants) before post_steps injects it",
+   "cmd": [
+    "python3",
+    "tools/fuel_contract.py"
+   ],
+   "env": {
+    "XT_RAW_DIR": "$ROOT/raw_only"
+   },
+   "verified": true,
+   "outputs": [
+    "fuel_contract.json"
+   ]
+  },
+  {
    "id": "f03_provenance_build",
    "title": "F03 provenance artifact (raw hash status incl. new files) before post_steps injects it",
    "cmd": [

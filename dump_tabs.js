@@ -5,7 +5,7 @@ if(typeof globalThis.MessageChannel==='undefined'){globalThis.MessageChannel=cla
 const html=fs.readFileSync(process.env.XT_HTML||'xtrail_dashboard.html','utf8');const errs=[];
 const dom=new JSDOM(html,{runScripts:'dangerously',pretendToBeVisual:true,beforeParse(w){w.MessageChannel=globalThis.MessageChannel;w.console.error=(...a)=>errs.push(a.join(' '));w.console.warn=()=>{};}});
 const d=dom.window.document,sleep=ms=>new Promise(r=>setTimeout(r,ms)),click=el=>el.dispatchEvent(new dom.window.MouseEvent('click',{bubbles:true}));
-const TABS=['overview','charts','distribution','highway vs city','thermal','records','health','cross-vehicle','conclusions'];
+const TABS=['overview','charts','fuel','distribution','highway vs city','thermal','records','health','cross-vehicle','conclusions'];
 (async()=>{await sleep(800);fs.mkdirSync('tabtext',{recursive:true});
  const btns=()=>[...d.querySelectorAll('button')];
  for(const t of TABS){click(btns().find(b=>b.textContent.trim().toLowerCase()===t));await sleep(250);

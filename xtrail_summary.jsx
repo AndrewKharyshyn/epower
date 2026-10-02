@@ -56,7 +56,8 @@ function buildS(config, arrays) {
     socHysteresis: A.socHysteresis || null,   // M119: audit §10 SoC hysteresis state machine
     socHysteresisV2: A.socHysteresisV2 || null, // M147: M119-v2 five-variable duration-aware hazard model
     degradationTrends: A.degradationTrends || null,  // M108: TOST equivalence testing
-    provenanceSensitivity: A.provenanceSensitivity || null,  // M307/F03: raw-provenance sensitivity notice
+    provenanceSensitivity: A.provenanceSensitivity || null,
+    fuelContract: A.fuelContract || null,                       // M334: Fuel-tab disclosure block (tools/fuel_contract.py)  // M307/F03: raw-provenance sensitivity notice
     belowAmbient: A.belowAmbient || null,
     // M46 (2026-07-20): motored-engine overcharge-dissipation census.
     dissipationCensus: A.dissipationCensus || null,
@@ -4133,7 +4134,7 @@ function EnergyArchitecture() {
         <div style={{marginTop:6,padding:7,background:"#eff6ff",border:"1px solid #bfdbfe",borderRadius:6,fontSize:9.5,color:"#1d4ed8"}}>
           Every PACK-TERMINAL energy figure originates at this one sensor. It measures current
           crossing the pack terminals and nothing else — the state partition below closes by construction,
-          but it is not a metered source split. Fuel, generator and traction energies elsewhere (§4b) are modelled.
+          but it is not a metered source split. Fuel, generator and traction energies (Fuel tab: generator → traction reconstruction) are modelled.
         </div>
       )}
 
@@ -4531,7 +4532,7 @@ function GeneratorTractionRecon() {
   const R = S.generatorTractionRecon;
   if (!R) return null;
   const _coh=useCohort();
-  if(cohortNoData(_coh,["GeneratorTractionRecon"])) return <ColdNoData chart="4b — Generator→Traction Electrical Energy" cohort={_coh}/>;
+  if(cohortNoData(_coh,["GeneratorTractionRecon"])) return <ColdNoData chart="Generator→Traction Electrical Energy" cohort={_coh}/>;
   if(_coh==="compare") return <React.Fragment><CompareBlock id="GeneratorTractionRecon"/><GtrSankeyMultiples/></React.Fragment>;
   // M255 (season-wiring): headline corpus/flows/driveTypeSplit/basis/nDrives/
   // nProduction/kmProduction/productionCheck are re-derived per cohort straight
@@ -4547,6 +4548,7 @@ function GeneratorTractionRecon() {
   const F = C.flows;
   const statusStyle = {
     measured:      {fg:"#15803d", bg:"#f0fdf4", label:"Measured"},
+    logged:        {fg:"#15803d", bg:"#f0fdf4", label:"Logged (app-calculated)"},
     reconstructed: {fg:"#b45309", bg:"#fffbeb", label:"Reconstructed"},
     unavailable:   {fg:"#7c3aed", bg:"#faf5ff", label:"Unavailable"},
   };
@@ -4564,7 +4566,7 @@ function GeneratorTractionRecon() {
   const SS = S.standstillStats;
 
   return (
-    <Section seasonAware title="4b — Generator→Traction Electrical Energy · Reconstructed (model-derived, not measured)" accent="#a78bfa">
+    <Section seasonAware title="Generator→Traction Electrical Energy · Reconstructed (model-derived, not measured)" accent="#a78bfa">
       <div style={{fontSize:11,fontWeight:700,color:"#5b21b6",background:"#faf5ff",border:"1px solid #e9d5ff",borderRadius:6,padding:8,marginBottom:10}}>
         Model-derived reconstruction — <em>not</em> a measurement. The generator→traction path carries no signal on any logged channel (§20: no generator PID exists anywhere in the corpus). Every number here is estimated by the fuel/BSFC pathway (Path B), reported as reconstructed.
       </div>
@@ -7288,6 +7290,26 @@ function HandoffSequence() {
 }
 
 
+// M334 (owner decision O1): the Fuel tab banner renders ONLY from the script-written S.fuelContract (tools/fuel_contract.py); no number is typed here.
+function FuelBasisBanner(){
+  const FC=S.fuelContract;
+  if(!FC) return <div data-fuel-banner="1" style={{padding:10,background:"#fef2f2",border:"1px solid #fecaca",borderRadius:8,marginBottom:10,fontSize:11,color:"#991b1b"}}>Fuel contract block missing from the payload (tools/fuel_contract.py was not run).</div>;
+  const cv=FC.coverage||{}, rc=FC.recon||{}, mo=cv.byMonth||{}, nat=cv.nativeObdFuelRatePid_gPerS||{};
+  const th={textAlign:"left",padding:"2px 8px",color:"#64748b",fontWeight:600}, td={padding:"2px 8px",color:"#334155"};
+  return <div data-fuel-banner="1" style={{padding:"10px 12px",background:"#fffbeb",border:"1px solid #fde68a",borderRadius:8,marginBottom:10,fontSize:11,color:"#92400e",lineHeight:1.65}}>
+    <strong>Fuel basis and coverage (script-written).</strong> The fuel rate (L/h) and the fuel counter (L) are <strong>logged/app-calculated</strong> by the logger app (Car Scanner), not an ECU measurement. They are present in {cv.rate?.columnPresent} of {cv.nCanonical} canonical files ({cv.bothUsable} with a usable rate and counter; the first files carrying the columns date from {cv.firstDateWithFuelColumns}, a usable rate and counter only from {Object.keys(mo).sort().find(m=>mo[m].usableBoth>0)}). The standard OBD fuel-rate PID (g/s) exists in only {nat.filesWithColumn} files and is a different quantity. Fuel energy below is <strong>logged volume × an assumed lower heating value</strong>; the generator, traction, battery-to-traction and efficiency quantities are <strong>model-derived</strong>; the corrected SoC-balanced value is a <strong>scenario</strong>; the cold-start view is an <strong>association</strong>. All fuel views read raw-derived keys (see the F03 provenance notice). No fuel cost is shown.
+    <div style={{overflowX:"auto",marginTop:6}}><table style={{fontSize:10,borderCollapse:"collapse"}}>
+      <thead><tr><th style={th}>month</th><th style={th}>files</th><th style={th}>with fuel columns</th><th style={th}>usable rate + counter</th></tr></thead>
+      <tbody>{Object.keys(mo).sort().map(m=><tr key={m} style={{borderTop:"1px solid #fde68a"}}><td style={td}>{m}</td><td style={td}>{mo[m].files}</td><td style={td}>{mo[m].withFuelColumns}</td><td style={td}>{mo[m].usableBoth}</td></tr>)}</tbody>
+    </table></div>
+    <div style={{marginTop:6}}>Reconstruction rows: {rc.nRows} drives ({rc.nChargeSustaining} charge-sustaining), {rc.kmProduction} km, method {(rc.method||[]).join(", ")}. {cv.gapUsableToReconRows?.reconRowsWithoutUsableBoth} of them carry a logged but flat counter or zero rate (no fuel use recorded), so they are not counted as usable above. Accumulator subsets: SoC-balanced {FC.subsets?.socBalanced?.nDrives} drives / {FC.subsets?.socBalanced?.nDays} days ({FC.subsets?.socBalanced?.dateSpan?.[0]}–{FC.subsets?.socBalanced?.dateSpan?.[1]}); cold-start association {FC.subsets?.thermalPenalty?.nColdStartDrives} drives / {FC.subsets?.thermalPenalty?.nDays} days.</div>
+    <div style={{overflowX:"auto",marginTop:6}}><table style={{fontSize:10,borderCollapse:"collapse"}}>
+      <thead><tr><th style={th}>view</th><th style={th}>litres from</th><th style={th}>km from</th><th style={th}>energy basis</th><th style={th}>status</th></tr></thead>
+      <tbody>{(FC.viewBasis||[]).map(v=><tr key={v.view} style={{borderTop:"1px solid #fde68a"}}><td style={td}>{v.view}</td><td style={td}>{v.litresFrom}</td><td style={td}>{v.kmFrom}</td><td style={td}>{v.energyBasis}</td><td style={td}>{v.status}</td></tr>)}</tbody>
+    </table></div>
+    <div style={{marginTop:6}}>Two fuel-energy constants are in use and are <strong>not harmonised</strong> (audit C05): {(FC.lhvBases||[]).filter(b=>b.kWhPerL!=null).map(b=>`${b.name} ${b.kWhPerL} kWh/L`).join(" vs ")} ({FC.lhvRatioDefinition} = {FC.lhvRatio}). Harmonising them would change a stored correction and needs its own audit.</div>
+  </div>;
+}
 function SocBalancedFuel() {
   const C = S.socBalancedFuel;
   if (!C || C.rawFleetL100 == null) return null;
@@ -7314,29 +7336,29 @@ function SocBalancedFuel() {
         Raw trip fuel consumption is confounded by SoC drift — a trip ending lower-SoC quietly borrowed energy from
         the buffer (flattering the raw figure); one ending higher-SoC spent fuel charging it. This
         {" "}<strong style={{ color: "#0f172a" }}>SoC-balances</strong> the consumption figure by charging the net battery-
-        energy change back to fuel-equivalent. <strong style={{ color: "#dc2626" }}>Fuel-accumulator subset only</strong>
+        energy change back to fuel-equivalent (a <strong>scenario</strong> correction under an assumed pack capacity and generator efficiency). <strong style={{ color: "#dc2626" }}>Fuel-accumulator subset only</strong>
         {" "}({C.dateSpan?.[0]}–{C.dateSpan?.[1]}): {C.nDrives} drives, {C.nDays} days, {C.totalDistKm} km — urban-dominated, warm-season.
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 8, marginBottom: 12 }}>
-        <Kpi label="raw fleet consumption" value={raw} unit="L/100km" color="#64748b" sub="distance-weighted" />
-        <Kpi label="SoC-balanced (η=0.30)" value={bal} unit="L/100km" color="#16a34a" sub={`95% CI ${ci(boot)}`} />
-        <Kpi label="SoC correction" value={C.socBalancedFleetDelta} unit="L/100km" color="#2563eb" sub="≈3% — small" />
+        <Kpi label="observed fleet consumption (logged/app-calculated counter)" value={raw} unit="L/100km" color="#64748b" sub="distance-weighted · no day-clustered CI shown" />
+        <Kpi label="SoC-balanced scenario (η=0.30)" value={bal} unit="L/100km" color="#16a34a" sub={`95% CI ${ci(boot)} (scenario)`} />
+        <Kpi label="scenario SoC correction" value={C.socBalancedFleetDelta} unit="L/100km" color="#2563eb" sub={`${Math.abs(C.socBalancedFleetDelta/raw*100).toFixed(1)}% of observed`} />
       </div>
 
       <Callout kind="finding">
-        SoC-balancing moves fleet consumption only from <MetricHighlight tone="measured">{raw}</MetricHighlight> to
-        {" "}<MetricHighlight tone="validated">{bal} L/100km</MetricHighlight> ({C.socBalancedFleetDelta}, ~3%),
-        and the correction is robust across generator-efficiency assumptions ({(C.byEta || []).map(e => e.fleetL100).join(" / ")} at
-        η {(C.byEta || []).map(e => e.eta).join(" / ")}). The correction is small <em>because the buffer is small</em>:
-        at 2.1 kWh the whole pack holds under 0.1 L of fuel-equivalent, so its charge state can't materially move
-        the fuel accounting — a direct consequence of power-buffer, not energy-reservoir, design.
-        {" "}<EvidenceBadge status="measured" />
+        Observed fleet consumption is <MetricHighlight tone="derived">{raw} L/100km</MetricHighlight> (logged/app-calculated counter; no day-clustered interval is shown here).
+        The SoC-balanced <em>scenario</em> value is <MetricHighlight tone="derived">{bal} L/100km</MetricHighlight> (Δ {C.socBalancedFleetDelta}, {Math.abs(C.socBalancedFleetDelta/raw*100).toFixed(1)}% of observed)
+        under the assumed CAP_KWH = {C.capKwhAssumed} kWh (unverified) and an assumed generator efficiency; across the η sweep it stays at
+        {" "}{(C.byEta || []).map(e => e.fleetL100).join(" / ")} at η {(C.byEta || []).map(e => e.eta).join(" / ")}. The scenario correction is small
+        because the assumed buffer is small: at {C.lhvKwhPerL} kWh/L the whole assumed pack corresponds to {(C.capKwhAssumed / C.lhvKwhPerL).toFixed(2)} L of fuel energy at
+        100% conversion (more at a lower generator efficiency).
+        {" "}<EvidenceBadge status="derived" />
       </Callout>
 
       <div style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 6, padding: "10px 12px", marginBottom: 8 }}>
-        <Bar label="Raw consumption" v={raw} c="#64748b" sub="as-logged" />
-        <Bar label="SoC-balanced (η=0.30)" v={bal} c="#16a34a" sub="charge-neutral" />
+        <Bar label="Observed consumption" v={raw} c="#64748b" sub="as-logged" />
+        <Bar label="SoC-balanced scenario (η=0.30)" v={bal} c="#16a34a" sub="charge-neutral" />
         <div style={{ fontSize: 8.5, color: "#94a3b8", marginTop: 4 }}>Net trips ended slightly higher-SoC (median ΔSoC {ds.median} pp), so removing the charging fuel lowers the balanced figure.</div>
       </div>
 
@@ -7348,7 +7370,7 @@ function SocBalancedFuel() {
               <span style={{ color: "#64748b" }}>η = {e.eta}</span>
               <span style={{ fontWeight: 600 }}>{e.fleetL100} <span style={{ color: "#94a3b8", fontWeight: 400 }}>({e.fleetDelta})</span></span>
             </div>))}
-          <div style={{ fontSize: 8, color: "#94a3b8", marginTop: 3 }}>per-trip |correction| p95 up to ~2.5 for short high-drift trips</div>
+          <div style={{ fontSize: 8, color: "#94a3b8", marginTop: 3 }}>per-trip corrections can be large for short high-drift trips</div>
         </div>
         <div style={{ padding: "8px 10px", background: "#f1f5f9", borderRadius: 6 }}>
           <div style={{ fontSize: 9, color: "#64748b", marginBottom: 6 }}>CHARGE-BALANCING REGRESSION</div>
@@ -7356,20 +7378,20 @@ function SocBalancedFuel() {
             <span style={{ color: "#64748b" }}>SoC-neutral marginal</span><span style={{ fontWeight: 600 }}>{reg.socNeutralMarginalL100} L/100km</span>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, marginBottom: 2 }}>
-            <span style={{ color: "#64748b" }}>per-trip fixed fuel</span><span style={{ fontWeight: 600 }}>{reg.perTripFixedFuelL} L <span style={{ color: "#94a3b8", fontWeight: 400 }}>({reg.fixedFuelPctOfMedianTrip}%)</span></span>
+            <span style={{ color: "#64748b" }}>per-trip intercept (unattributed)</span><span style={{ fontWeight: 600 }}>{reg.perTripFixedFuelL} L <span style={{ color: "#94a3b8", fontWeight: 400 }}>({reg.fixedFuelPctOfMedianTrip}%)</span></span>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10 }}>
             <span style={{ color: "#64748b" }}>fit R²</span><span style={{ fontWeight: 600 }}>{reg.r2}</span>
           </div>
-          <div style={{ fontSize: 8, color: "#94a3b8", marginTop: 3 }}>the per-trip fixed fuel (cold-start/idle) is a bigger consumption factor than SoC drift</div>
+          <div style={{ fontSize: 8, color: "#94a3b8", marginTop: 3 }}>the per-trip intercept is unattributed (cold-start, idle and other trip-level effects) and carries no day-clustered interval here</div>
         </div>
       </div>
 
       <Caveat kind="caution">
         Fuel-accumulator subset only ({C.dateSpan?.[0]}–{C.dateSpan?.[1]}) — urban-dominated (no pure-highway fuel),
-        warm-season (no seasonal-cold penalty); do not generalise to the full corpus. The battery-energy conversion uses
+        no cold-season data; do not generalise to the full corpus. The battery-energy conversion uses
         CAP_KWH = {C.capKwhAssumed} kWh (provenance <strong>unverified</strong>) and an assumed generator
-        efficiency (swept 0.25–0.35); the SoC-neutral marginal consumption from the regression is robust to CAP.
+        efficiency (swept 0.25–0.35); the SoC-neutral marginal consumption from the regression is invariant to CAP (CAP only rescales the battery-energy regressor).
         The regression's battery-energy coefficient is <strong>not identifiable</strong> here (the buffer's
         per-trip energy variance is too small), so no generator efficiency is claimed. Single vehicle / ~single
         driver.
@@ -7440,8 +7462,7 @@ function ThermalWarmupLag() {
         {" "}(~{Math.round((lag.median || 0) / 60)} min, CI {ci(lagB)}) after the coolant, and even once warm it
         runs <MetricHighlight tone="derived">{off.median} °C cooler</MetricHighlight> (IQR {off.p25}–{off.p75}).
         The coolant gauge reads "warm" while the oil is still climbing — the engine is not fully thermally
-        settled until well into the trip, which is what makes short trips thermally (and, on the fuel-accumulator
-        subset, economically) costly. <EvidenceBadge status="measured" />
+        settled until well into the trip, which is what makes short trips thermally costly. <EvidenceBadge status="measured" />
       </Callout>
 
       {/* paired warm-up curves */}
@@ -7491,8 +7512,8 @@ function ThermalWarmupLag() {
       <Caveat kind="caution">
         Cold-start drives only (coolant start &lt;{C.coldStartMaxC} °C); time-to-threshold is right-censored on
         short trips that never reach a threshold (those drives simply don't contribute to that threshold's
-        median). Logged ambient falls below 15 °C in the Shoulder class and in the Cold class ({M294.coldNote}). Nothing below {S.ambientTable?.rangeC?.[0]} °C is logged, so these are mild-ambient cold-starts. The fuel-consumption
-        penalty is a separate fuel-accumulator-subset analysis and is not computed here; emissions are not instrumented.
+        median). Logged ambient falls below 15 °C in the Shoulder class and in the Cold class ({M294.coldNote}). Nothing below {S.ambientTable?.rangeC?.[0]} °C is logged, so these are mild-ambient cold-starts. The cold-start fuel-rate
+        association (Fuel tab) is a separate fuel-accumulator-subset analysis and is not computed here; emissions are not instrumented.
         Single vehicle / ~single driver — descriptive.
       </Caveat>
     </div>
@@ -7502,7 +7523,7 @@ function ThermalWarmupLag() {
 
 function ThermalFuelPenalty() {
   const _coh=useCohort();
-  if(cohortNoData(_coh,["ThermalFuelPenalty"])) return <ColdNoData chart="Cold-Start Thermal Fuel Penalty" cohort={_coh}/>;
+  if(cohortNoData(_coh,["ThermalFuelPenalty"])) return <ColdNoData chart="Cold-start fuel-rate association" cohort={_coh}/>;
   if(_coh==="compare") return <CompareBlock id="ThermalFuelPenalty"/>;
   // M254 (season-wiring): per-cohort figures computed by re-running the
   // pipeline's own _thermal_fuel_penalty() + _thermal_fuel_penalty_continuous()
@@ -7553,33 +7574,33 @@ function ThermalFuelPenalty() {
   return (
     <div>
       <div style={{ fontSize: 11, color: "#64748b", lineHeight: 1.7, marginBottom: 10 }}>
-        Closes the fuel-cost question the thermal-lag analysis deliberately left open: what does cold-engine
-        warm-up actually <strong style={{ color: "#0f172a" }}>cost in fuel</strong>? On the fuel-accumulator
+        An observational look at how fuel use differs between cold-engine warm-up and warm operation — an
+        <strong style={{ color: "#0f172a" }}>association</strong>, not a cost estimate and not a causal effect. On the logged-fuel
         subset — {C.nColdStartDrives} cold-start drives, {C.nDays} days ({C.dateSpan?.[0]}–{C.dateSpan?.[1]}) —
-        the naive warm-up-window-vs-warm-window penalty is decomposed into
+        the naive warm-up-window-vs-warm-window ratio is decomposed into
         {" "}<strong style={{ color: "#dc2626" }}>duty-cycle</strong> (how much the engine runs) and
         {" "}<strong style={{ color: "#2563eb" }}>combustion</strong> (how thirsty it is once running), each
-        controlled for the confound the other view ignores.
+        adjusted for the confound the other view ignores (a stratified observational contrast).
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 8, marginBottom: 12 }}>
-        <Kpi label="naive trip penalty" value={tripR.median} unit="×" color="#64748b"
+        <Kpi label="naive trip ratio" value={tripR.median} unit="×" color="#64748b"
              sub={`IQR ${tripR.p25}–${tripR.p75} · n=${trip.nDrives}`} />
-        <Kpi label="duty-cycle @20–40 km/h" value={duty.matched2040Ratio} unit="×" color="#dc2626"
+        <Kpi label="engine-on share @20–40 km/h (ratio)" value={duty.matched2040Ratio} unit="×" color="#dc2626"
              sub={`95% CI ${ci(duty.matched2040Ci95)}`} />
-        <Kpi label="combustion @matched op-pt" value={comb.exposureWeightedRatio} unit="×" color="#2563eb"
+        <Kpi label="fuel rate @matched RPM×load (adjusted association)" value={comb.exposureWeightedRatio} unit="×" color="#2563eb"
              sub={`95% CI ${ci(comb.ci95)}`} />
       </div>
 
       <Callout kind="finding">
-        The naive <MetricHighlight tone="measured">{tripR.median}×</MetricHighlight> trip-level penalty
-        decomposes cleanly. At matched road speed the series-hybrid runs the engine
-        {" "}<MetricHighlight tone="measured">{duty.matched2040Ratio}× more often</MetricHighlight> when cold
-        (CI {ci(duty.matched2040Ci95)}) — the dominant mechanism — while at a matched RPM×load operating point
-        each engine-on second burns only <MetricHighlight tone="derived">{comb.exposureWeightedRatio}× more
-        fuel</MetricHighlight> (CI {ci(comb.ci95)}, resolved above unity: {comb.resolvedAboveUnity ? "yes" : "no"}).
-        {recon && <> Duty × combustion ≈ <strong>{recon}×</strong>, close to the naive ratio — the remainder is
-        driving-regime (warm-up trips skew early/low-speed/urban).</>} <EvidenceBadge status="measured" />
+        The naive <MetricHighlight tone="derived">{tripR.median}×</MetricHighlight> trip-level ratio
+        decomposes into two associations. At matched road speed the series-hybrid runs the engine
+        {" "}<MetricHighlight tone="derived">{duty.matched2040Ratio}× more often</MetricHighlight> when cold
+        (CI {ci(duty.matched2040Ci95)}) — the larger of the two associations — while at a matched RPM×load operating point
+        each engine-on second shows only <MetricHighlight tone="derived">{comb.exposureWeightedRatio}× the
+        fuel rate</MetricHighlight> (CI {ci(comb.ci95)}, resolved above unity: {comb.resolvedAboveUnity ? "yes" : "no"}).
+        {recon && <> Duty × fuel-rate ratio ≈ <strong>{recon}×</strong> vs the naive {tripR.median}×; the decomposition is not exact and the residual is not attributed
+        (warm-up trips skew early/low-speed/urban).</>} <EvidenceBadge status="derived" />
       </Callout>
 
       {C.continuousCovariateModel && (
@@ -7590,7 +7611,7 @@ function ThermalFuelPenalty() {
           cells — the coolant coefficient is {C.continuousCovariateModel.coefficients?.cool?.estimate} L/hr per
           &deg;C, but its 95% CI {C.continuousCovariateModel.coolantCiSpansZero ? "spans zero" : "excludes zero"}:
           {C.continuousCovariateModel.coolantCiSpansZero
-            ? " the continuous temperature effect is NOT resolved once RPM/load are controlled for at this sample size — a genuine null result, reported alongside the resolved binary ratio above rather than in place of it. The two are not contradictory: one asks whether warmup-vs-warm differ at all (yes), the other asks for a single linear slope across the full range (not resolved)."
+            ? " the continuous temperature association is not resolved once RPM/load are controlled for at this sample size — not established (not evidence of no association), reported alongside the binary ratio above rather than in place of it. The two are not contradictory: one asks whether warmup-vs-warm differ at all (" + (comb.resolvedAboveUnity ? "yes" : "no") + "), the other asks for a single linear slope across the full range (not resolved)."
             : " consistent with the binary result above."}
           {C.attenuationDistance?.attenuationKm != null && (
             <> Separately, the fuel-rate excess over the warm baseline decays with distance from cold start at
@@ -7627,8 +7648,8 @@ function ThermalFuelPenalty() {
 
       <Caveat kind="caution">
         Fuel-accumulator subset only ({C.dateSpan?.[0]}–{C.dateSpan?.[1]}) — warm-season (mild cold-starts,
-        ambient-driven, not a winter penalty), urban-dominated. Emissions not instrumented; no generator-efficiency/CAP
-        used (this is a fuel-flow analysis, not an energy balance). The combustion-penalty result rests largely on the
+        ambient-driven, not winter data), urban-dominated. Emissions not instrumented; no generator-efficiency/CAP
+        used (this is a fuel-flow analysis, not an energy balance). The matched-operating-point association rests largely on the
         best-populated RPM×load cell. Single vehicle / ~single driver — descriptive.
       </Caveat>
     </div>
@@ -9621,9 +9642,9 @@ const COMPARE_SPECS={
     {label:"Coolant \u2192 80\u00b0C",unit:"s",digits:0,get:d=>cmpDig(d,["coolantTimeToThresholdS","80","median"])},
     {label:"Oil \u2192 80\u00b0C",unit:"s",digits:0,get:d=>cmpDig(d,["oilTimeToThresholdS","80","median"])},
     {label:"Coolant\u2013oil lag @70\u00b0C",unit:"s",digits:0,get:d=>cmpDig(d,["coolantOilLag70S","median"])}]},
-  ThermalFuelPenalty:{kind:"kpi",title:"Cold-start thermal fuel penalty",metrics:[
+  ThermalFuelPenalty:{kind:"kpi",title:"Cold-start fuel-rate association (adjusted)",metrics:[
     {label:"Warm-up L/100 ratio",digits:3,get:d=>cmpDig(d,["tripLevel","ratioWarmupWarm","median"])},
-    {label:"Combustion penalty ratio",digits:3,get:d=>cmpDig(d,["combustionPenalty","exposureWeightedRatio"])}]},
+    {label:"Fuel-rate ratio (adjusted association)",digits:3,get:d=>cmpDig(d,["combustionPenalty","exposureWeightedRatio"])}]},
   DepartureArrival:{kind:"kpi",title:"Departure & arrival vs mid-trip",metrics:[
     {label:"Departure \u0394 batt kW",unit:"kW",digits:2,get:d=>cmpDig(d,["departureVsMid","battKw","medianDelta"])},
     {label:"Departure \u0394 engine-on frac",digits:2,get:d=>cmpDig(d,["departureVsMid","engOnFrac","medianDelta"])},
@@ -10078,7 +10099,7 @@ export default function App() {
   });
   const [showGlossary, setShowGlossary] = useState(false);
   const [sessionsExpanded, setSessionsExpanded] = useState(false);
-  const tabs = ["overview","charts","distribution","highway vs city","thermal","records","health","cross-vehicle","conclusions"];
+  const tabs = ["overview","charts","fuel","distribution","highway vs city","thermal","records","health","cross-vehicle","conclusions"];
   const typeColor = t => t==="city"?"#3b82f6":t==="highway"?"#f97316":"#eab308";
   // M31: shared lookup so narrative prose cites the same computed SoC-band
   // figures as the Comparison tab instead of separately hand-typed numbers
@@ -10331,8 +10352,8 @@ export default function App() {
             <strong style={{color:"#15803d"}}>Manufacturer cross-check (M105).</strong> {S.oemTechReview.topologyConfirmation?.source} states this topology directly: 100% of electric power generated by the engine, 100% of driving force delivered by the motor — independent confirmation of the architecture this whole section, and the nearLimiter headroom argument below, depend on. The same source's own spec sheet is a quantitative anchor for the buffer thesis: continuous generator output <strong>{S.oemTechReview.generatorMotorGap?.generatorKw} kW</strong> against peak front-motor draw <strong>{S.oemTechReview.generatorMotorGap?.frMotorKw} kW</strong> ({S.oemTechReview.generatorMotorGap?.frMotorNm} N·m) — a <strong style={{color:"#0f172a"}}>{S.oemTechReview.generatorMotorGap?.gapKw} kW</strong> gap that must be covered by the pack on any transient pushing the motor toward peak, before this study's own telemetry measures a single sample. ({S.oemTechReview.generatorMotorGap?.rrMotorApplicability})
           </div>)}
           <EnergyArchitecture/>
+          <div data-fuel-link-charts="1" style={{fontSize:10.5,color:"#64748b",marginTop:8}}>Fuel-channel views (the model-derived generator → traction reconstruction, the SoC-balanced fuel scenario and the cold-start fuel-rate association) are in the <button onClick={()=>setTab("fuel")} style={{fontSize:10.5,border:"none",background:"none",color:"#2563eb",cursor:"pointer",textDecoration:"underline",padding:0}}>Fuel tab</button>.</div>
         </Section>
-        <GeneratorTractionRecon/>
         {/* ── M34 (2026-07-14): SoC oscillation patterns — illustrative panels
                from the kept soc_patterns.json asset (the extractor is not in this repository;
                real 1 Hz-resampled logged data, M12 target-torque-based charge-mode shading). All numbers below
@@ -10363,6 +10384,13 @@ export default function App() {
       </>)}
 
       {/* ── DISTRIBUTION ── */}
+      {tab==="fuel"&&(<>
+        <FuelBasisBanner/>
+        <div data-fuel-links="1" style={{fontSize:10.5,color:"#64748b",marginBottom:8}}>Measured pack-terminal energy accounting stays in the <button onClick={()=>setTab("charts")} style={{fontSize:10.5,border:"none",background:"none",color:"#2563eb",cursor:"pointer",textDecoration:"underline",padding:0}}>Charts tab</button>; engine RPM/speed behaviour and the engine state machine stay in <button onClick={()=>setTab("distribution")} style={{fontSize:10.5,border:"none",background:"none",color:"#2563eb",cursor:"pointer",textDecoration:"underline",padding:0}}>Distribution tab</button>.</div>
+        <GeneratorTractionRecon/>
+        <Section title={`SoC-Balanced Fuel Consumption (accumulator subset${S.socBalancedFuel?.dateSpan ? `, ${S.socBalancedFuel.dateSpan[0]}–${S.socBalancedFuel.dateSpan[1]}` : ""})`} accent="#16a34a"><SocBalancedFuel/></Section>
+        <Section seasonAware title={`Cold-start fuel-rate association (adjusted; accumulator subset${S.thermalFuelPenalty?.dateSpan ? `, ${S.thermalFuelPenalty.dateSpan[0]}–${S.thermalFuelPenalty.dateSpan[1]}` : ""})`} accent="#dc2626"><ThermalFuelPenalty/></Section>
+      </>)}
       {tab==="distribution"&&(<>
         <Section seasonAware title="Drive Type Distribution"><DriveTypeChart/></Section>
         <Section seasonAware title={`Speed Range Distribution (${S.totalDrives} drives / ${S.totalKm.toFixed(1)} km)`}><SpeedChart/></Section>
@@ -10378,7 +10406,6 @@ export default function App() {
         <Section seasonAware title="Departure / Arrival vs Matched Mid-Trip" accent="#ea580c"><DepartureArrival/></Section>
         <Section seasonAware title="Engine Operating-Point State Machine" accent="#7c3aed"><EngineStateMachine/></Section>
         <Section seasonAware title="Coolant / Oil Warm-Up &amp; Thermal Lag" accent="#ea580c"><ThermalWarmupLag/></Section>
-        <Section title={`SoC-Balanced Fuel Consumption (accumulator subset${S.socBalancedFuel?.dateSpan ? `, ${S.socBalancedFuel.dateSpan[0]}–${S.socBalancedFuel.dateSpan[1]}` : ""})`} accent="#16a34a"><SocBalancedFuel/></Section>
         <Section seasonAware title="Battery → Engine / Turbo Handoff Sequence" accent="#7c3aed"><HandoffSequence/></Section>
         <Section seasonAware title="Cell-Spread Transient / Relaxation (exploratory)" accent="#2563eb"><CellSpreadRelaxation/></Section>
         <Section seasonAware title="VGT-A Tracking &amp; Air-Path Map (subset)" accent="#0891b2"><VgtAirPath/></Section>
@@ -10387,7 +10414,6 @@ export default function App() {
         <Section title="Barometric / Air-Density Compensation (exploratory)" accent="#2563eb"><BaroCompensation/></Section>
         <Section title="HV Aux/Climate Load vs Ambient (exploratory)" accent="#ea580c"><AuxLoadAmbient/></Section>
         <Section title="Full-Cell Array Worked Examples (case study)" accent="#b45309"><FullCellCaseStudy/></Section>
-        <Section seasonAware title={`Cold-Start Thermal Fuel Penalty (accumulator subset${S.thermalFuelPenalty?.dateSpan ? `, ${S.thermalFuelPenalty.dateSpan[0]}–${S.thermalFuelPenalty.dateSpan[1]}` : ""})`} accent="#dc2626"><ThermalFuelPenalty/></Section>
         <Section title="Mountain-Road Pattern — Grade, Buffer State and Dissipation (M57)" accent="#7c3aed"><MountainPattern/></Section>
         <Section seasonAware title="Pure-Electric Traction — Engine-Off Distance &amp; Maximum EV Run" accent="#059669"><EvTraction/></Section>
         {S.regimeTransition && (()=>{const RT=S.regimeTransition;

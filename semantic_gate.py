@@ -24,7 +24,7 @@ def ok(name, cond, detail=""):
     (passes if cond else fails).append(name + (f" — {detail}" if detail and not cond else ""))
     print(("PASS " if cond else "FAIL ") + name + (f" — {detail}" if detail and not cond else ""))
 
-ok("tab dumps present (9 tabs x modes)", len(T) >= 27, f"{len(T)} files")
+ok("tab dumps present (10 tabs x modes)", len(T) >= 30, f"{len(T)} files")
 
 # ---------- A. forbidden wording ----------
 FORBIDDEN = [
@@ -116,7 +116,13 @@ ok("A2 REQUIRED section titles 'Net pack-energy recovery' and 'Observed engine-s
    any("Net pack-energy recovery" in t for t in T.values()) and any("Observed engine-start contexts" in t for t in T.values()))
 # M333: the GTR closure residual is visible in every mode (F14.10), without any reveal
 for _m in ("all", "warm", "shoulder", "compare"):
-    ok(f"A2 REQUIRED GTR closure residual present in the Charts {_m} dump", "Allocation excess over generator output" in T.get(f"charts__{_m}", ""))
+    ok(f"A2 REQUIRED GTR closure residual present in the Fuel {_m} dump", "Allocation excess over generator output" in T.get(f"fuel__{_m}", ""))
+# M334: Fuel tab banner and scenario wording present in every mode dump
+for _m in ("all", "warm", "shoulder", "compare"):
+    ok(f"A2 REQUIRED Fuel basis banner and SoC-balanced scenario wording in the Fuel {_m} dump",
+       "Fuel basis and coverage" in T.get(f"fuel__{_m}", "") and "SoC-balanced scenario" in T.get(f"fuel__{_m}", ""))
+ok("A2 REQUIRED fuelContract numbers in the banner equal the payload", all(x in T.get("fuel__all", "").replace("  ", " ") for x in
+   [f"present in {A['fuelContract']['coverage']['rate']['columnPresent']} of {A['fuelContract']['coverage']['nCanonical']} canonical files", f"({A['fuelContract']['lhvRatioDefinition']} = {A['fuelContract']['lhvRatio']})"]))
 ok("A2 REQUIRED selector label reads 'Thermal cohort'", any("Thermal cohort" in t for t in T.values()))
 ok("A2 REQUIRED HVAC caveat states sub-15 C ambient is limited", any("Ambient below 15 °C is limited" in t for t in T.values()))
 
