@@ -154,6 +154,16 @@ if _fs and _fw:
        and f"{_fw['excluded']['leftCensored']} trips whose engine was already running" in _fxd)
 # M342 (Cs-41): the engine-off (EV) traction text states that engine-off movement does not identify the energy source
 ok("A2 REQUIRED engine-off traction text says engine-off movement does not identify the energy origin", any("Engine-off movement does not identify the energy’s origin" in t for t in T.values()))
+# M343: engine-start rate (RPM onsets) wording and payload-bound numbers (Distribution/Charts tab dumps)
+_esr = A.get("engineStartRate") or {}
+_charts_all = T.get("charts__all", "")
+if _esr:
+    _pa = _esr["primary"]["all"]
+    ok("A2 REQUIRED M343 headline and detector wording (RPM onsets, detector parameters, not current reversals, F10.r1 partly open, F03)",
+       all(x in _charts_all for x in ["Engine-start rate (RPM onsets), pooled ratio of sums", f"{_pa['est']:.1f} RPM onsets per 100 km", "RPM onsets are not current-direction reversals; the two are different quantities",
+                                      "Detector-defined count", "F10.r1 is partly open", "provenance-sensitive (F03)", "file-boundary bookkeeping, not a cold-start measure"]))
+    ok("A2 REQUIRED M343 Cold reads below minimum support, with the drive count from the payload",
+       f"Cold: below minimum support ({_esr['primary']['coldBelowSupport']['nDrives']} drives" in _charts_all)
 # M334: Fuel tab banner and scenario wording present in every mode dump
 for _m in ("all", "warm", "shoulder", "compare"):
     ok(f"A2 REQUIRED Fuel basis banner and SoC-balanced scenario wording in the Fuel {_m} dump",

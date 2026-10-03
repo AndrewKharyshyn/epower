@@ -46699,6 +46699,22 @@
    "computationStatusNote": "M339: computed by tools/fuel_analytics2.py from raw/ fuel/speed columns and the master; additive, no published value recomputed; not M299-reproducible.",
    "reissuedFrom": "5197ab6dc2a44b99ccb246af03f8f6b0",
    "reissueNote": "M312: master hash re-issued; only cell_spread_loaded_p95_adj_hub_mv changed (per-column hash check); block content unchanged unless listed (cellHealthTrend)."
+  },
+  "engineStartRate": {
+   "corpusHash": "bd9d10726bb064d857cf9ff98d2b7338",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "47b499142f5b3664e9efdd64cb3dfc32",
+   "fullConfigHash": "1c2afc165c604e36471c351435aa807d",
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-10-03T06:53:17.100433+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "bd9d10726bb064d857cf9ff98d2b7338"
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M343: computed by tools/engine_start_rate.py from the pipeline frame cache; additive, no published value recomputed; not M299-reproducible.",
+   "reissuedFrom": "5197ab6dc2a44b99ccb246af03f8f6b0",
+   "reissueNote": "M312: master hash re-issued; only cell_spread_loaded_p95_adj_hub_mv changed (per-column hash check); block content unchanged unless listed (cellHealthTrend)."
   }
  },
  "assumptionsRegistry": {
@@ -57189,16 +57205,16 @@
    "StartsPer100km": {
     "dependencyClass": "thermal",
     "pipelineClass": "master_proxy",
-    "statisticalUnit": "events_ratio_of_sums (paired-eligible): 100*sum(starts)/sum(km) over drives with n_sign_crossings present and km>0",
-    "provenance": "proxy:n_sign_crossings (authoritative debounced count is raw-derived engineStartsByType, Phase 2)",
+    "statisticalUnit": "events_ratio_of_sums (paired-eligible): 100*sum(current-direction reversals)/sum(km) over drives with n_sign_crossings present and km>0",
+    "provenance": "proxy:n_sign_crossings (pack-current direction reversals, not engine starts; the RPM-onset engine-start rate is S.engineStartRate)",
     "data": {
      "all": {
       "value": 918.5792519684098,
-      "unit": "starts/100km",
+      "unit": "reversals/100 km",
       "estimator": "events_ratio_of_sums",
       "nEligible": 434,
       "nPool": 446,
-      "provenance": "proxy:n_sign_crossings (current-sign; authoritative engine-start count is raw-derived engineStartsByType, Phase 2)",
+      "provenance": "proxy:n_sign_crossings (pack-current direction reversals, not engine starts; the RPM-onset engine-start rate is S.engineStartRate)",
       "status": "computed",
       "ci95": {
        "lo": 853.2,
@@ -57212,11 +57228,11 @@
      },
      "warm": {
       "value": 899.9532845978057,
-      "unit": "starts/100km",
+      "unit": "reversals/100 km",
       "estimator": "events_ratio_of_sums",
       "nEligible": 361,
       "nPool": 366,
-      "provenance": "proxy:n_sign_crossings (current-sign; authoritative engine-start count is raw-derived engineStartsByType, Phase 2)",
+      "provenance": "proxy:n_sign_crossings (pack-current direction reversals, not engine starts; the RPM-onset engine-start rate is S.engineStartRate)",
       "status": "computed",
       "ci95": {
        "lo": 835.1,
@@ -57230,11 +57246,11 @@
      },
      "shoulder": {
       "value": 1254.439486385575,
-      "unit": "starts/100km",
+      "unit": "reversals/100 km",
       "estimator": "events_ratio_of_sums",
       "nEligible": 73,
       "nPool": 80,
-      "provenance": "proxy:n_sign_crossings (current-sign; authoritative engine-start count is raw-derived engineStartsByType, Phase 2)",
+      "provenance": "proxy:n_sign_crossings (pack-current direction reversals, not engine starts; the RPM-onset engine-start rate is S.engineStartRate)",
       "status": "computed",
       "ci95": {
        "lo": 1067.7,
@@ -57299,8 +57315,8 @@
      "shoulder": "computed",
      "cold": "unavailable"
     },
-    "supersededBy": "EngineStartsByType (native per-type engine-start distribution, now cohort-wired in EngineCyclingChart)",
-    "provenanceNote": "Retained as a coarse scalar; the authoritative cohort engine-start signal is the native EngineStartsByType chart. n_sign_crossings proxy not promoted.",
+    "supersededBy": "EngineStartRate (pooled RPM-onset engine-start rate, M343) and EngineStartsByType (unweighted mean of per-drive RPM-onset rates)",
+    "provenanceNote": "Retained as a coarse scalar of pack-current direction reversals; it is a different quantity from engine starts (RPM onsets, S.engineStartRate) and is not compared with them. The proxy is not promoted.",
     "eligibilityRevision": "M285b: km>0 added to the eligibility rule (was: n_sign_crossings non-null only). The dataset carries one drive with distance_km=-2.5 (20260906_122920, odometer glitch) that entered the shoulder cohort denominator; EnergyIntensity already excluded it. Shoulder 1232.6 -> 1221.4, All 911.9 -> 911.5. | M291: recomputed against the corrected master (drive 20260906_122920 distance_km -2.5 -> 0.44, now km>0-eligible). All nEligible 397 -> 398, All value 911.52 -> 911.62; shoulder picks up the repaired drive."
    },
    "CohortExposure": {
@@ -133150,5 +133166,424 @@
   "inputs": {
    "driveMasterMd5": "bd9d10726bb064d857cf9ff98d2b7338"
   }
+ },
+ "engineStartRate": {
+  "_provenance": "GENERATED by tools/engine_start_rate.py (M343). Do not hand-edit.",
+  "schemaVersion": 1,
+  "basis": "RPM onsets from the released detector on the pipeline frame cache (raw/ basis, F03 provenance-sensitive); not M299-reproducible; RPM onsets are not current-direction reversals and not fuel-on starts",
+  "inputs": {
+   "driveMasterMd5": "bd9d10726bb064d857cf9ff98d2b7338"
+  },
+  "method": "ratio of sums, day-clustered percentile bootstrap (seed 42, 4000 draws); interval only with >= 7 distinct days (5-6 low-cluster, < 5 points only)",
+  "detector": {
+   "gridS": 1,
+   "ffillLimitS": 15,
+   "rpmThreshold": 300,
+   "minRunS": 2,
+   "nanIsOff": true,
+   "coolantChannel": "T_coolant (engine coolant, clip -40..150), 1 s grid value at the onset sample (ffill limit 15 s)",
+   "motoredProxy": "calculated load < 12.0% in the first 3 s of a run (M82 proxy; flag only)"
+  },
+  "primary": {
+   "all": {
+    "est": 75.21815,
+    "ci95": [
+     67.81315,
+     84.67885
+    ],
+    "nTrips": 484,
+    "nDays": 103,
+    "support": "ci",
+    "nStarts": 6558,
+    "km": 8718.6
+   },
+   "warm": {
+    "est": 73.44294,
+    "ci95": [
+     66.23422,
+     82.91573
+    ],
+    "nTrips": 384,
+    "nDays": 92,
+    "support": "ci",
+    "nStarts": 6008,
+    "km": 8180.5
+   },
+   "shoulder": {
+    "est": 102.30752,
+    "ci95": [
+     80.45936,
+     122.13304
+    ],
+    "nTrips": 98,
+    "nDays": 33,
+    "support": "ci",
+    "nStarts": 548,
+    "km": 535.6
+   },
+   "coldBelowSupport": {
+    "nDrives": 2,
+    "nStarts": 2,
+    "km": 2.5,
+    "note": "below minimum support: not estimated, in the All view only"
+   }
+  },
+  "byClass": {
+   "urban": {
+    "est": 99.75477,
+    "ci95": [
+     91.83143,
+     107.72587
+    ],
+    "nTrips": 406,
+    "nDays": 94,
+    "support": "ci",
+    "nStarts": 2579,
+    "km": 2585.3
+   },
+   "mixed": {
+    "est": 74.0134,
+    "ci95": [
+     64.94921,
+     82.65003
+    ],
+    "nTrips": 26,
+    "nDays": 21,
+    "support": "ci",
+    "nStarts": 497,
+    "km": 671.5
+   },
+   "mixed_highway": {
+    "est": 76.98129,
+    "ci95": [
+     68.48986,
+     86.31977
+    ],
+    "nTrips": 32,
+    "nDays": 24,
+    "support": "ci",
+    "nStarts": 2238,
+    "km": 2907.2
+   },
+   "highway": {
+    "est": 48.69647,
+    "ci95": [
+     40.25395,
+     59.27242
+    ],
+    "nTrips": 20,
+    "nDays": 12,
+    "support": "ci",
+    "nStarts": 1244,
+    "km": 2554.6
+   }
+  },
+  "decomposition": {
+   "all": {
+    "firstPer100km": {
+     "est": 5.34487,
+     "ci95": [
+      4.04728,
+      7.38231
+     ],
+     "nTrips": 484,
+     "nDays": 103
+    },
+    "restartsPer100km": {
+     "est": 69.87328,
+     "ci95": [
+      63.1206,
+      78.09924
+     ],
+     "nTrips": 484,
+     "nDays": 103
+    }
+   },
+   "warm": {
+    "firstPer100km": {
+     "est": 4.5963,
+     "ci95": [
+      3.4488,
+      6.32977
+     ],
+     "nTrips": 384,
+     "nDays": 92
+    },
+    "restartsPer100km": {
+     "est": 68.84665,
+     "ci95": [
+      62.41668,
+      77.28319
+     ],
+     "nTrips": 384,
+     "nDays": 92
+    }
+   },
+   "shoulder": {
+    "firstPer100km": {
+     "est": 16.42894,
+     "ci95": [
+      11.48562,
+      24.69523
+     ],
+     "nTrips": 98,
+     "nDays": 33
+    },
+    "restartsPer100km": {
+     "est": 85.87858,
+     "ci95": [
+      58.76168,
+      109.22842
+     ],
+     "nTrips": 98,
+     "nDays": 33
+    }
+   },
+   "sumCheck": true,
+   "note": "a trip is one master file; the first run of the file is the trip-first start, later runs are restarts within the file; a restart across a file boundary is a first start by construction"
+  },
+  "byCoolantBand": {
+   "definition": "band starts / TOTAL km (bands sum to the pooled rate); coolant at the onset sample",
+   "all": {
+    "<40C": {
+     "nStarts": 175,
+     "shareOfStarts": 0.0267,
+     "per100km": 2.00719,
+     "ci95": [
+      1.43924,
+      2.9332
+     ]
+    },
+    "40-60C": {
+     "nStarts": 285,
+     "shareOfStarts": 0.0435,
+     "per100km": 3.26886,
+     "ci95": [
+      2.33934,
+      4.80068
+     ]
+    },
+    ">=60C": {
+     "nStarts": 5946,
+     "shareOfStarts": 0.9067,
+     "per100km": 68.19871,
+     "ci95": [
+      61.31561,
+      76.55534
+     ]
+    },
+    "unknown": {
+     "nStarts": 152,
+     "shareOfStarts": 0.0232,
+     "per100km": 1.74339,
+     "ci95": [
+      0.14844,
+      5.05855
+     ]
+    }
+   },
+   "warm": {
+    "<40C": {
+     "nStarts": 121,
+     "shareOfStarts": 0.0201,
+     "per100km": 1.47913,
+     "ci95": [
+      1.04765,
+      2.16366
+     ]
+    },
+    "40-60C": {
+     "nStarts": 195,
+     "shareOfStarts": 0.0325,
+     "per100km": 2.38372,
+     "ci95": [
+      1.6878,
+      3.44638
+     ]
+    },
+    ">=60C": {
+     "nStarts": 5562,
+     "shareOfStarts": 0.9258,
+     "per100km": 67.99095,
+     "ci95": [
+      61.25991,
+      76.97346
+     ]
+    },
+    "unknown": {
+     "nStarts": 130,
+     "shareOfStarts": 0.0216,
+     "per100km": 1.58914,
+     "ci95": [
+      0.06664,
+      4.9159
+     ]
+    }
+   },
+   "shoulder": {
+    "<40C": {
+     "nStarts": 52,
+     "shareOfStarts": 0.0949,
+     "per100km": 9.70801,
+     "ci95": [
+      5.89627,
+      16.10043
+     ]
+    },
+    "40-60C": {
+     "nStarts": 90,
+     "shareOfStarts": 0.1642,
+     "per100km": 16.80233,
+     "ci95": [
+      11.2653,
+      25.31909
+     ]
+    },
+    ">=60C": {
+     "nStarts": 384,
+     "shareOfStarts": 0.7007,
+     "per100km": 71.68994,
+     "ci95": [
+      36.74986,
+      99.37834
+     ]
+    },
+    "unknown": {
+     "nStarts": 22,
+     "shareOfStarts": 0.0401,
+     "per100km": 4.10724,
+     "ci95": [
+      0.5602,
+      10.96191
+     ]
+    }
+   }
+  },
+  "flags": {
+   "leftCensoredDrives": 7,
+   "leftCensoredShareOfDrives": 0.0145,
+   "motoredFlagStarts": 153,
+   "motoredFlagShareOfStarts": 0.0233
+  },
+  "sensitivity": {
+   "distGe0p5km": {
+    "all": {
+     "est": 75.17382,
+     "ci95": [
+      67.76568,
+      84.64442
+     ],
+     "nTrips": 477,
+     "nDays": 103,
+     "support": "ci",
+     "nStarts": 6552,
+     "km": 8715.8
+    },
+    "nDrives": 477,
+    "differenceVsPrimary": {
+     "drives": -7,
+     "starts": -6,
+     "km": -2.8,
+     "note": "signed: sensitivity set minus primary set (negative = removed, positive = added)"
+    }
+   },
+   "allRowsIncludingInvalid": {
+    "all": {
+     "est": 75.28397,
+     "ci95": [
+      67.85427,
+      84.76335
+     ],
+     "nTrips": 486,
+     "nDays": 103,
+     "support": "ci",
+     "nStarts": 6580,
+     "km": 8740.2
+    },
+    "nDrives": 486,
+    "differenceVsPrimary": {
+     "drives": 2,
+     "starts": 22,
+     "km": 21.6,
+     "note": "signed: sensitivity set minus primary set (negative = removed, positive = added)"
+    }
+   },
+   "excludingLeftCensored": {
+    "all": {
+     "est": 74.9699,
+     "ci95": [
+      67.61165,
+      84.46122
+     ],
+     "nTrips": 477,
+     "nDays": 103,
+     "support": "ci",
+     "nStarts": 6488,
+     "km": 8654.1
+    },
+    "nDrives": 477,
+    "differenceVsPrimary": {
+     "drives": -7,
+     "starts": -70,
+     "km": -64.5,
+     "note": "signed: sensitivity set minus primary set (negative = removed, positive = added)"
+    }
+   },
+   "fillLimit3BothFills": {
+    "all": {
+     "est": 76.21602,
+     "ci95": [
+      68.73192,
+      85.68295
+     ],
+     "nTrips": 484,
+     "nDays": 103,
+     "nStarts": 6645
+    },
+    "changeInTotalStartsPct": 1.33,
+    "note": "the 1 s grid is NaN between raw rows (raw sampling interval > 1 s); grid NaN reads as engine-off, so the second fill is load-bearing; no-second-fill variants are not meaningful (runs split into many short runs)"
+   }
+  },
+  "fileGapContext": {
+   "nConsecutivePairs": 483,
+   "startWithin5min": 35,
+   "startWithin30min": 193,
+   "startWithin60min": 240,
+   "shareWithin30min": 0.4,
+   "note": "file start from the file key, end = start + duration_s; a restart across a file boundary is counted as a trip-first start, so the first/restart split is a file-boundary artefact, not a cold-start measure"
+  },
+  "knownAnswer": {
+   "nCompared": 486,
+   "nMismatches": 0,
+   "mismatchExamples": [],
+   "perClassN": {
+    "urban": 408,
+    "mixed_highway": 32,
+    "mixed": 26,
+    "highway": 20
+   },
+   "rule": "exact per-drive float equality with the released _RawAccum.add append"
+  },
+  "publishedEngineStartsByType": {
+   "avgPerDriveRates": {
+    "Urban": 105,
+    "Mixed": 71,
+    "Mixed Highway": 77,
+    "Highway": 47
+   },
+   "note": "unweighted MEAN of per-drive rates (short trips dominate, Urban hi = 500); not comparable with the pooled ratio of sums",
+   "seasonalContractCoverageAll": {
+    "n_drives": 489,
+    "km": 8740.24
+   }
+  },
+  "limits": [
+   "a trip is one master file: restarts across a file boundary are first starts",
+   "ffill(limit=15) is applied twice (raw columns and the 1 s grid) and can bridge gaps of ~15-30 s, merging runs",
+   "the 1 s mean can cross the 300 rpm threshold",
+   "rpm > 300 also counts generator-motored spin-ups: named RPM onsets, not fuel-on starts",
+   "coolant band is the start context at onset, not a cold-start or thermal-penalty claim",
+   "F10.r1 stays partly open: cold thermal starts and fuel-on starts are not separated"
+  ]
  }
 }

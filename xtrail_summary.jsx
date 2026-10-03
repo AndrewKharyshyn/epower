@@ -1151,6 +1151,34 @@ function CycleRateChart() {
 }
 
 /* ─── CHART: Engine ON/OFF Cycling ───────────────────────────────────────── */
+// M343 (audit F10.r1 detector replacement): engine-start rate from the RPM-onset detector, bound to S.engineStartRate (tools/engine_start_rate.py)
+function EngineStartRate(){
+  const Z=S.engineStartRate; if(!Z) return null;
+  const coh=useCohort(); const P=Z.primary, D=Z.detector, FL=Z.flags, SN=Z.sensitivity, G=Z.fileGapContext, DC=Z.decomposition, BN=Z.byCoolantBand;
+  const f1=v=>v==null?"n/a":Number(v).toFixed(1);
+  const ci=e=>e&&e.ci95?`${f1(e.ci95[0])}–${f1(e.ci95[1])}`:"points only";
+  const rowOf=(lab,e)=>e?<tr key={lab} style={{borderTop:"1px solid #f1f5f9"}}><td style={{padding:"2px 8px"}}>{lab}</td><td style={{padding:"2px 8px",textAlign:"center",fontWeight:700}}>{f1(e.est)}</td><td style={{padding:"2px 8px",textAlign:"center"}}>{ci(e)}</td><td style={{padding:"2px 8px",textAlign:"center"}}>{e.nTrips}</td><td style={{padding:"2px 8px",textAlign:"center"}}>{e.nDays}</td><td style={{padding:"2px 8px",textAlign:"center"}}>{e.nStarts}</td><td style={{padding:"2px 8px",textAlign:"center"}}>{e.km}</td><td style={{padding:"2px 8px"}}>{e.support}</td></tr>:null;
+  const cold=P.coldBelowSupport;
+  const showCoh=coh==="all"?["all"]:coh==="compare"?["warm","shoulder"]:[coh];
+  if(coh!=="all"&&coh!=="compare"&&!cohortAvailable(coh)) return <ColdNoData chart="Engine-start rate (RPM onsets)" cohort={coh}/>;
+  const A=P.all;
+  return <div data-engine-start-rate="1" style={{marginTop:14,borderTop:"1px solid #e2e8f0",paddingTop:10}}>
+    <div style={{fontSize:11,fontWeight:700,color:"#334155",marginBottom:4}}>Engine-start rate (RPM onsets), pooled ratio of sums</div>
+    {coh==="all"&&<div style={{fontSize:12,color:"#0f172a",marginBottom:6}}><strong>{f1(A.est)} RPM onsets per 100 km</strong> (95% CI {ci(A)}; {A.nTrips} drives, {A.nDays} days, {A.km} km).</div>}
+    <div style={{fontSize:10,color:"#64748b",marginBottom:6}}>Detector: engine speed above {D.rpmThreshold} rpm on a {D.gridS} s grid (missing samples count as off), runs of at least {D.minRunS} s, carry-forward limit {D.ffillLimitS} s applied twice. RPM onsets are not current-direction reversals; the two are different quantities.</div>
+    <table style={{fontSize:10,borderCollapse:"collapse"}}><thead><tr style={{color:"#64748b"}}><th style={{padding:"2px 8px",textAlign:"left"}}>group</th><th style={{padding:"2px 8px"}}>onsets/100 km</th><th style={{padding:"2px 8px"}}>95% CI</th><th style={{padding:"2px 8px"}}>drives</th><th style={{padding:"2px 8px"}}>days</th><th style={{padding:"2px 8px"}}>onsets</th><th style={{padding:"2px 8px"}}>km</th><th style={{padding:"2px 8px",textAlign:"left"}}>support</th></tr></thead><tbody>
+      {showCoh.map(c=>rowOf(c==="all"?"All data":(COHORT_META[c]||{label:c}).label,P[c]))}
+      {coh==="all"&&["urban","mixed","mixed_highway","highway"].map(k=>rowOf(`class: ${k.replace("_"," ")}`,Z.byClass[k]))}
+    </tbody></table>
+    {(coh==="all"||coh==="compare")&&<div style={{fontSize:10,color:"#b45309",marginTop:3}}>Cold: below minimum support ({cold.nDrives} drives, {cold.nStarts} onsets over {cold.km} km); included in All only, not estimated.</div>}
+    {coh==="all"&&<div>
+      <div style={{fontSize:10.5,color:"#334155",marginTop:8}}>First onset in a log file versus later onsets in the same file (per 100 km): {f1(DC.all.firstPer100km.est)} ({ci(DC.all.firstPer100km)}) and {f1(DC.all.restartsPer100km.est)} ({ci(DC.all.restartsPer100km)}). This split is file-boundary bookkeeping, not a cold-start measure: {G.startWithin30min} of {G.nConsecutivePairs} consecutive log files start within 30 minutes of the previous file&rsquo;s end ({G.startWithin5min} within 5 minutes, {G.startWithin60min} within 60), and an onset after a file boundary is counted as the first in its file.</div>
+      <table style={{fontSize:10,borderCollapse:"collapse",margin:"6px 0"}}><thead><tr style={{color:"#64748b"}}><th style={{padding:"2px 8px",textAlign:"left"}}>onsets by engine-coolant temperature at the onset sample</th><th style={{padding:"2px 8px"}}>onsets</th><th style={{padding:"2px 8px"}}>share</th><th style={{padding:"2px 8px"}}>per 100 km (band onsets / total km)</th></tr></thead><tbody>
+        {["<40C","40-60C",">=60C","unknown"].map(b=><tr key={b} style={{borderTop:"1px solid #f1f5f9"}}><td style={{padding:"2px 8px"}}>{b==="unknown"?"unknown (no coolant sample)":b.replace("C"," °C")}</td><td style={{padding:"2px 8px",textAlign:"center"}}>{BN.all[b].nStarts}</td><td style={{padding:"2px 8px",textAlign:"center"}}>{(BN.all[b].shareOfStarts*100).toFixed(1)}%</td><td style={{padding:"2px 8px",textAlign:"center"}}>{f1(BN.all[b].per100km)}</td></tr>)}</tbody></table>
+      <div style={{fontSize:10.5,color:"#334155"}}>Detector-defined count: it depends on the gap-fill design ({A.nStarts} onsets at limit {D.ffillLimitS} s, {SN.fillLimit3BothFills.all.nStarts} ({SN.fillLimit3BothFills.changeInTotalStartsPct>0?"+":""}{SN.fillLimit3BothFills.changeInTotalStartsPct}%) at limit 3 s). It is not a fuel-on count: runs above {D.rpmThreshold} rpm include generator spin-ups, and {(FL.motoredFlagShareOfStarts*100).toFixed(1)}% of onsets carry the motored-load flag ({D.motoredProxy}). {FL.leftCensoredDrives} drives ({(FL.leftCensoredShareOfDrives*100).toFixed(1)}%) have the engine already running at the first logged sample. The unweighted mean of per-drive rates shown above by drive class is a different statistic from the pooled ratio of sums and the two are not compared. The coolant table describes start context only. Basis: raw/, provenance-sensitive (F03); not M299-reproducible. F10.r1 is partly open: cold thermal starts and fuel-on starts are not separated.</div>
+    </div>}
+  </div>;
+}
 function EngineCyclingChart() {
   const [view, setView] = useState("starts");
   const _coh=useCohort();
@@ -9780,7 +9808,7 @@ const COMPARE_SPECS={
     cats:d=>Array.isArray(d)?d.map(b=>({label:b.label,value:b.med,lo:b.lo,hi:b.hi})):[]},
   CycleByType:{kind:"bars",title:"Cycling rate by drive class (GTC/100km)",unit:"GTC/100km",digits:1,
     cats:d=>Array.isArray(d)?d.map(b=>({label:b.label,value:b.avg,lo:b.lo,hi:b.hi})):[]},
-  EngineStartsByType:{kind:"bars",title:"Engine starts /100km by drive class",unit:"/100km",digits:0,
+  EngineStartsByType:{kind:"bars",title:"Engine starts /100km by drive class (unweighted mean of per-drive rates)",unit:"/100km",digits:0,
     cats:d=>Array.isArray(d)?d.map(b=>({label:b.label,value:b.avg,lo:b.lo,hi:b.hi})):[]},
   RegenByTempMeasured:{kind:"bars",title:"Apparent KE recovery proxy by pack-temperature bin (%; mean T1–T4 at the decel sample, n = 1 Hz decel samples)",unit:"%",digits:1,
     cats:d=>Array.isArray(d)?d.map(x=>({label:x.label,value:x.eff})):[]},
@@ -10525,8 +10553,9 @@ export default function App() {
           <CycleRateChart/>
         </Section>
         <Section seasonAware title="E — Engine ON/OFF Cycling by Drive Type & Speed" accent="#fb923c">
-          <div style={{fontSize:11,color:"#64748b",marginBottom:10}}>How often and how long the engine fires, derived from the RPM signal (&gt;300 RPM = ON; sub-2s blips filtered as noise; sensor gaps forward-filled). A mechanical-wear signal (starter, mounts, bearings) independent of the battery-cycling metrics above. Third view confirms engine-on is primarily a function of speed, not drive type. n={S.engineOnDrives} drives with both speed+RPM PIDs / {S.dateRange} (5 early-May files lack the speed PID and are excluded from this chart only).</div>
+          <div style={{fontSize:11,color:"#64748b",marginBottom:10}}>How often and how long the engine fires, derived from the RPM signal (&gt;300 RPM = ON; sub-2s blips filtered as noise; sensor gaps forward-filled). A mechanical-wear signal (starter, mounts, bearings) independent of the battery-cycling metrics above. Third view confirms engine-on is primarily a function of speed, not drive type. n={S.engineOnDrives} drives with both speed+RPM PIDs / {S.dateRange} (5 early-May files lack the speed PID and are excluded from this chart only). The starts lollipop shows the unweighted mean of per-drive RPM-onset rates (short trips dominate; Urban hi = 500); the pooled ratio of sums is below.</div>
           <EngineCyclingChart/>
+          <EngineStartRate/>
         </Section>
         <Section seasonAware title="P — Accumulated Turnover · Capacity-Fade Scenarios · Power-Fade Status" accent="#a78bfa">
           <div style={{fontSize:11,color:"#64748b",marginBottom:6}}><strong>History:</strong> {S.daysSpan}-day cumulative from measured data ({S.dateRange}, calendar days, not driving days). <strong style={{color:"#b45309"}}>M61 (2026-07-27):</strong> the single &ldquo;15-year projection&rdquo; has been split into the two degradation mechanisms it was conflating, because their evidence status differs by <em>kind</em>, not degree.</div>

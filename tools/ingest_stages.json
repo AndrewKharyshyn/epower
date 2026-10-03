@@ -224,6 +224,20 @@
    ]
   },
   {
+   "id": "engine_start_rate",
+   "title": "M343 engine-start rate (RPM onsets, released detector, known-answer vs _RawAccum) -> engineStartRate (additive; reads the frame cache; not M299-reproducible)",
+   "cmd": [
+    "python3",
+    "tools/engine_start_rate.py",
+    "--splice"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json",
+    "analyses/M343_check.json"
+   ]
+  },
+  {
    "id": "cohort_arrays",
    "title": "Per-cohort arrays regenerate",
    "cmd": [
