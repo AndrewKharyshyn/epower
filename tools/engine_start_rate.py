@@ -57,6 +57,14 @@ def band(v):
     return "unknown" if not np.isfinite(v) else ("<40C" if v < 40 else ("40-60C" if v < 60 else ">=60C"))
 
 
+def published_note(pub):
+    """M363: the note about the published per-drive MEAN; the per-drive maximum and its distance are bound to the payload row, never typed."""
+    u = pub.get("Urban") or {}
+    mx = (f"the per-drive maximum is {u.get('hi')} per 100 km on a {u.get('maxKm')} km drive"
+          if u.get("hi") is not None and u.get("maxKm") is not None else "the per-drive extremes are driven by very short drives")
+    return f"unweighted MEAN of per-drive rates (short trips dominate: {mx}); not comparable with the pooled ratio of sums"
+
+
 def main():
     mode = "--splice" if "--splice" in sys.argv else "--check"
     A = json.load(open(ARR, encoding="utf-8"))
@@ -168,7 +176,7 @@ def main():
                              "note": "file start from the file key, end = start + duration_s; a restart across a file boundary is counted as a trip-first start, so the first/restart split is a file-boundary artefact, not a cold-start measure"}
     res["sensitivity"] = sens
     pub = {x["label"]: x for x in (A.get("engineStartsByType") or [])}
-    res["publishedEngineStartsByType"] = {"avgPerDriveRates": {k: v.get("avg") for k, v in pub.items()}, "note": "unweighted MEAN of per-drive rates (short trips dominate, Urban hi = 500); not comparable with the pooled ratio of sums",
+    res["publishedEngineStartsByType"] = {"avgPerDriveRates": {k: v.get("avg") for k, v in pub.items()}, "note": published_note(pub),
                                           "seasonalContractCoverageAll": (A["seasonalCharts"]["charts"]["EngineStartsByType"].get("coverage") or {}).get("all")}
     res["stops"] = {"knownAnswerMismatch": False, "coldRenderedAsZero": False, "decompositionNotSumming": not res["decomposition"]["sumCheck"], "estimateWithoutN": any(v is not None and v.get("nDays") is None for v in res["primary"].values() if isinstance(v, dict) and "est" in v)}
     json.dump(res, open(OUT, "w", encoding="utf-8", newline="\n"), indent=1, ensure_ascii=False, default=float)

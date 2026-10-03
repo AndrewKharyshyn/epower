@@ -1312,7 +1312,7 @@ function EngineCyclingChart() {
         })}
         <line x1={PL} y1={PT} x2={PL} y2={PT+ph} stroke="#9ca3af" strokeWidth={1.5}/>
         <line x1={PL} y1={PT+ph} x2={PL+pw} y2={PT+ph} stroke="#9ca3af" strokeWidth={1.5}/>
-        <text x={PL+pw/2} y={H-11} textAnchor="middle" fill="#64748b" fontSize={8}>Engine ON duration per start event (log scale)</text>
+        <text x={PL+pw/2} y={H-11} textAnchor="middle" fill="#64748b" fontSize={8}>Engine ON duration per detector-defined ON run (log scale)</text>
         <text x={PL+pw/2} y={H-3} textAnchor="middle" fill="#94a3b8" fontSize={7}>box = p10–p90 · line = median · whisker = full range</text>
       </svg>
     );
@@ -1374,18 +1374,17 @@ function EngineCyclingChart() {
         <strong style={{color:"#0f172a"}}>Starts/100km</strong> = engine-start onsets (RPM above 300 for at least 2 s, detector-defined, all starts rather than only cold starts) per 100 km of the drive. {(()=>{
           const D=_est, urb=D.find(x=>x.label==="Urban"), hw=D.find(x=>x.label==="Highway");
           const uv=urb&&(typeof urb.median==="number"?urb.median:urb.avg), hv=hw&&(typeof hw.median==="number"?hw.median:hw.avg), kind=(urb&&typeof urb.median==="number")?"median per-drive rate":"per-drive mean";
-          return (urb&&hw&&hv>0) ? `${urb.label} (${uv}/100km) has ${(uv/hv).toFixed(1)}× the ${kind} of ${hw.label.toLowerCase()} (${hv}/100km)` : "Shorter, lower-speed drives show more engine-start onsets per km than highway drives";
+          return (urb&&hw&&hv>0) ? `${urb.label} (${uv}/100km) has ${(uv/hv).toFixed(1)}× the ${kind} of ${hw.label.toLowerCase()} (${hv}/100km) (drive-weighted, descriptive, no CI)` : "Shorter, lower-speed drives show more engine-start onsets per km than highway drives";
         })()} — an observed association across drive classes; the mechanism is not identified here.{" "}
-        <strong style={{color:"#0f172a"}}>ON Duration</strong> shows engine segment length on log scale. {(()=>{
+        <strong style={{color:"#0f172a"}}>ON Duration</strong> shows the length of detector-defined ON runs on a log scale (descriptive). {(()=>{
           const D=_eod||[], u=D.find(x=>x.label==="Urban"), h=D.find(x=>x.label==="Highway");
-          if(!u||!h) return "Highway keeps the engine on for long continuous runs (generator feeding motor); urban driving fires it briefly to top up SoC.";
-          return `Urban median ${u.median}s (p90 ${u.p90}s, ${u.onFraction}% ON) vs highway median ${h.median}s (p90 ${h.p90}s, ${h.onFraction}% ON) — highway keeps the engine on for long continuous runs (generator feeding motor), urban fires it briefly to top up SoC.`;
+          if(!u||!h) return "";
+          return `Urban median ${u.median}s (p90 ${u.p90}s, ${u.onFraction}% ON) vs highway median ${h.median}s (p90 ${h.p90}s, ${h.onFraction}% ON); an observed difference between drive classes, with no mechanism or purpose inferred.`;
         })()} <strong style={{color:"#7c3aed"}}>M57 (2026-07-27):</strong> this view was a hand-maintained config block bucketed by trip <em>distance</em> — a basis M21 retired everywhere else — and its figures had the urban/highway relationship inverted. It is now pipeline-computed on drive_type, consistent with every other conditioned view in this dashboard.{" "}
         <strong style={{color:"#0f172a"}}>By Speed</strong>: {(()=>{
-          const Z=_eob||[]; const f=z=>Z.find(x=>x.zone===z)?.pct;
-          const cross=Z.find(z=>z.pct>=50);
-          return `engine crosses 50% on-time in the ${cross?cross.zone:"40-60"} km/h zone and reaches near-continuous (${f("100-120") ?? "—"}%) above 100 km/h`;
-        })()} — at highway speeds the generator must run near-continuously to meet demand and steer SoC back to its setpoint (M41).
+          const Z=_eob||[]; const top=Z.length?Z.reduce((x,y)=>y.pct>x.pct?y:x):null; const cross=Z.find(z=>z.pct>=50);
+          return top?`engine-on time share (pooled, descriptive) is ${top.pct}% in the ${top.zone} km/h zone${cross?` and first reaches 50% in the ${cross.zone} km/h zone`:""}`:"engine-on time share by speed zone is not available";
+        })()} — an observed association; speed and drive class are confounded, and the controller logic is not observed here.
       </div>
     </div>
   );
@@ -10044,7 +10043,7 @@ const COMPARE_SPECS={
     {label:"Drives (clean paired)",digits:0,get:d=>cmpDig(d,["n"])},
     {label:"Paired km",digits:1,get:d=>cmpDig(d,["pairedKm"])}],
     note:"M295: headline = canonical-clean paired basis (ens_invalid / ens_outlier_v2 excluded; route mix differs between cohorts — Shoulder is urban-only). The published-basis row keeps the canonically invalid drives and is shown only as an eligibility sensitivity."},
-  StartsPer100km:{kind:"kpi",title:"Current-direction reversals per 100 km (pack-current sign crossings; ratio of sums, day-cluster CI)",note:"Unique definition: n_sign_crossings (a count of pack-current direction reversals, not a counted engine start) summed over paired-eligible drives ÷ their km; the interval resamples calendar days, never events.",metrics:[
+  StartsPer100km:{kind:"kpi",title:"Pack-current direction reversals per 100 km (not an engine-start count; ratio of sums, day-cluster CI)",note:"Unique definition: n_sign_crossings (a count of pack-current direction reversals; a different quantity from RPM onsets, not an engine-start count) summed over paired-eligible drives ÷ their km; the interval resamples calendar days, never events.",metrics:[
     {label:"Direction reversals",unit:"/100km",digits:0,get:d=>cmpDig(d,["value"]),
      ci:d=>(d&&d.ci95&&typeof d.ci95.lo==="number"&&typeof d.ci95.hi==="number")?{lo:d.ci95.lo,hi:d.ci95.hi,ess:d.ci95.essDays,k:d.ci95.nClusters}:null},
     {label:"Eligible drives",digits:0,get:d=>cmpDig(d,["nEligible"])}]},
@@ -10763,7 +10762,7 @@ export default function App() {
           <CycleRateChart/>
         </Section>
         <Section seasonAware title="E — Engine ON/OFF Cycling by Drive Type & Speed" accent="#fb923c">
-          <div style={{fontSize:11,color:"#64748b",marginBottom:10}}>How often and how long the engine fires, derived from the RPM signal (&gt;300 RPM = ON; sub-2s blips filtered as noise; sensor gaps forward-filled). A mechanical-wear signal (starter, mounts, bearings) independent of the battery-cycling metrics above. Third view confirms engine-on is primarily a function of speed, not drive type. n={S.engineOnDrives} drives with both speed+RPM PIDs / {S.dateRange} (5 early-May files lack the speed PID and are excluded from this chart only). The starts lollipop shows the unweighted mean of per-drive RPM-onset rates (short trips dominate; Urban hi = 500); the pooled ratio of sums is below.</div>
+          <div style={{fontSize:11,color:"#64748b",marginBottom:10}}>How often and how long the engine runs, derived from the RPM signal (RPM above {S.engineStartRate?.detector?.rpmThreshold ?? "—"} = ON; runs shorter than {S.engineStartRate?.detector?.minRunS ?? "—"} s filtered; short sensor gaps (up to {S.engineStartRate?.detector?.ffillLimitS ?? "—"} s) carried forward): detector-defined RPM-onset counts (labelled engine starts; not verified ignition or cold-start events) and engine-on durations and time shares, descriptive only; no wear or mechanism inference is drawn from them. The third view shows the engine-on time share by instantaneous speed zone (pooled, descriptive; speed and drive class are confounded, no attribution). n={S.engineOnDrives} drives with both speed+RPM PIDs / {S.dateRange} (5 early-May files lack the speed PID and are excluded from this chart only). The starts view shows the median of per-drive RPM-onset rates with spread, and the pooled ratio of sums (M343) with its CI is shown beside it in the All view; rates on drives of about 1 km are denominator-unstable (see the footnote).</div>
           <EngineCyclingChart/>
           <EngineStartRate/>
         </Section>
