@@ -120,6 +120,18 @@ def _canonical_bad_files(dm):
     return set(dm.loc[f('ens_invalid') | f('ens_outlier_v2'), 'file'])
 
 
+def intake_note_texts(dm):
+    """M361: Records notes for the two intake-air rows. Scope is the drives that carry a value (up to the last valid date); no routing or cause language
+    (routing of the air to the pack is not verified); the min row is not the dataset's coldest condition because the channel is unavailable since that date."""
+    d = str(dm.loc[dm['T_intake'].notna(), 'date'].max())[:10]
+    mn = (f'Lowest single native sample of the intake-air temperature channel among drives that carry a value (pre-outage scope: drives up to {d}); '
+          f'the counterpart of the maximum row on the same basis. It is not the dataset coldest condition: the channel is unavailable since {d}, '
+          f'and most of the coldest drives by logged ambient fall after it.')
+    mx = (f'Highest single native sample of the intake-air temperature channel (row-level maximum over the drive logs, the same native-sample basis as the minimum row; '
+          f'valid range -40 to 80 °C; a drive whose maximum exceeds 80 °C is excluded whole). Pre-outage scope: drives up to {d}; the channel is unavailable since {d}.')
+    return mn, mx
+
+
 def build_records(dm, res):
     file_to_idx = {row['file']: idx for idx, row in dm.iterrows()}
     res = res[~res['file'].isin(_canonical_bad_files(dm))]      # M340: one canonical mask for every side-pass extremum
@@ -150,10 +162,7 @@ def build_records(dm, res):
         idx2 = file_to_idx.get(w2['file'])
         drive2 = _day_label(dm, idx2) if idx2 is not None else None
         ctx2 = _ctx(dm, idx2, ('class', 'trip', 'pack')) if idx2 is not None else ''
-        why2 = ('Coldest cabin-sourced cooling air presented to the pack inlet on '
-                'this dataset\u2019s coldest mornings \u2014 the native-sample '
-                'counterpart of the intake-air maximum row (same basis), and the low end of the range the pack\u2019s '
-                'passive thermal environment has to work with.')
+        why2 = intake_note_texts(dm)[0]
         rec2 = {'metric': 'Battery intake air temperature min',
                 'value': f"{w2['intake_min']:.1f}\u00b0C", 'drive': drive2 or ''}
         rec2['note'] = f"{why2} Set on: {ctx2}." if ctx2 else why2
@@ -167,9 +176,7 @@ def build_records(dm, res):
             idx3 = file_to_idx.get(w3['file'])
             drive3 = _day_label(dm, idx3) if idx3 is not None else None
             ctx3 = _ctx(dm, idx3, ('class', 'trip', 'pack')) if idx3 is not None else ''
-            why3 = ('Highest single native sample of the intake-air temperature channel presented to the pack inlet '
-                    '(row-level maximum over the drive logs, the same native-sample basis as the minimum row; valid range '
-                    '-40 to 80 °C; a drive whose maximum exceeds 80 °C is excluded whole). The channel has been unavailable since 2026-08-24 (M319).')
+            why3 = intake_note_texts(dm)[1]
             rec3 = {'metric': 'Battery intake air temperature max', 'value': f"{w3['intake_max']:.1f}°C", 'drive': drive3 or ''}
             rec3['note'] = f"{why3} Set on: {ctx3}." if ctx3 else why3
             out['Battery intake air temperature max'] = rec3

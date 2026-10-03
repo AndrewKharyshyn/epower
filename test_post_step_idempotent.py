@@ -10,6 +10,7 @@ try:
             shutil.copy(p, tmp)
     os.makedirs(os.path.join(tmp, "tools"), exist_ok=True)      # M355: post-step helpers live under tools/ (apply_m284_post.sh calls tools/refresh_meta_sources.py)
     shutil.copy(os.path.join(ROOT, "tools", "refresh_meta_sources.py"), os.path.join(tmp, "tools"))
+    shutil.copy(os.path.join(ROOT, "tools", "intake_air_block.py"), os.path.join(tmp, "tools"))   # M361
     base = {n: md5(os.path.join(tmp, n)) for n in ("summary_arrays.json", "summary_config.json")}
     for i in (1, 2):
         r = subprocess.run(["bash", "apply_m284_post.sh"], cwd=tmp, capture_output=True, text=True)

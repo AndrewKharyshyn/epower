@@ -48,7 +48,38 @@
   "registeredDate": "2024-08-07",
   "carAgeAsOf": "2026-09-30",
   "kmLoggedToOdometerDate": 8559.9,
-  "kmLoggedAfterOdometerDate": 180.3
+  "kmLoggedAfterOdometerDate": 180.3,
+  "intakeAir": {
+   "channel": "HV battery intake-air temperature (T_intake)",
+   "nDrives": 489,
+   "nDrivesValid": 270,
+   "nDrivesNoValue": 219,
+   "source": "drive_master.csv T_intake (NaN = unavailable; the raw -100 degC sentinel is removed by the -40 bound, see CHANGELOG M319)",
+   "status": "unavailable",
+   "lastValidDate": "2026-08-24",
+   "lastValidDrive": "20260824_081823.csv",
+   "nDrivesAfterLastValid": 211,
+   "nDaysAfterLastValid": 37,
+   "firstDriveWithoutValue": "20260824_104612.csv",
+   "byCohort": {
+    "cold": {
+     "nDrives": 2,
+     "nDrivesValid": 0
+    },
+    "shoulder": {
+     "nDrives": 100,
+     "nDrivesValid": 18
+    },
+    "warm": {
+     "nDrives": 387,
+     "nDrivesValid": 252
+    }
+   },
+   "coldestTenByAmbient": {
+    "n": 10,
+    "nAfterLastValidDrive": 8
+   }
+  }
  },
  "turboMeta": {
   "nDrives": 433,
@@ -6203,7 +6234,7 @@
    "metric": "Battery intake air temperature max",
    "value": "36.0°C",
    "drive": "Aug22 D4",
-   "note": "Highest single native sample of the intake-air temperature channel presented to the pack inlet (row-level maximum over the drive logs, the same native-sample basis as the minimum row; valid range -40 to 80 °C; a drive whose maximum exceeds 80 °C is excluded whole). The channel has been unavailable since 2026-08-24 (M319). Set on: urban · 5.7 km / 16 min · pack mean 40°C.",
+   "note": "Highest single native sample of the intake-air temperature channel (row-level maximum over the drive logs, the same native-sample basis as the minimum row; valid range -40 to 80 °C; a drive whose maximum exceeds 80 °C is excluded whole). Pre-outage scope: drives up to 2026-08-24; the channel is unavailable since 2026-08-24. Set on: urban · 5.7 km / 16 min · pack mean 40°C.",
    "disclosure": {
     "eligibilityRule": "sanity cap: intake_max_raw <= 80 C (physical-plausibility bound on intake-air temperature (native samples, battery_temp_extremes.csv))",
     "column": "intake_max_raw",
@@ -6762,7 +6793,7 @@
    "metric": "Battery intake air temperature min",
    "value": "9.0°C",
    "drive": "May14 D1",
-   "note": "Coldest cabin-sourced cooling air presented to the pack inlet on this dataset’s coldest mornings — the counterpart to the intake-air maximum above, and the low end of the range the pack’s passive thermal environment has to work with. Set on: urban · 1.0 km / 4 min · pack mean 14°C.",
+   "note": "Lowest single native sample of the intake-air temperature channel among drives that carry a value (pre-outage scope: drives up to 2026-08-24); the counterpart of the maximum row on the same basis. It is not the dataset coldest condition: the channel is unavailable since 2026-08-24, and most of the coldest drives by logged ambient fall after it. Set on: urban · 1.0 km / 4 min · pack mean 14°C.",
    "disclosure": {
     "eligibilityRule": "corpus argmax/argmin over non-null drives; no plausibility cap applied (or cap not exceeded)",
     "excludedByCap": 0,
