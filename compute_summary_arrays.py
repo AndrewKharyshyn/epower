@@ -8766,6 +8766,18 @@ def _csg_events(g, stop_v=1.5, stopgo_ceil=30.0, min_stop_s=3,
                 float(seg.clip(lower=0).sum()) / 3.6,
                 float((-seg).clip(lower=0).sum()) / 3.6)
 
+    def _phx(a, b):
+        """M356: (netWh, dischargeWh, regenWh, non-NaN coverage) over the inclusive window, same arithmetic as _phase; None when no I*V grid;
+        (None, None, None, 0.0) when every sample in the window is NaN."""
+        if p is None:
+            return None
+        raw_seg = p.iloc[a:b + 1]
+        seg = raw_seg.dropna()
+        cov = round(float(len(seg)) / float(len(raw_seg)), 4) if len(raw_seg) else 0.0
+        if not len(seg):
+            return (None, None, None, 0.0)
+        return (float(seg.sum()) / 3.6, float(seg.clip(lower=0).sum()) / 3.6, float((-seg).clip(lower=0).sum()) / 3.6, cov)
+
     launches, approaches, cycles = [], [], []
     # launches: stop-end -> first >= move_v (or local peak), capped
     for (a, b) in stops:
@@ -8824,7 +8836,11 @@ def _csg_events(g, stop_v=1.5, stopgo_ceil=30.0, min_stop_s=3,
         _n2, _o2, gin = _phase(max(abeg, e_k), s_k1)
         rec = (gin / out) if (out is not None and gin is not None and out > 0) else None
         approach_dur = s_k1 - max(abeg, e_k)
+        _wl, _wa, _wm = (e_k, min(lend, s_k1)), (max(abeg, e_k), s_k1), (lend + 1, abeg - 1)
+        _ph = {'launch': _phx(*_wl), 'approach': _phx(*_wa), 'cycle': _phx(e_k, s_k1),
+               'creep': (_phx(*_wm) if _wm[0] <= _wm[1] else 'empty'), 'disjoint': bool(_wl[1] < _wa[0])}
         cycles.append({
+            'ph': _ph,
             'vPeak': round(vpk, 1), 'durS': s_k1 - e_k,
             'whCycleNet': net, 'whLaunchOut': out,
             'whApproachIn': gin, 'recoveryRatio': rec,
@@ -9077,6 +9093,114 @@ def _crawl_stop_go(dm, raw_loader, frame_loader=None):
         'misleadingly on its own for episodic-low-speed drive types; see '
         'out.rateCaveat for the full interpretation.')
     return out
+
+
+_CSG_PHASE_WINDOWS = [
+    {'key': 'launch', 'label': 'Launch', 'mask': 'stop end to the first sample at or above min(15 km/h, inter-stop peak); not capped at 20 s'},
+    {'key': 'creep', 'label': 'Creep', 'mask': 'samples strictly between the launch window end and the approach window start; empty (excluded, not zero) when the two windows are adjacent or share a sample'},
+    {'key': 'approach', 'label': 'Approach', 'mask': 'last sample at or above min(15 km/h, inter-stop peak) to the start of the next stop; not capped at 20 s'},
+    {'key': 'cycle', 'label': 'Full cycle', 'mask': 'end of one stop to the start of the next stop (consecutive-stop pair, inter-stop peak <= 30 km/h)'}]
+
+
+def _crawl_stop_go_phases(dm, raw_loader, frame_loader=None):
+    """M356 (Cs-21, spec analyses/M356_spec.md Rev 2): per-window signed net and one-direction energies of the stop-go cycle.
+    Same cycle list as crawlStopGo.whCycleNet (events from _csg_grid/_csg_events, frame_loader-cached; cycles with I and V). Power p = (-I)*V/1000 kW
+    (M11, discharge-positive); window energy: net = sum(p)/3.6 Wh, discharge-direction = sum(max(p,0))/3.6, regen-direction = sum(max(-p,0))/3.6
+    (positive magnitude); net = discharge - regen. Windows (code guards): launch [e_k, min(lend, s_k1)], approach [max(abeg, e_k), s_k1], cycle [e_k, s_k1],
+    creep [lend+1, abeg-1] (empty -> excluded, counted). Not claimed additive (windows can share one boundary sample); additiveShare reports the share
+    where launch end < approach start. Zero = value <= 0 (as in M226.1); if the zero share is >= 0.25 the two-part form is reported (day-clustered P(>0)
+    and the positive-part median with CI) instead of the pooled-median CI. Returns {'phaseEnergy': {...}} or None."""
+    if frame_loader is None and raw_loader is None:
+        return None
+    from collections import defaultdict
+    cyc = []
+    for _, row in dm.iterrows():
+        day = str(row.get('date'))[:10]
+        try:
+            g = _csg_grid(row['file'], raw_loader, frame_loader)
+        except Exception:
+            continue
+        r = _csg_events(g)
+        if r is None or not r['hasIV']:
+            continue
+        for c in r['cycles']:
+            if c.get('ph') is not None:
+                cyc.append((day, c['ph']))
+    if not cyc:
+        return None
+
+    def _prop(pairs, seed=42, n_boot=4000):
+        grp = defaultdict(list)
+        for d, v in pairs:
+            grp[d].append(1.0 if v else 0.0)
+        keys = [k for k in grp if grp[k]]
+        if len(keys) < 3:
+            return None
+        arrs = {k: np.array(grp[k]) for k in keys}
+        rng = np.random.default_rng(seed)
+        props = np.empty(n_boot)
+        for i in range(n_boot):
+            samp = rng.choice(len(keys), len(keys), replace=True)
+            props[i] = np.mean(np.concatenate([arrs[keys[j]] for j in samp]))
+        allv = np.concatenate(list(arrs.values()))
+        return {'proportion': round(float(allv.mean()), 4),
+                'ci95': [round(float(np.percentile(props, 2.5)), 4), round(float(np.percentile(props, 97.5)), 4)],
+                'n': int(len(allv)), 'nDays': int(len(keys))}
+
+    out = {}
+    for w in ('launch', 'creep', 'approach', 'cycle'):
+        vals = {'netWh': [], 'dischargeWh': [], 'regenWh': []}
+        cov, n_empty, n_nan = [], 0, 0
+        for day, ph in cyc:
+            x = ph[w]
+            if x == 'empty':
+                n_empty += 1
+                continue
+            if x is None or x[0] is None:
+                n_nan += 1
+                continue
+            vals['netWh'].append((day, x[0])); vals['dischargeWh'].append((day, x[1])); vals['regenWh'].append((day, x[2])); cov.append(x[3])
+        blk = {'nEmpty': int(n_empty), 'nAllNaN': int(n_nan),
+               'gridCoverageMedian': (round(float(np.median(cov)), 4) if cov else None)}
+        for k, pairs in vals.items():
+            v = [b for _, b in pairs]
+            e = _csg_med_iqr(v) or {'n': 0}
+            if k != 'netWh' and v:
+                zs = float(np.mean([b <= 0 for b in v]))
+                e['zeroShare'] = round(zs, 4)
+                if zs >= 0.25:
+                    pos = [(d, b) for d, b in pairs if b > 0]
+                    e['twoPart'] = {'pPositive': _prop([(d, b > 0) for d, b in pairs]),
+                                    'positivePartMedian': (_csg_med_iqr([b for _, b in pos]) or {'n': 0}),
+                                    'positivePartBoot': _csg_dayboot(pos)}
+                else:
+                    e['bootMedian'] = _csg_dayboot(pairs)
+            else:
+                e['bootMedian'] = _csg_dayboot(pairs)
+            blk[k] = e
+        out[w] = blk
+    tol_ok = tot = 0
+    for _, ph in cyc:
+        if ph['disjoint'] and all(isinstance(ph[w], tuple) and ph[w][0] is not None for w in ('launch', 'approach', 'cycle')):
+            mid = ph['creep']
+            m_net = 0.0 if mid == 'empty' else (mid[0] if (isinstance(mid, tuple) and mid[0] is not None) else None)
+            if m_net is None:
+                continue
+            tot += 1
+            resid = abs(ph['cycle'][0] - (ph['launch'][0] + m_net + ph['approach'][0]))
+            tol_ok += 1 if resid <= 1e-9 * max(1.0, abs(ph['cycle'][0])) else 0
+    out['additiveShare'] = round(float(np.mean([bool(ph['disjoint']) for _, ph in cyc])), 4)
+    out['additiveVerified'] = {'nChecked': int(tot), 'nWithinTolerance': int(tol_ok), 'tolerance': '1e-9 * max(1, |cycle net|)'}
+    out['nCycles'] = int(len(cyc))
+    out['windows'] = _CSG_PHASE_WINDOWS
+    out['methodology'] = ('M356 (Cs-21). Energy over each window of the stop-go cycle from logged HV current x voltage on the 1 Hz grid (asynchronous polling; samples with no I*V are dropped, '
+                          'so energy over gaps is understated; gridCoverageMedian is the non-NaN share). net = signed sum; discharge-direction and regen-direction (positive magnitude) are '
+                          'the sums of the positive and negative parts of the power. The windows are NOT additive: launch and approach share one boundary sample when launch end = approach start, '
+                          'and the creep window is empty (excluded, not zero) in that case; additiveShare is the share of cycles with launch end < approach start. One-direction energies are biased '
+                          'upward by sign-flipping noise (rectification); the net is not. Zero = value <= 0; where the zero share is >= 0.25 the two-part form is reported (day-clustered P(>0) and '
+                          'the positive-part median with CI). Day-clustered percentile bootstrap, seed 42, 4000 draws. Reconstructed from logged data, never measured energy. '
+                          'raw/ basis, provenance-sensitive (F03): zero shares depend on the integer-rounded current in the raw re-exports.')
+    return {'phaseEnergy': out}
 
 
 def _crawl_stop_go_two_part(dm, raw_loader, frame_loader=None):
@@ -16935,6 +17059,9 @@ def build_summary_arrays(dm, raw_loader=None, with_raw=True, odometer_km=None,
             _csg2 = _crawl_stop_go_two_part(dm, raw_loader, frame_loader=frame_loader)
             if _csg2 is not None:
                 arrays['crawlStopGo'].update(_csg2)
+            _csg3 = _crawl_stop_go_phases(dm, raw_loader, frame_loader=frame_loader)     # M356: new key phaseEnergy only
+            if _csg3 is not None:
+                arrays['crawlStopGo'].update(_csg3)
         arrays['accelDecelEnvelopes'] = _accel_decel_envelopes(
             dm, raw_loader, frame_loader=frame_loader)
         arrays['rpmSpeedSync'] = _rpm_speed_sync(

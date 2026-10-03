@@ -135,6 +135,7 @@ RULES = [
     Rule("M340-intake-max", "regex", "M340/F07: the intake-air maximum is a native-sample maximum, not the hottest cabin-sourced air or a bound on the achievable pack minimum", rx=r"\bhottest cabin sourced cooling air\b|\bbounds the achievable pack minimum\b"),
     Rule("M343-coldstartband", "regex", "M343 Director: coolant bands at the onset sample are start context only; no 'cold start' or 'warm restart' label for them", rx=r"\bcold start (?:onsets|bands?)\b|\bwarm restart (?:onsets|bands?)\b"),
     Rule("M343-fuelonstart", "regex", "M343 Director: RPM onsets are not fuel-on starts", rx=r"\bfuel on starts? (?:rate|count)\b|\bmeasured engine start rate\b"),
+    Rule("M356-phase-additive", "phrase", "M356 Cs-21: the launch, creep, approach and cycle windows are not additive (they can share one sample)", phrase="windows sum to the cycle"),
     Rule("M355-odo-logging", "regex", "M355 Cs-1: the odometer is a dash reading with a date; logging does not run 'through' the odometer reading", rx=r"\blogging through [\d ]+ km on the odometer\b"),
     Rule("M355-odo-true", "phrase", "M355 Cs-1: the odometer is the instrument-cluster total km from new (dash reading as of a date), not a 'true total'", phrase="true total km from new"),
     Rule("M355-paired-energy", "regex", "M355 Cs-1: the family is named 'Current-integral energy metrics' in S.eligibility", rx=r"\bpaired energy (?:metrics|drives|eligible|count)\b"),

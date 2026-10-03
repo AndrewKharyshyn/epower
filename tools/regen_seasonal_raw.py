@@ -54,6 +54,9 @@ def builders(fl, rl, rd):
             t = C._crawl_stop_go_two_part(sub, rl, frame_loader=fl)
             if t is not None:
                 b.update(t)
+            t3 = C._crawl_stop_go_phases(sub, rl, frame_loader=fl)      # M356
+            if t3 is not None:
+                b.update(t3)
         return b
 
     def hsr(sub):

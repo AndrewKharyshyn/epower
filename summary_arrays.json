@@ -33377,7 +33377,343 @@
    },
    "note": "New segment-extraction sub-pass (continuously-moving runs, speed never below 1.5 km/h for >=20s, same 1 Hz grid _csg_grid already builds) -- not individually matched pair-by-pair on mean speed; the two populations' overall speed and net-energy distributions are reported side by side instead, since strict per-cycle matching at this sample size would leave very few matched pairs. A coarser but disclosed comparison, not silently narrowed. MEDIAN SPEED GAP: 23.4 km/h (moving) vs. 7.0 km/h (cycles, peak) -- the two populations are NOT speed-matched at this sample size, disclosed numerically rather than only in prose; treat the net-energy comparison as two different operating regimes shown side by side, not a matched-pair contrast."
   },
-  "twoPartMethodology": "M226.1 (P1.1, enhancement plan): two-part model over the SAME approach/cycle event lists crawlStopGo itself builds. Part 1 (regenProbability): empirical P(grossInWh>0), day-clustered bootstrap CI (seed=42, 4000 draws), not a fitted parametric logistic. Part 2 (conditionalMagnitude): quantiles of grossInWh GIVEN grossInWh>0 -- crawlStopGo.whPerApproachRegen/recoveryRatio (pooled, including zeros) are retained unchanged for continuity. netCycleByPeakSpeed bins whCycleNet by peak-speed x deceleration-intensity tercile (decel rate = peak speed / approach-phase duration, the same window crawlStopGo's own energy phases already use). restartProbability/stopEffectCovariates use the SAME day-clustered-bootstrap-proportion estimator throughout. movingSegmentComparison is the one new segment-extraction sub-pass (see its own note) -- everything else re-derives _csg_grid/_csg_events (frame_loader-cached, not a new raw pass) rather than touching crawlStopGo itself, so crawlStopGo's existing fields are unaffected by construction. Single vehicle / ~single driver -- descriptive, not causal."
+  "twoPartMethodology": "M226.1 (P1.1, enhancement plan): two-part model over the SAME approach/cycle event lists crawlStopGo itself builds. Part 1 (regenProbability): empirical P(grossInWh>0), day-clustered bootstrap CI (seed=42, 4000 draws), not a fitted parametric logistic. Part 2 (conditionalMagnitude): quantiles of grossInWh GIVEN grossInWh>0 -- crawlStopGo.whPerApproachRegen/recoveryRatio (pooled, including zeros) are retained unchanged for continuity. netCycleByPeakSpeed bins whCycleNet by peak-speed x deceleration-intensity tercile (decel rate = peak speed / approach-phase duration, the same window crawlStopGo's own energy phases already use). restartProbability/stopEffectCovariates use the SAME day-clustered-bootstrap-proportion estimator throughout. movingSegmentComparison is the one new segment-extraction sub-pass (see its own note) -- everything else re-derives _csg_grid/_csg_events (frame_loader-cached, not a new raw pass) rather than touching crawlStopGo itself, so crawlStopGo's existing fields are unaffected by construction. Single vehicle / ~single driver -- descriptive, not causal.",
+  "phaseEnergy": {
+   "launch": {
+    "nEmpty": 0,
+    "nAllNaN": 2,
+    "gridCoverageMedian": 1.0,
+    "netWh": {
+     "median": 3.24,
+     "p25": 1.37,
+     "p75": 9.88,
+     "p95": 22.79,
+     "n": 2181,
+     "bootMedian": {
+      "bootMedian": 3.24,
+      "ci95": [
+       2.84,
+       3.8
+      ],
+      "nDays": 100
+     }
+    },
+    "dischargeWh": {
+     "median": 3.55,
+     "p25": 1.48,
+     "p75": 10.39,
+     "p95": 24.43,
+     "n": 2181,
+     "zeroShare": 0.05,
+     "bootMedian": {
+      "bootMedian": 3.55,
+      "ci95": [
+       3.0,
+       4.05
+      ],
+      "nDays": 100
+     }
+    },
+    "regenWh": {
+     "median": 0.0,
+     "p25": 0.0,
+     "p75": 0.0,
+     "p95": 5.87,
+     "n": 2181,
+     "zeroShare": 0.8235,
+     "twoPart": {
+      "pPositive": {
+       "proportion": 0.1765,
+       "ci95": [
+        0.152,
+        0.2012
+       ],
+       "n": 2181,
+       "nDays": 100
+      },
+      "positivePartMedian": {
+       "median": 2.55,
+       "p25": 0.88,
+       "p75": 6.49,
+       "p95": 40.73,
+       "n": 385
+      },
+      "positivePartBoot": {
+       "bootMedian": 2.55,
+       "ci95": [
+        1.93,
+        3.28
+       ],
+       "nDays": 87
+      }
+     }
+    }
+   },
+   "creep": {
+    "nEmpty": 1047,
+    "nAllNaN": 8,
+    "gridCoverageMedian": 1.0,
+    "netWh": {
+     "median": 1.38,
+     "p25": 0.3,
+     "p75": 6.56,
+     "p95": 42.44,
+     "n": 1128,
+     "bootMedian": {
+      "bootMedian": 1.38,
+      "ci95": [
+       1.19,
+       1.57
+      ],
+      "nDays": 98
+     }
+    },
+    "dischargeWh": {
+     "median": 2.16,
+     "p25": 0.68,
+     "p75": 13.24,
+     "p95": 69.36,
+     "n": 1128,
+     "zeroShare": 0.1188,
+     "bootMedian": {
+      "bootMedian": 2.16,
+      "ci95": [
+       1.8,
+       2.71
+      ],
+      "nDays": 98
+     }
+    },
+    "regenWh": {
+     "median": 0.0,
+     "p25": 0.0,
+     "p75": 7.55,
+     "p95": 75.28,
+     "n": 1128,
+     "zeroShare": 0.5035,
+     "twoPart": {
+      "pPositive": {
+       "proportion": 0.4965,
+       "ci95": [
+        0.4577,
+        0.5351
+       ],
+       "n": 1128,
+       "nDays": 98
+      },
+      "positivePartMedian": {
+       "median": 7.65,
+       "p25": 2.58,
+       "p75": 24.15,
+       "p95": 124.7,
+       "n": 560
+      },
+      "positivePartBoot": {
+       "bootMedian": 7.64,
+       "ci95": [
+        6.27,
+        9.25
+       ],
+       "nDays": 89
+      }
+     }
+    }
+   },
+   "approach": {
+    "nEmpty": 0,
+    "nAllNaN": 2,
+    "gridCoverageMedian": 1.0,
+    "netWh": {
+     "median": 1.29,
+     "p25": 0.49,
+     "p75": 3.03,
+     "p95": 12.5,
+     "n": 2181,
+     "bootMedian": {
+      "bootMedian": 1.29,
+      "ci95": [
+       1.19,
+       1.4
+      ],
+      "nDays": 100
+     }
+    },
+    "dischargeWh": {
+     "median": 1.55,
+     "p25": 0.88,
+     "p75": 3.48,
+     "p95": 13.62,
+     "n": 2181,
+     "zeroShare": 0.0935,
+     "bootMedian": {
+      "bootMedian": 1.55,
+      "ci95": [
+       1.39,
+       1.69
+      ],
+      "nDays": 100
+     }
+    },
+    "regenWh": {
+     "median": 0.0,
+     "p25": 0.0,
+     "p75": 1.7,
+     "p95": 18.29,
+     "n": 2181,
+     "zeroShare": 0.6396,
+     "twoPart": {
+      "pPositive": {
+       "proportion": 0.3604,
+       "ci95": [
+        0.3317,
+        0.3899
+       ],
+       "n": 2181,
+       "nDays": 100
+      },
+      "positivePartMedian": {
+       "median": 2.87,
+       "p25": 1.41,
+       "p75": 7.35,
+       "p95": 34.81,
+       "n": 786
+      },
+      "positivePartBoot": {
+       "bootMedian": 2.86,
+       "ci95": [
+        2.63,
+        3.16
+       ],
+       "nDays": 91
+      }
+     }
+    }
+   },
+   "cycle": {
+    "nEmpty": 0,
+    "nAllNaN": 1,
+    "gridCoverageMedian": 1.0,
+    "netWh": {
+     "median": 5.51,
+     "p25": 2.35,
+     "p75": 15.0,
+     "p95": 51.28,
+     "n": 2182,
+     "bootMedian": {
+      "bootMedian": 5.51,
+      "ci95": [
+       4.99,
+       6.13
+      ],
+      "nDays": 100
+     }
+    },
+    "dischargeWh": {
+     "median": 7.13,
+     "p25": 3.12,
+     "p75": 19.86,
+     "p95": 70.87,
+     "n": 2182,
+     "zeroShare": 0.0403,
+     "bootMedian": {
+      "bootMedian": 7.13,
+      "ci95": [
+       6.37,
+       8.01
+      ],
+      "nDays": 100
+     }
+    },
+    "regenWh": {
+     "median": 0.0,
+     "p25": 0.0,
+     "p75": 4.89,
+     "p95": 62.16,
+     "n": 2182,
+     "zeroShare": 0.6233,
+     "twoPart": {
+      "pPositive": {
+       "proportion": 0.3767,
+       "ci95": [
+        0.3473,
+        0.4068
+       ],
+       "n": 2182,
+       "nDays": 100
+      },
+      "positivePartMedian": {
+       "median": 9.61,
+       "p25": 2.87,
+       "p75": 30.8,
+       "p95": 131.55,
+       "n": 822
+      },
+      "positivePartBoot": {
+       "bootMedian": 9.6,
+       "ci95": [
+        8.35,
+        10.73
+       ],
+       "nDays": 92
+      }
+     }
+    }
+   },
+   "additiveShare": 0.7357,
+   "additiveVerified": {
+    "nChecked": 1597,
+    "nWithinTolerance": 1597,
+    "tolerance": "1e-9 * max(1, |cycle net|)"
+   },
+   "nCycles": 2183,
+   "windows": [
+    {
+     "key": "launch",
+     "label": "Launch",
+     "mask": "stop end to the first sample at or above min(15 km/h, inter-stop peak); not capped at 20 s"
+    },
+    {
+     "key": "creep",
+     "label": "Creep",
+     "mask": "samples strictly between the launch window end and the approach window start; empty (excluded, not zero) when the two windows are adjacent or share a sample"
+    },
+    {
+     "key": "approach",
+     "label": "Approach",
+     "mask": "last sample at or above min(15 km/h, inter-stop peak) to the start of the next stop; not capped at 20 s"
+    },
+    {
+     "key": "cycle",
+     "label": "Full cycle",
+     "mask": "end of one stop to the start of the next stop (consecutive-stop pair, inter-stop peak <= 30 km/h)"
+    }
+   ],
+   "methodology": "M356 (Cs-21). Energy over each window of the stop-go cycle from logged HV current x voltage on the 1 Hz grid (asynchronous polling; samples with no I*V are dropped, so energy over gaps is understated; gridCoverageMedian is the non-NaN share). net = signed sum; discharge-direction and regen-direction (positive magnitude) are the sums of the positive and negative parts of the power. The windows are NOT additive: launch and approach share one boundary sample when launch end = approach start, and the creep window is empty (excluded, not zero) in that case; additiveShare is the share of cycles with launch end < approach start. One-direction energies are biased upward by sign-flipping noise (rectification); the net is not. Zero = value <= 0; where the zero share is >= 0.25 the two-part form is reported (day-clustered P(>0) and the positive-part median with CI). Day-clustered percentile bootstrap, seed 42, 4000 draws. Reconstructed from logged data, never measured energy. raw/ basis, provenance-sensitive (F03): zero shares depend on the integer-rounded current in the raw re-exports.",
+   "blindAudit": {
+    "source": "analyses/M356_audit (blind Sonnet reproduction, own 1 Hz resampling: bin mean + forward-fill limit 3 s, midnight wrap)",
+    "nCycles": {
+     "author": 2183,
+     "audit": 2176
+    },
+    "additiveShare": {
+     "author": 0.7357,
+     "audit": 0.75
+    },
+    "maxAbsMedianDiffWh": 0.26,
+    "cycleNetBootCI95": {
+     "author": [
+      4.99,
+      6.13
+     ],
+     "audit": [
+      5.0,
+      6.26
+     ]
+    },
+    "netEqDischargeMinusRegViolations": 0,
+    "note": "Disagreement is reported, not tuned: differences come from resampling and segmentation edge handling; the audit rounds additiveShare to 2 dp and includes 9 cycles of the 2 below-support Cold drives in All."
+   }
+  }
  },
  "accelDecelEnvelopes": {
   "nDrivesCovered": 488,
@@ -74829,7 +75165,343 @@
        },
        "note": "New segment-extraction sub-pass (continuously-moving runs, speed never below 1.5 km/h for >=20s, same 1 Hz grid _csg_grid already builds) -- not individually matched pair-by-pair on mean speed; the two populations' overall speed and net-energy distributions are reported side by side instead, since strict per-cycle matching at this sample size would leave very few matched pairs. A coarser but disclosed comparison, not silently narrowed. MEDIAN SPEED GAP: 23.4 km/h (moving) vs. 7.0 km/h (cycles, peak) -- the two populations are NOT speed-matched at this sample size, disclosed numerically rather than only in prose; treat the net-energy comparison as two different operating regimes shown side by side, not a matched-pair contrast."
       },
-      "twoPartMethodology": "M226.1 (P1.1, enhancement plan): two-part model over the SAME approach/cycle event lists crawlStopGo itself builds. Part 1 (regenProbability): empirical P(grossInWh>0), day-clustered bootstrap CI (seed=42, 4000 draws), not a fitted parametric logistic. Part 2 (conditionalMagnitude): quantiles of grossInWh GIVEN grossInWh>0 -- crawlStopGo.whPerApproachRegen/recoveryRatio (pooled, including zeros) are retained unchanged for continuity. netCycleByPeakSpeed bins whCycleNet by peak-speed x deceleration-intensity tercile (decel rate = peak speed / approach-phase duration, the same window crawlStopGo's own energy phases already use). restartProbability/stopEffectCovariates use the SAME day-clustered-bootstrap-proportion estimator throughout. movingSegmentComparison is the one new segment-extraction sub-pass (see its own note) -- everything else re-derives _csg_grid/_csg_events (frame_loader-cached, not a new raw pass) rather than touching crawlStopGo itself, so crawlStopGo's existing fields are unaffected by construction. Single vehicle / ~single driver -- descriptive, not causal."
+      "twoPartMethodology": "M226.1 (P1.1, enhancement plan): two-part model over the SAME approach/cycle event lists crawlStopGo itself builds. Part 1 (regenProbability): empirical P(grossInWh>0), day-clustered bootstrap CI (seed=42, 4000 draws), not a fitted parametric logistic. Part 2 (conditionalMagnitude): quantiles of grossInWh GIVEN grossInWh>0 -- crawlStopGo.whPerApproachRegen/recoveryRatio (pooled, including zeros) are retained unchanged for continuity. netCycleByPeakSpeed bins whCycleNet by peak-speed x deceleration-intensity tercile (decel rate = peak speed / approach-phase duration, the same window crawlStopGo's own energy phases already use). restartProbability/stopEffectCovariates use the SAME day-clustered-bootstrap-proportion estimator throughout. movingSegmentComparison is the one new segment-extraction sub-pass (see its own note) -- everything else re-derives _csg_grid/_csg_events (frame_loader-cached, not a new raw pass) rather than touching crawlStopGo itself, so crawlStopGo's existing fields are unaffected by construction. Single vehicle / ~single driver -- descriptive, not causal.",
+      "phaseEnergy": {
+       "launch": {
+        "nEmpty": 0,
+        "nAllNaN": 2,
+        "gridCoverageMedian": 1.0,
+        "netWh": {
+         "median": 3.24,
+         "p25": 1.37,
+         "p75": 9.88,
+         "p95": 22.79,
+         "n": 2181,
+         "bootMedian": {
+          "bootMedian": 3.24,
+          "ci95": [
+           2.84,
+           3.8
+          ],
+          "nDays": 100
+         }
+        },
+        "dischargeWh": {
+         "median": 3.55,
+         "p25": 1.48,
+         "p75": 10.39,
+         "p95": 24.43,
+         "n": 2181,
+         "zeroShare": 0.05,
+         "bootMedian": {
+          "bootMedian": 3.55,
+          "ci95": [
+           3.0,
+           4.05
+          ],
+          "nDays": 100
+         }
+        },
+        "regenWh": {
+         "median": 0.0,
+         "p25": 0.0,
+         "p75": 0.0,
+         "p95": 5.87,
+         "n": 2181,
+         "zeroShare": 0.8235,
+         "twoPart": {
+          "pPositive": {
+           "proportion": 0.1765,
+           "ci95": [
+            0.152,
+            0.2012
+           ],
+           "n": 2181,
+           "nDays": 100
+          },
+          "positivePartMedian": {
+           "median": 2.55,
+           "p25": 0.88,
+           "p75": 6.49,
+           "p95": 40.73,
+           "n": 385
+          },
+          "positivePartBoot": {
+           "bootMedian": 2.55,
+           "ci95": [
+            1.93,
+            3.28
+           ],
+           "nDays": 87
+          }
+         }
+        }
+       },
+       "creep": {
+        "nEmpty": 1047,
+        "nAllNaN": 8,
+        "gridCoverageMedian": 1.0,
+        "netWh": {
+         "median": 1.38,
+         "p25": 0.3,
+         "p75": 6.56,
+         "p95": 42.44,
+         "n": 1128,
+         "bootMedian": {
+          "bootMedian": 1.38,
+          "ci95": [
+           1.19,
+           1.57
+          ],
+          "nDays": 98
+         }
+        },
+        "dischargeWh": {
+         "median": 2.16,
+         "p25": 0.68,
+         "p75": 13.24,
+         "p95": 69.36,
+         "n": 1128,
+         "zeroShare": 0.1188,
+         "bootMedian": {
+          "bootMedian": 2.16,
+          "ci95": [
+           1.8,
+           2.71
+          ],
+          "nDays": 98
+         }
+        },
+        "regenWh": {
+         "median": 0.0,
+         "p25": 0.0,
+         "p75": 7.55,
+         "p95": 75.28,
+         "n": 1128,
+         "zeroShare": 0.5035,
+         "twoPart": {
+          "pPositive": {
+           "proportion": 0.4965,
+           "ci95": [
+            0.4577,
+            0.5351
+           ],
+           "n": 1128,
+           "nDays": 98
+          },
+          "positivePartMedian": {
+           "median": 7.65,
+           "p25": 2.58,
+           "p75": 24.15,
+           "p95": 124.7,
+           "n": 560
+          },
+          "positivePartBoot": {
+           "bootMedian": 7.64,
+           "ci95": [
+            6.27,
+            9.25
+           ],
+           "nDays": 89
+          }
+         }
+        }
+       },
+       "approach": {
+        "nEmpty": 0,
+        "nAllNaN": 2,
+        "gridCoverageMedian": 1.0,
+        "netWh": {
+         "median": 1.29,
+         "p25": 0.49,
+         "p75": 3.03,
+         "p95": 12.5,
+         "n": 2181,
+         "bootMedian": {
+          "bootMedian": 1.29,
+          "ci95": [
+           1.19,
+           1.4
+          ],
+          "nDays": 100
+         }
+        },
+        "dischargeWh": {
+         "median": 1.55,
+         "p25": 0.88,
+         "p75": 3.48,
+         "p95": 13.62,
+         "n": 2181,
+         "zeroShare": 0.0935,
+         "bootMedian": {
+          "bootMedian": 1.55,
+          "ci95": [
+           1.39,
+           1.69
+          ],
+          "nDays": 100
+         }
+        },
+        "regenWh": {
+         "median": 0.0,
+         "p25": 0.0,
+         "p75": 1.7,
+         "p95": 18.29,
+         "n": 2181,
+         "zeroShare": 0.6396,
+         "twoPart": {
+          "pPositive": {
+           "proportion": 0.3604,
+           "ci95": [
+            0.3317,
+            0.3899
+           ],
+           "n": 2181,
+           "nDays": 100
+          },
+          "positivePartMedian": {
+           "median": 2.87,
+           "p25": 1.41,
+           "p75": 7.35,
+           "p95": 34.81,
+           "n": 786
+          },
+          "positivePartBoot": {
+           "bootMedian": 2.86,
+           "ci95": [
+            2.63,
+            3.16
+           ],
+           "nDays": 91
+          }
+         }
+        }
+       },
+       "cycle": {
+        "nEmpty": 0,
+        "nAllNaN": 1,
+        "gridCoverageMedian": 1.0,
+        "netWh": {
+         "median": 5.51,
+         "p25": 2.35,
+         "p75": 15.0,
+         "p95": 51.28,
+         "n": 2182,
+         "bootMedian": {
+          "bootMedian": 5.51,
+          "ci95": [
+           4.99,
+           6.13
+          ],
+          "nDays": 100
+         }
+        },
+        "dischargeWh": {
+         "median": 7.13,
+         "p25": 3.12,
+         "p75": 19.86,
+         "p95": 70.87,
+         "n": 2182,
+         "zeroShare": 0.0403,
+         "bootMedian": {
+          "bootMedian": 7.13,
+          "ci95": [
+           6.37,
+           8.01
+          ],
+          "nDays": 100
+         }
+        },
+        "regenWh": {
+         "median": 0.0,
+         "p25": 0.0,
+         "p75": 4.89,
+         "p95": 62.16,
+         "n": 2182,
+         "zeroShare": 0.6233,
+         "twoPart": {
+          "pPositive": {
+           "proportion": 0.3767,
+           "ci95": [
+            0.3473,
+            0.4068
+           ],
+           "n": 2182,
+           "nDays": 100
+          },
+          "positivePartMedian": {
+           "median": 9.61,
+           "p25": 2.87,
+           "p75": 30.8,
+           "p95": 131.55,
+           "n": 822
+          },
+          "positivePartBoot": {
+           "bootMedian": 9.6,
+           "ci95": [
+            8.35,
+            10.73
+           ],
+           "nDays": 92
+          }
+         }
+        }
+       },
+       "additiveShare": 0.7357,
+       "additiveVerified": {
+        "nChecked": 1597,
+        "nWithinTolerance": 1597,
+        "tolerance": "1e-9 * max(1, |cycle net|)"
+       },
+       "nCycles": 2183,
+       "windows": [
+        {
+         "key": "launch",
+         "label": "Launch",
+         "mask": "stop end to the first sample at or above min(15 km/h, inter-stop peak); not capped at 20 s"
+        },
+        {
+         "key": "creep",
+         "label": "Creep",
+         "mask": "samples strictly between the launch window end and the approach window start; empty (excluded, not zero) when the two windows are adjacent or share a sample"
+        },
+        {
+         "key": "approach",
+         "label": "Approach",
+         "mask": "last sample at or above min(15 km/h, inter-stop peak) to the start of the next stop; not capped at 20 s"
+        },
+        {
+         "key": "cycle",
+         "label": "Full cycle",
+         "mask": "end of one stop to the start of the next stop (consecutive-stop pair, inter-stop peak <= 30 km/h)"
+        }
+       ],
+       "methodology": "M356 (Cs-21). Energy over each window of the stop-go cycle from logged HV current x voltage on the 1 Hz grid (asynchronous polling; samples with no I*V are dropped, so energy over gaps is understated; gridCoverageMedian is the non-NaN share). net = signed sum; discharge-direction and regen-direction (positive magnitude) are the sums of the positive and negative parts of the power. The windows are NOT additive: launch and approach share one boundary sample when launch end = approach start, and the creep window is empty (excluded, not zero) in that case; additiveShare is the share of cycles with launch end < approach start. One-direction energies are biased upward by sign-flipping noise (rectification); the net is not. Zero = value <= 0; where the zero share is >= 0.25 the two-part form is reported (day-clustered P(>0) and the positive-part median with CI). Day-clustered percentile bootstrap, seed 42, 4000 draws. Reconstructed from logged data, never measured energy. raw/ basis, provenance-sensitive (F03): zero shares depend on the integer-rounded current in the raw re-exports.",
+       "blindAudit": {
+        "source": "analyses/M356_audit (blind Sonnet reproduction, own 1 Hz resampling: bin mean + forward-fill limit 3 s, midnight wrap)",
+        "nCycles": {
+         "author": 2183,
+         "audit": 2176
+        },
+        "additiveShare": {
+         "author": 0.7357,
+         "audit": 0.75
+        },
+        "maxAbsMedianDiffWh": 0.26,
+        "cycleNetBootCI95": {
+         "author": [
+          4.99,
+          6.13
+         ],
+         "audit": [
+          5.0,
+          6.26
+         ]
+        },
+        "netEqDischargeMinusRegViolations": 0,
+        "note": "Disagreement is reported, not tuned: differences come from resampling and segmentation edge handling; the audit rounds additiveShare to 2 dp and includes 9 cycles of the 2 below-support Cold drives in All."
+       }
+      }
      },
      "warm": {
       "nDrivesCovered": 384,
@@ -75464,7 +76136,334 @@
        },
        "note": "New segment-extraction sub-pass (continuously-moving runs, speed never below 1.5 km/h for >=20s, same 1 Hz grid _csg_grid already builds) -- not individually matched pair-by-pair on mean speed; the two populations' overall speed and net-energy distributions are reported side by side instead, since strict per-cycle matching at this sample size would leave very few matched pairs. A coarser but disclosed comparison, not silently narrowed. MEDIAN SPEED GAP: 24.4 km/h (moving) vs. 7.0 km/h (cycles, peak) -- the two populations are NOT speed-matched at this sample size, disclosed numerically rather than only in prose; treat the net-energy comparison as two different operating regimes shown side by side, not a matched-pair contrast."
       },
-      "twoPartMethodology": "M226.1 (P1.1, enhancement plan): two-part model over the SAME approach/cycle event lists crawlStopGo itself builds. Part 1 (regenProbability): empirical P(grossInWh>0), day-clustered bootstrap CI (seed=42, 4000 draws), not a fitted parametric logistic. Part 2 (conditionalMagnitude): quantiles of grossInWh GIVEN grossInWh>0 -- crawlStopGo.whPerApproachRegen/recoveryRatio (pooled, including zeros) are retained unchanged for continuity. netCycleByPeakSpeed bins whCycleNet by peak-speed x deceleration-intensity tercile (decel rate = peak speed / approach-phase duration, the same window crawlStopGo's own energy phases already use). restartProbability/stopEffectCovariates use the SAME day-clustered-bootstrap-proportion estimator throughout. movingSegmentComparison is the one new segment-extraction sub-pass (see its own note) -- everything else re-derives _csg_grid/_csg_events (frame_loader-cached, not a new raw pass) rather than touching crawlStopGo itself, so crawlStopGo's existing fields are unaffected by construction. Single vehicle / ~single driver -- descriptive, not causal."
+      "twoPartMethodology": "M226.1 (P1.1, enhancement plan): two-part model over the SAME approach/cycle event lists crawlStopGo itself builds. Part 1 (regenProbability): empirical P(grossInWh>0), day-clustered bootstrap CI (seed=42, 4000 draws), not a fitted parametric logistic. Part 2 (conditionalMagnitude): quantiles of grossInWh GIVEN grossInWh>0 -- crawlStopGo.whPerApproachRegen/recoveryRatio (pooled, including zeros) are retained unchanged for continuity. netCycleByPeakSpeed bins whCycleNet by peak-speed x deceleration-intensity tercile (decel rate = peak speed / approach-phase duration, the same window crawlStopGo's own energy phases already use). restartProbability/stopEffectCovariates use the SAME day-clustered-bootstrap-proportion estimator throughout. movingSegmentComparison is the one new segment-extraction sub-pass (see its own note) -- everything else re-derives _csg_grid/_csg_events (frame_loader-cached, not a new raw pass) rather than touching crawlStopGo itself, so crawlStopGo's existing fields are unaffected by construction. Single vehicle / ~single driver -- descriptive, not causal.",
+      "phaseEnergy": {
+       "launch": {
+        "nEmpty": 0,
+        "nAllNaN": 2,
+        "gridCoverageMedian": 1.0,
+        "netWh": {
+         "median": 3.64,
+         "p25": 1.49,
+         "p75": 10.16,
+         "p95": 23.6,
+         "n": 1768,
+         "bootMedian": {
+          "bootMedian": 3.63,
+          "ci95": [
+           3.11,
+           4.09
+          ],
+          "nDays": 91
+         }
+        },
+        "dischargeWh": {
+         "median": 3.98,
+         "p25": 1.59,
+         "p75": 10.88,
+         "p95": 25.31,
+         "n": 1768,
+         "zeroShare": 0.0362,
+         "bootMedian": {
+          "bootMedian": 3.98,
+          "ci95": [
+           3.44,
+           4.42
+          ],
+          "nDays": 91
+         }
+        },
+        "regenWh": {
+         "median": 0.0,
+         "p25": 0.0,
+         "p75": 0.0,
+         "p95": 6.06,
+         "n": 1768,
+         "zeroShare": 0.8269,
+         "twoPart": {
+          "pPositive": {
+           "proportion": 0.1731,
+           "ci95": [
+            0.1448,
+            0.1998
+           ],
+           "n": 1768,
+           "nDays": 91
+          },
+          "positivePartMedian": {
+           "median": 2.48,
+           "p25": 0.79,
+           "p75": 7.17,
+           "p95": 41.38,
+           "n": 306
+          },
+          "positivePartBoot": {
+           "bootMedian": 2.48,
+           "ci95": [
+            1.68,
+            3.2
+           ],
+           "nDays": 72
+          }
+         }
+        }
+       },
+       "creep": {
+        "nEmpty": 859,
+        "nAllNaN": 8,
+        "gridCoverageMedian": 1.0,
+        "netWh": {
+         "median": 1.33,
+         "p25": 0.3,
+         "p75": 6.08,
+         "p95": 41.11,
+         "n": 903,
+         "bootMedian": {
+          "bootMedian": 1.33,
+          "ci95": [
+           1.17,
+           1.58
+          ],
+          "nDays": 87
+         }
+        },
+        "dischargeWh": {
+         "median": 2.16,
+         "p25": 0.69,
+         "p75": 13.09,
+         "p95": 68.4,
+         "n": 903,
+         "zeroShare": 0.1107,
+         "bootMedian": {
+          "bootMedian": 2.16,
+          "ci95": [
+           1.76,
+           2.71
+          ],
+          "nDays": 87
+         }
+        },
+        "regenWh": {
+         "median": 0.0,
+         "p25": 0.0,
+         "p75": 7.32,
+         "p95": 77.48,
+         "n": 903,
+         "zeroShare": 0.5194,
+         "twoPart": {
+          "pPositive": {
+           "proportion": 0.4806,
+           "ci95": [
+            0.4354,
+            0.5245
+           ],
+           "n": 903,
+           "nDays": 87
+          },
+          "positivePartMedian": {
+           "median": 7.89,
+           "p25": 2.84,
+           "p75": 26.11,
+           "p95": 125.03,
+           "n": 434
+          },
+          "positivePartBoot": {
+           "bootMedian": 7.93,
+           "ci95": [
+            6.32,
+            9.77
+           ],
+           "nDays": 75
+          }
+         }
+        }
+       },
+       "approach": {
+        "nEmpty": 0,
+        "nAllNaN": 2,
+        "gridCoverageMedian": 1.0,
+        "netWh": {
+         "median": 1.48,
+         "p25": 0.74,
+         "p75": 3.37,
+         "p95": 13.38,
+         "n": 1768,
+         "bootMedian": {
+          "bootMedian": 1.48,
+          "ci95": [
+           1.37,
+           1.66
+          ],
+          "nDays": 91
+         }
+        },
+        "dischargeWh": {
+         "median": 1.75,
+         "p25": 0.98,
+         "p75": 3.83,
+         "p95": 14.26,
+         "n": 1768,
+         "zeroShare": 0.0854,
+         "bootMedian": {
+          "bootMedian": 1.75,
+          "ci95": [
+           1.58,
+           1.87
+          ],
+          "nDays": 91
+         }
+        },
+        "regenWh": {
+         "median": 0.0,
+         "p25": 0.0,
+         "p75": 1.47,
+         "p95": 17.48,
+         "n": 1768,
+         "zeroShare": 0.6533,
+         "twoPart": {
+          "pPositive": {
+           "proportion": 0.3467,
+           "ci95": [
+            0.3119,
+            0.3793
+           ],
+           "n": 1768,
+           "nDays": 91
+          },
+          "positivePartMedian": {
+           "median": 2.75,
+           "p25": 1.31,
+           "p75": 7.62,
+           "p95": 34.14,
+           "n": 613
+          },
+          "positivePartBoot": {
+           "bootMedian": 2.75,
+           "ci95": [
+            2.45,
+            3.06
+           ],
+           "nDays": 79
+          }
+         }
+        }
+       },
+       "cycle": {
+        "nEmpty": 0,
+        "nAllNaN": 1,
+        "gridCoverageMedian": 1.0,
+        "netWh": {
+         "median": 5.95,
+         "p25": 2.57,
+         "p75": 15.27,
+         "p95": 52.12,
+         "n": 1769,
+         "bootMedian": {
+          "bootMedian": 5.95,
+          "ci95": [
+           5.24,
+           6.66
+          ],
+          "nDays": 91
+         }
+        },
+        "dischargeWh": {
+         "median": 7.63,
+         "p25": 3.42,
+         "p75": 20.45,
+         "p95": 72.18,
+         "n": 1769,
+         "zeroShare": 0.0288,
+         "bootMedian": {
+          "bootMedian": 7.63,
+          "ci95": [
+           6.77,
+           8.65
+          ],
+          "nDays": 91
+         }
+        },
+        "regenWh": {
+         "median": 0.0,
+         "p25": 0.0,
+         "p75": 4.26,
+         "p95": 59.81,
+         "n": 1769,
+         "zeroShare": 0.6371,
+         "twoPart": {
+          "pPositive": {
+           "proportion": 0.3629,
+           "ci95": [
+            0.3277,
+            0.3954
+           ],
+           "n": 1769,
+           "nDays": 91
+          },
+          "positivePartMedian": {
+           "median": 9.83,
+           "p25": 2.81,
+           "p75": 32.71,
+           "p95": 136.19,
+           "n": 642
+          },
+          "positivePartBoot": {
+           "bootMedian": 9.83,
+           "ci95": [
+            8.35,
+            12.09
+           ],
+           "nDays": 80
+          }
+         }
+        }
+       },
+       "additiveShare": 0.7288,
+       "additiveVerified": {
+        "nChecked": 1281,
+        "nWithinTolerance": 1281,
+        "tolerance": "1e-9 * max(1, |cycle net|)"
+       },
+       "nCycles": 1770,
+       "windows": [
+        {
+         "key": "launch",
+         "label": "Launch",
+         "mask": "stop end to the first sample at or above min(15 km/h, inter-stop peak); not capped at 20 s"
+        },
+        {
+         "key": "creep",
+         "label": "Creep",
+         "mask": "samples strictly between the launch window end and the approach window start; empty (excluded, not zero) when the two windows are adjacent or share a sample"
+        },
+        {
+         "key": "approach",
+         "label": "Approach",
+         "mask": "last sample at or above min(15 km/h, inter-stop peak) to the start of the next stop; not capped at 20 s"
+        },
+        {
+         "key": "cycle",
+         "label": "Full cycle",
+         "mask": "end of one stop to the start of the next stop (consecutive-stop pair, inter-stop peak <= 30 km/h)"
+        }
+       ],
+       "methodology": "M356 (Cs-21). Energy over each window of the stop-go cycle from logged HV current x voltage on the 1 Hz grid (asynchronous polling; samples with no I*V are dropped, so energy over gaps is understated; gridCoverageMedian is the non-NaN share). net = signed sum; discharge-direction and regen-direction (positive magnitude) are the sums of the positive and negative parts of the power. The windows are NOT additive: launch and approach share one boundary sample when launch end = approach start, and the creep window is empty (excluded, not zero) in that case; additiveShare is the share of cycles with launch end < approach start. One-direction energies are biased upward by sign-flipping noise (rectification); the net is not. Zero = value <= 0; where the zero share is >= 0.25 the two-part form is reported (day-clustered P(>0) and the positive-part median with CI). Day-clustered percentile bootstrap, seed 42, 4000 draws. Reconstructed from logged data, never measured energy. raw/ basis, provenance-sensitive (F03): zero shares depend on the integer-rounded current in the raw re-exports.",
+       "blindAudit": {
+        "source": "analyses/M356_audit (blind Sonnet reproduction, own 1 Hz resampling: bin mean + forward-fill limit 3 s, midnight wrap)",
+        "nCycles": {
+         "author": 1770,
+         "audit": 1762
+        },
+        "additiveShare": {
+         "author": 0.7288,
+         "audit": 0.75
+        },
+        "maxAbsMedianDiffWh": 0.22,
+        "cycleNetBootCI95": null,
+        "netEqDischargeMinusRegViolations": 0,
+        "note": "Disagreement is reported, not tuned: differences come from resampling and segmentation edge handling; the audit rounds additiveShare to 2 dp and includes 9 cycles of the 2 below-support Cold drives in All."
+       }
+      }
      },
      "shoulder": {
       "nDrivesCovered": 99,
@@ -76058,7 +77057,334 @@
        },
        "note": "New segment-extraction sub-pass (continuously-moving runs, speed never below 1.5 km/h for >=20s, same 1 Hz grid _csg_grid already builds) -- not individually matched pair-by-pair on mean speed; the two populations' overall speed and net-energy distributions are reported side by side instead, since strict per-cycle matching at this sample size would leave very few matched pairs. A coarser but disclosed comparison, not silently narrowed. MEDIAN SPEED GAP: 21.2 km/h (moving) vs. 5.0 km/h (cycles, peak) -- the two populations are NOT speed-matched at this sample size, disclosed numerically rather than only in prose; treat the net-energy comparison as two different operating regimes shown side by side, not a matched-pair contrast."
       },
-      "twoPartMethodology": "M226.1 (P1.1, enhancement plan): two-part model over the SAME approach/cycle event lists crawlStopGo itself builds. Part 1 (regenProbability): empirical P(grossInWh>0), day-clustered bootstrap CI (seed=42, 4000 draws), not a fitted parametric logistic. Part 2 (conditionalMagnitude): quantiles of grossInWh GIVEN grossInWh>0 -- crawlStopGo.whPerApproachRegen/recoveryRatio (pooled, including zeros) are retained unchanged for continuity. netCycleByPeakSpeed bins whCycleNet by peak-speed x deceleration-intensity tercile (decel rate = peak speed / approach-phase duration, the same window crawlStopGo's own energy phases already use). restartProbability/stopEffectCovariates use the SAME day-clustered-bootstrap-proportion estimator throughout. movingSegmentComparison is the one new segment-extraction sub-pass (see its own note) -- everything else re-derives _csg_grid/_csg_events (frame_loader-cached, not a new raw pass) rather than touching crawlStopGo itself, so crawlStopGo's existing fields are unaffected by construction. Single vehicle / ~single driver -- descriptive, not causal."
+      "twoPartMethodology": "M226.1 (P1.1, enhancement plan): two-part model over the SAME approach/cycle event lists crawlStopGo itself builds. Part 1 (regenProbability): empirical P(grossInWh>0), day-clustered bootstrap CI (seed=42, 4000 draws), not a fitted parametric logistic. Part 2 (conditionalMagnitude): quantiles of grossInWh GIVEN grossInWh>0 -- crawlStopGo.whPerApproachRegen/recoveryRatio (pooled, including zeros) are retained unchanged for continuity. netCycleByPeakSpeed bins whCycleNet by peak-speed x deceleration-intensity tercile (decel rate = peak speed / approach-phase duration, the same window crawlStopGo's own energy phases already use). restartProbability/stopEffectCovariates use the SAME day-clustered-bootstrap-proportion estimator throughout. movingSegmentComparison is the one new segment-extraction sub-pass (see its own note) -- everything else re-derives _csg_grid/_csg_events (frame_loader-cached, not a new raw pass) rather than touching crawlStopGo itself, so crawlStopGo's existing fields are unaffected by construction. Single vehicle / ~single driver -- descriptive, not causal.",
+      "phaseEnergy": {
+       "launch": {
+        "nEmpty": 0,
+        "nAllNaN": 0,
+        "gridCoverageMedian": 1.0,
+        "netWh": {
+         "median": 2.18,
+         "p25": 0.83,
+         "p75": 8.68,
+         "p95": 18.05,
+         "n": 404,
+         "bootMedian": {
+          "bootMedian": 2.18,
+          "ci95": [
+           1.73,
+           2.54
+          ],
+          "nDays": 30
+         }
+        },
+        "dischargeWh": {
+         "median": 2.33,
+         "p25": 0.97,
+         "p75": 8.68,
+         "p95": 18.05,
+         "n": 404,
+         "zeroShare": 0.1064,
+         "bootMedian": {
+          "bootMedian": 2.34,
+          "ci95": [
+           1.82,
+           2.65
+          ],
+          "nDays": 30
+         }
+        },
+        "regenWh": {
+         "median": 0.0,
+         "p25": 0.0,
+         "p75": 0.0,
+         "p95": 5.29,
+         "n": 404,
+         "zeroShare": 0.8119,
+         "twoPart": {
+          "pPositive": {
+           "proportion": 0.1881,
+           "ci95": [
+            0.1391,
+            0.2361
+           ],
+           "n": 404,
+           "nDays": 30
+          },
+          "positivePartMedian": {
+           "median": 3.29,
+           "p25": 1.14,
+           "p75": 5.44,
+           "p95": 21.16,
+           "n": 76
+          },
+          "positivePartBoot": {
+           "bootMedian": 3.28,
+           "ci95": [
+            1.65,
+            3.76
+           ],
+           "nDays": 23
+          }
+         }
+        }
+       },
+       "creep": {
+        "nEmpty": 185,
+        "nAllNaN": 0,
+        "gridCoverageMedian": 1.0,
+        "netWh": {
+         "median": 1.54,
+         "p25": 0.32,
+         "p75": 9.42,
+         "p95": 45.82,
+         "n": 219,
+         "bootMedian": {
+          "bootMedian": 1.54,
+          "ci95": [
+           1.21,
+           2.44
+          ],
+          "nDays": 28
+         }
+        },
+        "dischargeWh": {
+         "median": 2.44,
+         "p25": 0.59,
+         "p75": 15.34,
+         "p95": 69.48,
+         "n": 219,
+         "zeroShare": 0.1461,
+         "bootMedian": {
+          "bootMedian": 2.44,
+          "ci95": [
+           1.62,
+           3.95
+          ],
+          "nDays": 28
+         }
+        },
+        "regenWh": {
+         "median": 0.92,
+         "p25": 0.0,
+         "p75": 8.11,
+         "p95": 66.24,
+         "n": 219,
+         "zeroShare": 0.4429,
+         "twoPart": {
+          "pPositive": {
+           "proportion": 0.5571,
+           "ci95": [
+            0.4875,
+            0.6174
+           ],
+           "n": 219,
+           "nDays": 28
+          },
+          "positivePartMedian": {
+           "median": 6.4,
+           "p25": 2.2,
+           "p75": 15.86,
+           "p95": 120.27,
+           "n": 122
+          },
+          "positivePartBoot": {
+           "bootMedian": 6.4,
+           "ci95": [
+            4.7,
+            9.25
+           ],
+           "nDays": 25
+          }
+         }
+        }
+       },
+       "approach": {
+        "nEmpty": 0,
+        "nAllNaN": 0,
+        "gridCoverageMedian": 1.0,
+        "netWh": {
+         "median": 0.79,
+         "p25": -1.56,
+         "p75": 1.5,
+         "p95": 7.92,
+         "n": 404,
+         "bootMedian": {
+          "bootMedian": 0.79,
+          "ci95": [
+           0.69,
+           0.97
+          ],
+          "nDays": 30
+         }
+        },
+        "dischargeWh": {
+         "median": 0.98,
+         "p25": 0.5,
+         "p75": 2.09,
+         "p95": 8.69,
+         "n": 404,
+         "zeroShare": 0.1213,
+         "bootMedian": {
+          "bootMedian": 0.98,
+          "ci95": [
+           0.8,
+           1.07
+          ],
+          "nDays": 30
+         }
+        },
+        "regenWh": {
+         "median": 0.0,
+         "p25": 0.0,
+         "p75": 2.83,
+         "p95": 27.09,
+         "n": 404,
+         "zeroShare": 0.5866,
+         "twoPart": {
+          "pPositive": {
+           "proportion": 0.4134,
+           "ci95": [
+            0.3602,
+            0.4676
+           ],
+           "n": 404,
+           "nDays": 30
+          },
+          "positivePartMedian": {
+           "median": 3.3,
+           "p25": 1.84,
+           "p75": 5.69,
+           "p95": 42.92,
+           "n": 167
+          },
+          "positivePartBoot": {
+           "bootMedian": 3.36,
+           "ci95": [
+            2.93,
+            3.76
+           ],
+           "nDays": 26
+          }
+         }
+        }
+       },
+       "cycle": {
+        "nEmpty": 0,
+        "nAllNaN": 0,
+        "gridCoverageMedian": 1.0,
+        "netWh": {
+         "median": 3.78,
+         "p25": 1.38,
+         "p75": 12.1,
+         "p95": 46.29,
+         "n": 404,
+         "bootMedian": {
+          "bootMedian": 3.82,
+          "ci95": [
+           3.2,
+           4.54
+          ],
+          "nDays": 30
+         }
+        },
+        "dischargeWh": {
+         "median": 4.55,
+         "p25": 1.93,
+         "p75": 16.59,
+         "p95": 62.49,
+         "n": 404,
+         "zeroShare": 0.0866,
+         "bootMedian": {
+          "bootMedian": 4.57,
+          "ci95": [
+           4.03,
+           5.51
+          ],
+          "nDays": 30
+         }
+        },
+        "regenWh": {
+         "median": 0.0,
+         "p25": 0.0,
+         "p75": 6.81,
+         "p95": 66.59,
+         "n": 404,
+         "zeroShare": 0.5693,
+         "twoPart": {
+          "pPositive": {
+           "proportion": 0.4307,
+           "ci95": [
+            0.3747,
+            0.486
+           ],
+           "n": 404,
+           "nDays": 30
+          },
+          "positivePartMedian": {
+           "median": 8.74,
+           "p25": 3.38,
+           "p75": 22.35,
+           "p95": 113.71,
+           "n": 174
+          },
+          "positivePartBoot": {
+           "bootMedian": 8.74,
+           "ci95": [
+            7.29,
+            10.99
+           ],
+           "nDays": 26
+          }
+         }
+        }
+       },
+       "additiveShare": 0.7599,
+       "additiveVerified": {
+        "nChecked": 307,
+        "nWithinTolerance": 307,
+        "tolerance": "1e-9 * max(1, |cycle net|)"
+       },
+       "nCycles": 404,
+       "windows": [
+        {
+         "key": "launch",
+         "label": "Launch",
+         "mask": "stop end to the first sample at or above min(15 km/h, inter-stop peak); not capped at 20 s"
+        },
+        {
+         "key": "creep",
+         "label": "Creep",
+         "mask": "samples strictly between the launch window end and the approach window start; empty (excluded, not zero) when the two windows are adjacent or share a sample"
+        },
+        {
+         "key": "approach",
+         "label": "Approach",
+         "mask": "last sample at or above min(15 km/h, inter-stop peak) to the start of the next stop; not capped at 20 s"
+        },
+        {
+         "key": "cycle",
+         "label": "Full cycle",
+         "mask": "end of one stop to the start of the next stop (consecutive-stop pair, inter-stop peak <= 30 km/h)"
+        }
+       ],
+       "methodology": "M356 (Cs-21). Energy over each window of the stop-go cycle from logged HV current x voltage on the 1 Hz grid (asynchronous polling; samples with no I*V are dropped, so energy over gaps is understated; gridCoverageMedian is the non-NaN share). net = signed sum; discharge-direction and regen-direction (positive magnitude) are the sums of the positive and negative parts of the power. The windows are NOT additive: launch and approach share one boundary sample when launch end = approach start, and the creep window is empty (excluded, not zero) in that case; additiveShare is the share of cycles with launch end < approach start. One-direction energies are biased upward by sign-flipping noise (rectification); the net is not. Zero = value <= 0; where the zero share is >= 0.25 the two-part form is reported (day-clustered P(>0) and the positive-part median with CI). Day-clustered percentile bootstrap, seed 42, 4000 draws. Reconstructed from logged data, never measured energy. raw/ basis, provenance-sensitive (F03): zero shares depend on the integer-rounded current in the raw re-exports.",
+       "blindAudit": {
+        "source": "analyses/M356_audit (blind Sonnet reproduction, own 1 Hz resampling: bin mean + forward-fill limit 3 s, midnight wrap)",
+        "nCycles": {
+         "author": 404,
+         "audit": 405
+        },
+        "additiveShare": {
+         "author": 0.7599,
+         "audit": 0.75
+        },
+        "maxAbsMedianDiffWh": 0.34,
+        "cycleNetBootCI95": null,
+        "netEqDischargeMinusRegViolations": 0,
+        "note": "Disagreement is reported, not tuned: differences come from resampling and segmentation edge handling; the audit rounds additiveShare to 2 dp and includes 9 cycles of the 2 below-support Cold drives in All."
+       }
+      }
      },
      "cold": null
     },
