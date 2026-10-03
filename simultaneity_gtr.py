@@ -55,12 +55,13 @@ EPS_BATT = 0.5   # kW -- "battery essentially idle" deadband
 def build_cache():
     dm = pd.read_csv(BASE + 'drive_master.csv')
     master = {r['file']: r for _, r in dm.iterrows()}
+    _CONST = FR.corpus_offset(dm)[0]     # M350: fail-closed corpus offset (a NaN master offset used to stay NaN -> battery term suppressed)
     targets = [f for f in dm['file'] if os.path.exists(BASE + f) and FR._has_fuel(BASE + f)]
     cache = []
     max_ident_err = 0.0
     for f in targets:
         mrow = master[f]
-        off = float(mrow.get('I_offset_A_applied', 0.0) or 0.0)
+        off, _imp = FR.resolve_offset(mrow, _CONST)
         g = RE.load_drive(f, off)
         if g is None:
             continue
