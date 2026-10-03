@@ -6447,32 +6447,37 @@ function EvTraction() {
             {" "}(class medians {Math.min(...D.map(d=>d.runMedianKm))}–{Math.max(...D.map(d=>d.runMedianKm))} km).
             Drive type modulates how <em>often</em> an engine-off window opens
             ({Math.min(...D.map(d=>d.runsPer10km))}→{Math.max(...D.map(d=>d.runsPer10km))} per 10 km),
-            not how far it runs — the signature of a buffer-limited architecture.
+            not how far it runs — consistent with a buffer-limited architecture, but it does not separate an energy limit from a controller SoC policy.
           </div>
         </div>
 
         <div style={{padding:"8px 10px",background:"#f1f5f9",borderRadius:6}}>
           <div style={{fontSize:9,color:"#64748b",marginBottom:6}}>BUFFER-LIMIT CROSS-CHECK</div>
           <Row k="Usable SoC window (p05→p95)" v={`${B.socLoPct}–${B.socHiPct}% (${B.usableWindowPp} pp)`}/>
-          <Row k="Usable energy" v={`${B.usableKwh} kWh`}/>
+          <Row k="Usable energy (assumed capacity)" v={`${B.usableKwh} kWh`}/>
           <Row k="Unassisted consumption" v={`${B.consKwhPer100km} kWh/100 km`}
                c="#0369a1"/>
           <Row k="→ unassisted window budget" v={`${B.rangeKm} km`} c="#0369a1"/>
           <Row k="Longest unassisted run" v={`${B.runMaxUnassistedKm} km`} c="#059669"/>
           <Row k="→ of the window budget"
                v={B.budgetFractionPct!=null?`${B.budgetFractionPct}%`:"—"} c="#059669"/>
+          <div data-cap-caveat="1" style={{fontSize:9,color:"#b45309",marginTop:6,lineHeight:1.6}}>
+            Usable energy and the window budget are the usable SoC window times the assumed pack capacity (CAP_KWH = {S.constantProvenance?.CAP_KWH?.value ?? "n/a"} kWh,
+            {" "}{S.constantProvenance?.CAP_KWH?.verified?"verified":"unverified"}, not an OEM nameplate figure), so both scale in proportion to that assumed capacity and the budget fraction scales inversely;
+            {" "}the SoC window, the unassisted consumption and the observed runs do not.
+          </div>
           {/* M77 (2026-07-31): the "predicted ≈ observed → energy-limited by the
               buffer" reading is withdrawn. It compared the UNASSISTED budget
               (B.rangeKm) against the regen-assisted maximum (RM.km); that run's
               own unassisted content is RM.unassistedKm. Every figure below binds
               to a pipeline value — no hand-typed verdict, no hardcoded "30–50%". */}
           <div style={{fontSize:9,color:"#64748b",marginTop:6,lineHeight:1.6}}>
-            The budget is an <strong style={{color:"#0f172a"}}>upper bound</strong> on unassisted
+            At the assumed capacity, the budget is an <strong style={{color:"#0f172a"}}>upper bound</strong> on unassisted
             range (the whole {B.usableWindowPp} pp window spent end-to-end with no regen); no
             single run traverses the full corpus window. The longest genuinely unassisted run
-            reaches only <strong style={{color:"#059669"}}>{B.budgetFractionPct}%</strong> of it.
+            reaches only <strong style={{color:"#059669"}}>{B.budgetFractionPct}%</strong> of it at that capacity.
             Consumption is a pooled ratio over {B.nrKm} km of runs whose regen stayed below 20%
-            of throughput ({B.nrKwh} kWh). The observed maximum ({RM.km} km) exceeds the budget
+            of throughput ({B.nrKwh} kWh, derived from logged current and voltage). At the assumed capacity the observed maximum ({RM.km} km) exceeds the budget
             only because regen replenishes the buffer mid-run — that record run carried just
             {" "}<strong style={{color:"#0f172a"}}>{RM.unassistedKm} km of {RM.km} km</strong>
             {" "}unassisted, so it is not a buffer-drain distance. The earlier
