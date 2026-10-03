@@ -1,0 +1,75 @@
+{
+ "milestone": "M358",
+ "mode": "--splice",
+ "nLive": 489,
+ "n": 464,
+ "control": {
+  "C1_firstThreeColumnsEqualCRatePoints": true,
+  "C2_maxAbsDiffC_vs_A_over_capAh": 0.0727,
+  "C2_maxDiffOverBound": 0.949,
+  "C2_n": 464,
+  "C2_pass": true,
+  "C2_note": "Rev 2 stated tolerance 0.05 C; replaced by the per-row rounding bound (C 0.1, A 0.1, cap_ah_est 0.01 resolution), max diff reported",
+  "C3_rowsWithChannelMismatch": 0,
+  "C4_cRateRefLinesAxisUnchanged": "checked after splice (deep-diff)"
+ },
+ "controlPassed": true,
+ "axes": {
+  "cPerA": {
+   "median": 0.17093,
+   "p25": 0.16944,
+   "p75": 0.17215,
+   "halfIqrRel": 0.0079,
+   "n": 464,
+   "secondaryAxisMode": "axis"
+  },
+  "vPackMedianCorpus": 359.0,
+  "convention": "C = A / cap_ah_est per drive; cap_ah_est = CAP_KWH*1000 / V_pack_median (per drive); CAP_KWH = 2.1 kWh is verified:false, C-rate scales with it.",
+  "kwDefinition": "drive-level peak charge power |peak_charge_kw| (derived as logged HV current x logged HV voltage); not guaranteed co-timed with the peak current",
+  "medianLinesNote": "median A and median kW are separate medians of per-drive peaks (not co-timed, not one operating point)",
+  "diagnostics": {
+   "nPoints": 464,
+   "nAMissing": 0,
+   "nKwMissing": 0,
+   "nAOver300A": 0,
+   "nKwOver150": 0,
+   "corrAKw": 0.9988,
+   "impliedVoltageOverVmed": {
+    "n": 464,
+    "p25": 1.03,
+    "median": 1.042,
+    "p75": 1.056,
+    "outside0p9to1p1Frac": 0.0022
+   },
+   "followUpTrigger": "implied V = kW*1000/A outside [0.9,1.1] x V_pack_median on more than 10% of drives -> open a raw-pass co-timed kW milestone",
+   "followUpTriggered": false
+  }
+ },
+ "refLinesAK": {
+  "lines": [
+   {
+    "kind": "typical",
+    "C": 18.0,
+    "A": 105.0,
+    "kW": 38.9,
+    "n": 448
+   },
+   {
+    "kind": "regen",
+    "C": 34.3,
+    "A": 200.0,
+    "kW": 79.8,
+    "drive": "20260726_141738.csv"
+   },
+   {
+    "kind": "peak",
+    "C": 36.4,
+    "A": 213.0,
+    "kW": 80.5,
+    "drive": "20260619_190927.csv"
+   }
+  ],
+  "note": "M358: A and kW values of the cRateRefLines lines (same columns and populations, no screen); the typical line is a median per axis (not co-timed)"
+ },
+ "nRows": 464
+}

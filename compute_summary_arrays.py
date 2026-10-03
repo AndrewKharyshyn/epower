@@ -7857,6 +7857,108 @@ def _soc_vcm_mapping(dm, arrays):
     return out
 
 
+def _crate_axes(dm, arrays):
+    """M358 (spec analyses/M358_spec.md Rev 2): A and kW companions of cRatePoints / cRateRefLines.
+
+    Returns (cRatePointsAK, cRateRefLinesAK, cRateAxes). Same point set and order as cRatePoints
+    (asserted by tools/m358_splice.py); no new estimator, master columns only, no A/kW screen.
+    A = |peak A| of the channel whose C-rate is the point's C-rate; kW = |peak_charge_kw| (drive-level
+    peak charge power, NOT guaranteed co-timed with the peak current); C = A / cap_ah_est per drive."""
+    chans = [('eng_charge_peak_Crate', 'eng_charge_peak_A'), ('dual_peak_Crate', 'dual_peak_A'),
+             ('regen_peak_Crate', 'regen_peak_A')]
+    pts_ref = arrays.get('cRatePoints') or []
+    rows, k = [], 0
+    for _, r in dm.iterrows():
+        cls = _cond_class(r.get('drive_type'))
+        if cls is None:
+            continue
+        cr, a = None, None
+        for ck, ak in chans:
+            if not pd.isna(r.get(ck)) and (cr is None or r[ck] > cr):
+                cr = float(r[ck])
+                a = None if pd.isna(r.get(ak)) else abs(float(r[ak]))
+        t1 = r.get('T1_at_peak_Crate')
+        if pd.isna(t1):
+            t1 = r.get('T1_peak')
+        if cr is None or pd.isna(t1):
+            continue
+        band = 'highway' if cls in ('highway', 'mixed_highway') else ('mixed' if cls == 'mixed' else 'city')
+        kw = r.get('peak_charge_kw')
+        kw = None if pd.isna(kw) else round(abs(float(kw)), 1)
+        vmed = r.get('V_pack_median')
+        rows.append([round(float(t1), 0), round(cr, 1), band,
+                     None if a is None else round(a, 1), kw, str(r['file']),
+                     None if pd.isna(vmed) else float(vmed)])
+    n = len(rows)
+    ca = np.array([x[1] / x[3] for x in rows if x[3]], dtype=float)
+    ia = np.array([x[3] for x in rows if x[3] is not None and x[4] is not None], dtype=float)
+    ik = np.array([x[4] for x in rows if x[3] is not None and x[4] is not None], dtype=float)
+    vm = np.array([x[6] for x in rows if x[3] is not None and x[4] is not None and x[6]], dtype=float)
+    iav = np.array([x[3] for x in rows if x[3] is not None and x[4] is not None and x[6]], dtype=float)
+    ikv = np.array([x[4] for x in rows if x[3] is not None and x[4] is not None and x[6]], dtype=float)
+    impl = ikv * 1000.0 / iav
+    rel = impl / vm
+    q = lambda v, p: float(np.percentile(v, p))
+    med_ca = q(ca, 50) if len(ca) else None
+    diag = {
+        'nPoints': n, 'nAMissing': int(sum(1 for x in rows if x[3] is None)),
+        'nKwMissing': int(sum(1 for x in rows if x[4] is None)),
+        'nAOver300A': int(sum(1 for x in rows if x[3] is not None and x[3] > 300)),
+        'nKwOver150': int(sum(1 for x in rows if x[4] is not None and x[4] > 150)),
+        'corrAKw': (round(float(np.corrcoef(ia, ik)[0, 1]), 4) if len(ia) > 2 else None),
+        'impliedVoltageOverVmed': {'n': int(len(rel)), 'p25': round(q(rel, 25), 3) if len(rel) else None,
+                                   'median': round(q(rel, 50), 3) if len(rel) else None,
+                                   'p75': round(q(rel, 75), 3) if len(rel) else None,
+                                   'outside0p9to1p1Frac': (round(float(((rel < 0.9) | (rel > 1.1)).mean()), 4) if len(rel) else None)},
+        'followUpTrigger': 'implied V = kW*1000/A outside [0.9,1.1] x V_pack_median on more than 10% of drives -> open a raw-pass co-timed kW milestone',
+    }
+    diag['followUpTriggered'] = bool(diag['impliedVoltageOverVmed']['outside0p9to1p1Frac'] is not None
+                                     and diag['impliedVoltageOverVmed']['outside0p9to1p1Frac'] > 0.10)
+    vmed_all = float(np.nanmedian([x[6] for x in rows if x[6]])) if any(x[6] for x in rows) else None
+    iqr_rel = (round((q(ca, 75) - q(ca, 25)) / med_ca / 2.0, 4) if med_ca else None)
+    axes = {
+        'cPerA': {'median': (round(med_ca, 5) if med_ca else None), 'p25': (round(q(ca, 25), 5) if len(ca) else None),
+                  'p75': (round(q(ca, 75), 5) if len(ca) else None), 'halfIqrRel': iqr_rel, 'n': int(len(ca)),
+                  'secondaryAxisMode': ('axis' if (iqr_rel is not None and iqr_rel <= 0.03) else 'tickAnnotations')},
+        'vPackMedianCorpus': (round(vmed_all, 1) if vmed_all else None),
+        'convention': 'C = A / cap_ah_est per drive; cap_ah_est = CAP_KWH*1000 / V_pack_median (per drive); CAP_KWH = 2.1 kWh is verified:false, C-rate scales with it.',
+        'kwDefinition': 'drive-level peak charge power |peak_charge_kw| (derived as logged HV current x logged HV voltage); not guaranteed co-timed with the peak current',
+        'medianLinesNote': 'median A and median kW are separate medians of per-drive peaks (not co-timed, not one operating point)',
+        'diagnostics': diag,
+    }
+    clean = dm[~_as_bool(dm['ens_outlier_v2'])] if 'ens_outlier_v2' in dm else dm
+
+    def _mxd(col):
+        s = pd.to_numeric(dm[col], errors='coerce') if col in dm else None
+        if s is None or not s.notna().any():
+            return None
+        return dm.loc[s.idxmax()]
+
+    def _lv(kind, arow, ccol, acol):
+        if arow is None:
+            return None
+        kw = arow.get('peak_charge_kw')
+        return {'kind': kind, 'C': round(float(arow[ccol]), 1),
+                'A': (None if pd.isna(arow.get(acol)) else round(abs(float(arow[acol])), 1)),
+                'kW': (None if pd.isna(kw) else round(abs(float(kw)), 1)), 'drive': str(arow['file'])}
+    lines = []
+    if 'dual_peak_Crate' in clean:
+        s = pd.to_numeric(clean['dual_peak_Crate'], errors='coerce')
+        if s.notna().any():
+            ca_c = pd.to_numeric(clean['dual_peak_A'], errors='coerce').abs()
+            kc = pd.to_numeric(clean['peak_charge_kw'], errors='coerce').abs()
+            lines.append({'kind': 'typical', 'C': round(float(s.median()), 1),
+                          'A': (round(float(ca_c.median()), 1) if ca_c.notna().any() else None),
+                          'kW': (round(float(kc.median()), 1) if kc.notna().any() else None),
+                          'n': int(s.notna().sum())})
+    for kind, ccol, acol in (('regen', 'regen_peak_Crate', 'regen_peak_A'), ('peak', 'dual_peak_Crate', 'dual_peak_A')):
+        ln = _lv(kind, _mxd(ccol), ccol, acol)
+        if ln:
+            lines.append(ln)
+    ref = {'lines': lines, 'note': 'M358: A and kW values of the cRateRefLines lines (same columns and populations, no screen); the typical line is a median per axis (not co-timed)'}
+    return [x[:6] for x in rows], ref, axes
+
+
 def _crate_ref_lines(dm, arrays):
     """M58: computed replacement for the three hand-typed reference lines on
     the C-rate/temperature risk map, plus the map's own axis bounds.
@@ -17229,6 +17331,8 @@ def build_summary_arrays(dm, raw_loader=None, with_raw=True, odometer_km=None,
         # so they must run AFTER the raw pass, not alongside the category_A
         # master-derived blocks.
         arrays['cRateRefLines'] = _crate_ref_lines(dm, arrays)
+        # M358: A and kW companions (additive; cRatePoints / cRateRefLines unchanged)
+        arrays['cRatePointsAK'], arrays['cRateRefLinesAK'], arrays['cRateAxes'] = _crate_axes(dm, arrays)
         # M43: master-derived half of eolBaselines. Typical-range statistics
         # (SoC-band median, vreg median) filter on ens_outlier_v2 per the
         # study's evidentiary convention; the observed SoC window is a true
