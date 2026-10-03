@@ -46640,11 +46640,11 @@
    "configHash": "47b499142f5b3664e9efdd64cb3dfc32",
    "fullConfigHash": "1c2afc165c604e36471c351435aa807d",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-02T11:03:57.447459+00:00",
+   "generatedAt": "2026-10-03T10:16:06.303003+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "bd9d10726bb064d857cf9ff98d2b7338",
-    "fuelReconMasterMd5": "28e5f56a7c6ceaa6efee05e35f2e17b4",
+    "fuelReconMasterMd5": "fd05914b23c43beedd50c2ef6354381c",
     "fuelLikeHeaderSetHash": "b36b7f541815eece54cccfe4907ee1c1c5c2ac184046a91db66ab00f78713040"
    },
    "computationStatus": "computed",
@@ -56226,17 +56226,17 @@
    "engineLoss": 31.65,
    "generatorElec": 15.94,
    "genpeLoss": 1.33,
-   "genToTraction": 8.64,
-   "battToTraction": 9.85,
-   "tractionGross": 18.49,
+   "genToTraction": 8.62,
+   "battToTraction": 9.89,
+   "tractionGross": 18.51,
    "genToBatt": 8.35,
    "regenToBatt": 2.99,
    "etaTankToTraction": 0.278
   },
   "corpus": {
    "generator": 15.94,
-   "tractionGross": 18.49,
-   "fGen": 0.467,
+   "tractionGross": 18.51,
+   "fGen": 0.466,
    "fuelL": 5.7,
    "fuelChem": 48.92,
    "etaEng": 0.353,
@@ -56247,10 +56247,10 @@
     "type": "urban",
     "n": 242,
     "km": 1256.4,
-    "tractionGross": 19.24,
-    "genToTraction": 7.23,
-    "battToTraction": 12.01,
-    "fGen": 0.3755
+    "tractionGross": 19.26,
+    "genToTraction": 7.18,
+    "battToTraction": 12.08,
+    "fGen": 0.3728
    },
    {
     "type": "mixed",
@@ -56283,7 +56283,7 @@
   "glossary": [
    {
     "term": "f_gen",
-    "value": "0.477",
+    "value": "0.466",
     "meaning": "Generator-coincident fraction of traction energy = gen→traction ÷ traction gross. A bus-balance allocation, not a measured circuit split."
    },
    {
@@ -56323,7 +56323,7 @@
    },
    {
     "term": "Battery-buffer share",
-    "value": "0.523",
+    "value": "0.534",
     "meaning": "1 − f_gen: the traction fraction met by the battery at the instant of draw, later repaid by the generator and regen — not a second energy source."
    }
   ],
@@ -76071,8 +76071,8 @@
       "kmProduction": 2003.9,
       "corpus": {
        "generator": 15.94,
-       "tractionGross": 18.49,
-       "fGen": 0.467,
+       "tractionGross": 18.51,
+       "fGen": 0.466,
        "fuelL": 5.7,
        "fuelChem": 48.92,
        "etaEng": 0.353,
@@ -76084,9 +76084,9 @@
        "engineLoss": 31.65,
        "generatorElec": 15.94,
        "genpeLoss": 1.33,
-       "genToTraction": 8.64,
-       "battToTraction": 9.85,
-       "tractionGross": 18.49,
+       "genToTraction": 8.62,
+       "battToTraction": 9.89,
+       "tractionGross": 18.51,
        "genToBatt": 8.35,
        "regenToBatt": 2.99,
        "etaTankToTraction": 0.278
@@ -76096,10 +76096,10 @@
         "type": "urban",
         "n": 242,
         "km": 1256.4,
-        "tractionGross": 19.24,
-        "genToTraction": 7.23,
-        "battToTraction": 12.01,
-        "fGen": 0.3755
+        "tractionGross": 19.26,
+        "genToTraction": 7.18,
+        "battToTraction": 12.08,
+        "fGen": 0.3728
        },
        {
         "type": "mixed",
@@ -76141,8 +76141,8 @@
       "kmProduction": 1712.6,
       "corpus": {
        "generator": 15.87,
-       "tractionGross": 18.52,
-       "fGen": 0.493,
+       "tractionGross": 18.54,
+       "fGen": 0.491,
        "fuelL": 5.56,
        "fuelChem": 47.7,
        "etaEng": 0.36,
@@ -76154,9 +76154,9 @@
        "engineLoss": 30.53,
        "generatorElec": 15.87,
        "genpeLoss": 1.3,
-       "genToTraction": 9.13,
-       "battToTraction": 9.39,
-       "tractionGross": 18.52,
+       "genToTraction": 9.1,
+       "battToTraction": 9.44,
+       "tractionGross": 18.54,
        "genToBatt": 7.67,
        "regenToBatt": 2.98,
        "etaTankToTraction": 0.289
@@ -76166,10 +76166,10 @@
         "type": "urban",
         "n": 161,
         "km": 993.1,
-        "tractionGross": 19.44,
-        "genToTraction": 7.67,
-        "battToTraction": 11.77,
-        "fGen": 0.3944
+        "tractionGross": 19.47,
+        "genToTraction": 7.61,
+        "battToTraction": 11.86,
+        "fGen": 0.391
        },
        {
         "type": "mixed",
@@ -91909,7 +91909,7 @@
   "schemaVersion": 1,
   "inputs": {
    "driveMasterMd5": "bd9d10726bb064d857cf9ff98d2b7338",
-   "fuelReconMasterMd5": "28e5f56a7c6ceaa6efee05e35f2e17b4",
+   "fuelReconMasterMd5": "fd05914b23c43beedd50c2ef6354381c",
    "fuelLikeHeaderSetHash": "b36b7f541815eece54cccfe4907ee1c1c5c2ac184046a91db66ab00f78713040"
   },
   "definition": "fuel present per file = column present AND (counter: >= 2 numeric values with max > min; rate: any value > 0); counter = the pipeline's 'used' column, rate = its 'flow' column (recon_engine.CH)",

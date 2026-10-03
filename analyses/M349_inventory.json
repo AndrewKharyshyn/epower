@@ -1,0 +1,80 @@
+{
+ "speed_split.py": {
+  "script": "speed_split.py",
+  "output": "speed_split.json",
+  "pattern": true,
+  "skipsNaNOffsetExplicitly": false,
+  "outputExists": false,
+  "outputTracked": false,
+  "outputMentionsAffectedDrives": {
+   "20260813_145651": false,
+   "20260813_150341": false
+  },
+  "payloadCitesOutputFile": false,
+  "payloadBlockKey": "generatorTractionRecon.speedSplit",
+  "payloadBlockPresent": true,
+  "status": "payload block carried forward from an earlier run; the script output file is not in the repo, so whether the block includes the two drives cannot be established from the repo (follow-up: rerun with resolve_offset)"
+ },
+ "crossval_gtr.py": {
+  "script": "crossval_gtr.py",
+  "output": "crossval_gtr_out.json",
+  "pattern": true,
+  "skipsNaNOffsetExplicitly": false,
+  "outputExists": false,
+  "outputTracked": false,
+  "outputMentionsAffectedDrives": {
+   "20260813_145651": false,
+   "20260813_150341": false
+  },
+  "payloadCitesOutputFile": false,
+  "payloadBlockKey": "generatorTractionRecon.crossval",
+  "payloadBlockPresent": true,
+  "status": "payload block carried forward from an earlier run; the script output file is not in the repo, so whether the block includes the two drives cannot be established from the repo (follow-up: rerun with resolve_offset)"
+ },
+ "sensitivity_gtr.py": {
+  "script": "sensitivity_gtr.py",
+  "output": "sensitivity_gtr_out.json",
+  "pattern": true,
+  "skipsNaNOffsetExplicitly": false,
+  "outputExists": false,
+  "outputTracked": false,
+  "outputMentionsAffectedDrives": {
+   "20260813_145651": false,
+   "20260813_150341": false
+  },
+  "payloadCitesOutputFile": false,
+  "payloadBlockKey": "generatorTractionRecon.sensitivity",
+  "payloadBlockPresent": true,
+  "status": "payload block carried forward from an earlier run; the script output file is not in the repo, so whether the block includes the two drives cannot be established from the repo (follow-up: rerun with resolve_offset)"
+ },
+ "simultaneity_gtr.py": {
+  "script": "simultaneity_gtr.py",
+  "output": "simultaneity_gtr_out.json",
+  "pattern": true,
+  "skipsNaNOffsetExplicitly": false,
+  "outputExists": false,
+  "outputTracked": false,
+  "outputMentionsAffectedDrives": {
+   "20260813_145651": false,
+   "20260813_150341": false
+  },
+  "payloadCitesOutputFile": false,
+  "payloadBlockKey": "generatorTractionRecon.simultaneity",
+  "payloadBlockPresent": true,
+  "status": "payload block carried forward from an earlier run; the script output file is not in the repo, so whether the block includes the two drives cannot be established from the repo (follow-up: rerun with resolve_offset)"
+ },
+ "tools/gtr_closure_diag.py": {
+  "script": "tools/gtr_closure_diag.py",
+  "output": "analyses/M336_closure_diag.json",
+  "pattern": true,
+  "skipsNaNOffsetExplicitly": true,
+  "outputExists": true,
+  "outputTracked": true,
+  "outputMentionsAffectedDrives": {
+   "20260813_145651": false,
+   "20260813_150341": false
+  },
+  "payloadCitesOutputFile": true
+ },
+ "_note": "Inventory only. A script whose output does not mention a drive may still include it in an aggregate; a follow-up applies resolve_offset and reruns each. speed_split block in the payload is carried forward (stale) and was not touched."
+}
