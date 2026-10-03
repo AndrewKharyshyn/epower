@@ -1,0 +1,129 @@
+{
+ "affectedPublishedRows": [
+  "20260813_145651.csv",
+  "20260813_150341.csv"
+ ],
+ "nanOffsetDrivesInMaster": 14,
+ "appliedOffsetDistinctValues": 1,
+ "corpusConstantOffsetA": -0.3858,
+ "storedCorpus": {
+  "generator": 15.94,
+  "tractionGross": 18.49,
+  "fGen": 0.467,
+  "fuelL": 5.7,
+  "fuelChem": 48.92,
+  "etaEng": 0.353,
+  "etaBus": 0.327
+ },
+ "variants": {
+  "published_control": {
+   "nProduction": 261,
+   "nDrives": 260,
+   "km": 2003.9,
+   "corpus": {
+    "generator": 15.94,
+    "tractionGross": 18.49,
+    "fGen": 0.467,
+    "fuelL": 5.7,
+    "fuelChem": 48.92,
+    "etaEng": 0.353,
+    "etaBus": 0.327
+   },
+   "genToTraction": 8.64,
+   "battToTraction": 9.85
+  },
+  "exclude": {
+   "nProduction": 259,
+   "nDrives": 258,
+   "km": 1997.1,
+   "corpus": {
+    "generator": 15.93,
+    "tractionGross": 18.49,
+    "fGen": 0.466,
+    "fuelL": 5.7,
+    "fuelChem": 48.91,
+    "etaEng": 0.353,
+    "etaBus": 0.327
+   },
+   "genToTraction": 8.61,
+   "battToTraction": 9.88
+  },
+  "offset_corpus_constant": {
+   "nProduction": 261,
+   "nDrives": 260,
+   "km": 2003.9,
+   "corpus": {
+    "generator": 15.94,
+    "tractionGross": 18.51,
+    "fGen": 0.466,
+    "fuelL": 5.7,
+    "fuelChem": 48.92,
+    "etaEng": 0.353,
+    "etaBus": 0.327
+   },
+   "genToTraction": 8.62,
+   "battToTraction": 9.89
+  },
+  "offset_zero": {
+   "nProduction": 261,
+   "nDrives": 260,
+   "km": 2003.9,
+   "corpus": {
+    "generator": 15.94,
+    "tractionGross": 18.51,
+    "fGen": 0.466,
+    "fuelL": 5.7,
+    "fuelChem": 48.92,
+    "etaEng": 0.353,
+    "etaBus": 0.327
+   },
+   "genToTraction": 8.62,
+   "battToTraction": 9.89
+  }
+ },
+ "perDrive": {
+  "20260813_145651.csv|offset_corpus_constant": {
+   "distance_km": 2.2,
+   "gen_to_traction_kWh_100": 14.297,
+   "batt_to_traction_kWh_100": 10.555,
+   "traction_gross_kWh_100": 24.852,
+   "f_gen": 0.5753
+  },
+  "20260813_150341.csv|offset_corpus_constant": {
+   "distance_km": 4.6,
+   "gen_to_traction_kWh_100": 7.673,
+   "batt_to_traction_kWh_100": 13.478,
+   "traction_gross_kWh_100": 21.151,
+   "f_gen": 0.3628
+  },
+  "20260813_145651.csv|offset_zero": {
+   "distance_km": 2.2,
+   "gen_to_traction_kWh_100": 14.214,
+   "batt_to_traction_kWh_100": 10.304,
+   "traction_gross_kWh_100": 24.518,
+   "f_gen": 0.5797
+  },
+  "20260813_150341.csv|offset_zero": {
+   "distance_km": 4.6,
+   "gen_to_traction_kWh_100": 7.586,
+   "batt_to_traction_kWh_100": 12.96,
+   "traction_gross_kWh_100": 20.546,
+   "f_gen": 0.3692
+  },
+  "20260813_145651.csv|published": {
+   "distance_km": 2.2,
+   "gen_to_traction_kWh_100": 23.59,
+   "batt_to_traction_kWh_100": 0.0,
+   "traction_gross_kWh_100": 23.59,
+   "f_gen": 1.0
+  },
+  "20260813_150341.csv|published": {
+   "distance_km": 4.6,
+   "gen_to_traction_kWh_100": 14.985,
+   "batt_to_traction_kWh_100": 0.0,
+   "traction_gross_kWh_100": 14.985,
+   "f_gen": 1.0
+  }
+ },
+ "controlMatchesStored": true
+}
