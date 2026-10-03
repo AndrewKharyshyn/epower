@@ -113,6 +113,8 @@ ok("A2 REQUIRED rounded-to-zero p-values shown as p<0.001 in the Risk table; p-v
 # M352 (F13.3 / p21.5 / p21.6)
 ok("A2 REQUIRED ambient basis stated: labelled vehicle_sensor (driver-recorded, uncalibrated), substituted count, mean of start and end readings, equal intervals, reading times not recorded", any(all(x in t for x in ("labelled vehicle_sensor", "driver-recorded", "uncalibrated", "are substituted", "mean of the start and end readings", "equal intervals", "reading times are not recorded")) for t in T.values()))
 ok("A2 REQUIRED ambient basis table with per-cohort counts rendered", any("Ambient basis by cohort" in t and "Trapezoidal mean" in t for t in T.values()))
+# M353 (F18.r1 / p15.4)
+ok("A2 REQUIRED registry offset row: one corpus-wide constant, two-pass, not applied to gross throughput, GTC or FCE, class label 'Derived, corpus constant'", any(all(x in t for x in ("one corpus-wide constant", "two-pass", "not applied to gross throughput, GTC or FCE", "Derived, corpus constant")) for t in T.values()))
 # W5a (M330)
 ok("A2 REQUIRED ambient-axis gap described as drives that do not enter the ambient rows", any("drives that do not enter the ambient rows" in t for t in T.values()))
 # W6a (M331)

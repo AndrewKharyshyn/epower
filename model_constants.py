@@ -10,7 +10,7 @@ import numpy as np
 # density g/L and LHV MJ/kg: central + (lo,hi) treated as ~95% span -> sigma=(hi-lo)/4
 RHO_G_PER_L   = (751.0, 746.0, 757.0)     # g/L  E10@15C, EN228 EU-origin (WOG/OKKO); density -> fuel MASS only
 LHV_MJ_PER_KG = (41.15, 40.70, 41.70)     # MJ/kg  E10 (~8.58 kWh/L, 8.50-8.70); LHV -> chemical energy & eta ONLY
-FUEL_VOL_ERR  = 0.03                       # +/- multiplicative on ECU fuel volume (1 sigma ~1.5%)
+FUEL_VOL_ERR  = 0.03                       # +/- multiplicative on the logged (app-calculated) fuel volume (1 sigma ~1.5%)
 
 # ---- generator + power-electronics electrical efficiency (literature, PM machine + rectifier) ----
 ETA_GEN = (0.95, 0.93, 0.97)               # generator electrical
@@ -24,6 +24,15 @@ I_OFFSET_SIGMA_A = 0.15                     # extra uncertainty around the appli
 
 # ---- BSFC surface: central g/kWh per regime, with (lo,hi) ~95% span. Hard floor 217. ----
 BSFC_FLOOR = 217.0
+
+# M353 (F18.r1): the class of each model-input constant, in the assumptions-registry vocabulary (build_assumptions_registry.KLASSES).
+# build_assumptions_registry.py takes the class of the registry entries built from these symbols from here (single source, not retyped).
+CONSTANT_CLASS = {
+    'RHO_G_PER_L': 'literature', 'LHV_MJ_PER_KG': 'literature', 'ETA_GEN': 'literature', 'ETA_PE': 'literature',
+    'BSFC': 'literature', 'BSFC_FLOOR': 'literature',
+    'P_AUX_KW': 'assumed', 'COLD_OIL_T_C': 'assumed', 'COLD_T_C': 'assumed', 'COLD_MULT': 'assumed',
+    'FUEL_VOL_ERR': 'assumed', 'I_OFFSET_SIGMA_A': 'assumed',
+}
 BSFC = {
  'OPT'     : (228.0, 217.0, 245.0),  # 1850-2150 rpm warm steady mid-load (best point cluster)
  'NEAR'    : (240.0, 222.0, 265.0),  # 2150-2400 rpm near-optimum high side

@@ -22,6 +22,27 @@ class T(unittest.TestCase):
         self.assertEqual(r["nEntries"], len(r["entries"]))
         self.assertEqual(r["nUnverified"], sum(1 for e in r["entries"] if not e["verified"]))
 
+    def test_constant_classes_single_source(self):
+        # M353 (F18.r1): classes of the model-constant entries come from MC.CONSTANT_CLASS; every class is in the registry vocabulary
+        for sym, k in MC.CONSTANT_CLASS.items():
+            self.assertIn(k, BAR.KLASSES, sym)
+            self.assertTrue(hasattr(MC, sym), sym)
+        E = {e["id"]: e for e in ARR["assumptionsRegistry"]["entries"]}
+        self.assertGreaterEqual(len(BAR.CLASS_SOURCES), 6)
+        for eid, syms in BAR.CLASS_SOURCES.items():
+            self.assertEqual({MC.CONSTANT_CLASS[s] for s in syms}, {E[eid]["klass"]}, eid)
+
+    def test_offset_entry(self):
+        e = {x["id"]: x for x in ARR["assumptionsRegistry"]["entries"]}["i_offset"]
+        ou = ARR["offsetUncertainty"]
+        self.assertEqual(e["klass"], "derived_corpus_constant")
+        self.assertEqual(e["raw"], ou["pointEstimateA"])
+        self.assertEqual(e["usedBy"], ou["correctionScope"]["appliesTo"])
+        self.assertIn("not applied to gross throughput, GTC or FCE", e["sensitivity"])
+        self.assertIn("one corpus-wide constant", e["label"])
+        self.assertIn("two-pass", e["value"])
+        self.assertEqual(DM["I_offset_2p_A_applied"].dropna().round(4).nunique(), 1)
+
     def test_required_assumptions_present(self):
         ids = {e["id"] for e in ARR["assumptionsRegistry"]["entries"]}
         for need in ("cap_kwh", "mass_kg", "fuel_lhv", "bsfc_surface", "woehler_k", "scenario_threshold_gtc",

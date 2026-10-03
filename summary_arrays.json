@@ -47025,20 +47025,24 @@
    },
    {
     "id": "i_offset",
-    "symbol": "I_offset_A_applied",
-    "label": "BMS current offset (per drive)",
-    "raw": null,
-    "value": "fitted per drive (two-pass solve)",
+    "symbol": "I_offset_2p_A_applied",
+    "label": "BMS current offset (one corpus-wide constant, re-solved per corpus build)",
+    "raw": -0.3869,
+    "value": "-0.3869 A (two-pass solve; 95% CI -0.422 to -0.3493; v5 single-pass -0.3858 A)",
     "unit": "A",
-    "klass": "derived_per_drive",
+    "klass": "derived_corpus_constant",
     "verified": false,
-    "source": "M13/M24 SoC-anchored solve; uncertainty sigma 0.15 A carried in Monte Carlo",
+    "source": "M24/M107 two-pass SoC-anchored solve, estimated (not measured): fitted on the 473 domain-clean drives (100 days; excludes f_domain_2p), day-cluster bootstrap CI; stamped on the 475 drives that have a SoC-anchored energy residual and subtracted from every drive with V_pack_median and duration; the v5 single-pass value feeds the retired net_draw_*_corr columns; coupled to the unverified CAP_KWH (capacitySensitivity); extra uncertainty sigma 0.15 A carried in Monte Carlo",
     "usedBy": [
-     "gross/net energy",
-     "GTC"
+     "net_draw_kwh_corr2p",
+     "energy_residual_kwh_corr2p",
+     "net_draw_per100km_corr2p"
     ],
-    "sensitivity": "Sign-checked per drive; bracketed by the day-cluster bootstrap in Methodology B.",
-    "band": null
+    "sensitivity": "Net-draw and residual correction only: not applied to gross throughput, GTC or FCE (released convention; notAppliedTo: gross_discharge_kwh, gross_charge_kwh, gross_throughput_kwh, gtc, fce). The corrected energy residual is the SoC-anchored residual minus the offset energy; it sums to about zero on the fit set by construction and depends on CAP_KWH, so it is not an independent validation. Applying the offset before the discharge/charge split would raise gross throughput by 0.3406 % (5.1005 kWh; energyUncertaintyMC.offsetGrossSensitivity). Point and interval are method-dependent (day-cluster bootstrap, Methodology B).",
+    "band": [
+     -0.422,
+     -0.3493
+    ]
    }
   ]
  },
