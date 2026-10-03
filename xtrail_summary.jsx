@@ -460,7 +460,7 @@ function AmbientTempTable({ T }) {
                       {dopen && (
                         <div style={{overflowX:"auto"}}>
                           <table style={{borderCollapse:"collapse",width:"100%",minWidth:showStart?1120:700}}>
-                            <thead><tr><th style={th}>Drive</th><th style={th}>Start time</th><th style={th}>km</th><th style={th}>Start °C</th><th style={th}>Interim °C</th><th style={th}>End °C</th><th style={th}>End − start</th><th style={th} title="Time-weighted mean ambient of the drive (seasonal master)">Mean °C</th><th style={th}>Thermal class</th>{showStart && <><th style={th} title="HV-battery pack temperature at the start of the drive">Pack start °C</th><th style={th}>Oil start °C</th><th style={th}>Coolant start °C</th><th style={th} title="Oil temperature 5 minutes after its first valid reading (hover a cell for the whole series)">Oil +5 min °C</th><th style={th} title="Engine-coolant temperature 5 minutes after its first valid reading">Coolant +5 min °C</th><th style={th} title="Cold-soak status of the drive (seasonal master)">Cold soak</th></>}</tr></thead>
+                            <thead><tr><th style={th}>Drive</th><th style={th}>Start time</th><th style={th}>km</th><th style={th}>Start °C</th><th style={th}>Interim °C</th><th style={th}>End °C</th><th style={th}>End − start</th><th style={th} title="Ambient mean that sets the thermal class: trapezoidal for 3+ readings, the mean of the start and end readings for 2, the single reading for 1 (see the basis table above; seasonal master)">Mean °C</th><th style={th}>Thermal class</th>{showStart && <><th style={th} title="HV-battery pack temperature at the start of the drive">Pack start °C</th><th style={th}>Oil start °C</th><th style={th}>Coolant start °C</th><th style={th} title="Oil temperature 5 minutes after its first valid reading (hover a cell for the whole series)">Oil +5 min °C</th><th style={th} title="Engine-coolant temperature 5 minutes after its first valid reading">Coolant +5 min °C</th><th style={th} title="Cold-soak status of the drive (seasonal master)">Cold soak</th></>}</tr></thead>
                             <tbody>
                               {D.rows.map(r=>{
                                 const s0=r.a[0], e0=r.a[r.a.length-1], mid=r.a.slice(1,-1), dl=e0-s0;
@@ -11181,7 +11181,7 @@ export default function App() {
               return <>The plateau ceiling sits at <strong style={{color:"#0f172a"}}>~44–{pk}°C</strong> (Sensor 1, drives &gt;60 min), {hs}. The longest drive ({lg.label}, {(lg.durMin/60).toFixed(2)} hr / {lg.distKm} km) peaked at {lg.t1Peak}°C.</>;
             })()} No drive shows unbounded temperature climb within its logged duration; the highest peak is a finite maximum, not an established equilibrium.</div>
         </Section>
-        <Section title={`Battery vs Measured Ambient (${S.batteryVsAmbient.length} drives)`} accent="#22c55e">
+        <Section title={`Battery vs Driver-Recorded Ambient (${S.batteryVsAmbient.length} drives)`} accent="#22c55e">
           <div style={{fontSize:10,color:"#64748b",marginBottom:8}}>Pack-mean (4-sensor) battery temperature vs the ambient explicitly recorded per drive, joined in the pipeline (M33). Ambient is a manual field — the OBD logs carry no outside-air channel — so only drives with a recorded ambient appear. Delta = battery minus ambient at start and at peak.</div>
           <div style={{fontFamily:"monospace",fontSize:10,color:"#64748b",lineHeight:1.9,background:"#f8fafc",padding:10,borderRadius:6,maxHeight:300,overflowY:"auto"}}>
             {S.batteryVsAmbient.map(d=>{
@@ -11316,6 +11316,17 @@ export default function App() {
               or by temperature range, and download what you see as CSV. "Show start temperatures &amp; warm-up" adds the pack, oil and engine-coolant temperatures at the start of each drive, oil and coolant {S.ambientTable.warmupSeconds ? S.ambientTable.warmupSeconds[3]/60 : "—"} minutes after their first valid
               reading (hover a cell for the 30 s–{S.ambientTable.warmupSeconds ? S.ambientTable.warmupSeconds[4]/60 : "—"} min series) and the cold-soak status ({S.ambientTable.nWithStartTemps} of {S.ambientTable.nDrives} drives have all three start temperatures); the CSV always carries the full series.
             </div>
+            {S.ambientTable.provenanceByCohort && S.ambientTable.meanKindByCohort && (
+              <div data-amb-basis="1" style={{fontSize:10.5,color:"#475569",lineHeight:1.55,margin:"0 0 10px"}}>
+                <div style={{fontWeight:700,color:"#334155",marginBottom:3}}>Ambient basis by cohort</div>
+                All {S.ambientTable.provenanceByCohort.all.recorded} of {S.ambientTable.provenanceByCohort.all.n} ambient values are labelled vehicle_sensor (default label; no weather override is present): driver-recorded dashboard readouts, uncalibrated class; {S.ambientTable.provenanceByCohort.all.substituted} are substituted. The mean that sets the thermal class is a trapezoidal mean over readings placed at equal intervals across the drive (reading times are not recorded) for {S.ambientTable.meanKindByCohort.all.trapezoidal} drives, the mean of the start and end readings for {S.ambientTable.meanKindByCohort.all.endpointPair}, and the single reading for {S.ambientTable.meanKindByCohort.all.singleValue}; for most drives it is a two-reading average, not a continuous record of ambient.
+                <table style={{borderCollapse:"collapse",fontSize:10,margin:"6px 0"}}>
+                  <thead><tr>{["Cohort","Drives","Labelled vehicle_sensor","Substituted","Trapezoidal mean","Mean of start and end readings","Single reading"].map(h=><th key={h} style={{textAlign:"left",padding:"2px 8px",borderBottom:"1px solid #e2e8f0",color:"#64748b",fontWeight:600}}>{h}</th>)}</tr></thead>
+                  <tbody>{["all","warm","shoulder","cold"].map(c=>{ const p=S.ambientTable.provenanceByCohort[c], m=S.ambientTable.meanKindByCohort[c]; if(!p||!m) return null;
+                    return <tr key={c}><td style={{padding:"2px 8px"}}>{c==="all"?"All":c.charAt(0).toUpperCase()+c.slice(1)}{c==="cold"&&p.n<S.ambientTable.cohortMinDrives?" (observed only; below minimum support)":""}</td><td style={{padding:"2px 8px"}}>{p.n}</td><td style={{padding:"2px 8px"}}>{p.recorded}</td><td style={{padding:"2px 8px"}}>{p.substituted}</td><td style={{padding:"2px 8px"}}>{m.trapezoidal}</td><td style={{padding:"2px 8px"}}>{m.endpointPair}</td><td style={{padding:"2px 8px"}}>{m.singleValue}</td></tr>; })}</tbody>
+                </table>
+                {(S.ambientTable.definitions||[]).length>0 && <ul style={{margin:"4px 0 0 16px",padding:0}}>{S.ambientTable.definitions.map((d,i)=><li key={i}><strong>{d.use}:</strong> {d.definition}.</li>)}</ul>}
+              </div>)}
             <AmbientTempTable T={S.ambientTable}/>
           </Section>)}
       </>)}
