@@ -157,8 +157,8 @@ def build(cfg, arr):
     add(id="cohort_min_support", symbol="COHORT_MIN_SUPPORT_DRIVES", label="Minimum drives to enable a cohort", raw=10,
         value="10 drives", unit="drives", klass="policy", verified=False,
         source="declared front-end gate (M284); cohort disabled below this count, never silently replaced by all-data",
-        usedBy=["cohort selector availability"], sensitivity="Lower values enable thinner cohorts; the Cold cohort currently has "
-        + str(sm["cohortCounts"]["cold"]) + " drives.")
+        usedBy=["cohort selector availability"], sensitivity="Lower values enable thinner cohorts; the Cold class has "
+        + str(arr["cohortMeta"]["cold"]["observed"]) + " observed drives (" + str(arr["cohortMeta"]["cold"]["eligibleForCohortView"]) + " analysed as a cohort).")
     ou = arr["offsetUncertainty"]; cs_ = ou["correctionScope"]; og = arr["energyUncertaintyMC"]["offsetGrossSensitivity"]
     import pandas as _pd
     _dm = _pd.read_csv("drive_master.csv", low_memory=False)

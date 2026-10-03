@@ -47020,7 +47020,7 @@
     "usedBy": [
      "cohort selector availability"
     ],
-    "sensitivity": "Lower values enable thinner cohorts; the Cold cohort currently has 0 drives.",
+    "sensitivity": "Lower values enable thinner cohorts; the Cold class has 2 observed drives (0 analysed as a cohort).",
     "band": null
    },
    {
@@ -50896,7 +50896,11 @@
     "mixed": 5,
     "highway": 4,
     "unknown": 1
-   }
+   },
+   "observed": 489,
+   "eligibleForCohortView": 489,
+   "inferenceAvailable": true,
+   "nDaysObserved": 104
   },
   "warm": {
    "n": 387,
@@ -50909,7 +50913,11 @@
     "mixed": 6,
     "highway": 5,
     "unknown": 1
-   }
+   },
+   "observed": 387,
+   "eligibleForCohortView": 387,
+   "inferenceAvailable": true,
+   "nDaysObserved": 93
   },
   "shoulder": {
    "n": 100,
@@ -50920,7 +50928,11 @@
     "urban": 98,
     "unknown": 1,
     "mixed": 1
-   }
+   },
+   "observed": 100,
+   "eligibleForCohortView": 100,
+   "inferenceAvailable": true,
+   "nDaysObserved": 33
   },
   "cold": {
    "n": 0,
@@ -50929,7 +50941,11 @@
    "dateTo": null,
    "routeMix": {},
    "nObserved": 2,
-   "suppressed": "below_min_support"
+   "suppressed": "below_min_support",
+   "observed": 2,
+   "eligibleForCohortView": 0,
+   "inferenceAvailable": false,
+   "nDaysObserved": 1
   }
  },
  "comparisonCube": {
@@ -57029,7 +57045,7 @@
    },
    "corpusMd5": "bd9d10726bb064d857cf9ff98d2b7338",
    "seasonalMasterMd5": "4a4f2f686d7b030dcb874c62733c20f8",
-   "generatedAt": "2026-10-02T20:43:35.670244+00:00",
+   "generatedAt": "2026-10-03T16:22:17.596382+00:00",
    "phase": "0B_seed+1_master+2_raw+wire14",
    "provenance": "Phase-0 corrected-aggregation seed. Reproduces the three defect fixes (energy-intensity ratio-of-sums; starts/100km resolution; histogram conservation) as cohort-native scalars. Native chart CONTRACTS (cycleByType/regenByZone/speedDist/... per cohort) populate in Phase 1/2. cold=null (empty cohort), never zero.",
    "nativeEquivalence": {

@@ -115,6 +115,12 @@ ok("A2 REQUIRED ambient basis stated: labelled vehicle_sensor (driver-recorded, 
 ok("A2 REQUIRED ambient basis table with per-cohort counts rendered", any("Ambient basis by cohort" in t and "Trapezoidal mean" in t for t in T.values()))
 # M353 (F18.r1 / p15.4)
 ok("A2 REQUIRED registry offset row: one corpus-wide constant, two-pass, not applied to gross throughput, GTC or FCE, class label 'Derived, corpus constant'", any(all(x in t for x in ("one corpus-wide constant", "two-pass", "not applied to gross throughput, GTC or FCE", "Derived, corpus constant")) for t in T.values()))
+# M354 (F08.r1 / p25.2)
+_cmo = json.load(open("summary_arrays.json", encoding="utf-8"))["cohortMeta"]
+_obs_line = "Observed {a} = Warm {w} + Shoulder {s} + Cold {c}".format(a=_cmo["all"]["observed"], w=_cmo["warm"]["observed"], s=_cmo["shoulder"]["observed"], c=_cmo["cold"]["observed"])
+ok("A2 REQUIRED observed-sum line from cohortMeta (" + _obs_line + ") and Cold shown as observed only", any(LG.norm(_obs_line) in LG.norm(t) and "observed only" in t for t in T.values()))
+ok("A2 REQUIRED cohort counts conserve: observed(warm+shoulder+cold) == observed(all); inferenceAvailable == (eligibleForCohortView >= min)", _cmo["warm"]["observed"] + _cmo["shoulder"]["observed"] + _cmo["cold"]["observed"] == _cmo["all"]["observed"] and all(_cmo[k]["inferenceAvailable"] == (_cmo[k]["eligibleForCohortView"] >= 10) for k in ("warm", "shoulder", "cold")))
+ok("A2 REQUIRED identifiability box 'What the data cannot identify' with six limits and the payload Cold count", any("What the data cannot identify" in t and "uncalibrated vehicle reading" in t and "segregated from the primary corpus" in t and "assumed BSFC prior" in t for t in T.values()))
 # W5a (M330)
 ok("A2 REQUIRED ambient-axis gap described as drives that do not enter the ambient rows", any("drives that do not enter the ambient rows" in t for t in T.values()))
 # W6a (M331)

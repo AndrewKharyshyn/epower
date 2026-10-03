@@ -4489,7 +4489,7 @@ function HealthStatusCard(){
      t:"Passive OBD logging never leaves the SoC window, so no relaxed-OCV coulomb count exists; 2.1 kWh is an assumed constant."},
     {k:"Cool-pack charging exposure", ev:"observed exposure / outcome unobserved",
      g:<span style={{fontSize:9,color:"#334155"}}>{M294.nColdPts} of {M294.nPts} peaks &lt;{M294.coldC}°C</span>,
-     t:`coldest co-timed ${M294.minPtT}°C; plating occurrence and winter cold-pack behaviour unmeasured (Cold cohort n=${S.seasonalCharts?._meta?.cohortCounts?.cold ?? 0}).`},
+     t:`coldest co-timed ${M294.minPtT}°C; plating occurrence and winter cold-pack behaviour unmeasured (Cold class: ${S.cohortMeta?.cold?.observed ?? 0} observed drives, ${S.cohortMeta?.cold?.eligibleForCohortView ?? 0} analysed as a cohort).`},
   ];
   return <div data-health-status-card="1" style={{overflowX:"auto"}}>
     <table style={{width:"100%",borderCollapse:"collapse",fontSize:10}}>
@@ -9765,16 +9765,26 @@ function CohortSelector({cohort,setCohort}){
     <span style={{fontSize:10,color:"#94a3b8",marginRight:2,textTransform:"uppercase",letterSpacing:0.5}}>Thermal cohort</span>
     {COHORT_MODES.map(m=>{
       const on=cohort===m, meta=COHORT_META[m];
-      const n=m==="compare"?null:(cc[m]!=null?cc[m]:null);
+      const cmo=(S.cohortMeta||{})[m];
+      const belowSupport=!!(cmo&&cmo.observed>0&&cmo.inferenceAvailable===false);
+      const n=m==="compare"?null:(belowSupport?cmo.observed:(cc[m]!=null?cc[m]:null));
       const disabled=(m==="compare")?(availableCohortKeys().length<2):(!cohortAvailable(m));
       return <button key={m} data-cohort-btn={m} aria-pressed={on} disabled={disabled}
         onClick={()=>{ if(!disabled) setCohort(m); }} style={{
           padding:"4px 9px",borderRadius:6,border:"1px solid "+(on?meta.col:"#e2e8f0"),fontSize:11,
           background:on?meta.col:"transparent",color:on?"#fff":(disabled?"#cbd5e1":"#374151"),
           cursor:disabled?"not-allowed":"pointer",fontWeight:on?700:400}}>
-        {meta.label}{n!=null && <span style={{opacity:0.75,fontSize:9,marginLeft:4}}>{n}</span>}
+        {meta.label}{n!=null && <span title={belowSupport?"observed drives; below the minimum for a cohort view":"drives analysed in this cohort view"} style={{opacity:0.75,fontSize:9,marginLeft:4}}>{n}{belowSupport?"\u2020":""}</span>}
       </button>;
     })}
+    {(()=>{ const cm=S.cohortMeta||{}, a=cm.all, w=cm.warm, s=cm.shoulder, c=cm.cold; if(!a||a.observed==null||!w||!s||!c) return null;
+      const inf=["warm","shoulder","cold"].filter(k=>cm[k]&&cm[k].inferenceAvailable).map(k=>k.charAt(0).toUpperCase()+k.slice(1));
+      const minN=S.seasonalCharts?._meta?.cohortSuppressedBelowMinSupport?.minDrivesForStatistics;
+      const dates=(typeof coldObservedInfo==="function")?coldObservedInfo().dates:[];
+      return <div data-cohort-observed="1" style={{flexBasis:"100%",textAlign:"center",fontSize:9,color:"#64748b",lineHeight:1.4}}>
+        Observed {a.observed} = Warm {w.observed} + Shoulder {s.observed} + Cold {c.observed}; analysed as cohorts: {inf.length?inf.join(", "):"none"} (at least {minN} drives).
+        {c.observed>0 && !c.inferenceAvailable && <> The Cold class ({c.observed} drive{c.observed===1?"":"s"} on {c.nDaysObserved} calendar day{c.nDaysObserved===1?"":"s"}{dates.length?`: ${dates.join(", ")}`:""}) is shown as observed only: no cohort statistics and no winter inference.</>}
+      </div>; })()}
     {cohort!=="all" && <div data-season-scope="1" style={{flexBasis:"100%",textAlign:"center",fontSize:9,color:"#94a3b8",lineHeight:1.4}}>
       The thermal-cohort filter (ambient classes, not calendar seasons) applies only to sections without an <em>All-data reference</em> tag; tagged sections, narrative, records and provenance are corpus-wide. A cohort view needs ≥{COHORT_MIN_SUPPORT_DRIVES} drives (Cold: {coldObservedInfo().n} observed, below support).
     </div>}
@@ -11448,7 +11458,7 @@ export default function App() {
               },
               "Cold-start high-rate charging": {
                 status:"MODERATELY COOL EXPOSURE MEASURED",
-                detail:`Moderately cool charging exposure is measured: ${M294.nColdPts} of ${M294.nPts} plotted per-drive charge peaks sit below the ${M294.coldC}\u00B0C reference line (co-timed battery temperature, coldest ${M294.minPtT}\u00B0C; highest ${M294.maxColdC ?? "\u2014"}C on the assumed-capacity C scale). Plating occurrence and winter cold-pack behaviour are unmeasured: no drive with ambient \u2264${S.seasonalCharts?._meta?.thresholds?.cold?.replace("<=","") ?? "5"}\u00B0C exists (Cold cohort n=${S.seasonalCharts?._meta?.cohortCounts?.cold ?? 0}), and a charge peak at a cool temperature is an exposure, not evidence of chemical damage. The ${M294.coldC}\u00B0C line is generic Li-ion guidance, not a validated Nissan limit. Closing the gap needs winter logging with the full PID set.`
+                detail:`Moderately cool charging exposure is measured: ${M294.nColdPts} of ${M294.nPts} plotted per-drive charge peaks sit below the ${M294.coldC}\u00B0C reference line (co-timed battery temperature, coldest ${M294.minPtT}\u00B0C; highest ${M294.maxColdC ?? "\u2014"}C on the assumed-capacity C scale). Plating occurrence and winter cold-pack behaviour are unmeasured: only ${S.cohortMeta?.cold?.observed ?? 0} drive${(S.cohortMeta?.cold?.observed ?? 0)===1?"":"s"} with ambient \u2264${S.seasonalCharts?._meta?.thresholds?.cold?.replace("<=","") ?? "5"}\u00B0C ${(S.cohortMeta?.cold?.observed ?? 0)===1?"is":"are"} logged (Cold class: ${S.cohortMeta?.cold?.eligibleForCohortView ?? 0} analysed as a cohort, below the minimum), and a charge peak at a cool temperature is an exposure, not evidence of chemical damage. The ${M294.coldC}\u00B0C line is generic Li-ion guidance, not a validated Nissan limit. Closing the gap needs winter logging with the full PID set.`
               }
             };
             // M155 (2026-08-22): resolve the cell-health row by stable prefix as
@@ -12197,6 +12207,17 @@ export default function App() {
             <p><strong style={{color:"#0f172a"}}>Reproducibility scope, hashes and carried-forward analyses:</strong> the MD5 and SHA-256 values above are integrity fingerprints for detecting accidental drift between corpus, arrays and build, not security guarantees. The build compares each stamped key against the live drive_master.csv MD5. Some blocks are produced outside the main array build and are carried forward or injected; those currently older than the corpus are: {(()=>{const st=(S.releaseProvenance?.injectedBlocks||[]).filter(b=>b.stale===true);return st.length?st.map((b,i)=>(<span key={b.key}>{i>0?"; ":""}<code style={{fontSize:9}}>{b.key}</code> (basis {b.basis} vs current {b.current}{b.disclosed?", disclosed":", UNDISCLOSED"})</span>)):"none at build time";})()}. Any statistic drawn from a carried-forward block describes the earlier corpus subset, not the current corpus. Dependency versions are pinned in requirements.txt (Python) and the JavaScript build dependencies are installed at build time; a clean-environment end-to-end release rebuild is not yet part of the gate.</p>
           </ProvenanceBlock>
           <ProvenanceBlock letter="J" title="Evidence boundaries">
+            <div data-cannot-identify="1" style={{border:"1px solid #e2e8f0",borderRadius:6,padding:"8px 12px",margin:"0 0 10px",background:"#f8fafc"}}>
+              <div style={{fontWeight:700,color:"#0f172a",marginBottom:4}}>What the data cannot identify</div>
+              <ul style={{margin:0,paddingLeft:18}}>
+                <li>Absolute capacity SOH, loss of lithium inventory or active material, plating, and pack-specific cycle or calendar life: no reference capacity test or calibration exists in this study. GTC and the calendar-aging scenario are planning or scenario figures, not identified pack life (CAP_KWH is unverified).</li>
+                <li>The physical generator-to-traction direct/buffered split, motor, inverter and wheel efficiency, and an engine BSFC surface: no generator-output, inverter or wheel power channel is logged (only the battery branch, polled asynchronously), and the reconstruction uses an assumed BSFC prior with only RPM occupancy logged; generator and traction quantities are reconstructed, model-derived estimates.</li>
+                <li>High-frequency pack DCIR: current and voltage are polled asynchronously at low rate, so the V-regression (voltage-sag) resistance is a load-, temperature- and cadence-sensitive proxy however many rows the fit has.</li>
+                <li>Separate heat capacity and cooling conductance: a one-pole thermal response with unknown heat input, airflow/HVAC state and parking history does not separate them.</li>
+                <li>Winter consumption or winter ageing: the Cold class (ambient &le;5 &deg;C, at the class boundary, uncalibrated vehicle reading) is {S.cohortMeta?.cold?.observed ?? 0} drive{(S.cohortMeta?.cold?.observed ?? 0)===1?"":"s"} on {S.cohortMeta?.cold?.nDaysObserved ?? 0} date{(S.cohortMeta?.cold?.nDaysObserved ?? 0)===1?"":"s"}{coldObservedInfo().dates.length?` (${coldObservedInfo().dates.join(", ")})`:""}. Fleet-wide AWD/FWD effects: the e-4ORCE AWD cross-vehicle rail is one separate, sparse vehicle segregated from the primary corpus.</li>
+                <li>A causal controller reason from RPM, SoC or boost association, or the cause of an observed speed or run boundary from where a classifier mask ends.</li>
+              </ul>
+            </div>
             <p style={{marginTop:0}}>This study is single-vehicle observational telemetry with sparse e-4ORCE cross-validation only — no laboratory or workshop battery measurement, no matched-route or multi-vehicle experiment, no direct chemistry or verified-capacity measurement, and no causal or fleet-level claim.</p>
             {S.oemTechReview && (
             <p><strong style={{color:"#15803d"}}>Manufacturer-literature cross-check (M105, 2026-08-09):</strong> {S.oemTechReview._provenance} Five figures were cross-checked against this study's own pipeline-computed outputs and are cited inline where relevant — series-hybrid topology (Architecture section), the {S.oemTechReview.generatorMotorGap?.generatorKw}/{S.oemTechReview.generatorMotorGap?.frMotorKw} kW generator/motor gap as a spec-level buffer anchor (Architecture section), the {S.oemTechReview.fixedPointOperation?.bestThermalRpm} rpm best-thermal fixed point and {S.oemTechReview.engineFloor?.statedFloorRpm}+ rpm floor against this corpus's independently-measured RPM occupancy (Engine RPM Distribution section), the OEM's own battery-then-engine torque-blending description against the M41 blend-share finding (Power Blending section), the {S.oemTechReview.maxOutputPoint?.kw} kW / {S.oemTechReview.maxOutputPoint?.rpm} rpm rated max-output point against the vmax plateau (nearLimiter panel), and the electric-controlled-brake mitigation for post-full-charge regen dissipation against this corpus's own motored-dissipation signature (Buffer-Saturation Dissipation section, with an explicit residual-mechanism caveat). <strong style={{color:"#0f172a"}}>What this source does NOT confirm:</strong> {(S.oemTechReview.notConfirmedByThisSource?.items||[]).map((it,i)=>(<span key={i}>{it}{i<((S.oemTechReview.notConfirmedByThisSource?.items||[]).length-1)?"; ":". "}</span>))}Pack capacity, cell chemistry, and every degradation-rate figure in this study remain exactly as they stood before this cross-check (unaffected, not corroborated).</p>)}
