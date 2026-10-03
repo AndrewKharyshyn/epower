@@ -97418,12 +97418,12 @@
     "nTrips": 97,
     "nDays": 35
    },
-   "f03Note": "not a paired test: date-confounded; speed/HV columns raw-vs-originals unchecked (needs Andrii's permission)"
+   "f03Note": "not a paired test: date-confounded; speed, SoC and engine-speed columns of the hash-failing raw/ files are cell-identical to the sha256-verified originals; HV current and voltage in raw/ are rounded (effect computed in the read-only comparison, f03SpeedHvCheck)"
   },
   "chargingSubState": {
    "nTripsWithBatteryInputs": 240,
    "nExcluded": 2,
-   "note": "fuel consumed during net pack charging: a temporal state, not a fuel-source allocation; battery offset is estimated; hash-passing trips are the primary basis, hash-failing trips have rounded raw/ current (F03-unchecked)",
+   "note": "fuel consumed during net pack charging: a temporal state, not a fuel-source allocation; battery offset is estimated; hash-passing trips are the primary basis; hash-failing trips have rounded raw/ current (effect on pack energy computed in the read-only comparison, f03SpeedHvCheck)",
    "byDeadbandKw": {
     "db0.1": {
      "hashPass": {
@@ -100651,7 +100651,78 @@
    }
   ],
   "nAnalysis": 242,
-  "expectedTripsFromFuelAnalytics": 242
+  "expectedTripsFromFuelAnalytics": 242,
+  "f03SpeedHvCheck": {
+   "source": "analyses/M347_f03_speed_hv_check.json",
+   "sourceSha256": "e501cc7a4537383f47ead72fa387bbc13373b191c9bd8d9d0a19e951a93cd6a9",
+   "scope": "333 hash-failing canonical files, raw/ copy vs sha256-verified original, read-only (owner-approved 2026-10-03); nothing copied into raw/",
+   "nFilesCompared": 333,
+   "filesWithoutUsableSpeed": 1,
+   "cellIdentical": {
+    "speedVCM": {
+     "nFiles": 230,
+     "filesAllCellsEqual": 230,
+     "maxAbsDiff": 0.0
+    },
+    "speedOBD": {
+     "nFiles": 333,
+     "filesAllCellsEqual": 333,
+     "maxAbsDiff": 0.0
+    },
+    "soc": {
+     "nFiles": 331,
+     "filesAllCellsEqual": 331,
+     "maxAbsDiff": 0.0
+    },
+    "rpm": {
+     "nFiles": 333,
+     "filesAllCellsEqual": 333,
+     "maxAbsDiff": 0.0
+    }
+   },
+   "rounded": {
+    "hvCurrent": {
+     "nFiles": 322,
+     "filesAllCellsEqual": 43,
+     "maxAbsDiff": 0.5
+    },
+    "hvVoltage": {
+     "nFiles": 327,
+     "filesAllCellsEqual": 44,
+     "maxAbsDiff": 0.5
+    }
+   },
+   "derived": {
+    "km": {
+     "n": 332,
+     "aggRelDiff": 0.0,
+     "maxAbsPerDriveDiff": 0.0,
+     "nDrivesDiffAbove1pct": 0,
+     "unit": "km"
+    },
+    "stationaryShare": {
+     "n": 332,
+     "aggRelDiff": 0.0,
+     "maxAbsPerDriveDiff": 0.0,
+     "nDrivesDiffAbove1pct": 0,
+     "unit": "share"
+    },
+    "dischargeKwh": {
+     "n": 322,
+     "aggRelDiff": 3.3e-05,
+     "maxAbsPerDriveDiff": 0.017712,
+     "nDrivesDiffAbove1pct": 2,
+     "unit": "kWh"
+    },
+    "chargeKwh": {
+     "n": 322,
+     "aggRelDiff": -9e-05,
+     "maxAbsPerDriveDiff": 0.003407,
+     "nDrivesDiffAbove1pct": 0,
+     "unit": "kWh"
+    }
+   }
+  }
  },
  "fuelWarmup": {
   "alignment": "first rate sample with rpm > 400 and rate > 0 inside the counter window (left-censored trips excluded and counted)",
