@@ -1,0 +1,34 @@
+# M359 spec (Rev 1): Battery -> Engine / Turbo Handoff Sequence wording and render (triage row B-HandoffSequence)
+
+Status: work in progress, Director review pending. Wording/render only: `summary_arrays.json` byte-identical (no key, number or payload change). Component `HandoffSequence` (xtrail_summary.jsx), payload `handoffSequence` and the cohort copies (unchanged).
+
+## 1. Problems (verified on disk, all cohorts)
+1. **Marginal medians drawn as one sequence.** The timeline sorts five per-event MEDIAN lags (each marginal) and draws them as "the" sequence. The per-handoff ORDERINGS disagree: the most common ordering covers 21.2 % of handoffs (all); the six listed orderings cover 78.4 %; battery peak precedes the engine start in only some of them (computable from `modalOrderings`). IQR of the battery-peak lag spans -1.5 to +8.0 s.
+2. **Hard-coded literals and over-claim in the callout:** "peaks ~0.8 s before", "in ~1-2 s", tone `measured`, `EvidenceBadge status="measured"`, "The buffer moves first ... the buffer covers the transient; the engine follows and relieves it - the power-buffer handoff, start to finish". These are causal/ordering claims not supported by marginal medians, and the lags come from reconstructed event times (battery power = logged I x V, engine start from RPM onset), not measurements of a handoff.
+3. **Timing-resolution band.** Events sit on a ~1.3 Hz batched-synchronous cadence (resolvable to about +-1-2 s). The load-point lag bootstrap interval is 0.5-0.5 (day-clustered, seed 42, 4000 draws): it reflects day-to-day sampling of a median only and is far below the resolution band, so it reads as spurious precision unless the two are separated.
+4. **Boost-observable denominator.** The boost-onset lag (n=2765) is conditional on a boost onset occurring among the 4715 boost-observable handoffs (58.6 %); the callout and table must say the median applies to that subset only (the KPI note already states the denominator).
+5. Triage row also mentions "regen block stale @410": no stale 410 figure found in the HandoffSequence block or its seasonal copies (all/warm/shoulder carry 5630/5160/468 handoffs at basis 489); recorded as not reproducible for this chart, to be checked where a regen block carries 410.
+
+## 2. Proposed wording (old -> new)
+- Title strip: "MEDIAN HANDOFF TIMELINE (seconds relative to engine start)" -> "MARGINAL MEDIAN LAGS (seconds relative to engine start; each event's median on its own, not one realised sequence)".
+- Intro paragraph: "When demand outruns the buffer, the engine and turbo are handed the load. This resolves the sequence of that handoff - battery, engine, turbo - at each of N starts. Extends the ramp-latency analysis with the full multi-signal ordering. Coarse timing only (+-1-2 s ...)" -> "Timing of battery discharge, engine load-point and boost onset around each of N engine starts (M days), reconstructed from logged HV current x voltage, RPM and boost on a ~1.3 Hz grid. Descriptive and coarse: resolvable to about +-1-2 s; the timeline shows marginal medians, not one realised sequence."
+- Callout (kind finding, badge `derived`, MetricHighlight tone `derived`): replaced by a payload-bound text: (a) the most common ordering covers {top.pct} % of handoffs ({top.n} of {nHandoffs}); (b) among the six listed orderings (covering {sum} % of handoffs) the battery discharge peak precedes the engine start in orderings covering {pre} % of handoffs and follows it in {post} % (computed in JSX from `modalOrderings`, the remaining {rest} % are in orderings not listed); (c) marginal median lags with IQR and n per event (battery peak, load-point, boost onset among the {nWithBoost} handoffs with a boost onset out of {nBoostObservable} boost-observable, battery relaxes); (d) the load-point lag bootstrap interval with n events and days, labelled "day-to-day sampling of the median only; the +-1-2 s timing resolution is separate and larger, so differences below it are not resolved"; (e) the closing statement "Consistent with battery discharge being active around the time of the engine start; this analysis does not establish that the buffer acts first, nor a control-strategy order."
+- Removed phrases (added to `language_gate.py` RULES with id M359): "The buffer moves first", "peaks ~0.8 s before", "The buffer covers the transient; the engine follows and relieves it", "the power-buffer handoff, start to finish", "resolves the sequence of that handoff".
+- Table header "COARSE LAG vs START (s, median - IQR)" -> "MARGINAL COARSE LAG vs START (s, median, IQR)"; boost row note keeps the denominator text and adds "(median over handoffs with an onset only)".
+- Caveat: keep; add "The bootstrap interval covers day-to-day sampling, not the timing resolution." and "Marginal medians need not be jointly attained by any single handoff."
+- No change to the section title, Compare KPI (`CMP_KPI.HandoffSequence`), payload keys or methodology string.
+
+## 3. Controls / tests
+- `summary_arrays.json` and `cohort_arrays.json` byte-identical to `main` (diff must be empty); only jsx, gates, tests, CHANGELOG, spec, dashboard change.
+- Semantic gate A2 REQUIRED (one block M359): wording (marginal medians, not one realised sequence; resolution band separate from the bootstrap interval; boost-subset statement) present in the Charts/thermal dump where the section renders in all, warm, shoulder; numbers equal the payload (top ordering pct, n, `pre`/`post` shares recomputed in the gate from `modalOrderings`).
+- language gate known-answer test already covers new RULES via `tests/synthetic/test_language_gate.py`.
+- jsdom 0 console errors; no literal `\uXXXX`.
+
+## 4. Out of scope / caveats
+- Full per-handoff ordering shares (all orderings, not only the top six) and a joint timing distribution would need a raw-pass extension of `_handoff_sequence` (own milestone with control and blind audit); the `rest` % of handoffs in unlisted orderings is stated, not guessed.
+- No new estimate, no headline figure, not article-bound. Raw/ basis label "provenance-sensitive (F03)" stays on the existing disclosure; add it to the callout line.
+
+## 5. Questions for the Director
+1. Is the JSX-side `pre`/`post` split over the six listed orderings (with the unlisted remainder stated) acceptable instead of a raw-pass extension now?
+2. Badge `derived` (not `measured`) and the removal list in section 2 sufficient? Any other causal phrase?
+3. Should the timeline SVG be kept (retitled) or replaced by the ordering list to avoid implying a sequence?
