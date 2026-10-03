@@ -1,0 +1,18 @@
+# M354 spec (rev 1): wording group D1, cohort observation counts and the identifiability box (F08.r1, p25.2)
+Status: work in progress, Director string review pending. Group D is split: D1 = F08.r1 + p25.2 (this milestone); D2 = Cs-1, Cs-21, B-HandoffSequence, F21.r1, p16.7, D-13 remainder (later milestones, own specs).
+No estimate, no existing value, no cohort assignment change; additive keys only.
+
+## 1. F08.r1: observed / eligible / inference availability per cohort
+Facts: `cohortMeta` has `n` per cohort (Warm 387, Shoulder 100, Cold 0) and, for Cold only, `nObserved` 2 + `suppressed: below_min_support` (M310/M327). `seasonalCharts._meta.cohortCounts` reads Cold 0, unclassified 0, so the displayed cohorts sum to 487 of 489.
+Change (tools/refresh_cohort_meta.py, an ingest stage; new keys on every cohort entry, existing keys untouched): `observed` (drives classified into the regime, incl. below-support), `eligible` (observed drives analysed as a cohort = `n`; 0 below the minimum), `inferenceAvailable` (eligible >= minDrivesForStatistics, the M310 rule, unchanged), `nDays` (calendar days). The script asserts observed(warm)+observed(shoulder)+observed(cold) == observed(all) == 489. The count rule is NOT changed (the audit's independent-days/exposure gate is recorded as a follow-up, not done here).
+Display (CohortSelector, always visible, small line): `Observed {all} = Warm {w} + Shoulder {s} + Cold {c}; analysed as cohorts: Warm, Shoulder (at least {min} drives). Cold ({c} drives on {d} date(s)) is shown as observed only: no cohort statistics, no winter inference.` bound to cohortMeta.
+## 2. p25.2: "What the data cannot identify" box (Methodology, block J, first item)
+Six bullets (static prose except the bound Cold counts; derived from the audit's p25.2 list, reworded to the project language rules):
+1. Absolute capacity SOH, loss of lithium inventory or active material, plating, and pack-specific cycle or calendar life: no reference capacity test or calibration exists in this study.
+2. The physical generator-to-traction direct/buffered split, motor/inverter/wheel efficiency and a complete BSFC surface: no simultaneous branch or input-output power channel exists; generator and traction quantities are reconstructed, model-derived estimates.
+3. High-frequency pack DCIR: current and voltage are polled asynchronously at low rate, so the V-regression resistance is a load-, temperature- and cadence-sensitive proxy however many rows the fit has.
+4. Separate heat capacity and cooling conductance: a one-pole thermal response with unknown heat input, airflow/HVAC state and parking history does not separate them.
+5. Winter consumption or winter ageing: the Cold class is {n} drive(s) on {dates}; fleet-wide AWD/FWD effects: the e-4ORCE rail is small and segregated.
+6. A causal controller reason from RPM/SoC/boost association, or the cause of an observed speed or run boundary from where a classifier mask ends.
+## 3. Gates
+Required (A2): the six-bullet box title "What the data cannot identify" and bullet 5 with the payload Cold count; the observed-sum line "Observed 489 = Warm 387 + Shoulder 100 + Cold 2" computed from the payload. Forbidden: "Cold: 0 drives" / "Cold cohort has no drives" style statements already covered by earlier rules (verify none fires). Known-answer test `tests/synthetic/test_cohort_observed.py` (counts recomputed from seasonal_drive_master.csv; sum 489; inferenceAvailable == n >= min). Deep-diff allow-list: cohortMeta.* new keys + `_meta` stamp fields only. Post-step idempotence; jsdom; semantic gate; release_check. No blind audit; Director string review.
