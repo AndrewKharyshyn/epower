@@ -1,0 +1,215 @@
+{
+ "milestone": "M362",
+ "mode": "--splice",
+ "nDrives": 486,
+ "control": {
+  "knownAnswerMismatches": [],
+  "pooledVsM343": {
+   "urban": {
+    "pooledRecomputed": 99.772,
+    "M343": 99.75477,
+    "nHere": 408,
+    "nM343": 406,
+    "ok": true
+   },
+   "mixed": {
+    "pooledRecomputed": 74.013,
+    "M343": 74.0134,
+    "nHere": 26,
+    "nM343": 26,
+    "ok": true
+   },
+   "mixed_highway": {
+    "pooledRecomputed": 76.981,
+    "M343": 76.98129,
+    "nHere": 32,
+    "nM343": 32,
+    "ok": true
+   },
+   "highway": {
+    "pooledRecomputed": 48.696,
+    "M343": 48.69647,
+    "nHere": 20,
+    "nM343": 20,
+    "ok": true
+   }
+  }
+ },
+ "summary": {
+  "all": {
+   "urban": {
+    "n": 408,
+    "nDays": 94,
+    "p10": 41.7,
+    "p25": 66.0,
+    "median": 93.2,
+    "p75": 130.7,
+    "p90": 173.3,
+    "nShort": 118,
+    "shortKm": 2.0,
+    "maxDrive": "2026-09-27_17-49-23.csv",
+    "maxKm": 1.2
+   },
+   "mixed": {
+    "n": 26,
+    "nDays": 21,
+    "p10": 43.2,
+    "p25": 56.7,
+    "median": 71.0,
+    "p75": 82.8,
+    "p90": 101.6,
+    "nShort": 0,
+    "shortKm": 2.0,
+    "maxDrive": "2026-09-26_20-00-42.csv",
+    "maxKm": 28.0
+   },
+   "mixed_highway": {
+    "n": 32,
+    "nDays": 24,
+    "p10": 52.0,
+    "p25": 60.2,
+    "median": 71.3,
+    "p75": 94.0,
+    "p90": 117.9,
+    "nShort": 0,
+    "shortKm": 2.0,
+    "maxDrive": "20260806_155444.csv",
+    "maxKm": 33.4
+   },
+   "highway": {
+    "n": 20,
+    "nDays": 12,
+    "p10": 24.7,
+    "p25": 31.8,
+    "median": 41.3,
+    "p75": 63.4,
+    "p90": 74.6,
+    "nShort": 0,
+    "shortKm": 2.0,
+    "maxDrive": "20260802_132422.csv",
+    "maxKm": 158.1
+   }
+  },
+  "warm": {
+   "urban": {
+    "n": 308,
+    "nDays": 83,
+    "p10": 43.8,
+    "p25": 69.4,
+    "median": 100.0,
+    "p75": 135.8,
+    "p90": 174.7,
+    "nShort": 75,
+    "shortKm": 2.0,
+    "maxDrive": "2026-09-27_17-49-23.csv",
+    "maxKm": 1.2
+   },
+   "mixed": {
+    "n": 25,
+    "nDays": 20,
+    "p10": 42.6,
+    "p25": 56.4,
+    "median": 69.8,
+    "p75": 81.4,
+    "p90": 99.5,
+    "nShort": 0,
+    "shortKm": 2.0,
+    "maxDrive": "2026-09-13_20-30-29.csv",
+    "maxKm": 33.0
+   },
+   "mixed_highway": {
+    "n": 32,
+    "nDays": 24,
+    "p10": 52.0,
+    "p25": 60.2,
+    "median": 71.3,
+    "p75": 94.0,
+    "p90": 117.9,
+    "nShort": 0,
+    "shortKm": 2.0,
+    "maxDrive": "20260806_155444.csv",
+    "maxKm": 33.4
+   },
+   "highway": {
+    "n": 20,
+    "nDays": 12,
+    "p10": 24.7,
+    "p25": 31.8,
+    "median": 41.3,
+    "p75": 63.4,
+    "p90": 74.6,
+    "nShort": 0,
+    "shortKm": 2.0,
+    "maxDrive": "20260802_132422.csv",
+    "maxKm": 158.1
+   }
+  },
+  "shoulder": {
+   "urban": {
+    "n": 98,
+    "nDays": 32,
+    "p10": 26.6,
+    "p25": 56.4,
+    "median": 80.2,
+    "p75": 117.6,
+    "p90": 166.7,
+    "nShort": 41,
+    "shortKm": 2.0,
+    "maxDrive": "20260906_122920.csv",
+    "maxKm": 0.44
+   },
+   "mixed": {
+    "n": 1,
+    "nDays": 1,
+    "p10": 103.6,
+    "p25": 103.6,
+    "median": 103.6,
+    "p75": 103.6,
+    "p90": 103.6,
+    "nShort": 0,
+    "shortKm": 2.0,
+    "maxDrive": "2026-09-26_20-00-42.csv",
+    "maxKm": 28.0
+   }
+  }
+ },
+ "sensitivityExcludingShort": {
+  "urban": {
+   "nShort": 118,
+   "shortShare": 0.289,
+   "median": 93.2,
+   "pooled": 99.77,
+   "medianExcludingShort": 93.2,
+   "pooledExcludingShort": 99.08,
+   "nExcludingShort": 290
+  },
+  "mixed": {
+   "nShort": 0,
+   "shortShare": 0.0,
+   "median": 71.0,
+   "pooled": 74.01,
+   "medianExcludingShort": 71.0,
+   "pooledExcludingShort": 74.01,
+   "nExcludingShort": 26
+  },
+  "mixed_highway": {
+   "nShort": 0,
+   "shortShare": 0.0,
+   "median": 71.3,
+   "pooled": 76.98,
+   "medianExcludingShort": 71.3,
+   "pooledExcludingShort": 76.98,
+   "nExcludingShort": 32
+  },
+  "highway": {
+   "nShort": 0,
+   "shortShare": 0.0,
+   "median": 41.3,
+   "pooled": 48.7,
+   "medianExcludingShort": 41.3,
+   "pooledExcludingShort": 48.7,
+   "nExcludingShort": 20
+  }
+ },
+ "controlPassed": true
+}

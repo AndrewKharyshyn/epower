@@ -1182,6 +1182,31 @@ function EngineStartRate(){
     </div>}
   </div>;
 }
+/* M362 (spec analyses/M362_spec.md Rev 2): engine-starts view model. Pure (no JSX, no S): extracted by test_starts_view.js.
+   Median = descriptive statistic of per-drive rates (drive-weighted); the diamond is the M343 pooled estimate (km-weighted) with its day-clustered CI, bound to
+   S.engineStartRate.byClass and drawn in the All view only. Spread is shown only above the thresholds below; the 2 km figure is a descriptive display threshold, never an exclusion. */
+/*M362-MODEL-BEGIN*/
+const STARTS_MIN_IQR_N=5, STARTS_MIN_IQR_DAYS=3, STARTS_MIN_WHISKER_N=10;
+function startsViewModel(D,M343){
+  const rows=(D||[]).map(d=>{
+    const key=d.classKey||String(d.label||"").toLowerCase().replace(/ /g,"_");
+    const hasMed=typeof d.median==="number";
+    const showIqr=hasMed&&d.n>=STARTS_MIN_IQR_N&&d.nDays>=STARTS_MIN_IQR_DAYS;
+    const showWhisker=showIqr&&d.n>=STARTS_MIN_WHISKER_N;
+    const m=M343&&M343[key];
+    const diamond=m&&typeof m.est==="number"?{est:m.est,lo:m.ci95?m.ci95[0]:null,hi:m.ci95?m.ci95[1]:null,n:m.nTrips,days:m.nDays}:null;
+    const dot=hasMed?d.median:d.avg;
+    const maxText=(typeof d.maxKm==="number"&&typeof d.shortKm==="number"&&d.maxKm<d.shortKm)?`${d.label} maximum ${d.hi} per 100 km on a ${d.maxKm} km drive`:null;
+    return {key,label:d.label,color:d.color,n:d.n,nDays:d.nDays,nShort:d.nShort,shortKm:d.shortKm,median:d.median,p10:d.p10,p25:d.p25,p75:d.p75,p90:d.p90,avg:d.avg,lo:d.lo,hi:d.hi,
+      dot,hasMed,showIqr,showWhisker,diamond,maxText,spreadNote:hasMed&&!showIqr?`n=${d.n} drives, ${d.nDays} days (spread not shown)`:null};
+  });
+  const tops=[];
+  rows.forEach(r=>{ tops.push(r.dot||0); if(r.showWhisker)tops.push(r.p90); else if(r.showIqr)tops.push(r.p75); if(r.diamond&&r.diamond.hi!=null)tops.push(r.diamond.hi); });
+  if(!rows.some(r=>r.hasMed)) rows.forEach(r=>tops.push(r.hi||0));   // payload without the M362 fields: fall back to the old extent
+  const maxS=Math.max(100,Math.ceil(Math.max(...tops,0)*1.08/50)*50);
+  return {rows,maxS};
+}
+/*M362-MODEL-END*/
 function EngineCyclingChart() {
   const [view, setView] = useState("starts");
   const _coh=useCohort();
@@ -1193,15 +1218,15 @@ function EngineCyclingChart() {
 
   // Starts view: lollipop chart — much cleaner than range bars for starts/100km
   const StartsView = () => {
-    const W=540, H=240, PL=158, PR=50, PT=14, PB=28;
+    const W=540, H=252, PL=158, PR=50, PT=14, PB=28;
     const pw=W-PL-PR, ph=H-PT-PB;
-    const D=_est;
-    // M57: was a hardcoded 300 while the Urban range cap sits at 357 -- the hi
-    // whisker and its label rendered outside the plot area entirely.
-    const maxS=Math.max(100, Math.ceil(Math.max(...D.map(d=>d.hi||0))*1.08/50)*50);
+    const VM=startsViewModel(_est, _coh==="all"?(S.engineStartRate&&S.engineStartRate.byClass):null);
+    const D=VM.rows, maxS=VM.maxS;
     const sTicks=Array.from({length:7},(_,i)=>Math.round(maxS/6*i));
-    const rowH=ph/D.length; const xP=v=>PL+v/maxS*pw;
+    const rowH=ph/Math.max(D.length,1); const xP=v=>PL+v/maxS*pw;
+    const f1=v=>Number(v).toFixed(1);
     return (
+      <div>
       <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{overflow:"hidden"}}>
         {sTicks.map(v=>(
           <g key={v}>
@@ -1210,36 +1235,39 @@ function EngineCyclingChart() {
           </g>
         ))}
         {D.map((d,i)=>{
-          const cy=PT+i*rowH+rowH/2;
-          const xAvg=xP(d.avg), xLo=xP(d.lo), xHi=xP(d.hi);
+          const cy=PT+i*rowH+rowH/2-6;
           return (
             <g key={d.label}>
               {i>0&&<line x1={PL} y1={PT+i*rowH} x2={PL+pw} y2={PT+i*rowH} stroke="#f1f5f9" strokeWidth={1}/>}
+              <title>{d.label}: {d.hasMed?`median ${f1(d.median)}, P25-P75 ${f1(d.p25)}-${f1(d.p75)}, P10-P90 ${f1(d.p10)}-${f1(d.p90)} (per-drive rates, descriptive); `:""}per-drive mean {d.avg}, minimum {d.lo}, maximum {d.hi}{d.maxText?` (${d.maxText})`:""}</title>
               <text x={PL-10} y={cy+4} textAnchor="end" fill="#374151" fontSize={10} fontWeight={600}>{d.label}</text>
-              {/* Range band */}
-              <rect x={xLo} y={cy-5} width={xHi-xLo} height={10} fill={d.color+"18"} rx={3}/>
-              <line x1={xLo} y1={cy} x2={xHi} y2={cy} stroke={d.color} strokeWidth={1.5} opacity={0.45}/>
-              <line x1={xLo} y1={cy-6} x2={xLo} y2={cy+6} stroke={d.color} strokeWidth={1.5} opacity={0.6}/>
-              <line x1={xHi} y1={cy-6} x2={xHi} y2={cy+6} stroke={d.color} strokeWidth={1.5} opacity={0.6}/>
-              {/* Lollipop stem */}
-              <line x1={xP(0)} y1={cy} x2={xAvg} y2={cy} stroke={d.color} strokeWidth={3} opacity={0.85}/>
-              {/* Avg circle head */}
-              <circle cx={xAvg} cy={cy} r={8} fill={d.color} stroke="#ffffff" strokeWidth={1.5}/>
-              {/* M213: reduced from fontSize 8 -- 3-digit values ("113")
-                  were tight against the 16px-diameter circle. */}
-              <text x={xAvg} y={cy+3} textAnchor="middle" fill="#ffffff" fontSize={6.5} fontWeight={700}>{d.avg}</text>
-              {/* M69: range ends lifted above the line, collision-resolved */}
-              <RangeLabels cy={cy} xMin={PL} xMax={PL+pw} items={[
-                {x:xLo, text:d.lo, color:d.color, op:0.85},
-                {x:xHi, text:d.hi, color:d.color, op:0.85},
-              ]}/>
+              <text x={PL-10} y={cy+15} textAnchor="end" fill="#94a3b8" fontSize={7.5}>{d.hasMed?`n=${d.n} drives, ${d.nDays} days${d.nShort!=null?` · ${d.nShort} under ${d.shortKm} km`:""}`:""}</text>
+              {d.showWhisker&&<g data-starts-whisker="1"><line x1={xP(d.p10)} y1={cy} x2={xP(d.p90)} y2={cy} stroke={d.color} strokeWidth={1.5} opacity={0.5}/>
+                <line x1={xP(d.p10)} y1={cy-5} x2={xP(d.p10)} y2={cy+5} stroke={d.color} strokeWidth={1.5} opacity={0.6}/>
+                <line x1={xP(d.p90)} y1={cy-5} x2={xP(d.p90)} y2={cy+5} stroke={d.color} strokeWidth={1.5} opacity={0.6}/></g>}
+              {d.showIqr&&<rect data-starts-iqr="1" x={xP(d.p25)} y={cy-5} width={Math.max(xP(d.p75)-xP(d.p25),1)} height={10} fill={d.color+"40"} rx={3}/>}
+              <circle cx={xP(d.dot)} cy={cy} r={8} fill={d.color} stroke="#ffffff" strokeWidth={1.5}/>
+              <text x={xP(d.dot)} y={cy+3} textAnchor="middle" fill="#ffffff" fontSize={6.5} fontWeight={700}>{Math.round(d.dot)}</text>
+              {d.spreadNote&&<text x={xP(d.dot)+12} y={cy+3} fill="#94a3b8" fontSize={7}>{d.spreadNote}</text>}
+              {d.diamond&&<g data-starts-pooled="1">
+                {d.diamond.lo!=null&&<line x1={xP(d.diamond.lo)} y1={cy+17} x2={xP(d.diamond.hi)} y2={cy+17} stroke="#0f172a" strokeWidth={1.2} opacity={0.7}/>}
+                <rect x={xP(d.diamond.est)-4} y={cy+13} width={8} height={8} fill="#0f172a" transform={`rotate(45 ${xP(d.diamond.est)} ${cy+17})`}/>
+                <text x={xP(d.diamond.hi!=null?d.diamond.hi:d.diamond.est)+6} y={cy+20} fill="#0f172a" fontSize={7}>{f1(d.diamond.est)} pooled{d.diamond.lo!=null?` (95% CI ${f1(d.diamond.lo)}–${f1(d.diamond.hi)}; n=${d.diamond.n} drives, ${d.diamond.days} days)`:""}</text>
+              </g>}
             </g>
           );
         })}
         <line x1={PL} y1={PT} x2={PL} y2={PT+ph} stroke="#9ca3af" strokeWidth={1.5}/>
         <line x1={PL} y1={PT+ph} x2={PL+pw} y2={PT+ph} stroke="#9ca3af" strokeWidth={1.5}/>
-        <text x={PL+pw/2} y={H-4} textAnchor="middle" fill="#64748b" fontSize={9}>Engine cold-starts per 100 km · ● = mean · bar = per-drive range</text>
+        <text x={PL+pw/2} y={H-4} textAnchor="middle" fill="#64748b" fontSize={8.5}>Engine starts (RPM onsets) per 100 km · ● median · bar P25–P75 · whisker P10–P90 (per-drive, descriptive, not a CI){_coh==="all"?" · ◆ pooled (sum starts ÷ sum km) with 95% CI":""}</text>
       </svg>
+      <div data-starts-footnote="1" style={{fontSize:9.5,color:"#64748b",lineHeight:1.6,marginTop:4}}>
+        Counts are detector-defined RPM onsets (RPM &gt; 300 for ≥ 2 s on a 1 Hz grid), not verified ignition or cold-start events; extremes are valid detector counts on short drives.
+        A rate per 100 km on a drive of about 1 km is denominator-unstable (one or two starts read as hundreds): the bar no longer headlines the minimum–maximum{D.filter(d=>d.maxText).map(d=>`; ${d.maxText}`).join("")}.
+        The median is a drive-weighted descriptive statistic (days with many short drives weigh more); the diamond is km-weighted and comes from the pooled estimator (day-clustered bootstrap, calendar day as the resampling cluster) on its own drive set, so the two markers differ by construction and are not tuned to agree.
+        The {D[0]&&D[0].shortKm!=null?D[0].shortKm:2} km mark is a descriptive display threshold, never an exclusion. Spread is shown from {STARTS_MIN_IQR_N} drives on ≥ {STARTS_MIN_IQR_DAYS} days (P10–P90 from {STARTS_MIN_WHISKER_N} drives). raw/ basis, provenance-sensitive (F03).
+      </div>
+      </div>
     );
   };
 
@@ -1343,10 +1371,11 @@ function EngineCyclingChart() {
       {view==="duration" && <DurationView/>}
       {view==="speed"    && <BySpeedView/>}
       <div style={{marginTop:8,padding:8,background:"#f1f5f9",borderRadius:6,fontSize:10,color:"#64748b",lineHeight:1.6}}>
-        <strong style={{color:"#0f172a"}}>Starts/100km</strong> = how often the engine cold-starts per distance unit. {(()=>{
+        <strong style={{color:"#0f172a"}}>Starts/100km</strong> = engine-start onsets (RPM above 300 for at least 2 s, detector-defined, all starts rather than only cold starts) per 100 km of the drive. {(()=>{
           const D=_est, urb=D.find(x=>x.label==="Urban"), hw=D.find(x=>x.label==="Highway");
-          return (urb&&hw&&hw.avg>0) ? `${urb.label} (${urb.avg}/100km) starts the engine ${(urb.avg/hw.avg).toFixed(1)}× more often than ${hw.label.toLowerCase()} (${hw.avg}/100km)` : "Shorter, lower-speed drives start the engine far more often per km than highway drives";
-        })()} — mostly because short/urban trips never allow the engine to reach thermal optimum and BMS triggers more frequent charge cycles.{" "}
+          const uv=urb&&(typeof urb.median==="number"?urb.median:urb.avg), hv=hw&&(typeof hw.median==="number"?hw.median:hw.avg), kind=(urb&&typeof urb.median==="number")?"median per-drive rate":"per-drive mean";
+          return (urb&&hw&&hv>0) ? `${urb.label} (${uv}/100km) has ${(uv/hv).toFixed(1)}× the ${kind} of ${hw.label.toLowerCase()} (${hv}/100km)` : "Shorter, lower-speed drives show more engine-start onsets per km than highway drives";
+        })()} — an observed association across drive classes; the mechanism is not identified here.{" "}
         <strong style={{color:"#0f172a"}}>ON Duration</strong> shows engine segment length on log scale. {(()=>{
           const D=_eod||[], u=D.find(x=>x.label==="Urban"), h=D.find(x=>x.label==="Highway");
           if(!u||!h) return "Highway keeps the engine on for long continuous runs (generator feeding motor); urban driving fires it briefly to top up SoC.";
@@ -9968,8 +9997,8 @@ const COMPARE_SPECS={
     cats:d=>Array.isArray(d)?d.map(b=>({label:b.label,value:b.med,lo:b.lo,hi:b.hi})):[]},
   CycleByType:{kind:"bars",title:"Cycling rate by drive class (GTC/100km)",unit:"GTC/100km",digits:1,
     cats:d=>Array.isArray(d)?d.map(b=>({label:b.label,value:b.avg,lo:b.lo,hi:b.hi})):[]},
-  EngineStartsByType:{kind:"bars",title:"Engine starts /100km by drive class (unweighted mean of per-drive rates)",unit:"/100km",digits:0,
-    cats:d=>Array.isArray(d)?d.map(b=>({label:b.label,value:b.avg,lo:b.lo,hi:b.hi})):[]},
+  EngineStartsByType:{kind:"bars",title:"Engine starts (RPM onsets) /100km by drive class (median of per-drive rates; whisker P10–P90 of per-drive rates, descriptive, not a CI, shown from 10 drives)",unit:"/100km",digits:0,
+    cats:d=>Array.isArray(d)?d.map(b=>(typeof b.median==="number"?{label:b.label,value:b.median,lo:b.n>=10&&b.nDays>=3?b.p10:null,hi:b.n>=10&&b.nDays>=3?b.p90:null}:{label:b.label,value:b.avg})):[]},
   RegenByTempMeasured:{kind:"bars",title:"Apparent KE recovery proxy by pack-temperature bin (%; mean T1–T4 at the decel sample, n = 1 Hz decel samples)",unit:"%",digits:1,
     cats:d=>Array.isArray(d)?d.map(x=>({label:x.label,value:x.eff})):[]},
   DriveDurationDist:{kind:"box",title:"Trip duration by class \u2014 box: min\u00b7q1\u00b7med\u00b7q3\u00b7max (min)",unit:"min",digits:0,
