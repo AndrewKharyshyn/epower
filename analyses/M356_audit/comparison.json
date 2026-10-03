@@ -1,0 +1,598 @@
+{
+ "auditSpeedSource": {
+  "vcm": 222,
+  "obd": 252
+ },
+ "auditDrivesUsed": 474,
+ "netEqDisMinusRegViolations": 0,
+ "cohorts": {
+  "all": {
+   "nCycles": {
+    "author": 2183,
+    "audit": 2176
+   },
+   "additiveShare": {
+    "author": 0.7357,
+    "audit": 0.75
+   },
+   "windows": {
+    "launch.netWh": {
+     "authorMedian": 3.24,
+     "auditMedian": 3.36,
+     "absDiffWh": 0.12,
+     "authorIQR": [
+      1.37,
+      9.88
+     ],
+     "auditIQR": [
+      1.29,
+      10.02
+     ],
+     "authorN": 2181,
+     "auditN": 2176
+    },
+    "launch.dischargeWh": {
+     "authorMedian": 3.55,
+     "auditMedian": 3.62,
+     "absDiffWh": 0.07,
+     "authorIQR": [
+      1.48,
+      10.39
+     ],
+     "auditIQR": [
+      1.44,
+      10.43
+     ],
+     "authorN": 2181,
+     "auditN": 2176
+    },
+    "launch.regenWh": {
+     "authorMedian": 0.0,
+     "auditMedian": 0.0,
+     "absDiffWh": 0.0,
+     "authorIQR": [
+      0.0,
+      0.0
+     ],
+     "auditIQR": [
+      0.0,
+      0.0
+     ],
+     "authorN": 2181,
+     "auditN": 2176
+    },
+    "creep.netWh": {
+     "authorMedian": 1.38,
+     "auditMedian": 1.39,
+     "absDiffWh": 0.01,
+     "authorIQR": [
+      0.3,
+      6.56
+     ],
+     "auditIQR": [
+      0.29,
+      6.32
+     ],
+     "authorN": 1128,
+     "auditN": 1123
+    },
+    "creep.dischargeWh": {
+     "authorMedian": 2.16,
+     "auditMedian": 2.42,
+     "absDiffWh": 0.26,
+     "authorIQR": [
+      0.68,
+      13.24
+     ],
+     "auditIQR": [
+      0.61,
+      13.12
+     ],
+     "authorN": 1128,
+     "auditN": 1123
+    },
+    "creep.regenWh": {
+     "authorMedian": 0.0,
+     "auditMedian": 0.1,
+     "absDiffWh": 0.1,
+     "authorIQR": [
+      0.0,
+      7.55
+     ],
+     "auditIQR": [
+      0.0,
+      7.6
+     ],
+     "authorN": 1128,
+     "auditN": 1123
+    },
+    "approach.netWh": {
+     "authorMedian": 1.29,
+     "auditMedian": 1.27,
+     "absDiffWh": 0.02,
+     "authorIQR": [
+      0.49,
+      3.03
+     ],
+     "auditIQR": [
+      0.39,
+      3.06
+     ],
+     "authorN": 2181,
+     "auditN": 2176
+    },
+    "approach.dischargeWh": {
+     "authorMedian": 1.55,
+     "auditMedian": 1.5,
+     "absDiffWh": 0.05,
+     "authorIQR": [
+      0.88,
+      3.48
+     ],
+     "auditIQR": [
+      0.84,
+      3.52
+     ],
+     "authorN": 2181,
+     "auditN": 2176
+    },
+    "approach.regenWh": {
+     "authorMedian": 0.0,
+     "auditMedian": 0.0,
+     "absDiffWh": 0.0,
+     "authorIQR": [
+      0.0,
+      1.7
+     ],
+     "auditIQR": [
+      0.0,
+      1.76
+     ],
+     "authorN": 2181,
+     "auditN": 2176
+    },
+    "cycle.netWh": {
+     "authorMedian": 5.51,
+     "auditMedian": 5.62,
+     "absDiffWh": 0.11,
+     "authorIQR": [
+      2.35,
+      15.0
+     ],
+     "auditIQR": [
+      2.26,
+      15.26
+     ],
+     "authorN": 2182,
+     "auditN": 2176
+    },
+    "cycle.dischargeWh": {
+     "authorMedian": 7.13,
+     "auditMedian": 7.29,
+     "absDiffWh": 0.16,
+     "authorIQR": [
+      3.12,
+      19.86
+     ],
+     "auditIQR": [
+      3.17,
+      20.19
+     ],
+     "authorN": 2182,
+     "auditN": 2176
+    },
+    "cycle.regenWh": {
+     "authorMedian": 0.0,
+     "auditMedian": 0.0,
+     "absDiffWh": 0.0,
+     "authorIQR": [
+      0.0,
+      4.89
+     ],
+     "auditIQR": [
+      0.0,
+      4.94
+     ],
+     "authorN": 2182,
+     "auditN": 2176
+    }
+   }
+  },
+  "warm": {
+   "nCycles": {
+    "author": 1770,
+    "audit": 1762
+   },
+   "additiveShare": {
+    "author": 0.7288,
+    "audit": 0.75
+   },
+   "windows": {
+    "launch.netWh": {
+     "authorMedian": 3.64,
+     "auditMedian": 3.64,
+     "absDiffWh": 0.0,
+     "authorIQR": [
+      1.49,
+      10.16
+     ],
+     "auditIQR": [
+      1.47,
+      10.3
+     ],
+     "authorN": 1768,
+     "auditN": 1762
+    },
+    "launch.dischargeWh": {
+     "authorMedian": 3.98,
+     "auditMedian": 3.92,
+     "absDiffWh": 0.06,
+     "authorIQR": [
+      1.59,
+      10.88
+     ],
+     "auditIQR": [
+      1.59,
+      10.78
+     ],
+     "authorN": 1768,
+     "auditN": 1762
+    },
+    "launch.regenWh": {
+     "authorMedian": 0.0,
+     "auditMedian": 0.0,
+     "absDiffWh": 0.0,
+     "authorIQR": [
+      0.0,
+      0.0
+     ],
+     "auditIQR": [
+      0.0,
+      0.0
+     ],
+     "authorN": 1768,
+     "auditN": 1762
+    },
+    "creep.netWh": {
+     "authorMedian": 1.33,
+     "auditMedian": 1.37,
+     "absDiffWh": 0.04,
+     "authorIQR": [
+      0.3,
+      6.08
+     ],
+     "auditIQR": [
+      0.2,
+      6.02
+     ],
+     "authorN": 903,
+     "auditN": 897
+    },
+    "creep.dischargeWh": {
+     "authorMedian": 2.16,
+     "auditMedian": 2.38,
+     "absDiffWh": 0.22,
+     "authorIQR": [
+      0.69,
+      13.09
+     ],
+     "auditIQR": [
+      0.64,
+      12.94
+     ],
+     "authorN": 903,
+     "auditN": 897
+    },
+    "creep.regenWh": {
+     "authorMedian": 0.0,
+     "auditMedian": 0.0,
+     "absDiffWh": 0.0,
+     "authorIQR": [
+      0.0,
+      7.32
+     ],
+     "auditIQR": [
+      0.0,
+      7.57
+     ],
+     "authorN": 903,
+     "auditN": 897
+    },
+    "approach.netWh": {
+     "authorMedian": 1.48,
+     "auditMedian": 1.47,
+     "absDiffWh": 0.01,
+     "authorIQR": [
+      0.74,
+      3.37
+     ],
+     "auditIQR": [
+      0.62,
+      3.48
+     ],
+     "authorN": 1768,
+     "auditN": 1762
+    },
+    "approach.dischargeWh": {
+     "authorMedian": 1.75,
+     "auditMedian": 1.69,
+     "absDiffWh": 0.06,
+     "authorIQR": [
+      0.98,
+      3.83
+     ],
+     "auditIQR": [
+      0.98,
+      3.91
+     ],
+     "authorN": 1768,
+     "auditN": 1762
+    },
+    "approach.regenWh": {
+     "authorMedian": 0.0,
+     "auditMedian": 0.0,
+     "absDiffWh": 0.0,
+     "authorIQR": [
+      0.0,
+      1.47
+     ],
+     "auditIQR": [
+      0.0,
+      1.53
+     ],
+     "authorN": 1768,
+     "auditN": 1762
+    },
+    "cycle.netWh": {
+     "authorMedian": 5.95,
+     "auditMedian": 5.98,
+     "absDiffWh": 0.03,
+     "authorIQR": [
+      2.57,
+      15.27
+     ],
+     "auditIQR": [
+      2.54,
+      15.47
+     ],
+     "authorN": 1769,
+     "auditN": 1762
+    },
+    "cycle.dischargeWh": {
+     "authorMedian": 7.63,
+     "auditMedian": 7.77,
+     "absDiffWh": 0.14,
+     "authorIQR": [
+      3.42,
+      20.45
+     ],
+     "auditIQR": [
+      3.41,
+      21.18
+     ],
+     "authorN": 1769,
+     "auditN": 1762
+    },
+    "cycle.regenWh": {
+     "authorMedian": 0.0,
+     "auditMedian": 0.0,
+     "absDiffWh": 0.0,
+     "authorIQR": [
+      0.0,
+      4.26
+     ],
+     "auditIQR": [
+      0.0,
+      4.38
+     ],
+     "authorN": 1769,
+     "auditN": 1762
+    }
+   }
+  },
+  "shoulder": {
+   "nCycles": {
+    "author": 404,
+    "audit": 405
+   },
+   "additiveShare": {
+    "author": 0.7599,
+    "audit": 0.75
+   },
+   "windows": {
+    "launch.netWh": {
+     "authorMedian": 2.18,
+     "auditMedian": 2.14,
+     "absDiffWh": 0.04,
+     "authorIQR": [
+      0.83,
+      8.68
+     ],
+     "auditIQR": [
+      0.98,
+      9.27
+     ],
+     "authorN": 404,
+     "auditN": 405
+    },
+    "launch.dischargeWh": {
+     "authorMedian": 2.33,
+     "auditMedian": 2.34,
+     "absDiffWh": 0.01,
+     "authorIQR": [
+      0.97,
+      8.68
+     ],
+     "auditIQR": [
+      0.99,
+      9.34
+     ],
+     "authorN": 404,
+     "auditN": 405
+    },
+    "launch.regenWh": {
+     "authorMedian": 0.0,
+     "auditMedian": 0.0,
+     "absDiffWh": 0.0,
+     "authorIQR": [
+      0.0,
+      0.0
+     ],
+     "auditIQR": [
+      0.0,
+      0.0
+     ],
+     "authorN": 404,
+     "auditN": 405
+    },
+    "creep.netWh": {
+     "authorMedian": 1.54,
+     "auditMedian": 1.58,
+     "absDiffWh": 0.04,
+     "authorIQR": [
+      0.32,
+      9.42
+     ],
+     "auditIQR": [
+      0.38,
+      10.06
+     ],
+     "authorN": 219,
+     "auditN": 220
+    },
+    "creep.dischargeWh": {
+     "authorMedian": 2.44,
+     "auditMedian": 2.56,
+     "absDiffWh": 0.12,
+     "authorIQR": [
+      0.59,
+      15.34
+     ],
+     "auditIQR": [
+      0.59,
+      14.91
+     ],
+     "authorN": 219,
+     "auditN": 220
+    },
+    "creep.regenWh": {
+     "authorMedian": 0.92,
+     "auditMedian": 0.79,
+     "absDiffWh": 0.13,
+     "authorIQR": [
+      0.0,
+      8.11
+     ],
+     "auditIQR": [
+      0.0,
+      7.52
+     ],
+     "authorN": 219,
+     "auditN": 220
+    },
+    "approach.netWh": {
+     "authorMedian": 0.79,
+     "auditMedian": 0.81,
+     "absDiffWh": 0.02,
+     "authorIQR": [
+      -1.56,
+      1.5
+     ],
+     "auditIQR": [
+      -1.5,
+      1.62
+     ],
+     "authorN": 404,
+     "auditN": 405
+    },
+    "approach.dischargeWh": {
+     "authorMedian": 0.98,
+     "auditMedian": 0.99,
+     "absDiffWh": 0.01,
+     "authorIQR": [
+      0.5,
+      2.09
+     ],
+     "auditIQR": [
+      0.58,
+      2.19
+     ],
+     "authorN": 404,
+     "auditN": 405
+    },
+    "approach.regenWh": {
+     "authorMedian": 0.0,
+     "auditMedian": 0.0,
+     "absDiffWh": 0.0,
+     "authorIQR": [
+      0.0,
+      2.83
+     ],
+     "auditIQR": [
+      0.0,
+      2.63
+     ],
+     "authorN": 404,
+     "auditN": 405
+    },
+    "cycle.netWh": {
+     "authorMedian": 3.78,
+     "auditMedian": 4.12,
+     "absDiffWh": 0.34,
+     "authorIQR": [
+      1.38,
+      12.1
+     ],
+     "auditIQR": [
+      1.5,
+      12.5
+     ],
+     "authorN": 404,
+     "auditN": 405
+    },
+    "cycle.dischargeWh": {
+     "authorMedian": 4.55,
+     "auditMedian": 4.72,
+     "absDiffWh": 0.17,
+     "authorIQR": [
+      1.93,
+      16.59
+     ],
+     "auditIQR": [
+      1.94,
+      16.76
+     ],
+     "authorN": 404,
+     "auditN": 405
+    },
+    "cycle.regenWh": {
+     "authorMedian": 0.0,
+     "auditMedian": 0.0,
+     "absDiffWh": 0.0,
+     "authorIQR": [
+      0.0,
+      6.81
+     ],
+     "auditIQR": [
+      0.0,
+      6.86
+     ],
+     "authorN": 404,
+     "auditN": 405
+    }
+   }
+  }
+ },
+ "maxAbsMedianDiffWh": 0.34,
+ "medianAbsMedianDiffWh": 0.04,
+ "bootCycleNetCI": {
+  "author": [
+   4.99,
+   6.13
+  ],
+  "audit": [
+   5.0,
+   6.26
+  ]
+ }
+}

@@ -8962,15 +8962,44 @@ function CrawlStopGo() {
       </div>
 
       <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:8,marginBottom:12}}>
-        <Kpi label="net per stop-go cycle" value={cn.median} unit="Wh" color="#0891b2"
+        <Kpi label="net per stop-go cycle (stop to stop)" value={cn.median} unit="Wh" color="#0891b2"
              sub={`95% CI ${ci(cnB)} · ${cnB.nDays||"—"} days`}/>
-        <Kpi label="launch discharge (gross)" value={lo.median} unit="Wh" color="#dc2626"
+        <Kpi label="launch discharge (gross, launch window)" value={lo.median} unit="Wh" color="#dc2626"
              sub={`IQR ${lo.p25}–${lo.p75}`}/>
-        <Kpi label="approach regen (gross)" value={ai.median} unit="Wh" color="#16a34a"
+        <Kpi label="approach regen (gross, approach window)" value={ai.median} unit="Wh" color="#16a34a"
              sub={`IQR ${ai.p25}–${ai.p75}`}/>
         <Kpi label="engine starts / 10 min stop-go" value={st.median} unit="" color="#b45309"
              sub={`95% CI ${ci(stB)} · ${stB.nDays||"—"} days`}/>
       </div>
+
+      {C.phaseEnergy && (()=>{ const PE=C.phaseEnergy;
+        const med=e=>(e&&e.n)?<>{e.median} [{e.p25}–{e.p75}]{e.bootMedian?<div style={{fontSize:8.5,color:"#94a3b8"}}>95% CI {e.bootMedian.ci95[0]}–{e.bootMedian.ci95[1]}, {e.bootMedian.nDays} days</div>:null}</>:"—";
+        const zs=e=>(e&&e.zeroShare!=null)?`${(e.zeroShare*100).toFixed(0)}%`:"—";
+        const two=e=>(e&&e.twoPart&&e.twoPart.pPositive)?<div style={{fontSize:8.5,color:"#94a3b8"}}>P(&gt;0) {(e.twoPart.pPositive.proportion*100).toFixed(0)}% [{(e.twoPart.pPositive.ci95[0]*100).toFixed(0)}–{(e.twoPart.pPositive.ci95[1]*100).toFixed(0)}%]; positive part median {e.twoPart.positivePartMedian&&e.twoPart.positivePartMedian.n?e.twoPart.positivePartMedian.median:"—"} Wh{e.twoPart.positivePartBoot?` [CI ${e.twoPart.positivePartBoot.ci95[0]}–${e.twoPart.positivePartBoot.ci95[1]}]`:""}</div>:null;
+        const th={textAlign:"left",padding:"3px 6px",fontSize:9.5,color:"#334155",borderBottom:"1px solid #cbd5e1"}, td={padding:"4px 6px",fontSize:10,color:"#475569",verticalAlign:"top",borderBottom:"1px solid #e2e8f0"};
+        return <div data-phase-energy="1" style={{margin:"0 0 12px"}}>
+          <div style={{fontSize:11,fontWeight:700,color:"#0f172a",marginBottom:3}}>Energy by phase window</div>
+          <div style={{fontSize:10,color:"#64748b",lineHeight:1.6,marginBottom:6}}>
+            The launch, approach and full-cycle figures above come from different windows of the same stop-go cycle. For each window this table gives the signed net (discharge minus regen) and the two directions separately, as median [IQR] in Wh per cycle. The windows are not additive (windows overlap at one sample when launch end = approach start; launch end falls before approach start in {(PE.additiveShare*100).toFixed(0)}% of {PE.nCycles.toLocaleString()} cycles), and a window that is empty is excluded, not counted as zero. Reconstructed from logged HV current &times; voltage, 1&nbsp;Hz grid; regen-direction energy is a positive magnitude. One-direction energies are biased upward by sign-flipping noise; the net is not. Samples with no I&times;V are dropped, so energy over gaps is understated. The shares at or below 0&nbsp;Wh are counted on this cycle-window list and differ from the zero-inflation of the standalone approach list in the callout below. raw/ basis, provenance-sensitive (F03): current is integer-rounded in the raw re-exports, so small regen can read as 0 and the shares are biased upward.
+          </div>
+          {(()=>{ const z=k=>PE[k]&&PE[k].regenWh&&PE[k].regenWh.zeroShare!=null?(PE[k].regenWh.zeroShare*100).toFixed(0):null, ap=PE.approach&&PE.approach.netWh;
+            return <div style={{fontSize:10,color:"#475569",lineHeight:1.6,marginBottom:6}}>
+              {z("launch")!=null&&<>No regen-direction energy on the 1&nbsp;Hz grid in {z("launch")}% of launch, {z("approach")}% of approach and {z("cycle")}% of full-cycle windows (creep: {z("creep")}%). </>}
+              {ap&&ap.n>0&&<>The median signed net over the approach window is {ap.median>=0?"positive (net discharge-direction)":"negative (net regen-direction)"}: {ap.median}&nbsp;Wh{ap.bootMedian?<> (95% CI {ap.bootMedian.ci95[0]}–{ap.bootMedian.ci95[1]}, {ap.bootMedian.nDays} days)</>:null}; it may include auxiliary and HVAC load and the creep-like low-speed end of the window, so it is not attributed to deceleration alone. </>}
+              Where a direction is at or below 0&nbsp;Wh in at least 25% of windows, the table cell also carries the two-part form (share above 0 with CI, and the positive-part median).
+              {PE.blindAudit&&<> Blind audit (own resampling, reported not tuned): {PE.blindAudit.nCycles.audit.toLocaleString()} cycles vs {PE.blindAudit.nCycles.author.toLocaleString()}; largest median difference {PE.blindAudit.maxAbsMedianDiffWh}&nbsp;Wh{PE.blindAudit.cycleNetBootCI95?<>; cycle-net CI {PE.blindAudit.cycleNetBootCI95.audit[0]}–{PE.blindAudit.cycleNetBootCI95.audit[1]} vs {PE.blindAudit.cycleNetBootCI95.author[0]}–{PE.blindAudit.cycleNetBootCI95.author[1]}</>:null}.</>}
+              {_coh==="all"&&<>{" "}The All view's {PE.nCycles.toLocaleString()} cycles include those of the Cold-class drives that are below the cohort minimum; no Cold cohort is reported.</>}
+            </div>; })()}
+          <div style={{overflowX:"auto"}}><table style={{borderCollapse:"collapse",minWidth:520}}>
+            <thead><tr><th style={th}>Window (mask)</th><th style={th}>n cycles</th><th style={th}>Signed net, Wh</th><th style={th}>Discharge-direction, Wh</th><th style={th}>share &le; 0 Wh (1 Hz grid)</th><th style={th}>Regen-direction, Wh</th><th style={th}>share &le; 0 Wh (1 Hz grid)</th></tr></thead>
+            <tbody>{(PE.windows||[]).map(w=>{ const b=PE[w.key]; if(!b) return null;
+              return <tr key={w.key}><td style={td}><strong>{w.label}</strong><div style={{fontSize:8.5,color:"#94a3b8",maxWidth:260}}>{w.mask}</div></td>
+                <td style={td}>{b.netWh&&b.netWh.n}{b.nEmpty?` (+${b.nEmpty} empty)`:""}{b.nAllNaN?` (+${b.nAllNaN} no I×V)`:""}</td>
+                <td style={td}>{med(b.netWh)}</td>
+                <td style={td}>{med(b.dischargeWh)}{two(b.dischargeWh)}</td><td style={td}>{zs(b.dischargeWh)}</td>
+                <td style={td}>{med(b.regenWh)}{two(b.regenWh)}</td><td style={td}>{zs(b.regenWh)}</td></tr>; })}</tbody>
+          </table></div>
+        </div>; })()}
 
       <Callout kind="finding">
         Each stop-go cycle spends a median <MetricHighlight tone="measured">{lo.median} Wh</MetricHighlight> to
