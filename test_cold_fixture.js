@@ -51,7 +51,7 @@ const tabTo=async(P,t)=>{P.click([...P.d.querySelectorAll('button')].find(b=>b.t
   const hpA=variant('A',a=>{
     const sc=a.seasonalCharts; sc._meta.cohortCounts.cold=MIN+2; sc._meta.cohortCounts.all=(sc._meta.cohortCounts.all||0);
     for(const id of Object.keys(sc.charts)){const dd=sc.charts[id].data; if(dd.shoulder!=null) dd.cold=clone(dd.shoulder);}
-    if(a.cohortMeta&&a.cohortMeta.shoulder) a.cohortMeta.cold=clone(a.cohortMeta.shoulder);
+    if(a.cohortMeta&&a.cohortMeta.shoulder){ a.cohortMeta.cold=clone(a.cohortMeta.shoulder); Object.assign(a.cohortMeta.cold,{n:MIN+2,observed:MIN+2,eligibleForCohortView:MIN+2,inferenceAvailable:true,nDaysObserved:3}); }
   });
   let P=await load(hpA);
   ok(btn(P,'cold')&&!btn(P,'cold').disabled,'A: Cold selector button ENABLED at n>=min support');
