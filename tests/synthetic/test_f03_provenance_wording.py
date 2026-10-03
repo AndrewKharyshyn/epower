@@ -36,7 +36,9 @@ assert prov["originals"]["nRecovered"] == fc == om["nRecords"] == om["expectedCo
 assert "computed from raw/ re-exports" in prov["sensitivityStatement"] and "from the originals" in prov["sensitivityStatement"]
 
 # originals_manifest: inventory, every sha equals raw_manifest, unique ids, canonical only
-assert om["archiveOfRecord"] is False and om["status"].startswith("inventory of external files") and om["allVerifiedAgainstManifest"] is True
+assert om["archiveOfRecord"] is False and om["status"].startswith("registered as a second sha256-manifested archive") and om["allVerifiedAgainstManifest"] is True
+assert om["ownerDecision"]["option"] == 2 and om["ownerDecision"]["date"] == "2026-10-03" and "backup" in om
+assert "second sha256-manifested archive" in prov["disclosure"] and "not the archive of record" in prov["disclosure"] and prov["originals"]["ownerDecision"] == om["ownerDecision"]
 sha = {r["record_id"]: r["sha256"] for r in canon}
 ids = [r["record_id"] for r in om["records"]]
 assert len(ids) == len(set(ids)) == om["nRecords"] and all(sha[r["record_id"]] == r["sha256"] and r["verified_against_manifest"] for r in om["records"])

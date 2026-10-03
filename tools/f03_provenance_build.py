@@ -37,11 +37,13 @@ out = {
     "raw": {"nFiles": ok_all + fail_all, "nHashFailing": fail_all, "nHashMatching": ok_all, "nCanonical": n_can, "nCanonicalHashFailing": fail_can,
             "rowCountsMatchManifest": True, "originalsAvailable": True},
     "originals": {"nRecovered": om["nRecords"], "allSha256VerifiedAgainstManifest": om["allVerifiedAgainstManifest"], "archiveOfRecord": om["archiveOfRecord"],
-                  "status": om["status"], "location": om["location"], "verifiedAt": om["verifiedAt"]},
+                  "status": om["status"], "location": om["location"], "verifiedAt": om["verifiedAt"],
+                  "registeredAs": om.get("registeredAs"), "ownerDecision": om.get("ownerDecision"), "backup": om.get("backup")},
     "referenceOfRecord": "published master/arrays (drive_master.csv MD5 in meta/rawManifest); the rebuild is a provenance-sensitivity analysis, not a correction",
     "disclosure": (f"Published values derived from the M299 corpus; {fail_can}/{n_can} canonical raw copies in raw/ do not match recorded hashes "
                    f"(lower-precision re-exports); sha256-verified originals exist for all {fail_can}, and a rebuild from them is consistent with the published "
-                   "raw-derived non-ML per-drive values (M323); ML/refit columns are not reproduced by a refit from either source; F03 is open, re-anchoring undecided."),
+                   "raw-derived non-ML per-drive values (M323); ML/refit columns are not reproduced by a refit from either source; the originals are registered as a second sha256-manifested archive "
+                   "(owner decision 2026-10-03), not the archive of record; F03 is open, re-anchoring (replacing raw/) undecided."),
     "sensitivityStatement": ("In a provenance-sensitivity rebuild from today's raw/ files (lower-precision re-exports for the hash-failing drives) the cell-spread slope was not robust (sign and magnitude changed); "
                              "the difference arises only in hash-failing files (all hash-matching files reproduce the published values exactly) and cannot be separated "
                              "from calendar month. It is a sensitivity result computed from raw/ re-exports, not a finding; no cell-spread estimate has been recomputed from the originals."),

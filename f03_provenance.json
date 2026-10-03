@@ -13,12 +13,20 @@
   "nRecovered": 333,
   "allSha256VerifiedAgainstManifest": true,
   "archiveOfRecord": false,
-  "status": "inventory of external files; re-anchoring pending Andrii",
+  "status": "registered as a second sha256-manifested archive (owner decision 2026-10-03, option 2); not the archive of record; re-anchoring (replacing raw/) undecided",
   "location": "outside the repository, relative to the repo root: ../../originals_recovered",
-  "verifiedAt": "2026-10-02T06:45:27+00:00"
+  "verifiedAt": "2026-10-03T09:00:40+00:00",
+  "registeredAs": "second sha256-manifested archive of the canonical originals whose raw/ copy fails raw_manifest.json",
+  "ownerDecision": {
+   "date": "2026-10-03",
+   "by": "Andrii",
+   "option": 2,
+   "text": "register the originals as a second sha256-manifested archive; raw/ and raw_manifest.json unchanged; replacing raw/ (option 3) only after a no-new-drive control build, decided separately"
+  },
+  "backup": "owner-held backups of all raw CSVs (stated by Andrii 2026-10-03; not verifiable from the repository)"
  },
  "referenceOfRecord": "published master/arrays (drive_master.csv MD5 in meta/rawManifest); the rebuild is a provenance-sensitivity analysis, not a correction",
- "disclosure": "Published values derived from the M299 corpus; 333/489 canonical raw copies in raw/ do not match recorded hashes (lower-precision re-exports); sha256-verified originals exist for all 333, and a rebuild from them is consistent with the published raw-derived non-ML per-drive values (M323); ML/refit columns are not reproduced by a refit from either source; F03 is open, re-anchoring undecided.",
+ "disclosure": "Published values derived from the M299 corpus; 333/489 canonical raw copies in raw/ do not match recorded hashes (lower-precision re-exports); sha256-verified originals exist for all 333, and a rebuild from them is consistent with the published raw-derived non-ML per-drive values (M323); ML/refit columns are not reproduced by a refit from either source; the originals are registered as a second sha256-manifested archive (owner decision 2026-10-03), not the archive of record; F03 is open, re-anchoring (replacing raw/) undecided.",
  "sensitivityStatement": "In a provenance-sensitivity rebuild from today's raw/ files (lower-precision re-exports for the hash-failing drives) the cell-spread slope was not robust (sign and magnitude changed); the difference arises only in hash-failing files (all hash-matching files reproduce the published values exactly) and cannot be separated from calendar month. It is a sensitivity result computed from raw/ re-exports, not a finding; no cell-spread estimate has been recomputed from the originals.",
  "wording": [
   "cell-spread trend not resolved over the 4.53-month window; equivalence not established (not 'no degradation')",
@@ -124,6 +132,6 @@
   "analyses/F03/headline_delta_scenarioA.json": "3a193e60c47ea96209c74c7ee4c1b092",
   "analyses/F03/f1_f2_f4_results.json": "41d299e586f2432a0b539cf909916d97",
   "analyses/F03/f3_results.json": "bc7f1dcbda44903711a87d805854e1a4",
-  "originals_manifest.json": "33ba0fff68a897329a5e158955e1feaf"
+  "originals_manifest.json": "e8db41e2eb1fd44f5a10fa5fa3b26e65"
  }
 }

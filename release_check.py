@@ -27,7 +27,7 @@ from pathlib import Path
 SRC = Path(os.environ.get("XT_WORK", Path(__file__).resolve().parent))
 SEARCH = [SRC, SRC / "claude", SRC / "seasonal", SRC / "track3", SRC / "track4"]
 REQUIRED = ["xtrail_summary.jsx", "summary_arrays.json", "summary_config.json", "build_html.js", "validate_jsdom.js",
-            "test_cold_fixture.js", "test_ambient_table.js", "test_gtr_gate.js", "test_fuel_tab.js", "package.json", "package-lock.json", "drive_master.csv", "battery_temp_extremes.csv", "soc_patterns.json",
+            "test_cold_fixture.js", "test_ambient_table.js", "test_gtr_gate.js", "test_fuel_tab.js", "package.json", "package-lock.json", "drive_master.csv", "battery_temp_extremes.csv", "originals_manifest.json", "raw_manifest.json", "soc_patterns.json",
             "seasonal_core.py", "seasonal_adjust.py", "test_seasonal_adjust.py", "cohort_arrays.py", "cohort_arrays.json",
             "seasonal_drive_master.csv", "seasonal_dependency.json", "raw_temperature_triplets.csv",
             "project_paths.py", "derived_literals.py", "build_assumptions_registry.py", "model_constants.py",
@@ -201,6 +201,20 @@ def payload_checks(arrays_path):
     except Exception:
         _te_ok = False
     checks["battery_temp_extremes.csv covers exactly the master files and carries intake_max (M340: stale side-pass fails, never silent)"] = bool(_te_ok)
+
+    # (10) M346: the originals manifest (second sha256-manifested archive, option 2) is internally consistent and never claims to be the archive of record:
+    #      every record id is a canonical raw_manifest record with the SAME sha256, ids unique, counts equal, archiveOfRecord False, owner decision recorded.
+    try:
+        _d = Path(arrays_path).parent
+        _om = json.loads((_d / "originals_manifest.json").read_text(encoding="utf-8"))
+        _rm = {x["record_id"]: x["sha256"] for x in json.loads((_d / "raw_manifest.json").read_text(encoding="utf-8"))["files"] if x["role"] == "canonical"}
+        _ids = [x["record_id"] for x in _om["records"]]
+        _om_ok = (_om["archiveOfRecord"] is False and _om["allVerifiedAgainstManifest"] is True and len(_ids) == len(set(_ids)) == _om["nRecords"] == _om["expectedCount"]
+                  and all(_rm.get(x["record_id"]) == x["sha256"] and len(x["sha256"]) == 64 for x in _om["records"])
+                  and (_om.get("ownerDecision") or {}).get("option") == 2 and "second sha256-manifested archive" in _om["status"])
+    except Exception:
+        _om_ok = False
+    checks["originals_manifest.json is a consistent second archive (not the archive of record; sha256 equal to raw_manifest; owner decision recorded) (M346)"] = bool(_om_ok)
     return checks
 
 def payload_warnings(arrays_path):
