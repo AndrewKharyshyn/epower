@@ -10478,7 +10478,7 @@ export default function App() {
             <Kpi label="Logged km" value={S.totalKm.toFixed(0)} unit="km" color="#4ade80"/>
             <Kpi label="Total hours" value={S.totalHours.toFixed(1)} unit="h" color="#22c55e" sub={`${S.movingHours}h moving + ${S.stationaryHours}h stationary · stationary time measured in ${S.stationaryCoverageN}/${S.totalDrives} files`}/>
             <Kpi label="Odometer" value={S.odometer.toLocaleString()} unit="km" color="#a78bfa" sub={`dash reading as of ${S.odometerAsOf}; external, not derivable from the logs`}/>
-            <Kpi label="Logged share of lifetime odometer" value={(S.kmLoggedToOdometerDate/S.odometer*100).toFixed(0)} unit="%" color="#f59e0b" sub={`logged distance (lower bound) ${S.kmLoggedToOdometerDate.toLocaleString()} km to ${S.odometerAsOf} / ${S.odometer.toLocaleString()} km dash odometer, which includes pre-logging km; ${S.kmLoggedAfterOdometerDate} km logged after that date are not in the ratio; not logging coverage of the window`}/>
+            <Kpi label="Logged share of lifetime odometer" value={(S.totalKm/S.odometer*100).toFixed(1)} unit="%" color="#f59e0b" sub={`${S.totalKm.toFixed(1)} km logged / ${S.odometer.toLocaleString()} km dash odometer (as of ${S.odometerAsOf}); the odometer includes pre-logging km, and ${S.kmLoggedAfterOdometerDate} km of the logged total were logged after that reading`}/>
           </div>
           {(()=>{ const F=(S.eligibility&&S.eligibility.families)||[]; const f=n=>F.find(x=>x.family===n); const h=f("Headline totals (km, kWh, GTC, duration)"), ci=f("Current-integral energy metrics"), ev=f("EV traction census (M53)");
             if(!h||!ci||!ev) throw new Error("Counts-by-basis families missing from S.eligibility");

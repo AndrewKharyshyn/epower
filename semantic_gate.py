@@ -123,8 +123,8 @@ ok("A2 REQUIRED cohort counts conserve: observed(warm+shoulder+cold) == observed
 ok("A2 REQUIRED identifiability box 'What the data cannot identify' with six limits and the payload Cold count", any("What the data cannot identify" in t and "uncalibrated vehicle reading" in t and "segregated from the primary corpus" in t and "assumed BSFC prior" in t for t in T.values()))
 # M355 (Cs-1)
 _mm = json.load(open("summary_arrays.json", encoding="utf-8"))["meta"]
-_pct = "%d" % round(_mm["kmLoggedToOdometerDate"] / _mm["odometer"] * 100)
-ok("A2 REQUIRED Overview: odometer 'dash reading as of " + _mm["odometerAsOf"] + "', logged share aligned to the odometer date (" + _pct + " %, lower bound), counts by basis", any(("dash reading as of " + _mm["odometerAsOf"]) in t and "Counts by basis" in t and "lower bound" in t and "lifetime odometer" in t for t in T.values()))
+_pct = "%.1f" % (_mm["totalKm"] / _mm["odometer"] * 100)
+ok("A2 REQUIRED Overview: odometer 'dash reading as of " + _mm["odometerAsOf"] + "', logged share = total logged km / dash odometer (" + _pct + " %), counts by basis", any(("dash reading as of " + _mm["odometerAsOf"]) in t and "Counts by basis" in t and "lifetime odometer" in t and (_pct) in t for t in T.values()))
 ok("A2 REQUIRED car-age sentence is bound to the registration date and the as-of date (S.registeredDate, S.carAgeAsOf; the sentence sits in a collapsed panel absent from the tab dumps)", 'registered ", S.registeredDate, ", as of ", S.carAgeAsOf' in open("xtrail_summary.jsx", encoding="utf-8").read())
 # W5a (M330)
 ok("A2 REQUIRED ambient-axis gap described as drives that do not enter the ambient rows", any("drives that do not enter the ambient rows" in t for t in T.values()))
