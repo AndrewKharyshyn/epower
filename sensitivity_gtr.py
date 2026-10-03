@@ -46,18 +46,22 @@ import numpy as np, pandas as pd
 import recon_engine as RE, model_constants as MC, fuel_recon as FR
 
 BASE = RE.BASE
-SHIPPED = dict(gen100=15.75, trac100=18.23, fgen=0.488, etaBus=0.331)  # M265-corrected corpus
+# M350: the reference is the CURRENT published corpus headline (read from the payload), not the typed 2026-09 literals
+# (15.75 / 18.23 / 0.488 / 0.331, a 374-drive basis) that made every run fail the BASE check after the corpus grew.
+_C = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'summary_arrays.json'), encoding='utf-8'))['generatorTractionRecon']['corpus']
+SHIPPED = dict(gen100=_C['generator'], trac100=_C['tractionGross'], fgen=_C['fGen'], etaBus=_C['etaBus'])
 
 # ---- drive set + per-drive cache (load once) ----------------------------------
 def build_cache():
     dm = pd.read_csv(BASE + 'drive_master.csv')
     master = {r['file']: r for _, r in dm.iterrows()}
+    _CONST = FR.corpus_offset(dm)[0]     # M350: fail-closed corpus offset (a NaN master offset used to stay NaN -> battery term suppressed)
     targets = [f for f in dm['file'] if os.path.exists(BASE + f) and FR._has_fuel(BASE + f)]
     cache = []
     t0 = time.time()
     for f in targets:
         mrow = master[f]
-        off = float(mrow.get('I_offset_A_applied', 0.0) or 0.0)
+        off, _imp = FR.resolve_offset(mrow, _CONST)
         g = RE.load_drive(f, off)
         if g is None:
             continue
@@ -165,7 +169,7 @@ def main():
     if mism:
         raise SystemExit('BASE does NOT reproduce corrected headline; mismatched: %s\n  BASE=%s\n  SHIPPED=%s'
                          % (mism, base, SHIPPED))
-    print('\nBASE reproduces corrected headline exactly (15.75/18.23/0.488/0.331). OK')
+    print('\nBASE reproduces the published corpus headline exactly (%s). OK' % SHIPPED)
     fgens = [r['fgen'] for r in out]
     print('f_gen sweep range: %.3f .. %.3f (BASE %.3f)' % (min(fgens), max(fgens), out[0]['fgen']))
     json.dump(out, open('sensitivity_gtr_out.json', 'w'), ensure_ascii=False, indent=1)

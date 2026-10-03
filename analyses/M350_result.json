@@ -1,0 +1,25 @@
+{
+ "speed_split": {
+  "validation": "261/261 drives matched the repaired fuel_recon_master.csv (max diff 0.0000)",
+  "oldIdiomOnTwoAug13Drives": "0/2 matched (max diff 13.478)",
+  "resolveOffsetOnTwoAug13Drives": "2/2 matched"
+ },
+ "sensitivity_gtr": {
+  "BASEvsPublishedCorpus": "exact (gen 15.94, trac 18.51, fgen 0.466, etaBus 0.327; nClean 260)",
+  "fgenSweepRange": [
+   0.433,
+   0.487
+  ],
+  "note": "typed SHIPPED literals (374-drive basis) replaced by the payload corpus; payload block generatorTractionRecon.sensitivity stays carried forward (stale, flagged by _staleness) and was not spliced"
+ },
+ "simultaneity_gtr": {
+  "ran": true,
+  "note": "payload block generatorTractionRecon.simultaneity carried forward (stale basis), not spliced; output file not committed"
+ },
+ "crossval_gtr": {
+  "ran": false,
+  "reason": "needs the recovered crossval.csv at /mnt/user-data/uploads (not in this checkout); source fix only, covered by the source-scan test"
+ },
+ "gtr_closure_diag": "unchanged by design (skips NaN-offset drives; M336 pre-registered result)",
+ "payloadSpliced": false
+}

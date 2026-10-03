@@ -32,7 +32,7 @@ Output: crossval_gtr_out.json (the verified crossval dict + the sign-audit).
 """
 import json
 import numpy as np, pandas as pd, os
-import recon_engine as RE, model_constants as MC
+import recon_engine as RE, model_constants as MC, fuel_recon as FR
 
 CROSSVAL_CSV = '/mnt/user-data/uploads/crossval.csv'  # recovered source
 SHIPPED = dict(pearsonR=0.997, nDrives=82, genRatioMedian=1.177,
@@ -59,12 +59,13 @@ def main():
     # (2) sign-audit against the current M265-corrected engine
     dm = pd.read_csv(RE.BASE + 'drive_master.csv')
     master = {row['file']: row for _, row in dm.iterrows()}
+    _CONST = FR.corpus_offset(dm)[0]     # M350: fail-closed corpus offset (NaN master offset no longer stays NaN)
     rows = []
     for f in cv['file']:
         mrow = master.get(f)
         if mrow is None:
             continue
-        off = float(mrow.get('I_offset_A_applied', 0.0) or 0.0)
+        off, _imp = FR.resolve_offset(mrow, _CONST)
         g = RE.load_drive(f, off)
         if g is None:
             continue

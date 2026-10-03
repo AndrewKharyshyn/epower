@@ -155,21 +155,12 @@ def build_speed_split(dm, fr_master, targets, offsets):
 if __name__ == '__main__':
     dm = pd.read_csv(os.path.join(RE.BASE, 'drive_master.csv'))
     fr_master = pd.read_csv('fuel_recon_master.csv')
-    # M255 fix (found via the validation step below): fuel_recon.py's main()
-    # resolves the offset as `float(master[f].get('I_offset_A_applied', 0.0) or 0.0)`
-    # -- Python's `x or default` does NOT substitute for NaN (NaN is truthy), so a
-    # NaN I_offset_A_applied passes through UNCHANGED as NaN, not 0.0. That NaN then
-    # propagates through Iadj -> Pbatt (all-NaN for the drive), which
-    # central_estimate_v2's `np.nan_to_num(pc['Pbatt'])` silently zeroes -- the net
-    # effect is the battery term is fully suppressed for any drive with a missing
-    # calibrated offset (2 of 135 in this corpus: 20260813_145651.csv,
-    # 20260813_150341.csv), not "corrected with offset=0" as a naive .fillna(0.0)
-    # would do. Replicated exactly here (rather than the more intuitive
-    # .fillna(0.0)) so this script's output matches the already-shipped,
-    # independently-verified fuel_recon_master.csv byte-for-byte on these drives
-    # too -- confirmed by the validation step, which failed under .fillna(0.0)
-    # and passes under this exact replication.
-    offsets = {f: (float(v) or 0.0) for f, v in zip(dm['file'], dm['I_offset_A_applied'])}
+    # M350: the offsets come from fuel_recon.resolve_offset (M349). M255 had replicated fuel_recon's NaN pass-through
+    # (`float(NaN or 0.0)` stays NaN -> battery term suppressed, f_gen = 1 by construction) to match the then-shipped
+    # fuel_recon_master.csv; M349 repaired fuel_recon (NaN offset -> the corpus-applied constant, fail-closed), so this
+    # script must use the same resolution or its validation against the repaired master fails on those two drives.
+    _const = FR.corpus_offset(dm)[0]
+    offsets = {f: FR.resolve_offset({'I_offset_A_applied': v}, _const)[0] for f, v in zip(dm['file'], dm['I_offset_A_applied'])}
     targets = [f for f in dm['file']
                if os.path.exists(RE.BASE + f) and FR._has_fuel(RE.BASE + f)]
     print(f'{len(targets)} fuel-instrumented drives found')
