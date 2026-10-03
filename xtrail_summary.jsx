@@ -8968,7 +8968,7 @@ function CrawlStopGo() {
              sub={`IQR ${lo.p25}–${lo.p75}`}/>
         <Kpi label="approach regen (gross, approach window)" value={ai.median} unit="Wh" color="#16a34a"
              sub={`IQR ${ai.p25}–${ai.p75}`}/>
-        <Kpi label="engine starts / 10 min stop-go" value={st.median} unit="" color="#b45309"
+        <Kpi label={`engine starts / 10 min at \u2264${TH.stopGoCeil} km/h (RPM onsets)`} value={st.median} unit="" color="#b45309"
              sub={`95% CI ${ci(stB)} · ${stB.nDays||"—"} days`}/>
       </div>
 
@@ -9002,26 +9002,19 @@ function CrawlStopGo() {
         </div>; })()}
 
       <Callout kind="finding">
-        Each stop-go cycle spends a median <MetricHighlight tone="measured">{lo.median} Wh</MetricHighlight> to
-        launch and recovers a median <MetricHighlight tone="validated">{ai.median} Wh</MetricHighlight> on the
-        approach — recovery ratio <MetricHighlight tone="measured">{rr.median}</MetricHighlight> (IQR
-        {" "}{rr.p25}–{rr.p75}). Below ~15 km/h e-POWER regen is minimal, so the buffer returns almost
-        nothing on deceleration
-        {C.regenProbability?.byPeakSpeedTercile && (() => {
-          const b = C.regenProbability.byPeakSpeedTercile;
-          const lowB = b.find(x => x.band === "low"), midB = b.find(x => x.band === "mid"), hiB = b.find(x => x.band === "high");
-          return lowB && midB && hiB && (
-            <> — made explicit by the two-part model (M226.1): P(any regen at all) is only{" "}
-            {(lowB.proportion*100).toFixed(0)}% of approaches in the lowest peak-speed tercile, rising to{" "}
-            {(midB.proportion*100).toFixed(0)}% mid-tercile and {(hiB.proportion*100).toFixed(0)}% in the
-            highest — the recovery ratio above pools these very different regimes into one number, and the
-            zero-inflation this reveals ({C.conditionalMagnitude?.zeroInflationPct}% of all approaches recover
-            nothing) is itself the buffer-not-braking signature, not noise in the ratio</>
-          );
-        })}; the cycle's energy is instead closed by the generator, which restarts a
-        median <MetricHighlight tone="measured">{st.median}×</MetricHighlight> per 10 min of low-speed
-        operation. Pack churned and refilled by the engine, not by braking — a clean power-buffer signature.
-        {" "}<EvidenceBadge status="measured"/>
+        {(()=>{ const PEc=C.phaseEnergy, ld=PEc&&PEc.launch&&PEc.launch.dischargeWh, ldB=ld&&ld.bootMedian, rp=C.regenProbability, cm=C.conditionalMagnitude;
+          const pc=x=>(x&&typeof x.proportion==="number")?`${(x.proportion*100).toFixed(0)}% (95% CI ${(x.ci95[0]*100).toFixed(0)}\u2013${(x.ci95[1]*100).toFixed(0)}%, n=${x.n}, ${x.nDays} days)`:"\u2014";
+          const tb=rp&&rp.byPeakSpeedTercile, lowB=tb&&tb.find(x=>x.band==="low"), midB=tb&&tb.find(x=>x.band==="mid"), hiB=tb&&tb.find(x=>x.band==="high");
+          return <>
+            Over the launch window a stop-go cycle has a median discharge-direction energy of <MetricHighlight tone="derived">{lo.median} Wh</MetricHighlight>{ldB?` (95% CI ${ldB.ci95[0]}\u2013${ldB.ci95[1]}, ${ldB.nDays} days, n=${ld.n})`:""};
+            over the approach window the median regen-direction energy is <MetricHighlight tone="derived">{ai.median} Wh</MetricHighlight> (IQR {ai.p25}&ndash;{ai.p75}, n={ai.n});
+            the median of the per-cycle ratio approach regen / launch discharge (each in its own window; cycles with launch discharge above 0, n={rr.n}) is{" "}
+            <MetricHighlight tone="derived">{rr.median}</MetricHighlight> (IQR {rr.p25}&ndash;{rr.p75}{rrB.ci95?`; 95% CI ${rrB.ci95[0]}\u2013${rrB.ci95[1]}, ${rrB.nDays} days`:""}).
+            Reconstructed from logged HV current &times; voltage on a 1&nbsp;Hz grid, not measured energy flows. raw/ basis, provenance-sensitive (F03): integer-rounded current in the raw re-exports pushes the zero-regen shares up and sign-flipping noise pushes the share with any regen up, so the net bias is unknown.
+            {lowB&&midB&&hiB&&<>{" "}Among the standalone approaches (one per detected stop: a 20&nbsp;s look-back from the last sample at or above 15&nbsp;km/h, or from the window's speed peak if 15&nbsp;km/h is not reached; n={rp.overall&&rp.overall.n}), the share with any regen-direction energy on the 1&nbsp;Hz grid is {pc(lowB)} in the lowest peak-speed tercile of the approach window, {pc(midB)} in the middle and {pc(hiB)} in the highest; the per-cycle ratio above does not separate these regimes{cm&&cm.zeroInflationPct!=null?<>, and {cm.zeroInflationPct}% ({cm.nZero} of {cm.nTotal}) of all approaches have no regen-direction energy at all</>:null}. This standalone-list share differs from the cycle-window shares in the table above.</>}
+            {" "}Engine starts (RPM onsets: RPM from &le;100 to &gt;800; start type not separated): median <MetricHighlight tone="derived">{st.median}</MetricHighlight> per 10&nbsp;min of time at or below {TH.stopGoCeil}&nbsp;km/h (standstill included), a per-drive rate, median across {st.n} drives{stB.ci95?` (95% CI ${stB.ci95[0]}\u2013${stB.ci95[1]}, ${stB.nDays} days)`:""}.
+          </>; })()}
+        {" "}<EvidenceBadge status="derived"/>
       </Callout>
 
       {/* per-cycle energy flow: launch-out vs approach-in, median (dot) + IQR (bar) + p95 tick */}
@@ -9050,7 +9043,7 @@ function CrawlStopGo() {
         <text x={PL+pw/2} y={axisTitleY} textAnchor="middle" fill="#64748b" fontSize={8}>Energy per phase (Wh)</text>
       </svg>
       <div style={{fontSize:9,color:"#94a3b8",textAlign:"center",marginTop:-2,marginBottom:4}}>
-        Gross discharge to launch dwarfs gross regen on approach — the asymmetry that forces engine refills
+        Median discharge-direction energy over the launch window exceeds the median regen-direction energy over the approach window (per-cycle windows as defined in the table above)
       </div>
       {/* M219: the two rows' n counts land on the same number (1,509) in the
           current corpus, which reads like a copy-paste artefact but isn't --
