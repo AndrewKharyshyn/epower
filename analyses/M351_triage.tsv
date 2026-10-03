@@ -1,0 +1,20 @@
+id	group	identifier	foundIn	status	action
+p22.12	A	clusterRobustOLS	xtrail_summary.jsx:18;compute_summary_arrays.py:1;degradation_trends.py:5;summary_arrays.json:9	applicable	label the published interval cluster-robust normal (z)
+p23.16	A	riskColdEngineBattery	xtrail_summary.jsx:3;compute_summary_arrays.py:2;summary_arrays.json:2	applicable	p<0.001 through one formatter
+F31.r1	A	vreg_R_pack_mohm	xtrail_summary.jsx:2;compute_summary_arrays.py:6;records_resistance.py:18;degradation_trends.py:3;summary_arrays.json:6	applicable	relabel IID residual-model reference distribution; drop noise verdict; day dependence
+F22.r1	obsolete?	ciHalfWidthMohmPerMo	-	obsolete or already done (identifier absent)	rename ciHalfWidthMohmPerMo (builder+jsx)
+F13.3	B	uncertaintyClass	seasonal_core.py:7;compute_seasonal.py:2	check (identifier present: partly done?)	expose ambient source counts per cohort
+p21.5	B	endpoint|time-weighted	xtrail_summary.jsx:9;compute_summary_arrays.py:18;tools/build_ambient_table.py:3;summary_arrays.json:11	applicable	label ambient chart definition (endpoint-pair vs time-weighted)
+p21.6	B	ambient_time_mean_kind|vehicle_sensor	seasonal_core.py:6;tools/build_ambient_table.py:1;summary_arrays.json:1	applicable	show ambient_time_mean_kind; relabel vehicle_sensor
+D-S7	B	great majority	-	obsolete or already done (identifier absent)	fix "no fuel-rate PID on the great majority" (263/489)
+p17.13	B	great majority|MAF handful	-	obsolete or already done (identifier absent)	script-generate fuel coverage
+F18.r1	C	"klass"	build_assumptions_registry.py:2;summary_arrays.json:15	applicable	per-constant class measured/external/assumed
+p15.4	C	usedBy	xtrail_summary.jsx:1;build_assumptions_registry.py:18;summary_arrays.json:16	applicable	registry usedBy gross/GTC -> net draw; +0.34% variant
+Cs-1	D	odometer	xtrail_summary.jsx:17;compute_summary_arrays.py:31;seasonal_core.py:5;compute_seasonal.py:5;build_assumptions_registry.py:6;summary_arrays.json:12	applicable	split logged km from paired/EV-eligible; odometer source date
+Cs-21	D	maskLabel|phase	xtrail_summary.jsx:14;compute_summary_arrays.py:21;summary_arrays.json:42	applicable	per-phase mask labels; signed net and positive energies
+F08.r1	D	inferenceAvailable	-	pending (identifier to add is absent)	observed/eligible/inferenceAvailable per cohort
+B-HandoffSequence	D	[Hh]andoff	xtrail_summary.jsx:31;compute_summary_arrays.py:38;seasonal_core.py:1;summary_arrays.json:22	applicable	marginal medians are not one sequence; timing-resolution band
+p25.2	D	cannot identify	-	pending (identifier to add is absent)	script-bound "What the data cannot identify" box
+F21.r1	D	C-rate	xtrail_summary.jsx:29;compute_summary_arrays.py:18;build_assumptions_registry.py:2;summary_arrays.json:15	applicable	A and kW primary axes; C-rate secondary
+p16.7	D	toFixed|significant	xtrail_summary.jsx:394;compute_summary_arrays.py:3;degradation_trends.py:2;summary_arrays.json:3	applicable	sensible significant figures in display
+D-13	D	sign crossings	xtrail_summary.jsx:1;summary_arrays.json:1	applicable	rename engine-start proxy (sign crossings) -> reversals/100 km (check M344 relabel)
