@@ -3409,10 +3409,39 @@ function BmsVcmChart() {
   );
 }
 
-/* ─── CHART 1: C-rate vs Battery Temperature Risk Map ──────────────────────── */
+/* ─── CHART 1: Peak charge current / power / C-rate vs Battery Temperature Risk Map ──────────────────────── */
+/* M358 (F21.r1): A and kW are the primary axes (default A), C-rate is secondary or a third view. The pure axis model
+   below is extracted by test_crate_axes.js (keep it free of JSX and of references to S). */
+/*M358-MODEL-BEGIN*/
+function crateNiceStep(v){ const raw=v/6; const c=[1,2,5,10,20,25,50,100,200,500]; return c.find(s=>s>=raw)||1000; }
+function crateAxisModel(unit,pts,AXp,RLa,C0){
+  const idx={A:3,kW:4,C:1}[unit];
+  const vals=[]; (pts||[]).forEach((p,i)=>{ const v=p[idx]; if(typeof v==="number"&&isFinite(v)) vals.push({i,t:p[0],c:p[1],type:p[2],a:p[3],kw:p[4],v}); });
+  const kinds={typical:{color:"#64748b",dash:"3 2"},regen:{color:"#eab308",dash:"4 2"},peak:{color:"#ef4444",dash:"5 2"}};
+  let lines=[];
+  if(unit==="C"){ lines=((C0&&C0.lines)||[]).map(r=>({y:r.y,label:r.label,color:r.color,dash:r.dash})); }
+  else { const key=unit==="A"?"A":"kW";
+    lines=((RLa&&RLa.lines)||[]).filter(r=>typeof r[key]==="number").map(r=>({y:r[key],color:kinds[r.kind].color,dash:kinds[r.kind].dash,
+      label:r.kind==="typical"?`${r[key]} ${unit} median of per-drive peaks${r.n?` (n=${r.n})`:""}`:`${r[key]} ${unit} ${r.kind==="regen"?"pure-regen peak":"charge peak"} (${r.C} C)`})); }
+  let yMax,step;
+  if(unit==="C"){ yMax=(C0&&C0.axis&&C0.axis.yMax)||40; step=5; }
+  else { const vmax=Math.max(0,...vals.map(x=>x.v),...lines.map(l=>l.y)); step=crateNiceStep(vmax*1.05); yMax=Math.ceil(vmax*1.05/step)*step; }
+  const ticks=[]; for(let y=0;y<=yMax+1e-9;y+=step) ticks.push(y);
+  const cpa=AXp&&AXp.cPerA&&AXp.cPerA.median, vmed=AXp&&AXp.vPackMedianCorpus;
+  let sec=null;
+  if(unit==="A"&&cpa){ const cmax=yMax*cpa, st=crateNiceStep(cmax); const t=[]; for(let c=0;c<=cmax+1e-9;c+=st) t.push({y:c/cpa,label:String(Math.round(c*10)/10)});
+    sec={mode:AXp.cPerA.secondaryAxisMode||"axis",ticks:t,title:"≈ C-rate at the median pack voltage (assumes CAP_KWH = 2.1 kWh, verified:false)"}; }
+  else if(unit==="kW"&&vmed){ const amax=yMax*1000/vmed, st=crateNiceStep(amax); const t=[]; for(let a=0;a<=amax+1e-9;a+=st) t.push({y:a*vmed/1000,label:String(Math.round(a))});
+    sec={mode:"axis",ticks:t,title:`≈ A at V = ${vmed} V (median pack voltage), approximate`}; }
+  else if(unit==="C"&&cpa){ const amax=yMax/cpa, st=crateNiceStep(amax); const t=[]; for(let a=0;a<=amax+1e-9;a+=st) t.push({y:a*cpa,label:String(Math.round(a))});
+    sec={mode:"axis",ticks:t,title:"≈ A (C-rate ÷ median C-per-A ratio)"}; }
+  return {vals,lines,yMax,step,ticks,sec};
+}
+/*M358-MODEL-END*/
 function CRateRiskMap() {
   const [hover, setHover] = useState(null);
-  const W=520, H=450, PL=50, PR=22, PT=24, PB=44;
+  const [unit, setUnit] = useState("A");
+  const W=520, H=450, PL=50, PR=48, PT=24, PB=44;
   const pw=W-PL-PR, ph=H-PT-PB;
   // M58 (2026-07-27): axis bounds and reference lines were hardcoded. The
   // "30.5C engine-only ceiling" line had gone stale -- engine-only and
@@ -3422,20 +3451,38 @@ function CRateRiskMap() {
   // mode M50 had to fix on the VCM axis).
   const RL = S.cRateRefLines || {};
   const AX = RL.axis || {};
-  const xMin=AX.xMin ?? 8, xMax=AX.xMax ?? 55, yMin=AX.yMin ?? 0, yMax=AX.yMax ?? 40;
+  const pts = S.cRatePointsAK || [];
+  const AXp = S.cRateAxes || {};
+  const M = crateAxisModel(unit, pts, AXp, S.cRateRefLinesAK, RL);
+  const xMin=AX.xMin ?? 8, xMax=AX.xMax ?? 55, yMin=0, yMax=M.yMax;
   const xS = v=>(v-xMin)/(xMax-xMin)*pw;
   const yS = v=>ph-(v-yMin)/(yMax-yMin)*ph;
   const typeColor = { city:"#60a5fa", mixed:"#eab308", highway:"#f97316" };
   const step=(hi,lo,n)=>Array.from({length:n+1},(_,i)=>Math.round(lo+(hi-lo)*i/n));
   const xTicks=step(xMax,10,Math.round((xMax-10)/5)).filter(v=>v>=10);
-  const yTicks=step(yMax,0,Math.round(yMax/5));
-  const refLines=RL.lines || [];
+  const yTicks=M.ticks;
+  const refLines=M.lines;
+  const fmtTick = y => unit==="C" ? `${y}C` : String(y);
+  const annotate = M.sec && M.sec.mode==="tickAnnotations";
+  const yTitle = unit==="A" ? "Peak charge current, A — logged (BMS-reported via OBD)"
+    : unit==="kW" ? "Drive peak charge power (not co-timed with peak current), kW"
+    : "Peak C-rate (assumes CAP_KWH = 2.1 kWh, verified:false)";
+  const nKwMissing = AXp.diagnostics?.nKwMissing ?? 0;
+  const dg = AXp.diagnostics || {};
   // External domain thresholds (generic Li-ion guidance, NOT measured here) --
   // see cRateRefLines.zones.source for provenance.
   const Z = RL.zones || { coldBelowC:20, optimalLoC:20, optimalHiC:40, heatAboveC:44 };
 
   return (
     <div>
+      <div style={{display:"flex",gap:6,marginBottom:6,flexWrap:"wrap",alignItems:"center"}}>
+        {[["A","Peak charge current (A)"],["kW","Peak charge power (kW)"],["C","C-rate (assumed capacity)"]].map(([k,l])=>(
+          <button key={k} onClick={()=>{setUnit(k);setHover(null);}}
+            style={{fontSize:10,padding:"3px 8px",borderRadius:4,cursor:"pointer",border:"1px solid #cbd5e1",
+              background:unit===k?"#0f172a":"#fff",color:unit===k?"#fff":"#334155"}}>{l}</button>
+        ))}
+        <span style={{fontSize:9,color:"#64748b"}}>{unit==="C" ? "C-rate scales with the unverified CAP_KWH = 2.1 kWh" : "raw/ basis, provenance-sensitive (F03)"} · n={M.vals.length} of {pts.length} drives plotted{unit==="kW"&&nKwMissing>0?` (${nKwMissing} without a power value)`:""}</span>
+      </div>
       <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{overflow:"hidden"}}>
 
         {/* Cold risk zone <20°C */}
@@ -3479,13 +3526,25 @@ function CRateRiskMap() {
         {yTicks.map(y=>(
           <g key={y}>
             <line x1={PL} y1={PT+yS(y)} x2={PL+pw} y2={PT+yS(y)} stroke="#e5e7eb" strokeWidth={1}/>
-            <text x={PL-4} y={PT+yS(y)+3} textAnchor="end" fill="#6b7280" fontSize={8}>{y}C</text>
+            <text x={PL-4} y={PT+yS(y)+3} textAnchor="end" fill="#6b7280" fontSize={8}>{fmtTick(y)}</text>
           </g>
+        ))}
+
+        {/* Secondary axis (right): C-rate for the A view, approximate A for the kW and C views */}
+        {M.sec && !annotate && M.sec.ticks.map(t=>(
+          <text key={t.label} x={PL+pw+4} y={PT+yS(t.y)+3} textAnchor="start" fill="#94a3b8" fontSize={8}>{t.label}</text>
+        ))}
+        {M.sec && !annotate && (
+          <text x={W-6} y={PT+ph/2} textAnchor="middle" fill="#94a3b8" fontSize={7}
+            transform={`rotate(90,${W-6},${PT+ph/2})`}>{M.sec.title}</text>
+        )}
+        {M.sec && annotate && M.sec.ticks.map(t=>(
+          <text key={t.label} x={PL+pw-2} y={PT+yS(t.y)+9} textAnchor="end" fill="#94a3b8" fontSize={7}>≈{t.label} C</text>
         ))}
 
         {/* Horizontal ref lines */}
         {refLines.map(r=>(
-          <g key={r.y}>
+          <g key={r.label}>
             <line x1={PL} y1={PT+yS(r.y)} x2={PL+pw} y2={PT+yS(r.y)}
               stroke={r.color} strokeWidth={1} strokeDasharray={r.dash} opacity={0.8}/>
             {/* M72: drawn at PL+pw+3 with only PR=22 of margin, so 17–29
@@ -3499,12 +3558,12 @@ function CRateRiskMap() {
         <line x1={PL} y1={PT+ph} x2={PL+pw} y2={PT+ph} stroke="#d1d5db" strokeWidth={1}/>
         <line x1={PL} y1={PT} x2={PL} y2={PT+ph} stroke="#d1d5db" strokeWidth={1}/>
         <text x={PL+pw/2} y={H-5} textAnchor="middle" fill="#64748b" fontSize={9}>Battery temperature — Sensor 1, at the moment of peak charge current (°C)</text>
-        <text x={12} y={PT+ph/2} textAnchor="middle" fill="#64748b" fontSize={9}
-          transform={`rotate(-90,12,${PT+ph/2})`}>Peak C-rate</text>
+        <text x={12} y={PT+ph/2} textAnchor="middle" fill="#64748b" fontSize={8}
+          transform={`rotate(-90,12,${PT+ph/2})`}>{yTitle}</text>
 
         {/* Data points */}
-        {S.cRatePoints.map(([t,c,type],i)=>{
-          const cx=PL+xS(t), cy=PT+yS(c);
+        {M.vals.map(({i,t,c,type,a,kw,v})=>{
+          const cx=PL+xS(t), cy=PT+yS(v);
           const col = t<20&&c>6?"#ef4444":t<25&&c>12?"#f97316":typeColor[type]||"#94a3b8";
           const isHov=hover===i;
           const isStar=c>30;
@@ -3515,13 +3574,14 @@ function CRateRiskMap() {
                 fill={col} opacity={hover!==null&&!isHov?0.2:0.85}
                 stroke={isStar?"#1e293b":"none"} strokeWidth={isStar?1.25:0}/>
               {isHov&&(()=>{
-                const lx=cx>PL+pw-130?cx-138:cx+8;
+                const lx=cx>PL+pw-190?cx-198:cx+8;
                 return (
                   <g>
-                    <rect x={lx} y={cy-14} width={130} height={28} rx={3}
+                    <rect x={lx} y={cy-14} width={190} height={40} rx={3}
                       fill="#ffffff" opacity={0.98} stroke="#e2e8f0" strokeWidth={1}/>
-                    <text x={lx+5} y={cy-1}  fill="#0f172a" fontSize={9}>{t}°C · {c}C ({type})</text>
-                    <text x={lx+5} y={cy+11} fill={col}    fontSize={8}>
+                    <text x={lx+5} y={cy-1}  fill="#0f172a" fontSize={9}>{t}°C · {a ?? "—"} A · {kw ?? "—"} kW ({type})</text>
+                    <text x={lx+5} y={cy+10} fill="#475569" fontSize={8}>≈ {c} C (assumed 2.1 kWh capacity)</text>
+                    <text x={lx+5} y={cy+21} fill={col}    fontSize={8}>
                       {c>30?"dual-ch/regen transient":c>15?"high-C event":"sustained region"}
                     </text>
                   </g>
@@ -3536,13 +3596,16 @@ function CRateRiskMap() {
         {[["city","#60a5fa","City"],["mixed","#eab308","Mixed"],["highway","#f97316","Highway"],["x","#ef4444","Cold HIGH RISK"]].map(([_,c,l])=>(
           <span key={l} style={{color:c}}>● {l}</span>
         ))}
-        <span style={{color:"#64748b"}}>○ dark-ringed = extreme C-rate (&gt;30C)</span>
+        <span style={{color:"#64748b"}}>○ dark-ringed = C-rate &gt; 30 (assumed-capacity units)</span>
+      </div>
+      <div style={{marginTop:8,padding:8,background:"#f1f5f9",borderRadius:6,fontSize:10,color:"#64748b",lineHeight:1.6}}>
+        <strong style={{color:"#0f172a"}}>M358 (F21.r1) — axes:</strong> the primary axes are the peak charge current in A (logged by the BMS and read over OBD; no capacity assumption) and the drive peak charge power in kW (derived as logged HV current × logged HV voltage; the drive-level maximum, not co-timed with peak current by construction: across the {dg.impliedVoltageOverVmed?.n ?? "—"} drives with both values the implied voltage kW×1000/A is {dg.impliedVoltageOverVmed?.median ?? "—"}× the pack median voltage (IQR {dg.impliedVoltageOverVmed?.p25 ?? "—"}–{dg.impliedVoltageOverVmed?.p75 ?? "—"}), {dg.impliedVoltageOverVmed?.outside0p9to1p1Frac != null ? (100*dg.impliedVoltageOverVmed.outside0p9to1p1Frac).toFixed(1) : "—"}% of drives lie outside 0.9–1.1×, and the correlation of A with kW is {dg.corrAKw ?? "—"}). C-rate is a normalisation of A by the assumed pack capacity (C = A ÷ (CAP_KWH × 1000 ÷ pack median voltage), per drive; CAP_KWH = 2.1 kWh is unverified) and is shown secondary; the secondary axis uses the corpus-median C-per-A ratio {AXp.cPerA?.median ?? "—"} (half-IQR {AXp.cPerA?.halfIqrRel != null ? (100*AXp.cPerA.halfIqrRel).toFixed(1) : "—"}%, n={AXp.cPerA?.n ?? "—"}). The median reference line is a median of per-drive peaks on each axis separately (median A and median kW are not one operating point). Peak values are single-sample maxima on the raw/ basis, provenance-sensitive (F03).
       </div>
       <div style={{marginTop:8,padding:8,background:"#f1f5f9",borderRadius:6,fontSize:10,color:"#64748b",lineHeight:1.6}}>
         <strong style={{color:"#ef4444"}}>Cold-risk (&lt;{S.cRateRefLines?.zones?.coldBelowC ?? 20}°C):</strong> lithium plating risk at high C-rate — primary hazard on cold-morning city starts.{" "}
         <strong style={{color:"#22c55e"}}>Optimal ({S.cRateRefLines?.zones?.optimalLoC ?? 20}–{S.cRateRefLines?.zones?.optimalHiC ?? 40}°C):</strong> high C-rates well tolerated; main dataset cluster.{" "}
         <strong style={{color:"#f97316"}}>Heat-risk (≥{S.cRateRefLines?.zones?.heatAboveC ?? 44}°C):</strong> calendar aging accelerates; reached only in sustained summer highway driving. Dataset ceiling {S.tPeakC}°C (Sensor 1, {S.tPeakDrive}).{" "}
-        <strong style={{color:"#0f172a"}}>Charge-current extremes (dark ring):</strong> absolute peak {S.cRateRefLines?.dualPeakC ?? "—"}C ({S.peakChargeA ?? "—"}A) and pure-regen peak {S.cRateRefLines?.regenPeakC ?? "—"}C. The highest plotted peak ({M294.peakC}C) was co-timed with a {M294.peakT}°C pack; {M294.nColdPts} of {M294.nPts} peaks sit below the {M294.coldC}°C line (highest there {M294.maxColdC ?? "—"}C). C-rate convention: C = A ÷ ({S.constantProvenance?.CAP_KWH?.value ?? 2.1} kWh assumed capacity ÷ nominal pack voltage) — an ASSUMED Ah denominator, not a measured capacity; the current in A is the measured quantity.{" "}
+        <strong style={{color:"#0f172a"}}>Charge-current extremes (dark ring):</strong> absolute peak {S.cRateRefLines?.dualPeakC ?? "—"}C ({S.peakChargeA ?? "—"}A) and pure-regen peak {S.cRateRefLines?.regenPeakC ?? "—"}C. The highest plotted peak ({M294.peakC}C) was co-timed with a {M294.peakT}°C pack; {M294.nColdPts} of {M294.nPts} peaks sit below the {M294.coldC}°C line (highest there {M294.maxColdC ?? "—"}C). C-rate convention: C = A ÷ ({S.constantProvenance?.CAP_KWH?.value ?? 2.1} kWh assumed capacity ÷ nominal pack voltage) — an ASSUMED Ah denominator, not a measured capacity; the current in A is the logged quantity.{" "}
         <strong style={{color:"#7c3aed"}}>M58 (2026-07-27):</strong> the three reference lines were hand-typed, and one — a &ldquo;30.5C engine-only ceiling&rdquo; — had gone stale: engine-only and dual-channel peaks are now the <em>same</em> event ({S.cRateRefLines?.enginePeakDrive ?? "—"}), so the map was drawing two separately-labelled ceilings for one number. Lines and axis bounds are now derived from the master with headroom. The zone boundaries themselves remain <em>external</em> reference values, not measurements from this dataset: {S.cRateRefLines?.zones?.source ?? "generic Li-ion guidance."}{" "}
         <strong style={{color:"#7c3aed"}}>M239 (Deep Article Audit C1):</strong> each point's x-position previously used T1_peak — the drive's hottest reading ANYWHERE in the drive, not necessarily when the peak current occurred. Current and temperature are both logged on native timestamps, so this now pairs each drive's peak charge C-rate with battery temperature <em>at that exact sample</em> (asof-aligned, 3 s tolerance). Effect on this corpus: the median point moved 2°C (up to 16°C) toward the true co-timed reading; points move from the optimal band into the cold-risk zone (on the live payload {M294.nColdPts} of {M294.nPts} points sit below {S.cRateRefLines?.zones?.coldBelowC ?? 20}°C; highest there {M294.maxColdC ?? "—"}C); and 25 of the 49 points previously drawn in the heat-risk zone move out of it — those charge events happened at a cooler moment than the drive's separately-timed peak temperature. A drive-level fallback (T1_peak) is retained only for the small minority of drives lacking a raw current+temperature probe (early logs predating full PID coverage).
       </div>
@@ -10643,8 +10706,8 @@ export default function App() {
           <div style={{fontSize:11,color:"#64748b",marginBottom:10}}>{S.socVcmPoints.length} paired measurements across all drives. X = actual BMS SoC (internal). Y = what the driver sees on dashboard. Hover for exact values.</div>
           <BmsVcmChart/>
         </Section>
-        <Section title="1 — C-Rate vs Battery Temperature Risk Map" accent="#ef4444">
-          <div style={{fontSize:11,color:"#64748b",marginBottom:10}}>Each dot = one drive's peak charge C-rate (Y), paired with battery temperature at that exact moment (X — not the drive's overall peak, see M239 note below). Red zone = cold battery + high rate = lithium plating risk.</div>
+        <Section title="1 — Peak Charge Current, Power and C-Rate vs Battery Temperature Risk Map" accent="#ef4444">
+          <div style={{fontSize:11,color:"#64748b",marginBottom:10}}>Each dot = one drive's peak charge current (A, default), drive peak charge power (kW) or C-rate (Y, selector; C-rate is a normalisation by the unverified 2.1 kWh capacity), paired with battery temperature at the moment of the peak current (X — not the drive's overall peak, see M239 note below). Red zone = cold battery + high rate = lithium plating risk.</div>
           <div style={{fontSize:10,color:"#92400e",background:"#fffbeb",border:"1px solid #fde68a",borderRadius:6,padding:"6px 9px",marginBottom:8}}>The red-zone boundary is generic Li-ion guidance, not a pack-specific rating. {(() => { const n = (S.cRatePoints||[]).filter(p=>p[0] < (S.cRateRefLines?.zones?.coldBelowC ?? 20)).length; return n>0 ? <>{n} of {S.cRatePoints?.length ?? "—"} points DO fall inside it (coldest {Math.min(...(S.cRatePoints||[]).map(p=>p[0]))}°C) — this is an observed co-occurrence of cold pack and elevated charge current, not itself a measurement of plating; a genuinely cold-pack (sub-15°C) charge event, and any actual plating outcome, is still not observed here.</> : <>No drive in this corpus falls inside it — a genuinely cold-pack charge C-rate is asserted from chemistry, not observed here.</>; })()}</div>
           <CRateRiskMap/>
         </Section>
@@ -12116,7 +12179,7 @@ export default function App() {
           <ProvenanceBlock letter="C" title="Energy accounting">
             <p style={{marginTop:0}}>Power is integrated on native timestamps into discharge, charge, net and gross energy. Two metrics are kept for two questions, C-rate is reported as an instantaneous peak, and the energy integral carries a propagated uncertainty:</p>
             <p><strong style={{color:"#0f172a"}}>Dual-metric convention (important):</strong> Headline battery-work claims use <strong>gross throughput</strong> (discharge + charge cycled through the cells) ÷ {S.constantProvenance?.CAP_KWH?.value ?? 2.1} kWh (assumed normalization constant — unverified, not an OEM nameplate figure), per km or as GTC. <strong>Net discharge</strong> (net SoC change per km) is retained only as a methodological internal — it feeds the M13/M24 offset solve and the energy-residual closure — and is <em>not</em> reported as a headline figure (M35). The reason is structural, not cosmetic: on a clear majority of drives the battery ends at equal-or-higher SoC than it started because the engine over-recharges the buffer, so net draw measures where the buffer happened to land rather than how hard it was worked, and it degenerates toward zero or negative on exactly the longest drives. (No count is quoted here deliberately — the per-drive SoC-sign census is not a published pipeline key, and this study does not print figures that are not bound to one.) Neither metric is vehicle fuel efficiency — that would require a calibrated fuel measurement (the logged fuel rate is app-calculated and covers only a subset of drives). The two answer different questions and must not be mixed; gross runs ~2× net.</p>
-            <p><strong style={{color:"#0f172a"}}>C-rate reporting:</strong> The scatter plots each drive’s <strong>instantaneous peak</strong> charge C-rate (max of the eng-charge, dual and regen per-drive peaks) — single-sample maxima under the 1.5–3 s PID-alignment tolerance, <strong>not</strong> rolling/sustained values. No minimum-duration (e.g. 5–10 s) C-rate metric is currently computed, so these are labelled instantaneous, not sustained. Highest across the dataset is {Math.max(...S.cRatePoints.map(pt=>pt[1])).toFixed(1)} C (a brief regen transient); a rolling-duration peak requires raw re-processing and is a documented gap.</p>
+            <p><strong style={{color:"#0f172a"}}>C-rate reporting:</strong> (M358: the risk map now defaults to the logged peak current in A, with drive peak charge power in kW and the C-rate view as alternatives.) The scatter plots each drive’s <strong>instantaneous peak</strong> charge C-rate (max of the eng-charge, dual and regen per-drive peaks) — single-sample maxima under the 1.5–3 s PID-alignment tolerance, <strong>not</strong> rolling/sustained values. No minimum-duration (e.g. 5–10 s) C-rate metric is currently computed, so these are labelled instantaneous, not sustained. Highest across the dataset is {Math.max(...S.cRatePoints.map(pt=>pt[1])).toFixed(1)} C (a brief regen transient); a rolling-duration peak requires raw re-processing and is a documented gap.</p>
             {S.energyUncertaintyMC && (
             <div style={{background:"#f8fafc", border:"1px solid #cbd5e1", borderRadius:8, padding:16, margin:"12px 0"}}>
               <p style={{marginTop:0}}><strong style={{color:"#0f172a"}}>Energy-integral uncertainty propagation (M163, audit §5):</strong> the released gross throughput ({S.energyUncertaintyMC.grossThroughputMC.nominalReleasedThroughputKwh} kWh) quotes only the I/V-alignment-tolerance sweep as uncertainty. A Monte Carlo ({S.energyUncertaintyMC.grossThroughputMC.nDraws.toLocaleString()} draws) jointly propagating alignment tolerance (500–2000 ms, the audit's own tested range), ADC quantization on the raw current/voltage channels, and the energy plausibly hidden by the pipeline's 5 s integration-step cap on logging gaps gives a combined 95% Monte Carlo sensitivity interval (under the stated input-tolerance distributions -- not an empirical confidence interval or a Bayesian credible interval) of <strong>[{S.energyUncertaintyMC.grossThroughputMC.throughputKwh.p2_5}, {S.energyUncertaintyMC.grossThroughputMC.throughputKwh.p97_5}] kWh</strong> (median {S.energyUncertaintyMC.grossThroughputMC.throughputKwh.p50}, {S.energyUncertaintyMC.grossThroughputMC.throughputKwh.meanShiftFromNominalPct > 0 ? "+" : ""}{S.energyUncertaintyMC.grossThroughputMC.throughputKwh.meanShiftFromNominalPct}% mean shift from the released point value) — GTC [{S.energyUncertaintyMC.grossThroughputMC.gtc.p2_5}, {S.energyUncertaintyMC.grossThroughputMC.gtc.p97_5}], FCE [{S.energyUncertaintyMC.grossThroughputMC.fce.p2_5}, {S.energyUncertaintyMC.grossThroughputMC.fce.p97_5}] at the current CAP_KWH={S.constantProvenance?.CAP_KWH?.value ?? 2.1} convention. The interval is right-skewed rather than centred on the point value: both the gap-truncation term and most of the tolerance-widening effect can only add energy, never remove it. Per-source budget: alignment tolerance ±{S.energyUncertaintyMC.grossThroughputMC.sourceBudget.ivAlignmentToleranceOnlyPct}%, gap-truncation up to +{S.energyUncertaintyMC.grossThroughputMC.sourceBudget.gapTruncationOnlyMaxPct}%, ADC quantization ±{S.energyUncertaintyMC.grossThroughputMC.sourceBudget.quantizationOnlySdPct}% (negligible after averaging over thousands of samples per drive).</p>
