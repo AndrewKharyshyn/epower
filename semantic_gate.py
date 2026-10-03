@@ -123,6 +123,15 @@ ok("A2 REQUIRED cohort counts conserve: observed(warm+shoulder+cold) == observed
 ok("A2 REQUIRED identifiability box 'What the data cannot identify' with six limits and the payload Cold count", any("What the data cannot identify" in t and "uncalibrated vehicle reading" in t and "segregated from the primary corpus" in t and "assumed BSFC prior" in t for t in T.values()))
 # M357 (Crawl & Stop-Go callout)
 ok("A2 REQUIRED Crawl & Stop-Go callout: per-cycle ratio wording, regen-probability sentence (lowest peak-speed tercile), RPM onsets, F03 label, in all / warm / shoulder", all(any(all(x in T.get("distribution__" + m, "") for x in ("per-cycle ratio approach regen / launch discharge", "lowest peak-speed tercile", "RPM onsets: RPM from", "start type not separated", "no regen-direction energy at all")) for _ in [0]) for m in ("all", "warm", "shoulder")))
+# M362 (Engine ON/OFF cycling: distribution summary instead of min-max; short-trip denominator disclosed)
+_es = json.load(open("summary_arrays.json", encoding="utf-8"))["engineStartsByType"]
+_urb = next(x for x in _es if x["label"] == "Urban")
+_est_t = [t for k, t in T.items() if "Engine starts (RPM onsets) per 100 km" in t]
+ok("A2 REQUIRED M362 starts chart rendered with the new caption and footnote in the All / Warm / Shoulder dumps", len(_est_t) >= 3)
+ok("A2 REQUIRED M362 chart wording (detector-defined RPM onsets, not ignition or cold-start events; denominator-unstable; descriptive display threshold; M343 pooled diamond with CI; F03) and no min-max headline",
+   bool(_est_t) and all(all(x in t for x in ("detector-defined RPM onsets", "not verified ignition or cold-start events", "denominator-unstable", "descriptive display threshold, never an exclusion", "provenance-sensitive (F03)")) for t in _est_t))
+ok("A2 REQUIRED M362 urban row n and short-drive count bound to the payload (All dump)", any(("n=%d drives, %d days" % (_urb["n"], _urb["nDays"])) in t and ("%d under %s km" % (_urb["nShort"], int(_urb["shortKm"]))) in t for k, t in T.items() if k.endswith("__all") and "Engine starts (RPM onsets) per 100 km" in t))
+ok("A2 REQUIRED M362 urban maximum described as a short drive in the footnote (All dump)", any(("Urban maximum %d per 100 km on a %s km drive" % (_urb["hi"], _urb["maxKm"])) in t for k, t in T.items() if k.endswith("__all") and "Engine starts (RPM onsets) per 100 km" in t))
 # M360 (GTR Sankey default-visible with explicit residual branches; Director ruling analyses/M360_spec.md)
 _zc = json.load(open("summary_arrays.json", encoding="utf-8"))["generatorTractionRecon"]["gtrClosure"]
 _pcs = lambda v: ("+" if v > 0 else "") + ("%.2f" % (v * 100)) + "%"
