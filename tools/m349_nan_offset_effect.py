@@ -28,11 +28,20 @@ affected = [f for f in fr['file'] if f in nan_off]
 const = float(dm['I_offset_A_applied'].dropna().median())
 uniq = int(dm['I_offset_A_applied'].dropna().round(6).nunique())
 
+def boot_fgen(frame, seed=42, B=4000):
+    # day-clustered percentile bootstrap of fGen = sum(g2t*km)/sum(trac_gross*km) on the clean set (f_gen not NaN)
+    c = frame[frame['f_gen'].notna()].copy()
+    c['a'] = c['gen_to_traction_kWh_100'] * c['distance_km']; c['b'] = c['traction_gross_kWh_100'] * c['distance_km']
+    d = c.groupby('date')[['a', 'b']].sum(); A = d['a'].to_numpy(); Bv = d['b'].to_numpy(); n = len(d)
+    rng = np.random.default_rng(seed); idx = rng.integers(0, n, size=(B, n))
+    est = A[idx].sum(1) / Bv[idx].sum(1)
+    return {'fGen': float(A.sum() / Bv.sum()), 'ci95': [float(np.percentile(est, 2.5)), float(np.percentile(est, 97.5))], 'nDrives': int(len(c)), 'nDays': int(n), 'seed': seed, 'draws': B}
+
 def agg(frame, label='All'):
     mm = frame.merge(sdm, on='file', how='left')
     a = aggregate(mm, label, cc['all'])
     return {'nProduction': a['nProduction'], 'nDrives': a['nDrives'], 'km': a['kmProduction'], 'corpus': a['corpus'],
-            'genToTraction': a['flows']['genToTraction'], 'battToTraction': a['flows']['battToTraction']}
+            'fGenBoot': boot_fgen(frame), 'genToTraction': a['flows']['genToTraction'], 'battToTraction': a['flows']['battToTraction']}
 
 out = {'affectedPublishedRows': affected, 'nanOffsetDrivesInMaster': len(nan_off), 'appliedOffsetDistinctValues': uniq,
        'corpusConstantOffsetA': const, 'storedCorpus': stored, 'variants': {}, 'perDrive': {}}
@@ -46,6 +55,10 @@ for lab, off in (('offset_corpus_constant', const), ('offset_zero', 0.0)):
         if r: rows.append(r)
     new = pd.concat([fr[~fr['file'].isin(affected)], pd.DataFrame(rows)], ignore_index=True)
     out['variants'][lab] = agg(new)
+out['scanBattZeroFgen1'] = [f for f, b, g in zip(fr['file'], fr['batt_to_traction_kWh_100'], fr['f_gen']) if b == 0 and g == 1]
+out['nanOffsetRootCause'] = {'stamp': 'compute_drive_summary_v6._v5_postprocess_master: I_offset_A_applied = i_off where mask(energy_residual_kwh, duration_s, V_pack_median all notna), else NaN; i_off is one global value (calibration log or SoC-anchored global)',
+    'nanRows': {f: {'energy_residual_nan': bool(pd.isna(m[f]['energy_residual_kwh'])), 'V_pack_median_nan': bool(pd.isna(m[f]['V_pack_median'])),
+                   'hasFuelPid': bool(FR._has_fuel(RE.BASE + f)), 'inFuelRecon': bool(f in set(fr['file']))} for f in sorted(nan_off)}}
 out['controlMatchesStored'] = all(abs(out['variants']['published_control']['corpus'][k] - stored[k]) < 1e-9 for k in stored)
 for f in affected:
     r = fr[fr['file'] == f].iloc[0]

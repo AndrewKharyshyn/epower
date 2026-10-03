@@ -29,6 +29,17 @@
     "etaEng": 0.353,
     "etaBus": 0.327
    },
+   "fGenBoot": {
+    "fGen": 0.46745041925599096,
+    "ci95": [
+     0.38364132436469317,
+     0.5447559998235302
+    ],
+    "nDrives": 260,
+    "nDays": 50,
+    "seed": 42,
+    "draws": 4000
+   },
    "genToTraction": 8.64,
    "battToTraction": 9.85
   },
@@ -44,6 +55,17 @@
     "fuelChem": 48.91,
     "etaEng": 0.353,
     "etaBus": 0.327
+   },
+   "fGenBoot": {
+    "fGen": 0.4657082928171028,
+    "ci95": [
+     0.38073772816760587,
+     0.5441550540161817
+    ],
+    "nDrives": 258,
+    "nDays": 50,
+    "seed": 42,
+    "draws": 4000
    },
    "genToTraction": 8.61,
    "battToTraction": 9.88
@@ -61,6 +83,17 @@
     "etaEng": 0.353,
     "etaBus": 0.327
    },
+   "fGenBoot": {
+    "fGen": 0.46559979380735916,
+    "ci95": [
+     0.3810586471041718,
+     0.5441433400323797
+    ],
+    "nDrives": 260,
+    "nDays": 50,
+    "seed": 42,
+    "draws": 4000
+   },
    "genToTraction": 8.62,
    "battToTraction": 9.89
   },
@@ -76,6 +109,17 @@
     "fuelChem": 48.92,
     "etaEng": 0.353,
     "etaBus": 0.327
+   },
+   "fGenBoot": {
+    "fGen": 0.46562824462216285,
+    "ci95": [
+     0.3811136780194102,
+     0.5441433400323797
+    ],
+    "nDrives": 260,
+    "nDays": 50,
+    "seed": 42,
+    "draws": 4000
    },
    "genToTraction": 8.62,
    "battToTraction": 9.89
@@ -123,6 +167,99 @@
    "batt_to_traction_kWh_100": 0.0,
    "traction_gross_kWh_100": 14.985,
    "f_gen": 1.0
+  }
+ },
+ "scanBattZeroFgen1": [
+  "20260813_145651.csv",
+  "20260813_150341.csv"
+ ],
+ "nanOffsetRootCause": {
+  "stamp": "compute_drive_summary_v6._v5_postprocess_master: I_offset_A_applied = i_off where mask(energy_residual_kwh, duration_s, V_pack_median all notna), else NaN; i_off is one global value (calibration log or SoC-anchored global)",
+  "nanRows": {
+   "20260511_185709.csv": {
+    "energy_residual_nan": true,
+    "V_pack_median_nan": true,
+    "hasFuelPid": true,
+    "inFuelRecon": false
+   },
+   "20260512_111617.csv": {
+    "energy_residual_nan": true,
+    "V_pack_median_nan": true,
+    "hasFuelPid": false,
+    "inFuelRecon": false
+   },
+   "20260512_195020.csv": {
+    "energy_residual_nan": true,
+    "V_pack_median_nan": true,
+    "hasFuelPid": true,
+    "inFuelRecon": false
+   },
+   "20260512_215542.csv": {
+    "energy_residual_nan": true,
+    "V_pack_median_nan": true,
+    "hasFuelPid": false,
+    "inFuelRecon": false
+   },
+   "20260513_180335.csv": {
+    "energy_residual_nan": true,
+    "V_pack_median_nan": true,
+    "hasFuelPid": false,
+    "inFuelRecon": false
+   },
+   "20260513_224232.csv": {
+    "energy_residual_nan": true,
+    "V_pack_median_nan": true,
+    "hasFuelPid": false,
+    "inFuelRecon": false
+   },
+   "20260514_080426.csv": {
+    "energy_residual_nan": true,
+    "V_pack_median_nan": true,
+    "hasFuelPid": false,
+    "inFuelRecon": false
+   },
+   "20260514_093059.csv": {
+    "energy_residual_nan": true,
+    "V_pack_median_nan": true,
+    "hasFuelPid": false,
+    "inFuelRecon": false
+   },
+   "20260514_094436.csv": {
+    "energy_residual_nan": true,
+    "V_pack_median_nan": true,
+    "hasFuelPid": false,
+    "inFuelRecon": false
+   },
+   "20260515_074031.csv": {
+    "energy_residual_nan": true,
+    "V_pack_median_nan": true,
+    "hasFuelPid": false,
+    "inFuelRecon": false
+   },
+   "20260813_145651.csv": {
+    "energy_residual_nan": true,
+    "V_pack_median_nan": true,
+    "hasFuelPid": true,
+    "inFuelRecon": true
+   },
+   "20260813_150341.csv": {
+    "energy_residual_nan": true,
+    "V_pack_median_nan": true,
+    "hasFuelPid": true,
+    "inFuelRecon": true
+   },
+   "20260816_124817.csv": {
+    "energy_residual_nan": true,
+    "V_pack_median_nan": true,
+    "hasFuelPid": false,
+    "inFuelRecon": false
+   },
+   "20260816_144003.csv": {
+    "energy_residual_nan": true,
+    "V_pack_median_nan": true,
+    "hasFuelPid": false,
+    "inFuelRecon": false
+   }
   }
  },
  "controlMatchesStored": true
