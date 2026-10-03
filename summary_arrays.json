@@ -57209,82 +57209,82 @@
     "provenance": "proxy:n_sign_crossings (pack-current direction reversals, not engine starts; the RPM-onset engine-start rate is S.engineStartRate)",
     "data": {
      "all": {
-      "value": 918.5792519684098,
+      "value": 928.2492412035823,
       "unit": "reversals/100 km",
       "estimator": "events_ratio_of_sums",
-      "nEligible": 434,
-      "nPool": 446,
+      "nEligible": 477,
+      "nPool": 489,
       "provenance": "proxy:n_sign_crossings (pack-current direction reversals, not engine starts; the RPM-onset engine-start rate is S.engineStartRate)",
       "status": "computed",
       "ci95": {
-       "lo": 853.2,
-       "hi": 1018.9,
+       "lo": 860.3,
+       "hi": 1028.9,
        "method": "percentile bootstrap, cluster = calendar day",
        "B": 4000,
        "seed": 20260919,
-       "nClusters": 93,
-       "essDays": 28.29
+       "nClusters": 101,
+       "essDays": 29.43
       }
      },
      "warm": {
-      "value": 899.9532845978057,
+      "value": 905.3236690827295,
       "unit": "reversals/100 km",
       "estimator": "events_ratio_of_sums",
-      "nEligible": 361,
-      "nPool": 366,
+      "nEligible": 382,
+      "nPool": 387,
       "provenance": "proxy:n_sign_crossings (pack-current direction reversals, not engine starts; the RPM-onset engine-start rate is S.engineStartRate)",
       "status": "computed",
       "ci95": {
-       "lo": 835.1,
-       "hi": 994.9,
+       "lo": 838.9,
+       "hi": 1001.6,
        "method": "percentile bootstrap, cluster = calendar day",
        "B": 4000,
        "seed": 20260919,
-       "nClusters": 88,
-       "essDays": 25.77
+       "nClusters": 91,
+       "essDays": 26.27
       }
      },
      "shoulder": {
-      "value": 1254.439486385575,
+      "value": 1263.4960959390294,
       "unit": "reversals/100 km",
       "estimator": "events_ratio_of_sums",
-      "nEligible": 73,
-      "nPool": 80,
+      "nEligible": 93,
+      "nPool": 100,
       "provenance": "proxy:n_sign_crossings (pack-current direction reversals, not engine starts; the RPM-onset engine-start rate is S.engineStartRate)",
       "status": "computed",
       "ci95": {
-       "lo": 1067.7,
-       "hi": 1463.9,
+       "lo": 1099.3,
+       "hi": 1431.8,
        "method": "percentile bootstrap, cluster = calendar day",
        "B": 4000,
        "seed": 20260919,
-       "nClusters": 24,
-       "essDays": 10.17
+       "nClusters": 31,
+       "essDays": 13.85
       }
      },
      "cold": null
     },
     "coverage": {
      "all": {
-      "n_drives": 446,
-      "km": 8559.94,
-      "independent_days": 96,
+      "n_drives": 489,
+      "km": 8740.24,
+      "independent_days": 104,
       "date_range": [
        "2026-05-11",
-       "2026-09-22"
+       "2026-09-30"
       ],
       "ambient_range_c": [
-       7.5,
+       5.0,
        37.0
       ]
      },
      "warm": {
-      "n_drives": 366,
-      "km": 8099.7,
-      "independent_days": 90,
+      "n_drives": 387,
+      "km": 8181.4,
+      "independent_days": 93,
       "date_range": [
        "2026-05-11",
-       "2026-09-20"
+       "2026-09-30"
       ],
       "ambient_range_c": [
        15.0,
@@ -57292,12 +57292,12 @@
       ]
      },
      "shoulder": {
-      "n_drives": 80,
-      "km": 460.24,
-      "independent_days": 26,
+      "n_drives": 100,
+      "km": 556.34,
+      "independent_days": 33,
       "date_range": [
        "2026-05-12",
-       "2026-09-22"
+       "2026-09-29"
       ],
       "ambient_range_c": [
        7.5,
@@ -57317,7 +57317,9 @@
     },
     "supersededBy": "EngineStartRate (pooled RPM-onset engine-start rate, M343) and EngineStartsByType (unweighted mean of per-drive RPM-onset rates)",
     "provenanceNote": "Retained as a coarse scalar of pack-current direction reversals; it is a different quantity from engine starts (RPM onsets, S.engineStartRate) and is not compared with them. The proxy is not promoted.",
-    "eligibilityRevision": "M285b: km>0 added to the eligibility rule (was: n_sign_crossings non-null only). The dataset carries one drive with distance_km=-2.5 (20260906_122920, odometer glitch) that entered the shoulder cohort denominator; EnergyIntensity already excluded it. Shoulder 1232.6 -> 1221.4, All 911.9 -> 911.5. | M291: recomputed against the corrected master (drive 20260906_122920 distance_km -2.5 -> 0.44, now km>0-eligible). All nEligible 397 -> 398, All value 911.52 -> 911.62; shoulder picks up the repaired drive."
+    "eligibilityRevision": "M285b: km>0 added to the eligibility rule (was: n_sign_crossings non-null only). The dataset carries one drive with distance_km=-2.5 (20260906_122920, odometer glitch) that entered the shoulder cohort denominator; EnergyIntensity already excluded it. Shoulder 1232.6 -> 1221.4, All 911.9 -> 911.5. | M291: recomputed against the corrected master (drive 20260906_122920 distance_km -2.5 -> 0.44, now km>0-eligible). All nEligible 397 -> 398, All value 911.52 -> 911.62; shoulder picks up the repaired drive.",
+    "basisNDrives": 489,
+    "refreshedBy": "M344 (refresh_seasonal_kpis.py)"
    },
    "CohortExposure": {
     "dependencyClass": "exposure",
@@ -76271,7 +76273,8 @@
    "refreshedCharts": {
     "keys": [
      "EnergyIntensity",
-     "CohortExposure"
+     "CohortExposure",
+     "StartsPer100km"
     ],
     "milestone": "M295",
     "basisNDrives": 489,
