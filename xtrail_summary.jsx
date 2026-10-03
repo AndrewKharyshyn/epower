@@ -558,7 +558,7 @@ const ASSUMPTION_KLASS = {
   literature:           {label:"Literature value",      fg:"#7c3aed", bg:"#f5f3ff", bd:"#ddd6fe"},
   assumed:              {label:"Assumed",               fg:"#b45309", bg:"#fffbeb", bd:"#fde68a"},
   policy:               {label:"Analysis policy",       fg:"#475569", bg:"#f8fafc", bd:"#cbd5e1"},
-  derived_per_drive:    {label:"Derived per drive",     fg:"#7c3aed", bg:"#faf5ff", bd:"#e9d5ff"},
+  derived_corpus_constant: {label:"Derived, corpus constant", fg:"#7c3aed", bg:"#faf5ff", bd:"#e9d5ff"},
 };
 function AssumptionsRegistryTable({ reg }) {
   const rows = (reg && reg.entries) || [];

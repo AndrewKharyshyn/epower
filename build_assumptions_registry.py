@@ -17,7 +17,7 @@ Entry schema (all fields required):
   raw        machine value (number | list | dict) as read from source
   unit       unit string ('' if dimensionless)
   klass      one of: measured_external | nameplate_unverified | literature |
-                     assumed | policy | derived_per_drive
+                     assumed | policy | derived_corpus_constant
   verified   bool  (True only if checked against an authoritative document)
   source     provenance string
   usedBy     list of pipeline outputs that scale with / depend on it
@@ -31,7 +31,16 @@ import argparse, json, os, sys
 import model_constants as MC
 
 KLASSES = ("measured_external", "nameplate_unverified", "literature", "assumed",
-           "policy", "derived_per_drive")
+           "policy", "derived_corpus_constant")
+# M353: registry entry id -> model_constants symbols whose class (MC.CONSTANT_CLASS) the entry carries; all components must agree.
+CLASS_SOURCES = {"fuel_density": ["RHO_G_PER_L"], "fuel_lhv": ["LHV_MJ_PER_KG"], "bsfc_surface": ["BSFC", "BSFC_FLOOR"],
+                 "eta_gen_pe": ["ETA_GEN", "ETA_PE"], "p_aux": ["P_AUX_KW"], "cold_gate_engine": ["COLD_OIL_T_C", "COLD_T_C"]}
+
+
+def _klass(entry_id):
+    cs = {MC.CONSTANT_CLASS[s] for s in CLASS_SOURCES[entry_id]}
+    assert len(cs) == 1 and next(iter(cs)) in KLASSES, (entry_id, cs)
+    return next(iter(cs))
 FIELDS = ("id", "symbol", "label", "value", "raw", "unit", "klass", "verified",
           "source", "usedBy", "sensitivity", "band")
 
@@ -107,16 +116,16 @@ def build(cfg, arr):
     # ---- fuel / generator chain -------------------------------------------
     lo = lambda t: [t[1], t[2]]
     add(id="fuel_density", symbol="RHO_G_PER_L", label="E10 fuel density", raw=MC.RHO_G_PER_L[0],
-        value=f"{_f(MC.RHO_G_PER_L[0])} g/L", unit="g/L", klass="literature", verified=False,
+        value=f"{_f(MC.RHO_G_PER_L[0])} g/L", unit="g/L", klass=_klass("fuel_density"), verified=False,
         source="EN 228 E10 @15 degC; fuel volume to mass only", usedBy=["fuel mass", "BSFC engine energy"],
         sensitivity="Engine/generator energy scales linearly with density.", band=lo(MC.RHO_G_PER_L))
     add(id="fuel_lhv", symbol="LHV_MJ_PER_KG", label="E10 lower heating value", raw=MC.LHV_MJ_PER_KG[0],
-        value=f"{_f(MC.LHV_MJ_PER_KG[0])} MJ/kg", unit="MJ/kg", klass="literature", verified=False,
+        value=f"{_f(MC.LHV_MJ_PER_KG[0])} MJ/kg", unit="MJ/kg", klass=_klass("fuel_lhv"), verified=False,
         source="E10 literature value", usedBy=["fuel chemical energy", "thermal efficiency"],
         sensitivity="Affects chemical-energy and efficiency only; not the BSFC-derived generator energy.", band=lo(MC.LHV_MJ_PER_KG))
     add(id="bsfc_surface", symbol="BSFC (regime table)", label="BSFC by regime (central)", raw=dict((k, v[0]) for k, v in MC.BSFC.items()),
         value="; ".join(f"{k} {_f(v[0])}" for k, v in MC.BSFC.items()) + f" g/kWh (floor {_f(MC.BSFC_FLOOR)})", unit="g/kWh",
-        klass="literature", verified=False,
+        klass=_klass("bsfc_surface"), verified=False,
         source="Nissan TR No.89 minimum (217 g/kWh @ 2000 rpm) used as floor; regime centrals are modelled",
         usedBy=["generator energy", "f_gen", "generator to traction split"],
         sensitivity=_bsfc_sens(arr),
@@ -124,11 +133,11 @@ def build(cfg, arr):
     add(id="eta_gen_pe", symbol="ETA_GEN x ETA_PE", label="Generator x power-electronics efficiency",
         raw={"eta_gen": MC.ETA_GEN[0], "eta_pe": MC.ETA_PE[0]},
         value=f"{_f(MC.ETA_GEN[0])} x {_f(MC.ETA_PE[0])} = {MC.ETA_GEN[0]*MC.ETA_PE[0]:.3f}", unit="",
-        klass="literature", verified=False, source="PM machine + rectifier literature range",
+        klass=_klass("eta_gen_pe"), verified=False, source="PM machine + rectifier literature range",
         usedBy=["generator electrical energy", "f_gen"], sensitivity="Generator energy scales proportionally.",
         band=[round(MC.ETA_GEN[1]*MC.ETA_PE[1], 4), round(MC.ETA_GEN[2]*MC.ETA_PE[2], 4)])
     add(id="p_aux", symbol="P_AUX_KW", label="Drive-constant auxiliary HV load", raw=MC.P_AUX_KW[0],
-        value=f"{_f(MC.P_AUX_KW[0])} kW", unit="kW", klass="assumed", verified=False,
+        value=f"{_f(MC.P_AUX_KW[0])} kW", unit="kW", klass=_klass("p_aux"), verified=False,
         source="not separable in motion; standstill median ~1.2 kW measured, in-motion value assumed",
         usedBy=["traction demand", "f_gen"], sensitivity="+/-1 kW moves traction demand by less than 1 kWh/100 km.", band=lo(MC.P_AUX_KW))
 
@@ -136,7 +145,7 @@ def build(cfg, arr):
     add(id="cold_gate_engine", symbol="COLD_OIL_T_C / COLD_T_C", label="Engine cold-start gate",
         raw={"oil_c": MC.COLD_OIL_T_C, "coolant_c": MC.COLD_T_C, "cold_mult": MC.COLD_MULT[0]},
         value=f"oil < {_f(MC.COLD_OIL_T_C)} degC (coolant < {_f(MC.COLD_T_C)} degC fallback); BSFC x{_f(MC.COLD_MULT[0])}", unit="degC",
-        klass="assumed", verified=False, source="empirical enrichment zone; oil temperature persists across e-POWER restarts",
+        klass=_klass("cold_gate_engine"), verified=False, source="empirical enrichment zone; oil temperature persists across e-POWER restarts",
         usedBy=["cold-fuel fraction", "generator energy"], sensitivity="Cold penalty OFF / x1.45 bracket the generator estimate (see sensitivity table).",
         band=[MC.COLD_MULT[1], MC.COLD_MULT[2]])
     th = sm["thresholds"]
@@ -150,10 +159,24 @@ def build(cfg, arr):
         source="declared front-end gate (M284); cohort disabled below this count, never silently replaced by all-data",
         usedBy=["cohort selector availability"], sensitivity="Lower values enable thinner cohorts; the Cold cohort currently has "
         + str(sm["cohortCounts"]["cold"]) + " drives.")
-    add(id="i_offset", symbol="I_offset_A_applied", label="BMS current offset (per drive)", raw=None,
-        value="fitted per drive (two-pass solve)", unit="A", klass="derived_per_drive", verified=False,
-        source="M13/M24 SoC-anchored solve; uncertainty sigma " + _f(MC.I_OFFSET_SIGMA_A) + " A carried in Monte Carlo",
-        usedBy=["gross/net energy", "GTC"], sensitivity="Sign-checked per drive; bracketed by the day-cluster bootstrap in Methodology B.")
+    ou = arr["offsetUncertainty"]; cs_ = ou["correctionScope"]; og = arr["energyUncertaintyMC"]["offsetGrossSensitivity"]
+    import pandas as _pd
+    _dm = _pd.read_csv("drive_master.csv", low_memory=False)
+    _v5 = _dm["I_offset_A_applied"].dropna().round(4); _p2 = _dm["I_offset_2p_A_applied"].dropna().round(4)
+    assert _v5.nunique() == 1 and _p2.nunique() == 1 and abs(float(_p2.iloc[0]) - ou["pointEstimateA"]) < 1e-4, "offset is no longer single-valued: rewrite this entry"
+    add(id="i_offset", symbol="I_offset_2p_A_applied", label="BMS current offset (one corpus-wide constant, re-solved per corpus build)", raw=ou["pointEstimateA"],
+        value=f'{_f(ou["pointEstimateA"])} A (two-pass solve; 95% CI {_f(ou["ci95A"][0])} to {_f(ou["ci95A"][1])}; v5 single-pass {_f(float(_v5.iloc[0]))} A)', unit="A",
+        klass="derived_corpus_constant", verified=False,
+        source=(f'M24/M107 two-pass SoC-anchored solve, estimated (not measured): fitted on the {ou["nDrives"]} domain-clean drives ({ou["nDays"]} days; excludes f_domain_2p), '
+                f'day-cluster bootstrap CI; stamped on the {int(_p2.size)} drives that have a SoC-anchored energy residual and subtracted from every drive with V_pack_median and duration; '
+                f'the v5 single-pass value feeds the retired net_draw_*_corr columns; coupled to the unverified CAP_KWH (capacitySensitivity); '
+                f'extra uncertainty sigma {_f(MC.I_OFFSET_SIGMA_A)} A carried in Monte Carlo'),
+        usedBy=list(cs_["appliesTo"]),
+        sensitivity=(f'Net-draw and residual correction only: not applied to gross throughput, GTC or FCE (released convention; notAppliedTo: {", ".join(cs_["notAppliedTo"])}). '
+                     f'The corrected energy residual is the SoC-anchored residual minus the offset energy; it sums to about zero on the fit set by construction and depends on CAP_KWH, so it is not an independent validation. '
+                     f'Applying the offset before the discharge/charge split would raise gross throughput by {_f(og["throughputShiftPct"])} % ({_f(og["throughputShiftKwh"])} kWh; energyUncertaintyMC.offsetGrossSensitivity). '
+                     f'Point and interval are method-dependent (day-cluster bootstrap, Methodology B).'),
+        band=list(ou["ci95A"]))
     return E
 
 
