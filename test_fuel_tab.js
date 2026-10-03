@@ -24,7 +24,7 @@ const sec=(re)=>{const h=[...d.querySelectorAll('h2')].find(x=>x.textContent.inc
   const navTabs=[...d.querySelectorAll('button')].map(b=>b.textContent.trim().toLowerCase());
   ok('T1 "fuel" tab button exists', navTabs.includes('fuel'));
   ok('T1 Fuel tab: banner, GTR section, SoC-balanced fuel, cold-start association', await tab('fuel')&&!!d.querySelector('[data-fuel-banner]')&&has(T_GTR)&&has(T_SB)&&has(T_TF), JSON.stringify(heads()));
-  ok('T1 Fuel tab: GTR accounting table visible, no Sankey before reveal', !!d.querySelector('[data-gtr-accounting]')&&d.querySelectorAll('svg[data-gtr-sankey]').length===0);
+  ok('T1 Fuel tab: GTR accounting table and the Sankey with residual branches visible by default (M360)', !!d.querySelector('[data-gtr-accounting]')&&d.querySelectorAll('svg[data-gtr-sankey]').length>=1&&!!d.querySelector('[data-gtr-residual="generator"]'));
   ok('T1 Fuel tab: no 4b prefix in the GTR title', !heads().some(h=>/^4b/.test(h)));
   await tab('charts');
   ok('T1 Charts tab: the three fuel views are gone, EnergyArchitecture stays and links to Fuel', !has(T_GTR)&&!has(T_SB)&&!has(T_TF)&&has('e-POWER Architecture')&&!!d.querySelector('[data-fuel-link-charts]'), JSON.stringify(heads()));

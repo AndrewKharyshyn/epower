@@ -123,6 +123,14 @@ ok("A2 REQUIRED cohort counts conserve: observed(warm+shoulder+cold) == observed
 ok("A2 REQUIRED identifiability box 'What the data cannot identify' with six limits and the payload Cold count", any("What the data cannot identify" in t and "uncalibrated vehicle reading" in t and "segregated from the primary corpus" in t and "assumed BSFC prior" in t for t in T.values()))
 # M357 (Crawl & Stop-Go callout)
 ok("A2 REQUIRED Crawl & Stop-Go callout: per-cycle ratio wording, regen-probability sentence (lowest peak-speed tercile), RPM onsets, F03 label, in all / warm / shoulder", all(any(all(x in T.get("distribution__" + m, "") for x in ("per-cycle ratio approach regen / launch discharge", "lowest peak-speed tercile", "RPM onsets: RPM from", "start type not separated", "no regen-direction energy at all")) for _ in [0]) for m in ("all", "warm", "shoulder")))
+# M360 (GTR Sankey default-visible with explicit residual branches; Director ruling analyses/M360_spec.md)
+_zc = json.load(open("summary_arrays.json", encoding="utf-8"))["generatorTractionRecon"]["gtrClosure"]
+_pcs = lambda v: ("+" if v > 0 else "") + ("%.2f" % (v * 100)) + "%"
+_excess = _pcs(_zc["nodeExcess"]["relToGenerator"])
+for _m in ("all", "warm", "shoulder", "compare"):
+    _t = T.get("fuel__" + _m, "")
+    ok(f"A2 REQUIRED M360 Fuel {_m} dump: Sankey note (reconstructed not measured; node not closed with residual {_excess}; residual not distributed; f_gen includes 0.5; F03) and no reveal-button wording",
+       all(x in _t for x in ("Reconstructed (model-derived) flows, not measured", "The generator node is not closed: residual " + _excess, "the residual is shown as a hatched branch and is not distributed", "includes 0.5: neither a battery majority nor a generator majority is established", "provenance-sensitive (F03)", "unallocated residual", "canonical-clean (ens_outlier_v2 excluded", "rest on slightly different drive sets")) and "Show allocation sketch" not in _t)
 # M359 (B-HandoffSequence): marginal medians are not one realised sequence; resolution band; counts bound to the payload
 _hs = json.load(open("summary_arrays.json", encoding="utf-8"))["handoffSequence"]
 _o = _hs["modalOrderings"]

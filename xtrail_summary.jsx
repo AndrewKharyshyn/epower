@@ -4422,8 +4422,7 @@ function RTPctBar({ data, valueKey, color }) {
       shared scale, so fuel visibly dwarfs delivered traction. Every figure binds
       to F.* (S.generatorTractionRecon.flows) — nothing hand-typed. ── */
 function RTFlowSchematic({ F, corpus, scale }) {
-  const revealed = React.useContext(GtrRevealCtx);      // M333: never renders outside an explicit reveal
-  if (!F || !corpus || !revealed) return null;
+  if (!F || !corpus) return null;                        // M360: always rendered (explicit residual branches below); was reveal-gated since M333
   const CFUEL="#64748b", CCOMB="#c2410c", CELEC="#7c3aed", CBATT="#0f766e",
         CREGEN="#22c55e", CLOSS="#cbd5e1";
   const s = (scale!=null && isFinite(scale)) ? scale : 130 / F.fuelChem;   // M277: shared px-per-(kWh/100km) scale for compare small-multiples; default = self-scale
@@ -4458,11 +4457,17 @@ function RTFlowSchematic({ F, corpus, scale }) {
   const GAP2=40;
   const yCo=T2, yBt=T2+hCo+GAP2;          // two feeds stacked at the left
   const yTr=T2;                            // traction node top
-  const subLabelY=yCo+hCo+14, subLabel2Y=yBt+hBt+14, legY=subLabel2Y+20;
+  // M360: explicit residual branches at the SAME px scale as every other flow; values from the accounting helper (one computation, same as the table)
+  const ACC = gtrAccounting(F);
+  const resG = ACC.genExcess, resB = ACC.battResidRaw;
+  const hResG = Math.max(Math.abs(px(resG)), 5), hResB = Math.max(Math.abs(px(resB)), 5);
+  const fmtRes = v => (v>0?"+":"") + v.toFixed(2);
+  const subLabelY=yCo+hCo+14, subLabel2Y=yBt+hBt+14, legY=subLabel2Y+22+hResB+8;
   const viewBoxH=legY+20;
 
   return (
     <svg data-gtr-sankey="1" width="100%" viewBox={`0 0 ${VBW} ${viewBoxH}`} style={{overflow:"visible"}}>
+      <defs><pattern id="gtrHatch" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="4" height="4" fill="#fff7ed"/><line x1="0" y1="0" x2="0" y2="4" stroke="#dc2626" strokeWidth="1.6"/></pattern></defs>
       {/* ============ TIER 1 — generation cascade (allocation sketch, not conserved) ============ */}
       {L(30,18,"1 · Fuel \u2192 HV bus  (allocation sketch, not conserved)","#0f172a","start",800,9.5)}
       {/* Fuel -> Engine brake (top slice) and Fuel -> heat loss (bottom slice) */}
@@ -4507,6 +4512,17 @@ function RTFlowSchematic({ F, corpus, scale }) {
       {L(xSrc,subLabel2Y,`in ${(F.genToBatt+F.regenToBatt).toFixed(1)} (gen ${F.genToBatt} + regen ${F.regenToBatt}) \u00b7 unclosed remainder ${(gtrAccounting(F).battResidRaw>=0?"+":"")}${gtrAccounting(F).battResidRaw.toFixed(1)}`,"#64748b")}
       {L(xTr+nb+2,yTr+hTr/2-3,"Traction","#6d28d9","start",800)}
       {L(xTr+nb+2,yTr+hTr/2+7,`gross ${F.tractionGross}`,"#6d28d9")}
+
+      {/* M360: unallocated residuals (not distributed, not a loss): generator node (branches minus generator output) and battery node (inflow minus battery -> traction) */}
+      <g data-gtr-residual="generator" data-gtr-residual-value={resG}>
+        <rect x={xG+nb+6} y={T} width={13} height={hResG} fill="url(#gtrHatch)" stroke="#dc2626" strokeWidth={1} strokeDasharray="2 1"/>
+        {L(xG+nb+22,T+7,"unallocated residual","#b91c1c","start",800,7.5)}
+        {L(xG+nb+22,T+16,`${fmtRes(resG)} (branches − generator; not distributed)`,"#b91c1c","start",600,6.5)}
+      </g>
+      <g data-gtr-residual="battery" data-gtr-residual-value={resB}>
+        <rect x={xSrc+80-13} y={subLabel2Y+6} width={13} height={hResB} fill="url(#gtrHatch)" stroke="#dc2626" strokeWidth={1} strokeDasharray="2 1"/>
+        {L(xSrc+80+4,subLabel2Y+6+hResB/2+3,`unallocated residual ${fmtRes(resB)} (inflow − battery arm; not distributed)`,"#b91c1c","start",600,6.5)}
+      </g>
 
       {/* legend */}
       <g>
@@ -4572,7 +4588,7 @@ function HealthStatusCard(){
 // M351 (p23.16): one p-value formatter. Payload p-values are rounded to 4 dp, so 0 means p < 0.00005 and is shown as p<0.001.
 function fmtP(p){ return (typeof p==='number'&&isFinite(p))?(p<0.001?'p<0.001':'p='+p.toFixed(4)):'p n/a'; }
 const GTR_CLOSE_TOL=0.05;          // kWh/100 km (unchanged since M298)
-const GtrRevealCtx=React.createContext(false);
+const GtrRevealCtx=React.createContext(true);   // M360: default visible (owner decision 2026-10-03); the context stays only so no component can be hidden by a stale provider
 function gtrAccounting(F){
   const r2=v=>Math.round(v*100)/100;
   const genOut=r2((F.genToTraction||0)+(F.genToBatt||0)), genExcess=r2(genOut-(F.generatorElec||0));
@@ -4636,14 +4652,27 @@ function GtrClosureBlock(){
     <div style={{color:"#b45309",marginTop:3}}>Scope: fuel-PID subset ({sc.nDrives} of {sc.nCanonical} drives, {sc.nDays} days, {sc.km} km), raw/ basis, provenance-sensitive (F03). {sc.excludedNoBatteryInputs.length} drives ({sc.excludedNoBatteryInputs.map(x=>x.replace(".csv","")).join(", ")}) lack battery inputs in the master and are excluded; {sc.publishedRowsWithFgenOne.length} of them have published reconstruction rows that give f_gen = 1 by construction. Variants are descriptive with no multiplicity control; offset and BSFC corners are bounding cases, not calibrated intervals. {Z._staleness}.</div>
   </div>;
 }
+// M360 (owner decision 2026-10-03, Director ruling analyses/M360_spec.md): the allocation sketch is shown by default in every mode, drawn from the
+// unconstrained point allocation with explicit unallocated-residual branches; nothing is rescaled to close. "Represented with an explicit residual", not "repaired".
+function GtrSketchNote(){
+  const Z=S.generatorTractionRecon?.gtrClosure;
+  if(!Z) return null;
+  const pc=v=>(v>0?"+":"")+(v*100).toFixed(2)+"%", ci=a=>`${(a[0]*100).toFixed(1)} to ${(a[1]*100).toFixed(1)}%`, sc=Z.scope, X=Z.interval;
+  return <div data-gtr-sketch-note="1" style={{fontSize:10,color:"#7f1d1d",background:"#fef2f2",border:"1px solid #fecaca",borderRadius:6,padding:"6px 8px",margin:"6px 0",lineHeight:1.55}}>
+    <div>Reconstructed (model-derived) flows, not measured; the fuel rate is logged / app-calculated by the logger.</div>
+    <div>The generator node is not closed: residual {pc(Z.nodeExcess.relToGenerator)} (95% CI {ci(Z.nodeExcess.ci95)}) against the ±{(Z.nodeExcess.tolerance*100).toFixed(0)}% rule; 0 lies inside the dual bracket [{pc(X.lo)}, {pc(X.hi)}] in all {X.nVariants} sensitivity variants: consistent within the bracket, not closed.</div>
+    <div>Engine-on dual charge cannot be allocated between generator and regen with the logged channels; the residual is shown as a hatched branch and is not distributed. Nothing in the sketch is rescaled to close.</div>
+    <div>f_gen {Z.fGen.est} (95% CI {Z.fGen.ci95[0]} to {Z.fGen.ci95[1]}) includes 0.5: neither a battery majority nor a generator majority is established.</div>
+    <div>Interval figures: canonical-clean (ens_outlier_v2 excluded, distance above 0) fuel-PID subset, {sc.nDrives} drives, {sc.nDays} days, {sc.km} km, {sc.excludedNoBatteryInputs.length} drives excluded (missing battery inputs); raw/ basis, provenance-sensitive (F03). The drawn corpus flows are the published reconstruction ({S.generatorTractionRecon?.nDrives} drives, including {sc.publishedRowsWithFgenOne.length} NaN-offset rows with f_gen = 1 by construction), so the drawn residuals and the interval figures rest on slightly different drive sets; each panel's drawn residuals are those of its own flows (same helper as the accounting table).</div>
+  </div>;
+}
 function GtrFlowGate({F,corpus,children}){
-  const [show,setShow]=useState(false);
   if(!F) return null;
   return <div data-gtr-flow-gate="1">
     <GtrAccountingTable cols={[{key:"corpus",label:"",F,corpus}]}/>
     <GtrClosureBlock/>
-    <button onClick={()=>setShow(v=>!v)} style={{fontSize:10,padding:"3px 8px",border:"1px solid #e2e8f0",borderRadius:6,background:"#f8fafc",cursor:"pointer"}}>{show?"Hide":"Show"} allocation sketch (not a conserved flow)</button>
-    {show&&<GtrRevealCtx.Provider value={true}><div style={{marginTop:6,opacity:0.85}}>{children}</div></GtrRevealCtx.Provider>}
+    <GtrSketchNote/>
+    <GtrRevealCtx.Provider value={true}><div style={{marginTop:6}}>{children}</div></GtrRevealCtx.Provider>
   </div>;
 }
 function GeneratorTractionRecon() {
@@ -10417,7 +10446,6 @@ function CmpViolinPanel(){
 }
 function CompareMulti({ids}){ return <React.Fragment>{ids.map(id=><CompareBlock key={id} id={id}/>)}</React.Fragment>; }
 function GtrSankeyMultiples(){
-  const [showSk,setShowSk]=useState(false);
   // M277 (audit Section 9): energy flows compared as SEPARATE Sankey small
   // multiples at identical node positions and a shared scale (not overlaid),
   // plus a difference table. Node positions in RTFlowSchematic are fixed
@@ -10436,8 +10464,8 @@ function GtrSankeyMultiples(){
     <div style={{fontSize:11,fontWeight:700,color:"#0f172a",marginBottom:3}}>Model accounting per cohort (per 100&nbsp;km)</div>
     <GtrAccountingTable cols={cohorts.map(o=>({key:o.s.key,label:o.s.label,col:o.s.col,F:o.d.flows,corpus:o.d.corpus,n:o.d.nDrives,km:o.d.kmProduction}))}/>
     <GtrClosureBlock/>
-    <button data-gtr-compare-reveal="1" onClick={()=>setShowSk(v=>!v)} style={{fontSize:10,padding:"3px 8px",border:"1px solid #e2e8f0",borderRadius:6,background:"#f8fafc",cursor:"pointer",marginBottom:6}}>{showSk?"Hide":"Show"} allocation sketches (not conserved flows)</button>
-    {showSk&&<GtrRevealCtx.Provider value={true}><div>
+    <GtrSketchNote/>
+    <GtrRevealCtx.Provider value={true}><div>
     <div style={{fontSize:9,color:"#94a3b8",marginBottom:6}}>Allocation sketches, one per cohort, at identical node positions and scale (ribbon thickness is comparable across panels); model-derived and not conserved: the branches do not close. Fuel is logged volume × assumed E10 LHV (the logged fuel rate is app-calculated).</div>
     <div style={{display:"grid",gridTemplateColumns:cohorts.length>1?"repeat(auto-fit,minmax(280px,1fr))":"1fr",gap:12}}>
       {cohorts.map(o=><div key={o.s.key} style={{border:"1px solid #eef2f7",borderRadius:8,padding:6}}>
@@ -10447,7 +10475,7 @@ function GtrSankeyMultiples(){
         </div>
         <RTFlowSchematic F={o.d.flows} corpus={o.d.corpus} scale={scale}/>
       </div>)}
-    </div></div></GtrRevealCtx.Provider>}
+    </div></div></GtrRevealCtx.Provider>
     {(byKey.warm&&byKey.shoulder)&&<div style={{marginTop:8,overflowX:"auto"}}>
       <div style={{fontSize:10,fontWeight:700,color:"#334155",marginBottom:2}}>Difference table (Warm − Shoulder, kWh/100&nbsp;km)</div>
       <table style={{fontSize:10,borderCollapse:"collapse",minWidth:360}}>
