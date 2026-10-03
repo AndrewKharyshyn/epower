@@ -164,6 +164,10 @@ if _esr:
                                       "Detector-defined count", "F10.r1 is partly open", "provenance-sensitive (F03)", "file-boundary bookkeeping, not a cold-start measure"]))
     ok("A2 REQUIRED M343 Cold reads below minimum support, with the drive count from the payload",
        f"Cold: below minimum support ({_esr['primary']['coldBelowSupport']['nDrives']} drives" in _charts_all)
+# M345: the Pure-Electric buffer-limit panel states that usable energy and the window budget scale with the assumed (unverified) CAP_KWH
+_capv = ((A.get("constantProvenance") or {}).get("CAP_KWH") or {})
+ok("A2 REQUIRED engine-off buffer-limit text says usable energy and window budget scale in proportion to the assumed CAP_KWH (value and verified flag from the payload)",
+   any(f"CAP_KWH = {_capv.get('value')} kWh" in t and ("unverified" if not _capv.get("verified") else "verified") in t and "both scale in proportion to that assumed capacity and the budget fraction scales inversely" in t for t in T.values()))
 # M334: Fuel tab banner and scenario wording present in every mode dump
 for _m in ("all", "warm", "shoulder", "compare"):
     ok(f"A2 REQUIRED Fuel basis banner and SoC-balanced scenario wording in the Fuel {_m} dump",

@@ -1,3 +1,16 @@
+## M345 (2026-10-03): Pure-Electric buffer-limit panel: CAP_KWH dependence stated; conditional wording for the budget; 'signature of a buffer-limited architecture' withdrawn
+
+**Rationale.** Follow-up from the M342 Director review. Verified in the builder (_ev_traction): only usableKwh, rangeKm and budgetFractionPct depend on CAP_KWH (usable SoC window x assumed capacity); consKwhPer100km = nrKwh/nrKm comes from logged pack current x voltage and does not. Added (Director-reviewed, five changes applied): a caveat that usable energy and the window budget scale in proportion to the assumed CAP_KWH (2.1 kWh, unverified, not an OEM nameplate figure; value and flag bound to the payload, no hardcoded fallback) and the budget fraction scales inversely, while the SoC window, the unassisted consumption and the observed runs do not; 'At the assumed capacity' qualifiers on the upper-bound, the percentage reached and the observed-maximum comparison; the row label 'Usable energy (assumed capacity)'; kWh described as derived from logged current and voltage; 'the signature of a buffer-limited architecture' replaced by 'consistent with a buffer-limited architecture, but it does not separate an energy limit from a controller SoC policy' (the old phrase asserted a mechanism and contradicted the M77 statement in the same section; added as language-gate rule M345-signature). New required-wording check. No payload change; CAP_KWH unchanged (verified:false; the 5 Ah OEM rated-capacity lead stays a lead); no article figure.
+
+**State.** `drive_master.csv` 489 rows, MD5 `bd9d10726bb064d857cf9ff98d2b7338`.
+
+**Gates (runs/20260930T142615Z).** stage_raw=ok; raw_temp_pass=ok; compute_seasonal=ok; refresh_cohort_meta=ok; fuel_recon=ok; refresh_gtr_headline=ok; f03_provenance_build=ok; post_steps=ok; cohort_arrays=ok; comparison_cube=ok -> ok.
+
+**Delta flags.** none.
+
+**Files.** `xtrail_summary.jsx`, `semantic_gate.py`, `language_gate.py`, `xtrail_dashboard.html`.
+
+
 ## M344 (2026-10-03): Reversal-density proxy (StartsPer100km) refreshed from the 446- to the 489-drive basis
 
 **Rationale.** The proxy contract (pack-current direction reversals per 100 km, not engine starts) was stale at the 446-drive basis (M293). refresh_seasonal_kpis.py now recomputes it with the SAME M293 method (paired-eligible: n_sign_crossings present and km > 0; ratio of sums; calendar-day clusters; B=4000, seed 20260919; no canonical filter, as before). CONTROL: on the first 446 drives the method reproduces the stored values exactly (All 918.579, nEligible 434/446, CI 853.2-1018.9, 93 clusters; Warm 899.953 / 361/366; Shoulder 1254.439 / 73/80). At 489: All 928.2 reversals/100 km (95% CI 860.3-1028.9; 477 of 489 eligible, 101 days; inside the previous CI), Warm 905.3 (838.9-1001.6; 382/387), Shoulder 1263.5 (1099.3-1431.8; 93/100); Cold unavailable. Deep-diff vs the shipped payload: only seasonalCharts.charts.StartsPer100km (data, coverage, basisNDrives, refreshedBy) and the staleness note changed; post-step idempotent. The quantity is a different one from the RPM-onset engine-start rate (S.engineStartRate, M343) and is not compared with it; label and unit remain reversals/100 km. No audit required (known-answer control exact, KPI inside its previous CI); not an article figure; basis master (n_sign_crossings), not M299-reproducible.
