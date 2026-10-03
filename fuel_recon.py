@@ -83,6 +83,33 @@ def _cs(mrow):
     thr_kwh = CS_BAND_PP / 100.0 * _CS_CAP_KWH        # 0.042 kWh at 2.1 kWh
     return bool(abs(float(mrow.get('soc_delta_kwh', 0) or 0)) <= thr_kwh)
 
+def corpus_offset(dm):
+    """M349: the master stamps ONE global current offset on every calibrated drive (compute_drive_summary_v6._v5_postprocess_master).
+    Returns (constant, n_calibrated, n_distinct). Fail-closed: raises if the calibrated offsets are not single-valued
+    (equal after round(x, 4), the stamping precision), so an imputed value can never silently mix offsets."""
+    v = pd.to_numeric(dm['I_offset_A_applied'], errors='coerce').dropna().round(4)
+    if v.empty:
+        raise ValueError('M349: no calibrated I_offset_A_applied in the master; cannot resolve a corpus offset')
+    d = int(v.nunique())
+    if d != 1:
+        raise ValueError(f'M349: calibrated offsets are not single-valued ({d} distinct values); refusing to impute')
+    return float(v.iloc[0]), int(len(v)), d
+
+
+def resolve_offset(mrow, const, exclude_nan=False):
+    """M349: per-drive offset in A. A calibrated drive keeps its stamped value. A NaN/missing offset (drive not stamped because
+    the SoC-anchored residual is unavailable) takes the corpus-applied constant `const`; with exclude_nan=True it returns None
+    (the caller excludes and counts the drive). Never returns NaN: float(nan or 0.0) kept NaN and made f_gen = 1 by construction."""
+    v = mrow.get('I_offset_A_applied', np.nan)
+    try:
+        v = float(v)
+    except (TypeError, ValueError):
+        v = np.nan
+    if v == v:
+        return v, False
+    return (None if exclude_nan else float(const)), True
+
+
 def reconstruct(fname, mrow, offset, band=False):
     g = RE.load_drive(fname, offset)
     if g is None:
@@ -147,6 +174,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('files', nargs='*')
     ap.add_argument('--all', action='store_true')
+    ap.add_argument('--exclude-nan-offset', action='store_true', help='M349: exclude (and count) drives whose master offset is NaN instead of using the corpus constant')
     ap.add_argument('--mc', type=int, default=0, help='if >0, attach optimistic/conservative scenario band')
     a = ap.parse_args()
     dm = pd.read_csv(BASE + 'drive_master.csv')
@@ -154,19 +182,29 @@ def main():
     targets = ([f for f in dm['file'] if os.path.exists(BASE + f) and _has_fuel(BASE + f)]
                if a.all else [os.path.basename(f) for f in a.files])
     print(f'processing {len(targets)} fuel drive(s); band={bool(a.mc)}')
-    rows = []
+    const, n_cal, n_dist = corpus_offset(dm)     # M349: fail-closed if the calibrated offsets are not single-valued
+    print(f'corpus offset {const} A (n={n_cal} calibrated, {n_dist} distinct)')
+    rows, imputed_files, excluded = [], [], []
     for f in targets:
         if f not in master:
             print(f'  skip {f}: not in drive_master'); continue
         if not _has_fuel(BASE + f):
             print(f'  skip {f}: no fuel-flow PID'); continue
-        off = float(master[f].get('I_offset_A_applied', 0.0) or 0.0)
+        off, imputed = resolve_offset(master[f], const, exclude_nan=a.exclude_nan_offset)   # M349: never NaN
+        if off is None:
+            excluded.append(f); print(f'  skip {f}: NaN offset, excluded by --exclude-nan-offset'); continue
+        if imputed:
+            imputed_files.append(f)
         r = reconstruct(f, master[f], off, band=bool(a.mc))
         if r:
             rows.append(r); print(f'  ok  {f}: gen={r["generator_kWh_100"]} f_gen={r["f_gen"]} eta_eng={r["eta_eng"]}')
         else:
             print(f'  --  {f}: reconstruction returned None')
     upsert_master(rows)
+    rep = {'corpusOffsetA': const, 'nCalibrated': n_cal, 'nDistinctOffsets': n_dist, 'imputedWithCorpusConstant': imputed_files,
+           'excludedNanOffset': excluded, 'nRows': len(rows)}
+    print('M349 offset report:', json.dumps(rep))
+    json.dump(rep, open('fuel_recon_offset_report.json', 'w'), indent=1)
 
 if __name__ == '__main__':
     main()

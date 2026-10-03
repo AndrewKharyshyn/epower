@@ -40,6 +40,14 @@ R['basis'] = (f"Path B (fuel flow \u2192 RPM/load-conditioned BSFC surface \u219
               f"generator \u2192 DC-bus balance), {data_all['nDrives']} clean / "
               f"{data_all['nProduction']} fuel-instrumented drives, "
               f"{data_all['kmProduction']} km.")
+# M349: glossary values that restate the headline f_gen are bound to the recomputed corpus (they were typed literals: 0.477 / 0.523
+# against a published 0.467 -- the release gate only tolerated the gap while it stayed inside its approximation tolerance).
+_fg = float(data_all['corpus']['fGen'])
+for _g in R.get('glossary', []):
+    if _g.get('term') == 'f_gen':
+        _g['value'] = f"{_fg:.3f}"
+    elif _g.get('term') == 'Battery-buffer share':
+        _g['value'] = f"{1 - _fg:.3f}"
 d['generatorTractionRecon'] = R
 
 print('OLD corpus:', old_corpus)

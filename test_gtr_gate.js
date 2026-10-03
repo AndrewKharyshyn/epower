@@ -82,7 +82,11 @@ async function main(){
   ok('no console errors (real payload)', errs.length===0, errs.slice(0,2).join(' | '));
 
   // ---------- balanced-flows guard: patch the embedded flows so both branches close ----------
-  const OLD='"genToBatt":8.35,"regenToBatt":2.99', NEW='"genToBatt":7.3,"regenToBatt":2.55';
+  // M349: the balancing values are derived from the payload flows (they were typed literals tied to the pre-M349 flows):
+  // genToBatt = generatorElec - genToTraction, regenToBatt = battToTraction - genToBatt (both branches then close exactly).
+  const FL=A.generatorTractionRecon.flows, r2=x=>Math.round(x*100)/100;
+  const gB=r2(FL.generatorElec-FL.genToTraction), rB=r2(FL.battToTraction-gB);
+  const OLD='"genToBatt":'+FL.genToBatt+',"regenToBatt":'+FL.regenToBatt, NEW='"genToBatt":'+gB+',"regenToBatt":'+rB;
   const n=HTML.split(OLD).length-1;
   ok('balanced guard: patch target found in the built HTML', n>=1, `n=${n}`);
   if(n>=1){
