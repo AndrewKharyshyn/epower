@@ -38,3 +38,19 @@ Everything computed by `tools/m358_splice.py` (additive leaf-level splice of the
 1. Is kW = drive-level peak charge power acceptable as the kW axis given it is not guaranteed co-timed with the peak-current sample, with the diagnostic disclosed? Or require the raw-pass kW at the peak sample?
 2. Default view A (recommended) vs kW?
 3. Secondary-axis via corpus-median ratio (+- spread disclosed) acceptable, or draw the secondary axis only as tick annotations per primary tick?
+
+---
+# Rev 2 (Director: revise, applied)
+Director answers: Q1 accept drive-level `peak_charge_kw` only if the axis itself says "drive peak charge power (not co-timed with peak current)" (not only a footnote); Q2 default view A (logged BMS-reported PID via OBD, no capacity assumption, no co-timing issue); Q3 corpus-median C/A accepted for the A view only.
+Changes applied to Rev 1:
+1. Convention fixed: C = A / cap_ah_est per drive, cap_ah_est = CAP_KWH*1000 / V_pack_median (per drive). Hence C/A = V_pack_median/(CAP_KWH*1000) and the secondary-axis spread comes only from V_pack_median.
+2. Secondary axis: A view -> C-rate secondary from the corpus-median C/A. Pre-registered fallback: if the C/A IQR exceeds +-3% of the median, per-tick annotations replace the secondary axis. kW view: NO C-rate secondary axis (C/kW median ratio rejected: mixes non-co-timed samples); it may carry an A-equivalent axis at median V_pack_median labelled "approx.". C-rate view keeps its axis with A secondary.
+3. Every C-rate axis/tick label, and the C-rate view title, carries "assumes CAP_KWH = 2.1 kWh (verified:false)". The ring rule is stated as "C-rate > 30 (assumed-capacity units)".
+4. Wording: A is "logged (BMS-reported via OBD)", never "measured". kW is "derived as logged HV current x logged HV voltage (app-logged PIDs)" (the phrase "not a measured power" is dropped). kW axis label: "Drive peak charge power (not co-timed with peak current), kW".
+5. F03 label "raw/ basis, provenance-sensitive (F03)" on the A and kW views. The rounding magnitude claim is not typed: it cites the F03 comparison output (`analyses/F03_originals/`) or is omitted.
+6. Plausibility screens: rows of `cRatePointsAK` apply NO A/kW screen (they must equal `cRatePoints`, which has none); `cRateAxes.diagnostics` reports the counts of A > 300 and kW > 150 (the screens `_crate_ref_lines`-adjacent record code uses), so a reader sees whether any plotted point would be screened elsewhere. Reference lines in `cRateRefLinesAK` use the same columns/populations as `_crate_ref_lines` (no screen, as C).
+7. Raw-pass co-timed kW variant trigger pre-registered: implied V = kW*1000/A outside [0.9, 1.1] x V_pack_median on more than 10% of drives -> open a follow-up milestone. The diagnostic block reports the fraction; this milestone does not build the variant.
+8. Median reference line: median A and median kW are separate medians (not co-timed, not one operating point); labelled "median of per-drive peaks" per axis and never as an operating point.
+9. UI text binds all counts to payload n (`S.cRatePointsAK` length, `nKwMissing`); no typed 464.
+10. Controls added: C1 asserts `cRateRefLines.axis` unchanged (deep-diff allow-list = the 3 new keys); new JS test that kW-null rows are excluded from the kW-view axis bounds.
+Status: Rev 2 applied; no blind audit required (no new estimator/headline; not article-bound). A Sonnet spot-check of `analyses/M358_check.json` C1-C3 is advised.
