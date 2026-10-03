@@ -143,8 +143,8 @@ for _m in ("warm", "shoulder", "compare"):
 # M339: Fuel analytics v2 wording and payload-bound numbers (Fuel All dump)
 _fs = A.get("fuelStates") or {}
 _fw = A.get("fuelWarmup") or {}
-ok("A2 REQUIRED M339 FUEL-03 wording (temporal states, not allocations, same-bin thresholds, dwell definition, hash split not paired, F03-unchecked)",
-   all(x in _fxd for x in ["temporal states of the logged fuel rate", "not exclusive fuel-source allocations", "thresholds of 0.5 and 1 km/h are the same bin", "dwell: a stationary run is stationary only if", "not a paired test", "F03-unchecked", "a temporal state of the logged rate, not an allocation of fuel to the battery"]))
+ok("A2 REQUIRED M339 FUEL-03 wording (temporal states, not allocations, same-bin thresholds, dwell definition, hash split not paired, speed/SoC/rpm cell-identical to the originals, HV rounding stated)",
+   all(x in _fxd for x in ["temporal states of the logged fuel rate", "not exclusive fuel-source allocations", "thresholds of 0.5 and 1 km/h are the same bin", "dwell: a stationary run is stationary only if", "not a paired test", "cell-identical to the sha256-verified originals", "HV current and voltage in raw/ are rounded", "do not depend on the re-export rounding", "has not been checked against the originals", "a temporal state of the logged rate, not an allocation of fuel to the battery"]))
 ok("A2 REQUIRED M339 FUEL-02 wording (associations, pointwise CI, no zero-filled continuation, confounding, method disagreement, left-censoring)",
    all(x in _fxd for x in ["They are associations", "pointwise 95% CI", "no zero-filled continuation", "confounded with trip length, season, speed profile and the unlogged time since the previous drive", "method disagreement of 0.1 L/100 km", "left-censored"]))
 if _fs and _fw:

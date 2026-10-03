@@ -1,0 +1,100 @@
+{
+ "milestone": "M347",
+ "check": "F03 speed/HV columns raw/ vs sha256-verified originals (read-only)",
+ "originalsDir": "../../originals_recovered (outside repo)",
+ "nManifestRecords": 333,
+ "nFilesCompared": 333,
+ "skipped": {
+  "no_orig": 0,
+  "no_raw": 0,
+  "rows_differ": 0
+ },
+ "columns": {
+  "speedVCM": {
+   "nFiles": 230,
+   "filesAllCellsEqual": 230,
+   "maxAbsDiff": 0.0,
+   "minEqualShare": 1.0,
+   "nanMismatchFiles": 0
+  },
+  "speedOBD": {
+   "nFiles": 333,
+   "filesAllCellsEqual": 333,
+   "maxAbsDiff": 0.0,
+   "minEqualShare": 1.0,
+   "nanMismatchFiles": 0
+  },
+  "hvCurrent": {
+   "nFiles": 322,
+   "filesAllCellsEqual": 43,
+   "maxAbsDiff": 0.5,
+   "minEqualShare": 0.0,
+   "nanMismatchFiles": 0
+  },
+  "hvVoltage": {
+   "nFiles": 327,
+   "filesAllCellsEqual": 44,
+   "maxAbsDiff": 0.5,
+   "minEqualShare": 0.007352941176470588,
+   "nanMismatchFiles": 0
+  },
+  "soc": {
+   "nFiles": 331,
+   "filesAllCellsEqual": 331,
+   "maxAbsDiff": 0.0,
+   "minEqualShare": 1.0,
+   "nanMismatchFiles": 0
+  },
+  "rpm": {
+   "nFiles": 333,
+   "filesAllCellsEqual": 333,
+   "maxAbsDiff": 0.0,
+   "minEqualShare": 1.0,
+   "nanMismatchFiles": 0
+  }
+ },
+ "derived": {
+  "km": {
+   "unit": "km",
+   "n": 332,
+   "sumRaw": 5555.3193,
+   "sumOrig": 5555.3193,
+   "aggRelDiff": 0.0,
+   "maxAbsPerDriveDiff": 0.0,
+   "p95AbsPerDriveDiff": 0.0,
+   "nDrivesDiffAbove1pct": 0
+  },
+  "stationaryShare": {
+   "unit": "share",
+   "n": 332,
+   "sumRaw": 58.7542,
+   "sumOrig": 58.7542,
+   "aggRelDiff": 0.0,
+   "maxAbsPerDriveDiff": 0.0,
+   "p95AbsPerDriveDiff": 0.0,
+   "nDrivesDiffAbove1pct": 0
+  },
+  "dischargeKwh": {
+   "unit": "kWh",
+   "n": 322,
+   "sumRaw": 377.6726,
+   "sumOrig": 377.6601,
+   "aggRelDiff": 3.3e-05,
+   "maxAbsPerDriveDiff": 0.017712,
+   "p95AbsPerDriveDiff": 0.00464,
+   "nDrivesDiffAbove1pct": 2
+  },
+  "chargeKwh": {
+   "unit": "kWh",
+   "n": 322,
+   "sumRaw": 406.0652,
+   "sumOrig": 406.1017,
+   "aggRelDiff": -9e-05,
+   "maxAbsPerDriveDiff": 0.003407,
+   "p95AbsPerDriveDiff": 0.001304,
+   "nDrivesDiffAbove1pct": 0
+  }
+ },
+ "speedSourceChanged": 0,
+ "filesWithoutUsableSpeed": 1
+}

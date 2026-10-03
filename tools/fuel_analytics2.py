@@ -258,14 +258,15 @@ def main():
                       "obdOnlyStationary": share(d[d.spdSrc == "OBD"], primary, "stationary") if (d.spdSrc == "OBD").sum() >= 5 else {"note": "<5 OBD trips"},
                       "nVcm": int((d.spdSrc == "VCM").sum()), "nObd": int((d.spdSrc == "OBD").sum()),
                       "hashPassStationary": share(d[d.hashPass], primary, "stationary"), "hashFailStationary": share(d[~d.hashPass], primary, "stationary"),
-                      "f03Note": "not a paired test: date-confounded; speed/HV columns raw-vs-originals unchecked (needs Andrii's permission)"}
+                      "f03Note": __import__("f03_speed_hv_block").NOTE_F03}
     chg = [r for r in rows if r["charging"]]
     out3["chargingSubState"] = {"nTripsWithBatteryInputs": len(chg), "nExcluded": len(rows) - len(chg),
-                                "note": "fuel consumed during net pack charging: a temporal state, not a fuel-source allocation; battery offset is estimated; hash-passing trips are the primary basis, hash-failing trips have rounded raw/ current (F03-unchecked)",
+                                "note": __import__("f03_speed_hv_block").NOTE_CHG,
                                 "byDeadbandKw": {f"db{dbd:g}": {"hashPass": {"stationary": round(sum(r["charging"][f"db{dbd:g}"]["stationary"] for r in chg if r["hashPass"]), 3),
                                                                            "moving": round(sum(r["charging"][f"db{dbd:g}"]["moving"] for r in chg if r["hashPass"]), 3)},
                                                               "all": {"stationary": round(sum(r["charging"][f"db{dbd:g}"]["stationary"] for r in chg), 3),
                                                                       "moving": round(sum(r["charging"][f"db{dbd:g}"]["moving"] for r in chg), 3)}} for dbd in DEADBANDS}}
+    out3["f03SpeedHvCheck"] = __import__("f03_speed_hv_block").build()          # M347: read-only raw-vs-originals check of the speed/HV columns (script-written)
     tot5 = sum(r["cap5"]["total"] for r in rows)
     out3["coverage"] = {"lostSecondsShare": round(sum(r["lostS"] for r in rows) / sum(r["totalS"] for r in rows), 5), "lostLitresShare": round(sum(r["lostL"] for r in rows) / (tot5 + sum(r["lostL"] for r in rows)), 5),
                         "totalLitresIntegral": round(tot5, 3), "counterLitres": round(sum(r["Vcnt"] for r in rows), 3),
