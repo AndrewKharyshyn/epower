@@ -59,8 +59,8 @@ def energy_intensity(pool):
 
 # ---- FIX #3: starts/100km = correct events/100km, with explicit provenance/eligibility
 def starts_per_100km(pool, count_key="n_sign_crossings",
-                     provenance="proxy:n_sign_crossings (current-sign; authoritative "
-                                "engine-start count is raw-derived engineStartsByType, Phase 2)"):
+                     provenance="proxy:n_sign_crossings (pack-current direction reversals, not "
+                                "engine starts; the RPM-onset engine-start rate is S.engineStartRate)"):
     elig = [d for d in pool if d.get(count_key) is not None and d.get("distance_km")]
     if not elig:
         return {"value": None, "status": "unavailable",
@@ -68,7 +68,7 @@ def starts_per_100km(pool, count_key="n_sign_crossings",
                 "provenance": provenance}
     rows = [{"e": d[count_key], "distance_km": d["distance_km"]} for d in elig]
     val = sc.cohort_events_per_100km(rows, "e")
-    return {"value": val, "unit": "starts/100km", "estimator": "events_ratio_of_sums",
+    return {"value": val, "unit": "reversals/100 km", "estimator": "events_ratio_of_sums",
             "nEligible": len(elig), "nPool": len(pool), "provenance": provenance,
             "status": "computed"}
 
