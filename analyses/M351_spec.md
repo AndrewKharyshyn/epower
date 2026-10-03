@@ -1,0 +1,18 @@
+# M351 spec (rev 1): wording/format group A of the pulled-out M326 rows: p22.12, p23.16, F31.r1 (+ triage of the 19 remaining pulled-out rows)
+Status: work in progress, Director string review pending. No number changes, no payload key renames, no estimator changes. Dashboard rule applies (jsx, arrays, html together).
+
+## 1. Triage of the 19 pulled-out rows still open (script-checked identifiers; `analyses/M351_triage.tsv`)
+Group A (this milestone): p22.12, p23.16, F31.r1. F22.r1 is OBSOLETE: the key `ciHalfWidthMohmPerMo` no longer exists anywhere (builder, jsx, arrays); the displayed field is `mdeRisePctPerYr` and its label already says "precision, not a power calculation". Recorded, no action.
+Later groups (proposed): B ambient/source transparency (F13.3, p21.5, p21.6, D-S7, p17.13), C registry/constants (F18.r1, p15.4), D Overview/eligibility/Methodology (Cs-1, Cs-21, F08.r1, B-HandoffSequence, p25.2, F21.r1, p16.7, D-13 remainder). New keys/renames in B-D need their consumers in the same milestone.
+
+## 2. Changes (old -> new; ledger id)
+1. p22.12 (HealthStatusCard, cell-spread row): `... mV/mo [lo, hi], n=...` -> `... mV/mo, 95% CI [lo, hi] (cluster-robust normal (z) interval, day clusters), n=...`.
+   Methodology metric string: `... 95% CI [lo, hi]` -> `... 95% CI [lo, hi] (cluster-robust normal (z) interval, day clusters)`.
+   Basis verified (statsmodels `cov_type='cluster'` default, `use_t` off): (hi-lo)/(2 se) = 1.96 on the published interval; guarded by `tests/synthetic/test_ci_basis.py`. A t(G-1) interval is a sensitivity (not shown, not switched silently).
+2. p23.16 (Risk table, cold-engine row): `p=<value>` for six payload p-values (compare: gtcPer100km, damageK2PerKm, peakDischargeA, socBandPp, loadedSpreadAdjMv; partialSpread) -> one formatter `fmtP`: p<0.001 shown as `p<0.001`, else `p=<value>`; null -> `p n/a`. Payload p-values are rounded to 4 dp, so 0.0 means p<0.00005 (peakDischargeA, packTempC). No payload change (the audit's "pFloor" key does not exist and is not added: the threshold is a display rule).
+3. F31.r1 (`records_resistance.py`, Records resistance note; built by the idempotent post step): `Selection effect: ... noise alone (fitted T model + resampled residuals, B=..) yields a maximum of X (95% range a-b); the holder sits at percentile P of that null, i.e. within what noise alone produces / above the null range - a maximum of noisy per-drive estimates is biased upward and is not a property of the pack.` -> `Selection effect, as an IID residual-model reference distribution (fitted T model + residuals resampled independently across drives, B=..; not a day-clustered interval for the observed maximum and not a noise test): ... reference maximum of X (95% range a-b); the holder sits at percentile P of that distribution. Day dependence is not modelled: the N gated drives fall on D calendar days. A maximum over noisy per-drive estimates is biased upward by selection, so the holder value is not read as a pack property.` The verdict branch ("within what noise alone produces") is dropped; gate sensitivity text unchanged (already present).
+Language gate: the old phrases ("noise alone produces", "that null", "within what noise alone") enter `language_gate.py` RULES with M351 ids; required checks: the CI basis label present, `p<0.001` present.
+
+## 3. Tests / gates
+`tests/synthetic/test_ci_basis.py` (z basis known answer); jsdom fixture: a Risk-table render with a 0.0 p shows `p<0.001` and never `p=0`; semantic gate A2 (old wording absent); post-step idempotence; release_check; no payload number changes except the Records resistance note string (deep-diff allow-list: records[*].note for the resistance record only).
+No blind audit (no estimate). Director: string review only.
