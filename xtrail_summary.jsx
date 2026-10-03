@@ -7317,7 +7317,7 @@ function CellSpreadRelaxation() {
 
 function HandoffSequence() {
   const _coh=useCohort();
-  if(cohortNoData(_coh,["HandoffSequence"])) return <ColdNoData chart="Battery → Engine / Turbo Handoff Sequence" cohort={_coh}/>;
+  if(cohortNoData(_coh,["HandoffSequence"])) return <ColdNoData chart="Battery, engine and boost timing around engine start" cohort={_coh}/>;
   if(_coh==="compare") return <CompareBlock id="HandoffSequence"/>;
   // M254 (season-wiring): per-cohort figures via the pipeline's own
   // _handoff_sequence() (real per-second engine-start trigger + discharge/
@@ -7334,86 +7334,97 @@ function HandoffSequence() {
     dischargeRelax: { name: "Battery relaxes", c: "#16a34a" },
   };
 
-  // timeline of median event lags vs t0
-  const evs = [
-    { k: "dischargePeak", t: lg.dischargePeak?.median },
-    { k: "engineStart", t: 0 },
-    { k: "loadPoint", t: lg.loadPoint?.median },
-    { k: "boostOnset", t: lg.boostOnset?.median },
-    { k: "dischargeRelax", t: lg.dischargeRelax?.median },
-  ].filter(e => e.t != null).sort((a, b) => a.t - b.t);
-  const tMin = Math.min(...evs.map(e => e.t), -1), tMax = Math.max(...evs.map(e => e.t), 2);
-  const W = 480, H = 96, PL = 10, PR = 10, PT = 30, PB = 24;
-  const pw = W - PL - PR;
-  const xT = t => PL + ((t - tMin) / (tMax - tMin)) * pw;
-  const yline = PT + 18;
+  // M359 (spec analyses/M359_spec.md Rev 2): marginal medians with IQR whiskers in fixed-order rows (no connecting line, no step order);
+  // ordering evidence comes from the per-handoff modalOrderings (integer counts), not from the medians.
+  const ROWS = [
+    { k: "dischargePeak", v: lg.dischargePeak }, { k: "engineStart", v: { median: 0 } }, { k: "loadPoint", v: lg.loadPoint },
+    { k: "boostOnset", v: lg.boostOnset }, { k: "dischargeRelax", v: lg.dischargeRelax },
+  ].filter(r => r.v && r.v.median != null);
+  const tMin = Math.min(...ROWS.map(r => r.v.p25 ?? r.v.median), -2), tMax = Math.max(...ROWS.map(r => r.v.p75 ?? r.v.median), 2);
+  const W = 480, PL = 10, PR = 12, LBL = 104, PT = 22, RH = 20, PB = 22;
+  const H = PT + ROWS.length * RH + PB;
+  const pw = W - PL - PR - LBL;
+  const xT = t => PL + LBL + ((t - tMin) / (tMax - tMin)) * pw;
+  const ORD = C.modalOrderings || [];
+  const nListed = ORD.reduce((a, o) => a + o.n, 0);
+  const iDP = o => o.sequence.indexOf("dischargePeak"), iES = o => o.sequence.indexOf("engineStart");
+  const nPre = ORD.filter(o => iDP(o) >= 0 && iDP(o) < iES(o)).reduce((a, o) => a + o.n, 0);
+  const nAtOrAfter = ORD.filter(o => iDP(o) >= 0 && iDP(o) > iES(o)).reduce((a, o) => a + o.n, 0);
+  const pctH = n => (C.nHandoffs ? (100 * n / C.nHandoffs).toFixed(1) : "—");
+  const top = ORD[0];
+  const lpCi = lpB.ci95 ? `${lpB.ci95[0]}–${lpB.ci95[1]}` : "—";
+  const fmtLag = v => (v > 0 ? "+" : "") + v;
 
   return (
     <div>
       <div style={{ fontSize: 11, color: "#64748b", lineHeight: 1.7, marginBottom: 10 }}>
-        When demand outruns the buffer, the engine and turbo are handed the load. This resolves the
-        {" "}<strong style={{ color: "#0f172a" }}>sequence</strong> of that handoff — battery, engine, turbo —
-        at each of {C.nHandoffs?.toLocaleString?.() || C.nHandoffs} starts. Extends the ramp-latency analysis
-        with the full multi-signal ordering. Coarse timing only (±1–2 s); fine time-constants are below the
-        sampling cadence. {C.nDays} days.
+        Timing of battery discharge, engine load-point and boost onset around each of{" "}
+        {C.nHandoffs?.toLocaleString?.() || C.nHandoffs} engine starts ({C.nDays} days), reconstructed from logged HV
+        current × voltage, RPM and boost on a ~1.3 Hz grid. Descriptive and coarse: event times are resolvable to about
+        ±1–2 s, and the picture below shows marginal medians, <strong style={{ color: "#0f172a" }}>not one realised sequence</strong>.
       </div>
 
-      {/* handoff timeline */}
-      <div style={{ fontSize: 9, color: "#64748b", margin: "2px 0 2px 2px", letterSpacing: 0.3 }}>MEDIAN HANDOFF TIMELINE (seconds relative to engine start)</div>
-      <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{ overflow: "hidden" }}>
-        <line x1={PL} y1={yline} x2={PL + pw} y2={yline} stroke="#cbd5e1" strokeWidth={1.5} />
-        {/* t0 marker */}
-        <line x1={xT(0)} y1={PT - 6} x2={xT(0)} y2={yline + 6} stroke="#7c3aed" strokeWidth={1} strokeDasharray="3 2" opacity={0.5} />
-        {[Math.ceil(tMin), 0, 1, 2, Math.floor(tMax)].filter((v, i, a) => a.indexOf(v) === i).map(tv => (
-          <text key={tv} x={xT(tv)} y={H - 8} textAnchor="middle" fill="#94a3b8" fontSize={7}>{tv > 0 ? "+" + tv : tv}s</text>))}
-        {evs.map((e, i) => {
-          const m = EV[e.k] || { name: e.k, c: "#94a3b8" };
-          const up = i % 2 === 0;
-          return (
-            <g key={e.k}>
-              <circle cx={xT(e.t)} cy={yline} r={4} fill={m.c} />
-              <text x={xT(e.t)} y={up ? PT - 2 : yline + 16} textAnchor="middle" fill={m.c} fontSize={7.5} fontWeight={700}>{m.name}</text>
-              <text x={xT(e.t)} y={up ? PT + 8 : yline + 24} textAnchor="middle" fill="#94a3b8" fontSize={6.5}>{e.t > 0 ? "+" + e.t : e.t}s</text>
-            </g>);
-        })}
-      </svg>
-
-      <Callout kind="finding">
-        The buffer moves first: battery discharge <MetricHighlight tone="measured">peaks ~0.8 s before</MetricHighlight>
-        the engine even starts, delivering the demand transient. The engine then reaches the load-point in a
-        median <MetricHighlight tone="derived">{lg.loadPoint?.median} s</MetricHighlight> (CI {lpB.ci95 ? `${lpB.ci95[0]}–${lpB.ci95[1]}` : "—"}),
-        boost builds by <MetricHighlight tone="derived">+{lg.boostOnset?.median} s</MetricHighlight>, and battery
-        discharge relaxes as the generator assumes the load. The buffer covers the transient; the engine
-        follows and relieves it — the power-buffer handoff, start to finish, in ~1–2 s. <EvidenceBadge status="measured" />
-      </Callout>
-
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 8 }}>
         <div style={{ padding: "8px 10px", background: "#f1f5f9", borderRadius: 6 }}>
-          <div style={{ fontSize: 9, color: "#64748b", marginBottom: 6 }}>COARSE LAG vs START (s, median · IQR)</div>
+          <div style={{ fontSize: 9, color: "#64748b", marginBottom: 6 }}>MOST COMMON PER-HANDOFF ORDERINGS (share of {C.nHandoffs} handoffs · n)</div>
+          {ORD.map((o, i) => (
+            <div key={i} style={{ fontSize: 8.5, color: "#475569", marginBottom: 3, lineHeight: 1.3 }}>
+              <span style={{ color: "#7c3aed", fontWeight: 700 }}>{o.pct}%</span> (n={o.n}) {o.sequence.map(s => (EV[s] || {}).name || s).join(" → ")}
+            </div>))}
+          <div style={{ fontSize: 8, color: "#94a3b8", marginTop: 3 }}>{ORD.length} listed orderings cover {pctH(nListed)}% of handoffs; the other {pctH(C.nHandoffs - nListed)}% are in orderings not listed. Arrows give the order on the logging grid only.</div>
+        </div>
+        <div style={{ padding: "8px 10px", background: "#f1f5f9", borderRadius: 6 }}>
+          <div style={{ fontSize: 9, color: "#64748b", marginBottom: 6 }}>MARGINAL COARSE LAG vs START (s, median · IQR · n events)</div>
           {["dischargePeak", "loadPoint", "boostOnset", "dischargeRelax"].map(k => {
             const m = EV[k], v = lg[k];
             return v ? (
               <div key={k} style={{ display: "flex", justifyContent: "space-between", fontSize: 10, marginBottom: 2 }}>
                 <span style={{ color: m.c }}>{m.name}</span>
-                <span style={{ fontWeight: 600 }}>{v.median > 0 ? "+" : ""}{v.median} <span style={{ color: "#94a3b8", fontWeight: 400 }}>({v.p25}–{v.p75})</span></span>
+                <span style={{ fontWeight: 600 }}>{fmtLag(v.median)} <span style={{ color: "#94a3b8", fontWeight: 400 }}>({v.p25}–{v.p75}; n={v.n})</span></span>
               </div>) : null;
           })}
-          <div style={{ fontSize: 8, color: "#94a3b8", marginTop: 3 }}>{C.boostInvolvementObservablePct!=null?<>boost onset in {C.boostInvolvementObservablePct}% of the {C.nBoostObservable} boost-observable handoffs ({C.boostInvolvementPct}% of all {C.nHandoffs}; handoffs whose window has no boost channel cannot show an onset)</>:<>boost in {C.boostInvolvementPct}% of handoffs</>}</div>
-        </div>
-        <div style={{ padding: "8px 10px", background: "#f1f5f9", borderRadius: 6 }}>
-          <div style={{ fontSize: 9, color: "#64748b", marginBottom: 6 }}>MODAL ORDERINGS</div>
-          {(C.modalOrderings || []).slice(0, 4).map((o, i) => (
-            <div key={i} style={{ fontSize: 8.5, color: "#475569", marginBottom: 3, lineHeight: 1.3 }}>
-              <span style={{ color: "#7c3aed", fontWeight: 700 }}>{o.pct}%</span> {o.sequence.map(s => (EV[s] || {}).name || s).join(" → ")}
-            </div>))}
+          <div style={{ fontSize: 8, color: "#94a3b8", marginTop: 3 }}>{C.boostInvolvementObservablePct!=null?<>boost onset in {C.boostInvolvementObservablePct}% of the {C.nBoostObservable} boost-observable handoffs ({C.boostInvolvementPct}% of all {C.nHandoffs}; handoffs whose window has no boost channel cannot show an onset); the boost-onset median covers handoffs with an onset only. Days: {C.nDays} overall, {boB.nDays ?? "—"} with a boost onset. Number of drives: not reported by this block.</>:<>boost in {C.boostInvolvementPct}% of handoffs</>}</div>
         </div>
       </div>
+
+      <div style={{ fontSize: 9, color: "#64748b", margin: "2px 0 2px 2px", letterSpacing: 0.3 }}>MARGINAL MEDIAN LAGS (seconds relative to engine start; each event on its own row, bar = IQR, not one realised sequence)</div>
+      <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{ overflow: "hidden" }}>
+        <rect x={xT(-2)} y={PT - 8} width={xT(2) - xT(-2)} height={ROWS.length * RH + 8} fill="#e2e8f0" opacity={0.6} />
+        <text x={xT(0)} y={PT - 11} textAnchor="middle" fill="#64748b" fontSize={6.5}>timing resolution ±1–2 s</text>
+        <line x1={xT(0)} y1={PT - 8} x2={xT(0)} y2={PT + ROWS.length * RH} stroke="#7c3aed" strokeWidth={1} strokeDasharray="3 2" opacity={0.5} />
+        {[Math.ceil(tMin), 0, Math.floor(tMax)].filter((v, i, a) => a.indexOf(v) === i).map(tv => (
+          <text key={tv} x={xT(tv)} y={H - 8} textAnchor="middle" fill="#94a3b8" fontSize={7}>{tv > 0 ? "+" + tv : tv}s</text>))}
+        {ROWS.map((r, i) => {
+          const m = EV[r.k] || { name: r.k, c: "#94a3b8" }, y = PT + i * RH + RH / 2 - 4;
+          return (
+            <g key={r.k}>
+              <text x={PL} y={y + 3} fill={m.c} fontSize={8} fontWeight={700}>{m.name}</text>
+              {r.v.p25 != null && r.v.p75 != null && <line x1={xT(r.v.p25)} y1={y} x2={xT(r.v.p75)} y2={y} stroke={m.c} strokeWidth={3} opacity={0.35} />}
+              <circle cx={xT(r.v.median)} cy={y} r={3.5} fill={m.c} />
+              <text x={xT(r.v.median)} y={y - 6} textAnchor="middle" fill="#94a3b8" fontSize={6.5}>{fmtLag(r.v.median)}s</text>
+            </g>);
+        })}
+      </svg>
+
+      <Callout kind="finding">
+        Descriptive timing, not a single realised sequence. The most common ordering covers <MetricHighlight tone="derived">{top ? top.pct : "—"}%</MetricHighlight> of
+        handoffs (n={top ? top.n : "—"} of {C.nHandoffs}). Within the {ORD.length} listed orderings ({nListed} of {C.nHandoffs} handoffs; the other {C.nHandoffs - nListed} are unclassified here),
+        the battery discharge peak lies strictly before the engine start in orderings covering {nPre} handoffs ({pctH(nPre)}%) and at or after it in {nAtOrAfter} ({pctH(nAtOrAfter)}%;
+        this includes same-sample ties, which the stored ordering lists after the start). A one-sample lead is inside the ±1–2 s timing resolution, so this is order on the logging grid, not physical precedence.
+        Marginal median lags (reconstructed): battery peak <MetricHighlight tone="derived">{fmtLag(lg.dischargePeak?.median)} s</MetricHighlight> (IQR {lg.dischargePeak?.p25}–{lg.dischargePeak?.p75}, n={lg.dischargePeak?.n}),
+        load-point <MetricHighlight tone="derived">{fmtLag(lg.loadPoint?.median)} s</MetricHighlight> (IQR {lg.loadPoint?.p25}–{lg.loadPoint?.p75}, n={lg.loadPoint?.n}),
+        boost onset <MetricHighlight tone="derived">{fmtLag(lg.boostOnset?.median)} s</MetricHighlight> among the {lg.boostOnset?.n} handoffs with an onset (n={lg.boostOnset?.n}).
+        The day-clustered bootstrap interval of the load-point lag is {lpCi} s (n={lpB.nEvents} events, {lpB.nDays} days): it is zero-width at the displayed precision and reflects day-to-day
+        sampling of the median only; the ±1–2 s timing resolution is separate and far larger, so differences below it are not resolved. Consistent with battery discharge being active around
+        the time of the engine start; this analysis does not establish that the buffer acts first, nor a control-strategy order. raw/ basis, provenance-sensitive (F03). <EvidenceBadge status="derived" />
+      </Callout>
 
       <Caveat kind="caution">
         Coarse ordering only — resolvable to ~±1–2 s at the ~1.3 Hz batched-synchronous cadence; fine handoff
         time-constants (t10/t50/t90) are below the sampling floor and are <strong>not</strong> reported. The
-        wide IQRs on battery-peak and discharge-relax reflect that some handoffs are demand-led (buffer peaks
-        early) and others engine-led. Single vehicle / ~single driver — descriptive, no control-strategy claim.
+        wide IQRs on battery-peak and discharge-relax reflect that some handoffs are demand-led (battery peak
+        early) and others engine-led. Marginal medians need not be jointly attained by any single handoff, and the
+        bootstrap interval covers day-to-day sampling, not the timing resolution. Single vehicle / ~single driver — descriptive, no control-strategy claim.
       </Caveat>
     </div>
   );
@@ -10014,7 +10025,7 @@ const COMPARE_SPECS={
     {label:"Loaded cell spread",unit:"mV",digits:1,get:d=>cmpDig(d,["loadedSpreadMv","median"]),ci:cmpBootCi("loadedSpreadBoot")},
     {label:"Relaxation magnitude",unit:"mV",digits:1,get:d=>cmpDig(d,["relaxationMagnitudeMv","median"]),ci:cmpBootCi("relaxationMagnitudeBoot")},
     {label:"Relaxation half-time",unit:"s",digits:1,get:d=>cmpDig(d,["relaxationHalfTimeS","median"]),ci:cmpBootCi("relaxationHalfTimeBoot")}],note:"Exploratory analysis."},
-  HandoffSequence:{kind:"kpi",title:"Battery\u2192engine/turbo handoff",metrics:[
+  HandoffSequence:{kind:"kpi",title:"Battery, engine and boost timing",metrics:[
     {label:"Boost involvement (boost-observable)",unit:"%",digits:1,get:d=>cmpDig(d,["boostInvolvementObservablePct"]),ci:cmpBootCi("boostInvolvementBoot")},
     {label:"Load-point lag",unit:"s",digits:2,get:d=>cmpDig(d,["loadPointLagBoot","bootMedian"]),ci:cmpBootCi("loadPointLagBoot")},
     {label:"Handoffs",digits:0,get:d=>cmpDig(d,["nHandoffs"])}],
@@ -10820,7 +10831,7 @@ export default function App() {
         <Section seasonAware title="Departure / Arrival vs Matched Mid-Trip" accent="#ea580c"><DepartureArrival/></Section>
         <Section seasonAware title="Engine Operating-Point State Machine" accent="#7c3aed"><EngineStateMachine/></Section>
         <Section seasonAware title="Coolant / Oil Warm-Up &amp; Thermal Lag" accent="#ea580c"><ThermalWarmupLag/></Section>
-        <Section seasonAware title="Battery → Engine / Turbo Handoff Sequence" accent="#7c3aed"><HandoffSequence/></Section>
+        <Section seasonAware title="Battery, engine and boost timing around engine start" accent="#7c3aed"><HandoffSequence/></Section>
         <Section seasonAware title="Cell-Spread Transient / Relaxation (exploratory)" accent="#2563eb"><CellSpreadRelaxation/></Section>
         <Section seasonAware title="VGT-A Tracking &amp; Air-Path Map (subset)" accent="#0891b2"><VgtAirPath/></Section>
         <Section seasonAware title="High-SoC Regen Reduction (thin)" accent="#16a34a"><HighSocRegen/></Section>

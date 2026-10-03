@@ -123,6 +123,17 @@ ok("A2 REQUIRED cohort counts conserve: observed(warm+shoulder+cold) == observed
 ok("A2 REQUIRED identifiability box 'What the data cannot identify' with six limits and the payload Cold count", any("What the data cannot identify" in t and "uncalibrated vehicle reading" in t and "segregated from the primary corpus" in t and "assumed BSFC prior" in t for t in T.values()))
 # M357 (Crawl & Stop-Go callout)
 ok("A2 REQUIRED Crawl & Stop-Go callout: per-cycle ratio wording, regen-probability sentence (lowest peak-speed tercile), RPM onsets, F03 label, in all / warm / shoulder", all(any(all(x in T.get("distribution__" + m, "") for x in ("per-cycle ratio approach regen / launch discharge", "lowest peak-speed tercile", "RPM onsets: RPM from", "start type not separated", "no regen-direction energy at all")) for _ in [0]) for m in ("all", "warm", "shoulder")))
+# M359 (B-HandoffSequence): marginal medians are not one realised sequence; resolution band; counts bound to the payload
+_hs = json.load(open("summary_arrays.json", encoding="utf-8"))["handoffSequence"]
+_o = _hs["modalOrderings"]
+_pre = sum(x["n"] for x in _o if "dischargePeak" in x["sequence"] and x["sequence"].index("dischargePeak") < x["sequence"].index("engineStart"))
+_aft = sum(x["n"] for x in _o if "dischargePeak" in x["sequence"] and x["sequence"].index("dischargePeak") > x["sequence"].index("engineStart"))
+_hs_txt = [t for k, t in T.items() if "Descriptive timing, not a single realised sequence" in t]
+ok("A2 REQUIRED handoff section rendered with the new title and the callout in all/warm/shoulder dumps", len(_hs_txt) >= 3 and all("Battery, engine and boost timing around engine start" in t for t in _hs_txt))
+ok("A2 REQUIRED handoff callout: marginal-not-realised wording, resolution band separate from the bootstrap interval, tie rule, boost subset, F03 label",
+   bool(_hs_txt) and all(all(x in t for x in ("not one realised sequence", "timing resolution", "same-sample ties", "handoffs with an onset", "provenance-sensitive (F03)", "does not establish that the buffer acts first")) for t in _hs_txt))
+ok("A2 REQUIRED handoff ordering split equals the payload integer counts (all dump: strictly before %d, at or after %d of %d)" % (_pre, _aft, _hs["nHandoffs"]),
+   any(("covering %d handoffs" % _pre) in t and ("at or after it in %d " % _aft) in t for t in T.values() if "Descriptive timing, not a single realised sequence" in t and t.startswith("") and ("of %d handoffs" % _hs["nHandoffs"]) in t))
 # M358 (F21.r1): C-rate risk map with A / kW primary axes
 _ak = json.load(open("summary_arrays.json", encoding="utf-8"))
 _n_ak = len(_ak["cRatePointsAK"])
