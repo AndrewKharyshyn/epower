@@ -147,6 +147,53 @@ for _m in ("all", "warm", "shoulder", "compare"):
            f"{p['block']}: basis {p['basisMilestone']}" in _t and f"{p['nDrives']} drives" in _t and (f"{p['nDays']} days" in _t if p["nDays"] is not None else "n days not recorded" in _t)
            and f"(current GTR headline set: {_nprod} drives); raw basis: {p['rawBasis']}; {p['status']}." in _t for p in _sb["perBlock"]), _m)
 ok("A2 REQUIRED M370 crossval label states that it is not recomputable and not a validation of the current headline", any("Path A coefficients unpreserved; not recomputable; pre-M366 basis; not a validation of the current headline" in t for k, t in T.items() if k.startswith("fuel__")))
+# M373 (P2): simultaneity / speedSplit / sensitivity refreshed on the originals; descriptive point values, no interval; wording bound to the payload; direction claims verified from the payload values
+_G3 = json.load(open("summary_arrays.json", encoding="utf-8"))["generatorTractionRecon"]
+_rb3 = {p["block"]: p for p in _G3.get("refreshedBlocks", [])}
+_js = lambda x: (("%s" % x)[:-2] if isinstance(x, float) and float(x).is_integer() else "%s" % x)
+ok("A2 REQUIRED M373 payload: three blocks refreshed (refreshedBlocks), staleBlocks keeps only crossval, each refreshed block states the O basis and 'no interval'",
+   sorted(_rb3) == ["sensitivity", "simultaneity", "speedSplit"] and _G3["staleBlocks"]["blocks"] == ["crossval"] and all(p["rawBasis"] == "raw/ = sha256-verified originals (M366)" and "no interval" in p["status"] for p in _rb3.values()))
+for _m in ("all", "warm", "shoulder", "compare"):
+    _t3 = " ".join(" ".join(T.get(k, "") for k in T if k.endswith("__" + _m)).split())
+    ok(f"A2 REQUIRED M373 {_m} dumps: one refreshed-block sentence per block (milestone, basis, n drives, n days, status) plus the attribution sentence",
+       all(f"{p['block']}: refreshed {p['basisMilestone']} on {p['rawBasis']}, {p['nDrives']} drives, {p['nDays']} days; {p['status']}." in _t3 for p in _rb3.values()) and "Attribution: " + next(iter(_rb3.values()))["provenanceDelta"] + "." in _t3, _m)
+_simu = {r["type"]: r for r in _G3["simultaneity"]}
+_ss = {r["bin"]: r for r in _G3["speedSplit"]}
+_all3 = " ".join(" ".join(T.values()).split())
+_sts = ("genPlusBattDischarge", "chargesAndDrives", "genAloneNeutral", "fullyBanked")
+ok("A2 REQUIRED M373 simultaneity text: 'largest engine-on state in urban and mixed driving' is TRUE in the payload (charge-and-drive is the maximum state of both rows), the not-monotonic remark is TRUE, and the wording is rendered",
+   all(max(_simu[t][k] for k in _sts) == _simu[t]["chargesAndDrives"] for t in ("urban", "mixed"))
+   and not (all(a <= b for a, b in zip([_simu[t]["chargesAndDrives"] for t in ("urban", "mixed", "mixed_highway", "highway")], [_simu[t]["chargesAndDrives"] for t in ("urban", "mixed", "mixed_highway", "highway")][1:]))
+            or all(a >= b for a, b in zip([_simu[t]["chargesAndDrives"] for t in ("urban", "mixed", "mixed_highway", "highway")], [_simu[t]["chargesAndDrives"] for t in ("urban", "mixed", "mixed_highway", "highway")][1:])))
+   and "charge-and-drive is the largest engine-on state in urban and mixed driving" in _all3 and "charge-and-drive is not monotonic across the four types" in _all3
+   and f"charge-and-drive for {_js(_simu['urban']['chargesAndDrives'])}% of engine-on time (mixed {_js(_simu['mixed']['chargesAndDrives'])}%)" in _all3)
+ok("A2 REQUIRED M373 simultaneity basis note: refreshed, descriptive, no interval, deadband deltas bound to refreshedBlocks",
+   all(x in _all3 for x in ("Basis note: refreshed at M373 per-second", "descriptive point shares, no interval", "replacing the raw basis by the former lower-precision re-exports changes any share by at most %s pp at 0.5 kW" % _js(_rb3["simultaneity"]["deadbandMaxAbsDeltaPP_O_minus_R"]["primary_0.5kW"]))))
+_bins = ("0-20", "20-60", "60-90", "90-120")
+ok("A2 REQUIRED M373 speedSplit text: 'f_gen is higher in the faster bins' and 'battery arm lower in the faster bins' are TRUE in the payload (f_gen strictly increasing over the first four bins; battery 0-20 > 90-120) and the wording, validation counts and refresh note are rendered",
+   all(_ss[a]["fGen"] < _ss[b]["fGen"] for a, b in zip(_bins, _bins[1:])) and _ss["0-20"]["battery"] > _ss["90-120"]["battery"]
+   and all(x in _all3 for x in ("f_gen is higher in each faster bin", "the battery arm's absolute contribution is lower in the faster bins", "this is a property of the binning",
+                                "matched fuel_recon_master.csv on %d of %d drives" % (_rb3["speedSplit"]["validation"]["nMatched"], _rb3["speedSplit"]["validation"]["nChecked"]))))
+ok("A2 REQUIRED M373 sensitivity caption: refreshed note rendered and BASE equals the live headline (gate passed in the run)",
+   "Refreshed at M373 on raw/ = sha256-verified originals over %d drives (the BASE row equals the live headline); descriptive point values, no interval." % _rb3["sensitivity"]["nDrives"] in _all3
+   and _rb3["sensitivity"]["baseGate"]["passed"] and _rb3["sensitivity"]["baseGate"]["equalsLiveHeadline"] == {"gen100": _G3["corpus"]["generator"], "trac100": _G3["corpus"]["tractionGross"], "fgen": _G3["corpus"]["fGen"], "etaBus": _G3["corpus"]["etaBus"]})
+ok("A2 REQUIRED M373 the section-4a sentence in the simultaneity paragraph is qualified (no typed 38 % / 62 % numbers, no 'deliberately')",
+   "this table does not test it" in _all3 and "holds ~38% load" not in _all3)
+ok("A2 REQUIRED M373 wording fixes: buffer sentence (urban larger charge-and-drive, highway larger battery-discharge: TRUE in the payload), thin 120+ bin not higher than 90-120 (TRUE), sensitivity title and previous-table disclosure, logged standstill draw, drive-type chart n labelled as a different set",
+   _simu["urban"]["chargesAndDrives"] > _simu["highway"]["chargesAndDrives"] and _simu["highway"]["genPlusBattDischarge"] > _simu["urban"]["genPlusBattDischarge"] and _ss["120+"]["fGen"] <= _ss["90-120"]["fGen"]
+   and all(x in _all3 for x in ("has the larger charge-and-drive share and the highway row (%d drives) the larger battery-discharge share; this state mix is consistent with, but does not test, a power-buffer role" % _simu["highway"]["nDrives"],
+                                "is not higher than 90\u2013120", "Sensitivity \u2014 single-axis perturbations", "on every single axis (point values). The previous table (M279 basis) had %d of %d axes at or above 0.5" % (_rb3["sensitivity"]["previousBlock"]["nAxesFgenAtOrAbove0p5"], _rb3["sensitivity"]["previousBlock"]["nAxes"]),
+                                "the logged key-on standstill draw", "the drive-type chart above counts every headline drive")))
+_fg3 = [r["fgen"] for r in _G3["sensitivity"]]
+ok("A2 REQUIRED M373 sensitivity previous-table disclosure is TRUE: the margin of the highest axis to 0.5 is smaller than the combined drift, and the refreshed table has no axis at or above 0.5",
+   max(_fg3) < 0.5 and (0.5 - max(_fg3)) < _rb3["sensitivity"]["previousBlock"]["combinedDriftMaxAbsFgen_R_minus_published"] and _rb3["sensitivity"]["previousBlock"]["nAxesFgenAtOrAbove0p5"] == 3)
+_l4, _l5 = _G3["limitations"][4], _G3["limitations"][5]
+ok("A2 REQUIRED M373 limitations[4] and [5]: refreshed-at-M373 wording present, crossval no longer called 'current', most urban engine-on time is charge-and-drive or fully banked (TRUE)",
+   "refreshed at M373 on raw/ = sha256-verified originals (M366) as descriptive point values with no interval" in _l4 and "the M265 fix did not change them" in _l4
+   and "most urban engine-on time is classified as charge-and-drive or fully banked" in _l5 and (_simu["urban"]["chargesAndDrives"] + _simu["urban"]["fullyBanked"]) > 50)
+_l6 = _G3["limitations"][6]
+ok("A2 REQUIRED M373 limitations[6] (speed split provenance): refreshed at M373, no typed M255-era counts, the check count is stated in the speed-split text (script-written %d of %d)" % (_rb3["speedSplit"]["validation"]["nMatched"], _rb3["speedSplit"]["validation"]["nChecked"]),
+   "refreshed at M373 on raw/ = sha256-verified originals (M366)" in _l6 and "145" not in _l6 and "n=11" not in _l6 and "16.5 km" not in _l6 and "matched fuel_recon_master.csv on %d of %d drives" % (_rb3["speedSplit"]["validation"]["nMatched"], _rb3["speedSplit"]["validation"]["nChecked"]) in _all3)
 _pv2 = json.load(open("summary_arrays.json", encoding="utf-8"))["provenanceSensitivity"]["disclosure"]
 ok("A2 REQUIRED M366 F03 disclosure does not claim all estimates stay inside their CIs (it states the counts and that the outside ones are FUEL-12)", "all FUEL-12" in _pv2 and "remain inside their previous 95% CIs" in _pv2 and "remain inside their CIs" not in _pv2)
 # M364 (buffer-thesis wording: qualified description, derived badges)

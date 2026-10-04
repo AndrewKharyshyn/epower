@@ -1,0 +1,834 @@
+{
+ "meta": {
+  "point": "O",
+  "rawDir": "C:\\Users\\AndriiKharyshyn\\Downloads\\X-Trail Investigation\\Repo\\xtrail-repo\\raw_only",
+  "specSha256": "53297bdbee4ce66318c4ed09135cbc4bdf1161e972441f17c7db75a8c8afb6da",
+  "gitHead": "39c840d",
+  "scriptSha256": {
+   "tools/m373_point.py": "9c479e856535b280",
+   "sensitivity_gtr.py": "b39c2830b8c99eee",
+   "simultaneity_gtr.py": "baf9b5e4fa439e22",
+   "speed_split.py": "83e56cfecd7f26d7",
+   "recon_engine.py": "84adb4f8d321f7d8",
+   "fuel_recon.py": "729ef765aca215db",
+   "model_constants.py": "70486c933c844505"
+  },
+  "driveMasterMd5Before": "bd9d10726bb064d857cf9ff98d2b7338",
+  "stage": null,
+  "sensitivityTarget": {
+   "value": {
+    "gen100": 15.92,
+    "trac100": 18.49,
+    "fgen": 0.465,
+    "etaBus": 0.327
+   },
+   "source": "live payload corpus (summary_arrays.json generatorTractionRecon.corpus)"
+  },
+  "fuelReconMasterForValidation": "repo fuel_recon_master.csv sha256 0d8a09163c2d105f",
+  "driveIds": {
+   "nAll": 261,
+   "nClean": 260,
+   "nDaysClean": 50,
+   "idsSha256": "d7d5322525440186"
+  },
+  "sensitivityBaseGate": {
+   "target": {
+    "gen100": 15.92,
+    "trac100": 18.49,
+    "fgen": 0.465,
+    "etaBus": 0.327
+   },
+   "base": {
+    "gen100": 15.92,
+    "trac100": 18.49,
+    "fgen": 0.465,
+    "etaBus": 0.327
+   },
+   "passed": true,
+   "nClean": 260,
+   "equalsSimultaneityCleanN": true
+  },
+  "speedSplitValidation": {
+   "nChecked": 261,
+   "nMatched": 261,
+   "maxAbsDiffKwh100km": 0.0,
+   "passed": true
+  },
+  "driveMasterMd5After": "bd9d10726bb064d857cf9ff98d2b7338",
+  "runtimeS": 352
+ },
+ "sensitivity": {
+  "axesUnrounded": [
+   {
+    "axis": "BASE (central)",
+    "gen100": 15.921630121294612,
+    "trac100": 18.491943166588918,
+    "fgen": 0.4651455577450536,
+    "etaBus": 0.32712105234037553
+   },
+   {
+    "axis": "BSFC optimistic (-6%)",
+    "gen100": 16.78262735803494,
+    "trac100": 19.210046158541946,
+    "fgen": 0.485139292901794,
+    "etaBus": 0.3447127135916015
+   },
+   {
+    "axis": "BSFC conservative (+9%)",
+    "gen100": 14.607000111279456,
+    "trac100": 17.438483138794062,
+    "fgen": 0.4328349622007293,
+    "etaBus": 0.300111057193005
+   },
+   {
+    "axis": "η_gen low (0.90)",
+    "gen100": 15.083649588594891,
+    "trac100": 17.814158582775885,
+    "fgen": 0.44479567179002294,
+    "etaBus": 0.3099041548487768
+   },
+   {
+    "axis": "η_gen high (0.97)",
+    "gen100": 16.256822334374494,
+    "trac100": 18.768755254556982,
+    "fgen": 0.47303388986466177,
+    "etaBus": 0.33400781133701507
+   },
+   {
+    "axis": "P_aux low (0.2kW)",
+    "gen100": 15.758846740787064,
+    "trac100": 19.038588054724887,
+    "fgen": 0.4557035921071914,
+    "etaBus": 0.32377655367224395
+   },
+   {
+    "axis": "P_aux high (1.2kW)",
+    "gen100": 15.921630121294612,
+    "trac100": 16.88082005724176,
+    "fgen": 0.4868564677425978,
+    "etaBus": 0.32712105234037553
+   },
+   {
+    "axis": "cold penalty OFF",
+    "gen100": 16.897767457231218,
+    "trac100": 19.225418027674646,
+    "fgen": 0.4855509547652546,
+    "etaBus": 0.3434253014537963
+   },
+   {
+    "axis": "cold penalty heavy (×1.45)",
+    "gen100": 15.383071591122688,
+    "trac100": 18.162420694453434,
+    "fgen": 0.4554416443180113,
+    "etaBus": 0.3181256045536606
+   },
+   {
+    "axis": "OPT band wide (1750-2250)",
+    "gen100": 15.940795656089398,
+    "trac100": 18.507282464841524,
+    "fgen": 0.46558885847421616,
+    "etaBus": 0.3275134775592364
+   }
+  ],
+  "axes": [
+   {
+    "axis": "BASE (central)",
+    "gen100": 15.92,
+    "trac100": 18.49,
+    "fgen": 0.465,
+    "etaBus": 0.327,
+    "nClean": 260
+   },
+   {
+    "axis": "BSFC optimistic (-6%)",
+    "gen100": 16.78,
+    "trac100": 19.21,
+    "fgen": 0.485,
+    "etaBus": 0.345,
+    "nClean": 260
+   },
+   {
+    "axis": "BSFC conservative (+9%)",
+    "gen100": 14.61,
+    "trac100": 17.44,
+    "fgen": 0.433,
+    "etaBus": 0.3,
+    "nClean": 260
+   },
+   {
+    "axis": "η_gen low (0.90)",
+    "gen100": 15.08,
+    "trac100": 17.81,
+    "fgen": 0.445,
+    "etaBus": 0.31,
+    "nClean": 260
+   },
+   {
+    "axis": "η_gen high (0.97)",
+    "gen100": 16.26,
+    "trac100": 18.77,
+    "fgen": 0.473,
+    "etaBus": 0.334,
+    "nClean": 260
+   },
+   {
+    "axis": "P_aux low (0.2kW)",
+    "gen100": 15.76,
+    "trac100": 19.04,
+    "fgen": 0.456,
+    "etaBus": 0.324,
+    "nClean": 261
+   },
+   {
+    "axis": "P_aux high (1.2kW)",
+    "gen100": 15.92,
+    "trac100": 16.88,
+    "fgen": 0.487,
+    "etaBus": 0.327,
+    "nClean": 260
+   },
+   {
+    "axis": "cold penalty OFF",
+    "gen100": 16.9,
+    "trac100": 19.23,
+    "fgen": 0.486,
+    "etaBus": 0.343,
+    "nClean": 260
+   },
+   {
+    "axis": "cold penalty heavy (×1.45)",
+    "gen100": 15.38,
+    "trac100": 18.16,
+    "fgen": 0.455,
+    "etaBus": 0.318,
+    "nClean": 260
+   },
+   {
+    "axis": "OPT band wide (1750-2250)",
+    "gen100": 15.94,
+    "trac100": 18.51,
+    "fgen": 0.466,
+    "etaBus": 0.328,
+    "nClean": 260
+   }
+  ],
+  "nDrives": 260,
+  "nDays": 50
+ },
+ "simultaneity": {
+  "rows": [
+   {
+    "type": "urban",
+    "nDrives": 225,
+    "engineOnHours": 13.6,
+    "genPlusBattDischarge": 18.6,
+    "chargesAndDrives": 51.4,
+    "genAloneNeutral": 2.9,
+    "fullyBanked": 27.1
+   },
+   {
+    "type": "mixed",
+    "nDrives": 11,
+    "engineOnHours": 2.1,
+    "genPlusBattDischarge": 25.3,
+    "chargesAndDrives": 57.5,
+    "genAloneNeutral": 3.7,
+    "fullyBanked": 13.5
+   },
+   {
+    "type": "mixed_highway",
+    "nDrives": 5,
+    "engineOnHours": 2.2,
+    "genPlusBattDischarge": 42.9,
+    "chargesAndDrives": 44.2,
+    "genAloneNeutral": 4.7,
+    "fullyBanked": 8.2
+   },
+   {
+    "type": "highway",
+    "nDrives": 2,
+    "engineOnHours": 1.8,
+    "genPlusBattDischarge": 46.3,
+    "chargesAndDrives": 36.1,
+    "genAloneNeutral": 11.8,
+    "fullyBanked": 5.8
+   }
+  ],
+  "params": {
+   "epsTracKw": 0.5,
+   "epsBattKw": 0.5
+  },
+  "nDrives": 260,
+  "nDays": 50
+ },
+ "speedSplit": {
+  "bins": [
+   {
+    "bin": "0-20",
+    "nDrives": 261,
+    "distKm": 161.8,
+    "generator": 6.26,
+    "battery": 30.23,
+    "fGen": 0.1714
+   },
+   {
+    "bin": "20-60",
+    "nDrives": 258,
+    "distKm": 931.3,
+    "generator": 5.83,
+    "battery": 11.76,
+    "fGen": 0.3314
+   },
+   {
+    "bin": "60-90",
+    "nDrives": 77,
+    "distKm": 566.1,
+    "generator": 8.99,
+    "battery": 5.39,
+    "fGen": 0.6254
+   },
+   {
+    "bin": "90-120",
+    "nDrives": 41,
+    "distKm": 323.5,
+    "generator": 16.44,
+    "battery": 2.66,
+    "fGen": 0.8608
+   },
+   {
+    "bin": "120+",
+    "nDrives": 13,
+    "distKm": 18.1,
+    "generator": 21.36,
+    "battery": 3.65,
+    "fGen": 0.8539
+   }
+  ],
+  "nDrives": 261,
+  "nDays": 51
+ },
+ "deadband": {
+  "0.25_0.25": {
+   "rows": [
+    {
+     "type": "urban",
+     "nDrives": 225,
+     "engineOnHours": 13.6,
+     "genPlusBattDischarge": 19.4,
+     "chargesAndDrives": 53.2,
+     "genAloneNeutral": 1.8,
+     "fullyBanked": 25.7
+    },
+    {
+     "type": "mixed",
+     "nDrives": 11,
+     "engineOnHours": 2.1,
+     "genPlusBattDischarge": 26.4,
+     "chargesAndDrives": 58.5,
+     "genAloneNeutral": 2.2,
+     "fullyBanked": 13.0
+    },
+    {
+     "type": "mixed_highway",
+     "nDrives": 5,
+     "engineOnHours": 2.2,
+     "genPlusBattDischarge": 44.3,
+     "chargesAndDrives": 44.6,
+     "genAloneNeutral": 3.1,
+     "fullyBanked": 8.0
+    },
+    {
+     "type": "highway",
+     "nDrives": 2,
+     "engineOnHours": 1.8,
+     "genPlusBattDischarge": 50.3,
+     "chargesAndDrives": 36.3,
+     "genAloneNeutral": 7.7,
+     "fullyBanked": 5.6
+    }
+   ],
+   "bandShareEngineOn": {
+    "urban": {
+     "absPtracLEeps": 0.0247,
+     "absPbattLEeps": 0.0178
+    },
+    "mixed_highway": {
+     "absPtracLEeps": 0.0051,
+     "absPbattLEeps": 0.0315
+    },
+    "mixed": {
+     "absPtracLEeps": 0.0096,
+     "absPbattLEeps": 0.0216
+    },
+    "highway": {
+     "absPtracLEeps": 0.0038,
+     "absPbattLEeps": 0.0773
+    }
+   }
+  },
+  "0.25_0.5": {
+   "rows": [
+    {
+     "type": "urban",
+     "nDrives": 225,
+     "engineOnHours": 13.6,
+     "genPlusBattDischarge": 18.6,
+     "chargesAndDrives": 52.8,
+     "genAloneNeutral": 2.9,
+     "fullyBanked": 25.7
+    },
+    {
+     "type": "mixed",
+     "nDrives": 11,
+     "engineOnHours": 2.1,
+     "genPlusBattDischarge": 25.3,
+     "chargesAndDrives": 58.0,
+     "genAloneNeutral": 3.7,
+     "fullyBanked": 13.0
+    },
+    {
+     "type": "mixed_highway",
+     "nDrives": 5,
+     "engineOnHours": 2.2,
+     "genPlusBattDischarge": 42.9,
+     "chargesAndDrives": 44.4,
+     "genAloneNeutral": 4.7,
+     "fullyBanked": 8.0
+    },
+    {
+     "type": "highway",
+     "nDrives": 2,
+     "engineOnHours": 1.8,
+     "genPlusBattDischarge": 46.3,
+     "chargesAndDrives": 36.3,
+     "genAloneNeutral": 11.8,
+     "fullyBanked": 5.6
+    }
+   ],
+   "bandShareEngineOn": {
+    "urban": {
+     "absPtracLEeps": 0.0247,
+     "absPbattLEeps": 0.0292
+    },
+    "mixed_highway": {
+     "absPtracLEeps": 0.0051,
+     "absPbattLEeps": 0.0473
+    },
+    "mixed": {
+     "absPtracLEeps": 0.0096,
+     "absPbattLEeps": 0.0371
+    },
+    "highway": {
+     "absPtracLEeps": 0.0038,
+     "absPbattLEeps": 0.1176
+    }
+   }
+  },
+  "0.25_1.0": {
+   "rows": [
+    {
+     "type": "urban",
+     "nDrives": 225,
+     "engineOnHours": 13.6,
+     "genPlusBattDischarge": 17.4,
+     "chargesAndDrives": 50.9,
+     "genAloneNeutral": 6.0,
+     "fullyBanked": 25.7
+    },
+    {
+     "type": "mixed",
+     "nDrives": 11,
+     "engineOnHours": 2.1,
+     "genPlusBattDischarge": 23.8,
+     "chargesAndDrives": 56.2,
+     "genAloneNeutral": 7.1,
+     "fullyBanked": 13.0
+    },
+    {
+     "type": "mixed_highway",
+     "nDrives": 5,
+     "engineOnHours": 2.2,
+     "genPlusBattDischarge": 41.2,
+     "chargesAndDrives": 41.5,
+     "genAloneNeutral": 9.3,
+     "fullyBanked": 8.0
+    },
+    {
+     "type": "highway",
+     "nDrives": 2,
+     "engineOnHours": 1.8,
+     "genPlusBattDischarge": 42.2,
+     "chargesAndDrives": 30.7,
+     "genAloneNeutral": 21.5,
+     "fullyBanked": 5.6
+    }
+   ],
+   "bandShareEngineOn": {
+    "urban": {
+     "absPtracLEeps": 0.0247,
+     "absPbattLEeps": 0.0601
+    },
+    "mixed_highway": {
+     "absPtracLEeps": 0.0051,
+     "absPbattLEeps": 0.0931
+    },
+    "mixed": {
+     "absPtracLEeps": 0.0096,
+     "absPbattLEeps": 0.0714
+    },
+    "highway": {
+     "absPtracLEeps": 0.0038,
+     "absPbattLEeps": 0.215
+    }
+   }
+  },
+  "0.5_0.25": {
+   "rows": [
+    {
+     "type": "urban",
+     "nDrives": 225,
+     "engineOnHours": 13.6,
+     "genPlusBattDischarge": 19.4,
+     "chargesAndDrives": 51.8,
+     "genAloneNeutral": 1.8,
+     "fullyBanked": 27.1
+    },
+    {
+     "type": "mixed",
+     "nDrives": 11,
+     "engineOnHours": 2.1,
+     "genPlusBattDischarge": 26.4,
+     "chargesAndDrives": 58.0,
+     "genAloneNeutral": 2.2,
+     "fullyBanked": 13.5
+    },
+    {
+     "type": "mixed_highway",
+     "nDrives": 5,
+     "engineOnHours": 2.2,
+     "genPlusBattDischarge": 44.3,
+     "chargesAndDrives": 44.4,
+     "genAloneNeutral": 3.1,
+     "fullyBanked": 8.2
+    },
+    {
+     "type": "highway",
+     "nDrives": 2,
+     "engineOnHours": 1.8,
+     "genPlusBattDischarge": 50.3,
+     "chargesAndDrives": 36.1,
+     "genAloneNeutral": 7.7,
+     "fullyBanked": 5.8
+    }
+   ],
+   "bandShareEngineOn": {
+    "urban": {
+     "absPtracLEeps": 0.0495,
+     "absPbattLEeps": 0.0178
+    },
+    "mixed_highway": {
+     "absPtracLEeps": 0.0108,
+     "absPbattLEeps": 0.0315
+    },
+    "mixed": {
+     "absPtracLEeps": 0.0196,
+     "absPbattLEeps": 0.0216
+    },
+    "highway": {
+     "absPtracLEeps": 0.0076,
+     "absPbattLEeps": 0.0773
+    }
+   }
+  },
+  "0.5_0.5": {
+   "rows": [
+    {
+     "type": "urban",
+     "nDrives": 225,
+     "engineOnHours": 13.6,
+     "genPlusBattDischarge": 18.6,
+     "chargesAndDrives": 51.4,
+     "genAloneNeutral": 2.9,
+     "fullyBanked": 27.1
+    },
+    {
+     "type": "mixed",
+     "nDrives": 11,
+     "engineOnHours": 2.1,
+     "genPlusBattDischarge": 25.3,
+     "chargesAndDrives": 57.5,
+     "genAloneNeutral": 3.7,
+     "fullyBanked": 13.5
+    },
+    {
+     "type": "mixed_highway",
+     "nDrives": 5,
+     "engineOnHours": 2.2,
+     "genPlusBattDischarge": 42.9,
+     "chargesAndDrives": 44.2,
+     "genAloneNeutral": 4.7,
+     "fullyBanked": 8.2
+    },
+    {
+     "type": "highway",
+     "nDrives": 2,
+     "engineOnHours": 1.8,
+     "genPlusBattDischarge": 46.3,
+     "chargesAndDrives": 36.1,
+     "genAloneNeutral": 11.8,
+     "fullyBanked": 5.8
+    }
+   ],
+   "bandShareEngineOn": {
+    "urban": {
+     "absPtracLEeps": 0.0495,
+     "absPbattLEeps": 0.0292
+    },
+    "mixed_highway": {
+     "absPtracLEeps": 0.0108,
+     "absPbattLEeps": 0.0473
+    },
+    "mixed": {
+     "absPtracLEeps": 0.0196,
+     "absPbattLEeps": 0.0371
+    },
+    "highway": {
+     "absPtracLEeps": 0.0076,
+     "absPbattLEeps": 0.1176
+    }
+   }
+  },
+  "0.5_1.0": {
+   "rows": [
+    {
+     "type": "urban",
+     "nDrives": 225,
+     "engineOnHours": 13.6,
+     "genPlusBattDischarge": 17.4,
+     "chargesAndDrives": 49.6,
+     "genAloneNeutral": 6.0,
+     "fullyBanked": 27.1
+    },
+    {
+     "type": "mixed",
+     "nDrives": 11,
+     "engineOnHours": 2.1,
+     "genPlusBattDischarge": 23.8,
+     "chargesAndDrives": 55.7,
+     "genAloneNeutral": 7.1,
+     "fullyBanked": 13.5
+    },
+    {
+     "type": "mixed_highway",
+     "nDrives": 5,
+     "engineOnHours": 2.2,
+     "genPlusBattDischarge": 41.2,
+     "chargesAndDrives": 41.2,
+     "genAloneNeutral": 9.3,
+     "fullyBanked": 8.2
+    },
+    {
+     "type": "highway",
+     "nDrives": 2,
+     "engineOnHours": 1.8,
+     "genPlusBattDischarge": 42.2,
+     "chargesAndDrives": 30.5,
+     "genAloneNeutral": 21.5,
+     "fullyBanked": 5.8
+    }
+   ],
+   "bandShareEngineOn": {
+    "urban": {
+     "absPtracLEeps": 0.0495,
+     "absPbattLEeps": 0.0601
+    },
+    "mixed_highway": {
+     "absPtracLEeps": 0.0108,
+     "absPbattLEeps": 0.0931
+    },
+    "mixed": {
+     "absPtracLEeps": 0.0196,
+     "absPbattLEeps": 0.0714
+    },
+    "highway": {
+     "absPtracLEeps": 0.0076,
+     "absPbattLEeps": 0.215
+    }
+   }
+  },
+  "1.0_0.25": {
+   "rows": [
+    {
+     "type": "urban",
+     "nDrives": 225,
+     "engineOnHours": 13.6,
+     "genPlusBattDischarge": 19.4,
+     "chargesAndDrives": 48.8,
+     "genAloneNeutral": 1.8,
+     "fullyBanked": 30.0
+    },
+    {
+     "type": "mixed",
+     "nDrives": 11,
+     "engineOnHours": 2.1,
+     "genPlusBattDischarge": 26.4,
+     "chargesAndDrives": 56.8,
+     "genAloneNeutral": 2.2,
+     "fullyBanked": 14.6
+    },
+    {
+     "type": "mixed_highway",
+     "nDrives": 5,
+     "engineOnHours": 2.2,
+     "genPlusBattDischarge": 44.3,
+     "chargesAndDrives": 43.8,
+     "genAloneNeutral": 3.1,
+     "fullyBanked": 8.8
+    },
+    {
+     "type": "highway",
+     "nDrives": 2,
+     "engineOnHours": 1.8,
+     "genPlusBattDischarge": 50.3,
+     "chargesAndDrives": 35.8,
+     "genAloneNeutral": 7.7,
+     "fullyBanked": 6.1
+    }
+   ],
+   "bandShareEngineOn": {
+    "urban": {
+     "absPtracLEeps": 0.0965,
+     "absPbattLEeps": 0.0178
+    },
+    "mixed_highway": {
+     "absPtracLEeps": 0.0212,
+     "absPbattLEeps": 0.0315
+    },
+    "mixed": {
+     "absPtracLEeps": 0.0386,
+     "absPbattLEeps": 0.0216
+    },
+    "highway": {
+     "absPtracLEeps": 0.0149,
+     "absPbattLEeps": 0.0773
+    }
+   }
+  },
+  "1.0_0.5": {
+   "rows": [
+    {
+     "type": "urban",
+     "nDrives": 225,
+     "engineOnHours": 13.6,
+     "genPlusBattDischarge": 18.6,
+     "chargesAndDrives": 48.5,
+     "genAloneNeutral": 2.9,
+     "fullyBanked": 30.0
+    },
+    {
+     "type": "mixed",
+     "nDrives": 11,
+     "engineOnHours": 2.1,
+     "genPlusBattDischarge": 25.3,
+     "chargesAndDrives": 56.4,
+     "genAloneNeutral": 3.7,
+     "fullyBanked": 14.6
+    },
+    {
+     "type": "mixed_highway",
+     "nDrives": 5,
+     "engineOnHours": 2.2,
+     "genPlusBattDischarge": 42.9,
+     "chargesAndDrives": 43.5,
+     "genAloneNeutral": 4.7,
+     "fullyBanked": 8.8
+    },
+    {
+     "type": "highway",
+     "nDrives": 2,
+     "engineOnHours": 1.8,
+     "genPlusBattDischarge": 46.3,
+     "chargesAndDrives": 35.8,
+     "genAloneNeutral": 11.8,
+     "fullyBanked": 6.1
+    }
+   ],
+   "bandShareEngineOn": {
+    "urban": {
+     "absPtracLEeps": 0.0965,
+     "absPbattLEeps": 0.0292
+    },
+    "mixed_highway": {
+     "absPtracLEeps": 0.0212,
+     "absPbattLEeps": 0.0473
+    },
+    "mixed": {
+     "absPtracLEeps": 0.0386,
+     "absPbattLEeps": 0.0371
+    },
+    "highway": {
+     "absPtracLEeps": 0.0149,
+     "absPbattLEeps": 0.1176
+    }
+   }
+  },
+  "1.0_1.0": {
+   "rows": [
+    {
+     "type": "urban",
+     "nDrives": 225,
+     "engineOnHours": 13.6,
+     "genPlusBattDischarge": 17.4,
+     "chargesAndDrives": 46.6,
+     "genAloneNeutral": 6.0,
+     "fullyBanked": 30.0
+    },
+    {
+     "type": "mixed",
+     "nDrives": 11,
+     "engineOnHours": 2.1,
+     "genPlusBattDischarge": 23.8,
+     "chargesAndDrives": 54.5,
+     "genAloneNeutral": 7.1,
+     "fullyBanked": 14.6
+    },
+    {
+     "type": "mixed_highway",
+     "nDrives": 5,
+     "engineOnHours": 2.2,
+     "genPlusBattDischarge": 41.2,
+     "chargesAndDrives": 40.6,
+     "genAloneNeutral": 9.3,
+     "fullyBanked": 8.8
+    },
+    {
+     "type": "highway",
+     "nDrives": 2,
+     "engineOnHours": 1.8,
+     "genPlusBattDischarge": 42.2,
+     "chargesAndDrives": 30.2,
+     "genAloneNeutral": 21.5,
+     "fullyBanked": 6.1
+    }
+   ],
+   "bandShareEngineOn": {
+    "urban": {
+     "absPtracLEeps": 0.0965,
+     "absPbattLEeps": 0.0601
+    },
+    "mixed_highway": {
+     "absPtracLEeps": 0.0212,
+     "absPbattLEeps": 0.0931
+    },
+    "mixed": {
+     "absPtracLEeps": 0.0386,
+     "absPbattLEeps": 0.0714
+    },
+    "highway": {
+     "absPtracLEeps": 0.0149,
+     "absPbattLEeps": 0.215
+    }
+   }
+  }
+ }
+}
