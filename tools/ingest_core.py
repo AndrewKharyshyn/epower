@@ -297,7 +297,7 @@ def step4_arrays(dm, raw_stage, recompute_m119v2):
     arrays = csa.build_summary_arrays(
         dm, loader, with_raw=True, odometer_km=cfg.get("vehicle", {}).get("odometerKm"),
         seasonal_cfg=cfg.get("seasonalAssumptions"), ambient_by_drive=cfg.get("ambientByDrive"),
-        frame_loader=drc.make_frame_loader(), session_cfg=cfg, raw_dir=raw_stage,
+        frame_loader=drc.make_frame_loader(raw_dir=raw_stage), session_cfg=cfg, raw_dir=raw_stage,
         recompute_m119v2=recompute_m119v2, prev_arrays=prev, recompute_energy_mc=True)
     if (arrays.get("energyUncertaintyMC") or {}).get("recomputeMode") != "fresh":
         raise Gate("energyUncertaintyMC.recomputeMode != 'fresh' (recompute_energy_mc must run on every ingestion)")

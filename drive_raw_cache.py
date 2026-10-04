@@ -171,11 +171,24 @@ def add_file(fname, raw_bytes, cache_dir=CACHE_DIR, manifest=None):
     return man[fname]
 
 
-def make_frame_loader(cache_dir=CACHE_DIR, verify_schema=True):
+def make_frame_loader(cache_dir=CACHE_DIR, verify_schema=True, raw_dir=None):
     """Returns frame_loader(fname) -> DataFrame|None for
     build_summary_arrays(frame_loader=...). Stale-schema entries are
     treated as missing (forces re-add rather than silently serving old
-    column sets)."""
+    column sets). M369: with raw_dir, an entry whose recorded src_md5 differs
+    from the md5 of the raw file now on disk is ALSO treated as missing (a
+    changed raw file was previously served from stale frames by name); the
+    raw md5 is memoised per (size, mtime) so a full pass hashes each file once."""
+    seen = {}
+
+    def _raw_md5(src):
+        st = os.stat(src)
+        k = (src, st.st_size, st.st_mtime_ns)
+        if k not in seen:
+            with open(src, 'rb') as f:
+                seen[k] = _md5(f.read())
+        return seen[k]
+
     def _load(fname):
         p = _entry_path(cache_dir, fname)
         if not os.path.exists(p):
@@ -184,16 +197,34 @@ def make_frame_loader(cache_dir=CACHE_DIR, verify_schema=True):
             payload = pickle.load(f)
         if verify_schema and payload.get('schema') != SCHEMA_VERSION:
             return None
+        if raw_dir is not None:
+            src = os.path.join(raw_dir, fname)
+            if os.path.exists(src) and _raw_md5(src) != payload.get('src_md5'):
+                return None
         return payload['df']
     return _load
 
 
+def content_key(files, cache_dir=CACHE_DIR, code_paths=()):
+    """M369: md5 key over (file name, recorded raw src_md5) of every file plus the bytes of the code files whose output is
+    cached, for result caches that must not outlive a raw-file or builder change (the former key was file list + size)."""
+    man = _load_manifest(cache_dir)
+    h = hashlib.md5()
+    for fn in files:
+        h.update(f"{fn}:{(man.get(fn) or {}).get('src_md5', 'NOSRC')};".encode())
+    for p in code_paths:
+        with open(p, 'rb') as f:
+            h.update(_md5(f.read()).encode())
+    return h.hexdigest()[:12]
+
+
 def add_missing(files, raw_dir, cache_dir=CACHE_DIR, budget_s=None,
-                verify_md5=False, verbose=True):
-    """Ensure a cache entry exists (schema-current, and MD5-matching if
-    verify_md5) for every file in `files` found under raw_dir. Resumable:
-    call again after a timeout -- completed entries are skipped via the
-    manifest, so the loop is idempotent. Returns (n_added, n_pending)."""
+                verify_md5=True, verbose=True):
+    """Ensure a cache entry exists (schema-current and MD5-matching) for every
+    file in `files` found under raw_dir. M369: verify_md5 now defaults to True
+    (it was False, so a changed raw file kept its stale entry by name).
+    Resumable: call again after a timeout -- completed entries are skipped via
+    the manifest, so the loop is idempotent. Returns (n_added, n_pending)."""
     t0 = _time.time()
     man = _load_manifest(cache_dir)
     todo = []
