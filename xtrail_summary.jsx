@@ -4098,7 +4098,7 @@ function SocBySpeed() {
    observes, with the blind path marked as blind. */
 function EnergyArchitecture() {
   const _coh=useCohort();
-  if(cohortNoData(_coh,["EnergyPath"])) return <ColdNoData chart="e-POWER Architecture · Measured pack-terminal energy accounting" cohort={_coh}/>;
+  if(cohortNoData(_coh,["EnergyPath"])) return <ColdNoData chart="e-POWER Architecture · Logged pack-terminal energy accounting" cohort={_coh}/>;
   if(_coh==="compare") return <CompareBlock id="EnergyPath"/>;
   // M254 (season-wiring): energyPath re-derived per cohort by re-running the
   // pipeline's own _energy_path() against cohort-filtered drive subsets
@@ -5892,7 +5892,7 @@ function BufferImpulseChart() {
         <circle cx={xlog(capMult)} cy={30} r={4} fill="#c2410c"/>
         <text x={xlog(capMult)} y={18} textAnchor="end" fill="#c2410c" fontSize={8.5} fontWeight={700}>{totalKwh.toFixed(1)} kWh = {capMult}×</text>
       </svg>
-      <div style={{fontSize:9,color:"#94a3b8",marginTop:2}}>The pack's rated charge is cycled through {capMult}× as ≤200 Wh sips, never as one deep discharge — the buffer-not-reservoir signature.</div>
+      <div style={{fontSize:9,color:"#94a3b8",marginTop:2}}>The pack's rated charge is cycled through {capMult}× as ≤200 Wh sips, never as one deep discharge — consistent with buffer-type use.</div>
     </div>
   );
 }
@@ -8143,7 +8143,7 @@ function EngineStateMachine() {
         <MetricHighlight tone="measured"> +{C.perState.off?.battKw?.median} kW</MetricHighlight> (buffer supplying),
         load-point <MetricHighlight tone="validated">{C.perState.loadPoint?.battKw?.median} kW</MetricHighlight>
         {" "}(generator refilling), high-rpm +{C.perState.high?.battKw?.median} kW (demand outruns even the running
-        generator). The off↔load-point cycle IS the buffer's charge/discharge cycle. <EvidenceBadge status="measured" />
+        generator). The off↔load-point alternation coincides with the pack's charge/discharge alternation (descriptive). <EvidenceBadge status="derived" />
       </Callout>
 
       {S.engineDwellSurvival && (() => {
@@ -8403,8 +8403,8 @@ function DrivingStateTaxonomy() {
         battery power tracks the buffer cleanly: accel <MetricHighlight tone="derived">+{C.perState.accel?.battKw?.median} kW</MetricHighlight>
         {" "}(draw), decel <MetricHighlight tone="validated">{C.perState.decel?.battKw?.median} kW</MetricHighlight> (regen),
         cruise near-balanced. Every state is sticky (self-transition 0.86–0.95), and the engine runs most in
-        cruise/accel and least at idle — the buffer sourcing and sinking exactly where the kinematics demand.
-        {" "}<EvidenceBadge status="measured" />
+        cruise/accel and least at idle — the pack sources and sinks where the kinematics demand (descriptive).
+        {" "}<EvidenceBadge status="derived" />
       </Callout>
 
       <div style={{ display: "grid", gridTemplateColumns: "1.05fr 1fr", gap: 10 }}>
@@ -8524,8 +8524,8 @@ function BufferDebtRecovery() {
         {" "}<MetricHighlight tone="validated">{Math.round((fr.median || 0) * 100)}%</MetricHighlight> of it —
         with <MetricHighlight tone="derived">{C.pctOvershoot}%</MetricHighlight> of impulses overshooting, i.e.
         net pack energy rises PAST the debt, banking buffer headroom (generator and regen contributions are not separately metered). The independent
-        SoC cross-check rises a median {sp.median} pp. Rapid burst, rapid generator-driven refill-and-top-up —
-        the defining power-buffer cycle. <EvidenceBadge status="measured" />
+        SoC cross-check rises a median {sp.median} pp. The pattern is consistent with a burst-and-refill cycle of the pack; the generator and regen contributions are not separately metered.
+        {" "}<EvidenceBadge status="derived" />
       </Callout>
 
       {(C.frac10S || C.frac30S || C.frac60S) && (
@@ -8635,8 +8635,7 @@ function EngineStartContext() {
         {" "}<MetricHighlight tone="measured">sustained high-speed cruise</MetricHighlight> (≈28% each), with a
         further ~33% driven by <MetricHighlight tone="scenario">SoC-band maintenance</MetricHighlight>
         {" "}(top-up + low-buffer). The engine fires either when instantaneous demand outruns what the buffer
-        can deliver, or to keep the buffer within its operating band — both faces of power-buffer, not
-        energy-reservoir, operation. <EvidenceBadge status="measured" />
+        can deliver, or to keep the buffer within its operating band — the observed pattern is consistent with the power-buffer description of the architecture; this reading is an interpretation, not a test. <EvidenceBadge status="derived" />
       </Callout>
 
       {/* label share bars */}
@@ -8764,9 +8763,9 @@ function RpmSpeedSync() {
         {" "}(CI {ci(rb)}) — far below a geartrain's ~1 — and spends
         {" "}<MetricHighlight tone="measured">{lp.median != null ? Math.round(lp.median * 100) : "—"}%</MetricHighlight>
         {" "}of engine-on time clamped at the ~{Math.round(lpMid)} rpm generator load-point. RPM holds flat
-        across the whole 30–110 km/h range and only climbs when sustained high-speed demand exceeds what the
-        buffer supplies. The engine serves the generator and the power buffer, not the wheels — the defining
-        series-hybrid signature. <EvidenceBadge status="measured" />
+        across the whole 30–110 km/h range and climbs only under sustained high-speed demand. In a series hybrid
+        the engine drives a generator, not the wheels (topology stated by the manufacturer, M105); the observed pattern is
+        consistent with that. <EvidenceBadge status="derived" />
       </Callout>
 
       {/* M206: cross-section reconciliation, mirroring the pattern already used
@@ -8948,8 +8947,8 @@ function AccelDecelEnvelopes() {
         (positive, peaking mid-range) and <MetricHighlight tone="validated">sinks regen</MetricHighlight> while
         decelerating (negative, deepening with speed). Engine RPM sits at 0 through the low/mid-speed accel
         bands — pure-electric launch — and only rises to the ~2000-rpm generator load-point once sustained
-        demand appears. A clean power-buffer signature drawn straight from the speed-conditioned envelope.
-        {" "}<EvidenceBadge status="measured" />
+        demand appears. The speed-conditioned envelope is consistent with a power-buffer role of the pack; it does not by itself establish it.
+        {" "}<EvidenceBadge status="derived" />
       </Callout>
 
       {/* battery-kW vs speed dual envelope */}
@@ -9039,7 +9038,7 @@ function AccelDecelEnvelopes() {
 
 function CrawlStopGo() {
   const _coh=useCohort();
-  if(cohortNoData(_coh,["CrawlStopGo"])) return <ColdNoData chart="Crawl &amp; Stop-Go — Buffer Energy per Cycle" cohort={_coh}/>;
+  if(cohortNoData(_coh,["CrawlStopGo"])) return <ColdNoData chart="Crawl &amp; Stop-Go — Pack Energy per Cycle" cohort={_coh}/>;
   if(_coh==="compare") return <CompareBlock id="CrawlStopGo"/>;
   // M254 (season-wiring): per-cohort figures via the pipeline's own
   // _crawl_stop_go() + _crawl_stop_go_two_part() (real per-second stop-go
@@ -9087,8 +9086,8 @@ function CrawlStopGo() {
     <div>
       <div style={{fontSize:11,color:"#64748b",lineHeight:1.7,marginBottom:10}}>
         The crawl/stop-go <strong style={{color:"#0f172a"}}>cycle</strong> — launch → creep →
-        approach → halt — is the dominant urban duty pattern and the sharpest test of the
-        power-buffer thesis. On a 1&nbsp;Hz grid a <em>stop</em> is speed&nbsp;&lt;{TH.stopV}&nbsp;km/h
+        approach → halt — is the dominant urban duty pattern and the duty pattern in which pack power behaviour is easiest to read;
+        it does not by itself test the power-buffer description. On a 1&nbsp;Hz grid a <em>stop</em> is speed&nbsp;&lt;{TH.stopV}&nbsp;km/h
         sustained ≥{TH.minStopS}&nbsp;s; a <em>stop-go cycle</em> is a consecutive-stop pair whose
         inter-stop speed peaks ≤{TH.stopGoCeil}&nbsp;km/h. Energy is the M11 discharge-positive
         integral (<code style={{fontSize:10}}>p=(-I)·V</code>): <strong style={{color:"#0f172a"}}>net</strong> over
@@ -10118,7 +10117,7 @@ const COMPARE_SPECS={
   AccelDecelEnvelopes:{kind:"kpi",title:"Accel/decel dynamics envelopes",metrics:[
     {label:"Covered",unit:"km",digits:0,get:d=>cmpDig(d,["coveredKm"])},
     {label:"Energy drives",digits:0,get:d=>cmpDig(d,["nDrivesEnergy"])}]},
-  CrawlStopGo:{kind:"kpi",title:"Crawl & stop-go buffer energy",metrics:[
+  CrawlStopGo:{kind:"kpi",title:"Crawl & stop-go pack energy per cycle",metrics:[
     {label:"Net Wh/cycle",unit:"Wh",digits:2,get:d=>cmpDig(d,["whCycleNet","median"])},
     {label:"Stop-go cycles",digits:0,get:d=>cmpDig(d,["nStopGoCycles"])},
     {label:"Launches",digits:0,get:d=>cmpDig(d,["nLaunches"])}]},
@@ -10821,14 +10820,12 @@ export default function App() {
             two significant figures inside a Sankey, which reads as a result.
             The section now separates architecture (fact) from bus accounting
             (measured) and names the removed quantities explicitly. */}
-        <Section seasonAware title="4 — e-POWER Architecture · Measured pack-terminal energy accounting" accent="#4ade80">
+        <Section seasonAware title="4 — e-POWER Architecture · Logged pack-terminal energy accounting" accent="#4ade80">
           <div style={{fontSize:11,color:"#64748b",marginBottom:10}}>
             Series hybrid: the engine has <strong>no mechanical path to the wheels</strong> — it turns a generator,
-            and the traction motor is the only thing that drives the axle. The battery is a
-            {" "}{S.constantProvenance?.CAP_KWH?.value ?? 2.1} kWh power buffer on the shared HV DC bus, not an energy reservoir.
-            The diagram below is <em>topology</em>; every number under it is measured at the pack shunt
-            over n={S.energyPath?.n} clean drives, and the quantities that cannot be measured from a pack
-            shunt are listed rather than estimated.
+            and the traction motor is the only thing that drives the axle. The battery is described here as a power buffer on the shared HV DC bus (nominal {S.constantProvenance?.CAP_KWH?.value ?? 2.1} kWh, assumed and unverified), not an energy reservoir; the evidence is summarised in the conclusions.
+            The diagram below is <em>topology</em>; the pack current and voltage are logged (BMS-reported via OBD) and the pack energies are integrated from them
+            over n={S.energyPath?.n} clean drives; quantities that are not observable from the pack terminals are listed rather than estimated.
           </div>
           {S.oemTechReview && (
           <div style={{padding:"8px 10px",background:"#f0fdf4",border:"1px solid #bbf7d0",borderRadius:6,fontSize:10.5,color:"#166534",lineHeight:1.7,marginBottom:10}}>
@@ -10869,7 +10866,7 @@ export default function App() {
       {/* ── DISTRIBUTION ── */}
       {tab==="fuel"&&(<>
         <FuelBasisBanner/>
-        <div data-fuel-links="1" style={{fontSize:10.5,color:"#64748b",marginBottom:8}}>Measured pack-terminal energy accounting stays in the <button onClick={()=>setTab("charts")} style={{fontSize:10.5,border:"none",background:"none",color:"#2563eb",cursor:"pointer",textDecoration:"underline",padding:0}}>Charts tab</button>; engine RPM/speed behaviour and the engine state machine stay in <button onClick={()=>setTab("distribution")} style={{fontSize:10.5,border:"none",background:"none",color:"#2563eb",cursor:"pointer",textDecoration:"underline",padding:0}}>Distribution tab</button>.</div>
+        <div data-fuel-links="1" style={{fontSize:10.5,color:"#64748b",marginBottom:8}}>Logged pack-terminal energy accounting stays in the <button onClick={()=>setTab("charts")} style={{fontSize:10.5,border:"none",background:"none",color:"#2563eb",cursor:"pointer",textDecoration:"underline",padding:0}}>Charts tab</button>; engine RPM/speed behaviour and the engine state machine stay in <button onClick={()=>setTab("distribution")} style={{fontSize:10.5,border:"none",background:"none",color:"#2563eb",cursor:"pointer",textDecoration:"underline",padding:0}}>Distribution tab</button>.</div>
         <GeneratorTractionRecon/>
         <Section title={`SoC-Balanced Fuel Consumption (accumulator subset${S.socBalancedFuel?.dateSpan ? `, ${S.socBalancedFuel.dateSpan[0]}–${S.socBalancedFuel.dateSpan[1]}` : ""})`} accent="#16a34a"><SocBalancedFuel/></Section>
         <Section seasonAware title={`Cold-start fuel-rate association (adjusted; accumulator subset${S.thermalFuelPenalty?.dateSpan ? `, ${S.thermalFuelPenalty.dateSpan[0]}–${S.thermalFuelPenalty.dateSpan[1]}` : ""})`} accent="#dc2626"><ThermalFuelPenalty/></Section>
@@ -10885,7 +10882,7 @@ export default function App() {
         <Section seasonAware title="Motor Torque vs Speed — Accel / Cruise / Regen"><TorqueChart/></Section>
         <Section seasonAware title="Steady-Speed Motor-Torque Distribution (two bands)"><TerrainChart/></Section>
         <Section title="Buffer-Saturation Dissipation at Low Speed" accent="#7c3aed"><LowSpeedDissipation/></Section>
-        <Section seasonAware title="Crawl &amp; Stop-Go — Buffer Energy per Cycle" accent="#0891b2"><CrawlStopGo/></Section>
+        <Section seasonAware title="Crawl &amp; Stop-Go — Pack Energy per Cycle" accent="#0891b2"><CrawlStopGo/></Section>
         <Section seasonAware title="Accel / Decel Dynamics Envelopes by Speed" accent="#ea580c"><AccelDecelEnvelopes/></Section>
         <Section seasonAware title="Engine RPM &ndash; Speed Synchronisation (series-hybrid decoupling)" accent="#7c3aed"><RpmSpeedSync/></Section>
         <Section seasonAware title="Observed engine-start contexts (RPM-on onsets may include motoring)" accent="#7c3aed"><EngineStartContext/></Section>
@@ -11695,7 +11692,7 @@ export default function App() {
               title="The traction battery behaves as a power buffer, not an energy reservoir"
               metric={`gross throughput ${M294.grossKwh?.toLocaleString()} kWh = ${M294.grossOverDischarge}× gross discharge (${M294.dischargeKwh?.toLocaleString()} kWh) · charge/discharge ${M294.chargeOverDischarge}`}
               text="Propulsion energy originates from fuel via the generator; the pack repeatedly absorbs and releases short bursts to balance power. Pack-terminal gross throughput (charge + discharge) is about twice gross discharge because charge and discharge are nearly equal; the per-drive SoC change is small relative to either, so the buffer lands near where it began rather than being drained. Net SoC change is a percentage signal, not a measured energy — it is not converted to kWh here without a capacity/OCV model."
-              caveat="Interpretation of an observed usage pattern, not a measured chemistry or capacity. Pack-terminal kWh (∫V·I dt) are measured and do NOT depend on pack capacity; GTC/FCE and C-rate are normalised by the unverified 2.1 kWh constant and scale with it; rainflow EFC is derived from SoC percentage amplitudes and does not."
+              caveat={`Interpretation of an observed usage pattern on this logged data (one vehicle, ${S.dateRange}; ${S.cohortMeta?.warm?.observed ?? "—"} Warm, ${S.cohortMeta?.shoulder?.observed ?? "—"} Shoulder and ${S.cohortMeta?.cold?.observed ?? "—"} Cold observed drives; winter cold-pack behaviour is unobserved), not tested against an alternative such as a controller SoC policy, and not a measured chemistry or capacity. Pack-terminal kWh (integrated from logged BMS V and I) do NOT depend on pack capacity; GTC/FCE and C-rate are normalised by the unverified 2.1 kWh constant and scale with it; rainflow EFC is derived from SoC percentage amplitudes and does not.`}
             />
             <ConclusionItem status="derived"
               title="High-speed engine-on discharge is consistent with control strategy, not generator saturation"
@@ -11777,10 +11774,10 @@ export default function App() {
               text="A per-second model conditioning on SoC, speed, pack temperature, recent demand and elapsed engine-state duration substantially out-predicts SoC alone under grouped contiguous day-block k-fold cross-validation, and is well-calibrated (slope ≈ 1). Rare events, so PR-AUC — not accuracy — is the honest scorecard."
               caveat="An observational description of the car's behaviour, not a reconstruction of Nissan's proprietary control algorithm. Predictive skill is not causal proof."
             />
-            <ConclusionItem status="measured"
+            <ConclusionItem status="derived"
               title="Total engine (generator) runtime and its distance-normalized rate"
               metric={`${S.engineOnHours} h engine-on · ${S.engineHoursPer10k} h per 10,000 km`}
-              text="The 1.5 L unit runs only to generate; its runtime tracks buffering demand rather than road speed, and is reported per distance so it is comparable as the corpus grows."
+              text="Per the manufacturer-stated topology the 1.5 L unit drives a generator only; its logged runtime is reported per distance so it is comparable as the corpus grows, and is described as associated with demand rather than road speed (descriptive)."
             />
           </EvidenceGroup>
 
@@ -11838,7 +11835,7 @@ export default function App() {
 
           <EvidenceGroup title="Battery-health indicators">
             <ConclusionItem status="notEstablished"
-              title="No cell-voltage-spread trend is detectable in this window"
+              title="A cell-voltage-spread trend is not established in this window"
               metric={`cluster-robust slope ${S.degradationTrends?.cellSpread?.clusterRobustOLS?.slope} mV/month, 95% CI [${S.degradationTrends?.cellSpread?.clusterRobustOLS?.ci95?.[0]}, ${S.degradationTrends?.cellSpread?.clusterRobustOLS?.ci95?.[1]}] (cluster-robust (CR1) normal (z) interval, ${S.degradationTrends?.cellSpread?.clusterRobustOLS?.nDays} day clusters; slope adjusted for pack temperature and current)`}
               text={`The temperature/current-controlled spread trend is indistinguishable from zero, and a formal equivalence test does not establish stability either (TOST p=${S.degradationTrends?.cellSpread?.releasedEquivalence?.pTOST}). The ${S.degradationTrends?.cellSpread?.windowMonths}-month window is simply too short to separate genuine stability from a slow drift.`}
               caveat="A confidence interval that includes zero is neither proof of degradation nor proof of stability."
@@ -11893,8 +11890,8 @@ export default function App() {
           </div>
 
           <GeneralGroup title="System architecture">
-            <GeneralConclusion status="derived" text="The traction battery is fundamentally a power buffer, not the vehicle's energy source: fuel is the energy source, the generator converts it, and the pack smooths power delivery through repeated shallow charge–discharge." />
-            <GeneralConclusion status="measured" text="Restarts are covered by brief, bounded battery impulses and the generator ramps through discrete load points rather than a continuous sweep, occupying a small fraction of driving time." metric={`~${S.bufferImpulse?.impulseTimeFractionPct}% of time`} />
+            <GeneralConclusion status="derived" text={`The traction battery is described as a power buffer, not the vehicle's energy source: fuel is the energy source, the generator converts it, and the pack is consistent with smoothing power delivery through repeated shallow charge–discharge on this logged data (one vehicle, ${S.dateRange}; not tested against an alternative such as a controller SoC policy).`} />
+            <GeneralConclusion status="derived" text="Restarts are covered by brief, bounded battery impulses and the generator ramps through discrete load points rather than a continuous sweep, occupying a small fraction of driving time." metric={`~${S.bufferImpulse?.impulseTimeFractionPct}% of time`} />
           </GeneralGroup>
 
           <GeneralGroup title="Battery buffering & energy flow">
@@ -11909,7 +11906,7 @@ export default function App() {
 
           <GeneralGroup title="Engine & generator behaviour">
             <GeneralConclusion status="modelled" text="Engine start/stop timing is well-described by a five-variable model of SoC, speed, temperature, recent demand and state duration, which clearly out-predicts SoC alone — a behavioural description, not the manufacturer's algorithm." metric={`PR-AUC ${S.socHysteresisV2?.ladder?.start?.fiveVarDur?.prAuc}`} />
-            <GeneralConclusion status="measured" text="Engine runtime tracks buffering demand rather than road speed, consistent with the generator-only role of the combustion unit." metric={`${S.engineHoursPer10k} h/10,000 km`} />
+            <GeneralConclusion status="derived" text="Engine runtime is associated with demand-related buffering behaviour rather than road speed (descriptive), consistent with the generator-only role stated by the manufacturer." metric={`${S.engineHoursPer10k} h/10,000 km`} />
           </GeneralGroup>
 
           <GeneralGroup title="High-speed power blending">
@@ -11934,7 +11931,7 @@ export default function App() {
           </GeneralGroup>
 
           <GeneralGroup title="Battery-health evidence">
-            <GeneralConclusion status="notEstablished" text="No cell-spread or resistance trend is detectable in this window, and equivalence is not established either — the record is too short to separate stability from slow drift." />
+            <GeneralConclusion status="notEstablished" text="A cell-spread or resistance trend is not established in this window, and equivalence is not established either — the record is too short to separate stability from slow drift." />
             <GeneralConclusion status="limited" text="Capacity SOH cannot be identified from this telemetry; a power proxy can be monitored, through a load-excited regression rather than an isolated DC-resistance measurement, and the cell-voltage spread is a second, separate indicator." />
             <GeneralConclusion status="hypothesis" text="Consistent with a hard-cycled power buffer, power fade may be the more relevant functional limit; this requires a controlled capacity/HPPC reference campaign and degraded-pack observations to confirm or refute." />
           </GeneralGroup>
@@ -12115,7 +12112,7 @@ export default function App() {
           {/* ── Framing ────────────────────────────────────────────────────── */}
           <div style={{padding:"10px 12px",background:"#f8fafc",border:"1px solid #e2e8f0",borderRadius:8,fontSize:11,color:"#64748b",lineHeight:1.75,marginBottom:10}}>
             <p style={{marginTop:0,padding:"6px 8px",background:"#eef2ff",border:"1px solid #c7d2fe",borderRadius:6,color:"#3730a3"}}><strong>Evidence tier: Hypothesis.</strong> No degraded-pack observation exists in this corpus, so none of the consequences below is measured. Mechanism statements are literature-style expectations (“consistent with …; requires … to confirm”). The watch thresholds in the six-indicator list (35 mV, ≥20 mV, 15 pp) are unvalidated screening heuristics chosen for monitoring, not OEM limits and not calibrated on failing packs.</p>
-            <p><strong style={{color:"#0f172a"}}>The 80% capacity threshold is a BEV convention and may map poorly to this architecture.</strong> In a battery-electric vehicle the 80%-of-nameplate line defines end of life because usable range is proportional to capacity. In the series-hybrid e-POWER, the HV battery is a power buffer, not an energy reservoir: propulsion energy originates from fuel, is converted by the generator, and reaches the traction motor through the pack and/or directly across the HV DC bus (an architecture description; the direct path is not observable with the pack shunt). Hypothesis: capacity fade need not reduce range in such a design. Whether a pack well below 80% nameplate remains fully functional depends on BMS limits that are not documented here and is unverified.</p>
+            <p><strong style={{color:"#0f172a"}}>The 80% capacity threshold is a BEV convention and may map poorly to this architecture.</strong> In a battery-electric vehicle the 80%-of-nameplate line defines end of life because usable range is proportional to capacity. In the series-hybrid e-POWER, the HV battery is described here as a power buffer, not an energy reservoir: propulsion energy originates from fuel, is converted by the generator, and reaches the traction motor through the pack and/or directly across the HV DC bus (an architecture description; the direct path is not observable with the pack shunt). Hypothesis: capacity fade need not reduce range in such a design. Whether a pack well below 80% nameplate remains fully functional depends on BMS limits that are not documented here and is unverified.</p>
             <p style={{marginBottom:0}}>A functionally relevant limit for a power buffer is plausibly a <strong style={{color:"#0f172a"}}>power figure</strong> (hypothesis): the point at which the pack can no longer source or sink the transient power the controller demands within its voltage and temperature limits. That point could arrive before or after 80% capacity depending on how internal resistance grows and how far cells diverge; neither the limits nor the growth rates are known for this pack.</p>
           </div>
 

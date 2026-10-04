@@ -123,6 +123,13 @@ ok("A2 REQUIRED cohort counts conserve: observed(warm+shoulder+cold) == observed
 ok("A2 REQUIRED identifiability box 'What the data cannot identify' with six limits and the payload Cold count", any("What the data cannot identify" in t and "uncalibrated vehicle reading" in t and "segregated from the primary corpus" in t and "assumed BSFC prior" in t for t in T.values()))
 # M357 (Crawl & Stop-Go callout)
 ok("A2 REQUIRED Crawl & Stop-Go callout: per-cycle ratio wording, regen-probability sentence (lowest peak-speed tercile), RPM onsets, F03 label, in all / warm / shoulder", all(any(all(x in T.get("distribution__" + m, "") for x in ("per-cycle ratio approach regen / launch discharge", "lowest peak-speed tercile", "RPM onsets: RPM from", "start type not separated", "no regen-direction energy at all")) for _ in [0]) for m in ("all", "warm", "shoulder")))
+# M364 (buffer-thesis wording: qualified description, derived badges)
+_src = open("xtrail_summary.jsx", encoding="utf-8").read()
+_all_t = " ".join(T.values())
+ok("A2 REQUIRED M364 qualified thesis wording present (consistent with ... not a test; described as a power buffer; Pack Energy per Cycle title)", all(x in _all_t for x in ("this reading is an interpretation, not a test", "it does not by itself establish it", "it does not by itself test the power-buffer description", "Crawl & Stop-Go — Pack Energy per Cycle", "described as a power buffer", "not tested against an alternative such as a controller SoC policy")))
+ok("A2 REQUIRED M364 conclusion scope is bound (S.dateRange and observed counts from cohortMeta), no typed season", "${S.dateRange}; ${S.cohortMeta?.warm?.observed" in _src and "warm and shoulder season" not in _src)
+_meas = [i + 1 for i, ln in enumerate(_src.split(chr(10))) if 'EvidenceBadge status="measured"' in ln]
+ok("A2 REQUIRED M364 badge audit: only the three non-thesis Measured badges (AFR, oil/coolant lag, departure speed artefact) and the register legend remain (%d: %s)" % (len(_meas), _meas), len(_meas) == 4)
 # M363 (D-13 remainder + engine-cycling section text)
 _esr = json.load(open("summary_arrays.json", encoding="utf-8"))
 _det = _esr["engineStartRate"]["detector"]
