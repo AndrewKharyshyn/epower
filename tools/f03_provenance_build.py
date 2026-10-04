@@ -47,7 +47,7 @@ out = {
     "disclosure": (f"raw/ holds the sha256-verified originals: the {ARCH['n']} lower-precision re-exports among the {n_can} canonical files were replaced by them (M366, owner decision 2026-10-04), "
                    f"so {n_can - fail_can}/{n_can} canonical files match raw_manifest.json; the removed re-exports are archived outside the repo with their sha256 list. "
                    f"{GATE['ciSummary']['nChecked'] - GATE['ciSummary']['nOutsideBaselineCi']} of {GATE['ciSummary']['nChecked']} CI-checkable estimates remain inside their previous 95% CIs after the replacement; the {GATE['ciSummary']['nOutsideBaselineCi']} outside are all FUEL-12 (Fuel tab; M366 headline gate); drive_master.csv is unchanged. ML/refit columns still drift on a clean-room refit (open item), "
-                   "so values are not described as fully reproducible from raw data; the originals' inventory is originals_manifest.json."),
+                   "the clean-room raw-to-master rebuild therefore remains open; the originals' inventory is originals_manifest.json (a second sha256-manifested archive, not the archive of record)."),
     "sensitivityStatement": ("Before M366, a provenance-sensitivity rebuild from the lower-precision re-exports changed the cell-spread slope (sign and magnitude); the difference arose only in the files that were re-exports "
                              "and could not be separated from calendar month. raw/ now holds the sha256-verified originals; the no-new-drive control build (M366) shows no change in degradationTrends. "
                              "The earlier rebuild result is kept as history in analyses/F03, not as a finding."),

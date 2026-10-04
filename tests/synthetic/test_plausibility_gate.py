@@ -60,21 +60,23 @@ assert nan_only["checked"] is False and nan_only["flags"] == [], nan_only
 
 # (a)/(b) real corpus files (raw/ is in the repo): known-bad set must flag, hash-verified samples must pass
 RAW = os.path.join(ROOT, "raw")
+# (known-bad set, M366: R1 only on the originals; was R1+R2 on the former re-exports)
 bad = ["2026-06-09 13-20-41.csv", "2026-06-10 09-41-00.csv", "2026-06-11 06-11-20.csv", "2026-06-18 12-46-11.csv",
        "2026-06-27 08-52-19.csv", "2026-07-23 11-37-24.csv"]           # 0.1 V quantised + 53.0 V value (R1+R2)
 r1_only = ["2026-05-15 22-22-40.csv", "2026-05-23 11-33-05.csv", "2026-06-25 12-28-50.csv"]   # 53.0 V value only
 good = ["2026-09-22 07-45-42.csv", "2026-09-22 11-55-57.csv", "2026-09-21 07-36-37.csv", "2026-09-19 09-36-29.csv",
         "2026-09-05 10-48-41.csv"]                                    # hash-verified, incl. G01 group column era
+# M366 (F03 re-anchoring): raw/ now holds the sha256-verified ORIGINALS. The 0.1 V cell-voltage quantisation (R2) was an artefact of the lossy re-exports that
+# raw/ held before M366: on the original bytes only the genuine 53.0 V value (R1) remains. R2 stays covered by the synthetic cases above (coarse grids, mixed grids, per-channel).
 for f in bad:
     rules = sorted(x["rule"] for x in pg.check_path(os.path.join(RAW, f))["flags"])
-    assert rules == ["R1_cell_voltage_range", "R2_quantisation"], (f, rules)
+    assert rules == ["R1_cell_voltage_range"], (f, rules)
 # GateA2 (M324): per channel, the 3 R1-only files each carry ONE coarse channel (the pooled M308 statistic hid it)
 r1_only_channels = {"2026-05-15 22-22-40.csv": ["[BMS] Min Cell Voltage (V)"], "2026-05-23 11-33-05.csv": ["[BMS] Max Cell Voltage (V)"],
                     "2026-06-25 12-28-50.csv": ["[BMS] Min Cell Voltage (V)"]}
 for f in r1_only:
     fl = pg.check_path(os.path.join(RAW, f))["flags"]
-    assert [x["rule"] for x in fl] == ["R1_cell_voltage_range", "R2_quantisation"], (f, fl)
-    assert fl[1]["channels"] == r1_only_channels[f], (f, fl[1])
+    assert [x["rule"] for x in fl] == ["R1_cell_voltage_range"], (f, fl)       # M366: the per-channel R2 flags of the former re-exports are gone on the originals
 for f in good:
     assert pg.check_path(os.path.join(RAW, f))["flags"] == [], f
 

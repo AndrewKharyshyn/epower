@@ -30,10 +30,12 @@ if os.path.exists(_rp):    # rendered footer (written by dump_tabs.js; git-ignor
 canon = [r for r in rm["files"] if r["role"] == "canonical"]
 nc, fc = prov["raw"]["nCanonical"], prov["raw"]["nCanonicalHashFailing"]
 assert nc == len(canon) and prov["raw"]["originalsAvailable"] is True
-assert f"{fc}/{nc} canonical raw copies in raw/ do not match recorded hashes" in prov["disclosure"]
-assert f"for all {fc}" in prov["disclosure"] and "non-ML" in prov["disclosure"] and "F03 is open" in prov["disclosure"]
-assert prov["originals"]["nRecovered"] == fc == om["nRecords"] == om["expectedCount"] and prov["originals"]["archiveOfRecord"] is False
-assert "computed from raw/ re-exports" in prov["sensitivityStatement"] and "from the originals" in prov["sensitivityStatement"]
+# M366 (F03 option 3): raw/ holds the sha256-verified originals, so no canonical file fails the manifest hash and the 333 former re-exports are recorded as replaced
+former = prov["raw"]["formerReexportsReplaced"]
+assert fc == 0 and former == prov["originals"]["nRecovered"] == om["nRecords"] == om["expectedCount"] == 333 and prov["originals"]["archiveOfRecord"] is False
+assert f"{nc - fc}/{nc} canonical files match raw_manifest.json" in prov["disclosure"] and f"the {former} lower-precision re-exports" in prov["disclosure"] and "replaced" in prov["disclosure"]
+assert "clean-room raw-to-master rebuild therefore remains open" in prov["disclosure"] and "all FUEL-12" in prov["disclosure"] and "remain inside their previous 95% CIs" in prov["disclosure"]
+assert "re-exports" in prov["sensitivityStatement"] and "originals" in prov["sensitivityStatement"] and "Before M366" in prov["sensitivityStatement"]
 
 # originals_manifest: inventory, every sha equals raw_manifest, unique ids, canonical only
 assert om["archiveOfRecord"] is False and om["status"].startswith("registered as a second sha256-manifested archive") and om["allVerifiedAgainstManifest"] is True
