@@ -1,0 +1,1353 @@
+{
+ "milestone": "M366",
+ "note": "control minus baseline: same code and master, raw bytes = sha256-verified originals vs current raw/ re-exports; provenance sensitivity, not a correction",
+ "nKeysBaseline": 135,
+ "nKeysControl": 135,
+ "keysOnlyInOne": [],
+ "byKey": {
+  "_artifactStamps": {
+   "leaves": 1442,
+   "numericChanged": 0,
+   "maxRelativeChange": 0.0,
+   "stringOrBoolChanged": 131,
+   "structural": 0
+  },
+  "accelDecelEnvelopes": {
+   "leaves": 566,
+   "numericChanged": 264,
+   "maxRelativeChange": 0.137708,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "baroCompensation": {
+   "leaves": 32,
+   "numericChanged": 5,
+   "maxRelativeChange": 0.2,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "bufferDebtRecovery": {
+   "leaves": 55,
+   "numericChanged": 27,
+   "maxRelativeChange": 0.044444,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "bufferImpulse": {
+   "leaves": 101,
+   "numericChanged": 45,
+   "maxRelativeChange": 1.0,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "cellSpreadRelaxation": {
+   "leaves": 32,
+   "numericChanged": 13,
+   "maxRelativeChange": 0.333333,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "crawlStopGo": {
+   "leaves": 617,
+   "numericChanged": 182,
+   "maxRelativeChange": 1.538462,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "departureArrival": {
+   "leaves": 97,
+   "numericChanged": 15,
+   "maxRelativeChange": 1.8,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "dissipationCensus": {
+   "leaves": 30,
+   "numericChanged": 4,
+   "maxRelativeChange": 0.030303,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "drivingStateTaxonomy": {
+   "leaves": 127,
+   "numericChanged": 40,
+   "maxRelativeChange": 0.207084,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "energyShifting": {
+   "leaves": 47,
+   "numericChanged": 10,
+   "maxRelativeChange": 0.225627,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "energyUncertaintyMC": {
+   "leaves": 121,
+   "numericChanged": 69,
+   "maxRelativeChange": 0.998626,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "engineStartContext": {
+   "leaves": 140,
+   "numericChanged": 4,
+   "maxRelativeChange": 0.00823,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "engineStateMachine": {
+   "leaves": 180,
+   "numericChanged": 15,
+   "maxRelativeChange": 0.298592,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "eolBaselines": {
+   "leaves": 23,
+   "numericChanged": 5,
+   "maxRelativeChange": 0.111111,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "evidenceLedger": {
+   "leaves": 105,
+   "numericChanged": 7,
+   "maxRelativeChange": 0.998626,
+   "stringOrBoolChanged": 6,
+   "structural": 0
+  },
+  "handoffSequence": {
+   "leaves": 74,
+   "numericChanged": 9,
+   "maxRelativeChange": 0.034091,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "headroomUtilization": {
+   "leaves": 21,
+   "numericChanged": 7,
+   "maxRelativeChange": 0.003362,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "highSocRegen": {
+   "leaves": 338,
+   "numericChanged": 229,
+   "maxRelativeChange": 0.030899,
+   "stringOrBoolChanged": 1,
+   "structural": 0
+  },
+  "lowSpeedDissipation": {
+   "leaves": 121,
+   "numericChanged": 31,
+   "maxRelativeChange": 1.0,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "mountainPattern": {
+   "leaves": 205,
+   "numericChanged": 86,
+   "maxRelativeChange": 1.0,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "rawManifest": {
+   "leaves": 140,
+   "numericChanged": 0,
+   "maxRelativeChange": 0.0,
+   "stringOrBoolChanged": 1,
+   "structural": 0
+  },
+  "regenByTempMeasured": {
+   "leaves": 30,
+   "numericChanged": 3,
+   "maxRelativeChange": 0.001608,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "regenCaptureMeasuredMassUncertainty": {
+   "leaves": 39,
+   "numericChanged": 2,
+   "maxRelativeChange": 0.001441,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "rpmDistribution": {
+   "leaves": 200,
+   "numericChanged": 7,
+   "maxRelativeChange": 0.25,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "socBalancedFuel": {
+   "leaves": 50,
+   "numericChanged": 6,
+   "maxRelativeChange": 0.001323,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "socControlSurface": {
+   "leaves": 2957,
+   "numericChanged": 333,
+   "maxRelativeChange": 0.444444,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "startEventChain": {
+   "leaves": 35,
+   "numericChanged": 13,
+   "maxRelativeChange": 0.007059,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "startEventReconcile": {
+   "leaves": 12,
+   "numericChanged": 4,
+   "maxRelativeChange": 0.001134,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "terrainTorqueDist": {
+   "leaves": 40,
+   "numericChanged": 4,
+   "maxRelativeChange": 0.032143,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "terrainTorqueDistLow": {
+   "leaves": 40,
+   "numericChanged": 8,
+   "maxRelativeChange": 0.1,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "thermalFuelPenalty": {
+   "leaves": 180,
+   "numericChanged": 52,
+   "maxRelativeChange": 1.80303,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "torqueBySpeed": {
+   "leaves": 84,
+   "numericChanged": 13,
+   "maxRelativeChange": 0.25,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  },
+  "vgtAirPath": {
+   "leaves": 82,
+   "numericChanged": 10,
+   "maxRelativeChange": 0.046667,
+   "stringOrBoolChanged": 0,
+   "structural": 0
+  }
+ },
+ "ciChecks": [
+  {
+   "path": "/accelDecelEnvelopes/accelBattKwBoot/bootMedian",
+   "baseline": 4.167,
+   "control": 4.139,
+   "baselineCi95": [
+    3.602,
+    4.45
+   ],
+   "insideBaselineCi": true,
+   "shiftOverHalfWidth": 0.066
+  },
+  {
+   "path": "/accelDecelEnvelopes/decelBattKwBoot/bootMedian",
+   "baseline": -1.818,
+   "control": -1.824,
+   "baselineCi95": [
+    -2.166,
+    -1.495
+   ],
+   "insideBaselineCi": true,
+   "shiftOverHalfWidth": 0.0179
+  },
+  {
+   "path": "/crawlStopGo/phaseEnergy/approach/dischargeWh/bootMedian/bootMedian",
+   "baseline": 1.55,
+   "control": 1.54,
+   "baselineCi95": [
+    1.39,
+    1.69
+   ],
+   "insideBaselineCi": true,
+   "shiftOverHalfWidth": 0.0667
+  },
+  {
+   "path": "/crawlStopGo/phaseEnergy/approach/netWh/bootMedian/bootMedian",
+   "baseline": 1.29,
+   "control": 1.3,
+   "baselineCi95": [
+    1.19,
+    1.4
+   ],
+   "insideBaselineCi": true,
+   "shiftOverHalfWidth": 0.0952
+  },
+  {
+   "path": "/crawlStopGo/phaseEnergy/creep/dischargeWh/bootMedian/bootMedian",
+   "baseline": 2.16,
+   "control": 2.15,
+   "baselineCi95": [
+    1.8,
+    2.71
+   ],
+   "insideBaselineCi": true,
+   "shiftOverHalfWidth": 0.022
+  },
+  {
+   "path": "/crawlStopGo/phaseEnergy/creep/netWh/bootMedian/bootMedian",
+   "baseline": 1.38,
+   "control": 1.37,
+   "baselineCi95": [
+    1.19,
+    1.57
+   ],
+   "insideBaselineCi": true,
+   "shiftOverHalfWidth": 0.0526
+  },
+  {
+   "path": "/crawlStopGo/phaseEnergy/cycle/dischargeWh/bootMedian/bootMedian",
+   "baseline": 7.13,
+   "control": 7.11,
+   "baselineCi95": [
+    6.37,
+    8.01
+   ],
+   "insideBaselineCi": true,
+   "shiftOverHalfWidth": 0.0244
+  },
+  {
+   "path": "/crawlStopGo/phaseEnergy/cycle/netWh/bootMedian/bootMedian",
+   "baseline": 5.51,
+   "control": 5.49,
+   "baselineCi95": [
+    4.99,
+    6.13
+   ],
+   "insideBaselineCi": true,
+   "shiftOverHalfWidth": 0.0351
+  },
+  {
+   "path": "/crawlStopGo/phaseEnergy/cycle/regenWh/twoPart/positivePartBoot/bootMedian",
+   "baseline": 9.6,
+   "control": 9.49,
+   "baselineCi95": [
+    8.35,
+    10.73
+   ],
+   "insideBaselineCi": true,
+   "shiftOverHalfWidth": 0.0924
+  },
+  {
+   "path": "/crawlStopGo/phaseEnergy/launch/dischargeWh/bootMedian/bootMedian",
+   "baseline": 3.55,
+   "control": 3.58,
+   "baselineCi95": [
+    3.0,
+    4.05
+   ],
+   "insideBaselineCi": true,
+   "shiftOverHalfWidth": 0.0571
+  },
+  {
+   "path": "/crawlStopGo/phaseEnergy/launch/netWh/bootMedian/bootMedian",
+   "baseline": 3.24,
+   "control": 3.27,
+   "baselineCi95": [
+    2.84,
+    3.8
+   ],
+   "insideBaselineCi": true,
+   "shiftOverHalfWidth": 0.0625
+  },
+  {
+   "path": "/crawlStopGo/phaseEnergy/launch/regenWh/twoPart/positivePartBoot/bootMedian",
+   "baseline": 2.55,
+   "control": 2.47,
+   "baselineCi95": [
+    1.93,
+    3.28
+   ],
+   "insideBaselineCi": true,
+   "shiftOverHalfWidth": 0.1185
+  },
+  {
+   "path": "/crawlStopGo/whCycleNetBoot/bootMedian",
+   "baseline": 5.51,
+   "control": 5.49,
+   "baselineCi95": [
+    4.99,
+    6.13
+   ],
+   "insideBaselineCi": true,
+   "shiftOverHalfWidth": 0.0351
+  }
+ ],
+ "stringOrBoolChanges": [
+  {
+   "path": "/_artifactStamps/accelDecelEnvelopes/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/auxLoadAmbient/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/baroCompensation/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/batteryDrawGross/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/batteryTempRanges/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/batteryThermalCurve/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/batteryThermalMeta/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/batteryVsAmbient/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/belowAmbient/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/bufferDebtRecovery/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/bufferImpulse/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/cRateAxes/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/cRatePoints/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/cRatePointsAK/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/cRateRefLines/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/cRateRefLinesAK/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/carOffStandby/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/cellHealthTrend/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/cellSpreadRelaxation/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/constantProvenance/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/contaminationSensitivity/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/coverageMap/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/crawlStopGo/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/cycleBySpeed/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/cycleBySpeedMeta/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/cycleByType/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/cycleCumulative/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/cycleLife/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/dailyFingerprints/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/degradationTrends/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/departureArrival/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/determinism/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/dissipationCensus/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/dodSocLevelSensitivity/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/driveDurationDist/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/driveTypes/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/drivingStateTaxonomy/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/efficiencyBands/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/eligibility/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/energyPath/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/energyShifting/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/energyUncertaintyMC/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/engineDwellSurvival/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/engineHoursByType/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/engineOnBySpeed/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/engineOnDrives/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/engineOnDuration/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/engineStartContext/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/engineStartsByType/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/engineStateMachine/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/eolBaselines/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/evTraction/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/evidenceLedger/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/fadeModes/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/fullCellCaseStudy/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/gpsAltitudeCoverage/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/handoffSequence/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/headroomUtilization/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/heatSoakCarryover/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/highSocRegen/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/highSpeedCensus/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/highwayVsCity/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/hvcEngine80C/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/hvcEngineStopSoC/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/hvcEngineTriggerSoC/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/hvcTurboActivity/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/interDriveCarryover/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/jun20Batch/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/kLadderScenarios/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/ledgerCrossCheck/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/lowSpeedDissipation/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/meta/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/metricConvention/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/motorTemp/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/mountainPattern/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/nearLimiter/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/observedMix/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/officialDisclosureCorrelation/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/offsetUncertainty/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/powerFade/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/rampLatency/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/rawManifest/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/records/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/regenByTempMeasured/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/regenByType/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/regenByTypeMeta/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/regenByZone/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/regenCaptureMeasured/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/regenCaptureMeasuredMassUncertainty/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/regenCaptureMeta/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/regimeTransition/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/rfCycleCumulative/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/rfDodHistogram/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/riskColdEngineBattery/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/riskDischargeShare/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/rpmDistribution/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/rpmSpeedSync/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/seasonalLife/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/sensorSummary/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/sessionLedgerAudit/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/shortTripWarmup/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/socBalancedFuel/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/socBandReset/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/socBandStats/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/socBands/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/socBySpeed/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/socBySpeedMeta/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/socControlSurface/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/socHysteresis/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/socHysteresisV2/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/socVcmMapping/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/socVcmPoints/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/speedDist/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/standstillStats/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/startEventChain/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/startEventReconcile/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/terrainCoverage/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/terrainTorqueDist/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/terrainTorqueDistLow/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/thermalConvergence/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/thermalFuelPenalty/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/thermalHighwayBand/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/thermalStepResponse/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/thermalWarmupLag/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/torqueBySpeed/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/turboByRpm/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/turboBySpeedCtx/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/turboMeta/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/vgtAirPath/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/warmupCurve/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/_artifactStamps/warmupPoints/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/evidenceLedger/rows[0]/artifactIdentity/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/evidenceLedger/rows[1]/artifactIdentity/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/evidenceLedger/rows[1]/notes",
+   "baseline": "76.7% of buffer-impulse events are independently corroborated by all three other physical detectors (ramp latency, handoff sequence, debt re",
+   "control": "76.6% of buffer-impulse events are independently corroborated by all three other physical detectors (ramp latency, handoff sequence, debt re"
+  },
+  {
+   "path": "/evidenceLedger/rows[2]/artifactIdentity/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/evidenceLedger/rows[3]/artifactIdentity/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/evidenceLedger/rows[4]/artifactIdentity/generatedAt",
+   "baseline": "2026-10-04T08:25:03.472898+00:00",
+   "control": "2026-10-04T08:25:58.367749+00:00"
+  },
+  {
+   "path": "/highSocRegen/populationCaveat",
+   "baseline": "M231 (audit F06): this envelope's population is charge power in (1, 120) kW while SoC is valid -- it is NOT restricted to regenerative braki",
+   "control": "M231 (audit F06): this envelope's population is charge power in (1, 120) kW while SoC is valid -- it is NOT restricted to regenerative braki"
+  },
+  {
+   "path": "/rawManifest/corpusMd5",
+   "baseline": "808762849f7b3a7651440591195941fc",
+   "control": "b82a3abf46f156db1f73753d4e8b1d4d"
+  }
+ ],
+ "structuralChanges": [],
+ "totals": {
+  "leaves": 37159,
+  "same": 35498,
+  "numChanged": 1522,
+  "identicalShare": 0.9553
+ },
+ "largestNumericChanges": [
+  {
+   "path": "/thermalFuelPenalty/continuousCovariateModel/coefficients/cool/ci95[1]",
+   "baseline": 0.00066,
+   "control": 0.00185,
+   "relative": 1.80303
+  },
+  {
+   "path": "/departureArrival/speedMatched/arrivalBattKwDelta/medianDelta",
+   "baseline": 0.005,
+   "control": 0.014,
+   "relative": 1.8
+  },
+  {
+   "path": "/crawlStopGo/netCycleByPeakSpeed[8]/p25",
+   "baseline": -0.13,
+   "control": -0.33,
+   "relative": 1.538462
+  },
+  {
+   "path": "/thermalFuelPenalty/combustionPenalty/byCell[8]/warmLPerS",
+   "baseline": 5.5e-05,
+   "control": 0.000133,
+   "relative": 1.418182
+  },
+  {
+   "path": "/bufferImpulse/recoveryLadder/p10",
+   "baseline": 0.65,
+   "control": 0.0,
+   "relative": 1.0
+  },
+  {
+   "path": "/lowSpeedDissipation/socThreshold[1]/maxMotoredS",
+   "baseline": 1,
+   "control": 2,
+   "relative": 1.0
+  },
+  {
+   "path": "/mountainPattern/gradeBands[2]/motoredS",
+   "baseline": 2,
+   "control": 4,
+   "relative": 1.0
+  },
+  {
+   "path": "/mountainPattern/gradeBands[3]/motoredS",
+   "baseline": 1,
+   "control": 0,
+   "relative": 1.0
+  },
+  {
+   "path": "/energyUncertaintyMC/validation/maxAbsDevDischargeKwh",
+   "baseline": 0.036399,
+   "control": 5e-05,
+   "relative": 0.998626
+  },
+  {
+   "path": "/evidenceLedger/rows[0]/checks[0]/value",
+   "baseline": 0.036399,
+   "control": 5e-05,
+   "relative": 0.998626
+  },
+  {
+   "path": "/energyUncertaintyMC/validation/maxAbsDevChargeKwh",
+   "baseline": 0.005366,
+   "control": 5e-05,
+   "relative": 0.990682
+  },
+  {
+   "path": "/energyUncertaintyMC/validation/meanAbsDevDischargeKwh",
+   "baseline": 0.001298,
+   "control": 2.6e-05,
+   "relative": 0.979969
+  },
+  {
+   "path": "/thermalFuelPenalty/continuousCovariateModel/coefficients/oil/estimate",
+   "baseline": 0.00051,
+   "control": 2e-05,
+   "relative": 0.960784
+  },
+  {
+   "path": "/energyUncertaintyMC/lsbEstimates/currentA",
+   "baseline": 1.0,
+   "control": 0.05,
+   "relative": 0.95
+  },
+  {
+   "path": "/energyUncertaintyMC/grossThroughputMC/sourceBudget/quantizationOnlySdPct",
+   "baseline": 0.00183,
+   "control": 0.0001,
+   "relative": 0.945355
+  },
+  {
+   "path": "/mountainPattern/terrainBinValidation[6]/gradeMedPct",
+   "baseline": -0.08,
+   "control": -0.03,
+   "relative": 0.625
+  },
+  {
+   "path": "/thermalFuelPenalty/combustionPenalty/byCell[8]/ratio",
+   "baseline": 1.628,
+   "control": 0.639,
+   "relative": 0.607494
+  },
+  {
+   "path": "/energyUncertaintyMC/lsbEstimates/voltageV",
+   "baseline": 0.1,
+   "control": 0.16,
+   "relative": 0.6
+  },
+  {
+   "path": "/departureArrival/arrivalVsMid/battKw/medianDelta",
+   "baseline": 0.342,
+   "control": 0.175,
+   "relative": 0.488304
+  },
+  {
+   "path": "/socControlSurface/chargingProbSurface/engineOff/values[3][0]",
+   "baseline": 0.0009,
+   "control": 0.0013,
+   "relative": 0.444444
+  },
+  {
+   "path": "/mountainPattern/terrainBinValidation[5]/gradeMedPct",
+   "baseline": -0.6,
+   "control": -0.37,
+   "relative": 0.383333
+  },
+  {
+   "path": "/thermalFuelPenalty/combustionPenalty/byCell[5]/ratio",
+   "baseline": 0.935,
+   "control": 0.589,
+   "relative": 0.370053
+  },
+  {
+   "path": "/thermalFuelPenalty/combustionPenalty/byCell[5]/warmupLPerS",
+   "baseline": 0.000638,
+   "control": 0.000411,
+   "relative": 0.355799
+  },
+  {
+   "path": "/cellSpreadRelaxation/relaxationMagnitudeBoot/ci95[0]",
+   "baseline": 0.75,
+   "control": 1.0,
+   "relative": 0.333333
+  },
+  {
+   "path": "/mountainPattern/gradeBands[1]/motoredS",
+   "baseline": 3,
+   "control": 2,
+   "relative": 0.333333
+  },
+  {
+   "path": "/mountainPattern/gradeBands[5]/currentMed",
+   "baseline": -8.0,
+   "control": -10.4,
+   "relative": 0.3
+  },
+  {
+   "path": "/engineStateMachine/perState/mid/battKw/p25",
+   "baseline": 0.355,
+   "control": 0.249,
+   "relative": 0.298592
+  },
+  {
+   "path": "/engineStateMachine/perState/off/battKw/p25",
+   "baseline": 0.352,
+   "control": 0.257,
+   "relative": 0.269886
+  },
+  {
+   "path": "/lowSpeedDissipation/socThreshold[1]/totMotoredS",
+   "baseline": 4,
+   "control": 5,
+   "relative": 0.25
+  },
+  {
+   "path": "/rpmDistribution/motored/hours[5]",
+   "baseline": 0.004,
+   "control": 0.005,
+   "relative": 0.25
+  },
+  {
+   "path": "/torqueBySpeed[2]/cruiseMed",
+   "baseline": 4,
+   "control": 3,
+   "relative": 0.25
+  },
+  {
+   "path": "/departureArrival/speedMatched/arrivalBattKwDelta/p25",
+   "baseline": -0.364,
+   "control": -0.279,
+   "relative": 0.233516
+  },
+  {
+   "path": "/energyShifting/bySpeed[5]/netBattKwMedian",
+   "baseline": -0.359,
+   "control": -0.278,
+   "relative": 0.225627
+  },
+  {
+   "path": "/drivingStateTaxonomy/perState/idle/battKw/p25",
+   "baseline": 0.734,
+   "control": 0.886,
+   "relative": 0.207084
+  },
+  {
+   "path": "/cellSpreadRelaxation/relaxationHalfTimeS/n",
+   "baseline": 298,
+   "control": 359,
+   "relative": 0.204698
+  },
+  {
+   "path": "/baroCompensation/loadPointMafSpanGs",
+   "baseline": 0.15,
+   "control": 0.18,
+   "relative": 0.2
+  },
+  {
+   "path": "/cellSpreadRelaxation/relaxationMagnitudeBoot/ci95[1]",
+   "baseline": 1.25,
+   "control": 1.5,
+   "relative": 0.2
+  },
+  {
+   "path": "/rpmDistribution/motored/hours[4]",
+   "baseline": 0.005,
+   "control": 0.006,
+   "relative": 0.2
+  },
+  {
+   "path": "/socControlSurface/chargingProbSurface/engineOff/values[1][1]",
+   "baseline": 0.1196,
+   "control": 0.143,
+   "relative": 0.195652
+  },
+  {
+   "path": "/mountainPattern/gradeBands[1]/torqueMed",
+   "baseline": -26.0,
+   "control": -21.3,
+   "relative": 0.180769
+  }
+ ],
+ "ciSummary": {
+  "nChecked": 13,
+  "nOutsideBaselineCi": 0,
+  "maxShiftOverHalfWidth": 0.1185
+ },
+ "ciOutside": [],
+ "relativeChangeQuantiles": {
+  "0.5": 0.00339,
+  "0.9": 0.034783,
+  "0.99": 0.625
+ },
+ "context": {
+  "keysWhereBaselineBuildDiffersFromPublishedArrays": 7,
+  "note": "expected: post-steps and splices patch the published arrays after the builder; not attributable to raw content"
+ }
+}

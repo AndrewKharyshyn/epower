@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """M336 step 2 (spec analyses/M336_step2_design.md rev 2): interval closure (2a) + pre-registered sensitivities (2b) + reconciliation (2c).
-Read-only: writes analyses/M336_step2_result.json only. Same mask as step 1 (fuel PID, canonical-clean, distance>0), raw/ basis (F03: provenance-sensitive),
+Read-only: writes analyses/M336_step2_result.json only. Same mask as step 1 (fuel PID, canonical-clean, distance>0), computed on the former raw/ re-exports (pre-M366); not refreshed on the originals,
 fuel-PID subset only. Day-clustered percentile bootstrap (seed 42, 4000), corpus ratio-of-sums.
 Offset variants carry +/-delta through gross anchors and the three charge classes by per-sample class-energy ratios (approximation: the main pipeline's
 crossing-aware integration is not re-run; CLAUDE.md forbids routine reprocessing).
@@ -158,7 +158,7 @@ def main():
          "offset_-1A_anchor_off": {"off_extra": -1.0, "anchor": False}, "offset_+1A_anchor_off": {"off_extra": 1.0, "anchor": False},
          "corner_high_G": {"scen": "optimistic", "eta_gen": 0.97, "eta_pe": 0.99, "paux": 0.2},
          "corner_low_G": {"scen": "conservative", "eta_gen": 0.93, "eta_pe": 0.96, "paux": 1.2}}
-    res = {"milestone": "M336", "step": 2, "scope": "fuel-PID subset only; raw/ basis (F03: provenance-sensitive)", "n_drives": len(drives), "excluded_no_battery_inputs": excluded_no_battery,
+    res = {"milestone": "M336", "step": 2, "scope": "fuel-PID subset only; computed on the former raw/ re-exports (pre-M366); not refreshed on the originals", "n_drives": len(drives), "excluded_no_battery_inputs": excluded_no_battery,
            "logger_median_dt_s": round(sample_dt, 3), "variants": {}, "strata": {}}
     base_rows = None
     for name, kw in V.items():

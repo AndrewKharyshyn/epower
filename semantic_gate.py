@@ -123,6 +123,23 @@ ok("A2 REQUIRED cohort counts conserve: observed(warm+shoulder+cold) == observed
 ok("A2 REQUIRED identifiability box 'What the data cannot identify' with six limits and the payload Cold count", any("What the data cannot identify" in t and "uncalibrated vehicle reading" in t and "segregated from the primary corpus" in t and "assumed BSFC prior" in t for t in T.values()))
 # M357 (Crawl & Stop-Go callout)
 ok("A2 REQUIRED Crawl & Stop-Go callout: per-cycle ratio wording, regen-probability sentence (lowest peak-speed tercile), RPM onsets, F03 label, in all / warm / shoulder", all(any(all(x in T.get("distribution__" + m, "") for x in ("per-cycle ratio approach regen / launch discharge", "lowest peak-speed tercile", "RPM onsets: RPM from", "start type not separated", "no regen-direction energy at all")) for _ in [0]) for m in ("all", "warm", "shoulder")))
+# M366 (F03 re-anchoring: raw/ = sha256-verified originals)
+_pv = json.load(open("summary_arrays.json", encoding="utf-8"))["provenanceSensitivity"]
+_pr = _pv["raw"]
+ok("A2 REQUIRED M366 payload: all canonical copies in raw/ match the manifest sha256 and the 333 re-exports are recorded as replaced", _pr["nCanonicalHashFailing"] == 0 and _pr["formerReexportsReplaced"] == 333 and _pr["nCanonical"] == 489)
+_m366 = "%d of %d canonical copies in raw/ match the manifest sha256; %d lower-precision re-exports were replaced by the sha256-verified originals (M366" % (_pr["nCanonical"] - _pr["nCanonicalHashFailing"], _pr["nCanonical"], _pr["formerReexportsReplaced"])
+ok("A2 REQUIRED M366 Methodology provenance sentence bound to provenanceSensitivity.raw (" + _m366 + ")", _m366 in open("xtrail_summary.jsx", encoding="utf-8").read().replace("{r.nCanonical-r.nCanonicalHashFailing} of {r.nCanonical}", "%d of %d" % (_pr["nCanonical"] - _pr["nCanonicalHashFailing"], _pr["nCanonical"])).replace("{r.formerReexportsReplaced}", str(_pr["formerReexportsReplaced"])))
+ok("A2 REQUIRED M366 basis label 'raw/ = sha256-verified originals (M366)' present in the rendered dashboard", any("raw/ = sha256-verified originals (M366)" in t for t in T.values()))
+# M366 headline-gate disclosures (Director ruling Rev 2)
+_f12 = json.load(open("summary_arrays.json", encoding="utf-8"))["fuelAnalytics"]["fuel12"]
+_sh = _f12["m366Shift"]
+_pct = lambda v: ("+" if v > 0 else "-" if v < 0 else "") + ("%.2f" % abs(v * 100)) + "%"
+ok("A2 REQUIRED M366 FUEL-12 states plainly that it moved outside its previous 95% CI, with the previous and current estimates bound to the payload",
+   any(all(x in t for x in ("FUEL-12 moved outside its previous 95% CI", _pct(_sh["previous"]["aggregate"]["est"]), _pct(_f12["aggregate"]["est"]), "not a paired test")) for k, t in T.items() if k.startswith("fuel__") and k.endswith("__all")))
+ok("A2 REQUIRED M366 the five outside-CI estimates are all FUEL-12 and the disclosure counts are bound (headline gate)", _sh["nOutsidePreviousCi"] == 5 and len(_sh["outsidePaths"]) == 5 and all(p.startswith("/fuelAnalytics/fuel12/") for p in _sh["outsidePaths"]))
+ok("A2 REQUIRED M366 stale blocks are labelled as computed on the former re-exports and not refreshed (GTR section)", any("Blocks gtrClosure, sensitivity, simultaneity, crossval, speedSplit" in t and "not refreshed on the originals" in t for k, t in T.items() if k.startswith("fuel__")))
+_pv2 = json.load(open("summary_arrays.json", encoding="utf-8"))["provenanceSensitivity"]["disclosure"]
+ok("A2 REQUIRED M366 F03 disclosure does not claim all estimates stay inside their CIs (it states the counts and that the outside ones are FUEL-12)", "all FUEL-12" in _pv2 and "remain inside their previous 95% CIs" in _pv2 and "remain inside their CIs" not in _pv2)
 # M364 (buffer-thesis wording: qualified description, derived badges)
 _src = open("xtrail_summary.jsx", encoding="utf-8").read()
 _all_t = " ".join(T.values())
@@ -150,7 +167,7 @@ _urb = next(x for x in _es if x["label"] == "Urban")
 _est_t = [t for k, t in T.items() if "Engine starts (RPM onsets) per 100 km" in t]
 ok("A2 REQUIRED M362 starts chart rendered with the new caption and footnote in the All / Warm / Shoulder dumps", len(_est_t) >= 3)
 ok("A2 REQUIRED M362 chart wording (detector-defined RPM onsets, not ignition or cold-start events; denominator-unstable; descriptive display threshold; M343 pooled diamond with CI; F03) and no min-max headline",
-   bool(_est_t) and all(all(x in t for x in ("detector-defined RPM onsets", "not verified ignition or cold-start events", "denominator-unstable", "descriptive display threshold, never an exclusion", "provenance-sensitive (F03)")) for t in _est_t))
+   bool(_est_t) and all(all(x in t for x in ("detector-defined RPM onsets", "not verified ignition or cold-start events", "denominator-unstable", "descriptive display threshold, never an exclusion", "raw/ = sha256-verified originals (M366)")) for t in _est_t))
 ok("A2 REQUIRED M362 urban row n and short-drive count bound to the payload (All dump)", any(("n=%d drives, %d days" % (_urb["n"], _urb["nDays"])) in t and ("%d under %s km" % (_urb["nShort"], int(_urb["shortKm"]))) in t for k, t in T.items() if k.endswith("__all") and "Engine starts (RPM onsets) per 100 km" in t))
 ok("A2 REQUIRED M362 urban maximum described as a short drive in the footnote (All dump)", any(("Urban maximum %d per 100 km on a %s km drive" % (_urb["hi"], _urb["maxKm"])) in t for k, t in T.items() if k.endswith("__all") and "Engine starts (RPM onsets) per 100 km" in t))
 # M360 (GTR Sankey default-visible with explicit residual branches; Director ruling analyses/M360_spec.md)
@@ -160,7 +177,7 @@ _excess = _pcs(_zc["nodeExcess"]["relToGenerator"])
 for _m in ("all", "warm", "shoulder", "compare"):
     _t = T.get("fuel__" + _m, "")
     ok(f"A2 REQUIRED M360 Fuel {_m} dump: Sankey note (reconstructed not measured; node not closed with residual {_excess}; residual not distributed; f_gen includes 0.5; F03) and no reveal-button wording",
-       all(x in _t for x in ("Reconstructed (model-derived) flows, not measured", "The generator node is not closed: residual " + _excess, "the residual is shown as a hatched branch and is not distributed", "includes 0.5: neither a battery majority nor a generator majority is established", "provenance-sensitive (F03)", "unallocated residual", "canonical-clean (ens_outlier_v2 excluded", "rest on slightly different drive sets")) and "Show allocation sketch" not in _t)
+       all(x in _t for x in ("Reconstructed (model-derived) flows, not measured", "The generator node is not closed: residual " + _excess, "the residual is shown as a hatched branch and is not distributed", "includes 0.5: neither a battery majority nor a generator majority is established", "raw/ = sha256-verified originals (M366)", "unallocated residual", "canonical-clean (ens_outlier_v2 excluded", "rest on slightly different drive sets")) and "Show allocation sketch" not in _t)
 # M359 (B-HandoffSequence): marginal medians are not one realised sequence; resolution band; counts bound to the payload
 _hs = json.load(open("summary_arrays.json", encoding="utf-8"))["handoffSequence"]
 _o = _hs["modalOrderings"]
@@ -169,17 +186,17 @@ _aft = sum(x["n"] for x in _o if "dischargePeak" in x["sequence"] and x["sequenc
 _hs_txt = [t for k, t in T.items() if "Descriptive timing, not a single realised sequence" in t]
 ok("A2 REQUIRED handoff section rendered with the new title and the callout in all/warm/shoulder dumps", len(_hs_txt) >= 3 and all("Battery, engine and boost timing around engine start" in t for t in _hs_txt))
 ok("A2 REQUIRED handoff callout: marginal-not-realised wording, resolution band separate from the bootstrap interval, tie rule, boost subset, F03 label",
-   bool(_hs_txt) and all(all(x in t for x in ("not one realised sequence", "timing resolution", "same-sample ties", "handoffs with an onset", "provenance-sensitive (F03)", "does not establish that the buffer acts first")) for t in _hs_txt))
+   bool(_hs_txt) and all(all(x in t for x in ("not one realised sequence", "timing resolution", "same-sample ties", "handoffs with an onset", "raw/ = sha256-verified originals (M366)", "does not establish that the buffer acts first")) for t in _hs_txt))
 ok("A2 REQUIRED handoff ordering split equals the payload integer counts (all dump: strictly before %d, at or after %d of %d)" % (_pre, _aft, _hs["nHandoffs"]),
    any(("covering %d handoffs" % _pre) in t and ("at or after it in %d " % _aft) in t for t in T.values() if "Descriptive timing, not a single realised sequence" in t and t.startswith("") and ("of %d handoffs" % _hs["nHandoffs"]) in t))
 # M358 (F21.r1): C-rate risk map with A / kW primary axes
 _ak = json.load(open("summary_arrays.json", encoding="utf-8"))
 _n_ak = len(_ak["cRatePointsAK"])
 ok("A2 REQUIRED C-rate map: A/kW/C-rate selector, drive-peak-power not-co-timed wording, assumed-capacity caveat, F03 label, n bound to cRatePointsAK",
-   any(all(x in t for x in ("Peak charge current (A)", "Peak charge power (kW)", "C-rate (assumed capacity)", "not co-timed with peak current", "CAP_KWH = 2.1 kWh", "provenance-sensitive (F03)", f"n={_n_ak} of {_n_ak} drives plotted", "logged (BMS-reported via OBD)")) for t in T.values()))
+   any(all(x in t for x in ("Peak charge current (A)", "Peak charge power (kW)", "C-rate (assumed capacity)", "not co-timed with peak current", "CAP_KWH = 2.1 kWh", "raw/ = sha256-verified originals (M366)", f"n={_n_ak} of {_n_ak} drives plotted", "logged (BMS-reported via OBD)")) for t in T.values()))
 ok("A2 REQUIRED C-rate map payload: cRatePointsAK first three columns equal cRatePoints; new keys present", _n_ak == len(_ak["cRatePoints"]) and all(a[:3] == b for a, b in zip(_ak["cRatePointsAK"], _ak["cRatePoints"])) and all(k in _ak for k in ("cRateRefLinesAK", "cRateAxes")))
 # M356 (Cs-21)
-ok("A2 REQUIRED Crawl & Stop-Go: 'Energy by phase window' table with the not-additive statement, reconstructed wording and the F03 label", any(all(x in t for x in ("Energy by phase window", "not additive", "Reconstructed from logged HV current", "regen-direction energy is a positive magnitude", "provenance-sensitive (F03)")) for t in T.values()))
+ok("A2 REQUIRED Crawl & Stop-Go: 'Energy by phase window' table with the not-additive statement, reconstructed wording and the F03 label", any(all(x in t for x in ("Energy by phase window", "not additive", "Reconstructed from logged HV current", "regen-direction energy is a positive magnitude", "raw/ = sha256-verified originals (M366)")) for t in T.values()))
 ok("A2 REQUIRED Crawl & Stop-Go phase table carries the CI and days, the gap caveat, the approach-list distinction and the blind-audit disagreement", any(all(x in t for x in ("95% CI", "Samples with no I×V are dropped", "differ from the zero-inflation of the standalone approach list", "Blind audit (own resampling, reported not tuned)", "share ≤ 0 Wh (1 Hz grid)")) for t in T.values()))
 # M355 (Cs-1)
 _mm = json.load(open("summary_arrays.json", encoding="utf-8"))["meta"]
@@ -201,7 +218,7 @@ for _m in ("all", "warm", "shoulder", "compare"):
 _z = (A.get("generatorTractionRecon") or {}).get("gtrClosure") or {}
 _fa = T.get("fuel__all", "").replace("  ", " ")
 ok("A2 REQUIRED M336 closure block wording (consistent within the dual bracket; not closed; CI straddles 0.5; residual; provenance)",
-   all(x in _fa for x in ["consistent within the dual bracket; not closed under the pre-registered", "straddles 0.5", "Battery → traction is a model residual", "provenance-sensitive (F03)", "bounding cases, not calibrated intervals"]))
+   all(x in _fa for x in ["consistent within the dual bracket; not closed under the pre-registered", "straddles 0.5", "Battery → traction is a model residual", "raw/ = sha256-verified originals (M366)", "bounding cases, not calibrated intervals"]))
 ok("A2 REQUIRED M336 closure block numbers equal the payload",
    bool(_z) and f"{_z['fGen']['est']} ({_z['fGen']['ci95'][0]} to {_z['fGen']['ci95'][1]})" in _fa and f"{_z['scope']['nDrives']} of {_z['scope']['nCanonical']} drives" in _fa)
 # M337: Fuel analytics v1 wording and payload-bound numbers (Fuel All dump)
@@ -209,7 +226,7 @@ _fx = (A.get("fuelAnalytics") or {})
 _fxd = T.get("fuel__all", "")
 ok("A2 REQUIRED M337 FUEL-12 wording (consistency check, dt-cap dependence, same app, review margin, F03, not M299-reproducible)",
    all(x in _fxd for x in ["internal consistency check of two logged/app-calculated series", "not a bias estimate", "Agreement does not establish independence or external accuracy (same app)",
-                           "arbitrary margin fixed in advance", "raw/, provenance-sensitive (F03)", "Not M299-reproducible"]))
+                           "arbitrary margin fixed in advance", "raw/ = sha256-verified originals (M366)", "Not M299-reproducible"]))
 ok("A2 REQUIRED M337 FUEL-01/11 wording (descriptive, SoC not corrected, confounded, trip mix not a consumption trend)",
    all(x in _fxd for x in ["no cause is attributed to the pattern", "Rates are not corrected for the SoC change", "short-trip bands may be biased upward",
                            "not a consumption trend", "no trend test and no seasonal reading"]))
@@ -223,8 +240,8 @@ for _m in ("warm", "shoulder", "compare"):
 # M339: Fuel analytics v2 wording and payload-bound numbers (Fuel All dump)
 _fs = A.get("fuelStates") or {}
 _fw = A.get("fuelWarmup") or {}
-ok("A2 REQUIRED M339 FUEL-03 wording (temporal states, not allocations, same-bin thresholds, dwell definition, hash split not paired, speed/SoC/rpm cell-identical to the originals, HV rounding stated)",
-   all(x in _fxd for x in ["temporal states of the logged fuel rate", "not exclusive fuel-source allocations", "thresholds of 0.5 and 1 km/h are the same bin", "dwell: a stationary run is stationary only if", "not a paired test", "cell-identical to the sha256-verified originals", "HV current and voltage in raw/ are rounded", "do not depend on the re-export rounding", "has not been checked against the originals", "a temporal state of the logged rate, not an allocation of fuel to the battery"]))
+ok("A2 REQUIRED M339 FUEL-03 wording (temporal states, not allocations, same-bin thresholds, dwell definition, hash split not paired, speed/SoC/rpm cell-identical to the originals before M366, HV rounding of the former re-exports stated)",
+   all(x in _fxd for x in ["temporal states of the logged fuel rate", "not exclusive fuel-source allocations", "thresholds of 0.5 and 1 km/h are the same bin", "dwell: a stationary run is stationary only if", "not a paired test", "cell-identical to the sha256-verified originals", "HV current and voltage in the former raw/ copies were rounded", "do not depend on the re-export rounding", "all trips are now on the sha256-verified originals", "a temporal state of the logged rate, not an allocation of fuel to the battery"]))
 ok("A2 REQUIRED M339 FUEL-02 wording (associations, pointwise CI, no zero-filled continuation, confounding, method disagreement, left-censoring)",
    all(x in _fxd for x in ["They are associations", "pointwise 95% CI", "no zero-filled continuation", "confounded with trip length, season, speed profile and the unlogged time since the previous drive", "method disagreement of 0.1 L/100 km", "left-censored"]))
 if _fs and _fw:
@@ -241,7 +258,7 @@ if _esr:
     _pa = _esr["primary"]["all"]
     ok("A2 REQUIRED M343 headline and detector wording (RPM onsets, detector parameters, not current reversals, F10.r1 partly open, F03)",
        all(x in _charts_all for x in ["Engine-start rate (RPM onsets), pooled ratio of sums", f"{_pa['est']:.1f} RPM onsets per 100 km", "RPM onsets are not current-direction reversals; the two are different quantities",
-                                      "Detector-defined count", "F10.r1 is partly open", "provenance-sensitive (F03)", "file-boundary bookkeeping, not a cold-start measure"]))
+                                      "Detector-defined count", "F10.r1 is partly open", "raw/ = sha256-verified originals (M366)", "file-boundary bookkeeping, not a cold-start measure"]))
     ok("A2 REQUIRED M343 Cold reads below minimum support, with the drive count from the payload",
        f"Cold: below minimum support ({_esr['primary']['coldBelowSupport']['nDrives']} drives" in _charts_all)
 # M345: the Pure-Electric buffer-limit panel states that usable energy and the window budget scale with the assumed (unverified) CAP_KWH

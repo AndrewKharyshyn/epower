@@ -1,0 +1,34 @@
+1485 5
+('/fuelAnalytics/fuel12/aggregate/est', 0.0026, 0.0015, [0.00192, 0.00308])
+('/fuelAnalytics/fuel12/integrationVariants/trapezoid/est', 0.00252, 0.00143, [0.00184, 0.00302])
+('/fuelAnalytics/fuel12/integrationVariants/cap10s/est', 0.0026, 0.00151, [0.00193, 0.00309])
+('/fuelAnalytics/fuel12/integrationVariants/gapFreeTripsBase/est', 0.00262, 0.00149, [0.00193, 0.00309])
+('/fuelAnalytics/fuel12/f03Sensitivity/hashFail/est', 0.0029, 0.00068, [0.00223, 0.00351])
+38
+/socHysteresisV2/tempLadderMonitor/generated | '2026-10-01T20:51:26+00:00' -> '2026-10-04T08:39:12+00:00'
+/crawlStopGo/phaseEnergy/methodology | 'M356 (Cs-21). Energy over each window of the stop-go cycle from logged HV current x volta -> 'M356 (Cs-21). Energy over each window of the stop-go cycle from logged HV current x volta
+/highSocRegen/populationCaveat | "M231 (audit F06): this envelope's population is charge power in (1, 120) kW while SoC is  -> "M231 (audit F06): this envelope's population is charge power in (1, 120) kW while SoC is 
+/evidenceLedger/rows/1/notes | '76.7% of buffer-impulse events are independently corroborated by all three other physical -> '76.6% of buffer-impulse events are independently corroborated by all three other physical
+/assumptionsRegistry/entries/14/sensitivity | 'Net-draw and residual correction only: not applied to gross throughput, GTC or FCE (relea -> 'Net-draw and residual correction only: not applied to gross throughput, GTC or FCE (relea
+/generatorTractionRecon/glossary/0/value | '0.466' -> '0.465'
+/generatorTractionRecon/glossary/8/value | '0.534' -> '0.535'
+/generatorTractionRecon/gtrClosure/basis | 'fuel-PID subset, model-derived; raw/ basis, provenance-sensitive (F03); not M299-reproduc -> 'fuel-PID subset, model-derived; computed on the former raw/ re-exports (pre-M366); not re
+/generatorTractionRecon/gtrClosure/_staleness | 'computed at M336 on the 489-drive master; carried forward by ingestion; re-run tools/gtr_ -> 'computed at M336 on the 489-drive master; carried forward by ingestion; re-run tools/gtr_
+/provenanceSensitivity/disclosure | 'Published values derived from the M299 corpus; 333/489 canonical raw copies in raw/ do no -> "raw/ holds the sha256-verified originals: the 333 lower-precision re-exports among the 48
+/provenanceSensitivity/sensitivityStatement | "In a provenance-sensitivity rebuild from today's raw/ files (lower-precision re-exports f -> 'Before M366, a provenance-sensitivity rebuild from the lower-precision re-exports changed
+/provenanceSensitivity/followUps/F3/reading | "mechanism unexplained by the 12 pre-listed raw-file features (AUC < 0.9 is not 'no differ -> "mechanism unexplained by the 12 pre-listed raw-file features (AUC < 0.9 is not 'no differ
+/seasonalCharts/charts/HighSocRegen/data/all/populationCaveat | "M231 (audit F06): this envelope's population is charge power in (1, 120) kW while SoC is  -> "M231 (audit F06): this envelope's population is charge power in (1, 120) kW while SoC is 
+/seasonalCharts/charts/HighSocRegen/data/warm/populationCaveat | "M231 (audit F06): this envelope's population is charge power in (1, 120) kW while SoC is  -> "M231 (audit F06): this envelope's population is charge power in (1, 120) kW while SoC is 
+/seasonalCharts/charts/CrawlStopGo/data/all/phaseEnergy/methodology | 'M356 (Cs-21). Energy over each window of the stop-go cycle from logged HV current x volta -> 'M356 (Cs-21). Energy over each window of the stop-go cycle from logged HV current x volta
+/seasonalCharts/charts/CrawlStopGo/data/warm/phaseEnergy/methodology | 'M356 (Cs-21). Energy over each window of the stop-go cycle from logged HV current x volta -> 'M356 (Cs-21). Energy over each window of the stop-go cycle from logged HV current x volta
+/seasonalCharts/charts/CrawlStopGo/data/shoulder/phaseEnergy/methodology | 'M356 (Cs-21). Energy over each window of the stop-go cycle from logged HV current x volta -> 'M356 (Cs-21). Energy over each window of the stop-go cycle from logged HV current x volta
+/seasonalCharts/_staleness/reason | 'M341: 37 of 37 RAW-class seasonal charts are regenerated on the live 489-drive corpus (pe -> 'M341: 1 of 1 RAW-class seasonal charts are regenerated on the live 489-drive corpus (per-
+/seasonalCharts/_staleness/refreshedRawCharts/keys/0 | 'AccelDecelEnvelopes' -> 'CrawlStopGo'
+/fuelAnalytics/basis | 'logged/app-calculated fuel counter and rate (Car Scanner ELM OBD2); raw/ basis, provenanc -> 'logged/app-calculated fuel counter and rate (Car Scanner ELM OBD2); raw/ = sha256-verifie
+/fuelAnalytics/fuel12/f03Sensitivity/note | 'not a paired test: hash-passing and hash-failing files are date-confounded; read-only raw -> 'not a paired test: the files that were never re-exports and the former re-exports (replac
+/fuelStates/strata/f03Note | 'not a paired test: date-confounded; speed, SoC and engine-speed columns of the hash-faili -> 'not a paired test: date-confounded; before M366 the speed, SoC and engine-speed columns o
+/fuelStates/chargingSubState/note | 'fuel consumed during net pack charging: a temporal state, not a fuel-source allocation; b -> 'fuel consumed during net pack charging: a temporal state, not a fuel-source allocation; b
+/fuelStates/basis | 'logged/app-calculated fuel rate (Car Scanner ELM OBD2); raw/ basis, provenance-sensitive  -> 'logged/app-calculated fuel rate (Car Scanner ELM OBD2); raw/ = sha256-verified originals 
+/fuelStates/f03SpeedHvCheck/scope | '333 hash-failing canonical files, raw/ copy vs sha256-verified original, read-only (owner -> '333 canonical files that were re-exported before M366: raw/ copy vs sha256-verified origi
+/fuelWarmup/basis | 'logged/app-calculated fuel rate (Car Scanner ELM OBD2); raw/ basis, provenance-sensitive  -> 'logged/app-calculated fuel rate (Car Scanner ELM OBD2); raw/ = sha256-verified originals 
+/engineStartRate/basis | 'RPM onsets from the released detector on the pipeline frame cache (raw/ basis, F03 proven -> 'RPM onsets from the released detector on the pipeline frame cache (raw/ = sha256-verified
