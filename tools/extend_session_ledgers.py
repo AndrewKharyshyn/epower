@@ -13,6 +13,8 @@ import pandas as pd
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 os.chdir(ROOT)
 sys.path.insert(0, ROOT)
+sys.path.insert(0, os.path.join(ROOT, "tools"))
+from m368_fmt import fmt_energy, fmt_cycles   # M368: R4 display rounding (stored values unchanged)
 MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 WORDS = {1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five", 6: "Six", 7: "Seven", 8: "Eight", 9: "Nine", 10: "Ten", 11: "Eleven", 12: "Twelve", 13: "Thirteen", 14: "Fourteen"}
 digits = lambda s: re.sub(r"\D", "", str(s).rsplit(".", 1)[0])
@@ -66,8 +68,8 @@ def build_rows(day, g, prev_sig, sigs, amb, sdm, trip):
     name = f"{MON[day.month - 1]} {day.day}"
     leg = lambda k: f"D{k + 1} ({starts[k]}, {float(g['distance_km'].iloc[k]):.1f}km" + (f", {amb_txt(ambs[k])}°C" if ambs[k] is not None else "") + ")"
     sw = swing.iloc[i_sw]
-    common = (f"{WORDS.get(n, str(n))} {'urban ' if urban_all else ''}leg{'s' if n != 1 else ''}, {km:.1f}km / {minutes:.1f}min, {gross:.4f} kWh gross, GTC {gtc:.4f}, "
-              f"{net:+.4f} kWh net corr2p sum ({net_txt}).")
+    common = (f"{WORDS.get(n, str(n))} {'urban ' if urban_all else ''}leg{'s' if n != 1 else ''}, {km:.1f}km / {minutes:.1f}min, {fmt_energy(gross)} kWh gross, GTC {fmt_cycles(gtc)}, "
+              f"{fmt_energy(net, signed=True)} kWh net corr2p sum ({net_txt}).")
     tail = (f" Largest SoC swing: {leg(i_sw)} SoC {float(g['soc_min'].iloc[i_sw]):.0f}→{float(g['soc_max'].iloc[i_sw]):.0f} ({sw:+.1f}pp). Longest leg: {leg(i_lg)}."
             + (f" Unwarmed starts (oil and coolant within 3°C of ambient): {'; '.join(unwarm[:4])}{' and more' if len(unwarm) > 4 else ''}." if unwarm else "")
             + f" {clean} of {n} ens_outlier_v2-clean, {signok} of {n} sign_check ok.")
@@ -75,7 +77,7 @@ def build_rows(day, g, prev_sig, sigs, amb, sdm, trip):
     group = {"name": name, "phase": f"Routine ingestion, {WORDS.get(n, str(n)).lower()} leg{'s' if n != 1 else ''} {day_txt}; {pid_txt}; ambient {rng_txt or 'n/a'}",
              "drives": n, "km": round(km, 1), "type": dtype, "note": common + amb_part + tail}
     sess = {"name": name, "drives": n, "km": round(km, 1), "type": dtype,
-            "note": f"{WORDS.get(n, str(n))} {dtype} leg{'s' if n != 1 else ''} ({starts[0]}→{starts[-1]}), {km:.1f}km / {minutes:.1f}min, {gross:.4f} kWh gross, GTC {gtc:.4f}, {net:+.4f} kWh net corr2p sum ({net_txt})."
+            "note": f"{WORDS.get(n, str(n))} {dtype} leg{'s' if n != 1 else ''} ({starts[0]}→{starts[-1]}), {km:.1f}km / {minutes:.1f}min, {fmt_energy(gross)} kWh gross, GTC {fmt_cycles(gtc)}, {fmt_energy(net, signed=True)} kWh net corr2p sum ({net_txt})."
                     + amb_part + tail}
     return group, sess, [starts[-1]]
 

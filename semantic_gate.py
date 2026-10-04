@@ -215,12 +215,17 @@ ok("A2 REQUIRED section titles 'Net pack-energy recovery' and 'Observed engine-s
 for _m in ("all", "warm", "shoulder", "compare"):
     ok(f"A2 REQUIRED GTR closure residual present in the Fuel {_m} dump", "Allocation excess over generator output" in T.get(f"fuel__{_m}", ""))
 # M336: interval accounting block present with the required Director wording (Fuel All dump), numbers bound to the payload
+def _keep(v, d, thr):   # M368 (R2): mirror of fmtKeep in xtrail_summary.jsx - fixed decimals, more digits only if rounding would cross the threshold
+    k = d
+    while k < 8 and ((round(v, k) > thr) - (round(v, k) < thr)) != ((v > thr) - (v < thr)):
+        k += 1
+    return f"{v:.{k}f}"
 _z = (A.get("generatorTractionRecon") or {}).get("gtrClosure") or {}
 _fa = T.get("fuel__all", "").replace("  ", " ")
 ok("A2 REQUIRED M336 closure block wording (consistent within the dual bracket; not closed; CI straddles 0.5; residual; provenance)",
    all(x in _fa for x in ["consistent within the dual bracket; not closed under the pre-registered", "straddles 0.5", "Battery → traction is a model residual", "raw/ = sha256-verified originals (M366)", "bounding cases, not calibrated intervals"]))
 ok("A2 REQUIRED M336 closure block numbers equal the payload",
-   bool(_z) and f"{_z['fGen']['est']} ({_z['fGen']['ci95'][0]} to {_z['fGen']['ci95'][1]})" in _fa and f"{_z['scope']['nDrives']} of {_z['scope']['nCanonical']} drives" in _fa)
+   bool(_z) and f"{_keep(_z['fGen']['est'], 2, 0.5)} ({_keep(_z['fGen']['ci95'][0], 2, 0.5)} to {_keep(_z['fGen']['ci95'][1], 2, 0.5)})" in _fa and f"{_z['scope']['nDrives']} of {_z['scope']['nCanonical']} drives" in _fa)
 # M337: Fuel analytics v1 wording and payload-bound numbers (Fuel All dump)
 _fx = (A.get("fuelAnalytics") or {})
 _fxd = T.get("fuel__all", "")
@@ -321,6 +326,17 @@ ok("D no rawManifestError in artifact stamps", "rawManifestError" not in json.du
 for cid in ("CycleByType", "EfficiencyBands"):
     labs = [e.get("label") for e in (A["seasonalCharts"]["charts"][cid]["data"].get("shoulder") or [])]
     ok(f"D {cid} class labels canonical (no lowercase placeholders)", all(l in ("Urban", "Mixed", "Mixed Highway", "Highway") for l in labs), str(labs))
+
+# ---------- A3 (M368): unjustified precision in rendered numbers (per-leaf records from dump_tabs.js; precision_gate.py; precision_allowlist.json) ----------
+import precision_gate as PG
+_lf = json.load(open(P("tabtext/_precision_leaves.json"), encoding="utf-8")) if os.path.exists(P("tabtext/_precision_leaves.json")) else None
+_allow = json.load(open(P("precision_allowlist.json"), encoding="utf-8"))
+ok("A3 per-leaf precision records present (dump_tabs.js wrote tabtext/_precision_leaves.json)", _lf is not None)
+_viol, _orph = PG.check(_lf or [], _allow)
+ok("A3 no rendered number with > 4 decimals and > 3 significant figures, and no raw p string, outside the allow-list (All/Warm/Shoulder/Compare)", not _viol,
+   "; ".join(f"{t}/{m}: {x} in '{s}'" for t, m, s, x in _viol[:5]))
+ok("A3 every precision allow-list entry matches a rendered leaf (no orphans)", not _orph, "; ".join(e["text"][:60] for e in _orph[:3]))
+ok("A3 every precision allow-list entry names class, reason and milestone", all(e.get("class") and e.get("reason") and e.get("milestone") for e in _allow))
 
 print(f"\nSEMANTIC GATE: {len(passes)} passed, {len(fails)} failed")
 sys.exit(1 if fails else 0)

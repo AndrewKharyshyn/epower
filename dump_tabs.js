@@ -6,6 +6,7 @@ const html=fs.readFileSync(process.env.XT_HTML||'xtrail_dashboard.html','utf8');
 const dom=new JSDOM(html,{runScripts:'dangerously',pretendToBeVisual:true,beforeParse(w){w.MessageChannel=globalThis.MessageChannel;w.console.error=(...a)=>errs.push(a.join(' '));w.console.warn=()=>{};}});
 const d=dom.window.document,sleep=ms=>new Promise(r=>setTimeout(r,ms)),click=el=>el.dispatchEvent(new dom.window.MouseEvent('click',{bubbles:true}));
 const TABS=['overview','charts','fuel','distribution','highway vs city','thermal','records','health','cross-vehicle','conclusions'];
+const leaves=[];
 (async()=>{await sleep(800);fs.mkdirSync('tabtext',{recursive:true});
  const btns=()=>[...d.querySelectorAll('button')];
  for(const t of TABS){click(btns().find(b=>b.textContent.trim().toLowerCase()===t));await sleep(250);
@@ -14,6 +15,11 @@ const TABS=['overview','charts','fuel','distribution','highway vs city','thermal
   await sleep(120);
   for(const m of ['all','warm','shoulder','compare']){const b=d.querySelector(`button[data-cohort-btn="${m}"]`);if(!b||b.disabled)continue;click(b);await sleep(180);
    const cl=d.getElementById('root').cloneNode(true);cl.querySelectorAll('script,style').forEach(x=>x.remove());
-   fs.writeFileSync(`tabtext/${t.replace(/ /g,'_')}__${m}.txt`,cl.textContent);}
+   fs.writeFileSync(`tabtext/${t.replace(/ /g,'_')}__${m}.txt`,cl.textContent);
+   // M368 (gate A3): per-LEAF own text (table cells are not concatenated) carrying a number with >=5 decimals
+   for(const el of d.getElementById('root').querySelectorAll('*')){if(el.tagName==='SCRIPT'||el.tagName==='STYLE')continue;
+    const own=[...el.childNodes].filter(n=>n.nodeType===3).map(n=>n.nodeValue).join(' ').trim();
+    if(own&&/(?<![\w.])-?\d[\d,]*\.\d{5,}(?!\d)/.test(own)||/\bp=0\.0{3}/.test(own))leaves.push({tab:t,mode:m,text:own});}}
   const a=d.querySelector('button[data-cohort-btn="all"]');click(a);await sleep(120);}
+ fs.writeFileSync('tabtext/_precision_leaves.json',JSON.stringify(leaves));
  console.log('dumped',fs.readdirSync('tabtext').length,'files; console errors',errs.length);process.exit(0);})();
