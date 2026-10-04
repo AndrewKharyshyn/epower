@@ -57092,7 +57092,7 @@
    "liveNDrives": 410
   },
   "gtrClosure": {
-   "basis": "fuel-PID subset, model-derived; computed on the former raw/ re-exports (pre-M366); not refreshed on the originals; not M299-reproducible",
+   "basis": "fuel-PID subset, model-derived; raw/ = sha256-verified originals (M366); not M299-reproducible",
    "scope": {
     "nDrives": 257,
     "nDays": 50,
@@ -57103,18 +57103,15 @@
      "20260813_145651.csv",
      "20260813_150341.csv"
     ],
-    "excludedNote": "NaN battery offset or NaN charge-class columns in the master: where the published reconstruction has a row for such a drive it gives zero battery power, so f_gen = 1 by construction",
-    "publishedRowsWithFgenOne": [
-     "20260813_145651.csv",
-     "20260813_150341.csv"
-    ],
+    "excludedNote": "NaN battery offset or NaN charge-class columns in the master: the closure skips these drives by design (pre-registered M336 rule). Before M349 the published reconstruction gave zero battery power for such a drive (f_gen = 1 by construction); M349 repaired the published rows (current published f_gen: 20260813_145651 0.5752, 20260813_150341 0.3640); no published row has f_gen = 1 now. Set note (as of the M372 refresh): the closure set is 257 drives; the published headline set is 260 of 261 fuel-instrumented drives (clean = f_gen not NaN, not the canonical rule), 260 - 3 = 257; headline drives not in the closure: 20260813_144601 (canonical outlier (ens_outlier_v2)); 20260813_145651 (NaN battery inputs); 20260813_150341 (NaN battery inputs); NaN-battery-input drive(s) without a published row, in neither set: 20260512_195020; the headline's departure from the canonical-clean rule is an open item",
+    "publishedRowsWithFgenOne": [],
     "excludedWithoutPublishedRow": [
      "20260512_195020.csv"
     ]
    },
    "per100km": {
-    "generator": 15.928,
-    "genToTraction": 8.608,
+    "generator": 15.91,
+    "genToTraction": 8.593,
     "genToBattEngineOn": 5.651,
     "genToBattDual": 2.697,
     "genToBattUpper": 8.348,
@@ -57122,84 +57119,77 @@
     "battToTractionResidual": 9.881
    },
    "nodeExcess": {
-    "relToGenerator": 0.0645,
+    "relToGenerator": 0.0648,
     "ci95": [
-     0.0488,
-     0.0862
+     0.049,
+     0.0865
     ],
     "tolerance": 0.05,
     "closedUnderRule": false
    },
    "excessWithoutDual": {
-    "relToGenerator": -0.1048,
+    "relToGenerator": -0.1047,
     "ci95": [
      -0.1341,
-     -0.0816
+     -0.0815
     ]
    },
    "interval": {
-    "lo": -0.1048,
-    "hi": 0.0645,
+    "lo": -0.1047,
+    "hi": 0.0648,
     "zeroInsideAllVariants": true,
     "nVariants": 23
    },
    "fGen": {
-    "est": 0.4656,
+    "est": 0.4651,
     "ci95": [
-     0.3806,
-     0.5442
+     0.38,
+     0.5439
     ],
     "ciContains0p5": true,
-    "variantMin": 0.4213,
-    "variantMax": 0.4895,
+    "variantMin": 0.4209,
+    "variantMax": 0.489,
     "pointBelow0p5AllVariants": true,
     "nVariants": 23,
     "stopTriggered": false
    },
    "alphaStar": {
-    "est": 0.619,
+    "est": 0.618,
     "ci95": [
-     0.59,
-     0.642
+     0.588,
+     0.64
     ],
-    "variantMin": 0.209,
-    "variantMax": 0.761,
+    "variantMin": 0.208,
+    "variantMax": 0.76,
     "nInfeasibleDrivesBaseline": 15,
     "label": "implied closure parameter solved from the same data; not an estimate of the generator share of the dual charge"
    },
    "method": "day-clustered percentile bootstrap (seed 42, 4000 draws), corpus ratio-of-sums",
    "sources": {
     "closureDiag": {
-     "path": "analyses/M336_closure_diag.json",
-     "sha256": "e045c8f6fa2096fa18d30d72bbcd5f97529d98a347a9e4e32734d164892da360"
+     "path": "analyses/M372_closure_diag.json",
+     "sha256": "19ac4b3edcbbea2d770c2c7febf294a012ecd4b4091aea56a4f12f0e31548e42"
     },
     "step2": {
-     "path": "analyses/M336_step2_result.json",
-     "sha256": "eb4c4178db36d077faba22588f942b650e0c2e0bf443f305b91ddc7d3cc1a2ca"
+     "path": "analyses/M372_step2_result.json",
+     "sha256": "a8cb1a32e37a00bc1641a0f7d30be1d5bc18f6f5e237f77099f5f6a4fe5244bc"
+    },
+    "fuelReconMaster": {
+     "path": "fuel_recon_master.csv",
+     "sha256": "0d8a09163c2d105f0c9768fce583e4c00e479c287552502744cff82c2f65e647"
     }
    },
-   "_staleness": "computed at M336 on the 489-drive master; carried forward by ingestion; re-run tools/gtr_closure_diag.py, tools/gtr_interval_sens.py and tools/gtr_closure_block.py to refresh | M366: computed on the former raw/ re-exports (pre-M366); not refreshed on the originals (follow-up refresh milestone)"
+   "_staleness": "refreshed at M372 on the sha256-verified originals (M366 basis), same 257-drive set as M336 (ID set asserted before any estimate); producers tools/gtr_closure_diag.py sha256 479a1385fd17 and tools/gtr_interval_sens.py sha256 754258fb994f (run at repo HEAD 752623c plus the M372 changes of those two scripts, committed with this milestone); carried forward by ingestion until a refresh stage exists (spec analyses/M372_spec.md); re-run tools/gtr_closure_diag.py --m372, tools/gtr_interval_sens.py --m372 and tools/m372_closure_splice.py to refresh"
   },
   "staleBlocks": {
    "blocks": [
-    "gtrClosure",
     "sensitivity",
     "simultaneity",
     "crossval",
     "speedSplit"
    ],
-   "note": "refresh pending (spec analyses/M370_spec.md); the basis of each block is stated separately because it is not the same for all five",
+   "note": "refresh pending (spec analyses/M370_spec.md); the basis of each remaining block is stated separately because it is not the same for all of them",
    "perBlock": [
-    {
-     "block": "gtrClosure",
-     "basisMilestone": "M336",
-     "basisDate": null,
-     "nDrives": 257,
-     "nDays": 50,
-     "rawBasis": "pre-M366 raw/ re-exports",
-     "status": "not refreshed on the originals",
-     "source": "payload generatorTractionRecon.gtrClosure.scope"
-    },
     {
      "block": "sensitivity",
      "basisMilestone": "M279",

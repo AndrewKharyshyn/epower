@@ -143,7 +143,7 @@ _nprod = json.load(open("summary_arrays.json", encoding="utf-8"))["generatorTrac
 for _m in ("all", "warm", "shoulder", "compare"):
     _t = T.get(f"fuel__{_m}", "").replace("  ", " ")
     ok(f"A2 REQUIRED M370 Fuel {_m} dump: Blocks line plus one basis sentence per block (milestone, n drives, n days or 'not recorded', current headline set, raw basis, status), bound to staleBlocks.perBlock",
-       "Blocks gtrClosure, sensitivity, simultaneity, crossval, speedSplit" in _t and all(
+       ("Blocks " + ", ".join(_sb["blocks"])) in _t and all(
            f"{p['block']}: basis {p['basisMilestone']}" in _t and f"{p['nDrives']} drives" in _t and (f"{p['nDays']} days" in _t if p["nDays"] is not None else "n days not recorded" in _t)
            and f"(current GTR headline set: {_nprod} drives); raw basis: {p['rawBasis']}; {p['status']}." in _t for p in _sb["perBlock"]), _m)
 ok("A2 REQUIRED M370 crossval label states that it is not recomputable and not a validation of the current headline", any("Path A coefficients unpreserved; not recomputable; pre-M366 basis; not a validation of the current headline" in t for k, t in T.items() if k.startswith("fuel__")))

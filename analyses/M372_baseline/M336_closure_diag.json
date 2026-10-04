@@ -1,0 +1,111 @@
+{
+ "milestone": "M336",
+ "step": 1,
+ "basis": "raw/ via XT_RAW_DIR (F03: lower-precision re-exports; published-pipeline basis); canonical-clean (ens_outlier_v2 False), distance>0, fuel PID",
+ "n_drives": 257,
+ "n_days": 50,
+ "km": 1996.2399999999998,
+ "skipped": {
+  "no_file": 0,
+  "no_fuel": 224,
+  "outlier": 5,
+  "none": 0,
+  "no_battery_inputs": 3
+ },
+ "per100km_totals": {
+  "E_gen": 15.928,
+  "E_gen_ps": 15.928,
+  "g2t": 8.608,
+  "g2b_master": 8.348,
+  "g2b_model": 7.32,
+  "eng_only": 5.651,
+  "dual": 2.697,
+  "regen": 2.987,
+  "b2t": 9.881,
+  "trac": 18.489,
+  "excess": 1.028,
+  "excess_engonly": -1.669,
+  "excess_ps": 1.028,
+  "gen_def_gap": 0.0,
+  "batt_resid": 1.455,
+  "batt_resid_modelg2b": 0.427
+ },
+ "relative_to_generator": {
+  "excess": {
+   "est": 0.0645,
+   "ci95": [
+    0.0488,
+    0.0862
+   ],
+   "closed": false
+  },
+  "excess_engonly": {
+   "est": -0.1048,
+   "ci95": [
+    -0.1341,
+    -0.0816
+   ],
+   "closed": false
+  },
+  "excess_ps": {
+   "est": 0.0645,
+   "ci95": [
+    0.0488,
+    0.0862
+   ],
+   "closed": false
+  },
+  "gen_def_gap": {
+   "est": 0.0,
+   "ci95": [
+    -0.0,
+    0.0
+   ],
+   "closed": true
+  }
+ },
+ "closure_rule": "95% day-clustered CI of excess/E_gen inside +/-5% overall and per drive-type stratum with n>=10",
+ "strata": {
+  "highway": {
+   "n": 2,
+   "days": 1,
+   "excess_rel": "n<10: not evaluated"
+  },
+  "mixed": {
+   "n": 11,
+   "days": 9,
+   "excess_rel": {
+    "est": 0.0333,
+    "ci95": [
+     0.0247,
+     0.04
+    ],
+    "closed": true
+   }
+  },
+  "mixed_highway": {
+   "n": 5,
+   "days": 3,
+   "excess_rel": "n<10: not evaluated"
+  },
+  "urban": {
+   "n": 239,
+   "days": 50,
+   "excess_rel": {
+    "est": 0.0892,
+    "ci95": [
+     0.0772,
+     0.1048
+    ],
+    "closed": false
+   }
+  }
+ },
+ "exploratory_corr_with_excess_per_km": {
+  "dual_share": 0.604,
+  "gen_per_km": 0.125,
+  "gen_def_gap": 0.042
+ },
+ "share_drives_excess_positive": 0.887,
+ "share_dual_in_g2b_master": 0.3231
+}
