@@ -137,7 +137,16 @@ _pct = lambda v: ("+" if v > 0 else "-" if v < 0 else "") + ("%.2f" % abs(v * 10
 ok("A2 REQUIRED M366 FUEL-12 states plainly that it moved outside its previous 95% CI, with the previous and current estimates bound to the payload",
    any(all(x in t for x in ("FUEL-12 moved outside its previous 95% CI", _pct(_sh["previous"]["aggregate"]["est"]), _pct(_f12["aggregate"]["est"]), "not a paired test")) for k, t in T.items() if k.startswith("fuel__") and k.endswith("__all")))
 ok("A2 REQUIRED M366 the five outside-CI estimates are all FUEL-12 and the disclosure counts are bound (headline gate)", _sh["nOutsidePreviousCi"] == 5 and len(_sh["outsidePaths"]) == 5 and all(p.startswith("/fuelAnalytics/fuel12/") for p in _sh["outsidePaths"]))
-ok("A2 REQUIRED M366 stale blocks are labelled as computed on the former re-exports and not refreshed (GTR section)", any("Blocks gtrClosure, sensitivity, simultaneity, crossval, speedSplit" in t and "not refreshed on the originals" in t for k, t in T.items() if k.startswith("fuel__")))
+# M370 (P4): each carried-forward GTR block states its OWN basis (the M366 collective "former re-exports" sentence was accurate for gtrClosure only); bound to staleBlocks.perBlock
+_sb = json.load(open("summary_arrays.json", encoding="utf-8"))["generatorTractionRecon"]["staleBlocks"]
+_nprod = json.load(open("summary_arrays.json", encoding="utf-8"))["generatorTractionRecon"]["nProduction"]
+for _m in ("all", "warm", "shoulder", "compare"):
+    _t = T.get(f"fuel__{_m}", "").replace("  ", " ")
+    ok(f"A2 REQUIRED M370 Fuel {_m} dump: Blocks line plus one basis sentence per block (milestone, n drives, n days or 'not recorded', current headline set, raw basis, status), bound to staleBlocks.perBlock",
+       "Blocks gtrClosure, sensitivity, simultaneity, crossval, speedSplit" in _t and all(
+           f"{p['block']}: basis {p['basisMilestone']}" in _t and f"{p['nDrives']} drives" in _t and (f"{p['nDays']} days" in _t if p["nDays"] is not None else "n days not recorded" in _t)
+           and f"(current GTR headline set: {_nprod} drives); raw basis: {p['rawBasis']}; {p['status']}." in _t for p in _sb["perBlock"]), _m)
+ok("A2 REQUIRED M370 crossval label states that it is not recomputable and not a validation of the current headline", any("Path A coefficients unpreserved; not recomputable; pre-M366 basis; not a validation of the current headline" in t for k, t in T.items() if k.startswith("fuel__")))
 _pv2 = json.load(open("summary_arrays.json", encoding="utf-8"))["provenanceSensitivity"]["disclosure"]
 ok("A2 REQUIRED M366 F03 disclosure does not claim all estimates stay inside their CIs (it states the counts and that the outside ones are FUEL-12)", "all FUEL-12" in _pv2 and "remain inside their previous 95% CIs" in _pv2 and "remain inside their CIs" not in _pv2)
 # M364 (buffer-thesis wording: qualified description, derived badges)

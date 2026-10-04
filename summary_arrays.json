@@ -57188,7 +57188,61 @@
     "crossval",
     "speedSplit"
    ],
-   "note": "computed on the former raw/ re-exports (pre-M366); not refreshed on the originals; written once by one-off tools and carried forward (follow-up refresh milestone)"
+   "note": "refresh pending (spec analyses/M370_spec.md); the basis of each block is stated separately because it is not the same for all five",
+   "perBlock": [
+    {
+     "block": "gtrClosure",
+     "basisMilestone": "M336",
+     "basisDate": null,
+     "nDrives": 257,
+     "nDays": 50,
+     "rawBasis": "pre-M366 raw/ re-exports",
+     "status": "not refreshed on the originals",
+     "source": "payload generatorTractionRecon.gtrClosure.scope"
+    },
+    {
+     "block": "sensitivity",
+     "basisMilestone": "M279",
+     "basisDate": "2026-09-17",
+     "nDrives": 181,
+     "nDrivesClean": 180,
+     "nDays": null,
+     "rawBasis": "pre-M366 raw/ re-exports",
+     "status": "not refreshed; older drive set than the current headline",
+     "source": "CHANGELOG M279 (drive set statement); n days not recorded"
+    },
+    {
+     "block": "simultaneity",
+     "basisMilestone": "M282",
+     "basisDate": "2026-09-17",
+     "nDrives": 170,
+     "nDays": null,
+     "rawBasis": "pre-M366 raw/ re-exports",
+     "status": "not refreshed; older drive set than the current headline",
+     "source": "payload generatorTractionRecon.simultaneity (sum of the four drive types); n days not recorded"
+    },
+    {
+     "block": "crossval",
+     "basisMilestone": "M280",
+     "basisDate": "2026-09-17",
+     "nDrives": 82,
+     "nDays": null,
+     "rawBasis": "pre-M366 raw/ re-exports",
+     "status": "Path A coefficients unpreserved; not recomputable; pre-M366 basis; not a validation of the current headline",
+     "source": "payload generatorTractionRecon.crossval (recovered crossval.csv); n days not recorded"
+    },
+    {
+     "block": "speedSplit",
+     "basisMilestone": "M255",
+     "basisDate": "2026-09-14",
+     "nDrives": 181,
+     "nDrivesNote": "largest speed bin",
+     "nDays": null,
+     "rawBasis": "pre-M366 raw/ re-exports",
+     "status": "not refreshed; older drive set than the current headline",
+     "source": "payload generatorTractionRecon.speedSplit (largest bin); n days not recorded"
+    }
+   ]
   }
  },
  "masterRefitAudit": {
