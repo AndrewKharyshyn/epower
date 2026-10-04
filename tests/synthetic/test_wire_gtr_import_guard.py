@@ -5,7 +5,7 @@ still runs against the guarded module."""
 import hashlib, json, os, shutil, subprocess, sys, tempfile
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
-FILES = ["fuel_recon_master.csv", "seasonal_drive_master.csv", "summary_arrays.json", "wire_gtr_seasonal.py", "refresh_gtr_headline.py"]
+FILES = ["fuel_recon_master.csv", "seasonal_drive_master.csv", "drive_master.csv", "summary_arrays.json", "eligibility.py", "wire_gtr_seasonal.py", "refresh_gtr_headline.py"]
 sha = lambda p: hashlib.sha256(open(p, "rb").read()).hexdigest()
 
 

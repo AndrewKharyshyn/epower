@@ -46,9 +46,17 @@ import numpy as np, pandas as pd
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import recon_engine as RE
 import fuel_recon as FR
+import eligibility as EL
 
 BINS = [(0, 20, "0-20"), (20, 60, "20-60"), (60, 90, "60-90"),
         (90, 120, "90-120"), (120, 999, "120+")]
+
+
+def canonical_targets(dm, targets, fr_master):
+    """M375: the speedSplit mask is pinned HERE (the block has no auto-splice): the drives that enter the reconstruction (fuel PID present AND a fuel_recon_master row) restricted to canonical-clean,
+    from the drive_master frame `dm` (eligibility.py stop checks; a missing flag for such a drive is a stop). Fuel-PID files without a reconstruction row are not part of the set."""
+    in_recon = set(fr_master['file'])
+    return EL.canonical_clean([f for f in targets if f in in_recon], dm[['file', 'ens_outlier_v2', 'ens_invalid']])
 
 
 def per_drive_persample(fname, mrow, offset):
@@ -71,6 +79,7 @@ def validate_against_master(dm, fr_master, targets, offsets, n_check=None):
     """Sum the per-sample arrays the same way central_estimate_v2 aggregates
     them, and assert the result matches fuel_recon_master.csv's own recorded
     per-drive figures. Returns (n_checked, n_matched, max_abs_diff_pct)."""
+    targets = canonical_targets(dm, targets, fr_master)
     fr_idx = fr_master.set_index('file')
     n_checked = n_matched = 0
     max_diff = 0.0
@@ -111,6 +120,7 @@ def build_speed_split(dm, fr_master, targets, offsets):
     bin_batt = {lbl: 0.0 for _, _, lbl in BINS}
     bin_dist = {lbl: 0.0 for _, _, lbl in BINS}
     bin_drives = {lbl: set() for _, _, lbl in BINS}
+    targets = canonical_targets(dm, targets, fr_master)
     fr_idx = fr_master.set_index('file')
 
     for f in targets:

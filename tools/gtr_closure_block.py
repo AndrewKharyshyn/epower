@@ -39,25 +39,20 @@ def build():
         base_note = ("NaN battery offset or NaN charge-class columns in the master: the closure skips these drives by design (pre-registered M336 rule). Before M349 the published reconstruction gave zero battery power for such a drive "
                      "(f_gen = 1 by construction); M349 repaired the published rows" + (" (current published f_gen: " + ", ".join(f"{k.replace('.csv', '')} {v:.4f}" for k, v in sorted(cur.items())) + ")" if cur else "")
                      + (f"; {len(f1)} published row(s) still have f_gen = 1" if f1 else "; no published row has f_gen = 1 now"))
-    if M372:   # Director ruling (M372 Rev 2 + trigger ruling): the closure set differs from the headline set; a script reconciles the sets per ID and the note is written from that
-        dmx = pd.read_csv(os.path.join(ROOT, "drive_master.csv"), usecols=["file", "ens_outlier_v2"], low_memory=False)
-        keep = fr.merge(dmx, on="file", how="left")
-        R0 = A["generatorTractionRecon"]
-        head = set(keep[keep.f_gen.notna()].file)                                    # headline set: f_gen not NaN (wire_gtr_seasonal.aggregate)
+    if M372:   # Director rulings (M372 trigger ruling; M375 Rev 2): the closure set differs from the headline set; the note is written from a per-ID reconciliation of the FILES (no payload dependence)
+        import eligibility as EL
+        head_all = set(fr.file)                                                      # fuel-instrumented rows of fuel_recon_master.csv
+        head = head_all - EL.excluded_files(EL.load_flags(os.path.join(ROOT, "drive_master.csv")), fr.file)     # headline set since M375: canonical-clean (ens_outlier_v2)
         closure = set(pd.read_csv(os.path.join(ROOT, "analyses", "M372_closure_perdrive.csv")).file)
-        outl = set(keep[keep.ens_outlier_v2.astype(str) == "True"].file)
         nan_in = set(s["excluded_no_battery_inputs"])
-        reasons = {}
-        for f in sorted(head - closure):
-            reasons[f] = "canonical outlier (ens_outlier_v2)" if f in outl else ("NaN battery inputs" if f in nan_in else "other")
+        reasons = {f: ("NaN battery inputs" if f in nan_in else "other") for f in sorted(head - closure)}
         assert not (closure - head), "closure drives outside the headline set"
         assert "other" not in reasons.values(), reasons
-        assert len(head) - len(reasons) == len(closure) == s["n_drives"] and len(head) == R0["nDrives"], (len(head), len(reasons), len(closure), R0["nDrives"])
+        assert len(head) - len(reasons) == len(closure) == s["n_drives"], (len(head), len(reasons), len(closure))
         not_in_head = sorted(nan_in - head)
-        headline_note = (f". Set note (as of the M372 refresh): the closure set is {len(closure)} drives; the published headline set is {len(head)} of {R0['nProduction']} fuel-instrumented drives (clean = f_gen not NaN, not the canonical rule), "
+        headline_note = (f". Set note (as of the M375 eligibility alignment): the closure set is {len(closure)} drives; the headline set is the {len(head)} canonical-clean (ens_outlier_v2) of {len(head_all)} fuel-instrumented drives, "
                          f"{len(head)} - {len(reasons)} = {len(closure)}; headline drives not in the closure: " + "; ".join(f"{f.replace('.csv', '')} ({r})" for f, r in reasons.items())
-                         + ("; NaN-battery-input drive(s) without a published row, in neither set: " + ", ".join(f.replace('.csv', '') for f in not_in_head) if not_in_head else "")
-                         + "; the headline's departure from the canonical-clean rule is an open item")
+                         + ("; NaN-battery-input drive(s) in neither set (no published row or canonical outlier): " + ", ".join(f.replace('.csv', '') for f in not_in_head) if not_in_head else ""))
     return {
         "basis": ("fuel-PID subset, model-derived; raw/ = sha256-verified originals (M366); not M299-reproducible" if M372 else "fuel-PID subset, model-derived; computed on the former raw/ re-exports (pre-M366); not refreshed on the originals; not M299-reproducible"),
         "scope": {"nDrives": s["n_drives"], "nDays": s["n_days"], "km": s["km"], "nCanonical": n_canon,

@@ -1,0 +1,547 @@
+{
+ "excluded": [
+  "20260513_182950.csv",
+  "20260813_144601.csv"
+ ],
+ "specSha256": "6b0722e7f272fde8bf926a79af94143aeca24d1150dade556f02ba03258eca34",
+ "producerSha256": {
+  "sensitivity_gtr.py": "b39c2830b8c99eee",
+  "simultaneity_gtr.py": "baf9b5e4fa439e22",
+  "speed_split.py": "83e56cfecd7f26d7"
+ },
+ "gitHead": "8b23fb3",
+ "simultaneity": {
+  "full": [
+   {
+    "type": "urban",
+    "nDrives": 225,
+    "engineOnHours": 13.6,
+    "genPlusBattDischarge": 18.6,
+    "chargesAndDrives": 51.4,
+    "genAloneNeutral": 2.9,
+    "fullyBanked": 27.1
+   },
+   {
+    "type": "mixed",
+    "nDrives": 11,
+    "engineOnHours": 2.1,
+    "genPlusBattDischarge": 25.3,
+    "chargesAndDrives": 57.5,
+    "genAloneNeutral": 3.7,
+    "fullyBanked": 13.5
+   },
+   {
+    "type": "mixed_highway",
+    "nDrives": 5,
+    "engineOnHours": 2.2,
+    "genPlusBattDischarge": 42.9,
+    "chargesAndDrives": 44.2,
+    "genAloneNeutral": 4.7,
+    "fullyBanked": 8.2
+   },
+   {
+    "type": "highway",
+    "nDrives": 2,
+    "engineOnHours": 1.8,
+    "genPlusBattDischarge": 46.3,
+    "chargesAndDrives": 36.1,
+    "genAloneNeutral": 11.8,
+    "fullyBanked": 5.8
+   }
+  ],
+  "without": [
+   {
+    "type": "urban",
+    "nDrives": 224,
+    "engineOnHours": 13.6,
+    "genPlusBattDischarge": 18.6,
+    "chargesAndDrives": 51.5,
+    "genAloneNeutral": 2.9,
+    "fullyBanked": 27.1
+   },
+   {
+    "type": "mixed",
+    "nDrives": 11,
+    "engineOnHours": 2.1,
+    "genPlusBattDischarge": 25.3,
+    "chargesAndDrives": 57.5,
+    "genAloneNeutral": 3.7,
+    "fullyBanked": 13.5
+   },
+   {
+    "type": "mixed_highway",
+    "nDrives": 5,
+    "engineOnHours": 2.2,
+    "genPlusBattDischarge": 42.9,
+    "chargesAndDrives": 44.2,
+    "genAloneNeutral": 4.7,
+    "fullyBanked": 8.2
+   },
+   {
+    "type": "highway",
+    "nDrives": 2,
+    "engineOnHours": 1.8,
+    "genPlusBattDischarge": 46.3,
+    "chargesAndDrives": 36.1,
+    "genAloneNeutral": 11.8,
+    "fullyBanked": 5.8
+   }
+  ],
+  "excludedInCache": [
+   "20260513_182950.csv",
+   "20260813_144601.csv"
+  ],
+  "excludedDrives": {
+   "20260513_182950.csv": {
+    "drive_type": "urban",
+    "fgenIsNaN": true,
+    "engineOnSeconds": 0.0
+   },
+   "20260813_144601.csv": {
+    "drive_type": "urban",
+    "fgenIsNaN": false,
+    "engineOnSeconds": 37.2
+   }
+  }
+ },
+ "sensitivity": [
+  {
+   "axis": "BASE (central)",
+   "full": {
+    "gen100": 15.92,
+    "trac100": 18.49,
+    "fgen": 0.465,
+    "etaBus": 0.327,
+    "nClean": 260
+   },
+   "without": {
+    "gen100": 15.92,
+    "trac100": 18.49,
+    "fgen": 0.465,
+    "etaBus": 0.327,
+    "nClean": 259
+   },
+   "fullUnrounded": {
+    "gen100": 15.921630121294612,
+    "trac100": 18.491943166588918,
+    "fgen": 0.4651455577450536,
+    "etaBus": 0.32712105234037553
+   },
+   "withoutUnrounded": {
+    "gen100": 15.917911825229453,
+    "trac100": 18.486582515428104,
+    "fgen": 0.4650246325486256,
+    "etaBus": 0.32711038687938376
+   },
+   "deltaUnrounded": {
+    "gen100": -0.0037182960651591657,
+    "trac100": -0.005360651160813745,
+    "fgen": -0.00012092519642803445,
+    "etaBus": -1.0665460991765574e-05
+   }
+  },
+  {
+   "axis": "BSFC optimistic (-6%)",
+   "full": {
+    "gen100": 16.78,
+    "trac100": 19.21,
+    "fgen": 0.485,
+    "etaBus": 0.345,
+    "nClean": 260
+   },
+   "without": {
+    "gen100": 16.78,
+    "trac100": 19.2,
+    "fgen": 0.485,
+    "etaBus": 0.345,
+    "nClean": 259
+   },
+   "fullUnrounded": {
+    "gen100": 16.78262735803494,
+    "trac100": 19.210046158541946,
+    "fgen": 0.485139292901794,
+    "etaBus": 0.3447127135916015
+   },
+   "withoutUnrounded": {
+    "gen100": 16.77872153818398,
+    "trac100": 19.204498733224142,
+    "fgen": 0.48502346187241796,
+    "etaBus": 0.3447016237742896
+   },
+   "deltaUnrounded": {
+    "gen100": -0.0039058198509600572,
+    "trac100": -0.005547425317804056,
+    "fgen": -0.0001158310293760123,
+    "etaBus": -1.1089817311904504e-05
+   }
+  },
+  {
+   "axis": "BSFC conservative (+9%)",
+   "full": {
+    "gen100": 14.61,
+    "trac100": 17.44,
+    "fgen": 0.433,
+    "etaBus": 0.3,
+    "nClean": 260
+   },
+   "without": {
+    "gen100": 14.6,
+    "trac100": 17.43,
+    "fgen": 0.433,
+    "etaBus": 0.3,
+    "nClean": 259
+   },
+   "fullUnrounded": {
+    "gen100": 14.607000111279456,
+    "trac100": 17.438483138794062,
+    "fgen": 0.4328349622007293,
+    "etaBus": 0.300111057193005
+   },
+   "withoutUnrounded": {
+    "gen100": 14.603588830485736,
+    "trac100": 17.433441049496054,
+    "fgen": 0.4327071605638529,
+    "etaBus": 0.3001012723664071
+   },
+   "deltaUnrounded": {
+    "gen100": -0.0034112807937205503,
+    "trac100": -0.005042089298008534,
+    "fgen": -0.00012780163687642343,
+    "etaBus": -9.78482659791391e-06
+   }
+  },
+  {
+   "axis": "η_gen low (0.90)",
+   "full": {
+    "gen100": 15.08,
+    "trac100": 17.81,
+    "fgen": 0.445,
+    "etaBus": 0.31,
+    "nClean": 260
+   },
+   "without": {
+    "gen100": 15.08,
+    "trac100": 17.81,
+    "fgen": 0.445,
+    "etaBus": 0.31,
+    "nClean": 259
+   },
+   "fullUnrounded": {
+    "gen100": 15.083649588594891,
+    "trac100": 17.814158582775885,
+    "fgen": 0.44479567179002294,
+    "etaBus": 0.3099041548487768
+   },
+   "withoutUnrounded": {
+    "gen100": 15.080126992322642,
+    "trac100": 17.808998169434954,
+    "fgen": 0.4446702627503785,
+    "etaBus": 0.30989405072783727
+   },
+   "deltaUnrounded": {
+    "gen100": -0.0035225962722496007,
+    "trac100": -0.0051604133409313135,
+    "fgen": -0.00012540903964441963,
+    "etaBus": -1.0104120939546934e-05
+   }
+  },
+  {
+   "axis": "η_gen high (0.97)",
+   "full": {
+    "gen100": 16.26,
+    "trac100": 18.77,
+    "fgen": 0.473,
+    "etaBus": 0.334,
+    "nClean": 260
+   },
+   "without": {
+    "gen100": 16.25,
+    "trac100": 18.76,
+    "fgen": 0.473,
+    "etaBus": 0.334,
+    "nClean": 259
+   },
+   "fullUnrounded": {
+    "gen100": 16.256822334374494,
+    "trac100": 18.768755254556982,
+    "fgen": 0.47303388986466177,
+    "etaBus": 0.33400781133701507
+   },
+   "withoutUnrounded": {
+    "gen100": 16.25302575839218,
+    "trac100": 18.76331706859102,
+    "fgen": 0.47291482428410747,
+    "etaBus": 0.3339969213400024
+   },
+   "deltaUnrounded": {
+    "gen100": -0.0037965759823137546,
+    "trac100": -0.005438185965960685,
+    "fgen": -0.00011906558055430061,
+    "etaBus": -1.088999701265303e-05
+   }
+  },
+  {
+   "axis": "P_aux low (0.2kW)",
+   "full": {
+    "gen100": 15.76,
+    "trac100": 19.04,
+    "fgen": 0.456,
+    "etaBus": 0.324,
+    "nClean": 261
+   },
+   "without": {
+    "gen100": 15.92,
+    "trac100": 19.23,
+    "fgen": 0.456,
+    "etaBus": 0.327,
+    "nClean": 259
+   },
+   "fullUnrounded": {
+    "gen100": 15.758846740787064,
+    "trac100": 19.038588054724887,
+    "fgen": 0.4557035921071914,
+    "etaBus": 0.32377655367224395
+   },
+   "withoutUnrounded": {
+    "gen100": 15.917911825229453,
+    "trac100": 19.22967609727253,
+    "fgen": 0.45559118187724845,
+    "etaBus": 0.32711038687938376
+   },
+   "deltaUnrounded": {
+    "gen100": 0.1590650844423891,
+    "trac100": 0.19108804254764422,
+    "fgen": -0.00011241022994296079,
+    "etaBus": 0.0033338332071398136
+   }
+  },
+  {
+   "axis": "P_aux high (1.2kW)",
+   "full": {
+    "gen100": 15.92,
+    "trac100": 16.88,
+    "fgen": 0.487,
+    "etaBus": 0.327,
+    "nClean": 260
+   },
+   "without": {
+    "gen100": 15.92,
+    "trac100": 16.88,
+    "fgen": 0.487,
+    "etaBus": 0.327,
+    "nClean": 259
+   },
+   "fullUnrounded": {
+    "gen100": 15.921630121294612,
+    "trac100": 16.88082005724176,
+    "fgen": 0.4868564677425978,
+    "etaBus": 0.32712105234037553
+   },
+   "withoutUnrounded": {
+    "gen100": 15.917911825229453,
+    "trac100": 16.875768858800203,
+    "fgen": 0.48671896627108213,
+    "etaBus": 0.32711038687938376
+   },
+   "deltaUnrounded": {
+    "gen100": -0.0037182960651591657,
+    "trac100": -0.005051198441556437,
+    "fgen": -0.00013750147151564418,
+    "etaBus": -1.0665460991765574e-05
+   }
+  },
+  {
+   "axis": "cold penalty OFF",
+   "full": {
+    "gen100": 16.9,
+    "trac100": 19.23,
+    "fgen": 0.486,
+    "etaBus": 0.343,
+    "nClean": 260
+   },
+   "without": {
+    "gen100": 16.89,
+    "trac100": 19.22,
+    "fgen": 0.485,
+    "etaBus": 0.343,
+    "nClean": 259
+   },
+   "fullUnrounded": {
+    "gen100": 16.897767457231218,
+    "trac100": 19.225418027674646,
+    "fgen": 0.4855509547652546,
+    "etaBus": 0.3434253014537963
+   },
+   "withoutUnrounded": {
+    "gen100": 16.894487756302624,
+    "trac100": 19.220386939265936,
+    "fgen": 0.48544915847105125,
+    "etaBus": 0.3434219617697246
+   },
+   "deltaUnrounded": {
+    "gen100": -0.003279700928594309,
+    "trac100": -0.00503108840871036,
+    "fgen": -0.00010179629420337122,
+    "etaBus": -3.339684071679283e-06
+   }
+  },
+  {
+   "axis": "cold penalty heavy (×1.45)",
+   "full": {
+    "gen100": 15.38,
+    "trac100": 18.16,
+    "fgen": 0.455,
+    "etaBus": 0.318,
+    "nClean": 260
+   },
+   "without": {
+    "gen100": 15.38,
+    "trac100": 18.16,
+    "fgen": 0.455,
+    "etaBus": 0.318,
+    "nClean": 259
+   },
+   "fullUnrounded": {
+    "gen100": 15.383071591122688,
+    "trac100": 18.162420694453434,
+    "fgen": 0.4554416443180113,
+    "etaBus": 0.3181256045536606
+   },
+   "withoutUnrounded": {
+    "gen100": 15.379111311533912,
+    "trac100": 18.15691198323145,
+    "fgen": 0.45531121794031126,
+    "etaBus": 0.318110897284713
+   },
+   "deltaUnrounded": {
+    "gen100": -0.0039602795887763165,
+    "trac100": -0.005508711221985152,
+    "fgen": -0.00013042637770005472,
+    "etaBus": -1.4707268947644625e-05
+   }
+  },
+  {
+   "axis": "OPT band wide (1750-2250)",
+   "full": {
+    "gen100": 15.94,
+    "trac100": 18.51,
+    "fgen": 0.466,
+    "etaBus": 0.328,
+    "nClean": 260
+   },
+   "without": {
+    "gen100": 15.94,
+    "trac100": 18.5,
+    "fgen": 0.465,
+    "etaBus": 0.328,
+    "nClean": 259
+   },
+   "fullUnrounded": {
+    "gen100": 15.940795656089398,
+    "trac100": 18.507282464841524,
+    "fgen": 0.46558885847421616,
+    "etaBus": 0.3275134775592364
+   },
+   "withoutUnrounded": {
+    "gen100": 15.937085971425569,
+    "trac100": 18.50192870588877,
+    "fgen": 0.4654683610923454,
+    "etaBus": 0.3275029884215817
+   },
+   "deltaUnrounded": {
+    "gen100": -0.003709684663828483,
+    "trac100": -0.005353758952754362,
+    "fgen": -0.00012049738187075443,
+    "etaBus": -1.0489137654667857e-05
+   }
+  }
+ ],
+ "speedSplit": {
+  "full": [
+   {
+    "bin": "0-20",
+    "nDrives": 261,
+    "distKm": 161.8,
+    "generator": 6.26,
+    "battery": 30.23,
+    "fGen": 0.1714
+   },
+   {
+    "bin": "20-60",
+    "nDrives": 258,
+    "distKm": 931.3,
+    "generator": 5.83,
+    "battery": 11.76,
+    "fGen": 0.3314
+   },
+   {
+    "bin": "60-90",
+    "nDrives": 77,
+    "distKm": 566.1,
+    "generator": 8.99,
+    "battery": 5.39,
+    "fGen": 0.6254
+   },
+   {
+    "bin": "90-120",
+    "nDrives": 41,
+    "distKm": 323.5,
+    "generator": 16.44,
+    "battery": 2.66,
+    "fGen": 0.8608
+   },
+   {
+    "bin": "120+",
+    "nDrives": 13,
+    "distKm": 18.1,
+    "generator": 21.36,
+    "battery": 3.65,
+    "fGen": 0.8539
+   }
+  ],
+  "without": [
+   {
+    "bin": "0-20",
+    "nDrives": 259,
+    "distKm": 161.6,
+    "generator": 6.26,
+    "battery": 30.24,
+    "fGen": 0.1715
+   },
+   {
+    "bin": "20-60",
+    "nDrives": 257,
+    "distKm": 930.7,
+    "generator": 5.82,
+    "battery": 11.76,
+    "fGen": 0.331
+   },
+   {
+    "bin": "60-90",
+    "nDrives": 76,
+    "distKm": 566.0,
+    "generator": 8.99,
+    "battery": 5.39,
+    "fGen": 0.6252
+   },
+   {
+    "bin": "90-120",
+    "nDrives": 41,
+    "distKm": 323.5,
+    "generator": 16.44,
+    "battery": 2.66,
+    "fGen": 0.8608
+   },
+   {
+    "bin": "120+",
+    "nDrives": 13,
+    "distKm": 18.1,
+    "generator": 21.36,
+    "battery": 3.65,
+    "fGen": 0.8539
+   }
+  ],
+  "nTargets": 263,
+  "nTargetsWithout": 261
+ }
+}

@@ -7,12 +7,13 @@ Usage: python tools/m373_diff.py"""
 import json, os, sys
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 os.chdir(ROOT)
-O = json.load(open("analyses/M373_O_blocks.json", encoding="utf-8"))
-R = json.load(open("analyses/M373_R_blocks.json", encoding="utf-8"))
+TAG = next((a.split("=", 1)[1] for a in sys.argv if a.startswith("--tag=")), "M373")
+O = json.load(open(f"analyses/{TAG}_O_blocks.json", encoding="utf-8"))
+R = json.load(open(f"analyses/{TAG}_R_blocks.json", encoding="utf-8"))
 import subprocess
 # the PUBLISHED blocks are read from the committed payload (git HEAD), never from the working tree: after a splice the working tree already holds the refreshed blocks (M373 lesson)
 G = json.loads(subprocess.run(["git", "show", "HEAD:summary_arrays.json"], capture_output=True, cwd=ROOT).stdout.decode("utf-8"))["generatorTractionRecon"]
-assert "refreshedBlocks" not in G or not any(p["block"] in ("sensitivity", "simultaneity", "speedSplit") for p in G["refreshedBlocks"]), "HEAD already holds refreshed blocks: the comparison base must be the previously published blocks"
+assert TAG != "M373" or "refreshedBlocks" not in G or not any(p["block"] in ("sensitivity", "simultaneity", "speedSplit") for p in G["refreshedBlocks"]), "HEAD already holds refreshed blocks: the comparison base must be the previously published blocks"
 TOL = {"sens_kwh": 0.02, "sens_frac": 0.002, "split_fgen": 0.005, "split_km_rel": 0.005, "simul_pp": 0.5}
 STATES = ("genPlusBattDischarge", "chargesAndDrives", "genAloneNeutral", "fullyBanked")
 out = {"tolerancesFrozenIn": "analyses/M373_spec.md Rev 2", "specSha256": O["meta"]["specSha256"], "specShaEqualBothPoints": O["meta"]["specSha256"] == R["meta"]["specSha256"],
@@ -96,9 +97,27 @@ for k in O["deadband"]:
 b["deadbandGrid"] = grid
 b["deadbandNote"] = "analysis only; epsilon stays 0.5 kW; eps 0.25 kW is below the re-export current resolution (~1 A); read together with the deltas at 0.5_0.5"
 out["blocks"]["simultaneity"] = b
+if TAG == "M375":
+    E = json.load(open("analyses/M375_expected.json", encoding="utf-8"))
+    mis = []
+    for lab, ex in ((r["axis"], r["without"]) for r in E["sensitivity"]):
+        o = next(r for r in O["sensitivity"]["axes"] if r["axis"] == lab)
+        for k in ("gen100", "trac100", "fgen", "etaBus"):
+            if o[k] != ex[k]:
+                mis.append({"block": "sensitivity", "axis": lab, "field": k, "O": o[k], "expected": ex[k]})
+    for x, y in zip(O["simultaneity"]["rows"], E["simultaneity"]["without"]):
+        if x != y:
+            mis.append({"block": "simultaneity", "type": x["type"], "O": x, "expected": y})
+    for x, y in zip(O["speedSplit"]["bins"], E["speedSplit"]["without"]):
+        if x != y:
+            mis.append({"block": "speedSplit", "bin": x["bin"], "O": x, "expected": y})
+    out["expectedMismatches"] = mis
+    out["expectedSpecSha256"] = E["specSha256"]
+    if mis:
+        out["breaches"].append({"block": "all", "rule": "final O run differs from the pre-registered expected 'without' values", "n": len(mis)})
 out["summary"] = {"nBreaches": len(out["breaches"]), "nFlips": len(out["flips"]), "gatesPassed": all(out["gates"][p][k]["passed"] for p in ("O", "R") for k in ("sensitivityBaseGate", "speedSplitValidation")),
                   "blocksWithBreach": sorted({x["block"] for x in out["breaches"]}), "blocksWithFlip": sorted({x["block"] for x in out["flips"]})}
-with open("analyses/M373_delta.json", "w", encoding="utf-8", newline="\n") as fh:
+with open(f"analyses/{TAG}_delta.json", "w", encoding="utf-8", newline="\n") as fh:
     json.dump(out, fh, indent=1, ensure_ascii=False)
     fh.write("\n")
 print(json.dumps(out["summary"], indent=1))

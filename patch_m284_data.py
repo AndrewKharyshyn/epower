@@ -14,7 +14,7 @@ dm = pd.read_csv(DM, low_memory=False)
 # (1) limitations
 l1, l2 = gtr_limitations_head(arr, float(dm["distance_km"].sum()), dm["drive_type"].value_counts().to_dict())
 lim = arr["generatorTractionRecon"]["limitations"]
-assert lim[0].startswith("Fuel-flow PID coverage is") and lim[1].startswith("Highway (n=")
+assert lim[0].startswith(("Fuel-flow PID coverage is", "Canonical-clean fuel-flow PID coverage is")) and lim[1].startswith("Highway (n=")      # M375: the derived sentence now says "Canonical-clean ..."; both prefixes keep the step idempotent
 lim[0], lim[1] = l1, l2
 
 # (2) determinism scope labelling (verbatim copy convention: config block == arrays block)

@@ -194,6 +194,25 @@ ok("A2 REQUIRED M373 limitations[4] and [5]: refreshed-at-M373 wording present, 
 _l6 = _G3["limitations"][6]
 ok("A2 REQUIRED M373 limitations[6] (speed split provenance): refreshed at M373, no typed M255-era counts, the check count is stated in the speed-split text (script-written %d of %d)" % (_rb3["speedSplit"]["validation"]["nMatched"], _rb3["speedSplit"]["validation"]["nChecked"]),
    "refreshed at M373 on raw/ = sha256-verified originals (M366)" in _l6 and "145" not in _l6 and "n=11" not in _l6 and "16.5 km" not in _l6 and "matched fuel_recon_master.csv on %d of %d drives" % (_rb3["speedSplit"]["validation"]["nMatched"], _rb3["speedSplit"]["validation"]["nChecked"]) in _all3)
+# M375: canonical-clean eligibility; known answers recomputed from the files (eligibility.py), never typed
+import eligibility as EL
+import pandas as _pd
+_fr5 = _pd.read_csv("fuel_recon_master.csv")
+_ex5 = EL.excluded_files(EL.load_flags("drive_master.csv"), _fr5["file"])
+_can5 = _fr5[~_fr5["file"].isin(_ex5)]
+_ea = _G3.get("eligibilityAlignment") or {}
+ok("A2 REQUIRED M375 payload: eligibilityAlignment states the canonical-clean headline counts (recomputed from the files: nProduction = canonical-clean fuel rows, nDrives = those with f_gen, km), the excluded IDs equal the drive_master flags, and the headline carries exactly these counts",
+   bool(_ea) and _G3["nProduction"] == len(_can5) == _ea["current"]["nProduction"] and _G3["nDrives"] == int(_can5["f_gen"].notna().sum()) == _ea["current"]["nDrives"]
+   and abs(_G3["kmProduction"] - round(float(_can5[_can5["f_gen"].notna()]["distance_km"].sum()), 1)) < 1e-9 and sorted(e["file"] for e in _ea["excluded"]) == sorted(_ex5) and _ea["nFuelInstrumentedRows"] == len(_fr5))
+for _m in ("all", "warm", "shoulder", "compare"):
+    _t5 = " ".join(" ".join(T.get(k, "") for k in T if k.endswith("__" + _m)).split())
+    ok(f"A2 REQUIRED M375 {_m} dumps: the one-time eligibility note is rendered from the payload (the P_aux-low sentence is rendered wherever the sensitivity table is: all / warm / shoulder, not Compare)",
+       bool(_ea) and " ".join(_ea["note"].split()) in _t5 and (_m == "compare" or " ".join(_ea["sensitivityNote"].split()) in _t5), _m)
+ok("A2 REQUIRED M375 refreshed-block statuses and the closure set note state canonical-clean with script-bound counts",
+   all(("canonical-clean (ens_outlier_v2), %d of %d fuel-instrumented drives" % (_n5, len(_fr5))) in _rb3[b]["status"] for b, _n5 in (("sensitivity", _G3["nDrives"]), ("simultaneity", _G3["nDrives"]), ("speedSplit", _G3["nProduction"])))
+   and "the headline set is the %d canonical-clean (ens_outlier_v2) of %d fuel-instrumented drives" % (_G3["nProduction"], len(_fr5)) in _G3["gtrClosure"]["scope"]["excludedNote"] and "open item" not in _G3["gtrClosure"]["scope"]["excludedNote"])
+ok("A2 REQUIRED M375 the seasonal GeneratorTractionRecon entry metadata states the canonical-clean rule and the one-time note says it is a definition change, not a correction",
+   "canonical-clean (ens_outlier_v2) and f_gen not NaN" in json.load(open("summary_arrays.json", encoding="utf-8"))["seasonalCharts"]["charts"]["GeneratorTractionRecon"]["statisticalUnit"] and "not a correction" in _ea.get("note", ""))
 _pv2 = json.load(open("summary_arrays.json", encoding="utf-8"))["provenanceSensitivity"]["disclosure"]
 ok("A2 REQUIRED M366 F03 disclosure does not claim all estimates stay inside their CIs (it states the counts and that the outside ones are FUEL-12)", "all FUEL-12" in _pv2 and "remain inside their previous 95% CIs" in _pv2 and "remain inside their CIs" not in _pv2)
 # M364 (buffer-thesis wording: qualified description, derived badges)

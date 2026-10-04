@@ -44,6 +44,7 @@ Splicing into summary_arrays.json is done separately, under an isolation diff.
 import os, json, time, copy
 import numpy as np, pandas as pd
 import recon_engine as RE, model_constants as MC, fuel_recon as FR
+import eligibility as EL
 
 BASE = RE.BASE
 # M350: the reference is the CURRENT published corpus headline (read from the payload), not the typed 2026-09 literals
@@ -78,6 +79,8 @@ def build_cache():
                   ['gross_discharge_kwh', 'gross_charge_kwh',
                    'charge_pure_regen_kwh', 'charge_eng_only_kwh', 'charge_dual_kwh']},
         ))
+    ex = EL.excluded_files(EL.load_flags(BASE + 'drive_master.csv'), [e['file'] for e in cache])      # M375: canonical-clean eligibility on the drives that enter the reconstruction (stop checks: eligibility.py)
+    cache = [e for e in cache if e['file'] not in ex]
     print('cache: %d drives loaded in %.1fs' % (len(cache), time.time() - t0))
     return cache
 
