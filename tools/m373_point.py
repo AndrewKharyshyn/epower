@@ -13,8 +13,10 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 os.chdir(ROOT)
 ap = argparse.ArgumentParser()
 ap.add_argument("--point", required=True, choices=["O", "R"])
+ap.add_argument("--tag", default="M373", help="output / spec prefix (M375 re-runs the blocks on the canonical-clean set)")
 a = ap.parse_args()
 P = a.point
+TAG = a.tag
 STAGE = json.load(open("analyses/M373_stage_former.json", encoding="utf-8"))["dest"]
 RAWDIR = os.path.join(ROOT, "raw_only") if P == "O" else STAGE
 os.environ["XT_RAW_DIR"] = RAWDIR.replace("\\", "/")          # BEFORE the imports below (recon_engine.BASE is read at import)
@@ -34,7 +36,7 @@ t0 = time.time()
 assert md5(os.path.join(ROOT, "drive_master.csv")) == MASTER_MD5 and md5(RE.BASE + "drive_master.csv") == MASTER_MD5, "drive_master.csv MD5"
 dm = pd.read_csv(RE.BASE + "drive_master.csv")
 date_of = dict(zip(dm["file"], dm["date"].astype(str)))
-meta = {"point": P, "rawDir": RAWDIR, "specSha256": sha("analyses/M373_spec.md"), "gitHead": git("rev-parse", "--short", "HEAD").strip(),
+meta = {"point": P, "rawDir": RAWDIR, "specSha256": sha(f"analyses/{TAG}_spec.md"), "tag": TAG, "gitHead": git("rev-parse", "--short", "HEAD").strip(),
         "scriptSha256": {f: sha(f)[:16] for f in ("tools/m373_point.py", "sensitivity_gtr.py", "simultaneity_gtr.py", "speed_split.py", "recon_engine.py", "fuel_recon.py", "model_constants.py")},
         "driveMasterMd5Before": MASTER_MD5, "stage": json.load(open("analyses/M373_stage_former.json", encoding="utf-8")) if P == "R" else None}
 
@@ -52,6 +54,11 @@ else:
     fp = os.path.join(os.path.dirname(STAGE), "xtrail-m373-former", "fuel_recon_master_pre_M366.csv")
     open(fp, "w", encoding="utf-8", newline="").write(txt)
     fr_master = pd.read_csv(fp)
+    if TAG != "M373":      # M375 Rev 4: the R target is the pre-M366 headline under the SAME canonical-clean definition (same aggregation, pre-M366 fuel_recon_master rows)
+        import wire_gtr_seasonal as W
+        _c = W.aggregate(W.load_merged(fuel_path=fp), "All", 489)["corpus"]
+        target = dict(gen100=_c["generator"], trac100=_c["tractionGross"], fgen=_c["fGen"], etaBus=_c["etaBus"])
+        target_src += " recomputed under the canonical-clean definition (wire_gtr_seasonal.aggregate on the pre-M366 fuel_recon_master rows; M375 Rev 4)"
     fr_src = f"git {PRE_M366}:fuel_recon_master.csv sha256 " + sha(fp)[:16]
 meta["sensitivityTarget"] = {"value": target, "source": target_src}
 meta["fuelReconMasterForValidation"] = fr_src
@@ -60,7 +67,7 @@ meta["fuelReconMasterForValidation"] = fr_src
 cache = SM.build_cache()
 clean = sorted(e["file"] for e in cache if e["fgen"] == e["fgen"])
 ids_all = sorted(e["file"] for e in cache)
-idf = "analyses/M373_driveids.json"
+idf = f"analyses/{TAG}_driveids.json"
 if P == "O":
     json.dump({"all": ids_all, "clean": clean}, open(idf, "w", encoding="utf-8", newline="\n"), indent=1)
 else:
@@ -68,6 +75,7 @@ else:
     nanR = sorted(set(fz["clean"]) - set(clean)); nanO = sorted(set(clean) - set(fz["clean"]))
     assert ids_all == fz["all"], "drive-ID list differs from the frozen O list"
     meta["nanOnOneBasisOnly"] = {"cleanOnOnly": sorted(nanO), "cleanOnROnly": nanR}
+meta["eligibility"] = {"rule": "canonical-clean (ens_outlier_v2 / ens_invalid explicit True excluded; eligibility.py)", "nCacheDrives": len(ids_all)}
 meta["driveIds"] = {"nAll": len(ids_all), "nClean": len(clean), "nDaysClean": len({date_of[f] for f in clean}), "idsSha256": hashlib.sha256(",".join(clean).encode()).hexdigest()[:16]}
 rows = SM.classify(cache)
 for r in rows:
@@ -104,7 +112,7 @@ base = sens[0]
 mism = [k for k, v in target.items() if not (base[k] == base[k]) or abs(base[k] - v) > 1e-9]
 meta["sensitivityBaseGate"] = {"target": target, "base": {k: base[k] for k in target}, "passed": not mism, "nClean": base["nClean"], "equalsSimultaneityCleanN": base["nClean"] == len(clean)}
 if mism:
-    json.dump({"meta": meta, "failed": "sensitivity BASE gate", "mismatch": mism}, open(f"analyses/M373_{P}_blocks.json", "w"), indent=1)
+    json.dump({"meta": meta, "failed": "sensitivity BASE gate", "mismatch": mism}, open(f"analyses/{TAG}_{P}_blocks.json", "w"), indent=1)
     sys.exit("sensitivity BASE does not reproduce its target: %s" % mism)
 if P == "R":
     sub = [e for e in scache if date_of[e["file"]] <= CUT]
@@ -147,10 +155,12 @@ print("sensitivity done", round(time.time() - t0), "s", flush=True)
 const = FR.corpus_offset(dm)[0]
 offsets = {f: FR.resolve_offset({"I_offset_A_applied": v}, const)[0] for f, v in zip(dm["file"], dm["I_offset_A_applied"])}
 targets = [f for f in dm["file"] if os.path.exists(RE.BASE + f) and FR._has_fuel(RE.BASE + f)]
+meta["nFuelInstrumentedRows"] = len(targets)
+targets = SS.canonical_targets(dm, targets, fr_master)       # M375: the speed-split mask is the canonical-clean reconstructed set (pinned in speed_split.py)
 n_checked, n_matched, max_diff = SS.validate_against_master(dm, fr_master, targets, offsets)
 meta["speedSplitValidation"] = {"nChecked": n_checked, "nMatched": n_matched, "maxAbsDiffKwh100km": max_diff, "passed": n_matched == n_checked}
 if n_matched != n_checked:
-    json.dump({"meta": meta, "failed": "speedSplit validation"}, open(f"analyses/M373_{P}_blocks.json", "w"), indent=1)
+    json.dump({"meta": meta, "failed": "speedSplit validation"}, open(f"analyses/{TAG}_{P}_blocks.json", "w"), indent=1)
     sys.exit("speedSplit validation failed")
 split = SS.build_speed_split(dm, fr_master, targets, offsets)
 in_master = [f for f in targets if f in set(fr_master["file"])]
@@ -163,7 +173,7 @@ meta["runtimeS"] = round(time.time() - t0)
 out = {"meta": meta, "sensitivity": {"axesUnrounded": sens_unr, "axes": sens, "nDrives": meta["driveIds"]["nClean"], "nDays": meta["driveIds"]["nDaysClean"]}, "simultaneity": simult, "speedSplit": speed, "deadband": dead}
 if rcut:
     out["sensitivityRcut"] = rcut
-with open(f"analyses/M373_{P}_blocks.json", "w", encoding="utf-8", newline="\n") as f:
+with open(f"analyses/{TAG}_{P}_blocks.json", "w", encoding="utf-8", newline="\n") as f:
     json.dump(out, f, indent=1, ensure_ascii=False, default=float)
     f.write("\n")
-print("wrote analyses/M373_%s_blocks.json" % P)
+print("wrote analyses/%s_%s_blocks.json" % (TAG, P))

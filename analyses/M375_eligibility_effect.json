@@ -1,0 +1,265 @@
+{
+ "inputs": {
+  "fuel_recon_master.csv": "0d8a09163c2d105f",
+  "seasonal_drive_master.csv": "c6db3e4d1f8f1739",
+  "drive_master.csv": "517f9660984d6484",
+  "summary_arrays.json": "1745c19575cc509a"
+ },
+ "sets": {
+  "fuelReconRows": 261,
+  "fNotNaN": 260,
+  "canonicalCleanRows": 259,
+  "canonicalCleanFNotNaN": 259,
+  "excludedByCanonical": [
+   {
+    "file": "20260513_182950.csv",
+    "drive_type": "urban",
+    "date": "2026-05-13",
+    "km": 20.7,
+    "fGenNaN": true,
+    "regime": "shoulder"
+   },
+   {
+    "file": "20260813_144601.csv",
+    "drive_type": "urban",
+    "date": "2026-08-13",
+    "km": 0.9,
+    "fGenNaN": false,
+    "regime": "warm"
+   }
+  ],
+  "nDaysCurrent": 50,
+  "nDaysCanonical": 50
+ },
+ "cohorts": {
+  "all": {
+   "current": {
+    "nProduction": 261,
+    "nDrives": 260,
+    "kmProduction": 2003.9
+   },
+   "canonical": {
+    "nProduction": 259,
+    "nDrives": 259,
+    "kmProduction": 2003.0
+   },
+   "nFieldsDiffer": 8,
+   "nFieldsCompared": 49,
+   "diffs": [
+    {
+     "path": "/driveTypeSplit[0]/fGen",
+     "current": 0.3722,
+     "canonical": 0.3719,
+     "delta": -0.0003
+    },
+    {
+     "path": "/driveTypeSplit[0]/genToTraction",
+     "current": 7.16,
+     "canonical": 7.15,
+     "delta": -0.01
+    },
+    {
+     "path": "/driveTypeSplit[0]/km",
+     "current": 1256.4,
+     "canonical": 1255.5,
+     "delta": -0.9
+    },
+    {
+     "path": "/driveTypeSplit[0]/n",
+     "current": 242,
+     "canonical": 241,
+     "delta": -1
+    },
+    {
+     "path": "/driveTypeSplit[0]/tractionGross",
+     "current": 19.25,
+     "canonical": 19.24,
+     "delta": -0.01
+    },
+    {
+     "path": "/kmProduction",
+     "current": 2003.9,
+     "canonical": 2003.0,
+     "delta": -0.9
+    },
+    {
+     "path": "/nDrives",
+     "current": 260,
+     "canonical": 259,
+     "delta": -1
+    },
+    {
+     "path": "/nProduction",
+     "current": 261,
+     "canonical": 259,
+     "delta": -2
+    }
+   ],
+   "corpusCurrent": {
+    "generator": 15.92,
+    "tractionGross": 18.49,
+    "fGen": 0.465,
+    "fuelL": 5.69,
+    "fuelChem": 48.86,
+    "etaEng": 0.353,
+    "etaBus": 0.327
+   },
+   "corpusCanonical": {
+    "generator": 15.92,
+    "tractionGross": 18.49,
+    "fGen": 0.465,
+    "fuelL": 5.69,
+    "fuelChem": 48.86,
+    "etaEng": 0.353,
+    "etaBus": 0.327
+   }
+  },
+  "warm": {
+   "current": {
+    "nProduction": 178,
+    "nDrives": 178,
+    "kmProduction": 1712.6
+   },
+   "canonical": {
+    "nProduction": 177,
+    "nDrives": 177,
+    "kmProduction": 1711.7
+   },
+   "nFieldsDiffer": 12,
+   "nFieldsCompared": 49,
+   "diffs": [
+    {
+     "path": "/corpus/fuelChem",
+     "current": 47.64,
+     "canonical": 47.63,
+     "delta": -0.01
+    },
+    {
+     "path": "/driveTypeSplit[0]/fGen",
+     "current": 0.3903,
+     "canonical": 0.3899,
+     "delta": -0.0004
+    },
+    {
+     "path": "/driveTypeSplit[0]/genToTraction",
+     "current": 7.59,
+     "canonical": 7.58,
+     "delta": -0.01
+    },
+    {
+     "path": "/driveTypeSplit[0]/km",
+     "current": 993.1,
+     "canonical": 992.2,
+     "delta": -0.9
+    },
+    {
+     "path": "/driveTypeSplit[0]/n",
+     "current": 161,
+     "canonical": 160,
+     "delta": -1
+    },
+    {
+     "path": "/driveTypeSplit[0]/tractionGross",
+     "current": 19.45,
+     "canonical": 19.44,
+     "delta": -0.01
+    },
+    {
+     "path": "/flows/engineLoss",
+     "current": 30.49,
+     "canonical": 30.48,
+     "delta": -0.01
+    },
+    {
+     "path": "/flows/fuelChem",
+     "current": 47.64,
+     "canonical": 47.63,
+     "delta": -0.01
+    },
+    {
+     "path": "/flows/genToTraction",
+     "current": 9.08,
+     "canonical": 9.07,
+     "delta": -0.01
+    },
+    {
+     "path": "/kmProduction",
+     "current": 1712.6,
+     "canonical": 1711.7,
+     "delta": -0.9
+    },
+    {
+     "path": "/nDrives",
+     "current": 178,
+     "canonical": 177,
+     "delta": -1
+    },
+    {
+     "path": "/nProduction",
+     "current": 178,
+     "canonical": 177,
+     "delta": -1
+    }
+   ],
+   "corpusCurrent": {
+    "generator": 15.84,
+    "tractionGross": 18.52,
+    "fGen": 0.49,
+    "fuelL": 5.55,
+    "fuelChem": 47.64,
+    "etaEng": 0.36,
+    "etaBus": 0.334
+   },
+   "corpusCanonical": {
+    "generator": 15.84,
+    "tractionGross": 18.52,
+    "fGen": 0.49,
+    "fuelL": 5.55,
+    "fuelChem": 47.63,
+    "etaEng": 0.36,
+    "etaBus": 0.334
+   }
+  },
+  "shoulder": {
+   "current": {
+    "nProduction": 81,
+    "nDrives": 80,
+    "kmProduction": 288.8
+   },
+   "canonical": {
+    "nProduction": 80,
+    "nDrives": 80,
+    "kmProduction": 288.8
+   },
+   "nFieldsDiffer": 1,
+   "nFieldsCompared": 35,
+   "diffs": [
+    {
+     "path": "/nProduction",
+     "current": 81,
+     "canonical": 80,
+     "delta": -1
+    }
+   ],
+   "corpusCurrent": {
+    "generator": 16.31,
+    "tractionGross": 18.25,
+    "fGen": 0.316,
+    "fuelL": 6.49,
+    "fuelChem": 55.75,
+    "etaEng": 0.312,
+    "etaBus": 0.289
+   },
+   "corpusCanonical": {
+    "generator": 16.31,
+    "tractionGross": 18.25,
+    "fGen": 0.316,
+    "fuelL": 6.49,
+    "fuelChem": 55.75,
+    "etaEng": 0.312,
+    "etaBus": 0.289
+   }
+  }
+ },
+ "currentReproducesPublishedHeadline": true
+}

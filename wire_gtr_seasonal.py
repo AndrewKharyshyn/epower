@@ -3,7 +3,7 @@ M255: wire generatorTractionRecon (§4b) into the season/thermal-regime cohort
 system. Verified aggregation method (reverse-derived from the M248 CHANGELOG
 entry and confirmed byte-exact against the shipped corpus-wide headline
 before being applied to cohort subsets):
-  - "clean" = f_gen not NaN.
+  - "clean" = canonical-clean (M375: ens_outlier_v2 / ens_invalid not flagged, eligibility.py) AND f_gen not NaN. Until M374 "clean" was f_gen not NaN only.
   - absolute-energy figures + efficiency ratios: distance-weighted mean
     (equivalently, ratio-of-sums: sum(rate_i*dist_i)/sum(dist_i)).
   - f_gen itself: ratio-of-sums of gen_to_traction / traction_gross
@@ -22,12 +22,29 @@ Reproduces the shipped corpus-wide figures (135/138, 1391.2 km; generator
 # M374: importing this module must not rewrite summary_arrays.json (it did: `refresh_gtr_headline.py` and ad-hoc scripts import `aggregate` / `wavg`,
 # and the old module-level wiring rewrote the payload as a side effect). The functions below stay importable; the wiring runs only as a script.
 import json, pandas as pd
+import eligibility as EL
 
 def wavg(frame, col):
     w = frame['distance_km']
     return (frame[col] * w).sum() / w.sum()
 
-def aggregate(subset, cohort_label, corpus_total_n):
+def load_merged(root='.', fuel_path=None):
+    """M375: the ONE loader of the merged fuel frame: fuel_recon_master + seasonal regime + the drive_master canonical flags (eligibility.py; stop checks included). Adds `ens_excluded`."""
+    import os
+    fr = pd.read_csv(fuel_path or os.path.join(root, 'fuel_recon_master.csv'))      # fuel_path: an alternative fuel_recon_master (the M375 R-point target is computed from the pre-M366 file)
+    sdm = pd.read_csv(os.path.join(root, 'seasonal_drive_master.csv'))[['file', 'thermal_regime']]
+    merged = fr.merge(sdm, on='file', how='left')
+    assert merged['thermal_regime'].isna().sum() == 0, "unmatched fuel-recon drives"
+    ex = EL.excluded_files(EL.load_flags(os.path.join(root, 'drive_master.csv')), merged['file'])
+    merged['ens_excluded'] = merged['file'].isin(ex)
+    return merged
+
+
+def aggregate(subset, cohort_label, corpus_total_n, canonical=True):
+    # M375: canonical=True (default) restricts to canonical-clean fuel-instrumented drives; canonical=False reproduces the pre-M375 definition (kept for the M375 measurement only)
+    if canonical:
+        assert 'ens_excluded' in subset.columns, "aggregate() needs the canonical flag: build the frame with load_merged()"
+        subset = subset[~subset['ens_excluded']]
     nProduction = len(subset)
     clean = subset[subset['f_gen'].notna()].copy()
     nDrives = len(clean)
@@ -97,15 +114,12 @@ ENTRY_META = dict(
     pipelineClass="master",
     statisticalUnit=("Fuel/BSFC-reconstructed generator\u2192traction electrical energy "
                       "(Path B, model-derived, not measured); f_gen = generator-coincident "
-                      "share of gross traction demand; clean = f_gen not NaN."),
+                      "share of gross traction demand; clean = canonical-clean (ens_outlier_v2) and f_gen not NaN."),
 )
 
 
 def main():
-    fr = pd.read_csv('fuel_recon_master.csv')
-    sdm = pd.read_csv('seasonal_drive_master.csv')[['file', 'thermal_regime']]
-    merged = fr.merge(sdm, on='file', how='left')
-    assert merged['thermal_regime'].isna().sum() == 0, "unmatched fuel-recon drives"
+    merged = load_merged()
 
     d = json.load(open('summary_arrays.json'))
     cohort_counts = d['seasonalCharts']['_meta']['cohortCounts']

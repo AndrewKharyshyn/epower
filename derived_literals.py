@@ -25,7 +25,7 @@ def gtr_limitations_head(arr: dict, master_km_total: float, master_type_counts: 
     sh_all = 100.0 * meta["shoulder"] / n_all
     n_hw_all = int(master_type_counts.get("highway", 0))
     n_hw_f = split.get("highway", {}).get("n", 0)
-    l1 = (f"Fuel-flow PID coverage is {n_fuel}/{n_all} drives (~{km_share:.0f}% of corpus km) and is urban-skewed "
+    l1 = (f"Canonical-clean fuel-flow PID coverage is {n_fuel}/{n_all} drives (~{km_share:.0f}% of corpus km) and is urban-skewed "
           f"({n_urban}/{n_fuel} fuel drives are urban; only {n_hw_f}/{n_hw_all} highway drives are fuel-instrumented) and shoulder-enriched ({sh_fuel:.0f}% of fuel drives vs {sh_all:.0f}% of the corpus; "
           f"{n_cold} Cold-cohort drives) — the headline figures rest on that subset, not the full corpus.")
     n_hw = split.get("highway", {}).get("n", 0)

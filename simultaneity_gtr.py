@@ -45,6 +45,7 @@ that is surfaced, not smoothed over.
 import os, json, warnings
 import numpy as np, pandas as pd
 import recon_engine as RE, model_constants as MC, fuel_recon as FR
+import eligibility as EL
 warnings.filterwarnings('ignore')
 
 BASE = RE.BASE
@@ -80,6 +81,8 @@ def build_cache():
                           fgen=agg['f_gen'],
                           Ptrac=Ptrac, Pgen_t=ps['Pgen_t'],
                           Pbatt=ps['Pbatt_anch'], dt=dt))
+    ex = EL.excluded_files(EL.load_flags(BASE + 'drive_master.csv'), [e['file'] for e in cache])      # M375: canonical-clean eligibility on the drives that enter the reconstruction (stop checks: eligibility.py)
+    cache = [e for e in cache if e['file'] not in ex]
     print('cache: %d fuel drives | max persample->aggregate E_trac err %.2e kWh' %
           (len(cache), max_ident_err))
     assert max_ident_err < 1e-6, "persample arrays must reproduce the aggregate"

@@ -13,12 +13,10 @@ using the exact same verified aggregation method as wire_gtr_seasonal.py
 """
 import json
 import pandas as pd
+import wire_gtr_seasonal as W
 from wire_gtr_seasonal import aggregate, wavg  # reuse verbatim
 
-fr = pd.read_csv('fuel_recon_master.csv')
-sdm = pd.read_csv('seasonal_drive_master.csv')[['file', 'thermal_regime']]
-merged = fr.merge(sdm, on='file', how='left')
-assert merged['thermal_regime'].isna().sum() == 0, "unmatched fuel-recon drives"
+merged = W.load_merged()      # M375: canonical-clean eligibility (eligibility.py, single flag source drive_master.csv; stop checks)
 
 d = json.load(open('summary_arrays.json'))
 cohort_counts = d['seasonalCharts']['_meta']['cohortCounts']
@@ -62,6 +60,7 @@ print('NEW warm corpus:', data_warm['corpus'])
 print('NEW shoulder corpus:', data_shoulder['corpus'])
 
 entry = d['seasonalCharts']['charts']['GeneratorTractionRecon']
+entry.update(W.ENTRY_META)      # M375: the entry metadata (wording of the eligibility rule) follows the module constant
 entry['data']['all'] = data_all
 entry['data']['warm'] = data_warm
 entry['data']['shoulder'] = data_shoulder
