@@ -88,6 +88,7 @@ commit, so the repo dashboard always matches its sources. The agent opens the PR
 - New analysis / method change: skill `new-analysis` (pre-registered spec, blind audit, Director decision).
 - Article claims: no register (retired M301). A figure entering the article needs an Opus audit and Andrii's explicit sign-off, recorded in the CHANGELOG entry.
 - Release gate (authoritative, clean environment): `python release_check.py`.
+- CI (M368, Actions-minutes budget): `.github/workflows/ci.yml` runs on `pull_request` and manual `workflow_dispatch` only, as ONE job `release-gate` (unit tests, then `release_check.py`), cancelled per ref when a newer push arrives. There is no push trigger: a branch without a PR is not checked by CI, so run `python release_check.py` locally before pushing and keep pushes to an open PR few (each is a ~7-minute run). The merge condition below applies to the PR run's checks.
 - jsdom validation needs `node_modules` (`npm ci`); wait a full 300 ms per tab before targeting content.
 
 ## Models and agents (token discipline)

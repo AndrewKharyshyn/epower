@@ -1,11 +1,19 @@
 name: ci
+# M368 (Actions-minutes budget): pull_request + manual dispatch only (a PR run already validates the branch head; the previous push triggers on claude/** and main
+# re-ran the same code, ~70 % of the minutes), one run per ref at a time (a newer push cancels the older run), and ONE job (the repository is ~1 GB, so every extra job
+# costs a full checkout; the cheap unit tests run first so a failure stops the job early, then the authoritative gate). Run it manually from the Actions tab when a
+# branch has no PR yet (workflow_dispatch).
 on:
   pull_request:
-  push:
-    branches: [main, master, "claude/**"]
+  workflow_dispatch:
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
-  checks:
+  release-gate:
+    # Authoritative gate (blocking): fast unit tests first, then release_check.py.
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -29,16 +37,6 @@ jobs:
           python tests/synthetic/test_language_gate.py
           node test_gtr_gate.js
           node test_fuel_tab.js
-  release-gate:
-    # Authoritative gate (blocking).
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with: {python-version: "3.11", cache: pip, cache-dependency-path: requirements.pinned.txt}
-      - uses: actions/setup-node@v4
-        with: {node-version: "22", cache: npm}
-      - run: pip install -r requirements.pinned.txt
-      - run: npm ci --no-audit --no-fund
-      - run: python release_check.py
+      - name: Release gate
+        run: python release_check.py
         env: {XT_RAW_DIR: raw}
