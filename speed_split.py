@@ -139,12 +139,13 @@ def build_speed_split(dm, fr_master, targets, offsets):
 
     out = []
     for _, _, lbl in BINS:
-        km = round(bin_dist[lbl], 1)
-        if km <= 0:
+        kmu = bin_dist[lbl]                  # M373: the per-100 km ratios use the UNROUNDED bin km (the blind audit found up to 0.04 kWh/100 km of rounding error when dividing by km rounded to 0.1 km)
+        km = round(kmu, 1)
+        if kmu <= 0:
             out.append(dict(bin=lbl, nDrives=0, distKm=0.0, generator=None, battery=None, fGen=None))
             continue
-        gen100 = round(bin_gen[lbl] / km * 100, 2)
-        batt100 = round(bin_batt[lbl] / km * 100, 2)
+        gen100 = round(bin_gen[lbl] / kmu * 100, 2)
+        batt100 = round(bin_batt[lbl] / kmu * 100, 2)
         tg = bin_gen[lbl] + bin_batt[lbl]
         fgen = round(bin_gen[lbl] / tg, 4) if tg > 0 else None
         out.append(dict(bin=lbl, nDrives=len(bin_drives[lbl]), distKm=km,

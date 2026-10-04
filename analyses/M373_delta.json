@@ -1,0 +1,1318 @@
+{
+ "tolerancesFrozenIn": "analyses/M373_spec.md Rev 2",
+ "specSha256": "53297bdbee4ce66318c4ed09135cbc4bdf1161e972441f17c7db75a8c8afb6da",
+ "specShaEqualBothPoints": true,
+ "gates": {
+  "O": {
+   "sensitivityBaseGate": {
+    "target": {
+     "gen100": 15.92,
+     "trac100": 18.49,
+     "fgen": 0.465,
+     "etaBus": 0.327
+    },
+    "base": {
+     "gen100": 15.92,
+     "trac100": 18.49,
+     "fgen": 0.465,
+     "etaBus": 0.327
+    },
+    "passed": true,
+    "nClean": 260,
+    "equalsSimultaneityCleanN": true
+   },
+   "speedSplitValidation": {
+    "nChecked": 261,
+    "nMatched": 261,
+    "maxAbsDiffKwh100km": 0.0,
+    "passed": true
+   }
+  },
+  "R": {
+   "sensitivityBaseGate": {
+    "target": {
+     "gen100": 15.94,
+     "trac100": 18.51,
+     "fgen": 0.466,
+     "etaBus": 0.327
+    },
+    "base": {
+     "gen100": 15.94,
+     "trac100": 18.51,
+     "fgen": 0.466,
+     "etaBus": 0.327
+    },
+    "passed": true,
+    "nClean": 260,
+    "equalsSimultaneityCleanN": true
+   },
+   "speedSplitValidation": {
+    "nChecked": 261,
+    "nMatched": 261,
+    "maxAbsDiffKwh100km": 0.0,
+    "passed": true
+   }
+  }
+ },
+ "driveIds": {
+  "O": {
+   "nAll": 261,
+   "nClean": 260,
+   "nDaysClean": 50,
+   "idsSha256": "d7d5322525440186"
+  },
+  "R": {
+   "nAll": 261,
+   "nClean": 260,
+   "nDaysClean": 50,
+   "idsSha256": "d7d5322525440186"
+  },
+  "nanOnOneBasisOnly": {
+   "cleanOnOnly": [],
+   "cleanOnROnly": []
+  }
+ },
+ "blocks": {
+  "sensitivity": {
+   "axisLabelsEqualPublished": true,
+   "O_minus_R_provenance": [
+    {
+     "axis": "BASE (central)",
+     "gen100": -0.02,
+     "trac100": -0.02,
+     "fgen": -0.001,
+     "etaBus": 0.0
+    },
+    {
+     "axis": "BSFC optimistic (-6%)",
+     "gen100": -0.02,
+     "trac100": -0.02,
+     "fgen": -0.001,
+     "etaBus": 0.0
+    },
+    {
+     "axis": "BSFC conservative (+9%)",
+     "gen100": -0.01,
+     "trac100": -0.01,
+     "fgen": 0.0,
+     "etaBus": 0.0
+    },
+    {
+     "axis": "η_gen low (0.90)",
+     "gen100": -0.02,
+     "trac100": -0.02,
+     "fgen": 0.0,
+     "etaBus": 0.0
+    },
+    {
+     "axis": "η_gen high (0.97)",
+     "gen100": -0.02,
+     "trac100": -0.01,
+     "fgen": 0.0,
+     "etaBus": 0.0
+    },
+    {
+     "axis": "P_aux low (0.2kW)",
+     "gen100": -0.02,
+     "trac100": -0.01,
+     "fgen": 0.0,
+     "etaBus": 0.0
+    },
+    {
+     "axis": "P_aux high (1.2kW)",
+     "gen100": -0.02,
+     "trac100": -0.02,
+     "fgen": 0.0,
+     "etaBus": 0.0
+    },
+    {
+     "axis": "cold penalty OFF",
+     "gen100": -0.02,
+     "trac100": -0.01,
+     "fgen": 0.0,
+     "etaBus": 0.0
+    },
+    {
+     "axis": "cold penalty heavy (×1.45)",
+     "gen100": -0.02,
+     "trac100": -0.02,
+     "fgen": -0.001,
+     "etaBus": 0.0
+    },
+    {
+     "axis": "OPT band wide (1750-2250)",
+     "gen100": -0.02,
+     "trac100": -0.01,
+     "fgen": 0.0,
+     "etaBus": 0.0
+    }
+   ],
+   "R_minus_P_combined_unattributed": [
+    {
+     "axis": "BASE (central)",
+     "gen100": 0.19,
+     "trac100": 0.28,
+     "fgen": -0.022,
+     "etaBus": -0.004
+    },
+    {
+     "axis": "BSFC optimistic (-6%)",
+     "gen100": 0.2,
+     "trac100": 0.28,
+     "fgen": -0.021,
+     "etaBus": -0.004
+    },
+    {
+     "axis": "BSFC conservative (+9%)",
+     "gen100": 0.17,
+     "trac100": 0.29,
+     "fgen": -0.023,
+     "etaBus": -0.004
+    },
+    {
+     "axis": "η_gen low (0.90)",
+     "gen100": 0.18,
+     "trac100": 0.29,
+     "fgen": -0.023,
+     "etaBus": -0.004
+    },
+    {
+     "axis": "η_gen high (0.97)",
+     "gen100": 0.2,
+     "trac100": 0.27,
+     "fgen": -0.022,
+     "etaBus": -0.004
+    },
+    {
+     "axis": "P_aux low (0.2kW)",
+     "gen100": 0.22,
+     "trac100": 0.36,
+     "fgen": -0.022,
+     "etaBus": -0.003
+    },
+    {
+     "axis": "P_aux high (1.2kW)",
+     "gen100": 0.19,
+     "trac100": 0.17,
+     "fgen": -0.022,
+     "etaBus": -0.004
+    },
+    {
+     "axis": "cold penalty OFF",
+     "gen100": 0.45,
+     "trac100": 0.46,
+     "fgen": -0.017,
+     "etaBus": -0.001
+    },
+    {
+     "axis": "cold penalty heavy (×1.45)",
+     "gen100": 0.05,
+     "trac100": 0.2,
+     "fgen": -0.024,
+     "etaBus": -0.006
+    },
+    {
+     "axis": "OPT band wide (1750-2250)",
+     "gen100": 0.19,
+     "trac100": 0.28,
+     "fgen": -0.022,
+     "etaBus": -0.004
+    }
+   ],
+   "O_minus_P_total": [
+    {
+     "axis": "BASE (central)",
+     "gen100": 0.17,
+     "trac100": 0.26,
+     "fgen": -0.023,
+     "etaBus": -0.004
+    },
+    {
+     "axis": "BSFC optimistic (-6%)",
+     "gen100": 0.18,
+     "trac100": 0.26,
+     "fgen": -0.022,
+     "etaBus": -0.004
+    },
+    {
+     "axis": "BSFC conservative (+9%)",
+     "gen100": 0.16,
+     "trac100": 0.28,
+     "fgen": -0.023,
+     "etaBus": -0.004
+    },
+    {
+     "axis": "η_gen low (0.90)",
+     "gen100": 0.16,
+     "trac100": 0.27,
+     "fgen": -0.023,
+     "etaBus": -0.004
+    },
+    {
+     "axis": "η_gen high (0.97)",
+     "gen100": 0.18,
+     "trac100": 0.26,
+     "fgen": -0.022,
+     "etaBus": -0.004
+    },
+    {
+     "axis": "P_aux low (0.2kW)",
+     "gen100": 0.2,
+     "trac100": 0.35,
+     "fgen": -0.022,
+     "etaBus": -0.003
+    },
+    {
+     "axis": "P_aux high (1.2kW)",
+     "gen100": 0.17,
+     "trac100": 0.15,
+     "fgen": -0.022,
+     "etaBus": -0.004
+    },
+    {
+     "axis": "cold penalty OFF",
+     "gen100": 0.43,
+     "trac100": 0.45,
+     "fgen": -0.017,
+     "etaBus": -0.001
+    },
+    {
+     "axis": "cold penalty heavy (×1.45)",
+     "gen100": 0.03,
+     "trac100": 0.18,
+     "fgen": -0.025,
+     "etaBus": -0.006
+    },
+    {
+     "axis": "OPT band wide (1750-2250)",
+     "gen100": 0.17,
+     "trac100": 0.27,
+     "fgen": -0.022,
+     "etaBus": -0.004
+    }
+   ],
+   "fgenRangeO": [
+    0.433,
+    0.487
+   ],
+   "unroundedMaxAbsDelta_O_minus_R": {
+    "gen100": 0.019627,
+    "trac100": 0.016894,
+    "fgen": 0.000485,
+    "etaBus": 1e-06
+   },
+   "R_cut_partialStepA": {
+    "nFuel": 182,
+    "nClean": 181,
+    "matchesPublishedClean180": false,
+    "baseR_cut": {
+     "gen100": 15.78,
+     "trac100": 18.27,
+     "fgen": 0.486,
+     "etaBus": 0.331
+    },
+    "basePublished": {
+     "gen100": 15.75,
+     "trac100": 18.23,
+     "fgen": 0.488,
+     "etaBus": 0.331
+    },
+    "axesVsPublished": [
+     {
+      "axis": "BASE (central)",
+      "gen100": 0.03,
+      "trac100": 0.04,
+      "fgen": -0.002,
+      "etaBus": 0.0
+     },
+     {
+      "axis": "BSFC optimistic (-6%)",
+      "gen100": 0.03,
+      "trac100": 0.05,
+      "fgen": -0.002,
+      "etaBus": 0.0
+     },
+     {
+      "axis": "BSFC conservative (+9%)",
+      "gen100": 0.03,
+      "trac100": 0.04,
+      "fgen": -0.002,
+      "etaBus": 0.0
+     },
+     {
+      "axis": "η_gen low (0.90)",
+      "gen100": 0.03,
+      "trac100": 0.04,
+      "fgen": -0.002,
+      "etaBus": 0.0
+     },
+     {
+      "axis": "η_gen high (0.97)",
+      "gen100": 0.03,
+      "trac100": 0.04,
+      "fgen": -0.002,
+      "etaBus": 0.0
+     },
+     {
+      "axis": "P_aux low (0.2kW)",
+      "gen100": 0.03,
+      "trac100": 0.05,
+      "fgen": -0.002,
+      "etaBus": 0.0
+     },
+     {
+      "axis": "P_aux high (1.2kW)",
+      "gen100": 0.03,
+      "trac100": 0.03,
+      "fgen": -0.002,
+      "etaBus": 0.0
+     },
+     {
+      "axis": "cold penalty OFF",
+      "gen100": 0.04,
+      "trac100": 0.05,
+      "fgen": -0.002,
+      "etaBus": 0.0
+     },
+     {
+      "axis": "cold penalty heavy (×1.45)",
+      "gen100": 0.03,
+      "trac100": 0.04,
+      "fgen": -0.001,
+      "etaBus": 0.0
+     },
+     {
+      "axis": "OPT band wide (1750-2250)",
+      "gen100": 0.03,
+      "trac100": 0.05,
+      "fgen": -0.002,
+      "etaBus": 0.0
+     }
+    ]
+   }
+  },
+  "speedSplit": {
+   "binsEqualPublished": true,
+   "nDrives": {
+    "O": 261,
+    "R": 261,
+    "P_largestBin": 181
+   },
+   "nDaysO": 51,
+   "O_minus_R_provenance": [
+    {
+     "bin": "0-20",
+     "distKm": 0.0,
+     "generator": -0.01,
+     "battery": -0.01,
+     "fGen": -0.0004
+    },
+    {
+     "bin": "20-60",
+     "distKm": 0.0,
+     "generator": -0.01,
+     "battery": 0.0,
+     "fGen": -0.0005
+    },
+    {
+     "bin": "60-90",
+     "distKm": 0.0,
+     "generator": -0.02,
+     "battery": 0.0,
+     "fGen": -0.0005
+    },
+    {
+     "bin": "90-120",
+     "distKm": 0.0,
+     "generator": -0.01,
+     "battery": 0.0,
+     "fGen": -0.0001
+    },
+    {
+     "bin": "120+",
+     "distKm": 0.0,
+     "generator": -0.03,
+     "battery": 0.0,
+     "fGen": -0.0002
+    }
+   ],
+   "R_minus_P_combined_unattributed": [
+    {
+     "bin": "0-20",
+     "distKm": 40.6,
+     "generator": 0.34,
+     "battery": -0.7,
+     "fGen": 0.0109
+    },
+    {
+     "bin": "20-60",
+     "distKm": 202.9,
+     "generator": -0.23,
+     "battery": 0.19,
+     "fGen": -0.0124
+    },
+    {
+     "bin": "60-90",
+     "distKm": 47.2,
+     "generator": 0.28,
+     "battery": -0.06,
+     "fGen": 0.0104
+    },
+    {
+     "bin": "90-120",
+     "distKm": 10.8,
+     "generator": 0.12,
+     "battery": 0.03,
+     "fGen": -0.0002
+    },
+    {
+     "bin": "120+",
+     "distKm": 1.4,
+     "generator": 1.11,
+     "battery": 0.0,
+     "fGen": 0.0066
+    }
+   ],
+   "O_minus_P_total": [
+    {
+     "bin": "0-20",
+     "distKm": 40.6,
+     "generator": 0.33,
+     "battery": -0.71,
+     "fGen": 0.0105
+    },
+    {
+     "bin": "20-60",
+     "distKm": 202.9,
+     "generator": -0.24,
+     "battery": 0.19,
+     "fGen": -0.0129
+    },
+    {
+     "bin": "60-90",
+     "distKm": 47.2,
+     "generator": 0.26,
+     "battery": -0.06,
+     "fGen": 0.0099
+    },
+    {
+     "bin": "90-120",
+     "distKm": 10.8,
+     "generator": 0.11,
+     "battery": 0.03,
+     "fGen": -0.0003
+    },
+    {
+     "bin": "120+",
+     "distKm": 1.4,
+     "generator": 1.08,
+     "battery": 0.0,
+     "fGen": 0.0064
+    }
+   ],
+   "fGenByBinO": {
+    "0-20": 0.1714,
+    "20-60": 0.3314,
+    "60-90": 0.6254,
+    "90-120": 0.8608,
+    "120+": 0.8539
+   },
+   "totalsReconcileToHeadline": null
+  },
+  "simultaneity": {
+   "typesEqualPublished": true,
+   "nDrives": {
+    "O": [
+     [
+      "urban",
+      225
+     ],
+     [
+      "mixed",
+      11
+     ],
+     [
+      "mixed_highway",
+      5
+     ],
+     [
+      "highway",
+      2
+     ]
+    ],
+    "R": [
+     [
+      "urban",
+      225
+     ],
+     [
+      "mixed",
+      11
+     ],
+     [
+      "mixed_highway",
+      5
+     ],
+     [
+      "highway",
+      2
+     ]
+    ],
+    "P": [
+     [
+      "urban",
+      154
+     ],
+     [
+      "mixed",
+      9
+     ],
+     [
+      "mixed_highway",
+      5
+     ],
+     [
+      "highway",
+      2
+     ]
+    ]
+   },
+   "nDaysO": 50,
+   "O_minus_R_provenance": [
+    {
+     "type": "urban",
+     "engineOnHours": 0.0,
+     "genPlusBattDischarge": 0.2,
+     "chargesAndDrives": -0.2,
+     "genAloneNeutral": 0.0,
+     "fullyBanked": 0.1
+    },
+    {
+     "type": "mixed",
+     "engineOnHours": 0.0,
+     "genPlusBattDischarge": 0.2,
+     "chargesAndDrives": -0.2,
+     "genAloneNeutral": -0.1,
+     "fullyBanked": 0.1
+    },
+    {
+     "type": "mixed_highway",
+     "engineOnHours": 0.0,
+     "genPlusBattDischarge": 0.0,
+     "chargesAndDrives": -0.1,
+     "genAloneNeutral": 0.0,
+     "fullyBanked": 0.0
+    },
+    {
+     "type": "highway",
+     "engineOnHours": 0.0,
+     "genPlusBattDischarge": 0.0,
+     "chargesAndDrives": 0.0,
+     "genAloneNeutral": 0.0,
+     "fullyBanked": 0.0
+    }
+   ],
+   "R_minus_P_combined_unattributed": [
+    {
+     "type": "urban",
+     "engineOnHours": 3.4,
+     "genPlusBattDischarge": 0.0,
+     "chargesAndDrives": -1.2,
+     "genAloneNeutral": -0.7,
+     "fullyBanked": 1.8
+    },
+    {
+     "type": "mixed",
+     "engineOnHours": 0.2,
+     "genPlusBattDischarge": -0.4,
+     "chargesAndDrives": 0.7,
+     "genAloneNeutral": 0.0,
+     "fullyBanked": -0.4
+    },
+    {
+     "type": "mixed_highway",
+     "engineOnHours": 0.0,
+     "genPlusBattDischarge": 0.0,
+     "chargesAndDrives": 0.1,
+     "genAloneNeutral": 0.0,
+     "fullyBanked": 0.0
+    },
+    {
+     "type": "highway",
+     "engineOnHours": 0.0,
+     "genPlusBattDischarge": 0.0,
+     "chargesAndDrives": 0.0,
+     "genAloneNeutral": 0.0,
+     "fullyBanked": 0.0
+    }
+   ],
+   "O_minus_P_total": [
+    {
+     "type": "urban",
+     "engineOnHours": 3.4,
+     "genPlusBattDischarge": 0.2,
+     "chargesAndDrives": -1.4,
+     "genAloneNeutral": -0.7,
+     "fullyBanked": 1.9
+    },
+    {
+     "type": "mixed",
+     "engineOnHours": 0.2,
+     "genPlusBattDischarge": -0.2,
+     "chargesAndDrives": 0.5,
+     "genAloneNeutral": -0.1,
+     "fullyBanked": -0.3
+    },
+    {
+     "type": "mixed_highway",
+     "engineOnHours": 0.0,
+     "genPlusBattDischarge": 0.0,
+     "chargesAndDrives": 0.0,
+     "genAloneNeutral": 0.0,
+     "fullyBanked": 0.0
+    },
+    {
+     "type": "highway",
+     "engineOnHours": 0.0,
+     "genPlusBattDischarge": 0.0,
+     "chargesAndDrives": 0.0,
+     "genAloneNeutral": 0.0,
+     "fullyBanked": 0.0
+    }
+   ],
+   "deadbandGrid": {
+    "0.25_0.25": {
+     "maxAbsDeltaPP_O_minus_R": 0.5,
+     "perType": [
+      {
+       "type": "urban",
+       "genPlusBattDischarge": 0.1,
+       "chargesAndDrives": 0.1,
+       "genAloneNeutral": -0.2,
+       "fullyBanked": 0.1
+      },
+      {
+       "type": "mixed",
+       "genPlusBattDischarge": 0.2,
+       "chargesAndDrives": 0.3,
+       "genAloneNeutral": -0.5,
+       "fullyBanked": 0.1
+      },
+      {
+       "type": "mixed_highway",
+       "genPlusBattDischarge": 0.1,
+       "chargesAndDrives": 0.0,
+       "genAloneNeutral": -0.2,
+       "fullyBanked": 0.1
+      },
+      {
+       "type": "highway",
+       "genPlusBattDischarge": 0.0,
+       "chargesAndDrives": 0.0,
+       "genAloneNeutral": 0.0,
+       "fullyBanked": 0.0
+      }
+     ],
+     "bandShareO": {
+      "urban": {
+       "absPtracLEeps": 0.0247,
+       "absPbattLEeps": 0.0178
+      },
+      "mixed_highway": {
+       "absPtracLEeps": 0.0051,
+       "absPbattLEeps": 0.0315
+      },
+      "mixed": {
+       "absPtracLEeps": 0.0096,
+       "absPbattLEeps": 0.0216
+      },
+      "highway": {
+       "absPtracLEeps": 0.0038,
+       "absPbattLEeps": 0.0773
+      }
+     },
+     "bandShareR": {
+      "urban": {
+       "absPtracLEeps": 0.025,
+       "absPbattLEeps": 0.0199
+      },
+      "mixed_highway": {
+       "absPtracLEeps": 0.0053,
+       "absPbattLEeps": 0.0333
+      },
+      "mixed": {
+       "absPtracLEeps": 0.0094,
+       "absPbattLEeps": 0.0266
+      },
+      "highway": {
+       "absPtracLEeps": 0.0038,
+       "absPbattLEeps": 0.0773
+      }
+     }
+    },
+    "0.25_0.5": {
+     "maxAbsDeltaPP_O_minus_R": 0.2,
+     "perType": [
+      {
+       "type": "urban",
+       "genPlusBattDischarge": 0.2,
+       "chargesAndDrives": -0.2,
+       "genAloneNeutral": 0.0,
+       "fullyBanked": 0.1
+      },
+      {
+       "type": "mixed",
+       "genPlusBattDischarge": 0.2,
+       "chargesAndDrives": -0.2,
+       "genAloneNeutral": -0.1,
+       "fullyBanked": 0.1
+      },
+      {
+       "type": "mixed_highway",
+       "genPlusBattDischarge": 0.0,
+       "chargesAndDrives": -0.2,
+       "genAloneNeutral": 0.0,
+       "fullyBanked": 0.1
+      },
+      {
+       "type": "highway",
+       "genPlusBattDischarge": 0.0,
+       "chargesAndDrives": 0.0,
+       "genAloneNeutral": 0.0,
+       "fullyBanked": 0.0
+      }
+     ],
+     "bandShareO": {
+      "urban": {
+       "absPtracLEeps": 0.0247,
+       "absPbattLEeps": 0.0292
+      },
+      "mixed_highway": {
+       "absPtracLEeps": 0.0051,
+       "absPbattLEeps": 0.0473
+      },
+      "mixed": {
+       "absPtracLEeps": 0.0096,
+       "absPbattLEeps": 0.0371
+      },
+      "highway": {
+       "absPtracLEeps": 0.0038,
+       "absPbattLEeps": 0.1176
+      }
+     },
+     "bandShareR": {
+      "urban": {
+       "absPtracLEeps": 0.025,
+       "absPbattLEeps": 0.0291
+      },
+      "mixed_highway": {
+       "absPtracLEeps": 0.0053,
+       "absPbattLEeps": 0.0467
+      },
+      "mixed": {
+       "absPtracLEeps": 0.0094,
+       "absPbattLEeps": 0.0379
+      },
+      "highway": {
+       "absPtracLEeps": 0.0038,
+       "absPbattLEeps": 0.1176
+      }
+     }
+    },
+    "0.25_1.0": {
+     "maxAbsDeltaPP_O_minus_R": 0.3,
+     "perType": [
+      {
+       "type": "urban",
+       "genPlusBattDischarge": 0.0,
+       "chargesAndDrives": 0.0,
+       "genAloneNeutral": -0.1,
+       "fullyBanked": 0.1
+      },
+      {
+       "type": "mixed",
+       "genPlusBattDischarge": 0.1,
+       "chargesAndDrives": 0.2,
+       "genAloneNeutral": -0.3,
+       "fullyBanked": 0.1
+      },
+      {
+       "type": "mixed_highway",
+       "genPlusBattDischarge": 0.0,
+       "chargesAndDrives": 0.1,
+       "genAloneNeutral": -0.1,
+       "fullyBanked": 0.1
+      },
+      {
+       "type": "highway",
+       "genPlusBattDischarge": 0.0,
+       "chargesAndDrives": 0.0,
+       "genAloneNeutral": 0.0,
+       "fullyBanked": 0.0
+      }
+     ],
+     "bandShareO": {
+      "urban": {
+       "absPtracLEeps": 0.0247,
+       "absPbattLEeps": 0.0601
+      },
+      "mixed_highway": {
+       "absPtracLEeps": 0.0051,
+       "absPbattLEeps": 0.0931
+      },
+      "mixed": {
+       "absPtracLEeps": 0.0096,
+       "absPbattLEeps": 0.0714
+      },
+      "highway": {
+       "absPtracLEeps": 0.0038,
+       "absPbattLEeps": 0.215
+      }
+     },
+     "bandShareR": {
+      "urban": {
+       "absPtracLEeps": 0.025,
+       "absPbattLEeps": 0.0612
+      },
+      "mixed_highway": {
+       "absPtracLEeps": 0.0053,
+       "absPbattLEeps": 0.0942
+      },
+      "mixed": {
+       "absPtracLEeps": 0.0094,
+       "absPbattLEeps": 0.074
+      },
+      "highway": {
+       "absPtracLEeps": 0.0038,
+       "absPbattLEeps": 0.215
+      }
+     }
+    },
+    "0.5_0.25": {
+     "maxAbsDeltaPP_O_minus_R": 0.5,
+     "perType": [
+      {
+       "type": "urban",
+       "genPlusBattDischarge": 0.1,
+       "chargesAndDrives": 0.1,
+       "genAloneNeutral": -0.2,
+       "fullyBanked": 0.1
+      },
+      {
+       "type": "mixed",
+       "genPlusBattDischarge": 0.2,
+       "chargesAndDrives": 0.3,
+       "genAloneNeutral": -0.5,
+       "fullyBanked": 0.1
+      },
+      {
+       "type": "mixed_highway",
+       "genPlusBattDischarge": 0.1,
+       "chargesAndDrives": 0.1,
+       "genAloneNeutral": -0.2,
+       "fullyBanked": 0.0
+      },
+      {
+       "type": "highway",
+       "genPlusBattDischarge": 0.0,
+       "chargesAndDrives": 0.0,
+       "genAloneNeutral": 0.0,
+       "fullyBanked": 0.0
+      }
+     ],
+     "bandShareO": {
+      "urban": {
+       "absPtracLEeps": 0.0495,
+       "absPbattLEeps": 0.0178
+      },
+      "mixed_highway": {
+       "absPtracLEeps": 0.0108,
+       "absPbattLEeps": 0.0315
+      },
+      "mixed": {
+       "absPtracLEeps": 0.0196,
+       "absPbattLEeps": 0.0216
+      },
+      "highway": {
+       "absPtracLEeps": 0.0076,
+       "absPbattLEeps": 0.0773
+      }
+     },
+     "bandShareR": {
+      "urban": {
+       "absPtracLEeps": 0.0498,
+       "absPbattLEeps": 0.0199
+      },
+      "mixed_highway": {
+       "absPtracLEeps": 0.0107,
+       "absPbattLEeps": 0.0333
+      },
+      "mixed": {
+       "absPtracLEeps": 0.0195,
+       "absPbattLEeps": 0.0266
+      },
+      "highway": {
+       "absPtracLEeps": 0.0076,
+       "absPbattLEeps": 0.0773
+      }
+     }
+    },
+    "0.5_0.5": {
+     "maxAbsDeltaPP_O_minus_R": 0.2,
+     "perType": [
+      {
+       "type": "urban",
+       "genPlusBattDischarge": 0.2,
+       "chargesAndDrives": -0.2,
+       "genAloneNeutral": 0.0,
+       "fullyBanked": 0.1
+      },
+      {
+       "type": "mixed",
+       "genPlusBattDischarge": 0.2,
+       "chargesAndDrives": -0.2,
+       "genAloneNeutral": -0.1,
+       "fullyBanked": 0.1
+      },
+      {
+       "type": "mixed_highway",
+       "genPlusBattDischarge": 0.0,
+       "chargesAndDrives": -0.1,
+       "genAloneNeutral": 0.0,
+       "fullyBanked": 0.0
+      },
+      {
+       "type": "highway",
+       "genPlusBattDischarge": 0.0,
+       "chargesAndDrives": 0.0,
+       "genAloneNeutral": 0.0,
+       "fullyBanked": 0.0
+      }
+     ],
+     "bandShareO": {
+      "urban": {
+       "absPtracLEeps": 0.0495,
+       "absPbattLEeps": 0.0292
+      },
+      "mixed_highway": {
+       "absPtracLEeps": 0.0108,
+       "absPbattLEeps": 0.0473
+      },
+      "mixed": {
+       "absPtracLEeps": 0.0196,
+       "absPbattLEeps": 0.0371
+      },
+      "highway": {
+       "absPtracLEeps": 0.0076,
+       "absPbattLEeps": 0.1176
+      }
+     },
+     "bandShareR": {
+      "urban": {
+       "absPtracLEeps": 0.0498,
+       "absPbattLEeps": 0.0291
+      },
+      "mixed_highway": {
+       "absPtracLEeps": 0.0107,
+       "absPbattLEeps": 0.0467
+      },
+      "mixed": {
+       "absPtracLEeps": 0.0195,
+       "absPbattLEeps": 0.0379
+      },
+      "highway": {
+       "absPtracLEeps": 0.0076,
+       "absPbattLEeps": 0.1176
+      }
+     }
+    },
+    "0.5_1.0": {
+     "maxAbsDeltaPP_O_minus_R": 0.3,
+     "perType": [
+      {
+       "type": "urban",
+       "genPlusBattDischarge": 0.0,
+       "chargesAndDrives": 0.1,
+       "genAloneNeutral": -0.1,
+       "fullyBanked": 0.1
+      },
+      {
+       "type": "mixed",
+       "genPlusBattDischarge": 0.1,
+       "chargesAndDrives": 0.2,
+       "genAloneNeutral": -0.3,
+       "fullyBanked": 0.1
+      },
+      {
+       "type": "mixed_highway",
+       "genPlusBattDischarge": 0.0,
+       "chargesAndDrives": 0.1,
+       "genAloneNeutral": -0.1,
+       "fullyBanked": 0.0
+      },
+      {
+       "type": "highway",
+       "genPlusBattDischarge": 0.0,
+       "chargesAndDrives": 0.0,
+       "genAloneNeutral": 0.0,
+       "fullyBanked": 0.0
+      }
+     ],
+     "bandShareO": {
+      "urban": {
+       "absPtracLEeps": 0.0495,
+       "absPbattLEeps": 0.0601
+      },
+      "mixed_highway": {
+       "absPtracLEeps": 0.0108,
+       "absPbattLEeps": 0.0931
+      },
+      "mixed": {
+       "absPtracLEeps": 0.0196,
+       "absPbattLEeps": 0.0714
+      },
+      "highway": {
+       "absPtracLEeps": 0.0076,
+       "absPbattLEeps": 0.215
+      }
+     },
+     "bandShareR": {
+      "urban": {
+       "absPtracLEeps": 0.0498,
+       "absPbattLEeps": 0.0612
+      },
+      "mixed_highway": {
+       "absPtracLEeps": 0.0107,
+       "absPbattLEeps": 0.0942
+      },
+      "mixed": {
+       "absPtracLEeps": 0.0195,
+       "absPbattLEeps": 0.074
+      },
+      "highway": {
+       "absPtracLEeps": 0.0076,
+       "absPbattLEeps": 0.215
+      }
+     }
+    },
+    "1.0_0.25": {
+     "maxAbsDeltaPP_O_minus_R": 0.4,
+     "perType": [
+      {
+       "type": "urban",
+       "genPlusBattDischarge": 0.1,
+       "chargesAndDrives": 0.0,
+       "genAloneNeutral": -0.2,
+       "fullyBanked": 0.1
+      },
+      {
+       "type": "mixed",
+       "genPlusBattDischarge": 0.2,
+       "chargesAndDrives": 0.1,
+       "genAloneNeutral": -0.4,
+       "fullyBanked": 0.1
+      },
+      {
+       "type": "mixed_highway",
+       "genPlusBattDischarge": 0.1,
+       "chargesAndDrives": 0.1,
+       "genAloneNeutral": -0.2,
+       "fullyBanked": 0.0
+      },
+      {
+       "type": "highway",
+       "genPlusBattDischarge": 0.0,
+       "chargesAndDrives": 0.0,
+       "genAloneNeutral": 0.0,
+       "fullyBanked": 0.0
+      }
+     ],
+     "bandShareO": {
+      "urban": {
+       "absPtracLEeps": 0.0965,
+       "absPbattLEeps": 0.0178
+      },
+      "mixed_highway": {
+       "absPtracLEeps": 0.0212,
+       "absPbattLEeps": 0.0315
+      },
+      "mixed": {
+       "absPtracLEeps": 0.0386,
+       "absPbattLEeps": 0.0216
+      },
+      "highway": {
+       "absPtracLEeps": 0.0149,
+       "absPbattLEeps": 0.0773
+      }
+     },
+     "bandShareR": {
+      "urban": {
+       "absPtracLEeps": 0.0959,
+       "absPbattLEeps": 0.0199
+      },
+      "mixed_highway": {
+       "absPtracLEeps": 0.0209,
+       "absPbattLEeps": 0.0333
+      },
+      "mixed": {
+       "absPtracLEeps": 0.0378,
+       "absPbattLEeps": 0.0266
+      },
+      "highway": {
+       "absPtracLEeps": 0.0149,
+       "absPbattLEeps": 0.0773
+      }
+     }
+    },
+    "1.0_0.5": {
+     "maxAbsDeltaPP_O_minus_R": 0.3,
+     "perType": [
+      {
+       "type": "urban",
+       "genPlusBattDischarge": 0.2,
+       "chargesAndDrives": -0.2,
+       "genAloneNeutral": 0.0,
+       "fullyBanked": 0.1
+      },
+      {
+       "type": "mixed",
+       "genPlusBattDischarge": 0.2,
+       "chargesAndDrives": -0.3,
+       "genAloneNeutral": -0.1,
+       "fullyBanked": 0.1
+      },
+      {
+       "type": "mixed_highway",
+       "genPlusBattDischarge": 0.0,
+       "chargesAndDrives": -0.2,
+       "genAloneNeutral": 0.0,
+       "fullyBanked": 0.0
+      },
+      {
+       "type": "highway",
+       "genPlusBattDischarge": 0.0,
+       "chargesAndDrives": 0.0,
+       "genAloneNeutral": 0.0,
+       "fullyBanked": 0.0
+      }
+     ],
+     "bandShareO": {
+      "urban": {
+       "absPtracLEeps": 0.0965,
+       "absPbattLEeps": 0.0292
+      },
+      "mixed_highway": {
+       "absPtracLEeps": 0.0212,
+       "absPbattLEeps": 0.0473
+      },
+      "mixed": {
+       "absPtracLEeps": 0.0386,
+       "absPbattLEeps": 0.0371
+      },
+      "highway": {
+       "absPtracLEeps": 0.0149,
+       "absPbattLEeps": 0.1176
+      }
+     },
+     "bandShareR": {
+      "urban": {
+       "absPtracLEeps": 0.0959,
+       "absPbattLEeps": 0.0291
+      },
+      "mixed_highway": {
+       "absPtracLEeps": 0.0209,
+       "absPbattLEeps": 0.0467
+      },
+      "mixed": {
+       "absPtracLEeps": 0.0378,
+       "absPbattLEeps": 0.0379
+      },
+      "highway": {
+       "absPtracLEeps": 0.0149,
+       "absPbattLEeps": 0.1176
+      }
+     }
+    },
+    "1.0_1.0": {
+     "maxAbsDeltaPP_O_minus_R": 0.3,
+     "perType": [
+      {
+       "type": "urban",
+       "genPlusBattDischarge": 0.0,
+       "chargesAndDrives": 0.0,
+       "genAloneNeutral": -0.1,
+       "fullyBanked": 0.1
+      },
+      {
+       "type": "mixed",
+       "genPlusBattDischarge": 0.1,
+       "chargesAndDrives": 0.1,
+       "genAloneNeutral": -0.3,
+       "fullyBanked": 0.1
+      },
+      {
+       "type": "mixed_highway",
+       "genPlusBattDischarge": 0.0,
+       "chargesAndDrives": 0.0,
+       "genAloneNeutral": -0.1,
+       "fullyBanked": 0.0
+      },
+      {
+       "type": "highway",
+       "genPlusBattDischarge": 0.0,
+       "chargesAndDrives": 0.0,
+       "genAloneNeutral": 0.0,
+       "fullyBanked": 0.0
+      }
+     ],
+     "bandShareO": {
+      "urban": {
+       "absPtracLEeps": 0.0965,
+       "absPbattLEeps": 0.0601
+      },
+      "mixed_highway": {
+       "absPtracLEeps": 0.0212,
+       "absPbattLEeps": 0.0931
+      },
+      "mixed": {
+       "absPtracLEeps": 0.0386,
+       "absPbattLEeps": 0.0714
+      },
+      "highway": {
+       "absPtracLEeps": 0.0149,
+       "absPbattLEeps": 0.215
+      }
+     },
+     "bandShareR": {
+      "urban": {
+       "absPtracLEeps": 0.0959,
+       "absPbattLEeps": 0.0612
+      },
+      "mixed_highway": {
+       "absPtracLEeps": 0.0209,
+       "absPbattLEeps": 0.0942
+      },
+      "mixed": {
+       "absPtracLEeps": 0.0378,
+       "absPbattLEeps": 0.074
+      },
+      "highway": {
+       "absPtracLEeps": 0.0149,
+       "absPbattLEeps": 0.215
+      }
+     }
+    }
+   },
+   "deadbandNote": "analysis only; epsilon stays 0.5 kW; eps 0.25 kW is below the re-export current resolution (~1 A); read together with the deltas at 0.5_0.5"
+  }
+ },
+ "breaches": [],
+ "flips": [],
+ "summary": {
+  "nBreaches": 0,
+  "nFlips": 0,
+  "gatesPassed": true,
+  "blocksWithBreach": [],
+  "blocksWithFlip": []
+ }
+}

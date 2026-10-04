@@ -47383,7 +47383,7 @@
      "f_gen",
      "generator to traction split"
     ],
-    "sensitivity": "BSFC scalers 0.94 / 1.09 move generator energy by +5.4 % / -8.3 % (lower BSFC = more generator energy for the same fuel).",
+    "sensitivity": "BSFC scalers 0.94 / 1.09 move generator energy by +5.4 % / -8.2 % (lower BSFC = more generator energy for the same fuel).",
     "band": [
      217.0,
      360.0
@@ -56918,73 +56918,73 @@
   "sensitivity": [
    {
     "axis": "BASE (central)",
-    "gen100": 15.75,
-    "trac100": 18.23,
-    "fgen": 0.488,
-    "etaBus": 0.331
-   },
-   {
-    "axis": "BSFC optimistic (-6%)",
-    "gen100": 16.6,
-    "trac100": 18.95,
-    "fgen": 0.507,
-    "etaBus": 0.349
-   },
-   {
-    "axis": "BSFC conservative (+9%)",
-    "gen100": 14.45,
-    "trac100": 17.16,
-    "fgen": 0.456,
-    "etaBus": 0.304
-   },
-   {
-    "axis": "η_gen low (0.90)",
-    "gen100": 14.92,
-    "trac100": 17.54,
-    "fgen": 0.468,
-    "etaBus": 0.314
-   },
-   {
-    "axis": "η_gen high (0.97)",
-    "gen100": 16.08,
-    "trac100": 18.51,
-    "fgen": 0.495,
-    "etaBus": 0.338
-   },
-   {
-    "axis": "P_aux low (0.2kW)",
-    "gen100": 15.56,
-    "trac100": 18.69,
-    "fgen": 0.478,
+    "gen100": 15.92,
+    "trac100": 18.49,
+    "fgen": 0.465,
     "etaBus": 0.327
    },
    {
-    "axis": "P_aux high (1.2kW)",
-    "gen100": 15.75,
-    "trac100": 16.73,
-    "fgen": 0.509,
-    "etaBus": 0.331
+    "axis": "BSFC optimistic (-6%)",
+    "gen100": 16.78,
+    "trac100": 19.21,
+    "fgen": 0.485,
+    "etaBus": 0.345
    },
    {
-    "axis": "cold penalty OFF",
-    "gen100": 16.47,
-    "trac100": 18.78,
-    "fgen": 0.503,
-    "etaBus": 0.344
+    "axis": "BSFC conservative (+9%)",
+    "gen100": 14.61,
+    "trac100": 17.44,
+    "fgen": 0.433,
+    "etaBus": 0.3
    },
    {
-    "axis": "cold penalty heavy (×1.45)",
-    "gen100": 15.35,
-    "trac100": 17.98,
-    "fgen": 0.48,
+    "axis": "η_gen low (0.90)",
+    "gen100": 15.08,
+    "trac100": 17.81,
+    "fgen": 0.445,
+    "etaBus": 0.31
+   },
+   {
+    "axis": "η_gen high (0.97)",
+    "gen100": 16.26,
+    "trac100": 18.77,
+    "fgen": 0.473,
+    "etaBus": 0.334
+   },
+   {
+    "axis": "P_aux low (0.2kW)",
+    "gen100": 15.76,
+    "trac100": 19.04,
+    "fgen": 0.456,
     "etaBus": 0.324
    },
    {
+    "axis": "P_aux high (1.2kW)",
+    "gen100": 15.92,
+    "trac100": 16.88,
+    "fgen": 0.487,
+    "etaBus": 0.327
+   },
+   {
+    "axis": "cold penalty OFF",
+    "gen100": 16.9,
+    "trac100": 19.23,
+    "fgen": 0.486,
+    "etaBus": 0.343
+   },
+   {
+    "axis": "cold penalty heavy (×1.45)",
+    "gen100": 15.38,
+    "trac100": 18.16,
+    "fgen": 0.455,
+    "etaBus": 0.318
+   },
+   {
     "axis": "OPT band wide (1750-2250)",
-    "gen100": 15.77,
-    "trac100": 18.24,
-    "fgen": 0.488,
-    "etaBus": 0.332
+    "gen100": 15.94,
+    "trac100": 18.51,
+    "fgen": 0.466,
+    "etaBus": 0.328
    }
   ],
   "limitations": [
@@ -56992,9 +56992,9 @@
    "Highway (n=2) and mixed-highway (n=5) drive-type splits are thin, fuel-instrumented samples; read as indicative, not settled.",
    "The generator→traction path has no logged PID anywhere in the corpus (§20 identifiability gap): every number in this section is a model-derived allocation, never a direct measurement.",
    "217 g/kWh (Nissan TR No.89) is a floor/optimum for the BSFC surface, never a flat conversion factor; TR No.90 (a different, 50%-efficiency concept engine) is corroborating context only, never a calibration input.",
-   "The Path A (road-load) vs Path B (fuel/BSFC) cross-validation stands at its 82-drive fuel subset (all 82 are in the current corpus). Its generator statistics are sign-invariant: Path B generator energy is fuel-derived and therefore unchanged by the M265 battery-current fix — verified by re-running the corrected engine on the same 82 drives (E_gen 15.74→15.74 kWh/100 km, ratio median 1.177 and the correlation all identical, M280) — so its figures are current, not stale. It is NOT expanded to the full clean subset because Path A's road-load coefficients (m, C_rr, C_dA, η_dt) were not preserved and re-introducing them would be assumption, not measurement. (As a by-product, the sign fix moved Path B distance-weighted traction 23.19→18.00 kWh/100 km, closer to the Path A road-load traction 17.45; Path A and Path B share priors, so this is not an independent check of M265.) The sensitivity table was recomputed to the current corpus at the corrected sign (M279). The headline corpus figures, drive-type split, RPM empirical-grounding sample (410 drives, refreshed M281), and the speed-binned traction split (M255) are current.",
-   "The per-second 'engine-state simultaneity by drive type' sub-analysis was rebuilt (M282) from recon_engine.central_estimate_v2_persample at the corrected M265 sign; its lost classification code was reconstructed and validated by the per-drive persample→aggregate energy identity (exact) and by threshold-robustness of the four-state split. The corrected sign inverted the earlier (sign-flipped) reading: urban engine-on time is predominantly battery-CHARGING, not battery-assisting. It covers the fuel-instrumented drives only (engine-on seconds; engine-off EV driving excluded by construction), and §4a's M41/M42 decomposition applies to the high-speed gen+battery-discharge state — it is SoC-steering with generator headroom, not saturation.",
-   "The per-second ‘supply split by vehicle speed’ sub-analysis was rebuilt this session (M255): its lost classification code was reconstructed from recon_engine.py’s already-verified per-drive reconstruction machinery (central_estimate_v2_persample, a byte-identical copy of the trusted aggregate formula that additionally exposes per-second arrays), and the per-drive sums were validated to reproduce fuel_recon_master.csv’s shipped figures to <0.01 kWh/100km on all 145 fuel-instrumented drives before the speed-binned output was trusted. (This same session also found fuel_recon_master.csv itself 10 drives stale — missing the entire 2026-09-11 seven-drive ingestion batch plus two older files — and refreshed it 138→145 rows before rebuilding this sub-analysis, which is why the headline corpus figures above shifted slightly from their last-published values.) The 120+ bin is thin (n=11 drives, 16.5 km) — read as indicative."
+   "The Path A (road-load) vs Path B (fuel/BSFC) cross-validation stands at its 82-drive fuel subset (all 82 are in the current corpus). Its generator statistics are sign-invariant: Path B generator energy is fuel-derived and therefore unchanged by the M265 battery-current fix — verified by re-running the corrected engine on the same 82 drives (E_gen 15.74→15.74 kWh/100 km, ratio median 1.177 and the correlation all identical, M280) — so the M265 fix did not change them (the figures are on the 82-drive recovered file, pre-M366 basis; see the crossval label). It is NOT expanded to the full clean subset because Path A's road-load coefficients (m, C_rr, C_dA, η_dt) were not preserved and re-introducing them would be assumption, not measurement. (As a by-product, the sign fix moved Path B distance-weighted traction 23.19→18.00 kWh/100 km, closer to the Path A road-load traction 17.45; Path A and Path B share priors, so this is not an independent check of M265.) The sensitivity table, the simultaneity table and the speed-binned traction split were refreshed at M373 on raw/ = sha256-verified originals (M366) as descriptive point values with no interval (see the refreshed-blocks line). The headline corpus figures, drive-type split and RPM empirical-grounding sample (410 drives, refreshed M281) are current.",
+   "The per-second 'engine-state simultaneity by drive type' sub-analysis was rebuilt (M282) from recon_engine.central_estimate_v2_persample at the M265 battery-current sign convention and refreshed at M373 on raw/ = sha256-verified originals; its lost classification code was reconstructed and checked by the per-drive persample→aggregate energy identity (exact). The sign convention inverted the earlier (sign-flipped) reading: most urban engine-on time is classified as charge-and-drive or fully banked, not battery-assisting (point shares, no interval). It covers the fuel-instrumented drives only (engine-on seconds; engine-off EV driving excluded by construction), §4a's M41/M42 decomposition of the high-speed gen+battery-discharge state reports SoC steering with generator headroom and no saturation (not tested here).",
+   "The per-second ‘supply split by vehicle speed’ sub-analysis was rebuilt (M255) from recon_engine.py’s per-drive reconstruction (central_estimate_v2_persample, a copy of the aggregate formula that additionally exposes per-second arrays) and refreshed at M373 on raw/ = sha256-verified originals (M366). Before the speed-binned output was used, the per-drive sums were checked against fuel_recon_master.csv’s figures to <0.01 kWh/100km; the number of drives checked and matched is stated in the speed-split text above (script-written, from the M373 run). The 120+ bin is thin; read as indicative."
   ],
   "sources": {
    "tr89": "Nissan Technical Review No.89 (2023) — 217 g/kWh BSFC floor, engine architecture.",
@@ -57007,21 +57007,21 @@
   "simultaneity": [
    {
     "type": "urban",
-    "nDrives": 154,
-    "engineOnHours": 10.2,
-    "genPlusBattDischarge": 18.4,
-    "chargesAndDrives": 52.8,
-    "genAloneNeutral": 3.6,
-    "fullyBanked": 25.2
+    "nDrives": 225,
+    "engineOnHours": 13.6,
+    "genPlusBattDischarge": 18.6,
+    "chargesAndDrives": 51.4,
+    "genAloneNeutral": 2.9,
+    "fullyBanked": 27.1
    },
    {
     "type": "mixed",
-    "nDrives": 9,
-    "engineOnHours": 1.9,
-    "genPlusBattDischarge": 25.5,
-    "chargesAndDrives": 57.0,
-    "genAloneNeutral": 3.8,
-    "fullyBanked": 13.8
+    "nDrives": 11,
+    "engineOnHours": 2.1,
+    "genPlusBattDischarge": 25.3,
+    "chargesAndDrives": 57.5,
+    "genAloneNeutral": 3.7,
+    "fullyBanked": 13.5
    },
    {
     "type": "mixed_highway",
@@ -57045,43 +57045,43 @@
   "speedSplit": [
    {
     "bin": "0-20",
-    "nDrives": 181,
-    "distKm": 121.2,
-    "generator": 5.93,
-    "battery": 30.94,
-    "fGen": 0.1609
+    "nDrives": 261,
+    "distKm": 161.8,
+    "generator": 6.26,
+    "battery": 30.23,
+    "fGen": 0.1714
    },
    {
     "bin": "20-60",
-    "nDrives": 178,
-    "distKm": 728.4,
-    "generator": 6.07,
-    "battery": 11.57,
-    "fGen": 0.3443
+    "nDrives": 258,
+    "distKm": 931.3,
+    "generator": 5.83,
+    "battery": 11.76,
+    "fGen": 0.3314
    },
    {
     "bin": "60-90",
-    "nDrives": 65,
-    "distKm": 518.9,
-    "generator": 8.73,
-    "battery": 5.45,
-    "fGen": 0.6155
+    "nDrives": 77,
+    "distKm": 566.1,
+    "generator": 8.99,
+    "battery": 5.39,
+    "fGen": 0.6254
    },
    {
     "bin": "90-120",
-    "nDrives": 35,
-    "distKm": 312.7,
-    "generator": 16.33,
-    "battery": 2.63,
-    "fGen": 0.8611
+    "nDrives": 41,
+    "distKm": 323.5,
+    "generator": 16.44,
+    "battery": 2.66,
+    "fGen": 0.8608
    },
    {
     "bin": "120+",
-    "nDrives": 12,
-    "distKm": 16.7,
-    "generator": 20.28,
+    "nDrives": 13,
+    "distKm": 18.1,
+    "generator": 21.36,
     "battery": 3.65,
-    "fGen": 0.8475
+    "fGen": 0.8539
    }
   ],
   "_provenance": "M253 (2026-09-13) restoration: generatorTractionRecon was found absent from summary_arrays.json (regression, root cause not identified this session -- likely lost during an untracked seasonal-wiring pass). Headline corpus/flows/driveTypeSplit figures freshly recomputed from fuel_recon_master.csv (135 clean / 138 fuel-instrumented drives, 1391.2 km) and verified to match the last-recorded M248 figures to within rounding. rpmFinding freshly recomputed from the current 374-drive rpmDistribution. crossval and sensitivity are carried forward from their last-surviving source files (crossval.csv, sensitivity.json) at the disclosed M246 fuel-subset basis -- their generating code was not preserved. The per-second speedSplit and simultaneity sub-analyses had no surviving source of any kind and are omitted (not fabricated) pending new code. M279 (2026-09-17): the `sensitivity` table was REBUILT from raw telemetry through the current M265-corrected recon_engine (generating code restored as sensitivity_gtr.py) and now reproduces the corrected corpus headline at BASE (f_gen 0.488, gen 15.75, trac 18.23, eta_bus 0.331); the previously shipped table (BASE f_gen 0.693) was pre-M265-sign and at the lost M246 subset basis. crossval and simultaneity remain pending rebuild. M280 (2026-09-17): crossval.csv (the 82-drive Path A/Path B source, reported lost) was recovered and re-audited: it reproduces the shipped crossval dict exactly, and the generator cross-validation is sign-invariant under the M265 fix (Path B generator is fuel-derived), so crossval values are unchanged. Path A's road-load coefficients remain unpreserved, so crossval stays at the 82-drive basis. simultaneity remains pending rebuild. M281 (2026-09-17): rpmFinding refreshed to the 410-drive corpus and to the TRUE [1850,2150] OPT-band occupancy (63.4% of engine-on time; anchored to the stamped rpmDistribution bin totals with the two OPT-boundary bins split at 1850/2150 via a raw 1 Hz sub-bin pass, independent pure-raw cross-check 64.4%). The shipped 58.5% was the 1975-2025 spike bin alone (58.7% at 410) -- it labelled the band [1850,2150] but valued only its central spike, understating the OPT concentration. Not sign-dependent. rpmFinding generating code stored as rpm_opt_pass.py. simultaneity remains the last pending §4b sub-analysis. M282 (2026-09-17): simultaneity (per-second gen/battery state by drive type) REBUILT from central_estimate_v2_persample at the corrected M265 sign (generating code simultaneity_gtr.py; was null since M253, no surviving source). The corrected sign inverts the M246 reading -- urban is predominantly battery-charging (charges+drives 52.8% / fully-banked 25.2%), gen+battery-discharge rises urban 18.4% -> highway 46.3% -- reframed away from 'saturation' per §4a. All four §4b sub-analyses (sensitivity M279, crossval M280, rpmFinding M281, simultaneity M282) are now current. M285 (2026-09-19): productionCheck.nAll 374->410 and the Warm/Shoulder cohort-corpus counts (326->346, 48->64) refreshed (the M260 cohort-count refresh had not landed in the M284 file); audit[0] fuel-flow coverage text 138/374 -> 181/410. Headline numerics unchanged (re-aggregated from fuel_recon_master.csv, exact match).",
@@ -57183,34 +57183,10 @@
   },
   "staleBlocks": {
    "blocks": [
-    "sensitivity",
-    "simultaneity",
-    "crossval",
-    "speedSplit"
+    "crossval"
    ],
    "note": "refresh pending (spec analyses/M370_spec.md); the basis of each remaining block is stated separately because it is not the same for all of them",
    "perBlock": [
-    {
-     "block": "sensitivity",
-     "basisMilestone": "M279",
-     "basisDate": "2026-09-17",
-     "nDrives": 181,
-     "nDrivesClean": 180,
-     "nDays": null,
-     "rawBasis": "pre-M366 raw/ re-exports",
-     "status": "not refreshed; older drive set than the current headline",
-     "source": "CHANGELOG M279 (drive set statement); n days not recorded"
-    },
-    {
-     "block": "simultaneity",
-     "basisMilestone": "M282",
-     "basisDate": "2026-09-17",
-     "nDrives": 170,
-     "nDays": null,
-     "rawBasis": "pre-M366 raw/ re-exports",
-     "status": "not refreshed; older drive set than the current headline",
-     "source": "payload generatorTractionRecon.simultaneity (sum of the four drive types); n days not recorded"
-    },
     {
      "block": "crossval",
      "basisMilestone": "M280",
@@ -57220,20 +57196,128 @@
      "rawBasis": "pre-M366 raw/ re-exports",
      "status": "Path A coefficients unpreserved; not recomputable; pre-M366 basis; not a validation of the current headline",
      "source": "payload generatorTractionRecon.crossval (recovered crossval.csv); n days not recorded"
-    },
-    {
-     "block": "speedSplit",
-     "basisMilestone": "M255",
-     "basisDate": "2026-09-14",
-     "nDrives": 181,
-     "nDrivesNote": "largest speed bin",
-     "nDays": null,
-     "rawBasis": "pre-M366 raw/ re-exports",
-     "status": "not refreshed; older drive set than the current headline",
-     "source": "payload generatorTractionRecon.speedSplit (largest bin); n days not recorded"
     }
    ]
-  }
+  },
+  "refreshedBlocks": [
+   {
+    "block": "sensitivity",
+    "basisMilestone": "M373",
+    "nDrives": 260,
+    "nDays": 50,
+    "rawBasis": "raw/ = sha256-verified originals (M366)",
+    "status": "descriptive point values, no interval; drive set = headline definition (f_gen not NaN: 260 of 261 fuel-instrumented drives), not canonical-clean",
+    "provenanceDelta": "O minus R (former per-sample raw, current master): provenance; R minus published: combined drive-set + code + basis drift, unattributed (analyses/M373_delta.json)",
+    "source": {
+     "O": "analyses/M373_O_blocks.json sha256 6ea3472ce33bb0cc",
+     "R": "analyses/M373_R_blocks.json sha256 6d2b551c573ab698",
+     "spec": "analyses/M373_spec.md sha256 53297bdbee4ce663",
+     "scripts": {
+      "tools/m373_point.py": "9c479e856535b280",
+      "sensitivity_gtr.py": "b39c2830b8c99eee",
+      "simultaneity_gtr.py": "baf9b5e4fa439e22",
+      "speed_split.py": "83e56cfecd7f26d7",
+      "recon_engine.py": "84adb4f8d321f7d8",
+      "fuel_recon.py": "729ef765aca215db",
+      "model_constants.py": "70486c933c844505"
+     }
+    },
+    "baseGate": {
+     "passed": true,
+     "equalsLiveHeadline": {
+      "gen100": 15.92,
+      "trac100": 18.49,
+      "fgen": 0.465,
+      "etaBus": 0.327
+     },
+     "nClean": 260
+    },
+    "provenanceMaxAbsDelta_O_minus_R": {
+     "gen100": 0.02,
+     "trac100": 0.02,
+     "fgen": 0.001,
+     "etaBus": 0.0
+    },
+    "provenanceMaxAbsDeltaUnrounded_O_minus_R": {
+     "gen100": 0.019627,
+     "trac100": 0.016894,
+     "fgen": 0.000485,
+     "etaBus": 1e-06
+    },
+    "previousBlock": {
+     "basis": "published table before M373 (M279 basis)",
+     "nAxes": 10,
+     "nAxesFgenAtOrAbove0p5": 3,
+     "baseFgen": 0.488,
+     "combinedDriftMaxAbsFgen_R_minus_published": 0.024,
+     "note": "the difference between the previous table and the refreshed one is combined drive-set + code + basis drift, unattributed"
+    }
+   },
+   {
+    "block": "simultaneity",
+    "basisMilestone": "M373",
+    "nDrives": 260,
+    "nDays": 50,
+    "rawBasis": "raw/ = sha256-verified originals (M366)",
+    "status": "descriptive point values, no interval; drive set = headline definition (f_gen not NaN: 260 of 261 fuel-instrumented drives), not canonical-clean",
+    "provenanceDelta": "O minus R (former per-sample raw, current master): provenance; R minus published: combined drive-set + code + basis drift, unattributed (analyses/M373_delta.json)",
+    "source": {
+     "O": "analyses/M373_O_blocks.json sha256 6ea3472ce33bb0cc",
+     "R": "analyses/M373_R_blocks.json sha256 6d2b551c573ab698",
+     "spec": "analyses/M373_spec.md sha256 53297bdbee4ce663",
+     "scripts": {
+      "tools/m373_point.py": "9c479e856535b280",
+      "sensitivity_gtr.py": "b39c2830b8c99eee",
+      "simultaneity_gtr.py": "baf9b5e4fa439e22",
+      "speed_split.py": "83e56cfecd7f26d7",
+      "recon_engine.py": "84adb4f8d321f7d8",
+      "fuel_recon.py": "729ef765aca215db",
+      "model_constants.py": "70486c933c844505"
+     }
+    },
+    "deadbandMaxAbsDeltaPP_O_minus_R": {
+     "primary_0.5kW": 0.2,
+     "grid_0.25_to_1.0kW": 0.5
+    },
+    "epsilonKw": {
+     "epsTracKw": 0.5,
+     "epsBattKw": 0.5
+    }
+   },
+   {
+    "block": "speedSplit",
+    "basisMilestone": "M373",
+    "nDrives": 261,
+    "nDays": 51,
+    "rawBasis": "raw/ = sha256-verified originals (M366)",
+    "status": "descriptive point values, no interval; drive set = all 261 fuel-instrumented drives of fuel_recon_master.csv (includes drives with NaN f_gen and canonical outliers), not canonical-clean",
+    "provenanceDelta": "O minus R (former per-sample raw, current master): provenance; R minus published: combined drive-set + code + basis drift, unattributed (analyses/M373_delta.json)",
+    "source": {
+     "O": "analyses/M373_O_blocks.json sha256 6ea3472ce33bb0cc",
+     "R": "analyses/M373_R_blocks.json sha256 6d2b551c573ab698",
+     "spec": "analyses/M373_spec.md sha256 53297bdbee4ce663",
+     "scripts": {
+      "tools/m373_point.py": "9c479e856535b280",
+      "sensitivity_gtr.py": "b39c2830b8c99eee",
+      "simultaneity_gtr.py": "baf9b5e4fa439e22",
+      "speed_split.py": "83e56cfecd7f26d7",
+      "recon_engine.py": "84adb4f8d321f7d8",
+      "fuel_recon.py": "729ef765aca215db",
+      "model_constants.py": "70486c933c844505"
+     }
+    },
+    "validation": {
+     "nChecked": 261,
+     "nMatched": 261,
+     "maxAbsDiffKwh100km": 0.0,
+     "passed": true,
+     "toleranceKwhPer100km": 0.01
+    },
+    "provenanceMaxAbsDelta_O_minus_R": {
+     "fGen": 0.0005
+    }
+   }
+  ]
  },
  "masterRefitAudit": {
   "nRowsPublished": 446,
