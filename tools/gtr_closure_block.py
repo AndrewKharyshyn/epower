@@ -31,7 +31,7 @@ def build():
     pub = fr[fr.file.isin(s["excluded_no_battery_inputs"])]
     f1 = sorted(pub[(pub.f_gen - 1.0).abs() < 1e-6].file.tolist())
     return {
-        "basis": "fuel-PID subset, model-derived; raw/ basis, provenance-sensitive (F03); not M299-reproducible",
+        "basis": "fuel-PID subset, model-derived; computed on the former raw/ re-exports (pre-M366); not refreshed on the originals; not M299-reproducible",
         "scope": {"nDrives": s["n_drives"], "nDays": s["n_days"], "km": s["km"], "nCanonical": n_canon,
                   "excludedNoBatteryInputs": s["excluded_no_battery_inputs"],
                   "excludedNote": "NaN battery offset or NaN charge-class columns in the master: where the published reconstruction has a row for such a drive it gives zero battery power, so f_gen = 1 by construction",

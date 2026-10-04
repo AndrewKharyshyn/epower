@@ -66,7 +66,7 @@ async function main(){
       ok(`${mode}/${m}: residual branch drawn at the shared px scale (minimum 5 px)`, Math.abs(resG)*pxs>=5?Math.abs(hR-Math.abs(Math.round(resG*100)/100)*pxs)<0.05:hR===5, `h=${hR} scale=${pxs}`);
     });
     const note=d.querySelector('[data-gtr-sketch-note]');
-    ok(`${mode}: adjacent non-closure note (not closed, not distributed, f_gen includes 0.5, F03)`, !!note&&['not closed','not distributed','includes 0.5','provenance-sensitive (F03)','not measured'].every(x=>note.textContent.includes(x)), note?note.textContent.slice(0,120):'no note');
+    ok(`${mode}: adjacent non-closure note (not closed, not distributed, f_gen includes 0.5, new raw label)`, !!note&&['not closed','not distributed','includes 0.5','raw/ = sha256-verified originals (M366)','not measured'].every(x=>note.textContent.includes(x)), note?note.textContent.slice(0,120):'no note');
     ok(`${mode}: no "repaired" / "closed by" wording in the panel`, !/repaired|closed by/i.test((d.querySelector('[data-gtr-flow-gate]')||d.querySelector('[data-gtr-accounting]')||note).textContent));
   }
   // ---------- Compare selections (R5): All+Warm has no Warm-Shoulder difference table; a single cohort still gets the table and the gate ----------

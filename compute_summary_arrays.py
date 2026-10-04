@@ -9301,7 +9301,7 @@ def _crawl_stop_go_phases(dm, raw_loader, frame_loader=None):
                           'and the creep window is empty (excluded, not zero) in that case; additiveShare is the share of cycles with launch end < approach start. One-direction energies are biased '
                           'upward by sign-flipping noise (rectification); the net is not. Zero = value <= 0; where the zero share is >= 0.25 the two-part form is reported (day-clustered P(>0) and '
                           'the positive-part median with CI). Day-clustered percentile bootstrap, seed 42, 4000 draws. Reconstructed from logged data, never measured energy. '
-                          'raw/ basis, provenance-sensitive (F03): zero shares depend on the integer-rounded current in the raw re-exports.')
+                          'raw/ = sha256-verified originals (M366): zero shares are slightly lower than on the former lower-precision re-exports, which carried integer-rounded current (M365 comparison).')
     return {'phaseEnergy': out}
 
 

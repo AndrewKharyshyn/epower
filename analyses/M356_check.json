@@ -11,7 +11,7 @@
   "topLevelParity": true,
   "parityNote": "fresh _crawl_stop_go + _crawl_stop_go_two_part (all rows) vs stored crawlStopGo without phaseEnergy, canonical JSON",
   "parityMismatchedKeys": [],
-  "seconds": 165.7,
+  "seconds": 137.0,
   "whLaunchOutEqualsLaunchDischarge": true,
   "whApproachInEqualsApproachRegen": true,
   "whCycleNetEqualsCycleNet": true,
@@ -19,7 +19,7 @@
  },
  "cohorts": {
   "all": {
-   "seconds": 38.3,
+   "seconds": 26.0,
    "nCycles": 2183,
    "additiveShare": 0.7357,
    "additiveVerified": {
@@ -29,7 +29,7 @@
    }
   },
   "warm": {
-   "seconds": 27.5,
+   "seconds": 22.5,
    "nCycles": 1770,
    "additiveShare": 0.7288,
    "additiveVerified": {
@@ -39,7 +39,7 @@
    }
   },
   "shoulder": {
-   "seconds": 9.6,
+   "seconds": 6.5,
    "nCycles": 404,
    "additiveShare": 0.7599,
    "additiveVerified": {
@@ -50,7 +50,7 @@
   }
  },
  "controlPassed": true,
- "totalSeconds": 241.2,
+ "totalSeconds": 192.1,
  "phaseEnergy": {
   "all": {
    "launch": {
@@ -58,32 +58,32 @@
     "nAllNaN": 2,
     "gridCoverageMedian": 1.0,
     "netWh": {
-     "median": 3.24,
-     "p25": 1.37,
-     "p75": 9.88,
+     "median": 3.27,
+     "p25": 1.36,
+     "p75": 9.86,
      "p95": 22.79,
      "n": 2181,
      "bootMedian": {
-      "bootMedian": 3.24,
+      "bootMedian": 3.27,
       "ci95": [
-       2.84,
-       3.8
+       2.85,
+       3.81
       ],
       "nDays": 100
      }
     },
     "dischargeWh": {
-     "median": 3.55,
-     "p25": 1.48,
-     "p75": 10.39,
-     "p95": 24.43,
+     "median": 3.58,
+     "p25": 1.47,
+     "p75": 10.38,
+     "p95": 24.42,
      "n": 2181,
-     "zeroShare": 0.05,
+     "zeroShare": 0.0491,
      "bootMedian": {
-      "bootMedian": 3.55,
+      "bootMedian": 3.58,
       "ci95": [
-       3.0,
-       4.05
+       3.04,
+       4.04
       ],
       "nDays": 100
      }
@@ -94,29 +94,29 @@
      "p75": 0.0,
      "p95": 5.87,
      "n": 2181,
-     "zeroShare": 0.8235,
+     "zeroShare": 0.8207,
      "twoPart": {
       "pPositive": {
-       "proportion": 0.1765,
+       "proportion": 0.1793,
        "ci95": [
-        0.152,
-        0.2012
+        0.1542,
+        0.2039
        ],
        "n": 2181,
        "nDays": 100
       },
       "positivePartMedian": {
-       "median": 2.55,
-       "p25": 0.88,
-       "p75": 6.49,
-       "p95": 40.73,
-       "n": 385
+       "median": 2.47,
+       "p25": 0.85,
+       "p75": 6.44,
+       "p95": 40.92,
+       "n": 391
       },
       "positivePartBoot": {
-       "bootMedian": 2.55,
+       "bootMedian": 2.47,
        "ci95": [
-        1.93,
-        3.28
+        1.71,
+        3.19
        ],
        "nDays": 87
       }
@@ -128,32 +128,32 @@
     "nAllNaN": 8,
     "gridCoverageMedian": 1.0,
     "netWh": {
-     "median": 1.38,
-     "p25": 0.3,
-     "p75": 6.56,
-     "p95": 42.44,
+     "median": 1.37,
+     "p25": 0.32,
+     "p75": 6.69,
+     "p95": 42.37,
      "n": 1128,
      "bootMedian": {
-      "bootMedian": 1.38,
+      "bootMedian": 1.37,
       "ci95": [
-       1.19,
+       1.18,
        1.57
       ],
       "nDays": 98
      }
     },
     "dischargeWh": {
-     "median": 2.16,
-     "p25": 0.68,
-     "p75": 13.24,
+     "median": 2.15,
+     "p25": 0.65,
+     "p75": 13.19,
      "p95": 69.36,
      "n": 1128,
-     "zeroShare": 0.1188,
+     "zeroShare": 0.1161,
      "bootMedian": {
-      "bootMedian": 2.16,
+      "bootMedian": 2.15,
       "ci95": [
-       1.8,
-       2.71
+       1.82,
+       2.72
       ],
       "nDays": 98
      }
@@ -161,32 +161,32 @@
     "regenWh": {
      "median": 0.0,
      "p25": 0.0,
-     "p75": 7.55,
-     "p95": 75.28,
+     "p75": 7.59,
+     "p95": 75.19,
      "n": 1128,
-     "zeroShare": 0.5035,
+     "zeroShare": 0.5018,
      "twoPart": {
       "pPositive": {
-       "proportion": 0.4965,
+       "proportion": 0.4982,
        "ci95": [
-        0.4577,
-        0.5351
+        0.4598,
+        0.5366
        ],
        "n": 1128,
        "nDays": 98
       },
       "positivePartMedian": {
        "median": 7.65,
-       "p25": 2.58,
-       "p75": 24.15,
-       "p95": 124.7,
-       "n": 560
+       "p25": 2.57,
+       "p75": 24.06,
+       "p95": 124.63,
+       "n": 562
       },
       "positivePartBoot": {
        "bootMedian": 7.64,
        "ci95": [
-        6.27,
-        9.25
+        6.24,
+        9.13
        ],
        "nDays": 89
       }
@@ -198,16 +198,16 @@
     "nAllNaN": 2,
     "gridCoverageMedian": 1.0,
     "netWh": {
-     "median": 1.29,
-     "p25": 0.49,
-     "p75": 3.03,
-     "p95": 12.5,
+     "median": 1.3,
+     "p25": 0.45,
+     "p75": 3.05,
+     "p95": 12.53,
      "n": 2181,
      "bootMedian": {
-      "bootMedian": 1.29,
+      "bootMedian": 1.3,
       "ci95": [
-       1.19,
-       1.4
+       1.18,
+       1.42
       ],
       "nDays": 100
      }
@@ -215,14 +215,14 @@
     "dischargeWh": {
      "median": 1.55,
      "p25": 0.88,
-     "p75": 3.48,
-     "p95": 13.62,
+     "p75": 3.42,
+     "p95": 13.58,
      "n": 2181,
      "zeroShare": 0.0935,
      "bootMedian": {
-      "bootMedian": 1.55,
+      "bootMedian": 1.54,
       "ci95": [
-       1.39,
+       1.38,
        1.69
       ],
       "nDays": 100
@@ -232,31 +232,31 @@
      "median": 0.0,
      "p25": 0.0,
      "p75": 1.7,
-     "p95": 18.29,
+     "p95": 18.35,
      "n": 2181,
-     "zeroShare": 0.6396,
+     "zeroShare": 0.6359,
      "twoPart": {
       "pPositive": {
-       "proportion": 0.3604,
+       "proportion": 0.3641,
        "ci95": [
-        0.3317,
-        0.3899
+        0.3351,
+        0.3936
        ],
        "n": 2181,
        "nDays": 100
       },
       "positivePartMedian": {
-       "median": 2.87,
-       "p25": 1.41,
-       "p75": 7.35,
-       "p95": 34.81,
-       "n": 786
+       "median": 2.86,
+       "p25": 1.4,
+       "p75": 7.25,
+       "p95": 34.64,
+       "n": 794
       },
       "positivePartBoot": {
        "bootMedian": 2.86,
        "ci95": [
-        2.63,
-        3.16
+        2.62,
+        3.08
        ],
        "nDays": 91
       }
@@ -268,32 +268,32 @@
     "nAllNaN": 1,
     "gridCoverageMedian": 1.0,
     "netWh": {
-     "median": 5.51,
+     "median": 5.5,
      "p25": 2.35,
-     "p75": 15.0,
-     "p95": 51.28,
+     "p75": 14.91,
+     "p95": 51.4,
      "n": 2182,
      "bootMedian": {
-      "bootMedian": 5.51,
+      "bootMedian": 5.49,
       "ci95": [
-       4.99,
-       6.13
+       4.97,
+       6.08
       ],
       "nDays": 100
      }
     },
     "dischargeWh": {
-     "median": 7.13,
-     "p25": 3.12,
-     "p75": 19.86,
-     "p95": 70.87,
+     "median": 7.11,
+     "p25": 3.14,
+     "p75": 19.94,
+     "p95": 70.93,
      "n": 2182,
-     "zeroShare": 0.0403,
+     "zeroShare": 0.0399,
      "bootMedian": {
-      "bootMedian": 7.13,
+      "bootMedian": 7.11,
       "ci95": [
-       6.37,
-       8.01
+       6.28,
+       7.93
       ],
       "nDays": 100
      }
@@ -302,31 +302,31 @@
      "median": 0.0,
      "p25": 0.0,
      "p75": 4.89,
-     "p95": 62.16,
+     "p95": 62.07,
      "n": 2182,
-     "zeroShare": 0.6233,
+     "zeroShare": 0.6214,
      "twoPart": {
       "pPositive": {
-       "proportion": 0.3767,
+       "proportion": 0.3786,
        "ci95": [
-        0.3473,
-        0.4068
+        0.3494,
+        0.4089
        ],
        "n": 2182,
        "nDays": 100
       },
       "positivePartMedian": {
-       "median": 9.61,
-       "p25": 2.87,
-       "p75": 30.8,
-       "p95": 131.55,
-       "n": 822
+       "median": 9.5,
+       "p25": 2.81,
+       "p75": 30.74,
+       "p95": 131.65,
+       "n": 826
       },
       "positivePartBoot": {
-       "bootMedian": 9.6,
+       "bootMedian": 9.49,
        "ci95": [
-        8.35,
-        10.73
+        8.3,
+        10.59
        ],
        "nDays": 92
       }
@@ -362,7 +362,7 @@
      "mask": "end of one stop to the start of the next stop (consecutive-stop pair, inter-stop peak <= 30 km/h)"
     }
    ],
-   "methodology": "M356 (Cs-21). Energy over each window of the stop-go cycle from logged HV current x voltage on the 1 Hz grid (asynchronous polling; samples with no I*V are dropped, so energy over gaps is understated; gridCoverageMedian is the non-NaN share). net = signed sum; discharge-direction and regen-direction (positive magnitude) are the sums of the positive and negative parts of the power. The windows are NOT additive: launch and approach share one boundary sample when launch end = approach start, and the creep window is empty (excluded, not zero) in that case; additiveShare is the share of cycles with launch end < approach start. One-direction energies are biased upward by sign-flipping noise (rectification); the net is not. Zero = value <= 0; where the zero share is >= 0.25 the two-part form is reported (day-clustered P(>0) and the positive-part median with CI). Day-clustered percentile bootstrap, seed 42, 4000 draws. Reconstructed from logged data, never measured energy. raw/ basis, provenance-sensitive (F03): zero shares depend on the integer-rounded current in the raw re-exports."
+   "methodology": "M356 (Cs-21). Energy over each window of the stop-go cycle from logged HV current x voltage on the 1 Hz grid (asynchronous polling; samples with no I*V are dropped, so energy over gaps is understated; gridCoverageMedian is the non-NaN share). net = signed sum; discharge-direction and regen-direction (positive magnitude) are the sums of the positive and negative parts of the power. The windows are NOT additive: launch and approach share one boundary sample when launch end = approach start, and the creep window is empty (excluded, not zero) in that case; additiveShare is the share of cycles with launch end < approach start. One-direction energies are biased upward by sign-flipping noise (rectification); the net is not. Zero = value <= 0; where the zero share is >= 0.25 the two-part form is reported (day-clustered P(>0) and the positive-part median with CI). Day-clustered percentile bootstrap, seed 42, 4000 draws. Reconstructed from logged data, never measured energy. raw/ = sha256-verified originals (M366): zero shares are slightly lower than on the former lower-precision re-exports, which carried integer-rounded current (M365 comparison)."
   },
   "warm": {
    "launch": {
@@ -370,32 +370,32 @@
     "nAllNaN": 2,
     "gridCoverageMedian": 1.0,
     "netWh": {
-     "median": 3.64,
-     "p25": 1.49,
-     "p75": 10.16,
-     "p95": 23.6,
+     "median": 3.66,
+     "p25": 1.48,
+     "p75": 10.18,
+     "p95": 23.67,
      "n": 1768,
      "bootMedian": {
-      "bootMedian": 3.63,
+      "bootMedian": 3.66,
       "ci95": [
-       3.11,
-       4.09
+       3.13,
+       4.1
       ],
       "nDays": 91
      }
     },
     "dischargeWh": {
-     "median": 3.98,
-     "p25": 1.59,
-     "p75": 10.88,
-     "p95": 25.31,
+     "median": 3.95,
+     "p25": 1.6,
+     "p75": 10.82,
+     "p95": 25.33,
      "n": 1768,
-     "zeroShare": 0.0362,
+     "zeroShare": 0.0351,
      "bootMedian": {
-      "bootMedian": 3.98,
+      "bootMedian": 3.94,
       "ci95": [
-       3.44,
-       4.42
+       3.42,
+       4.41
       ],
       "nDays": 91
      }
@@ -404,31 +404,31 @@
      "median": 0.0,
      "p25": 0.0,
      "p75": 0.0,
-     "p95": 6.06,
+     "p95": 6.09,
      "n": 1768,
-     "zeroShare": 0.8269,
+     "zeroShare": 0.8235,
      "twoPart": {
       "pPositive": {
-       "proportion": 0.1731,
+       "proportion": 0.1765,
        "ci95": [
-        0.1448,
-        0.1998
+        0.148,
+        0.2035
        ],
        "n": 1768,
        "nDays": 91
       },
       "positivePartMedian": {
-       "median": 2.48,
-       "p25": 0.79,
-       "p75": 7.17,
-       "p95": 41.38,
-       "n": 306
+       "median": 2.36,
+       "p25": 0.67,
+       "p75": 6.99,
+       "p95": 41.37,
+       "n": 312
       },
       "positivePartBoot": {
-       "bootMedian": 2.48,
+       "bootMedian": 2.36,
        "ci95": [
-        1.68,
-        3.2
+        1.53,
+        3.11
        ],
        "nDays": 72
       }
@@ -440,32 +440,32 @@
     "nAllNaN": 8,
     "gridCoverageMedian": 1.0,
     "netWh": {
-     "median": 1.33,
-     "p25": 0.3,
-     "p75": 6.08,
-     "p95": 41.11,
+     "median": 1.31,
+     "p25": 0.32,
+     "p75": 6.1,
+     "p95": 41.1,
      "n": 903,
      "bootMedian": {
-      "bootMedian": 1.33,
+      "bootMedian": 1.31,
       "ci95": [
-       1.17,
+       1.15,
        1.58
       ],
       "nDays": 87
      }
     },
     "dischargeWh": {
-     "median": 2.16,
-     "p25": 0.69,
-     "p75": 13.09,
-     "p95": 68.4,
+     "median": 2.15,
+     "p25": 0.67,
+     "p75": 13.12,
+     "p95": 68.6,
      "n": 903,
-     "zeroShare": 0.1107,
+     "zeroShare": 0.1074,
      "bootMedian": {
-      "bootMedian": 2.16,
+      "bootMedian": 2.15,
       "ci95": [
-       1.76,
-       2.71
+       1.77,
+       2.73
       ],
       "nDays": 87
      }
@@ -473,31 +473,31 @@
     "regenWh": {
      "median": 0.0,
      "p25": 0.0,
-     "p75": 7.32,
-     "p95": 77.48,
+     "p75": 7.27,
+     "p95": 77.84,
      "n": 903,
-     "zeroShare": 0.5194,
+     "zeroShare": 0.5172,
      "twoPart": {
       "pPositive": {
-       "proportion": 0.4806,
+       "proportion": 0.4828,
        "ci95": [
-        0.4354,
-        0.5245
+        0.4374,
+        0.5267
        ],
        "n": 903,
        "nDays": 87
       },
       "positivePartMedian": {
-       "median": 7.89,
-       "p25": 2.84,
-       "p75": 26.11,
-       "p95": 125.03,
-       "n": 434
+       "median": 7.88,
+       "p25": 2.71,
+       "p75": 26.06,
+       "p95": 125.11,
+       "n": 436
       },
       "positivePartBoot": {
-       "bootMedian": 7.93,
+       "bootMedian": 7.92,
        "ci95": [
-        6.32,
+        6.28,
         9.77
        ],
        "nDays": 75
@@ -511,30 +511,30 @@
     "gridCoverageMedian": 1.0,
     "netWh": {
      "median": 1.48,
-     "p25": 0.74,
-     "p75": 3.37,
-     "p95": 13.38,
+     "p25": 0.71,
+     "p75": 3.36,
+     "p95": 13.47,
      "n": 1768,
      "bootMedian": {
       "bootMedian": 1.48,
       "ci95": [
-       1.37,
-       1.66
+       1.35,
+       1.65
       ],
       "nDays": 91
      }
     },
     "dischargeWh": {
-     "median": 1.75,
+     "median": 1.74,
      "p25": 0.98,
-     "p75": 3.83,
-     "p95": 14.26,
+     "p75": 3.82,
+     "p95": 14.24,
      "n": 1768,
      "zeroShare": 0.0854,
      "bootMedian": {
       "bootMedian": 1.75,
       "ci95": [
-       1.58,
+       1.59,
        1.87
       ],
       "nDays": 91
@@ -543,32 +543,32 @@
     "regenWh": {
      "median": 0.0,
      "p25": 0.0,
-     "p75": 1.47,
+     "p75": 1.49,
      "p95": 17.48,
      "n": 1768,
-     "zeroShare": 0.6533,
+     "zeroShare": 0.6488,
      "twoPart": {
       "pPositive": {
-       "proportion": 0.3467,
+       "proportion": 0.3512,
        "ci95": [
-        0.3119,
-        0.3793
+        0.3165,
+        0.3837
        ],
        "n": 1768,
        "nDays": 91
       },
       "positivePartMedian": {
-       "median": 2.75,
-       "p25": 1.31,
+       "median": 2.69,
+       "p25": 1.24,
        "p75": 7.62,
-       "p95": 34.14,
-       "n": 613
+       "p95": 34.09,
+       "n": 621
       },
       "positivePartBoot": {
-       "bootMedian": 2.75,
+       "bootMedian": 2.69,
        "ci95": [
-        2.45,
-        3.06
+        2.39,
+        2.99
        ],
        "nDays": 79
       }
@@ -580,32 +580,32 @@
     "nAllNaN": 1,
     "gridCoverageMedian": 1.0,
     "netWh": {
-     "median": 5.95,
-     "p25": 2.57,
-     "p75": 15.27,
-     "p95": 52.12,
+     "median": 5.86,
+     "p25": 2.58,
+     "p75": 15.24,
+     "p95": 51.95,
      "n": 1769,
      "bootMedian": {
-      "bootMedian": 5.95,
+      "bootMedian": 5.86,
       "ci95": [
        5.24,
-       6.66
+       6.67
       ],
       "nDays": 91
      }
     },
     "dischargeWh": {
-     "median": 7.63,
+     "median": 7.62,
      "p25": 3.42,
-     "p75": 20.45,
-     "p95": 72.18,
+     "p75": 20.51,
+     "p95": 72.07,
      "n": 1769,
-     "zeroShare": 0.0288,
+     "zeroShare": 0.0283,
      "bootMedian": {
-      "bootMedian": 7.63,
+      "bootMedian": 7.62,
       "ci95": [
-       6.77,
-       8.65
+       6.76,
+       8.67
       ],
       "nDays": 91
      }
@@ -613,32 +613,32 @@
     "regenWh": {
      "median": 0.0,
      "p25": 0.0,
-     "p75": 4.26,
-     "p95": 59.81,
+     "p75": 4.27,
+     "p95": 59.83,
      "n": 1769,
-     "zeroShare": 0.6371,
+     "zeroShare": 0.6348,
      "twoPart": {
       "pPositive": {
-       "proportion": 0.3629,
+       "proportion": 0.3652,
        "ci95": [
-        0.3277,
-        0.3954
+        0.3294,
+        0.398
        ],
        "n": 1769,
        "nDays": 91
       },
       "positivePartMedian": {
-       "median": 9.83,
-       "p25": 2.81,
-       "p75": 32.71,
-       "p95": 136.19,
-       "n": 642
+       "median": 9.76,
+       "p25": 2.7,
+       "p75": 32.7,
+       "p95": 135.49,
+       "n": 646
       },
       "positivePartBoot": {
-       "bootMedian": 9.83,
+       "bootMedian": 9.73,
        "ci95": [
-        8.35,
-        12.09
+        8.29,
+        11.7
        ],
        "nDays": 80
       }
@@ -674,7 +674,7 @@
      "mask": "end of one stop to the start of the next stop (consecutive-stop pair, inter-stop peak <= 30 km/h)"
     }
    ],
-   "methodology": "M356 (Cs-21). Energy over each window of the stop-go cycle from logged HV current x voltage on the 1 Hz grid (asynchronous polling; samples with no I*V are dropped, so energy over gaps is understated; gridCoverageMedian is the non-NaN share). net = signed sum; discharge-direction and regen-direction (positive magnitude) are the sums of the positive and negative parts of the power. The windows are NOT additive: launch and approach share one boundary sample when launch end = approach start, and the creep window is empty (excluded, not zero) in that case; additiveShare is the share of cycles with launch end < approach start. One-direction energies are biased upward by sign-flipping noise (rectification); the net is not. Zero = value <= 0; where the zero share is >= 0.25 the two-part form is reported (day-clustered P(>0) and the positive-part median with CI). Day-clustered percentile bootstrap, seed 42, 4000 draws. Reconstructed from logged data, never measured energy. raw/ basis, provenance-sensitive (F03): zero shares depend on the integer-rounded current in the raw re-exports."
+   "methodology": "M356 (Cs-21). Energy over each window of the stop-go cycle from logged HV current x voltage on the 1 Hz grid (asynchronous polling; samples with no I*V are dropped, so energy over gaps is understated; gridCoverageMedian is the non-NaN share). net = signed sum; discharge-direction and regen-direction (positive magnitude) are the sums of the positive and negative parts of the power. The windows are NOT additive: launch and approach share one boundary sample when launch end = approach start, and the creep window is empty (excluded, not zero) in that case; additiveShare is the share of cycles with launch end < approach start. One-direction energies are biased upward by sign-flipping noise (rectification); the net is not. Zero = value <= 0; where the zero share is >= 0.25 the two-part form is reported (day-clustered P(>0) and the positive-part median with CI). Day-clustered percentile bootstrap, seed 42, 4000 draws. Reconstructed from logged data, never measured energy. raw/ = sha256-verified originals (M366): zero shares are slightly lower than on the former lower-precision re-exports, which carried integer-rounded current (M365 comparison)."
   },
   "shoulder": {
    "launch": {
@@ -683,7 +683,7 @@
     "gridCoverageMedian": 1.0,
     "netWh": {
      "median": 2.18,
-     "p25": 0.83,
+     "p25": 0.84,
      "p75": 8.68,
      "p95": 18.05,
      "n": 404,
@@ -698,7 +698,7 @@
     },
     "dischargeWh": {
      "median": 2.33,
-     "p25": 0.97,
+     "p25": 0.95,
      "p75": 8.68,
      "p95": 18.05,
      "n": 404,
@@ -707,7 +707,7 @@
       "bootMedian": 2.34,
       "ci95": [
        1.82,
-       2.65
+       2.62
       ],
       "nDays": 30
      }
@@ -730,7 +730,7 @@
        "nDays": 30
       },
       "positivePartMedian": {
-       "median": 3.29,
+       "median": 3.28,
        "p25": 1.14,
        "p75": 5.44,
        "p95": 21.16,
@@ -739,7 +739,7 @@
       "positivePartBoot": {
        "bootMedian": 3.28,
        "ci95": [
-        1.65,
+        1.64,
         3.76
        ],
        "nDays": 23
@@ -760,7 +760,7 @@
      "bootMedian": {
       "bootMedian": 1.54,
       "ci95": [
-       1.21,
+       1.24,
        2.44
       ],
       "nDays": 28
@@ -786,7 +786,7 @@
      "median": 0.92,
      "p25": 0.0,
      "p75": 8.11,
-     "p95": 66.24,
+     "p95": 66.21,
      "n": 219,
      "zeroShare": 0.4429,
      "twoPart": {
@@ -823,7 +823,7 @@
     "gridCoverageMedian": 1.0,
     "netWh": {
      "median": 0.79,
-     "p25": -1.56,
+     "p25": -1.51,
      "p75": 1.5,
      "p95": 7.92,
      "n": 404,
@@ -837,7 +837,7 @@
      }
     },
     "dischargeWh": {
-     "median": 0.98,
+     "median": 0.97,
      "p25": 0.5,
      "p75": 2.09,
      "p95": 8.69,
@@ -855,7 +855,7 @@
     "regenWh": {
      "median": 0.0,
      "p25": 0.0,
-     "p75": 2.83,
+     "p75": 2.84,
      "p95": 27.09,
      "n": 404,
      "zeroShare": 0.5866,
@@ -877,7 +877,7 @@
        "n": 167
       },
       "positivePartBoot": {
-       "bootMedian": 3.36,
+       "bootMedian": 3.35,
        "ci95": [
         2.93,
         3.76
@@ -892,8 +892,8 @@
     "nAllNaN": 0,
     "gridCoverageMedian": 1.0,
     "netWh": {
-     "median": 3.78,
-     "p25": 1.38,
+     "median": 3.81,
+     "p25": 1.37,
      "p75": 12.1,
      "p95": 46.29,
      "n": 404,
@@ -907,14 +907,14 @@
      }
     },
     "dischargeWh": {
-     "median": 4.55,
+     "median": 4.57,
      "p25": 1.93,
      "p75": 16.59,
      "p95": 62.49,
      "n": 404,
      "zeroShare": 0.0866,
      "bootMedian": {
-      "bootMedian": 4.57,
+      "bootMedian": 4.59,
       "ci95": [
        4.03,
        5.51
@@ -986,7 +986,7 @@
      "mask": "end of one stop to the start of the next stop (consecutive-stop pair, inter-stop peak <= 30 km/h)"
     }
    ],
-   "methodology": "M356 (Cs-21). Energy over each window of the stop-go cycle from logged HV current x voltage on the 1 Hz grid (asynchronous polling; samples with no I*V are dropped, so energy over gaps is understated; gridCoverageMedian is the non-NaN share). net = signed sum; discharge-direction and regen-direction (positive magnitude) are the sums of the positive and negative parts of the power. The windows are NOT additive: launch and approach share one boundary sample when launch end = approach start, and the creep window is empty (excluded, not zero) in that case; additiveShare is the share of cycles with launch end < approach start. One-direction energies are biased upward by sign-flipping noise (rectification); the net is not. Zero = value <= 0; where the zero share is >= 0.25 the two-part form is reported (day-clustered P(>0) and the positive-part median with CI). Day-clustered percentile bootstrap, seed 42, 4000 draws. Reconstructed from logged data, never measured energy. raw/ basis, provenance-sensitive (F03): zero shares depend on the integer-rounded current in the raw re-exports."
+   "methodology": "M356 (Cs-21). Energy over each window of the stop-go cycle from logged HV current x voltage on the 1 Hz grid (asynchronous polling; samples with no I*V are dropped, so energy over gaps is understated; gridCoverageMedian is the non-NaN share). net = signed sum; discharge-direction and regen-direction (positive magnitude) are the sums of the positive and negative parts of the power. The windows are NOT additive: launch and approach share one boundary sample when launch end = approach start, and the creep window is empty (excluded, not zero) in that case; additiveShare is the share of cycles with launch end < approach start. One-direction energies are biased upward by sign-flipping noise (rectification); the net is not. Zero = value <= 0; where the zero share is >= 0.25 the two-part form is reported (day-clustered P(>0) and the positive-part median with CI). Day-clustered percentile bootstrap, seed 42, 4000 draws. Reconstructed from logged data, never measured energy. raw/ = sha256-verified originals (M366): zero shares are slightly lower than on the former lower-precision re-exports, which carried integer-rounded current (M365 comparison)."
   }
  }
 }

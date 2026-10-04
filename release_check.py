@@ -216,6 +216,19 @@ def payload_checks(arrays_path):
     except Exception:
         _om_ok = False
     checks["originals_manifest.json is a consistent second archive (not the archive of record; sha256 equal to raw_manifest; owner decision recorded) (M346)"] = bool(_om_ok)
+    # (11) M366 (F03 re-anchoring): raw/ holds the sha256-verified originals: every canonical raw file matches its raw_manifest.json sha256, and the 333 removed re-exports are recorded (sha256 list)
+    try:
+        import hashlib as _h, re as _re
+        _root = Path(__file__).resolve().parent
+        _man = [x for x in json.loads((_root / "raw_manifest.json").read_text(encoding="utf-8"))["files"] if x["role"] == "canonical"]
+        _dig = lambda n: _re.sub(r"\D", "", n.rsplit(".", 1)[0])
+        _idx = {_dig(n): n for n in os.listdir(_root / "raw") if n.lower().endswith(".csv") and not n.startswith("e4ORCE")}
+        _bad = [x["record_id"] for x in _man if _dig(x["raw_name"]) not in _idx or _h.sha256((_root / "raw" / _idx[_dig(x["raw_name"])]).read_bytes()).hexdigest() != x["sha256"]]
+        _arch = json.loads((_root / "analyses" / "F03_originals" / "archived_reexports_sha256.json").read_text(encoding="utf-8"))
+        _raw_ok = (not _bad) and len(_man) == 489 and _arch["n"] == 333 and len(_arch["files"]) == 333
+    except Exception:
+        _raw_ok = False
+    checks["every canonical raw file matches raw_manifest.json sha256 (raw/ = sha256-verified originals; 333 removed re-exports recorded) (M366)"] = bool(_raw_ok)
     return checks
 
 def payload_warnings(arrays_path):
