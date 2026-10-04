@@ -51454,9 +51454,9 @@
     "estimand": "ratio of sums, 100·Σkwh/Σkm (outbound battery work)"
    },
    "starts_100km": {
-    "label": "Current-direction reversals (pack-current sign crossings)",
+    "label": "Pack-current direction reversals (not an engine-start count)",
     "unit": "/100 km",
-    "estimand": "ratio of sums; n_sign_crossings is a start PROXY, not a counted start"
+    "estimand": "ratio of sums; n_sign_crossings counts pack-current direction reversals, a different quantity from RPM onsets, not an engine-start count"
    },
    "engoff_brake_share": {
     "label": "Engine-off braking share of pack charge",
@@ -135766,7 +135766,7 @@
     "Mixed Highway": 77,
     "Highway": 47
    },
-   "note": "unweighted MEAN of per-drive rates (short trips dominate, Urban hi = 500); not comparable with the pooled ratio of sums",
+   "note": "unweighted MEAN of per-drive rates (short trips dominate: the per-drive maximum is 500 per 100 km on a 1.2 km drive); not comparable with the pooled ratio of sums",
    "seasonalContractCoverageAll": {
     "n_drives": 489,
     "km": 8740.24

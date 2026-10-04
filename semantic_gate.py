@@ -105,7 +105,7 @@ ok("A2 REQUIRED health conclusion reads 'Cell-spread trend not resolved'", any("
 # W4a (M329)
 ok("A2 REQUIRED depth-squared weighted cycle sum wording present", any("depth-squared weighted cycle sum" in t for t in T.values()))
 ok("A2 REQUIRED regen-by-temperature Compare title says pack-temperature bin", any("pack-temperature bin" in t for t in T.values()))
-ok("A2 REQUIRED current-direction reversals label present", any("Current-direction reversals" in t for t in T.values()))
+ok("A2 REQUIRED direction-reversals label present (M363: 'Pack-current direction reversals', not an engine-start count)", any("Pack-current direction reversals" in t for t in T.values()))
 # M351 (p22.12 / p23.16 / F31.r1)
 ok("A2 REQUIRED cell-spread interval basis stated (cluster-robust (CR1) normal (z), day clusters)", any("cluster-robust (CR1) normal (z) interval" in t and "day clusters" in t for t in T.values()))
 ok("A2 REQUIRED resistance-record simulation is an IID residual-model reference distribution, not a noise test, day dependence not modelled", any(all(x in t for x in ("IID residual-model reference distribution", "not a noise test", "Day dependence is not modelled")) for t in T.values()))
@@ -123,6 +123,13 @@ ok("A2 REQUIRED cohort counts conserve: observed(warm+shoulder+cold) == observed
 ok("A2 REQUIRED identifiability box 'What the data cannot identify' with six limits and the payload Cold count", any("What the data cannot identify" in t and "uncalibrated vehicle reading" in t and "segregated from the primary corpus" in t and "assumed BSFC prior" in t for t in T.values()))
 # M357 (Crawl & Stop-Go callout)
 ok("A2 REQUIRED Crawl & Stop-Go callout: per-cycle ratio wording, regen-probability sentence (lowest peak-speed tercile), RPM onsets, F03 label, in all / warm / shoulder", all(any(all(x in T.get("distribution__" + m, "") for x in ("per-cycle ratio approach regen / launch discharge", "lowest peak-speed tercile", "RPM onsets: RPM from", "start type not separated", "no regen-direction energy at all")) for _ in [0]) for m in ("all", "warm", "shoulder")))
+# M363 (D-13 remainder + engine-cycling section text)
+_esr = json.load(open("summary_arrays.json", encoding="utf-8"))
+_det = _esr["engineStartRate"]["detector"]
+_intro = "RPM above %s = ON; runs shorter than %s s filtered; short sensor gaps (up to %s s) carried forward" % (_det["rpmThreshold"], _det["minRunS"], _det["ffillLimitS"])
+ok("A2 REQUIRED M363 section E intro: detector parameters bound to engineStartRate.detector, descriptive-only wording, speed-zone view wording", any(all(x in t for x in (_intro, "labelled engine starts; not verified ignition or cold-start events", "descriptive only; no wear or mechanism inference", "speed and drive class are confounded, no attribution")) for k, t in T.items() if k.startswith("charts__") and k.endswith("__all")))
+ok("A2 REQUIRED M363 By Speed and ON Duration captions: observed association, controller logic not observed, no purpose inferred", any(all(x in t for x in ("the controller logic is not observed here", "with no mechanism or purpose inferred", "detector-defined ON runs")) for k, t in T.items() if k.startswith("charts__") and k.endswith("__all")))
+ok("A2 REQUIRED M363 reversal metric titled as direction reversals, not engine starts (Highway vs City and Compare dumps) and the payload leaves agree", any("Pack-current direction reversals (not an engine-start count)" in t for k, t in T.items() if k.startswith("highway_vs_city__")) and _esr["comparisonCube"]["metrics"]["starts_100km"]["label"] == "Pack-current direction reversals (not an engine-start count)" and "Urban hi" not in _esr["engineStartRate"]["publishedEngineStartsByType"]["note"])
 # M361 (intake-air channel availability, bound to meta.intakeAir)
 _ia = json.load(open("summary_arrays.json", encoding="utf-8"))["meta"]["intakeAir"]
 _ia_line = "Intake-air channel: unavailable since %s (last valid drive %s; no value from drive %s); %d of %d drives carry a value, %d drives on %d days follow the last valid drive and %d earlier drives also have no value." % (_ia["lastValidDate"], _ia["lastValidDrive"], _ia["firstDriveWithoutValue"], _ia["nDrivesValid"], _ia["nDrives"], _ia["nDrivesAfterLastValid"], _ia["nDaysAfterLastValid"], _ia["nDrivesNoValue"] - _ia["nDrivesAfterLastValid"])
