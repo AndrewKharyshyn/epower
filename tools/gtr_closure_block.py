@@ -8,8 +8,10 @@ import hashlib, json, os, sys
 import pandas as pd
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 ARR = os.path.join(ROOT, "summary_arrays.json")
-DIAG = os.path.join(ROOT, "analyses", "M336_closure_diag.json")
-STEP2 = os.path.join(ROOT, "analyses", "M336_step2_result.json")
+M372 = "--m372" in sys.argv     # M372: regenerated block from analyses/M372_* (spec analyses/M372_spec.md Rev 2); default = the M336 files
+PFX = "M372" if M372 else "M336"
+DIAG = os.path.join(ROOT, "analyses", PFX + "_closure_diag.json")
+STEP2 = os.path.join(ROOT, "analyses", PFX + ("_step2_result.json"))
 
 
 def sha(p):
@@ -30,11 +32,37 @@ def build():
     fr = pd.read_csv(os.path.join(ROOT, "fuel_recon_master.csv"))
     pub = fr[fr.file.isin(s["excluded_no_battery_inputs"])]
     f1 = sorted(pub[(pub.f_gen - 1.0).abs() < 1e-6].file.tolist())
+    headline_note = ""
+    base_note = ""
+    if M372:   # after M349 the published rows of the NaN-offset drives are repaired (f_gen no longer 1 by construction): state the CURRENT published values, bound to fuel_recon_master.csv
+        cur = {r.file: r.f_gen for r in pub.itertuples()}
+        base_note = ("NaN battery offset or NaN charge-class columns in the master: the closure skips these drives by design (pre-registered M336 rule). Before M349 the published reconstruction gave zero battery power for such a drive "
+                     "(f_gen = 1 by construction); M349 repaired the published rows" + (" (current published f_gen: " + ", ".join(f"{k.replace('.csv', '')} {v:.4f}" for k, v in sorted(cur.items())) + ")" if cur else "")
+                     + (f"; {len(f1)} published row(s) still have f_gen = 1" if f1 else "; no published row has f_gen = 1 now"))
+    if M372:   # Director ruling (M372 Rev 2 + trigger ruling): the closure set differs from the headline set; a script reconciles the sets per ID and the note is written from that
+        dmx = pd.read_csv(os.path.join(ROOT, "drive_master.csv"), usecols=["file", "ens_outlier_v2"], low_memory=False)
+        keep = fr.merge(dmx, on="file", how="left")
+        R0 = A["generatorTractionRecon"]
+        head = set(keep[keep.f_gen.notna()].file)                                    # headline set: f_gen not NaN (wire_gtr_seasonal.aggregate)
+        closure = set(pd.read_csv(os.path.join(ROOT, "analyses", "M372_closure_perdrive.csv")).file)
+        outl = set(keep[keep.ens_outlier_v2.astype(str) == "True"].file)
+        nan_in = set(s["excluded_no_battery_inputs"])
+        reasons = {}
+        for f in sorted(head - closure):
+            reasons[f] = "canonical outlier (ens_outlier_v2)" if f in outl else ("NaN battery inputs" if f in nan_in else "other")
+        assert not (closure - head), "closure drives outside the headline set"
+        assert "other" not in reasons.values(), reasons
+        assert len(head) - len(reasons) == len(closure) == s["n_drives"] and len(head) == R0["nDrives"], (len(head), len(reasons), len(closure), R0["nDrives"])
+        not_in_head = sorted(nan_in - head)
+        headline_note = (f". Set note (as of the M372 refresh): the closure set is {len(closure)} drives; the published headline set is {len(head)} of {R0['nProduction']} fuel-instrumented drives (clean = f_gen not NaN, not the canonical rule), "
+                         f"{len(head)} - {len(reasons)} = {len(closure)}; headline drives not in the closure: " + "; ".join(f"{f.replace('.csv', '')} ({r})" for f, r in reasons.items())
+                         + ("; NaN-battery-input drive(s) without a published row, in neither set: " + ", ".join(f.replace('.csv', '') for f in not_in_head) if not_in_head else "")
+                         + "; the headline's departure from the canonical-clean rule is an open item")
     return {
-        "basis": "fuel-PID subset, model-derived; computed on the former raw/ re-exports (pre-M366); not refreshed on the originals; not M299-reproducible",
+        "basis": ("fuel-PID subset, model-derived; raw/ = sha256-verified originals (M366); not M299-reproducible" if M372 else "fuel-PID subset, model-derived; computed on the former raw/ re-exports (pre-M366); not refreshed on the originals; not M299-reproducible"),
         "scope": {"nDrives": s["n_drives"], "nDays": s["n_days"], "km": s["km"], "nCanonical": n_canon,
                   "excludedNoBatteryInputs": s["excluded_no_battery_inputs"],
-                  "excludedNote": "NaN battery offset or NaN charge-class columns in the master: where the published reconstruction has a row for such a drive it gives zero battery power, so f_gen = 1 by construction",
+                  "excludedNote": (base_note if M372 else "NaN battery offset or NaN charge-class columns in the master: where the published reconstruction has a row for such a drive it gives zero battery power, so f_gen = 1 by construction") + headline_note,
                   "publishedRowsWithFgenOne": f1, "excludedWithoutPublishedRow": sorted(set(s["excluded_no_battery_inputs"]) - set(pub.file.tolist()))},
         "per100km": {"generator": t["E_gen"], "genToTraction": t["g2t"], "genToBattEngineOn": t["eng_only"], "genToBattDual": t["dual"],
                      "genToBattUpper": t["g2b_master"], "regenToBatt": t["regen"], "battToTractionResidual": t["b2t"]},
@@ -50,9 +78,11 @@ def build():
                       "nInfeasibleDrivesBaseline": base["n_infeasible_alpha_drives"],
                       "label": "implied closure parameter solved from the same data; not an estimate of the generator share of the dual charge"},
         "method": "day-clustered percentile bootstrap (seed 42, 4000 draws), corpus ratio-of-sums",
-        "sources": {"closureDiag": {"path": "analyses/M336_closure_diag.json", "sha256": sha(DIAG)},
-                    "step2": {"path": "analyses/M336_step2_result.json", "sha256": sha(STEP2)}},
-        "_staleness": "computed at M336 on the 489-drive master; carried forward by ingestion; re-run tools/gtr_closure_diag.py, tools/gtr_interval_sens.py and tools/gtr_closure_block.py to refresh",
+        "sources": {"closureDiag": {"path": "analyses/" + PFX + "_closure_diag.json", "sha256": sha(DIAG)},
+                    "step2": {"path": "analyses/" + PFX + "_step2_result.json", "sha256": sha(STEP2)},
+                    **({"fuelReconMaster": {"path": "fuel_recon_master.csv", "sha256": sha(os.path.join(ROOT, "fuel_recon_master.csv"))}} if M372 else {})},
+        "_staleness": ("refreshed at M372 on the sha256-verified originals (M366 basis), same 257-drive set as M336 (ID set asserted before any estimate); producers tools/gtr_closure_diag.py sha256 " + sha(os.path.join(ROOT, "tools", "gtr_closure_diag.py"))[:12] + " and tools/gtr_interval_sens.py sha256 " + sha(os.path.join(ROOT, "tools", "gtr_interval_sens.py"))[:12] + " (run at repo HEAD " + d["m372"]["scriptGit"] + " plus the M372 changes of those two scripts, committed with this milestone); carried forward by ingestion until a refresh stage exists (spec analyses/M372_spec.md); re-run tools/gtr_closure_diag.py --m372, tools/gtr_interval_sens.py --m372 and tools/m372_closure_splice.py to refresh"
+                        if M372 else "computed at M336 on the 489-drive master; carried forward by ingestion; re-run tools/gtr_closure_diag.py, tools/gtr_interval_sens.py and tools/gtr_closure_block.py to refresh"),
     }
 
 

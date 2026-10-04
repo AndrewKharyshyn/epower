@@ -125,12 +125,13 @@ def stats(d, nb=NB, seed=SEED):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, default=0)
+    ap.add_argument("--m372", action="store_true", help="M372: outputs to analyses/M372_*; raw sha256 + published-ID-set checks BEFORE any estimate; M366 basis label")
     a = ap.parse_args()
     dm = pd.read_csv(os.path.join(ROOT, "drive_master.csv"))
     names = _raw_names()
-    drives = []
+    elig = []
     excluded_no_battery = []
-    for _, m in dm.iterrows():
+    for _, m in dm.iterrows():                      # phase 1: eligibility only (no estimate is computed here)
         raw = names.get(_norm(m["file"]))
         if raw is None or str(m.get("ens_outlier_v2")) == "True" or not (float(m["distance_km"]) > 0):
             continue
@@ -139,6 +140,14 @@ def main():
         if pd.isna(m.get("I_offset_A_applied")) or pd.isna(m.get("charge_eng_only_kwh")) or pd.isna(m.get("charge_dual_kwh")):
             excluded_no_battery.append(m["file"])   # M336 audit: NaN offset => zero battery power in the published recon (f_gen=1.0 by construction)
             continue
+        elig.append((m, raw))
+    checks = None
+    if a.m372:
+        import m372_closure_common as CM
+        checks = {"rawOriginals": CM.check_raw_originals({_norm(m["file"]): raw for m, raw in elig}), "baselineSet": CM.assert_baseline_set([m["file"] for m, _ in elig], dm)}
+        print("M372 checks passed:", json.dumps(checks), flush=True)
+    drives = []
+    for m, raw in elig:
         off = float(m.get("I_offset_A_applied", 0.0) or 0.0)
         g = load(raw, off)
         if g is None:
@@ -158,7 +167,7 @@ def main():
          "offset_-1A_anchor_off": {"off_extra": -1.0, "anchor": False}, "offset_+1A_anchor_off": {"off_extra": 1.0, "anchor": False},
          "corner_high_G": {"scen": "optimistic", "eta_gen": 0.97, "eta_pe": 0.99, "paux": 0.2},
          "corner_low_G": {"scen": "conservative", "eta_gen": 0.93, "eta_pe": 0.96, "paux": 1.2}}
-    res = {"milestone": "M336", "step": 2, "scope": "fuel-PID subset only; computed on the former raw/ re-exports (pre-M366); not refreshed on the originals", "n_drives": len(drives), "excluded_no_battery_inputs": excluded_no_battery,
+    res = {"milestone": "M372" if a.m372 else "M336", "step": 2, "scope": ("fuel-PID subset only; " + CM.M372_BASIS) if a.m372 else "fuel-PID subset only; computed on the former raw/ re-exports (pre-M366); not refreshed on the originals", "n_drives": len(drives), "excluded_no_battery_inputs": excluded_no_battery,
            "logger_median_dt_s": round(sample_dt, 3), "variants": {}, "strata": {}}
     base_rows = None
     for name, kw in V.items():
@@ -217,7 +226,10 @@ def main():
                  "ci_newly_contains_0.5": bool(v["f_gen_ci_contains_0p5"] and not b["f_gen_ci_contains_0p5"])} for k, v in res["variants"].items()}
     res["stop_condition_flags"] = flags
     res["stop_triggered"] = any(x["point_crosses_0.5"] or x["ci_newly_contains_0.5"] for x in flags.values())
-    with open(os.path.join(ROOT, "analyses", "M336_step2_result.json"), "w", encoding="utf-8", newline="\n") as fh:
+    if a.m372:
+        import subprocess
+        res["m372"] = {"checks": checks, "scriptGit": subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True).stdout.strip(), "summaryArraysSha256Start": os.environ.get("M372_ARRAYS_SHA", "")}
+    with open(os.path.join(ROOT, "analyses", "M372_step2_result.json" if a.m372 else "M336_step2_result.json"), "w", encoding="utf-8", newline="\n") as fh:
         json.dump(res, fh, indent=1, ensure_ascii=False)
         fh.write("\n")
     print("stop_triggered", res["stop_triggered"])

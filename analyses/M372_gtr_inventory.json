@@ -1,0 +1,144 @@
+{
+ "headline": {
+  "nProduction": 261,
+  "nDrives": 260,
+  "km": 2003.9
+ },
+ "fuelReconMaster": {
+  "nDrives": 261,
+  "nDays": 51,
+  "km": 2024.6
+ },
+ "fuelReconMasterCanonicalClean": {
+  "nDrives": 259,
+  "nDays": 50,
+  "km": 2003.0
+ },
+ "fuelReconMasterCleanDistGt0": {
+  "nDrives": 259,
+  "nDays": 50,
+  "km": 2003.0
+ },
+ "publishedClosureSet": {
+  "nDrives": 257,
+  "nDays": 50,
+  "km": 1996.2,
+  "source": "analyses/M336_closure_perdrive.csv"
+ },
+ "closureSetMinusFuelReconMaster": [],
+ "fuelReconMasterMinusClosureSet": [
+  "20260513_182950.csv",
+  "20260813_144601.csv",
+  "20260813_145651.csv",
+  "20260813_150341.csv"
+ ],
+ "notInClosureReason": {
+  "20260513_182950.csv": {
+   "canonicalClean": false,
+   "distanceGt0": true
+  },
+  "20260813_144601.csv": {
+   "canonicalClean": false,
+   "distanceGt0": true
+  },
+  "20260813_145651.csv": {
+   "canonicalClean": true,
+   "distanceGt0": true
+  },
+  "20260813_150341.csv": {
+   "canonicalClean": true,
+   "distanceGt0": true
+  }
+ },
+ "dateCutoffTable": [
+  {
+   "cutoff": "2026-09-10",
+   "fuelReconRows": 139,
+   "clean": 137,
+   "days": 31,
+   "masterRows": 367
+  },
+  {
+   "cutoff": "2026-09-11",
+   "fuelReconRows": 146,
+   "clean": 144,
+   "days": 32,
+   "masterRows": 374
+  },
+  {
+   "cutoff": "2026-09-12",
+   "fuelReconRows": 153,
+   "clean": 151,
+   "days": 33,
+   "masterRows": 381
+  },
+  {
+   "cutoff": "2026-09-13",
+   "fuelReconRows": 164,
+   "clean": 162,
+   "days": 34,
+   "masterRows": 392
+  },
+  {
+   "cutoff": "2026-09-14",
+   "fuelReconRows": 170,
+   "clean": 168,
+   "days": 35,
+   "masterRows": 398
+  },
+  {
+   "cutoff": "2026-09-15",
+   "fuelReconRows": 173,
+   "clean": 171,
+   "days": 36,
+   "masterRows": 401
+  },
+  {
+   "cutoff": "2026-09-16",
+   "fuelReconRows": 182,
+   "clean": 180,
+   "days": 37,
+   "masterRows": 410
+  },
+  {
+   "cutoff": "2026-09-17",
+   "fuelReconRows": 188,
+   "clean": 186,
+   "days": 38,
+   "masterRows": 416
+  },
+  {
+   "cutoff": "2026-09-18",
+   "fuelReconRows": 190,
+   "clean": 188,
+   "days": 39,
+   "masterRows": 418
+  },
+  {
+   "cutoff": "2026-09-19",
+   "fuelReconRows": 198,
+   "clean": 196,
+   "days": 40,
+   "masterRows": 426
+  },
+  {
+   "cutoff": "2026-09-20",
+   "fuelReconRows": 206,
+   "clean": 204,
+   "days": 41,
+   "masterRows": 434
+  }
+ ],
+ "publishedOldCounts": {
+  "M255_speedSplit_largestBin": 181,
+  "M279_sensitivity_fuel_clean": 181,
+  "M282_simultaneity_total": 170,
+  "crossval": 82
+ },
+ "scriptGit": "752623c",
+ "inputs": {
+  "drive_master.csv": "517f9660984d64847a4dcdaf5d1de8790bd1eed1e86a94b87873bc4090ebce55",
+  "fuel_recon_master.csv": "0d8a09163c2d105f0c9768fce583e4c00e479c287552502744cff82c2f65e647",
+  "analyses/M336_closure_perdrive.csv": "56412ce318983e98fbebfe1ac6dce85a0bfedccd61f16c6738c2d351696cba58"
+ }
+}
