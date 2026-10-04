@@ -18,15 +18,10 @@ before being applied to cohort subsets):
 Reproduces the shipped corpus-wide figures (135/138, 1391.2 km; generator
 15.92, tractionGross 23.88, fGen 0.602, etc.) to the last shipped digit.
 """
+
+# M374: importing this module must not rewrite summary_arrays.json (it did: `refresh_gtr_headline.py` and ad-hoc scripts import `aggregate` / `wavg`,
+# and the old module-level wiring rewrote the payload as a side effect). The functions below stay importable; the wiring runs only as a script.
 import json, pandas as pd
-
-fr = pd.read_csv('fuel_recon_master.csv')
-sdm = pd.read_csv('seasonal_drive_master.csv')[['file', 'thermal_regime']]
-merged = fr.merge(sdm, on='file', how='left')
-assert merged['thermal_regime'].isna().sum() == 0, "unmatched fuel-recon drives"
-
-d = json.load(open('summary_arrays.json'))
-cohort_counts = d['seasonalCharts']['_meta']['cohortCounts']
 
 def wavg(frame, col):
     w = frame['distance_km']
@@ -96,33 +91,49 @@ def aggregate(subset, cohort_label, corpus_total_n):
                 corpus=corpus, flows=flows, driveTypeSplit=dts, basis=basis,
                 productionCheck=dict(distWtGenerator=generator, nAll=corpus_total_n))
 
-R = d['generatorTractionRecon']
-data_all = dict(nProduction=R['nProduction'], nDrives=R['nDrives'],
-                 kmProduction=R['kmProduction'], corpus=R['corpus'], flows=R['flows'],
-                 driveTypeSplit=R['driveTypeSplit'], basis=R['basis'],
-                 productionCheck=R['productionCheck'])
-
-data_warm = aggregate(merged[merged['thermal_regime'] == 'warm'], 'Warm', cohort_counts['warm'])
-data_shoulder = aggregate(merged[merged['thermal_regime'] == 'shoulder'], 'Shoulder', cohort_counts['shoulder'])
-# no cold drives anywhere in the corpus yet (cohortCounts.cold == 0) -- explicit
-# null with the same convention ColdNoData/ cohortOr expect, not a fabricated zero.
-data_cold = None
-
-entry = dict(
+# the entry metadata the wiring sets; exposed so a test can assert the payload still carries exactly these values
+ENTRY_META = dict(
     dependencyClass="thermal",
     pipelineClass="master",
     statisticalUnit=("Fuel/BSFC-reconstructed generator\u2192traction electrical energy "
                       "(Path B, model-derived, not measured); f_gen = generator-coincident "
                       "share of gross traction demand; clean = f_gen not NaN."),
-    data=dict(all=data_all, warm=data_warm, shoulder=data_shoulder, cold=data_cold),
 )
 
-d['seasonalCharts']['charts']['GeneratorTractionRecon'] = entry
-print('warm:', json.dumps(data_warm, indent=2))
-print()
-print('shoulder:', json.dumps(data_shoulder, indent=2))
 
-with open('summary_arrays.json', 'w') as f:
-    json.dump(d, f, ensure_ascii=False, separators=(',', ':'))
-print()
-print('seasonalCharts.charts now has', len(d['seasonalCharts']['charts']), 'entries')
+def main():
+    fr = pd.read_csv('fuel_recon_master.csv')
+    sdm = pd.read_csv('seasonal_drive_master.csv')[['file', 'thermal_regime']]
+    merged = fr.merge(sdm, on='file', how='left')
+    assert merged['thermal_regime'].isna().sum() == 0, "unmatched fuel-recon drives"
+
+    d = json.load(open('summary_arrays.json'))
+    cohort_counts = d['seasonalCharts']['_meta']['cohortCounts']
+
+    R = d['generatorTractionRecon']
+    data_all = dict(nProduction=R['nProduction'], nDrives=R['nDrives'],
+                     kmProduction=R['kmProduction'], corpus=R['corpus'], flows=R['flows'],
+                     driveTypeSplit=R['driveTypeSplit'], basis=R['basis'],
+                     productionCheck=R['productionCheck'])
+
+    data_warm = aggregate(merged[merged['thermal_regime'] == 'warm'], 'Warm', cohort_counts['warm'])
+    data_shoulder = aggregate(merged[merged['thermal_regime'] == 'shoulder'], 'Shoulder', cohort_counts['shoulder'])
+    # no cold drives anywhere in the corpus yet (cohortCounts.cold == 0) -- explicit
+    # null with the same convention ColdNoData/ cohortOr expect, not a fabricated zero.
+    data_cold = None
+
+    entry = dict(**ENTRY_META, data=dict(all=data_all, warm=data_warm, shoulder=data_shoulder, cold=data_cold))
+
+    d['seasonalCharts']['charts']['GeneratorTractionRecon'] = entry
+    print('warm:', json.dumps(data_warm, indent=2))
+    print()
+    print('shoulder:', json.dumps(data_shoulder, indent=2))
+
+    with open('summary_arrays.json', 'w') as f:
+        json.dump(d, f, ensure_ascii=False, separators=(',', ':'))
+    print()
+    print('seasonalCharts.charts now has', len(d['seasonalCharts']['charts']), 'entries')
+
+
+if __name__ == "__main__":
+    main()
