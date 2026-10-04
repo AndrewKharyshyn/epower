@@ -1,0 +1,155 @@
+{
+ "milestone": "M365",
+ "note": "read-only provenance-sensitivity comparison (originals minus raw/); not a correction; owner-approved 2026-10-03",
+ "nFailingFiles": 333,
+ "inputs": {
+  "driveMasterMd5": "bd9d10726bb064d857cf9ff98d2b7338",
+  "originalsDir": "originals_recovered (outside the repo, read-only)"
+ },
+ "A_chargingSubState": {
+  "nTrips": 95,
+  "nDays": 35,
+  "byDeadbandKw": {
+   "db0.1": {
+    "litresCharging": {
+     "raw": 42.907,
+     "originals": 42.731
+    },
+    "stationaryLitres": {
+     "raw": 0.718,
+     "originals": 0.714
+    },
+    "movingLitres": {
+     "raw": 42.189,
+     "originals": 42.016
+    },
+    "chargingShare": {
+     "raw": 0.76926,
+     "originals": 0.76788
+    },
+    "shareDifferenceOriginalsMinusRaw": {
+     "est": -0.00138,
+     "ci95": [
+      -0.00196,
+      -0.00079
+     ],
+     "nDays": 35
+    }
+   },
+   "db0.5": {
+    "litresCharging": {
+     "raw": 42.316,
+     "originals": 42.069
+    },
+    "stationaryLitres": {
+     "raw": 0.709,
+     "originals": 0.7
+    },
+    "movingLitres": {
+     "raw": 41.607,
+     "originals": 41.37
+    },
+    "chargingShare": {
+     "raw": 0.75868,
+     "originals": 0.756
+    },
+    "shareDifferenceOriginalsMinusRaw": {
+     "est": -0.00268,
+     "ci95": [
+      -0.00347,
+      -0.00169
+     ],
+     "nDays": 35
+    }
+   },
+   "db1": {
+    "litresCharging": {
+     "raw": 41.163,
+     "originals": 41.222
+    },
+    "stationaryLitres": {
+     "raw": 0.67,
+     "originals": 0.67
+    },
+    "movingLitres": {
+     "raw": 40.493,
+     "originals": 40.551
+    },
+    "chargingShare": {
+     "raw": 0.738,
+     "originals": 0.74077
+    },
+    "shareDifferenceOriginalsMinusRaw": {
+     "est": 0.00277,
+     "ci95": [
+      0.00177,
+      0.00367
+     ],
+     "nDays": 35
+    }
+   }
+  },
+  "totalLitres": {
+   "raw": 55.776,
+   "originals": 55.647
+  }
+ },
+ "B_phaseEnergies": {
+  "nDrives": 333,
+  "raw": {
+   "nCycles": 1558,
+   "launch": {
+    "regenZeroShare": 0.8136,
+    "regenMedian": 0.0,
+    "regenN": 1556,
+    "dischargeZeroShare": 0.0418,
+    "dischargeMedian": 3.98,
+    "netMedian": 3.62
+   },
+   "approach": {
+    "regenZeroShare": 0.6472,
+    "regenMedian": 0.0,
+    "regenN": 1556,
+    "dischargeZeroShare": 0.0925,
+    "dischargeMedian": 1.7,
+    "netMedian": 1.41
+   },
+   "cycle": {
+    "regenZeroShare": 0.6275,
+    "regenMedian": 0.0,
+    "regenN": 1557,
+    "dischargeZeroShare": 0.0334,
+    "dischargeMedian": 7.66,
+    "netMedian": 5.94
+   }
+  },
+  "originals": {
+   "nCycles": 1558,
+   "launch": {
+    "regenZeroShare": 0.8098,
+    "regenMedian": 0.0,
+    "regenN": 1556,
+    "dischargeZeroShare": 0.0405,
+    "dischargeMedian": 3.94,
+    "netMedian": 3.65
+   },
+   "approach": {
+    "regenZeroShare": 0.642,
+    "regenMedian": 0.0,
+    "regenN": 1556,
+    "dischargeZeroShare": 0.0925,
+    "dischargeMedian": 1.71,
+    "netMedian": 1.43
+   },
+   "cycle": {
+    "regenZeroShare": 0.6249,
+    "regenMedian": 0.0,
+    "regenN": 1557,
+    "dischargeZeroShare": 0.0328,
+    "dischargeMedian": 7.67,
+    "netMedian": 5.85
+   }
+  },
+  "cacheBuildSeconds": 122.0
+ }
+}
