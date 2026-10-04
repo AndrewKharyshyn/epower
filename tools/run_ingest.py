@@ -48,7 +48,12 @@ def main():
     shim = os.path.join(ROOT, "tools", "eol_shim")      # text-mode writes default to LF (repo canonical bytes; see tools/eol_shim/sitecustomize.py)
     env["PYTHONPATH"] = shim + (os.pathsep + env["PYTHONPATH"] if env.get("PYTHONPATH") else "")
     if os.path.isdir(os.path.join(ROOT, "raw")):
-        env.setdefault("XT_RAW_DIR", os.path.join(ROOT, "raw"))
+        # M369: always raw/ (was setdefault: an inherited XT_RAW_DIR=raw_only, the staged view without the comparison files, failed preflight).
+        # Stages that need the staged view declare it in tools/ingest_stages.json "env".
+        want = os.path.join(ROOT, "raw")
+        if env.get("XT_RAW_DIR") and os.path.abspath(env["XT_RAW_DIR"]) != os.path.abspath(want):
+            print(f"NOTE: XT_RAW_DIR={env['XT_RAW_DIR']} overridden with {want} for run_ingest (per-stage env still applies)", file=sys.stderr)
+        env["XT_RAW_DIR"] = want
     status = {"run": ts, "stages": [], "result": "ok"}
     rc_final = 0
     for s in stages:

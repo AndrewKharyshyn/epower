@@ -132,7 +132,7 @@ def main():
                "cold_ins": dm_r[~dm_r.thermal_regime.isin(["warm", "shoulder"])].drop(columns=["thermal_regime"]).reset_index(drop=True)}   # below-minimum-support cold drives: conservation only, never spliced
     ch = A["seasonalCharts"]["charts"]
     raw_ids = [k for k, v in ch.items() if v.get("pipelineClass") == "raw" and (only is None or k in only)]
-    fl = drc.make_frame_loader()
+    fl = drc.make_frame_loader(raw_dir=RAW_DIR)   # M369: a frame whose recorded raw md5 differs from the file on disk is treated as missing
     cache_idx = None
     try:
         cache_idx = json.load(open(os.path.join(drc.CACHE_DIR, "manifest.json"), encoding="utf-8"))
@@ -150,7 +150,7 @@ def main():
     for c, sub in subsets.items():
         cf, cr = Counting(fl), Counting(raw_loader)
         t = time.time()
-        pk = os.path.join(CACHE, f"catB_{c}_{len(sub)}_{hashlib.md5(','.join(sub.file).encode()).hexdigest()[:8]}.pkl")
+        pk = os.path.join(CACHE, f"catB_{c}_{len(sub)}_{drc.content_key(sub.file, code_paths=[C.__file__, drc.__file__])}.pkl")
         if os.path.exists(pk) and "--no-cache" not in sys.argv:
             B = pickle.load(open(pk, "rb")); ld = None
         else:
@@ -170,7 +170,7 @@ def main():
             if k not in bl:
                 continue
             t = time.time()
-            pk = os.path.join(CACHE, f"b_{k}_{c}_{len(sub)}_{hashlib.md5(','.join(sub.file).encode()).hexdigest()[:8]}.pkl")
+            pk = os.path.join(CACHE, f"b_{k}_{c}_{len(sub)}_{drc.content_key(sub.file, code_paths=[C.__file__, drc.__file__])}.pkl")
             try:
                 if os.path.exists(pk) and "--no-cache" not in sys.argv:
                     v = pickle.load(open(pk, "rb"))
