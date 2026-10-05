@@ -1,41 +1,62 @@
 {
- "generated_utc": "2026-10-05T08:37:32+00:00",
- "has_baseline": false,
+ "generated_utc": "2026-10-05T12:27:11+00:00",
+ "has_baseline": true,
  "flags": [],
  "route_to_audit": false,
  "kpis": {
   "meta.totalDrives": {
    "value": 524,
-   "ci": null
+   "ci": null,
+   "prev": 489,
+   "delta": 35
   },
   "EnergyIntensity.all (kWh/100km, canonical-clean)": {
    "value": 17.759971850743913,
    "ci": [
     16.037268313589806,
     20.18513680062086
-   ]
+   ],
+   "prev": 17.590132809489347,
+   "delta": 0.16983904125456561,
+   "outside_prev_ci": false,
+   "delta_over_halfwidth": 0.08413448592879215,
+   "cumulative_drift": 0.16983904125456561
   },
   "EnergyIntensity.warm": {
    "value": 17.082815533980586,
    "ci": [
     15.513147736353584,
     19.403531445194353
-   ]
+   ],
+   "prev": 16.990991081145317,
+   "delta": 0.09182445283526874,
+   "outside_prev_ci": false,
+   "delta_over_halfwidth": 0.04736852427823086,
+   "cumulative_drift": 0.09182445283526874
   },
   "EnergyIntensity.shoulder": {
    "value": 26.928784895576964,
    "ci": [
     24.980484118870486,
     29.85624680754112
-   ]
+   ],
+   "prev": 26.796751127001393,
+   "delta": 0.13203376857557103,
+   "outside_prev_ci": false,
+   "delta_over_halfwidth": 0.04902267243020256,
+   "cumulative_drift": 0.13203376857557103
   },
   "generatorTractionRecon.corpus.fGen": {
    "value": 0.459,
-   "ci": null
+   "ci": null,
+   "prev": 0.465,
+   "delta": -0.006000000000000005
   },
   "generatorTractionRecon.corpus.etaBus": {
    "value": 0.325,
-   "ci": null
+   "ci": null,
+   "prev": 0.327,
+   "delta": -0.0020000000000000018
   }
  },
  "gtrFamily": {
@@ -95,5 +116,555 @@
   },
   "changedPaths": 124,
   "stops": []
+ },
+ "gtrClosure": {
+  "keyDiffs": [],
+  "ciChecks": [
+   {
+    "path": "/alphaStar",
+    "prev": [
+     0.618,
+     [
+      0.588,
+      0.64
+     ]
+    ],
+    "new": [
+     0.616,
+     [
+      0.591,
+      0.638
+     ]
+    ],
+    "newEstInsidePrevCI": true,
+    "ciWidthRatio": 0.9038
+   },
+   {
+    "path": "/excessWithoutDual",
+    "prev": [
+     -0.1047,
+     [
+      -0.1341,
+      -0.0815
+     ]
+    ],
+    "new": [
+     -0.1083,
+     [
+      -0.1376,
+      -0.0842
+     ]
+    ],
+    "newEstInsidePrevCI": true,
+    "ciWidthRatio": 1.0152
+   },
+   {
+    "path": "/fGen",
+    "prev": [
+     0.4651,
+     [
+      0.38,
+      0.5439
+     ]
+    ],
+    "new": [
+     0.4595,
+     [
+      0.3789,
+      0.5401
+     ]
+    ],
+    "newEstInsidePrevCI": true,
+    "ciWidthRatio": 0.9835
+   },
+   {
+    "path": "/nodeExcess",
+    "prev": [
+     0.0648,
+     [
+      0.049,
+      0.0865
+     ]
+    ],
+    "new": [
+     0.0675,
+     [
+      0.0508,
+      0.0893
+     ]
+    ],
+    "newEstInsidePrevCI": true,
+    "ciWidthRatio": 1.0267
+   }
+  ],
+  "pointOnly": [
+   {
+    "path": "/alphaStar/nInfeasibleDrivesBaseline",
+    "prev": 15,
+    "new": 18,
+    "comparedAs": "share of set size",
+    "prevShare": 0.0584,
+    "newShare": 0.0616,
+    "absDiff": 0.003278,
+    "relDiff": 0.05616,
+    "withinBand": true
+   },
+   {
+    "path": "/alphaStar/variantMax",
+    "prev": 0.76,
+    "new": 0.753,
+    "absDiff": 0.007,
+    "relDiff": 0.00921,
+    "withinBand": true
+   },
+   {
+    "path": "/alphaStar/variantMin",
+    "prev": 0.208,
+    "new": 0.218,
+    "absDiff": 0.01,
+    "relDiff": 0.04808,
+    "withinBand": true
+   },
+   {
+    "path": "/fGen/nVariants",
+    "prev": 23,
+    "new": 23,
+    "absDiff": 0,
+    "relDiff": 0.0,
+    "withinBand": true
+   },
+   {
+    "path": "/fGen/variantMax",
+    "prev": 0.489,
+    "new": 0.4834,
+    "absDiff": 0.0056,
+    "relDiff": 0.01145,
+    "withinBand": true
+   },
+   {
+    "path": "/fGen/variantMin",
+    "prev": 0.4209,
+    "new": 0.4148,
+    "absDiff": 0.0061,
+    "relDiff": 0.01449,
+    "withinBand": true
+   },
+   {
+    "path": "/interval/hi",
+    "prev": 0.0648,
+    "new": 0.0675,
+    "absDiff": 0.0027,
+    "relDiff": 0.04167,
+    "withinBand": true
+   },
+   {
+    "path": "/interval/lo",
+    "prev": -0.1047,
+    "new": -0.1083,
+    "absDiff": 0.0036,
+    "relDiff": 0.03438,
+    "withinBand": true
+   },
+   {
+    "path": "/interval/nVariants",
+    "prev": 23,
+    "new": 23,
+    "absDiff": 0,
+    "relDiff": 0.0,
+    "withinBand": true
+   },
+   {
+    "path": "/nodeExcess/tolerance",
+    "prev": 0.05,
+    "new": 0.05,
+    "absDiff": 0.0,
+    "relDiff": 0.0,
+    "withinBand": true
+   },
+   {
+    "path": "/per100km/battToTractionResidual",
+    "prev": 9.881,
+    "new": 10.054,
+    "absDiff": 0.173,
+    "relDiff": 0.01751,
+    "withinBand": true
+   },
+   {
+    "path": "/per100km/genToBattDual",
+    "prev": 2.697,
+    "new": 2.814,
+    "absDiff": 0.117,
+    "relDiff": 0.04338,
+    "withinBand": true
+   },
+   {
+    "path": "/per100km/genToBattEngineOn",
+    "prev": 5.651,
+    "new": 5.725,
+    "absDiff": 0.074,
+    "relDiff": 0.0131,
+    "withinBand": true
+   },
+   {
+    "path": "/per100km/genToBattUpper",
+    "prev": 8.348,
+    "new": 8.538,
+    "absDiff": 0.19,
+    "relDiff": 0.02276,
+    "withinBand": true
+   },
+   {
+    "path": "/per100km/genToTraction",
+    "prev": 8.593,
+    "new": 8.547,
+    "absDiff": 0.046,
+    "relDiff": 0.00535,
+    "withinBand": true
+   },
+   {
+    "path": "/per100km/generator",
+    "prev": 15.91,
+    "new": 16.004,
+    "absDiff": 0.094,
+    "relDiff": 0.00591,
+    "withinBand": true
+   },
+   {
+    "path": "/per100km/regenToBatt",
+    "prev": 2.987,
+    "new": 3.056,
+    "absDiff": 0.069,
+    "relDiff": 0.0231,
+    "withinBand": true
+   }
+  ],
+  "boolFlips": [],
+  "typeChanges": [],
+  "listChanges": [],
+  "scopeChanges": [
+   {
+    "path": "/scope/km",
+    "prev": 1996.2,
+    "new": 2096.0
+   },
+   {
+    "path": "/scope/nCanonical",
+    "prev": 489,
+    "new": 524
+   },
+   {
+    "path": "/scope/nDays",
+    "prev": 50,
+    "new": 54
+   },
+   {
+    "path": "/scope/nDrives",
+    "prev": 257,
+    "new": 292
+   }
+  ],
+  "stringChanges": [
+   {
+    "path": "/_staleness"
+   },
+   {
+    "path": "/scope/excludedNote"
+   },
+   {
+    "path": "/sources/closureDiag/path"
+   },
+   {
+    "path": "/sources/closureDiag/sha256"
+   },
+   {
+    "path": "/sources/fuelReconMaster/sha256"
+   },
+   {
+    "path": "/sources/step2/path"
+   },
+   {
+    "path": "/sources/step2/sha256"
+   }
+  ],
+  "stops": [],
+  "escalations": [],
+  "units": {
+   "fractions": "0-1 unless the leaf name ends in Pct",
+   "per100km": "kWh per 100 km",
+   "scope": "counts, days, km"
+  },
+  "summary": {
+   "nCiChecked": 4,
+   "nInsidePreviousCI": 4,
+   "nPointOnly": 17,
+   "nPointOnlyWithinBand": 17,
+   "nStops": 0,
+   "nEscalations": 0,
+   "nStringChanges": 7
+  },
+  "set": {
+   "nDrives": 292,
+   "nDays": 54,
+   "km": 2096.0,
+   "nPrevious": 257,
+   "nNew": 35,
+   "newIds": [
+    {
+     "file": "2026-09-30_20-12-47.csv",
+     "date": "2026-09-30",
+     "km": 1.8,
+     "type": "urban"
+    },
+    {
+     "file": "2026-09-30_20-39-00.csv",
+     "date": "2026-09-30",
+     "km": 11.8,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-01_07-38-47.csv",
+     "date": "2026-10-01",
+     "km": 1.2,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-01_07-57-02.csv",
+     "date": "2026-10-01",
+     "km": 0.7,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-01_08-14-08.csv",
+     "date": "2026-10-01",
+     "km": 1.5,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-01_16-45-44.csv",
+     "date": "2026-10-01",
+     "km": 1.3,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-01_16-57-31.csv",
+     "date": "2026-10-01",
+     "km": 1.4,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-01_17-40-07.csv",
+     "date": "2026-10-01",
+     "km": 1.3,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-01_18-19-32.csv",
+     "date": "2026-10-01",
+     "km": 5.9,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-01_19-58-38.csv",
+     "date": "2026-10-01",
+     "km": 17.4,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-02_07-50-49.csv",
+     "date": "2026-10-02",
+     "km": 1.2,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-02_08-04-04.csv",
+     "date": "2026-10-02",
+     "km": 1.3,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-02_19-04-06.csv",
+     "date": "2026-10-02",
+     "km": 3.8,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-02_19-35-32.csv",
+     "date": "2026-10-02",
+     "km": 0.3,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-02_21-02-25.csv",
+     "date": "2026-10-02",
+     "km": 2.3,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-03_09-48-44.csv",
+     "date": "2026-10-03",
+     "km": 2.0,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-03_09-58-07.csv",
+     "date": "2026-10-03",
+     "km": 0.3,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-03_10-03-24.csv",
+     "date": "2026-10-03",
+     "km": 0.3,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-03_12-06-18.csv",
+     "date": "2026-10-03",
+     "km": 1.9,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-03_14-33-03.csv",
+     "date": "2026-10-03",
+     "km": 2.0,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-03_15-01-24.csv",
+     "date": "2026-10-03",
+     "km": 2.3,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-03_16-02-23.csv",
+     "date": "2026-10-03",
+     "km": 2.8,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-03_16-19-05.csv",
+     "date": "2026-10-03",
+     "km": 2.4,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-03_16-39-03.csv",
+     "date": "2026-10-03",
+     "km": 1.9,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-03_17-05-43.csv",
+     "date": "2026-10-03",
+     "km": 4.9,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-03_17-27-25.csv",
+     "date": "2026-10-03",
+     "km": 0.8,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-03_18-32-35.csv",
+     "date": "2026-10-03",
+     "km": 9.8,
+     "type": "mixed"
+    },
+    {
+     "file": "2026-10-03_18-52-09.csv",
+     "date": "2026-10-03",
+     "km": 3.6,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-04_11-38-19.csv",
+     "date": "2026-10-04",
+     "km": 3.0,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-04_12-02-58.csv",
+     "date": "2026-10-04",
+     "km": 1.4,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-04_12-13-56.csv",
+     "date": "2026-10-04",
+     "km": 0.7,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-04_12-52-59.csv",
+     "date": "2026-10-04",
+     "km": 1.1,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-04_13-05-56.csv",
+     "date": "2026-10-04",
+     "km": 2.0,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-04_14-38-51.csv",
+     "date": "2026-10-04",
+     "km": 1.1,
+     "type": "urban"
+    },
+    {
+     "file": "2026-10-04_14-52-00.csv",
+     "date": "2026-10-04",
+     "km": 2.3,
+     "type": "urban"
+    }
+   ],
+   "previousPerDrive": {
+    "path": "analyses/closure_baselines/perdrive_257drives_recal.csv",
+    "sha256": "2354a91fdfb91dba6cdc959f3e69e4dab51db97a8187a71a6b317b98221c999a",
+    "nDrives": 257
+   }
+  },
+  "checks": {
+   "rawOriginals": {
+    "nChecked": 292,
+    "nMismatch": 0
+   },
+   "flags": {
+    "nCompared": 512,
+    "nDiverging": 0
+   },
+   "previousIdentity": {
+    "nIdentical": 257,
+    "columns": 23
+   }
+  },
+  "specSha256Frozen": "96b1297f047eaaf46314c797b2d32f63626b45cadbb90f20335cc1bb45c3e745",
+  "infeasibleAlphaDrives": {
+   "n": 18,
+   "inPreviousSet": [
+    "2026-09-14_07-50-59.csv",
+    "2026-09-16_14-01-15.csv",
+    "2026-09-17_08-17-51.csv",
+    "2026-09-18_08-01-32.csv",
+    "2026-09-25_13-48-33.csv",
+    "2026-09-30_08-21-17.csv",
+    "20260515_075207.csv",
+    "20260603_122008.csv",
+    "20260814_101007.csv",
+    "20260901_074917.csv",
+    "20260902_074300.csv",
+    "20260904_080352.csv",
+    "20260905_123511.csv",
+    "20260906_122920.csv",
+    "20260909_140527.csv"
+   ],
+   "inNewDrives": [
+    "2026-10-01_07-57-02.csv",
+    "2026-10-02_07-50-49.csv",
+    "2026-10-02_08-04-04.csv"
+   ]
+  }
  }
 }
