@@ -59,7 +59,10 @@ def dayboot(d, fn, nb=NB, seed=SEED):
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--m372", action="store_true", help="M372: outputs to analyses/M372_*; raw sha256 + published-ID-set checks BEFORE any estimate; M366 basis label")
+    ap.add_argument("--ingest", action="store_true", help="M377c: ingestion mode: outputs to analyses/M377c_*; expected-set rule (previous set pinned in analyses/gtr_closure_record.json) instead of the M336 baseline equality")
+    ap.add_argument("--repin-reason", help="M377c: ONE-TIME re-pin of the previous per-drive file (after an acknowledged recalibration and a passing attribution test); skips the identity check and writes the new pin")
     a = ap.parse_args()
+    assert not (a.m372 and a.ingest), "--m372 and --ingest are exclusive"
     dm = pd.read_csv(os.path.join(ROOT, "drive_master.csv"))
     names = _raw_names()
     skipped = {"no_file": 0, "no_fuel": 0, "outlier": 0, "none": 0}
@@ -74,6 +77,10 @@ def main():
             skipped["no_battery_inputs"] = skipped.get("no_battery_inputs", 0) + 1; continue   # M336 audit: NaN offset => zero battery power in the published recon
         elig.append((f, m, raw))
     checks = None
+    if a.ingest:
+        import m372_closure_common as CM
+        checks = {"rawOriginals": CM.check_raw_originals({_norm(f): raw for f, _, raw in elig}), "flags": CM.assert_flags_equal(dm), "expectedSet": CM.assert_expected_set([f for f, _, _ in elig], dm)}
+        print("M377c checks passed:", json.dumps({k: v for k, v in checks.items() if k != "expectedSet"}), flush=True)
     if a.m372:
         import m372_closure_common as CM
         checks = {"rawOriginals": CM.check_raw_originals({_norm(f): raw for f, _, raw in elig}), "baselineSet": CM.assert_baseline_set([f for f, _, _ in elig], dm)}
@@ -94,8 +101,16 @@ def main():
     d["batt_in"] = d.g2b_master + d.regen
     d["batt_resid"] = d.batt_in - d.b2t
     d["batt_resid_modelg2b"] = d.g2b_model + d.regen - d.b2t
-    PFX = "M372_closure" if a.m372 else "M336_closure"
-    assert not a.m372 or PFX.startswith("M372"), "M372 mode must never write M336 files"
+    PFX = "M377c_closure" if a.ingest else ("M372_closure" if a.m372 else "M336_closure")
+    assert not (a.m372 or a.ingest) or not PFX.startswith("M336"), "M372 / ingestion mode must never write M336 files"
+    if a.ingest:
+        import m372_closure_common as CM
+        _prev, _rec = CM.previous_perdrive()
+        if a.repin_reason:
+            checks["repin"] = CM.repin_previous(d, _prev, _rec, a.repin_reason)
+            print("M377c RE-PIN written:", json.dumps(checks["repin"]["previousPerDrive"]), flush=True)
+        else:
+            checks["previousIdentity"] = CM.assert_previous_identity(d, _prev)
     d.round(5).to_csv(os.path.join(ROOT, "analyses", PFX + "_perdrive.csv"), index=False, lineterminator="\n")
     tot = {c: ratio(d, c) for c in ["E_gen", "E_gen_ps", "g2t", "g2b_master", "g2b_model", "eng_only", "dual", "regen", "b2t", "trac",
                                     "excess", "excess_engonly", "excess_ps", "gen_def_gap", "batt_resid", "batt_resid_modelg2b"]}
@@ -103,7 +118,7 @@ def main():
     relv = {"excess": rel, "excess_engonly": lambda x: float(x.excess_engonly.sum() / x.E_gen.sum()),
             "excess_ps": lambda x: float(x.excess_ps.sum() / x.E_gen_ps.sum()),
             "gen_def_gap": lambda x: float(x.gen_def_gap.sum() / x.E_gen.sum())}
-    res = {"milestone": "M372" if a.m372 else "M336", "step": 1, "basis": ((CM.M372_BASIS + "; ") if a.m372 else "raw/ via XT_RAW_DIR (F03: lower-precision re-exports; published-pipeline basis); ") + "canonical-clean (ens_outlier_v2 False), distance>0, fuel PID",
+    res = {"milestone": "M377c" if a.ingest else ("M372" if a.m372 else "M336"), "step": 1, "basis": ((CM.M372_BASIS + "; ") if (a.m372 or a.ingest) else "raw/ via XT_RAW_DIR (F03: lower-precision re-exports; published-pipeline basis); ") + "canonical-clean (ens_outlier_v2 False), distance>0, fuel PID",
            "n_drives": int(len(d)), "n_days": int(d.date.nunique()), "km": float(d.km.sum()), "skipped": skipped,
            "per100km_totals": {k: round(v, 3) for k, v in tot.items()},
            "relative_to_generator": {}, "closure_rule": "95% day-clustered CI of excess/E_gen inside +/-5% overall and per drive-type stratum with n>=10",
@@ -123,7 +138,7 @@ def main():
     res["exploratory_corr_with_excess_per_km"] = {c: round(float(np.corrcoef((dd.excess / dd.km).fillna(0), (dd[c] / (dd.km if c in ("excess", "gen_def_gap") else 1)).fillna(0))[0, 1]), 3) for c in cols[1:]}
     res["share_drives_excess_positive"] = round(float((d.excess > 0).mean()), 3)
     res["share_dual_in_g2b_master"] = round(float(d.dual.sum() / d.g2b_master.sum()), 4)
-    if a.m372:
+    if a.m372 or a.ingest:
         import subprocess
         res["m372"] = {"checks": checks, "scriptGit": subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True).stdout.strip(), "summaryArraysSha256Start": os.environ.get("M372_ARRAYS_SHA", "")}
     with open(os.path.join(ROOT, "analyses", PFX + "_diag.json"), "w", encoding="utf-8", newline="\n") as fh:

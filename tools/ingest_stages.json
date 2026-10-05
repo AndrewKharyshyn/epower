@@ -158,6 +158,20 @@
    ]
   },
   {
+   "id": "gtr_closure_refresh",
+   "title": "M377c: gtrClosure recomputed on the live corpus (producers in --ingest mode: expected-set rule, previous-ID identity, raw sha256, flag equality) + allow-listed splice; STOP on CI breach / flip / key-set / type change / escalation band; writes analyses/gtr_closure_delta.json (about 15 min)",
+   "cmd": [
+    "python3",
+    "tools/gtr_closure_refresh.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json",
+    "analyses/gtr_closure_delta.json",
+    "analyses/gtr_closure_record.json"
+   ]
+  },
+  {
    "id": "fuel_contract_build",
    "title": "M334 fuel contract (coverage from raw headers/values, fuel_recon_master.csv, constants) before post_steps injects it",
    "cmd": [

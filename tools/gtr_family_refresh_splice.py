@@ -41,6 +41,18 @@ def walk(a, b, path=""):
         yield path
 
 
+def _finish(A, new, delta, stops):
+    if stops:
+        return None, delta, stops
+    # ---- deep diff against the allow-list ----
+    bad = [p for p in walk(A, new) if not any(p == a or p.startswith(a + "/") or p.startswith(a + "[") for a in ALLOW)]
+    if bad:
+        stops.append("deep-diff outside the allow-list: %s" % bad[:5])
+        return None, delta, stops
+    delta["changedPaths"] = len(list(walk(A, new)))
+    return new, delta, stops
+
+
 def plan(A, O, label, spec_sha, master_md5):
     """Pure core (testable): returns (new_arrays, delta, stops)."""
     stops = []
@@ -148,12 +160,16 @@ def plan(A, O, label, spec_sha, master_md5):
     E.update(current=cur, nFuelInstrumentedRows=n_fuel, excluded=excluded)
     E["basisFrozenRecord"] = "previous / changedFields / sensitivityNote: M375 record (489 drives), not recomputed; current / excluded / nFuelInstrumentedRows: live files"
     # ---- closure: set note from the files, numbers carried ----
+    carried = "carriedAtIngestion" in G["gtrClosure"]["scope"] or "gtrClosure" in G["staleBlocks"]["blocks"]
+    if not carried:          # M377c: the closure is refreshed by its own stage (gtr_closure_refresh), which regenerates the set note
+        return _finish(A, new, delta, stops)
     sys.argv = [sys.argv[0]] + [a for a in sys.argv[1:] if a != "--m372"] + ["--m372"]
     import gtr_closure_block as GB
     cb = GB.build(carried_ok=True)
     oldc = copy.deepcopy(G["gtrClosure"])
     cb["scope"]["nCanonical"] = oldc["scope"]["nCanonical"]          # carried basis (M372), not the live corpus size
     cb["sources"] = copy.deepcopy(oldc["sources"])                    # carried basis: the source hashes of the M372 run, not of the live files
+    cb["_staleness"] = oldc["_staleness"]                              # carried basis: the producers' hashes of the M372 run
     newc = copy.deepcopy(cb)
     oldc["scope"].pop("carriedAtIngestion", None)       # idempotence: the disclosure key written by a previous run is not part of the regenerated block
     oldc["scope"]["excludedNote"] = newc["scope"]["excludedNote"]
@@ -170,15 +186,7 @@ def plan(A, O, label, spec_sha, master_md5):
             sb["perBlock"] = [p for p in sb["perBlock"]] + [{"block": "gtrClosure", "basisMilestone": "M372", "nDrives": sc["nDrives"], "nDays": sc["nDays"], "rawBasis": "raw/ = sha256-verified originals (M366)",
                                                               "status": "carried at the M372 set (%d drives); not recomputed on the live corpus; refresh pending (M377c)" % sc["nDrives"], "source": "payload generatorTractionRecon.gtrClosure"}]
             sb["perBlock"].sort(key=lambda p: sb["blocks"].index(p["block"]))
-    if stops:
-        return None, delta, stops
-    # ---- deep diff against the allow-list ----
-    bad = [p for p in walk(A, new) if not any(p == a or p.startswith(a + "/") or p.startswith(a + "[") for a in ALLOW)]
-    if bad:
-        stops.append("deep-diff outside the allow-list: %s" % bad[:5])
-        return None, delta, stops
-    delta["changedPaths"] = len(list(walk(A, new)))
-    return new, delta, stops
+    return _finish(A, new, delta, stops)
 
 
 def main():

@@ -8,8 +8,9 @@ import hashlib, json, os, sys
 import pandas as pd
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 ARR = os.path.join(ROOT, "summary_arrays.json")
-M372 = "--m372" in sys.argv     # M372: regenerated block from analyses/M372_* (spec analyses/M372_spec.md Rev 2); default = the M336 files
-PFX = "M372" if M372 else "M336"
+M377C = "--m377c" in sys.argv   # M377c: block recomputed on the live corpus at ingestion (spec analyses/M377c_spec.md Rev 2); inputs analyses/M377c_*
+M372 = "--m372" in sys.argv or M377C     # M372: regenerated block from analyses/M372_* (spec analyses/M372_spec.md Rev 2); default = the M336 files; M377c uses the M372 labels and notes on its own files
+PFX = "M377c" if M377C else ("M372" if M372 else "M336")
 DIAG = os.path.join(ROOT, "analyses", PFX + "_closure_diag.json")
 STEP2 = os.path.join(ROOT, "analyses", PFX + ("_step2_result.json"))
 
@@ -44,7 +45,7 @@ def build(carried_ok=False):
         import eligibility as EL
         head_all = set(fr.file)                                                      # fuel-instrumented rows of fuel_recon_master.csv
         head = head_all - EL.excluded_files(EL.load_flags(os.path.join(ROOT, "drive_master.csv")), fr.file)     # headline set since M375: canonical-clean (ens_outlier_v2)
-        closure = set(pd.read_csv(os.path.join(ROOT, "analyses", "M372_closure_perdrive.csv")).file)
+        closure = set(pd.read_csv(os.path.join(ROOT, "analyses", PFX + "_closure_perdrive.csv")).file)
         nan_in = set(s["excluded_no_battery_inputs"])
         reasons = {f: ("NaN battery inputs" if f in nan_in else ("added after the carried closure set" if carried_ok else "other")) for f in sorted(head - closure)}
         assert not (closure - head), "closure drives outside the headline set"
@@ -54,7 +55,7 @@ def build(carried_ok=False):
         headline_note = (f". Set note (as of the M375 eligibility alignment): the closure set is {len(closure)} drives; the headline set is the {len(head)} canonical-clean (ens_outlier_v2) of {len(head_all)} fuel-instrumented drives, "
                          f"{len(head)} - {len(reasons)} = {len(closure)}; headline drives not in the closure: " + "; ".join(f"{f.replace('.csv', '')} ({r})" for f, r in reasons.items())
                          + ("; NaN-battery-input drive(s) in neither set (no published row or canonical outlier): " + ", ".join(f.replace('.csv', '') for f in not_in_head) if not_in_head else ""))
-    return {
+    blk = {
         "basis": ("fuel-PID subset, model-derived; raw/ = sha256-verified originals (M366); not M299-reproducible" if M372 else "fuel-PID subset, model-derived; computed on the former raw/ re-exports (pre-M366); not refreshed on the originals; not M299-reproducible"),
         "scope": {"nDrives": s["n_drives"], "nDays": s["n_days"], "km": s["km"], "nCanonical": n_canon,
                   "excludedNoBatteryInputs": s["excluded_no_battery_inputs"],
@@ -80,6 +81,10 @@ def build(carried_ok=False):
         "_staleness": ("refreshed at M372 on the sha256-verified originals (M366 basis), same 257-drive set as M336 (ID set asserted before any estimate); producers tools/gtr_closure_diag.py sha256 " + sha(os.path.join(ROOT, "tools", "gtr_closure_diag.py"))[:12] + " and tools/gtr_interval_sens.py sha256 " + sha(os.path.join(ROOT, "tools", "gtr_interval_sens.py"))[:12] + " (run at repo HEAD " + d["m372"]["scriptGit"] + " plus the M372 changes of those two scripts, committed with this milestone); carried forward by ingestion until a refresh stage exists (spec analyses/M372_spec.md); re-run tools/gtr_closure_diag.py --m372, tools/gtr_interval_sens.py --m372 and tools/m372_closure_splice.py to refresh"
                         if M372 else "computed at M336 on the 489-drive master; carried forward by ingestion; re-run tools/gtr_closure_diag.py, tools/gtr_interval_sens.py and tools/gtr_closure_block.py to refresh"),
     }
+    if M377C:
+        blk["_staleness"] = ("recomputed on the live corpus at ingestion (%d drives, %d days; expected-set rule, previous set pinned in analyses/gtr_closure_record.json; spec analyses/M377c_spec.md Rev 2) on the sha256-verified originals (M366 basis); producers tools/gtr_closure_diag.py sha256 %s and tools/gtr_interval_sens.py sha256 %s (--ingest); refreshed by the gtr_closure_refresh stage at every ingestion"
+                             % (s["n_drives"], s["n_days"], sha(os.path.join(ROOT, "tools", "gtr_closure_diag.py"))[:12], sha(os.path.join(ROOT, "tools", "gtr_interval_sens.py"))[:12]))
+    return blk
 
 
 def main():

@@ -57,8 +57,12 @@ def main():
     gtr = json.load(open(gf, encoding="utf-8")) if os.path.exists(gf) else None
     if gtr:
         flags += [f"gtrFamily: {x}" for x in gtr.get("stops", [])]
+    gc = P("analyses/gtr_closure_delta.json")     # M377c: closure refresh delta (set, new IDs, CI checks, flags, band outcomes)
+    gclo = json.load(open(gc, encoding="utf-8")) if os.path.exists(gc) else None
+    if gclo:
+        flags += [f"gtrClosure: {x['rule']} @ {x['path']}" for x in gclo.get("stops", [])] + [f"gtrClosure: {x['rule']} @ {x['path']}" for x in gclo.get("escalations", [])]
     out = {"generated_utc": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"), "has_baseline": bool(prev),
-           "flags": flags, "route_to_audit": bool(flags), "kpis": rep, "gtrFamily": gtr}
+           "flags": flags, "route_to_audit": bool(flags), "kpis": rep, "gtrFamily": gtr, "gtrClosure": gclo}
     json.dump(out, open(P("delta_report.json"), "w"), indent=1)
     print(json.dumps({"has_baseline": out["has_baseline"], "route_to_audit": out["route_to_audit"], "flags": flags}, indent=1))
     if a.commit:

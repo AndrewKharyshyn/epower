@@ -55,8 +55,12 @@ for b in S.BLOCKS:
     assert N[b] == G[b], b + ": values must be unchanged on the committed state"
 assert N["eligibilityAlignment"]["current"] == G["eligibilityAlignment"]["current"] and N["eligibilityAlignment"]["excluded"] == G["eligibilityAlignment"]["excluded"]
 assert N["eligibilityAlignment"]["note"] == G["eligibilityAlignment"]["note"]
-assert N["gtrClosure"]["scope"]["carriedAtIngestion"]["basisNDrives"] == G["gtrClosure"]["scope"]["nDrives"]
-assert "gtrClosure" in N["staleBlocks"]["blocks"] and "crossval" in N["staleBlocks"]["blocks"]
+carried = "carriedAtIngestion" in G["gtrClosure"]["scope"] or "gtrClosure" in G["staleBlocks"]["blocks"]
+if carried:        # M377b state: the closure is carried and disclosed
+    assert N["gtrClosure"]["scope"]["carriedAtIngestion"]["basisNDrives"] == G["gtrClosure"]["scope"]["nDrives"]
+    assert "gtrClosure" in N["staleBlocks"]["blocks"] and "crossval" in N["staleBlocks"]["blocks"]
+else:              # M377c state: the closure is refreshed by its own stage; this splice must leave it and staleBlocks untouched
+    assert N["gtrClosure"] == G["gtrClosure"] and N["staleBlocks"] == G["staleBlocks"] and N["staleBlocks"]["blocks"] == ["crossval"]
 assert all("carriedBasis" in r for r in N["refreshedBlocks"] if "previousBlock" in r or "provenanceDelta" in r)
 changed = list(S.walk(A, new))
 assert all(any(p == a or p.startswith(a + "/") or p.startswith(a + "[") for a in S.ALLOW) for p in changed)
