@@ -45,6 +45,10 @@ jobs:
           python tests/synthetic/test_regime_stratified.py
           python tests/synthetic/test_run_ingest_select.py
           python tests/synthetic/test_m382_wording.py
+          python tests/synthetic/test_mc_summed_curves.py
+          python tests/synthetic/test_day_bootstrap.py
+          python tests/synthetic/test_v6_prep_parity.py
+          python tools/parity_load_drive.py --fuel 20
           node test_gtr_gate.js
           node test_fuel_tab.js
       - name: Release gate

@@ -1,5 +1,7 @@
-# Versions recorded in determinism_check.json (packageVersions) for the published corpus. Compare with requirements.txt.
-# Python 3.11.x (recorded 3.11.15); Node 22 (npm ci uses package-lock.json).
+# X-Trail e-POWER telemetry pipeline: THE dependency lock (single file since M383; requirements.txt was identical and is removed).
+# Versions recorded in determinism_check.json (packageVersions) for the published corpus.
+# Python 3.11.x (recorded 3.11.15; it generated the current summary_arrays.json / determinism_check.json); Node 22 (npm ci uses package-lock.json).
+# Pinning makes drift visible (self-audit P3-1, 2026-09-03: the environment note claimed statsmodels 0.14.6, the live environment was 0.15.0).
 numpy==2.4.4
 pandas==3.0.2
 scipy==1.17.1

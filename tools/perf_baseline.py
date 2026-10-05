@@ -89,10 +89,15 @@ def bench_mc():
 def bench_boot():
     sys.path.insert(0, os.path.join(ROOT, "tools"))
     from gtr_closure_diag import dayboot, ratio
+    from day_bootstrap import ratio_boot_ci
     d = pd.read_csv("analyses/M377c_closure_perdrive.csv")
     t0 = time.perf_counter()
     ci = dayboot(d, lambda x: ratio(x, "E_gen"))
-    return {"drives": int(len(d)), "days": int(d["date"].nunique()), "draws": 4000, "seconds": round(time.perf_counter() - t0, 3), "ci": ci}
+    t1 = time.perf_counter()
+    ci2 = ratio_boot_ci(d, "E_gen", "km", scale=100.0)       # M383: per-day sufficient statistics
+    t2 = time.perf_counter()
+    return {"drives": int(len(d)), "days": int(d["date"].nunique()), "draws": 4000, "seconds": round(t1 - t0, 3), "ci": ci,
+            "secondsSufficientStats": round(t2 - t1, 4), "ciSufficientStats": ci2}
 
 
 def main():
