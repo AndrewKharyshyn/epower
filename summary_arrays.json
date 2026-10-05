@@ -35037,7 +35037,8 @@
    "startVsTrigDivergence": 397,
    "startVsTrigDivergencePct": 6.8,
    "methodology": "socHysteresisV2.nStartEvents/nStopEvents count CONFIRMED transitions from detect_transitions() (m119v2_model.py): a sustained >=3s off interval followed by a sustained >=2s CONFIRMED running interval (run-based debounce on BOTH sides). startEventChain.attritionFunnel.nTrig (compute_summary_arrays._engine_start_triggers, shared by bufferImpulse/M116, rampLatency/M118, handoffSequence/M147, this milestone's startEventChain/M221) fires on a single RPM>800 sample preceded by a sustained >=3s off period, with NO confirmation requirement on the following high-RPM reading -- a momentary blip above 800 rpm immediately followed by a drop back down still counts as a trigger there, but not as a confirmed start here. The two detectors are therefore EXPECTED to diverge (model count below trigger count), by construction, not by data-quality accident; this field states the divergence rather than leaving it implicit or reconciling it away."
-  }
+  },
+  "staleWaiver": "Owner decision (Andrii, in chat, 2026-10-05): waive for the M376 release; M119-v2 stays a frozen carry-forward at its 489-drive basis per the standing policy (recompute_m119v2=False, M148 OOM risk); the block is labelled carriedForward / frozenBasis with currentCorpusSize 524. Signed again at every ingestion; a recompute is a separate milestone."
  },
  "headroomUtilization": {
   "nFilesScanned": 293,
