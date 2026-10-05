@@ -126,7 +126,11 @@ ok("A2 REQUIRED Crawl & Stop-Go callout: per-cycle ratio wording, regen-probabil
 # M366 (F03 re-anchoring: raw/ = sha256-verified originals)
 _pv = json.load(open("summary_arrays.json", encoding="utf-8"))["provenanceSensitivity"]
 _pr = _pv["raw"]
-ok("A2 REQUIRED M366 payload: all canonical copies in raw/ match the manifest sha256 and the 333 re-exports are recorded as replaced", _pr["nCanonicalHashFailing"] == 0 and _pr["formerReexportsReplaced"] == 333 and _pr["nCanonical"] == 489)
+import csv as _csv5
+_nrows5 = sum(1 for _ in _csv5.DictReader(open("drive_master.csv", encoding="utf-8")))
+_ncan5 = sum(1 for x in json.load(open("raw_manifest.json", encoding="utf-8"))["files"] if x["role"] == "canonical")
+# M377a: nCanonical is bound to the live corpus (drive_master rows == manifest canonical entries), not to the 489 of M366; the 333 re-exports were replaced at M366 (of 489 then)
+ok("A2 REQUIRED M366 payload: all canonical copies in raw/ match the manifest sha256 and the 333 re-exports are recorded as replaced", _pr["nCanonicalHashFailing"] == 0 and _pr["formerReexportsReplaced"] == 333 and _pr["nCanonical"] == _nrows5 == _ncan5)
 _m366 = "%d of %d canonical copies in raw/ match the manifest sha256; %d lower-precision re-exports were replaced by the sha256-verified originals (M366" % (_pr["nCanonical"] - _pr["nCanonicalHashFailing"], _pr["nCanonical"], _pr["formerReexportsReplaced"])
 ok("A2 REQUIRED M366 Methodology provenance sentence bound to provenanceSensitivity.raw (" + _m366 + ")", _m366 in open("xtrail_summary.jsx", encoding="utf-8").read().replace("{r.nCanonical-r.nCanonicalHashFailing} of {r.nCanonical}", "%d of %d" % (_pr["nCanonical"] - _pr["nCanonicalHashFailing"], _pr["nCanonical"])).replace("{r.formerReexportsReplaced}", str(_pr["formerReexportsReplaced"])))
 ok("A2 REQUIRED M366 basis label 'raw/ = sha256-verified originals (M366)' present in the rendered dashboard", any("raw/ = sha256-verified originals (M366)" in t for t in T.values()))

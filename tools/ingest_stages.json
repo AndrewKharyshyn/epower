@@ -260,6 +260,34 @@
    "verified": true
   },
   {
+   "id": "post_splices",
+   "title": "M377a: re-apply the post-ingestion splices the arrays rebuild drops (M361 notes, M362 engine-start distribution, M363 labels, M366 shift record); idempotent, deep-diff guarded",
+   "cmd": [
+    "python3",
+    "tools/post_splices.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json"
+   ]
+  },
+  {
+   "id": "leaf_guard",
+   "title": "M377a: lost-leaf guard: every leaf of the committed summary_arrays.json must still exist or be covered by a declared, data-conditioned rule (analyses/leaf_guard_rules.json); fails on any unexpected loss",
+   "cmd": [
+    "python3",
+    "tools/leaf_guard.py",
+    "--previous",
+    "git:HEAD",
+    "--out",
+    "analyses/leaf_guard_report.json"
+   ],
+   "verified": true,
+   "outputs": [
+    "analyses/leaf_guard_report.json"
+   ]
+  },
+  {
    "id": "build_html",
    "title": "Build dashboard (REQUIRED_BLOCKS + stale-key gates)",
    "cmd": [

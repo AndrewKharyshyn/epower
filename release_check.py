@@ -225,7 +225,7 @@ def payload_checks(arrays_path):
         _idx = {_dig(n): n for n in os.listdir(_root / "raw") if n.lower().endswith(".csv") and not n.startswith("e4ORCE")}
         _bad = [x["record_id"] for x in _man if _dig(x["raw_name"]) not in _idx or _h.sha256((_root / "raw" / _idx[_dig(x["raw_name"])]).read_bytes()).hexdigest() != x["sha256"]]
         _arch = json.loads((_root / "analyses" / "F03_originals" / "archived_reexports_sha256.json").read_text(encoding="utf-8"))
-        _raw_ok = (not _bad) and len(_man) == 489 and _arch["n"] == 333 and len(_arch["files"]) == 333
+        _raw_ok = (not _bad) and len(_man) == sum(1 for _ in __import__("csv").DictReader(open(_root / "drive_master.csv", encoding="utf-8"))) and len(_man) >= 489 and _arch["n"] == 333 and len(_arch["files"]) == 333
     except Exception:
         _raw_ok = False
     checks["every canonical raw file matches raw_manifest.json sha256 (raw/ = sha256-verified originals; 333 removed re-exports recorded) (M366)"] = bool(_raw_ok)
