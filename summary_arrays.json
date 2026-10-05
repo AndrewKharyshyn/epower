@@ -53791,6 +53791,20 @@
    },
    "computationStatus": "computed",
    "computationStatusNote": "M317: Huber spread-fit provenance record (tools/record_spread_fit.py); append-only history in spread_fit_history.json."
+  },
+  "loggerCadence": {
+   "corpusHash": "7c3bc9883f223e8a488b84ad053e13b5",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "47b499142f5b3664e9efdd64cb3dfc32",
+   "fullConfigHash": "10b72f20506c666f4af96928d6315d54",
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-10-05T12:49:29.519471+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "7c3bc9883f223e8a488b84ad053e13b5"
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M379a: derived by tools/cadence_regime.py from the master column I_sample_period_s; descriptive covariate, additive, no published value recomputed; not M299-reproducible."
   }
  },
  "ambientTable": {
@@ -145408,5 +145422,67 @@
     "biasInSd": -0.326604829571439
    }
   }
+ },
+ "loggerCadence": {
+  "rule": "regime = fast if I_sample_period_s < 1.05 s, slow if >= 1.05 s, null if missing; I_sample_period_s = median update interval of the HV-current PID per drive (master column); the distribution is bimodal with an empty gap [1.0, 1.1) s that is asserted at every run",
+  "thresholdS": 1.05,
+  "gapS": [
+   1.0,
+   1.1
+  ],
+  "nDrives": 524,
+  "counts": {
+   "fast": 131,
+   "slow": 381,
+   "null": 12
+  },
+  "nDaysByRegime": {
+   "fast": 27,
+   "slow": 80
+  },
+  "runs": [
+   {
+    "regime": "fast",
+    "nDrives": 1,
+    "start": "2026-05-13 18:30",
+    "end": "2026-05-13 18:30",
+    "nDays": 1
+   },
+   {
+    "regime": "slow",
+    "nDrives": 224,
+    "start": "2026-05-15 07:52",
+    "end": "2026-08-13 15:03",
+    "nDays": 54
+   },
+   {
+    "regime": "fast",
+    "nDrives": 100,
+    "start": "2026-08-14 10:10",
+    "end": "2026-09-06 12:29",
+    "nDays": 22
+   },
+   {
+    "regime": "slow",
+    "nDrives": 157,
+    "start": "2026-09-06 13:08",
+    "end": "2026-10-01 08:14",
+    "nDays": 26
+   },
+   {
+    "regime": "fast",
+    "nDrives": 30,
+    "start": "2026-10-01 16:46",
+    "end": "2026-10-04 14:52",
+    "nDays": 4
+   }
+  ],
+  "daysWithBothRegimes": [
+   "2026-09-06",
+   "2026-10-01"
+  ],
+  "effectOnKeys": "not yet quantified (emulated sampling-sensitivity study pending, M379b); observational comparisons across regimes are confounded by season, ambient and drive mix",
+  "source": "drive_master.csv I_sample_period_s; sidecar cadence_regime.csv",
+  "masterMd5": "7c3bc9883f223e8a488b84ad053e13b5"
  }
 }
