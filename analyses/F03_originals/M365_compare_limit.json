@@ -1,0 +1,97 @@
+{
+ "milestone": "M365",
+ "note": "read-only provenance-sensitivity comparison (originals minus raw/); not a correction; owner-approved 2026-10-03",
+ "nFailingFiles": 333,
+ "inputs": {
+  "driveMasterMd5": "bd9d10726bb064d857cf9ff98d2b7338",
+  "originalsDir": "originals_recovered (outside the repo, read-only)"
+ },
+ "A_chargingSubState": {
+  "nTrips": 8,
+  "nDays": 3,
+  "byDeadbandKw": {
+   "db0.1": {
+    "litresCharging": {
+     "raw": 3.038,
+     "originals": 3.024
+    },
+    "stationaryLitres": {
+     "raw": 0.016,
+     "originals": 0.016
+    },
+    "movingLitres": {
+     "raw": 3.022,
+     "originals": 3.007
+    },
+    "chargingShare": {
+     "raw": 0.61826,
+     "originals": 0.61715
+    },
+    "shareDifferenceOriginalsMinusRaw": {
+     "est": -0.00111,
+     "ci95": [
+      -0.0014,
+      9e-05
+     ],
+     "nDays": 3
+    }
+   },
+   "db0.5": {
+    "litresCharging": {
+     "raw": 2.982,
+     "originals": 2.955
+    },
+    "stationaryLitres": {
+     "raw": 0.016,
+     "originals": 0.016
+    },
+    "movingLitres": {
+     "raw": 2.965,
+     "originals": 2.938
+    },
+    "chargingShare": {
+     "raw": 0.60678,
+     "originals": 0.60306
+    },
+    "shareDifferenceOriginalsMinusRaw": {
+     "est": -0.00372,
+     "ci95": [
+      -0.00446,
+      9e-05
+     ],
+     "nDays": 3
+    }
+   },
+   "db1": {
+    "litresCharging": {
+     "raw": 2.856,
+     "originals": 2.87
+    },
+    "stationaryLitres": {
+     "raw": 0.016,
+     "originals": 0.016
+    },
+    "movingLitres": {
+     "raw": 2.839,
+     "originals": 2.854
+    },
+    "chargingShare": {
+     "raw": 0.58115,
+     "originals": 0.58572
+    },
+    "shareDifferenceOriginalsMinusRaw": {
+     "est": 0.00458,
+     "ci95": [
+      0.0,
+      0.00526
+     ],
+     "nDays": 3
+    }
+   }
+  },
+  "totalLitres": {
+   "raw": 4.914,
+   "originals": 4.9
+  }
+ }
+}

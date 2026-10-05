@@ -1,0 +1,32 @@
+[
+ {
+  "id": "stamp-reissue-notes",
+  "rationale": "Re-issue annotations (reissuedFrom, reissueNote) describe a stamp issued against an older corpus hash; a freshly issued stamp for a new corpus hash supersedes them.",
+  "milestone": "M377a",
+  "pathTemplate": "_artifactStamps/{key}/reissuedFrom",
+  "condition": "stamp_hash_changed"
+ },
+ {
+  "id": "stamp-reissue-notes-text",
+  "rationale": "Same as stamp-reissue-notes (the note text).",
+  "milestone": "M377a",
+  "pathTemplate": "_artifactStamps/{key}/reissueNote",
+  "condition": "stamp_hash_changed"
+ },
+ {
+  "id": "carryover-error-when-fit-ok",
+  "rationale": "mixedEffects.error recorded a failed fit (singular matrix); when the refit succeeds the block carries coefficients and no error.",
+  "milestone": "M377a",
+  "pathTemplate": "interDriveCarryover/regressionModel/mixedEffects/error",
+  "condition": "sibling_present",
+  "sibling": "coefficients"
+ },
+ {
+  "id": "attenuation-block-null",
+  "rationale": "ThermalFuelPenalty attenuationDistance is recomputed per cohort and is null when the fit does not return an estimate on the live corpus (the dashboard renders it only when attenuationKm != null); its children cannot exist then.",
+  "milestone": "M377a",
+  "pathTemplate": "seasonalCharts/charts/ThermalFuelPenalty/data/{key}/attenuationDistance",
+  "condition": "parent_null_in_current",
+  "matchPrefix": true
+ }
+]
