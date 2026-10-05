@@ -50242,10 +50242,10 @@
    },
    {
     "family": "EV traction census (M53)",
-    "n": 435,
+    "n": 434,
     "days": 106,
-    "km": 8563.0,
-    "basis": "ev_valid per-drive gate",
+    "km": 8542.3,
+    "basis": "ev_valid per-drive gate AND ens_outlier_v2-clean",
     "note": "RPM/speed channel coverage gated"
    },
    {
@@ -50287,6 +50287,42 @@
     "note": "metric-validity denominator, NOT header/sample presence: headerSamplePresentN drives carry integrable HV-current samples, but nonIntegrableWithSamples yielded no energy metric and are excluded from every kWh/GTC/FCE total"
    }
   ],
+  "dataCoverage": {
+   "signCheck": {
+    "ok": 503,
+    "notTestable": 9,
+    "anomaly": 0,
+    "missing": 12,
+    "total": 524,
+    "definition": "per drive with an energy trace: ok = median discharge-positive current is positive over engine-off (RPM < 400) samples with torque target > 50 (at least 5 such samples); ANOMALY = it is not; not_testable = fewer than 5 such samples, so the sign is not checked on that drive; missing = no sign_check value (no energy trace)"
+   },
+   "rpm": {
+    "gridCoverage": {
+     "n": 523,
+     "p10": 0.972,
+     "median": 1.0,
+     "p90": 1.0,
+     "mean": 0.985,
+     "nBelow90pct": 21
+    },
+    "nativeUpdateIntervalS": {
+     "n": 523,
+     "p10": 0.78,
+     "median": 1.29,
+     "p90": 1.74
+    },
+    "definition": "gridCoverage = share of one-second grid seconds that carry an RPM sample, per drive (ev_cov_rpm, EV-traction pass); nativeUpdateIntervalS = per-drive median interval between logged RPM samples"
+   },
+   "currentPid": {
+    "updateIntervalS": {
+     "n": 512,
+     "p10": 0.782,
+     "median": 1.288,
+     "p90": 1.738
+    },
+    "definition": "per-drive median interval between logged HV-current samples (I_sample_period_s)"
+   }
+  },
   "note": "F-18: each family reports its own validity denominator. Header/PID presence, minimum-sample validity and metric not-null are distinct concepts and are not conflated."
  },
  "degradationTrends": {
@@ -51094,32 +51130,37 @@
     "gapTruncationOnlyMaxPct": 0.4734
    },
    "dataQualityNote": {
-    "finding": "The 1500->2000ms tolerance-widening effect (0.077 kWh corpus-wide) is concentrated in a small number of drives, not diffuse corpus-wide alignment noise: the top 2 contributors below account for 72.8% of it alone. Both of those two files show ~4s voltage-channel polling (versus the corpus-typical ~0.9-1s), so no current sample finds a voltage match within the released 1500ms tolerance at all -- they contribute literal 0.0 kWh gross throughput at the released tolerance (matching drive_master.csv exactly) and only pick up matches once the tolerance widens toward 2000ms. This is a data-quality artifact of those two files' logging rate, not a property of the I<->V alignment method itself; the remaining contributors below are ordinary diffuse noise.",
+    "finding": "The 1500->2000 ms tolerance-widening effect (0.077 kWh corpus-wide) is concentrated in a few drives rather than spread evenly: the top 2 contributor(s) account for 72.8% of it. Per drive (current master): 20260610_094100.csv: nominal 9.905 kWh at 1500 ms, +0.0376 kWh (0.38%) at 2000 ms; 20260515_222240.csv: nominal 2.9667 kWh at 1500 ms, +0.0183 kWh (0.62%) at 2000 ms. These are tolerance sensitivities of drives that carry non-zero released energy, not zero-energy files; the cause (voltage-sample interval relative to the tolerance) is not tested here. The remaining contributors are listed below.",
     "topContributors": [
      {
       "file": "20260610_094100.csv",
       "deltaKwh_1500to2000ms": 0.0376,
-      "cumulativePctOfTotalWidening": 49.0
+      "cumulativePctOfTotalWidening": 49.0,
+      "nominalKwh_1500ms": 9.905
      },
      {
       "file": "20260515_222240.csv",
       "deltaKwh_1500to2000ms": 0.0183,
-      "cumulativePctOfTotalWidening": 72.8
+      "cumulativePctOfTotalWidening": 72.8,
+      "nominalKwh_1500ms": 2.9667
      },
      {
       "file": "20260515_191551.csv",
       "deltaKwh_1500to2000ms": 0.0105,
-      "cumulativePctOfTotalWidening": 86.5
+      "cumulativePctOfTotalWidening": 86.5,
+      "nominalKwh_1500ms": 1.2062
      },
      {
       "file": "20260523_144629.csv",
       "deltaKwh_1500to2000ms": 0.0059,
-      "cumulativePctOfTotalWidening": 94.2
+      "cumulativePctOfTotalWidening": 94.2,
+      "nominalKwh_1500ms": 2.5563
      },
      {
       "file": "20260609_132041.csv",
       "deltaKwh_1500to2000ms": 0.0052,
-      "cumulativePctOfTotalWidening": 100.9
+      "cumulativePctOfTotalWidening": 100.9,
+      "nominalKwh_1500ms": 15.4137
      }
     ]
    },
@@ -53666,7 +53707,7 @@
     "rawManifestBackfill": "M294: raw_manifest.json was absent at the M293 array build; identity backfilled from the 2026-09-25 446-drive manifest."
    },
    "computationStatus": "computed",
-   "computationStatusNote": "M376: PARTIAL: headline and cohort splits (refresh_gtr_headline), sensitivity, simultaneity and speedSplit (gtr_family_refresh, M377b) and eligibilityAlignment current counts recomputed on the 524-drive corpus; gtrClosure numbers carried at the M372 set (257 drives; scope.carriedAtIngestion); crossval carried",
+   "computationStatusNote": "M382: generated from the payload. Recomputed on the 524-drive corpus: headline and cohort splits (refresh_gtr_headline: 294 drives); sensitivity (M376, 294 drives, 54 days); simultaneity (M376, 294 drives, 54 days); speedSplit (M376, 294 drives, 54 days); eligibilityAlignment current counts; gtrClosure recomputed on the live corpus (292 drives, 54 days); crossval carried at M280 (2026-09-17).",
    "carriedFromMaster": true,
    "carryForwardNote": "M293: headline re-aggregated at 446 from fuel_recon_master.csv (refresh_gtr_headline.py); per-second sub-analyses carried at prior basis (disclosed).",
    "reissuedFrom": "5197ab6dc2a44b99ccb246af03f8f6b0",
@@ -123686,12 +123727,12 @@
    },
    {
     "term": "η_eng",
-    "value": "0.355",
+    "value": "0.351",
     "meaning": "Model-derived engine-brake/fuel ratio (implied by the assumed BSFC surface): mechanical output ÷ fuel chemical energy."
    },
    {
     "term": "Net traction-bus/fuel index",
-    "value": "0.329",
+    "value": "0.325",
     "meaning": "Model-derived index of electricity reaching the HV bus per fuel chemical energy (implied by the assumed BSFC surface; includes generator + power-electronics losses; affected by SoC drift, regen and unmetered auxiliary loads)."
    },
    {
@@ -124538,7 +124579,7 @@
   }
  },
  "masterRefitProvenance": {
-  "_provenance": "GENERATED by tools/build_refit_provenance.py from analyses/M310_refit_audit_489_todays_raw.json (master_refit_audit.py on the raw archive held in this repository) and analyses/M311_refit_provenance_diag.json (tools/refit_provenance_diag.py). PROVENANCE SENSITIVITY: the reference of record remains masterRefitAudit (original-era raw). Regenerate; do not hand-edit.",
+  "_provenance": "GENERATED by tools/build_refit_provenance.py from analyses/M310_refit_audit_489_todays_raw.json (master_refit_audit.py on the raw archive held in this repository at that time: the former re-exports, before M366) and analyses/M311_refit_provenance_diag.json (tools/refit_provenance_diag.py). PROVENANCE SENSITIVITY: the reference of record remains masterRefitAudit (original-era raw). Regenerate; do not hand-edit.",
   "label": "provenance sensitivity",
   "referenceOfRecord": "masterRefitAudit",
   "rebuildFromRepositoryArchive": {
@@ -124569,12 +124610,13 @@
     "columnsDrifted": 88
    }
   },
-  "interpretation": "Drift is confined to drives whose raw file no longer matches its recorded hash; new drives and hash-verified drives reproduce (same code path). Consistent with a content difference between this raw archive and the originals (F03/F02); the nature of the difference (precision versus altered samples) is not established.",
+  "interpretation": "Historical block (M310/M311, before the M366 raw replacement): the rebuild used the former re-exports in raw/. Drift was confined to drives whose re-export did not match its recorded hash; new drives and hash-verified drives reproduced (same code path). The later originals evidence (analyses/F03_originals, M366) is consistent with those re-exports being lower-precision copies of the originals. Kept as history, not as a statement about the current raw/.",
   "limits": [
-   "No original bytes are available (F02): the cause is inferred, not shown",
+   "Historical: when this rebuild ran no original bytes were available; the originals were recovered afterwards (owner decisions 2026-10-02/04, M366) and raw/ now holds them",
    "Decimal-precision check on the first 30 rows of a few files did not discriminate rounding from altered content",
    "Audits ran on different Python versions (446 reference: 3.11.15; this rebuild: 3.12.10); the zero drift on new drives shows the version is not the cause"
-  ]
+  ],
+  "basisStatus": "historical: rebuild from the former lower-precision re-exports in raw/ (before the M366 replacement by the sha256-verified originals); it does not describe the current raw/"
  },
  "provenanceSensitivity": {
   "_provenance": "GENERATED by tools/f03_provenance_build.py from raw_manifest.json + raw/ hashes and analyses/F03 result JSONs (M306/M307). Do not hand-edit.",

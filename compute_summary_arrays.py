@@ -15638,6 +15638,34 @@ def _session_ledger_audit(dm, session_cfg=None):
 # they describe assumptions and a reproducibility proof, not measurements.
 # ======================================================================
 
+def _data_coverage(dm):
+    """M382 (audit F08/F09): logged-channel coverage and sign-check categories, computed from the master (never typed).
+    Replaces the fixed dashboard statements 'RPM ~22% missing', 'uniform 1 Hz grid' and 'sign verified on every file'."""
+    def _q(sr):
+        sr = pd.to_numeric(sr, errors='coerce').dropna()
+        if not len(sr):
+            return {'n': 0, 'p10': None, 'median': None, 'p90': None}
+        return {'n': int(len(sr)), 'p10': round(float(sr.quantile(0.10)), 3),
+                'median': round(float(sr.median()), 3), 'p90': round(float(sr.quantile(0.90)), 3)}
+    sc = dm['sign_check'].astype('object').where(dm['sign_check'].notna(), 'missing').astype(str)
+    cov = pd.to_numeric(dm['ev_cov_rpm'], errors='coerce')
+    return {
+        'signCheck': {'ok': int((sc == 'ok').sum()), 'notTestable': int((sc == 'not_testable').sum()),
+                      'anomaly': int((sc == 'ANOMALY').sum()), 'missing': int((sc == 'missing').sum()),
+                      'total': int(len(dm)),
+                      'definition': ('per drive with an energy trace: ok = median discharge-positive current is positive over engine-off (RPM < 400) '
+                                     'samples with torque target > 50 (at least 5 such samples); ANOMALY = it is not; not_testable = fewer than 5 '
+                                     'such samples, so the sign is not checked on that drive; missing = no sign_check value (no energy trace)')},
+        'rpm': {'gridCoverage': {**_q(cov), 'mean': (round(float(cov.mean()), 3) if cov.notna().any() else None),
+                                 'nBelow90pct': int((cov < 0.9).sum())},
+                'nativeUpdateIntervalS': _q(dm['ev_rpm_dt_med_s']),
+                'definition': ('gridCoverage = share of one-second grid seconds that carry an RPM sample, per drive (ev_cov_rpm, '
+                               'EV-traction pass); nativeUpdateIntervalS = per-drive median interval between logged RPM samples')},
+        'currentPid': {'updateIntervalS': _q(dm['I_sample_period_s']),
+                       'definition': 'per-drive median interval between logged HV-current samples (I_sample_period_s)'},
+    }
+
+
 def _audit_eligibility(dm):
     """F-18: per-output-family denominators. Eligibility is the actual metric
     not-null / validity gate for each family, NOT PID-header presence.
@@ -15665,7 +15693,9 @@ def _audit_eligibility(dm):
 
     _mask_typed_clean = typed & clean
     _mask_deficit = _as_bool(dm['deficit_80_120_valid'])
-    _mask_ev = _as_bool(dm['ev_valid'])
+    # M382 (audit F05): the EV census shares ONE predicate with the displayed EV-share estimator (canonical-clean AND ev_valid); it used
+    # ev_valid alone (435 drives / 8563.0 km against the estimator's 434 / 8542.3 km).
+    _mask_ev = _as_bool(dm['ev_valid']) & clean
     _mask_vreg = dm['vreg_R_pack_mohm'].notna()
     _mask_vsag = (dm['vsag_R_pack_mohm'].notna()
                   if 'vsag_R_pack_mohm' in dm.columns else None)
@@ -15697,7 +15727,7 @@ def _audit_eligibility(dm):
          'note': 'condition-gated; never a 194-drive comparison'},
         {'family': 'EV traction census (M53)',
          **_dims(_mask_ev),
-         'basis': 'ev_valid per-drive gate',
+         'basis': 'ev_valid per-drive gate AND ens_outlier_v2-clean',
          'note': 'RPM/speed channel coverage gated'},
         {'family': 'V-regression resistance (M25 power fade)',
          **_dims(_mask_vreg),
@@ -15726,6 +15756,7 @@ def _audit_eligibility(dm):
             'canonicalExclusions': n_excl,
             'analysisRows': int(len(dm) - n_excl),
             'families': fam,
+            'dataCoverage': _data_coverage(dm),
             'note': ('F-18: each family reports its own validity denominator. '
                      'Header/PID presence, minimum-sample validity and metric '
                      'not-null are distinct concepts and are not conflated.')}
