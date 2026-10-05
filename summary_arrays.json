@@ -53798,7 +53798,7 @@
    "configHash": "47b499142f5b3664e9efdd64cb3dfc32",
    "fullConfigHash": "10b72f20506c666f4af96928d6315d54",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-05T14:40:58.275501+00:00",
+   "generatedAt": "2026-10-05T16:01:40.920718+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "7c3bc9883f223e8a488b84ad053e13b5"
@@ -145638,6 +145638,265 @@
    "basisMasterMd5": "7c3bc9883f223e8a488b84ad053e13b5",
    "basisNDrives": 524,
    "specSha256Frozen": "9cf497d5f5bfccbc2ca3b907c418069942039f3cbfe8648438fef5c9898c2cdd"
+  },
+  "stratified": {
+   "basis": "regime-stratified view and regime-covariate re-run of the gross-throughput figures (M380): observational, confounded by season, ambient and drive mix; the slow-equivalent variants are an emulated harmonisation sensitivity, not a correction",
+   "cohortByRegime": [
+    {
+     "cohort": "cold_insufficient",
+     "regime": "fast",
+     "nDrives": 2,
+     "nDays": 1,
+     "shareOfCohortGrossThroughput": 0.3088774172840827
+    },
+    {
+     "cohort": "cold_insufficient",
+     "regime": "slow",
+     "nDrives": 5,
+     "nDays": 2,
+     "shareOfCohortGrossThroughput": 0.6911225827159173
+    },
+    {
+     "cohort": "shoulder",
+     "regime": "fast",
+     "nDrives": 20,
+     "nDays": 8,
+     "shareOfCohortGrossThroughput": 0.12404134646267616
+    },
+    {
+     "cohort": "shoulder",
+     "regime": "slow",
+     "nDrives": 85,
+     "nDays": 28,
+     "shareOfCohortGrossThroughput": 0.8759586535373239
+    },
+    {
+     "cohort": "warm",
+     "regime": "fast",
+     "nDrives": 109,
+     "nDays": 25,
+     "shareOfCohortGrossThroughput": 0.19679824953470298
+    },
+    {
+     "cohort": "warm",
+     "regime": "slow",
+     "nDrives": 289,
+     "nDays": 69,
+     "shareOfCohortGrossThroughput": 0.8032017504652967
+    }
+   ],
+   "energyIntensityByRegime": {
+    "warm": {
+     "fast": {
+      "value": 20.382464347694864,
+      "ci95": [
+       16.462825231847845,
+       25.324568976288067
+      ],
+      "nDrives": 109,
+      "nDays": 25
+     },
+     "slow": {
+      "value": 16.43097172328469,
+      "ci95": [
+       14.845216156467046,
+       18.81357962736174
+      ],
+      "nDrives": 288,
+      "nDays": 69
+     }
+    },
+    "shoulder": {
+     "fast": {
+      "value": 29.901164620711363,
+      "ci95": [
+       27.428606026596903,
+       35.16874322860239
+      ],
+      "nDrives": 19,
+      "nDays": 7
+     },
+     "slow": {
+      "value": 26.555016821690078,
+      "ci95": [
+       24.51007919052583,
+       29.69834799917492
+      ],
+      "nDrives": 85,
+      "nDays": 28
+     }
+    }
+   },
+   "warmVsShoulderContrast": {
+    "original": {
+     "status": "available",
+     "adjustedDiff": -1.3426,
+     "ci95": [
+      -3.4613,
+      0.3512
+     ],
+     "nA": 397,
+     "nB": 104,
+     "nDays": 104
+    },
+    "binaryRegime": {
+     "status": "available",
+     "adjustedDiff": -1.6924,
+     "ci95": [
+      -3.4942,
+      0.3882
+     ],
+     "nA": 397,
+     "nB": 104,
+     "nDays": 104
+    },
+    "threeLevelRegime": {
+     "status": "available",
+     "adjustedDiff": -1.1948,
+     "ci95": [
+      -3.5139,
+      1.3708
+     ],
+     "nA": 397,
+     "nB": 104,
+     "nDays": 104
+    },
+    "maxVifOfRegimeTerm": 1.0160997187705267,
+    "conditionNumberBinaryDesign": 4.605003760527527
+   },
+   "regimePeriodContrast": {
+    "warm": {
+     "status": "available",
+     "adjustedDiff": -1.2347,
+     "ci95": [
+      -2.5814,
+      0.3373
+     ],
+     "nA": 288,
+     "nB": 109,
+     "nDays": 94
+    },
+    "shoulder": {
+     "status": "available",
+     "adjustedDiff": -2.8346,
+     "ci95": [
+      -7.844,
+      2.2828
+     ],
+     "nA": 85,
+     "nB": 19,
+     "nDays": 34
+    }
+   },
+   "withinRegimeContrast": {
+    "fastOnly": {
+     "status": "available",
+     "adjustedDiff": -2.6147,
+     "ci95": [
+      -5.8597,
+      2.5624
+     ],
+     "nA": 109,
+     "nB": 19,
+     "nDays": 26
+    },
+    "slowOnly": {
+     "status": "available",
+     "adjustedDiff": -2.1249,
+     "ci95": [
+      -4.2056,
+      -0.2422
+     ],
+     "nA": 288,
+     "nB": 85,
+     "nDays": 79
+    }
+   },
+   "withinRegimeDescriptiveFlags": {
+    "fastOnly": [],
+    "slowOnly": [
+     "CI side of 0 changes (includes 0 -> excludes 0)"
+    ]
+   },
+   "slowEquivalent": {
+    "maxEiShiftOverHalfWidth_centralAndCiEndpoints": 0.05816219949151182,
+    "maxEiShiftOverHalfWidth_stressBound": 0.19703788410365597,
+    "maxEiShiftOverHalfWidth_reverseCentral": 0.2141031458849739,
+    "maxEiShiftOverHalfWidth_reverseStress": 0.8162816613696856,
+    "quarterHalfWidthRule": 0.25
+   },
+   "coldVsWarmMannWhitney": {
+    "original": {
+     "p": 0.28025031333028383,
+     "nCold": 204,
+     "nWarm": 100
+    },
+    "fastXrCentral": {
+     "p": 0.28460324502232204
+    },
+    "fastXrStress": {
+     "p": 0.3320238966831468
+    },
+    "fastOnly": {
+     "p": 0.5607021054554312,
+     "nCold": 50,
+     "nWarm": 27
+    },
+    "slowOnly": {
+     "p": 0.10532989687462442,
+     "nCold": 154,
+     "nWarm": 73
+    }
+   },
+   "independentOlsRederivation": {
+    "label": "method disagreement, not agreement: a blind plain-OLS re-derivation (analyses/M380_audit.json) agrees on the sign and the support of the warm-versus-shoulder contrast in all variants and puts its interval marginally on either side of zero depending on the bootstrap seed; the side of zero is estimator- and seed-dependent and marginal",
+    "variants": {
+     "original": {
+      "estimate": -1.807,
+      "ci95": [
+       -3.74,
+       -0.068
+      ],
+      "ciIncludesZero": false,
+      "nWarm": 397,
+      "nShoulder": 104
+     },
+     "binaryRegime": {
+      "estimate": -1.949,
+      "ci95": [
+       -3.787,
+       -0.142
+      ],
+      "ciIncludesZero": false,
+      "nWarm": 397,
+      "nShoulder": 104
+     },
+     "threeLevelRegime": {
+      "estimate": -1.82,
+      "ci95": [
+       -3.678,
+       0.034
+      ],
+      "ciIncludesZero": true,
+      "nWarm": 397,
+      "nShoulder": 104
+     }
+    },
+    "source": "analyses/M380_audit.json"
+   },
+   "nFlips": 0,
+   "stopForDirector": false,
+   "warmVsColdContrast": "not available: the cold cohort is suppressed; no substitute is built",
+   "limits": [
+    "observational contrasts across regimes carry a regime period (contiguous date block), never a cadence effect",
+    "uniform r over the fast drives; the stress bound is not a plausible range",
+    "the generator / traction family is not covered",
+    "the adjusted warm-vs-shoulder contrast is stored in cohort_arrays.json and is not rendered in the dashboard"
+   ],
+   "source": "analyses/M380_regime_stratified.json",
+   "basisMasterMd5": "7c3bc9883f223e8a488b84ad053e13b5",
+   "basisNDrives": 524,
+   "specSha256Frozen": "13acc6e639ae2fa842334964d6a8c24b61992054944680a70ae89a9e74beaa1b"
   }
  }
 }

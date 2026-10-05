@@ -233,6 +233,19 @@ if _lc.get("sensitivity"):
     ok("A2 REQUIRED M379b sensitivity line next to the GTC / FCE / rainflow-EFC headline (emulated sampling sensitivity, bound to loggerCadence.sensitivity)",
        any(("Emulated sampling sensitivity (M379b): thinning the fast-cadence drives to the slow-regime cadence lowers their gross throughput by %.1f–%.1f%%" % ((1 - _gr["ci95"][1]) * 100, (1 - _gr["ci95"][0]) * 100)) in t
            and "descriptive, under the emulation" in t for t in T.values()))
+if _lc.get("stratified"):
+    _st = _lc["stratified"]
+    _w, _sh = _st["energyIntensityByRegime"]["warm"], next(r for r in _st["cohortByRegime"] if r["cohort"] == "shoulder" and r["regime"] == "fast")
+    _wf = next(r for r in _st["cohortByRegime"] if r["cohort"] == "warm" and r["regime"] == "fast")
+    ok("A2 REQUIRED M380 regime-stratified view bound to loggerCadence.stratified (stratified EI, regime-period contrast, covariate re-run, flips, observational / not a cadence effect)",
+       any(all(x in t for x in ("Regime-stratified view (M380; observational, confounded by season, ambient and drive mix)",
+                                "%.1f kWh/100 km in fast-cadence drives (%d drives, %d days)" % (_w["fast"]["value"], _w["fast"]["nDrives"], _w["fast"]["nDays"]),
+                                "a regime period, not a cadence effect",
+                                "with the published estimator the interval includes zero in all three variants" if all(c["ci95"][0] <= 0 <= c["ci95"][1] for c in (_st["warmVsShoulderContrast"][k] for k in ("original", "binaryRegime", "threeLevelRegime"))) else "with the published estimator the side of zero of the interval differs between variants",
+                                "an independent plain-OLS re-derivation gives %.2f, 95%% CI %.2f to %.2f: a method disagreement, the side of zero being estimator- and seed-dependent and marginal" % (_st["independentOlsRederivation"]["variants"]["original"]["estimate"], *_st["independentOlsRederivation"]["variants"]["original"]["ci95"]),
+                                "no decision flips in any variant" if _st["nFlips"] == 0 else "decision flips: %d" % _st["nFlips"])) for t in T.values()))
+    ok("A2 REQUIRED M380 EnergyIntensity note line: fast-cadence share of the Warm and Shoulder gross throughput bound to the payload",
+       any(("Logger-cadence regime (M380): fast-cadence drives carry %.1f%% of the Warm and %.1f%% of the Shoulder gross throughput" % (_wf["shareOfCohortGrossThroughput"] * 100, _sh["shareOfCohortGrossThroughput"] * 100)) in t for t in T.values()))
 # M364 (buffer-thesis wording: qualified description, derived badges)
 _src = open("xtrail_summary.jsx", encoding="utf-8").read()
 _all_t = " ".join(T.values())
