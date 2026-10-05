@@ -92,6 +92,39 @@ def summarize_sensitivity(study, dm, regime):
             "limits": m["limits"], "source": "analyses/M379_cadence_sensitivity.json"}
 
 
+def summarize_stratified(st, aud):
+    """Pure: the compact payload summary of analyses/M380_regime_stratified.json (M380): regime-stratified view and regime-covariate re-run (descriptive, observational, no correction)."""
+    p3, p4, p6 = st["P3_covariateRerun"], st["P4_slowEquivalent"]["variants"], st["P6_mannWhitneyGtcPer100km"]
+    pick = lambda c: {k: c.get(k) for k in ("status", "adjustedDiff", "ci95", "nA", "nB", "nDays")}
+    ei = st["P2_regimeStratifiedEI"]["values"]
+    central = [p4[k] for k in ("central_fastXr", "ciLow_fastXr", "ciHigh_fastXr")]
+    mx = lambda vs, c: max(abs(v["EI"][c]["shiftOverHalfWidth"]) for v in vs)
+    return {"basis": "regime-stratified view and regime-covariate re-run of the gross-throughput figures (M380): observational, confounded by season, ambient and drive mix; the slow-equivalent variants are an emulated harmonisation sensitivity, not a correction",
+            "cohortByRegime": [{k: r[k] for k in ("cohort", "regime", "nDrives", "nDays", "shareOfCohortGrossThroughput")} for r in st["P1_cohortByRegime"]],
+            "energyIntensityByRegime": {c: {g: (None if x is None else {k: x[k] for k in ("value", "ci95", "nDrives", "nDays")}) for g, x in ei[c].items()} for c in ("warm", "shoulder")},
+            "warmVsShoulderContrast": {"original": pick(p3["original"]), "binaryRegime": pick(p3["binaryRegime"]), "threeLevelRegime": pick(p3["threeLevelRegime"]),
+                                       "maxVifOfRegimeTerm": p3["diagnostics"]["binaryDesign"]["vif"]["cad_fast"], "conditionNumberBinaryDesign": p3["diagnostics"]["binaryDesign"]["conditionNumber"]},
+            "regimePeriodContrast": {c: pick(p3["regimePeriodContrast"][c]) for c in ("warm", "shoulder")},
+            "withinRegimeContrast": {g: pick(p3["withinRegime"][g]) for g in ("fastOnly", "slowOnly")},
+            "withinRegimeDescriptiveFlags": {g: p3["withinRegimeFlags"][g]["estimateDriven"] for g in ("fastOnly", "slowOnly")},
+            "slowEquivalent": {"maxEiShiftOverHalfWidth_centralAndCiEndpoints": max(mx(central, c) for c in ("all", "warm", "shoulder")),
+                               "maxEiShiftOverHalfWidth_stressBound": max(abs(p4["stress_fastXr"]["EI"][c]["shiftOverHalfWidth"]) for c in ("all", "warm", "shoulder")),
+                               "maxEiShiftOverHalfWidth_reverseCentral": max(abs(p4["reverse_central_slowX1overR"]["EI"][c]["shiftOverHalfWidth"]) for c in ("all", "warm", "shoulder")),
+                               "maxEiShiftOverHalfWidth_reverseStress": max(abs(p4["reverse_stress_slowX1overR"]["EI"][c]["shiftOverHalfWidth"]) for c in ("all", "warm", "shoulder")),
+                               "quarterHalfWidthRule": 0.25},
+            "coldVsWarmMannWhitney": {"original": {k: p6["variants"]["original"].get(k) for k in ("p", "nCold", "nWarm")}, "fastXrCentral": {k: p6["variants"]["fastXr_central"].get(k) for k in ("p",)},
+                                      "fastXrStress": {k: p6["variants"]["fastXr_stress"].get(k) for k in ("p",)}, "fastOnly": {k: p6["variants"]["fastOnly"].get(k) for k in ("p", "nCold", "nWarm")},
+                                      "slowOnly": {k: p6["variants"]["slowOnly"].get(k) for k in ("p", "nCold", "nWarm")}},
+            "independentOlsRederivation": {"label": "method disagreement, not agreement: a blind plain-OLS re-derivation (analyses/M380_audit.json) agrees on the sign and the support of the warm-versus-shoulder contrast in all variants and puts its interval marginally on either side of zero depending on the bootstrap seed; the side of zero is estimator- and seed-dependent and marginal",
+                                           "variants": {k: {"estimate": aud["contrast"][v]["est"], "ci95": aud["contrast"][v]["ci"], "ciIncludesZero": aud["contrast"][v]["ci_incl_0"], "nWarm": aud["contrast"][v]["n_warm"], "nShoulder": aud["contrast"][v]["n_sh"]} for k, v in (("original", "a"), ("binaryRegime", "b"), ("threeLevelRegime", "c"))},
+                                           "source": "analyses/M380_audit.json"},
+            "nFlips": st["P7_classification"]["nFlips"], "stopForDirector": st["P7_classification"]["stopForDirector"],
+            "warmVsColdContrast": st["warm_vs_cold"]["note"],
+            "limits": ["observational contrasts across regimes carry a regime period (contiguous date block), never a cadence effect", "uniform r over the fast drives; the stress bound is not a plausible range", "the generator / traction family is not covered",
+                       "the adjusted warm-vs-shoulder contrast is stored in cohort_arrays.json and is not rendered in the dashboard"],
+            "source": "analyses/M380_regime_stratified.json"}
+
+
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--dry-run", action="store_true"); a = ap.parse_args()
     os.chdir(ROOT)
@@ -108,6 +141,13 @@ def main():
         blk["sensitivity"]["specSha256Frozen"] = study["meta"]["specSha256Frozen"]
         blk["effectOnKeys"] = "quantified for the pipeline keys listed under sensitivity by an emulated sampling-sensitivity study (M379b), which is not a causal cadence effect; observational comparisons across regimes are confounded by season, ambient and drive mix"
     A = json.load(open("summary_arrays.json", encoding="utf-8"))
+    sp2 = os.path.join(ROOT, "analyses", "M380_regime_stratified.json")
+    if os.path.exists(sp2) and "sensitivity" in blk:           # M380: the frozen stratified view is carried in the same block, labelled with its basis
+        st = json.load(open(sp2, encoding="utf-8"))
+        blk["stratified"] = summarize_stratified(st, json.load(open(os.path.join(ROOT, "analyses", "M380_audit.json"), encoding="utf-8")))
+        blk["stratified"]["basisMasterMd5"] = st["meta"]["masterMd5"]
+        blk["stratified"]["basisNDrives"] = int(len(dm))
+        blk["stratified"]["specSha256Frozen"] = st["meta"]["specSha256Frozen"]
     new = copy.deepcopy(A)
     new["loggerCadence"] = blk
     old_st = (A.get("_artifactStamps") or {}).get("loggerCadence")

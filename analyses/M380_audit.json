@@ -1,0 +1,150 @@
+{
+ "table": {
+  "warm/fast": {
+   "drives": 109,
+   "days": 25,
+   "thr_share": 0.1968,
+   "km_share": 0.1649,
+   "nonident": false
+  },
+  "warm/slow": {
+   "drives": 289,
+   "days": 69,
+   "thr_share": 0.8032,
+   "km_share": 0.8351,
+   "nonident": false
+  },
+  "warm/none": 0,
+  "shoulder/fast": {
+   "drives": 20,
+   "days": 8,
+   "thr_share": 0.124,
+   "km_share": 0.1429,
+   "nonident": false
+  },
+  "shoulder/slow": {
+   "drives": 85,
+   "days": 28,
+   "thr_share": 0.876,
+   "km_share": 0.8571,
+   "nonident": false
+  },
+  "shoulder/none": 0,
+  "cold_insufficient/fast": {
+   "drives": 2,
+   "days": 1,
+   "thr_share": 0.3089,
+   "km_share": 0.2976,
+   "nonident": true
+  },
+  "cold_insufficient/slow": {
+   "drives": 5,
+   "days": 2,
+   "thr_share": 0.6911,
+   "km_share": 0.7024,
+   "nonident": true
+  },
+  "cold_insufficient/none": 0
+ },
+ "warm_EI": {
+  "fast": {
+   "v": 20.382,
+   "n": 109,
+   "days": 25,
+   "ci": [
+    16.399,
+    25.465
+   ]
+  },
+  "slow": {
+   "v": 16.431,
+   "n": 288,
+   "days": 69,
+   "ci": [
+    14.86,
+    18.836
+   ]
+  },
+  "none_n": 0
+ },
+ "slow_equiv": {
+  "all_warm": 17.083,
+  "n": 397,
+  "slow_equiv": 16.996,
+  "shift": -0.087
+ },
+ "contrast": {
+  "a": {
+   "est": -1.807,
+   "ci": [
+    -3.74,
+    -0.068
+   ],
+   "sign": "-",
+   "ci_incl_0": false,
+   "n_warm": 397,
+   "n_sh": 104,
+   "warm_fast": 109,
+   "sh_fast": 19,
+   "sh_f1": 9,
+   "sh_f2": 10,
+   "warm_f1": 91,
+   "warm_f2": 18,
+   "sh_none": 0
+  },
+  "b": {
+   "est": -1.949,
+   "ci": [
+    -3.787,
+    -0.142
+   ],
+   "sign": "-",
+   "ci_incl_0": false,
+   "n_warm": 397,
+   "n_sh": 104,
+   "warm_fast": 109,
+   "sh_fast": 19,
+   "sh_f1": 9,
+   "sh_f2": 10,
+   "warm_f1": 91,
+   "warm_f2": 18,
+   "sh_none": 0
+  },
+  "c": {
+   "est": -1.82,
+   "ci": [
+    -3.678,
+    0.034
+   ],
+   "sign": "-",
+   "ci_incl_0": true,
+   "n_warm": 397,
+   "n_sh": 104,
+   "warm_fast": 109,
+   "sh_fast": 19,
+   "sh_f1": 9,
+   "sh_f2": 10,
+   "warm_f1": 91,
+   "warm_f2": 18,
+   "sh_none": 0
+  }
+ },
+ "flips": {
+  "b": false,
+  "c": true
+ },
+ "seed_check_4000draws": {
+  "seed2": "a excl0 [-3.60,-0.06]; b excl0; c incl0 [-3.68,0.014]",
+  "seed3": "a excl0 (-0.001); b excl0; c excl0 (-0.012)",
+  "seed4": "a excl0 (-0.001); b excl0; c incl0 (0.015)"
+ },
+ "open_choices": [
+  "OLS estimator (not standardised common support)",
+  "drive_type full dummies, base=highway, no unknown in support",
+  "2000 draws contrast / 4000 EI; seed 1",
+  "table has no canonical filter (warm/slow 289 drives) EI uses clean (288)",
+  "date taken from drive_master",
+  "fast run split date: <=2026-09-06 inclusive"
+ ],
+ "verdict_note": "a and c CI upper bounds lie within +-0.07 of zero; side-of-zero and the c flip are not robust to MC seed; b robustly excludes zero, no flip."
+}

@@ -1,0 +1,2083 @@
+{
+ "meta": {
+  "milestone": "M380",
+  "specSha256Frozen": "13acc6e639ae2fa842334964d6a8c24b61992054944680a70ae89a9e74beaa1b",
+  "masterMd5": "7c3bc9883f223e8a488b84ad053e13b5",
+  "ratios": {
+   "central": 0.9741167061913416,
+   "ciEndpoints": [
+    0.9728475196305763,
+    0.975532539729406
+   ],
+   "stressBound": 0.9080147015255468,
+   "source": "analyses/M379_cadence_sensitivity.json (emulated sampling sensitivity; uniform r over fast drives; not a correction)"
+  },
+  "bootstrap": {
+   "EI": {
+    "B": 4000,
+    "seed": 20260919
+   },
+   "contrast": {
+    "nBoot": 2000,
+    "seed": 42
+   }
+  },
+  "scriptSha256": {
+   "regime_stratified.py": "8749391b9eb8fd7a"
+  },
+  "runtimeS": 157
+ },
+ "inventory": {
+  "filesScanned": 180,
+  "filesReferencingFamily": {
+   "build_seasonal_dashboard.py": 2,
+   "classify_all_columns.py": 3,
+   "cohort_arrays.py": 5,
+   "cohort_distributions.py": 1,
+   "cohort_fixes_p0.py": 5,
+   "compute_drive_summary_v6.py": 26,
+   "compute_seasonal.py": 5,
+   "compute_summary_arrays.py": 59,
+   "crosscheck_vehicles.py": 9,
+   "energy_mc_precompute.py": 4,
+   "energy_uncertainty_mc.py": 3,
+   "ingest_e4orce.py": 6,
+   "language_gate.py": 1,
+   "m297_comparison_cube.py": 6,
+   "recon_engine.py": 4,
+   "records_disclosure.py": 1,
+   "records_rainflow.py": 4,
+   "refresh_seasonal_kpis.py": 6,
+   "sensitivity_gtr.py": 1,
+   "test_cohort_p0.py": 3,
+   "test_seasonal.py": 2,
+   "test_track4.py": 3,
+   "tools/cadence_emulate.py": 2,
+   "tools/cadence_regime.py": 6,
+   "tools/cadence_sensitivity.py": 3,
+   "tools/data_health.py": 1,
+   "tools/extend_session_ledgers.py": 3,
+   "tools/f03_followups.py": 1,
+   "tools/gtr_closure_diag.py": 1,
+   "tools/gtr_interval_sens.py": 3,
+   "tools/m340_splice.py": 1,
+   "tools/m368_fmt.py": 1,
+   "tools/m368_ledger_round.py": 3,
+   "tools/regime_stratified.py": 16
+  },
+  "linesFamilyAndTrendOrTest": [
+   "tools/f03_followups.py:14",
+   "tools/regime_stratified.py:152"
+  ]
+ },
+ "P1_cohortByRegime": [
+  {
+   "cohort": "cold_insufficient",
+   "regime": "fast",
+   "nDrives": 2,
+   "nDays": 1,
+   "shareOfCohortGrossThroughput": 0.3088774172840827,
+   "shareOfCohortKm": 0.2976190476190476,
+   "nonIdentifiableCell": true
+  },
+  {
+   "cohort": "cold_insufficient",
+   "regime": "slow",
+   "nDrives": 5,
+   "nDays": 2,
+   "shareOfCohortGrossThroughput": 0.6911225827159173,
+   "shareOfCohortKm": 0.7023809523809524,
+   "nonIdentifiableCell": true
+  },
+  {
+   "cohort": "shoulder",
+   "regime": "fast",
+   "nDrives": 20,
+   "nDays": 8,
+   "shareOfCohortGrossThroughput": 0.12404134646267616,
+   "shareOfCohortKm": 0.14289106761203646,
+   "nonIdentifiableCell": false
+  },
+  {
+   "cohort": "shoulder",
+   "regime": "slow",
+   "nDrives": 85,
+   "nDays": 28,
+   "shareOfCohortGrossThroughput": 0.8759586535373239,
+   "shareOfCohortKm": 0.8571089323879635,
+   "nonIdentifiableCell": false
+  },
+  {
+   "cohort": "warm",
+   "regime": "fast",
+   "nDrives": 109,
+   "nDays": 25,
+   "shareOfCohortGrossThroughput": 0.19679824953470298,
+   "shareOfCohortKm": 0.16494293643978142,
+   "nonIdentifiableCell": false
+  },
+  {
+   "cohort": "warm",
+   "regime": "slow",
+   "nDrives": 289,
+   "nDays": 69,
+   "shareOfCohortGrossThroughput": 0.8032017504652967,
+   "shareOfCohortKm": 0.8350570635602186,
+   "nonIdentifiableCell": false
+  }
+ ],
+ "reproduction": {
+  "EI": {
+   "all": {
+    "computed": 17.759971850743913,
+    "payload": 17.759971850743913,
+    "equal": 1.0
+   },
+   "warm": {
+    "computed": 17.082815533980586,
+    "payload": 17.082815533980586,
+    "equal": 1.0
+   },
+   "shoulder": {
+    "computed": 26.928784895576964,
+    "payload": 26.928784895576964,
+    "equal": 1.0
+   }
+  },
+  "warm_vs_shoulder": {
+   "computedAdjustedDiff": -1.3426,
+   "payloadAdjustedDiff": -1.3426,
+   "equal": true,
+   "computedCi95": [
+    -3.4613,
+    0.3512
+   ],
+   "payloadCi95": [
+    -3.4613,
+    0.3512
+   ]
+  }
+ },
+ "warm_vs_cold": {
+  "payloadStatus": "unavailable",
+  "payloadReason": "empty_cohort",
+  "note": "not available: the cold cohort is suppressed; no substitute is built"
+ },
+ "P2_regimeStratifiedEI": {
+  "label": "observational; confounded by season, ambient and drive mix",
+  "values": {
+   "all": {
+    "fast": {
+     "value": 20.863541621745945,
+     "ci95": [
+      16.850663182768546,
+      25.720144482962493
+     ],
+     "nDrives": 130,
+     "nDays": 26,
+     "km": 1391.34
+    },
+    "slow": {
+     "value": 17.161885898696656,
+     "ci95": [
+      15.471563695423725,
+      19.691290892776735
+     ],
+     "nDrives": 378,
+     "nDays": 80,
+     "km": 7219.9
+    }
+   },
+   "warm": {
+    "fast": {
+     "value": 20.382464347694864,
+     "ci95": [
+      16.462825231847845,
+      25.324568976288067
+     ],
+     "nDrives": 109,
+     "nDays": 25,
+     "km": 1325.3
+    },
+    "slow": {
+     "value": 16.43097172328469,
+     "ci95": [
+      14.845216156467046,
+      18.81357962736174
+     ],
+     "nDrives": 288,
+     "nDays": 69,
+     "km": 6708.7
+    }
+   },
+   "shoulder": {
+    "fast": {
+     "value": 29.901164620711363,
+     "ci95": [
+      27.428606026596903,
+      35.16874322860239
+     ],
+     "nDrives": 19,
+     "nDays": 7,
+     "km": 63.54
+    },
+    "slow": {
+     "value": 26.555016821690078,
+     "ci95": [
+      24.51007919052583,
+      29.69834799917492
+     ],
+     "nDrives": 85,
+     "nDays": 28,
+     "km": 505.3
+    }
+   },
+   "cold": {
+    "fast": null,
+    "slow": null
+   }
+  },
+  "pooled": {
+   "all": {
+    "value": 17.759971850743913,
+    "lo": 16.037268313589806,
+    "hi": 20.18513680062086,
+    "n": 508,
+    "clusters": 104
+   },
+   "warm": {
+    "value": 17.082815533980586,
+    "lo": 15.513147736353584,
+    "hi": 19.403531445194353,
+    "n": 397,
+    "clusters": 94
+   },
+   "shoulder": {
+    "value": 26.928784895576964,
+    "lo": 24.980484118870486,
+    "hi": 29.85624680754112,
+    "n": 104,
+    "clusters": 34
+   },
+   "cold": null
+  }
+ },
+ "P3_covariateRerun": {
+  "original": {
+   "status": "available",
+   "reasonCode": null,
+   "adjustedDiff": -1.3426,
+   "rawDiff": 4.0992,
+   "ci95": [
+    -3.4613,
+    0.3512
+   ],
+   "nA": 397,
+   "nB": 104,
+   "nDays": 104,
+   "nDaysA": 94,
+   "nDaysB": 34,
+   "commonSupport": {
+    "ok": true,
+    "method": "categorical strata + propensity min-max overlap + overlap-weight ESS",
+    "overlap": 0.928,
+    "overlapMin": 0.866,
+    "retainedFraction": {
+     "A": 0.866,
+     "B": 0.99
+    },
+    "propensityRange": [
+     0.0291,
+     0.4891
+    ],
+    "sharedStrata": [
+     "mixed",
+     "urban"
+    ],
+    "trimmedStrata": [
+     "highway",
+     "mixed_highway"
+    ],
+    "ess": {
+     "A": 291.5,
+     "B": 101.6
+    },
+    "smdUnweighted": {
+     "speed_mean_moving": 0.497,
+     "stationary_pct": 0.189,
+     "pct_highway": 0.274,
+     "distance_km": 0.242
+    },
+    "smdOverlapWeighted": {
+     "speed_mean_moving": 0.0,
+     "stationary_pct": 0.002,
+     "pct_highway": 0.006,
+     "distance_km": 0.009
+    },
+    "balanceOk": true,
+    "reason": null
+   },
+   "nBoot": null,
+   "covariates": [
+    "speed_mean_moving",
+    "stationary_pct",
+    "pct_highway",
+    "distance_km"
+   ],
+   "inputAudit": {
+    "nInCohorts": 517,
+    "nDroppedNonFinite": 16,
+    "nSingletonClusters": 0
+   }
+  },
+  "binaryRegime": {
+   "status": "available",
+   "reasonCode": null,
+   "adjustedDiff": -1.6924,
+   "rawDiff": 4.0992,
+   "ci95": [
+    -3.4942,
+    0.3882
+   ],
+   "nA": 397,
+   "nB": 104,
+   "nDays": 104,
+   "nDaysA": 94,
+   "nDaysB": 34,
+   "commonSupport": {
+    "ok": true,
+    "method": "categorical strata + propensity min-max overlap + overlap-weight ESS",
+    "overlap": 0.928,
+    "overlapMin": 0.866,
+    "retainedFraction": {
+     "A": 0.866,
+     "B": 0.99
+    },
+    "propensityRange": [
+     0.0225,
+     0.4436
+    ],
+    "sharedStrata": [
+     "mixed",
+     "urban"
+    ],
+    "trimmedStrata": [
+     "highway",
+     "mixed_highway"
+    ],
+    "ess": {
+     "A": 278.5,
+     "B": 101.4
+    },
+    "smdUnweighted": {
+     "speed_mean_moving": 0.497,
+     "stationary_pct": 0.189,
+     "pct_highway": 0.274,
+     "distance_km": 0.242,
+     "cad_fast": 0.263
+    },
+    "smdOverlapWeighted": {
+     "speed_mean_moving": 0.073,
+     "stationary_pct": 0.004,
+     "pct_highway": 0.037,
+     "distance_km": 0.006,
+     "cad_fast": 0.037
+    },
+    "balanceOk": true,
+    "reason": null
+   },
+   "nBoot": null,
+   "covariates": [
+    "speed_mean_moving",
+    "stationary_pct",
+    "pct_highway",
+    "distance_km",
+    "cad_fast"
+   ],
+   "inputAudit": {
+    "nInCohorts": 517,
+    "nDroppedNonFinite": 16,
+    "nSingletonClusters": 0
+   }
+  },
+  "threeLevelRegime": {
+   "status": "available",
+   "reasonCode": null,
+   "adjustedDiff": -1.1948,
+   "rawDiff": 4.0992,
+   "ci95": [
+    -3.5139,
+    1.3708
+   ],
+   "nA": 397,
+   "nB": 104,
+   "nDays": 104,
+   "nDaysA": 94,
+   "nDaysB": 34,
+   "commonSupport": {
+    "ok": true,
+    "method": "categorical strata + propensity min-max overlap + overlap-weight ESS",
+    "overlap": 0.906,
+    "overlapMin": 0.831,
+    "retainedFraction": {
+     "A": 0.831,
+     "B": 0.981
+    },
+    "propensityRange": [
+     0.0439,
+     0.5
+    ],
+    "sharedStrata": [
+     "mixed",
+     "urban"
+    ],
+    "trimmedStrata": [
+     "highway",
+     "mixed_highway"
+    ],
+    "ess": {
+     "A": 264.9,
+     "B": 100.3
+    },
+    "smdUnweighted": {
+     "speed_mean_moving": 0.497,
+     "stationary_pct": 0.189,
+     "pct_highway": 0.274,
+     "distance_km": 0.242,
+     "cad_run1": 0.396,
+     "cad_run2": 0.184
+    },
+    "smdOverlapWeighted": {
+     "speed_mean_moving": 0.02,
+     "stationary_pct": 0.008,
+     "pct_highway": 0.026,
+     "distance_km": 0.02,
+     "cad_run1": 0.009,
+     "cad_run2": 0.045
+    },
+    "balanceOk": true,
+    "reason": null
+   },
+   "nBoot": null,
+   "covariates": [
+    "speed_mean_moving",
+    "stationary_pct",
+    "pct_highway",
+    "distance_km",
+    "cad_run1",
+    "cad_run2"
+   ],
+   "inputAudit": {
+    "nInCohorts": 517,
+    "nDroppedNonFinite": 16,
+    "nSingletonClusters": 0
+   }
+  },
+  "diagnostics": {
+   "originalDesign": {
+    "nRows": 501,
+    "conditionNumber": 4.588098950211133,
+    "vif": {
+     "speed_mean_moving": 4.754182802432087,
+     "stationary_pct": 1.4988819980410946,
+     "pct_highway": 3.962574093110952,
+     "distance_km": 2.983174834203905
+    }
+   },
+   "binaryDesign": {
+    "nRows": 501,
+    "conditionNumber": 4.605003760527527,
+    "vif": {
+     "speed_mean_moving": 4.764199716634542,
+     "stationary_pct": 1.5071519204386115,
+     "pct_highway": 3.9640686562127097,
+     "distance_km": 2.9956443647614353,
+     "cad_fast": 1.0160997187705267
+    }
+   },
+   "threeLevelDesign": {
+    "nRows": 501,
+    "conditionNumber": 4.64721740250107,
+    "vif": {
+     "speed_mean_moving": 4.846677724566444,
+     "stationary_pct": 1.5073158058941927,
+     "pct_highway": 3.9850343774476817,
+     "distance_km": 2.997908435146157,
+     "cad_run1": 1.0303406463938387,
+     "cad_run2": 1.039545662589094
+    }
+   }
+  },
+  "flips": {
+   "binaryRegime": {
+    "estimateDriven": [],
+    "supportDriven": []
+   },
+   "threeLevelRegime": {
+    "estimateDriven": [],
+    "supportDriven": []
+   }
+  },
+  "withinRegime": {
+   "label": "descriptive (secondary)",
+   "fastOnly": {
+    "status": "available",
+    "reasonCode": null,
+    "adjustedDiff": -2.6147,
+    "rawDiff": 6.2136,
+    "ci95": [
+     -5.8597,
+     2.5624
+    ],
+    "nA": 109,
+    "nB": 19,
+    "nDays": 26,
+    "nDaysA": 25,
+    "nDaysB": 7,
+    "commonSupport": {
+     "ok": true,
+     "method": "categorical strata + propensity min-max overlap + overlap-weight ESS",
+     "overlap": 0.768,
+     "overlapMin": 0.737,
+     "retainedFraction": {
+      "A": 0.798,
+      "B": 0.737
+     },
+     "propensityRange": [
+      0.0205,
+      0.4766
+     ],
+     "sharedStrata": [
+      "urban"
+     ],
+     "trimmedStrata": [
+      "highway",
+      "mixed",
+      "mixed_highway"
+     ],
+     "ess": {
+      "A": 54.0,
+      "B": 13.7
+     },
+     "smdUnweighted": {
+      "speed_mean_moving": 0.929,
+      "stationary_pct": 0.828,
+      "pct_highway": 0.248,
+      "distance_km": 0.533
+     },
+     "smdOverlapWeighted": {
+      "speed_mean_moving": 0.09,
+      "stationary_pct": 0.123,
+      "pct_highway": 0.074,
+      "distance_km": 0.086
+     },
+     "balanceOk": false,
+     "reason": null
+    },
+    "nBoot": null,
+    "covariates": [
+     "speed_mean_moving",
+     "stationary_pct",
+     "pct_highway",
+     "distance_km"
+    ],
+    "inputAudit": {
+     "nInCohorts": 129,
+     "nDroppedNonFinite": 1,
+     "nSingletonClusters": 0
+    }
+   },
+   "slowOnly": {
+    "status": "available",
+    "reasonCode": null,
+    "adjustedDiff": -2.1249,
+    "rawDiff": 3.6756,
+    "ci95": [
+     -4.2056,
+     -0.2422
+    ],
+    "nA": 288,
+    "nB": 85,
+    "nDays": 79,
+    "nDaysA": 69,
+    "nDaysB": 28,
+    "commonSupport": {
+     "ok": true,
+     "method": "categorical strata + propensity min-max overlap + overlap-weight ESS",
+     "overlap": 0.877,
+     "overlapMin": 0.767,
+     "retainedFraction": {
+      "A": 0.767,
+      "B": 0.988
+     },
+     "propensityRange": [
+      0.0543,
+      0.4646
+     ],
+     "sharedStrata": [
+      "urban"
+     ],
+     "trimmedStrata": [
+      "highway",
+      "mixed",
+      "mixed_highway"
+     ],
+     "ess": {
+      "A": 199.3,
+      "B": 83.2
+     },
+     "smdUnweighted": {
+      "speed_mean_moving": 0.324,
+      "stationary_pct": 0.003,
+      "pct_highway": 0.12,
+      "distance_km": 0.026
+     },
+     "smdOverlapWeighted": {
+      "speed_mean_moving": 0.021,
+      "stationary_pct": 0.04,
+      "pct_highway": 0.005,
+      "distance_km": 0.122
+     },
+     "balanceOk": false,
+     "reason": null
+    },
+    "nBoot": null,
+    "covariates": [
+     "speed_mean_moving",
+     "stationary_pct",
+     "pct_highway",
+     "distance_km"
+    ],
+    "inputAudit": {
+     "nInCohorts": 376,
+     "nDroppedNonFinite": 3,
+     "nSingletonClusters": 0
+    }
+   }
+  },
+  "withinRegimeFlags": {
+   "label": "descriptive flags only: a subset is a different population, not a variant of the same estimate; reported so that the Director can rule on them",
+   "fastOnly": {
+    "estimateDriven": [],
+    "supportDriven": []
+   },
+   "slowOnly": {
+    "estimateDriven": [
+     "CI side of 0 changes (includes 0 -> excludes 0)"
+    ],
+    "supportDriven": []
+   }
+  },
+  "regimePeriodContrast": {
+   "label": "descriptive: composition-adjusted (speed, stationary %, % highway, distance, drive type) fast minus slow difference of gross throughput per 100 km WITHIN a thermal cohort; carries the regime period (within-season time, ambient, route), never a cadence effect",
+   "warm": {
+    "status": "available",
+    "reasonCode": null,
+    "adjustedDiff": -1.2347,
+    "rawDiff": 0.4365,
+    "ci95": [
+     -2.5814,
+     0.3373
+    ],
+    "nA": 288,
+    "nB": 109,
+    "nDays": 94,
+    "nDaysA": 69,
+    "nDaysB": 25,
+    "commonSupport": {
+     "ok": true,
+     "method": "categorical strata + propensity min-max overlap + overlap-weight ESS",
+     "overlap": 0.97,
+     "overlapMin": 0.941,
+     "retainedFraction": {
+      "A": 0.941,
+      "B": 1.0
+     },
+     "propensityRange": [
+      0.0979,
+      0.355
+     ],
+     "sharedStrata": [
+      "highway",
+      "mixed",
+      "mixed_highway",
+      "urban"
+     ],
+     "trimmedStrata": [],
+     "ess": {
+      "A": 260.4,
+      "B": 108.7
+     },
+     "smdUnweighted": {
+      "speed_mean_moving": 0.205,
+      "stationary_pct": 0.158,
+      "pct_highway": 0.231,
+      "distance_km": 0.275
+     },
+     "smdOverlapWeighted": {
+      "speed_mean_moving": 0.04,
+      "stationary_pct": 0.026,
+      "pct_highway": 0.022,
+      "distance_km": 0.053
+     },
+     "balanceOk": true,
+     "reason": null
+    },
+    "nBoot": null,
+    "covariates": [
+     "speed_mean_moving",
+     "stationary_pct",
+     "pct_highway",
+     "distance_km"
+    ],
+    "inputAudit": {
+     "nInCohorts": 400,
+     "nDroppedNonFinite": 3,
+     "nSingletonClusters": 0
+    }
+   },
+   "shoulder": {
+    "status": "available",
+    "reasonCode": null,
+    "adjustedDiff": -2.8346,
+    "rawDiff": 2.9745,
+    "ci95": [
+     -7.844,
+     2.2828
+    ],
+    "nA": 85,
+    "nB": 19,
+    "nDays": 34,
+    "nDaysA": 28,
+    "nDaysB": 7,
+    "commonSupport": {
+     "ok": true,
+     "method": "categorical strata + propensity min-max overlap + overlap-weight ESS",
+     "overlap": 0.883,
+     "overlapMin": 0.871,
+     "retainedFraction": {
+      "A": 0.871,
+      "B": 0.895
+     },
+     "propensityRange": [
+      0.0433,
+      0.5991
+     ],
+     "sharedStrata": [
+      "urban"
+     ],
+     "trimmedStrata": [
+      "mixed"
+     ],
+     "ess": {
+      "A": 57.3,
+      "B": 16.7
+     },
+     "smdUnweighted": {
+      "speed_mean_moving": 0.548,
+      "stationary_pct": 0.758,
+      "pct_highway": 0.027,
+      "distance_km": 0.327
+     },
+     "smdOverlapWeighted": {
+      "speed_mean_moving": 0.004,
+      "stationary_pct": 0.073,
+      "pct_highway": 0.035,
+      "distance_km": 0.051
+     },
+     "balanceOk": true,
+     "reason": null
+    },
+    "nBoot": null,
+    "covariates": [
+     "speed_mean_moving",
+     "stationary_pct",
+     "pct_highway",
+     "distance_km"
+    ],
+    "inputAudit": {
+     "nInCohorts": 105,
+     "nDroppedNonFinite": 1,
+     "nSingletonClusters": 0
+    }
+   }
+  },
+  "interpretation": "the regime term carries a regime period (contiguous date block: within-season time, ambient and route), never a cadence effect"
+ },
+ "P4_slowEquivalent": {
+  "label": "slow-equivalent / harmonisation sensitivity (emulated), not a correction; the stress bound is not a plausible range; uniform r over fast drives",
+  "variants": {
+   "central_fastXr": {
+    "r": 0.9741167061913416,
+    "EI": {
+     "all": {
+      "value": 17.672719898644097,
+      "ci95": [
+       15.968828902356774,
+       20.074312419440528
+      ],
+      "shift": -0.08725195209981607,
+      "halfWidthOnMovedSide": 1.722703537154107,
+      "shiftOverHalfWidth": -0.050648268966786716,
+      "class": "below the quarter-half-width rule (necessary, not sufficient)"
+     },
+     "warm": {
+      "value": 16.995787613933526,
+      "ci95": [
+       15.432743168733259,
+       19.28035015723241
+      ],
+      "shift": -0.08702792004705984,
+      "halfWidthOnMovedSide": 1.5696677976270017,
+      "shiftOverHalfWidth": -0.05544352771881237,
+      "class": "below the quarter-half-width rule (necessary, not sufficient)"
+     },
+     "shoulder": {
+      "value": 26.84233494906662,
+      "ci95": [
+       24.914362096699442,
+       29.730955311420363
+      ],
+      "shift": -0.08644994651034565,
+      "halfWidthOnMovedSide": 1.9483007767064784,
+      "shiftOverHalfWidth": -0.04437197148608938,
+      "class": "below the quarter-half-width rule (necessary, not sufficient)"
+     }
+    },
+    "contrast_original_covariates": {
+     "status": "available",
+     "reasonCode": null,
+     "adjustedDiff": -1.2506,
+     "rawDiff": 4.1434,
+     "ci95": [
+      -3.3418,
+      0.4585
+     ],
+     "nA": 397,
+     "nB": 104,
+     "nDays": 104,
+     "nDaysA": 94,
+     "nDaysB": 34,
+     "commonSupport": {
+      "ok": true,
+      "method": "categorical strata + propensity min-max overlap + overlap-weight ESS",
+      "overlap": 0.928,
+      "overlapMin": 0.866,
+      "retainedFraction": {
+       "A": 0.866,
+       "B": 0.99
+      },
+      "propensityRange": [
+       0.0291,
+       0.4891
+      ],
+      "sharedStrata": [
+       "mixed",
+       "urban"
+      ],
+      "trimmedStrata": [
+       "highway",
+       "mixed_highway"
+      ],
+      "ess": {
+       "A": 291.5,
+       "B": 101.6
+      },
+      "smdUnweighted": {
+       "speed_mean_moving": 0.497,
+       "stationary_pct": 0.189,
+       "pct_highway": 0.274,
+       "distance_km": 0.242
+      },
+      "smdOverlapWeighted": {
+       "speed_mean_moving": 0.0,
+       "stationary_pct": 0.002,
+       "pct_highway": 0.006,
+       "distance_km": 0.009
+      },
+      "balanceOk": true,
+      "reason": null
+     },
+     "nBoot": null,
+     "covariates": [
+      "speed_mean_moving",
+      "stationary_pct",
+      "pct_highway",
+      "distance_km"
+     ],
+     "inputAudit": {
+      "nInCohorts": 517,
+      "nDroppedNonFinite": 16,
+      "nSingletonClusters": 0
+     }
+    },
+    "contrast_binaryRegime": {
+     "status": "available",
+     "reasonCode": null,
+     "adjustedDiff": -1.7228,
+     "rawDiff": 4.1434,
+     "ci95": [
+      -3.4914,
+      0.3262
+     ],
+     "nA": 397,
+     "nB": 104,
+     "nDays": 104,
+     "nDaysA": 94,
+     "nDaysB": 34,
+     "commonSupport": {
+      "ok": true,
+      "method": "categorical strata + propensity min-max overlap + overlap-weight ESS",
+      "overlap": 0.928,
+      "overlapMin": 0.866,
+      "retainedFraction": {
+       "A": 0.866,
+       "B": 0.99
+      },
+      "propensityRange": [
+       0.0225,
+       0.4436
+      ],
+      "sharedStrata": [
+       "mixed",
+       "urban"
+      ],
+      "trimmedStrata": [
+       "highway",
+       "mixed_highway"
+      ],
+      "ess": {
+       "A": 278.5,
+       "B": 101.4
+      },
+      "smdUnweighted": {
+       "speed_mean_moving": 0.497,
+       "stationary_pct": 0.189,
+       "pct_highway": 0.274,
+       "distance_km": 0.242,
+       "cad_fast": 0.263
+      },
+      "smdOverlapWeighted": {
+       "speed_mean_moving": 0.073,
+       "stationary_pct": 0.004,
+       "pct_highway": 0.037,
+       "distance_km": 0.006,
+       "cad_fast": 0.037
+      },
+      "balanceOk": true,
+      "reason": null
+     },
+     "nBoot": null,
+     "covariates": [
+      "speed_mean_moving",
+      "stationary_pct",
+      "pct_highway",
+      "distance_km",
+      "cad_fast"
+     ],
+     "inputAudit": {
+      "nInCohorts": 517,
+      "nDroppedNonFinite": 16,
+      "nSingletonClusters": 0
+     }
+    },
+    "flips_original_covariates": {
+     "estimateDriven": [],
+     "supportDriven": []
+    },
+    "flips_binaryRegime_vs_binaryOriginal": {
+     "estimateDriven": [],
+     "supportDriven": []
+    },
+    "contrastShift": {
+     "shift": 0.09200000000000008,
+     "halfWidthOnMovedSide": 1.6938,
+     "shiftOverHalfWidth": 0.05431573975676,
+     "class": "below the quarter-half-width rule (necessary, not sufficient)"
+    }
+   },
+   "ciLow_fastXr": {
+    "r": 0.9728475196305763,
+    "EI": {
+     "all": {
+      "value": 17.66844150170496,
+      "ci95": [
+       15.96608121435695,
+       20.068487893024923
+      ],
+      "shift": -0.09153034903895119,
+      "halfWidthOnMovedSide": 1.722703537154107,
+      "shiftOverHalfWidth": -0.05313180536574425,
+      "class": "below the quarter-half-width rule (necessary, not sufficient)"
+     },
+     "warm": {
+      "value": 16.991520202399602,
+      "ci95": [
+       15.427884056172294,
+       19.275699143809
+      ],
+      "shift": -0.09129533158098369,
+      "halfWidthOnMovedSide": 1.5696677976270017,
+      "shiftOverHalfWidth": -0.05816219949151182,
+      "class": "below the quarter-half-width rule (necessary, not sufficient)"
+     },
+     "shoulder": {
+      "value": 26.838095878448286,
+      "ci95": [
+       24.910894627797774,
+       29.724387032051602
+      ],
+      "shift": -0.09068901712867827,
+      "halfWidthOnMovedSide": 1.9483007767064784,
+      "shiftOverHalfWidth": -0.046547749820222466,
+      "class": "below the quarter-half-width rule (necessary, not sufficient)"
+     }
+    },
+    "contrast_original_covariates": {
+     "status": "available",
+     "reasonCode": null,
+     "adjustedDiff": -1.246,
+     "rawDiff": 4.1455,
+     "ci95": [
+      -3.3383,
+      0.464
+     ],
+     "nA": 397,
+     "nB": 104,
+     "nDays": 104,
+     "nDaysA": 94,
+     "nDaysB": 34,
+     "commonSupport": {
+      "ok": true,
+      "method": "categorical strata + propensity min-max overlap + overlap-weight ESS",
+      "overlap": 0.928,
+      "overlapMin": 0.866,
+      "retainedFraction": {
+       "A": 0.866,
+       "B": 0.99
+      },
+      "propensityRange": [
+       0.0291,
+       0.4891
+      ],
+      "sharedStrata": [
+       "mixed",
+       "urban"
+      ],
+      "trimmedStrata": [
+       "highway",
+       "mixed_highway"
+      ],
+      "ess": {
+       "A": 291.5,
+       "B": 101.6
+      },
+      "smdUnweighted": {
+       "speed_mean_moving": 0.497,
+       "stationary_pct": 0.189,
+       "pct_highway": 0.274,
+       "distance_km": 0.242
+      },
+      "smdOverlapWeighted": {
+       "speed_mean_moving": 0.0,
+       "stationary_pct": 0.002,
+       "pct_highway": 0.006,
+       "distance_km": 0.009
+      },
+      "balanceOk": true,
+      "reason": null
+     },
+     "nBoot": null,
+     "covariates": [
+      "speed_mean_moving",
+      "stationary_pct",
+      "pct_highway",
+      "distance_km"
+     ],
+     "inputAudit": {
+      "nInCohorts": 517,
+      "nDroppedNonFinite": 16,
+      "nSingletonClusters": 0
+     }
+    },
+    "contrast_binaryRegime": {
+     "status": "available",
+     "reasonCode": null,
+     "adjustedDiff": -1.7242,
+     "rawDiff": 4.1455,
+     "ci95": [
+      -3.4903,
+      0.3259
+     ],
+     "nA": 397,
+     "nB": 104,
+     "nDays": 104,
+     "nDaysA": 94,
+     "nDaysB": 34,
+     "commonSupport": {
+      "ok": true,
+      "method": "categorical strata + propensity min-max overlap + overlap-weight ESS",
+      "overlap": 0.928,
+      "overlapMin": 0.866,
+      "retainedFraction": {
+       "A": 0.866,
+       "B": 0.99
+      },
+      "propensityRange": [
+       0.0225,
+       0.4436
+      ],
+      "sharedStrata": [
+       "mixed",
+       "urban"
+      ],
+      "trimmedStrata": [
+       "highway",
+       "mixed_highway"
+      ],
+      "ess": {
+       "A": 278.5,
+       "B": 101.4
+      },
+      "smdUnweighted": {
+       "speed_mean_moving": 0.497,
+       "stationary_pct": 0.189,
+       "pct_highway": 0.274,
+       "distance_km": 0.242,
+       "cad_fast": 0.263
+      },
+      "smdOverlapWeighted": {
+       "speed_mean_moving": 0.073,
+       "stationary_pct": 0.004,
+       "pct_highway": 0.037,
+       "distance_km": 0.006,
+       "cad_fast": 0.037
+      },
+      "balanceOk": true,
+      "reason": null
+     },
+     "nBoot": null,
+     "covariates": [
+      "speed_mean_moving",
+      "stationary_pct",
+      "pct_highway",
+      "distance_km",
+      "cad_fast"
+     ],
+     "inputAudit": {
+      "nInCohorts": 517,
+      "nDroppedNonFinite": 16,
+      "nSingletonClusters": 0
+     }
+    },
+    "flips_original_covariates": {
+     "estimateDriven": [],
+     "supportDriven": []
+    },
+    "flips_binaryRegime_vs_binaryOriginal": {
+     "estimateDriven": [],
+     "supportDriven": []
+    },
+    "contrastShift": {
+     "shift": 0.09660000000000002,
+     "halfWidthOnMovedSide": 1.6938,
+     "shiftOverHalfWidth": 0.05703152674459796,
+     "class": "below the quarter-half-width rule (necessary, not sufficient)"
+    }
+   },
+   "ciHigh_fastXr": {
+    "r": 0.975532539729406,
+    "EI": {
+     "all": {
+      "value": 17.677492638966786,
+      "ci95": [
+       15.971487329535526,
+       20.08079647793108
+      ],
+      "shift": -0.08247921177712669,
+      "halfWidthOnMovedSide": 1.722703537154107,
+      "shiftOverHalfWidth": -0.04787777467119021,
+      "class": "below the quarter-half-width rule (necessary, not sufficient)"
+     },
+     "warm": {
+      "value": 17.00054809955261,
+      "ci95": [
+       15.438197884191629,
+       19.285538567663483
+      ],
+      "shift": -0.08226743442797613,
+      "halfWidthOnMovedSide": 1.5696677976270017,
+      "shiftOverHalfWidth": -0.052410729552040694,
+      "class": "below the quarter-half-width rule (necessary, not sufficient)"
+     },
+     "shoulder": {
+      "value": 26.847063819145443,
+      "ci95": [
+       24.918292036365575,
+       29.738240388967608
+      ],
+      "shift": -0.0817210764315206,
+      "halfWidthOnMovedSide": 1.9483007767064784,
+      "shiftOverHalfWidth": -0.04194479487385243,
+      "class": "below the quarter-half-width rule (necessary, not sufficient)"
+     }
+    },
+    "contrast_original_covariates": {
+     "status": "available",
+     "reasonCode": null,
+     "adjustedDiff": -1.2556,
+     "rawDiff": 4.141,
+     "ci95": [
+      -3.3455,
+      0.4492
+     ],
+     "nA": 397,
+     "nB": 104,
+     "nDays": 104,
+     "nDaysA": 94,
+     "nDaysB": 34,
+     "commonSupport": {
+      "ok": true,
+      "method": "categorical strata + propensity min-max overlap + overlap-weight ESS",
+      "overlap": 0.928,
+      "overlapMin": 0.866,
+      "retainedFraction": {
+       "A": 0.866,
+       "B": 0.99
+      },
+      "propensityRange": [
+       0.0291,
+       0.4891
+      ],
+      "sharedStrata": [
+       "mixed",
+       "urban"
+      ],
+      "trimmedStrata": [
+       "highway",
+       "mixed_highway"
+      ],
+      "ess": {
+       "A": 291.5,
+       "B": 101.6
+      },
+      "smdUnweighted": {
+       "speed_mean_moving": 0.497,
+       "stationary_pct": 0.189,
+       "pct_highway": 0.274,
+       "distance_km": 0.242
+      },
+      "smdOverlapWeighted": {
+       "speed_mean_moving": 0.0,
+       "stationary_pct": 0.002,
+       "pct_highway": 0.006,
+       "distance_km": 0.009
+      },
+      "balanceOk": true,
+      "reason": null
+     },
+     "nBoot": null,
+     "covariates": [
+      "speed_mean_moving",
+      "stationary_pct",
+      "pct_highway",
+      "distance_km"
+     ],
+     "inputAudit": {
+      "nInCohorts": 517,
+      "nDroppedNonFinite": 16,
+      "nSingletonClusters": 0
+     }
+    },
+    "contrast_binaryRegime": {
+     "status": "available",
+     "reasonCode": null,
+     "adjustedDiff": -1.7211,
+     "rawDiff": 4.141,
+     "ci95": [
+      -3.4926,
+      0.3266
+     ],
+     "nA": 397,
+     "nB": 104,
+     "nDays": 104,
+     "nDaysA": 94,
+     "nDaysB": 34,
+     "commonSupport": {
+      "ok": true,
+      "method": "categorical strata + propensity min-max overlap + overlap-weight ESS",
+      "overlap": 0.928,
+      "overlapMin": 0.866,
+      "retainedFraction": {
+       "A": 0.866,
+       "B": 0.99
+      },
+      "propensityRange": [
+       0.0225,
+       0.4436
+      ],
+      "sharedStrata": [
+       "mixed",
+       "urban"
+      ],
+      "trimmedStrata": [
+       "highway",
+       "mixed_highway"
+      ],
+      "ess": {
+       "A": 278.5,
+       "B": 101.4
+      },
+      "smdUnweighted": {
+       "speed_mean_moving": 0.497,
+       "stationary_pct": 0.189,
+       "pct_highway": 0.274,
+       "distance_km": 0.242,
+       "cad_fast": 0.263
+      },
+      "smdOverlapWeighted": {
+       "speed_mean_moving": 0.073,
+       "stationary_pct": 0.004,
+       "pct_highway": 0.037,
+       "distance_km": 0.006,
+       "cad_fast": 0.037
+      },
+      "balanceOk": true,
+      "reason": null
+     },
+     "nBoot": null,
+     "covariates": [
+      "speed_mean_moving",
+      "stationary_pct",
+      "pct_highway",
+      "distance_km",
+      "cad_fast"
+     ],
+     "inputAudit": {
+      "nInCohorts": 517,
+      "nDroppedNonFinite": 16,
+      "nSingletonClusters": 0
+     }
+    },
+    "flips_original_covariates": {
+     "estimateDriven": [],
+     "supportDriven": []
+    },
+    "flips_binaryRegime_vs_binaryOriginal": {
+     "estimateDriven": [],
+     "supportDriven": []
+    },
+    "contrastShift": {
+     "shift": 0.08699999999999997,
+     "halfWidthOnMovedSide": 1.6938,
+     "shiftOverHalfWidth": 0.05136379737867515,
+     "class": "below the quarter-half-width rule (necessary, not sufficient)"
+    }
+   },
+   "stress_fastXr": {
+    "r": 0.9080147015255468,
+    "EI": {
+     "all": {
+      "value": 17.44989165323461,
+      "ci95": [
+       15.779013978337943,
+       19.777231729002512
+      ],
+      "shift": -0.31008019750930416,
+      "halfWidthOnMovedSide": 1.722703537154107,
+      "shiftOverHalfWidth": -0.1799962621668231,
+      "class": "below the quarter-half-width rule (necessary, not sufficient)"
+     },
+     "warm": {
+      "value": 16.773531512390516,
+      "ci95": [
+       15.260686748107814,
+       18.981591139730824
+      ],
+      "shift": -0.30928402159007007,
+      "halfWidthOnMovedSide": 1.5696677976270017,
+      "shiftOverHalfWidth": -0.19703788410365597,
+      "class": "below the quarter-half-width rule (necessary, not sufficient)"
+     },
+     "shoulder": {
+      "value": 26.621554904230397,
+      "ci95": [
+       24.71962439211508,
+       29.42589045903376
+      ],
+      "shift": -0.30722999134656703,
+      "halfWidthOnMovedSide": 1.9483007767064784,
+      "shiftOverHalfWidth": -0.15769125333200687,
+      "class": "below the quarter-half-width rule (necessary, not sufficient)"
+     }
+    },
+    "contrast_original_covariates": {
+     "status": "available",
+     "reasonCode": null,
+     "adjustedDiff": -1.0155,
+     "rawDiff": 4.2562,
+     "ci95": [
+      -3.0986,
+      0.7676
+     ],
+     "nA": 397,
+     "nB": 104,
+     "nDays": 104,
+     "nDaysA": 94,
+     "nDaysB": 34,
+     "commonSupport": {
+      "ok": true,
+      "method": "categorical strata + propensity min-max overlap + overlap-weight ESS",
+      "overlap": 0.928,
+      "overlapMin": 0.866,
+      "retainedFraction": {
+       "A": 0.866,
+       "B": 0.99
+      },
+      "propensityRange": [
+       0.0291,
+       0.4891
+      ],
+      "sharedStrata": [
+       "mixed",
+       "urban"
+      ],
+      "trimmedStrata": [
+       "highway",
+       "mixed_highway"
+      ],
+      "ess": {
+       "A": 291.5,
+       "B": 101.6
+      },
+      "smdUnweighted": {
+       "speed_mean_moving": 0.497,
+       "stationary_pct": 0.189,
+       "pct_highway": 0.274,
+       "distance_km": 0.242
+      },
+      "smdOverlapWeighted": {
+       "speed_mean_moving": 0.0,
+       "stationary_pct": 0.002,
+       "pct_highway": 0.006,
+       "distance_km": 0.009
+      },
+      "balanceOk": true,
+      "reason": null
+     },
+     "nBoot": null,
+     "covariates": [
+      "speed_mean_moving",
+      "stationary_pct",
+      "pct_highway",
+      "distance_km"
+     ],
+     "inputAudit": {
+      "nInCohorts": 517,
+      "nDroppedNonFinite": 16,
+      "nSingletonClusters": 0
+     }
+    },
+    "contrast_binaryRegime": {
+     "status": "available",
+     "reasonCode": null,
+     "adjustedDiff": -1.8004,
+     "rawDiff": 4.2562,
+     "ci95": [
+      -3.5069,
+      0.2149
+     ],
+     "nA": 397,
+     "nB": 104,
+     "nDays": 104,
+     "nDaysA": 94,
+     "nDaysB": 34,
+     "commonSupport": {
+      "ok": true,
+      "method": "categorical strata + propensity min-max overlap + overlap-weight ESS",
+      "overlap": 0.928,
+      "overlapMin": 0.866,
+      "retainedFraction": {
+       "A": 0.866,
+       "B": 0.99
+      },
+      "propensityRange": [
+       0.0225,
+       0.4436
+      ],
+      "sharedStrata": [
+       "mixed",
+       "urban"
+      ],
+      "trimmedStrata": [
+       "highway",
+       "mixed_highway"
+      ],
+      "ess": {
+       "A": 278.5,
+       "B": 101.4
+      },
+      "smdUnweighted": {
+       "speed_mean_moving": 0.497,
+       "stationary_pct": 0.189,
+       "pct_highway": 0.274,
+       "distance_km": 0.242,
+       "cad_fast": 0.263
+      },
+      "smdOverlapWeighted": {
+       "speed_mean_moving": 0.073,
+       "stationary_pct": 0.004,
+       "pct_highway": 0.037,
+       "distance_km": 0.006,
+       "cad_fast": 0.037
+      },
+      "balanceOk": true,
+      "reason": null
+     },
+     "nBoot": null,
+     "covariates": [
+      "speed_mean_moving",
+      "stationary_pct",
+      "pct_highway",
+      "distance_km",
+      "cad_fast"
+     ],
+     "inputAudit": {
+      "nInCohorts": 517,
+      "nDroppedNonFinite": 16,
+      "nSingletonClusters": 0
+     }
+    },
+    "flips_original_covariates": {
+     "estimateDriven": [],
+     "supportDriven": []
+    },
+    "flips_binaryRegime_vs_binaryOriginal": {
+     "estimateDriven": [],
+     "supportDriven": []
+    },
+    "contrastShift": {
+     "shift": 0.32709999999999995,
+     "halfWidthOnMovedSide": 1.6938,
+     "shiftOverHalfWidth": 0.19311607037430625,
+     "class": "below the quarter-half-width rule (necessary, not sufficient)"
+    }
+   },
+   "reverse_central_slowX1overR": {
+    "r": 1.026571039839629,
+    "EI": {
+     "all": {
+      "value": 18.142302443145574,
+      "ci95": [
+       16.393137291313515,
+       20.60770777449064
+      ],
+      "shift": 0.38233059240166156,
+      "halfWidthOnMovedSide": 2.4251649498769474,
+      "shiftOverHalfWidth": 0.1576513764233072,
+      "class": "below the quarter-half-width rule (necessary, not sufficient)"
+     },
+     "warm": {
+      "value": 17.447383363729234,
+      "ci95": [
+       15.842807202304437,
+       19.792649109382225
+      ],
+      "shift": 0.36456782974864765,
+      "halfWidthOnMovedSide": 2.3207159112137674,
+      "shiftOverHalfWidth": 0.1570928298405872,
+      "class": "below the quarter-half-width rule (necessary, not sufficient)"
+     },
+     "shoulder": {
+      "value": 27.55556370038693,
+      "ci95": [
+       25.576362604549782,
+       30.520937709470353
+      ],
+      "shift": 0.6267788048099661,
+      "halfWidthOnMovedSide": 2.927461911964155,
+      "shiftOverHalfWidth": 0.2141031458849739,
+      "class": "below the quarter-half-width rule (necessary, not sufficient)"
+     }
+    },
+    "contrast_original_covariates": {
+     "status": "available",
+     "reasonCode": null,
+     "adjustedDiff": -1.2838,
+     "rawDiff": 4.2535,
+     "ci95": [
+      -3.4306,
+      0.4707
+     ],
+     "nA": 397,
+     "nB": 104,
+     "nDays": 104,
+     "nDaysA": 94,
+     "nDaysB": 34,
+     "commonSupport": {
+      "ok": true,
+      "method": "categorical strata + propensity min-max overlap + overlap-weight ESS",
+      "overlap": 0.928,
+      "overlapMin": 0.866,
+      "retainedFraction": {
+       "A": 0.866,
+       "B": 0.99
+      },
+      "propensityRange": [
+       0.0291,
+       0.4891
+      ],
+      "sharedStrata": [
+       "mixed",
+       "urban"
+      ],
+      "trimmedStrata": [
+       "highway",
+       "mixed_highway"
+      ],
+      "ess": {
+       "A": 291.5,
+       "B": 101.6
+      },
+      "smdUnweighted": {
+       "speed_mean_moving": 0.497,
+       "stationary_pct": 0.189,
+       "pct_highway": 0.274,
+       "distance_km": 0.242
+      },
+      "smdOverlapWeighted": {
+       "speed_mean_moving": 0.0,
+       "stationary_pct": 0.002,
+       "pct_highway": 0.006,
+       "distance_km": 0.009
+      },
+      "balanceOk": true,
+      "reason": null
+     },
+     "nBoot": null,
+     "covariates": [
+      "speed_mean_moving",
+      "stationary_pct",
+      "pct_highway",
+      "distance_km"
+     ],
+     "inputAudit": {
+      "nInCohorts": 517,
+      "nDroppedNonFinite": 16,
+      "nSingletonClusters": 0
+     }
+    },
+    "contrast_binaryRegime": {
+     "status": "available",
+     "reasonCode": null,
+     "adjustedDiff": -1.7685,
+     "rawDiff": 4.2535,
+     "ci95": [
+      -3.5842,
+      0.3349
+     ],
+     "nA": 397,
+     "nB": 104,
+     "nDays": 104,
+     "nDaysA": 94,
+     "nDaysB": 34,
+     "commonSupport": {
+      "ok": true,
+      "method": "categorical strata + propensity min-max overlap + overlap-weight ESS",
+      "overlap": 0.928,
+      "overlapMin": 0.866,
+      "retainedFraction": {
+       "A": 0.866,
+       "B": 0.99
+      },
+      "propensityRange": [
+       0.0225,
+       0.4436
+      ],
+      "sharedStrata": [
+       "mixed",
+       "urban"
+      ],
+      "trimmedStrata": [
+       "highway",
+       "mixed_highway"
+      ],
+      "ess": {
+       "A": 278.5,
+       "B": 101.4
+      },
+      "smdUnweighted": {
+       "speed_mean_moving": 0.497,
+       "stationary_pct": 0.189,
+       "pct_highway": 0.274,
+       "distance_km": 0.242,
+       "cad_fast": 0.263
+      },
+      "smdOverlapWeighted": {
+       "speed_mean_moving": 0.073,
+       "stationary_pct": 0.004,
+       "pct_highway": 0.037,
+       "distance_km": 0.006,
+       "cad_fast": 0.037
+      },
+      "balanceOk": true,
+      "reason": null
+     },
+     "nBoot": null,
+     "covariates": [
+      "speed_mean_moving",
+      "stationary_pct",
+      "pct_highway",
+      "distance_km",
+      "cad_fast"
+     ],
+     "inputAudit": {
+      "nInCohorts": 517,
+      "nDroppedNonFinite": 16,
+      "nSingletonClusters": 0
+     }
+    },
+    "flips_original_covariates": {
+     "estimateDriven": [],
+     "supportDriven": []
+    },
+    "flips_binaryRegime_vs_binaryOriginal": {
+     "estimateDriven": [],
+     "supportDriven": []
+    },
+    "contrastShift": {
+     "shift": 0.05879999999999996,
+     "halfWidthOnMovedSide": 1.6938,
+     "shiftOverHalfWidth": 0.03471484236627699,
+     "class": "below the quarter-half-width rule (necessary, not sufficient)"
+    }
+   },
+   "reverse_stress_slowX1overR": {
+    "r": 1.1013037545756799,
+    "EI": {
+     "all": {
+      "value": 19.217631194646096,
+      "ci95": [
+       17.377487337845707,
+       21.780739558263733
+      ],
+      "shift": 1.4576593439021828,
+      "halfWidthOnMovedSide": 2.4251649498769474,
+      "shiftOverHalfWidth": 0.601055752507121,
+      "class": "material to report (above the quarter-half-width rule)"
+     },
+     "warm": {
+      "value": 18.472753232089154,
+      "ci95": [
+       16.806651613094456,
+       20.904497590006024
+      ],
+      "shift": 1.389937698108568,
+      "halfWidthOnMovedSide": 2.3207159112137674,
+      "shiftOverHalfWidth": 0.5989262586567999,
+      "class": "material to report (above the quarter-half-width rule)"
+     },
+     "shoulder": {
+      "value": 29.31841836867154,
+      "ci95": [
+       27.223815154736897,
+       32.40684364426656
+      ],
+      "shift": 2.3896334730945767,
+      "halfWidthOnMovedSide": 2.927461911964155,
+      "shiftOverHalfWidth": 0.8162816613696856,
+      "class": "material to report (above the quarter-half-width rule)"
+     }
+    },
+    "contrast_original_covariates": {
+     "status": "available",
+     "reasonCode": null,
+     "adjustedDiff": -1.1184,
+     "rawDiff": 4.6874,
+     "ci95": [
+      -3.4125,
+      0.8453
+     ],
+     "nA": 397,
+     "nB": 104,
+     "nDays": 104,
+     "nDaysA": 94,
+     "nDaysB": 34,
+     "commonSupport": {
+      "ok": true,
+      "method": "categorical strata + propensity min-max overlap + overlap-weight ESS",
+      "overlap": 0.928,
+      "overlapMin": 0.866,
+      "retainedFraction": {
+       "A": 0.866,
+       "B": 0.99
+      },
+      "propensityRange": [
+       0.0291,
+       0.4891
+      ],
+      "sharedStrata": [
+       "mixed",
+       "urban"
+      ],
+      "trimmedStrata": [
+       "highway",
+       "mixed_highway"
+      ],
+      "ess": {
+       "A": 291.5,
+       "B": 101.6
+      },
+      "smdUnweighted": {
+       "speed_mean_moving": 0.497,
+       "stationary_pct": 0.189,
+       "pct_highway": 0.274,
+       "distance_km": 0.242
+      },
+      "smdOverlapWeighted": {
+       "speed_mean_moving": 0.0,
+       "stationary_pct": 0.002,
+       "pct_highway": 0.006,
+       "distance_km": 0.009
+      },
+      "balanceOk": true,
+      "reason": null
+     },
+     "nBoot": null,
+     "covariates": [
+      "speed_mean_moving",
+      "stationary_pct",
+      "pct_highway",
+      "distance_km"
+     ],
+     "inputAudit": {
+      "nInCohorts": 517,
+      "nDroppedNonFinite": 16,
+      "nSingletonClusters": 0
+     }
+    },
+    "contrast_binaryRegime": {
+     "status": "available",
+     "reasonCode": null,
+     "adjustedDiff": -1.9828,
+     "rawDiff": 4.6874,
+     "ci95": [
+      -3.8621,
+      0.2366
+     ],
+     "nA": 397,
+     "nB": 104,
+     "nDays": 104,
+     "nDaysA": 94,
+     "nDaysB": 34,
+     "commonSupport": {
+      "ok": true,
+      "method": "categorical strata + propensity min-max overlap + overlap-weight ESS",
+      "overlap": 0.928,
+      "overlapMin": 0.866,
+      "retainedFraction": {
+       "A": 0.866,
+       "B": 0.99
+      },
+      "propensityRange": [
+       0.0225,
+       0.4436
+      ],
+      "sharedStrata": [
+       "mixed",
+       "urban"
+      ],
+      "trimmedStrata": [
+       "highway",
+       "mixed_highway"
+      ],
+      "ess": {
+       "A": 278.5,
+       "B": 101.4
+      },
+      "smdUnweighted": {
+       "speed_mean_moving": 0.497,
+       "stationary_pct": 0.189,
+       "pct_highway": 0.274,
+       "distance_km": 0.242,
+       "cad_fast": 0.263
+      },
+      "smdOverlapWeighted": {
+       "speed_mean_moving": 0.073,
+       "stationary_pct": 0.004,
+       "pct_highway": 0.037,
+       "distance_km": 0.006,
+       "cad_fast": 0.037
+      },
+      "balanceOk": true,
+      "reason": null
+     },
+     "nBoot": null,
+     "covariates": [
+      "speed_mean_moving",
+      "stationary_pct",
+      "pct_highway",
+      "distance_km",
+      "cad_fast"
+     ],
+     "inputAudit": {
+      "nInCohorts": 517,
+      "nDroppedNonFinite": 16,
+      "nSingletonClusters": 0
+     }
+    },
+    "flips_original_covariates": {
+     "estimateDriven": [],
+     "supportDriven": []
+    },
+    "flips_binaryRegime_vs_binaryOriginal": {
+     "estimateDriven": [],
+     "supportDriven": []
+    },
+    "contrastShift": {
+     "shift": 0.22419999999999995,
+     "halfWidthOnMovedSide": 1.6938,
+     "shiftOverHalfWidth": 0.1323650962333215,
+     "class": "below the quarter-half-width rule (necessary, not sufficient)"
+    }
+   }
+  }
+ },
+ "P5_arithmetic": {
+  "label": "arithmetic only; nothing recomputed; descriptive under the emulation",
+  "corpusFastShareOfGrossThroughput": 0.18980748601141215,
+  "corpusSumChange_fastXr": {
+   "central": -0.004912842927516198,
+   "ciEndpoints": [
+    -0.005153744037894541,
+    -0.004644107123045551
+   ],
+   "stress": -0.017459498253445355
+  },
+  "corpusSumChange_reverse_slowX1overR": {
+   "central": 0.021527657566959985,
+   "stress": 0.08207554359615298
+  },
+  "byDriveType": {
+   "highway": {
+    "nDrives": 19,
+    "fastShareOfGrossThroughput": 0.06099605825038401,
+    "rateChangeIfFastXr_central": -0.001578778896864731,
+    "rateChangeIfSlowX1overR_central": 0.024950311145797762
+   },
+   "mixed": {
+    "nDrives": 27,
+    "fastShareOfGrossThroughput": 0.27756462035541196,
+    "rateChangeIfFastXr_central": -0.007184286619547851,
+    "rateChangeIfSlowX1overR_central": 0.019195859254093887
+   },
+   "mixed_highway": {
+    "nDrives": 31,
+    "fastShareOfGrossThroughput": 0.05461413214495702,
+    "rateChangeIfFastXr_central": -0.0014135936284128173,
+    "rateChangeIfSlowX1overR_central": 0.025119885558598634
+   },
+   "urban": {
+    "nDrives": 431,
+    "fastShareOfGrossThroughput": 0.29914115781999134,
+    "rateChangeIfFastXr_central": -0.007742758478117085,
+    "rateChangeIfSlowX1overR_central": 0.0186225482175213
+   }
+  },
+  "projectionNote": "cycleLife / seasonalLife / fadeModes crossing years are driven by gtc per km times annual km: a relative change x of the rate scales a crossing year by about 1/(1+x) (proportionality, not a recompute)"
+ },
+ "P6_mannWhitneyGtcPer100km": {
+  "reproduction": {
+   "computedP": 0.28025031333028383,
+   "payloadP": 0.2803,
+   "mediansComputed": [
+    17.269642857142856,
+    17.713636363636365
+   ],
+   "mediansPayload": [
+    17.27,
+    17.71
+   ]
+  },
+  "coolantByRegimeCrossTable": {
+   "cold": {
+    "fast": 50,
+    "none": 1,
+    "slow": 154
+   },
+   "warm": {
+    "fast": 27,
+    "none": 0,
+    "slow": 75
+   }
+  },
+  "variants": {
+   "original": {
+    "nCold": 204,
+    "nWarm": 100,
+    "medianCold": 17.269642857142856,
+    "medianWarm": 17.713636363636365,
+    "p": 0.28025031333028383,
+    "descriptiveOnly": false
+   },
+   "fastXr_central": {
+    "nCold": 204,
+    "nWarm": 100,
+    "medianCold": 17.138888888888886,
+    "medianWarm": 17.516130568319056,
+    "p": 0.28460324502232204,
+    "descriptiveOnly": false
+   },
+   "fastXr_stress": {
+    "nCold": 204,
+    "nWarm": 100,
+    "medianCold": 16.890434782608693,
+    "medianWarm": 17.14150153539927,
+    "p": 0.3320238966831468,
+    "descriptiveOnly": false
+   },
+   "reverse_central": {
+    "nCold": 204,
+    "nWarm": 100,
+    "medianCold": 17.594286988362533,
+    "medianWarm": 17.98155237148601,
+    "p": 0.28460324502232204,
+    "descriptiveOnly": false
+   },
+   "fastOnly": {
+    "nCold": 50,
+    "nWarm": 27,
+    "medianCold": 17.65416666666667,
+    "medianWarm": 17.425,
+    "p": 0.5607021054554312,
+    "descriptiveOnly": false
+   },
+   "slowOnly": {
+    "nCold": 154,
+    "nWarm": 73,
+    "medianCold": 17.086666666666666,
+    "medianWarm": 17.931818181818183,
+    "p": 0.10532989687462442,
+    "descriptiveOnly": false
+   }
+  },
+  "partialSpearmanBlock": {
+   "included": false,
+   "reason": "its inputs (T_eng_coolant_max, cell_spread_loaded_p95_adj_mv, vreg_R_pack_mohm, T_pack_mean_max) contain no gross-throughput column (script-listed)"
+  },
+  "damageK2PerKm": "not scaled: rf_damage_k2 is not covered by the emulation",
+  "flips": {
+   "fastXr_central": [],
+   "fastXr_stress": [],
+   "reverse_central": [],
+   "fastOnly": [],
+   "slowOnly": []
+  }
+ },
+ "P7_classification": {
+  "nFlips": 0,
+  "flips": [],
+  "stopForDirector": false,
+  "rule": "a flip in any direction (CI side of 0, sign, status; Mann-Whitney p side of 0.05), including a newly significant result, is a STOP for the Director"
+ }
+}
