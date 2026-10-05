@@ -223,7 +223,16 @@ ok("A2 REQUIRED M366 F03 disclosure does not claim all estimates stay inside the
 _lc = json.load(open("summary_arrays.json", encoding="utf-8"))["loggerCadence"]
 ok("A2 REQUIRED M379a logger-cadence disclosure bound to loggerCadence (regime counts and days, the fast runs, 'not yet quantified', the confound statement)",
    any(all(x in t for x in ("Logger PID cadence", "%d drives on %d days are fast-cadence" % (_lc["counts"]["fast"], _lc["nDaysByRegime"]["fast"]), "%d drives on %d days are slow-cadence" % (_lc["counts"]["slow"], _lc["nDaysByRegime"]["slow"]),
-                            "not yet quantified", "confounded by season, ambient and drive mix")) for t in T.values()))
+                            "confounded by season, ambient and drive mix") + (("An emulated sampling-sensitivity study", "not a causal cadence effect",
+                            "a ratio of %.3f (95%% CI %.3f–%.3f) for gross throughput" % (_lc["sensitivity"]["grossThroughputRatio"]["fastToSlow"]["estimate"], *_lc["sensitivity"]["grossThroughputRatio"]["fastToSlow"]["ci95"]),
+                            "%.1f%% of the corpus gross throughput" % (_lc["sensitivity"]["corpusImplication"]["fastRegimeShareOfGrossThroughput"] * 100), "no published value is corrected", "not established as insensitive",
+                            "differs from the master's post-processed distance on %d of %d study-set drives" % (_lc["sensitivity"]["validation"]["masterReproduction"]["nDistanceDiffering"], _lc["sensitivity"]["validation"]["masterReproduction"]["nDrives"]))
+                            + (("depends on the emulator variant",) if _lc["sensitivity"]["robustnessClassFlips"] else ()) if _lc.get("sensitivity") else ("not yet quantified",))) for t in T.values()))
+if _lc.get("sensitivity"):
+    _gr = _lc["sensitivity"]["grossThroughputRatio"]["fastToSlow"]
+    ok("A2 REQUIRED M379b sensitivity line next to the GTC / FCE / rainflow-EFC headline (emulated sampling sensitivity, bound to loggerCadence.sensitivity)",
+       any(("Emulated sampling sensitivity (M379b): thinning the fast-cadence drives to the slow-regime cadence lowers their gross throughput by %.1f–%.1f%%" % ((1 - _gr["ci95"][1]) * 100, (1 - _gr["ci95"][0]) * 100)) in t
+           and "descriptive, under the emulation" in t for t in T.values()))
 # M364 (buffer-thesis wording: qualified description, derived badges)
 _src = open("xtrail_summary.jsx", encoding="utf-8").read()
 _all_t = " ".join(T.values())

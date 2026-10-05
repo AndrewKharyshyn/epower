@@ -53798,7 +53798,7 @@
    "configHash": "47b499142f5b3664e9efdd64cb3dfc32",
    "fullConfigHash": "10b72f20506c666f4af96928d6315d54",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-05T12:49:29.519471+00:00",
+   "generatedAt": "2026-10-05T14:40:58.275501+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "7c3bc9883f223e8a488b84ad053e13b5"
@@ -145481,8 +145481,163 @@
    "2026-09-06",
    "2026-10-01"
   ],
-  "effectOnKeys": "not yet quantified (emulated sampling-sensitivity study pending, M379b); observational comparisons across regimes are confounded by season, ambient and drive mix",
+  "effectOnKeys": "quantified for the pipeline keys listed under sensitivity by an emulated sampling-sensitivity study (M379b), which is not a causal cadence effect; observational comparisons across regimes are confounded by season, ambient and drive mix",
   "source": "drive_master.csv I_sample_period_s; sidecar cadence_regime.csv",
-  "masterMd5": "7c3bc9883f223e8a488b84ad053e13b5"
+  "masterMd5": "7c3bc9883f223e8a488b84ad053e13b5",
+  "sensitivity": {
+   "basis": "emulated sampling sensitivity (M379b): fast-regime drives thinned per PID column to the slow-regime interval distribution (and to twice it), pipeline re-run on the emulated logs; not a causal cadence effect (PID-set / polling-order change, I-V co-timing, jitter and app-internal calculations are not emulated); fast -> slow direction only",
+   "study": {
+    "nDrives": 130,
+    "nFastRegimeDrives": 131,
+    "studySetNote": "the fast-regime drives with an energy block (gross_throughput_kwh present, distance_km > 0, not canonically flagged)",
+    "nDays": 26,
+    "seeds": 20,
+    "controlSlowToSlowerDrives": 100,
+    "robustnessDrives": 30
+   },
+   "grossThroughputRatio": {
+    "fastToSlow": {
+     "estimate": 0.9741167061913416,
+     "ci95": [
+      0.9728475196305763,
+      0.975532539729406
+     ]
+    },
+    "fastToSlower": {
+     "estimate": 0.9080147015255468,
+     "ci95": [
+      0.9057127154897809,
+      0.9101831710559257
+     ]
+    },
+    "slowToSlowerControl": {
+     "estimate": 0.9167230769986581,
+     "ci95": [
+      0.9088317899069436,
+      0.9231710284953237
+     ]
+    }
+   },
+   "sameDirectionKeys": {
+    "gross_discharge_kwh": {
+     "estimate": 0.974258514918848,
+     "ci95": [
+      0.9730190447382875,
+      0.9755281964581735
+     ]
+    },
+    "gross_charge_kwh": {
+     "estimate": 0.9739842014284554,
+     "ci95": [
+      0.9725056796240357,
+      0.9757068454448252
+     ]
+    },
+    "fce": {
+     "estimate": 0.9741115208933478,
+     "ci95": [
+      0.9728406622446234,
+      0.9755198232220945
+     ]
+    },
+    "rf_efc": {
+     "estimate": 0.9850074589756339,
+     "ci95": [
+      0.9833497697091953,
+      0.9866443026137138
+     ]
+    }
+   },
+   "distanceRatio": {
+    "estimate": 0.9999567847882451,
+    "ci95": [
+     0.9999275402497928,
+     0.9999841015878429
+    ]
+   },
+   "classificationFastToSlow": {
+    "insensitive": [
+     "distance_km",
+     "offset_kwh_removed",
+     "engine_on_pct",
+     "regen_share_of_charge",
+     "ev_dist_pct",
+     "soc_delta_kwh"
+    ],
+    "sensitive": [
+     "gross_throughput_kwh",
+     "gross_discharge_kwh",
+     "gross_charge_kwh",
+     "net_draw_kwh_corr",
+     "energy_residual_kwh",
+     "rf_efc",
+     "fce",
+     "ev_kwh_per100km"
+    ],
+    "notEstablishedInsensitive": [
+     "net_draw_per100km_corr"
+    ],
+    "reportedOnly": [
+     "peak_discharge_kw",
+     "peak_I_charge",
+     "n_I_samples",
+     "n_loaded_spread_samples",
+     "standstill_draw_kw",
+     "vsag_R_pack_mohm",
+     "iv_alignment_gap_s"
+    ]
+   },
+   "classificationNote": "cadence-insensitive = 95% CI inside the pre-registered margin; cadence-sensitive = outside the margin and the CI excludes the neutral value; notEstablishedInsensitive = outside the margin but the CI includes the neutral value (not established as insensitive; the margin is narrower than the CI); reportedOnly = no pre-registered margin, peaks (negative controls) and counts",
+   "negativeControls": {
+    "peak_discharge_kw": {
+     "estimate": -1.9392307692307695,
+     "movementDetected": true
+    },
+    "peak_I_charge": {
+     "estimate": 3.247038461538461,
+     "movementDetected": true
+    }
+   },
+   "validation": {
+    "identityKeepAllMaxAbsDiff": 0.0,
+    "intervalMeanRelDiff": 0.0038198339418882288,
+    "intervalMeanWithin5pct": true,
+    "intervalMedianQuantized": true,
+    "masterReproduction": {
+     "nDrives": 230,
+     "maxAbsDiffGrossThroughput": 0.0,
+     "maxAbsDiffDistance": 2.94,
+     "nDistanceDiffering": 1,
+     "note": "distance_km as emitted by analyze_bytes differs from the master post-processed distance on these drives; the paired differences use the same analyze_bytes distance for original and emulated"
+    },
+    "ivGapFlagOutside25pct": true,
+    "ivGapRelDiff": -0.4318181818181819
+   },
+   "headlineQuarterRule": {
+    "headlineKpi": "EnergyIntensity.all (kWh/100km, canonical-clean)",
+    "ciHalfWidth": 2.0739342435155272,
+    "quarter": 0.5184835608788818,
+    "shift": 0.03390428461951645,
+    "shiftBelowQuarter": true
+   },
+   "robustnessClassFlips": [
+    "regen_share_of_charge"
+   ],
+   "corpusImplication": {
+    "fastRegimeShareOfGrossThroughput": 0.18980748601141215,
+    "impliedCorpusGrossThroughputShiftIfAllSlow": -0.004912842927516198,
+    "note": "descriptive arithmetic on the emulation, not a correction of any published figure"
+   },
+   "limits": [
+    "thinning emulation, not a causal cadence effect (PID-set / polling-order change, I-V co-timing, jitter and app-internal calculations are not emulated)",
+    "fast -> slow direction only, on Aug / Oct conditions",
+    "keys of analyze_bytes only (+ the three offset keys recomputed with the frozen formula); the generator / traction reconstruction (f_gen, eta_bus) is not covered",
+    "fuel rate / counter keys excluded (app-calculated)"
+   ],
+   "source": "analyses/M379_cadence_sensitivity.json",
+   "basisMasterMd5": "7c3bc9883f223e8a488b84ad053e13b5",
+   "basisNDrives": 524,
+   "specSha256Frozen": "9cf497d5f5bfccbc2ca3b907c418069942039f3cbfe8648438fef5c9898c2cdd"
+  }
  }
 }

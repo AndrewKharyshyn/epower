@@ -41,6 +41,7 @@ jobs:
           python tests/synthetic/test_gtr_family_splice.py
           python tests/synthetic/test_gtr_closure_refresh.py
           python tests/synthetic/test_cadence_regime.py
+          python tests/synthetic/test_cadence_emulate.py
           node test_gtr_gate.js
           node test_fuel_tab.js
       - name: Release gate
