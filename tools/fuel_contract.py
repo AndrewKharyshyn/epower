@@ -32,6 +32,7 @@ KNOWN_OTHER = {   # fuel-like headers seen in the corpus (one-time scan 2026-10-
     "Середня витрата палива (л/100 км) 10 sec (L/100km)", "Тиск у паливній рампі (kPa)", "Commanded Fuel Rail Pressure (kPa)",
     "Співвідношення паливо/повітря ()", "G03 Engine air/fuel ()", "Економайзер палива (на основі стану паливної системи та положення дросельної заслінки) ()",
     "Датчик кисню 1 (широкополосний) Корекція співвідношення паливно-повітряної суміші ()", "Fuel_Group_1 ()", "Fuel Group ()",
+    "Моментальний момент, що крутить (від витрати палива) (N⋅m)",   # app-calculated torque from fuel rate; new PID from 2026-10-01 (18 drives); not read by the pipeline
 } | set(NATIVE_PID)
 FUEL_LIKE = re.compile(r"(?i)паливо|палив|fuel|л/год|л/100|l/h|l/100")
 digits = lambda s: re.sub(r"\D", "", str(s).rsplit(".", 1)[0])[:14]
