@@ -11,13 +11,14 @@ import argparse, hashlib, json, os, subprocess, sys, time
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 os.chdir(ROOT)
+sys.path.insert(0, os.path.join(ROOT, "tools"))
 ap = argparse.ArgumentParser()
 ap.add_argument("--point", required=True, choices=["O", "R"])
 ap.add_argument("--tag", default="M373", help="output / spec prefix (M375 re-runs the blocks on the canonical-clean set)")
 a = ap.parse_args()
 P = a.point
 TAG = a.tag
-STAGE = json.load(open("analyses/M373_stage_former.json", encoding="utf-8"))["dest"]
+STAGE = json.load(open("analyses/M373_stage_former.json", encoding="utf-8"))["dest"] if P == "R" else None     # M377b: point O needs no staged former basis
 RAWDIR = os.path.join(ROOT, "raw_only") if P == "O" else STAGE
 os.environ["XT_RAW_DIR"] = RAWDIR.replace("\\", "/")          # BEFORE the imports below (recon_engine.BASE is read at import)
 sys.path.insert(0, ROOT)
@@ -28,7 +29,8 @@ import sensitivity_gtr as SG, simultaneity_gtr as SM, speed_split as SS
 sha = lambda p: hashlib.sha256(open(p, "rb").read()).hexdigest()
 md5 = lambda p: hashlib.md5(open(p, "rb").read()).hexdigest()
 git = lambda *c: subprocess.run(["git", *c], capture_output=True, text=True, cwd=ROOT).stdout
-MASTER_MD5 = "bd9d10726bb064d857cf9ff98d2b7338"
+import m377_pin
+MASTER_MD5 = m377_pin.master_pin(TAG, os.path.join(ROOT, "drive_master.csv"))     # M377b: frozen hash for the historical tags M373 / M375; later tags pin the live master at start (asserted unchanged at the end)
 EPS = (0.25, 0.5, 1.0)
 CUT = "2026-09-16"
 PRE_M366 = "3845725"
@@ -36,7 +38,7 @@ t0 = time.time()
 assert md5(os.path.join(ROOT, "drive_master.csv")) == MASTER_MD5 and md5(RE.BASE + "drive_master.csv") == MASTER_MD5, "drive_master.csv MD5"
 dm = pd.read_csv(RE.BASE + "drive_master.csv")
 date_of = dict(zip(dm["file"], dm["date"].astype(str)))
-meta = {"point": P, "rawDir": RAWDIR, "specSha256": sha(f"analyses/{TAG}_spec.md"), "tag": TAG, "gitHead": git("rev-parse", "--short", "HEAD").strip(),
+meta = {"point": P, "rawDir": RAWDIR, "specSha256": m377_pin.spec_sha(f"analyses/{TAG}_spec.md"), "tag": TAG, "gitHead": git("rev-parse", "--short", "HEAD").strip(),
         "scriptSha256": {f: sha(f)[:16] for f in ("tools/m373_point.py", "sensitivity_gtr.py", "simultaneity_gtr.py", "speed_split.py", "recon_engine.py", "fuel_recon.py", "model_constants.py")},
         "driveMasterMd5Before": MASTER_MD5, "stage": json.load(open("analyses/M373_stage_former.json", encoding="utf-8")) if P == "R" else None}
 

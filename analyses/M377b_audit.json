@@ -1,0 +1,67 @@
+{
+ "claim": "M377b GTR-family refresh: independent derivation of eligible set, simultaneity, speed-bin f_gen, sensitivity BASE",
+ "reproduced": {
+  "n_drives": 294,
+  "n_days": 54,
+  "estimate": 2102.84,
+  "ci95": null,
+  "note": "estimate = total km of canonical-clean fuel-instrumented drives with usable fuel-rate and HV-current data (B). Alt A (fuel PID col present, distance>0): 296 clean / 56 days / 2144.14 km; all 298 / 57 days / 2165.74 km"
+ },
+ "set_derivation": {
+  "excluded_canonical": [
+   [
+    "20260513_182950",
+    "2026-05-13",
+    20.7
+   ],
+   [
+    "20260813_144601",
+    "2026-08-13",
+    0.9
+   ]
+  ],
+  "fuel_PID_present_no_usable_data": [
+   "20260512_195020 (no current/voltage columns, ens flag NaN, 7.2 km)",
+   "20260723_173055 (fuel-rate column all NaN, 34.1 km)"
+  ],
+  "ens_flag_NaN_among_fuel": [
+   "20260512_195020"
+  ]
+ },
+ "urban_n_by_type_clean_B": {
+  "urban": 275,
+  "mixed": 12,
+  "mixed_highway": 5,
+  "highway": 2,
+  "engon_pct_time_fuelrate>0": {
+   "urban": 26.5,
+   "mixed": 36.8,
+   "mixed_highway": 56.2,
+   "highway": 75.8
+  },
+  "fuelL_per100km": {
+   "urban": 6.04,
+   "mixed": 4.76,
+   "mixed_highway": 5.32,
+   "highway": 5.95
+  }
+ },
+ "not_derived": "Items (2) simultaneity shares, (3) speed-bin f_gen, (4) sensitivity BASE gen/trac/f_gen/eta_bus: Pgen_t and Ptrac are reconstructions (fuel->BSFC regime/cold surface->eta_gen*eta_pe, traction from motor torque/rpm with aux/loss terms, battery-current offset via FR.resolve_offset) not fully specified by the allowed definitions; a quick proxy (engine-on = fuel rate>0, Ptrac = motor torque*rpm) gave implausible shares (about 99% fullyBanked) and is discarded. Not guessed.",
+ "agrees": null,
+ "abs_diff": null,
+ "method_concerns": [
+  "Eligibility needs an explicit rule for fuel-instrumented drives with NaN ens flag or all-NaN fuel rate: 20260512_195020 (no flag, no current) and 20260723_173055 (no fuel data) are fuel-PID-present but cannot enter a reconstruction; canonical rule as written (explicit True) keeps them, giving 296 not 294.",
+  "Prior counts (261 rows/259 clean/50 days) are stale vs this master: 294 clean is consistent with 259 + 35 new drives; I could not confirm the author's set (fuel_recon_master off-limits).",
+  "Midnight-crossing time stamps and irregular PID sample timing require hold/dt conventions not in the spec; unspecified."
+ ],
+ "language_concerns": [
+  "Pgen/traction are reconstructed, not measured; label all four items 'estimated' and point values without interval."
+ ],
+ "verdict": "revise",
+ "verdict_note": "Only item (1) independently derived (partial: counts depend on usable-data rule). Items 2-4 unaudited; do not treat as audit pass.",
+ "audit_files": [
+  "audit/m377b_audit.py",
+  "audit/m377b_audit_out.json",
+  "analyses/M377b_audit.json"
+ ]
+}

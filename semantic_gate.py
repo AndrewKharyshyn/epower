@@ -155,8 +155,8 @@ ok("A2 REQUIRED M370 crossval label states that it is not recomputable and not a
 _G3 = json.load(open("summary_arrays.json", encoding="utf-8"))["generatorTractionRecon"]
 _rb3 = {p["block"]: p for p in _G3.get("refreshedBlocks", [])}
 _js = lambda x: (("%s" % x)[:-2] if isinstance(x, float) and float(x).is_integer() else "%s" % x)
-ok("A2 REQUIRED M373 payload: three blocks refreshed (refreshedBlocks), staleBlocks keeps only crossval, each refreshed block states the O basis and 'no interval'",
-   sorted(_rb3) == ["sensitivity", "simultaneity", "speedSplit"] and _G3["staleBlocks"]["blocks"] == ["crossval"] and all(p["rawBasis"] == "raw/ = sha256-verified originals (M366)" and "no interval" in p["status"] for p in _rb3.values()))
+ok("A2 REQUIRED M373 payload: three blocks refreshed (refreshedBlocks), staleBlocks keeps crossval (and gtrClosure only while it is disclosed as carried: scope.carriedAtIngestion; M377b), each refreshed block states the O basis and 'no interval'",
+   sorted(_rb3) == ["sensitivity", "simultaneity", "speedSplit"] and _G3["staleBlocks"]["blocks"] in (["crossval"], ["crossval", "gtrClosure"]) and (_G3["staleBlocks"]["blocks"] == ["crossval"] or "carriedAtIngestion" in _G3["gtrClosure"]["scope"]) and all(p["rawBasis"] == "raw/ = sha256-verified originals (M366)" and "no interval" in p["status"] for p in _rb3.values()))
 for _m in ("all", "warm", "shoulder", "compare"):
     _t3 = " ".join(" ".join(T.get(k, "") for k in T if k.endswith("__" + _m)).split())
     ok(f"A2 REQUIRED M373 {_m} dumps: one refreshed-block sentence per block (milestone, basis, n drives, n days, status) plus the attribution sentence",
@@ -276,7 +276,7 @@ ok("A2 REQUIRED C-rate map: A/kW/C-rate selector, drive-peak-power not-co-timed 
 ok("A2 REQUIRED C-rate map payload: cRatePointsAK first three columns equal cRatePoints; new keys present", _n_ak == len(_ak["cRatePoints"]) and all(a[:3] == b for a, b in zip(_ak["cRatePointsAK"], _ak["cRatePoints"])) and all(k in _ak for k in ("cRateRefLinesAK", "cRateAxes")))
 # M356 (Cs-21)
 ok("A2 REQUIRED Crawl & Stop-Go: 'Energy by phase window' table with the not-additive statement, reconstructed wording and the F03 label", any(all(x in t for x in ("Energy by phase window", "not additive", "Reconstructed from logged HV current", "regen-direction energy is a positive magnitude", "raw/ = sha256-verified originals (M366)")) for t in T.values()))
-ok("A2 REQUIRED Crawl & Stop-Go phase table carries the CI and days, the gap caveat, the approach-list distinction and the blind-audit disagreement", any(all(x in t for x in ("95% CI", "Samples with no I×V are dropped", "differ from the zero-inflation of the standalone approach list", "Blind audit (own resampling, reported not tuned)", "share ≤ 0 Wh (1 Hz grid)")) for t in T.values()))
+ok("A2 REQUIRED Crawl & Stop-Go phase table carries the CI and days, the gap caveat, the approach-list distinction and the blind-audit disagreement", any(all(x in t for x in ("95% CI", "Samples with no I×V are dropped", "differ from the zero-inflation of the standalone approach list", "Blind audit of the M356 corpus (n=%d drives; own resampling, reported not tuned); not repeated on the current corpus" % json.load(open("summary_arrays.json", encoding="utf-8"))["crawlStopGo"]["phaseEnergy"]["blindAudit"]["basisNDrives"], "share ≤ 0 Wh (1 Hz grid)")) for t in T.values()))
 # M355 (Cs-1)
 _mm = json.load(open("summary_arrays.json", encoding="utf-8"))["meta"]
 _pct = "%.1f" % (_mm["totalKm"] / _mm["odometer"] * 100)

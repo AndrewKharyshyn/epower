@@ -25,7 +25,7 @@ jobs:
       - name: Compile all Python
         run: python -m compileall -q *.py tools
       - name: Import integrity (files present, raw names/rows, master MD5)
-        run: python tools/verify_import.py --quick --expect-master-md5 bd9d10726bb064d857cf9ff98d2b7338
+        run: python tools/verify_import.py --quick --expect-master-md5 7c3bc9883f223e8a488b84ad053e13b5
         env: {XT_RAW_DIR: raw}
       - name: Unit tests
         run: |
@@ -37,6 +37,8 @@ jobs:
           python tests/synthetic/test_language_gate.py
           python tests/synthetic/test_leaf_guard.py
           python tests/synthetic/test_post_splices.py
+          python tests/synthetic/test_m377_pin.py
+          python tests/synthetic/test_gtr_family_splice.py
           node test_gtr_gate.js
           node test_fuel_tab.js
       - name: Release gate

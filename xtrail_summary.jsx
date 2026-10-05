@@ -8041,7 +8041,7 @@ function ThermalFuelPenalty() {
           <strong style={{color:"#0f172a"}}>Does this hold as a continuous relationship, not just a binary
           split (M226.3)?</strong> Replacing the cold/warm threshold with continuous coolant (and oil, where
           available) temperature as a predictor — controlling for RPM and load directly rather than matched
-          cells — the coolant coefficient is {C.continuousCovariateModel.coefficients?.cool?.estimate} L/hr per
+          cells — the coolant coefficient is {fmtSig(+C.continuousCovariateModel.coefficients?.cool?.estimate,3)} L/hr per
           &deg;C, but its 95% CI {C.continuousCovariateModel.coolantCiSpansZero ? "spans zero" : "excludes zero"}:
           {C.continuousCovariateModel.coolantCiSpansZero
             ? " the continuous temperature association is not resolved once RPM/load are controlled for at this sample size — not established (not evidence of no association), reported alongside the binary ratio above rather than in place of it. The two are not contradictory: one asks whether warmup-vs-warm differ at all (" + (comb.resolvedAboveUnity ? "yes" : "no") + "), the other asks for a single linear slope across the full range (not resolved)."
@@ -9137,7 +9137,7 @@ function CrawlStopGo() {
               {z("launch")!=null&&<>No regen-direction energy on the 1&nbsp;Hz grid in {z("launch")}% of launch, {z("approach")}% of approach and {z("cycle")}% of full-cycle windows (creep: {z("creep")}%). </>}
               {ap&&ap.n>0&&<>The median signed net over the approach window is {ap.median>=0?"positive (net discharge-direction)":"negative (net regen-direction)"}: {ap.median}&nbsp;Wh{ap.bootMedian?<> (95% CI {ap.bootMedian.ci95[0]}–{ap.bootMedian.ci95[1]}, {ap.bootMedian.nDays} days)</>:null}; it may include auxiliary and HVAC load and the creep-like low-speed end of the window, so it is not attributed to deceleration alone. </>}
               Where a direction is at or below 0&nbsp;Wh in at least 25% of windows, the table cell also carries the two-part form (share above 0 with CI, and the positive-part median).
-              {PE.blindAudit&&<> Blind audit (own resampling, reported not tuned): {PE.blindAudit.nCycles.audit.toLocaleString()} cycles vs {PE.blindAudit.nCycles.author.toLocaleString()}; largest median difference {PE.blindAudit.maxAbsMedianDiffWh}&nbsp;Wh{PE.blindAudit.cycleNetBootCI95?<>; cycle-net CI {PE.blindAudit.cycleNetBootCI95.audit[0]}–{PE.blindAudit.cycleNetBootCI95.audit[1]} vs {PE.blindAudit.cycleNetBootCI95.author[0]}–{PE.blindAudit.cycleNetBootCI95.author[1]}</>:null}.</>}
+              {PE.blindAudit&&<> Blind audit of the M356 corpus (n={PE.blindAudit.basisNDrives} drives; own resampling, reported not tuned); not repeated on the current corpus: {PE.blindAudit.nCycles.audit.toLocaleString()} cycles vs {PE.blindAudit.nCycles.author.toLocaleString()}; largest median difference {PE.blindAudit.maxAbsMedianDiffWh}&nbsp;Wh{PE.blindAudit.cycleNetBootCI95?<>; cycle-net CI {PE.blindAudit.cycleNetBootCI95.audit[0]}–{PE.blindAudit.cycleNetBootCI95.audit[1]} vs {PE.blindAudit.cycleNetBootCI95.author[0]}–{PE.blindAudit.cycleNetBootCI95.author[1]}</>:null}.</>}
               {_coh==="all"&&<>{" "}The All view's {PE.nCycles.toLocaleString()} cycles include those of the Cold-class drives that are below the cohort minimum; no Cold cohort is reported.</>}
             </div>; })()}
           <div style={{overflowX:"auto"}}><table style={{borderCollapse:"collapse",minWidth:520}}>

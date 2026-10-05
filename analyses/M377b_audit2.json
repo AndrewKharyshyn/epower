@@ -1,0 +1,92 @@
+{
+ "doc_sha256": "6345350c04dcb592194c5bb793e99cd0720c5d24b0de542a94abaa52e3b0f4e8",
+ "sets": {
+  "entering_fuel_instrumented_dist>0_>=10 fuel samples": {
+   "n_drives": 296,
+   "n_days": 55,
+   "km": 2124.44
+  },
+  "canonical_clean (excl 2)": {
+   "n_drives": 294,
+   "n_days": 54,
+   "km": 2102.84
+  },
+  "clean_fgen_defined (block set)": {
+   "n_drives": 294,
+   "n_days": 54,
+   "km": 2102.84
+  },
+  "excluded_ids": [
+   "20260513_182950.csv",
+   "20260813_144601.csv"
+  ],
+  "missing_flag_entering": []
+ },
+ "BASE": {
+  "n": 294,
+  "gen100": 16.01,
+  "trac100": 18.61,
+  "fgen": 0.459,
+  "etaBus": 0.325
+ },
+ "other_axis": {
+  "OPT wide 1750-2250": {
+   "n": 294,
+   "gen100": 16.03,
+   "trac100": 18.63,
+   "fgen": 0.46,
+   "etaBus": 0.325
+  },
+  "P_aux high 1.2": {
+   "n": 294,
+   "gen100": 16.01,
+   "trac100": 16.97,
+   "fgen": 0.481,
+   "etaBus": 0.325
+  }
+ },
+ "simultaneity": {
+  "urban": {
+   "nDrives": 250,
+   "engOnH": 14.8,
+   "fb": 27.8,
+   "gb": 18.4,
+   "cd": 50.9,
+   "ga": 2.8
+  },
+  "highway": {
+   "nDrives": 2,
+   "engOnH": 1.8,
+   "fb": 5.8,
+   "gb": 46.3,
+   "cd": 36.1,
+   "ga": 11.8
+  }
+ },
+ "bins": {
+  "20-60": {
+   "fGen": 0.3284,
+   "generator": 5.77,
+   "battery": 11.8,
+   "km": 997.2,
+   "nDrives": 290
+  },
+  "90-120": {
+   "fGen": 0.8587,
+   "generator": 16.55,
+   "battery": 2.72,
+   "km": 326.4,
+   "nDrives": 44
+  }
+ },
+ "choices": [
+  "time is HH:MM:SS.mmm; midnight unwrap (+86400 on >12h backward jump) vs none: identical results to all reported digits",
+  "non-fuel-rate column match: first column containing fuel header (case-insens.) used",
+  "missing offset -> constant -0.3839 (unique master value); applies at most to 20260813_145651/150341 among flagged-clean drives; effect of alternative (0 offset) not tested",
+  "nearest-sample ties: earlier sample preferred; nearest chosen among non-missing samples",
+  "gross_* kd/kc per doc; missing V/I -> Pbatt 0",
+  "highway simultaneity based on only 2 drives; drive types mixed not requested",
+  "document sufficient; nothing missing"
+ ],
+ "script": "audit/m377b_audit2.py"
+}

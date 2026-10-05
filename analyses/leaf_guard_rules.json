@@ -28,5 +28,23 @@
   "pathTemplate": "seasonalCharts/charts/ThermalFuelPenalty/data/{key}/attenuationDistance",
   "condition": "parent_null_in_current",
   "matchPrefix": true
+ },
+ {
+  "id": "refreshed-source-R",
+  "rationale": "The ingestion refresh (M377b) has no R point and no pre-registered expected file; source.R referenced the former-raw (R) point file of the M375 raw-swap provenance study, which stays in analyses/ (M375 record) and in carriedBasis. Applies only to an entry whose rerunMilestone changed.",
+  "milestone": "M377b",
+  "pathTemplate": "generatorTractionRecon/refreshedBlocks/{i}/source/R",
+  "condition": "field_changed",
+  "entryDepth": 3,
+  "field": "rerunMilestone"
+ },
+ {
+  "id": "refreshed-source-expected",
+  "rationale": "The ingestion refresh (M377b) has no R point and no pre-registered expected file; source.expected referenced the pre-registered expected-delta file of the M375 definition change, which stays in analyses/ (M375 record) and in carriedBasis. Applies only to an entry whose rerunMilestone changed.",
+  "milestone": "M377b",
+  "pathTemplate": "generatorTractionRecon/refreshedBlocks/{i}/source/expected",
+  "condition": "field_changed",
+  "entryDepth": 3,
+  "field": "rerunMilestone"
  }
 ]

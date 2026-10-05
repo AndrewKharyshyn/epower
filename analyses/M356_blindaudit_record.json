@@ -1,0 +1,95 @@
+{
+ "_note": "Frozen blind-audit records of crawlStopGo.phaseEnergy at M356 (script-copied from the committed arrays, labelled with their basis; basisNDrives from the M356 CHANGELOG entry, never from a date). Restored by tools/post_splices.py.",
+ "blocks": {
+  "top": {
+   "source": "analyses/M356_audit (blind Sonnet reproduction, own 1 Hz resampling: bin mean + forward-fill limit 3 s, midnight wrap)",
+   "nCycles": {
+    "author": 2183,
+    "audit": 2176
+   },
+   "additiveShare": {
+    "author": 0.7357,
+    "audit": 0.75
+   },
+   "maxAbsMedianDiffWh": 0.27,
+   "cycleNetBootCI95": {
+    "author": [
+     4.97,
+     6.08
+    ],
+    "audit": [
+     5.0,
+     6.26
+    ]
+   },
+   "netEqDischargeMinusRegViolations": 0,
+   "note": "Disagreement is reported, not tuned: differences come from resampling and segmentation edge handling; the audit rounds additiveShare to 2 dp and includes 9 cycles of the 2 below-support Cold drives in All.",
+   "basisNDrives": 489,
+   "basisMilestone": "M356",
+   "basisNote": "audit reproduced the M356 corpus (drive_master.csv 489 rows, CHANGELOG M356 state line), not the live corpus; not repeated on the current corpus"
+  },
+  "all": {
+   "source": "analyses/M356_audit (blind Sonnet reproduction, own 1 Hz resampling: bin mean + forward-fill limit 3 s, midnight wrap)",
+   "nCycles": {
+    "author": 2183,
+    "audit": 2176
+   },
+   "additiveShare": {
+    "author": 0.7357,
+    "audit": 0.75
+   },
+   "maxAbsMedianDiffWh": 0.27,
+   "cycleNetBootCI95": {
+    "author": [
+     4.97,
+     6.08
+    ],
+    "audit": [
+     5.0,
+     6.26
+    ]
+   },
+   "netEqDischargeMinusRegViolations": 0,
+   "note": "Disagreement is reported, not tuned: differences come from resampling and segmentation edge handling; the audit rounds additiveShare to 2 dp and includes 9 cycles of the 2 below-support Cold drives in All.",
+   "basisNDrives": 489,
+   "basisMilestone": "M356",
+   "basisNote": "audit reproduced the M356 corpus (drive_master.csv 489 rows, CHANGELOG M356 state line), not the live corpus; not repeated on the current corpus"
+  },
+  "warm": {
+   "source": "analyses/M356_audit (blind Sonnet reproduction, own 1 Hz resampling: bin mean + forward-fill limit 3 s, midnight wrap)",
+   "nCycles": {
+    "author": 1770,
+    "audit": 1762
+   },
+   "additiveShare": {
+    "author": 0.7288,
+    "audit": 0.75
+   },
+   "maxAbsMedianDiffWh": 0.23,
+   "cycleNetBootCI95": null,
+   "netEqDischargeMinusRegViolations": 0,
+   "note": "Disagreement is reported, not tuned: differences come from resampling and segmentation edge handling; the audit rounds additiveShare to 2 dp and includes 9 cycles of the 2 below-support Cold drives in All.",
+   "basisNDrives": 489,
+   "basisMilestone": "M356",
+   "basisNote": "audit reproduced the M356 corpus (drive_master.csv 489 rows, CHANGELOG M356 state line), not the live corpus; not repeated on the current corpus"
+  },
+  "shoulder": {
+   "source": "analyses/M356_audit (blind Sonnet reproduction, own 1 Hz resampling: bin mean + forward-fill limit 3 s, midnight wrap)",
+   "nCycles": {
+    "author": 404,
+    "audit": 405
+   },
+   "additiveShare": {
+    "author": 0.7599,
+    "audit": 0.75
+   },
+   "maxAbsMedianDiffWh": 0.31,
+   "cycleNetBootCI95": null,
+   "netEqDischargeMinusRegViolations": 0,
+   "note": "Disagreement is reported, not tuned: differences come from resampling and segmentation edge handling; the audit rounds additiveShare to 2 dp and includes 9 cycles of the 2 below-support Cold drives in All.",
+   "basisNDrives": 489,
+   "basisMilestone": "M356",
+   "basisNote": "audit reproduced the M356 corpus (drive_master.csv 489 rows, CHANGELOG M356 state line), not the live corpus; not repeated on the current corpus"
+  }
+ }
+}

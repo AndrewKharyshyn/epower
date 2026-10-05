@@ -107,6 +107,7 @@ def main():
     ap.add_argument("--from-date")
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--check-day")
+    ap.add_argument("--replace-day", help="M376: regenerate the existing ledger rows of this day from the master (a day that received more drives after it was first ledgered)")
     a = ap.parse_args()
     cfg = json.load(open("summary_config.json", encoding="utf-8"))
     dm = pd.read_csv("drive_master.csv", low_memory=False)
@@ -122,22 +123,36 @@ def main():
     covered_dates = set(dm["_d"]) - {dt.date.fromisoformat(x) for x in au["sessionGroups"]["datesUncovered"]}
     last_cov = max(covered_dates) if covered_dates else None
     days = sorted(set(dm["_d"]))
-    if a.check_day:
+    repl = []
+    if not (a.check_day or a.replace_day or a.from_date):
+        cnt = dm.groupby("_d").size()           # M376: a day already ledgered that gained drives later is regenerated (never touched when the counts agree)
+        for d in days:
+            nm = f"{MON[d.month - 1]} {d.day}"
+            rows = [r for r in cfg["sessionGroups"] if r["name"] == nm]
+            if len(rows) == 1 and rows[0]["drives"] != int(cnt[d]):
+                repl.append(d)
+    if a.replace_day:
+        repl, targets = [dt.date.fromisoformat(a.replace_day)], []
+    elif a.check_day:
         targets = [dt.date.fromisoformat(a.check_day)]
     elif a.from_date:
         targets = [d for d in days if d >= dt.date.fromisoformat(a.from_date) and d not in covered_dates]
     else:
         targets = [d for d in days if last_cov is not None and d > last_cov]
-    if not targets:
+    if not targets and not repl:
         print(json.dumps({"status": "nothing to add", "last_covered": str(last_cov)}))
         return
-    out_g, out_s = [], []
-    for day in targets:
+
+    def gen(day):
         g = dm[dm["_d"] == day].reset_index(drop=True)
         before = dm[dm["_d"] < day]
         prev_sig = raw_header_sig(before["file"].iloc[-1], rawdir, idx) if len(before) else None
         sigs = [raw_header_sig(f, rawdir, idx) for f in g["file"]]
-        grow, srow, _ = build_rows(day, g, prev_sig, sigs, amb, sdm, trip)
+        return build_rows(day, g, prev_sig, sigs, amb, sdm, trip)[:2]
+
+    out_g, out_s = [], []
+    for day in targets:
+        grow, srow = gen(day)
         out_g.append(grow)
         out_s.append(srow)
     if a.check_day:
@@ -145,16 +160,25 @@ def main():
         return
     names_g = {r["name"] for r in cfg["sessionGroups"]}
     assert not any(r["name"] in names_g for r in out_g), "a generated day already exists in sessionGroups"
-    cfg["sessionGroups"] = insert_chrono(cfg["sessionGroups"], out_g, targets)
-    cfg["sessions"] = insert_chrono(cfg["sessions"], out_s, targets)
-    res = {"added_days": [r["name"] for r in out_g], "added_drives": int(sum(r["drives"] for r in out_g)), "added_km": round(sum(r["km"] for r in out_g), 1)}
+    if out_g:
+        cfg["sessionGroups"] = insert_chrono(cfg["sessionGroups"], out_g, targets)
+        cfg["sessions"] = insert_chrono(cfg["sessions"], out_s, targets)
+    replaced = []
+    for day in repl:                              # regenerate the existing rows of a day that gained drives (exactly one row per ledger)
+        grow, srow = gen(day)
+        for key, row in (("sessionGroups", grow), ("sessions", srow)):
+            hit = [k for k, r in enumerate(cfg[key]) if r["name"] == row["name"]]
+            assert len(hit) == 1, f"{key}: expected exactly one existing row named {row['name']!r}, found {len(hit)}"
+            cfg[key][hit[0]] = row
+        replaced.append(grow["name"])
+    res = {"added_days": [r["name"] for r in out_g], "replaced_days": replaced, "added_drives": int(sum(r["drives"] for r in out_g)), "added_km": round(sum(r["km"] for r in out_g), 1)}
     if not a.dry_run:
-        with open("summary_config.json", "w", encoding="utf-8") as f:
+        with open("summary_config.json", "w", encoding="utf-8", newline="\n") as f:
             f.write(json.dumps(cfg, ensure_ascii=False, indent=1))
         A = json.load(open("summary_arrays.json", encoding="utf-8"))
         new_audit = csa._session_ledger_audit(dm.drop(columns="_d"), cfg)
         A["sessionLedgerAudit"] = new_audit
-        with open("summary_arrays.json", "w", encoding="utf-8") as f:
+        with open("summary_arrays.json", "w", encoding="utf-8", newline="\n") as f:
             f.write(json.dumps(A, ensure_ascii=False, indent=1))
         res["audit"] = {k: {x: new_audit[k][x] for x in ("nRows", "cfgDrives", "nMismatched", "driveShortfall", "datesUncovered")} for k in ("sessions", "sessionGroups")}
     print(json.dumps(res, ensure_ascii=False, indent=1))

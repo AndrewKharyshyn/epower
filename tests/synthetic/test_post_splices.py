@@ -49,3 +49,28 @@ with tempfile.TemporaryDirectory() as td:
 r = json.load(open(os.path.join(ROOT, "analyses", "M366_shift_record.json"), encoding="utf-8"))
 assert r["milestone"] == "M366" and r["basisNDrives"] == 489 and r["basis"]
 print("test_post_splices: OK")
+
+# ---- M377b P4: blind-audit record ----
+import copy as _copy
+A0 = json.load(open(os.path.join(ROOT, "summary_arrays.json"), encoding="utf-8"))
+REC = json.load(open(os.path.join(ROOT, "analyses", "M356_blindaudit_record.json"), encoding="utf-8"))["blocks"]
+assert all(r["basisNDrives"] == 489 and r["basisMilestone"] == "M356" and r["basisNote"] for r in REC.values())
+def strip(a):
+    a = _copy.deepcopy(a)
+    pes = [a["crawlStopGo"]["phaseEnergy"]] + [a["seasonalCharts"]["charts"]["CrawlStopGo"]["data"][c]["phaseEnergy"] for c in ("all", "warm", "shoulder")]
+    for pe in pes: pe.pop("blindAudit", None)
+    return a
+with tempfile.TemporaryDirectory() as td:
+    p = os.path.join(td, "a.json")
+    json.dump(strip(A0), open(p, "w"))
+    assert PS.restore_blind_audit(p).startswith("restored top,all,warm,shoulder")      # absent -> restored
+    h = hashlib.sha256(open(p, "rb").read()).hexdigest()
+    assert PS.restore_blind_audit(p) == "unchanged" and hashlib.sha256(open(p, "rb").read()).hexdigest() == h
+    X = json.load(open(p)); X["crawlStopGo"]["phaseEnergy"]["blindAudit"]["nCycles"]["author"] += 1; json.dump(X, open(p, "w"))
+    try:
+        PS.restore_blind_audit(p)
+    except AssertionError:
+        pass
+    else:
+        raise AssertionError("a differing blind-audit body must stop")
+print("test_post_splices (blind audit): OK")
