@@ -306,6 +306,19 @@
    ]
   },
   {
+   "id": "cadence_regime",
+   "title": "M379a: logger PID-cadence regime per drive (derived from the master I_sample_period_s; sidecar cadence_regime.csv + additive payload block loggerCadence; STOP on a drive inside the empty gap)",
+   "cmd": [
+    "python3",
+    "tools/cadence_regime.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json",
+    "cadence_regime.csv"
+   ]
+  },
+  {
    "id": "leaf_guard",
    "title": "M377a: lost-leaf guard: every leaf of the committed summary_arrays.json must still exist or be covered by a declared, data-conditioned rule (analyses/leaf_guard_rules.json); fails on any unexpected loss",
    "cmd": [

@@ -219,6 +219,11 @@ ok("A2 REQUIRED M375 the seasonal GeneratorTractionRecon entry metadata states t
    "canonical-clean (ens_outlier_v2) and f_gen not NaN" in json.load(open("summary_arrays.json", encoding="utf-8"))["seasonalCharts"]["charts"]["GeneratorTractionRecon"]["statisticalUnit"] and "not a correction" in _ea.get("note", ""))
 _pv2 = json.load(open("summary_arrays.json", encoding="utf-8"))["provenanceSensitivity"]["disclosure"]
 ok("A2 REQUIRED M366 F03 disclosure does not claim all estimates stay inside their CIs (it states the counts and that the outside ones are FUEL-12)", "all FUEL-12" in _pv2 and "remain inside their previous 95% CIs" in _pv2 and "remain inside their CIs" not in _pv2)
+# M379a (logger PID-cadence disclosure, bound to the payload)
+_lc = json.load(open("summary_arrays.json", encoding="utf-8"))["loggerCadence"]
+ok("A2 REQUIRED M379a logger-cadence disclosure bound to loggerCadence (regime counts and days, the fast runs, 'not yet quantified', the confound statement)",
+   any(all(x in t for x in ("Logger PID cadence", "%d drives on %d days are fast-cadence" % (_lc["counts"]["fast"], _lc["nDaysByRegime"]["fast"]), "%d drives on %d days are slow-cadence" % (_lc["counts"]["slow"], _lc["nDaysByRegime"]["slow"]),
+                            "not yet quantified", "confounded by season, ambient and drive mix")) for t in T.values()))
 # M364 (buffer-thesis wording: qualified description, derived badges)
 _src = open("xtrail_summary.jsx", encoding="utf-8").read()
 _all_t = " ".join(T.values())
