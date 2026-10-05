@@ -53,8 +53,12 @@ def main():
                     r["cumulative_drift"] = c["value"] - first[name]["value"]
                     if fhw and abs(r["cumulative_drift"]) > fhw: flags.append(f"{name}: cumulative drift > baseline CI half-width")
         rep[name] = r
+    gf = P("analyses/gtr_family_delta.json")     # M377b: GTR-family refresh delta (per-block n drives / n days, moves, band and STOP outcomes)
+    gtr = json.load(open(gf, encoding="utf-8")) if os.path.exists(gf) else None
+    if gtr:
+        flags += [f"gtrFamily: {x}" for x in gtr.get("stops", [])]
     out = {"generated_utc": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"), "has_baseline": bool(prev),
-           "flags": flags, "route_to_audit": bool(flags), "kpis": rep}
+           "flags": flags, "route_to_audit": bool(flags), "kpis": rep, "gtrFamily": gtr}
     json.dump(out, open(P("delta_report.json"), "w"), indent=1)
     print(json.dumps({"has_baseline": out["has_baseline"], "route_to_audit": out["route_to_audit"], "flags": flags}, indent=1))
     if a.commit:

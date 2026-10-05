@@ -260,6 +260,23 @@
    "verified": true
   },
   {
+   "id": "gtr_family_refresh",
+   "title": "M377b: GTR-family refresh on the live corpus: runner (sensitivity, simultaneity, speedSplit; gates) + generic splice (STOP on reading flip, band breach, key-set change); closure numbers carried (M377c); writes analyses/gtr_family_delta.json",
+   "cmd": [
+    "python3",
+    "tools/gtr_family_refresh.py"
+   ],
+   "env": {
+    "XT_RAW_DIR": "$ROOT/raw_only"
+   },
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json",
+    "analyses/M377_O_blocks.json",
+    "analyses/gtr_family_delta.json"
+   ]
+  },
+  {
    "id": "post_splices",
    "title": "M377a: re-apply the post-ingestion splices the arrays rebuild drops (M361 notes, M362 engine-start distribution, M363 labels, M366 shift record); idempotent, deep-diff guarded",
    "cmd": [
