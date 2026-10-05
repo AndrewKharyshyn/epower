@@ -274,6 +274,16 @@ RULES = [
     Rule("M379-cadence-claim", "ctx", "M379b Director: the emulation is a sampling sensitivity, never a cadence effect that is proven / measured / confirmed / corrected", term="cadence effect", near=("proven", "measured", "confirmed", "corrected", "established", "demonstrated"), window=6),
     Rule("M379-cadence-corrected", "phrase", "M379b Director: no published figure is corrected for cadence", phrase="corrected for cadence"),
     Rule("M379-cadence-bias", "phrase", "M379b Director: cadence bias presents the emulated sampling sensitivity as a bias of the published figures", phrase="cadence bias"),
+    # M382 (audit 2026-10-05): wording removed from the dashboard/payload, one rule per replaced statement (old wording + ledger id)
+    Rule("M382-F01-nooriginals", "regex", "audit F01: originals exist (recovered, registered, raw/ replaced in M366); 'no original bytes are available' is false", rx=r"\bno original bytes (?:are )?available\b"),
+    Rule("M382-F01-archivediffers", "regex", "audit F01: raw/ holds the sha256-verified originals; 'the raw archive held in this repository differs from the originals' describes the pre-M366 state", rx=r"\braw archive held in this repository differs from the originals\b"),
+    Rule("M382-F02-identical", "regex", "audit F02: the historical full refit exclusion sets are NOT file-identical (masterRefitAudit.exclusionSets); only the seeded re-run is", rx=r"\bexclusion sets (?:\w+ ){0,5}with identical file identities\b"),
+    Rule("M382-F02-purefunction", "regex", "audit F02: a fresh refit does not reproduce the published exclusion set, so 'pure function of current inputs' is unsupported", rx=r"\bpure function of current inputs\b"),
+    Rule("M382-F03-zeroenergy", "regex", "audit F03: the two drives carry non-zero released energy (master); 'contribute literal 0.0 kWh' is false", rx=r"\bcontribute literal 0 0 kwh\b"),
+    Rule("M382-F08-rpm22", "regex", "audit F08: RPM missingness is a computed per-drive coverage (eligibility.dataCoverage), not a fixed ~22%", rx=r"\brpm has 22 missing samples\b"),
+    Rule("M382-F08-1hz", "regex", "audit F08: channels are logged at their own native intervals; no universal 1 Hz / uniform grid statement", rx=r"\b1 hz resampled to a uniform 1 second grid\b"),
+    Rule("M382-F09-onepass", "regex", "audit F09: the master is published additively (new files only), not reprocessed in one pass", rx=r"\breprocessed from raw logs in one pass\b"),
+    Rule("M382-F09-everyfile", "regex", "audit F09: sign_check is ok on 503 drives, not_testable on 9, missing on 12; 'verified on every file' overstates it", rx=r"\bcharge positive sign convention verified via torque co check on every file\b"),
 ]
 
 

@@ -1,0 +1,184 @@
+{
+ "generatedAt": "2026-10-06T00:28:38+0300",
+ "python": "3.12.10",
+ "numpy": "2.4.4",
+ "pandas": "3.0.2",
+ "platform": "Windows-11-10.0.26300-SP0",
+ "masterMD5": "7c3bc9883f223e8a488b84ad053e13b5",
+ "note": "pinned env is Python 3.11; record the interpreter above and re-run there before quoting speedups",
+ "stageHistory": {
+  "run": "runs/20261005T071034Z/status.json",
+  "result": "gate_failed",
+  "totalSeconds": 3925.9,
+  "stages": [
+   {
+    "id": "preflight",
+    "seconds": 0.3,
+    "status": "ok"
+   },
+   {
+    "id": "ingest_core",
+    "seconds": 2388.6,
+    "status": "ok"
+   },
+   {
+    "id": "stage_raw",
+    "seconds": 2.0,
+    "status": "ok"
+   },
+   {
+    "id": "raw_temp_pass",
+    "seconds": 110.6,
+    "status": "ok"
+   },
+   {
+    "id": "compute_seasonal",
+    "seconds": 0.5,
+    "status": "ok"
+   },
+   {
+    "id": "refresh_cohort_meta",
+    "seconds": 1.0,
+    "status": "ok"
+   },
+   {
+    "id": "extend_session_ledgers",
+    "seconds": 4.0,
+    "status": "ok"
+   },
+   {
+    "id": "build_ambient_table",
+    "seconds": 1.2,
+    "status": "ok"
+   },
+   {
+    "id": "record_spread_fit",
+    "seconds": 273.0,
+    "status": "ok"
+   },
+   {
+    "id": "m321_ladder_monitor",
+    "seconds": 14.9,
+    "status": "ok"
+   },
+   {
+    "id": "fuel_recon",
+    "seconds": 81.6,
+    "status": "ok"
+   },
+   {
+    "id": "refresh_gtr_headline",
+    "seconds": 1.0,
+    "status": "ok"
+   },
+   {
+    "id": "fuel_contract_build",
+    "seconds": 7.6,
+    "status": "ok"
+   },
+   {
+    "id": "f03_provenance_build",
+    "seconds": 1.8,
+    "status": "ok"
+   },
+   {
+    "id": "post_steps",
+    "seconds": 21.1,
+    "status": "ok"
+   },
+   {
+    "id": "fuel_analytics",
+    "seconds": 227.0,
+    "status": "ok"
+   },
+   {
+    "id": "fuel_analytics2",
+    "seconds": 197.0,
+    "status": "ok"
+   },
+   {
+    "id": "refresh_master_seasonal",
+    "seconds": 212.0,
+    "status": "ok"
+   },
+   {
+    "id": "refresh_raw_seasonal",
+    "seconds": 5.3,
+    "status": "ok"
+   },
+   {
+    "id": "engine_start_rate",
+    "seconds": 44.8,
+    "status": "ok"
+   },
+   {
+    "id": "cohort_arrays",
+    "seconds": 9.2,
+    "status": "ok"
+   },
+   {
+    "id": "comparison_cube",
+    "seconds": 5.7,
+    "status": "ok"
+   },
+   {
+    "id": "gtr_family_refresh",
+    "seconds": 315.7,
+    "status": "gate_failed"
+   }
+  ]
+ },
+ "throughputMC": {
+  "drives": 510,
+  "draws": 20000,
+  "seconds": 0.673,
+  "tracemallocPeakMB": 573.6,
+  "fingerprint": "3f1b7bac3396e94e8348765e47ef4ddff17b5fccdf69bc6e2c32122989623705"
+ },
+ "closureBoot": {
+  "drives": 292,
+  "days": 54,
+  "draws": 4000,
+  "seconds": 10.397,
+  "ci": [
+   15.387723409628116,
+   16.60894860739536
+  ]
+ },
+ "loadDrive": {
+  "files": 24,
+  "repeats": 3,
+  "medianSeconds": 6.086,
+  "allSeconds": [
+   6.159,
+   6.086,
+   5.993
+  ],
+  "fingerprints": {
+   "20260515_075207.csv": "ba90bb1c90a76bb0edb6656e83840cd70f18d87bcf0da048f3ef5d43eca0e837",
+   "20260603_122008.csv": "23f49593814aa86bce64c6fb2958c9fc3445a4987f575da3a37a844859c5d112",
+   "20260812_085229.csv": "7c62160b9023e080816adcdd806d132df4a2de648c062dea50b6287a8e449512",
+   "20260812_093511.csv": "dd2bad8429bc787bdc556717e3c3e812726a20f1afc765622dafe8164f2af7dc",
+   "20260813_115220.csv": "3592d7a1e804c94239209e8fbd4375e20f9902bddd0ec2febc927d52e4712809",
+   "20260814_101007.csv": "f8ef90d719da9df8065c91950fbbc064ce4753565ba53d445c32100a1a395aaf",
+   "20260814_102213.csv": "17a0e4793ab8d1b44c9c20887f51cfb0285d7d2042e87a7ccbe0c323727fa3ab",
+   "20260814_121438.csv": "b44c4f04ee66e4f73617d77e5171e331c88a6c76927e682c84b5ec3698f5ddd7",
+   "20260814_122308.csv": "d627b5e2795f4e3b79462a5d556cb171419da05fc0a0d2dd144d76358ee33b21",
+   "20260814_182203.csv": "9cfa6f17e072cac94b5c004b5f3810c18cad2202e04d8f7d9ccccc661bba4aa5",
+   "20260814_213416.csv": "8877560cdacf8c8bcf18eab1052c4a877b206fa16b50fad040c5c7dce1362543",
+   "20260816_165356.csv": "91bbb6081bf7567366dfc5942973cf7686ab430426d28a1e68fe0f9b963426d6",
+   "20260816_171638.csv": "f3b70800e398518933aa73a284cf6c30b4debb79a73534ec34156baefd32e79e",
+   "20260816_173527.csv": "430241cb974f304f94b207856e63f3f295c9243266dd5a6fc6483ef714eae01d",
+   "20260816_174235.csv": "21822e5375fbbd55a4b70f58985a2fd6ccf1841f287dc1d406b419ed159dd777",
+   "20260817_084821.csv": "8b1139ce3fd333e3ca321a868c98bcb486f339ad69c37b0545ed396ec632e4be",
+   "20260817_175652.csv": "c7ceea9fbb4f9ffdf1046db90e008a0529cf76c2ae805d2f0c3f6383173bb586",
+   "20260817_181818.csv": "5e62d3e5f3e091b4972f10394e011bb0c0888a474341fb1c019093197e96ff89",
+   "20260817_183543.csv": "371c42265f32e6230b5542ffb7457d155892341de1c6bca31297b1026e7db311",
+   "20260818_092516.csv": "839aa6d711c8a4a8a147300ac3561f6ab4a7011715275954978ae90962084f2e",
+   "20260818_111200.csv": "bb6f025cff44f864f711ba0c57a786990a38ab227f63dafcaecf1b8f0a3099bf",
+   "20260818_124141.csv": "77d2bfd2b6a1a09c08fd5bbda49972cfba698d21556266236d865addedfb48f1",
+   "20260818_140544.csv": "f336214f5bc12326252d827fceb634c0987212324bd37ab4849e20a6a3eb8011",
+   "20260818_150110.csv": "887c3fb134b69075941e74ddf73d4934e73df34e9f3103b18940aeab90257b0b"
+  }
+ }
+}

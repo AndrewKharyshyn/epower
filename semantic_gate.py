@@ -444,5 +444,43 @@ ok("A3 no rendered number with > 4 decimals and > 3 significant figures, and no 
 ok("A3 every precision allow-list entry matches a rendered leaf (no orphans)", not _orph, "; ".join(e["text"][:60] for e in _orph[:3]))
 ok("A3 every precision allow-list entry names class, reason and milestone", all(e.get("class") and e.get("reason") and e.get("milestone") for e in _allow))
 
+# ---------- A4 (M382, audit 2026-10-05 gates G3/G4/G5): text must follow the producing facts; support identity ----------
+import pandas as pd
+_dm4 = pd.read_csv(P("drive_master.csv"))
+_norm4 = lambda t: " ".join(t.split())
+_concl4 = {k: _norm4(v) for k, v in T.items() if k.startswith("conclusions__")}
+_fam4 = next(f for f in A["eligibility"]["families"] if f["family"].startswith("EV traction census"))
+_ev4 = A["evTraction"]
+ok("A4 G3 EV census family and the EV-share estimator share ONE support (same n and km)", _fam4["n"] == _ev4["nValid"] and abs(_fam4["km"] - _ev4["kmValid"]) < 0.05,
+   f"family {_fam4['n']}/{_fam4['km']} vs estimator {_ev4['nValid']}/{_ev4['kmValid']}")
+_ex4 = (A.get("masterRefitAudit") or {}).get("exclusionSets") or {}
+for _k4, _v4 in _ex4.items():
+    if _v4.get("identicalFileSetOnCommonRows") is False and _k4 == "ens_outlier_v2":
+        ok("A4 G4 a non-identical historical exclusion set renders as 'not file-identical' with its published/rebuilt counts (every Conclusions dump)",
+           bool(_concl4) and all("not file-identical" in t and f"{_v4['publishedN']} published vs {_v4['rebuiltN']} rebuilt" in t for t in _concl4.values()))
+_raw4 = (A.get("provenanceSensitivity") or {}).get("raw") or {}
+if _raw4.get("originalsAvailable") and _raw4.get("nCanonicalHashFailing") == 0:
+    ok("A4 G4 originals status: the Conclusions state that raw/ holds the sha256-verified originals (all canonical files match the manifest)",
+       bool(_concl4) and all("raw/ holds the sha256-verified originals" in t for t in _concl4.values()))
+_sc4 = A["eligibility"]["dataCoverage"]["signCheck"]
+ok("A4 G4 sign check: categories sum to the corpus and the rendered provenance states every category count (no 'every file' claim)",
+   _sc4["ok"] + _sc4["notTestable"] + _sc4["anomaly"] + _sc4["missing"] == _sc4["total"] == len(_dm4)
+   and all((f"{_sc4['ok']} ok" in t and f"{_sc4['notTestable']} not testable" in t and f"{_sc4['missing']} without an energy trace" in t) for t in _concl4.values()))
+_sccol4 = _dm4["sign_check"].fillna("missing").astype(str).value_counts().to_dict()
+ok("A4 G3 dataCoverage.signCheck equals the master sign_check counts", (_sccol4.get("ok", 0), _sccol4.get("not_testable", 0), _sccol4.get("missing", 0)) == (_sc4["ok"], _sc4["notTestable"], _sc4["missing"]))
+_dq4 = A["energyUncertaintyMC"]["grossThroughputMC"]["dataQualityNote"]
+_mg4 = _dm4.set_index("file")["gross_throughput_kwh"]
+ok("A4 G3 MC data-quality note: each listed contributor's nominal energy equals the master (a drive with non-zero energy is never described as zero)",
+   all(abs(c["nominalKwh_1500ms"] - round(float(_mg4[c["file"]]), 4)) < 1e-9 for c in _dq4["topContributors"]))
+_g4 = A["generatorTractionRecon"]
+_gl4 = {g["term"]: g["value"] for g in _g4["glossary"]}
+ok("A4 G5 glossary efficiency rows equal corpus.etaEng / corpus.etaBus (bound, 3 decimals)",
+   _gl4.get("η_eng") == f"{float(_g4['corpus']['etaEng']):.3f}" and _gl4.get("Net traction-bus/fuel index") == f"{float(_g4['corpus']['etaBus']):.3f}")
+_sc5 = _g4["gtrClosure"]["scope"]
+_note5 = A["_artifactStamps"]["generatorTractionRecon"]["computationStatusNote"]
+_gtr5 = ((f"gtrClosure recomputed on the live corpus ({_sc5['nDrives']} drives" in _note5) if "carriedAtIngestion" not in _sc5
+         else (f"carried at the {_sc5['carriedAtIngestion']['milestone']} set ({_sc5['carriedAtIngestion']['basisNDrives']} drives" in _note5))
+ok("A4 G5 GTR stamp note describes the live closure scope (a refreshed closure is not described as carried; a carried one names its basis)", _gtr5)
+
 print(f"\nSEMANTIC GATE: {len(passes)} passed, {len(fails)} failed")
 sys.exit(1 if fails else 0)

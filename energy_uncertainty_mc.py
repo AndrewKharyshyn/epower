@@ -85,6 +85,26 @@ def _interp_grid(grid, tol_grid_ms, key):
     return xs, ys
 
 
+def data_quality_finding(total_delta_2000, top_contributors):
+    """M382 (audit F03): the data-quality note is GENERATED from the current per-drive nominal energy and tolerance-widening delta. The
+    earlier fixed text (two named files 'contribute literal 0.0 kWh') described a pre-M366 state and contradicted the live master."""
+    top = top_contributors[:2]
+    if not top or not total_delta_2000:
+        return 'No drive contributes a measurable 1500->2000 ms tolerance-widening effect.'
+    share = top[-1]['cumulativePctOfTotalWidening']
+    parts = []
+    for c in top:
+        nom = c.get('nominalKwh_1500ms')
+        parts.append('%s: nominal %s kWh at 1500 ms, +%s kWh (%s%%) at 2000 ms' % (
+            c['file'], nom, c['deltaKwh_1500to2000ms'],
+            ('%.2f' % (100 * c['deltaKwh_1500to2000ms'] / nom)) if nom else 'n/a'))
+    return ('The 1500->2000 ms tolerance-widening effect (%s kWh corpus-wide) is concentrated in a few drives rather than spread evenly: '
+            'the top %d contributor(s) account for %s%% of it. Per drive (current master): %s. These are tolerance sensitivities of '
+            'drives that carry non-zero released energy, not zero-energy files; the cause (voltage-sample interval relative to the '
+            'tolerance) is not tested here. The remaining contributors are listed below.' % (
+                round(total_delta_2000, 3), len(top), share, '; '.join(parts)))
+
+
 def build(precompute, rng=None, offset_point_a=OFFSET_POINT_A,
           ci95a=CI95A_DEFAULT, net_correction_kwh=NET_CORRECTION_POINT_KWH):
     """precompute: the dict loaded from energy_mc_precompute.json
@@ -163,6 +183,7 @@ def build(precompute, rng=None, offset_point_a=OFFSET_POINT_A,
         running += float(per_drive_delta_2000[j])
         top_contributors.append({
             'file': drives[j]['file'],
+            'nominalKwh_1500ms': round(float(thr_curve[j, nominal_idx]), 4),
             'deltaKwh_1500to2000ms': round(float(per_drive_delta_2000[j]), 4),
             'cumulativePctOfTotalWidening':
                 round(100 * running / total_delta_2000, 1) if total_delta_2000 else None})
@@ -189,23 +210,7 @@ def build(precompute, rng=None, offset_point_a=OFFSET_POINT_A,
             'gapTruncationOnlyMaxPct':
                 round(100 * float(poss_missing.sum()) / thr_nominal_total, 4)},
         'dataQualityNote': {
-            'finding': (f'The 1500->2000ms tolerance-widening effect '
-                       f'({round(total_delta_2000, 3)} kWh corpus-wide) is '
-                       f'concentrated in a small number of drives, not diffuse '
-                       f'corpus-wide alignment noise: the top 2 contributors '
-                       f'below account for '
-                       f'{top_contributors[1]["cumulativePctOfTotalWidening"] if len(top_contributors) > 1 else top_contributors[0]["cumulativePctOfTotalWidening"]}% '
-                       f'of it alone. Both of those two files show ~4s '
-                       f'voltage-channel polling (versus the corpus-typical '
-                       f'~0.9-1s), so no current sample finds a voltage match '
-                       f'within the released 1500ms tolerance at all -- they '
-                       f'contribute literal 0.0 kWh gross throughput at the '
-                       f'released tolerance (matching drive_master.csv '
-                       f'exactly) and only pick up matches once the tolerance '
-                       f'widens toward 2000ms. This is a data-quality artifact '
-                       f'of those two files\' logging rate, not a property of '
-                       f'the I<->V alignment method itself; the remaining '
-                       f'contributors below are ordinary diffuse noise.'),
+            'finding': data_quality_finding(total_delta_2000, top_contributors),
             'topContributors': top_contributors},
         'method': ('Monte Carlo over cached per-drive Tier-1 diagnostics '
                    '(energy_mc_precompute.py): I/V alignment tolerance drawn '

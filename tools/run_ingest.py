@@ -20,6 +20,23 @@ def sha(path):
     return h.hexdigest()[:16]
 
 
+def select_stages(stages, only=None, frm=None, skip=()):
+    """F10 (audit 2026-10-05): every requested stage ID must exist and the selection must not be empty (an unknown --only used to run
+    zero stages and exit 0)."""
+    ids = [s["id"] for s in stages]
+    bad = [x for x in ([only] if only else []) + ([frm] if frm else []) + list(skip or []) if x not in ids]
+    if bad:
+        raise ValueError("unknown stage ID(s) %s; valid IDs: %s" % (bad, ids))
+    if only:
+        stages = [s for s in stages if s["id"] == only]
+    elif frm:
+        stages = stages[ids.index(frm):]
+    stages = [s for s in stages if s["id"] not in (skip or ())]
+    if not stages:
+        raise ValueError("the stage selection is empty (nothing would run)")
+    return stages
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
@@ -29,12 +46,11 @@ def main():
     a = ap.parse_args()
     cfg = json.load(open(os.path.join(ROOT, "tools", "ingest_stages.json")))
     stages = cfg["stages"]
-    ids = [s["id"] for s in stages]
-    if a.only:
-        stages = [s for s in stages if s["id"] == a.only]
-    elif a.frm:
-        stages = stages[ids.index(a.frm):]
-    stages = [s for s in stages if s["id"] not in a.skip]
+    try:
+        stages = select_stages(stages, a.only, a.frm, a.skip)
+    except ValueError as e:
+        print("run_ingest: " + str(e), file=sys.stderr)
+        return 2
 
     ts = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     rd = os.path.join(ROOT, "runs", ts)
