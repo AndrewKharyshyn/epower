@@ -1,0 +1,2923 @@
+{
+ "meta": {
+  "milestone": "M379b",
+  "specSha256Frozen": "9cf497d5f5bfccbc2ca3b907c418069942039f3cbfe8648438fef5c9898c2cdd",
+  "masterMd5": "7c3bc9883f223e8a488b84ad053e13b5",
+  "seeds": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20
+  ],
+  "bootstrap": {
+   "draws": 4000,
+   "seed": 42,
+   "unit": "calendar day"
+  },
+  "poolDrives": 40,
+  "poolSeed": 42,
+  "nStudyDrives": 130,
+  "nStudyDays": 26,
+  "nControlDrives": 100,
+  "nRobustnessDrives": 30,
+  "scriptSha256": {
+   "cadence_sensitivity.py": "b32a84a1b4056ced",
+   "cadence_emulate.py": "ae770fc825a97829"
+  },
+  "runtimeS": 12,
+  "nTaskErrors": 0,
+  "errors": [],
+  "limits": [
+   "thinning emulation, not a causal cadence effect (PID-set / polling-order change, I-V co-timing, jitter and app-internal calculations are not emulated)",
+   "fast -> slow direction only, on Aug / Oct conditions",
+   "keys of analyze_bytes only (+ the three offset keys recomputed with the frozen formula); the generator / traction reconstruction (f_gen, eta_bus) is not covered",
+   "fuel rate / counter keys excluded (app-calculated)"
+  ]
+ },
+ "validation": {
+  "identityKeepAll": {
+   "nDrives": 10,
+   "maxAbsDiffAllKeys": 0.0
+  },
+  "masterReproduction": {
+   "nDrives": 230,
+   "maxAbsDiffGrossThroughput": 0.0,
+   "maxAbsDiffDistance": 2.94,
+   "nDistanceDiffering": 1,
+   "note": "distance_km as emitted by analyze_bytes differs from the master post-processed distance on these drives; the paired differences use the same analyze_bytes distance for original and emulated"
+  },
+  "intervalMatch": {
+   "basis": "I-PID intervals below 5 s (pipeline integration cap)",
+   "slowPoolMean": 1.391850637978503,
+   "emulatedMeanWeighted": 1.397167276287492,
+   "relDiffMean": 0.0038198339418882288,
+   "withinFivePercent": true,
+   "slowPoolMedian": 1.2639999999992142,
+   "emulatedMedianOfMedians": 1.489000000001397,
+   "slowPoolQuantiles_p10_p25_p75_p90": [
+    1.1049999999959255,
+    1.1650000000008731,
+    1.5350000000034925,
+    1.8139999999984866
+   ],
+   "emulatedQuantilesMean_p10_p25_p75_p90": [
+    0.7878910662005428,
+    0.9067786976398349,
+    1.685622855305731,
+    1.945605195919478
+   ],
+   "limit": "thinning keeps native samples (grid about 0.8 s): the median is quantized and the spread wider than the slow regime"
+  },
+  "ivGap": {
+   "emulatedMedian": 0.075,
+   "slowRegimeMasterMedian": 0.132,
+   "relDiff": -0.4318181818181819,
+   "flagOutsidePlusMinus25pct": true
+  }
+ },
+ "emulation": {
+  "fast_to_slow": {
+   "nDriveSeedRuns": 2600,
+   "keys": {
+    "gross_throughput_kwh": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.9741167061913416,
+     "ci95": [
+      0.9728475196305763,
+      0.975532539729406
+     ],
+     "seedSd": 0.0014929081894083673,
+     "margin": [
+      0.99,
+      1.01
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "gross_discharge_kwh": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.974258514918848,
+     "ci95": [
+      0.9730190447382875,
+      0.9755281964581735
+     ],
+     "seedSd": 0.0018383073954170801,
+     "margin": [
+      0.99,
+      1.01
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "gross_charge_kwh": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.9739842014284554,
+     "ci95": [
+      0.9725056796240357,
+      0.9757068454448252
+     ],
+     "seedSd": 0.0019863919803710167,
+     "margin": [
+      0.99,
+      1.01
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "distance_km": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.9999567847882451,
+     "ci95": [
+      0.9999275402497928,
+      0.9999841015878429
+     ],
+     "seedSd": 8.554132864833257e-05,
+     "margin": [
+      0.99,
+      1.01
+     ],
+     "class": "cadence-insensitive within the pre-registered margin"
+    },
+    "net_draw_kwh_corr": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": 0.0019435668480396115,
+     "ci95": [
+      0.0005305871144166836,
+      0.003544344053309472
+     ],
+     "seedSd": 0.0027083627090730587,
+     "margin": [
+      -0.003,
+      0.003
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "energy_residual_kwh": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": 0.0024519615384615365,
+     "ci95": [
+      0.0008252278482638147,
+      0.004249904283766776
+     ],
+     "seedSd": 0.002813177598640879,
+     "margin": [
+      -0.003,
+      0.003
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "offset_kwh_removed": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": 0.0003226254596526924,
+     "ci95": [
+      0.00025704088093974324,
+      0.0004011221403835499
+     ],
+     "seedSd": 2.8461182382641894e-05,
+     "margin": [
+      -0.003,
+      0.003
+     ],
+     "class": "cadence-insensitive within the pre-registered margin"
+    },
+    "net_draw_per100km_corr": {
+     "nDrives": 129,
+     "nDays": 26,
+     "statistic": "mean per-drive difference (emulated - original) [kWh/100km]",
+     "estimate": 0.03390428461951645,
+     "ci95": [
+      -0.013273582744185832,
+      0.08197563594687171
+     ],
+     "seedSd": 0.12041423198556633,
+     "margin": [
+      -0.003,
+      0.003
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "engine_on_pct": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "mean per-drive difference (emulated - original) [pp]",
+     "estimate": 0.025269230769231127,
+     "ci95": [
+      0.01205534857287277,
+      0.03796035344827642
+     ],
+     "seedSd": 0.03479912995543938,
+     "margin": [
+      -0.5,
+      0.5
+     ],
+     "class": "cadence-insensitive within the pre-registered margin"
+    },
+    "regen_share_of_charge": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "mean per-drive difference (emulated - original) [pp]",
+     "estimate": 0.04723076923076914,
+     "ci95": [
+      -0.03364469997266303,
+      0.1160072847682114
+     ],
+     "seedSd": 0.17711455929157516,
+     "margin": [
+      -0.5,
+      0.5
+     ],
+     "class": "cadence-insensitive within the pre-registered margin"
+    },
+    "ev_dist_pct": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "mean per-drive difference (emulated - original) [pp]",
+     "estimate": -0.0979384615384611,
+     "ci95": [
+      -0.16500365853658475,
+      -0.02306961805555491
+     ],
+     "seedSd": 0.1014889942071967,
+     "margin": [
+      -0.5,
+      0.5
+     ],
+     "class": "cadence-insensitive within the pre-registered margin"
+    },
+    "peak_discharge_kw": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": -1.9392307692307695,
+     "ci95": [
+      -2.3335226851851854,
+      -1.5399974489795925
+     ],
+     "seedSd": 0.3060558710440964,
+     "class": "reported (one-sided bias; negative control)",
+     "movementDetected": true
+    },
+    "peak_I_charge": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": 3.247038461538461,
+     "ci95": [
+      2.26536108468737,
+      4.45309483975005
+     ],
+     "seedSd": 0.8318850384650808,
+     "class": "reported (one-sided bias; negative control)",
+     "movementDetected": true
+    },
+    "n_I_samples": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.5954137054027715,
+     "ci95": [
+      0.5849627421460084,
+      0.604899774515023
+     ],
+     "seedSd": 0.0007860720460542976,
+     "class": "reported (scaling factor)"
+    },
+    "n_loaded_spread_samples": {
+     "nDrives": 123,
+     "nDays": 26,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.3591837547642717,
+     "ci95": [
+      0.34070129839249236,
+      0.3792862469250101
+     ],
+     "seedSd": 0.0037818497863432994,
+     "class": "reported (scaling factor)"
+    },
+    "rf_efc": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.9850074589756339,
+     "ci95": [
+      0.9833497697091953,
+      0.9866443026137138
+     ],
+     "seedSd": 0.0017175956203817862,
+     "margin": [
+      0.99,
+      1.01
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "fce": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.9741115208933478,
+     "ci95": [
+      0.9728406622446234,
+      0.9755198232220945
+     ],
+     "seedSd": 0.001494651078788721,
+     "margin": [
+      0.99,
+      1.01
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "soc_delta_kwh": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": -0.0001857692307692282,
+     "ci95": [
+      -0.0005798567924267532,
+      0.00017647471137988033
+     ],
+     "seedSd": 0.0005396575785501184,
+     "margin": [
+      -0.003,
+      0.003
+     ],
+     "class": "cadence-insensitive within the pre-registered margin"
+    },
+    "ev_kwh_per100km": {
+     "nDrives": 121,
+     "nDays": 26,
+     "statistic": "mean per-drive difference (emulated - original) [kWh/100km]",
+     "estimate": -0.27484384515006544,
+     "ci95": [
+      -0.4225205052120669,
+      -0.14401347176009968
+     ],
+     "seedSd": 0.10360427305324629,
+     "margin": [
+      -0.003,
+      0.003
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "standstill_draw_kw": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": 0.015399654679685624,
+     "ci95": [
+      0.008728188959545738,
+      0.022165423994285297
+     ],
+     "seedSd": 0.005636236038711802,
+     "class": "reported (no pre-registered margin)"
+    },
+    "vsag_R_pack_mohm": {
+     "nDrives": 73,
+     "nDays": 26,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": -1.0171570010715503,
+     "ci95": [
+      -2.488973515808996,
+      0.7305142915882679
+     ],
+     "seedSd": 0.9531057344253303,
+     "class": "reported (no pre-registered margin)"
+    },
+    "iv_alignment_gap_s": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": 0.01873807692307692,
+     "ci95": [
+      0.016778171717171712,
+      0.02088023911691542
+     ],
+     "seedSd": 0.0034209655272431656,
+     "class": "reported (no pre-registered margin)"
+    }
+   }
+  },
+  "fast_to_slower": {
+   "nDriveSeedRuns": 2600,
+   "keys": {
+    "gross_throughput_kwh": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.9080147015255468,
+     "ci95": [
+      0.9057127154897809,
+      0.9101831710559257
+     ],
+     "seedSd": 0.0031190299823874294,
+     "margin": [
+      0.99,
+      1.01
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "gross_discharge_kwh": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.9068409255262853,
+     "ci95": [
+      0.9045454590198617,
+      0.9091419262652927
+     ],
+     "seedSd": 0.0037726254342064615,
+     "margin": [
+      0.99,
+      1.01
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "gross_charge_kwh": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.9091114669588083,
+     "ci95": [
+      0.9065678872970938,
+      0.9115300539813954
+     ],
+     "seedSd": 0.00442998809849915,
+     "margin": [
+      0.99,
+      1.01
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "distance_km": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.9999855949294152,
+     "ci95": [
+      0.9999520888671931,
+      1.0000000000000002
+     ],
+     "seedSd": 5.0119012816059404e-05,
+     "margin": [
+      0.99,
+      1.01
+     ],
+     "class": "cadence-insensitive within the pre-registered margin"
+    },
+    "net_draw_kwh_corr": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": 0.0025463073868923053,
+     "ci95": [
+      0.0004263707881649216,
+      0.004792813137423781
+     ],
+     "seedSd": 0.006087938812770271,
+     "margin": [
+      -0.003,
+      0.003
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "energy_residual_kwh": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": 0.004668692307692306,
+     "ci95": [
+      0.002601609656301144,
+      0.007096067009897828
+     ],
+     "seedSd": 0.0062218256755426785,
+     "margin": [
+      -0.003,
+      0.003
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "offset_kwh_removed": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": 0.0018881541515692322,
+     "ci95": [
+      0.0014821819301576882,
+      0.0023785491212323213
+     ],
+     "seedSd": 7.192591599458186e-05,
+     "margin": [
+      -0.003,
+      0.003
+     ],
+     "class": "cadence-insensitive within the pre-registered margin"
+    },
+    "net_draw_per100km_corr": {
+     "nDrives": 129,
+     "nDays": 26,
+     "statistic": "mean per-drive difference (emulated - original) [kWh/100km]",
+     "estimate": 0.048777999088096054,
+     "ci95": [
+      -0.005743907412091283,
+      0.11947060476454999
+     ],
+     "seedSd": 0.168706700756471,
+     "margin": [
+      -0.003,
+      0.003
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "engine_on_pct": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "mean per-drive difference (emulated - original) [pp]",
+     "estimate": 0.07673076923076953,
+     "ci95": [
+      0.04222110215053824,
+      0.10825876819814712
+     ],
+     "seedSd": 0.05878446662204749,
+     "margin": [
+      -0.5,
+      0.5
+     ],
+     "class": "cadence-insensitive within the pre-registered margin"
+    },
+    "regen_share_of_charge": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "mean per-drive difference (emulated - original) [pp]",
+     "estimate": 1.023807692307692,
+     "ci95": [
+      0.7653077627118643,
+      1.2888133848133847
+     ],
+     "seedSd": 0.21705934718255016,
+     "margin": [
+      -0.5,
+      0.5
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "ev_dist_pct": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "mean per-drive difference (emulated - original) [pp]",
+     "estimate": -0.20468846153846212,
+     "ci95": [
+      -0.3032978043143316,
+      -0.09758893843965775
+     ],
+     "seedSd": 0.22749187681638228,
+     "margin": [
+      -0.5,
+      0.5
+     ],
+     "class": "cadence-insensitive within the pre-registered margin"
+    },
+    "peak_discharge_kw": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": -5.635730769230769,
+     "ci95": [
+      -6.711517063492064,
+      -4.597038240033422
+     ],
+     "seedSd": 0.5023297001831359,
+     "class": "reported (one-sided bias; negative control)",
+     "movementDetected": true
+    },
+    "peak_I_charge": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": 8.744730769230769,
+     "ci95": [
+      6.8498514609979235,
+      11.084967740275774
+     ],
+     "seedSd": 0.6705763974111156,
+     "class": "reported (one-sided bias; negative control)",
+     "movementDetected": true
+    },
+    "n_I_samples": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.2988867034299161,
+     "ci95": [
+      0.2936916052125459,
+      0.30364126444659056
+     ],
+     "seedSd": 0.0005255605124141166,
+     "class": "reported (scaling factor)"
+    },
+    "n_loaded_spread_samples": {
+     "nDrives": 121,
+     "nDays": 26,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.08255193318718025,
+     "ci95": [
+      0.07838527950880024,
+      0.08703860180039044
+     ],
+     "seedSd": 0.002238901310994787,
+     "class": "reported (scaling factor)"
+    },
+    "rf_efc": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.9604591413890268,
+     "ci95": [
+      0.9565353302312781,
+      0.9646719049721041
+     ],
+     "seedSd": 0.0027959790951864725,
+     "margin": [
+      0.99,
+      1.01
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "fce": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.9080107443648513,
+     "ci95": [
+      0.9057083973932016,
+      0.9101790657925387
+     ],
+     "seedSd": 0.0031202897821884954,
+     "margin": [
+      0.99,
+      1.01
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "soc_delta_kwh": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": -0.00023423076923076723,
+     "ci95": [
+      -0.0006421435810810785,
+      0.00018179104477612378
+     ],
+     "seedSd": 0.0005005772127612739,
+     "margin": [
+      -0.003,
+      0.003
+     ],
+     "class": "cadence-insensitive within the pre-registered margin"
+    },
+    "ev_kwh_per100km": {
+     "nDrives": 121,
+     "nDays": 26,
+     "statistic": "mean per-drive difference (emulated - original) [kWh/100km]",
+     "estimate": -0.8778464564019025,
+     "ci95": [
+      -1.0766654392435222,
+      -0.7058945380271816
+     ],
+     "seedSd": 0.1830535537985477,
+     "margin": [
+      -0.003,
+      0.003
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "standstill_draw_kw": {
+     "nDrives": 128,
+     "nDays": 26,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": 0.029760738385160905,
+     "ci95": [
+      0.01776998953057121,
+      0.04145074831888597
+     ],
+     "seedSd": 0.008396260828412628,
+     "class": "reported (no pre-registered margin)"
+    },
+    "vsag_R_pack_mohm": {
+     "nDrives": 47,
+     "nDays": 20,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": -3.0293847580045163,
+     "ci95": [
+      -4.0566711637313455,
+      -1.9340971413667873
+     ],
+     "seedSd": 1.3306781632020113,
+     "class": "reported (no pre-registered margin)"
+    },
+    "iv_alignment_gap_s": {
+     "nDrives": 130,
+     "nDays": 26,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": 0.7119103846153846,
+     "ci95": [
+      0.7042922278225806,
+      0.7191593889610389
+     ],
+     "seedSd": 0.0026923912942485536,
+     "class": "reported (no pre-registered margin)"
+    }
+   }
+  },
+  "slow_to_slower": {
+   "nDriveSeedRuns": 2000,
+   "keys": {
+    "gross_throughput_kwh": {
+     "nDrives": 100,
+     "nDays": 56,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.9167230769986581,
+     "ci95": [
+      0.9088317899069436,
+      0.9231710284953237
+     ],
+     "seedSd": 0.0025060757450836037,
+     "margin": [
+      0.99,
+      1.01
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "gross_discharge_kwh": {
+     "nDrives": 100,
+     "nDays": 56,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.9164748386942024,
+     "ci95": [
+      0.9079971547073046,
+      0.9234884809631106
+     ],
+     "seedSd": 0.0040220834652435625,
+     "margin": [
+      0.99,
+      1.01
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "gross_charge_kwh": {
+     "nDrives": 100,
+     "nDays": 56,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.9169539955787828,
+     "ci95": [
+      0.9095039542421298,
+      0.9232174242897735
+     ],
+     "seedSd": 0.0035240191778079695,
+     "margin": [
+      0.99,
+      1.01
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "distance_km": {
+     "nDrives": 100,
+     "nDays": 56,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.9999703732964644,
+     "ci95": [
+      0.9999019119119796,
+      0.9999981213212913
+     ],
+     "seedSd": 8.231372244386802e-05,
+     "margin": [
+      0.99,
+      1.01
+     ],
+     "class": "cadence-insensitive within the pre-registered margin"
+    },
+    "net_draw_kwh_corr": {
+     "nDrives": 100,
+     "nDays": 56,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": 0.006995607720090996,
+     "ci95": [
+      0.002165808454232298,
+      0.012247857533211802
+     ],
+     "seedSd": 0.0097544314147889,
+     "margin": [
+      -0.003,
+      0.003
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "energy_residual_kwh": {
+     "nDrives": 100,
+     "nDays": 56,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": 0.009457000000000004,
+     "ci95": [
+      0.004499380532552829,
+      0.015184370584239139
+     ],
+     "seedSd": 0.009580540606656258,
+     "margin": [
+      -0.003,
+      0.003
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "offset_kwh_removed": {
+     "nDrives": 100,
+     "nDays": 56,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": 0.002592642279908997,
+     "ci95": [
+      0.0019584632107612064,
+      0.0033080352253121127
+     ],
+     "seedSd": 8.802437755701074e-05,
+     "margin": [
+      -0.003,
+      0.003
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "net_draw_per100km_corr": {
+     "nDrives": 100,
+     "nDays": 56,
+     "statistic": "mean per-drive difference (emulated - original) [kWh/100km]",
+     "estimate": 0.046923930876433595,
+     "ci95": [
+      -0.058731096106188686,
+      0.14830536757404617
+     ],
+     "seedSd": 0.14606763582297533,
+     "margin": [
+      -0.003,
+      0.003
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "engine_on_pct": {
+     "nDrives": 100,
+     "nDays": 56,
+     "statistic": "mean per-drive difference (emulated - original) [pp]",
+     "estimate": 0.06174999999999979,
+     "ci95": [
+      0.024744791666666356,
+      0.10314792885669198
+     ],
+     "seedSd": 0.073607690530699,
+     "margin": [
+      -0.5,
+      0.5
+     ],
+     "class": "cadence-insensitive within the pre-registered margin"
+    },
+    "regen_share_of_charge": {
+     "nDrives": 100,
+     "nDays": 56,
+     "statistic": "mean per-drive difference (emulated - original) [pp]",
+     "estimate": 1.6675499999999996,
+     "ci95": [
+      1.2633498622589534,
+      2.0884553362230545
+     ],
+     "seedSd": 0.3290729362442633,
+     "margin": [
+      -0.5,
+      0.5
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "ev_dist_pct": {
+     "nDrives": 100,
+     "nDays": 56,
+     "statistic": "mean per-drive difference (emulated - original) [pp]",
+     "estimate": -0.17140499999999928,
+     "ci95": [
+      -0.29083202272727054,
+      -0.060401241391807615
+     ],
+     "seedSd": 0.18631326611805984,
+     "margin": [
+      -0.5,
+      0.5
+     ],
+     "class": "cadence-insensitive within the pre-registered margin"
+    },
+    "peak_discharge_kw": {
+     "nDrives": 100,
+     "nDays": 56,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": -3.730350000000001,
+     "ci95": [
+      -4.437279172560114,
+      -3.06810046409008
+     ],
+     "seedSd": 0.41518800750858337,
+     "class": "reported (one-sided bias; negative control)",
+     "movementDetected": true
+    },
+    "peak_I_charge": {
+     "nDrives": 100,
+     "nDays": 56,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": 6.0432000000000015,
+     "ci95": [
+      5.079108732387662,
+      7.1407897707334245
+     ],
+     "seedSd": 0.7679479560216922,
+     "class": "reported (one-sided bias; negative control)",
+     "movementDetected": true
+    },
+    "n_I_samples": {
+     "nDrives": 100,
+     "nDays": 56,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.475904834219185,
+     "ci95": [
+      0.45719839226243986,
+      0.5040977247555993
+     ],
+     "seedSd": 0.0007145317737255357,
+     "class": "reported (scaling factor)"
+    },
+    "n_loaded_spread_samples": {
+     "nDrives": 98,
+     "nDays": 56,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.20079902542417968,
+     "ci95": [
+      0.18957799969984257,
+      0.22050132807127676
+     ],
+     "seedSd": 0.003884364124264239,
+     "class": "reported (scaling factor)"
+    },
+    "rf_efc": {
+     "nDrives": 100,
+     "nDays": 56,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.9546564247420302,
+     "ci95": [
+      0.949090614633138,
+      0.9616687953619025
+     ],
+     "seedSd": 0.0021575209384969243,
+     "margin": [
+      0.99,
+      1.01
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "fce": {
+     "nDrives": 100,
+     "nDays": 56,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.9167214672725684,
+     "ci95": [
+      0.9088275347985884,
+      0.9231733379595495
+     ],
+     "seedSd": 0.0025070742102757297,
+     "margin": [
+      0.99,
+      1.01
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "soc_delta_kwh": {
+     "nDrives": 100,
+     "nDays": 56,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": 0.00013125000000000685,
+     "ci95": [
+      -0.0004987628676470511,
+      0.0009228992914979915
+     ],
+     "seedSd": 0.0013719433728915538,
+     "margin": [
+      -0.003,
+      0.003
+     ],
+     "class": "cadence-insensitive within the pre-registered margin"
+    },
+    "ev_kwh_per100km": {
+     "nDrives": 87,
+     "nDays": 54,
+     "statistic": "mean per-drive difference (emulated - original) [kWh/100km]",
+     "estimate": -0.8884252873563218,
+     "ci95": [
+      -1.0318784095311895,
+      -0.7457691123188406
+     ],
+     "seedSd": 0.1559152397764962,
+     "margin": [
+      -0.003,
+      0.003
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "standstill_draw_kw": {
+     "nDrives": 95,
+     "nDays": 56,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": 0.03324625996502725,
+     "ci95": [
+      0.01638193804658679,
+      0.052689612611872064
+     ],
+     "seedSd": 0.010230924161663903,
+     "class": "reported (no pre-registered margin)"
+    },
+    "vsag_R_pack_mohm": {
+     "nDrives": 39,
+     "nDays": 32,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": -2.515116659169288,
+     "ci95": [
+      -4.316805383195823,
+      -0.4904361734483734
+     ],
+     "seedSd": 1.613761009880311,
+     "class": "reported (no pre-registered margin)"
+    },
+    "iv_alignment_gap_s": {
+     "nDrives": 100,
+     "nDays": 56,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": 0.38391450000000005,
+     "ci95": [
+      0.3110253931818182,
+      0.463951955455259
+     ],
+     "seedSd": 0.02483398911826924,
+     "class": "reported (no pre-registered margin)"
+    }
+   }
+  },
+  "fast_to_slow_nearest": {
+   "nDriveSeedRuns": 150,
+   "keys": {
+    "gross_throughput_kwh": {
+     "nDrives": 30,
+     "nDays": 19,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.9756396783181189,
+     "ci95": [
+      0.972634875951622,
+      0.9796620316723851
+     ],
+     "seedSd": 0.0026903407124501746,
+     "margin": [
+      0.99,
+      1.01
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "gross_discharge_kwh": {
+     "nDrives": 30,
+     "nDays": 19,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.9774701100601191,
+     "ci95": [
+      0.973656572564891,
+      0.9831415446999264
+     ],
+     "seedSd": 0.0027966875925601953,
+     "margin": [
+      0.99,
+      1.01
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "gross_charge_kwh": {
+     "nDrives": 30,
+     "nDays": 19,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.9739102560814865,
+     "ci95": [
+      0.9698764028929366,
+      0.977792418704798
+     ],
+     "seedSd": 0.0028893968697581845,
+     "margin": [
+      0.99,
+      1.01
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "distance_km": {
+     "nDrives": 30,
+     "nDays": 19,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 1.0,
+     "ci95": [
+      1.0,
+      1.0
+     ],
+     "seedSd": 0.0,
+     "margin": [
+      0.99,
+      1.01
+     ],
+     "class": "cadence-insensitive within the pre-registered margin"
+    },
+    "net_draw_kwh_corr": {
+     "nDrives": 30,
+     "nDays": 19,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": 0.005904696090286665,
+     "ci95": [
+      0.001073072320410319,
+      0.01278817016154379
+     ],
+     "seedSd": 0.002385836385703697,
+     "margin": [
+      -0.003,
+      0.003
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "energy_residual_kwh": {
+     "nDrives": 30,
+     "nDays": 19,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": 0.006243333333333334,
+     "ci95": [
+      0.0013907208494208512,
+      0.01323630291005291
+     ],
+     "seedSd": 0.002355991180892756,
+     "margin": [
+      -0.003,
+      0.003
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "offset_kwh_removed": {
+     "nDrives": 30,
+     "nDays": 19,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": 0.0003386372430466683,
+     "ci95": [
+      0.0001946196597950016,
+      0.0005040671047316676
+     ],
+     "seedSd": 7.063700011803698e-05,
+     "margin": [
+      -0.003,
+      0.003
+     ],
+     "class": "cadence-insensitive within the pre-registered margin"
+    },
+    "net_draw_per100km_corr": {
+     "nDrives": 30,
+     "nDays": 19,
+     "statistic": "mean per-drive difference (emulated - original) [kWh/100km]",
+     "estimate": 0.06966412714246487,
+     "ci95": [
+      -0.06109535693582731,
+      0.2159989530434145
+     ],
+     "seedSd": 0.18218548757265887,
+     "margin": [
+      -0.003,
+      0.003
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "engine_on_pct": {
+     "nDrives": 30,
+     "nDays": 19,
+     "statistic": "mean per-drive difference (emulated - original) [pp]",
+     "estimate": 0.049333333333332875,
+     "ci95": [
+      -0.02858082706766946,
+      0.13310919540229751
+     ],
+     "seedSd": 0.12232470450948722,
+     "margin": [
+      -0.5,
+      0.5
+     ],
+     "class": "cadence-insensitive within the pre-registered margin"
+    },
+    "regen_share_of_charge": {
+     "nDrives": 30,
+     "nDays": 19,
+     "statistic": "mean per-drive difference (emulated - original) [pp]",
+     "estimate": 0.06733333333333341,
+     "ci95": [
+      -0.32160166666666673,
+      0.5628534946236563
+     ],
+     "seedSd": 0.2742910052399742,
+     "margin": [
+      -0.5,
+      0.5
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "ev_dist_pct": {
+     "nDrives": 30,
+     "nDays": 19,
+     "statistic": "mean per-drive difference (emulated - original) [pp]",
+     "estimate": -0.24953333333333358,
+     "ci95": [
+      -0.4051543103448278,
+      -0.08599600000000078
+     ],
+     "seedSd": 0.211130896733651,
+     "margin": [
+      -0.5,
+      0.5
+     ],
+     "class": "cadence-insensitive within the pre-registered margin"
+    },
+    "peak_discharge_kw": {
+     "nDrives": 30,
+     "nDays": 19,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": -1.2120000000000004,
+     "ci95": [
+      -1.7700500000000003,
+      -0.7006863026819927
+     ],
+     "seedSd": 0.4452377641964645,
+     "class": "reported (one-sided bias; negative control)",
+     "movementDetected": true
+    },
+    "peak_I_charge": {
+     "nDrives": 30,
+     "nDays": 19,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": 3.297333333333333,
+     "ci95": [
+      1.8035602678571425,
+      5.399414542728634
+     ],
+     "seedSd": 0.5679319208027198,
+     "class": "reported (one-sided bias; negative control)",
+     "movementDetected": true
+    },
+    "n_I_samples": {
+     "nDrives": 30,
+     "nDays": 19,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.6423909342930791,
+     "ci95": [
+      0.6005078135423851,
+      0.6735644851090407
+     ],
+     "seedSd": 0.0011770458459059217,
+     "class": "reported (scaling factor)"
+    },
+    "n_loaded_spread_samples": {
+     "nDrives": 29,
+     "nDays": 19,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.44421223167274204,
+     "ci95": [
+      0.3765074374878538,
+      0.49327765216584774
+     ],
+     "seedSd": 0.011323744888680869,
+     "class": "reported (scaling factor)"
+    },
+    "rf_efc": {
+     "nDrives": 30,
+     "nDays": 19,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.9854517611026036,
+     "ci95": [
+      0.9834002731809712,
+      0.9890842019753828
+     ],
+     "seedSd": 0.0028075548749362422,
+     "margin": [
+      0.99,
+      1.01
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "fce": {
+     "nDrives": 30,
+     "nDays": 19,
+     "statistic": "ratio of sums (emulated / original)",
+     "estimate": 0.9756370141054111,
+     "ci95": [
+      0.972640501315663,
+      0.9796437542336972
+     ],
+     "seedSd": 0.0026921310878035756,
+     "margin": [
+      0.99,
+      1.01
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "soc_delta_kwh": {
+     "nDrives": 30,
+     "nDays": 19,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": -6.938893903907229e-19,
+     "ci95": [
+      -3.568574007723717e-18,
+      2.0821938449527693e-18
+     ],
+     "seedSd": 0.0,
+     "margin": [
+      -0.003,
+      0.003
+     ],
+     "class": "cadence-insensitive within the pre-registered margin"
+    },
+    "ev_kwh_per100km": {
+     "nDrives": 28,
+     "nDays": 19,
+     "statistic": "mean per-drive difference (emulated - original) [kWh/100km]",
+     "estimate": -0.19285714285714292,
+     "ci95": [
+      -0.3999355902777777,
+      0.08417999999999977
+     ],
+     "seedSd": 0.2418248807695015,
+     "margin": [
+      -0.003,
+      0.003
+     ],
+     "class": "cadence-sensitive (outside the pre-registered margin)"
+    },
+    "standstill_draw_kw": {
+     "nDrives": 30,
+     "nDays": 19,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": 0.020933333333333342,
+     "ci95": [
+      0.003310278514588855,
+      0.050067
+     ],
+     "seedSd": 0.011769546389824127,
+     "class": "reported (no pre-registered margin)"
+    },
+    "vsag_R_pack_mohm": {
+     "nDrives": 18,
+     "nDays": 15,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": -2.0019907407407396,
+     "ci95": [
+      -6.481899264705882,
+      1.3583236805555552
+     ],
+     "seedSd": 1.4935015335975803,
+     "class": "reported (no pre-registered margin)"
+    },
+    "iv_alignment_gap_s": {
+     "nDrives": 30,
+     "nDays": 19,
+     "statistic": "mean per-drive difference (emulated - original)",
+     "estimate": 0.012953333333333336,
+     "ci95": [
+      0.011805735294117648,
+      0.014309440559440561
+     ],
+     "seedSd": 0.0006353476738500483,
+     "class": "reported (no pre-registered margin)"
+    }
+   }
+  }
+ },
+ "robustnessClassFlips": {
+  "regen_share_of_charge": {
+   "fast_to_slow": "cadence-insensitive within the pre-registered margin",
+   "nearest": "cadence-sensitive (outside the pre-registered margin)"
+  }
+ },
+ "headlineQuarterRule": {
+  "headlineKpi": "EnergyIntensity.all (kWh/100km, canonical-clean)",
+  "ciHalfWidth": 2.0739342435155272,
+  "quarter": 0.5184835608788818,
+  "shift": 0.03390428461951645,
+  "shiftBelowQuarter": true
+ },
+ "observational": {
+  "label": "descriptive; confounded by season, ambient and drive mix (the first fast run is summer)",
+  "byRegime": {
+   "fast": {
+    "gross_throughput_kwh": {
+     "mean": 2.2329446153846155,
+     "ci95": [
+      1.6792644828759948,
+      2.9006982855865306
+     ],
+     "nDrives": 130,
+     "nDays": 26
+    },
+    "gross_discharge_kwh": {
+     "mean": 1.0786046153846154,
+     "ci95": [
+      0.8078760087719298,
+      1.405421826662144
+     ],
+     "nDrives": 130,
+     "nDays": 26
+    },
+    "gross_charge_kwh": {
+     "mean": 1.15434,
+     "ci95": [
+      0.8703320701198026,
+      1.4990383322386616
+     ],
+     "nDrives": 130,
+     "nDays": 26
+    },
+    "distance_km": {
+     "mean": 10.702615384615386,
+     "ci95": [
+      6.76979827586207,
+      16.15327075559702
+     ],
+     "nDrives": 130,
+     "nDays": 26
+    },
+    "net_draw_kwh_corr": {
+     "mean": -0.03422692307692307,
+     "ci95": [
+      -0.04904781594669118,
+      -0.01969502615201271
+     ],
+     "nDrives": 130,
+     "nDays": 26
+    },
+    "energy_residual_kwh": {
+     "mean": -0.03745076923076924,
+     "ci95": [
+      -0.05167169024422795,
+      -0.026025122139303483
+     ],
+     "nDrives": 130,
+     "nDays": 26
+    },
+    "offset_kwh_removed": {
+     "mean": -0.041508461538461536,
+     "ci95": [
+      -0.05294327242524917,
+      -0.031970197701597196
+     ],
+     "nDrives": 130,
+     "nDays": 26
+    },
+    "net_draw_per100km_corr": {
+     "mean": -0.2152307692307693,
+     "ci95": [
+      -1.235439222440945,
+      0.950687162162162
+     ],
+     "nDrives": 130,
+     "nDays": 26
+    },
+    "engine_on_pct": {
+     "mean": 28.98846153846154,
+     "ci95": [
+      26.193969427058256,
+      32.15281991982732
+     ],
+     "nDrives": 130,
+     "nDays": 26
+    },
+    "regen_share_of_charge": {
+     "mean": 29.93692307692308,
+     "ci95": [
+      25.730086757080176,
+      34.16018300653595
+     ],
+     "nDrives": 130,
+     "nDays": 26
+    },
+    "ev_dist_pct": {
+     "mean": 57.284,
+     "ci95": [
+      52.6580358123385,
+      61.51368321657021
+     ],
+     "nDrives": 130,
+     "nDays": 26
+    },
+    "peak_discharge_kw": {
+     "mean": 38.15,
+     "ci95": [
+      34.40076613624173,
+      42.107231122020536
+     ],
+     "nDrives": 130,
+     "nDays": 26
+    },
+    "peak_I_charge": {
+     "mean": -104.15230769230769,
+     "ci95": [
+      -114.77985776578073,
+      -94.83886737089202
+     ],
+     "nDrives": 130,
+     "nDays": 26
+    },
+    "rf_efc": {
+     "mean": 0.5800961538461539,
+     "ci95": [
+      0.4375200943210016,
+      0.7496786808473391
+     ],
+     "nDrives": 130,
+     "nDays": 26
+    },
+    "fce": {
+     "mean": 0.5316561538461537,
+     "ci95": [
+      0.39982683127356516,
+      0.6906451979770569
+     ],
+     "nDrives": 130,
+     "nDays": 26
+    },
+    "soc_delta_kwh": {
+     "mean": -0.03828461538461539,
+     "ci95": [
+      -0.05737001633255772,
+      -0.018898528037383178
+     ],
+     "nDrives": 130,
+     "nDays": 26
+    },
+    "ev_kwh_per100km": {
+     "mean": 13.983388429752067,
+     "ci95": [
+      12.67444585483871,
+      15.26810767220274
+     ],
+     "nDrives": 121,
+     "nDays": 26
+    },
+    "standstill_draw_kw": {
+     "mean": 1.2367692307692306,
+     "ci95": [
+      1.114280933633296,
+      1.3733618605689502
+     ],
+     "nDrives": 130,
+     "nDays": 26
+    },
+    "vsag_R_pack_mohm": {
+     "mean": 131.52587499999998,
+     "ci95": [
+      125.91096080705009,
+      137.85161308677098
+     ],
+     "nDrives": 80,
+     "nDays": 26
+    },
+    "iv_alignment_gap_s": {
+     "mean": 0.06087692307692307,
+     "ci95": [
+      0.06052989130434782,
+      0.061215410447761194
+     ],
+     "nDrives": 130,
+     "nDays": 26
+    }
+   },
+   "slow": {
+    "gross_throughput_kwh": {
+     "mean": 3.277965608465608,
+     "ci95": [
+      2.506179584411884,
+      4.1315660634620635
+     ],
+     "nDrives": 378,
+     "nDays": 80
+    },
+    "gross_discharge_kwh": {
+     "mean": 1.5881227513227512,
+     "ci95": [
+      1.2100234873949578,
+      2.0060485038450406
+     ],
+     "nDrives": 378,
+     "nDays": 80
+    },
+    "gross_charge_kwh": {
+     "mean": 1.6898428571428574,
+     "ci95": [
+      1.296766542405509,
+      2.125765506981383
+     ],
+     "nDrives": 378,
+     "nDays": 80
+    },
+    "distance_km": {
+     "mean": 19.100264550264548,
+     "ci95": [
+      13.027689986649902,
+      26.14111457211021
+     ],
+     "nDrives": 378,
+     "nDays": 80
+    },
+    "net_draw_kwh_corr": {
+     "mean": -0.04696719576719576,
+     "ci95": [
+      -0.05856776954887218,
+      -0.03601646422413793
+     ],
+     "nDrives": 378,
+     "nDays": 80
+    },
+    "energy_residual_kwh": {
+     "mean": -0.056331216931216926,
+     "ci95": [
+      -0.0725682345457972,
+      -0.04201042499083577
+     ],
+     "nDrives": 378,
+     "nDays": 80
+    },
+    "offset_kwh_removed": {
+     "mean": -0.05475291005291005,
+     "ci95": [
+      -0.06742241924392306,
+      -0.04351526596154587
+     ],
+     "nDrives": 378,
+     "nDays": 80
+    },
+    "net_draw_per100km_corr": {
+     "mean": -0.5776190476190476,
+     "ci95": [
+      -1.2812131695243383,
+      0.1205752285685849
+     ],
+     "nDrives": 378,
+     "nDays": 80
+    },
+    "engine_on_pct": {
+     "mean": 32.96746031746032,
+     "ci95": [
+      30.865417850350994,
+      35.22273682638643
+     ],
+     "nDrives": 378,
+     "nDays": 80
+    },
+    "regen_share_of_charge": {
+     "mean": 28.114814814814814,
+     "ci95": [
+      26.19877874791682,
+      30.185122949342638
+     ],
+     "nDrives": 378,
+     "nDays": 80
+    },
+    "ev_dist_pct": {
+     "mean": 53.2457671957672,
+     "ci95": [
+      50.3807928206997,
+      56.05894225731749
+     ],
+     "nDrives": 378,
+     "nDays": 80
+    },
+    "peak_discharge_kw": {
+     "mean": 36.780952380952385,
+     "ci95": [
+      34.29904508819498,
+      39.331226321080855
+     ],
+     "nDrives": 378,
+     "nDays": 80
+    },
+    "peak_I_charge": {
+     "mean": -108.744708994709,
+     "ci95": [
+      -115.63690018796993,
+      -102.28100645620806
+     ],
+     "nDrives": 378,
+     "nDays": 80
+    },
+    "rf_efc": {
+     "mean": 0.8190145502645502,
+     "ci95": [
+      0.6308445604048071,
+      1.0264467260723376
+     ],
+     "nDrives": 378,
+     "nDays": 80
+    },
+    "fce": {
+     "mean": 0.7804703703703703,
+     "ci95": [
+      0.5967121392348391,
+      0.9837089410194457
+     ],
+     "nDrives": 378,
+     "nDays": 80
+    },
+    "soc_delta_kwh": {
+     "mean": -0.04538888888888889,
+     "ci95": [
+      -0.05775000000000001,
+      -0.034033200252833594
+     ],
+     "nDrives": 378,
+     "nDays": 80
+    },
+    "ev_kwh_per100km": {
+     "mean": 13.476120689655172,
+     "ci95": [
+      12.351996587995776,
+      14.556791368355295
+     ],
+     "nDrives": 348,
+     "nDays": 80
+    },
+    "standstill_draw_kw": {
+     "mean": 1.23997311827957,
+     "ci95": [
+      1.1566804066454168,
+      1.3227804785552326
+     ],
+     "nDrives": 372,
+     "nDays": 80
+    },
+    "vsag_R_pack_mohm": {
+     "mean": 125.66789473684211,
+     "ci95": [
+      122.10778373675576,
+      129.86595449101796
+     ],
+     "nDrives": 190,
+     "nDays": 67
+    },
+    "iv_alignment_gap_s": {
+     "mean": 0.1416137566137566,
+     "ci95": [
+      0.13742893808721476,
+      0.1464363147588292
+     ],
+     "nDrives": 378,
+     "nDays": 80
+    }
+   }
+  },
+  "windows": [
+   {
+    "transition": "2026-08-14 slow -> fast",
+    "from": "2026-08-07",
+    "to": "2026-08-21",
+    "nFast": 30,
+    "nSlow": 18,
+    "byRegime": {
+     "fast": {
+      "gross_throughput_kwh": {
+       "mean": 2.922766666666666,
+       "ci95": [
+        2.1204181818181813,
+        3.8252610185185185
+       ],
+       "nDrives": 30,
+       "nDays": 7
+      },
+      "gross_discharge_kwh": {
+       "mean": 1.4143133333333335,
+       "ci95": [
+        1.01275325,
+        1.8529964285714287
+       ],
+       "nDrives": 30,
+       "nDays": 7
+      },
+      "gross_charge_kwh": {
+       "mean": 1.508453333333333,
+       "ci95": [
+        1.0986090909090909,
+        1.9724066964285716
+       ],
+       "nDrives": 30,
+       "nDays": 7
+      },
+      "distance_km": {
+       "mean": 12.756666666666668,
+       "ci95": [
+        8.859999999999998,
+        17.341379310344827
+       ],
+       "nDrives": 30,
+       "nDays": 7
+      },
+      "net_draw_kwh_corr": {
+       "mean": -0.04255999999999998,
+       "ci95": [
+        -0.07849846104725414,
+        -0.008373723958333313
+       ],
+       "nDrives": 30,
+       "nDays": 7
+      },
+      "energy_residual_kwh": {
+       "mean": -0.048639999999999996,
+       "ci95": [
+        -0.07311851851851851,
+        -0.02485862068965517
+       ],
+       "nDrives": 30,
+       "nDays": 7
+      },
+      "offset_kwh_removed": {
+       "mean": -0.05158,
+       "ci95": [
+        -0.06952966071428571,
+        -0.03577741935483871
+       ],
+       "nDrives": 30,
+       "nDays": 7
+      },
+      "net_draw_per100km_corr": {
+       "mean": -1.5130000000000003,
+       "ci95": [
+        -3.3427999999999995,
+        -0.19718749999999996
+       ],
+       "nDrives": 30,
+       "nDays": 7
+      },
+      "engine_on_pct": {
+       "mean": 31.393333333333334,
+       "ci95": [
+        29.134482758620692,
+        33.70285714285714
+       ],
+       "nDrives": 30,
+       "nDays": 7
+      },
+      "regen_share_of_charge": {
+       "mean": 26.59666666666667,
+       "ci95": [
+        20.164285714285715,
+        30.753782169117653
+       ],
+       "nDrives": 30,
+       "nDays": 7
+      },
+      "ev_dist_pct": {
+       "mean": 49.062999999999995,
+       "ci95": [
+        44.122776785714294,
+        52.97764166666667
+       ],
+       "nDrives": 30,
+       "nDays": 7
+      },
+      "peak_discharge_kw": {
+       "mean": 42.43666666666665,
+       "ci95": [
+        39.59600925925926,
+        45.859375
+       ],
+       "nDrives": 30,
+       "nDays": 7
+      },
+      "peak_I_charge": {
+       "mean": -114.97666666666667,
+       "ci95": [
+        -121.05625,
+        -107.5923076923077
+       ],
+       "nDrives": 30,
+       "nDays": 7
+      },
+      "rf_efc": {
+       "mean": 0.7469166666666667,
+       "ci95": [
+        0.5387305743243244,
+        0.9807692307692306
+       ],
+       "nDrives": 30,
+       "nDays": 7
+      },
+      "fce": {
+       "mean": 0.6959000000000001,
+       "ci95": [
+        0.5048666666666666,
+        0.9107804532967033
+       ],
+       "nDrives": 30,
+       "nDays": 7
+      },
+      "soc_delta_kwh": {
+       "mean": -0.0455,
+       "ci95": [
+        -0.09212903225806451,
+        0.000699999999999997
+       ],
+       "nDrives": 30,
+       "nDays": 7
+      },
+      "ev_kwh_per100km": {
+       "mean": 14.253846153846155,
+       "ci95": [
+        12.213401785714284,
+        16.7775
+       ],
+       "nDrives": 26,
+       "nDays": 7
+      },
+      "standstill_draw_kw": {
+       "mean": 1.4803333333333335,
+       "ci95": [
+        1.2217378296146042,
+        1.7780230812013353
+       ],
+       "nDrives": 30,
+       "nDays": 7
+      },
+      "vsag_R_pack_mohm": {
+       "mean": 129.91476190476192,
+       "ci95": [
+        119.275,
+        139.8712
+       ],
+       "nDrives": 21,
+       "nDays": 7
+      },
+      "iv_alignment_gap_s": {
+       "mean": 0.060833333333333336,
+       "ci95": [
+        0.060366666666666666,
+        0.06139285714285714
+       ],
+       "nDrives": 30,
+       "nDays": 7
+      }
+     },
+     "slow": {
+      "gross_throughput_kwh": {
+       "mean": 1.7394833333333333,
+       "ci95": [
+        0.6206555555555556,
+        3.7149538461538465
+       ],
+       "nDrives": 18,
+       "nDays": 5
+      },
+      "gross_discharge_kwh": {
+       "mean": 0.8161222222222223,
+       "ci95": [
+        0.27372592592592593,
+        1.7712842105263156
+       ],
+       "nDrives": 18,
+       "nDays": 5
+      },
+      "gross_charge_kwh": {
+       "mean": 0.9233611111111111,
+       "ci95": [
+        0.3384964285714286,
+        1.9541307692307692
+       ],
+       "nDrives": 18,
+       "nDays": 5
+      },
+      "distance_km": {
+       "mean": 9.394444444444444,
+       "ci95": [
+        1.9333333333333333,
+        22.705263157894734
+       ],
+       "nDrives": 18,
+       "nDays": 5
+      },
+      "net_draw_kwh_corr": {
+       "mean": -0.07712777777777777,
+       "ci95": [
+        -0.1463625,
+        -0.04298125
+       ],
+       "nDrives": 18,
+       "nDays": 5
+      },
+      "energy_residual_kwh": {
+       "mean": -0.02965555555555556,
+       "ci95": [
+        -0.07343684210526316,
+        -0.0016153846153846153
+       ],
+       "nDrives": 18,
+       "nDays": 5
+      },
+      "offset_kwh_removed": {
+       "mean": -0.030111111111111106,
+       "ci95": [
+        -0.06264615384615384,
+        -0.012032142857142856
+       ],
+       "nDrives": 18,
+       "nDays": 5
+      },
+      "net_draw_per100km_corr": {
+       "mean": -4.386666666666667,
+       "ci95": [
+        -5.569285714285714,
+        -2.271
+       ],
+       "nDrives": 18,
+       "nDays": 5
+      },
+      "engine_on_pct": {
+       "mean": 35.1888888888889,
+       "ci95": [
+        30.525000000000002,
+        38.666666666666664
+       ],
+       "nDrives": 18,
+       "nDays": 5
+      },
+      "regen_share_of_charge": {
+       "mean": 19.42777777777778,
+       "ci95": [
+        13.950000000000001,
+        22.228571428571424
+       ],
+       "nDrives": 18,
+       "nDays": 5
+      },
+      "ev_dist_pct": {
+       "mean": 43.10388888888889,
+       "ci95": [
+        36.49333333333333,
+        45.468500000000006
+       ],
+       "nDrives": 18,
+       "nDays": 5
+      },
+      "peak_discharge_kw": {
+       "mean": 35.266666666666666,
+       "ci95": [
+        31.0,
+        44.15555555555555
+       ],
+       "nDrives": 18,
+       "nDays": 5
+      },
+      "peak_I_charge": {
+       "mean": -105.91666666666669,
+       "ci95": [
+        -122.86842105263158,
+        -92.97777777777777
+       ],
+       "nDrives": 18,
+       "nDays": 5
+      },
+      "rf_efc": {
+       "mean": 0.4481944444444445,
+       "ci95": [
+        0.1687962962962963,
+        0.9453846153846155
+       ],
+       "nDrives": 18,
+       "nDays": 5
+      },
+      "fce": {
+       "mean": 0.4141611111111111,
+       "ci95": [
+        0.14777037037037036,
+        0.8845076923076923
+       ],
+       "nDrives": 18,
+       "nDays": 5
+      },
+      "soc_delta_kwh": {
+       "mean": -0.07758333333333332,
+       "ci95": [
+        -0.16275,
+        -0.045281249999999995
+       ],
+       "nDrives": 18,
+       "nDays": 5
+      },
+      "ev_kwh_per100km": {
+       "mean": 15.126153846153844,
+       "ci95": [
+        13.45857142857143,
+        16.62125
+       ],
+       "nDrives": 13,
+       "nDays": 5
+      },
+      "standstill_draw_kw": {
+       "mean": 1.342941176470588,
+       "ci95": [
+        1.095,
+        1.4243478260869564
+       ],
+       "nDrives": 17,
+       "nDays": 5
+      },
+      "vsag_R_pack_mohm": {
+       "mean": 130.51749999999998,
+       "ci95": [
+        129.84333333333333,
+        132.54
+       ],
+       "nDrives": 4,
+       "nDays": 2
+      },
+      "iv_alignment_gap_s": {
+       "mean": 0.13277777777777777,
+       "ci95": [
+        0.1263076923076923,
+        0.137
+       ],
+       "nDrives": 18,
+       "nDays": 5
+      }
+     }
+    }
+   },
+   {
+    "transition": "2026-09-06 fast -> slow",
+    "from": "2026-08-30",
+    "to": "2026-09-13",
+    "nFast": 43,
+    "nSlow": 55,
+    "byRegime": {
+     "fast": {
+      "gross_throughput_kwh": {
+       "mean": 1.80333488372093,
+       "ci95": [
+        0.9888752380952378,
+        3.0824790623678657
+       ],
+       "nDrives": 43,
+       "nDays": 8
+      },
+      "gross_discharge_kwh": {
+       "mean": 0.8747930232558139,
+       "ci95": [
+        0.47261749116954477,
+        1.507403056265985
+       ],
+       "nDrives": 43,
+       "nDays": 8
+      },
+      "gross_charge_kwh": {
+       "mean": 0.9285418604651163,
+       "ci95": [
+        0.516184582111437,
+        1.58576766563147
+       ],
+       "nDrives": 43,
+       "nDays": 8
+      },
+      "distance_km": {
+       "mean": 11.061395348837207,
+       "ci95": [
+        3.1794238160603983,
+        25.01130153276956
+       ],
+       "nDrives": 43,
+       "nDays": 8
+      },
+      "net_draw_kwh_corr": {
+       "mean": -0.018141860465116278,
+       "ci95": [
+        -0.033796760204081636,
+        0.013552198275862076
+       ],
+       "nDrives": 43,
+       "nDays": 8
+      },
+      "energy_residual_kwh": {
+       "mean": -0.02884186046511628,
+       "ci95": [
+        -0.05354717545638945,
+        -0.01019511991279069
+       ],
+       "nDrives": 43,
+       "nDays": 8
+      },
+      "offset_kwh_removed": {
+       "mean": -0.035606976744186045,
+       "ci95": [
+        -0.05806136363636363,
+        -0.0214075625
+       ],
+       "nDrives": 43,
+       "nDays": 8
+      },
+      "net_draw_per100km_corr": {
+       "mean": -0.573720930232558,
+       "ci95": [
+        -1.5299999999999998,
+        1.0322500000000001
+       ],
+       "nDrives": 43,
+       "nDays": 8
+      },
+      "engine_on_pct": {
+       "mean": 29.84186046511628,
+       "ci95": [
+        24.27062211981567,
+        36.81453832752614
+       ],
+       "nDrives": 43,
+       "nDays": 8
+      },
+      "regen_share_of_charge": {
+       "mean": 24.588372093023256,
+       "ci95": [
+        20.120833333333334,
+        28.905343750000004
+       ],
+       "nDrives": 43,
+       "nDays": 8
+      },
+      "ev_dist_pct": {
+       "mean": 59.56511627906977,
+       "ci95": [
+        50.02949933932347,
+        67.99815716911765
+       ],
+       "nDrives": 43,
+       "nDays": 8
+      },
+      "peak_discharge_kw": {
+       "mean": 36.03023255813953,
+       "ci95": [
+        28.2,
+        41.93744288872512
+       ],
+       "nDrives": 43,
+       "nDays": 8
+      },
+      "peak_I_charge": {
+       "mean": -103.70697674418604,
+       "ci95": [
+        -128.84146341463415,
+        -81.79243778280542
+       ],
+       "nDrives": 43,
+       "nDays": 8
+      },
+      "rf_efc": {
+       "mean": 0.4623255813953488,
+       "ci95": [
+        0.2635,
+        0.7755567653276956
+       ],
+       "nDrives": 43,
+       "nDays": 8
+      },
+      "fce": {
+       "mean": 0.4293651162790698,
+       "ci95": [
+        0.2354447976190476,
+        0.7339214482029601
+       ],
+       "nDrives": 43,
+       "nDays": 8
+      },
+      "soc_delta_kwh": {
+       "mean": -0.024906976744186047,
+       "ci95": [
+        -0.04925404411764706,
+        0.02058203225806452
+       ],
+       "nDrives": 43,
+       "nDays": 8
+      },
+      "ev_kwh_per100km": {
+       "mean": 14.01309523809524,
+       "ci95": [
+        11.516366585280782,
+        16.651578160919538
+       ],
+       "nDrives": 42,
+       "nDays": 8
+      },
+      "standstill_draw_kw": {
+       "mean": 1.2651162790697674,
+       "ci95": [
+        1.1097160087719298,
+        1.4335793650793651
+       ],
+       "nDrives": 43,
+       "nDays": 8
+      },
+      "vsag_R_pack_mohm": {
+       "mean": 123.37565217391304,
+       "ci95": [
+        119.14,
+        132.7701875
+       ],
+       "nDrives": 23,
+       "nDays": 8
+      },
+      "iv_alignment_gap_s": {
+       "mean": 0.06051162790697674,
+       "ci95": [
+        0.06021212121212121,
+        0.06078048780487805
+       ],
+       "nDrives": 43,
+       "nDays": 8
+      }
+     },
+     "slow": {
+      "gross_throughput_kwh": {
+       "mean": 1.347989090909091,
+       "ci95": [
+        0.7827964903846154,
+        2.009235069747167
+       ],
+       "nDrives": 55,
+       "nDays": 8
+      },
+      "gross_discharge_kwh": {
+       "mean": 0.652390909090909,
+       "ci95": [
+        0.37488382376555596,
+        0.9756243145161292
+       ],
+       "nDrives": 55,
+       "nDays": 8
+      },
+      "gross_charge_kwh": {
+       "mean": 0.6955981818181819,
+       "ci95": [
+        0.4053004772727273,
+        1.0332356370967744
+       ],
+       "nDrives": 55,
+       "nDays": 8
+      },
+      "distance_km": {
+       "mean": 5.681818181818182,
+       "ci95": [
+        2.3107830112721417,
+        10.15
+       ],
+       "nDrives": 55,
+       "nDays": 8
+      },
+      "net_draw_kwh_corr": {
+       "mean": -0.01681636363636363,
+       "ci95": [
+        -0.032014583333333325,
+        0.0003650223214285749
+       ],
+       "nDrives": 55,
+       "nDays": 8
+      },
+      "energy_residual_kwh": {
+       "mean": -0.022016363636363633,
+       "ci95": [
+        -0.03209246428571429,
+        -0.01090579394915861
+       ],
+       "nDrives": 55,
+       "nDays": 8
+      },
+      "offset_kwh_removed": {
+       "mean": -0.026390909090909097,
+       "ci95": [
+        -0.03567903225806452,
+        -0.01756267857142857
+       ],
+       "nDrives": 55,
+       "nDays": 8
+      },
+      "net_draw_per100km_corr": {
+       "mean": 0.7401818181818183,
+       "ci95": [
+        -0.9310398706896549,
+        2.80359158489444
+       ],
+       "nDrives": 55,
+       "nDays": 8
+      },
+      "engine_on_pct": {
+       "mean": 25.878181818181822,
+       "ci95": [
+        21.49962962962963,
+        30.03822088068182
+       ],
+       "nDrives": 55,
+       "nDays": 8
+      },
+      "regen_share_of_charge": {
+       "mean": 30.48545454545454,
+       "ci95": [
+        22.12373188405797,
+        40.02894736842105
+       ],
+       "nDrives": 55,
+       "nDays": 8
+      },
+      "ev_dist_pct": {
+       "mean": 63.364,
+       "ci95": [
+        58.02362068965517,
+        69.489875
+       ],
+       "nDrives": 55,
+       "nDays": 8
+      },
+      "peak_discharge_kw": {
+       "mean": 31.10909090909091,
+       "ci95": [
+        26.26161411992263,
+        35.51299045138889
+       ],
+       "nDrives": 55,
+       "nDays": 8
+      },
+      "peak_I_charge": {
+       "mean": -86.59636363636363,
+       "ci95": [
+        -94.01668103448276,
+        -78.43399509803922
+       ],
+       "nDrives": 55,
+       "nDays": 8
+      },
+      "rf_efc": {
+       "mean": 0.3483636363636363,
+       "ci95": [
+        0.20836415816326528,
+        0.5093951612903226
+       ],
+       "nDrives": 55,
+       "nDays": 8
+      },
+      "fce": {
+       "mean": 0.3209509090909091,
+       "ci95": [
+        0.18638630319148933,
+        0.4783897122929382
+       ],
+       "nDrives": 55,
+       "nDays": 8
+      },
+      "soc_delta_kwh": {
+       "mean": -0.021190909090909094,
+       "ci95": [
+        -0.04285714285714285,
+        0.0022340425531914903
+       ],
+       "nDrives": 55,
+       "nDays": 8
+      },
+      "ev_kwh_per100km": {
+       "mean": 15.418000000000001,
+       "ci95": [
+        13.263611111111112,
+        17.766000000000002
+       ],
+       "nDrives": 50,
+       "nDays": 8
+      },
+      "standstill_draw_kw": {
+       "mean": 1.0505454545454547,
+       "ci95": [
+        0.8137338362068965,
+        1.353637272727273
+       ],
+       "nDrives": 55,
+       "nDays": 8
+      },
+      "vsag_R_pack_mohm": {
+       "mean": 129.5,
+       "ci95": [
+        120.96703703703704,
+        149.45760267857145
+       ],
+       "nDrives": 15,
+       "nDays": 7
+      },
+      "iv_alignment_gap_s": {
+       "mean": 0.12972727272727272,
+       "ci95": [
+        0.12783325471698112,
+        0.1315208806818182
+       ],
+       "nDrives": 55,
+       "nDays": 8
+      }
+     }
+    }
+   },
+   {
+    "transition": "2026-10-01 slow -> fast",
+    "from": "2026-09-24",
+    "to": "2026-10-08",
+    "nFast": 30,
+    "nSlow": 44,
+    "byRegime": {
+     "fast": {
+      "gross_throughput_kwh": {
+       "mean": 0.8975100000000001,
+       "ci95": [
+        0.6641416666666667,
+        1.3965045454545455
+       ],
+       "nDrives": 30,
+       "nDays": 4
+      },
+      "gross_discharge_kwh": {
+       "mean": 0.4275533333333333,
+       "ci95": [
+        0.304025,
+        0.6788318181818181
+       ],
+       "nDrives": 30,
+       "nDays": 4
+      },
+      "gross_charge_kwh": {
+       "mean": 0.4699566666666667,
+       "ci95": [
+        0.3601166666666667,
+        0.7176727272727274
+       ],
+       "nDrives": 30,
+       "nDays": 4
+      },
+      "distance_km": {
+       "mean": 2.76,
+       "ci95": [
+        1.7083333333333333,
+        4.249999999999999
+       ],
+       "nDrives": 30,
+       "nDays": 4
+      },
+      "net_draw_kwh_corr": {
+       "mean": -0.023309999999999997,
+       "ci95": [
+        -0.03991666666666666,
+        -0.010319999999999996
+       ],
+       "nDrives": 30,
+       "nDays": 4
+      },
+      "energy_residual_kwh": {
+       "mean": -0.016853333333333335,
+       "ci95": [
+        -0.03403,
+        -0.005588461538461538
+       ],
+       "nDrives": 30,
+       "nDays": 4
+      },
+      "offset_kwh_removed": {
+       "mean": -0.019093333333333334,
+       "ci95": [
+        -0.025850000000000005,
+        -0.015111764705882354
+       ],
+       "nDrives": 30,
+       "nDays": 4
+      },
+      "net_draw_per100km_corr": {
+       "mean": 2.2666666666666666,
+       "ci95": [
+        -0.045833333333333615,
+        4.0865909090909085
+       ],
+       "nDrives": 30,
+       "nDays": 4
+      },
+      "engine_on_pct": {
+       "mean": 22.936666666666664,
+       "ci95": [
+        20.8,
+        26.040000000000003
+       ],
+       "nDrives": 30,
+       "nDays": 4
+      },
+      "regen_share_of_charge": {
+       "mean": 42.05333333333333,
+       "ci95": [
+        35.75,
+        46.18333333333334
+       ],
+       "nDrives": 30,
+       "nDays": 4
+      },
+      "ev_dist_pct": {
+       "mean": 67.45166666666667,
+       "ci95": [
+        64.57576923076923,
+        69.832
+       ],
+       "nDrives": 30,
+       "nDays": 4
+      },
+      "peak_discharge_kw": {
+       "mean": 28.62333333333333,
+       "ci95": [
+        25.258333333333336,
+        34.94
+       ],
+       "nDrives": 30,
+       "nDays": 4
+      },
+      "peak_I_charge": {
+       "mean": -82.28666666666666,
+       "ci95": [
+        -87.89285714285714,
+        -71.215
+       ],
+       "nDrives": 30,
+       "nDays": 4
+      },
+      "rf_efc": {
+       "mean": 0.22991666666666666,
+       "ci95": [
+        0.1758333333333333,
+        0.35147727272727275
+       ],
+       "nDrives": 30,
+       "nDays": 4
+      },
+      "fce": {
+       "mean": 0.21369333333333337,
+       "ci95": [
+        0.158125,
+        0.33250454545454544
+       ],
+       "nDrives": 30,
+       "nDays": 4
+      },
+      "soc_delta_kwh": {
+       "mean": -0.025550000000000003,
+       "ci95": [
+        -0.043750000000000004,
+        -0.006374999999999999
+       ],
+       "nDrives": 30,
+       "nDays": 4
+      },
+      "ev_kwh_per100km": {
+       "mean": 15.900769230769232,
+       "ci95": [
+        13.895263157894737,
+        18.587
+       ],
+       "nDrives": 26,
+       "nDays": 4
+      },
+      "standstill_draw_kw": {
+       "mean": 1.028,
+       "ci95": [
+        0.820909090909091,
+        1.1541666666666666
+       ],
+       "nDrives": 30,
+       "nDays": 4
+      },
+      "vsag_R_pack_mohm": {
+       "mean": 151.78833333333333,
+       "ci95": [
+        138.515,
+        170.15124999999998
+       ],
+       "nDrives": 12,
+       "nDays": 4
+      },
+      "iv_alignment_gap_s": {
+       "mean": 0.06186666666666667,
+       "ci95": [
+        0.060954545454545456,
+        0.06233333333333333
+       ],
+       "nDrives": 30,
+       "nDays": 4
+      }
+     },
+     "slow": {
+      "gross_throughput_kwh": {
+       "mean": 1.2366613636363635,
+       "ci95": [
+        0.8882598355263157,
+        1.749558139534884
+       ],
+       "nDrives": 44,
+       "nDays": 8
+      },
+      "gross_discharge_kwh": {
+       "mean": 0.590075,
+       "ci95": [
+        0.4049009842192691,
+        0.8538020454545455
+       ],
+       "nDrives": 44,
+       "nDays": 8
+      },
+      "gross_charge_kwh": {
+       "mean": 0.6465863636363637,
+       "ci95": [
+        0.4782145833333334,
+        0.9016014301801802
+       ],
+       "nDrives": 44,
+       "nDays": 8
+      },
+      "distance_km": {
+       "mean": 4.327272727272727,
+       "ci95": [
+        2.608146683673469,
+        6.800065789473685
+       ],
+       "nDrives": 44,
+       "nDays": 8
+      },
+      "net_draw_kwh_corr": {
+       "mean": -0.03248636363636364,
+       "ci95": [
+        -0.063516,
+        -0.008447499999999993
+       ],
+       "nDrives": 44,
+       "nDays": 8
+      },
+      "energy_residual_kwh": {
+       "mean": -0.022625000000000003,
+       "ci95": [
+        -0.03504890692640692,
+        -0.014366614583333331
+       ],
+       "nDrives": 44,
+       "nDays": 8
+      },
+      "offset_kwh_removed": {
+       "mean": -0.024024999999999998,
+       "ci95": [
+        -0.03223859953703704,
+        -0.018379305555555555
+       ],
+       "nDrives": 44,
+       "nDays": 8
+      },
+      "net_draw_per100km_corr": {
+       "mean": -2.411818181818182,
+       "ci95": [
+        -5.568048214285714,
+        -0.7142307692307691
+       ],
+       "nDrives": 44,
+       "nDays": 8
+      },
+      "engine_on_pct": {
+       "mean": 28.593181818181815,
+       "ci95": [
+        25.902309048178616,
+        32.972770833333335
+       ],
+       "nDrives": 44,
+       "nDays": 8
+      },
+      "regen_share_of_charge": {
+       "mean": 25.986363636363635,
+       "ci95": [
+        22.359484848484847,
+        28.60604231166151
+       ],
+       "nDrives": 44,
+       "nDays": 8
+      },
+      "ev_dist_pct": {
+       "mean": 58.426136363636374,
+       "ci95": [
+        54.96298245614036,
+        64.0740773524721
+       ],
+       "nDrives": 44,
+       "nDays": 8
+      },
+      "peak_discharge_kw": {
+       "mean": 29.45909090909091,
+       "ci95": [
+        23.971350174216028,
+        33.67514285714286
+       ],
+       "nDrives": 44,
+       "nDays": 8
+      },
+      "peak_I_charge": {
+       "mean": -93.02954545454544,
+       "ci95": [
+        -101.88923978365384,
+        -79.45319988479262
+       ],
+       "nDrives": 44,
+       "nDays": 8
+      },
+      "rf_efc": {
+       "mean": 0.3058522727272727,
+       "ci95": [
+        0.22731249999999997,
+        0.42122786050156746
+       ],
+       "nDrives": 44,
+       "nDays": 8
+      },
+      "fce": {
+       "mean": 0.2944522727272727,
+       "ci95": [
+        0.21149787499999997,
+        0.4165820348837209
+       ],
+       "nDrives": 44,
+       "nDays": 8
+      },
+      "soc_delta_kwh": {
+       "mean": -0.03388636363636363,
+       "ci95": [
+        -0.06812515243902438,
+        -0.0064818826949384276
+       ],
+       "nDrives": 44,
+       "nDays": 8
+      },
+      "ev_kwh_per100km": {
+       "mean": 16.75052631578947,
+       "ci95": [
+        15.212,
+        18.120641426282052
+       ],
+       "nDrives": 38,
+       "nDays": 8
+      },
+      "standstill_draw_kw": {
+       "mean": 1.0530232558139534,
+       "ci95": [
+        0.832525,
+        1.1956097560975611
+       ],
+       "nDrives": 43,
+       "nDays": 8
+      },
+      "vsag_R_pack_mohm": {
+       "mean": 143.958,
+       "ci95": [
+        127.74526315789473,
+        165.6403116883117
+       ],
+       "nDrives": 15,
+       "nDays": 7
+      },
+      "iv_alignment_gap_s": {
+       "mean": 0.12938636363636366,
+       "ci95": [
+        0.12830295454545454,
+        0.1305
+       ],
+       "nDrives": 44,
+       "nDays": 8
+      }
+     }
+    }
+   }
+  ]
+ }
+}

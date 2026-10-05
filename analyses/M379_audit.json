@@ -1,0 +1,97 @@
+{
+"identity_max_abs_diff":{
+"gross_throughput_kwh":0.0,
+"gross_discharge_kwh":0.0,
+"gross_charge_kwh":0.0,
+"distance_km":0.0,
+"n_I_samples":0
+},
+"interval":{
+"emul_mean":1.3961252726967643,
+"pool_mean":1.3916870292452344,
+"rel_diff":0.003189110308757348,
+"emul_med_p10_p90":[
+1.467000000004191,
+0.7850000000034925,
+1.9660000000003492
+],
+"pool_med_p10_p90":[
+1.2630000000062864,
+1.1049999999959255,
+1.8190000000031432
+],
+"n_emul":119180,
+"n_pool":57753
+},
+"ratio_f1":{
+"ratio":0.9751646069229318,
+"sd":0.010523672266973549,
+"min":0.9454924198588126,
+"max":0.9842428081545143,
+"inside_0.99_1.01":false,
+"n_seeds":20
+},
+"ratio_f2":{
+"ratio":0.9107696477625031,
+"sd":0.02563738714557021,
+"min":0.8327557117536348,
+"max":0.9454315107291432,
+"inside_0.99_1.01":false,
+"n_seeds":20
+},
+"orig_total_kwh":16.4179,
+"regime":{
+"fast":131,
+"slow":381,
+"none":12,
+"corpus_rows":524,
+"diffs_vs_I_sample_period_s":0,
+"max_abs_P_diff_s":0.006,
+"runs":[
+[
+"fast",
+1,
+1,
+"2026-05-13 18:30:27.956",
+"2026-05-13 18:30:27.956"
+],
+[
+"slow",
+224,
+54,
+"2026-05-15 07:52:27.779",
+"2026-08-13 15:03:53.346"
+],
+[
+"fast",
+100,
+22,
+"2026-08-14 10:10:28.869",
+"2026-09-06 12:29:42.204"
+],
+[
+"slow",
+157,
+26,
+"2026-09-06 13:08:13.026",
+"2026-10-01 08:14:32.345"
+],
+[
+"fast",
+30,
+4,
+"2026-10-01 16:46:00.098",
+"2026-10-04 14:52:19.295"
+]
+]
+},
+"open_choices":[
+"ties: bracket = searchsorted left (after = first >= target, before = last < target); equal-timestamp pairs keep earlier",
+"no-later-sample guard: chosen<=last kept -> last+1 (same rule if before==last kept)",
+"stop when target > last sample (final sample not forced kept)",
+"pool per column pooled across drives (not per-drive); intervals in (0.05,120) strict; HV pool scaled for <200 columns; columns with no pool & no HV -> unthinned",
+"seeds 0..19, numpy default_rng; per-seed ratio sd uses ddof=1; ratio reported = mean of per-seed ratios (equals ratio of seed-mean sums)",
+"CSV round trip: pandas str read, to_csv LF; 12 no-regime drives and 11 raw files outside master (535 raw vs 524 master) not in corpus counts",
+"emulated median 1.467 vs pool 1.263: pool is a fast/slow mixture so mean matches (+0.3%) but shape differs; not tested vs per-drive"
+]
+}

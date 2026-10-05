@@ -55,12 +55,58 @@ def build(dm):
     return d.drop(columns="t"), blk
 
 
+def summarize_sensitivity(study, dm, regime):
+    """Pure: the compact payload summary of analyses/M379_cadence_sensitivity.json (M379b) with the derived corpus implication (descriptive, not a correction)."""
+    em = study["emulation"]
+    f2s, f2sl, s2sl = em["fast_to_slow"]["keys"], em["fast_to_slower"]["keys"], em["slow_to_slower"]["keys"]
+    neutral = lambda s: 1.0 if "ratio" in s["statistic"] else 0.0
+    cls = {"insensitive": [], "sensitive": [], "notEstablishedInsensitive": [], "reportedOnly": []}
+    for k, s in f2s.items():
+        c = s.get("class", "")
+        if c.startswith("cadence-insensitive"):
+            cls["insensitive"].append(k)
+        elif c.startswith("cadence-sensitive"):
+            (cls["notEstablishedInsensitive"] if s["ci95"][0] <= neutral(s) <= s["ci95"][1] else cls["sensitive"]).append(k)
+        else:
+            cls["reportedOnly"].append(k)
+    g = lambda d, k: {"estimate": d[k]["estimate"], "ci95": d[k]["ci95"]}
+    d = dm.copy()
+    d["regime"] = regime
+    ok = d["gross_throughput_kwh"].notna() & (d["distance_km"] > 0) & (d["ens_outlier_v2"].astype(str) != "True")
+    share = float(d.loc[ok & (d["regime"] == "fast"), "gross_throughput_kwh"].sum() / d.loc[ok, "gross_throughput_kwh"].sum())
+    shift = float(f2s["gross_throughput_kwh"]["estimate"] - 1.0)
+    m = study["meta"]
+    return {"basis": "emulated sampling sensitivity (M379b): fast-regime drives thinned per PID column to the slow-regime interval distribution (and to twice it), pipeline re-run on the emulated logs; not a causal cadence effect (PID-set / polling-order change, I-V co-timing, jitter and app-internal calculations are not emulated); fast -> slow direction only",
+            "study": {"nDrives": m["nStudyDrives"], "nFastRegimeDrives": int((regime == "fast").sum()), "studySetNote": "the fast-regime drives with an energy block (gross_throughput_kwh present, distance_km > 0, not canonically flagged)", "nDays": m["nStudyDays"], "seeds": len(m["seeds"]), "controlSlowToSlowerDrives": m["nControlDrives"], "robustnessDrives": m["nRobustnessDrives"]},
+            "grossThroughputRatio": {"fastToSlow": g(f2s, "gross_throughput_kwh"), "fastToSlower": g(f2sl, "gross_throughput_kwh"), "slowToSlowerControl": g(s2sl, "gross_throughput_kwh")},
+            "sameDirectionKeys": {k: g(f2s, k) for k in ("gross_discharge_kwh", "gross_charge_kwh", "fce", "rf_efc")},
+            "distanceRatio": g(f2s, "distance_km"),
+            "classificationFastToSlow": cls,
+            "classificationNote": "cadence-insensitive = 95% CI inside the pre-registered margin; cadence-sensitive = outside the margin and the CI excludes the neutral value; notEstablishedInsensitive = outside the margin but the CI includes the neutral value (not established as insensitive; the margin is narrower than the CI); reportedOnly = no pre-registered margin, peaks (negative controls) and counts",
+            "negativeControls": {k: {"estimate": f2s[k]["estimate"], "movementDetected": f2s[k].get("movementDetected")} for k in ("peak_discharge_kw", "peak_I_charge")},
+            "validation": {"identityKeepAllMaxAbsDiff": study["validation"]["identityKeepAll"]["maxAbsDiffAllKeys"], "intervalMeanRelDiff": study["validation"]["intervalMatch"]["relDiffMean"], "intervalMeanWithin5pct": study["validation"]["intervalMatch"]["withinFivePercent"],
+                           "intervalMedianQuantized": True, "masterReproduction": study["validation"]["masterReproduction"], "ivGapFlagOutside25pct": study["validation"]["ivGap"]["flagOutsidePlusMinus25pct"], "ivGapRelDiff": study["validation"]["ivGap"]["relDiff"]},
+            "headlineQuarterRule": study["headlineQuarterRule"], "robustnessClassFlips": list(study["robustnessClassFlips"]),
+            "corpusImplication": {"fastRegimeShareOfGrossThroughput": share, "impliedCorpusGrossThroughputShiftIfAllSlow": share * shift,
+                                  "note": "descriptive arithmetic on the emulation, not a correction of any published figure"},
+            "limits": m["limits"], "source": "analyses/M379_cadence_sensitivity.json"}
+
+
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--dry-run", action="store_true"); a = ap.parse_args()
     os.chdir(ROOT)
     dm = pd.read_csv("drive_master.csv", low_memory=False)
     d, blk = build(dm)
     blk["masterMd5"] = hashlib.md5(open("drive_master.csv", "rb").read()).hexdigest()
+    sp = os.path.join(ROOT, "analyses", "M379_cadence_sensitivity.json")
+    if os.path.exists(sp):                         # M379b: the frozen study (one-time; labelled with its basis) is carried in the block
+        study = json.load(open(sp, encoding="utf-8"))
+        dmi = dm.copy(); rg = d.set_index("file").reindex(dm["file"])["regime"].values
+        blk["sensitivity"] = summarize_sensitivity(study, dmi, rg)
+        blk["sensitivity"]["basisMasterMd5"] = study["meta"]["masterMd5"]
+        blk["sensitivity"]["basisNDrives"] = int(len(dm))
+        blk["sensitivity"]["specSha256Frozen"] = study["meta"]["specSha256Frozen"]
+        blk["effectOnKeys"] = "quantified for the pipeline keys listed under sensitivity by an emulated sampling-sensitivity study (M379b), which is not a causal cadence effect; observational comparisons across regimes are confounded by season, ambient and drive mix"
     A = json.load(open("summary_arrays.json", encoding="utf-8"))
     new = copy.deepcopy(A)
     new["loggerCadence"] = blk

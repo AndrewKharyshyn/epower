@@ -271,6 +271,9 @@ RULES = [
     Rule("M325-410", "phrase", "F01.r3/D-1: 410/410 byte-identical is contradicted (333/489 fail)", phrase="410/410"),
     Rule("M325-reserialize", "regex", "F01.r3/Cs-76: transfer re-serialization is not the established cause", rx=r"\bre ?serializ\w*"),
     Rule("M325-originals", "regex", "E-N1: originals were recovered (M323)", rx=r"\boriginals (?:are )?unavailable\b"),
+    Rule("M379-cadence-claim", "ctx", "M379b Director: the emulation is a sampling sensitivity, never a cadence effect that is proven / measured / confirmed / corrected", term="cadence effect", near=("proven", "measured", "confirmed", "corrected", "established", "demonstrated"), window=6),
+    Rule("M379-cadence-corrected", "phrase", "M379b Director: no published figure is corrected for cadence", phrase="corrected for cadence"),
+    Rule("M379-cadence-bias", "phrase", "M379b Director: cadence bias presents the emulated sampling sensitivity as a bias of the published figures", phrase="cadence bias"),
 ]
 
 
