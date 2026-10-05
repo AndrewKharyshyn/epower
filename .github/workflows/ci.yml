@@ -39,6 +39,7 @@ jobs:
           python tests/synthetic/test_post_splices.py
           python tests/synthetic/test_m377_pin.py
           python tests/synthetic/test_gtr_family_splice.py
+          python tests/synthetic/test_gtr_closure_refresh.py
           node test_gtr_gate.js
           node test_fuel_tab.js
       - name: Release gate

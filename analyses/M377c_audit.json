@@ -1,0 +1,89 @@
+{
+ "set": {
+  "n_drives": 292,
+  "n_days": 54,
+  "km": 2096.04,
+  "new_ids_n": 35,
+  "new_ids_range": "2026-09-30_20-12-47 .. 2026-10-04_14-52-00 (35 = 292-257; all 257 previous IDs retained)",
+  "excluded_no_battery_inputs": [
+   "20260813_145651.csv",
+   "20260813_150341.csv"
+  ]
+ },
+ "per100": {
+  "E_gen": 16.00445167422803,
+  "g2t": 8.546785360323321,
+  "trac": 18.600388577110895
+ },
+ "excess_rel": {
+  "est": 0.06750924297331916,
+  "ci": [
+   0.05074815076705189,
+   0.08927344455723217
+  ],
+  "closed": false
+ },
+ "excess_rel_dual_removed": {
+  "est": -0.10828623541128715,
+  "ci": [
+   -0.13760177865148343,
+   -0.08421198205075789
+  ],
+  "closed": false
+ },
+ "f_gen": {
+  "est": 0.4594949898434246,
+  "ci": [
+   0.3788723080509835,
+   0.5400431421313917
+  ],
+  "contains0p5": true,
+  "below0p5": true
+ },
+ "alpha_star": {
+  "est": 0.6159785018723744,
+  "ci": [
+   0.5914428615904745,
+   0.6384651137130756
+  ],
+  "n_infeasible": 18,
+  "n_dual_zero": 25
+ },
+ "X_lo_rel": -0.10828623541128715,
+ "X_hi_rel": 0.06750924297331919,
+ "stratum": {
+  "type": "urban",
+  "n": 273,
+  "days": 54,
+  "est": 0.09234771651657779,
+  "ci": [
+   0.08039843722285492,
+   0.10628878775854386
+  ],
+  "closed": false
+ },
+ "other_stratum_mixed": {
+  "n": 12,
+  "days": 10,
+  "est": 0.03271223195191351,
+  "ci": [
+   0.02421866177699618,
+   0.03931748336680815
+  ],
+  "closed": true
+ },
+ "open_choices": [
+  "raw time column midnight wrap: unwrap vs not gives identical results (no wrap in set)",
+  "bootstrap RNG numpy default_rng(42) (not repo RNG); endpoints MC-tolerance only",
+  "ens_invalid not applied in closure rule (doc names only ens_outlier_v2); canonical == per CLAUDE.md",
+  "regen unused in reported items; offset-missing drives excluded per doc",
+  "stratum urban chosen (273 drives, all 54 days); mixed n=12 closes (+0.033 [0.024,0.039]) but small",
+  "alpha bootstrap: draws with dual<=0 excluded (none expected); 25 drives dual=0 give no per-drive alpha"
+ ],
+ "note": "excess_rel CI excludes 0 and lies above +0.05: closed=false; dual-removed variant negative, closed=false. Interval f_gen contains 0.5 (wide, 54 days); point 0.459<0.5.",
+ "audit_files": [
+  "audit/m377c_audit.py",
+  "audit/m377c_unwrap.json",
+  "audit/m377c_nounwrap.json"
+ ]
+}

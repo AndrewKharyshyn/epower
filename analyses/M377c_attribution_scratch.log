@@ -1,0 +1,94 @@
+M377c checks passed: {"rawOriginals": {"nChecked": 292, "nMismatch": 0}, "flags": {"nCompared": 512, "nDiverging": 0}}
+{
+ "n_drives": 292,
+ "n_days": 54,
+ "per100km_totals": {
+  "E_gen": 16.004,
+  "E_gen_ps": 16.004,
+  "g2t": 8.547,
+  "g2b_master": 8.538,
+  "g2b_model": 7.457,
+  "eng_only": 5.725,
+  "dual": 2.814,
+  "regen": 3.056,
+  "b2t": 10.054,
+  "trac": 18.601,
+  "excess": 1.081,
+  "excess_engonly": -1.733,
+  "excess_ps": 1.081,
+  "gen_def_gap": 0.0,
+  "batt_resid": 1.54,
+  "batt_resid_modelg2b": 0.46
+ },
+ "relative_to_generator": {
+  "excess": {
+   "est": 0.0675,
+   "ci95": [
+    0.0508,
+    0.0893
+   ],
+   "closed": false
+  },
+  "excess_engonly": {
+   "est": -0.1083,
+   "ci95": [
+    -0.1376,
+    -0.0842
+   ],
+   "closed": false
+  },
+  "excess_ps": {
+   "est": 0.0675,
+   "ci95": [
+    0.0508,
+    0.0893
+   ],
+   "closed": false
+  },
+  "gen_def_gap": {
+   "est": 0.0,
+   "ci95": [
+    -0.0,
+    0.0
+   ],
+   "closed": true
+  }
+ },
+ "strata": {
+  "highway": {
+   "n": 2,
+   "days": 1,
+   "excess_rel": "n<10: not evaluated"
+  },
+  "mixed": {
+   "n": 12,
+   "days": 10,
+   "excess_rel": {
+    "est": 0.0327,
+    "ci95": [
+     0.0242,
+     0.0393
+    ],
+    "closed": true
+   }
+  },
+  "mixed_highway": {
+   "n": 5,
+   "days": 3,
+   "excess_rel": "n<10: not evaluated"
+  },
+  "urban": {
+   "n": 273,
+   "days": 54,
+   "excess_rel": {
+    "est": 0.0924,
+    "ci95": [
+     0.0804,
+     0.1063
+    ],
+    "closed": false
+   }
+  }
+ },
+ "share_dual_in_g2b_master": 0.3295
+}

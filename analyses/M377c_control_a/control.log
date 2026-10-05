@@ -1,0 +1,121 @@
+M377c checks passed: {"rawOriginals": {"nChecked": 257, "nMismatch": 0}, "flags": {"nCompared": 477, "nDiverging": 0}}
+{
+ "n_drives": 257,
+ "n_days": 50,
+ "per100km_totals": {
+  "E_gen": 15.91,
+  "E_gen_ps": 15.91,
+  "g2t": 8.593,
+  "g2b_master": 8.348,
+  "g2b_model": 7.317,
+  "eng_only": 5.651,
+  "dual": 2.697,
+  "regen": 2.987,
+  "b2t": 9.881,
+  "trac": 18.474,
+  "excess": 1.031,
+  "excess_engonly": -1.666,
+  "excess_ps": 1.031,
+  "gen_def_gap": 0.0,
+  "batt_resid": 1.454,
+  "batt_resid_modelg2b": 0.423
+ },
+ "relative_to_generator": {
+  "excess": {
+   "est": 0.0648,
+   "ci95": [
+    0.049,
+    0.0865
+   ],
+   "closed": false
+  },
+  "excess_engonly": {
+   "est": -0.1047,
+   "ci95": [
+    -0.1341,
+    -0.0815
+   ],
+   "closed": false
+  },
+  "excess_ps": {
+   "est": 0.0648,
+   "ci95": [
+    0.049,
+    0.0865
+   ],
+   "closed": false
+  },
+  "gen_def_gap": {
+   "est": 0.0,
+   "ci95": [
+    -0.0,
+    0.0
+   ],
+   "closed": true
+  }
+ },
+ "strata": {
+  "highway": {
+   "n": 2,
+   "days": 1,
+   "excess_rel": "n<10: not evaluated"
+  },
+  "mixed": {
+   "n": 11,
+   "days": 9,
+   "excess_rel": {
+    "est": 0.0335,
+    "ci95": [
+     0.0249,
+     0.0401
+    ],
+    "closed": true
+   }
+  },
+  "mixed_highway": {
+   "n": 5,
+   "days": 3,
+   "excess_rel": "n<10: not evaluated"
+  },
+  "urban": {
+   "n": 239,
+   "days": 50,
+   "excess_rel": {
+    "est": 0.0896,
+    "ci95": [
+     0.0776,
+     0.1051
+    ],
+    "closed": false
+   }
+  }
+ },
+ "share_dual_in_g2b_master": 0.3231
+}
+M377c checks passed: {"rawOriginals": {"nChecked": 257, "nMismatch": 0}, "flags": {"nCompared": 477, "nDiverging": 0}}
+baseline {'est': 0.4651, 'ci95': [0.38, 0.5439]} 0.618
+bsfc_x0.94 {'est': 0.4851, 'ci95': [0.4016, 0.562]} 0.671
+bsfc_x1.09 {'est': 0.4328, 'ci95': [0.3456, 0.5143]} 0.521
+eta_gen_0.93 {'est': 0.4571, 'ci95': [0.3713, 0.5365]} 0.595
+eta_gen_0.97 {'est': 0.473, 'ci95': [0.3885, 0.551]} 0.639
+eta_pe_0.96 {'est': 0.4593, 'ci95': [0.3737, 0.5385]} 0.601
+eta_pe_0.99 {'est': 0.4709, 'ci95': [0.3862, 0.5491]} 0.634
+paux_0.2 {'est': 0.4557, 'ci95': [0.3718, 0.5339]} 0.557
+paux_1.2 {'est': 0.4868, 'ci95': [0.3987, 0.5663]} 0.76
+paux_0_nonphysical_bound {'est': 0.4497, 'ci95': [0.3667, 0.5273]} 0.516
+anchor_off {'est': 0.4503, 'ci95': [0.3662, 0.5291]} 0.635
+lag_-5s {'est': 0.4583, 'ci95': [0.3755, 0.5367]} 0.208
+lag_-2s {'est': 0.469, 'ci95': [0.3852, 0.5468]} 0.435
+lag_+2s {'est': 0.4514, 'ci95': [0.3644, 0.5325]} 0.611
+lag_+5s {'est': 0.4356, 'ci95': [0.3456, 0.5202]} 0.471
+offset_-1A {'est': 0.4547, 'ci95': [0.3708, 0.5326]} 0.635
+offset_+1A {'est': 0.4757, 'ci95': [0.3892, 0.5548]} 0.599
+lag_-5s_anchor_off {'est': 0.4437, 'ci95': [0.362, 0.5221]} 0.223
+lag_+5s_anchor_off {'est': 0.4209, 'ci95': [0.3322, 0.5054]} 0.487
+offset_-1A_anchor_off {'est': 0.4401, 'ci95': [0.3574, 0.518]} 0.652
+offset_+1A_anchor_off {'est': 0.4606, 'ci95': [0.375, 0.5401]} 0.616
+corner_high_G {'est': 0.489, 'ci95': [0.4076, 0.5643]} 0.64
+corner_low_G {'est': 0.4398, 'ci95': [0.3485, 0.5235]} 0.602
+stop_triggered False
+dry run ok; 5 changed leaves; {'nCiChecked': 4, 'nInsidePreviousCI': 4, 'nPointOnly': 17, 'nPointOnlyWithinBand': 17, 'nStops': 0, 'nEscalations': 0, 'nStringChanges': 5}
+rc=0

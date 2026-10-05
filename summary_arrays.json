@@ -123978,103 +123978,96 @@
   "gtrClosure": {
    "basis": "fuel-PID subset, model-derived; raw/ = sha256-verified originals (M366); not M299-reproducible",
    "scope": {
-    "nDrives": 257,
-    "nDays": 50,
-    "km": 1996.2,
-    "nCanonical": 489,
+    "nDrives": 292,
+    "nDays": 54,
+    "km": 2096.0,
+    "nCanonical": 524,
     "excludedNoBatteryInputs": [
      "20260512_195020.csv",
      "20260813_145651.csv",
      "20260813_150341.csv"
     ],
-    "excludedNote": "NaN battery offset or NaN charge-class columns in the master: the closure skips these drives by design (pre-registered M336 rule). Before M349 the published reconstruction gave zero battery power for such a drive (f_gen = 1 by construction); M349 repaired the published rows (current published f_gen: 20260813_145651 0.5753, 20260813_150341 0.3640); no published row has f_gen = 1 now. Set note (as of the M375 eligibility alignment): the closure set is 257 drives; the headline set is the 294 canonical-clean (ens_outlier_v2) of 296 fuel-instrumented drives, 294 - 37 = 257; headline drives not in the closure: 2026-09-30_20-12-47 (added after the carried closure set); 2026-09-30_20-39-00 (added after the carried closure set); 2026-10-01_07-38-47 (added after the carried closure set); 2026-10-01_07-57-02 (added after the carried closure set); 2026-10-01_08-14-08 (added after the carried closure set); 2026-10-01_16-45-44 (added after the carried closure set); 2026-10-01_16-57-31 (added after the carried closure set); 2026-10-01_17-40-07 (added after the carried closure set); 2026-10-01_18-19-32 (added after the carried closure set); 2026-10-01_19-58-38 (added after the carried closure set); 2026-10-02_07-50-49 (added after the carried closure set); 2026-10-02_08-04-04 (added after the carried closure set); 2026-10-02_19-04-06 (added after the carried closure set); 2026-10-02_19-35-32 (added after the carried closure set); 2026-10-02_21-02-25 (added after the carried closure set); 2026-10-03_09-48-44 (added after the carried closure set); 2026-10-03_09-58-07 (added after the carried closure set); 2026-10-03_10-03-24 (added after the carried closure set); 2026-10-03_12-06-18 (added after the carried closure set); 2026-10-03_14-33-03 (added after the carried closure set); 2026-10-03_15-01-24 (added after the carried closure set); 2026-10-03_16-02-23 (added after the carried closure set); 2026-10-03_16-19-05 (added after the carried closure set); 2026-10-03_16-39-03 (added after the carried closure set); 2026-10-03_17-05-43 (added after the carried closure set); 2026-10-03_17-27-25 (added after the carried closure set); 2026-10-03_18-32-35 (added after the carried closure set); 2026-10-03_18-52-09 (added after the carried closure set); 2026-10-04_11-38-19 (added after the carried closure set); 2026-10-04_12-02-58 (added after the carried closure set); 2026-10-04_12-13-56 (added after the carried closure set); 2026-10-04_12-52-59 (added after the carried closure set); 2026-10-04_13-05-56 (added after the carried closure set); 2026-10-04_14-38-51 (added after the carried closure set); 2026-10-04_14-52-00 (added after the carried closure set); 20260813_145651 (NaN battery inputs); 20260813_150341 (NaN battery inputs); NaN-battery-input drive(s) in neither set (no published row or canonical outlier): 20260512_195020",
+    "excludedNote": "NaN battery offset or NaN charge-class columns in the master: the closure skips these drives by design (pre-registered M336 rule). Before M349 the published reconstruction gave zero battery power for such a drive (f_gen = 1 by construction); M349 repaired the published rows (current published f_gen: 20260813_145651 0.5753, 20260813_150341 0.3640); no published row has f_gen = 1 now. Set note (as of the M375 eligibility alignment): the closure set is 292 drives; the headline set is the 294 canonical-clean (ens_outlier_v2) of 296 fuel-instrumented drives, 294 - 2 = 292; headline drives not in the closure: 20260813_145651 (NaN battery inputs); 20260813_150341 (NaN battery inputs); NaN-battery-input drive(s) in neither set (no published row or canonical outlier): 20260512_195020",
     "publishedRowsWithFgenOne": [],
     "excludedWithoutPublishedRow": [
      "20260512_195020.csv"
-    ],
-    "carriedAtIngestion": {
-     "basisNDrives": 257,
-     "basisNDays": 50,
-     "milestone": "M372",
-     "note": "closure numbers carried at the M372 set (257 drives); not recomputed on the live corpus; refresh = follow-up milestone M377c"
-    }
+    ]
    },
    "per100km": {
-    "generator": 15.91,
-    "genToTraction": 8.593,
-    "genToBattEngineOn": 5.651,
-    "genToBattDual": 2.697,
-    "genToBattUpper": 8.348,
-    "regenToBatt": 2.987,
-    "battToTractionResidual": 9.881
+    "generator": 16.004,
+    "genToTraction": 8.547,
+    "genToBattEngineOn": 5.725,
+    "genToBattDual": 2.814,
+    "genToBattUpper": 8.538,
+    "regenToBatt": 3.056,
+    "battToTractionResidual": 10.054
    },
    "nodeExcess": {
-    "relToGenerator": 0.0648,
+    "relToGenerator": 0.0675,
     "ci95": [
-     0.049,
-     0.0865
+     0.0508,
+     0.0893
     ],
     "tolerance": 0.05,
     "closedUnderRule": false
    },
    "excessWithoutDual": {
-    "relToGenerator": -0.1047,
+    "relToGenerator": -0.1083,
     "ci95": [
-     -0.1341,
-     -0.0815
+     -0.1376,
+     -0.0842
     ]
    },
    "interval": {
-    "lo": -0.1047,
-    "hi": 0.0648,
+    "lo": -0.1083,
+    "hi": 0.0675,
     "zeroInsideAllVariants": true,
     "nVariants": 23
    },
    "fGen": {
-    "est": 0.4651,
+    "est": 0.4595,
     "ci95": [
-     0.38,
-     0.5439
+     0.3789,
+     0.5401
     ],
     "ciContains0p5": true,
-    "variantMin": 0.4209,
-    "variantMax": 0.489,
+    "variantMin": 0.4148,
+    "variantMax": 0.4834,
     "pointBelow0p5AllVariants": true,
     "nVariants": 23,
     "stopTriggered": false
    },
    "alphaStar": {
-    "est": 0.618,
+    "est": 0.616,
     "ci95": [
-     0.588,
-     0.64
+     0.591,
+     0.638
     ],
-    "variantMin": 0.208,
-    "variantMax": 0.76,
-    "nInfeasibleDrivesBaseline": 15,
+    "variantMin": 0.218,
+    "variantMax": 0.753,
+    "nInfeasibleDrivesBaseline": 18,
     "label": "implied closure parameter solved from the same data; not an estimate of the generator share of the dual charge"
    },
    "method": "day-clustered percentile bootstrap (seed 42, 4000 draws), corpus ratio-of-sums",
    "sources": {
     "closureDiag": {
-     "path": "analyses/M372_closure_diag.json",
-     "sha256": "19ac4b3edcbbea2d770c2c7febf294a012ecd4b4091aea56a4f12f0e31548e42"
+     "path": "analyses/M377c_closure_diag.json",
+     "sha256": "2bd2d9a661fb4d6e4cbbea882a3086a602f39005dd8a77fee53ace95147a10c4"
     },
     "step2": {
-     "path": "analyses/M372_step2_result.json",
-     "sha256": "a8cb1a32e37a00bc1641a0f7d30be1d5bc18f6f5e237f77099f5f6a4fe5244bc"
+     "path": "analyses/M377c_step2_result.json",
+     "sha256": "6c0054902439705356795eee5f38ea26cc5142ecdec4d659545061e0e0d7e430"
     },
     "fuelReconMaster": {
      "path": "fuel_recon_master.csv",
-     "sha256": "0d8a09163c2d105f0c9768fce583e4c00e479c287552502744cff82c2f65e647"
+     "sha256": "023ebad3a04085db1052873045c6ac1caf32df00bc0308da54b6ed210763e73a"
     }
    },
-   "_staleness": "refreshed at M372 on the sha256-verified originals (M366 basis), same 257-drive set as M336 (ID set asserted before any estimate); producers tools/gtr_closure_diag.py sha256 479a1385fd17 and tools/gtr_interval_sens.py sha256 754258fb994f (run at repo HEAD 752623c plus the M372 changes of those two scripts, committed with this milestone); carried forward by ingestion until a refresh stage exists (spec analyses/M372_spec.md); re-run tools/gtr_closure_diag.py --m372, tools/gtr_interval_sens.py --m372 and tools/m372_closure_splice.py to refresh"
+   "_staleness": "recomputed on the live corpus at ingestion (292 drives, 54 days; expected-set rule, previous set pinned in analyses/gtr_closure_record.json; spec analyses/M377c_spec.md Rev 2) on the sha256-verified originals (M366 basis); producers tools/gtr_closure_diag.py sha256 9218dfa9dd69 and tools/gtr_interval_sens.py sha256 acb39a513536 (--ingest); refreshed by the gtr_closure_refresh stage at every ingestion"
   },
   "staleBlocks": {
    "blocks": [
-    "crossval",
-    "gtrClosure"
+    "crossval"
    ],
    "note": "refresh pending (spec analyses/M370_spec.md); the basis of each remaining block is stated separately because it is not the same for all of them",
    "perBlock": [
@@ -124087,15 +124080,6 @@
      "rawBasis": "pre-M366 raw/ re-exports",
      "status": "Path A coefficients unpreserved; not recomputable; pre-M366 basis; not a validation of the current headline",
      "source": "payload generatorTractionRecon.crossval (recovered crossval.csv); n days not recorded"
-    },
-    {
-     "block": "gtrClosure",
-     "basisMilestone": "M372",
-     "nDrives": 257,
-     "nDays": 50,
-     "rawBasis": "raw/ = sha256-verified originals (M366)",
-     "status": "carried at the M372 set (257 drives); not recomputed on the live corpus; refresh pending (M377c)",
-     "source": "payload generatorTractionRecon.gtrClosure"
     }
    ]
   },

@@ -75,7 +75,7 @@ def run(g, m, scen="central", eta_gen=None, eta_pe=None, paux=None, anchor=True,
         agg, ps = RE.central_estimate_v2_persample(pc, mr, scen)
     finally:
         MC.ETA_GEN, MC.ETA_PE, MC.P_AUX_KW = saved
-    return dict(km=float(m["distance_km"]), date=str(m["date"]), dt_=m["drive_type"], E_gen=agg["E_gen"], G=agg["E_gen_to_trac"],
+    return dict(file=str(m["file"]), km=float(m["distance_km"]), date=str(m["date"]), dt_=m["drive_type"], E_gen=agg["E_gen"], G=agg["E_gen_to_trac"],
                 trac=agg["E_trac_gross"], L=float(mr["charge_eng_only_kwh"] or 0), dual=float(mr["charge_dual_kwh"] or 0),
                 regen=float(mr["charge_pure_regen_kwh"] or 0))
 
@@ -119,6 +119,8 @@ def stats(d, nb=NB, seed=SEED):
     a_d = (d.E_gen - d.G - d.L) / d.dual.replace(0, np.nan)
     out["n_infeasible_alpha_drives"] = int(((a_d < 0) | (a_d > 1)).sum())
     out["n_drives_dual_zero"] = int((d.dual <= 0).sum())
+    if "file" in d.columns:           # M377c (Director follow-up): the IDs behind the count, so a change can be located (previous set vs new drives)
+        out["infeasible_alpha_files"] = sorted(d.loc[(a_d < 0) | (a_d > 1), "file"].astype(str).tolist())
     return out
 
 
@@ -126,7 +128,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--m372", action="store_true", help="M372: outputs to analyses/M372_*; raw sha256 + published-ID-set checks BEFORE any estimate; M366 basis label")
+    ap.add_argument("--ingest", action="store_true", help="M377c: ingestion mode: outputs to analyses/M377c_*; expected-set rule instead of the M336 baseline equality")
     a = ap.parse_args()
+    assert not (a.m372 and a.ingest), "--m372 and --ingest are exclusive"
     dm = pd.read_csv(os.path.join(ROOT, "drive_master.csv"))
     names = _raw_names()
     elig = []
@@ -142,6 +146,10 @@ def main():
             continue
         elig.append((m, raw))
     checks = None
+    if a.ingest:
+        import m372_closure_common as CM
+        checks = {"rawOriginals": CM.check_raw_originals({_norm(m["file"]): raw for m, raw in elig}), "flags": CM.assert_flags_equal(dm), "expectedSet": CM.assert_expected_set([m["file"] for m, _ in elig], dm)}
+        print("M377c checks passed:", json.dumps({k: v for k, v in checks.items() if k != "expectedSet"}), flush=True)
     if a.m372:
         import m372_closure_common as CM
         checks = {"rawOriginals": CM.check_raw_originals({_norm(m["file"]): raw for m, raw in elig}), "baselineSet": CM.assert_baseline_set([m["file"] for m, _ in elig], dm)}
@@ -167,7 +175,7 @@ def main():
          "offset_-1A_anchor_off": {"off_extra": -1.0, "anchor": False}, "offset_+1A_anchor_off": {"off_extra": 1.0, "anchor": False},
          "corner_high_G": {"scen": "optimistic", "eta_gen": 0.97, "eta_pe": 0.99, "paux": 0.2},
          "corner_low_G": {"scen": "conservative", "eta_gen": 0.93, "eta_pe": 0.96, "paux": 1.2}}
-    res = {"milestone": "M372" if a.m372 else "M336", "step": 2, "scope": ("fuel-PID subset only; " + CM.M372_BASIS) if a.m372 else "fuel-PID subset only; computed on the former raw/ re-exports (pre-M366); not refreshed on the originals", "n_drives": len(drives), "excluded_no_battery_inputs": excluded_no_battery,
+    res = {"milestone": "M377c" if a.ingest else ("M372" if a.m372 else "M336"), "step": 2, "scope": ("fuel-PID subset only; " + CM.M372_BASIS) if (a.m372 or a.ingest) else "fuel-PID subset only; computed on the former raw/ re-exports (pre-M366); not refreshed on the originals", "n_drives": len(drives), "excluded_no_battery_inputs": excluded_no_battery,
            "logger_median_dt_s": round(sample_dt, 3), "variants": {}, "strata": {}}
     base_rows = None
     for name, kw in V.items():
@@ -226,10 +234,10 @@ def main():
                  "ci_newly_contains_0.5": bool(v["f_gen_ci_contains_0p5"] and not b["f_gen_ci_contains_0p5"])} for k, v in res["variants"].items()}
     res["stop_condition_flags"] = flags
     res["stop_triggered"] = any(x["point_crosses_0.5"] or x["ci_newly_contains_0.5"] for x in flags.values())
-    if a.m372:
+    if a.m372 or a.ingest:
         import subprocess
         res["m372"] = {"checks": checks, "scriptGit": subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True).stdout.strip(), "summaryArraysSha256Start": os.environ.get("M372_ARRAYS_SHA", "")}
-    with open(os.path.join(ROOT, "analyses", "M372_step2_result.json" if a.m372 else "M336_step2_result.json"), "w", encoding="utf-8", newline="\n") as fh:
+    with open(os.path.join(ROOT, "analyses", "M377c_step2_result.json" if a.ingest else ("M372_step2_result.json" if a.m372 else "M336_step2_result.json")), "w", encoding="utf-8", newline="\n") as fh:
         json.dump(res, fh, indent=1, ensure_ascii=False)
         fh.write("\n")
     print("stop_triggered", res["stop_triggered"])
