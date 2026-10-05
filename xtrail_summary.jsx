@@ -8041,7 +8041,7 @@ function ThermalFuelPenalty() {
           <strong style={{color:"#0f172a"}}>Does this hold as a continuous relationship, not just a binary
           split (M226.3)?</strong> Replacing the cold/warm threshold with continuous coolant (and oil, where
           available) temperature as a predictor — controlling for RPM and load directly rather than matched
-          cells — the coolant coefficient is {C.continuousCovariateModel.coefficients?.cool?.estimate} L/hr per
+          cells — the coolant coefficient is {fmtSig(+C.continuousCovariateModel.coefficients?.cool?.estimate,3)} L/hr per
           &deg;C, but its 95% CI {C.continuousCovariateModel.coolantCiSpansZero ? "spans zero" : "excludes zero"}:
           {C.continuousCovariateModel.coolantCiSpansZero
             ? " the continuous temperature association is not resolved once RPM/load are controlled for at this sample size — not established (not evidence of no association), reported alongside the binary ratio above rather than in place of it. The two are not contradictory: one asks whether warmup-vs-warm differ at all (" + (comb.resolvedAboveUnity ? "yes" : "no") + "), the other asks for a single linear slope across the full range (not resolved)."

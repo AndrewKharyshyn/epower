@@ -56,6 +56,15 @@ cur = copy.deepcopy(PREV); cur["c"]["w"]["att"] = {"km": 2.5}                # b
 r = LG.guard(PREV, cur, RULES)
 assert r["unexpected"] == ["c/w/att/bins/0/n"], r
 
+# field_changed: a source key may vanish only from an entry whose rerunMilestone changed
+FR = [{"id": "src", "rationale": "r", "milestone": "T", "pathTemplate": "rb/{i}/source/R", "condition": "field_changed", "entryDepth": 2, "field": "rerun"}]
+P2 = {"rb": [{"rerun": "M375", "source": {"O": "o", "R": "r"}}]}
+C2 = {"rb": [{"rerun": "M376", "source": {"O": "o2"}}]}
+r = LG.guard(P2, C2, FR)
+assert r["nUnexpected"] == 0 and r["expectedByRule"] == {"src": 1}, r
+C3 = {"rb": [{"rerun": "M375", "source": {"O": "o"}}]}                   # same milestone: the loss is unexpected
+assert LG.guard(P2, C3, FR)["nUnexpected"] == 1
+
 # rule validation: wildcards and unknown conditions are refused
 for bad in ({"pathTemplate": "a/*"}, {"pathTemplate": "a/{any}"}, {"condition": "nope"}, {"rationale": ""}):
     rule = dict(RULES[0], **bad)

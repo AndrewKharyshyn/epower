@@ -150,9 +150,12 @@ def plan(A, O, label, spec_sha, master_md5):
     # ---- closure: set note from the files, numbers carried ----
     sys.argv = [sys.argv[0]] + [a for a in sys.argv[1:] if a != "--m372"] + ["--m372"]
     import gtr_closure_block as GB
-    cb = GB.build()
+    cb = GB.build(carried_ok=True)
     oldc = copy.deepcopy(G["gtrClosure"])
+    cb["scope"]["nCanonical"] = oldc["scope"]["nCanonical"]          # carried basis (M372), not the live corpus size
+    cb["sources"] = copy.deepcopy(oldc["sources"])                    # carried basis: the source hashes of the M372 run, not of the live files
     newc = copy.deepcopy(cb)
+    oldc["scope"].pop("carriedAtIngestion", None)       # idempotence: the disclosure key written by a previous run is not part of the regenerated block
     oldc["scope"]["excludedNote"] = newc["scope"]["excludedNote"]
     if oldc != newc:
         stops.append("gtrClosure: the regenerated block differs from the carried one beyond scope.excludedNote (closure refresh = M377c)")
@@ -185,7 +188,7 @@ def main():
     a = ap.parse_args()
     O = json.load(open("analyses/M377_O_blocks.json", encoding="utf-8"))
     A = json.load(open("summary_arrays.json", encoding="utf-8"))
-    new, delta, stops = plan(A, O, a.label, sha("analyses/M377_spec.md"), md5("drive_master.csv"))
+    new, delta, stops = plan(A, O, a.label, M377_PIN.spec_sha("analyses/M377_spec.md"), md5("drive_master.csv"))
     delta["stops"] = stops
     with open("analyses/gtr_family_delta.json", "w", encoding="utf-8", newline="\n") as f:
         f.write(json.dumps(delta, indent=1, ensure_ascii=False) + "\n")

@@ -106,7 +106,10 @@
    "outputs": [
     "summary_arrays.json",
     "analyses/M321_tpack_cache.json"
-   ]
+   ],
+   "env": {
+    "XT_RAW_DIR": "$ROOT/raw_only"
+   }
   },
   {
    "id": "fuel_recon",
@@ -135,6 +138,23 @@
    "verified": true,
    "outputs": [
     "summary_arrays.json"
+   ]
+  },
+  {
+   "id": "gtr_family_refresh",
+   "title": "M377b: GTR-family refresh on the live corpus: runner (sensitivity, simultaneity, speedSplit; gates) + generic splice (STOP on reading flip, band breach, key-set change); closure numbers carried (M377c); writes analyses/gtr_family_delta.json (placed right after refresh_gtr_headline and before post_steps: the assumptions registry binds values these blocks carry)",
+   "cmd": [
+    "python3",
+    "tools/gtr_family_refresh.py"
+   ],
+   "env": {
+    "XT_RAW_DIR": "$ROOT/raw_only"
+   },
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json",
+    "analyses/M377_O_blocks.json",
+    "analyses/gtr_family_delta.json"
    ]
   },
   {
@@ -258,23 +278,6 @@
     "m297_comparison_cube.py"
    ],
    "verified": true
-  },
-  {
-   "id": "gtr_family_refresh",
-   "title": "M377b: GTR-family refresh on the live corpus: runner (sensitivity, simultaneity, speedSplit; gates) + generic splice (STOP on reading flip, band breach, key-set change); closure numbers carried (M377c); writes analyses/gtr_family_delta.json",
-   "cmd": [
-    "python3",
-    "tools/gtr_family_refresh.py"
-   ],
-   "env": {
-    "XT_RAW_DIR": "$ROOT/raw_only"
-   },
-   "verified": true,
-   "outputs": [
-    "summary_arrays.json",
-    "analyses/M377_O_blocks.json",
-    "analyses/gtr_family_delta.json"
-   ]
   },
   {
    "id": "post_splices",

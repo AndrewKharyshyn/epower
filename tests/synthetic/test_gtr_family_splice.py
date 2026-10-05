@@ -9,7 +9,8 @@ import gtr_family_refresh_splice as S
 
 A = json.load(open("summary_arrays.json", encoding="utf-8"))
 O = json.load(open("analyses/M377_O_blocks.json", encoding="utf-8"))
-SPEC = hashlib.sha256(open("analyses/M377_spec.md", "rb").read()).hexdigest()
+import m377_pin
+SPEC = m377_pin.spec_sha("analyses/M377_spec.md")
 MD5 = hashlib.md5(open("drive_master.csv", "rb").read()).hexdigest()
 
 

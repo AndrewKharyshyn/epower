@@ -7,7 +7,7 @@ other loss is UNEXPECTED and the tool exits 1. The Director owns the rule list; 
 pathTemplate: segments separated by "/", each an exact key, or a single-segment placeholder: {i} = a list index, {key} = one dict key (the
 condition then checks that key). No other wildcard exists. A rule with "matchPrefix": true matches every lost leaf UNDER the template (the template
 names a block, e.g. a block that is null in the current arrays).
-Conditions (registered below): stamp_hash_changed | parent_null_in_current | sibling_present(sibling).
+Conditions (registered below): stamp_hash_changed | parent_null_in_current | sibling_present(sibling) | field_changed(entryDepth, field).
 Usage: python tools/leaf_guard.py [--previous git:HEAD | PATH] [--current summary_arrays.json] [--rules PATH] [--out PATH]"""
 import argparse, json, os, subprocess, sys
 
@@ -92,7 +92,16 @@ def cond_sibling_present(prev, cur, path, bound, rule):
     return isinstance(par, dict) and bool(par.get(rule["sibling"]))
 
 
-CONDITIONS = {"stamp_hash_changed": cond_stamp_hash_changed, "parent_null_in_current": cond_parent_null_in_current, "sibling_present": cond_sibling_present}
+def cond_field_changed(prev, cur, path, bound, rule):
+    """The entry n levels up from the lost leaf (entryDepth = its length as a path prefix) has a field whose value differs between the previous and the current arrays."""
+    ent = path[:rule["entryDepth"]]
+    try:
+        return get(prev, ent + (rule["field"],)) != get(cur, ent + (rule["field"],))
+    except (KeyError, IndexError, TypeError):
+        return False
+
+
+CONDITIONS = {"field_changed": cond_field_changed, "stamp_hash_changed": cond_stamp_hash_changed, "parent_null_in_current": cond_parent_null_in_current, "sibling_present": cond_sibling_present}
 
 
 def check_rules(rules):

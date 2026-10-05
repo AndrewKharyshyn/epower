@@ -13,6 +13,17 @@ with tempfile.TemporaryDirectory() as td:
     pin = P.master_pin("M376", f)
     open(f, "a").write("3,4\n")
     assert P.md5_of(f) != pin, "a modified master must differ from the pin"
+
+# spec_sha: a documentation addendum does not change the frozen hash; any other edit does
+with tempfile.TemporaryDirectory() as td:
+    sp = os.path.join(td, "s.md"); body = "# spec\nfrozen text\n"
+    add_doc = chr(10) + "---" + chr(10) + "# Rev 5 (documentation addendum, written AFTER the runs)" + chr(10) + "notes" + chr(10)
+    add_tol = chr(10) + "---" + chr(10) + "# Rev 5 (tolerance change)" + chr(10) + "notes" + chr(10)
+    open(sp, "w", newline="").write(body); h0 = P.spec_sha(sp)
+    open(sp, "w", newline="").write(body + add_doc)
+    assert P.spec_sha(sp) == h0, "a documentation addendum must not change the frozen hash"
+    open(sp, "w", newline="").write(body + add_tol)
+    assert P.spec_sha(sp) != h0, "a non-documentation revision must change the hash"
 src = open(os.path.join(ROOT, "tools", "m373_point.py"), encoding="utf-8").read()
 assert "m377_pin.master_pin(TAG" in src and "STAGE_FORMER_ONLY_FOR_R" not in src and 'if P == "R" else None' in src
 print("test_m377_pin: OK")

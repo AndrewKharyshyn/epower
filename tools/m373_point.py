@@ -38,7 +38,7 @@ t0 = time.time()
 assert md5(os.path.join(ROOT, "drive_master.csv")) == MASTER_MD5 and md5(RE.BASE + "drive_master.csv") == MASTER_MD5, "drive_master.csv MD5"
 dm = pd.read_csv(RE.BASE + "drive_master.csv")
 date_of = dict(zip(dm["file"], dm["date"].astype(str)))
-meta = {"point": P, "rawDir": RAWDIR, "specSha256": sha(f"analyses/{TAG}_spec.md"), "tag": TAG, "gitHead": git("rev-parse", "--short", "HEAD").strip(),
+meta = {"point": P, "rawDir": RAWDIR, "specSha256": m377_pin.spec_sha(f"analyses/{TAG}_spec.md"), "tag": TAG, "gitHead": git("rev-parse", "--short", "HEAD").strip(),
         "scriptSha256": {f: sha(f)[:16] for f in ("tools/m373_point.py", "sensitivity_gtr.py", "simultaneity_gtr.py", "speed_split.py", "recon_engine.py", "fuel_recon.py", "model_constants.py")},
         "driveMasterMd5Before": MASTER_MD5, "stage": json.load(open("analyses/M373_stage_former.json", encoding="utf-8")) if P == "R" else None}
 

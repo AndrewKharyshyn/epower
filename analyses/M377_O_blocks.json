@@ -4,7 +4,7 @@
   "rawDir": "C:\\Users\\AndriiKharyshyn\\Downloads\\X-Trail Investigation\\Repo\\xtrail-repo\\raw_only",
   "specSha256": "d0fffe3d94e23ff0a38bca88002a1301be14a1e6bed3f86a755dbd585235673e",
   "tag": "M377",
-  "gitHead": "7131fb8",
+  "gitHead": "ca760c3",
   "scriptSha256": {
    "tools/m373_point.py": "88135e1ef53aafa4",
    "sensitivity_gtr.py": "113c9ba81898582a",
@@ -14,232 +14,232 @@
    "fuel_recon.py": "729ef765aca215db",
    "model_constants.py": "70486c933c844505"
   },
-  "driveMasterMd5Before": "bd9d10726bb064d857cf9ff98d2b7338",
+  "driveMasterMd5Before": "7c3bc9883f223e8a488b84ad053e13b5",
   "stage": null,
   "sensitivityTarget": {
    "value": {
-    "gen100": 15.92,
-    "trac100": 18.49,
-    "fgen": 0.465,
-    "etaBus": 0.327
+    "gen100": 16.01,
+    "trac100": 18.61,
+    "fgen": 0.459,
+    "etaBus": 0.325
    },
    "source": "live payload corpus (summary_arrays.json generatorTractionRecon.corpus)"
   },
-  "fuelReconMasterForValidation": "repo fuel_recon_master.csv sha256 0d8a09163c2d105f",
+  "fuelReconMasterForValidation": "repo fuel_recon_master.csv sha256 023ebad3a04085db",
   "eligibility": {
    "rule": "canonical-clean (ens_outlier_v2 / ens_invalid explicit True excluded; eligibility.py)",
-   "nCacheDrives": 259
+   "nCacheDrives": 294
   },
   "driveIds": {
-   "nAll": 259,
-   "nClean": 259,
-   "nDaysClean": 50,
-   "idsSha256": "6ad830ff1073716c"
+   "nAll": 294,
+   "nClean": 294,
+   "nDaysClean": 54,
+   "idsSha256": "ed30d9b7cd1a5f17"
   },
   "sensitivityBaseGate": {
    "target": {
-    "gen100": 15.92,
-    "trac100": 18.49,
-    "fgen": 0.465,
-    "etaBus": 0.327
+    "gen100": 16.01,
+    "trac100": 18.61,
+    "fgen": 0.459,
+    "etaBus": 0.325
    },
    "base": {
-    "gen100": 15.92,
-    "trac100": 18.49,
-    "fgen": 0.465,
-    "etaBus": 0.327
+    "gen100": 16.01,
+    "trac100": 18.61,
+    "fgen": 0.459,
+    "etaBus": 0.325
    },
    "passed": true,
-   "nClean": 259,
+   "nClean": 294,
    "equalsSimultaneityCleanN": true
   },
-  "nFuelInstrumentedRows": 263,
+  "nFuelInstrumentedRows": 298,
   "speedSplitValidation": {
-   "nChecked": 259,
-   "nMatched": 259,
+   "nChecked": 294,
+   "nMatched": 294,
    "maxAbsDiffKwh100km": 0.0,
    "passed": true
   },
-  "driveMasterMd5After": "bd9d10726bb064d857cf9ff98d2b7338",
-  "runtimeS": 315
+  "driveMasterMd5After": "7c3bc9883f223e8a488b84ad053e13b5",
+  "runtimeS": 314
  },
  "sensitivity": {
   "axesUnrounded": [
    {
     "axis": "BASE (central)",
-    "gen100": 15.917911825229453,
-    "trac100": 18.486582515428104,
-    "fgen": 0.4650246325486256,
-    "etaBus": 0.32711038687938376
+    "gen100": 16.01194947056298,
+    "trac100": 18.61265718844305,
+    "fgen": 0.45943139282527906,
+    "etaBus": 0.325034482471306
    },
    {
     "axis": "BSFC optimistic (-6%)",
-    "gen100": 16.77872153818398,
-    "trac100": 19.204498733224142,
-    "fgen": 0.48502346187241796,
-    "etaBus": 0.3447016237742896
+    "gen100": 16.87918024723459,
+    "trac100": 19.33112099725333,
+    "fgen": 0.47952225980030877,
+    "etaBus": 0.34253431047611
    },
    {
     "axis": "BSFC conservative (+9%)",
-    "gen100": 14.603588830485736,
-    "trac100": 17.433441049496054,
-    "fgen": 0.4327071605638529,
-    "etaBus": 0.3001012723664071
+    "gen100": 14.689861899599066,
+    "trac100": 17.562164772578924,
+    "fgen": 0.42709692669056176,
+    "etaBus": 0.298196772909455
    },
    {
     "axis": "η_gen low (0.90)",
-    "gen100": 15.080126992322642,
-    "trac100": 17.808998169434954,
-    "fgen": 0.4446702627503785,
-    "etaBus": 0.30989405072783727
+    "gen100": 15.169215287901771,
+    "trac100": 17.936594354693096,
+    "fgen": 0.43905637975557765,
+    "etaBus": 0.3079274044465005
    },
    {
     "axis": "η_gen high (0.97)",
-    "gen100": 16.25302575839218,
-    "trac100": 18.76331706859102,
-    "fgen": 0.47291482428410747,
-    "etaBus": 0.3339969213400024
+    "gen100": 16.34904314362747,
+    "trac100": 18.88900790055329,
+    "fgen": 0.46734004108905575,
+    "etaBus": 0.33187731368122825
    },
    {
     "axis": "P_aux low (0.2kW)",
-    "gen100": 15.917911825229453,
-    "trac100": 19.22967609727253,
-    "fgen": 0.45559118187724845,
-    "etaBus": 0.32711038687938376
+    "gen100": 16.01194947056298,
+    "trac100": 19.376912445235575,
+    "fgen": 0.4498851849506144,
+    "etaBus": 0.325034482471306
    },
    {
     "axis": "P_aux high (1.2kW)",
-    "gen100": 15.917911825229453,
-    "trac100": 16.875768858800203,
-    "fgen": 0.48671896627108213,
-    "etaBus": 0.32711038687938376
+    "gen100": 16.01194947056298,
+    "trac100": 16.96586862628534,
+    "fgen": 0.4812568156115623,
+    "etaBus": 0.325034482471306
    },
    {
     "axis": "cold penalty OFF",
-    "gen100": 16.894487756302624,
-    "trac100": 19.220386939265936,
-    "fgen": 0.48544915847105125,
-    "etaBus": 0.3434219617697246
+    "gen100": 17.071356191256786,
+    "trac100": 19.40460525443008,
+    "fgen": 0.4814932826381414,
+    "etaBus": 0.34232303483454446
    },
    {
     "axis": "cold penalty heavy (×1.45)",
-    "gen100": 15.379111311533912,
-    "trac100": 18.15691198323145,
-    "fgen": 0.45531121794031126,
-    "etaBus": 0.318110897284713
+    "gen100": 15.427449210869844,
+    "trac100": 18.258350167938257,
+    "fgen": 0.4489415484075277,
+    "etaBus": 0.31549597082262276
    },
    {
     "axis": "OPT band wide (1750-2250)",
-    "gen100": 15.937085971425569,
-    "trac100": 18.50192870588877,
-    "fgen": 0.4654683610923454,
-    "etaBus": 0.3275029884215817
+    "gen100": 16.03103847202554,
+    "trac100": 18.627873356610333,
+    "fgen": 0.45987295599651506,
+    "etaBus": 0.3254223305907434
    }
   ],
   "axes": [
    {
     "axis": "BASE (central)",
-    "gen100": 15.92,
-    "trac100": 18.49,
-    "fgen": 0.465,
-    "etaBus": 0.327,
-    "nClean": 259
+    "gen100": 16.01,
+    "trac100": 18.61,
+    "fgen": 0.459,
+    "etaBus": 0.325,
+    "nClean": 294
    },
    {
     "axis": "BSFC optimistic (-6%)",
-    "gen100": 16.78,
-    "trac100": 19.2,
-    "fgen": 0.485,
-    "etaBus": 0.345,
-    "nClean": 259
+    "gen100": 16.88,
+    "trac100": 19.33,
+    "fgen": 0.48,
+    "etaBus": 0.343,
+    "nClean": 294
    },
    {
     "axis": "BSFC conservative (+9%)",
-    "gen100": 14.6,
-    "trac100": 17.43,
-    "fgen": 0.433,
-    "etaBus": 0.3,
-    "nClean": 259
+    "gen100": 14.69,
+    "trac100": 17.56,
+    "fgen": 0.427,
+    "etaBus": 0.298,
+    "nClean": 294
    },
    {
     "axis": "η_gen low (0.90)",
-    "gen100": 15.08,
-    "trac100": 17.81,
-    "fgen": 0.445,
-    "etaBus": 0.31,
-    "nClean": 259
+    "gen100": 15.17,
+    "trac100": 17.94,
+    "fgen": 0.439,
+    "etaBus": 0.308,
+    "nClean": 294
    },
    {
     "axis": "η_gen high (0.97)",
-    "gen100": 16.25,
-    "trac100": 18.76,
-    "fgen": 0.473,
-    "etaBus": 0.334,
-    "nClean": 259
+    "gen100": 16.35,
+    "trac100": 18.89,
+    "fgen": 0.467,
+    "etaBus": 0.332,
+    "nClean": 294
    },
    {
     "axis": "P_aux low (0.2kW)",
-    "gen100": 15.92,
-    "trac100": 19.23,
-    "fgen": 0.456,
-    "etaBus": 0.327,
-    "nClean": 259
+    "gen100": 16.01,
+    "trac100": 19.38,
+    "fgen": 0.45,
+    "etaBus": 0.325,
+    "nClean": 294
    },
    {
     "axis": "P_aux high (1.2kW)",
-    "gen100": 15.92,
-    "trac100": 16.88,
-    "fgen": 0.487,
-    "etaBus": 0.327,
-    "nClean": 259
+    "gen100": 16.01,
+    "trac100": 16.97,
+    "fgen": 0.481,
+    "etaBus": 0.325,
+    "nClean": 294
    },
    {
     "axis": "cold penalty OFF",
-    "gen100": 16.89,
-    "trac100": 19.22,
-    "fgen": 0.485,
-    "etaBus": 0.343,
-    "nClean": 259
+    "gen100": 17.07,
+    "trac100": 19.4,
+    "fgen": 0.481,
+    "etaBus": 0.342,
+    "nClean": 294
    },
    {
     "axis": "cold penalty heavy (×1.45)",
-    "gen100": 15.38,
-    "trac100": 18.16,
-    "fgen": 0.455,
-    "etaBus": 0.318,
-    "nClean": 259
+    "gen100": 15.43,
+    "trac100": 18.26,
+    "fgen": 0.449,
+    "etaBus": 0.315,
+    "nClean": 294
    },
    {
     "axis": "OPT band wide (1750-2250)",
-    "gen100": 15.94,
-    "trac100": 18.5,
-    "fgen": 0.465,
-    "etaBus": 0.328,
-    "nClean": 259
+    "gen100": 16.03,
+    "trac100": 18.63,
+    "fgen": 0.46,
+    "etaBus": 0.325,
+    "nClean": 294
    }
   ],
-  "nDrives": 259,
-  "nDays": 50
+  "nDrives": 294,
+  "nDays": 54
  },
  "simultaneity": {
   "rows": [
    {
     "type": "urban",
-    "nDrives": 224,
-    "engineOnHours": 13.6,
-    "genPlusBattDischarge": 18.6,
-    "chargesAndDrives": 51.5,
-    "genAloneNeutral": 2.9,
-    "fullyBanked": 27.1
+    "nDrives": 250,
+    "engineOnHours": 14.8,
+    "genPlusBattDischarge": 18.4,
+    "chargesAndDrives": 50.9,
+    "genAloneNeutral": 2.8,
+    "fullyBanked": 27.8
    },
    {
     "type": "mixed",
-    "nDrives": 11,
-    "engineOnHours": 2.1,
-    "genPlusBattDischarge": 25.3,
-    "chargesAndDrives": 57.5,
-    "genAloneNeutral": 3.7,
-    "fullyBanked": 13.5
+    "nDrives": 12,
+    "engineOnHours": 2.2,
+    "genPlusBattDischarge": 25.8,
+    "chargesAndDrives": 57.2,
+    "genAloneNeutral": 3.8,
+    "fullyBanked": 13.2
    },
    {
     "type": "mixed_highway",
@@ -264,83 +264,83 @@
    "epsTracKw": 0.5,
    "epsBattKw": 0.5
   },
-  "nDrives": 259,
-  "nDays": 50
+  "nDrives": 294,
+  "nDays": 54
  },
  "speedSplit": {
   "bins": [
    {
     "bin": "0-20",
-    "nDrives": 259,
-    "distKm": 161.6,
-    "generator": 6.26,
-    "battery": 30.24,
-    "fGen": 0.1715
+    "nDrives": 294,
+    "distKm": 178.2,
+    "generator": 6.31,
+    "battery": 29.85,
+    "fGen": 0.1744
    },
    {
     "bin": "20-60",
-    "nDrives": 257,
-    "distKm": 930.7,
-    "generator": 5.82,
-    "battery": 11.76,
-    "fGen": 0.331
+    "nDrives": 290,
+    "distKm": 997.2,
+    "generator": 5.77,
+    "battery": 11.8,
+    "fGen": 0.3284
    },
    {
     "bin": "60-90",
-    "nDrives": 76,
-    "distKm": 566.0,
-    "generator": 8.99,
-    "battery": 5.39,
-    "fGen": 0.6252
+    "nDrives": 80,
+    "distKm": 578.2,
+    "generator": 9.11,
+    "battery": 5.36,
+    "fGen": 0.6295
    },
    {
     "bin": "90-120",
-    "nDrives": 41,
-    "distKm": 323.5,
-    "generator": 16.44,
-    "battery": 2.66,
-    "fGen": 0.8608
+    "nDrives": 44,
+    "distKm": 326.4,
+    "generator": 16.55,
+    "battery": 2.72,
+    "fGen": 0.8587
    },
    {
     "bin": "120+",
-    "nDrives": 13,
-    "distKm": 18.1,
-    "generator": 21.36,
-    "battery": 3.65,
-    "fGen": 0.8539
+    "nDrives": 15,
+    "distKm": 19.6,
+    "generator": 22.29,
+    "battery": 4.25,
+    "fGen": 0.8397
    }
   ],
-  "nDrives": 259,
-  "nDays": 50
+  "nDrives": 294,
+  "nDays": 54
  },
  "deadband": {
   "0.25_0.25": {
    "rows": [
     {
      "type": "urban",
-     "nDrives": 224,
-     "engineOnHours": 13.6,
-     "genPlusBattDischarge": 19.4,
-     "chargesAndDrives": 53.2,
-     "genAloneNeutral": 1.8,
-     "fullyBanked": 25.7
+     "nDrives": 250,
+     "engineOnHours": 14.8,
+     "genPlusBattDischarge": 19.1,
+     "chargesAndDrives": 52.8,
+     "genAloneNeutral": 1.7,
+     "fullyBanked": 26.4
     },
     {
      "type": "mixed",
-     "nDrives": 11,
-     "engineOnHours": 2.1,
-     "genPlusBattDischarge": 26.4,
-     "chargesAndDrives": 58.5,
+     "nDrives": 12,
+     "engineOnHours": 2.2,
+     "genPlusBattDischarge": 26.9,
+     "chargesAndDrives": 58.2,
      "genAloneNeutral": 2.2,
-     "fullyBanked": 13.0
+     "fullyBanked": 12.7
     },
     {
      "type": "mixed_highway",
      "nDrives": 5,
      "engineOnHours": 2.2,
-     "genPlusBattDischarge": 44.3,
+     "genPlusBattDischarge": 44.2,
      "chargesAndDrives": 44.6,
-     "genAloneNeutral": 3.1,
+     "genAloneNeutral": 3.2,
      "fullyBanked": 8.0
     },
     {
@@ -355,16 +355,16 @@
    ],
    "bandShareEngineOn": {
     "urban": {
-     "absPtracLEeps": 0.0248,
-     "absPbattLEeps": 0.0177
+     "absPtracLEeps": 0.0267,
+     "absPbattLEeps": 0.0173
     },
     "mixed_highway": {
      "absPtracLEeps": 0.0051,
-     "absPbattLEeps": 0.0315
+     "absPbattLEeps": 0.0316
     },
     "mixed": {
-     "absPtracLEeps": 0.0096,
-     "absPbattLEeps": 0.0216
+     "absPtracLEeps": 0.0093,
+     "absPbattLEeps": 0.0218
     },
     "highway": {
      "absPtracLEeps": 0.0038,
@@ -376,21 +376,21 @@
    "rows": [
     {
      "type": "urban",
-     "nDrives": 224,
-     "engineOnHours": 13.6,
-     "genPlusBattDischarge": 18.6,
-     "chargesAndDrives": 52.9,
-     "genAloneNeutral": 2.9,
-     "fullyBanked": 25.7
+     "nDrives": 250,
+     "engineOnHours": 14.8,
+     "genPlusBattDischarge": 18.4,
+     "chargesAndDrives": 52.4,
+     "genAloneNeutral": 2.8,
+     "fullyBanked": 26.4
     },
     {
      "type": "mixed",
-     "nDrives": 11,
-     "engineOnHours": 2.1,
-     "genPlusBattDischarge": 25.3,
-     "chargesAndDrives": 58.0,
-     "genAloneNeutral": 3.7,
-     "fullyBanked": 13.0
+     "nDrives": 12,
+     "engineOnHours": 2.2,
+     "genPlusBattDischarge": 25.8,
+     "chargesAndDrives": 57.7,
+     "genAloneNeutral": 3.8,
+     "fullyBanked": 12.7
     },
     {
      "type": "mixed_highway",
@@ -413,16 +413,16 @@
    ],
    "bandShareEngineOn": {
     "urban": {
-     "absPtracLEeps": 0.0248,
-     "absPbattLEeps": 0.0292
+     "absPtracLEeps": 0.0267,
+     "absPbattLEeps": 0.0285
     },
     "mixed_highway": {
      "absPtracLEeps": 0.0051,
      "absPbattLEeps": 0.0473
     },
     "mixed": {
-     "absPtracLEeps": 0.0096,
-     "absPbattLEeps": 0.0371
+     "absPtracLEeps": 0.0093,
+     "absPbattLEeps": 0.0377
     },
     "highway": {
      "absPtracLEeps": 0.0038,
@@ -434,21 +434,21 @@
    "rows": [
     {
      "type": "urban",
-     "nDrives": 224,
-     "engineOnHours": 13.6,
-     "genPlusBattDischarge": 17.4,
-     "chargesAndDrives": 51.0,
-     "genAloneNeutral": 6.0,
-     "fullyBanked": 25.7
+     "nDrives": 250,
+     "engineOnHours": 14.8,
+     "genPlusBattDischarge": 17.2,
+     "chargesAndDrives": 50.6,
+     "genAloneNeutral": 5.9,
+     "fullyBanked": 26.4
     },
     {
      "type": "mixed",
-     "nDrives": 11,
-     "engineOnHours": 2.1,
-     "genPlusBattDischarge": 23.8,
-     "chargesAndDrives": 56.2,
-     "genAloneNeutral": 7.1,
-     "fullyBanked": 13.0
+     "nDrives": 12,
+     "engineOnHours": 2.2,
+     "genPlusBattDischarge": 24.1,
+     "chargesAndDrives": 55.8,
+     "genAloneNeutral": 7.4,
+     "fullyBanked": 12.7
     },
     {
      "type": "mixed_highway",
@@ -471,16 +471,16 @@
    ],
    "bandShareEngineOn": {
     "urban": {
-     "absPtracLEeps": 0.0248,
-     "absPbattLEeps": 0.0601
+     "absPtracLEeps": 0.0267,
+     "absPbattLEeps": 0.0591
     },
     "mixed_highway": {
      "absPtracLEeps": 0.0051,
      "absPbattLEeps": 0.0931
     },
     "mixed": {
-     "absPtracLEeps": 0.0096,
-     "absPbattLEeps": 0.0714
+     "absPtracLEeps": 0.0093,
+     "absPbattLEeps": 0.074
     },
     "highway": {
      "absPtracLEeps": 0.0038,
@@ -492,29 +492,29 @@
    "rows": [
     {
      "type": "urban",
-     "nDrives": 224,
-     "engineOnHours": 13.6,
-     "genPlusBattDischarge": 19.4,
-     "chargesAndDrives": 51.8,
-     "genAloneNeutral": 1.8,
-     "fullyBanked": 27.1
+     "nDrives": 250,
+     "engineOnHours": 14.8,
+     "genPlusBattDischarge": 19.1,
+     "chargesAndDrives": 51.3,
+     "genAloneNeutral": 1.7,
+     "fullyBanked": 27.8
     },
     {
      "type": "mixed",
-     "nDrives": 11,
-     "engineOnHours": 2.1,
-     "genPlusBattDischarge": 26.4,
-     "chargesAndDrives": 58.0,
+     "nDrives": 12,
+     "engineOnHours": 2.2,
+     "genPlusBattDischarge": 26.9,
+     "chargesAndDrives": 57.7,
      "genAloneNeutral": 2.2,
-     "fullyBanked": 13.5
+     "fullyBanked": 13.2
     },
     {
      "type": "mixed_highway",
      "nDrives": 5,
      "engineOnHours": 2.2,
-     "genPlusBattDischarge": 44.3,
+     "genPlusBattDischarge": 44.2,
      "chargesAndDrives": 44.4,
-     "genAloneNeutral": 3.1,
+     "genAloneNeutral": 3.2,
      "fullyBanked": 8.2
     },
     {
@@ -529,16 +529,16 @@
    ],
    "bandShareEngineOn": {
     "urban": {
-     "absPtracLEeps": 0.0495,
-     "absPbattLEeps": 0.0177
+     "absPtracLEeps": 0.0527,
+     "absPbattLEeps": 0.0173
     },
     "mixed_highway": {
      "absPtracLEeps": 0.0108,
-     "absPbattLEeps": 0.0315
+     "absPbattLEeps": 0.0316
     },
     "mixed": {
-     "absPtracLEeps": 0.0196,
-     "absPbattLEeps": 0.0216
+     "absPtracLEeps": 0.0189,
+     "absPbattLEeps": 0.0218
     },
     "highway": {
      "absPtracLEeps": 0.0076,
@@ -550,21 +550,21 @@
    "rows": [
     {
      "type": "urban",
-     "nDrives": 224,
-     "engineOnHours": 13.6,
-     "genPlusBattDischarge": 18.6,
-     "chargesAndDrives": 51.5,
-     "genAloneNeutral": 2.9,
-     "fullyBanked": 27.1
+     "nDrives": 250,
+     "engineOnHours": 14.8,
+     "genPlusBattDischarge": 18.4,
+     "chargesAndDrives": 50.9,
+     "genAloneNeutral": 2.8,
+     "fullyBanked": 27.8
     },
     {
      "type": "mixed",
-     "nDrives": 11,
-     "engineOnHours": 2.1,
-     "genPlusBattDischarge": 25.3,
-     "chargesAndDrives": 57.5,
-     "genAloneNeutral": 3.7,
-     "fullyBanked": 13.5
+     "nDrives": 12,
+     "engineOnHours": 2.2,
+     "genPlusBattDischarge": 25.8,
+     "chargesAndDrives": 57.2,
+     "genAloneNeutral": 3.8,
+     "fullyBanked": 13.2
     },
     {
      "type": "mixed_highway",
@@ -587,16 +587,16 @@
    ],
    "bandShareEngineOn": {
     "urban": {
-     "absPtracLEeps": 0.0495,
-     "absPbattLEeps": 0.0292
+     "absPtracLEeps": 0.0527,
+     "absPbattLEeps": 0.0285
     },
     "mixed_highway": {
      "absPtracLEeps": 0.0108,
      "absPbattLEeps": 0.0473
     },
     "mixed": {
-     "absPtracLEeps": 0.0196,
-     "absPbattLEeps": 0.0371
+     "absPtracLEeps": 0.0189,
+     "absPbattLEeps": 0.0377
     },
     "highway": {
      "absPtracLEeps": 0.0076,
@@ -608,21 +608,21 @@
    "rows": [
     {
      "type": "urban",
-     "nDrives": 224,
-     "engineOnHours": 13.6,
-     "genPlusBattDischarge": 17.4,
-     "chargesAndDrives": 49.6,
-     "genAloneNeutral": 6.0,
-     "fullyBanked": 27.1
+     "nDrives": 250,
+     "engineOnHours": 14.8,
+     "genPlusBattDischarge": 17.2,
+     "chargesAndDrives": 49.1,
+     "genAloneNeutral": 5.9,
+     "fullyBanked": 27.8
     },
     {
      "type": "mixed",
-     "nDrives": 11,
-     "engineOnHours": 2.1,
-     "genPlusBattDischarge": 23.8,
-     "chargesAndDrives": 55.7,
-     "genAloneNeutral": 7.1,
-     "fullyBanked": 13.5
+     "nDrives": 12,
+     "engineOnHours": 2.2,
+     "genPlusBattDischarge": 24.1,
+     "chargesAndDrives": 55.3,
+     "genAloneNeutral": 7.4,
+     "fullyBanked": 13.2
     },
     {
      "type": "mixed_highway",
@@ -645,16 +645,16 @@
    ],
    "bandShareEngineOn": {
     "urban": {
-     "absPtracLEeps": 0.0495,
-     "absPbattLEeps": 0.0601
+     "absPtracLEeps": 0.0527,
+     "absPbattLEeps": 0.0591
     },
     "mixed_highway": {
      "absPtracLEeps": 0.0108,
      "absPbattLEeps": 0.0931
     },
     "mixed": {
-     "absPtracLEeps": 0.0196,
-     "absPbattLEeps": 0.0714
+     "absPtracLEeps": 0.0189,
+     "absPbattLEeps": 0.074
     },
     "highway": {
      "absPtracLEeps": 0.0076,
@@ -666,29 +666,29 @@
    "rows": [
     {
      "type": "urban",
-     "nDrives": 224,
-     "engineOnHours": 13.6,
-     "genPlusBattDischarge": 19.3,
-     "chargesAndDrives": 48.9,
-     "genAloneNeutral": 1.8,
-     "fullyBanked": 30.0
+     "nDrives": 250,
+     "engineOnHours": 14.8,
+     "genPlusBattDischarge": 19.1,
+     "chargesAndDrives": 48.2,
+     "genAloneNeutral": 1.7,
+     "fullyBanked": 30.9
     },
     {
      "type": "mixed",
-     "nDrives": 11,
-     "engineOnHours": 2.1,
-     "genPlusBattDischarge": 26.4,
-     "chargesAndDrives": 56.8,
+     "nDrives": 12,
+     "engineOnHours": 2.2,
+     "genPlusBattDischarge": 26.9,
+     "chargesAndDrives": 56.6,
      "genAloneNeutral": 2.2,
-     "fullyBanked": 14.6
+     "fullyBanked": 14.3
     },
     {
      "type": "mixed_highway",
      "nDrives": 5,
      "engineOnHours": 2.2,
-     "genPlusBattDischarge": 44.3,
+     "genPlusBattDischarge": 44.2,
      "chargesAndDrives": 43.8,
-     "genAloneNeutral": 3.1,
+     "genAloneNeutral": 3.2,
      "fullyBanked": 8.8
     },
     {
@@ -703,16 +703,16 @@
    ],
    "bandShareEngineOn": {
     "urban": {
-     "absPtracLEeps": 0.0965,
-     "absPbattLEeps": 0.0177
+     "absPtracLEeps": 0.1017,
+     "absPbattLEeps": 0.0173
     },
     "mixed_highway": {
      "absPtracLEeps": 0.0212,
-     "absPbattLEeps": 0.0315
+     "absPbattLEeps": 0.0316
     },
     "mixed": {
-     "absPtracLEeps": 0.0386,
-     "absPbattLEeps": 0.0216
+     "absPtracLEeps": 0.0373,
+     "absPbattLEeps": 0.0218
     },
     "highway": {
      "absPtracLEeps": 0.0149,
@@ -724,21 +724,21 @@
    "rows": [
     {
      "type": "urban",
-     "nDrives": 224,
-     "engineOnHours": 13.6,
-     "genPlusBattDischarge": 18.5,
-     "chargesAndDrives": 48.5,
-     "genAloneNeutral": 2.9,
-     "fullyBanked": 30.0
+     "nDrives": 250,
+     "engineOnHours": 14.8,
+     "genPlusBattDischarge": 18.4,
+     "chargesAndDrives": 47.9,
+     "genAloneNeutral": 2.8,
+     "fullyBanked": 30.9
     },
     {
      "type": "mixed",
-     "nDrives": 11,
-     "engineOnHours": 2.1,
-     "genPlusBattDischarge": 25.3,
-     "chargesAndDrives": 56.4,
+     "nDrives": 12,
+     "engineOnHours": 2.2,
+     "genPlusBattDischarge": 25.8,
+     "chargesAndDrives": 56.2,
      "genAloneNeutral": 3.7,
-     "fullyBanked": 14.6
+     "fullyBanked": 14.3
     },
     {
      "type": "mixed_highway",
@@ -761,16 +761,16 @@
    ],
    "bandShareEngineOn": {
     "urban": {
-     "absPtracLEeps": 0.0965,
-     "absPbattLEeps": 0.0292
+     "absPtracLEeps": 0.1017,
+     "absPbattLEeps": 0.0285
     },
     "mixed_highway": {
      "absPtracLEeps": 0.0212,
      "absPbattLEeps": 0.0473
     },
     "mixed": {
-     "absPtracLEeps": 0.0386,
-     "absPbattLEeps": 0.0371
+     "absPtracLEeps": 0.0373,
+     "absPbattLEeps": 0.0377
     },
     "highway": {
      "absPtracLEeps": 0.0149,
@@ -782,21 +782,21 @@
    "rows": [
     {
      "type": "urban",
-     "nDrives": 224,
-     "engineOnHours": 13.6,
-     "genPlusBattDischarge": 17.4,
-     "chargesAndDrives": 46.6,
-     "genAloneNeutral": 6.0,
-     "fullyBanked": 30.0
+     "nDrives": 250,
+     "engineOnHours": 14.8,
+     "genPlusBattDischarge": 17.2,
+     "chargesAndDrives": 46.0,
+     "genAloneNeutral": 5.9,
+     "fullyBanked": 30.9
     },
     {
      "type": "mixed",
-     "nDrives": 11,
-     "engineOnHours": 2.1,
-     "genPlusBattDischarge": 23.8,
-     "chargesAndDrives": 54.5,
-     "genAloneNeutral": 7.1,
-     "fullyBanked": 14.6
+     "nDrives": 12,
+     "engineOnHours": 2.2,
+     "genPlusBattDischarge": 24.1,
+     "chargesAndDrives": 54.2,
+     "genAloneNeutral": 7.4,
+     "fullyBanked": 14.3
     },
     {
      "type": "mixed_highway",
@@ -819,16 +819,16 @@
    ],
    "bandShareEngineOn": {
     "urban": {
-     "absPtracLEeps": 0.0965,
-     "absPbattLEeps": 0.0601
+     "absPtracLEeps": 0.1017,
+     "absPbattLEeps": 0.0591
     },
     "mixed_highway": {
      "absPtracLEeps": 0.0212,
      "absPbattLEeps": 0.0931
     },
     "mixed": {
-     "absPtracLEeps": 0.0386,
-     "absPbattLEeps": 0.0714
+     "absPtracLEeps": 0.0373,
+     "absPbattLEeps": 0.074
     },
     "highway": {
      "absPtracLEeps": 0.0149,

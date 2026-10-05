@@ -18,7 +18,8 @@ def sha(p):
     return hashlib.sha256(open(p, "rb").read()).hexdigest()
 
 
-def build():
+def build(carried_ok=False):
+    """carried_ok (M377b): the closure NUMBERS are carried at the M372 set; headline drives added after that set are labelled as such in the set note instead of failing the reconciliation."""
     d = json.load(open(DIAG, encoding="utf-8"))
     s = json.load(open(STEP2, encoding="utf-8"))
     A = json.load(open(ARR, encoding="utf-8"))
@@ -45,7 +46,7 @@ def build():
         head = head_all - EL.excluded_files(EL.load_flags(os.path.join(ROOT, "drive_master.csv")), fr.file)     # headline set since M375: canonical-clean (ens_outlier_v2)
         closure = set(pd.read_csv(os.path.join(ROOT, "analyses", "M372_closure_perdrive.csv")).file)
         nan_in = set(s["excluded_no_battery_inputs"])
-        reasons = {f: ("NaN battery inputs" if f in nan_in else "other") for f in sorted(head - closure)}
+        reasons = {f: ("NaN battery inputs" if f in nan_in else ("added after the carried closure set" if carried_ok else "other")) for f in sorted(head - closure)}
         assert not (closure - head), "closure drives outside the headline set"
         assert "other" not in reasons.values(), reasons
         assert len(head) - len(reasons) == len(closure) == s["n_drives"], (len(head), len(reasons), len(closure))

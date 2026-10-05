@@ -12,3 +12,15 @@ def md5_of(path):
 def master_pin(tag, master_path):
     """Return the MD5 the run must see before and after."""
     return FROZEN[tag] if tag in FROZEN else md5_of(master_path)
+
+
+import re as _re
+_DOC_ADDENDUM = _re.compile(rb"\n---\n# Rev \d+ \(documentation")
+
+
+def spec_sha(path):
+    """sha256 of a spec file's FROZEN part: everything before the first 'documentation addendum' revision heading ('# Rev N (documentation ...'),
+    so a documentation addendum written after the runs (no estimate, gate or tolerance changed) does not break the binding of the run outputs to the frozen spec."""
+    b = open(path, "rb").read()
+    m = _DOC_ADDENDUM.search(b)
+    return hashlib.sha256(b[:m.start()] if m else b).hexdigest()
