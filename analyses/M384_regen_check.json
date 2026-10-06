@@ -1,0 +1,94 @@
+{
+ "milestone": "M384",
+ "mode": "--check --only CrawlStopGo,EngineStartsByType (all-rows never cached)",
+ "charts": {
+  "EngineStartsByType": {
+   "parity": true,
+   "parityMode": "superset",
+   "parityEvaluated": true,
+   "additiveStoredLeaves": {
+    "count": 44,
+    "keys": [
+     "[i]/maxDrive",
+     "[i]/maxKm",
+     "[i]/median",
+     "[i]/n",
+     "[i]/nDays",
+     "[i]/nShort",
+     "[i]/p10",
+     "[i]/p25",
+     "[i]/p75",
+     "[i]/p90",
+     "[i]/shortKm"
+    ]
+   },
+   "framesLoadedAllRows": 524,
+   "parityNote": null
+  },
+  "CrawlStopGo": {
+   "parity": true,
+   "parityMode": "superset",
+   "parityEvaluated": true,
+   "additiveStoredLeaves": {
+    "count": 15,
+    "keys": [
+     "/phaseEnergy/blindAudit"
+    ]
+   },
+   "framesLoadedAllRows": 3668,
+   "parityNote": null
+  }
+ },
+ "filesLoaded": {
+  "all": {
+   "subset": 524,
+   "framesLoaded": 524,
+   "none": 0
+  },
+  "warm": {
+   "subset": 405,
+   "framesLoaded": "cached",
+   "none": "cached"
+  },
+  "shoulder": {
+   "subset": 112,
+   "framesLoaded": "cached",
+   "none": "cached"
+  },
+  "cold_ins": {
+   "subset": 7,
+   "framesLoaded": "cached",
+   "none": "cached"
+  }
+ },
+ "builderLoads": {
+  "all": {
+   "framesLoaded": 3668,
+   "none": 0,
+   "errors": 0,
+   "rawFilesLoaded": 0,
+   "note": "cumulative over all builder calls of this cohort (each builder loads the files it needs)"
+  },
+  "warm": {
+   "framesLoaded": 0,
+   "none": 0,
+   "errors": 0,
+   "rawFilesLoaded": 0,
+   "note": "cumulative over all builder calls of this cohort (each builder loads the files it needs)"
+  },
+  "shoulder": {
+   "framesLoaded": 0,
+   "none": 0,
+   "errors": 0,
+   "rawFilesLoaded": 0,
+   "note": "cumulative over all builder calls of this cohort (each builder loads the files it needs)"
+  },
+  "cold_ins": {
+   "framesLoaded": 0,
+   "none": 0,
+   "errors": 0,
+   "rawFilesLoaded": 0,
+   "note": "cumulative over all builder calls of this cohort (each builder loads the files it needs)"
+  }
+ }
+}

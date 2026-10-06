@@ -7,9 +7,10 @@ Modes: --check (parity, conservation, cutpoint scan, timings; writes analyses/M3
 Usage: python tools/regen_seasonal_raw.py --check|--splice [--only ID,ID] [--no-cache]"""
 import copy, hashlib, inspect, json, os, pickle, re, subprocess, sys, time, datetime
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-os.chdir(ROOT); sys.path.insert(0, ROOT)
+os.chdir(ROOT); sys.path.insert(0, ROOT); sys.path.insert(0, os.path.join(ROOT, "tools"))
 import numpy as np, pandas as pd
 import compute_summary_arrays as C
+import parity_compare as PC
 import drive_raw_cache as drc
 
 ARR = os.path.join(ROOT, "summary_arrays.json")
@@ -151,7 +152,7 @@ def main():
         cf, cr = Counting(fl), Counting(raw_loader)
         t = time.time()
         pk = os.path.join(CACHE, f"catB_{c}_{len(sub)}_{drc.content_key(sub.file, code_paths=[C.__file__, drc.__file__])}.pkl")
-        if os.path.exists(pk) and "--no-cache" not in sys.argv:
+        if os.path.exists(pk) and "--no-cache" not in sys.argv and c != "all":    # M384: the all-rows result is never taken from cache (it feeds the parity test)
             B = pickle.load(open(pk, "rb")); ld = None
         else:
             B = C.category_B(sub, cr, frame_loader=cf); pickle.dump(B, open(pk, "wb")); ld = (cf.ok, cf.none, cf.err)
@@ -172,7 +173,7 @@ def main():
             t = time.time()
             pk = os.path.join(CACHE, f"b_{k}_{c}_{len(sub)}_{drc.content_key(sub.file, code_paths=[C.__file__, drc.__file__])}.pkl")
             try:
-                if os.path.exists(pk) and "--no-cache" not in sys.argv:
+                if os.path.exists(pk) and "--no-cache" not in sys.argv and c != "all":    # M384: the all-rows result is never taken from cache (it feeds the parity test)
                     v = pickle.load(open(pk, "rb"))
                 else:
                     v = bl[k](sub); pickle.dump(v, open(pk, "wb"))
@@ -187,15 +188,26 @@ def main():
              "HandoffSequence": C._handoff_sequence, "EngineStartContext": C._engine_start_context, "CellSpreadRelaxation": C._cell_spread_relaxation, "DepartureArrival": C._departure_arrival,
              "RpmSpeedSync": C._rpm_speed_sync, "EnergyShifting": C._energy_shifting, "VgtAirPath": C._vgt_airpath, "EngineStateMachine": C._engine_state_machine,
              "AccelDecelEnvelopes": C._accel_decel_envelopes, "CrawlStopGo": C._crawl_stop_go}
+    PCREG = PC.registry()                      # M384: additive-leaf patterns read from the owning splices (post_splices, m362_splice)
     passed = []
     for k in raw_ids:
         e = res["charts"].setdefault(k, {})
         top = A.get(LC(k))
         e["class"] = "core(category_B)" if k in core_ids else "builder"
         e["topLevelStatus"] = (A["_artifactStamps"].get(LC(k)) or {}).get("computationStatus")
-        e["parity"] = bool(out["all"].get(k) is not None and top is not None and canon(out["all"][k]) == canon(top))
+        # M384 (Director ruling, spec analyses/M384_spec.md): exact equality, or SUPERSET equality where the stored block carries extra dict keys only at paths registered by
+        # the splice that owns them (arrays must have equal length); evaluated only when frames were actually loaded for the all-rows run (never from cache)
+        fa_ = loaded.get("all") if k in core_ids else None
+        evaluated = bool((fa_ and fa_[0] > 0) if k in core_ids else (res["builderLoads"]["all"]["framesLoaded"] > 0 or res["builderLoads"]["all"]["rawFilesLoaded"] > 0))
+        cmpv = PC.compare(out["all"][k], top, PCREG.get(k, [])) if (out["all"].get(k) is not None and top is not None) else None
+        e["parityEvaluated"] = evaluated
+        e["parityMode"] = (cmpv or {}).get("verdict") if evaluated else "notEvaluated"
+        e["additiveStoredLeaves"] = {"count": (cmpv or {}).get("additiveLeaves", 0), "keys": (cmpv or {}).get("additiveKeys", [])}
+        e["framesLoadedAllRows"] = (fa_[0] if fa_ else (res["builderLoads"]["all"]["framesLoaded"] if k not in core_ids else None))
+        e["parity"] = bool(evaluated and cmpv is not None and cmpv["verdict"] in ("exact", "superset"))
         if not e["parity"]:
-            e["parityNote"] = "all-rows result differs from the fresh top-level block" if out["all"].get(k) is not None else "builder returned None / errored"
+            e["parityNote"] = ("parity not evaluated: no frames were loaded for the all-rows run" if not evaluated else
+                               ("all-rows result differs from the fresh top-level block: " + "; ".join((cmpv or {}).get("reasons", [])[:3])) if cmpv is not None else "builder returned None / errored")
         cons = walk_counts(out["all"].get(k), [out["warm"].get(k), out["shoulder"].get(k), out["cold_ins"].get(k)]) if e["parity"] else []
         e["conservation"] = {"nCountLeaves": len(cons), "violations": [{"path": p, "all": a, "parts[warm,shoulder,coldBelowSupport]": parts} for p, ok, a, parts in cons if ok is False][:8],
                              "notComparable": sum(1 for x in cons if x[1] is None), "nViolations": sum(1 for x in cons if x[1] is False)}
@@ -238,8 +250,8 @@ def main():
                                          "see analyses/M341_check.json" % ck["conservation"]["nViolations"])
     st = A["seasonalCharts"]["_staleness"]
     st["stillStale"] = sorted(res["parityFailed"] + [x for x in st.get("stillStale", []) if x not in passed and x not in raw_ids])
-    st["refreshedRawCharts"] = {"keys": sorted(passed), "milestone": "M341", "basisNDrives": int(len(dm)), "generatedAt": now,
-                                "method": "same released builders as the top-level blocks, called per thermal cohort on the live corpus (raw_only/, frame cache schema %d); parity-guarded (f(all rows) == top-level block byte-for-byte); cohort-derived cutpoints are cohort-relative (see analyses/M341_check.json)" % drc.SCHEMA_VERSION}
+    st["refreshedRawCharts"] = {"keys": sorted(passed), "additiveLeavesNotRefreshed": {k: res["charts"][k]["additiveStoredLeaves"]["count"] for k in sorted(passed) if res["charts"][k]["additiveStoredLeaves"]["count"]}, "milestone": "M341", "basisNDrives": int(len(dm)), "generatedAt": now,
+                                "method": "same released builders as the top-level blocks, called per thermal cohort on the live corpus (raw_only/, frame cache schema %d); parity-guarded (f(all rows) == top-level block, exact or with extra stored keys only at splice-registered paths: additiveLeavesNotRefreshed counts them; M384); cohort-derived cutpoints are cohort-relative (see analyses/M341_check.json)" % drc.SCHEMA_VERSION}
     st["perChartStatus"] = {k: ("refreshed" if k in passed else "carried forward: " + (res["charts"][k].get("parityNote") or "cohort call returned None")) for k in raw_ids}
     st["liveNDrives"] = int(len(dm))
     st["reason"] = ("M341: %d of %d RAW-class seasonal charts are regenerated on the live %d-drive corpus (per-chart status in perChartStatus); the %d that failed the parity guard stay carried forward "
