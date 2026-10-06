@@ -24,12 +24,14 @@ _USECOLS=set(CH.values())|{'time'}
 
 def _parse_time(s):
     """M383 (audit F21): explicit-format fast path for HH:MM:SS.fraction; any other form (or a malformed row) falls back to the original
-    format-inferring parse for the whole column. Only differences of this series are used downstream (dt, since_start), so the date
-    component (1900-01-01 here, today's date from the inferring parse) is immaterial."""
+    format-inferring parse for the whole column. The inferring parse dates a time-only string TODAY, and consumers combine this series with their
+    own pd.to_datetime(df['time']) result (tools/fuel_analytics2.load_trip windows on both), so the fast path is moved to the same date:
+    absolute equality with the original parse is required, not only equal differences (M384: the first M383 version missed this)."""
     try:
-        return pd.to_datetime(s, format='%H:%M:%S.%f', errors='raise')
+        t = pd.to_datetime(s, format='%H:%M:%S.%f', errors='raise')
     except (ValueError, TypeError):
         return pd.to_datetime(s, errors='coerce')
+    return t + (pd.Timestamp.now().normalize() - pd.Timestamp('1900-01-01'))
 
 def load_drive(f, offset_A):
     df=pd.read_csv(BASE+f, low_memory=False, usecols=lambda c: c in _USECOLS)   # M383: only the channels this module reads

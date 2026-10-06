@@ -16,6 +16,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), 
 os.chdir(ROOT)
 sys.path.insert(0, ROOT)
 sys.path.insert(0, os.path.join(ROOT, "tools"))
+import m377_pin as M377_PIN                     # M384: used at line ~199 but never imported: NameError at the first ingestion after M377c
 sha = lambda p: hashlib.sha256(open(p, "rb").read()).hexdigest()
 md5 = lambda p: hashlib.md5(open(p, "rb").read()).hexdigest()
 BAND_FGEN = 0.05          # absolute, fractions (speedSplit fGen)

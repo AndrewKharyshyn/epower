@@ -522,12 +522,13 @@ def _m41_decompose(e, dts, band, eng_on, spd, load_s):
 
 def _parse_time_col(s):
     """M383 (audit F21): explicit-format fast path for HH:MM:SS.fraction (about 3x faster than the format='mixed' dateutil fallback); any other
-    form, or any malformed row, falls back to the original format='mixed' parse of the WHOLE column. Absolute date semantics are unchanged in
-    effect: every consumer uses differences of this series (as-of joins, durations), see tests/synthetic/test_v6_prep_parity.py."""
+    form, or any malformed row, falls back to the original format='mixed' parse of the WHOLE column. The mixed parse dates a time-only string TODAY;
+    the fast path is moved to the same date so the series is identical in absolute terms (M384), not only in differences."""
     try:
-        return pd.to_datetime(s, format='%H:%M:%S.%f', errors='raise')
+        t = pd.to_datetime(s, format='%H:%M:%S.%f', errors='raise')
     except (ValueError, TypeError):
         return pd.to_datetime(s, format='mixed', errors='coerce')
+    return t + (pd.Timestamp.now().normalize() - pd.Timestamp('1900-01-01'))
 
 
 def _prep_bytes(csv_bytes):

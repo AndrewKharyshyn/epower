@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Old/new parity for recon_engine.load_drive (M383, audit F21). The OLD module is the frozen pre-M383 reference copy (or a git revision via --rev),
-the NEW one from the working tree; every output column of load_drive must be bit-identical (the absolute date of 't' is excluded: only
-differences of 't' are used downstream), and precompute() outputs must match too. Read-only.
+the NEW one from the working tree; every output column of load_drive must be bit-identical (including the ABSOLUTE date of 't': consumers merge it with their own pd.to_datetime), and precompute() outputs must match too. Read-only.
 Usage: XT_RAW_DIR=$PWD/raw python tools/parity_load_drive.py [--rev HEAD] [--limit N] [--time]"""
 import argparse, importlib.util, os, subprocess, sys, tempfile, time
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -38,8 +37,6 @@ def same(a, b):
         return False
     for c in a.columns:
         x, y = a[c].values, b[c].values
-        if c == "t":
-            x, y = (a[c] - a[c].iloc[0]).values, (b[c] - b[c].iloc[0]).values
         if np.issubdtype(x.dtype, np.floating):
             if not np.array_equal(x, y, equal_nan=True):
                 return False

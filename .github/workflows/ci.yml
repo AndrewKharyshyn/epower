@@ -48,6 +48,9 @@ jobs:
           python tests/synthetic/test_mc_summed_curves.py
           python tests/synthetic/test_day_bootstrap.py
           python tests/synthetic/test_v6_prep_parity.py
+          python tests/synthetic/test_undefined_names.py
+          python tests/synthetic/test_recon_time_dates.py
+          python tools/fuel_analytics2.py --no-write --limit 3
           python tools/parity_load_drive.py --fuel 20
           node test_gtr_gate.js
           node test_fuel_tab.js
