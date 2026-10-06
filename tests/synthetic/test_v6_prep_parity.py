@@ -21,7 +21,7 @@ for f in spread:
     s = pd.read_csv(os.path.join(raw, f), usecols=["time"], low_memory=False)["time"]
     new, old = V._parse_time_col(s), pd.to_datetime(s, format="mixed", errors="coerce")
     assert new.isna().equals(old.isna()), f
-    assert np.array_equal(rel(new), rel(old), equal_nan=True), f
+    assert new.equals(old), f                       # ABSOLUTE equality (M384: the first M383 version differed by the date and broke fuel_analytics2)
 
 # fallbacks: with a date component, and a malformed row (whole column goes through the 'mixed' parse)
 for ser in (pd.Series(["2026-05-11 12:00:00.500", "2026-05-11 12:00:01.250"]), pd.Series(["12:00:00.500", "garbage", "12:00:02.250"]),
