@@ -8,6 +8,7 @@ Exit codes: 0 ok, 1 gate failed, 3 stage not implemented. No automatic retries, 
 import argparse, datetime as dt, hashlib, json, os, subprocess, sys, time
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 
 def sha(path):
@@ -43,6 +44,9 @@ def main():
     ap.add_argument("--from", dest="frm")
     ap.add_argument("--only")
     ap.add_argument("--skip", nargs="*", default=[])
+    ap.add_argument("--skip-unchanged", action="store_true",
+                    help="M385: skip every analysis stage when the run fingerprint (sources, data, outputs, raw listing, environment) equals the last fully green run; "
+                         "preflight/build_html/jsdom/release_check/state always run (tools/run_fingerprint.py)")
     a = ap.parse_args()
     cfg = json.load(open(os.path.join(ROOT, "tools", "ingest_stages.json")))
     stages = cfg["stages"]
@@ -52,6 +56,11 @@ def main():
         print("run_ingest: " + str(e), file=sys.stderr)
         return 2
 
+    import run_fingerprint as RF
+    full_run = not (a.only or a.frm or a.skip)
+    skip_ids, skip_reason, _ = RF.plan(ROOT, cfg["stages"], a.skip_unchanged and full_run)
+    if a.skip_unchanged:
+        print("run_ingest: skip-unchanged: %s%s" % (skip_reason, " -> skipping %d stages" % len(skip_ids) if skip_ids else ""), file=sys.stderr)
     ts = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     rd = os.path.join(ROOT, "runs", ts)
     if a.dry_run:
@@ -73,6 +82,9 @@ def main():
     status = {"run": ts, "stages": [], "result": "ok"}
     rc_final = 0
     for s in stages:
+        if s["id"] in skip_ids:
+            status["stages"].append({"id": s["id"], "rc": None, "seconds": 0.0, "status": "skipped_unchanged", "reason": skip_reason})
+            continue
         t0 = time.time()
         log = os.path.join(rd, s["id"] + ".log")
         with open(log, "w") as lf:
@@ -95,6 +107,8 @@ def main():
             rc_final = 3 if rec["status"] == "not_implemented" else 1
             break
     json.dump(status, open(os.path.join(rd, "status.json"), "w"), indent=1)
+    if full_run and not skip_ids and status["result"] == "ok":
+        RF.save_ledger(ROOT, RF.components(ROOT, cfg["stages"]), ts)      # M385: state left by a fully green, fully executed run
     print(json.dumps({"run": ts, "result": status["result"], "status_path": os.path.relpath(os.path.join(rd, "status.json"), ROOT)}))
     return rc_final
 

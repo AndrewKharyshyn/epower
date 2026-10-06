@@ -51,6 +51,7 @@ jobs:
           python tests/synthetic/test_undefined_names.py
           python tests/synthetic/test_recon_time_dates.py
           python tests/synthetic/test_parity_compare.py
+          python tests/synthetic/test_run_fingerprint.py
           python tools/fuel_analytics2.py --no-write --limit 3
           python tools/parity_load_drive.py --fuel 20
           node test_gtr_gate.js
