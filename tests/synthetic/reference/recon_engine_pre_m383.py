@@ -1,3 +1,4 @@
+# FROZEN REFERENCE (M383): recon_engine.py exactly as on main after M382 (71bd4af), kept ONLY for old/new parity tests. Do not edit; do not import from production code.
 import pandas as pd, numpy as np, warnings, json
 warnings.filterwarnings('ignore')
 import model_constants as MC
@@ -20,24 +21,14 @@ def _ser(df,t,c):
     if not m.any(): return None
     return pd.DataFrame({'t':t.values[m],'v':v.values[m]}).sort_values('t').reset_index(drop=True)
 
-_USECOLS=set(CH.values())|{'time'}
-
-def _parse_time(s):
-    """M383 (audit F21): explicit-format fast path for HH:MM:SS.fraction; any other form (or a malformed row) falls back to the original
-    format-inferring parse for the whole column. Only differences of this series are used downstream (dt, since_start), so the date
-    component (1900-01-01 here, today's date from the inferring parse) is immaterial."""
-    try:
-        return pd.to_datetime(s, format='%H:%M:%S.%f', errors='raise')
-    except (ValueError, TypeError):
-        return pd.to_datetime(s, errors='coerce')
-
 def load_drive(f, offset_A):
-    df=pd.read_csv(BASE+f, low_memory=False, usecols=lambda c: c in _USECOLS)   # M383: only the channels this module reads
-    t=_parse_time(df['time'])
+    df=pd.read_csv(BASE+f, low_memory=False)
+    t=pd.to_datetime(df['time'],errors='coerce')
     flow=_ser(df,t,CH['flow'])
     if flow is None or len(flow)<10: return None
     g=flow.rename(columns={'v':'flow'})
     for k in ['rpm','V','I','soc','speed','coolant','boost','used','dist','load','oil']:
+        s=_ser(df,t,CH.get({'V':'V','I':'I'}.get(k,k), CH[k])) if k in CH else None
         s=_ser(df,t,CH[k])
         if s is None:
             g[k]=np.nan
@@ -60,12 +51,14 @@ def load_drive(f, offset_A):
     g['Pbatt']=g['V']*g['Iadj']/1000.0     # kW, +discharge
     # engine-on + since-start
     on=(g['rpm'].fillna(0)>400).values
+    ss=np.full(len(g), 1e9)
+    last_off=-1
     tt=(g['t']-g['t'].iloc[0]).dt.total_seconds().values
-    # M383 (audit F21): vectorised time since the start of the current engine-on run (1e9 while off); identical to the former per-row loop
-    n=len(g); idx=np.arange(n)
-    start=on & ~np.concatenate(([False], on[:-1]))
-    last=np.maximum.accumulate(np.where(start, idx, 0))
-    ss=np.where(on, tt-tt[last], 1e9)
+    cur=False; t0=0
+    for i in range(len(g)):
+        if on[i] and not cur: t0=tt[i]; cur=True
+        if not on[i]: cur=False
+        ss[i]= tt[i]-t0 if cur else 1e9
     g['since_start']=ss
     g['on']=on
     return g

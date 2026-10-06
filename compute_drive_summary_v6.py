@@ -520,12 +520,27 @@ def _m41_decompose(e, dts, band, eng_on, spd, load_s):
     return out
 
 
-def _v5_analyze_bytes(csv_bytes, filename):
-    """Per-drive extraction. Numerically identical to v3 for all shared
-    columns; adds deficit_80_120_valid (M14) and rf_* (M17). pipeline_version = 5."""
+def _parse_time_col(s):
+    """M383 (audit F21): explicit-format fast path for HH:MM:SS.fraction (about 3x faster than the format='mixed' dateutil fallback); any other
+    form, or any malformed row, falls back to the original format='mixed' parse of the WHOLE column. Absolute date semantics are unchanged in
+    effect: every consumer uses differences of this series (as-of joins, durations), see tests/synthetic/test_v6_prep_parity.py."""
+    try:
+        return pd.to_datetime(s, format='%H:%M:%S.%f', errors='raise')
+    except (ValueError, TypeError):
+        return pd.to_datetime(s, format='mixed', errors='coerce')
+
+
+def _prep_bytes(csv_bytes):
+    """Read, rename and time-parse a drive CSV once (M383: analyze_bytes used to do this three times, once per metric family)."""
     df = pd.read_csv(io.BytesIO(csv_bytes), low_memory=False)
     df = df.rename(columns={k: v for k, v in COL_MAP.items() if k in df.columns})
-    t = pd.to_datetime(df['time'], format='mixed', errors='coerce')
+    return df, _parse_time_col(df['time'])
+
+
+def _v5_analyze_bytes(csv_bytes, filename, _prep=None):
+    """Per-drive extraction. Numerically identical to v3 for all shared
+    columns; adds deficit_80_120_valid (M14) and rf_* (M17). pipeline_version = 5."""
+    df, t = _prep if _prep is not None else _prep_bytes(csv_bytes)
 
     r = {'file': filename, 'pipeline_version': 5}
     r['n_raw_rows'] = len(df)
@@ -1271,11 +1286,8 @@ OFFSET_MAX_PASSES = 5    # M24 iteration cap
 # ======================================================================
 # M25 per-drive V-sag extraction (raw bytes -> proxy columns)
 # ======================================================================
-def _vsag_metrics(csv_bytes):
-    df = pd.read_csv(io.BytesIO(csv_bytes), low_memory=False)
-    df = df.rename(columns={k: v for k, v in COL_MAP.items()
-                            if k in df.columns})
-    t = pd.to_datetime(df['time'], format='mixed', errors='coerce')
+def _vsag_metrics(csv_bytes, _prep=None):
+    df, t = _prep if _prep is not None else _prep_bytes(csv_bytes)
     I = _series(df, t, 'I')
     if I is not None:
         I = I[I['v'].abs() < 900]
@@ -1398,7 +1410,7 @@ def _ev_debounce(state, n):
 # ======================================================================
 # M53 per-drive pure-electric traction census (raw bytes -> ev_* columns)
 # ======================================================================
-def _ev_metrics(csv_bytes):
+def _ev_metrics(csv_bytes, _prep=None):
     """M53 (2026-07-24): pure-electric (engine-off) traction census.
 
     Question. The corpus quantified WHERE the battery is stressed but never
@@ -1446,10 +1458,7 @@ def _ev_metrics(csv_bytes):
     per-drive percentiles would not be valid; the per-drive percentiles
     (ev_run_p50_km / ev_run_p90_km) are emitted for per-drive use only.
     """
-    df = pd.read_csv(io.BytesIO(csv_bytes), low_memory=False)
-    df = df.rename(columns={k: v for k, v in COL_MAP.items()
-                            if k in df.columns})
-    t = pd.to_datetime(df['time'], format='mixed', errors='coerce')
+    df, t = _prep if _prep is not None else _prep_bytes(csv_bytes)
     eng = _series(df, t, 'eng_rpm', lo=0)
     spd = _series(df, t, 'speed', lo=0, hi=260)
     if spd is None or len(spd) < 20:
@@ -1578,14 +1587,16 @@ def _ev_metrics(csv_bytes):
 
 def analyze_bytes(csv_bytes, filename):
     """v5 per-drive extraction (byte-identical shared columns) + M25."""
-    r = _v5_analyze_bytes(csv_bytes, filename)
+    _df, _t = _prep_bytes(csv_bytes)           # M383: one read + one time parse for the three metric families (each gets its own copies)
+    _pp = lambda: (_df.copy(), _t.copy())
+    r = _v5_analyze_bytes(csv_bytes, filename, _prep=_pp())
     r['pipeline_version'] = 6
     try:
-        r.update(_vsag_metrics(csv_bytes))
+        r.update(_vsag_metrics(csv_bytes, _prep=_pp()))
     except Exception:
         pass                                   # proxy columns simply absent
     try:
-        r.update(_ev_metrics(csv_bytes))       # M53 pure-electric census
+        r.update(_ev_metrics(csv_bytes, _prep=_pp()))       # M53 pure-electric census
     except Exception:
         pass                                   # ev_* columns simply absent
     # M49: filename-derived date/time_start. Populate only when missing or

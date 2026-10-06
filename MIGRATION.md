@@ -32,7 +32,7 @@ Alternative: if you can attach files in a session, I can place them in the repo 
 - Never commit secrets; the repo contains no credentials.
 
 ## 5. First Code session checklist (in order)
-1. `pip install -r requirements.pinned.txt` (compare with `requirements.txt`), `npm ci`.
+1. `pip install -r requirements.pinned.txt`, `npm ci`.
 2. `python tools/verify_import.py --expect-master-md5 0bcfc400d8ce2a0b15cdc7f3ddd8efff` -> must report OK (raw sha256 included).
 3. Reproduction: `python determinism_check.py` and `python ml16_determinism_check.py` (0/16 ML diffs), `python release_check.py` (clean-environment gate). Nothing else proceeds until these pass or differences are explained.
 4. `python tools/script_index.py`, `python tools/state.py`, commit ("import from Claude Project, M299").

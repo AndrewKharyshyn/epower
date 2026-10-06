@@ -11,6 +11,8 @@ os.chdir(ROOT); sys.path.insert(0, ROOT)
 os.environ.setdefault("XT_RAW_DIR", os.path.join(ROOT, "raw"))
 import numpy as np, pandas as pd
 import recon_engine as RE
+sys.path.insert(0, os.path.join(ROOT, "tools"))
+from day_bootstrap import ratio_boot_ci
 import fuel_recon as FR
 
 NB, SEED = 4000, 42
@@ -115,21 +117,22 @@ def main():
     tot = {c: ratio(d, c) for c in ["E_gen", "E_gen_ps", "g2t", "g2b_master", "g2b_model", "eng_only", "dual", "regen", "b2t", "trac",
                                     "excess", "excess_engonly", "excess_ps", "gen_def_gap", "batt_resid", "batt_resid_modelg2b"]}
     rel = lambda x: float(x.excess.sum() / x.E_gen.sum())
-    relv = {"excess": rel, "excess_engonly": lambda x: float(x.excess_engonly.sum() / x.E_gen.sum()),
-            "excess_ps": lambda x: float(x.excess_ps.sum() / x.E_gen_ps.sum()),
-            "gen_def_gap": lambda x: float(x.gen_def_gap.sum() / x.E_gen.sum())}
+    # M383 (audit F22): every closure statistic is an additive ratio of column sums; the day bootstrap runs on per-day sufficient statistics
+    # (tools/day_bootstrap.py; same draws, estimator, percentile CI: test_day_bootstrap.py checks the former per-draw pd.concat loop to 1e-12)
+    relv = {"excess": ("excess", "E_gen"), "excess_engonly": ("excess_engonly", "E_gen"),
+            "excess_ps": ("excess_ps", "E_gen_ps"), "gen_def_gap": ("gen_def_gap", "E_gen")}
     res = {"milestone": "M377c" if a.ingest else ("M372" if a.m372 else "M336"), "step": 1, "basis": ((CM.M372_BASIS + "; ") if (a.m372 or a.ingest) else "raw/ via XT_RAW_DIR (F03: lower-precision re-exports; published-pipeline basis); ") + "canonical-clean (ens_outlier_v2 False), distance>0, fuel PID",
            "n_drives": int(len(d)), "n_days": int(d.date.nunique()), "km": float(d.km.sum()), "skipped": skipped,
            "per100km_totals": {k: round(v, 3) for k, v in tot.items()},
            "relative_to_generator": {}, "closure_rule": "95% day-clustered CI of excess/E_gen inside +/-5% overall and per drive-type stratum with n>=10",
            "strata": {}}
-    for k, fn in relv.items():
-        ci = dayboot(d, fn); est = fn(d)
+    for k, (num, den) in relv.items():
+        ci = ratio_boot_ci(d, num, den); est = float(d[num].sum() / d[den].sum())
         res["relative_to_generator"][k] = {"est": round(est, 4), "ci95": [round(ci[0], 4), round(ci[1], 4)], "closed": bool(ci[0] >= -0.05 and ci[1] <= 0.05)}
     for t, g in d.groupby("drive_type"):
         s = {"n": int(len(g)), "days": int(g.date.nunique())}
         if len(g) >= 10:
-            ci = dayboot(g, rel); s["excess_rel"] = {"est": round(rel(g), 4), "ci95": [round(ci[0], 4), round(ci[1], 4)], "closed": bool(ci[0] >= -0.05 and ci[1] <= 0.05)}
+            ci = ratio_boot_ci(g, "excess", "E_gen"); s["excess_rel"] = {"est": round(rel(g), 4), "ci95": [round(ci[0], 4), round(ci[1], 4)], "closed": bool(ci[0] >= -0.05 and ci[1] <= 0.05)}
         else:
             s["excess_rel"] = "n<10: not evaluated"
         res["strata"][t] = s

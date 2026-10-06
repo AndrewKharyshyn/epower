@@ -1,3 +1,4 @@
+# FROZEN REFERENCE (M383): energy_uncertainty_mc.py exactly as on main after M382 (71bd4af), kept ONLY for old/new parity tests. Do not edit; do not import from production code.
 """energy_uncertainty_mc.py  (M163, 2026-08-22)
 
 Tier 2 of the audit-section-5 remediation: combines the per-drive uncertainty
@@ -85,19 +86,6 @@ def _interp_grid(grid, tol_grid_ms, key):
     return xs, ys
 
 
-def _quant_sum(rng, quant_sd, B, chunk=64):
-    """M383 (audit F23): sum over drives of independent Normal(0, quant_sd_i) draws, in row blocks. The generator fills a (n, B) array in C order,
-    so drawing blocks of rows consumes the identical random stream; rows are accumulated one at a time in drive order, which is the order of
-    the former .sum(axis=0). Peak memory is chunk x B instead of n_drives x B."""
-    n = len(quant_sd)
-    acc = np.zeros(B)
-    for a in range(0, n, chunk):
-        blk = rng.normal(0.0, quant_sd[a:a + chunk, None], size=(min(chunk, n - a), B))
-        for r in blk:
-            acc += r
-    return acc
-
-
 def data_quality_finding(total_delta_2000, top_contributors):
     """M382 (audit F03): the data-quality note is GENERATED from the current per-drive nominal energy and tolerance-widening delta. The
     earlier fixed text (two named files 'contribute literal 0.0 kWh') described a pre-M366 state and contradicted the live master."""
@@ -153,17 +141,22 @@ def build(precompute, rng=None, offset_point_a=OFFSET_POINT_A,
     # ---------------- (1) grossThroughputMC ----------------
     B = N_DRAWS
     tau = rng.uniform(500, 2000, size=B)                    # ms, per-draw
-    # M383 (audit F23): ONE tolerance draw tau is shared by all drives and every drive's curve lives on the same 7-point grid, so piecewise-linear
-    # interpolation is linear in the curve: sum_i interp(curve_i, tau) == interp(sum_i curve_i, tau). The summed curve is interpolated
-    # directly (O(B)) instead of building an (n_drives, B) array (about 82 MB per float64 array at 510 drives x 20,000 draws). The former comment
-    # claimed this does not commute; it does on a shared grid (paired totals agree to float rounding, tests/synthetic/test_mc_summed_curves.py).
+    # interpolate throughput for every drive at every drawn tolerance:
+    # np.interp over the per-drive curve, vectorized via apply-along style
+    # loop kept O(n_drives) not O(n_drives*B) by interpolating the SUM curve
+    # only where possible -- but interpolation is not linear in the sum
+    # unless each drive's curve is used individually first, so we interpolate
+    # per-drive-per-draw with a single vectorized call using searchsorted.
     idx = np.clip(np.searchsorted(tol_arr, tau) - 1, 0, len(tol_arr) - 2)
     x0 = tol_arr[idx]; x1 = tol_arr[idx + 1]
     frac = (tau - x0) / (x1 - x0)                             # (B,)
-    thr_sum = thr_curve.sum(axis=0)                           # (n_grid,)
-    thr_total_tol = thr_sum[idx] + frac * (thr_sum[idx + 1] - thr_sum[idx])   # (B,)
+    # thr_curve: (n_drives, n_grid) -> gather the two bracketing columns per
+    # draw, shape (n_drives, B)
+    y0 = thr_curve[:, idx]; y1 = thr_curve[:, idx + 1]
+    thr_interp = y0 + frac[None, :] * (y1 - y0)               # (n_drives, B)
+    thr_total_tol = thr_interp.sum(axis=0)                    # (B,)
 
-    quant_draw = _quant_sum(rng, quant_sd, B)
+    quant_draw = rng.normal(0.0, quant_sd[:, None], size=(n_drives, B)).sum(axis=0)
     w = rng.uniform(0.0, 1.0, size=B)                         # shared per-draw
                                                                # coverage severity
     gap_draw = w * poss_missing.sum()                         # (B,)
@@ -266,12 +259,14 @@ def build(precompute, rng=None, offset_point_a=OFFSET_POINT_A,
                  'convention decision, not a data question.')}
 
     # ---------------- (3) netDrawCorrMC ----------------
-    net_sum = dis_curve.sum(axis=0) - chg_curve.sum(axis=0)   # M383: summed net curve (same linearity argument as the gross branch)
-    net_total_tol = net_sum[idx] + frac * (net_sum[idx + 1] - net_sum[idx])
+    y0n = dis_curve[:, idx] - chg_curve[:, idx]
+    y1n = dis_curve[:, idx + 1] - chg_curve[:, idx + 1]
+    net_interp = y0n + frac[None, :] * (y1n - y0n)
+    net_total_tol = net_interp.sum(axis=0)
     # quantization/gap on NET: same magnitude budget as gross but genuinely
     # unsigned in direction for net (a capped gap could plausibly have been
     # net-discharging OR net-charging) -- drawn as a signed contribution.
-    quant_draw_net = _quant_sum(rng, quant_sd, B)
+    quant_draw_net = rng.normal(0.0, quant_sd[:, None], size=(n_drives, B)).sum(axis=0)
     gap_sign = rng.uniform(-1.0, 1.0, size=B)
     gap_draw_net = w * gap_sign * poss_missing.sum()
     offset_draw = rng.normal(offset_point_a, (ci_hi - ci_lo) / (2 * 1.959964), size=B)
