@@ -39,14 +39,19 @@ def per_drive(dm):
     return pd.DataFrame(rows)
 
 
+ADDITIVE_KEYS = ("n", "nDays", "p10", "p25", "median", "p75", "p90", "nShort", "shortKm", "maxDrive", "maxKm")      # M384: the keys this splice adds to each class entry (registry of tools/parity_compare.py)
+
+
 def summarise(g):
     v = g["rate"].values
     mx = g.loc[g["rate"].idxmax()]
-    return {"n": int(len(g)), "nDays": int(g["date"].nunique()),
+    out = {"n": int(len(g)), "nDays": int(g["date"].nunique()),
             "p10": round(float(np.percentile(v, 10)), 1), "p25": round(float(np.percentile(v, 25)), 1), "median": round(float(np.median(v)), 1),
             "p75": round(float(np.percentile(v, 75)), 1), "p90": round(float(np.percentile(v, 90)), 1),
             "nShort": int((g["km"] < SHORT_KM).sum()), "shortKm": SHORT_KM,
             "maxDrive": str(mx["file"]), "maxKm": round(float(mx["km"]), 2)}
+    assert set(out) == set(ADDITIVE_KEYS), "summarise() keys differ from ADDITIVE_KEYS"
+    return out
 
 
 def main():

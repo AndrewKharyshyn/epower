@@ -47,6 +47,9 @@ def restore_m366_shift(path="summary_arrays.json", record="analyses/M366_shift_r
     return action
 
 
+ADDITIVE_LEAVES = {"CrawlStopGo": ("/phaseEnergy/blindAudit",)}      # M384: leaves this stage adds after the builders ran (registry of tools/parity_compare.py)
+
+
 def restore_blind_audit(path="summary_arrays.json", record="analyses/M356_blindaudit_record.json"):
     """crawlStopGo.phaseEnergy.blindAudit (+ the three seasonal copies): frozen M356-era records carrying basisNDrives / basisMilestone / basisNote (M377b P4).
     Restored when absent; when present the body must equal the record; only these four keys may change."""
