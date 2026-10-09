@@ -8811,6 +8811,31 @@ def _csg_grid(fn, raw_loader, frame_loader):
     return g.resample('1s').mean().ffill(limit=3)
 
 
+def _csg_pos(x):
+    """== Series.clip(lower=0) on NaN-free data (pandas: where(x >= 0, x, 0)); keeps -0.0 exactly as pandas does."""
+    return np.where(x >= 0, x, 0.0)
+
+
+def _csg_phase_np(pv, a, b):
+    """(netWh, grossOutWh, grossInWh) over the inclusive index window of the float array pv (discharge-positive kW, 1 Hz). M386: NumPy form of the former
+    per-window pandas chain (iloc slice, dropna, sum, clip, sum), same arithmetic and summation, ~100x less overhead on windows of a few samples."""
+    seg = pv[a:b + 1]
+    seg = seg[~np.isnan(seg)]
+    if not len(seg):
+        return (None, None, None)
+    return (float(seg.sum()) / 3.6, float(_csg_pos(seg).sum()) / 3.6, float(_csg_pos(-seg).sum()) / 3.6)
+
+
+def _csg_phx_np(pv, a, b):
+    """M356 form of _csg_phase_np: (netWh, dischargeWh, regenWh, non-NaN coverage); (None, None, None, 0.0) when every sample of the window is NaN."""
+    raw_seg = pv[a:b + 1]
+    seg = raw_seg[~np.isnan(raw_seg)]
+    cov = round(float(len(seg)) / float(len(raw_seg)), 4) if len(raw_seg) else 0.0
+    if not len(seg):
+        return (None, None, None, 0.0)
+    return (float(seg.sum()) / 3.6, float(_csg_pos(seg).sum()) / 3.6, float(_csg_pos(-seg).sum()) / 3.6, cov)
+
+
 def _csg_events(g, stop_v=1.5, stopgo_ceil=30.0, min_stop_s=3,
                 move_v=15.0, window_cap_s=20):
     """Per-drive stop-go segmentation on a 1 Hz grid. Returns a dict of
@@ -8858,28 +8883,20 @@ def _csg_events(g, stop_v=1.5, stopgo_ceil=30.0, min_stop_s=3,
     stops = [(a, b) for a, b in _csg_runs((sv < stop_v))
              if (b - a + 1) >= min_stop_s]
 
+    pv = p.to_numpy(dtype=float) if p is not None else None
+
     def _phase(a, b):
         """(netWh, grossOutWh, grossInWh) over inclusive index window."""
-        if p is None:
+        if pv is None:
             return (None, None, None)
-        seg = p.iloc[a:b + 1].dropna()
-        if not len(seg):
-            return (None, None, None)
-        return (float(seg.sum()) / 3.6,
-                float(seg.clip(lower=0).sum()) / 3.6,
-                float((-seg).clip(lower=0).sum()) / 3.6)
+        return _csg_phase_np(pv, a, b)
 
     def _phx(a, b):
         """M356: (netWh, dischargeWh, regenWh, non-NaN coverage) over the inclusive window, same arithmetic as _phase; None when no I*V grid;
         (None, None, None, 0.0) when every sample in the window is NaN."""
-        if p is None:
+        if pv is None:
             return None
-        raw_seg = p.iloc[a:b + 1]
-        seg = raw_seg.dropna()
-        cov = round(float(len(seg)) / float(len(raw_seg)), 4) if len(raw_seg) else 0.0
-        if not len(seg):
-            return (None, None, None, 0.0)
-        return (float(seg.sum()) / 3.6, float(seg.clip(lower=0).sum()) / 3.6, float((-seg).clip(lower=0).sum()) / 3.6, cov)
+        return _csg_phx_np(pv, a, b)
 
     launches, approaches, cycles = [], [], []
     # launches: stop-end -> first >= move_v (or local peak), capped
