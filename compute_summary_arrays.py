@@ -38,6 +38,7 @@ import io
 import json
 import numpy as np
 import pandas as pd
+from drive_raw_cache import fast_time as _ft   # M386 (audit F21): exact, faster replacement of pd.to_datetime on raw time strings
 import degradation_trends
 try:
     import m119v2_model              # M147: M119-v2 five-variable hazard model
@@ -3709,7 +3710,7 @@ class _RawAccum:
         df = df.rename(columns={k: v for k, v in RAW_MAP.items() if k in df.columns})
         if 'time' not in df:
             return
-        t = pd.to_datetime(df['time'], format='mixed', errors='coerce')
+        t = _ft(df['time'], mixed=True)
         n = len(df)
         # per-file forward-fill (limit 15), then work column-wise
         def col(name, lo=None, hi=None):
@@ -4912,7 +4913,7 @@ def _k_ladder_scenarios(dm, raw_loader, frame_loader, fade_capacity,
                                  low_memory=False)
         except Exception:
             continue
-        t = pd.to_datetime(df['time'], format='mixed', errors='coerce')
+        t = _ft(df['time'], mixed=True)
         v = pd.to_numeric(df[_SOC_RAW], errors='coerce')
         s = pd.DataFrame({'t': t, 'v': v}).dropna().sort_values('t')
         if len(s) < 10:                      # M17 rainflow eligibility gate
@@ -5087,7 +5088,7 @@ def _rf_dod_histogram(dm, raw_loader, frame_loader=None, floor_pct=None):
         except Exception:
             n_missing += 1
             continue
-        t = pd.to_datetime(df['time'], format='mixed', errors='coerce')
+        t = _ft(df['time'], mixed=True)
         v = pd.to_numeric(df[_SOC_RAW], errors='coerce')
         s = pd.DataFrame({'t': t, 'v': v}).dropna().sort_values('t')
         if len(s) < 10:                      # M17 rainflow eligibility gate
@@ -5248,7 +5249,7 @@ def _battery_temp_traj(dm, raw_loader, frame_loader=None):
         except Exception:
             continue
         rec = {}
-        t = pd.to_datetime(df['time'], format='mixed', errors='coerce')
+        t = _ft(df['time'], mixed=True)
         g = pd.DataFrame({'t': t})
         for c in use:
             v = pd.to_numeric(df[c], errors='coerce')
@@ -5363,7 +5364,7 @@ def _motor_temp_stats(dm, raw_loader, frame_loader=None):
             except Exception:
                 continue
         df, _ = _apply_speed_priority(df)
-        t = pd.to_datetime(df['time'], format='mixed', errors='coerce')
+        t = _ft(df['time'], mixed=True)
         g = pd.DataFrame({'t': t})
         m = pd.to_numeric(df[_MOTOR_RAW], errors='coerce')
         m[(m < -40) | (m > 200)] = np.nan          # physical gate
@@ -5498,7 +5499,7 @@ def _highspeed_census(dm, raw_loader, frame_loader=None):
             df, _ = _apply_speed_priority(df)      # M167, retrofitted
             if _SPEED_RAW not in df.columns:
                 continue
-        t = pd.to_datetime(df['time'], format='mixed', errors='coerce')
+        t = _ft(df['time'], mixed=True)
         v = pd.to_numeric(df[_SPEED_RAW], errors='coerce')
         v[(v < 0) | (v > 200)] = np.nan                  # physical gate
         g = pd.DataFrame({'t': t, 'v': v}).dropna(subset=['t']).set_index('t')
@@ -5584,7 +5585,7 @@ def _near_limiter(dm, raw_loader, frame_loader=None):
     def _grid_df(df):
         if 'time' not in df.columns:
             return None
-        g = df.set_index(pd.to_datetime(df['time'], errors='coerce'))
+        g = df.set_index(_ft(df['time']))
         keep = [c for c in ('I', 'V', 'soc', 'speed', 'rpm', 'load', 'boost')
                 if c in g.columns]
         g = g[keep].apply(pd.to_numeric, errors='coerce')
@@ -6297,7 +6298,7 @@ def _soc_hysteresis_grid(fr):
     if 'soc' not in [_SOCHYST_COLS[c] for c in keep] or 'rpm' not in [_SOCHYST_COLS[c] for c in keep]:
         return None
     g = fr[['time'] + keep].rename(columns=_SOCHYST_COLS)
-    g = g.set_index(pd.to_datetime(g['time'], errors='coerce')).drop(columns='time')
+    g = g.set_index(_ft(g['time'])).drop(columns='time')
     g = g.apply(pd.to_numeric, errors='coerce')
     g = g.resample('1s').mean().ffill(limit=5)
     return g
@@ -6490,7 +6491,7 @@ def _headroom_utilization_events(csv_bytes, filename):
 
     df = df_raw.rename(columns={k: v for k, v in _v6.COL_MAP.items()
                                  if k in df_raw.columns})
-    t = pd.to_datetime(df['time'], format='mixed', errors='coerce')
+    t = _ft(df['time'], mixed=True)
     I = _v6._series(df, t, 'I')
     if I is not None:
         I = I[I['v'].abs() < 900]
@@ -7413,7 +7414,7 @@ def _thermal_step_response(dm, raw_loader, frame_loader=None,
                                  low_memory=False)
         except Exception:
             return None
-        t = pd.to_datetime(df['time'], format='mixed', errors='coerce')
+        t = _ft(df['time'], mixed=True)
         g = pd.DataFrame({'t': t})
         for c in use:
             v = pd.to_numeric(df[c], errors='coerce')
@@ -7565,7 +7566,7 @@ def _dissipation_census(dm, raw_loader, frame_loader=None):
     def _grid_df(df):
         if 'time' not in df.columns:
             return None
-        g = df.set_index(pd.to_datetime(df['time'], errors='coerce'))
+        g = df.set_index(_ft(df['time']))
         keep = [c for c in ('I', 'soc', 'speed', 'rpm', 'load', 'boost')
                 if c in g.columns]
         g = g[keep].apply(pd.to_numeric, errors='coerce')
@@ -8111,7 +8112,7 @@ def _mountain_pattern(dm, raw_loader, frame_loader=None):
         if df is None or SPD not in df.columns:
             continue
         d = df.copy()
-        d['time'] = pd.to_datetime(d['time'], format='mixed', errors='coerce')
+        d['time'] = _ft(d['time'], mixed=True)
         d = d.dropna(subset=['time']).set_index('time')
         cols = [c for c in [SPD, RPM, ICOL, VCOL, SOC, BST, TQ, LOAD, BAR, ALT]
                 if c in d.columns]
@@ -8444,7 +8445,7 @@ def _low_speed_dissipation(dm, raw_loader, frame_loader=None):
         df = df.rename(columns=C)
         if 'time' not in df.columns:
             return None
-        g = df.set_index(pd.to_datetime(df['time'], errors='coerce'))
+        g = df.set_index(_ft(df['time']))
         g = g[[c for c in KEEP if c in g.columns]].apply(pd.to_numeric,
                                                          errors='coerce')
         return g.resample('1s').mean().ffill(limit=3)
@@ -8804,7 +8805,7 @@ def _csg_grid(fn, raw_loader, frame_loader):
     df = df.rename(columns=_CSG_COLS)
     if 'time' not in df.columns or 'speed' not in df.columns:
         return None
-    g = df.set_index(pd.to_datetime(df['time'], errors='coerce'))
+    g = df.set_index(_ft(df['time']))
     g = g[[c for c in ('I', 'V', 'soc', 'speed', 'rpm', 'tpack') if c in g.columns]]
     g = g.apply(pd.to_numeric, errors='coerce')
     return g.resample('1s').mean().ffill(limit=3)
@@ -9618,7 +9619,7 @@ def _ade_grid(fn, raw_loader, frame_loader):
     df = df.rename(columns=_ADE_COLS)
     if 'time' not in df.columns or 'speed' not in df.columns or 'accg' not in df.columns:
         return None
-    g = df.set_index(pd.to_datetime(df['time'], errors='coerce'))
+    g = df.set_index(_ft(df['time']))
     keep = [c for c in ('I', 'V', 'soc', 'speed', 'rpm', 'boost', 'tqTgt', 'accg')
             if c in g.columns]
     g = g[keep].apply(pd.to_numeric, errors='coerce')
@@ -9864,7 +9865,7 @@ def _rsync_grid(fn, raw_loader, frame_loader):
     df = df.rename(columns=_RSYNC_COLS)
     if 'time' not in df.columns or 'speed' not in df.columns or 'rpm' not in df.columns:
         return None
-    g = df.set_index(pd.to_datetime(df['time'], errors='coerce'))
+    g = df.set_index(_ft(df['time']))
     g = g[[c for c in ('speed', 'rpm') if c in g.columns]].apply(pd.to_numeric, errors='coerce')
     return g.resample('1s').mean().ffill(limit=3)
 
@@ -10041,7 +10042,7 @@ def _isc_grid(fr):
     cols = {c: n for c, n in keep.items() if c in fr2.columns}
     if 'time' not in fr2.columns or _ISC_SPD not in fr2.columns:
         return None
-    g = fr2.set_index(pd.to_datetime(fr2['time'], errors='coerce'))
+    g = fr2.set_index(_ft(fr2['time']))
     g = g[list(cols)].rename(columns=cols).apply(pd.to_numeric, errors='coerce')
     return g.resample('1s').mean().ffill(limit=3)
 
@@ -10251,7 +10252,7 @@ def _bdr_grid(fr):
     cols = {c: n for c, n in keep.items() if c in fr.columns}
     if 'time' not in fr.columns or _BDR_I not in fr.columns or _BDR_V not in fr.columns:
         return None
-    g = fr.set_index(pd.to_datetime(fr['time'], errors='coerce'))
+    g = fr.set_index(_ft(fr['time']))
     g = g[list(cols)].rename(columns=cols).apply(pd.to_numeric, errors='coerce')
     return g.resample('1s').mean().ffill(limit=3)
 
@@ -10537,7 +10538,7 @@ def _dst_grid(fn, raw_loader, frame_loader):
     df = df.rename(columns=_DST_COLS)
     if 'time' not in df.columns or 'speed' not in df.columns or 'accg' not in df.columns:
         return None
-    g = df.set_index(pd.to_datetime(df['time'], errors='coerce'))
+    g = df.set_index(_ft(df['time']))
     g = g[[c for c in ('I', 'V', 'speed', 'rpm', 'accg') if c in g.columns]].apply(
         pd.to_numeric, errors='coerce')
     return g.resample('1s').mean().ffill(limit=3)
@@ -10711,7 +10712,7 @@ def _da_grid(fn, frame_loader):
     df = df.rename(columns=_DA_COLS)
     if 'time' not in df.columns or 'speed' not in df.columns:
         return None, None
-    g = df.set_index(pd.to_datetime(df['time'], errors='coerce'))
+    g = df.set_index(_ft(df['time']))
     keep = [c for c in ('I', 'V', 'soc', 'speed', 'rpm', 'cool') if c in g.columns]
     g = g[keep].apply(pd.to_numeric, errors='coerce').resample('1s').mean().ffill(limit=3)
     return g, fr
@@ -10927,7 +10928,7 @@ def _esm_grid(fn, raw_loader, frame_loader):
     df = df.rename(columns=_ESM_COLS)
     if 'time' not in df.columns or 'rpm' not in df.columns:
         return None
-    g = df.set_index(pd.to_datetime(df['time'], errors='coerce'))
+    g = df.set_index(_ft(df['time']))
     keep = [c for c in ('I', 'V', 'rpm', 'soc', 'tpack') if c in g.columns]
     if _SPEED_VCM_RAW in g.columns:
         g = g.rename(columns={_SPEED_VCM_RAW: 'speed'})
@@ -11643,7 +11644,7 @@ def _twl_grid(fr):
         return None
     keep = {_TWL_COOL: 'cool', _TWL_OIL: 'oil'}
     cols = {c: n for c, n in keep.items() if c in fr.columns}
-    g = fr.set_index(pd.to_datetime(fr['time'], errors='coerce'))
+    g = fr.set_index(_ft(fr['time']))
     g = g[list(cols)].rename(columns=cols).apply(pd.to_numeric, errors='coerce')
     return g.resample('1s').mean().ffill(limit=3)
 
@@ -11842,7 +11843,7 @@ def _hf_perdrive(fn, raw_loader, raw_dir):
             break
     if spd is None:
         return None
-    t = pd.to_datetime(df['time'], errors='coerce')
+    t = _ft(df['time'])
     g = pd.DataFrame({'spd': spd.values}, index=t).dropna().resample('1s').mean().ffill(limit=3).dropna()
     dist_km = float(g['spd'].clip(lower=0).sum() / 3600.0)
     if dist_km < 1.0:
@@ -11993,7 +11994,7 @@ def _hs_grid(fr):
     cols = {c: n for c, n in keep.items() if c in fr.columns}
     if 'time' not in fr.columns or _HS_RPM not in fr.columns:
         return None
-    g = fr.set_index(pd.to_datetime(fr['time'], errors='coerce'))
+    g = fr.set_index(_ft(fr['time']))
     g = g[list(cols)].rename(columns=cols).apply(pd.to_numeric, errors='coerce')
     return g.resample('1s').mean().ffill(limit=3)
 
@@ -12202,7 +12203,7 @@ def _sec_grid(fr):
     cols = {c: n for c, n in keep.items() if c in fr2.columns}
     if not cols:
         return None
-    g = fr2.set_index(pd.to_datetime(fr2['time'], errors='coerce'))
+    g = fr2.set_index(_ft(fr2['time']))
     g = g[list(cols)].rename(columns=cols).apply(pd.to_numeric, errors='coerce')
     return g.resample('1s').mean().ffill(limit=3)
 
@@ -12359,7 +12360,7 @@ def _csr_grid(fr):
     cols = {c: n for c, n in keep.items() if c in fr.columns}
     if 'time' not in fr.columns or _CSR_MAXV not in fr.columns or _CSR_MINV not in fr.columns:
         return None
-    g = fr.set_index(pd.to_datetime(fr['time'], errors='coerce'))
+    g = fr.set_index(_ft(fr['time']))
     g = g[list(cols)].rename(columns=cols).apply(pd.to_numeric, errors='coerce')
     return g.resample('1s').mean().ffill(limit=3)
 
@@ -12528,7 +12529,7 @@ def _vgt_drive(fn, raw_loader, raw_dir):
     s = act.dropna()
     if len(s) < 10 or s.std() is None or s.std() <= 0.5:
         return None
-    g = df.set_index(pd.to_datetime(df['time'], errors='coerce'))
+    g = df.set_index(_ft(df['time']))
     cols = {_VGT_CMD: 'cmd', _VGT_ACT: 'act', _VGT_BOOST: 'boost',
             _VGT_RPM: 'rpm', _VGT_MAF: 'maf', _VGT_AFR: 'afr'}
     g = g[[c for c in cols if c in g.columns]].rename(columns=cols).apply(pd.to_numeric, errors='coerce')
@@ -12698,7 +12699,7 @@ def _hr_grid(fr):
             _HR_SPEED: 'speed', _HR_RPM: 'rpm', _HR_TPACK: 'tpack',
             _HR_TORQUE: 'torque'}
     cols = {c: n for c, n in keep.items() if c in fr.columns}
-    g = fr.set_index(pd.to_datetime(fr['time'], errors='coerce'))
+    g = fr.set_index(_ft(fr['time']))
     g = g[list(cols)].rename(columns=cols).apply(pd.to_numeric, errors='coerce')
     return g.resample('1s').mean().ffill(limit=3), used_fallback
 
@@ -13449,7 +13450,7 @@ def _esh_grid(fn, raw_loader, frame_loader):
     df = df.rename(columns=_ESH_COLS)
     if 'time' not in df.columns or 'speed' not in df.columns:
         return None
-    g = df.set_index(pd.to_datetime(df['time'], errors='coerce'))
+    g = df.set_index(_ft(df['time']))
     g = g[[c for c in ('I', 'V', 'speed', 'rpm') if c in g.columns]].apply(
         pd.to_numeric, errors='coerce')
     return g.resample('1s').mean().ffill(limit=3)
@@ -13604,7 +13605,7 @@ def _bc_aligned(fn, raw_loader, raw_dir):
         return None
     if _BC_BARO not in df.columns or 'time' not in df.columns:
         return None
-    g = df.set_index(pd.to_datetime(df['time'], errors='coerce'))
+    g = df.set_index(_ft(df['time']))
     ren = {_BC_BARO: 'baro', _BC_MAP: 'map', _BC_BOOST: 'boost', _BC_MAF: 'maf', _BC_RPM: 'rpm'}
     g = g[[c for c in ren if c in g.columns]].rename(columns=ren).apply(pd.to_numeric, errors='coerce')
     return g.resample('1s').mean().ffill(limit=30)
@@ -13848,7 +13849,7 @@ def _fcs_snapshot(fn, raw_loader, raw_dir):
     if len(present) < 10:
         return None
     cd = df[present].apply(pd.to_numeric, errors='coerce')
-    t = pd.to_datetime(df['time'], errors='coerce', format='mixed')
+    t = _ft(df['time'], mixed=True)
     g = cd.set_index(t).resample('1s').mean().ffill(limit=90)
     completeness = g.notna().sum(axis=1)
     if completeness.max() < max(10, int(0.8 * len(present))):
@@ -13979,7 +13980,7 @@ def _of_grid(fn, raw_loader, raw_dir):
         return None
     if _OF_FUEL not in df.columns or _OF_COOL not in df.columns or 'time' not in df.columns:
         return None
-    t = pd.to_datetime(df['time'], errors='coerce')
+    t = _ft(df['time'])
     spd = None
     for c in (_OF_SPD_VCM, _OF_SPD_OBD):
         if c in df.columns and pd.to_numeric(df[c], errors='coerce').notna().sum() > 20:
@@ -14541,7 +14542,7 @@ def _first_window_engine_metrics(fr):
     rpm.columns = ['time', 'rpm']
     if len(rpm) < 2:
         return None
-    t = pd.to_datetime(rpm['time'], errors='coerce')
+    t = _ft(rpm['time'])
     rpm = rpm.assign(t=t).dropna(subset=['t'])
     if len(rpm) < 2:
         return None

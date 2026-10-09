@@ -9,6 +9,7 @@ import copy, datetime, hashlib, json, os, sys
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 os.chdir(ROOT); sys.path.insert(0, ROOT); sys.path.insert(0, os.path.join(ROOT, "tools"))
 import numpy as np, pandas as pd
+from drive_raw_cache import fast_time as _ft   # M386 (audit F21): exact, faster replacement of pd.to_datetime on raw time strings
 import compute_summary_arrays as C
 import drive_raw_cache as drc
 import fuel_analytics as fa
@@ -35,7 +36,7 @@ def build_hz(df, lim=15):
         if hi is not None:
             s = s.where(s <= hi)
         return s
-    t = pd.to_datetime(df["time"], format="mixed", errors="coerce")
+    t = _ft(df["time"], mixed=True)
     g1 = pd.DataFrame({"t": t})
     for cN, cS in [("eng_rpm", col("eng_rpm", 0)), ("T_coolant", col("T_coolant", -40, 150)), ("eng_load_calc", col("eng_load_calc"))]:
         g1[cN] = cS.values if cS is not None else np.nan

@@ -11,6 +11,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 os.chdir(ROOT); sys.path.insert(0, ROOT); sys.path.insert(0, os.path.join(ROOT, "tools"))
 os.environ.setdefault("XT_RAW_DIR", os.path.join(ROOT, "raw"))
 import numpy as np, pandas as pd
+from drive_raw_cache import fast_time as _ft   # M386 (audit F21): exact, faster replacement of pd.to_datetime on raw time strings
 import recon_engine as RE
 import fuel_analytics as fa
 
@@ -40,7 +41,7 @@ def load_trip(raw, off, window_cols=("time",)):
     if g is None:
         return None
     df = pd.read_csv(RE.BASE + raw, low_memory=False, usecols=lambda c: c in ("time", RE.CH["used"], SPD_VCM, SPD_OBD))
-    t = pd.to_datetime(df["time"], errors="coerce")
+    t = _ft(df["time"])
     cnt = RE._ser(df, t, RE.CH["used"])
     if cnt is None or len(cnt) < 2:
         return None
