@@ -335,6 +335,18 @@
    ]
   },
   {
+   "id": "restamp_ingest",
+   "title": "M389: re-issue the artifact stamps (regenerated / carried per tools/restamp_ingest.py STAMP_POLICY; a stale key without a policy entry STOPS), generate the GTR stamp note from the payload, re-apply the M382 F03 MC data-quality step; needs XT_INGEST_LABEL",
+   "cmd": [
+    "python3",
+    "tools/restamp_ingest.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json"
+   ]
+  },
+  {
    "id": "build_html",
    "title": "Build dashboard (REQUIRED_BLOCKS + stale-key gates)",
    "cmd": [
