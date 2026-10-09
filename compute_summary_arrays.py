@@ -2276,6 +2276,52 @@ def _cycle_projection(dm, clean, age_yr, odo):
             'cycleAtOdo': cycle_at_odo, 'projections': projections}
 
 
+def _powerfade_emulation_snapshot(n_clean):
+    """M395: the M393 emulated-sampling study (analyses/M393_resistance_cadence.py) as a labelled SNAPSHOT, read from its JSON, never typed. Missing or unreadable study: an explicit
+    {'status': 'not_available'} (the dashboard statement says so), never a silent None. stale = the clean-drive count differs from the study's (other changes of the corpus are not detected)."""
+    import json as _json, os as _os
+    p = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'analyses', 'M393_resistance_cadence.json')
+    if not _os.path.exists(p):
+        return {'status': 'not_available', 'reason': 'analyses/M393_resistance_cadence.json not found'}
+    try:
+        d = _json.load(open(p, encoding='utf-8'))
+        C = d['C_emulation']
+        sd = C['same_drive_set']
+        basis_n = int(d['B_specification_sensitivity']['M1_published_density']['n'])
+        pd_ = {e: {'n': C[f'paired_diff_{e}']['n'], 'nDays': C[f'paired_diff_{e}']['n_days'], 'meanMohm': C[f'paired_diff_{e}']['mean_emulated_minus_original_mohm'],
+                   'ci95': C[f'paired_diff_{e}']['ci95_day_clustered']} for e in ('fast1', 'fast2') if f'paired_diff_{e}' in C}
+        return {'status': 'ok', 'study': 'M393', 'label': 'emulated sampling sensitivity, not a causal cadence effect (PID order, I-V co-timing and jitter are not emulated)',
+                'basis': {'nClean': basis_n, 'seeds': C['seeds'], 'slowPoolDrives': C['slow_pool_drives']}, 'stale': bool(basis_n != n_clean),
+                'eras': 'fast1 = 2026-08-14..09-06, fast2 = from 2026-10-01 (M379a)', 'nFastClean': C['n_fast_clean'], 'nFastLoseProxy': C['n_fast_lose_proxy_at_slow_sampling'],
+                'nFastKeepProxy': int(sum(v['n'] for v in pd_.values())), 'loseProxyByEra': C['lose_proxy_by_era'], 'pairedDiffEmulatedMinusOriginal': pd_,
+                'sameDriveSlope': {'n': sd['n'], 'noCovariateOriginal': sd['original_M0']['slope'], 'noCovariateEmulated': sd['emulated_M0']['slope'],
+                                   'publishedDesignOriginal': sd['original_published_design']['slope'], 'publishedDesignEmulated': sd['emulated_published_design']['slope']}}
+    except Exception as ex:
+        return {'status': 'not_available', 'reason': 'unreadable study file: ' + repr(ex)[:120]}
+
+
+def _powerfade_cadence_block(cs, emu):
+    """M395: payload block `powerFade.cadenceSensitivity` + the statement shown on the dashboard, generated from the leaves (no typed numbers)."""
+    if not cs or cs.get('status') != 'ok':
+        return {'status': 'not_available', 'reason': (cs or {}).get('reason', 'not computed'),
+                'statement': 'Cadence-handling specifications not available on this build; the density adjustment (M170) is partial and no fade rate is claimed.'}
+    spec = ('HV-current-density adjustment (M170) is partial: across %d cadence-handling specifications the slope ranges from %s to %s mΩ/month and %s 95%% interval spans zero '
+            '(the published specification is %s); no fade rate is claimed.' % (cs['nSpecs'], cs['slopeMin'], cs['slopeMax'],
+                                                                                'every' if cs['allIntervalsSpanZero'] else 'not every', cs['publishedIsSpec']))
+    out = dict(cs)
+    if emu and emu.get('status') == 'ok':
+        diffs = [abs(v['meanMohm']) for v in emu['pairedDiffEmulatedMinusOriginal'].values()]
+        spec += (' Emulated slow-cadence sampling lowers the proxy by %.1f-%.1f mΩ on the %d fast-regime drives that keep a proxy and removes it from %d of %d fast-regime drives '
+                 '(emulated sampling sensitivity, not a causal cadence effect; M393 study on %d clean drives%s).' % (
+                     min(diffs), max(diffs), emu['nFastKeepProxy'], emu['nFastLoseProxy'], emu['nFastClean'], emu['basis']['nClean'],
+                     ', stale: the clean-drive count is now %d' % cs['nClean'] if emu['stale'] else ''))
+    else:
+        spec += ' The M393 emulation study is not available on this build.'
+    out['emulation'] = emu
+    out['statement'] = spec
+    return out
+
+
 def _power_fade(dm, raw_loader=None):
     """M61 (2026-07-27): pipeline-bound producer for the `powerFade` block.
 
@@ -2340,11 +2386,11 @@ def _power_fade(dm, raw_loader=None):
         'The 95 % day-cluster interval excludes zero on this build; read it '
         'with the cadence caveat below and the short window before treating '
         'it as fade.')
+    # M395: the density covariates adjust for HV-current logging density but do not remove the cadence effect (M393); the sensitivity block is generated from the leaves
+    cs_block = _powerfade_cadence_block(_v6._powerfade_cadence_specs(d, raw_loader), _powerfade_emulation_snapshot(t['n_clean']))
     cad_clause = (
-        ' Sampling cadence IS controlled (M170): HV-current logging density -- '
-        'which changed mid-corpus with the PID configuration and otherwise '
-        'biases this load-excited proxy upward -- is held constant in the '
-        'trend.' if cadence_controlled else
+        ' HV-current logging density, which changed mid-corpus with the PID configuration and biases this load-excited proxy upward, enters the trend as two '
+        'covariates (M170); the adjustment is partial. ' + cs_block['statement'] if cadence_controlled else
         ' WARNING: sampling cadence is NOT controlled on this build; HV-current '
         'logging density changed mid-corpus (CHANGELOG M126) and can bias the '
         'slope. Supply a raw_loader to engage M170 cadence normalization.')
@@ -2361,6 +2407,8 @@ def _power_fade(dm, raw_loader=None):
         'bTMohmPerDegC': t['bT_mohm_per_degC'],
         'nBoot': t['n_boot'],
         'cadenceControlled': cadence_controlled,
+        'cadenceAdjustment': 'partial: HV-current median interval + coverage covariates (M170); see cadenceSensitivity',
+        'cadenceSensitivity': cs_block,
         # --- M61 detection power ---
         'windowMo': round(window_mo, 2),
         'mdeMohmPerMo': round(mde, 3),
@@ -2369,7 +2417,7 @@ def _power_fade(dm, raw_loader=None):
         'horizonBasis': ('SE(slope) ~ T^-1.5 at constant logging cadence; '
                          'assumes homogeneous residual variance and linear '
                          'fade. Planning figure, not a measurement.'),
-        'note': ('M25/M56/M170. Temperature- and sampling-cadence-controlled '
+        'note': ('M25/M56/M170/M395. Temperature- and HV-current-density-adjusted (partial, M170) '
                  'V-regression resistance trend. ' + sig_clause + cad_clause +
                  ' Absolute level is a load-excited in-drive proxy, NOT '
                  'relaxed-OCV resistance, and is available on only a selected '
@@ -2450,16 +2498,17 @@ def _reconcile_resistance_models(arrays, dm, raw_loader=None):
         'cadenceConfoundMechanism': (
             'HV-current PID logging density ~doubled mid-corpus (M126); denser '
             'logging biases the load-excited vreg proxy upward and is confounded '
-            'with calendar time, levering the UNcontrolled slope positive. M170 '
-            'holds logging density constant.'),
+            'with calendar time, which lifts the slope without the density covariates. '
+            'M170 adjusts for it with two covariates; the adjustment is partial (see '
+            'powerFade.cadenceSensitivity).'),
         'conclusion': (
-            f'Cadence-controlled slope {b_cc:+.3f} mOhm/mo (CI [{lo}, {hi}], '
+            f'HV-current-density-adjusted slope {b_cc:+.3f} mOhm/mo (CI [{lo}, {hi}], '
             f'p(slope>0)={t_cc["p_slope_gt0"]}) is the primary resistance '
             f'estimand; its interval spans zero -> no resolved trend. The '
-            f'{b_un:+.3f} mOhm/mo cadence-uncontrolled sensitivity is the M126 '
-            f'logging-density artifact, not pack aging. Released equivalence '
+            f'{b_un:+.3f} mOhm/mo sensitivity without the density covariates includes the '
+            f'M126 logging-density effect (emulation, M393) and is not read as pack aging. Released equivalence '
             f'(vs {delta:.4f} mOhm/mo OEM 75%/14yr bound) is run on the '
-            f'cadence-controlled slope: equivalent={tost_cc.get("equivalent")} '
+            f'density-adjusted slope: equivalent={tost_cc.get("equivalent")} '
             f'(pTOST={tost_cc.get("pTOST")}) -- window too short to establish '
             f'equivalence either. The prior M161 "one reconciled resistance '
             f'estimate" claim is withdrawn.')}
@@ -16684,7 +16733,7 @@ def _evidence_ledger(arrays):
             'evidenceClass': 'measured',
             'sourceKey': 'powerFade',
             'primary': {
-                'label': 'powerFade (cadence-controlled, day-clustered bootstrap)',
+                'label': 'powerFade (HV-current-density adjusted, partial; day-clustered bootstrap)',
                 'value': pf.get('slopeMohmPerMoTctrl'), 'unit': 'mOhm/month',
                 'ci95': pf.get('ci95MohmPerMo'),
                 # M236 (audit F15): pSlopeGt0 is the FRACTION of day-clustered
@@ -16712,7 +16761,7 @@ def _evidence_ledger(arrays):
             'notes': ('powerFade and resistanceVreg are explicitly linked '
                      '(resistanceVreg.primaryEstimandRef=powerFade): a '
                      'magnitude difference is expected since one is '
-                     'cadence-controlled and the other is not (see their '
+                     'adjusted for HV-current logging density and the other is not (see their '
                      'own methodology strings for the full distinction) -- '
                      'both slopes\' 95% CIs span zero, so neither detects '
                      'a resolvable fade trend at this corpus size/window, '

@@ -81,6 +81,10 @@ RULES = [
     Rule("W2-seasonlabel", "regex", "C11.2/p20.2: the cohort filter is a thermal (ambient) cohort, not a calendar season", rx=r"\bseason filter\b"),
     Rule("W2-warmseason-corpus", "regex", "p21.10: the logged corpus is not 'warm-season only' (Warm + Shoulder, Cold observed on 2 drives)",
          rx=r"\bwhole corpus is warm season\b|\bwarm season data only\b", scope=("dom", "payload", "jsx")),   # config: only the dated drivingMixNote (L1344) is allow-listed -> W2b
+    Rule("M395-cadencecontrolled", "regex", "M393/M395: HV-current density enters the powerFade slope as two covariates and the adjustment is only partial (the slope's size and sign depend on how cadence is handled, powerFade.cadenceSensitivity): 'cadence controlled', 'sampling cadence is controlled' and 'held constant in the trend' overstate",
+         rx=r"\bcadence controlled\b|\bsampling cadence is controlled\b|\bheld constant in the trend\b|\bcadence and temperature controlled\b"),
+    Rule("M395-notpackaging", "regex", "M393/M395: logging density raises the proxy but how much of the uncontrolled slope it explains is not established: 'logging-density artifact, not pack aging' / 'tracks ... not the pack' overstate",
+         rx=r"\blogging density artifact,? not pack aging\b|\btracks the mid corpus hv current logging density change,? not the pack\b"),
     Rule("W3-measuredfade", "regex", "Cs-74: the V-regression resistance is a load-excited proxy; power fade is not 'measured'", rx=r"\bmeasured power fade\b|\bpower fade is measured\b|\bpower fade(?: \w+){0,5} is measured\b"),
     Rule("W3-nodetectable", "regex", "D-15/R11: 'no detectable cell-spread trend' -> trend not resolved, equivalence not established, provenance-sensitive", rx=r"\bno detectable cell spread trend\b"),
     Rule("W3-nofade", "regex", "D-15: the axis zero is 'zero trend', not 'no fade'", rx=r"\bzero no fade\b"),

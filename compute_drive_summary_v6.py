@@ -2026,6 +2026,105 @@ def _powerfade_trend(dm, raw_loader=None):
             'cadence_controlled': bool(cadence_controlled)}
 
 
+POWERFADE_FAST_S = 1.05          # M379a regime rule on the master column I_sample_period_s: fast below, slow at or above
+POWERFADE_MIN_RUN = 5            # M395: a fast-regime run needs >= 5 consecutive drives to get its own dummy
+
+
+def _powerfade_cadence_specs(dm, raw_loader):
+    """M395 (analyses/M395_spec.md): the published pack-resistance proxy slope re-estimated under a FIXED list of ways to handle the HV-current logging cadence,
+    same clean set, model and day-clustered percentile bootstrap (seed 42, N_BOOT draws) as `_powerfade_trend`. Disclosure only: the published slope is unchanged.
+      S0 no cadence covariate; S1 published (median interval + coverage of the HV-current channel); S2 fast-regime indicator instead of the density covariates;
+      S3 density + fast indicator; S4 fast-regime run dummies (runs of >= POWERFADE_MIN_RUN consecutive fast drives get one dummy each, shorter fast runs share one);
+      S5 published design on the drives before the start of the LATEST FAST run (the regime can flip back); S6 slow-regime drives only, no covariate.
+    The range over these specifications is NOT a confidence statement about the true trend."""
+    keep = ~dm['ens_outlier_v2'].fillna(False).astype(bool) if 'ens_outlier_v2' in dm.columns else pd.Series(True, index=dm.index)
+    rcol = 'vreg_R_pack_mohm' if 'vreg_R_pack_mohm' in dm.columns else 'vsag_R_pack_mohm'
+    icol = 'vreg_I_p95_A' if rcol == 'vreg_R_pack_mohm' else 'vsag_I_mean_A'
+    need = [rcol, 'T_pack_mean_avg', icol, 'date']
+    if raw_loader is None or 'file' not in dm.columns or any(c not in dm.columns for c in need):
+        return {'status': 'not_available', 'reason': 'needs raw access and the proxy columns'}
+    cc = dm[keep].dropna(subset=need).copy()
+    if len(cc) < 20:
+        return {'status': 'not_available', 'reason': 'fewer than 20 clean drives'}
+    cc['date'] = cc['date'].astype(str)
+    order = ['date', 'time_start'] if 'time_start' in cc.columns else ['date']
+    cc = cc.sort_values(order, kind='stable').reset_index(drop=True)
+    dens = _i_channel_sampling_density(cc['file'].tolist(), raw_loader)
+    cc['_de'] = [dens.get(f, (np.nan, np.nan))[0] for f in cc['file']]
+    cc['_dc'] = [dens.get(f, (np.nan, np.nan))[1] for f in cc['file']]
+    per = cc['I_sample_period_s'] if 'I_sample_period_s' in cc.columns else pd.Series(np.nan, index=cc.index)
+    cc['_fast'] = np.where(per.notna(), (per < POWERFADE_FAST_S).astype(float), np.nan)
+    dt0 = pd.to_datetime(cc['date']).min()
+    cc['_t'] = ((pd.to_datetime(cc['date']) - dt0).dt.days / 30.44).values
+
+    def fit(df, cols):
+        X = np.column_stack([np.ones(len(df)), df['_t'].values, df['T_pack_mean_avg'].values, df[icol].values] + [df[c].values.astype(float) for c in cols])
+        y = df[rcol].values.astype(float)
+        b = np.linalg.lstsq(X, y, rcond=None)[0]
+        days = df['date'].values
+        uniq = np.unique(days)
+        grp = {d: np.where(days == d)[0] for d in uniq}
+        rng = np.random.default_rng(42)
+        boot = []
+        for _ in range(N_BOOT):
+            idx = np.concatenate([grp[d] for d in rng.choice(uniq, size=len(uniq), replace=True)])
+            if len(np.unique(df['_t'].values[idx])) < 3:
+                continue
+            try:
+                boot.append(float(np.linalg.lstsq(X[idx], y[idx], rcond=None)[0][1]))
+            except Exception:
+                pass
+        lo, hi = np.percentile(np.asarray(boot), [2.5, 97.5])
+        return {'slope': round(float(b[1]), 3), 'ci95': [round(float(lo), 3), round(float(hi), 3)], 'n': int(len(df)), 'nDays': int(len(uniq))}
+
+    have_d = cc[np.isfinite(cc['_de']) & np.isfinite(cc['_dc'])]
+    have_r = cc[np.isfinite(cc['_fast'])]
+    both = have_d[np.isfinite(have_d['_fast'])]
+    # fast-regime runs in time order (regime-defined drives only)
+    r = have_r.copy()
+    r['_run'] = (r['_fast'] != r['_fast'].shift()).cumsum()
+    runs = r[r['_fast'] == 1.0].groupby('_run').size()
+    big = [k for k, n in runs.items() if n >= POWERFADE_MIN_RUN]
+    last_fast_start = None
+    if len(runs):
+        first_idx = r[r['_run'] == runs.index[-1]].index[0]
+        last_fast_start = str(r.loc[first_idx, 'date'])
+    specs = []
+
+    def add(sid, label, df, cols, note=None):
+        if len(df) >= 20:
+            s = fit(df, cols)
+            s.update(id=sid, label=label)
+            if note:
+                s['note'] = note
+            specs.append(s)
+    add('S0', 'no cadence covariate', cc, [])
+    add('S1', 'published: HV-current median interval + coverage', have_d, ['_de', '_dc'])
+    add('S2', 'fast-regime indicator instead of density', have_r, ['_fast'])
+    add('S3', 'density + fast-regime indicator', both, ['_de', '_dc', '_fast'])
+    rr = have_r.copy()
+    rr['_run'] = (rr['_fast'] != rr['_fast'].shift()).cumsum()
+    cols = []
+    for k in big:
+        rr[f'_run{k}'] = ((rr['_run'] == k) & (rr['_fast'] == 1.0)).astype(float)
+        cols.append(f'_run{k}')
+    rr['_otherfast'] = ((rr['_fast'] == 1.0) & ~rr['_run'].isin(big)).astype(float)
+    if rr['_otherfast'].sum() >= 1:
+        cols.append('_otherfast')
+    if cols:
+        add('S4', 'fast-regime run dummies (runs of >= %d drives; shorter fast runs pooled)' % POWERFADE_MIN_RUN, rr, cols)
+    if last_fast_start is not None:
+        add('S5', 'published design before the latest fast-regime run (from %s)' % last_fast_start, have_d[have_d['date'] < last_fast_start], ['_de', '_dc'])
+    add('S6', 'slow-regime drives only, no covariate', cc[cc['_fast'] == 0.0], [])
+    if not specs:
+        return {'status': 'not_available', 'reason': 'no specification had >= 20 drives'}
+    sl = [s['slope'] for s in specs]
+    return {'status': 'ok', 'rBasis': rcol, 'nClean': int(len(cc)), 'regimeRule': 'fast: master I_sample_period_s < %.2f s (M379a); slow otherwise' % POWERFADE_FAST_S,
+            'minRunDrives': POWERFADE_MIN_RUN, 'latestFastRunStart': last_fast_start, 'specs': specs, 'nSpecs': len(specs),
+            'slopeMin': min(sl), 'slopeMax': max(sl), 'allIntervalsSpanZero': bool(all(s['ci95'][0] <= 0.0 <= s['ci95'][1] for s in specs)),
+            'publishedIsSpec': 'S1', 'note': 'range over the listed specifications only; not a confidence statement about the true trend'}
+
+
 # ======================================================================
 # Orchestration (mirrors v5, using v6 analyze/postprocess)
 # ======================================================================
