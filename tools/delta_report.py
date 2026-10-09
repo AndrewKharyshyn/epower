@@ -68,8 +68,14 @@ def main():
         dis = {"informational": "report-only (M394): never routes to audit; list the flags in the CHANGELOG acknowledgement", "n_new_drives": lu.get("n_new_drives"),
                "n_flags": lu.get("n_flags"), "flags": [x for x in lu.get("flags", []) if not x.get("info")],
                "validation_gap_bands": (dd.get("summary") or {}).get("validation_gap_bands_without_sustained_event")}
+    cmon = P("analyses/cadence_monitor.json")     # M396: report-only PID polling-cadence flag; INFORMATIONAL, never in flags / route_to_audit; report any FLAG to the owner first
+    cad = None
+    if os.path.exists(cmon):
+        cd_ = json.load(open(cmon, encoding="utf-8")); cl = cd_.get("last_update", {})
+        cad = {"informational": "report-only (M396): never routes to audit; report any flag to the owner first", "expected_regime": cd_.get("expected_regime"), "n_new_drives": cl.get("n_new_drives"),
+               "n_flags": cl.get("n_flags"), "flags": cl.get("flags", []), "last_regime": cd_.get("last_regime")}
     out = {"generated_utc": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"), "has_baseline": bool(prev),
-           "flags": flags, "route_to_audit": bool(flags), "kpis": rep, "gtrFamily": gtr, "gtrClosure": gclo, "dissipationMonitor": dis}
+           "flags": flags, "route_to_audit": bool(flags), "kpis": rep, "gtrFamily": gtr, "gtrClosure": gclo, "dissipationMonitor": dis, "cadenceMonitor": cad}
     json.dump(out, open(P("delta_report.json"), "w"), indent=1)
     print(json.dumps({"has_baseline": out["has_baseline"], "route_to_audit": out["route_to_audit"], "flags": flags}, indent=1))
     if a.commit:

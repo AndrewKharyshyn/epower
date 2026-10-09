@@ -1,0 +1,19 @@
+{
+ "bootstrap": true,
+ "expected_regime": "fast",
+ "expected_since": "2026-10-09",
+ "flag_history": [],
+ "last_regime": "slow",
+ "last_seen": [
+  "2026-10-08",
+  "21:24:16.930",
+  "2026-10-08_21-24-03.csv"
+ ],
+ "last_update": {
+  "flags": [],
+  "n_flags": 0,
+  "n_new_drives": 554
+ },
+ "n_drives_at_bootstrap": 554,
+ "rule": "regime per drive from the sidecar (fast: master I_sample_period_s < 1.05 s, M379a); flag = a new drive is slow while fast polling is expected (owner re-activated it 2026-10-09); report-only; thresholds fixed and not tuned (analyses/M396_spec.md)"
+}
