@@ -23,6 +23,11 @@ d = pd.DataFrame({"date": ["a", "a", "b", "c"], "energy_residual_kwh": [0.01] * 
 num, den = rg._offset_parts(d, False)
 ci, est = rg._boot_ratio(d["date"], num, den, np.random.default_rng(42))
 assert abs(est - 10.0 / 300.0) < 1e-12 and abs(ci[0] - est) < 1e-12 and abs(ci[1] - est) < 1e-12
+# M391: fit counts describe the rows the estimator fits on, not all rows (pass 2 drops f_domain_2p; a row without a residual is never eligible)
+e = pd.DataFrame({"date": ["a", "a", "b", "c", "c"], "energy_residual_kwh": [0.01, 0.01, np.nan, 0.01, 0.01], "duration_s": [3600.0] * 5,
+                  "V_pack_median": [300.0] * 5, "f_domain_2p": [False, True, False, False, False]})
+assert rg._fit_counts(e, False) == {"n_drives": 4, "n_days": 2} and rg._fit_counts(e, True) == {"n_drives": 3, "n_days": 2}
+assert rg._offset_eligible(e, False).sum() == 4 and (rg._offset_parts(e, True)[1] != 0).sum() == 3      # same rows feed the estimator
 print("recal_gate tests ok")
 
 # _block_null: observed batch beyond ALL distinct blocks gives p = 1/(n_blocks+1) (no spurious resolution), capped soft (<99 blocks)
