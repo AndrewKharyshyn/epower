@@ -69,6 +69,44 @@
    "ref": "CHANGELOG M319"
   }
  },
+ "soc_spike": {
+  "rule": {
+   "jump_pp": 20.0,
+   "neighbour_tol_pp": 1.0,
+   "short_side_s": 5.0,
+   "verified": false,
+   "basis": "fixed, not tuned; a >=20 pp move within 5 s would imply roughly 300 kW if CAP_KWH=2.1 (verified:false), above the 150 kW motor rating (unverified); order-of-magnitude plausibility bound"
+  },
+  "files_with_soc": 552,
+  "intervals": 605604,
+  "n_flagged": 1,
+  "flagged": [
+   {
+    "file": "2026-10-08_10-14-58.csv",
+    "values": [
+     69.5,
+     0.0,
+     69.5
+    ],
+    "interval_before_s": 45.775,
+    "interval_after_s": 1.569
+   }
+  ],
+  "n_failing_only_time_guard": 0,
+  "failing_only_time_guard": [],
+  "treatment": "logger glitch flagged as missing in the frame loader, per-drive code and the two rainflow functions; study figures are not corrected",
+  "uncovered_readers": [
+   "compute_summary_arrays._hf_perdrive (soc-balanced fuel dSoC, last minus first: interior spike has no effect)",
+   "compute_summary_arrays._fcs_snapshot (full-cell case-study SoC)",
+   "compute_summary_arrays._of_grid (warm-up / thermal fuel penalty SoC statistics)",
+   "frame_loader-is-None fallbacks (no effect when the frame loader is supplied)",
+   "energy_mc_precompute (start/end SoC and a coulomb cross-check; _series path to be confirmed)",
+   "recon_engine (first-to-last dSoC, unaffected)",
+   "m119v2_model (frozen, hash-gated; sees the glitch at 1 Hz)"
+  ],
+  "no_time_guard_in_uncovered_readers": true,
+  "ref": "CHANGELOG M388c, M390"
+ },
  "last_n": 30,
  "shift_last_n_vs_rest": {
   "gross_throughput_kwh": {
