@@ -14,6 +14,53 @@ KEY = ["gross_throughput_kwh", "distance_km", "engine_on_pct", "ev_dist_pct", "s
        "speed_mean_moving", "rf_n_cycles", "peak_discharge_kw", "peak_I_charge", "n_I_samples", "I_sample_period_s"]
 
 
+UNCOVERED_SOC_READERS = [   # M390 blind audit: raw-bytes readers of the SoC PID outside the frame loader / _series / the two patched rainflow functions
+    "compute_summary_arrays._hf_perdrive (soc-balanced fuel dSoC, last minus first: interior spike has no effect)",
+    "compute_summary_arrays._fcs_snapshot (full-cell case-study SoC)", "compute_summary_arrays._of_grid (warm-up / thermal fuel penalty SoC statistics)",
+    "frame_loader-is-None fallbacks (no effect when the frame loader is supplied)",
+    "energy_mc_precompute (start/end SoC and a coulomb cross-check; _series path to be confirmed)",
+    "recon_engine (first-to-last dSoC, unaffected)", "m119v2_model (frozen, hash-gated; sees the glitch at 1 Hz)"]
+
+
+def soc_spike_block(dm):
+    """M390 (analyses/M390_spec.md): single-sample SoC logger-glitch rejection, counted from the raw files with the shared rule (soc_spike.py)."""
+    import re, glob
+    sys.path.insert(0, ROOT)
+    import soc_spike as S
+    raw_dir = os.environ.get("XT_RAW_DIR") or P("raw")
+    if not os.path.isdir(raw_dir):
+        return {"status": "not computed: raw directory not available"}
+    dg = lambda n: re.sub(r"\D", "", os.path.basename(n))
+    idx = {dg(f): f for f in glob.glob(os.path.join(raw_dir, "*.csv"))}
+    n_files = n_int = 0; flagged = []; near = []
+    for f in dm["file"].astype(str):
+        path = idx.get(dg(f))
+        if not path:
+            continue
+        try:
+            d = pd.read_csv(path, usecols=["time", S.SOC_RAW_COL], low_memory=False)
+        except Exception:
+            continue
+        t = pd.to_datetime(d["time"], format="mixed", errors="coerce")
+        m = d[S.SOC_RAW_COL].notna() & t.notna()
+        if m.sum() < 3:
+            continue
+        v = d.loc[m, S.SOC_RAW_COL].to_numpy(float)
+        ts = ((t[m] - pd.Timestamp("1900-01-01")).dt.total_seconds()).to_numpy()
+        n_files += 1; n_int += int(len(v) - 1)
+        with_t, no_t = S.soc_spike_mask(v, ts), S.soc_spike_mask(v)
+        for i in np.where(with_t)[0]:
+            flagged.append({"file": f, "values": [float(v[i - 1]), float(v[i]), float(v[i + 1])],
+                            "interval_before_s": round(float(ts[i] - ts[i - 1]), 3), "interval_after_s": round(float(ts[i + 1] - ts[i]), 3)})
+        for i in np.where(no_t & ~with_t)[0]:
+            near.append({"file": f, "values": [float(v[i - 1]), float(v[i]), float(v[i + 1])]})
+    return {"rule": {"jump_pp": S.SOC_SPIKE_JUMP_PP, "neighbour_tol_pp": S.SOC_SPIKE_NEIGHBOUR_TOL_PP, "short_side_s": S.SOC_SPIKE_MAX_GAP_S, "verified": False,
+                     "basis": "fixed, not tuned; a >=20 pp move within 5 s would imply roughly 300 kW if CAP_KWH=2.1 (verified:false), above the 150 kW motor rating (unverified); order-of-magnitude plausibility bound"},
+            "files_with_soc": n_files, "intervals": n_int, "n_flagged": len(flagged), "flagged": flagged, "n_failing_only_time_guard": len(near), "failing_only_time_guard": near,
+            "treatment": "logger glitch flagged as missing in the frame loader, per-drive code and the two rainflow functions; study figures are not corrected",
+            "uncovered_readers": UNCOVERED_SOC_READERS, "no_time_guard_in_uncovered_readers": True, "ref": "CHANGELOG M388c, M390"}
+
+
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--last", type=int, default=30); a = ap.parse_args()
     dm = pd.read_csv(P("drive_master.csv"), low_memory=False)
@@ -61,6 +108,7 @@ def main():
                            "-100 degC from 2026-08-24 10:46:12; the master NaNs it via the lo=-40 bound. Pack sensors 1-4 checked: no "
                            "evidence of change. Cold-start flag (warmupPoints) maps NaN to False = no data, not warm.",
                 "ref": "CHANGELOG M319"}}
+    out["soc_spike"] = soc_spike_block(dm)
     out["last_n"] = a.last
     out["shift_last_n_vs_rest"] = shift
     out["shift_flags"] = [c for c, d in shift.items() if abs(d["smd"]) > 0.5 or d.get("ks", 0) > 0.4]

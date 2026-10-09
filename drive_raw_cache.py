@@ -42,6 +42,8 @@ import time as _time
 
 import pandas as pd
 
+from soc_spike import despike_frame      # M390 (analyses/M390_spec.md)
+
 SCHEMA_VERSION = 7
 
 # Union of raw columns consumed by all five raw passes (see module docstring).
@@ -215,7 +217,7 @@ def make_frame_loader(cache_dir=CACHE_DIR, verify_schema=True, raw_dir=None):
             src = os.path.join(raw_dir, fname)
             if os.path.exists(src) and _raw_md5(src) != payload.get('src_md5'):
                 return None
-        return payload['df']
+        return despike_frame(payload['df'])      # M390: single-sample SoC logger glitch -> NaN (row alignment kept)
     return _load
 
 

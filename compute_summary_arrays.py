@@ -4917,7 +4917,7 @@ def _k_ladder_scenarios(dm, raw_loader, frame_loader, fade_capacity,
         t = _ft(df['time'], mixed=True)
         v = pd.to_numeric(df[_SOC_RAW], errors='coerce')
         s = pd.DataFrame({'t': t, 'v': v}).dropna().sort_values('t')
-        s = s[~_v6.soc_spike_mask(s['v'].to_numpy())]   # M388c
+        s = s[~_v6.soc_spike_mask(s['v'].to_numpy(), s['t'].to_numpy())]   # M388c / M390
         if len(s) < 10:                      # M17 rainflow eligibility gate
             continue
         cyc = list(_rainflow.extract_cycles(s['v'].values))
@@ -5094,7 +5094,7 @@ def _rf_dod_histogram(dm, raw_loader, frame_loader=None, floor_pct=None):
         t = _ft(df['time'], mixed=True)
         v = pd.to_numeric(df[_SOC_RAW], errors='coerce')
         s = pd.DataFrame({'t': t, 'v': v}).dropna().sort_values('t')
-        s = s[~_v6.soc_spike_mask(s['v'].to_numpy())]   # M388c
+        s = s[~_v6.soc_spike_mask(s['v'].to_numpy(), s['t'].to_numpy())]   # M388c / M390
         if len(s) < 10:                      # M17 rainflow eligibility gate
             continue
         cyc = list(_rainflow.extract_cycles(s['v'].values))
