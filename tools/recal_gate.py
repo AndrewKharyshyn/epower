@@ -30,11 +30,23 @@ def _hours(d):
     return h.fillna(d["duration_s"] / 3600.0)
 
 
-def _offset_parts(d, two_pass):
-    """Per-row numerator/denominator of I_offset = sum(resid)*1000 / sum(V*h) on the eligible rows."""
+def _offset_eligible(d, two_pass):
+    """Rows the offset estimator fits on: pass 1 = M13 of compute_drive_summary_v6._v5_postprocess_master (residual, duration and median pack voltage present);
+    pass 2 (two_pass) additionally drops f_domain_2p (= ens_invalid = ens_outlier_v2, the canonical exclusion, derived after pass 1)."""
     m = d["energy_residual_kwh"].notna() & d["duration_s"].notna() & d["V_pack_median"].notna()
     if two_pass:
         m &= ~d["f_domain_2p"].fillna(False).astype(bool)
+    return m
+
+
+def _fit_counts(d, two_pass):
+    m = _offset_eligible(d, two_pass)
+    return {"n_drives": int(m.sum()), "n_days": int(d.loc[m, "date"].astype(str).nunique())}
+
+
+def _offset_parts(d, two_pass):
+    """Per-row numerator/denominator of I_offset = sum(resid)*1000 / sum(V*h) on the eligible rows."""
+    m = _offset_eligible(d, two_pass)
     h = _hours(d)
     num = (d["energy_residual_kwh"] * 1000.0).where(m, 0.0)
     den = (d["V_pack_median"] * h).where(m, 0.0)
@@ -139,7 +151,8 @@ def evaluate(dm_old, dm_new, diffs_before):
     new_rows, old_in_new = dm_new[~is_old], dm_new[is_old]
     rep = {"method": f"day-clustered percentile bootstrap, seed {SEED}, {N_BOOT} draws, calendar day = cluster; ratio of sums",
            "n_new_drives": int(len(new_rows)), "n_old_drives": int(len(dm_old)),
-           "n_days_old": int(dm_old["date"].astype(str).nunique()), "columns_changed_rows": diffs_before, "tests": []}
+           "n_days_old": int(dm_old["date"].astype(str).nunique()), "columns_changed_rows": diffs_before, "tests": [],
+           "n_note": "n_old_drives / n_days_old count ALL rows of the previous master; the offset fits use the eligible rows of each test (fit_old / fit_new: pass 1 = M13 eligibility, pass 2 additionally excludes f_domain_2p = ens_outlier_v2)"}
     for label, col, tp in (("I_offset_A", "I_offset_A_applied", False), ("I_offset_2p_A", "I_offset_2p_A_applied", True)):
         num, den = _offset_parts(dm_old, tp)
         ci, est = _boot_ratio(dm_old["date"].astype(str), num, den, rng)
@@ -148,6 +161,7 @@ def evaluate(dm_old, dm_new, diffs_before):
         nn, nd = _offset_parts(new_rows, tp)
         only = float(nn.sum() / nd.sum()) if nd.sum() > 0 else None
         t = _judge(label, old, new, only, ci)
+        t["fit_old"], t["fit_new"] = _fit_counts(dm_old, tp), _fit_counts(new_rows, tp)
         t["recomputed_old_point_estimate"] = est          # sanity: reproduces the stored old value up to rounding
         rep["tests"].append(t)
     so, sn, snew = _spread_xy(dm_old), _spread_xy(dm_new), _spread_xy(new_rows)
