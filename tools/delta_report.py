@@ -61,8 +61,15 @@ def main():
     gclo = json.load(open(gc, encoding="utf-8")) if os.path.exists(gc) else None
     if gclo:
         flags += [f"gtrClosure: {x['rule']} @ {x['path']}" for x in gclo.get("stops", [])] + [f"gtrClosure: {x['rule']} @ {x['path']}" for x in gclo.get("escalations", [])]
+    dmon = P("analyses/dissipation_monitor.json")     # M394: report-only monitor of the unfuelled dissipation mode; INFORMATIONAL, never in flags / route_to_audit
+    dis = None
+    if os.path.exists(dmon):
+        dd = json.load(open(dmon, encoding="utf-8")); lu = dd.get("last_update", {})
+        dis = {"informational": "report-only (M394): never routes to audit; list the flags in the CHANGELOG acknowledgement", "n_new_drives": lu.get("n_new_drives"),
+               "n_flags": lu.get("n_flags"), "flags": [x for x in lu.get("flags", []) if not x.get("info")],
+               "validation_gap_bands": (dd.get("summary") or {}).get("validation_gap_bands_without_sustained_event")}
     out = {"generated_utc": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"), "has_baseline": bool(prev),
-           "flags": flags, "route_to_audit": bool(flags), "kpis": rep, "gtrFamily": gtr, "gtrClosure": gclo}
+           "flags": flags, "route_to_audit": bool(flags), "kpis": rep, "gtrFamily": gtr, "gtrClosure": gclo, "dissipationMonitor": dis}
     json.dump(out, open(P("delta_report.json"), "w"), indent=1)
     print(json.dumps({"has_baseline": out["has_baseline"], "route_to_audit": out["route_to_audit"], "flags": flags}, indent=1))
     if a.commit:
