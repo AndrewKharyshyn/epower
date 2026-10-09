@@ -1,0 +1,271 @@
+{
+ "seed": 42,
+ "n_boot": 4000,
+ "model": "R ~ 1 + months + T_pack_mean_avg + vreg_I_p95_A [+ covariates]; day-clustered percentile bootstrap",
+ "A_reproduction": {
+  "stored_powerFade": {
+   "basis": "vreg_R_pack_mohm",
+   "rMedianMohm": 129.0,
+   "rP25Mohm": 116.9,
+   "rP75Mohm": 142.2,
+   "nClean": 242,
+   "nAllRows": 242,
+   "slopeMohmPerMoTctrl": 0.552,
+   "ci95MohmPerMo": [
+    -0.929,
+    2.124
+   ],
+   "pSlopeGt0": 0.776,
+   "bTMohmPerDegC": -2.756,
+   "nBoot": 4000,
+   "cadenceControlled": true,
+   "windowMo": 4.8,
+   "mdeMohmPerMo": 1.526,
+   "mdeRisePctPerYr": 14.2,
+   "horizonBasis": "SE(slope) ~ T^-1.5 at constant logging cadence; assumes homogeneous residual variance and linear fade. Planning figure, not a measurement.",
+   "note": "M25/M56/M170. Temperature- and sampling-cadence-controlled V-regression resistance trend. The 95 % day-cluster interval spans zero: no statistically detectable power fade in this window. Sampling cadence IS controlled (M170): HV-current logging density -- which changed mid-corpus with the PID configuration and otherwise biases this load-excited proxy upward -- is held constant in the trend. Absolute level is a load-excited in-drive proxy, NOT relaxed-OCV resistance, and is available on only a selected subset of drives - use for trend, never as an absolute SOH measurement."
+  },
+  "pipeline_function_now": {
+   "R_basis": "vreg_R_pack_mohm",
+   "R_median_mohm": 129.0,
+   "slope_mohm_per_month_Tctrl": 0.552,
+   "bT_mohm_per_degC": -2.756,
+   "boot_ci95_mohm_per_month": [
+    -0.929,
+    2.124
+   ],
+   "p_slope_gt0": 0.776,
+   "n_clean": 242,
+   "n_boot": 4000,
+   "cadence_controlled": true
+  },
+  "own_M1_published_design": {
+   "slope": 0.5518,
+   "n": 242,
+   "n_days": 89,
+   "ci95": [
+    -0.929,
+    2.124
+   ],
+   "p_slope_gt0": 0.776,
+   "n_boot": 4000
+  },
+  "own_matches_pipeline_slope": true,
+  "cluster_robust_ols_M1": {
+   "slope": 0.5518,
+   "ci95": [
+    -0.88,
+    1.984
+   ],
+   "p": 0.4501,
+   "n_clusters": 89
+  }
+ },
+ "B_specification_sensitivity": {
+  "era_counts": {
+   "slow": 152,
+   "fast1": 67,
+   "fast2": 23
+  },
+  "era_R_median_mohm": {
+   "fast1": 132.2,
+   "fast2": 154.8,
+   "slow": 124.1
+  },
+  "era_dens_eff_median_s": {
+   "fast1": 0.784,
+   "fast2": 0.839,
+   "slow": 1.252
+  },
+  "M0_no_cadence_covariate": {
+   "slope": 0.9887,
+   "n": 242,
+   "n_days": 89,
+   "ci95": [
+    -0.294,
+    2.233
+   ],
+   "p_slope_gt0": 0.931,
+   "n_boot": 4000
+  },
+  "M1_published_density": {
+   "slope": 0.5518,
+   "n": 242,
+   "n_days": 89,
+   "ci95": [
+    -0.929,
+    2.124
+   ],
+   "p_slope_gt0": 0.776,
+   "n_boot": 4000
+  },
+  "M2_regime_dummies": {
+   "slope": -0.0317,
+   "n": 242,
+   "n_days": 89,
+   "ci95": [
+    -1.633,
+    1.605
+   ],
+   "p_slope_gt0": 0.509,
+   "n_boot": 4000
+  },
+  "M3_density_plus_dummies": {
+   "slope": -0.2317,
+   "n": 242,
+   "n_days": 89,
+   "ci95": [
+    -1.895,
+    1.445
+   ],
+   "p_slope_gt0": 0.41,
+   "n_boot": 4000
+  },
+  "M4_published_model_to_2026-09-30": {
+   "slope": 0.2419,
+   "n": 217,
+   "n_days": 81,
+   "ci95": [
+    -1.365,
+    2.019
+   ],
+   "p_slope_gt0": 0.621,
+   "n_boot": 4000
+  },
+  "M5_slow_only_no_covariate": {
+   "slope": 0.1981,
+   "n": 152,
+   "n_days": 62,
+   "ci95": [
+    -1.366,
+    1.859
+   ],
+   "p_slope_gt0": 0.617,
+   "n_boot": 4000
+  },
+  "M6_before_latest_change_fast1_dummy": {
+   "slope": 0.0773,
+   "n": 217,
+   "n_days": 81,
+   "ci95": [
+    -1.57,
+    1.829
+   ],
+   "p_slope_gt0": 0.539,
+   "n_boot": 4000
+  }
+ },
+ "C_emulation": {
+  "n_fast_clean": 90,
+  "n_fast_clean_emulated": 61,
+  "seeds": 3,
+  "slow_pool_drives": 40,
+  "n_fast_lose_proxy_at_slow_sampling": 29,
+  "lose_proxy_by_era": {
+   "fast1": 15,
+   "fast2": 14
+  },
+  "paired_diff_fast1": {
+   "n": 52,
+   "n_days": 20,
+   "mean_emulated_minus_original_mohm": -1.545,
+   "median": -1.678,
+   "ci95_day_clustered": [
+    -2.29,
+    -0.658
+   ],
+   "original_mean": 133.0
+  },
+  "paired_diff_fast2": {
+   "n": 9,
+   "n_days": 5,
+   "mean_emulated_minus_original_mohm": -1.738,
+   "median": -1.407,
+   "ci95_day_clustered": [
+    -3.321,
+    -0.59
+   ],
+   "original_mean": 153.57
+  },
+  "same_drive_set": {
+   "n": 213,
+   "original_M0": {
+    "slope": 0.9996,
+    "n": 213,
+    "n_days": 86,
+    "ci95": [
+     -0.359,
+     2.381
+    ],
+    "p_slope_gt0": 0.93,
+    "n_boot": 4000
+   },
+   "emulated_M0": {
+    "slope": 0.7084,
+    "n": 213,
+    "n_days": 86,
+    "ci95": [
+     -0.631,
+     2.073
+    ],
+    "p_slope_gt0": 0.857,
+    "n_boot": 4000
+   },
+   "original_published_design": {
+    "slope": 0.4829,
+    "n": 213,
+    "n_days": 86,
+    "ci95": [
+     -0.979,
+     2.069
+    ],
+    "p_slope_gt0": 0.749,
+    "n_boot": 4000
+   },
+   "emulated_published_design": {
+    "slope": 0.4078,
+    "n": 213,
+    "n_days": 86,
+    "ci95": [
+     -0.998,
+     1.914
+    ],
+    "p_slope_gt0": 0.724,
+    "n_boot": 4000
+   }
+  },
+  "slow_equivalent_M0_no_covariate": {
+   "slope": 0.7604,
+   "n": 242,
+   "n_days": 89,
+   "ci95": [
+    -0.544,
+    1.989
+   ],
+   "p_slope_gt0": 0.873,
+   "n_boot": 4000
+  },
+  "original_M0_same_drives": {
+   "slope": 0.9887,
+   "n": 242,
+   "n_days": 89,
+   "ci95": [
+    -0.294,
+    2.233
+   ],
+   "p_slope_gt0": 0.931,
+   "n_boot": 4000
+  },
+  "slow_equivalent_published_design": {
+   "slope": 0.3987,
+   "n": 242,
+   "n_days": 89,
+   "ci95": [
+    -1.031,
+    1.849
+   ],
+   "p_slope_gt0": 0.723,
+   "n_boot": 4000
+  }
+ }
+}
