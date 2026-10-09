@@ -10,6 +10,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 os.chdir(ROOT); sys.path.insert(0, ROOT)
 os.environ.setdefault("XT_RAW_DIR", os.path.join(ROOT, "raw"))
 import numpy as np, pandas as pd
+from drive_raw_cache import fast_time as _ft   # M386 (audit F21): exact, faster replacement of pd.to_datetime on raw time strings
 import recon_engine as RE, fuel_recon as FR, model_constants as MC
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 from gtr_closure_diag import _norm, _raw_names
@@ -25,7 +26,7 @@ def load(raw, off):
     df = pd.read_csv(RE.BASE + raw, low_memory=False, usecols=lambda c: c in ("time", TQ_COL))
     g["tq"] = np.nan
     if TQ_COL in df.columns:
-        t = pd.to_datetime(df["time"], errors="coerce")
+        t = _ft(df["time"])
         s = RE._ser(df, t, TQ_COL)
         if s is not None:
             gg = pd.merge_asof(g[["t"]], s.rename(columns={"v": "tq"}), on="t", direction="nearest", tolerance=pd.Timedelta("1500ms"))

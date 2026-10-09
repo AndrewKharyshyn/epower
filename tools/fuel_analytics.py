@@ -10,6 +10,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 os.chdir(ROOT); sys.path.insert(0, ROOT)
 os.environ.setdefault("XT_RAW_DIR", os.path.join(ROOT, "raw"))
 import numpy as np, pandas as pd
+from drive_raw_cache import fast_time as _ft   # M386 (audit F21): exact, faster replacement of pd.to_datetime on raw time strings
 import recon_engine as RE
 
 ARR = os.path.join(ROOT, "summary_arrays.json")
@@ -41,7 +42,7 @@ def temp_band(x):
 
 def read_trip(path):
     df = pd.read_csv(path, low_memory=False)
-    t = pd.to_datetime(df["time"], errors="coerce")
+    t = _ft(df["time"])
     out = {"colCounter": CNT in df.columns, "colRate": RATE in df.columns}
     c = pd.to_numeric(df[CNT], errors="coerce") if CNT in df.columns else pd.Series(dtype=float)
     r = pd.to_numeric(df[RATE], errors="coerce") if RATE in df.columns else pd.Series(dtype=float)

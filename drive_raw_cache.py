@@ -114,6 +114,20 @@ CACHE_DIR = 'raw_cache'
 MANIFEST = 'manifest.json'
 
 
+def fast_time(s, mixed=False):
+    """M386 (audit F21): drop-in for pd.to_datetime(s, errors='coerce'[, format='mixed']) on a raw 'time' column. dateutil parsing of ~10-12 million
+    HH:MM:SS.fraction strings dominated tools/fuel_analytics.py (~90 %) and tools/regen_seasonal_raw.py (~40 %). Fast path: explicit format; the result is moved
+    to the date the inferring parse assigns (TODAY), so it equals the original ABSOLUTELY (consumers combine it with other parses; see M383a). Any other form,
+    a malformed row, or non-string input (already datetime64) takes the original call on the whole column, so semantics are unchanged."""
+    try:
+        if len(s) and (s.dtype == object or str(s.dtype).startswith("str")):
+            t = pd.to_datetime(s, format="%H:%M:%S.%f", errors="raise")
+            return t + (pd.Timestamp.now().normalize() - pd.Timestamp("1900-01-01"))
+    except (ValueError, TypeError):
+        pass
+    return pd.to_datetime(s, errors="coerce", format="mixed") if mixed else pd.to_datetime(s, errors="coerce")
+
+
 def _md5(b):
     return hashlib.md5(b).hexdigest()
 

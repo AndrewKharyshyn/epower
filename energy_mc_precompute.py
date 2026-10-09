@@ -55,6 +55,7 @@ itself, test the ALGORITHM's own accuracy, which is what M220.1 adds.
 import json
 import numpy as np
 import pandas as pd
+from drive_raw_cache import fast_time as _ft   # M386 (audit F21): exact, faster replacement of pd.to_datetime on raw time strings
 
 # ---- constants, copied verbatim from compute_drive_summary_v6.py so this
 # independent re-implementation exercises the SAME algorithm, not a redrafted
@@ -555,7 +556,7 @@ def build(raw_dir, dm, tol_grid_ms=TOL_GRID_MS, offset_point_a=OFFSET_POINT_A):
             rows.append({'file': r['file'], 'error': repr(e)})
             continue
         raw = raw.rename(columns=COL_MAP)
-        t = pd.to_datetime(raw['time'], format='mixed', errors='coerce')
+        t = _ft(raw['time'], mixed=True)
         I = _series(raw, t, 'I')
         I = I[I['v'].abs() < 900] if I is not None else None
         V = _series(raw, t, 'V', lo=200, hi=450)
