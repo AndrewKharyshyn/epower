@@ -189,8 +189,12 @@ ok("A2 REQUIRED M373 wording fixes: buffer sentence (urban larger charge-and-dri
                                 "is not higher than 90\u2013120", "Sensitivity \u2014 single-axis perturbations", "on every single axis (point values). The previous table (M279 basis) had %d of %d axes at or above 0.5" % (_rb3["sensitivity"]["previousBlock"]["nAxesFgenAtOrAbove0p5"], _rb3["sensitivity"]["previousBlock"]["nAxes"]),
                                 "the logged key-on standstill draw", "the drive-type chart above counts every headline drive")))
 _fg3 = [r["fgen"] for r in _G3["sensitivity"]]
-ok("A2 REQUIRED M373 sensitivity previous-table disclosure is TRUE: the margin of the highest axis to 0.5 is smaller than the combined drift, and the refreshed table has no axis at or above 0.5",
-   max(_fg3) < 0.5 and (0.5 - max(_fg3)) < _rb3["sensitivity"]["previousBlock"]["combinedDriftMaxAbsFgen_R_minus_published"] and _rb3["sensitivity"]["previousBlock"]["nAxesFgenAtOrAbove0p5"] == 3)
+_pb3 = _rb3["sensitivity"]["previousBlock"]
+_mg3 = 0.5 - max(_fg3)
+_rel3 = "is smaller than" if _mg3 < _pb3["combinedDriftMaxAbsFgen_R_minus_published"] else "is not smaller than"      # M388: the relation word follows the payload numbers
+ok("A2 REQUIRED M373 sensitivity previous-table disclosure is TRUE: the refreshed table has no axis at or above 0.5, the previous table had 3, and the rendered margin-vs-drift relation (smaller / not smaller) matches the payload numbers",
+   max(_fg3) < 0.5 and _pb3["nAxesFgenAtOrAbove0p5"] == 3
+   and "the margin of the highest axis to 0.5 here (%.3f) %s that drift (%s)" % (_mg3, _rel3, _pb3["combinedDriftMaxAbsFgen_R_minus_published"]) in _all3)
 _l4, _l5 = _G3["limitations"][4], _G3["limitations"][5]
 ok("A2 REQUIRED M373 limitations[4] and [5]: refreshed-at-M373 wording present, crossval no longer called 'current', most urban engine-on time is charge-and-drive or fully banked (TRUE)",
    "refreshed at M373 on raw/ = sha256-verified originals (M366) as descriptive point values with no interval" in _l4 and "the M265 fix did not change them" in _l4

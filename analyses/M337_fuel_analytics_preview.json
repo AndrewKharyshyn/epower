@@ -3,23 +3,23 @@
  "schemaVersion": 1,
  "basis": "logged/app-calculated fuel counter and rate (Car Scanner ELM OBD2); raw/ = sha256-verified originals (M366); not M299-reproducible",
  "inputs": {
-  "driveMasterMd5": "7c3bc9883f223e8a488b84ad053e13b5"
+  "driveMasterMd5": "64dfd0cbff3db404d9b83e180f777525"
  },
  "method": "day-clustered percentile bootstrap (seed 42, 4000 draws), ratio-of-sums; day = trip start date; interval only with >=7 distinct days (5-6 low-cluster, <5 points only)",
  "reconciliation": {
-  "canonicalDrives": 524,
-  "fuelContractUsable": 270,
+  "canonicalDrives": 554,
+  "fuelContractUsable": 298,
   "removedByCanonicalCleanMask": 1,
   "excludedReset": 0,
-  "analysisEligible": 269,
+  "analysisEligible": 297,
   "kmBelow0p5NotInRatePanels": 3,
-  "fuel01Trips": 266,
-  "fuel11PrimaryTrips": 189,
+  "fuel01Trips": 294,
+  "fuel11PrimaryTrips": 215,
   "auditReference": 234,
   "withoutFuelData": {
    "noCounterColumn": 226,
-   "counterFlatOrRateUnusable": 28,
-   "flatShareUnder2km": 0.857,
+   "counterFlatOrRateUnusable": 30,
+   "flatShareUnder2km": 0.867,
    "note": "selection on a counter increment > 0 is resolution-driven and may bias short-trip band rates upward"
   },
   "noRaw": 0,
@@ -31,79 +31,79 @@
  "fuel12": {
   "definition": "sum(V_int - V_cnt)/sum(V_cnt); positive = rate integral above counter; V_cnt = counter(last valid) - counter(first valid); V_int = rate integral on the rate's own valid sample times inside that window, each step using the time since the PREVIOUS valid rate sample (for the first in-window sample that sample may lie before the window), dt capped at 5 s",
   "aggregate": {
-   "est": 0.00142,
+   "est": 0.00135,
    "ci95": [
-    0.00054,
-    0.00221
+    0.00052,
+    0.00211
    ],
-   "nTrips": 269,
-   "nDays": 52
+   "nTrips": 297,
+   "nDays": 56
   },
-  "alsoOverMeanVolume": 0.00142,
+  "alsoOverMeanVolume": 0.00135,
   "perTripRelMedianIqr": [
    1e-05,
    -2e-05,
-   0.00142
+   0.00129
   ],
-  "nRelativeShown": 262,
+  "nRelativeShown": 290,
   "nBelowFloor": 7,
   "nFlag5pct": 0,
   "integrationVariants": {
    "trapezoid": {
-    "est": 0.00133,
+    "est": 0.00127,
     "ci95": [
-     0.0004,
-     0.00213
+     0.00037,
+     0.00204
     ],
-    "nTrips": 269,
-    "nDays": 52
+    "nTrips": 297,
+    "nDays": 56
    },
    "cap2s": {
-    "est": -0.00181,
+    "est": -0.00175,
     "ci95": [
-     -0.00666,
-     0.0008
+     -0.00632,
+     0.00068
     ],
-    "nTrips": 269,
-    "nDays": 52
+    "nTrips": 297,
+    "nDays": 56
    },
    "cap10s": {
-    "est": 0.00142,
+    "est": 0.00135,
     "ci95": [
-     0.00054,
-     0.00221
+     0.00052,
+     0.00211
     ],
-    "nTrips": 269,
-    "nDays": 52
+    "nTrips": 297,
+    "nDays": 56
    },
    "gapFreeTripsBase": {
-    "est": 0.0014,
+    "est": 0.00135,
     "ci95": [
-     0.00051,
-     0.00221
+     0.00048,
+     0.00212
     ],
-    "nTrips": 260,
-    "nDays": 51
+    "nTrips": 286,
+    "nDays": 55
    },
    "gappedTripsBase": {
-    "est": 0.00206,
+    "est": 0.00143,
     "ci95": [
-     -0.0002,
-     0.00496
+     -0.00013,
+     0.00425
     ],
-    "nTrips": 9,
-    "nDays": 7
+    "nTrips": 11,
+    "nDays": 8
    }
   },
   "f03Sensitivity": {
    "hashPass": {
-    "est": 0.00205,
+    "est": 0.00186,
     "ci95": [
-     0.00064,
-     0.00287
+     0.00054,
+     0.00271
     ],
-    "nTrips": 172,
-    "nDays": 37
+    "nTrips": 200,
+    "nDays": 41
    },
    "hashFail": {
     "est": 0.00068,
@@ -135,17 +135,17 @@
   "bands": [
    {
     "band": "0.5-2",
-    "nTrips": 77,
-    "nDays": 34,
+    "nTrips": 79,
+    "nDays": 36,
     "support": "ci",
     "pooledL100": {
-     "est": 10.13427,
+     "est": 9.98597,
      "ci95": [
-      9.01848,
-      11.33623
+      8.86891,
+      11.21869
      ],
-     "nTrips": 77,
-     "nDays": 34
+     "nTrips": 79,
+     "nDays": 36
     },
     "byStartTemp": {
      "<40C": {
@@ -163,90 +163,90 @@
       }
      },
      "40-60C": {
-      "nTrips": 32,
-      "nDays": 20,
+      "nTrips": 33,
+      "nDays": 21,
       "support": "ci",
       "pooledL100": {
-       "est": 7.89676,
+       "est": 7.82109,
        "ci95": [
-        6.88192,
-        8.9223
+        6.8563,
+        8.85194
        ],
-       "nTrips": 32,
-       "nDays": 20
+       "nTrips": 33,
+       "nDays": 21
       }
      },
      ">=60C": {
-      "nTrips": 16,
-      "nDays": 11,
+      "nTrips": 17,
+      "nDays": 12,
       "support": "ci",
       "pooledL100": {
-       "est": 7.24599,
+       "est": 7.11118,
        "ci95": [
-        6.47883,
-        7.97571
+        6.36811,
+        7.82719
        ],
-       "nTrips": 16,
-       "nDays": 11
+       "nTrips": 17,
+       "nDays": 12
       }
      }
     }
    },
    {
     "band": "2-5",
-    "nTrips": 110,
-    "nDays": 39,
+    "nTrips": 132,
+    "nDays": 43,
     "support": "ci",
     "pooledL100": {
-     "est": 7.54189,
+     "est": 7.55776,
      "ci95": [
-      7.17053,
-      7.99304
+      7.22783,
+      7.94646
      ],
-     "nTrips": 110,
-     "nDays": 39
+     "nTrips": 132,
+     "nDays": 43
     },
     "byStartTemp": {
      "<40C": {
-      "nTrips": 44,
-      "nDays": 31,
+      "nTrips": 51,
+      "nDays": 35,
       "support": "ci",
       "pooledL100": {
-       "est": 9.76066,
+       "est": 10.02393,
        "ci95": [
-        9.08598,
-        10.449
+        9.37552,
+        10.67886
        ],
-       "nTrips": 44,
-       "nDays": 31
+       "nTrips": 51,
+       "nDays": 35
       }
      },
      "40-60C": {
-      "nTrips": 37,
-      "nDays": 23,
+      "nTrips": 44,
+      "nDays": 27,
       "support": "ci",
       "pooledL100": {
-       "est": 6.40651,
+       "est": 6.29775,
        "ci95": [
-        5.99807,
-        6.75657
+        5.91972,
+        6.64516
        ],
-       "nTrips": 37,
-       "nDays": 23
+       "nTrips": 44,
+       "nDays": 27
       }
      },
      ">=60C": {
-      "nTrips": 29,
-      "nDays": 19,
+      "nTrips": 37,
+      "nDays": 21,
       "support": "ci",
       "pooledL100": {
-       "est": 5.94377,
+       "est": 5.95966,
        "ci95": [
-        5.32672,
-        6.68671
+        5.42814,
+        6.57032
        ],
-       "nTrips": 29,
-       "nDays": 19
+       "nTrips": 37,
+       "nDays": 21
       }
      }
     }
@@ -303,17 +303,17 @@
    },
    {
     "band": "10-20",
-    "nTrips": 28,
-    "nDays": 23,
+    "nTrips": 30,
+    "nDays": 25,
     "support": "ci",
     "pooledL100": {
-     "est": 5.1713,
+     "est": 5.11163,
      "ci95": [
-      4.83977,
-      5.52596
+      4.79033,
+      5.44124
      ],
-     "nTrips": 28,
-     "nDays": 23
+     "nTrips": 30,
+     "nDays": 25
     },
     "byStartTemp": {
      "<40C": {
@@ -331,48 +331,48 @@
       }
      },
      "40-60C": {
-      "nTrips": 11,
-      "nDays": 10,
+      "nTrips": 12,
+      "nDays": 11,
       "support": "ci",
       "pooledL100": {
-       "est": 5.41947,
+       "est": 5.35667,
        "ci95": [
-        4.80642,
-        6.0783
+        4.74912,
+        5.96833
        ],
-       "nTrips": 11,
-       "nDays": 10
+       "nTrips": 12,
+       "nDays": 11
       }
      },
      ">=60C": {
-      "nTrips": 8,
-      "nDays": 8,
+      "nTrips": 9,
+      "nDays": 9,
       "support": "ci",
       "pooledL100": {
-       "est": 5.37548,
+       "est": 5.19476,
        "ci95": [
-        4.51071,
-        6.31744
+        4.43177,
+        6.11532
        ],
-       "nTrips": 8,
-       "nDays": 8
+       "nTrips": 9,
+       "nDays": 9
       }
      }
     }
    },
    {
     "band": "20+",
-    "nTrips": 28,
-    "nDays": 16,
+    "nTrips": 30,
+    "nDays": 17,
     "support": "ci",
     "pooledL100": {
-     "est": 5.11763,
+     "est": 5.0926,
      "ci95": [
-      4.71766,
-      5.45114
+      4.69166,
+      5.43162
      ],
-     "nTrips": 28,
-     "nDays": 16
+     "nTrips": 30,
+     "nDays": 17
     },
     "byStartTemp": {
      "<40C": {
@@ -390,17 +390,17 @@
       }
      },
      "40-60C": {
-      "nTrips": 6,
-      "nDays": 6,
-      "support": "low-cluster CI",
+      "nTrips": 8,
+      "nDays": 7,
+      "support": "ci",
       "pooledL100": {
-       "est": 5.00974,
+       "est": 4.90321,
        "ci95": [
-        4.75107,
-        5.32164
+        4.65628,
+        5.21887
        ],
-       "nTrips": 6,
-       "nDays": 6
+       "nTrips": 8,
+       "nDays": 7
       }
      },
      ">=60C": {
@@ -421,13 +421,13 @@
    }
   ],
   "pooledAll": {
-   "est": 5.81063,
+   "est": 5.81105,
    "ci95": [
-    5.56357,
-    6.14545
+    5.58337,
+    6.12424
    ],
-   "nTrips": 266,
-   "nDays": 52
+   "nTrips": 294,
+   "nDays": 56
   },
   "shortTripsNotInRatePanels": {
    "n": 3,
@@ -438,269 +438,269 @@
  "fuel11": {
   "distribution": {
    "primary_km_ge_2": {
-    "nTrips": 189,
-    "nDays": 52,
+    "nTrips": 215,
+    "nDays": 56,
     "support": "ci",
     "est": {
      "tripWeighted": {
-      "q10": 4.326,
-      "q25": 4.975,
-      "q50": 6.0,
-      "q75": 7.838,
-      "q90": 10.355
+      "q10": 4.347,
+      "q25": 4.884,
+      "q50": 5.943,
+      "q75": 7.799,
+      "q90": 10.488
      },
      "distanceWeighted": {
       "q10": 4.219,
-      "q25": 4.613,
-      "q50": 5.16,
+      "q25": 4.571,
+      "q50": 5.154,
       "q75": 5.849,
-      "q90": 7.05
+      "q90": 7.13
      }
     },
     "ci95": {
      "trip_q10": [
-      4.158,
-      4.545
+      4.156,
+      4.537
      ],
      "trip_q25": [
-      4.776,
-      5.154
+      4.73,
+      5.098
      ],
      "trip_q50": [
-      5.673,
-      6.432
+      5.647,
+      6.387
      ],
      "trip_q75": [
-      6.969,
-      8.302
+      7.046,
+      8.264
      ],
      "trip_q90": [
-      9.465,
-      11.288
+      9.537,
+      11.792
      ],
      "dist_q10": [
-      4.126,
-      4.523
+      4.115,
+      4.469
      ],
      "dist_q25": [
       4.455,
-      4.887
+      4.837
+     ],
+     "dist_q50": [
+      4.887,
+      5.673
+     ],
+     "dist_q75": [
+      5.486,
+      6.285
+     ],
+     "dist_q90": [
+      6.436,
+      8.0
+     ]
+    }
+   },
+   "sens_km_ge_0.5": {
+    "nTrips": 294,
+    "nDays": 56,
+    "support": "ci",
+    "est": {
+     "tripWeighted": {
+      "q10": 4.444,
+      "q25": 5.106,
+      "q50": 6.521,
+      "q75": 8.671,
+      "q90": 13.276
+     },
+     "distanceWeighted": {
+      "q10": 4.219,
+      "q25": 4.58,
+      "q50": 5.199,
+      "q75": 6.08,
+      "q90": 7.742
+     }
+    },
+    "ci95": {
+     "trip_q10": [
+      4.215,
+      4.567
+     ],
+     "trip_q25": [
+      4.927,
+      5.462
+     ],
+     "trip_q50": [
+      6.114,
+      6.965
+     ],
+     "trip_q75": [
+      8.16,
+      9.818
+     ],
+     "trip_q90": [
+      11.991,
+      15.056
+     ],
+     "dist_q10": [
+      4.125,
+      4.469
+     ],
+     "dist_q25": [
+      4.469,
+      4.882
      ],
      "dist_q50": [
       4.94,
       5.673
      ],
      "dist_q75": [
-      5.543,
-      6.285
+      5.702,
+      6.692
      ],
      "dist_q90": [
-      6.387,
-      8.002
-     ]
-    }
-   },
-   "sens_km_ge_0.5": {
-    "nTrips": 266,
-    "nDays": 52,
-    "support": "ci",
-    "est": {
-     "tripWeighted": {
-      "q10": 4.447,
-      "q25": 5.16,
-      "q50": 6.649,
-      "q75": 8.752,
-      "q90": 13.0
-     },
-     "distanceWeighted": {
-      "q10": 4.219,
-      "q25": 4.615,
-      "q50": 5.277,
-      "q75": 6.114,
-      "q90": 7.683
-     }
-    },
-    "ci95": {
-     "trip_q10": [
-      4.212,
-      4.596
-     ],
-     "trip_q25": [
-      4.997,
-      5.577
-     ],
-     "trip_q50": [
-      6.248,
-      7.018
-     ],
-     "trip_q75": [
-      8.206,
-      9.946
-     ],
-     "trip_q90": [
-      11.892,
-      14.87
-     ],
-     "dist_q10": [
-      4.126,
-      4.523
-     ],
-     "dist_q25": [
-      4.469,
-      4.941
-     ],
-     "dist_q50": [
-      5.03,
-      5.679
-     ],
-     "dist_q75": [
-      5.679,
-      6.788
-     ],
-     "dist_q90": [
-      6.877,
-      9.034
+      6.895,
+      8.708
      ]
     }
    },
    "sens_km_ge_5": {
-    "nTrips": 79,
-    "nDays": 37,
+    "nTrips": 83,
+    "nDays": 39,
     "support": "ci",
     "est": {
      "tripWeighted": {
-      "q10": 4.19,
-      "q25": 4.597,
-      "q50": 5.098,
-      "q75": 6.024,
-      "q90": 6.984
+      "q10": 4.142,
+      "q25": 4.541,
+      "q50": 5.079,
+      "q75": 5.964,
+      "q90": 6.961
      },
      "distanceWeighted": {
       "q10": 4.219,
-      "q25": 4.571,
-      "q50": 5.098,
+      "q25": 4.539,
+      "q50": 5.079,
       "q75": 5.784,
       "q90": 6.114
      }
     },
     "ci95": {
      "trip_q10": [
-      3.782,
-      4.469
+      3.899,
+      4.443
      ],
      "trip_q25": [
-      4.44,
-      4.807
+      4.374,
+      4.764
      ],
      "trip_q50": [
-      4.887,
-      5.544
+      4.839,
+      5.486
      ],
      "trip_q75": [
-      5.598,
-      6.405
+      5.544,
+      6.387
      ],
      "trip_q90": [
-      6.203,
-      7.186
+      6.194,
+      7.178
      ],
      "dist_q10": [
-      3.967,
-      4.523
+      3.988,
+      4.469
      ],
      "dist_q25": [
       4.247,
-      4.88
+      4.807
      ],
      "dist_q50": [
-      4.803,
+      4.649,
       5.673
      ],
      "dist_q75": [
-      5.154,
-      5.849
+      5.128,
+      5.788
      ],
      "dist_q90": [
-      5.829,
+      5.784,
       6.982
      ]
     }
    },
    "byCohort": {
     "shoulder": {
-     "nTrips": 49,
-     "nDays": 27,
+     "nTrips": 60,
+     "nDays": 31,
      "support": "ci",
      "est": {
       "tripWeighted": {
-       "q10": 4.257,
-       "q25": 4.88,
-       "q50": 6.0,
-       "q75": 10.52,
-       "q90": 14.0
+       "q10": 4.269,
+       "q25": 4.869,
+       "q50": 6.292,
+       "q75": 10.805,
+       "q90": 15.506
       },
       "distanceWeighted": {
-       "q10": 3.635,
-       "q25": 4.571,
-       "q50": 5.04,
-       "q75": 6.275,
+       "q10": 3.928,
+       "q25": 4.481,
+       "q50": 4.88,
+       "q75": 6.0,
        "q90": 10.545
       }
      },
      "ci95": {
       "trip_q10": [
-       3.635,
-       4.783
+       3.87,
+       4.758
       ],
       "trip_q25": [
-       4.592,
-       5.428
+       4.571,
+       5.451
       ],
       "trip_q50": [
-       5.544,
-       7.255
+       5.577,
+       7.305
       ],
       "trip_q75": [
-       8.0,
-       12.917
+       9.606,
+       13.359
       ],
       "trip_q90": [
-       11.919,
-       15.475
+       12.961,
+       16.108
       ],
       "dist_q10": [
        3.521,
-       4.592
+       4.537
       ],
       "dist_q25": [
-       3.635,
-       4.88
+       3.928,
+       4.836
       ],
       "dist_q50": [
-       4.592,
-       5.849
+       4.537,
+       5.8
       ],
       "dist_q75": [
-       5.544,
-       7.298
+       5.16,
+       7.305
       ],
       "dist_q90": [
-       7.298,
-       13.359
+       8.0,
+       14.0
       ]
      }
     },
     "warm": {
-     "nTrips": 140,
-     "nDays": 42,
+     "nTrips": 155,
+     "nDays": 46,
      "support": "ci",
      "est": {
       "tripWeighted": {
-       "q10": 4.404,
-       "q25": 4.997,
-       "q50": 5.977,
-       "q75": 7.27,
-       "q90": 8.796
+       "q10": 4.39,
+       "q25": 4.913,
+       "q50": 5.893,
+       "q75": 7.09,
+       "q90": 8.72
       },
       "distanceWeighted": {
        "q10": 4.247,
@@ -712,32 +712,32 @@
      },
      "ci95": {
       "trip_q10": [
-       4.19,
-       4.558
+       4.168,
+       4.541
       ],
       "trip_q25": [
-       4.742,
-       5.277
+       4.678,
+       5.157
       ],
       "trip_q50": [
-       5.598,
-       6.436
+       5.476,
+       6.369
       ],
       "trip_q75": [
-       6.753,
-       7.991
+       6.662,
+       7.858
       ],
       "trip_q90": [
-       8.255,
-       9.617
+       8.208,
+       9.537
       ],
       "dist_q10": [
        4.206,
-       4.542
+       4.539
       ],
       "dist_q25": [
        4.44,
-       5.061
+       5.045
       ],
       "dist_q50": [
        4.94,
@@ -841,6 +841,21 @@
       ],
       "nTrips": 78,
       "nDays": 14
+     }
+    },
+    {
+     "start": "2026-10-05",
+     "days": 14,
+     "nTrips": 28,
+     "nDays": 4,
+     "litres": 7.883,
+     "km": 135.5,
+     "support": "points only",
+     "shareKmInTripsUnder5km": 0.453,
+     "shareTripsStartCoolantUnder40C": 0.25,
+     "pooledL100": {
+      "est": 5.8176,
+      "ci95": null
      }
     }
    ],
@@ -998,6 +1013,21 @@
       ],
       "nTrips": 37,
       "nDays": 7
+     }
+    },
+    {
+     "start": "2026-10-05",
+     "days": 7,
+     "nTrips": 28,
+     "nDays": 4,
+     "litres": 7.883,
+     "km": 135.5,
+     "support": "points only",
+     "shareKmInTripsUnder5km": 0.453,
+     "shareTripsStartCoolantUnder40C": 0.25,
+     "pooledL100": {
+      "est": 5.8176,
+      "ci95": null
      }
     }
    ]
@@ -5303,6 +5333,454 @@
    "dSocPp": 10.5,
    "startCoolant": 37.0,
    "tempBand": "<40C",
+   "tempSource": "coolant",
+   "cohort": "warm",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261005_074108.csv",
+   "day": "2026-10-05",
+   "km": 2.4,
+   "V_cnt": 0.3851,
+   "V_int": 0.3851,
+   "durationS": 578.0,
+   "dSocPp": 18.5,
+   "startCoolant": 14.0,
+   "tempBand": "<40C",
+   "tempSource": "coolant",
+   "cohort": "shoulder",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261005_075502.csv",
+   "day": "2026-10-05",
+   "km": 2.5,
+   "V_cnt": 0.1358,
+   "V_int": 0.1358,
+   "durationS": 613.0,
+   "dSocPp": -9.0,
+   "startCoolant": 60.0,
+   "tempBand": ">=60C",
+   "tempSource": "coolant",
+   "cohort": "shoulder",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261005_112302.csv",
+   "day": "2026-10-05",
+   "km": 2.4,
+   "V_cnt": 0.1224,
+   "V_int": 0.1224,
+   "durationS": 448.0,
+   "dSocPp": -4.0,
+   "startCoolant": 26.0,
+   "tempBand": "<40C",
+   "tempSource": "coolant",
+   "cohort": "warm",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261005_113800.csv",
+   "day": "2026-10-05",
+   "km": 2.4,
+   "V_cnt": 0.1596,
+   "V_int": 0.1596,
+   "durationS": 485.0,
+   "dSocPp": -2.5,
+   "startCoolant": 48.0,
+   "tempBand": "40-60C",
+   "tempSource": "coolant",
+   "cohort": "warm",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261006_074104.csv",
+   "day": "2026-10-06",
+   "km": 2.4,
+   "V_cnt": 0.3804,
+   "V_int": 0.3804,
+   "durationS": 485.0,
+   "dSocPp": 28.0,
+   "startCoolant": 16.0,
+   "tempBand": "<40C",
+   "tempSource": "coolant",
+   "cohort": "shoulder",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261006_081457.csv",
+   "day": "2026-10-06",
+   "km": 1.9,
+   "V_cnt": 0.115,
+   "V_int": 0.115,
+   "durationS": 398.0,
+   "dSocPp": -3.5,
+   "startCoolant": 41.0,
+   "tempBand": "40-60C",
+   "tempSource": "coolant",
+   "cohort": "shoulder",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261006_195008.csv",
+   "day": "2026-10-06",
+   "km": 2.2,
+   "V_cnt": 0.1142,
+   "V_int": 0.1142,
+   "durationS": 425.0,
+   "dSocPp": -2.0,
+   "startCoolant": 32.0,
+   "tempBand": "<40C",
+   "tempSource": "coolant",
+   "cohort": "warm",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261006_201330.csv",
+   "day": "2026-10-06",
+   "km": 4.4,
+   "V_cnt": 0.197,
+   "V_int": 0.197,
+   "durationS": 850.0,
+   "dSocPp": -11.0,
+   "startCoolant": 48.0,
+   "tempBand": "40-60C",
+   "tempSource": "coolant",
+   "cohort": "warm",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261006_203800.csv",
+   "day": "2026-10-06",
+   "km": 16.9,
+   "V_cnt": 0.6954,
+   "V_int": 0.6954,
+   "durationS": 1974.0,
+   "dSocPp": -9.0,
+   "startCoolant": 68.0,
+   "tempBand": ">=60C",
+   "tempSource": "coolant",
+   "cohort": "shoulder",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261007_074159.csv",
+   "day": "2026-10-07",
+   "km": 2.3,
+   "V_cnt": 0.3946,
+   "V_int": 0.3968,
+   "durationS": 405.0,
+   "dSocPp": 35.5,
+   "startCoolant": 16.0,
+   "tempBand": "<40C",
+   "tempSource": "coolant",
+   "cohort": "shoulder",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261007_081633.csv",
+   "day": "2026-10-07",
+   "km": 4.1,
+   "V_cnt": 0.2995,
+   "V_int": 0.2995,
+   "durationS": 908.0,
+   "dSocPp": 1.5,
+   "startCoolant": 40.0,
+   "tempBand": "40-60C",
+   "tempSource": "coolant",
+   "cohort": "shoulder",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261007_185244.csv",
+   "day": "2026-10-07",
+   "km": 3.4,
+   "V_cnt": 0.1411,
+   "V_int": 0.1411,
+   "durationS": 719.0,
+   "dSocPp": -12.5,
+   "startCoolant": 55.0,
+   "tempBand": "40-60C",
+   "tempSource": "coolant",
+   "cohort": "warm",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261007_221343.csv",
+   "day": "2026-10-07",
+   "km": 3.0,
+   "V_cnt": 0.2268,
+   "V_int": 0.2268,
+   "durationS": 482.0,
+   "dSocPp": 12.0,
+   "startCoolant": 31.0,
+   "tempBand": "<40C",
+   "tempSource": "coolant",
+   "cohort": "shoulder",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261008_073540.csv",
+   "day": "2026-10-08",
+   "km": 2.4,
+   "V_cnt": 0.3927,
+   "V_int": 0.3927,
+   "durationS": 462.0,
+   "dSocPp": 26.0,
+   "startCoolant": 17.0,
+   "tempBand": "<40C",
+   "tempSource": "coolant",
+   "cohort": "shoulder",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261008_075451.csv",
+   "day": "2026-10-08",
+   "km": 2.5,
+   "V_cnt": 0.2087,
+   "V_int": 0.2087,
+   "durationS": 686.0,
+   "dSocPp": -1.0,
+   "startCoolant": 58.0,
+   "tempBand": "40-60C",
+   "tempSource": "coolant",
+   "cohort": "shoulder",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261008_083436.csv",
+   "day": "2026-10-08",
+   "km": 22.6,
+   "V_cnt": 1.0127,
+   "V_int": 1.0127,
+   "durationS": 1945.0,
+   "dSocPp": -15.5,
+   "startCoolant": 49.0,
+   "tempBand": "40-60C",
+   "tempSource": "coolant",
+   "cohort": "shoulder",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261008_101458.csv",
+   "day": "2026-10-08",
+   "km": 24.6,
+   "V_cnt": 1.116,
+   "V_int": 1.116,
+   "durationS": 2083.0,
+   "dSocPp": -5.0,
+   "startCoolant": 45.0,
+   "tempBand": "40-60C",
+   "tempSource": "coolant",
+   "cohort": "shoulder",
+   "gap": true,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261008_105520.csv",
+   "day": "2026-10-08",
+   "km": 2.4,
+   "V_cnt": 0.1782,
+   "V_int": 0.1782,
+   "durationS": 373.0,
+   "dSocPp": 11.5,
+   "startCoolant": 82.0,
+   "tempBand": ">=60C",
+   "tempSource": "coolant",
+   "cohort": "warm",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261008_115702.csv",
+   "day": "2026-10-08",
+   "km": 2.4,
+   "V_cnt": 0.1113,
+   "V_int": 0.1113,
+   "durationS": 381.0,
+   "dSocPp": -6.5,
+   "startCoolant": 58.0,
+   "tempBand": "40-60C",
+   "tempSource": "coolant",
+   "cohort": "warm",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261008_120651.csv",
+   "day": "2026-10-08",
+   "km": 2.4,
+   "V_cnt": 0.1971,
+   "V_int": 0.1971,
+   "durationS": 623.0,
+   "dSocPp": 7.0,
+   "startCoolant": 72.0,
+   "tempBand": ">=60C",
+   "tempSource": "coolant",
+   "cohort": "warm",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261008_124334.csv",
+   "day": "2026-10-08",
+   "km": 2.3,
+   "V_cnt": 0.1347,
+   "V_int": 0.1347,
+   "durationS": 305.0,
+   "dSocPp": 3.5,
+   "startCoolant": 67.0,
+   "tempBand": ">=60C",
+   "tempSource": "coolant",
+   "cohort": "warm",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261008_125439.csv",
+   "day": "2026-10-08",
+   "km": 2.4,
+   "V_cnt": 0.157,
+   "V_int": 0.157,
+   "durationS": 459.0,
+   "dSocPp": 0.5,
+   "startCoolant": 77.0,
+   "tempBand": ">=60C",
+   "tempSource": "coolant",
+   "cohort": "warm",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261008_153505.csv",
+   "day": "2026-10-08",
+   "km": 2.1,
+   "V_cnt": 0.1138,
+   "V_int": 0.1138,
+   "durationS": 381.0,
+   "dSocPp": 0.5,
+   "startCoolant": 72.0,
+   "tempBand": ">=60C",
+   "tempSource": "coolant",
+   "cohort": "warm",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261008_154519.csv",
+   "day": "2026-10-08",
+   "km": 1.8,
+   "V_cnt": 0.0971,
+   "V_int": 0.0971,
+   "durationS": 321.0,
+   "dSocPp": 0.5,
+   "startCoolant": 82.0,
+   "tempBand": ">=60C",
+   "tempSource": "coolant",
+   "cohort": "warm",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261008_195851.csv",
+   "day": "2026-10-08",
+   "km": 10.0,
+   "V_cnt": 0.4374,
+   "V_int": 0.4374,
+   "durationS": 1069.0,
+   "dSocPp": -7.0,
+   "startCoolant": 41.0,
+   "tempBand": "40-60C",
+   "tempSource": "coolant",
+   "cohort": "warm",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261008_202800.csv",
+   "day": "2026-10-08",
+   "km": 2.6,
+   "V_cnt": 0.122,
+   "V_int": 0.122,
+   "durationS": 492.0,
+   "dSocPp": 0.5,
+   "startCoolant": 70.0,
+   "tempBand": ">=60C",
+   "tempSource": "coolant",
+   "cohort": "warm",
+   "gap": true,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261008_210551.csv",
+   "day": "2026-10-08",
+   "km": 2.3,
+   "V_cnt": 0.1239,
+   "V_int": 0.1239,
+   "durationS": 489.0,
+   "dSocPp": 2.0,
+   "startCoolant": 59.0,
+   "tempBand": "40-60C",
+   "tempSource": "coolant",
+   "cohort": "warm",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261008_212403.csv",
+   "day": "2026-10-08",
+   "km": 2.4,
+   "V_cnt": 0.1134,
+   "V_int": 0.1134,
+   "durationS": 477.0,
+   "dSocPp": -5.0,
+   "startCoolant": 65.0,
+   "tempBand": ">=60C",
    "tempSource": "coolant",
    "cohort": "warm",
    "gap": false,

@@ -379,6 +379,21 @@ _REJECTED_CHANNELS = {
 }
 
 
+SOC_SPIKE_JUMP_PP = 20.0     # M388c: single-sample SoC logger glitch (analyses/M388c_spec.md)
+SOC_SPIKE_NEIGHBOUR_TOL_PP = 1.0
+
+
+def soc_spike_mask(v):
+    """M388c: True where a time-sorted SoC sample is a single-sample spike: both jumps to its neighbours >= 20 pp while the two neighbours
+    agree within 1.0 pp (2 LSB of the 0.5 pp PID). First and last samples are never spikes. Fixed rule, no interpolation."""
+    v = np.asarray(v, dtype=float)
+    m = np.zeros(len(v), dtype=bool)
+    if len(v) >= 3:
+        a, b, c = v[:-2], v[1:-1], v[2:]
+        m[1:-1] = (np.abs(b - a) >= SOC_SPIKE_JUMP_PP) & (np.abs(b - c) >= SOC_SPIKE_JUMP_PP) & (np.abs(a - c) <= SOC_SPIKE_NEIGHBOUR_TOL_PP)
+    return m
+
+
 def _series(df, t, col, lo=None, hi=None):
     """Extract one PID as a clean (t, value) frame on its native timestamps."""
     if col not in df.columns:
@@ -392,6 +407,8 @@ def _series(df, t, col, lo=None, hi=None):
     if hi is not None:
         s = s[s['v'] <= hi]
     s = s.sort_values('t').reset_index(drop=True)
+    if col == 'soc':                       # M388c
+        s = s[~soc_spike_mask(s['v'].to_numpy())].reset_index(drop=True)
     return s if len(s) else None
 
 
