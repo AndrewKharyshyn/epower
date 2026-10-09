@@ -2,9 +2,9 @@
  "milestone": "M377c",
  "step": 1,
  "basis": "raw/ = sha256-verified originals (M366); canonical-clean (ens_outlier_v2 False), distance>0, fuel PID",
- "n_drives": 292,
- "n_days": 54,
- "km": 2096.04,
+ "n_drives": 322,
+ "n_days": 58,
+ "km": 2232.8399999999997,
  "skipped": {
   "no_file": 0,
   "no_fuel": 224,
@@ -13,45 +13,45 @@
   "no_battery_inputs": 3
  },
  "per100km_totals": {
-  "E_gen": 16.004,
-  "E_gen_ps": 16.004,
-  "g2t": 8.547,
-  "g2b_master": 8.538,
-  "g2b_model": 7.457,
-  "eng_only": 5.725,
-  "dual": 2.814,
-  "regen": 3.056,
-  "b2t": 10.054,
-  "trac": 18.601,
-  "excess": 1.081,
-  "excess_engonly": -1.733,
-  "excess_ps": 1.081,
+  "E_gen": 15.975,
+  "E_gen_ps": 15.975,
+  "g2t": 8.39,
+  "g2b_master": 8.695,
+  "g2b_model": 7.585,
+  "eng_only": 5.808,
+  "dual": 2.887,
+  "regen": 3.068,
+  "b2t": 10.214,
+  "trac": 18.604,
+  "excess": 1.11,
+  "excess_engonly": -1.777,
+  "excess_ps": 1.11,
   "gen_def_gap": 0.0,
-  "batt_resid": 1.54,
-  "batt_resid_modelg2b": 0.46
+  "batt_resid": 1.549,
+  "batt_resid_modelg2b": 0.439
  },
  "relative_to_generator": {
   "excess": {
-   "est": 0.0675,
+   "est": 0.0695,
    "ci95": [
-    0.0508,
-    0.0893
+    0.0534,
+    0.0895
    ],
    "closed": false
   },
   "excess_engonly": {
-   "est": -0.1083,
+   "est": -0.1113,
    "ci95": [
-    -0.1376,
-    -0.0842
+    -0.1389,
+    -0.0877
    ],
    "closed": false
   },
   "excess_ps": {
-   "est": 0.0675,
+   "est": 0.0695,
    "ci95": [
-    0.0508,
-    0.0893
+    0.0534,
+    0.0895
    ],
    "closed": false
   },
@@ -72,13 +72,13 @@
    "excess_rel": "n<10: not evaluated"
   },
   "mixed": {
-   "n": 12,
-   "days": 10,
+   "n": 13,
+   "days": 11,
    "excess_rel": {
-    "est": 0.0327,
+    "est": 0.0342,
     "ci95": [
-     0.0242,
-     0.0393
+     0.026,
+     0.0411
     ],
     "closed": true
    }
@@ -89,265 +89,55 @@
    "excess_rel": "n<10: not evaluated"
   },
   "urban": {
-   "n": 273,
-   "days": 54,
+   "n": 302,
+   "days": 58,
    "excess_rel": {
-    "est": 0.0924,
+    "est": 0.0935,
     "ci95": [
-     0.0804,
-     0.1063
+     0.0822,
+     0.1072
     ],
     "closed": false
    }
   }
  },
  "exploratory_corr_with_excess_per_km": {
-  "dual_share": 0.635,
-  "gen_per_km": 0.181,
-  "gen_def_gap": 0.045
+  "dual_share": 0.648,
+  "gen_per_km": 0.205,
+  "gen_def_gap": 0.056
  },
- "share_drives_excess_positive": 0.863,
- "share_dual_in_g2b_master": 0.3295,
+ "share_drives_excess_positive": 0.866,
+ "share_dual_in_g2b_master": 0.332,
  "m372": {
   "checks": {
    "rawOriginals": {
-    "nChecked": 292,
+    "nChecked": 322,
     "nMismatch": 0
    },
    "flags": {
-    "nCompared": 512,
+    "nCompared": 542,
     "nDiverging": 0
    },
    "expectedSet": {
-    "nDrives": 292,
-    "nDays": 54,
-    "km": 2096.0,
-    "nPrevious": 257,
-    "nNew": 35,
-    "newIds": [
-     {
-      "file": "2026-09-30_20-12-47.csv",
-      "date": "2026-09-30",
-      "km": 1.8,
-      "type": "urban"
-     },
-     {
-      "file": "2026-09-30_20-39-00.csv",
-      "date": "2026-09-30",
-      "km": 11.8,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-01_07-38-47.csv",
-      "date": "2026-10-01",
-      "km": 1.2,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-01_07-57-02.csv",
-      "date": "2026-10-01",
-      "km": 0.7,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-01_08-14-08.csv",
-      "date": "2026-10-01",
-      "km": 1.5,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-01_16-45-44.csv",
-      "date": "2026-10-01",
-      "km": 1.3,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-01_16-57-31.csv",
-      "date": "2026-10-01",
-      "km": 1.4,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-01_17-40-07.csv",
-      "date": "2026-10-01",
-      "km": 1.3,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-01_18-19-32.csv",
-      "date": "2026-10-01",
-      "km": 5.9,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-01_19-58-38.csv",
-      "date": "2026-10-01",
-      "km": 17.4,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-02_07-50-49.csv",
-      "date": "2026-10-02",
-      "km": 1.2,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-02_08-04-04.csv",
-      "date": "2026-10-02",
-      "km": 1.3,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-02_19-04-06.csv",
-      "date": "2026-10-02",
-      "km": 3.8,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-02_19-35-32.csv",
-      "date": "2026-10-02",
-      "km": 0.3,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-02_21-02-25.csv",
-      "date": "2026-10-02",
-      "km": 2.3,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-03_09-48-44.csv",
-      "date": "2026-10-03",
-      "km": 2.0,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-03_09-58-07.csv",
-      "date": "2026-10-03",
-      "km": 0.3,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-03_10-03-24.csv",
-      "date": "2026-10-03",
-      "km": 0.3,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-03_12-06-18.csv",
-      "date": "2026-10-03",
-      "km": 1.9,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-03_14-33-03.csv",
-      "date": "2026-10-03",
-      "km": 2.0,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-03_15-01-24.csv",
-      "date": "2026-10-03",
-      "km": 2.3,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-03_16-02-23.csv",
-      "date": "2026-10-03",
-      "km": 2.8,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-03_16-19-05.csv",
-      "date": "2026-10-03",
-      "km": 2.4,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-03_16-39-03.csv",
-      "date": "2026-10-03",
-      "km": 1.9,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-03_17-05-43.csv",
-      "date": "2026-10-03",
-      "km": 4.9,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-03_17-27-25.csv",
-      "date": "2026-10-03",
-      "km": 0.8,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-03_18-32-35.csv",
-      "date": "2026-10-03",
-      "km": 9.8,
-      "type": "mixed"
-     },
-     {
-      "file": "2026-10-03_18-52-09.csv",
-      "date": "2026-10-03",
-      "km": 3.6,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-04_11-38-19.csv",
-      "date": "2026-10-04",
-      "km": 3.0,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-04_12-02-58.csv",
-      "date": "2026-10-04",
-      "km": 1.4,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-04_12-13-56.csv",
-      "date": "2026-10-04",
-      "km": 0.7,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-04_12-52-59.csv",
-      "date": "2026-10-04",
-      "km": 1.1,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-04_13-05-56.csv",
-      "date": "2026-10-04",
-      "km": 2.0,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-04_14-38-51.csv",
-      "date": "2026-10-04",
-      "km": 1.1,
-      "type": "urban"
-     },
-     {
-      "file": "2026-10-04_14-52-00.csv",
-      "date": "2026-10-04",
-      "km": 2.3,
-      "type": "urban"
-     }
-    ],
+    "nDrives": 322,
+    "nDays": 58,
+    "km": 2232.8,
+    "nPrevious": 322,
+    "nNew": 0,
+    "newIds": [],
     "previousPerDrive": {
-     "path": "analyses/closure_baselines/perdrive_257drives_recal.csv",
-     "sha256": "2354a91fdfb91dba6cdc959f3e69e4dab51db97a8187a71a6b317b98221c999a",
-     "nDrives": 257
+     "path": "analyses/closure_baselines/perdrive_322drives.csv",
+     "sha256": "6b856ced14eca19870f1a582953248cb238ade0b7d8d4bdd033d5ada829191e4",
+     "nDrives": 322,
+     "master": "64dfd0cbff3db404d9b83e180f777525"
     }
    },
    "previousIdentity": {
-    "nIdentical": 257,
+    "nIdentical": 322,
     "columns": 23
    }
   },
-  "scriptGit": "2749fb7",
+  "scriptGit": "f37e8d8",
   "summaryArraysSha256Start": ""
  }
 }

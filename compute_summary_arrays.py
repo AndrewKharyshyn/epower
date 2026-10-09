@@ -4880,6 +4880,7 @@ def _k_ladder_scenarios(dm, raw_loader, frame_loader, fade_capacity,
     if not cfg:
         return None
     import rainflow as _rainflow           # local, mirrors _v6 import pattern
+    import compute_drive_summary_v6 as _v6   # M388c: soc_spike_mask
     _SOC_RAW = '[BMS] HV State of charge (%)'
     floor = float(cfg.get('floorPct', 1.0))          # M17 RF_FLOOR_PCT
     kgrid = sorted(set([1.0] + [float(k) for k in
@@ -4916,6 +4917,7 @@ def _k_ladder_scenarios(dm, raw_loader, frame_loader, fade_capacity,
         t = _ft(df['time'], mixed=True)
         v = pd.to_numeric(df[_SOC_RAW], errors='coerce')
         s = pd.DataFrame({'t': t, 'v': v}).dropna().sort_values('t')
+        s = s[~_v6.soc_spike_mask(s['v'].to_numpy())]   # M388c
         if len(s) < 10:                      # M17 rainflow eligibility gate
             continue
         cyc = list(_rainflow.extract_cycles(s['v'].values))
@@ -5057,6 +5059,7 @@ def _rf_dod_histogram(dm, raw_loader, frame_loader=None, floor_pct=None):
     if raw_loader is None and frame_loader is None:
         return None
     import rainflow as _rainflow            # local, mirrors _v6 import pattern
+    import compute_drive_summary_v6 as _v6    # M388c: soc_spike_mask
     _SOC_RAW = '[BMS] HV State of charge (%)'
     floor = float(floor_pct if floor_pct is not None else 1.0)   # M17 RF_FLOOR_PCT
 
@@ -5091,6 +5094,7 @@ def _rf_dod_histogram(dm, raw_loader, frame_loader=None, floor_pct=None):
         t = _ft(df['time'], mixed=True)
         v = pd.to_numeric(df[_SOC_RAW], errors='coerce')
         s = pd.DataFrame({'t': t, 'v': v}).dropna().sort_values('t')
+        s = s[~_v6.soc_spike_mask(s['v'].to_numpy())]   # M388c
         if len(s) < 10:                      # M17 rainflow eligibility gate
             continue
         cyc = list(_rainflow.extract_cycles(s['v'].values))
@@ -14803,6 +14807,107 @@ def _dayboot_ols(X, y, days, nb=4000, seed=42):
     return beta0, ci, int(len(uniq)), int(len(boots) if boots is not None else 0)
 
 
+_MIXED_CHAIN = (('lbfgs', {}), ('nm', {'maxiter': 2000}), ('powell', {'maxiter': 2000}))
+_MIXED_NAMES = ('Intercept', 'arrivalPmC', 'parkingGapH', 'arrivalSocPct')
+_MIXED_GRID = (1e-3, 0.01, 0.02, 0.03, 0.05, 0.1)
+
+
+def _carryover_mixed(d):
+    """M388b (Rev 2, analyses/M388b_spec.md): secondary mixed-effects fit (day random intercept, REML) with a pre-registered fallback
+    chain lbfgs -> nm -> powell. Trigger: exception (fit or post-processing) or converged == False. Records optimizer, attempts, RE variance,
+    start-value sensitivity (flagReason none / unstable / refit_failed) and whether the RE variance is identified (1-log-lik rule). Every method
+    failing leaves the 'error' leaf (leaf_guard STOPs). The note is generated from the leaves."""
+    import warnings
+    try:
+        import statsmodels.formula.api as smf
+        from statsmodels.regression.mixed_linear_model import MixedLMParams
+        dd = d.rename(columns={'followingTimeToFirstStartS': 'y'})
+        md = smf.mixedlm('y ~ arrivalPmC + parkingGapH + arrivalSocPct', dd, groups=dd['day'])
+
+        def _fit(method, kw, start=None):
+            with warnings.catch_warnings():
+                warnings.simplefilter('ignore')
+                return md.fit(method=method, reml=True, disp=False, start_params=start, **kw)
+
+        def _coefs(r):
+            return {nm: {'estimate': round(float(r.fe_params[nm]), 4), 'se': round(float(r.bse_fe[nm]), 4),
+                         'ci95': [round(float(x), 4) for x in r.conf_int().loc[nm].tolist()]}
+                    for nm in _MIXED_NAMES if nm in r.fe_params.index}
+        attempts, r, used, coefs = [], None, None, None
+        for method, kw in _MIXED_CHAIN:
+            try:
+                rr = _fit(method, kw)
+                ok = bool(rr.converged)
+                cf = _coefs(rr) if ok else None
+                float(rr.cov_re.iloc[0, 0])
+                attempts.append({'method': method, 'converged': ok, 'error': None})
+                if ok:
+                    r, used, coefs = rr, (method, kw), cf
+                    break
+            except Exception as _e:
+                attempts.append({'method': method, 'converged': False, 'error': repr(_e)})
+        if r is None:
+            return {'error': 'all mixed-effects fits failed: ' + '; '.join(
+                f"{a['method']}: {a['error'] or 'not converged'}" for a in attempts), 'attempts': attempts}
+        re_var = float(r.cov_re.iloc[0, 0])
+        # start-value sensitivity: refit from RE-variance start 1e4; chosen method first, then the remaining chain methods in order
+        order = [used] + [m for m in _MIXED_CHAIN if m[0] != used[0]]
+        start1e4 = MixedLMParams.from_components(np.zeros(0), np.array([[1e4]]))
+        refit_attempts, r2, refit_method = [], None, None
+        for method, kw in order:
+            try:
+                rr = _fit(method, kw, start=start1e4)
+                ok = bool(rr.converged)
+                refit_attempts.append({'method': method, 'converged': ok, 'error': None})
+                if ok:
+                    r2, refit_method = rr, method
+                    break
+            except Exception as _e:
+                refit_attempts.append({'method': method, 'converged': False, 'error': repr(_e)})
+        if r2 is None:
+            sens = {'starts': ['default', 'reVar1e4'], 'refitMethod': None, 'refitAttempts': refit_attempts,
+                    'flag': None, 'flagReason': 'refit_failed'}
+        else:
+            diffs = [abs(float(r.fe_params[nm]) - float(r2.fe_params[nm])) / float(r.bse_fe[nm]) for nm in _MIXED_NAMES]
+            v2 = float(r2.cov_re.iloc[0, 0])
+            lo, hi = min(re_var, v2), max(re_var, v2)
+            mx = max(diffs)
+            unstable = bool(mx > 0.25 or lo <= 0 or hi / lo > 2)
+            sens = {'starts': ['default', 'reVar1e4'], 'refitMethod': refit_method, 'refitAttempts': refit_attempts,
+                    'maxAbsFeDiffInSe': round(mx, 4), 'reVarMin': round(lo, 4), 'reVarMax': round(hi, 4),
+                    'flag': unstable, 'flagReason': 'unstable' if unstable else 'none'}
+        # RE variance identified? profile REML over variance ratios (ratio 0 is not evaluable: -inf); range < 1 log-lik unit = not identified
+        try:
+            with warnings.catch_warnings():
+                warnings.simplefilter('ignore')
+                prof = [float(md.loglike(MixedLMParams.from_components(np.zeros(0), np.array([[v]])), profile_fe=True)) for v in _MIXED_GRID]
+            prng = max(prof) - min(prof)
+            identified, prng_r = bool(prng >= 1.0), round(prng, 3)
+        except Exception:
+            identified, prng_r = None, None
+        fb = 'default lbfgs failed, fallback used' if used[0] != 'lbfgs' else 'default lbfgs'
+        if sens['flagReason'] == 'none':
+            st = 'no fixed-effect shift above 0.25 SE'
+        elif sens['flagReason'] == 'unstable':
+            st = 'start-value sensitive'
+        else:
+            st = 'not assessable, refit failed'
+        if identified is None:
+            idt = 'not assessable'
+        elif identified:
+            idt = f'identified by the pre-registered 1-log-lik rule (profile range {prng_r}, grid 1e-3..0.1; ratio 0 not evaluable), margin small'
+        else:
+            idt = f'not identified (profile range {prng_r} < 1 log-lik unit)'
+        note = (f'Estimated descriptive association, one vehicle; secondary to the day-clustered bootstrap OLS. Optimizer: {used[0]} ({fb}). '
+                f'Start sensitivity (RE-variance start 1e4, refit {sens["refitMethod"]}): {st}. Day RE variance {idt}.')
+        return {'coefficients': coefs, 'converged': bool(r.converged), 'statsmodelsVersion': '0.15.0',
+                'optimizer': used[0], 'attempts': attempts, 'fallbackUsed': bool(used[0] != 'lbfgs'),
+                'reVariance': round(re_var, 4), 'startSensitivity': sens, 'reVarianceIdentified': identified,
+                'reVarProfileRange': prng_r, 'reVarProfileGrid': list(_MIXED_GRID), 'note': note}
+    except Exception as _e:
+        return {'error': repr(_e)}
+
+
 def _carryover_regression(pf):
     """M223.1: primary day-clustered bootstrap OLS + secondary mixed-
     effects (day random intercept, statsmodels==0.15.0, matching
@@ -14828,25 +14933,7 @@ def _carryover_regression(pf):
                         'ci95': ([round(ci[i][0], 4), round(ci[i][1], 4)]
                                 if ci is not None else None)}
             for i in range(len(names))}
-    mixed = None
-    try:
-        import statsmodels.formula.api as smf
-        dd = d.rename(columns={'followingTimeToFirstStartS': 'y'})
-        md = smf.mixedlm('y ~ arrivalPmC + parkingGapH + arrivalSocPct',
-                         dd, groups=dd['day'])
-        r = md.fit(method='lbfgs', reml=True, disp=False)
-        mixed = {
-            'coefficients': {
-                nm: {'estimate': round(float(r.fe_params[nm]), 4),
-                    'se': round(float(r.bse_fe[nm]), 4),
-                    'ci95': [round(float(x), 4) for x in
-                            r.conf_int().loc[nm].tolist()]}
-                for nm in ('Intercept', 'arrivalPmC', 'parkingGapH', 'arrivalSocPct')
-                if nm in r.fe_params.index},
-            'converged': bool(r.converged),
-            'statsmodelsVersion': '0.15.0'}
-    except Exception as _e:
-        mixed = {'error': repr(_e)}
+    mixed = _carryover_mixed(d)
     return {
         'nPairs': n, 'nDays': int(d['day'].nunique()),
         'outcome': 'followingTimeToFirstStartS',

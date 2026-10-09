@@ -1,0 +1,115 @@
+{
+ "milestone": "M388b",
+ "mode": "--splice",
+ "nPairs": 543,
+ "nDays": 109,
+ "othersBitIdentical": true,
+ "othersDiff": [],
+ "mixedEffects": {
+  "coefficients": {
+   "Intercept": {
+    "estimate": -37.8688,
+    "se": 39.2916,
+    "ci95": [
+     -114.879,
+     39.1414
+    ]
+   },
+   "arrivalPmC": {
+    "estimate": -3.4428,
+    "se": 0.602,
+    "ci95": [
+     -4.6228,
+     -2.2629
+    ]
+   },
+   "parkingGapH": {
+    "estimate": 0.6212,
+    "se": 0.2681,
+    "ci95": [
+     0.0957,
+     1.1468
+    ]
+   },
+   "arrivalSocPct": {
+    "estimate": 4.5187,
+    "se": 0.5964,
+    "ci95": [
+     3.3499,
+     5.6876
+    ]
+   }
+  },
+  "converged": true,
+  "statsmodelsVersion": "0.15.0",
+  "optimizer": "nm",
+  "attempts": [
+   {
+    "method": "lbfgs",
+    "converged": false,
+    "error": "LinAlgError('Singular matrix')"
+   },
+   {
+    "method": "nm",
+    "converged": true,
+    "error": null
+   }
+  ],
+  "fallbackUsed": true,
+  "reVariance": 458.6217,
+  "startSensitivity": {
+   "starts": [
+    "default",
+    "reVar1e4"
+   ],
+   "refitMethod": "lbfgs",
+   "refitAttempts": [
+    {
+     "method": "nm",
+     "converged": false,
+     "error": "LinAlgError('Singular matrix')"
+    },
+    {
+     "method": "lbfgs",
+     "converged": true,
+     "error": null
+    }
+   ],
+   "maxAbsFeDiffInSe": 0.0001,
+   "reVarMin": 458.5343,
+   "reVarMax": 458.6217,
+   "flag": false,
+   "flagReason": "none"
+  },
+  "reVarianceIdentified": true,
+  "reVarProfileRange": 1.221,
+  "reVarProfileGrid": [
+   0.001,
+   0.01,
+   0.02,
+   0.03,
+   0.05,
+   0.1
+  ],
+  "note": "Estimated descriptive association, one vehicle; secondary to the day-clustered bootstrap OLS. Optimizer: nm (default lbfgs failed, fallback used). Start sensitivity (RE-variance start 1e4, refit lbfgs): no fixed-effect shift above 0.25 SE. Day RE variance identified by the pre-registered 1-log-lik rule (profile range 1.221, grid 1e-3..0.1; ratio 0 not evaluable), margin small."
+ },
+ "storedMixedEffectsWas": {
+  "error": "LinAlgError('Singular matrix')"
+ },
+ "ok": true,
+ "spliceDiff": [
+  "/interDriveCarryover/regressionModel/mixedEffects/attempts",
+  "/interDriveCarryover/regressionModel/mixedEffects/coefficients",
+  "/interDriveCarryover/regressionModel/mixedEffects/converged",
+  "/interDriveCarryover/regressionModel/mixedEffects/error",
+  "/interDriveCarryover/regressionModel/mixedEffects/fallbackUsed",
+  "/interDriveCarryover/regressionModel/mixedEffects/note",
+  "/interDriveCarryover/regressionModel/mixedEffects/optimizer",
+  "/interDriveCarryover/regressionModel/mixedEffects/reVarProfileGrid",
+  "/interDriveCarryover/regressionModel/mixedEffects/reVarProfileRange",
+  "/interDriveCarryover/regressionModel/mixedEffects/reVariance",
+  "/interDriveCarryover/regressionModel/mixedEffects/reVarianceIdentified",
+  "/interDriveCarryover/regressionModel/mixedEffects/startSensitivity",
+  "/interDriveCarryover/regressionModel/mixedEffects/statsmodelsVersion"
+ ]
+}
