@@ -17,6 +17,9 @@ Preconditions: new CSVs are in `raw/` (do not modify existing files). `export XT
 6. `python tools/changelog_draft.py --id M### --title "..." --rationale "..."` (prepends by concatenation). Then
    `python tools/state.py`, `python release_check.py`, commit and tag `M###`.
 7. Report to Andrii: what changed (files), gate results, flags. No number is quoted unless taken from a script output.
+   FIRST LINE of the report (M396, owner request 2026-10-09): the logger PID polling cadence. Read `delta_report.json` -> `cadenceMonitor` (and `analyses/cadence_monitor.json`): state plainly whether
+   fast polling is confirmed on the new drives or a `cadence_slow_while_fast_expected` FLAG was raised (first slow drive and time, how many new drives are slow, the median interval, and whether it is slower
+   than the earlier slow regime). Also report any `dissipationMonitor` flags (M394) right after it. These monitors are report-only: they never stop an ingestion, so the agent must read and report them.
 7b. Session ledgers (standing rule, M313): the new drives must be in "Sessions (grouped by phase)". Stage `extend_session_ledgers` adds one
    `sessionGroups` + `sessions` row per new day from the master and regenerates `sessionLedgerAudit`; `release_check.py` fails if the newest
    drive date is uncovered. Confirm the new days render in the dashboard before reporting done.

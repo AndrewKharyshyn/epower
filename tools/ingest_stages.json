@@ -319,6 +319,19 @@
    ]
   },
   {
+   "id": "cadence_monitor",
+   "title": "M396: report-only flag for the logger PID polling cadence: tells the owner when a NEW drive is slow while fast polling is expected (owner re-activated it 2026-10-09); never stops an ingestion (analyses/M396_spec.md)",
+   "cmd": [
+    "python3",
+    "tools/cadence_monitor.py",
+    "update"
+   ],
+   "verified": true,
+   "outputs": [
+    "analyses/cadence_monitor.json"
+   ]
+  },
+  {
    "id": "dissipation_monitor",
    "title": "M394: report-only monitor of the unfuelled (motored) engine dissipation mode: records every drive's events, flags the first sustained event per pack-temperature band, events below the SoC range seen, detector gaps and not-evaluable drives; never stops an ingestion (analyses/M394_spec.md)",
    "cmd": [
