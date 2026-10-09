@@ -9,7 +9,8 @@ Policy: exactly RECAL_COLS may change on pre-existing rows; any other column cha
 per-drive and must stay invariant). Every change is quantified (n/max/median abs shift) and tested against a day-clustered
 percentile bootstrap (seed 42, 4000 draws, calendar day = cluster) of the PRE-ingest estimate:
   soft flag : |new - old| > 0.25 * CI half-width
-  hard flag : new value outside the old 95% CI; offsets: estimate from the new drives alone outside it (drift test);
+  hard flag : new value outside the old 95% CI; offsets: window-null drift test (M392: rank of the new-batch deviation among all contiguous k-day windows of the old corpus, p <= 0.01 with >= 99 windows);
+              M392 demoted the old 'new drives alone outside the old CI' comparison to an informational field (it fired on 50-71% of real historical batches, analyses/M392_spec.md); not evaluable is soft, never hard;
               spread model (centred at old-median T_pack/I_peak): calibrated day-block null over distinct blocks, rank p<=0.01 hard (only if >=99 blocks, else capped soft), p<0.05 soft
               (bT left out of the joint statistic and reported not_identifiable unless new-only T_pack IQR >= 0.5 x old IQR)
 Hard flags stop the ingestion unless acknowledged (--ack-recalibration REASON) after blind audit + Director review.
@@ -23,6 +24,10 @@ OFFSET_COLS = ["I_offset_A_applied", "offset_kwh_removed", "net_draw_kwh_corr", 
 SPREAD_COLS = ["cell_spread_loaded_p95_adj_mv", "cell_spread_loaded_p95_adj_hub_mv"]
 RECAL_COLS = OFFSET_COLS + SPREAD_COLS
 N_BOOT, SEED, SOFT_FRAC = 4000, 42, 0.25
+MIN_FIT_DRIVES = 8          # M392: validity of a window / batch for the spread fit (the gate's own "new-only n >= 8"); NOT the batch's drive count
+P_HARD, P_SOFT, MIN_WINDOWS_HARD, MIN_WINDOWS = 0.01, 0.05, 99, 10          # M392 (analyses/M392_spec.md)
+NOT_ESTABLISHED = "drift test not established for this batch (not evaluable); the batch is carried forward, not cleared"
+_EFF = "nominal 1%; overlapping windows make the effective hard level about 1/(n_eff+1) = 1/{e:.0f}"
 
 
 def _hours(d):
@@ -59,6 +64,36 @@ def _boot_ratio(days, num, den, rng):
     idx = rng.integers(0, len(g), size=(N_BOOT, len(g)))
     est = n[idx].sum(1) / v[idx].sum(1)
     return np.percentile(est, [2.5, 97.5]), float(n.sum() / v.sum())
+
+
+def _window_null_offset(d_old, d_new, two_pass):
+    """M392: calibrated drift test for the offsets. Null = the ratio-of-sums offset of every contiguous k-day window of the OLD corpus (k = observed days of the new batch in the
+    eligible set), as a deviation from the old pooled estimate; p = rank of the new-batch deviation. mdd95 = 95th percentile of the window deviations (minimum detectable shift)."""
+    def sums(d):
+        num, den = _offset_parts(d, two_pass)
+        g = pd.DataFrame({"d": d["date"].astype(str).values, "n": num.values, "v": den.values}).groupby("d").sum()
+        return g[g["v"] > 0]
+    so, sn = sums(d_old), sums(d_new)
+    k = len(sn)
+    if k < 1 or len(so) < k + MIN_WINDOWS - 1:
+        return {"status": "not_evaluable", "reason": "batch without eligible days" if k < 1 else f"fewer than {MIN_WINDOWS} windows (old days {len(so)}, batch days {k})",
+                "carry_forward": True, "n_batch_days": int(k), "n_old_days": int(len(so)), "p": None, "note": NOT_ESTABLISHED}
+    est_old = float(so["n"].sum() / so["v"].sum())
+    n, v = so["n"].values, so["v"].values
+    dev = np.abs(np.array([n[j:j + k].sum() / v[j:j + k].sum() - est_old for j in range(0, len(so) - k + 1)]))
+    obs = abs(float(sn["n"].sum() / sn["v"].sum()) - est_old)
+    nw = len(dev)
+    return {"status": "ok", "n_batch_days": int(k), "n_windows": int(nw), "n_eff": float(nw / k), "nominal_vs_effective": _EFF.format(e=nw / k + 1),
+            "obs_abs_dev": obs, "p": float((1 + np.sum(dev >= obs)) / (nw + 1)), "p_min": float(1.0 / (nw + 1)), "mdd95": float(np.percentile(dev, 95)),
+            "note": "a pass means no shift above mdd95 was detected; smaller shifts are not excluded"}
+
+
+def _window_flags(wn):
+    """hard only if evaluable with >= MIN_WINDOWS_HARD windows and p <= P_HARD; soft if p < P_SOFT (capped soft below the window minimum) or not evaluable."""
+    if wn.get("p") is None:
+        return False, True
+    hard = bool(wn["n_windows"] >= MIN_WINDOWS_HARD and wn["p"] <= P_HARD)
+    return hard, bool(not hard and wn["p"] < P_SOFT)
 
 
 def _spread_xy(d):
@@ -98,8 +133,9 @@ def _block_null(so, fit, n_days, min_drives, bo, bnew, cols, rng):
                 fits.append(fit(blk))
             except Exception:
                 pass
-    if len(fits) < 10:
-        return {"error": f"only {len(fits)} valid blocks", "p": None}
+    if len(fits) < MIN_WINDOWS:
+        return {"status": "not_evaluable", "reason": f"only {len(fits)} valid blocks (< {MIN_WINDOWS})", "carry_forward": True, "error": f"only {len(fits)} valid blocks", "p": None,
+                "note": NOT_ESTABLISHED}
     F = np.array(fits)[:, cols]                       # distinct blocks, NO resampling (resampling gave a spurious p resolution)
     S = np.linalg.pinv(np.cov(F, rowvar=False).reshape(len(cols), len(cols)))
     Dn = F - bo[cols]
@@ -108,7 +144,7 @@ def _block_null(so, fit, n_days, min_drives, bo, bnew, cols, rng):
     obs = float(dn @ S @ dn)
     nb = len(F)
     span = len(days)
-    return {"n_valid_blocks": nb, "n_eff_blocks_approx": float(span / n_days), "block_days": int(n_days), "min_drives": int(min_drives),
+    return {"status": "ok", "n_eff": float(nb / n_days), "nominal_vs_effective": _EFF.format(e=nb / n_days + 1), "mdd95_per_coef": [float(np.percentile(np.abs(Dn[:, i]), 95)) for i in range(len(cols))], "n_valid_blocks": nb, "n_eff_blocks_approx": float(span / n_days), "block_days": int(n_days), "min_drives": int(min_drives),
             "mahalanobis_obs": obs, "null_median": float(np.median(null)),
             "p": float((1 + np.sum(null >= obs)) / (nb + 1)), "p_min": float(1.0 / (nb + 1)),
             "note": "rank p over distinct overlapping blocks; hard flag only if n_valid_blocks >= 99 and p <= 0.01, else capped at soft"}
@@ -162,6 +198,12 @@ def evaluate(dm_old, dm_new, diffs_before):
         only = float(nn.sum() / nd.sum()) if nd.sum() > 0 else None
         t = _judge(label, old, new, only, ci)
         t["fit_old"], t["fit_new"] = _fit_counts(dm_old, tp), _fit_counts(new_rows, tp)
+        # M392: the batch-only-outside-old-CI comparison is informational (it fired on 50-71% of real historical batches); the calibrated drift test is the window null
+        t["new_only_outside_old_ci"] = bool(t.pop("hard_drift_new_only_outside_old_ci"))
+        t["window_null"] = _window_null_offset(dm_old, new_rows, tp)
+        t["hard_drift_window_null"], wsoft = _window_flags(t["window_null"])
+        t["not_evaluable"] = bool(t["window_null"].get("p") is None)
+        t["soft_flag"] = bool(t["soft_flag"] or wsoft)
         t["recomputed_old_point_estimate"] = est          # sanity: reproduces the stored old value up to rounding
         rep["tests"].append(t)
     so, sn, snew = _spread_xy(dm_old), _spread_xy(dm_new), _spread_xy(new_rows)
@@ -181,7 +223,7 @@ def evaluate(dm_old, dm_new, diffs_before):
             bo, bn = fit(so), fit(sn)
             bnew = fit(snew) if len(snew) >= 8 else None
             nd_new = int(snew["date"].astype(str).nunique())
-            nb = _block_null(so, fit, nd_new, len(snew), bo, bnew, cols, rng) if bnew is not None else {"error": "new-only n<8", "p": None}
+            nb = _block_null(so, fit, nd_new, MIN_FIT_DRIVES, bo, bnew, cols, rng) if bnew is not None else {"status": "not_evaluable", "reason": f"new-only n < {MIN_FIT_DRIVES} drives with spread data", "carry_forward": True, "error": "new-only n<8", "p": None, "note": NOT_ESTABLISHED}
         except Exception as ex:
             rep["tests"].append({"quantity": label, "error": repr(ex), "hard_new_outside_old_ci": True})
             continue
@@ -193,8 +235,9 @@ def evaluate(dm_old, dm_new, diffs_before):
         p = nb.get("p")
         jt = {"quantity": f"{label}.joint_block_null", "coefficients_in_statistic": [["b0", "bT", "bI"][c] for c in cols], **nb}
         nvb = nb.get("n_valid_blocks", 0)
-        jt["hard_drift_block_null"] = bool(p is None or (nvb >= 99 and p <= 0.01))
-        jt["soft_flag"] = bool(p is not None and p < 0.05 and not jt["hard_drift_block_null"])
+        jt["hard_drift_block_null"] = bool(p is not None and nvb >= MIN_WINDOWS_HARD and p <= P_HARD)      # M392: not evaluable is never hard
+        jt["not_evaluable"] = bool(p is None)
+        jt["soft_flag"] = bool(jt["not_evaluable"] or (p < P_SOFT and not jt["hard_drift_block_null"]))
         rep["tests"].append(jt)
     old_idx = dm_old.set_index(dm_old["file"].astype(str))
     cur = old_in_new.set_index(old_in_new["file"].astype(str))
@@ -207,8 +250,10 @@ def evaluate(dm_old, dm_new, diffs_before):
         shifts[c] = {"n_changed": int(diffs_before[c]), "max_abs_shift": float(dlt.max()) if len(dlt) else None,
                      "median_abs_shift": float(dlt.median()) if len(dlt) else None}
     rep["per_column_shift_preexisting"] = shifts
-    hard = [t["quantity"] for t in rep["tests"] if t.get("hard_new_outside_old_ci") or t.get("hard_drift_new_only_outside_old_ci") or t.get("hard_drift_block_null")]
+    hard = [t["quantity"] for t in rep["tests"] if t.get("hard_new_outside_old_ci") or t.get("hard_drift_window_null") or t.get("hard_drift_block_null")]
     rep["soft_flags"] = [t["quantity"] for t in rep["tests"] if t.get("soft_flag")]
+    rep["not_evaluable"] = [t["quantity"] for t in rep["tests"] if t.get("not_evaluable")]
+    rep["rule"] = "M392 (analyses/M392_spec.md): hard = pooled outside old CI, or window-null p <= 0.01 with >= 99 windows; soft = p < 0.05, pooled shift > 0.25 half-width, or not evaluable (never hard); mdd95 reported"
     rep["hard_flags"] = hard
     rep["note"] = ("corpus-refit recalibration (offset cascade + spread-model refit); corrected energies are estimated/offset-corrected, "
                    "never measured. KPI delta vs S.* keys and claim_register figures is produced by delta_report.py / claim-check.")
