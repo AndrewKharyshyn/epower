@@ -39,3 +39,39 @@ bo = fit(so)
 res = rg._block_null(so, fit, 5, 10, bo, bo + np.array([100.0, 100.0]), [0, 1], np.random.default_rng(42))
 assert res["n_valid_blocks"] == 26 and abs(res["p"] - 1 / 27) < 1e-12 and abs(res["p_min"] - 1 / 27) < 1e-12
 print("block_null tests ok")
+
+# M392 window-null drift test (analyses/M392_spec.md): rank of the new-batch deviation among ALL contiguous k-day windows of the old corpus
+def mk(days, resid):
+    return pd.DataFrame({"date": days, "energy_residual_kwh": resid, "duration_s": [3600.0] * len(days), "V_pack_median": [300.0] * len(days),
+                         "integr_time_h": [1.0] * len(days), "f_domain_2p": [False] * len(days)})
+rng = np.random.default_rng(3)
+nd = 120
+od = [f"d{i:03d}" for i in range(nd)]
+old = mk(od, 0.01 + 0.002 * rng.normal(size=nd))
+far = mk(["n0", "n1", "n2", "n3"], [0.5] * 4)                                   # batch far beyond every old window
+w = rg._window_null_offset(old, far, False)
+assert w["status"] == "ok" and w["n_windows"] == nd - 4 + 1 and abs(w["p"] - 1 / (w["n_windows"] + 1)) < 1e-12 and w["mdd95"] > 0
+assert rg._window_flags(w) == (True, False)                                      # 117 windows >= 99 and p = 1/118 <= 0.01 -> hard
+w40 = rg._window_null_offset(old.iloc[:40], far, False)
+assert w40["n_windows"] == 37 and rg._window_flags(w40) == (False, True)         # fewer than 99 windows: capped soft, never hard
+same = mk(["n0", "n1", "n2", "n3"], [0.01] * 4)
+ws = rg._window_null_offset(old, same, False)
+assert ws["p"] > 0.05 and rg._window_flags(ws) == (False, False)               # an ordinary batch raises nothing
+short = rg._window_null_offset(old.iloc[:5], far, False)
+assert short["status"] == "not_evaluable" and short["p"] is None and rg._window_flags(short) == (False, True)     # not evaluable: soft, never hard
+assert rg._window_null_offset(old, mk([], []), False)["status"] == "not_evaluable"
+# the informational comparison no longer counts: _judge still reports it, evaluate() moves it to new_only_outside_old_ci (not in the hard list)
+assert rg.MIN_FIT_DRIVES == 8 and rg.P_HARD == 0.01 and rg.MIN_WINDOWS_HARD == 99
+# block null with the fixed fit minimum is evaluable where the batch-size minimum was not; fewer than 10 valid windows -> not_evaluable with p None (soft)
+so2 = pd.DataFrame({"date": np.repeat([f"2026-01-{i:02d}" for i in range(1, 31)], 4), "x": np.random.default_rng(5).normal(size=120)})      # 4 drives/day: 3-day windows have 12 >= 8
+fit2 = lambda s: np.array([s["x"].mean(), s["x"].std()])
+b2 = fit2(so2)
+ev = rg._block_null(so2, fit2, 3, rg.MIN_FIT_DRIVES, b2, b2 + 0.1, [0, 1], np.random.default_rng(1))
+assert ev["status"] == "ok" and ev["n_valid_blocks"] == 28 and len(ev["mdd95_per_coef"]) == 2
+ne = rg._block_null(so2, fit2, 3, 10 ** 6, b2, b2, [0, 1], np.random.default_rng(1))
+assert ne["status"] == "not_evaluable" and ne["p"] is None
+# Director conditions (M392): n_eff and the effective level reported; not evaluable records its reason and carry_forward and says 'not established'
+assert abs(w["n_eff"] - w["n_windows"] / 4) < 1e-12 and "effective hard level" in w["nominal_vs_effective"]
+assert short["carry_forward"] is True and "not established" in short["note"] and "fewer than" in short["reason"]
+assert abs(ev["n_eff"] - ev["n_valid_blocks"] / 3) < 1e-12 and ne["carry_forward"] is True and "valid blocks" in ne["reason"] and "not established" in ne["note"]
+print("window null tests ok")
