@@ -1,0 +1,34 @@
+# M395 spec (pre-registered before the code): powerFade cadence disclosure
+
+Follows M393 (analyses/M393_resistance_cadence.py; CHANGELOG M393). Scope: the DISCLOSURE of the pack-resistance proxy slope (`powerFade`), not its estimator. The published slope (+0.552 mOhm/month, 95% CI [-0.929, 2.124], 242 clean drives)
+stays the primary, unchanged value of the payload; nothing in the master changes.
+
+## Why
+M393 showed: the +0.552 arithmetic is correct and a statistical null; its size and sign depend on how the HV-current logging cadence is handled (-0.23 to +0.99 across the M393 study's specifications; the fixed M395 list below gives -0.03 to +0.99); dense logging raises the proxy by 1.5-1.7 mOhm per drive (emulation);
+the M170 density covariates absorb most but not all of it. The stored note says "Sampling cadence IS controlled (M170) ... is held constant in the trend", the claims-table label says "cadence-controlled": both overstate.
+
+## Change (additive payload block + wording; no estimator change)
+1. `powerFade.cadenceSensitivity` (new, computed on every build from the master + raw logs by `compute_drive_summary_v6._powerfade_cadence_specs`; same clean set, model, day-clustered percentile bootstrap, seed 42, 4000 draws as the published slope):
+   S0 no cadence covariate; S1 published design (median interval + coverage of the HV-current channel); S2 fast-regime indicator instead of the density covariates; S3 density + fast indicator;
+   S4 fast-regime run dummies (one dummy per run of >= 5 consecutive fast-regime drives in time order; shorter fast runs pooled into one 'other fast' dummy); S5 published design on the drives before the start of the LATEST FAST-regime run
+   (the regime can flip back, so 'latest fast run' not 'latest run'); S6 slow-regime drives only, no covariate. Regime = the M379a rule on the master column I_sample_period_s (fast < 1.05 s, slow otherwise, drives without a value excluded from regime-based designs).
+   Per specification: slope, 95% CI, n drives, n days. Block-level: `slopeMin`, `slopeMax` (over the listed specifications), `nSpecs`, `allIntervalsSpanZero` (computed), `publishedIsSpec` ('S1'), `statement` (generated from the leaves, no typed numbers).
+2. `powerFade.cadenceSensitivity.emulation` (snapshot, read from `analyses/M393_resistance_cadence.json` at build time, never typed): per-era paired difference (emulated slow cadence minus original) with its day-clustered CI, the number of fast-regime clean drives that lose the proxy at slow sampling,
+   the same-drive slope pair; `basis` = {study 'M393', nClean at the study, seeds, slowPoolDrives}; `stale` = true when the current nClean differs from the study's (other corpus changes are not detected; the emulation is a study, refreshed by re-running analyses/M393_resistance_cadence.py; the payload says so). A missing or unreadable study gives an explicit `{status: not_available}` and the statement says so. The bias sentence says 'on the N fast-regime drives that keep a proxy' (the paired difference exists only for drives whose proxy survives emulation) and separately 'removes it from X of Y fast-regime drives'.
+3. Wording (all generated from payload leaves): the `note` sentence "Sampling cadence IS controlled (M170) ... is held constant" is replaced by a conditional statement: logging-density covariates adjust for HV-current sampling density (M170) but do not remove the cadence effect; the slope's size and sign depend on how cadence is handled
+   (range from the block); every interval spans zero => no fade rate is claimed. The claims-table label 'powerFade (cadence-controlled, ...)' becomes 'powerFade (HV-current-density adjusted, ...)'. The degradation-trends note and the dashboard prose that call the powerFade slope 'cadence-controlled' say 'HV-current-density adjusted (M170, a partial adjustment)'; the note no longer carries a typed slope and no longer refers to the non-existent `resistanceReconciliation` block (the function that would build it is dead code; the dashboard sentence now binds to `degradationTrends.resistanceVreg.clusterRobustOLS.slope`, which had been rendering blank).
+   Dashboard: the resistance Conclusions item gets a caveat line bound to S.powerFade.cadenceSensitivity (range, number of specifications, all-intervals-span-zero, emulation bias and proxy-availability loss with the 'emulated sampling sensitivity, not a causal cadence effect' label).
+4. Language gate: the OLD wordings ('Sampling cadence IS controlled', 'cadence-controlled' applied to the powerFade slope, 'held constant in the trend') become forbidden rules with this ledger id; the new statement is a required rendered line.
+
+## Fixed, not tuned
+Specification list, regime rule, the >= 5 drive run threshold, seed and draws. The range is over the listed specifications only and says so; it is NOT a confidence statement about the true trend. Wording: 'HV-current-density adjusted', 'cadence-dependent point estimate', 'no detectable resistance trend'; never 'cadence-controlled', 'stable', 'no fade' or 'proven'.
+
+## Gates
+Known-answer test (tests/synthetic/test_powerfade_cadence.py): synthetic drives with a known slope and an injected density-dependent bias recover the slope under the density design and show the bias without it; regime runs and the 'latest fast run' cut computed correctly incl. a trailing slow run; specification block shape; statement generated from leaves.
+Blind audit reproduces the specification slopes independently from drive_master + raw, and reviews the wording changes. Apply by additive splice of `powerFade` only (deep-diff: only cadenceSensitivity added and note/label strings changed), dashboard rebuild, release_check green, master unchanged.
+
+## Apply method (amended after the blind audit)
+Not a splice of `powerFade` alone: the change touches several builder strings (powerFade, fadeModes.power.trend, the claims-table label and note, degradationTrends.note), so it is applied as in M390: fresh arrays builds with and without the patch from the same input
+(tools/m388c_rebuild_arrays.py) are diffed leaf by leaf (non-noise differences: powerFade note + cadenceAdjustment + cadenceSensitivity, the same three leaves under fadeModes.power.trend, the claims-table label and note, degradationTrends.note), then the pipeline stages from stage_raw re-add what they own.
+The FINAL payload is deep-diffed against HEAD (every differing top-level key explained; provenance/timestamps/hash leaves listed) before commit. Known limits (audit): the two-regime split on I_sample_period_s labels the 2026-10-08 10:15+ drives (about 1.47 s, slower than the earlier slow regime) as slow;
+only 2 clean-proxy drives are affected; the `corr months~coverage = +0.73` literal in the dashboard prose is a pre-existing hard-coded figure, not verified here.

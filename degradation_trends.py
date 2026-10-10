@@ -398,11 +398,11 @@ def build(master_csv_or_df='drive_master.csv'):
                  'outcome with T + peak-current controls (no double temperature '
                  'adjustment); TOST reference distribution is t(G-1), G = '
                  'day-clusters. M207 (C-04/F-08): resistanceVreg is the '
-                 'cadence-UNCONTROLLED sensitivity (months + T + load current); '
+                 'sensitivity without the HV-current-density covariates (months + T + load current); '
                  'the PRIMARY resistance estimand is powerFade (M170 '
-                 'cadence-controlled). Its ~+1.16-1.19 mOhm/mo is the M126 '
-                 'logging-density artifact, not pack aging -- see '
-                 'resistanceReconciliation.')}
+                 'HV-current-density adjusted, a partial adjustment). Logging density raises the proxy '
+                 '(M393 emulation), so this slope is not read as a fade rate -- see '
+                 'powerFade.cadenceSensitivity.')}
     out['cellSpread']['restingSpreadMedianMv'] = round(cs_med_cur, 1)
     out['resistanceVreg']['proxyMedianMohm'] = round(vr_med_cur, 1)
     out['sesoiBasis'] = {

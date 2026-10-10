@@ -101,6 +101,10 @@ ok("A2 REQUIRED Cold observed count and date shown from the payload", any(_cexp 
 _mde = A.get("powerFade", {}).get("mdeRisePctPerYr")
 ok("A2 REQUIRED power-fade precision stated as a CI half-width with the payload value",
    any(f"95% CI half-width ±{_mde}%/yr" in t for t in T.values()), str(_mde))
+_cs95 = (A.get("powerFade") or {}).get("cadenceSensitivity") or {}
+ok("A2 REQUIRED M395 powerFade cadence statement rendered from the payload (partial density adjustment, specification range, every interval spans zero, no fade rate claimed)",
+   _cs95.get("status") == "ok" and any(f"across {_cs95['nSpecs']} cadence-handling specifications the slope ranges from {_cs95['slopeMin']} to {_cs95['slopeMax']} m\u03A9/month" in t and "no fade rate is claimed" in t for t in T.values()),
+   str(_cs95.get("statement")))
 ok("A2 REQUIRED health conclusion reads 'Cell-spread trend not resolved'", any("Cell-spread trend not resolved" in t for t in T.values()))
 # W4a (M329)
 ok("A2 REQUIRED depth-squared weighted cycle sum wording present", any("depth-squared weighted cycle sum" in t for t in T.values()))
