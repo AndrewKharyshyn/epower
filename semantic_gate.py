@@ -118,6 +118,27 @@ if _cb:
        abs(_ex["energyReferences"]["legacy_2.1kWh"]["grossTurnoverGTC"] / (2 * _ex["energyReferences"]["legacy_2.1kWh"]["bidirectionalFCE"]) - 1) < 1e-4
        and abs(_ex["energyReferences"]["apparentSoCScale"]["bidirectionalFCE"] * _ex["energyReferences"]["apparentSoCScale"]["referenceKwh"] / (_ex["energyReferences"]["legacy_2.1kWh"]["bidirectionalFCE"] * 2.1) - 1) < 1e-4)
     ok("M404 zero-current check does not present load as a sensor zero", (not _cb["zeroCurrentCheck"].get("evaluable")) or "interpretation" in _cb["zeroCurrentCheck"])
+# M406 (analyses/M406_spec.md): dependence and small-cluster sensitivities are additive; they must reproduce the released estimators and never replace them
+_ds = A.get("dependenceSensitivity")
+ok("M406 dependenceSensitivity present with the thesis KPIs and both released trend series", bool(_ds) and len(_ds["thesisKpis"]) == 6 and set(_ds["trendSlopes"]) == {"cellSpread", "resistanceVreg"})
+if _ds:
+    for _k, _t in _ds["trendSlopes"].items():
+        _r = A["degradationTrends"][_k]["clusterRobustOLS"]
+        ok("M406 %s: the CR1 reimplementation reproduces the released cluster-robust slope, SE and day count" % _k,
+           abs(_t["cr1"]["slope"] - _r["slope"]) < 2e-4 and abs(_t["cr1"]["se"] - _r["se"]) < 2e-4 and _t["nDays"] == _r["nDays"] and _t["n"] == _r["nObs"])
+        ok("M406 %s: CR2 standard error and df are positive, the wild-bootstrap p-value is a probability, every interval is ordered" % _k,
+           _t["cr2"]["se"] > 0 and _t["cr2"]["df"] > 0 and 0 < _t["wildClusterBootstrapT"]["pValueNullImposed"] <= 1
+           and all(_t[x]["ci95"][0] < _t[x]["ci95"][1] for x in ("dayClusterPairsBootstrap", "weekBlockPairsBootstrap")) and _t["wildClusterBootstrapT"]["ci95PercentileT"][0] < _t["wildClusterBootstrapT"]["ci95PercentileT"][1])
+    for _k, _t in _ds["trendSlopes"].items():
+        _rd = A["degradationTrends"][_k]["releasedEquivalence"]["delta"]
+        ok("M406 %s: the TOST sensitivity under CR2 uses the released frozen bound and does not replace the released decision" % _k,
+           abs(_t["tostSensitivityCR2"]["delta"] - _rd) < 1e-3 and "unchanged" in _t["tostSensitivityCR2"]["note"])
+        ok("M406 %s: Monte Carlo seed range reported for the wild p-value and the bounds; week-block intervals with fewer than 10 blocks are flagged" % _k,
+           _t["seedSpread"]["wildPValueRange"][0] <= _t["wildClusterBootstrapT"]["pValueNullImposed"] <= _t["seedSpread"]["wildPValueRange"][1] + 1e-9
+           and isinstance(_t["weekBlockPairsBootstrap"]["fewBlocks"], bool) and all(isinstance(v["weekBlockPairsBootstrap"]["fewBlocks"], bool) and v["weekBlockPairsBootstrap"]["fewBlocks"] == (v["weekBlockPairsBootstrap"]["nBlocks"] < 10) for v in _t["byLoggingRegime"].values()))
+    ok("M406 fixed reporting order and rule: no primary interval, no envelope", len(_ds["reportingOrder"]) == 5 and "no single interval is designated primary" in _ds["reportingRule"])
+    ok("M406 KPI intervals bracket their estimates (day-cluster and week-block)", all(v["dayClusterCI95"][0] <= v["estimate"] <= v["dayClusterCI95"][1] and v["weekBlockCI95"][0] <= v["estimate"] <= v["weekBlockCI95"][1] for v in _ds["thesisKpis"].values()))
+    ok("M406 the block states that the released estimators are unchanged and that confounding is not removed", "do not change the released estimators" in _ds["reading"] and "do not remove season" in _ds["reading"])
 # M399 (audits 2026-10-11, analyses/M399_wording_spec.md): fact-aware text checks (each fails on the pre-fix state)
 import re as _re399
 _pr399 = A["provenanceSensitivity"]["raw"]
