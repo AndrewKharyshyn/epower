@@ -27,7 +27,7 @@ N_BOOT, SEED, SOFT_FRAC = 4000, 42, 0.25
 MIN_FIT_DRIVES = 8          # M392: validity of a window / batch for the spread fit (the gate's own "new-only n >= 8"); NOT the batch's drive count
 P_HARD, P_SOFT, MIN_WINDOWS_HARD, MIN_WINDOWS = 0.01, 0.05, 99, 10          # M392 (analyses/M392_spec.md)
 NOT_ESTABLISHED = "drift test not established for this batch (not evaluable); the batch is carried forward, not cleared"
-_EFF = "nominal 1%; overlapping windows make the effective hard level about 1/(n_eff+1) = 1/{e:.0f}"
+_EFF = "nominal 1% per window; overlapping windows reduce the effective number of independent windows, so the rank resolution is about 1/(n_eff+1) = 1/{e:.0f}; this is a resolution of the rank statistic, not a calibrated false-alarm rate"
 
 
 def _hours(d):

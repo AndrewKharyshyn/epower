@@ -1,0 +1,42 @@
+{
+ "_note": "M401 (audit D4): recorded odometer anomalies of drive_master.csv, found by tools/odometer_check.py (fixed rules R1-R4). Hand-curated reasons; the numbers are re-derived from the master by the check. The master is not edited (pipeline scripts only). The Overview KPI (total logged km / dash ODO, owner rule 2026-10-03) is unchanged.",
+ "distanceTreatment": "master distance_km equals odo_end - odo_start for these drives and is kept (not excluded); where the odometer scale was restarted the distance_source label 'odo_endpoint' describes the difference of two readings on the restarted scale, cause of the restart not established",
+ "anomalies": [
+  {
+   "file": "20260813_144601.csv",
+   "rules": [
+    "R2"
+   ],
+   "reason": "odo_start repeats the start reading of the earlier drive 20260813_115220 instead of continuing from its end reading (backward step)"
+  },
+  {
+   "file": "20260816_124817.csv",
+   "rules": [
+    "R2",
+    "R3"
+   ],
+   "reason": "odometer reading restarted at 0.0 while the neighbouring drives read about 6,736 km (cause not established)"
+  },
+  {
+   "file": "20260816_144003.csv",
+   "rules": [
+    "R3"
+   ],
+   "reason": "continues the restarted scale (starts at the end reading of the previous drive, far below the running maximum)"
+  },
+  {
+   "file": "20260816_165356.csv",
+   "rules": [
+    "R4"
+   ],
+   "reason": "first drive back on the ~6,736 km scale after the restarted-scale drives (forward jump)"
+  },
+  {
+   "file": "20260906_122920.csv",
+   "rules": [
+    "R1"
+   ],
+   "reason": "odo_end is below odo_start inside the drive; the master already labels distance_source = trip_meter for it"
+  }
+ ]
+}

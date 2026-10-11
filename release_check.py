@@ -26,7 +26,7 @@ from pathlib import Path
 
 SRC = Path(os.environ.get("XT_WORK", Path(__file__).resolve().parent))
 SEARCH = [SRC, SRC / "claude", SRC / "seasonal", SRC / "track3", SRC / "track4"]
-REQUIRED = ["xtrail_summary.jsx", "summary_arrays.json", "summary_config.json", "energy_uncertainty_mc.json", "build_html.js", "validate_jsdom.js",
+REQUIRED = ["xtrail_summary.jsx", "summary_arrays.json", "summary_config.json", "energy_uncertainty_mc.json", "odometer_anomalies.json", "build_html.js", "validate_jsdom.js",
             "test_cold_fixture.js", "test_ambient_table.js", "test_gtr_gate.js", "test_fuel_tab.js", "package.json", "package-lock.json", "drive_master.csv", "battery_temp_extremes.csv", "originals_manifest.json", "raw_manifest.json", "soc_patterns.json",
             "seasonal_core.py", "seasonal_adjust.py", "test_seasonal_adjust.py", "cohort_arrays.py", "cohort_arrays.json",
             "seasonal_drive_master.csv", "seasonal_dependency.json", "raw_temperature_triplets.csv",
@@ -34,7 +34,7 @@ REQUIRED = ["xtrail_summary.jsx", "summary_arrays.json", "summary_config.json", 
             "patch_m284_data.py", "test_assumptions_registry.py", "refresh_seasonal_kpis.py", "records_resistance.py",
             "records_rainflow.py", "cohort_distributions.py", "test_track4.py", "apply_m284_post.sh",
             "dump_tabs.js", "semantic_gate.py", "test_cohort_rates.py", "records_disclosure.py", "f03_provenance_flag.py", "f03_provenance.json", "language_gate.py", "eligibility.py", "precision_gate.py", "precision_allowlist.json", "fuel_contract_flag.py", "fuel_contract.json", "fuel_recon_master.csv"]
-TOOLS_REQUIRED = ["refresh_meta_sources.py", "intake_air_block.py"]   # called by apply_m284_post.sh (M355; M361 imports intake_air_block)
+TOOLS_REQUIRED = ["refresh_meta_sources.py", "intake_air_block.py", "odometer_check.py"]   # called by apply_m284_post.sh (M355; M361 imports intake_air_block)
 OPTIONAL = ["warm_baseline_freeze.json", "event_ledger.json", "compute_seasonal.py", "seasonal_config.json",
             "seasonal_arrays.json", "test_seasonal.py"]
 LEGACY_NEEDS = ["test_seasonal.py", "compute_seasonal.py", "seasonal_config.json", "seasonal_arrays.json",
@@ -287,6 +287,7 @@ def main():
         # M299: semantic release gate — rendered prose (every tab x All/Warm/Shoulder/Compare) vs the one payload
         run(["node", "dump_tabs.js"], tmp, "render per-tab/per-mode text (dump_tabs.js)")
         run([sys.executable, "semantic_gate.py"], tmp, "semantic gate: forbidden wording + prose==payload + mode behaviour (M299)")
+        run([sys.executable, "tools/odometer_check.py"], tmp, "odometer continuity: every anomaly of drive_master.csv is recorded (M401, audit D4)")
         for t in PY_TESTS:
             if t == "test_seasonal.py":
                 miss = [n for n in LEGACY_NEEDS if not (tmp / n).exists()]
