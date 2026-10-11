@@ -40,7 +40,9 @@ def record_for(file, date, t_pack, csv_bytes):
     g = DE.grid_from_csv_bytes(csv_bytes)
     pub, fuel = DE.detect(g, "PUB"), DE.detect(g, "FUEL")
     rec = {"file": file, "date": str(date), "T_pack": None if t_pack is None or t_pack != t_pack else round(float(t_pack), 1), "band": band_of(t_pack),
-           "channels": DE.channels(g), "pub_evaluable": pub is not None, "fuel_evaluable": fuel is not None,
+           "channels": DE.channels(g), "pub_evaluable": pub is not None, "fuel_evaluable": fuel is not None, "detector_version": DE.DETECTOR_VERSION,
+           "grid_s": int(len(g)) if g is not None else 0,
+           "unknown_s": {k: (lambda c: None if c is None else c["unknown_s"])(DE.unknown_coverage(g, k)) for k in ("PUB", "FUEL")},
            "pub_events": pub or [], "fuel_only_sustained": [], "pub_sustained_unconfirmed": []}
     if pub is not None and fuel is not None:
         rec["fuel_only_sustained"] = [e for e in fuel if e["sustained"] and not any(DE.overlaps(e, p) for p in pub)]
@@ -102,12 +104,34 @@ def summarise(records):
             "n_sustained_events": len(allsus), "sustained_soc_mean_min": min((e["soc_mean"] for e in allsus), default=None),
             "sustained_soc_mean_max": max((e["soc_mean"] for e in allsus), default=None),
             "sustained_rpm_mean_range": [min((e["rpm_mean"] for e in allsus), default=None), max((e["rpm_mean"] for e in allsus), default=None)],
-            "drives_with_fuel_channels": sum(1 for r in records if r["fuel_evaluable"])}
+            "drives_with_fuel_channels": sum(1 for r in records if r["fuel_evaluable"]),
+            "unknown_s_total": {k: sum((r.get("unknown_s") or {}).get(k) or 0 for r in records) for k in ("PUB", "FUEL")},
+            "grid_s_total": sum(r.get("grid_s") or 0 for r in records)}
+
+
+def diff_states(legacy_drives, records):
+    """Affected-output difference between a legacy (pre-detector-version-2) state and the rebuilt records: counts only, matched by file (script-written, nothing typed)."""
+    new = {r["file"]: r for r in records}
+    sig = lambda r: [(e["dur_s"], e["sustained"]) for e in (r["pub_events"] + r["fuel_only_sustained"])]
+    ns = lambda r: len(sustained_events(r))
+    common = sorted(set(legacy_drives) & set(new))
+    changed_sus = [f for f in common if ns(legacy_drives[f]) != ns(new[f])]
+    changed_ev = [f for f in common if sig(legacy_drives[f]) != sig(new[f])]
+    return {"legacy_n_drives": len(legacy_drives), "new_n_drives": len(new), "n_compared": len(common),
+            "legacy_pub_events": sum(len(legacy_drives[f]["pub_events"]) for f in common), "new_pub_events": sum(len(new[f]["pub_events"]) for f in common),
+            "legacy_sustained_events": sum(ns(legacy_drives[f]) for f in common), "new_sustained_events": sum(ns(new[f]) for f in common),
+            "legacy_drives_with_sustained": sum(1 for f in common if ns(legacy_drives[f])), "new_drives_with_sustained": sum(1 for f in common if ns(new[f])),
+            "drives_with_changed_sustained": len(changed_sus), "drives_with_changed_events": len(changed_ev),
+            "files_changed_sustained": changed_sus[:40],
+            "note": "M400 (audit N01-N03): full-grid runs, one drive clock, unknown load is not low load; detectors' thresholds unchanged"}
 
 
 def update(dm, loader, state_path=STATE):
     """dm: master frame (file, date, time_start, T_pack_mean_avg); loader(file) -> csv bytes or None. Returns the new state (also written)."""
     state = json.load(open(state_path, encoding="utf-8")) if os.path.exists(state_path) else None
+    legacy = None
+    if state is not None and state.get("detector_version") != DE.DETECTOR_VERSION:
+        legacy, state = state, None                      # M400: records of an older detector are rebuilt from the corpus (bootstrap, no flags); the change is reported
     seen = (state or {}).get("drives", {})
     order = dm.sort_values(["date", "time_start"], kind="stable") if "time_start" in dm.columns else dm.sort_values("date", kind="stable")
     drives, flags, new_files = dict(seen), [], []
@@ -134,14 +158,15 @@ def update(dm, loader, state_path=STATE):
     if state is not None and not new_files and not any(not x.get("info") for x in flags):
         return state                                    # nothing new: leave the file (and the last run's flags) untouched, so a pipeline rerun cannot erase an alert
     recs = [drives[k] for k in sorted(drives, key=lambda k: (drives[k]["date"], k))]
-    history = list((state or {}).get("flag_history", []))
+    history = list((state or legacy or {}).get("flag_history", []))
     strip = lambda d: {k: v for k, v in d.items() if k != "recorded_with_n_drives"}
     for x in flags:
         same = (lambda h: h.get("flag") == x["flag"] and h.get("file") == x.get("file")) if x["flag"] == "read_error" else (lambda h: strip(h) == x)
         if not x.get("info") and not any(same(h) for h in history):          # a persistent read_error is recorded once per file, whatever its message
             history.append(dict(x, recorded_with_n_drives=len(recs)))
     out = {"rule": RULE, "note": "report-only; hypothesis (cold pack => more unfuelled dissipation) not yet observed until a cold drive has a sustained event; fuel rate is logged / app-calculated; thresholds set on data >= 9.7 C pack temperature, unvalidated for cold; pack temperature is the temperature axis (intake-air channel unavailable since 2026-08-24)",
-           "bootstrap": bootstrap, "summary": summarise(recs), "last_update": {"n_new_drives": len(new_files), "new_files": new_files if len(new_files) <= 60 else new_files[:60] + ["..."],
+           "bootstrap": bootstrap, "detector_version": DE.DETECTOR_VERSION,
+           "detector_change": diff_states(legacy["drives"], recs) if legacy else (state or {}).get("detector_change"), "summary": summarise(recs), "last_update": {"n_new_drives": len(new_files), "new_files": new_files if len(new_files) <= 60 else new_files[:60] + ["..."],
                                                                               "flags": flags, "n_flags": len([x for x in flags if not x.get("info")])},
            "flag_history": history, "drives": drives}
     os.makedirs(os.path.dirname(state_path), exist_ok=True)

@@ -8,7 +8,7 @@ Two detectors on the 1 s grid (thresholds fixed, not tuned):
   PUB  = rpm > 2000 and boost < -0.70 (MAP ~ < 25 kPa) and calc load < 8          the published census classifier (needs rpm, boost, load, soc)
   FUEL = rpm > 1200 and logged fuel rate < 0.2 L/h and absolute throttle B < 10 %  independent indicator (app-calculated fuel rate; only the 60-column logging generation)
 An EVENT is a run of >= 3 consecutive true seconds. SUSTAINED = duration >= 10 s and |rpm slope| < 30 rpm/s: not an engine start / stop transient (FUEL alone fires on spin-up and
-spin-down: in the 2026-10 cross-check 80 FUEL-only events had a median duration of 5 s and 69 % falling rpm). Fuel rate / engine power are app-calculated: say 'logged', never 'measured'. Event duration counts grid rows after dropping rows with a missing needed channel. The FUEL events seen so far
+spin-down: in the 2026-10 cross-check 80 FUEL-only events had a median duration of 5 s and 69 % falling rpm). Fuel rate / engine power are app-calculated: say 'logged', never 'measured'. M400: runs are taken on the full grid (a second with a missing needed channel ends a run; unknown load is not low load). (Before M400 the duration counted grid rows after dropping rows with a missing needed channel.) The FUEL events seen so far
 sit at 1520-1736 rpm (just above the ~1500 rpm generator floor): they are 'fuel-indicated unfuelled spin' (logged fuel < 0.2 L/h, throttle < 10 %); low-power fuelled generation with a
 quantised fuel rate is not ruled out, and the SUSTAINED test is the only guard at the floor."""
 import io
@@ -57,29 +57,47 @@ def _runs(mask):
             i += 1
 
 
+DETECTOR_VERSION = 2          # M400 (audit N01-N03): full-grid runs, one drive clock, unknown load is not low load
+NEED = {'PUB': PUB_CHANNELS, 'FUEL': ('rpm', 'fuel', 'thr', 'soc')}
+
+
+def _observed(g, kind):
+    """Seconds of the full 1 s grid in which every channel the detector needs is observed (a second with an unknown channel is unknown, never zero)."""
+    return g[list(NEED[kind])].notna().all(axis=1).to_numpy()
+
+
+def unknown_coverage(g, kind):
+    """Unknown-state coverage of a detector on grid g: grid seconds, seconds with every needed channel observed, seconds with at least one unknown. None if not evaluable."""
+    if g is None or not all(c in g.columns and g[c].notna().any() for c in NEED[kind]):
+        return None
+    obs = _observed(g, kind)
+    return {'grid_s': int(len(g)), 'observed_s': int(obs.sum()), 'unknown_s': int(len(g) - obs.sum())}
+
+
 def detect(g, kind):
-    """Events of kind 'PUB' or 'FUEL' on the grid g. Returns a list of dicts (t0 = seconds from the grid start). A detector whose channels are missing returns None (not evaluable)."""
+    """Events of kind 'PUB' or 'FUEL' on the FULL 1 s grid g. A run is consecutive grid seconds in which every needed channel is observed and the condition holds: an unobserved second
+    ends the run (M400, N01), so durations and the rpm slope use timestamps. t0_s / end_s are seconds from the first grid row, one drive clock for both detectors (N02). An unknown
+    calculated load never counts as low load (N03). A detector whose channels are missing returns None (not evaluable)."""
     if g is None:
         return None
+    if not all(c in g.columns and g[c].notna().any() for c in NEED[kind]):
+        return None
     if kind == 'PUB':
-        if not all(c in g.columns and g[c].notna().any() for c in PUB_CHANNELS):
-            return None
-        d = g.dropna(subset=['rpm', 'boost', 'soc'])
-        mask = ((d['rpm'] > RPM_PUB) & (d['boost'] < BOOST_PUB) & (d['load'].fillna(0) < LOAD_PUB)).to_numpy()
+        cond = (g['rpm'] > RPM_PUB) & (g['boost'] < BOOST_PUB) & (g['load'] < LOAD_PUB)
     else:
-        if not all(c in g.columns and g[c].notna().any() for c in ('rpm', 'fuel', 'thr', 'soc')):
-            return None
-        d = g.dropna(subset=['rpm', 'fuel', 'thr', 'soc'])
-        mask = ((d['rpm'] > RPM_FUEL) & (d['fuel'] < FUEL_MAX_LH) & (d['thr'] < THR_MAX_PCT)).to_numpy()
+        cond = (g['rpm'] > RPM_FUEL) & (g['fuel'] < FUEL_MAX_LH) & (g['thr'] < THR_MAX_PCT)
+    mask = _observed(g, kind) & cond.to_numpy()
+    origin = g.index[0]
     out = []
-    t0 = d.index[0] if len(d) else None
     for i, j in _runs(mask):
         n = j - i + 1
         if n < EVENT_MIN_S:
             continue
-        seg = d.iloc[i:j + 1]
-        slope = float(np.polyfit(np.arange(n), seg['rpm'].to_numpy(), 1)[0]) if n >= 3 else 0.0
-        out.append({'t0_s': float((seg.index[0] - t0).total_seconds()), 'dur_s': int(n), 'rpm_mean': round(float(seg['rpm'].mean()), 1), 'rpm_slope_per_s': round(slope, 2),
+        seg = g.iloc[i:j + 1]
+        x = (seg.index - seg.index[0]).total_seconds().to_numpy()
+        slope = float(np.polyfit(x, seg['rpm'].to_numpy(), 1)[0])
+        t0 = float((seg.index[0] - origin).total_seconds())
+        out.append({'t0_s': t0, 'end_s': t0 + n, 'dur_s': int(n), 'rpm_mean': round(float(seg['rpm'].mean()), 1), 'rpm_slope_per_s': round(slope, 2),
                     'soc_mean': round(float(seg['soc'].mean()), 1),
                     'speed_mean': round(float(seg['speed'].mean()), 1) if 'speed' in seg and seg['speed'].notna().any() else None,
                     'I_mean': round(float(seg['I'].mean()), 1) if 'I' in seg and seg['I'].notna().any() else None,
