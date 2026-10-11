@@ -37,6 +37,19 @@
    "verified": true
   },
   {
+   "id": "ah_throughput",
+   "title": "M402: per-drive Ah throughput sidecar (ah_throughput.csv + summary) on the same I/V pairs as the kWh block; incremental by raw sha256; matched-support check against the master",
+   "cmd": [
+    "python3",
+    "tools/ah_throughput.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "ah_throughput.csv",
+    "ah_throughput_summary.json"
+   ]
+  },
+  {
    "id": "raw_temp_pass",
    "title": "Raw-temperature triplets over staged raw (new drives must not enter seasonal master as 'unavailable')",
    "cmd": [
