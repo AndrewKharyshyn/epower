@@ -3,7 +3,7 @@ import numpy as np, pandas as pd
 ROOT = r"C:\Users\AndriiKharyshyn\Downloads\X-Trail Investigation\Repo\xtrail-repo"
 RAW = os.path.join(ROOT, "raw")
 CUR = "[BMS] HV Battery Current (A)"; VOL = "[BMS] HV Battery voltage (V)"
-keys = json.load(open(os.path.join(ROOT, "analyses/M402_audit/sample_files.json")))["files"]
+keys = json.load(open(os.path.join(ROOT, "analyses/M402_audit/sample_files.json"), encoding="utf-8"))["files"]
 digits = lambda s: re.sub(r"\D", "", os.path.splitext(s)[0])
 rawmap = {digits(f): f for f in os.listdir(RAW) if f.endswith(".csv")}
 
@@ -98,7 +98,7 @@ if __name__ == "__main__":
            "equiv_V_range": [float(vals.min()), float(vals.max())], "per_drive": info,
            "sensitivity_max_rel": rel,
            "sensitivity_npairs_changed": {n: [k for k in keys if sens[n][k] and sens["base"][k] and sens[n][k][2] != sens["base"][k][2]] for n in variants if n != "base"}}}
-    json.dump(out, open(os.path.join(ROOT, "analyses/M402_audit/auditor_results.json"), "w"), indent=1)
+    json.dump(out, open(os.path.join(ROOT, "analyses/M402_audit/auditor_results.json"), "w", encoding="utf-8"), indent=1)
     print(json.dumps(out["sanity"]["sensitivity_max_rel"], indent=1))
     print(out["sanity"]["equiv_V_median"], out["sanity"]["equiv_V_range"])
     print(sum(1 for r in res.values() if r["ah_discharge"] is None), "null of", len(res))
