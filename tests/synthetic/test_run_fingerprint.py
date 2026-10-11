@@ -48,6 +48,17 @@ with tempfile.TemporaryDirectory() as td:
     changed("drive_master.csv", "m2", "master", None)
     changed("raw_manifest.json", "{1}", "rawManifest", None)
     changed("raw/y.csv", "new drive", "rawListing", None)
+    changed("raw/x.csv", "u", "rawListing", None)                              # M405 (audit N05): SAME-SIZE changed raw bytes invalidate (the former (name, size) listing missed this)
+    # M405 (N05): XT_RAW_DIR is part of the input identity: pointing the run at another raw directory (even one with identical content) is a different input, resolved before hashing
+    other = os.path.join(td, "elsewhere")
+    os.makedirs(other)
+    w(td, "elsewhere/x.csv", "t")
+    os.environ["XT_RAW_DIR"] = other
+    skip, why, _ = RF.plan(td, STAGES, True)
+    assert skip == set() and "rawDir" in why, why
+    os.environ["XT_RAW_DIR"] = os.path.join(td, "raw", "..", "raw")           # an equivalent spelling of the default directory resolves to the same identity
+    assert RF.plan(td, STAGES, True)[0] == {"ingest_core", "fuel_recon"}
+    del os.environ["XT_RAW_DIR"]
     changed("requirements.pinned.txt", "numpy==2", "lock", None)
     os.environ["XT_TEST_FLAG"] = "1"
     skip, why, _ = RF.plan(td, STAGES, True)

@@ -3,14 +3,14 @@
 
 A no-change ingestion (no new raw file, no source change) re-runs ~25 stages that rewrite the same outputs. The fingerprint hashes everything those
 stages can read: every source file (root and tools/: .py .js .jsx .sh), the stage list, the dependency lock, analyses/ (specs, pins and records
-that stages read), the declared stage outputs (the exact state the previous run left), drive_master.csv, raw_manifest.json, the raw file listing
-(name, size) and the interpreter / package versions / XT_* environment. If it equals the fingerprint recorded after the last fully green run, the
+that stages read), the declared stage outputs (the exact state the previous run left), drive_master.csv, raw_manifest.json, the raw files
+(name, size and sha256 of the bytes; the resolved raw directory, XT_RAW_DIR included) and the interpreter / package versions / XT_* environment. If it equals the fingerprint recorded after the last fully green run, the
 analysis stages would run on identical inputs. Components are kept separately so a mismatch names what changed. Outputs of the always-run stages
 (the rendered dashboard) are excluded: they are rebuilt on every run.
 This is opt-in (run_ingest --skip-unchanged); it is never a reason to skip the integrity/rendering/gate stages (ALWAYS_RUN)."""
 import hashlib, json, os, platform, sys
 
-FP_VERSION = 1
+FP_VERSION = 2          # M405 (audit N05): raw content hashed, raw directory resolved
 ALWAYS_RUN = ("preflight", "build_html", "jsdom", "release_check", "state")
 EXCLUDED_OUTPUTS = ("xtrail_dashboard.html",)
 SRC_EXT = (".py", ".js", ".jsx", ".sh")
@@ -54,6 +54,21 @@ def _versions():
     return v
 
 
+def raw_dir(root):
+    """The raw directory the run reads: XT_RAW_DIR when set, else root/raw, resolved (symlinks, '..') BEFORE hashing."""
+    return os.path.realpath(os.environ.get("XT_RAW_DIR") or os.path.join(root, "raw"))
+
+
+def raw_dir_identity(root, rd):
+    """Path identity of the raw directory: relative to the repository root when inside it (so a clone elsewhere keeps its ledger), else the resolved absolute path."""
+    r = os.path.realpath(root)
+    try:
+        rel = os.path.relpath(rd, r)
+    except ValueError:                                  # another drive on Windows
+        return rd
+    return rel.replace(os.sep, "/") if not rel.startswith("..") else rd.replace(os.sep, "/")
+
+
 def components(root, stages):
     outs = sorted({o for s in stages for o in s.get("outputs", []) if o not in EXCLUDED_OUTPUTS})
     comp = {
@@ -68,13 +83,16 @@ def components(root, stages):
         "master": _sha(os.path.join(root, "drive_master.csv")) if os.path.isfile(os.path.join(root, "drive_master.csv")) else None,
         "rawManifest": _sha(os.path.join(root, "raw_manifest.json")) if os.path.isfile(os.path.join(root, "raw_manifest.json")) else None,
         "rawListing": None,
+        "rawDir": None,
         "env": hashlib.sha256(json.dumps({"python": platform.python_version(), "pkgs": _versions(),
                                           "xt": {k: v for k, v in sorted(os.environ.items()) if k.startswith("XT_") and k != "XT_RAW_DIR"}},
                                          sort_keys=True).encode()).hexdigest(),
     }
-    rd = os.path.join(root, "raw")
+    rd = raw_dir(root)
+    comp["rawDir"] = hashlib.sha256(raw_dir_identity(root, rd).encode()).hexdigest()
     if os.path.isdir(rd):
-        comp["rawListing"] = hashlib.sha256(json.dumps(sorted((f, os.path.getsize(os.path.join(rd, f))) for f in os.listdir(rd)), sort_keys=True).encode()).hexdigest()
+        comp["rawListing"] = hashlib.sha256(json.dumps(sorted((f, os.path.getsize(os.path.join(rd, f)), _sha(os.path.join(rd, f)))
+                                                              for f in os.listdir(rd) if os.path.isfile(os.path.join(rd, f))), sort_keys=True).encode()).hexdigest()
     return comp
 
 
