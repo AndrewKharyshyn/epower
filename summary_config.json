@@ -266,7 +266,7 @@
   },
   {
    "name": "Aug 14",
-   "phase": "Third raw-logging PID configuration (new BMS power-limit + G0X group columns; VCM speed/SoC-display columns dropped) -- see CHANGELOG M121 + two evening highway-mixed legs (fourth raw-logging PID config; finer ~1.3 Hz BMS current cadence) -- see CHANGELOG M123",
+   "phase": "Third raw-logging PID configuration (new BMS power-limit + G0X group columns; VCM speed/SoC-display columns dropped) -- see CHANGELOG M121 + two evening highway-mixed legs (fourth raw-logging PID config; finer BMS current update interval (fast logging regime; see loggerCadence)) -- see CHANGELOG M123",
    "drives": 6,
    "km": 75.1,
    "type": "mixed",
@@ -1556,7 +1556,7 @@
   "note": "odometerKm is the real dashboard reading (external ground truth); update it when you read the dash. It is NOT derivable from the OBD logs.",
   "capacityKwh": 2.1,
   "capacitySource": "nameplate / press spec - NOT verified against a Nissan service document",
-  "capacityNote": "M56 (audit F-09): every GTC / FCE / C-rate figure in this study scales linearly with this constant. Nissan technical material reviewed identifies the pack as Li-ion but does not publish cell chemistry or usable capacity. Treat derived cycle counts as proportional-to-assumption, not absolute.",
+  "capacityNote": "M56 (audit F-09): every GTC / FCE / C-rate figure in this study scales inversely with this constant (the selected reference capacity). Nissan technical material reviewed identifies the pack as Li-ion but does not publish cell chemistry or usable capacity; Nissan Australia publishes 2.1 kWh for the e-4ORCE model without defining gross versus usable energy. Treat derived cycle counts as conditional on the assumption, not absolute.",
   "motorPowerKw": 150,
   "motorTorqueNm": 330,
   "motorSpecSource": "public OEM specification (204 PS / 150 kW class e-POWER front motor); torque figure corroborated by this study's own measured peak (see records: 'Peak motor torque +330 Nm')",
@@ -3707,9 +3707,9 @@
    "CAP_KWH": {
     "value": 2.1,
     "unit": "kWh",
-    "source": "assumed normalization constant (press-cited planning figure, not a published OEM spec)",
+    "source": "assumed normalization constant (Nissan Australia, 13 Oct 2022, publishes 2.1 kWh for the X-Trail e-POWER with e-4ORCE without defining gross versus usable energy; applicability to this front-wheel-drive pack is unverified)",
     "verified": false,
-    "note": "Assumed 2.1 kWh normalization constant; unverified and not an OEM nameplate figure. Nissan sources reviewed identify the pack chemistry family only (Li-ion, NMC-family per teardown reporting) and do not publish a cell/pack energy-capacity spec. Every GTC/FCE/C-rate figure scales linearly with this value; see officialDisclosureCorrelation for the separate, OEM-disclosed 5.0 Ah per-cell figure (EU Battery Regulation 2023/1542 Art. 10), which is a charge (Ah) figure, not an energy (kWh) figure, and is not silently converted to kWh without a stated pack-voltage basis."
+    "note": "Assumed 2.1 kWh normalization constant; unverified. Nissan Australia publishes 2.1 kWh for the X-Trail e-POWER with e-4ORCE (13 Oct 2022) without defining gross versus usable energy, and the figure is not confirmed for this front-wheel-drive pack. Nissan sources reviewed identify the pack chemistry family only (Li-ion, NMC-family per teardown reporting). Every GTC/FCE/C-rate figure scales inversely with the selected reference capacity; see officialDisclosureCorrelation for the separate, OEM-disclosed 5.0 Ah per-cell figure (EU Battery Regulation 2023/1542 Art. 10), which is a charge (Ah) figure, not an energy (kWh) figure, and is not silently converted to kWh without a stated pack-voltage basis."
    },
    "SCENARIO_THRESHOLD_GTC": {
     "value": 20000,

@@ -26,7 +26,7 @@ from pathlib import Path
 
 SRC = Path(os.environ.get("XT_WORK", Path(__file__).resolve().parent))
 SEARCH = [SRC, SRC / "claude", SRC / "seasonal", SRC / "track3", SRC / "track4"]
-REQUIRED = ["xtrail_summary.jsx", "summary_arrays.json", "summary_config.json", "build_html.js", "validate_jsdom.js",
+REQUIRED = ["xtrail_summary.jsx", "summary_arrays.json", "summary_config.json", "energy_uncertainty_mc.json", "build_html.js", "validate_jsdom.js",
             "test_cold_fixture.js", "test_ambient_table.js", "test_gtr_gate.js", "test_fuel_tab.js", "package.json", "package-lock.json", "drive_master.csv", "battery_temp_extremes.csv", "originals_manifest.json", "raw_manifest.json", "soc_patterns.json",
             "seasonal_core.py", "seasonal_adjust.py", "test_seasonal_adjust.py", "cohort_arrays.py", "cohort_arrays.json",
             "seasonal_drive_master.csv", "seasonal_dependency.json", "raw_temperature_triplets.csv",

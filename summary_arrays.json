@@ -7909,7 +7909,7 @@
   "fceOverStandardEfc": 1.033,
   "gtcIsStandard": false,
   "standardEquivalent": "FCE",
-  "note": "GTC is a local double-counting convention, not a recognised metric. FCE is the quantity that corresponds to the standard equivalent-full-cycle (EFC) definition; the residual gap from 1.000 is charge-discharge imbalance (SoC drift, unlogged use, sensor-offset residual, auxiliaries), not a definitional difference. Every figure here scales linearly with CAP_KWH, which is itself unverified."
+  "note": "GTC is a local double-counting convention, not a recognised metric. FCE is the quantity that corresponds to the standard equivalent-full-cycle (EFC) definition; the residual gap from 1.000 is charge-discharge imbalance (SoC drift, unlogged use, sensor-offset residual, auxiliaries), not a definitional difference. Every figure here scales inversely with CAP_KWH, which is itself unverified."
  },
  "riskColdEngineBattery": {
   "replaces": "Engine cold on short trips",
@@ -36990,7 +36990,7 @@
    "stopGoCeil": 30.0,
    "windowCapS": 20
   },
-  "methodology": "Per-drive 1 Hz grid. STOP = speed<1.5 km/h sustained >=3 s; LAUNCH/APPROACH = transient to/from 15 km/h (cap 20 s); STOP-GO CYCLE = consecutive-stop pair with inter-stop speed peak <=30 km/h. Energy p_dis=(-I)*V/1000 kW (M11 discharge-positive): whCycleNet = signed integral over the cycle; whLaunchOut / whApproachIn = gross discharge-out / regen-in over the phase windows; recoveryRatio = in/out. Aggregation is cycle/drive/day (never 1 Hz seconds as replicates); medians/IQR for skewed energy; day-clustered bootstrap (seed 42, 4000 draws) for headline CIs. Single vehicle / ~single driver -- descriptive characterisation, no control-strategy or population claim. Sub-second launch dynamics (jerk, t10/t50/t90) are below the ~1.3 Hz cadence floor and are NOT reported. Speed is the VCM/OBD channel, not wheel-speed; thresholdSensitivity sweeps the STOP_V and stop-go-ceiling cuts so the headline does not hinge on one threshold. byDriveType covers every drive of that type passing the >=120-sample speed-data gate (n sums to nDrivesCovered), including drives with zero stop-go activity -- it is not filtered to drives where a cycle was detected. M204 (2026-09-01) added lowSpeedTimeS / lowSpeedFracOfDrive / startsLowSpeedAbs to byDriveType and out.rateCaveat, since startsPer10minStopGo divides a small numerator by a per-drive-type-uneven denominator and reads misleadingly on its own for episodic-low-speed drive types; see out.rateCaveat for the full interpretation.",
+  "methodology": "Per-drive 1 Hz grid. STOP = speed<1.5 km/h sustained >=3 s; LAUNCH/APPROACH = transient to/from 15 km/h (cap 20 s); STOP-GO CYCLE = consecutive-stop pair with inter-stop speed peak <=30 km/h. Energy p_dis=(-I)*V/1000 kW (M11 discharge-positive): whCycleNet = signed integral over the cycle; whLaunchOut / whApproachIn = gross discharge-out / regen-in over the phase windows; recoveryRatio = in/out. Aggregation is cycle/drive/day (never 1 Hz seconds as replicates); medians/IQR for skewed energy; day-clustered bootstrap (seed 42, 4000 draws) for headline CIs. Single vehicle / ~single driver -- descriptive characterisation, no control-strategy or population claim. Sub-second launch dynamics (jerk, t10/t50/t90) are below the logged-cadence floor and are NOT reported. Speed is the VCM/OBD channel, not wheel-speed; thresholdSensitivity sweeps the STOP_V and stop-go-ceiling cuts so the headline does not hinge on one threshold. byDriveType covers every drive of that type passing the >=120-sample speed-data gate (n sums to nDrivesCovered), including drives with zero stop-go activity -- it is not filtered to drives where a cycle was detected. M204 (2026-09-01) added lowSpeedTimeS / lowSpeedFracOfDrive / startsLowSpeedAbs to byDriveType and out.rateCaveat, since startsPer10minStopGo divides a small numerator by a per-drive-type-uneven denominator and reads misleadingly on its own for episodic-low-speed drive types; see out.rateCaveat for the full interpretation.",
   "nCyclesCovered": 2432,
   "nApproachesCovered": 3973,
   "regenProbability": {
@@ -38518,7 +38518,7 @@
   "jerkExploratory": {
    "accelP95AbsGPerS": 0.082,
    "decelP95AbsGPerS": 0.041,
-   "note": "Jerk = |d(accel_g)/dt| on the ~1.26 Hz grid; noisy and cadence-limited. Descriptive/exploratory only (candidate P), NOT a headline."
+   "note": "Jerk = |d(accel_g)/dt| on the native logged-cadence grid; noisy and cadence-limited. Descriptive/exploratory only (candidate P), NOT a headline."
   },
   "thresholdSensitivity": [
    {
@@ -38543,7 +38543,7 @@
     "nDecelDrives": 541
    }
   ],
-  "methodology": "Per-drive 1 Hz grid (resample -> ffill(limit=3); speed resolved by the M167 VCM/OBD priority rule). Phase from the LOGGED accel(g) sensor (schema-v6 slim cache, ~1.26 Hz, NOT diff(speed)): ACCEL accg>=+0.020 g, DECEL accg<=-0.020 g, moving samples (speed>=3.0 km/h) only. Battery power p=(-I)*V/1000 kW (M11 discharge-positive): +ve = traction draw, -ve = regen/charge. Speed-binned median/IQR of accg, battKw, engine RPM, boost, per-second SoC-rate and TARGET motor torque (M102: actual torque/RPM invalid, target is the command signal). Aggregation is drive/day (never 1 Hz seconds as replicates for CIs); pooled sample median/IQR for the per-bin envelope shape (nSamples), day-clustered bootstrap (seed 42, 4000 draws) over per-drive medians for the headline battKw CIs. thresholdSensitivity sweeps the accel/decel threshold. Sub-second latency/time-constants are below the cadence floor and NOT reported; jerk is exploratory only; per-second SoC-rate is SoC-quantisation-dominated (0.5 % steps) and carried only for completeness. Single vehicle / ~single driver -- descriptive, no control-strategy or population claim."
+  "methodology": "Per-drive 1 Hz grid (resample -> ffill(limit=3); speed resolved by the M167 VCM/OBD priority rule). Phase from the LOGGED accel(g) sensor (schema-v6 slim cache, native logged cadence, NOT diff(speed)): ACCEL accg>=+0.020 g, DECEL accg<=-0.020 g, moving samples (speed>=3.0 km/h) only. Battery power p=(-I)*V/1000 kW (M11 discharge-positive): +ve = traction draw, -ve = regen/charge. Speed-binned median/IQR of accg, battKw, engine RPM, boost, per-second SoC-rate and TARGET motor torque (M102: actual torque/RPM invalid, target is the command signal). Aggregation is drive/day (never 1 Hz seconds as replicates for CIs); pooled sample median/IQR for the per-bin envelope shape (nSamples), day-clustered bootstrap (seed 42, 4000 draws) over per-drive medians for the headline battKw CIs. thresholdSensitivity sweeps the accel/decel threshold. Sub-second latency/time-constants are below the cadence floor and NOT reported; jerk is exploratory only; per-second SoC-rate is SoC-quantisation-dominated (0.5 % steps) and carried only for completeness. Single vehicle / ~single driver -- descriptive, no control-strategy or population claim."
  },
  "rpmSpeedSync": {
   "nDrivesCovered": 514,
@@ -38693,7 +38693,7 @@
     "1": 99,
     "2": 209
    },
-   "note": "Per-drive best speed-RPM cross-correlation lag over ±2 s. At the ~1.26 Hz cadence this is near the resolvable floor -- exploratory/descriptive only, no timing claim."
+   "note": "Per-drive best speed-RPM cross-correlation lag over ±2 s. At the logged cadence this is near the resolvable floor -- exploratory/descriptive only, no timing claim."
   },
   "methodology": "Engine RPM vs wheel speed over engine-on (rpm>400) moving (speed>=3.0 km/h) 1 Hz samples, per drive. Spearman rho (rank monotonicity), OLS slope (rpm per km/h) and load-point fraction (rpm in [1975,2025]) summarised as per-drive median/IQR; day-clustered bootstrap (seed 42, 4000 draws) on median rho. rpmBySpeed is the pooled engine-on RPM occupancy envelope per speed bin. Contrast: a fixed-ratio geartrain gives rho~1 and a steep gear-stepped slope; the low rho and shallow slope here quantify the series-hybrid decoupling (engine serves the generator/buffer, not the wheels). Lead/lag is exploratory (cadence-limited). No acoustic/NVH claim -- no cabin-noise channel exists. Single vehicle / ~single driver -- descriptive."
  },
@@ -41871,7 +41871,7 @@
   ],
   "loadPointRpm": 1400,
   "boostOnsetBar": 0.1,
-  "methodology": "Handoff = canonical engine start (_engine_start_triggers, reused from M116). Around each start t0, coarse event times on a 1 Hz grid: battery-discharge peak (argmax of p=(-I)*V over [t0-8,t0+30]); load-point reached (first rpm>=1400 at/after t0); boost onset (first boost>=0.10 bar); discharge relaxation (first drop below half the discharge peak after the peak). Per-event coarse lag vs t0 (median/IQR) and the modal event ORDERING are reported; day-clustered bootstrap (seed 42, 4000 draws) on the load-point and boost-onset lags. Extends M116 (start) and M118 (ramp latency) with the full battery/engine/turbo sequence. COARSE ONLY: ordering resolvable to ~+/-1-2 s; t10/t50/t90 are below the ~1.3 Hz cadence floor and are NOT reported. Single vehicle / ~single driver -- descriptive."
+  "methodology": "Handoff = canonical engine start (_engine_start_triggers, reused from M116). Around each start t0, coarse event times on a 1 Hz grid: battery-discharge peak (argmax of p=(-I)*V over [t0-8,t0+30]); load-point reached (first rpm>=1400 at/after t0); boost onset (first boost>=0.10 bar); discharge relaxation (first drop below half the discharge peak after the peak). Per-event coarse lag vs t0 (median/IQR) and the modal event ORDERING are reported; day-clustered bootstrap (seed 42, 4000 draws) on the load-point and boost-onset lags. Extends M116 (start) and M118 (ramp latency) with the full battery/engine/turbo sequence. COARSE ONLY: ordering resolvable to ~+/-1-2 s; t10/t50/t90 are below the logged-cadence floor and are NOT reported. Single vehicle / ~single driver -- descriptive."
  },
  "startEventChain": {
   "nDrivesCovered": 554,
@@ -41971,7 +41971,7 @@
    "loadI": 20.0,
    "minRestS": 5
   },
-  "interpretation": "The max-min cell spread sits at a stable ~10-11 mV baseline; load adds only a small (~1 mV median) widening that relaxes within ~1-2 s -- at or below the ~1.3 Hz cadence, so >=5 s relaxation dynamics are minimal. Consistent with a well-balanced, shallow-cycled buffer that never deeply stresses the cells. This is a small-effect/near-null result, reported honestly, NOT a cell-health diagnosis.",
+  "interpretation": "The max-min cell spread sits at a stable ~10-11 mV baseline; load adds only a small (~1 mV median) widening that relaxes within ~1-2 s -- at or below the logged cadence, so >=5 s relaxation dynamics are minimal. Consistent with a well-balanced, shallow-cycled buffer that never deeply stresses the cells. This is a small-effect/near-null result, reported honestly, NOT a cell-health diagnosis.",
   "methodology": "Rest window = |I|<5 A sustained >=5 s, immediately preceded by a loaded period (mean |I|>=20 A over the prior 3 s). Per window: spread (max-min)*1000 mV at load-off, the rest asymptote (median of the last up-to-5 s), the relaxation magnitude (onset-asymptote) and the half-time (first second below onset-0.5*magnitude, only for >1 mV relaxations). Median/IQR over rest windows; day-clustered bootstrap (seed 42, 4000 draws) on the magnitude. EXPLORATORY; no cell diagnosis; sub-5 s relaxation is not resolvable at this cadence. Distinct from cellHealthTrend (long-term unloaded level). Single vehicle / ~single driver."
  },
  "vgtAirPath": {
@@ -51916,9 +51916,9 @@
   "CAP_KWH": {
    "value": 2.1,
    "unit": "kWh",
-   "source": "assumed normalization constant (press-cited planning figure, not a published OEM spec)",
+   "source": "assumed normalization constant (Nissan Australia, 13 Oct 2022, publishes 2.1 kWh for the X-Trail e-POWER with e-4ORCE without defining gross versus usable energy; applicability to this front-wheel-drive pack is unverified)",
    "verified": false,
-   "note": "Assumed 2.1 kWh normalization constant; unverified and not an OEM nameplate figure. Nissan sources reviewed identify the pack chemistry family only (Li-ion, NMC-family per teardown reporting) and do not publish a cell/pack energy-capacity spec. Every GTC/FCE/C-rate figure scales linearly with this value; see officialDisclosureCorrelation for the separate, OEM-disclosed 5.0 Ah per-cell figure (EU Battery Regulation 2023/1542 Art. 10), which is a charge (Ah) figure, not an energy (kWh) figure, and is not silently converted to kWh without a stated pack-voltage basis."
+   "note": "Assumed 2.1 kWh normalization constant; unverified. Nissan Australia publishes 2.1 kWh for the X-Trail e-POWER with e-4ORCE (13 Oct 2022) without defining gross versus usable energy, and the figure is not confirmed for this front-wheel-drive pack. Nissan sources reviewed identify the pack chemistry family only (Li-ion, NMC-family per teardown reporting). Every GTC/FCE/C-rate figure scales inversely with the selected reference capacity; see officialDisclosureCorrelation for the separate, OEM-disclosed 5.0 Ah per-cell figure (EU Battery Regulation 2023/1542 Art. 10), which is a charge (Ah) figure, not an energy (kWh) figure, and is not silently converted to kWh without a stated pack-voltage basis."
   },
   "SCENARIO_THRESHOLD_GTC": {
    "value": 20000,
@@ -52408,7 +52408,8 @@
       "deltaKwh_1500to2000ms": 0.0052,
       "cumulativePctOfTotalWidening": 100.9
      }
-    ]
+    ],
+    "corpusTotalKwh": 0.077
    },
    "method": "Monte Carlo over cached per-drive Tier-1 diagnostics (energy_mc_precompute.py): I/V alignment tolerance drawn Uniform(500,2000 ms) per draw, per-drive throughput piecewise-linearly interpolated from a real 7-point tolerance-grid re-integration (not extrapolated); ADC quantization drawn per-drive Normal(0, delta-method SD); missing-sample/gap-truncation coverage drawn as a single per-draw severity weight in [0,1] applied to each drive's own possible-missing-energy bound (excess time beyond the pipeline's 5s integration-step cap, times that drive's own median |power|) -- always additive, since DT_CAP_S truncation is a one-sided conservative-low bias, never an over-count. Offset-UNCORRECTED, matching the released convention (offsetUncertainty.correctionScope): see offsetGrossSensitivity for what applying it would cost."
   },
@@ -52439,7 +52440,7 @@
    },
    "method": "Same tolerance/quantization/gap draws as grossThroughputMC (gap contribution signed, not additive-only, for net -- a capped gap's true net direction is genuinely unknown) PLUS the offset draw from its own characterized bootstrap (offsetUncertainty: Normal approximation to ci95A [-0.4169,-0.3482]), applied via the master's own validated point correction magnitude (correctionScope.netCorrectionMagnitudeKwh=26.82 kWh) linearly rescaled by the drawn offset -- reusing the released correction formula rather than re-deriving a parallel one."
   },
-  "capacityNote": "GTC/FCE above use CAP_KWH=2.1 (current, verified:false convention). Deterministic rescale to the officially-disclosure-consistent 1.8 kWh (5.0 Ah x this corpus's median pack voltage): multiply gtc/fce by 1.1667. Not drawn randomly: CAP_KWH has exactly one credible alternative reference point, not a distribution to assume a shape for.",
+  "capacityNote": "GTC/FCE above use CAP_KWH=2.1 (current, verified:false convention). Deterministic rescale to the officially-disclosure-consistent 1.8 kWh (5.0 Ah x this corpus's median pack voltage): multiply gtc/fce by 1.1667. Scenario scaling: 2.1 and 1.8 kWh are two reference scenarios, not a distribution to assume a shape for.",
   "validation": {
    "maxAbsDevDischargeKwh": 5e-05,
    "maxAbsDevChargeKwh": 5e-05,
@@ -73036,7 +73037,7 @@
     "unit": "kWh",
     "klass": "nameplate_unverified",
     "verified": false,
-    "source": "assumed normalization constant (press-cited planning figure, not a published OEM spec)",
+    "source": "assumed normalization constant (Nissan Australia, 13 Oct 2022, publishes 2.1 kWh for the X-Trail e-POWER with e-4ORCE without defining gross versus usable energy; applicability to this front-wheel-drive pack is unverified)",
     "usedBy": [
      "GTC",
      "FCE",
@@ -73044,7 +73045,7 @@
      "cap_ah_est",
      "cycle-count projections"
     ],
-    "sensitivity": "Every GTC / FCE / C-rate figure scales linearly with this value; %, A, mV, mOhm and degC outputs are invariant.",
+    "sensitivity": "Every GTC / FCE / C-rate figure scales inversely with this value (the selected reference capacity); %, A, mV, mOhm and degC outputs are invariant.",
     "band": null
    },
    {
@@ -127726,7 +127727,7 @@
    {
     "q": "Pack capacity (kWh)",
     "status": "unavailable",
-    "basis": "CAP_KWH=2.1 assumed, not an OEM nameplate figure (verified:false)"
+    "basis": "CAP_KWH=2.1 assumed (verified:false); the basis of the Nissan-published 2.1 kWh is undefined"
    }
   ],
   "crossval": {
@@ -127825,9 +127826,9 @@
    "Highway (n=2) and mixed-highway (n=5) drive-type splits are thin, fuel-instrumented samples; read as indicative, not settled.",
    "The generator→traction path has no logged PID anywhere in the corpus (§20 identifiability gap): every number in this section is a model-derived allocation, never a direct measurement.",
    "217 g/kWh (Nissan TR No.89) is a floor/optimum for the BSFC surface, never a flat conversion factor; TR No.90 (a different, 50%-efficiency concept engine) is corroborating context only, never a calibration input.",
-   "The Path A (road-load) vs Path B (fuel/BSFC) cross-validation stands at its 82-drive fuel subset (all 82 are in the current corpus). Its generator statistics are sign-invariant: Path B generator energy is fuel-derived and therefore unchanged by the M265 battery-current fix — verified by re-running the corrected engine on the same 82 drives (E_gen 15.74→15.74 kWh/100 km, ratio median 1.177 and the correlation all identical, M280) — so the M265 fix did not change them (the figures are on the 82-drive recovered file, pre-M366 basis; see the crossval label). It is NOT expanded to the full clean subset because Path A's road-load coefficients (m, C_rr, C_dA, η_dt) were not preserved and re-introducing them would be assumption, not measurement. (As a by-product, the sign fix moved Path B distance-weighted traction 23.19→18.00 kWh/100 km, closer to the Path A road-load traction 17.45; Path A and Path B share priors, so this is not an independent check of M265.) The sensitivity table, the simultaneity table and the speed-binned traction split were refreshed at M373 on raw/ = sha256-verified originals (M366) as descriptive point values with no interval (see the refreshed-blocks line). The headline corpus figures, drive-type split and RPM empirical-grounding sample (410 drives, refreshed M281) are current.",
-   "The per-second 'engine-state simultaneity by drive type' sub-analysis was rebuilt (M282) from recon_engine.central_estimate_v2_persample at the M265 battery-current sign convention and refreshed at M373 on raw/ = sha256-verified originals; its lost classification code was reconstructed and checked by the per-drive persample→aggregate energy identity (exact). The sign convention inverted the earlier (sign-flipped) reading: most urban engine-on time is classified as charge-and-drive or fully banked, not battery-assisting (point shares, no interval). It covers the fuel-instrumented drives only (engine-on seconds; engine-off EV driving excluded by construction), §4a's M41/M42 decomposition of the high-speed gen+battery-discharge state reports SoC steering with generator headroom and no saturation (not tested here).",
-   "The per-second ‘supply split by vehicle speed’ sub-analysis was rebuilt (M255) from recon_engine.py’s per-drive reconstruction (central_estimate_v2_persample, a copy of the aggregate formula that additionally exposes per-second arrays) and refreshed at M373 on raw/ = sha256-verified originals (M366). Before the speed-binned output was used, the per-drive sums were checked against fuel_recon_master.csv’s figures to <0.01 kWh/100km; the number of drives checked and matched is stated in the speed-split text above (script-written, from the M373 run). The 120+ bin is thin; read as indicative."
+   "The Path A (road-load) vs Path B (fuel/BSFC) cross-validation stands at its 82-drive fuel subset (all 82 are in the current corpus). Its generator statistics are sign-invariant: Path B generator energy is fuel-derived and therefore unchanged by the M265 battery-current fix — verified by re-running the corrected engine on the same 82 drives (E_gen 15.74→15.74 kWh/100 km, ratio median 1.177 and the correlation all identical, M280) — so the M265 fix did not change them (the figures are on the 82-drive recovered file, pre-M366 basis; see the crossval label). It is NOT expanded to the full clean subset because Path A's road-load coefficients (m, C_rr, C_dA, η_dt) were not preserved and re-introducing them would be assumption, not measurement. (As a by-product, the sign fix moved Path B distance-weighted traction 23.19→18.00 kWh/100 km, closer to the Path A road-load traction 17.45; Path A and Path B share priors, so this is not an independent check of M265.) The sensitivity table, the simultaneity table and the speed-binned traction split were recomputed on the live corpus at ingestion on raw/ = sha256-verified originals (M366) as descriptive point values with no interval (see the refreshed-blocks line). The headline corpus figures, drive-type split and RPM empirical-grounding sample (410 drives, refreshed M281) are current.",
+   "The per-second 'engine-state simultaneity by drive type' sub-analysis was rebuilt (M282) from recon_engine.central_estimate_v2_persample at the M265 battery-current sign convention and recomputed on the live corpus at ingestion on raw/ = sha256-verified originals; its lost classification code was reconstructed and checked by the per-drive persample→aggregate energy identity (exact). The sign convention inverted the earlier (sign-flipped) reading: most urban engine-on time is classified as charge-and-drive or fully banked, not battery-assisting (point shares, no interval). It covers the fuel-instrumented drives only (engine-on seconds; engine-off EV driving excluded by construction), §4a's M41/M42 decomposition of the high-speed gen+battery-discharge state reports SoC steering with generator headroom and no saturation (not tested here).",
+   "The per-second ‘supply split by vehicle speed’ sub-analysis was rebuilt (M255) from recon_engine.py’s per-drive reconstruction (central_estimate_v2_persample, a copy of the aggregate formula that additionally exposes per-second arrays) and recomputed on the live corpus at ingestion on raw/ = sha256-verified originals (M366). Before the speed-binned output was used, the per-drive sums were checked against fuel_recon_master.csv’s figures to <0.01 kWh/100km; the number of drives checked and matched is stated in the speed-split text above (script-written, from the M373 run). The 120+ bin is thin; read as indicative."
   ],
   "sources": {
    "tr89": "Nissan Technical Review No.89 (2023) — 217 g/kWh BSFC floor, engine architecture.",
@@ -140055,7 +140056,7 @@
       ],
       "loadPointRpm": 1400,
       "boostOnsetBar": 0.1,
-      "methodology": "Handoff = canonical engine start (_engine_start_triggers, reused from M116). Around each start t0, coarse event times on a 1 Hz grid: battery-discharge peak (argmax of p=(-I)*V over [t0-8,t0+30]); load-point reached (first rpm>=1400 at/after t0); boost onset (first boost>=0.10 bar); discharge relaxation (first drop below half the discharge peak after the peak). Per-event coarse lag vs t0 (median/IQR) and the modal event ORDERING are reported; day-clustered bootstrap (seed 42, 4000 draws) on the load-point and boost-onset lags. Extends M116 (start) and M118 (ramp latency) with the full battery/engine/turbo sequence. COARSE ONLY: ordering resolvable to ~+/-1-2 s; t10/t50/t90 are below the ~1.3 Hz cadence floor and are NOT reported. Single vehicle / ~single driver -- descriptive."
+      "methodology": "Handoff = canonical engine start (_engine_start_triggers, reused from M116). Around each start t0, coarse event times on a 1 Hz grid: battery-discharge peak (argmax of p=(-I)*V over [t0-8,t0+30]); load-point reached (first rpm>=1400 at/after t0); boost onset (first boost>=0.10 bar); discharge relaxation (first drop below half the discharge peak after the peak). Per-event coarse lag vs t0 (median/IQR) and the modal event ORDERING are reported; day-clustered bootstrap (seed 42, 4000 draws) on the load-point and boost-onset lags. Extends M116 (start) and M118 (ramp latency) with the full battery/engine/turbo sequence. COARSE ONLY: ordering resolvable to ~+/-1-2 s; t10/t50/t90 are below the logged-cadence floor and are NOT reported. Single vehicle / ~single driver -- descriptive."
      },
      "warm": {
       "nHandoffs": 5242,
@@ -140175,7 +140176,7 @@
       ],
       "loadPointRpm": 1400,
       "boostOnsetBar": 0.1,
-      "methodology": "Handoff = canonical engine start (_engine_start_triggers, reused from M116). Around each start t0, coarse event times on a 1 Hz grid: battery-discharge peak (argmax of p=(-I)*V over [t0-8,t0+30]); load-point reached (first rpm>=1400 at/after t0); boost onset (first boost>=0.10 bar); discharge relaxation (first drop below half the discharge peak after the peak). Per-event coarse lag vs t0 (median/IQR) and the modal event ORDERING are reported; day-clustered bootstrap (seed 42, 4000 draws) on the load-point and boost-onset lags. Extends M116 (start) and M118 (ramp latency) with the full battery/engine/turbo sequence. COARSE ONLY: ordering resolvable to ~+/-1-2 s; t10/t50/t90 are below the ~1.3 Hz cadence floor and are NOT reported. Single vehicle / ~single driver -- descriptive."
+      "methodology": "Handoff = canonical engine start (_engine_start_triggers, reused from M116). Around each start t0, coarse event times on a 1 Hz grid: battery-discharge peak (argmax of p=(-I)*V over [t0-8,t0+30]); load-point reached (first rpm>=1400 at/after t0); boost onset (first boost>=0.10 bar); discharge relaxation (first drop below half the discharge peak after the peak). Per-event coarse lag vs t0 (median/IQR) and the modal event ORDERING are reported; day-clustered bootstrap (seed 42, 4000 draws) on the load-point and boost-onset lags. Extends M116 (start) and M118 (ramp latency) with the full battery/engine/turbo sequence. COARSE ONLY: ordering resolvable to ~+/-1-2 s; t10/t50/t90 are below the logged-cadence floor and are NOT reported. Single vehicle / ~single driver -- descriptive."
      },
      "shoulder": {
       "nHandoffs": 599,
@@ -140295,7 +140296,7 @@
       ],
       "loadPointRpm": 1400,
       "boostOnsetBar": 0.1,
-      "methodology": "Handoff = canonical engine start (_engine_start_triggers, reused from M116). Around each start t0, coarse event times on a 1 Hz grid: battery-discharge peak (argmax of p=(-I)*V over [t0-8,t0+30]); load-point reached (first rpm>=1400 at/after t0); boost onset (first boost>=0.10 bar); discharge relaxation (first drop below half the discharge peak after the peak). Per-event coarse lag vs t0 (median/IQR) and the modal event ORDERING are reported; day-clustered bootstrap (seed 42, 4000 draws) on the load-point and boost-onset lags. Extends M116 (start) and M118 (ramp latency) with the full battery/engine/turbo sequence. COARSE ONLY: ordering resolvable to ~+/-1-2 s; t10/t50/t90 are below the ~1.3 Hz cadence floor and are NOT reported. Single vehicle / ~single driver -- descriptive."
+      "methodology": "Handoff = canonical engine start (_engine_start_triggers, reused from M116). Around each start t0, coarse event times on a 1 Hz grid: battery-discharge peak (argmax of p=(-I)*V over [t0-8,t0+30]); load-point reached (first rpm>=1400 at/after t0); boost onset (first boost>=0.10 bar); discharge relaxation (first drop below half the discharge peak after the peak). Per-event coarse lag vs t0 (median/IQR) and the modal event ORDERING are reported; day-clustered bootstrap (seed 42, 4000 draws) on the load-point and boost-onset lags. Extends M116 (start) and M118 (ramp latency) with the full battery/engine/turbo sequence. COARSE ONLY: ordering resolvable to ~+/-1-2 s; t10/t50/t90 are below the logged-cadence floor and are NOT reported. Single vehicle / ~single driver -- descriptive."
      },
      "cold": null
     },
@@ -141087,7 +141088,7 @@
        "loadI": 20.0,
        "minRestS": 5
       },
-      "interpretation": "The max-min cell spread sits at a stable ~10-11 mV baseline; load adds only a small (~1 mV median) widening that relaxes within ~1-2 s -- at or below the ~1.3 Hz cadence, so >=5 s relaxation dynamics are minimal. Consistent with a well-balanced, shallow-cycled buffer that never deeply stresses the cells. This is a small-effect/near-null result, reported honestly, NOT a cell-health diagnosis.",
+      "interpretation": "The max-min cell spread sits at a stable ~10-11 mV baseline; load adds only a small (~1 mV median) widening that relaxes within ~1-2 s -- at or below the logged cadence, so >=5 s relaxation dynamics are minimal. Consistent with a well-balanced, shallow-cycled buffer that never deeply stresses the cells. This is a small-effect/near-null result, reported honestly, NOT a cell-health diagnosis.",
       "methodology": "Rest window = |I|<5 A sustained >=5 s, immediately preceded by a loaded period (mean |I|>=20 A over the prior 3 s). Per window: spread (max-min)*1000 mV at load-off, the rest asymptote (median of the last up-to-5 s), the relaxation magnitude (onset-asymptote) and the half-time (first second below onset-0.5*magnitude, only for >1 mV relaxations). Median/IQR over rest windows; day-clustered bootstrap (seed 42, 4000 draws) on the magnitude. EXPLORATORY; no cell diagnosis; sub-5 s relaxation is not resolvable at this cadence. Distinct from cellHealthTrend (long-term unloaded level). Single vehicle / ~single driver."
      },
      "warm": {
@@ -141135,7 +141136,7 @@
        "loadI": 20.0,
        "minRestS": 5
       },
-      "interpretation": "The max-min cell spread sits at a stable ~10-11 mV baseline; load adds only a small (~1 mV median) widening that relaxes within ~1-2 s -- at or below the ~1.3 Hz cadence, so >=5 s relaxation dynamics are minimal. Consistent with a well-balanced, shallow-cycled buffer that never deeply stresses the cells. This is a small-effect/near-null result, reported honestly, NOT a cell-health diagnosis.",
+      "interpretation": "The max-min cell spread sits at a stable ~10-11 mV baseline; load adds only a small (~1 mV median) widening that relaxes within ~1-2 s -- at or below the logged cadence, so >=5 s relaxation dynamics are minimal. Consistent with a well-balanced, shallow-cycled buffer that never deeply stresses the cells. This is a small-effect/near-null result, reported honestly, NOT a cell-health diagnosis.",
       "methodology": "Rest window = |I|<5 A sustained >=5 s, immediately preceded by a loaded period (mean |I|>=20 A over the prior 3 s). Per window: spread (max-min)*1000 mV at load-off, the rest asymptote (median of the last up-to-5 s), the relaxation magnitude (onset-asymptote) and the half-time (first second below onset-0.5*magnitude, only for >1 mV relaxations). Median/IQR over rest windows; day-clustered bootstrap (seed 42, 4000 draws) on the magnitude. EXPLORATORY; no cell diagnosis; sub-5 s relaxation is not resolvable at this cadence. Distinct from cellHealthTrend (long-term unloaded level). Single vehicle / ~single driver."
      },
      "shoulder": {
@@ -141183,7 +141184,7 @@
        "loadI": 20.0,
        "minRestS": 5
       },
-      "interpretation": "The max-min cell spread sits at a stable ~10-11 mV baseline; load adds only a small (~1 mV median) widening that relaxes within ~1-2 s -- at or below the ~1.3 Hz cadence, so >=5 s relaxation dynamics are minimal. Consistent with a well-balanced, shallow-cycled buffer that never deeply stresses the cells. This is a small-effect/near-null result, reported honestly, NOT a cell-health diagnosis.",
+      "interpretation": "The max-min cell spread sits at a stable ~10-11 mV baseline; load adds only a small (~1 mV median) widening that relaxes within ~1-2 s -- at or below the logged cadence, so >=5 s relaxation dynamics are minimal. Consistent with a well-balanced, shallow-cycled buffer that never deeply stresses the cells. This is a small-effect/near-null result, reported honestly, NOT a cell-health diagnosis.",
       "methodology": "Rest window = |I|<5 A sustained >=5 s, immediately preceded by a loaded period (mean |I|>=20 A over the prior 3 s). Per window: spread (max-min)*1000 mV at load-off, the rest asymptote (median of the last up-to-5 s), the relaxation magnitude (onset-asymptote) and the half-time (first second below onset-0.5*magnitude, only for >1 mV relaxations). Median/IQR over rest windows; day-clustered bootstrap (seed 42, 4000 draws) on the magnitude. EXPLORATORY; no cell diagnosis; sub-5 s relaxation is not resolvable at this cadence. Distinct from cellHealthTrend (long-term unloaded level). Single vehicle / ~single driver."
      },
      "cold": null
@@ -141873,7 +141874,7 @@
         "1": 99,
         "2": 209
        },
-       "note": "Per-drive best speed-RPM cross-correlation lag over ±2 s. At the ~1.26 Hz cadence this is near the resolvable floor -- exploratory/descriptive only, no timing claim."
+       "note": "Per-drive best speed-RPM cross-correlation lag over ±2 s. At the logged cadence this is near the resolvable floor -- exploratory/descriptive only, no timing claim."
       },
       "methodology": "Engine RPM vs wheel speed over engine-on (rpm>400) moving (speed>=3.0 km/h) 1 Hz samples, per drive. Spearman rho (rank monotonicity), OLS slope (rpm per km/h) and load-point fraction (rpm in [1975,2025]) summarised as per-drive median/IQR; day-clustered bootstrap (seed 42, 4000 draws) on median rho. rpmBySpeed is the pooled engine-on RPM occupancy envelope per speed bin. Contrast: a fixed-ratio geartrain gives rho~1 and a steep gear-stepped slope; the low rho and shallow slope here quantify the series-hybrid decoupling (engine serves the generator/buffer, not the wheels). Lead/lag is exploratory (cadence-limited). No acoustic/NVH claim -- no cabin-noise channel exists. Single vehicle / ~single driver -- descriptive."
      },
@@ -142025,7 +142026,7 @@
         "1": 79,
         "2": 170
        },
-       "note": "Per-drive best speed-RPM cross-correlation lag over ±2 s. At the ~1.26 Hz cadence this is near the resolvable floor -- exploratory/descriptive only, no timing claim."
+       "note": "Per-drive best speed-RPM cross-correlation lag over ±2 s. At the logged cadence this is near the resolvable floor -- exploratory/descriptive only, no timing claim."
       },
       "methodology": "Engine RPM vs wheel speed over engine-on (rpm>400) moving (speed>=3.0 km/h) 1 Hz samples, per drive. Spearman rho (rank monotonicity), OLS slope (rpm per km/h) and load-point fraction (rpm in [1975,2025]) summarised as per-drive median/IQR; day-clustered bootstrap (seed 42, 4000 draws) on median rho. rpmBySpeed is the pooled engine-on RPM occupancy envelope per speed bin. Contrast: a fixed-ratio geartrain gives rho~1 and a steep gear-stepped slope; the low rho and shallow slope here quantify the series-hybrid decoupling (engine serves the generator/buffer, not the wheels). Lead/lag is exploratory (cadence-limited). No acoustic/NVH claim -- no cabin-noise channel exists. Single vehicle / ~single driver -- descriptive."
      },
@@ -142177,7 +142178,7 @@
         "1": 20,
         "2": 38
        },
-       "note": "Per-drive best speed-RPM cross-correlation lag over ±2 s. At the ~1.26 Hz cadence this is near the resolvable floor -- exploratory/descriptive only, no timing claim."
+       "note": "Per-drive best speed-RPM cross-correlation lag over ±2 s. At the logged cadence this is near the resolvable floor -- exploratory/descriptive only, no timing claim."
       },
       "methodology": "Engine RPM vs wheel speed over engine-on (rpm>400) moving (speed>=3.0 km/h) 1 Hz samples, per drive. Spearman rho (rank monotonicity), OLS slope (rpm per km/h) and load-point fraction (rpm in [1975,2025]) summarised as per-drive median/IQR; day-clustered bootstrap (seed 42, 4000 draws) on median rho. rpmBySpeed is the pooled engine-on RPM occupancy envelope per speed bin. Contrast: a fixed-ratio geartrain gives rho~1 and a steep gear-stepped slope; the low rho and shallow slope here quantify the series-hybrid decoupling (engine serves the generator/buffer, not the wheels). Lead/lag is exploratory (cadence-limited). No acoustic/NVH claim -- no cabin-noise channel exists. Single vehicle / ~single driver -- descriptive."
      },
@@ -144629,7 +144630,7 @@
       "jerkExploratory": {
        "accelP95AbsGPerS": 0.082,
        "decelP95AbsGPerS": 0.041,
-       "note": "Jerk = |d(accel_g)/dt| on the ~1.26 Hz grid; noisy and cadence-limited. Descriptive/exploratory only (candidate P), NOT a headline."
+       "note": "Jerk = |d(accel_g)/dt| on the native logged-cadence grid; noisy and cadence-limited. Descriptive/exploratory only (candidate P), NOT a headline."
       },
       "thresholdSensitivity": [
        {
@@ -144654,7 +144655,7 @@
         "nDecelDrives": 541
        }
       ],
-      "methodology": "Per-drive 1 Hz grid (resample -> ffill(limit=3); speed resolved by the M167 VCM/OBD priority rule). Phase from the LOGGED accel(g) sensor (schema-v6 slim cache, ~1.26 Hz, NOT diff(speed)): ACCEL accg>=+0.020 g, DECEL accg<=-0.020 g, moving samples (speed>=3.0 km/h) only. Battery power p=(-I)*V/1000 kW (M11 discharge-positive): +ve = traction draw, -ve = regen/charge. Speed-binned median/IQR of accg, battKw, engine RPM, boost, per-second SoC-rate and TARGET motor torque (M102: actual torque/RPM invalid, target is the command signal). Aggregation is drive/day (never 1 Hz seconds as replicates for CIs); pooled sample median/IQR for the per-bin envelope shape (nSamples), day-clustered bootstrap (seed 42, 4000 draws) over per-drive medians for the headline battKw CIs. thresholdSensitivity sweeps the accel/decel threshold. Sub-second latency/time-constants are below the cadence floor and NOT reported; jerk is exploratory only; per-second SoC-rate is SoC-quantisation-dominated (0.5 % steps) and carried only for completeness. Single vehicle / ~single driver -- descriptive, no control-strategy or population claim."
+      "methodology": "Per-drive 1 Hz grid (resample -> ffill(limit=3); speed resolved by the M167 VCM/OBD priority rule). Phase from the LOGGED accel(g) sensor (schema-v6 slim cache, native logged cadence, NOT diff(speed)): ACCEL accg>=+0.020 g, DECEL accg<=-0.020 g, moving samples (speed>=3.0 km/h) only. Battery power p=(-I)*V/1000 kW (M11 discharge-positive): +ve = traction draw, -ve = regen/charge. Speed-binned median/IQR of accg, battKw, engine RPM, boost, per-second SoC-rate and TARGET motor torque (M102: actual torque/RPM invalid, target is the command signal). Aggregation is drive/day (never 1 Hz seconds as replicates for CIs); pooled sample median/IQR for the per-bin envelope shape (nSamples), day-clustered bootstrap (seed 42, 4000 draws) over per-drive medians for the headline battKw CIs. thresholdSensitivity sweeps the accel/decel threshold. Sub-second latency/time-constants are below the cadence floor and NOT reported; jerk is exploratory only; per-second SoC-rate is SoC-quantisation-dominated (0.5 % steps) and carried only for completeness. Single vehicle / ~single driver -- descriptive, no control-strategy or population claim."
      },
      "warm": {
       "nDrivesCovered": 420,
@@ -145501,7 +145502,7 @@
       "jerkExploratory": {
        "accelP95AbsGPerS": 0.08,
        "decelP95AbsGPerS": 0.041,
-       "note": "Jerk = |d(accel_g)/dt| on the ~1.26 Hz grid; noisy and cadence-limited. Descriptive/exploratory only (candidate P), NOT a headline."
+       "note": "Jerk = |d(accel_g)/dt| on the native logged-cadence grid; noisy and cadence-limited. Descriptive/exploratory only (candidate P), NOT a headline."
       },
       "thresholdSensitivity": [
        {
@@ -145526,7 +145527,7 @@
         "nDecelDrives": 416
        }
       ],
-      "methodology": "Per-drive 1 Hz grid (resample -> ffill(limit=3); speed resolved by the M167 VCM/OBD priority rule). Phase from the LOGGED accel(g) sensor (schema-v6 slim cache, ~1.26 Hz, NOT diff(speed)): ACCEL accg>=+0.020 g, DECEL accg<=-0.020 g, moving samples (speed>=3.0 km/h) only. Battery power p=(-I)*V/1000 kW (M11 discharge-positive): +ve = traction draw, -ve = regen/charge. Speed-binned median/IQR of accg, battKw, engine RPM, boost, per-second SoC-rate and TARGET motor torque (M102: actual torque/RPM invalid, target is the command signal). Aggregation is drive/day (never 1 Hz seconds as replicates for CIs); pooled sample median/IQR for the per-bin envelope shape (nSamples), day-clustered bootstrap (seed 42, 4000 draws) over per-drive medians for the headline battKw CIs. thresholdSensitivity sweeps the accel/decel threshold. Sub-second latency/time-constants are below the cadence floor and NOT reported; jerk is exploratory only; per-second SoC-rate is SoC-quantisation-dominated (0.5 % steps) and carried only for completeness. Single vehicle / ~single driver -- descriptive, no control-strategy or population claim."
+      "methodology": "Per-drive 1 Hz grid (resample -> ffill(limit=3); speed resolved by the M167 VCM/OBD priority rule). Phase from the LOGGED accel(g) sensor (schema-v6 slim cache, native logged cadence, NOT diff(speed)): ACCEL accg>=+0.020 g, DECEL accg<=-0.020 g, moving samples (speed>=3.0 km/h) only. Battery power p=(-I)*V/1000 kW (M11 discharge-positive): +ve = traction draw, -ve = regen/charge. Speed-binned median/IQR of accg, battKw, engine RPM, boost, per-second SoC-rate and TARGET motor torque (M102: actual torque/RPM invalid, target is the command signal). Aggregation is drive/day (never 1 Hz seconds as replicates for CIs); pooled sample median/IQR for the per-bin envelope shape (nSamples), day-clustered bootstrap (seed 42, 4000 draws) over per-drive medians for the headline battKw CIs. thresholdSensitivity sweeps the accel/decel threshold. Sub-second latency/time-constants are below the cadence floor and NOT reported; jerk is exploratory only; per-second SoC-rate is SoC-quantisation-dominated (0.5 % steps) and carried only for completeness. Single vehicle / ~single driver -- descriptive, no control-strategy or population claim."
      },
      "shoulder": {
       "nDrivesCovered": 126,
@@ -146333,7 +146334,7 @@
       "jerkExploratory": {
        "accelP95AbsGPerS": 0.095,
        "decelP95AbsGPerS": 0.041,
-       "note": "Jerk = |d(accel_g)/dt| on the ~1.26 Hz grid; noisy and cadence-limited. Descriptive/exploratory only (candidate P), NOT a headline."
+       "note": "Jerk = |d(accel_g)/dt| on the native logged-cadence grid; noisy and cadence-limited. Descriptive/exploratory only (candidate P), NOT a headline."
       },
       "thresholdSensitivity": [
        {
@@ -146358,7 +146359,7 @@
         "nDecelDrives": 118
        }
       ],
-      "methodology": "Per-drive 1 Hz grid (resample -> ffill(limit=3); speed resolved by the M167 VCM/OBD priority rule). Phase from the LOGGED accel(g) sensor (schema-v6 slim cache, ~1.26 Hz, NOT diff(speed)): ACCEL accg>=+0.020 g, DECEL accg<=-0.020 g, moving samples (speed>=3.0 km/h) only. Battery power p=(-I)*V/1000 kW (M11 discharge-positive): +ve = traction draw, -ve = regen/charge. Speed-binned median/IQR of accg, battKw, engine RPM, boost, per-second SoC-rate and TARGET motor torque (M102: actual torque/RPM invalid, target is the command signal). Aggregation is drive/day (never 1 Hz seconds as replicates for CIs); pooled sample median/IQR for the per-bin envelope shape (nSamples), day-clustered bootstrap (seed 42, 4000 draws) over per-drive medians for the headline battKw CIs. thresholdSensitivity sweeps the accel/decel threshold. Sub-second latency/time-constants are below the cadence floor and NOT reported; jerk is exploratory only; per-second SoC-rate is SoC-quantisation-dominated (0.5 % steps) and carried only for completeness. Single vehicle / ~single driver -- descriptive, no control-strategy or population claim."
+      "methodology": "Per-drive 1 Hz grid (resample -> ffill(limit=3); speed resolved by the M167 VCM/OBD priority rule). Phase from the LOGGED accel(g) sensor (schema-v6 slim cache, native logged cadence, NOT diff(speed)): ACCEL accg>=+0.020 g, DECEL accg<=-0.020 g, moving samples (speed>=3.0 km/h) only. Battery power p=(-I)*V/1000 kW (M11 discharge-positive): +ve = traction draw, -ve = regen/charge. Speed-binned median/IQR of accg, battKw, engine RPM, boost, per-second SoC-rate and TARGET motor torque (M102: actual torque/RPM invalid, target is the command signal). Aggregation is drive/day (never 1 Hz seconds as replicates for CIs); pooled sample median/IQR for the per-bin envelope shape (nSamples), day-clustered bootstrap (seed 42, 4000 draws) over per-drive medians for the headline battKw CIs. thresholdSensitivity sweeps the accel/decel threshold. Sub-second latency/time-constants are below the cadence floor and NOT reported; jerk is exploratory only; per-second SoC-rate is SoC-quantisation-dominated (0.5 % steps) and carried only for completeness. Single vehicle / ~single driver -- descriptive, no control-strategy or population claim."
      },
      "cold": null
     },
@@ -146717,7 +146718,7 @@
        "stopGoCeil": 30.0,
        "windowCapS": 20
       },
-      "methodology": "Per-drive 1 Hz grid. STOP = speed<1.5 km/h sustained >=3 s; LAUNCH/APPROACH = transient to/from 15 km/h (cap 20 s); STOP-GO CYCLE = consecutive-stop pair with inter-stop speed peak <=30 km/h. Energy p_dis=(-I)*V/1000 kW (M11 discharge-positive): whCycleNet = signed integral over the cycle; whLaunchOut / whApproachIn = gross discharge-out / regen-in over the phase windows; recoveryRatio = in/out. Aggregation is cycle/drive/day (never 1 Hz seconds as replicates); medians/IQR for skewed energy; day-clustered bootstrap (seed 42, 4000 draws) for headline CIs. Single vehicle / ~single driver -- descriptive characterisation, no control-strategy or population claim. Sub-second launch dynamics (jerk, t10/t50/t90) are below the ~1.3 Hz cadence floor and are NOT reported. Speed is the VCM/OBD channel, not wheel-speed; thresholdSensitivity sweeps the STOP_V and stop-go-ceiling cuts so the headline does not hinge on one threshold. byDriveType covers every drive of that type passing the >=120-sample speed-data gate (n sums to nDrivesCovered), including drives with zero stop-go activity -- it is not filtered to drives where a cycle was detected. M204 (2026-09-01) added lowSpeedTimeS / lowSpeedFracOfDrive / startsLowSpeedAbs to byDriveType and out.rateCaveat, since startsPer10minStopGo divides a small numerator by a per-drive-type-uneven denominator and reads misleadingly on its own for episodic-low-speed drive types; see out.rateCaveat for the full interpretation.",
+      "methodology": "Per-drive 1 Hz grid. STOP = speed<1.5 km/h sustained >=3 s; LAUNCH/APPROACH = transient to/from 15 km/h (cap 20 s); STOP-GO CYCLE = consecutive-stop pair with inter-stop speed peak <=30 km/h. Energy p_dis=(-I)*V/1000 kW (M11 discharge-positive): whCycleNet = signed integral over the cycle; whLaunchOut / whApproachIn = gross discharge-out / regen-in over the phase windows; recoveryRatio = in/out. Aggregation is cycle/drive/day (never 1 Hz seconds as replicates); medians/IQR for skewed energy; day-clustered bootstrap (seed 42, 4000 draws) for headline CIs. Single vehicle / ~single driver -- descriptive characterisation, no control-strategy or population claim. Sub-second launch dynamics (jerk, t10/t50/t90) are below the logged-cadence floor and are NOT reported. Speed is the VCM/OBD channel, not wheel-speed; thresholdSensitivity sweeps the STOP_V and stop-go-ceiling cuts so the headline does not hinge on one threshold. byDriveType covers every drive of that type passing the >=120-sample speed-data gate (n sums to nDrivesCovered), including drives with zero stop-go activity -- it is not filtered to drives where a cycle was detected. M204 (2026-09-01) added lowSpeedTimeS / lowSpeedFracOfDrive / startsLowSpeedAbs to byDriveType and out.rateCaveat, since startsPer10minStopGo divides a small numerator by a per-drive-type-uneven denominator and reads misleadingly on its own for episodic-low-speed drive types; see out.rateCaveat for the full interpretation.",
       "nCyclesCovered": 2432,
       "nApproachesCovered": 3973,
       "regenProbability": {
@@ -147691,7 +147692,7 @@
        "stopGoCeil": 30.0,
        "windowCapS": 20
       },
-      "methodology": "Per-drive 1 Hz grid. STOP = speed<1.5 km/h sustained >=3 s; LAUNCH/APPROACH = transient to/from 15 km/h (cap 20 s); STOP-GO CYCLE = consecutive-stop pair with inter-stop speed peak <=30 km/h. Energy p_dis=(-I)*V/1000 kW (M11 discharge-positive): whCycleNet = signed integral over the cycle; whLaunchOut / whApproachIn = gross discharge-out / regen-in over the phase windows; recoveryRatio = in/out. Aggregation is cycle/drive/day (never 1 Hz seconds as replicates); medians/IQR for skewed energy; day-clustered bootstrap (seed 42, 4000 draws) for headline CIs. Single vehicle / ~single driver -- descriptive characterisation, no control-strategy or population claim. Sub-second launch dynamics (jerk, t10/t50/t90) are below the ~1.3 Hz cadence floor and are NOT reported. Speed is the VCM/OBD channel, not wheel-speed; thresholdSensitivity sweeps the STOP_V and stop-go-ceiling cuts so the headline does not hinge on one threshold. byDriveType covers every drive of that type passing the >=120-sample speed-data gate (n sums to nDrivesCovered), including drives with zero stop-go activity -- it is not filtered to drives where a cycle was detected. M204 (2026-09-01) added lowSpeedTimeS / lowSpeedFracOfDrive / startsLowSpeedAbs to byDriveType and out.rateCaveat, since startsPer10minStopGo divides a small numerator by a per-drive-type-uneven denominator and reads misleadingly on its own for episodic-low-speed drive types; see out.rateCaveat for the full interpretation.",
+      "methodology": "Per-drive 1 Hz grid. STOP = speed<1.5 km/h sustained >=3 s; LAUNCH/APPROACH = transient to/from 15 km/h (cap 20 s); STOP-GO CYCLE = consecutive-stop pair with inter-stop speed peak <=30 km/h. Energy p_dis=(-I)*V/1000 kW (M11 discharge-positive): whCycleNet = signed integral over the cycle; whLaunchOut / whApproachIn = gross discharge-out / regen-in over the phase windows; recoveryRatio = in/out. Aggregation is cycle/drive/day (never 1 Hz seconds as replicates); medians/IQR for skewed energy; day-clustered bootstrap (seed 42, 4000 draws) for headline CIs. Single vehicle / ~single driver -- descriptive characterisation, no control-strategy or population claim. Sub-second launch dynamics (jerk, t10/t50/t90) are below the logged-cadence floor and are NOT reported. Speed is the VCM/OBD channel, not wheel-speed; thresholdSensitivity sweeps the STOP_V and stop-go-ceiling cuts so the headline does not hinge on one threshold. byDriveType covers every drive of that type passing the >=120-sample speed-data gate (n sums to nDrivesCovered), including drives with zero stop-go activity -- it is not filtered to drives where a cycle was detected. M204 (2026-09-01) added lowSpeedTimeS / lowSpeedFracOfDrive / startsLowSpeedAbs to byDriveType and out.rateCaveat, since startsPer10minStopGo divides a small numerator by a per-drive-type-uneven denominator and reads misleadingly on its own for episodic-low-speed drive types; see out.rateCaveat for the full interpretation.",
       "nCyclesCovered": 1888,
       "nApproachesCovered": 3186,
       "regenProbability": {
@@ -148615,7 +148616,7 @@
        "stopGoCeil": 30.0,
        "windowCapS": 20
       },
-      "methodology": "Per-drive 1 Hz grid. STOP = speed<1.5 km/h sustained >=3 s; LAUNCH/APPROACH = transient to/from 15 km/h (cap 20 s); STOP-GO CYCLE = consecutive-stop pair with inter-stop speed peak <=30 km/h. Energy p_dis=(-I)*V/1000 kW (M11 discharge-positive): whCycleNet = signed integral over the cycle; whLaunchOut / whApproachIn = gross discharge-out / regen-in over the phase windows; recoveryRatio = in/out. Aggregation is cycle/drive/day (never 1 Hz seconds as replicates); medians/IQR for skewed energy; day-clustered bootstrap (seed 42, 4000 draws) for headline CIs. Single vehicle / ~single driver -- descriptive characterisation, no control-strategy or population claim. Sub-second launch dynamics (jerk, t10/t50/t90) are below the ~1.3 Hz cadence floor and are NOT reported. Speed is the VCM/OBD channel, not wheel-speed; thresholdSensitivity sweeps the STOP_V and stop-go-ceiling cuts so the headline does not hinge on one threshold. byDriveType covers every drive of that type passing the >=120-sample speed-data gate (n sums to nDrivesCovered), including drives with zero stop-go activity -- it is not filtered to drives where a cycle was detected. M204 (2026-09-01) added lowSpeedTimeS / lowSpeedFracOfDrive / startsLowSpeedAbs to byDriveType and out.rateCaveat, since startsPer10minStopGo divides a small numerator by a per-drive-type-uneven denominator and reads misleadingly on its own for episodic-low-speed drive types; see out.rateCaveat for the full interpretation.",
+      "methodology": "Per-drive 1 Hz grid. STOP = speed<1.5 km/h sustained >=3 s; LAUNCH/APPROACH = transient to/from 15 km/h (cap 20 s); STOP-GO CYCLE = consecutive-stop pair with inter-stop speed peak <=30 km/h. Energy p_dis=(-I)*V/1000 kW (M11 discharge-positive): whCycleNet = signed integral over the cycle; whLaunchOut / whApproachIn = gross discharge-out / regen-in over the phase windows; recoveryRatio = in/out. Aggregation is cycle/drive/day (never 1 Hz seconds as replicates); medians/IQR for skewed energy; day-clustered bootstrap (seed 42, 4000 draws) for headline CIs. Single vehicle / ~single driver -- descriptive characterisation, no control-strategy or population claim. Sub-second launch dynamics (jerk, t10/t50/t90) are below the logged-cadence floor and are NOT reported. Speed is the VCM/OBD channel, not wheel-speed; thresholdSensitivity sweeps the STOP_V and stop-go-ceiling cuts so the headline does not hinge on one threshold. byDriveType covers every drive of that type passing the >=120-sample speed-data gate (n sums to nDrivesCovered), including drives with zero stop-go activity -- it is not filtered to drives where a cycle was detected. M204 (2026-09-01) added lowSpeedTimeS / lowSpeedFracOfDrive / startsLowSpeedAbs to byDriveType and out.rateCaveat, since startsPer10minStopGo divides a small numerator by a per-drive-type-uneven denominator and reads misleadingly on its own for episodic-low-speed drive types; see out.rateCaveat for the full interpretation.",
       "nCyclesCovered": 521,
       "nApproachesCovered": 757,
       "regenProbability": {

@@ -36,10 +36,9 @@ convention actually is (offsetUncertainty.correctionScope, M13/M24):
      (correctionScope.netCorrectionMagnitudeKwh) rather than re-deriving a
      parallel offset-application formula.
 
-CAP_KWH is not treated as a continuous random variable: the corpus has
-exactly one credible alternative reference point (the official 5.0 Ah
-disclosure, ~1.80 kWh at this corpus's median pack voltage), not a
-distribution shape to invent a prior for. GTC/FCE are reported at CAP_KWH=2.1
+CAP_KWH is not treated as a continuous random variable: 2.1 kWh and the
+official 5.0 Ah disclosure (~1.80 kWh at this corpus's median pack voltage)
+are two reference scenarios, not a distribution shape to invent a prior for. GTC/FCE are reported at CAP_KWH=2.1
 (current) with a deterministic rescale to 1.80 kWh alongside -- consistent
 with the existing offsetUncertainty.capacitySensitivity table's own approach.
 
@@ -317,9 +316,9 @@ def build(precompute, rng=None, offset_point_a=OFFSET_POINT_A,
             f'verified:false convention). Deterministic rescale to the '
             f'officially-disclosure-consistent {CAP_KWH_ALT} kWh (5.0 Ah x '
             f'this corpus\'s median pack voltage): multiply gtc/fce by '
-            f'{round(CAP_KWH_CURRENT / CAP_KWH_ALT, 4)}. Not drawn randomly: '
-            f'CAP_KWH has exactly one credible alternative reference point, '
-            f'not a distribution to assume a shape for.'),
+            f'{round(CAP_KWH_CURRENT / CAP_KWH_ALT, 4)}. '
+            f'Scenario scaling: 2.1 and {CAP_KWH_ALT} kWh are two reference '
+            f'scenarios, not a distribution to assume a shape for.'),
         'validation': precompute['meta']['validation'],
         # M220.1 (P0.4 closure): genuinely independent methodological
         # cross-check (three alternative re-integrations + coulomb/SoC
@@ -340,18 +339,14 @@ if __name__ == '__main__':
     pre = json.load(open('energy_mc_precompute.json'))
     # P1-02: source the released offset, its 95% CI, and the net-correction
     # magnitude from the live payload so this regeneration is self-currenting.
-    try:
-        _S = json.load(open('summary_arrays.json'))
-        _ou = _S['offsetUncertainty']
-        _off = float(_ou['pointEstimateA'])
-        _ci = tuple(float(x) for x in _ou['ci95A'])
-        _ncorr = float(_ou['correctionScope']['netCorrectionMagnitudeKwh'])
-        print(f'[P1-02] sourced from summary_arrays.json: offset={_off} '
-              f'ci95A={list(_ci)} netCorrKwh={_ncorr}')
-    except Exception as _e:
-        _off, _ci, _ncorr = OFFSET_POINT_A, CI95A_DEFAULT, NET_CORRECTION_POINT_KWH
-        print(f'[P1-02] summary_arrays.json unavailable ({_e}); using fallback '
-              f'defaults offset={_off} ci95A={list(_ci)} netCorrKwh={_ncorr}')
+    # M399 (audit N08/F25): no silent fallback to default calibration -- the live payload must be readable, else this CLI stops.
+    _S = json.load(open('summary_arrays.json'))
+    _ou = _S['offsetUncertainty']
+    _off = float(_ou['pointEstimateA'])
+    _ci = tuple(float(x) for x in _ou['ci95A'])
+    _ncorr = float(_ou['correctionScope']['netCorrectionMagnitudeKwh'])
+    print(f'[P1-02] sourced from summary_arrays.json: offset={_off} '
+          f'ci95A={list(_ci)} netCorrKwh={_ncorr}')
     out = build(pre, offset_point_a=_off, ci95a=_ci, net_correction_kwh=_ncorr)
     json.dump(out, open('energy_uncertainty_mc.json', 'w'), indent=1)
     print(json.dumps({k: v for k, v in out.items()
