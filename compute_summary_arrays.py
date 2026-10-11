@@ -177,6 +177,16 @@ CONSTANT_PROVENANCE = {
                         'Battery Regulation 2023/1542 Art. 10) is a charge '
                         '(Ah) figure, not energy (kWh), and is not silently '
                         'converted without a stated pack-voltage basis.'},
+    'CAP_AH_RATED': {'value': 5.0,
+                    'unit': 'Ah',
+                    'class': 'documentary',
+                    'quantity': 'rated capacity (full reference); Nissan defines it as rated energy (Wh) divided by the nominal battery voltage',
+                    'source': 'Nissan Europe, X-Trail e-POWER (model T33), battery performance and durability disclosure, Article 10 of Regulation (EU) 2023/1542',
+                    'url': 'https://www-europe.nissan-cdn.net/content/dam/Nissan/nissan_europe/ev-battery-regulation/X-Trail_e-POWER.pdf',
+                    'retrieved': '2026-10-11',
+                    'applicability': "X-Trail e-POWER T33 as disclosed for the European market; the document does not state the drivetrain (FWD or e-4ORCE) or tie the figure to this vehicle's pack",
+                    'verified': False,
+                    'note': 'Documentary reference for throughput normalisation (FCE, GTC, C-rate); a charge figure, not a measurement and not a confirmation of the fitted SoC scale. No rated kWh is derived from it: 5 Ah x a nominal voltage is an approximate conversion, not a usable-energy test.'},
     'SCENARIO_THRESHOLD_GTC': {'value': 20000, 'unit': 'GTC',
                                'source': 'generic-lithium planning figure',
                                'verified': False,
