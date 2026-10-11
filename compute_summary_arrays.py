@@ -173,10 +173,11 @@ CONSTANT_PROVENANCE = {
                         'only (Li-ion, NMC-family per teardown reporting). '
                         'Every GTC/FCE/C-rate figure scales inversely with '
                         'the selected reference capacity. The '
-                        'separate OEM-disclosed 5.0 Ah per-cell figure (EU '
-                        'Battery Regulation 2023/1542 Art. 10) is a charge '
-                        '(Ah) figure, not energy (kWh), and is not silently '
-                        'converted without a stated pack-voltage basis.'},
+                        'separate Nissan-disclosed rated capacity of 5 Ah (X-Trail '
+                        'e-POWER T33, EU Battery Regulation 2023/1542 Art. 10; '
+                        'see CAP_AH_RATED) is a charge (Ah) figure, not energy '
+                        '(kWh), and is not silently converted without a stated '
+                        'pack-voltage basis.'},
     'CAP_AH_RATED': {'value': 5.0,
                     'unit': 'Ah',
                     'class': 'documentary',

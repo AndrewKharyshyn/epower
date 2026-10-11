@@ -1,0 +1,314 @@
+{
+ "ahPer100": {
+  "point": 4.8856,
+  "ci95": [
+   4.7726,
+   4.9974
+  ],
+  "methodRange": [
+   4.6195,
+   5.4118
+  ],
+  "entries": {
+   "B_primary": 4.8856,
+   "B_reverse": 5.4118,
+   "A_segments": 4.6195,
+   "B_gap3s": 4.849,
+   "B_zoh": 4.891,
+   "B_fast_regime": 4.7235,
+   "B_slow_regime": 4.94,
+   "W5": 4.9663,
+   "W10": 4.9191,
+   "W15": 4.9018,
+   "whole_drive": 4.6681,
+   "W10_discharge_only": 5.1767,
+   "W10_charge_only": 5.2171,
+   "W10_lag_minus2s": 4.926,
+   "W10_lag_plus2s": 4.8576,
+   "W10_literal": 4.9359,
+   "W10_literal_lag_minus2s": 4.6611,
+   "W10_literal_lag_plus2s": 5.1791
+  }
+ },
+ "kWhPer100": {
+  "point": 1.795,
+  "ci95": [
+   1.7476,
+   1.8444
+  ]
+ },
+ "shadowEligibility": {
+  "reproducesMasterAtLegacyScale": true,
+  "legacyOffsetA": -0.3834,
+  "flipsAny": false,
+  "variants": {
+   "thresholdUnchanged_0.35": {
+    "threshold": 0.35,
+    "flips": 0,
+    "offsetA": -0.4309
+   },
+   "thresholdScaleOver6": {
+    "threshold": 0.2992,
+    "flips": 0,
+    "offsetA": -0.4309
+   }
+  }
+ },
+ "offsetModelTest": {
+  "nDrives": 538,
+  "heldOutRmsKwh": {
+   "offset_est": 0.0472,
+   "offset_fix": 0.06,
+   "i2r_est": 0.0416,
+   "i2r_fix": 0.0561,
+   "i2rT_est": 0.0411
+  },
+  "pairedAtEstimatedScale": {
+   "meanSquaredResidualReduction_kWh2": 0.0005,
+   "ci95": [
+    0.0001,
+    0.0009
+   ],
+   "lowerBoundAbovezero": true
+  },
+  "pairedAtFixed2.1": {
+   "meanSquaredResidualReduction_kWh2": 0.0004,
+   "ci95": [
+    0.0001,
+    0.0008
+   ],
+   "lowerBoundAbovezero": true
+  },
+  "acceptance": {
+   "i_lowerHeldOutErrorAtSameScale": true,
+   "ii_offsetEquivalentToZero_pm0.10A_ci95": false,
+   "iii_rStableAcrossFolds_max_over_min_le_1.25": true,
+   "iv_identifiable_vif_le_10": false,
+   "acceptI2R": false
+  },
+  "decision": "dual report only: the global offset basis is unchanged",
+  "oemR80Ohm": 0.21,
+  "full": {
+   "offsetA": {
+    "est": -0.0753,
+    "ci95": [
+     -0.193,
+     0.0263
+    ],
+    "ci90": [
+     -0.1757,
+     0.0099
+    ],
+    "nDrawsUsed": 4000
+   },
+   "offsetAWithoutI2R": {
+    "est": -0.4774,
+    "ci95": [
+     -0.5294,
+     -0.4328
+    ],
+    "ci90": [
+     -0.5204,
+     -0.4397
+    ],
+    "nDrawsUsed": 4000
+   },
+   "R_ohm": {
+    "est": 0.1266,
+    "ci95": [
+     0.0878,
+     0.1622
+    ],
+    "ci90": [
+     0.0939,
+     0.1568
+    ],
+    "nDrawsUsed": 4000
+   },
+   "R_per10C_ohm": {
+    "est": -0.0262,
+    "ci95": [
+     -0.0496,
+     -0.0026
+    ],
+    "ci90": [
+     -0.0457,
+     -0.0068
+    ],
+    "nDrawsUsed": 4000
+   },
+   "rFoldMaxOverMin": 1.1942,
+   "vif": {
+    "scale": 1.0116,
+    "offsetTerm": 13.597,
+    "i2Term": 13.6311
+   }
+  },
+  "chronological": {
+   "earlyToLate": {
+    "nTrain": 183,
+    "nTest": 355,
+    "rmsKwh": {
+     "offset_est": 0.034,
+     "offset_fix": 0.0495,
+     "i2r_est": 0.0311,
+     "i2r_fix": 0.0478,
+     "i2rT_est": 0.0303
+    }
+   },
+   "lateToEarly": {
+    "nTrain": 355,
+    "nTest": 183,
+    "rmsKwh": {
+     "offset_est": 0.0662,
+     "offset_fix": 0.0771,
+     "i2r_est": 0.0566,
+     "i2r_fix": 0.0689,
+     "i2rT_est": 0.0558
+    }
+   }
+  }
+ },
+ "levelTest": {
+  "unadjustedSlope": {
+   "est": 0.4577,
+   "ci95": [
+    0.3494,
+    0.5531
+   ],
+   "ci90": [
+    0.3653,
+    0.5326
+   ],
+   "nDrawsUsed": 4000
+  },
+  "adjustedSlope": {
+   "est": 0.2654,
+   "ci95": [
+    0.1521,
+    0.3902
+   ],
+   "ci90": [
+    0.1714,
+    0.3738
+   ],
+   "nDrawsUsed": 4000
+  },
+  "unadjustedEquivalent": false,
+  "adjustedEquivalent": false,
+  "vifSoCTerm": 10.9846,
+  "powered": false,
+  "outcome": "level dependence present: reopens the level-dependent option (Director)",
+  "marginAhPer10SoCPoints": 0.1,
+  "terciles": {
+   "below55": 4.5131,
+   "55to65": 4.7961,
+   "atLeast65": 4.9842
+  }
+ },
+ "keyOnTest": {
+  "nIntervals": 535,
+  "all": {
+   "est": -1.3621,
+   "ci95": [
+    -2.4912,
+    -0.422
+   ],
+   "ci90": [
+    -2.2833,
+    -0.5557
+   ],
+   "nDrawsUsed": 4000
+  },
+  "byRestTime": {
+   "<10min": -0.0889,
+   "10-60min": -0.5131,
+   "1-6h": -3.259,
+   ">6h": -4.6272
+  },
+  "byLastCurrentDirection": {
+   "lastCurrentCharging": -1.5827,
+   "lastCurrentDischarging": -1.364
+  }
+ },
+ "zeroCurrentCheck": {
+  "evaluable": true,
+  "nDrivesWithSamples": 73,
+  "meanOfDriveMediansA": {
+   "est": -2.9928,
+   "ci95": [
+    -3.2069,
+    -2.7724
+   ],
+   "ci90": [
+    -3.1779,
+    -2.8078
+   ],
+   "nDrawsUsed": 4000
+  },
+  "descriptive": true,
+  "interpretation": "the mean differs from zero: the leading stationary samples carry load (auxiliary or Ready-mode draw) and are NOT a sensor-zero reference",
+  "note": "sensor-zero consistency check, not used in fitting; operational proxy for pre-Ready samples, not a verified identification of the Ready state"
+ },
+ "exposure": {
+  "primaryRaw": {
+   "dischargeKwh": 759.5478,
+   "chargeKwh": 809.2096,
+   "throughputKwh": 1568.7574,
+   "dischargeAh": 2133.2087,
+   "chargeAh": 2194.6949,
+   "throughputAh": 4327.9037,
+   "note": "integrated from logged current samples (estimated throughput, raw-current integral before any offset); the reference-normalised counts below are secondary and inversely proportional to the chosen reference"
+  },
+  "energyReferences": {
+   "legacy_2.1kWh": {
+    "referenceKwh": 2.1,
+    "dischargeEFC": 361.6894,
+    "bidirectionalFCE": 373.5137,
+    "grossTurnoverGTC": 747.0273
+   },
+   "apparentSoCScale": {
+    "referenceKwh": 1.795,
+    "dischargeEFC": 423.1418,
+    "bidirectionalFCE": 436.9751,
+    "grossTurnoverGTC": 873.9501
+   }
+  },
+  "chargeReferences": {
+   "rated_5.0Ah": {
+    "referenceAh": 5.0,
+    "chargeThroughputEFC": 432.7904,
+    "grossTurnoverAhPerRef": 865.5807
+   },
+   "apparentSoCScale": {
+    "referenceAh": 4.8856,
+    "chargeThroughputEFC": 442.9278,
+    "grossTurnoverAhPerRef": 885.8556
+   },
+   "windowFractionBandLow": {
+    "referenceAh": 5.7156,
+    "chargeThroughputEFC": 378.6019,
+    "grossTurnoverAhPerRef": 757.2038
+   }
+  },
+  "fMin": 0.8548,
+  "socRainflowEFC": {
+   "value": 395.1825,
+   "reference": "logged BMS SoC scale (unchanged)"
+  }
+ },
+ "lag": {
+  "anchored": {
+   "-2": 4.926,
+   "0": 4.9203,
+   "2": 4.8576
+  },
+  "literal": {
+   "-2": 4.6611,
+   "0": 4.9603,
+   "2": 5.1791
+  }
+ },
+ "testA": "equivalent",
+ "testD": "no effect, k = 0"
+}

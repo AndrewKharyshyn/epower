@@ -297,7 +297,8 @@ RULES = [
     Rule("M399-F16-uniquealt", "regex", "F16/F17: 2.1 and 1.8 kWh are two reference scenarios; 'exactly one credible alternative reference point' is an unsupported uniqueness claim", rx=r"\bexactly one credible alternative\b"),
     Rule("M399-F16-nooem", "regex", "F16/S1: Nissan Australia (13 Oct 2022) publishes 2.1 kWh for the X-Trail e-POWER e-4ORCE without defining gross or usable energy; 'not a published OEM spec / nameplate figure' is a blanket statement that is false; say the basis is undefined and FWD applicability unverified",
          rx=r"\bnot (?:a |an )?(?:published )?oem (?:spec|specification|nameplate)\b|\bdo not publish a cell pack energy capacity spec\b"),
-    Rule("M401-N06-hardlevel", "regex", "N06: overlapping windows give a rank RESOLUTION (about 1/(n_eff+1)), not an 'effective hard level' / calibrated false-alarm rate; a non-flag is 'no shift detected', not stable calibration", rx=r"effective hard level"),
+    Rule("M401-N06-hardlevel", "regex", "N06: overlapping windows give a rank RESOLUTION (about 1/(n_eff+1)), not an 'effective hard level' / calibrated false-alarm rate; a non-flag is 'no shift detected', not stable calibration", rx=r"\beffective hard level\b"),
+    Rule("M404-percell", "regex", "M404: the Article-10 disclosure (X-Trail e-POWER T33) says 'Rated capacity 5 Ah' (Ah = Wh / nominal battery voltage); it does not say per cell and does not name the drivetrain", rx=r"\b5 0 ah per cell\b|\bah per cell figure\b|\boem disclosed 5 0 ah\b"),
     Rule("M399-archaeology", "regex", "reader-facing text must not carry change-log history (it belongs in CHANGELOG)",
          rx=r"\bthis paragraph previously quoted\b|\bprior hand typed\b|\bsuperseded 28 w figure\b|\brecomputed 2026 07 10\b|\brefreshed at m373\b"),
 ]
