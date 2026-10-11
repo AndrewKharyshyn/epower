@@ -1,0 +1,61 @@
+{
+ "claim1": {
+  "K": 1.6854484333810997,
+  "c": -0.07527196555930935,
+  "R": 0.12655794496733058,
+  "n": 538
+ },
+ "claim2": {
+  "b": -1.4515148035715086,
+  "a": -1.9077212978998612,
+  "n": 535
+ },
+ "claim3": {
+  "ah_per100": 4.497928218489988,
+  "slope_per10": 0.4525241915928027,
+  "n_events": 161709
+ },
+ "extra": {
+  "n_segments": 588,
+  "no_dt_cap": {
+   "c1": {
+    "K": 1.6854358243877656,
+    "c": -0.06951442230967952,
+    "R": 0.12806254601066325,
+    "n": 538
+   },
+   "c2": {
+    "b": -1.2866729455577424,
+    "a": -1.928958465212592,
+    "n": 535
+   }
+  },
+  "drop_odd_pairs": {
+   "c1": {
+    "K": 1.6744487384270388,
+    "c": -0.2117743513403012,
+    "R": 0.08674128087950242,
+    "n": 262
+   },
+   "c2": {
+    "b": -6.251620964959393,
+    "a": -1.2328568601819738,
+    "n": 261
+   },
+   "n_dropped": 276
+  },
+  "claim2_dtcap_sensitivity_b": {
+   "1s": -2.007,
+   "2s": -1.55,
+   "3s": -1.465,
+   "5s": -1.452,
+   "10s": -1.461,
+   "30s": -1.462,
+   "none": -1.287
+  },
+  "claim3_variants": "ah_per100 4.49-4.50 and slope 0.452-0.454 under: no SoC window, later-sample event time, all ens flags, no min-SoC, segment>10",
+  "odd_pairs": "Brief's '12 drives with odd count' not identifiable: parity of pair count is not 12 drives (276 of 538 odd); dropping them is meaningless and shown only for completeness.",
+  "no_current_columns": "19 raw files lack the HV current column; those drives have no pairs and are excluded"
+ },
+ "choices": "Midnight-unwrapped times; nearest-V by abs time diff (tie->earlier); SoC samples restricted to [first,last] current time of segment; segments need >20 current samples and >=10 SoC samples in-segment; events detected on consecutive SoC samples (sorted); demeaning over events; claim2 population = claim1 population, consecutive in sorted order, gaps over dropped drives bridged only if adjacent in population; q uses trapezoid with dt cap 5 s; SoC sample must be >0."
+}

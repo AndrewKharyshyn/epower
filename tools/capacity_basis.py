@@ -22,7 +22,7 @@ import pandas as pd
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
-METHOD_VERSION = 3
+METHOD_VERSION = 4
 N_BOOT, SEED = 4000, 42
 GAP_S, GAP3_S = 10.0, 3.0
 MIN_SEG_SAMPLES = 20
@@ -50,7 +50,7 @@ def _segments(tI, gap):
     return [(a, b) for a, b in zip(st, en) if b - a > MIN_SEG_SAMPLES]
 
 
-def _seg_records(tI, I, tV, V, tS, S, gap, zoh):
+def _seg_records(tI, I, tV, V, tS, S, gap, zoh, tE=None, rpm=None):
     """Segment records (scalars + event arrays) of one drive for one integration variant."""
     Vi = np.interp(tI, tV, V) if len(V) > 10 else np.full_like(I, np.nan)
     out = []
@@ -62,7 +62,11 @@ def _seg_records(tI, I, tV, V, tS, S, gap, zoh):
         ts, s = tS[m], S[m]
         if len(s) < 10:
             continue
-        rec = {"T": float((t[-1] - t[0]) / 3600.0), "dS": float(np.median(s[-5:]) - np.median(s[:5])), "dQ": float(Q[-1]), "dE": float(E[-1]),
+        eng = float("nan")
+        if tE is not None and len(tE):
+            me = (tE >= t[0]) & (tE <= t[-1])
+            eng = float(np.mean(rpm[me] > 400.0)) if me.any() else float("nan")
+        rec = {"absI": float(np.mean(np.abs(i))), "eng": eng, "T": float((t[-1] - t[0]) / 3600.0), "dS": float(np.median(s[-5:]) - np.median(s[:5])), "dQ": float(Q[-1]), "dE": float(E[-1]),
                "Vmed": float(np.nanmedian(v)) if np.isfinite(v).any() else float("nan"), "Smin": float(s.min()), "Smax": float(s.max())}
         ds = np.diff(s)
         k = np.where(np.abs(np.abs(ds) - EVENT_STEP) < 1e-6)[0]
@@ -173,6 +177,31 @@ def _windows(it, iv, vt, vv, st, sv, temp, fast):
     return out
 
 
+def _drive_extras(tI, I, tV, V, tE, E, tP, P, temp):
+    """Whole-drive quantities for tests (b), (h) and the zero-current check. i2h: integral of I^2 dt (A^2 h) on the same I/V pairs, dt cap and linear interpolation as the kWh block
+    (nearest voltage within 1.5 s); last_i60: mean charge-positive current over the last 60 s; lead: current samples of the leading stationary run (|I| < 5 A, speed < 1 km/h,
+    engine < 400 rpm, first 120 s) - an operational proxy, not a verified identification of the Ready state."""
+    out = {"temp": temp, "i2h": None, "last_i60": float(np.mean(I[tI >= tI[-1] - 60.0])) if len(I) else None, "lead": None, "nPairs": 0}
+    v = _align(tI, tV, V, 1.5) if len(tV) else np.full(len(tI), np.nan)
+    ok = np.isfinite(v)
+    if ok.sum() >= 2:
+        t, i = tI[ok], I[ok]
+        dt = np.clip(np.diff(t), 0.0, 5.0) / 3600.0
+        out["i2h"] = float(np.sum(dt * (i[:-1] ** 2 + i[:-1] * i[1:] + i[1:] ** 2) / 3.0))
+        out["nPairs"] = int(ok.sum())
+    if len(tE) and len(tP):
+        lead = []
+        for tt, ii in zip(tI, I):
+            if tt - tI[0] > 120.0:
+                break
+            ea, pa = _align(np.array([tt]), tE, E, 3.0)[0], _align(np.array([tt]), tP, P, 3.0)[0]
+            if not (np.isfinite(ea) and np.isfinite(pa)) or abs(ii) >= 5.0 or pa >= 1.0 or ea >= 400.0:
+                break
+            lead.append(float(ii))
+        out["lead"] = lead
+    return out
+
+
 def extract_drive(csv_bytes):
     """Everything the estimators need from one raw drive CSV (cached). None when current, SoC and voltage series are not usable."""
     import compute_drive_summary_v6 as D
@@ -194,9 +223,14 @@ def extract_drive(csv_bytes):
     fast = float(np.median(np.diff(tI))) < 1.05
     Tc = D._series(df, t, "T1", lo=-50, hi=100) if "T1" in df.columns else None
     temp = float(np.median(Tc["v"])) if Tc is not None and len(Tc) else float("nan")
+    Eng = D._series(df, t, "eng_rpm", lo=0)
+    Spd = D._series(df, t, "speed", lo=0, hi=260)
+    tE, Ev = sec(Eng) if Eng is not None else (np.array([]), np.array([]))
+    tP, Pv = sec(Spd) if Spd is not None else (np.array([]), np.array([]))
     rec = {"fast": bool(fast), "has_v": bool(len(tV) > 10), "nI": int(len(tI)), "nS": int(len(tS)),
-           "variants": {"primary": _seg_records(tI, Iv, tV, Vv, tS, Sv, GAP_S, False), "gap3": _seg_records(tI, Iv, tV, Vv, tS, Sv, GAP3_S, False),
-                        "zoh": _seg_records(tI, Iv, tV, Vv, tS, Sv, GAP_S, True)}}
+           "variants": {"primary": _seg_records(tI, Iv, tV, Vv, tS, Sv, GAP_S, False, tE, Ev), "gap3": _seg_records(tI, Iv, tV, Vv, tS, Sv, GAP3_S, False),
+                        "zoh": _seg_records(tI, Iv, tV, Vv, tS, Sv, GAP_S, True)},
+           "drive": _drive_extras(tI, Iv, tV, Vv, tE, Ev, tP, Pv, temp)}
     rec.update(_windows(tI, Iv, tV, Vv, tS, Sv, temp, fast) if len(tV) > 10 else {"windows": [], "whole": None})
     return rec
 
@@ -261,12 +295,13 @@ def grouped_fit(day_ix, X, y, n_days, W, tr):
     if not bs:
         return {"est": est, "ci95": [float("nan"), float("nan")], "nDrawsUsed": 0}
     lo, hi = np.percentile(bs, [2.5, 97.5])
-    return {"est": est, "ci95": [float(lo), float(hi)], "nDrawsUsed": len(bs)}
+    lo90, hi90 = np.percentile(bs, [5, 95])
+    return {"est": est, "ci95": [float(lo), float(hi)], "ci90": [float(lo90), float(hi90)], "nDrawsUsed": len(bs)}
 
 
 def _event_rows(recs, variant="primary", with_up=False):
     """Pooled, segment-demeaned event rows over drive records [(day_index, drive record)]: dict of arrays + day index."""
-    cols = {k: [] for k in ("lev", "Q", "E", "Qc", "Qd", "th", "up", "levup", "day")}
+    cols = {k: [] for k in ("lev", "Q", "E", "Qc", "Qd", "th", "up", "levup", "day", "centre", "absI", "eng", "temp", "fast")}
     for d, r in recs:
         for sg in r["variants"][variant]:
             e = sg.get("ev")
@@ -278,6 +313,12 @@ def _event_rows(recs, variant="primary", with_up=False):
             cols["up"].append(e["up"])
             cols["levup"].append(lu - lu.mean())
             cols["day"].append(np.full(len(e["lev"]), d))
+            n_ev = len(e["lev"])
+            cols["centre"].append(np.full(n_ev, float(e["lev"].mean())))
+            cols["absI"].append(np.full(n_ev, sg.get("absI", np.nan)))
+            cols["eng"].append(np.full(n_ev, sg.get("eng", np.nan)))
+            cols["temp"].append(np.full(n_ev, r["drive"]["temp"] if r.get("drive") else np.nan))
+            cols["fast"].append(np.full(n_ev, 1.0 if r["fast"] else 0.0))
     return {k: (np.concatenate(v) if v else np.array([])) for k, v in cols.items()}
 
 
@@ -377,7 +418,7 @@ def _tost_halves(recs, dates, n_days_total):
             "note": "heterogeneity check across interleaved weeks, not a correctness check; an unpowered test defaults to the conservative outcome"}
 
 
-def estimate(master, records):
+def estimate(master, records, sidecar=None):
     """Pure: capacityBasis block from the master frame (file, date, ens_outlier_v2) and the extraction records {file: rec|None}."""
     flag = master["ens_outlier_v2"].map(lambda v: str(v).strip().lower())
     strict = master.loc[flag == "false", "file"].tolist()
@@ -501,6 +542,18 @@ def estimate(master, records):
                    "shared current-sensor gain error cannot be cancelled or tested", "the BMS SoC is not a pure charge counter (key-on reset, flicker)",
                    "a gross 2.1 kWh with a hidden buffer of up to ~15 % cannot be tested from BMS data", "full vs remapped SoC window (F16c) is not identifiable from the logs"],
     }
+    # M404 (spec Rev 1b): the remaining pre-registered pieces; each needs master columns that a synthetic harness frame may not carry
+    need = {"net_draw_kwh", "soc_start", "soc_end", "V_pack_median", "integr_time_h", "f_domain", "f_domain_2p", "duration_s", "gross_throughput_kwh"}
+    if need <= set(master.columns):
+        import capacity_tests as CT
+        extras = {f: r.get("drive") for f, r in records.items() if r}
+        block["shadowEligibility"] = CT.shadow_eligibility(master, _est(prim.get("B_kwh")))
+        block["offsetModelTest"] = CT.offset_test(master, extras)
+        block["levelTest"] = CT.level_test(recs, nd, W)
+        block["zeroCurrentCheck"] = CT.zero_current(base, [dix[date[f]] for f, _ in base], nd, W)
+        if sidecar is not None:
+            block["keyOnTest"] = CT.keyon_test(master, sidecar, extras)
+            block["exposure"] = CT.exposure(master, sidecar, _est(prim.get("B")), _est(prim.get("B_kwh")))
     return _round(block, 4)
 
 
@@ -541,7 +594,8 @@ def main(argv=None):
     import ah_throughput as AH
     master = pd.read_csv("drive_master.csv", low_memory=False)
     recs = load_records(master, AH.raw_loader(), AH.manifest_sha_lookup(), rebuild="--rebuild" in argv)
-    blk = estimate(master, recs)
+    side = pd.read_csv("ah_throughput.csv", dtype={"raw_sha256": str}, keep_default_na=False, na_values=[""]) if os.path.exists("ah_throughput.csv") else None
+    blk = estimate(master, recs, side)
     raw = open("summary_arrays.json", "r", encoding="utf-8", newline="").read()
     cfg = json.load(open("summary_config.json", encoding="utf-8"))
     md5 = hashlib.md5(open("drive_master.csv", "rb").read()).hexdigest()

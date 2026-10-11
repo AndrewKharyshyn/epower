@@ -101,6 +101,23 @@ if _cb:
     ok("M403 registry: every entry has a class and no automatic switch", all(e.get("class") in ("documentary", "assumed", "estimated") and e.get("automaticSwitch") is False for e in _cb["registry"]))
     ok("M403 CAP_AH_RATED is documentary, unverified for this vehicle, with a source and applicability", A["constantProvenance"]["CAP_AH_RATED"]["class"] == "documentary" and A["constantProvenance"]["CAP_AH_RATED"]["verified"] is False and "applicability" in A["constantProvenance"]["CAP_AH_RATED"])
     ok("M403 lag scenarios are labelled scenario sensitivity, not a CI", "not a confidence interval" in _cb["lag"]["note"])
+    # M404 (spec Rev 1b): the remaining pre-registered pieces
+    _sh = _cb["shadowEligibility"]
+    ok("M404 shadow eligibility reproduces the master's canonical exclusion at the legacy scale (known answer) and reports both thresholds", _sh["reproducesMasterAtLegacyScale"] and set(_sh["variants"]) == {"thresholdUnchanged_0.35", "thresholdScaleOver6"})
+    _ob = _cb["offsetModelTest"]
+    ok("M404 offset test: day folds >= 5, scale and R fitted inside folds, acceptance = all four conditions, otherwise dual report only",
+       _ob["evaluable"] and _ob["nFolds"] >= 5 and _ob["acceptance"]["acceptI2R"] == all(_ob["acceptance"][k] for k in _ob["acceptance"] if k != "acceptI2R")
+       and (("accepted" in _ob["decision"]) == _ob["acceptance"]["acceptI2R"]))
+    _lv = _cb["levelTest"]
+    ok("M404 level test: unadjusted and adjusted slope with the VIF of the SoC term; equivalence only when adjusted-equivalent, VIF < 5 and powered",
+       _lv["evaluable"] and (_lv["outcome"].startswith("equivalent") == bool(_lv["adjustedEquivalent"] and _lv["vifSoCTerm"] < _lv["vifMax"] and _lv["powered"])))
+    ok("M404 shadow eligibility: 0 flips under both thresholds while the dual report stands (a flip escalates to the Director; the shadow is rerun on every ingestion)", not _sh["flipsAny"], str({n: v["flips"] for n, v in _sh["variants"].items()}))
+    ok("M404 key-on test is labelled a consistency check, not an estimate of the scale", _cb["keyOnTest"]["evaluable"] and "not an estimate of the scale" in _cb["keyOnTest"]["note"])
+    _ex = _cb["exposure"]
+    ok("M404 exposure: raw Ah and kWh are primary; the legacy normalised counts are inversely proportional to the reference and GTC = 2 x FCE",
+       abs(_ex["energyReferences"]["legacy_2.1kWh"]["grossTurnoverGTC"] / (2 * _ex["energyReferences"]["legacy_2.1kWh"]["bidirectionalFCE"]) - 1) < 1e-4
+       and abs(_ex["energyReferences"]["apparentSoCScale"]["bidirectionalFCE"] * _ex["energyReferences"]["apparentSoCScale"]["referenceKwh"] / (_ex["energyReferences"]["legacy_2.1kWh"]["bidirectionalFCE"] * 2.1) - 1) < 1e-4)
+    ok("M404 zero-current check does not present load as a sensor zero", (not _cb["zeroCurrentCheck"].get("evaluable")) or "interpretation" in _cb["zeroCurrentCheck"])
 # M399 (audits 2026-10-11, analyses/M399_wording_spec.md): fact-aware text checks (each fails on the pre-fix state)
 import re as _re399
 _pr399 = A["provenanceSensitivity"]["raw"]

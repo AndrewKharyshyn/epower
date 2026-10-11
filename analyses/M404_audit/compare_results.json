@@ -1,0 +1,63 @@
+{
+ "claim1_K": {
+  "pipeline": 1.6854,
+  "auditor": 1.6854484333810997,
+  "abs_diff": 4.843338109972173e-05,
+  "rel_diff": 2.873702450440354e-05
+ },
+ "claim1_c": {
+  "pipeline": -0.0753,
+  "auditor": -0.07527196555930935,
+  "abs_diff": 2.8034440690660745e-05,
+  "rel_diff": 0.00037230332922524227
+ },
+ "claim1_R": {
+  "pipeline": 0.1266,
+  "auditor": 0.12655794496733058,
+  "abs_diff": 4.205503266940802e-05,
+  "rel_diff": 0.00033218825173308075
+ },
+ "claim3_slope_per10": {
+  "pipeline": 0.4577,
+  "auditor": 0.4525241915928027,
+  "abs_diff": 0.00517580840719728,
+  "rel_diff": 0.011308298901457898
+ },
+ "claim3_ah_per100_at_centre55": {
+  "pipeline": 4.4881,
+  "auditor": 4.497928218489988,
+  "abs_diff": 0.009828218489987606,
+  "rel_diff": 0.002189839462130435
+ },
+ "claim2_b": {
+  "pipeline": -1.3727,
+  "auditor": -1.3727,
+  "abs_diff": 0.0,
+  "rel_diff": 0.0
+ },
+ "claim2_a": {
+  "pipeline": -1.858,
+  "auditor": -1.858,
+  "abs_diff": 0.0,
+  "rel_diff": 0.0
+ },
+ "n": {
+  "offsetTestDrives": {
+   "pipeline": 538,
+   "auditor": 538
+  },
+  "keyOnIntervals": {
+   "pipeline": 533,
+   "auditor": 533
+  },
+  "levelEvents": {
+   "pipeline": 161709,
+   "auditor": 161709
+  }
+ },
+ "notes": [
+  "the first claim-2 run bridged across excluded / no-pair drives (b = -1.45, n = 535); under the clarified full-master adjacency both implementations give the same sample and the same slope",
+  "the brief's '100*C about 4.9' was the pooled B, not the scale at centre 55 of the level model; the model's own constant agrees between implementations",
+  "the key-on slope depends on the dt cap of the net-charge integral (auditor: -1.91 at 1 s, -1.47 at 2 s, -1.37 at 5 s, -1.22 uncapped)"
+ ]
+}
