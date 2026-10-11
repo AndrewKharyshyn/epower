@@ -8,7 +8,7 @@
 
 **Delta flags.** none.
 
-**Files.** `xtrail_summary.jsx`, `xtrail_dashboard.html`, `summary_arrays.json`, `summary_config.json`, `compute_summary_arrays.py`, `energy_uncertainty_mc.py`, `build_assumptions_registry.py`, `drive_raw_cache.py`, `language_gate.py`, `semantic_gate.py`, `release_check.py`, `energy_uncertainty_mc.json`, `tools/m399_splice.py`, `tools/write_mc_sidecar.py`, `tools/mc_dq_note_refresh.py`, `tools/restamp_ingest.py`, `tests/synthetic/test_m399_wording.py`, `.github/workflows/ci.yml`, `analyses/M399_wording_spec.md`, `analyses/audit_feasibility_2026-10-11/FEASIBILITY.md`.
+**Files.** `xtrail_summary.jsx`, `xtrail_dashboard.html`, `summary_arrays.json`, `summary_config.json`, `compute_summary_arrays.py`, `energy_uncertainty_mc.py`, `build_assumptions_registry.py`, `drive_raw_cache.py`, `language_gate.py`, `semantic_gate.py`, `release_check.py`, `energy_uncertainty_mc.json`, `tools/m399_splice.py`, `tools/write_mc_sidecar.py`, `tools/mc_dq_note_refresh.py`, `tools/restamp_ingest.py`, `tests/synthetic/test_m399_wording.py`, `tests/synthetic/test_mc_summed_curves.py` (capacityNote wording allowed to differ from the frozen pre-M383 reference; numbers still identical), `.github/workflows/ci.yml`, `analyses/M399_wording_spec.md`, `analyses/audit_feasibility_2026-10-11/FEASIBILITY.md`.
 
 
 ## M398 (2026-10-11): GTR closure pin: attributed automatic re-pin after recalibration drift (hybrid run, bounded, cumulative cap)
