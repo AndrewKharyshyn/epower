@@ -139,6 +139,37 @@ if _ds:
     ok("M406 fixed reporting order and rule: no primary interval, no envelope", len(_ds["reportingOrder"]) == 5 and "no single interval is designated primary" in _ds["reportingRule"])
     ok("M406 KPI intervals bracket their estimates (day-cluster and week-block)", all(v["dayClusterCI95"][0] <= v["estimate"] <= v["dayClusterCI95"][1] and v["weekBlockCI95"][0] <= v["estimate"] <= v["weekBlockCI95"][1] for v in _ds["thesisKpis"].values()))
     ok("M406 the block states that the released estimators are unchanged and that confounding is not removed", "do not change the released estimators" in _ds["reading"] and "do not remove season" in _ds["reading"])
+import re as _re407
+# M407 (analyses/M407_spec.md): dashboard binding of the M406 sensitivities (reporting-only); text rendered from the payload, Director wording
+_h407 = [(k, t) for k, t in T.items() if k.startswith("health__") and not k.endswith("__compare")]
+ok("A2 REQUIRED M407 inference-sensitivity panel rendered in the Health dumps (all / warm / shoulder)", len(_h407) >= 3 and all("Inference sensitivities (M406;" in t for k, t in _h407))
+if _ds:
+    for _k, _t in _h407:
+        _i = _t.index("Inference sensitivities (M406;") if "Inference sensitivities (M406;" in _t else -1
+        _j = _t.index("Limits:", _i) if _i >= 0 and "Limits:" in _t[_i:] else -1
+        _pn = _t[_i:_j] if _i >= 0 and _j > _i else ""
+        ok("A2 REQUIRED M407 %s: five procedures in the fixed order with the dependence-conservative label, for both series" % _k,
+           _pn.count("CR1 (released interval, the reference)") == 2 and all(_pn.count(x) == 2 for x in ("CR2 (Satterthwaite t)", "Wild cluster bootstrap-t", "Day-cluster pairs bootstrap", "Week-block pairs bootstrap (dependence-conservative)")))
+        _cs = _ds["trendSlopes"]["cellSpread"]
+        _lows = [_cs["cr1"]["ci95NormalAsReleased"][0], _cs["cr2"]["ci95T"][0], _cs["wildClusterBootstrapT"]["ci95PercentileT"][0], _cs["dayClusterPairsBootstrap"]["ci95"][0], _cs["weekBlockPairsBootstrap"]["ci95"][0]]
+        _mixed = any(x <= 0 for x in _lows) and any(x > 0 for x in _lows)
+        _sp = _cs["seedSpread"]["wildPValueRange"]
+        ok("A2 REQUIRED M407 %s: sign sentence follows the payload (lower bound sign change computed from the five lower bounds) and the wild p is shown with its seed range" % _k,
+           (("lower bound changes sign across procedures" in _pn) == _mixed) and ("null-imposed p about %.2f (seed range %.3f-%.3f)" % (_cs["wildClusterBootstrapT"]["pValueNullImposed"], _sp[0], _sp[1])) in _pn)
+        ok("A2 REQUIRED M407 %s: the minimum-effect label (Director wording, CR2 value bound) stands beside the zero-slope statement and not in the equivalence sentence" % _k,
+           _pn.count("slope a two-sided 5 % test flags with 80 % probability at the observed SE (design-conditional)") == 2
+           and len(_re407.findall(r"Zero-slope test \(trend not resolved\): slope a two-sided 5 % test flags with 80 % probability at the observed SE \(design-conditional\): [\d.]+ \S+ \(CR2\)", _pn)) == 2
+           and all("flags with 80 %" not in seg.split("(sensitivity only")[0] for seg in _pn.split("Equivalence sensitivity:")[1:]))
+        ok("A2 REQUIRED M407 %s: the equivalence sentence is the CR2 TOST sensitivity (same frozen bound, released decision unchanged) and standing statements are repeated" % _k,
+           _pn.count("the released decision is unchanged") == 2 and _pn.count("trend not resolved; equivalence not established; no stability or SOH claim") == 2)
+        ok("A2 REQUIRED M407 %s: regimes labelled imprecise / not a regime comparison; fewer-than-10-blocks flag shown for the fast regime" % _k,
+           _pn.count("imprecise; not a regime comparison") == 2 and "fewer than 10" in _pn)
+        ok("A2 REQUIRED M407 %s: KPI table has K2 corrected and raw, throughput 'integrated from logged current, estimated', the M366 raw label and the width-ratio sentence bound to the payload" % _k,
+           "Net share of throughput, offset-corrected" in _pn and "Net share of throughput, before the offset correction" in _pn and "integrated from logged current, estimated" in _pn
+           and "raw/ = sha256-verified originals (M366)" in _pn and ("%.2f-%.2f times wider" % tuple(_ds["kpiWidthRatioWeekOverDay"]["driveMedians"])) in _pn
+           and ("%.2f-%.2f times" % tuple(_ds["kpiWidthRatioWeekOverDay"]["corpusRatios"])) in _pn)
+        ok("A2 REQUIRED M407 %s: none of the forbidden inference words in the panel" % _k,
+           not _re407.search(r"\b(significant(?:ly)?|confirmed|stable|robust|detected|detectable|MDE|rules? out|demonstrates|measured)\b|observed power|post hoc power|powered to detect", _pn))
 # M399 (audits 2026-10-11, analyses/M399_wording_spec.md): fact-aware text checks (each fails on the pre-fix state)
 import re as _re399
 _pr399 = A["provenanceSensitivity"]["raw"]
