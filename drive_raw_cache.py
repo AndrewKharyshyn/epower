@@ -99,7 +99,7 @@ SLIM_COLS = [
     # files. Schema bumped v4 -> v5 to add this channel.
     '\u0428\u0432\u0438\u0434\u043a\u0456\u0441\u0442\u044c \u0430\u0432\u0442\u043e\u043c\u043e\u0431\u0456\u043b\u044f (km/h)',
     # M184 (2026-08-29): logged longitudinal acceleration (g). A first-class
-    # batched-synchronous channel (~1.26 Hz, same rows as speed/RPM/SoC), NOT a
+    # batched-synchronous channel (logged cadence, same rows as speed/RPM/SoC), NOT a
     # speed-derivative -- the sensor reading is far less noisy than diff(speed).
     # Needed by the accel/decel speed-binned dynamics envelopes (candidate A) and
     # reused by the later RPM-speed-sync (C) and driving-state-taxonomy (E)

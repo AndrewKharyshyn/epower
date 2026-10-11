@@ -288,6 +288,17 @@ RULES = [
     Rule("M382-F08-1hz", "regex", "audit F08: channels are logged at their own native intervals; no universal 1 Hz / uniform grid statement", rx=r"\b1 hz resampled to a uniform 1 second grid\b"),
     Rule("M382-F09-onepass", "regex", "audit F09: the master is published additively (new files only), not reprocessed in one pass", rx=r"\breprocessed from raw logs in one pass\b"),
     Rule("M382-F09-everyfile", "regex", "audit F09: sign_check is ok on 503 drives, not_testable on 9, missing on 12; 'verified on every file' overstates it", rx=r"\bcharge positive sign convention verified via torque co check on every file\b"),
+    # M399 (analyses/M399_wording_spec.md; audits of 2026-10-11): truthful-output wording wave
+    Rule("M399-N09-gross2x", "regex", "N09: 'gross runs ~2x net' contradicts the data (gross 1568.9 kWh vs signed net about -49.6 kWh); net I x V is not net SoC change", rx=r"\bgross runs \d+ net\b"),
+    Rule("M399-N09-auditfooter", "regex", "N09: the 'audit could not verify raw-stream results' footer is historical; raw/ holds the sha256-verified originals (M366)", rx=r"\baudit could not verify raw stream results\b"),
+    Rule("M399-D3-hz", "regex", "D3: the logged PIDs update about every 1.28 s (median interval, ~0.78 Hz), not at '~1.3 Hz' / '~1.26 Hz'; state the interval in seconds first", rx=r"\b1 (?:3|26) hz\b"),
+    Rule("M399-F16-linear", "regex", "F16: GTC/FCE (throughput / reference) and C-rate (current / reference charge capacity) scale INVERSELY with the selected reference capacity, not linearly",
+         rx=r"\bscales? linearly with (?:the |this |that )?(?:assumed |unverified )*(?:2 1 kwh )?(?:pack )?(?:capacity|constant|value|it|cap kwh)\b"),
+    Rule("M399-F16-uniquealt", "regex", "F16/F17: 2.1 and 1.8 kWh are two reference scenarios; 'exactly one credible alternative reference point' is an unsupported uniqueness claim", rx=r"\bexactly one credible alternative\b"),
+    Rule("M399-F16-nooem", "regex", "F16/S1: Nissan Australia (13 Oct 2022) publishes 2.1 kWh for the X-Trail e-POWER e-4ORCE without defining gross or usable energy; 'not a published OEM spec / nameplate figure' is a blanket statement that is false; say the basis is undefined and FWD applicability unverified",
+         rx=r"\bnot (?:a |an )?(?:published )?oem (?:spec|specification|nameplate)\b|\bdo not publish a cell pack energy capacity spec\b"),
+    Rule("M399-archaeology", "regex", "reader-facing text must not carry change-log history (it belongs in CHANGELOG)",
+         rx=r"\bthis paragraph previously quoted\b|\bprior hand typed\b|\bsuperseded 28 w figure\b|\brecomputed 2026 07 10\b|\brefreshed at m373\b"),
 ]
 
 

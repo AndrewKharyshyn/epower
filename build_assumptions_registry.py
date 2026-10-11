@@ -76,7 +76,7 @@ def build(cfg, arr):
         klass="nameplate_unverified", verified=bool(cp["CAP_KWH"]["verified"]),
         source=cp["CAP_KWH"]["source"],
         usedBy=["GTC", "FCE", "C-rate", "cap_ah_est", "cycle-count projections"],
-        sensitivity="Every GTC / FCE / C-rate figure scales linearly with this value; %, A, mV, mOhm and degC outputs are invariant.")
+        sensitivity="Every GTC / FCE / C-rate figure scales inversely with this value (the selected reference capacity); %, A, mV, mOhm and degC outputs are invariant.")
     add(id="scenario_threshold_gtc", symbol="SCENARIO_THRESHOLD_GTC", label="Reference throughput threshold",
         raw=cp["SCENARIO_THRESHOLD_GTC"]["value"], value=f'{cp["SCENARIO_THRESHOLD_GTC"]["value"]:,} GTC', unit="GTC",
         klass="assumed", verified=bool(cp["SCENARIO_THRESHOLD_GTC"]["verified"]),

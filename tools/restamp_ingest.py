@@ -75,7 +75,11 @@ def main():
             if rc:
                 return rc
     # the M382 F03 step (nominal energy of each MC data-quality contributor from the master); idempotent, allow-list guarded
-    return subprocess.run([sys.executable, "tools/mc_dq_note_refresh.py"] + (["--dry-run"] if dry else []), cwd=ROOT).returncode
+    rc = subprocess.run([sys.executable, "tools/mc_dq_note_refresh.py"] + (["--dry-run"] if dry else []), cwd=ROOT).returncode
+    if rc:
+        return rc
+    # M399 (F25): the standalone MC sidecar is regenerated from the same release object
+    return subprocess.run([sys.executable, "tools/write_mc_sidecar.py"] + (["--dry-run"] if dry else []), cwd=ROOT).returncode
 
 
 if __name__ == "__main__":

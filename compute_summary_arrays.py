@@ -158,15 +158,21 @@ _T01_GOLDEN = (289, 213.0, '2026-08-28')  # M181: updated from (219, 213.0,
 # M56 (audit F-09/6.2): source + uncertainty provenance for hardcoded constants.
 CONSTANT_PROVENANCE = {
     'CAP_KWH': {'value': 2.1, 'unit': 'kWh',
-                'source': 'assumed normalization constant (press-cited '
-                          'planning figure, not a published OEM spec)',
+                'source': 'assumed normalization constant (Nissan Australia, '
+                          '13 Oct 2022, publishes 2.1 kWh for the X-Trail '
+                          'e-POWER with e-4ORCE without defining gross versus '
+                          'usable energy; applicability to this '
+                          'front-wheel-drive pack is unverified)',
                 'verified': False,
-                'note': 'Assumed 2.1 kWh normalization constant; unverified '
-                        'and not an OEM nameplate figure. Nissan sources '
-                        'reviewed identify the pack chemistry family only '
-                        '(Li-ion, NMC-family per teardown reporting) and do '
-                        'not publish a cell/pack energy-capacity spec. Every '
-                        'GTC/FCE/C-rate figure scales linearly with it. The '
+                'note': 'Assumed 2.1 kWh normalization constant; unverified. '
+                        'Nissan Australia publishes 2.1 kWh for the X-Trail '
+                        'e-POWER with e-4ORCE (13 Oct 2022) without defining '
+                        'gross versus usable energy, and the figure is not '
+                        'confirmed for this front-wheel-drive pack. Nissan '
+                        'sources reviewed identify the pack chemistry family '
+                        'only (Li-ion, NMC-family per teardown reporting). '
+                        'Every GTC/FCE/C-rate figure scales inversely with '
+                        'the selected reference capacity. The '
                         'separate OEM-disclosed 5.0 Ah per-cell figure (EU '
                         'Battery Regulation 2023/1542 Art. 10) is a charge '
                         '(Ah) figure, not energy (kWh), and is not silently '
@@ -8803,7 +8809,7 @@ def _low_speed_dissipation(dm, raw_loader, frame_loader=None):
 # single-vehicle/single-driver characterisation; no control-strategy claim
 # is made beyond what the integrals show.
 #
-# Resolution limits (honest): (1) the ~1.3 Hz batched-synchronous core
+# Resolution limits (honest): (1) the logged-cadence batched-synchronous core
 # cadence and 1 Hz regrid put sub-second launch dynamics (jerk, t10/t50/t90)
 # below the resolvable floor -- NOT reported here; only phase-integrated
 # energy and counts are. (2) speed is the VCM (or OBD-fallback) channel, not
@@ -9253,7 +9259,7 @@ def _crawl_stop_go(dm, raw_loader, frame_loader=None):
         '(seed 42, 4000 draws) for headline CIs. Single vehicle / ~single '
         'driver -- descriptive characterisation, no control-strategy or '
         'population claim. Sub-second launch dynamics (jerk, t10/t50/t90) are '
-        'below the ~1.3 Hz cadence floor and are NOT reported. Speed is the '
+        'below the logged-cadence floor and are NOT reported. Speed is the '
         'VCM/OBD channel, not wheel-speed; thresholdSensitivity sweeps the '
         'STOP_V and stop-go-ceiling cuts so the headline does not hinge on '
         'one threshold. byDriveType covers every drive of that type passing '
@@ -9648,7 +9654,7 @@ def _crawl_stop_go_two_part(dm, raw_loader, frame_loader=None):
 # M102-rejected actual torque) as the command signal; naturalistic labelling.
 #
 # Resolution honesty: acceleration is the LOGGED accel(g) sensor channel
-# (schema-v6 slim cache), a genuine ~1.26 Hz batched-synchronous reading, NOT a
+# (schema-v6 slim cache), a genuine logged-cadence batched-synchronous reading, NOT a
 # diff(speed) derivative. Sub-second latency / time-constants are below the
 # cadence floor and are NOT reported. Jerk = |d accg/dt| is carried only as a
 # clearly-flagged exploratory descriptor (candidate P), never a headline. Per-
@@ -9857,7 +9863,7 @@ def _accel_decel_envelopes(dm, raw_loader, frame_loader=None,
                              if jerk['accel'] else None),
         'decelP95AbsGPerS': (round(float(_np.percentile(jerk['decel'], 95)), 3)
                              if jerk['decel'] else None),
-        'note': 'Jerk = |d(accel_g)/dt| on the ~1.26 Hz grid; noisy and '
+        'note': 'Jerk = |d(accel_g)/dt| on the native logged-cadence grid; noisy and '
                 'cadence-limited. Descriptive/exploratory only (candidate P), '
                 'NOT a headline.'}
     out['thresholdSensitivity'] = [
@@ -9872,7 +9878,7 @@ def _accel_decel_envelopes(dm, raw_loader, frame_loader=None,
     out['methodology'] = (
         'Per-drive 1 Hz grid (resample -> ffill(limit=3); speed resolved by the '
         'M167 VCM/OBD priority rule). Phase from the LOGGED accel(g) sensor '
-        '(schema-v6 slim cache, ~1.26 Hz, NOT diff(speed)): ACCEL accg>=+%.3f g, '
+        '(schema-v6 slim cache, native logged cadence, NOT diff(speed)): ACCEL accg>=+%.3f g, '
         'DECEL accg<=-%.3f g, moving samples (speed>=%.1f km/h) only. Battery '
         'power p=(-I)*V/1000 kW (M11 discharge-positive): +ve = traction draw, '
         '-ve = regen/charge. Speed-binned median/IQR of accg, battKw, engine RPM, '
@@ -10055,7 +10061,7 @@ def _rpm_speed_sync(dm, raw_loader, frame_loader=None):
         'leadLagExploratory': {
             'lagCounts': lagcount,
             'note': 'Per-drive best speed-RPM cross-correlation lag over ±2 s. At '
-                    'the ~1.26 Hz cadence this is near the resolvable floor -- '
+                    'the logged cadence this is near the resolvable floor -- '
                     'exploratory/descriptive only, no timing claim.'},
         'methodology': (
             'Engine RPM vs wheel speed over engine-on (rpm>%d) moving (speed>=%.1f '
@@ -12047,7 +12053,7 @@ def _soc_balanced_fuel(dm, raw_loader=None, raw_dir=None):
 # the demand), engine start, load-point reached, boost onset, discharge relaxation
 # (generator relieving the buffer). Reuses _engine_start_triggers verbatim for the
 # handoff set. COARSE ONLY: event ordering is resolvable to ~+/-1-2 s but fine
-# time-constants (t10/t50/t90) are below the ~1.3 Hz cadence floor and are NOT
+# time-constants (t10/t50/t90) are below the logged-cadence floor and are NOT
 # reported. Battery power p=(-I)*V/1000 kW (M11). Single vehicle / ~single driver
 # -- descriptive.
 _HS_RPM = '\u041e\u0431\u0435\u0440\u0442\u0438 \u0434\u0432\u0438\u0433\u0443\u043d\u0430 (rpm)'
@@ -12081,7 +12087,7 @@ def _handoff_sequence_events(fr):
     'dischargeRelaxLagS'} -- a missing sub-event (e.g. no boost channel, or
     the discharge never relaxes within the window) is None, not
     fabricated. COARSE ONLY (see the M147 note above): lags resolvable to
-    ~+/-1-2 s on the ~1.3 Hz native cadence."""
+    ~+/-1-2 s on the logged native cadence."""
     if fr is None or _HS_RPM not in fr.columns:
         return []
     trig = _engine_start_triggers(fr)
@@ -12227,7 +12233,7 @@ def _handoff_sequence(dm, frame_loader=None):
             'bootstrap (seed 42, 4000 draws) on the load-point and boost-onset '
             'lags. Extends M116 (start) and M118 (ramp latency) with the full '
             'battery/engine/turbo sequence. COARSE ONLY: ordering resolvable to '
-            '~+/-1-2 s; t10/t50/t90 are below the ~1.3 Hz cadence floor and are '
+            '~+/-1-2 s; t10/t50/t90 are below the logged-cadence floor and are '
             'NOT reported. Single vehicle / ~single driver -- descriptive.'
             % (_HS_LOAD_POINT_RPM, _HS_BOOST_ONSET))}
 
@@ -12413,7 +12419,7 @@ def _start_event_chain(dm, frame_loader=None):
 # relaxation magnitude and half-time. Distinct from cellHealthTrend (long-term
 # unloaded LEVEL/trend); this is the within-event transient/relaxation. NO cell
 # diagnosis (the max/min channel does not identify WHICH cell, and no health claim
-# is made). The ~1.3 Hz cadence means sub-5 s relaxation is not resolvable -- and
+# is made). the logged cadence means sub-5 s relaxation is not resolvable -- and
 # the finding here is precisely that the load-induced widening is small and fast,
 # so >=5 s relaxation dynamics are minimal. Single vehicle / ~single driver.
 _CSR_MAXV = '[BMS] Max Cell Voltage (V)'
@@ -12535,7 +12541,7 @@ def _cell_spread_relaxation(dm, frame_loader=None):
         'interpretation': (
             'The max-min cell spread sits at a stable ~10-11 mV baseline; load adds '
             'only a small (~1 mV median) widening that relaxes within ~1-2 s -- at '
-            'or below the ~1.3 Hz cadence, so >=5 s relaxation dynamics are minimal. '
+            'or below the logged cadence, so >=5 s relaxation dynamics are minimal. '
             'Consistent with a well-balanced, shallow-cycled buffer that never '
             'deeply stresses the cells. This is a small-effect/near-null result, '
             'reported honestly, NOT a cell-health diagnosis.'),
@@ -15578,7 +15584,7 @@ def _metric_convention(dm):
                  'metric. FCE is the quantity that corresponds to the standard '
                  'equivalent-full-cycle (EFC) definition; the residual gap from '
                  '1.000 is charge-discharge imbalance (SoC drift, unlogged use, sensor-offset residual, auxiliaries), not a '
-                 'definitional difference. Every figure here scales linearly '
+                 'definitional difference. Every figure here scales inversely '
                  'with CAP_KWH, which is itself unverified.'),
     }
 

@@ -90,6 +90,23 @@ ok("A2 REQUIRED rainflow floor stated as a cycle range with the payload floor an
    f"a range below {_rf['floorPct']:g} pp are dropped" in conc and f"{_rf['nFilesUsed']} SoC traces" in conc, f"{_rf['floorPct']} / {_rf['nFilesUsed']}")
 ok("A2 REQUIRED fuel text names the logger app and the subset of drives", "logger app" in _all_dom and "subset of drives" in _all_dom)
 ok("A2 REQUIRED non-integrable drives are excluded from GTC, not counted as zero", "not counted as zero" in conc)
+# M399 (audits 2026-10-11, analyses/M399_wording_spec.md): fact-aware text checks (each fails on the pre-fix state)
+import re as _re399
+_pr399 = A["provenanceSensitivity"]["raw"]
+ok("M399 REQUIRED raw footer states the canonical files matching raw_manifest.json from provenanceSensitivity.raw (N09)",
+   f"{_pr399['nCanonical'] - _pr399['nCanonicalHashFailing']} of {_pr399['nCanonical']} canonical files in raw/ match their recorded sha256" in _all_dom)
+_med399 = A["eligibility"]["dataCoverage"]["currentPid"]["updateIntervalS"]["median"]
+ok("M399 REQUIRED logged-cadence statements give the update interval in seconds from eligibility.dataCoverage, Hz second (D3)",
+   f"median update interval {_med399:.2f} s" in _all_dom, f"{_med399:.2f}")
+_cp399 = A["constantProvenance"]["CAP_KWH"]
+ok("M399 REQUIRED CAP_KWH provenance: Nissan Australia qualification, FWD applicability unverified, inverse scaling (F16)",
+   "Nissan Australia publishes 2.1 kWh" in _cp399["note"] and "scales inversely" in _cp399["note"] and "front-wheel-drive" in _cp399["source"])
+ok("M399 JSX has no numeric fallback for the capacity constant (silent 2.1)",
+   not _re399.search(r"CAP_KWH\?\.value\s*\?\?\s*[0-9.]+|cap\.value\s*\?\?\s*[0-9.]+", open(P("xtrail_summary.jsx"), encoding="utf-8").read()))
+_sc399 = json.load(open(P("energy_uncertainty_mc.json"), encoding="utf-8"))
+ok("M399 standalone MC sidecar equals the live payload (F25)",
+   _sc399["grossThroughputMC"]["nominalReleasedThroughputKwh"] == A["energyUncertaintyMC"]["grossThroughputMC"]["nominalReleasedThroughputKwh"]
+   and _sc399["capacityNote"] == A["energyUncertaintyMC"]["capacityNote"])
 # W2a (M327): Cold is shown as OBSERVED counts from the payload (cohortMeta.cold.nObserved + cold rows of ambientTable), the selector says Thermal cohort
 _cm = (A.get("cohortMeta") or {}).get("cold") or {}
 _crow = [r for r in (A.get("ambientTable") or {}).get("rows", []) if r.get("c") == "cold"]
@@ -176,14 +193,14 @@ ok("A2 REQUIRED M373 simultaneity text: 'largest engine-on state in urban and mi
    and "charge-and-drive is the largest engine-on state in urban and mixed driving" in _all3 and "charge-and-drive is not monotonic across the four types" in _all3
    and f"charge-and-drive for {_js(_simu['urban']['chargesAndDrives'])}% of engine-on time (mixed {_js(_simu['mixed']['chargesAndDrives'])}%)" in _all3)
 ok("A2 REQUIRED M373 simultaneity basis note: refreshed, descriptive, no interval, deadband deltas bound to refreshedBlocks",
-   all(x in _all3 for x in ("Basis note: refreshed at M373 per-second", "descriptive point shares, no interval", "replacing the raw basis by the former lower-precision re-exports changes any share by at most %s pp at 0.5 kW" % _js(_rb3["simultaneity"]["deadbandMaxAbsDeltaPP_O_minus_R"]["primary_0.5kW"]))))
+   all(x in _all3 for x in ("Basis note: recomputed on the live corpus per-second", "descriptive point shares, no interval", "replacing the raw basis by the former lower-precision re-exports changes any share by at most %s pp at 0.5 kW" % _js(_rb3["simultaneity"]["deadbandMaxAbsDeltaPP_O_minus_R"]["primary_0.5kW"]))))
 _bins = ("0-20", "20-60", "60-90", "90-120")
 ok("A2 REQUIRED M373 speedSplit text: 'f_gen is higher in the faster bins' and 'battery arm lower in the faster bins' are TRUE in the payload (f_gen strictly increasing over the first four bins; battery 0-20 > 90-120) and the wording, validation counts and refresh note are rendered",
    all(_ss[a]["fGen"] < _ss[b]["fGen"] for a, b in zip(_bins, _bins[1:])) and _ss["0-20"]["battery"] > _ss["90-120"]["battery"]
    and all(x in _all3 for x in ("f_gen is higher in each faster bin", "the battery arm's absolute contribution is lower in the faster bins", "this is a property of the binning",
                                 "matched fuel_recon_master.csv on %d of %d drives" % (_rb3["speedSplit"]["validation"]["nMatched"], _rb3["speedSplit"]["validation"]["nChecked"]))))
 ok("A2 REQUIRED M373 sensitivity caption: refreshed note rendered and BASE equals the live headline (gate passed in the run)",
-   "Refreshed at M373 on raw/ = sha256-verified originals over %d drives (the BASE row equals the live headline); descriptive point values, no interval." % _rb3["sensitivity"]["nDrives"] in _all3
+   "Recomputed on the live corpus at ingestion on raw/ = sha256-verified originals over %d drives (the BASE row equals the live headline); descriptive point values, no interval." % _rb3["sensitivity"]["nDrives"] in _all3
    and _rb3["sensitivity"]["baseGate"]["passed"] and _rb3["sensitivity"]["baseGate"]["equalsLiveHeadline"] == {"gen100": _G3["corpus"]["generator"], "trac100": _G3["corpus"]["tractionGross"], "fgen": _G3["corpus"]["fGen"], "etaBus": _G3["corpus"]["etaBus"]})
 ok("A2 REQUIRED M373 the section-4a sentence in the simultaneity paragraph is qualified (no typed 38 % / 62 % numbers, no 'deliberately')",
    "this table does not test it" in _all3 and "holds ~38% load" not in _all3)
@@ -200,12 +217,12 @@ ok("A2 REQUIRED M373 sensitivity previous-table disclosure is TRUE: the refreshe
    max(_fg3) < 0.5 and _pb3["nAxesFgenAtOrAbove0p5"] == 3
    and "the margin of the highest axis to 0.5 here (%.3f) %s that drift (%s)" % (_mg3, _rel3, _pb3["combinedDriftMaxAbsFgen_R_minus_published"]) in _all3)
 _l4, _l5 = _G3["limitations"][4], _G3["limitations"][5]
-ok("A2 REQUIRED M373 limitations[4] and [5]: refreshed-at-M373 wording present, crossval no longer called 'current', most urban engine-on time is charge-and-drive or fully banked (TRUE)",
-   "refreshed at M373 on raw/ = sha256-verified originals (M366) as descriptive point values with no interval" in _l4 and "the M265 fix did not change them" in _l4
+ok("A2 REQUIRED M373 limitations[4] and [5]: recomputed-on-the-live-corpus wording present, crossval no longer called 'current', most urban engine-on time is charge-and-drive or fully banked (TRUE)",
+   "recomputed on the live corpus at ingestion on raw/ = sha256-verified originals (M366) as descriptive point values with no interval" in _l4 and "the M265 fix did not change them" in _l4
    and "most urban engine-on time is classified as charge-and-drive or fully banked" in _l5 and (_simu["urban"]["chargesAndDrives"] + _simu["urban"]["fullyBanked"]) > 50)
 _l6 = _G3["limitations"][6]
-ok("A2 REQUIRED M373 limitations[6] (speed split provenance): refreshed at M373, no typed M255-era counts, the check count is stated in the speed-split text (script-written %d of %d)" % (_rb3["speedSplit"]["validation"]["nMatched"], _rb3["speedSplit"]["validation"]["nChecked"]),
-   "refreshed at M373 on raw/ = sha256-verified originals (M366)" in _l6 and "145" not in _l6 and "n=11" not in _l6 and "16.5 km" not in _l6 and "matched fuel_recon_master.csv on %d of %d drives" % (_rb3["speedSplit"]["validation"]["nMatched"], _rb3["speedSplit"]["validation"]["nChecked"]) in _all3)
+ok("A2 REQUIRED M373 limitations[6] (speed split provenance): recomputed on the live corpus, no typed M255-era counts, the check count is stated in the speed-split text (script-written %d of %d)" % (_rb3["speedSplit"]["validation"]["nMatched"], _rb3["speedSplit"]["validation"]["nChecked"]),
+   "recomputed on the live corpus at ingestion on raw/ = sha256-verified originals (M366)" in _l6 and "145" not in _l6 and "n=11" not in _l6 and "16.5 km" not in _l6 and "matched fuel_recon_master.csv on %d of %d drives" % (_rb3["speedSplit"]["validation"]["nMatched"], _rb3["speedSplit"]["validation"]["nChecked"]) in _all3)
 # M375: canonical-clean eligibility; known answers recomputed from the files (eligibility.py), never typed
 import eligibility as EL
 import pandas as _pd
