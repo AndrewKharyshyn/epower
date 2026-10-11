@@ -38,6 +38,26 @@ def select_stages(stages, only=None, frm=None, skip=()):
     return stages
 
 
+def resolve_cmd(cmd):
+    """M397: stage commands start with 'python3'. On Windows that name resolves to the Microsoft Store app-execution alias (WindowsApps\\python3.exe), which intermittently fails to launch
+    (WinError 1920 in the 2026-10-11 replay: three stages started, the fourth did not) and then also runs a different interpreter than the orchestrator. Launch the stage with the
+    interpreter that is running this script instead. Other commands (node, ...) are unchanged."""
+    cmd = list(cmd)
+    if cmd and cmd[0] in ("python3", "python"):
+        cmd[0] = sys.executable
+    return cmd
+
+
+def launch(cmd, **kw):
+    """subprocess.run, but a launch failure (OSError: the stage never started) is returned as a failed stage with the error in its log instead of crashing the whole run before status.json / failure.json are written."""
+    try:
+        return subprocess.run(resolve_cmd(cmd), **kw), None
+    except OSError as ex:
+        class _Failed:                                           # same interface as CompletedProcess for the fields used below
+            returncode = 127
+        return _Failed(), repr(ex)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
@@ -91,7 +111,9 @@ def main():
             senv = dict(env)
             for k, v in (s.get("env") or {}).items():          # per-stage env; "$ROOT" expands to the repo root
                 senv[k] = v.replace("$ROOT", ROOT)
-            r = subprocess.run(s["cmd"], cwd=ROOT, env=senv, stdout=lf, stderr=subprocess.STDOUT)
+            r, launch_error = launch(s["cmd"], cwd=ROOT, env=senv, stdout=lf, stderr=subprocess.STDOUT)
+            if launch_error:
+                lf.write("run_ingest: the stage could not be launched: %s (command %r)\n" % (launch_error, s["cmd"]))
         rec = {"id": s["id"], "rc": r.returncode, "seconds": round(time.time() - t0, 1),
                "outputs": {o: sha(os.path.join(ROOT, o)) for o in s.get("outputs", [])}}
         if r.returncode == 3 and s.get("implemented") is False:
