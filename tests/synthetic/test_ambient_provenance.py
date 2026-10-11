@@ -21,7 +21,7 @@ for c in ("all", "warm", "shoulder", "cold"):
     ok(f"{c}: mean-kind counts equal the counts recomputed from the number of readings ({exp})", a["meanKindByCohort"][c] == exp, a["meanKindByCohort"][c])
     p = a["provenanceByCohort"][c]
     ok(f"{c}: n = {len(files)}, recorded + substituted = n, mixed 0", p["n"] == len(files) and p["recorded"] + p["substituted"] == p["n"] and p["mixedSource"] == 0, p)
-ok("cohorts sum to 489", sum(a["provenanceByCohort"][c]["n"] for c in ("warm", "shoulder", "cold")) == a["provenanceByCohort"]["all"]["n"] == 489)
+ok("cohorts sum to the corpus (live drive count, not a typed snapshot)", sum(a["provenanceByCohort"][c]["n"] for c in ("warm", "shoulder", "cold")) == a["provenanceByCohort"]["all"]["n"] == len(sdm))
 ok("single readings == nSingleValueLegacy", a["meanKindByCohort"]["all"]["singleValue"] == a["nSingleValueLegacy"])
 code = {"t": "trapezoidal", "e": "endpointPair", "s": "singleValue"}
 ok("every row mk matches its reading count", all(code[r["mk"]] == kind(len(r["a"]) if not r.get("s") else 1) for r in a["rows"]))

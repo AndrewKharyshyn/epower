@@ -71,7 +71,7 @@ assert ev["status"] == "ok" and ev["n_valid_blocks"] == 28 and len(ev["mdd95_per
 ne = rg._block_null(so2, fit2, 3, 10 ** 6, b2, b2, [0, 1], np.random.default_rng(1))
 assert ne["status"] == "not_evaluable" and ne["p"] is None
 # Director conditions (M392): n_eff and the effective level reported; not evaluable records its reason and carry_forward and says 'not established'
-assert abs(w["n_eff"] - w["n_windows"] / 4) < 1e-12 and "effective hard level" in w["nominal_vs_effective"]
+assert abs(w["n_eff"] - w["n_windows"] / 4) < 1e-12 and "rank resolution" in w["nominal_vs_effective"] and "not a calibrated false-alarm rate" in w["nominal_vs_effective"] and "hard level" not in w["nominal_vs_effective"]
 assert short["carry_forward"] is True and "not established" in short["note"] and "fewer than" in short["reason"]
 assert abs(ev["n_eff"] - ev["n_valid_blocks"] / 3) < 1e-12 and ne["carry_forward"] is True and "valid blocks" in ne["reason"] and "not established" in ne["note"]
 print("window null tests ok")

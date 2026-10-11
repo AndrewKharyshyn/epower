@@ -34,19 +34,26 @@ with tempfile.TemporaryDirectory() as td:
 assert EL.excluded_files(F, ["a", "b", "c", "e"]) == {"b", "e"}                  # explicit True of either flag excludes; NaN ens_invalid with a False outlier flag does not
 assert EL.canonical_clean(["c", "a", "e", "b"], flags=F) == ["c", "a"]           # order kept
 
-# ---- repo known answers from the script-written measurement ----
-eff = json.load(open(os.path.join(ROOT, "analyses", "M375_eligibility_effect.json"), encoding="utf-8"))
+# ---- repo invariants on the CURRENT corpus (M401, audit N07: no counts of an earlier snapshot are asserted) ----
+eff = json.load(open(os.path.join(ROOT, "analyses", "M375_eligibility_effect.json"), encoding="utf-8"))          # dated immutable fixture (M375 snapshot)
 fr = pd.read_csv(os.path.join(ROOT, "fuel_recon_master.csv"))
+dmf = pd.read_csv(os.path.join(ROOT, "drive_master.csv"), usecols=["file", "ens_outlier_v2", "ens_invalid"], low_memory=False)
+tru = lambda v: str(v).strip().lower() == "true"
+indep = set(dmf.loc[dmf["ens_outlier_v2"].map(tru) | dmf["ens_invalid"].map(tru), "file"]) & set(fr["file"])      # independent plain-pandas recomputation
 ex = EL.excluded_files(EL.load_flags(os.path.join(ROOT, "drive_master.csv")), fr["file"])
-assert sorted(ex) == sorted(e["file"] for e in eff["sets"]["excludedByCanonical"]), "excluded set differs from the measurement"
-assert len(fr) - len(ex) == eff["sets"]["canonicalCleanRows"]
+assert set(ex) == indep, "excluded set differs from the independent recomputation"
+assert len(fr) - len(ex) == int((~fr["file"].isin(indep)).sum())
+assert {e["file"] for e in eff["sets"]["excludedByCanonical"]} <= set(ex), "a file excluded at M375 is no longer excluded (frozen ML16 flags must not move)"
 import wire_gtr_seasonal as W
 os.chdir(ROOT)
 m = W.load_merged()
-a = W.aggregate(m, "All", 489)
-assert (a["nProduction"], a["nDrives"], a["kmProduction"]) == (eff["cohorts"]["all"]["canonical"]["nProduction"], eff["cohorts"]["all"]["canonical"]["nDrives"], eff["cohorts"]["all"]["canonical"]["kmProduction"])
-a0 = W.aggregate(m, "All", 489, canonical=False)                                   # the pre-M375 definition stays reproducible (known answer of the measurement)
-assert (a0["nProduction"], a0["nDrives"], a0["kmProduction"]) == (eff["cohorts"]["all"]["current"]["nProduction"], eff["cohorts"]["all"]["current"]["nDrives"], eff["cohorts"]["all"]["current"]["kmProduction"])
+N = len(dmf)
+a = W.aggregate(m, "All", N)
+keep = m[~m["ens_excluded"]]
+assert (a["nProduction"], a["nDrives"], a["kmProduction"]) == (len(keep), int(keep["f_gen"].notna().sum()), round(keep.loc[keep["f_gen"].notna(), "distance_km"].sum(), 1))
+a0 = W.aggregate(m, "All", N, canonical=False)                                   # the pre-M375 definition stays reproducible
+assert (a0["nProduction"], a0["nDrives"], a0["kmProduction"]) == (len(m), int(m["f_gen"].notna().sum()), round(m.loc[m["f_gen"].notna(), "distance_km"].sum(), 1))
+assert a0["nProduction"] - a["nProduction"] == int(m["ens_excluded"].sum())
 try:
     W.aggregate(m.drop(columns=["ens_excluded"]), "All", 489)
     raise SystemExit("aggregate() accepted a frame without the canonical flag")
