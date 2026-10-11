@@ -1,0 +1,98 @@
+{
+ "B_ah_per100": 4.885563086680237,
+ "B_ci95": [
+  4.772891212771707,
+  4.9980291982847636
+ ],
+ "B_kwh_per100": 1.7950193693237853,
+ "B_kwh_ci95": [
+  1.746223527471327,
+  1.8453944550364088
+ ],
+ "B_offset_A": 0.0388285161631397,
+ "B_reverse_ah_per100": 5.411830119240937,
+ "B_reverse_ci95": [
+  5.063779580124509,
+  5.799317045175511
+ ],
+ "A_segment_ah_per100": 4.61946733257265,
+ "A_segment_drift_A": 0.04443376200104238,
+ "A_n_segments": 262,
+ "A_n_drives": 260,
+ "W10_anchored_ah_per100": 4.914499420075738,
+ "W10_bias_A": -0.0454767846863256,
+ "W10_n_drives": 494,
+ "W10_n_days": 107,
+ "n_drives": 540,
+ "n_days": 108,
+ "n_events": 161709,
+ "n_windows": 2124,
+ "n_segments_B": 588,
+ "n_master_false": 540,
+ "sensitivity_B": {
+  "primary": {
+   "ah": 4.885563086680237,
+   "kwh": 1.7950193693237853,
+   "rev": 5.411830119240937,
+   "n_events": 161709,
+   "n_segments": 588,
+   "n_drives": 540
+  },
+  "gap3": {
+   "ah": 4.849022958986755,
+   "kwh": 1.776342378472904,
+   "rev": 5.12923398937278,
+   "n_events": 160143,
+   "n_segments": 864,
+   "n_drives": 537
+  },
+  "zoh": {
+   "ah": 4.890994505436059,
+   "kwh": 1.7968239805052628,
+   "rev": 5.43595838024618,
+   "n_events": 161709,
+   "n_segments": 588,
+   "n_drives": 540
+  },
+  "no_glitch_removal": {
+   "ah": 4.885563086680237,
+   "kwh": 1.7950193693237853,
+   "rev": 5.411830119240937,
+   "n_events": 161709,
+   "n_segments": 588,
+   "n_drives": 540
+  },
+  "min_events_1": {
+   "ah": 4.8855630433163935,
+   "kwh": 1.7950193814038273,
+   "rev": 5.411830034021633,
+   "n_events": 161715,
+   "n_segments": 591,
+   "n_drives": 540
+  },
+  "min_events_2": {
+   "ah": 4.8855630433163935,
+   "kwh": 1.7950193814038273,
+   "rev": 5.411830034021633,
+   "n_events": 161715,
+   "n_segments": 591,
+   "n_drives": 540
+  },
+  "W10_noglitch": {
+   "ah": 4.914499420075738,
+   "bias": -0.0454767846863256,
+   "n": 2124,
+   "n_drives": 494,
+   "n_days": 107
+  },
+  "W10_skip_to_b": {
+   "ah": 4.911345568342167,
+   "bias": -0.07764005471302375,
+   "n": 1501,
+   "n_drives": 448,
+   "n_days": 107
+  }
+ },
+ "max_sens_pct_B_ah": 0.7479204964746744,
+ "choices": "Drives: ens_outlier_v2 string == 'False' (blank/True excluded); raw matched by digits; calendar day = master date. Time HH:MM:SS.fff, midnight unwrapped on cumulative backward jumps >12 h over file rows. Current: non-NaN, |I|<900, sorted, duplicate times dropped (first kept). V 200-450 np.interp (edge clamped). SoC>0; primary applies glitch removal (drop sample jumping >=20 pp from last kept sample if a sample within 5 s returns to <20 pp of last kept value). Segments: gaps >10 s, >20 samples. B: SoC samples with time in [seg start, seg end], >=10; event = consecutive SoC pair differing by 0.5 (tol 1e-6, either sign); >=3 events/seg; segment demeaned; pooled OLS no intercept; trapezoid. Reverse: level~a*Q+b*th, 100/a. A: segments >=10 min and >=10 SoC samples; medians of first/last 5 SoC. Windows: SoC restricted to span covered by I and V, strictly increasing times; failed window advances a by one sample, successful advances to b; SoC jump >2 pp check on all consecutive pairs in window (all <=5 s after gap check); current-gap check on current samples bracketing [t_a,t_b]; re-anchor needs k>=1 with sign(s[k]-s[k-1])==d. Bootstrap: resample calendar days with replacement, default_rng(42), 4000 draws, percentile 2.5/97.5, refit from per-day sufficient statistics."
+}

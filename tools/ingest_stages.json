@@ -332,6 +332,18 @@
    ]
   },
   {
+   "id": "capacity_basis",
+   "title": "M403: apparent capacity of the logged BMS SoC scale, estimated (additive payload block capacityBasis + documentary CAP_AH_RATED provenance entry; per-drive extraction cached by raw sha256; no headline or master change)",
+   "cmd": [
+    "python3",
+    "tools/capacity_basis.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json"
+   ]
+  },
+  {
    "id": "cadence_monitor",
    "title": "M396: report-only flag for the logger PID polling cadence: tells the owner when a NEW drive is slow while fast polling is expected (owner re-activated it 2026-10-09); never stops an ingestion (analyses/M396_spec.md)",
    "cmd": [

@@ -90,6 +90,17 @@ ok("A2 REQUIRED rainflow floor stated as a cycle range with the payload floor an
    f"a range below {_rf['floorPct']:g} pp are dropped" in conc and f"{_rf['nFilesUsed']} SoC traces" in conc, f"{_rf['floorPct']} / {_rf['nFilesUsed']}")
 ok("A2 REQUIRED fuel text names the logger app and the subset of drives", "logger app" in _all_dom and "subset of drives" in _all_dom)
 ok("A2 REQUIRED non-integrable drives are excluded from GTC, not counted as zero", "not counted as zero" in conc)
+# M403 (analyses/M403_spec.md v4): capacityBasis is an additive block; its structure and invariants (no headline depends on it)
+_cb = A.get("capacityBasis")
+ok("M403 capacityBasis present with the bootstrap CI and the method range as SEPARATE leaves, never merged", bool(_cb) and "bootstrapCI95" in _cb["ahPer100"] and "methodRange" in _cb["ahPer100"] and "never merged" in _cb["ahPer100"]["reporting"])
+if _cb:
+    _a = _cb["ahPer100"]
+    ok("M403 point estimate lies inside its method range and the CI is ordered", _a["methodRange"][0] <= _a["point"] <= _a["methodRange"][1] and _a["bootstrapCI95"][0] <= _a["point"] <= _a["bootstrapCI95"][1])
+    ok("M403 method range is the min-max of its entries", _a["methodRange"] == [min(v for v in _a["methodRangeEntries"].values() if v is not None), max(v for v in _a["methodRangeEntries"].values() if v is not None)])
+    ok("M403 population: drives and days printed; NaN-flag drives are outside the primary population and test (d) reports them", _cb["population"]["nDrives"] > 0 and _cb["population"]["nDays"] > 0 and _cb["testD_nanFlagDrives"]["nNanFlagDrives"] == _cb["population"]["nNanFlagDrivesExcluded"])
+    ok("M403 registry: every entry has a class and no automatic switch", all(e.get("class") in ("documentary", "assumed", "estimated") and e.get("automaticSwitch") is False for e in _cb["registry"]))
+    ok("M403 CAP_AH_RATED is documentary, unverified for this vehicle, with a source and applicability", A["constantProvenance"]["CAP_AH_RATED"]["class"] == "documentary" and A["constantProvenance"]["CAP_AH_RATED"]["verified"] is False and "applicability" in A["constantProvenance"]["CAP_AH_RATED"])
+    ok("M403 lag scenarios are labelled scenario sensitivity, not a CI", "not a confidence interval" in _cb["lag"]["note"])
 # M399 (audits 2026-10-11, analyses/M399_wording_spec.md): fact-aware text checks (each fails on the pre-fix state)
 import re as _re399
 _pr399 = A["provenanceSensitivity"]["raw"]
