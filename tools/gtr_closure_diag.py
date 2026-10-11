@@ -58,6 +58,63 @@ def dayboot(d, fn, nb=NB, seed=SEED):
         out.append(fn(pd.concat([idx[days[i]] for i in pick])))
     return [float(np.percentile(out, 2.5)), float(np.percentile(out, 97.5))]
 
+def derive(d):
+    """Derived per-drive columns of the closure table (one place, used for the run and for the M398 hybrid run)."""
+    d["g2b_master"] = d.eng_only + d.dual
+    d["g2b_model"] = d.E_gen_ps - d.g2t            # closes by construction (diagnostic only)
+    d["excess"] = d.g2t + d.g2b_master - d.E_gen   # F04 quantity (spec definition: master charge columns)
+    d["excess_engonly"] = d.g2t + d.eng_only - d.E_gen   # H1 variant: dual (engine-on torque-verified regen) removed from the generator branch
+    d["gen_def_gap"] = d.E_gen_ps - d.E_gen        # H4: regime-volume vs per-sample node
+    d["excess_ps"] = d.g2t + d.g2b_master - d.E_gen_ps
+    d["batt_in"] = d.g2b_master + d.regen
+    d["batt_resid"] = d.batt_in - d.b2t
+    d["batt_resid_modelg2b"] = d.g2b_model + d.regen - d.b2t
+    return d
+
+
+def attributed_repin(d, prev, rec, names):
+    """M398 (analyses/M398_spec.md): on an identity drift in --ingest mode, recompute the previous IDs from the PRE-ingestion master rows (git HEAD) with the current code (the hybrid run);
+    if it reproduces the pin exactly and the drift is confined to the recalibration columns and within tolerance, re-pin automatically. Anything else: the old STOP."""
+    import io, subprocess, hashlib
+    import m372_closure_common as CM
+    import recal_gate as RG
+    try:
+        raw_head = subprocess.check_output(["git", "show", "HEAD:drive_master.csv"], cwd=ROOT, stderr=subprocess.DEVNULL)
+    except Exception:
+        return CM.assert_previous_identity(d, prev)               # no pre-ingestion master available: the old STOP (writes the drift report)
+    head_md5 = hashlib.md5(raw_head).hexdigest()
+    old_typed = pd.read_csv(io.BytesIO(raw_head)).set_index("file", drop=False)
+    old_str = pd.read_csv(io.BytesIO(raw_head), dtype=str, keep_default_na=False)
+    new_str = pd.read_csv(os.path.join(ROOT, "drive_master.csv"), dtype=str, keep_default_na=False)
+    rows = []
+    for f in prev["file"]:
+        raw = names.get(_norm(f))
+        if f not in old_typed.index or raw is None or not os.path.exists(RE.BASE + raw):
+            break
+        r = per_drive(f, old_typed.loc[f], raw)
+        if r is None:
+            break
+        rows.append(r)
+    if len(rows) != len(prev):
+        CM.write_drift_report(d, prev)
+        raise SystemExit("STOP (M398): the hybrid run could not be built for every previous ID (%d of %d)" % (len(rows), len(prev)))
+    d_h = derive(pd.DataFrame(rows))
+    try:
+        orig = None
+        try:
+            _o = CM.load_record().get("originalPin")
+            if _o and _o.get("path") != rec.get("path"):
+                orig = pd.read_csv(os.path.join(ROOT, _o["path"]))
+        except Exception:
+            orig = None
+        ev = CM.attribute_recalibration_drift(d, prev, rec, d_h, old_str, new_str, RG.RECAL_COLS, head_md5, orig=orig)
+    except SystemExit:
+        CM.write_drift_report(d, prev)
+        raise
+    CM.write_drift_report(d, prev, attribution=ev)
+    return CM.repin_previous(d, prev, rec, "auto (M398): closure drift attributed to the recalibrated offset columns (hybrid run reproduces the pin exactly; changed columns %s)" % ev["masterColumnsChangedOnPreviousIds"], evidence=ev)
+
+
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--m372", action="store_true", help="M372: outputs to analyses/M372_*; raw sha256 + published-ID-set checks BEFORE any estimate; M366 basis label")
@@ -94,15 +151,7 @@ def main():
         rows.append(r)
         if a.limit and len(rows) >= a.limit: break
     d = pd.DataFrame(rows)
-    d["g2b_master"] = d.eng_only + d.dual
-    d["g2b_model"] = d.E_gen_ps - d.g2t            # closes by construction (diagnostic only)
-    d["excess"] = d.g2t + d.g2b_master - d.E_gen   # F04 quantity (spec definition: master charge columns)
-    d["excess_engonly"] = d.g2t + d.eng_only - d.E_gen   # H1 variant: dual (engine-on torque-verified regen) removed from the generator branch
-    d["gen_def_gap"] = d.E_gen_ps - d.E_gen        # H4: regime-volume vs per-sample node
-    d["excess_ps"] = d.g2t + d.g2b_master - d.E_gen_ps
-    d["batt_in"] = d.g2b_master + d.regen
-    d["batt_resid"] = d.batt_in - d.b2t
-    d["batt_resid_modelg2b"] = d.g2b_model + d.regen - d.b2t
+    d = derive(d)
     PFX = "M377c_closure" if a.ingest else ("M372_closure" if a.m372 else "M336_closure")
     assert not (a.m372 or a.ingest) or not PFX.startswith("M336"), "M372 / ingestion mode must never write M336 files"
     if a.ingest:
@@ -112,7 +161,13 @@ def main():
             checks["repin"] = CM.repin_previous(d, _prev, _rec, a.repin_reason)
             print("M377c RE-PIN written:", json.dumps(checks["repin"]["previousPerDrive"]), flush=True)
         else:
-            checks["previousIdentity"] = CM.assert_previous_identity(d, _prev)
+            _drift, _, _miss, _, _ = CM.identity_drift(d, _prev)
+            if not _drift and not _miss:
+                checks["previousIdentity"] = CM.assert_previous_identity(d, _prev)
+            else:                                                          # M398: attribution (hybrid run); falls back to the old STOP when it cannot be established
+                checks["repin"] = attributed_repin(d, _prev, _rec, names)
+                checks["previousIdentity"] = {"attributedRecalibrationDrift": True, "newPin": checks["repin"]["previousPerDrive"]}
+                print("M398 attributed re-pin:", json.dumps(checks["repin"]["previousPerDrive"]), flush=True)
     d.round(5).to_csv(os.path.join(ROOT, "analyses", PFX + "_perdrive.csv"), index=False, lineterminator="\n")
     tot = {c: ratio(d, c) for c in ["E_gen", "E_gen_ps", "g2t", "g2b_master", "g2b_model", "eng_only", "dual", "regen", "b2t", "trac",
                                     "excess", "excess_engonly", "excess_ps", "gen_def_gap", "batt_resid", "batt_resid_modelg2b"]}
