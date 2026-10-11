@@ -344,6 +344,18 @@
    ]
   },
   {
+   "id": "dependence_sensitivity",
+   "title": "M406: dependence and small-cluster sensitivities (CR2, wild cluster bootstrap-t, week-block bootstrap, minimum effect with 80 % power) of the thesis KPIs and the two released trend slopes; additive payload block dependenceSensitivity + stamp; the released estimators are unchanged",
+   "cmd": [
+    "python3",
+    "tools/dependence_sensitivity.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json"
+   ]
+  },
+  {
    "id": "cadence_monitor",
    "title": "M396: report-only flag for the logger PID polling cadence: tells the owner when a NEW drive is slow while fast polling is expected (owner re-activated it 2026-10-09); never stops an ingestion (analyses/M396_spec.md)",
    "cmd": [

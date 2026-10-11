@@ -299,6 +299,7 @@ RULES = [
          rx=r"\bnot (?:a |an )?(?:published )?oem (?:spec|specification|nameplate)\b|\bdo not publish a cell pack energy capacity spec\b"),
     Rule("M401-N06-hardlevel", "regex", "N06: overlapping windows give a rank RESOLUTION (about 1/(n_eff+1)), not an 'effective hard level' / calibrated false-alarm rate; a non-flag is 'no shift detected', not stable calibration", rx=r"\beffective hard level\b"),
     Rule("M404-percell", "regex", "M404: the Article-10 disclosure (X-Trail e-POWER T33) says 'Rated capacity 5 Ah' (Ah = Wh / nominal battery voltage); it does not say per cell and does not name the drivetrain", rx=r"\b5 0 ah per cell\b|\bah per cell figure\b|\boem disclosed 5 0 ah\b"),
+    Rule("W3-power80", "regex", "M406 Director: a minimum effect at the observed standard error is a design-conditional quantity; never 'observed power', 'post hoc power', 'powered to detect' or 'rules out slopes' (W3-mde stays unchanged)", rx=r"\bobserved power (?:of|calculation|analysis|computed|was|is)\b|\bpost hoc power\b|\bpowered to detect\b|\brules? out slopes\b"),
     Rule("M399-archaeology", "regex", "reader-facing text must not carry change-log history (it belongs in CHANGELOG)",
          rx=r"\bthis paragraph previously quoted\b|\bprior hand typed\b|\bsuperseded 28 w figure\b|\brecomputed 2026 07 10\b|\brefreshed at m373\b"),
 ]

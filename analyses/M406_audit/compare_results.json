@@ -1,0 +1,131 @@
+{
+ "rows": {
+  "cellSpread": {
+   "slope": {
+    "pipeline": 0.26307,
+    "auditor": 0.2630665420794099,
+    "abs_diff": 3.457920590144159e-06
+   },
+   "cr1_se": {
+    "pipeline": 0.1259,
+    "auditor": 0.12590239846052217,
+    "abs_diff": 2.3984605221627486e-06
+   },
+   "cr2_se": {
+    "pipeline": 0.12775,
+    "auditor": 0.12774552607491588,
+    "abs_diff": 4.473925084125252e-06
+   },
+   "cr2_df": {
+    "pipeline": 28.68497,
+    "auditor": 28.684967277819162,
+    "abs_diff": 2.7221808380772927e-06
+   },
+   "wild_p": {
+    "pipeline": 0.04924,
+    "auditor": 0.04048987753061734,
+    "abs_diff": 0.008750122469382657
+   },
+   "pairs_day_lower": {
+    "pipeline": -0.00818,
+    "auditor": -0.012703973806550905,
+    "abs_diff": 0.004523973806550905
+   },
+   "pairs_week_lower": {
+    "pipeline": -0.06622,
+    "auditor": -0.08024909854164312,
+    "abs_diff": 0.014029098541643123
+   },
+   "pairs_week_upper": {
+    "pipeline": 0.51965,
+    "auditor": 0.5098867336772203,
+    "abs_diff": 0.009763266322779685
+   },
+   "_withinPipelineSeedRange": {
+    "wild_p": true,
+    "day_lower": true,
+    "week_lower": true
+   }
+  },
+  "resistanceVreg": {
+   "slope": {
+    "pipeline": 0.98863,
+    "auditor": 0.9886263757073515,
+    "abs_diff": 3.624292648551908e-06
+   },
+   "cr1_se": {
+    "pipeline": 0.6366,
+    "auditor": 0.6366017667530777,
+    "abs_diff": 1.7667530776144247e-06
+   },
+   "cr2_se": {
+    "pipeline": 0.64916,
+    "auditor": 0.6491642849561219,
+    "abs_diff": 4.284956121924921e-06
+   },
+   "cr2_df": {
+    "pipeline": 32.62454,
+    "auditor": 32.62453872618444,
+    "abs_diff": 1.273815563251901e-06
+   },
+   "wild_p": {
+    "pipeline": 0.13972,
+    "auditor": 0.13146713321669581,
+    "abs_diff": 0.008252866783304197
+   },
+   "pairs_day_lower": {
+    "pipeline": -0.30979,
+    "auditor": -0.2939066896644099,
+    "abs_diff": 0.015883310335590095
+   },
+   "pairs_week_lower": {
+    "pipeline": -0.35054,
+    "auditor": -0.40723349192557673,
+    "abs_diff": 0.05669349192557671
+   },
+   "pairs_week_upper": {
+    "pipeline": 2.03199,
+    "auditor": 2.1031712428595326,
+    "abs_diff": 0.07118124285953265
+   },
+   "_withinPipelineSeedRange": {
+    "wild_p": true,
+    "day_lower": true,
+    "week_lower": true
+   }
+  },
+  "K1": {
+   "est": {
+    "pipeline": 2.06538,
+    "auditor": 2.065383376793403,
+    "abs_diff": 3.3767934026762703e-06
+   },
+   "day_lo": {
+    "pipeline": 2.05864,
+    "auditor": 2.058792482182679,
+    "abs_diff": 0.0001524821826790479
+   }
+  },
+  "K2": {
+   "est": {
+    "pipeline": 0.01461,
+    "auditor": 0.01460831356078384,
+    "abs_diff": 1.6864392161589775e-06
+   }
+  },
+  "soc_median": {
+   "est": {
+    "pipeline": 18.5,
+    "auditor": 18.5,
+    "abs_diff": 0.0
+   },
+   "n": {
+    "pipeline": 550,
+    "auditor": 550,
+    "abs_diff": 0
+   }
+  }
+ },
+ "maxAbsDiffPointValues": 4.473925084125252e-06,
+ "note": "point values (slopes, CR1/CR2 SE, CR2 df, KPI estimates) agree; bootstrap quantities differ by RNG and by the seed spread of the pipeline (wild p 0.040-0.054 across seeds straddles 0.05); the auditor's CR2 inverse square root and pseudo-inverse agree to 1e-13"
+}
