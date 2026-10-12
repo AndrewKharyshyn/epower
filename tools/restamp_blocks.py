@@ -48,7 +48,7 @@ def main():
         k, rest = kv(spec)
         basis, note = rest.split("=", 1)
         s = st[k]
-        s.update(corpusHash=live, generatedAt=now, carriedForward=True, basisNDrives=int(basis),
+        s.update(corpusHash=live, generatedAt=now, computationStatus="carriedForward", carriedForward=True, basisNDrives=int(basis),   # M419 (F06): the status is set with the flag
                  computationStatusNote=f"{a.milestone}: CARRIED FORWARD at the {basis}-drive basis (not recomputed on the live corpus): {note}")
         done["carried"].append(k)
     with open(P("summary_arrays.json"), "w", encoding="utf-8") as f:

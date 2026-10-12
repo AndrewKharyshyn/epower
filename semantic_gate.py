@@ -221,6 +221,11 @@ if _sdp:
            and _pn.count("trend not resolved; equivalence not established; no stability or SOH claim") == 2)
         ok("A2 REQUIRED M412 %s: none of the forbidden readings or inference words in the panel" % _k,
            not _re407.search(r"\b(significant(?:ly)?|confirmed|stable|robust|detected|detectable|MDE|rules? out|demonstrates|measured)\b|observed power|post hoc power|powered to detect|\bno serial dependence\b|\bdays are independent\b|\bcr1 (?:is )?adequate\b|\b(?:hac|gls) (?:is )?(?:the )?(?:corrected|primary)\b", _pn))
+# M419 (analyses/M419_spec.md, audit F06): stamp schema split; every stamp states when it entered the release, when its block was computed and on which basis; carried blocks state their OWN basis
+import importlib.util as _ilu
+_sp = _ilu.spec_from_file_location("stamp_basis", P("tools/stamp_basis.py")); _sb = _ilu.module_from_spec(_sp); _sp.loader.exec_module(_sb)
+_sbad = _sb.check(A)
+ok("M419 every artifact stamp carries includedInReleaseAt / computedAt / inputBasis coherently; carried blocks state their own basis (masterRefitAudit = its own row count); no outdated carry flag (%d stamps)" % len(A["_artifactStamps"]), not _sbad, str(_sbad[:3]))
 # M418 (analyses/M418_spec.md Rev 1, Director ruling analyses/M418_director_ruling_2026-10-12.md): thermal support ledger; additive and reporting-only; every accepted count reconciles with the published estimator n, every
 # candidate sits in exactly one bucket, and the support lines of the thermal sections render the counts of the selected cohort
 _tl = A.get("thermalSupportLedger")
