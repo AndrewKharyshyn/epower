@@ -194,6 +194,33 @@ if _sd:
            "separate estimator" in _t["gls"]["note"] and "never described as a correction" in _t["gls"]["note"]
            and (_t["misspecControl"]["reading"].startswith("the control does not separate") or _t["misspecControl"]["reading"].startswith("positive residual autocorrelation remains")))
     ok("M410 the block discloses the forking path (statistic switched after simulation power was seen) and the season-collinearity limit", all("switched from rho_{1-3} to rho_1" in v["residualAutocorr"]["forkingPathNote"] for v in _sd["trendSlopes"].values()) and "season" in " ".join(_sd["limits"]))
+# M412 (analyses/M412_spec.md): dashboard binding of the M410 serial-dependence block (reporting-only); text rendered from the payload, Director ruling analyses/M410_director_ruling_2026-10-12.md
+_sdp = A.get("serialDependence")
+_h412 = [(k, t) for k, t in T.items() if k.startswith("health__") and not k.endswith("__compare")]
+ok("A2 REQUIRED M412 serial-dependence panel rendered in the Health dumps (all / warm / shoulder)", len(_h412) >= 3 and all("Serial-dependence sensitivity (M410;" in t for k, t in _h412))
+if _sdp:
+    for _k, _t in _h412:
+        _i = _t.index("Serial-dependence sensitivity (M410;") if "Serial-dependence sensitivity (M410;" in _t else -1
+        _j = _t.index("Limits:", _i) if _i >= 0 and "Limits:" in _t[_i:] else -1
+        _pn = _t[_i:_j] if _i >= 0 and _j > _i else ""
+        _cs, _rv = _sdp["trendSlopes"]["cellSpread"], _sdp["trendSlopes"]["resistanceVreg"]
+        ok("A2 REQUIRED M412 %s: rule statement, harness power disclosure and the original-statistic label are rendered from the payload for both series" % _k,
+           all(_pn.count(x["residualAutocorr"][f_]) == [y["residualAutocorr"][f_] for y in (_cs, _rv)].count(x["residualAutocorr"][f_]) for x in (_cs, _rv) for f_ in ("statement", "powerDisclosure")) and _pn.count("original statistic (Rev 1)") == 2
+           and ("(%d day pairs" % _cs["residualAutocorr"]["1"]["nPairs"]) in _pn and ("(%d day pairs" % _rv["residualAutocorr"]["1"]["nPairs"]) in _pn)
+        _cl = _cs["rowsRule"]
+        _sent = "procedure-dependent: %d of %d OLS-based rows exclude 0; the lower bound changes sign across procedures" % (len(_cl["rowsExcludingZero"]), len(_cl["rowsIncludingZero"]) + len(_cl["rowsExcludingZero"]))
+        ok("A2 REQUIRED M412 %s: classification sentences follow the payload row lists (cell spread: counted from rowsExcludingZero; resistance proxy: its classification verbatim)" % _k,
+           (_sent in _pn) == (_cl["classification"] == "procedure-dependent") and ("Reading across the OLS-based rows (M406 rows plus the five above; GLS and the control take no part): " + _rv["rowsRule"]["classification"]) in _pn)
+        ok("A2 REQUIRED M412 %s: five new rows in the fixed order plus GLS marked as a separate estimator outside every rule" % _k,
+           _pn.count("AR(1) GLS on day means (separate estimator, outside every rule)") == 2 and all(_pn.count(x) == 2 for x in ("HAC, 3 days", "HAC, 7 days (weekly-scale truncation)", "HAC, 14 days", "Moving-block bootstrap, 7 days", "Moving-block bootstrap, 14 days")))
+        ok("A2 REQUIRED M412 %s: forking-path note, multiplicity note, bootstrap-shift sentence and the descriptive control sentence are rendered" % _k,
+           _pn.count(_cs["residualAutocorr"]["forkingPathNote"]) == 2 and _pn.count(_cs["residualAutocorr"]["multiplicityNote"]) == 2 and _pn.count("The percentile interval of rho_1 is shifted") == 2
+           and _pn.count("a drop from rho_pre to rho_post is not read as seasonal") == 2)
+        ok("A2 REQUIRED M412 %s: harness table rendered for the four scenarios with rates and Monte Carlo errors, and the standing statement is repeated" % _k,
+           all(x in _pn for x in ("white day effects (null)", "AR(1), phi 0.3", "AR(1), phi 0.6", "seasonal signal plus noise")) and "Simulation harness on this day grid (%d replications" % _sdp["harnessCoverage"]["R"] in _pn
+           and _pn.count("trend not resolved; equivalence not established; no stability or SOH claim") == 2)
+        ok("A2 REQUIRED M412 %s: none of the forbidden readings or inference words in the panel" % _k,
+           not _re407.search(r"\b(significant(?:ly)?|confirmed|stable|robust|detected|detectable|MDE|rules? out|demonstrates|measured)\b|observed power|post hoc power|powered to detect|\bno serial dependence\b|\bdays are independent\b|\bcr1 (?:is )?adequate\b|\b(?:hac|gls) (?:is )?(?:the )?(?:corrected|primary)\b", _pn))
 # M399 (audits 2026-10-11, analyses/M399_wording_spec.md): fact-aware text checks (each fails on the pre-fix state)
 import re as _re399
 _pr399 = A["provenanceSensitivity"]["raw"]
