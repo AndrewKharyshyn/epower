@@ -394,6 +394,18 @@
    ]
   },
   {
+   "id": "integration_scenarios",
+   "title": "M420: integration-choice scenarios (alignment, interpolation, gap policy, offset) re-integrated from the logged HV current and voltage beside the energy Monte Carlo, with carried cadence / quantisation / midpoint studies and the capacity references in separate subtables; baseline must reproduce the master, D1 must reproduce offsetGrossSensitivity (spec analyses/M420_spec.md); additive payload block integrationScenarios + stamp; no row is summed or turned into an interval",
+   "cmd": [
+    "python3",
+    "tools/integration_scenarios.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json"
+   ]
+  },
+  {
    "id": "cadence_monitor",
    "title": "M396: report-only flag for the logger PID polling cadence: tells the owner when a NEW drive is slow while fast polling is expected (owner re-activated it 2026-10-09); never stops an ingestion (analyses/M396_spec.md)",
    "cmd": [

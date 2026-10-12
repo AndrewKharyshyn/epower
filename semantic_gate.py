@@ -221,6 +221,37 @@ if _sdp:
            and _pn.count("trend not resolved; equivalence not established; no stability or SOH claim") == 2)
         ok("A2 REQUIRED M412 %s: none of the forbidden readings or inference words in the panel" % _k,
            not _re407.search(r"\b(significant(?:ly)?|confirmed|stable|robust|detected|detectable|MDE|rules? out|demonstrates|measured)\b|observed power|post hoc power|powered to detect|\bno serial dependence\b|\bdays are independent\b|\bcr1 (?:is )?adequate\b|\b(?:hac|gls) (?:is )?(?:the )?(?:corrected|primary)\b", _pn))
+# M420 (analyses/M420_spec.md Rev 1, Director ruling analyses/M420_director_ruling_2026-10-12.md): integration-choice scenarios beside the energy Monte Carlo; additive and reporting-only; the baseline reproduces the master, D1 reproduces
+# offsetGrossSensitivity, the drive set is the Monte Carlo set, no row is pooled, and the rendered panel equals the payload
+_is = A.get("integrationScenarios")
+ok("M420 integrationScenarios present with its artifact stamp, baseline / D1 / drive-set checks passing, no excluded drive and no pooled field",
+   bool(_is) and "integrationScenarios" in A["_artifactStamps"] and all(v["pass"] for v in _is["checks"].values()) and not _is["excludedDrives"]
+   and not re.search(r'"[^"]*(total|combined|pooled|union)[^"]*":', json.dumps(_is), re.I))
+if _is:
+    _bl, _mc = _is["baseline"], _is["monteCarlo"]
+    ok("M420 baseline total equals the Monte Carlo nominal and the master sum; the scenario rows keep the pre-registered family order and inMonteCarlo flags",
+       abs(_bl["grossThroughputKwh"] - _mc["nominalKwh"]) < 0.01 and [r["id"] for r in _is["scenarios"]] == ["A0", "A1", "A2", "A3", "B1", "B2", "C1", "C2", "C3", "C4", "C5", "D1", "D2", "D3"]
+       and [r["inMonteCarlo"] for r in _is["scenarios"]] == [True, True, True, False, False, False, False, "partial", "partial", "partial", "partial", True, True, True])
+    _rows = {r["id"]: r for r in _is["scenarios"]}
+    for _mode in ("all", "warm", "shoulder"):
+        _t = T.get("conclusions__" + _mode, "")
+        _i = _t.find("Integration-choice scenarios (M420;"); _j = _t.find("Drive & event classification", _i)
+        _pn = _t[_i:_j] if _i >= 0 and _j > _i else ""
+        _sg = lambda v: ("+" if v > 0 else "−" if v < 0 else "") + ("%.2f" % abs(v))
+        ok("A2 REQUIRED M420 %s: the scenario panel renders the baseline, every row (throughput, shift in kWh, per-drive spread) and the gap inventory from the payload" % _mode,
+           ("baseline %.2f kWh (discharge %.2f + charge %.2f)" % (_bl["grossThroughputKwh"], _bl["grossDischargeKwh"], _bl["grossChargeKwh"])) in _pn and ("over %d drives on %d days" % (_bl["nDrives"], _bl["nDays"])) in _pn
+           and all((("(%s)" % r["id"]) in _pn and ("%.2f" % r["grossThroughputKwh"]) in _pn and (_sg(r["shiftKwh"]) + " (") in _pn and ("(n = %d;" % r["perDriveRatio"]["nDrives"]) in _pn) for r in _is["scenarios"])
+           and ("%d intervals longer than 5 s" % _bl["gapInventory"]["n5"]) in _pn and ("%d longer than 30 s" % _bl["gapInventory"]["n30"]) in _pn)
+        ok("A2 REQUIRED M420 %s: deterministic offset rows carry no variability interval; the day-variability wording is used and nothing reads as an uncertainty of the total" % _mode,
+           _pn.count("not computed (deterministic row at an interval end)") == 2 and "Day-to-day variability of the ratio, 95 % (calendar-day resampling)" in _pn and "not an uncertainty of the total" in _pn and "not an interval" in _pn)
+        ok("A2 REQUIRED M420 %s: carried studies and capacity references sit in their own paragraphs (own n; GTC / FCE only; reference scaling; CAP_KWH=2.1 verified:false; not a causal cadence effect)" % _mode,
+           "Carried studies (own n; never applied to the drive set above)" in _pn and "not a causal cadence effect" in _pn and "reference scaling; CAP_KWH=2.1 verified:false" in _pn and "rescale GTC and FCE only" in _pn
+           and ("scale by %.4f" % [c for c in _is["capacityReferences"] if c["id"] == "G1"][0]["factor"]) in _pn and "not an accepted capacity" in _pn)
+        ok("A2 REQUIRED M420 %s: the Monte Carlo is a separate conditional reference (included and omitted components named, centre vs nominal stated, hold shift vs interval width stated, never combined)" % _mode,
+           "Monte Carlo reference (separate; conditional)" in _pn and all(x in _pn for x in _mc["included"]) and all(x in _pn for x in _mc["omitted"]) and "its centre is" in _pn
+           and "alone understates the sensitivity of the throughput to the integration choices" in _pn and "is not combined with, drawn beside or drawn as whiskers on any scenario row" in _pn)
+        ok("A2 REQUIRED M420 %s: none of the forbidden totals / accuracy / error wording in the panel" % _mode,
+           bool(_pn) and not re.search(r"total uncertainty|combined uncertainty|overall uncertainty|full uncertainty|error budget|true throughput|measured throughput|worst case|\bbounds?\b|\bbias\b|\bcorrected\b|significant", _pn, re.I))
 # M419 (analyses/M419_spec.md, audit F06): stamp schema split; every stamp states when it entered the release, when its block was computed and on which basis; carried blocks state their OWN basis
 import importlib.util as _ilu
 _sp = _ilu.spec_from_file_location("stamp_basis", P("tools/stamp_basis.py")); _sb = _ilu.module_from_spec(_sp); _sp.loader.exec_module(_sb)
