@@ -324,7 +324,7 @@ def build_pure_electric_payload(ev_aux, dm_ev, arrays, primary_dm):
                 'evPctDistance/evPctTime are pooled: the primary pool includes '
                 'highway (low EV share), so pooled aux>primary is expected and not '
                 'inferential. EV energy (ev_kwh_per100km) is RAW/uncorrected, '
-                'matching the primary master (which carries no offset-corrected EV '
+                'matching the primary master (which carries no offset-adjusted EV '
                 'energy column); under the M128 shared-CAP + shared-offset basis '
                 'the offset cancels in matched-stratum differences. aux mixed n=2 '
                 'after gating -- hypothesis-level only.'),

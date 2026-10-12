@@ -7909,7 +7909,7 @@
   "fceOverStandardEfc": 1.014,
   "gtcIsStandard": false,
   "standardEquivalent": "FCE",
-  "note": "Counts are throughput integrated from logged current (estimated, offset-uncorrected) divided by the rated capacity 5 Ah (Nissan Article-10, documentary; not a measurement and not a confirmation of the fitted SoC scale). GTC is a local double-counting convention, not a recognised metric. FCE is the quantity that corresponds to the standard equivalent-full-cycle (EFC) definition; the residual gap from 1.000 is charge-discharge imbalance (SoC drift, unlogged use, sensor-offset residual, auxiliaries), not a definitional difference. Every figure here scales inversely with the reference; physical throughput is unchanged.",
+  "note": "Counts are throughput integrated from logged current (estimated, offset-uncorrected) divided by the rated capacity 5 Ah (Nissan Article-10, documentary; not a measurement and not a confirmation of the fitted SoC scale). GTC is a local double-counting convention, not a recognised metric. FCE is the quantity that corresponds to the standard equivalent-full-cycle (EFC) definition; the residual gap from 1.000 is charge-discharge imbalance (SoC drift, unlogged use, residual-balance offset, auxiliaries), not a definitional difference. Every figure here scales inversely with the reference; physical throughput is unchanged.",
   "chargeDischargeRatioAh": 1.029,
   "exposureBasis": "rated5Ah",
   "grossChargeAh": 2194.9,
@@ -51853,7 +51853,7 @@
     "fce"
    ],
    "netCorrectionMagnitudeKwh": 26.82,
-   "note": "P0-05: the constant additive current offset is removed from NET draw and residuals only. GTC/FCE/gross throughput integrate |I| and are NOT offset-corrected in code -- a constant bias sums under the absolute value rather than cancelling, so its gross-metric effect is asymmetric and cannot be recovered from master aggregates; quantifying it requires a raw re-integration pass. Report gross metrics as offset-UNCORRECTED."
+   "note": "P0-05: the constant additive current offset is removed from NET draw and residuals only. GTC/FCE/gross throughput integrate |I| and are NOT offset-adjusted in code -- a constant bias sums under the absolute value rather than cancelling, so its gross-metric effect is asymmetric and cannot be recovered from master aggregates; quantifying it requires a raw re-integration pass. Report gross metrics as offset-UNCORRECTED."
   },
   "note": "Point estimate is the live two-pass solve (M107). capacitySensitivity regenerates the solve across nominal-capacity assumptions from the same code path: the offset is coupled to the unverified CAP_KWH and must be reported with that band. Day-cluster bootstrap (M230) resamples days and re-solves the same pooled ratio estimator as the point estimate, not a per-drive median; it assumes an unbiased BMS SoC ledger, and quantization, key-cycle re-estimation and temperature-dependent coulombic efficiency can still alias into the fitted constant. Interval is method-dependent (RNG/seed)."
  },
@@ -52449,7 +52449,7 @@
    ],
    "dDischargeKwhPerOffsetA": -42.1161,
    "dChargeKwhPerOffsetA": 27.9586,
-   "note": "A constant current-sensor bias does NOT cancel in a |I| integral the way it cancels in signed net draw -- shifting raw current by the released offset (-0.3834 A) INCREASES gross throughput here, it does not leave it unchanged. This is reported as a sensitivity alongside the released (offset-uncorrected) values, not applied to them: whether to extend the offset correction to gross metrics is a convention decision, not a data question."
+   "note": "A constant constant current offset does NOT cancel in a |I| integral the way it cancels in signed net draw -- shifting raw current by the released offset (-0.3834 A) INCREASES gross throughput here, it does not leave it unchanged. This is reported as a sensitivity alongside the released (offset-uncorrected) values, not applied to them: whether to extend the offset adjustment to gross metrics is a convention decision, not a data question."
   },
   "netDrawCorrMC": {
    "nDraws": 20000,
@@ -84105,7 +84105,7 @@
     "method": "Identical _ev_traction (M53) on an enriched aux dm built on the fly (full analyze_bytes rows); aux master unchanged. EV state = eng_rpm <= 400. ev_valid gates broken-odometer drives.",
     "nValid": 7,
     "nDrives": 9,
-    "confound": "byStratum traction (urban/mixed) is matched. Overall evPctDistance/evPctTime are pooled: the primary pool includes highway (low EV share), so pooled aux>primary is expected and not inferential. EV energy (ev_kwh_per100km) is RAW/uncorrected, matching the primary master (which carries no offset-corrected EV energy column); under the M128 shared-CAP + shared-offset basis the offset cancels in matched-stratum differences. aux mixed n=2 after gating -- hypothesis-level only."
+    "confound": "byStratum traction (urban/mixed) is matched. Overall evPctDistance/evPctTime are pooled: the primary pool includes highway (low EV share), so pooled aux>primary is expected and not inferential. EV energy (ev_kwh_per100km) is RAW/uncorrected, matching the primary master (which carries no offset-adjusted EV energy column); under the M128 shared-CAP + shared-offset basis the offset cancels in matched-stratum differences. aux mixed n=2 after gating -- hypothesis-level only."
    },
    "analysis": "#4 pure-electric (engine-off) movement + energy",
    "overall": {
@@ -152630,7 +152630,7 @@
      0.0186
     ],
     "widthRatioWeekOverDay": 1.03152,
-    "definition": "|sum(offset-corrected net draw)| / sum(gross throughput)"
+    "definition": "|sum(offset-adjusted net draw)| / sum(gross throughput)"
    },
    "K2raw_netShare_uncorrected": {
     "estimate": 0.03166,
@@ -152646,7 +152646,7 @@
      0.03651
     ],
     "widthRatioWeekOverDay": 1.16062,
-    "definition": "|sum(net draw)| / sum(gross throughput), before the offset correction"
+    "definition": "|sum(net draw)| / sum(gross throughput), before the offset adjustment"
    },
    "K3_socBandMedianPp": {
     "estimate": 18.5,
@@ -152694,7 +152694,7 @@
      0.08667
     ],
     "widthRatioWeekOverDay": 1.58643,
-    "definition": "median over drives of |offset-corrected net| / gross throughput"
+    "definition": "median over drives of |offset-adjusted net| / gross throughput"
    }
   },
   "kpiWidthRatioWeekOverDay": {
@@ -154128,7 +154128,7 @@
     "fceOverStandardEfc": 1.033,
     "gtcIsStandard": false,
     "standardEquivalent": "FCE",
-    "note": "GTC is a local double-counting convention, not a recognised metric. FCE is the quantity that corresponds to the standard equivalent-full-cycle (EFC) definition; the residual gap from 1.000 is charge-discharge imbalance (SoC drift, unlogged use, sensor-offset residual, auxiliaries), not a definitional difference. Every figure here scales inversely with CAP_KWH, which is itself unverified."
+    "note": "GTC is a local double-counting convention, not a recognised metric. FCE is the quantity that corresponds to the standard equivalent-full-cycle (EFC) definition; the residual gap from 1.000 is charge-discharge imbalance (SoC drift, unlogged use, residual-balance offset, auxiliaries), not a definitional difference. Every figure here scales inversely with CAP_KWH, which is itself unverified."
    },
    "cycleByType": [
     {

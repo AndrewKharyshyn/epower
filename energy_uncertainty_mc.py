@@ -20,7 +20,7 @@ convention actually is (offsetUncertainty.correctionScope, M13/M24):
      release convention, not just quantify its uncertainty).
   2. offsetGrossSensitivity -- a DETERMINISTIC (non-random) finding, not a
      Monte Carlo: how much gross throughput/GTC/FCE would shift if the
-     current-sensor offset correction were extended from net draw to gross
+     residual-balance offset adjustment were extended from net draw to gross
      metrics too. This is the answer to offsetUncertainty.correctionScope's
      own open question ("quantifying it requires a raw re-integration pass")
      -- computed once per drive in Tier 1 by literal re-integration at the
@@ -255,13 +255,13 @@ def build(precompute, rng=None, offset_point_a=OFFSET_POINT_A,
             round(float(d_thr_per_a.sum()) * ci_hi, 4)],
         'dDischargeKwhPerOffsetA': round(float(d_dis_per_a.sum()), 4),
         'dChargeKwhPerOffsetA': round(float(d_chg_per_a.sum()), 4),
-        'note': ('A constant current-sensor bias does NOT cancel in a |I| '
+        'note': ('A constant constant current offset does NOT cancel in a |I| '
                  'integral the way it cancels in signed net draw -- shifting '
                  f'raw current by the released offset ({offset_point_a} A) '
                  'INCREASES gross throughput here, it does not leave it '
                  'unchanged. This is reported as a sensitivity alongside the '
                  'released (offset-uncorrected) values, not applied to them: '
-                 'whether to extend the offset correction to gross metrics is a '
+                 'whether to extend the offset adjustment to gross metrics is a '
                  'convention decision, not a data question.')}
 
     # ---------------- (3) netDrawCorrMC ----------------

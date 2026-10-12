@@ -28,9 +28,9 @@ draw:
      per-drive characteristic |power| to bound how much energy that truncation
      could plausibly be hiding.
   4. Current-offset-on-GROSS-metrics sensitivity. offsetUncertainty.correction
-     Scope (M13/M24) applies the fitted current-sensor offset to NET draw and
+     Scope (M13/M24) applies the fitted residual-balance offset to NET draw and
      residuals ONLY, explicitly noting: "GTC/FCE/gross throughput integrate
-     |I| and are NOT offset-corrected in code -- a constant bias sums under
+     |I| and are NOT offset-adjusted in code -- a constant bias sums under
      the absolute value rather than cancelling, so its gross-metric effect is
      asymmetric and cannot be recovered from master aggregates; quantifying it
      requires a raw re-integration pass." This module IS that pass: it

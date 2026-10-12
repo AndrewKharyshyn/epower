@@ -15601,7 +15601,7 @@ def _metric_convention(dm):
                 'gtcIsStandard': False, 'standardEquivalent': 'FCE',
                 'note': ('Counts are throughput integrated from logged current (estimated, offset-uncorrected) divided by the rated capacity 5 Ah (Nissan Article-10, documentary; not a measurement and not a confirmation of the fitted SoC scale). '
                          'GTC is a local double-counting convention, not a recognised metric. FCE is the quantity that corresponds to the standard equivalent-full-cycle (EFC) definition; the residual gap from 1.000 is charge-discharge imbalance '
-                         '(SoC drift, unlogged use, sensor-offset residual, auxiliaries), not a definitional difference. Every figure here scales inversely with the reference; physical throughput is unchanged.')}
+                         '(SoC drift, unlogged use, residual-balance offset, auxiliaries), not a definitional difference. Every figure here scales inversely with the reference; physical throughput is unchanged.')}
     efc_std = D / CAP_KWH
     return {
         'capKwh': CAP_KWH,
@@ -15620,7 +15620,7 @@ def _metric_convention(dm):
         'note': ('GTC is a local double-counting convention, not a recognised '
                  'metric. FCE is the quantity that corresponds to the standard '
                  'equivalent-full-cycle (EFC) definition; the residual gap from '
-                 '1.000 is charge-discharge imbalance (SoC drift, unlogged use, sensor-offset residual, auxiliaries), not a '
+                 '1.000 is charge-discharge imbalance (SoC drift, unlogged use, residual-balance offset, auxiliaries), not a '
                  'definitional difference. Every figure here scales inversely '
                  'with CAP_KWH, which is itself unverified.'),
     }
@@ -16121,7 +16121,7 @@ def _audit_offset_uncertainty(dm, n_boot=4000, seed=42):
             'netCorrectionMagnitudeKwh': _sum_off_net,
             'note': ('P0-05: the constant additive current offset is removed '
                      'from NET draw and residuals only. GTC/FCE/gross '
-                     'throughput integrate |I| and are NOT offset-corrected in '
+                     'throughput integrate |I| and are NOT offset-adjusted in '
                      'code -- a constant bias sums under the absolute value '
                      'rather than cancelling, so its gross-metric effect is '
                      'asymmetric and cannot be recovered from master '

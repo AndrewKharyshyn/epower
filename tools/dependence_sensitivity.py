@@ -257,14 +257,14 @@ def kpis(dm, B=N_BOOT, seed=SEED):
     thr, dis, net, netraw = (d[c].to_numpy(float) for c in ("gross_throughput_kwh", "gross_discharge_kwh", "net_draw_kwh_corr", "net_draw_kwh"))
     ok = d["gross_throughput_kwh"].notna() & d["gross_discharge_kwh"].notna() & d["net_draw_kwh_corr"].notna() & (d["gross_throughput_kwh"] > 0)
     add("K1_throughputOverDischarge", "ratio", np.nan_to_num(thr), np.nan_to_num(dis), ok, {"definition": "sum(gross throughput) / sum(gross discharge) over the eligible drives"})
-    add("K2_netShare_corrected", "absratio", np.nan_to_num(net), np.nan_to_num(thr), ok, {"definition": "|sum(offset-corrected net draw)| / sum(gross throughput)"})
-    add("K2raw_netShare_uncorrected", "absratio", np.nan_to_num(netraw), np.nan_to_num(thr), ok, {"definition": "|sum(net draw)| / sum(gross throughput), before the offset correction"})
+    add("K2_netShare_corrected", "absratio", np.nan_to_num(net), np.nan_to_num(thr), ok, {"definition": "|sum(offset-adjusted net draw)| / sum(gross throughput)"})
+    add("K2raw_netShare_uncorrected", "absratio", np.nan_to_num(netraw), np.nan_to_num(thr), ok, {"definition": "|sum(net draw)| / sum(gross throughput), before the offset adjustment"})
     band = d["soc_band"].to_numpy(float)
     add("K3_socBandMedianPp", "median", np.nan_to_num(band), None, d["soc_band"].notna(), {"definition": "median over drives of the per-drive SoC band (pp)"})
     pk = d["peak_discharge_kw"].to_numpy(float)
     add("K4_peakDischargeMedianKw", "median", np.nan_to_num(pk), None, d["peak_discharge_kw"].notna(), {"definition": "median over drives of the per-drive peak discharge power (kW)"})
     share = np.where(thr > 0, np.abs(net) / np.where(thr > 0, thr, 1), np.nan)
-    add("K5_perDriveNetShareMedian", "median", np.nan_to_num(share), None, ok, {"definition": "median over drives of |offset-corrected net| / gross throughput"})
+    add("K5_perDriveNetShareMedian", "median", np.nan_to_num(share), None, ok, {"definition": "median over drives of |offset-adjusted net| / gross throughput"})
     return out
 
 
