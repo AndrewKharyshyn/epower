@@ -17,3 +17,6 @@ The dashboard reads from `exposureBasis.legacy` only `meta.gtcSum`, `meta.fceSum
 
 ## Limits
 The derived cycleBySpeed rows rest on one-decimal stored values (stated in the tool docstring); the legacy disclosure values stay reference-only (no consumer other than the three displayed numbers). No Director wording ruling is needed (no text or figure changes; the three displayed legacy numbers are unchanged on the committed corpus).
+
+## Rev 1 note
+The cycleByType / cycleCumulative legacy values come from helpers extracted unchanged from `category_A` (`_category_a_frames`, `_cycle_by_type`, `_cycle_cumulative_ledgers`); the whole `category_A` takes about 85 s and its other outputs are not needed. `category_A` output is identical before and after the extraction (all keys, canonical JSON, committed master).

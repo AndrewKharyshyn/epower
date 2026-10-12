@@ -3,7 +3,7 @@
 rated-over-legacy factor, the legacy-basis disclosure values, the rated point beside the Monte Carlo and the primary exposure depend on the corpus, and no ingestion stage refreshed them (found by the M422 rehearsal).
 
 No second arrays build is needed: the legacy-basis values are recomputed from drive_master.csv alone with the released builders on the legacy exposure frame (tools/exposure_frame.py), exactly as the arrays build computes
-them on the legacy basis - _metric_convention, category_A (cycleByType, cycleCumulative), _crate_axes, _crate_ref_lines - and the per-speed rows of cycleBySpeed are derived from the rated payload rows
+them on the legacy basis - _metric_convention, the cycleByType / cycleCumulative parts of category_A (C._cycle_by_type, C._cycle_cumulative_ledgers), _crate_axes, _crate_ref_lines - and the per-speed rows of cycleBySpeed are derived from the rated payload rows
 (rate = kWh / CAP_KWH / km x 100 from the stored one-decimal kWh and km; the raw-pass accumulators are not re-run). The rated side is the payload itself (it was built on the rated basis). The block is assembled by
 tools/exposure_splice.build_block (the M415 code), so on an unchanged corpus the refreshed block equals the published one (tests/synthetic/test_exposure_basis_refresh.py).
 Writes ONLY /exposureBasis and /_artifactStamps/exposureBasis. Usage: python tools/exposure_basis_refresh.py [--dry-run]"""
@@ -21,13 +21,15 @@ ALLOWED = ["/exposureBasis", "/_artifactStamps/exposureBasis"]
 def legacy_values(dm, payload):
     """The 'build A' keys build_block reads, computed on the legacy exposure frame; cycleBySpeed derived from the rated rows of the payload."""
     dml = EF.exposure_frame(dm, "legacy2p1kWh")
-    cat = C.category_A(dml, None)
+    fdm, fclean = C._category_a_frames(dml)                       # M423: the cheap parts of category_A (the whole function takes about 85 s)
+    cbt_legacy = C._cycle_by_type(fdm, fclean)
+    cum_legacy = C._cycle_cumulative_ledgers(fdm, pd.to_datetime(fdm["date"])).get("cycleCumulative")
     rated_rows = payload["cycleBySpeed"]
     cbs = [{"zone": r["zone"], "rate": round(r["kwh"] / C.CAP_KWH / r["km"] * 100, 1), "kwh": r["kwh"], "km": r["km"], "color": r["color"]} for r in rated_rows]
     pts = C._crate_axes(dml, payload)
     return {"meta": {"gtcSum": round(float(dml["gtc"].sum()), 1), "fceSum": round(float(dml["fce"].sum()), 1)},
-            "metricConvention": C._metric_convention(dml), "cycleByType": cat["cycleByType"], "cycleBySpeed": cbs,
-            "cycleCumulative": cat.get("cycleCumulative"), "cRateAxes": pts[-1], "cRateRefLines": C._crate_ref_lines(dml, payload)}
+            "metricConvention": C._metric_convention(dml), "cycleByType": cbt_legacy, "cycleBySpeed": cbs,
+            "cycleCumulative": cum_legacy, "cRateAxes": pts[-1], "cRateRefLines": C._crate_ref_lines(dml, payload)}
 
 
 def build(dm, payload):
