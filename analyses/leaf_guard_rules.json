@@ -46,5 +46,21 @@
   "condition": "field_changed",
   "entryDepth": 3,
   "field": "rerunMilestone"
+ },
+ {
+  "id": "stamp-carry-superseded-carriedFromMaster",
+  "rationale": "M419 (F06): the M293 carry flag / note is replaced by the derived carriedBlocks list; the old text is kept as supersededCarryNote (history, not a current statement).",
+  "milestone": "M419",
+  "pathTemplate": "_artifactStamps/{key}/carriedFromMaster",
+  "condition": "sibling_present",
+  "sibling": "supersededCarryNote"
+ },
+ {
+  "id": "stamp-carry-superseded-carryForwardNote",
+  "rationale": "M419 (F06): the M293 carry flag / note is replaced by the derived carriedBlocks list; the old text is kept as supersededCarryNote (history, not a current statement).",
+  "milestone": "M419",
+  "pathTemplate": "_artifactStamps/{key}/carryForwardNote",
+  "condition": "sibling_present",
+  "sibling": "supersededCarryNote"
  }
 ]

@@ -74,6 +74,10 @@ def main():
             rc = subprocess.run([sys.executable, "tools/stamp_notes.py", "--milestone", label], cwd=ROOT).returncode
             if rc:
                 return rc
+    # M419 (F06): computedAt / inputBasis / includedInReleaseAt on every stamp, read from the blocks' own fields; idempotent, writes only /_artifactStamps
+    rc = subprocess.run([sys.executable, "tools/stamp_basis.py"] + (["--dry-run"] if dry else []), cwd=ROOT).returncode
+    if rc:
+        return rc
     # the M382 F03 step (nominal energy of each MC data-quality contributor from the master); idempotent, allow-list guarded
     rc = subprocess.run([sys.executable, "tools/mc_dq_note_refresh.py"] + (["--dry-run"] if dry else []), cwd=ROOT).returncode
     if rc:
