@@ -4,8 +4,11 @@
   runs/<UTC-ts>/<stage>.log  (full output)
   runs/<UTC-ts>/failure.json (stage, returncode, last 50 log lines) on failure
 Usage: python tools/run_ingest.py [--dry-run] [--from ID] [--only ID] [--skip ID ...]
-Exit codes: 0 ok, 1 gate failed, 3 stage not implemented. No automatic retries, no parameter changes."""
-import argparse, datetime as dt, hashlib, json, os, subprocess, sys, time
+Exit codes: 0 ok, 1 gate failed, 3 stage not implemented, 4 rollback/recovery failed, 5 an unfinished release journal blocks the start (run --recover). No automatic retries, no parameter changes.
+M416 (audit F20): the run is a journaled release (tools/release_journal.py): the working tree outside raw/ is snapshotted before the first stage; a failed stage, an exception or SIGINT/SIGTERM rolls every file back
+and verifies the tree hash, a green run commits and records its write set. --keep-on-failure leaves the state for inspection (journal stays open until --recover); --no-journal disables it (development only);
+--recover rolls an interrupted or kept release back."""
+import argparse, datetime as dt, hashlib, json, os, signal, subprocess, sys, time
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -67,7 +70,19 @@ def main():
     ap.add_argument("--skip-unchanged", action="store_true",
                     help="M385: skip every analysis stage when the run fingerprint (sources, data, outputs, raw listing, environment) equals the last fully green run; "
                          "preflight/build_html/jsdom/release_check/state always run (tools/run_fingerprint.py)")
+    ap.add_argument("--no-journal", action="store_true", help="M416: no snapshot/rollback (development only)")
+    ap.add_argument("--keep-on-failure", action="store_true", help="M416: on failure leave the mixed state in place for inspection (the journal stays open; the next run needs --recover)")
+    ap.add_argument("--recover", action="store_true", help="M416: roll back an interrupted or kept release from its journal, then exit")
     a = ap.parse_args()
+    import release_journal as RJ
+    if a.recover:
+        try:
+            rep_ = RJ.Journal.recover(ROOT)
+        except RJ.ReleaseError as ex:
+            print(json.dumps({"error": str(ex)}), file=sys.stderr)
+            return 4
+        print(json.dumps({"recovered": rep_}))
+        return 0 if all(r["state"] == "rolled_back" for r in rep_) else 4
     cfg = json.load(open(os.path.join(ROOT, "tools", "ingest_stages.json")))
     stages = cfg["stages"]
     try:
@@ -78,7 +93,9 @@ def main():
 
     import run_fingerprint as RF
     full_run = not (a.only or a.frm or a.skip)
-    skip_ids, skip_reason, _ = RF.plan(ROOT, cfg["stages"], a.skip_unchanged and full_run)
+    skip_ids, skip_reason = set(), "skip-unchanged not requested"
+    if a.skip_unchanged and full_run:
+        skip_ids, skip_reason, _ = RF.plan(ROOT, cfg["stages"], True)
     if a.skip_unchanged:
         print("run_ingest: skip-unchanged: %s%s" % (skip_reason, " -> skipping %d stages" % len(skip_ids) if skip_ids else ""), file=sys.stderr)
     ts = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -87,6 +104,19 @@ def main():
         print(json.dumps([{"id": s["id"], "cmd": s["cmd"], "verified": s.get("verified"), "implemented": s.get("implemented", True)} for s in stages], indent=1))
         return 0
     os.makedirs(rd, exist_ok=True)
+    journal = None
+    if not a.no_journal:
+        journal = RJ.Journal(ROOT, rd)
+        try:
+            journal.begin({"stages": [s["id"] for s in stages], "argv": sys.argv[1:]})
+        except RJ.ReleaseError as ex:
+            print(json.dumps({"error": str(ex)}), file=sys.stderr)
+            return 5
+        def _on_signal(signum, frame):                    # SIGTERM / SIGBREAK: unwind like Ctrl-C so the rollback below runs
+            raise KeyboardInterrupt("signal %s" % signum)
+        for _sig in ("SIGTERM", "SIGBREAK"):
+            if hasattr(signal, _sig):
+                signal.signal(getattr(signal, _sig), _on_signal)
     env = dict(os.environ)
     env.setdefault("PYTHONUTF8", "1")          # repo files are UTF-8; Windows default (cp1251/cp1252) breaks open() without encoding=
     env.setdefault("PYTHONIOENCODING", "utf-8")
@@ -101,33 +131,53 @@ def main():
         env["XT_RAW_DIR"] = want
     status = {"run": ts, "stages": [], "result": "ok"}
     rc_final = 0
-    for s in stages:
-        if s["id"] in skip_ids:
-            status["stages"].append({"id": s["id"], "rc": None, "seconds": 0.0, "status": "skipped_unchanged", "reason": skip_reason})
-            continue
-        t0 = time.time()
-        log = os.path.join(rd, s["id"] + ".log")
-        with open(log, "w") as lf:
-            senv = dict(env)
-            for k, v in (s.get("env") or {}).items():          # per-stage env; "$ROOT" expands to the repo root
-                senv[k] = v.replace("$ROOT", ROOT)
-            r, launch_error = launch(s["cmd"], cwd=ROOT, env=senv, stdout=lf, stderr=subprocess.STDOUT)
-            if launch_error:
-                lf.write("run_ingest: the stage could not be launched: %s (command %r)\n" % (launch_error, s["cmd"]))
-        rec = {"id": s["id"], "rc": r.returncode, "seconds": round(time.time() - t0, 1),
-               "outputs": {o: sha(os.path.join(ROOT, o)) for o in s.get("outputs", [])}}
-        if r.returncode == 3 and s.get("implemented") is False:
-            rec["status"] = "not_implemented"
+    try:
+        for s in stages:
+            if s["id"] in skip_ids:
+                status["stages"].append({"id": s["id"], "rc": None, "seconds": 0.0, "status": "skipped_unchanged", "reason": skip_reason})
+                continue
+            t0 = time.time()
+            log = os.path.join(rd, s["id"] + ".log")
+            with open(log, "w") as lf:
+                senv = dict(env)
+                for k, v in (s.get("env") or {}).items():          # per-stage env; "$ROOT" expands to the repo root
+                    senv[k] = v.replace("$ROOT", ROOT)
+                r, launch_error = launch(s["cmd"], cwd=ROOT, env=senv, stdout=lf, stderr=subprocess.STDOUT)
+                if launch_error:
+                    lf.write("run_ingest: the stage could not be launched: %s (command %r)\n" % (launch_error, s["cmd"]))
+            rec = {"id": s["id"], "rc": r.returncode, "seconds": round(time.time() - t0, 1),
+                   "outputs": {o: sha(os.path.join(ROOT, o)) for o in s.get("outputs", [])}}
+            if r.returncode == 3 and s.get("implemented") is False:
+                rec["status"] = "not_implemented"
+            else:
+                rec["status"] = "ok" if r.returncode == 0 else "gate_failed"
+            status["stages"].append(rec)
+            if rec["status"] != "ok":
+                status["result"] = rec["status"]
+                tail = open(log, errors="replace").read().splitlines()[-50:]
+                json.dump({"stage": s["id"], "title": s["title"], "returncode": r.returncode, "status": rec["status"],
+                           "log": os.path.relpath(log, ROOT), "last_lines": tail}, open(os.path.join(rd, "failure.json"), "w"), indent=1)
+                rc_final = 3 if rec["status"] == "not_implemented" else 1
+                break
+    except BaseException as ex:                                  # M416: exception or signal mid-run: roll back, then re-raise
+        if journal is not None:
+            rb = journal.rollback("exception: %r" % (ex,)) if not a.keep_on_failure else journal.keep_for_debug("exception: %r" % (ex,))
+            print(json.dumps({"journal": rb["state"], "run": ts}), file=sys.stderr)
+        raise
+    if journal is not None:
+        declared = {o for st in cfg["stages"] for o in (st.get("outputs") or [])}
+        if status["result"] == "ok":
+            jd = journal.commit(declared)
+            status["journal"] = {"state": jd["state"], "nChanged": len(jd["writeSet"]["changed"]), "nCreated": len(jd["writeSet"]["created"]), "nDeleted": len(jd["writeSet"]["deleted"]),
+                                 "undeclaredWrites": jd["undeclaredWrites"][:50], "rawAdded": jd["rawAdded"][:20]}
+        elif a.keep_on_failure:
+            jd = journal.keep_for_debug("stage failure: %s" % status["result"])
+            status["journal"] = {"state": jd["state"], "note": "mixed state left in place; run tools/run_ingest.py --recover to roll back"}
         else:
-            rec["status"] = "ok" if r.returncode == 0 else "gate_failed"
-        status["stages"].append(rec)
-        if rec["status"] != "ok":
-            status["result"] = rec["status"]
-            tail = open(log, errors="replace").read().splitlines()[-50:]
-            json.dump({"stage": s["id"], "title": s["title"], "returncode": r.returncode, "status": rec["status"],
-                       "log": os.path.relpath(log, ROOT), "last_lines": tail}, open(os.path.join(rd, "failure.json"), "w"), indent=1)
-            rc_final = 3 if rec["status"] == "not_implemented" else 1
-            break
+            jd = journal.rollback("stage failure: %s" % status["result"])
+            status["journal"] = {"state": jd["state"], "restored": {k: len(v) for k, v in jd["restored"].items()}, "mismatches": jd["rollbackMismatches"][:10], "rawAdded": jd["rawAdded"][:20]}
+            if jd["state"] != "rolled_back":
+                rc_final = 4
     json.dump(status, open(os.path.join(rd, "status.json"), "w"), indent=1)
     if full_run and not skip_ids and status["result"] == "ok":
         RF.save_ledger(ROOT, RF.components(ROOT, cfg["stages"]), ts)      # M385: state left by a fully green, fully executed run

@@ -9,6 +9,8 @@ Preconditions: new CSVs are in `raw/` (do not modify existing files). `export XT
    files vs `raw_manifest.json` (typed roles; comparison/e4ORCE files are never canonical).
 2. Dispatch `data-worker`: `python tools/run_ingest.py` (stages in `tools/ingest_stages.json`). It stops on the first
    failed gate and writes `runs/<ts>/failure.json`. Do not retry with changed parameters.
+   Since M416 the run is a journaled release: a failed gate or an interrupted run rolls every file outside `raw/` back to its pre-run bytes (`runs/<ts>/journal/`);
+   if a run was killed the next start is refused (exit 5) until `python tools/run_ingest.py --recover`. `--keep-on-failure` leaves the mixed state for inspection.
 3. If a stage is `not_implemented` (first use): implement `tools/ingest_core.py` from `docs/workflow-and-tools.md`
    protocol steps 1-5 by reading the real function signatures with grep (Sonnet task). Then rerun.
 4. `python tools/data_health.py` and `python tools/delta_report.py` (Haiku). Read `delta_report.json`.
