@@ -9609,7 +9609,7 @@
    }
   ],
   "horizonBasis": "SE(slope) ~ T^-1.5 at constant logging cadence; assumes homogeneous residual variance and linear fade. Planning figure, not a measurement.",
-  "note": "M25/M56/M170/M395. Temperature- and HV-current-density-adjusted (partial, M170) V-regression resistance trend. The 95 % day-cluster interval spans zero: no statistically detectable power fade in this window. HV-current logging density, which changed mid-corpus with the PID configuration and biases this load-excited proxy upward, enters the trend as two covariates (M170); the adjustment is partial. HV-current-density adjustment (M170) is partial: across 7 cadence-handling specifications the slope ranges from -0.032 to 0.989 mΩ/month and every 95% interval spans zero (the published specification is S1); no fade rate is claimed. Emulated slow-cadence sampling lowers the proxy by 1.5-1.7 mΩ on the 61 fast-regime drives that keep a proxy and removes it from 29 of 90 fast-regime drives (emulated sampling sensitivity, not a causal cadence effect; M393 study on 242 clean drives). Absolute level is a load-excited in-drive proxy, NOT relaxed-OCV resistance, and is available on only a selected subset of drives - use for trend, never as an absolute SOH measurement."
+  "note": "M25/M56/M170/M395. Temperature- and HV-current-density-adjusted (partial, M170) V-regression resistance trend. The 95 % day-cluster interval spans zero: a trend is not resolved in this window. HV-current logging density, which changed mid-corpus with the PID configuration and biases this load-excited proxy upward, enters the trend as two covariates (M170); the adjustment is partial. HV-current-density adjustment (M170) is partial: across 7 cadence-handling specifications the slope ranges from -0.032 to 0.989 mΩ/month and every 95% interval spans zero (the published specification is S1); no fade rate is claimed. Emulated slow-cadence sampling lowers the proxy by 1.5-1.7 mΩ on the 61 fast-regime drives that keep a proxy and removes it from 29 of 90 fast-regime drives (emulated sampling sensitivity, not a causal cadence effect; M393 study on 242 clean drives). Absolute level is a load-excited in-drive proxy, NOT relaxed-OCV resistance, and is available on only a selected subset of drives - use for trend, never as an absolute SOH measurement."
  },
  "fadeModes": {
   "basis": "M61. Two-dimensional scenario sensitivity replacing the five single-threshold crossing labels, plus explicit separation of capacity-fade and power-fade mechanisms.",
@@ -9714,7 +9714,7 @@
    "evidenceStatus": "PROXY - no resolved trend; precision stated as a CI half-width",
    "observable": "vreg_R_pack_mohm",
    "projectedBy": null,
-   "whyNotProjected": "No validated resistance-vs-throughput law exists for this pack, and the measured trend is statistically indistinguishable from zero, so any extrapolation would be slope-noise multiplied by time. Reported as a monitored level + interval, deliberately WITHOUT a crossing year.",
+   "whyNotProjected": "No validated resistance-vs-throughput law exists for this pack, and the estimated trend is not resolved from zero in this window, so any extrapolation would be slope-noise multiplied by time. Reported as a monitored level + interval, deliberately WITHOUT a crossing year.",
    "trend": {
     "basis": "vreg_R_pack_mohm",
     "rMedianMohm": 129.0,
@@ -9906,7 +9906,7 @@
      }
     ],
     "horizonBasis": "SE(slope) ~ T^-1.5 at constant logging cadence; assumes homogeneous residual variance and linear fade. Planning figure, not a measurement.",
-    "note": "M25/M56/M170/M395. Temperature- and HV-current-density-adjusted (partial, M170) V-regression resistance trend. The 95 % day-cluster interval spans zero: no statistically detectable power fade in this window. HV-current logging density, which changed mid-corpus with the PID configuration and biases this load-excited proxy upward, enters the trend as two covariates (M170); the adjustment is partial. HV-current-density adjustment (M170) is partial: across 7 cadence-handling specifications the slope ranges from -0.032 to 0.989 mΩ/month and every 95% interval spans zero (the published specification is S1); no fade rate is claimed. Emulated slow-cadence sampling lowers the proxy by 1.5-1.7 mΩ on the 61 fast-regime drives that keep a proxy and removes it from 29 of 90 fast-regime drives (emulated sampling sensitivity, not a causal cadence effect; M393 study on 242 clean drives). Absolute level is a load-excited in-drive proxy, NOT relaxed-OCV resistance, and is available on only a selected subset of drives - use for trend, never as an absolute SOH measurement."
+    "note": "M25/M56/M170/M395. Temperature- and HV-current-density-adjusted (partial, M170) V-regression resistance trend. The 95 % day-cluster interval spans zero: a trend is not resolved in this window. HV-current logging density, which changed mid-corpus with the PID configuration and biases this load-excited proxy upward, enters the trend as two covariates (M170); the adjustment is partial. HV-current-density adjustment (M170) is partial: across 7 cadence-handling specifications the slope ranges from -0.032 to 0.989 mΩ/month and every 95% interval spans zero (the published specification is S1); no fade rate is claimed. Emulated slow-cadence sampling lowers the proxy by 1.5-1.7 mΩ on the 61 fast-regime drives that keep a proxy and removes it from 29 of 90 fast-regime drives (emulated sampling sensitivity, not a causal cadence effect; M393 study on 242 clean drives). Absolute level is a load-excited in-drive proxy, NOT relaxed-OCV resistance, and is available on only a selected subset of drives - use for trend, never as an absolute SOH measurement."
    },
    "meanDodPct": 4.13,
    "relevance": "For a series-hybrid power buffer cycled at 20-33 C peaks and ~4 % mean DoD, resistance rise is the more plausible functional limit than Ah loss; it is also the only one of the two this dataset can observe."
@@ -9989,7 +9989,7 @@
    "ourVsagPerCellMohm": 1.29,
    "ourVregPerCellMohm": 1.34,
    "comparable": false,
-   "note": "NOT a like-for-like comparison. The official figure is a standardized long-pulse DCIR at 80% SoC, ~25°C. our vsag_R / vreg_R are instantaneous, load-excited in-drive proxies (ohmic + fast polarization only) at ~64% SoC on a warm pack -- a different resistance definition, not a degraded-vs-new state. The ratio between the two levels must NEVER be read as a state-of-health percentage. What IS comparable is the measured TREND (see powerFade / fadeModes.power), which is the null result reported separately below.",
+   "note": "NOT a like-for-like comparison. The official figure is a standardized long-pulse DCIR at 80% SoC, ~25°C. our vsag_R / vreg_R are instantaneous, load-excited in-drive proxies (ohmic + fast polarization only) at ~64% SoC on a warm pack -- a different resistance definition, not a degraded-vs-new state. The ratio between the two levels must NEVER be read as a state-of-health percentage. What IS comparable is the estimated TREND (see powerFade / fadeModes.power), which is the null result reported separately below.",
    "trendContext": {
     "kmFractionOfOfficialLifePct": 23.8,
     "expectedIncreasePctSoFar": 17.8,
@@ -10074,7 +10074,7 @@
     "official": "210.0 mΩ pack (2.19 mΩ/cell est.)",
     "ours": "129.0 mΩ pack (1.34 mΩ/cell est.)",
     "verdict": "not_comparable",
-    "note": "NOT a like-for-like comparison. The official figure is a standardized long-pulse DCIR at 80% SoC, ~25°C. our vsag_R / vreg_R are instantaneous, load-excited in-drive proxies (ohmic + fast polarization only) at ~64% SoC on a warm pack -- a different resistance definition, not a degraded-vs-new state. The ratio between the two levels must NEVER be read as a state-of-health percentage. What IS comparable is the measured TREND (see powerFade / fadeModes.power), which is the null result reported separately below."
+    "note": "NOT a like-for-like comparison. The official figure is a standardized long-pulse DCIR at 80% SoC, ~25°C. our vsag_R / vreg_R are instantaneous, load-excited in-drive proxies (ohmic + fast polarization only) at ~64% SoC on a warm pack -- a different resistance definition, not a degraded-vs-new state. The ratio between the two levels must NEVER be read as a state-of-health percentage. What IS comparable is the estimated TREND (see powerFade / fadeModes.power), which is the null result reported separately below."
    },
    {
     "parameter": "Power fade / IR increase",
@@ -52611,7 +52611,7 @@
    "seasonalLife.hotTail.observed": "M92 (2026-08-06). Companion to observedConstant -- same _hot_block() path already used for hotTail.selected/allYear."
   }
  },
- "_retractedLifeEol": "M114 (audit P0-01): implied-cycle-life and calendar-life YEAR outputs retracted (crossing years, threshold/workload/matrix spans, calendar-life ceiling, seasonal/hot-tail/plating year sensitivities, years-to-official-life). Exposure rates, accumulations, intensities, thresholds-as-flagged-constants, m(k), DoD/SoC shares, measured thermics and the power-fade proxy are retained. This study reports how hard the pack is worked and that no degradation trend is detectable; it does not translate that into an end-of-life or 80% SOH date.",
+ "_retractedLifeEol": "M114 (audit P0-01): implied-cycle-life and calendar-life YEAR outputs retracted (crossing years, threshold/workload/matrix spans, calendar-life ceiling, seasonal/hot-tail/plating year sensitivities, years-to-official-life). Exposure rates, accumulations, intensities, thresholds-as-flagged-constants, m(k), DoD/SoC shares, measured thermics and the power-fade proxy are retained. This study reports how hard the pack is worked and that no degradation trend is resolved in this window; it does not translate that into an end-of-life or 80% SOH date.",
  "evidenceLedger": {
   "rows": [
    {

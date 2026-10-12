@@ -2518,7 +2518,7 @@ function CycleProjectionChart() {
     const p = S.fadeModes?.power, t = S.powerFade;
     if (!p || !t || !t.basis) return <div style={{fontSize:11,color:"#64748b"}}>Power-fade trend unavailable.</div>;
     /* M64 (2026-07-29): READABILITY rewrite. The M61 version compressed four
-       distinct quantities — the measured interval, the detection floor, and two
+       distinct quantities — the estimated interval, the half-width, and two
        hypothetical fade rates — into a single 76px-tall strip with 6.5px
        captions overlapping the shaded floor band, so the reader could not tell
        which mark meant what, or that the whole chart is about ONE number.
@@ -2568,10 +2568,10 @@ function CycleProjectionChart() {
           borderRadius:6,padding:"6px 8px",marginBottom:6,lineHeight:1.5}}>
           <strong>One question, one axis:</strong> is pack resistance rising? Every row below is a
           resistance trend in mΩ per month on the same scale. {zeroInside
-            ? <>The measured interval <strong style={{color:"#0ea5e9"}}>straddles zero</strong>, so no trend is
+            ? <>The estimated interval <strong style={{color:"#0ea5e9"}}>straddles zero</strong>, so no trend is
               resolved — <strong style={{color:"#b45309"}}>a null interval states precision</strong> (its half-width is ±{t.mdeRisePctPerYr}%/yr), not that
               "no fade is occurring".</>
-            : <>The measured interval excludes zero.</>}
+            : <>The estimated interval excludes zero.</>}
         </div>
         <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{overflow:"visible"}}>
           {/* axis */}
@@ -12459,7 +12459,7 @@ export default function App() {
             <p style={{marginTop:0}}>This study is single-vehicle observational telemetry with sparse e-4ORCE cross-validation only — no laboratory or workshop battery measurement, no matched-route or multi-vehicle experiment, no direct chemistry or verified-capacity measurement, and no causal or fleet-level claim.</p>
             {S.oemTechReview && (
             <p><strong style={{color:"#15803d"}}>Manufacturer-literature cross-check (M105, 2026-08-09):</strong> {S.oemTechReview._provenance} Five figures were cross-checked against this study's own pipeline-computed outputs and are cited inline where relevant — series-hybrid topology (Architecture section), the {S.oemTechReview.generatorMotorGap?.generatorKw}/{S.oemTechReview.generatorMotorGap?.frMotorKw} kW generator/motor gap as a spec-level buffer anchor (Architecture section), the {S.oemTechReview.fixedPointOperation?.bestThermalRpm} rpm best-thermal fixed point and {S.oemTechReview.engineFloor?.statedFloorRpm}+ rpm floor against this corpus's independently-measured RPM occupancy (Engine RPM Distribution section), the OEM's own battery-then-engine torque-blending description against the M41 blend-share finding (Power Blending section), the {S.oemTechReview.maxOutputPoint?.kw} kW / {S.oemTechReview.maxOutputPoint?.rpm} rpm rated max-output point against the vmax plateau (nearLimiter panel), and the electric-controlled-brake mitigation for post-full-charge regen dissipation against this corpus's own motored-dissipation signature (Buffer-Saturation Dissipation section, with an explicit residual-mechanism caveat). <strong style={{color:"#0f172a"}}>What this source does NOT confirm:</strong> {(S.oemTechReview.notConfirmedByThisSource?.items||[]).map((it,i)=>(<span key={i}>{it}{i<((S.oemTechReview.notConfirmedByThisSource?.items||[]).length-1)?"; ":". "}</span>))}Pack capacity, cell chemistry, and every degradation-rate figure in this study remain exactly as they stood before this cross-check (unaffected, not corroborated).</p>)}
-            <p><strong style={{color:"#fbbf24"}}>Accepted but not yet actionable:</strong> a controlled capacity/HPPC reference campaign (the only route to a defensible SOH baseline), a full winter of cold-start logging, parked pack-temperature and SoC-at-rest series for the calendar-aging model, and multi-vehicle replication. Until the first two exist, this study reports <strong>how hard the battery has been worked and that no degradation trend is detectable</strong> — it does not, and cannot, translate that into an 80% SOH date.</p>
+            <p><strong style={{color:"#fbbf24"}}>Accepted but not yet actionable:</strong> a controlled capacity/HPPC reference campaign (the only route to a defensible SOH baseline), a full winter of cold-start logging, parked pack-temperature and SoC-at-rest series for the calendar-aging model, and multi-vehicle replication. Until the first two exist, this study reports <strong>how hard the battery has been worked and that no degradation trend is resolved in this window</strong> — it does not, and cannot, translate that into an 80% SOH date.</p>
           </ProvenanceBlock>
           <ProvenanceBlock letter="K" title="Evidence & Cross-Validation Ledger">
             <p style={{marginTop:0}}>Primary-estimate/independent-check pairs assembled from this study's own validation work (M220–M224) plus the pre-existing degradation-trend multi-method comparisons — one row per headline result, so what has been independently corroborated, partially corroborated, or is a genuine open null result is visible in one place rather than requiring a hunt through each section separately.</p>
