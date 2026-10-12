@@ -11,7 +11,8 @@ ROUTED = {"compute_summary_arrays.py": "build_summary_arrays: exposure_frame() a
           "compute_seasonal.py": "row_overrides() for the seasonal-master gtc", "tools/regime_stratified.py": "exposure_frame()", "tools/extend_session_ledgers.py": "exposure_frame()",
           "tools/m368_ledger_round.py": "exposure_frame(), pinned legacy (ledger prose stays legacy)", "tools/exposure_frame.py": "the shared function itself",
           "records_rainflow.py": "exposure_frame() in its main path (coulometric FCE in the record note)", "m296_refresh_master_seasonal.py": "exposure_frame() before category_A on the cohort subsets",
-          "tools/regen_seasonal_raw.py": "exposure_frame() and the basis in every cache key"}
+          "tools/regen_seasonal_raw.py": "exposure_frame() and the basis in every cache key",
+          "tools/exposure_basis_refresh.py": "exposure_frame(dm, 'legacy2p1kWh') for the legacy disclosure values of the exposureBasis block (M423)"}
 LEGACY_BY_DESIGN = {
     "compute_drive_summary_v6.py": "producer of the legacy master columns (the master is never rewritten)",
     "energy_uncertainty_mc.py": "Q2: the energy Monte Carlo draws are kWh / 2.1 and stay legacy, labelled",
