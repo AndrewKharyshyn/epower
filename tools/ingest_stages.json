@@ -432,6 +432,18 @@
    ]
   },
   {
+   "id": "stamp_basis",
+   "title": "M422: artifact-stamp basis fields (includedInReleaseAt / computedAt / inputBasis, carried-block status) derived from the blocks' own fields; must run BEFORE leaf_guard (the arrays build recreates every stamp, so the M419 fields would otherwise be reported as 743 lost leaves); idempotent, writes only /_artifactStamps; restamp_ingest runs it again after re-issuing stamps",
+   "cmd": [
+    "python3",
+    "tools/stamp_basis.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json"
+   ]
+  },
+  {
    "id": "leaf_guard",
    "title": "M377a: lost-leaf guard: every leaf of the committed summary_arrays.json must still exist or be covered by a declared, data-conditioned rule (analyses/leaf_guard_rules.json); fails on any unexpected loss",
    "cmd": [
