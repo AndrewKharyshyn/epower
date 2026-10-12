@@ -59,6 +59,7 @@ function buildS(config, arrays) {
     socHysteresis: A.socHysteresis || null,   // M119: audit §10 SoC hysteresis state machine
     socHysteresisV2: A.socHysteresisV2 || null, // M147: M119-v2 five-variable duration-aware hazard model
     degradationTrends: A.degradationTrends || null,  // M108: TOST equivalence testing
+    dependenceSensitivity: A.dependenceSensitivity || null,  // M406/M407: CR2, wild bootstrap, week-block sensitivities (reporting-only)
     provenanceSensitivity: A.provenanceSensitivity || null,
     loggerCadence: A.loggerCadence || null,                       // M379a: logger PID-cadence regime per drive (tools/cadence_regime.py)
     fuelContract: A.fuelContract || null,                       // M334: Fuel-tab disclosure block (tools/fuel_contract.py)  // M307/F03: raw-provenance sensitivity notice
@@ -4626,6 +4627,59 @@ function HealthStatusCard(){
 // GtrRevealCtx (= an explicit reveal), so no code path can show a Sankey by default. Owner decision 2026-10-02: the Sankey stays hidden until M329.
 // M351 (p23.16): one p-value formatter. Payload p-values are rounded to 4 dp, so 0 means p < 0.00005 and is shown as p<0.001.
 function fmtP(p){ return (typeof p==='number'&&isFinite(p))?(p<0.001?'p<0.001':'p='+p.toFixed(4)):'p n/a'; }
+function DependencePanel(){
+  const D=S.dependenceSensitivity;
+  if(!D||!D.trendSlopes) return null;
+  const f2=(v)=>fmtKeep(v,2,0);
+  const ci=(a)=>Array.isArray(a)?`[${f2(a[0])}, ${f2(a[1])}]`:"n/a";
+  const th={textAlign:"left",padding:"3px 8px",borderBottom:"1px solid #cbd5e1",fontWeight:600,color:"#0f172a",fontSize:10};
+  const td={padding:"3px 8px",borderBottom:"1px solid #e2e8f0",fontSize:10};
+  const procs=(t)=>{ const sp=t.seedSpread||{}, w=t.wildClusterBootstrapT||{}, wb=t.weekBlockPairsBootstrap||{}, dp=t.dayClusterPairsBootstrap||{};
+    const wp=typeof w.pValueNullImposed==="number"?`null-imposed p about ${w.pValueNullImposed.toFixed(2)}`+(sp.wildPValueRange?` (seed range ${sp.wildPValueRange[0].toFixed(3)}-${sp.wildPValueRange[1].toFixed(3)})`:""):"";
+    return [
+      {k:"CR1 (released interval, the reference)", ci:t.cr1?.ci95NormalAsReleased, n:`SE ${f2(t.cr1?.se)}`},
+      {k:"CR2 (Satterthwaite t)", ci:t.cr2?.ci95T, n:`SE ${f2(t.cr2?.se)}, df ${(t.cr2?.df??NaN).toFixed(1)}`},
+      {k:"Wild cluster bootstrap-t", ci:w.ci95PercentileT, n:wp},
+      {k:"Day-cluster pairs bootstrap", ci:dp.ci95, n:`${dp.nBlocks} day blocks`},
+      {k:"Week-block pairs bootstrap (dependence-conservative)", ci:wb.ci95, n:`${wb.nBlocks} week blocks`+(wb.fewBlocks?"; fewer than 10 blocks, imprecise":"")}];
+  };
+  const signSentence=(t)=>{ const P=procs(t).filter(p=>Array.isArray(p.ci)); if(!P.length) return "";
+    const lows=P.map(p=>p.ci[0]), ups=P.map(p=>p.ci[1]);
+    const mixed=lows.some(x=>x<=0)&&lows.some(x=>x>0);
+    const ref=t.cr1?.ci95NormalAsReleased, width=ref?ref[1]-ref[0]:NaN;
+    const upSim=(Math.max(...ups)-Math.min(...ups))<=0.25*width;
+    const lowTxt=mixed?"lower bound changes sign across procedures":(lows.every(x=>x>0)?"all lower bounds lie above zero":"all lower bounds lie at or below zero");
+    return `${lowTxt}; upper bound ${upSim?"similar":"also varies"} (lower bounds ${f2(Math.min(...lows))} to ${f2(Math.max(...lows))}, upper bounds ${f2(Math.min(...ups))} to ${f2(Math.max(...ups))})`;
+  };
+  const series=[["cellSpread","Cell-voltage spread trend (loaded p95; T + current controlled)","mV/month"],["resistanceVreg","Resistance (power) proxy trend (V-regression; T + HV-current-density adjusted)","mΩ/month"]];
+  const kp=D.thesisKpis||{};
+  const pct=(v)=>typeof v==="number"?(v*100).toFixed(2)+" %":"n/a";
+  const kdefs=[["K1_throughputOverDischarge","Throughput / discharge (throughput integrated from logged current, estimated)",(v)=>v.toFixed(3)],
+    ["K2_netShare_corrected","Net share of throughput, offset-corrected",pct],["K2raw_netShare_uncorrected","Net share of throughput, before the offset correction",pct],
+    ["K3_socBandMedianPp","Median per-drive SoC band (pp)",(v)=>v.toFixed(1)],["K4_peakDischargeMedianKw","Median per-drive peak discharge power (kW)",(v)=>v.toFixed(1)],
+    ["K5_perDriveNetShareMedian","Median per-drive net share, offset-corrected",pct]];
+  const kr=D.kpiWidthRatioWeekOverDay||{}, rr=(a)=>Array.isArray(a)?`${a[0].toFixed(2)}-${a[1].toFixed(2)}`:"n/a";
+  return (
+    <div data-dependence-sensitivity="true" style={{padding:10,background:"#f8fafc",border:"1px solid #cbd5e1",borderRadius:8,marginBottom:10,fontSize:11,color:"#374151",lineHeight:1.6}}>
+      <strong style={{color:"#0f172a"}}>Inference sensitivities (M406; additive, the released estimators and the statements above are unchanged).</strong> {D.reading}. {D.reportingRule}. Day = cluster, ISO week = block, 4000 draws.
+      {series.map(([key,title,unit])=>{ const t=D.trendSlopes[key]; if(!t) return null; const reg=t.byLoggingRegime||{}; return (
+        <div key={key} style={{marginTop:10}}>
+          <div style={{fontWeight:600,color:"#0f172a"}}>{title}: slope {f2(t.cr1?.slope)} {unit}, n={t.n} observations, {t.nDays} days; trend not resolved; equivalence not established; no stability or SOH claim.</div>
+          <table style={{borderCollapse:"collapse",margin:"4px 0"}}><thead><tr><th style={th}>Procedure (fixed order)</th><th style={th}>95% interval ({unit})</th><th style={th}>Detail</th></tr></thead>
+            <tbody>{procs(t).map(p=>(<tr key={p.k}><td style={td}>{p.k}</td><td style={td}>{ci(p.ci)}</td><td style={td}>{p.n}</td></tr>))}</tbody></table>
+          <div>Reading across procedures: {signSentence(t)}.</div>
+          <div>Zero-slope test (trend not resolved): slope a two-sided 5 % test flags with 80 % probability at the observed SE (design-conditional): {f2(t.minEffect80?.cr2)} {unit} (CR2), {f2(t.minEffect80?.cr1)} {unit} (CR1).</div>
+          <div>Equivalence sensitivity: the released TOST re-run with the CR2 standard error and {String(t.tostSensitivityCR2?.refDist||"")} against the same frozen bound {f2(t.tostSensitivityCR2?.delta)} {unit}: 90% interval {ci(t.tostSensitivityCR2?.equivCI90)}, p={(t.tostSensitivityCR2?.pTOST??NaN).toFixed(2)}, equivalence {t.tostSensitivityCR2?.equivalent?"established":"not established"} (sensitivity only; the released decision is unchanged).</div>
+          {(reg.fast||reg.slow)&&(<div>By logging regime (imprecise; not a regime comparison; subgroup, not a finding): {["fast","slow"].filter(r=>reg[r]).map(r=>{ const g=reg[r]; return `${r}: ${g.nDays} day clusters, CR1 ${ci(g.cr1?.ci95NormalAsReleased)}, CR2 ${ci(g.cr2?.ci95T)}, week-block ${ci(g.weekBlockPairsBootstrap?.ci95)} (${g.weekBlockPairsBootstrap?.nBlocks} blocks${g.weekBlockPairsBootstrap?.fewBlocks?", fewer than 10":""})`;}).join("; ")}.</div>)}
+        </div>); })}
+      <div style={{marginTop:12,fontWeight:600,color:"#0f172a"}}>Thesis quantities: day-cluster and week-block intervals (descriptive precision; consistent with, not a test of the thesis)</div>
+      <table style={{borderCollapse:"collapse",margin:"4px 0"}}><thead><tr><th style={th}>Quantity</th><th style={th}>Estimate</th><th style={th}>Day-cluster 95% interval</th><th style={th}>Week-block 95% interval</th><th style={th}>Width ratio</th><th style={th}>n drives / days / weeks</th></tr></thead>
+        <tbody>{kdefs.map(([id,label,fm])=>{ const v=kp[id]; if(!v) return null; const g=(x)=>typeof x==="number"?fm(x):"n/a"; return (
+          <tr key={id}><td style={td}>{label}</td><td style={td}>{g(v.estimate)}</td><td style={td}>[{g(v.dayClusterCI95?.[0])}, {g(v.dayClusterCI95?.[1])}]</td><td style={td}>[{g(v.weekBlockCI95?.[0])}, {g(v.weekBlockCI95?.[1])}]</td><td style={td}>{v.widthRatioWeekOverDay?.toFixed(2)}</td><td style={td}>{v.n} / {v.nDays} / {v.nWeeks}</td></tr>); })}</tbody></table>
+      <div>Week-block intervals are {rr(kr.driveMedians)} times wider than the day-cluster ones for drive medians and {rr(kr.corpusRatios)} times for corpus ratios. {kr.note}. Raw basis: raw/ = sha256-verified originals (M366).</div>
+      <div style={{marginTop:6,color:"#64748b"}}>Limits: {(D.limits||[]).join("; ")}.</div>
+    </div>);
+}
 // M368 (R2): fixed-decimal display that never lets rounding move a value across a decision threshold (e.g. a CI limit 0.4996 vs 0.5).
 function fmtKeep(v,d,thr){ if(typeof v!=='number'||!isFinite(v)) return 'n/a'; let k=d; if(thr!=null){ while(k<8 && Math.sign(Number(v.toFixed(k))-thr)!==Math.sign(v-thr)) k++; } return v.toFixed(k); }
 // M368 (R2): CI limit shown with the decimals that give the smaller half-width (point to nearest limit) 2 significant figures; limits only, the point value is left as stored text.
@@ -11681,6 +11735,7 @@ export default function App() {
               return (<>{c ? <>, 95% CI [{c[0]}, {c[1]}], two-stage day-clustered bootstrap, calibrated in simulation</> : <>, no calibrated interval</>}{w.length ? <>; the wider sensitivity interval ({w[0].method}) is [{w[0].ci95[0].toFixed(2)}, {w[0].ci95[1].toFixed(2)}]</> : null})
               {all.length ? (span0 ? <> — the interval includes zero: a trend is not established.</> : <> — the interval excludes zero; this non-authoritative check is positive, and the authoritative estimator below governs.</>) : <>.</>}{sameSign ? " The two point estimates have the same sign." : " The two point estimates differ in sign."}</>);})()}{(()=>{const cal=S.spreadFitProvenance?.calibration, d1=cal?.design1, d2=cal?.design2; return d1&&d2 ? <> This interval was calibrated in two simulation designs only (coverage {d1.S1Coverage.toFixed(3)} and {d2.S1Coverage.toFixed(3)} of a nominal 0.95); the 7-day-block intervals are uncalibrated. In those simulations the point estimate is biased toward zero by {Math.min(Math.abs(d1.bias),Math.abs(d2.bias)).toFixed(2)}–{Math.max(Math.abs(d1.bias),Math.abs(d2.bias)).toFixed(2)} mV/month (about a third of its standard deviation; design-specific); no corrected estimate is reported, and the adjusted slope can absorb a true time trend into the temperature and current terms, so it is not a physical degradation rate.</> : null;})()} Since M312 the Huber fit uses the same canonical exclusion set as the OLS check (an exclusion alignment, material under its pre-registered criteria; see the CHANGELOG for the row-set caveat), so its slope and row count are not comparable with releases before M312.{(()=>{const st=S.spreadFitProvenance?.latest?.stability; return st&&st.flag&&st.flag.raised ? <> Stability flag (report-only): the first-stage temperature coefficient moves by {st.leaveLast8Days.deltaBT.toFixed(3)} mV/°C when the last 8 logged days are left out, against a day-clustered 95% CI of [{st.bT_ci95_day_clustered_bootstrap[0].toFixed(3)}, {st.bT_ci95_day_clustered_bootstrap[1].toFixed(3)}].</> : null;})()} Its own cluster-by-calendar-day bootstrap (4,000 resamples, respecting within-day autocorrelation) gives a 95% CI of <strong style={{color:"#fbbf24"}}>[{S.cellHealthTrend.ci95[0]}, {S.cellHealthTrend.ci95[1]}] mV/month</strong>, P(slope&gt;0)={S.cellHealthTrend.pSlopeGt0} — {(()=>{const a=S.cellHealthTrend.ci95[0]<=0&&S.cellHealthTrend.ci95[1]>=0; const olsLo=S.degradationTrends?.cellSpread?.clusterRobustOLS?.ci95?.[0]; const olsHi=S.degradationTrends?.cellSpread?.clusterRobustOLS?.ci95?.[1]; const b=(olsLo??0)<=0&&(olsHi??0)>=0; return <>this interval {a?<>does span zero</>:<>does <em>not</em> span zero</>} under this check's own method, {a===b?"consistent with":"unlike"} the authoritative cluster-robust-OLS estimator (CI [{olsLo}, {olsHi}] mV/month, which {b?"does span zero":"does not span zero"}); {a===b?"the two specifications currently agree on whether the interval crosses zero, reinforcing the authoritative conclusion":"the two differ because of the deconfounded-series/bootstrap vs. raw-series/cluster-robust-SE specification, not because of a data disagreement"} — this cross-check does not override the authoritative conclusion.</>;})()} <strong style={{color:"#0f172a"}}>Authoritative statement for the article (degradationTrends.cellSpread, the sole authoritative inferential object for this metric):</strong> no directional cell-spread trend was resolved over this observation window at ~{S.carAgeNow.toFixed(1)} years / {Math.round(S.totalKm).toLocaleString()} km — the 95% CI spans zero, and because the TOST equivalence test against the disclosed margin also fails, this is <em>not</em> evidence of a stable/flat/no-degradation trend either; the window is inconclusive by design of a short corpus, not a disguised null result. Report the interval, not the point estimate — the data cannot yet distinguish "slowly improving" from "slowly worsening" from "flat." Note also corr(T_pack, I_peak)=0.63 (seasonal collinearity: hot days coincide with harder driving) — with I_peak in the model, the temperature coefficient alone is unstable (−0.03 to +0.07 mV/°C across estimators) and should not be quoted; only the fully adjusted reference-level trend is interpretable. {S.powerFade && (<><strong style={{color:"#0f172a"}}>Scope (M155):</strong> this section tracks <em>cell-spread</em> (inter-cell imbalance, mV) only — a different degradation axis from pack-resistance <em>power fade</em>, reported separately under <strong>P — Power-Fade Status</strong>. That axis is also currently a null result: the temperature-controlled point estimate is {S.powerFade.slopeMohmPerMoTctrl>0?"+":""}{S.powerFade.slopeMohmPerMoTctrl} mΩ/month (95% CI [{S.powerFade.ci95MohmPerMo[0]}, {S.powerFade.ci95MohmPerMo[1]}], P(slope&gt;0)={S.powerFade.pSlopeGt0}) — {S.powerFade.slopeMohmPerMoTctrl>0?"positive":S.powerFade.slopeMohmPerMoTctrl<0?"negative":"zero"}, but its interval {(S.powerFade.ci95MohmPerMo[0]<=0&&S.powerFade.ci95MohmPerMo[1]>=0)?"spans zero":"excludes zero"} and its implied rate is smaller than the ±{S.powerFade.mdeRisePctPerYr}%/yr CI half-width, so it must be read as its interval, not its point estimate, which is sensitive to which drives (and pack temperatures) fall late in this {S.powerFade.windowMo}-month window.</>)}
           </div>
+          <DependencePanel/>
           <div style={{fontSize:11,color:"#64748b",lineHeight:1.7}}>
             <p>Jun19 re-verification: resting spread (|I|&lt;5A) across all 4 drives was 0.0104–0.0121V — within established baseline. Under-load spread reached 0.084V on Drive 1 — a thermal/polarization artifact, not degradation, since it collapses back to 0.010-0.012V at rest within the same drive. One raw sample briefly read 0.122V coinciding with a single corrupted current reading (−200.25A, outside sensor's valid range) — excluded as a logging artifact, not a real cell event. <strong style={{color:"#7c3aed"}}>M57 (2026-07-27):</strong> the "new high / beating the previous 0.060V record" framing is withdrawn — loaded spread has since gone considerably higher on later drives, and per-drive loaded maxima are a transient polarization measure that should not be tracked as records at all. The trended quantity is the adjusted p95 (M19), for which no directional trend is resolved (inconclusive, not shown flat).</p>
           </div>
