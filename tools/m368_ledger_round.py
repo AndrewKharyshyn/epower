@@ -35,8 +35,8 @@ def main():
     raw_text = open("summary_config.json", encoding="utf-8", newline="").read()
     cfg = json.loads(raw_text)
     dm = pd.read_csv("drive_master.csv", low_memory=False)
-    import exposure_frame as _xf   # M414: exposure basis (identity on the legacy default)
-    dm = _xf.exposure_frame(dm)
+    import exposure_frame as _xf   # M414/M415: the session-ledger prose is a hand-curated historical record whose GTC/FCE tokens (cumulative, range and typed values) cannot be rebased reliably:
+    dm = _xf.exposure_frame(dm, "legacy2p1kWh")   # the ledgers stay on the legacy 2.1 kWh basis and are tagged as such in the dashboard section header (Director Q3 deviation, disclosed in M415)
     dm["_d"] = pd.to_datetime(dm["date"]).dt.date
     year = dm["_d"].iloc[0].year
     sums = dm.groupby("_d")[["gross_throughput_kwh", "gtc", "net_draw_kwh_corr2p"]].sum()

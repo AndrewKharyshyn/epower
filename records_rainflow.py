@@ -34,6 +34,8 @@ def build(dm):
 
 if __name__ == "__main__":
     dm = pd.read_csv(os.path.join(WORK, "drive_master.csv"), low_memory=False)
+    _sp = importlib.util.spec_from_file_location("exposure_frame", os.path.join(WORK, "tools", "exposure_frame.py")); _xf = importlib.util.module_from_spec(_sp); _sp.loader.exec_module(_xf)
+    dm = _xf.exposure_frame(dm)   # M415: the coulometric FCE quoted in the record note follows the exposure basis
     p = os.path.join(WORK, "summary_arrays.json"); a = json.load(open(p, encoding="utf-8"))
     new = build(dm); names = {x["metric"] for x in new}
     recs = [x for x in a["records"] if x["metric"] not in names]

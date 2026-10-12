@@ -172,8 +172,10 @@ CONSTANT_PROVENANCE = {
                         'confirmed for this front-wheel-drive pack. Nissan '
                         'sources reviewed identify the pack chemistry family '
                         'only (Li-ion, NMC-family per teardown reporting). '
-                        'Every GTC/FCE/C-rate figure scales inversely with '
-                        'the selected reference capacity. The '
+                        'Every legacy-basis GTC/FCE/C-rate figure (legacy master columns, '
+                        'threshold scenario blocks, energy Monte Carlo) scales inversely with '
+                        'the selected reference capacity; the headline GTC/FCE/C-rate are on '
+                        'the rated 5 Ah reference since M415 (exposureBasis). The '
                         'separate Nissan-disclosed rated capacity of 5 Ah (X-Trail '
                         'e-POWER T33, EU Battery Regulation 2023/1542 Art. 10; '
                         'see CAP_AH_RATED) is a charge (Ah) figure, not energy '
@@ -1169,7 +1171,7 @@ def category_A(dm, odometer_km=None):
     out['records'] = _records(dm)
 
     # ---- cycle projections + calendar life scalars ----
-    out['cycleLife'] = _cycle_projection(dm, clean, age_yr, odo)
+    out['cycleLife'] = _cycle_projection(_pin_legacy(dm), _pin_legacy(clean), age_yr, odo)   # M415: threshold block stays on the legacy basis
 
     # ---- cellHealthTrend (M19/M23-M25, v6): generated so the Cell-Health
     #      robustness prose binds to it instead of hard-typing slope/CI/n
@@ -3615,6 +3617,7 @@ class _RawAccum:
         # instantaneous-speed zone -> GTC per 100 km, same CAP_KWH basis as
         # cycleByType.
         self.cy_kwh = np.zeros(len(Z_CYSPD_LBL))
+        self.cy_ah = np.zeros(len(Z_CYSPD_LBL))      # M415: Ah accumulator for the rated exposure basis
         self.cy_km = np.zeros(len(Z_CYSPD_LBL))
         self.cy_files = 0
         # engineOnDuration: engine-on segment lengths per drive_type class.
@@ -3851,11 +3854,13 @@ class _RawAccum:
             if okc.sum() > 10:
                 self.cy_files += 1
                 kwh = pwr / 3600.0                 # per 1 s sample
+                ahs = np.abs(hz['I'].values) / 3600.0   # M415: Ah per 1 s sample (same samples, same mask)
                 kmv = sph / 3600.0
                 for i, (lo, hi) in enumerate(Z_CYSPD):
                     mm = okc & (sph >= lo) & (sph < hi)
                     if mm.any():
                         self.cy_kwh[i] += float(np.nansum(kwh[mm]))
+                        self.cy_ah[i] += float(np.nansum(ahs[mm]))
                         self.cy_km[i] += float(np.nansum(kmv[mm]))
 
         # ---- M57: engineOnDuration (engine-on segment lengths by drive_type) ----
@@ -4366,16 +4371,20 @@ class _RawAccum:
         for i, lbl in enumerate(Z_CYSPD_LBL):
             if self.cy_km[i] <= 0.05:
                 continue
+            _rated = _xbasis() == 'rated5Ah'
             cs.append({'zone': lbl,
-                       'rate': round(self.cy_kwh[i] / CAP_KWH / self.cy_km[i] * 100, 1),
+                       'rate': round((self.cy_ah[i] / 5.0 if _rated else self.cy_kwh[i] / CAP_KWH) / self.cy_km[i] * 100, 1),
                        'kwh': round(float(self.cy_kwh[i]), 1),
+                       **({'ah': round(float(self.cy_ah[i]), 1)} if _rated else {}),
                        'km': round(float(self.cy_km[i]), 1),
                        'color': cs_col[i]})
         out['cycleBySpeed'] = cs
         out['cycleBySpeedMeta'] = {'nDrives': int(self.cy_files),
-                                   'basis': 'gross throughput |I*V| per instantaneous-speed '
-                                            'zone / distance in that zone, CAP_KWH turnovers '
-                                            'per 100 km (M57)'}
+                                   'basis': ('gross throughput |I| integrated per instantaneous-speed zone (Ah) / 5.0 Ah rated reference '
+                                             '(Nissan Article-10, documentary) / distance in that zone, turnovers per 100 km (M57, M415)' if _xbasis() == 'rated5Ah' else
+                                             'gross throughput |I*V| per instantaneous-speed '
+                                             'zone / distance in that zone, CAP_KWH turnovers '
+                                             'per 100 km (M57)')}
         # M57: engineOnDuration
         eo_col = {'urban': "#ef4444", 'mixed': "#eab308",
                   'mixed_highway': "#3b82f6", 'highway': "#22c55e"}
@@ -7993,7 +8002,8 @@ def _crate_axes(dm, arrays):
                   'p75': (round(q(ca, 75), 5) if len(ca) else None), 'halfIqrRel': iqr_rel, 'n': int(len(ca)),
                   'secondaryAxisMode': ('axis' if (iqr_rel is not None and iqr_rel <= 0.03) else 'tickAnnotations')},
         'vPackMedianCorpus': (round(vmed_all, 1) if vmed_all else None),
-        'convention': 'C = A / cap_ah_est per drive; cap_ah_est = CAP_KWH*1000 / V_pack_median (per drive); CAP_KWH = 2.1 kWh is verified:false, C-rate scales with it.',
+        'convention': ('C = |peak current| / 5.0 A (rated capacity 5 Ah, Nissan Article-10, documentary); a constant divisor, no pack-voltage dependence' if _xbasis(dm) == 'rated5Ah' else
+                       'C = A / cap_ah_est per drive; cap_ah_est = CAP_KWH*1000 / V_pack_median (per drive); CAP_KWH = 2.1 kWh is verified:false, C-rate scales with it.'),
         'kwDefinition': 'drive-level peak charge power |peak_charge_kw| (derived as logged HV current x logged HV voltage); not guaranteed co-timed with the peak current',
         'medianLinesNote': 'median A and median kW are separate medians of per-drive peaks (not co-timed, not one operating point)',
         'diagnostics': diag,
@@ -15577,6 +15587,21 @@ def _metric_convention(dm):
     T = float(dm['gross_throughput_kwh'].sum())
     if not D:
         return None
+    if _xbasis(dm) == 'rated5Ah' and 'gross_throughput_ah' in dm:
+        # M415 (exposure basis rated5Ah): counts normalised on the rated 5.0 Ah reference (Nissan Article-10, documentary) from the Ah sidecar; the kWh sums stay as logged
+        Dah = float(dm['gross_discharge_ah'].sum()); Cah = float(dm['gross_charge_ah'].sum()); Tah = float(dm['gross_throughput_ah'].sum())
+        REF = 5.0
+        efc_r = Dah / REF
+        return {'exposureBasis': 'rated5Ah', 'referenceAh': REF, 'capKwh': CAP_KWH, 'capVerified': False,
+                'grossDischargeKwh': round(D, 2), 'grossChargeKwh': round(C, 2), 'grossThroughputKwh': round(T, 2),
+                'grossDischargeAh': round(Dah, 1), 'grossChargeAh': round(Cah, 1), 'grossThroughputAh': round(Tah, 1),
+                'chargeDischargeRatio': round(C / D, 3), 'chargeDischargeRatioAh': round(Cah / Dah, 3),
+                'gtc': round(Tah / REF, 1), 'fce': round(Tah / (2 * REF), 1), 'efcStandard': round(efc_r, 1),
+                'gtcOverStandardEfc': round((Tah / REF) / efc_r, 3), 'fceOverStandardEfc': round((Tah / (2 * REF)) / efc_r, 3),
+                'gtcIsStandard': False, 'standardEquivalent': 'FCE',
+                'note': ('Counts are throughput integrated from logged current (estimated, offset-uncorrected) divided by the rated capacity 5 Ah (Nissan Article-10, documentary; not a measurement and not a confirmation of the fitted SoC scale). '
+                         'GTC is a local double-counting convention, not a recognised metric. FCE is the quantity that corresponds to the standard equivalent-full-cycle (EFC) definition; the residual gap from 1.000 is charge-discharge imbalance '
+                         '(SoC drift, unlogged use, sensor-offset residual, auxiliaries), not a definitional difference. Every figure here scales inversely with the reference; physical throughput is unchanged.')}
     efc_std = D / CAP_KWH
     return {
         'capKwh': CAP_KWH,
@@ -16407,9 +16432,19 @@ def _ledger_cross_check(dm):
                 'pearsonR': round(r, 4) if r is not None else None,
                 'excessPct': round((rf / fce - 1) * 100, 2) if fce else None}
 
+    _all, _cln = _stats(both), _stats(both & clean)
+    if _xbasis(dm) == 'rated5Ah':
+        # M415 (Director Q4): the sign and size of the rainflow / FCE ratio depend on the exposure reference (FCE scales inversely with it); text is generated from the leaves, never typed
+        _ex = _all['excessPct']
+        return {'matchedAll': _all, 'matchedClean': _cln, 'exposureBasis': 'rated5Ah',
+                'interpretation': ('systematic_positive_bias_not_closure' if _ex is not None and _ex > 0 else 'systematic_negative_bias_not_closure'),
+                'note': ('Matched-population RF/FCE ledger (M77, 2026-07-30), FCE on the rated 5.0 Ah reference (M415). On the matched population rainflow-EFC is %.1f%% %s coulometric FCE '
+                         'with very high per-drive correlation (r = %.4f). The ratio and its sign depend on the exposure reference (FCE scales inversely with it) and are not a finding about the pack: '
+                         'it is a definitional offset (cycle-counting semantics + SoC quantization + the reference), not closure, and not a confirmation of the rated capacity.'
+                         % (abs(_ex), 'above' if _ex > 0 else 'below', _all['pearsonR']))}
     return {
-        'matchedAll': _stats(both),
-        'matchedClean': _stats(both & clean),
+        'matchedAll': _all,
+        'matchedClean': _cln,
         'interpretation': 'systematic_positive_bias_not_closure',
         'note': ('Matched-population RF/FCE ledger (M77, 2026-07-30). Replaces '
                  'the retired full-dataset available-case ratio, which divided '
@@ -16826,6 +16861,32 @@ def _load_exposure_frame():
     return m
 
 
+_XB_LEGACY = {'dm': None}   # the legacy-basis frame handed to build_summary_arrays (M415)
+
+
+def _pin_legacy(df):
+    """M415 (Director Q1/Q5): blocks that compare with the 20,000-GTC scenario threshold, the legacy ML feature (dailyFingerprints) and the other legacy-tagged blocks are computed on the LEGACY exposure
+    columns even when the rated basis is active. Identity when the legacy basis is active or no legacy frame is registered; otherwise a copy whose exposure columns are taken from the registered
+    legacy frame (index-aligned, so subsets and frames with added columns work)."""
+    L = _XB_LEGACY['dm']
+    if L is None or _load_exposure_frame().basis_from_env() == 'legacy2p1kWh':
+        return df
+    out = df.copy()
+    for c in _load_exposure_frame().EXPOSURE_COLUMNS:
+        if c in out.columns and c in L.columns:
+            out[c] = L.loc[out.index, c]
+    out = out.drop(columns=[c for c in ('gross_discharge_ah', 'gross_charge_ah', 'gross_throughput_ah') if c in out.columns])
+    out.attrs.pop('exposureBasis', None)
+    return out
+
+
+def _xbasis(dm=None):
+    """M415: exposure basis of the frame in use (legacy2p1kWh unless the rated5Ah flip is requested); the raw-pass accumulators read the environment switch."""
+    if dm is not None and getattr(dm, 'attrs', None) and dm.attrs.get('exposureBasis'):
+        return dm.attrs['exposureBasis']
+    return _load_exposure_frame().basis_from_env()
+
+
 def build_summary_arrays(dm, raw_loader=None, with_raw=True, odometer_km=None,
                          seasonal_cfg=None, ambient_by_drive=None,
                          frame_loader=None, session_cfg=None, raw_dir=None,
@@ -16834,6 +16895,7 @@ def build_summary_arrays(dm, raw_loader=None, with_raw=True, odometer_km=None,
                          recompute_rolling_origin_cv=False):
     # M414 (analyses/M413_spec.md): the exposure normalisation reference is chosen in ONE place. Default basis legacy2p1kWh returns the very same
     # DataFrame (byte-identical build); the rated5Ah flip (M415) is applied to switched leaves only, by an allow-listed splice of build B vs build A.
+    _XB_LEGACY['dm'] = dm
     dm = _load_exposure_frame().exposure_frame(dm)
     # M44 (2026-07-19): frame_loader(fname)->slim DataFrame (drive_raw_cache)
     # replaces the 5x-repeated raw CSV parse; outputs are byte-identical.
@@ -16885,7 +16947,7 @@ def build_summary_arrays(dm, raw_loader=None, with_raw=True, odometer_km=None,
         # introduced a ~1e-5 warmFloorGtcPerKm mismatch against cycleLife's
         # own gtcPerKm for the same row -- worse than the tiny duplication
         # risk of two independently-written, identically-specified blocks.)
-        arrays['seasonalLife'] = _seasonal_projection(dm, odometer_km,
+        arrays['seasonalLife'] = _seasonal_projection(_pin_legacy(dm), odometer_km,
                                                       seasonal_cfg)
         # M85 (2026-08-05): overlay climatic stress onto the Selected blend row
         # of cycleLife. The archetype/observed rows stay warm-floor & measured;
@@ -16930,7 +16992,7 @@ def build_summary_arrays(dm, raw_loader=None, with_raw=True, odometer_km=None,
     # M61: fade-mode separation + 2-D scenario x threshold sensitivity matrix
     # (supersedes the five single-threshold crossing labels on the chart).
     # Master-derived only -- no raw pass, safe under arrays-only regeneration.
-    arrays['fadeModes'] = _fade_modes(dm, arrays.get('cycleLife', {}),
+    arrays['fadeModes'] = _fade_modes(_pin_legacy(dm), arrays.get('cycleLife', {}),
                                       arrays.get('seasonalLife'),
                                       arrays['powerFade'])
     # M79 (2026-07-31): official Article-10 disclosure cross-check. Master +
@@ -16938,7 +17000,7 @@ def build_summary_arrays(dm, raw_loader=None, with_raw=True, odometer_km=None,
     # session_cfg) -- no raw pass, safe under arrays-only regeneration, and
     # None (hidden section) if the config block hasn't been added yet.
     arrays['officialDisclosureCorrelation'] = _official_disclosure_correlation(
-        dm, session_cfg, arrays.get('cycleLife', {}), arrays['fadeModes'],
+        _pin_legacy(dm), session_cfg, arrays.get('cycleLife', {}), arrays['fadeModes'],
         arrays['powerFade'])
     # M91 (2026-08-06): SoC-level (window placement) sensitivity overlay on
     # rf_damage_k2, cross-checked against Wikner (Chalmers, 2017). Master +
@@ -16955,7 +17017,7 @@ def build_summary_arrays(dm, raw_loader=None, with_raw=True, odometer_km=None,
     # only -- never folds into rf_damage_k2 or any GTC/FCE crossing.
     arrays['kLadderScenarios'] = (
         _k_ladder_scenarios(
-            dm, raw_loader, frame_loader,
+            _pin_legacy(dm), raw_loader, frame_loader,
             (arrays.get('fadeModes') or {}).get('capacity'),
             (arrays.get('seasonalLife') or {}).get('calendarLifeYrShaded'),
             (session_cfg or {}).get('kExponentLadder'))
@@ -17405,7 +17467,7 @@ def build_summary_arrays(dm, raw_loader=None, with_raw=True, odometer_km=None,
         # criterion (matching M227.1's treatment, not this session's usual
         # merge-into-existing-key pattern).
         arrays['dailyFingerprints'] = _daily_fingerprints(
-            dm, ambient_by_drive=ambient_by_drive, frame_loader=frame_loader)
+            _pin_legacy(dm), ambient_by_drive=ambient_by_drive, frame_loader=frame_loader)   # M415: legacy ML feature gtcMean
         arrays['thermalWarmupLag'] = _thermal_warmup_lag(
             dm, frame_loader=frame_loader)
         arrays['socBalancedFuel'] = _soc_balanced_fuel(
@@ -17631,7 +17693,7 @@ def build_summary_arrays(dm, raw_loader=None, with_raw=True, odometer_km=None,
     arrays['degradationTrends'] = degradation_trends.build(dm)
     _ann = (arrays.get('cycleLife') or {}).get('annualKm')
     _thr = (arrays.get('cycleLife') or {}).get('scenarioThresholdGtc', 20000)
-    arrays['observedMix'] = _audit_observed_mix(dm, annual_km=_ann,
+    arrays['observedMix'] = _audit_observed_mix(_pin_legacy(dm), annual_km=_ann,
                                                 threshold_gtc=_thr)
     arrays['offsetUncertainty'] = _audit_offset_uncertainty(dm)
     arrays['contaminationSensitivity'] = _audit_contamination_sensitivity(dm)

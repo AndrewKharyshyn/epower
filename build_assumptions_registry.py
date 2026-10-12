@@ -75,8 +75,8 @@ def build(cfg, arr):
         raw=cp["CAP_KWH"]["value"], value=f'{_f(cp["CAP_KWH"]["value"])} kWh', unit="kWh",
         klass="nameplate_unverified", verified=bool(cp["CAP_KWH"]["verified"]),
         source=cp["CAP_KWH"]["source"],
-        usedBy=["GTC", "FCE", "C-rate", "cap_ah_est", "cycle-count projections"],
-        sensitivity="Every GTC / FCE / C-rate figure scales inversely with this value (the selected reference capacity); %, A, mV, mOhm and degC outputs are invariant.")
+        usedBy=["SoC energy bookkeeping and eligibility (energy residual, f_domain)", "offset solve", "legacy master columns gtc / fce / efc_per100km / cap_ah_est (ML features)", "scenario blocks that compare with the 20,000-GTC threshold", "energy Monte Carlo", "cross-vehicle comparison"],
+        sensitivity="Scales the legacy-basis quantities listed in usedBy (GTC / FCE / C-rate of the legacy master columns, the threshold scenario blocks and the energy Monte Carlo scale inversely with it). The headline GTC, FCE and C-rate are on the rated 5.0 Ah reference since M415 (CAP_AH_RATED, exposureBasis) and do not scale with this constant; %, A, mV, mOhm and degC outputs are invariant.")
     add(id="scenario_threshold_gtc", symbol="SCENARIO_THRESHOLD_GTC", label="Reference throughput threshold",
         raw=cp["SCENARIO_THRESHOLD_GTC"]["value"], value=f'{cp["SCENARIO_THRESHOLD_GTC"]["value"]:,} GTC', unit="GTC",
         klass="assumed", verified=bool(cp["SCENARIO_THRESHOLD_GTC"]["verified"]),
