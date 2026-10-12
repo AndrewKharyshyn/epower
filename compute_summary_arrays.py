@@ -2398,8 +2398,8 @@ def _power_fade(dm, raw_loader=None):
     spans_zero = bool(lo <= 0.0 <= hi)
     cadence_controlled = bool(t.get('cadence_controlled', False))
     sig_clause = (
-        'The 95 % day-cluster interval spans zero: no statistically '
-        'detectable power fade in this window.' if spans_zero else
+        'The 95 % day-cluster interval spans zero: a trend is not '
+        'resolved in this window.' if spans_zero else
         'The 95 % day-cluster interval excludes zero on this build; read it '
         'with the cadence caveat below and the short window before treating '
         'it as fade.')
@@ -2708,8 +2708,8 @@ def _fade_modes(dm, cyc, seasonal, power_fade):
             'projectedBy': None,
             'whyNotProjected': (
                 'No validated resistance-vs-throughput law exists for this '
-                'pack, and the measured trend is statistically '
-                'indistinguishable from zero, so any extrapolation would be '
+                'pack, and the estimated trend is not resolved from zero in '
+                'this window, so any extrapolation would be '
                 'slope-noise multiplied by time. Reported as a monitored '
                 'level + interval, deliberately WITHOUT a crossing year.'),
             'trend': power_fade,
@@ -2858,7 +2858,7 @@ def _official_disclosure_correlation(dm, cfg, cyc, fade_modes, power_fade):
                  'warm pack -- a different resistance definition, not a '
                  'degraded-vs-new state. The ratio between the two levels '
                  'must NEVER be read as a state-of-health percentage. What '
-                 'IS comparable is the measured TREND (see powerFade / '
+                 'IS comparable is the estimated TREND (see powerFade / '
                  'fadeModes.power), which is the null result reported '
                  'separately below.')}
     if power_fade and power_fade.get('mdeRisePctPerYr') is not None \
@@ -18151,7 +18151,7 @@ def build_summary_arrays(dm, raw_loader=None, with_raw=True, odometer_km=None,
         'official-life). Exposure rates, accumulations, intensities, thresholds-'
         'as-flagged-constants, m(k), DoD/SoC shares, measured thermics and the '
         'power-fade proxy are retained. This study reports how hard the pack is '
-        'worked and that no degradation trend is detectable; it does not '
+        'worked and that no degradation trend is resolved in this window; it does not '
         'translate that into an end-of-life or 80% SOH date.')
 
     # M225 (Dashboard 7.1, enhancement plan): Evidence & Cross-Validation
