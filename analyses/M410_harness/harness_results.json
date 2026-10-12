@@ -1,0 +1,487 @@
+{
+ "R": 1000,
+ "B": 1000,
+ "trueMonthsSlope": 0.2,
+ "gridDays": 108,
+ "gridWeeks": 22,
+ "nObs": 525,
+ "scenarios": {
+  "null": {
+   "rhoPooledMean": -0.01968210985387564,
+   "rhoPooledMeanMCSE": 0.0018467000149870589,
+   "rho1Mean": -0.018643351291036593,
+   "hacL7OverCR1SeMean": 0.9329902814646898,
+   "glsRhoMean": 0.04689700000000001,
+   "supportedPooled": {
+    "rate": 0.005,
+    "mcse": 0.0022304708023195463
+   },
+   "supportedRho1": {
+    "rate": 0.019,
+    "mcse": 0.004317290817167636
+   },
+   "rhoPostPositive": {
+    "rate": 0.0,
+    "mcse": 0.0
+   },
+   "coverage": {
+    "cr1Normal": {
+     "rate": 0.934,
+     "mcse": 0.007851369307324675
+    },
+    "cr1T": {
+     "rate": 0.935,
+     "mcse": 0.0077958322198467015
+    },
+    "hacL3Normal": {
+     "rate": 0.913,
+     "mcse": 0.008912407082264588
+    },
+    "hacL3T": {
+     "rate": 0.926,
+     "mcse": 0.008277922444671728
+    },
+    "hacL7Normal": {
+     "rate": 0.897,
+     "mcse": 0.009612023720320294
+    },
+    "hacL7T": {
+     "rate": 0.914,
+     "mcse": 0.008865889690267975
+    },
+    "hacL14Normal": {
+     "rate": 0.859,
+     "mcse": 0.011005407761641547
+    },
+    "hacL14T": {
+     "rate": 0.885,
+     "mcse": 0.010088359628799917
+    },
+    "movingBlockL7": {
+     "rate": 0.925,
+     "mcse": 0.00832916562447884
+    },
+    "movingBlockL14": {
+     "rate": 0.921,
+     "mcse": 0.008529888627643386
+    }
+   },
+   "slopeVarianceEmpirical": 0.00960930580249771
+  },
+  "ar1_phi0.0": {
+   "rhoPooledMean": -0.015976169203134636,
+   "rhoPooledMeanMCSE": 0.0018110963112885274,
+   "rho1Mean": -0.02096340020085154,
+   "hacL7OverCR1SeMean": 0.9341399999473627,
+   "glsRhoMean": 0.042294000000000005,
+   "supportedPooled": {
+    "rate": 0.006,
+    "mcse": 0.002442130217658346
+   },
+   "supportedRho1": {
+    "rate": 0.02,
+    "mcse": 0.004427188724235731
+   },
+   "rhoPostPositive": {
+    "rate": 0.0,
+    "mcse": 0.0
+   },
+   "coverage": {
+    "cr1Normal": {
+     "rate": 0.918,
+     "mcse": 0.008676174272108645
+    },
+    "cr1T": {
+     "rate": 0.922,
+     "mcse": 0.008480330182251158
+    },
+    "hacL3Normal": {
+     "rate": 0.902,
+     "mcse": 0.009401914698613255
+    },
+    "hacL3T": {
+     "rate": 0.922,
+     "mcse": 0.008480330182251158
+    },
+    "hacL7Normal": {
+     "rate": 0.891,
+     "mcse": 0.009854897259738428
+    },
+    "hacL7T": {
+     "rate": 0.908,
+     "mcse": 0.009139803061335619
+    },
+    "hacL14Normal": {
+     "rate": 0.865,
+     "mcse": 0.010806248192596726
+    },
+    "hacL14T": {
+     "rate": 0.88,
+     "mcse": 0.010276186062932104
+    },
+    "movingBlockL7": {
+     "rate": 0.929,
+     "mcse": 0.008121514637061239
+    },
+    "movingBlockL14": {
+     "rate": 0.922,
+     "mcse": 0.008480330182251158
+    }
+   },
+   "slopeVarianceEmpirical": 0.007855946941889543
+  },
+  "ar1_phi0.3": {
+   "rhoPooledMean": 0.10187635057856113,
+   "rhoPooledMeanMCSE": 0.002527612574541161,
+   "rho1Mean": 0.2622358244484168,
+   "hacL7OverCR1SeMean": 1.085798494925268,
+   "glsRhoMean": 0.29260400000000003,
+   "supportedPooled": {
+    "rate": 0.213,
+    "mcse": 0.012947239087929134
+   },
+   "supportedRho1": {
+    "rate": 0.669,
+    "mcse": 0.014880826589944525
+   },
+   "rhoPostPositive": {
+    "rate": 0.014,
+    "mcse": 0.003715373467095872
+   },
+   "coverage": {
+    "cr1Normal": {
+     "rate": 0.858,
+     "mcse": 0.011037934589405756
+    },
+    "cr1T": {
+     "rate": 0.866,
+     "mcse": 0.010772372069326236
+    },
+    "hacL3Normal": {
+     "rate": 0.885,
+     "mcse": 0.010088359628799917
+    },
+    "hacL3T": {
+     "rate": 0.91,
+     "mcse": 0.009049861877399012
+    },
+    "hacL7Normal": {
+     "rate": 0.882,
+     "mcse": 0.01020176455325254
+    },
+    "hacL7T": {
+     "rate": 0.905,
+     "mcse": 0.009272270487857868
+    },
+    "hacL14Normal": {
+     "rate": 0.862,
+     "mcse": 0.01090669519148674
+    },
+    "hacL14T": {
+     "rate": 0.883,
+     "mcse": 0.010164201887015036
+    },
+    "movingBlockL7": {
+     "rate": 0.923,
+     "mcse": 0.008430361795320529
+    },
+    "movingBlockL14": {
+     "rate": 0.921,
+     "mcse": 0.008529888627643386
+    }
+   },
+   "slopeVarianceEmpirical": 0.011284944366761336
+  },
+  "ar1_phi0.6": {
+   "rhoPooledMean": 0.32420337800160176,
+   "rhoPooledMeanMCSE": 0.003065084906446835,
+   "rho1Mean": 0.5368978822391556,
+   "hacL7OverCR1SeMean": 1.294703998596618,
+   "glsRhoMean": 0.576888,
+   "supportedPooled": {
+    "rate": 0.915,
+    "mcse": 0.008819013550278736
+   },
+   "supportedRho1": {
+    "rate": 0.996,
+    "mcse": 0.0019959959919799443
+   },
+   "rhoPostPositive": {
+    "rate": 0.326,
+    "mcse": 0.01482309009619789
+   },
+   "coverage": {
+    "cr1Normal": {
+     "rate": 0.75,
+     "mcse": 0.013693063937629153
+    },
+    "cr1T": {
+     "rate": 0.755,
+     "mcse": 0.013600551459407815
+    },
+    "hacL3Normal": {
+     "rate": 0.836,
+     "mcse": 0.011709141727727102
+    },
+    "hacL3T": {
+     "rate": 0.86,
+     "mcse": 0.010972693379476163
+    },
+    "hacL7Normal": {
+     "rate": 0.851,
+     "mcse": 0.011260506205317771
+    },
+    "hacL7T": {
+     "rate": 0.877,
+     "mcse": 0.010386096475577337
+    },
+    "hacL14Normal": {
+     "rate": 0.836,
+     "mcse": 0.011709141727727102
+    },
+    "hacL14T": {
+     "rate": 0.863,
+     "mcse": 0.010873407929439602
+    },
+    "movingBlockL7": {
+     "rate": 0.891,
+     "mcse": 0.009854897259738428
+    },
+    "movingBlockL14": {
+     "rate": 0.893,
+     "mcse": 0.009775019181566856
+    }
+   },
+   "slopeVarianceEmpirical": 0.018707368691306965
+  },
+  "season_plus_noise": {
+   "rhoPooledMean": 0.6804979729796198,
+   "rhoPooledMeanMCSE": 0.0013502283766638136,
+   "rho1Mean": 0.7062773290638222,
+   "hacL7OverCR1SeMean": 1.7319632134595382,
+   "glsRhoMean": 0.798153,
+   "supportedPooled": {
+    "rate": 1.0,
+    "mcse": 0.0
+   },
+   "supportedRho1": {
+    "rate": 1.0,
+    "mcse": 0.0
+   },
+   "rhoPostPositive": {
+    "rate": 0.0,
+    "mcse": 0.0
+   },
+   "coverage": {
+    "cr1Normal": {
+     "rate": 0.627,
+     "mcse": 0.015292841462592882
+    },
+    "cr1T": {
+     "rate": 0.639,
+     "mcse": 0.01518812035770062
+    },
+    "hacL3Normal": {
+     "rate": 0.956,
+     "mcse": 0.006485676526007139
+    },
+    "hacL3T": {
+     "rate": 0.975,
+     "mcse": 0.004937104414532877
+    },
+    "hacL7Normal": {
+     "rate": 0.997,
+     "mcse": 0.0017294507798720387
+    },
+    "hacL7T": {
+     "rate": 0.999,
+     "mcse": 0.0009994998749374613
+    },
+    "hacL14Normal": {
+     "rate": 1.0,
+     "mcse": 0.0
+    },
+    "hacL14T": {
+     "rate": 1.0,
+     "mcse": 0.0
+    },
+    "movingBlockL7": {
+     "rate": 0.993,
+     "mcse": 0.002636474919281427
+    },
+    "movingBlockL14": {
+     "rate": 1.0,
+     "mcse": 0.0
+    }
+   },
+   "slopeVarianceEmpirical": 0.008725699176574207
+  }
+ },
+ "verdicts": {
+  "nullBias": {
+   "value": -0.01968210985387564,
+   "mcse": 0.0018467000149870589,
+   "criterion": "|mean rho_pooled| <= 0.05",
+   "pass": true
+  },
+  "falseSupport_null": {
+   "pooled": {
+    "rate": 0.005,
+    "mcse": 0.0022304708023195463
+   },
+   "rho1": {
+    "rate": 0.019,
+    "mcse": 0.004317290817167636
+   },
+   "criterion": "false 'supported' rate <= 0.10",
+   "pass": true
+  },
+  "falseSupport_ar1_phi0.0": {
+   "pooled": {
+    "rate": 0.006,
+    "mcse": 0.002442130217658346
+   },
+   "rho1": {
+    "rate": 0.02,
+    "mcse": 0.004427188724235731
+   },
+   "criterion": "false 'supported' rate <= 0.10",
+   "pass": true
+  },
+  "misclassification_ar1_phi0.3": {
+   "pooledNotSupported": 0.787,
+   "rho1NotSupported": 0.33099999999999996,
+   "mcse": 0.014880826589944525,
+   "criterion": "share not 'supported' <= 0.10 (pre-registered, Rev 1 item 8; not re-scoped)",
+   "pass": false,
+   "passPooledOnly": false,
+   "passRho1Only": false
+  },
+  "rho1Recovery_ar1_phi0.3": {
+   "value": 0.2622358244484168,
+   "target": 0.3,
+   "criterion": "rho_1 mean within 0.07 of phi (day-mean residuals; hat-matrix attenuation expected)",
+   "pass": true
+  },
+  "vifVsSimulatedVariance_ar1_phi0.3": {
+   "vifAtTruePhi": 1.4040180326277465,
+   "empiricalVarianceRatio": 1.436484290211746,
+   "criterion": "relative difference <= 15 %",
+   "pass": true
+  },
+  "glsRho_ar1_phi0.3": {
+   "value": 0.29260400000000003,
+   "criterion": "reported only"
+  },
+  "misclassification_ar1_phi0.6": {
+   "pooledNotSupported": 0.08499999999999996,
+   "rho1NotSupported": 0.0040000000000000036,
+   "mcse": 0.0019959959919799443,
+   "criterion": "share not 'supported' <= 0.10 (pre-registered, Rev 1 item 8; not re-scoped)",
+   "pass": true,
+   "passPooledOnly": true,
+   "passRho1Only": true
+  },
+  "rho1Recovery_ar1_phi0.6": {
+   "value": 0.5368978822391556,
+   "target": 0.6,
+   "criterion": "rho_1 mean within 0.07 of phi (day-mean residuals; hat-matrix attenuation expected)",
+   "pass": true
+  },
+  "vifVsSimulatedVariance_ar1_phi0.6": {
+   "vifAtTruePhi": 2.2947697567774052,
+   "empiricalVarianceRatio": 2.3813002849542406,
+   "criterion": "relative difference <= 15 %",
+   "pass": true
+  },
+  "glsRho_ar1_phi0.6": {
+   "value": 0.576888,
+   "criterion": "reported only"
+  },
+  "seasonControl": {
+   "supportedPooled": {
+    "rate": 1.0,
+    "mcse": 0.0
+   },
+   "rhoPostPositive": {
+    "rate": 0.0,
+    "mcse": 0.0
+   },
+   "criterion": "descriptive: rho_post interval above 0 in at most 10 % of replications under season-plus-noise",
+   "pass": true
+  },
+  "rhoPostPositiveUnderAR1": {
+   "ar1_phi0.3": {
+    "rate": 0.014,
+    "mcse": 0.003715373467095872
+   },
+   "ar1_phi0.6": {
+    "rate": 0.326,
+    "mcse": 0.01482309009619789
+   }
+  },
+  "coverage": {
+   "null": {
+    "cr1Normal": 0.934,
+    "cr1T": 0.935,
+    "hacL3Normal": 0.913,
+    "hacL3T": 0.926,
+    "hacL7Normal": 0.897,
+    "hacL7T": 0.914,
+    "hacL14Normal": 0.859,
+    "hacL14T": 0.885,
+    "movingBlockL7": 0.925,
+    "movingBlockL14": 0.921
+   },
+   "ar1_phi0.0": {
+    "cr1Normal": 0.918,
+    "cr1T": 0.922,
+    "hacL3Normal": 0.902,
+    "hacL3T": 0.922,
+    "hacL7Normal": 0.891,
+    "hacL7T": 0.908,
+    "hacL14Normal": 0.865,
+    "hacL14T": 0.88,
+    "movingBlockL7": 0.929,
+    "movingBlockL14": 0.922
+   },
+   "ar1_phi0.3": {
+    "cr1Normal": 0.858,
+    "cr1T": 0.866,
+    "hacL3Normal": 0.885,
+    "hacL3T": 0.91,
+    "hacL7Normal": 0.882,
+    "hacL7T": 0.905,
+    "hacL14Normal": 0.862,
+    "hacL14T": 0.883,
+    "movingBlockL7": 0.923,
+    "movingBlockL14": 0.921
+   },
+   "ar1_phi0.6": {
+    "cr1Normal": 0.75,
+    "cr1T": 0.755,
+    "hacL3Normal": 0.836,
+    "hacL3T": 0.86,
+    "hacL7Normal": 0.851,
+    "hacL7T": 0.877,
+    "hacL14Normal": 0.836,
+    "hacL14T": 0.863,
+    "movingBlockL7": 0.891,
+    "movingBlockL14": 0.893
+   },
+   "season_plus_noise": {
+    "cr1Normal": 0.627,
+    "cr1T": 0.639,
+    "hacL3Normal": 0.956,
+    "hacL3T": 0.975,
+    "hacL7Normal": 0.997,
+    "hacL7T": 0.999,
+    "hacL14Normal": 1.0,
+    "hacL14T": 1.0,
+    "movingBlockL7": 0.993,
+    "movingBlockL14": 1.0
+   }
+  },
+  "coverageNote": "nominal coverage is reported per row and scenario with MCSE in 'scenarios'; not required row by row; differences within about 2 MCSE are not 'better'; failures are flagged, never tuned"
+ }
+}
