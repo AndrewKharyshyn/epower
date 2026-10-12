@@ -38,6 +38,7 @@ import io
 import json
 import numpy as np
 import pandas as pd
+import os as _os_xf
 from drive_raw_cache import fast_time as _ft   # M386 (audit F21): exact, faster replacement of pd.to_datetime on raw time strings
 import degradation_trends
 try:
@@ -16815,12 +16816,25 @@ def _evidence_ledger(arrays):
     }
 
 
+def _load_exposure_frame():
+    """M414: path-based import of tools/exposure_frame.py (root scripts must not put tools/ on sys.path: its module names would shadow root modules)."""
+    import importlib.util
+    p = _os_xf.path.join(_os_xf.path.dirname(_os_xf.path.abspath(__file__)), "tools", "exposure_frame.py")
+    spec = importlib.util.spec_from_file_location("exposure_frame", p)
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    return m
+
+
 def build_summary_arrays(dm, raw_loader=None, with_raw=True, odometer_km=None,
                          seasonal_cfg=None, ambient_by_drive=None,
                          frame_loader=None, session_cfg=None, raw_dir=None,
                          recompute_m119v2=False, prev_arrays=None,
                          recompute_energy_mc=True,
                          recompute_rolling_origin_cv=False):
+    # M414 (analyses/M413_spec.md): the exposure normalisation reference is chosen in ONE place. Default basis legacy2p1kWh returns the very same
+    # DataFrame (byte-identical build); the rated5Ah flip (M415) is applied to switched leaves only, by an allow-listed splice of build B vs build A.
+    dm = _load_exposure_frame().exposure_frame(dm)
     # M44 (2026-07-19): frame_loader(fname)->slim DataFrame (drive_raw_cache)
     # replaces the 5x-repeated raw CSV parse; outputs are byte-identical.
     arrays = category_A(dm, odometer_km=odometer_km)

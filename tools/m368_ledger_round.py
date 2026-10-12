@@ -35,6 +35,8 @@ def main():
     raw_text = open("summary_config.json", encoding="utf-8", newline="").read()
     cfg = json.loads(raw_text)
     dm = pd.read_csv("drive_master.csv", low_memory=False)
+    import exposure_frame as _xf   # M414: exposure basis (identity on the legacy default)
+    dm = _xf.exposure_frame(dm)
     dm["_d"] = pd.to_datetime(dm["date"]).dt.date
     year = dm["_d"].iloc[0].year
     sums = dm.groupby("_d")[["gross_throughput_kwh", "gtc", "net_draw_kwh_corr2p"]].sum()

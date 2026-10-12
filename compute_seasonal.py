@@ -33,6 +33,17 @@ import seasonal_core as sc
 HERE = os.path.dirname(os.path.abspath(__file__))
 def P(name): return os.path.join(HERE, name)
 
+
+def _load_exposure_frame():
+    """M414: path-based import of tools/exposure_frame.py (root scripts must not put tools/ on sys.path: its module names would shadow root modules)."""
+    import importlib.util
+    p = os.path.join(HERE, "tools", "exposure_frame.py")
+    spec = importlib.util.spec_from_file_location("exposure_frame", p)
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    return m
+
+
 MANUAL_COLUMNS = [
     "file", "logging_delay_class", "logging_delay_min", "unlogged_use",
     "last_unlogged_use_end_local", "parking_environment", "initial_condition",
@@ -116,6 +127,7 @@ def build(master_path=None, out_dir=None):
     derived = []
 
     # first pass: per-drive derived fields
+    _XO = _load_exposure_frame().row_overrides(master_path=master_path)   # M414: None on the legacy basis
     for r in rows:
         fname = r["file"].strip()
         if fname in exclusions or fname in e4orce:
@@ -240,7 +252,7 @@ def build(master_path=None, out_dir=None):
             "vsag_R_pack_mohm": _f(r.get("vsag_R_pack_mohm")),
             # exposure / energy
             "gross_throughput_kwh": _f(r.get("gross_throughput_kwh")),
-            "gtc": _f(r.get("gtc")),
+            "gtc": _f((_XO.get(r.get("file")) or {}).get("gtc", r.get("gtc")) if _XO else r.get("gtc")),
             # payload / manual
             **payload,
             "hvac_class": m.get("hvac_class") or "HU",

@@ -50,6 +50,20 @@
    ]
   },
   {
+   "id": "exposure_coverage",
+   "title": "M414: exposure-basis coverage gate and reconciliation (every drive with a finite legacy gtc has a sidecar Ah value; no legacy fallback); writes analyses/M414_exposure_reconciliation.json",
+   "cmd": [
+    "python3",
+    "tools/exposure_frame.py",
+    "--check",
+    "--write"
+   ],
+   "verified": true,
+   "outputs": [
+    "analyses/M414_exposure_reconciliation.json"
+   ]
+  },
+  {
    "id": "raw_temp_pass",
    "title": "Raw-temperature triplets over staged raw (new drives must not enter seasonal master as 'unavailable')",
    "cmd": [

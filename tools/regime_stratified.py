@@ -205,6 +205,8 @@ def main():
     pay_ei = A["seasonalCharts"]["charts"]["EnergyIntensity"]["data"]
     pay_adj = json.load(open(os.path.join(ROOT, "cohort_arrays.json"), encoding="utf-8"))["charts"]["EfficChart"]["adjusted"]     # the contrasts live in cohort_arrays.json (embedded by the build)
     dm = pd.read_csv(os.path.join(ROOT, "drive_master.csv"), low_memory=False)
+    import exposure_frame as _xf   # M414: exposure basis (identity on the legacy default)
+    dm = _xf.exposure_frame(dm)
     covs0 = list(CA.ADJ_COVARIATES)
     covs_b = covs0 + ["cad_fast"]
     covs_3 = covs0 + ["cad_run1", "cad_run2"]

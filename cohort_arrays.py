@@ -22,6 +22,17 @@ from __future__ import annotations
 import csv, json, os
 import seasonal_core as sc
 
+
+def _load_exposure_frame():
+    """M414: path-based import of tools/exposure_frame.py (root scripts must not put tools/ on sys.path: its module names would shadow root modules)."""
+    import importlib.util
+    p = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tools", "exposure_frame.py")
+    spec = importlib.util.spec_from_file_location("exposure_frame", p)
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    return m
+
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 def P(n): return os.path.join(HERE, n)
 
@@ -118,6 +129,10 @@ def _f(x):
 def load_drives():
     sm = {r["file"]: r for r in csv.DictReader(open(P("seasonal_drive_master.csv")))}
     dm = {r["file"]: r for r in csv.DictReader(open(P("drive_master.csv")))}
+    _xo = _load_exposure_frame().row_overrides(master_path=P("drive_master.csv"))   # M414: None on the legacy basis
+    if _xo:
+        for _f_, _r_ in dm.items():
+            _r_.update({k: v for k, v in (_xo.get(_f_) or {}).items() if k in ("regen_peak_Crate", "dual_peak_Crate", "eng_charge_peak_Crate")})
     tr = {}
     if os.path.exists(P("raw_temperature_triplets.csv")):
         tr = {r["file"]: r for r in csv.DictReader(open(P("raw_temperature_triplets.csv")))}

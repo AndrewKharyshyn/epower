@@ -34,7 +34,7 @@ REQUIRED = ["xtrail_summary.jsx", "summary_arrays.json", "summary_config.json", 
             "patch_m284_data.py", "test_assumptions_registry.py", "refresh_seasonal_kpis.py", "records_resistance.py",
             "records_rainflow.py", "cohort_distributions.py", "test_track4.py", "apply_m284_post.sh",
             "dump_tabs.js", "semantic_gate.py", "test_cohort_rates.py", "records_disclosure.py", "f03_provenance_flag.py", "f03_provenance.json", "language_gate.py", "eligibility.py", "precision_gate.py", "precision_allowlist.json", "fuel_contract_flag.py", "fuel_contract.json", "fuel_recon_master.csv"]
-TOOLS_REQUIRED = ["refresh_meta_sources.py", "intake_air_block.py", "odometer_check.py", "ah_throughput.py"]   # called by apply_m284_post.sh (M355; M361 imports intake_air_block)
+TOOLS_REQUIRED = ["refresh_meta_sources.py", "intake_air_block.py", "odometer_check.py", "ah_throughput.py", "exposure_frame.py"]   # called by apply_m284_post.sh (M355; M361 imports intake_air_block)
 OPTIONAL = ["warm_baseline_freeze.json", "event_ledger.json", "compute_seasonal.py", "seasonal_config.json",
             "seasonal_arrays.json", "test_seasonal.py"]
 LEGACY_NEEDS = ["test_seasonal.py", "compute_seasonal.py", "seasonal_config.json", "seasonal_arrays.json",
@@ -289,6 +289,7 @@ def main():
         run([sys.executable, "semantic_gate.py"], tmp, "semantic gate: forbidden wording + prose==payload + mode behaviour (M299)")
         run([sys.executable, "tools/odometer_check.py"], tmp, "odometer continuity: every anomaly of drive_master.csv is recorded (M401, audit D4)")
         run([sys.executable, "tools/ah_throughput.py", "--check"], tmp, "Ah-throughput sidecar: one row per master drive, null pattern and kWh of the identical loop match the master (M402, audit F16b)")
+        run([sys.executable, "tools/exposure_frame.py", "--check"], tmp, "exposure basis: every drive with a finite legacy gtc has a sidecar Ah value, no legacy fallback (M414, spec M413)")
         for t in PY_TESTS:
             if t == "test_seasonal.py":
                 miss = [n for n in LEGACY_NEEDS if not (tmp / n).exists()]

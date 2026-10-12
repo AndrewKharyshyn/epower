@@ -1,0 +1,19 @@
+{
+ "_provenance": "M414 (S1) control build: tools/exposure_control_build.py, build A1 = code at HEAD 9e4acee, build A2 = S1 code (exposure_frame routing, default basis legacy2p1kWh); same master, same raw set, same sidecar; compared with tools/exposure_control_diff.py",
+ "masterMd5": "64dfd0cbff3db404d9b83e180f777525",
+ "sidecarMd5": "28b9b944a7b227b92c74e69c5d3df6eb",
+ "topLevelKeysPerBuild": [
+  135,
+  135
+ ],
+ "secondsPerBuild": [
+  1437.7,
+  1530.8
+ ],
+ "differingLeavesRaw": 136,
+ "differingLeavesRawAreAllGeneratedAtTimestamps": true,
+ "differingLeavesIgnoringGeneratedAt": 0,
+ "verdict": "payload byte-identical in content: S1 changes no leaf (only wall-clock generatedAt stamps differ between the two builds)",
+ "disclosure": "build A1 started before the routing edits and imported compute_summary_arrays at its start; the lazily imported routed modules (compute_seasonal, cohort_arrays) may have been read in their edited form during the run. Both are identity on the legacy default; their outputs were therefore also rebuilt separately and compared with the committed files: seasonal_drive_master.csv byte-identical, seasonal_arrays.json / ambient_samples.json / cohort_arrays.json leaf-identical.",
+ "notRun": "a second A build at HEAD (null diff of the code with itself) was not run; the null diff here is HEAD vs S1"
+}

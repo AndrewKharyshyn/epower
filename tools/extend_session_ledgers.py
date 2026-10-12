@@ -111,6 +111,8 @@ def main():
     a = ap.parse_args()
     cfg = json.load(open("summary_config.json", encoding="utf-8"))
     dm = pd.read_csv("drive_master.csv", low_memory=False)
+    import exposure_frame as _xf   # M414: exposure basis (identity on the legacy default)
+    dm = _xf.exposure_frame(dm)
     sdm = pd.read_csv("seasonal_drive_master.csv", low_memory=False)
     trip = pd.read_csv("raw_temperature_triplets.csv", low_memory=False)
     amb = cfg["ambientByDrive"]
