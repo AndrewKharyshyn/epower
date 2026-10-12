@@ -432,6 +432,18 @@
    ]
   },
   {
+   "id": "exposure_basis_refresh",
+   "title": "M423: refresh the additive block exposureBasis (populations, rated-over-legacy factor, legacy-basis disclosure values, rated point beside the Monte Carlo, primary exposure) for the new corpus; the legacy values are recomputed from the master with the released builders (no second arrays build), the rated side is this payload; the M415 block was spliced once and no stage refreshed it (found by the M422 rehearsal); writes only /exposureBasis and its stamp; spec analyses/M423_spec.md",
+   "cmd": [
+    "python3",
+    "tools/exposure_basis_refresh.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json"
+   ]
+  },
+  {
    "id": "stamp_basis",
    "title": "M422: artifact-stamp basis fields (includedInReleaseAt / computedAt / inputBasis, carried-block status) derived from the blocks' own fields; must run BEFORE leaf_guard (the arrays build recreates every stamp, so the M419 fields would otherwise be reported as 743 lost leaves); idempotent, writes only /_artifactStamps; restamp_ingest runs it again after re-issuing stamps",
    "cmd": [
