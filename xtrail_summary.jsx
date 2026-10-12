@@ -61,6 +61,7 @@ function buildS(config, arrays) {
     degradationTrends: A.degradationTrends || null,  // M108: TOST equivalence testing
     dependenceSensitivity: A.dependenceSensitivity || null,  // M406/M407: CR2, wild bootstrap, week-block sensitivities (reporting-only)
     serialDependence: A.serialDependence || null,
+    integrationScenarios: A.integrationScenarios || null,  // M420: single-choice integration scenarios beside the energy Monte Carlo (reporting-only)
     thermalSupportLedger: A.thermalSupportLedger || null,  // M418: candidate / accepted / excluded / right-censored counts of the thermal estimates (reporting-only)
     exposureBasis: A.exposureBasis || null,  // M415: exposure normalisation basis (rated 5 Ah), per-block tags, legacy disclosure values  // M410/M412: serial-dependence sensitivity (reporting-only)
     provenanceSensitivity: A.provenanceSensitivity || null,
@@ -555,6 +556,44 @@ function MethodCard({ name, what, why, output, cannot, tag }) {
   );
 }
 // A labelled provenance card block (A–J structure of Methodology & Data Provenance).
+// M420 (analyses/M420_spec.md Rev 1, Director ruling analyses/M420_director_ruling_2026-10-12.md): integration-choice scenarios beside the energy Monte Carlo, rendered from the integrationScenarios block.
+// Each computed row changes ONE choice of the integration; nothing is summed, unioned or drawn as an interval around the Monte Carlo. Carried studies and capacity references sit in their own subtables.
+function IntegrationScenarios() {
+  const B=S.integrationScenarios;
+  if(!B) return null;
+  const sg=v=>(v>0?"+":v<0?"−":"")+fmtSig(Math.abs(v),2);                  // signed, two significant figures
+  const pct=r=>sg((r-1)*100);
+  const kwh=v=>(v>0?"+":v<0?"−":"")+Math.abs(v).toFixed(2);
+  const th={textAlign:"left",padding:"3px 6px",borderBottom:"1px solid #cbd5e1",fontWeight:600,color:"#0f172a"}, td={padding:"3px 6px",borderBottom:"1px solid #e2e8f0",verticalAlign:"top"};
+  const mcTxt=m=>m===true?"yes":m==="partial"?"partly (gap truncation)":"no";
+  const fam={alignment:"Alignment",interpolation:"Interpolation",gaps:"Gap policy",offset:"Current offset"};
+  const bl=B.baseline, gi=bl.gapInventory, mc=B.monteCarlo;
+  const car=B.carriedStudies||[], cap=B.capacityReferences||[];
+  const zeroRows=B.scenarios.filter(r=>r.perDriveRatio.min<0.01).map(r=>r.id), offRows=B.scenarios.filter(r=>r.family==="offset");
+  const b1=B.scenarios.find(r=>r.id==="B1")||{}, b2=B.scenarios.find(r=>r.id==="B2")||{}, holdSame=Math.sign(b1.shiftKwh)===Math.sign(b2.shiftKwh)&&b1.shiftKwh!==0;
+  const mcFrac=(mc.nominalKwh-mc.interval95Kwh[0])/((mc.interval95Kwh[1]-mc.interval95Kwh[0])||1);
+  return <div data-m420="1" style={{background:"#f8fafc",border:"1px solid #cbd5e1",borderRadius:8,padding:16,margin:"12px 0"}}>
+    <p style={{marginTop:0}}><strong style={{color:"#0f172a"}}>Integration-choice scenarios (M420; single-choice changes, not an interval).</strong> Throughput integrated from logged HV current and voltage (raw/ = sha256-verified originals (M366)) over {bl.nDrives} drives on {bl.nDays} days ({bl.support[0]} to {bl.support[1]}): baseline {bl.grossThroughputKwh.toFixed(2)} kWh (discharge {bl.grossDischargeKwh.toFixed(2)} + charge {bl.grossChargeKwh.toFixed(2)}). Each row changes one choice of the integration and nothing else; no interaction between choices is evaluated or implied. The shift of a row is a deterministic recomputation on this corpus; the interval beside it is the day-to-day variability of the ratio (calendar-day resampling), not an uncertainty of the total.</p>
+    <div style={{overflowX:"auto"}}><table style={{borderCollapse:"collapse",fontSize:"0.85em",width:"100%"}}>
+      <thead><tr><th style={th}>Choice (id)</th><th style={th}>Throughput kWh</th><th style={th}>Shift kWh (discharge / charge)</th><th style={th}>Shift %</th><th style={th}>Day-to-day variability of the ratio, 95 % (calendar-day resampling)</th><th style={th}>Per-drive ratio: min / P10 / median / P90 / max</th><th style={th}>Net-draw shift kWh</th><th style={th}>In the Monte Carlo?</th></tr></thead>
+      <tbody>{B.scenarios.map(r=><tr key={r.id}>
+        <td style={td}><strong>{fam[r.family]||r.family} ({r.id})</strong> <em>[{r.kind}]</em>: {r.definition}</td>
+        <td style={td}>{r.grossThroughputKwh.toFixed(2)}</td>
+        <td style={td}>{kwh(r.shiftKwh)} ({kwh(r.shiftDischargeKwh)} / {kwh(r.shiftChargeKwh)})</td>
+        <td style={td}>{pct(r.ratioToBaseline)}</td>
+        <td style={td}>{r.dayVariabilityOfRatio95?`${pct(r.dayVariabilityOfRatio95[0])} to ${pct(r.dayVariabilityOfRatio95[1])} %`:"not computed (deterministic row at an interval end)"}</td>
+        <td style={td}>{r.perDriveRatio.min.toFixed(3)} / {r.perDriveRatio.p10.toFixed(3)} / {r.perDriveRatio.median.toFixed(3)} / {r.perDriveRatio.p90.toFixed(3)} / {r.perDriveRatio.max.toFixed(3)} (n = {r.perDriveRatio.nDrives}; {r.perDriveRatio.nUndefined} drives with baseline {"<"} {r.perDriveRatio.minBaselineKwh} kWh excluded from the spread)</td>
+        <td style={td}>{kwh(r.netDrawShiftKwh)}</td>
+        <td style={td}>{mcTxt(r.inMonteCarlo)}</td></tr>)}</tbody></table></div>
+    <p style={{marginBottom:4}}>Baseline: reproduces the master gross discharge and charge per drive (maximum deviation {B.checks.baselineReproducesMaster.maxAbsDevKwh} kWh over {bl.nDrives} drives; drives excluded: {B.excludedDrives.length}). Gap inventory of the baseline: {gi.n5} intervals longer than 5 s ({gi.s5.toFixed(0)} s in total), {gi.n10} longer than 10 s, {gi.n30} longer than 30 s; {gi.excessBeyondCapS.toFixed(0)} s lie beyond the 5 s step cap; {gi.nDrivesWithGapOver5s} drives have at least one. Per-drive ratios use the drives with a baseline throughput of at least {B.scenarios[0].perDriveRatio.minBaselineKwh} kWh; ratios of sums are dominated by long drives.{zeroRows.length>0?` In rows ${zeroRows.join(", ")} the smallest per-drive ratio is below 0.01: a drive with sparse voltage samples integrates to zero at that tolerance, as in the Monte Carlo grid.`:""}</p>
+    <p style={{marginBottom:4}}>Net draw is a small difference of large integrals and is shown as a shift in kWh only; the offset rows move it by {kwh(Math.min(...offRows.map(r=>r.netDrawShiftKwh)))} to {kwh(Math.max(...offRows.map(r=>r.netDrawShiftKwh)))} kWh, so its shifts are not comparable with the gross shifts.{holdSame?" The left-hold and right-hold rows shift the throughput in the same direction, so the difference from the trapezoid is not a time-shift effect; its attribution is unresolved.":""}</p>
+    <p style={{marginBottom:4}}><strong>Carried studies (own n; never applied to the drive set above).</strong> {car.map(c=>c.family==="cadence"?`Cadence, ${c.definition}: ratio ${c.ratioToStudyBaseline.toFixed(3)} (95 % ${c.ci95DayCluster[0].toFixed(3)} to ${c.ci95DayCluster[1].toFixed(3)}; ${c.nDrives} drives, ${c.nDays} days; not a causal cadence effect).`:c.family==="quantisation"?`Quantisation: SD ${c.sdPercent} % of the throughput (Monte Carlo component).`:`Midpoint rule (a different quadrature rule, from independentIntegrationCheck): per-drive absolute deviation from the released value, mean ${c.meanAbsDevPctThroughput.toFixed(2)} %, 95th percentile ${c.p95AbsDevPctThroughput.toFixed(2)} % (${c.nDrives} drives); the deviation reflects the rule difference, not an error of the released integration.`).join(" ")}</p>
+    <p style={{marginBottom:4}}><strong>Capacity references (reference scaling; CAP_KWH=2.1 verified:false).</strong> These rows rescale GTC and FCE only; the integrated throughput is unchanged. {cap.map(c=>c.id==="G1"?`Rated 5.0 Ah documentary reference versus the legacy 2.1 kWh reference: the accumulated GTC and FCE scale by ${c.factor.toFixed(4)}.`:`Matched-window capacity point estimate ${c.referenceKwh} kWh (capacityBasis interval ${c.referenceCi95Kwh[0]} to ${c.referenceCi95Kwh[1]} kWh; a descriptive result, not an accepted capacity) versus 2.1 kWh: factor ${c.factor.toFixed(3)}.`).join(" ")}</p>
+    <p style={{marginBottom:0}}><strong>Monte Carlo reference (separate; conditional).</strong> Interval {mc.interval95Kwh[0].toFixed(2)} to {mc.interval95Kwh[1].toFixed(2)} kWh; the nominal {mc.nominalKwh.toFixed(2)} kWh lies {mcFrac<0.15?"near its lower end":mcFrac>0.85?"near its upper end":"inside it"} (its centre is {mc.centreMinusNominalKwh>0?"+":""}{mc.centreMinusNominalKwh.toFixed(2)} kWh from the nominal: the offset component shifts it). {mc.reading.charAt(0).toUpperCase()+mc.reading.slice(1)}. Included: {mc.included.join("; ")}. Omitted: {mc.omitted.join("; ")}. The hold-variant shift is about {Math.round(Math.abs((B.scenarios.find(r=>r.id==="B1")||{}).shiftKwh)/((mc.interval95Kwh[1]-mc.interval95Kwh[0])||1))} times the width of that interval, so the Monte Carlo interval alone understates the sensitivity of the throughput to the integration choices.</p>
+    <ul style={{margin:"6px 0 0 18px",fontSize:"0.9em",color:"#475569"}}>{B.reading.map((x,i)=><li key={i}>{x}.</li>)}{B.limits.map((x,i)=><li key={"l"+i}>Limit: {x}.</li>)}</ul>
+  </div>;
+}
+
 function ProvenanceBlock({ letter, title, children }) {
   return (
     <div style={{marginBottom:10,background:"#f8fafc",border:"1px solid #e2e8f0",borderRadius:8,padding:"10px 12px"}}>
@@ -12473,6 +12512,7 @@ export default function App() {
               <p style={{marginBottom:0, fontSize:"0.9em", color:"#475569"}}>{S.energyUncertaintyMC.capacityNote}</p>
             </div>
             )}
+            <IntegrationScenarios/>
           </ProvenanceBlock>
           <ProvenanceBlock letter="D" title="Drive & event classification">
             <p style={{marginTop:0}}>Each metric family publishes its own denominator, and a channel-by-channel map separates where a signal is physically present from where the dependent metric actually validated:</p>

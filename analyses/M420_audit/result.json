@@ -1,0 +1,136 @@
+{
+ "n_drives": 540,
+ "n_days": 109,
+ "baseline_vs_master": {
+  "max_abs_dev_kwh": 4.9983295598465816e-05,
+  "n_above_5e-4": 0,
+  "worst_files": [
+   "20260725_140026.csv",
+   "20260804_194234.csv",
+   "20260906_130754.csv",
+   "20260830_155318.csv",
+   "20260817_175652.csv"
+  ],
+  "worst_devs": [
+   4.9983295598465816e-05,
+   4.996841868631918e-05,
+   4.9959896681606164e-05,
+   4.994104289846035e-05,
+   4.994031671573529e-05
+  ]
+ },
+ "gaps_baseline": {
+  "n5": 270,
+  "d5": 7549.963,
+  "n10": 99,
+  "d10": 6463.609,
+  "n30": 34,
+  "d30": 5217.946,
+  "beyond5": 6199.963
+ },
+ "scenarios": {
+  "S0": {
+   "discharge_kwh": 759.6672,
+   "charge_kwh": 809.277,
+   "throughput_kwh": 1568.9442,
+   "ratio": 1.0,
+   "median_drive_ratio": 1.0,
+   "n_drives_ge_0.1": 538,
+   "ratio_ci95": [
+    1.0,
+    1.0
+   ]
+  },
+  "A3": {
+   "discharge_kwh": 759.6242,
+   "charge_kwh": 809.2695,
+   "throughput_kwh": 1568.8937,
+   "ratio": 0.999968,
+   "median_drive_ratio": 1.0,
+   "n_drives_ge_0.1": 538,
+   "ratio_ci95": [
+    0.999943,
+    0.999987
+   ]
+  },
+  "B1": {
+   "discharge_kwh": 794.5077,
+   "charge_kwh": 844.8915,
+   "throughput_kwh": 1639.3991,
+   "ratio": 1.044906,
+   "median_drive_ratio": 1.027751,
+   "n_drives_ge_0.1": 538,
+   "ratio_ci95": [
+    1.040042,
+    1.049185
+   ]
+  },
+  "B2": {
+   "discharge_kwh": 795.0758,
+   "charge_kwh": 843.9117,
+   "throughput_kwh": 1638.9875,
+   "ratio": 1.044644,
+   "median_drive_ratio": 1.028211,
+   "n_drives_ge_0.1": 538,
+   "ratio_ci95": [
+    1.039749,
+    1.048924
+   ]
+  },
+  "C1": {
+   "discharge_kwh": 758.8083,
+   "charge_kwh": 808.6357,
+   "throughput_kwh": 1567.4441,
+   "ratio": 0.999044,
+   "median_drive_ratio": 1.0,
+   "n_drives_ge_0.1": 538,
+   "ratio_ci95": [
+    0.998538,
+    0.999415
+   ]
+  },
+  "cap3": {
+   "discharge_kwh": 758.4392,
+   "charge_kwh": 808.2254,
+   "throughput_kwh": 1566.6645,
+   "ratio": 0.998547,
+   "median_drive_ratio": 1.0,
+   "n_drives_ge_0.1": 538,
+   "ratio_ci95": [
+    0.997794,
+    0.999143
+   ]
+  },
+  "cap10": {
+   "discharge_kwh": 760.1275,
+   "charge_kwh": 809.6884,
+   "throughput_kwh": 1569.8159,
+   "ratio": 1.000556,
+   "median_drive_ratio": 1.0,
+   "n_drives_ge_0.1": 538,
+   "ratio_ci95": [
+    1.000348,
+    1.000826
+   ]
+  },
+  "D1": {
+   "discharge_kwh": 775.8145,
+   "charge_kwh": 798.5577,
+   "throughput_kwh": 1574.3722,
+   "ratio": 1.00346,
+   "median_drive_ratio": 1.004967,
+   "n_drives_ge_0.1": 538,
+   "ratio_ci95": [
+    1.003112,
+    1.003897
+   ]
+  }
+ },
+ "readings": [
+  "time unwrapped across midnight then stable sort",
+  "nearest-voltage tie -> earlier sample; |dt|<=1.5 s inclusive",
+  "first matched sample dt=0; dt for interval = diff to previous matched sample",
+  "D1 offset: Id=-I+0.3834",
+  "bootstrap: rng.integers(0,ndays,(4000,ndays)), ratio of sums, np.percentile 2.5/97.5"
+ ]
+}
