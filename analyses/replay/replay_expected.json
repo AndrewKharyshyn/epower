@@ -1,0 +1,64 @@
+{
+ "_provenance": "Registered expectations of the replay (analyses/M417_spec.md). The sample tier allows no difference. The full tier allows exactly these columns, with row, null-pattern, magnitude and file caps measured on 2026-10-12 (554 drives) and set slightly above; anything else, or more, fails. Edit only with a CHANGELOG entry that explains the new exception.",
+ "sample": {
+  "allowedDifferences": {}
+ },
+ "full": {
+  "publishedOnlyColumns": [
+   "distance_endpoint_raw_km",
+   "distance_reset_repaired",
+   "distance_source"
+  ],
+  "allowedDifferences": {
+   "distance_km": {
+    "reason": "distance repair ledger: the trip-meter repair of the reset-odometer drive 20260906_122920.csv is stored in the published master (columns distance_endpoint_raw_km / distance_reset_repaired / distance_source exist only there); the builder alone returns the endpoint value",
+    "maxRows": 1,
+    "maxAbsDiff": 3.0,
+    "files": [
+     "20260906_122920.csv"
+    ]
+   },
+   "net_draw_per100km": {
+    "reason": "derived from distance_km of the repaired drive",
+    "maxRows": 1,
+    "maxNullPatternMismatch": 1,
+    "files": [
+     "20260906_122920.csv"
+    ]
+   },
+   "net_draw_per100km_corr": {
+    "reason": "derived from distance_km of the repaired drive",
+    "maxRows": 1,
+    "maxNullPatternMismatch": 1,
+    "files": [
+     "20260906_122920.csv"
+    ]
+   },
+   "I_offset_2p_A_applied": {
+    "reason": "two-pass current offset: the published constant (-0.3834 A) is frozen at the last acknowledged recalibration; a refit on the current corpus differs in the fourth decimal (the recalibration allow-list of tools/ingest_core.py)",
+    "maxRows": 554,
+    "maxAbsDiff": 0.0005
+   },
+   "offset_2p_kwh_removed": {
+    "reason": "follows I_offset_2p_A_applied (frozen two-pass offset)",
+    "maxRows": 554,
+    "maxAbsDiff": 0.001
+   },
+   "net_draw_kwh_corr2p": {
+    "reason": "follows I_offset_2p_A_applied (frozen two-pass offset)",
+    "maxRows": 554,
+    "maxAbsDiff": 0.001
+   },
+   "energy_residual_kwh_corr2p": {
+    "reason": "follows I_offset_2p_A_applied (frozen two-pass offset)",
+    "maxRows": 554,
+    "maxAbsDiff": 0.001
+   },
+   "net_draw_per100km_corr2p": {
+    "reason": "follows I_offset_2p_A_applied and, for one row, the repaired distance",
+    "maxRows": 554,
+    "maxNullPatternMismatch": 1
+   }
+  }
+ }
+}
