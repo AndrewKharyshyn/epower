@@ -8,7 +8,7 @@ or on the rated reference (CAP_AH_RATED = 5.0 Ah, Nissan Article-10, documentary
   *_Crate = |peak current| / 5.0                (dual / regen / engine-charge peaks; a constant divisor, no pack-voltage dependence)
   cap_ah_est = 5.0
 Nothing here changes the SoC-bookkeeping role of CAP_KWH (soc_delta_kwh, energy residual, offset, eligibility): those columns are not touched. drive_master.csv is never written.
-Default basis = legacy2p1kWh (identity: the very same DataFrame object is returned), so a consumer routed through exposure_frame() is byte-identical until the basis is flipped (M415).
+Default basis = rated5Ah since M415 (the flip); legacy2p1kWh (identity: the very same DataFrame object is returned) is selected with XT_EXPOSURE_BASIS and is the control-build A.
 Per-drive NaN where the sidecar has no row, never a legacy fallback; a drive with a finite legacy gtc but no sidecar value is a COVERAGE ERROR.
 Usage: python tools/exposure_frame.py --check [--write]   (reconciliation table; exit 1 on a coverage error)"""
 import hashlib, json, os, sys
@@ -18,6 +18,7 @@ import pandas as pd
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 LEGACY, RATED = "legacy2p1kWh", "rated5Ah"
 BASES = (LEGACY, RATED)
+DEFAULT_BASIS = RATED   # M415 (spec M413 S2): the flip. XT_EXPOSURE_BASIS=legacy2p1kWh reproduces the legacy build (control build A).
 CAP_AH_RATED = 5.0
 CRATE_PEAKS = {"dual_peak_Crate": "dual_peak_A", "regen_peak_Crate": "regen_peak_A", "eng_charge_peak_Crate": "eng_charge_peak_A"}
 EXPOSURE_COLUMNS = ("gtc", "fce", "cap_ah_est") + tuple(CRATE_PEAKS)
@@ -29,7 +30,7 @@ class ExposureCoverageError(RuntimeError):
 
 
 def basis_from_env():
-    b = os.environ.get("XT_EXPOSURE_BASIS", LEGACY)
+    b = os.environ.get("XT_EXPOSURE_BASIS", DEFAULT_BASIS)
     if b not in BASES:
         raise ValueError("XT_EXPOSURE_BASIS must be one of %r, got %r" % (BASES, b))
     return b
@@ -77,6 +78,10 @@ def exposure_frame(dm, basis=None, sidecar_path=None):
         if c in out.columns and a in out.columns:
             out[c] = (out[a].abs() / CAP_AH_RATED).round(1).where(out[c].notna())
     out["cap_ah_est"] = np.where(out["gtc"].notna(), CAP_AH_RATED, np.nan)
+    # Ah columns of the rated frame (absent on the legacy frame): used by producers that sum throughput directly (metricConvention)
+    out["gross_discharge_ah"] = out["file"].map(sc["ah_discharge"]).astype(float)
+    out["gross_charge_ah"] = out["file"].map(sc["ah_charge"]).astype(float).abs()
+    out["gross_throughput_ah"] = ah
     out.attrs["exposureBasis"] = RATED
     return out
 

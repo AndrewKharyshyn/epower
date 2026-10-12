@@ -125,6 +125,8 @@ def main():
     A = json.load(open(ARR, encoding="utf-8"))
     cfg = json.load(open("summary_config.json", encoding="utf-8"))
     dm = pd.read_csv("drive_master.csv", low_memory=False)
+    import exposure_frame as _xf   # M415: exposure basis; the basis is part of every cache key below
+    dm = _xf.exposure_frame(dm)
     reg = pd.read_csv("seasonal_drive_master.csv", low_memory=False)[["file", "thermal_regime"]]
     dm_r = dm.merge(reg, on="file", how="left")
     assert len(dm_r) == len(dm) and dm_r.thermal_regime.notna().all(), "cohort label join incomplete"
@@ -151,7 +153,7 @@ def main():
     for c, sub in subsets.items():
         cf, cr = Counting(fl), Counting(raw_loader)
         t = time.time()
-        pk = os.path.join(CACHE, f"catB_{c}_{len(sub)}_{drc.content_key(sub.file, code_paths=[C.__file__, drc.__file__])}.pkl")
+        pk = os.path.join(CACHE, f"catB_{c}_{len(sub)}_{_xf.basis_from_env()}_{drc.content_key(sub.file, code_paths=[C.__file__, drc.__file__])}.pkl")
         if os.path.exists(pk) and "--no-cache" not in sys.argv and c != "all":    # M384: the all-rows result is never taken from cache (it feeds the parity test)
             B = pickle.load(open(pk, "rb")); ld = None
         else:
@@ -171,7 +173,7 @@ def main():
             if k not in bl:
                 continue
             t = time.time()
-            pk = os.path.join(CACHE, f"b_{k}_{c}_{len(sub)}_{drc.content_key(sub.file, code_paths=[C.__file__, drc.__file__])}.pkl")
+            pk = os.path.join(CACHE, f"b_{k}_{c}_{len(sub)}_{_xf.basis_from_env()}_{drc.content_key(sub.file, code_paths=[C.__file__, drc.__file__])}.pkl")
             try:
                 if os.path.exists(pk) and "--no-cache" not in sys.argv and c != "all":    # M384: the all-rows result is never taken from cache (it feeds the parity test)
                     v = pickle.load(open(pk, "rb"))

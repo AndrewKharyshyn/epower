@@ -98,7 +98,7 @@
   },
   "method": "Same tolerance/quantization/gap draws as grossThroughputMC (gap contribution signed, not additive-only, for net -- a capped gap's true net direction is genuinely unknown) PLUS the offset draw from its own characterized bootstrap (offsetUncertainty: Normal approximation to ci95A [-0.4169,-0.3482]), applied via the master's own validated point correction magnitude (correctionScope.netCorrectionMagnitudeKwh=26.82 kWh) linearly rescaled by the drawn offset -- reusing the released correction formula rather than re-deriving a parallel one."
  },
- "capacityNote": "GTC/FCE above use CAP_KWH=2.1 (current, verified:false convention). Deterministic rescale to the officially-disclosure-consistent 1.8 kWh (5.0 Ah x this corpus's median pack voltage): multiply gtc/fce by 1.1667. Scenario scaling: 2.1 and 1.8 kWh are two reference scenarios, not a distribution to assume a shape for.",
+ "capacityNote": "GTC/FCE intervals above are on the legacy CAP_KWH=2.1 kWh reference (verified:false). The headline GTC/FCE are on the rated 5.0 Ah reference (Ah throughput / 5.0; exposureBasis) and carry no interval on that basis; the aggregate ratio between the two bases is exposureBasis.factor.",
  "validation": {
   "maxAbsDevDischargeKwh": 5e-05,
   "maxAbsDevChargeKwh": 5e-05,

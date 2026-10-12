@@ -10,8 +10,13 @@ import exposure_frame as XF
 dm = pd.read_csv("drive_master.csv", low_memory=False)
 os.environ.pop("XT_EXPOSURE_BASIS", None)
 
-# 1. default basis: the very same object (byte-identical downstream), and an unknown basis is refused
-assert XF.exposure_frame(dm) is dm and XF.exposure_frame(dm, "legacy2p1kWh") is dm
+# 1. default basis is the rated one since M415 (the flip); the legacy basis is the very same object (control build A), and an unknown basis is refused
+os.environ.pop("XT_EXPOSURE_BASIS", None)
+assert XF.DEFAULT_BASIS == "rated5Ah" and XF.basis_from_env() == "rated5Ah"
+assert XF.exposure_frame(dm, "legacy2p1kWh") is dm
+os.environ["XT_EXPOSURE_BASIS"] = "legacy2p1kWh"
+assert XF.exposure_frame(dm) is dm and XF.row_overrides() is None
+os.environ.pop("XT_EXPOSURE_BASIS", None)
 try:
     XF.exposure_frame(dm, "nonsense"); raise SystemExit("unknown basis accepted")
 except ValueError:
@@ -34,7 +39,7 @@ if rec is not None:
 
 # 3. rated frame: definitions
 rf = XF.exposure_frame(dm, "rated5Ah")
-assert rf is not dm and rf.attrs["exposureBasis"] == "rated5Ah" and list(rf.columns) == list(dm.columns) and len(rf) == len(dm)
+assert rf is not dm and rf.attrs["exposureBasis"] == "rated5Ah" and list(rf.columns) == list(dm.columns) + ["gross_discharge_ah", "gross_charge_ah", "gross_throughput_ah"] and len(rf) == len(dm)
 sc = pd.read_csv("ah_throughput.csv").set_index("file")
 ah = dm["file"].map(sc["ah_throughput"])
 fin = ah.notna().to_numpy()
@@ -47,6 +52,7 @@ for c, a in XF.CRATE_PEAKS.items():
     assert rf.loc[~m, c].isna().all()
 # the master itself is untouched (columns other than the exposure ones, and the original frame)
 other = [c for c in dm.columns if c not in XF.EXPOSURE_COLUMNS]
+assert np.allclose(rf.loc[fin, "gross_throughput_ah"], ah[fin]) and np.allclose(rf.loc[fin, "gross_discharge_ah"] + rf.loc[fin, "gross_charge_ah"], ah[fin], atol=1e-6)
 assert rf[other].equals(dm[other])
 assert dm["gtc"].equals(pd.read_csv("drive_master.csv", low_memory=False)["gtc"])
 

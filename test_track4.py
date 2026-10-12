@@ -43,7 +43,8 @@ ok("4 resistance record == rebuild", RR.build_record(DM) == _builder_fields(rec)
 ok("4 record states NOT SOH", "NOT an SOH" in rec["note"])
 ok("4 record discloses gate sensitivity", "Gate sensitivity" in rec["note"])
 # 5 rainflow records equal rebuild
-new = RF.build(DM); got = [_builder_fields(x) for x in A["records"] if x["metric"] in (RF.M1, RF.M2)]
+_xsp = importlib.util.spec_from_file_location("exposure_frame", os.path.join(W, "tools", "exposure_frame.py")); _xf = importlib.util.module_from_spec(_xsp); _xsp.loader.exec_module(_xf)   # M415: the record note quotes the coulometric FCE on the exposure basis
+new = RF.build(_xf.exposure_frame(DM)); got = [_builder_fields(x) for x in A["records"] if x["metric"] in (RF.M1, RF.M2)]
 ok("5 rainflow records == rebuild", sorted(new, key=lambda x: x["metric"]) == sorted(got, key=lambda x: x["metric"]))
 # 8 (M291, audit B8): every record carries the disclosure contract; capped exclusions expose the raw extremum
 ok("8 records disclosure contract present", all(isinstance(x.get("disclosure"), dict)

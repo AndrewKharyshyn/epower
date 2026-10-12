@@ -29,6 +29,7 @@ import compute_summary_arrays as C
 A = json.load(open(P("summary_arrays.json"), encoding="utf-8"))
 cfg = json.load(open(P("summary_config.json"), encoding="utf-8"))
 dm = pd.read_csv(P("drive_master.csv"), low_memory=False)
+dm = C._load_exposure_frame().exposure_frame(dm)   # M415: exposure basis (rated5Ah default; XT_EXPOSURE_BASIS selects the legacy control)
 reg = pd.read_csv(P("seasonal_drive_master.csv"), low_memory=False)[["file", "thermal_regime"]]
 dm_r = dm.merge(reg, on="file", how="left")
 assert len(dm_r) == len(dm) and dm_r.thermal_regime.notna().all(), "cohort label join incomplete"

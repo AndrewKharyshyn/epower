@@ -221,6 +221,45 @@ if _sdp:
            and _pn.count("trend not resolved; equivalence not established; no stability or SOH claim") == 2)
         ok("A2 REQUIRED M412 %s: none of the forbidden readings or inference words in the panel" % _k,
            not _re407.search(r"\b(significant(?:ly)?|confirmed|stable|robust|detected|detectable|MDE|rules? out|demonstrates|measured)\b|observed power|post hoc power|powered to detect|\bno serial dependence\b|\bdays are independent\b|\bcr1 (?:is )?adequate\b|\b(?:hac|gls) (?:is )?(?:the )?(?:corrected|primary)\b", _pn))
+# M415 (analyses/M413_spec.md Rev 1-3): exposure basis flip (capacity commit 2). Independent recomputation from the Ah sidecar and the legacy master columns; tags, labels and rendered notes.
+import pandas as _pd415
+_xb = A.get("exposureBasis")
+ok("M415 exposureBasis present with its artifact stamp, basis rated5Ah and the Director's required labels", bool(_xb) and _xb.get("basis") == "rated5Ah" and "exposureBasis" in A["_artifactStamps"]
+   and all(k in _xb["labels"] for k in ("rated", "legacy", "scalesInversely", "thresholdScenario", "crate", "ledger"))
+   and _xb["labels"]["rated"].startswith("rated capacity 5 Ah (Nissan Article-10), documentary") and "verified:false" in _xb["labels"]["legacy"])
+if _xb:
+    _sc415 = _pd415.read_csv("ah_throughput.csv")
+    _dm415 = _pd415.read_csv("drive_master.csv", low_memory=False)
+    _thr, _dis = float(_sc415["ah_throughput"].sum()), float(_sc415["ah_discharge"].sum())
+    ok("M415 headline GTC / FCE / standard EFC equal the independent recomputation from the Ah sidecar / 5.0 (meta, metricConvention)",
+       abs(A["meta"]["gtcSum"] - _thr / 5.0) < 0.1 and abs(A["meta"]["fceSum"] - _thr / 10.0) < 0.1 and abs(A["metricConvention"]["gtc"] - _thr / 5.0) < 0.1 and abs(A["metricConvention"]["efcStandard"] - _dis / 5.0) < 0.1
+       and A["metricConvention"].get("exposureBasis") == "rated5Ah")
+    ok("M415 legacy disclosure values equal the legacy master columns and the factor line is their ratio",
+       abs(_xb["legacy"]["meta"]["gtcSum"] - float(_dm415["gtc"].sum())) < 0.1 and abs(_xb["legacy"]["meta"]["fceSum"] - float(_dm415["fce"].sum())) < 0.1
+       and abs(_xb["factor"]["aggregateRatedOverLegacy"] - A["meta"]["gtcSum"] / _xb["legacy"]["meta"]["gtcSum"]) < 5e-4)
+    _tags = _xb["tags"]
+    ok("M415 per-block tags: switched blocks rated5Ah; threshold blocks, dailyFingerprints, energy Monte Carlo, crossVehicle and the ledger prose legacy2p1kWh",
+       all(_tags[k]["basis"] == "rated5Ah" for k in ("cycleByType", "cycleCumulative", "cycleBySpeed", "metricConvention", "cRatePoints", "cRateAxes", "ledgerCrossCheck", "meta.gtcSum"))
+       and all(_tags[k]["basis"] == "legacy2p1kWh" for k in ("cycleLife", "fadeModes", "seasonalLife", "officialDisclosureCorrelation", "observedMix", "kLadderScenarios", "dailyFingerprints", "energyUncertaintyMC", "crossVehicle")))
+    ok("M415 C-rate: constant divisor 5 A (cPerA median 0.2) and every plotted C equals |A| / 5 within rounding",
+       A["cRateAxes"]["cPerA"]["median"] == 0.2 and all(abs(r[1] - abs(r[3]) / 5.0) <= 0.06 for r in A["cRatePointsAK"] if r[3] is not None))
+    ok("M415 threshold blocks stayed on the legacy basis (cycleLife accumulation uses the legacy GTC; the 20,000-GTC threshold is unchanged and verified:false)",
+       A["fadeModes"]["capacity"]["thresholdGtc"] == 20000 and A["constantProvenance"]["SCENARIO_THRESHOLD_GTC"].get("verified") is False
+       and abs(A["cycleLife"]["scenarioThresholdGtc"] - 20000) < 1e-9
+       and abs(A["observedMix"]["observedGtcPerKm"] - float(_dm415.loc[_dm415["ens_outlier_v2"].astype("object") == False, "gtc"].sum()) / float(_dm415.loc[_dm415["ens_outlier_v2"].astype("object") == False, "distance_km"].sum()))  # noqa: E712
+           < abs(A["observedMix"]["observedGtcPerKm"] - float(_sc415["ah_throughput"].sum()) / 5.0 / float(_dm415["distance_km"].sum())))
+    _charts415 = {k: t for k, t in T.items() if k.startswith("charts__") and not k.endswith("__compare")}
+    ok("A2 REQUIRED M415 Charts dumps (All / Warm / Shoulder): the exposure-basis note with the rated label, the factor line, the legacy values and the threshold-scenario label",
+       len(_charts415) >= 3 and all(("Exposure basis (M415)" in t and _xb["labels"]["rated"] in t and _xb["factor"]["line"] in t and _xb["labels"]["thresholdScenario"] in t
+                                     and ("%.1f GTC, %.1f FCE" % (_xb["legacy"]["meta"]["gtcSum"], _xb["legacy"]["meta"]["fceSum"])) in t) for t in _charts415.values()))
+    ok("A2 REQUIRED M415 session-ledger section header carries the legacy-basis tag (Overview dumps)", all(_xb["labels"]["ledger"] in t for k, t in T.items() if k.startswith("overview__") and not k.endswith("__compare")))
+    ok("A2 REQUIRED M415 C-rate map shows the rated C-rate label and no assumed-capacity wording is paired with the rated values (Charts All dump)",
+       _xb["labels"]["crate"] in T.get("charts__all", "") and "C-rate scales with the unverified CAP_KWH" not in T.get("charts__all", ""))
+    ok("M415 cycleBySpeed Ah accumulator is consistent with the kWh accumulator (same 1 Hz-grid definition: the zone Ah / sidecar Ah ratio equals the zone kWh / sidecar kWh ratio within 0.5 %)",
+       abs((sum(d["ah"] for d in A["cycleBySpeed"]) / float(_sc415["ah_throughput"].sum())) / (sum(d["kwh"] for d in A["cycleBySpeed"]) / float((_sc415["kwh_discharge"] + _sc415["kwh_charge"].abs()).sum())) - 1) < 0.005)
+    ok("A2 REQUIRED M415 ledgerCrossCheck text is generated (sign and size of rainflow vs FCE follow the leaves; not a finding about the pack)",
+       ("%.1f%% %s coulometric FCE" % (abs(A["ledgerCrossCheck"]["matchedAll"]["excessPct"]), "above" if A["ledgerCrossCheck"]["matchedAll"]["excessPct"] > 0 else "below")) in A["ledgerCrossCheck"]["note"]
+       and "not a finding about the pack" in A["ledgerCrossCheck"]["note"])
 # M399 (audits 2026-10-11, analyses/M399_wording_spec.md): fact-aware text checks (each fails on the pre-fix state)
 import re as _re399
 _pr399 = A["provenanceSensitivity"]["raw"]
@@ -454,8 +493,11 @@ ok("A2 REQUIRED handoff ordering split equals the payload integer counts (all du
 # M358 (F21.r1): C-rate risk map with A / kW primary axes
 _ak = json.load(open("summary_arrays.json", encoding="utf-8"))
 _n_ak = len(_ak["cRatePointsAK"])
+_rated_ak = (_ak.get("exposureBasis") or {}).get("basis") == "rated5Ah"   # M415: the selector label and the caption follow the exposure basis
+_crate_sel = "C-rate (rated 5 Ah)" if _rated_ak else "C-rate (assumed capacity)"
+_crate_cap = "C-rate = current/5 A (rated); no longer pack-voltage dependent" if _rated_ak else "CAP_KWH = 2.1 kWh"
 ok("A2 REQUIRED C-rate map: A/kW/C-rate selector, drive-peak-power not-co-timed wording, assumed-capacity caveat, F03 label, n bound to cRatePointsAK",
-   any(all(x in t for x in ("Peak charge current (A)", "Peak charge power (kW)", "C-rate (assumed capacity)", "not co-timed with peak current", "CAP_KWH = 2.1 kWh", "raw/ = sha256-verified originals (M366)", f"n={_n_ak} of {_n_ak} drives plotted", "logged (BMS-reported via OBD)")) for t in T.values()))
+   any(all(x in t for x in ("Peak charge current (A)", "Peak charge power (kW)", _crate_sel, "not co-timed with peak current", _crate_cap, "raw/ = sha256-verified originals (M366)", f"n={_n_ak} of {_n_ak} drives plotted", "logged (BMS-reported via OBD)")) for t in T.values()))
 ok("A2 REQUIRED C-rate map payload: cRatePointsAK first three columns equal cRatePoints; new keys present", _n_ak == len(_ak["cRatePoints"]) and all(a[:3] == b for a, b in zip(_ak["cRatePointsAK"], _ak["cRatePoints"])) and all(k in _ak for k in ("cRateRefLinesAK", "cRateAxes")))
 # M356 (Cs-21)
 ok("A2 REQUIRED Crawl & Stop-Go: 'Energy by phase window' table with the not-additive statement, reconstructed wording and the F03 label", any(all(x in t for x in ("Energy by phase window", "not additive", "Reconstructed from logged HV current", "regen-direction energy is a positive magnitude", "raw/ = sha256-verified originals (M366)")) for t in T.values()))

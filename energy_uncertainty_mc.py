@@ -312,13 +312,8 @@ def build(precompute, rng=None, offset_point_a=OFFSET_POINT_A,
         'offsetGrossSensitivity': offset_sens,
         'netDrawCorrMC': net_mc_block,
         'capacityNote': (
-            f'GTC/FCE above use CAP_KWH={CAP_KWH_CURRENT} (current, '
-            f'verified:false convention). Deterministic rescale to the '
-            f'officially-disclosure-consistent {CAP_KWH_ALT} kWh (5.0 Ah x '
-            f'this corpus\'s median pack voltage): multiply gtc/fce by '
-            f'{round(CAP_KWH_CURRENT / CAP_KWH_ALT, 4)}. '
-            f'Scenario scaling: 2.1 and {CAP_KWH_ALT} kWh are two reference '
-            f'scenarios, not a distribution to assume a shape for.'),
+            f'GTC/FCE intervals above are on the legacy CAP_KWH={CAP_KWH_CURRENT} kWh reference (verified:false). The headline GTC/FCE are on the rated 5.0 Ah '
+            f'reference (Ah throughput / 5.0; exposureBasis) and carry no interval on that basis; the aggregate ratio between the two bases is exposureBasis.factor.'),
         'validation': precompute['meta']['validation'],
         # M220.1 (P0.4 closure): genuinely independent methodological
         # cross-check (three alternative re-integrations + coulomb/SoC

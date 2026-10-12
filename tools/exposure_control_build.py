@@ -33,5 +33,5 @@ arrays = csa.build_summary_arrays(
     recompute_m119v2=False, prev_arrays=prev, recompute_energy_mc=True)
 json.dump(arrays, open(OUT, "w", encoding="utf-8", newline="\n"), ensure_ascii=False, indent=1, default=float)
 side = os.path.join(ROOT, "ah_throughput.csv")
-print(json.dumps({"out": OUT, "seconds": round(time.time() - t0, 1), "topLevelKeys": len(arrays), "basis": os.environ.get("XT_EXPOSURE_BASIS", "legacy2p1kWh"),
+print(json.dumps({"out": OUT, "seconds": round(time.time() - t0, 1), "topLevelKeys": len(arrays), "basis": os.environ.get("XT_EXPOSURE_BASIS", "default (rated5Ah since M415)"),
                   "masterMd5": hashlib.md5(open("drive_master.csv", "rb").read()).hexdigest(), "sidecarMd5": hashlib.md5(open(side, "rb").read()).hexdigest() if os.path.exists(side) else None}))

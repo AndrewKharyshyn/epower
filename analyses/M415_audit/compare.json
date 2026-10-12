@@ -1,0 +1,122 @@
+{
+ "_provenance": "comparison of the pipeline-written payload (summary_arrays.json after the M415 splice) with the blind reproduction analyses/M415_audit/result.json (definitions + data path only; auditor did not read the pipeline code or the payload)",
+ "pairs": [
+  [
+   "meta.gtcSum",
+   865.7,
+   865.685,
+   0.015
+  ],
+  [
+   "meta.fceSum",
+   432.8,
+   432.8425,
+   0.0425
+  ],
+  [
+   "metricConvention.efcStandard",
+   426.7,
+   426.7096,
+   0.0096
+  ],
+  [
+   "exposureBasis.legacy.meta.gtcSum",
+   747.1,
+   747.1158,
+   0.0158
+  ],
+  [
+   "exposureBasis.legacy.meta.fceSum",
+   373.6,
+   373.5593,
+   0.0407
+  ],
+  [
+   "exposureBasis.factor.aggregateRatedOverLegacy",
+   1.1587,
+   1.158703,
+   0.0
+  ],
+  [
+   "metricConvention.chargeDischargeRatio (kWh)",
+   1.065,
+   1.065304,
+   0.0003
+  ],
+  [
+   "metricConvention.chargeDischargeRatioAh",
+   1.029,
+   1.028745,
+   0.0003
+  ],
+  [
+   "metricConvention.fceOverStandardEfc",
+   1.014,
+   1.014372,
+   0.0004
+  ],
+  [
+   "ledgerCrossCheck.matchedAll.excessPct",
+   -8.48,
+   -8.4765,
+   0.0035
+  ],
+  [
+   "ledgerCrossCheck.matchedClean.excessPct",
+   -8.79,
+   -8.7907,
+   0.0007
+  ],
+  [
+   "cycleByType.Urban.avg",
+   19.2,
+   19.227,
+   0.027
+  ],
+  [
+   "cycleByType.Urban.med",
+   18.9,
+   18.868,
+   0.032
+  ],
+  [
+   "cycleByType.Highway.avg",
+   5.9,
+   5.854,
+   0.046
+  ],
+  [
+   "cRateRefLines typical (dual median C)",
+   20.8,
+   20.8,
+   0.0
+  ],
+  [
+   "cRateRefLines regen peak C",
+   40.0,
+   40.0,
+   0.0
+  ],
+  [
+   "cRateRefLines charge peak C",
+   42.6,
+   42.6,
+   0.0
+  ],
+  [
+   "cycleCumulative last",
+   865.7,
+   865.685,
+   0.015
+  ]
+ ],
+ "notAudited": [
+  "cycleBySpeed zone rates (raw 1 Hz grid; covered by the A/B control build and the gate |A|/5 for C-rate only)",
+  "riskColdEngineBattery rank test and cold-pack C-rate",
+  "records C-rate strings",
+  "per-point cRatePoints beyond the median/max and the |A|/5 gate",
+  "the upstream Ah sidecar (blind-audited in M402, taken as given)"
+ ],
+ "maxAbsDiff": 0.046,
+ "verdict": "accept: every audited pair agrees within the payload rounding (largest absolute difference 0.046, display rounding to 1 decimal)"
+}
