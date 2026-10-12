@@ -289,6 +289,9 @@ def main():
         run([sys.executable, "semantic_gate.py"], tmp, "semantic gate: forbidden wording + prose==payload + mode behaviour (M299)")
         run([sys.executable, "tools/odometer_check.py"], tmp, "odometer continuity: every anomaly of drive_master.csv is recorded (M401, audit D4)")
         run([sys.executable, "tools/ah_throughput.py", "--check"], tmp, "Ah-throughput sidecar: one row per master drive, null pattern and kWh of the identical loop match the master (M402, audit F16b)")
+        _rr = Path(__file__).resolve().parent                                          # M417 (audit F11): the sample replay reads the real raw/ (not copied into the clean tree)
+        if (_rr / "tools" / "replay_master.py").exists() and (_rr / "raw").is_dir():
+            run([sys.executable, "tools/replay_master.py", "--sample", "--no-write", "--raw-dir", str(_rr / "raw")], _rr, "replay: the pinned sample of drives rebuilt from the sha256-verified raw files reproduces every column the builder produces (M417, audit F11)")
         run([sys.executable, "tools/exposure_frame.py", "--check"], tmp, "exposure basis: every drive with a finite legacy gtc has a sidecar Ah value, no legacy fallback (M414, spec M413)")
         for t in PY_TESTS:
             if t == "test_seasonal.py":
@@ -331,6 +334,15 @@ def main():
 if __name__ == "__main__":
     main()
     for n in notes: print("NOTE", n)
-    print("NOT COVERED: raw CSV -> drive_master.csv rebuild (open item); ML16 determinism is a separate harness.")
+    try:                                                                                # M417: state of the on-demand full replay
+        import hashlib as _h
+        _rp = Path(__file__).resolve().parent / "analyses" / "replay" / "replay_report_full.json"
+        _cur = _h.md5((Path(__file__).resolve().parent / "drive_master.csv").read_bytes()).hexdigest()
+        if _rp.exists():
+            _j = json.loads(_rp.read_text(encoding="utf-8"))
+            print("NOTE full-corpus replay (tools/replay_master.py --full): last report %s master %s, %d of %d shared columns identical, registered exceptions only: %s" % ("for the CURRENT" if _j.get("publishedMasterMd5") == _cur else "STALE (master changed since; re-run before a release that touches the builder) for", (_j.get("publishedMasterMd5") or "")[:8], _j.get("nColumnsIdentical", 0), _j.get("nColumnsCompared", 0), _j.get("ok")))
+    except Exception as _ex:
+        print("NOTE full-corpus replay report unreadable: %r" % (_ex,))
+    print("NOT COVERED at every release: the full-corpus raw -> master replay (on demand: tools/replay_master.py --full); the ML16 columns are a frozen historic fit restored from the published master, and the clean-room refit differs (open item); ML16 determinism is a separate harness.")
     print("RELEASE CHECK " + ("FAILED: " + "; ".join(fails) if fails else "PASSED"))
     sys.exit(1 if fails else 0)

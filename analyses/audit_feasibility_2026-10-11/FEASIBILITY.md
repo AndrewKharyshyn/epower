@@ -352,3 +352,4 @@ Pending owner decisions: commit 2 of the capacity basis (conditional GO from the
 Not started: F06 stamp schema split (own spec), inference sensitivities (week-block bootstrap, CR2 on thesis KPIs, MDE beside "not established": method change, spec + blind audit), F19 censoring ledger, F17 scenario budget, performance work (profile first).
 
 - M416 (2026-10-12): F20 implemented as a journaled release in `tools/run_ingest.py` + `tools/release_journal.py` (snapshot, commit, rollback with tree re-hash, crash recovery, lock, failure-injection tests); release directories remain blocked by MIGRATION.md. M407-M415: see CHANGELOG (dashboard bindings, capacity commit 2).
+- M417 (2026-10-12): F11 implemented as `tools/replay_master.py` (sample tier in CI / release_check, full tier on demand; ML16 and the frozen offset are replay inputs and are disclosed as such; 178 of 186 columns identical, 8 registered exceptions).
