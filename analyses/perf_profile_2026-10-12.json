@@ -1,0 +1,340 @@
+{
+ "generatedOn": "2026-10-12",
+ "what": "Stage times of a rehearsal ingestion of the 20 new raw files (corpus 554 -> 574) in a scratch copy of main (232b894) plus the M422 fixes; Python 3.12.10 (not the pinned 3.11); single runs, indicative. The rehearsal gates stopped the run several times (ambient readouts, Director simultaneity stop, leaf-guard acknowledgements, restamp policy), so the stages were run in segments; each stage appears once with its measured seconds.",
+ "measuredStageSeconds": {
+  "preflight": {
+   "seconds": 0.3,
+   "status": "ok",
+   "run": "20261012T193047Z"
+  },
+  "ingest_core": {
+   "seconds": 1466.6,
+   "status": "ok",
+   "run": "20261012T193428Z"
+  },
+  "stage_raw": {
+   "seconds": 2.3,
+   "status": "ok",
+   "run": "20261012T193428Z"
+  },
+  "ah_throughput": {
+   "seconds": 2.6,
+   "status": "ok",
+   "run": "20261012T193428Z"
+  },
+  "exposure_coverage": {
+   "seconds": 1.0,
+   "status": "ok",
+   "run": "20261012T193428Z"
+  },
+  "raw_temp_pass": {
+   "seconds": 81.6,
+   "status": "ok",
+   "run": "20261012T193428Z"
+  },
+  "compute_seasonal": {
+   "seconds": 1.3,
+   "status": "ok",
+   "run": "20261012T193428Z"
+  },
+  "refresh_cohort_meta": {
+   "seconds": 1.2,
+   "status": "ok",
+   "run": "20261012T193428Z"
+  },
+  "extend_session_ledgers": {
+   "seconds": 4.9,
+   "status": "ok",
+   "run": "20261012T193428Z"
+  },
+  "build_ambient_table": {
+   "seconds": 1.4,
+   "status": "ok",
+   "run": "20261012T200143Z"
+  },
+  "record_spread_fit": {
+   "seconds": 211.6,
+   "status": "ok",
+   "run": "20261012T200143Z"
+  },
+  "m321_ladder_monitor": {
+   "seconds": 19.4,
+   "status": "ok",
+   "run": "20261012T200143Z"
+  },
+  "fuel_recon": {
+   "seconds": 26.8,
+   "status": "ok",
+   "run": "20261012T200143Z"
+  },
+  "refresh_gtr_headline": {
+   "seconds": 1.2,
+   "status": "ok",
+   "run": "20261012T200143Z"
+  },
+  "gtr_family_refresh": {
+   "seconds": 108.5,
+   "status": "gate_failed",
+   "run": "20261012T200143Z"
+  },
+  "gtr_closure_refresh": {
+   "seconds": 108.7,
+   "status": "ok",
+   "run": "20261012T200829Z"
+  },
+  "fuel_contract_build": {
+   "seconds": 8.5,
+   "status": "ok",
+   "run": "20261012T200829Z"
+  },
+  "f03_provenance_build": {
+   "seconds": 1.5,
+   "status": "ok",
+   "run": "20261012T200829Z"
+  },
+  "post_steps": {
+   "seconds": 23.5,
+   "status": "ok",
+   "run": "20261012T200829Z"
+  },
+  "fuel_analytics": {
+   "seconds": 61.0,
+   "status": "ok",
+   "run": "20261012T200829Z"
+  },
+  "fuel_analytics2": {
+   "seconds": 106.5,
+   "status": "ok",
+   "run": "20261012T200829Z"
+  },
+  "refresh_master_seasonal": {
+   "seconds": 219.2,
+   "status": "ok",
+   "run": "20261012T200829Z"
+  },
+  "refresh_raw_seasonal": {
+   "seconds": 1020.0,
+   "status": "ok",
+   "run": "20261012T200829Z"
+  },
+  "engine_start_rate": {
+   "seconds": 46.1,
+   "status": "ok",
+   "run": "20261012T200829Z"
+  },
+  "cohort_arrays": {
+   "seconds": 12.1,
+   "status": "ok",
+   "run": "20261012T200829Z"
+  },
+  "comparison_cube": {
+   "seconds": 6.5,
+   "status": "ok",
+   "run": "20261012T200829Z"
+  },
+  "post_splices": {
+   "seconds": 25.9,
+   "status": "ok",
+   "run": "20261012T200829Z"
+  },
+  "cadence_regime": {
+   "seconds": 1.4,
+   "status": "ok",
+   "run": "20261012T200829Z"
+  },
+  "capacity_basis": {
+   "seconds": 37.7,
+   "status": "ok",
+   "run": "20261012T200829Z"
+  },
+  "dependence_sensitivity": {
+   "seconds": 10.7,
+   "status": "ok",
+   "run": "20261012T200829Z"
+  },
+  "serial_dependence": {
+   "seconds": 6.5,
+   "status": "ok",
+   "run": "20261012T200829Z"
+  },
+  "thermal_support_ledger": {
+   "seconds": 44.3,
+   "status": "ok",
+   "run": "20261012T200829Z"
+  },
+  "integration_scenarios": {
+   "seconds": 25.6,
+   "status": "ok",
+   "run": "20261012T200829Z"
+  },
+  "cadence_monitor": {
+   "seconds": 1.0,
+   "status": "ok",
+   "run": "20261012T200829Z"
+  },
+  "dissipation_monitor": {
+   "seconds": 2.6,
+   "status": "ok",
+   "run": "20261012T200829Z"
+  },
+  "leaf_guard": {
+   "seconds": 0.4,
+   "status": "gate_failed",
+   "run": "20261012T200829Z"
+  },
+  "restamp_ingest": {
+   "seconds": 0.2,
+   "status": "gate_failed",
+   "run": "20261012T203909Z"
+  }
+ },
+ "measuredSum": 3701,
+ "arraysBuildCProfile": {
+  "wallSecondsUnderProfiler": 1955.7,
+  "nDrives": 574,
+  "note": "cProfile inflates wall time (about 1.3x: the same step took 1467 s unprofiled inside ingest_core)",
+  "cumulativeTop": [
+   "1  tot=0.006 cum=1955.754  tools\\ingest_core.py:287(step4_arrays)",
+   "1  tot=0.265 cum=1949.945  compute_summary_arrays.py:16890(build_summary_arrays)",
+   "3175  tot=9.020 cum=274.593  compute_summary_arrays.py:5803(_buffer_impulse_events)",
+   "3827138  tot=11.835 cum=246.343  core\\frame.py:4337(__getitem__)",
+   "1  tot=0.258 cum=217.655  compute_summary_arrays.py:11205(_engine_dwell_survival)",
+   "21991  tot=0.412 cum=206.787  drive_raw_cache.py:208(_load)",
+   "5  tot=0.216 cum=205.107  compute_summary_arrays.py:11338(fixed_interval_self_transition)",
+   "9719/9703  tot=0.030 cum=203.514  groupby\\generic.py:314(aggregate)",
+   "2865  tot=0.014 cum=202.406  core\\resample.py:345(aggregate)",
+   "2865  tot=0.018 cum=202.368  core\\resample.py:532(_groupby_and_aggregate)",
+   "2865  tot=0.023 cum=201.701  groupby\\generic.py:497(_python_agg_general)",
+   "2865  tot=0.014 cum=201.516  groupby\\ops.py:972(agg_series)",
+   "2865  tot=2.274 cum=201.216  groupby\\ops.py:991(_aggregate_series_pure_python)",
+   "1  tot=0.331 cum=185.885  compute_summary_arrays.py:12309(_start_event_chain)",
+   "46247  tot=0.572 cum=177.296  tools\\datetimes.py:687(to_datetime)",
+   "2797369/2797367  tot=18.116 cum=154.593  core\\series.py:369(__init__)",
+   "22459  tot=0.376 cum=154.228  drive_raw_cache.py:119(fast_time)",
+   "880183  tot=0.736 cum=153.255  groupby\\generic.py:498(<lambda>)",
+   "1  tot=0.791 cum=152.781  compute_summary_arrays.py:14130(_thermal_fuel_penalty)",
+   "1999774/1390147  tot=2.479 cum=152.569  ops\\common.py:67(new_method)",
+   "880183  tot=0.505 cum=152.519  core\\resample.py:547(<lambda>)",
+   "880183  tot=3.206 cum=152.014  compute_summary_arrays.py:11344(<lambda>)",
+   "1680  tot=6.422 cum=137.588  compute_summary_arrays.py:5993(_ramp_latency_events)",
+   "4467894/4325962  tot=7.488 cum=137.288  core\\indexing.py:1192(__getitem__)",
+   "4371  tot=0.077 cum=134.942  parsers\\readers.py:349(read_csv)",
+   "4371  tot=0.085 cum=134.789  parsers\\readers.py:258(_read)"
+  ],
+  "selfTimeTop": [
+   "4371  tot=119.271 cum=120.159  parsers\\c_parser_wrapper.py:203(read)",
+   "11873717  tot=92.840 cum=93.083  arrays\\datetimes.py:670(__iter__)",
+   "421072054/415947281  tot=69.405 cum=114.309  {built-in method builtins.isinstance}",
+   "3899  tot=65.030 cum=65.673  tools\\datetimes.py:459(_array_strptime_with_fallback)",
+   "130546  tot=54.838 cum=54.838  {method 'decompress' of 'zlib._ZlibDecompressor' objects}",
+   "11931532  tot=36.548 cum=53.157  core\\generic.py:6131(__finalize__)",
+   "14602363/14602339  tot=34.933 cum=34.934  {method 'reduce' of 'numpy.ufunc' objects}",
+   "152537  tot=32.587 cum=32.587  {built-in method zlib.crc32}",
+   "29845  tot=24.168 cum=24.170  {built-in method _io.open}",
+   "530  tot=23.426 cum=43.346  arrays\\timedeltas.py:1242(_objects_to_td64ns)",
+   "15914040/15834140  tot=20.378 cum=44.797  core\\generic.py:6208(__setattr__)",
+   "3635382  tot=20.284 cum=66.628  core\\construction.py:531(sanitize_array)",
+   "94083680/62172294  tot=19.967 cum=28.203  {built-in method builtins.len}",
+   "64013008  tot=18.523 cum=42.802  dtypes\\generic.py:43(_instancecheck)",
+   "2797369/2797367  tot=18.116 cum=154.593  core\\series.py:369(__init__)",
+   "7008  tot=17.831 cum=30.076  compute_summary_arrays.py:15226(_sen_slope)",
+   "21991  tot=17.571 cum=126.664  {built-in method _pickle.load}",
+   "485996  tot=17.050 cum=17.050  {built-in method scipy.optimize._lbfgsb.setulb}",
+   "64100972  tot=16.331 cum=23.620  dtypes\\generic.py:38(_check)",
+   "107966230/107698294  tot=16.069 cum=16.976  {built-in method builtins.getattr}",
+   "3503849  tot=16.014 cum=49.740  internals\\managers.py:1205(iget)",
+   "10773229  tot=15.504 cum=20.373  core\\generic.py:258(__init__)",
+   "260563  tot=14.956 cum=36.226  _huber.py:19(_huber_loss_and_gradient)",
+   "263144  tot=14.532 cum=14.532  {method 'partition' of 'numpy.ndarray' objects}"
+  ]
+ },
+ "runs": [
+  {
+   "run": "20261012T193047Z",
+   "result": "gate_failed",
+   "stages": [
+    "preflight",
+    "ingest_core"
+   ]
+  },
+  {
+   "run": "20261012T193428Z",
+   "result": "gate_failed",
+   "stages": [
+    "preflight",
+    "ingest_core",
+    "stage_raw",
+    "ah_throughput",
+    "exposure_coverage",
+    "raw_temp_pass",
+    "compute_seasonal",
+    "refresh_cohort_meta",
+    "extend_session_ledgers",
+    "build_ambient_table"
+   ]
+  },
+  {
+   "run": "20261012T200106Z",
+   "result": "gate_failed",
+   "stages": [
+    "build_ambient_table"
+   ]
+  },
+  {
+   "run": "20261012T200143Z",
+   "result": "gate_failed",
+   "stages": [
+    "compute_seasonal",
+    "refresh_cohort_meta",
+    "extend_session_ledgers",
+    "build_ambient_table",
+    "record_spread_fit",
+    "m321_ladder_monitor",
+    "fuel_recon",
+    "refresh_gtr_headline",
+    "gtr_family_refresh"
+   ]
+  },
+  {
+   "run": "20261012T200829Z",
+   "result": "gate_failed",
+   "stages": [
+    "gtr_closure_refresh",
+    "fuel_contract_build",
+    "f03_provenance_build",
+    "post_steps",
+    "fuel_analytics",
+    "fuel_analytics2",
+    "refresh_master_seasonal",
+    "refresh_raw_seasonal",
+    "engine_start_rate",
+    "cohort_arrays",
+    "comparison_cube",
+    "post_splices",
+    "cadence_regime",
+    "capacity_basis",
+    "dependence_sensitivity",
+    "serial_dependence",
+    "thermal_support_ledger",
+    "integration_scenarios",
+    "cadence_monitor",
+    "dissipation_monitor",
+    "leaf_guard"
+   ]
+  },
+  {
+   "run": "20261012T203909Z",
+   "result": "gate_failed",
+   "stages": [
+    "restamp_ingest"
+   ]
+  }
+ ],
+ "notReachedStagesFromLastFullRun_M388_2026-10-09": {
+  "restamp_ingest": 1.8,
+  "build_html": 4.8,
+  "jsdom": 47.4,
+  "release_check": 280.3,
+  "state": 0.5
+ }
+}

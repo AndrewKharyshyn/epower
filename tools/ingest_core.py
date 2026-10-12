@@ -30,7 +30,7 @@ os.chdir(ROOT)
 
 ML16 = ['drive_cluster_k3', 'iso_outlier', 'iso_score', 'lof_score', 'f_iso', 'f_lof', 'f_mad', 'f_domain', 'ens_outlier',
         'f_domain_2p', 'f_iso_i', 'f_lof_i', 'f_mad_i', 'ens_invalid', 'ens_extreme', 'ens_outlier_v2']
-OUT_FILES = ["drive_master.csv", "raw_manifest.json", "summary_config.json", "summary_arrays.json", "battery_temp_extremes.csv"]
+OUT_FILES = ["drive_master.csv", "raw_manifest.json", "summary_config.json", "summary_arrays.json", "battery_temp_extremes.csv", "ah_throughput.csv", "ah_throughput_summary.json"]   # M422: the Ah sidecar is written inside this step
 STAGING = os.path.join(ROOT, "raw_only")
 
 
@@ -375,6 +375,12 @@ def main():
         # silently omits the two battery-temperature-minimum rows: row count != len(dm)).
         import battery_temp_extremes as bte
         _atomic(os.path.join(ROOT, "battery_temp_extremes.csv"), lambda t: bte.raw_pass(dm_disk, stage).to_csv(t, index=False))
+        # M422 (rehearsal finding): the arrays build normalises exposure on the rated 5 Ah reference (M415) and its coverage gate needs a sidecar Ah value for EVERY master drive; the
+        # sidecar used to be built by the later ah_throughput stage, so a first ingestion of new drives failed here (ExposureCoverageError: 20 drives with a finite gtc and no Ah). The
+        # sidecar is incremental by raw sha256, reads the staged raw_only/ view written above and the manifest written above, and the ah_throughput stage stays in the list as an idempotent re-check.
+        import ah_throughput as AH
+        if AH.main([]) != 0:
+            raise Gate("Ah-throughput sidecar did not reach status ok for the new corpus (M422)")
         arrays = step4_arrays(dm_disk, stage, a.recompute_m119v2)
         arrays["determinism"] = block
         write_json(os.path.join(ROOT, "summary_arrays.json"), arrays, ensure_ascii=False, indent=1)
