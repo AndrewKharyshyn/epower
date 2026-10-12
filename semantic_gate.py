@@ -170,6 +170,30 @@ if _ds:
            and ("%.2f-%.2f times" % tuple(_ds["kpiWidthRatioWeekOverDay"]["corpusRatios"])) in _pn)
         ok("A2 REQUIRED M407 %s: none of the forbidden inference words in the panel" % _k,
            not _re407.search(r"\b(significant(?:ly)?|confirmed|stable|robust|detected|detectable|MDE|rules? out|demonstrates|measured)\b|observed power|post hoc power|powered to detect", _pn))
+# M410 (analyses/M409_spec.md Rev 1-3a): serial-dependence sensitivity; additive, must reproduce the released slope and keep the pre-registered rule consistent with its own numbers
+_sd = A.get("serialDependence")
+ok("M410 serialDependence present for both released trend series with its harness table and artifact stamp", bool(_sd) and set(_sd["trendSlopes"]) == {"cellSpread", "resistanceVreg"} and bool(_sd.get("harnessCoverage")) and "serialDependence" in A["_artifactStamps"])
+if _sd:
+    for _k, _t in _sd["trendSlopes"].items():
+        _r = A["degradationTrends"][_k]["clusterRobustOLS"]
+        _ac = _t["residualAutocorr"]
+        ok("M410 %s: HAC reproduces the released slope and day count; L=0 limit is the released CR1 order of magnitude (HAC SEs positive)" % _k,
+           all(abs(h["slope"] - _r["slope"]) < 2e-4 and h["se"] > 0 for h in _t["hac"].values()) and _t["nDays"] == _r["nDays"] and _t["n"] == _r["nObs"])
+        ok("M410 %s: autocorrelations are correlations, pair counts positive, every interval ordered" % _k,
+           all(-1 <= _ac[g]["rho"] <= 1 and _ac[g]["nPairs"] > 0 for g in ("1", "2", "3", "pooled")) and _ac["1"]["ci95"][0] < _ac["1"]["ci95"][1]
+           and all(m["ci95"][0] < m["ci95"][1] for m in _t["movingBlock"].values()))
+        ok("M410 %s: the pre-registered rule is consistent with its numbers (supported iff the lower bound of the rho_1 interval is above 0; the original pooled statistic is reported beside; disagreement stated)" % _k,
+           _ac["supported"] == (_ac["1"]["ci95"][0] > 0) and _ac["supportedOriginalPooledStatistic"] == (_ac["pooled"]["ci95"][0] > 0)
+           and ((_ac["disagreementWithOriginalStatistic"] is None) == (_ac["supported"] == _ac["supportedOriginalPooledStatistic"])))
+        ok("M410 %s: a 'not supported' result carries the harness power, says it is not evidence of absence and that moderate dependence is not excluded" % _k,
+           _ac["supported"] or ("not evidence of absence" in _ac["statement"] and "not excluded" in _ac["powerDisclosure"] and "fails at phi = 0.3" in _ac["powerDisclosure"]))
+        _inc = set(_t["rowsRule"]["rowsIncludingZero"]); _exc = set(_t["rowsRule"]["rowsExcludingZero"])
+        ok("M410 %s: the any-row classification follows from the row lists (procedure-dependent iff some row includes and some excludes zero); GLS and the control take no part" % _k,
+           (_t["rowsRule"]["classification"] == "procedure-dependent") == bool(_inc and _exc) and not any("gls" in x.lower() for x in _inc | _exc))
+        ok("M410 %s: GLS is a separate estimator and not described as a correction; the control reading is the fixed descriptive sentence" % _k,
+           "separate estimator" in _t["gls"]["note"] and "never described as a correction" in _t["gls"]["note"]
+           and (_t["misspecControl"]["reading"].startswith("the control does not separate") or _t["misspecControl"]["reading"].startswith("positive residual autocorrelation remains")))
+    ok("M410 the block discloses the forking path (statistic switched after simulation power was seen) and the season-collinearity limit", all("switched from rho_{1-3} to rho_1" in v["residualAutocorr"]["forkingPathNote"] for v in _sd["trendSlopes"].values()) and "season" in " ".join(_sd["limits"]))
 # M399 (audits 2026-10-11, analyses/M399_wording_spec.md): fact-aware text checks (each fails on the pre-fix state)
 import re as _re399
 _pr399 = A["provenanceSensitivity"]["raw"]

@@ -92,6 +92,8 @@ RULES = [
          rx=r"\bmde\b|\bminimum detectable\b|\bdetection (?:limit|floor|power)\b|\b(?:not yet )?resolvable now\b|\bwould need a \d+ month window\b"),
     Rule("M408-powerfade-wording", "regex", "M408: the V-regression power-fade trend is an estimated proxy trend that is not resolved in this window; not 'measured', not 'statistically detectable/indistinguishable', not 'detectable'",
          rx=r"\bno statistically detectable power fade\b|\bmeasured trend is statistically indistinguishable\b|\bis the measured trend\b|\bno degradation trend is detectable\b|\bthe measured interval (?:straddles|excludes)\b"),
+    Rule("M410-serialdep-readings", "regex", "M410/Director: serial-dependence results are not evidence of absence; HAC/block/GLS rows are partial remedies, not corrections or a primary interval",
+         rx=r"\bno serial dependence\b|\bserial dependence is absent\b|\bdays are independent\b|\bcr1 (?:is )?adequate\b|\bdependence robust\b|\b(?:hac|gls|block) (?:slope |interval )?(?:is |are )?(?:the )?(?:corrected|primary)\b"),
     Rule("W3-wikner", "regex", "R5: the Wikner ladder is a cross-check, not a transferable 'protective/elevated' classification", rx=r"\b(?:protective|elevated) per wikner\b"),
     Rule("W3-sharedcoolant", "regex", "D-12/F27.r1/R2: coolant-loop topology is unestablished", rx=r"\bshared (?:liquid )?coolant loop\b"),
     Rule("W4-measuredcapture", "regex", "F29: KE recovery is an apparent proxy (assumed mass, classifier), not a measured capture efficiency", rx=r"\bmeasured capture (?:efficiency|by pack)\b"),

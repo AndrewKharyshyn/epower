@@ -356,6 +356,18 @@
    ]
   },
   {
+   "id": "serial_dependence",
+   "title": "M410: serial-dependence sensitivity of the two released trend slopes (day-scale residual autocorrelation, time-distance HAC, moving-block bootstrap, AR(1) GLS as a separate estimator; spec analyses/M409_spec.md); additive payload block serialDependence + stamp; the released estimators are unchanged",
+   "cmd": [
+    "python3",
+    "tools/serial_dependence.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json"
+   ]
+  },
+  {
    "id": "cadence_monitor",
    "title": "M396: report-only flag for the logger PID polling cadence: tells the owner when a NEW drive is slow while fast polling is expected (owner re-activated it 2026-10-09); never stops an ingestion (analyses/M396_spec.md)",
    "cmd": [
