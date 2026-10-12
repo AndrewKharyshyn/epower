@@ -165,7 +165,7 @@ if _ds:
         ok("A2 REQUIRED M407 %s: regimes labelled imprecise / not a regime comparison; fewer-than-10-blocks flag shown for the fast regime" % _k,
            _pn.count("imprecise; not a regime comparison") == 2 and "fewer than 10" in _pn)
         ok("A2 REQUIRED M407 %s: KPI table has K2 corrected and raw, throughput 'integrated from logged current, estimated', the M366 raw label and the width-ratio sentence bound to the payload" % _k,
-           "Net share of throughput, offset-corrected" in _pn and "Net share of throughput, before the offset correction" in _pn and "integrated from logged current, estimated" in _pn
+           "Net share of throughput, offset-adjusted" in _pn and "Net share of throughput, before the offset adjustment" in _pn and "integrated from logged current, estimated" in _pn
            and "raw/ = sha256-verified originals (M366)" in _pn and ("%.2f-%.2f times wider" % tuple(_ds["kpiWidthRatioWeekOverDay"]["driveMedians"])) in _pn
            and ("%.2f-%.2f times" % tuple(_ds["kpiWidthRatioWeekOverDay"]["corpusRatios"])) in _pn)
         ok("A2 REQUIRED M407 %s: none of the forbidden inference words in the panel" % _k,
@@ -221,6 +221,33 @@ if _sdp:
            and _pn.count("trend not resolved; equivalence not established; no stability or SOH claim") == 2)
         ok("A2 REQUIRED M412 %s: none of the forbidden readings or inference words in the panel" % _k,
            not _re407.search(r"\b(significant(?:ly)?|confirmed|stable|robust|detected|detectable|MDE|rules? out|demonstrates|measured)\b|observed power|post hoc power|powered to detect|\bno serial dependence\b|\bdays are independent\b|\bcr1 (?:is )?adequate\b|\b(?:hac|gls) (?:is )?(?:the )?(?:corrected|primary)\b", _pn))
+# M421 (analyses/M421_spec.md, Director ruling analyses/M421_director_ruling_2026-10-12.md; audit F14 and F12): the two-pass offset is a model-derived residual-balance offset conditional on the SoC/capacity ledger, shown with its
+# payload-bound numbers; the generator-closure note states the need for an independent electrical reference
+_ou = A.get("offsetUncertainty") or {}
+ok("M421 the offset headline equals the offsetUncertainty point estimate (one source) and the capacity scenarios and the I2R dual report exist in the payload",
+   abs(A.get("offset2pA", _ou.get("pointEstimateA")) - _ou["pointEstimateA"]) < 1e-9 and len(_ou["capacitySensitivity"]["rows"]) >= 2 and "offsetModelTest" in A["capacityBasis"] and A["capacityBasis"]["offsetModelTest"]["acceptance"]["acceptI2R"] is False)
+_f2 = lambda v: ("%.2f" % v)
+_rows = _ou["capacitySensitivity"]["rows"]
+_band = "%s A at %s kWh to %s A at %s kWh" % (_f2(_rows[0]["offsetA"]), _rows[0]["capKwh"], _f2(_rows[-1]["offsetA"]), _rows[-1]["capKwh"])
+for _mode in ("all", "warm", "shoulder"):
+    _t = T.get("conclusions__" + _mode, "")
+    _ttl = "A model-derived residual-balance current offset is applied to net-draw metrics (conditional on the SoC/capacity ledger; not a calibrated sensor zero)"
+    _i = _t.find(_ttl)
+    _card = _t[_i:_i + 2600] if _i >= 0 else ""
+    ok("A2 REQUIRED M421 %s: the offset card carries the modelled badge (not Measured), the payload-bound offset, fit-variability interval, n, assumed capacity and the capacity scenarios" % _mode,
+       _i >= 0 and bool(re.match(re.escape(_ttl) + r".{0,12}Modelled", _t[_i:_i + len(_ttl) + 40], re.S)) and ("two-pass offset %s A" % _f2(_ou["pointEstimateA"])) in _card
+       and ("[%s, %s] A (fit variability; %s drives, %s days)" % (_f2(_ou["ci95A"][0]), _f2(_ou["ci95A"][1]), _ou["nDrives"], _ou["nDays"])) in _card and "CAP_KWH=2.1 kWh assumed, verified:false" in _card and _band in _card)
+    ok("A2 REQUIRED M421 %s: the offset card says the interval is fit variability, the I2R variant is not separable from zero (not adopted), the Ready-mode current is not a zero reference, gross throughput is not offset-adjusted, and a zero-current reference is needed" % _mode,
+       all(x in _card for x in ("not an uncertainty of a sensor zero", "not a confidence interval", "not separable from zero", "that variant is not adopted", "carries auxiliary load and is not a zero reference",
+                                "gross throughput is not offset-adjusted", "Calibrating a sensor zero needs a zero-current reference")))
+    _pb = _t[_t.find("Residual-balance offset, conditional on the SoC/capacity ledger (audit"):][:2200]
+    ok("A2 REQUIRED M421 %s: Provenance B names the model-derived residual-balance offset, its conditionality and that it is not a calibrated sensor zero; the Ready-mode current is not read as corroboration" % _mode,
+       _pb.startswith("Residual-balance offset") and all(x in _pb for x in ("model-derived residual-balance offset, not a calibrated sensor zero", "not an uncertainty of a sensor zero", _band, "is not a zero reference", "not separable from zero"))
+       and "excludes zero" not in _pb and "consistent in sign" not in _pb)
+    _fu = T.get("fuel__" + _mode, "")
+    ok("A2 REQUIRED M421 %s: the generator-closure note states that physical validation needs an independent electrical reference and that Path A/B agreement and the dual bracket are model consistency" % _mode,
+       "Physical validation of the generator split would need an independent electrical reference" in _fu and "the logged channels cannot provide one" in _fu
+       and "Agreement between Path A and Path B and the dual bracket are model consistency, not physical validation" in _fu)
 # M420 (analyses/M420_spec.md Rev 1, Director ruling analyses/M420_director_ruling_2026-10-12.md): integration-choice scenarios beside the energy Monte Carlo; additive and reporting-only; the baseline reproduces the master, D1 reproduces
 # offsetGrossSensitivity, the drive set is the Monte Carlo set, no row is pooled, and the rendered panel equals the payload
 _is = A.get("integrationScenarios")
