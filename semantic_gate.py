@@ -221,6 +221,38 @@ if _sdp:
            and _pn.count("trend not resolved; equivalence not established; no stability or SOH claim") == 2)
         ok("A2 REQUIRED M412 %s: none of the forbidden readings or inference words in the panel" % _k,
            not _re407.search(r"\b(significant(?:ly)?|confirmed|stable|robust|detected|detectable|MDE|rules? out|demonstrates|measured)\b|observed power|post hoc power|powered to detect|\bno serial dependence\b|\bdays are independent\b|\bcr1 (?:is )?adequate\b|\b(?:hac|gls) (?:is )?(?:the )?(?:corrected|primary)\b", _pn))
+# M418 (analyses/M418_spec.md Rev 1, Director ruling analyses/M418_director_ruling_2026-10-12.md): thermal support ledger; additive and reporting-only; every accepted count reconciles with the published estimator n, every
+# candidate sits in exactly one bucket, and the support lines of the thermal sections render the counts of the selected cohort
+_tl = A.get("thermalSupportLedger")
+ok("M418 thermalSupportLedger present with its artifact stamp and no estimator keys", bool(_tl) and "thermalSupportLedger" in A["_artifactStamps"] and set(_tl["byCohort"]) == {"warm", "shoulder"} and _tl["coldCohort"]["inferenceAvailable"] is False)
+if _tl:
+    _rc = _tl["reconciliation"]
+    ok("M418 every accepted count equals the published estimator n (all, warm, shoulder) and every candidate is in exactly one bucket (%d checks)" % len(_rc["checks"]),
+       _rc["allEqual"] and len(_rc["checks"]) >= 70 and all(v["equal"] for v in _rc["checks"].values()) and sum(1 for k in _rc["checks"] if "partition." in k) == 12,
+       str({k: v for k, v in _rc["checks"].items() if not v["equal"]}))
+    _deg = "°"
+    for _mode in ("all", "warm", "shoulder"):
+        _E = _tl["estimators"] if _mode == "all" else _tl["byCohort"][_mode]
+        _W, _H, _Cu, _F = _E["warmupLag"], _E["hvcEngine80C"], _E["warmupCurve"], _E["fuelPenalty"]
+        _tl_lag = T.get("distribution__" + _mode, ""); _tl_cur = T.get("charts__" + _mode, ""); _tl_fuel = T.get("fuel__" + _mode, "")
+        ok("A2 REQUIRED M418 %s: warm-up lag support line renders the cold-start, day, exclusion and per-threshold reached / censored counts of the cohort" % _mode,
+           ("%d cold starts on %d days" % (_W["coldStarts"], _W["coldStartDays"])) in _tl_lag and ("of %d candidate drives" % _W["candidates"]) in _tl_lag
+           and all(("Coolant %s %sC: %d of %d cold starts reached it; %d right-censored" % (t, _deg, _W["coolant"][t]["reached"], _W["coldStarts"], _W["coolant"][t]["censored"])) in _tl_lag for t in ("60", "70", "80"))
+           and all(("Oil %s %sC: %d of %d cold starts with an oil channel reached it" % (t, _deg, _W["oil"][t]["reached"], _W["nWithOil"])) in _tl_lag for t in ("60", "70", "80"))
+           and _tl_lag.count("Median of reachers only") >= 6
+           and _tl_lag.count("cohort median not identifiable from these data") == sum(1 for t in ("60", "70", "80") if _W["coldStarts"] and _W["coolant"][t]["reached"] / _W["coldStarts"] < 0.5))
+        ok("A2 REQUIRED M418 %s: the censored sentence says the observation ended before the threshold; risk-set rows are called counts; no survival wording" % _mode,
+           "observation ended before the threshold" in _tl_lag and "Risk-set rows are counts, not a time-to-event estimate" in _tl_lag and "key-off" in _tl_lag and not re.search(r"survival|Kaplan|failed to warm up", "".join(_x[_x.find("Support (M418"):_x.find("ambient 3", _x.find("Support (M418"))] for _x in (_tl_lag, _tl_cur, _tl_fuel))))
+        ok("A2 REQUIRED M418 %s: hvcEngine80C support names the class, counts, days, warm restarts and cold-start split; the curve states its own warm-start rule" % _mode,
+           all(("%s: %d of %d drives reached 80 %sC" % (k.replace("_", " ").capitalize(), a["reached"], a["n"], _deg)) in _tl_cur and (" on %d days" % a["nDays"]) in _tl_cur
+               and ("cold starts: %d reached, %d did not reach it within the drive" % (a["coldStartAndReached"], a["coldStartNotReached"])) in _tl_cur for k, a in _H["accepted"].items() if a["n"] > 0)
+           and ("Warm-up curve drives per class: urban %d, mixed %d, mixed highway %d, highway %d" % tuple(_Cu["accepted"][k] for k in ("urban", "mixed", "mixed_highway", "highway"))) in _tl_cur
+           and "warm-start rule of this curve" in _tl_cur)
+        ok("A2 REQUIRED M418 %s: fuel support line renders the candidate, accepted, day and every exclusion count (they sum to the candidates), states the selection on the outcome and the logged/app-calculated basis" % _mode,
+           _F["candidates"] == sum(e["n"] for e in _F["excluded"]) + _F["accepted"]
+           and ("Fuel-accumulator subset: %d candidates; %d cold starts in the fuel comparison on %d days" % (_F["candidates"], _F["accepted"], _F["acceptedDays"])) in _tl_fuel
+           and all((str(e["n"]) + " ") in _tl_fuel for e in _F["excluded"]) and "selection on the outcome" in _tl_fuel and "logged/app-calculated" in _tl_fuel)
+    ok("A2 REQUIRED M418 no support line in the compare-mode dumps (the lines follow the cohort selector)", all("Support (M418" not in v for k, v in T.items() if k.endswith("__compare")))
 # M415 (analyses/M413_spec.md Rev 1-3): exposure basis flip (capacity commit 2). Independent recomputation from the Ah sidecar and the legacy master columns; tags, labels and rendered notes.
 import pandas as _pd415
 _xb = A.get("exposureBasis")

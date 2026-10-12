@@ -382,6 +382,18 @@
    ]
   },
   {
+   "id": "thermal_support_ledger",
+   "title": "M418: thermal support ledger (candidate / excluded / accepted / reached / right-censored counts for warm-up lag, hvcEngine80C, warm-up curve and the fuel penalty, all corpus plus warm and shoulder cohorts; reconciled with the published estimator n; spec analyses/M418_spec.md); additive payload block thermalSupportLedger + stamp; the estimators are unchanged",
+   "cmd": [
+    "python3",
+    "tools/thermal_support_ledger.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json"
+   ]
+  },
+  {
    "id": "cadence_monitor",
    "title": "M396: report-only flag for the logger PID polling cadence: tells the owner when a NEW drive is slow while fast polling is expected (owner re-activated it 2026-10-09); never stops an ingestion (analyses/M396_spec.md)",
    "cmd": [
