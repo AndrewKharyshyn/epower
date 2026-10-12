@@ -728,12 +728,52 @@ def _cell_health_trend(dm, n_boot=4000, seed=42):
     return out
 
 
-def category_A(dm, odometer_km=None):
-    """odometer_km: the vehicle's TRUE dashboard odometer at the latest drive
-    (external ground truth; NOT derivable from the logs, whose 'odo' PID is a
-    cumulative logged-distance counter ~= sum of trip distances, not the car's
-    lifetime odometer). Drives annualKm and the cycle-life projection. If None,
-    those fields fall back to logged distance and are flagged approximate."""
+def _cycle_by_type(dm, clean):
+    """M423: cycleByType (GTC per 100 km by drive class, ens-clean); adds the gtc_per100 column to dm and clean in place, as category_A always did."""
+    dm['gtc_per100'] = dm['gtc'] / dm['distance_km'] * 100
+    clean['gtc_per100'] = clean['gtc'] / clean['distance_km'] * 100
+    cbt = []
+    for k in CLASS_ORDER:
+        g = clean[clean['dclass'] == k]['gtc_per100'].dropna()
+        cbt.append({'label': k.replace('_', ' ').title(),
+                    'lo': round(float(g.min()), 1), 'hi': round(float(g.max()), 1),
+                    'avg': round(float(g.mean()), 1), 'med': round(float(g.median()), 1),
+                    'color': CLASS_COLOR[k]} if len(g) else {'label': k})
+    return cbt
+
+
+def _cycle_cumulative_ledgers(dm, dt):
+    """M423: cycleCumulative and rfCycleCumulative (cumulative cycle ledgers by calendar day), moved out of category_A unchanged."""
+    out = {}
+    d0 = dt.min()
+    ordered = dm.sort_values(['date', 'time_start'])
+    day_idx = (pd.to_datetime(ordered['date']) - d0).dt.days
+    # M103 (2026-08-08): second escaped M95 efc->gtc read-site (efc was byte-
+    # identical to gtc; CHANGELOG M95). Left unrepointed, cycleCumulative silently
+    # dropped ('efc' not in master -> `continue`), which nulls a REQUIRED_BLOCKS /
+    # JSX-consumed key. Repoint is numerically byte-exact.
+    for col, key in [('gtc', 'cycleCumulative'), ('rf_efc', 'rfCycleCumulative')]:
+        if col not in ordered:
+            continue
+        tmp = pd.DataFrame({'day': day_idx.values,
+                            'v': ordered[col].fillna(0).values,
+                            'type': ordered['drive_type'].values})
+        by_day = tmp.groupby('day').agg(v=('v', 'sum'),
+                                        type=('type', 'last')).reset_index()
+        by_day['cum'] = by_day['v'].cumsum()
+        lbl = [f"{(d0 + pd.Timedelta(days=int(d))):%d %b}" for d in by_day['day']]
+        if key == 'cycleCumulative':
+            out[key] = [[int(d), round(float(c), 1), l, str(t)]
+                        for d, c, l, t in zip(by_day['day'], by_day['cum'],
+                                              lbl, by_day['type'])]
+        else:
+            out[key] = [[int(d), round(float(c), 2)]
+                        for d, c in zip(by_day['day'], by_day['cum'])]
+    return out
+
+
+def _category_a_frames(dm):
+    """M423: the copy of dm with the drive class and the canonical-exclusion flag, and its clean subset (category_A and the exposureBasis refresh share it)."""
     dm = dm.copy()
     dm['dclass'] = dm['drive_type'].apply(_cond_class)  # M21: time-weighted, not distance
     # M23 (2026-07-09): canonical exclusion is ens_outlier_v2 (invalid
@@ -749,6 +789,16 @@ def category_A(dm, odometer_km=None):
     else:
         dm['ens'] = False
     clean = dm[~dm['ens']].copy()
+    return dm, clean
+
+
+def category_A(dm, odometer_km=None):
+    """odometer_km: the vehicle's TRUE dashboard odometer at the latest drive
+    (external ground truth; NOT derivable from the logs, whose 'odo' PID is a
+    cumulative logged-distance counter ~= sum of trip distances, not the car's
+    lifetime odometer). Drives annualKm and the cycle-life projection. If None,
+    those fields fall back to logged distance and are flagged approximate."""
+    dm, clean = _category_a_frames(dm)
     out = {}
 
     # ---- meta / header scalars ----
@@ -1041,16 +1091,7 @@ def category_A(dm, odometer_km=None):
 
     # ---- cycleByType / cycleBySpeed  (explicit basis: efc per 100 km, ens-clean)
     # supersedes the legacy 98-drive figure whose normalization was undocumented.
-    dm['gtc_per100'] = dm['gtc'] / dm['distance_km'] * 100
-    clean['gtc_per100'] = clean['gtc'] / clean['distance_km'] * 100
-    cbt = []
-    for k in CLASS_ORDER:
-        g = clean[clean['dclass'] == k]['gtc_per100'].dropna()
-        cbt.append({'label': k.replace('_', ' ').title(),
-                    'lo': round(float(g.min()), 1), 'hi': round(float(g.max()), 1),
-                    'avg': round(float(g.mean()), 1), 'med': round(float(g.median()), 1),
-                    'color': CLASS_COLOR[k]} if len(g) else {'label': k})
-    out['cycleByType'] = cbt
+    out['cycleByType'] = _cycle_by_type(dm, clean)
 
     # ---- efficiencyBands / "Battery Draw Spectrum" (M21 fix, ens-clean) ----
     # PRIOR BASIS (net_draw_per100km_corr) was net(discharge - charge) over the
@@ -1089,30 +1130,7 @@ def category_A(dm, odometer_km=None):
     out['efficiencyBands'] = eb
 
     # ---- cumulative cycle ledgers by calendar day ----
-    d0 = dt.min()
-    ordered = dm.sort_values(['date', 'time_start'])
-    day_idx = (pd.to_datetime(ordered['date']) - d0).dt.days
-    # M103 (2026-08-08): second escaped M95 efc->gtc read-site (efc was byte-
-    # identical to gtc; CHANGELOG M95). Left unrepointed, cycleCumulative silently
-    # dropped ('efc' not in master -> `continue`), which nulls a REQUIRED_BLOCKS /
-    # JSX-consumed key. Repoint is numerically byte-exact.
-    for col, key in [('gtc', 'cycleCumulative'), ('rf_efc', 'rfCycleCumulative')]:
-        if col not in ordered:
-            continue
-        tmp = pd.DataFrame({'day': day_idx.values,
-                            'v': ordered[col].fillna(0).values,
-                            'type': ordered['drive_type'].values})
-        by_day = tmp.groupby('day').agg(v=('v', 'sum'),
-                                        type=('type', 'last')).reset_index()
-        by_day['cum'] = by_day['v'].cumsum()
-        lbl = [f"{(d0 + pd.Timedelta(days=int(d))):%d %b}" for d in by_day['day']]
-        if key == 'cycleCumulative':
-            out[key] = [[int(d), round(float(c), 1), l, str(t)]
-                        for d, c, l, t in zip(by_day['day'], by_day['cum'],
-                                              lbl, by_day['type'])]
-        else:
-            out[key] = [[int(d), round(float(c), 2)]
-                        for d, c in zip(by_day['day'], by_day['cum'])]
+    out.update(_cycle_cumulative_ledgers(dm, dt))
 
     # ---- warmupPoints [distance_km, T_eng_coolant_max, coldStart<30C] ----
     wp = []
