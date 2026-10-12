@@ -61,6 +61,7 @@ function buildS(config, arrays) {
     degradationTrends: A.degradationTrends || null,  // M108: TOST equivalence testing
     dependenceSensitivity: A.dependenceSensitivity || null,  // M406/M407: CR2, wild bootstrap, week-block sensitivities (reporting-only)
     serialDependence: A.serialDependence || null,
+    thermalSupportLedger: A.thermalSupportLedger || null,  // M418: candidate / accepted / excluded / right-censored counts of the thermal estimates (reporting-only)
     exposureBasis: A.exposureBasis || null,  // M415: exposure normalisation basis (rated 5 Ah), per-block tags, legacy disclosure values  // M410/M412: serial-dependence sensitivity (reporting-only)
     provenanceSensitivity: A.provenanceSensitivity || null,
     loggerCadence: A.loggerCadence || null,                       // M379a: logger PID-cadence regime per drive (tools/cadence_regime.py)
@@ -7964,6 +7965,58 @@ function SocBalancedFuel() {
 }
 
 
+// M418 (analyses/M418_spec.md Rev 1, Director ruling analyses/M418_director_ruling_2026-10-12.md): support lines of the thermal sections, rendered from the thermalSupportLedger block of the selected
+// cohort (all / warm / shoulder; nothing in compare mode or for the suppressed cold cohort). Counts only: no estimate, no survival model; every sentence states its own warm-start definition.
+function ThermalSupport({part}) {
+  const _coh=useCohort();
+  const L=S.thermalSupportLedger;
+  if(!L || _coh==="compare" || _coh==="cold") return null;
+  const E=(_coh==="warm"||_coh==="shoulder") ? (L.byCohort||{})[_coh] : L.estimators;
+  if(!E) return null;
+  const exN=(arr,reason)=>{ const x=(arr||[]).find(e=>e.reason===reason); return x?x.n:0; };
+  const rd=v=>(v==null?"—":String(Math.round(v)));
+  const box={fontSize:10,color:"#475569",background:"#f8fafc",border:"1px solid #e2e8f0",borderRadius:6,padding:"6px 10px",margin:"6px 0",lineHeight:1.5};
+  const CL={urban:"Urban",mixed:"Mixed",mixed_highway:"Mixed highway",highway:"Highway"};
+  const pl=(n,one,many)=>n+" "+(n===1?one:many);
+  const note=(rs)=><div style={{marginTop:3,color:"#64748b"}}>Censored: the drive ended (key-off) before the threshold{rs?". Risk-set rows are counts, not a time-to-event estimate; ":"; "}censoring by trip length may be informative and is not modelled; winter and the cold cohort stay suppressed. Single vehicle, one driver, May{"–"}October (ambient 3{"–"}38 {"°"}C).</div>;
+  if(part==="lag"){
+    const W=E.warmupLag; if(!W) return null;
+    const cold=W.coldStarts, oilN=W.nWithOil;
+    const med=(t)=>{ const c=W.coolant[t]; const half=cold>0 && c.reached/cold<0.5;
+      return <div key={"c"+t}>Coolant {t} {"°"}C: {c.reached} of {cold} cold starts reached it; {c.censored} right-censored (observation ended before the threshold; median observed span {rd(c.censoredObservedSeconds&&c.censoredObservedSeconds.median)} s). Median of reachers only ({c.reached} of {cold}); censored drives excluded, so it understates the time for all cold starts{half?"; cohort median not identifiable from these data":""}.</div>; };
+    const oil=(t)=>{ const o=W.oil[t];
+      return <div key={"o"+t}>Oil {t} {"°"}C: {o.reached} of {oilN} cold starts with an oil channel reached it ({o.atOrAboveAtStart} already at or above the threshold at the start, counted at time 0); {o.censored} right-censored. Median of reachers only.</div>; };
+    const r80=((W.coolant["80"]||{}).riskSet)||[];
+    return <div data-m418="lag" style={box}>
+      <strong style={{color:"#0f172a"}}>Support (M418; ledger counts, not estimates).</strong> {cold} cold starts on {W.coldStartDays} days (coolant {"<"}60 {"°"}C at the first valid sample) of {W.candidates} candidate drives. Excluded: {W.warmStartExcluded} warm starts (coolant {"≥"}60 {"°"}C at the first valid sample), {exN(W.excluded,"noFrameOrCoolantChannel")} without a frame or coolant channel, {exN(W.excluded,"fewerThan30ValidCoolantSeconds")} with {"<"}30 valid coolant s.
+      {["60","70","80"].map(med)}
+      {["60","70","80"].map(oil)}
+      <div>Risk-set counts, coolant 80 {"°"}C (cold starts still observed without having reached it, reached by, and censored before the time):
+        {r80.map(x=><span key={x.t} style={{marginLeft:8}}>{x.t} s: {x.atRisk} / {x.reachedByT} / {x.censoredBeforeT}</span>)}</div>
+      {note(true)}
+    </div>;
+  }
+  if(part==="curve"){
+    const H=E.hvcEngine80C, Cu=E.warmupCurve; if(!H||!Cu) return null;
+    const cls=["urban","mixed","mixed_highway","highway"];
+    return <div data-m418="curve" style={box}>
+      <strong style={{color:"#0f172a"}}>Support (M418; ledger counts, not estimates).</strong>
+      {cls.filter(k=>H.accepted[k]&&H.accepted[k].n>0).map(k=>{ const a=H.accepted[k];
+        return <div key={"h"+k}>{CL[k]}: {a.reached} of {a.n} drives reached 80 {"°"}C ({Math.round(100*a.shareReached)}%) on {a.nDays} days, including {pl(a.startedAtOrAbove80,"warm restart","warm restarts")} (first coolant {"≥"}80 {"°"}C, counted as reached at about 0 min); cold starts: {a.coldStartAndReached} reached, {a.coldStartNotReached} did not reach it within the drive.</div>; })}
+      <div>Warm-up curve drives per class: {cls.map(k=>CL[k].toLowerCase()+" "+Cu.accepted[k]).join(", ")}; {exN(Cu.excluded,"warmStart")} warm starts excluded (warm-start rule of this curve: first valid coolant {">"}50 {"°"}C; differs from the warm-up lag).</div>
+      {note(false)}
+    </div>;
+  }
+  if(part==="fuel"){
+    const F=E.fuelPenalty; if(!F) return null;
+    return <div data-m418="fuel" style={box}>
+      <strong style={{color:"#0f172a"}}>Support (M418; ledger counts, not estimates).</strong> Fuel-accumulator subset: {F.candidates} candidates; {F.accepted} cold starts in the fuel comparison on {F.acceptedDays} days; excluded: {exN(F.excluded,"noReadableGrid")} without a readable fuel grid, {exN(F.excluded,"fewerThan60ValidCoolantSeconds")} with {"<"}60 valid coolant s, {exN(F.excluded,"warmStart")} warm starts (coolant {"≥"}60 {"°"}C at the first valid sample), {F.censoredNeverReached70C} cold starts right-censored before 70 {"°"}C (median observed span {rd(F.censoredObservedSeconds&&F.censoredObservedSeconds.median)} s), {pl(exN(F.excluded,"rejectedFuelGate"),"fuel-gate rejection","fuel-gate rejections")}. The comparison is conditional on reaching 70 {"°"}C (selection on the outcome); fuel is logged/app-calculated.
+      {note(false)}
+    </div>;
+  }
+  return null;
+}
+
 function ThermalWarmupLag() {
   const _coh=useCohort();
   if(cohortNoData(_coh,["ThermalWarmupLag"])) return <ColdNoData chart="Coolant / Oil Warm-Up &amp; Thermal Lag" cohort={_coh}/>;
@@ -10933,6 +10986,7 @@ export default function App() {
         <Section seasonAware title="2 — Engine Warm-Up Curve" accent="#f97316">
           <div style={{fontSize:11,color:"#64748b",marginBottom:10}}>X = trip distance. Y = peak engine coolant °C reached. Filled dots = reached optimal (≥80°C). Empty = sub-optimal.</div>
           <WarmupCurve/>
+          <ThermalSupport part="curve"/>
         </Section>
         <Section seasonAware title="3 — Battery SoC Band by Speed" accent="#60a5fa">
           {(() => {
@@ -11015,7 +11069,7 @@ export default function App() {
         <div data-fuel-links="1" style={{fontSize:10.5,color:"#64748b",marginBottom:8}}>Logged pack-terminal energy accounting stays in the <button onClick={()=>setTab("charts")} style={{fontSize:10.5,border:"none",background:"none",color:"#2563eb",cursor:"pointer",textDecoration:"underline",padding:0}}>Charts tab</button>; engine RPM/speed behaviour and the engine state machine stay in <button onClick={()=>setTab("distribution")} style={{fontSize:10.5,border:"none",background:"none",color:"#2563eb",cursor:"pointer",textDecoration:"underline",padding:0}}>Distribution tab</button>.</div>
         <GeneratorTractionRecon/>
         <Section title={`SoC-Balanced Fuel Consumption (accumulator subset${S.socBalancedFuel?.dateSpan ? `, ${S.socBalancedFuel.dateSpan[0]}–${S.socBalancedFuel.dateSpan[1]}` : ""})`} accent="#16a34a"><SocBalancedFuel/></Section>
-        <Section seasonAware title={`Cold-start fuel-rate association (adjusted; accumulator subset${S.thermalFuelPenalty?.dateSpan ? `, ${S.thermalFuelPenalty.dateSpan[0]}–${S.thermalFuelPenalty.dateSpan[1]}` : ""})`} accent="#dc2626"><ThermalFuelPenalty/></Section>
+        <Section seasonAware title={`Cold-start fuel-rate association (adjusted; accumulator subset${S.thermalFuelPenalty?.dateSpan ? `, ${S.thermalFuelPenalty.dateSpan[0]}–${S.thermalFuelPenalty.dateSpan[1]}` : ""})`} accent="#dc2626"><ThermalFuelPenalty/><ThermalSupport part="fuel"/></Section>
         <Section seasonAware title={`Fuel data consistency: rate integral versus counter (logged/app-calculated; ${S.fuelAnalytics?.reconciliation?.analysisEligible} trips)`} accent="#0f766e"><FuelAgreement/></Section>
         <Section seasonAware title="Fuel consumption versus trip length (logged counter; descriptive)" accent="#0f766e"><FuelVsTripLength/></Section>
         <Section seasonAware title="Trip consumption distribution and pooled 14-day windows (logged counter; descriptive)" accent="#0f766e"><FuelDistributionTrend/></Section>
@@ -11036,7 +11090,7 @@ export default function App() {
         <Section title="Within-Drive Driving-State Taxonomy (idle / accel / cruise / decel)" accent="#2563eb"><DrivingStateTaxonomy/></Section>
         <Section seasonAware title="Departure / Arrival vs Matched Mid-Trip" accent="#ea580c"><DepartureArrival/></Section>
         <Section seasonAware title="Engine Operating-Point State Machine" accent="#7c3aed"><EngineStateMachine/></Section>
-        <Section seasonAware title="Coolant / Oil Warm-Up &amp; Thermal Lag" accent="#ea580c"><ThermalWarmupLag/></Section>
+        <Section seasonAware title="Coolant / Oil Warm-Up &amp; Thermal Lag" accent="#ea580c"><ThermalWarmupLag/><ThermalSupport part="lag"/></Section>
         <Section seasonAware title="Battery, engine and boost timing around engine start" accent="#7c3aed"><HandoffSequence/></Section>
         <Section seasonAware title="Cell-Spread Transient / Relaxation (exploratory)" accent="#2563eb"><CellSpreadRelaxation/></Section>
         <Section seasonAware title="VGT-A Tracking &amp; Air-Path Map (subset)" accent="#0891b2"><VgtAirPath/></Section>
