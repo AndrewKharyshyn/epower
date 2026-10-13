@@ -178,7 +178,8 @@ A["comparisonCube"] = {
                       "estimand": ("urban-only, canonical-clean paired drives; pack gross throughput per 100 km by "
                                    "thermal cohort (ratio of sums). Confounded by calendar period, trip mix, load and "
                                    "cabin heating (no HVAC telemetry); not a chemistry effect."),
-                      "caveat": "Descriptive seasonal operating difference; Cold not observed."},
+                      "caveat": ("Descriptive seasonal operating difference; Cold not observed." if counts["cold"] < MIN_N else
+                                 "Descriptive seasonal operating difference (warm vs shoulder only); the cold cohort (n=%d clean drives) is not part of this contrast." % counts["cold"])},
 }
 st = copy.deepcopy(A["_artifactStamps"]["highwayVsCity"])
 st["computationStatus"] = "computed"

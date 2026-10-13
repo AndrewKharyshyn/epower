@@ -218,7 +218,10 @@ def build(precompute, rng=None, offset_point_a=OFFSET_POINT_A,
                 round(100 * float(poss_missing.sum()) / thr_nominal_total, 4)},
         'dataQualityNote': {
             'finding': data_quality_finding(total_delta_2000, top_contributors),
-            'topContributors': top_contributors},
+            'topContributors': top_contributors,
+            # M426: the corpus total is written by the producer (rounded exactly as in the finding text); it used to be added only by
+            # tools/mc_dq_note_refresh.py, which runs after the lost-leaf guard, so every ingestion reported the field as a lost leaf
+            'corpusTotalKwh': round(total_delta_2000, 3)},
         'method': ('Monte Carlo over cached per-drive Tier-1 diagnostics '
                    '(energy_mc_precompute.py): I/V alignment tolerance drawn '
                    'Uniform(500,2000 ms) per draw, per-drive throughput '
