@@ -47,6 +47,38 @@ def band_f(o): o["speedSplit"]["bins"][0]["fGen"] += 0.06
 assert any("f_gen moved" in s for s in stops_of(mut(band_f))[2])
 assert any("n_days" in s for s in stops_of(mut(lambda o: o["speedSplit"].__setitem__("nDays", o["speedSplit"]["nDays"] * 2)))[2])
 
+# M426: narrowly scoped acknowledgement of the simultaneity share-band stop (Director ruling); nothing else is acknowledgeable
+def band_o(): return mut(band_share)
+def mk_ack(o, **over):
+    r = o["simultaneity"]["rows"][3]
+    prev = [x for x in A["generatorTractionRecon"]["simultaneity"] if x["type"] == r["type"]][0]
+    ack = {"ruling": "TEST", "driveMasterMd5": MD5, "simultaneityRowsSha256": S._rows_sha(o["simultaneity"]["rows"]),
+           "acknowledged": [{"block": "simultaneity", "row": r["type"], "quantity": "genAloneNeutral", "deltaPP": round(r["genAloneNeutral"] - prev["genAloneNeutral"], 4)}]}
+    ack.update(over); return ack
+def with_ack(o, ack): return S.plan(A, o, "TEST", SPEC, MD5, ack)
+o_ = band_o()
+assert stops_of(o_)[2] == [S.BAND_STOP]                                                    # unacknowledged: still a stop
+assert "rowMovePP" in stops_of(o_)[1]["blocks"]["simultaneity"]                            # row-level deltas are written
+new_, delta_, st_ = with_ack(o_, mk_ack(o_))
+assert st_ == [] and new_ is not None and delta_["bandAcknowledgement"]["acknowledged"] == mk_ack(o_)["acknowledged"] and delta_["bandAcknowledgement"]["band"] == S.BAND_SHARE_PP
+for bad in ({"driveMasterMd5": "0" * 32}, {"simultaneityRowsSha256": "0" * 64}, {"ruling": ""}, {"acknowledged": []},
+            {"acknowledged": mk_ack(o_)["acknowledged"] + [{"block": "simultaneity", "row": "urban", "quantity": "fullyBanked", "deltaPP": 6.0}]},
+            {"acknowledged": [dict(mk_ack(o_)["acknowledged"][0], deltaPP=5.9)]}, {"acknowledged": [dict(mk_ack(o_)["acknowledged"][0], row="urban")]}):
+    st = with_ack(o_, mk_ack(o_, **bad))[2]
+    assert any("acknowledgement refused" in x for x in st) and S.BAND_STOP in st, bad          # any mismatch keeps the stop
+# an acknowledgement for a run with no breach, or with any other stop present, is refused; other stops are never removed
+assert any("refused" in x for x in with_ack(O, mk_ack(o_))[2])
+def band_and_flip(o): band_share(o); flip_sim(o)
+o2 = mut(band_and_flip); st2 = with_ack(o2, mk_ack(o2))[2]
+assert any("ordering" in x for x in st2) and any("refused" in x for x in st2)
+def band_and_days(o): band_share(o); o["speedSplit"]["nDays"] *= 2
+o3 = mut(band_and_days); st3 = with_ack(o3, mk_ack(o3))[2]
+assert any("n_days" in x for x in st3) and any("refused" in x for x in st3)
+def band_and_key(o): band_share(o); o["simultaneity"]["rows"][0].pop("fullyBanked")
+o4 = mut(band_and_key); st4 = with_ack(o4, mk_ack(o4))[2]
+assert any("key set" in x for x in st4)
+assert not any(("band acknowledgement" in x) for x in stops_of(O)[2])
+
 # known answer: the committed pair reproduces the committed blocks (no new data) and only allow-listed paths change
 new, delta, stops = stops_of(O)
 assert not stops and new is not None, stops
