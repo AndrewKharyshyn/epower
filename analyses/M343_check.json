@@ -1,15 +1,15 @@
 {
  "milestone": "M343",
  "mode": "--splice",
- "nDrivesProcessed": 554,
+ "nDrivesProcessed": 578,
  "knownAnswer": {
-  "nCompared": 551,
+  "nCompared": 575,
   "nMismatches": 0,
   "mismatchExamples": [],
   "perClassN": {
-   "urban": 471,
-   "mixed_highway": 32,
-   "mixed": 28,
+   "urban": 492,
+   "mixed_highway": 34,
+   "mixed": 29,
    "highway": 20
   },
   "rule": "exact per-drive float equality with the released _RawAccum.add append"
@@ -25,84 +25,93 @@
  },
  "primary": {
   "all": {
-   "est": 75.81036,
+   "est": 76.19945,
    "ci95": [
-    68.68724,
-    84.82032
+    69.1506,
+    85.18158
    ],
-   "nTrips": 549,
-   "nDays": 111,
+   "nTrips": 573,
+   "nDays": 116,
    "support": "ci",
-   "nStarts": 6789,
-   "km": 8955.2
+   "nStarts": 7099,
+   "km": 9316.3
   },
   "warm": {
-   "est": 73.65658,
+   "est": 73.70901,
    "ci95": [
-    67.0373,
-    82.89465
+    66.89276,
+    82.61162
    ],
-   "nTrips": 418,
-   "nDays": 99,
+   "nTrips": 420,
+   "nDays": 100,
    "support": "ci",
-   "nStarts": 6090,
-   "km": 8268.1
+   "nStarts": 6102,
+   "km": 8278.5
   },
   "shoulder": {
-   "est": 101.95362,
+   "est": 95.72844,
    "ci95": [
-    84.10973,
-    118.17741
+    83.33295,
+    112.77719
    ],
-   "nTrips": 124,
-   "nDays": 41,
+   "nTrips": 142,
+   "nDays": 45,
    "support": "ci",
-   "nStarts": 692,
-   "km": 678.7
+   "nStarts": 978,
+   "km": 1021.6
+  },
+  "cold": {
+   "est": 117.28395,
+   "ci95": null,
+   "nTrips": 11,
+   "nDays": 4,
+   "support": "points only",
+   "nStarts": 19,
+   "km": 16.2
   },
   "coldBelowSupport": {
-   "nDrives": 7,
-   "nStarts": 7,
-   "km": 8.4,
+   "nDrives": 0,
+   "nStarts": 0,
+   "km": 0.0,
    "note": "below minimum support: not estimated, in the All view only"
   }
  },
  "byClass": {
   "urban": {
-   "est": 99.62216,
+   "est": 99.59924,
    "ci95": [
-    92.29668,
-    106.76589
+    92.23627,
+    106.83794
    ],
-   "nTrips": 469,
-   "nDays": 102,
+   "nTrips": 490,
+   "nDays": 107,
    "support": "ci",
-   "nStarts": 2779,
-   "km": 2789.5
+   "nStarts": 2868,
+   "km": 2879.5
   },
   "mixed": {
-   "est": 75.01065,
+   "est": 75.53119,
    "ci95": [
-    66.23756,
-    83.36222
+    67.19653,
+    83.54332
    ],
-   "nTrips": 28,
-   "nDays": 23,
-   "support": "ci",
-   "nStarts": 528,
-   "km": 703.9
-  },
-  "mixed_highway": {
-   "est": 76.98129,
-   "ci95": [
-    68.48986,
-    86.31977
-   ],
-   "nTrips": 32,
+   "nTrips": 29,
    "nDays": 24,
    "support": "ci",
-   "nStarts": 2238,
-   "km": 2907.2
+   "nStarts": 551,
+   "km": 729.5
+  },
+  "mixed_highway": {
+   "est": 77.2671,
+   "ci95": [
+    69.48221,
+    86.1533
+   ],
+   "nTrips": 34,
+   "nDays": 25,
+   "support": "ci",
+   "nStarts": 2436,
+   "km": 3152.7
   },
   "highway": {
    "est": 48.69647,
@@ -120,62 +129,82 @@
  "decomposition": {
   "all": {
    "firstPer100km": {
-    "est": 5.81782,
+    "est": 5.82847,
     "ci95": [
-     4.40612,
-     7.89482
+     4.45784,
+     7.86765
     ],
-    "nTrips": 549,
-    "nDays": 111
+    "nTrips": 573,
+    "nDays": 116
    },
    "restartsPer100km": {
-    "est": 69.99254,
+    "est": 70.37098,
     "ci95": [
-     63.5462,
-     77.71385
+     64.08831,
+     78.20506
     ],
-    "nTrips": 549,
-    "nDays": 111
+    "nTrips": 573,
+    "nDays": 116
    }
   },
   "warm": {
    "firstPer100km": {
-    "est": 4.91044,
+    "est": 4.92843,
     "ci95": [
-     3.71883,
-     6.75197
+     3.72164,
+     6.79777
     ],
-    "nTrips": 418,
-    "nDays": 99
+    "nTrips": 420,
+    "nDays": 100
    },
    "restartsPer100km": {
-    "est": 68.74614,
+    "est": 68.78058,
     "ci95": [
-     62.54754,
-     76.96264
+     62.63237,
+     76.79958
     ],
-    "nTrips": 418,
-    "nDays": 99
+    "nTrips": 420,
+    "nDays": 100
    }
   },
   "shoulder": {
    "firstPer100km": {
-    "est": 15.91184,
+    "est": 12.23523,
     "ci95": [
-     11.74999,
-     22.25153
+     7.90252,
+     20.27788
     ],
-    "nTrips": 124,
-    "nDays": 41
+    "nTrips": 142,
+    "nDays": 45
    },
    "restartsPer100km": {
-    "est": 86.04178,
+    "est": 83.49321,
     "ci95": [
-     64.20105,
-     105.05468
+     68.29474,
+     99.37743
     ],
-    "nTrips": 124,
-    "nDays": 41
+    "nTrips": 142,
+    "nDays": 45
+   }
+  },
+  "cold": {
+   "firstPer100km": {
+    "est": 61.7284,
+    "ci95": [
+     42.47104,
+     86.61417
+    ],
+    "nTrips": 11,
+    "nDays": 4
+   },
+   "restartsPer100km": {
+    "est": 55.55556,
+    "ci95": [
+     0.0,
+     104.2471
+    ],
+    "nTrips": 11,
+    "nDays": 4
    }
   },
   "sumCheck": true,
@@ -185,148 +214,174 @@
   "definition": "band starts / TOTAL km (bands sum to the pooled rate); coolant at the onset sample",
   "all": {
    "<40C": {
-    "nStarts": 203,
-    "shareOfStarts": 0.0299,
-    "per100km": 2.26683,
+    "nStarts": 215,
+    "shareOfStarts": 0.0303,
+    "per100km": 2.30777,
     "ci95": [
-     1.63155,
-     3.22821
+     1.67541,
+     3.24072
     ]
    },
    "40-60C": {
-    "nStarts": 324,
-    "shareOfStarts": 0.0477,
-    "per100km": 3.61799,
+    "nStarts": 359,
+    "shareOfStarts": 0.0506,
+    "per100km": 3.85344,
     "ci95": [
-     2.59442,
-     5.09556
+     2.82769,
+     5.48269
     ]
    },
    ">=60C": {
-    "nStarts": 6110,
-    "shareOfStarts": 0.9,
-    "per100km": 68.22821,
+    "nStarts": 6373,
+    "shareOfStarts": 0.8977,
+    "per100km": 68.40669,
     "ci95": [
-     61.60532,
-     76.16611
+     61.75123,
+     76.59001
     ]
    },
    "unknown": {
     "nStarts": 152,
-    "shareOfStarts": 0.0224,
-    "per100km": 1.69733,
+    "shareOfStarts": 0.0214,
+    "per100km": 1.63154,
     "ci95": [
-     0.1386,
-     4.87272
+     0.13576,
+     4.66934
     ]
    }
   },
   "warm": {
    "<40C": {
-    "nStarts": 128,
-    "shareOfStarts": 0.021,
-    "per100km": 1.54812,
+    "nStarts": 129,
+    "shareOfStarts": 0.0211,
+    "per100km": 1.55825,
     "ci95": [
-     1.11316,
-     2.23236
+     1.11651,
+     2.24916
     ]
    },
    "40-60C": {
-    "nStarts": 213,
-    "shareOfStarts": 0.035,
-    "per100km": 2.57617,
+    "nStarts": 215,
+    "shareOfStarts": 0.0352,
+    "per100km": 2.59709,
     "ci95": [
-     1.84372,
-     3.72414
+     1.87701,
+     3.75186
     ]
    },
    ">=60C": {
-    "nStarts": 5619,
-    "shareOfStarts": 0.9227,
-    "per100km": 67.95999,
+    "nStarts": 5628,
+    "shareOfStarts": 0.9223,
+    "per100km": 67.98333,
     "ci95": [
-     61.14594,
-     76.49638
+     61.46421,
+     76.32369
     ]
    },
    "unknown": {
     "nStarts": 130,
     "shareOfStarts": 0.0213,
-    "per100km": 1.57231,
+    "per100km": 1.57033,
     "ci95": [
-     0.06834,
-     4.87773
+     0.07093,
+     4.90735
     ]
    }
   },
   "shoulder": {
    "<40C": {
-    "nStarts": 68,
-    "shareOfStarts": 0.0983,
-    "per100km": 10.01856,
+    "nStarts": 77,
+    "shareOfStarts": 0.0787,
+    "per100km": 7.5369,
     "ci95": [
-     6.6842,
-     15.01559
+     4.65739,
+     13.07779
     ]
    },
    "40-60C": {
-    "nStarts": 111,
-    "shareOfStarts": 0.1604,
-    "per100km": 16.35383,
+    "nStarts": 141,
+    "shareOfStarts": 0.1442,
+    "per100km": 13.80134,
     "ci95": [
-     11.81247,
-     23.11553
+     9.06669,
+     22.31194
     ]
    },
    ">=60C": {
-    "nStarts": 491,
-    "shareOfStarts": 0.7095,
-    "per100km": 72.33992,
+    "nStarts": 738,
+    "shareOfStarts": 0.7546,
+    "per100km": 72.2368,
     "ci95": [
-     44.95171,
-     94.6662
+     50.34722,
+     89.45256
     ]
    },
    "unknown": {
     "nStarts": 22,
-    "shareOfStarts": 0.0318,
-    "per100km": 3.2413,
+    "shareOfStarts": 0.0225,
+    "per100km": 2.1534,
     "ci95": [
-     0.4399,
-     8.27633
+     0.30222,
+     5.85955
     ]
+   }
+  },
+  "cold": {
+   "<40C": {
+    "nStarts": 9,
+    "shareOfStarts": 0.4737,
+    "per100km": 55.55556,
+    "ci95": null
+   },
+   "40-60C": {
+    "nStarts": 3,
+    "shareOfStarts": 0.1579,
+    "per100km": 18.51852,
+    "ci95": null
+   },
+   ">=60C": {
+    "nStarts": 7,
+    "shareOfStarts": 0.3684,
+    "per100km": 43.20988,
+    "ci95": null
+   },
+   "unknown": {
+    "nStarts": 0,
+    "shareOfStarts": 0.0,
+    "per100km": 0.0,
+    "ci95": null
    }
   }
  },
  "flags": {
-  "leftCensoredDrives": 8,
-  "leftCensoredShareOfDrives": 0.0146,
-  "motoredFlagStarts": 157,
-  "motoredFlagShareOfStarts": 0.0231
+  "leftCensoredDrives": 9,
+  "leftCensoredShareOfDrives": 0.0157,
+  "motoredFlagStarts": 161,
+  "motoredFlagShareOfStarts": 0.0227
  },
  "fileGapContext": {
-  "nConsecutivePairs": 548,
-  "startWithin5min": 40,
-  "startWithin30min": 229,
-  "startWithin60min": 282,
-  "shareWithin30min": 0.418,
+  "nConsecutivePairs": 572,
+  "startWithin5min": 44,
+  "startWithin30min": 242,
+  "startWithin60min": 297,
+  "shareWithin30min": 0.423,
   "note": "file start from the file key, end = start + duration_s; a restart across a file boundary is counted as a trip-first start, so the first/restart split is a file-boundary artefact, not a cold-start measure"
  },
  "sensitivity": {
   "distGe0p5km": {
    "all": {
-    "est": 75.77501,
+    "est": 76.16563,
     "ci95": [
-     68.66061,
-     84.78414
+     69.09753,
+     85.16446
     ],
-    "nTrips": 539,
-    "nDays": 111,
+    "nTrips": 563,
+    "nDays": 116,
     "support": "ci",
-    "nStarts": 6783,
-    "km": 8951.5
+    "nStarts": 7093,
+    "km": 9312.6
    },
-   "nDrives": 539,
+   "nDrives": 563,
    "differenceVsPrimary": {
     "drives": -10,
     "starts": -6,
@@ -336,18 +391,18 @@
   },
   "allRowsIncludingInvalid": {
    "all": {
-    "est": 75.87302,
+    "est": 76.25879,
     "ci95": [
-     68.72183,
-     84.86365
+     69.18549,
+     85.22506
     ],
-    "nTrips": 551,
-    "nDays": 111,
+    "nTrips": 575,
+    "nDays": 116,
     "support": "ci",
-    "nStarts": 6811,
-    "km": 8976.8
+    "nStarts": 7121,
+    "km": 9337.9
    },
-   "nDrives": 551,
+   "nDrives": 575,
    "differenceVsPrimary": {
     "drives": 2,
     "starts": 22,
@@ -357,51 +412,51 @@
   },
   "excludingLeftCensored": {
    "all": {
-    "est": 75.51381,
+    "est": 75.91454,
     "ci95": [
-     68.36919,
-     84.44771
+     68.82426,
+     84.89898
     ],
-    "nTrips": 541,
-    "nDays": 111,
+    "nTrips": 564,
+    "nDays": 116,
     "support": "ci",
-    "nStarts": 6712,
-    "km": 8888.4
+    "nStarts": 7020,
+    "km": 9247.2
    },
-   "nDrives": 541,
+   "nDrives": 564,
    "differenceVsPrimary": {
-    "drives": -8,
-    "starts": -77,
-    "km": -66.8,
+    "drives": -9,
+    "starts": -79,
+    "km": -69.1,
     "note": "signed: sensitivity set minus primary set (negative = removed, positive = added)"
    }
   },
   "fillLimit3BothFills": {
    "all": {
-    "est": 76.8042,
+    "est": 77.28357,
     "ci95": [
-     69.52612,
-     85.94384
+     70.12959,
+     86.3983
     ],
-    "nTrips": 549,
-    "nDays": 111,
-    "nStarts": 6878
+    "nTrips": 573,
+    "nDays": 116,
+    "nStarts": 7200
    },
-   "changeInTotalStartsPct": 1.31,
+   "changeInTotalStartsPct": 1.42,
    "note": "the 1 s grid is NaN between raw rows (raw sampling interval > 1 s); grid NaN reads as engine-off, so the second fill is load-bearing; no-second-fill variants are not meaningful (runs split into many short runs)"
   }
  },
  "publishedEngineStartsByType": {
   "avgPerDriveRates": {
    "Urban": 103,
-   "Mixed": 72,
+   "Mixed": 73,
    "Mixed Highway": 77,
    "Highway": 47
   },
   "note": "unweighted MEAN of per-drive rates (short trips dominate: the per-drive extremes are driven by very short drives); not comparable with the pooled ratio of sums",
   "seasonalContractCoverageAll": {
-   "n_drives": 554,
-   "km": 8976.84
+   "n_drives": 578,
+   "km": 9337.94
   }
  },
  "stops": {

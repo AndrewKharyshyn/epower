@@ -2,9 +2,9 @@
  "milestone": "M377c",
  "step": 1,
  "basis": "raw/ = sha256-verified originals (M366); canonical-clean (ens_outlier_v2 False), distance>0, fuel PID",
- "n_drives": 322,
- "n_days": 58,
- "km": 2232.8399999999997,
+ "n_drives": 346,
+ "n_days": 63,
+ "km": 2593.9399999999996,
  "skipped": {
   "no_file": 0,
   "no_fuel": 224,
@@ -13,45 +13,45 @@
   "no_battery_inputs": 3
  },
  "per100km_totals": {
-  "E_gen": 15.975,
-  "E_gen_ps": 15.975,
-  "g2t": 8.39,
-  "g2b_master": 8.695,
-  "g2b_model": 7.585,
-  "eng_only": 5.808,
-  "dual": 2.887,
-  "regen": 3.068,
-  "b2t": 10.214,
-  "trac": 18.604,
-  "excess": 1.11,
-  "excess_engonly": -1.777,
-  "excess_ps": 1.11,
+  "E_gen": 16.029,
+  "E_gen_ps": 16.029,
+  "g2t": 8.731,
+  "g2b_master": 8.387,
+  "g2b_model": 7.298,
+  "eng_only": 5.573,
+  "dual": 2.814,
+  "regen": 3.065,
+  "b2t": 9.999,
+  "trac": 18.73,
+  "excess": 1.089,
+  "excess_engonly": -1.725,
+  "excess_ps": 1.089,
   "gen_def_gap": 0.0,
-  "batt_resid": 1.549,
-  "batt_resid_modelg2b": 0.439
+  "batt_resid": 1.453,
+  "batt_resid_modelg2b": 0.364
  },
  "relative_to_generator": {
   "excess": {
-   "est": 0.0695,
+   "est": 0.068,
    "ci95": [
-    0.0534,
-    0.0895
+    0.0537,
+    0.0863
    ],
    "closed": false
   },
   "excess_engonly": {
-   "est": -0.1113,
+   "est": -0.1076,
    "ci95": [
-    -0.1389,
-    -0.0877
+    -0.1346,
+    -0.0869
    ],
    "closed": false
   },
   "excess_ps": {
-   "est": 0.0695,
+   "est": 0.068,
    "ci95": [
-    0.0534,
-    0.0895
+    0.0537,
+    0.0863
    ],
    "closed": false
   },
@@ -72,59 +72,204 @@
    "excess_rel": "n<10: not evaluated"
   },
   "mixed": {
-   "n": 13,
-   "days": 11,
+   "n": 14,
+   "days": 12,
    "excess_rel": {
-    "est": 0.0342,
+    "est": 0.0352,
     "ci95": [
-     0.026,
-     0.0411
+     0.0273,
+     0.0416
     ],
     "closed": true
    }
   },
   "mixed_highway": {
-   "n": 5,
-   "days": 3,
+   "n": 7,
+   "days": 4,
    "excess_rel": "n<10: not evaluated"
   },
   "urban": {
-   "n": 302,
-   "days": 58,
+   "n": 323,
+   "days": 63,
    "excess_rel": {
-    "est": 0.0935,
+    "est": 0.0944,
     "ci95": [
-     0.0822,
-     0.1072
+     0.0831,
+     0.1073
     ],
     "closed": false
    }
   }
  },
  "exploratory_corr_with_excess_per_km": {
-  "dual_share": 0.648,
-  "gen_per_km": 0.205,
-  "gen_def_gap": 0.056
+  "dual_share": 0.652,
+  "gen_per_km": 0.187,
+  "gen_def_gap": 0.036
  },
- "share_drives_excess_positive": 0.866,
- "share_dual_in_g2b_master": 0.332,
+ "share_drives_excess_positive": 0.867,
+ "share_dual_in_g2b_master": 0.3356,
  "m372": {
   "checks": {
    "rawOriginals": {
-    "nChecked": 322,
+    "nChecked": 346,
     "nMismatch": 0
    },
    "flags": {
-    "nCompared": 542,
+    "nCompared": 566,
     "nDiverging": 0
    },
    "expectedSet": {
-    "nDrives": 322,
-    "nDays": 58,
-    "km": 2232.8,
+    "nDrives": 346,
+    "nDays": 63,
+    "km": 2593.9,
     "nPrevious": 322,
-    "nNew": 0,
-    "newIds": [],
+    "nNew": 24,
+    "newIds": [
+     {
+      "file": "2026-10-09_19-06-39.csv",
+      "date": "2026-10-09",
+      "km": 5.5,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-09_19-53-19.csv",
+      "date": "2026-10-09",
+      "km": 25.7,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-09_20-36-10.csv",
+      "date": "2026-10-09",
+      "km": 25.6,
+      "type": "mixed"
+     },
+     {
+      "file": "2026-10-09_21-27-00.csv",
+      "date": "2026-10-09",
+      "km": 3.0,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-09_21-50-51.csv",
+      "date": "2026-10-09",
+      "km": 2.2,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-10_06-57-23.csv",
+      "date": "2026-10-10",
+      "km": 127.4,
+      "type": "mixed_highway"
+     },
+     {
+      "file": "2026-10-10_14-09-42.csv",
+      "date": "2026-10-10",
+      "km": 5.0,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-10_15-53-26.csv",
+      "date": "2026-10-10",
+      "km": 5.4,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-10_19-49-29.csv",
+      "date": "2026-10-10",
+      "km": 118.1,
+      "type": "mixed_highway"
+     },
+     {
+      "file": "2026-10-10_21-41-35.csv",
+      "date": "2026-10-10",
+      "km": 2.2,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-11_10-42-38.csv",
+      "date": "2026-10-11",
+      "km": 0.9,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-11_11-10-55.csv",
+      "date": "2026-10-11",
+      "km": 0.9,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-11_12-38-17.csv",
+      "date": "2026-10-11",
+      "km": 6.8,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-11_13-16-22.csv",
+      "date": "2026-10-11",
+      "km": 5.9,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-11_13-59-37.csv",
+      "date": "2026-10-11",
+      "km": 4.7,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-11_14-26-47.csv",
+      "date": "2026-10-11",
+      "km": 2.9,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-11_15-16-20.csv",
+      "date": "2026-10-11",
+      "km": 1.2,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-12_08-41-25.csv",
+      "date": "2026-10-12",
+      "km": 5.1,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-12_09-24-15.csv",
+      "date": "2026-10-12",
+      "km": 2.4,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-12_09-36-13.csv",
+      "date": "2026-10-12",
+      "km": 2.4,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-13_07-42-34.csv",
+      "date": "2026-10-13",
+      "km": 2.3,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-13_07-56-36.csv",
+      "date": "2026-10-13",
+      "km": 0.7,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-13_08-10-25.csv",
+      "date": "2026-10-13",
+      "km": 2.3,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-13_08-26-07.csv",
+      "date": "2026-10-13",
+      "km": 2.5,
+      "type": "urban"
+     }
+    ],
     "previousPerDrive": {
      "path": "analyses/closure_baselines/perdrive_322drives.csv",
      "sha256": "6b856ced14eca19870f1a582953248cb238ade0b7d8d4bdd033d5ada829191e4",
@@ -132,12 +277,113 @@
      "master": "64dfd0cbff3db404d9b83e180f777525"
     }
    },
+   "repin": {
+    "previousPerDrive": {
+     "path": "analyses/closure_baselines/perdrive_322drives_recal_a641f34d.csv",
+     "sha256": "5367da2d6511ccd40d961d5f2b4e6a33f9d6926ec8871e5d354b7ee9635caa23",
+     "nDrives": 322,
+     "master": "a641f34d7528d004b900c151cbde3d6d"
+    },
+    "repinnedFrom": {
+     "path": "analyses/closure_baselines/perdrive_322drives.csv",
+     "sha256": "6b856ced14eca19870f1a582953248cb238ade0b7d8d4bdd033d5ada829191e4",
+     "nDrives": 322,
+     "master": "64dfd0cbff3db404d9b83e180f777525"
+    },
+    "repinReason": "auto (M398): closure drift attributed to the recalibrated offset columns (hybrid run reproduces the pin exactly; changed columns ['I_offset_2p_A_applied', 'I_offset_A_applied', 'cell_spread_loaded_p95_adj_hub_mv', 'cell_spread_loaded_p95_adj_mv', 'energy_residual_kwh_corr', 'energy_residual_kwh_corr2p', 'net_draw_kwh_corr', 'net_draw_kwh_corr2p', 'net_draw_per100km_corr', 'net_draw_per100km_corr2p', 'offset_2p_kwh_removed', 'offset_kwh_removed'])",
+    "note": "re-pinned automatically (M398): closure drift attributed to the recalibrated offset columns, hybrid run reproduces the previous pin exactly; identity stays exact (1e-5) for later runs",
+    "attribution": {
+     "rule": "M398",
+     "pinMasterEqualsCommittedMaster": true,
+     "masterColumnsChangedOnPreviousIds": [
+      "I_offset_2p_A_applied",
+      "I_offset_A_applied",
+      "cell_spread_loaded_p95_adj_hub_mv",
+      "cell_spread_loaded_p95_adj_mv",
+      "energy_residual_kwh_corr",
+      "energy_residual_kwh_corr2p",
+      "net_draw_kwh_corr",
+      "net_draw_kwh_corr2p",
+      "net_draw_per100km_corr",
+      "net_draw_per100km_corr2p",
+      "offset_2p_kwh_removed",
+      "offset_kwh_removed"
+     ],
+     "allWithinRecalibrationColumns": true,
+     "hybridRunIdentityExact": true,
+     "nPrevious": 322,
+     "tolerance": {
+      "maxAbs": 0.001,
+      "colSumRelChange": 0.001
+     },
+     "driftColumns": {
+      "g2t": {
+       "nDrivesChanged": 164,
+       "maxAbs": 0.00046,
+       "colSumRelChange": 2.989e-05
+      },
+      "trac": {
+       "nDrivesChanged": 173,
+       "maxAbs": 0.00029,
+       "colSumRelChange": 2.14e-06
+      },
+      "b2t": {
+       "nDrivesChanged": 167,
+       "maxAbs": 0.00019,
+       "colSumRelChange": 2.065e-05
+      },
+      "g2b_model": {
+       "nDrivesChanged": 178,
+       "maxAbs": 0.00046,
+       "colSumRelChange": 3.312e-05
+      },
+      "excess": {
+       "nDrivesChanged": 147,
+       "maxAbs": 0.00046,
+       "colSumRelChange": 0.0002264
+      },
+      "excess_engonly": {
+       "nDrivesChanged": 145,
+       "maxAbs": 0.00046,
+       "colSumRelChange": 0.00014136
+      },
+      "excess_ps": {
+       "nDrivesChanged": 147,
+       "maxAbs": 0.00046,
+       "colSumRelChange": 0.0002264
+      },
+      "batt_resid": {
+       "nDrivesChanged": 149,
+       "maxAbs": 0.00019,
+       "colSumRelChange": 0.00013621
+      },
+      "batt_resid_modelg2b": {
+       "nDrivesChanged": 147,
+       "maxAbs": 0.00029,
+       "colSumRelChange": 9.183e-05
+      }
+     },
+     "nDrivesChangedConvention": "at >1e-5 on 5-dp rounded values (descriptive only; the decision uses maxAbs and colSumRelChange)",
+     "cumulativeVsOriginalPin": null
+    },
+    "originalPin": {
+     "path": "analyses/closure_baselines/perdrive_322drives.csv",
+     "sha256": "6b856ced14eca19870f1a582953248cb238ade0b7d8d4bdd033d5ada829191e4",
+     "nDrives": 322,
+     "master": "64dfd0cbff3db404d9b83e180f777525"
+    }
+   },
    "previousIdentity": {
-    "nIdentical": 322,
-    "columns": 23
+    "attributedRecalibrationDrift": true,
+    "newPin": {
+     "path": "analyses/closure_baselines/perdrive_322drives_recal_a641f34d.csv",
+     "sha256": "5367da2d6511ccd40d961d5f2b4e6a33f9d6926ec8871e5d354b7ee9635caa23",
+     "nDrives": 322,
+     "master": "a641f34d7528d004b900c151cbde3d6d"
+    }
    }
   },
-  "scriptGit": "82606fc",
+  "scriptGit": "191bcb2",
   "summaryArraysSha256Start": ""
  }
 }

@@ -16,7 +16,7 @@
   "distribution_overlay": "shared-axis per-cohort histograms",
   "multiline_curve": "per-cohort fitted/binned curves (Phase-1 staged charts)"
  },
- "adjustedContrastAvailable": false,
+ "adjustedContrastAvailable": true,
  "dataReadyCharts": [
   "RegenChart",
   "BatteryThermalChart",
@@ -55,161 +55,165 @@
    "metrics": {
     "regen_share_of_charge": {
      "All observations": {
-      "n": 539,
-      "value": 28.50074211502783,
-      "pooled_median": 24.7,
-      "p10": 8.300000000000002,
-      "p90": 47.559999999999995,
-      "day_weighted_mean": 28.044532609879834,
-      "vs_warm_pct": 3.32
+      "n": 563,
+      "value": 28.636234458259327,
+      "pooled_median": 24.9,
+      "p10": 8.000000000000002,
+      "p90": 47.5,
+      "day_weighted_mean": 28.182724382304027,
+      "vs_warm_pct": 3.68
      },
      "Warm": {
-      "n": 414,
-      "value": 27.58429951690821,
+      "n": 416,
+      "value": 27.62091346153846,
       "pooled_median": 25.1,
       "p10": 9.9,
-      "p90": 44.04,
-      "day_weighted_mean": 27.340737255941338,
+      "p90": 44.1,
+      "day_weighted_mean": 27.420123748305567,
       "vs_warm_pct": null
      },
      "Shoulder": {
-      "n": 118,
-      "value": 32.253389830508475,
-      "pooled_median": 23.4,
-      "p10": 2.7500000000000004,
+      "n": 136,
+      "value": 32.01544117647059,
+      "pooled_median": 24.5,
+      "p10": 3.05,
       "p90": 100.0,
-      "day_weighted_mean": 30.405989974937345,
-      "vs_warm_pct": 16.93
+      "day_weighted_mean": 30.393673469387757,
+      "vs_warm_pct": 15.91
      },
      "Cold": {
-      "n": 0,
-      "value": null,
-      "pooled_median": null,
-      "p10": null,
-      "p90": null,
-      "vs_warm_pct": null
+      "n": 11,
+      "value": 25.254545454545454,
+      "pooled_median": 9.4,
+      "p10": 0.1,
+      "p90": 60.0,
+      "day_weighted_mean": 23.54375,
+      "vs_warm_pct": -8.57
      }
     },
     "regen_peak_Crate": {
      "All observations": {
-      "n": 473,
-      "value": 16.36892177589852,
+      "n": 492,
+      "value": 16.38069105691057,
       "pooled_median": 12.2,
       "p10": 7.4,
-      "p90": 35.78,
-      "day_weighted_mean": 16.817366021324354,
-      "vs_warm_pct": -5.14
+      "p90": 35.79,
+      "day_weighted_mean": 16.744370474658087,
+      "vs_warm_pct": -5.21
      },
      "Warm": {
-      "n": 387,
-      "value": 17.25658914728682,
-      "pooled_median": 12.9,
+      "n": 389,
+      "value": 17.281748071979436,
+      "pooled_median": 13.0,
       "p10": 7.6,
       "p90": 37.0,
-      "day_weighted_mean": 17.164113069470215,
+      "day_weighted_mean": 17.214475563717986,
       "vs_warm_pct": null
      },
      "Shoulder": {
-      "n": 85,
-      "value": 12.44470588235294,
-      "pooled_median": 9.6,
-      "p10": 7.08,
-      "p90": 21.26,
-      "day_weighted_mean": 12.882850877192983,
-      "vs_warm_pct": -27.88
+      "n": 100,
+      "value": 13.124,
+      "pooled_median": 10.4,
+      "p10": 7.2,
+      "p90": 21.310000000000002,
+      "day_weighted_mean": 13.31436507936508,
+      "vs_warm_pct": -24.06
      },
      "Cold": {
-      "n": 0,
-      "value": null,
-      "pooled_median": null,
-      "p10": null,
-      "p90": null,
-      "vs_warm_pct": null
+      "n": 3,
+      "value": 8.1,
+      "pooled_median": 8.7,
+      "p10": 6.86,
+      "p90": 9.1,
+      "day_weighted_mean": 7.675,
+      "vs_warm_pct": -53.13
      }
     },
     "motor_regen_lower_pct": {
      "All observations": {
-      "n": 539,
-      "value": 24.07402597402597,
-      "pooled_median": 20.5,
+      "n": 563,
+      "value": 24.285790408525756,
+      "pooled_median": 20.8,
       "p10": 6.2,
-      "p90": 39.54,
-      "day_weighted_mean": 23.39539708234153,
-      "vs_warm_pct": 3.91
+      "p90": 39.660000000000004,
+      "day_weighted_mean": 23.621062192478124,
+      "vs_warm_pct": 4.59
      },
      "Warm": {
-      "n": 414,
-      "value": 23.167632850241546,
-      "pooled_median": 20.65,
-      "p10": 7.760000000000001,
-      "p90": 37.17999999999999,
-      "day_weighted_mean": 22.810781392643637,
+      "n": 416,
+      "value": 23.219951923076923,
+      "pooled_median": 20.75,
+      "p10": 7.800000000000001,
+      "p90": 37.3,
+      "day_weighted_mean": 22.924308853324007,
       "vs_warm_pct": null
      },
      "Shoulder": {
-      "n": 118,
-      "value": 27.776271186440677,
-      "pooled_median": 19.5,
-      "p10": 2.1700000000000004,
-      "p90": 82.65,
-      "day_weighted_mean": 25.863182957393484,
-      "vs_warm_pct": 19.89
+      "n": 136,
+      "value": 27.72720588235294,
+      "pooled_median": 21.1,
+      "p10": 2.35,
+      "p90": 81.75,
+      "day_weighted_mean": 25.977732426303852,
+      "vs_warm_pct": 19.41
      },
      "Cold": {
-      "n": 0,
-      "value": null,
-      "pooled_median": null,
-      "p10": null,
-      "p90": null,
-      "vs_warm_pct": null
+      "n": 11,
+      "value": 22.045454545454547,
+      "pooled_median": 8.5,
+      "p10": 0.1,
+      "p90": 42.7,
+      "day_weighted_mean": 19.96666666666667,
+      "vs_warm_pct": -5.06
      }
     },
     "motor_regen_upper_pct": {
      "All observations": {
-      "n": 539,
-      "value": 50.929499072356215,
-      "pooled_median": 49.5,
-      "p10": 32.1,
-      "p90": 69.82,
-      "day_weighted_mean": 49.1812331341498,
-      "vs_warm_pct": -0.56
+      "n": 563,
+      "value": 51.203552397868556,
+      "pooled_median": 50.0,
+      "p10": 32.14,
+      "p90": 70.24,
+      "day_weighted_mean": 49.55203192088148,
+      "vs_warm_pct": -0.3
      },
      "Warm": {
-      "n": 414,
-      "value": 51.21473429951691,
-      "pooled_median": 50.05,
-      "p10": 35.230000000000004,
-      "p90": 68.74,
-      "day_weighted_mean": 50.322313587772776,
+      "n": 416,
+      "value": 51.35576923076923,
+      "pooled_median": 50.150000000000006,
+      "p10": 35.25,
+      "p90": 69.05,
+      "day_weighted_mean": 50.62764375355284,
       "vs_warm_pct": null
      },
      "Shoulder": {
-      "n": 118,
-      "value": 50.883050847457625,
-      "pooled_median": 48.3,
-      "p10": 30.21,
-      "p90": 82.65,
-      "day_weighted_mean": 50.046635338345865,
-      "vs_warm_pct": -0.65
+      "n": 136,
+      "value": 51.43970588235294,
+      "pooled_median": 50.0,
+      "p10": 30.4,
+      "p90": 82.35,
+      "day_weighted_mean": 50.53960884353741,
+      "vs_warm_pct": 0.16
      },
      "Cold": {
-      "n": 0,
-      "value": null,
-      "pooled_median": null,
-      "p10": null,
-      "p90": null,
-      "vs_warm_pct": null
+      "n": 11,
+      "value": 42.52727272727273,
+      "pooled_median": 38.4,
+      "p10": 22.1,
+      "p90": 59.8,
+      "day_weighted_mean": 39.88125,
+      "vs_warm_pct": -17.19
      }
     }
    },
    "coverage": {
     "All observations": {
-     "n_drives": 554,
-     "km": 8976.84,
-     "independent_days": 112,
+     "n_drives": 578,
+     "km": 9337.94,
+     "independent_days": 117,
      "date_range": [
       "2026-05-11",
-      "2026-10-08"
+      "2026-10-13"
      ],
      "ambient_range_c": [
       3.0,
@@ -217,12 +221,12 @@
      ]
     },
     "Warm": {
-     "n_drives": 421,
-     "km": 8269.0,
-     "independent_days": 100,
+     "n_drives": 423,
+     "km": 8279.4,
+     "independent_days": 101,
      "date_range": [
       "2026-05-11",
-      "2026-10-08"
+      "2026-10-10"
      ],
      "ambient_range_c": [
       15.0,
@@ -230,24 +234,30 @@
      ]
     },
     "Shoulder": {
-     "n_drives": 126,
-     "km": 699.44,
-     "independent_days": 41,
+     "n_drives": 144,
+     "km": 1042.34,
+     "independent_days": 45,
      "date_range": [
       "2026-05-12",
-      "2026-10-08"
+      "2026-10-12"
      ],
      "ambient_range_c": [
-      7.0,
+      5.0,
       14.8
      ]
     },
     "Cold": {
-     "n_drives": 0,
-     "km": 0,
-     "independent_days": 0,
-     "date_range": null,
-     "ambient_range_c": null
+     "n_drives": 11,
+     "km": 16.2,
+     "independent_days": 4,
+     "date_range": [
+      "2026-09-30",
+      "2026-10-13"
+     ],
+     "ambient_range_c": [
+      3.0,
+      5.0
+     ]
     }
    }
   },
@@ -258,12 +268,12 @@
    "metrics": {
     "pack_temp_start_c": {
      "All observations": {
-      "n": 547,
-      "value": 26.167884826325412,
+      "n": 571,
+      "value": 25.96059544658494,
       "pooled_median": 25.5,
-      "p10": 16.65,
-      "p90": 36.75,
-      "day_weighted_mean": 25.40398985658986,
+      "p10": 16.25,
+      "p90": 36.5,
+      "day_weighted_mean": 25.19257050727051,
       "hist": {
        "edges": [
         -10,
@@ -284,27 +294,27 @@
         0,
         0,
         0,
-        1,
-        27,
-        112,
-        115,
-        103,
-        104,
-        66,
+        2,
+        32,
+        118,
+        119,
+        107,
+        105,
+        69,
         19,
         0
        ],
-       "n": 547
+       "n": 571
       },
-      "vs_warm_pct": -6.63
+      "vs_warm_pct": -7.33
      },
      "Warm": {
-      "n": 417,
-      "value": 28.0257793764988,
-      "pooled_median": 28.0,
+      "n": 419,
+      "value": 28.013126491646776,
+      "pooled_median": 27.75,
       "p10": 18.75,
       "p90": 37.75,
-      "day_weighted_mean": 26.67372274767881,
+      "day_weighted_mean": 26.66073552020202,
       "hist": {
        "edges": [
         -10,
@@ -328,24 +338,24 @@
         0,
         6,
         56,
-        86,
-        92,
+        87,
+        93,
         94,
         64,
         19,
         0
        ],
-       "n": 417
+       "n": 419
       },
       "vs_warm_pct": null
      },
      "Shoulder": {
-      "n": 123,
-      "value": 20.537934959349595,
-      "pooled_median": 19.5,
+      "n": 141,
+      "value": 20.858744680851064,
+      "pooled_median": 19.667,
       "p10": 14.0,
-      "p90": 29.5,
-      "day_weighted_mean": 20.942767440476192,
+      "p90": 31.0,
+      "day_weighted_mean": 21.129303084415582,
       "hist": {
        "edges": [
         -10,
@@ -367,25 +377,26 @@
         0,
         0,
         1,
-        17,
-        53,
-        29,
+        19,
+        59,
+        32,
+        14,
         11,
-        10,
-        2,
+        5,
         0,
         0
        ],
-       "n": 123
+       "n": 141
       },
-      "vs_warm_pct": -26.72
+      "vs_warm_pct": -25.54
      },
      "Cold": {
-      "n": 0,
-      "value": null,
-      "pooled_median": null,
-      "p10": null,
-      "p90": null,
+      "n": 11,
+      "value": 13.174272727272728,
+      "pooled_median": 13.417,
+      "p10": 10.25,
+      "p90": 15.25,
+      "day_weighted_mean": 13.53475,
       "hist": {
        "edges": [
         -10,
@@ -406,9 +417,9 @@
         0,
         0,
         0,
-        0,
-        0,
-        0,
+        1,
+        7,
+        3,
         0,
         0,
         0,
@@ -416,131 +427,134 @@
         0,
         0
        ],
-       "n": 0
+       "n": 11
       },
-      "vs_warm_pct": null
+      "vs_warm_pct": -52.97
      }
     },
     "pack_temp_time_mean_c": {
      "All observations": {
-      "n": 547,
-      "value": 27.7768957952468,
-      "pooled_median": 27.932,
-      "p10": 17.538800000000002,
-      "p90": 37.775999999999996,
-      "day_weighted_mean": 27.411352212702212,
-      "vs_warm_pct": -6.77
+      "n": 571,
+      "value": 27.596970227670756,
+      "pooled_median": 27.822,
+      "p10": 17.032,
+      "p90": 37.724,
+      "day_weighted_mean": 27.209331468722848,
+      "vs_warm_pct": -7.36
      },
      "Warm": {
-      "n": 417,
-      "value": 29.793791366906476,
+      "n": 419,
+      "value": 29.788221957040573,
       "pooled_median": 30.006,
-      "p10": 20.2972,
-      "p90": 38.5266,
-      "day_weighted_mean": 28.73573909076333,
+      "p10": 20.302599999999998,
+      "p90": 38.516799999999996,
+      "day_weighted_mean": 28.7346516998557,
       "vs_warm_pct": null
      },
      "Shoulder": {
-      "n": 123,
-      "value": 21.69213821138211,
-      "pooled_median": 20.532,
-      "p10": 15.0832,
-      "p90": 31.6398,
-      "day_weighted_mean": 22.34299011904762,
-      "vs_warm_pct": -27.19
+      "n": 141,
+      "value": 22.180893617021276,
+      "pooled_median": 20.774,
+      "p10": 15.108,
+      "p90": 33.257,
+      "day_weighted_mean": 22.679693398268398,
+      "vs_warm_pct": -25.54
      },
      "Cold": {
-      "n": 0,
-      "value": null,
-      "pooled_median": null,
-      "p10": null,
-      "p90": null,
-      "vs_warm_pct": null
+      "n": 11,
+      "value": 13.554454545454545,
+      "pooled_median": 13.74,
+      "p10": 10.574,
+      "p90": 15.561,
+      "day_weighted_mean": 13.824645833333333,
+      "vs_warm_pct": -54.5
      }
     },
     "pack_temp_max_c": {
      "All observations": {
-      "n": 547,
-      "value": 29.84277696526508,
+      "n": 571,
+      "value": 29.683010507880912,
       "pooled_median": 30.0,
-      "p10": 18.9,
-      "p90": 40.20000000000002,
-      "day_weighted_mean": 29.69012251014751,
-      "vs_warm_pct": -6.52
+      "p10": 18.5,
+      "p90": 40.0,
+      "day_weighted_mean": 29.49594645778072,
+      "vs_warm_pct": -7.01
      },
      "Warm": {
-      "n": 417,
-      "value": 31.923258992805756,
+      "n": 419,
+      "value": 31.919448687350833,
       "pooled_median": 32.0,
-      "p10": 21.9,
-      "p90": 41.60000000000001,
-      "day_weighted_mean": 30.990190135117405,
+      "p10": 21.950000000000003,
+      "p90": 41.55,
+      "day_weighted_mean": 30.99153823376623,
       "vs_warm_pct": null
      },
      "Shoulder": {
-      "n": 123,
-      "value": 23.585365853658537,
+      "n": 141,
+      "value": 24.20390070921986,
       "pooled_median": 22.0,
       "p10": 16.75,
-      "p90": 34.599999999999994,
-      "day_weighted_mean": 24.463124999999998,
-      "vs_warm_pct": -26.12
+      "p90": 36.25,
+      "day_weighted_mean": 24.90419372294372,
+      "vs_warm_pct": -24.17
      },
      "Cold": {
-      "n": 0,
-      "value": null,
-      "pooled_median": null,
-      "p10": null,
-      "p90": null,
-      "vs_warm_pct": null
+      "n": 11,
+      "value": 14.727272727272727,
+      "pooled_median": 15.0,
+      "p10": 11.0,
+      "p90": 16.0,
+      "day_weighted_mean": 15.020833333333332,
+      "vs_warm_pct": -53.86
      }
     },
     "pack_spread_time_mean_c": {
      "All observations": {
-      "n": 546,
-      "value": 2.5596373626373623,
-      "pooled_median": 1.8195000000000001,
-      "p10": 0.5465,
-      "p90": 6.4719999999999995,
-      "day_weighted_mean": 2.48700061741289,
-      "vs_warm_pct": -7.15
+      "n": 570,
+      "value": 2.5792157894736842,
+      "pooled_median": 1.8695,
+      "p10": 0.5545000000000001,
+      "p90": 6.433600000000003,
+      "day_weighted_mean": 2.5071286236951456,
+      "vs_warm_pct": -6.57
      },
      "Warm": {
-      "n": 417,
-      "value": 2.7568201438848923,
-      "pooled_median": 1.946,
-      "p10": 0.5394,
-      "p90": 6.8184000000000005,
-      "day_weighted_mean": 2.486931521564855,
+      "n": 419,
+      "value": 2.7606587112171836,
+      "pooled_median": 1.987,
+      "p10": 0.5402,
+      "p90": 6.813199999999999,
+      "day_weighted_mean": 2.4976722063492063,
       "vs_warm_pct": null
      },
      "Shoulder": {
-      "n": 122,
-      "value": 1.912532786885246,
-      "pooled_median": 1.415,
-      "p10": 0.5977,
-      "p90": 3.3804,
-      "day_weighted_mean": 1.972697802197802,
-      "vs_warm_pct": -30.63
+      "n": 140,
+      "value": 2.079642857142857,
+      "pooled_median": 1.494,
+      "p10": 0.6238,
+      "p90": 3.816500000000002,
+      "day_weighted_mean": 2.1250140642303434,
+      "vs_warm_pct": -24.67
      },
      "Cold": {
-      "n": 0,
-      "value": null,
-      "pooled_median": null,
-      "p10": null,
-      "p90": null,
-      "vs_warm_pct": null
+      "n": 11,
+      "value": 2.026090909090909,
+      "pooled_median": 1.96,
+      "p10": 1.45,
+      "p90": 3.0,
+      "day_weighted_mean": 2.060875,
+      "vs_warm_pct": -26.61
      }
     }
    },
    "coverage": {
     "All observations": {
-     "n_drives": 554,
-     "km": 8976.84,
-     "independent_days": 112,
+     "n_drives": 578,
+     "km": 9337.94,
+     "independent_days": 117,
      "date_range": [
       "2026-05-11",
-      "2026-10-08"
+      "2026-10-13"
      ],
      "ambient_range_c": [
       3.0,
@@ -548,12 +562,12 @@
      ]
     },
     "Warm": {
-     "n_drives": 421,
-     "km": 8269.0,
-     "independent_days": 100,
+     "n_drives": 423,
+     "km": 8279.4,
+     "independent_days": 101,
      "date_range": [
       "2026-05-11",
-      "2026-10-08"
+      "2026-10-10"
      ],
      "ambient_range_c": [
       15.0,
@@ -561,24 +575,30 @@
      ]
     },
     "Shoulder": {
-     "n_drives": 126,
-     "km": 699.44,
-     "independent_days": 41,
+     "n_drives": 144,
+     "km": 1042.34,
+     "independent_days": 45,
      "date_range": [
       "2026-05-12",
-      "2026-10-08"
+      "2026-10-12"
      ],
      "ambient_range_c": [
-      7.0,
+      5.0,
       14.8
      ]
     },
     "Cold": {
-     "n_drives": 0,
-     "km": 0,
-     "independent_days": 0,
-     "date_range": null,
-     "ambient_range_c": null
+     "n_drives": 11,
+     "km": 16.2,
+     "independent_days": 4,
+     "date_range": [
+      "2026-09-30",
+      "2026-10-13"
+     ],
+     "ambient_range_c": [
+      3.0,
+      5.0
+     ]
     }
    }
   },
@@ -589,124 +609,127 @@
    "metrics": {
     "vcm_coolant_start_c": {
      "All observations": {
-      "n": 548,
-      "value": 27.26824817518248,
+      "n": 572,
+      "value": 27.09090909090909,
       "pooled_median": 27.0,
       "p10": 19.0,
       "p90": 36.0,
-      "day_weighted_mean": 26.999130636630635,
-      "vs_warm_pct": -5.79
+      "day_weighted_mean": 26.80787090065107,
+      "vs_warm_pct": -6.35
      },
      "Warm": {
-      "n": 417,
-      "value": 28.94484412470024,
+      "n": 419,
+      "value": 28.928400954653938,
       "pooled_median": 28.0,
       "p10": 22.0,
       "p90": 37.0,
-      "day_weighted_mean": 28.0763509918813,
+      "day_weighted_mean": 28.050587481962484,
       "vs_warm_pct": null
      },
      "Shoulder": {
-      "n": 124,
-      "value": 22.35483870967742,
+      "n": 142,
+      "value": 22.549295774647888,
       "pooled_median": 23.0,
       "p10": 15.0,
       "p90": 28.0,
-      "day_weighted_mean": 22.641011904761903,
-      "vs_warm_pct": -22.77
+      "day_weighted_mean": 22.732954545454547,
+      "vs_warm_pct": -22.05
      },
      "Cold": {
-      "n": 0,
-      "value": null,
-      "pooled_median": null,
-      "p10": null,
-      "p90": null,
-      "vs_warm_pct": null
+      "n": 11,
+      "value": 15.727272727272727,
+      "pooled_median": 16.0,
+      "p10": 11.0,
+      "p90": 20.0,
+      "day_weighted_mean": 15.208333333333334,
+      "vs_warm_pct": -45.63
      }
     },
     "engine_coolant_start_c": {
      "All observations": {
-      "n": 547,
-      "value": 48.54478976234004,
+      "n": 571,
+      "value": 48.423817863397545,
       "pooled_median": 49.5,
       "p10": 21.0,
       "p90": 75.0,
-      "day_weighted_mean": 45.55801480265766,
-      "vs_warm_pct": -5.27
+      "day_weighted_mean": 45.53097306302434,
+      "vs_warm_pct": -5.36
      },
      "Warm": {
-      "n": 419,
-      "value": 51.243436754176614,
-      "pooled_median": 52.0,
+      "n": 421,
+      "value": 51.1686460807601,
+      "pooled_median": 51.5,
       "p10": 23.0,
       "p90": 77.0,
-      "day_weighted_mean": 46.91066702741703,
+      "day_weighted_mean": 46.79769012615547,
       "vs_warm_pct": null
      },
      "Shoulder": {
-      "n": 121,
-      "value": 40.21487603305785,
-      "pooled_median": 43.0,
-      "p10": 16.0,
-      "p90": 58.5,
-      "day_weighted_mean": 39.46204994192799,
-      "vs_warm_pct": -21.52
+      "n": 139,
+      "value": 41.064748201438846,
+      "pooled_median": 44.5,
+      "p10": 15.8,
+      "p90": 60.2,
+      "day_weighted_mean": 40.06267195767195,
+      "vs_warm_pct": -19.75
      },
      "Cold": {
-      "n": 0,
-      "value": null,
-      "pooled_median": null,
-      "p10": null,
-      "p90": null,
-      "vs_warm_pct": null
+      "n": 11,
+      "value": 36.36363636363637,
+      "pooled_median": 41.0,
+      "p10": 13.0,
+      "p90": 57.0,
+      "day_weighted_mean": 34.5,
+      "vs_warm_pct": -28.93
      }
     },
     "oil_temp_start_c": {
      "All observations": {
-      "n": 543,
-      "value": 44.18139963167587,
+      "n": 567,
+      "value": 44.10582010582011,
       "pooled_median": 44.0,
-      "p10": 19.200000000000003,
-      "p90": 68.80000000000001,
-      "day_weighted_mean": 41.665756945075124,
-      "vs_warm_pct": -5.79
+      "p10": 19.0,
+      "p90": 68.0,
+      "day_weighted_mean": 41.668456953674344,
+      "vs_warm_pct": -5.83
      },
      "Warm": {
-      "n": 418,
-      "value": 46.895933014354064,
+      "n": 420,
+      "value": 46.83452380952381,
       "pooled_median": 47.0,
       "p10": 22.0,
-      "p90": 70.30000000000001,
-      "day_weighted_mean": 43.21782178932179,
+      "p90": 70.10000000000002,
+      "day_weighted_mean": 43.126556227051275,
       "vs_warm_pct": null
      },
      "Shoulder": {
-      "n": 118,
-      "value": 35.71186440677966,
-      "pooled_median": 38.0,
-      "p10": 16.0,
-      "p90": 50.0,
-      "day_weighted_mean": 34.92230576441103,
-      "vs_warm_pct": -23.85
+      "n": 136,
+      "value": 36.75735294117647,
+      "pooled_median": 39.0,
+      "p10": 15.5,
+      "p90": 52.5,
+      "day_weighted_mean": 35.73401360544218,
+      "vs_warm_pct": -21.52
      },
      "Cold": {
-      "n": 0,
-      "value": null,
-      "pooled_median": null,
-      "p10": null,
-      "p90": null,
-      "vs_warm_pct": null
+      "n": 11,
+      "value": 30.772727272727273,
+      "pooled_median": 34.0,
+      "p10": 12.0,
+      "p90": 55.0,
+      "day_weighted_mean": 28.78125,
+      "vs_warm_pct": -34.29
      }
     }
    },
    "coverage": {
     "All observations": {
-     "n_drives": 554,
-     "km": 8976.84,
-     "independent_days": 112,
+     "n_drives": 578,
+     "km": 9337.94,
+     "independent_days": 117,
      "date_range": [
       "2026-05-11",
-      "2026-10-08"
+      "2026-10-13"
      ],
      "ambient_range_c": [
       3.0,
@@ -714,12 +737,12 @@
      ]
     },
     "Warm": {
-     "n_drives": 421,
-     "km": 8269.0,
-     "independent_days": 100,
+     "n_drives": 423,
+     "km": 8279.4,
+     "independent_days": 101,
      "date_range": [
       "2026-05-11",
-      "2026-10-08"
+      "2026-10-10"
      ],
      "ambient_range_c": [
       15.0,
@@ -727,24 +750,30 @@
      ]
     },
     "Shoulder": {
-     "n_drives": 126,
-     "km": 699.44,
-     "independent_days": 41,
+     "n_drives": 144,
+     "km": 1042.34,
+     "independent_days": 45,
      "date_range": [
       "2026-05-12",
-      "2026-10-08"
+      "2026-10-12"
      ],
      "ambient_range_c": [
-      7.0,
+      5.0,
       14.8
      ]
     },
     "Cold": {
-     "n_drives": 0,
-     "km": 0,
-     "independent_days": 0,
-     "date_range": null,
-     "ambient_range_c": null
+     "n_drives": 11,
+     "km": 16.2,
+     "independent_days": 4,
+     "date_range": [
+      "2026-09-30",
+      "2026-10-13"
+     ],
+     "ambient_range_c": [
+      3.0,
+      5.0
+     ]
     }
    }
   },
@@ -755,87 +784,89 @@
    "metrics": {
     "rf_n_cycles": {
      "All observations": {
-      "n": 552,
-      "value": 17.492753623188406,
+      "n": 576,
+      "value": 17.55642361111111,
       "pooled_median": 6.5,
       "p10": 1.5,
-      "p90": 42.400000000000034,
-      "day_weighted_mean": 19.434391835842728,
-      "vs_warm_pct": -14.11
+      "p90": 42.0,
+      "day_weighted_mean": 19.388620104966257,
+      "vs_warm_pct": -13.63
      },
      "Warm": {
-      "n": 419,
-      "value": 20.367541766109785,
-      "pooled_median": 7.0,
+      "n": 421,
+      "value": 20.327790973871736,
+      "pooled_median": 7.5,
       "p10": 2.5,
       "p90": 49.5,
-      "day_weighted_mean": 20.55889917027417,
+      "day_weighted_mean": 20.474157594330862,
       "vs_warm_pct": null
      },
      "Shoulder": {
-      "n": 126,
-      "value": 8.845238095238095,
+      "n": 144,
+      "value": 10.652777777777779,
       "pooled_median": 4.0,
       "p10": 1.0,
-      "p90": 21.75,
-      "day_weighted_mean": 10.398722415795586,
-      "vs_warm_pct": -56.57
+      "p90": 27.300000000000068,
+      "day_weighted_mean": 12.137354497354497,
+      "vs_warm_pct": -47.6
      },
      "Cold": {
-      "n": 0,
-      "value": null,
-      "pooled_median": null,
-      "p10": null,
-      "p90": null,
-      "vs_warm_pct": null
+      "n": 11,
+      "value": 1.8636363636363635,
+      "pooled_median": 1.0,
+      "p10": 0.5,
+      "p90": 3.5,
+      "day_weighted_mean": 1.6458333333333333,
+      "vs_warm_pct": -90.83
      }
     },
     "rf_efc": {
      "All observations": {
-      "n": 552,
-      "value": 0.7230797101449276,
-      "pooled_median": 0.27375000000000005,
+      "n": 576,
+      "value": 0.72234375,
+      "pooled_median": 0.2775,
       "p10": 0.12,
       "p90": 1.6575,
-      "day_weighted_mean": 0.81439613251332,
-      "vs_warm_pct": -13.69
+      "day_weighted_mean": 0.8087903759346067,
+      "vs_warm_pct": -13.63
      },
      "Warm": {
-      "n": 419,
-      "value": 0.8377684964200477,
+      "n": 421,
+      "value": 0.836353919239905,
       "pooled_median": 0.33,
-      "p10": 0.137,
-      "p90": 2.0319999999999996,
-      "day_weighted_mean": 0.8586547718253967,
+      "p10": 0.1375,
+      "p90": 2.0225,
+      "day_weighted_mean": 0.8554997740845514,
       "vs_warm_pct": null
      },
      "Shoulder": {
-      "n": 126,
-      "value": 0.3741666666666667,
-      "pooled_median": 0.2225,
-      "p10": 0.051250000000000004,
-      "p90": 1.0812499999999998,
-      "day_weighted_mean": 0.43686048199767713,
-      "vs_warm_pct": -55.34
+      "n": 144,
+      "value": 0.4329861111111111,
+      "pooled_median": 0.225,
+      "p10": 0.05475,
+      "p90": 1.193000000000001,
+      "day_weighted_mean": 0.4918548941798942,
+      "vs_warm_pct": -48.23
      },
      "Cold": {
-      "n": 0,
-      "value": null,
-      "pooled_median": null,
-      "p10": null,
-      "p90": null,
-      "vs_warm_pct": null
+      "n": 11,
+      "value": 0.14681818181818182,
+      "pooled_median": 0.15,
+      "p10": 0.0575,
+      "p90": 0.2175,
+      "day_weighted_mean": 0.14385416666666667,
+      "vs_warm_pct": -82.45
      }
     }
    },
    "coverage": {
     "All observations": {
-     "n_drives": 554,
-     "km": 8976.84,
-     "independent_days": 112,
+     "n_drives": 578,
+     "km": 9337.94,
+     "independent_days": 117,
      "date_range": [
       "2026-05-11",
-      "2026-10-08"
+      "2026-10-13"
      ],
      "ambient_range_c": [
       3.0,
@@ -843,12 +874,12 @@
      ]
     },
     "Warm": {
-     "n_drives": 421,
-     "km": 8269.0,
-     "independent_days": 100,
+     "n_drives": 423,
+     "km": 8279.4,
+     "independent_days": 101,
      "date_range": [
       "2026-05-11",
-      "2026-10-08"
+      "2026-10-10"
      ],
      "ambient_range_c": [
       15.0,
@@ -856,24 +887,30 @@
      ]
     },
     "Shoulder": {
-     "n_drives": 126,
-     "km": 699.44,
-     "independent_days": 41,
+     "n_drives": 144,
+     "km": 1042.34,
+     "independent_days": 45,
      "date_range": [
       "2026-05-12",
-      "2026-10-08"
+      "2026-10-12"
      ],
      "ambient_range_c": [
-      7.0,
+      5.0,
       14.8
      ]
     },
     "Cold": {
-     "n_drives": 0,
-     "km": 0,
-     "independent_days": 0,
-     "date_range": null,
-     "ambient_range_c": null
+     "n_drives": 11,
+     "km": 16.2,
+     "independent_days": 4,
+     "date_range": [
+      "2026-09-30",
+      "2026-10-13"
+     ],
+     "ambient_range_c": [
+      3.0,
+      5.0
+     ]
     }
    }
   },
@@ -884,58 +921,59 @@
    "metrics": {
     "engine_on_pct": {
      "All observations": {
-      "n": 554,
-      "value": 31.73249097472924,
-      "pooled_median": 28.7,
-      "p10": 16.6,
-      "p90": 53.3,
-      "day_weighted_mean": 32.16307032253461,
-      "vs_warm_pct": -2.02
+      "n": 578,
+      "value": 31.721626297577853,
+      "pooled_median": 28.6,
+      "p10": 16.3,
+      "p90": 53.43000000000001,
+      "day_weighted_mean": 32.133547577778344,
+      "vs_warm_pct": -2.01
      },
      "Warm": {
-      "n": 421,
-      "value": 32.38812351543943,
+      "n": 423,
+      "value": 32.371867612293144,
       "pooled_median": 29.5,
       "p10": 19.0,
-      "p90": 53.1,
-      "day_weighted_mean": 31.785981998557,
+      "p90": 53.02,
+      "day_weighted_mean": 31.757902968868315,
       "vs_warm_pct": null
      },
      "Shoulder": {
-      "n": 126,
-      "value": 29.03968253968254,
-      "pooled_median": 25.6,
+      "n": 144,
+      "value": 29.143749999999997,
+      "pooled_median": 25.5,
       "p10": 0.0,
-      "p90": 56.3,
-      "day_weighted_mean": 29.944674796747965,
-      "vs_warm_pct": -10.34
+      "p90": 59.34000000000004,
+      "day_weighted_mean": 30.034989417989415,
+      "vs_warm_pct": -9.97
      },
      "Cold": {
-      "n": 0,
-      "value": null,
-      "pooled_median": null,
-      "p10": null,
-      "p90": null,
-      "vs_warm_pct": null
+      "n": 11,
+      "value": 40.46363636363637,
+      "pooled_median": 44.7,
+      "p10": 9.9,
+      "p90": 62.3,
+      "day_weighted_mean": 40.143750000000004,
+      "vs_warm_pct": 25.0
      }
     },
     "starts_per_100km": {
      "All observations": {
       "n": 0,
-      "value": 949.7130955148101,
-      "paired_n": 542,
-      "paired_km": 8776.44,
+      "value": 956.8001891099793,
+      "paired_n": 566,
+      "paired_km": 9137.54,
       "pooled_median": null,
       "p10": null,
       "p90": null,
       "day_weighted_mean": null,
-      "vs_warm_pct": 3.68
+      "vs_warm_pct": 4.34
      },
      "Warm": {
       "n": 0,
-      "value": 915.9661787974683,
-      "paired_n": 416,
-      "paired_km": 8089.6,
+      "value": 917.0123456790124,
+      "paired_n": 418,
+      "paired_km": 8100.0,
       "pooled_median": null,
       "p10": null,
       "p90": null,
@@ -944,36 +982,36 @@
      },
      "Shoulder": {
       "n": 0,
-      "value": 1339.9858498909264,
-      "paired_n": 119,
-      "paired_km": 678.44,
+      "value": 1250.5140305872676,
+      "paired_n": 137,
+      "paired_km": 1021.34,
       "pooled_median": null,
       "p10": null,
       "p90": null,
       "day_weighted_mean": null,
-      "vs_warm_pct": 46.29
+      "vs_warm_pct": 36.37
      },
      "Cold": {
       "n": 0,
-      "value": null,
-      "paired_n": 0,
-      "paired_km": 0,
+      "value": 2333.3333333333335,
+      "paired_n": 11,
+      "paired_km": 16.2,
       "pooled_median": null,
       "p10": null,
       "p90": null,
       "day_weighted_mean": null,
-      "vs_warm_pct": null
+      "vs_warm_pct": 154.45
      }
     }
    },
    "coverage": {
     "All observations": {
-     "n_drives": 554,
-     "km": 8976.84,
-     "independent_days": 112,
+     "n_drives": 578,
+     "km": 9337.94,
+     "independent_days": 117,
      "date_range": [
       "2026-05-11",
-      "2026-10-08"
+      "2026-10-13"
      ],
      "ambient_range_c": [
       3.0,
@@ -981,12 +1019,12 @@
      ]
     },
     "Warm": {
-     "n_drives": 421,
-     "km": 8269.0,
-     "independent_days": 100,
+     "n_drives": 423,
+     "km": 8279.4,
+     "independent_days": 101,
      "date_range": [
       "2026-05-11",
-      "2026-10-08"
+      "2026-10-10"
      ],
      "ambient_range_c": [
       15.0,
@@ -994,24 +1032,30 @@
      ]
     },
     "Shoulder": {
-     "n_drives": 126,
-     "km": 699.44,
-     "independent_days": 41,
+     "n_drives": 144,
+     "km": 1042.34,
+     "independent_days": 45,
      "date_range": [
       "2026-05-12",
-      "2026-10-08"
+      "2026-10-12"
      ],
      "ambient_range_c": [
-      7.0,
+      5.0,
       14.8
      ]
     },
     "Cold": {
-     "n_drives": 0,
-     "km": 0,
-     "independent_days": 0,
-     "date_range": null,
-     "ambient_range_c": null
+     "n_drives": 11,
+     "km": 16.2,
+     "independent_days": 4,
+     "date_range": [
+      "2026-09-30",
+      "2026-10-13"
+     ],
+     "ambient_range_c": [
+      3.0,
+      5.0
+     ]
     }
    }
   },
@@ -1022,49 +1066,50 @@
    "metrics": {
     "soc_mean_wtd_pct": {
      "All observations": {
-      "n": 552,
-      "value": 61.80014492753623,
-      "pooled_median": 61.785,
-      "p10": 55.17,
-      "p90": 67.644,
-      "day_weighted_mean": 61.961388985022914,
-      "vs_warm_pct": 0.97
+      "n": 576,
+      "value": 61.91366319444444,
+      "pooled_median": 61.88,
+      "p10": 55.175,
+      "p90": 67.745,
+      "day_weighted_mean": 62.087759012117985,
+      "vs_warm_pct": 1.15
      },
      "Warm": {
-      "n": 419,
-      "value": 61.20508353221957,
+      "n": 421,
+      "value": 61.2086460807601,
       "pooled_median": 61.55,
-      "p10": 55.058,
-      "p90": 66.722,
-      "day_weighted_mean": 61.14291051948052,
+      "p10": 55.06,
+      "p90": 66.72,
+      "day_weighted_mean": 61.15095100938665,
       "vs_warm_pct": null
      },
      "Shoulder": {
-      "n": 126,
-      "value": 64.03468253968254,
+      "n": 144,
+      "value": 63.92743055555555,
       "pooled_median": 63.54,
-      "p10": 56.66,
-      "p90": 72.74000000000001,
-      "day_weighted_mean": 64.3445412311266,
-      "vs_warm_pct": 4.62
+      "p10": 56.452,
+      "p90": 72.62,
+      "day_weighted_mean": 64.2542835978836,
+      "vs_warm_pct": 4.44
      },
      "Cold": {
-      "n": 0,
-      "value": null,
-      "pooled_median": null,
-      "p10": null,
-      "p90": null,
-      "vs_warm_pct": null
+      "n": 11,
+      "value": 62.53454545454545,
+      "pooled_median": 59.75,
+      "p10": 53.88,
+      "p90": 73.0,
+      "day_weighted_mean": 60.6775,
+      "vs_warm_pct": 2.17
      }
     },
     "soc_range_span_pp": {
      "All observations": {
-      "n": 552,
-      "value": 19.644021739130434,
+      "n": 576,
+      "value": 19.63888888888889,
       "pooled_median": 18.5,
       "p10": 11.5,
       "p90": 30.0,
-      "day_weighted_mean": 20.394459273365523,
+      "day_weighted_mean": 20.367691579550552,
       "hist": {
        "edges": [
         0,
@@ -1082,28 +1127,28 @@
        ],
        "counts": [
         7,
-        24,
-        128,
-        146,
-        101,
-        88,
-        45,
+        25,
+        133,
+        154,
+        105,
+        93,
+        46,
         11,
         2,
         0,
         0
        ],
-       "n": 552
+       "n": 576
       },
-      "vs_warm_pct": -0.77
+      "vs_warm_pct": -0.85
      },
      "Warm": {
-      "n": 419,
-      "value": 19.795942720763723,
+      "n": 421,
+      "value": 19.806413301662708,
       "pooled_median": 18.5,
       "p10": 12.0,
-      "p90": 29.099999999999994,
-      "day_weighted_mean": 20.091786796536795,
+      "p90": 29.0,
+      "day_weighted_mean": 20.110679996571086,
       "hist": {
        "edges": [
         0,
@@ -1124,7 +1169,7 @@
         13,
         96,
         118,
-        78,
+        80,
         74,
         29,
         7,
@@ -1132,17 +1177,17 @@
         0,
         0
        ],
-       "n": 419
+       "n": 421
       },
       "vs_warm_pct": null
      },
      "Shoulder": {
-      "n": 126,
-      "value": 19.19047619047619,
+      "n": 144,
+      "value": 19.24652777777778,
       "pooled_median": 18.5,
-      "p10": 8.25,
-      "p90": 31.5,
-      "day_weighted_mean": 19.77505807200929,
+      "p10": 9.15,
+      "p90": 31.35000000000001,
+      "day_weighted_mean": 19.828174603174602,
       "hist": {
        "edges": [
         0,
@@ -1160,27 +1205,28 @@
        ],
        "counts": [
         5,
-        11,
-        30,
-        25,
-        22,
-        14,
-        15,
+        12,
+        34,
+        31,
+        23,
+        19,
+        16,
         4,
         0,
         0,
         0
        ],
-       "n": 126
+       "n": 144
       },
-      "vs_warm_pct": -3.06
+      "vs_warm_pct": -2.83
      },
      "Cold": {
-      "n": 0,
-      "value": null,
-      "pooled_median": null,
-      "p10": null,
-      "p90": null,
+      "n": 11,
+      "value": 18.363636363636363,
+      "pooled_median": 18.0,
+      "p10": 11.5,
+      "p90": 22.5,
+      "day_weighted_mean": 18.020833333333332,
       "hist": {
        "edges": [
         0,
@@ -1199,30 +1245,30 @@
        "counts": [
         0,
         0,
+        3,
+        5,
+        2,
         0,
-        0,
-        0,
-        0,
-        0,
+        1,
         0,
         0,
         0,
         0
        ],
-       "n": 0
+       "n": 11
       },
-      "vs_warm_pct": null
+      "vs_warm_pct": -7.28
      }
     }
    },
    "coverage": {
     "All observations": {
-     "n_drives": 554,
-     "km": 8976.84,
-     "independent_days": 112,
+     "n_drives": 578,
+     "km": 9337.94,
+     "independent_days": 117,
      "date_range": [
       "2026-05-11",
-      "2026-10-08"
+      "2026-10-13"
      ],
      "ambient_range_c": [
       3.0,
@@ -1230,12 +1276,12 @@
      ]
     },
     "Warm": {
-     "n_drives": 421,
-     "km": 8269.0,
-     "independent_days": 100,
+     "n_drives": 423,
+     "km": 8279.4,
+     "independent_days": 101,
      "date_range": [
       "2026-05-11",
-      "2026-10-08"
+      "2026-10-10"
      ],
      "ambient_range_c": [
       15.0,
@@ -1243,24 +1289,30 @@
      ]
     },
     "Shoulder": {
-     "n_drives": 126,
-     "km": 699.44,
-     "independent_days": 41,
+     "n_drives": 144,
+     "km": 1042.34,
+     "independent_days": 45,
      "date_range": [
       "2026-05-12",
-      "2026-10-08"
+      "2026-10-12"
      ],
      "ambient_range_c": [
-      7.0,
+      5.0,
       14.8
      ]
     },
     "Cold": {
-     "n_drives": 0,
-     "km": 0,
-     "independent_days": 0,
-     "date_range": null,
-     "ambient_range_c": null
+     "n_drives": 11,
+     "km": 16.2,
+     "independent_days": 4,
+     "date_range": [
+      "2026-09-30",
+      "2026-10-13"
+     ],
+     "ambient_range_c": [
+      3.0,
+      5.0
+     ]
     }
    }
   },
@@ -1271,12 +1323,12 @@
    "metrics": {
     "ambient_time_mean_c": {
      "All observations": {
-      "n": 554,
-      "value": 19.329918772563175,
-      "pooled_median": 19.5,
-      "p10": 11.0,
-      "p90": 28.0,
-      "day_weighted_mean": 19.74701835490898,
+      "n": 578,
+      "value": 18.9511678200692,
+      "pooled_median": 19.0,
+      "p10": 10.57,
+      "p90": 27.650000000000034,
+      "day_weighted_mean": 19.317617896111486,
       "hist": {
        "edges": [
         -15,
@@ -1296,26 +1348,26 @@
         0,
         0,
         0,
-        5,
-        28,
-        100,
-        148,
+        9,
+        33,
+        113,
+        150,
         168,
         74,
         29,
         2
        ],
-       "n": 554
+       "n": 578
       },
-      "vs_warm_pct": -11.83
+      "vs_warm_pct": -13.48
      },
      "Warm": {
-      "n": 421,
-      "value": 21.923218527315914,
+      "n": 423,
+      "value": 21.904669030732858,
       "pooled_median": 21.0,
       "p10": 16.5,
       "p90": 29.0,
-      "day_weighted_mean": 21.716936525974024,
+      "day_weighted_mean": 21.680135174231708,
       "hist": {
        "edges": [
         -15,
@@ -1338,23 +1390,23 @@
         0,
         0,
         0,
-        148,
+        150,
         168,
         74,
         29,
         2
        ],
-       "n": 421
+       "n": 423
       },
       "vs_warm_pct": null
      },
      "Shoulder": {
-      "n": 126,
-      "value": 11.54047619047619,
+      "n": 144,
+      "value": 11.438194444444443,
       "pooled_median": 12.0,
-      "p10": 8.75,
+      "p10": 8.15,
       "p90": 14.0,
-      "day_weighted_mean": 11.478977932636468,
+      "day_weighted_mean": 11.37037037037037,
       "hist": {
        "edges": [
         -15,
@@ -1375,24 +1427,25 @@
         0,
         0,
         0,
-        26,
-        100,
+        31,
+        113,
         0,
         0,
         0,
         0,
         0
        ],
-       "n": 126
+       "n": 144
       },
-      "vs_warm_pct": -47.36
+      "vs_warm_pct": -47.78
      },
      "Cold": {
-      "n": 0,
-      "value": null,
-      "pooled_median": null,
-      "p10": null,
-      "p90": null,
+      "n": 11,
+      "value": 3.727272727272727,
+      "pooled_median": 4.0,
+      "p10": 3.0,
+      "p90": 5.0,
+      "day_weighted_mean": 3.75,
       "hist": {
        "edges": [
         -15,
@@ -1412,8 +1465,8 @@
         0,
         0,
         0,
-        0,
-        0,
+        9,
+        2,
         0,
         0,
         0,
@@ -1421,57 +1474,58 @@
         0,
         0
        ],
-       "n": 0
+       "n": 11
       },
-      "vs_warm_pct": null
+      "vs_warm_pct": -82.98
      }
     },
     "pack_temp_time_mean_c": {
      "All observations": {
-      "n": 547,
-      "value": 27.7768957952468,
-      "pooled_median": 27.932,
-      "p10": 17.538800000000002,
-      "p90": 37.775999999999996,
-      "day_weighted_mean": 27.411352212702212,
-      "vs_warm_pct": -6.77
+      "n": 571,
+      "value": 27.596970227670756,
+      "pooled_median": 27.822,
+      "p10": 17.032,
+      "p90": 37.724,
+      "day_weighted_mean": 27.209331468722848,
+      "vs_warm_pct": -7.36
      },
      "Warm": {
-      "n": 417,
-      "value": 29.793791366906476,
+      "n": 419,
+      "value": 29.788221957040573,
       "pooled_median": 30.006,
-      "p10": 20.2972,
-      "p90": 38.5266,
-      "day_weighted_mean": 28.73573909076333,
+      "p10": 20.302599999999998,
+      "p90": 38.516799999999996,
+      "day_weighted_mean": 28.7346516998557,
       "vs_warm_pct": null
      },
      "Shoulder": {
-      "n": 123,
-      "value": 21.69213821138211,
-      "pooled_median": 20.532,
-      "p10": 15.0832,
-      "p90": 31.6398,
-      "day_weighted_mean": 22.34299011904762,
-      "vs_warm_pct": -27.19
+      "n": 141,
+      "value": 22.180893617021276,
+      "pooled_median": 20.774,
+      "p10": 15.108,
+      "p90": 33.257,
+      "day_weighted_mean": 22.679693398268398,
+      "vs_warm_pct": -25.54
      },
      "Cold": {
-      "n": 0,
-      "value": null,
-      "pooled_median": null,
-      "p10": null,
-      "p90": null,
-      "vs_warm_pct": null
+      "n": 11,
+      "value": 13.554454545454545,
+      "pooled_median": 13.74,
+      "p10": 10.574,
+      "p90": 15.561,
+      "day_weighted_mean": 13.824645833333333,
+      "vs_warm_pct": -54.5
      }
     }
    },
    "coverage": {
     "All observations": {
-     "n_drives": 554,
-     "km": 8976.84,
-     "independent_days": 112,
+     "n_drives": 578,
+     "km": 9337.94,
+     "independent_days": 117,
      "date_range": [
       "2026-05-11",
-      "2026-10-08"
+      "2026-10-13"
      ],
      "ambient_range_c": [
       3.0,
@@ -1479,12 +1533,12 @@
      ]
     },
     "Warm": {
-     "n_drives": 421,
-     "km": 8269.0,
-     "independent_days": 100,
+     "n_drives": 423,
+     "km": 8279.4,
+     "independent_days": 101,
      "date_range": [
       "2026-05-11",
-      "2026-10-08"
+      "2026-10-10"
      ],
      "ambient_range_c": [
       15.0,
@@ -1492,24 +1546,30 @@
      ]
     },
     "Shoulder": {
-     "n_drives": 126,
-     "km": 699.44,
-     "independent_days": 41,
+     "n_drives": 144,
+     "km": 1042.34,
+     "independent_days": 45,
      "date_range": [
       "2026-05-12",
-      "2026-10-08"
+      "2026-10-12"
      ],
      "ambient_range_c": [
-      7.0,
+      5.0,
       14.8
      ]
     },
     "Cold": {
-     "n_drives": 0,
-     "km": 0,
-     "independent_days": 0,
-     "date_range": null,
-     "ambient_range_c": null
+     "n_drives": 11,
+     "km": 16.2,
+     "independent_days": 4,
+     "date_range": [
+      "2026-09-30",
+      "2026-10-13"
+     ],
+     "ambient_range_c": [
+      3.0,
+      5.0
+     ]
     }
    }
   },
@@ -1540,63 +1600,63 @@
    "metrics": {
     "gross_throughput_kwh_per100km": {
      "All observations": {
-      "n": 538,
+      "n": 562,
       "eligibility": "canonical_clean",
-      "value": 17.932672918733797,
-      "paired_n": 538,
-      "paired_km": 8748.04,
-      "pooled_median": 32.592307692307685,
-      "p10": 17.581259858862598,
-      "p90": 43.89781818181818,
-      "day_weighted_mean": 30.527384822333268,
-      "vs_warm_pct": 4.41
+      "value": 17.98664198815695,
+      "paired_n": 562,
+      "paired_km": 9109.14,
+      "pooled_median": 32.56897435897436,
+      "p10": 17.5985468914647,
+      "p90": 44.327000000000005,
+      "day_weighted_mean": 30.655670796916027,
+      "vs_warm_pct": 4.54
      },
      "Warm": {
-      "n": 413,
+      "n": 415,
       "eligibility": "canonical_clean",
-      "value": 17.17524715722788,
-      "paired_n": 413,
-      "paired_km": 8081.9,
-      "pooled_median": 31.891304347826093,
-      "p10": 15.832864745317575,
-      "p90": 43.50916666666667,
-      "day_weighted_mean": 30.06945836066848,
+      "value": 17.204960270874782,
+      "paired_n": 415,
+      "paired_km": 8092.3,
+      "pooled_median": 31.949999999999992,
+      "p10": 15.87424424631972,
+      "p90": 43.552727272727275,
+      "day_weighted_mean": 30.171105807081485,
       "vs_warm_pct": null
      },
      "Shoulder": {
-      "n": 118,
+      "n": 136,
       "eligibility": "canonical_clean",
-      "value": 26.900051692157998,
-      "paired_n": 118,
-      "paired_km": 657.74,
-      "pooled_median": 33.65833333333333,
-      "p10": 23.12459330143541,
-      "p90": 43.64382608695652,
-      "day_weighted_mean": 33.33475872236937,
-      "vs_warm_pct": 56.62
+      "value": 23.94790334186121,
+      "paired_n": 136,
+      "paired_km": 1000.64,
+      "pooled_median": 33.59519230769231,
+      "p10": 22.812518101367658,
+      "p90": 43.75130434782609,
+      "day_weighted_mean": 33.09984238448061,
+      "vs_warm_pct": 39.19
      },
      "Cold": {
-      "n": 0,
+      "n": 11,
       "eligibility": "canonical_clean",
-      "value": null,
-      "paired_n": 0,
-      "paired_km": 0,
-      "pooled_median": null,
-      "p10": null,
-      "p90": null,
-      "day_weighted_mean": null,
-      "vs_warm_pct": null
+      "value": 40.24135802469136,
+      "paired_n": 11,
+      "paired_km": 16.2,
+      "pooled_median": 44.98461538461538,
+      "p10": 27.738461538461532,
+      "p90": 50.19565217391305,
+      "day_weighted_mean": 41.719005043265916,
+      "vs_warm_pct": 133.89
      }
     }
    },
    "coverage": {
     "All observations": {
-     "n_drives": 554,
-     "km": 8976.84,
-     "independent_days": 112,
+     "n_drives": 578,
+     "km": 9337.94,
+     "independent_days": 117,
      "date_range": [
       "2026-05-11",
-      "2026-10-08"
+      "2026-10-13"
      ],
      "ambient_range_c": [
       3.0,
@@ -1604,12 +1664,12 @@
      ]
     },
     "Warm": {
-     "n_drives": 421,
-     "km": 8269.0,
-     "independent_days": 100,
+     "n_drives": 423,
+     "km": 8279.4,
+     "independent_days": 101,
      "date_range": [
       "2026-05-11",
-      "2026-10-08"
+      "2026-10-10"
      ],
      "ambient_range_c": [
       15.0,
@@ -1617,24 +1677,30 @@
      ]
     },
     "Shoulder": {
-     "n_drives": 126,
-     "km": 699.44,
-     "independent_days": 41,
+     "n_drives": 144,
+     "km": 1042.34,
+     "independent_days": 45,
      "date_range": [
       "2026-05-12",
-      "2026-10-08"
+      "2026-10-12"
      ],
      "ambient_range_c": [
-      7.0,
+      5.0,
       14.8
      ]
     },
     "Cold": {
-     "n_drives": 0,
-     "km": 0,
-     "independent_days": 0,
-     "date_range": null,
-     "ambient_range_c": null
+     "n_drives": 11,
+     "km": 16.2,
+     "independent_days": 4,
+     "date_range": [
+      "2026-09-30",
+      "2026-10-13"
+     ],
+     "ambient_range_c": [
+      3.0,
+      5.0
+     ]
     }
    },
    "requiresAdjustment": true,
@@ -1644,11 +1710,11 @@
      "cohortA": "warm",
      "cohortB": "shoulder",
      "estimatorVersion": "seasonal_adjust_v2.0.0",
-     "nA": 413,
-     "nB": 118,
-     "nDaysA": 98,
-     "nDaysB": 38,
-     "nDays": 108,
+     "nA": 415,
+     "nB": 136,
+     "nDaysA": 99,
+     "nDaysB": 42,
+     "nDays": 112,
      "covariates": [
       "speed_mean_moving",
       "stationary_pct",
@@ -1656,7 +1722,7 @@
       "distance_km"
      ],
      "inputAudit": {
-      "nInCohorts": 547,
+      "nInCohorts": 567,
       "nDroppedNonFinite": 16,
       "nSingletonClusters": 0
      },
@@ -1666,71 +1732,71 @@
      "bootFailureReasons": {},
      "seed": 42,
      "status": "available",
-     "adjustedDiff": -1.2925,
-     "rawDiff": 3.8362,
-     "rawDiffOnSupport": 1.4113,
-     "overlapWeightedDiff": -1.6339,
-     "estimatorGap": -0.3414,
+     "adjustedDiff": -1.3,
+     "rawDiff": 3.5337,
+     "rawDiffOnSupport": 1.8658,
+     "overlapWeightedDiff": -1.7772,
+     "estimatorGap": -0.4772,
      "modelDependent": false,
      "ci95": [
-      -3.033,
-      0.1026
+      -2.8812,
+      -0.1223
      ],
      "ci90": [
-      -2.7894,
-      -0.2103
+      -2.6948,
+      -0.3689
      ],
-     "bootSe": 0.8084,
-     "pBoot": 0.063,
-     "bootBias": -0.2746,
+     "bootSe": 0.7053,
+     "pBoot": 0.037,
+     "bootBias": -0.28,
      "nOnSupport": {
-      "A": 359,
-      "B": 117
+      "A": 376,
+      "B": 134
      },
      "outcomeModel": "per_cohort_ols",
      "commonSupport": {
       "ok": true,
       "method": "categorical strata + propensity min-max overlap + overlap-weight ESS",
-      "overlap": 0.93,
-      "overlapMin": 0.869,
+      "overlap": 0.946,
+      "overlapMin": 0.906,
       "retainedFraction": {
-       "A": 0.869,
-       "B": 0.992
+       "A": 0.906,
+       "B": 0.985
       },
       "propensityRange": [
-       0.0349,
-       0.5126
+       0.0683,
+       0.4712
       ],
       "sharedStrata": [
        "mixed",
+       "mixed_highway",
        "urban"
       ],
       "trimmedStrata": [
-       "highway",
-       "mixed_highway"
+       "highway"
       ],
       "ess": {
-       "A": 309.0,
-       "B": 115.4
+       "A": 330.3,
+       "B": 131.9
       },
       "smdUnweighted": {
-       "speed_mean_moving": 0.47,
-       "stationary_pct": 0.171,
-       "pct_highway": 0.268,
-       "distance_km": 0.214
+       "speed_mean_moving": 0.508,
+       "stationary_pct": 0.254,
+       "pct_highway": 0.311,
+       "distance_km": 0.253
       },
       "smdOverlapWeighted": {
-       "speed_mean_moving": 0.001,
-       "stationary_pct": 0.002,
-       "pct_highway": 0.007,
-       "distance_km": 0.009
+       "speed_mean_moving": 0.032,
+       "stationary_pct": 0.013,
+       "pct_highway": 0.035,
+       "distance_km": 0.022
       },
       "balanceOk": true,
       "reason": null
      },
      "warnings": [
-      "estimand_restricted_to_shared_strata: highway,mixed_highway rows excluded (50)",
-      "bootstrap_bias: mean(boot)-point = -0.275 (> 0.25 SE)"
+      "estimand_restricted_to_shared_strata: highway rows excluded (19)",
+      "bootstrap_bias: mean(boot)-point = -0.28 (> 0.25 SE)"
      ],
      "estimand": "average B-minus-A difference over the common-support population (shared strata and propensity overlap); not the pooled-corpus ATE",
      "interpretation": "seasonal operating difference standardized to the common-support composition; may include unmeasured cabin-heating/defrost demand (no HVAC telemetry)"
@@ -1740,11 +1806,11 @@
      "cohortA": "warm",
      "cohortB": "cold",
      "estimatorVersion": "seasonal_adjust_v2.0.0",
-     "nA": 413,
-     "nB": 0,
-     "nDaysA": 98,
-     "nDaysB": 0,
-     "nDays": 98,
+     "nA": 415,
+     "nB": 11,
+     "nDaysA": 99,
+     "nDaysB": 4,
+     "nDays": 101,
      "covariates": [
       "speed_mean_moving",
       "stationary_pct",
@@ -1752,13 +1818,13 @@
       "distance_km"
      ],
      "inputAudit": {
-      "nInCohorts": 421,
+      "nInCohorts": 434,
       "nDroppedNonFinite": 8,
       "nSingletonClusters": 0
      },
      "status": "unavailable",
-     "reasonCode": "empty_cohort",
-     "reason": "empty cohort (A=413, B=0)"
+     "reasonCode": "too_few_days",
+     "reason": "too few independent days for a cluster bootstrap (A=99, B=4; need 5 per cohort)"
     }
    }
   },
@@ -1769,12 +1835,12 @@
    "metrics": {
     "speed_mean_moving": {
      "All observations": {
-      "n": 551,
-      "value": 32.596370235934664,
-      "pooled_median": 25.7,
+      "n": 575,
+      "value": 32.465739130434784,
+      "pooled_median": 25.6,
       "p10": 17.2,
-      "p90": 57.6,
-      "day_weighted_mean": 34.32960482460482,
+      "p90": 57.660000000000004,
+      "day_weighted_mean": 34.10363868889731,
       "hist": {
        "edges": [
         0,
@@ -1791,27 +1857,27 @@
        ],
        "counts": [
         1,
-        114,
-        223,
-        77,
-        52,
-        32,
-        21,
-        14,
+        118,
+        236,
+        80,
+        53,
+        33,
+        22,
+        15,
         10,
         5
        ],
-       "n": 549
+       "n": 573
       },
-      "vs_warm_pct": -7.55
+      "vs_warm_pct": -7.87
      },
      "Warm": {
-      "n": 419,
-      "value": 35.258472553699285,
+      "n": 421,
+      "value": 35.239192399049884,
       "pooled_median": 28.0,
       "p10": 18.2,
-      "p90": 64.91999999999999,
-      "day_weighted_mean": 35.634798672147156,
+      "p90": 64.8,
+      "day_weighted_mean": 35.59045068542569,
       "hist": {
        "edges": [
         0,
@@ -1830,7 +1896,7 @@
         0,
         61,
         171,
-        63,
+        65,
         45,
         27,
         21,
@@ -1838,17 +1904,17 @@
         10,
         5
        ],
-       "n": 417
+       "n": 419
       },
       "vs_warm_pct": null
      },
      "Shoulder": {
-      "n": 125,
-      "value": 24.5296,
-      "pooled_median": 21.7,
-      "p10": 16.439999999999998,
-      "p90": 39.72,
-      "day_weighted_mean": 26.073234610917535,
+      "n": 143,
+      "value": 25.35034965034965,
+      "pooled_median": 22.0,
+      "p10": 16.419999999999998,
+      "p90": 40.26,
+      "day_weighted_mean": 26.724523809523813,
       "hist": {
        "edges": [
         0,
@@ -1865,26 +1931,27 @@
        ],
        "counts": [
         1,
-        46,
-        52,
-        14,
-        7,
-        5,
-        0,
-        0,
+        49,
+        62,
+        15,
+        8,
+        6,
+        1,
+        1,
         0,
         0
        ],
-       "n": 125
+       "n": 143
       },
-      "vs_warm_pct": -30.43
+      "vs_warm_pct": -28.06
      },
      "Cold": {
-      "n": 0,
-      "value": null,
-      "pooled_median": null,
-      "p10": null,
-      "p90": null,
+      "n": 11,
+      "value": 18.818181818181817,
+      "pooled_median": 18.0,
+      "p10": 16.2,
+      "p90": 22.2,
+      "day_weighted_mean": 18.34375,
       "hist": {
        "edges": [
         0,
@@ -1901,8 +1968,8 @@
        ],
        "counts": [
         0,
-        0,
-        0,
+        8,
+        3,
         0,
         0,
         0,
@@ -1911,20 +1978,20 @@
         0,
         0
        ],
-       "n": 0
+       "n": 11
       },
-      "vs_warm_pct": null
+      "vs_warm_pct": -46.6
      }
     }
    },
    "coverage": {
     "All observations": {
-     "n_drives": 554,
-     "km": 8976.84,
-     "independent_days": 112,
+     "n_drives": 578,
+     "km": 9337.94,
+     "independent_days": 117,
      "date_range": [
       "2026-05-11",
-      "2026-10-08"
+      "2026-10-13"
      ],
      "ambient_range_c": [
       3.0,
@@ -1932,12 +1999,12 @@
      ]
     },
     "Warm": {
-     "n_drives": 421,
-     "km": 8269.0,
-     "independent_days": 100,
+     "n_drives": 423,
+     "km": 8279.4,
+     "independent_days": 101,
      "date_range": [
       "2026-05-11",
-      "2026-10-08"
+      "2026-10-10"
      ],
      "ambient_range_c": [
       15.0,
@@ -1945,24 +2012,30 @@
      ]
     },
     "Shoulder": {
-     "n_drives": 126,
-     "km": 699.44,
-     "independent_days": 41,
+     "n_drives": 144,
+     "km": 1042.34,
+     "independent_days": 45,
      "date_range": [
       "2026-05-12",
-      "2026-10-08"
+      "2026-10-12"
      ],
      "ambient_range_c": [
-      7.0,
+      5.0,
       14.8
      ]
     },
     "Cold": {
-     "n_drives": 0,
-     "km": 0,
-     "independent_days": 0,
-     "date_range": null,
-     "ambient_range_c": null
+     "n_drives": 11,
+     "km": 16.2,
+     "independent_days": 4,
+     "date_range": [
+      "2026-09-30",
+      "2026-10-13"
+     ],
+     "ambient_range_c": [
+      3.0,
+      5.0
+     ]
     }
    },
    "requiresAdjustment": false
@@ -1974,12 +2047,12 @@
    "metrics": {
     "distance_km": {
      "All observations": {
-      "n": 554,
-      "value": 16.203682310469315,
+      "n": 578,
+      "value": 16.15560553633218,
       "pooled_median": 2.9,
       "p10": 1.1,
-      "p90": 39.62999999999998,
-      "day_weighted_mean": 18.16597472468008,
+      "p90": 38.870000000000125,
+      "day_weighted_mean": 18.010151628997782,
       "hist": {
        "edges": [
         0,
@@ -1995,28 +2068,28 @@
         50
        ],
        "counts": [
-        341,
-        55,
+        355,
+        61,
         34,
         20,
         17,
-        14,
+        16,
         15,
         2,
         10,
         3
        ],
-       "n": 511
+       "n": 533
       },
-      "vs_warm_pct": -17.5
+      "vs_warm_pct": -17.46
      },
      "Warm": {
-      "n": 421,
-      "value": 19.641330166270784,
+      "n": 423,
+      "value": 19.57304964539007,
       "pooled_median": 3.6,
       "p10": 1.3,
-      "p90": 50.4,
-      "day_weighted_mean": 19.491768867243866,
+      "p90": 49.96000000000002,
+      "day_weighted_mean": 19.350266205191947,
       "hist": {
        "edges": [
         0,
@@ -2033,7 +2106,7 @@
        ],
        "counts": [
         237,
-        47,
+        49,
         28,
         15,
         13,
@@ -2043,17 +2116,17 @@
         8,
         3
        ],
-       "n": 378
+       "n": 380
       },
       "vs_warm_pct": null
      },
      "Shoulder": {
-      "n": 126,
-      "value": 5.55111111111111,
+      "n": 144,
+      "value": 7.238472222222222,
       "pooled_median": 2.4,
       "p10": 0.7,
-      "p90": 17.15,
-      "day_weighted_mean": 6.712212543554007,
+      "p90": 18.48000000000002,
+      "day_weighted_mean": 8.373243386243386,
       "hist": {
        "edges": [
         0,
@@ -2069,27 +2142,28 @@
         50
        ],
        "counts": [
-        97,
-        8,
+        107,
+        12,
         6,
         5,
         4,
-        3,
+        5,
         1,
         0,
         2,
         0
        ],
-       "n": 126
+       "n": 142
       },
-      "vs_warm_pct": -71.74
+      "vs_warm_pct": -63.02
      },
      "Cold": {
-      "n": 0,
-      "value": null,
-      "pooled_median": null,
-      "p10": null,
-      "p90": null,
+      "n": 11,
+      "value": 1.4727272727272727,
+      "pooled_median": 1.3,
+      "p10": 0.7,
+      "p90": 2.3,
+      "day_weighted_mean": 1.3958333333333333,
       "hist": {
        "edges": [
         0,
@@ -2105,7 +2179,7 @@
         50
        ],
        "counts": [
-        0,
+        11,
         0,
         0,
         0,
@@ -2116,20 +2190,20 @@
         0,
         0
        ],
-       "n": 0
+       "n": 11
       },
-      "vs_warm_pct": null
+      "vs_warm_pct": -92.48
      }
     }
    },
    "coverage": {
     "All observations": {
-     "n_drives": 554,
-     "km": 8976.84,
-     "independent_days": 112,
+     "n_drives": 578,
+     "km": 9337.94,
+     "independent_days": 117,
      "date_range": [
       "2026-05-11",
-      "2026-10-08"
+      "2026-10-13"
      ],
      "ambient_range_c": [
       3.0,
@@ -2137,12 +2211,12 @@
      ]
     },
     "Warm": {
-     "n_drives": 421,
-     "km": 8269.0,
-     "independent_days": 100,
+     "n_drives": 423,
+     "km": 8279.4,
+     "independent_days": 101,
      "date_range": [
       "2026-05-11",
-      "2026-10-08"
+      "2026-10-10"
      ],
      "ambient_range_c": [
       15.0,
@@ -2150,24 +2224,30 @@
      ]
     },
     "Shoulder": {
-     "n_drives": 126,
-     "km": 699.44,
-     "independent_days": 41,
+     "n_drives": 144,
+     "km": 1042.34,
+     "independent_days": 45,
      "date_range": [
       "2026-05-12",
-      "2026-10-08"
+      "2026-10-12"
      ],
      "ambient_range_c": [
-      7.0,
+      5.0,
       14.8
      ]
     },
     "Cold": {
-     "n_drives": 0,
-     "km": 0,
-     "independent_days": 0,
-     "date_range": null,
-     "ambient_range_c": null
+     "n_drives": 11,
+     "km": 16.2,
+     "independent_days": 4,
+     "date_range": [
+      "2026-09-30",
+      "2026-10-13"
+     ],
+     "ambient_range_c": [
+      3.0,
+      5.0
+     ]
     }
    },
    "requiresAdjustment": false
@@ -2179,12 +2259,12 @@
    "metrics": {
     "stationary_pct": {
      "All observations": {
-      "n": 554,
-      "value": 20.574729241877257,
-      "pooled_median": 18.45,
-      "p10": 6.23,
-      "p90": 37.11,
-      "day_weighted_mean": 21.179901130615416,
+      "n": 578,
+      "value": 20.791522491349482,
+      "pooled_median": 18.5,
+      "p10": 6.2700000000000005,
+      "p90": 38.06000000000002,
+      "day_weighted_mean": 21.35260173349917,
       "hist": {
        "edges": [
         0,
@@ -2200,28 +2280,28 @@
         50
        ],
        "counts": [
-        39,
-        68,
-        103,
-        101,
-        81,
-        60,
-        32,
+        41,
+        71,
+        106,
+        102,
+        84,
+        64,
+        33,
         30,
-        12,
+        17,
         9
        ],
-       "n": 535
+       "n": 557
       },
-      "vs_warm_pct": 5.25
+      "vs_warm_pct": 6.12
      },
      "Warm": {
-      "n": 421,
-      "value": 19.547980997624705,
+      "n": 423,
+      "value": 19.592198581560282,
       "pooled_median": 17.5,
-      "p10": 5.9,
-      "p90": 35.7,
-      "day_weighted_mean": 20.329730952380952,
+      "p10": 5.920000000000001,
+      "p90": 35.58000000000001,
+      "day_weighted_mean": 20.41458510136728,
       "hist": {
        "edges": [
         0,
@@ -2242,23 +2322,23 @@
         84,
         82,
         59,
-        42,
+        44,
         21,
         22,
         6,
         5
        ],
-       "n": 408
+       "n": 410
       },
       "vs_warm_pct": null
      },
      "Shoulder": {
-      "n": 126,
-      "value": 23.57777777777778,
-      "pooled_median": 21.45,
-      "p10": 7.45,
-      "p90": 41.95,
-      "day_weighted_mean": 23.147375145180025,
+      "n": 144,
+      "value": 23.543055555555554,
+      "pooled_median": 21.5,
+      "p10": 7.430000000000001,
+      "p90": 42.14000000000001,
+      "day_weighted_mean": 23.006063492063493,
       "hist": {
        "edges": [
         0,
@@ -2274,27 +2354,28 @@
         50
        ],
        "counts": [
-        5,
-        15,
-        18,
-        18,
-        21,
-        17,
-        10,
         7,
-        6,
+        18,
+        20,
+        19,
+        24,
+        18,
+        11,
+        7,
+        10,
         3
        ],
-       "n": 120
+       "n": 137
       },
-      "vs_warm_pct": 20.61
+      "vs_warm_pct": 20.17
      },
      "Cold": {
-      "n": 0,
-      "value": null,
-      "pooled_median": null,
-      "p10": null,
-      "p90": null,
+      "n": 11,
+      "value": 30.89090909090909,
+      "pooled_median": 29.7,
+      "p10": 12.5,
+      "p90": 47.6,
+      "day_weighted_mean": 30.04375,
       "hist": {
        "edges": [
         0,
@@ -2312,29 +2393,29 @@
        "counts": [
         0,
         0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
+        2,
+        1,
+        1,
+        2,
+        1,
+        1,
+        1,
+        1
        ],
-       "n": 0
+       "n": 10
       },
-      "vs_warm_pct": null
+      "vs_warm_pct": 57.67
      }
     }
    },
    "coverage": {
     "All observations": {
-     "n_drives": 554,
-     "km": 8976.84,
-     "independent_days": 112,
+     "n_drives": 578,
+     "km": 9337.94,
+     "independent_days": 117,
      "date_range": [
       "2026-05-11",
-      "2026-10-08"
+      "2026-10-13"
      ],
      "ambient_range_c": [
       3.0,
@@ -2342,12 +2423,12 @@
      ]
     },
     "Warm": {
-     "n_drives": 421,
-     "km": 8269.0,
-     "independent_days": 100,
+     "n_drives": 423,
+     "km": 8279.4,
+     "independent_days": 101,
      "date_range": [
       "2026-05-11",
-      "2026-10-08"
+      "2026-10-10"
      ],
      "ambient_range_c": [
       15.0,
@@ -2355,24 +2436,30 @@
      ]
     },
     "Shoulder": {
-     "n_drives": 126,
-     "km": 699.44,
-     "independent_days": 41,
+     "n_drives": 144,
+     "km": 1042.34,
+     "independent_days": 45,
      "date_range": [
       "2026-05-12",
-      "2026-10-08"
+      "2026-10-12"
      ],
      "ambient_range_c": [
-      7.0,
+      5.0,
       14.8
      ]
     },
     "Cold": {
-     "n_drives": 0,
-     "km": 0,
-     "independent_days": 0,
-     "date_range": null,
-     "ambient_range_c": null
+     "n_drives": 11,
+     "km": 16.2,
+     "independent_days": 4,
+     "date_range": [
+      "2026-09-30",
+      "2026-10-13"
+     ],
+     "ambient_range_c": [
+      3.0,
+      5.0
+     ]
     }
    },
    "requiresAdjustment": false
@@ -2386,109 +2473,109 @@
      "All observations": [
       {
        "elapsed_s": 30,
-       "mean_c": 44.18,
-       "n": 536
+       "mean_c": 44.1,
+       "n": 560
       },
       {
        "elapsed_s": 60,
-       "mean_c": 44.26,
-       "n": 541
+       "mean_c": 44.18,
+       "n": 565
       },
       {
        "elapsed_s": 120,
-       "mean_c": 45.81,
-       "n": 541
+       "mean_c": 45.72,
+       "n": 565
       },
       {
        "elapsed_s": 300,
-       "mean_c": 55.0,
-       "n": 531
+       "mean_c": 54.78,
+       "n": 555
       },
       {
        "elapsed_s": 600,
-       "mean_c": 62.11,
-       "n": 482
+       "mean_c": 61.9,
+       "n": 504
       }
      ],
      "Warm": [
       {
        "elapsed_s": 30,
-       "mean_c": 46.93,
-       "n": 412
+       "mean_c": 46.86,
+       "n": 414
       },
       {
        "elapsed_s": 60,
-       "mean_c": 47.0,
-       "n": 417
+       "mean_c": 46.94,
+       "n": 419
       },
       {
        "elapsed_s": 120,
-       "mean_c": 48.79,
-       "n": 416
+       "mean_c": 48.74,
+       "n": 418
       },
       {
        "elapsed_s": 300,
-       "mean_c": 58.22,
-       "n": 411
+       "mean_c": 58.17,
+       "n": 413
       },
       {
        "elapsed_s": 600,
-       "mean_c": 64.82,
-       "n": 378
+       "mean_c": 64.81,
+       "n": 380
       }
      ],
      "Shoulder": [
       {
        "elapsed_s": 30,
-       "mean_c": 35.64,
-       "n": 117
+       "mean_c": 36.7,
+       "n": 135
       },
       {
        "elapsed_s": 60,
-       "mean_c": 35.64,
-       "n": 117
+       "mean_c": 36.67,
+       "n": 135
       },
       {
        "elapsed_s": 120,
-       "mean_c": 36.56,
-       "n": 118
+       "mean_c": 37.6,
+       "n": 136
       },
       {
        "elapsed_s": 300,
-       "mean_c": 44.65,
-       "n": 113
+       "mean_c": 45.4,
+       "n": 131
       },
       {
        "elapsed_s": 600,
-       "mean_c": 52.8,
-       "n": 99
+       "mean_c": 53.42,
+       "n": 116
       }
      ],
      "Cold": [
       {
        "elapsed_s": 30,
-       "mean_c": null,
-       "n": 0
+       "mean_c": 30.91,
+       "n": 11
       },
       {
        "elapsed_s": 60,
-       "mean_c": null,
-       "n": 0
+       "mean_c": 31.18,
+       "n": 11
       },
       {
        "elapsed_s": 120,
-       "mean_c": null,
-       "n": 0
+       "mean_c": 31.55,
+       "n": 11
       },
       {
        "elapsed_s": 300,
-       "mean_c": null,
-       "n": 0
+       "mean_c": 39.45,
+       "n": 11
       },
       {
        "elapsed_s": 600,
-       "mean_c": null,
-       "n": 0
+       "mean_c": 46.88,
+       "n": 8
       }
      ]
     },
@@ -2496,109 +2583,109 @@
      "All observations": [
       {
        "elapsed_s": 30,
-       "mean_c": 48.24,
-       "n": 533
+       "mean_c": 48.09,
+       "n": 557
       },
       {
        "elapsed_s": 60,
-       "mean_c": 48.11,
-       "n": 541
+       "mean_c": 47.94,
+       "n": 565
       },
       {
        "elapsed_s": 120,
-       "mean_c": 52.32,
-       "n": 542
+       "mean_c": 52.11,
+       "n": 566
       },
       {
        "elapsed_s": 300,
-       "mean_c": 68.59,
-       "n": 532
+       "mean_c": 68.19,
+       "n": 556
       },
       {
        "elapsed_s": 600,
-       "mean_c": 73.31,
-       "n": 480
+       "mean_c": 72.99,
+       "n": 502
       }
      ],
      "Warm": [
       {
        "elapsed_s": 30,
-       "mean_c": 51.17,
-       "n": 409
-      },
-      {
-       "elapsed_s": 60,
-       "mean_c": 51.07,
-       "n": 417
-      },
-      {
-       "elapsed_s": 120,
-       "mean_c": 56.0,
-       "n": 416
-      },
-      {
-       "elapsed_s": 300,
-       "mean_c": 72.22,
+       "mean_c": 51.09,
        "n": 411
       },
       {
+       "elapsed_s": 60,
+       "mean_c": 51.0,
+       "n": 419
+      },
+      {
+       "elapsed_s": 120,
+       "mean_c": 55.98,
+       "n": 418
+      },
+      {
+       "elapsed_s": 300,
+       "mean_c": 72.18,
+       "n": 413
+      },
+      {
        "elapsed_s": 600,
-       "mean_c": 76.4,
-       "n": 376
+       "mean_c": 76.42,
+       "n": 378
       }
      ],
      "Shoulder": [
       {
        "elapsed_s": 30,
-       "mean_c": 39.08,
-       "n": 117
+       "mean_c": 39.98,
+       "n": 135
       },
       {
        "elapsed_s": 60,
-       "mean_c": 38.73,
-       "n": 117
+       "mean_c": 39.5,
+       "n": 135
       },
       {
        "elapsed_s": 120,
-       "mean_c": 40.9,
-       "n": 119
+       "mean_c": 41.77,
+       "n": 137
       },
       {
        "elapsed_s": 300,
-       "mean_c": 56.69,
-       "n": 114
+       "mean_c": 57.18,
+       "n": 132
       },
       {
        "elapsed_s": 600,
-       "mean_c": 62.4,
-       "n": 99
+       "mean_c": 62.83,
+       "n": 116
       }
      ],
      "Cold": [
       {
        "elapsed_s": 30,
-       "mean_c": null,
-       "n": 0
+       "mean_c": 35.55,
+       "n": 11
       },
       {
        "elapsed_s": 60,
-       "mean_c": null,
-       "n": 0
+       "mean_c": 35.09,
+       "n": 11
       },
       {
        "elapsed_s": 120,
-       "mean_c": null,
-       "n": 0
+       "mean_c": 34.0,
+       "n": 11
       },
       {
        "elapsed_s": 300,
-       "mean_c": null,
-       "n": 0
+       "mean_c": 50.64,
+       "n": 11
       },
       {
        "elapsed_s": 600,
-       "mean_c": null,
-       "n": 0
+       "mean_c": 58.38,
+       "n": 8
       }
      ]
     }
@@ -2612,12 +2699,12 @@
    ],
    "coverage": {
     "All observations": {
-     "n_drives": 554,
-     "km": 8976.84,
-     "independent_days": 112,
+     "n_drives": 578,
+     "km": 9337.94,
+     "independent_days": 117,
      "date_range": [
       "2026-05-11",
-      "2026-10-08"
+      "2026-10-13"
      ],
      "ambient_range_c": [
       3.0,
@@ -2625,12 +2712,12 @@
      ]
     },
     "Warm": {
-     "n_drives": 421,
-     "km": 8269.0,
-     "independent_days": 100,
+     "n_drives": 423,
+     "km": 8279.4,
+     "independent_days": 101,
      "date_range": [
       "2026-05-11",
-      "2026-10-08"
+      "2026-10-10"
      ],
      "ambient_range_c": [
       15.0,
@@ -2638,24 +2725,30 @@
      ]
     },
     "Shoulder": {
-     "n_drives": 126,
-     "km": 699.44,
-     "independent_days": 41,
+     "n_drives": 144,
+     "km": 1042.34,
+     "independent_days": 45,
      "date_range": [
       "2026-05-12",
-      "2026-10-08"
+      "2026-10-12"
      ],
      "ambient_range_c": [
-      7.0,
+      5.0,
       14.8
      ]
     },
     "Cold": {
-     "n_drives": 0,
-     "km": 0,
-     "independent_days": 0,
-     "date_range": null,
-     "ambient_range_c": null
+     "n_drives": 11,
+     "km": 16.2,
+     "independent_days": 4,
+     "date_range": [
+      "2026-09-30",
+      "2026-10-13"
+     ],
+     "ambient_range_c": [
+      3.0,
+      5.0
+     ]
     }
    }
   },
