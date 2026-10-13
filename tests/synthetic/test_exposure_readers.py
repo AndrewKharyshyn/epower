@@ -29,7 +29,9 @@ LEGACY_BY_DESIGN = {
     "tools/exposure_splice.py": "splice tool: operates on control-build outputs; exposure column names appear only in comments/labels",
     "tools/m384_parity_diag.py": "read-only diagnostic of non-exposure blocks (CrawlStopGo, EngineStartsByType)",
 }
-files = subprocess.run(["git", "ls-files", "*.py"], capture_output=True, text=True, encoding="utf-8", check=True).stdout.split()
+sys.path.insert(0, os.path.join(os.getcwd(), "tools"))
+from source_inventory import tracked_py       # M427 (audit F30): git ls-files in a checkout, a directory scan in a zip export
+files = tracked_py(os.getcwd())
 skip = ("analyses/", "runs/", "tests/", "tabtext/")
 readers = []
 for f in files:

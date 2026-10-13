@@ -17,13 +17,15 @@ canonicalizer would otherwise collapse '..._B_D_comparison.csv' onto a canonical
     role = 'comparison_only'  -> D-mode B/D capture, excluded by design (mode='D')
     role = 'auxiliary'        -> segregated cross-vehicle rail (e-4ORCE); never
                                  admissible to the primary corpus
-    role = 'orphan'           -> a 2026*.csv on disk with no master row (defect)
+    role = 'orphan'           -> a 20[0-9][0-9]*.csv on disk with no master row (defect)
     role = 'missing'          -> a master row with no raw file on disk (defect)
 
 Each record carries the release-manifest schema the audit asked for:
 record_id, raw_name, sha256, bytes, rows, role, mode, exclusion_reason.
 """
 import os, re, glob, json, hashlib, datetime as _dt
+
+RAW_GLOB = '20[0-9][0-9]*.csv'      # M427 (audit F15): drive-file discovery pattern, year-independent (the default was 2026*.csv, so a 2027 file never entered ingestion); e4ORCE_*, auxiliary and comparison files are told apart by role, not by the glob
 
 _DATE_DIGITS_RE = re.compile(
     r'(\d{4})\D?(\d{2})\D?(\d{2})\D+(\d{2})\D?(\d{2})\D?(\d{2})')
@@ -151,7 +153,7 @@ def build(raw_dir, master_csv=None, out_path=None, parent_snapshot=None,
             if canon not in master_files:
                 rec['role'] = 'orphan'
                 rec['exclusion_reason'] = (
-                    'On disk as a 2026*.csv but no matching drive_master row.')
+                    'On disk as a 20[0-9][0-9]*.csv but no matching drive_master row.')
             canon_seen[canon] = rec
         records.append(rec)
 

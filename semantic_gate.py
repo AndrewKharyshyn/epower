@@ -90,6 +90,10 @@ ok("A2 REQUIRED rainflow floor stated as a cycle range with the payload floor an
    f"a range below {_rf['floorPct']:g} pp are dropped" in conc and f"{_rf['nFilesUsed']} SoC traces" in conc, f"{_rf['floorPct']} / {_rf['nFilesUsed']}")
 ok("A2 REQUIRED fuel text names the logger app and the subset of drives", "logger app" in _all_dom and "subset of drives" in _all_dom)
 ok("A2 REQUIRED non-integrable drives are excluded from GTC, not counted as zero", "not counted as zero" in conc)
+# A3 (M427, audit F01): the cell-spread trend wording follows the released interval in every rendered tab/mode (a sentence cannot say "spans zero" or "no resolved trend" beside an interval that excludes zero)
+_cs_ci = A["degradationTrends"]["cellSpread"]["clusterRobustOLS"]["ci95"]
+_cs_bad = LG.cell_spread_trend_violations(_cs_ci, T)
+ok("A3 cell-spread trend wording agrees with the released interval in every rendered tab/mode (%s)" % ("interval includes zero" if _cs_ci[0] <= 0 <= _cs_ci[1] else "interval excludes zero"), not _cs_bad, f"{_cs_bad[:3]}")
 # M403 (analyses/M403_spec.md v4): capacityBasis is an additive block; its structure and invariants (no headline depends on it)
 _cb = A.get("capacityBasis")
 ok("M403 capacityBasis present with the bootstrap CI and the method range as SEPARATE leaves, never merged", bool(_cb) and "bootstrapCI95" in _cb["ahPer100"] and "methodRange" in _cb["ahPer100"] and "never merged" in _cb["ahPer100"]["reporting"])
@@ -140,6 +144,16 @@ if _ds:
     ok("M406 KPI intervals bracket their estimates (day-cluster and week-block)", all(v["dayClusterCI95"][0] <= v["estimate"] <= v["dayClusterCI95"][1] and v["weekBlockCI95"][0] <= v["estimate"] <= v["weekBlockCI95"][1] for v in _ds["thesisKpis"].values()))
     ok("M406 the block states that the released estimators are unchanged and that confounding is not removed", "do not change the released estimators" in _ds["reading"] and "do not remove season" in _ds["reading"])
 import re as _re407
+def _tl(ci, noun="slope"):
+    """M427: Python mirror of the dashboard's trendLabel() (xtrail_summary.jsx): the trend status word follows the released interval."""
+    if not ci:
+        return "unavailable"
+    if ci[0] <= 0 <= ci[1]:
+        return "trend not resolved (95% interval includes 0)"
+    return ("positive " if ci[0] > 0 else "negative ") + noun + " (95% interval excludes 0; conditional on the model, not a capacity or SOH change)"
+_ds_m427 = A.get("dependenceSensitivity")
+_STAND = ["%s; equivalence not established; no stability or SOH claim" % _tl(_ds_m427["trendSlopes"][k]["cr1"]["ci95NormalAsReleased"]) for k in ("cellSpread", "resistanceVreg")] if _ds_m427 else []
+_cs_m427 = A["degradationTrends"]["cellSpread"]["clusterRobustOLS"]["ci95"]
 # M407 (analyses/M407_spec.md): dashboard binding of the M406 sensitivities (reporting-only); text rendered from the payload, Director wording
 _h407 = [(k, t) for k, t in T.items() if k.startswith("health__") and not k.endswith("__compare")]
 ok("A2 REQUIRED M407 inference-sensitivity panel rendered in the Health dumps (all / warm / shoulder)", len(_h407) >= 3 and all("Inference sensitivities (M406;" in t for k, t in _h407))
@@ -158,10 +172,10 @@ if _ds:
            (("lower bound changes sign across procedures" in _pn) == _mixed) and ("null-imposed p about %.2f (seed range %.3f-%.3f)" % (_cs["wildClusterBootstrapT"]["pValueNullImposed"], _sp[0], _sp[1])) in _pn)
         ok("A2 REQUIRED M407 %s: the minimum-effect label (Director wording, CR2 value bound) stands beside the zero-slope statement and not in the equivalence sentence" % _k,
            _pn.count("slope a two-sided 5 % test flags with 80 % probability at the observed SE (design-conditional)") == 2
-           and len(_re407.findall(r"Zero-slope test \(trend not resolved\): slope a two-sided 5 % test flags with 80 % probability at the observed SE \(design-conditional\): [\d.]+ \S+ \(CR2\)", _pn)) == 2
+           and len(_re407.findall(r"Zero-slope test \((?:trend not resolved|interval excludes 0)\): slope a two-sided 5 % test flags with 80 % probability at the observed SE \(design-conditional\): [\d.]+ \S+ \(CR2\)", _pn)) == 2
            and all("flags with 80 %" not in seg.split("(sensitivity only")[0] for seg in _pn.split("Equivalence sensitivity:")[1:]))
         ok("A2 REQUIRED M407 %s: the equivalence sentence is the CR2 TOST sensitivity (same frozen bound, released decision unchanged) and standing statements are repeated" % _k,
-           _pn.count("the released decision is unchanged") == 2 and _pn.count("trend not resolved; equivalence not established; no stability or SOH claim") == 2)
+           _pn.count("the released decision is unchanged") == 2 and all(_pn.count(x_) == _STAND.count(x_) for x_ in set(_STAND)))
         ok("A2 REQUIRED M407 %s: regimes labelled imprecise / not a regime comparison; fewer-than-10-blocks flag shown for the fast regime" % _k,
            _pn.count("imprecise; not a regime comparison") == 2 and "fewer than 10" in _pn)
         ok("A2 REQUIRED M407 %s: KPI table has K2 corrected and raw, throughput 'integrated from logged current, estimated', the M366 raw label and the width-ratio sentence bound to the payload" % _k,
@@ -218,7 +232,7 @@ if _sdp:
            and _pn.count("a drop from rho_pre to rho_post is not read as seasonal") == 2)
         ok("A2 REQUIRED M412 %s: harness table rendered for the four scenarios with rates and Monte Carlo errors, and the standing statement is repeated" % _k,
            all(x in _pn for x in ("white day effects (null)", "AR(1), phi 0.3", "AR(1), phi 0.6", "seasonal signal plus noise")) and "Simulation harness on this day grid (%d replications" % _sdp["harnessCoverage"]["R"] in _pn
-           and _pn.count("trend not resolved; equivalence not established; no stability or SOH claim") == 2)
+           and all(_pn.count(x_) == _STAND.count(x_) for x_ in set(_STAND)))
         ok("A2 REQUIRED M412 %s: none of the forbidden readings or inference words in the panel" % _k,
            not _re407.search(r"\b(significant(?:ly)?|confirmed|stable|robust|detected|detectable|MDE|rules? out|demonstrates|measured)\b|observed power|post hoc power|powered to detect|\bno serial dependence\b|\bdays are independent\b|\bcr1 (?:is )?adequate\b|\b(?:hac|gls) (?:is )?(?:the )?(?:corrected|primary)\b", _pn))
 # M421 (analyses/M421_spec.md, Director ruling analyses/M421_director_ruling_2026-10-12.md; audit F14 and F12): the two-pass offset is a model-derived residual-balance offset conditional on the SoC/capacity ledger, shown with its
@@ -388,7 +402,7 @@ _cs95 = (A.get("powerFade") or {}).get("cadenceSensitivity") or {}
 ok("A2 REQUIRED M395 powerFade cadence statement rendered from the payload (partial density adjustment, specification range, every interval spans zero, no fade rate claimed)",
    _cs95.get("status") == "ok" and any(f"across {_cs95['nSpecs']} cadence-handling specifications the slope ranges from {_cs95['slopeMin']} to {_cs95['slopeMax']} m\u03A9/month" in t and "no fade rate is claimed" in t for t in T.values()),
    str(_cs95.get("statement")))
-ok("A2 REQUIRED health conclusion reads 'Cell-spread trend not resolved'", any("Cell-spread trend not resolved" in t for t in T.values()))
+ok("A2 REQUIRED health conclusion follows the released interval (M427: 'Cell-spread trend not resolved' only when it includes zero)", any(("Cell-spread trend not resolved" if _cs_m427[0] <= 0 <= _cs_m427[1] else "Positive conditional cell-spread slope") in t for t in T.values()))
 # W4a (M329)
 ok("A2 REQUIRED depth-squared weighted cycle sum wording present", any("depth-squared weighted cycle sum" in t for t in T.values()))
 ok("A2 REQUIRED regen-by-temperature Compare title says pack-temperature bin", any("pack-temperature bin" in t for t in T.values()))

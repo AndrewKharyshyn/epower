@@ -40,7 +40,7 @@ def _work(fn):
 
 
 def rebuild(workers=2):
-    files = sorted(glob.glob(os.path.join(RAW, '2026*.csv')))
+    files = sorted(glob.glob(os.path.join(RAW, '20[0-9][0-9]*.csv')))
     if workers > 1:
         from multiprocessing import Pool
         with Pool(workers) as p:

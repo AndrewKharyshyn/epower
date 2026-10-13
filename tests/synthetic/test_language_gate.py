@@ -79,7 +79,7 @@ for old in ["The pattern is the buffer thesis in miniature", "This is the per-se
             "The buffer is real and bidirectional", "and the buffer covers the gap", "so the buffer's relative role recedes", "the buffer conclusion does not hinge on any one assumption"]:
     assert any(r in lg.scan_text(old) for r in ("W1-bufferthesis", "W1-robust")), old
 assert lg.scan_text("a bidirectional pattern consistent with a power-buffer role (a state-mix description, not a validation of the generator split)") == []
-assert "W1-enrichment" in lg.scan_text("enrichment") and lg.scan_text("isolates enrichment cold friction from duty cycle") == []        # longer ThermalFuelPenalty texts are W1b
+assert "W1-enrichment" in lg.scan_text("enrichment") and lg.scan_text("isolates enrichment cold friction from duty cycle") == ["M427-F18-isolates"]        # M427 (audit F18) supersedes the earlier W1b allowance: matched cells give a conditional contrast, they do not isolate
 assert "W1-independentcorrob" in lg.scan_text("an independent corroboration of M265.")
 for ok_text in ["f_gen is a model-derived sensitivity index, not a metered split", "net traction/fuel index (model-derived)", "not a measured round-trip inefficiency",
                 "Fuel is logged volume x assumed E10 LHV (the logged fuel rate is app-calculated)", "Net pack energy recovers half the debt", "assumed high-load (boost proxy)",

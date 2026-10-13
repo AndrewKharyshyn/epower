@@ -314,6 +314,13 @@ RULES = [
          rx=r"current sensor (?:offset|bias)|sensor offset residual|real sign consistent|not a fitting artefact|(?:idle hold|ready idle) (?:check|corroborat)|offset (?:is )?(?:corrected|recalibrat)|offset corrected|offset.{0,60}excludes zero|(?<!not a )calibrated (?:sensor )?zero"),
     Rule("M399-archaeology", "regex", "reader-facing text must not carry change-log history (it belongs in CHANGELOG)",
          rx=r"\bthis paragraph previously quoted\b|\bprior hand typed\b|\bsuperseded 28 w figure\b|\brecomputed 2026 07 10\b|\brefreshed at m373\b"),
+    Rule("M427-F04-ev-bound", "regex", "M427/audit F04: the +/-3 s nearest-sample alignment and the symmetric 3 s debounce can move engine-off boundaries in either direction; neither guarantees a one-sided bound; say 'estimated RPM-defined engine-off share' with a detector sensitivity range (not a confidence interval)",
+         rx=r"\bbias(?:es)? engine off upward\b|\bev (?:distance|time|share)\b.{0,50}\bupper bound\b|\bevery ev distance and time figure is an upper bound\b"),
+    Rule("M427-F09-mix-order", "regex", "M427/audit F09: the selected scenario blend is city 40 / mixed 10 / highway 50; '50/40/10 (city/mixed/highway)' lists the shares in the wrong order", rx=r"\b50 40 10 city mixed highway\b"),
+    Rule("M427-F09-gtr-root", "regex", "M427/audit F09: the root generatorTractionRecon staleness note is derived from the per-block producers (refreshedBlocks, staleBlocks, gtrClosure); the old 'script not present / 374-drive M256 basis / does not reflect the current corpus' note is obsolete",
+         rx=r"\bgenerating script for this key is not present\b|\bdoes not reflect the current 410 drive corpus\b|\b374 drive m256 corpus basis\b"),
+    Rule("M427-F18-isolates", "regex", "M427/audit F18: matched coarse RPM/load or road-speed cells give a conditional contrast; they do not isolate enrichment, cold friction or strategy (coolant, oil, catalyst, route and demand stay entangled)",
+         rx=r"\bisolates? enrichment cold friction\b|\bisolates? series hybrid strategy\b|\bisolates? (?:the )?(?:enrichment|friction) (?:and|or) (?:the )?cold\b"),
 ]
 
 
@@ -358,3 +365,20 @@ def split_jsx(src):
 def scan_jsx(src, rules=RULES):
     code, comm = split_jsx(src)
     return scan_text(code, rules), scan_text(comm, rules)
+
+
+def cell_spread_trend_violations(ci95, texts):
+    """M427 (audit F01): fact-aware check. `ci95` is the released cell-spread interval (degradationTrends.cellSpread.clusterRobustOLS.ci95), `texts` {name: rendered text}.
+    A rendered sentence that calls the cell-spread trend null while the interval excludes zero (or a positive-slope sentence while it spans zero) is a violation.
+    Returns [(name, phrase)]. The wording is derived in the dashboard (trendLabel/spreadSpans); this is the independent check."""
+    spans = ci95[0] <= 0 <= ci95[1]
+    null_ph = ("no directional cell-spread trend", "cell-spread trend not resolved", "no difference from the may baseline is resolved", "spread trend is indistinguishable from zero",
+               "remains statistically indistinguishable from zero", "no resolved trend in the", "no directional trend is resolved")
+    pos_ph = ("positive conditional cell-spread slope", "positive conditional slope")
+    bad = []
+    for k, t in texts.items():
+        low = re.sub(r"\s+", " ", t).lower()
+        for ph in (pos_ph if spans else null_ph):
+            if ph in low:
+                bad.append((k, ph))
+    return bad

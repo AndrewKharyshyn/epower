@@ -116,7 +116,7 @@ def stage_raw(dm_files, new_map, raw_dir, e4_files):
 def detect_new(dm, raw_dir):
     import compute_drive_summary_v6 as v6
     import corpus_manifest as cm
-    files = sorted(glob.glob(os.path.join(raw_dir, "2026*.csv")))
+    files = sorted(glob.glob(os.path.join(raw_dir, cm.RAW_GLOB)))
     kept = v6._select_canonical_cohort(files, raw_dir, manifest_path=os.path.join(ROOT, "raw_manifest.json"),
                                        strict=False, verbose=False)
     have = {cm._canonical(f) for f in dm["file"].astype(str)}
