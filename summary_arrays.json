@@ -10,10 +10,10 @@
   "offset2pA": -0.3888,
   "grossThroughputKwh": 1638.6,
   "dateRange": "May 11 – Oct 13, 2026",
-  "odometer": 45202,
+  "odometer": 45576,
   "odometerSource": "external",
   "carAgeNow": 2.1821,
-  "annualKm": 20715,
+  "annualKm": 20887,
   "daysSpan": 155,
   "loggedDates": 117,
   "stationaryHours": 31.4,
@@ -44,11 +44,11 @@
   "engineOnHours": 88.3,
   "engineOnCoverageN": 578,
   "engineHoursPer10k": 94.53,
-  "odometerAsOf": "2026-10-08",
+  "odometerAsOf": "2026-10-13",
   "registeredDate": "2024-08-07",
   "carAgeAsOf": "2026-10-13",
-  "kmLoggedToOdometerDate": 8976.8,
-  "kmLoggedAfterOdometerDate": 361.1,
+  "kmLoggedToOdometerDate": 9337.9,
+  "kmLoggedAfterOdometerDate": 0.0,
   "intakeAir": {
    "channel": "HV battery intake-air temperature (T_intake)",
    "nDrives": 578,
@@ -7795,9 +7795,9 @@
    "highway": 61.3
   },
   "thresholdNote": "20,000 GTC is an unverified generic planning threshold with no pack-rated provenance and no validated link to 80 % SOH. Crossings below are workload scenarios, not EOL predictions.",
-  "annualKm": 20715,
+  "annualKm": 20887,
   "carAgeNow": 2.1821,
-  "odometer": 45202,
+  "odometer": 45576,
   "intensityGtcPerKm": {
    "urban": 0.1305,
    "mixed": 0.0865,
@@ -7806,19 +7806,19 @@
   },
   "highwayBlendedIntensity": 0.0598,
   "cycleAtOdo": {
-   "city": 5183,
-   "mixed": 4405,
-   "highway": 3705,
-   "blend": 4401
+   "city": 5226,
+   "mixed": 4441,
+   "highway": 3735,
+   "blend": 4438
   },
   "projections": [
    {
     "label": "City-heavy",
     "color": "#ef4444",
-    "rate": 2375,
-    "accumulated": 5183,
-    "warmFloorRate": 2375,
-    "warmFloorAccumulated": 5183,
+    "rate": 2395,
+    "accumulated": 5226,
+    "warmFloorRate": 2395,
+    "warmFloorAccumulated": 5226,
     "yearsRemain": null,
     "yearsTotal": null,
     "governs": "cycle",
@@ -7836,10 +7836,10 @@
    {
     "label": "Selected blend",
     "color": "#60a5fa",
-    "rate": 2017,
-    "accumulated": 4401,
-    "warmFloorRate": 1880,
-    "warmFloorAccumulated": 4102,
+    "rate": 2034,
+    "accumulated": 4438,
+    "warmFloorRate": 1896,
+    "warmFloorAccumulated": 4136,
     "yearsRemain": null,
     "yearsTotal": null,
     "governs": "cycle",
@@ -7854,24 +7854,24 @@
     "climaticStress": true,
     "primary": true,
     "rateBand": {
-     "lo": 1962,
-     "mid": 2017,
-     "hi": 2099
+     "lo": 1978,
+     "mid": 2034,
+     "hi": 2117
     },
     "accumulatedBand": {
-     "lo": 4282,
-     "mid": 4401,
-     "hi": 4581
+     "lo": 4317,
+     "mid": 4438,
+     "hi": 4618
     },
     "yearsBand": null
    },
    {
     "label": "Mixed use",
     "color": "#eab308",
-    "rate": 2019,
-    "accumulated": 4405,
-    "warmFloorRate": 2019,
-    "warmFloorAccumulated": 4405,
+    "rate": 2035,
+    "accumulated": 4441,
+    "warmFloorRate": 2035,
+    "warmFloorAccumulated": 4441,
     "yearsRemain": null,
     "yearsTotal": null,
     "governs": "cycle",
@@ -7889,10 +7889,10 @@
    {
     "label": "Highway-heavy",
     "color": "#22c55e",
-    "rate": 1698,
-    "accumulated": 3705,
-    "warmFloorRate": 1698,
-    "warmFloorAccumulated": 3705,
+    "rate": 1712,
+    "accumulated": 3735,
+    "warmFloorRate": 1712,
+    "warmFloorAccumulated": 3735,
     "yearsRemain": null,
     "yearsTotal": null,
     "governs": "cycle",
@@ -7910,10 +7910,10 @@
    {
     "label": "Observed logged mix",
     "color": "#a78bfa",
-    "rate": 1735,
-    "accumulated": 3785,
-    "warmFloorRate": 1735,
-    "warmFloorAccumulated": 3785,
+    "rate": 1749,
+    "accumulated": 3817,
+    "warmFloorRate": 1749,
+    "warmFloorAccumulated": 3817,
     "yearsRemain": null,
     "yearsTotal": null,
     "governs": "cycle",
@@ -9144,9 +9144,9 @@
  },
  "seasonalLife": {
   "basis": "M28 model-based all-year extrapolation (the cold tail below the lowest logged pack-probe reading is modelled, not observed; assumption-driven, superseded by real winter logs)",
-  "annualKm": 20715,
+  "annualKm": 20887,
   "carAgeNow": 2.1821,
-  "odometer": 45202,
+  "odometer": 45576,
   "intensityGtcPerKm": {
    "city": 0.1305,
    "mixed": 0.0865,
@@ -9451,26 +9451,26 @@
    "hi": 0.09544
   },
   "rate": {
-   "lo": 1840,
-   "mid": 1895,
-   "hi": 1977
+   "lo": 1855,
+   "mid": 1911,
+   "hi": 1993
   },
   "accumulated": {
-   "lo": 4015,
-   "mid": 4135,
-   "hi": 4314
+   "lo": 4048,
+   "mid": 4169,
+   "hi": 4350
   },
   "yearsTotal": null,
   "platingCycleShare": 0.249,
   "platingSensitivity": [
    {
     "damageWeight": 1.5,
-    "effRate": 2131,
+    "effRate": 2148,
     "yearsTotal": null
    },
    {
     "damageWeight": 2.5,
-    "effRate": 2602,
+    "effRate": 2624,
     "yearsTotal": null
    }
   ],
@@ -9488,14 +9488,14 @@
     "hi": 0.10133
    },
    "rate": {
-    "lo": 1962,
-    "mid": 2017,
-    "hi": 2099
+    "lo": 1978,
+    "mid": 2034,
+    "hi": 2117
    },
    "accumulated": {
-    "lo": 4282,
-    "mid": 4401,
-    "hi": 4581
+    "lo": 4317,
+    "mid": 4438,
+    "hi": 4618
    },
    "yearsTotal": null,
    "warmFloorGtcPerKm": 0.09076,
@@ -9513,14 +9513,14 @@
     "hi": 0.0935
    },
    "rate": {
-    "lo": 1811,
-    "mid": 1861,
-    "hi": 1937
+    "lo": 1826,
+    "mid": 1877,
+    "hi": 1953
    },
    "accumulated": {
-    "lo": 3951,
-    "mid": 4061,
-    "hi": 4227
+    "lo": 3984,
+    "mid": 4095,
+    "hi": 4262
    },
    "yearsTotal": null,
    "warmFloorGtcPerKm": 0.08375,
@@ -9548,22 +9548,22 @@
    "selected": {
     "tempThresholdC": 35.0,
     "hotCycleShare": 0.084,
-    "afWeightedRate": 2217,
+    "afWeightedRate": 2235,
     "afWeightedYearsTotal": null,
     "flatSensitivity": [
      {
       "damageWeight": 1.5,
-      "rate": 2102,
+      "rate": 2119,
       "yearsTotal": null
      },
      {
       "damageWeight": 2.0,
-      "rate": 2187,
+      "rate": 2205,
       "yearsTotal": null
      },
      {
       "damageWeight": 2.5,
-      "rate": 2272,
+      "rate": 2290,
       "yearsTotal": null
      }
     ]
@@ -9571,22 +9571,22 @@
    "allYear": {
     "tempThresholdC": 35.0,
     "hotCycleShare": 0.122,
-    "afWeightedRate": 2169,
+    "afWeightedRate": 2187,
     "afWeightedYearsTotal": null,
     "flatSensitivity": [
      {
       "damageWeight": 1.5,
-      "rate": 2011,
+      "rate": 2027,
       "yearsTotal": null
      },
      {
       "damageWeight": 2.0,
-      "rate": 2127,
+      "rate": 2144,
       "yearsTotal": null
      },
      {
       "damageWeight": 2.5,
-      "rate": 2242,
+      "rate": 2261,
       "yearsTotal": null
      }
     ]
@@ -9594,22 +9594,22 @@
    "observed": {
     "tempThresholdC": 35.0,
     "hotCycleShare": 0.108,
-    "afWeightedRate": 2100,
+    "afWeightedRate": 2118,
     "afWeightedYearsTotal": null,
     "flatSensitivity": [
      {
       "damageWeight": 1.5,
-      "rate": 1962,
+      "rate": 1978,
       "yearsTotal": null
      },
      {
       "damageWeight": 2.0,
-      "rate": 2063,
+      "rate": 2080,
       "yearsTotal": null
      },
      {
       "damageWeight": 2.5,
-      "rate": 2163,
+      "rate": 2181,
       "yearsTotal": null
      }
     ]
@@ -9920,8 +9920,8 @@
      "color": "#a78bfa",
      "primary": false,
      "basis": "observed logged distance mix",
-     "rateGtcYr": 1735,
-     "accumulatedGtc": 3785,
+     "rateGtcYr": 1749,
+     "accumulatedGtc": 3817,
      "gtcPerKm": 0.08375,
      "measured": true,
      "climaticStress": false,
@@ -9932,8 +9932,8 @@
      "color": "#ef4444",
      "primary": false,
      "basis": "hand-selected forward-usage assumption",
-     "rateGtcYr": 2375,
-     "accumulatedGtc": 5183,
+     "rateGtcYr": 2395,
+     "accumulatedGtc": 5226,
      "gtcPerKm": 0.11466,
      "measured": false,
      "climaticStress": false,
@@ -9944,8 +9944,8 @@
      "color": "#eab308",
      "primary": false,
      "basis": "hand-selected forward-usage assumption",
-     "rateGtcYr": 2019,
-     "accumulatedGtc": 4405,
+     "rateGtcYr": 2035,
+     "accumulatedGtc": 4441,
      "gtcPerKm": 0.09744,
      "measured": false,
      "climaticStress": false,
@@ -9956,8 +9956,8 @@
      "color": "#22c55e",
      "primary": false,
      "basis": "hand-selected forward-usage assumption",
-     "rateGtcYr": 1698,
-     "accumulatedGtc": 3705,
+     "rateGtcYr": 1712,
+     "accumulatedGtc": 3735,
      "gtcPerKm": 0.08196,
      "measured": false,
      "climaticStress": false,
@@ -9968,8 +9968,8 @@
      "color": "#60a5fa",
      "primary": true,
      "basis": "constant all-season mix, climatic-stress (M28 seasonal throughput model)",
-     "rateGtcYr": 2017,
-     "accumulatedGtc": 4401,
+     "rateGtcYr": 2034,
+     "accumulatedGtc": 4438,
      "gtcPerKm": 0.09737,
      "measured": false,
      "climaticStress": true,
@@ -9980,8 +9980,8 @@
      "color": "#ec4899",
      "primary": false,
      "basis": "seasonal re-weighting of the same measured intensities over Kyiv climate normals; the cold tail below the lowest logged pack-probe reading is modelled, not observed",
-     "rateGtcYr": 1895,
-     "accumulatedGtc": 4135,
+     "rateGtcYr": 1911,
+     "accumulatedGtc": 4169,
      "gtcPerKm": null,
      "measured": false,
      "crossingYr": null
@@ -10277,11 +10277,11 @@
    "comparable": false,
    "note": "NOT a like-for-like comparison. The official figure is a standardized long-pulse DCIR at 80% SoC, ~25°C. our vsag_R / vreg_R are instantaneous, load-excited in-drive proxies (ohmic + fast polarization only) at ~64% SoC on a warm pack -- a different resistance definition, not a degraded-vs-new state. The ratio between the two levels must NEVER be read as a state-of-health percentage. What IS comparable is the estimated TREND (see powerFade / fadeModes.power), which is the null result reported separately below.",
    "trendContext": {
-    "kmFractionOfOfficialLifePct": 23.8,
-    "expectedIncreasePctSoFar": 17.8,
+    "kmFractionOfOfficialLifePct": 24.0,
+    "expectedIncreasePctSoFar": 18.0,
     "detectionFloorPctSoFar": 26.6,
     "withinDetectionFloor": true,
-    "note": "Linear-in-throughput approximation ONLY, for sanity-checking the null result -- not a fitted degradation law. At the current mileage fraction of the official 190,000 km life point (23.8%), the disclosed lifetime IR rise implies an expected-so-far increase (~17.8%) at or below this window's own CI half-width (±26.6% over 2.18yr) -- i.e. the M25 interval does not exclude the official trajectory at this mileage (a consistency check, not a validation)."
+    "note": "Linear-in-throughput approximation ONLY, for sanity-checking the null result -- not a fitted degradation law. At the current mileage fraction of the official 190,000 km life point (24.0%), the disclosed lifetime IR rise implies an expected-so-far increase (~18.0%) at or below this window's own CI half-width (±26.6% over 2.18yr) -- i.e. the M25 interval does not exclude the official trajectory at this mileage (a consistency check, not a validation)."
    }
   },
   "capacityFadeAnchor": {
@@ -10331,14 +10331,14 @@
    "note": "Nissan's 190,000 km / 34.0% capacity-fade reference point maps, via this study's measured gtcPerKm per usage mix, onto 15,572–21,785 GTC -- a band that BRACKETS the study's assumed 20,000 GTC capacity-fade threshold. First external anchor for a constant previously carried as thresholdVerified: false -- still an order-of-magnitude corroboration, not a calibration: gtcPerKm reflects this buffer's OWN measured cycling intensity, and the disclosed percentage is a maximum decrease, not a defined GTC endpoint."
   },
   "usageRate": {
-   "odometerKm": 45202,
+   "odometerKm": 45576,
    "carAgeYr": 2.18,
-   "kmPerYr": 20715,
+   "kmPerYr": 20887,
    "officialLifeYr": 14,
    "officialLifeKm": 190000,
    "yearsToOfficialLifeKm": null,
    "governingLimit": "mileage",
-   "note": "At the current 20,715 km/yr lifetime-average pace, the 190,000 km durability envelope is reached in ~9.2 years from new -- inside the 14-year calendar limit, so the mileage clock governs for this usage pattern."
+   "note": "At the current 20,887 km/yr lifetime-average pace, the 190,000 km durability envelope is reached in ~9.1 years from new -- inside the 14-year calendar limit, so the mileage clock governs for this usage pattern."
   },
   "rows": [
    {
@@ -10367,7 +10367,7 @@
     "official": "25.8% power / +75.0% IR @ 190,000 km",
     "ours": "slope 0.496 mΩ/mo, 95% CI [-0.775, 1.874], null",
     "verdict": "consistent_null",
-    "note": "Linear-in-throughput approximation ONLY, for sanity-checking the null result -- not a fitted degradation law. At the current mileage fraction of the official 190,000 km life point (23.8%), the disclosed lifetime IR rise implies an expected-so-far increase (~17.8%) at or below this window's own CI half-width (±26.6% over 2.18yr) -- i.e. the M25 interval does not exclude the official trajectory at this mileage (a consistency check, not a validation)."
+    "note": "Linear-in-throughput approximation ONLY, for sanity-checking the null result -- not a fitted degradation law. At the current mileage fraction of the official 190,000 km life point (24.0%), the disclosed lifetime IR rise implies an expected-so-far increase (~18.0%) at or below this window's own CI half-width (±26.6% over 2.18yr) -- i.e. the M25 interval does not exclude the official trajectory at this mileage (a consistency check, not a validation)."
    },
    {
     "parameter": "Round-trip efficiency",
@@ -10386,7 +10386,7 @@
    {
     "parameter": "Expected life-time",
     "official": "14 yr / 190,000 km",
-    "ours": "At the current 20,715 km/yr lifetime-average pace, the 190,000 km durability envelope is reached in ~9.2 years from new -- inside the 14-year calendar limit, so the mileage clock governs for this usage pattern.",
+    "ours": "At the current 20,887 km/yr lifetime-average pace, the 190,000 km durability envelope is reached in ~9.1 years from new -- inside the 14-year calendar limit, so the mileage clock governs for this usage pattern.",
     "verdict": "consistent",
     "note": "Mileage vs. calendar governance depends on the vehicle's own usage rate, recomputed here from the live odometer/registration."
    },
@@ -12177,53 +12177,90 @@
  ],
  "regenByTempMeasured": [
   {
-   "label": "10C",
-   "n": 1420,
-   "eff": 51.9,
+   "label": "<-10°C",
+   "lo": null,
+   "hi": -10,
+   "n": 0,
+   "eff": null,
+   "effRangeMassUncertainty": null,
+   "valid": false
+  },
+  {
+   "label": "-10–0°C",
+   "lo": -10,
+   "hi": 0,
+   "n": 0,
+   "eff": null,
+   "effRangeMassUncertainty": null,
+   "valid": false
+  },
+  {
+   "label": "0–10°C",
+   "lo": 0,
+   "hi": 10,
+   "n": 46,
+   "eff": 12.5,
    "effRangeMassUncertainty": [
-    51.0,
-    52.7
+    12.3,
+    12.7
+   ],
+   "valid": false
+  },
+  {
+   "label": "10–20°C",
+   "lo": 10,
+   "hi": 20,
+   "n": 8783,
+   "eff": 54.1,
+   "effRangeMassUncertainty": [
+    53.3,
+    54.9
    ],
    "valid": true
   },
   {
-   "label": "20C",
-   "n": 20840,
-   "eff": 58.5,
+   "label": "20–30°C",
+   "lo": 20,
+   "hi": 30,
+   "n": 32080,
+   "eff": 61.6,
    "effRangeMassUncertainty": [
-    57.7,
-    59.3
+    60.8,
+    62.4
    ],
    "valid": true
   },
   {
-   "label": "30C",
-   "n": 47842,
-   "eff": 62.0,
+   "label": "30–40°C",
+   "lo": 30,
+   "hi": 40,
+   "n": 66911,
+   "eff": 62.2,
    "effRangeMassUncertainty": [
-    61.3,
-    62.8
+    61.8,
+    62.7
    ],
    "valid": true
   },
   {
-   "label": "40C",
-   "n": 52727,
-   "eff": 62.7,
+   "label": "40–50°C",
+   "lo": 40,
+   "hi": 50,
+   "n": 15186,
+   "eff": 63.2,
    "effRangeMassUncertainty": [
-    62.4,
-    62.9
+    63.0,
+    63.3
    ],
    "valid": true
   },
   {
-   "label": "49C",
-   "n": 177,
-   "eff": 62.1,
-   "effRangeMassUncertainty": [
-    62.1,
-    62.1
-   ],
+   "label": "50°C+",
+   "lo": 50,
+   "hi": null,
+   "n": 0,
+   "eff": null,
+   "effRangeMassUncertainty": null,
    "valid": false
   }
  ],
@@ -34396,7 +34433,7 @@
    "cacheSha256": "fe2bcb789eb48513fb0df83d32c83586d360b9af45feb517a29f6385ef75384e",
    "selectionCodeSha256": "43adc2c074b574d18f169a734408d0ac8ca26fae1c7cf06d630131c794d9d322",
    "policy": "W2/W3 start a new spec; no silent refit. W1/W4 call for a refit decision. Model-derived monitoring statistics; the F03 label of the V2 block applies.",
-   "generated": "2026-10-13T14:41:27+00:00",
+   "generated": "2026-10-13T17:14:05+00:00",
    "f03ProvenanceFlag": {
     "basisFilesWithChangedRawSha256": [
      "2026-09-11_07-42-27.csv",
@@ -52586,8 +52623,8 @@
   "intensityInflationPct": 8.4,
   "typedKm": 9316.3,
   "n": 573,
-  "observedRateGtcYr": 1735,
-  "selectedRateGtcYr": 1880,
+  "observedRateGtcYr": 1749,
+  "selectedRateGtcYr": 1896,
   "observedCrossingYr": null,
   "selectedCrossingYr": null,
   "note": "M85: the selected 50/40/10 (city/mixed/highway) blend is a hand-chosen forward-usage scenario, now highway-dominant to match the observed duty cycle (61.3% highway). It remains somewhat more city-weighted than the logged mix, so it still raises modeled GTC intensity, but far less than the superseded 55/30/15 city-dominant blend did. These gtc/km figures compare the MIX effect only (warm-floor intensities); the Selected row shown in cycleLife additionally carries climatic stress. Crossing years use the unverified SCENARIO_THRESHOLD_GTC and are scenario analysis, not an end-of-life estimate."
@@ -52794,7 +52831,7 @@
  },
  "determinism": {
   "_provenance": "GENERATED by determinism_check.py on the current master (F-14, 2026-09-02): re-authored and regenerated, replacing the stale 2026-08-10 / 219-drive block. This block is a verbatim copy of the script output; if a fresh run and this value disagree, trust the fresh run and regenerate -- do not hand-edit.",
-  "generatedAt": "2026-10-13T14:08:36.402265+00:00",
+  "generatedAt": "2026-10-13T16:19:36.130789+00:00",
   "nDrives": 578,
   "canonicalN": 578,
   "withinSessionRepeatPass": true,
@@ -53162,16 +53199,16 @@
   "plateauLo": 62.0,
   "plateauHi": 68.0,
   "crawlEff": 10.0,
-  "tempEffMin": 51.9,
-  "tempEffMax": 62.7,
-  "tempLabelLo": "10C",
-  "tempLabelHi": "40C",
-  "tempNMin": 1420,
-  "tempNMax": 52727,
+  "tempEffMin": 54.1,
+  "tempEffMax": 63.2,
+  "tempLabelLo": "10–20°C",
+  "tempLabelHi": "40–50°C",
+  "tempNMin": 8783,
+  "tempNMax": 66911,
   "tempThinBins": [
    {
-    "label": "49C",
-    "n": 177
+    "label": "0–10°C",
+    "n": 46
    }
   ]
  },
@@ -53467,7 +53504,7 @@
     "notes": "Same-algorithm check confirms no coding bug (near-exact by construction). Independent re-integration via a genuinely different numerical method agrees to ~0.48% mean / ~0.1% p95 -- a small, explained deviation (see independentIntegrationCheck.dataQualityNote), not a discrepancy requiring resolution.",
     "artifactIdentity": {
      "corpusHashShort": "a641f34d7528",
-     "generatedAt": "2026-10-13T14:32:58.860666+00:00"
+     "generatedAt": "2026-10-13T16:40:29.684566+00:00"
     }
    },
    {
@@ -53496,7 +53533,7 @@
     "notes": "76.2% of buffer-impulse events are independently corroborated by all three other physical detectors (ramp latency, handoff sequence, debt recovery) at once; the remainder still qualify on the primary detector alone but do not clear every downstream gate -- see startEventChain.attritionFunnel for the full per-gate breakdown, not smoothed into one number.",
     "artifactIdentity": {
      "corpusHashShort": "a641f34d7528",
-     "generatedAt": "2026-10-13T14:32:58.860666+00:00"
+     "generatedAt": "2026-10-13T16:40:29.684566+00:00"
     }
    },
    {
@@ -53532,7 +53569,7 @@
     "notes": "PR-AUC point estimates and calibration are close under a genuinely different (forward-chaining, not just leakage-guarded) validation scheme -- the blocked-day result is not an artifact of that scheme's own future-data access. The STOP-side comparison (not shown here) is also confirmed; see socHysteresisV2.sensitivity.rollingOrigin.stop.",
     "artifactIdentity": {
      "corpusHashShort": "a641f34d7528",
-     "generatedAt": "2026-10-13T14:32:58.860666+00:00"
+     "generatedAt": "2026-10-13T16:40:29.684566+00:00"
     }
    },
    {
@@ -53561,7 +53598,7 @@
     "notes": "This check tests MODEL ADEQUACY, not a number match: the second-order model does NOT improve BIC over first-order (delta-BIC=-184.2, LR p=0.161), which CONFIRMS the first-order model is an adequate description at this sample size -- a genuine null result reported as such, not evidence of a failed check.",
     "artifactIdentity": {
      "corpusHashShort": "a641f34d7528",
-     "generatedAt": "2026-10-13T14:32:58.860666+00:00"
+     "generatedAt": "2026-10-13T16:40:29.684566+00:00"
     }
    },
    {
@@ -53598,7 +53635,7 @@
     "notes": "powerFade and resistanceVreg are explicitly linked (resistanceVreg.primaryEstimandRef=powerFade): a magnitude difference is expected since one is adjusted for HV-current logging density and the other is not (see their own methodology strings for the full distinction) -- both slopes' 95% CIs span zero, so neither detects a resolvable fade trend at this corpus size/window, a genuine null result. Both metrics' own SECONDARY method (day random-intercept mixed-effects, statsmodels 0.15.0) failed to converge (LinAlgError: Singular matrix) -- disclosed here rather than omitted; cluster-robust OLS is authoritative for both, as already documented in degradationTrends.cellSpread/resistanceVreg themselves.",
     "artifactIdentity": {
      "corpusHashShort": "a641f34d7528",
-     "generatedAt": "2026-10-13T14:32:58.860666+00:00"
+     "generatedAt": "2026-10-13T16:40:29.684566+00:00"
     }
    }
   ],
@@ -53622,9 +53659,9 @@
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -53632,21 +53669,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "turboMeta": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -53654,21 +53691,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "standstillStats": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -53676,21 +53713,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "carOffStandby": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -53698,21 +53735,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "driveTypes": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -53720,21 +53757,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "engineHoursByType": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -53742,21 +53779,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "driveDurationDist": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -53764,21 +53801,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "regenByType": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -53786,21 +53823,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "regenByTypeMeta": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -53808,21 +53845,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "cycleByType": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -53830,21 +53867,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "efficiencyBands": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -53852,21 +53889,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "cycleCumulative": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -53874,21 +53911,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "rfCycleCumulative": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -53896,21 +53933,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "warmupPoints": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -53918,21 +53955,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "cRatePoints": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -53940,21 +53977,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "records": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -53963,21 +54000,21 @@
    },
    "computationStatus": "computed",
    "computationStatusNote": "M340: contiguous 130+ km/h run row, new cumulative-exposure row and native-sample intake-air maximum row (audit F06/F07); other rows unchanged. | M284: added excitation-gated pack-resistance-proxy record (method, gate, covariates, bootstrap interval, gate sensitivity; not SOH) per audit Sec 10. | M284: added two rainflow-exposure records (cycle count, EFC); k=2 damage kept separate (audit Sec 10).",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "cycleLife": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -53985,21 +54022,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "cellHealthTrend": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54008,21 +54045,21 @@
    },
    "computationStatus": "computed",
    "computationStatusNote": "M312: recomputed after Huber exclusion alignment (huberSlopeMvPerMo, nHuber). | M317: huberSlopeCi95 added (day-clustered bootstrap, conditional on the first-stage fit).",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "socBandStats": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54030,21 +54067,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "evTraction": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54052,21 +54089,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "batteryDrawGross": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54075,21 +54112,21 @@
    },
    "computationStatus": "computed",
    "computationStatusNote": "M340: floor recomputed with the shared canonical mask inside the builder (audit F05); floorWarmHwy unchanged; drive, n and context from the same pool.",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "thermalHighwayBand": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54097,21 +54134,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "shortTripWarmup": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54119,21 +54156,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "metricConvention": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54141,21 +54178,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "riskColdEngineBattery": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54163,21 +54200,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "energyPath": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54185,21 +54222,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "sessionLedgerAudit": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54207,21 +54244,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "jun20Batch": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54229,21 +54266,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "socBandReset": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54251,21 +54288,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "regimeTransition": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54273,21 +54310,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "seasonalLife": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54295,21 +54332,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "powerFade": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54317,21 +54354,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "fadeModes": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54339,21 +54376,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "officialDisclosureCorrelation": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54361,21 +54398,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "dodSocLevelSensitivity": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54383,21 +54420,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "kLadderScenarios": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54405,21 +54442,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "rfDodHistogram": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54427,21 +54464,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "speedDist": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54449,21 +54486,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "socBySpeed": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54471,21 +54508,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "socBySpeedMeta": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54493,21 +54530,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "engineOnBySpeed": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54515,21 +54552,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "engineOnDrives": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54537,21 +54574,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "cycleBySpeed": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54559,21 +54596,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "cycleBySpeedMeta": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54581,21 +54618,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "engineOnDuration": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54603,21 +54640,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "torqueBySpeed": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54625,21 +54662,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "terrainTorqueDist": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54647,21 +54684,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "terrainTorqueDistLow": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54669,21 +54706,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "terrainCoverage": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54691,21 +54728,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "batteryThermalCurve": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54713,21 +54750,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "batteryThermalMeta": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54735,21 +54772,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "turboByRpm": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54757,21 +54794,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "rpmDistribution": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54779,21 +54816,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "turboBySpeedCtx": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54801,21 +54838,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "socVcmPoints": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54823,21 +54860,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "sensorSummary": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54845,21 +54882,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "regenByZone": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54867,21 +54904,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "regenCaptureMeasured": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54889,21 +54926,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "regenCaptureMeasuredMassUncertainty": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54911,21 +54948,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "regenByTempMeasured": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54933,21 +54970,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "engineStartsByType": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54955,21 +54992,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "hvcEngineTriggerSoC": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54977,21 +55014,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "hvcEngineStopSoC": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -54999,21 +55036,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "socBands": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55021,21 +55058,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "hvcTurboActivity": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55043,21 +55080,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "hvcEngine80C": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55065,21 +55102,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "warmupCurve": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55087,21 +55124,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "eolBaselines": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55109,21 +55146,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "thermalConvergence": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55131,21 +55168,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "batteryVsAmbient": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55153,21 +55190,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "batteryTempRanges": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55175,21 +55212,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "belowAmbient": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55197,21 +55234,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "motorTemp": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55219,21 +55256,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "highSpeedCensus": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55241,21 +55278,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "nearLimiter": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55263,21 +55300,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "bufferImpulse": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55285,21 +55322,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "rampLatency": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55307,21 +55344,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "startEventReconcile": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55329,21 +55366,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "socHysteresis": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55351,21 +55388,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "socHysteresisV2": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55374,7 +55411,7 @@
    },
    "computationStatus": "carriedForward",
    "computationStatusNote": "This block was NOT recomputed in this build; its own recomputeMode field records why. generatedAt/corpusHash above reflect when the STAMPING PASS ran, not when this payload was actually last (re)computed. | M321: tempLadderMonitor added (report-only drift monitor for the M320 ladder; fit and ladder unchanged).",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 489,
     "masterMd5": null,
@@ -55389,9 +55426,9 @@
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55399,21 +55436,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "heatSoakCarryover": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55421,21 +55458,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "interDriveCarryover": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55443,21 +55480,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "thermalStepResponse": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55465,21 +55502,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "dissipationCensus": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55487,21 +55524,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "lowSpeedDissipation": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55509,21 +55546,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "crawlStopGo": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55531,21 +55568,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "accelDecelEnvelopes": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55553,21 +55590,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "rpmSpeedSync": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55575,21 +55612,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "engineStartContext": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55597,21 +55634,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "bufferDebtRecovery": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55619,21 +55656,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "drivingStateTaxonomy": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55641,21 +55678,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "departureArrival": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55663,21 +55700,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "engineStateMachine": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55685,21 +55722,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "engineDwellSurvival": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55707,21 +55744,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "dailyFingerprints": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55729,21 +55766,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "thermalWarmupLag": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55751,21 +55788,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "socBalancedFuel": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55773,21 +55810,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "handoffSequence": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55795,21 +55832,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "startEventChain": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55817,21 +55854,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "cellSpreadRelaxation": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55839,21 +55876,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "vgtAirPath": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55861,21 +55898,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "highSocRegen": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55883,21 +55920,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "socControlSurface": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55905,21 +55942,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "energyShifting": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55927,21 +55964,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "baroCompensation": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55949,21 +55986,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "auxLoadAmbient": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55971,21 +56008,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "fullCellCaseStudy": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -55993,21 +56030,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "thermalFuelPenalty": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -56015,21 +56052,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "mountainPattern": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -56037,21 +56074,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "cRateRefLines": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -56059,21 +56096,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "cRatePointsAK": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -56082,21 +56119,21 @@
    },
    "computationStatus": "computed",
    "computationStatusNote": "M358: A / kW companions of cRatePoints / cRateRefLines (tools/m358_splice.py, compute_summary_arrays._crate_axes); derived from drive_master.csv.",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "cRateRefLinesAK": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -56105,21 +56142,21 @@
    },
    "computationStatus": "computed",
    "computationStatusNote": "M358: A / kW companions of cRatePoints / cRateRefLines (tools/m358_splice.py, compute_summary_arrays._crate_axes); derived from drive_master.csv.",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "cRateAxes": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -56128,21 +56165,21 @@
    },
    "computationStatus": "computed",
    "computationStatusNote": "M358: A / kW companions of cRatePoints / cRateRefLines (tools/m358_splice.py, compute_summary_arrays._crate_axes); derived from drive_master.csv.",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "socVcmMapping": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -56150,21 +56187,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "highwayVsCity": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -56172,21 +56209,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "riskDischargeShare": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -56194,21 +56231,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "eligibility": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -56216,21 +56253,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "degradationTrends": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -56238,21 +56275,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "observedMix": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -56260,21 +56297,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "offsetUncertainty": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -56282,21 +56319,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "contaminationSensitivity": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -56304,21 +56341,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "ledgerCrossCheck": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -56326,21 +56363,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "constantProvenance": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -56348,21 +56385,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "determinism": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -56370,21 +56407,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "gpsAltitudeCoverage": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -56392,21 +56429,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "coverageMap": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -56414,21 +56451,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "rawManifest": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -56436,21 +56473,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "regenCaptureMeta": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -56458,21 +56495,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "energyUncertaintyMC": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -56480,21 +56517,21 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "evidenceLedger": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -56502,13 +56539,13 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "ambientTable": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
@@ -56516,7 +56553,7 @@
    "configHash": "47b499142f5b3664e9efdd64cb3dfc32",
    "fullConfigHash": "5fb4cded584af182d0847ca6136ea8de",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:36:00.861991+00:00",
+   "generatedAt": "2026-10-13T17:10:21.377678+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawCacheSchemaVersion": 7,
@@ -56527,13 +56564,13 @@
    },
    "computationStatus": "computed",
    "computationStatusNote": "M314: per-drive ambient table (tools/build_ambient_table.py) from summary_config.json ambientByDrive and drive_master.csv.",
-   "includedInReleaseAt": "2026-10-13T14:36:00.861991+00:00",
+   "includedInReleaseAt": "2026-10-13T17:10:21.377678+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:36:00.861991+00:00"
+   "computedAt": "2026-10-13T17:10:21.377678+00:00"
   },
   "assumptionsRegistry": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
@@ -56587,9 +56624,9 @@
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -56598,13 +56635,13 @@
    },
    "computationStatus": "computed",
    "computationStatusNote": "M284: per-drive cohort distributions for ECDF small multiples (cohort_distributions.py); derived from drive_master.csv + seasonal_drive_master.csv.",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "cohortMeta": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
@@ -56637,9 +56674,9 @@
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -56648,13 +56685,13 @@
    },
    "computationStatus": "computed",
    "computationStatusNote": "M297: typed class x cohort comparison cube + urban Warm-vs-Shoulder contrast (m297_comparison_cube.py).",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "crossVehicle": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
@@ -56710,20 +56747,20 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T15:04:23.262011+00:00",
+   "generatedAt": "2026-10-13T17:30:51.612465+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "a641f34d7528d004b900c151cbde3d6d"
    },
    "computationStatus": "computed",
    "computationStatusNote": "M343: computed by tools/engine_start_rate.py from the pipeline frame cache; additive, no published value recomputed; not M299-reproducible.",
-   "includedInReleaseAt": "2026-10-13T15:04:23.262011+00:00",
+   "includedInReleaseAt": "2026-10-13T17:30:51.612465+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T15:04:23.262011+00:00"
+   "computedAt": "2026-10-13T17:30:51.612465+00:00"
   },
   "exposureBasis": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
@@ -56731,20 +56768,20 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T15:07:34.604222+00:00",
+   "generatedAt": "2026-10-13T17:33:53.019800+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "a641f34d7528d004b900c151cbde3d6d"
    },
    "computationStatus": "computed",
    "computationStatusNote": "M423: refreshed by tools/exposure_basis_refresh.py (legacy-basis disclosure values recomputed from the master with the released builders; rated side = this payload); exposure basis tags, populations, factor",
-   "includedInReleaseAt": "2026-10-13T15:07:34.604222+00:00",
+   "includedInReleaseAt": "2026-10-13T17:33:53.019800+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T15:07:34.604222+00:00"
+   "computedAt": "2026-10-13T17:33:53.019800+00:00"
   },
   "fuelAnalytics": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
@@ -56869,20 +56906,20 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T15:07:26.286287+00:00",
+   "generatedAt": "2026-10-13T17:33:46.540667+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "a641f34d7528d004b900c151cbde3d6d"
    },
    "computationStatus": "computed",
    "computationStatusNote": "M420: derived by tools/integration_scenarios.py from the raw I/V samples of the master drives; additive single-choice integration scenarios (audit F17)",
-   "includedInReleaseAt": "2026-10-13T15:07:26.286287+00:00",
+   "includedInReleaseAt": "2026-10-13T17:33:46.540667+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T15:07:26.286287+00:00"
+   "computedAt": "2026-10-13T17:33:46.540667+00:00"
   },
   "loggerCadence": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
@@ -56995,9 +57032,9 @@
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
+   "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:32:58.860666+00:00",
+   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -57006,13 +57043,13 @@
    },
    "computationStatus": "computed",
    "computationStatusNote": "M291: records disclosure contract (records_disclosure.py, audit B8).",
-   "includedInReleaseAt": "2026-10-13T14:32:58.860666+00:00",
+   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:32:58.860666+00:00"
+   "computedAt": "2026-10-13T16:40:29.684566+00:00"
   },
   "seasonalCharts": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
@@ -57070,7 +57107,7 @@
    "configHash": "47b499142f5b3664e9efdd64cb3dfc32",
    "fullConfigHash": "5fb4cded584af182d0847ca6136ea8de",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T14:40:58.522889+00:00",
+   "generatedAt": "2026-10-13T17:13:53.819852+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawCacheSchemaVersion": 7,
@@ -57081,13 +57118,13 @@
    },
    "computationStatus": "computed",
    "computationStatusNote": "M317: Huber spread-fit provenance record (tools/record_spread_fit.py); append-only history in spread_fit_history.json.",
-   "includedInReleaseAt": "2026-10-13T14:40:58.522889+00:00",
+   "includedInReleaseAt": "2026-10-13T17:13:53.819852+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T14:40:58.522889+00:00"
+   "computedAt": "2026-10-13T17:13:53.819852+00:00"
   },
   "thermalSupportLedger": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
@@ -75941,8 +75978,8 @@
     "id": "odometer_km",
     "symbol": "vehicle.odometerKm",
     "label": "Dash odometer reading",
-    "raw": 45202,
-    "value": "45,202 km (as of 2026-10-08)",
+    "raw": 45576,
+    "value": "45,576 km (as of 2026-10-13)",
     "unit": "km",
     "klass": "measured_external",
     "verified": true,
@@ -85123,7 +85160,7 @@
  },
  "crossVehicle": {
   "_meta": {
-   "generated": "2026-10-13T14:32:59+00:00",
+   "generated": "2026-10-13T16:40:29+00:00",
    "mTag": "M135",
    "primaryVehicle": "Nissan X-Trail e-POWER T33 FWD",
    "auxVehicle": "Nissan X-Trail e-4ORCE AWD",
@@ -86061,7 +86098,7 @@
   },
   "eventDetectors": {
    "_meta": {
-    "generated": "2026-10-13T14:33:15+00:00",
+    "generated": "2026-10-13T16:40:42+00:00",
     "mTag": "M130",
     "method": "Identical main-corpus detectors run on the 9 aux frames: _RawAccum (engineOnDuration), _buffer_impulse_summary (M116), _ramp_latency_summary (M118), _soc_hysteresis_summary (M119). No reimplementation; CAP/mass sub-products discarded. Detectors are current/rpm/soc based -> CAP-, mass-, offset-independent.",
     "confound": "engineOnDuration is stratified => urban/mixed matched. bufferImpulse/rampLatency/socHysteresis are POOLED; the aux is urban+mixed only, so pooled RATE fields (eventsPer100km, per-second transition counts) are confounded by the aux lacking highway coverage. Per-event fields (peak kW, durations, prob-vs-SoC shape) are stratum-robust.",
@@ -87334,7 +87371,7 @@
   },
   "turboPattern": {
    "_meta": {
-    "generated": "2026-10-13T14:33:15+00:00",
+    "generated": "2026-10-13T16:40:42+00:00",
     "mTag": "M131",
     "nAux": 9,
     "method": "Identical _RawAccum turbo builders on the 9 aux frames (turboByRpm, rpmDistribution). Boost canonical (MAP collinear r=0.999). No reimplementation.",
@@ -87615,7 +87652,7 @@
   },
   "pureElectric": {
    "_meta": {
-    "generated": "2026-10-13T14:33:15+00:00",
+    "generated": "2026-10-13T16:40:42+00:00",
     "mTag": "M132",
     "method": "Identical _ev_traction (M53) on an enriched aux dm built on the fly (full analyze_bytes rows); aux master unchanged. EV state = eng_rpm <= 400. ev_valid gates broken-odometer drives.",
     "nValid": 7,
@@ -134656,11 +134693,11 @@
    "sources": {
     "closureDiag": {
      "path": "analyses/M377c_closure_diag.json",
-     "sha256": "e5aa7dcb86118f14241ef983e9bacfbbeacfec563dd054eb87dc21aa5882a6d1"
+     "sha256": "1c02afd3dc06d702f7250241f27a8cede48e6c0721f6ed205893d5b2837db911"
     },
     "step2": {
      "path": "analyses/M377c_step2_result.json",
-     "sha256": "eff2cc2f1a13d81287dac1b9e82ff0fda6e6b1e5b7455287f3e41ad95c9696e7"
+     "sha256": "076f118e7e8b65cb8431e089b08e81700576bd043ee626617f8bba403ad8aa83"
     },
     "fuelReconMaster": {
      "path": "fuel_recon_master.csv",
@@ -134698,7 +134735,7 @@
     "status": "descriptive point values, no interval; drive set = canonical-clean (ens_outlier_v2), 348 of 350 fuel-instrumented drives; recomputed on the live corpus at ingestion M426",
     "provenanceDelta": "O minus R (former per-sample raw, current master): provenance; R minus published: combined drive-set + code + basis drift, unattributed (analyses/M375_delta.json)",
     "source": {
-     "O": "analyses/M377_O_blocks.json sha256 1641e4d57fc09de9",
+     "O": "analyses/M377_O_blocks.json sha256 c969ae755848810d",
      "spec": "analyses/M377_spec.md sha256 d0fffe3d94e23ff0",
      "scripts": {
       "tools/m373_point.py": "0db60863f380b22a",
@@ -134752,7 +134789,7 @@
     "status": "descriptive point values, no interval; drive set = canonical-clean (ens_outlier_v2), 348 of 350 fuel-instrumented drives; recomputed on the live corpus at ingestion M426",
     "provenanceDelta": "O minus R (former per-sample raw, current master): provenance; R minus published: combined drive-set + code + basis drift, unattributed (analyses/M375_delta.json)",
     "source": {
-     "O": "analyses/M377_O_blocks.json sha256 1641e4d57fc09de9",
+     "O": "analyses/M377_O_blocks.json sha256 c969ae755848810d",
      "spec": "analyses/M377_spec.md sha256 d0fffe3d94e23ff0",
      "scripts": {
       "tools/m373_point.py": "0db60863f380b22a",
@@ -134784,7 +134821,7 @@
     "status": "descriptive point values, no interval; drive set = canonical-clean (ens_outlier_v2), 348 of 350 fuel-instrumented drives; recomputed on the live corpus at ingestion M426",
     "provenanceDelta": "O minus R (former per-sample raw, current master): provenance; R minus published: combined drive-set + code + basis drift, unattributed (analyses/M375_delta.json)",
     "source": {
-     "O": "analyses/M377_O_blocks.json sha256 1641e4d57fc09de9",
+     "O": "analyses/M377_O_blocks.json sha256 c969ae755848810d",
      "spec": "analyses/M377_spec.md sha256 d0fffe3d94e23ff0",
      "scripts": {
       "tools/m373_point.py": "0db60863f380b22a",
@@ -136506,7 +136543,7 @@
    },
    "corpusMd5": "a641f34d7528d004b900c151cbde3d6d",
    "seasonalMasterMd5": "ad2c6f1189d7530ccb7dd95e9302d7fc",
-   "generatedAt": "2026-10-13T15:03:27.222668+00:00",
+   "generatedAt": "2026-10-13T17:30:01.122475+00:00",
    "phase": "0B_seed+1_master+2_raw+wire14",
    "provenance": "Phase-0 corrected-aggregation seed. Reproduces the three defect fixes (energy-intensity ratio-of-sums; starts/100km resolution; histogram conservation) as cohort-native scalars. Native chart CONTRACTS (cycleByType/regenByZone/speedDist/... per cohort) populate in Phase 1/2. cold=null (empty cohort), never zero.",
    "nativeEquivalence": {
@@ -140656,151 +140693,262 @@
     "data": {
      "all": [
       {
-       "label": "10C",
-       "n": 1420,
-       "eff": 51.9,
-       "effRangeMassUncertainty": [
-        51.0,
-        52.7
-       ],
-       "valid": true
+       "label": "<-10°C",
+       "lo": null,
+       "hi": -10,
+       "n": 0,
+       "eff": null,
+       "effRangeMassUncertainty": null,
+       "valid": false
       },
       {
-       "label": "20C",
-       "n": 20840,
-       "eff": 58.5,
-       "effRangeMassUncertainty": [
-        57.7,
-        59.3
-       ],
-       "valid": true
+       "label": "-10–0°C",
+       "lo": -10,
+       "hi": 0,
+       "n": 0,
+       "eff": null,
+       "effRangeMassUncertainty": null,
+       "valid": false
       },
       {
-       "label": "30C",
-       "n": 47842,
-       "eff": 62.0,
+       "label": "0–10°C",
+       "lo": 0,
+       "hi": 10,
+       "n": 46,
+       "eff": 12.5,
        "effRangeMassUncertainty": [
-        61.3,
-        62.8
-       ],
-       "valid": true
-      },
-      {
-       "label": "40C",
-       "n": 52727,
-       "eff": 62.7,
-       "effRangeMassUncertainty": [
-        62.4,
-        62.9
-       ],
-       "valid": true
-      },
-      {
-       "label": "49C",
-       "n": 177,
-       "eff": 62.1,
-       "effRangeMassUncertainty": [
-        62.1,
-        62.1
+        12.3,
+        12.7
        ],
        "valid": false
-      }
-     ],
-     "warm": [
+      },
       {
-       "label": "10C",
-       "n": 521,
-       "eff": 58.3,
+       "label": "10–20°C",
+       "lo": 10,
+       "hi": 20,
+       "n": 8783,
+       "eff": 54.1,
        "effRangeMassUncertainty": [
-        57.4,
-        59.2
+        53.3,
+        54.9
        ],
        "valid": true
       },
       {
-       "label": "20C",
-       "n": 10861,
-       "eff": 58.6,
+       "label": "20–30°C",
+       "lo": 20,
+       "hi": 30,
+       "n": 32080,
+       "eff": 61.6,
        "effRangeMassUncertainty": [
-        57.8,
-        59.4
-       ],
-       "valid": true
-      },
-      {
-       "label": "30C",
-       "n": 40337,
-       "eff": 61.7,
-       "effRangeMassUncertainty": [
-        61.0,
+        60.8,
         62.4
        ],
        "valid": true
       },
       {
-       "label": "40C",
-       "n": 48796,
-       "eff": 62.1,
+       "label": "30–40°C",
+       "lo": 30,
+       "hi": 40,
+       "n": 66911,
+       "eff": 62.2,
        "effRangeMassUncertainty": [
         61.8,
-        62.3
+        62.7
        ],
        "valid": true
       },
       {
-       "label": "49C",
-       "n": 177,
-       "eff": 62.1,
+       "label": "40–50°C",
+       "lo": 40,
+       "hi": 50,
+       "n": 15186,
+       "eff": 63.2,
        "effRangeMassUncertainty": [
-        62.1,
+        63.0,
+        63.3
+       ],
+       "valid": true
+      },
+      {
+       "label": "50°C+",
+       "lo": 50,
+       "hi": null,
+       "n": 0,
+       "eff": null,
+       "effRangeMassUncertainty": null,
+       "valid": false
+      }
+     ],
+     "warm": [
+      {
+       "label": "<-10°C",
+       "lo": null,
+       "hi": -10,
+       "n": 0,
+       "eff": null,
+       "effRangeMassUncertainty": null,
+       "valid": false
+      },
+      {
+       "label": "-10–0°C",
+       "lo": -10,
+       "hi": 0,
+       "n": 0,
+       "eff": null,
+       "effRangeMassUncertainty": null,
+       "valid": false
+      },
+      {
+       "label": "0–10°C",
+       "lo": 0,
+       "hi": 10,
+       "n": 0,
+       "eff": null,
+       "effRangeMassUncertainty": null,
+       "valid": false
+      },
+      {
+       "label": "10–20°C",
+       "lo": 10,
+       "hi": 20,
+       "n": 3196,
+       "eff": 55.1,
+       "effRangeMassUncertainty": [
+        54.3,
+        55.9
+       ],
+       "valid": true
+      },
+      {
+       "label": "20–30°C",
+       "lo": 20,
+       "hi": 30,
+       "n": 23647,
+       "eff": 61.0,
+       "effRangeMassUncertainty": [
+        60.3,
+        61.8
+       ],
+       "valid": true
+      },
+      {
+       "label": "30–40°C",
+       "lo": 30,
+       "hi": 40,
+       "n": 59094,
+       "eff": 61.7,
+       "effRangeMassUncertainty": [
+        61.3,
         62.1
        ],
+       "valid": true
+      },
+      {
+       "label": "40–50°C",
+       "lo": 40,
+       "hi": 50,
+       "n": 14755,
+       "eff": 62.8,
+       "effRangeMassUncertainty": [
+        62.7,
+        63.0
+       ],
+       "valid": true
+      },
+      {
+       "label": "50°C+",
+       "lo": 50,
+       "hi": null,
+       "n": 0,
+       "eff": null,
+       "effRangeMassUncertainty": null,
        "valid": false
       }
      ],
      "shoulder": [
       {
-       "label": "10C",
-       "n": 369,
-       "eff": 43.0,
+       "label": "<-10°C",
+       "lo": null,
+       "hi": -10,
+       "n": 0,
+       "eff": null,
+       "effRangeMassUncertainty": null,
+       "valid": false
+      },
+      {
+       "label": "-10–0°C",
+       "lo": -10,
+       "hi": 0,
+       "n": 0,
+       "eff": null,
+       "effRangeMassUncertainty": null,
+       "valid": false
+      },
+      {
+       "label": "0–10°C",
+       "lo": 0,
+       "hi": 10,
+       "n": 46,
+       "eff": 12.5,
        "effRangeMassUncertainty": [
-        42.4,
-        43.7
+        12.3,
+        12.7
+       ],
+       "valid": false
+      },
+      {
+       "label": "10–20°C",
+       "lo": 10,
+       "hi": 20,
+       "n": 4947,
+       "eff": 54.0,
+       "effRangeMassUncertainty": [
+        53.2,
+        54.9
        ],
        "valid": true
       },
       {
-       "label": "20C",
-       "n": 9869,
-       "eff": 58.5,
+       "label": "20–30°C",
+       "lo": 20,
+       "hi": 30,
+       "n": 8433,
+       "eff": 63.2,
        "effRangeMassUncertainty": [
-        57.7,
-        59.4
+        62.3,
+        64.2
        ],
        "valid": true
       },
       {
-       "label": "30C",
-       "n": 7505,
-       "eff": 63.7,
+       "label": "30–40°C",
+       "lo": 30,
+       "hi": 40,
+       "n": 7817,
+       "eff": 66.4,
        "effRangeMassUncertainty": [
-        62.8,
-        64.5
+        65.6,
+        67.1
        ],
        "valid": true
       },
       {
-       "label": "40C",
-       "n": 3931,
-       "eff": 70.9,
+       "label": "40–50°C",
+       "lo": 40,
+       "hi": 50,
+       "n": 431,
+       "eff": 78.1,
        "effRangeMassUncertainty": [
-        70.2,
-        71.7
+        76.9,
+        79.4
        ],
        "valid": true
       },
       {
-       "label": "49C",
+       "label": "50°C+",
+       "lo": 50,
+       "hi": null,
        "n": 0,
        "eff": null,
        "effRangeMassUncertainty": null,
@@ -140809,41 +140957,75 @@
      ],
      "cold": [
       {
-       "label": "10C",
-       "n": 530,
-       "eff": 48.9,
+       "label": "<-10°C",
+       "lo": null,
+       "hi": -10,
+       "n": 0,
+       "eff": null,
+       "effRangeMassUncertainty": null,
+       "valid": false
+      },
+      {
+       "label": "-10–0°C",
+       "lo": -10,
+       "hi": 0,
+       "n": 0,
+       "eff": null,
+       "effRangeMassUncertainty": null,
+       "valid": false
+      },
+      {
+       "label": "0–10°C",
+       "lo": 0,
+       "hi": 10,
+       "n": 0,
+       "eff": null,
+       "effRangeMassUncertainty": null,
+       "valid": false
+      },
+      {
+       "label": "10–20°C",
+       "lo": 10,
+       "hi": 20,
+       "n": 640,
+       "eff": 47.7,
        "effRangeMassUncertainty": [
-        48.2,
-        49.7
+        47.0,
+        48.5
        ],
        "valid": true
       },
       {
-       "label": "20C",
-       "n": 110,
-       "eff": 42.0,
-       "effRangeMassUncertainty": [
-        41.3,
-        42.6
-       ],
-       "valid": false
-      },
-      {
-       "label": "30C",
+       "label": "20–30°C",
+       "lo": 20,
+       "hi": 30,
        "n": 0,
        "eff": null,
        "effRangeMassUncertainty": null,
        "valid": false
       },
       {
-       "label": "40C",
+       "label": "30–40°C",
+       "lo": 30,
+       "hi": 40,
        "n": 0,
        "eff": null,
        "effRangeMassUncertainty": null,
        "valid": false
       },
       {
-       "label": "49C",
+       "label": "40–50°C",
+       "lo": 40,
+       "hi": 50,
+       "n": 0,
+       "eff": null,
+       "effRangeMassUncertainty": null,
+       "valid": false
+      },
+      {
+       "label": "50°C+",
+       "lo": 50,
+       "hi": null,
        "n": 0,
        "eff": null,
        "effRangeMassUncertainty": null,
@@ -161739,7 +161921,7 @@
     "additiveLeavesNotRefreshed": {},
     "milestone": "M341",
     "basisNDrives": 578,
-    "generatedAt": "2026-10-13T15:03:27.222668+00:00",
+    "generatedAt": "2026-10-13T17:30:01.122475+00:00",
     "method": "same released builders as the top-level blocks, called per thermal cohort on the live corpus (raw_only/, frame cache schema 7); parity-guarded (f(all rows) == top-level block, exact or with extra stored keys only at splice-registered paths: additiveLeavesNotRefreshed counts them; M384); cohort-derived cutpoints are cohort-relative (see analyses/M341_check.json)"
    },
    "perChartStatus": {
