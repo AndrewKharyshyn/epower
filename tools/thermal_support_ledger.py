@@ -294,7 +294,11 @@ def reconcile(blk, A):
     for c in blk["byCohort"]:                      # M426: warm, shoulder and (once it meets the minimum support) cold
         d = lambda cid: (ch[cid]["data"].get(c) or {})
         checks.update(_rec_one(blk["byCohort"][c], d("ThermalWarmupLag") or None, d("HvcEngine80C"), d("WarmupCurve").get("classes"), d("ThermalFuelPenalty").get("nColdStartDrives"), c + "."))
-    return {"checks": checks, "allEqual": all(v["equal"] for v in checks.values())}
+        if not d("ThermalFuelPenalty"):        # M426: a small cohort (cold) gets no fuel-penalty block: nothing published to reconcile; the ledger count stays visible
+            k = c + ".thermalFuelPenalty.nColdStartDrives"
+            checks[k] = {"ledger": checks[k]["ledger"], "published": None, "equal": None,
+                         "note": "the estimator published no block for this cohort (too few cold-start drives for the fit); the ledger count is informational"}
+    return {"checks": checks, "allEqual": all(v["equal"] is not False for v in checks.values())}
 
 
 def build(dm, frame_loader, raw_dir, A):

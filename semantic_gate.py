@@ -287,12 +287,13 @@ ok("M419 every artifact stamp carries includedInReleaseAt / computedAt / inputBa
 # M418 (analyses/M418_spec.md Rev 1, Director ruling analyses/M418_director_ruling_2026-10-12.md): thermal support ledger; additive and reporting-only; every accepted count reconciles with the published estimator n, every
 # candidate sits in exactly one bucket, and the support lines of the thermal sections render the counts of the selected cohort
 _tl = A.get("thermalSupportLedger")
-ok("M418 thermalSupportLedger present with its artifact stamp and no estimator keys", bool(_tl) and "thermalSupportLedger" in A["_artifactStamps"] and set(_tl["byCohort"]) == {"warm", "shoulder"} and _tl["coldCohort"]["inferenceAvailable"] is False)
+_cold_open = A["cohortMeta"]["cold"]["inferenceAvailable"] is True       # M426: Cold opens once it meets the minimum support; the wording / ledger expectations follow the payload
+ok("M418 thermalSupportLedger present with its artifact stamp and no estimator keys", bool(_tl) and "thermalSupportLedger" in A["_artifactStamps"] and set(_tl["byCohort"]) == ({"warm", "shoulder", "cold"} if _cold_open else {"warm", "shoulder"}) and _tl["coldCohort"]["inferenceAvailable"] is _cold_open)
 if _tl:
     _rc = _tl["reconciliation"]
     ok("M418 every accepted count equals the published estimator n (all, warm, shoulder) and every candidate is in exactly one bucket (%d checks)" % len(_rc["checks"]),
-       _rc["allEqual"] and len(_rc["checks"]) >= 70 and all(v["equal"] for v in _rc["checks"].values()) and sum(1 for k in _rc["checks"] if "partition." in k) == 12,
-       str({k: v for k, v in _rc["checks"].items() if not v["equal"]}))
+       _rc["allEqual"] and len(_rc["checks"]) >= 70 and all(v["equal"] is not False for v in _rc["checks"].values()) and sum(1 for k in _rc["checks"] if "partition." in k) == 4 * (1 + len(_tl["byCohort"])),
+       str({k: v for k, v in _rc["checks"].items() if v["equal"] is False}))        # M426: equal None = a cohort without a published estimator block (stated in the check), not a mismatch
     _deg = "°"
     for _mode in ("all", "warm", "shoulder"):
         _E = _tl["estimators"] if _mode == "all" else _tl["byCohort"][_mode]
@@ -404,7 +405,7 @@ ok("A2 REQUIRED registry offset row: one corpus-wide constant, two-pass, not app
 # M354 (F08.r1 / p25.2)
 _cmo = json.load(open("summary_arrays.json", encoding="utf-8"))["cohortMeta"]
 _obs_line = "Observed {a} = Warm {w} + Shoulder {s} + Cold {c}".format(a=_cmo["all"]["observed"], w=_cmo["warm"]["observed"], s=_cmo["shoulder"]["observed"], c=_cmo["cold"]["observed"])
-ok("A2 REQUIRED observed-sum line from cohortMeta (" + _obs_line + ") and Cold shown as observed only", any(LG.norm(_obs_line) in LG.norm(t) and "observed only" in t for t in T.values()))
+ok("A2 REQUIRED observed-sum line from cohortMeta (" + _obs_line + ") and Cold shown as observed only while below the support, as an analysed cohort once above it", any(LG.norm(_obs_line) in LG.norm(t) and (("analysed as cohorts: Warm, Shoulder, Cold" in t) if _cmo["cold"]["inferenceAvailable"] else ("observed only" in t)) for t in T.values()))
 ok("A2 REQUIRED cohort counts conserve: observed(warm+shoulder+cold) == observed(all); inferenceAvailable == (eligibleForCohortView >= min)", _cmo["warm"]["observed"] + _cmo["shoulder"]["observed"] + _cmo["cold"]["observed"] == _cmo["all"]["observed"] and all(_cmo[k]["inferenceAvailable"] == (_cmo[k]["eligibleForCohortView"] >= 10) for k in ("warm", "shoulder", "cold")))
 ok("A2 REQUIRED identifiability box 'What the data cannot identify' with six limits and the payload Cold count", any("What the data cannot identify" in t and "uncalibrated vehicle reading" in t and "segregated from the primary corpus" in t and "assumed BSFC prior" in t for t in T.values()))
 # M357 (Crawl & Stop-Go callout)
@@ -663,8 +664,9 @@ if _esr:
     ok("A2 REQUIRED M343 headline and detector wording (RPM onsets, detector parameters, not current reversals, F10.r1 partly open, F03)",
        all(x in _charts_all for x in ["Engine-start rate (RPM onsets), pooled ratio of sums", f"{_pa['est']:.1f} RPM onsets per 100 km", "RPM onsets are not current-direction reversals; the two are different quantities",
                                       "Detector-defined count", "F10.r1 is partly open", "raw/ = sha256-verified originals (M366)", "file-boundary bookkeeping, not a cold-start measure"]))
-    ok("A2 REQUIRED M343 Cold reads below minimum support, with the drive count from the payload",
-       f"Cold: below minimum support ({_esr['primary']['coldBelowSupport']['nDrives']} drives" in _charts_all)
+    ok("A2 REQUIRED M343 Cold reads below minimum support with the drive count from the payload while it is below the support; once open the payload carries the Cold estimate and the below-support wording is gone",
+       (f"Cold: below minimum support ({_esr['primary']['coldBelowSupport']['nDrives']} drives" in _charts_all) if not _cold_open else
+       (_esr["primary"].get("cold") is not None and "Cold: below minimum support" not in _charts_all))
 # M345: the Pure-Electric buffer-limit panel states that usable energy and the window budget scale with the assumed (unverified) CAP_KWH
 _capv = ((A.get("constantProvenance") or {}).get("CAP_KWH") or {})
 ok("A2 REQUIRED engine-off buffer-limit text says usable energy and window budget scale in proportion to the assumed CAP_KWH (value and verified flag from the payload)",
