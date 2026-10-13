@@ -93,18 +93,23 @@ syn = T.aggregate_lag([{**r, "_d": d} for r, d in zip(rec, ["2026-06-01", "2026-
 assert syn["coldStartDays"] == 2 and syn["candidateDays"] == 4, (syn["coldStartDays"], syn["candidateDays"])
 
 # cohort variants: the block carries warm and shoulder ledgers that reconcile with the cohort chart payloads; the cold cohort is not computed
-assert set(B["byCohort"]) == {"warm", "shoulder"} and any(k.startswith("warm.") for k in B["reconciliation"]["checks"]) and any(k.startswith("shoulder.") for k in B["reconciliation"]["checks"])
+COLD_OPEN = A["cohortMeta"]["cold"]["inferenceAvailable"] is True       # M426: the cold cohort has its own ledger once it meets the minimum support
+assert set(B["byCohort"]) == ({"warm", "shoulder", "cold"} if COLD_OPEN else {"warm", "shoulder"}) and any(k.startswith("warm.") for k in B["reconciliation"]["checks"]) and any(k.startswith("shoulder.") for k in B["reconciliation"]["checks"])
 ch = A["seasonalCharts"]["charts"]
-for c in ("warm", "shoulder"):
-    assert B["byCohort"][c]["warmupLag"]["coldStarts"] == ch["ThermalWarmupLag"]["data"][c]["nColdStart"], c
-    assert B["byCohort"][c]["fuelPenalty"]["accepted"] == ch["ThermalFuelPenalty"]["data"][c]["nColdStartDrives"], c
+for c in B["byCohort"]:
+    if ch["ThermalWarmupLag"]["data"].get(c):
+        assert B["byCohort"][c]["warmupLag"]["coldStarts"] == ch["ThermalWarmupLag"]["data"][c]["nColdStart"], c
+    if ch["ThermalFuelPenalty"]["data"].get(c):          # a small cohort may get no published fuel-penalty block (reported by the reconciliation as informational)
+        assert B["byCohort"][c]["fuelPenalty"]["accepted"] == ch["ThermalFuelPenalty"]["data"][c]["nColdStartDrives"], c
+    else:
+        assert B["reconciliation"]["checks"][c + ".thermalFuelPenalty.nColdStartDrives"]["equal"] is None, c
 mut = copy.deepcopy(B); mut["byCohort"]["shoulder"]["warmupLag"]["coolant"]["70"]["reached"] += 1
 assert not T.reconcile(mut, A)["allEqual"], "a changed cohort count must fail the reconciliation"
-assert B["byCohort"]["warm"]["warmupLag"]["coldStarts"] + B["byCohort"]["shoulder"]["warmupLag"]["coldStarts"] <= B["estimators"]["warmupLag"]["coldStarts"]
+assert sum(B["byCohort"][c]["warmupLag"]["coldStarts"] for c in B["byCohort"]) <= B["estimators"]["warmupLag"]["coldStarts"]
 
 # --- content rules: censoring reading, no survival estimate, winter suppressed, no forbidden wording
 txt = json.dumps(B).lower()
-assert "right-censored" in txt and "reachers only" in txt and "not a time-to-event estimate" in txt and "winter stays suppressed" in txt and "not identifiable" in txt
+assert "right-censored" in txt and "reachers only" in txt and "not a time-to-event estimate" in txt and ("winter stays unobserved" if COLD_OPEN else "winter stays suppressed") in txt and "not identifiable" in txt
 assert not any(w in txt for w in ("kaplan", "survival", "failed to warm up", "failure to warm up", "did not warm up", "significant", "confirmed", "robust"))
-assert B["coldCohort"]["suppressed"] == "below_min_support" and B["coldCohort"]["inferenceAvailable"] is False
+assert (B["coldCohort"]["inferenceAvailable"] is True) if COLD_OPEN else (B["coldCohort"]["suppressed"] == "below_min_support" and B["coldCohort"]["inferenceAvailable"] is False)
 print("OK test_thermal_support_ledger")
