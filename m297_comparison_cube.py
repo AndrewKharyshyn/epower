@@ -154,6 +154,7 @@ soc = {c: {"socCeilingMedian": round(float(u[u.thermal_regime.eq(c)].soc_max.med
 
 A = json.load(open(P("summary_arrays.json"), encoding="utf-8"))
 counts = {c: int(d.thermal_regime.eq(c).sum()) for c in ("warm", "shoulder", "cold")}
+cold_days = int(d.loc[d.thermal_regime.eq("cold"), "date"].nunique())      # M426: the caveat follows the full support rule (drives AND days)
 A["comparisonCube"] = {
     "_meta": {"milestone": "M297", "basisNDrivesClean": int(len(d)), "basisNDrives": int(len(dm)),
               "eligibility": "canonical_clean (ens_invalid / ens_outlier_v2 excluded)",
@@ -178,7 +179,8 @@ A["comparisonCube"] = {
                       "estimand": ("urban-only, canonical-clean paired drives; pack gross throughput per 100 km by "
                                    "thermal cohort (ratio of sums). Confounded by calendar period, trip mix, load and "
                                    "cabin heating (no HVAC telemetry); not a chemistry effect."),
-                      "caveat": "Descriptive seasonal operating difference; Cold not observed."},
+                      "caveat": ("Descriptive seasonal operating difference; Cold not observed." if not (counts["cold"] >= MIN_N and cold_days >= MIN_DAYS) else
+                                 "Descriptive seasonal operating difference (warm vs shoulder only); the cold cohort (n=%d clean drives) is not part of this contrast." % counts["cold"])},
 }
 st = copy.deepcopy(A["_artifactStamps"]["highwayVsCity"])
 st["computationStatus"] = "computed"

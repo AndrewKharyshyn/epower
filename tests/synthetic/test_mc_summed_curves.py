@@ -40,6 +40,8 @@ def cmp(a, b, path=""):
 
 old, pk_old = run(OLD)
 new, pk_new = run(NEW)
+dq = new["grossThroughputMC"]["dataQualityNote"]
+assert dq.pop("corpusTotalKwh") is not None                      # M426: new field, absent from the frozen reference
 n = cmp(json.loads(json.dumps(old, default=float)), json.loads(json.dumps(new, default=float)))
 assert pk_new < 0.5 * pk_old, (pk_old, pk_new)
 print("OK test_mc_summed_curves: %d leaves equal, peak %.0f MB -> %.0f MB" % (n, pk_old / 1e6, pk_new / 1e6))

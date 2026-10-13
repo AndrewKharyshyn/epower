@@ -10,10 +10,25 @@ It never changes block content (except --inject-json KEY=FILE, which replaces on
 Usage: python tools/restamp_blocks.py --milestone M310 \\
          --regen KEY="note" ... --carried KEY=BASIS_N="note" ... [--inject-json KEY=FILE ...]
 Idempotent. Prints a JSON summary of what was re-stamped."""
-import argparse, datetime, hashlib, json, os
+import argparse, datetime, hashlib, json, os, time
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 P = lambda f: os.path.join(ROOT, f)
+
+
+def write_retry(path, text, tries=6, pause=1.5):
+    """M426: Windows can refuse to re-open a just-written 3 MB payload for writing (OSError 13 / 22: a transient section mapping, e.g. by a real-time virus scanner) at this
+    stage, which stopped two full ingestions. The text is complete in memory and nothing was truncated when the open fails, so a bounded retry is safe; any other error, or
+    the last failure, is raised unchanged."""
+    for i in range(tries):
+        try:
+            with open(path, "w", encoding="utf-8") as f:
+                f.write(text)
+            return
+        except OSError as e:
+            if i == tries - 1 or e.errno not in (13, 22):
+                raise
+            time.sleep(pause * (i + 1))
 
 
 def kv(s):
@@ -51,8 +66,7 @@ def main():
         s.update(corpusHash=live, generatedAt=now, computationStatus="carriedForward", carriedForward=True, basisNDrives=int(basis),   # M419 (F06): the status is set with the flag
                  computationStatusNote=f"{a.milestone}: CARRIED FORWARD at the {basis}-drive basis (not recomputed on the live corpus): {note}")
         done["carried"].append(k)
-    with open(P("summary_arrays.json"), "w", encoding="utf-8") as f:
-        f.write(json.dumps(A, ensure_ascii=False, indent=1))
+    write_retry(P("summary_arrays.json"), json.dumps(A, ensure_ascii=False, indent=1))
     print(json.dumps(done, indent=1))
 
 

@@ -492,8 +492,11 @@ RPM_HIST_LOAD_MAX = 8.0
 # distinguishable in the output and the dashboard can disclose both
 # instead of silently blending two different-precision measurements.
 RPM_HIST_LOAD_PROXY_FUELLED_MIN = 20.0
-REGEN_TEMP_BINS = [(-99, 15, "10C"), (15, 25, "20C"),
-                   (25, 35, "30C"), (35, 45, "40C"), (45, 99, "49C")]
+# M427 (owner request 2026-10-13): 10 C bins on the multiples of 10 for every observable pack temperature, including the winter bins below zero
+# (open-ended below -10 and above 50). [lo, hi) in deg C of the mean T1-T4 at the decel sample; the label is the display text. A bin without samples is
+# carried with n = 0 and no estimate (never zero), so the winter bins appear in the payload as soon as such temperatures are logged.
+REGEN_TEMP_BINS = [(-99, -10, "<-10°C"), (-10, 0, "-10–0°C"), (0, 10, "0–10°C"), (10, 20, "10–20°C"),
+                   (20, 30, "20–30°C"), (30, 40, "30–40°C"), (40, 50, "40–50°C"), (50, 99, "50°C+")]
 
 # minimal raw column map (only what the B-pass needs)
 # M57: speed zones for cycleBySpeed (kept identical to the zone edges the
@@ -4751,7 +4754,7 @@ class _RawAccum:
                                       + d['ke_um'] / MASS_URBAN_MIXED_KG))
                 lo_e, hi_e = _mass_uncertainty_bounds(eff, ref_mass, w_um)
                 eff_range = [round(lo_e, 1), round(hi_e, 1)]
-            rbt.append({'label': lbl, 'n': d['n'],
+            rbt.append({'label': lbl, 'lo': None if lo <= -99 else lo, 'hi': None if hi >= 99 else hi, 'n': d['n'],
                         'eff': round(eff, 1) if has_ke else None,
                         'effRangeMassUncertainty': eff_range,
                         'valid': bool(valid)})
@@ -17798,7 +17801,7 @@ def build_summary_arrays(dm, raw_loader=None, with_raw=True, odometer_km=None,
                 meta_rc['tempNMax'] = int(max(ns))
                 inv = [b for b in _rbt if not b.get('valid')]
                 meta_rc['tempThinBins'] = [
-                    {'label': b['label'], 'n': int(b['n'])} for b in inv]
+                    {'label': b['label'], 'n': int(b['n'])} for b in inv if b.get('eff') is not None]       # M427: a bin without samples is not a thin bin
         arrays['regenCaptureMeta'] = meta_rc
 
     # M217 (2026-09-03): H-01/F-12 policy decision (Andrii) -- energy-MC

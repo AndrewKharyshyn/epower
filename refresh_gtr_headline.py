@@ -61,7 +61,9 @@ def refresh(d, merged):
     entry['data']['all'] = data_all
     entry['data']['warm'] = data_warm
     entry['data']['shoulder'] = data_shoulder
-    # cold stays None (0 cold drives)
+    # M426: the cold cohort is built once the seasonal master labels it 'cold' (it meets the minimum support; below it the drives are 'cold_insufficient' and cold stays None)
+    _cold = merged[merged['thermal_regime'] == 'cold']
+    entry['data']['cold'] = aggregate(_cold, 'Cold', cohort_counts['cold']) if (cohort_counts.get('cold', 0) > 0 and len(_cold)) else None
     d['seasonalCharts']['charts']['GeneratorTractionRecon'] = entry
     return d, old_corpus, data_all, data_warm, data_shoulder
 

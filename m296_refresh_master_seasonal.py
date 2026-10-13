@@ -15,7 +15,7 @@ emit the fresh 446-drive TOP-LEVEL blocks. This script re-runs those exact funct
 
 Parity guard: f(all rows) must equal the fresh top-level block byte-for-byte, otherwise the script
 aborts (proves the per-cohort call path is the released estimator, not a re-implementation).
-Cold stays null (no observations). Stable class keys / not-observed strata are re-applied (M295).
+Cold is built once it meets the minimum support (M426), otherwise it stays null (no observations). Stable class keys / not-observed strata are re-applied (M295).
 The 37 RAW-class entries remain carried forward and disclosed (they need the per-second raw sweep).
 drive_master.csv is read-only; corpus hash unchanged.
 """
@@ -56,14 +56,16 @@ bad = [cid for cid, key in TOP.items() if json.dumps(full[cid], sort_keys=True) 
 if bad:
     print("PARITY FAILURE (per-cohort call path != released top-level):", bad); sys.exit(1)
 
-per = {c: produce(dm_r[dm_r.thermal_regime == c]) for c in ("warm", "shoulder")}
+# M426: the cold cohort is built as soon as it meets the minimum support (compute_seasonal labels it 'cold'; below the minimum it is 'cold_insufficient' and stays null)
+COHORTS = ("warm", "shoulder") + (("cold",) if (dm_r.thermal_regime == "cold").any() else ())
+per = {c: produce(dm_r[dm_r.thermal_regime == c]) for c in COHORTS}
 ch = A["seasonalCharts"]["charts"]
 for cid in TOP:
     d = ch[cid].setdefault("data", {})
     d["all"] = copy.deepcopy(full[cid])
     d["warm"] = copy.deepcopy(per["warm"][cid])
     d["shoulder"] = copy.deepcopy(per["shoulder"][cid])
-    d["cold"] = None
+    d["cold"] = copy.deepcopy(per["cold"][cid]) if "cold" in per else None
     ch[cid]["basisNDrives"] = int(len(dm)); ch[cid]["refreshedBy"] = "M296 (m296_refresh_master_seasonal.py)"
 
 st = A["seasonalCharts"]["_staleness"]

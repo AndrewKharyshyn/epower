@@ -91,3 +91,99 @@ with tempfile.TemporaryDirectory() as td:
     json.dump(PREV, open(c, "w"))
     assert run() == 0
 print("test_leaf_guard: OK")
+
+# ---- M426: the three data-conditioned conditions, tested with the COMMITTED rules (analyses/leaf_guard_rules.json) on synthetic arrays ----
+CR = {x["id"]: x for x in json.load(open(os.path.join(ROOT, "analyses", "leaf_guard_rules.json"), encoding="utf-8"))}
+def sel(*ids): return [CR[i] for i in ids]
+def coh_prev():
+    return {"seasonalCharts": {"_meta": {"cohortSuppressedBelowMinSupport": {"minDrivesForStatistics": 10, "nObserved": {"cold": 7}}},
+                               "charts": {"EnergyIntensity": {"coverage": {"cold": {"n_drives": 0, "status": "no_observations"}}}}},
+            "comparisonCube": {"_meta": {"minSupport": {"drives": 10, "days": 3}}},
+            "cohortMeta": {"cold": {"nObserved": 7, "suppressed": "below_min_support", "inferenceAvailable": False, "eligibleForCohortView": 0, "nDaysObserved": 3}},
+            "fuelStates": {"groups": {"cohort cold_insufficient": {"nTrips": 7, "litres": 1.0}}}}
+def coh_cur():
+    return {"seasonalCharts": {"_meta": {"cohortSuppressedBelowMinSupport": {"minDrivesForStatistics": 10, "nObserved": {}}},
+                               "charts": {"EnergyIntensity": {"coverage": {"cold": {"n_drives": 12, "km": 143.6}}}}},
+            "comparisonCube": {"_meta": {"minSupport": {"drives": 10, "days": 3}}},
+            "cohortMeta": {"cold": {"inferenceAvailable": True, "eligibleForCohortView": 12, "nDaysObserved": 5}},
+            "fuelStates": {"groups": {"cohort cold": {"nTrips": 11, "litres": 9.7}}}}
+CRULES = sel("cohort-support-crossed-nObserved", "cohort-support-crossed-suppressed", "cohort-support-crossed-suppressed-list", "cohort-support-crossed-coverage-EnergyIntensity", "cohort-support-crossed-fuelStates-group")
+r = LG.guard(coh_prev(), coh_cur(), CRULES)
+assert r["nLost"] == 6 and r["nUnexpected"] == 0, r                                                  # the crossing is expected (incl. the renamed group's leaves)
+def cmut(f, which="cur"):
+    p, c = coh_prev(), coh_cur(); f(c if which == "cur" else p); return LG.guard(p, c, CRULES)["nUnexpected"]
+assert cmut(lambda c: c["cohortMeta"]["cold"].__setitem__("eligibleForCohortView", 9)) > 0            # n < min drives
+assert cmut(lambda c: c["cohortMeta"]["cold"].__setitem__("nDaysObserved", 2)) > 0                    # days < min days
+assert cmut(lambda c: c["cohortMeta"]["cold"].__setitem__("inferenceAvailable", False)) > 0           # not available now
+assert cmut(lambda c: c["comparisonCube"]["_meta"]["minSupport"].__setitem__("drives", 8)) > 0        # the threshold itself changed
+assert cmut(lambda c: c["comparisonCube"]["_meta"]["minSupport"].__setitem__("days", 2)) > 0
+assert cmut(lambda c: c["seasonalCharts"]["_meta"]["cohortSuppressedBelowMinSupport"].__setitem__("minDrivesForStatistics", 8)) > 0
+assert cmut(lambda c: c["seasonalCharts"]["_meta"]["cohortSuppressedBelowMinSupport"]["nObserved"].__setitem__("cold", 12)) > 0   # still listed as suppressed
+assert cmut(lambda c: c["fuelStates"]["groups"].pop("cohort cold")) > 0                               # the renamed group is missing
+assert cmut(lambda c: c["seasonalCharts"]["charts"]["EnergyIntensity"]["coverage"]["cold"].__setitem__("n_drives", 9)) > 0
+assert cmut(lambda p: p["cohortMeta"]["cold"].__setitem__("inferenceAvailable", True), "prev") > 0   # it was already available before: not a crossing
+p_, c_ = coh_cur(), coh_prev()                                                                       # reverse direction: available -> suppressed
+assert LG.guard(p_, c_, CRULES)["nUnexpected"] > 0
+
+PH = sel("placeholder-row-observed-CycleByType")
+def ph_prev(): return {"seasonalCharts": {"charts": {"CycleByType": {"data": {"shoulder": [{"label": "Urban", "lo": 9.0, "classKey": "urban"}, {"label": "Mixed Highway", "classKey": "mixed_highway", "n": 0, "status": "not_observed", "reason": "none"}]}}}}}
+def ph_cur(): return {"seasonalCharts": {"charts": {"CycleByType": {"data": {"shoulder": [{"label": "Urban", "lo": 9.0, "classKey": "urban"}, {"label": "Mixed Highway", "lo": 8.3, "hi": 8.3, "avg": 8.3, "med": 8.3, "classKey": "mixed_highway"}]}}}}}
+r = LG.guard(ph_prev(), ph_cur(), PH)
+assert r["nLost"] == 3 and r["nUnexpected"] == 0, r
+def pmut(f):
+    c = ph_cur(); f(c["seasonalCharts"]["charts"]["CycleByType"]["data"]["shoulder"]); return LG.guard(ph_prev(), c, PH)["nUnexpected"]
+assert pmut(lambda rows: rows[1].__setitem__("status", "not_observed")) > 0                           # still a placeholder
+assert pmut(lambda rows: rows[1].__setitem__("classKey", "highway")) > 0                              # a different class took the slot
+assert pmut(lambda rows: rows.__setitem__(1, {"label": "Mixed Highway", "classKey": "mixed_highway"})) > 0   # no observed value at all
+assert pmut(lambda rows: rows[1].update({"n": 0})) > 0                                                # a zero count is not observed
+c = ph_cur(); del c["seasonalCharts"]["charts"]["CycleByType"]["data"]["shoulder"][1]
+assert LG.guard(ph_prev(), c, PH)["nUnexpected"] > 0                                                   # the row vanished
+pp = ph_prev(); pp["seasonalCharts"]["charts"]["CycleByType"]["data"]["shoulder"][0]["lo"] = 1.0       # a REAL (non-placeholder) leaf may never vanish
+cc = ph_cur(); del cc["seasonalCharts"]["charts"]["CycleByType"]["data"]["shoulder"][0]["lo"]
+assert LG.guard(pp, cc, PH)["unexpected"] == ["seasonalCharts/charts/CycleByType/data/shoulder/0/lo"]
+
+CL = sel("cellspread-rows-moved-to-complement")
+def cs_prev(): return {"serialDependence": {"trendSlopes": {"cellSpread": {"rowsRule": {"classification": "procedure-dependent", "rowsIncludingZero": ["a", "b", "c"], "rowsExcludingZero": ["d"]}}}}}
+def cs_cur(): return {"serialDependence": {"trendSlopes": {"cellSpread": {"rowsRule": {"classification": "procedure-dependent", "rowsIncludingZero": ["a"], "rowsExcludingZero": ["d", "b", "c"]}}}}}
+def rr(c): return c["serialDependence"]["trendSlopes"]["cellSpread"]["rowsRule"]
+r = LG.guard(cs_prev(), cs_cur(), CL)
+assert r["nLost"] == 2 and r["nUnexpected"] == 0, r
+c = cs_cur(); rr(c)["rowsIncludingZero"] = ["c", "a"]; rr(c)["rowsExcludingZero"] = ["d", "b"]
+assert LG.guard(cs_prev(), c, CL)["nUnexpected"] == 0                                                  # reordered rows: still the same names
+c = cs_cur(); rr(c)["classification"] = "stable"
+assert LG.guard(cs_prev(), c, CL)["nUnexpected"] == 2                                                  # classification flip is refused
+c = cs_cur(); rr(c)["rowsExcludingZero"] = ["d"]
+assert LG.guard(cs_prev(), c, CL)["nUnexpected"] == 2                                                  # names dropped, not moved
+c = cs_cur(); rr(c)["rowsExcludingZero"] = ["d", "b", "c", "z"]
+assert LG.guard(cs_prev(), c, CL)["nUnexpected"] == 2                                                  # union changed
+c = cs_cur(); rr(c)["rowsIncludingZero"] = ["a", "b", "c"]
+assert LG.guard(cs_prev(), c, CL)["nUnexpected"] == 0                                                  # nothing lost
+print("test_leaf_guard M426 conditions: OK")
+
+# the renamed fuelStates group must carry a counterpart of every lost leaf; rule parameters are validated
+assert cmut(lambda c: c["fuelStates"]["groups"]["cohort cold"].pop("litres")) == 1
+for bad in ({"condition": "moved_to_complement_list", "listField": ""}, {"condition": "placeholder_row_observed", "allowedLeaves": []}, {"condition": "sibling_present", "sibling": None}):
+    try:
+        LG.check_rules([dict(RULES[0], **bad)])
+    except SystemExit:
+        continue
+    raise AssertionError("rule with a missing parameter accepted: %r" % bad)
+print("test_leaf_guard M426 review fixes: OK")
+
+# field_changed_and_empty: a range leaf may vanish only from a re-labelled row that is now empty
+RB = [CR["rebin-regen-temp-range-top"], CR["rebin-regen-temp-range-cohort"]]
+def rb_prev(): return {"regenByTempMeasured": [{"label": "10C", "n": 900, "eff": 50.0, "effRangeMassUncertainty": [45.0, 55.0]}, {"label": "20C", "n": 5000, "eff": 52.0, "effRangeMassUncertainty": [48.0, 56.0]}],
+                       "seasonalCharts": {"charts": {"RegenByTempMeasured": {"data": {"warm": [{"label": "10C", "n": 90, "eff": 40.0, "effRangeMassUncertainty": [35.0, 45.0]}]}}}}}
+def rb_cur(): return {"regenByTempMeasured": [{"label": "<-10°C", "n": 0, "eff": None, "effRangeMassUncertainty": None}, {"label": "-10–0°C", "n": 0, "eff": None, "effRangeMassUncertainty": None}],
+                      "seasonalCharts": {"charts": {"RegenByTempMeasured": {"data": {"warm": [{"label": "<-10°C", "n": 0, "eff": None, "effRangeMassUncertainty": None}]}}}}}
+r = LG.guard(rb_prev(), rb_cur(), RB)
+assert r["nLost"] == 6 and r["nUnexpected"] == 0 and r["expectedByRule"] == {"rebin-regen-temp-range-top": 4, "rebin-regen-temp-range-cohort": 2}, r
+c = rb_cur(); c["regenByTempMeasured"][0].update({"n": 12})                                   # the new row is not empty: its old range may not vanish
+assert LG.guard(rb_prev(), c, RB)["nUnexpected"] == 2
+c = rb_cur(); c["regenByTempMeasured"][0].update({"eff": 3.0})                                # an estimate without a range
+assert LG.guard(rb_prev(), c, RB)["nUnexpected"] == 2
+c = rb_cur(); c["regenByTempMeasured"][1]["label"] = "20C"                                    # same label: not a re-binning
+assert LG.guard(rb_prev(), c, RB)["nUnexpected"] == 2
+c = rb_cur(); del c["seasonalCharts"]["charts"]["RegenByTempMeasured"]["data"]["warm"][0]["label"]
+assert LG.guard(rb_prev(), c, RB)["nUnexpected"] >= 2
+print("test_leaf_guard field_changed_and_empty: OK")

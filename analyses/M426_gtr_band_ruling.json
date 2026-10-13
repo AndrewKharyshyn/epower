@@ -1,0 +1,10 @@
+{
+ "milestone": "M426",
+ "date": "2026-10-13",
+ "stop": "gtr_family_refresh: simultaneity: a share moved by more than 5.0 pp",
+ "scope": "simultaneity / mixed_highway / chargesAndDrives only; band (5.0 pp) and every other stop rule unchanged",
+ "blindAudit": "analytical-auditor (model spec read from recon_engine.py: independence partial) reproduced urban and mixed_highway n, engine-on hours and all four shares exactly and the leave-new-out values; the two 2026-10-10 drives supply 50 % of the row's engine-on hours",
+ "directorRuling": "accept: small-n reweighting of the mixed_highway cell (7 drives, 4 days, point values without a CI); no reading flip; modal state and mixed_highway-vs-highway ordering are not interpretable (deadband-sensitive); no new prose claim about mixed_highway",
+ "ownerAcceptance": "Andrii, in chat 2026-10-13, quoted verbatim: 'It is OK that 2 long mixed-highway drives present. These really did occur.'",
+ "gateChange": "tools/gtr_family_refresh_splice.py XT_ACK_GTR_BAND (Director GO for a narrow acknowledgement; owner chose to proceed in chat 2026-10-13: 'Option 1, retry the edit')"
+}

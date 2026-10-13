@@ -1219,7 +1219,7 @@ function EngineStartRate(){
   const ci=e=>e&&e.ci95?`${f1(e.ci95[0])}–${f1(e.ci95[1])}`:"points only";
   const rowOf=(lab,e)=>e?<tr key={lab} style={{borderTop:"1px solid #f1f5f9"}}><td style={{padding:"2px 8px"}}>{lab}</td><td style={{padding:"2px 8px",textAlign:"center",fontWeight:700}}>{f1(e.est)}</td><td style={{padding:"2px 8px",textAlign:"center"}}>{ci(e)}</td><td style={{padding:"2px 8px",textAlign:"center"}}>{e.nTrips}</td><td style={{padding:"2px 8px",textAlign:"center"}}>{e.nDays}</td><td style={{padding:"2px 8px",textAlign:"center"}}>{e.nStarts}</td><td style={{padding:"2px 8px",textAlign:"center"}}>{e.km}</td><td style={{padding:"2px 8px"}}>{e.support}</td></tr>:null;
   const cold=P.coldBelowSupport;
-  const showCoh=coh==="all"?["all"]:coh==="compare"?["warm","shoulder"]:[coh];
+  const showCoh=coh==="all"?["all"]:coh==="compare"?["warm","shoulder"].concat(cohortAvailable("cold")?["cold"]:[]):[coh];
   if(coh!=="all"&&coh!=="compare"&&!cohortAvailable(coh)) return <ColdNoData chart="Engine-start rate (RPM onsets)" cohort={coh}/>;
   const A=P.all;
   return <div data-engine-start-rate="1" style={{marginTop:14,borderTop:"1px solid #e2e8f0",paddingTop:10}}>
@@ -1230,7 +1230,7 @@ function EngineStartRate(){
       {showCoh.map(c=>rowOf(c==="all"?"All data":(COHORT_META[c]||{label:c}).label,P[c]))}
       {coh==="all"&&["urban","mixed","mixed_highway","highway"].map(k=>rowOf(`class: ${k.replace("_"," ")}`,Z.byClass[k]))}
     </tbody></table>
-    {(coh==="all"||coh==="compare")&&<div style={{fontSize:10,color:"#b45309",marginTop:3}}>Cold: below minimum support ({cold.nDrives} drives, {cold.nStarts} onsets over {cold.km} km); included in All only, not estimated.</div>}
+    {(coh==="all"||coh==="compare")&&!cohortAvailable("cold")&&<div style={{fontSize:10,color:"#b45309",marginTop:3}}>Cold: below minimum support ({cold.nDrives} drives, {cold.nStarts} onsets over {cold.km} km); included in All only, not estimated.</div>}
     {coh==="all"&&<div>
       <div style={{fontSize:10.5,color:"#334155",marginTop:8}}>First onset in a log file versus later onsets in the same file (per 100 km): {f1(DC.all.firstPer100km.est)} ({ci(DC.all.firstPer100km)}) and {f1(DC.all.restartsPer100km.est)} ({ci(DC.all.restartsPer100km)}). This split is file-boundary bookkeeping, not a cold-start measure: {G.startWithin30min} of {G.nConsecutivePairs} consecutive log files start within 30 minutes of the previous file&rsquo;s end ({G.startWithin5min} within 5 minutes, {G.startWithin60min} within 60), and an onset after a file boundary is counted as the first in its file.</div>
       <table style={{fontSize:10,borderCollapse:"collapse",margin:"6px 0"}}><thead><tr style={{color:"#64748b"}}><th style={{padding:"2px 8px",textAlign:"left"}}>onsets by engine-coolant temperature at the onset sample</th><th style={{padding:"2px 8px"}}>onsets</th><th style={{padding:"2px 8px"}}>share</th><th style={{padding:"2px 8px"}}>per 100 km (band onsets / total km)</th></tr></thead><tbody>
@@ -2974,9 +2974,11 @@ function RegenChart() {
   // 100%-at-low-speed curves and "48% vs 83%, 1.7x" claim did not reproduce from
   // any computed array (audit 2026-07-07) -- see _provenance.deprecated_synthetic.
   const TempChart = () => {
-    const disp = {"10C":"<15°C","20C":"15–25°C","30C":"25–35°C","40C":"35–45°C","49C":"45°C+"};
-    const col  = {"10C":"#60a5fa","20C":"#4ade80","30C":"#eab308","40C":"#f97316","49C":"#ef4444"};
+    // M427: 10 deg C bins from the payload (label = display text, incl. the winter bins below zero); colour by bin index, cold to hot
+    const PAL = ["#1d4ed8","#3b82f6","#60a5fa","#4ade80","#eab308","#f97316","#ef4444","#b91c1c"];
     const data = cohortOr("RegenByTempMeasured",_coh,S.regenByTempMeasured);
+    const disp = Object.fromEntries(data.map(t=>[t.label,t.label]));
+    const col  = Object.fromEntries(data.map((t,i)=>[t.label,PAL[Math.min(i,PAL.length-1)]]));
     const W=420, H=220, PL=44, PR=16, PT=20, PB=44;
     const pw=W-PL-PR, ph=H-PT-PB;
     const maxEff=70;
@@ -3023,8 +3025,8 @@ function RegenChart() {
                   <>
                     <rect x={cx-bw/2} y={PT} width={bw} height={ph} fill="none"
                       stroke="#cbd5e1" strokeWidth={1} strokeDasharray="3 3"/>
-                    <text x={cx} y={PT+ph/2-4} textAnchor="middle" fill="#94a3b8" fontSize={8}>insufficient</text>
-                    <text x={cx} y={PT+ph/2+7} textAnchor="middle" fill="#94a3b8" fontSize={8}>data</text>
+                    <text x={cx} y={PT+ph/2-4} textAnchor="middle" fill="#94a3b8" fontSize={8}>{t.n===0?"no samples":"insufficient"}</text>
+                    <text x={cx} y={PT+ph/2+7} textAnchor="middle" fill="#94a3b8" fontSize={8}>{t.n===0?"yet":"data"}</text>
                   </>
                 )}
                 <text x={cx} y={PT+ph+13} textAnchor="middle" fill="#6b7280" fontSize={8}>{disp[t.label]}</text>
@@ -3038,7 +3040,7 @@ function RegenChart() {
           <text x={10} y={PT+ph/2} textAnchor="middle" fill="#64748b" fontSize={9} transform={`rotate(-90,10,${PT+ph/2})`}>Apparent KE-recovery %</text>
         </svg>
         <div style={{marginTop:10,padding:8,background:"#f1f5f9",borderRadius:6,fontSize:10,color:"#64748b",lineHeight:1.6}}>
-          <strong style={{color:"#0f172a"}}>M22 — real data, not a model.</strong> Same engine-off decel KE-capture basis as the Power &amp; Efficiency tab (½·m·Δv²), pooled by pack temperature instead of speed. Measured capture is a much flatter <strong style={{color:"#0f172a"}}>~{S.regenCaptureMeta?.tempEffMin}–{S.regenCaptureMeta?.tempEffMax}%</strong> across the {S.regenCaptureMeta?.tempLabelLo}–{S.regenCaptureMeta?.tempLabelHi} range that has enough data ({S.regenCaptureMeta?.tempNMin?.toLocaleString()}–{S.regenCaptureMeta?.tempNMax?.toLocaleString()} qualifying samples per bin) to report — not the 48–100% spread shown in an earlier draft of this chart. The previous version of this chart showed synthetic per-temperature curves reaching 100% at low speed and a "48% vs 83%, 1.7×" headline figure; neither reproduces from any computed array and both have been retired.
+          <strong style={{color:"#0f172a"}}>M22 — real data, not a model.</strong> Same engine-off decel KE-capture basis as the Power &amp; Efficiency tab (½·m·Δv²), pooled by pack temperature instead of speed. Measured capture is a much flatter <strong style={{color:"#0f172a"}}>~{S.regenCaptureMeta?.tempEffMin}–{S.regenCaptureMeta?.tempEffMax}%</strong> across the {(()=>{const v=(S.regenByTempMeasured||[]).filter(r=>r.valid); return v.length? `${v[0].lo==null?"<"+v[0].hi:v[0].lo}–${v[v.length-1].hi==null?"+":v[v.length-1].hi}°C`:"";})()} range that has enough data ({S.regenCaptureMeta?.tempNMin?.toLocaleString()}–{S.regenCaptureMeta?.tempNMax?.toLocaleString()} qualifying samples per bin) to report — not the 48–100% spread shown in an earlier draft of this chart. The previous version of this chart showed synthetic per-temperature curves reaching 100% at low speed and a "48% vs 83%, 1.7×" headline figure; neither reproduces from any computed array and both have been retired.
         </div>
         {/* M219 (2026-09-04): the two sub-200-sample bins were previously
             rendered as an empty "insufficient data" placeholder with no
@@ -3049,7 +3051,7 @@ function RegenChart() {
           <div style={{marginTop:6,padding:8,background:"#fffbeb",border:"1px solid #fde68a",borderRadius:6,fontSize:9.5,color:"#78350f",lineHeight:1.6}}>
             <strong>Thin bins, shown dashed above, not a reportable %:</strong> {S.regenCaptureMeta.tempThinBins.map((b,i)=>{
               const row = (S.regenByTempMeasured||[]).find(r=>r.label===b.label);
-              return <span key={b.label}>{i>0 && " and "}<strong>{{"10C":"<15°C","49C":"45°C+"}[b.label] || b.label}</strong> (n={b.n}{row?.eff!=null && <>, point estimate ~{row.eff}%{row.effRangeMassUncertainty && <> [{row.effRangeMassUncertainty[0]}–{row.effRangeMassUncertainty[1]}%]</>}</>})</span>;
+              return <span key={b.label}>{i>0 && " and "}<strong>{b.label}</strong> (n={b.n}{row?.eff!=null && <>, point estimate ~{row.eff}%{row.effRangeMassUncertainty && <> [{row.effRangeMassUncertainty[0]}–{row.effRangeMassUncertainty[1]}%]</>}</>})</span>;
             })} — real engine-off decel samples, just below the n≥200 validity gate (~200 s aggregate decel time), so the point estimate can swing hard on a handful more qualifying events and must not be read as equal-confidence with the solid bars. Consistent with the flagged winter/cold-start data gap elsewhere in this study: this corpus has almost no cold-start or peak-heat braking events yet.
           </div>
         )}
@@ -4018,6 +4020,8 @@ function SocBySpeed() {
   if(cohortNoData(_coh,["SocBySpeed"])) return <ColdNoData chart="SoC by Speed" cohort={_coh}/>;
   if(_coh==="compare") return <CompareBlock id="SocBySpeed"/>;
   const zones = cohortOr("SocBySpeed",_coh,S.socBySpeed);
+  // M426: a cohort without drives in every speed bin (Cold: city speeds only) has fewer rows; the city/highway band comparison needs all five
+  if(zones.length<5) return <div data-short-bins="1" style={{fontSize:11,color:"#64748b"}}>This cohort has drives in {zones.length} of 5 speed bins only ({zones.map(z=>z[0]).join(", ")} km/h); SoC by speed is shown as the median per observed bin, and the city-versus-highway band comparison needs all five bins (not shown, not zero).{zones.length>0&&<table style={{fontSize:10,marginTop:4,borderCollapse:"collapse"}}><thead><tr><th style={{padding:"2px 8px",textAlign:"left"}}>speed (km/h)</th><th style={{padding:"2px 8px"}}>min</th><th style={{padding:"2px 8px"}}>Q1</th><th style={{padding:"2px 8px"}}>median</th><th style={{padding:"2px 8px"}}>Q3</th><th style={{padding:"2px 8px"}}>max</th></tr></thead><tbody>{zones.map(z=><tr key={z[0]}><td style={{padding:"2px 8px"}}>{z[0]} ({z[1]})</td>{z.slice(2).map((v,i)=><td key={i} style={{padding:"2px 8px",textAlign:"center"}}>{v}%</td>)}</tr>)}</tbody></table>}</div>;
   const boxW = pw/zones.length - 10;
   const yS = v=>ph-(v-35)/(90-35)*ph;
 
@@ -10183,10 +10187,11 @@ function CohortSelector({cohort,setCohort}){
       const dates=(typeof coldObservedInfo==="function")?coldObservedInfo().dates:[];
       return <div data-cohort-observed="1" style={{flexBasis:"100%",textAlign:"center",fontSize:9,color:"#64748b",lineHeight:1.4}}>
         Observed {a.observed} = Warm {w.observed} + Shoulder {s.observed} + Cold {c.observed}; analysed as cohorts: {inf.length?inf.join(", "):"none"} (at least {minN} drives).
+        {(S.ambientTable?.regimeOverrides||[]).map((o,i)=><span key={i} data-regime-override="1"> Boundary drive {o.file} (ambient readouts at the Cold limit; {o.physicalRegime} by the time-weighted mean) is assigned to {o.assignedRegime.charAt(0).toUpperCase()+o.assignedRegime.slice(1)} by owner decision (2026-10-13).{o.sensitivity&&<> Energy intensity with and without this assignment (kWh/100 km, ratio of sums, 95% CI by calendar day):{["cold","shoulder"].map(c=>{const s=o.sensitivity[c]; return s&&s.applied&&s.removed?<span key={c}> {c.charAt(0).toUpperCase()+c.slice(1)} {s.applied.value.toFixed(1)} ({s.applied.ci95.lo.toFixed(1)}–{s.applied.ci95.hi.toFixed(1)}; {s.applied.n} drives, {s.applied.ci95.nClusters} days) with, {s.removed.value.toFixed(1)} ({s.removed.ci95.lo.toFixed(1)}–{s.removed.ci95.hi.toFixed(1)}; {s.removed.n} drives, {s.removed.ci95.nClusters} days) without{c==="cold"?";":"."}</span>:null;})} Descriptive only; route mix and season are confounded.</>}</span>)}
         {c.observed>0 && !c.inferenceAvailable && <> The Cold class ({c.observed} drive{c.observed===1?"":"s"} on {c.nDaysObserved} calendar day{c.nDaysObserved===1?"":"s"}{dates.length?`: ${dates.join(", ")}`:""}) is shown as observed only: no cohort statistics and no winter inference.</>}
       </div>; })()}
     {cohort!=="all" && <div data-season-scope="1" style={{flexBasis:"100%",textAlign:"center",fontSize:9,color:"#94a3b8",lineHeight:1.4}}>
-      The thermal-cohort filter (ambient classes, not calendar seasons) applies only to sections without an <em>All-data reference</em> tag; tagged sections, narrative, records and provenance are corpus-wide. A cohort view needs ≥{COHORT_MIN_SUPPORT_DRIVES} drives (Cold: {coldObservedInfo().n} observed, below support).
+      The thermal-cohort filter (ambient classes, not calendar seasons) applies only to sections without an <em>All-data reference</em> tag; tagged sections, narrative, records and provenance are corpus-wide. A cohort view needs ≥{COHORT_MIN_SUPPORT_DRIVES} drives {S.cohortMeta?.cold?.inferenceAvailable?<>(Cold: {S.cohortMeta.cold.eligibleForCohortView} drives on {S.cohortMeta.cold.nDaysObserved} calendar days meet the support rule; with so few days the intervals are wide and the cohort is not a seasonal-effect estimate).</>:<>(Cold: {coldObservedInfo().n} observed, below support).</>}
     </div>}
   </div>;
 }

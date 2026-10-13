@@ -62,5 +62,151 @@
   "pathTemplate": "_artifactStamps/{key}/carryForwardNote",
   "condition": "sibling_present",
   "sibling": "supersededCarryNote"
+ },
+ {
+  "id": "cohort-support-crossed-nObserved",
+  "rationale": "M426: cohort 'cold' crossed the pre-registered support rule (minDrivesForStatistics / minSupport.days unchanged; inferenceAvailable false -> true; no longer listed in nObserved); the suppressed-cohort count field is replaced by the live cohort block.",
+  "milestone": "M426",
+  "pathTemplate": "cohortMeta/{key}/nObserved",
+  "condition": "cohort_min_support_crossed"
+ },
+ {
+  "id": "cohort-support-crossed-suppressed",
+  "rationale": "M426: cohort 'cold' crossed the pre-registered support rule (minDrivesForStatistics / minSupport.days unchanged; inferenceAvailable false -> true; no longer listed in nObserved); the suppression flag is gone.",
+  "milestone": "M426",
+  "pathTemplate": "cohortMeta/{key}/suppressed",
+  "condition": "cohort_min_support_crossed"
+ },
+ {
+  "id": "cohort-support-crossed-suppressed-list",
+  "rationale": "M426: cohort 'cold' crossed the pre-registered support rule (minDrivesForStatistics / minSupport.days unchanged; inferenceAvailable false -> true; no longer listed in nObserved); the cohort leaves the below-min-support list.",
+  "milestone": "M426",
+  "pathTemplate": "seasonalCharts/_meta/cohortSuppressedBelowMinSupport/nObserved/{key}",
+  "condition": "cohort_min_support_crossed"
+ },
+ {
+  "id": "cohort-support-crossed-coverage-EnergyIntensity",
+  "rationale": "M426: cohort 'cold' crossed the pre-registered support rule (minDrivesForStatistics / minSupport.days unchanged; inferenceAvailable false -> true; no longer listed in nObserved); the 'no_observations' coverage marker is replaced by the populated coverage block (n_drives >= min).",
+  "milestone": "M426",
+  "pathTemplate": "seasonalCharts/charts/EnergyIntensity/coverage/{key}/status",
+  "condition": "cohort_min_support_crossed",
+  "prevValue": "no_observations",
+  "curCountField": "n_drives"
+ },
+ {
+  "id": "cohort-support-crossed-coverage-StartsPer100km",
+  "rationale": "M426: cohort 'cold' crossed the pre-registered support rule (minDrivesForStatistics / minSupport.days unchanged; inferenceAvailable false -> true; no longer listed in nObserved); the 'no_observations' coverage marker is replaced by the populated coverage block (n_drives >= min).",
+  "milestone": "M426",
+  "pathTemplate": "seasonalCharts/charts/StartsPer100km/coverage/{key}/status",
+  "condition": "cohort_min_support_crossed",
+  "prevValue": "no_observations",
+  "curCountField": "n_drives"
+ },
+ {
+  "id": "cohort-support-crossed-fuelStates-group",
+  "rationale": "M426: cohort 'cold' crossed the pre-registered support rule (minDrivesForStatistics / minSupport.days unchanged; inferenceAvailable false -> true; no longer listed in nObserved); the points-only group 'cohort <c>_insufficient' is replaced by the group 'cohort <c>' (must exist in the current arrays).",
+  "milestone": "M426",
+  "pathTemplate": "fuelStates/groups/{key}",
+  "condition": "cohort_min_support_crossed",
+  "matchPrefix": true,
+  "keyFormat": "cohort {c}_insufficient",
+  "currentKeyFormat": "cohort {c}"
+ },
+ {
+  "id": "placeholder-row-observed-DriveTypeChart",
+  "rationale": "M426: the class row was a 'not_observed' placeholder (null, not zero) in the previous arrays and is the SAME class (classKey) now observed in the current arrays; only the placeholder leaves may vanish. Chart DriveTypeChart.",
+  "milestone": "M426",
+  "pathTemplate": "seasonalCharts/charts/DriveTypeChart/data/{key}/{i}",
+  "condition": "placeholder_row_observed",
+  "matchPrefix": true,
+  "entryDepth": 6,
+  "allowedLeaves": [
+   "status",
+   "classKey",
+   "reason"
+  ],
+  "observedFields": [
+   "drives"
+  ]
+ },
+ {
+  "id": "placeholder-row-observed-DriveDurationDist",
+  "rationale": "M426: the class row was a 'not_observed' placeholder (null, not zero) in the previous arrays and is the SAME class (classKey) now observed in the current arrays; only the placeholder leaves may vanish. Chart DriveDurationDist.",
+  "milestone": "M426",
+  "pathTemplate": "seasonalCharts/charts/DriveDurationDist/data/{key}/{i}",
+  "condition": "placeholder_row_observed",
+  "matchPrefix": true,
+  "entryDepth": 6,
+  "allowedLeaves": [
+   "status",
+   "classKey",
+   "reason"
+  ],
+  "observedFields": [
+   "n"
+  ]
+ },
+ {
+  "id": "placeholder-row-observed-CycleByType",
+  "rationale": "M426: the class row was a 'not_observed' placeholder (null, not zero) in the previous arrays and is the SAME class (classKey) now observed in the current arrays; only the placeholder leaves may vanish. Chart CycleByType.",
+  "milestone": "M426",
+  "pathTemplate": "seasonalCharts/charts/CycleByType/data/{key}/{i}",
+  "condition": "placeholder_row_observed",
+  "matchPrefix": true,
+  "entryDepth": 6,
+  "allowedLeaves": [
+   "n",
+   "status",
+   "reason"
+  ],
+  "observedFields": [
+   "lo",
+   "hi",
+   "avg",
+   "med"
+  ]
+ },
+ {
+  "id": "placeholder-row-observed-EfficiencyBands",
+  "rationale": "M426: the class row was a 'not_observed' placeholder (null, not zero) in the previous arrays and is the SAME class (classKey) now observed in the current arrays; only the placeholder leaves may vanish. Chart EfficiencyBands.",
+  "milestone": "M426",
+  "pathTemplate": "seasonalCharts/charts/EfficiencyBands/data/{key}/{i}",
+  "condition": "placeholder_row_observed",
+  "matchPrefix": true,
+  "entryDepth": 6,
+  "allowedLeaves": [
+   "status",
+   "reason"
+  ],
+  "observedFields": [
+   "n"
+  ]
+ },
+ {
+  "id": "cellspread-rows-moved-to-complement",
+  "rationale": "M426: a trend-slope row dropped out of rowsIncludingZero because its interval no longer includes zero; the names moved to rowsExcludingZero, the union of rows and the classification are unchanged (a flip is refused).",
+  "milestone": "M426",
+  "pathTemplate": "serialDependence/trendSlopes/{key}/rowsRule/rowsIncludingZero/{i}",
+  "condition": "moved_to_complement_list",
+  "listField": "rowsIncludingZero",
+  "complementField": "rowsExcludingZero"
+ },
+ {
+  "id": "rebin-regen-temp-range-top",
+  "rationale": "M426 (owner request 2026-10-13: 10 C bins incl. below-zero bins): the regen-by-pack-temperature bins were re-binned (5 -> 8 bin edges); a mass-uncertainty range leaf of an OLD bin may vanish only from a row whose bin label changed AND that is now empty (n == 0, no estimate), i.e. a layout artefact of the new scheme, never a populated bin losing its range (Director ruling). Top-level block.",
+  "milestone": "M426",
+  "pathTemplate": "regenByTempMeasured/{i}/effRangeMassUncertainty/{i}",
+  "condition": "field_changed_and_empty",
+  "entryDepth": 2,
+  "field": "label"
+ },
+ {
+  "id": "rebin-regen-temp-range-cohort",
+  "rationale": "M426 (owner request 2026-10-13: 10 C bins incl. below-zero bins): the regen-by-pack-temperature bins were re-binned (5 -> 8 bin edges); a mass-uncertainty range leaf of an OLD bin may vanish only from a row whose bin label changed AND that is now empty (n == 0, no estimate), i.e. a layout artefact of the new scheme, never a populated bin losing its range (Director ruling). Per-cohort seasonal chart.",
+  "milestone": "M426",
+  "pathTemplate": "seasonalCharts/charts/RegenByTempMeasured/data/{key}/{i}/effRangeMassUncertainty/{i}",
+  "condition": "field_changed_and_empty",
+  "entryDepth": 6,
+  "field": "label"
  }
 ]

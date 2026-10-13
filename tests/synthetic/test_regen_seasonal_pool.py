@@ -23,10 +23,11 @@ def main():
     os.environ.pop("XT_WORKERS", None)
 
     dm, subsets = R.load_subsets()
-    assert len(subsets["warm"]) + len(subsets["shoulder"]) + len(subsets["cold_ins"]) == len(subsets["all"]) == len(dm), "the cohorts partition the master"
+    assert sum(len(v) for k, v in subsets.items() if k != "all") == len(subsets["all"]) == len(dm), "the cohorts partition the master (M426: warm, shoulder and cold once it meets the support, else the below-support remainder cold_ins)"
+    small = "cold" if "cold" in subsets else "cold_ins"      # the smallest cohort drives the serial-vs-pool equality tasks below
     assert set(R.builders(None, None, None)) >= {"CrawlStopGo", "ThermalFuelPenalty", "BufferDebtRecovery"} and len(R.builders(None, None, None)) == 14
 
-    tasks = [("catB", "cold_ins", None), ("b", "cold_ins", "HandoffSequence"), ("b", "cold_ins", "DepartureArrival")]
+    tasks = [("catB", small, None), ("b", small, "HandoffSequence"), ("b", small, "DepartureArrival")]
     R._init_worker()
     serial = {t: R._run_task(t) for t in tasks}
     with ProcessPoolExecutor(max_workers=2, initializer=R._init_worker) as ex:

@@ -1,56 +1,61 @@
 {
- "generated_utc": "2026-10-09T17:23:56+00:00",
+ "generated_utc": "2026-10-13T17:56:30+00:00",
  "has_baseline": true,
- "flags": [],
- "route_to_audit": false,
+ "flags": [
+  "EnergyIntensity.shoulder: outside previous CI",
+  "EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width",
+  "EnergyIntensity.shoulder: CI half-width changed >50%",
+  "EnergyIntensity.shoulder: cumulative drift > baseline CI half-width"
+ ],
+ "route_to_audit": true,
  "kpis": {
   "meta.totalDrives": {
-   "value": 554,
+   "value": 578,
    "ci": null,
    "prev": 524,
-   "delta": 30
+   "delta": 54
   },
   "EnergyIntensity.all (kWh/100km, canonical-clean)": {
-   "value": 17.932672918733793,
+   "value": 17.986641988156954,
    "ci": [
-    16.2548163533003,
-    20.43611067181712
+    16.317992725468873,
+    20.247370157727975
    ],
    "prev": 17.759971850743913,
-   "delta": 0.17270106798988039,
+   "delta": 0.22667013741304132,
    "outside_prev_ci": false,
-   "delta_over_halfwidth": 0.08327220042287102,
-   "cumulative_drift": 0.342540109244446
+   "delta_over_halfwidth": 0.1092947561484942,
+   "cumulative_drift": 0.39650917866760693
   },
   "EnergyIntensity.warm": {
-   "value": 17.17524715722788,
+   "value": 17.20496027087479,
    "ci": [
-    15.570475494307326,
-    19.478558760533872
+    15.62505216713496,
+    19.575306036652385
    ],
    "prev": 17.082815533980586,
-   "delta": 0.09243162324729326,
+   "delta": 0.12214473689420302,
    "outside_prev_ci": false,
-   "delta_over_halfwidth": 0.04751799830810798,
-   "cumulative_drift": 0.184256076082562
+   "delta_over_halfwidth": 0.06279315668355957,
+   "cumulative_drift": 0.21396918972947176
   },
   "EnergyIntensity.shoulder": {
-   "value": 26.900051692157998,
+   "value": 23.94790334186121,
    "ci": [
-    25.130684750294197,
-    29.360399719117563
+    20.426585569137437,
+    28.528079744875775
    ],
    "prev": 26.928784895576964,
-   "delta": -0.028733203418966013,
-   "outside_prev_ci": false,
-   "delta_over_halfwidth": -0.011786136960984893,
-   "cumulative_drift": 0.10330056515660502
+   "delta": -2.9808815537157543,
+   "outside_prev_ci": true,
+   "delta_over_halfwidth": -1.2227344700931233,
+   "cumulative_drift": -2.848847785140183
   },
   "generatorTractionRecon.corpus.fGen": {
-   "value": 0.451,
+   "value": 0.466,
    "ci": null,
    "prev": 0.459,
-   "delta": -0.008000000000000007
+   "delta": 0.007000000000000006
   },
   "generatorTractionRecon.corpus.etaBus": {
    "value": 0.325,
@@ -60,7 +65,7 @@
   }
  },
  "gtrFamily": {
-  "label": "M390",
+  "label": "M426",
   "bands": {
    "speedSplitFgenAbs": 0.05,
    "simultaneityShareAbsPP": 5.0,
@@ -69,12 +74,12 @@
   "blocks": {
    "sensitivity": {
     "nDrives": {
-     "previous": 324,
-     "new": 324
+     "previous": 348,
+     "new": 348
     },
     "nDays": {
-     "previous": 58,
-     "new": 58
+     "previous": 63,
+     "new": 63
     },
     "nDaysRelativeChange": 0.0,
     "maxAbsMove": {
@@ -86,12 +91,12 @@
    },
    "simultaneity": {
     "nDrives": {
-     "previous": 324,
-     "new": 324
+     "previous": 348,
+     "new": 348
     },
     "nDays": {
-     "previous": 58,
-     "new": 58
+     "previous": 63,
+     "new": 63
     },
     "nDaysRelativeChange": 0.0,
     "maxAbsMovePP": {
@@ -99,22 +104,48 @@
      "chargesAndDrives": 0.0,
      "genAloneNeutral": 0.0,
      "fullyBanked": 0.0
+    },
+    "rowMovePP": {
+     "urban": {
+      "genPlusBattDischarge": 0.0,
+      "chargesAndDrives": 0.0,
+      "genAloneNeutral": 0.0,
+      "fullyBanked": 0.0
+     },
+     "mixed": {
+      "genPlusBattDischarge": 0.0,
+      "chargesAndDrives": 0.0,
+      "genAloneNeutral": 0.0,
+      "fullyBanked": 0.0
+     },
+     "mixed_highway": {
+      "genPlusBattDischarge": 0.0,
+      "chargesAndDrives": 0.0,
+      "genAloneNeutral": 0.0,
+      "fullyBanked": 0.0
+     },
+     "highway": {
+      "genPlusBattDischarge": 0.0,
+      "chargesAndDrives": 0.0,
+      "genAloneNeutral": 0.0,
+      "fullyBanked": 0.0
+     }
     }
    },
    "speedSplit": {
     "nDrives": {
-     "previous": 324,
-     "new": 324
+     "previous": 348,
+     "new": 348
     },
     "nDays": {
-     "previous": 58,
-     "new": 58
+     "previous": 63,
+     "new": 63
     },
     "nDaysRelativeChange": 0.0,
     "maxAbsMoveFgen": 0.0
    }
   },
-  "changedPaths": 9,
+  "changedPaths": 3,
   "stops": []
  },
  "gtrClosure": {
@@ -123,17 +154,17 @@
    {
     "path": "/alphaStar",
     "prev": [
-     0.616,
+     0.613,
      [
-      0.592,
-      0.636
+      0.591,
+      0.633
      ]
     ],
     "new": [
-     0.616,
+     0.613,
      [
-      0.592,
-      0.636
+      0.591,
+      0.633
      ]
     ],
     "newEstInsidePrevCI": true,
@@ -142,17 +173,17 @@
    {
     "path": "/excessWithoutDual",
     "prev": [
-     -0.1113,
+     -0.1076,
      [
-      -0.1389,
-      -0.0877
+      -0.1346,
+      -0.0869
      ]
     ],
     "new": [
-     -0.1113,
+     -0.1076,
      [
-      -0.1389,
-      -0.0877
+      -0.1346,
+      -0.0869
      ]
     ],
     "newEstInsidePrevCI": true,
@@ -161,17 +192,17 @@
    {
     "path": "/fGen",
     "prev": [
-     0.451,
+     0.4662,
      [
-      0.3741,
-      0.5307
+      0.3823,
+      0.5342
      ]
     ],
     "new": [
-     0.451,
+     0.4662,
      [
-      0.3741,
-      0.5307
+      0.3823,
+      0.5342
      ]
     ],
     "newEstInsidePrevCI": true,
@@ -180,17 +211,17 @@
    {
     "path": "/nodeExcess",
     "prev": [
-     0.0695,
+     0.068,
      [
-      0.0534,
-      0.0895
+      0.0537,
+      0.0863
      ]
     ],
     "new": [
-     0.0695,
+     0.068,
      [
-      0.0534,
-      0.0895
+      0.0537,
+      0.0863
      ]
     ],
     "newEstInsidePrevCI": true,
@@ -200,27 +231,27 @@
   "pointOnly": [
    {
     "path": "/alphaStar/nInfeasibleDrivesBaseline",
-    "prev": 19,
-    "new": 19,
+    "prev": 20,
+    "new": 20,
     "comparedAs": "share of set size",
-    "prevShare": 0.059,
-    "newShare": 0.059,
+    "prevShare": 0.0578,
+    "newShare": 0.0578,
     "absDiff": 0.0,
     "relDiff": 0.0,
     "withinBand": true
    },
    {
     "path": "/alphaStar/variantMax",
-    "prev": 0.751,
-    "new": 0.751,
+    "prev": 0.748,
+    "new": 0.748,
     "absDiff": 0.0,
     "relDiff": 0.0,
     "withinBand": true
    },
    {
     "path": "/alphaStar/variantMin",
-    "prev": 0.221,
-    "new": 0.221,
+    "prev": 0.218,
+    "new": 0.218,
     "absDiff": 0.0,
     "relDiff": 0.0,
     "withinBand": true
@@ -235,32 +266,32 @@
    },
    {
     "path": "/fGen/variantMax",
-    "prev": 0.4753,
-    "new": 0.4753,
+    "prev": 0.4897,
+    "new": 0.4897,
     "absDiff": 0.0,
     "relDiff": 0.0,
     "withinBand": true
    },
    {
     "path": "/fGen/variantMin",
-    "prev": 0.4057,
-    "new": 0.4057,
+    "prev": 0.4209,
+    "new": 0.4209,
     "absDiff": 0.0,
     "relDiff": 0.0,
     "withinBand": true
    },
    {
     "path": "/interval/hi",
-    "prev": 0.0695,
-    "new": 0.0695,
+    "prev": 0.068,
+    "new": 0.068,
     "absDiff": 0.0,
     "relDiff": 0.0,
     "withinBand": true
    },
    {
     "path": "/interval/lo",
-    "prev": -0.1113,
-    "new": -0.1113,
+    "prev": -0.1076,
+    "new": -0.1076,
     "absDiff": 0.0,
     "relDiff": 0.0,
     "withinBand": true
@@ -283,56 +314,56 @@
    },
    {
     "path": "/per100km/battToTractionResidual",
-    "prev": 10.214,
-    "new": 10.214,
+    "prev": 9.999,
+    "new": 9.999,
     "absDiff": 0.0,
     "relDiff": 0.0,
     "withinBand": true
    },
    {
     "path": "/per100km/genToBattDual",
-    "prev": 2.887,
-    "new": 2.887,
+    "prev": 2.814,
+    "new": 2.814,
     "absDiff": 0.0,
     "relDiff": 0.0,
     "withinBand": true
    },
    {
     "path": "/per100km/genToBattEngineOn",
-    "prev": 5.808,
-    "new": 5.808,
+    "prev": 5.573,
+    "new": 5.573,
     "absDiff": 0.0,
     "relDiff": 0.0,
     "withinBand": true
    },
    {
     "path": "/per100km/genToBattUpper",
-    "prev": 8.695,
-    "new": 8.695,
+    "prev": 8.387,
+    "new": 8.387,
     "absDiff": 0.0,
     "relDiff": 0.0,
     "withinBand": true
    },
    {
     "path": "/per100km/genToTraction",
-    "prev": 8.39,
-    "new": 8.39,
+    "prev": 8.731,
+    "new": 8.731,
     "absDiff": 0.0,
     "relDiff": 0.0,
     "withinBand": true
    },
    {
     "path": "/per100km/generator",
-    "prev": 15.975,
-    "new": 15.975,
+    "prev": 16.029,
+    "new": 16.029,
     "absDiff": 0.0,
     "relDiff": 0.0,
     "withinBand": true
    },
    {
     "path": "/per100km/regenToBatt",
-    "prev": 3.068,
-    "new": 3.068,
+    "prev": 3.065,
+    "new": 3.065,
     "absDiff": 0.0,
     "relDiff": 0.0,
     "withinBand": true
@@ -367,36 +398,36 @@
    "nStringChanges": 2
   },
   "set": {
-   "nDrives": 322,
-   "nDays": 58,
-   "km": 2232.8,
-   "nPrevious": 322,
+   "nDrives": 346,
+   "nDays": 63,
+   "km": 2593.9,
+   "nPrevious": 346,
    "nNew": 0,
    "newIds": [],
    "previousPerDrive": {
-    "path": "analyses/closure_baselines/perdrive_322drives.csv",
-    "sha256": "6b856ced14eca19870f1a582953248cb238ade0b7d8d4bdd033d5ada829191e4",
-    "nDrives": 322,
-    "master": "64dfd0cbff3db404d9b83e180f777525"
+    "path": "analyses/closure_baselines/perdrive_346drives.csv",
+    "sha256": "ef1d1f41ce20c53522fede92886e1f2f3c9dacbba6566b3616fbd04c85475e18",
+    "nDrives": 346,
+    "master": "a641f34d7528d004b900c151cbde3d6d"
    }
   },
   "checks": {
    "rawOriginals": {
-    "nChecked": 322,
+    "nChecked": 346,
     "nMismatch": 0
    },
    "flags": {
-    "nCompared": 542,
+    "nCompared": 566,
     "nDiverging": 0
    },
    "previousIdentity": {
-    "nIdentical": 322,
+    "nIdentical": 346,
     "columns": 23
    }
   },
   "specSha256Frozen": "96b1297f047eaaf46314c797b2d32f63626b45cadbb90f20335cc1bb45c3e745",
   "infeasibleAlphaDrives": {
-   "n": 19,
+   "n": 20,
    "inPreviousSet": [
     "2026-09-14_07-50-59.csv",
     "2026-09-16_14-01-15.csv",
@@ -408,6 +439,7 @@
     "2026-10-02_07-50-49.csv",
     "2026-10-02_08-04-04.csv",
     "2026-10-06_08-14-57.csv",
+    "2026-10-13_07-42-34.csv",
     "20260515_075207.csv",
     "20260603_122008.csv",
     "20260814_101007.csv",
@@ -420,5 +452,58 @@
    ],
    "inNewDrives": []
   }
+ },
+ "dissipationMonitor": {
+  "informational": "report-only (M394): never routes to audit; list the flags in the CHANGELOG acknowledgement",
+  "n_new_drives": 24,
+  "n_flags": 2,
+  "flags": [
+   {
+    "T_pack": 9.9,
+    "band": "5-10C",
+    "dur_s": 11,
+    "file": "2026-10-13_07-42-34.csv",
+    "flag": "first_sustained_in_band",
+    "rpm_mean": 1799.4,
+    "soc_mean": 79.2,
+    "source": "FUEL"
+   },
+   {
+    "band": "5-10C",
+    "dur_s": 11,
+    "file": "2026-10-13_07-42-34.csv",
+    "flag": "fuel_event_not_in_census",
+    "note": "fuel-indicated unfuelled (unconfirmed by census; low-power fuelled generation not ruled out)",
+    "rpm_mean": 1799.4,
+    "soc_mean": 79.2
+   }
+  ],
+  "validation_gap_bands": [
+   "<5C"
+  ]
+ },
+ "cadenceMonitor": {
+  "informational": "report-only (M396): never routes to audit; report any flag to the owner first",
+  "expected_regime": "fast",
+  "n_new_drives": 24,
+  "n_flags": 1,
+  "flags": [
+   {
+    "action": "check the app PID / polling settings (HV-current channel); fast polling was re-activated on 2026-10-09 and is expected",
+    "after_fast_in_batch_or_before": false,
+    "first_slow_date": "2026-10-09",
+    "first_slow_file": "2026-10-09_19-06-39.csv",
+    "first_slow_time": "19:06:57.946",
+    "flag": "cadence_slow_while_fast_expected",
+    "median_interval_new_slow_s": 1.407,
+    "n_fast_new": 19,
+    "n_new": 24,
+    "n_slow_new": 5,
+    "reference_fast_median_s": 0.852,
+    "reference_slow_median_s": 1.404,
+    "slower_than_reference_slow": false
+   }
+  ],
+  "last_regime": "fast"
  }
 }

@@ -125,9 +125,9 @@ def main():
     prim = d[d.canonClean & (d.km > 0) & (d.cls != "unknown")].copy()
     def block(sub):
         out = {"all": est(sub) if len(sub) else None}
-        for c in ("warm", "shoulder"):
+        for c in ("warm", "shoulder", "cold"):          # M426: 'cold' exists in the seasonal master only once it meets the minimum support; otherwise the drives are 'cold_insufficient' (below)
             out[c] = est(sub[sub.cohort == c]) if (sub.cohort == c).any() else None
-        below = sub[~sub.cohort.isin(["warm", "shoulder"])]
+        below = sub[~sub.cohort.isin(["warm", "shoulder", "cold"])]
         out["coldBelowSupport"] = {"nDrives": int(len(below)), "nStarts": int(below.n.sum()), "km": round(float(below.km.sum()), 1), "note": "below minimum support: not estimated, in the All view only"}
         return out
     res["primary"] = block(prim)
@@ -136,10 +136,11 @@ def main():
         x = sub.assign(first_s=sub["first"].astype(float), rest_s=sub["restarts"].astype(float))
         return {"firstPer100km": fa.ratio_ci(x, "first_s", "km", 100.0), "restartsPer100km": fa.ratio_ci(x, "rest_s", "km", 100.0)}
     res["decomposition"] = {"all": comp(prim, "all"), "warm": comp(prim[prim.cohort == "warm"], "warm"), "shoulder": comp(prim[prim.cohort == "shoulder"], "shoulder"),
+                            "cold": comp(prim[prim.cohort == "cold"], "cold") if (prim.cohort == "cold").any() else None,
                             "sumCheck": bool(((prim["first"] + prim["restarts"]) == prim["n"]).all()),
                             "note": "a trip is one master file; the first run of the file is the trip-first start, later runs are restarts within the file; a restart across a file boundary is a first start by construction"}
     bandt = {}
-    for c, sub in (("all", prim), ("warm", prim[prim.cohort == "warm"]), ("shoulder", prim[prim.cohort == "shoulder"])):
+    for c, sub in (("all", prim), ("warm", prim[prim.cohort == "warm"]), ("shoulder", prim[prim.cohort == "shoulder"])) + ((("cold", prim[prim.cohort == "cold"]),) if (prim.cohort == "cold").any() else ()):
         tot = float(sub.n.sum()); bandt[c] = {}
         for b in BANDS:
             x = sub.assign(bs=sub[f"b_{b}"].astype(float)); e = fa.ratio_ci(x, "bs", "km", 100.0)
@@ -182,7 +183,7 @@ def main():
     res["stops"] = {"knownAnswerMismatch": False, "coldRenderedAsZero": False, "decompositionNotSumming": not res["decomposition"]["sumCheck"], "estimateWithoutN": any(v is not None and v.get("nDays") is None for v in res["primary"].values() if isinstance(v, dict) and "est" in v)}
     json.dump(res, open(OUT, "w", encoding="utf-8", newline="\n"), indent=1, ensure_ascii=False, default=float)
     print(json.dumps({"known": res["knownAnswer"], "primary": {k: (v if k == "coldBelowSupport" else {x: v[x] for x in ("est", "ci95", "nTrips", "nDays", "nStarts", "km")}) for k, v in res["primary"].items() if v}, "flags": res["flags"],
-                      "decomp": {k: {x: y["est"] for x, y in v.items()} for k, v in res["decomposition"].items() if k in ("all", "warm", "shoulder")}}, indent=1, default=float))
+                      "decomp": {k: {x: y["est"] for x, y in v.items()} for k, v in res["decomposition"].items() if k in ("all", "warm", "shoulder", "cold") and v}}, indent=1, default=float))
     if mode == "--check":
         return
     # ---- additive splice of S.engineStartRate (seasonal contract deferred to the dashboard step) ----

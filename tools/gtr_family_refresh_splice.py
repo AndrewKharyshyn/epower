@@ -8,7 +8,8 @@ Reads analyses/M377_O_blocks.json (written by `tools/m373_point.py --point O --t
                                                                    gtrClosure.scope.carriedAtIngestion and by a gtrClosure entry in staleBlocks (like crossval); refresh = M377c
 Refuses (exit 3, nothing written) on any STOP: O file not bound to this spec / master / gates; nDrives or clean-ID hash differ from the live headline set; sensitivity BASE differs from the
 live headline; a row key-set or axis-label change; a reading flip; an escalation-band breach (speedSplit f_gen or simultaneity share move > the band, n_days change > 20 %);
-a deep-diff outside the allow-list. A block-by-block delta (previous vs new, n drives, n days) is written to analyses/gtr_family_delta.json (also on STOP).
+a deep-diff outside the allow-list. The ONLY acknowledgeable stop is the simultaneity share band (M426 Director ruling + owner acceptance, XT_ACK_GTR_BAND, see _apply_band_ack); reading flips,
+key sets, n_days, BASE and the allow-list can never be acknowledged. A block-by-block delta (previous vs new, n drives, n days) is written to analyses/gtr_family_delta.json (also on STOP).
 Usage: python tools/gtr_family_refresh_splice.py [--label M376] [--dry-run]"""
 import argparse, copy, hashlib, json, os, re, sys
 
@@ -54,7 +55,37 @@ def _finish(A, new, delta, stops):
     return new, delta, stops
 
 
-def plan(A, O, label, spec_sha, master_md5):
+BAND_STOP = "simultaneity: a share moved by more than %s pp" % BAND_SHARE_PP
+
+
+def _rows_sha(rows):
+    return hashlib.sha256(json.dumps(rows, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")).hexdigest()
+
+
+def _apply_band_ack(stops, breaches, ack, master_md5, rows_sha):
+    """M426: narrowly scoped acknowledgement of the simultaneity share-band stop ONLY (Director ruling; owner accepted the data movement in chat).
+    Accepted iff the stop list is exactly [BAND_STOP] and the ack names exactly the breaching (block, row, quantity, deltaPP) set, is bound to the live
+    drive_master MD5 and to the sha256 of the O simultaneity rows (content hash; the O file itself carries a run-time field) and cites a ruling.
+    Returns (stops, record); on any mismatch the original stops are kept and a refusal stop is added. Band values are unchanged."""
+    why = []
+    if stops != [BAND_STOP]:
+        why.append("the stop list is not exactly the simultaneity band stop: %s" % stops)
+    if not ack.get("ruling"):
+        why.append("no ruling reference")
+    if ack.get("driveMasterMd5") != master_md5:
+        why.append("bound to a different drive_master.csv MD5")
+    if ack.get("simultaneityRowsSha256") != rows_sha:
+        why.append("bound to different O simultaneity rows")
+    key = lambda x: (x["block"], x["row"], x["quantity"])
+    a, b = sorted(ack.get("acknowledged", []), key=key), sorted(breaches, key=key)
+    if len(a) != len(b) or any(key(x) != key(y) or abs(x["deltaPP"] - y["deltaPP"]) > 1e-9 for x, y in zip(a, b)):
+        why.append("acknowledged breaches %s != actual breaches %s" % (a, b))
+    if why:
+        return stops + ["band acknowledgement refused: " + "; ".join(why)], None
+    return [], {"ruling": ack["ruling"], "driveMasterMd5": master_md5, "simultaneityRowsSha256": rows_sha, "acknowledged": b, "band": BAND_SHARE_PP}
+
+
+def plan(A, O, label, spec_sha, master_md5, ack=None):
     """Pure core (testable): returns (new_arrays, delta, stops)."""
     stops = []
     G = A["generatorTractionRecon"]
@@ -111,6 +142,8 @@ def plan(A, O, label, spec_sha, master_md5):
         elif b == "simultaneity":
             mv = {k: round(max(abs(x[k] - y[k]) for x, y in zip(vals[b], G[b])), 4) for k in SHARES}
             d["maxAbsMovePP"] = mv
+            d["rowMovePP"] = {x["type"]: {k: round(x[k] - y[k], 4) for k in SHARES} for x, y in zip(vals[b], G[b])}      # M426: new - previous, per row
+            breaches = [{"block": b, "row": x["type"], "quantity": k, "deltaPP": round(x[k] - y[k], 4)} for x, y in zip(vals[b], G[b]) for k in SHARES if abs(x[k] - y[k]) > BAND_SHARE_PP]
             if max(mv.values()) > BAND_SHARE_PP:
                 stops.append(f"simultaneity: a share moved by more than {BAND_SHARE_PP} pp")
         else:
@@ -119,6 +152,12 @@ def plan(A, O, label, spec_sha, master_md5):
             if mv > BAND_FGEN:
                 stops.append(f"speedSplit: f_gen moved by more than {BAND_FGEN}")
         delta["blocks"][b] = d
+    if ack is not None:
+        stops, rec = _apply_band_ack(stops, breaches, ack, master_md5, _rows_sha(vals["simultaneity"]))
+        if rec:
+            delta["bandAcknowledgement"] = rec
+        else:
+            delta["bandAcknowledgementRefused"] = stops[-1]
     if stops:
         return None, delta, stops
     # ---- replace values ----
@@ -197,7 +236,10 @@ def main():
     a = ap.parse_args()
     O = json.load(open("analyses/M377_O_blocks.json", encoding="utf-8"))
     A = json.load(open("summary_arrays.json", encoding="utf-8"))
-    new, delta, stops = plan(A, O, a.label, M377_PIN.spec_sha("analyses/M377_spec.md"), md5("drive_master.csv"))
+    ack = None
+    if os.environ.get("XT_ACK_GTR_BAND"):
+        ack = json.load(open(os.environ["XT_ACK_GTR_BAND"], encoding="utf-8"))
+    new, delta, stops = plan(A, O, a.label, M377_PIN.spec_sha("analyses/M377_spec.md"), md5("drive_master.csv"), ack)
     delta["stops"] = stops
     with open("analyses/gtr_family_delta.json", "w", encoding="utf-8", newline="\n") as f:
         f.write(json.dumps(delta, indent=1, ensure_ascii=False) + "\n")

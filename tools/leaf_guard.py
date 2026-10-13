@@ -7,7 +7,8 @@ other loss is UNEXPECTED and the tool exits 1. The Director owns the rule list; 
 pathTemplate: segments separated by "/", each an exact key, or a single-segment placeholder: {i} = a list index, {key} = one dict key (the
 condition then checks that key). No other wildcard exists. A rule with "matchPrefix": true matches every lost leaf UNDER the template (the template
 names a block, e.g. a block that is null in the current arrays).
-Conditions (registered below): stamp_hash_changed | parent_null_in_current | sibling_present(sibling) | field_changed(entryDepth, field).
+Conditions (registered below): stamp_hash_changed | parent_null_in_current | sibling_present(sibling) | field_changed(entryDepth, field) |
+cohort_min_support_crossed | placeholder_row_observed | moved_to_complement_list | field_changed_and_empty (M426, analyses/M426_spec.md).
 Usage: python tools/leaf_guard.py [--previous git:HEAD | PATH] [--current summary_arrays.json] [--rules PATH] [--out PATH]"""
 import argparse, json, os, subprocess, sys
 
@@ -101,7 +102,117 @@ def cond_field_changed(prev, cur, path, bound, rule):
         return False
 
 
-CONDITIONS = {"field_changed": cond_field_changed, "stamp_hash_changed": cond_stamp_hash_changed, "parent_null_in_current": cond_parent_null_in_current, "sibling_present": cond_sibling_present}
+def _unrender(fmt, key):
+    """Inverse of fmt.replace('{c}', c): the cohort name inside a key such as 'cohort cold_insufficient' (None when the key does not fit)."""
+    pre, _, suf = fmt.partition("{c}")
+    if key.startswith(pre) and key.endswith(suf) and len(key) > len(pre) + len(suf):
+        return key[len(pre):len(key) - len(suf)]
+    return None
+
+
+def _min_support(prev, cur):
+    """(min drives, min days) of the cohort support rule when it is IDENTICAL in the previous and the current arrays, else None (a changed rule is not a data effect)."""
+    try:
+        pm = prev["seasonalCharts"]["_meta"]["cohortSuppressedBelowMinSupport"]["minDrivesForStatistics"]
+        cm = cur["seasonalCharts"]["_meta"]["cohortSuppressedBelowMinSupport"]["minDrivesForStatistics"]
+        pd_, cd = prev["comparisonCube"]["_meta"]["minSupport"], cur["comparisonCube"]["_meta"]["minSupport"]
+    except (KeyError, TypeError):
+        return None
+    if pm != cm or pd_ != cd or pd_.get("drives") != pm:
+        return None
+    return pm, pd_["days"]
+
+
+def cond_field_changed_and_empty(prev, cur, path, bound, rule):
+    """M426 (Director ruling, re-binning of the regen-by-temperature chart). Like field_changed (the entry entryDepth levels up has a `field` that differs between the
+    previous and the current arrays) AND the current entry is EMPTY: n == 0 and eff is None. A leaf may vanish only from a row whose bin was renamed and now holds no samples
+    (a layout artefact of the new bin scheme, never a populated bin losing its range)."""
+    if not cond_field_changed(prev, cur, path, bound, rule):
+        return False
+    try:
+        row = get(cur, path[:rule["entryDepth"]])
+        return row.get("n") == 0 and row.get("eff") is None
+    except (KeyError, IndexError, TypeError, AttributeError):
+        return False
+
+
+def cond_cohort_min_support_crossed(prev, cur, path, bound, rule):
+    """M426 (Director ruling). A cohort-suppression leaf may vanish only because the cohort CROSSED the pre-registered support rule: the rule (min drives, min days)
+    is unchanged; the cohort was not inference-available before and is now (eligibleForCohortView >= min drives, nDaysObserved >= min days) and is no longer listed
+    in cohortSuppressedBelowMinSupport.nObserved. Optional rule keys: keyFormat (the bound key is e.g. 'cohort {c}_insufficient'), currentKeyFormat (the renamed key
+    must exist in the same container of the current arrays), prevValue (the lost leaf's previous value), curCountField (the sibling block in the current arrays has
+    this count >= min drives)."""
+    key = bound.get("key")
+    c = _unrender(rule["keyFormat"], key) if rule.get("keyFormat") else key
+    ms = _min_support(prev, cur)
+    if c is None or ms is None:
+        return False
+    m, dmin = ms
+    try:
+        pc, cc = prev["cohortMeta"][c], cur["cohortMeta"][c]
+        if pc.get("inferenceAvailable") is True:
+            return False
+        if cc.get("inferenceAvailable") is not True or cc["eligibleForCohortView"] < m or cc["nDaysObserved"] < dmin:
+            return False
+        if c in cur["seasonalCharts"]["_meta"]["cohortSuppressedBelowMinSupport"]["nObserved"]:
+            return False
+        if rule.get("currentKeyFormat"):
+            tpl = rule["pathTemplate"].split("/")
+            new_blk = get(cur, tuple(tpl[:-1]))[rule["currentKeyFormat"].replace("{c}", c)]
+            if rule.get("matchPrefix"):
+                get(new_blk, path[len(tpl):])         # the lost leaf must have its counterpart at the same relative path in the renamed block
+        if "prevValue" in rule and get(prev, path) != rule["prevValue"]:
+            return False
+        if rule.get("curCountField"):
+            blk = get(cur, path[:-1])
+            if not isinstance(blk, dict) or not isinstance(blk.get(rule["curCountField"]), (int, float)) or blk[rule["curCountField"]] < m:
+                return False
+    except (KeyError, IndexError, TypeError):
+        return False
+    return True
+
+
+def cond_placeholder_row_observed(prev, cur, path, bound, rule):
+    """M426. A 'not_observed' placeholder class row may lose its placeholder leaves (allowedLeaves only) when the SAME class row (classKey in the previous row ==
+    classKey or key in the current row) is now an observed row: no 'status' leaf and at least one of observedFields non-null (a count field 'n' / 'drives' must be >= 1)."""
+    ent = path[:rule["entryDepth"]]
+    if len(path) != len(ent) + 1 or path[-1] not in rule["allowedLeaves"]:
+        return False
+    try:
+        pr, cr = get(prev, ent), get(cur, ent)
+        if pr.get("status") != "not_observed" or "status" in cr or pr.get("classKey") is None:
+            return False
+        if cr.get("classKey", cr.get("key")) != pr["classKey"]:
+            return False
+        vals = [cr.get(f) for f in rule["observedFields"]]
+        if not any(v is not None for v in vals):
+            return False
+        return all(cr[f] >= 1 for f in ("n", "drives") if cr.get(f) is not None)          # any count the row carries must be >= 1
+    except (KeyError, IndexError, TypeError, AttributeError):
+        return False
+
+
+def cond_moved_to_complement_list(prev, cur, path, bound, rule):
+    """M426. A list entry may vanish from rowsIncludingZero (lostListField) only because the row names moved to the complement list: the current list is shorter, every
+    dropped name is now in the complement list, the union of row names is unchanged and the classification is unchanged (a flip fails and goes to the Director)."""
+    try:
+        rr_p, rr_c = get(prev, path[:-2]), get(cur, path[:-2])
+        a, b = rule["listField"], rule["complementField"]
+        if path[-2] != a:
+            return False
+        dropped = set(rr_p[a]) - set(rr_c[a])
+        return (len(rr_c[a]) < len(rr_p[a]) and dropped <= set(rr_c[b]) and set(rr_p[a]) | set(rr_p[b]) == set(rr_c[a]) | set(rr_c[b])
+                and rr_p.get("classification") == rr_c.get("classification"))
+    except (KeyError, IndexError, TypeError, AttributeError):
+        return False
+
+
+CONDITIONS = {"field_changed": cond_field_changed, "stamp_hash_changed": cond_stamp_hash_changed, "parent_null_in_current": cond_parent_null_in_current, "sibling_present": cond_sibling_present,
+              "field_changed_and_empty": cond_field_changed_and_empty, "cohort_min_support_crossed": cond_cohort_min_support_crossed, "placeholder_row_observed": cond_placeholder_row_observed, "moved_to_complement_list": cond_moved_to_complement_list}
+
+
+REQUIRED_PARAMS = {"sibling_present": ("sibling",), "field_changed": ("entryDepth", "field"), "field_changed_and_empty": ("entryDepth", "field"), "placeholder_row_observed": ("entryDepth", "allowedLeaves", "observedFields"),
+                   "moved_to_complement_list": ("listField", "complementField")}
 
 
 def check_rules(rules):
@@ -111,6 +222,9 @@ def check_rules(rules):
                 raise SystemExit(f"leaf_guard rule {r.get('id')!r}: missing {k}")
         if r["condition"] not in CONDITIONS:
             raise SystemExit(f"leaf_guard rule {r['id']!r}: unknown condition {r['condition']!r}")
+        for k in REQUIRED_PARAMS.get(r["condition"], ()):
+            if r.get(k) in (None, "", []):
+                raise SystemExit(f"leaf_guard rule {r['id']!r}: condition {r['condition']!r} needs parameter {k!r}")
         if any(("*" in s or s not in ("{i}", "{key}") and s.startswith("{")) for s in r["pathTemplate"].split("/")):
             raise SystemExit(f"leaf_guard rule {r['id']!r}: only exact keys, {{i}} and {{key}} are allowed in pathTemplate")
 

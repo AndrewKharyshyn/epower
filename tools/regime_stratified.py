@@ -224,7 +224,8 @@ def main():
     pw = pay_adj["warm_vs_shoulder"]
     out["reproduction"]["warm_vs_shoulder"] = {"computedAdjustedDiff": c0["adjustedDiff"], "payloadAdjustedDiff": pw.get("adjustedDiff"), "equal": c0["adjustedDiff"] is not None and abs(c0["adjustedDiff"] - pw["adjustedDiff"]) < 1e-9,
                                                "computedCi95": c0["ci95"], "payloadCi95": pw.get("ci95")}
-    out["warm_vs_cold"] = {"payloadStatus": pay_adj["warm_vs_cold"].get("status"), "payloadReason": pay_adj["warm_vs_cold"].get("reasonCode"), "note": "not available: the cold cohort is suppressed; no substitute is built"}
+    out["warm_vs_cold"] = {"payloadStatus": pay_adj["warm_vs_cold"].get("status"), "payloadReason": pay_adj["warm_vs_cold"].get("reasonCode"), "note": ("not available: the cold cohort is suppressed; no substitute is built" if pay_adj["warm_vs_cold"].get("status") in (None, "unavailable") else
+                                                                                                                                       "the payload's own adjusted warm-vs-cold contrast (status %s) is stored in cohort_arrays.json; this analysis builds no substitute" % pay_adj["warm_vs_cold"].get("status"))}
     # ---- P2 ----
     out["P2_regimeStratifiedEI"] = {"label": "observational; confounded by season, ambient and drive mix", "values": ei_by_regime(ei_rows(rk_rows, rmap)), "pooled": ei0}
     # ---- P3 ----

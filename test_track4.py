@@ -19,7 +19,8 @@ sm = pd.read_csv(os.path.join(SD, "seasonal_drive_master.csv"), low_memory=False
 d = DM.merge(sm, on="file")
 _bad = lambda c: d[c].astype(str).str.strip().str.lower().eq("true")
 d["_clean"] = ~(_bad("ens_invalid") | _bad("ens_outlier_v2"))
-for k, mask in (("all", d.file.notna()), ("warm", d.thermal_regime.eq("warm")), ("shoulder", d.thermal_regime.eq("shoulder"))):
+COLD_OPEN = int(d.thermal_regime.eq("cold").sum()) > 0       # M426: the seasonal master labels the cold cohort 'cold' only when it meets the minimum support
+for k, mask in (("all", d.file.notna()), ("warm", d.thermal_regime.eq("warm")), ("shoulder", d.thermal_regime.eq("shoulder"))) + ((("cold", d.thermal_regime.eq("cold")),) if COLD_OPEN else ()):
     g = d[mask & d.gross_throughput_kwh.notna() & d.distance_km.gt(0)]
     gc = g[g._clean]
     exp = 100 * gc.gross_throughput_kwh.sum() / gc.distance_km.sum()
@@ -28,7 +29,7 @@ for k, mask in (("all", d.file.notna()), ("warm", d.thermal_regime.eq("warm")), 
     ok(f"1 EnergyIntensity[{k}] published-basis sensitivity = unfiltered ratio-of-sums", abs(ps["value"] - pub) < 1e-9 and ps["n"] == len(g))
     c = ei[k]["ci95"]
     ok(f"1 EnergyIntensity[{k}] CI brackets estimate", c["lo"] < ei[k]["value"] < c["hi"] and 0 < c["essDays"] <= c["nClusters"])
-ok("1 Cold cohort has no fabricated KPI", ei["cold"] is None)
+ok("1 Cold cohort has no fabricated KPI while empty (open: checked above against the independent recompute)", (ei["cold"] is None) == (not COLD_OPEN))
 # 2 core: distance of numerator-missing drives must not enter the denominator
 ok("2 cohort_per_100km paired", abs(sc.cohort_per_100km([{"q": 10., "distance_km": 100.}, {"q": None, "distance_km": 100.}], "q") - 10.0) < 1e-12)
 # 3 refresh is reproducible (fixed seed)
@@ -60,6 +61,7 @@ ok("7 per-cohort arrays sorted", all(v == sorted(v) for m in CD["metrics"].value
 import pandas as _pd
 _sdm = _pd.read_csv("seasonal_drive_master.csv", low_memory=False)       # M310 minimum-support rule: drives of a cohort below the minimum sit in 'all' only
 _nsup = int((_sdm["thermal_regime"].astype(str).str.endswith("_insufficient") & _sdm["engine_on_pct"].notna()).sum())
-ok("7 warm+shoulder+suppressed(below min support) n == all n (engine_on_pct)", len(CD["metrics"]["engine_on_pct"]["cohorts"]["warm"]) + len(CD["metrics"]["engine_on_pct"]["cohorts"]["shoulder"]) + _nsup == len(CD["metrics"]["engine_on_pct"]["cohorts"]["all"]))
-ok("7 no fabricated Cold distribution", all(m["cohorts"]["cold"] is None for m in CD["metrics"].values()))
+_ncold = len(CD["metrics"]["engine_on_pct"]["cohorts"].get("cold") or [])
+ok("7 warm+shoulder+cold(when open)+suppressed(below min support) n == all n (engine_on_pct)", len(CD["metrics"]["engine_on_pct"]["cohorts"]["warm"]) + len(CD["metrics"]["engine_on_pct"]["cohorts"]["shoulder"]) + _ncold + _nsup == len(CD["metrics"]["engine_on_pct"]["cohorts"]["all"]))
+ok("7 no fabricated Cold distribution (None while empty; when open one array per metric, sorted, of the cohort's drives)", all((m["cohorts"]["cold"] is None) == (not COLD_OPEN) for m in CD["metrics"].values()))
 print(f"\n{len(P)} passed, {len(F)} failed"); sys.exit(1 if F else 0)

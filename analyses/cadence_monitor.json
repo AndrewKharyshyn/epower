@@ -1,18 +1,51 @@
 {
- "bootstrap": true,
+ "bootstrap": false,
  "expected_regime": "fast",
  "expected_since": "2026-10-09",
- "flag_history": [],
- "last_regime": "slow",
+ "flag_history": [
+  {
+   "action": "check the app PID / polling settings (HV-current channel); fast polling was re-activated on 2026-10-09 and is expected",
+   "after_fast_in_batch_or_before": false,
+   "first_slow_date": "2026-10-09",
+   "first_slow_file": "2026-10-09_19-06-39.csv",
+   "first_slow_time": "19:06:57.946",
+   "flag": "cadence_slow_while_fast_expected",
+   "median_interval_new_slow_s": 1.407,
+   "n_fast_new": 19,
+   "n_new": 24,
+   "n_slow_new": 5,
+   "recorded_with_last_file": "2026-10-13_08-26-07.csv",
+   "reference_fast_median_s": 0.852,
+   "reference_slow_median_s": 1.404,
+   "slower_than_reference_slow": false
+  }
+ ],
+ "last_regime": "fast",
  "last_seen": [
-  "2026-10-08",
-  "21:24:16.930",
-  "2026-10-08_21-24-03.csv"
+  "2026-10-13",
+  "08:26:28.897",
+  "2026-10-13_08-26-07.csv"
  ],
  "last_update": {
-  "flags": [],
-  "n_flags": 0,
-  "n_new_drives": 554
+  "flags": [
+   {
+    "action": "check the app PID / polling settings (HV-current channel); fast polling was re-activated on 2026-10-09 and is expected",
+    "after_fast_in_batch_or_before": false,
+    "first_slow_date": "2026-10-09",
+    "first_slow_file": "2026-10-09_19-06-39.csv",
+    "first_slow_time": "19:06:57.946",
+    "flag": "cadence_slow_while_fast_expected",
+    "median_interval_new_slow_s": 1.407,
+    "n_fast_new": 19,
+    "n_new": 24,
+    "n_slow_new": 5,
+    "reference_fast_median_s": 0.852,
+    "reference_slow_median_s": 1.404,
+    "slower_than_reference_slow": false
+   }
+  ],
+  "n_flags": 1,
+  "n_new_drives": 24
  },
  "n_drives_at_bootstrap": 554,
  "rule": "regime per drive from the sidecar (fast: master I_sample_period_s < 1.05 s, M379a); flag = a new drive is slow while fast polling is expected (owner re-activated it 2026-10-09); report-only; thresholds fixed and not tuned (analyses/M396_spec.md)"

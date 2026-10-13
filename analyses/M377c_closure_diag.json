@@ -2,9 +2,9 @@
  "milestone": "M377c",
  "step": 1,
  "basis": "raw/ = sha256-verified originals (M366); canonical-clean (ens_outlier_v2 False), distance>0, fuel PID",
- "n_drives": 322,
- "n_days": 58,
- "km": 2232.8399999999997,
+ "n_drives": 346,
+ "n_days": 63,
+ "km": 2593.9399999999996,
  "skipped": {
   "no_file": 0,
   "no_fuel": 224,
@@ -13,45 +13,45 @@
   "no_battery_inputs": 3
  },
  "per100km_totals": {
-  "E_gen": 15.975,
-  "E_gen_ps": 15.975,
-  "g2t": 8.39,
-  "g2b_master": 8.695,
-  "g2b_model": 7.585,
-  "eng_only": 5.808,
-  "dual": 2.887,
-  "regen": 3.068,
-  "b2t": 10.214,
-  "trac": 18.604,
-  "excess": 1.11,
-  "excess_engonly": -1.777,
-  "excess_ps": 1.11,
+  "E_gen": 16.029,
+  "E_gen_ps": 16.029,
+  "g2t": 8.731,
+  "g2b_master": 8.387,
+  "g2b_model": 7.298,
+  "eng_only": 5.573,
+  "dual": 2.814,
+  "regen": 3.065,
+  "b2t": 9.999,
+  "trac": 18.73,
+  "excess": 1.089,
+  "excess_engonly": -1.725,
+  "excess_ps": 1.089,
   "gen_def_gap": 0.0,
-  "batt_resid": 1.549,
-  "batt_resid_modelg2b": 0.439
+  "batt_resid": 1.453,
+  "batt_resid_modelg2b": 0.364
  },
  "relative_to_generator": {
   "excess": {
-   "est": 0.0695,
+   "est": 0.068,
    "ci95": [
-    0.0534,
-    0.0895
+    0.0537,
+    0.0863
    ],
    "closed": false
   },
   "excess_engonly": {
-   "est": -0.1113,
+   "est": -0.1076,
    "ci95": [
-    -0.1389,
-    -0.0877
+    -0.1346,
+    -0.0869
    ],
    "closed": false
   },
   "excess_ps": {
-   "est": 0.0695,
+   "est": 0.068,
    "ci95": [
-    0.0534,
-    0.0895
+    0.0537,
+    0.0863
    ],
    "closed": false
   },
@@ -72,72 +72,72 @@
    "excess_rel": "n<10: not evaluated"
   },
   "mixed": {
-   "n": 13,
-   "days": 11,
+   "n": 14,
+   "days": 12,
    "excess_rel": {
-    "est": 0.0342,
+    "est": 0.0352,
     "ci95": [
-     0.026,
-     0.0411
+     0.0273,
+     0.0416
     ],
     "closed": true
    }
   },
   "mixed_highway": {
-   "n": 5,
-   "days": 3,
+   "n": 7,
+   "days": 4,
    "excess_rel": "n<10: not evaluated"
   },
   "urban": {
-   "n": 302,
-   "days": 58,
+   "n": 323,
+   "days": 63,
    "excess_rel": {
-    "est": 0.0935,
+    "est": 0.0944,
     "ci95": [
-     0.0822,
-     0.1072
+     0.0831,
+     0.1073
     ],
     "closed": false
    }
   }
  },
  "exploratory_corr_with_excess_per_km": {
-  "dual_share": 0.648,
-  "gen_per_km": 0.205,
-  "gen_def_gap": 0.056
+  "dual_share": 0.652,
+  "gen_per_km": 0.187,
+  "gen_def_gap": 0.036
  },
- "share_drives_excess_positive": 0.866,
- "share_dual_in_g2b_master": 0.332,
+ "share_drives_excess_positive": 0.867,
+ "share_dual_in_g2b_master": 0.3356,
  "m372": {
   "checks": {
    "rawOriginals": {
-    "nChecked": 322,
+    "nChecked": 346,
     "nMismatch": 0
    },
    "flags": {
-    "nCompared": 542,
+    "nCompared": 566,
     "nDiverging": 0
    },
    "expectedSet": {
-    "nDrives": 322,
-    "nDays": 58,
-    "km": 2232.8,
-    "nPrevious": 322,
+    "nDrives": 346,
+    "nDays": 63,
+    "km": 2593.9,
+    "nPrevious": 346,
     "nNew": 0,
     "newIds": [],
     "previousPerDrive": {
-     "path": "analyses/closure_baselines/perdrive_322drives.csv",
-     "sha256": "6b856ced14eca19870f1a582953248cb238ade0b7d8d4bdd033d5ada829191e4",
-     "nDrives": 322,
-     "master": "64dfd0cbff3db404d9b83e180f777525"
+     "path": "analyses/closure_baselines/perdrive_346drives.csv",
+     "sha256": "ef1d1f41ce20c53522fede92886e1f2f3c9dacbba6566b3616fbd04c85475e18",
+     "nDrives": 346,
+     "master": "a641f34d7528d004b900c151cbde3d6d"
     }
    },
    "previousIdentity": {
-    "nIdentical": 322,
+    "nIdentical": 346,
     "columns": 23
    }
   },
-  "scriptGit": "82606fc",
+  "scriptGit": "3dadee1",
   "summaryArraysSha256Start": ""
  }
 }
