@@ -190,5 +190,23 @@
   "condition": "moved_to_complement_list",
   "listField": "rowsIncludingZero",
   "complementField": "rowsExcludingZero"
+ },
+ {
+  "id": "rebin-regen-temp-range-top",
+  "rationale": "M426 (owner request 2026-10-13: 10 C bins incl. below-zero bins): the regen-by-pack-temperature bins were re-binned (5 -> 8 bin edges); a mass-uncertainty range leaf of an OLD bin may vanish only from a row whose bin label changed AND that is now empty (n == 0, no estimate), i.e. a layout artefact of the new scheme, never a populated bin losing its range (Director ruling). Top-level block.",
+  "milestone": "M426",
+  "pathTemplate": "regenByTempMeasured/{i}/effRangeMassUncertainty/{i}",
+  "condition": "field_changed_and_empty",
+  "entryDepth": 2,
+  "field": "label"
+ },
+ {
+  "id": "rebin-regen-temp-range-cohort",
+  "rationale": "M426 (owner request 2026-10-13: 10 C bins incl. below-zero bins): the regen-by-pack-temperature bins were re-binned (5 -> 8 bin edges); a mass-uncertainty range leaf of an OLD bin may vanish only from a row whose bin label changed AND that is now empty (n == 0, no estimate), i.e. a layout artefact of the new scheme, never a populated bin losing its range (Director ruling). Per-cohort seasonal chart.",
+  "milestone": "M426",
+  "pathTemplate": "seasonalCharts/charts/RegenByTempMeasured/data/{key}/{i}/effRangeMassUncertainty/{i}",
+  "condition": "field_changed_and_empty",
+  "entryDepth": 6,
+  "field": "label"
  }
 ]

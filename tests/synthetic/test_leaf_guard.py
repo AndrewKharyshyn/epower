@@ -169,3 +169,21 @@ for bad in ({"condition": "moved_to_complement_list", "listField": ""}, {"condit
         continue
     raise AssertionError("rule with a missing parameter accepted: %r" % bad)
 print("test_leaf_guard M426 review fixes: OK")
+
+# field_changed_and_empty: a range leaf may vanish only from a re-labelled row that is now empty
+RB = [CR["rebin-regen-temp-range-top"], CR["rebin-regen-temp-range-cohort"]]
+def rb_prev(): return {"regenByTempMeasured": [{"label": "10C", "n": 900, "eff": 50.0, "effRangeMassUncertainty": [45.0, 55.0]}, {"label": "20C", "n": 5000, "eff": 52.0, "effRangeMassUncertainty": [48.0, 56.0]}],
+                       "seasonalCharts": {"charts": {"RegenByTempMeasured": {"data": {"warm": [{"label": "10C", "n": 90, "eff": 40.0, "effRangeMassUncertainty": [35.0, 45.0]}]}}}}}
+def rb_cur(): return {"regenByTempMeasured": [{"label": "<-10°C", "n": 0, "eff": None, "effRangeMassUncertainty": None}, {"label": "-10–0°C", "n": 0, "eff": None, "effRangeMassUncertainty": None}],
+                      "seasonalCharts": {"charts": {"RegenByTempMeasured": {"data": {"warm": [{"label": "<-10°C", "n": 0, "eff": None, "effRangeMassUncertainty": None}]}}}}}
+r = LG.guard(rb_prev(), rb_cur(), RB)
+assert r["nLost"] == 6 and r["nUnexpected"] == 0 and r["expectedByRule"] == {"rebin-regen-temp-range-top": 4, "rebin-regen-temp-range-cohort": 2}, r
+c = rb_cur(); c["regenByTempMeasured"][0].update({"n": 12})                                   # the new row is not empty: its old range may not vanish
+assert LG.guard(rb_prev(), c, RB)["nUnexpected"] == 2
+c = rb_cur(); c["regenByTempMeasured"][0].update({"eff": 3.0})                                # an estimate without a range
+assert LG.guard(rb_prev(), c, RB)["nUnexpected"] == 2
+c = rb_cur(); c["regenByTempMeasured"][1]["label"] = "20C"                                    # same label: not a re-binning
+assert LG.guard(rb_prev(), c, RB)["nUnexpected"] == 2
+c = rb_cur(); del c["seasonalCharts"]["charts"]["RegenByTempMeasured"]["data"]["warm"][0]["label"]
+assert LG.guard(rb_prev(), c, RB)["nUnexpected"] >= 2
+print("test_leaf_guard field_changed_and_empty: OK")

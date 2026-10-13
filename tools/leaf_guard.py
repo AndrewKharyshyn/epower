@@ -8,7 +8,7 @@ pathTemplate: segments separated by "/", each an exact key, or a single-segment 
 condition then checks that key). No other wildcard exists. A rule with "matchPrefix": true matches every lost leaf UNDER the template (the template
 names a block, e.g. a block that is null in the current arrays).
 Conditions (registered below): stamp_hash_changed | parent_null_in_current | sibling_present(sibling) | field_changed(entryDepth, field) |
-cohort_min_support_crossed | placeholder_row_observed | moved_to_complement_list (M426, analyses/M426_spec.md).
+cohort_min_support_crossed | placeholder_row_observed | moved_to_complement_list | field_changed_and_empty (M426, analyses/M426_spec.md).
 Usage: python tools/leaf_guard.py [--previous git:HEAD | PATH] [--current summary_arrays.json] [--rules PATH] [--out PATH]"""
 import argparse, json, os, subprocess, sys
 
@@ -123,6 +123,19 @@ def _min_support(prev, cur):
     return pm, pd_["days"]
 
 
+def cond_field_changed_and_empty(prev, cur, path, bound, rule):
+    """M426 (Director ruling, re-binning of the regen-by-temperature chart). Like field_changed (the entry entryDepth levels up has a `field` that differs between the
+    previous and the current arrays) AND the current entry is EMPTY: n == 0 and eff is None. A leaf may vanish only from a row whose bin was renamed and now holds no samples
+    (a layout artefact of the new bin scheme, never a populated bin losing its range)."""
+    if not cond_field_changed(prev, cur, path, bound, rule):
+        return False
+    try:
+        row = get(cur, path[:rule["entryDepth"]])
+        return row.get("n") == 0 and row.get("eff") is None
+    except (KeyError, IndexError, TypeError, AttributeError):
+        return False
+
+
 def cond_cohort_min_support_crossed(prev, cur, path, bound, rule):
     """M426 (Director ruling). A cohort-suppression leaf may vanish only because the cohort CROSSED the pre-registered support rule: the rule (min drives, min days)
     is unchanged; the cohort was not inference-available before and is now (eligibleForCohortView >= min drives, nDaysObserved >= min days) and is no longer listed
@@ -195,10 +208,10 @@ def cond_moved_to_complement_list(prev, cur, path, bound, rule):
 
 
 CONDITIONS = {"field_changed": cond_field_changed, "stamp_hash_changed": cond_stamp_hash_changed, "parent_null_in_current": cond_parent_null_in_current, "sibling_present": cond_sibling_present,
-              "cohort_min_support_crossed": cond_cohort_min_support_crossed, "placeholder_row_observed": cond_placeholder_row_observed, "moved_to_complement_list": cond_moved_to_complement_list}
+              "field_changed_and_empty": cond_field_changed_and_empty, "cohort_min_support_crossed": cond_cohort_min_support_crossed, "placeholder_row_observed": cond_placeholder_row_observed, "moved_to_complement_list": cond_moved_to_complement_list}
 
 
-REQUIRED_PARAMS = {"sibling_present": ("sibling",), "field_changed": ("entryDepth", "field"), "placeholder_row_observed": ("entryDepth", "allowedLeaves", "observedFields"),
+REQUIRED_PARAMS = {"sibling_present": ("sibling",), "field_changed": ("entryDepth", "field"), "field_changed_and_empty": ("entryDepth", "field"), "placeholder_row_observed": ("entryDepth", "allowedLeaves", "observedFields"),
                    "moved_to_complement_list": ("listField", "complementField")}
 
 
