@@ -143,8 +143,11 @@ def cond_cohort_min_support_crossed(prev, cur, path, bound, rule):
             return False
         if c in cur["seasonalCharts"]["_meta"]["cohortSuppressedBelowMinSupport"]["nObserved"]:
             return False
-        if rule.get("currentKeyFormat") and rule["currentKeyFormat"].replace("{c}", c) not in get(cur, tuple(rule["pathTemplate"].split("/")[:-1])):
-            return False
+        if rule.get("currentKeyFormat"):
+            tpl = rule["pathTemplate"].split("/")
+            new_blk = get(cur, tuple(tpl[:-1]))[rule["currentKeyFormat"].replace("{c}", c)]
+            if rule.get("matchPrefix"):
+                get(new_blk, path[len(tpl):])         # the lost leaf must have its counterpart at the same relative path in the renamed block
         if "prevValue" in rule and get(prev, path) != rule["prevValue"]:
             return False
         if rule.get("curCountField"):
@@ -195,6 +198,10 @@ CONDITIONS = {"field_changed": cond_field_changed, "stamp_hash_changed": cond_st
               "cohort_min_support_crossed": cond_cohort_min_support_crossed, "placeholder_row_observed": cond_placeholder_row_observed, "moved_to_complement_list": cond_moved_to_complement_list}
 
 
+REQUIRED_PARAMS = {"sibling_present": ("sibling",), "field_changed": ("entryDepth", "field"), "placeholder_row_observed": ("entryDepth", "allowedLeaves", "observedFields"),
+                   "moved_to_complement_list": ("listField", "complementField")}
+
+
 def check_rules(rules):
     for r in rules:
         for k in ("id", "rationale", "milestone", "pathTemplate", "condition"):
@@ -202,6 +209,9 @@ def check_rules(rules):
                 raise SystemExit(f"leaf_guard rule {r.get('id')!r}: missing {k}")
         if r["condition"] not in CONDITIONS:
             raise SystemExit(f"leaf_guard rule {r['id']!r}: unknown condition {r['condition']!r}")
+        for k in REQUIRED_PARAMS.get(r["condition"], ()):
+            if r.get(k) in (None, "", []):
+                raise SystemExit(f"leaf_guard rule {r['id']!r}: condition {r['condition']!r} needs parameter {k!r}")
         if any(("*" in s or s not in ("{i}", "{key}") and s.startswith("{")) for s in r["pathTemplate"].split("/")):
             raise SystemExit(f"leaf_guard rule {r['id']!r}: only exact keys, {{i}} and {{key}} are allowed in pathTemplate")
 

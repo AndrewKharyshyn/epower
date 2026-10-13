@@ -39,17 +39,19 @@ def sync(A, cohort="cold"):
         d = ch.get("data")
         if cid in NATIVE or not isinstance(d, dict) or d.get(cohort, "x") is not None:
             continue
+        # a marker is (re)written while it is in the old state OR in the state this tool wrote earlier, so later ingestions refresh the live counts
         st = ch.get("status")
-        if isinstance(st, dict) and st.get(cohort) == "unavailable":
+        if isinstance(st, dict) and st.get(cohort) in ("unavailable", NOT_BUILT) and st[cohort] != NOT_BUILT:
             st[cohort] = NOT_BUILT
             changes.append("/seasonalCharts/charts/%s/status/%s" % (cid, cohort))
         cv = ch.get("coverage")
-        if isinstance(cv, dict) and isinstance(cv.get(cohort), dict) and cv[cohort].get("status") == "no_observations":
+        if isinstance(cv, dict) and isinstance(cv.get(cohort), dict) and cv[cohort].get("status") in ("no_observations", NOT_BUILT) and cv[cohort] != blk:
             cv[cohort] = copy.deepcopy(blk)
             changes.append("/seasonalCharts/charts/%s/coverage/%s" % (cid, cohort))
         cs = ch.get("coldStatus")
-        if cohort == "cold" and isinstance(cs, dict) and cs.get("status") == "unavailable":
-            ch["coldStatus"] = {"status": NOT_BUILT, "n": n, "reason": reason}
+        want = {"status": NOT_BUILT, "n": n, "reason": reason}
+        if cohort == "cold" and isinstance(cs, dict) and cs.get("status") in ("unavailable", NOT_BUILT) and cs != want:
+            ch["coldStatus"] = want
             changes.append("/seasonalCharts/charts/%s/coldStatus" % cid)
     return new, changes
 

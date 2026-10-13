@@ -39,6 +39,15 @@ assert LG.guard(A, new, [])["nLost"] == 0                                       
 new2, ch2 = CS.sync(new)
 assert ch2 == [] and new2 == new                                                                    # idempotent
 
+# a later ingestion (cold 12 -> 15 drives): the markers written earlier are refreshed to the live counts, idempotently
+L = copy.deepcopy(new)
+L["cohortMeta"]["cold"].update({"n": 15, "eligibleForCohortView": 15, "nDaysObserved": 6})
+L["seasonalCharts"]["charts"]["EnergyIntensity"]["coverage"]["cold"].update({"n_drives": 15, "independent_days": 6})
+l2, chl = CS.sync(L)
+assert l2["seasonalCharts"]["charts"]["DriveTypeChart"]["coverage"]["cold"]["n_drives"] == 15 and l2["seasonalCharts"]["charts"]["EfficiencyBands"]["coldStatus"]["n"] == 15
+assert sorted(chl) == sorted(["/seasonalCharts/charts/DriveTypeChart/coverage/cold", "/seasonalCharts/charts/EfficiencyBands/coldStatus"]), chl
+assert CS.sync(l2)[1] == []
+
 # no support -> no change at all
 B = arrays(supported=False)
 nb, chb = CS.sync(B)

@@ -159,3 +159,13 @@ assert LG.guard(cs_prev(), c, CL)["nUnexpected"] == 2                           
 c = cs_cur(); rr(c)["rowsIncludingZero"] = ["a", "b", "c"]
 assert LG.guard(cs_prev(), c, CL)["nUnexpected"] == 0                                                  # nothing lost
 print("test_leaf_guard M426 conditions: OK")
+
+# the renamed fuelStates group must carry a counterpart of every lost leaf; rule parameters are validated
+assert cmut(lambda c: c["fuelStates"]["groups"]["cohort cold"].pop("litres")) == 1
+for bad in ({"condition": "moved_to_complement_list", "listField": ""}, {"condition": "placeholder_row_observed", "allowedLeaves": []}, {"condition": "sibling_present", "sibling": None}):
+    try:
+        LG.check_rules([dict(RULES[0], **bad)])
+    except SystemExit:
+        continue
+    raise AssertionError("rule with a missing parameter accepted: %r" % bad)
+print("test_leaf_guard M426 review fixes: OK")
