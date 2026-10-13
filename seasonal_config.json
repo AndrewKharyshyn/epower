@@ -78,6 +78,15 @@
     "_allYearGate": "rename to 'All year' only after a complete 12-month observation window exists; a typical/reference year requires explicit exposure weights and is labelled separately",
     "segmentedControl": ["All observations", "Warm", "Shoulder", "Cold"],
     "keepShoulderVisible": true,
+    "regimeOverrides": {
+      "2026-10-10_06-57-23.csv": {
+        "physicalRegime": "cold",
+        "regime": "shoulder",
+        "reason": "Boundary drive: ambient readouts 6->4->6 C (127.4 km), time-weighted mean 5.0 C exactly at the cold limit (<= 5.0); the readouts straddle the limit.",
+        "decision": "Andrii (owner), in chat 2026-10-13: 'moves to shoulder explicitly (it is a boundary drive)'"
+      }
+    },
+    "_regimeOverrides": "M426: explicit per-drive reassignment to the adjacent regime, recorded in seasonal_drive_master.thermal_regime_override; applied only while the physical classification equals physicalRegime (seasonal_core.apply_regime_override). Not a change of the thresholds.",
     "minDrivesForStatistics": 10,
     "_minDrivesForStatistics": "M310: a thermal cohort with fewer drives is relabelled '<regime>_insufficient' in the seasonal master (thermal_regime_raw keeps the physical class) and every cohort builder sees it as empty; matches the dashboard's minimum of 10"
   },

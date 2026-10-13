@@ -137,7 +137,9 @@ def load_subsets():
     assert len(dm_r) == len(dm) and dm_r.thermal_regime.notna().all(), "cohort label join incomplete"
     subsets = {"all": dm, "warm": dm_r[dm_r.thermal_regime == "warm"].drop(columns=["thermal_regime"]).reset_index(drop=True),
                "shoulder": dm_r[dm_r.thermal_regime == "shoulder"].drop(columns=["thermal_regime"]).reset_index(drop=True),
-               "cold_ins": dm_r[~dm_r.thermal_regime.isin(["warm", "shoulder"])].drop(columns=["thermal_regime"]).reset_index(drop=True)}   # below-minimum-support cold drives: conservation only, never spliced
+               "cold": dm_r[dm_r.thermal_regime == "cold"].drop(columns=["thermal_regime"]).reset_index(drop=True),                         # M426: the cold cohort once it meets the minimum support (spliced)
+               "cold_ins": dm_r[~dm_r.thermal_regime.isin(["warm", "shoulder", "cold"])].drop(columns=["thermal_regime"]).reset_index(drop=True)}   # below-minimum-support cold drives: conservation only, never spliced
+    subsets = {c: sub for c, sub in subsets.items() if len(sub) or c == "all"}       # an empty cohort is not built (cold below support / no cold_ins once cold is open)
     return dm, subsets
 
 
@@ -277,15 +279,16 @@ def main():
         if not e["parity"]:
             e["parityNote"] = ("parity not evaluated: no frames were loaded for the all-rows run" if not evaluated else
                                ("all-rows result differs from the fresh top-level block: " + "; ".join((cmpv or {}).get("reasons", [])[:3])) if cmpv is not None else "builder returned None / errored")
-        cons = walk_counts(out["all"].get(k), [out["warm"].get(k), out["shoulder"].get(k), out["cold_ins"].get(k)]) if e["parity"] else []
-        e["conservation"] = {"nCountLeaves": len(cons), "violations": [{"path": p, "all": a, "parts[warm,shoulder,coldBelowSupport]": parts} for p, ok, a, parts in cons if ok is False][:8],
+        cons = walk_counts(out["all"].get(k), [out["warm"].get(k), out["shoulder"].get(k), out.get("cold", {}).get(k), out.get("cold_ins", {}).get(k)]) if e["parity"] else []
+        e["conservation"] = {"nCountLeaves": len(cons), "violations": [{"path": p, "all": a, "parts[warm,shoulder,cold,coldBelowSupport]": parts} for p, ok, a, parts in cons if ok is False][:8],
                              "notComparable": sum(1 for x in cons if x[1] is None), "nViolations": sum(1 for x in cons if x[1] is False)}
         e["conservation"]["nConserved"] = sum(1 for x in cons if x[1] is True)
         extra = {"CrawlStopGo": [C._crawl_stop_go_two_part], "HighSocRegen": [C._high_soc_regen_covariates], "ThermalFuelPenalty": [C._thermal_fuel_penalty_continuous]}.get(k, [])
         e["corpusDerivedCutpointLines"] = sum((cutpoints(f_) for f_ in [funcs.get(k, C.category_B)] + extra), [])
         e["cohortRelativeCutpoints"] = [l_ for l_ in e["corpusDerivedCutpointLines"] if re.search(r"33\.3|66\.7|tertile|terc", l_)]
         e["cohortNone"] = {c: out[c].get(k) is None for c in ("warm", "shoulder")}
-        e["coldBelowSupportNone"] = out["cold_ins"].get(k) is None
+        e["coldBelowSupportNone"] = out.get("cold_ins", {}).get(k) is None
+        e["coldNone"] = out.get("cold", {}).get(k) is None if "cold" in out else None       # M426: reported, never a pass criterion (a small cohort may legitimately return None)
         if e["parity"] and not any(e["cohortNone"].values()):
             passed.append(k)
     res["parityPassed"] = sorted(passed); res["parityFailed"] = sorted(set(raw_ids) - set(passed))
@@ -299,15 +302,18 @@ def main():
     now = datetime.datetime.now(datetime.timezone.utc).isoformat()
     for k in passed:
         d = ch[k].setdefault("data", {})
-        for c in ("all", "warm", "shoulder"):
+        for c in ("all", "warm", "shoulder") + (("cold",) if "cold" in out else ()):
             d[c] = copy.deepcopy(json.loads(json.dumps(out[c][k], default=float)))
-        d["cold"] = None
+        if "cold" not in out:
+            d["cold"] = None
         cov = ch[k].get("coverage") if isinstance(ch[k].get("coverage"), dict) else {}
         for c, sub in subsets.items():
             ent = {"n_drives": int(len(sub)), "km": round(float(sub.distance_km.sum()), 2)}
             if isinstance(cov.get(c), dict) and "independent_days" in cov[c]:
                 ent["independent_days"] = int(sub.date.nunique())
             cov[c] = ent
+        if "cold_ins" not in subsets and isinstance(cov.get("cold_ins"), dict):       # M426: no below-support remainder any more (the cold cohort is open)
+            cov["cold_ins"] = {"n_drives": 0, "km": 0.0, **({"independent_days": 0} if "independent_days" in cov["cold_ins"] else {})}
         ch[k]["coverage"] = cov
         ch[k]["basisNDrives"] = int(len(dm)); ch[k]["refreshedBy"] = "M341 (tools/regen_seasonal_raw.py)"
         ck = res["charts"][k]

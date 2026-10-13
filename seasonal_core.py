@@ -57,6 +57,26 @@ def classify_thermal_regime(temp_c, thresholds=None):
     return "shoulder"
 
 
+def apply_regime_override(regime, fname, overrides):
+    """M426 (owner decision 2026-10-13): an explicit, recorded per-drive reassignment of a BOUNDARY drive to the neighbouring regime. `overrides` is
+    seasonal_config.json cohorts.regimeOverrides: {file: {"physicalRegime", "regime", "reason", "decision"}}. Returns (effective regime, tag) where tag is ''
+    or '<physical>-><effective>'. The override applies only while the physical classification still equals the recorded physicalRegime (a changed ambient
+    record makes it stale and raises, so an override can never silently re-label a drive for which the reason no longer holds); the regimes must differ and be
+    adjacent (cold<->shoulder<->warm); reason and decision are mandatory."""
+    ov = (overrides or {}).get(fname)
+    if not ov:
+        return regime, ""
+    order = ("cold", "shoulder", "warm")
+    for k in ("physicalRegime", "regime", "reason", "decision"):
+        if not ov.get(k):
+            raise ValueError(f"regime override for {fname}: missing {k}")
+    if ov["physicalRegime"] not in order or ov["regime"] not in order or abs(order.index(ov["physicalRegime"]) - order.index(ov["regime"])) != 1:
+        raise ValueError(f"regime override for {fname}: only an adjacent regime is allowed ({ov['physicalRegime']} -> {ov['regime']})")
+    if regime != ov["physicalRegime"]:
+        raise ValueError(f"regime override for {fname} is stale: physical regime is {regime!r}, the override was recorded for {ov['physicalRegime']!r}")
+    return ov["regime"], f"{regime}->{ov['regime']}"
+
+
 def meteorological_season(month, hemisphere_north=True):
     """Meteorological season from calendar month (N. hemisphere by default)."""
     if month is None:

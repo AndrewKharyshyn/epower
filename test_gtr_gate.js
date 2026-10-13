@@ -29,7 +29,8 @@ async function main(){
   await sleep(900);
   click([...d.querySelectorAll('button')].find(b=>b.textContent.trim().toLowerCase()==='fuel'));await sleep(500);
   const sk=()=>d.querySelectorAll('svg[data-gtr-sankey]').length;
-  for(const mode of ['all','warm','shoulder','compare']){
+  const cold0=d.querySelector('button[data-cohort-btn="cold"]'), COLD_OPEN=!!cold0&&!cold0.disabled;     // M426: Cold is a cohort view once it meets the minimum support
+  for(const mode of ['all','warm','shoulder','compare'].concat(COLD_OPEN?['cold']:[])){
     const mb=d.querySelector(`button[data-cohort-btn="${mode}"]`);
     ok(`${mode}: cohort button present and enabled`, !!mb&&!mb.disabled);
     if(!mb||mb.disabled) continue;
@@ -86,7 +87,7 @@ async function main(){
   ok('compare single series: one column, no Warm-Shoulder difference table', pressed().length===1&&cols()===1&&!diffTable(), `sel=${sel()} cols=${cols()}`);
   // Cold: no data, no sketch, no fabricated table
   const cold=d.querySelector('button[data-cohort-btn="cold"]');
-  ok('cold: selector disabled (below minimum support) - no Cold column or sketch can be reached', !!cold&&cold.disabled);
+  ok('cold: selector present; while below the minimum support it is disabled (no Cold column or sketch can be reached), once above it the Cold mode was rendered and checked in the loop above', !!cold&&(COLD_OPEN?!cold.disabled:cold.disabled));
   ok('no console errors (real payload)', errs.length===0, errs.slice(0,2).join(' | '));
 
   // ---------- balanced-flows guard: patch the embedded flows so both branches close ----------

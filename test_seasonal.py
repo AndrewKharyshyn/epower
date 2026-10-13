@@ -174,10 +174,10 @@ def t13():
 # 14 — dynamic warnings / counts
 def t14():
     a = json.load(open(os.path.join(HERE, "seasonal_arrays.json")))
-    ok("14 cold cohort emits empty warning", "cohort_empty" in a["cohorts"]["Cold"]["warnings"])
+    ok("14 cold cohort emits the empty warning iff it is empty", ("cohort_empty" in a["cohorts"]["Cold"]["warnings"]) == (a["cohorts"]["Cold"]["coverage"]["n_drives"] == 0))
     ok("14 all-year disabled global warning",
        "observation_window_under_12_months_all_year_disabled" in a["globalWarnings"])
-    ok("14 adjusted contrast flagged unavailable", a["adjustedContrastAvailable"] is False)
+    ok("14 adjusted contrast flagged unavailable while the cold cohort is empty (a flag once it is open)", isinstance(a["adjustedContrastAvailable"], bool) and (a["cohorts"]["Cold"]["coverage"]["n_drives"] > 0 or a["adjustedContrastAvailable"] is False))
     ok("14 label is 'All observations' not 'All year'",
        a["cohortLabelAll"] == "All observations" and a["allYearEnabled"] is False)
 
@@ -338,7 +338,8 @@ def t19():
     ok("19 cohort_arrays warm regen == seasonal_arrays warm regen (current corpus)", approx(warm_regen, cur_sa, 1e-3))
     # empty cold cohort -> nulls, not zero
     cold = p["charts"]["RegenChart"]["metrics"]["regen_share_of_charge"]["Cold"]
-    ok("19 empty cold cohort value is None not 0", cold["value"] is None and cold["n"] == 0)
+    _cold_n = json.load(open(os.path.join(HERE, "seasonal_arrays.json"), encoding="utf-8"))["cohorts"]["Cold"]["coverage"]["n_drives"]
+    ok("19 empty cold cohort value is None not 0 (an open cold cohort carries its n)", (cold["value"] is None and cold["n"] == 0) if _cold_n == 0 else cold["n"] > 0)
     # distribution overlay carries shared-axis histograms
     hist = p["charts"]["BatteryThermalChart"]["metrics"]["pack_temp_start_c"]["Warm"]["hist"]
     ok("19 distribution histogram present w/ shared edges",
@@ -346,7 +347,7 @@ def t19():
     # comparison type gated by class (all Phase-1 are thermal)
     ok("19 all phase-1 charts are thermal class",
        all(p["charts"][c]["dependencyClass"] == "thermal" for c in p["dataReadyCharts"]))
-    ok("19 adjusted contrast unavailable (no cold)", p["adjustedContrastAvailable"] is False)
+    ok("19 adjusted contrast unavailable while the cold cohort is empty", isinstance(p["adjustedContrastAvailable"], bool) and (_cold_n > 0 or p["adjustedContrastAvailable"] is False))
 
 # 20 — Phase-2 season-associated charts + adjustment integration
 def t20():
@@ -395,8 +396,9 @@ def t21():
        wu["Warm"][-1]["mean_c"] > wu["Warm"][0]["mean_c"])
     ok("21 shoulder starts colder than warm (physical direction)",
        wu["Shoulder"][0]["mean_c"] < wu["Warm"][0]["mean_c"])
-    ok("21 cold cohort curve empty (nulls not zero)",
-       all(pt["mean_c"] is None for pt in wu["Cold"]))
+    _cold_n21 = json.load(open(os.path.join(HERE, "seasonal_arrays.json"), encoding="utf-8"))["cohorts"]["Cold"]["coverage"]["n_drives"]
+    ok("21 cold cohort curve: nulls not zero while empty, populated once open",
+       all(pt["mean_c"] is None for pt in wu["Cold"]) if _cold_n21 == 0 else any(pt["mean_c"] is not None for pt in wu["Cold"]))
     # Phase-3 frozen charts registered and flagged
     ok("21 four frozen not-applicable charts", len(p["frozenCharts"]) == 4)
     ok("21 frozen charts carry not_applicable + frozen flag",

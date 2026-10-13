@@ -32,6 +32,7 @@ const sec=(re)=>{const h=[...d.querySelectorAll('h2')].find(x=>x.textContent.inc
   ok('T1 Distribution tab: SoC-balanced fuel and cold-start association are gone; RpmSpeedSync / EngineStateMachine stay', !has(T_SB)&&!has(T_TF)&&has('Engine RPM')&&has('Engine Operating-Point State Machine'));
   // ---------- T2 / T3 ----------
   await tab('charts');
+  const COLD_OPEN0=!!d.querySelector('button[data-cohort-btn="cold"]')&&!d.querySelector('button[data-cohort-btn="cold"]').disabled;     // M426: Cold opens once it meets the minimum support
   for(const mode of ['shoulder','warm','compare']){
     const mb=d.querySelector(`button[data-cohort-btn="${mode}"]`);
     if(!mb||mb.disabled){ok(`${mode}: cohort button enabled`,false);continue;}
@@ -40,7 +41,7 @@ const sec=(re)=>{const h=[...d.querySelectorAll('h2')].find(x=>x.textContent.inc
     const pressed=d.querySelector(`button[data-cohort-btn="${mode}"]`)?.getAttribute('aria-pressed')==='true';
     ok(`T2 ${mode}: selection persists after switching charts -> fuel`, pressed);
     const cold=d.querySelector('button[data-cohort-btn="cold"]');
-    ok(`T2 ${mode}: Cold stays disabled in the Fuel tab`, !!cold&&cold.disabled);
+    ok(`T2 ${mode}: Cold follows the support rule in the Fuel tab (same state as in the other tabs; selectable once it meets the minimum support)`, !!cold&&cold.disabled===!COLD_OPEN0);
     const sb=sec(T_SB);
     ok(`T3 ${mode}: SoC-balanced fuel (not cohort-native) carries the All-data badge`, !!sb&&!!sb.querySelector('[data-allref-badge]'));
     ok(`T3 ${mode}: GTR accounting table is cohort-aware (one column per series in Compare)`, (()=>{const a=d.querySelector('[data-gtr-accounting]');if(!a)return false;const cols=[...a.querySelectorAll('thead th')].length-2;return mode==='compare'?cols===[...d.querySelectorAll('button[data-cmp-btn][aria-pressed="true"]')].length:cols===1;})());

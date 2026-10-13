@@ -1219,7 +1219,7 @@ function EngineStartRate(){
   const ci=e=>e&&e.ci95?`${f1(e.ci95[0])}–${f1(e.ci95[1])}`:"points only";
   const rowOf=(lab,e)=>e?<tr key={lab} style={{borderTop:"1px solid #f1f5f9"}}><td style={{padding:"2px 8px"}}>{lab}</td><td style={{padding:"2px 8px",textAlign:"center",fontWeight:700}}>{f1(e.est)}</td><td style={{padding:"2px 8px",textAlign:"center"}}>{ci(e)}</td><td style={{padding:"2px 8px",textAlign:"center"}}>{e.nTrips}</td><td style={{padding:"2px 8px",textAlign:"center"}}>{e.nDays}</td><td style={{padding:"2px 8px",textAlign:"center"}}>{e.nStarts}</td><td style={{padding:"2px 8px",textAlign:"center"}}>{e.km}</td><td style={{padding:"2px 8px"}}>{e.support}</td></tr>:null;
   const cold=P.coldBelowSupport;
-  const showCoh=coh==="all"?["all"]:coh==="compare"?["warm","shoulder"]:[coh];
+  const showCoh=coh==="all"?["all"]:coh==="compare"?["warm","shoulder"].concat(cohortAvailable("cold")?["cold"]:[]):[coh];
   if(coh!=="all"&&coh!=="compare"&&!cohortAvailable(coh)) return <ColdNoData chart="Engine-start rate (RPM onsets)" cohort={coh}/>;
   const A=P.all;
   return <div data-engine-start-rate="1" style={{marginTop:14,borderTop:"1px solid #e2e8f0",paddingTop:10}}>
@@ -1230,7 +1230,7 @@ function EngineStartRate(){
       {showCoh.map(c=>rowOf(c==="all"?"All data":(COHORT_META[c]||{label:c}).label,P[c]))}
       {coh==="all"&&["urban","mixed","mixed_highway","highway"].map(k=>rowOf(`class: ${k.replace("_"," ")}`,Z.byClass[k]))}
     </tbody></table>
-    {(coh==="all"||coh==="compare")&&<div style={{fontSize:10,color:"#b45309",marginTop:3}}>Cold: below minimum support ({cold.nDrives} drives, {cold.nStarts} onsets over {cold.km} km); included in All only, not estimated.</div>}
+    {(coh==="all"||coh==="compare")&&!cohortAvailable("cold")&&<div style={{fontSize:10,color:"#b45309",marginTop:3}}>Cold: below minimum support ({cold.nDrives} drives, {cold.nStarts} onsets over {cold.km} km); included in All only, not estimated.</div>}
     {coh==="all"&&<div>
       <div style={{fontSize:10.5,color:"#334155",marginTop:8}}>First onset in a log file versus later onsets in the same file (per 100 km): {f1(DC.all.firstPer100km.est)} ({ci(DC.all.firstPer100km)}) and {f1(DC.all.restartsPer100km.est)} ({ci(DC.all.restartsPer100km)}). This split is file-boundary bookkeeping, not a cold-start measure: {G.startWithin30min} of {G.nConsecutivePairs} consecutive log files start within 30 minutes of the previous file&rsquo;s end ({G.startWithin5min} within 5 minutes, {G.startWithin60min} within 60), and an onset after a file boundary is counted as the first in its file.</div>
       <table style={{fontSize:10,borderCollapse:"collapse",margin:"6px 0"}}><thead><tr style={{color:"#64748b"}}><th style={{padding:"2px 8px",textAlign:"left"}}>onsets by engine-coolant temperature at the onset sample</th><th style={{padding:"2px 8px"}}>onsets</th><th style={{padding:"2px 8px"}}>share</th><th style={{padding:"2px 8px"}}>per 100 km (band onsets / total km)</th></tr></thead><tbody>
@@ -10183,10 +10183,11 @@ function CohortSelector({cohort,setCohort}){
       const dates=(typeof coldObservedInfo==="function")?coldObservedInfo().dates:[];
       return <div data-cohort-observed="1" style={{flexBasis:"100%",textAlign:"center",fontSize:9,color:"#64748b",lineHeight:1.4}}>
         Observed {a.observed} = Warm {w.observed} + Shoulder {s.observed} + Cold {c.observed}; analysed as cohorts: {inf.length?inf.join(", "):"none"} (at least {minN} drives).
+        {(S.ambientTable?.regimeOverrides||[]).map((o,i)=><span key={i} data-regime-override="1"> Boundary drive {o.file} (ambient readouts at the Cold limit; {o.physicalRegime} by the time-weighted mean) is assigned to {o.assignedRegime.charAt(0).toUpperCase()+o.assignedRegime.slice(1)} by owner decision (2026-10-13).</span>)}
         {c.observed>0 && !c.inferenceAvailable && <> The Cold class ({c.observed} drive{c.observed===1?"":"s"} on {c.nDaysObserved} calendar day{c.nDaysObserved===1?"":"s"}{dates.length?`: ${dates.join(", ")}`:""}) is shown as observed only: no cohort statistics and no winter inference.</>}
       </div>; })()}
     {cohort!=="all" && <div data-season-scope="1" style={{flexBasis:"100%",textAlign:"center",fontSize:9,color:"#94a3b8",lineHeight:1.4}}>
-      The thermal-cohort filter (ambient classes, not calendar seasons) applies only to sections without an <em>All-data reference</em> tag; tagged sections, narrative, records and provenance are corpus-wide. A cohort view needs ≥{COHORT_MIN_SUPPORT_DRIVES} drives (Cold: {coldObservedInfo().n} observed, below support).
+      The thermal-cohort filter (ambient classes, not calendar seasons) applies only to sections without an <em>All-data reference</em> tag; tagged sections, narrative, records and provenance are corpus-wide. A cohort view needs ≥{COHORT_MIN_SUPPORT_DRIVES} drives {S.cohortMeta?.cold?.inferenceAvailable?<>(Cold: {S.cohortMeta.cold.eligibleForCohortView} drives on {S.cohortMeta.cold.nDaysObserved} calendar days meet the support rule; with so few days the intervals are wide and the cohort is not a seasonal-effect estimate).</>:<>(Cold: {coldObservedInfo().n} observed, below support).</>}
     </div>}
   </div>;
 }
