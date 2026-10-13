@@ -2974,9 +2974,11 @@ function RegenChart() {
   // 100%-at-low-speed curves and "48% vs 83%, 1.7x" claim did not reproduce from
   // any computed array (audit 2026-07-07) -- see _provenance.deprecated_synthetic.
   const TempChart = () => {
-    const disp = {"10C":"<15°C","20C":"15–25°C","30C":"25–35°C","40C":"35–45°C","49C":"45°C+"};
-    const col  = {"10C":"#60a5fa","20C":"#4ade80","30C":"#eab308","40C":"#f97316","49C":"#ef4444"};
+    // M427: 10 deg C bins from the payload (label = display text, incl. the winter bins below zero); colour by bin index, cold to hot
+    const PAL = ["#1d4ed8","#3b82f6","#60a5fa","#4ade80","#eab308","#f97316","#ef4444","#b91c1c"];
     const data = cohortOr("RegenByTempMeasured",_coh,S.regenByTempMeasured);
+    const disp = Object.fromEntries(data.map(t=>[t.label,t.label]));
+    const col  = Object.fromEntries(data.map((t,i)=>[t.label,PAL[Math.min(i,PAL.length-1)]]));
     const W=420, H=220, PL=44, PR=16, PT=20, PB=44;
     const pw=W-PL-PR, ph=H-PT-PB;
     const maxEff=70;
@@ -3049,7 +3051,7 @@ function RegenChart() {
           <div style={{marginTop:6,padding:8,background:"#fffbeb",border:"1px solid #fde68a",borderRadius:6,fontSize:9.5,color:"#78350f",lineHeight:1.6}}>
             <strong>Thin bins, shown dashed above, not a reportable %:</strong> {S.regenCaptureMeta.tempThinBins.map((b,i)=>{
               const row = (S.regenByTempMeasured||[]).find(r=>r.label===b.label);
-              return <span key={b.label}>{i>0 && " and "}<strong>{{"10C":"<15°C","49C":"45°C+"}[b.label] || b.label}</strong> (n={b.n}{row?.eff!=null && <>, point estimate ~{row.eff}%{row.effRangeMassUncertainty && <> [{row.effRangeMassUncertainty[0]}–{row.effRangeMassUncertainty[1]}%]</>}</>})</span>;
+              return <span key={b.label}>{i>0 && " and "}<strong>{b.label}</strong> (n={b.n}{row?.eff!=null && <>, point estimate ~{row.eff}%{row.effRangeMassUncertainty && <> [{row.effRangeMassUncertainty[0]}–{row.effRangeMassUncertainty[1]}%]</>}</>})</span>;
             })} — real engine-off decel samples, just below the n≥200 validity gate (~200 s aggregate decel time), so the point estimate can swing hard on a handful more qualifying events and must not be read as equal-confidence with the solid bars. Consistent with the flagged winter/cold-start data gap elsewhere in this study: this corpus has almost no cold-start or peak-heat braking events yet.
           </div>
         )}
