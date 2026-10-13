@@ -68,8 +68,31 @@ def resolve(raw_dir, key):
     return q
 
 
+_MAN = {}
+
+
+def verify_raw_identity(path, key, files=None):
+    """M427 (audit F02): the raw file must be the manifest's byte-identical record before anything is replayed. Exactly one manifest record for the master key,
+    role canonical, full sha256 equal; a missing, duplicate, non-canonical or mismatched record raises (a changed unused channel used to pass the replay silently)."""
+    if files is None:
+        if "files" not in _MAN:
+            _MAN["files"] = json.load(open(os.path.join(ROOT, "raw_manifest.json"), encoding="utf-8"))["files"]
+        files = _MAN["files"]
+    names = {key, key.replace(" ", "_")}
+    recs = [r for r in files if names & {r.get("canonical"), r.get("record_id"), r.get("raw_name")}]
+    if len(recs) != 1:
+        raise RuntimeError("raw identity: %d manifest records for %s (need exactly 1)" % (len(recs), key))
+    if recs[0].get("role") != "canonical":
+        raise RuntimeError("raw identity: manifest role of %s is %r, not canonical" % (key, recs[0].get("role")))
+    got = sha256(path)
+    if got != recs[0].get("sha256"):
+        raise RuntimeError("raw identity: sha256 of %s (%s) differs from its raw_manifest.json record (%s)" % (key, got[:16], str(recs[0].get("sha256"))[:16]))
+    return got
+
+
 def analyze(v6, raw_dir, key):
     p = resolve(raw_dir, key)
+    verify_raw_identity(p, key)
     with open(p, "rb") as f:
         r = v6.analyze_bytes(f.read(), key)
     d, tm = v6._date_from_name(p)

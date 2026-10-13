@@ -28,7 +28,7 @@ SHARES = ("genPlusBattDischarge", "chargesAndDrives", "genAloneNeutral", "fullyB
 CARRIED_KEYS = ("provenanceMaxAbsDelta_O_minus_R", "provenanceMaxAbsDeltaUnrounded_O_minus_R", "deadbandMaxAbsDeltaPP_O_minus_R", "previousBlock", "provenanceDelta")
 CARRIED_BASIS = "M375 / 489 drives; M366 raw-swap provenance, not recomputed"
 ALLOW = ["/generatorTractionRecon/" + b for b in BLOCKS + ("refreshedBlocks", "eligibilityAlignment", "staleBlocks")] + [
-    "/generatorTractionRecon/gtrClosure/scope/excludedNote", "/generatorTractionRecon/gtrClosure/scope/carriedAtIngestion", "/seasonalCharts/charts/GeneratorTractionRecon"]
+    "/generatorTractionRecon/_staleness", "/generatorTractionRecon/gtrClosure/scope/excludedNote", "/generatorTractionRecon/gtrClosure/scope/carriedAtIngestion", "/seasonalCharts/charts/GeneratorTractionRecon"]
 
 
 def walk(a, b, path=""):
@@ -43,9 +43,27 @@ def walk(a, b, path=""):
         yield path
 
 
+def derive_root_staleness(G):
+    """M427 (audit F09): the root generatorTractionRecon._staleness is DERIVED from the per-block producer records (refreshedBlocks, staleBlocks, gtrClosure), never typed.
+    The old root note (script not present, 374-drive M256 basis, 410-drive corpus) was a leaf nothing refreshed. No numbers are typed here: every count is read from G."""
+    sb = G.get("staleBlocks") or {}
+    sc = (G.get("gtrClosure") or {}).get("scope") or {}
+    return {
+        "status": "per-block",
+        "derivedFrom": ["refreshedBlocks", "staleBlocks", "gtrClosure.scope"],
+        "headline": {"nDrives": G.get("nDrives"), "nProduction": G.get("nProduction"), "kmProduction": G.get("kmProduction"),
+                     "producer": "refresh_gtr_headline.py (recomputed at every ingestion)"},
+        "refreshed": [{"block": r.get("block"), "rerunMilestone": r.get("rerunMilestone"), "nDrives": r.get("nDrives"), "nDays": r.get("nDays")} for r in (G.get("refreshedBlocks") or [])],
+        "closure": {"nDrives": sc.get("nDrives"), "nDays": sc.get("nDays"), "carriedAtIngestion": "carriedAtIngestion" in sc},
+        "carried": [{"block": p.get("block"), "basisMilestone": p.get("basisMilestone"), "nDrives": p.get("nDrives"), "nDays": p.get("nDays"), "status": p.get("status")} for p in (sb.get("perBlock") or [])],
+        "note": "Each child block states its own support and basis. Blocks under refreshed were recomputed on the live corpus at the stated milestone; blocks under carried are frozen at an earlier basis and are labelled where they are shown. The closure block carries its own staleness note.",
+    }
+
+
 def _finish(A, new, delta, stops):
     if stops:
         return None, delta, stops
+    new["generatorTractionRecon"]["_staleness"] = derive_root_staleness(new["generatorTractionRecon"])
     # ---- deep diff against the allow-list ----
     bad = [p for p in walk(A, new) if not any(p == a or p.startswith(a + "/") or p.startswith(a + "[") for a in ALLOW)]
     if bad:

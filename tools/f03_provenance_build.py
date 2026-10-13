@@ -51,7 +51,7 @@ out = {
     "sensitivityStatement": ("Before M366, a provenance-sensitivity rebuild from the lower-precision re-exports changed the cell-spread slope (sign and magnitude); the difference arose only in the files that were re-exports "
                              "and could not be separated from calendar month. raw/ now holds the sha256-verified originals; the no-new-drive control build (M366) shows no change in degradationTrends. "
                              "The earlier rebuild result is kept as history in analyses/F03, not as a finding."),
-    "wording": [f"cell-spread trend not resolved over the {WINDOW}-month window; equivalence not established (not 'no degradation')",
+    "wording": [f"state the cell-spread trend status from its released interval (degradationTrends.cellSpread.clusterRobustOLS.ci95) over the {WINDOW}-month window: 'trend not resolved' only when the interval includes zero, 'a positive/negative conditional slope' when it excludes zero; equivalence not established; never 'no degradation' and never a capacity or SOH change (M427, audit F01)",
                 "provenance sensitivity, never 'correction' or 'error'",
                 "never 'reproducible from raw data' for raw-pass keys; say 'a rebuild from the sha256-verified originals is consistent with the published raw-derived non-ML per-drive values' (never 'proven', 'authenticated', 'corrections')"],
     "metrics": [

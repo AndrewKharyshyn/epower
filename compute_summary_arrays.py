@@ -1917,8 +1917,16 @@ def _ev_traction(dm):
         'engine_on_pct uses. The M46/M48 motored-unfuelled state burns no fuel '
         'but counts here as engine ON, so these figures are a conservative '
         'reading of "electric".',
-        'The +/-3 s channel alignment and the 3 s state debounce both bias '
-        'engine-off upward: every EV distance and time figure is an upper bound.',
+        'The +/-3 s nearest-sample channel alignment and the symmetric 3 s '
+        'state debounce can move the engine-off boundaries in either '
+        'direction (an engine-on run shorter than 3 s inside an engine-off '
+        'run is absorbed, which raises the EV share; an engine-off run '
+        'shorter than 3 s inside an engine-on run is absorbed, which lowers '
+        'it): every EV distance and time figure is an estimated '
+        'RPM-defined engine-off share, not a one-sided bound. Detector '
+        'settings (threshold, sample age, debounce, alignment) give a '
+        'sensitivity range, not a confidence interval; unknown RPM is never '
+        'counted as engine-off (M427, audit F04).',
         'Runs at the top of the distribution recover 30-50% of throughput as '
         'regen mid-run, so the observed maximum is not a buffer-drain range; '
         'runMaxUnassistedKm is.',
@@ -14308,7 +14316,7 @@ def _thermal_fuel_penalty(dm, raw_loader=None, raw_dir=None):
         'byCell': sorted(by_cell, key=lambda x: -(x['nWarmup'] + x['nWarm'])),
         'note': ('Fuel burned per engine-on second at a matched RPM x load operating point, '
                  'cold vs warm; exposure-weighted by warm-state cell counts (realistic mix). '
-                 'Isolates enrichment + cold-friction from duty cycle and charge strategy. '
+                 'A conditional contrast at matched RPM x load; enrichment, cold friction, oil and coolant state and demand stay entangled, so it is not attributed to one mechanism. '
                  'Coarse bins; the effect rests largely on the most-populated cell.')}
 
     # (3) dutyCycle: engine-on fraction at matched road speed
@@ -14359,9 +14367,8 @@ def _thermal_fuel_penalty(dm, raw_loader=None, raw_dir=None):
         'matched2040Ratio': round(duty_point, 3),
         'matched2040Ci95': [round(float(np.percentile(db, 2.5)), 3),
                             round(float(np.percentile(db, 97.5)), 3)],
-        'note': ('Engine-on fraction (rpm>400) at matched road speed, cold vs warm. The '
-                 'dominant mechanism of the trip penalty: the series-hybrid runs the ICE '
-                 'more when cold (catalyst light-off + cold charge/idle strategy).')}
+        'note': ('Engine-on fraction (rpm>400) at matched road speed, cold vs warm: a descriptive conditional contrast. '
+                 'The series-hybrid runs the ICE more when cold; catalyst light-off, cold charge/idle strategy, coolant and oil state and demand stay entangled, so it is not attributed to one mechanism.')}
 
     # (4) idle fuel per hour
     I = pd.DataFrame(idle_rows, columns=['day', 'cool', 'dfuel'])
@@ -14387,9 +14394,9 @@ def _thermal_fuel_penalty(dm, raw_loader=None, raw_dir=None):
             'coolant multiplex group). Four views: (1) tripLevel naive warm-up-window '
             'vs warm-window L/100km (regime- and SoC-confounded, disclosed); '
             '(2) combustionPenalty = fuel per engine-on second at matched RPMxload '
-            '(isolates enrichment+cold-friction; day-clustered bootstrap, seed 42, '
+            '(a conditional contrast at matched RPMxload; enrichment, cold friction, oil and coolant state and demand stay entangled; day-clustered bootstrap, seed 42, '
             '4000 draws); (3) dutyCycle = engine-on fraction at matched road speed '
-            '(isolates series-hybrid strategy; the dominant term); (4) idle fuel/hour '
+            '(a conditional duty contrast at matched road speed; strategy, coolant, oil and catalyst state and demand stay entangled; the larger of the two contrasts); (4) idle fuel/hour '
             'at standstill. SUBSET CAVEATS: warm-season only (mild cold-start, coolant '
             'starts ~ambient, NOT winter), urban-dominated. Emissions NOT instrumented; '
             'no generator-efficiency/CAP used. Single vehicle / ~single driver -- '
@@ -15897,7 +15904,13 @@ def _data_coverage(dm):
                 'median': round(float(sr.median()), 3), 'p90': round(float(sr.quantile(0.90)), 3)}
     sc = dm['sign_check'].astype('object').where(dm['sign_check'].notna(), 'missing').astype(str)
     cov = pd.to_numeric(dm['ev_cov_rpm'], errors='coerce')
+    import sys as _sys_er
+    _tools_er = _os_xf.path.join(_os_xf.path.dirname(_os_xf.path.abspath(__file__)), 'tools')
+    if _tools_er not in _sys_er.path:
+        _sys_er.path.insert(0, _tools_er)
+    import energy_reasons as _er   # M427 (audit F16): metric-specific reasons for the master rows without a gross-energy integral
     return {
+        'energyMissingReasons': _er.energy_missing_reasons(dm),
         'signCheck': {'ok': int((sc == 'ok').sum()), 'notTestable': int((sc == 'not_testable').sum()),
                       'anomaly': int((sc == 'ANOMALY').sum()), 'missing': int((sc == 'missing').sum()),
                       'total': int(len(dm)),
@@ -16054,7 +16067,8 @@ def _audit_observed_mix(dm, annual_km=None, threshold_gtc=20000):
             if obs_rate else None,
             'selectedCrossingYr': round(threshold_gtc / sel_rate, 1)
             if sel_rate else None})
-    out['note'] = ('M85: the selected 50/40/10 (city/mixed/highway) blend is a '
+    # M427 (audit F09): the order and the numbers of the scenario blend come from `sel` (city/mixed/highway), never from typed text
+    out['note'] = (f"M85: the selected {sel['city']:g}/{sel['mixed']:g}/{sel['highway']:g} (city/mixed/highway) blend is a "
                    'hand-chosen forward-usage scenario, now highway-dominant to '
                    f'match the observed duty cycle ({obs["highway"]:.1f}% highway). It remains '
                    'somewhat more city-weighted than the logged mix, so it '

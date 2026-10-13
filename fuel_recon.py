@@ -81,7 +81,10 @@ def _cs(mrow):
         return bool(abs(pp) <= CS_BAND_PP)
     # Fallback only: convert the +/-2 pp band to kWh via the capacity anchor.
     thr_kwh = CS_BAND_PP / 100.0 * _CS_CAP_KWH        # 0.042 kWh at 2.1 kWh
-    return bool(abs(float(mrow.get('soc_delta_kwh', 0) or 0)) <= thr_kwh)
+    dk = mrow.get('soc_delta_kwh', None)
+    if dk is None or dk != dk:
+        return None            # M427 (audit F13): every input absent -> unavailable, never charge-sustaining by default (a missing value used to read as 0 kWh)
+    return bool(abs(float(dk)) <= thr_kwh)
 
 def corpus_offset(dm):
     """M349: the master stamps ONE global current offset on every calibrated drive (compute_drive_summary_v6._v5_postprocess_master).

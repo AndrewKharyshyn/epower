@@ -9,8 +9,9 @@ BASE = os.path.join(ROOT, "tools", "encoding_baseline.json")
 
 
 def tracked_py():
-    out = subprocess.run(["git", "ls-files", "*.py"], cwd=ROOT, capture_output=True, text=True, encoding="utf-8").stdout.split()
-    return sorted(out)
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    from source_inventory import tracked_py   # M427 (audit F30): git ls-files in a checkout, a directory scan in a zip export
+    return tracked_py(ROOT)
 
 
 def count_file(path):

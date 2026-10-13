@@ -1455,9 +1455,11 @@ def _ev_metrics(csv_bytes, _prep=None):
       * ev_dist_scale_k outside [0.90, 1.10] means the speed channel did not
         reconstruct the trip and no distance claim is defensible.
     ev_valid ANDs these with a minimum trip length. Note the +/-3 s asof
-    tolerance and the debounce both bias engine-off UPWARD, so every ev_*
-    distance/time figure is an upper bound -- consistent with the standing
-    merge_asof caveat on engine-off fraction.
+    tolerance and the symmetric debounce can move the engine-off boundaries
+    in either direction (M427, audit F04: neither guarantees a one-sided
+    bound), so every ev_* distance/time figure is an estimated RPM-defined
+    engine-off share; detector settings give a sensitivity range, not a
+    confidence interval.
 
     Run-length histogram. ev_runs_* are exact counts per distance bin, so
     summing them across drives yields an exact POOLED histogram. Pooling
@@ -2131,7 +2133,7 @@ def _powerfade_cadence_specs(dm, raw_loader):
 # ======================================================================
 # P0-01 (audit 2026-08-27): manifest-driven cohort selection + guard.
 #
-# The default 2026*.csv glob silently admits the two discontinued *_comparison
+# The default 20[0-9][0-9]*.csv glob (M427, audit F15: year-independent; it was 2026*.csv) silently admits the two discontinued *_comparison
 # captures, so the documented one-command path selects 291 files while the
 # shipped master has 289 -- i.e. the correct exclusion happened OUT OF BAND and
 # a future release could re-contaminate every statistic without any code change.
@@ -2270,7 +2272,7 @@ def _select_canonical_cohort(files, raw_dir, manifest_path='raw_manifest.json',
     return sorted(kept)
 
 
-def build_master_from_raw(raw_dir, pattern='2026*.csv', verbose=True,
+def build_master_from_raw(raw_dir, pattern='20[0-9][0-9]*.csv', verbose=True,
                           manifest_path='raw_manifest.json',
                           strict_cohort=False):
     files = sorted(glob.glob(os.path.join(raw_dir, pattern)))
@@ -2295,7 +2297,7 @@ def build_master_from_raw(raw_dir, pattern='2026*.csv', verbose=True,
     return dm, report
 
 
-def run_pipeline(raw_dir='.', out_dir='.', pattern='2026*.csv',
+def run_pipeline(raw_dir='.', out_dir='.', pattern='20[0-9][0-9]*.csv',
                  config_path='summary_config.json', verbose=True,
                  recompute_m119v2=False, manifest_path='raw_manifest.json',
                  strict_cohort=False):
@@ -2408,7 +2410,7 @@ if __name__ == '__main__':
         description='X-Trail e-POWER v6 pipeline: raw CSVs -> master + summary_arrays.json')
     ap.add_argument('--raw-dir', default='.')
     ap.add_argument('--out-dir', default='.')
-    ap.add_argument('--pattern', default='2026*.csv')
+    ap.add_argument('--pattern', default='20[0-9][0-9]*.csv')
     ap.add_argument('--config', default='summary_config.json')
     ap.add_argument('--manifest', default='raw_manifest.json',
                     help='P0-01: typed raw manifest used to select the canonical '

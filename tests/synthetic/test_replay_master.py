@@ -51,4 +51,28 @@ assert mutate(lambda x: x.update(rebuiltOnlyColumns=["new_col"])), "rebuilt-only
 assert mutate(lambda x: x.update(nRowsRebuilt=x["nRowsRebuilt"] - 1)), "row count mismatch must fail"
 assert mutate(lambda x: x["columnsDiffering"]["I_offset_2p_A_applied"].update(maxAbsDiff=0.01)), "offset drift beyond its cap must fail"
 assert set(good["columnsDiffering"]) <= set(exp["allowedDifferences"])
+
+# 5. M427 (audit F02): the replay verifies the raw sha256 against the manifest record BEFORE analyzing; a changed byte in an unused channel, a missing, duplicate or non-canonical record must fail
+import shutil, tempfile
+k0 = smp[0]
+p0 = R.resolve(raw_dir, k0)
+files = json.load(open("raw_manifest.json", encoding="utf-8"))["files"]
+assert R.verify_raw_identity(p0, k0, files) == R.sha256(p0), "the unmodified file must pass"
+tmpd = tempfile.mkdtemp()
+try:
+    q = os.path.join(tmpd, os.path.basename(p0))
+    raw_b = open(p0, "rb").read()
+    open(q, "wb").write(raw_b + b"\n")                                  # appended newline: no channel the builder reads changes, the replay used to pass
+    def must_fail(fn, why):
+        try:
+            fn()
+        except RuntimeError:
+            return
+        raise AssertionError(why)
+    must_fail(lambda: R.verify_raw_identity(q, k0, files), "a changed raw file must fail the hash check")
+    must_fail(lambda: R.verify_raw_identity(p0, k0, [r for r in files if k0 not in (r.get("canonical"), r.get("record_id"), r.get("raw_name"))]), "a missing record must fail")
+    must_fail(lambda: R.verify_raw_identity(p0, k0, files + [next(r for r in files if k0 in (r.get("canonical"), r.get("record_id"), r.get("raw_name")))]), "a duplicate record must fail")
+    must_fail(lambda: R.verify_raw_identity(p0, k0, [dict(r, role="comparison_only") if k0 in (r.get("canonical"), r.get("record_id"), r.get("raw_name")) else r for r in files]), "a non-canonical role must fail")
+finally:
+    shutil.rmtree(tmpd, ignore_errors=True)
 print("OK test_replay_master")
