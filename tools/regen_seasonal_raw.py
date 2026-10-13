@@ -4,8 +4,11 @@ Same released builders as the top-level blocks, called per thermal cohort (therm
 top-level block byte-for-byte (canonical JSON; composed blocks: crawlStopGo + two-part, highSocRegen + covariates, thermalFuelPenalty + continuous); a chart that fails is NOT spliced.
 Loaders: raw_only/ (staged master-key view of raw/; F03 provenance-sensitive) and drive_raw_cache.make_frame_loader() exactly as the pipeline. Never writes drive_master.csv or raw files.
 Modes: --check (parity, conservation, cutpoint scan, timings; writes analyses/M341_check.json, no payload write) | --splice (check + additive splice + m295_payload.py).
-Usage: python tools/regen_seasonal_raw.py --check|--splice [--only ID,ID] [--no-cache]"""
+M424: the 60 independent (cohort, chart) computations run in a process pool (--workers N, default min(6, cpus/2), XT_WORKERS; N=1 is the former serial path); every task is a pure function of its cohort subset and the
+loaders, results are collected and written to the cache by the parent only, so the payload is identical for any N (tests/synthetic/test_regen_seasonal_pool.py compares N=1 with N>1).
+Usage: python tools/regen_seasonal_raw.py --check|--splice [--only ID,ID] [--no-cache] [--workers N]"""
 import copy, hashlib, inspect, json, os, pickle, re, subprocess, sys, time, datetime
+from concurrent.futures import ProcessPoolExecutor, as_completed
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 os.chdir(ROOT); sys.path.insert(0, ROOT); sys.path.insert(0, os.path.join(ROOT, "tools"))
 import numpy as np, pandas as pd
@@ -116,6 +119,51 @@ def cutpoints(fn):
     return [l.strip()[:150] for l in src.split("\n") if re.search(r"(np\.)?(percentile|quantile|nanpercentile|nanquantile)\(|sample_n\s*=|\.quantile\(|tertile", l)][:12]
 
 
+def _default_workers():
+    w = os.environ.get("XT_WORKERS")
+    if "--workers" in sys.argv:
+        w = sys.argv[sys.argv.index("--workers") + 1]
+    if w:
+        return max(1, int(w))
+    return max(1, min(6, (os.cpu_count() or 2) // 2))
+
+
+def load_subsets():
+    """The exposure-framed master and the cohort subsets, exactly as main builds them (also called by every pool worker)."""
+    import exposure_frame as _xf   # M415: exposure basis; the basis is part of every cache key
+    dm = _xf.exposure_frame(pd.read_csv("drive_master.csv", low_memory=False))
+    reg = pd.read_csv("seasonal_drive_master.csv", low_memory=False)[["file", "thermal_regime"]]
+    dm_r = dm.merge(reg, on="file", how="left")
+    assert len(dm_r) == len(dm) and dm_r.thermal_regime.notna().all(), "cohort label join incomplete"
+    subsets = {"all": dm, "warm": dm_r[dm_r.thermal_regime == "warm"].drop(columns=["thermal_regime"]).reset_index(drop=True),
+               "shoulder": dm_r[dm_r.thermal_regime == "shoulder"].drop(columns=["thermal_regime"]).reset_index(drop=True),
+               "cold_ins": dm_r[~dm_r.thermal_regime.isin(["warm", "shoulder"])].drop(columns=["thermal_regime"]).reset_index(drop=True)}   # below-minimum-support cold drives: conservation only, never spliced
+    return dm, subsets
+
+
+_W = {}
+
+
+def _init_worker():
+    os.chdir(ROOT)
+    _W["subsets"] = load_subsets()[1]
+    _W["fl"] = drc.make_frame_loader(raw_dir=RAW_DIR)   # M369: a frame whose recorded raw md5 differs from the file on disk is treated as missing
+
+
+def _run_task(task):
+    """task = ("catB", cohort, None) | ("b", cohort, chart id): one pure computation on one cohort subset (M424)."""
+    kind, c, k = task
+    sub = _W["subsets"][c]
+    cf, cr = Counting(_W["fl"]), Counting(raw_loader)
+    t = time.time()
+    v, err = None, None
+    try:
+        v = C.category_B(sub, cr, frame_loader=cf) if kind == "catB" else builders(cf, cr, RAW_DIR)[k](sub)
+    except Exception as e:
+        err = repr(e)[:200]
+    return {"task": task, "value": v, "error": err, "seconds": round(time.time() - t, 1), "cf": (cf.ok, cf.none, cf.err), "crok": cr.ok}
+
+
 def main():
     global T0
     T0 = time.time()
@@ -126,13 +174,7 @@ def main():
     cfg = json.load(open("summary_config.json", encoding="utf-8"))
     dm = pd.read_csv("drive_master.csv", low_memory=False)
     import exposure_frame as _xf   # M415: exposure basis; the basis is part of every cache key below
-    dm = _xf.exposure_frame(dm)
-    reg = pd.read_csv("seasonal_drive_master.csv", low_memory=False)[["file", "thermal_regime"]]
-    dm_r = dm.merge(reg, on="file", how="left")
-    assert len(dm_r) == len(dm) and dm_r.thermal_regime.notna().all(), "cohort label join incomplete"
-    subsets = {"all": dm, "warm": dm_r[dm_r.thermal_regime == "warm"].drop(columns=["thermal_regime"]).reset_index(drop=True),
-               "shoulder": dm_r[dm_r.thermal_regime == "shoulder"].drop(columns=["thermal_regime"]).reset_index(drop=True),
-               "cold_ins": dm_r[~dm_r.thermal_regime.isin(["warm", "shoulder"])].drop(columns=["thermal_regime"]).reset_index(drop=True)}   # below-minimum-support cold drives: conservation only, never spliced
+    dm, subsets = load_subsets()
     ch = A["seasonalCharts"]["charts"]
     raw_ids = [k for k, v in ch.items() if v.get("pipelineClass") == "raw" and (only is None or k in only)]
     fl = drc.make_frame_loader(raw_dir=RAW_DIR)   # M369: a frame whose recorded raw md5 differs from the file on disk is treated as missing
@@ -150,15 +192,47 @@ def main():
     core_ids = [k for k in raw_ids if LC(k) in A and k not in builders(None, None, None)]
     out = {c: {} for c in subsets}
     loaded = {}
-    for c, sub in subsets.items():
-        cf, cr = Counting(fl), Counting(raw_loader)
-        t = time.time()
-        pk = os.path.join(CACHE, f"catB_{c}_{len(sub)}_{_xf.basis_from_env()}_{drc.content_key(sub.file, code_paths=[C.__file__, drc.__file__])}.pkl")
-        if os.path.exists(pk) and "--no-cache" not in sys.argv and c != "all":    # M384: the all-rows result is never taken from cache (it feeds the parity test)
-            B = pickle.load(open(pk, "rb")); ld = None
+    workers = _default_workers()
+    res["workers"] = workers
+    no_cache = "--no-cache" in sys.argv
+    ckeys = {c: f"{len(sub)}_{_xf.basis_from_env()}_{drc.content_key(sub.file, code_paths=[C.__file__, drc.__file__])}" for c, sub in subsets.items()}
+    bl_ids = [k for k in raw_ids if k in builders(None, None, None)]
+    plan = [("catB", c, None) for c in subsets] + [("b", c, k) for c in subsets for k in bl_ids]
+    path_of = lambda t: os.path.join(CACHE, f"catB_{t[1]}_{ckeys[t[1]]}.pkl" if t[0] == "catB" else f"b_{t[2]}_{t[1]}_{ckeys[t[1]]}.pkl")
+    results, todo = {}, []
+    for t in plan:
+        pk = path_of(t)
+        if os.path.exists(pk) and not no_cache and t[1] != "all":    # M384: the all-rows result is never taken from cache (it feeds the parity test)
+            t0_ = time.time()
+            results[t] = {"task": t, "value": pickle.load(open(pk, "rb")), "error": None, "seconds": round(time.time() - t0_, 1), "cf": None, "crok": 0, "cached": True}
         else:
-            B = C.category_B(sub, cr, frame_loader=cf); pickle.dump(B, open(pk, "wb")); ld = (cf.ok, cf.none, cf.err)
-        res["timings"][f"category_B_{c}_s"] = round(time.time() - t, 1)
+            todo.append(t)
+    try:
+        prior = json.load(open(OUT, encoding="utf-8")).get("timings", {})
+    except Exception:
+        prior = {}
+    todo.sort(key=lambda t: -prior.get(f"category_B_{t[1]}_s" if t[0] == "catB" else f"{t[2]}_{t[1]}_s", 60.0))   # longest first: shortest pool makespan
+    print("tasks", len(plan), "cached", len(plan) - len(todo), "to compute", len(todo), "workers", workers, flush=True)
+    if workers <= 1 or len(todo) <= 1:
+        _init_worker()
+        for t in todo:
+            r = _run_task(t); results[t] = r
+            print("done", t[0], t[1], t[2] or "", r["seconds"], "s", flush=True)
+    else:
+        with ProcessPoolExecutor(max_workers=workers, initializer=_init_worker) as ex:
+            futs = [ex.submit(_run_task, t) for t in todo]
+            for f in as_completed(futs):
+                r = f.result(); results[r["task"]] = r
+                print("done", r["task"][0], r["task"][1], r["task"][2] or "", r["seconds"], "s", flush=True)
+    for t, r in results.items():
+        if not r.get("cached") and r["error"] is None:
+            pickle.dump(r["value"], open(path_of(t), "wb"))
+    for c, sub in subsets.items():
+        r = results[("catB", c, None)]
+        if r["error"] is not None:
+            raise RuntimeError("category_B failed for cohort %s: %s" % (c, r["error"]))
+        B = r["value"]; ld = tuple(r["cf"]) if r["cf"] else None
+        res["timings"][f"category_B_{c}_s"] = r["seconds"]
         loaded[c] = ld
         for k in core_ids:
             out[c][k] = B.get(LC(k))
@@ -167,23 +241,16 @@ def main():
             res["filesLoaded"][c]["MISMATCH"] = True
         print("category_B", c, res["timings"][f"category_B_{c}_s"], "s", flush=True)
     for c, sub in subsets.items():
-        cf, cr = Counting(fl), Counting(raw_loader)
-        bl = builders(cf, cr, RAW_DIR)
-        for k in raw_ids:
-            if k not in bl:
-                continue
-            t = time.time()
-            pk = os.path.join(CACHE, f"b_{k}_{c}_{len(sub)}_{_xf.basis_from_env()}_{drc.content_key(sub.file, code_paths=[C.__file__, drc.__file__])}.pkl")
-            try:
-                if os.path.exists(pk) and "--no-cache" not in sys.argv and c != "all":    # M384: the all-rows result is never taken from cache (it feeds the parity test)
-                    v = pickle.load(open(pk, "rb"))
-                else:
-                    v = bl[k](sub); pickle.dump(v, open(pk, "wb"))
-                out[c][k] = v
-            except Exception as e:
-                out[c][k] = None; res["charts"].setdefault(k, {})["error_" + c] = repr(e)[:200]
-            res["timings"][f"{k}_{c}_s"] = round(time.time() - t, 1)
-        res.setdefault("builderLoads", {})[c] = {"framesLoaded": cf.ok, "none": cf.none, "errors": cf.err, "rawFilesLoaded": cr.ok, "note": "cumulative over all builder calls of this cohort (each builder loads the files it needs)"}
+        tot = [0, 0, 0, 0]
+        for k in bl_ids:
+            r = results[("b", c, k)]
+            out[c][k] = r["value"] if r["error"] is None else None
+            if r["error"] is not None:
+                res["charts"].setdefault(k, {})["error_" + c] = r["error"]
+            res["timings"][f"{k}_{c}_s"] = r["seconds"]
+            if r["cf"]:
+                tot = [tot[0] + r["cf"][0], tot[1] + r["cf"][1], tot[2] + r["cf"][2], tot[3] + r["crok"]]
+        res.setdefault("builderLoads", {})[c] = {"framesLoaded": tot[0], "none": tot[1], "errors": tot[2], "rawFilesLoaded": tot[3], "note": "cumulative over all builder calls of this cohort (each builder loads the files it needs); cached results contribute nothing"}
         print("builders", c, flush=True)
     # ---- guard, conservation, cutpoints ----
     funcs = {"ThermalWarmupLag": C._thermal_warmup_lag, "ThermalFuelPenalty": C._thermal_fuel_penalty, "HighSocRegen": C._high_soc_regen, "BufferDebtRecovery": C._buffer_debt_recovery,

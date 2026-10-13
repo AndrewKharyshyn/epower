@@ -1,0 +1,12 @@
+{
+ "milestone": "M424",
+ "what": "tools/regen_seasonal_raw.py --splice --no-cache on the 574-drive rehearsal state (scratch copy of main after the 20 pending drives were ingested; Python 3.12.10, 12 logical CPUs, single runs): 6 workers against 1 worker (the former serial path) from the same starting summary_arrays.json",
+ "seconds": {"workers6": 305, "workers1": 999},
+ "speedup": 3.28,
+ "payloadComparison": "all leaves of the two resulting summary_arrays.json compared",
+ "differingLeaves": 2,
+ "differingLeafPaths": ["/seasonalCharts/_staleness/refreshedRawCharts/generatedAt", "/seasonalCharts/_meta/generatedAt"],
+ "nonTimestampDifferingLeaves": 0,
+ "tasks": {"total": 60, "longestSerialSeconds": 125.1, "note": "makespan floor = the longest task (ThermalFuelPenalty, all rows); the pool sorts tasks longest first"},
+ "reading": "identical payload for any worker count; only the two generatedAt stamps differ"
+}
