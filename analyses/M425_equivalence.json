@@ -1,0 +1,9 @@
+{
+ "milestone": "M425",
+ "what": "pre-M425 versus current _buffer_impulse_events, _ramp_latency_events and _engine_start_triggers on every cached frame of the committed corpus (554 drives), canonical JSON of the event lists",
+ "framesCompared": 554,
+ "mismatches": {},
+ "secondsOnePass": {"pre": 43, "current": 27},
+ "fixedIntervalSelfTransition": {"windows": [1, 10, 30, 60, 120], "sequences": 553, "equalToPublishedBlock": true, "secondsPre": 83.8, "secondsCurrent": 0.5},
+ "note": "Python 3.12, single runs; the functions are called about 5.7 times per drive in one arrays build, so one pass is a fraction of the saving"
+}

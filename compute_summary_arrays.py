@@ -5818,6 +5818,36 @@ _BUFIMP_I_COL = '[BMS] HV Battery Current (A)'
 _BUFIMP_V_COL = '[BMS] HV Battery voltage (V)'
 
 
+def _engine_start_scan(rpm, pre_off_s=3.0):
+    """M425: the sustained-off -> running scan shared by _buffer_impulse_events, _ramp_latency_events and _engine_start_triggers: [(row position, t0)] for every row whose rpm is above 800 after a row at or
+    below 100 with all rows in the preceding pre_off_s seconds at or below 100. Identical to the former per-row loop with one boolean mask over the whole frame per candidate; when the time column is
+    non-decreasing (always, for the cached frames) the window is a searchsorted slice, otherwise the former mask form is used."""
+    r = rpm['rpm'].values
+    if len(r) < 2:
+        return []
+    cand = np.flatnonzero((r[1:] > 800) & (r[:-1] <= 100)) + 1
+    if len(cand) == 0:
+        return []
+    tv = rpm['time'].values
+    out = []
+    if bool((tv[1:] >= tv[:-1]).all()):
+        idx = pd.DatetimeIndex(rpm['time'])
+        for i in cand:
+            t0 = pd.Timestamp(tv[i])
+            lo = idx.searchsorted(t0 - pd.Timedelta(seconds=pre_off_s), side='left')
+            hi = idx.searchsorted(t0, side='left')
+            if hi > lo and (r[lo:hi] <= 100).all():
+                out.append((int(i), t0))
+    else:
+        for i in cand:
+            t0 = pd.Timestamp(tv[i])
+            back = rpm.loc[(rpm['time'] >= t0 - pd.Timedelta(seconds=pre_off_s))
+                           & (rpm['time'] < t0), 'rpm']
+            if len(back) > 0 and (back <= 100).all():
+                out.append((int(i), t0))
+    return out
+
+
 def _buffer_impulse_events(fr, min_peak_excess_a=3.0, excess_thresh_a=1.5,
                             pre_off_s=3.0, baseline_win=(8.0, 2.0),
                             search_win=(1.0, 8.0)):
@@ -5837,27 +5867,31 @@ def _buffer_impulse_events(fr, min_peak_excess_a=3.0, excess_thresh_a=1.5,
     if len(rpm) < 2 or len(I) < 2 or len(V) < 2:
         return []
 
-    r = rpm['rpm'].values
-    t = rpm['time'].values
-    starts = []
-    for i in range(1, len(r)):
-        if r[i] > 800 and r[i-1] <= 100:
-            t0 = pd.Timestamp(t[i])
-            back = rpm.loc[(rpm['time'] >= t0 - pd.Timedelta(seconds=pre_off_s))
-                           & (rpm['time'] < t0), 'rpm']
-            if len(back) > 0 and (back <= 100).all():
-                starts.append(t0)
+    starts = [t0 for _i, t0 in _engine_start_scan(rpm, pre_off_s)]
 
+    # M425: when the current time column is non-decreasing the three windows are searchsorted slices (same rows, same order) instead of boolean masks over the whole frame
+    _It = pd.DatetimeIndex(I['time'])
+    _I_sorted = bool((_It[1:] >= _It[:-1]).all())
+    _Idis = I['I_dis'].values
     events = []
     for t0 in starts:
-        base_I = I[(I['time'] >= t0 - pd.Timedelta(seconds=baseline_win[0]))
-                   & (I['time'] < t0 - pd.Timedelta(seconds=baseline_win[1]))]['I_dis']
+        if _I_sorted:
+            _lo = _It.searchsorted(t0 - pd.Timedelta(seconds=baseline_win[0]), side='left')
+            _hi = _It.searchsorted(t0 - pd.Timedelta(seconds=baseline_win[1]), side='left')
+            base_I = pd.Series(_Idis[_lo:_hi])
+        else:
+            base_I = I[(I['time'] >= t0 - pd.Timedelta(seconds=baseline_win[0]))
+                       & (I['time'] < t0 - pd.Timedelta(seconds=baseline_win[1]))]['I_dis']
         if len(base_I) == 0:
             continue
         baseline = float(base_I.median())
 
-        seg = I[(I['time'] >= t0 - pd.Timedelta(seconds=search_win[0]))
-                & (I['time'] <= t0 + pd.Timedelta(seconds=search_win[1]))].copy()
+        if _I_sorted:
+            seg = I.iloc[_It.searchsorted(t0 - pd.Timedelta(seconds=search_win[0]), side='left'):
+                         _It.searchsorted(t0 + pd.Timedelta(seconds=search_win[1]), side='right')].copy()
+        else:
+            seg = I[(I['time'] >= t0 - pd.Timedelta(seconds=search_win[0]))
+                    & (I['time'] <= t0 + pd.Timedelta(seconds=search_win[1]))].copy()
         seg = seg.sort_values('time').reset_index(drop=True)
         if len(seg) < 2:
             continue
@@ -6025,38 +6059,25 @@ def _ramp_latency_events(fr, plateau_bin_rpm=250, min_plateau_s=3.0, pre_off_s=3
         spd.columns = ['time', 'speed']
 
     r = rpm['rpm'].values
-    t = rpm['time'].values
-    starts = []
-    for i in range(1, len(r)):
-        if r[i] > 800 and r[i-1] <= 100:
-            t0 = pd.Timestamp(t[i])
-            back = rpm.loc[(rpm['time'] >= t0 - pd.Timedelta(seconds=pre_off_s))
-                           & (rpm['time'] < t0), 'rpm']
-            if len(back) > 0 and (back <= 100).all():
-                starts.append((i, t0))
+    starts = _engine_start_scan(rpm, pre_off_s)
 
     events = []
     for start_idx, t0 in starts:
         seg = rpm.iloc[start_idx:].reset_index(drop=True)
-        stop_pos = len(seg) - 1
-        for j in range(1, len(seg)):
-            if seg['rpm'].iloc[j] <= 100 and seg['rpm'].iloc[j-1] <= 100:
-                stop_pos = j - 1
-                break
+        # M425: vectorised stop search and plateau run-lengths (the former form indexed the frame once per row)
+        _rr = r[start_idx:]
+        _stop = (_rr[1:] <= 100) & (_rr[:-1] <= 100)
+        stop_pos = int(np.argmax(_stop)) if _stop.any() else len(seg) - 1
         cyc = seg.iloc[:stop_pos + 1].reset_index(drop=True)
         if len(cyc) < 2:
             continue
 
         bins = (cyc['rpm'] / plateau_bin_rpm).round().astype(int)
-        plateaus = []
-        cur_bin = bins.iloc[0]
-        run_start = 0
-        for k in range(1, len(bins)):
-            if bins.iloc[k] != cur_bin:
-                plateaus.append((run_start, k - 1, cur_bin))
-                cur_bin = bins.iloc[k]
-                run_start = k
-        plateaus.append((run_start, len(bins) - 1, cur_bin))
+        _b = bins.values
+        _chg = np.flatnonzero(_b[1:] != _b[:-1]) + 1
+        _rs = np.r_[0, _chg]
+        _re = np.r_[_chg - 1, len(_b) - 1]
+        plateaus = [(int(a), int(e), _b[a]) for a, e in zip(_rs, _re)]
 
         qualifying = []
         for (a, b, bv) in plateaus:
@@ -6182,17 +6203,7 @@ def _engine_start_triggers(fr, pre_off_s=3.0):
     rpm.columns = ['time', 'rpm']
     if len(rpm) < 2:
         return []
-    r = rpm['rpm'].values
-    t = rpm['time'].values
-    out = []
-    for i in range(1, len(r)):
-        if r[i] > 800 and r[i-1] <= 100:
-            t0 = pd.Timestamp(t[i])
-            back = rpm.loc[(rpm['time'] >= t0 - pd.Timedelta(seconds=pre_off_s))
-                           & (rpm['time'] < t0), 'rpm']
-            if len(back) > 0 and (back <= 100).all():
-                out.append(t0.isoformat())
-    return out
+    return [t0.isoformat() for _i, t0 in _engine_start_scan(rpm, pre_off_s)]
 
 
 def _hist_counts(vals, edges):
@@ -11220,6 +11231,40 @@ def _engine_state_machine(dm, raw_loader, frame_loader=None):
 
 
 
+def _fixed_interval_self_transition(seq_all, window_s):
+    """M425: share of consecutive fixed-physical-time windows whose modal state is the same, over the per-drive state sequences seq_all = [(day, DatetimeIndex, state array)].
+    Identical to the former pandas form  ser.where(ser >= 0).resample('%ds').apply(mode-of-non-NaN).dropna()  followed by the consecutive comparison (windows are anchored at the midnight of the first
+    timestamp like resample's origin='start_day'; the modal value of a window is its most frequent valid state, ties to the smallest state; empty or all-invalid windows are dropped before the comparison),
+    but computed with sorted counts instead of one Python lambda call per window (the former form took about 85 s of an ingestion; this one 0.5 s)."""
+    same = total = 0
+    wns = int(window_s) * 1_000_000_000
+    for day, idx, st in seq_all:
+        st = np.asarray(st, dtype=float)
+        ok = st >= 0
+        if not ok.any():
+            continue
+        t = idx.as_unit('ns').asi8
+        origin = idx[0].normalize().as_unit('ns').value
+        b = (t[ok] - origin) // wns
+        v = st[ok]
+        order = np.lexsort((v, b))
+        b, v = b[order], v[order]
+        new_pair = np.r_[True, (b[1:] != b[:-1]) | (v[1:] != v[:-1])]
+        starts = np.flatnonzero(new_pair)
+        counts = np.diff(np.r_[starts, len(b)])
+        pb, pv = b[starts], v[starts]
+        bin_first = np.r_[True, pb[1:] != pb[:-1]]
+        max_count = np.maximum.reduceat(counts, np.flatnonzero(bin_first))
+        is_max = counts == max_count[np.cumsum(bin_first) - 1]
+        sel = np.flatnonzero(is_max)
+        modes = pv[sel[np.r_[True, pb[sel][1:] != pb[sel][:-1]]]]
+        if len(modes) > 1:
+            total += len(modes) - 1
+            same += int((modes[1:] == modes[:-1]).sum())
+    return {'windowS': window_s, 'nTransitionsObserved': total,
+            'selfTransitionRate': round(same / total, 4) if total else None}
+
+
 def _engine_dwell_survival(dm, raw_loader, frame_loader=None):
     """M227.1 (P1.3, enhancement plan): semi-Markov / dwell-survival
     engine-state model. `_engine_state_machine` (M188, above) already
@@ -11353,22 +11398,7 @@ def _engine_dwell_survival(dm, raw_loader, frame_loader=None):
     }
 
     # ---- 3. transitions per fixed physical-time interval ----
-    def fixed_interval_self_transition(window_s):
-        same = total = 0
-        for day, idx, st in seq_all:
-            ser = pd.Series(st, index=idx)
-            ser = ser.where(ser >= 0)
-            resampled = ser.resample('%ds' % window_s).apply(
-                lambda x: x.mode().iloc[0] if len(x.dropna()) else np.nan)
-            vals = resampled.dropna().values
-            for k in range(1, len(vals)):
-                total += 1
-                if vals[k] == vals[k - 1]:
-                    same += 1
-        return {'windowS': window_s, 'nTransitionsObserved': total,
-               'selfTransitionRate': round(same / total, 4) if total else None}
-
-    fixed_interval = [fixed_interval_self_transition(w) for w in (1, 10, 30, 60, 120)]
+    fixed_interval = [_fixed_interval_self_transition(seq_all, w) for w in (1, 10, 30, 60, 120)]   # M425: vectorised, identical result
     self_trans_1s = next((f['selfTransitionRate'] for f in fixed_interval if f['windowS'] == 1), None)
     self_trans_120s = next((f['selfTransitionRate'] for f in fixed_interval if f['windowS'] == 120), None)
 
