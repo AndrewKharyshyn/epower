@@ -3025,8 +3025,8 @@ function RegenChart() {
                   <>
                     <rect x={cx-bw/2} y={PT} width={bw} height={ph} fill="none"
                       stroke="#cbd5e1" strokeWidth={1} strokeDasharray="3 3"/>
-                    <text x={cx} y={PT+ph/2-4} textAnchor="middle" fill="#94a3b8" fontSize={8}>insufficient</text>
-                    <text x={cx} y={PT+ph/2+7} textAnchor="middle" fill="#94a3b8" fontSize={8}>data</text>
+                    <text x={cx} y={PT+ph/2-4} textAnchor="middle" fill="#94a3b8" fontSize={8}>{t.n===0?"no samples":"insufficient"}</text>
+                    <text x={cx} y={PT+ph/2+7} textAnchor="middle" fill="#94a3b8" fontSize={8}>{t.n===0?"yet":"data"}</text>
                   </>
                 )}
                 <text x={cx} y={PT+ph+13} textAnchor="middle" fill="#6b7280" fontSize={8}>{disp[t.label]}</text>
@@ -3040,7 +3040,7 @@ function RegenChart() {
           <text x={10} y={PT+ph/2} textAnchor="middle" fill="#64748b" fontSize={9} transform={`rotate(-90,10,${PT+ph/2})`}>Apparent KE-recovery %</text>
         </svg>
         <div style={{marginTop:10,padding:8,background:"#f1f5f9",borderRadius:6,fontSize:10,color:"#64748b",lineHeight:1.6}}>
-          <strong style={{color:"#0f172a"}}>M22 — real data, not a model.</strong> Same engine-off decel KE-capture basis as the Power &amp; Efficiency tab (½·m·Δv²), pooled by pack temperature instead of speed. Measured capture is a much flatter <strong style={{color:"#0f172a"}}>~{S.regenCaptureMeta?.tempEffMin}–{S.regenCaptureMeta?.tempEffMax}%</strong> across the {S.regenCaptureMeta?.tempLabelLo}–{S.regenCaptureMeta?.tempLabelHi} range that has enough data ({S.regenCaptureMeta?.tempNMin?.toLocaleString()}–{S.regenCaptureMeta?.tempNMax?.toLocaleString()} qualifying samples per bin) to report — not the 48–100% spread shown in an earlier draft of this chart. The previous version of this chart showed synthetic per-temperature curves reaching 100% at low speed and a "48% vs 83%, 1.7×" headline figure; neither reproduces from any computed array and both have been retired.
+          <strong style={{color:"#0f172a"}}>M22 — real data, not a model.</strong> Same engine-off decel KE-capture basis as the Power &amp; Efficiency tab (½·m·Δv²), pooled by pack temperature instead of speed. Measured capture is a much flatter <strong style={{color:"#0f172a"}}>~{S.regenCaptureMeta?.tempEffMin}–{S.regenCaptureMeta?.tempEffMax}%</strong> across the {(()=>{const v=(S.regenByTempMeasured||[]).filter(r=>r.valid); return v.length? `${v[0].lo==null?"<"+v[0].hi:v[0].lo}–${v[v.length-1].hi==null?"+":v[v.length-1].hi}°C`:"";})()} range that has enough data ({S.regenCaptureMeta?.tempNMin?.toLocaleString()}–{S.regenCaptureMeta?.tempNMax?.toLocaleString()} qualifying samples per bin) to report — not the 48–100% spread shown in an earlier draft of this chart. The previous version of this chart showed synthetic per-temperature curves reaching 100% at low speed and a "48% vs 83%, 1.7×" headline figure; neither reproduces from any computed array and both have been retired.
         </div>
         {/* M219 (2026-09-04): the two sub-200-sample bins were previously
             rendered as an empty "insufficient data" placeholder with no
