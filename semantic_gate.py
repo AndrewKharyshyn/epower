@@ -90,6 +90,16 @@ ok("A2 REQUIRED rainflow floor stated as a cycle range with the payload floor an
    f"a range below {_rf['floorPct']:g} pp are dropped" in conc and f"{_rf['nFilesUsed']} SoC traces" in conc, f"{_rf['floorPct']} / {_rf['nFilesUsed']}")
 ok("A2 REQUIRED fuel text names the logger app and the subset of drives", "logger app" in _all_dom and "subset of drives" in _all_dom)
 ok("A2 REQUIRED non-integrable drives are excluded from GTC, not counted as zero", "not counted as zero" in conc)
+# M428 (analyses/M428_spec.md Rev 2, Director ruling): the out-of-time panel renders the script-written block verbatim (outcome sentence per side, O/E, windows) and nothing like 'validated' or 'adequate'
+_oot = A["socHysteresisV2"].get("outOfTimeEvaluation")
+if _oot:
+    _hv = {k: t for k, t in T.items() if k.startswith("highway_vs_city__") and not k.endswith("__compare")}
+    ok("A2 REQUIRED M428 out-of-time panel rendered in the hazard-model tab dumps (all / warm / shoulder)", len(_hv) >= 3 and all("Out-of-time evaluation of the frozen design (M428" in t for t in _hv.values()))
+    ok("A2 REQUIRED M428 each side's outcome sentence equals the payload's and the O/E point and window match",
+       all((_oot[s]["outcome"] in t) and ("%.3f" % _oot[s]["OE"]["point"]) in t and ("%d / %d / %d" % (_oot[s]["later"]["nDrives"], _oot[s]["later"]["nDays"], _oot[s]["later"]["events"])) in t for t in _hv.values() for s in ("start", "stop")))
+    ok("A2 REQUIRED M428 planning-threshold and conditional-on-the-fitted-basis-model disclosures are rendered", all(("declared planning choices, not validated" in t) and ("conditional on the fitted basis model" in t) and ("not equivalence" in t) for t in _hv.values()))
+    ok("A2 REQUIRED M428 the STOP absent-table drives are described as having no engine-on second (counts from the payload)",
+       all(("The STOP table lacks %d basis and %d later drives that have no engine-on second" % (_oot["stop"]["absentFromTable"]["basis"], _oot["stop"]["absentFromTable"]["later"])) in t for t in _hv.values()))
 # A3 (M427, audit F01): the cell-spread trend wording follows the released interval in every rendered tab/mode (a sentence cannot say "spans zero" or "no resolved trend" beside an interval that excludes zero)
 _cs_ci = A["degradationTrends"]["cellSpread"]["clusterRobustOLS"]["ci95"]
 _cs_bad = LG.cell_spread_trend_violations(_cs_ci, T)
