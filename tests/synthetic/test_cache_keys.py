@@ -34,7 +34,7 @@ with tempfile.TemporaryDirectory() as td:
     raw, cache = os.path.join(td, "raw"), os.path.join(td, "cache")
     os.makedirs(raw)
     fn = "a.csv"
-    open(os.path.join(raw, fn), "w").write("time,x\n00:00:00.0,1\n00:00:01.0,2\n")
+    open(os.path.join(raw, fn), "w", encoding="utf-8").write("time,x\n00:00:00.0,1\n00:00:01.0,2\n")
     drc.add_missing([fn], raw, cache_dir=cache, verbose=False)
     assert drc.make_frame_loader(cache_dir=cache, raw_dir=raw)(fn) is not None
     k_live = drc.content_key([fn], cache_dir=cache, raw_dir=raw)
@@ -51,7 +51,7 @@ with tempfile.TemporaryDirectory() as td:
         pass
     k_arch = drc.content_key([fn], cache_dir=cache, raw_dir=raw, archive_only=True)
     assert k_arch != k_live and k_arch == drc.content_key([fn], cache_dir=cache, raw_dir=raw, archive_only=True)
-    open(os.path.join(raw, fn), "w").write("time,x\n00:00:00.0,1\n00:00:01.0,9\n")      # a changed raw file under the same name
+    open(os.path.join(raw, fn), "w", encoding="utf-8").write("time,x\n00:00:00.0,1\n00:00:01.0,9\n")      # a changed raw file under the same name
     assert drc.content_key([fn], cache_dir=cache, raw_dir=raw) != k_live                # the key follows the file on disk, not the manifest
 
 # ---- F26: the history key is built from inexpensive inputs and covers versions and parameters
