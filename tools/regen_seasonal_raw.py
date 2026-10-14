@@ -197,7 +197,12 @@ def main():
     workers = _default_workers()
     res["workers"] = workers
     no_cache = "--no-cache" in sys.argv
-    ckeys = {c: f"{len(sub)}_{_xf.basis_from_env()}_{drc.content_key(sub.file, code_paths=[C.__file__, drc.__file__])}" for c, sub in subsets.items()}
+    # M434 (audit F11/F12): the key also covers the cohort rows' master values (eligibility / metadata changes on the same file list), the verified raw identity of every file
+    # (md5 now on disk; a missing raw file raises) and the transitive local imports of the builders, not only compute_summary_arrays.py and drive_raw_cache.py.
+    import cache_keys as _ck
+    _code = sorted(set(_ck.module_closure(C.__file__)) | set(_ck.module_closure(os.path.abspath(__file__))) | set(_ck.module_closure(_xf.__file__)))
+    _code_h = _ck.code_hash(_code)[:12]
+    ckeys = {c: f"{len(sub)}_{_xf.basis_from_env()}_{drc.content_key(sub.file, raw_dir=RAW_DIR)}_{_code_h}_{_ck.frame_hash(sub)[:12]}" for c, sub in subsets.items()}
     bl_ids = [k for k in raw_ids if k in builders(None, None, None)]
     plan = [("catB", c, None) for c in subsets] + [("b", c, k) for c in subsets for k in bl_ids]
     path_of = lambda t: os.path.join(CACHE, f"catB_{t[1]}_{ckeys[t[1]]}.pkl" if t[0] == "catB" else f"b_{t[2]}_{t[1]}_{ckeys[t[1]]}.pkl")

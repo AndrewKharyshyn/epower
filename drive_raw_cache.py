@@ -187,15 +187,19 @@ def add_file(fname, raw_bytes, cache_dir=CACHE_DIR, manifest=None):
     return man[fname]
 
 
-def make_frame_loader(cache_dir=CACHE_DIR, verify_schema=True, raw_dir=None):
+def make_frame_loader(cache_dir=CACHE_DIR, verify_schema=True, raw_dir=None, archive_only=False):
     """Returns frame_loader(fname) -> DataFrame|None for
     build_summary_arrays(frame_loader=...). Stale-schema entries are
     treated as missing (forces re-add rather than silently serving old
     column sets). M369: with raw_dir, an entry whose recorded src_md5 differs
     from the md5 of the raw file now on disk is ALSO treated as missing (a
     changed raw file was previously served from stale frames by name); the
-    raw md5 is memoised per (size, mtime) so a full pass hashes each file once."""
+    raw md5 is memoised per (size, mtime) so a full pass hashes each file once.
+    M434 (audit F12): with raw_dir, an entry whose raw source file is MISSING is also treated as missing (a cached frame without a verifiable source identity
+    was returned before). archive_only=True is the explicit archive-only mode: such frames are served on the recorded src_md5 and counted in `loader.stats`
+    ("archiveOnlyServed"), so the provenance gap is visible instead of silent."""
     seen = {}
+    stats = {"archiveOnlyServed": 0, "missingSource": 0, "staleSource": 0}
 
     def _raw_md5(src):
         st = os.stat(src)
@@ -215,18 +219,37 @@ def make_frame_loader(cache_dir=CACHE_DIR, verify_schema=True, raw_dir=None):
             return None
         if raw_dir is not None:
             src = os.path.join(raw_dir, fname)
-            if os.path.exists(src) and _raw_md5(src) != payload.get('src_md5'):
+            if not os.path.exists(src):
+                if not archive_only:
+                    stats["missingSource"] += 1
+                    return None
+                stats["archiveOnlyServed"] += 1
+            elif _raw_md5(src) != payload.get('src_md5'):
+                stats["staleSource"] += 1
                 return None
         return despike_frame(payload['df'])      # M390: single-sample SoC logger glitch -> NaN (row alignment kept)
+    _load.stats = stats
     return _load
 
 
-def content_key(files, cache_dir=CACHE_DIR, code_paths=()):
+def content_key(files, cache_dir=CACHE_DIR, code_paths=(), raw_dir=None, archive_only=False):
     """M369: md5 key over (file name, recorded raw src_md5) of every file plus the bytes of the code files whose output is
-    cached, for result caches that must not outlive a raw-file or builder change (the former key was file list + size)."""
+    cached, for result caches that must not outlive a raw-file or builder change (the former key was file list + size).
+    M434 (audit F11/F12): with raw_dir the key uses the md5 of the raw file NOW on disk (a verified source identity, not the recorded one) and a missing raw file
+    raises FileNotFoundError unless archive_only=True (then the recorded src_md5 is used and marked 'ARCHIVE'); without raw_dir the former behaviour is unchanged."""
     man = _load_manifest(cache_dir)
     h = hashlib.md5()
     for fn in files:
+        if raw_dir is not None:
+            src = os.path.join(raw_dir, fn)
+            if os.path.exists(src):
+                with open(src, 'rb') as f:
+                    h.update(f"{fn}:{_md5(f.read())};".encode())
+                continue
+            if not archive_only:
+                raise FileNotFoundError(f"content_key: raw source {src} is missing (pass archive_only=True for an archive-only key)")
+            h.update(f"{fn}:ARCHIVE:{(man.get(fn) or {}).get('src_md5', 'NOSRC')};".encode())
+            continue
         h.update(f"{fn}:{(man.get(fn) or {}).get('src_md5', 'NOSRC')};".encode())
     for p in code_paths:
         with open(p, 'rb') as f:
