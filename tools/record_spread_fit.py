@@ -37,6 +37,17 @@ def bt_bootstrap_ci(d, n_boot=4000, seed=42):
     return [float(x) for x in np.percentile(bt, [2.5, 97.5])], fail
 
 
+def build_code_key():
+    """Every effective input of the recorded fit that is not the master: estimator code (m19b + huber_slope_ci), library versions, and all parameters (M434, audit F26)."""
+    return {"m19b_sha256": sha(inspect.getsource(v6.m19b_huber_adjust).encode()), "huber_slope_ci_sha256": sha(open("tools/huber_slope_ci.py", "rb").read()),
+            "python": platform.python_version(), "numpy": np.__version__, "pandas": pd.__version__, "scikit_learn": sklearn.__version__,
+            "SPREAD_T_REF": v6.SPREAD_T_REF, "epsilon": 1.35, "max_iter": 500, "n_boot": v6.N_BOOT, "seed": 42}
+
+
+KEY_FIELDS = ("m19b_sha256", "huber_slope_ci_sha256", "python", "numpy", "pandas", "scikit_learn", "SPREAD_T_REF", "epsilon", "max_iter", "n_boot", "seed")
+record_key = lambda md5, ck: (md5, json.dumps({k: ck[k] for k in KEY_FIELDS}, sort_keys=True))
+
+
 def compute_record():
     dm = pd.read_csv("drive_master.csv", low_memory=False)
     md5 = hashlib.md5(open("drive_master.csv", "rb").read()).hexdigest()
@@ -61,14 +72,11 @@ def compute_record():
     d_bt = float(h8.coef_[0] - h.coef_[0])
     flag_sign = bool(np.sign(h8.coef_[0]) != np.sign(h.coef_[0]))
     flag_size = bool(abs(d_bt) > (bt_ci[1] - bt_ci[0]) / 2)
-    m19_src = inspect.getsource(v6.m19b_huber_adjust)
     try:
         commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT).decode().strip()
     except Exception:
         commit = None
-    code_key = {"m19b_sha256": sha(m19_src.encode()), "huber_slope_ci_sha256": sha(open("tools/huber_slope_ci.py", "rb").read()),
-                "python": platform.python_version(), "numpy": np.__version__, "pandas": pd.__version__, "scikit_learn": sklearn.__version__,
-                "SPREAD_T_REF": v6.SPREAD_T_REF, "epsilon": 1.35, "max_iter": 500, "n_boot": v6.N_BOOT, "seed": 42}
+    code_key = build_code_key()
     return {
         "milestone": "M317", "masterMd5": md5, "generatedAtUtc": datetime.datetime.now(datetime.timezone.utc).isoformat(), "gitCommit": commit,
         "codeKey": code_key,
@@ -90,11 +98,20 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--force-print", action="store_true")
     a = ap.parse_args()
-    rec = compute_record()
     hist = json.load(open(HIST, encoding="utf-8")) if os.path.exists(HIST) else {"_note": "Append-only: one record per distinct (masterMd5, codeKey); never rewrite existing records (tools/record_spread_fit.py, M317).", "records": []}
-    key = lambda r: (r["masterMd5"], json.dumps({k: r["codeKey"][k] for k in ("m19b_sha256", "huber_slope_ci_sha256")}, sort_keys=True))
+    key = lambda r: record_key(r["masterMd5"], r["codeKey"])
     known = {key(r) for r in hist["records"]}
-    added = key(rec) not in known
+    # M434 (audit F26): build the complete inexpensive key FIRST and run the Huber fits / bootstraps only on a miss. Records written before M434 carry the same fields in codeKey,
+    # so a matching environment hits; a different Python / numpy / pandas / scikit-learn version or parameter is a miss and appends a new record (honest provenance, not a rewrite).
+    md5_now = hashlib.md5(open("drive_master.csv", "rb").read()).hexdigest()
+    k_now = record_key(md5_now, build_code_key())
+    if k_now in known:
+        rec = next(r for r in hist["records"] if key(r) == k_now)
+        added = False
+    else:
+        rec = compute_record()
+        assert key(rec) == k_now, "the computed record's key differs from the pre-computed key"
+        added = True
     if added:
         hist["records"].append(rec)
         with open(HIST, "w", encoding="utf-8") as f:
