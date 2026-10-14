@@ -37297,8 +37297,8 @@
   ],
   "soakTauH": 11.55,
   "soakTauCI": [
-   9.96,
-   13.75
+   9.77,
+   13.93
   ],
   "soakHalfLifeH": 8.01,
   "tauFitN": 350,
@@ -37306,7 +37306,184 @@
   "tauFitIntercept": 0.0135,
   "fitMethod": "senSlope",
   "minExcessC": 3.0,
-  "method": "Consecutive chronological drive pairs; degC shed and above-ambient retained fraction vs soak gap. Newtonian soak tau from ln(resid/init excess) vs gap (recorded-ambient pairs, init excess >3C), slope by Sen's slope -- median of all pairwise (y_j-y_i)/(x_j-x_i) (M242) -- rather than a squared-gap-weighted least-squares slope, so neither a single multi-day parked gap nor a cluster of very-short, noise-dominated gaps can dominate the estimate. tauFitIntercept is the fit's own check of the through-origin assumption (median residual at gap=0); small values support it."
+  "soakTauCiMethod": {
+   "cluster": "calendar day of the following drive's start",
+   "B": 4000,
+   "seed": 42,
+   "percentile": "np.percentile linear on the slope scale, mapped by tau = -1/slope",
+   "nonDecayingDraws": "slope >= 0 counted, tau = +infinity; upper bound unbounded (null) iff the 97.5th slope percentile >= 0",
+   "nClusters": 98,
+   "essClusters": 67.8,
+   "nPairs": 350,
+   "nonDecayingDrawShare": 0.0,
+   "upperUnbounded": false,
+   "nUndefinedDraws": 0,
+   "pointTauDefined": true,
+   "label": "model-derived; conditional on the pairing and the manual driving-time ambient field"
+  },
+  "soakDecayRateK": 0.08656,
+  "soakDecayRateKCI": [
+   0.07179,
+   0.10235
+  ],
+  "soakHalfLifeCI": [
+   6.77,
+   9.65
+  ],
+  "soakTauMethodTable": [
+   {
+    "id": "publishedRule",
+    "label": "previous published interval: pairs i.i.d., B = 1000, draws with slope >= 0 dropped, percentile on tau",
+    "nClusters": null,
+    "tauCI": [
+     9.96,
+     13.75
+    ],
+    "nDroppedDraws": 0,
+    "frozen": "historical row: the interval as published before M429 (reproduced by soak_tau.old_rule_interval on analyses/M429_pairs.json); never recomputed at ingestion"
+   },
+   {
+    "id": "iidPairsB4000",
+    "label": "pairs resampled i.i.d. (reference; ignores same-day dependence)",
+    "nClusters": null,
+    "essClusters": null,
+    "tauCI": [
+     9.91,
+     13.75
+    ],
+    "decayRateKCI": [
+     0.07275,
+     0.10092
+    ],
+    "halfLifeCI": [
+     6.87,
+     9.53
+    ],
+    "nonDecayingDrawShare": 0.0,
+    "upperUnbounded": false,
+    "lowerUnbounded": false,
+    "nUndefinedDraws": 0
+   },
+   {
+    "id": "arrivalDay",
+    "label": "calendar day of the following drive (PRIMARY)",
+    "nClusters": 98,
+    "essClusters": 67.8,
+    "tauCI": [
+     9.77,
+     13.93
+    ],
+    "decayRateKCI": [
+     0.07179,
+     0.10235
+    ],
+    "halfLifeCI": [
+     6.77,
+     9.65
+    ],
+    "nonDecayingDrawShare": 0.0,
+    "upperUnbounded": false,
+    "lowerUnbounded": false,
+    "nUndefinedDraws": 0
+   },
+   {
+    "id": "departureDay",
+    "label": "calendar day of the previous drive's end",
+    "nClusters": 97,
+    "essClusters": 68.7,
+    "tauCI": [
+     9.91,
+     13.62
+    ],
+    "decayRateKCI": [
+     0.07341,
+     0.10093
+    ],
+    "halfLifeCI": [
+     6.87,
+     9.44
+    ],
+    "nonDecayingDrawShare": 0.0,
+    "upperUnbounded": false,
+    "lowerUnbounded": false,
+    "nUndefinedDraws": 0
+   },
+   {
+    "id": "isoWeek",
+    "label": "non-overlapping ISO-week blocks",
+    "nClusters": 22,
+    "essClusters": 14.6,
+    "tauCI": [
+     9.62,
+     13.66
+    ],
+    "decayRateKCI": [
+     0.07321,
+     0.10399
+    ],
+    "halfLifeCI": [
+     6.67,
+     9.47
+    ],
+    "nonDecayingDrawShare": 0.0,
+    "upperUnbounded": false,
+    "lowerUnbounded": false,
+    "nUndefinedDraws": 0,
+    "note": "fewer than about 25 blocks: coarse sensitivity"
+   }
+  ],
+  "soakTauLeaveOneDay": {
+   "decayRateKRange": [
+    0.08425,
+    0.08859
+   ],
+   "tauRange": [
+    11.29,
+    11.87
+   ],
+   "nLeaveOutNonDecaying": 0,
+   "nClusters": 98
+  },
+  "soakTauGapSplit": {
+   "thresholdH": 1.0,
+   "strata": [
+    {
+     "label": "gap < 1 h",
+     "nPairs": 202,
+     "nDays": 79,
+     "decayRateK": 0.0,
+     "decayRateKCI": [
+      0.0,
+      0.16774
+     ],
+     "tau": null,
+     "tauCI": [
+      5.96,
+      null
+     ],
+     "nonDecayingDrawShare": 0.555
+    },
+    {
+     "label": "gap >= 1 h",
+     "nPairs": 148,
+     "nDays": 81,
+     "decayRateK": 0.07667,
+     "decayRateKCI": [
+      0.05882,
+      0.09812
+     ],
+     "tau": 13.04,
+     "tauCI": [
+      10.19,
+      17.0
+     ],
+     "nonDecayingDrawShare": 0.0
+    }
+   ],
+   "label": "post-hoc descriptive (M429 audit), not pre-registered",
+   "reading": "decay rate k = -slope (1/h) per stratum with the arrival-day interval; tau = null when the stratum slope is not negative. The pooled tau is a gap-mix-dependent summary of a single-exponential fit."
+  },
+  "method": "Consecutive chronological drive pairs; degC shed and above-ambient retained fraction vs soak gap. Newtonian soak tau from ln(resid/init excess) vs gap (recorded-ambient pairs, init excess >3C), slope by Sen's slope -- median of all pairwise (y_j-y_i)/(x_j-x_i) (M242) -- rather than a squared-gap-weighted least-squares slope, so neither a single multi-day parked gap nor a cluster of very-short, noise-dominated gaps can dominate the estimate. tauFitIntercept is the fit's own check of the through-origin assumption (median residual at gap=0); small values support it. M429 (audit F06): the tau interval resamples whole arrival-day clusters (calendar day of the following drive), 4000 draws, seed 42, percentile of the draw slopes mapped by tau = -1/slope; draws with a non-negative slope are counted (tau unbounded), not dropped; earlier releases resampled the pairs i.i.d."
  },
  "interDriveCarryover": {
   "nPairs": 567,
@@ -37315,11 +37492,188 @@
    "coolant": {
     "tau": 3.4,
     "tauCI": [
-     3.0,
+     3.02,
      3.91
     ],
     "r2": -16.124,
     "nfit": 458,
+    "tauCiMethod": {
+     "cluster": "calendar day of the following drive's start",
+     "B": 4000,
+     "seed": 42,
+     "percentile": "np.percentile linear on the slope scale, mapped by tau = -1/slope",
+     "nonDecayingDraws": "slope >= 0 counted, tau = +infinity; upper bound unbounded (null) iff the 97.5th slope percentile >= 0",
+     "nClusters": 106,
+     "essClusters": 75.9,
+     "nPairs": 458,
+     "nonDecayingDrawShare": 0.0,
+     "upperUnbounded": false,
+     "nUndefinedDraws": 0,
+     "pointTauDefined": true,
+     "label": "model-derived; conditional on the pairing and the manual driving-time ambient field"
+    },
+    "decayRateK": 0.29384,
+    "decayRateKCI": [
+     0.25608,
+     0.33162
+    ],
+    "halfLifeCI": [
+     2.09,
+     2.71
+    ],
+    "methodTable": [
+     {
+      "id": "publishedRule",
+      "label": "previous published interval: arrival-day clusters, B = 1000, draws with slope >= 0 dropped, percentile on tau",
+      "nClusters": 106,
+      "tauCI": [
+       3.0,
+       3.91
+      ],
+      "nDroppedDraws": 0,
+      "frozen": "historical row: the interval as published before M429 (reproduced by soak_tau.old_rule_interval on analyses/M429_pairs.json); never recomputed at ingestion"
+     },
+     {
+      "id": "iidPairsB4000",
+      "label": "pairs resampled i.i.d. (reference; ignores same-day dependence)",
+      "nClusters": null,
+      "essClusters": null,
+      "tauCI": [
+       3.04,
+       3.92
+      ],
+      "decayRateKCI": [
+       0.25484,
+       0.32884
+      ],
+      "halfLifeCI": [
+       2.11,
+       2.72
+      ],
+      "nonDecayingDrawShare": 0.0,
+      "upperUnbounded": false,
+      "lowerUnbounded": false,
+      "nUndefinedDraws": 0
+     },
+     {
+      "id": "arrivalDay",
+      "label": "calendar day of the following drive (PRIMARY)",
+      "nClusters": 106,
+      "essClusters": 75.9,
+      "tauCI": [
+       3.02,
+       3.91
+      ],
+      "decayRateKCI": [
+       0.25608,
+       0.33162
+      ],
+      "halfLifeCI": [
+       2.09,
+       2.71
+      ],
+      "nonDecayingDrawShare": 0.0,
+      "upperUnbounded": false,
+      "lowerUnbounded": false,
+      "nUndefinedDraws": 0
+     },
+     {
+      "id": "departureDay",
+      "label": "calendar day of the previous drive's end",
+      "nClusters": 105,
+      "essClusters": 76.6,
+      "tauCI": [
+       3.04,
+       3.94
+      ],
+      "decayRateKCI": [
+       0.25402,
+       0.32914
+      ],
+      "halfLifeCI": [
+       2.11,
+       2.73
+      ],
+      "nonDecayingDrawShare": 0.0,
+      "upperUnbounded": false,
+      "lowerUnbounded": false,
+      "nUndefinedDraws": 0
+     },
+     {
+      "id": "isoWeek",
+      "label": "non-overlapping ISO-week blocks",
+      "nClusters": 23,
+      "essClusters": 15.7,
+      "tauCI": [
+       3.12,
+       3.92
+      ],
+      "decayRateKCI": [
+       0.25509,
+       0.32079
+      ],
+      "halfLifeCI": [
+       2.16,
+       2.72
+      ],
+      "nonDecayingDrawShare": 0.0,
+      "upperUnbounded": false,
+      "lowerUnbounded": false,
+      "nUndefinedDraws": 0,
+      "note": "fewer than about 25 blocks: coarse sensitivity"
+     }
+    ],
+    "leaveOneDay": {
+     "decayRateKRange": [
+      0.28786,
+      0.29911
+     ],
+     "tauRange": [
+      3.34,
+      3.47
+     ],
+     "nLeaveOutNonDecaying": 0,
+     "nClusters": 106
+    },
+    "gapSplit": {
+     "thresholdH": 1.0,
+     "strata": [
+      {
+       "label": "gap < 1 h",
+       "nPairs": 259,
+       "nDays": 87,
+       "decayRateK": 0.59221,
+       "decayRateKCI": [
+        0.53187,
+        0.64856
+       ],
+       "tau": 1.69,
+       "tauCI": [
+        1.54,
+        1.88
+       ],
+       "nonDecayingDrawShare": 0.0
+      },
+      {
+       "label": "gap >= 1 h",
+       "nPairs": 199,
+       "nDays": 93,
+       "decayRateK": 0.13506,
+       "decayRateKCI": [
+        0.10407,
+        0.15994
+       ],
+       "tau": 7.4,
+       "tauCI": [
+        6.25,
+        9.61
+       ],
+       "nonDecayingDrawShare": 0.0
+      }
+     ],
+     "label": "post-hoc descriptive (M429 audit), not pre-registered",
+     "reading": "decay rate k = -slope (1/h) per stratum with the arrival-day interval; tau = null when the stratum slope is not negative. The pooled tau is a gap-mix-dependent summary of a single-exponential fit."
+    },
     "nDays": 106,
     "fitMethod": "senSlope",
     "fitIntercept": -0.0866,
@@ -37340,11 +37694,188 @@
    "oil": {
     "tau": 3.45,
     "tauCI": [
-     3.18,
-     3.76
+     3.19,
+     3.77
     ],
     "r2": -16.775,
     "nfit": 447,
+    "tauCiMethod": {
+     "cluster": "calendar day of the following drive's start",
+     "B": 4000,
+     "seed": 42,
+     "percentile": "np.percentile linear on the slope scale, mapped by tau = -1/slope",
+     "nonDecayingDraws": "slope >= 0 counted, tau = +infinity; upper bound unbounded (null) iff the 97.5th slope percentile >= 0",
+     "nClusters": 106,
+     "essClusters": 74.3,
+     "nPairs": 447,
+     "nonDecayingDrawShare": 0.0,
+     "upperUnbounded": false,
+     "nUndefinedDraws": 0,
+     "pointTauDefined": true,
+     "label": "model-derived; conditional on the pairing and the manual driving-time ambient field"
+    },
+    "decayRateK": 0.28983,
+    "decayRateKCI": [
+     0.26554,
+     0.31397
+    ],
+    "halfLifeCI": [
+     2.21,
+     2.61
+    ],
+    "methodTable": [
+     {
+      "id": "publishedRule",
+      "label": "previous published interval: arrival-day clusters, B = 1000, draws with slope >= 0 dropped, percentile on tau",
+      "nClusters": 106,
+      "tauCI": [
+       3.18,
+       3.76
+      ],
+      "nDroppedDraws": 0,
+      "frozen": "historical row: the interval as published before M429 (reproduced by soak_tau.old_rule_interval on analyses/M429_pairs.json); never recomputed at ingestion"
+     },
+     {
+      "id": "iidPairsB4000",
+      "label": "pairs resampled i.i.d. (reference; ignores same-day dependence)",
+      "nClusters": null,
+      "essClusters": null,
+      "tauCI": [
+       3.19,
+       3.73
+      ],
+      "decayRateKCI": [
+       0.26814,
+       0.31343
+      ],
+      "halfLifeCI": [
+       2.21,
+       2.59
+      ],
+      "nonDecayingDrawShare": 0.0,
+      "upperUnbounded": false,
+      "lowerUnbounded": false,
+      "nUndefinedDraws": 0
+     },
+     {
+      "id": "arrivalDay",
+      "label": "calendar day of the following drive (PRIMARY)",
+      "nClusters": 106,
+      "essClusters": 74.3,
+      "tauCI": [
+       3.19,
+       3.77
+      ],
+      "decayRateKCI": [
+       0.26554,
+       0.31397
+      ],
+      "halfLifeCI": [
+       2.21,
+       2.61
+      ],
+      "nonDecayingDrawShare": 0.0,
+      "upperUnbounded": false,
+      "lowerUnbounded": false,
+      "nUndefinedDraws": 0
+     },
+     {
+      "id": "departureDay",
+      "label": "calendar day of the previous drive's end",
+      "nClusters": 104,
+      "essClusters": 75.1,
+      "tauCI": [
+       3.2,
+       3.73
+      ],
+      "decayRateKCI": [
+       0.26801,
+       0.31255
+      ],
+      "halfLifeCI": [
+       2.22,
+       2.59
+      ],
+      "nonDecayingDrawShare": 0.0,
+      "upperUnbounded": false,
+      "lowerUnbounded": false,
+      "nUndefinedDraws": 0
+     },
+     {
+      "id": "isoWeek",
+      "label": "non-overlapping ISO-week blocks",
+      "nClusters": 23,
+      "essClusters": 15.5,
+      "tauCI": [
+       3.31,
+       3.69
+      ],
+      "decayRateKCI": [
+       0.27088,
+       0.3017
+      ],
+      "halfLifeCI": [
+       2.3,
+       2.56
+      ],
+      "nonDecayingDrawShare": 0.0,
+      "upperUnbounded": false,
+      "lowerUnbounded": false,
+      "nUndefinedDraws": 0,
+      "note": "fewer than about 25 blocks: coarse sensitivity"
+     }
+    ],
+    "leaveOneDay": {
+     "decayRateKRange": [
+      0.28582,
+      0.2931
+     ],
+     "tauRange": [
+      3.41,
+      3.5
+     ],
+     "nLeaveOutNonDecaying": 0,
+     "nClusters": 106
+    },
+    "gapSplit": {
+     "thresholdH": 1.0,
+     "strata": [
+      {
+       "label": "gap < 1 h",
+       "nPairs": 259,
+       "nDays": 87,
+       "decayRateK": 0.51353,
+       "decayRateKCI": [
+        0.47768,
+        0.5555
+       ],
+       "tau": 1.95,
+       "tauCI": [
+        1.8,
+        2.09
+       ],
+       "nonDecayingDrawShare": 0.0
+      },
+      {
+       "label": "gap >= 1 h",
+       "nPairs": 188,
+       "nDays": 91,
+       "decayRateK": 0.15191,
+       "decayRateKCI": [
+        0.11754,
+        0.18503
+       ],
+       "tau": 6.58,
+       "tauCI": [
+        5.4,
+        8.51
+       ],
+       "nonDecayingDrawShare": 0.0
+      }
+     ],
+     "label": "post-hoc descriptive (M429 audit), not pre-registered",
+     "reading": "decay rate k = -slope (1/h) per stratum with the arrival-day interval; tau = null when the stratum slope is not negative. The pooled tau is a gap-mix-dependent summary of a single-exponential fit."
+    },
     "nDays": 106,
     "fitMethod": "senSlope",
     "fitIntercept": -0.0745,
@@ -37366,11 +37897,26 @@
     "crossReference": "heatSoakCarryover",
     "tau": 11.55,
     "tauCI": [
-     9.96,
-     13.75
+     9.77,
+     13.93
     ],
     "r2": -1.051,
-    "nfit": 350
+    "nfit": 350,
+    "tauCiMethod": {
+     "cluster": "calendar day of the following drive's start",
+     "B": 4000,
+     "seed": 42,
+     "percentile": "np.percentile linear on the slope scale, mapped by tau = -1/slope",
+     "nonDecayingDraws": "slope >= 0 counted, tau = +infinity; upper bound unbounded (null) iff the 97.5th slope percentile >= 0",
+     "nClusters": 98,
+     "essClusters": 67.8,
+     "nPairs": 350,
+     "nonDecayingDrawShare": 0.0,
+     "upperUnbounded": false,
+     "nUndefinedDraws": 0,
+     "pointTauDefined": true,
+     "label": "model-derived; conditional on the pairing and the manual driving-time ambient field"
+    }
    }
   },
   "regressionModel": {
@@ -37506,7 +38052,7 @@
    },
    "method": "PRIMARY: day-clustered bootstrap OLS (whole days resampled with replacement, 4000 draws, seed=42; point estimate from the full-sample fit) -- the established estimator pattern in this codebase (bufferDebtRecovery). SECONDARY/robustness: a day random-intercept mixed-effects model (statsmodels 0.15.0, matching degradation_trends.py's convention), not the primary estimator, since the mixed-effects fit is the piece flagged elsewhere in this codebase as not bit-reproducible across statsmodels versions. Descriptive association in one observed duty cycle on one vehicle/driver -- not a causal or generalizable driver-behavior law."
   },
-  "methodology": "M223.1 (P0.1, enhancement plan): extends heatSoakCarryover's pack-only Newtonian-cooling tau fit (ln(resid/init excess) regressed through the origin on parking gap, day-clustered bootstrap CI, seed=42) to the engine-coolant and oil channels, using the identical consecutive-chronological-pair construction (_full_datetimes, same gap formula). regressionModel tests whether arrival pack temperature, parking gap, and arrival SoC predict the FOLLOWING drive's time-to-first-engine-start (day-clustered bootstrap OLS, primary; day random-intercept mixed-effects, statsmodels 0.15.0, secondary robustness check -- may fail to converge on a singular random-effects covariance at this pairs-per-day density, reported as such rather than suppressed). Single vehicle / ~single driver -- descriptive association in one observed duty cycle, not a causal or generalizable driver-behavior law (same disclosure pattern as heatSoakCarryover/regimeTransition)."
+  "methodology": "M223.1 (P0.1, enhancement plan): extends heatSoakCarryover's pack-only Newtonian-cooling tau fit (ln(resid/init excess) vs parking gap, Sen's slope, percentile bootstrap CI, seed=42) to the engine-coolant and oil channels, using the identical consecutive-chronological-pair construction (_full_datetimes, same gap formula). M429 (audit F06): the interval of all three fits resamples whole arrival-day clusters (4000 draws, seed 42), counts non-decaying draws instead of dropping them and reports an unbounded upper bound when the 97.5th percentile slope is not negative (the pack interval resampled the pairs i.i.d. before). The pooled tau is a gap-mix-dependent summary: the gapSplit leaves (post-hoc, descriptive) show the fit separately for gaps under and over one hour. regressionModel tests whether arrival pack temperature, parking gap, and arrival SoC predict the FOLLOWING drive's time-to-first-engine-start (day-clustered bootstrap OLS, primary; day random-intercept mixed-effects, statsmodels 0.15.0, secondary robustness check -- may fail to converge on a singular random-effects covariance at this pairs-per-day density, reported as such rather than suppressed). Single vehicle / ~single driver -- descriptive association in one observed duty cycle, not a causal or generalizable driver-behavior law (same disclosure pattern as heatSoakCarryover/regimeTransition)."
  },
  "thermalStepResponse": {
   "available": true,

@@ -1,0 +1,39 @@
+{
+ "milestone": "M429",
+ "source": "analyses/M429_result.json previousPayload (the payload before the M429 splice) and analyses/M429_pairs.json",
+ "rows": {
+  "pack": {
+   "id": "publishedRule",
+   "label": "previous published interval: pairs i.i.d., B = 1000, draws with slope >= 0 dropped, percentile on tau",
+   "nClusters": null,
+   "tauCI": [
+    9.96,
+    13.75
+   ],
+   "nDroppedDraws": 0,
+   "frozen": "historical row: the interval as published before M429 (reproduced by soak_tau.old_rule_interval on analyses/M429_pairs.json); never recomputed at ingestion"
+  },
+  "coolant": {
+   "id": "publishedRule",
+   "label": "previous published interval: arrival-day clusters, B = 1000, draws with slope >= 0 dropped, percentile on tau",
+   "nClusters": 106,
+   "tauCI": [
+    3.0,
+    3.91
+   ],
+   "nDroppedDraws": 0,
+   "frozen": "historical row: the interval as published before M429 (reproduced by soak_tau.old_rule_interval on analyses/M429_pairs.json); never recomputed at ingestion"
+  },
+  "oil": {
+   "id": "publishedRule",
+   "label": "previous published interval: arrival-day clusters, B = 1000, draws with slope >= 0 dropped, percentile on tau",
+   "nClusters": 106,
+   "tauCI": [
+    3.18,
+    3.76
+   ],
+   "nDroppedDraws": 0,
+   "frozen": "historical row: the interval as published before M429 (reproduced by soak_tau.old_rule_interval on analyses/M429_pairs.json); never recomputed at ingestion"
+  }
+ }
+}

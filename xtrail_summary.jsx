@@ -11691,7 +11691,7 @@ export default function App() {
                 return (<div key={i}>gap <strong style={{color:"#0f172a"}}>{lab.padEnd(8)}</strong> · n={String(b.n).padStart(3)} · sheds {b.medShedC>=0?"+":""}{b.medShedC}°C · {b.medTEnd}→{b.medTStart}°C{rf!=null?<span> · retains <strong style={{color:col}}>{(rf*100).toFixed(0)}%</strong> of above-ambient heat <span style={{color:"#94a3b8"}}>(n={b.nAmb})</span></span>:<span style={{color:"#94a3b8"}}> · no ambient</span>}</div>);})}
             </div>
             <div style={{marginTop:8,fontSize:10,color:"#64748b"}}>
-              A parked pack sheds its above-ambient heat on a Newtonian-cooling time constant of <strong style={{color:"#0f172a"}}>τ ≈ {H.soakTauH} h</strong> (half-life {H.soakHalfLifeH} h; 95% CI [{H.soakTauCI?.[0]}, {H.soakTauCI?.[1]}] h, fit n={H.tauFitN}, {H.fitMethod==='senSlope'?<>Sen's-slope estimator{H.tauFitIntercept!=null?<>, through-origin check (median residual at gap=0) {H.tauFitIntercept>=0?"+":""}{H.tauFitIntercept}</>:null}</>:<>R²={H.tauFitR2}</>}). Carryover is near-total for gaps under an hour and, BY DEFINITION of that half-life, still roughly HALF the initial excess at the fitted half-life (~{H.soakHalfLifeH} h) under the fitted exponential — not "gone." {(() => {
+              A parked pack sheds its above-ambient heat on a Newtonian-cooling time constant of <strong style={{color:"#0f172a"}}>τ ≈ {H.soakTauH} h</strong> (half-life {H.soakHalfLifeH} h; 95% CI [{H.soakTauCI?.[0] ?? "unbounded"}, {H.soakTauCI?.[1] ?? "unbounded"}] h{H.soakTauCI?.[1]==null && H.soakTauCiMethod ? ` (${(100*H.soakTauCiMethod.nonDecayingDrawShare).toFixed(1)} % non-decaying draws)` : ""}, day-clustered percentile bootstrap over {H.soakTauCiMethod?.nClusters ?? "n/a"} arrival days (B={H.soakTauCiMethod?.B ?? "n/a"}, seed {H.soakTauCiMethod?.seed ?? "n/a"}), fit n={H.tauFitN}, {H.fitMethod==='senSlope'?<>Sen's-slope estimator{H.tauFitIntercept!=null?<>, through-origin check (median residual at gap=0) {H.tauFitIntercept>=0?"+":""}{H.tauFitIntercept}</>:null}</>:<>R²={H.tauFitR2}</>}). Carryover is near-total for gaps under an hour and, BY DEFINITION of that half-life, still roughly HALF the initial excess at the fitted half-life (~{H.soakHalfLifeH} h) under the fitted exponential — not "gone." {(() => {
                 const bins = H.gapBins || [];
                 const b612 = bins.find(b => b.gapLoH === 6 && b.gapHiH === 12);
                 const b1224 = bins.find(b => b.gapLoH === 12 && b.gapHiH === 24);
@@ -11710,17 +11710,21 @@ export default function App() {
                 disagree substantially by 12+ h — a real tension, not just an approximation gap, most likely
                 reflecting which specific parks happen to fall in each bin (selection) compounded by the
                 ambient-reference floor, not a single consistent Newtonian result at long gaps. Treat the fitted
-                τ as the SHORT-GAP behavior it's best supported by, and the long-gap bins as separately,
-                empirically reported — not as two views of the same curve.</>);
+                τ as a gap-mix-dependent summary that, for the pack, rests on the parks of an hour or longer
+                (gap split below), and the long-gap bins as separately, empirically reported — not as two views of
+                the same curve.</>);
               })()} <em>Caveats:</em> ambient is the manual driving-time field, not the cooler, day/night-swinging parked environment, so at long gaps the pack can settle just below it and the retained fraction floors slightly negative — an ambient-reference artefact, not sub-ambient cooling. Parking environment (garage vs open) is unobserved and is the main source of residual scatter in the fit{H.fitMethod==='senSlope'?" (Sen's slope is not variance-minimizing, so R\u00B2 is not a meaningful diagnostic for this fit and is omitted here)":""}. This slow parked-cooling τ is the relaxation-side counterpart to the fast under-load warmup τ in the panel below.
               {S.interDriveCarryover?.thermalDecay && (() => {const TD = S.interDriveCarryover.thermalDecay; return TD.coolant?.tau != null && TD.oil?.tau != null && (
                 <> <strong style={{color:"#0f172a"}}>Same method, smaller masses (M223.1):</strong> the identical
                 Newtonian-cooling fit applied to engine coolant and oil gives τ ≈ {TD.coolant.tau} h (coolant) and
-                {" "}{TD.oil.tau} h (oil) — both roughly {(H.soakTauH/TD.coolant.tau).toFixed(1)}× faster than the
-                pack's own {H.soakTauH} h, physically consistent with coolant and oil being smaller, better
-                ambient-exposed thermal masses than the insulated battery pack, and a useful cross-check that this
-                fit machinery behaves sensibly when pointed at a different, independently-known-faster-cooling
-                system. {TD.coolant.parkingAmbientSensitivity && (() => {
+                {" "}{TD.oil.tau} h (oil) — a point-estimate ratio of about {(H.soakTauH/TD.coolant.tau).toFixed(1)}× against the
+                pack's own {H.soakTauH} h (95% intervals: coolant [{TD.coolant.tauCI?.[0] ?? "unbounded"}, {TD.coolant.tauCI?.[1] ?? "unbounded"}] h, oil [{TD.oil.tauCI?.[0] ?? "unbounded"}, {TD.oil.tauCI?.[1] ?? "unbounded"}] h, pack [{H.soakTauCI?.[0] ?? "unbounded"}, {H.soakTauCI?.[1] ?? "unbounded"}] h; {(() => {
+                  const hi = (a) => (a && a[1] != null ? a[1] : Infinity);
+                  const pk = H.soakTauCI, cl = TD.coolant.tauCI, ol = TD.oil.tauCI;
+                  const ov = (a, b) => a && b && a[0] <= hi(b) && b[0] <= hi(a);
+                  return ov(pk, cl) || ov(pk, ol) ? "the pack interval overlaps a coolant or oil interval" : "the pack interval does not overlap the coolant or oil intervals";
+                })()}). It compares fitted summaries whose predictive R² is negative for the pack, so it is not read as evidence that the fits identify the thermal
+                masses of the pack, the coolant or the oil, and the three fits weight the parking gaps differently (see the gap split below). {TD.coolant.parkingAmbientSensitivity && (() => {
                   const cLo = Math.min(...TD.coolant.parkingAmbientSensitivity.map(s => s.tau).filter(v => v != null));
                   const cHi = Math.max(...TD.coolant.parkingAmbientSensitivity.map(s => s.tau).filter(v => v != null));
                   const oS = TD.oil.parkingAmbientSensitivity || [];
@@ -11733,6 +11737,19 @@ export default function App() {
                   );
                 })()}</>
               );})()}
+              {H.soakTauMethodTable && (() => {
+                // M429 (audit F06, Director ruling): how the soak interval was built and what the fit rests on; every figure binds to S.heatSoakCarryover / S.interDriveCarryover.thermalDecay.
+                const TD = S.interDriveCarryover?.thermalDecay || {};
+                const nm = {publishedRule:"previously published (pairs i.i.d., 1000 draws, non-decaying draws dropped)", iidPairsB4000:"pairs i.i.d., 4000 draws (reference)", arrivalDay:"arrival-day clusters (headline)", departureDay:"departure-day clusters", isoWeek:"ISO-week blocks (coarse)"};
+                const tc = (a) => Array.isArray(a) ? `[${a[0] ?? "unbounded"}, ${a[1] ?? "unbounded"}]` : "n/a";
+                const row = (r) => `${nm[r.id] || r.id} ${tc(r.tauCI)}${r.nClusters ? ` (${r.nClusters} clusters)` : ""}`;
+                const sg = (v) => (v == null ? "n/a" : String(Number(Number(v).toPrecision(3))));
+                const fmt = (r) => `${r.label}: ${r.nPairs} pairs on ${r.nDays} days, ` + (r.decayRateK == null ? "no fit" : `decay rate ${sg(r.decayRateK)} /h ${Array.isArray(r.decayRateKCI) ? `[${sg(r.decayRateKCI[0])}, ${sg(r.decayRateKCI[1])}]` : ""}${r.tau == null ? ", no resolvable decay" : `, τ ${r.tau} h`}`);
+                const strat = (g) => (g?.strata || []).map(fmt).join("; ");
+                const sh = H.soakTauGapSplit?.strata?.[0];
+                return (<> <strong style={{color:"#0f172a"}}>How the soak interval was built and what the fit rests on (M429, audit F06).</strong> Pairs: {H.nPairs} consecutive drive pairs, {H.nPairsAmbient} with a recorded ambient, {H.tauFitN} in the fit. Pack τ 95% intervals (h) by resampling unit: {H.soakTauMethodTable.map(row).join("; ")}. The methods agree closely here, which means between-day dependence is weak in these data, not absent; the ISO-week row is a coarse check. Intervals cover sampling error under a single-exponential model, not model error, and are conditional on the pairing and the manual driving-time ambient field.
+                <em> Post-hoc, not pre-registered (blind-audit finding):</em> pack — {strat(H.soakTauGapSplit)}; coolant — {strat(TD.coolant?.gapSplit)}; oil — {strat(TD.oil?.gapSplit)}. {sh && sh.tau == null ? "Pack pairs parked under one hour show no resolvable decay at whole-degree temperature logging, so the pooled pack τ rests on the longer gaps. " : ""}A single exponential does not have to fit all gaps: τ is a gap-mix-dependent summary of this fit.</>);
+              })()}
               {S.interDriveCarryover?.regressionModel?.dayClusteredBootstrap && (() => {const RM = S.interDriveCarryover.regressionModel; const b = RM.dayClusteredBootstrap.coefficients?.arrivalPmC; return b && (
                 <> <strong style={{color:"#0f172a"}}>Does arrival temperature predict how soon the engine is
                 called on next (M223.1)?</strong> Regressing the FOLLOWING drive's time-to-first-engine-start on

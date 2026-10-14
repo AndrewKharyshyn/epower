@@ -7326,6 +7326,32 @@ def _regime_transition_hardening(dm, min_cell=5, n_perm=4000, seed=42):
 
 
 
+def _soak_tau_mod():
+    """M429 (audit F06): the shared interval rule for the parked-soak time constants (tools/soak_tau.py)."""
+    import sys as _sys_st
+    _tools_st = _os_xf.path.join(_os_xf.path.dirname(_os_xf.path.abspath(__file__)), 'tools')
+    if _tools_st not in _sys_st.path:
+        _sys_st.path.insert(0, _tools_st)
+    import soak_tau as _st
+    return _st
+
+
+def _soak_published_row(name):
+    """The historical interval row as published before M429, frozen in analyses/M429_published_rule.json (never recomputed at ingestion)."""
+    p = _os_xf.path.join(_os_xf.path.dirname(_os_xf.path.abspath(__file__)), 'analyses', 'M429_published_rule.json')
+    try:
+        with open(p, encoding='utf-8') as f:
+            return json.load(f)['rows'].get(name)
+    except (OSError, ValueError, KeyError):
+        return None
+
+
+def _iso_week_key(days):
+    """Non-overlapping ISO-week block key (YYYY-Www) from ISO day strings."""
+    wk = pd.to_datetime(pd.Series(list(days))).dt.isocalendar()
+    return (wk['year'].astype(str) + '-W' + wk['week'].astype(str).str.zfill(2)).values
+
+
 def _heat_soak_carryover(dm, traj, ambient_by_drive=None, min_excess_c=3.0,
                          gap_bins=((0, 1), (1, 3), (3, 6), (6, 12),
                                    (12, 24), (24, 1e9))):
@@ -7388,6 +7414,8 @@ def _heat_soak_carryover(dm, traj, ambient_by_drive=None, min_excess_c=3.0,
             rec['residExcessC'] = re
             if ie > 0:
                 rec['retainedFrac'] = re / ie
+        rec['dayArrival'] = str(b['ts_full'])[:10]      # M429: cluster key of the interval (the following drive's start day, as in the linked table)
+        rec['dayDeparture'] = str(a['te_full'])[:10]
         pairs.append(rec)
     if not pairs:
         return None
@@ -7407,6 +7435,7 @@ def _heat_soak_carryover(dm, traj, ambient_by_drive=None, min_excess_c=3.0,
                      'medRetainedFrac': (round(float(rf.median()), 4)
                                          if len(rf) else None)})
     tau = tau_ci = half_life = r2 = fit_intercept = None
+    soak_extra = None
     nfit = 0
     fit = pf.dropna(subset=['initExcessC', 'residExcessC'])
     fit = fit[(fit['initExcessC'] > min_excess_c) & (fit['residExcessC'] > 0.5)]
@@ -7434,19 +7463,16 @@ def _heat_soak_carryover(dm, traj, ambient_by_drive=None, min_excess_c=3.0,
         yhat = slope * x
         ss_tot = np.sum((y - y.mean()) ** 2)
         r2 = (1 - np.sum((y - yhat) ** 2) / ss_tot) if ss_tot > 0 else None
+        # M429 (audit F06): the interval resamples whole arrival-day clusters (the pairs were resampled i.i.d. before),
+        # B = 4000, seed 42; non-decaying draws are counted (tau = +inf), not dropped. One shared rule: tools/soak_tau.py.
+        _fit_r = fit.reset_index(drop=True)
+        soak_extra = _soak_tau_mod().soak_block(
+            x, y, _fit_r['dayArrival'].values, _fit_r['dayDeparture'].values, _iso_week_key(_fit_r['dayArrival'].values),
+            _sen_slope, slope, published_row=_soak_published_row('pack'))
         if slope < 0:
             tau = -1.0 / slope
             half_life = tau * np.log(2)
-            rng = np.random.default_rng(42)
-            taus = []
-            for _ in range(1000):
-                ii = rng.integers(0, nfit, nfit)
-                s = _sen_slope(x[ii], y[ii])
-                if s < 0:
-                    taus.append(-1.0 / s)
-            if taus:
-                tau_ci = [round(float(np.percentile(taus, 2.5)), 2),
-                          round(float(np.percentile(taus, 97.5)), 2)]
+            tau_ci = soak_extra['tauCI']
     return {
         'nPairs': int(len(pf)),
         'nPairsAmbient': int(pf['retainedFrac'].notna().sum()),
@@ -7460,6 +7486,11 @@ def _heat_soak_carryover(dm, traj, ambient_by_drive=None, min_excess_c=3.0,
                             if fit_intercept is not None else None),
         'fitMethod': 'senSlope',
         'minExcessC': min_excess_c,
+        **({'soakTauCiMethod': soak_extra['tauCiMethod'], 'soakDecayRateK': soak_extra['decayRateK'],
+            'soakDecayRateKCI': soak_extra['decayRateKCI'], 'soakHalfLifeCI': soak_extra['halfLifeCI'],
+            'soakTauMethodTable': soak_extra['methodTable'], 'soakTauLeaveOneDay': soak_extra['leaveOneDay'],
+            'soakTauGapSplit': soak_extra['gapSplit']}
+           if soak_extra else {}),
         'method': ('Consecutive chronological drive pairs; degC shed and '
                    'above-ambient retained fraction vs soak gap. Newtonian '
                    'soak tau from ln(resid/init excess) vs gap (recorded-'
@@ -7470,7 +7501,13 @@ def _heat_soak_carryover(dm, traj, ambient_by_drive=None, min_excess_c=3.0,
                    'gap nor a cluster of very-short, noise-dominated gaps '
                    'can dominate the estimate. tauFitIntercept is the '
                    "fit's own check of the through-origin assumption "
-                   '(median residual at gap=0); small values support it.'
+                   '(median residual at gap=0); small values support it. '
+                   'M429 (audit F06): the tau interval resamples whole '
+                   'arrival-day clusters (calendar day of the following '
+                   'drive), 4000 draws, seed 42, percentile of the draw '
+                   'slopes mapped by tau = -1/slope; draws with a '
+                   'non-negative slope are counted (tau unbounded), not '
+                   'dropped; earlier releases resampled the pairs i.i.d.'
                    % min_excess_c),
     }
 
@@ -14800,14 +14837,15 @@ def _linked_adjacent_drive_table(dm, traj, ambient_by_drive=None,
             'followingPeakDischargeA': rb.get('peak_I_discharge'),
             'followingSocDeltaKwh': rb.get('soc_delta_kwh'),
             'day': str(b['ts_full'])[:10],
+            'dayDeparture': str(a['te_full'])[:10],      # M429: departure-day sensitivity key of the soak interval
         })
     return pd.DataFrame(rows)
 
 
 def _carryover_thermal_decay(pf, start_col, end_col, amb_key, min_excess_c=3.0):
     """M223.1: the SAME Newtonian-cooling tau fit `_heat_soak_carryover`
-    uses for the pack (ln(resid/init excess) regressed through the origin
-    on gap, day-clustered bootstrap CI), applied to a coolant/oil channel
+    uses for the pack (ln(resid/init excess) vs gap, Sen's slope; M429: the
+    interval of all three fits resamples arrival-day clusters), applied to a coolant/oil channel
     instead. `pf` is `_linked_adjacent_drive_table`'s output; start_col/
     end_col select which channel's arrival/departure temperature pair to
     fit (e.g. 'arrivalCoolantC' with the matching previous-drive END
@@ -14828,7 +14866,7 @@ def _carryover_thermal_decay(pf, start_col, end_col, amb_key, min_excess_c=3.0):
     init_excess = sub[end_col] - sub[amb_key]
     resid_excess = sub[start_col] - sub[amb_key]
     fit = pd.DataFrame({'gapH': sub['parkingGapH'], 'ie': init_excess,
-                        're': resid_excess, 'day': sub['day']})
+                        're': resid_excess, 'day': sub['day'], 'depDay': sub['dayDeparture']})
     fit = fit[(fit['ie'] > min_excess_c) & (fit['re'] > 0.5)]
     nfit = int(len(fit))
     if nfit < 8:
@@ -14854,24 +14892,23 @@ def _carryover_thermal_decay(pf, start_col, end_col, amb_key, min_excess_c=3.0):
 
     tau, r2, fit_intercept = _fit_tau(fit['ie'].values, fit['re'].values,
                                       fit['gapH'].values, fit['day'].values)
-    if tau is None:
-        return {'tau': None, 'tauCI': None,
-               'r2': (round(float(r2), 3) if r2 is not None else None), 'nfit': nfit}
     y = np.log(fit['re'].values / fit['ie'].values)
     x = fit['gapH'].values
     days = fit['day'].values
     uniq = np.unique(days)
-    by = {dv: np.where(days == dv)[0] for dv in uniq}
-    rng = np.random.default_rng(42)
-    taus = []
-    for _ in range(1000):
-        picks = rng.choice(uniq, size=len(uniq), replace=True)
-        idx = np.concatenate([by[dv] for dv in picks])
-        s = _sen_slope(x[idx], y[idx])
-        if s < 0:
-            taus.append(-1.0 / s)
-    tau_ci = ([round(float(np.percentile(taus, 2.5)), 2),
-              round(float(np.percentile(taus, 97.5)), 2)] if taus else None)
+    # M429 (audit F06): same shared rule as the pack (tools/soak_tau.py): arrival-day clusters, 4000 draws, seed 42, non-decaying draws counted
+    # (tau = +inf) instead of dropped; the previous interval (1000 draws, dropped draws) stays in the method table as the published rule.
+    _pt_slope = _sen_slope(x, y)
+    _blk = _soak_tau_mod().soak_block(x, y, days, fit['depDay'].values, _iso_week_key(days), _sen_slope, _pt_slope,
+                                        published_row=_soak_published_row('coolant' if start_col == 'arrivalCoolantC' else 'oil'))
+    _new = {'tauCI': _blk['tauCI'], 'tauCiMethod': _blk['tauCiMethod'], 'decayRateK': _blk['decayRateK'], 'decayRateKCI': _blk['decayRateKCI'],
+            'halfLifeCI': _blk['halfLifeCI'], 'methodTable': _blk['methodTable'], 'leaveOneDay': _blk['leaveOneDay'],
+            'gapSplit': _blk['gapSplit']}
+    if tau is None:
+        return {'tau': None, 'tauCI': None,
+               'r2': (round(float(r2), 3) if r2 is not None else None), 'nfit': nfit,
+               **{k: v for k, v in _new.items() if k != 'tauCI'}}
+    tau_ci = _new['tauCI']
 
     # M234 (audit F08, second half: "assess parking-ambient uncertainty").
     # arrivalAmbientC is the manual DRIVING-time ambient field (same caveat
@@ -14898,6 +14935,7 @@ def _carryover_thermal_decay(pf, start_col, end_col, amb_key, min_excess_c=3.0):
 
     return {'tau': round(float(tau), 2), 'tauCI': tau_ci,
            'r2': (round(float(r2), 3) if r2 is not None else None), 'nfit': nfit,
+           **{k: v for k, v in _new.items() if k != 'tauCI'},
            'nDays': int(len(uniq)),
            'fitMethod': 'senSlope',
            'fitIntercept': round(fit_intercept, 4),
@@ -17433,6 +17471,7 @@ def build_summary_arrays(dm, raw_loader=None, with_raw=True, odometer_km=None,
                         'crossReference': 'heatSoakCarryover',
                         'tau': _hsc.get('soakTauH'),
                         'tauCI': _hsc.get('soakTauCI'),
+                        'tauCiMethod': _hsc.get('soakTauCiMethod'),
                         'r2': _hsc.get('tauFitR2'),
                         'nfit': _hsc.get('tauFitN'),
                     },
@@ -17441,11 +17480,20 @@ def build_summary_arrays(dm, raw_loader=None, with_raw=True, odometer_km=None,
                 'methodology': (
                     'M223.1 (P0.1, enhancement plan): extends '
                     'heatSoakCarryover\'s pack-only Newtonian-cooling '
-                    'tau fit (ln(resid/init excess) regressed through '
-                    'the origin on parking gap, day-clustered bootstrap '
-                    'CI, seed=42) to the engine-coolant and oil channels, '
+                    'tau fit (ln(resid/init excess) vs parking gap, '
+                    "Sen's slope, percentile bootstrap CI, seed=42) to the "
+                    'engine-coolant and oil channels, '
                     'using the identical consecutive-chronological-pair '
                     'construction (_full_datetimes, same gap formula). '
+                    'M429 (audit F06): the interval of all three fits '
+                    'resamples whole arrival-day clusters (4000 draws, '
+                    'seed 42), counts non-decaying draws instead of '
+                    'dropping them and reports an unbounded upper bound '
+                    'when the 97.5th percentile slope is not negative '
+                    '(the pack interval resampled the pairs i.i.d. before). '
+                    'The pooled tau is a gap-mix-dependent summary: the '
+                    'gapSplit leaves (post-hoc, descriptive) show the fit '
+                    'separately for gaps under and over one hour. '
                     'regressionModel tests whether arrival pack '
                     'temperature, parking gap, and arrival SoC predict '
                     'the FOLLOWING drive\'s time-to-first-engine-start '
