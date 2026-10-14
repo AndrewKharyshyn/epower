@@ -60572,20 +60572,20 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-14T18:38:33.377410+00:00",
+   "generatedAt": "2026-10-14T21:14:08.397177+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "a641f34d7528d004b900c151cbde3d6d"
    },
    "computationStatus": "computed",
    "computationStatusNote": "M418: derived by tools/thermal_support_ledger.py from the frame cache and the raw files; additive thermal support ledger",
-   "includedInReleaseAt": "2026-10-14T18:38:33.377410+00:00",
+   "includedInReleaseAt": "2026-10-14T21:14:08.397177+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-14T18:38:33.377410+00:00"
+   "computedAt": "2026-10-14T21:14:08.397177+00:00"
   }
  },
  "ambientTable": {
@@ -178567,6 +178567,1631 @@
      "at F = 0 the 30 valid-second rule counts raw samples (about 78 s at the median coolant interval), so F = 0 changes the cold-start population by dropping short, sparsely sampled drives; the higher shares at F = 0 are a population effect",
      "informative censoring is addressed by the M435 bounds and tilt rows, not here",
      "headline cells of cohort all only"
+    ]
+   },
+   "startStrata": {
+    "spec": "analyses/M438_spec.md",
+    "methodVersion": "M438-r2",
+    "cohort": "all",
+    "horizonsS": [
+     300,
+     600,
+     900
+    ],
+    "headlineH": 600,
+    "headlineCells": [
+     "coolant/80",
+     "oil/70"
+    ],
+    "cutPointsC": [
+     30.0,
+     48.0
+    ],
+    "cutRule": "numpy linear percentile at 33.33333 and 66.66667 of the coolant start temperature of the coolant cold starts, rounded as floor(2x + 0.5) / 2; start equal to a cut belongs to the higher stratum",
+    "strataSharesOfCoolantColdStarts": [
+     0.3265,
+     0.3342,
+     0.3393
+    ],
+    "nColdStarts": 389,
+    "bootstrap": {
+     "B": 4000,
+     "seed": 42,
+     "cluster": "calendar day",
+     "sharedWithM435": true,
+     "cutsAndMembershipFixedInDraws": true,
+     "unidentifiedMax": 0.025
+    },
+    "cells": {
+     "coolant/80": {
+      "notes": {
+       "pattern": "at 600 s the middle tercile differs from the lowest by 0.207 (its interval excludes zero) and the highest by 0.223 (its interval excludes zero); the highest and the middle differ by 0.016 (point only, no interval); the contrasts are against the lowest tercile and no gradient across the terciles is claimed",
+       "dNote": "a difference D near zero is not evidence that censoring can be ignored: independent censoring is still assumed within each tercile, and the upper worst-case bounds of the terciles at 600 s are 0.756 / 0.769 / 0.871",
+       "thin": [
+        "stratum 3 has only 17 drives on 15 days at risk at 600 s (below twice the support floor of 10 drives)"
+       ]
+      },
+      "n": 389,
+      "days": 113,
+      "weights": [
+       0.3265,
+       0.3342,
+       0.3393
+      ],
+      "pooled": [
+       {
+        "h": 300,
+        "atRisk": 291,
+        "atRiskDays": 109,
+        "supported": true,
+        "E1": {
+         "point": 0.1568,
+         "ci95": [
+          0.1162,
+          0.201
+         ]
+        },
+        "E2": {
+         "point": 0.166,
+         "ci95": [
+          0.1235,
+          0.2127
+         ]
+        },
+        "boundHigh": {
+         "point": 0.2596,
+         "ci95": [
+          0.2157,
+          0.3042
+         ]
+        },
+        "tilt": {
+         "0.5": {
+          "point": 0.1615,
+          "ci95": [
+           0.1199,
+           0.207
+          ]
+         },
+         "2": {
+          "point": 0.1742,
+          "ci95": [
+           0.1303,
+           0.2221
+          ]
+         }
+        },
+        "reading": "F<0.5",
+        "readingClasses": {
+         "F<0.5": "holds at both worst-case bounds",
+         "F>=0.5": "depends on the censoring assumption"
+        }
+       },
+       {
+        "h": 600,
+        "atRisk": 78,
+        "atRiskDays": 61,
+        "supported": true,
+        "E1": {
+         "point": 0.3445,
+         "ci95": [
+          0.2838,
+          0.4096
+         ]
+        },
+        "E2": {
+         "point": 0.4689,
+         "ci95": [
+          0.3958,
+          0.5409
+         ]
+        },
+        "boundHigh": {
+         "point": 0.7995,
+         "ci95": [
+          0.7589,
+          0.837
+         ]
+        },
+        "tilt": {
+         "0.5": {
+          "point": 0.4127,
+          "ci95": [
+           0.345,
+           0.4816
+          ]
+         },
+         "2": {
+          "point": 0.5541,
+          "ci95": [
+           0.4731,
+           0.6298
+          ]
+         }
+        },
+        "reading": "F<0.5",
+        "readingClasses": {
+         "F<0.5": "depends on the censoring assumption",
+         "F>=0.5": "depends on the censoring assumption"
+        }
+       },
+       {
+        "h": 900,
+        "atRisk": 35,
+        "atRiskDays": 32,
+        "supported": true,
+        "E1": {
+         "point": 0.3985,
+         "ci95": [
+          0.3325,
+          0.4683
+         ]
+        },
+        "E2": {
+         "point": 0.6438,
+         "ci95": [
+          0.5601,
+          0.7254
+         ]
+        },
+        "boundHigh": {
+         "point": 0.91,
+         "ci95": [
+          0.8792,
+          0.9377
+         ]
+        },
+        "tilt": {
+         "0.5": {
+          "point": 0.5432,
+          "ci95": [
+           0.4664,
+           0.6208
+          ]
+         },
+         "2": {
+          "point": 0.7641,
+          "ci95": [
+           0.6821,
+           0.835
+          ]
+         }
+        },
+        "reading": "F>=0.5",
+        "readingClasses": {
+         "F<0.5": "depends on the censoring assumption",
+         "F>=0.5": "depends on the censoring assumption"
+        }
+       }
+      ],
+      "strata": [
+       {
+        "stratum": 1,
+        "name": "lowest",
+        "range": "start < 30 C",
+        "n": 127,
+        "days": 101,
+        "weight": 0.3265,
+        "reached": 38,
+        "censoredShare": 0.7008,
+        "censoredTripEnd": 87,
+        "censoredChannelLoss": 2,
+        "horizons": [
+         {
+          "h": 300,
+          "atRisk": 116,
+          "atRiskDays": 96,
+          "supported": true,
+          "E1": {
+           "point": 0.0157,
+           "ci95": [
+            0.0,
+            0.0407
+           ]
+          },
+          "E2": {
+           "point": 0.0166,
+           "ci95": [
+            0.0,
+            0.0424
+           ]
+          },
+          "boundHigh": {
+           "point": 0.0866,
+           "ci95": [
+            0.0382,
+            0.1371
+           ]
+          },
+          "tilt": {
+           "0.5": {
+            "point": 0.0162,
+            "ci95": [
+             0.0,
+             0.0414
+            ]
+           },
+           "2": {
+            "point": 0.0174,
+            "ci95": [
+             0.0,
+             0.044
+            ]
+           }
+          },
+          "reading": "F<0.5",
+          "readingClasses": {
+           "F<0.5": "holds at both worst-case bounds",
+           "F>=0.5": "depends on the censoring assumption"
+          }
+         },
+         {
+          "h": 600,
+          "atRisk": 31,
+          "atRiskDays": 30,
+          "supported": true,
+          "E1": {
+           "point": 0.189,
+           "ci95": [
+            0.1223,
+            0.2667
+           ]
+          },
+          "E2": {
+           "point": 0.3255,
+           "ci95": [
+            0.2134,
+            0.445
+           ]
+          },
+          "boundHigh": {
+           "point": 0.7559,
+           "ci95": [
+            0.6765,
+            0.8279
+           ]
+          },
+          "tilt": {
+           "0.5": {
+            "point": 0.2624,
+            "ci95": [
+             0.171,
+             0.3629
+            ]
+           },
+           "2": {
+            "point": 0.4267,
+            "ci95": [
+             0.2835,
+             0.5674
+            ]
+           }
+          },
+          "reading": "F<0.5",
+          "readingClasses": {
+           "F<0.5": "depends on the censoring assumption",
+           "F>=0.5": "depends on the censoring assumption"
+          }
+         },
+         {
+          "h": 900,
+          "atRisk": 15,
+          "atRiskDays": 15,
+          "supported": true,
+          "E1": {
+           "point": 0.252,
+           "ci95": [
+            0.1721,
+            0.339
+           ]
+          },
+          "E2": {
+           "point": 0.5399,
+           "ci95": [
+            0.3894,
+            0.698
+           ]
+          },
+          "boundHigh": {
+           "point": 0.8819,
+           "ci95": [
+            0.824,
+            0.9339
+           ]
+          },
+          "tilt": {
+           "0.5": {
+            "point": 0.4191,
+            "ci95": [
+             0.2965,
+             0.5573
+            ]
+           },
+           "2": {
+            "point": 0.6915,
+            "ci95": [
+             0.5227,
+             0.8349
+            ]
+           }
+          },
+          "reading": "F>=0.5",
+          "readingClasses": {
+           "F<0.5": "depends on the censoring assumption",
+           "F>=0.5": "depends on the censoring assumption"
+          }
+         }
+        ],
+        "classStatement": "within the lowest start-temperature tercile (start < 30 C), fewer than half reached by 600 s: depends on the censoring assumption; half or more reached: depends on the censoring assumption",
+        "median": {
+         "point": 793.0,
+         "identified": true
+        },
+        "profilePostHoc": {
+         "medianDistanceKm": 2.4,
+         "shareUnder5km": 0.6929,
+         "shareStartBefore10h": 0.315,
+         "label": "post-hoc descriptive, not pre-registered (blind-audit finding); not a test"
+        }
+       },
+       {
+        "stratum": 2,
+        "name": "middle",
+        "range": "30 C <= start < 48 C",
+        "n": 130,
+        "days": 74,
+        "weight": 0.3342,
+        "reached": 72,
+        "censoredShare": 0.4462,
+        "censoredTripEnd": 57,
+        "censoredChannelLoss": 1,
+        "horizons": [
+         {
+          "h": 300,
+          "atRisk": 102,
+          "atRiskDays": 66,
+          "supported": true,
+          "E1": {
+           "point": 0.1538,
+           "ci95": [
+            0.0965,
+            0.216
+           ]
+          },
+          "E2": {
+           "point": 0.1613,
+           "ci95": [
+            0.1016,
+            0.2264
+           ]
+          },
+          "boundHigh": {
+           "point": 0.2308,
+           "ci95": [
+            0.1667,
+            0.3009
+           ]
+          },
+          "tilt": {
+           "0.5": {
+            "point": 0.1577,
+            "ci95": [
+             0.0989,
+             0.2212
+            ]
+           },
+           "2": {
+            "point": 0.1679,
+            "ci95": [
+             0.1058,
+             0.2351
+            ]
+           }
+          },
+          "reading": "F<0.5",
+          "readingClasses": {
+           "F<0.5": "holds at both worst-case bounds",
+           "F>=0.5": "depends on the censoring assumption"
+          }
+         },
+         {
+          "h": 600,
+          "atRisk": 30,
+          "atRiskDays": 27,
+          "supported": true,
+          "E1": {
+           "point": 0.4077,
+           "ci95": [
+            0.3171,
+            0.5038
+           ]
+          },
+          "E2": {
+           "point": 0.5324,
+           "ci95": [
+            0.4218,
+            0.646
+           ]
+          },
+          "boundHigh": {
+           "point": 0.7692,
+           "ci95": [
+            0.6977,
+            0.8405
+           ]
+          },
+          "tilt": {
+           "0.5": {
+            "point": 0.4776,
+            "ci95": [
+             0.3769,
+             0.5826
+            ]
+           },
+           "2": {
+            "point": 0.6099,
+            "ci95": [
+             0.4863,
+             0.7249
+            ]
+           }
+          },
+          "reading": "F>=0.5",
+          "readingClasses": {
+           "F<0.5": "depends on the censoring assumption",
+           "F>=0.5": "depends on the censoring assumption"
+          }
+         },
+         {
+          "h": 900,
+          "atRisk": 16,
+          "atRiskDays": 16,
+          "supported": true,
+          "E1": {
+           "point": 0.4923,
+           "ci95": [
+            0.4,
+            0.5932
+           ]
+          },
+          "E2": {
+           "point": 0.7067,
+           "ci95": [
+            0.6012,
+            0.8077
+           ]
+          },
+          "boundHigh": {
+           "point": 0.8769,
+           "ci95": [
+            0.8203,
+            0.9306
+           ]
+          },
+          "tilt": {
+           "0.5": {
+            "point": 0.6236,
+            "ci95": [
+             0.5213,
+             0.7284
+            ]
+           },
+           "2": {
+            "point": 0.7937,
+            "ci95": [
+             0.6926,
+             0.8787
+            ]
+           }
+          },
+          "reading": "F>=0.5",
+          "readingClasses": {
+           "F<0.5": "depends on the censoring assumption",
+           "F>=0.5": "holds for every theta from 0.5 to 2"
+          }
+         }
+        ],
+        "classStatement": "within the middle start-temperature tercile (30 C <= start < 48 C), fewer than half reached by 600 s: depends on the censoring assumption; half or more reached: depends on the censoring assumption",
+        "median": {
+         "point": 529.0,
+         "identified": true
+        },
+        "profilePostHoc": {
+         "medianDistanceKm": 4.1,
+         "shareUnder5km": 0.5462,
+         "shareStartBefore10h": 0.1231,
+         "label": "post-hoc descriptive, not pre-registered (blind-audit finding); not a test"
+        }
+       },
+       {
+        "stratum": 3,
+        "name": "highest",
+        "range": "start >= 48 C",
+        "n": 132,
+        "days": 70,
+        "weight": 0.3393,
+        "reached": 62,
+        "censoredShare": 0.5303,
+        "censoredTripEnd": 69,
+        "censoredChannelLoss": 1,
+        "horizons": [
+         {
+          "h": 300,
+          "atRisk": 73,
+          "atRiskDays": 49,
+          "supported": true,
+          "E1": {
+           "point": 0.2955,
+           "ci95": [
+            0.2018,
+            0.392
+           ]
+          },
+          "E2": {
+           "point": 0.3256,
+           "ci95": [
+            0.2257,
+            0.4277
+           ]
+          },
+          "boundHigh": {
+           "point": 0.4545,
+           "ci95": [
+            0.3615,
+            0.5484
+           ]
+          },
+          "tilt": {
+           "0.5": {
+            "point": 0.3115,
+            "ci95": [
+             0.2137,
+             0.4107
+            ]
+           },
+           "2": {
+            "point": 0.3492,
+            "ci95": [
+             0.2436,
+             0.4552
+            ]
+           }
+          },
+          "reading": "F<0.5",
+          "readingClasses": {
+           "F<0.5": "holds for every theta from 0.5 to 2",
+           "F>=0.5": "depends on the censoring assumption"
+          }
+         },
+         {
+          "h": 600,
+          "atRisk": 17,
+          "atRiskDays": 15,
+          "supported": true,
+          "E1": {
+           "point": 0.4318,
+           "ci95": [
+            0.3358,
+            0.531
+           ]
+          },
+          "E2": {
+           "point": 0.5483,
+           "ci95": [
+            0.4367,
+            0.6575
+           ]
+          },
+          "boundHigh": {
+           "point": 0.8712,
+           "ci95": [
+            0.808,
+            0.928
+           ]
+          },
+          "tilt": {
+           "0.5": {
+            "point": 0.4971,
+            "ci95": [
+             0.3946,
+             0.6016
+            ]
+           },
+           "2": {
+            "point": 0.6215,
+            "ci95": [
+             0.503,
+             0.7363
+            ]
+           }
+          },
+          "reading": "F>=0.5",
+          "readingClasses": {
+           "F<0.5": "depends on the censoring assumption",
+           "F>=0.5": "depends on the censoring assumption"
+          }
+         },
+         {
+          "h": 900,
+          "atRisk": 4,
+          "atRiskDays": 4,
+          "supported": false
+         }
+        ],
+        "classStatement": "within the highest start-temperature tercile (start >= 48 C), fewer than half reached by 600 s: depends on the censoring assumption; half or more reached: depends on the censoring assumption",
+        "median": {
+         "point": 460.0,
+         "identified": true
+        },
+        "profilePostHoc": {
+         "medianDistanceKm": 2.4,
+         "shareUnder5km": 0.7121,
+         "shareStartBefore10h": 0.2045,
+         "label": "post-hoc descriptive, not pre-registered (blind-audit finding); not a test"
+        }
+       }
+      ],
+      "standardized": {
+       "300": {
+        "available": true,
+        "E2std": {
+         "point": 0.1698,
+         "ci95": [
+          0.1262,
+          0.2169
+         ]
+        },
+        "D": {
+         "point": -0.0039,
+         "ci95": [
+          -0.0074,
+          -0.001
+         ]
+        },
+        "nUnidentifiedDraws": 0,
+        "shareDrawsUnidentified": 0.0,
+        "contrasts": {
+         "stratum2_minus_1": {
+          "E2": {
+           "point": 0.1447,
+           "ci95": [
+            0.0816,
+            0.2129
+           ]
+          },
+          "E1": {
+           "point": 0.1381,
+           "ci95": [
+            0.0769,
+            0.2034
+           ]
+          }
+         },
+         "stratum3_minus_1": {
+          "E2": {
+           "point": 0.309,
+           "ci95": [
+            0.2103,
+            0.4063
+           ]
+          },
+          "E1": {
+           "point": 0.2797,
+           "ci95": [
+            0.1899,
+            0.3704
+           ]
+          }
+         }
+        }
+       },
+       "600": {
+        "available": true,
+        "E2std": {
+         "point": 0.4702,
+         "ci95": [
+          0.3987,
+          0.5423
+         ]
+        },
+        "D": {
+         "point": -0.0014,
+         "ci95": [
+          -0.0118,
+          0.0107
+         ]
+        },
+        "nUnidentifiedDraws": 0,
+        "shareDrawsUnidentified": 0.0,
+        "contrasts": {
+         "stratum2_minus_1": {
+          "E2": {
+           "point": 0.207,
+           "ci95": [
+            0.0568,
+            0.3602
+           ]
+          },
+          "E1": {
+           "point": 0.2187,
+           "ci95": [
+            0.12,
+            0.3215
+           ]
+          }
+         },
+         "stratum3_minus_1": {
+          "E2": {
+           "point": 0.2228,
+           "ci95": [
+            0.0731,
+            0.3677
+           ]
+          },
+          "E1": {
+           "point": 0.2428,
+           "ci95": [
+            0.1351,
+            0.3401
+           ]
+          }
+         }
+        }
+       },
+       "900": {
+        "available": false,
+        "reason": "a stratum is not supported at this horizon (fewer than 10 drives on 5 days at risk)"
+       }
+      }
+     },
+     "oil/70": {
+      "notes": {
+       "pattern": "at 600 s the middle tercile differs from the lowest by 0.062 (its interval includes zero) and the highest by 0.218 (its interval excludes zero); the highest and the middle differ by 0.156 (point only, no interval); the contrasts are against the lowest tercile and no gradient across the terciles is claimed",
+       "dNote": "a difference D near zero is not evidence that censoring can be ignored: independent censoring is still assumed within each tercile, and the upper worst-case bounds of the terciles at 600 s are 0.651 / 0.546 / 0.742",
+       "thin": null
+      },
+      "n": 388,
+      "days": 112,
+      "weights": [
+       0.3247,
+       0.3351,
+       0.3402
+      ],
+      "pooled": [
+       {
+        "h": 300,
+        "atRisk": 337,
+        "atRiskDays": 112,
+        "supported": true,
+        "E1": {
+         "point": 0.0309,
+         "ci95": [
+          0.0132,
+          0.0515
+         ]
+        },
+        "E2": {
+         "point": 0.0335,
+         "ci95": [
+          0.0145,
+          0.0554
+         ]
+        },
+        "boundHigh": {
+         "point": 0.1314,
+         "ci95": [
+          0.095,
+          0.168
+         ]
+        },
+        "tilt": {
+         "0.5": {
+          "point": 0.0322,
+          "ci95": [
+           0.0139,
+           0.0535
+          ]
+         },
+         "2": {
+          "point": 0.036,
+          "ci95": [
+           0.0157,
+           0.0595
+          ]
+         }
+        },
+        "reading": "F<0.5",
+        "readingClasses": {
+         "F<0.5": "holds at both worst-case bounds",
+         "F>=0.5": "depends on the censoring assumption"
+        }
+       },
+       {
+        "h": 600,
+        "atRisk": 138,
+        "atRiskDays": 87,
+        "supported": true,
+        "E1": {
+         "point": 0.1392,
+         "ci95": [
+          0.0957,
+          0.1882
+         ]
+        },
+        "E2": {
+         "point": 0.2161,
+         "ci95": [
+          0.1546,
+          0.2815
+         ]
+        },
+        "boundHigh": {
+         "point": 0.6469,
+         "ci95": [
+          0.5879,
+          0.6992
+         ]
+        },
+        "tilt": {
+         "0.5": {
+          "point": 0.1794,
+          "ci95": [
+           0.1265,
+           0.2359
+          ]
+         },
+         "2": {
+          "point": 0.2802,
+          "ci95": [
+           0.2031,
+           0.3586
+          ]
+         }
+        },
+        "reading": "F<0.5",
+        "readingClasses": {
+         "F<0.5": "holds for every theta from 0.5 to 2",
+         "F>=0.5": "depends on the censoring assumption"
+        }
+       },
+       {
+        "h": 900,
+        "atRisk": 66,
+        "atRiskDays": 52,
+        "supported": true,
+        "E1": {
+         "point": 0.2191,
+         "ci95": [
+          0.1688,
+          0.2768
+         ]
+        },
+        "E2": {
+         "point": 0.4388,
+         "ci95": [
+          0.3577,
+          0.5205
+         ]
+        },
+        "boundHigh": {
+         "point": 0.8299,
+         "ci95": [
+          0.7893,
+          0.8665
+         ]
+        },
+        "tilt": {
+         "0.5": {
+          "point": 0.3421,
+          "ci95": [
+           0.2748,
+           0.4131
+          ]
+         },
+         "2": {
+          "point": 0.5748,
+          "ci95": [
+           0.483,
+           0.6607
+          ]
+         }
+        },
+        "reading": "F<0.5",
+        "readingClasses": {
+         "F<0.5": "depends on the censoring assumption",
+         "F>=0.5": "depends on the censoring assumption"
+        }
+       }
+      ],
+      "strata": [
+       {
+        "stratum": 1,
+        "name": "lowest",
+        "range": "start < 30 C",
+        "n": 126,
+        "days": 100,
+        "weight": 0.3247,
+        "reached": 28,
+        "censoredShare": 0.7778,
+        "censoredTripEnd": 96,
+        "censoredChannelLoss": 2,
+        "horizons": [
+         {
+          "h": 300,
+          "atRisk": 117,
+          "atRiskDays": 97,
+          "supported": true,
+          "E1": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          },
+          "E2": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          },
+          "boundHigh": {
+           "point": 0.0714,
+           "ci95": [
+            0.0256,
+            0.1189
+           ]
+          },
+          "tilt": {
+           "0.5": {
+            "point": 0.0,
+            "ci95": [
+             0.0,
+             0.0
+            ]
+           },
+           "2": {
+            "point": 0.0,
+            "ci95": [
+             0.0,
+             0.0
+            ]
+           }
+          },
+          "reading": "F<0.5",
+          "readingClasses": {
+           "F<0.5": "holds at both worst-case bounds",
+           "F>=0.5": "depends on the censoring assumption"
+          }
+         },
+         {
+          "h": 600,
+          "atRisk": 44,
+          "atRiskDays": 43,
+          "supported": true,
+          "E1": {
+           "point": 0.0635,
+           "ci95": [
+            0.0242,
+            0.1102
+           ]
+          },
+          "E2": {
+           "point": 0.1249,
+           "ci95": [
+            0.0493,
+            0.2084
+           ]
+          },
+          "boundHigh": {
+           "point": 0.6508,
+           "ci95": [
+            0.561,
+            0.7313
+           ]
+          },
+          "tilt": {
+           "0.5": {
+            "point": 0.0951,
+            "ci95": [
+             0.0376,
+             0.1607
+            ]
+           },
+           "2": {
+            "point": 0.1794,
+            "ci95": [
+             0.0715,
+             0.2939
+            ]
+           }
+          },
+          "reading": "F<0.5",
+          "readingClasses": {
+           "F<0.5": "holds for every theta from 0.5 to 2",
+           "F>=0.5": "depends on the censoring assumption"
+          }
+         },
+         {
+          "h": 900,
+          "atRisk": 23,
+          "atRiskDays": 23,
+          "supported": true,
+          "E1": {
+           "point": 0.1349,
+           "ci95": [
+            0.0764,
+            0.202
+           ]
+          },
+          "E2": {
+           "point": 0.3551,
+           "ci95": [
+            0.2112,
+            0.5079
+           ]
+          },
+          "boundHigh": {
+           "point": 0.8175,
+           "ci95": [
+            0.7477,
+            0.8797
+           ]
+          },
+          "tilt": {
+           "0.5": {
+            "point": 0.2561,
+            "ci95": [
+             0.1511,
+             0.3761
+            ]
+           },
+           "2": {
+            "point": 0.5026,
+            "ci95": [
+             0.3148,
+             0.6716
+            ]
+           }
+          },
+          "reading": "F<0.5",
+          "readingClasses": {
+           "F<0.5": "depends on the censoring assumption",
+           "F>=0.5": "depends on the censoring assumption"
+          }
+         }
+        ],
+        "classStatement": "within the lowest start-temperature tercile (start < 30 C), fewer than half reached by 600 s: holds for every theta from 0.5 to 2; half or more reached: depends on the censoring assumption",
+        "median": {
+         "point": 1055.0,
+         "identified": true
+        },
+        "profilePostHoc": {
+         "medianDistanceKm": 2.4,
+         "shareUnder5km": 0.6984,
+         "shareStartBefore10h": 0.3175,
+         "label": "post-hoc descriptive, not pre-registered (blind-audit finding); not a test"
+        }
+       },
+       {
+        "stratum": 2,
+        "name": "middle",
+        "range": "30 C <= start < 48 C",
+        "n": 130,
+        "days": 74,
+        "weight": 0.3351,
+        "reached": 49,
+        "censoredShare": 0.6231,
+        "censoredTripEnd": 79,
+        "censoredChannelLoss": 2,
+        "horizons": [
+         {
+          "h": 300,
+          "atRisk": 122,
+          "atRiskDays": 74,
+          "supported": true,
+          "E1": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          },
+          "E2": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          },
+          "boundHigh": {
+           "point": 0.0615,
+           "ci95": [
+            0.0168,
+            0.1135
+           ]
+          },
+          "tilt": {
+           "0.5": {
+            "point": 0.0,
+            "ci95": [
+             0.0,
+             0.0
+            ]
+           },
+           "2": {
+            "point": 0.0,
+            "ci95": [
+             0.0,
+             0.0
+            ]
+           }
+          },
+          "reading": "F<0.5",
+          "readingClasses": {
+           "F<0.5": "holds at both worst-case bounds",
+           "F>=0.5": "depends on the censoring assumption"
+          }
+         },
+         {
+          "h": 600,
+          "atRisk": 60,
+          "atRiskDays": 44,
+          "supported": true,
+          "E1": {
+           "point": 0.1231,
+           "ci95": [
+            0.0672,
+            0.1842
+           ]
+          },
+          "E2": {
+           "point": 0.1871,
+           "ci95": [
+            0.1042,
+            0.2775
+           ]
+          },
+          "boundHigh": {
+           "point": 0.5462,
+           "ci95": [
+            0.4466,
+            0.6417
+           ]
+          },
+          "tilt": {
+           "0.5": {
+            "point": 0.1565,
+            "ci95": [
+             0.0866,
+             0.2338
+            ]
+           },
+           "2": {
+            "point": 0.2408,
+            "ci95": [
+             0.1351,
+             0.3504
+            ]
+           }
+          },
+          "reading": "F<0.5",
+          "readingClasses": {
+           "F<0.5": "holds for every theta from 0.5 to 2",
+           "F>=0.5": "depends on the censoring assumption"
+          }
+         },
+         {
+          "h": 900,
+          "atRisk": 30,
+          "atRiskDays": 27,
+          "supported": true,
+          "E1": {
+           "point": 0.2538,
+           "ci95": [
+            0.1735,
+            0.3421
+           ]
+          },
+          "E2": {
+           "point": 0.4483,
+           "ci95": [
+            0.3256,
+            0.5749
+           ]
+          },
+          "boundHigh": {
+           "point": 0.7692,
+           "ci95": [
+            0.6953,
+            0.8425
+           ]
+          },
+          "tilt": {
+           "0.5": {
+            "point": 0.3641,
+            "ci95": [
+             0.2588,
+             0.4753
+            ]
+           },
+           "2": {
+            "point": 0.5621,
+            "ci95": [
+             0.4233,
+             0.692
+            ]
+           }
+          },
+          "reading": "F<0.5",
+          "readingClasses": {
+           "F<0.5": "depends on the censoring assumption",
+           "F>=0.5": "depends on the censoring assumption"
+          }
+         }
+        ],
+        "classStatement": "within the middle start-temperature tercile (30 C <= start < 48 C), fewer than half reached by 600 s: holds for every theta from 0.5 to 2; half or more reached: depends on the censoring assumption",
+        "median": {
+         "point": 997.0,
+         "identified": true
+        },
+        "profilePostHoc": {
+         "medianDistanceKm": 4.1,
+         "shareUnder5km": 0.5462,
+         "shareStartBefore10h": 0.1231,
+         "label": "post-hoc descriptive, not pre-registered (blind-audit finding); not a test"
+        }
+       },
+       {
+        "stratum": 3,
+        "name": "highest",
+        "range": "start >= 48 C",
+        "n": 132,
+        "days": 70,
+        "weight": 0.3402,
+        "reached": 40,
+        "censoredShare": 0.697,
+        "censoredTripEnd": 92,
+        "censoredChannelLoss": 0,
+        "horizons": [
+         {
+          "h": 300,
+          "atRisk": 98,
+          "atRiskDays": 61,
+          "supported": true,
+          "E1": {
+           "point": 0.0909,
+           "ci95": [
+            0.0408,
+            0.1473
+           ]
+          },
+          "E2": {
+           "point": 0.1054,
+           "ci95": [
+            0.0481,
+            0.1682
+           ]
+          },
+          "boundHigh": {
+           "point": 0.2576,
+           "ci95": [
+            0.1799,
+            0.3364
+           ]
+          },
+          "tilt": {
+           "0.5": {
+            "point": 0.0983,
+            "ci95": [
+             0.0447,
+             0.1584
+            ]
+           },
+           "2": {
+            "point": 0.1186,
+            "ci95": [
+             0.0551,
+             0.1868
+            ]
+           }
+          },
+          "reading": "F<0.5",
+          "readingClasses": {
+           "F<0.5": "holds at both worst-case bounds",
+           "F>=0.5": "depends on the censoring assumption"
+          }
+         },
+         {
+          "h": 600,
+          "atRisk": 34,
+          "atRiskDays": 28,
+          "supported": true,
+          "E1": {
+           "point": 0.2273,
+           "ci95": [
+            0.1408,
+            0.3209
+           ]
+          },
+          "E2": {
+           "point": 0.343,
+           "ci95": [
+            0.2182,
+            0.4742
+           ]
+          },
+          "boundHigh": {
+           "point": 0.7424,
+           "ci95": [
+            0.6585,
+            0.8205
+           ]
+          },
+          "tilt": {
+           "0.5": {
+            "point": 0.2895,
+            "ci95": [
+             0.1824,
+             0.402
+            ]
+           },
+           "2": {
+            "point": 0.4286,
+            "ci95": [
+             0.2758,
+             0.5785
+            ]
+           }
+          },
+          "reading": "F<0.5",
+          "readingClasses": {
+           "F<0.5": "depends on the censoring assumption",
+           "F>=0.5": "depends on the censoring assumption"
+          }
+         },
+         {
+          "h": 900,
+          "atRisk": 13,
+          "atRiskDays": 13,
+          "supported": true,
+          "E1": {
+           "point": 0.2652,
+           "ci95": [
+            0.1748,
+            0.3637
+           ]
+          },
+          "E2": {
+           "point": 0.4972,
+           "ci95": [
+            0.3341,
+            0.6654
+           ]
+          },
+          "boundHigh": {
+           "point": 0.9015,
+           "ci95": [
+            0.8509,
+            0.9457
+           ]
+          },
+          "tilt": {
+           "0.5": {
+            "point": 0.3961,
+            "ci95": [
+             0.2619,
+             0.5395
+            ]
+           },
+           "2": {
+            "point": 0.637,
+            "ci95": [
+             0.4379,
+             0.8088
+            ]
+           }
+          },
+          "reading": "F<0.5",
+          "readingClasses": {
+           "F<0.5": "depends on the censoring assumption",
+           "F>=0.5": "depends on the censoring assumption"
+          }
+         }
+        ],
+        "classStatement": "within the highest start-temperature tercile (start >= 48 C), fewer than half reached by 600 s: depends on the censoring assumption; half or more reached: depends on the censoring assumption",
+        "median": {
+         "point": 921.0,
+         "identified": true
+        },
+        "profilePostHoc": {
+         "medianDistanceKm": 2.4,
+         "shareUnder5km": 0.7121,
+         "shareStartBefore10h": 0.2045,
+         "label": "post-hoc descriptive, not pre-registered (blind-audit finding); not a test"
+        }
+       }
+      ],
+      "standardized": {
+       "300": {
+        "available": true,
+        "E2std": {
+         "point": 0.0359,
+         "ci95": [
+          0.0156,
+          0.0587
+         ]
+        },
+        "D": {
+         "point": -0.0024,
+         "ci95": [
+          -0.0047,
+          -0.0007
+         ]
+        },
+        "nUnidentifiedDraws": 0,
+        "shareDrawsUnidentified": 0.0,
+        "contrasts": {
+         "stratum2_minus_1": {
+          "E2": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          },
+          "E1": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          }
+         },
+         "stratum3_minus_1": {
+          "E2": {
+           "point": 0.1054,
+           "ci95": [
+            0.0481,
+            0.1682
+           ]
+          },
+          "E1": {
+           "point": 0.0909,
+           "ci95": [
+            0.0408,
+            0.1473
+           ]
+          }
+         }
+        }
+       },
+       "600": {
+        "available": true,
+        "E2std": {
+         "point": 0.2199,
+         "ci95": [
+          0.1571,
+          0.2873
+         ]
+        },
+        "D": {
+         "point": -0.0039,
+         "ci95": [
+          -0.0136,
+          0.005
+         ]
+        },
+        "nUnidentifiedDraws": 0,
+        "shareDrawsUnidentified": 0.0,
+        "contrasts": {
+         "stratum2_minus_1": {
+          "E2": {
+           "point": 0.0622,
+           "ci95": [
+            -0.0582,
+            0.1833
+           ]
+          },
+          "E1": {
+           "point": 0.0596,
+           "ci95": [
+            -0.0097,
+            0.1331
+           ]
+          }
+         },
+         "stratum3_minus_1": {
+          "E2": {
+           "point": 0.2181,
+           "ci95": [
+            0.0847,
+            0.3539
+           ]
+          },
+          "E1": {
+           "point": 0.1638,
+           "ci95": [
+            0.0808,
+            0.25
+           ]
+          }
+         }
+        }
+       },
+       "900": {
+        "available": true,
+        "E2std": {
+         "point": 0.4347,
+         "ci95": [
+          0.3489,
+          0.5204
+         ]
+        },
+        "D": {
+         "point": 0.0041,
+         "ci95": [
+          -0.0195,
+          0.0307
+         ]
+        },
+        "nUnidentifiedDraws": 0,
+        "shareDrawsUnidentified": 0.0,
+        "contrasts": {
+         "stratum2_minus_1": {
+          "E2": {
+           "point": 0.0932,
+           "ci95": [
+            -0.1063,
+            0.2929
+           ]
+          },
+          "E1": {
+           "point": 0.1189,
+           "ci95": [
+            0.02,
+            0.2226
+           ]
+          }
+         },
+         "stratum3_minus_1": {
+          "E2": {
+           "point": 0.1421,
+           "ci95": [
+            -0.0709,
+            0.3499
+           ]
+          },
+          "E1": {
+           "point": 0.1302,
+           "ci95": [
+            0.0328,
+            0.2254
+           ]
+          }
+         }
+        }
+       }
+      }
+     }
+    },
+    "checks": {
+     "identitiesE1HighStd": true,
+     "g1PartitionAndPooledEqualsM435": true,
+     "allOk": true
+    },
+    "label": "this vehicle, one driver, May-October, ambient 3-38 C",
+    "required": {
+     "R1": "assumes that ending the drive is unrelated to the remaining time to the threshold (independent censoring) within each start-temperature tercile; this cannot be checked from these data",
+     "entanglement": "start temperature is entangled with the season, the trip length and the decision to stop the drive: the strata describe, they do not identify an effect of the start temperature",
+     "contrasts": "contrasts are descriptive, no test and no p-value; standardized to the observed start-temperature mix (weights fixed)"
+    },
+    "limits": [
+     "terciles are a declared planning choice with unequal shares (integer start temperature)",
+     "few days per stratum at long horizons: the support rule decides what is shown",
+     "no family-wise claim over 2 cells x 3 horizons x contrasts",
+     "strata are not matched on trip length, hour or season",
+     "cohort all only"
     ]
    },
    "_provenance": "GENERATED by tools/m435_tte.py via tools/thermal_support_ledger.py (M435, spec analyses/M435_spec.md Rev 2); do not hand-edit. Additive key; regenerated at every ingestion."

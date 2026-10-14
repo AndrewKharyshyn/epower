@@ -166,6 +166,8 @@ if _tt:
         if _mode == "all" and _tt.get("fillSensitivity"):       # M437: the fill table prints both reading classes of every supported setting (tables only)
             _exp_dep += sum(1 for _r_ in [r2_ for row_ in _tt["fillSensitivity"]["settings"].values() for r2_ in row_.values()] if _r_["supported600"] for v_ in _r_["readingClasses"].values() if v_ == "depends on the censoring assumption")
             _exp_dep += sum(st_["text"].count("depends on the censoring assumption") for st_ in _tt["fillSensitivity"]["statement"].values())      # the script-written statement names the class
+        if _mode == "all" and _tt.get("startStrata"):            # M438: the class statements of the strata name the class (tables / script-written statements only)
+            _exp_dep += sum(s_["classStatement"].count("depends on the censoring assumption") for c_ in _tt["startStrata"]["cells"].values() for s_ in c_["strata"])
         ok("A2 REQUIRED M435 %s: %d Kaplan-Meier tables; R1, R2 and R6 each appear once per table, R4 once per table plus the header" % (_mode, _n),
            _n >= 1 and _d.count(_Rq["R1"]) == _n and _d.count(_Rq["R2"]) == _n and _d.count(_Rq["R6"]) == _n and _d.count(_Rq["R4"]) == _n + 1 and _d.count("Kaplan-Meier (product-limit) estimate of the time to") == _n,
            "%s %s %s %s" % (_d.count(_Rq["R1"]), _d.count(_Rq["R2"]), _d.count(_Rq["R6"]), _d.count(_Rq["R4"])))
@@ -193,6 +195,18 @@ if _fs:
        "range over declared conventions, not a confidence interval" in _dfs and all(_fs["statement"][k_]["text"] in _dfs for k_ in _fs["headlineCells"])
        and all(("%.3f" % _fs["settings"][str(F_)][k_]["E1"]["point"]) in _dfs and ("%.3f" % _fs["settings"][str(F_)][k_]["E2"]["point"]) in _dfs for F_ in _fs["fills"] for k_ in _fs["headlineCells"] if _fs["settings"][str(F_)][k_]["supported600"])
        and ("coolant %.2f s" % _fs["sampleIntervalS"]["coolant"]["medianS"]) in _dfs and _dfs.count("Sensitivity to the forward-fill limit and the trip-end tolerance (M437)") == 1)
+# M438 (analyses/M438_spec.md Rev 2.1): start-temperature strata of the headline cells, produced in the ledger stage
+_ss = ((_tt or {}).get("startStrata")) if _tt else None
+if _ss:
+    ok("M438 payload checks pass (strata partition the M435 cells, pooled equals the M435 cell, E1_std = E1 and F_high_std = F_high in every draw) and the weights sum to 1",
+       all(v is True for v in _ss["checks"].values()) and all(abs(sum(c_["weights"]) - 1.0) < 1e-5 and sum(s_["n"] for s_ in c_["strata"]) == c_["n"] for c_ in _ss["cells"].values()))
+    _dss = T.get("distribution__all", "")
+    ok("A2 REQUIRED M438 all: the strata block renders the cut points, the required sentences, every class statement and the standardized values of the payload",
+       _dss.count("Within start-temperature terciles (M438).") == 1 and _ss["required"]["entanglement"] in _dss and _ss["required"]["R1"] in _dss and _ss["required"]["contrasts"] in _dss
+       and ("cut points %.1f and %.1f" % tuple(_ss["cutPointsC"])) in _dss and all(s_["classStatement"] in _dss for c_ in _ss["cells"].values() for s_ in c_["strata"])
+       and all(("%.3f" % c_["standardized"][str(_ss["headlineH"])]["E2std"]["point"]) in _dss for c_ in _ss["cells"].values() if c_["standardized"][str(_ss["headlineH"])]["available"])
+       and all(c_["notes"].get("pattern", "") in _dss and c_["notes"].get("dNote", "") in _dss and all(t_ in _dss for t_ in (c_["notes"].get("thin") or [])) for c_ in _ss["cells"].values())
+       and _dss.count("Post hoc, descriptive, not pre-registered (blind-audit finding), not a test") == len(_ss["cells"]))
 # A3 (M427, audit F01): the cell-spread trend wording follows the released interval in every rendered tab/mode (a sentence cannot say "spans zero" or "no resolved trend" beside an interval that excludes zero)
 _cs_ci = A["degradationTrends"]["cellSpread"]["clusterRobustOLS"]["ci95"]
 _cs_bad = LG.cell_spread_trend_violations(_cs_ci, T)

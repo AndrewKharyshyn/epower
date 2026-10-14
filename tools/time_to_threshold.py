@@ -105,6 +105,8 @@ class Cell:
 
     def median_time(self, S):
         """Per draw: first event time with S <= 0.5, else inf."""
+        if S.shape[1] == 0:                                   # no event time at all: the median is never reached
+            return np.full(S.shape[0], np.inf)
         hit = S <= 0.5
         any_ = hit.any(axis=1)
         first = np.argmax(hit, axis=1)
