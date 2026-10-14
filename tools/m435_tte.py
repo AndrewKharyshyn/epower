@@ -50,8 +50,8 @@ def _fluid(v, tsec, thr_list, start, C):
     return out
 
 
-def tte_record(fr, C):
-    g = C._twl_grid(fr)
+def tte_record(fr, C, g=None):
+    g = C._twl_grid(fr) if g is None else g          # M437: g may be the 1 Hz grid built with another forward-fill limit
     if g is None or "cool" not in g.columns:
         return {"status": "noFrameOrCoolantChannel"}
     c = g["cool"].dropna()
@@ -265,7 +265,7 @@ def build_block(tte, raw, days, regimes, C, meta=None):
            "hypothetical": "describes the time to c C had the drive continued (route and load undefined); the observed share before key-off is shown beside it",
            "reachersLabel": "median of reachers only; understates the time for all cold starts; not a cohort median",
            "cohorts": out, "curveSupport": curve, "postHoc": {"stoppingProfile": post},
-           "populationNote": "Cold starts and event times use a 1 Hz grid with forward fill of at most 3 s (logger interval above 1 s); without the fill some drives leave the cold-start population; the headline classes are unchanged; fill and trip-end tolerance are coupled.",
+           "populationNote": "Cold starts and event times use the released 1 Hz grid with a forward fill of at most 3 s (the coolant channel is logged less often than once per second); without the fill some drives leave the cold-start population; fill and trip-end tolerance are coupled; the sensitivity to the fill limit is shown below.",
            "requiredSentences": {"R1": "assumes that ending the drive is unrelated to the remaining time to the threshold (independent censoring); this cannot be checked from these data; bounds and tilt rows below",
                                  "R2": "describes the time to c C had the drive continued (route and load undefined); the observed share before key-off is shown beside it",
                                  "R4": LABEL, "R5": "cohort median not identifiable without an assumption on censoring",
