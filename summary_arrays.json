@@ -37483,7 +37483,458 @@
    "label": "post-hoc descriptive (M429 audit), not pre-registered",
    "reading": "decay rate k = -slope (1/h) per stratum with the arrival-day interval; tau = null when the stratum slope is not negative. The pooled tau is a gap-mix-dependent summary of a single-exponential fit."
   },
-  "method": "Consecutive chronological drive pairs; degC shed and above-ambient retained fraction vs soak gap. Newtonian soak tau from ln(resid/init excess) vs gap (recorded-ambient pairs, init excess >3C), slope by Sen's slope -- median of all pairwise (y_j-y_i)/(x_j-x_i) (M242) -- rather than a squared-gap-weighted least-squares slope, so neither a single multi-day parked gap nor a cluster of very-short, noise-dominated gaps can dominate the estimate. tauFitIntercept is the fit's own check of the through-origin assumption (median residual at gap=0); small values support it. M429 (audit F06): the tau interval resamples whole arrival-day clusters (calendar day of the following drive), 4000 draws, seed 42, percentile of the draw slopes mapped by tau = -1/slope; draws with a non-negative slope are counted (tau unbounded), not dropped; earlier releases resampled the pairs i.i.d."
+  "soakFitQuality": {
+   "label": "held-out, blocked-day cross-validated (k = 10 arrival-day blocks); model-derived; conditional on the pairing, the fold assignment and the manual driving-time ambient field",
+   "inSample": {
+    "rSquared": -1.051,
+    "reading": "in-sample R2 of the through-origin Sen line against a free-level mean of y = ln(resid/init excess); negative means the line is worse than a constant mean on the log scale; the held-out errors say whether it still improves on no decay"
+   },
+   "selection": {
+    "nBeforeResidualFilter": 501,
+    "nRemovedByResidualFilter": 151,
+    "note": "pairs with residual excess <= 0.5 C (and initial excess <= the minimum) are excluded: selection on the outcome; long-gap pairs are floored while the through-origin line keeps falling"
+   },
+   "cv": {
+    "k": 10,
+    "nPairs": 350,
+    "nScoredHeldOut": 350,
+    "nSkippedFolds": 0,
+    "bootstrap": {
+     "B": 4000,
+     "seed": 42,
+     "unit": "calendar day (arrival), paired over models"
+    },
+    "primaryMetric": "skill_MAE = 1 - MAE_M / MAE_B on the retained fraction exp(y); secondary: log-scale MSE skill, log MedAE",
+    "references": "B0 persistence (y_hat = 0); B1 one level (median for MAE / MedAE, mean for log MSE); B2 gap-bin statistic with the pack gapBins edges 0-1-3-6-12-24 h (coolant and oil use the same edges)",
+    "multiplicity": "intervals are per comparison and are not adjusted (27 per metric)",
+    "eligibility": "statements need >= 20 held-out pairs and >= 10 held-out days"
+   },
+   "cells": {
+    "pooled": {
+     "nPairs": 350,
+     "nDays": 98,
+     "eligibleForStatements": true,
+     "point": {
+      "skillMAE_B0": 0.3952,
+      "skillMAE_B1": 0.3883,
+      "skillMAE_B2": -0.0222,
+      "skillMSElog_B0": -0.8529,
+      "skillMSElog_B1": -1.1547,
+      "skillMSElog_B2": -4.1462,
+      "skillMedAElog_B0": 0.3103,
+      "skillMedAElog_B1": 0.2159,
+      "skillMedAElog_B2": 0.0477,
+      "MAE_M": 0.1357,
+      "MAE_B0": 0.2243,
+      "MedAElog_M": 0.0833,
+      "MedAElog_B0": 0.1208,
+      "skillMAE_B3": -0.0104
+     },
+     "ci95": {
+      "skillMAE_B0": [
+       0.3074,
+       0.4838
+      ],
+      "skillMAE_B1": [
+       0.3059,
+       0.4743
+      ],
+      "skillMAE_B2": [
+       -0.0578,
+       0.0105
+      ],
+      "skillMSElog_B0": [
+       -3.8163,
+       0.582
+      ],
+      "skillMSElog_B1": [
+       -4.6421,
+       0.5116
+      ],
+      "skillMSElog_B2": [
+       -13.229,
+       -0.2521
+      ],
+      "skillMedAElog_B0": [
+       0.1962,
+       0.4403
+      ],
+      "skillMedAElog_B1": [
+       -0.0323,
+       0.351
+      ],
+      "skillMedAElog_B2": [
+       -0.0437,
+       0.2048
+      ],
+      "MAE_M": [
+       0.109,
+       0.1655
+      ],
+      "MAE_B0": [
+       0.1945,
+       0.2574
+      ],
+      "MedAElog_M": [
+       0.0656,
+       0.1058
+      ],
+      "MedAElog_B0": [
+       0.1054,
+       0.1415
+      ],
+      "skillMAE_B3": [
+       -0.0201,
+       -0.0008
+      ]
+     },
+     "nZeroDenominatorDraws": {},
+     "statements": {
+      "S1": {
+       "statement": "improvement over persistence established",
+       "metricDisagreement": [
+        "skillMSElog_B0 gives: improvement over persistence not established"
+       ]
+      },
+      "S2": {
+       "statement": "gain over a constant level established",
+       "metricDisagreement": [
+        "skillMSElog_B1 gives: gain over a constant level not established",
+        "skillMedAElog_B1 gives: gain over a constant level not established"
+       ]
+      },
+      "S3": {
+       "statement": "not shown to be worse than the empirical gap bins",
+       "metricDisagreement": [
+        "skillMSElog_B2 gives: worse than the empirical gap bins"
+       ]
+      }
+     },
+     "b2EqualsB0AllFolds": false,
+     "blockBootstrap": {
+      "blockDays": 5,
+      "statements": {
+       "S1": "improvement over persistence established",
+       "S2": "gain over a constant level established",
+       "S3": "not shown to be worse than the empirical gap bins"
+      },
+      "differsFromDayBootstrap": [],
+      "label": "post-hoc, not pre-registered (M430 blind audit): moving-block bootstrap of 5 consecutive held-out days"
+     }
+    },
+    "gapLt1h": {
+     "nPairs": 202,
+     "nDays": 79,
+     "eligibleForStatements": true,
+     "point": {
+      "skillMAE_B0": -0.0574,
+      "skillMAE_B1": 0.1933,
+      "skillMAE_B2": -0.0574,
+      "skillMSElog_B0": -0.0033,
+      "skillMSElog_B1": 0.8268,
+      "skillMSElog_B2": 0.0113,
+      "skillMedAElog_B0": 0.1452,
+      "skillMedAElog_B1": 0.2088,
+      "skillMedAElog_B2": 0.1452,
+      "MAE_M": 0.0828,
+      "MAE_B0": 0.0783,
+      "MedAElog_M": 0.0511,
+      "MedAElog_B0": 0.0597,
+      "skillMAE_B3": -0.0369
+     },
+     "ci95": {
+      "skillMAE_B0": [
+       -0.1215,
+       -0.002
+      ],
+      "skillMAE_B1": [
+       0.1435,
+       0.2455
+      ],
+      "skillMAE_B2": [
+       -0.1215,
+       -0.002
+      ],
+      "skillMSElog_B0": [
+       -0.0992,
+       0.087
+      ],
+      "skillMSElog_B1": [
+       0.776,
+       0.8691
+      ],
+      "skillMSElog_B2": [
+       -0.0807,
+       0.0994
+      ],
+      "skillMedAElog_B0": [
+       -0.0461,
+       0.2644
+      ],
+      "skillMedAElog_B1": [
+       -0.0214,
+       0.3658
+      ],
+      "skillMedAElog_B2": [
+       -0.0461,
+       0.2644
+      ],
+      "MAE_M": [
+       0.0699,
+       0.0982
+      ],
+      "MAE_B0": [
+       0.0645,
+       0.0943
+      ],
+      "MedAElog_M": [
+       0.0409,
+       0.0659
+      ],
+      "MedAElog_B0": [
+       0.0,
+       0.0817
+      ],
+      "skillMAE_B3": [
+       -0.0606,
+       -0.0139
+      ]
+     },
+     "nZeroDenominatorDraws": {
+      "skillMedAElog_B0": 117,
+      "skillMedAElog_B2": 117
+     },
+     "statements": {
+      "S1": {
+       "statement": "improvement over persistence not established"
+      },
+      "S2": {
+       "statement": "gain over a constant level established",
+       "metricDisagreement": [
+        "skillMedAElog_B1 gives: gain over a constant level not established"
+       ]
+      },
+      "S3": {
+       "statement": "worse than the empirical gap bins",
+       "metricDisagreement": [
+        "skillMSElog_B2 gives: not shown to be worse than the empirical gap bins"
+       ]
+      }
+     },
+     "b2EqualsB0AllFolds": true,
+     "blockBootstrap": {
+      "blockDays": 5,
+      "statements": {
+       "S1": "improvement over persistence not established",
+       "S2": "gain over a constant level established",
+       "S3": "worse than the empirical gap bins"
+      },
+      "differsFromDayBootstrap": [],
+      "label": "post-hoc, not pre-registered (M430 blind audit): moving-block bootstrap of 5 consecutive held-out days"
+     }
+    },
+    "gapGe1h": {
+     "nPairs": 148,
+     "nDays": 81,
+     "eligibleForStatements": true,
+     "point": {
+      "skillMAE_B0": 0.5093,
+      "skillMAE_B1": 0.4593,
+      "skillMAE_B2": -0.004,
+      "skillMSElog_B0": -0.8685,
+      "skillMSElog_B1": -1.4291,
+      "skillMSElog_B2": -4.3692,
+      "skillMedAElog_B0": 0.5848,
+      "skillMedAElog_B1": 0.5376,
+      "skillMedAElog_B2": 0.0272,
+      "MAE_M": 0.2079,
+      "MAE_B0": 0.4237,
+      "MedAElog_M": 0.1481,
+      "MedAElog_B0": 0.3567,
+      "skillMAE_B3": 0.0035
+     },
+     "ci95": {
+      "skillMAE_B0": [
+       0.3999,
+       0.6228
+      ],
+      "skillMAE_B1": [
+       0.3479,
+       0.58
+      ],
+      "skillMAE_B2": [
+       -0.0467,
+       0.0357
+      ],
+      "skillMSElog_B0": [
+       -3.8953,
+       0.586
+      ],
+      "skillMSElog_B1": [
+       -5.4325,
+       0.457
+      ],
+      "skillMSElog_B2": [
+       -14.4363,
+       -0.2795
+      ],
+      "skillMedAElog_B0": [
+       0.415,
+       0.6891
+      ],
+      "skillMedAElog_B1": [
+       0.3297,
+       0.6547
+      ],
+      "skillMedAElog_B2": [
+       -0.3398,
+       0.1733
+      ],
+      "MAE_M": [
+       0.1508,
+       0.27
+      ],
+      "MAE_B0": [
+       0.3688,
+       0.4798
+      ],
+      "MedAElog_M": [
+       0.1221,
+       0.2198
+      ],
+      "MedAElog_B0": [
+       0.2877,
+       0.5108
+      ],
+      "skillMAE_B3": [
+       -0.0024,
+       0.0107
+      ]
+     },
+     "nZeroDenominatorDraws": {},
+     "statements": {
+      "S1": {
+       "statement": "improvement over persistence established",
+       "metricDisagreement": [
+        "skillMSElog_B0 gives: improvement over persistence not established"
+       ]
+      },
+      "S2": {
+       "statement": "gain over a constant level established",
+       "metricDisagreement": [
+        "skillMSElog_B1 gives: gain over a constant level not established"
+       ]
+      },
+      "S3": {
+       "statement": "not shown to be worse than the empirical gap bins",
+       "metricDisagreement": [
+        "skillMSElog_B2 gives: worse than the empirical gap bins"
+       ]
+      }
+     },
+     "b2EqualsB0AllFolds": false,
+     "blockBootstrap": {
+      "blockDays": 5,
+      "statements": {
+       "S1": "improvement over persistence established",
+       "S2": "gain over a constant level established",
+       "S3": "not shown to be worse than the empirical gap bins"
+      },
+      "differsFromDayBootstrap": [],
+      "label": "post-hoc, not pre-registered (M430 blind audit): moving-block bootstrap of 5 consecutive held-out days"
+     }
+    }
+   },
+   "bins": [
+    {
+     "bin": "0-1 h",
+     "nPairs": 202,
+     "nDays": 79,
+     "medianObservedRetained": 1.0,
+     "medianPredictedRetained": 0.9821,
+     "medianResidualLog": 0.015
+    },
+    {
+     "bin": "1-3 h",
+     "nPairs": 63,
+     "nDays": 44,
+     "medianObservedRetained": 0.875,
+     "medianPredictedRetained": 0.8727,
+     "medianResidualLog": -0.0006
+    },
+    {
+     "bin": "3-6 h",
+     "nPairs": 27,
+     "nDays": 25,
+     "medianObservedRetained": 0.7,
+     "medianPredictedRetained": 0.7191,
+     "medianResidualLog": -0.0348
+    },
+    {
+     "bin": "6-12 h",
+     "nPairs": 26,
+     "nDays": 21,
+     "medianObservedRetained": 0.3842,
+     "medianPredictedRetained": 0.4236,
+     "medianResidualLog": -0.0936
+    },
+    {
+     "bin": "12-24 h",
+     "nPairs": 25,
+     "nDays": 25,
+     "medianObservedRetained": 0.2222,
+     "medianPredictedRetained": 0.2179,
+     "medianResidualLog": -0.0185
+    },
+    {
+     "bin": "24-inf h",
+     "nPairs": 7,
+     "nDays": 7,
+     "medianObservedRetained": 0.1579,
+     "medianPredictedRetained": 0.0268,
+     "medianResidualLog": 1.7741
+    }
+   ],
+   "leaveOneDayOut": {
+    "nSkippedFolds": 0,
+    "cells": {
+     "pooled": {
+      "nPairs": 350,
+      "statements": {
+       "S1": "improvement over persistence established",
+       "S2": "gain over a constant level established",
+       "S3": "not shown to be worse than the empirical gap bins"
+      },
+      "differsFromK10": []
+     },
+     "gapLt1h": {
+      "nPairs": 202,
+      "statements": {
+       "S1": "improvement over persistence not established",
+       "S2": "gain over a constant level established",
+       "S3": "worse than the empirical gap bins"
+      },
+      "differsFromK10": []
+     },
+     "gapGe1h": {
+      "nPairs": 148,
+      "statements": {
+       "S1": "improvement over persistence established",
+       "S2": "gain over a constant level established",
+       "S3": "not shown to be worse than the empirical gap bins"
+      },
+      "differsFromK10": []
+     }
+    }
+   },
+   "postHoc": {
+    "label": "post-hoc, not pre-registered (M430 blind audit)",
+    "logSqErrShareGapGe12h": 0.8914,
+    "shareOfScoredPairsGapGe12h": 0.0914,
+    "reading": "share of the line's held-out log squared error that comes from pairs parked 12 h or longer; with the outcome-selection floor and shape misfit confounded there, the negative log-scale R2 and the log-MSE skill are driven by that tail"
+   }
+  },
+  "method": "Consecutive chronological drive pairs; degC shed and above-ambient retained fraction vs soak gap. Newtonian soak tau from ln(resid/init excess) vs gap (recorded-ambient pairs, init excess >3C), slope by Sen's slope -- median of all pairwise (y_j-y_i)/(x_j-x_i) (M242) -- rather than a squared-gap-weighted least-squares slope, so neither a single multi-day parked gap nor a cluster of very-short, noise-dominated gaps can dominate the estimate. tauFitIntercept is the fit's own check of the through-origin assumption (median residual at gap=0); small values support it. M429 (audit F06): the tau interval resamples whole arrival-day clusters (calendar day of the following drive), 4000 draws, seed 42, percentile of the draw slopes mapped by tau = -1/slope; draws with a non-negative slope are counted (tau unbounded), not dropped; earlier releases resampled the pairs i.i.d. M430 (audit F05): soakFitQuality reports the held-out (blocked-day cross-validated) error of the same single-exponential line against persistence, a constant level and empirical gap-bin medians, with the in-sample R2 printed (a negative value means the through-origin line is worse than a free-level mean on the log scale)."
  },
  "interDriveCarryover": {
   "nPairs": 567,
@@ -37497,6 +37948,441 @@
     ],
     "r2": -16.124,
     "nfit": 458,
+    "fitQuality": {
+     "label": "held-out, blocked-day cross-validated (k = 10 arrival-day blocks); model-derived; conditional on the pairing, the fold assignment and the manual driving-time ambient field",
+     "inSample": {
+      "rSquared": -16.124,
+      "reading": "in-sample R2 of the through-origin Sen line against a free-level mean of y = ln(resid/init excess); negative means the line is worse than a constant mean on the log scale; the held-out errors say whether it still improves on no decay"
+     },
+     "selection": {
+      "nBeforeResidualFilter": 497,
+      "nRemovedByResidualFilter": 39,
+      "note": "pairs with residual excess <= 0.5 C (and initial excess <= the minimum) are excluded: selection on the outcome; long-gap pairs are floored while the through-origin line keeps falling"
+     },
+     "cv": {
+      "k": 10,
+      "nPairs": 458,
+      "nScoredHeldOut": 458,
+      "nSkippedFolds": 0,
+      "bootstrap": {
+       "B": 4000,
+       "seed": 42,
+       "unit": "calendar day (arrival), paired over models"
+      },
+      "primaryMetric": "skill_MAE = 1 - MAE_M / MAE_B on the retained fraction exp(y); secondary: log-scale MSE skill, log MedAE",
+      "references": "B0 persistence (y_hat = 0); B1 one level (median for MAE / MedAE, mean for log MSE); B2 gap-bin statistic with the pack gapBins edges 0-1-3-6-12-24 h (coolant and oil use the same edges)",
+      "multiplicity": "intervals are per comparison and are not adjusted (27 per metric)",
+      "eligibility": "statements need >= 20 held-out pairs and >= 10 held-out days"
+     },
+     "cells": {
+      "pooled": {
+       "nPairs": 458,
+       "nDays": 106,
+       "eligibleForStatements": true,
+       "point": {
+        "skillMAE_B0": 0.69,
+        "skillMAE_B1": 0.55,
+        "skillMAE_B2": -0.0901,
+        "skillMSElog_B0": -9.935,
+        "skillMSElog_B1": -16.9471,
+        "skillMSElog_B2": -65.2378,
+        "skillMedAElog_B0": 0.5003,
+        "skillMedAElog_B1": 0.4283,
+        "skillMedAElog_B2": -0.2115,
+        "MAE_M": 0.1214,
+        "MAE_B0": 0.3915,
+        "MedAElog_M": 0.1782,
+        "MedAElog_B0": 0.3567,
+        "skillMAE_B3": -0.2223
+       },
+       "ci95": {
+        "skillMAE_B0": [
+         0.6592,
+         0.7202
+        ],
+        "skillMAE_B1": [
+         0.503,
+         0.5956
+        ],
+        "skillMAE_B2": [
+         -0.176,
+         -0.0157
+        ],
+        "skillMSElog_B0": [
+         -22.0155,
+         -0.9426
+        ],
+        "skillMSElog_B1": [
+         -36.8755,
+         -2.2073
+        ],
+        "skillMSElog_B2": [
+         -139.7148,
+         -11.1995
+        ],
+        "skillMedAElog_B0": [
+         0.4552,
+         0.5642
+        ],
+        "skillMedAElog_B1": [
+         0.3584,
+         0.5094
+        ],
+        "skillMedAElog_B2": [
+         -0.4161,
+         -0.0606
+        ],
+        "MAE_M": [
+         0.1119,
+         0.1317
+        ],
+        "MAE_B0": [
+         0.3639,
+         0.4208
+        ],
+        "MedAElog_M": [
+         0.1504,
+         0.2018
+        ],
+        "MedAElog_B0": [
+         0.3124,
+         0.4308
+        ],
+        "skillMAE_B3": [
+         -0.288,
+         -0.1637
+        ]
+       },
+       "nZeroDenominatorDraws": {},
+       "statements": {
+        "S1": {
+         "statement": "improvement over persistence established",
+         "metricDisagreement": [
+          "skillMSElog_B0 gives: improvement over persistence not established"
+         ]
+        },
+        "S2": {
+         "statement": "gain over a constant level established",
+         "metricDisagreement": [
+          "skillMSElog_B1 gives: gain over a constant level not established"
+         ]
+        },
+        "S3": {
+         "statement": "worse than the empirical gap bins"
+        }
+       },
+       "b2EqualsB0AllFolds": false,
+       "blockBootstrap": {
+        "blockDays": 5,
+        "statements": {
+         "S1": "improvement over persistence established",
+         "S2": "gain over a constant level established",
+         "S3": "worse than the empirical gap bins"
+        },
+        "differsFromDayBootstrap": [],
+        "label": "post-hoc, not pre-registered (M430 blind audit): moving-block bootstrap of 5 consecutive held-out days"
+       }
+      },
+      "gapLt1h": {
+       "nPairs": 259,
+       "nDays": 87,
+       "eligibleForStatements": true,
+       "point": {
+        "skillMAE_B0": 0.4173,
+        "skillMAE_B1": 0.4224,
+        "skillMAE_B2": 0.0984,
+        "skillMSElog_B0": 0.613,
+        "skillMSElog_B1": 0.9345,
+        "skillMSElog_B2": 0.1526,
+        "skillMedAElog_B0": 0.4249,
+        "skillMedAElog_B1": 0.5662,
+        "skillMedAElog_B2": 0.0941,
+        "MAE_M": 0.0985,
+        "MAE_B0": 0.169,
+        "MedAElog_M": 0.0938,
+        "MedAElog_B0": 0.1632,
+        "skillMAE_B3": -0.3444
+       },
+       "ci95": {
+        "skillMAE_B0": [
+         0.3847,
+         0.4485
+        ],
+        "skillMAE_B1": [
+         0.3364,
+         0.4984
+        ],
+        "skillMAE_B2": [
+         0.0187,
+         0.17
+        ],
+        "skillMSElog_B0": [
+         0.5788,
+         0.6458
+        ],
+        "skillMSElog_B1": [
+         0.9177,
+         0.9492
+        ],
+        "skillMSElog_B2": [
+         0.0433,
+         0.2506
+        ],
+        "skillMedAElog_B0": [
+         0.3301,
+         0.514
+        ],
+        "skillMedAElog_B1": [
+         0.4772,
+         0.648
+        ],
+        "skillMedAElog_B2": [
+         -0.0344,
+         0.2493
+        ],
+        "MAE_M": [
+         0.09,
+         0.1071
+        ],
+        "MAE_B0": [
+         0.1552,
+         0.1824
+        ],
+        "MedAElog_M": [
+         0.083,
+         0.1049
+        ],
+        "MedAElog_B0": [
+         0.1382,
+         0.1996
+        ],
+        "skillMAE_B3": [
+         -0.4652,
+         -0.23
+        ]
+       },
+       "nZeroDenominatorDraws": {},
+       "statements": {
+        "S1": {
+         "statement": "improvement over persistence established"
+        },
+        "S2": {
+         "statement": "gain over a constant level established"
+        },
+        "S3": {
+         "statement": "not shown to be worse than the empirical gap bins"
+        }
+       },
+       "b2EqualsB0AllFolds": false,
+       "blockBootstrap": {
+        "blockDays": 5,
+        "statements": {
+         "S1": "improvement over persistence established",
+         "S2": "gain over a constant level established",
+         "S3": "not shown to be worse than the empirical gap bins"
+        },
+        "differsFromDayBootstrap": [],
+        "label": "post-hoc, not pre-registered (M430 blind audit): moving-block bootstrap of 5 consecutive held-out days"
+       }
+      },
+      "gapGe1h": {
+       "nPairs": 199,
+       "nDays": 93,
+       "eligibleForStatements": true,
+       "point": {
+        "skillMAE_B0": 0.778,
+        "skillMAE_B1": 0.621,
+        "skillMAE_B2": -0.3249,
+        "skillMSElog_B0": -10.198,
+        "skillMSElog_B1": -22.4639,
+        "skillMSElog_B2": -69.9559,
+        "skillMedAElog_B0": 0.6097,
+        "skillMedAElog_B1": 0.4244,
+        "skillMedAElog_B2": -0.5781,
+        "MAE_M": 0.1512,
+        "MAE_B0": 0.6812,
+        "MedAElog_M": 0.4505,
+        "MedAElog_B0": 1.1545,
+        "skillMAE_B3": -0.1349
+       },
+       "ci95": {
+        "skillMAE_B0": [
+         0.7412,
+         0.8116
+        ],
+        "skillMAE_B1": [
+         0.5545,
+         0.6812
+        ],
+        "skillMAE_B2": [
+         -0.494,
+         -0.1941
+        ],
+        "skillMSElog_B0": [
+         -23.4446,
+         -1.0976
+        ],
+        "skillMSElog_B1": [
+         -50.5131,
+         -3.4514
+        ],
+        "skillMSElog_B2": [
+         -154.3757,
+         -12.8513
+        ],
+        "skillMedAElog_B0": [
+         0.5304,
+         0.6569
+        ],
+        "skillMedAElog_B1": [
+         0.2768,
+         0.5282
+        ],
+        "skillMedAElog_B2": [
+         -0.965,
+         -0.3292
+        ],
+        "MAE_M": [
+         0.1325,
+         0.171
+        ],
+        "MAE_B0": [
+         0.6537,
+         0.7122
+        ],
+        "MedAElog_M": [
+         0.4155,
+         0.5484
+        ],
+        "MedAElog_B0": [
+         1.008,
+         1.3581
+        ],
+        "skillMAE_B3": [
+         -0.1778,
+         -0.0969
+        ]
+       },
+       "nZeroDenominatorDraws": {},
+       "statements": {
+        "S1": {
+         "statement": "improvement over persistence established",
+         "metricDisagreement": [
+          "skillMSElog_B0 gives: improvement over persistence not established"
+         ]
+        },
+        "S2": {
+         "statement": "gain over a constant level established",
+         "metricDisagreement": [
+          "skillMSElog_B1 gives: gain over a constant level not established"
+         ]
+        },
+        "S3": {
+         "statement": "worse than the empirical gap bins"
+        }
+       },
+       "b2EqualsB0AllFolds": false,
+       "blockBootstrap": {
+        "blockDays": 5,
+        "statements": {
+         "S1": "improvement over persistence established",
+         "S2": "gain over a constant level established",
+         "S3": "worse than the empirical gap bins"
+        },
+        "differsFromDayBootstrap": [],
+        "label": "post-hoc, not pre-registered (M430 blind audit): moving-block bootstrap of 5 consecutive held-out days"
+       }
+      }
+     },
+     "bins": [
+      {
+       "bin": "0-1 h",
+       "nPairs": 259,
+       "nDays": 87,
+       "medianObservedRetained": 0.8525,
+       "medianPredictedRetained": 0.9418,
+       "medianResidualLog": -0.0877
+      },
+      {
+       "bin": "1-3 h",
+       "nPairs": 84,
+       "nDays": 55,
+       "medianObservedRetained": 0.4426,
+       "medianPredictedRetained": 0.5979,
+       "medianResidualLog": -0.2862
+      },
+      {
+       "bin": "3-6 h",
+       "nPairs": 34,
+       "nDays": 31,
+       "medianObservedRetained": 0.2418,
+       "medianPredictedRetained": 0.3257,
+       "medianResidualLog": -0.1536
+      },
+      {
+       "bin": "6-12 h",
+       "nPairs": 34,
+       "nDays": 25,
+       "medianObservedRetained": 0.137,
+       "medianPredictedRetained": 0.0506,
+       "medianResidualLog": 1.0149
+      },
+      {
+       "bin": "12-24 h",
+       "nPairs": 36,
+       "nDays": 36,
+       "medianObservedRetained": 0.0656,
+       "medianPredictedRetained": 0.0081,
+       "medianResidualLog": 1.8487
+      },
+      {
+       "bin": "24-inf h",
+       "nPairs": 11,
+       "nDays": 11,
+       "medianObservedRetained": 0.0556,
+       "medianPredictedRetained": 0.0,
+       "medianResidualLog": 11.5068
+      }
+     ],
+     "leaveOneDayOut": {
+      "nSkippedFolds": 0,
+      "cells": {
+       "pooled": {
+        "nPairs": 458,
+        "statements": {
+         "S1": "improvement over persistence established",
+         "S2": "gain over a constant level established",
+         "S3": "worse than the empirical gap bins"
+        },
+        "differsFromK10": []
+       },
+       "gapLt1h": {
+        "nPairs": 259,
+        "statements": {
+         "S1": "improvement over persistence established",
+         "S2": "gain over a constant level established",
+         "S3": "not shown to be worse than the empirical gap bins"
+        },
+        "differsFromK10": []
+       },
+       "gapGe1h": {
+        "nPairs": 199,
+        "statements": {
+         "S1": "improvement over persistence established",
+         "S2": "gain over a constant level established",
+         "S3": "worse than the empirical gap bins"
+        },
+        "differsFromK10": []
+       }
+      }
+     },
+     "postHoc": {
+      "label": "post-hoc, not pre-registered (M430 blind audit)",
+      "logSqErrShareGapGe12h": 0.9841,
+      "shareOfScoredPairsGapGe12h": 0.1026,
+      "reading": "share of the line's held-out log squared error that comes from pairs parked 12 h or longer; with the outcome-selection floor and shape misfit confounded there, the negative log-scale R2 and the log-MSE skill are driven by that tail"
+     }
+    },
     "tauCiMethod": {
      "cluster": "calendar day of the following drive's start",
      "B": 4000,
@@ -37699,6 +38585,449 @@
     ],
     "r2": -16.775,
     "nfit": 447,
+    "fitQuality": {
+     "label": "held-out, blocked-day cross-validated (k = 10 arrival-day blocks); model-derived; conditional on the pairing, the fold assignment and the manual driving-time ambient field",
+     "inSample": {
+      "rSquared": -16.775,
+      "reading": "in-sample R2 of the through-origin Sen line against a free-level mean of y = ln(resid/init excess); negative means the line is worse than a constant mean on the log scale; the held-out errors say whether it still improves on no decay"
+     },
+     "selection": {
+      "nBeforeResidualFilter": 497,
+      "nRemovedByResidualFilter": 50,
+      "note": "pairs with residual excess <= 0.5 C (and initial excess <= the minimum) are excluded: selection on the outcome; long-gap pairs are floored while the through-origin line keeps falling"
+     },
+     "cv": {
+      "k": 10,
+      "nPairs": 447,
+      "nScoredHeldOut": 447,
+      "nSkippedFolds": 0,
+      "bootstrap": {
+       "B": 4000,
+       "seed": 42,
+       "unit": "calendar day (arrival), paired over models"
+      },
+      "primaryMetric": "skill_MAE = 1 - MAE_M / MAE_B on the retained fraction exp(y); secondary: log-scale MSE skill, log MedAE",
+      "references": "B0 persistence (y_hat = 0); B1 one level (median for MAE / MedAE, mean for log MSE); B2 gap-bin statistic with the pack gapBins edges 0-1-3-6-12-24 h (coolant and oil use the same edges)",
+      "multiplicity": "intervals are per comparison and are not adjusted (27 per metric)",
+      "eligibility": "statements need >= 20 held-out pairs and >= 10 held-out days"
+     },
+     "cells": {
+      "pooled": {
+       "nPairs": 447,
+       "nDays": 106,
+       "eligibleForStatements": true,
+       "point": {
+        "skillMAE_B0": 0.6951,
+        "skillMAE_B1": 0.5634,
+        "skillMAE_B2": 0.0099,
+        "skillMSElog_B0": -11.0918,
+        "skillMSElog_B1": -17.3683,
+        "skillMSElog_B2": -60.6538,
+        "skillMedAElog_B0": 0.572,
+        "skillMedAElog_B1": 0.4833,
+        "skillMedAElog_B2": 0.0146,
+        "MAE_M": 0.1075,
+        "MAE_B0": 0.3525,
+        "MedAElog_M": 0.1231,
+        "MedAElog_B0": 0.2877,
+        "skillMAE_B3": -0.236
+       },
+       "ci95": {
+        "skillMAE_B0": [
+         0.6522,
+         0.7347
+        ],
+        "skillMAE_B1": [
+         0.5059,
+         0.6173
+        ],
+        "skillMAE_B2": [
+         -0.0444,
+         0.064
+        ],
+        "skillMSElog_B0": [
+         -25.2019,
+         -0.6753
+        ],
+        "skillMSElog_B1": [
+         -38.8197,
+         -1.573
+        ],
+        "skillMSElog_B2": [
+         -131.943,
+         -7.9489
+        ],
+        "skillMedAElog_B0": [
+         0.5267,
+         0.6355
+        ],
+        "skillMedAElog_B1": [
+         0.4092,
+         0.5401
+        ],
+        "skillMedAElog_B2": [
+         -0.0863,
+         0.1183
+        ],
+        "MAE_M": [
+         0.0953,
+         0.1209
+        ],
+        "MAE_B0": [
+         0.3278,
+         0.3796
+        ],
+        "MedAElog_M": [
+         0.1133,
+         0.1373
+        ],
+        "MedAElog_B0": [
+         0.2569,
+         0.3521
+        ],
+        "skillMAE_B3": [
+         -0.3292,
+         -0.1611
+        ]
+       },
+       "nZeroDenominatorDraws": {},
+       "statements": {
+        "S1": {
+         "statement": "improvement over persistence established",
+         "metricDisagreement": [
+          "skillMSElog_B0 gives: improvement over persistence not established"
+         ]
+        },
+        "S2": {
+         "statement": "gain over a constant level established",
+         "metricDisagreement": [
+          "skillMSElog_B1 gives: gain over a constant level not established"
+         ]
+        },
+        "S3": {
+         "statement": "not shown to be worse than the empirical gap bins",
+         "metricDisagreement": [
+          "skillMSElog_B2 gives: worse than the empirical gap bins"
+         ]
+        }
+       },
+       "b2EqualsB0AllFolds": false,
+       "blockBootstrap": {
+        "blockDays": 5,
+        "statements": {
+         "S1": "improvement over persistence established",
+         "S2": "gain over a constant level established",
+         "S3": "not shown to be worse than the empirical gap bins"
+        },
+        "differsFromDayBootstrap": [],
+        "label": "post-hoc, not pre-registered (M430 blind audit): moving-block bootstrap of 5 consecutive held-out days"
+       }
+      },
+      "gapLt1h": {
+       "nPairs": 259,
+       "nDays": 87,
+       "eligibleForStatements": true,
+       "point": {
+        "skillMAE_B0": 0.4439,
+        "skillMAE_B1": 0.3779,
+        "skillMAE_B2": 0.1102,
+        "skillMSElog_B0": 0.6826,
+        "skillMSElog_B1": 0.9477,
+        "skillMSElog_B2": 0.2965,
+        "skillMedAElog_B0": 0.3699,
+        "skillMedAElog_B1": 0.411,
+        "skillMedAElog_B2": 0.0438,
+        "MAE_M": 0.0852,
+        "MAE_B0": 0.1532,
+        "MedAElog_M": 0.093,
+        "MedAElog_B0": 0.1476,
+        "skillMAE_B3": -0.4456
+       },
+       "ci95": {
+        "skillMAE_B0": [
+         0.4084,
+         0.4731
+        ],
+        "skillMAE_B1": [
+         0.2882,
+         0.4505
+        ],
+        "skillMAE_B2": [
+         0.0358,
+         0.1745
+        ],
+        "skillMSElog_B0": [
+         0.6368,
+         0.717
+        ],
+        "skillMSElog_B1": [
+         0.9371,
+         0.9571
+        ],
+        "skillMSElog_B2": [
+         0.2022,
+         0.3741
+        ],
+        "skillMedAElog_B0": [
+         0.3149,
+         0.4287
+        ],
+        "skillMedAElog_B1": [
+         0.3146,
+         0.5185
+        ],
+        "skillMedAElog_B2": [
+         -0.088,
+         0.1656
+        ],
+        "MAE_M": [
+         0.0788,
+         0.0924
+        ],
+        "MAE_B0": [
+         0.1412,
+         0.1654
+        ],
+        "MedAElog_M": [
+         0.084,
+         0.1003
+        ],
+        "MedAElog_B0": [
+         0.1301,
+         0.1671
+        ],
+        "skillMAE_B3": [
+         -0.6123,
+         -0.2946
+        ]
+       },
+       "nZeroDenominatorDraws": {},
+       "statements": {
+        "S1": {
+         "statement": "improvement over persistence established"
+        },
+        "S2": {
+         "statement": "gain over a constant level established"
+        },
+        "S3": {
+         "statement": "not shown to be worse than the empirical gap bins"
+        }
+       },
+       "b2EqualsB0AllFolds": false,
+       "blockBootstrap": {
+        "blockDays": 5,
+        "statements": {
+         "S1": "improvement over persistence established",
+         "S2": "gain over a constant level established",
+         "S3": "not shown to be worse than the empirical gap bins"
+        },
+        "differsFromDayBootstrap": [],
+        "label": "post-hoc, not pre-registered (M430 blind audit): moving-block bootstrap of 5 consecutive held-out days"
+       }
+      },
+      "gapGe1h": {
+       "nPairs": 188,
+       "nDays": 91,
+       "eligibleForStatements": true,
+       "point": {
+        "skillMAE_B0": 0.7797,
+        "skillMAE_B1": 0.6516,
+        "skillMAE_B2": -0.095,
+        "skillMSElog_B0": -11.3443,
+        "skillMSElog_B1": -21.7568,
+        "skillMSElog_B2": -63.7454,
+        "skillMedAElog_B0": 0.7243,
+        "skillMedAElog_B1": 0.6068,
+        "skillMedAElog_B2": -0.1245,
+        "MAE_M": 0.1382,
+        "MAE_B0": 0.6271,
+        "MedAElog_M": 0.2542,
+        "MedAElog_B0": 0.9221,
+        "skillMAE_B3": -0.1004
+       },
+       "ci95": {
+        "skillMAE_B0": [
+         0.7286,
+         0.8264
+        ],
+        "skillMAE_B1": [
+         0.5713,
+         0.7256
+        ],
+        "skillMAE_B2": [
+         -0.1918,
+         -0.0086
+        ],
+        "skillMSElog_B0": [
+         -25.5085,
+         -0.6718
+        ],
+        "skillMSElog_B1": [
+         -48.3258,
+         -2.1416
+        ],
+        "skillMSElog_B2": [
+         -142.1492,
+         -7.8709
+        ],
+        "skillMedAElog_B0": [
+         0.6108,
+         0.7842
+        ],
+        "skillMedAElog_B1": [
+         0.4424,
+         0.7034
+        ],
+        "skillMedAElog_B2": [
+         -0.5173,
+         0.1286
+        ],
+        "MAE_M": [
+         0.1119,
+         0.1659
+        ],
+        "MAE_B0": [
+         0.5947,
+         0.66
+        ],
+        "MedAElog_M": [
+         0.1972,
+         0.3771
+        ],
+        "MedAElog_B0": [
+         0.8126,
+         1.1394
+        ],
+        "skillMAE_B3": [
+         -0.1576,
+         -0.0612
+        ]
+       },
+       "nZeroDenominatorDraws": {},
+       "statements": {
+        "S1": {
+         "statement": "improvement over persistence established",
+         "metricDisagreement": [
+          "skillMSElog_B0 gives: improvement over persistence not established"
+         ]
+        },
+        "S2": {
+         "statement": "gain over a constant level established",
+         "metricDisagreement": [
+          "skillMSElog_B1 gives: gain over a constant level not established"
+         ]
+        },
+        "S3": {
+         "statement": "worse than the empirical gap bins",
+         "metricDisagreement": [
+          "skillMedAElog_B2 gives: not shown to be worse than the empirical gap bins"
+         ]
+        }
+       },
+       "b2EqualsB0AllFolds": false,
+       "blockBootstrap": {
+        "blockDays": 5,
+        "statements": {
+         "S1": "improvement over persistence established",
+         "S2": "gain over a constant level established",
+         "S3": "not shown to be worse than the empirical gap bins"
+        },
+        "differsFromDayBootstrap": [
+         "S3"
+        ],
+        "label": "post-hoc, not pre-registered (M430 blind audit): moving-block bootstrap of 5 consecutive held-out days"
+       }
+      }
+     },
+     "bins": [
+      {
+       "bin": "0-1 h",
+       "nPairs": 259,
+       "nDays": 87,
+       "medianObservedRetained": 0.8696,
+       "medianPredictedRetained": 0.9422,
+       "medianResidualLog": -0.0803
+      },
+      {
+       "bin": "1-3 h",
+       "nPairs": 85,
+       "nDays": 55,
+       "medianObservedRetained": 0.5333,
+       "medianPredictedRetained": 0.5998,
+       "medianResidualLog": -0.1341
+      },
+      {
+       "bin": "3-6 h",
+       "nPairs": 33,
+       "nDays": 30,
+       "medianObservedRetained": 0.2895,
+       "medianPredictedRetained": 0.3323,
+       "medianResidualLog": -0.048
+      },
+      {
+       "bin": "6-12 h",
+       "nPairs": 33,
+       "nDays": 25,
+       "medianObservedRetained": 0.1395,
+       "medianPredictedRetained": 0.0562,
+       "medianResidualLog": 1.061
+      },
+      {
+       "bin": "12-24 h",
+       "nPairs": 28,
+       "nDays": 28,
+       "medianObservedRetained": 0.0694,
+       "medianPredictedRetained": 0.0079,
+       "medianResidualLog": 2.0715
+      },
+      {
+       "bin": "24-inf h",
+       "nPairs": 9,
+       "nDays": 9,
+       "medianObservedRetained": 0.0727,
+       "medianPredictedRetained": 0.0,
+       "medianResidualLog": 10.4267
+      }
+     ],
+     "leaveOneDayOut": {
+      "nSkippedFolds": 0,
+      "cells": {
+       "pooled": {
+        "nPairs": 447,
+        "statements": {
+         "S1": "improvement over persistence established",
+         "S2": "gain over a constant level established",
+         "S3": "not shown to be worse than the empirical gap bins"
+        },
+        "differsFromK10": []
+       },
+       "gapLt1h": {
+        "nPairs": 259,
+        "statements": {
+         "S1": "improvement over persistence established",
+         "S2": "gain over a constant level established",
+         "S3": "not shown to be worse than the empirical gap bins"
+        },
+        "differsFromK10": []
+       },
+       "gapGe1h": {
+        "nPairs": 188,
+        "statements": {
+         "S1": "improvement over persistence established",
+         "S2": "gain over a constant level established",
+         "S3": "worse than the empirical gap bins"
+        },
+        "differsFromK10": []
+       }
+      }
+     },
+     "postHoc": {
+      "label": "post-hoc, not pre-registered (M430 blind audit)",
+      "logSqErrShareGapGe12h": 0.9834,
+      "shareOfScoredPairsGapGe12h": 0.0828,
+      "reading": "share of the line's held-out log squared error that comes from pairs parked 12 h or longer; with the outcome-selection floor and shape misfit confounded there, the negative log-scale R2 and the log-MSE skill are driven by that tail"
+     }
+    },
     "tauCiMethod": {
      "cluster": "calendar day of the following drive's start",
      "B": 4000,
@@ -37916,6 +39245,457 @@
      "nUndefinedDraws": 0,
      "pointTauDefined": true,
      "label": "model-derived; conditional on the pairing and the manual driving-time ambient field"
+    },
+    "fitQuality": {
+     "label": "held-out, blocked-day cross-validated (k = 10 arrival-day blocks); model-derived; conditional on the pairing, the fold assignment and the manual driving-time ambient field",
+     "inSample": {
+      "rSquared": -1.051,
+      "reading": "in-sample R2 of the through-origin Sen line against a free-level mean of y = ln(resid/init excess); negative means the line is worse than a constant mean on the log scale; the held-out errors say whether it still improves on no decay"
+     },
+     "selection": {
+      "nBeforeResidualFilter": 501,
+      "nRemovedByResidualFilter": 151,
+      "note": "pairs with residual excess <= 0.5 C (and initial excess <= the minimum) are excluded: selection on the outcome; long-gap pairs are floored while the through-origin line keeps falling"
+     },
+     "cv": {
+      "k": 10,
+      "nPairs": 350,
+      "nScoredHeldOut": 350,
+      "nSkippedFolds": 0,
+      "bootstrap": {
+       "B": 4000,
+       "seed": 42,
+       "unit": "calendar day (arrival), paired over models"
+      },
+      "primaryMetric": "skill_MAE = 1 - MAE_M / MAE_B on the retained fraction exp(y); secondary: log-scale MSE skill, log MedAE",
+      "references": "B0 persistence (y_hat = 0); B1 one level (median for MAE / MedAE, mean for log MSE); B2 gap-bin statistic with the pack gapBins edges 0-1-3-6-12-24 h (coolant and oil use the same edges)",
+      "multiplicity": "intervals are per comparison and are not adjusted (27 per metric)",
+      "eligibility": "statements need >= 20 held-out pairs and >= 10 held-out days"
+     },
+     "cells": {
+      "pooled": {
+       "nPairs": 350,
+       "nDays": 98,
+       "eligibleForStatements": true,
+       "point": {
+        "skillMAE_B0": 0.3952,
+        "skillMAE_B1": 0.3883,
+        "skillMAE_B2": -0.0222,
+        "skillMSElog_B0": -0.8529,
+        "skillMSElog_B1": -1.1547,
+        "skillMSElog_B2": -4.1462,
+        "skillMedAElog_B0": 0.3103,
+        "skillMedAElog_B1": 0.2159,
+        "skillMedAElog_B2": 0.0477,
+        "MAE_M": 0.1357,
+        "MAE_B0": 0.2243,
+        "MedAElog_M": 0.0833,
+        "MedAElog_B0": 0.1208,
+        "skillMAE_B3": -0.0104
+       },
+       "ci95": {
+        "skillMAE_B0": [
+         0.3074,
+         0.4838
+        ],
+        "skillMAE_B1": [
+         0.3059,
+         0.4743
+        ],
+        "skillMAE_B2": [
+         -0.0578,
+         0.0105
+        ],
+        "skillMSElog_B0": [
+         -3.8163,
+         0.582
+        ],
+        "skillMSElog_B1": [
+         -4.6421,
+         0.5116
+        ],
+        "skillMSElog_B2": [
+         -13.229,
+         -0.2521
+        ],
+        "skillMedAElog_B0": [
+         0.1962,
+         0.4403
+        ],
+        "skillMedAElog_B1": [
+         -0.0323,
+         0.351
+        ],
+        "skillMedAElog_B2": [
+         -0.0437,
+         0.2048
+        ],
+        "MAE_M": [
+         0.109,
+         0.1655
+        ],
+        "MAE_B0": [
+         0.1945,
+         0.2574
+        ],
+        "MedAElog_M": [
+         0.0656,
+         0.1058
+        ],
+        "MedAElog_B0": [
+         0.1054,
+         0.1415
+        ],
+        "skillMAE_B3": [
+         -0.0201,
+         -0.0008
+        ]
+       },
+       "nZeroDenominatorDraws": {},
+       "statements": {
+        "S1": {
+         "statement": "improvement over persistence established",
+         "metricDisagreement": [
+          "skillMSElog_B0 gives: improvement over persistence not established"
+         ]
+        },
+        "S2": {
+         "statement": "gain over a constant level established",
+         "metricDisagreement": [
+          "skillMSElog_B1 gives: gain over a constant level not established",
+          "skillMedAElog_B1 gives: gain over a constant level not established"
+         ]
+        },
+        "S3": {
+         "statement": "not shown to be worse than the empirical gap bins",
+         "metricDisagreement": [
+          "skillMSElog_B2 gives: worse than the empirical gap bins"
+         ]
+        }
+       },
+       "b2EqualsB0AllFolds": false,
+       "blockBootstrap": {
+        "blockDays": 5,
+        "statements": {
+         "S1": "improvement over persistence established",
+         "S2": "gain over a constant level established",
+         "S3": "not shown to be worse than the empirical gap bins"
+        },
+        "differsFromDayBootstrap": [],
+        "label": "post-hoc, not pre-registered (M430 blind audit): moving-block bootstrap of 5 consecutive held-out days"
+       }
+      },
+      "gapLt1h": {
+       "nPairs": 202,
+       "nDays": 79,
+       "eligibleForStatements": true,
+       "point": {
+        "skillMAE_B0": -0.0574,
+        "skillMAE_B1": 0.1933,
+        "skillMAE_B2": -0.0574,
+        "skillMSElog_B0": -0.0033,
+        "skillMSElog_B1": 0.8268,
+        "skillMSElog_B2": 0.0113,
+        "skillMedAElog_B0": 0.1452,
+        "skillMedAElog_B1": 0.2088,
+        "skillMedAElog_B2": 0.1452,
+        "MAE_M": 0.0828,
+        "MAE_B0": 0.0783,
+        "MedAElog_M": 0.0511,
+        "MedAElog_B0": 0.0597,
+        "skillMAE_B3": -0.0369
+       },
+       "ci95": {
+        "skillMAE_B0": [
+         -0.1215,
+         -0.002
+        ],
+        "skillMAE_B1": [
+         0.1435,
+         0.2455
+        ],
+        "skillMAE_B2": [
+         -0.1215,
+         -0.002
+        ],
+        "skillMSElog_B0": [
+         -0.0992,
+         0.087
+        ],
+        "skillMSElog_B1": [
+         0.776,
+         0.8691
+        ],
+        "skillMSElog_B2": [
+         -0.0807,
+         0.0994
+        ],
+        "skillMedAElog_B0": [
+         -0.0461,
+         0.2644
+        ],
+        "skillMedAElog_B1": [
+         -0.0214,
+         0.3658
+        ],
+        "skillMedAElog_B2": [
+         -0.0461,
+         0.2644
+        ],
+        "MAE_M": [
+         0.0699,
+         0.0982
+        ],
+        "MAE_B0": [
+         0.0645,
+         0.0943
+        ],
+        "MedAElog_M": [
+         0.0409,
+         0.0659
+        ],
+        "MedAElog_B0": [
+         0.0,
+         0.0817
+        ],
+        "skillMAE_B3": [
+         -0.0606,
+         -0.0139
+        ]
+       },
+       "nZeroDenominatorDraws": {
+        "skillMedAElog_B0": 117,
+        "skillMedAElog_B2": 117
+       },
+       "statements": {
+        "S1": {
+         "statement": "improvement over persistence not established"
+        },
+        "S2": {
+         "statement": "gain over a constant level established",
+         "metricDisagreement": [
+          "skillMedAElog_B1 gives: gain over a constant level not established"
+         ]
+        },
+        "S3": {
+         "statement": "worse than the empirical gap bins",
+         "metricDisagreement": [
+          "skillMSElog_B2 gives: not shown to be worse than the empirical gap bins"
+         ]
+        }
+       },
+       "b2EqualsB0AllFolds": true,
+       "blockBootstrap": {
+        "blockDays": 5,
+        "statements": {
+         "S1": "improvement over persistence not established",
+         "S2": "gain over a constant level established",
+         "S3": "worse than the empirical gap bins"
+        },
+        "differsFromDayBootstrap": [],
+        "label": "post-hoc, not pre-registered (M430 blind audit): moving-block bootstrap of 5 consecutive held-out days"
+       }
+      },
+      "gapGe1h": {
+       "nPairs": 148,
+       "nDays": 81,
+       "eligibleForStatements": true,
+       "point": {
+        "skillMAE_B0": 0.5093,
+        "skillMAE_B1": 0.4593,
+        "skillMAE_B2": -0.004,
+        "skillMSElog_B0": -0.8685,
+        "skillMSElog_B1": -1.4291,
+        "skillMSElog_B2": -4.3692,
+        "skillMedAElog_B0": 0.5848,
+        "skillMedAElog_B1": 0.5376,
+        "skillMedAElog_B2": 0.0272,
+        "MAE_M": 0.2079,
+        "MAE_B0": 0.4237,
+        "MedAElog_M": 0.1481,
+        "MedAElog_B0": 0.3567,
+        "skillMAE_B3": 0.0035
+       },
+       "ci95": {
+        "skillMAE_B0": [
+         0.3999,
+         0.6228
+        ],
+        "skillMAE_B1": [
+         0.3479,
+         0.58
+        ],
+        "skillMAE_B2": [
+         -0.0467,
+         0.0357
+        ],
+        "skillMSElog_B0": [
+         -3.8953,
+         0.586
+        ],
+        "skillMSElog_B1": [
+         -5.4325,
+         0.457
+        ],
+        "skillMSElog_B2": [
+         -14.4363,
+         -0.2795
+        ],
+        "skillMedAElog_B0": [
+         0.415,
+         0.6891
+        ],
+        "skillMedAElog_B1": [
+         0.3297,
+         0.6547
+        ],
+        "skillMedAElog_B2": [
+         -0.3398,
+         0.1733
+        ],
+        "MAE_M": [
+         0.1508,
+         0.27
+        ],
+        "MAE_B0": [
+         0.3688,
+         0.4798
+        ],
+        "MedAElog_M": [
+         0.1221,
+         0.2198
+        ],
+        "MedAElog_B0": [
+         0.2877,
+         0.5108
+        ],
+        "skillMAE_B3": [
+         -0.0024,
+         0.0107
+        ]
+       },
+       "nZeroDenominatorDraws": {},
+       "statements": {
+        "S1": {
+         "statement": "improvement over persistence established",
+         "metricDisagreement": [
+          "skillMSElog_B0 gives: improvement over persistence not established"
+         ]
+        },
+        "S2": {
+         "statement": "gain over a constant level established",
+         "metricDisagreement": [
+          "skillMSElog_B1 gives: gain over a constant level not established"
+         ]
+        },
+        "S3": {
+         "statement": "not shown to be worse than the empirical gap bins",
+         "metricDisagreement": [
+          "skillMSElog_B2 gives: worse than the empirical gap bins"
+         ]
+        }
+       },
+       "b2EqualsB0AllFolds": false,
+       "blockBootstrap": {
+        "blockDays": 5,
+        "statements": {
+         "S1": "improvement over persistence established",
+         "S2": "gain over a constant level established",
+         "S3": "not shown to be worse than the empirical gap bins"
+        },
+        "differsFromDayBootstrap": [],
+        "label": "post-hoc, not pre-registered (M430 blind audit): moving-block bootstrap of 5 consecutive held-out days"
+       }
+      }
+     },
+     "bins": [
+      {
+       "bin": "0-1 h",
+       "nPairs": 202,
+       "nDays": 79,
+       "medianObservedRetained": 1.0,
+       "medianPredictedRetained": 0.9821,
+       "medianResidualLog": 0.015
+      },
+      {
+       "bin": "1-3 h",
+       "nPairs": 63,
+       "nDays": 44,
+       "medianObservedRetained": 0.875,
+       "medianPredictedRetained": 0.8727,
+       "medianResidualLog": -0.0006
+      },
+      {
+       "bin": "3-6 h",
+       "nPairs": 27,
+       "nDays": 25,
+       "medianObservedRetained": 0.7,
+       "medianPredictedRetained": 0.7191,
+       "medianResidualLog": -0.0348
+      },
+      {
+       "bin": "6-12 h",
+       "nPairs": 26,
+       "nDays": 21,
+       "medianObservedRetained": 0.3842,
+       "medianPredictedRetained": 0.4236,
+       "medianResidualLog": -0.0936
+      },
+      {
+       "bin": "12-24 h",
+       "nPairs": 25,
+       "nDays": 25,
+       "medianObservedRetained": 0.2222,
+       "medianPredictedRetained": 0.2179,
+       "medianResidualLog": -0.0185
+      },
+      {
+       "bin": "24-inf h",
+       "nPairs": 7,
+       "nDays": 7,
+       "medianObservedRetained": 0.1579,
+       "medianPredictedRetained": 0.0268,
+       "medianResidualLog": 1.7741
+      }
+     ],
+     "leaveOneDayOut": {
+      "nSkippedFolds": 0,
+      "cells": {
+       "pooled": {
+        "nPairs": 350,
+        "statements": {
+         "S1": "improvement over persistence established",
+         "S2": "gain over a constant level established",
+         "S3": "not shown to be worse than the empirical gap bins"
+        },
+        "differsFromK10": []
+       },
+       "gapLt1h": {
+        "nPairs": 202,
+        "statements": {
+         "S1": "improvement over persistence not established",
+         "S2": "gain over a constant level established",
+         "S3": "worse than the empirical gap bins"
+        },
+        "differsFromK10": []
+       },
+       "gapGe1h": {
+        "nPairs": 148,
+        "statements": {
+         "S1": "improvement over persistence established",
+         "S2": "gain over a constant level established",
+         "S3": "not shown to be worse than the empirical gap bins"
+        },
+        "differsFromK10": []
+       }
+      }
+     },
+     "postHoc": {
+      "label": "post-hoc, not pre-registered (M430 blind audit)",
+      "logSqErrShareGapGe12h": 0.8914,
+      "shareOfScoredPairsGapGe12h": 0.0914,
+      "reading": "share of the line's held-out log squared error that comes from pairs parked 12 h or longer; with the outcome-selection floor and shape misfit confounded there, the negative log-scale R2 and the log-MSE skill are driven by that tail"
+     }
     }
    }
   },
@@ -38052,7 +39832,7 @@
    },
    "method": "PRIMARY: day-clustered bootstrap OLS (whole days resampled with replacement, 4000 draws, seed=42; point estimate from the full-sample fit) -- the established estimator pattern in this codebase (bufferDebtRecovery). SECONDARY/robustness: a day random-intercept mixed-effects model (statsmodels 0.15.0, matching degradation_trends.py's convention), not the primary estimator, since the mixed-effects fit is the piece flagged elsewhere in this codebase as not bit-reproducible across statsmodels versions. Descriptive association in one observed duty cycle on one vehicle/driver -- not a causal or generalizable driver-behavior law."
   },
-  "methodology": "M223.1 (P0.1, enhancement plan): extends heatSoakCarryover's pack-only Newtonian-cooling tau fit (ln(resid/init excess) vs parking gap, Sen's slope, percentile bootstrap CI, seed=42) to the engine-coolant and oil channels, using the identical consecutive-chronological-pair construction (_full_datetimes, same gap formula). M429 (audit F06): the interval of all three fits resamples whole arrival-day clusters (4000 draws, seed 42), counts non-decaying draws instead of dropping them and reports an unbounded upper bound when the 97.5th percentile slope is not negative (the pack interval resampled the pairs i.i.d. before). The pooled tau is a gap-mix-dependent summary: the gapSplit leaves (post-hoc, descriptive) show the fit separately for gaps under and over one hour. regressionModel tests whether arrival pack temperature, parking gap, and arrival SoC predict the FOLLOWING drive's time-to-first-engine-start (day-clustered bootstrap OLS, primary; day random-intercept mixed-effects, statsmodels 0.15.0, secondary robustness check -- may fail to converge on a singular random-effects covariance at this pairs-per-day density, reported as such rather than suppressed). Single vehicle / ~single driver -- descriptive association in one observed duty cycle, not a causal or generalizable driver-behavior law (same disclosure pattern as heatSoakCarryover/regimeTransition)."
+  "methodology": "M223.1 (P0.1, enhancement plan): extends heatSoakCarryover's pack-only Newtonian-cooling tau fit (ln(resid/init excess) vs parking gap, Sen's slope, percentile bootstrap CI, seed=42) to the engine-coolant and oil channels, using the identical consecutive-chronological-pair construction (_full_datetimes, same gap formula). M429 (audit F06): the interval of all three fits resamples whole arrival-day clusters (4000 draws, seed 42), counts non-decaying draws instead of dropping them and reports an unbounded upper bound when the 97.5th percentile slope is not negative (the pack interval resampled the pairs i.i.d. before). M430 (audit F05): fitQuality gives, per fit, the held-out (blocked-day cross-validated) error of the single-exponential line against persistence, a constant level and empirical gap-bin medians, with the in-sample R2 printed. The pooled tau is a gap-mix-dependent summary: the gapSplit leaves (post-hoc, descriptive) show the fit separately for gaps under and over one hour. regressionModel tests whether arrival pack temperature, parking gap, and arrival SoC predict the FOLLOWING drive's time-to-first-engine-start (day-clustered bootstrap OLS, primary; day random-intercept mixed-effects, statsmodels 0.15.0, secondary robustness check -- may fail to converge on a singular random-effects covariance at this pairs-per-day density, reported as such rather than suppressed). Single vehicle / ~single driver -- descriptive association in one observed duty cycle, not a causal or generalizable driver-behavior law (same disclosure pattern as heatSoakCarryover/regimeTransition)."
  },
  "thermalStepResponse": {
   "available": true,
