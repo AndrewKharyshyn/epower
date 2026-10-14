@@ -163,6 +163,9 @@ if _tt:
         _cells = [(fl_, t_, c_) for fl_, ts_ in _ttc[_mode].items() for t_, c_ in ts_.items()]
         _n = len(_cells)
         _exp_dep = sum(1 for _, _, c_ in _cells for h_ in c_["horizons"] if h_["supported"] and h_["readingClass"] == "depends on the censoring assumption")
+        if _mode == "all" and _tt.get("fillSensitivity"):       # M437: the fill table prints both reading classes of every supported setting (tables only)
+            _exp_dep += sum(1 for _r_ in [r2_ for row_ in _tt["fillSensitivity"]["settings"].values() for r2_ in row_.values()] if _r_["supported600"] for v_ in _r_["readingClasses"].values() if v_ == "depends on the censoring assumption")
+            _exp_dep += sum(st_["text"].count("depends on the censoring assumption") for st_ in _tt["fillSensitivity"]["statement"].values())      # the script-written statement names the class
         ok("A2 REQUIRED M435 %s: %d Kaplan-Meier tables; R1, R2 and R6 each appear once per table, R4 once per table plus the header" % (_mode, _n),
            _n >= 1 and _d.count(_Rq["R1"]) == _n and _d.count(_Rq["R2"]) == _n and _d.count(_Rq["R6"]) == _n and _d.count(_Rq["R4"]) == _n + 1 and _d.count("Kaplan-Meier (product-limit) estimate of the time to") == _n,
            "%s %s %s %s" % (_d.count(_Rq["R1"]), _d.count(_Rq["R2"]), _d.count(_Rq["R6"]), _d.count(_Rq["R4"])))
@@ -180,6 +183,16 @@ if _tt:
         _cd = T.get("charts__" + _mode, "")
         ok("A2 REQUIRED M435 %s: the distance-grid support states drives / days per grid point and where the support ends" % _mode,
            all((("support ends at %g km" % _cs_[k_]["supportEndsKm"]) in _cd) for k_ in _cs_ if _cs_[k_]["nDrives"] > 0 and _cs_[k_]["supportEndsKm"] is not None) and "beyond this point the curve averages only the drives still running" in _cd)
+# M437 (analyses/M437_spec.md Rev 2.1): forward-fill / trip-end-tolerance sensitivity of the headline cells, produced in the ledger stage
+_fs = ((_tt or {}).get("fillSensitivity")) if _tt else None
+if _fs:
+    ok("M437 payload checks pass (G1 equals the M435 block, nesting, equal event times, censoring shift within the fill change) and the statement agrees with the classes by fill",
+       all(v is True for v in _fs["checks"].values()) and all(st["sameBothReadings"] == all(len(set(st[r_]["classByFill"].values())) == 1 and "unsupported" not in st[r_]["classByFill"].values() for r_ in ("F<0.5", "F>=0.5")) for st in _fs["statement"].values()))
+    _dfs = T.get("distribution__all", "")
+    ok("A2 REQUIRED M437 all: the fill table renders the payload (cold starts, observed share, estimate, statement, sample interval) with the label 'range over declared conventions, not a confidence interval'",
+       "range over declared conventions, not a confidence interval" in _dfs and all(_fs["statement"][k_]["text"] in _dfs for k_ in _fs["headlineCells"])
+       and all(("%.3f" % _fs["settings"][str(F_)][k_]["E1"]["point"]) in _dfs and ("%.3f" % _fs["settings"][str(F_)][k_]["E2"]["point"]) in _dfs for F_ in _fs["fills"] for k_ in _fs["headlineCells"] if _fs["settings"][str(F_)][k_]["supported600"])
+       and ("coolant %.2f s" % _fs["sampleIntervalS"]["coolant"]["medianS"]) in _dfs and _dfs.count("Sensitivity to the forward-fill limit and the trip-end tolerance (M437)") == 1)
 # A3 (M427, audit F01): the cell-spread trend wording follows the released interval in every rendered tab/mode (a sentence cannot say "spans zero" or "no resolved trend" beside an interval that excludes zero)
 _cs_ci = A["degradationTrends"]["cellSpread"]["clusterRobustOLS"]["ci95"]
 _cs_bad = LG.cell_spread_trend_violations(_cs_ci, T)

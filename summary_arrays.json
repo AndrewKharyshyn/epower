@@ -60572,20 +60572,20 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "c9d5a8d8ac8e218bc8b6bfa3401b2152",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-14T16:01:54.855970+00:00",
+   "generatedAt": "2026-10-14T18:38:33.377410+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "a641f34d7528d004b900c151cbde3d6d"
    },
    "computationStatus": "computed",
    "computationStatusNote": "M418: derived by tools/thermal_support_ledger.py from the frame cache and the raw files; additive thermal support ledger",
-   "includedInReleaseAt": "2026-10-14T16:01:54.855970+00:00",
+   "includedInReleaseAt": "2026-10-14T18:38:33.377410+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-14T16:01:54.855970+00:00"
+   "computedAt": "2026-10-14T18:38:33.377410+00:00"
   }
  },
  "ambientTable": {
@@ -177403,7 +177403,7 @@
      }
     }
    },
-   "populationNote": "Cold starts and event times use a 1 Hz grid with forward fill of at most 3 s (logger interval above 1 s); without the fill some drives leave the cold-start population; the headline classes are unchanged; fill and trip-end tolerance are coupled.",
+   "populationNote": "Cold starts and event times use the released 1 Hz grid with a forward fill of at most 3 s (the coolant channel is logged less often than once per second); without the fill some drives leave the cold-start population; fill and trip-end tolerance are coupled; the sensitivity to the fill limit is shown below.",
    "requiredSentences": {
     "R1": "assumes that ending the drive is unrelated to the remaining time to the threshold (independent censoring); this cannot be checked from these data; bounds and tilt rows below",
     "R2": "describes the time to c C had the drive continued (route and load undefined); the observed share before key-off is shown beside it",
@@ -177709,6 +177709,865 @@
       "equal": true
      }
     }
+   },
+   "fillSensitivity": {
+    "spec": "analyses/M437_spec.md",
+    "methodVersion": "M437-r2",
+    "fills": [
+     0,
+     3,
+     6
+    ],
+    "tolerances": [
+     5,
+     10,
+     30
+    ],
+    "record": {
+     "fill": 3,
+     "toleranceS": 10
+    },
+    "headlineCells": [
+     "coolant/80",
+     "oil/70"
+    ],
+    "h": 600,
+    "label": "range over declared conventions, not a confidence interval; S0 stays the record; no setting is chosen",
+    "settings": {
+     "0": {
+      "coolant/80": {
+       "n": 376,
+       "days": 112,
+       "reached": 172,
+       "censoredTripEnd": 201,
+       "censoredChannelLoss": 3,
+       "eventsAfterGapOver10s": 2,
+       "supported600": true,
+       "atRisk600": [
+        76,
+        59
+       ],
+       "median": {
+        "point": 642.0,
+        "shown": true,
+        "text": "Kaplan-Meier (product-limit) estimate of the median 642.0 s"
+       },
+       "E1": {
+        "point": 0.3564,
+        "ci95": [
+         0.2972,
+         0.4214
+        ],
+        "label": "observed share of cold-start trips reaching the threshold within h before key-off (equals the lower worst-case bound; exact if no drive was censored for channel loss, otherwise a lower bound)"
+       },
+       "E2": {
+        "point": 0.4731,
+        "ci95": [
+         0.4023,
+         0.549
+        ],
+        "label": "Kaplan-Meier (product-limit) estimate of the share reached by h, hypothetical continued drive, independent censoring assumed"
+       },
+       "boundHigh": {
+        "point": 0.7979,
+        "ci95": [
+         0.7568,
+         0.8366
+        ]
+       },
+       "tilt": {
+        "0.5": {
+         "point": 0.4201,
+         "ci95": [
+          0.3547,
+          0.4889
+         ]
+        },
+        "2": {
+         "point": 0.5543,
+         "ci95": [
+          0.4755,
+          0.6322
+         ]
+        }
+       },
+       "reading": "F<0.5",
+       "readingClasses": {
+        "F<0.5": "depends on the censoring assumption",
+        "F>=0.5": "depends on the censoring assumption"
+       },
+       "reasonByTolerance": {
+        "5": {
+         "tripEnd": 166,
+         "channelLoss": 38
+        },
+        "10": {
+         "tripEnd": 201,
+         "channelLoss": 3
+        },
+        "30": {
+         "tripEnd": 202,
+         "channelLoss": 2
+        }
+       }
+      },
+      "oil/70": {
+       "n": 376,
+       "days": 112,
+       "reached": 117,
+       "censoredTripEnd": 255,
+       "censoredChannelLoss": 4,
+       "eventsAfterGapOver10s": 0,
+       "supported600": true,
+       "atRisk600": [
+        138,
+        87
+       ],
+       "median": {
+        "point": 997.0,
+        "shown": true,
+        "text": "Kaplan-Meier (product-limit) estimate of the median 997.0 s"
+       },
+       "E1": {
+        "point": 0.1436,
+        "ci95": [
+         0.0997,
+         0.1915
+        ],
+        "label": "observed share of cold-start trips reaching the threshold within h before key-off (equals the lower worst-case bound; exact if no drive was censored for channel loss, otherwise a lower bound)"
+       },
+       "E2": {
+        "point": 0.2166,
+        "ci95": [
+         0.1535,
+         0.2811
+        ],
+        "label": "Kaplan-Meier (product-limit) estimate of the share reached by h, hypothetical continued drive, independent censoring assumed"
+       },
+       "boundHigh": {
+        "point": 0.6356,
+        "ci95": [
+         0.5788,
+         0.6875
+        ]
+       },
+       "tilt": {
+        "0.5": {
+         "point": 0.1817,
+         "ci95": [
+          0.1281,
+          0.2377
+         ]
+        },
+        "2": {
+         "point": 0.2778,
+         "ci95": [
+          0.2005,
+          0.3551
+         ]
+        }
+       },
+       "reading": "F<0.5",
+       "readingClasses": {
+        "F<0.5": "holds for every theta from 0.5 to 2",
+        "F>=0.5": "depends on the censoring assumption"
+       },
+       "reasonByTolerance": {
+        "5": {
+         "tripEnd": 254,
+         "channelLoss": 5
+        },
+        "10": {
+         "tripEnd": 255,
+         "channelLoss": 4
+        },
+        "30": {
+         "tripEnd": 257,
+         "channelLoss": 2
+        }
+       }
+      }
+     },
+     "3": {
+      "coolant/80": {
+       "n": 389,
+       "days": 113,
+       "reached": 172,
+       "censoredTripEnd": 213,
+       "censoredChannelLoss": 4,
+       "eventsAfterGapOver10s": 1,
+       "supported600": true,
+       "atRisk600": [
+        78,
+        61
+       ],
+       "median": {
+        "point": 652.0,
+        "shown": true,
+        "text": "Kaplan-Meier (product-limit) estimate of the median 652.0 s"
+       },
+       "E1": {
+        "point": 0.3445,
+        "ci95": [
+         0.2838,
+         0.4096
+        ],
+        "label": "observed share of cold-start trips reaching the threshold within h before key-off (equals the lower worst-case bound; exact if no drive was censored for channel loss, otherwise a lower bound)"
+       },
+       "E2": {
+        "point": 0.4689,
+        "ci95": [
+         0.3958,
+         0.5409
+        ],
+        "label": "Kaplan-Meier (product-limit) estimate of the share reached by h, hypothetical continued drive, independent censoring assumed"
+       },
+       "boundHigh": {
+        "point": 0.7995,
+        "ci95": [
+         0.7589,
+         0.837
+        ]
+       },
+       "tilt": {
+        "0.5": {
+         "point": 0.4127,
+         "ci95": [
+          0.345,
+          0.4816
+         ]
+        },
+        "2": {
+         "point": 0.5541,
+         "ci95": [
+          0.4731,
+          0.6298
+         ]
+        }
+       },
+       "reading": "F<0.5",
+       "readingClasses": {
+        "F<0.5": "depends on the censoring assumption",
+        "F>=0.5": "depends on the censoring assumption"
+       },
+       "reasonByTolerance": {
+        "5": {
+         "tripEnd": 212,
+         "channelLoss": 5
+        },
+        "10": {
+         "tripEnd": 213,
+         "channelLoss": 4
+        },
+        "30": {
+         "tripEnd": 214,
+         "channelLoss": 3
+        }
+       }
+      },
+      "oil/70": {
+       "n": 388,
+       "days": 112,
+       "reached": 117,
+       "censoredTripEnd": 267,
+       "censoredChannelLoss": 4,
+       "eventsAfterGapOver10s": 0,
+       "supported600": true,
+       "atRisk600": [
+        138,
+        87
+       ],
+       "median": {
+        "point": 997.0,
+        "shown": true,
+        "text": "Kaplan-Meier (product-limit) estimate of the median 997.0 s"
+       },
+       "E1": {
+        "point": 0.1392,
+        "ci95": [
+         0.0957,
+         0.1882
+        ],
+        "label": "observed share of cold-start trips reaching the threshold within h before key-off (equals the lower worst-case bound; exact if no drive was censored for channel loss, otherwise a lower bound)"
+       },
+       "E2": {
+        "point": 0.2161,
+        "ci95": [
+         0.1546,
+         0.2815
+        ],
+        "label": "Kaplan-Meier (product-limit) estimate of the share reached by h, hypothetical continued drive, independent censoring assumed"
+       },
+       "boundHigh": {
+        "point": 0.6469,
+        "ci95": [
+         0.5879,
+         0.6992
+        ]
+       },
+       "tilt": {
+        "0.5": {
+         "point": 0.1794,
+         "ci95": [
+          0.1265,
+          0.2359
+         ]
+        },
+        "2": {
+         "point": 0.2802,
+         "ci95": [
+          0.2031,
+          0.3586
+         ]
+        }
+       },
+       "reading": "F<0.5",
+       "readingClasses": {
+        "F<0.5": "holds for every theta from 0.5 to 2",
+        "F>=0.5": "depends on the censoring assumption"
+       },
+       "reasonByTolerance": {
+        "5": {
+         "tripEnd": 267,
+         "channelLoss": 4
+        },
+        "10": {
+         "tripEnd": 267,
+         "channelLoss": 4
+        },
+        "30": {
+         "tripEnd": 269,
+         "channelLoss": 2
+        }
+       }
+      }
+     },
+     "6": {
+      "coolant/80": {
+       "n": 389,
+       "days": 113,
+       "reached": 172,
+       "censoredTripEnd": 213,
+       "censoredChannelLoss": 4,
+       "eventsAfterGapOver10s": 1,
+       "supported600": true,
+       "atRisk600": [
+        79,
+        62
+       ],
+       "median": {
+        "point": 652.0,
+        "shown": true,
+        "text": "Kaplan-Meier (product-limit) estimate of the median 652.0 s"
+       },
+       "E1": {
+        "point": 0.3445,
+        "ci95": [
+         0.2838,
+         0.4096
+        ],
+        "label": "observed share of cold-start trips reaching the threshold within h before key-off (equals the lower worst-case bound; exact if no drive was censored for channel loss, otherwise a lower bound)"
+       },
+       "E2": {
+        "point": 0.4679,
+        "ci95": [
+         0.3949,
+         0.5399
+        ],
+        "label": "Kaplan-Meier (product-limit) estimate of the share reached by h, hypothetical continued drive, independent censoring assumed"
+       },
+       "boundHigh": {
+        "point": 0.7969,
+        "ci95": [
+         0.7567,
+         0.8342
+        ]
+       },
+       "tilt": {
+        "0.5": {
+         "point": 0.4121,
+         "ci95": [
+          0.3444,
+          0.481
+         ]
+        },
+        "2": {
+         "point": 0.5527,
+         "ci95": [
+          0.4716,
+          0.6283
+         ]
+        }
+       },
+       "reading": "F<0.5",
+       "readingClasses": {
+        "F<0.5": "depends on the censoring assumption",
+        "F>=0.5": "depends on the censoring assumption"
+       },
+       "reasonByTolerance": {
+        "5": {
+         "tripEnd": 213,
+         "channelLoss": 4
+        },
+        "10": {
+         "tripEnd": 213,
+         "channelLoss": 4
+        },
+        "30": {
+         "tripEnd": 214,
+         "channelLoss": 3
+        }
+       }
+      },
+      "oil/70": {
+       "n": 388,
+       "days": 112,
+       "reached": 117,
+       "censoredTripEnd": 269,
+       "censoredChannelLoss": 2,
+       "eventsAfterGapOver10s": 0,
+       "supported600": true,
+       "atRisk600": [
+        138,
+        87
+       ],
+       "median": {
+        "point": 997.0,
+        "shown": true,
+        "text": "Kaplan-Meier (product-limit) estimate of the median 997.0 s"
+       },
+       "E1": {
+        "point": 0.1392,
+        "ci95": [
+         0.0957,
+         0.1882
+        ],
+        "label": "observed share of cold-start trips reaching the threshold within h before key-off (equals the lower worst-case bound; exact if no drive was censored for channel loss, otherwise a lower bound)"
+       },
+       "E2": {
+        "point": 0.216,
+        "ci95": [
+         0.1546,
+         0.2814
+        ],
+        "label": "Kaplan-Meier (product-limit) estimate of the share reached by h, hypothetical continued drive, independent censoring assumed"
+       },
+       "boundHigh": {
+        "point": 0.6469,
+        "ci95": [
+         0.5879,
+         0.6992
+        ]
+       },
+       "tilt": {
+        "0.5": {
+         "point": 0.1793,
+         "ci95": [
+          0.1265,
+          0.2358
+         ]
+        },
+        "2": {
+         "point": 0.2801,
+         "ci95": [
+          0.2031,
+          0.3585
+         ]
+        }
+       },
+       "reading": "F<0.5",
+       "readingClasses": {
+        "F<0.5": "holds for every theta from 0.5 to 2",
+        "F>=0.5": "depends on the censoring assumption"
+       },
+       "reasonByTolerance": {
+        "5": {
+         "tripEnd": 267,
+         "channelLoss": 4
+        },
+        "10": {
+         "tripEnd": 269,
+         "channelLoss": 2
+        },
+        "30": {
+         "tripEnd": 269,
+         "channelLoss": 2
+        }
+       }
+      }
+     }
+    },
+    "pairedVsRecord": {
+     "0": {
+      "coolant/80": {
+       "dropped": {
+        "reachedBy600": 0,
+        "censoredBefore600": 12,
+        "atRiskAt600": 1
+       },
+       "added": {
+        "reachedBy600": 0,
+        "censoredBefore600": 0,
+        "atRiskAt600": 0
+       },
+       "nDropped": 13,
+       "nAdded": 0,
+       "eventTimeChanged": 0,
+       "censoringTimeChanged": 188,
+       "maxCensoringShiftS": 3.0,
+       "maxAllowedShiftS": 3,
+       "reasonChanged": 0,
+       "reasonChangedDirection": {
+        "tripEndToChannelLoss": 0,
+        "channelLossToTripEnd": 0
+       }
+      },
+      "oil/70": {
+       "dropped": {
+        "reachedBy600": 0,
+        "censoredBefore600": 12,
+        "atRiskAt600": 0
+       },
+       "added": {
+        "reachedBy600": 0,
+        "censoredBefore600": 0,
+        "atRiskAt600": 0
+       },
+       "nDropped": 12,
+       "nAdded": 0,
+       "eventTimeChanged": 0,
+       "censoringTimeChanged": 173,
+       "maxCensoringShiftS": 3.0,
+       "maxAllowedShiftS": 3,
+       "reasonChanged": 0,
+       "reasonChangedDirection": {
+        "tripEndToChannelLoss": 0,
+        "channelLossToTripEnd": 0
+       }
+      }
+     },
+     "6": {
+      "coolant/80": {
+       "dropped": {
+        "reachedBy600": 0,
+        "censoredBefore600": 0,
+        "atRiskAt600": 0
+       },
+       "added": {
+        "reachedBy600": 0,
+        "censoredBefore600": 0,
+        "atRiskAt600": 0
+       },
+       "nDropped": 0,
+       "nAdded": 0,
+       "eventTimeChanged": 0,
+       "censoringTimeChanged": 88,
+       "maxCensoringShiftS": 3.0,
+       "maxAllowedShiftS": 3,
+       "reasonChanged": 0,
+       "reasonChangedDirection": {
+        "tripEndToChannelLoss": 0,
+        "channelLossToTripEnd": 0
+       }
+      },
+      "oil/70": {
+       "dropped": {
+        "reachedBy600": 0,
+        "censoredBefore600": 0,
+        "atRiskAt600": 0
+       },
+       "added": {
+        "reachedBy600": 0,
+        "censoredBefore600": 0,
+        "atRiskAt600": 0
+       },
+       "nDropped": 0,
+       "nAdded": 0,
+       "eventTimeChanged": 0,
+       "censoringTimeChanged": 8,
+       "maxCensoringShiftS": 3.0,
+       "maxAllowedShiftS": 3,
+       "reasonChanged": 2,
+       "reasonChangedDirection": {
+        "tripEndToChannelLoss": 0,
+        "channelLossToTripEnd": 2
+       }
+      }
+     }
+    },
+    "reasonChangedByFillAndTolerance": {
+     "F0_X5": {
+      "coolant/80": {
+       "reasonChanged": 35,
+       "direction": {
+        "tripEndToChannelLoss": 35,
+        "channelLossToTripEnd": 0
+       }
+      },
+      "oil/70": {
+       "reasonChanged": 1,
+       "direction": {
+        "tripEndToChannelLoss": 1,
+        "channelLossToTripEnd": 0
+       }
+      }
+     },
+     "F0_X10": {
+      "coolant/80": {
+       "reasonChanged": 0,
+       "direction": {
+        "tripEndToChannelLoss": 0,
+        "channelLossToTripEnd": 0
+       }
+      },
+      "oil/70": {
+       "reasonChanged": 0,
+       "direction": {
+        "tripEndToChannelLoss": 0,
+        "channelLossToTripEnd": 0
+       }
+      }
+     },
+     "F0_X30": {
+      "coolant/80": {
+       "reasonChanged": 1,
+       "direction": {
+        "tripEndToChannelLoss": 0,
+        "channelLossToTripEnd": 1
+       }
+      },
+      "oil/70": {
+       "reasonChanged": 2,
+       "direction": {
+        "tripEndToChannelLoss": 0,
+        "channelLossToTripEnd": 2
+       }
+      }
+     },
+     "F3_X5": {
+      "coolant/80": {
+       "reasonChanged": 1,
+       "direction": {
+        "tripEndToChannelLoss": 1,
+        "channelLossToTripEnd": 0
+       }
+      },
+      "oil/70": {
+       "reasonChanged": 0,
+       "direction": {
+        "tripEndToChannelLoss": 0,
+        "channelLossToTripEnd": 0
+       }
+      }
+     },
+     "F3_X30": {
+      "coolant/80": {
+       "reasonChanged": 1,
+       "direction": {
+        "tripEndToChannelLoss": 0,
+        "channelLossToTripEnd": 1
+       }
+      },
+      "oil/70": {
+       "reasonChanged": 2,
+       "direction": {
+        "tripEndToChannelLoss": 0,
+        "channelLossToTripEnd": 2
+       }
+      }
+     },
+     "F6_X5": {
+      "coolant/80": {
+       "reasonChanged": 0,
+       "direction": {
+        "tripEndToChannelLoss": 0,
+        "channelLossToTripEnd": 0
+       }
+      },
+      "oil/70": {
+       "reasonChanged": 0,
+       "direction": {
+        "tripEndToChannelLoss": 0,
+        "channelLossToTripEnd": 0
+       }
+      }
+     },
+     "F6_X10": {
+      "coolant/80": {
+       "reasonChanged": 0,
+       "direction": {
+        "tripEndToChannelLoss": 0,
+        "channelLossToTripEnd": 0
+       }
+      },
+      "oil/70": {
+       "reasonChanged": 2,
+       "direction": {
+        "tripEndToChannelLoss": 0,
+        "channelLossToTripEnd": 2
+       }
+      }
+     },
+     "F6_X30": {
+      "coolant/80": {
+       "reasonChanged": 1,
+       "direction": {
+        "tripEndToChannelLoss": 0,
+        "channelLossToTripEnd": 1
+       }
+      },
+      "oil/70": {
+       "reasonChanged": 2,
+       "direction": {
+        "tripEndToChannelLoss": 0,
+        "channelLossToTripEnd": 2
+       }
+      }
+     }
+    },
+    "statement": {
+     "coolant/80": {
+      "F<0.5": {
+       "classByFill": {
+        "0": "depends on the censoring assumption",
+        "3": "depends on the censoring assumption",
+        "6": "depends on the censoring assumption"
+       },
+       "same": true,
+       "text": "the reading class is the same in all 3 fill settings"
+      },
+      "F>=0.5": {
+       "classByFill": {
+        "0": "depends on the censoring assumption",
+        "3": "depends on the censoring assumption",
+        "6": "depends on the censoring assumption"
+       },
+       "same": true,
+       "text": "the reading class is the same in all 3 fill settings"
+      },
+      "sameBothReadings": true,
+      "text": "coolant 80 C, 600 s: in each of the 3 fill settings, fewer than half reached: depends on the censoring assumption; half or more reached: depends on the censoring assumption; the class is the same in all 3 settings and this concerns the fill convention only, it does not reduce the censoring dependence",
+      "fillZeroNote": "fill 0 s drops 13 short, sparsely sampled cold starts (none reached by 600 s); the higher shares at fill 0 s are a population effect, not faster warm-up"
+     },
+     "oil/70": {
+      "F<0.5": {
+       "classByFill": {
+        "0": "holds for every theta from 0.5 to 2",
+        "3": "holds for every theta from 0.5 to 2",
+        "6": "holds for every theta from 0.5 to 2"
+       },
+       "same": true,
+       "text": "the reading class is the same in all 3 fill settings"
+      },
+      "F>=0.5": {
+       "classByFill": {
+        "0": "depends on the censoring assumption",
+        "3": "depends on the censoring assumption",
+        "6": "depends on the censoring assumption"
+       },
+       "same": true,
+       "text": "the reading class is the same in all 3 fill settings"
+      },
+      "sameBothReadings": true,
+      "text": "oil 70 C, 600 s: in each of the 3 fill settings, fewer than half reached: holds for every theta from 0.5 to 2; half or more reached: depends on the censoring assumption; the class is the same in all 3 settings and this concerns the fill convention only, it does not reduce the censoring dependence",
+      "fillZeroNote": "fill 0 s drops 12 short, sparsely sampled cold starts (none reached by 600 s); the higher shares at fill 0 s are a population effect, not faster warm-up"
+     }
+    },
+    "ranges": {
+     "coolant/80": {
+      "E1": {
+       "min": 0.3445,
+       "minAtFill": 3,
+       "minCi95": [
+        0.2838,
+        0.4096
+       ],
+       "max": 0.3564,
+       "maxAtFill": 0,
+       "maxCi95": [
+        0.2972,
+        0.4214
+       ]
+      },
+      "E2": {
+       "min": 0.4679,
+       "minAtFill": 6,
+       "minCi95": [
+        0.3949,
+        0.5399
+       ],
+       "max": 0.4731,
+       "maxAtFill": 0,
+       "maxCi95": [
+        0.4023,
+        0.549
+       ]
+      }
+     },
+     "oil/70": {
+      "E1": {
+       "min": 0.1392,
+       "minAtFill": 3,
+       "minCi95": [
+        0.0957,
+        0.1882
+       ],
+       "max": 0.1436,
+       "maxAtFill": 0,
+       "maxCi95": [
+        0.0997,
+        0.1915
+       ]
+      },
+      "E2": {
+       "min": 0.216,
+       "minAtFill": 6,
+       "minCi95": [
+        0.1546,
+        0.2814
+       ],
+       "max": 0.2166,
+       "maxAtFill": 0,
+       "maxCi95": [
+        0.1535,
+        0.2811
+       ]
+      }
+     }
+    },
+    "sampleIntervalS": {
+     "coolant": {
+      "medianS": 2.607,
+      "p95S": 7.11,
+      "nIntervals": 217712
+     },
+     "oil": {
+      "medianS": 1.165,
+      "p95S": 1.911,
+      "nIntervals": 608026
+     }
+    },
+    "checks": {
+     "eventTimeChangedZero": true,
+     "nestingAddedZeroAtF0": true,
+     "nestingDroppedZeroAtF6": true,
+     "censoringShiftWithinFillDelta": true,
+     "g1EqualsM435Block": true,
+     "allOk": true
+    },
+    "reading": "Sensitivity of the observed share and the Kaplan-Meier (product-limit) estimate to the forward-fill limit (0, 3, 6 s); range over declared conventions, not a confidence interval; the trip-end tolerance changes only the reason split.",
+    "labels": {
+     "censoringTimeChanged": "drives censored in both the record and the variant whose censoring time (last valid second) differs; it is not the count over all drives present in both",
+     "reasonChanged": "drives censored in both whose trip-end / channel-loss label under the variant (F, X) differs from their label under the record (3, 10)"
+    },
+    "limits": [
+     "the fill range of 0-6 s is below the 95th percentile of the coolant sample interval, so longer gaps stay missing in every setting: the grid does not cover the coolant gap distribution",
+     "the fill grid is a declared planning choice; a logger interval above 1 s couples fill and tolerance",
+     "ranges are of point estimates; the bootstrap resample sets differ between settings",
+     "at F = 0 the 30 valid-second rule counts raw samples (about 78 s at the median coolant interval), so F = 0 changes the cold-start population by dropping short, sparsely sampled drives; the higher shares at F = 0 are a population effect",
+     "informative censoring is addressed by the M435 bounds and tilt rows, not here",
+     "headline cells of cohort all only"
+    ]
    },
    "_provenance": "GENERATED by tools/m435_tte.py via tools/thermal_support_ledger.py (M435, spec analyses/M435_spec.md Rev 2); do not hand-edit. Additive key; regenerated at every ingestion."
   }
