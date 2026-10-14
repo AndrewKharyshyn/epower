@@ -207,6 +207,38 @@ if _ss:
        and all(("%.3f" % c_["standardized"][str(_ss["headlineH"])]["E2std"]["point"]) in _dss for c_ in _ss["cells"].values() if c_["standardized"][str(_ss["headlineH"])]["available"])
        and all(c_["notes"].get("pattern", "") in _dss and c_["notes"].get("dNote", "") in _dss and all(t_ in _dss for t_ in (c_["notes"].get("thin") or [])) for c_ in _ss["cells"].values())
        and _dss.count("Post hoc, descriptive, not pre-registered (blind-audit finding), not a test") == len(_ss["cells"]))
+# M440 (analyses/M440_spec.md Rev 2.1): the legacy-sensitivity block is additive and on demand; the collapsed note under the regeneration speed view renders its numbers and the required statements
+_rls = A.get("regenLegacySensitivity")
+if _rls:
+    ok("M440 reproduction recorded (G1 exact) and the block names its master", _rls["reproduction"]["ok"] is True and len(_rls["masterMd5"]) == 32 and "regenLegacySensitivity" in A["_artifactStamps"])
+    def _sg(v):
+        return "−" + ("%.2f" % abs(v)) if v < 0 else (("+" if v > 0 else "") + ("%.2f" % abs(v)))
+    _LAB = {"V1_rpmKnown": "RPM must be known (legacy: missing = engine off)", "V2_age2": "Samples no older than 2 s", "V2_age5": "Samples no older than 5 s", "V2_age10": "Samples no older than 10 s", "V3_contiguous": "Consecutive 1 s rows only",
+            "V4_startSpeedBin": "Speed bins by start speed (legacy: end speed)", "V5_fullProbe": "All four temperature probes present", "V6_offset": "Declared current offset applied"}
+    for _mode in ("all", "warm", "shoulder"):
+        _t = T.get("charts__" + _mode, "")
+        _c = _rls["cohorts"].get(_mode)
+        if not _c:
+            continue
+        _rows_ok = True
+        for _vn, _lab in _LAB.items():
+            _v = _c["variants"].get(_vn)
+            if not _v or "speed" not in _v:
+                _rows_ok = _rows_ok and not (_v and "speed" in _v)
+                continue
+            _bins = list(_v["speed"].items())
+            _ev = [(b, r) for b, r in _bins if r["decision"] != "notEvaluable" and isinstance(r["delta"], (int, float))]
+            _mat = [1 for b, r in _bins if r["decision"] == "material"]
+            _big = None
+            for b, r in _ev:
+                if _big is None or abs(r["delta"]) > abs(_big[1]["delta"]):
+                    _big = (b, r)
+            _ci = ("%s to %s" % (_sg(_big[1]["deltaCi95"][0]), _sg(_big[1]["deltaCi95"][1]))) if _big and _big[1]["deltaCi95"] else "interval not available"
+            _want = "%s%.1f%%%d of %d evaluable%s (%s) at %s km/h" % (_lab, 100 * _v["retained"]["ke"], len(_mat), len(_ev), _sg(_big[1]["delta"]), _ci, _big[0]) if _big else "%s%.1f%%%d of %d evaluablenot evaluable" % (_lab, 100 * _v["retained"]["ke"], len(_mat), len(_ev))
+            _rows_ok = _rows_ok and (_want in _t)
+        ok("A2 REQUIRED M440 %s: the collapsed note renders every speed-view variant row of the payload (KE retained, material bins, largest difference with its interval)" % _mode, _rows_ok and _t.count("Apparent KE recovery (assumed mass), sensitivity to the extraction rule") == 1)
+        ok("A2 REQUIRED M440 %s: the note states that legacy speed bins use the step end speed, that the age rule is a polling-cadence effect, that the start-speed rule moves steps one way only and that the range is not a replacement value" % _mode,
+           "Legacy speed bins use the step END speed." in _t and "The age rule is a polling-cadence effect, not long staleness" in _t and "moves steps one way only" in _t and "not a replacement value" in _t and "not evidence of harmlessness" in _t)
 # A3 (M427, audit F01): the cell-spread trend wording follows the released interval in every rendered tab/mode (a sentence cannot say "spans zero" or "no resolved trend" beside an interval that excludes zero)
 _cs_ci = A["degradationTrends"]["cellSpread"]["clusterRobustOLS"]["ci95"]
 _cs_bad = LG.cell_spread_trend_violations(_cs_ci, T)

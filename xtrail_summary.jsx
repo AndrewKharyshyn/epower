@@ -2993,6 +2993,45 @@ function regenAxis(maxVal){
 }
 function regenXMax(maxBin, width){ return Math.ceil(((maxBin||0)+(width||10))/10)*10; }
 
+/* M440 (regen programme, stage MB; spec analyses/M440_spec.md Rev 2.1): collapsed note with the sensitivity of the legacy apparent KE recovery to the extraction rule. Every number binds to
+   S.regenLegacySensitivity (script-written by tools/m440_regen_sens.py; on demand, carried forward at ingestion). A range over declared conventions: no interval is drawn around it and it is not a replacement value. */
+function RegenSensitivityNote({view}) {
+  const _coh=useCohort();
+  const R=S.regenLegacySensitivity;
+  if(!R || _coh==="compare") return null;
+  const Cc=(R.cohorts||{})[_coh]; if(!Cc) return null;
+  const kind=view==="temp"?"temp":"speed";
+  const LAB={V1_rpmKnown:"RPM must be known (legacy: missing = engine off)",V2_age2:"Samples no older than 2 s",V2_age5:"Samples no older than 5 s",V2_age10:"Samples no older than 10 s",V3_contiguous:"Consecutive 1 s rows only",
+    V4_startSpeedBin:"Speed bins by start speed (legacy: end speed)",V5_fullProbe:"All four temperature probes present",V6_offset:"Declared current offset applied",VCa_combined:"Combined rules (RPM known, age ≤ 5 s, consecutive rows; all probes on the temperature view, start speed on the speed view)",VCb_combinedOffset:"Combined rules with the current offset"};
+  const th={textAlign:"left",padding:"3px 6px",borderBottom:"1px solid #cbd5e1",fontWeight:600,color:"#0f172a",fontSize:9};
+  const td={padding:"3px 6px",borderBottom:"1px solid #e2e8f0",fontSize:9,verticalAlign:"top"};
+  const f=(v,d=2)=>typeof v==="number"?v.toFixed(d):"—";
+  const sg=(v,d=2)=>typeof v==="number"?(v>0?"+":v<0?"\u2212":"")+Math.abs(v).toFixed(d):"—";
+  const rows=Object.keys(LAB).filter(n=>Cc.variants[n]&&Cc.variants[n][kind]).map(n=>{
+    const v=Cc.variants[n], bins=Object.entries(v[kind]);
+    const ev=bins.filter(([b,r])=>r.decision!=="notEvaluable"&&typeof r.delta==="number");
+    const mat=bins.filter(([b,r])=>r.decision==="material"&&(kind==="speed"||r.validLegacy));
+    let big=null; ev.forEach(([b,r])=>{ if(big===null||Math.abs(r.delta)>Math.abs(big[1].delta)) big=[b,r]; });
+    return {n, ke:v.retained.ke, nev:ev.length, nmat:mat.length, big};
+  });
+  const AS=Cc.ageStrata, VM=Cc.variants.V4_startSpeedBin&&Cc.variants.V4_startSpeedBin.binMigration;
+  const unit=kind==="temp"?"temperature bins (n≥200 under the legacy)":"speed bins";
+  return (
+    <Collapsible title="Sensitivity of the apparent KE recovery to the extraction rule (M440, stage MB): expand for the details" subtitle={`How much each declared rule of the legacy extraction moves the bars on the same drives (${Cc.nSteps.toLocaleString()} qualifying steps, ${Cc.nDrives} drives, ${Cc.nDays} days). A range over declared conventions, not a replacement value.`}>
+      <div data-m440="note" style={{fontSize:10,color:"#475569",lineHeight:1.6}}>
+        Apparent KE recovery (assumed mass), sensitivity to the extraction rule, cohort {_coh==="all"?"all drives":_coh}. Each row changes one declared rule of the legacy extraction and recomputes the bars on the same drives; the legacy bars are reproduced exactly before any variant is read ({R.reproduction.nStepsReproduced.toLocaleString()} steps). These are ranges over declared conventions: no interval is drawn around them, they are not a replacement value, and a difference does not show which rule is closer to the truth. Legacy speed bins use the step END speed.
+        <table style={{borderCollapse:"collapse",margin:"6px 0"}}><thead><tr><th style={th}>Rule changed</th><th style={th}>KE retained</th><th style={th}>Material {unit}</th><th style={th}>Largest difference from the legacy bar (pp, 95% day-clustered interval)</th></tr></thead>
+          <tbody>{rows.map(r=>(<tr key={r.n}><td style={td}>{LAB[r.n]}</td><td style={td}>{f(100*r.ke,1)}%</td><td style={td}>{r.nmat} of {r.nev} evaluable</td>
+            <td style={td}>{r.big?`${sg(r.big[1].delta)} (${r.big[1].deltaCi95?`${sg(r.big[1].deltaCi95[0])} to ${sg(r.big[1].deltaCi95[1])}`:"interval not available"}) at ${r.big[0]}${kind==="temp"?"":" km/h"}`:"not evaluable"}</td></tr>))}</tbody></table>
+        <div>Material means the difference exceeds the half-width of the bin's published mass-uncertainty range and its day-clustered interval excludes zero; not material is not evidence of harmlessness. Bins with fewer than 5 contributing days are not evaluable.</div>
+        {AS&&<div>The age rule is a polling-cadence effect, not long staleness: the steps older than 2 s are almost all on slow-cadence drives ({f(100*AS.gt2_le3s.slowCadenceShare,1)}% of the steps aged 2–3 s), and the recovery of a step falls with the age band ({f(AS.le1s.ratio,1)}%, {f(AS.gt1_le2s.ratio,1)}%, {f(AS.gt2_le3s.ratio,1)}%, {f(AS.gt3_le5s.ratio,1)}% for ≤1, 1–2, 2–3 and 3–5 s); the same cadence effect is present in the retained slow-cadence steps, so this rule only trims it, and the trim depends on the threshold.</div>}
+        {VM&&kind==="speed"&&<div>The start-speed rule moves steps one way only ({f(100*VM.stepShare,1)}% of the steps change bin, {f(100*VM.keMovedUpShare,1)}% of the kinetic energy moves to a higher bin and none to a lower one), so its bin-wise differences compare different populations; the low-speed bins are limited by the 1 km/h speed resolution.</div>}
+        <div>The offset rule uses the declared offset ({f(R.offsetA,4)} A, discharge-positive frame); it depends on the SoC-anchored offset solve and on the assumed capacity (CAP_KWH, verified: false). This block is computed on demand ({String(R.masterMd5).slice(0,8)}, {R.cohorts.all.nDrives} drives with qualifying steps); the corpus now has {S.totalDrives} drives. {R.label}.</div>
+      </div>
+    </Collapsible>
+  );
+}
+
 /* ─── CHART: Regeneration Energy Analysis ───────────────────────────────── */
 function RegenChart() {
   const [view, setView] = useState("efficiency");
@@ -3340,6 +3379,7 @@ function RegenChart() {
       </div>
 
       {view==="temp" && <TempChart/>}
+      {view==="temp" && <RegenSensitivityNote view="temp"/>}
 
       {view==="efficiency" && (<>
         <EfficChart/>
@@ -3379,6 +3419,7 @@ function RegenChart() {
               blending, so it is neither an upper nor a lower bound on conversion efficiency; GPS altitude is a prerequisite for a grade-resolved balance.
             </>);})()}
         </div>
+        <RegenSensitivityNote view="efficiency"/>
       </>)}
 
       {view==="type" && (<>
