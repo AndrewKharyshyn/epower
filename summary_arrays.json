@@ -8140,7 +8140,552 @@
    "Runs at the top of the distribution recover 30-50% of throughput as regen mid-run, so the observed maximum is not a buffer-drain range; runMaxUnassistedKm is.",
    "M62: the census rests on nValid of nDrives (supportPct); the balance is channel-gated. Drives whose ensemble outlier flags were never fitted (NaN) are treated as non-outliers and INCLUDED -- see nUnflaggedIncluded / kmUnflaggedIncluded for how much distance that assumption admits.",
    "The barometric PID is 1 kPa (~83 m) quantised and cannot resolve run-scale gradient, so no terrain attribution is made for long runs."
-  ]
+  ],
+  "detectorSensitivity": {
+   "milestone": "M432",
+   "spec": "analyses/M432_spec.md",
+   "specSha256": "97a5116b1572391fc5a1679ccef9e9fdebdb1554a2233a8c92acf1d71b5fa142",
+   "result": "analyses/M432_result.json",
+   "resultSha256": "c21626205642298876376b758868ec07beccfe9aaa564cc549fca2f7fac2b6a5",
+   "perDriveTable": "analyses/M432_result_per_drive.csv.gz",
+   "scriptSha256": "9d5e773e4b08285dcc8636b90bd91ac17f586947c0f9c25f41da94106368b286",
+   "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
+   "label": "raw/ = sha256-verified originals (M366); detector-sensitivity range over declared conventions; not a confidence interval; model-derived",
+   "reading": "Range of the engine-off distance share over declared detector conventions (RPM threshold, RPM alignment tolerance and direction, debounce), each recomputed on the same drives with speed, odometer scale and distance denominator held fixed. The detector effect is the paired difference on the drives valid under both settings; support lost / gained is reported separately. The range is deterministic given the data: it is not a confidence interval and not a bound on the true share. The sampling interval of the released share is the day-clustered percentile interval below. Stress rows are shown beside the range and never enter it.",
+   "released": {
+    "nValid": 483,
+    "kmValid": 9036.4,
+    "evKm": 3202.8,
+    "evPctDistance": 35.4,
+    "sharePct": 35.444,
+    "samplingCi95": [
+     31.69,
+     40.47
+    ],
+    "bootstrap": {
+     "B": 4000,
+     "seed": 42,
+     "cluster": "calendar day",
+     "ratioOfDaySums": true
+    },
+    "nDays": 115,
+    "essDays": 32.2
+   },
+   "nConventionsCore": 10,
+   "nComparableCore": 10,
+   "comparability": {
+    "rule": "at least 90 % of the released drives and at least 90 % of the released distance remain valid under the variant",
+    "minShare": 0.9
+   },
+   "oneAtATime": [
+    {
+     "axis": "released",
+     "value": "S0",
+     "role": "released",
+     "alignment": "n3.0",
+     "thresholdRpm": 400,
+     "debounceSamples": 3,
+     "coverageGate": 0.95,
+     "comparable": true,
+     "nValidOwn": 483,
+     "nCommon": 483,
+     "nCommonPct": 100.0,
+     "kmCommonPct": 100.0,
+     "daysKept": 115,
+     "daysReleased": 115,
+     "unknownRpmShare": 0.0027,
+     "ownSharePct": 35.444,
+     "supportLostPp": 0.0,
+     "detectorPp": 0.0,
+     "supportGainedPp": 0.0,
+     "totalPp": 0.0,
+     "detectorPpCi95": [
+      0.0,
+      0.0
+     ]
+    },
+    {
+     "axis": "T",
+     "value": "100 rpm",
+     "role": "core",
+     "alignment": "n3.0",
+     "thresholdRpm": 100,
+     "debounceSamples": 3,
+     "coverageGate": 0.95,
+     "comparable": true,
+     "nValidOwn": 483,
+     "nCommon": 483,
+     "nCommonPct": 100.0,
+     "kmCommonPct": 100.0,
+     "daysKept": 115,
+     "daysReleased": 115,
+     "unknownRpmShare": 0.0027,
+     "ownSharePct": 33.671,
+     "supportLostPp": 0.0,
+     "detectorPp": -1.773,
+     "supportGainedPp": 0.0,
+     "totalPp": -1.773,
+     "detectorPpCi95": [
+      -1.942,
+      -1.625
+     ]
+    },
+    {
+     "axis": "T",
+     "value": "200 rpm",
+     "role": "core",
+     "alignment": "n3.0",
+     "thresholdRpm": 200,
+     "debounceSamples": 3,
+     "coverageGate": 0.95,
+     "comparable": true,
+     "nValidOwn": 483,
+     "nCommon": 483,
+     "nCommonPct": 100.0,
+     "kmCommonPct": 100.0,
+     "daysKept": 115,
+     "daysReleased": 115,
+     "unknownRpmShare": 0.0027,
+     "ownSharePct": 33.822,
+     "supportLostPp": 0.0,
+     "detectorPp": -1.621,
+     "supportGainedPp": 0.0,
+     "totalPp": -1.621,
+     "detectorPpCi95": [
+      -1.783,
+      -1.478
+     ]
+    },
+    {
+     "axis": "T",
+     "value": "800 rpm",
+     "role": "core",
+     "alignment": "n3.0",
+     "thresholdRpm": 800,
+     "debounceSamples": 3,
+     "coverageGate": 0.95,
+     "comparable": true,
+     "nValidOwn": 483,
+     "nCommon": 483,
+     "nCommonPct": 100.0,
+     "kmCommonPct": 100.0,
+     "daysKept": 115,
+     "daysReleased": 115,
+     "unknownRpmShare": 0.0027,
+     "ownSharePct": 36.412,
+     "supportLostPp": 0.0,
+     "detectorPp": 0.968,
+     "supportGainedPp": 0.0,
+     "totalPp": 0.968,
+     "detectorPpCi95": [
+      0.874,
+      1.069
+     ]
+    },
+    {
+     "axis": "A",
+     "value": "nearest 1.0 s",
+     "role": "core",
+     "alignment": "n1.0",
+     "thresholdRpm": 400,
+     "debounceSamples": 3,
+     "coverageGate": 0.95,
+     "comparable": true,
+     "nValidOwn": 450,
+     "nCommon": 450,
+     "nCommonPct": 93.2,
+     "kmCommonPct": 95.8,
+     "daysKept": 110,
+     "daysReleased": 115,
+     "unknownRpmShare": 0.0085,
+     "ownSharePct": 35.013,
+     "supportLostPp": -0.265,
+     "detectorPp": -0.165,
+     "supportGainedPp": 0.0,
+     "totalPp": -0.43,
+     "detectorPpCi95": [
+      -0.244,
+      -0.102
+     ]
+    },
+    {
+     "axis": "A",
+     "value": "nearest 1.5 s",
+     "role": "core",
+     "alignment": "n1.5",
+     "thresholdRpm": 400,
+     "debounceSamples": 3,
+     "coverageGate": 0.95,
+     "comparable": true,
+     "nValidOwn": 475,
+     "nCommon": 475,
+     "nCommonPct": 98.3,
+     "kmCommonPct": 99.6,
+     "daysKept": 114,
+     "daysReleased": 115,
+     "unknownRpmShare": 0.004,
+     "ownSharePct": 35.358,
+     "supportLostPp": -0.061,
+     "detectorPp": -0.024,
+     "supportGainedPp": 0.0,
+     "totalPp": -0.085,
+     "detectorPpCi95": [
+      -0.043,
+      -0.011
+     ]
+    },
+    {
+     "axis": "A",
+     "value": "nearest 0.5 s",
+     "role": "stress",
+     "alignment": "n0.5",
+     "thresholdRpm": 400,
+     "debounceSamples": 3,
+     "coverageGate": 0.95,
+     "comparable": false,
+     "nValidOwn": 147,
+     "nCommon": 147,
+     "nCommonPct": 30.4,
+     "kmCommonPct": 21.3,
+     "daysKept": 36,
+     "daysReleased": 115,
+     "unknownRpmShare": 0.0165,
+     "ownSharePct": 40.667,
+     "supportLostPp": 5.731,
+     "detectorPp": -0.508,
+     "supportGainedPp": 0.0,
+     "totalPp": 5.223,
+     "detectorPpCi95": [
+      -0.665,
+      -0.371
+     ]
+    },
+    {
+     "axis": "D",
+     "value": "backward, matched width (one-sided 6.0 s)",
+     "role": "core",
+     "alignment": "b6.0",
+     "thresholdRpm": 400,
+     "debounceSamples": 3,
+     "coverageGate": 0.95,
+     "comparable": true,
+     "nValidOwn": 483,
+     "nCommon": 483,
+     "nCommonPct": 100.0,
+     "kmCommonPct": 100.0,
+     "daysKept": 115,
+     "daysReleased": 115,
+     "unknownRpmShare": 0.0034,
+     "ownSharePct": 35.39,
+     "supportLostPp": 0.0,
+     "detectorPp": -0.054,
+     "supportGainedPp": 0.0,
+     "totalPp": -0.054,
+     "detectorPpCi95": [
+      -0.081,
+      -0.025
+     ]
+    },
+    {
+     "axis": "D",
+     "value": "forward, matched width (one-sided 6.0 s)",
+     "role": "core",
+     "alignment": "f6.0",
+     "thresholdRpm": 400,
+     "debounceSamples": 3,
+     "coverageGate": 0.95,
+     "comparable": true,
+     "nValidOwn": 482,
+     "nCommon": 482,
+     "nCommonPct": 99.8,
+     "kmCommonPct": 100.0,
+     "daysKept": 115,
+     "daysReleased": 115,
+     "unknownRpmShare": 0.0032,
+     "ownSharePct": 35.581,
+     "supportLostPp": 0.005,
+     "detectorPp": 0.132,
+     "supportGainedPp": 0.0,
+     "totalPp": 0.137,
+     "detectorPpCi95": [
+      0.099,
+      0.162
+     ]
+    },
+    {
+     "axis": "D",
+     "value": "backward, same tolerance (one-sided 3.0 s)",
+     "role": "stress",
+     "alignment": "b3.0",
+     "thresholdRpm": 400,
+     "debounceSamples": 3,
+     "coverageGate": 0.95,
+     "comparable": true,
+     "nValidOwn": 477,
+     "nCommon": 477,
+     "nCommonPct": 98.8,
+     "kmCommonPct": 99.7,
+     "daysKept": 114,
+     "daysReleased": 115,
+     "unknownRpmShare": 0.0046,
+     "ownSharePct": 35.321,
+     "supportLostPp": -0.051,
+     "detectorPp": -0.072,
+     "supportGainedPp": 0.0,
+     "totalPp": -0.123,
+     "detectorPpCi95": [
+      -0.102,
+      -0.041
+     ],
+     "duplicateOf": "factorial cell backward, tolerance 1.5 s (b3.0)"
+    },
+    {
+     "axis": "B",
+     "value": "0 samples",
+     "role": "core",
+     "alignment": "n3.0",
+     "thresholdRpm": 400,
+     "debounceSamples": 0,
+     "coverageGate": 0.95,
+     "comparable": true,
+     "nValidOwn": 483,
+     "nCommon": 483,
+     "nCommonPct": 100.0,
+     "kmCommonPct": 100.0,
+     "daysKept": 115,
+     "daysReleased": 115,
+     "unknownRpmShare": 0.0027,
+     "ownSharePct": 35.784,
+     "supportLostPp": 0.0,
+     "detectorPp": 0.341,
+     "supportGainedPp": 0.0,
+     "totalPp": 0.341,
+     "detectorPpCi95": [
+      0.278,
+      0.404
+     ]
+    },
+    {
+     "axis": "B",
+     "value": "2 samples",
+     "role": "core",
+     "alignment": "n3.0",
+     "thresholdRpm": 400,
+     "debounceSamples": 2,
+     "coverageGate": 0.95,
+     "comparable": true,
+     "nValidOwn": 483,
+     "nCommon": 483,
+     "nCommonPct": 100.0,
+     "kmCommonPct": 100.0,
+     "daysKept": 115,
+     "daysReleased": 115,
+     "unknownRpmShare": 0.0027,
+     "ownSharePct": 35.668,
+     "supportLostPp": 0.0,
+     "detectorPp": 0.224,
+     "supportGainedPp": 0.0,
+     "totalPp": 0.224,
+     "detectorPpCi95": [
+      0.179,
+      0.27
+     ]
+    },
+    {
+     "axis": "B",
+     "value": "5 samples",
+     "role": "core",
+     "alignment": "n3.0",
+     "thresholdRpm": 400,
+     "debounceSamples": 5,
+     "coverageGate": 0.95,
+     "comparable": true,
+     "nValidOwn": 483,
+     "nCommon": 483,
+     "nCommonPct": 100.0,
+     "kmCommonPct": 100.0,
+     "daysKept": 115,
+     "daysReleased": 115,
+     "unknownRpmShare": 0.0027,
+     "ownSharePct": 35.039,
+     "supportLostPp": 0.0,
+     "detectorPp": -0.404,
+     "supportGainedPp": 0.0,
+     "totalPp": -0.404,
+     "detectorPpCi95": [
+      -0.466,
+      -0.337
+     ]
+    },
+    {
+     "axis": "B",
+     "value": "10 samples",
+     "role": "stress",
+     "alignment": "n3.0",
+     "thresholdRpm": 400,
+     "debounceSamples": 10,
+     "coverageGate": 0.95,
+     "comparable": true,
+     "nValidOwn": 483,
+     "nCommon": 483,
+     "nCommonPct": 100.0,
+     "kmCommonPct": 100.0,
+     "daysKept": 115,
+     "daysReleased": 115,
+     "unknownRpmShare": 0.0027,
+     "ownSharePct": 34.295,
+     "supportLostPp": 0.0,
+     "detectorPp": -1.149,
+     "supportGainedPp": 0.0,
+     "totalPp": -1.149,
+     "detectorPpCi95": [
+      -1.34,
+      -0.944
+     ]
+    },
+    {
+     "axis": "G",
+     "value": "coverage gate 0.90",
+     "role": "stress",
+     "alignment": "n3.0",
+     "thresholdRpm": 400,
+     "debounceSamples": 3,
+     "coverageGate": 0.9,
+     "comparable": true,
+     "nValidOwn": 494,
+     "nCommon": 483,
+     "nCommonPct": 100.0,
+     "kmCommonPct": 100.0,
+     "daysKept": 115,
+     "daysReleased": 115,
+     "unknownRpmShare": 0.0037,
+     "ownSharePct": 35.528,
+     "supportLostPp": 0.0,
+     "detectorPp": 0.0,
+     "supportGainedPp": 0.084,
+     "totalPp": 0.084,
+     "detectorPpCi95": [
+      0.0,
+      0.0
+     ]
+    },
+    {
+     "axis": "G",
+     "value": "coverage gate 0.98",
+     "role": "stress",
+     "alignment": "n3.0",
+     "thresholdRpm": 400,
+     "debounceSamples": 3,
+     "coverageGate": 0.98,
+     "comparable": true,
+     "nValidOwn": 455,
+     "nCommon": 455,
+     "nCommonPct": 94.2,
+     "kmCommonPct": 95.7,
+     "daysKept": 110,
+     "daysReleased": 115,
+     "unknownRpmShare": 0.0013,
+     "ownSharePct": 35.08,
+     "supportLostPp": -0.364,
+     "detectorPp": 0.0,
+     "supportGainedPp": 0.0,
+     "totalPp": -0.364,
+     "detectorPpCi95": [
+      0.0,
+      0.0
+     ]
+    }
+   ],
+   "axisRanges": {
+    "T": {
+     "nComparableCoreRows": 3,
+     "deltaPp": [
+      -1.773,
+      0.968
+     ],
+     "sharePct": [
+      33.67,
+      36.41
+     ]
+    },
+    "A": {
+     "nComparableCoreRows": 2,
+     "deltaPp": [
+      -0.165,
+      0.0
+     ],
+     "sharePct": [
+      35.28,
+      35.44
+     ]
+    },
+    "D": {
+     "nComparableCoreRows": 2,
+     "deltaPp": [
+      -0.054,
+      0.132
+     ],
+     "sharePct": [
+      35.39,
+      35.58
+     ]
+    },
+    "B": {
+     "nComparableCoreRows": 3,
+     "deltaPp": [
+      -0.404,
+      0.341
+     ],
+     "sharePct": [
+      35.04,
+      35.78
+     ]
+    }
+   },
+   "factorial": {
+    "design": "RPM threshold x alignment (nearest / backward / forward at matched width) x tolerance x debounce, core values only",
+    "nCells": 144,
+    "nComparable": 144,
+    "nNotComparable": 0,
+    "deltaPpRange": [
+     -2.346,
+     1.475
+    ],
+    "sharePctRange": [
+     33.1,
+     36.92
+    ],
+    "minCell": {
+     "direction": "backward",
+     "A": "1.0",
+     "alignment": "b2.0",
+     "thresholdRpm": 100,
+     "debounceSamples": 5,
+     "comparable": true,
+     "detectorPp": -2.346,
+     "nCommonPct": 93.2,
+     "kmCommonPct": 95.8
+    },
+    "maxCell": {
+     "direction": "forward",
+     "A": "3.0",
+     "alignment": "f6.0",
+     "thresholdRpm": 800,
+     "debounceSamples": 0,
+     "comparable": true,
+     "detectorPp": 1.475,
+     "nCommonPct": 99.8,
+     "kmCommonPct": 100.0
+    }
+   },
+   "evaluatedOn": {
+    "nDrives": 578,
+    "nWithResult": 577,
+    "nValid": 483,
+    "noResult": "the drive without a result has zero logged distance in the master"
+   },
+   "refresh": "on demand: re-run when the detector, the gates or the polling regime changes, or after about 14 calendar days of new drives; each ingestion carries this block forward unchanged"
+  }
  },
  "batteryDrawGross": {
   "floor": {

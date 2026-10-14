@@ -125,6 +125,21 @@ if _fq0:
        all(all((c.get("statements") or {}).get(k, {}).get("statement") in t for k in ("S1", "S2", "S3") if (c.get("statements") or {}).get(k, {}).get("statement")) for t in _fqd.values() for n, q in _fits for c in [q["cells"]["pooled"]]))
     ok("A2 REQUIRED M430 the text states the held-out design, the selection on the outcome and that tau stays a gap-mix-dependent summary",
        all(("blocked cross-validation" in t) and ("selection on the outcome" in t) and ("gap-mix-dependent, model-derived summary" in t) and ("not adjusted for multiplicity" in t) for t in _fqd.values()))
+# M432 (analyses/M432_spec.md Rev 2.1): the detector-sensitivity block is additive; its range is the min-max of the comparable CORE settings (stress rows never enter), the rendered text equals the payload and states what the range is not
+_ds = (A.get("evTraction") or {}).get("detectorSensitivity")
+if _ds:
+    _core = [r for r in _ds["oneAtATime"] if r["role"] in ("core", "released") and r["comparable"]]
+    _s0 = _ds["released"]["sharePct"]
+    _ax_ok = all(max(abs(_ds["axisRanges"][k]["sharePct"][0] - (_s0 + min(r["detectorPp"] for r in _core if r["axis"] in (k, "released")))), abs(_ds["axisRanges"][k]["sharePct"][1] - (_s0 + max(r["detectorPp"] for r in _core if r["axis"] in (k, "released"))))) < 0.011 for k in ("T", "A", "D", "B"))
+    ok("M432 per-axis share range equals the released share plus the min-max paired effect of the comparable core rows (stress rows excluded)", _ax_ok)
+    ok("M432 factorial share range is the released share plus the paired effect range, and the comparable count is stated", abs(_ds["factorial"]["sharePctRange"][0] - (_s0 + _ds["factorial"]["deltaPpRange"][0])) < 0.011 and abs(_ds["factorial"]["sharePctRange"][1] - (_s0 + _ds["factorial"]["deltaPpRange"][1])) < 0.011 and _ds["factorial"]["nComparable"] + _ds["factorial"]["nNotComparable"] == _ds["factorial"]["nCells"])
+    ok("M432 released block equals the carried evPctDistance (rounded to 1 dp) and the interval contains the point", round(_ds["released"]["sharePct"], 1) == A["evTraction"]["evPctDistance"] and _ds["released"]["samplingCi95"][0] <= _s0 <= _ds["released"]["samplingCi95"][1])
+    _dd = {k: t for k, t in T.items() if "Detector-sensitivity range of the engine-off distance share (M432" in t}
+    ok("M432 detector-sensitivity panel rendered in the EV tab dump", len(_dd) >= 1, f"{sorted(_dd)}")
+    ok("M432 rendered range, released share and sampling interval equal the payload and the text says it is not a confidence interval and not a bound on the true share",
+       all(("%.1f to %.1f%%" % tuple(_ds["factorial"]["sharePctRange"])) in t and ("is %.1f%% of distance" % _s0) in t and ("%.1f to %.1f%%" % tuple(_ds["released"]["samplingCi95"])) in t
+           and ("not confidence intervals and not a bound on the true share" in t) and ("definition choice" in t) and ("Joint outer envelope (secondary)" in t) and ("partly coverage loss" in t) for t in _dd.values()))
+    ok("M432 a stress row that repeats a factorial convention is flagged in the payload (duplicateOf) and shown as such", all(("same convention as %s" % r["duplicateOf"]) in t for r in _ds["oneAtATime"] if r.get("duplicateOf") for t in _dd.values()) and any(r.get("duplicateOf") for r in _ds["oneAtATime"]))
 # A3 (M427, audit F01): the cell-spread trend wording follows the released interval in every rendered tab/mode (a sentence cannot say "spans zero" or "no resolved trend" beside an interval that excludes zero)
 _cs_ci = A["degradationTrends"]["cellSpread"]["clusterRobustOLS"]["ci95"]
 _cs_bad = LG.cell_spread_trend_violations(_cs_ci, T)
