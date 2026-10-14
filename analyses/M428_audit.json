@@ -1,0 +1,16 @@
+{"reproduced":{
+ "START":"89 drv/14 d/43609 s/443 ev; OE 0.989 [0.783,1.171]; SKILL 0.128 [0.100,0.160]; PRAUC 0.0570 lift 5.61; tpack excess 6.77 pp (others <=0.1); D1 PASS, D2 indeterminate, D3 not material; jackknife and S3 same states",
+ "STOP":"77 drv/14 d/24687 s/433 ev; OE 0.895 [0.766,0.983]; SKILL 0.125 [0.076,0.159]; PRAUC 0.0809 lift 4.62; tpack excess 8.92 pp (S3 9.17); same states; jackknife OE [0.757,1.033]",
+ "fidelity":"raw basis counts exact (381713/5450, 301247/5431); cc n 365188/293005 = block ladder n",
+ "outcome":"both: partial: not established (few day clusters)"},
+ "mismatches":[],
+ "leakage_findings":["None: knots, scale, coefficients, B0/B1 and P1/P99 from basis rows only. B0 uses cc basis rate (0.01452); raw-count rate 0.01428 is a ~2% ambiguity, untested."],
+ "method_findings":["D2 'within' needs CI inside [0.80,1.25]: unreachable for START (width 0.39); refit trigger equally hard. 'partial' is the default; low power by design.",
+ "Pooled O/E hides offsetting error: STOP 10-20 C band O/E 0.47 (54 vs 114), 20-30 C 1.13; STOP out-of-support O/E 0.48; STOP upper CI <1; START halves O/E 0.72 vs 1.12. No D-rule, not in outcome sentence.",
+ "D3 is a point estimate, no CI; STOP tpack 8.9 pp is ~1 pp under the 10 pp line and tpack is declared not blind. Basis outside share is ~1.0% (not 'about 2%') for speed/demand/dur (mass at 0).",
+ "B0 is weak so D1 is near-automatic; SKILL vs B1 0.111/0.102 has no decision role; START prevalence fell 0.0145 to 0.0102.",
+ "2026-10-10 holds 34% of events (both sides); essDays 10.3 START, 5.7 STOP. Shared day 2026-09-30 immaterial (11 events; S3 shifts <=0.01, no state change).",
+ "STOP table lacks 20 basis + 12 later files (START none); likely no engine-on interval, not load failure (inferred). Complete-case drops 2.7%/2.5% of basis events.",
+ "STOP PR-AUC 0.081 below in-time CI lower bound 0.089; LL 0.0773 vs 0.074 inside CI."],
+ "independence":"Reused m119v2_model DesignSpec/INTERACTIONS/fit_glm/_predict/pr_auc/calibration and the pickle. Own split, metrics, bootstrap, jackknife, support, bands, D-states in audit/m428_blind.py, audit/m428_extra.py; output audit/m428_blind_out.json. Author code/result not read.",
+ "verdict":"reproduced"}

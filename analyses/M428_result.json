@@ -1,0 +1,1450 @@
+{
+ "_provenance": {
+  "spec": "analyses/M428_spec.md",
+  "specSha256": "b170a84cb1ec14a286a55bb90c13836efdc08b496ad8673994f5f90e2c3c75b1",
+  "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
+  "scriptSha256": "c28951d8f9aa7ad1241084f42fd57f2945fe840c27fac0e5773461f348d6109b",
+  "m119v2ModelSha256": "69d4a5712137c71d97c89f46297e49a4e11b286f010adcfdaa5872e6e94dfdd6",
+  "tablesSha256": "eb27157015a8312e80b416be064ef29d9da7c671ccefe51bf22333ba23cbcdeb",
+  "tablesProv": {
+   "master_md5": "a641f34d7528d004b900c151cbde3d6d",
+   "script_sha256": "d1d75bf4ab0aa96cba0ad847b7212aa2aa02560f01d6bd4b4d94c2854ec9f845",
+   "m119v2_model_sha256": "69d4a5712137c71d97c89f46297e49a4e11b286f010adcfdaa5872e6e94dfdd6",
+   "spec": "analyses/M318_spec.md",
+   "bootB": 4000,
+   "bootSeed": 42,
+   "raw_dir": "raw_only (tools/stage_raw.py)",
+   "generated": "2026-10-14T00:55:19+0300",
+   "n_first": 578,
+   "secs": 452
+  },
+  "bootB": 4000,
+  "bootSeed": 42,
+  "nBasisDrives": 489,
+  "nLaterDrives": 89,
+  "lastBasisFile": "2026-09-30_10-51-47.csv",
+  "firstLaterFile": "2026-09-30_20-12-47.csv",
+  "label": "model-derived hazards, detector-derived events (M231); out-of-time evaluation of the frozen design reproduced on the basis drives from raw/ = sha256-verified originals (M366); not M299-reproducible; intervals conditional on the fitted basis model"
+ },
+ "start": {
+  "basis": {
+   "atRiskSecondsCompleteCase": 365188,
+   "eventsCompleteCase": 5302,
+   "nDays": 100,
+   "nDrives": 476,
+   "eventRate": 0.014519
+  },
+  "skippedFilesNotInTable": {
+   "basis": 0,
+   "later": 0
+  },
+  "primary": {
+   "nDrives": 89,
+   "nDays": 14,
+   "atRiskSeconds": 43609,
+   "events": 443,
+   "essDays": 10.31,
+   "point": {
+    "prevalence": 0.010158,
+    "OE": 0.989019,
+    "logLoss": 0.05013,
+    "skillVsB0": 0.127717,
+    "skillVsB1": 0.111254,
+    "dLogLossB1minusModel": 0.006275,
+    "brier": 0.009829,
+    "skillVsLaterConstant": 0.116309,
+    "prAuc": 0.056971,
+    "lift": 5.608263,
+    "calSlope": 0.946165,
+    "calIntercept": -0.222045
+   },
+   "ci95Percentile": {
+    "OE": [
+     0.78339,
+     1.17102
+    ],
+    "skillVsB0": [
+     0.10027,
+     0.16016
+    ],
+    "skillVsB1": [
+     0.08214,
+     0.14713
+    ],
+    "dLogLossB1minusModel": [
+     0.00443,
+     0.00749
+    ],
+    "prAuc": [
+     0.03564,
+     0.07127
+    ],
+    "lift": [
+     4.8448,
+     6.4728
+    ]
+   },
+   "undefinedDraws": {
+    "OE": 0,
+    "prAuc": 0
+   },
+   "bootstrapB": 4000,
+   "jackknife": {
+    "OE": {
+     "tInterval": [
+      0.73797,
+      1.27859
+     ],
+     "leaveOneDayOutRange": [
+      0.87135,
+      1.0252
+     ],
+     "df": 13
+    },
+    "skillVsB0": {
+     "tInterval": [
+      0.0928,
+      0.15939
+     ],
+     "leaveOneDayOutRange": [
+      0.12305,
+      0.1371
+     ],
+     "df": 13
+    },
+    "dLogLossB1minusModel": {
+     "tInterval": [
+      0.00462,
+      0.00811
+     ],
+     "leaveOneDayOutRange": [
+      0.00588,
+      0.00669
+     ],
+     "df": 13
+    }
+   },
+   "states": {
+    "D1": "PASS",
+    "D2": "indeterminate",
+    "D3": "not material",
+    "jackknifeD1": "PASS",
+    "jackknifeD2": "indeterminate"
+   }
+  },
+  "support": {
+   "perPredictor": {
+    "soc": {
+     "basisMin": 44.5,
+     "basisMax": 84.5,
+     "basisP1": 49.0,
+     "basisP99": 77.5,
+     "basisShareOutsideP1P99": 0.019203807354020396,
+     "laterShareOutsideP1P99": 0.011190350615698594,
+     "excessPp": -0.8013456738321801,
+     "laterShareBelowP1": 0.002568277190488202,
+     "laterShareAboveP99": 0.008622073425210392,
+     "laterShareOutsideMinMax": 0.0
+    },
+    "speed": {
+     "basisMin": 0.0,
+     "basisMax": 154.0,
+     "basisP1": 0.0,
+     "basisP99": 89.0,
+     "basisShareOutsideP1P99": 0.009762095140037461,
+     "laterShareOutsideP1P99": 0.004494485083354353,
+     "excessPp": -0.5267610056683107,
+     "laterShareBelowP1": 0.0,
+     "laterShareAboveP99": 0.004494485083354353,
+     "laterShareOutsideMinMax": 0.0
+    },
+    "tpack": {
+     "basisMin": 11.0,
+     "basisMax": 45.75,
+     "basisP1": 15.5,
+     "basisP99": 43.25,
+     "basisShareOutsideP1P99": 0.018064668061382082,
+     "laterShareOutsideP1P99": 0.08576211332523102,
+     "excessPp": 6.769744526384894,
+     "laterShareBelowP1": 0.08576211332523102,
+     "laterShareAboveP99": 0.0,
+     "laterShareOutsideMinMax": 0.011029833291293081
+    },
+    "demand": {
+     "basisMin": 0.0,
+     "basisMax": 50.38822799999997,
+     "basisP1": 0.0,
+     "basisP99": 21.449042999999968,
+     "basisShareOutsideP1P99": 0.009997590282265573,
+     "laterShareOutsideP1P99": 0.011305005847416817,
+     "excessPp": 0.13074155651512445,
+     "laterShareBelowP1": 0.0,
+     "laterShareAboveP99": 0.011305005847416817,
+     "laterShareOutsideMinMax": 0.0
+    },
+    "durationS": {
+     "basisMin": 0.0,
+     "basisMax": 1015.0,
+     "basisP1": 0.0,
+     "basisP99": 394.0,
+     "basisShareOutsideP1P99": 0.009989375335443662,
+     "laterShareOutsideP1P99": 0.0025912082368318465,
+     "excessPp": -0.7398167098611815,
+     "laterShareBelowP1": 0.0,
+     "laterShareAboveP99": 0.0025912082368318465,
+     "laterShareOutsideMinMax": 0.0
+    }
+   },
+   "basisUnionOutsideP1P99": 0.06451745402368095,
+   "laterUnionOutsideP1P99": 0.11293540324244995,
+   "note": "tpack is not a blind case (the M321 monitor already flags W2/W3); excess = later share outside the basis [P1,P99] minus the basis's own share, in percentage points"
+  },
+  "decision": {
+   "D1": "PASS",
+   "D2": "indeterminate",
+   "D3": "not material",
+   "jackknifeD1": "PASS",
+   "jackknifeD2": "indeterminate",
+   "outcome": "partial: not established (few day clusters): D2 indeterminate (the O/E interval is not inside the declared band)",
+   "notes": [
+    "D2 indeterminate (the O/E interval is not inside the declared band)"
+   ],
+   "thresholds": {
+    "skillLowerBound": 0.0,
+    "OEband": [
+     0.8,
+     1.25
+    ],
+    "excessPpMax": 10.0,
+    "note": "declared planning thresholds, not validated"
+   }
+  },
+  "inTimeReference": {
+   "rollingOriginPooled": {
+    "n": 207618,
+    "events": 2494,
+    "brier": 0.011618,
+    "logLoss": 0.057881,
+    "prAuc": 0.053,
+    "calSlope": 1.006,
+    "calIntercept": -0.117,
+    "obsEvents": 2494,
+    "predEvents": 2851.8
+   },
+   "blockedCvFiveVarDur": {
+    "logLoss": 0.067482,
+    "prAuc": 0.0572,
+    "brier": 0.013987,
+    "calSlope": 0.983,
+    "calIntercept": -0.066,
+    "logLossCI": [
+     0.06004,
+     0.07433
+    ],
+    "prAucCI": [
+     0.05229,
+     0.06134
+    ]
+   },
+   "flagOutOfTimeLogLossAboveInTimeCiUpper": false,
+   "note": "published carried-block values; a different protocol (blocked-day CV / forward chaining on the basis drives, different prevalence); descriptive only"
+  },
+  "fidelity": {
+   "tolerances": {
+    "countsRel": 0.01,
+    "blockedCvLogLossRel": 0.02,
+    "surfaceMax": 0.005,
+    "surfaceMedian": 0.0005
+   },
+   "counts": {
+    "reproducedRawTable": {
+     "atRiskSeconds": 381713,
+     "events": 5450
+    },
+    "carriedBlock": {
+     "atRiskSeconds": 381713,
+     "events": 5450
+    },
+    "diffAtRisk": 0,
+    "diffEvents": 0,
+    "relDiffAtRisk": 0.0
+   },
+   "blockedCv": {
+    "reproducedLogLoss": 0.067482,
+    "reproducedN": 365188,
+    "carriedLogLoss": 0.067482,
+    "carriedN": 365188,
+    "carriedEvents": 5302,
+    "relDiff": -7e-06
+   },
+   "surfaces": {
+    "nCells": 2520,
+    "maxAbsDiff": 0.0018320000000000003,
+    "medianAbsDiff": 4.799999999999943e-05,
+    "medianStoredHazard": 0.051534,
+    "relMedianDiff": 0.0009314239143089888
+   },
+   "withinTolerance": true,
+   "evaluatedObject": "the frozen design as carried"
+  },
+  "sensitivities": {
+   "S3_dropSharedDays": {
+    "nDrives": 87,
+    "nDays": 13,
+    "atRiskSeconds": 42037,
+    "events": 432,
+    "essDays": 9.71,
+    "point": {
+     "prevalence": 0.010277,
+     "OE": 0.986218,
+     "logLoss": 0.050725,
+     "skillVsB0": 0.124967,
+     "skillVsB1": 0.109783,
+     "dLogLossB1minusModel": 0.006255,
+     "brier": 0.009945,
+     "skillVsLaterConstant": 0.114273,
+     "prAuc": 0.056805,
+     "lift": 5.527611,
+     "calSlope": 0.933987,
+     "calIntercept": -0.271987
+    },
+    "ci95Percentile": {
+     "OE": [
+      0.76962,
+      1.16982
+     ],
+     "skillVsB0": [
+      0.0967,
+      0.15767
+     ],
+     "skillVsB1": [
+      0.07951,
+      0.14733
+     ],
+     "dLogLossB1minusModel": [
+      0.00434,
+      0.00752
+     ],
+     "prAuc": [
+      0.03443,
+      0.07111
+     ],
+     "lift": [
+      4.75782,
+      6.33117
+     ]
+    },
+    "undefinedDraws": {
+     "OE": 0,
+     "prAuc": 0
+    },
+    "bootstrapB": 4000,
+    "jackknife": {
+     "OE": {
+      "tInterval": [
+       0.72583,
+       1.28779
+      ],
+      "leaveOneDayOutRange": [
+       0.86408,
+       1.02305
+      ],
+      "df": 12
+     },
+     "skillVsB0": {
+      "tInterval": [
+       0.0905,
+       0.15684
+      ],
+      "leaveOneDayOutRange": [
+       0.11951,
+       0.13357
+      ],
+      "df": 12
+     },
+     "dLogLossB1minusModel": {
+      "tInterval": [
+       0.00453,
+       0.00818
+      ],
+      "leaveOneDayOutRange": [
+       0.00584,
+       0.00669
+      ],
+      "df": 12
+     }
+    },
+    "states": {
+     "D1": "PASS",
+     "D2": "indeterminate",
+     "D3": "not material",
+     "jackknifeD1": "PASS",
+     "jackknifeD2": "indeterminate"
+    },
+    "droppedDays": [
+     "2026-09-30"
+    ]
+   },
+   "inSupport": {
+    "nDrives": 74,
+    "nDays": 14,
+    "atRiskSeconds": 38684,
+    "events": 379,
+    "essDays": 9.44,
+    "point": {
+     "prevalence": 0.009797,
+     "OE": 0.999498,
+     "logLoss": 0.048106,
+     "skillVsB0": 0.14015,
+     "skillVsB1": 0.125013,
+     "dLogLossB1minusModel": 0.006873,
+     "brier": 0.009429,
+     "skillVsLaterConstant": 0.126425,
+     "prAuc": 0.065485,
+     "lift": 6.683955,
+     "calSlope": 1.069761,
+     "calIntercept": 0.275193
+    },
+    "ci95Percentile": {
+     "OE": [
+      0.77292,
+      1.18373
+     ],
+     "skillVsB0": [
+      0.11447,
+      0.18351
+     ],
+     "skillVsB1": [
+      0.09509,
+      0.17749
+     ],
+     "dLogLossB1minusModel": [
+      0.00556,
+      0.00794
+     ],
+     "prAuc": [
+      0.0472,
+      0.08022
+     ],
+     "lift": [
+      5.70295,
+      8.8334
+     ]
+    },
+    "share": 0.88706
+   },
+   "outOfSupport": {
+    "nDrives": 64,
+    "nDays": 14,
+    "atRiskSeconds": 4925,
+    "events": 64,
+    "essDays": 8.08,
+    "point": {
+     "prevalence": 0.012995,
+     "OE": 0.931201,
+     "logLoss": 0.066029,
+     "skillVsB0": 0.049029,
+     "skillVsB1": 0.023365,
+     "dLogLossB1minusModel": 0.00158,
+     "brier": 0.012974,
+     "skillVsLaterConstant": 0.047876,
+     "prAuc": 0.04691,
+     "lift": 3.609885,
+     "calSlope": 0.59274,
+     "calIntercept": -1.546957
+    },
+    "ci95Percentile": {
+     "OE": [
+      0.67345,
+      1.23059
+     ],
+     "skillVsB0": [
+      -0.0579,
+      0.12822
+     ],
+     "skillVsB1": [
+      -0.10119,
+      0.11138
+     ],
+     "dLogLossB1minusModel": [
+      -0.0066,
+      0.01006
+     ],
+     "prAuc": [
+      0.02555,
+      0.07619
+     ],
+     "lift": [
+      2.46653,
+      5.24571
+     ]
+    },
+    "share": 0.11294
+   },
+   "S2_firstHalf": {
+    "nDrives": 45,
+    "nDays": 7,
+    "atRiskSeconds": 17723,
+    "events": 107,
+    "essDays": 5.97,
+    "point": {
+     "prevalence": 0.006037,
+     "OE": 0.721866,
+     "logLoss": 0.03236,
+     "skillVsB0": 0.192785,
+     "skillVsB1": 0.176136,
+     "dLogLossB1minusModel": 0.006918,
+     "brier": 0.005967,
+     "skillVsLaterConstant": 0.122285,
+     "prAuc": 0.039965,
+     "lift": 6.619618,
+     "calSlope": 1.091491,
+     "calIntercept": 0.036333
+    },
+    "ci95Percentile": {
+     "OE": [
+      0.63261,
+      0.88282
+     ],
+     "skillVsB0": [
+      0.17904,
+      0.21494
+     ],
+     "skillVsB1": [
+      0.15325,
+      0.21491
+     ],
+     "dLogLossB1minusModel": [
+      0.00599,
+      0.00835
+     ],
+     "prAuc": [
+      0.03447,
+      0.05379
+     ],
+     "lift": [
+      5.91656,
+      8.67635
+     ]
+    },
+    "days": [
+     "2026-09-30",
+     "2026-10-01",
+     "2026-10-02",
+     "2026-10-03",
+     "2026-10-04",
+     "2026-10-05",
+     "2026-10-06"
+    ],
+    "note": "descriptive only, no D-rule"
+   },
+   "S2_secondHalf": {
+    "nDrives": 44,
+    "nDays": 7,
+    "atRiskSeconds": 25886,
+    "events": 336,
+    "essDays": 5.08,
+    "point": {
+     "prevalence": 0.01298,
+     "OE": 1.121152,
+     "logLoss": 0.062297,
+     "skillVsB0": 0.101973,
+     "skillVsB1": 0.085644,
+     "dLogLossB1minusModel": 0.005835,
+     "brier": 0.012474,
+     "skillVsLaterConstant": 0.100861,
+     "prAuc": 0.065844,
+     "lift": 5.072713,
+     "calSlope": 0.855155,
+     "calIntercept": -0.437068
+    },
+    "ci95Percentile": {
+     "OE": [
+      0.93737,
+      1.30104
+     ],
+     "skillVsB0": [
+      0.04528,
+      0.12899
+     ],
+     "skillVsB1": [
+      0.03024,
+      0.11777
+     ],
+     "dLogLossB1minusModel": [
+      0.00172,
+      0.00762
+     ],
+     "prAuc": [
+      0.03632,
+      0.08282
+     ],
+     "lift": [
+      4.07983,
+      6.45211
+     ]
+    },
+    "days": [
+     "2026-10-07",
+     "2026-10-08",
+     "2026-10-09",
+     "2026-10-10",
+     "2026-10-11",
+     "2026-10-12",
+     "2026-10-13"
+    ],
+    "note": "descriptive only, no D-rule"
+   },
+   "OEbyPackTemperatureBand": [
+    {
+     "band": "< 10 C",
+     "lo": null,
+     "hi": 10.0,
+     "atRiskSeconds": 207,
+     "events": 1,
+     "expected": 1.65,
+     "OE": 0.6049
+    },
+    {
+     "band": "10 to < 20 C",
+     "lo": 10.0,
+     "hi": 20.0,
+     "atRiskSeconds": 11079,
+     "events": 68,
+     "expected": 62.74,
+     "OE": 1.0839
+    },
+    {
+     "band": "20 to < 30 C",
+     "lo": 20.0,
+     "hi": 30.0,
+     "atRiskSeconds": 17847,
+     "events": 160,
+     "expected": 174.07,
+     "OE": 0.9192
+    },
+    {
+     "band": "30 to < 40 C",
+     "lo": 30.0,
+     "hi": 40.0,
+     "atRiskSeconds": 14476,
+     "events": 214,
+     "expected": 209.46,
+     "OE": 1.0217
+    },
+    {
+     "band": ">= 40 C",
+     "lo": 40.0,
+     "hi": null,
+     "atRiskSeconds": 0,
+     "events": 0,
+     "expected": 0.0,
+     "OE": null
+    }
+   ],
+   "S1_perDrive": {
+    "minEvents": 3,
+    "nDrivesAll": 89,
+    "nDrivesEligible": 41,
+    "medianSkillVsB0": 0.102925,
+    "shareSkillAbove0": 0.8293
+   }
+  },
+  "perDriveEvents": {
+   "2026-09-30_20-12-47.csv": 2,
+   "2026-09-30_20-39-00.csv": 9,
+   "2026-10-01_07-38-47.csv": 1,
+   "2026-10-01_07-57-02.csv": 1,
+   "2026-10-01_08-14-08.csv": 1,
+   "2026-10-01_16-45-44.csv": 0,
+   "2026-10-01_16-57-31.csv": 2,
+   "2026-10-01_17-40-07.csv": 1,
+   "2026-10-01_18-19-32.csv": 7,
+   "2026-10-01_19-58-38.csv": 12,
+   "2026-10-02_07-50-49.csv": 1,
+   "2026-10-02_08-04-04.csv": 1,
+   "2026-10-02_19-04-06.csv": 5,
+   "2026-10-02_19-35-32.csv": 0,
+   "2026-10-02_21-02-25.csv": 3,
+   "2026-10-03_09-48-44.csv": 1,
+   "2026-10-03_09-58-07.csv": 0,
+   "2026-10-03_10-03-24.csv": 0,
+   "2026-10-03_12-06-18.csv": 0,
+   "2026-10-03_14-33-03.csv": 1,
+   "2026-10-03_15-01-24.csv": 1,
+   "2026-10-03_16-02-23.csv": 1,
+   "2026-10-03_16-19-05.csv": 4,
+   "2026-10-03_16-39-03.csv": 2,
+   "2026-10-03_17-05-43.csv": 6,
+   "2026-10-03_17-27-25.csv": 0,
+   "2026-10-03_18-32-35.csv": 6,
+   "2026-10-03_18-52-09.csv": 4,
+   "2026-10-04_11-38-19.csv": 3,
+   "2026-10-04_12-02-58.csv": 1,
+   "2026-10-04_12-13-56.csv": 0,
+   "2026-10-04_12-52-59.csv": 1,
+   "2026-10-04_13-05-56.csv": 2,
+   "2026-10-04_14-38-51.csv": 0,
+   "2026-10-04_14-52-00.csv": 3,
+   "2026-10-05_07-41-08.csv": 2,
+   "2026-10-05_07-55-02.csv": 2,
+   "2026-10-05_11-23-02.csv": 1,
+   "2026-10-05_11-38-00.csv": 2,
+   "2026-10-06_07-41-04.csv": 3,
+   "2026-10-06_07-58-35.csv": 0,
+   "2026-10-06_08-14-57.csv": 1,
+   "2026-10-06_19-50-08.csv": 1,
+   "2026-10-06_20-13-30.csv": 2,
+   "2026-10-06_20-38-00.csv": 11,
+   "2026-10-07_07-41-59.csv": 5,
+   "2026-10-07_07-57-02.csv": 0,
+   "2026-10-07_08-16-33.csv": 4,
+   "2026-10-07_18-52-44.csv": 5,
+   "2026-10-07_22-13-43.csv": 3,
+   "2026-10-08_07-35-40.csv": 1,
+   "2026-10-08_07-54-51.csv": 3,
+   "2026-10-08_08-34-36.csv": 18,
+   "2026-10-08_10-14-58.csv": 25,
+   "2026-10-08_10-55-20.csv": 4,
+   "2026-10-08_11-57-02.csv": 3,
+   "2026-10-08_12-06-51.csv": 7,
+   "2026-10-08_12-43-34.csv": 3,
+   "2026-10-08_12-54-39.csv": 4,
+   "2026-10-08_15-35-05.csv": 2,
+   "2026-10-08_15-45-19.csv": 1,
+   "2026-10-08_19-58-51.csv": 6,
+   "2026-10-08_20-28-00.csv": 3,
+   "2026-10-08_21-05-51.csv": 1,
+   "2026-10-08_21-24-03.csv": 2,
+   "2026-10-09_19-06-39.csv": 7,
+   "2026-10-09_19-53-19.csv": 19,
+   "2026-10-09_20-36-10.csv": 19,
+   "2026-10-09_21-27-00.csv": 2,
+   "2026-10-09_21-50-51.csv": 1,
+   "2026-10-10_06-57-23.csv": 62,
+   "2026-10-10_14-09-42.csv": 6,
+   "2026-10-10_15-53-26.csv": 6,
+   "2026-10-10_19-49-29.csv": 72,
+   "2026-10-10_21-41-35.csv": 2,
+   "2026-10-11_10-42-38.csv": 1,
+   "2026-10-11_11-10-55.csv": 0,
+   "2026-10-11_12-38-17.csv": 4,
+   "2026-10-11_13-16-22.csv": 3,
+   "2026-10-11_13-59-37.csv": 7,
+   "2026-10-11_14-26-47.csv": 4,
+   "2026-10-11_15-16-20.csv": 3,
+   "2026-10-12_08-41-25.csv": 8,
+   "2026-10-12_09-24-15.csv": 1,
+   "2026-10-12_09-36-13.csv": 1,
+   "2026-10-13_07-42-34.csv": 1,
+   "2026-10-13_07-56-36.csv": 0,
+   "2026-10-13_08-10-25.csv": 6,
+   "2026-10-13_08-26-07.csv": 1
+  }
+ },
+ "stop": {
+  "basis": {
+   "atRiskSecondsCompleteCase": 293005,
+   "eventsCompleteCase": 5295,
+   "nDays": 101,
+   "nDrives": 462,
+   "eventRate": 0.018071
+  },
+  "skippedFilesNotInTable": {
+   "basis": 20,
+   "later": 12
+  },
+  "primary": {
+   "nDrives": 77,
+   "nDays": 14,
+   "atRiskSeconds": 24687,
+   "events": 433,
+   "essDays": 5.73,
+   "point": {
+    "prevalence": 0.01754,
+    "OE": 0.895045,
+    "logLoss": 0.077302,
+    "skillVsB0": 0.124657,
+    "skillVsB1": 0.102462,
+    "dLogLossB1minusModel": 0.008825,
+    "brier": 0.016655,
+    "skillVsLaterConstant": 0.124577,
+    "prAuc": 0.080949,
+    "lift": 4.615206,
+    "calSlope": 0.881365,
+    "calIntercept": -0.498725
+   },
+   "ci95Percentile": {
+    "OE": [
+     0.7664,
+     0.98348
+    ],
+    "skillVsB0": [
+     0.07584,
+     0.15909
+    ],
+    "skillVsB1": [
+     0.05994,
+     0.13416
+    ],
+    "dLogLossB1minusModel": [
+     0.00509,
+     0.01101
+    ],
+    "prAuc": [
+     0.06313,
+     0.09268
+    ],
+    "lift": [
+     3.69669,
+     5.65856
+    ]
+   },
+   "undefinedDraws": {
+    "OE": 0,
+    "prAuc": 0
+   },
+   "bootstrapB": 4000,
+   "jackknife": {
+    "OE": {
+     "tInterval": [
+      0.76706,
+      1.04265
+     ],
+     "leaveOneDayOutRange": [
+      0.8453,
+      0.92512
+     ],
+     "df": 13
+    },
+    "skillVsB0": {
+     "tInterval": [
+      0.06227,
+      0.20517
+     ],
+     "leaveOneDayOutRange": [
+      0.09144,
+      0.12972
+     ],
+     "df": 13
+    },
+    "dLogLossB1minusModel": {
+     "tInterval": [
+      0.0047,
+      0.0143
+     ],
+     "leaveOneDayOutRange": [
+      0.00664,
+      0.00921
+     ],
+     "df": 13
+    }
+   },
+   "states": {
+    "D1": "PASS",
+    "D2": "indeterminate",
+    "D3": "not material",
+    "jackknifeD1": "PASS",
+    "jackknifeD2": "indeterminate"
+   }
+  },
+  "support": {
+   "perPredictor": {
+    "soc": {
+     "basisMin": 42.5,
+     "basisMax": 88.0,
+     "basisP1": 47.0,
+     "basisP99": 79.5,
+     "basisShareOutsideP1P99": 0.014706233682019077,
+     "laterShareOutsideP1P99": 0.01612184550573176,
+     "excessPp": 0.14156118237126838,
+     "laterShareBelowP1": 0.009316644387734435,
+     "laterShareAboveP99": 0.006805201117997327,
+     "laterShareOutsideMinMax": 0.0
+    },
+    "speed": {
+     "basisMin": 0.0,
+     "basisMax": 170.0,
+     "basisP1": 0.0,
+     "basisP99": 123.0,
+     "basisShareOutsideP1P99": 0.009798467602941929,
+     "laterShareOutsideP1P99": 0.0022278932231538867,
+     "excessPp": -0.7570574379788042,
+     "laterShareBelowP1": 0.0,
+     "laterShareAboveP99": 0.0022278932231538867,
+     "laterShareOutsideMinMax": 0.0
+    },
+    "tpack": {
+     "basisMin": 11.5,
+     "basisMax": 45.75,
+     "basisP1": 15.25,
+     "basisP99": 43.75,
+     "basisShareOutsideP1P99": 0.018794901110902543,
+     "laterShareOutsideP1P99": 0.10799206059869566,
+     "excessPp": 8.919715948779313,
+     "laterShareBelowP1": 0.10799206059869566,
+     "laterShareAboveP99": 0.0,
+     "laterShareOutsideMinMax": 0.03799570624215174
+    },
+    "demand": {
+     "basisMin": 0.0,
+     "basisMax": 21808.3125,
+     "basisP1": 0.0,
+     "basisP99": 8893.625,
+     "basisShareOutsideP1P99": 0.009999829354447876,
+     "laterShareOutsideP1P99": 0.00457730789484344,
+     "excessPp": -0.5422521459604436,
+     "laterShareBelowP1": 0.0,
+     "laterShareAboveP99": 0.00457730789484344,
+     "laterShareOutsideMinMax": 0.00012152144853566654
+    },
+    "durationS": {
+     "basisMin": 0.0,
+     "basisMax": 1447.0,
+     "basisP1": 0.0,
+     "basisP99": 789.960000000021,
+     "basisShareOutsideP1P99": 0.01000324226549035,
+     "laterShareOutsideP1P99": 0.0,
+     "excessPp": -1.0003242265490349,
+     "laterShareBelowP1": 0.0,
+     "laterShareAboveP99": 0.0,
+     "laterShareOutsideMinMax": 0.0
+    }
+   },
+   "basisUnionOutsideP1P99": 0.05992389208375284,
+   "laterUnionOutsideP1P99": 0.12617977072953376,
+   "note": "tpack is not a blind case (the M321 monitor already flags W2/W3); excess = later share outside the basis [P1,P99] minus the basis's own share, in percentage points"
+  },
+  "decision": {
+   "D1": "PASS",
+   "D2": "indeterminate",
+   "D3": "not material",
+   "jackknifeD1": "PASS",
+   "jackknifeD2": "indeterminate",
+   "outcome": "partial: not established (few day clusters): D2 indeterminate (the O/E interval is not inside the declared band)",
+   "notes": [
+    "D2 indeterminate (the O/E interval is not inside the declared band)"
+   ],
+   "thresholds": {
+    "skillLowerBound": 0.0,
+    "OEband": [
+     0.8,
+     1.25
+    ],
+    "excessPpMax": 10.0,
+    "note": "declared planning thresholds, not validated"
+   }
+  },
+  "inTimeReference": {
+   "rollingOriginPooled": {
+    "n": 136460,
+    "events": 2488,
+    "brier": 0.017114,
+    "logLoss": 0.075421,
+    "prAuc": 0.0914,
+    "calSlope": 0.983,
+    "calIntercept": -0.181,
+    "obsEvents": 2488,
+    "predEvents": 2810.0
+   },
+   "blockedCvFiveVarDur": {
+    "logLoss": 0.074,
+    "prAuc": 0.0945,
+    "brier": 0.016905,
+    "calSlope": 0.965,
+    "calIntercept": -0.141,
+    "logLossCI": [
+     0.06816,
+     0.08136
+    ],
+    "prAucCI": [
+     0.08902,
+     0.10127
+    ]
+   },
+   "flagOutOfTimeLogLossAboveInTimeCiUpper": false,
+   "note": "published carried-block values; a different protocol (blocked-day CV / forward chaining on the basis drives, different prevalence); descriptive only"
+  },
+  "fidelity": {
+   "tolerances": {
+    "countsRel": 0.01,
+    "blockedCvLogLossRel": 0.02,
+    "surfaceMax": 0.005,
+    "surfaceMedian": 0.0005
+   },
+   "counts": {
+    "reproducedRawTable": {
+     "atRiskSeconds": 301247,
+     "events": 5431
+    },
+    "carriedBlock": {
+     "atRiskSeconds": 301247,
+     "events": 5431
+    },
+    "diffAtRisk": 0,
+    "diffEvents": 0,
+    "relDiffAtRisk": 0.0
+   },
+   "blockedCv": {
+    "reproducedLogLoss": 0.073987,
+    "reproducedN": 293005,
+    "carriedLogLoss": 0.074,
+    "carriedN": 293005,
+    "carriedEvents": 5295,
+    "relDiff": -0.000173
+   },
+   "surfaces": {
+    "nCells": 2520,
+    "maxAbsDiff": 0.0013440000000000119,
+    "medianAbsDiff": 4.500000000001898e-06,
+    "medianStoredHazard": 0.004299,
+    "relMedianDiff": 0.0010467550593165616
+   },
+   "withinTolerance": true,
+   "evaluatedObject": "the frozen design as carried"
+  },
+  "sensitivities": {
+   "S3_dropSharedDays": {
+    "nDrives": 75,
+    "nDays": 13,
+    "atRiskSeconds": 24129,
+    "events": 422,
+    "essDays": 5.49,
+    "point": {
+     "prevalence": 0.017489,
+     "OE": 0.893361,
+     "logLoss": 0.077045,
+     "skillVsB0": 0.125583,
+     "skillVsB1": 0.103609,
+     "dLogLossB1minusModel": 0.008905,
+     "brier": 0.016606,
+     "skillVsLaterConstant": 0.125487,
+     "prAuc": 0.081288,
+     "lift": 4.64788,
+     "calSlope": 0.880727,
+     "calIntercept": -0.502171
+    },
+    "ci95Percentile": {
+     "OE": [
+      0.7644,
+      0.98296
+     ],
+     "skillVsB0": [
+      0.07569,
+      0.15992
+     ],
+     "skillVsB1": [
+      0.05915,
+      0.13517
+     ],
+     "dLogLossB1minusModel": [
+      0.00498,
+      0.01103
+     ],
+     "prAuc": [
+      0.06303,
+      0.09314
+     ],
+     "lift": [
+      3.71185,
+      5.71493
+     ]
+    },
+    "undefinedDraws": {
+     "OE": 0,
+     "prAuc": 0
+    },
+    "bootstrapB": 4000,
+    "jackknife": {
+     "OE": {
+      "tInterval": [
+       0.7603,
+       1.04779
+      ],
+      "leaveOneDayOutRange": [
+       0.84111,
+       0.924
+      ],
+      "df": 12
+     },
+     "skillVsB0": {
+      "tInterval": [
+       0.06133,
+       0.20866
+      ],
+      "leaveOneDayOutRange": [
+       0.09156,
+       0.13101
+      ],
+      "df": 12
+     },
+     "dLogLossB1minusModel": {
+      "tInterval": [
+       0.0047,
+       0.0145
+      ],
+      "leaveOneDayOutRange": [
+       0.00669,
+       0.00931
+      ],
+      "df": 12
+     }
+    },
+    "states": {
+     "D1": "PASS",
+     "D2": "indeterminate",
+     "D3": "not material",
+     "jackknifeD1": "PASS",
+     "jackknifeD2": "indeterminate"
+    },
+    "droppedDays": [
+     "2026-09-30"
+    ]
+   },
+   "inSupport": {
+    "nDrives": 68,
+    "nDays": 13,
+    "atRiskSeconds": 21572,
+    "events": 415,
+    "essDays": 4.63,
+    "point": {
+     "prevalence": 0.019238,
+     "OE": 0.930395,
+     "logLoss": 0.082465,
+     "skillVsB0": 0.132818,
+     "skillVsB1": 0.1079,
+     "dLogLossB1minusModel": 0.009974,
+     "brier": 0.018227,
+     "skillVsLaterConstant": 0.132476,
+     "prAuc": 0.083356,
+     "lift": 4.332923,
+     "calSlope": 0.882228,
+     "calIntercept": -0.447732
+    },
+    "ci95Percentile": {
+     "OE": [
+      0.81616,
+      1.03571
+     ],
+     "skillVsB0": [
+      0.08171,
+      0.1639
+     ],
+     "skillVsB1": [
+      0.06589,
+      0.13613
+     ],
+     "dLogLossB1minusModel": [
+      0.00658,
+      0.01158
+     ],
+     "prAuc": [
+      0.06749,
+      0.09517
+     ],
+     "lift": [
+      3.33758,
+      5.36418
+     ]
+    },
+    "share": 0.87382
+   },
+   "outOfSupport": {
+    "nDrives": 27,
+    "nDays": 13,
+    "atRiskSeconds": 3115,
+    "events": 18,
+    "essDays": 6.31,
+    "point": {
+     "prevalence": 0.005778,
+     "OE": 0.477103,
+     "logLoss": 0.041546,
+     "skillVsB0": -0.005409,
+     "skillVsB1": 0.020381,
+     "dLogLossB1minusModel": 0.000864,
+     "brier": 0.005771,
+     "skillVsLaterConstant": -0.16894,
+     "prAuc": 0.178831,
+     "lift": 30.947654,
+     "calSlope": 0.209094,
+     "calIntercept": -4.091654
+    },
+    "ci95Percentile": {
+     "OE": [
+      0.25524,
+      0.83337
+     ],
+     "skillVsB0": [
+      -0.28847,
+      0.23995
+     ],
+     "skillVsB1": [
+      -0.41237,
+      0.22443
+     ],
+     "dLogLossB1minusModel": [
+      -0.01349,
+      0.01138
+     ],
+     "prAuc": [
+      0.00685,
+      0.5517
+     ],
+     "lift": [
+      1.53178,
+      118.29865
+     ]
+    },
+    "share": 0.12618
+   },
+   "S2_firstHalf": {
+    "nDrives": 36,
+    "nDays": 7,
+    "atRiskSeconds": 6645,
+    "events": 98,
+    "essDays": 6.13,
+    "point": {
+     "prevalence": 0.014748,
+     "OE": 0.908292,
+     "logLoss": 0.070393,
+     "skillVsB0": 0.087668,
+     "skillVsB1": 0.060415,
+     "dLogLossB1minusModel": 0.004526,
+     "brier": 0.014055,
+     "skillVsLaterConstant": 0.083727,
+     "prAuc": 0.079002,
+     "lift": 5.356796,
+     "calSlope": 0.783124,
+     "calIntercept": -0.859864
+    },
+    "ci95Percentile": {
+     "OE": [
+      0.68276,
+      1.13833
+     ],
+     "skillVsB0": [
+      0.04991,
+      0.11981
+     ],
+     "skillVsB1": [
+      0.04254,
+      0.08284
+     ],
+     "dLogLossB1minusModel": [
+      0.00307,
+      0.00626
+     ],
+     "prAuc": [
+      0.06456,
+      0.12048
+     ],
+     "lift": [
+      4.67673,
+      8.26204
+     ]
+    },
+    "days": [
+     "2026-09-30",
+     "2026-10-01",
+     "2026-10-02",
+     "2026-10-03",
+     "2026-10-04",
+     "2026-10-05",
+     "2026-10-06"
+    ],
+    "note": "descriptive only, no D-rule"
+   },
+   "S2_secondHalf": {
+    "nDrives": 41,
+    "nDays": 7,
+    "atRiskSeconds": 18042,
+    "events": 335,
+    "essDays": 3.28,
+    "point": {
+     "prevalence": 0.018568,
+     "OE": 0.891242,
+     "logLoss": 0.079847,
+     "skillVsB0": 0.136031,
+     "skillVsB1": 0.115317,
+     "dLogLossB1minusModel": 0.010408,
+     "brier": 0.017613,
+     "skillVsLaterConstant": 0.135966,
+     "prAuc": 0.083247,
+     "lift": 4.483433,
+     "calSlope": 0.906576,
+     "calIntercept": -0.414802
+    },
+    "ci95Percentile": {
+     "OE": [
+      0.72148,
+      0.98226
+     ],
+     "skillVsB0": [
+      0.07419,
+      0.17135
+     ],
+     "skillVsB1": [
+      0.06155,
+      0.15006
+     ],
+     "dLogLossB1minusModel": [
+      0.00602,
+      0.01225
+     ],
+     "prAuc": [
+      0.05837,
+      0.09632
+     ],
+     "lift": [
+      3.22771,
+      5.77453
+     ]
+    },
+    "days": [
+     "2026-10-07",
+     "2026-10-08",
+     "2026-10-09",
+     "2026-10-10",
+     "2026-10-11",
+     "2026-10-12",
+     "2026-10-13"
+    ],
+    "note": "descriptive only, no D-rule"
+   },
+   "OEbyPackTemperatureBand": [
+    {
+     "band": "< 10 C",
+     "lo": null,
+     "hi": 10.0,
+     "atRiskSeconds": 333,
+     "events": 0,
+     "expected": 3.78,
+     "OE": null
+    },
+    {
+     "band": "10 to < 20 C",
+     "lo": 10.0,
+     "hi": 20.0,
+     "atRiskSeconds": 6273,
+     "events": 54,
+     "expected": 114.49,
+     "OE": 0.4717
+    },
+    {
+     "band": "20 to < 30 C",
+     "lo": 20.0,
+     "hi": 30.0,
+     "atRiskSeconds": 7767,
+     "events": 160,
+     "expected": 141.98,
+     "OE": 1.1269
+    },
+    {
+     "band": "30 to < 40 C",
+     "lo": 30.0,
+     "hi": 40.0,
+     "atRiskSeconds": 10314,
+     "events": 219,
+     "expected": 223.53,
+     "OE": 0.9797
+    },
+    {
+     "band": ">= 40 C",
+     "lo": 40.0,
+     "hi": null,
+     "atRiskSeconds": 0,
+     "events": 0,
+     "expected": 0.0,
+     "OE": null
+    }
+   ],
+   "S1_perDrive": {
+    "minEvents": 3,
+    "nDrivesAll": 77,
+    "nDrivesEligible": 40,
+    "medianSkillVsB0": 0.133991,
+    "shareSkillAbove0": 0.85
+   }
+  },
+  "perDriveEvents": {
+   "2026-09-30_20-12-47.csv": 2,
+   "2026-09-30_20-39-00.csv": 9,
+   "2026-10-01_07-38-47.csv": 0,
+   "2026-10-01_07-57-02.csv": 0,
+   "2026-10-01_08-14-08.csv": 0,
+   "2026-10-01_16-57-31.csv": 1,
+   "2026-10-01_17-40-07.csv": 1,
+   "2026-10-01_18-19-32.csv": 7,
+   "2026-10-01_19-58-38.csv": 12,
+   "2026-10-02_07-50-49.csv": 0,
+   "2026-10-02_08-04-04.csv": 0,
+   "2026-10-02_19-04-06.csv": 5,
+   "2026-10-02_21-02-25.csv": 3,
+   "2026-10-03_09-48-44.csv": 1,
+   "2026-10-03_14-33-03.csv": 1,
+   "2026-10-03_15-01-24.csv": 1,
+   "2026-10-03_16-02-23.csv": 1,
+   "2026-10-03_16-19-05.csv": 4,
+   "2026-10-03_16-39-03.csv": 2,
+   "2026-10-03_17-05-43.csv": 6,
+   "2026-10-03_18-32-35.csv": 6,
+   "2026-10-03_18-52-09.csv": 4,
+   "2026-10-04_11-38-19.csv": 3,
+   "2026-10-04_12-02-58.csv": 1,
+   "2026-10-04_12-52-59.csv": 1,
+   "2026-10-04_13-05-56.csv": 2,
+   "2026-10-04_14-52-00.csv": 3,
+   "2026-10-05_07-41-08.csv": 1,
+   "2026-10-05_07-55-02.csv": 2,
+   "2026-10-05_11-23-02.csv": 1,
+   "2026-10-05_11-38-00.csv": 2,
+   "2026-10-06_07-41-04.csv": 2,
+   "2026-10-06_08-14-57.csv": 0,
+   "2026-10-06_19-50-08.csv": 1,
+   "2026-10-06_20-13-30.csv": 2,
+   "2026-10-06_20-38-00.csv": 11,
+   "2026-10-07_07-41-59.csv": 5,
+   "2026-10-07_08-16-33.csv": 4,
+   "2026-10-07_18-52-44.csv": 5,
+   "2026-10-07_22-13-43.csv": 3,
+   "2026-10-08_07-35-40.csv": 0,
+   "2026-10-08_07-54-51.csv": 3,
+   "2026-10-08_08-34-36.csv": 18,
+   "2026-10-08_10-14-58.csv": 27,
+   "2026-10-08_10-55-20.csv": 4,
+   "2026-10-08_11-57-02.csv": 3,
+   "2026-10-08_12-06-51.csv": 7,
+   "2026-10-08_12-43-34.csv": 3,
+   "2026-10-08_12-54-39.csv": 4,
+   "2026-10-08_15-35-05.csv": 2,
+   "2026-10-08_15-45-19.csv": 1,
+   "2026-10-08_19-58-51.csv": 6,
+   "2026-10-08_20-28-00.csv": 3,
+   "2026-10-08_21-05-51.csv": 1,
+   "2026-10-08_21-24-03.csv": 2,
+   "2026-10-09_19-06-39.csv": 8,
+   "2026-10-09_19-53-19.csv": 19,
+   "2026-10-09_20-36-10.csv": 19,
+   "2026-10-09_21-27-00.csv": 1,
+   "2026-10-09_21-50-51.csv": 1,
+   "2026-10-10_06-57-23.csv": 62,
+   "2026-10-10_14-09-42.csv": 6,
+   "2026-10-10_15-53-26.csv": 6,
+   "2026-10-10_19-49-29.csv": 72,
+   "2026-10-10_21-41-35.csv": 2,
+   "2026-10-11_10-42-38.csv": 0,
+   "2026-10-11_12-38-17.csv": 4,
+   "2026-10-11_13-16-22.csv": 3,
+   "2026-10-11_13-59-37.csv": 7,
+   "2026-10-11_14-26-47.csv": 4,
+   "2026-10-11_15-16-20.csv": 3,
+   "2026-10-12_08-41-25.csv": 8,
+   "2026-10-12_09-24-15.csv": 1,
+   "2026-10-12_09-36-13.csv": 1,
+   "2026-10-13_07-42-34.csv": 1,
+   "2026-10-13_08-10-25.csv": 5,
+   "2026-10-13_08-26-07.csv": 1
+  }
+ },
+ "elapsedSeconds": 150
+}

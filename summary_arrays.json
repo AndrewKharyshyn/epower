@@ -36676,7 +36676,528 @@
    "startVsTrigDivergencePct": 12.6,
    "methodology": "socHysteresisV2.nStartEvents/nStopEvents count CONFIRMED transitions from detect_transitions() (m119v2_model.py): a sustained >=3s off interval followed by a sustained >=2s CONFIRMED running interval (run-based debounce on BOTH sides). startEventChain.attritionFunnel.nTrig (compute_summary_arrays._engine_start_triggers, shared by bufferImpulse/M116, rampLatency/M118, handoffSequence/M147, this milestone's startEventChain/M221) fires on a single RPM>800 sample preceded by a sustained >=3s off period, with NO confirmation requirement on the following high-RPM reading -- a momentary blip above 800 rpm immediately followed by a drop back down still counts as a trigger there, but not as a confirmed start here. The two detectors are therefore EXPECTED to diverge (model count below trigger count), by construction, not by data-quality accident; this field states the divergence rather than leaving it implicit or reconciling it away."
   },
-  "staleWaiver": "Owner decision (Andrii, in chat, 2026-10-05): waive for the M376 release; M119-v2 stays a frozen carry-forward at its 489-drive basis per the standing policy (recompute_m119v2=False, M148 OOM risk); the block is labelled carriedForward / frozenBasis with currentCorpusSize 524. Signed again at every ingestion; a recompute is a separate milestone."
+  "staleWaiver": "Owner decision (Andrii, in chat, 2026-10-05): waive for the M376 release; M119-v2 stays a frozen carry-forward at its 489-drive basis per the standing policy (recompute_m119v2=False, M148 OOM risk); the block is labelled carriedForward / frozenBasis with currentCorpusSize 524. Signed again at every ingestion; a recompute is a separate milestone.",
+  "outOfTimeEvaluation": {
+   "milestone": "M428",
+   "spec": "analyses/M428_spec.md",
+   "specSha256": "b170a84cb1ec14a286a55bb90c13836efdc08b496ad8673994f5f90e2c3c75b1",
+   "result": "analyses/M428_result.json",
+   "resultSha256": "1e1c400b7609707e03d8ed96247ae1ed10eee6fb8a56e6e9cbb2ecbc20a0c506",
+   "scriptSha256": "c28951d8f9aa7ad1241084f42fd57f2945fe840c27fac0e5773461f348d6109b",
+   "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
+   "bootstrap": {
+    "B": 4000,
+    "seed": 42,
+    "unit": "calendar day"
+   },
+   "split": {
+    "corpusDrivesAtEvaluation": 578,
+    "nBasisDrives": 489,
+    "lastLaterFile": "2026-10-13_08-26-07.csv",
+    "nLaterDrives": 89,
+    "lastBasisFile": "2026-09-30_10-51-47.csv",
+    "firstLaterFile": "2026-09-30_20-12-47.csv"
+   },
+   "thresholds": {
+    "skillLowerBound": 0.0,
+    "OEband": [
+     0.8,
+     1.25
+    ],
+    "excessPpMax": 10.0,
+    "note": "declared planning thresholds, not validated"
+   },
+   "label": "model-derived hazards, detector-derived events (M231); out-of-time evaluation of the frozen design reproduced on the basis drives from raw/ = sha256-verified originals (M366); not M299-reproducible; intervals conditional on the fitted basis model",
+   "reading": "Out-of-time evaluation of the frozen design (audit F08): the model is fit once on the basis drives and applied unchanged to the later drives; no later row enters knots, scale or coefficients. Events are detector-derived (M231), hazards are model-derived; intervals are conditional on the fitted basis model and rest on few day clusters, so a non-detection is not equivalence. The thresholds are declared planning choices, not validated.",
+   "start": {
+    "basis": {
+     "nDrives": 476,
+     "nDays": 100,
+     "atRiskSecondsCompleteCase": 365188,
+     "events": 5302,
+     "eventRate": 0.014519
+    },
+    "later": {
+     "nDrives": 89,
+     "nDays": 14,
+     "atRiskSeconds": 43609,
+     "events": 443,
+     "essDays": 10.31,
+     "prevalence": 0.01016,
+     "skippedFilesNotInTable": 0
+    },
+    "OE": {
+     "point": 0.989,
+     "ci95": [
+      0.78339,
+      1.17102
+     ],
+     "jackknifeT95": [
+      0.73797,
+      1.27859
+     ]
+    },
+    "skillVsB0": {
+     "point": 0.1277,
+     "ci95": [
+      0.10027,
+      0.16016
+     ],
+     "jackknifeT95": [
+      0.0928,
+      0.15939
+     ]
+    },
+    "skillVsB1": {
+     "point": 0.1113,
+     "ci95": [
+      0.08214,
+      0.14713
+     ]
+    },
+    "prAuc": {
+     "point": 0.057,
+     "ci95": [
+      0.03564,
+      0.07127
+     ],
+     "lift": 5.61,
+     "liftCi95": [
+      4.8448,
+      6.4728
+     ]
+    },
+    "calibration": {
+     "slope": 0.946,
+     "intercept": -0.222
+    },
+    "logLoss": 0.05013,
+    "states": {
+     "D1": "PASS",
+     "D2": "indeterminate",
+     "D3": "not material",
+     "jackknifeD1": "PASS",
+     "jackknifeD2": "indeterminate"
+    },
+    "outcome": "partial: not established (few day clusters): D2 indeterminate (the O/E interval is not inside the declared band)",
+    "notes": [
+     "D2 indeterminate (the O/E interval is not inside the declared band)"
+    ],
+    "supportExcessPp": {
+     "soc": -0.8,
+     "speed": -0.53,
+     "tpack": 6.77,
+     "demand": 0.13,
+     "durationS": -0.74
+    },
+    "supportUnionOutsideP1P99": {
+     "basis": 0.0645,
+     "later": 0.1129
+    },
+    "fidelity": {
+     "withinTolerance": true,
+     "evaluatedObject": "the frozen design as carried",
+     "diffAtRisk": 0,
+     "diffEvents": 0,
+     "blockedCvRelDiff": -7e-06,
+     "surfaceMaxAbsDiff": 0.0018320000000000003,
+     "surfaceMedianAbsDiff": 4.799999999999943e-05,
+     "surfaceRelMedianDiff": 0.0009314239143089888,
+     "tolerances": {
+      "countsRel": 0.01,
+      "blockedCvLogLossRel": 0.02,
+      "surfaceMax": 0.005,
+      "surfaceMedian": 0.0005
+     }
+    },
+    "inTimeReference": {
+     "blockedCvLogLoss": 0.067482,
+     "blockedCvLogLossCi95": [
+      0.06004,
+      0.07433
+     ],
+     "outOfTimeLogLossAboveInTimeCiUpper": false
+    },
+    "OEbyPackTemperatureBand": [
+     {
+      "band": "< 10 C",
+      "lo": null,
+      "hi": 10.0,
+      "atRiskSeconds": 207,
+      "events": 1,
+      "expected": 1.65,
+      "OE": 0.6049
+     },
+     {
+      "band": "10 to < 20 C",
+      "lo": 10.0,
+      "hi": 20.0,
+      "atRiskSeconds": 11079,
+      "events": 68,
+      "expected": 62.74,
+      "OE": 1.0839
+     },
+     {
+      "band": "20 to < 30 C",
+      "lo": 20.0,
+      "hi": 30.0,
+      "atRiskSeconds": 17847,
+      "events": 160,
+      "expected": 174.07,
+      "OE": 0.9192
+     },
+     {
+      "band": "30 to < 40 C",
+      "lo": 30.0,
+      "hi": 40.0,
+      "atRiskSeconds": 14476,
+      "events": 214,
+      "expected": 209.46,
+      "OE": 1.0217
+     },
+     {
+      "band": ">= 40 C",
+      "lo": 40.0,
+      "hi": null,
+      "atRiskSeconds": 0,
+      "events": 0,
+      "expected": 0.0,
+      "OE": null
+     }
+    ],
+    "inSupport": {
+     "share": 0.88706,
+     "atRiskSeconds": 38684,
+     "events": 379,
+     "OE": 0.9995,
+     "OEci95": [
+      0.77292,
+      1.18373
+     ],
+     "nDays": 14
+    },
+    "outOfSupport": {
+     "share": 0.11294,
+     "atRiskSeconds": 4925,
+     "events": 64,
+     "OE": 0.9312,
+     "OEci95": [
+      0.67345,
+      1.23059
+     ],
+     "nDays": 14
+    },
+    "absentFromTable": {
+     "basis": 0,
+     "later": 0,
+     "masterRowsEngineOnPctZero": {
+      "basis": 20,
+      "later": 12
+     },
+     "reading": "files absent from this side's at-risk table; for STOP the number equals the number of master rows with engine_on_pct = 0 in the same split (no engine-on second, not a load failure); START has none"
+    },
+    "tpackBasis": {
+     "p1": 15.5,
+     "min": 11.0,
+     "laterShareBelowP1": 0.0858
+    },
+    "descriptiveFlags": {
+     "prAucBelowInTimeCiLower": false,
+     "note": "descriptive, not pre-registered; the in-time reference is a different protocol and prevalence"
+    },
+    "sensitivities": {
+     "S1_perDrive": {
+      "minEvents": 3,
+      "nDrivesAll": 89,
+      "nDrivesEligible": 41,
+      "medianSkillVsB0": 0.102925,
+      "shareSkillAbove0": 0.8293
+     },
+     "S2_firstHalf": {
+      "prevalence": 0.006037,
+      "OE": 0.721866,
+      "logLoss": 0.03236,
+      "skillVsB0": 0.192785,
+      "skillVsB1": 0.176136,
+      "dLogLossB1minusModel": 0.006918,
+      "brier": 0.005967,
+      "skillVsLaterConstant": 0.122285,
+      "prAuc": 0.039965,
+      "lift": 6.619618,
+      "calSlope": 1.091491,
+      "calIntercept": 0.036333
+     },
+     "S2_secondHalf": {
+      "prevalence": 0.01298,
+      "OE": 1.121152,
+      "logLoss": 0.062297,
+      "skillVsB0": 0.101973,
+      "skillVsB1": 0.085644,
+      "dLogLossB1minusModel": 0.005835,
+      "brier": 0.012474,
+      "skillVsLaterConstant": 0.100861,
+      "prAuc": 0.065844,
+      "lift": 5.072713,
+      "calSlope": 0.855155,
+      "calIntercept": -0.437068
+     },
+     "S3_dropSharedDaysStates": {
+      "D1": "PASS",
+      "D2": "indeterminate",
+      "D3": "not material",
+      "jackknifeD1": "PASS",
+      "jackknifeD2": "indeterminate"
+     },
+     "S3_droppedDays": [
+      "2026-09-30"
+     ]
+    }
+   },
+   "stop": {
+    "basis": {
+     "nDrives": 462,
+     "nDays": 101,
+     "atRiskSecondsCompleteCase": 293005,
+     "events": 5295,
+     "eventRate": 0.018071
+    },
+    "later": {
+     "nDrives": 77,
+     "nDays": 14,
+     "atRiskSeconds": 24687,
+     "events": 433,
+     "essDays": 5.73,
+     "prevalence": 0.01754,
+     "skippedFilesNotInTable": 12
+    },
+    "OE": {
+     "point": 0.895,
+     "ci95": [
+      0.7664,
+      0.98348
+     ],
+     "jackknifeT95": [
+      0.76706,
+      1.04265
+     ]
+    },
+    "skillVsB0": {
+     "point": 0.1247,
+     "ci95": [
+      0.07584,
+      0.15909
+     ],
+     "jackknifeT95": [
+      0.06227,
+      0.20517
+     ]
+    },
+    "skillVsB1": {
+     "point": 0.1025,
+     "ci95": [
+      0.05994,
+      0.13416
+     ]
+    },
+    "prAuc": {
+     "point": 0.0809,
+     "ci95": [
+      0.06313,
+      0.09268
+     ],
+     "lift": 4.62,
+     "liftCi95": [
+      3.69669,
+      5.65856
+     ]
+    },
+    "calibration": {
+     "slope": 0.881,
+     "intercept": -0.499
+    },
+    "logLoss": 0.0773,
+    "states": {
+     "D1": "PASS",
+     "D2": "indeterminate",
+     "D3": "not material",
+     "jackknifeD1": "PASS",
+     "jackknifeD2": "indeterminate"
+    },
+    "outcome": "partial: not established (few day clusters): D2 indeterminate (the O/E interval is not inside the declared band)",
+    "notes": [
+     "D2 indeterminate (the O/E interval is not inside the declared band)"
+    ],
+    "supportExcessPp": {
+     "soc": 0.14,
+     "speed": -0.76,
+     "tpack": 8.92,
+     "demand": -0.54,
+     "durationS": -1.0
+    },
+    "supportUnionOutsideP1P99": {
+     "basis": 0.0599,
+     "later": 0.1262
+    },
+    "fidelity": {
+     "withinTolerance": true,
+     "evaluatedObject": "the frozen design as carried",
+     "diffAtRisk": 0,
+     "diffEvents": 0,
+     "blockedCvRelDiff": -0.000173,
+     "surfaceMaxAbsDiff": 0.0013440000000000119,
+     "surfaceMedianAbsDiff": 4.500000000001898e-06,
+     "surfaceRelMedianDiff": 0.0010467550593165616,
+     "tolerances": {
+      "countsRel": 0.01,
+      "blockedCvLogLossRel": 0.02,
+      "surfaceMax": 0.005,
+      "surfaceMedian": 0.0005
+     }
+    },
+    "inTimeReference": {
+     "blockedCvLogLoss": 0.074,
+     "blockedCvLogLossCi95": [
+      0.06816,
+      0.08136
+     ],
+     "outOfTimeLogLossAboveInTimeCiUpper": false
+    },
+    "OEbyPackTemperatureBand": [
+     {
+      "band": "< 10 C",
+      "lo": null,
+      "hi": 10.0,
+      "atRiskSeconds": 333,
+      "events": 0,
+      "expected": 3.78,
+      "OE": null
+     },
+     {
+      "band": "10 to < 20 C",
+      "lo": 10.0,
+      "hi": 20.0,
+      "atRiskSeconds": 6273,
+      "events": 54,
+      "expected": 114.49,
+      "OE": 0.4717
+     },
+     {
+      "band": "20 to < 30 C",
+      "lo": 20.0,
+      "hi": 30.0,
+      "atRiskSeconds": 7767,
+      "events": 160,
+      "expected": 141.98,
+      "OE": 1.1269
+     },
+     {
+      "band": "30 to < 40 C",
+      "lo": 30.0,
+      "hi": 40.0,
+      "atRiskSeconds": 10314,
+      "events": 219,
+      "expected": 223.53,
+      "OE": 0.9797
+     },
+     {
+      "band": ">= 40 C",
+      "lo": 40.0,
+      "hi": null,
+      "atRiskSeconds": 0,
+      "events": 0,
+      "expected": 0.0,
+      "OE": null
+     }
+    ],
+    "inSupport": {
+     "share": 0.87382,
+     "atRiskSeconds": 21572,
+     "events": 415,
+     "OE": 0.9304,
+     "OEci95": [
+      0.81616,
+      1.03571
+     ],
+     "nDays": 13
+    },
+    "outOfSupport": {
+     "share": 0.12618,
+     "atRiskSeconds": 3115,
+     "events": 18,
+     "OE": 0.4771,
+     "OEci95": [
+      0.25524,
+      0.83337
+     ],
+     "nDays": 13
+    },
+    "absentFromTable": {
+     "basis": 20,
+     "later": 12,
+     "masterRowsEngineOnPctZero": {
+      "basis": 20,
+      "later": 12
+     },
+     "reading": "files absent from this side's at-risk table; for STOP the number equals the number of master rows with engine_on_pct = 0 in the same split (no engine-on second, not a load failure); START has none"
+    },
+    "tpackBasis": {
+     "p1": 15.25,
+     "min": 11.5,
+     "laterShareBelowP1": 0.108
+    },
+    "descriptiveFlags": {
+     "prAucBelowInTimeCiLower": true,
+     "note": "descriptive, not pre-registered; the in-time reference is a different protocol and prevalence"
+    },
+    "sensitivities": {
+     "S1_perDrive": {
+      "minEvents": 3,
+      "nDrivesAll": 77,
+      "nDrivesEligible": 40,
+      "medianSkillVsB0": 0.133991,
+      "shareSkillAbove0": 0.85
+     },
+     "S2_firstHalf": {
+      "prevalence": 0.014748,
+      "OE": 0.908292,
+      "logLoss": 0.070393,
+      "skillVsB0": 0.087668,
+      "skillVsB1": 0.060415,
+      "dLogLossB1minusModel": 0.004526,
+      "brier": 0.014055,
+      "skillVsLaterConstant": 0.083727,
+      "prAuc": 0.079002,
+      "lift": 5.356796,
+      "calSlope": 0.783124,
+      "calIntercept": -0.859864
+     },
+     "S2_secondHalf": {
+      "prevalence": 0.018568,
+      "OE": 0.891242,
+      "logLoss": 0.079847,
+      "skillVsB0": 0.136031,
+      "skillVsB1": 0.115317,
+      "dLogLossB1minusModel": 0.010408,
+      "brier": 0.017613,
+      "skillVsLaterConstant": 0.135966,
+      "prAuc": 0.083247,
+      "lift": 4.483433,
+      "calSlope": 0.906576,
+      "calIntercept": -0.414802
+     },
+     "S3_dropSharedDaysStates": {
+      "D1": "PASS",
+      "D2": "indeterminate",
+      "D3": "not material",
+      "jackknifeD1": "PASS",
+      "jackknifeD2": "indeterminate"
+     },
+     "S3_droppedDays": [
+      "2026-09-30"
+     ]
+    }
+   }
+  }
  },
  "headroomUtilization": {
   "nFilesScanned": 347,
