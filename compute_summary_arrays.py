@@ -7336,6 +7336,16 @@ def _soak_tau_mod():
     return _st
 
 
+def _soak_fitq_mod():
+    """M430 (audit F05): held-out fit quality of the parked-soak fits (tools/soak_fitq.py)."""
+    import sys as _sys_fq
+    _tools_fq = _os_xf.path.join(_os_xf.path.dirname(_os_xf.path.abspath(__file__)), 'tools')
+    if _tools_fq not in _sys_fq.path:
+        _sys_fq.path.insert(0, _tools_fq)
+    import soak_fitq as _fq
+    return _fq
+
+
 def _soak_published_row(name):
     """The historical interval row as published before M429, frozen in analyses/M429_published_rule.json (never recomputed at ingestion)."""
     p = _os_xf.path.join(_os_xf.path.dirname(_os_xf.path.abspath(__file__)), 'analyses', 'M429_published_rule.json')
@@ -7438,8 +7448,11 @@ def _heat_soak_carryover(dm, traj, ambient_by_drive=None, min_excess_c=3.0,
     soak_extra = None
     nfit = 0
     fit = pf.dropna(subset=['initExcessC', 'residExcessC'])
+    _n_pre = int(len(fit))
+    _prefilter = {'gapH': fit['gapH'].values, 'initExcessC': fit['initExcessC'].values, 'residExcessC': fit['residExcessC'].values, 'arrivalDay': fit['dayArrival'].values}
     fit = fit[(fit['initExcessC'] > min_excess_c) & (fit['residExcessC'] > 0.5)]
     nfit = int(len(fit))
+    fitq = None
     if nfit >= 8:
         y = np.log(fit['residExcessC'].values / fit['initExcessC'].values)
         x = fit['gapH'].values
@@ -7469,6 +7482,9 @@ def _heat_soak_carryover(dm, traj, ambient_by_drive=None, min_excess_c=3.0,
         soak_extra = _soak_tau_mod().soak_block(
             x, y, _fit_r['dayArrival'].values, _fit_r['dayDeparture'].values, _iso_week_key(_fit_r['dayArrival'].values),
             _sen_slope, slope, published_row=_soak_published_row('pack'))
+        # M430 (audit F05): held-out (blocked-day cross-validated) fit quality of the same pairs; R2 is printed, not dismissed
+        fitq = _soak_fitq_mod().fit_quality(x, y, _fit_r['dayArrival'].values, _sen_slope, r2_insample=(round(float(r2), 3) if r2 is not None else None),
+                                            n_removed=_n_pre - nfit, n_before_filter=_n_pre, prefilter=_prefilter)
         if slope < 0:
             tau = -1.0 / slope
             half_life = tau * np.log(2)
@@ -7489,7 +7505,7 @@ def _heat_soak_carryover(dm, traj, ambient_by_drive=None, min_excess_c=3.0,
         **({'soakTauCiMethod': soak_extra['tauCiMethod'], 'soakDecayRateK': soak_extra['decayRateK'],
             'soakDecayRateKCI': soak_extra['decayRateKCI'], 'soakHalfLifeCI': soak_extra['halfLifeCI'],
             'soakTauMethodTable': soak_extra['methodTable'], 'soakTauLeaveOneDay': soak_extra['leaveOneDay'],
-            'soakTauGapSplit': soak_extra['gapSplit']}
+            'soakTauGapSplit': soak_extra['gapSplit'], 'soakFitQuality': fitq}
            if soak_extra else {}),
         'method': ('Consecutive chronological drive pairs; degC shed and '
                    'above-ambient retained fraction vs soak gap. Newtonian '
@@ -7507,7 +7523,13 @@ def _heat_soak_carryover(dm, traj, ambient_by_drive=None, min_excess_c=3.0,
                    'drive), 4000 draws, seed 42, percentile of the draw '
                    'slopes mapped by tau = -1/slope; draws with a '
                    'non-negative slope are counted (tau unbounded), not '
-                   'dropped; earlier releases resampled the pairs i.i.d.'
+                   'dropped; earlier releases resampled the pairs i.i.d. '
+                   'M430 (audit F05): soakFitQuality reports the held-out '
+                   '(blocked-day cross-validated) error of the same '
+                   'single-exponential line against persistence, a constant '
+                   'level and empirical gap-bin medians, with the in-sample '
+                   'R2 printed (a negative value means the through-origin '
+                   'line is worse than a free-level mean on the log scale).'
                    % min_excess_c),
     }
 
@@ -14867,6 +14889,8 @@ def _carryover_thermal_decay(pf, start_col, end_col, amb_key, min_excess_c=3.0):
     resid_excess = sub[start_col] - sub[amb_key]
     fit = pd.DataFrame({'gapH': sub['parkingGapH'], 'ie': init_excess,
                         're': resid_excess, 'day': sub['day'], 'depDay': sub['dayDeparture']})
+    _n_pre = int(len(fit))
+    _prefilter = {'gapH': fit['gapH'].values, 'initExcessC': fit['ie'].values, 'residExcessC': fit['re'].values, 'arrivalDay': fit['day'].values}
     fit = fit[(fit['ie'] > min_excess_c) & (fit['re'] > 0.5)]
     nfit = int(len(fit))
     if nfit < 8:
@@ -14901,7 +14925,9 @@ def _carryover_thermal_decay(pf, start_col, end_col, amb_key, min_excess_c=3.0):
     _pt_slope = _sen_slope(x, y)
     _blk = _soak_tau_mod().soak_block(x, y, days, fit['depDay'].values, _iso_week_key(days), _sen_slope, _pt_slope,
                                         published_row=_soak_published_row('coolant' if start_col == 'arrivalCoolantC' else 'oil'))
-    _new = {'tauCI': _blk['tauCI'], 'tauCiMethod': _blk['tauCiMethod'], 'decayRateK': _blk['decayRateK'], 'decayRateKCI': _blk['decayRateKCI'],
+    _fitq = _soak_fitq_mod().fit_quality(x, y, days, _sen_slope, r2_insample=(round(float(r2), 3) if r2 is not None else None),
+                                         n_removed=_n_pre - nfit, n_before_filter=_n_pre, prefilter=_prefilter)
+    _new = {'tauCI': _blk['tauCI'], 'fitQuality': _fitq, 'tauCiMethod': _blk['tauCiMethod'], 'decayRateK': _blk['decayRateK'], 'decayRateKCI': _blk['decayRateKCI'],
             'halfLifeCI': _blk['halfLifeCI'], 'methodTable': _blk['methodTable'], 'leaveOneDay': _blk['leaveOneDay'],
             'gapSplit': _blk['gapSplit']}
     if tau is None:
@@ -17472,6 +17498,7 @@ def build_summary_arrays(dm, raw_loader=None, with_raw=True, odometer_km=None,
                         'tau': _hsc.get('soakTauH'),
                         'tauCI': _hsc.get('soakTauCI'),
                         'tauCiMethod': _hsc.get('soakTauCiMethod'),
+                        'fitQuality': _hsc.get('soakFitQuality'),
                         'r2': _hsc.get('tauFitR2'),
                         'nfit': _hsc.get('tauFitN'),
                     },
@@ -17491,6 +17518,11 @@ def build_summary_arrays(dm, raw_loader=None, with_raw=True, odometer_km=None,
                     'dropping them and reports an unbounded upper bound '
                     'when the 97.5th percentile slope is not negative '
                     '(the pack interval resampled the pairs i.i.d. before). '
+                    'M430 (audit F05): fitQuality gives, per fit, the '
+                    'held-out (blocked-day cross-validated) error of the '
+                    'single-exponential line against persistence, a '
+                    'constant level and empirical gap-bin medians, with '
+                    'the in-sample R2 printed. '
                     'The pooled tau is a gap-mix-dependent summary: the '
                     'gapSplit leaves (post-hoc, descriptive) show the fit '
                     'separately for gaps under and over one hour. '

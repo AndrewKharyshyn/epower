@@ -323,6 +323,8 @@ RULES = [
          rx=r"\bisolates? enrichment cold friction\b|\bisolates? series hybrid strategy\b|\bisolates? (?:the )?(?:enrichment|friction) (?:and|or) (?:the )?cold\b"),
     Rule("M429-soak-ratio", "regex", "M429/audit F06 (+F05): the coolant and oil tau compared with the pack tau is a point-estimate ratio of fitted summaries with the interval overlap stated; it is not 'physically consistent' evidence and not a 'cross-check that the fit machinery behaves sensibly' (the pack fit has a negative predictive R2); the pooled pack tau rests on parks of an hour or longer (gap split), not on the short gaps",
          rx=r"\bphysically consistent with coolant and oil\b|\bfit machinery behaves sensibly\b|\bindependently known faster cooling\b|\bshort gap behavior it s best supported by\b"),
+    Rule("M430-r2-dismissed", "regex", "M430/audit F05: the in-sample R2 of the parked-soak fits is printed with its plain meaning (the through-origin Sen line against a free-level mean of the log excess ratio); it is not 'not a meaningful diagnostic' and not omitted, and 'the first-order model does not describe the pairs' overstates (a negative R2 does not mean no decay; held-out errors are reported)",
+         rx=r"\br2 is not a meaningful diagnostic\b|\bnot a meaningful diagnostic for this fit\b|\bdoes not describe (?:the|these) pairs\b|\bnot that there is no decay\b"),
 ]
 
 

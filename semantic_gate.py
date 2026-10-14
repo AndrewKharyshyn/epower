@@ -111,6 +111,20 @@ if _hsc.get("soakTauGapSplit"):
            and ("arrival-day clusters (headline) [%s, %s] (%d clusters)" % (_lo, "unbounded" if _hi is None else _hi, _hsc["soakTauCiMethod"]["nClusters"])) in t for t in _sk.values()))
     ok("A2 REQUIRED M429 the gap split is labelled post-hoc and not pre-registered, and the method-agreement sentence reads 'weak ... not absent'",
        all(("Post-hoc, not pre-registered (blind-audit finding)" in t) and ("between-day dependence is weak in these data, not absent" in t) and ("single-exponential model, not model error" in t) for t in _sk.values()))
+# M430 (analyses/M430_spec.md Rev 2): the held-out fit-quality block renders the payload (in-sample R2 per fit, the statements per cell, the exclusion counts) and no longer dismisses R2
+_fq0 = (A.get("heatSoakCarryover") or {}).get("soakFitQuality")
+if _fq0:
+    _g3 = lambda v: ("%.3g" % v).rstrip("0").rstrip(".") if "." in ("%.3g" % v) else ("%.3g" % v)
+    _fqd = {k: t for k, t in T.items() if "How well the single exponential predicts held-out pairs" in t}
+    _td = A["interDriveCarryover"]["thermalDecay"]
+    _fits = [("Pack", _fq0), ("Coolant", _td["coolant"]["fitQuality"]), ("Oil", _td["oil"]["fitQuality"])]
+    ok("A2 REQUIRED M430 fit-quality block rendered in the thermal dumps (all / warm / shoulder)", len(_fqd) >= 3, f"{sorted(_fqd)}")
+    ok("A2 REQUIRED M430 each fit prints its in-sample R2 and the number of pairs excluded by the residual filter, equal to the payload",
+       all(("%s (R² %s; %d of %d pairs excluded)" % (n, _g3(q["inSample"]["rSquared"]), q["selection"]["nRemovedByResidualFilter"], q["selection"]["nBeforeResidualFilter"])) in t for t in _fqd.values() for n, q in _fits))
+    ok("A2 REQUIRED M430 the pooled statements of every fit equal the payload's (persistence / constant level / gap bins)",
+       all(all((c.get("statements") or {}).get(k, {}).get("statement") in t for k in ("S1", "S2", "S3") if (c.get("statements") or {}).get(k, {}).get("statement")) for t in _fqd.values() for n, q in _fits for c in [q["cells"]["pooled"]]))
+    ok("A2 REQUIRED M430 the text states the held-out design, the selection on the outcome and that tau stays a gap-mix-dependent summary",
+       all(("blocked cross-validation" in t) and ("selection on the outcome" in t) and ("gap-mix-dependent, model-derived summary" in t) and ("not adjusted for multiplicity" in t) for t in _fqd.values()))
 # A3 (M427, audit F01): the cell-spread trend wording follows the released interval in every rendered tab/mode (a sentence cannot say "spans zero" or "no resolved trend" beside an interval that excludes zero)
 _cs_ci = A["degradationTrends"]["cellSpread"]["clusterRobustOLS"]["ci95"]
 _cs_bad = LG.cell_spread_trend_violations(_cs_ci, T)
