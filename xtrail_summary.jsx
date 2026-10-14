@@ -2952,6 +2952,47 @@ function CycleProjectionChart() {
   );
 }
 
+/* M439 (audit regen prompt, milestone MA): pure helpers for the regeneration section. regenMetaOf reproduces the payload producer (compute_summary_arrays regenCaptureMeta) from the rows the chart draws, so a
+   caption under a cohort describes that cohort; pyRound is half-even like Python (62.5 -> 62), because Math.round(62.5) is 63. regenAxis: the extent is a multiple of a data-driven tick step. */
+function pyRound(x, d=0){
+  if(x==null||!isFinite(x)) return null;
+  if(d>0) return Number(x.toFixed(d));
+  const f=Math.floor(x), diff=x-f;
+  if(Math.abs(diff-0.5)<1e-12) return (f%2===0)?f:f+1;
+  return Math.round(x);
+}
+function regenMetaOf(tempRows, speedRows){
+  const out={};
+  const T_=tempRows||[], Sp=speedRows||[];
+  const valid=T_.filter(b=>b&&b.valid);
+  if(valid.length){
+    const effs=valid.map(b=>b.eff), ns=valid.map(b=>b.n);
+    out.tempEffMin=pyRound(Math.min(...effs),1); out.tempEffMax=pyRound(Math.max(...effs),1);
+    out.tempLabelLo=valid[0].label; out.tempLabelHi=valid[valid.length-1].label;
+    out.tempNMin=Math.min(...ns); out.tempNMax=Math.max(...ns);
+    out.tempThinBins=T_.filter(b=>b&&!b.valid&&b.eff!=null).map(b=>({label:b.label,n:b.n}));
+  }
+  const rows=Sp.filter(r=>r&&r[1]!=null);
+  if(rows.length){
+    const effs=rows.map(r=>r[1]);
+    out.speedEffMin=pyRound(Math.min(...effs),1); out.speedEffMax=pyRound(Math.max(...effs),1);
+    const pl=rows.filter(r=>r[0]>=50&&r[0]<=110).map(r=>r[1]);
+    if(pl.length){ out.plateauLo=pyRound(Math.min(...pl),0); out.plateauHi=pyRound(Math.max(...pl),0); }
+    const lo=rows.filter(r=>r[0]<30);
+    if(lo.length) out.crawlEff=pyRound(lo[0][1],0);
+  }
+  return out;
+}
+function regenAxis(maxVal){
+  const raw=(typeof maxVal==="number"&&isFinite(maxVal))?maxVal:0;
+  const m=Math.max(raw,0);                       // a negative value is flagged (invalid), never thrown inside a render
+  const step=m<60?10:20;
+  const ymax=Math.max(step, Math.ceil(m/step)*step);
+  const ticks=[]; for(let v=0; v<=ymax; v+=step) ticks.push(v);
+  return {step, ymax, ticks, invalid: raw<0};
+}
+function regenXMax(maxBin, width){ return Math.ceil(((maxBin||0)+(width||10))/10)*10; }
+
 /* ─── CHART: Regeneration Energy Analysis ───────────────────────────────── */
 function RegenChart() {
   const [view, setView] = useState("efficiency");
@@ -2961,10 +3002,9 @@ function RegenChart() {
   // never consumed them, so the Season toggle previously had no effect on
   // this whole section despite regen acceptance being the single most
   // temperature-sensitive phenomenon in the study (see seasonal
-  // phenomenonViews.regen). Cold has no per-cohort entries yet for these
-  // charts, so it falls back to the "no data" placeholder like every other
-  // cohort-aware chart rather than silently showing corpus-wide numbers
-  // under the Cold label.
+  // phenomenonViews.regen). M439: the Cold cohort (at least the minimum cohort
+  // support) draws its own per-cohort arrays; a cohort below the minimum support falls back to
+  // the "no data" placeholder rather than silently showing corpus-wide numbers under its label.
   const _coh=useCohort();
   if(cohortNoData(_coh,["RegenCaptureMeasured", "RegenByTempMeasured", "RegenByType", "RegenByZone"])) return <ColdNoData chart="Regenerative Energy Analysis" cohort={_coh}/>;
   if(_coh==="compare") return <CompareMulti ids={["RegenCaptureMeasured","RegenByTempMeasured","RegenByType","RegenByZone"]}/>;
@@ -2973,21 +3013,38 @@ function RegenChart() {
   // pack temperature). Replaces a prior config-only illustrative model whose
   // 100%-at-low-speed curves and "48% vs 83%, 1.7x" claim did not reproduce from
   // any computed array (audit 2026-07-07) -- see _provenance.deprecated_synthetic.
+  // M439: the ACTIVE cohort's rows (what the charts draw) feed every caption; the bins of the global array are the full temperature range (a bin missing in a cohort is drawn empty)
+  const _tempActive = (() => {
+    const g = S.regenByTempMeasured || [], c = cohortOr("RegenByTempMeasured",_coh,S.regenByTempMeasured) || [];
+    const by = Object.fromEntries(c.map(r=>[r.label,r]));
+    const labels = g.map(r=>r.label).concat(c.map(r=>r.label).filter(l=>!g.some(r=>r.label===l)));
+    return labels.map(l => by[l] || (g.find(r=>r.label===l) ? {label:l, lo:g.find(r=>r.label===l).lo, hi:g.find(r=>r.label===l).hi, n:0, eff:null, effRangeMassUncertainty:null, valid:false} : null)).filter(Boolean);
+  })();
+  const _speedActive = cohortOr("RegenCaptureMeasured",_coh,S.regenCaptureMeasured) || [];
+  const _tyMeta = cohortOr("RegenByTypeMeta",_coh,S.regenByTypeMeta) || {};
+  const _tyRows = cohortOr("RegenByType",_coh,S.regenByType) || [];
+  const _zoneRows = cohortOr("RegenByZone",_coh,S.regenByZone) || [];
+  const _meta = regenMetaOf(_tempActive, _speedActive);
+  const _cov = seasonalChartEntry("RegenCaptureMeasured")?.coverage?.[_coh];
+  const _cohName = (_coh==="warm"?"Warm cohort":_coh==="shoulder"?"Shoulder cohort":_coh==="cold"?"Cold cohort":"All drives")
+    + ((_coh!=="all" && _cov) ? ` (${_cov.n_drives} drives${_cov.independent_days!=null?`, ${_cov.independent_days} days`:""}, ${_cov.km} km)` : "");
   const TempChart = () => {
     // M427: 10 deg C bins from the payload (label = display text, incl. the winter bins below zero); colour by bin index, cold to hot
     const PAL = ["#1d4ed8","#3b82f6","#60a5fa","#4ade80","#eab308","#f97316","#ef4444","#b91c1c"];
-    const data = cohortOr("RegenByTempMeasured",_coh,S.regenByTempMeasured);
+    const data = _tempActive;
     const disp = Object.fromEntries(data.map(t=>[t.label,t.label]));
     const col  = Object.fromEntries(data.map((t,i)=>[t.label,PAL[Math.min(i,PAL.length-1)]]));
     const W=420, H=220, PL=44, PR=16, PT=20, PB=44;
     const pw=W-PL-PR, ph=H-PT-PB;
-    const maxEff=70;
+    const _vals = data.flatMap(t=>[t.eff, t.effRangeMassUncertainty?t.effRangeMassUncertainty[1]:null]).filter(v=>v!=null);
+    const AX = regenAxis(_vals.length?Math.max(..._vals):0);
+    const maxEff=AX.ymax;
     const yP=v=>PT+ph-(v/maxEff)*ph;
     const bw = pw/data.length*0.6, gap = pw/data.length;
-    const effTicks=[0,20,40,60];
+    const effTicks=AX.ticks;
     return (
       <div>
-        <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{overflow:"visible"}}>
+        <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{overflow:"visible"}} data-regen-view="temp" data-ymax={maxEff} data-nbins={data.length}>
           {effTicks.map(v=>(
             <g key={v}>
               <line x1={PL} y1={yP(v)} x2={PL+pw} y2={yP(v)} stroke="#e5e7eb" strokeWidth={1}/>
@@ -3040,19 +3097,19 @@ function RegenChart() {
           <text x={10} y={PT+ph/2} textAnchor="middle" fill="#64748b" fontSize={9} transform={`rotate(-90,10,${PT+ph/2})`}>Apparent KE-recovery %</text>
         </svg>
         <div style={{marginTop:10,padding:8,background:"#f1f5f9",borderRadius:6,fontSize:10,color:"#64748b",lineHeight:1.6}}>
-          <strong style={{color:"#0f172a"}}>M22 — real data, not a model.</strong> Same engine-off decel KE-capture basis as the Power &amp; Efficiency tab (½·m·Δv²), pooled by pack temperature instead of speed. Measured capture is a much flatter <strong style={{color:"#0f172a"}}>~{S.regenCaptureMeta?.tempEffMin}–{S.regenCaptureMeta?.tempEffMax}%</strong> across the {(()=>{const v=(S.regenByTempMeasured||[]).filter(r=>r.valid); return v.length? `${v[0].lo==null?"<"+v[0].hi:v[0].lo}–${v[v.length-1].hi==null?"+":v[v.length-1].hi}°C`:"";})()} range that has enough data ({S.regenCaptureMeta?.tempNMin?.toLocaleString()}–{S.regenCaptureMeta?.tempNMax?.toLocaleString()} qualifying samples per bin) to report — not the 48–100% spread shown in an earlier draft of this chart. The previous version of this chart showed synthetic per-temperature curves reaching 100% at low speed and a "48% vs 83%, 1.7×" headline figure; neither reproduces from any computed array and both have been retired.
+          <strong style={{color:"#0f172a"}}>Pack-temperature view (M22), computed from the logged current, voltage and speed with an assumed mass.</strong> {_cohName}{_coh!=="all"?" (a population filter, not a substitute for the battery temperature)":""}. Same engine-off decel KE basis as the Power &amp; Efficiency tab (½·m·Δv²), pooled by pack temperature instead of speed. {_meta.tempEffMin!=null?<>The apparent KE recovery {_meta.tempEffMin===_meta.tempEffMax?"is":"spans"} <strong style={{color:"#0f172a"}}>~{_meta.tempEffMin===_meta.tempEffMax?_meta.tempEffMin:`${_meta.tempEffMin}–${_meta.tempEffMax}`}%</strong> {_meta.tempEffMin===_meta.tempEffMax?"in":"across"} {(()=>{const v=_tempActive.filter(r=>r.valid); return v.length? `${v[0].lo==null?"<"+v[0].hi:v[0].lo}–${v[v.length-1].hi==null?"+":v[v.length-1].hi}°C`:"";})()} ({_meta.tempEffMin===_meta.tempEffMax?`one bin with n≥200; ${_meta.tempNMin?.toLocaleString()} qualifying samples`:`bins with n≥200; ${_meta.tempNMin?.toLocaleString()}–${_meta.tempNMax?.toLocaleString()} qualifying samples per bin`}); bins are not adjusted for speed, SOC or drive-type mix.</>:<>No temperature bin of this selection reaches the n≥200 validity gate: unavailable.</>}
         </div>
         {/* M219 (2026-09-04): the two sub-200-sample bins were previously
             rendered as an empty "insufficient data" placeholder with no
             number at all. They now show a dashed point estimate (above) plus
             this explicit caveat, so a reader sees both WHERE the thin sample
             falls and WHY it isn't certified. */}
-        {(S.regenCaptureMeta?.tempThinBins?.length>0) && (
+        {(_meta.tempThinBins?.length>0) && (
           <div style={{marginTop:6,padding:8,background:"#fffbeb",border:"1px solid #fde68a",borderRadius:6,fontSize:9.5,color:"#78350f",lineHeight:1.6}}>
-            <strong>Thin bins, shown dashed above, not a reportable %:</strong> {S.regenCaptureMeta.tempThinBins.map((b,i)=>{
-              const row = (S.regenByTempMeasured||[]).find(r=>r.label===b.label);
+            <strong>Thin bins, shown dashed above, not a reportable %:</strong> {_meta.tempThinBins.map((b,i)=>{
+              const row = _tempActive.find(r=>r.label===b.label);
               return <span key={b.label}>{i>0 && " and "}<strong>{b.label}</strong> (n={b.n}{row?.eff!=null && <>, point estimate ~{row.eff}%{row.effRangeMassUncertainty && <> [{row.effRangeMassUncertainty[0]}–{row.effRangeMassUncertainty[1]}%]</>}</>})</span>;
-            })} — real engine-off decel samples, just below the n≥200 validity gate (~200 s aggregate decel time), so the point estimate can swing hard on a handful more qualifying events and must not be read as equal-confidence with the solid bars. Consistent with the flagged winter/cold-start data gap elsewhere in this study: this corpus has almost no cold-start or peak-heat braking events yet.
+            })} — engine-off decel samples below the n≥200 validity gate, so the point estimate can change a lot with a few more qualifying events and must not be read as equal-confidence with the solid bars.
           </div>
         )}
       </div>
@@ -3073,23 +3130,23 @@ function RegenChart() {
   // regenCurve_superseded. What remains is the single measured series, on one
   // axis, with its per-bin sample counts exposed.
   const EfficChart = () => {
-    const raw = cohortOr("RegenCaptureMeasured",_coh,S.regenCaptureMeasured) || [];
+    const raw = _speedActive;
     const MIN_N = 200;                       // same validity gate as the temperature view
     const pts = raw.map(([s,e,n])=>({s,e,n,ok:(n??0)>=MIN_N}));
     const solid = pts.filter(p=>p.ok);
     const W=460, H=230, PL=46, PR=18, PT=18, PB=48;
     const pw=W-PL-PR, ph=H-PT-PB;
-    const maxSpd=130, maxEff=80;
+    const maxSpd=regenXMax(pts.length?Math.max(...pts.map(p=>p.s)):0, pts.length>1?pts[1].s-pts[0].s:10), AXE=regenAxis(pts.length?Math.max(...pts.map(p=>p.e)):0), maxEff=AXE.ymax;
     const xP=v=>PL+v/maxSpd*pw;
     const yP=v=>PT+ph-(v/maxEff)*ph;
-    const spdTicks=[0,20,40,60,80,100,120];
-    const effTicks=[0,20,40,60,80];
+    const spdTicks=Array.from({length:Math.floor(maxSpd/20)+1},(_,i)=>i*20);
+    const effTicks=AXE.ticks;
     const path = solid.map((p,i)=>`${i===0?"M":"L"}${xP(p.s)},${yP(p.e)}`).join(" ");
     const plateau = solid.filter(p=>p.s>=25);
     const pLo = plateau.length?Math.min(...plateau.map(p=>p.e)):null;
     const pHi = plateau.length?Math.max(...plateau.map(p=>p.e)):null;
     return (
-      <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{overflow:"visible"}}>
+      <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{overflow:"visible"}} data-regen-view="speed" data-ymax={maxEff} data-xmax={maxSpd}>
         {effTicks.map(v=>(
           <g key={v}>
             <line x1={PL} y1={yP(v)} x2={PL+pw} y2={yP(v)} stroke="#e5e7eb" strokeWidth={1}/>
@@ -3105,7 +3162,7 @@ function RegenChart() {
             <text x={xP(v)} y={PT+ph+14} textAnchor="middle" fill="#6b7280" fontSize={8}>{v}</text>
           </g>
         ))}
-        {/* measured plateau band -- drawn from the data, not from a model */}
+        {/* plateau band of the estimates (n>=200, speed>=25 on the active rows) -- drawn from the data, not from a model */}
         {pLo!=null&&(
           <g>
             <rect x={xP(25)} y={yP(pHi)} width={xP(Math.max(...plateau.map(p=>p.s)))-xP(25)}
@@ -3115,7 +3172,7 @@ function RegenChart() {
                 overprinted the right-most point label. Moved below the band,
                 left-anchored, where nothing else is drawn. */}
             <text x={xP(25)+3} y={yP(pLo)+9} textAnchor="start"
-                  fill="#7c3aed" fontSize={7}>measured plateau {pLo}-{pHi}%</text>
+                  fill="#7c3aed" fontSize={7}>plateau of the estimates {pLo}-{pHi}%</text>
           </g>
         )}
         <path d={path} fill="none" stroke="#7c3aed" strokeWidth={2.2}/>
@@ -3212,7 +3269,8 @@ function RegenChart() {
   const ZoneChart = () => {
     const W=380, H=180, PL=50, PR=16, PT=16, PB=32;
     const pw=W-PL-PR, ph=H-PT-PB;
-    const zones=cohortOr("RegenByZone",_coh,S.regenByZone), maxPct=40;
+    const zones=cohortOr("RegenByZone",_coh,S.regenByZone);
+    const AXZ=regenAxis(Math.max(0,...zones.map(z=>z.pct||0))), maxPct=AXZ.ymax;
     const bw=pw/zones.length-8;
     // regenByZone (machine-generated) carries no color field — reuses the
     // same cool→hot 5-step palette as the "By Battery Temperature" view
@@ -3220,8 +3278,8 @@ function RegenChart() {
     // default (black) that resulted from the missing field.
     const zoneColors={"0-30":"#60a5fa","30-60":"#4ade80","60-90":"#eab308","90-120":"#f97316","120+":"#ef4444"};
     return (
-      <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{overflow:"visible"}}>
-        {[0,10,20,30,40].map(v=>(
+      <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{overflow:"visible"}} data-regen-view="zone" data-ymax={maxPct}>
+        {AXZ.ticks.map(v=>(
           <g key={v}>
             <line x1={PL} y1={PT+ph-v/maxPct*ph} x2={PL+pw} y2={PT+ph-v/maxPct*ph} stroke="#e5e7eb" strokeWidth={1}/>
             <text x={PL-4} y={PT+ph-v/maxPct*ph+3} textAnchor="end" fill="#6b7280" fontSize={7}>{v}%</text>
@@ -3273,7 +3331,7 @@ function RegenChart() {
   return (
     <div>
       <div style={{display:"flex",gap:6,marginBottom:12,justifyContent:"center"}}>
-        {[["efficiency","Measured Capture vs Speed"],["temp","By Battery Temperature"],["type","Charge Sources"],["zone","By Speed Zone"]].map(([k,l])=>(
+        {[["efficiency","Apparent KE Recovery vs Speed"],["temp","By Battery Temperature"],["type","Charge Sources"],["zone","By Speed Zone"]].map(([k,l])=>(
           <button key={k} onClick={()=>setView(k)} style={{
             padding:"4px 10px",borderRadius:5,border:"1px solid #e2e8f0",fontSize:10,
             background:view===k?"#1e293b":"#f1f5f9",color:view===k?"#f8fafc":"#374151",cursor:"pointer",fontWeight:view===k?700:400
@@ -3294,7 +3352,7 @@ function RegenChart() {
               "34% at 10-20", "7.5% at 0-10", "ceiling 51%, measured 51-56%") that no
               longer matched S.regenCaptureMeasured. Every figure below is now derived
               from that array at render time. */}
-          {(()=>{const raw=S.regenCaptureMeasured||[]; if(!raw.length) return null;
+          {(()=>{const raw=_speedActive; if(!raw.length) return null;
             const P=raw.map(([s2,e,n])=>({s:s2,e,n}));
             const ok=P.filter(p=>(p.n??0)>=200);
             const pl=ok.filter(p=>p.s>=25);
@@ -3303,40 +3361,35 @@ function RegenChart() {
             const thin=P.filter(p=>(p.n??0)<200);
             const first=P[0], second=P[1];
             const totN=P.reduce((a,p)=>a+(p.n||0),0);
+            const mz=S.constantProvenance?.MASS_BY_DRIVE_TYPE_KG;
+            const bandPct=(()=>{ const z=(cohortOr("RegenByZone",_coh,S.regenByZone)||[]).find(r=>r.effRangeMassUncertainty&&r.eff); return z? Math.round(100*Math.abs(z.eff-z.effRangeMassUncertainty[0])/z.eff*10)/10 : null; })();
             return (<>
-              <strong style={{color:"#7c3aed"}}>One series, all measured.</strong> Each point is the energy actually
-              returned to the battery as a fraction of the kinetic energy shed in that braking event
-              (½·m·Δv², m≈{(()=>{const mp=S.constantProvenance?.MASS_BY_DRIVE_TYPE_KG?.value;
-                if(!mp) return `1950 kg`;  // legacy flat-constant fallback if config lacks the new block
-                // M164: urban/mixed is now a single point value (1890 kg), not a
-                // [lo,hi] hash-split pair -- see the mass-uncertainty note below.
-                return `${mp.highway} kg highway/mixed-highway, ${mp.urban} kg urban/mixed`;
-              })()}, class-conditional assumption per drive), pooled over engine-off deceleration steps across the
-              ens-clean corpus ({totN.toLocaleString()} qualifying samples). Every measured-efficiency figure below carries a
-              closed-form mass-uncertainty band (±{S.regenByZone?.[0]?.effRangeMassUncertainty ? Math.round(100*Math.abs(S.regenByZone[0].eff-S.regenByZone[0].effRangeMassUncertainty[0])/S.regenByZone[0].eff*10)/10 : "~1.6"}% typical) from the disclosed 1860–1920 kg urban/mixed range — shown as an error band on the chart, not folded into the point value. <strong style={{color:"#0f172a"}}>Capture sits on a
-              flat {lo}–{hi}% plateau from {loS} to {hiS} km/h</strong> — roughly two-thirds of braking energy recovered, the
-              remainder lost to aero drag, rolling resistance, driveline and friction-brake blending.
-              <strong style={{color:"#0f172a"}}> It collapses at a crawl</strong> ({second?.e}% at {second?.s} km/h, {first?.e}% at {first?.s} km/h):
-              motor speed is too low for meaningful back-EMF, so the friction brakes do the work.
+              <strong style={{color:"#7c3aed"}}>One series of apparent-recovery estimates.</strong> {_cohName}{_coh!=="all"?" (a population filter, not a substitute for the battery temperature)":""}. Each point is the charge-direction energy at the battery terminals
+              (estimated from the logged current and voltage) as a fraction of the kinetic energy shed in that braking event
+              (½·m·Δv², m≈{mz&&mz.value?`${mz.value.highway} kg highway/mixed-highway, ${mz.value.urban} kg urban/mixed`:"unavailable"}, class-conditional assumption per drive), pooled over engine-off deceleration steps across the
+              ens-clean drives of this selection ({totN.toLocaleString()} qualifying samples). {bandPct!=null&&mz&&mz.urbanMixedSensitivityRangeKg?<>The apparent-recovery figures below carry a closed-form mass-uncertainty range (about ±{bandPct}%) from the disclosed {mz.urbanMixedSensitivityRangeKg[0]}–{mz.urbanMixedSensitivityRangeKg[1]} kg urban/mixed range; it is kept apart from the point values and is not drawn as a band.</>:null}
+              {lo!=null&&(pl.length>1
+                ? <> <strong style={{color:"#0f172a"}}>Between {loS} and {hiS} km/h the apparent ratio stays within {lo}–{hi}%</strong> (bins with n≥200).</>
+                : <> At {loS} km/h (the only bin with n≥200 at ≥25 km/h) the apparent ratio is <strong style={{color:"#0f172a"}}>{lo}%</strong>.</>)}
+              {(()=>{ const cr=P.filter(p=>p.s<30); return cr.length>0&&<> At crawl speeds the ratio is low ({cr.map(p=>`${p.e}% at ${p.s} km/h${(p.n??0)<200?" (thin)":""}`).join(", ")}); this ratio does not identify why (lower motor speed and friction-brake blending are untested candidates).</>; })()}
               {thin.length>0&&<> Hollow markers ({thin.map(p=>`${p.s} km/h, n=${p.n}`).join("; ")}) fall below the n≥200 validity
               gate and are plotted for continuity only.</>}
               <br/><strong style={{color:"#b45309"}}>This is an apparent kinetic-energy recovery ratio (E_batt-charge / ½mΔv²), not drivetrain
               efficiency.</strong> It does not control for road grade, aero drag, rolling resistance or friction-brake
-              blending, so it is an upper-bounded proxy rather than a measured conversion efficiency — the GPS-altitude
-              channel is the prerequisite for turning it into a closed energy balance.
+              blending, so it is neither an upper nor a lower bound on conversion efficiency; GPS altitude is a prerequisite for a grade-resolved balance.
             </>);})()}
         </div>
       </>)}
 
       {view==="type" && (<>
         <div style={{marginTop:4,marginBottom:8,fontSize:11,color:"#64748b"}}>
-          Regen contributes <strong style={{color:"#22c55e"}}>{S.regenByTypeMeta?.regenShareLoPct}-{S.regenByTypeMeta?.regenShareHiPct}% of all charge energy</strong> depending on drive type — lowest on urban trips (too brief for sustained braking events), highest on mixed-highway drives. All figures are charge-weighted averages across the ensemble-clean subset of {S.totalDrives} drives (M18 ensemble-outlier-excluded); per-drive range is wide (urban trips span roughly 0-51%).
+          {_cohName}: braking regeneration is <strong style={{color:"#22c55e"}}>{_tyMeta.regenShareLoPct}-{_tyMeta.regenShareHiPct}% of all charge energy</strong> depending on drive type (lowest and highest drive type as shown in the chart). All figures are charge-weighted averages across the ensemble-clean drives of this selection (M18 ensemble-outlier-excluded).
         </div>
         <TypeChart/>
         <div style={{marginTop:10,padding:8,background:"#f1f5f9",borderRadius:6,fontSize:10,color:"#64748b"}}>
-          The remaining {S.regenByTypeMeta?.generatorShareLoPct}-{S.regenByTypeMeta?.generatorShareHiPct}% of charge energy is engine-on / non-braking charge (recorded with the engine running and the motor not braking — engine-on coincident pack charge, not a metered generator-output figure). Regen share rises with trip length up to the mixed-distance band, then eases slightly on pure highway where long steady-cruise sections offer fewer braking events relative to total energy throughput.
+          The remaining {_tyMeta.generatorShareLoPct}-{_tyMeta.generatorShareHiPct}% of charge energy is engine-on / non-braking charge (recorded with the engine running and the motor not braking — engine-on coincident pack charge, not a metered generator-output figure).
         </div>
-        {(()=>{const lt=S.regenByType.find(d=>d.type==="Low-torque / aux");
+        {(()=>{const lt=(_tyRows||[]).find(d=>d.type==="Low-torque / aux");
           return lt && (
             <div style={{marginTop:8,padding:8,background:"#f8fafc",border:"1px solid #e2e8f0",borderRadius:6,fontSize:10,color:"#64748b"}}>
               <strong style={{color:"#0f172a"}}>What "Engine-off residual charge" means:</strong> the smallest slice ({lt.kwh} kWh, {lt.pct}%) — charge energy recorded with the <strong>engine off</strong> and motor torque <strong>above</strong> the −15 N·m regen-braking threshold. It isn't attributable to either the generator (engine off) or to target-torque-based regenerative braking (not braking hard enough), so it's a residual/catch-all bucket rather than a named physical process; its composition is not identifiable from pack-shunt telemetry without a source model, and is not attributed to any specific mechanism here. It is deliberately excluded from the motor-regen certainty bracket below (only the Engine-off / braking and Engine-on / braking overlap operating-state bins count toward that range).
@@ -3347,18 +3400,18 @@ function RegenChart() {
       {view==="zone" && (<>
         <ZoneChart/>
         <div style={{marginTop:6,marginBottom:8,fontSize:10,color:"#64748b"}}>
-          Bars = share of engine-off regen captured energy from each speed zone (value shown inside/above bar). <span style={{color:"#7c3aed",fontWeight:600}}>◆</span> = <strong style={{color:"#0f172a"}}>apparent</strong> kinetic-energy recovery proxy — the fraction of shed kinetic energy (½·m·Δv², m≈{(()=>{const mp=S.constantProvenance?.MASS_BY_DRIVE_TYPE_KG?.value;
-            if(!mp) return `1950 kg`;  // legacy flat-constant fallback if config lacks the new block
+          Bars = share of the engine-off braking charge energy from each speed zone (value shown inside/above bar). <span style={{color:"#7c3aed",fontWeight:600}}>◆</span> = <strong style={{color:"#0f172a"}}>apparent</strong> kinetic-energy recovery proxy — the fraction of shed kinetic energy (½·m·Δv², m≈{(()=>{const mp=S.constantProvenance?.MASS_BY_DRIVE_TYPE_KG?.value;
+            if(!mp) return `unavailable`;
             const r=S.constantProvenance?.MASS_BY_DRIVE_TYPE_KG?.urbanMixedSensitivityRangeKg||[];
             return `${mp.highway} kg highway/mixed-highway, ${mp.urban} kg urban/mixed (±sensitivity range ${r[0]}-${r[1]} kg)`;
-          })()}, per-drive assumption) actually recovered into the battery during engine-off decelerations. <strong style={{color:"#0f172a"}}>These are independent metrics that can diverge</strong> — a zone can show near-zero bar share (little regen happens there in absolute terms) alongside a meaningful efficiency (when it does happen, the capture rate is comparable). This is most pronounced at 120+ km/h, where decel events are rare but not physically different in kind; see the zone note for its sample-size caveat.
+          })()}, per-drive assumption) estimated as charge-direction energy at the battery terminals during engine-off decelerations. <strong style={{color:"#0f172a"}}>These are independent metrics that can diverge</strong> — a zone can show near-zero bar share alongside a meaningful apparent ratio (where braking does occur, the apparent ratio is comparable). This is most visible at 120+ km/h; see the zone note for its sample-size caveat.
         </div>
         <div style={{marginTop:10,padding:8,background:"#f1f5f9",borderRadius:6,fontSize:10,color:"#64748b"}}>
-          {(()=>{ const z=[...(S.regenByZone||[])].filter(r=>r.pct!=null).sort((a,b)=>b.pct-a.pct);
+          {(()=>{ const z=[..._zoneRows].filter(r=>r.pct!=null).sort((a,b)=>b.pct-a.pct);
                   const rich=z[0], second=z[1];
-                  const hi=(S.regenByZone||[]).find(r=>r.zone==="120+")||{};
+                  const hi=_zoneRows.find(r=>r.zone==="120+")||{};
                   return (
-          <><strong style={{color:"#0f172a"}}>Apparent KE-recovery ratio is flat, not a step to 100%.</strong> The v6 recompute ({S.totalDrives} drives, engine-off decel steps, KE basis) puts the apparent recovery ratio at <strong style={{color:"#0f172a"}}>{S.regenCaptureMeta?.speedEffMin}-{S.regenCaptureMeta?.speedEffMax}% across the populated zones</strong> — the earlier 100% at 30-60 km/h was a power-availability ceiling (available regen power below the 80 kW BMS clamp), not recovered energy. Real capture peaks in the 50-110 km/h plateau (~{S.regenCaptureMeta?.plateauLo}-{S.regenCaptureMeta?.plateauHi}%) and only falls off at a crawl (0-30: {S.regenCaptureMeta?.crawlEff}%, where drag/rolling dominate). By energy, the {rich?.zone} km/h band is richest ({rich?.pct?.toFixed(1)}%), then {second?.zone} ({second?.pct?.toFixed(1)}%). <strong style={{color:"#b45309"}}>This is an apparent kinetic-energy recovery ratio (E_batt-charge / ½mΔv²), not drivetrain efficiency: it does not control for road grade, aero drag, rolling resistance or friction braking.</strong> The 120+ zone contributes ~{hi.pct?.toFixed(1)}% of captured energy — the engine runs almost continuously there, leaving little engine-off coasting; its {hi.eff?.toFixed(1)}% figure rests on {hi.n} qualifying samples and is ±5-8 pp uncertain.</>
+          <><strong style={{color:"#0f172a"}}>The apparent KE-recovery ratio stays within a band, not a step to 100%.</strong> {_cohName}: the recompute (engine-off decel steps, KE basis) puts the apparent recovery ratio at {_meta.speedEffMin!=null?<strong style={{color:"#0f172a"}}>{_meta.speedEffMin}-{_meta.speedEffMax}% across the populated speed bins</strong>:"unavailable"}{_meta.plateauLo!=null&&<>; the 50-110 km/h range gives ~{_meta.plateauLo}-{_meta.plateauHi}%</>}{_meta.crawlEff!=null&&<> and the ratio is lower at a crawl (0-30: {_meta.crawlEff}%)</>}; this ratio does not identify why.{rich&&<> By energy, the {rich.zone} km/h band is the largest ({rich.pct?.toFixed(1)}%){second?<>, then {second.zone} ({second.pct?.toFixed(1)}%)</>:null}.</>} <strong style={{color:"#b45309"}}>This is an apparent kinetic-energy recovery ratio (E_batt-charge / ½mΔv²), not drivetrain efficiency: it does not control for road grade, aero drag, rolling resistance or friction braking.</strong> {hi.pct!=null&&<>The 120+ zone contributes ~{hi.pct.toFixed(1)}% of that energy; its {hi.eff?.toFixed(1)}% figure rests on {hi.n} qualifying samples.</>}</>
                   ); })()}
         </div>
       </>)}
@@ -11175,7 +11228,7 @@ export default function App() {
           <CycleProjectionChart/>
         </Section>
         <Section seasonAware title="R — Regenerative Energy Analysis" accent="#22c55e">
-          <div style={{fontSize:11,color:"#64748b",marginBottom:10}}>Four views: power &amp; efficiency vs braking speed · apparent KE recovery by pack temperature (M22) · regen % by drive type · contribution by speed zone.</div>
+          <div style={{fontSize:11,color:"#64748b",marginBottom:10}}>Four views: apparent KE recovery vs braking speed · apparent KE recovery by pack temperature (M22) · charge by operating state · contribution by speed zone.</div>
           <RegenChart/>
         </Section>
         <Section title="0 — BMS SoC vs Driver Display (VCM) — Non-Linear Mapping" accent="#22c55e">
@@ -12239,10 +12292,10 @@ export default function App() {
 
           <EvidenceGroup title="Regenerative braking">
             <ConclusionItem status="derived"
-              title="Apparent kinetic-energy recovery proxy rises with speed to a plateau"
-              metric={`plateau ${S.regenCaptureMeta?.plateauLo}\u2013${S.regenCaptureMeta?.plateauHi}% · crawl ${S.regenCaptureMeta?.crawlEff}% at low speed`}
-              text="The apparent kinetic-energy recovery proxy (measured pack charge ÷ assumed-mass ½m·Δv², no grade, friction, aero or rolling loss) climbs from very low at crawl speeds to a plateau on the arterial/highway range. On this single-front-motor FWD vehicle, low-speed braking recovers little and shifts more deceleration to friction brakes."
-              caveat="A capture proxy, not a closed energy balance; a defensible balance needs the GPS-altitude grade channel, now present on later drives."
+              title="Apparent kinetic-energy recovery proxy is lower at crawl speeds than at arterial/highway speeds"
+              metric={`all drives · 50\u2013110 km/h ${S.regenCaptureMeta?.plateauLo}\u2013${S.regenCaptureMeta?.plateauHi}% · 0\u201330 km/h ${S.regenCaptureMeta?.crawlEff}%`}
+              text="The apparent kinetic-energy recovery proxy (charge-direction energy at the battery terminals, estimated from the logged current and voltage, ÷ assumed-mass ½m·Δv²; not corrected for grade, friction braking, aero or rolling losses) is lower at crawl speeds and higher on the arterial/highway range; this ratio does not identify why."
+              caveat="An apparent-recovery proxy, not a closed energy balance; a defensible balance needs the GPS-altitude grade channel, now present on later drives."
             />
           </EvidenceGroup>
 
@@ -12370,7 +12423,7 @@ export default function App() {
           </GeneralGroup>
 
           <GeneralGroup title="Regenerative braking">
-            <GeneralConclusion status="derived" text="The apparent kinetic-energy recovery proxy (assumed mass, no grade/loss terms) rises with speed to a plateau and is weak at crawl; on this single-front-motor FWD vehicle, low-speed braking recovers little and leans on the friction brakes." metric={`plateau ${S.regenCaptureMeta?.plateauLo}–${S.regenCaptureMeta?.plateauHi}%`} />
+            <GeneralConclusion status="derived" text="The apparent kinetic-energy recovery proxy (assumed mass, not corrected for grade or losses) is low at crawl speeds and higher at higher speeds; this ratio does not identify why." metric={`all drives · apparent ratio 50\u2013110 km/h ${S.regenCaptureMeta?.plateauLo}–${S.regenCaptureMeta?.plateauHi}%`} />
           </GeneralGroup>
 
           <GeneralGroup title="Driving-condition effects">
