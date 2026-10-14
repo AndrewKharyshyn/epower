@@ -60,6 +60,16 @@ const d=dom.window.document,sleep=ms=>new Promise(r=>setTimeout(r,ms)),click=el=
       const covC=A.seasonalCharts.charts.RegenCaptureMeasured.coverage[coh];
       ok(coh+': the caption names the cohort'+(coh==='all'?'':` with its coverage (${covC.n_drives} drives, ${covC.km} km)`), text.includes(coh==='all'?'All drives':{warm:'Warm cohort',shoulder:'Shoulder cohort',cold:'Cold cohort'}[coh]+` (${covC.n_drives} drives`) && (coh==='all'||text.includes(`${covC.km} km)`)));
       ok(coh+': no undefined / empty-range artefact in the temperature view', !/undefined|~-%|NaN/.test(secEl().textContent));
+      const cs=A.regenLegacySensitivity&&A.regenLegacySensitivity.cohorts[coh];
+      if(cs){
+        const ob=[...d.querySelectorAll('button')].find(b=>b.textContent.includes('Sensitivity of the apparent KE recovery to the extraction rule')&&b.getAttribute('aria-expanded')==='false'); if(ob){click(ob);await sleep(200);}
+        const note=d.querySelector('[data-m440="note"]');
+        const nTemp=Object.values(cs.variants).filter(v=>v.temp).length;
+        ok(coh+': the sensitivity note is rendered in the temperature view with one row per variant that acts on it ('+nTemp+')', !!note && note.querySelectorAll('tbody tr').length===nTemp && note.textContent.includes('Material temperature bins (n≥200 under the legacy)'));
+        const v6=cs.variants.V6_offset&&cs.variants.V6_offset.temp;
+        if(note&&v6){ const bins=Object.entries(v6).filter(([b,r])=>r.decision!=='notEvaluable'&&typeof r.delta==='number'); const mat=Object.entries(v6).filter(([b,r])=>r.decision==='material'&&r.validLegacy).length;
+          ok(coh+': the offset row states its material-bin count from the payload ('+mat+' of '+bins.length+' evaluable)', note.textContent.includes('Declared current offset applied') && note.textContent.includes(mat+' of '+bins.length+' evaluable')); }
+      }
       ok(coh+': no retired wording in the temperature view', !/real data, not a model|Measured capture is a much flatter/.test(text));
     }
     // speed view
