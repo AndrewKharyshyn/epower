@@ -47,3 +47,11 @@ Required next to the table: "Sensitivity of the observed share and the Kaplan-Me
 ## 8. Changes from Rev 1
 
 Fill rule restated and KAT (i)/(ii) corrected (B1); `eventTimeChanged` expected 0 and a stop condition, KAT (iv) an equality test, nesting checks and `censoringTimeChanged` added (B2); `reasonChanged` added, the audit's counts only as known-answer targets (B3); "3 fill settings", the reason split reported separately (B4); dropped/added split by status (B5); S0 stays the record, script-written statement, Director escalation, wording (B6); stage seconds, no tipping points, sample-interval median/p95 (Director follow-ups).
+
+## 9. Rev 2.1 (2026-10-14, Director confirmation of Rev 2: approve with clarifications C1-C5, before any run)
+
+- **C1 (section 2).** The fill also changes the oil population (the rule needs at least 30 valid oil seconds, filled seconds counted) and `eventsAfterGapOver10s` (the gap is measured to the previous filled-or-valid second). Both are reported per F as descriptive quantities and are not defects.
+- **C2 (`reasonChanged`).** Per headline cell and for every (F, X) other than (3, 10): the number of drives that are censored in both S0 and the variant and whose reason label under (F, X) differs from their label under (3, 10), by direction. If no cell reproduces the audit's counts, the mismatch is reported and the definition kept.
+- **C3 (stop and display).** Failure of G1, G3, the nesting checks, a known-answer test, `eventTimeChanged != 0` or a censoring shift larger than |dF| means no leaf is written and the case goes to the Director. A difference in reading class between settings means the leaf is written and the display waits for the Director.
+- **C4 (statement).** "Same class" = both readings have the same class in all 3 settings and are supported in all 3. The M435 sentence "the headline classes are unchanged" is replaced only in the dashboard text; its old wording becomes a language-gate rule with the M326 ledger convention.
+- **C5 (KATs).** KAT (v) adds a drive whose last valid second is exactly X s before the grid end: tripEnd (the comparison is <=). KAT (iv) uses seed 42.
