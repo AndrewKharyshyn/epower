@@ -1,0 +1,83 @@
+{
+ "reproduced": {
+  "pack": {
+   "n": 350,
+   "clusters": "arr98/dep97/wk22",
+   "tau": 11.552,
+   "k": 0.086565,
+   "k_ci": [
+    0.07179,
+    0.10235
+   ],
+   "tau_ci": [
+    9.77,
+    13.929
+   ],
+   "hl_ci": [
+    6.772,
+    9.655
+   ],
+   "iid4000": [
+    9.908,
+    13.746
+   ],
+   "dep": [
+    9.908,
+    13.623
+   ],
+   "wk": [
+    9.616,
+    13.66
+   ],
+   "nondecay": "0 all methods",
+   "loo_k": [
+    0.08425,
+    0.08859
+   ],
+   "loo_slope_ge0": "0/98"
+  },
+  "coolant": {
+   "n": 458,
+   "clusters": 106,
+   "tau": 3.403,
+   "tau_ci": [
+    3.016,
+    3.905
+   ],
+   "k": 0.29384
+  },
+  "oil": {
+   "n": 447,
+   "clusters": 106,
+   "tau": 3.45,
+   "tau_ci": [
+    3.185,
+    3.766
+   ],
+   "k": 0.28983
+  }
+ },
+ "mismatches": [
+  "No numeric mismatch (all claimed values match to printed precision, max diff <0.005 h; RNG stream identical).",
+  "Spec G1 says pack = 97 arrival days; data give 98 (97 is the departure-day count): stale spec text."
+ ],
+ "cluster_findings": [
+  "Gaps, arrival and departure days of all 1255 pairs match drive_master (date+time).",
+  "Arrival day is sound: lag-1 residual corr across day boundaries ~0.04 (pack); 3-day and 7-day moving-block bootstraps give pack tau [9.71,14.08], [9.58,13.89]. Residual ICC by arrival day 0.28/0.16/0.16 (pack/coolant/oil).",
+  "Arrival/iid k-width ratio only 1.08/1.02/1.07 (Kish 68 of 350 pack); ISO-week (14.6 effective) is coarse: oil 32% narrower than iid. 'All methods agree' is fair on tau (bounds within ~0.3 h) but means dependence adds little here, not that it is absent."
+ ],
+ "method_findings": [
+  "Slope-scale vs tau-scale percentile identical to 3 decimals (no non-decaying draws, 1/x monotone): spec item 4 immaterial here; old iid1000 vs iid4000 gap is MC noise (0.06 h).",
+  "Unbounded/+inf rule never triggered (0 non-decaying, 0 undefined, LOO slope>=0 count 0): exercised only by the synthetic test.",
+  "Pack support: 28% of y exactly 0 (43% at gap<1h), 18% >0. gap<1h subset (n=202) has Sen k=0.0; gap>=1h (n=148) k=0.0767 (tau 13.0 h) vs pooled 0.0866, inside CI. Disclose: tau rests on the 148 long-gap pairs; y=0 mass suggests quantisation/censoring."
+ ],
+ "independence": "Own Sen+bootstrap code; reused only M429_pairs.json and the _sen_slope definition. Did not read soak_tau, m429_soak, tests, M429_result.json, CHANGELOG.",
+ "verdict": "reproduced",
+ "audit_files": [
+  "analyses/M429_audit/audit_soak.py",
+  "analyses/M429_audit/crosscheck.py",
+  "analyses/M429_audit/diagnostics.py",
+  "analyses/M429_audit/audit_result_full.json",
+  "analyses/M429_audit/diagnostics.json"
+ ]
+}

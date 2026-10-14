@@ -100,6 +100,17 @@ if _oot:
     ok("A2 REQUIRED M428 planning-threshold and conditional-on-the-fitted-basis-model disclosures are rendered", all(("declared planning choices, not validated" in t) and ("conditional on the fitted basis model" in t) and ("not equivalence" in t) for t in _hv.values()))
     ok("A2 REQUIRED M428 the STOP absent-table drives are described as having no engine-on second (counts from the payload)",
        all(("The STOP table lacks %d basis and %d later drives that have no engine-on second" % (_oot["stop"]["absentFromTable"]["basis"], _oot["stop"]["absentFromTable"]["later"])) in t for t in _hv.values()))
+# M429 (analyses/M429_spec.md Rev 2, Director ruling): the soak-interval text renders the payload (pack interval, pair funnel, method rows, post-hoc gap split) and labels the split as not pre-registered
+_hsc = A.get("heatSoakCarryover") or {}
+if _hsc.get("soakTauGapSplit"):
+    _sk = {k: t for k, t in T.items() if "How the soak interval was built" in t}
+    _lo, _hi = _hsc["soakTauCI"]
+    ok("A2 REQUIRED M429 soak-interval text rendered in the thermal dumps (all / warm / shoulder)", len(_sk) >= 3, f"{sorted(_sk)}")
+    ok("A2 REQUIRED M429 the pack headline interval, the pair funnel and the cluster count equal the payload",
+       all((("[%s, %s] h" % (_lo, "unbounded" if _hi is None else _hi)) in t) and ("Pairs: %d consecutive drive pairs, %d with a recorded ambient, %d in the fit" % (_hsc["nPairs"], _hsc["nPairsAmbient"], _hsc["tauFitN"])) in t
+           and ("arrival-day clusters (headline) [%s, %s] (%d clusters)" % (_lo, "unbounded" if _hi is None else _hi, _hsc["soakTauCiMethod"]["nClusters"])) in t for t in _sk.values()))
+    ok("A2 REQUIRED M429 the gap split is labelled post-hoc and not pre-registered, and the method-agreement sentence reads 'weak ... not absent'",
+       all(("Post-hoc, not pre-registered (blind-audit finding)" in t) and ("between-day dependence is weak in these data, not absent" in t) and ("single-exponential model, not model error" in t) for t in _sk.values()))
 # A3 (M427, audit F01): the cell-spread trend wording follows the released interval in every rendered tab/mode (a sentence cannot say "spans zero" or "no resolved trend" beside an interval that excludes zero)
 _cs_ci = A["degradationTrends"]["cellSpread"]["clusterRobustOLS"]["ci95"]
 _cs_bad = LG.cell_spread_trend_violations(_cs_ci, T)

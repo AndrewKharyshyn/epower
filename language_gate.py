@@ -321,6 +321,8 @@ RULES = [
          rx=r"\bgenerating script for this key is not present\b|\bdoes not reflect the current 410 drive corpus\b|\b374 drive m256 corpus basis\b"),
     Rule("M427-F18-isolates", "regex", "M427/audit F18: matched coarse RPM/load or road-speed cells give a conditional contrast; they do not isolate enrichment, cold friction or strategy (coolant, oil, catalyst, route and demand stay entangled)",
          rx=r"\bisolates? enrichment cold friction\b|\bisolates? series hybrid strategy\b|\bisolates? (?:the )?(?:enrichment|friction) (?:and|or) (?:the )?cold\b"),
+    Rule("M429-soak-ratio", "regex", "M429/audit F06 (+F05): the coolant and oil tau compared with the pack tau is a point-estimate ratio of fitted summaries with the interval overlap stated; it is not 'physically consistent' evidence and not a 'cross-check that the fit machinery behaves sensibly' (the pack fit has a negative predictive R2); the pooled pack tau rests on parks of an hour or longer (gap split), not on the short gaps",
+         rx=r"\bphysically consistent with coolant and oil\b|\bfit machinery behaves sensibly\b|\bindependently known faster cooling\b|\bshort gap behavior it s best supported by\b"),
 ]
 
 
