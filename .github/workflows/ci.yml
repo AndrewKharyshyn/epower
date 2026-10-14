@@ -119,6 +119,7 @@ jobs:
           python tools/parity_load_drive.py --fuel 20
           node test_gtr_gate.js
           node test_fuel_tab.js
+          node test_regen_axes.js
       - name: Release gate
         run: python release_check.py
         env: {XT_RAW_DIR: raw}
