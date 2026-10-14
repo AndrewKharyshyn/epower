@@ -110,6 +110,8 @@ assert sum(B["byCohort"][c]["warmupLag"]["coldStarts"] for c in B["byCohort"]) <
 # --- content rules: censoring reading, no survival estimate, winter suppressed, no forbidden wording
 txt = json.dumps(B).lower()
 assert "right-censored" in txt and "reachers only" in txt and "not a time-to-event estimate" in txt and ("winter stays unobserved" if COLD_OPEN else "winter stays suppressed") in txt and "not identifiable" in txt
+import re as _re
+txt = _re.sub(r"kaplan-meier \(product-limit\) estimate", "", txt)      # M435: Kaplan-Meier only as the named estimate (language rule M435-thermal-tte)
 assert not any(w in txt for w in ("kaplan", "survival", "failed to warm up", "failure to warm up", "did not warm up", "significant", "confirmed", "robust"))
 assert (B["coldCohort"]["inferenceAvailable"] is True) if COLD_OPEN else (B["coldCohort"]["suppressed"] == "below_min_support" and B["coldCohort"]["inferenceAvailable"] is False)
 print("OK test_thermal_support_ledger")
