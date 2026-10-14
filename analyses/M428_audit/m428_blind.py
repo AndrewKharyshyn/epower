@@ -199,5 +199,5 @@ def conv(o):
     return o
 
 
-json.dump(conv(result), open('audit/m428_blind_out.json', 'w'), indent=1)
+json.dump(conv(result), open('audit/m428_blind_out.json', 'w', encoding='utf-8'), indent=1)
 print('done')
