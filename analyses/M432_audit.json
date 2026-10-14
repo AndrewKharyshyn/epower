@@ -1,0 +1,15 @@
+{"reproduced":{"S0":"483 drv/115 d, 9036.4 km, ev 3202.8, 35.444%; CI [31.69,40.47]; Kish days (km wt) 32.2",
+"G1 parity":"0 ev_valid mismatches, ev_dist/cov max diff 0.0 (578 drives)",
+"delta_pp":"T100 -1.773; T200 -1.621; T800 +0.968; nearest 1.0 -0.165 (93.2/95.8%, lost -0.265); 1.5 -0.024 (98.3/99.6%); 0.5 -0.508 (30.4/21.3%, lost +5.7316, not comparable); bwd6 -0.054; fwd6 +0.132 (99.8%); bwd3 same-tol -0.072; B0 +0.341; B2 +0.224; B5 -0.404; B10 -1.149; G.98 0/-0.364 (94.2%); G.90 gained +0.084",
+"factorial":"144/144 comparable; [-2.346,+1.475]; min bwd A1.0 T100 B5; max fwd A3.0 T800 B0 (S0 range 33.10-36.92)",
+"unknown_rpm":"0.271% of grid s"},
+"mismatches":["A=0.5 support lost +5.7316 (claim +5.731): rounding only; nothing else differs at 3 decimals; bootstrap bounds identical at seed 42"],
+"method_findings":[
+"Q1: T effect is real and physical, not alignment artefact. Band 100-800 rpm = 2.12% of known grid s (14,964 s; 100-200 0.12%, 200-400 1.27%, 400-800 0.73%), 98% while moving. 86% of native band samples are engine spin-down (high->low; 1165 passages >800->0 take median 3.4 s), 14% dips inside on-runs, engine starts jump through the band (7 samples). Band km: 165.0 km (1.83% of km) in 100-400, 89.9 km in 400-800; equals the T deltas (-160.2/+87.5 km after debounce). 99.99% of <=100 are exact 0. Only 112 band s lie >1 s from a native sample. So T=400 decides whether unfuelled coast-down counts as 'off': a definition choice, ~1.8 pp.",
+"Q2: three pieces sum to total exactly (residual 0 for all 19 rows); it is an algebraic identity, so it does not test anything. Delta is unobserved on dropped drives (slow-poll, higher-share): carry-back to P0 is untested.",
+"Delta for nearest A<3 and G is one-directional by construction (A=1.0: 0 drives up, 236 down): unknown seconds are never off, so it is partly coverage loss not reclassification.",
+"Same-tolerance backward 3.0 s is the identical alignment to core matched backward A=1.5 (same numbers); it is not a distinct stress row.",
+"Q3: no sign flip by poll era (P0 fast 154 drv share 41.4%, slow 329 33.8%). bwd6 fast -0.045/slow -0.057; fwd6 +0.056/+0.153; fwd-bwd gap doubles in slow era. At A=1.0 slow era keeps 90.3% (survivor selection).",
+"Q4: debounce signs are mixed per drive: B0 30.0% drives up/1.0% down; B5 4.6% up/26.3% down (pp +0.016/-0.420); B10 12.2%/34.6%, max single drive 11.2 pp. T monotone (T100 0 up, T800 0 down). Direction bwd6 46.6% up/44.7% down: ~zero net hides cancellation."],
+"independence":"Reused only released _prep_bytes and _series; own alignment, debounce, validity, bootstrap, three-piece split. Did not read tools/m432_ev_sens.py, its test, M432_result*, or CHANGELOG. Author code review not done (forbidden).",
+"verdict":"reproduced","files":"analyses/M432_audit/{extract.py,analyze.py,extra.py,audit_results.json,factorial.csv}"}

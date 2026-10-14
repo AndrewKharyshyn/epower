@@ -6697,6 +6697,35 @@ function SocHysteresisV2() {
    speed window — which is why it went unobserved for so long. Every figure
    binds; nothing here is hand-typed. */
 /* ─── M53: Pure-Electric Traction Census ─────────────────────────────────── */
+function DetectorSensitivityPanel(){
+  // M432 (audit F04): range of the engine-off distance share over declared detector conventions; every figure binds to S.evTraction.detectorSensitivity (script-written, tools/m432_ev_sens.py).
+  const D=S.evTraction?.detectorSensitivity;
+  if(!D||!D.released) return null;
+  const f=(v,d=1)=>typeof v==="number"?v.toFixed(d):"n/a";
+  const sg=(v,d=2)=>typeof v==="number"?(v>0?"+":v<0?"−":"")+Math.abs(v).toFixed(d):"n/a";
+  const rng=(a,d=1)=>Array.isArray(a)?`${f(a[0],d)} to ${f(a[1],d)}`:"n/a";
+  const th={textAlign:"left",padding:"3px 8px",borderBottom:"1px solid #cbd5e1",fontWeight:600,color:"#0f172a",fontSize:10};
+  const td={padding:"3px 8px",borderBottom:"1px solid #e2e8f0",fontSize:10,verticalAlign:"top"};
+  const AX={T:"RPM threshold for engine-off",A:"RPM alignment tolerance (nearest)",D:"alignment direction (matched width)",B:"debounce (samples)"};
+  const rows=D.oneAtATime.filter(r=>r.role!=="released");
+  const F=D.factorial, R=D.released, ESS=R.essDays;
+  const roleText=r=>r.duplicateOf?`stress row, same convention as ${r.duplicateOf}, outside the range`:r.role==="core"?(r.comparable?"core, comparable":"core, not comparable"):(r.comparable?"stress row, outside the range":"stress row, support collapse, not comparable");
+  return (
+    <div data-detector-sensitivity="1" style={{padding:10,background:"#f8fafc",border:"1px solid #cbd5e1",borderRadius:8,marginBottom:12,fontSize:11,color:"#374151",lineHeight:1.6}}>
+      <strong style={{color:"#0f172a"}}>Detector-sensitivity range of the engine-off distance share (M432, audit F04).</strong> The estimated RPM-defined engine-off share is {f(R.sharePct,1)}% of distance
+      ({R.nValid} drives, {f(R.kmValid,1)} km); its day-clustered sampling interval (95%, {R.nDays} days, {f(ESS,1)} effective days) is {rng(R.samplingCi95,1)}%.
+      The same drives were re-evaluated with other declared detector conventions (speed, odometer scale and the distance denominator held fixed). The primary result is the range along each axis, one axis at a time:
+      {" "}{Object.entries(D.axisRanges).map(([k,v])=>`${AX[k]} ${rng(v.sharePct,1)}%`).join("; ")}.
+      The RPM threshold moves the share most, and it is a definition choice (how much engine spin-down counts as engine-off), not an error estimate. The alignment-tolerance effect is partly coverage loss and one-directional by construction (a second without an engine reading is never counted as engine-off); the debounce acts in opposite directions on different drives.
+      These are ranges over declared conventions, not confidence intervals and not a bound on the true share; they are deterministic given the data and are not merged with, or compared with, the sampling interval.
+      <table style={{borderCollapse:"collapse",margin:"6px 0"}}><thead><tr><th style={th}>One axis at a time</th><th style={th}>Setting</th><th style={th}>Paired effect, pp (95% day-clustered CI)</th><th style={th}>Common support (drives / km)</th><th style={th}>Support lost / gained, pp</th><th style={th}>Role</th></tr></thead>
+        <tbody>{rows.map((r,i)=>(<tr key={i}><td style={td}>{AX[r.axis]||(r.axis==="G"?"coverage gate":r.axis)}</td><td style={td}>{r.value}</td><td style={td}>{sg(r.detectorPp,2)} ({sg(r.detectorPpCi95?.[0],2)}, {sg(r.detectorPpCi95?.[1],2)})</td><td style={td}>{f(r.nCommonPct,1)}% / {f(r.kmCommonPct,1)}%</td><td style={td}>{sg(r.supportLostPp,2)} / {sg(r.supportGainedPp,2)}</td><td style={td}>{roleText(r)}</td></tr>))}</tbody></table>
+      <div style={{marginTop:4}}>Joint outer envelope (secondary): over the {F.nCells}-cell factorial of {F.nComparable} comparable conventions the share runs from {f(F.sharePctRange[0],1)} to {f(F.sharePctRange[1],1)}% ({sg(F.deltaPpRange[0])} to {sg(F.deltaPpRange[1])} percentage points as a paired difference on the drives valid under both settings). Lowest cell {sg(F.minCell.detectorPp,2)} pp ({F.minCell.direction} {F.minCell.A} s, threshold {F.minCell.thresholdRpm} rpm, debounce {F.minCell.debounceSamples}); highest cell {sg(F.maxCell.detectorPp,2)} pp ({F.maxCell.direction} {F.maxCell.A} s, threshold {F.maxCell.thresholdRpm} rpm, debounce {F.maxCell.debounceSamples}).
+      A variant is comparable only if it keeps at least {f(100*D.comparability.minShare,0)}% of the released drives and of the released distance. The paired effect is not observed on drives that fail a variant&rsquo;s validity gate, so it is not carried back to them.</div>
+      <div style={{marginTop:4}}>Basis: {D.label}. Evaluated on {D.evaluatedOn.nWithResult} of {D.evaluatedOn.nDrives} drives with a result{S.totalDrives&&S.totalDrives!==D.evaluatedOn.nDrives?`; the corpus now has ${S.totalDrives}, so this range is stale until the study is re-run`:""}. Re-run on demand; not for article use.</div>
+    </div>
+  );
+}
 function EvTraction() {
   const _coh=useCohort();
   if(cohortNoData(_coh,["EvTraction"])) return <ColdNoData chart="Pure-Electric Traction" cohort={_coh}/>;
@@ -6754,6 +6783,8 @@ function EvTraction() {
         <Kpi label="longest unassisted" value={E.runMaxUnassistedKm} unit="km" color="#0369a1"
              sub="regen < 20% of throughput"/>
       </div>
+
+      {_coh==="all"&&<DetectorSensitivityPanel/>}
 
       {/* EV share by condition class */}
       <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{overflow:"hidden"}}>
