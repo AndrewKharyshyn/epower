@@ -3754,6 +3754,11 @@ function WarmupCurve() {
     return up.concat(lo).join(" ");
   };
   const line = pts => pts.map(p=>`${PL+xS(p.km)},${PT+yS(p.med)}`).join(" ");
+  // M435 (audit F17): beyond the distance where fewer than 10 drives or 5 days still contribute, the curve averages only the drives still running: drawn de-emphasised
+  const _cs = S.thermalSupportLedger?.timeToThreshold?.curveSupport?.[_coh] || {};
+  const endKm = k => (_cs[k] && _cs[k].supportEndsKm != null) ? _cs[k].supportEndsKm : null;
+  const solidPts = s => { const e = endKm(s.key); return e == null ? s.d.points : s.d.points.filter(p => p.km < e); };
+  const tailPts = s => { const e = endKm(s.key); if (e == null) return []; const t = s.d.points.filter(p => p.km >= e); const l = s.d.points.filter(p => p.km < e); return l.length && t.length ? [l[l.length-1]].concat(t) : t; };
 
   return (
     <div>
@@ -3792,11 +3797,12 @@ function WarmupCurve() {
         {/* median lines + points */}
         {series.map(s=>(
           <g key={s.key}>
-            <polyline points={line(s.d.points)} fill="none" stroke={s.color} strokeWidth={2.4}/>
+            <polyline points={line(solidPts(s))} fill="none" stroke={s.color} strokeWidth={2.4}/>
+            {tailPts(s).length>1 && <polyline points={line(tailPts(s))} fill="none" stroke={s.color} strokeWidth={1.4} strokeDasharray="3 3" opacity={0.4}/>}
             {s.d.points.map((p,i)=>{
               const cx=PL+xS(p.km), cy=PT+yS(p.med), isH=hover&&hover.k===s.key&&hover.i===i;
               return (
-                <g key={i} onMouseEnter={()=>setHover({k:s.key,i})} onMouseLeave={()=>setHover(null)} style={{cursor:"pointer"}}>
+                <g key={i} onMouseEnter={()=>setHover({k:s.key,i})} onMouseLeave={()=>setHover(null)} style={{cursor:"pointer"}} opacity={endKm(s.key)!=null&&p.km>=endKm(s.key)?0.4:1}>
                   <circle cx={cx} cy={cy} r={isH?6:3.4} fill={s.color} stroke="#fff" strokeWidth={1}/>
                   {isH&&(
                     <g>
@@ -8075,7 +8081,7 @@ function SocBalancedFuel() {
 
 
 // M418 (analyses/M418_spec.md Rev 1, Director ruling analyses/M418_director_ruling_2026-10-12.md): support lines of the thermal sections, rendered from the thermalSupportLedger block of the selected
-// cohort (all / warm / shoulder; nothing in compare mode or for the suppressed cold cohort). Counts only: no estimate, no survival model; every sentence states its own warm-start definition.
+// cohort (all / warm / shoulder; nothing in compare mode or for the suppressed cold cohort). Counts only (the time-to-threshold tables are a separate component); every sentence states its own warm-start definition.
 function ThermalSupport({part}) {
   const _coh=useCohort();
   const L=S.thermalSupportLedger;
@@ -8087,12 +8093,12 @@ function ThermalSupport({part}) {
   const box={fontSize:10,color:"#475569",background:"#f8fafc",border:"1px solid #e2e8f0",borderRadius:6,padding:"6px 10px",margin:"6px 0",lineHeight:1.5};
   const CL={urban:"Urban",mixed:"Mixed",mixed_highway:"Mixed highway",highway:"Highway"};
   const pl=(n,one,many)=>n+" "+(n===1?one:many);
-  const note=(rs)=><div style={{marginTop:3,color:"#64748b"}}>Censored: the drive ended (key-off) before the threshold{rs?". Risk-set rows are counts, not a time-to-event estimate; ":"; "}censoring by trip length may be informative and is not modelled; winter and the cold cohort stay suppressed. Single vehicle, one driver, May{"–"}October (ambient 3{"–"}38 {"°"}C).</div>;
+  const note=(rs)=><div style={{marginTop:3,color:"#64748b"}}>Censored: the drive ended (key-off) before the threshold{rs?". Risk-set rows are counts, not a time-to-event estimate; ":"; "}censoring by trip length may be informative (the time-to-threshold tables below carry the worst-case bounds and the hazard-tilt sensitivity); winter and the cold cohort stay suppressed. Single vehicle, one driver, May{"–"}October (ambient 3{"–"}38 {"°"}C).</div>;
   if(part==="lag"){
     const W=E.warmupLag; if(!W) return null;
     const cold=W.coldStarts, oilN=W.nWithOil;
     const med=(t)=>{ const c=W.coolant[t]; const half=cold>0 && c.reached/cold<0.5;
-      return <div key={"c"+t}>Coolant {t} {"°"}C: {c.reached} of {cold} cold starts reached it; {c.censored} right-censored (observation ended before the threshold; median observed span {rd(c.censoredObservedSeconds&&c.censoredObservedSeconds.median)} s). Median of reachers only ({c.reached} of {cold}); censored drives excluded, so it understates the time for all cold starts{half?"; cohort median not identifiable from these data":""}.</div>; };
+      return <div key={"c"+t}>Coolant {t} {"°"}C: {c.reached} of {cold} cold starts reached it; {c.censored} right-censored (observation ended before the threshold; median observed span {rd(c.censoredObservedSeconds&&c.censoredObservedSeconds.median)} s). Median of reachers only ({c.reached} of {cold}); censored drives excluded, so it understates the time for all cold starts{half?"; cohort median not identifiable without an assumption on censoring":""}.</div>; };
     const oil=(t)=>{ const o=W.oil[t];
       return <div key={"o"+t}>Oil {t} {"°"}C: {o.reached} of {oilN} cold starts with an oil channel reached it ({o.atOrAboveAtStart} already at or above the threshold at the start, counted at time 0); {o.censored} right-censored. Median of reachers only.</div>; };
     const r80=((W.coolant["80"]||{}).riskSet)||[];
@@ -8112,6 +8118,9 @@ function ThermalSupport({part}) {
       <strong style={{color:"#0f172a"}}>Support (M418; ledger counts, not estimates).</strong>
       {cls.filter(k=>H.accepted[k]&&H.accepted[k].n>0).map(k=>{ const a=H.accepted[k];
         return <div key={"h"+k}>{CL[k]}: {a.reached} of {a.n} drives reached 80 {"°"}C ({Math.round(100*a.shareReached)}%) on {a.nDays} days, including {pl(a.startedAtOrAbove80,"warm restart","warm restarts")} (first coolant {"≥"}80 {"°"}C, counted as reached at about 0 min); cold starts: {a.coldStartAndReached} reached, {a.coldStartNotReached} did not reach it within the drive.</div>; })}
+      {(()=>{ const cs=S.thermalSupportLedger?.timeToThreshold?.curveSupport?.[_coh]; if(!cs) return null;
+        return <div data-m435-curve="1">Distance-grid support (M435; drives / days still running at each grid distance, support ends where fewer than 10 drives or 5 days remain): {cls.filter(k=>cs[k]&&cs[k].nDrives>0).map(k=>{ const c=cs[k];
+          return <span key={k} style={{display:"block"}}>{CL[k]}: {c.grid.map(g=>g.km+" km "+g.nDrives+"/"+g.nDays).join(" · ")}; {c.supportEndsKm==null?c.sentence:"support ends at "+c.supportEndsKm+" km: "+c.sentence}.</span>; })}</div>; })()}
       <div>Warm-up curve drives per class: {cls.map(k=>CL[k].toLowerCase()+" "+Cu.accepted[k]).join(", ")}; {exN(Cu.excluded,"warmStart")} warm starts excluded (warm-start rule of this curve: first valid coolant {">"}50 {"°"}C; differs from the warm-up lag).</div>
       {note(false)}
     </div>;
@@ -8124,6 +8133,59 @@ function ThermalSupport({part}) {
     </div>;
   }
   return null;
+}
+
+function TimeToThresholdPanel() {
+  // M435 (audit F17; spec analyses/M435_spec.md Rev 2.1/2.2): censoring-aware time-to-threshold tables. Every number binds to S.thermalSupportLedger.timeToThreshold (script-written, tools/m435_tte.py).
+  const _coh=useCohort();
+  const T_=S.thermalSupportLedger?.timeToThreshold;
+  if(!T_ || _coh==="compare" || _coh==="cold") return null;
+  const K=(T_.cohorts||{})[_coh]; if(!K) return null;
+  const R=T_.requiredSentences||{};
+  const f=(v,d=3)=>typeof v==="number"?v.toFixed(d):(v==null?"—":String(v));
+  const ci=(a,d=3)=>Array.isArray(a)?`[${f(a[0],d)}, ${f(a[1],d)}]`:"—";
+  const th={textAlign:"left",padding:"3px 6px",borderBottom:"1px solid #cbd5e1",fontWeight:600,color:"#0f172a",fontSize:9};
+  const td={padding:"3px 6px",borderBottom:"1px solid #e2e8f0",fontSize:9,verticalAlign:"top"};
+  const box={fontSize:10,color:"#475569",background:"#f8fafc",border:"1px solid #e2e8f0",borderRadius:6,padding:"6px 10px",margin:"6px 0",lineHeight:1.5};
+  const q=o=>o?`${f(o.p25,1)} / ${f(o.median,1)} / ${f(o.p75,1)}`:"—";
+  const NAME={coolant:"Coolant",oil:"Oil"};
+  const cells=[]; ["coolant","oil"].forEach(fl=>["60","70","80"].forEach(t=>{ const c=(K[fl]||{})[t]; if(c) cells.push([fl,t,c]); }));
+  const PH=T_.postHoc?.stoppingProfile;
+  return (
+    <div data-m435="tte" style={box}>
+      <strong style={{color:"#0f172a"}}>Time to threshold, censoring-aware (M435, audit F17).</strong> Scope: {R.R4}. {T_.populationNote}
+      {" "}A drive that ended before the threshold is right-censored (observation ended before the threshold). The observed share before key-off is identified without an assumption; the Kaplan-Meier (product-limit) estimate needs one (below).
+      {cells.map(([fl,t,c])=>(
+        <div key={fl+t} data-m435-table={fl+t} style={{marginTop:8}}>
+          <strong style={{color:"#0f172a"}}>{NAME[fl]} {t} {"°"}C — Kaplan-Meier (product-limit) estimate of the time to {t} {"°"}C.</strong>
+          {" "}{c.n} cold starts on {c.days} days (effective days {f(c.essDays,1)}); {c.reached} reached it; right-censored (observation ended before the threshold): {c.censoredTripEnd} at trip end, {c.censoredChannelLoss} by channel loss; {c.eventsAfterGapOver10s} events after a gap over 10 s; start temperature quartiles {q(c.startC)} {"°"}C; lag to the first valid sample {q(c.lagToFirstValidS)} s{fl==="oil"?`; ${c.atOrAboveAtStart} already at or above the threshold at the start (time 0)`:""}. {R.R4}.
+          <div>This {R.R1}.</div>
+          <div>The Kaplan-Meier (product-limit) estimate {R.R2}.</div>
+          <table style={{borderCollapse:"collapse",margin:"4px 0"}}><thead><tr><th style={th}>Within (s)</th><th style={th}>At risk (drives / days)</th><th style={th}>Observed share before key-off (95% CI)</th><th style={th}>Kaplan-Meier (product-limit) estimate of the share reached (95% CI)</th><th style={th}>Worst-case (Manski) identification bounds, outer interval</th><th style={th}>Hazard-tilt sensitivity, theta = 0.25 / 0.5 / 1 / 2 / 4</th><th style={th}>Reading</th></tr></thead>
+            <tbody>{c.horizons.map(h=>h.supported?(
+              <tr key={h.h}><td style={td}>{h.h}</td><td style={td}>{h.atRisk} / {h.atRiskDays}</td><td style={td}>{f(h.E1.point)} {ci(h.E1.ci95)}</td><td style={td}>{f(h.E2.point)} {ci(h.E2.ci95)}</td>
+                <td style={td}>{f(h.bounds.low.point)}–{f(h.bounds.high.point)} (outer {f(h.bounds.outerInterval[0])}–{f(h.bounds.outerInterval[1])})</td>
+                <td style={td}>{["0.25","0.5","1","2","4"].map(k=>f(h.tilt[k].point)).join(" / ")}</td>
+                <td style={td}>{h.reading==="F<0.5"?"fewer than half reached":"half or more reached"}: {h.readingClass}; tipping theta {h.tippingTheta==null?"none in [0.01, 100]":f(h.tippingTheta,2)} (95% limit {h.tippingThetaLimit95==null?"none":f(h.tippingThetaLimit95,2)})</td></tr>
+            ):(
+              <tr key={h.h}><td style={td}>{h.h}</td><td style={td} colSpan={6}>not supported (at risk {h.atRisk} drives on {h.atRiskDays} days)</td></tr>
+            ))}</tbody></table>
+          <div>{c.median.shown
+            ? <span>{c.median.text} (95% CI {f(c.median.ci95[0],0)} to {typeof c.median.ci95[1]==="number"?f(c.median.ci95[1],0):c.median.ci95[1]} s; hazard-tilt theta = 0.5: {f(c.median.tiltedAtBand["0.5"],0)} s, theta = 2: {f(c.median.tiltedAtBand["2"],0)} s).</span>
+            : <span>{R.R5}.</span>}
+            {" "}Comparison, published earlier: {R.R6}: {f(c.reachersOnlyMedian.seconds,0)} s (n = {c.reachersOnlyMedian.n}).
+            {c.rmst&&c.rmst.tauS?` Restricted mean time within ${c.rmst.tauS} s (common horizon across cohorts): ${f(c.rmst.point,0)} s ${ci(c.rmst.ci95,0)}.`:""}</div>
+        </div>
+      ))}
+      {_coh==="all"&&PH&&PH.cells&&<div data-m435-posthoc="1" style={{marginTop:8}}>
+        <strong style={{color:"#0f172a"}}>Who stops early ({PH.label}).</strong>
+        <table style={{borderCollapse:"collapse",margin:"4px 0"}}><thead><tr><th style={th}>Cell</th><th style={th}>Group</th><th style={th}>Drives / days</th><th style={th}>Median distance (km)</th><th style={th}>Share under 5 km</th><th style={th}>Share starting before 10:00</th><th style={th}>Median start temperature ({"°"}C)</th></tr></thead>
+          <tbody>{Object.entries(PH.cells).flatMap(([cell,g])=>["reached","censored"].map(k=>(
+            <tr key={cell+k}><td style={td}>{cell.replace("/"," ")} {"°"}C</td><td style={td}>{k==="reached"?"reached the threshold":"right-censored"}</td><td style={td}>{g[k].n} / {g[k].days}</td><td style={td}>{f(g[k].medianDistanceKm,1)}</td><td style={td}>{f(g[k].shareUnder5km,3)}</td><td style={td}>{f(g[k].shareStartBefore10h,3)}</td><td style={td}>{f(g[k].medianStartC,1)}</td></tr>)))}</tbody></table>
+      </div>}
+      <div style={{marginTop:4,color:"#64748b"}}>Worst-case (Manski) identification bounds are not confidence intervals; the hazard-tilt sensitivity (theta multiplies the cumulative hazard of the remaining time of a drive that stopped; theta = 1 is the Kaplan-Meier (product-limit) estimate) bounds, but does not remove, the dependence on the censoring assumption; the plausible band theta from 0.5 to 2 is a declared choice, not validated. Basis: raw/ = sha256-verified originals (M366). Re-generated at every ingestion.</div>
+    </div>
+  );
 }
 
 function ThermalWarmupLag() {
@@ -8174,10 +8236,12 @@ function ThermalWarmupLag() {
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 8, marginBottom: 12 }}>
-        <Kpi label="coolant → 70 °C" value={ct70.median} unit="s" color="#2563eb"
-             sub={`IQR ${ct70.p25}–${ct70.p75}`} />
-        <Kpi label="oil → 70 °C" value={ot70.median} unit="s" color="#ea580c"
-             sub={`IQR ${ot70.p25}–${ot70.p75}`} />
+        {[["coolant","80","coolant 80 °C reached within 10 min (observed)","#2563eb"],["oil","70","oil 70 °C reached within 10 min (observed)","#ea580c"]].map(([fl,t,lab,col])=>{
+          const c=S.thermalSupportLedger?.timeToThreshold?.cohorts?.[_coh]?.[fl]?.[t]; const h=c&&c.horizons.find(x=>x.h===600);
+          if(!h||!h.supported) return <Kpi key={fl} label={lab} value="—" unit="" color={col} sub="not supported in this cohort"/>;
+          return <Kpi key={fl} label={lab} value={(100*h.E1.point).toFixed(1)} unit="%" color={col}
+            sub={`95% CI ${(100*h.E1.ci95[0]).toFixed(1)}–${(100*h.E1.ci95[1]).toFixed(1)}%; ${c.n} cold starts, ${c.days} days. Kaplan-Meier (product-limit) estimate ${(100*h.E2.point).toFixed(1)}% (independent censoring assumed); worst-case bounds ${(100*h.bounds.low.point).toFixed(1)}–${(100*h.bounds.high.point).toFixed(1)}%`}/>;
+        })}
         <Kpi label="coolant–oil lag to 70 °C" value={lag.median} unit="s" color="#dc2626"
              sub={`95% CI ${ci(lagB)}`} />
       </div>
@@ -8220,7 +8284,7 @@ function ThermalWarmupLag() {
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
         <div style={{ padding: "8px 10px", background: "#f1f5f9", borderRadius: 6 }}>
-          <div style={{ fontSize: 9, color: "#64748b", marginBottom: 6 }}>TIME TO THRESHOLD (s, median)</div>
+          <div style={{ fontSize: 9, color: "#64748b", marginBottom: 6 }}>MEDIAN OF REACHERS ONLY (s; understates the time for all cold starts; not a cohort median)</div>
           {["60", "70", "80"].map(t => (
             <Row key={t} k={`${t} °C — coolant / oil`}
                  v={`${C.coolantTimeToThresholdS?.[t]?.median ?? "—"} / ${C.oilTimeToThresholdS?.[t]?.median ?? "—"}`} />
@@ -10401,8 +10465,8 @@ const COMPARE_SPECS={
     {label:"Handoffs",digits:0,get:d=>cmpDig(d,["nHandoffs"])}],
     note:"Boost involvement = boost onsets / handoffs whose event window carries a boost channel (M285d; the previous all-handoff denominator was biased low by boost-PID availability). Shoulder onsets come almost entirely from two days (Jul 23\u201324), so its interval is wide and composition-confounded."},
   ThermalWarmupLag:{kind:"kpi",title:"Coolant / oil warm-up & thermal lag",metrics:[
-    {label:"Coolant \u2192 80\u00b0C",unit:"s",digits:0,get:d=>cmpDig(d,["coolantTimeToThresholdS","80","median"])},
-    {label:"Oil \u2192 80\u00b0C",unit:"s",digits:0,get:d=>cmpDig(d,["oilTimeToThresholdS","80","median"])},
+    {label:"Coolant \u2192 80\u00b0C (reachers only)",unit:"s",digits:0,get:d=>cmpDig(d,["coolantTimeToThresholdS","80","median"])},
+    {label:"Oil \u2192 80\u00b0C (reachers only)",unit:"s",digits:0,get:d=>cmpDig(d,["oilTimeToThresholdS","80","median"])},
     {label:"Coolant\u2013oil lag @70\u00b0C",unit:"s",digits:0,get:d=>cmpDig(d,["coolantOilLag70S","median"])}]},
   ThermalFuelPenalty:{kind:"kpi",title:"Cold-start fuel-rate association (adjusted)",metrics:[
     {label:"Warm-up L/100 ratio",digits:3,get:d=>cmpDig(d,["tripLevel","ratioWarmupWarm","median"])},
@@ -11201,7 +11265,7 @@ export default function App() {
         <Section title="Within-Drive Driving-State Taxonomy (idle / accel / cruise / decel)" accent="#2563eb"><DrivingStateTaxonomy/></Section>
         <Section seasonAware title="Departure / Arrival vs Matched Mid-Trip" accent="#ea580c"><DepartureArrival/></Section>
         <Section seasonAware title="Engine Operating-Point State Machine" accent="#7c3aed"><EngineStateMachine/></Section>
-        <Section seasonAware title="Coolant / Oil Warm-Up &amp; Thermal Lag" accent="#ea580c"><ThermalWarmupLag/><ThermalSupport part="lag"/></Section>
+        <Section seasonAware title="Coolant / Oil Warm-Up &amp; Thermal Lag" accent="#ea580c"><ThermalWarmupLag/><ThermalSupport part="lag"/><TimeToThresholdPanel/></Section>
         <Section seasonAware title="Battery, engine and boost timing around engine start" accent="#7c3aed"><HandoffSequence/></Section>
         <Section seasonAware title="Cell-Spread Transient / Relaxation (exploratory)" accent="#2563eb"><CellSpreadRelaxation/></Section>
         <Section seasonAware title="VGT-A Tracking &amp; Air-Path Map (subset)" accent="#0891b2"><VgtAirPath/></Section>
