@@ -16,7 +16,7 @@ import regen_v2 as R
 import regen_v2_agg as G
 import m441_study as S
 
-KEYS = ["regenCaptureV2", "regenCaptureV2Study", "regenCaptureV2H", "regenCaptureV2HStudy"]
+KEYS = ["regenCaptureV2", "regenCaptureV2Study", "regenCaptureV2H", "regenCaptureV2HStudy", "regenSocStandardized", "regenSocStandardizedStudy"]
 sha = lambda p: hashlib.sha256(open(p, "rb").read()).hexdigest()
 
 
@@ -75,6 +75,35 @@ def h_blocks(A, md5):
     return lvl, study
 
 
+def std_blocks(A, md5, with_study):
+    """M444 (spec analyses/M444_spec.md Rev 2): the SOC-standardized bars (refreshed at every ingestion, only after the first real run exists: the run-once lock) and, on demand, the study block (demand ladder, holdouts, sensitivities) read from analyses/M444_result.json."""
+    import regen_std as RS
+    prim, _ = RS.run(study=False)
+    first = json.load(open("analyses/M444_result.json", encoding="utf-8"))
+    if first["_provenance"]["masterMd5"] != md5:
+        raise SystemExit("analyses/M444_result.json was computed on a different master: re-run the study (needs a recorded deviation, spec B5)")
+    state = {c: {v: {"available": b[v]["availability"]["available"], "groups": sorted(b[v]["bars"]), "bands": b[v]["commonSupportBands"]} for v in ("temperature", "speed")} for c, b in prim["cohorts"].items()}
+    sp = "analyses/regen_std_state.json"
+    old = json.load(open(sp, encoding="utf-8")) if os.path.exists(sp) else None
+    flags = [] if old is None else ["%s/%s: %s changed" % (c, v, k) for c in state for v in state[c] for k in ("available", "groups", "bands") if (old.get("state", {}).get(c, {}).get(v, {}) or {}).get(k) != state[c][v][k]]
+    if flags:
+        print("FLAG regen_std (S*, group set or availability changed at this refresh): " + "; ".join(flags))
+    if "--dry-run" not in sys.argv:
+        with open(sp, "w", encoding="utf-8", newline="\n") as f:
+            json.dump({"state": state, "lastFlags": flags}, f, indent=1, sort_keys=True)
+    blk = dict(prim, milestone="M444", spec="analyses/M444_spec.md", specSha256=first["_provenance"]["specSha256"], masterMd5=md5, label=first["_provenance"]["label"],
+               reading=("SOC-standardized apparent KE recovery (assumed mass): each bar is the KE-weighted combination over the common-support SOC bands of the joint-cell recoveries, standardized to the all-cohort reference SOC mix; it adjusts for the SOC composition of the groups only. "
+                        "It is not adjusted for speed, demand, season, day or the polling cadence regime (pooled bars are cadence-mixed: see the fast-polled KE share of each bar), it is not an effect of temperature and not an efficiency. "
+                        "A group without support in every retained SOC band is shown as unsupported for the comparison, never imputed. The intervals are conditional on the reference weights and the retained bands."),
+               refresh="recomputed at every ingestion by the stage regen_v2 (after the first run of the M444 analysis exists)")
+    study = None
+    if with_study and first.get("study"):
+        study = dict(first["study"], milestone="M444", result="analyses/M444_result.json", resultSha256=sha("analyses/M444_result.json"), specSha256=first["_provenance"]["specSha256"], masterMd5=md5,
+                     reading="Braking-demand check (episode deceleration ladder), chronological holdouts and sensitivities of the SOC-standardized bars; descriptive, with no decision resting on them; ranges over declared conventions, never combined with the statistical interval.",
+                     refresh="on demand: each ingestion carries this block forward unchanged")
+    return blk, study
+
+
 def stamp_for(A, key, blk, md5, note):
     old = (A.get("_artifactStamps") or {}).get(key)
     if old and A.get(key) == blk and old.get("corpusHash") == md5:
@@ -123,6 +152,13 @@ def main(argv=None):
         N["_artifactStamps"]["regenCaptureV2H"] = stamp_for(A, "regenCaptureV2H", lvl, md5, "M442: derived by tools/regen_v2_stage.py from the per-drive cache (interp3 variants); additive harmonized levels of the apparent KE recovery")
         N["regenCaptureV2HStudy"] = hs
         N["_artifactStamps"]["regenCaptureV2HStudy"] = stamp_for(A, "regenCaptureV2HStudy", hs, md5, "M442: derived by tools/m442_gate.py (confirm run); gates, resolution bracket, contrasts and sensitivities; carried forward at ingestion")
+    if os.path.exists("analyses/M444_first.lock") and os.path.exists("analyses/M444_result.json"):
+        sb, sstudy = std_blocks(A, md5, "--study" in argv)
+        N["regenSocStandardized"] = sb
+        N["_artifactStamps"]["regenSocStandardized"] = stamp_for(A, "regenSocStandardized", sb, md5, "M444: derived by tools/regen_std.py from the per-drive cache; additive SOC-standardized apparent KE recovery by pack temperature and speed")
+        if sstudy:
+            N["regenSocStandardizedStudy"] = sstudy
+            N["_artifactStamps"]["regenSocStandardizedStudy"] = stamp_for(A, "regenSocStandardizedStudy", sstudy, md5, "M444: derived by tools/regen_std.py (on demand); demand-ladder check, chronological holdouts and sensitivities; carried forward at ingestion")
     ch = diff(A, N)
     stray = [x for x in ch if not any(x == "/" + k or x.startswith("/" + k + "/") or x.startswith("/_artifactStamps/" + k) for k in KEYS)]
     print(json.dumps({"nChanged": len(ch), "stray": stray[:10], "extraction": {k: v for k, v in st.items() if k in ("nFiles", "cacheHits", "extracted", "seconds")}}))

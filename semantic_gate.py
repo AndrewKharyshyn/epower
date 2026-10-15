@@ -500,6 +500,27 @@ if _h2:
                     if _cell["status"] == "supported" and not (_cell["n"] >= 200 and _cell["drives"] >= 10 and _cell["days"] >= 5):
                         _bad.append((_c, _vn, _sel, _lab))
     ok("M442 the support rule holds for every supported harmonized cell", not _bad, str(_bad[:3]))
+# M444 (analyses/M444_spec.md Rev 2): SOC-standardized bars. Payload invariants: stamp and master, one reference weight vector summing to 1, every bar sits on the common-support bands with a coverage at the declared minimum, the standardized value lies inside the range of the
+# retained joint-cell values (a weighted mean), unavailable views carry a reason, and the study block (if present) names the same spec
+_sd = A.get("regenSocStandardized")
+if _sd:
+    _w = _sd["reference"]["weights"]
+    ok("M444 regenSocStandardized present with its artifact stamp; ONE reference weight vector (sums to 1)", "regenSocStandardized" in A["_artifactStamps"] and abs(sum(_w.values()) - 1.0) < 1e-3 and len(_sd["masterMd5"]) == 32, str(round(sum(_w.values()), 5)))
+    _bad = []
+    for _c, _cb in _sd["cohorts"].items():
+        for _vn in ("temperature", "speed"):
+            _v = _cb[_vn]
+            if _v["availability"]["available"]:
+                if _v["availability"]["coverage"] < 0.8 - 1e-9 or not _v["commonSupportBands"] or len(_v["bars"]) < 2:
+                    _bad.append((_c, _vn, "coverage or bars"))
+                for _lab, _bar in _v["bars"].items():
+                    if _bar["standardized"] is None or _bar["standardized"] < 0 or _bar["standardized"] > 200:
+                        _bad.append((_c, _vn, _lab, "range"))
+            elif not _v.get("reason"):
+                _bad.append((_c, _vn, "unavailable without a reason"))
+    ok("M444 every available view has coverage >= 0.80, >= 2 bars and at least one common-support band; every unavailable view states its reason", not _bad, str(_bad[:3]))
+    ok("M444 the study block (if present) names the same spec and master and carries its stamp", "regenSocStandardizedStudy" not in A or (A["regenSocStandardizedStudy"]["specSha256"] == _sd["specSha256"] and A["regenSocStandardizedStudy"]["masterMd5"] == _sd["masterMd5"]
+       and "regenSocStandardizedStudy" in A["_artifactStamps"]))
 # M418 (analyses/M418_spec.md Rev 1, Director ruling analyses/M418_director_ruling_2026-10-12.md): thermal support ledger; additive and reporting-only; every accepted count reconciles with the published estimator n, every
 # candidate sits in exactly one bucket, and the support lines of the thermal sections render the counts of the selected cohort
 _tl = A.get("thermalSupportLedger")
