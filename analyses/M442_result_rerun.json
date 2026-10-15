@@ -1,0 +1,2429 @@
+{
+ "_provenance": {
+  "spec": "analyses/M442_spec.md",
+  "specSha256": "aa2d71103caf1d44e608a201a5dc203b60135d11ff171424f16a8e4ac1eb101c",
+  "mode": "confirm-corrected-rerun",
+  "delta": 3.0,
+  "phases": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "primary": "interp3",
+  "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
+  "bootstrap": {
+   "B": 4000,
+   "seed": 42
+  },
+  "counts": "per-phase averages",
+  "label": "apparent KE recovery at common sampling resolution (3 s grid, assumed mass); gate run",
+  "firstOutput": "analyses/M442_result.json (kept untouched; copy analyses/M442_result_first.json)"
+ },
+ "deviation": {
+  "reason": "blind audit M442: the first confirm run applied the C3 out-of-support rule to the levels but not to contrasts, G2 and the sensitivities and used all even master days as the contrast day set; recomputed per spec C9, first output kept",
+  "what": "C3 out-of-support mask applied to contrasts, G2 and the sensitivities; contrast and G2 day sets = days with data of the in-support drives (as the level cells); G2 testability reported; brackets, G1, G3, H1, H2 unchanged (read from the first output)"
+ },
+ "G1": {
+  "cells": {
+   "factor2|temperature|allSoc": {
+    "harmonizedDiffPp": 0.424,
+    "harmonizedCi95": [
+     -0.052,
+     0.912
+    ],
+    "nativeV2DiffPp": 0.891,
+    "nativeV2Ci95": [
+     0.294,
+     1.508
+    ],
+    "massHalfWidth": 0.69,
+    "ok": true
+   },
+   "factor2|speed|allSoc": {
+    "harmonizedDiffPp": 0.292,
+    "harmonizedCi95": [
+     -0.051,
+     0.621
+    ],
+    "nativeV2DiffPp": 0.797,
+    "nativeV2Ci95": [
+     0.475,
+     1.214
+    ],
+    "massHalfWidth": 0.69,
+    "ok": true
+   },
+   "factor2|all|allSoc": {
+    "harmonizedDiffPp": 0.292,
+    "harmonizedCi95": [
+     -0.051,
+     0.621
+    ],
+    "nativeV2DiffPp": 0.797,
+    "nativeV2Ci95": [
+     0.475,
+     1.214
+    ],
+    "massHalfWidth": 0.69,
+    "ok": true
+   },
+   "factor3|temperature|allSoc": {
+    "harmonizedDiffPp": 0.144,
+    "harmonizedCi95": [
+     -1.173,
+     1.391
+    ],
+    "nativeV2DiffPp": 2.184,
+    "nativeV2Ci95": [
+     0.393,
+     3.841
+    ],
+    "massHalfWidth": 0.69,
+    "ok": true
+   },
+   "factor3|speed|allSoc": {
+    "harmonizedDiffPp": -0.201,
+    "harmonizedCi95": [
+     -0.9,
+     0.413
+    ],
+    "nativeV2DiffPp": 1.557,
+    "nativeV2Ci95": [
+     1.128,
+     2.018
+    ],
+    "massHalfWidth": 0.69,
+    "ok": true
+   },
+   "factor3|all|allSoc": {
+    "harmonizedDiffPp": -0.201,
+    "harmonizedCi95": [
+     -0.9,
+     0.413
+    ],
+    "nativeV2DiffPp": 1.557,
+    "nativeV2Ci95": [
+     1.128,
+     2.018
+    ],
+    "massHalfWidth": 0.69,
+    "ok": true
+   }
+  },
+  "pass": true,
+  "daysEven": 20
+ },
+ "G3": {
+  "deltaS": 3.0,
+  "nDrives": 16,
+  "keShare": 0.0132,
+  "files": [
+   "20260516_121520.csv",
+   "20260516_182041.csv",
+   "20260517_112115.csv",
+   "20260616_160533.csv",
+   "20260618_150516.csv",
+   "20260627_085219.csv",
+   "20260627_093529.csv",
+   "20260629_172408.csv",
+   "20260629_175248.csv",
+   "20260714_110056.csv",
+   "20260714_115210.csv",
+   "20260722_204810.csv",
+   "20260804_215437.csv",
+   "20260813_144601.csv",
+   "20260813_145651.csv",
+   "20260813_150341.csv"
+  ],
+  "rule": "90 % quantile of the native speed, I or V sampling interval (positive intervals <= 5 s) > delta; more than 10 % of the native KE out of support blocks stage ME",
+  "pass": true
+ },
+ "bracket": {
+  "definition": "max over f in {2,3} of |harmonized(native) - harmonized(decimated f)| (pp, point values) on all fast days; unsupported cells borrow the largest b of their view",
+  "b": {
+   "temperature": {
+    "0–10°C": 1.6766170268772242,
+    "10–20°C": 1.6766170268772242,
+    "20–30°C": 0.7011723490321558,
+    "30–40°C": 0.182016470844367,
+    "40–50°C": 1.6766170268772242,
+    "_borrowed": [
+     "0–10°C",
+     "40–50°C"
+    ]
+   },
+   "speed": {
+    "0-10": 2.4846087331984297,
+    "10-20": 0.7008417039363124,
+    "20-30": 0.6100718147641118,
+    "30-40": 0.4409552987005583,
+    "40-50": 0.6294899671703149,
+    "50-60": 0.8220916675075358,
+    "60-70": 0.3939440688176461,
+    "70-80": 0.5730348102946863,
+    "80-90": 2.4846087331984297,
+    "90-100": 2.4846087331984297,
+    "100-110": 2.4846087331984297,
+    "110-120": 2.4846087331984297,
+    "120-130": 2.4846087331984297,
+    ">=130": 2.4846087331984297,
+    "_borrowed": [
+     "100-110",
+     "110-120",
+     "120-130",
+     "80-90",
+     "90-100",
+     ">=130"
+    ]
+   },
+   "soc": {
+    "band 40-50": 0.6087882563436438,
+    "band 50-55": 0.5141237478371323,
+    "band 55-60": 0.33577465218857583,
+    "band 60-63": 0.4217356330373363,
+    "band 63-66": 0.5545589466648977,
+    "band 66-69": 0.3140269833029308,
+    "band 69-72": 0.5934258854233505,
+    "band 72-100": 0.6087882563436438,
+    "_borrowed": [
+     "band 40-50"
+    ]
+   }
+  }
+ },
+ "H1": {
+  "days": 20,
+  "reported": true,
+  "blocks": false,
+  "factors": {
+   "2": {
+    "label": "H1 factor 2, even days",
+    "cells": {
+     "temperature|allSoc": {
+      "10–20°C": {
+       "eff": 51.98,
+       "n": 748,
+       "status": "supported",
+       "diffPp": -0.347,
+       "ci95": [
+        -1.967,
+        0.709
+       ],
+       "massHalfWidth": 0.71,
+       "judgement": "ok"
+      },
+      "20–30°C": {
+       "eff": 64.72,
+       "n": 2475,
+       "status": "supported",
+       "diffPp": 0.755,
+       "ci95": [
+        -0.173,
+        1.799
+       ],
+       "massHalfWidth": 0.89,
+       "judgement": "ok"
+      },
+      "30–40°C": {
+       "eff": 63.34,
+       "n": 4174,
+       "status": "supported",
+       "diffPp": 0.207,
+       "ci95": [
+        -1.033,
+        1.143
+       ],
+       "massHalfWidth": 0.61,
+       "judgement": "ok"
+      },
+      "40–50°C": {
+       "eff": 52.93,
+       "n": 317,
+       "status": "failed",
+       "diffPp": 1.502,
+       "ci95": null,
+       "massHalfWidth": 0.54,
+       "judgement": "notTested"
+      }
+     },
+     "speed|allSoc": {
+      "0-10": {
+       "eff": 14.17,
+       "n": 1952,
+       "status": "supported",
+       "diffPp": -0.639,
+       "ci95": [
+        -0.966,
+        -0.299
+       ],
+       "massHalfWidth": 0.21,
+       "judgement": "fail"
+      },
+      "10-20": {
+       "eff": 48.74,
+       "n": 2173,
+       "status": "supported",
+       "diffPp": -0.019,
+       "ci95": [
+        -0.331,
+        0.357
+       ],
+       "massHalfWidth": 0.68,
+       "judgement": "ok"
+      },
+      "20-30": {
+       "eff": 65.95,
+       "n": 1849,
+       "status": "supported",
+       "diffPp": 0.683,
+       "ci95": [
+        0.366,
+        1.039
+       ],
+       "massHalfWidth": 0.91,
+       "judgement": "ok"
+      },
+      "30-40": {
+       "eff": 68.57,
+       "n": 1508,
+       "status": "supported",
+       "diffPp": 0.324,
+       "ci95": [
+        0.025,
+        0.724
+       ],
+       "massHalfWidth": 0.88,
+       "judgement": "ok"
+      },
+      "40-50": {
+       "eff": 71.43,
+       "n": 978,
+       "status": "supported",
+       "diffPp": 0.609,
+       "ci95": [
+        0.2,
+        1.051
+       ],
+       "massHalfWidth": 0.85,
+       "judgement": "ok"
+      },
+      "50-60": {
+       "eff": 60.29,
+       "n": 736,
+       "status": "supported",
+       "diffPp": 0.146,
+       "ci95": [
+        -0.72,
+        0.959
+       ],
+       "massHalfWidth": 0.64,
+       "judgement": "ok"
+      },
+      "60-70": {
+       "eff": 63.39,
+       "n": 606,
+       "status": "supported",
+       "diffPp": 0.318,
+       "ci95": [
+        -0.344,
+        1.013
+       ],
+       "massHalfWidth": 0.5,
+       "judgement": "ok"
+      },
+      "70-80": {
+       "eff": 63.57,
+       "n": 302,
+       "status": "supported",
+       "diffPp": 0.002,
+       "ci95": [
+        -2.18,
+        2.117
+       ],
+       "massHalfWidth": 0.25,
+       "judgement": "ok"
+      },
+      "80-90": {
+       "eff": 68.84,
+       "n": 137,
+       "status": "thin",
+       "diffPp": -0.373,
+       "ci95": [
+        -1.297,
+        0.919
+       ],
+       "massHalfWidth": 0.18,
+       "judgement": "notTested"
+      },
+      "90-100": {
+       "eff": 79.32,
+       "n": 69,
+       "status": "thin",
+       "diffPp": 0.345,
+       "ci95": [
+        -2.915,
+        2.333
+       ],
+       "massHalfWidth": 0.23,
+       "judgement": "notTested"
+      },
+      "100-110": {
+       "eff": 77.72,
+       "n": 15,
+       "status": "thin",
+       "diffPp": -1.105,
+       "ci95": [
+        -5.422,
+        2.595
+       ],
+       "massHalfWidth": 0.35,
+       "judgement": "notTested"
+      },
+      "110-120": {
+       "eff": 77.74,
+       "n": 6,
+       "status": "thin",
+       "diffPp": -2.627,
+       "ci95": [
+        -12.713,
+        3.3
+       ],
+       "massHalfWidth": 0.54,
+       "judgement": "notTested"
+      },
+      "120-130": {
+       "eff": 51.16,
+       "n": 5,
+       "status": "failed",
+       "diffPp": 1.547,
+       "ci95": null,
+       "massHalfWidth": 0.51,
+       "judgement": "notTested"
+      },
+      ">=130": {
+       "eff": 51.64,
+       "n": 2,
+       "status": "failed",
+       "diffPp": -4.167,
+       "ci95": null,
+       "massHalfWidth": 0.65,
+       "judgement": "notTested"
+      }
+     },
+     "all|band 40-50": {
+      "all": {
+       "eff": 47.51,
+       "n": 53,
+       "status": "thin",
+       "diffPp": -3.886,
+       "ci95": [
+        -6.403,
+        0.104
+       ],
+       "massHalfWidth": 0.76,
+       "judgement": "notTested"
+      }
+     },
+     "all|band 50-55": {
+      "all": {
+       "eff": 53.21,
+       "n": 654,
+       "status": "supported",
+       "diffPp": -0.072,
+       "ci95": [
+        -1.084,
+        0.849
+       ],
+       "massHalfWidth": 0.82,
+       "judgement": "ok"
+      }
+     },
+     "all|band 55-60": {
+      "all": {
+       "eff": 57.65,
+       "n": 1300,
+       "status": "supported",
+       "diffPp": 0.304,
+       "ci95": [
+        -0.245,
+        0.969
+       ],
+       "massHalfWidth": 0.83,
+       "judgement": "ok"
+      }
+     },
+     "all|band 60-63": {
+      "all": {
+       "eff": 59.12,
+       "n": 1077,
+       "status": "supported",
+       "diffPp": 0.402,
+       "ci95": [
+        -0.205,
+        0.995
+       ],
+       "massHalfWidth": 0.8,
+       "judgement": "ok"
+      }
+     },
+     "all|band 63-66": {
+      "all": {
+       "eff": 61.76,
+       "n": 1418,
+       "status": "supported",
+       "diffPp": -0.088,
+       "ci95": [
+        -0.588,
+        0.47
+       ],
+       "massHalfWidth": 0.63,
+       "judgement": "ok"
+      }
+     },
+     "all|band 66-69": {
+      "all": {
+       "eff": 65.44,
+       "n": 1533,
+       "status": "supported",
+       "diffPp": 0.336,
+       "ci95": [
+        -0.531,
+        1.094
+       ],
+       "massHalfWidth": 0.64,
+       "judgement": "ok"
+      }
+     },
+     "all|band 69-72": {
+      "all": {
+       "eff": 65.31,
+       "n": 1088,
+       "status": "supported",
+       "diffPp": 0.264,
+       "ci95": [
+        -0.165,
+        0.775
+       ],
+       "massHalfWidth": 0.66,
+       "judgement": "ok"
+      }
+     },
+     "all|band 72-100": {
+      "all": {
+       "eff": 67.28,
+       "n": 628,
+       "status": "supported",
+       "diffPp": 0.801,
+       "ci95": [
+        -0.032,
+        1.592
+       ],
+       "massHalfWidth": 0.64,
+       "judgement": "indeterminate"
+      }
+     },
+     "all|below40": {}
+    },
+    "views": {
+     "temperature|allSoc": {
+      "nCells": 4,
+      "nSupported": 3,
+      "inconclusive": false
+     },
+     "speed|allSoc": {
+      "nCells": 14,
+      "nSupported": 8,
+      "inconclusive": false
+     },
+     "all|band 40-50": {
+      "nCells": 1,
+      "nSupported": 0,
+      "inconclusive": true
+     },
+     "all|band 50-55": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     },
+     "all|band 55-60": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     },
+     "all|band 60-63": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     },
+     "all|band 63-66": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     },
+     "all|band 66-69": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     },
+     "all|band 69-72": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     },
+     "all|band 72-100": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     },
+     "all|below40": {
+      "nCells": 0,
+      "nSupported": 0,
+      "inconclusive": true
+     }
+    },
+    "failing": [
+     "speed|allSoc|0-10"
+    ],
+    "indeterminate": [
+     "all|band 72-100|all"
+    ]
+   },
+   "3": {
+    "label": "H1 factor 3, even days",
+    "cells": {
+     "temperature|allSoc": {
+      "10–20°C": {
+       "eff": 51.98,
+       "n": 748,
+       "status": "supported",
+       "diffPp": 1.283,
+       "ci95": [
+        -3.195,
+        8.339
+       ],
+       "massHalfWidth": 0.71,
+       "judgement": "indeterminate"
+      },
+      "20–30°C": {
+       "eff": 64.72,
+       "n": 2475,
+       "status": "supported",
+       "diffPp": -0.453,
+       "ci95": [
+        -3.229,
+        1.889
+       ],
+       "massHalfWidth": 0.89,
+       "judgement": "ok"
+      },
+      "30–40°C": {
+       "eff": 63.34,
+       "n": 4174,
+       "status": "supported",
+       "diffPp": 0.107,
+       "ci95": [
+        -2.174,
+        2.385
+       ],
+       "massHalfWidth": 0.61,
+       "judgement": "ok"
+      },
+      "40–50°C": {
+       "eff": 52.93,
+       "n": 317,
+       "status": "failed",
+       "diffPp": 4.797,
+       "ci95": null,
+       "massHalfWidth": 0.54,
+       "judgement": "notTested"
+      }
+     },
+     "speed|allSoc": {
+      "0-10": {
+       "eff": 14.17,
+       "n": 1952,
+       "status": "supported",
+       "diffPp": -2.545,
+       "ci95": [
+        -3.425,
+        -1.673
+       ],
+       "massHalfWidth": 0.21,
+       "judgement": "fail"
+      },
+      "10-20": {
+       "eff": 48.74,
+       "n": 2173,
+       "status": "supported",
+       "diffPp": -0.776,
+       "ci95": [
+        -1.285,
+        -0.22
+       ],
+       "massHalfWidth": 0.68,
+       "judgement": "fail"
+      },
+      "20-30": {
+       "eff": 65.95,
+       "n": 1849,
+       "status": "supported",
+       "diffPp": 0.335,
+       "ci95": [
+        -0.195,
+        0.846
+       ],
+       "massHalfWidth": 0.91,
+       "judgement": "ok"
+      },
+      "30-40": {
+       "eff": 68.57,
+       "n": 1508,
+       "status": "supported",
+       "diffPp": 0.004,
+       "ci95": [
+        -0.667,
+        0.858
+       ],
+       "massHalfWidth": 0.88,
+       "judgement": "ok"
+      },
+      "40-50": {
+       "eff": 71.43,
+       "n": 978,
+       "status": "supported",
+       "diffPp": 0.194,
+       "ci95": [
+        -0.537,
+        1.098
+       ],
+       "massHalfWidth": 0.85,
+       "judgement": "ok"
+      },
+      "50-60": {
+       "eff": 60.29,
+       "n": 736,
+       "status": "supported",
+       "diffPp": 0.576,
+       "ci95": [
+        -0.373,
+        1.319
+       ],
+       "massHalfWidth": 0.64,
+       "judgement": "ok"
+      },
+      "60-70": {
+       "eff": 63.39,
+       "n": 606,
+       "status": "supported",
+       "diffPp": -0.056,
+       "ci95": [
+        -1.936,
+        1.324
+       ],
+       "massHalfWidth": 0.5,
+       "judgement": "ok"
+      },
+      "70-80": {
+       "eff": 63.57,
+       "n": 302,
+       "status": "supported",
+       "diffPp": -0.94,
+       "ci95": [
+        -4.086,
+        1.978
+       ],
+       "massHalfWidth": 0.25,
+       "judgement": "indeterminate"
+      },
+      "80-90": {
+       "eff": 68.84,
+       "n": 137,
+       "status": "thin",
+       "diffPp": -2.392,
+       "ci95": [
+        -4.288,
+        0.08
+       ],
+       "massHalfWidth": 0.18,
+       "judgement": "notTested"
+      },
+      "90-100": {
+       "eff": 79.32,
+       "n": 69,
+       "status": "thin",
+       "diffPp": -2.551,
+       "ci95": [
+        -5.165,
+        4.714
+       ],
+       "massHalfWidth": 0.23,
+       "judgement": "notTested"
+      },
+      "100-110": {
+       "eff": 77.72,
+       "n": 15,
+       "status": "thin",
+       "diffPp": -4.548,
+       "ci95": [
+        -6.541,
+        -0.514
+       ],
+       "massHalfWidth": 0.35,
+       "judgement": "notTested"
+      },
+      "110-120": {
+       "eff": 77.74,
+       "n": 6,
+       "status": "thin",
+       "diffPp": -1.263,
+       "ci95": [
+        -7.735,
+        15.312
+       ],
+       "massHalfWidth": 0.54,
+       "judgement": "notTested"
+      },
+      "120-130": {
+       "eff": 51.16,
+       "n": 5,
+       "status": "failed",
+       "diffPp": 3.049,
+       "ci95": null,
+       "massHalfWidth": 0.51,
+       "judgement": "notTested"
+      },
+      ">=130": {
+       "eff": 51.64,
+       "n": 2,
+       "status": "failed",
+       "diffPp": -2.958,
+       "ci95": null,
+       "massHalfWidth": 0.65,
+       "judgement": "notTested"
+      }
+     },
+     "all|band 40-50": {
+      "all": {
+       "eff": 47.51,
+       "n": 53,
+       "status": "thin",
+       "diffPp": -5.705,
+       "ci95": [
+        -9.801,
+        0.055
+       ],
+       "massHalfWidth": 0.76,
+       "judgement": "notTested"
+      }
+     },
+     "all|band 50-55": {
+      "all": {
+       "eff": 53.21,
+       "n": 654,
+       "status": "supported",
+       "diffPp": -0.913,
+       "ci95": [
+        -2.366,
+        0.478
+       ],
+       "massHalfWidth": 0.82,
+       "judgement": "indeterminate"
+      }
+     },
+     "all|band 55-60": {
+      "all": {
+       "eff": 57.65,
+       "n": 1300,
+       "status": "supported",
+       "diffPp": -0.531,
+       "ci95": [
+        -1.469,
+        0.335
+       ],
+       "massHalfWidth": 0.83,
+       "judgement": "ok"
+      }
+     },
+     "all|band 60-63": {
+      "all": {
+       "eff": 59.12,
+       "n": 1077,
+       "status": "supported",
+       "diffPp": -0.778,
+       "ci95": [
+        -1.876,
+        0.433
+       ],
+       "massHalfWidth": 0.8,
+       "judgement": "ok"
+      }
+     },
+     "all|band 63-66": {
+      "all": {
+       "eff": 61.76,
+       "n": 1418,
+       "status": "supported",
+       "diffPp": -0.751,
+       "ci95": [
+        -1.551,
+        0.117
+       ],
+       "massHalfWidth": 0.63,
+       "judgement": "indeterminate"
+      }
+     },
+     "all|band 66-69": {
+      "all": {
+       "eff": 65.44,
+       "n": 1533,
+       "status": "supported",
+       "diffPp": 0.077,
+       "ci95": [
+        -1.593,
+        1.539
+       ],
+       "massHalfWidth": 0.64,
+       "judgement": "ok"
+      }
+     },
+     "all|band 69-72": {
+      "all": {
+       "eff": 65.31,
+       "n": 1088,
+       "status": "supported",
+       "diffPp": -0.162,
+       "ci95": [
+        -0.921,
+        0.578
+       ],
+       "massHalfWidth": 0.66,
+       "judgement": "ok"
+      }
+     },
+     "all|band 72-100": {
+      "all": {
+       "eff": 67.28,
+       "n": 628,
+       "status": "supported",
+       "diffPp": 1.089,
+       "ci95": [
+        -0.138,
+        2.358
+       ],
+       "massHalfWidth": 0.64,
+       "judgement": "indeterminate"
+      }
+     },
+     "all|below40": {}
+    },
+    "views": {
+     "temperature|allSoc": {
+      "nCells": 4,
+      "nSupported": 3,
+      "inconclusive": false
+     },
+     "speed|allSoc": {
+      "nCells": 14,
+      "nSupported": 8,
+      "inconclusive": false
+     },
+     "all|band 40-50": {
+      "nCells": 1,
+      "nSupported": 0,
+      "inconclusive": true
+     },
+     "all|band 50-55": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     },
+     "all|band 55-60": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     },
+     "all|band 60-63": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     },
+     "all|band 63-66": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     },
+     "all|band 66-69": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     },
+     "all|band 69-72": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     },
+     "all|band 72-100": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     },
+     "all|below40": {
+      "nCells": 0,
+      "nSupported": 0,
+      "inconclusive": true
+     }
+    },
+    "failing": [
+     "speed|allSoc|0-10",
+     "speed|allSoc|10-20"
+    ],
+    "indeterminate": [
+     "temperature|allSoc|10–20°C",
+     "speed|allSoc|70-80",
+     "all|band 50-55|all",
+     "all|band 63-66|all",
+     "all|band 72-100|all"
+    ]
+   }
+  }
+ },
+ "H2": {
+  "label": "H2 factor 2, all fast days (reported)",
+  "cells": {
+   "temperature|allSoc": {
+    "0–10°C": {
+     "eff": 9.12,
+     "n": 20,
+     "status": "failed",
+     "diffPp": 0.278,
+     "ci95": null,
+     "massHalfWidth": 0.14,
+     "judgement": "notTested"
+    },
+    "10–20°C": {
+     "eff": 52.03,
+     "n": 1462,
+     "status": "supported",
+     "diffPp": 0.197,
+     "ci95": [
+      -0.641,
+      0.943
+     ],
+     "massHalfWidth": 0.77,
+     "judgement": "ok"
+    },
+    "20–30°C": {
+     "eff": 62.84,
+     "n": 4873,
+     "status": "supported",
+     "diffPp": 0.701,
+     "ci95": [
+      0.112,
+      1.303
+     ],
+     "massHalfWidth": 0.93,
+     "judgement": "ok"
+    },
+    "30–40°C": {
+     "eff": 63.38,
+     "n": 6810,
+     "status": "supported",
+     "diffPp": -0.094,
+     "ci95": [
+      -0.885,
+      0.539
+     ],
+     "massHalfWidth": 0.75,
+     "judgement": "ok"
+    },
+    "40–50°C": {
+     "eff": 52.93,
+     "n": 317,
+     "status": "failed",
+     "diffPp": 1.502,
+     "ci95": null,
+     "massHalfWidth": 0.54,
+     "judgement": "notTested"
+    }
+   },
+   "speed|allSoc": {
+    "0-10": {
+     "eff": 13.7,
+     "n": 3767,
+     "status": "supported",
+     "diffPp": -0.696,
+     "ci95": [
+      -0.934,
+      -0.453
+     ],
+     "massHalfWidth": 0.21,
+     "judgement": "fail"
+    },
+    "10-20": {
+     "eff": 49.08,
+     "n": 4029,
+     "status": "supported",
+     "diffPp": 0.193,
+     "ci95": [
+      -0.04,
+      0.427
+     ],
+     "massHalfWidth": 0.73,
+     "judgement": "ok"
+    },
+    "20-30": {
+     "eff": 65.77,
+     "n": 3433,
+     "status": "supported",
+     "diffPp": 0.61,
+     "ci95": [
+      0.379,
+      0.827
+     ],
+     "massHalfWidth": 0.97,
+     "judgement": "ok"
+    },
+    "30-40": {
+     "eff": 67.28,
+     "n": 2730,
+     "status": "supported",
+     "diffPp": 0.441,
+     "ci95": [
+      0.214,
+      0.708
+     ],
+     "massHalfWidth": 0.95,
+     "judgement": "ok"
+    },
+    "40-50": {
+     "eff": 70.68,
+     "n": 1528,
+     "status": "supported",
+     "diffPp": 0.629,
+     "ci95": [
+      0.381,
+      0.92
+     ],
+     "massHalfWidth": 0.95,
+     "judgement": "ok"
+    },
+    "50-60": {
+     "eff": 62.13,
+     "n": 1119,
+     "status": "supported",
+     "diffPp": 0.452,
+     "ci95": [
+      -0.179,
+      1.048
+     ],
+     "massHalfWidth": 0.78,
+     "judgement": "ok"
+    },
+    "60-70": {
+     "eff": 64.03,
+     "n": 826,
+     "status": "supported",
+     "diffPp": 0.394,
+     "ci95": [
+      -0.149,
+      0.985
+     ],
+     "massHalfWidth": 0.65,
+     "judgement": "ok"
+    },
+    "70-80": {
+     "eff": 64.65,
+     "n": 351,
+     "status": "supported",
+     "diffPp": 0.08,
+     "ci95": [
+      -1.691,
+      1.726
+     ],
+     "massHalfWidth": 0.41,
+     "judgement": "ok"
+    },
+    "80-90": {
+     "eff": 68.8,
+     "n": 168,
+     "status": "thin",
+     "diffPp": -0.382,
+     "ci95": [
+      -1.172,
+      0.638
+     ],
+     "massHalfWidth": 0.37,
+     "judgement": "notTested"
+    },
+    "90-100": {
+     "eff": 75.68,
+     "n": 88,
+     "status": "thin",
+     "diffPp": 0.41,
+     "ci95": [
+      -1.384,
+      1.597
+     ],
+     "massHalfWidth": 0.48,
+     "judgement": "notTested"
+    },
+    "100-110": {
+     "eff": 77.53,
+     "n": 22,
+     "status": "thin",
+     "diffPp": -0.88,
+     "ci95": [
+      -3.253,
+      1.164
+     ],
+     "massHalfWidth": 0.68,
+     "judgement": "notTested"
+    },
+    "110-120": {
+     "eff": 71.81,
+     "n": 10,
+     "status": "thin",
+     "diffPp": -1.367,
+     "ci95": [
+      -5.515,
+      3.096
+     ],
+     "massHalfWidth": 0.73,
+     "judgement": "notTested"
+    },
+    "120-130": {
+     "eff": 57.39,
+     "n": 7,
+     "status": "thin",
+     "diffPp": 0.283,
+     "ci95": [
+      -9.523,
+      7.222
+     ],
+     "massHalfWidth": 0.71,
+     "judgement": "notTested"
+    },
+    ">=130": {
+     "eff": 56.04,
+     "n": 4,
+     "status": "failed",
+     "diffPp": -2.354,
+     "ci95": null,
+     "massHalfWidth": 0.8,
+     "judgement": "notTested"
+    }
+   },
+   "all|band 40-50": {
+    "all": {
+     "eff": 34.15,
+     "n": 124,
+     "status": "thin",
+     "diffPp": -0.389,
+     "ci95": [
+      -3.118,
+      1.633
+     ],
+     "massHalfWidth": 0.54,
+     "judgement": "notTested"
+    }
+   },
+   "all|band 50-55": {
+    "all": {
+     "eff": 51.35,
+     "n": 1413,
+     "status": "supported",
+     "diffPp": 0.169,
+     "ci95": [
+      -0.434,
+      0.716
+     ],
+     "massHalfWidth": 0.81,
+     "judgement": "ok"
+    }
+   },
+   "all|band 55-60": {
+    "all": {
+     "eff": 58.17,
+     "n": 2471,
+     "status": "supported",
+     "diffPp": 0.228,
+     "ci95": [
+      -0.213,
+      0.67
+     ],
+     "massHalfWidth": 0.88,
+     "judgement": "ok"
+    }
+   },
+   "all|band 60-63": {
+    "all": {
+     "eff": 59.26,
+     "n": 1878,
+     "status": "supported",
+     "diffPp": 0.419,
+     "ci95": [
+      0.059,
+      0.805
+     ],
+     "massHalfWidth": 0.86,
+     "judgement": "ok"
+    }
+   },
+   "all|band 63-66": {
+    "all": {
+     "eff": 61.86,
+     "n": 2353,
+     "status": "supported",
+     "diffPp": 0.125,
+     "ci95": [
+      -0.271,
+      0.547
+     ],
+     "massHalfWidth": 0.76,
+     "judgement": "ok"
+    }
+   },
+   "all|band 66-69": {
+    "all": {
+     "eff": 63.93,
+     "n": 2566,
+     "status": "supported",
+     "diffPp": 0.314,
+     "ci95": [
+      -0.225,
+      0.82
+     ],
+     "massHalfWidth": 0.77,
+     "judgement": "ok"
+    }
+   },
+   "all|band 69-72": {
+    "all": {
+     "eff": 64.44,
+     "n": 1708,
+     "status": "supported",
+     "diffPp": 0.593,
+     "ci95": [
+      0.192,
+      1.053
+     ],
+     "massHalfWidth": 0.79,
+     "judgement": "ok"
+    }
+   },
+   "all|band 72-100": {
+    "all": {
+     "eff": 70.13,
+     "n": 1034,
+     "status": "supported",
+     "diffPp": 0.609,
+     "ci95": [
+      -0.044,
+      1.239
+     ],
+     "massHalfWidth": 0.82,
+     "judgement": "ok"
+    }
+   },
+   "all|below40": {}
+  },
+  "views": {
+   "temperature|allSoc": {
+    "nCells": 5,
+    "nSupported": 3,
+    "inconclusive": false
+   },
+   "speed|allSoc": {
+    "nCells": 14,
+    "nSupported": 8,
+    "inconclusive": false
+   },
+   "all|band 40-50": {
+    "nCells": 1,
+    "nSupported": 0,
+    "inconclusive": true
+   },
+   "all|band 50-55": {
+    "nCells": 1,
+    "nSupported": 1,
+    "inconclusive": false
+   },
+   "all|band 55-60": {
+    "nCells": 1,
+    "nSupported": 1,
+    "inconclusive": false
+   },
+   "all|band 60-63": {
+    "nCells": 1,
+    "nSupported": 1,
+    "inconclusive": false
+   },
+   "all|band 63-66": {
+    "nCells": 1,
+    "nSupported": 1,
+    "inconclusive": false
+   },
+   "all|band 66-69": {
+    "nCells": 1,
+    "nSupported": 1,
+    "inconclusive": false
+   },
+   "all|band 69-72": {
+    "nCells": 1,
+    "nSupported": 1,
+    "inconclusive": false
+   },
+   "all|band 72-100": {
+    "nCells": 1,
+    "nSupported": 1,
+    "inconclusive": false
+   },
+   "all|below40": {
+    "nCells": 0,
+    "nSupported": 0,
+    "inconclusive": true
+   }
+  },
+  "failing": [
+   "speed|allSoc|0-10"
+  ],
+  "indeterminate": [],
+  "reported": true,
+  "blocks": false
+ },
+ "outOfSupport": {
+  "deltaS": 3.0,
+  "nDrives": 16,
+  "keShare": 0.0132,
+  "files": [
+   "20260516_121520.csv",
+   "20260516_182041.csv",
+   "20260517_112115.csv",
+   "20260616_160533.csv",
+   "20260618_150516.csv",
+   "20260627_085219.csv",
+   "20260627_093529.csv",
+   "20260629_172408.csv",
+   "20260629_175248.csv",
+   "20260714_110056.csv",
+   "20260714_115210.csv",
+   "20260722_204810.csv",
+   "20260804_215437.csv",
+   "20260813_144601.csv",
+   "20260813_145651.csv",
+   "20260813_150341.csv"
+  ],
+  "rule": "90 % quantile of the native speed, I or V sampling interval (positive intervals <= 5 s) > delta; more than 10 % of the native KE out of support blocks stage ME"
+ },
+ "G2": {
+  "daysWithBoth": 4,
+  "evenDaysWithBoth": 3,
+  "cells": {
+   "temperature": {},
+   "speed": {}
+  },
+  "fails": [],
+  "nCellsTested": 0,
+  "testable": false,
+  "pass": null,
+  "goesToDirectorOnFail": true,
+  "note": "pass is None when no cell is supported in both groups on the paired even days: NOT TESTABLE, which is not a pass",
+  "reportedAllEvenDaysUnpaired": {
+   "temperature": {
+    "10–20°C": {
+     "diffPp": -2.425,
+     "ci95": [
+      -17.652,
+      7.771
+     ],
+     "fastN": 748,
+     "slowN": 852
+    },
+    "20–30°C": {
+     "diffPp": 1.232,
+     "ci95": [
+      -5.481,
+      8.279
+     ],
+     "fastN": 2475,
+     "slowN": 3918
+    },
+    "30–40°C": {
+     "diffPp": -3.521,
+     "ci95": [
+      -10.288,
+      2.45
+     ],
+     "fastN": 4174,
+     "slowN": 8326
+    }
+   },
+   "speed": {
+    "0-10": {
+     "diffPp": 1.428,
+     "ci95": [
+      -2.892,
+      5.304
+     ],
+     "fastN": 1952,
+     "slowN": 4364
+    },
+    "10-20": {
+     "diffPp": 0.858,
+     "ci95": [
+      -4.932,
+      6.165
+     ],
+     "fastN": 2173,
+     "slowN": 4539
+    },
+    "20-30": {
+     "diffPp": -0.271,
+     "ci95": [
+      -6.878,
+      4.792
+     ],
+     "fastN": 1849,
+     "slowN": 3488
+    },
+    "30-40": {
+     "diffPp": 0.541,
+     "ci95": [
+      -4.272,
+      5.286
+     ],
+     "fastN": 1508,
+     "slowN": 2922
+    },
+    "40-50": {
+     "diffPp": 1.467,
+     "ci95": [
+      -6.725,
+      8.583
+     ],
+     "fastN": 978,
+     "slowN": 2018
+    },
+    "50-60": {
+     "diffPp": -12.038,
+     "ci95": [
+      -19.876,
+      -5.147
+     ],
+     "fastN": 736,
+     "slowN": 1843
+    },
+    "60-70": {
+     "diffPp": -7.982,
+     "ci95": [
+      -19.89,
+      5.537
+     ],
+     "fastN": 606,
+     "slowN": 1971
+    },
+    "70-80": {
+     "diffPp": -5.323,
+     "ci95": [
+      -20.986,
+      5.902
+     ],
+     "fastN": 302,
+     "slowN": 1250
+    }
+   }
+  }
+ },
+ "contrasts": {
+  "temperature": [
+   {
+    "a": "10–20°C",
+    "b": "20–30°C",
+    "diffPp": 10.824,
+    "ci95": [
+     3.468,
+     17.602
+    ],
+    "bracketSum": 2.378,
+    "diffOddPp": 12.437,
+    "diffAllPp": 11.692,
+    "massEndDiffPp": [
+     10.7,
+     10.96
+    ],
+    "checks": {
+     "intervalExcludesZero": true,
+     "exceedsBracket": true,
+     "sameSignAtMassEnds": true,
+     "sameSignOnEvenOddAllDays": true
+    },
+    "label": "resolved"
+   },
+   {
+    "a": "20–30°C",
+    "b": "30–40°C",
+    "diffPp": 1.735,
+    "ci95": [
+     -3.321,
+     6.245
+    ],
+    "bracketSum": 0.883,
+    "diffOddPp": 1.586,
+    "diffAllPp": 1.659,
+    "massEndDiffPp": [
+     2.14,
+     1.31
+    ],
+    "checks": {
+     "intervalExcludesZero": false,
+     "exceedsBracket": true,
+     "sameSignAtMassEnds": true,
+     "sameSignOnEvenOddAllDays": true
+    },
+    "label": "not resolved at this resolution"
+   },
+   {
+    "a": "30–40°C",
+    "b": "40–50°C",
+    "diffPp": 3.536,
+    "ci95": [
+     -3.62,
+     8.467
+    ],
+    "bracketSum": 1.859,
+    "diffOddPp": 0.344,
+    "diffAllPp": 2.106,
+    "massEndDiffPp": [
+     3.7,
+     3.37
+    ],
+    "checks": {
+     "intervalExcludesZero": false,
+     "exceedsBracket": true,
+     "sameSignAtMassEnds": true,
+     "sameSignOnEvenOddAllDays": true
+    },
+    "label": "not resolved at this resolution"
+   }
+  ],
+  "speed": [
+   {
+    "a": "10-20",
+    "b": "20-30",
+    "diffPp": 17.947,
+    "ci95": [
+     15.952,
+     20.372
+    ],
+    "bracketSum": 1.311,
+    "diffOddPp": 14.985,
+    "diffAllPp": 16.466,
+    "massEndDiffPp": [
+     17.74,
+     18.16
+    ],
+    "checks": {
+     "intervalExcludesZero": true,
+     "exceedsBracket": true,
+     "sameSignAtMassEnds": true,
+     "sameSignOnEvenOddAllDays": true
+    },
+    "label": "resolved"
+   },
+   {
+    "a": "20-30",
+    "b": "30-40",
+    "diffPp": 2.082,
+    "ci95": [
+     -1.704,
+     4.83
+    ],
+    "bracketSum": 1.051,
+    "diffOddPp": 3.547,
+    "diffAllPp": 2.817,
+    "massEndDiffPp": [
+     2.13,
+     2.03
+    ],
+    "checks": {
+     "intervalExcludesZero": false,
+     "exceedsBracket": true,
+     "sameSignAtMassEnds": true,
+     "sameSignOnEvenOddAllDays": true
+    },
+    "label": "not resolved at this resolution"
+   },
+   {
+    "a": "30-40",
+    "b": "40-50",
+    "diffPp": 2.208,
+    "ci95": [
+     -1.107,
+     5.526
+    ],
+    "bracketSum": 1.07,
+    "diffOddPp": 3.478,
+    "diffAllPp": 2.874,
+    "massEndDiffPp": [
+     2.34,
+     2.07
+    ],
+    "checks": {
+     "intervalExcludesZero": false,
+     "exceedsBracket": true,
+     "sameSignAtMassEnds": true,
+     "sameSignOnEvenOddAllDays": true
+    },
+    "label": "not resolved at this resolution"
+   },
+   {
+    "a": "40-50",
+    "b": "50-60",
+    "diffPp": -1.362,
+    "ci95": [
+     -5.784,
+     2.038
+    ],
+    "bracketSum": 1.452,
+    "diffOddPp": 0.546,
+    "diffAllPp": -0.361,
+    "massEndDiffPp": [
+     -1.21,
+     -1.52
+    ],
+    "checks": {
+     "intervalExcludesZero": false,
+     "exceedsBracket": false,
+     "sameSignAtMassEnds": true,
+     "sameSignOnEvenOddAllDays": false
+    },
+    "label": "not resolved at this resolution"
+   },
+   {
+    "a": "50-60",
+    "b": "60-70",
+    "diffPp": 0.53,
+    "ci95": [
+     -3.488,
+     4.523
+    ],
+    "bracketSum": 1.216,
+    "diffOddPp": -6.081,
+    "diffAllPp": -2.832,
+    "massEndDiffPp": [
+     0.7,
+     0.36
+    ],
+    "checks": {
+     "intervalExcludesZero": false,
+     "exceedsBracket": false,
+     "sameSignAtMassEnds": true,
+     "sameSignOnEvenOddAllDays": false
+    },
+    "label": "not resolved at this resolution"
+   },
+   {
+    "a": "60-70",
+    "b": "70-80",
+    "diffPp": -1.702,
+    "ci95": [
+     -7.123,
+     3.523
+    ],
+    "bracketSum": 0.967,
+    "diffOddPp": 0.172,
+    "diffAllPp": -0.749,
+    "massEndDiffPp": [
+     -1.53,
+     -1.88
+    ],
+    "checks": {
+     "intervalExcludesZero": false,
+     "exceedsBracket": true,
+     "sameSignAtMassEnds": true,
+     "sameSignOnEvenOddAllDays": false
+    },
+    "label": "not resolved at this resolution"
+   },
+   {
+    "a": "70-80",
+    "b": "80-90",
+    "diffPp": 4.393,
+    "ci95": [
+     -0.939,
+     10.602
+    ],
+    "bracketSum": 3.058,
+    "diffOddPp": 5.667,
+    "diffAllPp": 5.016,
+    "massEndDiffPp": [
+     4.46,
+     4.33
+    ],
+    "checks": {
+     "intervalExcludesZero": false,
+     "exceedsBracket": true,
+     "sameSignAtMassEnds": true,
+     "sameSignOnEvenOddAllDays": true
+    },
+    "label": "not resolved at this resolution"
+   },
+   {
+    "a": "80-90",
+    "b": "90-100",
+    "diffPp": 2.743,
+    "ci95": [
+     -2.113,
+     11.205
+    ],
+    "bracketSum": 4.969,
+    "diffOddPp": -0.249,
+    "diffAllPp": 1.199,
+    "massEndDiffPp": [
+     2.75,
+     2.73
+    ],
+    "checks": {
+     "intervalExcludesZero": false,
+     "exceedsBracket": false,
+     "sameSignAtMassEnds": true,
+     "sameSignOnEvenOddAllDays": false
+    },
+    "label": "not resolved at this resolution"
+   }
+  ],
+  "soc": [
+   {
+    "a": "band 50-55",
+    "b": "band 55-60",
+    "diffPp": 8.011,
+    "ci95": [
+     4.348,
+     12.145
+    ],
+    "bracketSum": 0.85,
+    "diffOddPp": 10.125,
+    "diffAllPp": 9.091,
+    "massEndDiffPp": [
+     7.94,
+     8.08
+    ],
+    "checks": {
+     "intervalExcludesZero": true,
+     "exceedsBracket": true,
+     "sameSignAtMassEnds": true,
+     "sameSignOnEvenOddAllDays": true
+    },
+    "label": "resolved"
+   },
+   {
+    "a": "band 55-60",
+    "b": "band 60-63",
+    "diffPp": 3.777,
+    "ci95": [
+     0.779,
+     6.579
+    ],
+    "bracketSum": 0.758,
+    "diffOddPp": 1.8,
+    "diffAllPp": 2.769,
+    "massEndDiffPp": [
+     3.87,
+     3.68
+    ],
+    "checks": {
+     "intervalExcludesZero": true,
+     "exceedsBracket": true,
+     "sameSignAtMassEnds": true,
+     "sameSignOnEvenOddAllDays": true
+    },
+    "label": "resolved"
+   },
+   {
+    "a": "band 60-63",
+    "b": "band 63-66",
+    "diffPp": 4.119,
+    "ci95": [
+     1.185,
+     6.914
+    ],
+    "bracketSum": 0.976,
+    "diffOddPp": 2.158,
+    "diffAllPp": 3.122,
+    "massEndDiffPp": [
+     4.29,
+     3.94
+    ],
+    "checks": {
+     "intervalExcludesZero": true,
+     "exceedsBracket": true,
+     "sameSignAtMassEnds": true,
+     "sameSignOnEvenOddAllDays": true
+    },
+    "label": "resolved"
+   },
+   {
+    "a": "band 63-66",
+    "b": "band 66-69",
+    "diffPp": 0.655,
+    "ci95": [
+     -2.401,
+     3.885
+    ],
+    "bracketSum": 0.869,
+    "diffOddPp": 4.209,
+    "diffAllPp": 2.454,
+    "massEndDiffPp": [
+     0.76,
+     0.55
+    ],
+    "checks": {
+     "intervalExcludesZero": false,
+     "exceedsBracket": false,
+     "sameSignAtMassEnds": true,
+     "sameSignOnEvenOddAllDays": true
+    },
+    "label": "not resolved at this resolution"
+   },
+   {
+    "a": "band 66-69",
+    "b": "band 69-72",
+    "diffPp": 6.945,
+    "ci95": [
+     2.907,
+     10.609
+    ],
+    "bracketSum": 0.907,
+    "diffOddPp": 4.493,
+    "diffAllPp": 5.701,
+    "massEndDiffPp": [
+     6.91,
+     6.98
+    ],
+    "checks": {
+     "intervalExcludesZero": true,
+     "exceedsBracket": true,
+     "sameSignAtMassEnds": true,
+     "sameSignOnEvenOddAllDays": true
+    },
+    "label": "resolved"
+   },
+   {
+    "a": "band 69-72",
+    "b": "band 72-100",
+    "diffPp": 10.318,
+    "ci95": [
+     4.714,
+     14.911
+    ],
+    "bracketSum": 1.202,
+    "diffOddPp": 14.222,
+    "diffAllPp": 12.203,
+    "massEndDiffPp": [
+     10.27,
+     10.36
+    ],
+    "checks": {
+     "intervalExcludesZero": true,
+     "exceedsBracket": true,
+     "sameSignAtMassEnds": true,
+     "sameSignOnEvenOddAllDays": true
+    },
+    "label": "resolved"
+   }
+  ]
+ },
+ "sensitivities": {
+  "note": "levels of the same cells under the declared reductions (in-support drives, all days); a range over declared conventions, not an interval",
+  "levels": {
+   "interp3 (primary)": {
+    "temperature": {
+     "0–10°C": {
+      "eff": 9.12,
+      "n": 20
+     },
+     "10–20°C": {
+      "eff": 52.7,
+      "n": 3477
+     },
+     "20–30°C": {
+      "eff": 64.39,
+      "n": 12642
+     },
+     "30–40°C": {
+      "eff": 66.05,
+      "n": 26385
+     },
+     "40–50°C": {
+      "eff": 68.15,
+      "n": 5926
+     }
+    },
+    "speed": {
+     "10-20": {
+      "eff": 48.77,
+      "n": 12956
+     },
+     "20-30": {
+      "eff": 65.23,
+      "n": 10714
+     },
+     "30-40": {
+      "eff": 68.05,
+      "n": 9268
+     },
+     "40-50": {
+      "eff": 70.92,
+      "n": 6342
+     },
+     "50-60": {
+      "eff": 70.56,
+      "n": 5374
+     },
+     "60-70": {
+      "eff": 67.73,
+      "n": 5185
+     },
+     "70-80": {
+      "eff": 66.98,
+      "n": 3067
+     },
+     "80-90": {
+      "eff": 72.0,
+      "n": 1624
+     },
+     "90-100": {
+      "eff": 73.2,
+      "n": 649
+     },
+     "100-110": {
+      "eff": 75.43,
+      "n": 210
+     },
+     "110-120": {
+      "eff": 61.11,
+      "n": 64
+     },
+     "120-130": {
+      "eff": 59.71,
+      "n": 25
+     },
+     ">=130": {
+      "eff": 51.43,
+      "n": 11
+     }
+    },
+    "soc": {
+     "band 40-50": {
+      "eff": 38.07,
+      "n": 496
+     },
+     "band 50-55": {
+      "eff": 47.09,
+      "n": 4667
+     },
+     "band 55-60": {
+      "eff": 56.18,
+      "n": 8004
+     },
+     "band 60-63": {
+      "eff": 58.95,
+      "n": 6323
+     },
+     "band 63-66": {
+      "eff": 62.07,
+      "n": 9070
+     },
+     "band 66-69": {
+      "eff": 64.53,
+      "n": 10740
+     },
+     "band 69-72": {
+      "eff": 70.23,
+      "n": 7364
+     },
+     "band 72-100": {
+      "eff": 82.43,
+      "n": 5141
+     }
+    },
+    "total": {
+     "eff": 65.28,
+     "ci95": [
+      63.6,
+      66.76
+     ],
+     "n": 51806
+    }
+   },
+   "last3": {
+    "temperature": {
+     "0–10°C": {
+      "eff": 11.14,
+      "n": 15
+     },
+     "10–20°C": {
+      "eff": 54.38,
+      "n": 3011
+     },
+     "20–30°C": {
+      "eff": 65.62,
+      "n": 10966
+     },
+     "30–40°C": {
+      "eff": 67.16,
+      "n": 22632
+     },
+     "40–50°C": {
+      "eff": 69.59,
+      "n": 4964
+     }
+    },
+    "speed": {
+     "10-20": {
+      "eff": 50.69,
+      "n": 11388
+     },
+     "20-30": {
+      "eff": 66.69,
+      "n": 9555
+     },
+     "30-40": {
+      "eff": 69.81,
+      "n": 8066
+     },
+     "40-50": {
+      "eff": 72.48,
+      "n": 5388
+     },
+     "50-60": {
+      "eff": 72.34,
+      "n": 4485
+     },
+     "60-70": {
+      "eff": 68.7,
+      "n": 4133
+     },
+     "70-80": {
+      "eff": 68.37,
+      "n": 2397
+     },
+     "80-90": {
+      "eff": 74.0,
+      "n": 1208
+     },
+     "90-100": {
+      "eff": 75.08,
+      "n": 419
+     },
+     "100-110": {
+      "eff": 78.15,
+      "n": 120
+     },
+     "110-120": {
+      "eff": 63.5,
+      "n": 38
+     },
+     "120-130": {
+      "eff": 58.68,
+      "n": 17
+     },
+     ">=130": {
+      "eff": 52.12,
+      "n": 10
+     }
+    },
+    "soc": {
+     "band 40-50": {
+      "eff": 39.7,
+      "n": 378
+     },
+     "band 50-55": {
+      "eff": 49.88,
+      "n": 3964
+     },
+     "band 55-60": {
+      "eff": 58.97,
+      "n": 6932
+     },
+     "band 60-63": {
+      "eff": 61.12,
+      "n": 5496
+     },
+     "band 63-66": {
+      "eff": 64.21,
+      "n": 7804
+     },
+     "band 66-69": {
+      "eff": 65.84,
+      "n": 9163
+     },
+     "band 69-72": {
+      "eff": 70.89,
+      "n": 6375
+     },
+     "band 72-100": {
+      "eff": 80.91,
+      "n": 4461
+     }
+    },
+    "total": {
+     "eff": 66.45,
+     "ci95": [
+      64.82,
+      67.97
+     ],
+     "n": 44574
+    }
+   },
+   "box3": {
+    "temperature": {
+     "0–10°C": {
+      "eff": 7.57,
+      "n": 33
+     },
+     "10–20°C": {
+      "eff": 49.99,
+      "n": 6647
+     },
+     "20–30°C": {
+      "eff": 60.13,
+      "n": 24403
+     },
+     "30–40°C": {
+      "eff": 61.38,
+      "n": 50797
+     },
+     "40–50°C": {
+      "eff": 63.73,
+      "n": 10697
+     }
+    },
+    "speed": {
+     "10-20": {
+      "eff": 45.17,
+      "n": 21610
+     },
+     "20-30": {
+      "eff": 60.91,
+      "n": 17807
+     },
+     "30-40": {
+      "eff": 63.75,
+      "n": 14969
+     },
+     "40-50": {
+      "eff": 66.41,
+      "n": 10206
+     },
+     "50-60": {
+      "eff": 65.5,
+      "n": 8517
+     },
+     "60-70": {
+      "eff": 61.61,
+      "n": 7606
+     },
+     "70-80": {
+      "eff": 62.44,
+      "n": 4719
+     },
+     "80-90": {
+      "eff": 67.91,
+      "n": 2697
+     },
+     "90-100": {
+      "eff": 69.48,
+      "n": 1268
+     },
+     "100-110": {
+      "eff": 71.37,
+      "n": 442
+     },
+     "110-120": {
+      "eff": 60.9,
+      "n": 144
+     },
+     "120-130": {
+      "eff": 59.15,
+      "n": 54
+     },
+     ">=130": {
+      "eff": 52.38,
+      "n": 32
+     }
+    },
+    "soc": {
+     "band 40-50": {
+      "eff": 31.28,
+      "n": 761
+     },
+     "band 50-55": {
+      "eff": 42.95,
+      "n": 8129
+     },
+     "band 55-60": {
+      "eff": 51.54,
+      "n": 14542
+     },
+     "band 60-63": {
+      "eff": 54.57,
+      "n": 11949
+     },
+     "band 63-66": {
+      "eff": 57.76,
+      "n": 17382
+     },
+     "band 66-69": {
+      "eff": 60.5,
+      "n": 20577
+     },
+     "band 69-72": {
+      "eff": 65.44,
+      "n": 14155
+     },
+     "band 72-100": {
+      "eff": 77.26,
+      "n": 10190
+     }
+    },
+    "total": {
+     "eff": 60.87,
+     "ci95": [
+      59.33,
+      62.26
+     ],
+     "n": 97685
+    }
+   },
+   "nativeV2": {
+    "temperature": {
+     "0–10°C": {
+      "eff": 11.72,
+      "n": 33
+     },
+     "10–20°C": {
+      "eff": 58.15,
+      "n": 6647
+     },
+     "20–30°C": {
+      "eff": 68.03,
+      "n": 24403
+     },
+     "30–40°C": {
+      "eff": 69.11,
+      "n": 50797
+     },
+     "40–50°C": {
+      "eff": 72.08,
+      "n": 10697
+     }
+    },
+    "speed": {
+     "10-20": {
+      "eff": 52.15,
+      "n": 21610
+     },
+     "20-30": {
+      "eff": 70.04,
+      "n": 17807
+     },
+     "30-40": {
+      "eff": 73.23,
+      "n": 14969
+     },
+     "40-50": {
+      "eff": 75.74,
+      "n": 10206
+     },
+     "50-60": {
+      "eff": 74.8,
+      "n": 8517
+     },
+     "60-70": {
+      "eff": 69.97,
+      "n": 7606
+     },
+     "70-80": {
+      "eff": 69.57,
+      "n": 4719
+     },
+     "80-90": {
+      "eff": 73.56,
+      "n": 2697
+     },
+     "90-100": {
+      "eff": 73.38,
+      "n": 1268
+     },
+     "100-110": {
+      "eff": 74.59,
+      "n": 442
+     },
+     "110-120": {
+      "eff": 62.3,
+      "n": 144
+     },
+     "120-130": {
+      "eff": 60.33,
+      "n": 54
+     },
+     ">=130": {
+      "eff": 51.85,
+      "n": 32
+     }
+    },
+    "soc": {
+     "band 40-50": {
+      "eff": 36.35,
+      "n": 761
+     },
+     "band 50-55": {
+      "eff": 52.19,
+      "n": 8129
+     },
+     "band 55-60": {
+      "eff": 60.96,
+      "n": 14542
+     },
+     "band 60-63": {
+      "eff": 62.39,
+      "n": 11949
+     },
+     "band 63-66": {
+      "eff": 65.22,
+      "n": 17382
+     },
+     "band 66-69": {
+      "eff": 68.6,
+      "n": 20577
+     },
+     "band 69-72": {
+      "eff": 72.84,
+      "n": 14155
+     },
+     "band 72-100": {
+      "eff": 84.48,
+      "n": 10190
+     }
+    },
+    "total": {
+     "eff": 68.73,
+     "ci95": [
+      67.17,
+      70.2
+     ],
+     "n": 97685
+    }
+   }
+  }
+ },
+ "verdict": {
+  "G1": "pass",
+  "G2": "NOT TESTABLE (goes to the Director)",
+  "G3": "pass",
+  "stageME": "BLOCKED until the Director rules"
+ },
+ "seconds": 54
+}

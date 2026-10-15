@@ -55,16 +55,19 @@ def study_block(md5):
 def h_blocks(A, md5):
     """M442 (spec Rev 1.2): the harmonized levels (interp3, four phases, 3 s grid) and the confirm-run study. Produced ONLY after the confirm run exists (C9: no even-day harmonized aggregate before it)."""
     import m442_gate as MG
-    R2 = json.load(open("analyses/M442_result.json", encoding="utf-8"))
-    if R2["_provenance"]["masterMd5"] != md5:
+    R1 = json.load(open("analyses/M442_result.json", encoding="utf-8"))               # the first confirm output (kept untouched)
+    rr = os.path.exists("analyses/M442_result_rerun.json")
+    R2 = json.load(open("analyses/M442_result_rerun.json", encoding="utf-8")) if rr else R1      # recorded-deviation rerun (spec C9) supersedes contrasts, G2 and sensitivities
+    if R1["_provenance"]["masterMd5"] != md5:
         raise SystemExit("analyses/M442_result.json was computed on a different master: re-run the study (needs a recorded deviation, spec C9)")
     res, st = G.run(stack=MG.HARM, oos_delta=MG.DELTA, ens_clean=False)
-    lvl = {"milestone": "M442", "spec": "analyses/M442_spec.md", "specSha256": sha("analyses/M442_spec.md"), "masterMd5": md5, "primary": "interp3", "deltaS": MG.DELTA, "phases": MG.PH, "extractorVersion": R.EXTRACTOR_VERSION, "codeHashes": st["codeHashes"],
+    lvl = {"milestone": "M442", "spec": "analyses/M442_spec.md", "specSha256": R1["_provenance"]["specSha256"], "specSha256Current": sha("analyses/M442_spec.md"), "masterMd5": md5, "primary": "interp3", "deltaS": MG.DELTA, "phases": MG.PH, "extractorVersion": R.EXTRACTOR_VERSION, "codeHashes": st["codeHashes"],
            "label": "apparent KE recovery at common sampling resolution (3 s grid, assumed mass); resolution-conditional; assumed masses; not a correction of the legacy values",
            "reading": ("Levels of the v2 cells after every channel is reduced to a common 3 s grid (speed, current and voltage interpolated to the grid nodes, other channels latest sample, four grid phases averaged). The level depends on the resolution; the continuous-time recovery is not identified. "
                        "Each level is shown with its day-clustered interval and assumed-mass range; the resolution bracket b is in the study block. Contrasts between adjacent bins are 'resolved' only under the rule of spec M442 Rev 1.2 (D5); otherwise 'not resolved at this resolution'."),
            "outOfSupport": res.get("outOfSupport"), "refresh": "recomputed at every ingestion by the stage regen_v2 (after the M442 confirm run exists)", "cohorts": res["cohorts"]}
-    study = {"milestone": "M442", "result": "analyses/M442_result.json", "resultSha256": sha("analyses/M442_result.json"), "masterMd5": md5, "specSha256": R2["_provenance"]["specSha256"], "primary": "interp3",
+    study = {"milestone": "M442", "result": "analyses/M442_result_rerun.json" if rr else "analyses/M442_result.json", "resultSha256": sha("analyses/M442_result_rerun.json" if rr else "analyses/M442_result.json"),
+             "firstOutput": "analyses/M442_result.json", "firstOutputSha256": sha("analyses/M442_result.json"), "deviation": R2.get("deviation"), "masterMd5": md5, "specSha256": R1["_provenance"]["specSha256"], "primary": "interp3",
              "verdict": R2.get("verdict"), "G1": R2.get("G1"), "G2": R2.get("G2"), "G3": R2.get("G3"), "H1": R2.get("H1"), "H2": R2.get("H2"), "bracket": R2.get("bracket"), "contrasts": R2.get("contrasts"), "sensitivities": R2.get("sensitivities"),
              "reading": ("Gates G1-G3 and the resolution bracket b of spec M442 Rev 1.2; H1 and H2 are reported and do not block. A contrast between adjacent bins is labelled resolved only if its even-day interval excludes 0, it exceeds b(A) + b(B), it has the same sign at both ends of the assumed-mass range and on even, odd and all days; contrasts are unadjusted for multiplicity. "
                          "Sensitivities are ranges over declared conventions, not confidence intervals."),

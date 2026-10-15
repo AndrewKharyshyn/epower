@@ -137,9 +137,9 @@ def ratio(C_, K_):
     return 100.0 * C_.sum() / K_.sum() if K_.sum() > 0 else float("nan")
 
 
-def contrasts(dm, T_nat, days_even, days_odd, days_all, bracket):
+def contrasts(dm, T_nat, days_even, days_odd, days_all, bracket, keep=None):
     """D5: adjacent supported cells A, B of each displayed series; resolved iff (i) even-day interval excludes 0, (ii) |diff| > b(A) + b(B), (iii) same sign at both mass ends, (iv) same sign on even, odd and all days."""
-    allm = np.ones(len(dm), bool)
+    allm = np.ones(len(dm), bool) if keep is None else keep                      # C3: drives out of support are excluded from every comparison
     co_e, co_o, co_a = (G.Cohort(T_nat, dm, allm, n_, days=d_) for n_, d_ in (("even", days_even), ("odd", days_odd), ("all", days_all)))
     res = {}
     for kind in ("temperature", "speed", "soc"):
@@ -208,6 +208,8 @@ def run(mode, workers=5):
                            "bootstrap": {"B": G.B_DRAWS, "seed": G.SEED}, "counts": "per-phase averages",
                            "label": ("apparent KE recovery at common sampling resolution (3 s grid, assumed mass); dev results do not count toward any gate" if mode == "dev" else "apparent KE recovery at common sampling resolution (3 s grid, assumed mass); gate run")}}
     T_nat = tables(files, HARM, workers)
+    oos, info = G.oos_info(files, DELTA)
+    keep = ~oos
     fast_days = sorted(set(day_all[fast]))
     pdays = [d for d in fast_days if int(d[8:10]) % 2 == parity]
     out["H1"] = {"days": len(pdays), "reported": True, "blocks": False, "factors": {}}
@@ -239,7 +241,7 @@ def run(mode, workers=5):
             g1["factor%d|%s|%s" % (f, view, sel)] = {"harmonizedDiffPp": round(ph, 3), "harmonizedCi95": cih, "nativeV2DiffPp": round(pn, 3), "nativeV2Ci95": cin, "massHalfWidth": round(hw, 2), "ok": ok}
     out["G1"] = {"cells": g1, "pass": bool(g1_ok), "daysEven": len(pdays)}
     # G2: H3 fast versus slow, even days, tolerance b + mass half-width
-    slow = ~fast & np.isfinite(dm["ev_rpm_dt_med_s"].values)
+    slow = ~fast & np.isfinite(dm["ev_rpm_dt_med_s"].values) & keep
     both_all = sorted(set(day_all[fast]) & set(day_all[slow]))
     both = [d for d in both_all if int(d[8:10]) % 2 == 0]
     co_f = G.Cohort(T_nat, dm, fast, "fast", days=both); co_s = G.Cohort(T_nat, dm, slow, "slow", days=both)
@@ -261,24 +263,86 @@ def run(mode, workers=5):
             if fail:
                 h3["fails"].append("%s|%s" % (view, lab))
         h3["cells"][view] = cells
-    out["G2"] = dict(h3, **{"pass": bool(not h3["fails"]), "goesToDirectorOnFail": True})
-    oos, info = G.oos_info(files, DELTA)
+    n_tested = sum(len(c) for c in h3["cells"].values())
+    out["G2"] = dict(h3, **{"nCellsTested": n_tested, "testable": bool(n_tested > 0), "pass": (bool(not h3["fails"]) if n_tested > 0 else None), "goesToDirectorOnFail": True,
+                             "note": "pass is None when no cell is supported in both groups on the paired even days: the gate is NOT TESTABLE, which is not a pass (Director)"})
     out["G3"] = dict(info, **{"pass": bool(info["keShare"] <= 0.10)})
     out["outOfSupport"] = info
     # contrasts (D5) on cohort all, harmonized primary
-    all_days = sorted(set(day_all))
+    all_days = sorted(set(day_all[keep]))                                          # days with data of the in-support drives (same convention as the level cells)
     ev = [d for d in all_days if int(d[8:10]) % 2 == 0]; od = [d for d in all_days if int(d[8:10]) % 2 == 1]
-    out["contrasts"] = contrasts(dm, T_nat, ev, od, all_days, b)
+    out["contrasts"] = contrasts(dm, T_nat, ev, od, all_days, b, keep)
     # sensitivities: last3, box3, native v2 (cohort all, all days): totals and the displayed series
     sens = {}
     for name, var in (("interp3 (primary)", HARM), ("last3", LAST3), ("box3", ["box3"]), ("nativeV2", ["base"])):
         T_ = tables(files, var, workers)
-        co = G.Cohort(T_, dm, np.ones(len(dm), bool), name, days=all_days)
+        co = G.Cohort(T_, dm, keep, name, days=all_days)
         sens[name] = {kind: {l: {"eff": c.get("eff"), "n": c.get("n")} for (l, _, _, c) in series(co, kind) if c.get("n")} for kind in ("temperature", "speed", "soc")}
         sens[name]["total"] = {k_: co.cell_block("all", co.sel["noSocCondition"])["all"].get(k_) for k_ in ("eff", "ci95", "n")}
     out["sensitivities"] = {"note": "levels of the same cells under the declared reductions (cohort all, all days); a range over declared conventions, not an interval", "levels": sens}
-    out["verdict"] = {"G1": "pass" if out["G1"]["pass"] else "FAILED", "G2": "pass" if out["G2"]["pass"] else "FAILED (goes to the Director)", "G3": "pass" if out["G3"]["pass"] else "FAILED (blocks ME)",
-                      "stageME": "may proceed to the bootstrap-CI audit, the Director ruling and Andrii's sign-off" if (out["G1"]["pass"] and out["G2"]["pass"] and out["G3"]["pass"]) else "BLOCKED"}
+    out["verdict"] = {"G1": "pass" if out["G1"]["pass"] else "FAILED", "G2": ("NOT TESTABLE (goes to the Director)" if out["G2"]["pass"] is None else ("pass" if out["G2"]["pass"] else "FAILED (goes to the Director)")), "G3": "pass" if out["G3"]["pass"] else "FAILED (blocks ME)",
+                      "stageME": "may proceed to the bootstrap-CI audit, the Director ruling and Andrii's sign-off" if (out["G1"]["pass"] and out["G2"]["pass"] is True and out["G3"]["pass"]) else "BLOCKED until the Director rules"}
+    out["seconds"] = round(time.time() - t0)
+    return out
+
+
+def rerun_corrected(reason, workers=5):
+    """Spec C9 recorded deviation: the first confirm run applied the out-of-support rule (C3) to the levels but not to the contrasts, G2 and the sensitivities, and used all even MASTER days as the contrast day set. This run recomputes ONLY those parts with the C3 mask
+    and the data-driven day sets; the first output (analyses/M442_result.json) is kept untouched and everything else is read from it. G2 additionally reports its testability."""
+    t0 = time.time()
+    first = json.load(open("analyses/M442_result.json", encoding="utf-8"))
+    dm, reg = G.load_master()
+    files = list(dm["file"])
+    fast = (dm["ev_rpm_dt_med_s"] < 1.0).values
+    day_all = dm["date"].astype(str).str[:10].values
+    T_nat = tables(files, HARM, workers)
+    oos, info = G.oos_info(files, DELTA)
+    keep = ~oos
+    b = first["bracket"]["b"]
+    slow = ~fast & np.isfinite(dm["ev_rpm_dt_med_s"].values) & keep
+    both_all = sorted(set(day_all[fast]) & set(day_all[slow]))
+    both = [d for d in both_all if int(d[8:10]) % 2 == 0]
+    co_f = G.Cohort(T_nat, dm, fast, "fast", days=both); co_s = G.Cohort(T_nat, dm, slow, "slow", days=both)
+    h3 = {"daysWithBoth": len(both_all), "evenDaysWithBoth": len(both), "cells": {}, "fails": []}
+    for view, sel, kind in (("temperature", "noSocCondition", "temperature"), ("speed", "noSocCondition", "speed")):
+        labels, dd, pp, _ = S.paired_draws(co_f, co_s, view, sel)
+        bf, bs = co_f.cell_block(view, co_f.sel[sel]), co_s.cell_block(view, co_s.sel[sel])
+        h3["cells"][view] = {}
+        for j, lab in enumerate(labels):
+            a, c_ = bf.get(lab, {}), bs.get(lab, {})
+            if a.get("status") != "supported" or c_.get("status") != "supported" or not np.isfinite(pp[j]):
+                continue
+            ci = pct_ci(dd[:, j]); hw = max((a["massRange"][1] - a["massRange"][0]) / 2.0, (c_["massRange"][1] - c_["massRange"][0]) / 2.0)
+            bl = b.get(kind, {}).get(lab); tol = None if bl is None else bl + hw
+            fail = bool(ci is not None and tol is not None and (ci[0] > 0 or ci[1] < 0) and abs(pp[j]) > tol)
+            h3["cells"][view][lab] = {"fastEff": a["eff"], "slowEff": c_["eff"], "diffPp": round(float(pp[j]), 3), "ci95": ci, "tolerance": None if tol is None else round(tol, 3), "fails": fail}
+            if fail:
+                h3["fails"].append("%s|%s" % (view, lab))
+    n_tested = sum(len(c) for c in h3["cells"].values())
+    ev_all = sorted(d for d in set(day_all[keep]) if int(d[8:10]) % 2 == 0)
+    co_f2 = G.Cohort(T_nat, dm, fast, "fast", days=ev_all); co_s2 = G.Cohort(T_nat, dm, slow, "slow", days=ev_all)
+    h3_all = {}
+    for view, sel, kind in (("temperature", "noSocCondition", "temperature"), ("speed", "noSocCondition", "speed")):
+        labels, dd, pp, _ = S.paired_draws(co_f2, co_s2, view, sel)
+        bf, bs = co_f2.cell_block(view, co_f2.sel[sel]), co_s2.cell_block(view, co_s2.sel[sel])
+        h3_all[view] = {lab: {"diffPp": round(float(pp[j]), 3), "ci95": pct_ci(dd[:, j]), "fastN": bf[lab]["n"], "slowN": bs[lab]["n"]} for j, lab in enumerate(labels)
+                        if bf.get(lab, {}).get("status") == "supported" and bs.get(lab, {}).get("status") == "supported" and np.isfinite(pp[j])}
+    all_days = sorted(set(day_all[keep]))
+    ev = [d for d in all_days if int(d[8:10]) % 2 == 0]; od = [d for d in all_days if int(d[8:10]) % 2 == 1]
+    con = contrasts(dm, T_nat, ev, od, all_days, b, keep)
+    sens = {}
+    for name, var in (("interp3 (primary)", HARM), ("last3", LAST3), ("box3", ["box3"]), ("nativeV2", ["base"])):
+        co = G.Cohort(tables(files, var, workers), dm, keep, name, days=all_days)
+        sens[name] = {kind: {l: {"eff": c.get("eff"), "n": c.get("n")} for (l, _, _, c) in series(co, kind) if c.get("n")} for kind in ("temperature", "speed", "soc")}
+        sens[name]["total"] = {k_: co.cell_block("all", co.sel["noSocCondition"])["all"].get(k_) for k_ in ("eff", "ci95", "n")}
+    out = {"_provenance": dict(first["_provenance"], mode="confirm-corrected-rerun", firstOutput="analyses/M442_result.json (kept untouched; copy analyses/M442_result_first.json)"),
+           "deviation": {"reason": reason, "what": "C3 out-of-support mask applied to contrasts, G2 and the sensitivities; contrast and G2 day sets = days with data of the in-support drives (as the level cells); G2 testability reported; brackets, G1, G3, H1, H2 unchanged (read from the first output)"},
+           "G1": first["G1"], "G3": first["G3"], "bracket": first["bracket"], "H1": first["H1"], "H2": first["H2"], "outOfSupport": info,
+           "G2": dict(h3, **{"nCellsTested": n_tested, "testable": bool(n_tested > 0), "pass": (bool(not h3["fails"]) if n_tested > 0 else None), "goesToDirectorOnFail": True,
+                              "note": "pass is None when no cell is supported in both groups on the paired even days: NOT TESTABLE, which is not a pass", "reportedAllEvenDaysUnpaired": h3_all}),
+           "contrasts": con, "sensitivities": {"note": "levels of the same cells under the declared reductions (in-support drives, all days); a range over declared conventions, not an interval", "levels": sens}}
+    out["verdict"] = {"G1": "pass" if first["G1"]["pass"] else "FAILED", "G2": "NOT TESTABLE (goes to the Director)" if out["G2"]["pass"] is None else ("pass" if out["G2"]["pass"] else "FAILED (goes to the Director)"),
+                      "G3": "pass" if first["G3"]["pass"] else "FAILED (blocks ME)", "stageME": "BLOCKED until the Director rules"}
     out["seconds"] = round(time.time() - t0)
     return out
 
@@ -298,7 +362,7 @@ def main():
         else:
             with open("analyses/M442_confirm.lock", "w", encoding="utf-8", newline=chr(10)) as f:
                 f.write(json.dumps({"specSha256": spec_sha(), "startedAt": time.strftime("%Y-%m-%dT%H:%M:%S")}))
-    res = run(mode)
+    res = rerun_corrected(sys.argv[sys.argv.index("--rerun-deviation") + 1]) if (mode == "confirm" and path.endswith("rerun.json")) else run(mode)
     with open(path, "w", encoding="utf-8", newline="\n") as f:
         json.dump(res, f, indent=1, ensure_ascii=False, default=lambda o: o.item() if hasattr(o, "item") else str(o))
     print(json.dumps({"mode": mode, "seconds": res["seconds"], "verdict": res.get("verdict")}))

@@ -474,6 +474,32 @@ if _v2:
         _v2["support"]["minStrictIntervals"], _v2["support"]["minDrives"], _v2["support"]["minDays"], _ncell), not _bad_sup and not _bad_eff, str((_bad_sup + _bad_eff)[:3]))
     ok("M441 the study block (if present) names the same master and extractor as the base block and carries its stamp", "regenCaptureV2Study" not in A or (A["regenCaptureV2Study"]["masterMd5"] == _v2["masterMd5"] and A["regenCaptureV2Study"]["policyHash"] == _v2["policyHash"]
        and "regenCaptureV2Study" in A["_artifactStamps"]))
+# M442 (analyses/M442_spec.md Rev 1.2): harmonized levels, resolution bracket, gates and adjacent-bin contrasts. Payload invariants: both blocks present with stamps and the same master, the gates recorded as computed, every contrast label is
+# derived from its four checks (resolved only if all hold), every bracket b is non-negative, and the harmonized levels obey the same support rule as the v2 cells
+_h2 = A.get("regenCaptureV2H")
+if _h2:
+    _hs = A.get("regenCaptureV2HStudy") or {}
+    ok("M442 regenCaptureV2H and regenCaptureV2HStudy present with their artifact stamps and the same master and spec", "regenCaptureV2H" in A["_artifactStamps"] and "regenCaptureV2HStudy" in A["_artifactStamps"]
+       and _hs.get("masterMd5") == _h2["masterMd5"] and _hs.get("specSha256") == _h2["specSha256"] and _h2["primary"] == "interp3" and "all" in _h2["cohorts"], str(sorted(_hs)[:6]))
+    _bc = []
+    for _kind, _rows in (_hs.get("contrasts") or {}).items():
+        for _r in _rows:
+            if (_r["label"] == "resolved") != all(_r["checks"].values()):
+                _bc.append((_kind, _r["a"], _r["b"]))
+            if _r["label"] not in ("resolved", "not resolved at this resolution"):
+                _bc.append((_kind, _r["a"], _r["b"], "label"))
+    ok("M442 every adjacent-bin contrast is labelled resolved exactly when all four checks hold (%d contrasts)" % sum(len(v) for v in (_hs.get("contrasts") or {}).values()), not _bc, str(_bc[:3]))
+    _bb = [(k, l) for k, d in ((_hs.get("bracket") or {}).get("b") or {}).items() for l, x in d.items() if not l.startswith("_") and (x is None or x < 0)]
+    ok("M442 every resolution bracket b is a non-negative number", not _bb, str(_bb[:3]))
+    ok("M442 gates G1-G3 are recorded with a pass flag and the verdict names stage ME", all(k in _hs and "pass" in _hs[k] for k in ("G1", "G2", "G3")) and "stageME" in (_hs.get("verdict") or {}))
+    _bad = []
+    for _c, _cb in _h2["cohorts"].items():
+        for _vn, _bysel in _cb["views"].items():
+            for _sel, _cells in _bysel.items():
+                for _lab, _cell in _cells.items():
+                    if _cell["status"] == "supported" and not (_cell["n"] >= 200 and _cell["drives"] >= 10 and _cell["days"] >= 5):
+                        _bad.append((_c, _vn, _sel, _lab))
+    ok("M442 the support rule holds for every supported harmonized cell", not _bad, str(_bad[:3]))
 # M418 (analyses/M418_spec.md Rev 1, Director ruling analyses/M418_director_ruling_2026-10-12.md): thermal support ledger; additive and reporting-only; every accepted count reconciles with the published estimator n, every
 # candidate sits in exactly one bucket, and the support lines of the thermal sections render the counts of the selected cohort
 _tl = A.get("thermalSupportLedger")
