@@ -1,0 +1,31 @@
+{
+ "1_levels": "AGREE. total n 51806, plateau 1035, 549 drives, 113 days, KE 259.148587, charge 169.178475, eff 65.282 [63.602,66.804]. Temp cells n 3477/12642/26385 (per-phase means 3477.25/12642.5/26384.75), drives, days, plateaus exact; KE/charge rel diff <1e-6; CIs diff <=0.001 pp; mass ranges exact. CI needs one shared resample matrix over the 113 days with data. Minor: out-of-support 17 vs 16 drives (one has 0 intervals), native KE share 0.01335 vs 0.0132.",
+ "2_b": "AGREE. 0.70117234903 / 0.31402695 / 0.18201647 (diff <1e-12). b(10-20)=1.6766, b(63-66)=0.5546 give bracketSums 2.378 / 0.869.",
+ "3_contrast": "AGREE, but only with out-of-support drives INCLUDED: even 11.258 [4.185,17.834], odd 12.249, all 11.791; SOC 1.155 [-2.151,4.646]; exact with default_rng(42).integers(0,57,(4000,57)) over all 57 even master days (not the 55 with data: [4.217,17.607]). In-support only (spec C3, as the levels): 10.824 [3.524,17.331], SOC 0.655 [-2.507,3.831]. Labels reproduce (temperature resolved, SOC not resolved) either way.",
+ "4_G2": "CONFIRMED vacuous on the paired-day reading: 0 cells supported in both groups on the 3 paired even days. On the all-even-day reading 11 cells are supported in both and would be tested on 3 paired days (exploratory differences 4-20 pp vs tolerance 1-2.5 pp). Unpaired even fast vs slow total 62.78 vs 67.04.",
+ "ambiguities": [
+  "C3 exclusion not applied in contrasts/G2",
+  "contrast day set (57 even master days) vs cell CIs (113 days with data)",
+  "'supported in both groups' scope"
+ ],
+ "method_concerns": [
+  "contrast population inconsistent with levels (0.4-0.5 pp)",
+  "G2 not testable; cadence confound untested; b from fast drives only"
+ ],
+ "language_concerns": [
+  "G2 'passed' = not testable",
+  "'resolved' is unadjusted and confounded; not an effect claim"
+ ],
+ "verdict": "revise",
+ "audit_files": [
+  "analyses/M442_audit/ext.py",
+  "lib.py",
+  "agg.py",
+  "ci2.py",
+  "bb.py",
+  "con3.py",
+  "lab.py",
+  "g2.py",
+  "analyses/M442_audit.json"
+ ]
+}

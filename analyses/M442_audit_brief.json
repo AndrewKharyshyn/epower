@@ -1,0 +1,116 @@
+{
+ "task": "blind reproduction of the harmonized estimator (spec analyses/M442_spec.md sections 2, 7, 8 = Rev 1.2; the M441 definition analyses/M441_spec.md sections 1, 2, 9, 10 applies after the reduction). Do NOT read tools/*.py (except nothing), tests/, analyses/M442_result.json, analyses/M442_dev.json, analyses/M442_explore/, analyses/M441_audit/ or any other file under analyses/ except the two specs. Data: raw_only/<file>, drive_master.csv (file, date, drive_type, ev_rpm_dt_med_s); seasonal not needed. Frame loader allowed: drive_raw_cache.make_frame_loader(raw_dir='raw_only'); compute_summary_arrays only for RAW_MAP, _apply_speed_priority, _ft, mass constants/_mass_for_drive.",
+ "claims": {
+  "harmonizedLevels_cohortAll_allDrivesInSupport": {
+   "note": "primary interp3, delta 3 s, grid phases 0/0.75/1.5/2.25 s from the drive's first native sample, ratio of the phase-averaged sums; drives with the 90 % quantile of the positive native (<=5 s) sampling interval of speed, I or V above 3 s are out of support",
+   "outOfSupport": {
+    "nDrives": 16,
+    "keShare": 0.0132
+   },
+   "total": {
+    "n": 51806,
+    "nPlateau": 1035,
+    "keKwh": 259.14859,
+    "chargeKwh": 169.17848,
+    "eff": 65.28,
+    "ci95": [
+     63.6,
+     66.8
+    ],
+    "drives": 549,
+    "days": 113
+   },
+   "temperatureNoSoc": {
+    "10–20°C": {
+     "n": 3477,
+     "nPlateau": 71,
+     "drives": 147,
+     "days": 69,
+     "keKwh": 8.97101,
+     "chargeKwh": 4.72729,
+     "eff": 52.7,
+     "ci95": [
+      50.05,
+      55.62
+     ],
+     "massRange": [
+      51.93,
+      53.48
+     ],
+     "status": "supported"
+    },
+    "20–30°C": {
+     "n": 12642,
+     "nPlateau": 280,
+     "drives": 276,
+     "days": 108,
+     "keKwh": 49.63068,
+     "chargeKwh": 31.95582,
+     "eff": 64.39,
+     "ci95": [
+      62.01,
+      66.94
+     ],
+     "massRange": [
+      63.52,
+      65.28
+     ],
+     "status": "supported"
+    },
+    "30–40°C": {
+     "n": 26385,
+     "nPlateau": 542,
+     "drives": 265,
+     "days": 82,
+     "keKwh": 148.70201,
+     "chargeKwh": 98.2123,
+     "eff": 66.05,
+     "ci95": [
+      64.12,
+      67.86
+     ],
+     "massRange": [
+      65.54,
+      66.57
+     ],
+     "status": "supported"
+    }
+   }
+  },
+  "resolutionBracket_b_pp": {
+   "definition": "b(cell) = max over f in {2,3} of |harmonized(native) - harmonized(native decimated by f)| (pp, point values, ratio of phase-averaged sums, decimated = every f-th native sample per channel from index q, q = 0..f-1 pooled with equal weight over q and the 4 grid phases), on ALL fast drives (ev_rpm_dt_med_s < 1.0) and all their days",
+   "temperature 20-30 C": 0.7011723490321558,
+   "soc band 66-69": 0.3140269833029308,
+   "temperature 30-40 C": 0.182016470844367
+  },
+  "contrast": {
+   "temperature 10-20 vs 20-30 C (cohort all, EVEN calendar days of the month, no SOC condition)": {
+    "diffPp": 11.258,
+    "ci95": [
+     4.185,
+     17.834
+    ],
+    "bracketSum": 2.378,
+    "diffOddPp": 12.249,
+    "diffAllPp": 11.791,
+    "label": "resolved"
+   },
+   "soc band 63-66 vs 66-69 (same population)": {
+    "diffPp": 1.155,
+    "ci95": [
+     -2.151,
+     4.646
+    ],
+    "bracketSum": 0.869,
+    "label": "not resolved at this resolution"
+   },
+   "bootstrap": "day-clustered percentile interval, calendar day = cluster, 4000 draws, numpy default_rng(42).integers(0, D, (4000, D)) over the sorted days of the day set, the difference of the two pooled ratios recomputed in every draw (numerator and denominator resampled together); a match to within 0.1 pp is expected, report the exact rng call that reproduces it if you can"
+  }
+ },
+ "also_check": [
+  "the resolved / not resolved label rule D5 of spec section 8 applied to the two contrasts",
+  "G2 of the confirm run passed with no tested cell (only 3 even days have both fast and slow drives): confirm or refute that no cell was supported in both groups",
+  "anything in the spec that you had to guess"
+ ],
+ "return": "JSON brief <2 KB to analyses/M442_audit.json: per item agree / differ with max differences, ambiguities resolved, concerns. Write your own code under analyses/M442_audit/ with encoding='utf-8' on every text open."
+}

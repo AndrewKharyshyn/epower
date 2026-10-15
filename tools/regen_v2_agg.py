@@ -75,6 +75,7 @@ class Cohort:
         mass = np.array([C._mass_for_drive(t, f) for t, f in zip(dm["drive_type"], dm["file"])])
         self.um = np.array([t in ("urban", "mixed") for t in dm["drive_type"]])[self.drive]
         self.mass = mass[self.drive]
+        self.w = d["w"] if "w" in d else np.ones(len(self.drive))
         self.est = ~d["iv_trimmed"]
         self.strict = self.est & ~d["iv_plateau"]
         self.cad = dm["ev_rpm_dt_med_s"].map(lambda x: "unknown" if not np.isfinite(x) else ("fast" if x < 1.0 else "slow")).values[self.drive]
@@ -129,9 +130,9 @@ class Cohort:
 
     def sums(self, mats, mask):
         """Per-day (and per-drive) sums over the estimator population (non-trimmed, under mask): charge, offset charge, KE, urban/mixed KE, strict counts, plateau counts, zero-charge counts, seconds, drive presence."""
-        m = (mask & self.est).astype(float)
-        ms = (mask & self.strict).astype(float)
-        mp = (mask & self.est & self.d["iv_plateau"]).astype(float)
+        m = (mask & self.est).astype(float) * self.w
+        ms = (mask & self.strict).astype(float) * self.w
+        mp = (mask & self.est & self.d["iv_plateau"]).astype(float) * self.w
         ke_mat = R.KE_FACTOR * self.mass[:, None] * mats["dv2"]
         Dm, Pm = self.Dm, self.Pm
         C = Dm @ (mats["charge"] * m[:, None]); Co = Dm @ (mats["chargeOff"] * m[:, None]); Kt = Dm @ (ke_mat * m[:, None]); Ku = Dm @ (ke_mat * (m * self.um)[:, None])
@@ -155,7 +156,8 @@ class Cohort:
         with np.errstate(invalid="ignore", divide="ignore"):
             draws = np.where(nbk > 0, 100.0 * nbc / np.where(nbk > 0, nbk, 1.0), np.nan)
         for j, lab in enumerate(labels):
-            n_s, n_p = int(Ns[:, j].sum()), int(Np[:, j].sum())
+            n_sf = float(Ns[:, j].sum())                        # unrounded per-phase mean (M442 C4); outputs are rounded
+            n_s, n_p = int(round(n_sf)), int(round(Np[:, j].sum()))
             days = int(((Ns[:, j] + Np[:, j]) > 0).sum()); drives = int((Pd[:, j] > 0).sum())
             if n_s + n_p == 0:
                 out[lab] = {"n": 0, "nPlateau": 0, "drives": 0, "days": 0, "status": "empty"}
@@ -168,13 +170,13 @@ class Cohort:
                 ci = [round(float(np.percentile(dr[fin], 2.5)), 2), round(float(np.percentile(dr[fin], 97.5)), 2)]
             if k > 0 and (1 - fin.mean()) > UNID_MAX:
                 status = "failed"
-            elif n_s >= MIN_N and drives >= MIN_DRIVES and days >= MIN_DAYS:
+            elif n_sf >= MIN_N and drives >= MIN_DRIVES and days >= MIN_DAYS:
                 status = "supported"
             else:
                 status = "thin"
             kh = k - ku
             rng_ = [round(100.0 * c / (kh + ku * MASS_HI / 1890.0), 2), round(100.0 * c / (kh + ku * MASS_LO / 1890.0), 2)] if k > 0 else None
-            cell = {"n": n_s, "nPlateau": n_p, "nZeroCharge": int(Zs[:, j].sum()), "drives": drives, "days": days, "seconds": round(float(Sec[:, j].sum()), 1), "keKwh": round(k, 5), "chargeKwh": round(c, 5),
+            cell = {"n": n_s, "nPlateau": n_p, "nZeroCharge": int(round(Zs[:, j].sum())), "drives": drives, "days": days, "seconds": round(float(Sec[:, j].sum()), 1), "keKwh": round(k, 5), "chargeKwh": round(c, 5),
                     "eff": None if eff is None else round(eff, 2), "ci95": ci, "precisionHalfWidth": None if ci is None else round((ci[1] - ci[0]) / 2.0, 2), "massRange": rng_,
                     "effOffset": None if k <= 0 else round(100.0 * float(cotot[j]) / k, 2), "status": status, "_ke": k, "_ch": c}
             if eff is not None and eff > 100.0:
@@ -184,8 +186,8 @@ class Cohort:
 
     def per_drive_eff(self):
         """Per-drive pooled ratio (percent) over the estimator population; used only to count drives above 100 % (reported, never clipped)."""
-        ke = R.KE_FACTOR * self.mass * self.d["iv_dv2"] * self.est
-        ch = self.d["iv_charge"] * self.est
+        ke = R.KE_FACTOR * self.mass * self.d["iv_dv2"] * self.est * self.w
+        ch = self.d["iv_charge"] * self.est * self.w
         k = np.bincount(self.pidx, weights=ke, minlength=len(self.drives_u)); c = np.bincount(self.pidx, weights=ch, minlength=len(self.drives_u))
         return [100.0 * x / y for x, y in zip(c, k) if y > 0]
 
@@ -281,23 +283,42 @@ def cohort_block(co, hdrs, files_in):
     return out
 
 
-def run(variant="base", cohorts=("all", "warm", "shoulder", "cold"), workers=5):
+def oos_info(files, delta):
+    """M442 support rule (C3): a drive is out of support if the 90 % quantile of its native speed, I or V sampling interval (positive intervals of at most 5 s) exceeds delta. Returns (mask, info)."""
+    Tn, Hn = K.load(files, "base", with_off=False)
+    oos = np.array([any(x > delta for x in (Hn[f]["cadence"].get("nativeDtQ90") or {}).values() if x == x) for f in files])
+    ke_all = R.KE_FACTOR * 1890.0 * Tn["iv_dv2"] * ~Tn["iv_trimmed"]
+    info = {"deltaS": delta, "nDrives": int(oos.sum()), "keShare": round(float(ke_all[oos[Tn["drive"]]].sum() / max(ke_all.sum(), 1e-12)), 4), "files": [f for f, o in zip(files, oos) if o][:50],
+            "rule": "90 % quantile of the native speed, I or V sampling interval (positive intervals <= 5 s) > delta; more than 10 % of the native KE out of support blocks stage ME"}
+    return oos, info
+
+
+def run(variant="base", cohorts=("all", "warm", "shoulder", "cold"), workers=5, stack=None, oos_delta=None, ens_clean=True):
+    """variant: one cache variant; stack: a list of variants (e.g. the four grid phases) pooled with equal weight; oos_delta: M442 support rule - drives whose native speed, I or V sampling interval has a 90 % quantile above oos_delta are out of support."""
     dm, reg = load_master()
     files = list(dm["file"])
     A = json.load(open("summary_arrays.json", encoding="utf-8"))
     i_off = float(A["offsetUncertainty"]["pointEstimateA"])
-    st = K.ensure(files, i_off, variant=variant, workers=workers)
-    T, hdrs = K.load(files, variant=variant)
+    variants = list(stack) if stack else [variant]
+    st = None
+    for v in variants:
+        st_ = K.ensure(files, i_off, variant=v, workers=workers)
+        st = st or st_
+    T, hdrs = K.load_stack(files, variants) if stack else K.load(files, variant=variant)
     res = {"extraction": {k: v for k, v in st.items() if k != "rawSha"}, "cohorts": {}}
+    keep_drive = np.ones(len(dm), bool)
+    if oos_delta is not None:
+        oos, res["outOfSupport"] = oos_info(files, oos_delta)
+        keep_drive = ~oos
     for c in cohorts:
-        mask = np.ones(len(dm), bool) if c == "all" else (reg.values == c)
+        mask = (np.ones(len(dm), bool) if c == "all" else (reg.values == c)) & keep_drive
         if mask.sum() == 0:
             continue
         co = Cohort(T, dm, mask, c)
         res["cohorts"][c] = cohort_block(co, hdrs, [f for f, m in zip(files, mask) if m])
     # ens-clean sensitivity (totals only, cohort all)
-    if "ens_outlier_v2" in dm:
-        clean = (~dm["ens_outlier_v2"].astype(bool)).values
+    if ens_clean and "ens_outlier_v2" in dm:
+        clean = (~dm["ens_outlier_v2"].astype(bool)).values & keep_drive
         co = Cohort(T, dm, clean, "all-ensClean")
         res["sensitivityEnsClean"] = {"nDrives": int(clean.sum()), "totals": co.cell_block("all", np.ones(len(co.drive), bool))["all"], "temperature": co.view_by_soc("temperature", sels=["noSocCondition"])["noSocCondition"]}
     res = strip(res)

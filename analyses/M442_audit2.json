@@ -1,0 +1,15 @@
+{
+ "1_temp_contrast": "AGREE on the 57-day set: 10.824 [3.468,17.602] (exact, default_rng(42).integers(0,57,(4000,57))). On the strictly literal 'days with data' set (55 even days; 05-12 and 05-14 have only zero-interval in-support drives) 10.824 [3.524,17.331]: upper end differs 0.271 pp (> 0.15 tol). Point 10.824 either way.",
+ "2_soc_contrast": "AGREE on the 57-day set: 0.655 [-2.401,3.885]. 55-day set: [-2.507,3.831] (diff 0.106/0.054, inside tol). Not resolved either way (interval contains 0).",
+ "3_G2": "CONFIRMED: 3 even days with both kinds (2026-05-14, 09-06, 10-08) and 0 cells supported in both groups on those days. Caveat: 05-14 is paired only through zero-interval drives (no I channel); with data only 2 paired days. Cells = 0 either way. On all in-support even days 11 cells are supported in both (not the paired-day reading). Fast/slow in-support even drives 90/186.",
+ "4_out_of_support": "16 reproduced (levels unchanged: totals n 51806, plateau 1035.25, T3/T4/T5 n 3477.25/12642.5/26384.75). The drive that differs from my earlier 17: 20260511_185709.csv; its I channel has exactly 1 positive interval (q=3.281, now undefined, not evaluated); it has 0 intervals (n=0, KE=0), so no level changes.",
+ "day_set_note": "Author's 57 even days = even days of in-support drives incl. 2 days without data; spec text says days WITH DATA (55). Resolve wording or rule; effect on interval ends <=0.27 pp.",
+ "agrees": true,
+ "verdict": "accept (with day-set wording clarified)",
+ "audit_files": [
+  "analyses/M442_audit/re2.py",
+  "analyses/M442_audit/q2.py",
+  "analyses/M442_audit/q2.pkl",
+  "analyses/M442_audit2.json"
+ ]
+}
