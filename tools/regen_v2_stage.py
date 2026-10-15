@@ -16,7 +16,7 @@ import regen_v2 as R
 import regen_v2_agg as G
 import m441_study as S
 
-KEYS = ["regenCaptureV2", "regenCaptureV2Study"]
+KEYS = ["regenCaptureV2", "regenCaptureV2Study", "regenCaptureV2H", "regenCaptureV2HStudy"]
 sha = lambda p: hashlib.sha256(open(p, "rb").read()).hexdigest()
 
 
@@ -50,6 +50,26 @@ def study_block(md5):
             "refresh": "on demand: re-run tools/m441_study.py when the extractor, the gates or the polling regime change, or after about 14 calendar days of new drives; each ingestion carries this block forward unchanged",
             "verdict": "failed; stage ME blocked (%d of %d supported decision cells fail the pre-registered cadence-invariance rule; the strict-drop-only population is invariant, the plateau rule carries the residual)" % (len(R_["cadenceInvariance"]["decision"]["supportedCellsFailing"]), R_["cadenceInvariance"]["decision"]["nSupportedCells"]),
             "sensitivities": R_["sensitivities"], "cadenceInvariance": R_["cadenceInvariance"]}
+
+
+def h_blocks(A, md5):
+    """M442 (spec Rev 1.2): the harmonized levels (interp3, four phases, 3 s grid) and the confirm-run study. Produced ONLY after the confirm run exists (C9: no even-day harmonized aggregate before it)."""
+    import m442_gate as MG
+    R2 = json.load(open("analyses/M442_result.json", encoding="utf-8"))
+    if R2["_provenance"]["masterMd5"] != md5:
+        raise SystemExit("analyses/M442_result.json was computed on a different master: re-run the study (needs a recorded deviation, spec C9)")
+    res, st = G.run(stack=MG.HARM, oos_delta=MG.DELTA, ens_clean=False)
+    lvl = {"milestone": "M442", "spec": "analyses/M442_spec.md", "specSha256": sha("analyses/M442_spec.md"), "masterMd5": md5, "primary": "interp3", "deltaS": MG.DELTA, "phases": MG.PH, "extractorVersion": R.EXTRACTOR_VERSION, "codeHashes": st["codeHashes"],
+           "label": "apparent KE recovery at common sampling resolution (3 s grid, assumed mass); resolution-conditional; assumed masses; not a correction of the legacy values",
+           "reading": ("Levels of the v2 cells after every channel is reduced to a common 3 s grid (speed, current and voltage interpolated to the grid nodes, other channels latest sample, four grid phases averaged). The level depends on the resolution; the continuous-time recovery is not identified. "
+                       "Each level is shown with its day-clustered interval and assumed-mass range; the resolution bracket b is in the study block. Contrasts between adjacent bins are 'resolved' only under the rule of spec M442 Rev 1.2 (D5); otherwise 'not resolved at this resolution'."),
+           "outOfSupport": res.get("outOfSupport"), "refresh": "recomputed at every ingestion by the stage regen_v2 (after the M442 confirm run exists)", "cohorts": res["cohorts"]}
+    study = {"milestone": "M442", "result": "analyses/M442_result.json", "resultSha256": sha("analyses/M442_result.json"), "masterMd5": md5, "specSha256": R2["_provenance"]["specSha256"], "primary": "interp3",
+             "verdict": R2.get("verdict"), "G1": R2.get("G1"), "G2": R2.get("G2"), "G3": R2.get("G3"), "H1": R2.get("H1"), "H2": R2.get("H2"), "bracket": R2.get("bracket"), "contrasts": R2.get("contrasts"), "sensitivities": R2.get("sensitivities"),
+             "reading": ("Gates G1-G3 and the resolution bracket b of spec M442 Rev 1.2; H1 and H2 are reported and do not block. A contrast between adjacent bins is labelled resolved only if its even-day interval excludes 0, it exceeds b(A) + b(B), it has the same sign at both ends of the assumed-mass range and on even, odd and all days; contrasts are unadjusted for multiplicity. "
+                         "Sensitivities are ranges over declared conventions, not confidence intervals."),
+             "refresh": "on demand (a re-run of the confirm run needs a recorded deviation and a Director decision); each ingestion carries this block forward unchanged"}
+    return lvl, study
 
 
 def stamp_for(A, key, blk, md5, note):
@@ -94,6 +114,12 @@ def main(argv=None):
         sb = study_block(md5)
         N["regenCaptureV2Study"] = sb
         N["_artifactStamps"]["regenCaptureV2Study"] = stamp_for(A, "regenCaptureV2Study", sb, md5, "M441: derived by tools/m441_study.py (on demand); sensitivities and cadence-invariance study of the interval extractor v2; carried forward at ingestion")
+    if os.path.exists("analyses/M442_confirm.lock") and os.path.exists("analyses/M442_result.json"):
+        lvl, hs = h_blocks(A, md5)
+        N["regenCaptureV2H"] = lvl
+        N["_artifactStamps"]["regenCaptureV2H"] = stamp_for(A, "regenCaptureV2H", lvl, md5, "M442: derived by tools/regen_v2_stage.py from the per-drive cache (interp3 variants); additive harmonized levels of the apparent KE recovery")
+        N["regenCaptureV2HStudy"] = hs
+        N["_artifactStamps"]["regenCaptureV2HStudy"] = stamp_for(A, "regenCaptureV2HStudy", hs, md5, "M442: derived by tools/m442_gate.py (confirm run); gates, resolution bracket, contrasts and sensitivities; carried forward at ingestion")
     ch = diff(A, N)
     stray = [x for x in ch if not any(x == "/" + k or x.startswith("/" + k + "/") or x.startswith("/_artifactStamps/" + k) for k in KEYS)]
     print(json.dumps({"nChanged": len(ch), "stray": stray[:10], "extraction": {k: v for k, v in st.items() if k in ("nFiles", "cacheHits", "extracted", "seconds")}}))

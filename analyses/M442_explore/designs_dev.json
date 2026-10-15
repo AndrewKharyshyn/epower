@@ -1,0 +1,277 @@
+{
+ "interp3": {
+  "2": {
+   "failing": [
+    "speed|allSoc|0-10",
+    "all|band 69-72|all"
+   ],
+   "indeterminate": [],
+   "total": {
+    "eff": 61.23,
+    "diffPp": 0.488,
+    "ci95": [
+     0.34,
+     0.664
+    ],
+    "judgement": "ok"
+   },
+   "cells": {
+    "temperature|allSoc": {
+     "10–20°C": [
+      0.743,
+      "ok"
+     ],
+     "20–30°C": [
+      0.667,
+      "ok"
+     ],
+     "30–40°C": [
+      -0.571,
+      "ok"
+     ]
+    },
+    "speed|allSoc": {
+     "0-10": [
+      -0.758,
+      "fail"
+     ],
+     "10-20": [
+      0.435,
+      "ok"
+     ],
+     "20-30": [
+      0.525,
+      "ok"
+     ],
+     "30-40": [
+      0.588,
+      "ok"
+     ],
+     "40-50": [
+      0.658,
+      "ok"
+     ],
+     "50-60": [
+      1.021,
+      "ok"
+     ],
+     "60-70": [
+      0.624,
+      "ok"
+     ]
+    }
+   }
+  },
+  "3": {
+   "failing": [
+    "speed|allSoc|0-10",
+    "speed|allSoc|50-60",
+    "all|band 69-72|all"
+   ],
+   "indeterminate": [
+    "temperature|allSoc|10–20°C",
+    "speed|allSoc|60-70"
+   ],
+   "total": {
+    "eff": 61.23,
+    "diffPp": 0.205,
+    "ci95": [
+     -0.072,
+     0.557
+    ],
+    "judgement": "ok"
+   },
+   "cells": {
+    "temperature|allSoc": {
+     "10–20°C": [
+      2.099,
+      "indeterminate"
+     ],
+     "20–30°C": [
+      0.272,
+      "ok"
+     ],
+     "30–40°C": [
+      0.308,
+      "ok"
+     ]
+    },
+    "speed|allSoc": {
+     "0-10": [
+      -2.419,
+      "fail"
+     ],
+     "10-20": [
+      -0.615,
+      "ok"
+     ],
+     "20-30": [
+      0.572,
+      "ok"
+     ],
+     "30-40": [
+      0.135,
+      "ok"
+     ],
+     "40-50": [
+      0.441,
+      "ok"
+     ],
+     "50-60": [
+      1.282,
+      "fail"
+     ],
+     "60-70": [
+      1.46,
+      "indeterminate"
+     ]
+    }
+   }
+  }
+ },
+ "box3": {
+  "2": {
+   "failing": [
+    "temperature|allSoc|20–30°C",
+    "temperature|allSoc|30–40°C",
+    "speed|allSoc|0-10",
+    "speed|allSoc|10-20",
+    "speed|allSoc|30-40",
+    "all|band 50-55|all",
+    "all|band 55-60|all"
+   ],
+   "indeterminate": [],
+   "total": {
+    "eff": 57.83,
+    "diffPp": -0.647,
+    "ci95": [
+     -0.949,
+     -0.293
+    ],
+    "judgement": "ok"
+   },
+   "cells": {
+    "temperature|allSoc": {
+     "10–20°C": [
+      -0.209,
+      "ok"
+     ],
+     "20–30°C": [
+      -0.966,
+      "fail"
+     ],
+     "30–40°C": [
+      -1.58,
+      "fail"
+     ]
+    },
+    "speed|allSoc": {
+     "0-10": [
+      -0.799,
+      "fail"
+     ],
+     "10-20": [
+      -0.784,
+      "fail"
+     ],
+     "20-30": [
+      -0.433,
+      "ok"
+     ],
+     "30-40": [
+      -1.021,
+      "fail"
+     ],
+     "40-50": [
+      -0.424,
+      "ok"
+     ],
+     "50-60": [
+      -0.563,
+      "ok"
+     ],
+     "60-70": [
+      -0.816,
+      "ok"
+     ]
+    }
+   }
+  },
+  "3": {
+   "failing": [
+    "temperature|allSoc|30–40°C",
+    "speed|allSoc|0-10",
+    "speed|allSoc|10-20",
+    "speed|allSoc|30-40",
+    "speed|allSoc|40-50",
+    "all|band 50-55|all",
+    "all|band 55-60|all",
+    "all|band 63-66|all",
+    "all|allSoc|all"
+   ],
+   "indeterminate": [
+    "temperature|allSoc|10–20°C",
+    "temperature|allSoc|20–30°C",
+    "speed|allSoc|50-60",
+    "all|band 60-63|all",
+    "all|band 66-69|all",
+    "all|band 72-100|all"
+   ],
+   "total": {
+    "eff": 57.83,
+    "diffPp": -1.39,
+    "ci95": [
+     -1.977,
+     -0.744
+    ],
+    "judgement": "fail"
+   },
+   "cells": {
+    "temperature|allSoc": {
+     "10–20°C": [
+      2.122,
+      "indeterminate"
+     ],
+     "20–30°C": [
+      -1.564,
+      "indeterminate"
+     ],
+     "30–40°C": [
+      -1.991,
+      "fail"
+     ]
+    },
+    "speed|allSoc": {
+     "0-10": [
+      -2.646,
+      "fail"
+     ],
+     "10-20": [
+      -2.064,
+      "fail"
+     ],
+     "20-30": [
+      -0.672,
+      "ok"
+     ],
+     "30-40": [
+      -2.088,
+      "fail"
+     ],
+     "40-50": [
+      -1.14,
+      "fail"
+     ],
+     "50-60": [
+      -1.598,
+      "indeterminate"
+     ],
+     "60-70": [
+      -0.392,
+      "ok"
+     ]
+    }
+   }
+  }
+ }
+}

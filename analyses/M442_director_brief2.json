@@ -1,0 +1,98 @@
+{
+ "stage": "M442 pre-freeze: development-day (odd days, 18 fast days) evidence on the H1 machinery",
+ "spec": "analyses/M442_spec.md Rev 1.1 (NOT yet committed or hashed; no even-day output exists)",
+ "evidence": {
+  "last3 (spec Rev 1.1 as written)": {
+   "2": {
+    "failing": 2,
+    "indeterminate": 0,
+    "total": {
+     "eff": 62.27,
+     "diffPp": -0.284,
+     "ci95": [
+      -0.54,
+      -0.025
+     ]
+    }
+   },
+   "3": {
+    "failing": 5,
+    "indeterminate": 1,
+    "total": {
+     "eff": 62.27,
+     "diffPp": -0.969,
+     "ci95": [
+      -1.483,
+      -0.563
+     ]
+    }
+   }
+  },
+  "interp3 (linear interpolation of speed, I, V onto the 3 s grid; latest sample for state channels)": {
+   "2": {
+    "failing": 2,
+    "indeterminate": 0,
+    "total": {
+     "eff": 61.23,
+     "diffPp": 0.488,
+     "ci95": [
+      0.34,
+      0.664
+     ],
+     "judgement": "ok"
+    }
+   },
+   "3": {
+    "failing": 3,
+    "indeterminate": 2,
+    "total": {
+     "eff": 61.23,
+     "diffPp": 0.205,
+     "ci95": [
+      -0.072,
+      0.557
+     ],
+     "judgement": "ok"
+    }
+   }
+  },
+  "box3 (3 s boxcar of the power, native samples)": {
+   "2": {
+    "failing": 7,
+    "indeterminate": 0,
+    "total": {
+     "eff": 57.83,
+     "diffPp": -0.647,
+     "ci95": [
+      -0.949,
+      -0.293
+     ],
+     "judgement": "ok"
+    }
+   },
+   "3": {
+    "failing": 9,
+    "indeterminate": 6,
+    "total": {
+     "eff": 57.83,
+     "diffPp": -1.39,
+     "ci95": [
+      -1.977,
+      -0.744
+     ],
+     "judgement": "fail"
+    }
+   }
+  }
+ },
+ "cell_pattern": "in every design the 0-10 km/h speed bin fails (half-width 0.16 pp, below any sampling effect); other failing cells 0.4-2 pp; totals move 0.2-1.4 pp; factor 3 worse than factor 2; sign of the total change differs by design (last3 negative, interp3 positive)",
+ "synthetic": "a rippled rectified current at 0.8 s vs 1.5 s native: harmonization (last3) did not reduce the cadence difference (KAT removed; mechanics only)",
+ "implication": "no tested reduction makes the estimator invariant to a 2-3x change in native sampling within the pre-registered tolerance (assumed-mass half-width); the H1 as written would very likely fail on the even days",
+ "questions": [
+  "Freeze Rev 1.1 unchanged and accept the likely FAIL (cost: even days used up; ME stays blocked)?",
+  "Change the design before the freeze (name which: interp3 has the smallest total shifts) and keep H1?",
+  "Change the gate: the tolerance tied to the mass half-width is below the resolution effect in low-half-width cells (0-10 bin 0.16 pp). Replace invariance by a declared RESOLUTION BRACKET (native, x2, x3 decimation) reported per cell and require only that displayed contrasts between bins exceed the bracket + mass range, with the cadence regime as stratum? State what ME may display under that rule and what Andrii must sign.",
+  "Anything else the evidence supports (e.g. restrict ME bars to speed >= 10 km/h)?"
+ ],
+ "return": "decision per question; verbatim spec text (Rev 1.2) for the changed design/gate; whether Andrii's sign-off is needed"
+}

@@ -1,0 +1,26 @@
+{
+ "stage": "M442 (Rev 3 direction after the M441 cadence-gate failure)",
+ "spec_binding": "analyses/M441_spec.md sections 9-11",
+ "evidence_label": "EXPLORATORY, development days only (odd day-of-month, 87 fast drives) except the first row (all 177 fast drives, M441 study); scripts in analyses/M442_explore/; even days untouched for confirmation",
+ "findings": [
+  "plateau diagnostic (M441, all fast drives): full minus half-rate pooled ratio: strict-only -0.09 pp [-0.41,0.33]; kept +0.98 [0.71,1.28]; kept+trimmed +1.90 [1.59,2.23]",
+  "jitter-tolerant episodes (allow up-steps <=1 or 2 km/h, net KE): REFUTED, ratio inflates (kept 66.8 -> 78.2 / 91.4 %), cadence gap grows",
+  "zig-zag braking events (net KE and charge over event spans, theta 2/3/5 km/h): gap +1.8 pp (67.5 vs 65.8; 69.0 vs 67.0; 71.3 vs 69.2): the interval-selection rule is NOT the cause",
+  "channel isolation (zig-zag events, theta 3, dev days): decimate I and V only (identical intervals): charge 17.90 -> 17.01 kWh (-5 %), ratio -3.4 pp; decimate speed only: KE -4 %, charge -2 %, ratio +1.6 pp; decimate RPM only: no effect",
+  "signed (non-rectified) energy over the same windows is not invariant either: I/V half-rate -6 % (12.39 -> 11.62 kWh), both phases equal -> the current series has structure finer than the polling can follow; a resolution effect of the charge integral, not rectification",
+  "corpus cadence: speed dt median 1.27 s (quantiles 10/25/75/90 %: 0.78/0.87/1.45/1.71 s); two clusters, about 30 % of drives at 0.8-0.9 s; fast share of KE per temperature bin 46 % -> 3 % (cadence confounded with temperature)"
+ ],
+ "implication": "absolute level of v2 depends on cadence by about 1-3 pp per halving; no interval rule removes it; the real danger for comparisons across temperature / SOC bins is the cadence MIX per bin",
+ "candidates": {
+  "P1": "cadence harmonization: thin every drive's native samples per channel to a common minimum spacing tau (e.g. 1.2 s: keep a sample only if >= tau after the last kept; both phases averaged); displayed estimand = harmonized v2; native-rate v2 kept as sensitivity; cadence regime stays a stratum. Validation (pre-registered, even days + unseen thinning factor 3): composition test = harmonized estimates of fast vs slow drives in the same cell agree within the mass half-width (paired by calendar day)",
+  "P2": "accept the resolution effect: no displayed bar binds to absolute v2 level; report v2 at native and half-rate as a resolution bracket; compare bins only within a cadence stratum; ME displays cadence-stratified bars",
+  "P3": "common-bandwidth estimator: low-pass P(t) with a boxcar of W = 3 s (>= twice the slowest typical dt) before the positive-part integral for every drive; changes the estimand (smooths charge flicker) and needs its own validation"
+ },
+ "questions": [
+  "which candidate (or combination) to pre-register as Rev 3 for stage ME, and why",
+  "is the exploration-then-confirm design acceptable (dev odd days explored; confirmation on even days and a thinning factor 3 not yet looked at)",
+  "pre-registered pass criteria for the chosen design (what replaces B6 for a harmonized estimand)",
+  "does MD (SOC-standardized, payload only) proceed in parallel on native-rate v2 with cadence stratum"
+ ],
+ "return": "JSON brief <2.5 KB"
+}

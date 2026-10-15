@@ -3,7 +3,7 @@
 sufficient statistics (git-ignored `regen_cache/`). A drive's entry is reused only if ALL of these match: SHA-256 of the raw file bytes, the frame-loader schema version, the SHA-256 of the despike and speed-priority sources,
 the policy hash (declared constants), the extractor SOURCE hash and the variant id (base | lagP1 | lagM1 | ceil2 | dec0 | dec1). The offset charge (nonlinear in i_off) lives in a separate `<file>.off.npz` keyed by i_off, so an
 offset update never invalidates the main arrays. Mass-free quantities only (dv2); the class mass and the cohort are applied at aggregation. Aggregation reads these arrays only; no raw CSV is read for a view change or a SOC selection."""
-import hashlib, inspect, json, os, sys, time
+import hashlib, inspect, json, os, re, sys, time
 import numpy as np
 import pandas as pd
 
@@ -15,6 +15,30 @@ import regen_v2 as R
 
 CACHE_DIR = os.path.join(ROOT, "regen_cache")
 VARIANTS = {"base": {}, "lagP1": {"iv_lag_s": 1.0}, "lagM1": {"iv_lag_s": -1.0}, "ceil2": {"dt_max": 2.0, "iv_gap": 2.0}, "dec0": {"decimate": 0}, "dec1": {"decimate": 1}}
+def variant_kwargs(variant):
+    """Extractor keyword arguments of a cache variant id. base | lagP1 | lagM1 | ceil2 | dec0 | dec1 | box3 (P3 boxcar W = 3 s) | h{D}p{k} (M442 common grid Delta = D s, phase k * D / 4 s)
+    | d{f}p{q}h{D}p{k} (decimate every f-th native sample from index q, then the common grid)."""
+    if variant in VARIANTS:
+        return dict(VARIANTS[variant])
+    m = re.fullmatch(r"(?:d(\d)p(\d))?(box3|h(\d)p(\d)|l(\d)p(\d)|)", variant)
+    if not m:
+        raise KeyError(variant)
+    f, q, core, hD, hk, lD, lk = m.groups()
+    out = {}
+    if core == "":
+        out["decimate"] = (int(f), int(q))                  # decimation only (native v2 at a lower rate)
+        return out
+    if core == "box3":
+        out["boxcar_s"] = 3.0
+    elif hD is not None:
+        out["harmonize"] = (float(hD), int(hk) * float(hD) / 4.0)
+    else:
+        out["harmonize"] = (float(lD), int(lk) * float(lD) / 4.0); out["harm_interp"] = True     # exploratory interpolation onto the grid
+    if f is not None:
+        out["decimate"] = (int(f), int(q))
+    return out
+
+
 IV_KEYS = ["t0", "dt", "v0", "v1", "dv2", "charge", "tpack", "nprobe", "soc", "cls", "plateau", "trimmed", "endsAtStandstill", "episode"]
 sha256_b = lambda b: hashlib.sha256(b).hexdigest()
 
@@ -76,7 +100,7 @@ def extract_and_store(fn, variant, sha, ch, i_off, FL, need_main=True):
     df = FL(fn)
     if df is None:
         return {"file": fn, "status": "noFrame"}
-    r = R.extract_drive(df, i_off=i_off, **VARIANTS[variant])
+    r = R.extract_drive(df, i_off=i_off, **variant_kwargs(variant))
     mp, op = _paths(fn, variant)
     iv, bins = r["intervals"], r["bins"]
     hdr = dict(ch, rawSha256=sha, variant=variant, counts=r["counts"], nCandidates=r["nCandidates"], cadence=r["cadence"], nInt=0 if iv is None else int(len(iv["t0"])))
@@ -155,3 +179,22 @@ def load(files, variant="base", with_off=True):
                 cols["iv_chargeOff"].append(z["iv_chargeOff"]); cols["bin_chargeOff"].append(z["bin_chargeOff"])
     out = {k: (np.concatenate(v) if v else np.array([])) for k, v in cols.items()}
     return out, hdrs
+
+
+def load_stack(files, variants, with_off=True):
+    """Stack the tables of several variants (e.g. the four grid phases of the M442 harmonized estimator) with a row weight 1 / len(variants); the headers are those of the first variant plus the mean exclusion counts."""
+    parts, hdrs = [], None
+    for v in variants:
+        T, H = load(files, v, with_off=with_off)
+        T["w"] = np.full(len(T["drive"]), 1.0 / len(variants))
+        parts.append(T)
+        if hdrs is None:
+            hdrs = {fn: dict(h, counts=dict(h["counts"])) for fn, h in H.items()}
+        else:
+            for fn, h in H.items():
+                for k_, c_ in h["counts"].items():
+                    hdrs[fn]["counts"][k_] += c_
+    for fn in hdrs:
+        hdrs[fn]["counts"] = {k_: int(round(c_ / len(variants))) for k_, c_ in hdrs[fn]["counts"].items()}
+    return {k: np.concatenate([p_[k] for p_ in parts]) for k in parts[0]}, hdrs
+

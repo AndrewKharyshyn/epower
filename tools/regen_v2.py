@@ -17,7 +17,7 @@ for p_ in (ROOT, os.path.join(ROOT, "tools")):
     if p_ not in sys.path:
         sys.path.insert(0, p_)
 
-EXTRACTOR_VERSION = "regen-v2.1"
+EXTRACTOR_VERSION = "regen-v2.2"
 POLICY = {"dtMaxS": 5.0, "rpmAgeS": 5.0, "tempAgeS": 10.0, "socAgeS": 10.0, "ivGapS": 5.0, "sliceS": 0.05, "engineOffRpm": 300.0, "speedBinKmh": 10, "nSpeedBins": 14, "overflowFromKmh": 130,
           "speedRange": [0, 260], "voltageRange": [200, 450], "tempRange": [-40, 90], "socRange": [0, 100]}
 POLICY_HASH = hashlib.sha256(json.dumps(POLICY, sort_keys=True).encode()).hexdigest()[:16]
@@ -31,9 +31,9 @@ def _csa():
     return C
 
 
-def native(t_s, series, lo=None, hi=None, decimate=None):
+def native(t_s, series, lo=None, hi=None, decimate=None, harm=None, interp=False):
     """(times, values) of the native samples of one channel: numeric and inside the range gate; duplicate timestamps keep the last value; sorted by time.
-    decimate = 0 or 1 keeps every 2nd native sample (phase)."""
+    decimate = (k, phase) keeps every k-th native sample from index `phase` (an int d means (2, d)); harm = (delta, t0): M442 common grid, the latest native sample in (t_j - delta, t_j] at its native time."""
     if series is None:
         return np.array([]), np.array([])
     v = pd.to_numeric(series, errors="coerce").values.astype(float)
@@ -50,7 +50,25 @@ def native(t_s, series, lo=None, hi=None, decimate=None):
     keep = np.r_[t[1:] != t[:-1], True]               # the last of equal timestamps
     t, v = t[keep], v[keep]
     if decimate is not None:
-        t, v = t[decimate::2], v[decimate::2]
+        k_, ph_ = (2, decimate) if isinstance(decimate, (int, np.integer)) else decimate
+        t, v = t[ph_::k_], v[ph_::k_]
+    if harm is not None and t.size and interp:
+        # EXPLORATORY (M442 dev): linear interpolation onto the exact grid t_j = t0 + j delta; a node needs native samples on both sides and a bracketing gap of at most 5 s
+        delta, t0 = harm
+        j0 = int(np.ceil((t[0] - t0) / delta - 1e-9)); j1 = int(np.floor((t[-1] - t0) / delta + 1e-9))
+        g = t0 + delta * np.arange(j0, j1 + 1)
+        if g.size:
+            ib = np.clip(np.searchsorted(t, g, side="right") - 1, 0, t.size - 2); ia = ib + 1
+            okb = (t[ia] - t[ib]) <= 5.0
+            g = g[okb]; ib = ib[okb]; ia = ia[okb]
+            w = (g - t[ib]) / np.maximum(t[ia] - t[ib], 1e-9)
+            return g, v[ib] + w * (v[ia] - v[ib])
+        return g, np.array([])
+    if harm is not None and t.size:
+        delta, t0 = harm
+        j = np.ceil((t - t0) / delta - 1e-9)
+        last = np.r_[j[1:] != j[:-1], True]            # sorted: the last native sample of each grid cell
+        t, v = t[last], v[last]
     return t, v
 
 
@@ -82,7 +100,18 @@ def _median_dt(t):
     return float(np.median(np.diff(t))) if t.size > 1 else float("nan")
 
 
-def _slice_energy(t0, dt, v0, v1, i_t, i_v, v_t, v_v, i_off, h):
+def _boxcar_power(i_t, i_v, v_t, v_v, i_off, w, lo, hi):
+    """Centred moving average over w seconds of P = I V / 1000 on a uniform 20 Hz grid between lo - w and hi + w; returns (grid time, smoothed power) (M442 sensitivity P3)."""
+    g = np.arange(lo - w, hi + w, 0.05)
+    p = (np.interp(g, i_t, i_v) + i_off) * np.interp(g, v_t, v_v) / 1000.0
+    n = max(int(round(w / 0.05)), 1)
+    c = np.r_[0.0, np.cumsum(p)]
+    k = np.arange(len(g))
+    a = np.clip(k - n // 2, 0, len(g)); b = np.clip(k + n - n // 2, 0, len(g))
+    return g, (c[b] - c[a]) / np.maximum(b - a, 1)
+
+
+def _slice_energy(t0, dt, v0, v1, i_t, i_v, v_t, v_v, i_off, h, boxcar=None):
     """Slice arrays of the intervals: owner interval, speed-bin index (mid-point speed), dv2, charge, offset charge."""
     nsl = np.maximum(np.ceil(dt / h - 1e-6).astype(int), 1)       # 1e-6 slice tolerance: 1.4 / 0.05 must give 28, not 29
     tot = int(nsl.sum())
@@ -98,14 +127,23 @@ def _slice_energy(t0, dt, v0, v1, i_t, i_v, v_t, v_v, i_off, h):
     Va, Vb = np.interp(ta, v_t, v_v), np.interp(tb, v_t, v_v)
     pc = lambda I_, V_: np.maximum(I_ * V_ / 1000.0, 0.0)
     sl_dt = DT / np.repeat(nsl, nsl)
-    ch = (pc(Ia, Va) + pc(Ib, Vb)) / 2.0 * sl_dt / 3600.0
-    cho = (pc(Ia + i_off, Va) + pc(Ib + i_off, Vb)) / 2.0 * sl_dt / 3600.0 if i_off is not None else None
+    if boxcar:
+        lo_, hi_ = float(t0.min()), float((t0 + dt).max())
+        g, ps = _boxcar_power(i_t, i_v, v_t, v_v, 0.0, boxcar, lo_, hi_)
+        ch = (np.maximum(np.interp(ta, g, ps), 0.0) + np.maximum(np.interp(tb, g, ps), 0.0)) / 2.0 * sl_dt / 3600.0
+        cho = None
+        if i_off is not None:
+            g2, ps2 = _boxcar_power(i_t, i_v, v_t, v_v, i_off, boxcar, lo_, hi_)
+            cho = (np.maximum(np.interp(ta, g2, ps2), 0.0) + np.maximum(np.interp(tb, g2, ps2), 0.0)) / 2.0 * sl_dt / 3600.0
+    else:
+        ch = (pc(Ia, Va) + pc(Ib, Vb)) / 2.0 * sl_dt / 3600.0
+        cho = (pc(Ia + i_off, Va) + pc(Ib + i_off, Vb)) / 2.0 * sl_dt / 3600.0 if i_off is not None else None
     vm = (va + vb) / 2.0
     bn = np.minimum((np.maximum(vm, 0) // POLICY["speedBinKmh"]).astype(int), NB - 1)
     return {"owner": owner, "bin": bn, "dv2": va ** 2 - vb ** 2, "ch": ch, "cho": cho}
 
 
-def extract_drive(df, C=None, i_off=None, dt_max=None, iv_gap=None, iv_lag_s=0.0, decimate=None):
+def extract_drive(df, C=None, i_off=None, dt_max=None, iv_gap=None, iv_lag_s=0.0, decimate=None, harmonize=None, boxcar_s=None, harm_interp=False):
     """Returns dict(intervals=<arrays of the in-episode intervals incl. trimmed ones>, bins=<(n_int, NB) arrays>, counts, nCandidates, cadence). intervals is None if there is none."""
     C = C or _csa()
     P = dict(POLICY)
@@ -123,15 +161,26 @@ def extract_drive(df, C=None, i_off=None, dt_max=None, iv_gap=None, iv_lag_s=0.0
     ns = tt.values.astype("datetime64[ns]").astype("int64")
     t_s = (ns - ns[np.isfinite(ns)].min() if ns.size else ns) / 1e9          # seconds from the first sample (epoch seconds in float64 lose 2e-7 s)
     g = lambda c: df[c] if c in df else None
-    sp_t, sp_v = native(t_s, g("speed"), *P["speedRange"], decimate=decimate)
+    def q90(t_):
+        d_ = np.diff(t_); d_ = d_[(d_ > 0) & (d_ <= 5.0)]
+        return float(np.percentile(d_, 90)) if d_.size > 1 else float("nan")
+    nat = {"speed": native(t_s, g("speed"), *P["speedRange"])[0], "I": native(t_s, g("I"))[0], "V": native(t_s, g("V"), *P["voltageRange"])[0]}
+    nat_q90 = {k_: q90(t_) for k_, t_ in nat.items()}                       # native sampling-interval 90 % quantiles (M442 support rule), before any reduction
+    if harmonize is not None:                       # M442 C2: the grid origin is the first native sample of any channel (before decimation); phase offsets are added to it
+        firsts = [native(t_s, g(c_), lo_, hi_)[0] for c_, lo_, hi_ in (("speed", *P["speedRange"]), ("I", None, None), ("V", *P["voltageRange"]), ("eng_rpm", 0, None), ("soc", *P["socRange"]),
+                                                                       ("T1", *P["tempRange"]), ("T2", *P["tempRange"]), ("T3", *P["tempRange"]), ("T4", *P["tempRange"]))]
+        origin = min([f_[0] for f_ in firsts if f_.size] or [0.0])
+        harmonize = (harmonize[0], origin + harmonize[1])
+    sp_t, sp_v = native(t_s, g("speed"), *P["speedRange"], decimate=decimate, harm=harmonize, interp=harm_interp)
     if sp_t.size < 2:
+        empty["cadence"] = {"speedDtMed": float("nan"), "ivDtMed": float("nan"), "nativeDtQ90": nat_q90}
         return empty
-    rpm_t, rpm_v = native(t_s, g("eng_rpm"), 0, None, decimate=decimate)
-    i_t, i_v = native(t_s, g("I"), decimate=decimate)
-    v_t, v_v = native(t_s, g("V"), *P["voltageRange"], decimate=decimate)
-    soc_t, soc_v = native(t_s, g("soc"), *P["socRange"], decimate=decimate)
-    T_n = [native(t_s, g(k), *P["tempRange"], decimate=decimate) for k in ("T1", "T2", "T3", "T4")]
-    cad = {"speedDtMed": _median_dt(sp_t), "ivDtMed": float(np.nanmean([_median_dt(i_t), _median_dt(v_t)]))}
+    rpm_t, rpm_v = native(t_s, g("eng_rpm"), 0, None, decimate=decimate, harm=harmonize)
+    i_t, i_v = native(t_s, g("I"), decimate=decimate, harm=harmonize, interp=harm_interp)
+    v_t, v_v = native(t_s, g("V"), *P["voltageRange"], decimate=decimate, harm=harmonize, interp=harm_interp)
+    soc_t, soc_v = native(t_s, g("soc"), *P["socRange"], decimate=decimate, harm=harmonize)
+    T_n = [native(t_s, g(k), *P["tempRange"], decimate=decimate, harm=harmonize) for k in ("T1", "T2", "T3", "T4")]
+    cad = {"speedDtMed": _median_dt(sp_t), "ivDtMed": float(np.nanmean([_median_dt(i_t), _median_dt(v_t)])), "nativeDtQ90": nat_q90}
     if iv_lag_s:
         i_t = i_t + iv_lag_s; v_t = v_t + iv_lag_s
     t0, t1 = sp_t[:-1], sp_t[1:]
@@ -182,7 +231,7 @@ def extract_drive(df, C=None, i_off=None, dt_max=None, iv_gap=None, iv_lag_s=0.0
     nprobe = np.isfinite(tprobe).sum(axis=0)
     tpack = np.where(nprobe == 4, tprobe.mean(axis=0), np.nan)
     soc0, _ = latest(soc_t, soc_v, t0[kidx], P["socAgeS"])
-    S = _slice_energy(t0[kidx], dt[kidx], v0[kidx], v1[kidx], i_t, i_v, v_t, v_v, i_off, P["sliceS"])
+    S = _slice_energy(t0[kidx], dt[kidx], v0[kidx], v1[kidx], i_t, i_v, v_t, v_v, i_off, P["sliceS"], boxcar=boxcar_s)
     m = kidx.size
     comb = S["owner"] * NB + S["bin"]
     size = m * NB

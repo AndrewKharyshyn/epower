@@ -1,0 +1,882 @@
+{
+ "_provenance": {
+  "spec": "analyses/M442_spec.md",
+  "specSha256": "64b363c08adbcbb7730c2eb5041b76f4a8e8e377629505afdac4f5f4fcfd625e",
+  "mode": "dev",
+  "delta": 3.0,
+  "phases": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
+  "bootstrap": {
+   "B": 4000,
+   "seed": 42
+  },
+  "counts": "per-phase averages",
+  "label": "apparent KE recovery at common sampling resolution (3 s grid, assumed mass); dev results do not count toward any gate"
+ },
+ "H1": {
+  "days": 18,
+  "factors": {
+   "2": {
+    "label": "H1 factor 2, odd (dev) days",
+    "cells": {
+     "temperature|allSoc": {
+      "0–10°C": {
+       "eff": 11.14,
+       "n": 15,
+       "status": "failed",
+       "diffPp": 0.547,
+       "ci95": null,
+       "massHalfWidth": 0.18,
+       "judgement": "notTested"
+      },
+      "10–20°C": {
+       "eff": 52.82,
+       "n": 648,
+       "status": "supported",
+       "diffPp": -0.494,
+       "ci95": [
+        -1.642,
+        0.862
+       ],
+       "massHalfWidth": 0.84,
+       "judgement": "ok"
+      },
+      "20–30°C": {
+       "eff": 61.76,
+       "n": 2169,
+       "status": "supported",
+       "diffPp": 0.234,
+       "ci95": [
+        -0.596,
+        1.211
+       ],
+       "massHalfWidth": 0.98,
+       "judgement": "ok"
+      },
+      "30–40°C": {
+       "eff": 64.44,
+       "n": 2422,
+       "status": "supported",
+       "diffPp": -1.25,
+       "ci95": [
+        -2.195,
+        -0.607
+       ],
+       "massHalfWidth": 1.02,
+       "judgement": "fail"
+      }
+     },
+     "speed|allSoc": {
+      "0-10": {
+       "eff": 13.72,
+       "n": 1582,
+       "status": "supported",
+       "diffPp": -0.645,
+       "ci95": [
+        -0.86,
+        -0.453
+       ],
+       "massHalfWidth": 0.21,
+       "judgement": "fail"
+      },
+      "10-20": {
+       "eff": 51.03,
+       "n": 1692,
+       "status": "supported",
+       "diffPp": -0.095,
+       "ci95": [
+        -0.423,
+        0.215
+       ],
+       "massHalfWidth": 0.81,
+       "judgement": "ok"
+      },
+      "20-30": {
+       "eff": 66.38,
+       "n": 1460,
+       "status": "supported",
+       "diffPp": -0.543,
+       "ci95": [
+        -0.889,
+        -0.248
+       ],
+       "massHalfWidth": 1.05,
+       "judgement": "ok"
+      },
+      "30-40": {
+       "eff": 66.88,
+       "n": 1097,
+       "status": "supported",
+       "diffPp": 0.018,
+       "ci95": [
+        -0.47,
+        0.496
+       ],
+       "massHalfWidth": 1.06,
+       "judgement": "ok"
+      },
+      "40-50": {
+       "eff": 70.53,
+       "n": 502,
+       "status": "supported",
+       "diffPp": -0.141,
+       "ci95": [
+        -0.638,
+        0.451
+       ],
+       "massHalfWidth": 1.12,
+       "judgement": "ok"
+      },
+      "50-60": {
+       "eff": 66.57,
+       "n": 348,
+       "status": "supported",
+       "diffPp": 0.082,
+       "ci95": [
+        -0.468,
+        0.591
+       ],
+       "massHalfWidth": 1.05,
+       "judgement": "ok"
+      },
+      "60-70": {
+       "eff": 66.51,
+       "n": 193,
+       "status": "thin",
+       "diffPp": -0.457,
+       "ci95": [
+        -1.57,
+        0.6
+       ],
+       "massHalfWidth": 1.05,
+       "judgement": "notTested"
+      },
+      "70-80": {
+       "eff": 68.27,
+       "n": 46,
+       "status": "thin",
+       "diffPp": -1.083,
+       "ci95": [
+        -2.877,
+        0.668
+       ],
+       "massHalfWidth": 1.09,
+       "judgement": "notTested"
+      },
+      "80-90": {
+       "eff": 67.84,
+       "n": 30,
+       "status": "thin",
+       "diffPp": -1.893,
+       "ci95": [
+        -5.07,
+        0.308
+       ],
+       "massHalfWidth": 1.08,
+       "judgement": "notTested"
+      },
+      "90-100": {
+       "eff": 68.18,
+       "n": 18,
+       "status": "thin",
+       "diffPp": -0.232,
+       "ci95": [
+        -1.441,
+        0.363
+       ],
+       "massHalfWidth": 1.08,
+       "judgement": "notTested"
+      },
+      "100-110": {
+       "eff": 76.36,
+       "n": 8,
+       "status": "thin",
+       "diffPp": -0.31,
+       "ci95": [
+        -4.049,
+        1.332
+       ],
+       "massHalfWidth": 1.22,
+       "judgement": "notTested"
+      },
+      "110-120": {
+       "eff": 67.44,
+       "n": 4,
+       "status": "thin",
+       "diffPp": 0.763,
+       "ci95": [
+        -1.109,
+        6.623
+       ],
+       "massHalfWidth": 1.07,
+       "judgement": "notTested"
+      },
+      "120-130": {
+       "eff": 65.07,
+       "n": 2,
+       "status": "failed",
+       "diffPp": 0.085,
+       "ci95": null,
+       "massHalfWidth": 1.03,
+       "judgement": "notTested"
+      },
+      ">=130": {
+       "eff": 60.38,
+       "n": 2,
+       "status": "failed",
+       "diffPp": 0.22,
+       "ci95": null,
+       "massHalfWidth": 0.96,
+       "judgement": "notTested"
+      }
+     },
+     "all|band 40-50": {
+      "all": {
+       "eff": 25.45,
+       "n": 57,
+       "status": "thin",
+       "diffPp": -1.66,
+       "ci95": [
+        -3.149,
+        -0.046
+       ],
+       "massHalfWidth": 0.4,
+       "judgement": "notTested"
+      }
+     },
+     "all|band 50-55": {
+      "all": {
+       "eff": 51.5,
+       "n": 678,
+       "status": "supported",
+       "diffPp": -0.575,
+       "ci95": [
+        -1.158,
+        -0.012
+       ],
+       "massHalfWidth": 0.82,
+       "judgement": "ok"
+      }
+     },
+     "all|band 55-60": {
+      "all": {
+       "eff": 60.39,
+       "n": 1061,
+       "status": "supported",
+       "diffPp": -0.559,
+       "ci95": [
+        -1.219,
+        0.152
+       ],
+       "massHalfWidth": 0.96,
+       "judgement": "ok"
+      }
+     },
+     "all|band 60-63": {
+      "all": {
+       "eff": 60.72,
+       "n": 730,
+       "status": "supported",
+       "diffPp": 0.245,
+       "ci95": [
+        -1.094,
+        1.344
+       ],
+       "massHalfWidth": 0.96,
+       "judgement": "ok"
+      }
+     },
+     "all|band 63-66": {
+      "all": {
+       "eff": 63.28,
+       "n": 848,
+       "status": "supported",
+       "diffPp": -0.656,
+       "ci95": [
+        -1.531,
+        0.203
+       ],
+       "massHalfWidth": 1.0,
+       "judgement": "ok"
+      }
+     },
+     "all|band 66-69": {
+      "all": {
+       "eff": 62.41,
+       "n": 947,
+       "status": "supported",
+       "diffPp": -0.789,
+       "ci95": [
+        -1.294,
+        -0.355
+       ],
+       "massHalfWidth": 0.99,
+       "judgement": "ok"
+      }
+     },
+     "all|band 69-72": {
+      "all": {
+       "eff": 63.74,
+       "n": 577,
+       "status": "supported",
+       "diffPp": 0.575,
+       "ci95": [
+        -0.171,
+        1.621
+       ],
+       "massHalfWidth": 1.01,
+       "judgement": "ok"
+      }
+     },
+     "all|band 72-100": {
+      "all": {
+       "eff": 74.7,
+       "n": 376,
+       "status": "supported",
+       "diffPp": -0.066,
+       "ci95": [
+        -0.653,
+        0.63
+       ],
+       "massHalfWidth": 1.18,
+       "judgement": "ok"
+      }
+     },
+     "all|below40": {},
+     "all|allSoc": {
+      "all": {
+       "eff": 62.27,
+       "n": 5274,
+       "status": "supported",
+       "diffPp": -0.284,
+       "ci95": [
+        -0.54,
+        -0.025
+       ],
+       "massHalfWidth": 0.99,
+       "judgement": "ok"
+      }
+     }
+    },
+    "views": {
+     "temperature|allSoc": {
+      "nCells": 4,
+      "nSupported": 3,
+      "inconclusive": false
+     },
+     "speed|allSoc": {
+      "nCells": 14,
+      "nSupported": 6,
+      "inconclusive": true
+     },
+     "all|band 40-50": {
+      "nCells": 1,
+      "nSupported": 0,
+      "inconclusive": true
+     },
+     "all|band 50-55": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     },
+     "all|band 55-60": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     },
+     "all|band 60-63": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     },
+     "all|band 63-66": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     },
+     "all|band 66-69": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     },
+     "all|band 69-72": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     },
+     "all|band 72-100": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     },
+     "all|below40": {
+      "nCells": 0,
+      "nSupported": 0,
+      "inconclusive": true
+     },
+     "all|allSoc": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     }
+    },
+    "failing": [
+     "temperature|allSoc|30–40°C",
+     "speed|allSoc|0-10"
+    ],
+    "indeterminate": [],
+    "total": {
+     "eff": 62.27,
+     "n": 5274,
+     "status": "supported",
+     "diffPp": -0.284,
+     "ci95": [
+      -0.54,
+      -0.025
+     ],
+     "massHalfWidth": 0.99,
+     "judgement": "ok"
+    },
+    "totalOk": true,
+    "inconclusive": true
+   },
+   "3": {
+    "label": "H1 factor 3, odd (dev) days",
+    "cells": {
+     "temperature|allSoc": {
+      "0–10°C": {
+       "eff": 11.14,
+       "n": 15,
+       "status": "failed",
+       "diffPp": -9.264,
+       "ci95": null,
+       "massHalfWidth": 0.18,
+       "judgement": "notTested"
+      },
+      "10–20°C": {
+       "eff": 52.82,
+       "n": 648,
+       "status": "supported",
+       "diffPp": -0.021,
+       "ci95": [
+        -7.282,
+        7.208
+       ],
+       "massHalfWidth": 0.84,
+       "judgement": "ok"
+      },
+      "20–30°C": {
+       "eff": 61.76,
+       "n": 2169,
+       "status": "supported",
+       "diffPp": -0.231,
+       "ci95": [
+        -2.245,
+        1.82
+       ],
+       "massHalfWidth": 0.98,
+       "judgement": "ok"
+      },
+      "30–40°C": {
+       "eff": 64.44,
+       "n": 2422,
+       "status": "supported",
+       "diffPp": -0.543,
+       "ci95": [
+        -2.376,
+        1.073
+       ],
+       "massHalfWidth": 1.02,
+       "judgement": "ok"
+      }
+     },
+     "speed|allSoc": {
+      "0-10": {
+       "eff": 13.72,
+       "n": 1582,
+       "status": "supported",
+       "diffPp": -1.628,
+       "ci95": [
+        -2.186,
+        -1.168
+       ],
+       "massHalfWidth": 0.21,
+       "judgement": "fail"
+      },
+      "10-20": {
+       "eff": 51.03,
+       "n": 1692,
+       "status": "supported",
+       "diffPp": -1.082,
+       "ci95": [
+        -1.889,
+        -0.354
+       ],
+       "massHalfWidth": 0.81,
+       "judgement": "fail"
+      },
+      "20-30": {
+       "eff": 66.38,
+       "n": 1460,
+       "status": "supported",
+       "diffPp": -0.621,
+       "ci95": [
+        -1.182,
+        -0.102
+       ],
+       "massHalfWidth": 1.05,
+       "judgement": "ok"
+      },
+      "30-40": {
+       "eff": 66.88,
+       "n": 1097,
+       "status": "supported",
+       "diffPp": -1.118,
+       "ci95": [
+        -1.951,
+        -0.401
+       ],
+       "massHalfWidth": 1.06,
+       "judgement": "fail"
+      },
+      "40-50": {
+       "eff": 70.53,
+       "n": 502,
+       "status": "supported",
+       "diffPp": -0.234,
+       "ci95": [
+        -1.034,
+        0.489
+       ],
+       "massHalfWidth": 1.12,
+       "judgement": "ok"
+      },
+      "50-60": {
+       "eff": 66.57,
+       "n": 348,
+       "status": "supported",
+       "diffPp": 0.157,
+       "ci95": [
+        -1.634,
+        2.159
+       ],
+       "massHalfWidth": 1.05,
+       "judgement": "ok"
+      },
+      "60-70": {
+       "eff": 66.51,
+       "n": 193,
+       "status": "thin",
+       "diffPp": 0.283,
+       "ci95": [
+        -2.641,
+        3.058
+       ],
+       "massHalfWidth": 1.05,
+       "judgement": "notTested"
+      },
+      "70-80": {
+       "eff": 68.27,
+       "n": 46,
+       "status": "thin",
+       "diffPp": -0.962,
+       "ci95": [
+        -4.229,
+        2.315
+       ],
+       "massHalfWidth": 1.09,
+       "judgement": "notTested"
+      },
+      "80-90": {
+       "eff": 67.84,
+       "n": 30,
+       "status": "thin",
+       "diffPp": 0.045,
+       "ci95": [
+        -2.32,
+        2.615
+       ],
+       "massHalfWidth": 1.08,
+       "judgement": "notTested"
+      },
+      "90-100": {
+       "eff": 68.18,
+       "n": 18,
+       "status": "thin",
+       "diffPp": 0.228,
+       "ci95": [
+        -3.613,
+        4.202
+       ],
+       "massHalfWidth": 1.08,
+       "judgement": "notTested"
+      },
+      "100-110": {
+       "eff": 76.36,
+       "n": 8,
+       "status": "thin",
+       "diffPp": -0.876,
+       "ci95": [
+        -8.607,
+        0.727
+       ],
+       "massHalfWidth": 1.22,
+       "judgement": "notTested"
+      },
+      "110-120": {
+       "eff": 67.44,
+       "n": 4,
+       "status": "thin",
+       "diffPp": -1.737,
+       "ci95": [
+        -9.379,
+        11.912
+       ],
+       "massHalfWidth": 1.07,
+       "judgement": "notTested"
+      },
+      "120-130": {
+       "eff": 65.07,
+       "n": 2,
+       "status": "failed",
+       "diffPp": -0.209,
+       "ci95": null,
+       "massHalfWidth": 1.03,
+       "judgement": "notTested"
+      },
+      ">=130": {
+       "eff": 60.38,
+       "n": 2,
+       "status": "failed",
+       "diffPp": -0.674,
+       "ci95": null,
+       "massHalfWidth": 0.96,
+       "judgement": "notTested"
+      }
+     },
+     "all|band 40-50": {
+      "all": {
+       "eff": 25.45,
+       "n": 57,
+       "status": "thin",
+       "diffPp": -2.255,
+       "ci95": [
+        -4.154,
+        4.601
+       ],
+       "massHalfWidth": 0.4,
+       "judgement": "notTested"
+      }
+     },
+     "all|band 50-55": {
+      "all": {
+       "eff": 51.5,
+       "n": 678,
+       "status": "supported",
+       "diffPp": -1.587,
+       "ci95": [
+        -3.42,
+        0.309
+       ],
+       "massHalfWidth": 0.82,
+       "judgement": "indeterminate"
+      }
+     },
+     "all|band 55-60": {
+      "all": {
+       "eff": 60.39,
+       "n": 1061,
+       "status": "supported",
+       "diffPp": -0.33,
+       "ci95": [
+        -1.091,
+        0.462
+       ],
+       "massHalfWidth": 0.96,
+       "judgement": "ok"
+      }
+     },
+     "all|band 60-63": {
+      "all": {
+       "eff": 60.72,
+       "n": 730,
+       "status": "supported",
+       "diffPp": -0.86,
+       "ci95": [
+        -2.311,
+        0.449
+       ],
+       "massHalfWidth": 0.96,
+       "judgement": "ok"
+      }
+     },
+     "all|band 63-66": {
+      "all": {
+       "eff": 63.28,
+       "n": 848,
+       "status": "supported",
+       "diffPp": -0.542,
+       "ci95": [
+        -1.151,
+        0.106
+       ],
+       "massHalfWidth": 1.0,
+       "judgement": "ok"
+      }
+     },
+     "all|band 66-69": {
+      "all": {
+       "eff": 62.41,
+       "n": 947,
+       "status": "supported",
+       "diffPp": -1.16,
+       "ci95": [
+        -2.554,
+        -0.209
+       ],
+       "massHalfWidth": 0.99,
+       "judgement": "fail"
+      }
+     },
+     "all|band 69-72": {
+      "all": {
+       "eff": 63.74,
+       "n": 577,
+       "status": "supported",
+       "diffPp": 0.248,
+       "ci95": [
+        -0.951,
+        1.275
+       ],
+       "massHalfWidth": 1.01,
+       "judgement": "ok"
+      }
+     },
+     "all|band 72-100": {
+      "all": {
+       "eff": 74.7,
+       "n": 376,
+       "status": "supported",
+       "diffPp": -3.583,
+       "ci95": [
+        -6.092,
+        -1.508
+       ],
+       "massHalfWidth": 1.18,
+       "judgement": "fail"
+      }
+     },
+     "all|below40": {},
+     "all|allSoc": {
+      "all": {
+       "eff": 62.27,
+       "n": 5274,
+       "status": "supported",
+       "diffPp": -0.969,
+       "ci95": [
+        -1.483,
+        -0.563
+       ],
+       "massHalfWidth": 0.99,
+       "judgement": "ok"
+      }
+     }
+    },
+    "views": {
+     "temperature|allSoc": {
+      "nCells": 4,
+      "nSupported": 3,
+      "inconclusive": false
+     },
+     "speed|allSoc": {
+      "nCells": 14,
+      "nSupported": 6,
+      "inconclusive": true
+     },
+     "all|band 40-50": {
+      "nCells": 1,
+      "nSupported": 0,
+      "inconclusive": true
+     },
+     "all|band 50-55": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     },
+     "all|band 55-60": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     },
+     "all|band 60-63": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     },
+     "all|band 63-66": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     },
+     "all|band 66-69": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     },
+     "all|band 69-72": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     },
+     "all|band 72-100": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     },
+     "all|below40": {
+      "nCells": 0,
+      "nSupported": 0,
+      "inconclusive": true
+     },
+     "all|allSoc": {
+      "nCells": 1,
+      "nSupported": 1,
+      "inconclusive": false
+     }
+    },
+    "failing": [
+     "speed|allSoc|0-10",
+     "speed|allSoc|10-20",
+     "speed|allSoc|30-40",
+     "all|band 66-69|all",
+     "all|band 72-100|all"
+    ],
+    "indeterminate": [
+     "all|band 50-55|all"
+    ],
+    "total": {
+     "eff": 62.27,
+     "n": 5274,
+     "status": "supported",
+     "diffPp": -0.969,
+     "ci95": [
+      -1.483,
+      -0.563
+     ],
+     "massHalfWidth": 0.99,
+     "judgement": "ok"
+    },
+    "totalOk": true,
+    "inconclusive": true
+   }
+  },
+  "pass": false,
+  "inconclusive": true
+ },
+ "seconds": 617
+}
