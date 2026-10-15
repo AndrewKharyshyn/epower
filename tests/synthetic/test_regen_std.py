@@ -153,4 +153,6 @@ rng_ = np.random.default_rng(0)
 fake = {0: {"point": 10.0, "draws": 10.0 + rng_.normal(0, 1.0, 4000)}, 1: {"point": 10.2, "draws": 10.2 + rng_.normal(0, 1.0, 4000)}, 2: {"point": 15.0, "draws": 15.0 + rng_.normal(0, 1.0, 4000)}}
 sg = S.ci_signs(fake, ["a", "b", "c"], [0, 1, 2])
 assert sg["a>b"] == "indeterminate" and sg["b>c"] == 1
+widx2, W2 = S.week_index(np.array(["2026-03-02", "2026-03-08", "2026-03-09"]))               # numpy string elements (the first real run crashed on them before any output existed)
+assert W2 == 2 and widx2[0] == widx2[1] and widx2[1] != widx2[2]
 print("test_regen_std: ALL PASSED")

@@ -95,10 +95,12 @@ def std_blocks(A, md5, with_study):
                reading=("SOC-standardized apparent KE recovery (assumed mass): each bar is the KE-weighted combination over the common-support SOC bands of the joint-cell recoveries, standardized to the all-cohort reference SOC mix; it adjusts for the SOC composition of the groups only. "
                         "It is not adjusted for speed, demand, season, day or the polling cadence regime (pooled bars are cadence-mixed: see the fast-polled KE share of each bar), it is not an effect of temperature and not an efficiency. "
                         "A group without support in every retained SOC band is shown as unsupported for the comparison, never imputed. The intervals are conditional on the reference weights and the retained bands."),
+               speedViewPopulation="The speed view uses intervals with a valid SOC at the interval start (a valid pack temperature is not required); the reference weights come from intervals with a valid pack temperature and a valid SOC; the speed view is restricted to 10-70 km/h in the retained groups (spec M444 Rev 2.2 S9).",
                refresh="recomputed at every ingestion by the stage regen_v2 (after the first run of the M444 analysis exists)")
     study = None
     if with_study and first.get("study"):
         study = dict(first["study"], milestone="M444", result="analyses/M444_result.json", resultSha256=sha("analyses/M444_result.json"), specSha256=first["_provenance"]["specSha256"], masterMd5=md5,
+                     redundantSensitivities=["ensCleanDrives: the ens-flagged drives hold almost no kept intervals, so it reproduces the primary (spec M444 Rev 2.2 S11)"],
                      reading="Braking-demand check (episode deceleration ladder), chronological holdouts and sensitivities of the SOC-standardized bars; descriptive, with no decision resting on them; ranges over declared conventions, never combined with the statistical interval.",
                      refresh="on demand: each ingestion carries this block forward unchanged")
     return blk, study

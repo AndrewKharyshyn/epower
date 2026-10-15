@@ -67,7 +67,7 @@ def common_support(J, w, cand, thr=COVERAGE_MIN):
 def week_index(days):
     wk = []
     for d in days:
-        iso = pd.Timestamp(d).isocalendar()
+        iso = pd.Timestamp(str(d)).isocalendar()
         wk.append((int(iso[0]), int(iso[1])))
     uw = sorted(set(wk))
     return np.array([uw.index(w) for w in wk]), len(uw)

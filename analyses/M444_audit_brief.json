@@ -1,0 +1,111 @@
+{
+ "task": "blind reproduction of the M444 SOC-standardized apparent KE recovery. Definition: analyses/M444_spec.md Rev 2.1 (sections 1-4 and 11) and, for the interval definitions that feed it, analyses/M441_spec.md sections 1, 2, 9, 10, 11 (native v2 layer: consecutive native speed samples, episodes, plateau trimming, 0.05 s slices, assumed class masses 1890 kg urban/mixed; compute_summary_arrays._mass_for_drive for the others; SOC at the interval START from the BMS SoC channel; pack temperature = mean of the 4 probes at the interval start, M441 age rules). Do NOT read tools/*.py, tests/, analyses/M444_result.json, analyses/M44*/ or any other file under analyses/ except the three specs and this brief; you may reuse your own earlier code under analyses/M441_audit/ and analyses/M442_audit/ ONLY IF you wrote it (the M441 audit extractor was written from the spec text by an independent auditor and is allowed). Data: raw_only/<file>, drive_master.csv, seasonal_drive_master.csv (cohorts).",
+ "cohort": "all (578 drives); day set = calendar days (master start date) with at least one kept interval (113 days); bootstrap: numpy default_rng(42).integers(0, D, (4000, D)) over the sorted days, counts per day, ratios recomputed in every draw with the weights held fixed.",
+ "claims": {
+  "referenceWeights_9strata": {
+   "band 40-50": 0.0014,
+   "band 50-55": 0.03556,
+   "band 55-60": 0.07928,
+   "band 60-63": 0.09281,
+   "band 63-66": 0.20445,
+   "band 66-69": 0.27637,
+   "band 69-72": 0.18567,
+   "band 72-100": 0.12446,
+   "below40": 0.0
+  },
+  "temperatureView_cohortAll": {
+   "available": true,
+   "coverage": 0.9986,
+   "retainedBands": [
+    "band 50-55",
+    "band 55-60",
+    "band 60-63",
+    "band 63-66",
+    "band 66-69",
+    "band 69-72",
+    "band 72-100"
+   ],
+   "droppedGroups": [],
+   "bars": {
+    "10–20°C": {
+     "standardized": 58.76,
+     "ci95Days": [
+      56.17,
+      61.3
+     ],
+     "observedAllSoc": 57.95,
+     "observedOnCommonBands": 58.11
+    },
+    "20–30°C": {
+     "standardized": 69.91,
+     "ci95Days": [
+      67.7,
+      72.34
+     ],
+     "observedAllSoc": 67.93,
+     "observedOnCommonBands": 67.98
+    },
+    "30–40°C": {
+     "standardized": 68.86,
+     "ci95Days": [
+      67.28,
+      70.5
+     ],
+     "observedAllSoc": 69.23,
+     "observedOnCommonBands": 69.28
+    },
+    "40–50°C": {
+     "standardized": 70.57,
+     "ci95Days": [
+      67.53,
+      74.05
+     ],
+     "observedAllSoc": 72.84,
+     "observedOnCommonBands": 72.86
+    }
+   }
+  },
+  "speedView_cohortAll": {
+   "available": true,
+   "coverage": 0.8838,
+   "retainedBands": [
+    "band 60-63",
+    "band 63-66",
+    "band 66-69",
+    "band 69-72",
+    "band 72-100"
+   ],
+   "droppedGroups": [
+    "100-110",
+    "90-100",
+    "80-90",
+    "70-80"
+   ],
+   "bars": {
+    "10-20": {
+     "standardized": 52.92,
+     "ci95Days": [
+      51.19,
+      54.82
+     ],
+     "observedOnCommonBands": 53.2
+    },
+    "40-50": {
+     "standardized": 75.92,
+     "ci95Days": [
+      74.06,
+      77.83
+     ],
+     "observedOnCommonBands": 76.63
+    }
+   }
+  }
+ },
+ "tolerances": "weights and coverage 1e-4; standardized and observed values 0.05 pp; intervals 0.15 pp; retained-band lists and dropped groups exact. Support floors: >= 200 strict-drop intervals, >= 10 drives, >= 5 days per joint cell (group x SOC band); the SOC band edges are 40/50/55/60/63/66/69/72/100 (lower-inclusive; below 40 explicit).",
+ "also_check": [
+  "the common-support rule of spec section 3 and the drop order (applied to the speed view: which groups are dropped and why)",
+  "the single renormalization over the retained bands and that the weights are the same for both views",
+  "the language of the spec: anything ambiguous that you had to guess"
+ ],
+ "return": "JSON brief <2 KB to analyses/M444_audit.json (encoding='utf-8' on every text open): per item agree / differ with max differences, ambiguities, concerns. Write your own code under analyses/M444_audit/ (avoid Windows reserved file names such as con.py)."
+}
