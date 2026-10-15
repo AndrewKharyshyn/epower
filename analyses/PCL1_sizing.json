@@ -1,0 +1,87 @@
+{
+ "note": "PCL-1 sizing: k calendar days (days with >= 4 drives) drawn with replacement from the existing corpus, drives assigned to two hypothetical arms in permuted blocks of two; cells supported in BOTH arms; 200 trials per k, seed 42; native v2 strict-drop interval counts",
+ "daysWithAtLeast4Drives": 77,
+ "daysTotal": 117,
+ "byPairedDays": {
+  "5": {
+   "meanSupportedTemperatureCells": 0.07,
+   "meanSupportedSpeedCells": 3.47,
+   "shareTrialsWithAtLeast3TempAnd5SpeedCells": 0.0
+  },
+  "10": {
+   "meanSupportedTemperatureCells": 1.63,
+   "meanSupportedSpeedCells": 5.75,
+   "shareTrialsWithAtLeast3TempAnd5SpeedCells": 0.01
+  },
+  "15": {
+   "meanSupportedTemperatureCells": 2.39,
+   "meanSupportedSpeedCells": 7.04,
+   "shareTrialsWithAtLeast3TempAnd5SpeedCells": 0.385
+  },
+  "20": {
+   "meanSupportedTemperatureCells": 2.83,
+   "meanSupportedSpeedCells": 7.9,
+   "shareTrialsWithAtLeast3TempAnd5SpeedCells": 0.835
+  },
+  "30": {
+   "meanSupportedTemperatureCells": 3.11,
+   "meanSupportedSpeedCells": 8.91,
+   "shareTrialsWithAtLeast3TempAnd5SpeedCells": 0.995
+  },
+  "40": {
+   "meanSupportedTemperatureCells": 3.43,
+   "meanSupportedSpeedCells": 9.41,
+   "shareTrialsWithAtLeast3TempAnd5SpeedCells": 1.0
+  }
+ },
+ "totalPrecisionHypotheticalArms": {
+  "note": "half-width of the day-clustered fast-minus-slow difference of the pooled all-drive ratio under hypothetical arms and NO true cadence effect (variance of the day-level ratio only); pTotalOk = share of trials whose whole interval lies inside the view-total tolerance; pPassUpperBound = the smaller of the two (an upper bound of P(PASS): the cell conditions are not simulated); B = 300 resamples, 200 trials per k, seed 42; k = 160 uses the 97.5 % level of the extension",
+  "tolerances": {
+   "temperatureTotal": 2.247,
+   "speedTotal": 1.392,
+   "pooledMassHalfWidth": 0.57
+  },
+  "byPairedDays": {
+   "30": {
+    "intervalLevel": 95.0,
+    "medianHalfWidthPp": 4.43,
+    "p90HalfWidthPp": 5.9,
+    "pTotalOkTemperature": 0.0,
+    "pTotalOkSpeed": 0.0,
+    "pPassUpperBound": 0.0
+   },
+   "60": {
+    "intervalLevel": 95.0,
+    "medianHalfWidthPp": 3.32,
+    "p90HalfWidthPp": 4.02,
+    "pTotalOkTemperature": 0.0,
+    "pTotalOkSpeed": 0.0,
+    "pPassUpperBound": 0.0
+   },
+   "80": {
+    "intervalLevel": 95.0,
+    "medianHalfWidthPp": 2.92,
+    "p90HalfWidthPp": 3.45,
+    "pTotalOkTemperature": 0.015,
+    "pTotalOkSpeed": 0.0,
+    "pPassUpperBound": 0.0
+   },
+   "100": {
+    "intervalLevel": 95.0,
+    "medianHalfWidthPp": 2.59,
+    "p90HalfWidthPp": 3.08,
+    "pTotalOkTemperature": 0.03,
+    "pTotalOkSpeed": 0.0,
+    "pPassUpperBound": 0.0
+   },
+   "160": {
+    "intervalLevel": 97.5,
+    "medianHalfWidthPp": 2.3,
+    "p90HalfWidthPp": 2.7,
+    "pTotalOkTemperature": 0.06,
+    "pTotalOkSpeed": 0.0,
+    "pPassUpperBound": 0.0
+   }
+  }
+ }
+}

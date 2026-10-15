@@ -443,6 +443,18 @@
    ]
   },
   {
+   "id": "pcl_monitor",
+   "title": "M443: PCL-1 paired-cadence protocol monitor (report-only; spec analyses/PCL1_spec.md): compliance of the logger polling arm with the schedule, paired days and drives per observed arm; counts only, no cell value of the protocol drives; state analyses/pcl1_monitor.json (a no-op until the owner starts the protocol)",
+   "cmd": [
+    "python3",
+    "tools/pcl_monitor.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "analyses/pcl1_monitor.json"
+   ]
+  },
+  {
    "id": "dissipation_monitor",
    "title": "M394: report-only monitor of the unfuelled (motored) engine dissipation mode: records every drive's events, flags the first sustained event per pack-temperature band, events below the SoC range seen, detector gaps and not-evaluable drives; never stops an ingestion (analyses/M394_spec.md)",
    "cmd": [
