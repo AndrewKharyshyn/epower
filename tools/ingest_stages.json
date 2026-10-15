@@ -406,6 +406,18 @@
    ]
   },
   {
+   "id": "regen_v2",
+   "title": "M441: interval-based extractor v2 of the apparent battery-side KE recovery (spec analyses/M441_spec.md Rev 2.1): per-drive cache regen_cache/ (only new or invalidated drives are extracted), observed cells by pack temperature, speed during braking and SOC band with day-clustered intervals and support status; additive payload key regenCaptureV2 + stamp; the legacy regen keys are untouched; the on-demand study block regenCaptureV2Study is carried forward",
+   "cmd": [
+    "python3",
+    "tools/regen_v2_stage.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json"
+   ]
+  },
+  {
    "id": "integration_scenarios",
    "title": "M420: integration-choice scenarios (alignment, interpolation, gap policy, offset) re-integrated from the logged HV current and voltage beside the energy Monte Carlo, with carried cadence / quantisation / midpoint studies and the capacity references in separate subtables; baseline must reproduce the master, D1 must reproduce offsetGrossSensitivity (spec analyses/M420_spec.md); additive payload block integrationScenarios + stamp; no row is summed or turned into an interval",
    "cmd": [

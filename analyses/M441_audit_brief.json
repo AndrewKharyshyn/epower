@@ -1,0 +1,546 @@
+{
+ "task": "blind reproduction of the interval-based extractor v2 (spec analyses/M441_spec.md sections 1, 2, 9, 10; section 9/10 supersede conflicting parts of 2-6). Do NOT read tools/regen_v2*.py, tools/m441_*.py, analyses/M441_result.json or any other file under analyses/ except the spec. Raw data: raw_only/<file> (read-only), master drive_master.csv (columns file, date, drive_type; class mass: urban/mixed 1890 kg, highway/mixed_highway and unknown from compute_summary_arrays._mass_for_drive constants MASS_HIGHWAY_KG / VEHICLE_MASS_KG - read those three constants only).",
+ "claim_scope": "Report your own independent numbers for each item and the relative difference to the claimed value; counts must be exact, KE/charge/ratios to 0.1 percentage point (ratios) or 1e-6 relative (energies). Report any ambiguity of the spec you had to resolve and how.",
+ "claims": {
+  "cohort": "all (578 drives)",
+  "exclusionsIntervals": {
+   "currentOrVoltageUnsupported": 25139,
+   "engineOn": 282111,
+   "notDecelOrFlat": 98287,
+   "rpmUnknown": 134,
+   "speedGap": 360,
+   "tempUnsupported": 5770,
+   "socUnsupported": 0
+  },
+  "totals": {
+   "nStrict": 98557,
+   "nPlateauKept": 17138,
+   "nTrimmedPlateau": 128711,
+   "keKwh": 304.0354,
+   "chargeKwh": 209.50025,
+   "eff": 68.91,
+   "trimmedChargeKwh": 10.78377,
+   "endsAtStandstillStrict": 4617
+  },
+  "temperatureAllSoc": {
+   "0–10°C": {
+    "n": 33,
+    "nPlateau": 23,
+    "drives": 1,
+    "days": 1,
+    "keKwh": 0.02388,
+    "chargeKwh": 0.0028,
+    "eff": 11.72
+   },
+   "10–20°C": {
+    "n": 6697,
+    "nPlateau": 1184,
+    "drives": 150,
+    "days": 71,
+    "keKwh": 10.28254,
+    "chargeKwh": 5.95833,
+    "eff": 57.95
+   },
+   "20–30°C": {
+    "n": 24863,
+    "nPlateau": 5041,
+    "drives": 289,
+    "days": 108,
+    "keKwh": 58.82648,
+    "chargeKwh": 39.9595,
+    "eff": 67.93
+   },
+   "30–40°C": {
+    "n": 50902,
+    "nPlateau": 8725,
+    "drives": 267,
+    "days": 82,
+    "keKwh": 173.27853,
+    "chargeKwh": 119.96907,
+    "eff": 69.23
+   },
+   "40–50°C": {
+    "n": 10954,
+    "nPlateau": 1503,
+    "drives": 49,
+    "days": 20,
+    "keKwh": 48.91058,
+    "chargeKwh": 35.62795,
+    "eff": 72.84
+   }
+  },
+  "speedInstantaneousNoSoc": {
+   "0-10": {
+    "n": 19438,
+    "nPlateau": 3208,
+    "drives": 565,
+    "days": 113,
+    "keKwh": 8.80654,
+    "chargeKwh": 0.94827,
+    "eff": 10.77
+   },
+   "20-30": {
+    "n": 17952,
+    "nPlateau": 1811,
+    "drives": 553,
+    "days": 113,
+    "keKwh": 41.47356,
+    "chargeKwh": 29.03077,
+    "eff": 70.0
+   },
+   "60-70": {
+    "n": 7665,
+    "nPlateau": 2302,
+    "drives": 188,
+    "days": 76,
+    "keKwh": 36.83996,
+    "chargeKwh": 25.968,
+    "eff": 70.49
+   }
+  },
+  "socBandsOverallTemperaturePooled": {
+   "band 50-55": {
+    "n": 7584,
+    "keKwh": 10.3584,
+    "chargeKwh": 5.3664,
+    "eff": 51.81,
+    "note": "sum over temperature cells (intervals with a valid pack temperature only)"
+   },
+   "band 66-69": {
+    "n": 20130,
+    "keKwh": 80.514,
+    "chargeKwh": 55.4829,
+    "eff": 68.91,
+    "note": "sum over temperature cells (intervals with a valid pack temperature only)"
+   },
+   "band 72-100": {
+    "n": 9778,
+    "keKwh": 36.2571,
+    "chargeKwh": 30.8932,
+    "eff": 85.21,
+    "note": "sum over temperature cells (intervals with a valid pack temperature only)"
+   }
+  },
+  "classesNoSoc": {
+   "A start<10": {
+    "n": 14909,
+    "nPlateau": 3208,
+    "drives": 564,
+    "days": 113,
+    "keKwh": 5.53933,
+    "chargeKwh": 0.2654,
+    "eff": 4.79
+   },
+   "B start>=10 end<10": {
+    "n": 4529,
+    "nPlateau": 0,
+    "drives": 556,
+    "days": 113,
+    "keKwh": 6.22485,
+    "chargeKwh": 1.9772,
+    "eff": 31.76
+   },
+   "C end>=10": {
+    "n": 79119,
+    "nPlateau": 13930,
+    "drives": 564,
+    "days": 113,
+    "keKwh": 292.27122,
+    "chargeKwh": 207.25766,
+    "eff": 70.91
+   }
+  },
+  "perDrive": [
+   {
+    "file": "20260511_185709.csv",
+    "nStrict": 0,
+    "nPlateauKept": 0,
+    "nTrimmedPlateau": 0,
+    "chargeKwhKept": 0.0,
+    "dv2Kept": 0.0,
+    "exclusions": {
+     "currentOrVoltageUnsupported": 7,
+     "engineOn": 0,
+     "notDecelOrFlat": 0,
+     "rpmUnknown": 10,
+     "speedGap": 3
+    }
+   },
+   {
+    "file": "20260517_120100.csv",
+    "nStrict": 95,
+    "nPlateauKept": 15,
+    "nTrimmedPlateau": 197,
+    "chargeKwhKept": 0.067678,
+    "dv2Kept": 7414.0,
+    "exclusions": {
+     "currentOrVoltageUnsupported": 0,
+     "engineOn": 177,
+     "notDecelOrFlat": 131,
+     "rpmUnknown": 0,
+     "speedGap": 0
+    }
+   },
+   {
+    "file": "20260611_061120.csv",
+    "nStrict": 875,
+    "nPlateauKept": 115,
+    "nTrimmedPlateau": 708,
+    "chargeKwhKept": 3.220874,
+    "dv2Kept": 222333.0,
+    "exclusions": {
+     "currentOrVoltageUnsupported": 6,
+     "engineOn": 3898,
+     "notDecelOrFlat": 772,
+     "rpmUnknown": 1,
+     "speedGap": 5
+    }
+   },
+   {
+    "file": "20260620_105353.csv",
+    "nStrict": 234,
+    "nPlateauKept": 22,
+    "nTrimmedPlateau": 206,
+    "chargeKwhKept": 0.271935,
+    "dv2Kept": 13473.0,
+    "exclusions": {
+     "currentOrVoltageUnsupported": 2,
+     "engineOn": 263,
+     "notDecelOrFlat": 278,
+     "rpmUnknown": 1,
+     "speedGap": 1
+    }
+   },
+   {
+    "file": "20260627_093529.csv",
+    "nStrict": 41,
+    "nPlateauKept": 5,
+    "nTrimmedPlateau": 23,
+    "chargeKwhKept": 0.127782,
+    "dv2Kept": 9484.0,
+    "exclusions": {
+     "currentOrVoltageUnsupported": 1,
+     "engineOn": 59,
+     "notDecelOrFlat": 66,
+     "rpmUnknown": 0,
+     "speedGap": 0
+    }
+   },
+   {
+    "file": "20260713_132033.csv",
+    "nStrict": 598,
+    "nPlateauKept": 59,
+    "nTrimmedPlateau": 1247,
+    "chargeKwhKept": 1.402369,
+    "dv2Kept": 94372.0,
+    "exclusions": {
+     "currentOrVoltageUnsupported": 8,
+     "engineOn": 1193,
+     "notDecelOrFlat": 619,
+     "rpmUnknown": 1,
+     "speedGap": 1
+    }
+   },
+   {
+    "file": "20260717_103448.csv",
+    "nStrict": 205,
+    "nPlateauKept": 25,
+    "nTrimmedPlateau": 193,
+    "chargeKwhKept": 0.16696,
+    "dv2Kept": 14214.0,
+    "exclusions": {
+     "currentOrVoltageUnsupported": 2,
+     "engineOn": 184,
+     "notDecelOrFlat": 165,
+     "rpmUnknown": 2,
+     "speedGap": 8
+    }
+   },
+   {
+    "file": "20260721_114246.csv",
+    "nStrict": 121,
+    "nPlateauKept": 19,
+    "nTrimmedPlateau": 134,
+    "chargeKwhKept": 0.27184,
+    "dv2Kept": 20531.0,
+    "exclusions": {
+     "currentOrVoltageUnsupported": 1,
+     "engineOn": 704,
+     "notDecelOrFlat": 115,
+     "rpmUnknown": 0,
+     "speedGap": 4
+    }
+   },
+   {
+    "file": "20260724_204259.csv",
+    "nStrict": 479,
+    "nPlateauKept": 62,
+    "nTrimmedPlateau": 299,
+    "chargeKwhKept": 1.578032,
+    "dv2Kept": 85334.0,
+    "exclusions": {
+     "currentOrVoltageUnsupported": 1,
+     "engineOn": 795,
+     "notDecelOrFlat": 561,
+     "rpmUnknown": 0,
+     "speedGap": 0
+    }
+   },
+   {
+    "file": "20260804_155949.csv",
+    "nStrict": 68,
+    "nPlateauKept": 31,
+    "nTrimmedPlateau": 106,
+    "chargeKwhKept": 0.140322,
+    "dv2Kept": 12720.0,
+    "exclusions": {
+     "currentOrVoltageUnsupported": 0,
+     "engineOn": 311,
+     "notDecelOrFlat": 59,
+     "rpmUnknown": 0,
+     "speedGap": 0
+    }
+   },
+   {
+    "file": "20260812_093511.csv",
+    "nStrict": 69,
+    "nPlateauKept": 12,
+    "nTrimmedPlateau": 81,
+    "chargeKwhKept": 0.048421,
+    "dv2Kept": 4251.0,
+    "exclusions": {
+     "currentOrVoltageUnsupported": 0,
+     "engineOn": 93,
+     "notDecelOrFlat": 63,
+     "rpmUnknown": 0,
+     "speedGap": 0
+    }
+   },
+   {
+    "file": "20260818_124141.csv",
+    "nStrict": 87,
+    "nPlateauKept": 17,
+    "nTrimmedPlateau": 116,
+    "chargeKwhKept": 0.085546,
+    "dv2Kept": 7129.0,
+    "exclusions": {
+     "currentOrVoltageUnsupported": 2,
+     "engineOn": 114,
+     "notDecelOrFlat": 64,
+     "rpmUnknown": 0,
+     "speedGap": 0
+    }
+   },
+   {
+    "file": "20260823_210116.csv",
+    "nStrict": 527,
+    "nPlateauKept": 106,
+    "nTrimmedPlateau": 846,
+    "chargeKwhKept": 0.808347,
+    "dv2Kept": 56069.0,
+    "exclusions": {
+     "currentOrVoltageUnsupported": 2,
+     "engineOn": 952,
+     "notDecelOrFlat": 433,
+     "rpmUnknown": 0,
+     "speedGap": 0
+    }
+   },
+   {
+    "file": "20260830_190907.csv",
+    "nStrict": 179,
+    "nPlateauKept": 76,
+    "nTrimmedPlateau": 283,
+    "chargeKwhKept": 0.151996,
+    "dv2Kept": 14248.0,
+    "exclusions": {
+     "currentOrVoltageUnsupported": 2,
+     "engineOn": 254,
+     "notDecelOrFlat": 174,
+     "rpmUnknown": 0,
+     "speedGap": 0
+    }
+   },
+   {
+    "file": "20260904_203411.csv",
+    "nStrict": 505,
+    "nPlateauKept": 107,
+    "nTrimmedPlateau": 569,
+    "chargeKwhKept": 0.810009,
+    "dv2Kept": 59341.0,
+    "exclusions": {
+     "currentOrVoltageUnsupported": 2,
+     "engineOn": 643,
+     "notDecelOrFlat": 513,
+     "rpmUnknown": 0,
+     "speedGap": 0
+    }
+   },
+   {
+    "file": "20260907_082522.csv",
+    "nStrict": 42,
+    "nPlateauKept": 9,
+    "nTrimmedPlateau": 43,
+    "chargeKwhKept": 0.024833,
+    "dv2Kept": 2224.0,
+    "exclusions": {
+     "currentOrVoltageUnsupported": 2,
+     "engineOn": 0,
+     "notDecelOrFlat": 39,
+     "rpmUnknown": 0,
+     "speedGap": 0
+    }
+   },
+   {
+    "file": "2026-09-11_08-01-27.csv",
+    "nStrict": 100,
+    "nPlateauKept": 8,
+    "nTrimmedPlateau": 117,
+    "chargeKwhKept": 0.148667,
+    "dv2Kept": 11525.0,
+    "exclusions": {
+     "currentOrVoltageUnsupported": 2,
+     "engineOn": 62,
+     "notDecelOrFlat": 101,
+     "rpmUnknown": 0,
+     "speedGap": 0
+    }
+   },
+   {
+    "file": "2026-09-13_20-30-29.csv",
+    "nStrict": 252,
+    "nPlateauKept": 28,
+    "nTrimmedPlateau": 168,
+    "chargeKwhKept": 0.80554,
+    "dv2Kept": 55117.0,
+    "exclusions": {
+     "currentOrVoltageUnsupported": 2,
+     "engineOn": 772,
+     "notDecelOrFlat": 230,
+     "rpmUnknown": 0,
+     "speedGap": 0
+    }
+   },
+   {
+    "file": "2026-09-17_18-50-09.csv",
+    "nStrict": 41,
+    "nPlateauKept": 3,
+    "nTrimmedPlateau": 21,
+    "chargeKwhKept": 0.049449,
+    "dv2Kept": 3786.0,
+    "exclusions": {
+     "currentOrVoltageUnsupported": 2,
+     "engineOn": 0,
+     "notDecelOrFlat": 34,
+     "rpmUnknown": 0,
+     "speedGap": 0
+    }
+   },
+   {
+    "file": "2026-09-21_20-35-24.csv",
+    "nStrict": 67,
+    "nPlateauKept": 15,
+    "nTrimmedPlateau": 96,
+    "chargeKwhKept": 0.067549,
+    "dv2Kept": 5409.0,
+    "exclusions": {
+     "currentOrVoltageUnsupported": 2,
+     "engineOn": 111,
+     "notDecelOrFlat": 73,
+     "rpmUnknown": 0,
+     "speedGap": 0
+    }
+   },
+   {
+    "file": "2026-09-26_13-47-37.csv",
+    "nStrict": 63,
+    "nPlateauKept": 3,
+    "nTrimmedPlateau": 44,
+    "chargeKwhKept": 0.0721,
+    "dv2Kept": 6366.0,
+    "exclusions": {
+     "currentOrVoltageUnsupported": 2,
+     "engineOn": 75,
+     "notDecelOrFlat": 67,
+     "rpmUnknown": 0,
+     "speedGap": 0
+    }
+   },
+   {
+    "file": "2026-09-29_22-10-11.csv",
+    "nStrict": 39,
+    "nPlateauKept": 2,
+    "nTrimmedPlateau": 53,
+    "chargeKwhKept": 0.077918,
+    "dv2Kept": 5538.0,
+    "exclusions": {
+     "currentOrVoltageUnsupported": 2,
+     "engineOn": 75,
+     "notDecelOrFlat": 68,
+     "rpmUnknown": 0,
+     "speedGap": 0
+    }
+   },
+   {
+    "file": "2026-10-03_10-03-24.csv",
+    "nStrict": 35,
+    "nPlateauKept": 2,
+    "nTrimmedPlateau": 62,
+    "chargeKwhKept": 0.018501,
+    "dv2Kept": 1714.0,
+    "exclusions": {
+     "currentOrVoltageUnsupported": 2,
+     "engineOn": 0,
+     "notDecelOrFlat": 31,
+     "rpmUnknown": 0,
+     "speedGap": 0
+    }
+   },
+   {
+    "file": "2026-10-06_07-58-35.csv",
+    "nStrict": 62,
+    "nPlateauKept": 11,
+    "nTrimmedPlateau": 130,
+    "chargeKwhKept": 0.019215,
+    "dv2Kept": 2606.0,
+    "exclusions": {
+     "currentOrVoltageUnsupported": 2,
+     "engineOn": 0,
+     "notDecelOrFlat": 65,
+     "rpmUnknown": 0,
+     "speedGap": 0
+    }
+   },
+   {
+    "file": "2026-10-08_21-05-51.csv",
+    "nStrict": 66,
+    "nPlateauKept": 14,
+    "nTrimmedPlateau": 70,
+    "chargeKwhKept": 0.076932,
+    "dv2Kept": 5931.0,
+    "exclusions": {
+     "currentOrVoltageUnsupported": 2,
+     "engineOn": 67,
+     "notDecelOrFlat": 90,
+     "rpmUnknown": 0,
+     "speedGap": 0
+    }
+   },
+   {
+    "file": "2026-10-13_07-56-36.csv",
+    "nStrict": 67,
+    "nPlateauKept": 8,
+    "nTrimmedPlateau": 163,
+    "chargeKwhKept": 0.03077,
+    "dv2Kept": 3055.0,
+    "exclusions": {
+     "currentOrVoltageUnsupported": 2,
+     "engineOn": 0,
+     "notDecelOrFlat": 57,
+     "rpmUnknown": 0,
+     "speedGap": 0
+    }
+   }
+  ]
+ }
+}
