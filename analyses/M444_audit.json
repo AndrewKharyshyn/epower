@@ -1,0 +1,64 @@
+{
+ "claim": "M444 cohort all: weights, common support (temp, speed), standardized bars + day-clustered CIs",
+ "reproduced": {
+  "n_drives": 565,
+  "n_days": 113,
+  "temp_10-20": {
+   "std": 58.762,
+   "ci95": [
+    56.171,
+    61.297
+   ],
+   "obsCommon": 58.111
+  },
+  "temp_40-50": {
+   "std": 70.574,
+   "ci95": [
+    67.528,
+    74.047
+   ],
+   "obsCommon": 72.859
+  },
+  "speed_10-20": {
+   "std": 52.922,
+   "ci95": [
+    51.185,
+    54.816
+   ],
+   "obsCommon": 53.205
+  },
+  "speed_40-50": {
+   "std": 75.924,
+   "ci95": [
+    74.058,
+    77.835
+   ],
+   "obsCommon": 76.631
+  }
+ },
+ "items": {
+  "weights": "agree (0 diff at 5 dp)",
+  "temp_support": "agree: 4 groups, bands 50-55..72-100, cov 0.9986, no drops",
+  "speed_support": "agree: bands 60-63..72-100, cov 0.8838, dropped 100-110, 90-100, 80-90, 70-80 in that order; 8 groups give cov 0.791 <0.80",
+  "bars": "agree: max value diff 0.005 pp, max CI endpoint diff 0.005 pp; 0/4000 failed draws"
+ },
+ "agrees": true,
+ "abs_diff": 0.005,
+ "ambiguities": [
+  "Speed-view population: spec does not say if a valid pack temperature is required. I used SOC-valid only (as M441). Requiring temperature too changes the result (60-70 dropped; 10-20 std 52.753 [50.929,54.762]). Spec must state it.",
+  "Reference w uses temp-valid and SOC-valid intervals, the speed view does not: populations differ (disclose)."
+ ],
+ "method_concerns": [
+  "Out of scope (stop condition): holdouts, demand check, sensitivities, week-block.",
+  "My extractor shares the spec reading with the author; agreement tests implementation, not spec choices."
+ ],
+ "language_concerns": [
+  "none found in sections 1-4, 11"
+ ],
+ "verdict": "accept",
+ "audit_files": [
+  "analyses/M444_audit/std.py",
+  "analyses/M444_audit/out.json",
+  "analyses/M444_audit/out_speedTemp.json"
+ ]
+}
