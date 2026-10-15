@@ -36,4 +36,4 @@ hasT=X.temp.notna()
 for l,(lo,hi) in {'band 50-55':(50,55),'band 66-69':(66,69),'band 72-100':(72,100.0001)}.items():
     m=hasT&(X.soc>=lo)&(X.soc<hi)
     r=cell(m); out['B'+l]=r; print(l,r,'| claim',b['socBandsOverallTemperaturePooled'][l])
-json.dump(out,open('analyses/M441_audit/cells_out.json','w'),indent=1,default=float)
+json.dump(out,open('analyses/M441_audit/cells_out.json','w',encoding='utf-8'),indent=1,default=float)
