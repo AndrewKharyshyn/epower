@@ -53,7 +53,7 @@ def onehot(idx, n):
 class Cohort:
     """Per-cohort tables and the shared bootstrap matrix."""
 
-    def __init__(self, T, dm, mask_drive, label, days=None, row_mask=None):
+    def __init__(self, T, dm, mask_drive, label, days=None, row_mask=None, hold_from=None):
         self.label = label
         di = T["drive"]
         keep = mask_drive[di] if row_mask is None else (mask_drive[di] & row_mask)
@@ -79,6 +79,9 @@ class Cohort:
         self.est = ~d["iv_trimmed"]
         self.strict = self.est & ~d["iv_plateau"]
         self.cad = dm["ev_rpm_dt_med_s"].map(lambda x: "unknown" if not np.isfinite(x) else ("fast" if x < 1.0 else "slow")).values[self.drive]
+        if hold_from is not None:                              # PCL-1 holding rule (B4): protocol drives stay out of every cadence-stratified aggregate until the one-shot analysis has run
+            self.cad = np.array(self.cad, dtype=object)
+            self.cad[days_all[self.drive] >= hold_from] = "held"
         N = len(self.drive)
         self.Dm = sparse.csr_matrix((np.ones(N), (self.didx, np.arange(N))), shape=(max(self.D, 1), N)) if N else None
         self.Pm = sparse.csr_matrix((np.ones(N), (self.pidx, np.arange(N))), shape=(max(len(self.drives_u), 1), N)) if N else None
@@ -293,6 +296,14 @@ def oos_info(files, delta):
     return oos, info
 
 
+def protocol_hold(schedule="analyses/PCL1_schedule.csv", lock="analyses/PCL1_gate.lock"):
+    """START DATE (ISO string) of the PCL-1 paired-cadence protocol while its one-shot analysis has not run, else None (spec analyses/PCL1_spec.md section 3, holding rule)."""
+    if not os.path.exists(schedule) or os.path.exists(lock):
+        return None
+    import pcl_schedule as PS
+    return PS.read(schedule)[0].isoformat()
+
+
 def run(variant="base", cohorts=("all", "warm", "shoulder", "cold"), workers=5, stack=None, oos_delta=None, ens_clean=True):
     """variant: one cache variant; stack: a list of variants (e.g. the four grid phases) pooled with equal weight; oos_delta: M442 support rule - drives whose native speed, I or V sampling interval has a 90 % quantile above oos_delta are out of support."""
     dm, reg = load_master()
@@ -307,6 +318,9 @@ def run(variant="base", cohorts=("all", "warm", "shoulder", "cold"), workers=5, 
     T, hdrs = K.load_stack(files, variants) if stack else K.load(files, variant=variant)
     res = {"extraction": {k: v for k, v in st.items() if k != "rawSha"}, "cohorts": {}}
     keep_drive = np.ones(len(dm), bool)
+    hold = protocol_hold()
+    if hold:
+        res["protocolHold"] = {"startDate": hold, "rule": "PCL-1 holding rule: drives on or after the START DATE are excluded from the cadence-stratified (fast / slow / unknown) views until the one-shot analysis has run"}
     if oos_delta is not None:
         oos, res["outOfSupport"] = oos_info(files, oos_delta)
         keep_drive = ~oos
@@ -314,7 +328,7 @@ def run(variant="base", cohorts=("all", "warm", "shoulder", "cold"), workers=5, 
         mask = (np.ones(len(dm), bool) if c == "all" else (reg.values == c)) & keep_drive
         if mask.sum() == 0:
             continue
-        co = Cohort(T, dm, mask, c)
+        co = Cohort(T, dm, mask, c, hold_from=hold)
         res["cohorts"][c] = cohort_block(co, hdrs, [f for f, m in zip(files, mask) if m])
     # ens-clean sensitivity (totals only, cohort all)
     if ens_clean and "ens_outlier_v2" in dm:
