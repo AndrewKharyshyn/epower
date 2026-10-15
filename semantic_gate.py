@@ -447,6 +447,33 @@ import importlib.util as _ilu
 _sp = _ilu.spec_from_file_location("stamp_basis", P("tools/stamp_basis.py")); _sb = _ilu.module_from_spec(_sp); _sp.loader.exec_module(_sb)
 _sbad = _sb.check(A)
 ok("M419 every artifact stamp carries includedInReleaseAt / computedAt / inputBasis coherently; carried blocks state their own basis (masterRefitAudit = its own row count); no outdated carry flag (%d stamps)" % len(A["_artifactStamps"]), not _sbad, str(_sbad[:3]))
+# M441 (analyses/M441_spec.md Rev 2.1): interval-based extractor v2 of the apparent KE recovery; additive observed cells by pack temperature, speed during braking and SOC band. Payload invariants: stamp present, extractor/policy
+# identity, exact reconciliation (SOC bands + below 40 + missing = SOC-free baseline), the declared support rule applied to every cell, and no cell without KE carrying an efficiency
+_v2 = A.get("regenCaptureV2")
+if _v2:
+    ok("M441 regenCaptureV2 present with its artifact stamp, a named extractor version, its policy hash and its code hashes, and the cohorts that have data", "regenCaptureV2" in A["_artifactStamps"] and str(_v2["extractorVersion"]).startswith("regen-v2.")
+       and len(_v2["policyHash"]) == 16 and _v2["codeHashes"]["policyHash"] == _v2["policyHash"] and "all" in _v2["cohorts"] and set(_v2["cohorts"]) <= {"all", "warm", "shoulder", "cold"} and len(_v2["masterMd5"]) == 32, str(sorted(_v2["cohorts"])))
+    _bad_rec, _bad_sup, _bad_eff, _ncell = [], [], [], 0
+    for _c, _cb in _v2["cohorts"].items():
+        for _vn, _rr in _cb["reconciliation"].items():
+            if _rr["nSoc"] != 0 or _rr["nAll"] != 0 or _rr["keKwh"] > 1e-9 or _rr["chargeKwh"] > 1e-9 or _rr["keAll"] > 1e-9:
+                _bad_rec.append((_c, _vn, _rr))
+        for _vn, _bysel in _cb["views"].items():
+            for _sel, _cells in _bysel.items():
+                for _lab, _cell in _cells.items():
+                    _ncell += 1
+                    _n, _st = _cell["n"], _cell["status"]
+                    if _st == "supported" and not (_n >= _v2["support"]["minStrictIntervals"] and _cell["drives"] >= _v2["support"]["minDrives"] and _cell["days"] >= _v2["support"]["minDays"]):
+                        _bad_sup.append((_c, _vn, _sel, _lab, _n, _cell["drives"], _cell["days"]))
+                    if _st == "empty" and ("eff" in _cell or _n != 0 or _cell.get("nPlateau", 0) != 0):
+                        _bad_sup.append((_c, _vn, _sel, _lab, "empty with content"))
+                    if _st in ("thin", "supported") and (_cell.get("keKwh", 0) <= 0 and _cell.get("eff") is not None):
+                        _bad_eff.append((_c, _vn, _sel, _lab))
+    ok("M441 reconciliation is exact in every cohort (SOC bands + below 40 + missing = SOC-free baseline; all-SOC = band sum)", not _bad_rec, str(_bad_rec[:3]))
+    ok("M441 the support rule (>= %d strict-drop intervals, >= %d drives, >= %d days) holds for every 'supported' cell and an 'empty' cell carries no estimate (%d cells)" % (
+        _v2["support"]["minStrictIntervals"], _v2["support"]["minDrives"], _v2["support"]["minDays"], _ncell), not _bad_sup and not _bad_eff, str((_bad_sup + _bad_eff)[:3]))
+    ok("M441 the study block (if present) names the same master and extractor as the base block and carries its stamp", "regenCaptureV2Study" not in A or (A["regenCaptureV2Study"]["masterMd5"] == _v2["masterMd5"] and A["regenCaptureV2Study"]["policyHash"] == _v2["policyHash"]
+       and "regenCaptureV2Study" in A["_artifactStamps"]))
 # M418 (analyses/M418_spec.md Rev 1, Director ruling analyses/M418_director_ruling_2026-10-12.md): thermal support ledger; additive and reporting-only; every accepted count reconciles with the published estimator n, every
 # candidate sits in exactly one bucket, and the support lines of the thermal sections render the counts of the selected cohort
 _tl = A.get("thermalSupportLedger")
