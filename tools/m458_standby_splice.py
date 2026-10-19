@@ -44,7 +44,7 @@ N["carOffStandby"] = blk
 import datetime
 st = N["_artifactStamps"]["carOffStandby"]
 now = datetime.datetime.now(datetime.timezone.utc).isoformat()
-st["generatedAt"] = st["includedInReleaseAt"] = now
+st["generatedAt"] = st["includedInReleaseAt"] = st["computedAt"] = now
 st["computationStatusNote"] = "M458: interval recomputed by compute_summary_arrays._car_off_standby (tools/standby_ci.py, arrival-day cluster bootstrap); point fields unchanged; spliced by tools/m458_standby_splice.py"
 changed = [k for k in blk if old.get(k) != blk[k]]
 print(json.dumps({"changed": changed, "masterMd5": md5}))
