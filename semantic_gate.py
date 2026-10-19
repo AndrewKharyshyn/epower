@@ -547,6 +547,13 @@ if _dv:
                 if not _sd2["availability"]["available"] and not _sd2.get("reason"):
                     _bad.append((_c, _p, _vn, "unavailable without a reason"))
     ok("M446 strata are fast / slow only; every supported cell meets the support floors; no empty cell carries a value; no negative resolution bracket; every available standardized view has coverage >= 0.80 and >= 2 bars, every unavailable one a reason", not _bad, str(_bad[:3]))
+# M458 (analyses/M458_spec.md Rev 1.1): Car-OFF standby interval. The interval is the whole-cluster (arrival-day) bootstrap, the i.i.d. interval is a reference field, the sensitivities and the disagreement flag are present, the point fields are unchanged in kind
+_cs = A.get("carOffStandby")
+if _cs and "ciMethod" in _cs:
+    ok("M458 carOffStandby: day-clustered interval with its method, cluster counts, reference i.i.d. interval, sensitivities and disagreement flag present", _cs["ciMethod"].startswith("whole-cluster percentile bootstrap") and _cs["nClusters"] >= 20 and len(_cs["ci95WattsIid"]) == 2
+       and set(_cs["sensitivities"]) >= {"departureDay", "isoWeek", "leaveOneArrivalDay"} and "flag" in _cs["methodDisagreement"], str(_cs.get("nClusters")))
+    ok("M458 carOffStandby: the watts interval contains the point estimate, the slope interval contains the slope, the capacity assumption is stated", _cs["ci95_watts"][0] <= _cs["watts"] <= _cs["ci95_watts"][1] and _cs["ci95_slope_pp_per_h"][0] <= _cs["slope_pp_per_h"] <= _cs["ci95_slope_pp_per_h"][1] and "verified: false" in _cs["capacityAssumption"],
+       str(_cs["ci95_watts"]))
 # M418 (analyses/M418_spec.md Rev 1, Director ruling analyses/M418_director_ruling_2026-10-12.md): thermal support ledger; additive and reporting-only; every accepted count reconciles with the published estimator n, every
 # candidate sits in exactly one bucket, and the support lines of the thermal sections render the counts of the selected cohort
 _tl = A.get("thermalSupportLedger")

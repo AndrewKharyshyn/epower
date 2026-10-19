@@ -12044,7 +12044,7 @@ export default function App() {
             ["Daytime parked (small ΔT)","−0.7°C/hr","44→40°C over 5.8hrs at 26°C"],
             ["Car ON, stationary — mild","−1.15 kW","climate + electronics"],
             ["Car ON, stationary — AC","−1.4-1.8 kW","active AC"],
-            ["Car OFF standby",`~${S.carOffStandby.watts.toFixed(2)} W`,`BMS + telematics, Sen's-slope estimate`],
+            ["Car OFF standby",`~${S.carOffStandby.watts.toFixed(2)} W`,`SoC drift while parked (Sen's slope, assumed capacity); attribution not identified`],
           ].map(([k,v,n])=>(
             <div key={k} style={{display:"flex",gap:8,marginBottom:6,fontSize:11}}>
               <span style={{width:200,color:"#64748b",flexShrink:0}}>{k}</span>
@@ -12053,13 +12053,16 @@ export default function App() {
             </div>
           ))}
           <div style={{fontSize:10,color:"#64748b",marginTop:2}}>
-            Car OFF standby is estimated from parked gaps with a Sen's-slope
-            regression of key-off SoC delta on parked duration (n={S.carOffStandby.n_gaps} gaps) separates the
-            duration-independent BMS re-anchoring jump ({S.carOffStandby.jump_pp_per_keycycle > 0 ? "+" : ""}{S.carOffStandby.jump_pp_per_keycycle.toFixed(2)} pp/key-cycle,
-            not drain) from the duration-proportional rate: <strong>{S.carOffStandby.watts.toFixed(2)} W</strong>,
-            95% CI [{S.carOffStandby.ci95_watts[0].toFixed(2)}, {S.carOffStandby.ci95_watts[1].toFixed(2)}] W
-            (P(draw&gt;0)={S.carOffStandby.p_draw_gt0.toFixed(2)}) — weakly identified from the SoC ledger alone at
-            this sample size.
+            {(()=>{const Q=S.carOffStandby; const f2=v=>Number(v).toFixed(2); const f3=v=>Number(v).toFixed(3); const sg=Q.sensitivities||{}; const md=Q.methodDisagreement;
+              const share = Q.p_draw_gt0===1 ? `all ${Q.n_boot} draws positive` : `${f2(Q.p_draw_gt0)}`;
+              return (<>
+            Parked-state SoC drift rate (Sen's slope, {Q.n_gaps} gaps{Q.nClusters!=null?`, ${Q.nClusters} arrival days`:""}): a Sen's-slope regression of the key-off SoC drop on the parked duration separates the duration-independent SoC re-anchoring jump ({Q.jump_pp_per_keycycle > 0 ? "+" : ""}{f2(Q.jump_pp_per_keycycle)} pp/key-cycle, not drain) from the duration-proportional drift:
+            {Q.slope_pp_per_h!=null && <> <strong>{f3(Q.slope_pp_per_h)} pp/h</strong> [95% day-clustered bootstrap {f3(Q.ci95_slope_pp_per_h[0])}, {f3(Q.ci95_slope_pp_per_h[1])}],</>} derived <strong>{f2(Q.watts)} W</strong> [{f2(Q.ci95_watts[0])}, {f2(Q.ci95_watts[1])}] at the assumed 2.1 kWh capacity (verified: false).
+            {Q.nClusters!=null && <> Whole arrival days are resampled (Kish effective {f2(Q.kishClusters)} days); bootstrap share of positive draws: {share}.</>}
+            {sg.departureDay && <> Sensitivities (departure-day clusters [{f2(sg.departureDay.ci95Watts[0])}, {f2(sg.departureDay.ci95Watts[1])}] W, ISO-week clusters [{f2(sg.isoWeek.ci95Watts[0])}, {f2(sg.isoWeek.ci95Watts[1])}] W; leaving out any one day moves the estimate between {f2(sg.leaveOneArrivalDay.wattsMin)} and {f2(sg.leaveOneArrivalDay.wattsMax)} W; the independent-gap interval, kept as a reference only, is [{f2(Q.ci95WattsIid[0])}, {f2(Q.ci95WattsIid[1])}] W): {md ? (md.flag ? "the methods disagree: "+md.reasons.join("; ")+"." : "they agree with the primary interval under the pre-declared rule.") : ""}</>}
+            {Q.ci95_watts[0]>0 && <> A small positive duration-proportional drift is detected under the stated conventions; the attribution of the drift is not identified.</>}
+            {Q.limits && (<details data-standby="limits" style={{marginTop:4}}><summary style={{cursor:"pointer"}}>Limits</summary><ul style={{margin:"4px 0 0 16px"}}>{Q.limits.map((t,i)=>(<li key={i}>{t}</li>))}</ul>{Q.pairCountNote && <div>{Q.pairCountNote}.</div>}</details>)}
+              </>);})()}
           </div>
         </Section>
         {S.heatSoakCarryover && (()=>{const H=S.heatSoakCarryover;return (

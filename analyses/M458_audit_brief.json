@@ -1,0 +1,64 @@
+{
+ "task": "blind_reproduction",
+ "data": "drive_master.csv (columns date, time_start, time_end, soc_start, soc_end, odo_start, odo_end); NOT tools/, tests/, compute_summary_arrays.py, analyses/M458_audit*",
+ "method_refs": [
+  "analyses/M458_spec.md sections 1-3 and 7 (Rev 1.1) and 8 (Rev 1.2)",
+  "analyses/M429_spec.md Rev 2 (cluster key, B, seed, percentile rule)"
+ ],
+ "definitions": {
+  "pairs": "sort drives by (date, time_start); pair N -> N+1; gap_h = (start of N+1) - (end of N) in hours from date + time; draw_pp = soc_end(N) - soc_start(N+1); keep gap_h > 0",
+  "estimator": "Sen slope = median of all pairwise slopes (y_j-y_i)/(x_j-x_i) over pairs with x_i != x_j; watts = slope/100 * 2100",
+  "interval": "whole-cluster bootstrap, cluster = calendar day of the START of the following drive; B=4000; rng = numpy.random.default_rng(42); each draw: rng.choice(unique clusters, size=n_clusters, replace=True), concatenate all gaps of the drawn clusters (with multiplicity); percentile 2.5 / 97.5 (method linear) of the draw slopes; watts = slope/100*2100",
+  "iid_reference": "fresh default_rng(42); idx = rng.integers(0, n, n) per draw"
+ },
+ "claims": {
+  "n_gaps": 575,
+  "watts": 2.25,
+  "ci95_watts": [
+   1.48,
+   3.16
+  ],
+  "slope_pp_per_h": 0.10719,
+  "ci95_slope_pp_per_h": [
+   0.07048,
+   0.1504
+  ],
+  "nClusters": 116,
+  "kishClusters": 89.29,
+  "ci95WattsIid": [
+   1.45,
+   3.31
+  ],
+  "p_draw_gt0": 1.0,
+  "jump_pp_per_keycycle": 0.99,
+  "gapsWithOdoJump": 6,
+  "gapsSpanningMidnight": 116,
+  "sensitivities": {
+   "departureDay": {
+    "nClusters": 117,
+    "ci95Watts": [
+     1.44,
+     3.23
+    ],
+    "pPositive": 1.0
+   },
+   "isoWeek": {
+    "nClusters": 23,
+    "ci95Watts": [
+     1.19,
+     3.39
+    ],
+    "pPositive": 1.0
+   },
+   "leaveOneArrivalDay": {
+    "nDays": 116,
+    "wattsMin": 2.14,
+    "wattsMax": 2.33,
+    "dayAtMin": "2026-10-07",
+    "dayAtMax": "2026-07-22"
+   }
+  }
+ },
+ "return": "JSON <2 KB: AGREE/DISAGREE per claim with differences; tolerance 0.005 pp/h on slopes, 0.01 W on watts, 0.02 W on interval limits (generator-dependent: say which generator calls you used and whether the claimed interval reproduces exactly).",
+ "forbidden": "do not read tools/, tests/, compute_summary_arrays.py, the carOffStandby key of summary_arrays.json, CHANGELOG.md"
+}

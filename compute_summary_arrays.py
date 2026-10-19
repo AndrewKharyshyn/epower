@@ -15369,69 +15369,36 @@ def _sen_slope(x, y):
     return float(np.median(dyu[v] / dxu[v]))
 
 
-def _car_off_standby(dm, cap_kwh=2.1, n_boot=4000):
-    """M27 (2026-07-10). Replaces a hand-typed '-28 W / 0.67 kWh/day' Car-OFF
-    standby caption that was never derived from data and is falsified by it:
-    at 28 W the 2.1 kWh pack would fully drain in ~75 h, but the dataset has
-    key-off gaps of 124/144/188 h with |SoC delta| under 20 pp -- an order of
-    magnitude less drain than 28 W implies.
+def _standby_ci_mod():
+    """M458 (audit F06 follow-up): the interval rule for the Car-OFF standby draw (tools/standby_ci.py)."""
+    import sys as _sys_sb
+    _tools_sb = _os_xf.path.join(_os_xf.path.dirname(_os_xf.path.abspath(__file__)), 'tools')
+    if _tools_sb not in _sys_sb.path:
+        _sys_sb.path.insert(0, _tools_sb)
+    import standby_ci as _sb
+    return _sb
 
-    Method: for every consecutive drive pair, gap_h = time between drive_N
-    end and drive_(N+1) start (car parked); draw_pp = soc_end(N) -
-    soc_start(N+1) (>0 = SoC fell while parked). A naive mean/median of
-    implied W is not physically meaningful here: the delta is dominated by
-    discrete key-on SoC-ledger re-anchoring jumps uncorrelated with gap_h
-    (corr(gap_h, draw_pp) ~ -0.24 on n=107 gaps; mean |draw_pp| does not
-    scale with gap_h -- e.g. the 0-0.5h bin averages 1.45pp, comparable to
-    the 32-64h bin's 0.25pp). Sen's slope of draw_pp ~ gap_h (see
-    _sen_slope) separates the duration-independent jump (intercept, the
-    median re-anchoring offset) from the duration-proportional drain
-    (slope, the actual standby rate). Gaps are independent events, so a
-    plain bootstrap over gaps gives the slope's 95% CI (4000 resamples,
-    matching the M19/M25 bootstrap-CI convention). Reported with CI, never
-    as a bare point estimate -- this is weakly identified from the SoC
-    ledger alone (n=107 gaps, heavy jump-noise floor; P(draw>0) well short
-    of a confident detection).
+
+def _car_off_standby(dm, cap_kwh=2.1, n_boot=4000):
+    """M27 (2026-07-10), interval rule revised in M458. Replaces a hand-typed '-28 W / 0.67 kWh/day' Car-OFF
+    standby caption that was never derived from data and is falsified by it: at 28 W the 2.1 kWh pack would
+    fully drain in ~75 h, but the dataset has key-off gaps of 124/144/188 h with |SoC delta| under 20 pp.
+
+    Method: for every consecutive drive pair, gap_h = time between drive_N end and drive_(N+1) start (car
+    parked); draw_pp = soc_end(N) - soc_start(N+1) (>0 = SoC fell while parked). A naive mean/median of
+    implied W is not physically meaningful: the delta is dominated by discrete key-on SoC-ledger re-anchoring
+    jumps uncorrelated with gap_h. Sen's slope of draw_pp ~ gap_h (see _sen_slope) separates the
+    duration-independent jump (intercept, the median re-anchoring offset) from the duration-proportional
+    SoC drift (slope, pp per hour; watts use the assumed capacity cap_kwh, verified: false).
+
+    Interval (M458, spec analyses/M458_spec.md Rev 1.1): whole calendar-day clusters (the day of the start of
+    the following drive) are resampled, B = 4000, default_rng(42); departure-day, ISO-week and leave-one-day-out
+    sensitivities and the i.i.d. interval (reference only) are reported beside it. The earlier i.i.d. gap
+    resampling assumed independent gaps, which the shared key-on re-anchoring and the shared drives contradict.
+    Weakly identified from the SoC ledger alone; reported with its interval and limits, never as a bare point.
     """
     try:
-        dch = dm.dropna(subset=['date', 'time_start', 'time_end',
-                                'soc_start', 'soc_end']).copy()
-        dch = dch.sort_values(['date', 'time_start']).reset_index(drop=True)
-        ts_start = pd.to_datetime(dch['date'] + ' ' + dch['time_start'])
-        ts_end = pd.to_datetime(dch['date'] + ' ' + dch['time_end'])
-        gap_h = (ts_start.iloc[1:].values - ts_end.iloc[:-1].values) \
-            / np.timedelta64(1, 'h')
-        draw_pp = dch['soc_end'].iloc[:-1].values - dch['soc_start'].iloc[1:].values
-        m = gap_h > 0
-        x, y = gap_h[m], draw_pp[m]
-        n = len(x)
-        cap_wh = cap_kwh * 1000.0
-
-        slope = _sen_slope(x, y)                 # pp drawn per hour parked
-        jump_pp = float(np.median(y - slope * x))  # re-anchoring offset, pp
-        watts = slope / 100.0 * cap_wh
-
-        rng = np.random.default_rng(42)
-        boot = np.empty(n_boot)
-        for i in range(n_boot):
-            idx = rng.integers(0, n, n)
-            boot[i] = _sen_slope(x[idx], y[idx])
-        boot_w = boot / 100.0 * cap_wh
-        lo, hi = np.percentile(boot_w, [2.5, 97.5])
-
-        return {
-            'n_gaps': int(n),
-            'watts': round(watts, 2),
-            'ci95_watts': [round(float(lo), 2), round(float(hi), 2)],
-            'p_draw_gt0': round(float((boot_w > 0).mean()), 3),
-            'kwh_per_day': round(watts * 24 / 1000, 4),
-            'ci95_kwh_per_day': [round(float(lo) * 24 / 1000, 4),
-                                 round(float(hi) * 24 / 1000, 4)],
-            'jump_pp_per_keycycle': round(jump_pp, 2),
-            'corr_gap_vs_draw': round(float(np.corrcoef(x, y)[0, 1]), 3),
-            'estimator': 'sen_slope',
-            'n_boot': int(n_boot),
-        }
+        return _standby_ci_mod().standby_block(dm, _sen_slope, cap_kwh=cap_kwh, n_boot=n_boot)
     except Exception as ex:
         return {'error': str(ex)}
 

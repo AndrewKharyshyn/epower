@@ -98,19 +98,83 @@
   "n_gaps": 575,
   "watts": 2.25,
   "ci95_watts": [
-   1.45,
-   3.31
+   1.48,
+   3.16
   ],
   "p_draw_gt0": 1.0,
   "kwh_per_day": 0.054,
   "ci95_kwh_per_day": [
-   0.0348,
-   0.0794
+   0.0355,
+   0.0758
   ],
   "jump_pp_per_keycycle": 0.99,
   "corr_gap_vs_draw": -0.016,
   "estimator": "sen_slope",
-  "n_boot": 4000
+  "n_boot": 4000,
+  "slope_pp_per_h": 0.10719,
+  "ci95_slope_pp_per_h": [
+   0.07048,
+   0.1504
+  ],
+  "ciMethod": "whole-cluster percentile bootstrap, cluster = calendar day of the start of the following drive (arrival day), B=4000, default_rng(42), percentile method linear on the finite draws (spec M458 Rev 1.1)",
+  "nClusters": 116,
+  "kishClusters": 89.29,
+  "nUndefinedDraws": 0,
+  "ci95WattsIid": [
+   1.45,
+   3.31
+  ],
+  "ci95KwhPerDayIid": [
+   0.0348,
+   0.0794
+  ],
+  "pDrawGt0Iid": 1.0,
+  "pairCountNote": "nPairsDropped counts pairs with a non-positive gap AFTER the drives with a missing SoC or time field (nDrivesDroppedMissingSoc) were dropped before pairing",
+  "ciIidNote": "reference only: the gaps are resampled one by one, which assumes independent gaps; it is not a day-clustered interval",
+  "sensitivities": {
+   "departureDay": {
+    "nClusters": 117,
+    "ci95Watts": [
+     1.44,
+     3.23
+    ],
+    "pPositive": 1.0
+   },
+   "isoWeek": {
+    "nClusters": 23,
+    "ci95Watts": [
+     1.19,
+     3.39
+    ],
+    "pPositive": 1.0
+   },
+   "leaveOneArrivalDay": {
+    "nDays": 116,
+    "wattsMin": 2.14,
+    "wattsMax": 2.33,
+    "dayAtMin": "2026-10-07",
+    "dayAtMax": "2026-07-22"
+   }
+  },
+  "methodDisagreement": {
+   "flag": false,
+   "reasons": [],
+   "rule": "a sensitivity bound differs from the primary by more than 25 % of the primary width, or the interval containment of 0 differs"
+  },
+  "nPairsTotal": 575,
+  "nPairsDropped": 0,
+  "nDrivesDroppedMissingSoc": 2,
+  "gapsSpanningMidnight": 116,
+  "gapsWithOdoJump": 6,
+  "capacityAssumption": "watts and kWh per day use the assumed capacity CAP_KWH = 2.1 kWh (verified: false); the primary quantity is the SoC drift rate in pp per hour",
+  "limits": [
+   "pairs assume no unlogged drive inside a gap (gapsWithOdoJump counts gaps whose absolute odometer step exceeds 0.5 km, a backwards step included; reported, not corrected)",
+   "drives with a missing SoC are dropped before pairing, so one pair spans a dropped drive and counts its driving time as parked time; pairing first and dropping the pair gives 574 gaps, 2.20 W [1.45, 3.10] (blind-audit sensitivity)",
+   "gap hours come from naive local timestamps; daylight-saving shifts of 1 h are not corrected",
+   "a few long gaps drive the slope (see leaveOneArrivalDay)",
+   "cross-day dependence (shared drives, multi-day re-anchoring regimes) may leave the arrival-day interval too narrow",
+   "weakly identified from the SoC ledger alone (re-anchoring jump noise floor); the attribution of the drift (BMS, telematics, ledger) is not identified"
+  ]
  },
  "driveTypes": [
   {
@@ -57167,7 +57231,7 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
+   "generatedAt": "2026-10-19T12:43:22.206472+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -57175,13 +57239,14 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
+   "includedInReleaseAt": "2026-10-19T12:43:22.206472+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T16:40:29.684566+00:00"
+   "computedAt": "2026-10-19T12:43:22.206472+00:00",
+   "computationStatusNote": "M458: interval recomputed by compute_summary_arrays._car_off_standby (tools/standby_ci.py, arrival-day cluster bootstrap); point fields unchanged; spliced by tools/m458_standby_splice.py"
   },
   "driveTypes": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
