@@ -1,3 +1,16 @@
+## M447 (2026-10-19): Regen programme ME (step 2): additive payload regenDisplayV2 (cadence-stratified native v2 rows, b_nat, SOC selector rows, per-stratum standardized bars); no dashboard binding
+
+**Rationale.** Implements the payload layer of analyses/M446_spec.md Rev 1.1 (sha256 5a89a6b27504135591cbb94e2a3a7b6c6149639b68ca1729f75ee13662d9ad59, frozen in M446): tools/regen_display.py (cohort x stratum rows for the temperature, speed-during-braking and speed-zone views under every SOC selection, plateau convention range, D3 sampling-interval description, narrative and extent fields, b_nat per stratum and cell with the fast f=2,3 and slow f=2 common-support definitions, M444 standardization within the stratum with the one fixed reference mix), stage hook in tools/regen_v2_stage.py, tests/synthetic/test_regen_display.py (registered in ci.yml), semantic_gate M446 invariants, language_gate rule M446-stratified-display. summary_arrays.json deep diff: only regenDisplayV2 and its stamp added; drive_master.csv MD5 unchanged; build gates pass (strata plus unknown reconcile to the pooled totals; pooled cells equal regenCaptureV2). Result file analyses/M446_result.json. Not done and required before any display: blind audit incl. one bootstrap-CI and one b_nat reproduction (G5), Director ruling, Andrii's sign-off (spec D6). Nothing is bound to xtrail_summary.jsx or the dashboard.
+
+**State.** `drive_master.csv` 578 rows, MD5 `a641f34d7528d004b900c151cbde3d6d`.
+
+**Gates (runs/20261013T174559Z).** build_html=ok; jsdom=ok; release_check=ok; state=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `tools/regen_display.py`, `tools/regen_v2_stage.py`, `tests/synthetic/test_regen_display.py`, `semantic_gate.py`, `language_gate.py`, `.github/workflows/ci.yml`, `analyses/M446_result.json`, `summary_arrays.json`.
+
+
 ## M446 (2026-10-15): Regen programme ME (step 1): spec Rev 1.1 frozen for the cadence-stratified native v2 display (payload regenDisplayV2 only; no dashboard binding; recorded deviation from M442 E2/E4 and owner decision (a))
 
 **Rationale.** M446 spec sha256 5a89a6b27504135591cbb94e2a3a7b6c6149639b68ca1729f75ee13662d9ad59 (analyses/M446_spec.md Rev 1.1, FROZEN before any stage-ME number existed). Stage ME replaces the displayed legacy regen bars by the cadence-stratified NATIVE v2 estimator (fast-polled and slow-polled drives separately, no pooled bar, per-stratum resolution bracket b_nat = max over f of |v2(native) - v2(decimated f)|, SOC selector, Observed / SOC-standardized basis with the one fixed reference mix). Research-director review of Rev 1: verdict revise; D1-D7 and answers O1-O7 adopted in section 16 (the route is a recorded deviation from M442 Rev 1.3 E2/E4, PCL-1 section 6 and owner decision (a), justified by analyses/PCL1_sizing.json; M441 Rev 2.2 condition (2) is not discharged; harmonized b is reference only). Andrii approved in chat on 2026-10-15 (verbatim: 'approved') the freeze and the payload-only build; he signs off the DISPLAY separately after the blind audit and the Director ruling (sign-off text in section 16 D6); nothing is bound to the dashboard in this step.

@@ -1,0 +1,166 @@
+{
+ "task": "blind_reproduction",
+ "data": "raw/ CSV drive files (sha256-verified originals), drive_master.csv (columns file, date, drive_type, ev_rpm_dt_med_s), seasonal_drive_master.csv (thermal_regime); NOT tools/, tests/, analyses/M446_*",
+ "method_refs": [
+  "analyses/M441_spec.md Rev 2.1-2.2 (interval extractor, ratio of sums, assumed masses, plateau rule, support floors, day-clustered bootstrap B=4000 seed 42 percentile)",
+  "analyses/M444_spec.md Rev 2.1-2.3 sections 1-4 (reference mix, common support, standardization, S14 own-day sets, S15)",
+  "analyses/M446_spec.md Rev 1.1 sections 3, 4, 16 (D2: b_nat)"
+ ],
+ "definitions": {
+  "strata": "fast = drive master ev_rpm_dt_med_s < 1.0; slow = >= 1.0; undefined = neither; cohort all",
+  "b_nat": "fast: f in {2,3}: decimate EVERY channel (speed, rpm, I, V, SoC, temperature) keeping every f-th native sample from index q, q=0..f-1; the decimated v2 table is the equal-weight stack (pooled mean over phases) of the f phase variants; b_nat = max over f of |cell value native - cell value decimated|, point values, same drives and days, all intervals. slow: f=2 only, common-support variant: only intervals whose mid-point lies inside a kept (non-trimmed) interval of the other run, per phase, mean of the two phase differences",
+  "cellValue": "temperature bin, All SOC, observed apparent KE recovery pct = 100 sum(charge)/sum(KE) over the cell's kept intervals"
+ },
+ "claims": {
+  "strata": {
+   "fast": {
+    "drives": 167,
+    "days": 34
+   },
+   "slow": {
+    "drives": 398,
+    "days": 82
+   }
+  },
+  "observedCells": [
+   {
+    "cohort": "all",
+    "stratum": "fast",
+    "view": "temperature",
+    "soc": "allSoc",
+    "bin": "10–20°C",
+    "n": 3519,
+    "drives": 53,
+    "days": 22,
+    "eff": 58.05,
+    "ci95": [
+     55.34,
+     60.58
+    ],
+    "massRange": [
+     57.2,
+     58.92
+    ],
+    "status": "supported"
+   },
+   {
+    "cohort": "all",
+    "stratum": "slow",
+    "view": "temperature",
+    "soc": "allSoc",
+    "bin": "30–40°C",
+    "n": 33580,
+    "drives": 197,
+    "days": 58,
+    "eff": 70.04,
+    "ci95": [
+     67.69,
+     72.37
+    ],
+    "massRange": [
+     69.57,
+     70.51
+    ],
+    "status": "supported"
+   },
+   {
+    "cohort": "all",
+    "stratum": "slow",
+    "view": "temperature",
+    "soc": "band 66-69",
+    "bin": "20–30°C",
+    "n": 2093,
+    "drives": 117,
+    "days": 66,
+    "eff": 72.32,
+    "ci95": [
+     67.48,
+     77.25
+    ],
+    "status": "supported"
+   }
+  ],
+  "standardizedCell": {
+   "cohort": "all",
+   "stratum": "slow",
+   "view": "temperature",
+   "bin": "20–30°C",
+   "bar": {
+    "standardized": 71.46,
+    "ci95Days": [
+     68.19,
+     74.81
+    ],
+    "failedDrawShare": 0.0,
+    "ci95Weeks": [
+     66.94,
+     75.07
+    ],
+    "failedDrawShareWeeks": 0.0,
+    "weekSupport": true,
+    "massRange": [
+     70.56,
+     72.39
+    ],
+    "observedAllSoc": 68.69,
+    "observedOnCommonBands": 68.74,
+    "fastPolledKeShare": null,
+    "status": "supported",
+    "bNat": 1.271
+   },
+   "availability": {
+    "available": true,
+    "coverage": 0.9986,
+    "droppedGroups": [],
+    "alternativeThresholds": {
+     "0.7": true,
+     "0.9": true
+    }
+   },
+   "commonSupportBands": [
+    "band 50-55",
+    "band 55-60",
+    "band 60-63",
+    "band 63-66",
+    "band 66-69",
+    "band 69-72",
+    "band 72-100"
+   ]
+  },
+  "bNatCells": [
+   {
+    "cohort": "all",
+    "stratum": "fast",
+    "view": "temperature",
+    "soc": "allSoc",
+    "bin": "20–30°C",
+    "bNat": 1.393,
+    "bNatShiftPp": 1.393,
+    "bNatF": 3
+   },
+   {
+    "cohort": "all",
+    "stratum": "slow",
+    "view": "temperature",
+    "soc": "allSoc",
+    "bin": "20–30°C",
+    "bNat": 1.271,
+    "bNatShiftPp": 1.271,
+    "bNatF": 2
+   }
+  ],
+  "referenceMix": {
+   "band 40-50": 0.0014,
+   "band 50-55": 0.03556,
+   "band 55-60": 0.07928,
+   "band 60-63": 0.09281,
+   "band 63-66": 0.20445,
+   "band 66-69": 0.27637,
+   "band 69-72": 0.18567,
+   "band 72-100": 0.12446,
+   "below40": 0.0
+  }
+ },
+ "return": "JSON <2 KB: per claim AGREE/DISAGREE with your value and the difference (pp); say what you could not reproduce and why. Tolerance 0.01 pp for point values, 0.05 pp for interval limits.",
+ "forbidden": "do not read tools/, tests/, analyses/M446_*, summary_arrays.json key regenDisplayV2, CHANGELOG.md"
+}

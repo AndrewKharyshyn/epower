@@ -16,7 +16,7 @@ import regen_v2 as R
 import regen_v2_agg as G
 import m441_study as S
 
-KEYS = ["regenCaptureV2", "regenCaptureV2Study", "regenCaptureV2H", "regenCaptureV2HStudy", "regenSocStandardized", "regenSocStandardizedStudy"]
+KEYS = ["regenCaptureV2", "regenCaptureV2Study", "regenCaptureV2H", "regenCaptureV2HStudy", "regenSocStandardized", "regenSocStandardizedStudy", "regenDisplayV2"]
 sha = lambda p: hashlib.sha256(open(p, "rb").read()).hexdigest()
 
 
@@ -161,6 +161,19 @@ def main(argv=None):
         if sstudy:
             N["regenSocStandardizedStudy"] = sstudy
             N["_artifactStamps"]["regenSocStandardizedStudy"] = stamp_for(A, "regenSocStandardizedStudy", sstudy, md5, "M444: derived by tools/regen_std.py (on demand); demand-ladder check, chronological holdouts and sensitivities; carried forward at ingestion")
+    if os.path.exists("analyses/M446_spec.md"):
+        import regen_display as RD
+        if RD.frozen_ok():
+            db = RD.build()
+            if not db["gates"]["pass"]:
+                raise SystemExit("regenDisplayV2 build gates failed: %r" % (db["gates"],))
+            N["regenDisplayV2"] = db
+            N["_artifactStamps"]["regenDisplayV2"] = stamp_for(A, "regenDisplayV2", db, md5, "M446: derived by tools/regen_display.py from the per-drive cache (native v2 and decimated variants); additive cadence-stratified display rows of the apparent KE recovery; no dashboard binding until the audit, the Director ruling and the owner sign-off")
+            if "--write-result" in argv:
+                with open("analyses/M446_result.json", "w", encoding="utf-8", newline=chr(10)) as f:
+                    json.dump(db, f, indent=1, ensure_ascii=False)
+        else:
+            print("NOTE regenDisplayV2 skipped: CHANGELOG.md does not carry the current M446 spec sha256")
     ch = diff(A, N)
     stray = [x for x in ch if not any(x == "/" + k or x.startswith("/" + k + "/") or x.startswith("/_artifactStamps/" + k) for k in KEYS)]
     print(json.dumps({"nChanged": len(ch), "stray": stray[:10], "extraction": {k: v for k, v in st.items() if k in ("nFiles", "cacheHits", "extracted", "seconds")}}))
