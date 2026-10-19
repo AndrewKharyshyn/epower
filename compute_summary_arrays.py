@@ -8540,7 +8540,7 @@ def _mountain_pattern(dm, raw_loader, frame_loader=None):
                     list(zip(budget_lo, budget_hi)),
                 'maxReliefDrivenM': (float(D['reliefBaroM'].max())
                                      if D['reliefBaroM'].notna().any() else None),
-                'note': ('capture fraction is pack-measured charge energy over '
+                'note': ('capture fraction is pack charge energy (integrated from the logged current and voltage) over '
                         'released potential energy on >=2% descents; the '
                         'remainder is aero, rolling, driveline and friction '
                         'braking. M164: captureFraction and toSaturation carry '

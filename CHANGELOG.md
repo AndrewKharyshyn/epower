@@ -1,3 +1,16 @@
+## M453 (2026-10-19): Language debt: two payload strings no longer call logger-derived regeneration quantities 'measured' (exact-string leaf edit + producer text + gate rule)
+
+**Rationale.** Closes the open follow-up 'regen capture fraction (measured)' / 'pack-measured charge energy'. (1) seasonalCharts.charts.RegenCaptureMeasured.statisticalUnit -> 'apparent KE recovery ratio (legacy extraction, assumed mass)' (carried leaf, no builder text; M334 precedent). (2) mountainPattern.descentBudget.note -> 'pack charge energy (integrated from the logged current and voltage)'; producer text in compute_summary_arrays.py edited identically so a future rebuild keeps it. tools/m453_wording_splice.py is an idempotent exact-string edit of those two leaves (4 changed lines in summary_arrays.json, no number touched). language_gate.py rule M453-measured-regen-wording carries the OLD wording. Dashboard rebuilt (strings only).
+
+**State.** `drive_master.csv` 578 rows, MD5 `a641f34d7528d004b900c151cbde3d6d`.
+
+**Gates (runs/20261013T174559Z).** build_html=ok; jsdom=ok; release_check=ok; state=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `tools/m453_wording_splice.py`, `compute_summary_arrays.py`, `language_gate.py`, `summary_arrays.json`, `xtrail_dashboard.html`.
+
+
 ## M452 (2026-10-19): CLAUDE.md: record the stage-ME departure from owner decision (a) and the programme status (M446-M451)
 
 **Rationale.** Documentation only, at Andrii's request (chat, 2026-10-19: 'yes'). Adds the Owner decision of 2026-10-19 (cadence-stratified native display, sign-off, language limits) and updates the regeneration-programme Open item (stage ME done, MF open, PCL-1 not run, refresh routine). No code, payload or number changes.
