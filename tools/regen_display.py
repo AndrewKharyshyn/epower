@@ -26,8 +26,9 @@ SPEC = "analyses/M446_spec.md"
 STRATA = ("fast", "slow")
 SELS = ["allSoc"] + list(G.SOC_SELS[2:-1])                                  # All SOC, the eight bands, below40
 VIEWS = ("temperature", "speed", "zones10")
-ZONES10 = [("10-30", [1, 2]), ("30-60", [3, 4, 5]), ("60-90", [6, 7, 8]), ("90-120", [9, 10, 11]), (">120", [12, 13])]
+ZONES10 = [("10-30", [1, 2]), ("30-60", [3, 4, 5]), ("60-90", [6, 7, 8]), ("90-120", [9, 10, 11]), ("120-130", [12])]
 PAYLOAD_ONLY_SPEED = ("0-10", ">=130")                                      # D4: kept in the payload, not drawn
+MIN_CI_DAYS = 5                                                            # Rev 1.3 R2 e
 DRIFT_S = 0.2                                                               # D3: within-stratum drift flag (s)
 DEC_FACTORS = {"fast": (2, 3), "slow": (2,)}                                # D2
 KEEP = ("n", "drives", "days", "keKwh", "eff", "ci95", "precisionHalfWidth", "massRange", "status", "flagAbove100")
@@ -104,7 +105,7 @@ def extent(rows, order):
 
 # ------------------------------------------------------------------------------------------------ views and cells
 def mats_of(co, view):
-    """Contribution matrices of a view; 'zones10' = speed zones from the drawn 10 km/h bins (the 0-10 km/h bin is not a zone; the top zone keeps the overflow bin)."""
+    """Contribution matrices of a view; 'zones10' = speed zones as sums of the DRAWN 10 km/h bins (the 0-10 km/h bin and the overflow bin >= 130 km/h belong to no zone; Rev 1.3 R2 g)."""
     if view == "zones10":
         m, _ = co.mats("speed")
         out = {}
@@ -115,7 +116,43 @@ def mats_of(co, view):
 
 
 def cell(c):
-    return {k: c[k] for k in KEEP if k in c}
+    r = {k: c[k] for k in KEEP if k in c}
+    if r.get("ci95") is not None and r.get("days", 0) < MIN_CI_DAYS:                # Rev 1.3 R2 e: no interval from fewer than 5 calendar days
+        r["ci95"], r["precisionHalfWidth"], r["ciSuppressed"] = None, None, "days<%d" % MIN_CI_DAYS
+    return r
+
+
+def status_reason(r):
+    """Rev 1.3 R2 b: why a row has its status (None for a supported cell)."""
+    st = r.get("status")
+    if st == "supported":
+        return None
+    if st == "empty":
+        return "no qualifying intervals"
+    if st == "failed":
+        return "interval unidentified (more than %.1f %% of the bootstrap draws have no ratio)" % (100 * G.UNID_MAX) if r.get("n") else "no ratio"
+    short = [t for t, ok in (("n %s < %d" % (r.get("n"), G.MIN_N), (r.get("n") or 0) >= G.MIN_N), ("drives %s < %d" % (r.get("drives"), G.MIN_DRIVES), (r.get("drives") or 0) >= G.MIN_DRIVES),
+                             ("days %s < %d" % (r.get("days"), G.MIN_DAYS), (r.get("days") or 0) >= G.MIN_DAYS)) if not ok]
+    return "below the support floors: " + ", ".join(short) if short else "thin"
+
+
+def convention_sensitive(r):
+    """Rev 1.3 R2 c: a plateau-convention value lies outside the cell's day interval (or the cell has no interval but a convention value differs from the estimate by more than its mass-range half-width)."""
+    cv, ci = r.get("conventionRange"), r.get("ci95")
+    if not cv or r.get("eff") is None:
+        return None
+    vals = [v for v in cv.values() if v is not None]
+    if ci is not None:
+        return bool(any(v < ci[0] or v > ci[1] for v in vals))
+    mr = r.get("massRange")
+    return None if not mr else bool(any(abs(v - r["eff"]) > (mr[1] - mr[0]) / 2.0 for v in vals))
+
+
+def step_label(ci, diff, ba, bb):
+    """D5 / Rev 1.3 R2 d: 'resolved' only if the day interval of the step excludes 0 AND |step| exceeds b_nat(a) + b_nat(b); 'not evaluable' without an interval or a bracket; else 'not resolved'."""
+    if ci is None or ba is None or bb is None:
+        return "not evaluable"
+    return "resolved" if ((ci[0] > 0 or ci[1] < 0) and abs(diff) > ba + bb) else "not resolved"
 
 
 def points(co, view, sel):
@@ -186,10 +223,10 @@ def pair_points(co_a, co_b, view, sel):
 
 
 def bnat_tables(dm, T_full, tdec, cmask, days, stratum, cs_masks):
-    """b_nat of every (view, SOC selection, cell) of one cohort x stratum. Fast: f in {2, 3}, the native v2 table against the equal-weight stack of the f phase variants, all intervals (the M442 form). Slow: f = 2, the common-support
+    """b_nat of every (view, SOC selection, cell) of one cohort x stratum. Fast: f in {2, 3}, the native v2 table against the pooled stack of the f phase variants (charge and kinetic energy summed over the phases before the ratio), all intervals (the M442 form). Slow: f = 2, the common-support
     variant (intervals eligible in both runs), mean of the two phases. Returns {view: {sel: {label: {bNat, shiftPp, f}}}}; a cell without a computable difference is absent (-> 'no resolution bracket available')."""
     out = {v: {s: {} for s in SELS} for v in VIEWS}
-    diffs = {}
+    diffs, phases = {}, {}
     for f in DEC_FACTORS[stratum]:
         if stratum == "fast":
             co_a = G.Cohort(T_full, dm, cmask, "nat", days=days)
@@ -209,15 +246,52 @@ def bnat_tables(dm, T_full, tdec, cmask, days, stratum, cs_masks):
                 la = per[0][(v, s)][0]
                 for j, l in enumerate(la):
                     xs = [p[(v, s)][1][j] for p in per]
+                    if all(np.isfinite(xs)):
+                        phases[(v, s, l)] = [round(float(x), 3) for x in xs]
                     diffs.setdefault((v, s, l), {})[f] = float(np.mean(xs)) if all(np.isfinite(xs)) else None
     for (v, s, l), dd in diffs.items():
         b, sh, f = b_nat(dd)
         if b is not None:
             out[v][s][l] = {"bNat": b, "shiftPp": sh, "f": f}
+            if (v, s, l) in phases:                                                  # Rev 1.3 R2 a: the signed mean of the phase shifts can cancel
+                ph = phases[(v, s, l)]
+                mx = max(abs(x) for x in ph)
+                out[v][s][l].update(phaseDiffs=ph, bNatMaxPhase=round(mx, 3), phaseCancel=bool(mx - b > 1e-9))
     return out
 
 
 # ------------------------------------------------------------------------------------------------ one cohort x stratum
+def steps_of(co, view, sel, labels, rows, bn_cells, standard_order=None):
+    """D5 / Rev 1.3 R2 d: the adjacent steps between SUPPORTED cells of a view (ordered as drawn): point step, day-clustered interval of the step (same resamples), gap flag, and the label resolved / not resolved / not evaluable."""
+    mats, _ = mats_of(co, view)
+    C_, _, K_ = co.sums(mats, co.sel[sel])[:3]
+    with np.errstate(invalid="ignore", divide="ignore"):
+        den = co.counts @ K_
+        dr = np.where(den > 0, 100.0 * (co.counts @ C_) / np.where(den > 0, den, 1.0), np.nan)
+    order = [l for l in labels if not (view == "speed" and l in PAYLOAD_ONLY_SPEED)]
+    sup = [l for l in order if rows[l].get("status") == "supported" and rows[l].get("eff") is not None]
+    out = []
+    for a, b in zip(sup[:-1], sup[1:]):
+        ja, jb = labels.index(a), labels.index(b)
+        diff = rows[b]["eff"] - rows[a]["eff"]
+        ci = RS.interval(dr[:, jb] - dr[:, ja])[0] if co.D >= MIN_CI_DAYS else None
+        ba, bb = (bn_cells.get(a) or {}).get("bNat"), (bn_cells.get(b) or {}).get("bNat")
+        out.append({"a": a, "b": b, "stepPp": round(diff, 2), "ci95Days": ci, "gapBetween": bool(order.index(b) - order.index(a) > 1), "label": step_label(ci, diff, ba, bb)})
+    return out
+
+
+def extrema_resolution(narr, steps):
+    """Whether the steps adjoining the minimum / maximum cell are all 'resolved' in the direction that makes it the extremum (None when it has no adjacent step)."""
+    for key, lab_key, sign in (("effMaxStepsResolved", "effMaxLabel", 1), ("effMinStepsResolved", "effMinLabel", -1)):
+        lab = narr.get(lab_key)
+        adj = [st for st in steps if lab in (st["a"], st["b"])]
+        if not adj:
+            narr[key] = None
+            continue
+        narr[key] = bool(all(st["label"] == "resolved" and ((st["stepPp"] > 0) if st["b"] == lab else (st["stepPp"] < 0)) == (sign > 0) for st in adj))
+    return narr
+
+
 def stratum_block(co, w, bn, ivmed, disagree):
     """All rows of one population (a Cohort restricted to one cohort and one stratum)."""
     n = len(co.drive)
@@ -248,7 +322,13 @@ def stratum_block(co, w, bn, ivmed, disagree):
                 if v == "speed" and l in PAYLOAD_ONLY_SPEED:
                     r["payloadOnly"] = True
             drawn = [l for l in labels if not (v == "speed" and l in PAYLOAD_ONLY_SPEED)]
-            vb["bySoc"][s] = {"rows": rows, "narrative": narrative(rows, drawn), "extent": extent(rows, drawn)}
+            for l in labels:
+                rows[l]["statusReason"] = status_reason(rows[l])
+                cs_ = convention_sensitive(rows[l])
+                if cs_ is not None:
+                    rows[l]["conventionSensitive"] = cs_
+            st_ = steps_of(co, v, s, labels, rows, bn[v][s])
+            vb["bySoc"][s] = {"rows": rows, "narrative": extrema_resolution(narrative(rows, drawn), st_), "extent": extent(rows, drawn), "steps": st_}
         vb["bySoc"]["allSoc"]["sampling"] = sampling_block(co, v, "allSoc", ivmed, disagree, strat_med)
         out["views"][v] = vb
     for v in ("temperature", "speed"):
@@ -257,6 +337,12 @@ def stratum_block(co, w, bn, ivmed, disagree):
         for g, bar in res.get("bars", {}).items():
             b = bn[v]["allSoc"].get(g)
             bar["bNat"] = None if not b else b["bNat"]
+        if co.D < MIN_CI_DAYS:
+            for bar in res.get("bars", {}).values():
+                bar["ci95Days"], bar["ci95Weeks"], bar["ciSuppressed"] = None, None, "days<%d" % MIN_CI_DAYS
+        for dd in res.get("adjacentDifferences", []):
+            ba, bb = (res["bars"].get(dd["a"]) or {}).get("bNat"), (res["bars"].get(dd["b"]) or {}).get("bNat")
+            dd["label"] = step_label(None if co.D < MIN_CI_DAYS else dd.get("ci95Days"), dd["standardizedDiffPp"], ba, bb)
         rows = {g: {"eff": bar["standardized"], "ci95": bar.get("ci95Days"), "massRange": bar.get("massRange"), "status": "supported" if bar.get("status") == "supported" else "failed", "bNat": bar.get("bNat")} for g, bar in res.get("bars", {}).items()}
         order = [l for l in out["views"][v]["order"] if not (v == "speed" and l in PAYLOAD_ONLY_SPEED)]
         res["narrative"], res["extent"] = narrative(rows, order), extent(rows, order)
@@ -321,14 +407,14 @@ def build(workers=5):
     w, ke_ref = RS.reference_weights(Jt, list(range(len(labels_t))))
     wsha = hashlib.sha256(json.dumps({k: round(v, 5) for k, v in w.items()}, sort_keys=True).encode()).hexdigest()
     out = {"cohorts": {}}
-    gates = {"strataReconcile": {}, "pooledMatchesM441": {}}
+    gates = {"tolerance": 1e-9, "strataReconcile": {}, "socSumReconcile": {}, "pooledMatchesM441": {}, "observedMatchesM444": {}}
     for c, cm in masks.items():
         if cm.sum() == 0:
             continue
         co_pool = co_ref if c == "all" else G.Cohort(T, dm, cm, c)
         blk = {"pooledReference": pooled_reference(co_pool), "strata": {}}
         tot_pool = co_pool.cell_block("all", np.ones(len(co_pool.drive), bool))["all"]
-        parts = {"keKwh": 0.0, "chargeKwh": 0.0, "n": 0}
+        parts = {"_ke": 0.0, "_ch": 0.0, "n": 0}
         for p in STRATA:
             pm = cm & sm[p]
             co = G.Cohort(T, dm, pm, c + "-" + p)
@@ -340,6 +426,8 @@ def build(workers=5):
             t = co.cell_block("all", np.ones(len(co.drive), bool))["all"]
             for k in parts:
                 parts[k] += t.get(k, 0)
+            cbs = {sel: co.cell_block("temperature", co.sel[sel]) for sel in G.SOC_SELS}
+            gates["socSumReconcile"].setdefault(c, {})[p] = G.reconcile(cbs)
         for lab, rest in (("unknown", cm & ~np.isfinite(ev) & ~held), ("held", cm & held)):
             if rest.sum():
                 co = G.Cohort(T, dm, rest, c + "-" + lab)
@@ -347,12 +435,16 @@ def build(workers=5):
                     t = co.cell_block("all", np.ones(len(co.drive), bool))["all"]
                     for k in parts:
                         parts[k] += t.get(k, 0)
-        gates["strataReconcile"][c] = {k: round(abs(parts[k] - tot_pool.get(k, 0)), 6) for k in parts}
+        gates["strataReconcile"][c] = {k.lstrip("_"): abs(parts[k] - tot_pool.get(k, 0)) for k in parts}
         v41 = A["regenCaptureV2"]["cohorts"][c]["views"]["temperature"]["allSoc"]
         pr = blk["pooledReference"]["temperature"]["allSoc"]
         gates["pooledMatchesM441"][c] = bool(all(((pr[l]["eff"] is None and v41[l].get("eff") is None) or (pr[l]["eff"] == v41[l].get("eff"))) and pr[l]["n"] == v41[l].get("n") for l in pr))
+        m444 = A["regenSocStandardized"]["cohorts"].get(c, {}).get("temperature", {}).get("observedAllSoc", {})
+        gates["observedMatchesM444"][c] = bool(all(pr[l]["eff"] == m444[l]["eff"] for l in m444 if l in pr))
         out["cohorts"][c] = blk
-    gates["pass"] = bool(all(max(d.values()) <= 1e-4 for d in gates["strataReconcile"].values()) and all(gates["pooledMatchesM441"].values()))
+    tol = gates["tolerance"]
+    soc_ok = all(r["nSoc"] == 0 and r["nAll"] == 0 and r["keKwh"] <= tol and r["chargeKwh"] <= tol and r["keAll"] <= tol for d in gates["socSumReconcile"].values() for r in d.values())
+    gates["pass"] = bool(all(max(d.values()) <= tol for d in gates["strataReconcile"].values()) and soc_ok and all(gates["pooledMatchesM441"].values()) and all(gates["observedMatchesM444"].values()))
     ci = A["regenCaptureV2Study"]["cadenceInvariance"]["decision"]
     m442 = "analyses/M442_result_rerun.json"
     out.update({
@@ -360,9 +452,9 @@ def build(workers=5):
         "socSelections": SELS, "views": list(VIEWS), "socEdges": G.SOC_EDGES, "bootstrap": {"B": G.B_DRAWS, "seed": G.SEED, "cluster": "calendar day (own days of each cohort x stratum population)"},
         "support": {"minStrictIntervals": G.MIN_N, "minDrives": G.MIN_DRIVES, "minDays": G.MIN_DAYS, "unidentifiedDrawMax": G.UNID_MAX},
         "strata": {"fast": "drives with master ev_rpm_dt_med_s < 1.0 s (fast-polled)", "slow": "drives with master ev_rpm_dt_med_s >= 1.0 s (slow-polled)", "neither": "a drive with an undefined statistic belongs to neither stratum (M444 S15); PCL-1 protocol drives are held out"},
-        "zoneDefinition": {"zones": [{"label": z, "bins": ix} for z, ix in ZONES10], "note": "zones are sums of the drawn 10 km/h bins; the 0-10 km/h bin is not a zone; the top zone keeps the overflow bin (>= 130 km/h)"},
+        "zoneDefinition": {"zones": [{"label": z, "bins": ix} for z, ix in ZONES10], "note": "zones are sums of the drawn 10 km/h bins 10-20 ... 120-130; the 0-10 km/h bin and the overflow bin (>= 130 km/h) belong to no zone (Rev 1.3 R2 g)"},
         "referenceMix": {"weights": {k: round(v, 5) for k, v in w.items()}, "sha256": wsha, "note": "the ONE all-cohort KE-weighted reference SOC mix of M444 (owner decision (c)); identical for every stratum, cohort and bar"},
-        "resolutionBracket": {"definition": "b_nat = max over f of |v2(native) - v2(decimated f)| (pp, point values), per stratum and cell. Fast-polled: f in {2, 3}, native v2 table against the equal-weight stack of the f phase variants, all intervals (the M442 form). "
+        "resolutionBracket": {"definition": "b_nat = max over f of |v2(native) - v2(decimated f)| (pp, point values), per stratum and cell. Fast-polled: f in {2, 3}, native v2 table against the pooled stack of the f phase variants (charge and kinetic energy summed over the phases before the ratio), all intervals (the M442 form). "
                                             "Slow-polled: f = 2 on the common-support variant (intervals eligible in both runs), mean of the two phases. Never borrowed across strata, cells or estimands; a cell without a computable difference shows no resolution bracket. "
                                             "A sensitivity on data already seen, never a gate.",
                               "harmonizedBracketReference": {"source": m442, "sha256": sha_file(m442), "note": "the M442 harmonized b understates the native shift (reference only)"}},

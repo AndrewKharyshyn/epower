@@ -1,3 +1,16 @@
+## M449 (2026-10-19): M446 spec Rev 1.3 (Director ruling on the payload layer: accept unbound) and the required payload changes
+
+**Rationale.** M446 spec sha256 0517fc23f4d378d11e5e4ebd5bc73e869eb2cbe7cdee77e52a4222a2063b5ddd (analyses/M446_spec.md Rev 1.3, appended after the blind audit; earlier: Rev 1.1 5a89a6b27504135591cbb94e2a3a7b6c6149639b68ca1729f75ee13662d9ad59). Director ruling: regenDisplayV2 accepted as an additive UNBOUND layer; binding blocked until R2 (a)-(i). Implemented in tools/regen_display.py: slow b_nat per-phase diffs plus max-abs alternative and cancellation flag; statusReason; conventionSensitive; D5 step resolution (interval excludes 0 and |step| > b_nat(a)+b_nat(b)) and extremum resolution; ci95 suppressed below 5 days (cold); gates on unrounded sums at 1e-9 with SOC-sum and M444 observed-match recorded; top speed zone 120-130 (overflow bin in no zone); wording 'pooled stack'; language rule extended (R4). Remaining before binding: blind reproduction of one fast-stratum standardized cell and the slow b_nat phase handling, release_check, Andrii's sign-off (D6 plus Rev 1.3 R3 additions).
+
+**State.** `drive_master.csv` 578 rows, MD5 `a641f34d7528d004b900c151cbde3d6d`.
+
+**Gates (runs/20261013T174559Z).** build_html=ok; jsdom=ok; release_check=ok; state=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `analyses/M446_spec.md`, `tools/regen_display.py`, `tests/synthetic/test_regen_display.py`, `language_gate.py`.
+
+
 ## M448 (2026-10-19): M446 spec Rev 1.2 (clarifications after the blind audit; verdict accept)
 
 **Rationale.** M446 spec sha256 0affa220cc1955c984917c1bf43c0986249942da7180a529c5402ded4acd01e5 (analyses/M446_spec.md Rev 1.2: RNG named, fast b_nat stack pooled, zone definition; Rev 1.1 hash 5a89a6b27504135591cbb94e2a3a7b6c6149639b68ca1729f75ee13662d9ad59). Blind audit analyses/M446_audit.json: strata, observed cells, one standardized cell with day/week intervals, reference mix and two b_nat reproduced within 0.0061 pp. No code or number changes. Display still unbound: Director ruling and Andrii's sign-off pending.

@@ -97,7 +97,7 @@ T, dm = build2({"fast": {25.0: {57.0: 4}}})
 co = G.Cohort(T, dm, np.ones(len(dm), bool), "t")
 mz, lz = D.mats_of(co, "zones10")
 ms, ls = co.mats("speed")
-assert lz == ["10-30", "30-60", "60-90", "90-120", ">120"]
+assert lz == ["10-30", "30-60", "60-90", "90-120", "120-130"]
 assert abs(mz["dv2"].sum() - ms["dv2"][:, 1:].sum()) < 1e-9 and abs(mz["charge"].sum() - ms["charge"][:, 1:].sum()) < 1e-9          # the 0-10 km/h bin is not in any zone
 assert abs(mz["dv2"][:, 0].sum() - ms["dv2"][:, 1:3].sum()) < 1e-9
 
@@ -151,4 +151,26 @@ assert abs(b["bNat"] - 0.2 * eff) < 0.02 and b["shiftPp"] > 0 and "<-10°C" not 
 allrows = np.ones(len(T["drive"]), bool)
 bns = D.bnat_tables(dm, T, None, m, days, "slow", {2: [(allrows, allrows, scaled(T, 0.95)), (allrows, allrows, scaled(T, 0.95))]})
 assert abs(bns["temperature"]["allSoc"]["20–30°C"]["bNat"] - 0.05 * eff) < 0.01 and bns["temperature"]["allSoc"]["20–30°C"]["f"] == 2          # slow: f = 2 only, mean of the two phases
+# (10) Rev 1.3: status reason, ci suppression below 5 days, convention flag, step labels, slow phase cancellation, extrema resolution
+assert D.status_reason({"status": "supported"}) is None and D.status_reason({"status": "empty"}) == "no qualifying intervals"
+assert "n 120 < 200" in D.status_reason({"status": "thin", "n": 120, "drives": 12, "days": 6}) and "drives" not in D.status_reason({"status": "thin", "n": 120, "drives": 12, "days": 6})
+assert D.cell({"ci95": [1.0, 2.0], "days": 4, "precisionHalfWidth": 0.5, "n": 9})["ciSuppressed"] == "days<5" and D.cell({"ci95": [1.0, 2.0], "days": 5})["ci95"] == [1.0, 2.0]
+assert D.convention_sensitive({"eff": 60.0, "ci95": [58.0, 62.0], "conventionRange": {"strictOnly": 57.0, "keptPlusTrimmed": 61.0}}) is True
+assert D.convention_sensitive({"eff": 60.0, "ci95": [58.0, 62.0], "conventionRange": {"strictOnly": 59.0, "keptPlusTrimmed": 61.0}}) is False
+assert D.convention_sensitive({"eff": 60.0, "ci95": None, "massRange": [59.0, 61.0], "conventionRange": {"strictOnly": 62.0, "keptPlusTrimmed": None}}) is True
+assert D.step_label([0.5, 3.0], 2.0, 0.5, 0.5) == "resolved" and D.step_label([0.5, 3.0], 2.0, 1.0, 1.0) == "not resolved" and D.step_label([-0.5, 3.0], 2.0, 0.1, 0.1) == "not resolved"
+assert D.step_label(None, 2.0, 0.1, 0.1) == "not evaluable" and D.step_label([0.5, 3.0], 2.0, None, 0.1) == "not evaluable"
+nv2 = D.extrema_resolution({"effMax": 70.0, "effMaxLabel": "c", "effMin": 60.0, "effMinLabel": "b"}, [{"a": "b", "b": "c", "stepPp": 10.0, "label": "resolved"}])
+assert nv2["effMaxStepsResolved"] is True and nv2["effMinStepsResolved"] is True                # the single resolved step rises from the minimum to the maximum
+nv3 = D.extrema_resolution({"effMax": 70.0, "effMaxLabel": "c", "effMin": 60.0, "effMinLabel": "b"}, [{"a": "b", "b": "c", "stepPp": 10.0, "label": "not resolved"}])
+assert nv3["effMaxStepsResolved"] is False
+nv4 = D.extrema_resolution({"effMax": 70.0, "effMaxLabel": "c", "effMin": 60.0, "effMinLabel": "b"}, [{"a": "b", "b": "c", "stepPp": -10.0, "label": "resolved"}])
+assert nv4["effMaxStepsResolved"] is False and nv4["effMinStepsResolved"] is False                # a resolved step in the wrong direction does not support the extremum
+assert D.extrema_resolution({"effMax": 1.0, "effMaxLabel": "z", "effMin": 1.0, "effMinLabel": "z"}, [])["effMaxStepsResolved"] is None
+# slow b_nat: opposite phase shifts cancel in the signed mean; the per-phase values and the maximum-absolute alternative are stored
+Tp = {k: v.copy() for k, v in T.items()}
+bns2 = D.bnat_tables(dm, T, None, m, days, "slow", {2: [(allrows, allrows, scaled(T, 0.9)), (allrows, allrows, scaled(T, 1.1))]})
+c2 = bns2["temperature"]["allSoc"]["20–30°C"]
+assert c2["phaseCancel"] is True and c2["bNat"] < 0.01 * eff and abs(c2["bNatMaxPhase"] - 0.1 * eff) < 0.02 and len(c2["phaseDiffs"]) == 2
+assert bns["temperature"]["allSoc"]["20–30°C"]["phaseCancel"] is False
 print("test_regen_display: all known-answer tests passed")
