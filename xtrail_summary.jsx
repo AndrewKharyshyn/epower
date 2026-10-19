@@ -7022,7 +7022,7 @@ function EvTraction() {
         {" "}(eng_rpm ≤ 400 — the same threshold engine_on_pct uses, so the two are
         complementary by construction). A <em>run</em> is a maximally contiguous engine-off
         interval; standstill inside a run does not end it, an engine start does. The
-        M46/M48 motored-unfuelled state burns no fuel but counts here as engine ON, so
+        M46/M48 motored-unfuelled state counts here as engine ON (it is not engine-off by RPM), so
         this is the <strong style={{color:"#0f172a"}}>conservative</strong> reading of
         &ldquo;electric&rdquo;. {E.nValid} of {E.nDrives} drives pass the channel-coverage,
         poll-rate and odometer-reconstruction gates ({E.kmValid} km, {E.nRuns} runs).

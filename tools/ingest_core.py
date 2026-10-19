@@ -237,6 +237,12 @@ def step3_determinism(master_path):
     return block, full
 
 
+# Additive leaves that on-demand studies splice INTO a block the arrays build recomputes (the top-level rule below cannot see them).
+# They are carried when the fresh block lacks them. M460: evTraction.detectorSensitivity (M432) and evTraction.zeroFuelVariant (M460) are written by
+# tools/m432_splice.py / tools/m460_splice.py and refreshed only on demand.
+NESTED_CARRIED = (("evTraction", "detectorSensitivity"), ("evTraction", "zeroFuelVariant"))
+
+
 def carry_forward(arrays, prev):
     """Top-level keys the arrays build does not produce (GTR, seasonalCharts, cohort*, records*, registry, crossVehicle,
     masterRefitAudit...) are owned by downstream stages/scripts. Carry the previous block forward so those stages
@@ -245,6 +251,11 @@ def carry_forward(arrays, prev):
     carried = sorted(k for k in prev if k not in arrays)
     for k in carried:
         arrays[k] = prev[k]
+    for parent, key in NESTED_CARRIED:                      # M460: nested additive leaves of recomputed blocks
+        pb, ab = prev.get(parent), arrays.get(parent)
+        if isinstance(pb, dict) and isinstance(ab, dict) and key in pb and key not in ab:
+            ab[key] = pb[key]
+            carried.append(parent + "." + key)
     stamps = arrays.setdefault("_artifactStamps", {})
     pst = prev.get("_artifactStamps") or {}
     for k in carried:                                   # provenance stamps travel with their blocks
