@@ -315,6 +315,9 @@ def stratum_block(co, w, bn, ivmed, disagree):
                 r = rows[l]
                 b = bn[v][s].get(l)
                 r["bNat"], r["bNatShiftPp"], r["bNatF"] = (b["bNat"], b["shiftPp"], b["f"]) if b else (None, None, None)
+                for k_ in ("phaseDiffs", "bNatMaxPhase", "phaseCancel"):
+                    if b and k_ in b:
+                        r[k_] = b[k_]
                 if r.get("eff") is not None:
                     r["conventionRange"] = {"strictOnly": None if conv["strictOnly"][l] is None else round(conv["strictOnly"][l], 2), "keptPlusTrimmed": None if conv["keptPlusTrimmed"][l] is None else round(conv["keptPlusTrimmed"][l], 2)}
                 if s == "allSoc" and l in wk:

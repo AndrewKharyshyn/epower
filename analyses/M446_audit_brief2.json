@@ -1,0 +1,150 @@
+{
+ "task": "blind_reproduction_round2",
+ "data": "raw/ CSV drive files (sha256-verified originals), drive_master.csv (columns file, date, drive_type, ev_rpm_dt_med_s), seasonal_drive_master.csv (thermal_regime); NOT tools/, tests/, analyses/M446_*",
+ "method_refs": [
+  "analyses/M441_spec.md Rev 2.1-2.2 (interval extractor, ratio of sums, assumed masses, plateau rule, support floors, day-clustered bootstrap B=4000 seed 42 percentile)",
+  "analyses/M444_spec.md Rev 2.1-2.3 sections 1-4 (reference mix, common support, standardization, S14 own-day sets, S15)",
+  "analyses/M446_spec.md Rev 1.1 sections 3, 4, 16 (D2: b_nat)"
+ ],
+ "definitions": {
+  "strata": "fast = drive master ev_rpm_dt_med_s < 1.0; slow = >= 1.0; undefined = neither; cohort all",
+  "b_nat": "fast: f in {2,3}: decimate EVERY channel (speed, rpm, I, V, SoC, temperature) keeping every f-th native sample from index q, q=0..f-1; the decimated v2 table is the equal-weight stack (pooled mean over phases) of the f phase variants; b_nat = max over f of |cell value native - cell value decimated|, point values, same drives and days, all intervals. slow: f=2 only, common-support variant: only intervals whose mid-point lies inside a kept (non-trimmed) interval of the other run, per phase, mean of the two phase differences",
+  "cellValue": "temperature bin, All SOC, observed apparent KE recovery pct = 100 sum(charge)/sum(KE) over the cell's kept intervals",
+  "phases": "slow b_nat per phase q: difference of the cell value native minus decimated (d2 phase q, every 2nd native sample of every channel from index q) on the common-support intervals; phaseDiffs lists the two signed phase differences; bNat = |mean of the two|; bNatMaxPhase = max |phase difference|",
+  "steps": "step = value(b) - value(a) for adjacent SUPPORTED temperature cells; day-clustered interval of the step from the same resamples (default_rng(42), integers(0,D,(B,D)), B=4000); label resolved iff the interval excludes 0 and |step| > bNat(a)+bNat(b)"
+ },
+ "claims": {
+  "fastStandardized": {
+   "cohort": "all",
+   "stratum": "fast",
+   "view": "temperature",
+   "availability": {
+    "available": true,
+    "coverage": 0.9986,
+    "droppedGroups": [],
+    "alternativeThresholds": {
+     "0.7": true,
+     "0.9": true
+    }
+   },
+   "commonSupportBands": [
+    "band 50-55",
+    "band 55-60",
+    "band 60-63",
+    "band 63-66",
+    "band 66-69",
+    "band 69-72",
+    "band 72-100"
+   ],
+   "bars": {
+    "10–20°C": {
+     "standardized": 57.66,
+     "ci95Days": [
+      53.35,
+      59.68
+     ],
+     "ci95Weeks": null,
+     "massRange": [
+      56.84,
+      58.5
+     ],
+     "observedAllSoc": 58.05,
+     "observedOnCommonBands": 58.14
+    },
+    "20–30°C": {
+     "standardized": 67.85,
+     "ci95Days": [
+      64.87,
+      70.95
+     ],
+     "ci95Weeks": [
+      64.73,
+      73.22
+     ],
+     "massRange": [
+      66.88,
+      68.84
+     ],
+     "observedAllSoc": 66.77,
+     "observedOnCommonBands": 66.83
+    },
+    "30–40°C": {
+     "standardized": 67.19,
+     "ci95Days": [
+      64.23,
+      69.64
+     ],
+     "ci95Weeks": null,
+     "massRange": [
+      66.45,
+      67.94
+     ],
+     "observedAllSoc": 66.72,
+     "observedOnCommonBands": 66.78
+    }
+   }
+  },
+  "slowBnatPhases": [
+   {
+    "cohort": "all",
+    "stratum": "slow",
+    "view": "temperature",
+    "soc": "allSoc",
+    "bin": "20–30°C",
+    "bNat": 1.271,
+    "phaseDiffs": [
+     1.146,
+     1.396
+    ],
+    "bNatMaxPhase": 1.396,
+    "phaseCancel": true
+   },
+   {
+    "cohort": "all",
+    "stratum": "slow",
+    "view": "temperature",
+    "soc": "allSoc",
+    "bin": "30–40°C",
+    "bNat": 1.595,
+    "phaseDiffs": [
+     1.33,
+     1.859
+    ],
+    "bNatMaxPhase": 1.859,
+    "phaseCancel": true
+   }
+  ],
+  "steps": [
+   {
+    "stratum": "fast",
+    "view": "temperature",
+    "soc": "allSoc",
+    "a": "10–20°C",
+    "b": "20–30°C",
+    "stepPp": 8.72,
+    "ci95Days": [
+     4.77,
+     12.82
+    ],
+    "gapBetween": false,
+    "label": "resolved"
+   },
+   {
+    "stratum": "fast",
+    "view": "temperature",
+    "soc": "allSoc",
+    "a": "20–30°C",
+    "b": "30–40°C",
+    "stepPp": -0.05,
+    "ci95Days": [
+     -4.0,
+     3.18
+    ],
+    "gapBetween": false,
+    "label": "not resolved"
+   }
+  ]
+ },
+ "return": "JSON <2 KB: per claim AGREE/DISAGREE with your value and the difference (pp); say what you could not reproduce and why. Tolerance 0.01 pp for point values, 0.05 pp for interval limits.",
+ "forbidden": "do not read tools/, tests/, analyses/M446_*, summary_arrays.json key regenDisplayV2, CHANGELOG.md"
+}
