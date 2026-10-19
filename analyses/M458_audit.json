@@ -1,0 +1,12 @@
+{
+ "auditor": "analytical-auditor (blind)",
+ "verdict": "accept",
+ "maxAbsDiff": "0.0015 W on interval limits; slope interval exact",
+ "perClaim": "all 14 claims AGREE: n_gaps 575 (after dropping the 2 NaN-SoC drives before pairing), watts 2.2510, slope 0.107189 pp/h, CI [1.4801, 3.1585] W / [0.07048, 0.15040] pp/h, 116 clusters, Kish 89.286, iid [1.449, 3.309], departure-day [1.441, 3.227], ISO-week [1.195, 3.389], leave-one-day-out 2.14-2.33 exact, midnight gaps 116, odometer-step gaps 6 (absolute step)",
+ "concerns": [
+  "pairing order: NaN-SoC drives are dropped before pairing, one pair spans a dropped drive; pairing-first gives 574 gaps, 2.196 W, CI [1.445, 3.100] (disclosed in limits)",
+  "gapsWithOdoJump uses the absolute step (one backwards step; wording fixed)",
+  "the audit read tools/standby_ci.py only AFTER reproducing (disclosed)",
+  "cross-day dependence beyond the ISO-week check is untested"
+ ]
+}
