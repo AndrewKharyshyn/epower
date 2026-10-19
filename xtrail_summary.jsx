@@ -3534,6 +3534,7 @@ function RegenChart() {
         <RegenV2Controls D={_v2} stratum={rgStratum} setStratum={setRgStratum} sel={rgSel} setSel={setRgSel} basis={rgBasis} setBasis={setRgBasis}/>
         <RegenV2Panel D={_v2} coh={_coh} cohName={_cohName} view={view} stratum={rgStratum} sel={rgSel} basis={rgBasis}/>
       </>)}
+      {_v2 && (view==="temp"||view==="efficiency") && (<div data-regen-legacy="note"><div style={{marginTop:8,fontSize:9.5,color:"#64748b"}}>The note below documents the legacy extraction (M440), which the bars above no longer use; it is kept as a record of that extraction's sensitivity.</div><RegenSensitivityNote view={view}/></div>)}
       {_v2 && view==="type" && (<div data-regen-note="type" style={{marginBottom:6,fontSize:9.5,color:"#64748b"}}>This view is not affected by the polling, SOC and basis controls of the other views.</div>)}
       {view==="temp" && !_v2 && <TempChart/>}
       {view==="temp" && !_v2 && <RegenSensitivityNote view="temp"/>}
