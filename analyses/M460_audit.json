@@ -1,0 +1,13 @@
+{
+ "auditor": "analytical-auditor (blind)",
+ "verdict": "accept",
+ "scope": "population, primary shares and diff with intervals, decomposition, eps 0.35 and raw sensitivities, shoulder stratum, construct validity",
+ "maxAbsDiff": "0.0 at 3 decimals on all shares and interval limits",
+ "perClaim": "P0 483, P_F 307, 176 excluded, 60 days; shareRpm 46.229 [38.245,55.483]; shareZF 47.219 [39.189,56.419]; motored 1.349 [1.170,1.524]; inconsistent 0.358 [0.285,0.436]; diff 0.991 [0.859,1.137]; A 1174.66 / B 34.54 / C 9.16 / D 1342.74 km; C/(A+C) 0.0077; eps0.35 47.520 diff 1.292; raw 47.480 diff 1.252; shoulder 104 drives 36 days diff 1.125 [0.876,1.404]; construct 91 s, 52 with ZF (0.5714)",
+ "concerns": [
+  "details implicit in the spec were recovered from master parity (grid starts at tmin, merge_asof nearest, speed from the VCM channel else OBD, k = odometer range / integrated distance); matches master ev_time_s, ev_dist_km, k and coverage on 575/575 drives",
+  "the construct-validity gate passes narrowly on 91 seconds (57 %); a binomial interval includes values below 50 %",
+  "the motored estimate depends on convention: 34.5 km at eps 0 with debounce, 41.0 km undebounced, 41.1 km at eps 0.35",
+  "the primary diff upper limit 1.137 pp is outside the +-1 pp margin, so 'do not differ materially' is not licensed; sensitivities reach 1.49 pp"
+ ]
+}

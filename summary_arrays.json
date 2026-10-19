@@ -8199,7 +8199,7 @@
    "budgetFractionPct": 84.4
   },
   "caveats": [
-   "EV state is eng_rpm <= 400 (engine not rotating), the same threshold engine_on_pct uses. The M46/M48 motored-unfuelled state burns no fuel but counts here as engine ON, so these figures are a conservative reading of \"electric\".",
+   "EV state is eng_rpm <= 400 (engine not rotating), the same threshold engine_on_pct uses. The M46/M48 motored-unfuelled state counts here as engine ON (it is not engine-off by RPM), so these figures are a conservative reading of \"electric\"; the comparison with a zero-logged-fuel definition on the fuel-instrumented drives is evTraction.zeroFuelVariant.",
    "The +/-3 s nearest-sample channel alignment and the symmetric 3 s state debounce can move the engine-off boundaries in either direction (an engine-on run shorter than 3 s inside an engine-off run is absorbed, which raises the EV share; an engine-off run shorter than 3 s inside an engine-on run is absorbed, which lowers it): every EV distance and time figure is an estimated RPM-defined engine-off share, not a one-sided bound. Detector settings (threshold, sample age, debounce, alignment) give a sensitivity range, not a confidence interval; unknown RPM is never counted as engine-off (M427, audit F04).",
    "Runs at the top of the distribution recover 30-50% of throughput as regen mid-run, so the observed maximum is not a buffer-drain range; runMaxUnassistedKm is.",
    "M62: the census rests on nValid of nDrives (supportPct); the balance is channel-gated. Drives whose ensemble outlier flags were never fitted (NaN) are treated as non-outliers and INCLUDED -- see nUnflaggedIncluded / kmUnflaggedIncluded for how much distance that assumption admits.",
@@ -8749,6 +8749,551 @@
     "noResult": "the drive without a result has zero logged distance in the master"
    },
    "refresh": "on demand: re-run when the detector, the gates or the polling regime changes, or after about 14 calendar days of new drives; each ingestion carries this block forward unchanged"
+  },
+  "zeroFuelVariant": {
+   "milestone": "M460",
+   "spec": "analyses/M460_spec.md",
+   "specSha256": "cff818d3d9fa45944074bda3390a24f7169604d5ac249b9fa6db45002b6ac760",
+   "result": "analyses/M460_result.json",
+   "resultSha256": "a2aa5acc44720f6208cc2b64f6976003b0bbc16e5ddb1f7e9f417a706af53de7",
+   "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
+   "label": "zero-logged-fuel versus RPM-defined engine-off distance share (logged / app-calculated fuel rate); descriptive; no physical claim",
+   "rawBasis": "raw/ = sha256-verified originals (M366)",
+   "status": "computed",
+   "reading": "Share of the logged distance with a zero logged fuel rate, set beside the RPM-defined engine-off share on the SAME drives (those that carry the logged, app-calculated fuel-rate channel; this population is not the one of the released engine-off share, so the two levels are never mixed). Four states per second: A engine off and no fuel, B engine turning and no fuel, C engine off and fuel logged (an inconsistency flag), D fuelled. Day-clustered 95 % intervals; sensitivities are ranges over declared conventions, never combined with the interval. Descriptive: no physical claim about injection or the controller.",
+   "population": {
+    "P0_releasedNValid": 483,
+    "PF_nDrives": 307,
+    "PF_nDays": 60,
+    "PF_dateSpan": [
+     "2026-08-12",
+     "2026-10-13"
+    ],
+    "PF_cohortMix": {
+     "cold": 9,
+     "shoulder": 104,
+     "warm": 194
+    },
+    "PF_rpmPollMix": {
+     "fast": 149,
+     "slow": 158
+    },
+    "PF_fuelPollMix": {
+     "fast": 149,
+     "slow": 158
+    },
+    "PF_fuelDtMedianS_quantiles_5_50_95": [
+     0.76,
+     1.302,
+     1.511
+    ],
+    "PF_kmShareOfP0Km": null
+   },
+   "nSkippedOrExcluded": 176,
+   "G1": {
+    "maxAbsDiffKm": 0.0005,
+    "nOver5e-4": 0,
+    "tolKm": 0.0005,
+    "pass": true
+   },
+   "constructValidity": {
+    "nDrivesWithBoostLoad": 307,
+    "motoredSeconds": 91,
+    "motoredSecondsWithZeroFuelState": 52,
+    "share": 0.5714,
+    "minShare": 0.5,
+    "rule": "M46/M48 classifier (rpm > 2000, boost <= -0.70, calculated load <= 8) seconds that also carry the debounced zero-fuel state; below the minimum share the channel cannot see the motored state",
+    "identifiable": true,
+    "wilson95": [
+     0.4689,
+     0.6682
+    ],
+    "weaklyIdentified": true,
+    "note": "motored state weakly identified (91 s basis; the interval spans the 50 % minimum)"
+   },
+   "primary": {
+    "shareRpmReleasedDefinition": {
+     "pct": 46.229,
+     "ci95": [
+      38.245,
+      55.483
+     ],
+     "failedDrawShare": 0.0,
+     "nDrives": 307,
+     "nDays": 60
+    },
+    "shareZeroFuel": {
+     "pct": 47.219,
+     "ci95": [
+      39.189,
+      56.419
+     ],
+     "failedDrawShare": 0.0,
+     "nDrives": 307,
+     "nDays": 60
+    },
+    "motored": {
+     "pct": 1.349,
+     "ci95": [
+      1.17,
+      1.524
+     ],
+     "failedDrawShare": 0.0,
+     "nDrives": 307,
+     "nDays": 60
+    },
+    "inconsistent": {
+     "pct": 0.358,
+     "ci95": [
+      0.285,
+      0.436
+     ],
+     "failedDrawShare": 0.0,
+     "nDrives": 307,
+     "nDays": 60
+    },
+    "unknownFuelDistance": {
+     "pct": 0.0,
+     "ci95": [
+      0.0,
+      0.001
+     ],
+     "failedDrawShare": 0.0,
+     "nDrives": 307,
+     "nDays": 60
+    },
+    "diff": {
+     "pct": 0.991,
+     "ci95": [
+      0.859,
+      1.137
+     ],
+     "failedDrawShare": 0.0,
+     "nDrives": 307,
+     "nDays": 60
+    },
+    "denominator": "sum of distance_km over P_F (the released denominator); known-support shares below use the distance of the states A-D only",
+    "sumDistanceKm": 2560.8
+   },
+   "decomposition": {
+    "A_engineOffNoFuelKm": 1174.7,
+    "B_engineOnNoFuelKm": 34.5,
+    "C_engineOffFuelLoggedKm": 9.2,
+    "D_fuelledKm": 1342.7,
+    "knownSupportShareZeroFuelPct": 47.214,
+    "knownSupportShareRpmPct": 46.223
+   },
+   "inconsistencyFlag": {
+    "C_over_AplusC": 0.0077,
+    "threshold": 0.1,
+    "fires": false
+   },
+   "sensitivities": {
+    "raw": {
+     "shareZeroFuel": {
+      "pct": 47.48,
+      "ci95": [
+       39.564,
+       56.545
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 307,
+      "nDays": 60
+     },
+     "diff": {
+      "pct": 1.252,
+      "ci95": [
+       1.021,
+       1.47
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 307,
+      "nDays": 60
+     }
+    },
+    "eps0.05": {
+     "shareZeroFuel": {
+      "pct": 47.232,
+      "ci95": [
+       39.196,
+       56.44
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 307,
+      "nDays": 60
+     },
+     "diff": {
+      "pct": 1.004,
+      "ci95": [
+       0.868,
+       1.154
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 307,
+      "nDays": 60
+     }
+    },
+    "eps0.1": {
+     "shareZeroFuel": {
+      "pct": 47.293,
+      "ci95": [
+       39.269,
+       56.487
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 307,
+      "nDays": 60
+     },
+     "diff": {
+      "pct": 1.064,
+      "ci95": [
+       0.923,
+       1.218
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 307,
+      "nDays": 60
+     }
+    },
+    "eps0.35": {
+     "shareZeroFuel": {
+      "pct": 47.52,
+      "ci95": [
+       39.509,
+       56.687
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 307,
+      "nDays": 60
+     },
+     "diff": {
+      "pct": 1.292,
+      "ci95": [
+       1.096,
+       1.49
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 307,
+      "nDays": 60
+     }
+    },
+    "tol1.5": {
+     "nDrivesSupported": 306,
+     "nDrivesLost": 1,
+     "shareZeroFuel": {
+      "pct": 47.217,
+      "ci95": [
+       39.177,
+       56.431
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 306,
+      "nDays": 60
+     },
+     "diff": {
+      "pct": 0.991,
+      "ci95": [
+       0.859,
+       1.137
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 306,
+      "nDays": 60
+     }
+    },
+    "counterConsistencyRow": {
+     "label": "resolution check failed (15.9 % of fuelled seconds have a zero counter increment): non-informative, same app calculation; never corroboration",
+     "nDrives": 307,
+     "shareZeroFuel": {
+      "pct": 65.049,
+      "ci95": [
+       53.209,
+       75.765
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 307,
+      "nDays": 60
+     },
+     "diff": {
+      "pct": 18.822,
+      "ci95": [
+       4.191,
+       34.549
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 307,
+      "nDays": 60
+     },
+     "fuelledSecondsWithZeroCounterIncrementShare": 0.1589
+    }
+   },
+   "strata": {
+    "rpmPoll=fast": {
+     "shareRpm": {
+      "pct": 42.586,
+      "ci95": [
+       33.535,
+       54.696
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 149,
+      "nDays": 34
+     },
+     "shareZeroFuel": {
+      "pct": 43.513,
+      "ci95": [
+       34.434,
+       55.617
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 149,
+      "nDays": 34
+     },
+     "diff": {
+      "pct": 0.927,
+      "ci95": [
+       0.788,
+       1.086
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 149,
+      "nDays": 34
+     },
+     "motoredKm": 22.58
+    },
+    "rpmPoll=slow": {
+     "shareRpm": {
+      "pct": 54.207,
+      "ci95": [
+       48.394,
+       61.276
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 158,
+      "nDays": 29
+     },
+     "shareZeroFuel": {
+      "pct": 55.336,
+      "ci95": [
+       49.662,
+       62.274
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 158,
+      "nDays": 29
+     },
+     "diff": {
+      "pct": 1.13,
+      "ci95": [
+       0.837,
+       1.351
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 158,
+      "nDays": 29
+     },
+     "motoredKm": 11.96
+    },
+    "fuelPoll=fast": {
+     "shareRpm": {
+      "pct": 42.586,
+      "ci95": [
+       33.535,
+       54.696
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 149,
+      "nDays": 34
+     },
+     "shareZeroFuel": {
+      "pct": 43.513,
+      "ci95": [
+       34.434,
+       55.617
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 149,
+      "nDays": 34
+     },
+     "diff": {
+      "pct": 0.927,
+      "ci95": [
+       0.788,
+       1.086
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 149,
+      "nDays": 34
+     },
+     "motoredKm": 22.58
+    },
+    "fuelPoll=slow": {
+     "shareRpm": {
+      "pct": 54.207,
+      "ci95": [
+       48.394,
+       61.276
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 158,
+      "nDays": 29
+     },
+     "shareZeroFuel": {
+      "pct": 55.336,
+      "ci95": [
+       49.662,
+       62.274
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 158,
+      "nDays": 29
+     },
+     "diff": {
+      "pct": 1.13,
+      "ci95": [
+       0.837,
+       1.351
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 158,
+      "nDays": 29
+     },
+     "motoredKm": 11.96
+    },
+    "cohort=cold": {
+     "shareRpm": {
+      "pct": 53.547,
+      "ci95": [
+       43.745,
+       72.759
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 9,
+      "nDays": 4
+     },
+     "shareZeroFuel": {
+      "pct": 56.843,
+      "ci95": [
+       45.857,
+       72.908
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 9,
+      "nDays": 4
+     },
+     "diff": {
+      "pct": 3.296,
+      "ci95": [
+       0.0,
+       6.055
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 9,
+      "nDays": 4
+     },
+     "motoredKm": 0.5,
+     "belowSupport": true,
+     "belowSupportNote": "below the support floors (9 drives, 4 days): exploratory"
+    },
+    "cohort=shoulder": {
+     "shareRpm": {
+      "pct": 48.603,
+      "ci95": [
+       37.393,
+       62.615
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 104,
+      "nDays": 36
+     },
+     "shareZeroFuel": {
+      "pct": 49.728,
+      "ci95": [
+       38.478,
+       63.699
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 104,
+      "nDays": 36
+     },
+     "diff": {
+      "pct": 1.125,
+      "ci95": [
+       0.876,
+       1.404
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 104,
+      "nDays": 36
+     },
+     "motoredKm": 12.24
+    },
+    "cohort=warm": {
+     "shareRpm": {
+      "pct": 45.157,
+      "ci95": [
+       35.936,
+       54.322
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 194,
+      "nDays": 48
+     },
+     "shareZeroFuel": {
+      "pct": 46.072,
+      "ci95": [
+       36.788,
+       55.176
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 194,
+      "nDays": 48
+     },
+     "diff": {
+      "pct": 0.915,
+      "ci95": [
+       0.756,
+       1.091
+      ],
+      "failedDrawShare": 0.0,
+      "nDrives": 194,
+      "nDays": 48
+     },
+     "motoredKm": 21.79
+    }
+   },
+   "crosstabUndebouncedSeconds": {
+    "A": 189608,
+    "B": 3033,
+    "C": 794,
+    "D": 91591
+   },
+   "readingRule": "the difference is stated as found with its decomposition (interval not within +-1 pp)",
+   "motoredKmByConvention": {
+    "primary": 34.54,
+    "raw": 41.01,
+    "eps0.05": 34.85,
+    "eps0.1": 36.04,
+    "eps0.35": 41.14,
+    "tol1.5": 34.51
+   },
+   "motoredKmRange": [
+    34.51,
+    41.14
+   ],
+   "pollStrataNote": "the RPM polling stratum and the fuel polling stratum coincide on P_F ({\"rpm=slow|fuel=slow\": 158, \"rpm=fast|fuel=fast\": 149}; identical partition: True), because both channels are polled in the same logging generation; they are one stratification, not two",
+   "diagnostics": {
+    "file": "analyses/M460_diag.json",
+    "sha256": "08734aba7e08213d8a8fd8e615bc06ac9165eaa572296c8dbeb1f3feb606ddfe",
+    "note": "post-run read-only diagnostics required by the Director ruling; the first-run result is unchanged"
+   },
+   "limits": [
+    "the fuel rate is a logged / app-calculated, discrete channel; the counter row shares its calculation and its quantisation (consistency row only)",
+    "the population is the fuel-instrumented subset (Aug-Oct 2026 drives) and is not the released population; levels are not comparable across populations",
+    "the classifier-motored seconds that identify the construct are few (see constructValidity); the motored state is a small share of the distance",
+    "one vehicle, one driver; descriptive"
+   ],
+   "refresh": "on demand: re-run tools/zero_fuel.py under a recorded deviation when the detector, the gates or the fuel channel change; each ingestion carries this block forward unchanged (tools/ingest_core.NESTED_CARRIED)"
   }
  },
  "batteryDrawGross": {
@@ -57586,7 +58131,7 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "6f9f8ab0534a7c9ea93fa5a6d6934520",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-13T16:40:29.684566+00:00",
+   "generatedAt": "2026-10-19T14:11:31.568166+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "rawManifestCorpusHash": "17aa98a2118134fa8d4dd41d0e382ed2a369e082a69b642c52c9fc1ba3e8421d",
@@ -57594,13 +58139,14 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-10-13T16:40:29.684566+00:00",
+   "includedInReleaseAt": "2026-10-19T14:11:31.568166+00:00",
    "inputBasis": {
     "nDrives": 578,
     "masterMd5": "a641f34d7528d004b900c151cbde3d6d",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-13T16:40:29.684566+00:00"
+   "computedAt": "2026-10-19T14:11:31.568166+00:00",
+   "computationStatusNote": "M460: additive evTraction.zeroFuelVariant spliced by tools/m460_splice.py from analyses/M460_result.json; the released engine-off figures are unchanged"
   },
   "batteryDrawGross": {
    "corpusHash": "a641f34d7528d004b900c151cbde3d6d",
@@ -150904,7 +151450,7 @@
        "budgetFractionPct": 84.4
       },
       "caveats": [
-       "EV state is eng_rpm <= 400 (engine not rotating), the same threshold engine_on_pct uses. The M46/M48 motored-unfuelled state burns no fuel but counts here as engine ON, so these figures are a conservative reading of \"electric\".",
+       "EV state is eng_rpm <= 400 (engine not rotating), the same threshold engine_on_pct uses. The M46/M48 motored-unfuelled state counts here as engine ON (it is not engine-off by RPM), so these figures are a conservative reading of \"electric\"; the comparison with a zero-logged-fuel definition on the fuel-instrumented drives is evTraction.zeroFuelVariant.",
        "The +/-3 s nearest-sample channel alignment and the symmetric 3 s state debounce can move the engine-off boundaries in either direction (an engine-on run shorter than 3 s inside an engine-off run is absorbed, which raises the EV share; an engine-off run shorter than 3 s inside an engine-on run is absorbed, which lowers it): every EV distance and time figure is an estimated RPM-defined engine-off share, not a one-sided bound. Detector settings (threshold, sample age, debounce, alignment) give a sensitivity range, not a confidence interval; unknown RPM is never counted as engine-off (M427, audit F04).",
        "Runs at the top of the distribution recover 30-50% of throughput as regen mid-run, so the observed maximum is not a buffer-drain range; runMaxUnassistedKm is.",
        "M62: the census rests on nValid of nDrives (supportPct); the balance is channel-gated. Drives whose ensemble outlier flags were never fitted (NaN) are treated as non-outliers and INCLUDED -- see nUnflaggedIncluded / kmUnflaggedIncluded for how much distance that assumption admits.",
@@ -151027,7 +151573,7 @@
        "budgetFractionPct": 81.8
       },
       "caveats": [
-       "EV state is eng_rpm <= 400 (engine not rotating), the same threshold engine_on_pct uses. The M46/M48 motored-unfuelled state burns no fuel but counts here as engine ON, so these figures are a conservative reading of \"electric\".",
+       "EV state is eng_rpm <= 400 (engine not rotating), the same threshold engine_on_pct uses. The M46/M48 motored-unfuelled state counts here as engine ON (it is not engine-off by RPM), so these figures are a conservative reading of \"electric\"; the comparison with a zero-logged-fuel definition on the fuel-instrumented drives is evTraction.zeroFuelVariant.",
        "The +/-3 s nearest-sample channel alignment and the symmetric 3 s state debounce can move the engine-off boundaries in either direction (an engine-on run shorter than 3 s inside an engine-off run is absorbed, which raises the EV share; an engine-off run shorter than 3 s inside an engine-on run is absorbed, which lowers it): every EV distance and time figure is an estimated RPM-defined engine-off share, not a one-sided bound. Detector settings (threshold, sample age, debounce, alignment) give a sensitivity range, not a confidence interval; unknown RPM is never counted as engine-off (M427, audit F04).",
        "Runs at the top of the distribution recover 30-50% of throughput as regen mid-run, so the observed maximum is not a buffer-drain range; runMaxUnassistedKm is.",
        "M62: the census rests on nValid of nDrives (supportPct); the balance is channel-gated. Drives whose ensemble outlier flags were never fitted (NaN) are treated as non-outliers and INCLUDED -- see nUnflaggedIncluded / kmUnflaggedIncluded for how much distance that assumption admits.",
@@ -151138,7 +151684,7 @@
        "budgetFractionPct": 57.6
       },
       "caveats": [
-       "EV state is eng_rpm <= 400 (engine not rotating), the same threshold engine_on_pct uses. The M46/M48 motored-unfuelled state burns no fuel but counts here as engine ON, so these figures are a conservative reading of \"electric\".",
+       "EV state is eng_rpm <= 400 (engine not rotating), the same threshold engine_on_pct uses. The M46/M48 motored-unfuelled state counts here as engine ON (it is not engine-off by RPM), so these figures are a conservative reading of \"electric\"; the comparison with a zero-logged-fuel definition on the fuel-instrumented drives is evTraction.zeroFuelVariant.",
        "The +/-3 s nearest-sample channel alignment and the symmetric 3 s state debounce can move the engine-off boundaries in either direction (an engine-on run shorter than 3 s inside an engine-off run is absorbed, which raises the EV share; an engine-off run shorter than 3 s inside an engine-on run is absorbed, which lowers it): every EV distance and time figure is an estimated RPM-defined engine-off share, not a one-sided bound. Detector settings (threshold, sample age, debounce, alignment) give a sensitivity range, not a confidence interval; unknown RPM is never counted as engine-off (M427, audit F04).",
        "Runs at the top of the distribution recover 30-50% of throughput as regen mid-run, so the observed maximum is not a buffer-drain range; runMaxUnassistedKm is.",
        "M62: the census rests on nValid of nDrives (supportPct); the balance is channel-gated. Drives whose ensemble outlier flags were never fitted (NaN) are treated as non-outliers and INCLUDED -- see nUnflaggedIncluded / kmUnflaggedIncluded for how much distance that assumption admits.",
@@ -151225,7 +151771,7 @@
        "budgetFractionPct": 51.8
       },
       "caveats": [
-       "EV state is eng_rpm <= 400 (engine not rotating), the same threshold engine_on_pct uses. The M46/M48 motored-unfuelled state burns no fuel but counts here as engine ON, so these figures are a conservative reading of \"electric\".",
+       "EV state is eng_rpm <= 400 (engine not rotating), the same threshold engine_on_pct uses. The M46/M48 motored-unfuelled state counts here as engine ON (it is not engine-off by RPM), so these figures are a conservative reading of \"electric\"; the comparison with a zero-logged-fuel definition on the fuel-instrumented drives is evTraction.zeroFuelVariant.",
        "The +/-3 s nearest-sample channel alignment and the symmetric 3 s state debounce can move the engine-off boundaries in either direction (an engine-on run shorter than 3 s inside an engine-off run is absorbed, which raises the EV share; an engine-off run shorter than 3 s inside an engine-on run is absorbed, which lowers it): every EV distance and time figure is an estimated RPM-defined engine-off share, not a one-sided bound. Detector settings (threshold, sample age, debounce, alignment) give a sensitivity range, not a confidence interval; unknown RPM is never counted as engine-off (M427, audit F04).",
        "Runs at the top of the distribution recover 30-50% of throughput as regen mid-run, so the observed maximum is not a buffer-drain range; runMaxUnassistedKm is.",
        "M62: the census rests on nValid of nDrives (supportPct); the balance is channel-gated. Drives whose ensemble outlier flags were never fitted (NaN) are treated as non-outliers and INCLUDED -- see nUnflaggedIncluded / kmUnflaggedIncluded for how much distance that assumption admits.",

@@ -1,0 +1,175 @@
+{
+ "task": "blind_reproduction",
+ "data": "raw/ drive CSVs (sha256-verified originals; file names differ from the master 'file' column: match with the canonical form YYYYMMDD_HHMMSS), drive_master.csv (file, date, distance_km, ev_valid, ev_dist_km, ev_rpm_dt_med_s, ens_outlier_v2), seasonal_drive_master.csv (file, thermal_regime). NOT tools/, tests/, compute_drive_summary_v6.py, analyses/M460_result*, CHANGELOG.md",
+ "method_refs": [
+  "analyses/M460_spec.md Rev 1.1 (sections 1-3, 8)",
+  "analyses/M432_spec.md section 2 (the released RPM engine-off rule, grid, alignment, debounce, odometer scale k)"
+ ],
+ "definitions": {
+  "population": "P0 = drives with ev_valid true and not ens_outlier_v2 (NaN counts as not an outlier): 483. P_F = drives of P0 whose raw file has the fuel-rate column 'Витрати палива (L/h)' with >= 20 samples AND on the 1 s grid (tmin..tmax) the nearest-3s-tolerance coverage of the fuel rate, of RPM and of speed are each >= 0.95. Logged fuel rates above 40 L/h are treated as unknown (dropped) before alignment.",
+  "states": "released 1 Hz grid; RPM-off = debounce(known & rpm <= 400, runs shorter than 3 samples take the previous state, first run exempt) & known; zero-fuel state ZF = debounce(fuel known & fuel <= 0, same rule) & fuel known; A = off & ZF, B = on & ZF, C = off & not ZF, D = on & not ZF (only seconds with RPM and fuel both known); distance of a state = sum of speed/3600 over its seconds times the released odometer scale k (odometer range / integrated distance).",
+  "quantities": "percent of sum(distance_km over P_F): shareRpm = (A + C + RPM-off-with-unknown-fuel distance), shareZeroFuel = A + B, motored = B, inconsistent = C, diff = B - C. Intervals: day-clustered percentile bootstrap, cluster = drive_master date, the days with data of P_F, B = 4000, numpy default_rng(42), idx = rng.integers(0, D, (B, D)), counts = bincount per row, ratio of sums per draw, percentiles 2.5 / 97.5.",
+  "constructValidity": "seconds with rpm > 2000, boost <= -0.70 bar, calculated load <= 8 % (all aligned with the 3 s nearest tolerance on the same grid); report how many also carry ZF (debounced)."
+ },
+ "claims": {
+  "population": {
+   "PF_nDrives": 307,
+   "PF_nDays": 60,
+   "PF_dateSpan": [
+    "2026-08-12",
+    "2026-10-13"
+   ]
+  },
+  "nExcludedOrSkipped": 176,
+  "primary": {
+   "shareRpmReleasedDefinition": {
+    "pct": 46.229,
+    "ci95": [
+     38.245,
+     55.483
+    ],
+    "failedDrawShare": 0.0,
+    "nDrives": 307,
+    "nDays": 60
+   },
+   "shareZeroFuel": {
+    "pct": 47.219,
+    "ci95": [
+     39.189,
+     56.419
+    ],
+    "failedDrawShare": 0.0,
+    "nDrives": 307,
+    "nDays": 60
+   },
+   "motored": {
+    "pct": 1.349,
+    "ci95": [
+     1.17,
+     1.524
+    ],
+    "failedDrawShare": 0.0,
+    "nDrives": 307,
+    "nDays": 60
+   },
+   "inconsistent": {
+    "pct": 0.358,
+    "ci95": [
+     0.285,
+     0.436
+    ],
+    "failedDrawShare": 0.0,
+    "nDrives": 307,
+    "nDays": 60
+   },
+   "diff": {
+    "pct": 0.991,
+    "ci95": [
+     0.859,
+     1.137
+    ],
+    "failedDrawShare": 0.0,
+    "nDrives": 307,
+    "nDays": 60
+   },
+   "sumDistanceKm": 2560.8
+  },
+  "decompositionKm": {
+   "A_engineOffNoFuelKm": 1174.7,
+   "B_engineOnNoFuelKm": 34.5,
+   "C_engineOffFuelLoggedKm": 9.2,
+   "D_fuelledKm": 1342.7,
+   "knownSupportShareZeroFuelPct": 47.214,
+   "knownSupportShareRpmPct": 46.223
+  },
+  "inconsistencyFlag": {
+   "C_over_AplusC": 0.0077,
+   "threshold": 0.1,
+   "fires": false
+  },
+  "constructValidity": {
+   "motoredSeconds": 91,
+   "motoredSecondsWithZeroFuelState": 52,
+   "share": 0.5714
+  },
+  "sensitivity_eps0.35": {
+   "shareZeroFuel": {
+    "pct": 47.52,
+    "ci95": [
+     39.509,
+     56.687
+    ],
+    "failedDrawShare": 0.0,
+    "nDrives": 307,
+    "nDays": 60
+   },
+   "diff": {
+    "pct": 1.292,
+    "ci95": [
+     1.096,
+     1.49
+    ],
+    "failedDrawShare": 0.0,
+    "nDrives": 307,
+    "nDays": 60
+   }
+  },
+  "sensitivity_raw": {
+   "shareZeroFuel": {
+    "pct": 47.48,
+    "ci95": [
+     39.564,
+     56.545
+    ],
+    "failedDrawShare": 0.0,
+    "nDrives": 307,
+    "nDays": 60
+   },
+   "diff": {
+    "pct": 1.252,
+    "ci95": [
+     1.021,
+     1.47
+    ],
+    "failedDrawShare": 0.0,
+    "nDrives": 307,
+    "nDays": 60
+   }
+  },
+  "stratum_cohort_shoulder": {
+   "shareRpm": {
+    "pct": 48.603,
+    "ci95": [
+     37.393,
+     62.615
+    ],
+    "failedDrawShare": 0.0,
+    "nDrives": 104,
+    "nDays": 36
+   },
+   "shareZeroFuel": {
+    "pct": 49.728,
+    "ci95": [
+     38.478,
+     63.699
+    ],
+    "failedDrawShare": 0.0,
+    "nDrives": 104,
+    "nDays": 36
+   },
+   "diff": {
+    "pct": 1.125,
+    "ci95": [
+     0.876,
+     1.404
+    ],
+    "failedDrawShare": 0.0,
+    "nDrives": 104,
+    "nDays": 36
+   },
+   "motoredKm": 12.24
+  }
+ },
+ "return": "JSON <2 KB: AGREE/DISAGREE per claim with differences; tolerance 0.01 pp on shares, 0.02 pp on interval limits, 1 km on the decomposition; say what you could not reproduce and why.",
+ "forbidden": "do not read tools/, tests/, compute_drive_summary_v6.py, analyses/M460_result.json, CHANGELOG.md"
+}

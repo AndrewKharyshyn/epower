@@ -554,6 +554,18 @@ if _cs and "ciMethod" in _cs:
        and set(_cs["sensitivities"]) >= {"departureDay", "isoWeek", "leaveOneArrivalDay"} and "flag" in _cs["methodDisagreement"], str(_cs.get("nClusters")))
     ok("M458 carOffStandby: the watts interval contains the point estimate, the slope interval contains the slope, the capacity assumption is stated", _cs["ci95_watts"][0] <= _cs["watts"] <= _cs["ci95_watts"][1] and _cs["ci95_slope_pp_per_h"][0] <= _cs["slope_pp_per_h"] <= _cs["ci95_slope_pp_per_h"][1] and "verified: false" in _cs["capacityAssumption"],
        str(_cs["ci95_watts"]))
+# M460 (analyses/M460_spec.md Rev 1.1): zero-logged-fuel versus RPM-defined engine-off share, additive under evTraction. The G1 parity passed, the four states and the unknown-fuel distance reconcile to the P_F distance, the released share is untouched, the label states the logged / app-calculated channel
+_zf = (A.get("evTraction") or {}).get("zeroFuelVariant")
+if _zf:
+    ok("M460 zeroFuelVariant: stamp re-issued, G1 parity passed, spec and master named, population described, label states the logged / app-calculated channel and no physical claim", "evTraction" in A["_artifactStamps"] and _zf["G1"]["pass"] is True and len(_zf["masterMd5"]) == 32 and _zf["population"]["PF_nDrives"] > 0
+       and ("app-calculated" in _zf["label"]) and ("no physical claim" in _zf["label"]), str(_zf["G1"]))
+    _zf_txt = " ".join([_zf["label"], _zf["reading"], " ".join(_zf["limits"]), str(_zf.get("readingRule", "")), str(_zf.get("pollStrataNote", ""))]).lower()
+    ok("M460 the zeroFuelVariant text makes no fuel-cut / injection claim and carries the weak-identification qualifier", ("fuel cut" not in _zf_txt) and ("injection off" not in _zf_txt) and _zf["constructValidity"].get("weaklyIdentified") in (True, False) and "note" in _zf["constructValidity"])
+    if _zf["status"] == "computed":
+        _d = _zf["decomposition"]; _p = _zf["primary"]
+        ok("M460 the four states and the unknown-fuel distance sum to the P_F distance (within 1 km) and diff = motored - inconsistent", abs(_d["A_engineOffNoFuelKm"] + _d["B_engineOnNoFuelKm"] + _d["C_engineOffFuelLoggedKm"] + _d["D_fuelledKm"] + (_p["unknownFuelDistance"]["pct"] / 100.0) * _p["sumDistanceKm"] - _p["sumDistanceKm"]) < 1.0
+           + 0.05 * _p["sumDistanceKm"] and abs(_p["diff"]["pct"] - (_p["motored"]["pct"] - _p["inconsistent"]["pct"])) < 0.01, str(_p["diff"]))
+        ok("M460 the released engine-off share is unchanged next to the new block (evPctDistance is still the carried master-derived figure)", abs(A["evTraction"]["evPctDistance"] - 100.0 * A["evTraction"]["evKm"] / A["evTraction"]["kmValid"]) < 0.06)
 # M418 (analyses/M418_spec.md Rev 1, Director ruling analyses/M418_director_ruling_2026-10-12.md): thermal support ledger; additive and reporting-only; every accepted count reconciles with the published estimator n, every
 # candidate sits in exactly one bucket, and the support lines of the thermal sections render the counts of the selected cohort
 _tl = A.get("thermalSupportLedger")

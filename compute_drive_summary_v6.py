@@ -1432,8 +1432,7 @@ def _ev_metrics(csv_bytes, _prep=None):
     (engine-off idling at a light belongs to the same electric run), an engine
     start does. This is deliberately the CONSERVATIVE reading of "electric":
     it excludes the M46/M48 motored-unfuelled state (~3400 rpm, deep vacuum),
-    which burns no fuel but is not engine-off. A zero-fuel variant would be
-    strictly larger and is not what is reported here.
+    which is not engine-off by RPM. A zero-logged-fuel definition was compared on the fuel-instrumented drives (M460, evTraction.zeroFuelVariant): on those drives it gave a larger share, with a convention range; that comparison is not what is reported here.
 
     Distance. Integrated on a 1 Hz grid. Per-row .diff() is INVALID on this
     logger -- the PID update rate is sparse relative to the row rate, so

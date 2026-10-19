@@ -1914,9 +1914,10 @@ def _ev_traction(dm):
 
     out['caveats'] = [
         'EV state is eng_rpm <= 400 (engine not rotating), the same threshold '
-        'engine_on_pct uses. The M46/M48 motored-unfuelled state burns no fuel '
-        'but counts here as engine ON, so these figures are a conservative '
-        'reading of "electric".',
+        'engine_on_pct uses. The M46/M48 motored-unfuelled state counts here as '
+        'engine ON (it is not engine-off by RPM), so these figures are a '
+        'conservative reading of "electric"; the comparison with a zero-logged-fuel '
+        'definition on the fuel-instrumented drives is evTraction.zeroFuelVariant.',
         'The +/-3 s nearest-sample channel alignment and the symmetric 3 s '
         'state debounce can move the engine-off boundaries in either '
         'direction (an engine-on run shorter than 3 s inside an engine-off '
