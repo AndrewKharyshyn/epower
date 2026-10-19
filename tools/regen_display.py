@@ -253,10 +253,10 @@ def bnat_tables(dm, T_full, tdec, cmask, days, stratum, cs_masks):
         b, sh, f = b_nat(dd)
         if b is not None:
             out[v][s][l] = {"bNat": b, "shiftPp": sh, "f": f}
-            if (v, s, l) in phases:                                                  # Rev 1.3 R2 a: the signed mean of the phase shifts can cancel
+            if (v, s, l) in phases:                                                  # Rev 1.3 R2 a: phaseCancel = the two phase shifts have opposite signs (the signed mean then understates the largest phase shift)
                 ph = phases[(v, s, l)]
                 mx = max(abs(x) for x in ph)
-                out[v][s][l].update(phaseDiffs=ph, bNatMaxPhase=round(mx, 3), phaseCancel=bool(mx - b > 1e-9))
+                out[v][s][l].update(phaseDiffs=ph, bNatMaxPhase=round(mx, 3), phaseCancel=bool(min(ph) < 0 < max(ph)))
     return out
 
 
@@ -276,7 +276,7 @@ def steps_of(co, view, sel, labels, rows, bn_cells, standard_order=None):
         diff = rows[b]["eff"] - rows[a]["eff"]
         ci = RS.interval(dr[:, jb] - dr[:, ja])[0] if co.D >= MIN_CI_DAYS else None
         ba, bb = (bn_cells.get(a) or {}).get("bNat"), (bn_cells.get(b) or {}).get("bNat")
-        out.append({"a": a, "b": b, "stepPp": round(diff, 2), "ci95Days": ci, "gapBetween": bool(order.index(b) - order.index(a) > 1), "label": step_label(ci, diff, ba, bb)})
+        out.append({"a": a, "b": b, "stepPp": round(diff, 2), "ci95Days": ci, "gapBetween": bool(order.index(b) - order.index(a) > 1), "basis": "observed cells of the selected SOC (not SOC-standardized)", "label": step_label(ci, diff, ba, bb)})
     return out
 
 
