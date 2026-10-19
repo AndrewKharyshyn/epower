@@ -1,0 +1,23 @@
+{
+ "auditor": "analytical-auditor (blind)",
+ "verdict": "accept",
+ "scope": "strata counts, 3 observed cells, 1 standardized cell with day/week CI, reference mix, b_nat fast and slow 20-30C",
+ "maxAbsDiffPp": 0.0061,
+ "perClaim": {
+  "strata": "exact (fast 167/34, slow 398/82)",
+  "fast 10-20C allSoc": "n/drives/days, CI, massRange exact; eff d 0.0006",
+  "slow 30-40C allSoc": "exact counts, CI, massRange; eff d 0.003",
+  "slow 20-30C band 66-69": "exact; eff d 0.000",
+  "standardized slow 20-30C": "std d 0.004; day CI [68.1905,74.8141]; week CI [66.9419,75.0696]; S* 7 bands 50-55..72-100, coverage 0.9986",
+  "referenceMix": "9 weights agree to 5 dp",
+  "b_nat slow": "1.2697 vs 1.271",
+  "b_nat fast": "1.3991 vs 1.393 (d 0.0061; pooled-phase stack; f=3 maximises)"
+ },
+ "concerns": [
+  "RNG not named in specs: default_rng(42).integers(0,D,(B,D)) reproduces; RandomState(42) misses by 0.06-0.16 pp",
+  "'equal-weight stack' ambiguous: pooled sums over phases fit; mean of phase ratios does not",
+  "fast b_nat residual 0.006 pp unexplained",
+  "no multiplicity control; b_nat sensitivity on seen data"
+ ],
+ "m441Rev22Cond3": "bootstrap CI independently reproduced for these cells"
+}

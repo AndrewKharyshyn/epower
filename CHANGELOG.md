@@ -1,3 +1,81 @@
+## M451 (2026-10-19): Regen programme ME (step 3): dashboard binding of the regeneration section to the cadence-stratified native display (S.regenDisplayV2); legacy bars replaced
+
+**Rationale.** Binds the three regeneration views (By Battery Temperature, Apparent KE Recovery vs Speed, By Speed Zone) of xtrail_summary.jsx to S.regenDisplayV2 (spec analyses/M446_spec.md sha256 1ec3f1d1e2ea79327aaa559c8631703be9017f30289a4692a681aacce9c2e805, Rev 1.4; Director rulings Rev 1.1 and Rev 1.3; blind audits analyses/M446_audit.json and M446_audit2.json, both accept). New controls: logger polling (slow default, fast, both side by side with the not-a-contrast note), SOC selection (All SOC, eight bands, below 40 %), basis (Observed, SOC-standardized; standardized only for All SOC, otherwise a visible fallback note). Each bar shows the estimate and the day-clustered interval; the assumed-mass range, the resolution bracket b_nat and the plateau convention range are separate (chart bracket plus the cell-details table); failed and empty cells are drawn absent with the reason; B6 FAILED badge beside the chart; cold shown as exploratory with no interval (fewer than 5 days); the speed axis reads 'speed during braking (interpolated between speed samples)'; zones are sums of the drawn bins (first zone 10-30 km/h). Legacy keys regenByTempMeasured / regenCaptureMeasured / regenByZone stay in the payload unchanged; the legacy views render only when regenDisplayV2 is absent and in compare mode (labelled). Owner sign-off: Andrii in chat on 2026-10-19, answering the question 'Do you want me to go ahead with it?' (binding with the D6 sign-off wording and the Rev 1.3 R3 conditions: B6 badge, default stratum slow, Both with the not-a-contrast note, cold exploratory) with the verbatim reply 'Go ahead'. Checks: test_regen_axes.js rewritten for the new display (all cohorts, all controls), validate_jsdom, semantic gate 1341/0. No article figure; no new headline claim.
+
+**State.** `drive_master.csv` 578 rows, MD5 `a641f34d7528d004b900c151cbde3d6d`.
+
+**Gates (runs/20261013T174559Z).** build_html=ok; jsdom=ok; release_check=ok; state=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `xtrail_summary.jsx`, `xtrail_dashboard.html`, `test_regen_axes.js`, `summary_arrays.json`.
+
+
+## M450 (2026-10-19): M446 round-2 blind audit (accept), spec Rev 1.4 (phaseCancel meaning, step basis)
+
+**Rationale.** M446 spec sha256 1ec3f1d1e2ea79327aaa559c8631703be9017f30289a4692a681aacce9c2e805 (analyses/M446_spec.md Rev 1.4). Round-2 blind audit analyses/M446_audit2.json: fast-stratum standardized cells, slow b_nat phases and fast step labels reproduced within 0.006 pp. phaseCancel now means opposite phase signs; steps carry basis 'observed'. Payload regenerated (regenDisplayV2 only). Display still unbound: needs release_check green, final Director confirmation and Andrii's sign-off.
+
+**State.** `drive_master.csv` 578 rows, MD5 `a641f34d7528d004b900c151cbde3d6d`.
+
+**Gates (runs/20261013T174559Z).** build_html=ok; jsdom=ok; release_check=ok; state=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `analyses/M446_spec.md`, `analyses/M446_audit2.json`, `tools/regen_display.py`, `summary_arrays.json`.
+
+
+## M449 (2026-10-19): M446 spec Rev 1.3 (Director ruling on the payload layer: accept unbound) and the required payload changes
+
+**Rationale.** M446 spec sha256 0517fc23f4d378d11e5e4ebd5bc73e869eb2cbe7cdee77e52a4222a2063b5ddd (analyses/M446_spec.md Rev 1.3, appended after the blind audit; earlier: Rev 1.1 5a89a6b27504135591cbb94e2a3a7b6c6149639b68ca1729f75ee13662d9ad59). Director ruling: regenDisplayV2 accepted as an additive UNBOUND layer; binding blocked until R2 (a)-(i). Implemented in tools/regen_display.py: slow b_nat per-phase diffs plus max-abs alternative and cancellation flag; statusReason; conventionSensitive; D5 step resolution (interval excludes 0 and |step| > b_nat(a)+b_nat(b)) and extremum resolution; ci95 suppressed below 5 days (cold); gates on unrounded sums at 1e-9 with SOC-sum and M444 observed-match recorded; top speed zone 120-130 (overflow bin in no zone); wording 'pooled stack'; language rule extended (R4). Remaining before binding: blind reproduction of one fast-stratum standardized cell and the slow b_nat phase handling, release_check, Andrii's sign-off (D6 plus Rev 1.3 R3 additions).
+
+**State.** `drive_master.csv` 578 rows, MD5 `a641f34d7528d004b900c151cbde3d6d`.
+
+**Gates (runs/20261013T174559Z).** build_html=ok; jsdom=ok; release_check=ok; state=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `analyses/M446_spec.md`, `tools/regen_display.py`, `tests/synthetic/test_regen_display.py`, `language_gate.py`.
+
+
+## M448 (2026-10-19): M446 spec Rev 1.2 (clarifications after the blind audit; verdict accept)
+
+**Rationale.** M446 spec sha256 0affa220cc1955c984917c1bf43c0986249942da7180a529c5402ded4acd01e5 (analyses/M446_spec.md Rev 1.2: RNG named, fast b_nat stack pooled, zone definition; Rev 1.1 hash 5a89a6b27504135591cbb94e2a3a7b6c6149639b68ca1729f75ee13662d9ad59). Blind audit analyses/M446_audit.json: strata, observed cells, one standardized cell with day/week intervals, reference mix and two b_nat reproduced within 0.0061 pp. No code or number changes. Display still unbound: Director ruling and Andrii's sign-off pending.
+
+**State.** `drive_master.csv` 578 rows, MD5 `a641f34d7528d004b900c151cbde3d6d`.
+
+**Gates (runs/20261013T174559Z).** build_html=ok; jsdom=ok; release_check=ok; state=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `analyses/M446_spec.md`, `analyses/M446_audit.json`.
+
+
+## M447 (2026-10-19): Regen programme ME (step 2): additive payload regenDisplayV2 (cadence-stratified native v2 rows, b_nat, SOC selector rows, per-stratum standardized bars); no dashboard binding
+
+**Rationale.** Implements the payload layer of analyses/M446_spec.md Rev 1.1 (sha256 5a89a6b27504135591cbb94e2a3a7b6c6149639b68ca1729f75ee13662d9ad59, frozen in M446): tools/regen_display.py (cohort x stratum rows for the temperature, speed-during-braking and speed-zone views under every SOC selection, plateau convention range, D3 sampling-interval description, narrative and extent fields, b_nat per stratum and cell with the fast f=2,3 and slow f=2 common-support definitions, M444 standardization within the stratum with the one fixed reference mix), stage hook in tools/regen_v2_stage.py, tests/synthetic/test_regen_display.py (registered in ci.yml), semantic_gate M446 invariants, language_gate rule M446-stratified-display. summary_arrays.json deep diff: only regenDisplayV2 and its stamp added; drive_master.csv MD5 unchanged; build gates pass (strata plus unknown reconcile to the pooled totals; pooled cells equal regenCaptureV2). Result file analyses/M446_result.json. Not done and required before any display: blind audit incl. one bootstrap-CI and one b_nat reproduction (G5), Director ruling, Andrii's sign-off (spec D6). Nothing is bound to xtrail_summary.jsx or the dashboard.
+
+**State.** `drive_master.csv` 578 rows, MD5 `a641f34d7528d004b900c151cbde3d6d`.
+
+**Gates (runs/20261013T174559Z).** build_html=ok; jsdom=ok; release_check=ok; state=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `tools/regen_display.py`, `tools/regen_v2_stage.py`, `tests/synthetic/test_regen_display.py`, `semantic_gate.py`, `language_gate.py`, `.github/workflows/ci.yml`, `analyses/M446_result.json`, `summary_arrays.json`.
+
+
+## M446 (2026-10-15): Regen programme ME (step 1): spec Rev 1.1 frozen for the cadence-stratified native v2 display (payload regenDisplayV2 only; no dashboard binding; recorded deviation from M442 E2/E4 and owner decision (a))
+
+**Rationale.** M446 spec sha256 5a89a6b27504135591cbb94e2a3a7b6c6149639b68ca1729f75ee13662d9ad59 (analyses/M446_spec.md Rev 1.1, FROZEN before any stage-ME number existed). Stage ME replaces the displayed legacy regen bars by the cadence-stratified NATIVE v2 estimator (fast-polled and slow-polled drives separately, no pooled bar, per-stratum resolution bracket b_nat = max over f of |v2(native) - v2(decimated f)|, SOC selector, Observed / SOC-standardized basis with the one fixed reference mix). Research-director review of Rev 1: verdict revise; D1-D7 and answers O1-O7 adopted in section 16 (the route is a recorded deviation from M442 Rev 1.3 E2/E4, PCL-1 section 6 and owner decision (a), justified by analyses/PCL1_sizing.json; M441 Rev 2.2 condition (2) is not discharged; harmonized b is reference only). Andrii approved in chat on 2026-10-15 (verbatim: 'approved') the freeze and the payload-only build; he signs off the DISPLAY separately after the blind audit and the Director ruling (sign-off text in section 16 D6); nothing is bound to the dashboard in this step.
+
+**State.** `drive_master.csv` 578 rows, MD5 `a641f34d7528d004b900c151cbde3d6d`.
+
+**Gates (runs/20261013T174559Z).** build_html=ok; jsdom=ok; release_check=ok; state=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `analyses/M446_spec.md`.
+
+
 ## M445 (2026-10-15): M444 study block audited (blind reproduction, accept); spec Rev 2.3 states three implemented conventions; no code or number changes
 
 **Rationale.** Follow-up to M444 (merged as c4f1d3e): the blind audit of the M444 STUDY block (episode-deceleration cut points, demand ladder L1-L3, four chronological holdout blocks, strict-drop-only and fast-polled sensitivity tables; cohort all) by an independent analytical-auditor working from the spec text: AGREE on every item (cut points 0.46487 / 0.72855 m/s^2 within 1e-4; ladder L1 81 strata unavailable (coverage 0.646), L2 27 strata available (0.874, used, 'partial'), L3 27 available (0.810); SOC-only comparator coverage 0.999; holdout days 29 / 28 / 28 / 28 with groups, bands and coverage exact and bars within 0.005 pp, same sign in 5 of 7 pairs; sensitivity bars within 0.003 pp, intervals within 0.005 pp; largest difference 0.01 pp). Three conventions that were implemented but not stated are now written into the spec as Rev 2.3 (S13 cut-point population without validity requirement, S14 each subset resamples its own days with data, S15 undefined polling statistic belongs to no stratum); no code and no number changed. M444 spec Rev 2.3 sha256 e5a67a4acddcc98d01f9883aad8d2c93b2662cf563ce5148f46cf4dd1f8c9264 (the Rev 2.1 sha256 recorded in the M444 entry is the frozen one). Files: analyses/M444_audit2.json, analyses/M444_audit2_brief.json, the auditor's code under analyses/M444_audit/. The study block is now audited; stage ME stays BLOCKED (cadence gate G2 not testable; PCL-1 awaiting the owner's decision) and nothing is displayed. DECISION (PCL-1, delegated by Andrii in chat on 2026-10-15: "take optimal decision"; made by the agent, reversible): the paired-cadence logging protocol PCL-1 (M443) is NOT RUN. Reasons (script-written): the sizing analyses/PCL1_sizing.json gives a median 95 % half-width of the randomized fast-minus-slow total difference of 3.3 pp at 60 paired days and 2.6 pp at 100 (4.4 pp at 30), the upper bound of P(G2 PASS) is 0 at 60, 80, 100 and 160 paired days, and the cadence effect measured by thinning is about 1 pp (analyses/M442_result_rerun.json G1: native v2 shift 0.8-0.9 pp, harmonized shift 0.3-0.4 pp on halving), below what the protocol can resolve; the cost is about five months of switching the polling setting before every trip. The spec, schedule generator, monitor and one-shot analysis stay in the repo and Andrii can start the protocol at any time with a START DATE. Consequence: stage ME takes the cadence-stratified route (native v2 levels per polling stratum with the resolution bracket b of M442), which needs its own pre-registered spec, a blind audit, a Director ruling and Andrii's explicit sign-off before any display.

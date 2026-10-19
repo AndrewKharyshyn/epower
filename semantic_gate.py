@@ -521,6 +521,32 @@ if _sd:
     ok("M444 every available view has coverage >= 0.80, >= 2 bars and at least one common-support band; every unavailable view states its reason", not _bad, str(_bad[:3]))
     ok("M444 the study block (if present) names the same spec and master and carries its stamp", "regenSocStandardizedStudy" not in A or (A["regenSocStandardizedStudy"]["specSha256"] == _sd["specSha256"] and A["regenSocStandardizedStudy"]["masterMd5"] == _sd["masterMd5"]
        and "regenSocStandardizedStudy" in A["_artifactStamps"]))
+# M446 (analyses/M446_spec.md Rev 1.1): cadence-stratified native display layer. Payload invariants: stamp and master, ONE reference weight vector (sums to 1), only the strata fast / slow, every supported cell meets the support floors, a cell with a value
+# carries a status other than empty, the standardized bars of an available view lie on a coverage >= 0.80, the resolution bracket is never negative, the build gates passed
+_dv = A.get("regenDisplayV2")
+if _dv:
+    _w2 = _dv["referenceMix"]["weights"]
+    ok("M446 regenDisplayV2 present with its artifact stamp; ONE reference weight vector (sums to 1); the build gates passed", "regenDisplayV2" in A["_artifactStamps"] and abs(sum(_w2.values()) - 1.0) < 1e-3 and len(_dv["masterMd5"]) == 32 and _dv["gates"]["pass"] is True, str(round(sum(_w2.values()), 5)))
+    _bad = []
+    for _c, _cb in _dv["cohorts"].items():
+        if set(_cb["strata"]) - {"fast", "slow"}:
+            _bad.append((_c, "stratum names"))
+        for _p, _sb in _cb["strata"].items():
+            for _vn, _vb in (_sb.get("views") or {}).items():
+                for _sel, _sv in _vb["bySoc"].items():
+                    for _lab, _cell in _sv["rows"].items():
+                        if _cell["status"] == "supported" and not (_cell["n"] >= 200 and _cell["drives"] >= 10 and _cell["days"] >= 5):
+                            _bad.append((_c, _p, _vn, _sel, _lab, "support"))
+                        if _cell.get("eff") is not None and _cell["status"] == "empty":
+                            _bad.append((_c, _p, _vn, _sel, _lab, "empty with a value"))
+                        if _cell.get("bNat") is not None and _cell["bNat"] < 0:
+                            _bad.append((_c, _p, _vn, _sel, _lab, "negative bracket"))
+            for _vn, _sd2 in (_sb.get("standardized") or {}).items():
+                if _sd2["availability"]["available"] and (_sd2["availability"]["coverage"] < 0.8 - 1e-9 or len(_sd2["bars"]) < 2):
+                    _bad.append((_c, _p, _vn, "coverage or bars"))
+                if not _sd2["availability"]["available"] and not _sd2.get("reason"):
+                    _bad.append((_c, _p, _vn, "unavailable without a reason"))
+    ok("M446 strata are fast / slow only; every supported cell meets the support floors; no empty cell carries a value; no negative resolution bracket; every available standardized view has coverage >= 0.80 and >= 2 bars, every unavailable one a reason", not _bad, str(_bad[:3]))
 # M418 (analyses/M418_spec.md Rev 1, Director ruling analyses/M418_director_ruling_2026-10-12.md): thermal support ledger; additive and reporting-only; every accepted count reconciles with the published estimator n, every
 # candidate sits in exactly one bucket, and the support lines of the thermal sections render the counts of the selected cohort
 _tl = A.get("thermalSupportLedger")
