@@ -1,0 +1,44 @@
+# M458 spec (Rev 1, DRAFT for Director review) - Car-OFF standby draw: day-clustered interval for the Sen-slope estimate (audit F06 follow-up left open by M429)
+
+Status: PRE-REGISTERED DRAFT, written before any recomputed interval exists. Rev 1, 2026-10-19. Owner: Andrii (chat, 2026-10-19: "take the next open item"). Origin: the M429 CHANGELOG entry lists "the i.i.d. bootstrap of the parked standby-draw fit (`_car_off_standby`)" as NOT DONE (own spec). Scope: ONE interval rule for one published block (`carOffStandby`); the point estimate is unchanged.
+
+## 1. Defect (verified in code, `compute_summary_arrays._car_off_standby`)
+
+The 95 % interval of the standby rate resamples the 575 consecutive-drive gaps i.i.d. (`rng.integers(0, n, n)`, 4000 draws) although the gaps are ordered events of a few dozen calendar days, several gaps share a day and the SoC key-on re-anchoring jumps cluster in time. The same defect was corrected for the soak time constants in M429 (shared helper `tools/soak_tau.py`, whole-cluster resampling, `default_rng(42)`, B = 4000, percentile interval). The docstring of `_car_off_standby` states "gaps are independent events"; that is the assumption under review.
+
+## 2. Estimand and what does not change
+
+Unchanged: the gaps (`gap_h > 0`, `draw_pp = soc_end(N) - soc_start(N+1)`), the estimator (Sen slope of `draw_pp` on `gap_h`, `_sen_slope`), the point values (`watts`, `kwh_per_day`, `jump_pp_per_keycycle`, `corr_gap_vs_draw`) and the conversion to watts through `CAP_KWH = 2.1` (`verified: false`; the OEM 5 Ah rated capacity is a lead only, not changed here). Changed: only the interval and the derived `p_draw_gt0`.
+
+## 3. Method
+
+Cluster = the calendar day of the START of the FOLLOWING drive (the "arrival day", the key M429 used for the soak pairs; the gap ends on that day). Whole clusters are resampled with replacement, all gaps of a drawn cluster taken with multiplicity, B = 4000, a fresh `numpy.random.default_rng(42)` (the helper `tools/soak_tau.boot_slopes(x, y, cluster, _sen_slope)`), the interval is the 2.5 / 97.5 percentile of the draw slopes (method "linear") converted to watts; `p_draw_gt0` is the share of draws with a positive watts value (a draw with a non-finite slope counts as undefined and is reported, not dropped silently). Reported beside the interval: the number of clusters, the Kish effective number of clusters, and the i.i.d. interval as a REFERENCE field (`ci95WattsIid`) so the change is visible. The point estimate and every other field keep their values.
+
+## 4. Decision rules and what the result can and cannot say
+
+(R1) The new interval replaces the displayed one. (R2) If the new day-clustered interval still excludes 0, the wording stays "a small positive duration-proportional draw is detected under the stated conventions"; if it contains 0 the wording changes to "not distinguishable from zero" and the dashboard sentence that cites the interval is adjusted from the payload, never hardcoded (the sentence binds to `S.carOffStandby`). (R3) The estimate remains weakly identified (jump-noise floor, `CAP_KWH` unverified); nothing here is a validation. Language: "parked-state SoC drift rate (Sen slope, assumed capacity)", never "measured standby power".
+
+## 5. Gates, tests, chain
+
+(G1) The point fields are bit-identical before and after; (G2) known-answer tests (`tests/synthetic/test_car_off_standby.py`): a fixture with all gaps on one day gives an interval at least as wide as the i.i.d. one on a clustered-noise fixture, an i.i.d. fixture with one gap per day reproduces the i.i.d. interval within resampling noise, the helper is called with the arrival-day key, the point estimate equals `_sen_slope` of the full data; (G3) the arrays-only update uses the additive splice pattern (compute only `carOffStandby`, deep-diff, leaf splice) so no other key moves; the producer function is changed identically so a future rebuild keeps it; (G4) `release_check.py` green, the semantic gate checks the new fields; the spec SHA-256 is recorded in the CHANGELOG before the run; a blind analytical-auditor reproduces the interval from `drive_master.csv` and sections 1-3; Director ruling; the dashboard sentence is rebuilt from the payload and shown with `SendUserFile` under the Dashboard change rule.
+
+## 6. Open questions for the Director
+
+- **Q1** Is the arrival-day cluster the right unit for a quantity that spans a whole parked gap (a gap that straddles several days is assigned to its arrival day only)?
+- **Q2** The i.i.d. reference field and the Kish number: sufficient disclosure, or should a leave-one-week-out sensitivity be added?
+- **Q3** The `CAP_KWH` conversion: leave as is (labelled `verified: false` in the displayed sentence), or express the primary in pp per hour of SoC drift and show watts as a derived, assumption-labelled figure?
+- **Q4** Anything that makes "do not change the displayed interval" the better decision?
+
+## 7. Rev 1.1 (2026-10-19): Director review (verdict "revise"); this section supersedes sections 1, 3, 5 and 6 where it differs
+
+Verified structure (script output, not an inference): 575 consecutive-drive pairs after the `dropna`, all with `gap_h > 0` (575 used, 0 dropped); 116 distinct arrival days (maximum 15, median 5 gaps per arrival day) and 117 departure days; 116 gaps cross midnight (about one per day, and these are the long, high-leverage gaps). The sentence "a few dozen calendar days" in section 1 is wrong: about 116 drive days.
+
+**Primary and sensitivities.** Primary = the arrival-day cluster bootstrap of section 3 (B = 4000, fresh `default_rng(42)` per method, percentile method "linear" on the finite draws, non-finite draws counted in `nUndefinedDraws` and not silently dropped). Sensitivities, same machinery: departure-day clusters, ISO-week clusters of the arrival date, leave-one-arrival-day-out (the minimum and maximum of the watts estimate and the days that produce them). Pre-declared disagreement rule: if a sensitivity bound differs from the primary bound by more than 25 % of the primary interval width, or the sensitivity and the primary disagree on whether the interval contains 0, the block carries `methodDisagreement` with the reasons and the display says so; the methods are never tuned to agree. The i.i.d. interval is kept as the reference fields `ci95WattsIid`, `ci95KwhPerDayIid`, `pDrawGt0Iid` and is never called day-clustered.
+
+**Primary figure (Q3).** The primary quantity is the SoC drift rate in pp per hour (`slope_pp_per_h` with `ci95_slope_pp_per_h`); watts and kWh per day stay as derived, assumption-labelled values (assumed `CAP_KWH = 2.1`, `verified: false`).
+
+**Changed or new leaves (isolation list, gate G2).** `carOffStandby/ci95_watts`, `ci95_kwh_per_day`, `p_draw_gt0` (now the bootstrap share of positive finite draws), and the new `slope_pp_per_h`, `ci95_slope_pp_per_h`, `ciMethod`, `nClusters`, `kishClusters`, `nUndefinedDraws`, `ci95WattsIid`, `ci95KwhPerDayIid`, `pDrawGt0Iid`, `sensitivities`, `methodDisagreement`, `nPairsTotal`, `nPairsDropped`, `gapsSpanningMidnight`, `gapsWithOdoJump`, `limits`. Every other leaf of `carOffStandby` and every other key of `summary_arrays.json` stays identical. Gate G3: a single-key producer recompute (`_car_off_standby(dm)`) is identical to the spliced block.
+
+**Coverage test (replaces the invalid "all gaps on one day" fixture).** M429-style, pre-declared: 30 days with 5 gaps per day, gap lengths drawn log-normal (median 6 h, sigma 0.8), `draw_pp = 0.02 * gap_h + u_day + e` with `u_day ~ N(0, 1.0^2)` shared by the gaps of a day and `e ~ N(0, 0.3^2)`; R = 200 replications, B = 300 draws; acceptance: coverage of the true slope 0.88-1.00 for the day-clustered interval and below 0.85 for the i.i.d. interval. Further known-answer tests: the point estimate equals `_sen_slope` of the full data, a fixture with one gap per day reproduces the i.i.d. interval within resampling noise, the helper receives the arrival-day key, non-finite draws are counted.
+
+**Limits (added).** The pairs assume that no unlogged drive lies inside a gap; `gapsWithOdoJump` counts the gaps whose odometer step between the drives exceeds 0.5 km (the logged share of ODO is below 1) and the count is reported, not corrected; the gap hours come from naive local timestamps (the daylight-saving shifts of 1 h are not corrected); a few long gaps drive the slope (see leave-one-day-out); cross-day dependence (shared drives, multi-day re-anchoring regimes) may leave the arrival-day interval too narrow; the capacity conversion is unverified. Wording: docstring and dashboard sentence rewritten (no "independent events", no stale n; "P(draw>0)" becomes "bootstrap share of positive draws"; "BMS + telematics" is an unidentified attribution and is labelled as an assumption). Forbidden: measured standby power, validated standby rate, "day-clustered" for the reference interval, "BMS + telematics draw" as a finding.

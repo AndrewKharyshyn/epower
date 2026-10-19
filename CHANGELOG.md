@@ -1,3 +1,16 @@
+## M458 (2026-10-19): Car-OFF standby interval: spec Rev 1.1 frozen (day-clustered Sen-slope bootstrap, sensitivities, pp/h primary); Director review (revise) adopted
+
+**Rationale.** M458 spec sha256 545f45f1eac81e92258ca52c9fc701d455ea67657ed03b95e6536d329d7e2fbb (analyses/M458_spec.md Rev 1.1, FROZEN before any recomputed interval exists). Closes the item the M429 entry left as NOT DONE: the i.i.d. bootstrap of the parked standby-draw fit (_car_off_standby, 575 gaps over 116 arrival days). Director (Rev 1: revise; D1-D7 adopted): arrival-day primary with departure-day, ISO-week and leave-one-day-out sensitivities, a pre-declared 25 % / zero-containment disagreement rule, the i.i.d. interval kept as a reference field, pp/h as the primary figure with watts derived and assumption-labelled, an M429-style coverage test with pre-declared criteria, an isolation list of changed leaves, a single-key producer identity gate, limits (unlogged drives, DST, long-gap leverage, CAP_KWH unverified). Point estimate and all other fields unchanged.
+
+**State.** `drive_master.csv` 578 rows, MD5 `a641f34d7528d004b900c151cbde3d6d`.
+
+**Gates (runs/20261013T174559Z).** build_html=ok; jsdom=ok; release_check=ok; state=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `analyses/M458_spec.md`.
+
+
 ## M457 (2026-10-19): Spec-only: regeneration programme stage MF (BMS-reported possible input power as corroborating context); Director review (revise), Rev 1.1 adopted; not frozen
 
 **Rationale.** analyses/M457_spec.md Rev 1-1.1 with the channel inventory analyses/M457_inventory (script and csv; canonical drives by channel: hp-labelled 252, kW-labelled 89, a Short variant 4, none 233 = 578; hp plateau 86.6759 / 86.7439, kW plateau 63.75; the hp unit is inferred to be metric horsepower from the plateau agreement and stays verified:false). Andrii asked for the next open item (chat, 2026-10-19). Director review: revise; adopted: unit-free primary normalized to the modal plateau within the header-defined era, sidecar cache (v2 audited cache untouched), strictly tabular primary with the standardized contrast demoted, on-plateau versus below split with 0.9 / 0.5 sensitivities, 30 s age rule (the channel is sampled about every 20-40 s), futility gate before any outcome, era x stratum cross-tab first, association-only labels, stated deviation from the outside prompt (unit-free primary), forbidden wording list. The Director's view: worth running only in the slimmed tabular form, and not running is defensible. Nothing is frozen or built; no code or number changes.
