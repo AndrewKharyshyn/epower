@@ -51087,7 +51087,7 @@
     ]
    ],
    "maxReliefDrivenM": 420.0,
-   "note": "capture fraction is pack-measured charge energy over released potential energy on >=2% descents; the remainder is aero, rolling, driveline and friction braking. M164: captureFraction and toSaturation carry a closed-form mass-uncertainty range (audit sec.5) from the disclosed urban/mixed assumed-mass range (MASS_URBAN_MIXED_RANGE_KG), weighted by this population's own urban/mixed row share -- netDropToSaturateM is near mass-invariant (the mass in captureFraction's denominator nearly cancels against the mass in this formula's own denominator), shown explicitly rather than assumed."
+   "note": "capture fraction is pack charge energy (integrated from the logged current and voltage) over released potential energy on >=2% descents; the remainder is aero, rolling, driveline and friction braking. M164: captureFraction and toSaturation carry a closed-form mass-uncertainty range (audit sec.5) from the disclosed urban/mixed assumed-mass range (MASS_URBAN_MIXED_RANGE_KG), weighted by this population's own urban/mixed row share -- netDropToSaturateM is near mass-invariant (the mass in captureFraction's denominator nearly cancels against the mass in this formula's own denominator), shown explicitly rather than assumed."
   }
  },
  "cRateRefLines": {
@@ -144732,7 +144732,7 @@
    "RegenCaptureMeasured": {
     "dependencyClass": "thermal",
     "pipelineClass": "raw",
-    "statisticalUnit": "regen capture fraction (measured)",
+    "statisticalUnit": "apparent KE recovery ratio (legacy extraction, assumed mass)",
     "data": {
      "all": [
       [
