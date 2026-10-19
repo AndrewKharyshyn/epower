@@ -1,3 +1,16 @@
+## M451 (2026-10-19): Regen programme ME (step 3): dashboard binding of the regeneration section to the cadence-stratified native display (S.regenDisplayV2); legacy bars replaced
+
+**Rationale.** Binds the three regeneration views (By Battery Temperature, Apparent KE Recovery vs Speed, By Speed Zone) of xtrail_summary.jsx to S.regenDisplayV2 (spec analyses/M446_spec.md sha256 1ec3f1d1e2ea79327aaa559c8631703be9017f30289a4692a681aacce9c2e805, Rev 1.4; Director rulings Rev 1.1 and Rev 1.3; blind audits analyses/M446_audit.json and M446_audit2.json, both accept). New controls: logger polling (slow default, fast, both side by side with the not-a-contrast note), SOC selection (All SOC, eight bands, below 40 %), basis (Observed, SOC-standardized; standardized only for All SOC, otherwise a visible fallback note). Each bar shows the estimate and the day-clustered interval; the assumed-mass range, the resolution bracket b_nat and the plateau convention range are separate (chart bracket plus the cell-details table); failed and empty cells are drawn absent with the reason; B6 FAILED badge beside the chart; cold shown as exploratory with no interval (fewer than 5 days); the speed axis reads 'speed during braking (interpolated between speed samples)'; zones are sums of the drawn bins (first zone 10-30 km/h). Legacy keys regenByTempMeasured / regenCaptureMeasured / regenByZone stay in the payload unchanged; the legacy views render only when regenDisplayV2 is absent and in compare mode (labelled). Owner sign-off: Andrii in chat on 2026-10-19, answering the question 'Do you want me to go ahead with it?' (binding with the D6 sign-off wording and the Rev 1.3 R3 conditions: B6 badge, default stratum slow, Both with the not-a-contrast note, cold exploratory) with the verbatim reply 'Go ahead'. Checks: test_regen_axes.js rewritten for the new display (all cohorts, all controls), validate_jsdom, semantic gate 1341/0. No article figure; no new headline claim.
+
+**State.** `drive_master.csv` 578 rows, MD5 `a641f34d7528d004b900c151cbde3d6d`.
+
+**Gates (runs/20261013T174559Z).** build_html=ok; jsdom=ok; release_check=ok; state=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `xtrail_summary.jsx`, `xtrail_dashboard.html`, `test_regen_axes.js`, `summary_arrays.json`.
+
+
 ## M450 (2026-10-19): M446 round-2 blind audit (accept), spec Rev 1.4 (phaseCancel meaning, step basis)
 
 **Rationale.** M446 spec sha256 1ec3f1d1e2ea79327aaa559c8631703be9017f30289a4692a681aacce9c2e805 (analyses/M446_spec.md Rev 1.4). Round-2 blind audit analyses/M446_audit2.json: fast-stratum standardized cells, slow b_nat phases and fast step labels reproduced within 0.006 pp. phaseCancel now means opposite phase signs; steps carry basis 'observed'. Payload regenerated (regenDisplayV2 only). Display still unbound: needs release_check green, final Director confirmation and Andrii's sign-off.

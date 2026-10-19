@@ -3032,9 +3032,160 @@ function RegenSensitivityNote({view}) {
   );
 }
 
+/* M451 (regen programme, stage ME; spec analyses/M446_spec.md Rev 1.1-1.4, Director rulings, owner sign-off): the cadence-stratified NATIVE display of the apparent KE recovery. Every figure binds to S.regenDisplayV2
+   (script-written by tools/regen_display.py): rows per cohort x polling stratum x view x SOC selection, standardized bars per stratum, the day-clustered interval, the assumed-mass range, the resolution bracket b_nat and the
+   plateau convention range (four separate quantities, never combined), support status with its reason, the step labels and the axis extent. No arithmetic on the estimates happens here. */
+const REGEN_STRATUM_LABEL={slow:"Slow-polled drives",fast:"Fast-polled drives"};
+const REGEN_STRATUM_COLOR={slow:"#2563eb",fast:"#ea580c"};
+const REGEN_VIEW_KEY={temp:"temperature",efficiency:"speed",zone:"zones10"};
+function regenSelLabel(s){ return s==="allSoc"?"All SOC":s==="below40"?"Below 40 %":s.replace("band ","SOC ").replace("-","–")+" %"; }
+function regenFmt(v,d=1){ return (typeof v==="number"&&isFinite(v))?v.toFixed(d):"—"; }
+function regenSgn(v,d=1){ return (typeof v==="number"&&isFinite(v))?(v>0?"+":v<0?"−":"")+Math.abs(v).toFixed(d):"—"; }
+/* pure: the rows a (cohort, stratum, view, SOC selection, basis) shows. Standardized bars exist for the All-SOC selection of the temperature and speed views only; otherwise the observed rows stand and the reason is returned. */
+function regenV2Pick(sb,view,sel,basis){
+  const vb=sb&&sb.views&&sb.views[view];
+  if(!vb) return null;
+  const obs=vb.bySoc[sel]||vb.bySoc.allSoc;
+  const drawn=vb.order.filter(l=>!(obs.rows[l]&&obs.rows[l].payloadOnly));
+  const out={order:drawn,rows:obs.rows,extent:obs.extent,narrative:obs.narrative,steps:obs.steps,basisUsed:"observed",note:null,sel:vb.bySoc[sel]?sel:"allSoc"};
+  if(basis==="standardized"){
+    const st=sb.standardized&&sb.standardized[view];
+    if(sel!=="allSoc") out.note="The SOC-standardized basis is defined for the All-SOC selection only; the observed rows of the selected SOC band are shown.";
+    else if(!st) out.note="The SOC-standardized comparison is not defined for this view; observed rows are shown.";
+    else if(!st.availability.available) out.note="The SOC-standardized comparison is unavailable here ("+(st.reason||"insufficient common support")+"); observed rows are shown.";
+    else{
+      const rows={};
+      drawn.forEach(l=>{
+        const b=st.bars[l], o=obs.rows[l]||{};
+        if(b) rows[l]={eff:b.standardized,ci95:b.ci95Days,massRange:b.massRange,bNat:b.bNat,status:b.status==="supported"?"supported":"failed",statusReason:b.status==="supported"?null:"interval unidentified",n:o.n,drives:o.drives,days:o.days,observedOnCommonBands:b.observedOnCommonBands,observedAllSoc:b.observedAllSoc,ciSuppressed:b.ciSuppressed};
+        else rows[l]={eff:null,status:"empty",statusReason:"unsupported for the SOC-standardized comparison (dropped or no common support)",n:o.n,drives:o.drives,days:o.days};
+      });
+      out.rows=rows; out.extent=st.extent; out.narrative=st.narrative; out.basisUsed="standardized";
+      out.steps=(st.adjacentDifferences||[]).map(d=>({a:d.a,b:d.b,stepPp:d.standardizedDiffPp,ci95Days:d.ci95Days,gapBetween:d.gapBetween,label:d.label,basis:"SOC-standardized bars"}));
+      out.std={coverage:st.availability.coverage,bands:st.commonSupportBands,dropped:st.availability.droppedGroups};
+    }
+  }
+  return out;
+}
+function RegenV2Controls({D,stratum,setStratum,sel,setSel,basis,setBasis}){
+  const btn=(on)=>({padding:"3px 9px",borderRadius:5,border:"1px solid #e2e8f0",fontSize:10,background:on?"#1e293b":"#f1f5f9",color:on?"#f8fafc":"#374151",cursor:"pointer",fontWeight:on?700:400});
+  return (
+    <div data-regen-controls="v2" style={{display:"flex",flexWrap:"wrap",gap:10,alignItems:"center",justifyContent:"center",marginBottom:8,fontSize:10,color:"#475569"}}>
+      <span>Logger polling:</span>
+      {[["slow","Slow-polled"],["fast","Fast-polled"],["both","Both (side by side)"]].map(([k,l])=>(<button key={k} data-regen-stratum={k} onClick={()=>setStratum(k)} style={btn(stratum===k)}>{l}</button>))}
+      <span style={{marginLeft:8}}>SOC:</span>
+      <select data-regen-soc="sel" value={sel} onChange={e=>setSel(e.target.value)} style={{fontSize:10,padding:"2px 4px"}}>
+        {(D.socSelections||["allSoc"]).map(s=>(<option key={s} value={s}>{regenSelLabel(s)}</option>))}
+      </select>
+      <span style={{marginLeft:8}}>Basis:</span>
+      {[["observed","Observed"],["standardized","SOC-standardized"]].map(([k,l])=>(<button key={k} data-regen-basis={k} onClick={()=>setBasis(k)} style={btn(basis===k)}>{l}</button>))}
+    </div>
+  );
+}
+function RegenV2Panel({D,coh,cohName,view,stratum,sel,basis}){
+  const vk=REGEN_VIEW_KEY[view];
+  const cb=D.cohorts[coh];
+  const strata=stratum==="both"?["slow","fast"]:[stratum];
+  const picks=strata.map(s=>({s,sb:cb.strata[s],pick:regenV2Pick(cb.strata[s],vk,sel,basis)}));
+  const live=picks.filter(p=>p.pick);
+  const hi=live.map(p=>p.pick.extent?p.pick.extent[1]:null).filter(v=>v!=null);
+  const AX=regenAxis(hi.length?Math.max(...hi):0), ymax=AX.ymax;
+  const cats=live.length?live[0].pick.order:[];
+  const W=460, H=250, PL=44, PR=16, PT=22, PB=46, pw=W-PL-PR, ph=H-PT-PB;
+  const yP=v=>PT+ph-(v/ymax)*ph;
+  const gap=pw/Math.max(cats.length,1), nser=Math.max(live.length,1);
+  const isLine=view==="efficiency";
+  const bw=gap*0.62/nser;
+  const xOf=(i,k)=>PL+gap*i+gap/2+(k-(nser-1)/2)*(isLine?5:bw);
+  const bset=(r)=>(r&&r.status==="supported")||(r&&r.status==="thin");
+  const tip=(l,r,s)=>`${REGEN_STRATUM_LABEL[s]}, ${l}: ${r&&r.eff!=null?regenFmt(r.eff,2)+" %":"no estimate"}${r&&r.ci95?`, day interval ${regenFmt(r.ci95[0],2)}–${regenFmt(r.ci95[1],2)}`:""}${r&&r.massRange?`, assumed-mass range ${regenFmt(r.massRange[0],2)}–${regenFmt(r.massRange[1],2)}`:""}${r&&r.bNat!=null?`, resolution bracket b_nat ${regenFmt(r.bNat,2)} pp`:""}${r&&r.statusReason?`, ${r.statusReason}`:""}`;
+  const days0=live.map(p=>p.sb&&p.sb.design?p.sb.design.days:0);
+  const xLab=view==="temp"?"Pack temperature (mean T1–T4) at the start of the braking interval":view==="efficiency"?"Speed during braking (interpolated between speed samples), km/h":"Speed zone during braking, km/h";
+  const poly=(k)=>cats.map((l,i)=>{const r=live[k].pick.rows[l]; return (r&&r.status==="supported"&&r.eff!=null)?`${xOf(i,k)},${yP(r.eff)}`:null;}).filter(Boolean).join(" ");
+  const b6=D.b6Reference;
+  return (
+    <div data-regen-v2="panel" data-regen-view={view} data-ymax={ymax} data-nbins={cats.length} data-stratum={stratum} data-basis={live.length?live[0].pick.basisUsed:"observed"}>
+      {live.map(p=>p.pick.note?<div key={p.s} data-regen-note="basis" style={{marginBottom:6,padding:6,background:"#fffbeb",border:"1px solid #fde68a",borderRadius:6,fontSize:9.5,color:"#78350f"}}>{REGEN_STRATUM_LABEL[p.s]}: {p.pick.note}</div>:null)}
+      {picks.filter(p=>!p.pick).map(p=>(<div key={p.s} data-regen-note="nodata" style={{padding:8,background:"#f1f5f9",borderRadius:6,fontSize:10,color:"#64748b"}}>{REGEN_STRATUM_LABEL[p.s]}: no qualifying intervals in this selection{p.sb&&p.sb.reason?` (${p.sb.reason})`:""}.</div>))}
+      {live.length>0&&(
+        <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{overflow:"visible"}} data-regen-view={view==="temp"?"temp":view==="efficiency"?"speed":"zone"} data-ymax={ymax} data-nbins={cats.length}>
+          {AX.ticks.map(v=>(<g key={v}><line x1={PL} y1={yP(v)} x2={PL+pw} y2={yP(v)} stroke="#e5e7eb" strokeWidth={1}/><text x={PL-5} y={yP(v)+3} textAnchor="end" fill="#6b7280" fontSize={8}>{v}%</text></g>))}
+          {isLine&&live.map((p,k)=>(<polyline key={p.s} points={poly(k)} fill="none" stroke={REGEN_STRATUM_COLOR[p.s]} strokeWidth={1.6} opacity={0.8}/>))}
+          {cats.map((l,i)=>(
+            <g key={l}>
+              {live.map((p,k)=>{
+                const r=p.pick.rows[l], x=xOf(i,k), col=REGEN_STRATUM_COLOR[p.s];
+                if(!r||r.eff==null||!bset(r)) return (<g key={p.s}><title>{tip(l,r,p.s)}</title><rect x={x-(isLine?4:bw/2)} y={PT+ph-10} width={isLine?8:bw} height={10} fill="none" stroke="#cbd5e1" strokeDasharray="3 3"/><text x={x} y={PT+ph-12} textAnchor="middle" fill="#94a3b8" fontSize={6}>{r&&r.status==="failed"?"failed":r&&r.status==="empty"&&r.statusReason&&r.statusReason.indexOf("unsupported")===0?"n/a":"no data"}</text></g>);
+                const thin=r.status==="thin";
+                return (
+                  <g key={p.s}>
+                    <title>{tip(l,r,p.s)}</title>
+                    {isLine
+                      ?<circle cx={x} cy={yP(r.eff)} r={thin?2.4:3} fill={thin?"#ffffff":col} stroke={col} strokeWidth={thin?1.2:0} strokeDasharray={thin?"2 1.5":undefined}/>
+                      :<rect x={x-bw/2} y={yP(r.eff)} width={bw} height={Math.max(PT+ph-yP(r.eff),0)} fill={thin?"none":col} stroke={col} strokeWidth={thin?1.5:0} strokeDasharray={thin?"4 3":undefined} opacity={thin?0.7:0.85} rx={2}/>}
+                    {r.ci95&&(<g stroke="#0f172a" strokeWidth={1}><line x1={x} y1={yP(r.ci95[0])} x2={x} y2={yP(r.ci95[1])}/><line x1={x-2.5} y1={yP(r.ci95[0])} x2={x+2.5} y2={yP(r.ci95[0])}/><line x1={x-2.5} y1={yP(r.ci95[1])} x2={x+2.5} y2={yP(r.ci95[1])}/></g>)}
+                    {r.bNat!=null&&(<line x1={x+(isLine?4:bw/2+2)} y1={yP(r.eff-r.bNat)} x2={x+(isLine?4:bw/2+2)} y2={yP(r.eff+r.bNat)} stroke="#b45309" strokeWidth={1.4} strokeDasharray="2 1.5"/>)}
+                    {!isLine&&(<text x={x} y={yP(r.eff)-(r.ci95?Math.max(yP(r.eff)-yP(r.ci95[1]),0)+3:4)} textAnchor="middle" fill="#0f172a" fontSize={7} fontWeight={700}>{thin?"~":""}{regenFmt(r.eff,1)}%</text>)}
+                  </g>
+                );
+              })}
+              <text x={PL+gap*i+gap/2} y={PT+ph+13} textAnchor="middle" fill="#6b7280" fontSize={view==="efficiency"?6.5:8}>{l}</text>
+              <text x={PL+gap*i+gap/2} y={PT+ph+23} textAnchor="middle" fill="#94a3b8" fontSize={6}>{live.map(p=>{const r=p.pick.rows[l]; return r&&r.n!=null?"n="+r.n:"";}).join(" / ")}</text>
+            </g>
+          ))}
+          <line x1={PL} y1={PT+ph} x2={PL+pw} y2={PT+ph} stroke="#9ca3af" strokeWidth={1.5}/>
+          <line x1={PL} y1={PT} x2={PL} y2={PT+ph} stroke="#9ca3af" strokeWidth={1.5}/>
+          <text x={PL+pw/2} y={H-2} textAnchor="middle" fill="#64748b" fontSize={9}>{xLab}</text>
+          <text x={10} y={PT+ph/2} textAnchor="middle" fill="#64748b" fontSize={9} transform={`rotate(-90,10,${PT+ph/2})`}>Apparent KE recovery (assumed mass), %</text>
+          {live.length>1&&live.map((p,k)=>(<g key={p.s}><rect x={PL+8+k*120} y={4} width={8} height={8} fill={REGEN_STRATUM_COLOR[p.s]}/><text x={PL+20+k*120} y={11} fill="#475569" fontSize={8}>{REGEN_STRATUM_LABEL[p.s]}</text></g>))}
+        </svg>
+      )}
+      {live.length>0&&(
+        <div style={{marginTop:8,padding:8,background:"#f1f5f9",borderRadius:6,fontSize:10,color:"#64748b",lineHeight:1.6}} data-regen-caption="v2">
+          <strong style={{color:"#0f172a"}}>{cohName}: cadence-stratified native apparent KE recovery (assumed mass), {regenSelLabel(sel)}, {live[0].pick.basisUsed==="standardized"?"SOC-standardized":"observed"} basis.</strong>{" "}
+          {live[0].pick.basisUsed==="standardized"
+            ?<>Standardized to the one all-cohort reference SOC mix over the common-support bands{live.map(p=>p.pick.std?` (${REGEN_STRATUM_LABEL[p.s]}: coverage ${regenFmt(100*p.pick.std.coverage,1)} %, ${p.pick.std.bands.length} bands${p.pick.std.dropped.length?`, not shown: ${p.pick.std.dropped.join(", ")}`:""})`:"").join("")}; it adjusts for SOC composition only. </>
+            :<>Observed uses the actual SOC mix of each cell. </>}
+          Bars show the estimate, the black whisker the day-clustered 95 % interval, the dotted orange bracket the resolution bracket b_nat (largest change of the cell value when the drives of the stratum are thinned); the assumed-mass range and the plateau convention range are in the table below. They are four separate quantities and are never combined. Dashed bars (~) are exploratory (below the support floors); failed and empty cells are drawn as absent with the reason in the table.
+          {live.map(p=>{const n=p.pick.narrative; return n&&n.nSupported>0?<span key={p.s} data-regen-extrema={p.s}> {REGEN_STRATUM_LABEL[p.s]}: the supported cells range from {regenFmt(n.effMin,1)} % ({n.effMinLabel}) to {regenFmt(n.effMax,1)} % ({n.effMaxLabel}); the steps next to the upper cell are {n.effMaxStepsResolved===true?"resolved":n.effMaxStepsResolved===false?"not resolved":"not evaluable"} under the step rule.</span>:null;})}
+        </div>
+      )}
+      {live.length>1&&(<div data-regen-note="both" style={{marginTop:6,padding:6,background:"#fef2f2",border:"1px solid #fecaca",borderRadius:6,fontSize:9.5,color:"#7f1d1d"}}>Not a contrast: the two polling strata differ in date, season and temperature, and the logger resolution differs; no difference between them is computed or drawn.</div>)}
+      {live.map((p,k)=>p.sb&&p.sb.design&&p.sb.design.days<5?(<div key={p.s} data-regen-note="exploratory" style={{marginTop:6,padding:6,background:"#fffbeb",border:"1px solid #fde68a",borderRadius:6,fontSize:9.5,color:"#78350f"}}>{REGEN_STRATUM_LABEL[p.s]}: exploratory, {p.sb.design.days} calendar day{p.sb.design.days===1?"":"s"} and {p.sb.design.drives} drive{p.sb.design.drives===1?"":"s"} in this selection; no interval is computed.</div>):null)}
+      {b6&&(<div data-regen-badge="b6" style={{marginTop:6,padding:6,background:"#fef2f2",border:"1px solid #fecaca",borderRadius:6,fontSize:9.5,color:"#7f1d1d"}}><strong>B6 cadence-invariance check FAILED</strong> ({b6.supportedCellsFailing} of {b6.nSupportedCells} supported cells; fast-polled drives against their thinned version). The levels depend on the logger sampling resolution; the resolution bracket b_nat is a sensitivity on data already seen, not a correction. The fast-versus-slow comparison of the paired-cadence gate is not testable and the paired-cadence protocol was not run.</div>)}
+      {live.map(p=>(
+        <Collapsible key={p.s} title={`Cell details – ${REGEN_STRATUM_LABEL[p.s]} (${p.sb.design.drives} drives, ${p.sb.design.days} days)`} subtitle="Estimate, day interval, assumed-mass range, resolution bracket, plateau convention range, support" defaultOpen={false}>
+          <div data-regen-table={p.s} style={{overflowX:"auto"}}>
+            <table style={{borderCollapse:"collapse",fontSize:9,minWidth:620}}>
+              <thead><tr>{["Cell","Estimate %","Day interval","Assumed-mass range","b_nat (pp)","Plateau convention (strict / + trimmed)","n / drives / days","Status"].map(h=>(<th key={h} style={{textAlign:"left",padding:"3px 6px",borderBottom:"1px solid #cbd5e1",color:"#0f172a"}}>{h}</th>))}</tr></thead>
+              <tbody>{p.pick.order.map(l=>{const r=p.pick.rows[l]||{}; const cv=r.conventionRange; return (
+                <tr key={l}><td style={{padding:"2px 6px"}}>{l}</td><td style={{padding:"2px 6px"}}>{regenFmt(r.eff,2)}</td>
+                  <td style={{padding:"2px 6px"}}>{r.ci95?`${regenFmt(r.ci95[0],2)}–${regenFmt(r.ci95[1],2)}`:(r.ciSuppressed?"none ("+r.ciSuppressed+")":"—")}</td>
+                  <td style={{padding:"2px 6px"}}>{r.massRange?`${regenFmt(r.massRange[0],2)}–${regenFmt(r.massRange[1],2)}`:"—"}</td>
+                  <td style={{padding:"2px 6px"}}>{r.bNat!=null?regenFmt(r.bNat,2):(r.eff!=null?"no bracket available":"—")}</td>
+                  <td style={{padding:"2px 6px"}}>{cv?`${regenFmt(cv.strictOnly,2)} / ${regenFmt(cv.keptPlusTrimmed,2)}${r.conventionSensitive?" (outside the day interval)":""}`:"—"}</td>
+                  <td style={{padding:"2px 6px"}}>{r.n!=null?`${r.n} / ${r.drives} / ${r.days}`:"—"}</td>
+                  <td style={{padding:"2px 6px"}}>{r.status}{r.statusReason?`: ${r.statusReason}`:""}</td></tr>);})}</tbody>
+            </table>
+            {p.pick.steps&&p.pick.steps.length>0&&(<div data-regen-steps={p.s} style={{marginTop:6,fontSize:9.5,color:"#475569"}}>Adjacent steps ({p.pick.steps[0].basis}): {p.pick.steps.map(s=>`${s.a} → ${s.b}: ${regenSgn(s.stepPp,2)} pp${s.ci95Days?` [${regenFmt(s.ci95Days[0],2)}, ${regenFmt(s.ci95Days[1],2)}]`:""}, ${s.label}${s.gapBetween?" (a bin without support lies between)":""}`).join("; ")}. A step is called resolved only if its day interval excludes 0 and it exceeds b_nat of both cells; unadjusted, descriptive.</div>)}
+          </div>
+        </Collapsible>
+      ))}
+      <Collapsible title="About this display" subtitle="Estimator, strata, bracket, limits" defaultOpen={false}>
+        <div data-regen-about="v2" style={{fontSize:10,color:"#475569",lineHeight:1.6}}>
+          <div>{D.label}.</div><div>{D.reading}</div>
+          <ul style={{margin:"6px 0 0 16px"}}>{(D.disclosures||[]).map((t,i)=>(<li key={i}>{t}</li>))}</ul>
+          <div style={{marginTop:6}}>Strata: {Object.values(D.strata||{}).join("; ")}. Reference SOC mix: {(D.referenceMix&&D.referenceMix.note)||""}. Cell details of the 0–10 km/h and ≥ 130 km/h speed bins are in the payload only. This section is {String(D.masterMd5).slice(0,8)}, {D.cohorts.all.strata.slow.design.drives+D.cohorts.all.strata.fast.design.drives} drives with a defined polling stratum.</div>
+        </div>
+      </Collapsible>
+    </div>
+  );
+}
+
 /* ─── CHART: Regeneration Energy Analysis ───────────────────────────────── */
 function RegenChart() {
   const [view, setView] = useState("efficiency");
+  const [rgStratum, setRgStratum] = useState("slow"), [rgSel, setRgSel] = useState("allSoc"), [rgBasis, setRgBasis] = useState("observed");
   // M253 (season-wiring): all four Regen views now read through cohortOr —
   // per-cohort arrays already existed in the pipeline (RegenByTempMeasured,
   // RegenCaptureMeasured, RegenByType/Meta, RegenByZone) but this component
@@ -3046,7 +3197,7 @@ function RegenChart() {
   // the "no data" placeholder rather than silently showing corpus-wide numbers under its label.
   const _coh=useCohort();
   if(cohortNoData(_coh,["RegenCaptureMeasured", "RegenByTempMeasured", "RegenByType", "RegenByZone"])) return <ColdNoData chart="Regenerative Energy Analysis" cohort={_coh}/>;
-  if(_coh==="compare") return <CompareMulti ids={["RegenCaptureMeasured","RegenByTempMeasured","RegenByType","RegenByZone"]}/>;
+  if(_coh==="compare") return (<div><div data-regen-note="compare" style={{marginBottom:6,padding:6,background:"#fffbeb",border:"1px solid #fde68a",borderRadius:6,fontSize:9.5,color:"#78350f"}}>Compare mode shows the legacy extraction of the regeneration section (it depends on the logger sampling cadence); the cadence-stratified display is available for each single cohort.</div><CompareMulti ids={["RegenCaptureMeasured","RegenByTempMeasured","RegenByType","RegenByZone"]}/></div>);
 
   // By temperature: real M22 KE-basis capture (engine-off decel steps, pooled by
   // pack temperature). Replaces a prior config-only illustrative model whose
@@ -3067,6 +3218,7 @@ function RegenChart() {
   const _cov = seasonalChartEntry("RegenCaptureMeasured")?.coverage?.[_coh];
   const _cohName = (_coh==="warm"?"Warm cohort":_coh==="shoulder"?"Shoulder cohort":_coh==="cold"?"Cold cohort":"All drives")
     + ((_coh!=="all" && _cov) ? ` (${_cov.n_drives} drives${_cov.independent_days!=null?`, ${_cov.independent_days} days`:""}, ${_cov.km} km)` : "");
+  const _v2 = (S.regenDisplayV2 && S.regenDisplayV2.cohorts && S.regenDisplayV2.cohorts[_coh]) ? S.regenDisplayV2 : null;      // M451: the stratified display; the legacy views below stay for payloads without it
   const TempChart = () => {
     // M427: 10 deg C bins from the payload (label = display text, incl. the winter bins below zero); colour by bin index, cold to hot
     const PAL = ["#1d4ed8","#3b82f6","#60a5fa","#4ade80","#eab308","#f97316","#ef4444","#b91c1c"];
@@ -3378,10 +3530,15 @@ function RegenChart() {
         ))}
       </div>
 
-      {view==="temp" && <TempChart/>}
-      {view==="temp" && <RegenSensitivityNote view="temp"/>}
+      {_v2 && view!=="type" && (<>
+        <RegenV2Controls D={_v2} stratum={rgStratum} setStratum={setRgStratum} sel={rgSel} setSel={setRgSel} basis={rgBasis} setBasis={setRgBasis}/>
+        <RegenV2Panel D={_v2} coh={_coh} cohName={_cohName} view={view} stratum={rgStratum} sel={rgSel} basis={rgBasis}/>
+      </>)}
+      {_v2 && view==="type" && (<div data-regen-note="type" style={{marginBottom:6,fontSize:9.5,color:"#64748b"}}>This view is not affected by the polling, SOC and basis controls of the other views.</div>)}
+      {view==="temp" && !_v2 && <TempChart/>}
+      {view==="temp" && !_v2 && <RegenSensitivityNote view="temp"/>}
 
-      {view==="efficiency" && (<>
+      {view==="efficiency" && !_v2 && (<>
         <EfficChart/>
         <div style={{marginTop:8,padding:8,background:"#f1f5f9",borderRadius:6,fontSize:10,color:"#64748b"}}>
           {/* M60 (2026-07-27): caption rewritten for the measured-only chart. The
@@ -3438,7 +3595,7 @@ function RegenChart() {
           );})()}
       </>)}
 
-      {view==="zone" && (<>
+      {view==="zone" && !_v2 && (<>
         <ZoneChart/>
         <div style={{marginTop:6,marginBottom:8,fontSize:10,color:"#64748b"}}>
           Bars = share of the engine-off braking charge energy from each speed zone (value shown inside/above bar). <span style={{color:"#7c3aed",fontWeight:600}}>◆</span> = <strong style={{color:"#0f172a"}}>apparent</strong> kinetic-energy recovery proxy — the fraction of shed kinetic energy (½·m·Δv², m≈{(()=>{const mp=S.constantProvenance?.MASS_BY_DRIVE_TYPE_KG?.value;
