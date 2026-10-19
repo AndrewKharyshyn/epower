@@ -1,3 +1,16 @@
+## M454 (2026-10-19): CLAUDE.md: close two stale bring-forward items (corpus_manifest._classify e4orce, assemble() methodology text)
+
+**Rationale.** Documentation only. Both items were verified resolved on disk: _classify returns role 'derived' for e4orce_master.csv / e4orce_ambient.csv (M207; probed with five filenames incl. a mixed-case one) and m119v2_model.assemble() carries the corrected methodology text with an import-time forbidden-phrase guard (M285). No code or number changes.
+
+**State.** `drive_master.csv` 578 rows, MD5 `a641f34d7528d004b900c151cbde3d6d`.
+
+**Gates (runs/20261013T174559Z).** build_html=ok; jsdom=ok; release_check=ok; state=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `CLAUDE.md`.
+
+
 ## M453 (2026-10-19): Language debt: two payload strings no longer call logger-derived regeneration quantities 'measured' (exact-string leaf edit + producer text + gate rule)
 
 **Rationale.** Closes the open follow-up 'regen capture fraction (measured)' / 'pack-measured charge energy'. (1) seasonalCharts.charts.RegenCaptureMeasured.statisticalUnit -> 'apparent KE recovery ratio (legacy extraction, assumed mass)' (carried leaf, no builder text; M334 precedent). (2) mountainPattern.descentBudget.note -> 'pack charge energy (integrated from the logged current and voltage)'; producer text in compute_summary_arrays.py edited identically so a future rebuild keeps it. tools/m453_wording_splice.py is an idempotent exact-string edit of those two leaves (4 changed lines in summary_arrays.json, no number touched). language_gate.py rule M453-measured-regen-wording carries the OLD wording. Dashboard rebuilt (strings only).
