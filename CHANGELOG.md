@@ -1,3 +1,16 @@
+## M457 (2026-10-19): Spec-only: regeneration programme stage MF (BMS-reported possible input power as corroborating context); Director review (revise), Rev 1.1 adopted; not frozen
+
+**Rationale.** analyses/M457_spec.md Rev 1-1.1 with the channel inventory analyses/M457_inventory (script and csv; canonical drives by channel: hp-labelled 252, kW-labelled 89, a Short variant 4, none 233 = 578; hp plateau 86.6759 / 86.7439, kW plateau 63.75; the hp unit is inferred to be metric horsepower from the plateau agreement and stays verified:false). Andrii asked for the next open item (chat, 2026-10-19). Director review: revise; adopted: unit-free primary normalized to the modal plateau within the header-defined era, sidecar cache (v2 audited cache untouched), strictly tabular primary with the standardized contrast demoted, on-plateau versus below split with 0.9 / 0.5 sensitivities, 30 s age rule (the channel is sampled about every 20-40 s), futility gate before any outcome, era x stratum cross-tab first, association-only labels, stated deviation from the outside prompt (unit-free primary), forbidden wording list. The Director's view: worth running only in the slimmed tabular form, and not running is defensible. Nothing is frozen or built; no code or number changes.
+
+**State.** `drive_master.csv` 578 rows, MD5 `a641f34d7528d004b900c151cbde3d6d`.
+
+**Gates (runs/20261013T174559Z).** build_html=ok; jsdom=ok; release_check=ok; state=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `analyses/M457_spec.md`, `analyses/M457_inventory/mf_inventory.py`, `analyses/M457_inventory/mf_inventory.csv`.
+
+
 ## M456 (2026-10-19): Spec-only: new Path A (road-load) vs Path B cross-validation; Director review (revise); milestone parked pending externally sourced road-load data
 
 **Rationale.** analyses/M456_spec.md Rev 1-1.1. Andrii approved commissioning a new cross-validation of the generator/traction headline (chat, 2026-10-19: 'yes'). Director review: revise; the pre-registered coefficient grid is acceptable only with external sources fixed before the run; the generator secondary is algebraically redundant; coast-down identification invalid; missing grade term disclosed; the historic 17.45 vs 18.00 kWh/100 km result is already known so the run cannot test the level blind; not running is defensible. A public search found no T33 e-POWER F0/F1/F2, Cd or frontal area. Status: PARKED, nothing frozen or built; the carried crossval block stays labelled historic. Resumes on Andrii's road-load data (CoC / WLTP) or an explicit decision to accept a convention-dominated literature grid. No code or number changes.
