@@ -258,6 +258,14 @@ def payload_warnings(arrays_path):
         if stale:
             warns.append(f"_artifactStamps fullConfigHash {stale} != md5(summary_config.json) {h} - stamped under a "
                          f"different config revision; under investigation (M300)")
+    # M468 (audit F03): a COMPUTED stamp that names a raw-manifest corpus hash other than the live one is listed (WARN): either the block really was not rebuilt on the live raw identity, or the stamp carries a stale upstream record; each needs a dependency explanation, never a blanket restamp
+    rm = Path(arrays_path).with_name("raw_manifest.json")
+    if rm.exists():
+        live = json.loads(rm.read_text(encoding="utf-8")).get("corpusHash")
+        lag = sorted(k for k, v in sa.get("_artifactStamps", {}).items() if isinstance(v, dict) and v.get("computationStatus") == "computed"
+                     and (v.get("upstreamHashes") or {}).get("rawManifestCorpusHash") not in (None, live))
+        if lag:
+            warns.append(f"_artifactStamps: {len(lag)} computed stamps name a raw-manifest corpus hash other than the live {live[:12]}: {lag}")
     try:
         sys.path.insert(0, str(SRC / "tools"))
         import m321_ladder_monitor as _m321

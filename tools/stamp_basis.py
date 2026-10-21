@@ -31,7 +31,10 @@ def own_basis(A, key):
                 "note": "historical provenance rebuild of %d rows (published master %s) from the former re-exports in raw/ (before M366); unchanged by later ingestions; the reference of record is masterRefitAudit"
                         % (R["nRowsRebuilt"], R["publishedMasterMD5"])}
     if key == "socHysteresisV2":
-        return {"nDrives": B["nDrivesCovered"], "masterMd5": None, "computedAt": B.get("generatedAt"), "source": "socHysteresisV2.nDrivesCovered", "note": None}
+        fresh = B.get("recomputeMode") == "fresh" and B.get("frozenBasis") is False and B.get("corpusSizeAtRecompute") == B["nDrivesCovered"] == A["meta"]["totalDrives"]
+        # M468 (audit F03): a fresh refit on the live corpus has the live master as its input basis; a carried or frozen block keeps no master claim
+        return {"nDrives": B["nDrivesCovered"], "masterMd5": A["_artifactStamps"][key].get("corpusHash") if fresh else None, "computedAt": B.get("generatedAt"),
+                "source": "socHysteresisV2.nDrivesCovered / recomputeMode=fresh / corpusSizeAtRecompute" if fresh else "socHysteresisV2.nDrivesCovered", "note": None}
     return None
 
 
@@ -62,13 +65,21 @@ def derive(A):
                     s["computationStatusNote"] = ob["note"]
         elif carried and isinstance(s.get("basisNDrives"), int):
             # M463: a carried stamp without a block-declared basis (the regen blocks) states its input basis as the carried basis recorded by restamp_ingest (never the live corpus size)
-            s["inputBasis"] = {"nDrives": s["basisNDrives"], "masterMd5": s.get("corpusHash"), "source": "carried stamp: basisNDrives, corpusHash"}
+            # M468 (audit F03): the master of a carried block is the one the block itself records (masterMd5 / studyBasis.masterMd5, else the stamp's upstream driveMasterMd5), never the live master of the stamping pass
+            Bk = A.get(k) if isinstance(A.get(k), dict) else {}
+            own_md5 = Bk.get("masterMd5") or (Bk.get("studyBasis") or {}).get("masterMd5") or (s.get("upstreamHashes") or {}).get("driveMasterMd5")
+            s["inputBasis"] = ({"nDrives": s["basisNDrives"], "masterMd5": own_md5, "source": "carried stamp: basisNDrives; block masterMd5 / studyBasis / upstreamHashes.driveMasterMd5"} if own_md5
+                               else {"nDrives": s["basisNDrives"], "masterMd5": s.get("corpusHash"), "source": "carried stamp: basisNDrives, corpusHash"})
             s["computedAt"] = s.get("generatedAt")
             s.pop("computedAtNote", None)
         else:
             s["inputBasis"] = {"nDrives": total, "masterMd5": s.get("corpusHash"), "source": "stamping pass: meta.totalDrives, corpusHash"}
             s["computedAt"] = s.get("generatedAt")
             s.pop("computedAtNote", None)
+        if k == "socHysteresisV2" and ob and ob["masterMd5"]:      # M468: fresh refit -> status computed, no stale 'NOT recomputed' note
+            s["computationStatus"] = "computed"
+            s["computationStatusNote"] = "M468: refit fresh on the live corpus (recomputeMode=fresh, corpusSizeAtRecompute equals the stamp's drive count); generatedAt is the stamping pass"
+            s.pop("carriedForward", None); s.pop("basisNDrives", None)
         if "carriedFromMaster" in s:
             s["supersededCarryNote"] = s.pop("carryForwardNote", None)
             s.pop("carriedFromMaster")
@@ -102,9 +113,20 @@ def check(A):
                 bad.append((k, "inputBasis.nDrives != the block's own declared count"))
             if k in ("masterRefitAudit", "masterRefitProvenance") and str(ib["nDrives"]) not in str(s.get("computationStatusNote")):
                 bad.append((k, "note does not state the basis count"))
+            up = (s.get("upstreamHashes") or {}).get("driveMasterMd5")
+            if up and ib.get("masterMd5") != up:
+                bad.append((k, "carried stamp: inputBasis.masterMd5 != the upstream driveMasterMd5 of its own basis"))
+            if isinstance(A.get(k), dict) and A[k].get("masterMd5") and ib.get("masterMd5") != A[k]["masterMd5"]:
+                bad.append((k, "carried stamp: inputBasis.masterMd5 != the block's own masterMd5"))
+            if ib["nDrives"] != A["meta"]["totalDrives"] and ib.get("masterMd5") == s.get("corpusHash"):
+                bad.append((k, "carried at a smaller basis but inputBasis.masterMd5 is the live master"))
         else:
             if s.get("computationStatus") == "computed" and ("basisNDrives" in s or s.get("carriedForward")):
                 bad.append((k, "computed stamp with a carry flag or basis"))
+            if s.get("computationStatus") == "computed" and "NOT recomputed" in (s.get("computationStatusNote") or ""):
+                bad.append((k, "computed stamp whose note says NOT recomputed"))
+            if k == "socHysteresisV2" and isinstance(A.get(k), dict) and (A[k].get("recomputeMode") == "fresh") != (s.get("computationStatus") == "computed"):
+                bad.append((k, "status disagrees with the block's recomputeMode"))
         if "carriedFromMaster" in s:
             bad.append((k, "outdated carriedFromMaster flag"))
     return bad

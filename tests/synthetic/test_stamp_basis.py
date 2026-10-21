@@ -42,4 +42,13 @@ assert bad(lambda X: X["_artifactStamps"]["cohortMeta"].update(includedInRelease
 assert bad(lambda X: X["_artifactStamps"]["cohortMeta"].update(carriedFromMaster=True)), "the outdated flag must fail"
 assert bad(lambda X: X["masterRefitAudit"].update(nRowsPublished=489)), "a block whose own count differs from the stamp must fail"
 assert bad(lambda X: X["_artifactStamps"]["cohortMeta"].update(computedAt="2999-01-01T00:00:00+00:00")), "computedAt after the inclusion must fail"
+# M468 (audit F03): a carried block's input master is the one it records itself, never the live master; a fresh refit is 'computed' without a NOT-recomputed note
+for k in ("regenCaptureV2Study", "regenCaptureV2HStudy", "regenSocStandardizedStudy"):
+    ib = st[k]["inputBasis"]
+    assert ib["nDrives"] == st[k]["basisNDrives"] < A["meta"]["totalDrives"] and ib["masterMd5"] == A[k]["masterMd5"] == st[k]["upstreamHashes"]["driveMasterMd5"] != st[k]["corpusHash"], k
+    assert bad(lambda X, k=k: X["_artifactStamps"][k]["inputBasis"].update(masterMd5=X["_artifactStamps"][k]["corpusHash"])), "the live master on a carried smaller basis must fail"
+sh = st["socHysteresisV2"]
+assert sh["computationStatus"] == "computed" and A["socHysteresisV2"]["recomputeMode"] == "fresh" and "NOT recomputed" not in sh["computationStatusNote"] and sh["inputBasis"]["masterMd5"] == sh["corpusHash"]
+assert bad(lambda X: X["_artifactStamps"]["socHysteresisV2"].update(computationStatusNote="This block was NOT recomputed in this build")), "computed + NOT recomputed must fail"
+assert bad(lambda X: X["socHysteresisV2"].update(recomputeMode="carriedForward")), "status computed vs recomputeMode carriedForward must fail"
 print("OK test_stamp_basis")
