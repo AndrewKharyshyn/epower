@@ -61,6 +61,8 @@ def _top(key):
 bad = [cid for cid, key in TOP.items() if json.dumps(full[cid], sort_keys=True) != json.dumps(_top(key), sort_keys=True)]
 if bad:
     print("PARITY FAILURE (per-cohort call path != released top-level):", bad); sys.exit(1)
+if "--dry-run" in sys.argv:       # M464: tools/ingest_preflight.py runs only the guard (nothing is written, m295_payload.py is not run)
+    print("PARITY OK (dry-run): %d blocks, no write" % len(TOP)); sys.exit(0)
 
 # M426: the cold cohort is built as soon as it meets the minimum support (compute_seasonal labels it 'cold'; below the minimum it is 'cold_insufficient' and stays null)
 COHORTS = ("warm", "shoulder") + (("cold",) if (dm_r.thermal_regime == "cold").any() else ())
