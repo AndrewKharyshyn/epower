@@ -73,7 +73,7 @@ def main():
     ap.add_argument("--no-journal", action="store_true", help="M416: no snapshot/rollback (development only)")
     ap.add_argument("--keep-on-failure", action="store_true", help="M416: on failure leave the mixed state in place for inspection (the journal stays open; the next run needs --recover)")
     ap.add_argument("--resume", action="store_true", help="M464: restore the longest valid prefix of the stage checkpoints of a previous failed full run (same data state, unchanged stage code) and execute only the first changed/failed stage and later ones; the journal still snapshots first and rolls back on any failure")
-    ap.add_argument("--no-checkpoints", action="store_true", help="M464: do not save stage checkpoints (full journaled runs save them by default under runs/checkpoints/)")
+    ap.add_argument("--no-checkpoints", action="store_true", help="M464: do not save stage checkpoints (full journaled runs save them by default under runs/.checkpoints/)")
     ap.add_argument("--recover", action="store_true", help="M416: roll back an interrupted or kept release from its journal, then exit")
     a = ap.parse_args()
     import release_journal as RJ

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """M464 (spec analyses/M464_spec.md): stage checkpoints for tools/run_ingest.py.
 
-After every green stage of a full journaled run the files the stage created or changed are copied to runs/checkpoints/<base>/<NN>_<id>/ together with a chain key
+After every green stage of a full journaled run the files the stage created or changed are copied to runs/.checkpoints/<base>/<NN>_<id>/ together with a chain key
 K_i = H(K_{i-1}, stage id, code hash of the stage). `run_ingest.py --resume` restores the longest prefix of the stored chain whose keys equal the recomputed ones and
 executes only the first stage whose code (or any earlier input) changed and everything after it. The data state excludes source files and documentation-like inputs (they
 are tracked through the stage code hash, which follows the static import closure and string constants naming repository files), so a code fix invalidates its own stage and
@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import release_journal as RJ
 
 SRC_EXT = (".py", ".js", ".jsx", ".sh")
-STORE = os.path.join("runs", "checkpoints")
+STORE = os.path.join("runs", ".checkpoints")
 EXTRA_EXCLUDE_TOP = {"regen_cache"}                      # content-keyed cache: not part of the data state
 CODELIKE_PREFIX = ("docs/", "tests/", "snapshots/")
 CODELIKE_FILES = ("tools/ingest_stages.json", "CHANGELOG.md", "CLAUDE.md", "STATE.md", "state.json")

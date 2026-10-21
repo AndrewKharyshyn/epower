@@ -101,7 +101,7 @@ def main():
         assert [s["status"] for s in st["stages"]] == ["restored_from_checkpoint", "restored_from_checkpoint", "ok"], st["stages"]
         assert st["checkpoint"]["restoredStages"] == 2 and st["checkpoint"]["resumed"], st["checkpoint"]
         assert open(os.path.join(root, "data", "c.txt")).read() == "c:b:a:in"
-        cpd = os.path.join(root, "runs", "checkpoints")
+        cpd = os.path.join(root, "runs", ".checkpoints")
         assert not (os.path.isdir(cpd) and os.listdir(cpd)), "a green full run discards its chain"
         # 3. code fix of stage b (through its imported helper) invalidates b and c, not a
         shutil.rmtree(os.path.join(root, "data")); write(os.path.join(root, "data", "in.txt"), "in")
@@ -122,7 +122,7 @@ def main():
         assert executed(L("7")) == ["a", "b", "c"], executed(L("7"))
         assert not st["checkpoint"]["resumed"], st["checkpoint"]
         # 6. --resume without any chain behaves as a normal run
-        shutil.rmtree(os.path.join(root, "runs", "checkpoints"), ignore_errors=True)
+        shutil.rmtree(os.path.join(root, "runs", ".checkpoints"), ignore_errors=True)
         write(os.path.join(root, "tools", "c_flag.txt"), "OK")
         rc, st, _ = run(root, L("8"), "--resume")
         assert rc == 0 and executed(L("8")) == ["a", "b", "c"] and st["checkpoint"]["resumed"] is False, (rc, st.get("checkpoint"))
