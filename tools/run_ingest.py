@@ -72,6 +72,8 @@ def main():
                          "preflight/build_html/jsdom/release_check/state always run (tools/run_fingerprint.py)")
     ap.add_argument("--no-journal", action="store_true", help="M416: no snapshot/rollback (development only)")
     ap.add_argument("--keep-on-failure", action="store_true", help="M416: on failure leave the mixed state in place for inspection (the journal stays open; the next run needs --recover)")
+    ap.add_argument("--resume", action="store_true", help="M464: restore the longest valid prefix of the stage checkpoints of a previous failed full run (same data state, unchanged stage code) and execute only the first changed/failed stage and later ones; the journal still snapshots first and rolls back on any failure")
+    ap.add_argument("--no-checkpoints", action="store_true", help="M464: do not save stage checkpoints (full journaled runs save them by default under runs/.checkpoints/)")
     ap.add_argument("--recover", action="store_true", help="M416: roll back an interrupted or kept release from its journal, then exit")
     a = ap.parse_args()
     import release_journal as RJ
@@ -131,8 +133,30 @@ def main():
         env["XT_RAW_DIR"] = want
     status = {"run": ts, "stages": [], "result": "ok"}
     rc_final = 0
+    cp, k_restored = None, 0
     try:
-        for s in stages:
+        if journal is not None and full_run and not skip_ids and not a.skip_unchanged and not a.no_checkpoints:
+            import ingest_checkpoint as ICP
+            cp = ICP.Checkpoints(ROOT, cfg["stages"])
+        elif a.resume:
+            print("run_ingest: --resume needs a full journaled run with checkpoints (no --only/--from/--skip/--no-journal/--skip-unchanged/--no-checkpoints): running normally", file=sys.stderr)
+        if cp is not None:
+            cp.begin()
+            if a.resume:
+                try:
+                    k_restored, cinfo = cp.try_restore()
+                except Exception as ex:                       # CheckpointError, or a corrupt entry / failed copy: discard the chain, roll back
+                    cp.discard()                                  # a chain that cannot be restored must not fail every later --resume
+                    k_restored, cinfo = -1, {"reason": "restore failed: %s" % ex}
+                status["checkpoint"] = dict(cinfo, resumed=k_restored > 0)
+                print("run_ingest: --resume: %s" % json.dumps(status["checkpoint"]), file=sys.stderr)
+                if k_restored < 0:
+                    raise RuntimeError("checkpoint restore failed: " + cinfo["reason"])
+        for idx, s in enumerate(stages):
+            if idx < k_restored and not s.get("rerun_on_resume"):     # rerun_on_resume: stage writes state outside the checkpointed data state (raw_only/); idempotent, re-executed after a restore
+                status["stages"].append({"id": s["id"], "rc": 0, "seconds": 0.0, "status": "restored_from_checkpoint",
+                                         "outputs": {o: sha(os.path.join(ROOT, o)) for o in s.get("outputs", [])}})
+                continue
             if s["id"] in skip_ids:
                 status["stages"].append({"id": s["id"], "rc": None, "seconds": 0.0, "status": "skipped_unchanged", "reason": skip_reason})
                 continue
@@ -152,6 +176,8 @@ def main():
             else:
                 rec["status"] = "ok" if r.returncode == 0 else "gate_failed"
             status["stages"].append(rec)
+            if rec["status"] == "ok" and cp is not None and idx >= k_restored:
+                cp.save(s)
             if rec["status"] != "ok":
                 status["result"] = rec["status"]
                 tail = open(log, errors="replace").read().splitlines()[-50:]
@@ -164,6 +190,11 @@ def main():
             rb = journal.rollback("exception: %r" % (ex,)) if not a.keep_on_failure else journal.keep_for_debug("exception: %r" % (ex,))
             print(json.dumps({"journal": rb["state"], "run": ts}), file=sys.stderr)
         raise
+    if cp is not None:
+        if cp.notes:
+            status.setdefault("checkpoint", {})["notes"] = cp.notes[:5]
+        if status["result"] == "ok":
+            cp.discard()                                          # a green full run needs no chain
     if journal is not None:
         declared = {o for st in cfg["stages"] for o in (st.get("outputs") or [])}
         if status["result"] == "ok":

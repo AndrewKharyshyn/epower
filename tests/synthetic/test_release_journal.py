@@ -15,7 +15,7 @@ def stage(sid, code, outputs=None):
 def make_root(fail_at=None, crash_at=None, extra_raw_at=None):
     t = tempfile.mkdtemp(prefix="rj_")
     os.makedirs(os.path.join(t, "tools"))
-    for f in ("run_ingest.py", "release_journal.py", "run_fingerprint.py"):
+    for f in ("run_ingest.py", "release_journal.py", "run_fingerprint.py", "ingest_checkpoint.py"):
         shutil.copy(os.path.join(ROOT, "tools", f), os.path.join(t, "tools", f))
     os.makedirs(os.path.join(t, "raw")); os.makedirs(os.path.join(t, "sub"))
     for n, c in (("a.txt", "A1"), ("b.txt", "B1"), ("c.txt", "C1"), ("sub/d.txt", "D1")):

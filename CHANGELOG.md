@@ -10,6 +10,17 @@
 
 **Files.** `xtrail_summary.jsx`, `m297_comparison_cube.py`, `tools/fuel_analytics2.py`, `dump_tabs.js`, `semantic_gate.py`, `tools/m464_diff_check.py`, `tests/synthetic/test_m464_cold_extension.py`.
 
+## M464 (2026-10-21): Ingestion tooling: stage checkpoints (--resume), sandboxed fast preflight, synthetic grown-corpus test
+
+**Rationale.** Ingestion M463 lost three full 40-50 min pipeline reruns to late-stage tooling failures (m296 parity guard, regen_v2 study locks, regen_display stale blocks) because a failed journaled gate rolls back everything. Tooling only (analyses/M464_spec.md Rev 1.2; Sonnet blind audit revise -> three blocking findings fixed -> targeted re-check accept; Director accept with conditions): tools/ingest_checkpoint.py + run_ingest.py --resume restore the longest valid prefix of per-stage checkpoints (code-hash closure per stage, data-state base key) and re-run only the changed/failed stage and later ones, with journal and rollback unchanged; tools/ingest_preflight.py runs the m296 parity guard (new --dry-run flag) and regen_v2 --dry-run in a sandbox; three tests added to CI (checkpoint end-to-end on a toy chain, preflight, grown-corpus m296 parity with one synthetic drive and a negative control). No estimator, threshold, payload key or displayed figure changed. OPEN condition before the first production --resume: one real-corpus no-new-drive check (full run vs resume from a midpoint), not run in this worktree; any ingestion using --resume must record the restored stage ids and the status.json checkpoint block in its CHANGELOG entry.
+
+**State.** `drive_master.csv` 606 rows, MD5 `5556a0c6c8bcde0f6c64b8b9655208ed`.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `analyses/M464_spec.md`, `tools/ingest_checkpoint.py`, `tools/ingest_preflight.py`, `tools/run_ingest.py`, `tools/ingest_stages.json`, `m296_refresh_master_seasonal.py`, `tests/synthetic/test_ingest_checkpoint.py`, `tests/synthetic/test_ingest_preflight.py`, `tests/synthetic/test_ingest_grown_corpus.py`, `.github/workflows/ci.yml`.
+
+
 
 ## M463 (2026-10-20): Ingestion of 28 drives (Oct 13-17, 2026): corpus 578 -> 606; M119 recomputed; M119-v2 refit on 606 drives (owner decision); GTR-family and regen blocks carried and labelled
 
