@@ -102,6 +102,42 @@ def diff_blocks(old, new):
     return out
 
 
+def _stops_sha(delta):
+    """Content hash of the (rule, path) lists of the stops and the escalations (what an acknowledgement is bound to)."""
+    return sha_obj({"stops": sorted((x["rule"], str(x["path"])) for x in delta["stops"]), "escalations": sorted((x["rule"], str(x["path"])) for x in delta["escalations"])})
+
+
+def sha_obj(o):
+    return hashlib.sha256(json.dumps(o, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")).hexdigest()
+
+
+def apply_ack(delta, ack, master_md5, perdrive_sha):
+    """M466 (Director ruling analyses/M466_gtr_closure_director_ruling.json): ONE narrowly scoped acknowledgement of the closure-refresh stops. Accepted iff the ack cites a ruling, is bound to the live
+    drive_master MD5, to the sha256 of the per-drive closure file and to the content hash of the (rule, path) lists, and names EXACTLY the actual stops and escalations (no more, no fewer). Any other
+    stop (key set, type, CI exit, allow-list) is part of the actual list and therefore makes the acknowledgement refuse. Returns (problems, record): problems is [] on success."""
+    actual_s = sorted((x["rule"], str(x["path"])) for x in delta["stops"])
+    actual_e = sorted((x["rule"], str(x["path"])) for x in delta["escalations"])
+    why = []
+    if not ack.get("ruling"):
+        why.append("no ruling reference")
+    if ack.get("driveMasterMd5") != master_md5:
+        why.append("bound to a different drive_master.csv MD5")
+    if ack.get("perDriveSha256") != perdrive_sha:
+        why.append("bound to a different per-drive closure file")
+    if ack.get("stopsSha256") != _stops_sha(delta):
+        why.append("bound to different stop / escalation lists")
+    ack_s = sorted((x["rule"], str(x["path"])) for x in ack.get("stops", []))
+    ack_e = sorted((x["rule"], str(x["path"])) for x in ack.get("escalations", []))
+    if ack_s != actual_s or ack_e != actual_e:
+        why.append("acknowledged stops/escalations differ from the actual ones")
+    if not actual_s and not actual_e:
+        why.append("nothing to acknowledge")
+    if why:
+        return ["closure acknowledgement refused: " + "; ".join(why)], None
+    return [], {"ruling": ack["ruling"], "driveMasterMd5": master_md5, "perDriveSha256": perdrive_sha, "stopsSha256": ack["stopsSha256"], "stops": ack["stops"], "escalations": ack["escalations"],
+                "scope": "exactly the listed stops and escalations; every other stop stays unacknowledgeable"}
+
+
 def splice_plan(A, blk):
     """Pure: the new arrays (gtrClosure replaced, gtrClosure removed from staleBlocks) or a list of problems."""
     new = copy.deepcopy(A)
@@ -166,6 +202,15 @@ def main():
     with open("analyses/gtr_closure_delta.json", "w", encoding="utf-8", newline="\n") as f:
         f.write(json.dumps(delta, indent=1, ensure_ascii=False) + "\n")
     problems = [f"{s['rule']} @ {s['path']}" for s in delta["stops"]] + [f"ESCALATION {e['rule']} @ {e['path']}" for e in delta["escalations"]]
+    if problems and os.environ.get("XT_ACK_GTR_CLOSURE"):
+        ack = json.load(open(os.environ["XT_ACK_GTR_CLOSURE"], encoding="utf-8"))
+        problems, rec_ack = apply_ack(delta, ack, __import__("hashlib").md5(open("drive_master.csv", "rb").read()).hexdigest(), sha("analyses/M377c_closure_perdrive.csv"))
+        if rec_ack:
+            delta["acknowledgement"] = rec_ack
+        else:
+            delta["acknowledgementRefused"] = problems[0]
+        with open("analyses/gtr_closure_delta.json", "w", encoding="utf-8", newline="\n") as f:
+            f.write(json.dumps(delta, indent=1, ensure_ascii=False) + "\n")
     if problems:
         print("STOP (Director): " + "; ".join(problems[:8]), file=sys.stderr)
         sys.exit(3)

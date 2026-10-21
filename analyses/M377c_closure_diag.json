@@ -2,9 +2,9 @@
  "milestone": "M377c",
  "step": 1,
  "basis": "raw/ = sha256-verified originals (M366); canonical-clean (ens_outlier_v2 False), distance>0, fuel PID",
- "n_drives": 346,
- "n_days": 63,
- "km": 2593.9399999999996,
+ "n_drives": 374,
+ "n_days": 67,
+ "km": 3716.84,
  "skipped": {
   "no_file": 0,
   "no_fuel": 224,
@@ -13,45 +13,45 @@
   "no_battery_inputs": 3
  },
  "per100km_totals": {
-  "E_gen": 16.029,
-  "E_gen_ps": 16.029,
-  "g2t": 8.731,
-  "g2b_master": 8.387,
-  "g2b_model": 7.298,
-  "eng_only": 5.573,
-  "dual": 2.814,
-  "regen": 3.065,
-  "b2t": 9.999,
-  "trac": 18.73,
-  "excess": 1.089,
-  "excess_engonly": -1.725,
-  "excess_ps": 1.089,
+  "E_gen": 15.893,
+  "E_gen_ps": 15.893,
+  "g2t": 9.474,
+  "g2b_master": 7.28,
+  "g2b_model": 6.418,
+  "eng_only": 4.999,
+  "dual": 2.282,
+  "regen": 2.683,
+  "b2t": 8.808,
+  "trac": 18.282,
+  "excess": 0.862,
+  "excess_engonly": -1.42,
+  "excess_ps": 0.862,
   "gen_def_gap": 0.0,
-  "batt_resid": 1.453,
-  "batt_resid_modelg2b": 0.364
+  "batt_resid": 1.156,
+  "batt_resid_modelg2b": 0.294
  },
  "relative_to_generator": {
   "excess": {
-   "est": 0.068,
+   "est": 0.0542,
    "ci95": [
-    0.0537,
-    0.0863
+    0.0423,
+    0.0729
    ],
    "closed": false
   },
   "excess_engonly": {
-   "est": -0.1076,
+   "est": -0.0893,
    "ci95": [
-    -0.1346,
-    -0.0869
+    -0.1167,
+    -0.0718
    ],
    "closed": false
   },
   "excess_ps": {
-   "est": 0.068,
+   "est": 0.0542,
    "ci95": [
-    0.0537,
-    0.0863
+    0.0423,
+    0.0729
    ],
    "closed": false
   },
@@ -67,64 +67,240 @@
  "closure_rule": "95% day-clustered CI of excess/E_gen inside +/-5% overall and per drive-type stratum with n>=10",
  "strata": {
   "highway": {
-   "n": 2,
-   "days": 1,
+   "n": 5,
+   "days": 3,
    "excess_rel": "n<10: not evaluated"
   },
   "mixed": {
-   "n": 14,
-   "days": 12,
+   "n": 18,
+   "days": 15,
    "excess_rel": {
-    "est": 0.0352,
+    "est": 0.0323,
     "ci95": [
-     0.0273,
-     0.0416
+     0.0225,
+     0.0398
     ],
     "closed": true
    }
   },
   "mixed_highway": {
-   "n": 7,
-   "days": 4,
-   "excess_rel": "n<10: not evaluated"
+   "n": 10,
+   "days": 6,
+   "excess_rel": {
+    "est": 0.026,
+    "ci95": [
+     0.0162,
+     0.0366
+    ],
+    "closed": true
+   }
   },
   "urban": {
-   "n": 323,
-   "days": 63,
+   "n": 341,
+   "days": 66,
    "excess_rel": {
-    "est": 0.0944,
+    "est": 0.0877,
     "ci95": [
-     0.0831,
-     0.1073
+     0.0757,
+     0.1013
     ],
     "closed": false
    }
   }
  },
  "exploratory_corr_with_excess_per_km": {
-  "dual_share": 0.652,
-  "gen_per_km": 0.187,
-  "gen_def_gap": 0.036
+  "dual_share": 0.656,
+  "gen_per_km": 0.207,
+  "gen_def_gap": 0.041
  },
- "share_drives_excess_positive": 0.867,
- "share_dual_in_g2b_master": 0.3356,
+ "share_drives_excess_positive": 0.872,
+ "share_dual_in_g2b_master": 0.3134,
  "m372": {
   "checks": {
    "rawOriginals": {
-    "nChecked": 346,
+    "nChecked": 374,
     "nMismatch": 0
    },
    "flags": {
-    "nCompared": 566,
+    "nCompared": 594,
     "nDiverging": 0
    },
    "expectedSet": {
-    "nDrives": 346,
-    "nDays": 63,
-    "km": 2593.9,
+    "nDrives": 374,
+    "nDays": 67,
+    "km": 3716.8,
     "nPrevious": 346,
-    "nNew": 0,
-    "newIds": [],
+    "nNew": 28,
+    "newIds": [
+     {
+      "file": "2026-10-13_15-41-11.csv",
+      "date": "2026-10-13",
+      "km": 1.0,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-13_16-00-43.csv",
+      "date": "2026-10-13",
+      "km": 1.0,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-13_19-47-36.csv",
+      "date": "2026-10-13",
+      "km": 2.2,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-13_20-04-05.csv",
+      "date": "2026-10-13",
+      "km": 26.5,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-13_21-52-23.csv",
+      "date": "2026-10-13",
+      "km": 2.4,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-13_22-08-01.csv",
+      "date": "2026-10-13",
+      "km": 22.0,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-13_22-55-32.csv",
+      "date": "2026-10-13",
+      "km": 2.4,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-14_06-51-43.csv",
+      "date": "2026-10-14",
+      "km": 183.0,
+      "type": "highway"
+     },
+     {
+      "file": "2026-10-14_09-29-12.csv",
+      "date": "2026-10-14",
+      "km": 128.9,
+      "type": "highway"
+     },
+     {
+      "file": "2026-10-14_22-25-29.csv",
+      "date": "2026-10-14",
+      "km": 44.9,
+      "type": "mixed"
+     },
+     {
+      "file": "2026-10-15_08-07-05.csv",
+      "date": "2026-10-15",
+      "km": 29.9,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-15_09-37-09.csv",
+      "date": "2026-10-15",
+      "km": 21.7,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-15_10-19-34.csv",
+      "date": "2026-10-15",
+      "km": 5.9,
+      "type": "mixed_highway"
+     },
+     {
+      "file": "2026-10-15_10-40-56.csv",
+      "date": "2026-10-15",
+      "km": 3.9,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-15_13-55-10.csv",
+      "date": "2026-10-15",
+      "km": 26.4,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-15_14-57-44.csv",
+      "date": "2026-10-15",
+      "km": 30.1,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-15_18-30-00.csv",
+      "date": "2026-10-15",
+      "km": 44.0,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-16_07-52-05.csv",
+      "date": "2026-10-16",
+      "km": 44.7,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-16_19-23-56.csv",
+      "date": "2026-10-16",
+      "km": 44.1,
+      "type": "mixed"
+     },
+     {
+      "file": "2026-10-17_10-09-49.csv",
+      "date": "2026-10-17",
+      "km": 43.9,
+      "type": "mixed_highway"
+     },
+     {
+      "file": "2026-10-17_11-45-33.csv",
+      "date": "2026-10-17",
+      "km": 8.2,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-17_12-42-21.csv",
+      "date": "2026-10-17",
+      "km": 6.2,
+      "type": "mixed"
+     },
+     {
+      "file": "2026-10-17_14-02-26.csv",
+      "date": "2026-10-17",
+      "km": 68.8,
+      "type": "mixed"
+     },
+     {
+      "file": "2026-10-17_16-05-39.csv",
+      "date": "2026-10-17",
+      "km": 138.0,
+      "type": "highway"
+     },
+     {
+      "file": "2026-10-17_18-22-49.csv",
+      "date": "2026-10-17",
+      "km": 186.2,
+      "type": "mixed_highway"
+     },
+     {
+      "file": "2026-10-17_22-01-20.csv",
+      "date": "2026-10-17",
+      "km": 1.9,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-17_22-20-41.csv",
+      "date": "2026-10-17",
+      "km": 2.4,
+      "type": "urban"
+     },
+     {
+      "file": "2026-10-17_23-13-01.csv",
+      "date": "2026-10-17",
+      "km": 2.3,
+      "type": "urban"
+     }
+    ],
     "previousPerDrive": {
      "path": "analyses/closure_baselines/perdrive_346drives.csv",
      "sha256": "ef1d1f41ce20c53522fede92886e1f2f3c9dacbba6566b3616fbd04c85475e18",
@@ -132,12 +308,113 @@
      "master": "a641f34d7528d004b900c151cbde3d6d"
     }
    },
+   "repin": {
+    "previousPerDrive": {
+     "path": "analyses/closure_baselines/perdrive_346drives_recal_5556a0c6.csv",
+     "sha256": "43bae98150071b554a696dc223da174a30eff636d4cd33d2d163db605700e472",
+     "nDrives": 346,
+     "master": "5556a0c6c8bcde0f6c64b8b9655208ed"
+    },
+    "repinnedFrom": {
+     "path": "analyses/closure_baselines/perdrive_346drives.csv",
+     "sha256": "ef1d1f41ce20c53522fede92886e1f2f3c9dacbba6566b3616fbd04c85475e18",
+     "nDrives": 346,
+     "master": "a641f34d7528d004b900c151cbde3d6d"
+    },
+    "repinReason": "auto (M398): closure drift attributed to the recalibrated offset columns (hybrid run reproduces the pin exactly; changed columns ['I_offset_2p_A_applied', 'I_offset_A_applied', 'cell_spread_loaded_p95_adj_hub_mv', 'cell_spread_loaded_p95_adj_mv', 'energy_residual_kwh_corr', 'energy_residual_kwh_corr2p', 'net_draw_kwh_corr', 'net_draw_kwh_corr2p', 'net_draw_per100km_corr', 'net_draw_per100km_corr2p', 'offset_2p_kwh_removed', 'offset_kwh_removed'])",
+    "note": "re-pinned automatically (M398): closure drift attributed to the recalibrated offset columns, hybrid run reproduces the previous pin exactly; identity stays exact (1e-5) for later runs",
+    "attribution": {
+     "rule": "M398",
+     "pinMasterEqualsCommittedMaster": true,
+     "masterColumnsChangedOnPreviousIds": [
+      "I_offset_2p_A_applied",
+      "I_offset_A_applied",
+      "cell_spread_loaded_p95_adj_hub_mv",
+      "cell_spread_loaded_p95_adj_mv",
+      "energy_residual_kwh_corr",
+      "energy_residual_kwh_corr2p",
+      "net_draw_kwh_corr",
+      "net_draw_kwh_corr2p",
+      "net_draw_per100km_corr",
+      "net_draw_per100km_corr2p",
+      "offset_2p_kwh_removed",
+      "offset_kwh_removed"
+     ],
+     "allWithinRecalibrationColumns": true,
+     "hybridRunIdentityExact": true,
+     "nPrevious": 346,
+     "tolerance": {
+      "maxAbs": 0.001,
+      "colSumRelChange": 0.001
+     },
+     "driftColumns": {
+      "g2t": {
+       "nDrivesChanged": 103,
+       "maxAbs": 0.00014,
+       "colSumRelChange": 9.27e-06
+      },
+      "trac": {
+       "nDrivesChanged": 94,
+       "maxAbs": 9e-05,
+       "colSumRelChange": 9.5e-07
+      },
+      "b2t": {
+       "nDrivesChanged": 83,
+       "maxAbs": 6e-05,
+       "colSumRelChange": 6.17e-06
+      },
+      "g2b_model": {
+       "nDrivesChanged": 100,
+       "maxAbs": 0.00014,
+       "colSumRelChange": 1.115e-05
+      },
+      "excess": {
+       "nDrivesChanged": 80,
+       "maxAbs": 0.00014,
+       "colSumRelChange": 7.468e-05
+      },
+      "excess_engonly": {
+       "nDrivesChanged": 89,
+       "maxAbs": 0.00014,
+       "colSumRelChange": 4.715e-05
+      },
+      "excess_ps": {
+       "nDrivesChanged": 80,
+       "maxAbs": 0.00014,
+       "colSumRelChange": 7.468e-05
+      },
+      "batt_resid": {
+       "nDrivesChanged": 79,
+       "maxAbs": 6e-05,
+       "colSumRelChange": 4.245e-05
+      },
+      "batt_resid_modelg2b": {
+       "nDrivesChanged": 73,
+       "maxAbs": 9e-05,
+       "colSumRelChange": 6.673e-05
+      }
+     },
+     "nDrivesChangedConvention": "at >1e-5 on 5-dp rounded values (descriptive only; the decision uses maxAbs and colSumRelChange)",
+     "cumulativeVsOriginalPin": null
+    },
+    "originalPin": {
+     "path": "analyses/closure_baselines/perdrive_346drives.csv",
+     "sha256": "ef1d1f41ce20c53522fede92886e1f2f3c9dacbba6566b3616fbd04c85475e18",
+     "nDrives": 346,
+     "master": "a641f34d7528d004b900c151cbde3d6d"
+    }
+   },
    "previousIdentity": {
-    "nIdentical": 346,
-    "columns": 23
+    "attributedRecalibrationDrift": true,
+    "newPin": {
+     "path": "analyses/closure_baselines/perdrive_346drives_recal_5556a0c6.csv",
+     "sha256": "43bae98150071b554a696dc223da174a30eff636d4cd33d2d163db605700e472",
+     "nDrives": 346,
+     "master": "5556a0c6c8bcde0f6c64b8b9655208ed"
+    }
    }
   },
-  "scriptGit": "3dadee1",
+  "scriptGit": "e015f66",
   "summaryArraysSha256Start": ""
  }
 }

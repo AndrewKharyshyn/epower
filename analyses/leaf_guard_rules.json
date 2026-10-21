@@ -473,5 +473,167 @@
   "condition": "two_part_switch",
   "matchPrefix": true,
   "threshold": 0.25
+ },
+ {
+  "id": "m466-regen-row-flagAbove100",
+  "rationale": "M466: regen refresh on the 606-drive corpus (analyses/M466_spec.md): a flagAbove100 marker of a display row may vanish only from a row whose eff changed (the marker is written only while eff > 100).",
+  "milestone": "M466",
+  "pathTemplate": "regenDisplayV2/cohorts/{key}/strata/{key}/views/{key}/bySoc/{key}/rows/{key}/flagAbove100",
+  "condition": "field_changed",
+  "entryDepth": 11,
+  "field": "eff"
+ },
+ {
+  "id": "m466-regen-row-ciSuppressed",
+  "rationale": "M466: regen refresh on the 606-drive corpus (analyses/M466_spec.md): a ciSuppressed marker (written while days < 5 and the interval exists) may vanish only from a row whose status changed or whose calendar-day count changed (a row that became 'failed' has no interval to suppress).",
+  "milestone": "M466",
+  "pathTemplate": "regenDisplayV2/cohorts/{key}/strata/{key}/views/{key}/bySoc/{key}/rows/{key}/ciSuppressed",
+  "condition": "field_changed",
+  "entryDepth": 11,
+  "field": "days"
+ },
+ {
+  "id": "m466-regen-narrative-thin",
+  "rationale": "M466: regen refresh on the 606-drive corpus (analyses/M466_spec.md): the list of thin rows in a narrative is derived from the row statuses; it may shorten only where the narrative changed.",
+  "milestone": "M466",
+  "pathTemplate": "regenDisplayV2/cohorts/{key}/strata/{key}/views/{key}/bySoc/{key}/narrative/thin/{i}",
+  "condition": "field_changed",
+  "entryDepth": 9,
+  "field": "narrative"
+ },
+ {
+  "id": "m466-regen-extent",
+  "rationale": "M466: regen refresh on the 606-drive corpus (analyses/M466_spec.md): the extent list is derived from the drawn rows; it may shorten only where the extent changed.",
+  "milestone": "M466",
+  "pathTemplate": "regenDisplayV2/cohorts/{key}/strata/{key}/views/{key}/bySoc/{key}/extent/{i}",
+  "condition": "field_changed",
+  "entryDepth": 9,
+  "field": "extent"
+ },
+ {
+  "id": "m466-regen-v2-flagAbove100",
+  "rationale": "M466: regen refresh on the 606-drive corpus (analyses/M466_spec.md): as m466-regen-row-flagAbove100, for the observed regenCaptureV2 cells.",
+  "milestone": "M466",
+  "pathTemplate": "regenCaptureV2/cohorts/{key}/views/speed/{key}/{key}/flagAbove100",
+  "condition": "field_changed",
+  "entryDepth": 7,
+  "field": "eff"
+ },
+ {
+  "id": "m466-regen-std-commonSupportBands",
+  "rationale": "M466: regen refresh on the 606-drive corpus (analyses/M466_spec.md): the common-support SOC bands of a standardized view may change with the added drives (M446 O7 flag shoulder bands changed, cold bands empty); a vanished list entry needs a changed list.",
+  "milestone": "M466",
+  "pathTemplate": "regenSocStandardized/cohorts/{key}/{key}/commonSupportBands/{i}",
+  "condition": "field_changed",
+  "entryDepth": 4,
+  "field": "commonSupportBands"
+ },
+ {
+  "id": "m466-regen-legacy-materialBins",
+  "rationale": "M466: regen refresh on the 606-drive corpus (analyses/M466_spec.md): the list of bins with a material defect is derived from the re-run study; it may shorten only where the list changed.",
+  "milestone": "M466",
+  "pathTemplate": "regenLegacySensitivity/cohorts/{key}/variants/{key}/materialBins/{i}",
+  "condition": "field_changed",
+  "entryDepth": 5,
+  "field": "materialBins"
+ },
+ {
+  "id": "m466-stamp-regenCaptureV2-carriedForward",
+  "rationale": "M466: regen refresh on the 606-drive corpus (analyses/M466_spec.md): the stamp of regenCaptureV2 changes from carried (basis 578) to computed on the live corpus; the carried-only leaf carriedForward may vanish only when generatedAt changed.",
+  "milestone": "M466",
+  "pathTemplate": "_artifactStamps/regenCaptureV2/carriedForward",
+  "condition": "field_changed",
+  "entryDepth": 2,
+  "field": "generatedAt"
+ },
+ {
+  "id": "m466-stamp-regenCaptureV2-basisNDrives",
+  "rationale": "M466: regen refresh on the 606-drive corpus (analyses/M466_spec.md): the stamp of regenCaptureV2 changes from carried (basis 578) to computed on the live corpus; the carried-only leaf basisNDrives may vanish only when generatedAt changed.",
+  "milestone": "M466",
+  "pathTemplate": "_artifactStamps/regenCaptureV2/basisNDrives",
+  "condition": "field_changed",
+  "entryDepth": 2,
+  "field": "generatedAt"
+ },
+ {
+  "id": "m466-stamp-regenCaptureV2H-carriedForward",
+  "rationale": "M466: regen refresh on the 606-drive corpus (analyses/M466_spec.md): the stamp of regenCaptureV2H changes from carried (basis 578) to computed on the live corpus; the carried-only leaf carriedForward may vanish only when generatedAt changed.",
+  "milestone": "M466",
+  "pathTemplate": "_artifactStamps/regenCaptureV2H/carriedForward",
+  "condition": "field_changed",
+  "entryDepth": 2,
+  "field": "generatedAt"
+ },
+ {
+  "id": "m466-stamp-regenCaptureV2H-basisNDrives",
+  "rationale": "M466: regen refresh on the 606-drive corpus (analyses/M466_spec.md): the stamp of regenCaptureV2H changes from carried (basis 578) to computed on the live corpus; the carried-only leaf basisNDrives may vanish only when generatedAt changed.",
+  "milestone": "M466",
+  "pathTemplate": "_artifactStamps/regenCaptureV2H/basisNDrives",
+  "condition": "field_changed",
+  "entryDepth": 2,
+  "field": "generatedAt"
+ },
+ {
+  "id": "m466-stamp-regenSocStandardized-carriedForward",
+  "rationale": "M466: regen refresh on the 606-drive corpus (analyses/M466_spec.md): the stamp of regenSocStandardized changes from carried (basis 578) to computed on the live corpus; the carried-only leaf carriedForward may vanish only when generatedAt changed.",
+  "milestone": "M466",
+  "pathTemplate": "_artifactStamps/regenSocStandardized/carriedForward",
+  "condition": "field_changed",
+  "entryDepth": 2,
+  "field": "generatedAt"
+ },
+ {
+  "id": "m466-stamp-regenSocStandardized-basisNDrives",
+  "rationale": "M466: regen refresh on the 606-drive corpus (analyses/M466_spec.md): the stamp of regenSocStandardized changes from carried (basis 578) to computed on the live corpus; the carried-only leaf basisNDrives may vanish only when generatedAt changed.",
+  "milestone": "M466",
+  "pathTemplate": "_artifactStamps/regenSocStandardized/basisNDrives",
+  "condition": "field_changed",
+  "entryDepth": 2,
+  "field": "generatedAt"
+ },
+ {
+  "id": "m466-stamp-regenDisplayV2-carriedForward",
+  "rationale": "M466: regen refresh on the 606-drive corpus (analyses/M466_spec.md): the stamp of regenDisplayV2 changes from carried (basis 578) to computed on the live corpus; the carried-only leaf carriedForward may vanish only when generatedAt changed.",
+  "milestone": "M466",
+  "pathTemplate": "_artifactStamps/regenDisplayV2/carriedForward",
+  "condition": "field_changed",
+  "entryDepth": 2,
+  "field": "generatedAt"
+ },
+ {
+  "id": "m466-stamp-regenDisplayV2-basisNDrives",
+  "rationale": "M466: regen refresh on the 606-drive corpus (analyses/M466_spec.md): the stamp of regenDisplayV2 changes from carried (basis 578) to computed on the live corpus; the carried-only leaf basisNDrives may vanish only when generatedAt changed.",
+  "milestone": "M466",
+  "pathTemplate": "_artifactStamps/regenDisplayV2/basisNDrives",
+  "condition": "field_changed",
+  "entryDepth": 2,
+  "field": "generatedAt"
+ },
+ {
+  "id": "m466-stamp-regenLegacySensitivity-carriedForward",
+  "rationale": "M466: regen refresh on the 606-drive corpus (analyses/M466_spec.md): the stamp of regenLegacySensitivity changes from carried (basis 578) to computed on the live corpus; the carried-only leaf carriedForward may vanish only when generatedAt changed.",
+  "milestone": "M466",
+  "pathTemplate": "_artifactStamps/regenLegacySensitivity/carriedForward",
+  "condition": "field_changed",
+  "entryDepth": 2,
+  "field": "generatedAt"
+ },
+ {
+  "id": "m466-stamp-regenLegacySensitivity-basisNDrives",
+  "rationale": "M466: regen refresh on the 606-drive corpus (analyses/M466_spec.md): the stamp of regenLegacySensitivity changes from carried (basis 578) to computed on the live corpus; the carried-only leaf basisNDrives may vanish only when generatedAt changed.",
+  "milestone": "M466",
+  "pathTemplate": "_artifactStamps/regenLegacySensitivity/basisNDrives",
+  "condition": "field_changed",
+  "entryDepth": 2,
+  "field": "generatedAt"
+ },
+ {
+  "id": "m466-regen-row-ciSuppressed-status",
+  "rationale": "M466: regen refresh on the 606-drive corpus (analyses/M466_spec.md): a ciSuppressed marker (written while days < 5 and the interval exists) may vanish only from a row whose status changed or whose calendar-day count changed (a row that became 'failed' has no interval to suppress).",
+  "milestone": "M466",
+  "pathTemplate": "regenDisplayV2/cohorts/{key}/strata/{key}/views/{key}/bySoc/{key}/rows/{key}/ciSuppressed",
+  "condition": "field_changed",
+  "entryDepth": 11,
+  "field": "status"
  }
 ]

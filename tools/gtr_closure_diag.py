@@ -79,7 +79,7 @@ def attributed_repin(d, prev, rec, names):
     import m372_closure_common as CM
     import recal_gate as RG
     try:
-        raw_head = subprocess.check_output(["git", "show", "HEAD:drive_master.csv"], cwd=ROOT, stderr=subprocess.DEVNULL)
+        raw_head = subprocess.check_output(["git", "show", os.environ.get("XT_CLOSURE_PRE_REF", "HEAD") + ":drive_master.csv"], cwd=ROOT, stderr=subprocess.DEVNULL)      # M466: XT_CLOSURE_PRE_REF = the commit whose master the pin was made on, when the closure was CARRIED across an ingestion (the attribution still requires the hybrid run to reproduce the pin exactly)
     except Exception:
         return CM.assert_previous_identity(d, prev)               # no pre-ingestion master available: the old STOP (writes the drift report)
     head_md5 = hashlib.md5(raw_head).hexdigest()

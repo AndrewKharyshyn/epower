@@ -1,5 +1,11 @@
 {
- "lastFlags": [],
+ "lastFlags": [
+  "shoulder/temperature: bands changed",
+  "shoulder/speed: groups changed",
+  "shoulder/speed: bands changed",
+  "cold/temperature: bands changed",
+  "cold/speed: bands changed"
+ ],
  "state": {
   "all": {
    "speed": {
@@ -42,32 +48,12 @@
   "cold": {
    "speed": {
     "available": false,
-    "bands": [
-     "band 40-50",
-     "band 50-55",
-     "band 55-60",
-     "band 60-63",
-     "band 63-66",
-     "band 66-69",
-     "band 69-72",
-     "band 72-100",
-     "below40"
-    ],
+    "bands": [],
     "groups": []
    },
    "temperature": {
     "available": false,
-    "bands": [
-     "band 40-50",
-     "band 50-55",
-     "band 55-60",
-     "band 60-63",
-     "band 63-66",
-     "band 66-69",
-     "band 69-72",
-     "band 72-100",
-     "below40"
-    ],
+    "bands": [],
     "groups": []
    }
   },
@@ -75,8 +61,6 @@
    "speed": {
     "available": true,
     "bands": [
-     "band 50-55",
-     "band 55-60",
      "band 60-63",
      "band 63-66",
      "band 66-69",
@@ -86,12 +70,14 @@
     "groups": [
      "10-20",
      "20-30",
-     "30-40"
+     "30-40",
+     "40-50"
     ]
    },
    "temperature": {
     "available": true,
     "bands": [
+     "band 50-55",
      "band 55-60",
      "band 60-63",
      "band 63-66",

@@ -1,0 +1,55 @@
+{
+ "ruling": "analyses/M466_gtr_closure_director_ruling.json",
+ "ownerDecision": "Andrii, in chat, as delivered to this session: (1) 'Yes: ship the GTR family refresh at 606 drives with the Director's wording (point estimate crossed 0.5 within an interval that already contained 0.5; side of 0.5 not established).' (2) relayed by the parent session (local_431f2fde...) as Andrii's verbatim 'go with option 1' = YES, ship the stage-B GTR-family refresh to the 606-drive corpus (f_gen BASE 0.518 on 376 drives; same wording; frozen M373 flip list unamended, scoped acknowledgement only).",
+ "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+ "perDriveSha256": "f1b251b8eb3ef52716fa33eb80f11bc779a5b6e97e41eb6a34a59e817dcd9612",
+ "stopsSha256": "6dd715e8f93b44439e1218b0da9af4909f16ac8144dfba75d85c48fb08193064",
+ "stops": [
+  {
+   "rule": "flag/verdict flip",
+   "path": "/fGen/pointBelow0p5AllVariants"
+  },
+  {
+   "rule": "flag/verdict flip",
+   "path": "/fGen/stopTriggered"
+  }
+ ],
+ "escalations": [
+  {
+   "rule": "point-only leaf beyond the escalation band (10% relative, 0.01 absolute when |previous| < 0.1)",
+   "path": "/fGen/variantMax"
+  },
+  {
+   "rule": "point-only leaf beyond the escalation band (10% relative, 0.01 absolute when |previous| < 0.1)",
+   "path": "/fGen/variantMin"
+  },
+  {
+   "rule": "point-only leaf beyond the escalation band (10% relative, 0.01 absolute when |previous| < 0.1)",
+   "path": "/interval/hi"
+  },
+  {
+   "rule": "point-only leaf beyond the escalation band (10% relative, 0.01 absolute when |previous| < 0.1)",
+   "path": "/interval/lo"
+  },
+  {
+   "rule": "point-only leaf beyond the escalation band (10% relative, 0.01 absolute when |previous| < 0.1)",
+   "path": "/per100km/battToTractionResidual"
+  },
+  {
+   "rule": "point-only leaf beyond the escalation band (10% relative, 0.01 absolute when |previous| < 0.1)",
+   "path": "/per100km/genToBattDual"
+  },
+  {
+   "rule": "point-only leaf beyond the escalation band (10% relative, 0.01 absolute when |previous| < 0.1)",
+   "path": "/per100km/genToBattEngineOn"
+  },
+  {
+   "rule": "point-only leaf beyond the escalation band (10% relative, 0.01 absolute when |previous| < 0.1)",
+   "path": "/per100km/genToBattUpper"
+  },
+  {
+   "rule": "point-only leaf beyond the escalation band (10% relative, 0.01 absolute when |previous| < 0.1)",
+   "path": "/per100km/regenToBatt"
+  }
+ ]
+}

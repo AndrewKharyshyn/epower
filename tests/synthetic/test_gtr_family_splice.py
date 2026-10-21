@@ -17,6 +17,18 @@ if A["generatorTractionRecon"].get("carriedAtIngestion"):
     _g = A["generatorTractionRecon"]
     _g["corpus"].update({"generator": _b["gen100"], "tractionGross": _b["trac100"], "fGen": _b["fgen"], "etaBus": _b["etaBus"]})
     _g["nProduction"] = _g["nDrives"] = O["sensitivity"]["nDrives"]
+# M466: the committed O file now carries sensitivity axes at or above 0.5 (acknowledged flip, analyses/M466_spec.md). The STOP / acknowledgement cases below need a flip-free base, so they run on
+# pre-flip COPIES (every axis clamped to 0.49 in the O copy, the payload BASE row of the arrays copy set to the clamped O BASE); the committed-pair section at the end runs on the real pair
+# with a flip acknowledgement built from the real O file itself (idempotence, no new data).
+A_LIVE, O_LIVE = A, O
+A, O = copy.deepcopy(A_LIVE), copy.deepcopy(O_LIVE)
+for _r in O["sensitivity"]["axes"]:
+    _r["fgen"] = min(_r["fgen"], 0.49)
+_b0 = O["sensitivity"]["axes"][0]
+for _k in ("gen100", "trac100", "fgen", "etaBus"):
+    A["generatorTractionRecon"]["sensitivity"][0][_k] = _b0[_k]
+O["meta"]["sensitivityBaseGate"]["target"] = {k: _b0[k] for k in ("gen100", "trac100", "fgen", "etaBus")}
+O["meta"]["sensitivityBaseGate"]["base"] = dict(O["meta"]["sensitivityBaseGate"]["target"])
 import m377_pin
 SPEC = m377_pin.spec_sha("analyses/M377_spec.md")
 MD5 = hashlib.md5(open("drive_master.csv", "rb").read()).hexdigest()
@@ -89,13 +101,47 @@ o4 = mut(band_and_key); st4 = with_ack(o4, mk_ack(o4))[2]
 assert any("key set" in x for x in st4)
 assert not any(("band acknowledgement" in x) for x in stops_of(O)[2])
 
+# M466: narrowly scoped acknowledgement of the sensitivity f_gen >= 0.5 reading-flip stop (Director ruling); the frozen flip list is unchanged and nothing else is acknowledgeable
+def flip_sens(o): o["sensitivity"]["axes"][1]["fgen"] = 0.6; o["sensitivity"]["axes"][2]["fgen"] = 0.5
+def mk_flip_ack(o, **over):
+    ack = {"ruling": "TEST", "driveMasterMd5": MD5, "sensitivityAxesSha256": S._axes_sha(o["sensitivity"]["axes"]),
+           "acknowledged": [{"axis": r["axis"], "fgen": r["fgen"]} for r in o["sensitivity"]["axes"] if r["fgen"] >= 0.5]}
+    ack.update(over); return ack
+def with_flip(o, ack, band=None): return S.plan(A, o, "TEST", SPEC, MD5, band, ack)
+of = mut(flip_sens)
+assert S.FLIP_STOP in stops_of(of)[2]                                                       # unacknowledged: still a stop
+newf, deltaf, stf = with_flip(of, mk_flip_ack(of))
+assert stf == [] and newf is not None and deltaf["flipAcknowledgement"]["acknowledged"] == sorted(mk_flip_ack(of)["acknowledged"], key=lambda x: x["axis"])
+for bad in ({"driveMasterMd5": "0" * 32}, {"sensitivityAxesSha256": "0" * 64}, {"ruling": ""}, {"acknowledged": []},
+            {"acknowledged": mk_flip_ack(of)["acknowledged"][:1]},
+            {"acknowledged": mk_flip_ack(of)["acknowledged"] + [{"axis": "BASE (central)", "fgen": 0.51}]},
+            {"acknowledged": [dict(mk_flip_ack(of)["acknowledged"][0], fgen=0.61)] + mk_flip_ack(of)["acknowledged"][1:]}):
+    st = with_flip(of, mk_flip_ack(of, **bad))[2]
+    assert any("flip acknowledgement refused" in x for x in st) and S.FLIP_STOP in st, bad  # any mismatch keeps the stop
+assert any("refused" in x for x in with_flip(O, mk_flip_ack(of))[2])                       # no flip in the run: refused
+def flip_and_speed(o): flip_sens(o); flip_speed(o)
+o5 = mut(flip_and_speed); st5 = with_flip(o5, mk_flip_ack(o5))[2]
+assert any("decreases" in x for x in st5) and not any(x == S.FLIP_STOP for x in st5)       # only the sensitivity flip is removed; the speedSplit flip stays
+def flip_and_sim(o): flip_sens(o); flip_sim(o)
+o6 = mut(flip_and_sim); assert any("ordering" in x for x in with_flip(o6, mk_flip_ack(o6))[2])
+def flip_and_days(o): flip_sens(o); o["speedSplit"]["nDays"] *= 2
+o7 = mut(flip_and_days); assert any("n_days" in x for x in with_flip(o7, mk_flip_ack(o7))[2])
+def flip_and_key(o): flip_sens(o); o["simultaneity"]["rows"][0].pop("fullyBanked")
+o8 = mut(flip_and_key); assert any("key set" in x for x in with_flip(o8, mk_flip_ack(o8))[2])
+def flip_and_band(o): flip_sens(o); band_share(o)
+o9 = mut(flip_and_band); assert S.BAND_STOP in with_flip(o9, mk_flip_ack(o9))[2]           # the flip ack never removes the share-band stop
+
 if A["generatorTractionRecon"].get("carriedAtIngestion"):
     # M463: the committed-pair idempotence section recomputes eligibility from the live files (the newer drive set), which cannot equal blocks that are CARRIED at an older basis;
     # the stop cases above ran against the carried basis. The full section runs again as soon as the blocks are refreshed (M464).
     print("test_gtr_family_splice: OK (stop and acknowledgement cases only; the committed-pair section is skipped while the blocks are carried: carriedAtIngestion)")
     sys.exit(0)
 # known answer: the committed pair reproduces the committed blocks (no new data) and only allow-listed paths change
-new, delta, stops = stops_of(O)
+A, O = A_LIVE, O_LIVE
+def live_flip_ack(o):
+    return {"ruling": "TEST", "driveMasterMd5": MD5, "sensitivityAxesSha256": S._axes_sha(o["sensitivity"]["axes"]),
+            "acknowledged": [{"axis": r["axis"], "fgen": r["fgen"]} for r in o["sensitivity"]["axes"] if r["fgen"] >= 0.5]}
+new, delta, stops = S.plan(A, O, "TEST", SPEC, MD5, None, live_flip_ack(O))
 assert not stops and new is not None, stops
 G, N = A["generatorTractionRecon"], new["generatorTractionRecon"]
 for b in S.BLOCKS:

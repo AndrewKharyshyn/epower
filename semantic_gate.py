@@ -472,7 +472,11 @@ if _v2:
     ok("M441 reconciliation is exact in every cohort (SOC bands + below 40 + missing = SOC-free baseline; all-SOC = band sum)", not _bad_rec, str(_bad_rec[:3]))
     ok("M441 the support rule (>= %d strict-drop intervals, >= %d drives, >= %d days) holds for every 'supported' cell and an 'empty' cell carries no estimate (%d cells)" % (
         _v2["support"]["minStrictIntervals"], _v2["support"]["minDrives"], _v2["support"]["minDays"], _ncell), not _bad_sup and not _bad_eff, str((_bad_sup + _bad_eff)[:3]))
-    ok("M441 the study block (if present) names the same master and extractor as the base block and carries its stamp", "regenCaptureV2Study" not in A or (A["regenCaptureV2Study"]["masterMd5"] == _v2["masterMd5"] and A["regenCaptureV2Study"]["policyHash"] == _v2["policyHash"]
+    def _study_carried(k):
+        """M466 (Director option B, analyses/M463_regen_lock_addendum.md): a run-once study block keeps its OWN provenance master; it is accepted with a different master only when its artifact stamp says carriedForward with a recorded basis."""
+        st_ = A["_artifactStamps"].get(k) or {}
+        return bool(st_.get("carriedForward")) and st_.get("basisNDrives") is not None
+    ok("M441 the study block (if present) names the same master and extractor as the base block and carries its stamp", "regenCaptureV2Study" not in A or ((A["regenCaptureV2Study"]["masterMd5"] == _v2["masterMd5"] or _study_carried("regenCaptureV2Study")) and A["regenCaptureV2Study"]["policyHash"] == _v2["policyHash"]
        and "regenCaptureV2Study" in A["_artifactStamps"]))
 # M442 (analyses/M442_spec.md Rev 1.2): harmonized levels, resolution bracket, gates and adjacent-bin contrasts. Payload invariants: both blocks present with stamps and the same master, the gates recorded as computed, every contrast label is
 # derived from its four checks (resolved only if all hold), every bracket b is non-negative, and the harmonized levels obey the same support rule as the v2 cells
@@ -480,7 +484,7 @@ _h2 = A.get("regenCaptureV2H")
 if _h2:
     _hs = A.get("regenCaptureV2HStudy") or {}
     ok("M442 regenCaptureV2H and regenCaptureV2HStudy present with their artifact stamps and the same master and spec", "regenCaptureV2H" in A["_artifactStamps"] and "regenCaptureV2HStudy" in A["_artifactStamps"]
-       and _hs.get("masterMd5") == _h2["masterMd5"] and _hs.get("specSha256") == _h2["specSha256"] and _h2["primary"] == "interp3" and "all" in _h2["cohorts"], str(sorted(_hs)[:6]))
+       and (_hs.get("masterMd5") == _h2["masterMd5"] or _study_carried("regenCaptureV2HStudy")) and _hs.get("specSha256") == _h2["specSha256"] and _h2["primary"] == "interp3" and "all" in _h2["cohorts"], str(sorted(_hs)[:6]))
     _bc = []
     for _kind, _rows in (_hs.get("contrasts") or {}).items():
         for _r in _rows:
@@ -519,7 +523,7 @@ if _sd:
             elif not _v.get("reason"):
                 _bad.append((_c, _vn, "unavailable without a reason"))
     ok("M444 every available view has coverage >= 0.80, >= 2 bars and at least one common-support band; every unavailable view states its reason", not _bad, str(_bad[:3]))
-    ok("M444 the study block (if present) names the same spec and master and carries its stamp", "regenSocStandardizedStudy" not in A or (A["regenSocStandardizedStudy"]["specSha256"] == _sd["specSha256"] and A["regenSocStandardizedStudy"]["masterMd5"] == _sd["masterMd5"]
+    ok("M444 the study block (if present) names the same spec and master and carries its stamp", "regenSocStandardizedStudy" not in A or (A["regenSocStandardizedStudy"]["specSha256"] == _sd["specSha256"] and (A["regenSocStandardizedStudy"]["masterMd5"] == _sd["masterMd5"] or _study_carried("regenSocStandardizedStudy"))
        and "regenSocStandardizedStudy" in A["_artifactStamps"]))
 # M446 (analyses/M446_spec.md Rev 1.1): cadence-stratified native display layer. Payload invariants: stamp and master, ONE reference weight vector (sums to 1), only the strata fast / slow, every supported cell meets the support floors, a cell with a value
 # carries a status other than empty, the standardized bars of an available view lie on a coverage >= 0.80, the resolution bracket is never negative, the build gates passed
@@ -772,9 +776,13 @@ _fg3 = [r["fgen"] for r in _G3["sensitivity"]]
 _pb3 = _rb3["sensitivity"]["previousBlock"]
 _mg3 = 0.5 - max(_fg3)
 _rel3 = "is smaller than" if _mg3 < _pb3["combinedDriftMaxAbsFgen_R_minus_published"] else "is not smaller than"      # M388: the relation word follows the payload numbers
-ok("A2 REQUIRED M373 sensitivity previous-table disclosure is TRUE: the refreshed table has no axis at or above 0.5, the previous table had 3, and the rendered margin-vs-drift relation (smaller / not smaller) matches the payload numbers",
-   max(_fg3) < 0.5 and _pb3["nAxesFgenAtOrAbove0p5"] == 3
-   and "the margin of the highest axis to 0.5 here (%.3f) %s that drift (%s)" % (_mg3, _rel3, _pb3["combinedDriftMaxAbsFgen_R_minus_published"]) in _all3)
+if max(_fg3) < 0.5:
+    ok("A2 REQUIRED M373 sensitivity previous-table disclosure is TRUE: the refreshed table has no axis at or above 0.5, the previous table had 3, and the rendered margin-vs-drift relation (smaller / not smaller) matches the payload numbers",
+       _pb3["nAxesFgenAtOrAbove0p5"] == 3
+       and "the margin of the highest axis to 0.5 here (%.3f) %s that drift (%s)" % (_mg3, _rel3, _pb3["combinedDriftMaxAbsFgen_R_minus_published"]) in _all3)
+else:        # M466 (Director wording): the refreshed table has axes at or above 0.5; the rendered sentence states the script-counted number and the crossing wording
+    ok("A2 REQUIRED M466 sensitivity table with axes at or above 0.5: the rendered sentence states the payload count and 'crossed 0.5 within an interval that already contained 0.5; side of 0.5 not established'",
+       "the refreshed table has %d of %d axes at or above 0.5 (highest %.2f): the point estimate crossed 0.5 within an interval that already contained 0.5; side of 0.5 not established" % (sum(1 for x in _fg3 if x >= 0.5), len(_fg3), max(_fg3)) in _all3)
 _l4, _l5 = _G3["limitations"][4], _G3["limitations"][5]
 ok("A2 REQUIRED M373 limitations[4] and [5]: recomputed-on-the-live-corpus wording present, crossval no longer called 'current', most urban engine-on time is charge-and-drive or fully banked (TRUE)",
    "recomputed on the live corpus at ingestion on raw/ = sha256-verified originals (M366) as descriptive point values with no interval" in _l4 and "the M265 fix did not change them" in _l4

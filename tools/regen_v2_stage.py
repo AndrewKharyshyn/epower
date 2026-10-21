@@ -177,7 +177,8 @@ def main(argv=None):
         N["regenCaptureV2H"] = lvl
         N["_artifactStamps"]["regenCaptureV2H"] = stamp_for(A, "regenCaptureV2H", lvl, md5, "M442: derived by tools/regen_v2_stage.py from the per-drive cache (interp3 variants); additive harmonized levels of the apparent KE recovery")
         N["regenCaptureV2HStudy"] = hs
-        N["_artifactStamps"]["regenCaptureV2HStudy"] = stamp_for(A, "regenCaptureV2HStudy", hs, hs["masterMd5"], "M442: derived by tools/m442_gate.py (confirm run); gates, resolution bracket, contrasts and sensitivities; carried forward at ingestion")
+        # M466: a carried study block keeps its previous stamp (written by restamp_ingest as carried); stamp_for would write a "computed" stamp carrying the STUDY master md5, which the corpus-hash gate rejects
+        N["_artifactStamps"]["regenCaptureV2HStudy"] = A["_artifactStamps"]["regenCaptureV2HStudy"] if (A.get("regenCaptureV2HStudy") == hs and "regenCaptureV2HStudy" in A["_artifactStamps"]) else stamp_for(A, "regenCaptureV2HStudy", hs, hs["masterMd5"], "M442: derived by tools/m442_gate.py (confirm run); gates, resolution bracket, contrasts and sensitivities; carried forward at ingestion")
     if os.path.exists("analyses/M444_first.lock") and os.path.exists("analyses/M444_result.json"):
         sb, sstudy = std_blocks(A, md5, "--study" in argv)
         N["regenSocStandardized"] = sb

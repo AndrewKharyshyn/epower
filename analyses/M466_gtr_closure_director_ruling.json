@@ -1,0 +1,22 @@
+{
+ "milestone": "M466",
+ "role": "research-director (subagent), 2026-10-21, re-brief on condition (3) of analyses/M466_gtr_director_ruling.json (gtrClosure refresh stops)",
+ "decision": "accept",
+ "scientific_meaning": "The two bool flips (pointBelow0p5AllVariants, stopTriggered) follow from the same composition-driven f_gen point crossing already ruled on in M466. The point estimate (0.518) is still inside its previous CI, and the 0.5 threshold is inside both intervals. The nine point-only escalations (lower gen/regen-to-battery flows per 100 km) fit with more highway share. They are not a mechanism change.",
+ "limits": [
+  "nodeExcess 0.0542 is at the edge of the previous CI [0.0537, 0.0863]; any further move outside it is a stop",
+  "Closure n is 374 drives against 376 in the family ruling: state the eligibility difference",
+  "Flows are estimated, not measured"
+ ],
+ "language": [
+  "Use exactly: 'point estimate crossed 0.5 within an interval that already contained 0.5; side of 0.5 not established'",
+  "Keep 'consistent within the dual bracket; not closed'",
+  "Show CI, n (374 drives, 67 days) and the composition shift"
+ ],
+ "follow_ups": [
+  "Scoped ack as proposed (MD5 5556a0c6, perdrive sha256, sha256 of stops+escalations); add a synthetic test that rejects any other leaf",
+  "Record this ruling and the 0.4662 control in the CHANGELOG"
+ ],
+ "needs_andrii_signoff": true,
+ "ownerCover": "Andrii, in chat, as delivered to this session: (1) 'Yes: ship the GTR family refresh at 606 drives with the Director's wording (point estimate crossed 0.5 within an interval that already contained 0.5; side of 0.5 not established).' (2) relayed by the parent session (local_431f2fde...) as Andrii's verbatim 'go with option 1' = YES, ship the stage-B GTR-family refresh to the 606-drive corpus (f_gen BASE 0.518 on 376 drives; same wording; frozen M373 flip list unamended, scoped acknowledgement only)."
+}

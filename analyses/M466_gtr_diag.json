@@ -1,0 +1,233 @@
+{
+ "prevRef": "3eb3f3c~1",
+ "estimator": "ratio of sums over canonical-clean fuel drives, distance-weighted (as the headline and the sensitivity BASE)",
+ "D1": {
+  "nNow": 376,
+  "daysNow": 67,
+  "fNow": 0.5181,
+  "nPrev": 348,
+  "daysPrev": 63,
+  "fPrev": 0.4661,
+  "nNew": 28,
+  "daysNew": 5,
+  "fNewDrivesOnly": 0.6489,
+  "fOldDrivesOnCurrentFile": 0.4661,
+  "nOldStillPresent": 348,
+  "kmNew": 1122.9,
+  "kmOld": 2600.7
+ },
+ "D2": {
+  "drive_type": {
+   "total": 0.1828,
+   "composition": 0.1583,
+   "within": 0.0245,
+   "check": 0.0,
+   "groups": {
+    "highway": {
+     "shareOld": 0.0744,
+     "shareNew": 0.4161,
+     "fOld": 0.8015,
+     "fNew": 0.7844,
+     "composition": 0.2739,
+     "within": -0.0071
+    },
+    "mixed": {
+     "shareOld": 0.1136,
+     "shareNew": 0.1284,
+     "fOld": 0.4962,
+     "fNew": 0.5128,
+     "composition": 0.0074,
+     "within": 0.0021
+    },
+    "mixed_highway": {
+     "shareOld": 0.1953,
+     "shareNew": 0.2177,
+     "fOld": 0.6471,
+     "fNew": 0.7039,
+     "composition": 0.0144,
+     "within": 0.0124
+    },
+    "urban": {
+     "shareOld": 0.6166,
+     "shareNew": 0.2378,
+     "fOld": 0.3627,
+     "fNew": 0.4346,
+     "composition": -0.1374,
+     "within": 0.0171
+    }
+   }
+  },
+  "regime": {
+   "total": 0.1828,
+   "composition": -0.0308,
+   "within": 0.2136,
+   "check": 0.0,
+   "groups": {
+    "cold": {
+     "shareOld": 0.0084,
+     "shareNew": 0.1743,
+     "fOld": 0.3992,
+     "fNew": 0.7657,
+     "composition": 0.0662,
+     "within": 0.0639
+    },
+    "shoulder": {
+     "shareOld": 0.2988,
+     "shareNew": 0.8257,
+     "fOld": 0.4428,
+     "fNew": 0.6242,
+     "composition": 0.2334,
+     "within": 0.1497
+    },
+    "warm": {
+     "shareOld": 0.6928,
+     "shareNew": 0.0,
+     "fOld": 0.4769,
+     "fNew": null,
+     "composition": -0.3304,
+     "within": 0.0
+    }
+   }
+  },
+  "cadence": {
+   "total": 0.1828,
+   "composition": -0.0333,
+   "within": 0.2161,
+   "check": 0.0,
+   "groups": {
+    "fast": {
+     "shareOld": 0.6776,
+     "shareNew": 0.4002,
+     "fOld": 0.5047,
+     "fNew": 0.6819,
+     "composition": -0.14,
+     "within": 0.0709
+    },
+    "slow": {
+     "shareOld": 0.3224,
+     "shareNew": 0.5998,
+     "fOld": 0.3848,
+     "fNew": 0.6268,
+     "composition": 0.1068,
+     "within": 0.1452
+    }
+   }
+  }
+ },
+ "D3": {
+  "min": 0.4937,
+  "max": 0.522,
+  "argmin": "2026-10-17",
+  "argmax": "2026-10-08",
+  "nDaysBelow0p5": 3,
+  "nDays": 67,
+  "newDays": {
+   "2026-10-13": 0.5199,
+   "2026-10-14": 0.495,
+   "2026-10-15": 0.5214,
+   "2026-10-16": 0.5186,
+   "2026-10-17": 0.4937
+  },
+  "dropAllNewDays": 0.4662
+ },
+ "D4": {
+  "B": 4000,
+  "seed": 42,
+  "cluster": "calendar day",
+  "point": 0.5181,
+  "ci95": [
+   0.4251,
+   0.5795
+  ],
+  "shareDrawsBelow0p5": 0.3555,
+  "newMinusOldJointDaysCi95": [
+   -0.0504,
+   0.3003
+  ],
+  "newMinusOldJointDaysNDraws": 3978,
+  "newMinusOldDrivesPoint": 0.1828,
+  "newMinusOldDrivesCi95": [
+   -0.0249,
+   0.2941
+  ],
+  "newDaysN": 5,
+  "nonindependenceNote": "old and new drives share one calendar day (2026-10-13); the two resamples are drawn independently, so the difference interval ignores that day's shared component"
+ },
+ "D5": {
+  "byRegime": {
+   "cold": {
+    "n": 13,
+    "days": 5,
+    "f": 0.7259,
+    "nNew": 2
+   },
+   "shoulder": {
+    "n": 150,
+    "days": 43,
+    "f": 0.5378,
+    "nNew": 26
+   },
+   "warm": {
+    "n": 213,
+    "days": 49,
+    "f": 0.4769,
+    "nNew": 0
+   }
+  },
+  "byColdFuelFrac": {
+   "0": {
+    "n": 82,
+    "f": 0.6191,
+    "nNew": 11
+   },
+   "(0,0.05]": {
+    "n": 7,
+    "f": 0.6501,
+    "nNew": 2
+   },
+   "(0.05,0.2]": {
+    "n": 32,
+    "f": 0.4668,
+    "nNew": 5
+   },
+   ">0.2": {
+    "n": 225,
+    "f": 0.3573,
+    "nNew": 9
+   }
+  },
+  "coldGate": {
+   "oil<55C": 376
+  },
+  "note": "descriptive; the regime / cold-fuel strata are display bands and the cold-penalty model constants are unchanged"
+ },
+ "D6": {
+  "nNew": 28,
+  "fGenRange": [
+   0.0,
+   0.806
+  ],
+  "nOutside01": 0,
+  "fuelBasis": {
+   "E10": 28
+  },
+  "method": {
+   "PathB_fuel_BSFC_v1": 28
+  },
+  "chargeSustainingShare": 0.143,
+  "chargeSustainingShareOld": 0.216,
+  "etaEngMedianNew": 0.3682,
+  "etaEngMedianOld": 0.3175,
+  "kmPerDriveMedianNew": 24.2,
+  "kmPerDriveMedianOld": 2.4,
+  "nanColumns": {
+   "eta_eng": 1,
+   "eta_fuel_bus": 1,
+   "cold_fuel_frac": 1
+  },
+  "cadenceNew": {
+   "slow": 17,
+   "fast": 11
+  }
+ }
+}
