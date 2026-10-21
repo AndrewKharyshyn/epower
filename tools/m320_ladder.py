@@ -238,8 +238,7 @@ def run_side(side, tbl, prev, a, tbl410=None):
     res, spec, cc, _names = m._final_fit(tbl)
     cc = cc.reset_index(drop=True)
     # known-answer: refit reproduces the stored M318 surfaces at the legacy levels
-    # M466: a CONTROL run on another population (first N rows) takes the known-answer reference from the matching control block (XT_M320_KAT_REF = tools/m466_m119v2_control.py output on the same rows and raw)
-    A = json.load(open(os.environ["XT_M320_KAT_REF"], encoding="utf-8")) if os.environ.get("XT_M320_KAT_REF") else json.load(open(os.path.join(ROOT, "summary_arrays.json"), encoding="utf-8"))["socHysteresisV2"]
+    A = json.load(open(os.path.join(ROOT, "summary_arrays.json"), encoding="utf-8"))["socHysteresisV2"]
     legacy = m._surfaces(res, spec, cc)
     kat = max(abs(np.array(legacy["grids"][k], float) - np.array(A["surfaces"][side]["grids"][k], float)).max() for k in legacy["grids"])
     if kat > 1e-6:
