@@ -1,0 +1,95 @@
+{
+ "prevRef": "3eb3f3c~1",
+ "levels": {
+  "published489": [
+   {
+    "name": "P5",
+    "value": 20.0,
+    "dayWeightedSnapped": 17.5,
+    "nEvents": 297,
+    "nDays": 68,
+    "role": "reference"
+   },
+   {
+    "name": "P95",
+    "value": 42.5,
+    "dayWeightedSnapped": 40.0,
+    "nEvents": 1015,
+    "nDays": 19,
+    "role": "high"
+   }
+  ],
+  "control489": [
+   {
+    "name": "P5",
+    "value": 20.0,
+    "dayWeightedSnapped": 17.5,
+    "nEvents": 297,
+    "nDays": 68,
+    "role": "reference"
+   },
+   {
+    "name": "P95",
+    "value": 42.5,
+    "dayWeightedSnapped": 40.0,
+    "nEvents": 1015,
+    "nDays": 19,
+    "role": "high"
+   }
+  ],
+  "shipped606": [
+   {
+    "name": "P50",
+    "value": 32.5,
+    "dayWeightedSnapped": 27.5,
+    "nEvents": 1510,
+    "nDays": 80,
+    "role": "reference"
+   }
+  ]
+ },
+ "levelsReproduced": true,
+ "needsDirector": {
+  "published489": false,
+  "control489": false,
+  "shipped606": false
+ },
+ "numericLeaves": {
+  "common": 1370,
+  "identical": 538,
+  "maxAbsDiff": 0.10000000000000009,
+  "largest": [
+   {
+    "path": "/profile/demandLevel",
+    "published": 1.75,
+    "control": 1.65
+   },
+   {
+    "path": "/pairs[3]/dur2s/ci95Pct[0]",
+    "published": 0.33597,
+    "control": 0.33326
+   },
+   {
+    "path": "/pairs[3]/dur60s/ci95Pct[0]",
+    "published": 0.33597,
+    "control": 0.33326
+   },
+   {
+    "path": "/pairs[3]/primary/ci95Pct[0]",
+    "published": 0.33597,
+    "control": 0.33326
+   },
+   {
+    "path": "/diffMaps[0]/lo[0][0]",
+    "published": 0.336,
+    "control": 0.3333
+   },
+   {
+    "path": "/diffMaps[0]/lo[0][10]",
+    "published": 0.336,
+    "control": 0.3333
+   }
+  ]
+ },
+ "reading": "Control = first 489 master rows, today's code and raw/ originals. If the levels are reproduced the collapse of the shipped start ladder to one level is not produced by code or by the M366 provenance change on the old drives; it follows from the added drives (new-data effect, associational, model-derived)."
+}

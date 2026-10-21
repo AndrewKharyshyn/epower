@@ -142,8 +142,7 @@ def main():
     sp = "analyses/regen_std_state.json"                                                     # c5: record next to the availability state (the stage keeps 'state' and 'lastFlags')
     st_ = json.load(open(sp, encoding="utf-8"))
     st_["sstarRefresh"] = {"milestone": "M466", "prevRef": a.prev_ref, "maxAbsChangeSstar": rep["c5"]["maxAbsChangeSstar"], "argmax": rep["c5"]["argmax"], "shaPrev": rep["c5"]["shaPrev"], "shaNew": rep["c5"]["shaNew"]}
-    with open(sp, "w", encoding="utf-8", newline="
-") as f:
+    with open(sp, "w", encoding="utf-8", newline="\n") as f:
         json.dump(st_, f, indent=1, sort_keys=True)
     # ---- cells above 100 %
     ab = []
