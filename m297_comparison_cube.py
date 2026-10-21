@@ -143,14 +143,33 @@ def contrast(g, label, rng):
     return out
 
 
+# M465: Cold column of the urban contrast: point estimate only (ratio of sums), NO interval and NO difference, because the cold urban set rests on
+# fewer than EXPLORATORY_DAYS calendar days (same floor as the regeneration display, >= 10 drives on >= 5 days); cohort boundary is a display band.
+EXPLORATORY_DAYS = 5
+uc = d[d.classKey.eq("urban") & d.thermal_regime.eq("cold") & d.gross_throughput_kwh.notna() & d.distance_km.gt(0)].copy()
+
+
+def cold_cell(g):
+    if not len(g):
+        return None
+    nd = int(g.day.nunique())
+    return {"estimate": round(float(100 * g.gross_throughput_kwh.sum() / g.distance_km.sum()), 2), "ci95": None, "nDrives": int(len(g)), "nDays": nd,
+            "km": round(float(g.distance_km.sum()), 1),
+            "status": "observed" if (len(g) >= MIN_N and nd >= EXPLORATORY_DAYS) else "exploratory_no_interval"}
+
+
 rng2 = np.random.default_rng(SEED + 1)
 bands = [("all urban trips", u)]
 for lo, hi, lab in ((0, 3, "< 3 km"), (3, 10, "3–10 km"), (10, 1e9, "≥ 10 km")):
     bands.append((lab, u[(u.distance_km >= lo) & (u.distance_km < hi)]))
 urban = [contrast(g, lab, rng2) for lab, g in bands]
+_cold_bands = [uc] + [uc[(uc.distance_km >= lo) & (uc.distance_km < hi)] for lo, hi in ((0, 3), (3, 10), (10, 1e9))]
+for _b, _g in zip(urban, _cold_bands):
+    _b["cold"] = cold_cell(_g)
 soc = {c: {"socCeilingMedian": round(float(u[u.thermal_regime.eq(c)].soc_max.median()), 2),
            "tripKmMedian": round(float(u[u.thermal_regime.eq(c)].distance_km.median()), 2),
            "nDrives": int(u.thermal_regime.eq(c).sum())} for c in ("warm", "shoulder")}
+soc["cold"] = {"socCeilingMedian": round(float(uc.soc_max.median()), 2), "tripKmMedian": round(float(uc.distance_km.median()), 2), "nDrives": int(len(uc))} if len(uc) else None
 
 A = json.load(open(P("summary_arrays.json"), encoding="utf-8"))
 counts = {c: int(d.thermal_regime.eq(c).sum()) for c in ("warm", "shoulder", "cold")}
@@ -180,7 +199,7 @@ A["comparisonCube"] = {
                                    "thermal cohort (ratio of sums). Confounded by calendar period, trip mix, load and "
                                    "cabin heating (no HVAC telemetry); not a chemistry effect."),
                       "caveat": ("Descriptive seasonal operating difference; Cold not observed." if not (counts["cold"] >= MIN_N and cold_days >= MIN_DAYS) else
-                                 "Descriptive seasonal operating difference (warm vs shoulder only); the cold cohort (n=%d clean drives) is not part of this contrast." % counts["cold"])},
+                                 "Descriptive seasonal operating difference (Warm vs Shoulder, with an interval and a difference). Cold (n=%d clean drives, %d urban) is shown as a point estimate only, exploratory, no interval and no difference: its urban set rests on too few calendar days." % (counts["cold"], len(uc)))},
 }
 st = copy.deepcopy(A["_artifactStamps"]["highwayVsCity"])
 st["computationStatus"] = "computed"

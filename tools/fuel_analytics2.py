@@ -295,7 +295,7 @@ def main():
             "intervalsKm": [[float(a), float(a + 0.5)] for a in INTERVALS], "excluded": excl, "nAnalysis": len(rows), "nCurves": len(cd), "expectedTripsFromFuelAnalytics": expected,
             "pointwiseNote": "CIs are pointwise (day-clustered bootstrap), not simultaneous bands", "groups": {}}
     sets = {"all": (0, 0), "h300": (300.0, 2.5), "h600": (600.0, 5.0)}
-    for cname in ("all", "warm", "shoulder"):
+    for cname in ("all", "warm", "shoulder", "cold"):  # M465: cold groups (support-gated points, no CI below the declared rule)
         for band in BANDS + ["oil-fallback"]:
             sub = [x for x in cd if x["band"] == band and (cname == "all" or x["cohort"] == cname)]
             ent = {"nTrips": len(sub), "nDays": len({x["day"] for x in sub}), "sets": {}}

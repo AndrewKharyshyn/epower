@@ -72,7 +72,11 @@ const tabTo=async(P,t)=>{P.click([...P.d.querySelectorAll('button')].find(b=>b.t
   await tabTo(P,'charts'); P.click(btn(P,'compare')); await sleep(200);
   const cmpCold=P.d.querySelector('button[data-cmp-btn="cold"]');
   ok(cmpCold&&!cmpCold.disabled,'A: Compare Cold button ENABLED');
-  const e1=P.errors.length; if(cmpCold){P.click(cmpCold);await sleep(250);}
+  const e1=P.errors.length;
+  ok(cmpCold&&cmpCold.getAttribute('aria-pressed')==='true','A: Compare Cold is ON by default once Cold meets the support rule (M465)');
+  if(cmpCold){P.click(cmpCold);await sleep(250);}
+  ok(cmpCold&&cmpCold.getAttribute('aria-pressed')==='false','A: Compare Cold toggles off');
+  if(cmpCold){P.click(cmpCold);await sleep(250);}
   ok(cmpCold&&cmpCold.getAttribute('aria-pressed')==='true','A: Compare Cold toggles on');
   const allB=P.d.querySelector('button[data-cmp-btn="all"]'); if(allB){P.click(allB);await sleep(250);}
   ok(allB&&allB.getAttribute('aria-pressed')==='true','A: Compare All Data = aggregate of warm+shoulder+cold');
