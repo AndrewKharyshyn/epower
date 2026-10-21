@@ -148488,10 +148488,10 @@
   "kmProduction": 3723.6,
   "flows": {
    "fuelChem": 48.39,
-   "engineBrake": 17.23,
-   "engineLoss": 31.16,
+   "engineBrake": 17.16,
+   "engineLoss": 31.22,
    "generatorElec": 15.9,
-   "genpeLoss": 1.33,
+   "genpeLoss": 1.27,
    "genToTraction": 9.47,
    "battToTraction": 8.81,
    "tractionGross": 18.29,
@@ -148505,8 +148505,8 @@
    "fGen": 0.518,
    "fuelL": 5.64,
    "fuelChem": 48.39,
-   "etaEng": 0.356,
-   "etaBus": 0.33
+   "etaEng": 0.355,
+   "etaBus": 0.329
   },
   "driveTypeSplit": [
    {
@@ -148564,12 +148564,12 @@
    },
    {
     "term": "η_eng",
-    "value": "0.356",
+    "value": "0.355",
     "meaning": "Model-derived engine-brake/fuel ratio (implied by the assumed BSFC surface): mechanical output ÷ fuel chemical energy."
    },
    {
-    "term": "Net traction-bus/fuel index",
-    "value": "0.330",
+    "term": "Generator-bus/fuel ratio",
+    "value": "0.329",
     "meaning": "Model-derived index of electricity reaching the HV bus per fuel chemical energy (implied by the assumed BSFC surface; includes generator + power-electronics losses; affected by SoC drift, regen and unmetered auxiliary loads)."
    },
    {
@@ -148697,70 +148697,70 @@
     "gen100": 15.9,
     "trac100": 18.29,
     "fgen": 0.518,
-    "etaBus": 0.33
+    "etaBus": 0.329
    },
    {
     "axis": "BSFC optimistic (-6%)",
     "gen100": 16.76,
     "trac100": 19.03,
     "fgen": 0.537,
-    "etaBus": 0.347
+    "etaBus": 0.346
    },
    {
     "axis": "BSFC conservative (+9%)",
     "gen100": 14.58,
     "trac100": 17.2,
     "fgen": 0.487,
-    "etaBus": 0.302
+    "etaBus": 0.301
    },
    {
     "axis": "η_gen low (0.90)",
     "gen100": 15.06,
     "trac100": 17.59,
     "fgen": 0.499,
-    "etaBus": 0.312
+    "etaBus": 0.311
    },
    {
     "axis": "η_gen high (0.97)",
     "gen100": 16.23,
     "trac100": 18.57,
     "fgen": 0.525,
-    "etaBus": 0.337
+    "etaBus": 0.335
    },
    {
     "axis": "P_aux low (0.2kW)",
     "gen100": 15.9,
     "trac100": 18.95,
     "fgen": 0.508,
-    "etaBus": 0.33
+    "etaBus": 0.329
    },
    {
     "axis": "P_aux high (1.2kW)",
     "gen100": 15.9,
     "trac100": 16.88,
     "fgen": 0.54,
-    "etaBus": 0.33
+    "etaBus": 0.329
    },
    {
     "axis": "cold penalty OFF",
     "gen100": 16.69,
     "trac100": 18.89,
     "fgen": 0.533,
-    "etaBus": 0.343
+    "etaBus": 0.345
    },
    {
     "axis": "cold penalty heavy (×1.45)",
     "gen100": 15.46,
     "trac100": 18.02,
     "fgen": 0.511,
-    "etaBus": 0.322
+    "etaBus": 0.319
    },
    {
     "axis": "OPT band wide (1750-2250)",
     "gen100": 15.92,
     "trac100": 18.31,
     "fgen": 0.519,
-    "etaBus": 0.33
+    "etaBus": 0.329
    }
   ],
   "limitations": [
@@ -149029,14 +149029,14 @@
     "status": "descriptive point values, no interval; drive set = canonical-clean (ens_outlier_v2), 376 of 378 fuel-instrumented drives; recomputed on the live corpus at ingestion M466",
     "provenanceDelta": "O minus R (former per-sample raw, current master): provenance; R minus published: combined drive-set + code + basis drift, unattributed (analyses/M375_delta.json)",
     "source": {
-     "O": "analyses/M377_O_blocks.json sha256 49dde328c8a3f728",
+     "O": "analyses/M377_O_blocks.json sha256 4068951442369570",
      "spec": "analyses/M377_spec.md sha256 d0fffe3d94e23ff0",
      "scripts": {
-      "tools/m373_point.py": "0db60863f380b22a",
-      "sensitivity_gtr.py": "113c9ba81898582a",
+      "tools/m373_point.py": "4891e75bafdbbe35",
+      "sensitivity_gtr.py": "f2d6066af11ca53e",
       "simultaneity_gtr.py": "9988c382d92ae5aa",
       "speed_split.py": "ebf7f51a5cf5d113",
-      "recon_engine.py": "3699d965a45a3023",
+      "recon_engine.py": "fc2794d4ebf1c3eb",
       "fuel_recon.py": "d23922730e9ac6f6",
       "model_constants.py": "70486c933c844505"
      }
@@ -149047,7 +149047,7 @@
       "gen100": 15.9,
       "trac100": 18.29,
       "fgen": 0.518,
-      "etaBus": 0.33
+      "etaBus": 0.329
      },
      "nClean": 376
     },
@@ -149083,14 +149083,14 @@
     "status": "descriptive point values, no interval; drive set = canonical-clean (ens_outlier_v2), 376 of 378 fuel-instrumented drives; recomputed on the live corpus at ingestion M466",
     "provenanceDelta": "O minus R (former per-sample raw, current master): provenance; R minus published: combined drive-set + code + basis drift, unattributed (analyses/M375_delta.json)",
     "source": {
-     "O": "analyses/M377_O_blocks.json sha256 49dde328c8a3f728",
+     "O": "analyses/M377_O_blocks.json sha256 4068951442369570",
      "spec": "analyses/M377_spec.md sha256 d0fffe3d94e23ff0",
      "scripts": {
-      "tools/m373_point.py": "0db60863f380b22a",
-      "sensitivity_gtr.py": "113c9ba81898582a",
+      "tools/m373_point.py": "4891e75bafdbbe35",
+      "sensitivity_gtr.py": "f2d6066af11ca53e",
       "simultaneity_gtr.py": "9988c382d92ae5aa",
       "speed_split.py": "ebf7f51a5cf5d113",
-      "recon_engine.py": "3699d965a45a3023",
+      "recon_engine.py": "fc2794d4ebf1c3eb",
       "fuel_recon.py": "d23922730e9ac6f6",
       "model_constants.py": "70486c933c844505"
      }
@@ -149115,14 +149115,14 @@
     "status": "descriptive point values, no interval; drive set = canonical-clean (ens_outlier_v2), 376 of 378 fuel-instrumented drives; recomputed on the live corpus at ingestion M466",
     "provenanceDelta": "O minus R (former per-sample raw, current master): provenance; R minus published: combined drive-set + code + basis drift, unattributed (analyses/M375_delta.json)",
     "source": {
-     "O": "analyses/M377_O_blocks.json sha256 49dde328c8a3f728",
+     "O": "analyses/M377_O_blocks.json sha256 4068951442369570",
      "spec": "analyses/M377_spec.md sha256 d0fffe3d94e23ff0",
      "scripts": {
-      "tools/m373_point.py": "0db60863f380b22a",
-      "sensitivity_gtr.py": "113c9ba81898582a",
+      "tools/m373_point.py": "4891e75bafdbbe35",
+      "sensitivity_gtr.py": "f2d6066af11ca53e",
       "simultaneity_gtr.py": "9988c382d92ae5aa",
       "speed_split.py": "ebf7f51a5cf5d113",
-      "recon_engine.py": "3699d965a45a3023",
+      "recon_engine.py": "fc2794d4ebf1c3eb",
       "fuel_recon.py": "d23922730e9ac6f6",
       "model_constants.py": "70486c933c844505"
      }
@@ -149278,6 +149278,36 @@
     "spec": "analyses/M375_spec.md sha256 c20e6e4722b0c08f"
    },
    "basisFrozenRecord": "previous / changedFields / sensitivityNote: M375 record (489 drives), not recomputed; current / excluded / nFuelInstrumentedRows: live files"
+  },
+  "estimands": {
+   "etaEng": "engine brake energy / chemical fuel energy, ratio of corpus energy totals on the drives with a per-drive engine ratio (complete case; support in commonSupport.etaEngCompleteCase); model-derived",
+   "engineBrake": "etaEng x the headline fuel rate: a ratio estimator that applies the complete-case ratio to the drives with a null per-drive engine ratio; engineLoss and genpeLoss follow from it",
+   "etaBus": "generator DC-bus energy / chemical fuel energy, ratio of corpus sums (model-derived)",
+   "etaTankToTraction": "NET traction-bus energy / chemical fuel energy, ratio of corpus sums (a model-derived index, not a measured efficiency; wheel efficiency is not measured)",
+   "grossTractionBusPerFuel": 0.378,
+   "grossTractionBusPerFuelNote": "gross positive traction-bus energy / chemical fuel energy: a different quantity from etaTankToTraction"
+  },
+  "commonSupport": {
+   "headline": {
+    "nDrives": 376,
+    "days": 67,
+    "km": 3723.6
+   },
+   "etaEngCompleteCase": {
+    "nDrives": 346,
+    "days": 65,
+    "km": 3696.1
+   },
+   "batteryBranches": {
+    "nDrives": 374,
+    "days": 67,
+    "km": 3716.8
+   },
+   "droppedForMissingBatteryInput": {
+    "nDrives": 2,
+    "km": 6.8
+   },
+   "note": "genToBatt and regenToBatt are computed on the drives with both battery inputs; eta_eng is a ratio on the drives with a per-drive engine ratio (complete case), engine brake is that ratio times the headline fuel rate; the other branches use the headline support. Branch rates from different supports are not one conserved network."
   }
  },
  "integrationScenarios": {
@@ -335278,15 +335308,15 @@
        "fGen": 0.518,
        "fuelL": 5.64,
        "fuelChem": 48.39,
-       "etaEng": 0.356,
-       "etaBus": 0.33
+       "etaEng": 0.355,
+       "etaBus": 0.329
       },
       "flows": {
        "fuelChem": 48.39,
-       "engineBrake": 17.23,
-       "engineLoss": 31.16,
+       "engineBrake": 17.16,
+       "engineLoss": 31.22,
        "generatorElec": 15.9,
-       "genpeLoss": 1.33,
+       "genpeLoss": 1.27,
        "genToTraction": 9.47,
        "battToTraction": 8.81,
        "tractionGross": 18.29,
@@ -335333,6 +335363,36 @@
        }
       ],
       "basis": "Path B (fuel flow → RPM/load-conditioned BSFC surface → generator → DC-bus balance), 376 clean / 376 fuel-instrumented drives, 3723.6 km — All cohort (606 drives in cohort corpus-wide).",
+      "estimands": {
+       "etaEng": "engine brake energy / chemical fuel energy, ratio of corpus energy totals on the drives with a per-drive engine ratio (complete case; support in commonSupport.etaEngCompleteCase); model-derived",
+       "engineBrake": "etaEng x the headline fuel rate: a ratio estimator that applies the complete-case ratio to the drives with a null per-drive engine ratio; engineLoss and genpeLoss follow from it",
+       "etaBus": "generator DC-bus energy / chemical fuel energy, ratio of corpus sums (model-derived)",
+       "etaTankToTraction": "NET traction-bus energy / chemical fuel energy, ratio of corpus sums (a model-derived index, not a measured efficiency; wheel efficiency is not measured)",
+       "grossTractionBusPerFuel": 0.378,
+       "grossTractionBusPerFuelNote": "gross positive traction-bus energy / chemical fuel energy: a different quantity from etaTankToTraction"
+      },
+      "commonSupport": {
+       "headline": {
+        "nDrives": 376,
+        "days": 67,
+        "km": 3723.6
+       },
+       "etaEngCompleteCase": {
+        "nDrives": 346,
+        "days": 65,
+        "km": 3696.1
+       },
+       "batteryBranches": {
+        "nDrives": 374,
+        "days": 67,
+        "km": 3716.8
+       },
+       "droppedForMissingBatteryInput": {
+        "nDrives": 2,
+        "km": 6.8
+       },
+       "note": "genToBatt and regenToBatt are computed on the drives with both battery inputs; eta_eng is a ratio on the drives with a per-drive engine ratio (complete case), engine brake is that ratio times the headline fuel rate; the other branches use the headline support. Branch rates from different supports are not one conserved network."
+      },
       "productionCheck": {
        "distWtGenerator": 15.9,
        "nAll": 606
@@ -335349,14 +335409,14 @@
        "fuelL": 5.58,
        "fuelChem": 47.86,
        "etaEng": 0.358,
-       "etaBus": 0.332
+       "etaBus": 0.331
       },
       "flows": {
        "fuelChem": 47.86,
-       "engineBrake": 17.13,
-       "engineLoss": 30.73,
+       "engineBrake": 17.12,
+       "engineLoss": 30.75,
        "generatorElec": 15.85,
-       "genpeLoss": 1.28,
+       "genpeLoss": 1.26,
        "genToTraction": 8.9,
        "battToTraction": 9.76,
        "tractionGross": 18.66,
@@ -335403,6 +335463,36 @@
        }
       ],
       "basis": "Path B (fuel flow → RPM/load-conditioned BSFC surface → generator → DC-bus balance), 213 clean / 213 fuel-instrumented drives, 1809.7 km — Warm cohort (423 drives in cohort corpus-wide).",
+      "estimands": {
+       "etaEng": "engine brake energy / chemical fuel energy, ratio of corpus energy totals on the drives with a per-drive engine ratio (complete case; support in commonSupport.etaEngCompleteCase); model-derived",
+       "engineBrake": "etaEng x the headline fuel rate: a ratio estimator that applies the complete-case ratio to the drives with a null per-drive engine ratio; engineLoss and genpeLoss follow from it",
+       "etaBus": "generator DC-bus energy / chemical fuel energy, ratio of corpus sums (model-derived)",
+       "etaTankToTraction": "NET traction-bus energy / chemical fuel energy, ratio of corpus sums (a model-derived index, not a measured efficiency; wheel efficiency is not measured)",
+       "grossTractionBusPerFuel": 0.39,
+       "grossTractionBusPerFuelNote": "gross positive traction-bus energy / chemical fuel energy: a different quantity from etaTankToTraction"
+      },
+      "commonSupport": {
+       "headline": {
+        "nDrives": 213,
+        "days": 49,
+        "km": 1809.7
+       },
+       "etaEngCompleteCase": {
+        "nDrives": 203,
+        "days": 49,
+        "km": 1799.6
+       },
+       "batteryBranches": {
+        "nDrives": 211,
+        "days": 49,
+        "km": 1802.9
+       },
+       "droppedForMissingBatteryInput": {
+        "nDrives": 2,
+        "km": 6.8
+       },
+       "note": "genToBatt and regenToBatt are computed on the drives with both battery inputs; eta_eng is a ratio on the drives with a per-drive engine ratio (complete case), engine brake is that ratio times the headline fuel rate; the other branches use the headline support. Branch rates from different supports are not one conserved network."
+      },
       "productionCheck": {
        "distWtGenerator": 15.85,
        "nAll": 423
@@ -335418,15 +335508,15 @@
        "fGen": 0.538,
        "fuelL": 5.61,
        "fuelChem": 48.19,
-       "etaEng": 0.353,
-       "etaBus": 0.327
+       "etaEng": 0.351,
+       "etaBus": 0.325
       },
       "flows": {
        "fuelChem": 48.19,
-       "engineBrake": 17.01,
-       "engineLoss": 31.18,
+       "engineBrake": 16.93,
+       "engineLoss": 31.27,
        "generatorElec": 15.68,
-       "genpeLoss": 1.33,
+       "genpeLoss": 1.25,
        "genToTraction": 9.6,
        "battToTraction": 8.25,
        "tractionGross": 17.84,
@@ -335473,6 +335563,36 @@
        }
       ],
       "basis": "Path B (fuel flow → RPM/load-conditioned BSFC surface → generator → DC-bus balance), 150 clean / 150 fuel-instrumented drives, 1712.3 km — Shoulder cohort (170 drives in cohort corpus-wide).",
+      "estimands": {
+       "etaEng": "engine brake energy / chemical fuel energy, ratio of corpus energy totals on the drives with a per-drive engine ratio (complete case; support in commonSupport.etaEngCompleteCase); model-derived",
+       "engineBrake": "etaEng x the headline fuel rate: a ratio estimator that applies the complete-case ratio to the drives with a null per-drive engine ratio; engineLoss and genpeLoss follow from it",
+       "etaBus": "generator DC-bus energy / chemical fuel energy, ratio of corpus sums (model-derived)",
+       "etaTankToTraction": "NET traction-bus energy / chemical fuel energy, ratio of corpus sums (a model-derived index, not a measured efficiency; wheel efficiency is not measured)",
+       "grossTractionBusPerFuel": 0.37,
+       "grossTractionBusPerFuelNote": "gross positive traction-bus energy / chemical fuel energy: a different quantity from etaTankToTraction"
+      },
+      "commonSupport": {
+       "headline": {
+        "nDrives": 150,
+        "days": 43,
+        "km": 1712.3
+       },
+       "etaEngCompleteCase": {
+        "nDrives": 131,
+        "days": 41,
+        "km": 1695.6
+       },
+       "batteryBranches": {
+        "nDrives": 150,
+        "days": 43,
+        "km": 1712.3
+       },
+       "droppedForMissingBatteryInput": {
+        "nDrives": 0,
+        "km": 0.0
+       },
+       "note": "genToBatt and regenToBatt are computed on the drives with both battery inputs; eta_eng is a ratio on the drives with a per-drive engine ratio (complete case), engine brake is that ratio times the headline fuel rate; the other branches use the headline support. Branch rates from different supports are not one conserved network."
+      },
       "productionCheck": {
        "distWtGenerator": 15.68,
        "nAll": 170
@@ -335488,15 +335608,15 @@
        "fGen": 0.726,
        "fuelL": 6.37,
        "fuelChem": 54.72,
-       "etaEng": 0.362,
-       "etaBus": 0.336
+       "etaEng": 0.358,
+       "etaBus": 0.332
       },
       "flows": {
        "fuelChem": 54.72,
-       "engineBrake": 19.81,
-       "engineLoss": 34.91,
+       "engineBrake": 19.59,
+       "engineLoss": 35.13,
        "generatorElec": 18.15,
-       "genpeLoss": 1.66,
+       "genpeLoss": 1.44,
        "genToTraction": 13.63,
        "battToTraction": 5.15,
        "tractionGross": 18.78,
@@ -335525,6 +335645,36 @@
        }
       ],
       "basis": "Path B (fuel flow → RPM/load-conditioned BSFC surface → generator → DC-bus balance), 13 clean / 13 fuel-instrumented drives, 201.6 km — Cold cohort (13 drives in cohort corpus-wide).",
+      "estimands": {
+       "etaEng": "engine brake energy / chemical fuel energy, ratio of corpus energy totals on the drives with a per-drive engine ratio (complete case; support in commonSupport.etaEngCompleteCase); model-derived",
+       "engineBrake": "etaEng x the headline fuel rate: a ratio estimator that applies the complete-case ratio to the drives with a null per-drive engine ratio; engineLoss and genpeLoss follow from it",
+       "etaBus": "generator DC-bus energy / chemical fuel energy, ratio of corpus sums (model-derived)",
+       "etaTankToTraction": "NET traction-bus energy / chemical fuel energy, ratio of corpus sums (a model-derived index, not a measured efficiency; wheel efficiency is not measured)",
+       "grossTractionBusPerFuel": 0.343,
+       "grossTractionBusPerFuelNote": "gross positive traction-bus energy / chemical fuel energy: a different quantity from etaTankToTraction"
+      },
+      "commonSupport": {
+       "headline": {
+        "nDrives": 13,
+        "days": 5,
+        "km": 201.6
+       },
+       "etaEngCompleteCase": {
+        "nDrives": 12,
+        "days": 5,
+        "km": 200.9
+       },
+       "batteryBranches": {
+        "nDrives": 13,
+        "days": 5,
+        "km": 201.6
+       },
+       "droppedForMissingBatteryInput": {
+        "nDrives": 0,
+        "km": 0.0
+       },
+       "note": "genToBatt and regenToBatt are computed on the drives with both battery inputs; eta_eng is a ratio on the drives with a per-drive engine ratio (complete case), engine brake is that ratio times the headline fuel rate; the other branches use the headline support. Branch rates from different supports are not one conserved network."
+      },
       "productionCheck": {
        "distWtGenerator": 18.15,
        "nAll": 13

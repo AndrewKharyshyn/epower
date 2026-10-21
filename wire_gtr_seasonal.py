@@ -13,8 +13,8 @@ before being applied to cohort subsets):
     subset with those two columns additionally non-null (2 extra NaNs each
     in the corpus-wide set).
   - etaTankToTraction: wavg(traction_net) / wavg(fuel_chem).
-  - engineBrake = fuelChem * etaEng; engineLoss = fuelChem - engineBrake;
-    genpeLoss = engineBrake - generatorElec (generatorElec == corpus.generator).
+  - M471 (audit F01): etaEng = sum(E_engine)/sum(E_fuel) and etaBus = sum(E_gen)/sum(E_fuel) (ratios of corpus sums, no longer distance-weighted means of per-drive
+    ratios, complete-case where eta_eng is null); engineBrake = etaEng x the headline fuel rate; engineLoss = fuel - engineBrake; genpeLoss = engineBrake - generator (generator == corpus.generator).
 Reproduces the shipped corpus-wide figures (135/138, 1391.2 km; generator
 15.92, tractionGross 23.88, fGen 0.602, etc.) to the last shipped digit.
 """
@@ -27,6 +27,21 @@ import eligibility as EL
 def wavg(frame, col):
     w = frame['distance_km']
     return (frame[col] * w).sum() / w.sum()
+
+def engine_brake_100(frame):
+    """M471 (audit F01): engine brake energy per 100 km of each drive: the `engine_brake_kWh_100` column when the master carries it, else eta_eng x fuel_chem (eta_eng has 4 decimals in fuel_recon_master.csv: relative error ~1e-4)."""
+    if 'engine_brake_kWh_100' in frame.columns:
+        return frame['engine_brake_kWh_100']
+    return frame['eta_eng'] * frame['fuel_chem_kWh_100']
+
+
+def ratio_of_sums(frame, num, den):
+    """M471: corpus ratio sum(num_i x km_i) / sum(den_i x km_i) for per-100-km energy columns (a mean of per-drive ratios is NOT this). `num`/`den` are column names or Series."""
+    w = frame['distance_km']
+    n = frame[num] if isinstance(num, str) else num
+    d = frame[den] if isinstance(den, str) else den
+    return float((n * w).sum() / (d * w).sum())
+
 
 def load_merged(root='.', fuel_path=None):
     """M375: the ONE loader of the merged fuel frame: fuel_recon_master + seasonal regime + the drive_master canonical flags (eligibility.py; stop checks included). Adds `ens_excluded`."""
@@ -58,8 +73,16 @@ def aggregate(subset, cohort_label, corpus_total_n, canonical=True):
     battToTraction = round(wavg(clean, 'batt_to_traction_kWh_100'), 2)
     fuelL = round(wavg(clean, 'fuel_L_per_100km'), 2)
     fuelChem = round(wavg(clean, 'fuel_chem_kWh_100'), 2)
-    etaEng = round(wavg(clean, 'eta_eng'), 3)
-    etaBus = round(wavg(clean, 'eta_fuel_bus'), 3)
+    # M471 (audit F01): the corpus efficiencies are ratios of energy sums, not distance-weighted means of per-drive ratios
+    # complete-case rule (blind audit M471): numerator and denominator cover the SAME drives; eta_eng is null on some drives (their engine energy is unknown, not zero)
+    fuel_w = float(wavg(clean, 'fuel_chem_kWh_100'))
+    gen_w = float(wavg(clean, 'generator_kWh_100'))
+    eng_col = engine_brake_100(clean)
+    cc = clean[eng_col.notna() & clean['fuel_chem_kWh_100'].notna()]
+    eta_eng_u = ratio_of_sums(cc, eng_col[cc.index], 'fuel_chem_kWh_100')
+    eng_w = eta_eng_u * fuel_w            # engine brake per 100 km on the headline support: the complete-case ratio times the headline fuel rate
+    etaEng = round(eta_eng_u, 3)
+    etaBus = round(gen_w / fuel_w, 3)
     tractionNet = wavg(clean, 'traction_net_kWh_100')
     etaTankToTraction = round(tractionNet / wavg(clean, 'fuel_chem_kWh_100'), 3)
 
@@ -71,10 +94,10 @@ def aggregate(subset, cohort_label, corpus_total_n, canonical=True):
     genToBatt = round(wavg(gb, 'gen_to_batt_kWh_100'), 2) if len(gb) else None
     regenToBatt = round(wavg(gb, 'regen_to_batt_kWh_100'), 2) if len(gb) else None
 
-    engineBrake = round(fuelChem * etaEng, 2)
-    engineLoss = round(fuelChem - engineBrake, 2)
+    engineBrake = round(eng_w, 2)
+    engineLoss = round(fuel_w - eng_w, 2)
     generatorElec = generator
-    genpeLoss = round(engineBrake - generatorElec, 2)
+    genpeLoss = round(eng_w - gen_w, 2)
 
     corpus = dict(generator=generator, tractionGross=tractionGross, fGen=fGen,
                   fuelL=fuelL, fuelChem=fuelChem, etaEng=etaEng, etaBus=etaBus)
@@ -83,6 +106,21 @@ def aggregate(subset, cohort_label, corpus_total_n, canonical=True):
                  genToTraction=genToTraction, battToTraction=battToTraction,
                  tractionGross=tractionGross, genToBatt=genToBatt,
                  regenToBatt=regenToBatt, etaTankToTraction=etaTankToTraction)
+
+    # M471: names what each efficiency IS (the key etaTankToTraction is kept, M326: no payload-key rename) and the support of the branches
+    estimands = dict(
+        etaEng="engine brake energy / chemical fuel energy, ratio of corpus energy totals on the drives with a per-drive engine ratio (complete case; support in commonSupport.etaEngCompleteCase); model-derived",
+        engineBrake="etaEng x the headline fuel rate: a ratio estimator that applies the complete-case ratio to the drives with a null per-drive engine ratio; engineLoss and genpeLoss follow from it",
+        etaBus="generator DC-bus energy / chemical fuel energy, ratio of corpus sums (model-derived)",
+        etaTankToTraction="NET traction-bus energy / chemical fuel energy, ratio of corpus sums (a model-derived index, not a measured efficiency; wheel efficiency is not measured)",
+        grossTractionBusPerFuel=round(float(wavg(clean, 'traction_gross_kWh_100')) / fuel_w, 3),
+        grossTractionBusPerFuelNote="gross positive traction-bus energy / chemical fuel energy: a different quantity from etaTankToTraction")
+    _days = lambda f: int(f['date'].astype(str).nunique()) if 'date' in f.columns else None
+    commonSupport = dict(headline=dict(nDrives=nDrives, days=_days(clean), km=km),
+                         etaEngCompleteCase=dict(nDrives=int(len(cc)), days=_days(cc), km=round(float(cc['distance_km'].sum()), 1)),
+                         batteryBranches=dict(nDrives=int(len(gb)), days=_days(gb), km=round(float(gb['distance_km'].sum()), 1)),
+                         droppedForMissingBatteryInput=dict(nDrives=int(nDrives - len(gb)), km=round(float(clean['distance_km'].sum() - gb['distance_km'].sum()), 1)),
+                         note="genToBatt and regenToBatt are computed on the drives with both battery inputs; eta_eng is a ratio on the drives with a per-drive engine ratio (complete case), engine brake is that ratio times the headline fuel rate; the other branches use the headline support. Branch rates from different supports are not one conserved network.")
 
     dts = []
     for typ, g in clean.groupby('drive_type'):
@@ -105,7 +143,7 @@ def aggregate(subset, cohort_label, corpus_total_n, canonical=True):
              f"({corpus_total_n} drives in cohort corpus-wide).")
 
     return dict(nProduction=nProduction, nDrives=nDrives, kmProduction=km,
-                corpus=corpus, flows=flows, driveTypeSplit=dts, basis=basis,
+                corpus=corpus, flows=flows, driveTypeSplit=dts, basis=basis, estimands=estimands, commonSupport=commonSupport,
                 productionCheck=dict(distWtGenerator=generator, nAll=corpus_total_n))
 
 # the entry metadata the wiring sets; exposed so a test can assert the payload still carries exactly these values

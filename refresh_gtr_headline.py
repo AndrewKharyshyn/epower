@@ -35,6 +35,8 @@ def refresh(d, merged):
     R['flows'] = data_all['flows']
     R['driveTypeSplit'] = data_all['driveTypeSplit']
     R['productionCheck'] = data_all['productionCheck']
+    R['estimands'] = data_all['estimands']            # M471 (audit F01): what each efficiency is, and the support of the battery branches
+    R['commonSupport'] = data_all['commonSupport']
     R['basis'] = (f"Path B (fuel flow \u2192 RPM/load-conditioned BSFC surface \u2192 "
                   f"generator \u2192 DC-bus balance), {data_all['nDrives']} clean / "
                   f"{data_all['nProduction']} fuel-instrumented drives, "
@@ -43,7 +45,11 @@ def refresh(d, merged):
     # against a published 0.467 -- the release gate only tolerated the gap while it stayed inside its approximation tolerance).
     # M382 (audit F04): the two efficiency rows are bound the same way (they carried the stale 0.355 / 0.329 against 0.351 / 0.325).
     _fg = float(data_all['corpus']['fGen'])
-    _eta = {'η_eng': data_all['corpus']['etaEng'], 'Net traction-bus/fuel index': data_all['corpus']['etaBus']}
+    # M471 (audit F01): corpus.etaBus is the GENERATOR-bus / chemical-fuel ratio; the M332 term 'Net traction-bus/fuel index' mislabelled it (the net traction index is flows.etaTankToTraction). 'tank->bus' wording stays forbidden (W1-tank), so the term is 'Generator-bus/fuel ratio'
+    _eta = {'η_eng': data_all['corpus']['etaEng'], 'Generator-bus/fuel ratio': data_all['corpus']['etaBus']}
+    for _g in R.get('glossary', []):
+        if _g.get('term') in ('Net traction-bus/fuel index', 'η tank→bus'):
+            _g['term'] = 'Generator-bus/fuel ratio'
     for _g in R.get('glossary', []):
         if _g.get('term') == 'f_gen':
             _g['value'] = f"{_fg:.3f}"

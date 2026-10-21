@@ -25,7 +25,7 @@ Method (identical to the headline pipeline, one constant perturbed per axis)
   * Per drive: recon_engine.load_drive (M265 sign) -> precompute -> the
     per-100km reconstruction. central_estimate_v2 is anchored to the master's
     gross discharge/charge energies exactly as fuel_recon.py does.
-  * Aggregate: distance-weighted mean for gen100/trac100/etaBus; ratio-of-sums
+  * Aggregate: distance-weighted mean for gen100/trac100; etaBus = ratio of sums sum(E_gen)/sum(E_fuel) (M471, audit F01); fgen ratio-of-sums
     for f_gen (sum gen_to_traction*dist / sum traction_gross*dist) -- verbatim
     the wire_gtr_seasonal.aggregate() convention.
   * Each axis mutates exactly ONE model constant (or the BSFC scenario scalar),
@@ -112,6 +112,7 @@ def run_axis(cache, scen='central'):
             traction_gross_kWh_100=ce['E_trac_gross'] / dist * 100.0,
             gen_to_traction_kWh_100=ce['E_gen_to_trac'] / dist * 100.0,
             eta_fuel_bus=ce['eta_fuel_bus'],
+            fuel_chem_kWh_100=ce['E_fuel'] / dist * 100.0,      # M471: etaBus is the ratio of sums sum(E_gen)/sum(E_fuel)
             f_gen=ce['f_gen'],
         ))
     fr = pd.DataFrame(recs)
@@ -122,7 +123,7 @@ def run_axis(cache, scen='central'):
         gen100=round(_wavg(clean, 'generator_kWh_100'), 2),
         trac100=round(_wavg(clean, 'traction_gross_kWh_100'), 2),
         fgen=round(s_g2t / s_tg, 3),
-        etaBus=round(_wavg(clean, 'eta_fuel_bus'), 3),
+        etaBus=round(_wavg(clean, 'generator_kWh_100') / _wavg(clean, 'fuel_chem_kWh_100'), 3),      # M471 (audit F01): ratio of sums, not the mean of per-drive ratios
         nClean=len(clean),
     )
 
