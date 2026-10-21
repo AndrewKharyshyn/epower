@@ -98,7 +98,8 @@ const REQUIRED_BLOCKS=[
   'ambientTable',           // M314: per-drive ambient temperatures for the Thermal tab table (tools/build_ambient_table.py)
   'masterRefitProvenance',  // M311: rebuild from the repository raw archive, labelled provenance sensitivity (tools/build_refit_provenance.py)
   'provenanceSensitivity',  // M307/F03: computed provenance-sensitivity notice (f03_provenance_flag.py)
-  'fuelContract'            // M334: Fuel-tab disclosure block (tools/fuel_contract.py -> fuel_contract_flag.py)
+  'fuelContract',           // M334: Fuel-tab disclosure block (tools/fuel_contract.py -> fuel_contract_flag.py)
+  'cohortSupport'           // M472: descriptive cohort support accounting (tools/cohort_support.py)
 ];
 const missing=REQUIRED_BLOCKS.filter(k=>arraysObj[k]==null);
 if(missing.length){
