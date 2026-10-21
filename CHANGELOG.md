@@ -1,3 +1,16 @@
+## M470 (2026-10-21): Audit 2026-10-21: language gate normalises each text once; decisions unchanged
+
+**Rationale.** Spec analyses/M470_spec.md; language_gate.py performance only, no rule or wording changed, no payload or dashboard change. Each text is normalised once for all rules (prepare), per-rule data is computed at construction, and scan_text caches the hit tuple per distinct text for the shared RULES list (copies handed out; caller-supplied rule lists are never cached; scan_payload still reports duplicate locations). New tests/synthetic/test_language_gate_equiv.py (added to ci.yml) compares against the former implementation (hit_phrase, norm+regex, hit_ctx): identical ordered hit lists on 1,430 texts (a deterministic quarter of the distinct payload/config strings, JSX code and comments, six tab dumps, fixtures) and identical payload location reports with duplicates; measured on that corpus former 26.5 s, now 5.9 s (a test-corpus measurement, not a pipeline speed-up claim). All test_m*_wording, test_language_gate and test_trend_facts pass; release_check.py PASSED.
+
+**State.** `drive_master.csv` 606 rows, MD5 `5556a0c6c8bcde0f6c64b8b9655208ed`.
+
+**Gates (runs/20261020T221332Z).** restamp_ingest=ok; build_html=ok; jsdom=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `analyses/M470_spec.md`, `language_gate.py`, `tests/synthetic/test_language_gate_equiv.py`, `.github/workflows/ci.yml`.
+
+
 ## M469 (2026-10-21): Audit 2026-10-21: bind the calendar-aging literals; state the denominator families and missing energy
 
 **Rationale.** Spec analyses/M469_spec.md; JSX text and language gate only, no payload value changed. The methodology paragraph now reads the Arrhenius Ea (S.seasonalLife.assumptions.arrhenius.EaEv, refC), the parked annual rate factor (S.seasonalLife.calendarAnnualFactor, 0.399) and the Dec-Feb mean monthly calendarFactor (0.143, about 7x) from the payload; the typed Q10=2, the 0.44 driving-heat uplift with '~1.5% of hours at ~40 C' (no producer) and the typed winter factor 0.145 (already stale against the payload) are retired and added as language rule M469-calendar-literals. Overview Counts by basis adds the rainflow SoC-trace count (S.rfDodHistogram.nFilesUsed) and states that the drives without a current-integral energy metric (S.eligibility families headline n minus current-integral n = 14) have missing, not zero, energy. Open: literature constants, historical 446/489/82-drive text, per-figure weighting labels. Gates: release_check.py PASSED; dump_tabs 51 files, 0 console errors; rendered text verified.

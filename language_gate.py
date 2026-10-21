@@ -50,19 +50,45 @@ def hit_ctx(term, near, text, window=4, allow_negated=True):
     return False
 
 
+def prepare(text):
+    """Normalise ONE text for all rules: (norm, whitespace-stripped norm, tokens)."""
+    n = norm(text)
+    return n, n.replace(" ", ""), n.split()
+
+
 class Rule:
     def __init__(self, rid, kind, why, phrase=None, rx=None, term=None, near=(), window=4, scope=("dom", "payload", "config", "jsx")):
         self.rid, self.kind, self.why, self.phrase, self.term, self.near, self.window = rid, kind, why, phrase, term, tuple(near), window
         self.scope = tuple(scope)     # where the rule is enforced; a narrower scope is a documented, temporary exemption (see the wave addendum)
         self.rx = re.compile(rx) if rx else None
+        # M470 (audit speed): everything that depends only on the rule is computed once, not per scanned string
+        if kind == "phrase":
+            self._prx, self._pstrip = _phrase_rx(phrase), "".join(_words(phrase))
+        elif kind == "ctx":
+            self._tw, self._nr = _words(term), {norm(x) for x in self.near}
 
     def hits(self, text):
+        return self.hits_prepared(*prepare(text))
+
+    def hits_prepared(self, n, stripped, toks):
+        """Same decision as the former per-call implementation, on a text that was normalised ONCE (n = norm(text), stripped = n without spaces, toks = n.split())."""
         if self.kind == "phrase":
-            return hit_phrase(self.phrase, text)
+            if self._prx.search(n):
+                return True
+            return len(self._pstrip) >= 12 and self._pstrip in stripped
         if self.kind == "regex":
-            return bool(self.rx.search(norm(text)))
+            return bool(self.rx.search(n))
         if self.kind == "ctx":
-            return hit_ctx(self.term, self.near, text, self.window)
+            tw, nr, window, ltw = self._tw, self._nr, self.window, len(self._tw)
+            for i in range(len(toks) - ltw + 1):
+                if toks[i:i + ltw] != tw:
+                    continue
+                if NEG & set(toks[max(0, i - 3):i]):
+                    continue
+                lo, hi = max(0, i - window), min(len(toks), i + ltw + window)
+                if nr & (set(toks[lo:i]) | set(toks[i + ltw:hi])):
+                    return True
+            return False
         raise ValueError(self.kind)
 
 
@@ -364,8 +390,23 @@ RULES = [
 ]
 
 
+_SCAN_CACHE = {}
+
+
 def scan_text(text, rules=RULES):
-    return [r.rid for r in rules if r.hits(text)]
+    """Rule ids that hit `text`, in rule order. M470: the text is normalised once for all rules and the result is cached per text for the shared RULES list; a cached result is returned as a copy."""
+    if rules is not RULES:      # only the shared module list is cached (a caller's temporary list could reuse an object id)
+        prep = prepare(text)
+        return [r.rid for r in rules if r.hits_prepared(*prep)]
+    key = (text, len(rules))
+    hit = _SCAN_CACHE.get(key)
+    if hit is None:
+        prep = prepare(text)
+        hit = tuple(r.rid for r in rules if r.hits_prepared(*prep))
+        if len(_SCAN_CACHE) > 20000:
+            _SCAN_CACHE.clear()
+        _SCAN_CACHE[key] = hit
+    return list(hit)
 
 
 def payload_strings(o):
