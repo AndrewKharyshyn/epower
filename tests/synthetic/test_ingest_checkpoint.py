@@ -18,7 +18,7 @@ def run(name, src, dst, fail=False):
 
 def write(p, s):
     os.makedirs(os.path.dirname(p), exist_ok=True)
-    open(p, "w", newline="\n").write(s)
+    open(p, "w", encoding="utf-8", newline="\n").write(s)
 
 
 def tree_hash(root):
@@ -59,12 +59,12 @@ def run(root, log, *args):
     for n in reversed(runs):
         p = os.path.join(root, "runs", n, "status.json")
         if os.path.isfile(p):
-            st = json.load(open(p)); break
+            st = json.load(open(p, encoding="utf-8")); break
     return r.returncode, st, r
 
 
 def executed(log):
-    return open(log).read().split() if os.path.exists(log) else []
+    return open(log, encoding="utf-8").read().split() if os.path.exists(log) else []
 
 
 def main():
@@ -100,7 +100,7 @@ def main():
         assert executed(L("4")) == ["c"], executed(L("4"))
         assert [s["status"] for s in st["stages"]] == ["restored_from_checkpoint", "restored_from_checkpoint", "ok"], st["stages"]
         assert st["checkpoint"]["restoredStages"] == 2 and st["checkpoint"]["resumed"], st["checkpoint"]
-        assert open(os.path.join(root, "data", "c.txt")).read() == "c:b:a:in"
+        assert open(os.path.join(root, "data", "c.txt"), encoding="utf-8").read() == "c:b:a:in"
         cpd = os.path.join(root, "runs", ".checkpoints")
         assert not (os.path.isdir(cpd) and os.listdir(cpd)), "a green full run discards its chain"
         # 3. code fix of stage b (through its imported helper) invalidates b and c, not a
@@ -141,7 +141,7 @@ def main():
         assert executed(L("11")) == ["b", "c"], executed(L("11"))
         # 9. rerun_on_resume: the flagged stage is re-executed after its restore, later restored stages stay restored
         cfgp = os.path.join(root, "tools", "ingest_stages.json")
-        cfg = json.load(open(cfgp)); cfg["stages"][0]["rerun_on_resume"] = True; json.dump(cfg, open(cfgp, "w"))
+        cfg = json.load(open(cfgp, encoding="utf-8")); cfg["stages"][0]["rerun_on_resume"] = True; json.dump(cfg, open(cfgp, "w", encoding="utf-8"))
         shutil.rmtree(os.path.join(root, "runs"), ignore_errors=True); shutil.rmtree(os.path.join(root, "data")); write(os.path.join(root, "data", "in.txt"), "in")
         rc, st, _ = run(root, L("12"))
         assert rc == 1

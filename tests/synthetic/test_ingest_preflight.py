@@ -9,7 +9,7 @@ import ingest_preflight as P
 
 def w(p, s):
     os.makedirs(os.path.dirname(p), exist_ok=True)
-    open(p, "w", newline="\n").write(s)
+    open(p, "w", encoding="utf-8", newline="\n").write(s)
 
 
 def main():
