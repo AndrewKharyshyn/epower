@@ -13,7 +13,7 @@ const leaves=[];
   // expand collapsibles (non-nav, non-cohort buttons that look like toggles)
   for(const b of btns().filter(b=>!TABS.includes(b.textContent.trim().toLowerCase())&&!b.hasAttribute('data-cohort-btn')&&!b.hasAttribute('data-cmp-btn')&&/▸|▶|show|expand|more|details/i.test(b.textContent)).slice(0,150)){click(b);await sleep(3);}
   await sleep(120);
-  for(const m of ['all','warm','shoulder','compare']){const b=d.querySelector(`button[data-cohort-btn="${m}"]`);if(!b||b.disabled)continue;click(b);await sleep(180);
+  for(const m of ['all','warm','shoulder','cold','compare']){const b=d.querySelector(`button[data-cohort-btn="${m}"]`);if(!b||b.disabled)continue;click(b);await sleep(180);
    const cl=d.getElementById('root').cloneNode(true);cl.querySelectorAll('script,style').forEach(x=>x.remove());
    fs.writeFileSync(`tabtext/${t.replace(/ /g,'_')}__${m}.txt`,cl.textContent);
    // M368 (gate A3): per-LEAF own text (table cells are not concatenated) carrying a number with >=5 decimals

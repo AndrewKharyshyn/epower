@@ -1191,7 +1191,7 @@ function CycleRateChart() {
       <div style={{marginTop:10,display:"grid",gridTemplateColumns:`repeat(${Math.min(_cbt.length,4)},1fr)`,gap:6}}>
         {_cbt.map(d=>{
           const hw=_cbt.find(x=>x.label==="Highway");
-          const ratio=hw&&hw.avg>0?(d.avg/hw.avg):null;
+          const ratio=hw&&hw.avg>0&&d.avg!=null?(d.avg/hw.avg):null;
           return (
             <div key={d.label} style={{background:"#f1f5f9",borderRadius:6,padding:"8px 10px",textAlign:"center"}}>
               <div style={{fontSize:10,color:"#64748b"}}>{d.label}</div>
@@ -8197,7 +8197,7 @@ function FuelWarmup(){
   const Z=S.fuelWarmup; if(!Z) return null;
   const coh=useCohort(); const [axis,setAxis]=useState("time"); const [pop,setPop]=useState("all"); const [curve,setCurve]=useState("distCumTotal");
   const bands=Object.keys(Z.bands).filter(b=>b!=="oil-fallback"), key=axis==="time"?"timeCum":curve, grid=axis==="time"?Z.timeGridS:Z.distGridKm;
-  const cohs=coh==="all"?[["all","All data","#334155"]]:coh==="compare"?[["warm","Warm",COHORT_META.warm.col],["shoulder","Shoulder",COHORT_META.shoulder.col]]:[[coh,(COHORT_META[coh]||{label:coh}).label,(COHORT_META[coh]||{}).col||"#334155"]];
+  const cohs=coh==="all"?[["all","All data","#334155"]]:coh==="compare"?[["warm","Warm",COHORT_META.warm.col],["shoulder","Shoulder",COHORT_META.shoulder.col]].concat(cohortAvailable("cold")?[["cold","Cold",COHORT_META.cold.col]]:[]):[[coh,(COHORT_META[coh]||{label:coh}).label,(COHORT_META[coh]||{}).col||"#334155"]];
   const popLab={all:"all contributing trips",h300:axis==="time"?"trips reaching 300 s":"trips reaching 2.5 km",h600:axis==="time"?"trips reaching 600 s":"trips reaching 5 km"};
   const sets=(c,b)=>(Z.groups[c+"|"+b]?.sets[pop]||{})[key]||[];
   const ymax=Math.max(0.001,...cohs.flatMap(([c])=>bands.flatMap(b=>sets(c,b).map(p=>p.ci95?p.ci95[1]:(p.est||0)))))*1.08;
@@ -10471,20 +10471,21 @@ const COHORT_META = {
 };
 function useCohort(){ return React.useContext(CohortCtx); }
 /* ─── M297: typed drive-class × thermal-cohort Comparison cube + urban Warm-vs-Shoulder contrast ─── */
+const EXPLORATORY_DAYS=5;   // M465: same floor as the regeneration display (>= 10 drives on >= 5 days); below it a cell is exploratory with no interval
 const COHORT_COL={warm:"#E69F00",shoulder:"#7C3AED",cold:"#0072B2",all:"#64748B"};
 function CubeCell({r,meta}){
   if(!r||r.st==="none") return <td data-not-observed="1" style={{padding:"4px 6px",textAlign:"center",fontSize:9,color:"#94a3b8",background:"repeating-linear-gradient(45deg,#f8fafc,#f8fafc 5px,#eef2f7 5px,#eef2f7 10px)",border:"1px solid #f1f5f9"}}>not observed</td>;
-  const iv=r.ci?{lo:r.ci[0],hi:r.ci[1]}:null, thin=r.st==="thin";
+  const expl=meta.cohort==="cold"&&r.d<EXPLORATORY_DAYS; const iv=(r.ci&&!expl)?{lo:r.ci[0],hi:r.ci[1]}:null, thin=r.st==="thin";
   return <td style={{padding:"4px 6px",textAlign:"right",border:"1px solid #f1f5f9",color:thin?"#94a3b8":"#0f172a"}}
-    title={`${meta.label} · ${meta.estimand} · n=${r.n} drives / ${r.d} days / ${r.km} km${iv?` · 95% CI ${iv.lo}–${iv.hi} (calendar-day bootstrap)`:""}${r.iqr?` · IQR ${r.iqr[0]}–${r.iqr[1]}`:""}${thin?" · INSUFFICIENT SUPPORT":""}`}>
-    <div style={{fontWeight:700,fontSize:10.5}}>{r.est}{thin?" †":""}</div>
+    title={`${meta.label} · ${meta.estimand} · n=${r.n} drives / ${r.d} days / ${r.km} km${iv?` · 95% CI ${iv.lo}–${iv.hi} (calendar-day bootstrap)`:""}${r.iqr?` · IQR ${r.iqr[0]}–${r.iqr[1]}`:""}${thin?" · INSUFFICIENT SUPPORT":""}${expl?" · EXPLORATORY: fewer than "+EXPLORATORY_DAYS+" calendar days, no interval":""}`}>
+    <div style={{fontWeight:700,fontSize:10.5}}>{r.est}{thin?" †":""}{expl?" ~":""}</div>
     {iv&&<div style={{fontSize:8,color:"#64748b"}}>[{iv.lo}–{iv.hi}]</div>}
-    <div style={{fontSize:7.5,color:"#94a3b8"}}>n={r.n} · {r.d} d</div>
+    <div style={{fontSize:7.5,color:"#94a3b8"}}>n={r.n} · {r.d} d{expl?" · exploratory":""}</div>
   </td>;
 }
 function ComparisonCube(){
   const _coh=useCohort(); const C=S.comparisonCube; if(!C) return null;
-  const cohorts=_coh==="compare"?["warm","shoulder"]:[_coh==="cold"?"cold":_coh];
+  const cohorts=_coh==="compare"?["warm","shoulder"].concat(cohortAvailable("cold")?["cold"]:[]):[_coh==="cold"?"cold":_coh];
   const classes=[["urban","Urban"],["mixed","Mixed"],["mixed_highway","Mixed Highway"],["highway","Highway"]];
   const metrics=Object.entries(C.metrics).map(([id,m])=>({metricId:id,...m}));
   const get=(m,ck,co)=>C.rows.find(r=>r.m===m&&r.c===ck&&r.k===co);
@@ -10492,7 +10493,7 @@ function ComparisonCube(){
     <div style={{fontSize:10,color:"#64748b",marginBottom:6}}>
       Typed rows computed per drive class and thermal cohort (canonical-clean; {C._meta.basisNDrivesClean} of {C._meta.basisNDrives} drives).
       Showing: {cohorts.map(c=><strong key={c} style={{color:COHORT_COL[c]||"#334155",marginRight:6}}>{c==="all"?"All data":c[0].toUpperCase()+c.slice(1)}</strong>)}
-      — intervals resample calendar days (B={C._meta.B}); † = below {C._meta.minSupport.drives} drives / {C._meta.minSupport.days} days; hatched = class not observed in that cohort (null, not zero).
+      — intervals resample calendar days (B={C._meta.B}); † = below {C._meta.minSupport.drives} drives / {C._meta.minSupport.days} days; hatched = class not observed in that cohort (null, not zero); ~ = exploratory (fewer than {EXPLORATORY_DAYS} calendar days), point estimate without an interval. The Cold cohort is a display band, not an identified temperature or season effect.
     </div>
     <div style={{overflowX:"auto"}}>
       <table style={{width:"100%",borderCollapse:"collapse",fontSize:10}}>
@@ -10502,7 +10503,7 @@ function ComparisonCube(){
         </tr></thead>
         <tbody>{metrics.map(m=><tr key={m.metricId}>
           <td style={{padding:"4px 6px",borderBottom:"1px solid #f1f5f9"}}><div style={{fontWeight:600,color:"#334155"}}>{m.label} <span style={{color:"#94a3b8",fontWeight:400}}>({m.unit})</span></div><div style={{fontSize:8,color:"#94a3b8"}}>{m.estimand}</div></td>
-          {classes.map(([k])=>cohorts.map(co=><CubeCell key={k+co} r={get(m.metricId,k,co)} meta={m}/>))}
+          {classes.map(([k])=>cohorts.map(co=><CubeCell key={k+co} r={get(m.metricId,k,co)} meta={{...m,cohort:co}}/>))}
         </tr>)}</tbody>
       </table>
     </div>
@@ -10512,7 +10513,7 @@ function ComparisonCube(){
 function UrbanSeasonContrast(){
   const U=S.comparisonCube&&S.comparisonCube.urbanContrast; if(!U) return null;
   const bands=U.bands.filter(b=>b.warm&&b.shoulder);
-  const vals=bands.flatMap(b=>[...b.warm.ci95,...b.shoulder.ci95]); const lo=Math.floor(Math.min(...vals)/5)*5, hi=Math.ceil(Math.max(...vals)/5)*5;
+  const vals=bands.flatMap(b=>[...b.warm.ci95,...b.shoulder.ci95,...(b.cold?[b.cold.estimate]:[])]); const lo=Math.floor(Math.min(...vals)/5)*5, hi=Math.ceil(Math.max(...vals)/5)*5;
   const W=520,L=120,R=150,rowH=34,H=bands.length*rowH+30, x=v=>L+(v-lo)/(hi-lo)*(W-L-R);
   return <div data-urban-contrast="1">
     <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{maxWidth:W,display:"block"}}>
@@ -10520,17 +10521,19 @@ function UrbanSeasonContrast(){
       {bands.map((b,i)=>{ const cy=18+i*rowH;
         return <g key={b.band}>
           <text x={L-8} y={cy+6} fontSize={9} textAnchor="end" fill="#334155">{b.band}</text>
-          {[["warm",-5,"circle"],["shoulder",5,"square"]].map(([c,dy,mk])=>{ const e=b[c], col=COHORT_COL[c];
+          {[["warm",-7,"circle"],["shoulder",0,"square"]].map(([c,dy,mk])=>{ const e=b[c], col=COHORT_COL[c];
             return <g key={c}><line x1={x(e.ci95[0])} x2={x(e.ci95[1])} y1={cy+dy} y2={cy+dy} stroke={col} strokeWidth={1.5} opacity={0.6}/>
               {mk==="circle"?<circle cx={x(e.estimate)} cy={cy+dy} r={3.5} fill={col}/>:<rect x={x(e.estimate)-3.2} y={cy+dy-3.2} width={6.4} height={6.4} fill={col}/>}
               <title>{c}: {e.estimate} kWh/100 km [95% CI {e.ci95[0]}–{e.ci95[1]}], n={e.nDrives}, {e.nDays} days, {e.km} km</title></g>; })}
+          {b.cold&&cohortAvailable("cold")&&<g data-urban-cold="1"><path d={`M${x(b.cold.estimate)} ${cy+3.5} l3.6 6.5 h-7.2 Z`} fill="none" stroke={COHORT_COL.cold} strokeWidth={1.4}/>
+            <title>cold (exploratory, no interval): {b.cold.estimate} kWh/100 km, n={b.cold.nDrives}, {b.cold.nDays} days, {b.cold.km} km</title></g>}
           <text x={W-R+8} y={cy+3} fontSize={8.5} fill="#334155">Δ {b.difference.estimate>0?"+":""}{b.difference.estimate} [{b.difference.ci95[0]}, {b.difference.ci95[1]}]</text>
-          <text x={W-R+8} y={cy+13} fontSize={7.5} fill="#94a3b8">n {b.warm.nDrives} / {b.shoulder.nDrives}</text>
+          <text x={W-R+8} y={cy+13} fontSize={7.5} fill="#94a3b8">n {b.warm.nDrives} / {b.shoulder.nDrives}{b.cold&&cohortAvailable("cold")?` / ${b.cold.nDrives} (Cold ~${b.cold.estimate}, ${b.cold.nDays} d, exploratory)`:""}</text>
         </g>; })}
     </svg>
     <div style={{fontSize:9.5,color:"#64748b",lineHeight:1.5}}>
       <span style={{color:COHORT_COL.warm,fontWeight:700}}>● Warm</span> vs <span style={{color:COHORT_COL.shoulder,fontWeight:700}}>■ Shoulder</span>, urban-only clean drives; pack gross throughput per 100 km (ratio of sums) with calendar-day bootstrap 95% CIs; Δ = Shoulder − Warm with a cohort-stratified day bootstrap. Trip-length bands show the contrast within comparable route durations.
-      Descriptive: urban SoC-ceiling median {U.descriptive.warm.socCeilingMedian}% (Warm) vs {U.descriptive.shoulder.socCeilingMedian}% (Shoulder); median trip {U.descriptive.warm.tripKmMedian} vs {U.descriptive.shoulder.tripKmMedian} km. {U.estimand} Cold: not observed.
+      Descriptive: urban SoC-ceiling median {U.descriptive.warm.socCeilingMedian}% (Warm) vs {U.descriptive.shoulder.socCeilingMedian}% (Shoulder); median trip {U.descriptive.warm.tripKmMedian} vs {U.descriptive.shoulder.tripKmMedian} km. {U.estimand} {U.bands[0].cold&&cohortAvailable("cold")?<span data-urban-cold-note="1">Cold (<span style={{color:COHORT_COL.cold,fontWeight:700}}>△</span>, exploratory): point estimate only, no interval and no difference, {U.bands[0].cold.nDrives} drives on {U.bands[0].cold.nDays} calendar days{U.descriptive.cold?`; urban SoC-ceiling median ${U.descriptive.cold.socCeilingMedian}%, median trip ${U.descriptive.cold.tripKmMedian} km`:""}; Cold has no urban trips of 3 km or longer, so only the first and second rows show it. Cold is a display band, not an identified temperature or season effect.</span>:"Cold: not observed."}
     </div>
   </div>;
 }
@@ -11167,17 +11170,18 @@ function GtrSankeyMultiples(){
     {(byKey.warm&&byKey.shoulder)&&<div style={{marginTop:8,overflowX:"auto"}}>
       <div style={{fontSize:10,fontWeight:700,color:"#334155",marginBottom:2}}>Difference table (Warm − Shoulder, kWh/100&nbsp;km)</div>
       <table style={{fontSize:10,borderCollapse:"collapse",minWidth:360}}>
-        <thead><tr>{["Flow","Warm","Shoulder","\u0394 (W\u2212S)","provenance"].map(h=><th key={h} style={{textAlign:(h==="Flow"||h==="provenance")?"left":"right",padding:"2px 8px",color:"#64748b",fontWeight:600}}>{h}</th>)}</tr></thead>
+        <thead><tr>{["Flow","Warm","Shoulder","\u0394 (W\u2212S)"].concat(byKey.cold?["Cold (exploratory)"]:[]).concat(["provenance"]).map(h=><th key={h} style={{textAlign:(h==="Flow"||h==="provenance")?"left":"right",padding:"2px 8px",color:"#64748b",fontWeight:600}}>{h}</th>)}</tr></thead>
         <tbody>{rows.map(([k,lbl,prov])=>{ const w=byKey.warm[k],sh=byKey.shoulder[k],dg=k==="etaTankToTraction"?3:2,dl=(w!=null&&sh!=null)?(w-sh):null;
           return <tr key={k} style={{borderTop:"1px solid #f1f5f9"}}>
             <td style={{padding:"2px 8px",color:"#334155"}}>{lbl}</td>
             <td style={{textAlign:"right",padding:"2px 8px",fontVariantNumeric:"tabular-nums"}}>{w!=null?w.toFixed(dg):"\u2014"}</td>
             <td style={{textAlign:"right",padding:"2px 8px",fontVariantNumeric:"tabular-nums"}}>{sh!=null?sh.toFixed(dg):"\u2014"}</td>
             <td style={{textAlign:"right",padding:"2px 8px",fontVariantNumeric:"tabular-nums",color:"#64748b"}}>{dl!=null?(dl>=0?"+":"")+dl.toFixed(dg):"\u2014"}</td>
+            {byKey.cold&&<td data-gtr-cold="1" style={{textAlign:"right",padding:"2px 8px",fontVariantNumeric:"tabular-nums",color:COHORT_COL.cold}}>{byKey.cold[k]!=null?byKey.cold[k].toFixed(dg):"\u2014"}</td>}
             <td style={{padding:"2px 8px",color:"#94a3b8",fontSize:9}}>{prov}</td>
           </tr>; })}</tbody>
       </table>
-      <div style={{fontSize:9,color:"#94a3b8",marginTop:3}}>Shoulder rests on far fewer drives ({cm.shoulder?cm.shoulder.n:"?"}) than Warm ({cm.warm?cm.warm.n:"?"}) and is ~98% urban, so Warm−Shoulder conflates season with route — not a controlled seasonal contrast.</div>
+      <div style={{fontSize:9,color:"#94a3b8",marginTop:3}}>Shoulder rests on far fewer drives ({cm.shoulder?cm.shoulder.n:"?"}) than Warm ({cm.warm?cm.warm.n:"?"}) and is ~98% urban, so Warm−Shoulder conflates season with route — not a controlled seasonal contrast.{byKey.cold&&<> Cold ({cm.cold?cm.cold.n:"?"} drives on {cm.cold?cm.cold.nDaysObserved:"?"} calendar days) is exploratory: point values only, no interval and no difference; it is a display band, not an identified temperature or season effect.</>}</div>
     </div>}
   </div>;
 }
@@ -11211,7 +11215,7 @@ function CompareControls({sel,onToggle}){
         </span>)}
       </div>; })()}
     <div style={{fontSize:9,color:"#a78bda",marginTop:6}}>
-      Toggle series on/off — every chart below overlays the enabled cohorts. Default is <strong>Warm vs Shoulder</strong>; <strong>All Data</strong> is the corpus-wide aggregate (the blend of the cohorts), added only on request. Route mix under each label shows the cohorts are not matched on duty — Shoulder is overwhelmingly urban. Cold: {cohortCount("cold")} drive{cohortCount("cold")===1?"":"s"} (sub-{String((seasonalMeta().thresholds||{}).cold||"<=5").replace("<=","")}°C); {cohortAvailable("cold")?"enabled":`disabled until \u2265${COHORT_MIN_SUPPORT_DRIVES} drives are logged`}.
+      Toggle series on/off — every chart below overlays the enabled cohorts. Default is <strong>Warm vs Shoulder{cohortAvailable("cold")?" vs Cold":""}</strong>; <strong>All Data</strong> is the corpus-wide aggregate (the blend of the cohorts), added only on request. Route mix under each label shows the cohorts are not matched on duty — Shoulder is overwhelmingly urban. Cold: {cohortCount("cold")} drive{cohortCount("cold")===1?"":"s"} (sub-{String((seasonalMeta().thresholds||{}).cold||"<=5").replace("<=","")}°C); {cohortAvailable("cold")?"enabled":`disabled until \u2265${COHORT_MIN_SUPPORT_DRIVES} drives are logged`}.
     </div>
   </div>;
 }
@@ -11219,7 +11223,7 @@ function CompareControls({sel,onToggle}){
 export default function App() {
   const [tab, setTab] = useState("overview");
   const [cohort, setCohort] = useState("all");
-  const [cmpSel,setCmpSel]=useState({warm:true,shoulder:true});  // M270: default Warm vs Shoulder (audit Section 9); All added on request
+  const [cmpSel,setCmpSel]=useState({warm:true,shoulder:true,cold:cohortAvailable("cold")});  // M465: Cold joins the default comparison once it meets the support rule; M270: default Warm vs Shoulder (audit Section 9); All added on request
   const cmpToggle=(k)=>setCmpSel(prev=>{
     // "All Data" = the aggregate of every AVAILABLE cohort (Cold joins once it passes the
     // minimum-support rule); a partial selection no longer matches the blended corpus total.

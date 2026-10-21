@@ -78,7 +78,7 @@ async function main(){
   const diffTable=()=>/Difference table \(Warm/.test(d.getElementById('root').textContent);
   // (the app's own selection rules decide the transitions; the test only asserts what is rendered for each resulting selection)
   const sel=()=>pressed().join('+');
-  ok('compare default Warm+Shoulder: two columns and the difference table', pressed().length===2&&cols()===2&&diffTable()&&sk()===2, `sel=${sel()} cols=${cols()}`);
+  ok('compare default Warm+Shoulder (+Cold once it meets the support rule, M465): one column and one Sankey per selected series and the difference table', pressed().length===(COLD_OPEN?3:2)&&cols()===pressed().length&&diffTable()&&sk()===pressed().length, `sel=${sel()} cols=${cols()}`);
   await toggle('all');
   ok('compare + All: one column and one Sankey per selected series', cols()===pressed().length&&cols()>=3&&sk()===pressed().length, `sel=${sel()} cols=${cols()}`);
   await toggle('shoulder');

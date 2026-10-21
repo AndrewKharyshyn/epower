@@ -1011,6 +1011,16 @@ _sh_thin = any(r.get("k") == "shoulder" and r.get("st") == "thin" for r in (A.ge
 ok("C Shoulder non-urban classes rendered by their support state (not observed >= payload count of 'none' rows; thin rows rendered as thin)", sh.count("not observed") >= _sh_none and (not _sh_thin or "thin" in sh.lower()), f"none rows {_sh_none}")
 cc = A["seasonalCharts"]["_meta"]["cohortCounts"]
 ok("C Cold has no fabricated data (cold n=0 -> no cold tab dumps)", cc["cold"] > 0 or not any(k.endswith("__cold") for k in T))
+# M465: once Cold meets the support rule its tab dumps must exist (dump_tabs.js renders mode 'cold') and Compare / the urban contrast must carry it, exploratory and without an interval
+_cold_on = cc["cold"] >= 10 and A["cohortMeta"]["cold"]["inferenceAvailable"] is True
+_cold_tabs = [k for k in T if k.endswith("__cold")]
+ok("C M465 Cold tab dumps exist when the Cold cohort meets the support rule (and not otherwise)", (len(_cold_tabs) >= 9) if _cold_on else (not _cold_tabs), f"{len(_cold_tabs)} cold dumps")
+_uc = ((A.get("comparisonCube") or {}).get("urbanContrast") or {})
+_hvc = T.get("highway_vs_city__compare", "")
+ok("C M465 Compare cube shows the Cold column with the exploratory marker, and the urban contrast states Cold as exploratory with no interval and no difference",
+   (not _cold_on) or ("exploratory" in _hvc.lower() and "cold" in _hvc.lower() and any("exploratory, no interval" in t or "exploratory): point estimate only" in t for t in T.values())),
+   "cold compare text")
+ok("C M465 urban contrast Cold cells carry no interval and no difference in the payload", all((b.get("cold") is None) or (b["cold"].get("ci95") is None and "difference" not in b["cold"]) for b in _uc.get("bands", [])))
 # a leaked token is a rendered value, not the word used in prose ("... is NaN for this leg"): flag NaN/undefined
 # adjacent to a number/unit/punctuation slot, and any 'Infinity'.
 LEAK = re.compile(r"\bundefined\b(?![- ]?(behaviou?r|by|for))(?<!load undefined)|(?<![A-Za-z(])(?<![A-Za-z_] )NaN(?=\s?(%|kWh|km|mV|mΩ|°|/|\)|–|,\s*\d))|\bInfinity\b|\$\{")

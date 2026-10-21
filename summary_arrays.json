@@ -59521,14 +59521,14 @@
     "rawCacheSchemaVersion": 7
    },
    "computationStatus": "computed",
-   "computationStatusNote": "M297: typed class x cohort comparison cube + urban Warm-vs-Shoulder contrast (m297_comparison_cube.py).",
    "includedInReleaseAt": "2026-10-19T17:14:33.246038+00:00",
    "inputBasis": {
     "nDrives": 606,
     "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-19T17:14:33.246038+00:00"
+   "computedAt": "2026-10-19T17:14:33.246038+00:00",
+   "computationStatusNote": "M297: typed class x cohort comparison cube + urban Warm-vs-Shoulder contrast (m297_comparison_cube.py)."
   },
   "crossVehicle": {
    "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
@@ -59670,20 +59670,20 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-20T20:44:35.481592+00:00",
+   "generatedAt": "2026-10-21T07:31:42.677979+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
    },
    "computationStatus": "computed",
    "computationStatusNote": "M339: computed by tools/fuel_analytics2.py from raw/ fuel/speed columns and the master; additive, no published value recomputed; not M299-reproducible.",
-   "includedInReleaseAt": "2026-10-20T20:44:35.481592+00:00",
+   "includedInReleaseAt": "2026-10-21T07:31:42.677979+00:00",
    "inputBasis": {
     "nDrives": 606,
     "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-20T20:44:35.481592+00:00"
+   "computedAt": "2026-10-21T07:31:42.677979+00:00"
   },
   "fuelWarmup": {
    "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
@@ -59691,20 +59691,20 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-20T20:44:35.482973+00:00",
+   "generatedAt": "2026-10-21T07:31:42.677979+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
    },
    "computationStatus": "computed",
    "computationStatusNote": "M339: computed by tools/fuel_analytics2.py from raw/ fuel/speed columns and the master; additive, no published value recomputed; not M299-reproducible.",
-   "includedInReleaseAt": "2026-10-20T20:44:35.482973+00:00",
+   "includedInReleaseAt": "2026-10-21T07:31:42.677979+00:00",
    "inputBasis": {
     "nDrives": 606,
     "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-20T20:44:35.482973+00:00"
+   "computedAt": "2026-10-21T07:31:42.677979+00:00"
   },
   "generatorTractionRecon": {
    "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
@@ -89355,7 +89355,15 @@
       "direction": "Shoulder minus Warm",
       "method": "cohort-stratified calendar-day bootstrap (days resampled within each cohort), B=4000"
      },
-     "status": "observed"
+     "status": "observed",
+     "cold": {
+      "estimate": 39.85,
+      "ci95": null,
+      "nDrives": 12,
+      "nDays": 4,
+      "km": 18.6,
+      "status": "exploratory_no_interval"
+     }
     },
     {
      "band": "< 3 km",
@@ -89388,7 +89396,15 @@
       "direction": "Shoulder minus Warm",
       "method": "cohort-stratified calendar-day bootstrap (days resampled within each cohort), B=4000"
      },
-     "status": "observed"
+     "status": "observed",
+     "cold": {
+      "estimate": 39.85,
+      "ci95": null,
+      "nDrives": 12,
+      "nDays": 4,
+      "km": 18.6,
+      "status": "exploratory_no_interval"
+     }
     },
     {
      "band": "3–10 km",
@@ -89421,7 +89437,8 @@
       "direction": "Shoulder minus Warm",
       "method": "cohort-stratified calendar-day bootstrap (days resampled within each cohort), B=4000"
      },
-     "status": "observed"
+     "status": "observed",
+     "cold": null
     },
     {
      "band": "≥ 10 km",
@@ -89454,7 +89471,8 @@
       "direction": "Shoulder minus Warm",
       "method": "cohort-stratified calendar-day bootstrap (days resampled within each cohort), B=4000"
      },
-     "status": "observed"
+     "status": "observed",
+     "cold": null
     }
    ],
    "descriptive": {
@@ -89467,10 +89485,15 @@
      "socCeilingMedian": 73.0,
      "tripKmMedian": 2.4,
      "nDrives": 147
+    },
+    "cold": {
+     "socCeilingMedian": 69.0,
+     "tripKmMedian": 1.3,
+     "nDrives": 12
     }
    },
    "estimand": "urban-only, canonical-clean paired drives; pack gross throughput per 100 km by thermal cohort (ratio of sums). Confounded by calendar period, trip mix, load and cabin heating (no HVAC telemetry); not a chemistry effect.",
-   "caveat": "Descriptive seasonal operating difference (warm vs shoulder only); the cold cohort (n=13 clean drives) is not part of this contrast."
+   "caveat": "Descriptive seasonal operating difference (Warm vs Shoulder, with an interval and a difference). Cold (n=13 clean drives, 12 urban) is shown as a point estimate only, exploratory, no interval and no difference: its urban set rests on too few calendar days."
   }
  },
  "crossVehicle": {
@@ -134169,6 +134192,8094 @@
     ]
    },
    "shoulder|oil-fallback": {
+    "nTrips": 0,
+    "nDays": 0,
+    "sets": {
+     "all": {
+      "timeCum": [
+       {
+        "pos": 30.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 60.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 90.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 120.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 150.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 180.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 210.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 240.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 270.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 300.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 330.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 360.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 390.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 420.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 450.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 480.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 510.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 540.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 570.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 600.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ],
+      "distCumTotal": [
+       {
+        "pos": 0.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 5.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ],
+      "distCumStationary": [
+       {
+        "pos": 0.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 5.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ],
+      "distCumMoving": [
+       {
+        "pos": 0.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 5.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ]
+     },
+     "h300": {
+      "timeCum": [
+       {
+        "pos": 30.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 60.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 90.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 120.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 150.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 180.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 210.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 240.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 270.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 300.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 330.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 360.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 390.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 420.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 450.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 480.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 510.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 540.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 570.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 600.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ],
+      "distCumTotal": [
+       {
+        "pos": 0.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 5.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ],
+      "distCumStationary": [
+       {
+        "pos": 0.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 5.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ],
+      "distCumMoving": [
+       {
+        "pos": 0.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 5.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ]
+     },
+     "h600": {
+      "timeCum": [
+       {
+        "pos": 30.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 60.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 90.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 120.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 150.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 180.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 210.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 240.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 270.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 300.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 330.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 360.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 390.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 420.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 450.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 480.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 510.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 540.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 570.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 600.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ],
+      "distCumTotal": [
+       {
+        "pos": 0.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 5.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ],
+      "distCumStationary": [
+       {
+        "pos": 0.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 5.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ],
+      "distCumMoving": [
+       {
+        "pos": 0.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 5.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ]
+     }
+    },
+    "intervalConsumption": [
+     {
+      "fromKm": 0.0,
+      "n": 0,
+      "support": "no trips"
+     },
+     {
+      "fromKm": 0.5,
+      "n": 0,
+      "support": "no trips"
+     },
+     {
+      "fromKm": 1.0,
+      "n": 0,
+      "support": "no trips"
+     },
+     {
+      "fromKm": 1.5,
+      "n": 0,
+      "support": "no trips"
+     },
+     {
+      "fromKm": 2.0,
+      "n": 0,
+      "support": "no trips"
+     },
+     {
+      "fromKm": 2.5,
+      "n": 0,
+      "support": "no trips"
+     },
+     {
+      "fromKm": 3.0,
+      "n": 0,
+      "support": "no trips"
+     },
+     {
+      "fromKm": 3.5,
+      "n": 0,
+      "support": "no trips"
+     },
+     {
+      "fromKm": 4.0,
+      "n": 0,
+      "support": "no trips"
+     },
+     {
+      "fromKm": 4.5,
+      "n": 0,
+      "support": "no trips"
+     }
+    ]
+   },
+   "cold|<40C": {
+    "nTrips": 9,
+    "nDays": 5,
+    "sets": {
+     "all": {
+      "timeCum": [
+       {
+        "pos": 30.0,
+        "n": 8,
+        "days": 5,
+        "est": 0.03193,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 60.0,
+        "n": 7,
+        "days": 5,
+        "est": 0.08158,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 90.0,
+        "n": 7,
+        "days": 5,
+        "est": 0.13056,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 120.0,
+        "n": 7,
+        "days": 5,
+        "est": 0.16721,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 150.0,
+        "n": 7,
+        "days": 5,
+        "est": 0.19814,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 180.0,
+        "n": 4,
+        "days": 4,
+        "est": 0.23046,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 210.0,
+        "n": 3,
+        "days": 3,
+        "est": 0.27009,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 240.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.28673,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 270.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.30905,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 300.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.32737,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 330.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.34011,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 360.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.36354,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 390.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.38183,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 420.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.40606,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 450.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.42241,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 480.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.4498,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 510.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.4756,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 540.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.5052,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 570.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.54165,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 600.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.57061,
+        "ci95": null,
+        "support": "points only"
+       }
+      ],
+      "distCumTotal": [
+       {
+        "pos": 0.25,
+        "n": 6,
+        "days": 5,
+        "est": 0.04792,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 0.5,
+        "n": 6,
+        "days": 5,
+        "est": 0.13641,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 0.75,
+        "n": 3,
+        "days": 3,
+        "est": 0.19581,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.22543,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.25,
+        "n": 2,
+        "days": 2,
+        "est": 0.25374,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.5,
+        "n": 2,
+        "days": 2,
+        "est": 0.27843,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.75,
+        "n": 2,
+        "days": 2,
+        "est": 0.29949,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.38027895303501863,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.40018309904829863,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.4134913533837229,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.42699878012820897,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.4382047669464259,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.4540626278409389,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.47557936325429234,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.496780463284958,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.5138787848313028,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.5279127613905589,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.5472864693038519,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.5603296379791913,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 5.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.5640662445163528,
+        "ci95": null,
+        "support": "points only"
+       }
+      ],
+      "distCumStationary": [
+       {
+        "pos": 0.25,
+        "n": 6,
+        "days": 5,
+        "est": 0.0029,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 0.5,
+        "n": 6,
+        "days": 5,
+        "est": 0.01687,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 0.75,
+        "n": 3,
+        "days": 3,
+        "est": 0.03544,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.0419,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.25,
+        "n": 2,
+        "days": 2,
+        "est": 0.0419,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.5,
+        "n": 2,
+        "days": 2,
+        "est": 0.0419,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.75,
+        "n": 2,
+        "days": 2,
+        "est": 0.0419,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 5.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       }
+      ],
+      "distCumMoving": [
+       {
+        "pos": 0.25,
+        "n": 6,
+        "days": 5,
+        "est": 0.04502,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 0.5,
+        "n": 6,
+        "days": 5,
+        "est": 0.11954,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 0.75,
+        "n": 3,
+        "days": 3,
+        "est": 0.16036,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.18353,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.25,
+        "n": 2,
+        "days": 2,
+        "est": 0.21184,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.5,
+        "n": 2,
+        "days": 2,
+        "est": 0.23653,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.75,
+        "n": 2,
+        "days": 2,
+        "est": 0.25759,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.38027895303501863,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.40018309904829863,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.4134913533837229,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.42699878012820897,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.4382047669464259,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.4540626278409389,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.47557936325429234,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.496780463284958,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.5138787848313028,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.5279127613905589,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.5472864693038519,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.5603296379791913,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 5.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.5640662445163528,
+        "ci95": null,
+        "support": "points only"
+       }
+      ]
+     },
+     "h300": {
+      "timeCum": [
+       {
+        "pos": 30.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.03183,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 60.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.08547,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 90.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.13229,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 120.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.17186,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 150.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.21006,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 180.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.24384,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 210.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.27228,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 240.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.28673,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 270.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.30905,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 300.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.32737,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 330.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.34011,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 360.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.36354,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 390.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.38183,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 420.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.40606,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 450.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.42241,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 480.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.4498,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 510.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.4756,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 540.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.5052,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 570.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.54165,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 600.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.57061,
+        "ci95": null,
+        "support": "points only"
+       }
+      ],
+      "distCumTotal": [
+       {
+        "pos": 0.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.06617482426194377,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 0.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.11998900734353102,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 0.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.16724391108385975,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.220661160695515,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.277125101351708,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.3088110214935346,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.3509213181376317,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.38027895303501863,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.40018309904829863,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.4134913533837229,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.42699878012820897,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.4382047669464259,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.4540626278409389,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.47557936325429234,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.496780463284958,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.5138787848313028,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.5279127613905589,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.5472864693038519,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.5603296379791913,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 5.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.5640662445163528,
+        "ci95": null,
+        "support": "points only"
+       }
+      ],
+      "distCumStationary": [
+       {
+        "pos": 0.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 0.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 0.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 5.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       }
+      ],
+      "distCumMoving": [
+       {
+        "pos": 0.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.06617482426194377,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 0.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.11998900734353102,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 0.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.16724391108385975,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.220661160695515,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.277125101351708,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.3088110214935346,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.3509213181376317,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.38027895303501863,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.40018309904829863,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.4134913533837229,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.42699878012820897,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.4382047669464259,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.4540626278409389,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.47557936325429234,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.496780463284958,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.5138787848313028,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.5279127613905589,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.5472864693038519,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.5603296379791913,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 5.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.5640662445163528,
+        "ci95": null,
+        "support": "points only"
+       }
+      ]
+     },
+     "h600": {
+      "timeCum": [
+       {
+        "pos": 30.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.03183,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 60.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.08547,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 90.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.13229,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 120.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.17186,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 150.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.21006,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 180.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.24384,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 210.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.27228,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 240.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.28673,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 270.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.30905,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 300.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.32737,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 330.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.34011,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 360.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.36354,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 390.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.38183,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 420.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.40606,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 450.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.42241,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 480.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.4498,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 510.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.4756,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 540.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.5052,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 570.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.54165,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 600.0,
+        "n": 2,
+        "days": 2,
+        "est": 0.57061,
+        "ci95": null,
+        "support": "points only"
+       }
+      ],
+      "distCumTotal": [
+       {
+        "pos": 0.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.06617482426194377,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 0.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.11998900734353102,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 0.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.16724391108385975,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.220661160695515,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.277125101351708,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.3088110214935346,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.3509213181376317,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.38027895303501863,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.40018309904829863,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.4134913533837229,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.42699878012820897,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.4382047669464259,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.4540626278409389,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.47557936325429234,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.496780463284958,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.5138787848313028,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.5279127613905589,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.5472864693038519,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.5603296379791913,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 5.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.5640662445163528,
+        "ci95": null,
+        "support": "points only"
+       }
+      ],
+      "distCumStationary": [
+       {
+        "pos": 0.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 0.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 0.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 5.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       }
+      ],
+      "distCumMoving": [
+       {
+        "pos": 0.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.06617482426194377,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 0.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.11998900734353102,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 0.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.16724391108385975,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.220661160695515,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.277125101351708,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.3088110214935346,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.3509213181376317,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.38027895303501863,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.40018309904829863,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.4134913533837229,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.42699878012820897,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.4382047669464259,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.4540626278409389,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.47557936325429234,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 3.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.496780463284958,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.5138787848313028,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.5279127613905589,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.5472864693038519,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 4.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.5603296379791913,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 5.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.5640662445163528,
+        "ci95": null,
+        "support": "points only"
+       }
+      ]
+     }
+    },
+    "intervalConsumption": [
+     {
+      "fromKm": 0.0,
+      "n": 6,
+      "days": 5,
+      "est": 23.9174,
+      "ci95": null,
+      "support": "points only",
+      "label": "moving-sample L/100 km"
+     },
+     {
+      "fromKm": 0.5,
+      "n": 2,
+      "days": 2,
+      "est": 13.19085,
+      "ci95": null,
+      "support": "points only",
+      "label": "moving-sample L/100 km"
+     },
+     {
+      "fromKm": 1.0,
+      "n": 2,
+      "days": 2,
+      "est": 10.67745,
+      "ci95": null,
+      "support": "points only",
+      "label": "moving-sample L/100 km"
+     },
+     {
+      "fromKm": 1.5,
+      "n": 1,
+      "days": 1,
+      "est": 14.479495580680151,
+      "ci95": null,
+      "support": "points only",
+      "label": "moving-sample L/100 km"
+     },
+     {
+      "fromKm": 2.0,
+      "n": 1,
+      "days": 1,
+      "est": 6.585995605419422,
+      "ci95": null,
+      "support": "points only",
+      "label": "moving-sample L/100 km"
+     },
+     {
+      "fromKm": 2.5,
+      "n": 1,
+      "days": 1,
+      "est": 4.857704966722774,
+      "ci95": null,
+      "support": "points only",
+      "label": "moving-sample L/100 km"
+     },
+     {
+      "fromKm": 3.0,
+      "n": 1,
+      "days": 1,
+      "est": 7.457952711589283,
+      "ci95": null,
+      "support": "points only",
+      "label": "moving-sample L/100 km"
+     },
+     {
+      "fromKm": 3.5,
+      "n": 1,
+      "days": 1,
+      "est": 7.696886581628363,
+      "ci95": null,
+      "support": "points only",
+      "label": "moving-sample L/100 km"
+     },
+     {
+      "fromKm": 4.0,
+      "n": 1,
+      "days": 1,
+      "est": 6.675488517207222,
+      "ci95": null,
+      "support": "points only",
+      "label": "moving-sample L/100 km"
+     },
+     {
+      "fromKm": 4.5,
+      "n": 1,
+      "days": 1,
+      "est": 3.4425858311282633,
+      "ci95": null,
+      "support": "points only",
+      "label": "moving-sample L/100 km"
+     }
+    ]
+   },
+   "cold|40-60C": {
+    "nTrips": 2,
+    "nDays": 1,
+    "sets": {
+     "all": {
+      "timeCum": [
+       {
+        "pos": 30.0,
+        "n": 2,
+        "days": 1,
+        "est": 0.02706422262551055,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 60.0,
+        "n": 2,
+        "days": 1,
+        "est": 0.08530918877120595,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 90.0,
+        "n": 2,
+        "days": 1,
+        "est": 0.11094915443104898,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 120.0,
+        "n": 2,
+        "days": 1,
+        "est": 0.11094915443104898,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 150.0,
+        "n": 2,
+        "days": 1,
+        "est": 0.11094915443104898,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 180.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 210.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 240.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 270.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 300.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 330.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 360.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 390.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 420.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.13791169649948878,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 450.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.1485752522139437,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 480.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.1485752522139437,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 510.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.1485752522139437,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 540.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.1485752522139437,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 570.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.1577086273500416,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 600.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.1771199609726263,
+        "ci95": null,
+        "support": "points only"
+       }
+      ],
+      "distCumTotal": [
+       {
+        "pos": 0.25,
+        "n": 2,
+        "days": 1,
+        "est": 0.02368922272402867,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 0.5,
+        "n": 2,
+        "days": 1,
+        "est": 0.07006302517988092,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 0.75,
+        "n": 2,
+        "days": 1,
+        "est": 0.10138288114035227,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 5.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ],
+      "distCumStationary": [
+       {
+        "pos": 0.25,
+        "n": 2,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 0.5,
+        "n": 2,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 0.75,
+        "n": 2,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.0,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 5.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ],
+      "distCumMoving": [
+       {
+        "pos": 0.25,
+        "n": 2,
+        "days": 1,
+        "est": 0.02368922272402867,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 0.5,
+        "n": 2,
+        "days": 1,
+        "est": 0.07006302517988092,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 0.75,
+        "n": 2,
+        "days": 1,
+        "est": 0.10138288114035227,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.25,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.5,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 1.75,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 2.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 5.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ]
+     },
+     "h300": {
+      "timeCum": [
+       {
+        "pos": 30.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.024945167038378617,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 60.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.08142520954666349,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 90.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 120.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 150.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 180.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 210.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 240.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 270.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 300.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 330.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 360.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 390.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 420.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.13791169649948878,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 450.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.1485752522139437,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 480.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.1485752522139437,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 510.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.1485752522139437,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 540.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.1485752522139437,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 570.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.1577086273500416,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 600.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.1771199609726263,
+        "ci95": null,
+        "support": "points only"
+       }
+      ],
+      "distCumTotal": [
+       {
+        "pos": 0.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 5.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ],
+      "distCumStationary": [
+       {
+        "pos": 0.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 5.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ],
+      "distCumMoving": [
+       {
+        "pos": 0.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 5.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ]
+     },
+     "h600": {
+      "timeCum": [
+       {
+        "pos": 30.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.024945167038378617,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 60.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.08142520954666349,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 90.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 120.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 150.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 180.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 210.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 240.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 270.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 300.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 330.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 360.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 390.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.12237841849024715,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 420.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.13791169649948878,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 450.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.1485752522139437,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 480.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.1485752522139437,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 510.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.1485752522139437,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 540.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.1485752522139437,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 570.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.1577086273500416,
+        "ci95": null,
+        "support": "points only"
+       },
+       {
+        "pos": 600.0,
+        "n": 1,
+        "days": 1,
+        "est": 0.1771199609726263,
+        "ci95": null,
+        "support": "points only"
+       }
+      ],
+      "distCumTotal": [
+       {
+        "pos": 0.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 5.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ],
+      "distCumStationary": [
+       {
+        "pos": 0.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 5.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ],
+      "distCumMoving": [
+       {
+        "pos": 0.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 5.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ]
+     }
+    },
+    "intervalConsumption": [
+     {
+      "fromKm": 0.0,
+      "n": 2,
+      "days": 1,
+      "est": 13.958050814180664,
+      "ci95": null,
+      "support": "points only",
+      "label": "moving-sample L/100 km"
+     },
+     {
+      "fromKm": 0.5,
+      "n": 1,
+      "days": 1,
+      "est": 10.799227804008153,
+      "ci95": null,
+      "support": "points only",
+      "label": "moving-sample L/100 km"
+     },
+     {
+      "fromKm": 1.0,
+      "n": 1,
+      "days": 1,
+      "est": 0.0,
+      "ci95": null,
+      "support": "points only",
+      "label": "moving-sample L/100 km"
+     },
+     {
+      "fromKm": 1.5,
+      "n": 1,
+      "days": 1,
+      "est": 0.0,
+      "ci95": null,
+      "support": "points only",
+      "label": "moving-sample L/100 km"
+     },
+     {
+      "fromKm": 2.0,
+      "n": 0,
+      "support": "no trips"
+     },
+     {
+      "fromKm": 2.5,
+      "n": 0,
+      "support": "no trips"
+     },
+     {
+      "fromKm": 3.0,
+      "n": 0,
+      "support": "no trips"
+     },
+     {
+      "fromKm": 3.5,
+      "n": 0,
+      "support": "no trips"
+     },
+     {
+      "fromKm": 4.0,
+      "n": 0,
+      "support": "no trips"
+     },
+     {
+      "fromKm": 4.5,
+      "n": 0,
+      "support": "no trips"
+     }
+    ]
+   },
+   "cold|>=60C": {
+    "nTrips": 0,
+    "nDays": 0,
+    "sets": {
+     "all": {
+      "timeCum": [
+       {
+        "pos": 30.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 60.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 90.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 120.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 150.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 180.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 210.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 240.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 270.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 300.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 330.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 360.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 390.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 420.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 450.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 480.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 510.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 540.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 570.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 600.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ],
+      "distCumTotal": [
+       {
+        "pos": 0.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 5.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ],
+      "distCumStationary": [
+       {
+        "pos": 0.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 5.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ],
+      "distCumMoving": [
+       {
+        "pos": 0.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 5.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ]
+     },
+     "h300": {
+      "timeCum": [
+       {
+        "pos": 30.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 60.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 90.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 120.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 150.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 180.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 210.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 240.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 270.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 300.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 330.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 360.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 390.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 420.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 450.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 480.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 510.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 540.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 570.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 600.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ],
+      "distCumTotal": [
+       {
+        "pos": 0.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 5.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ],
+      "distCumStationary": [
+       {
+        "pos": 0.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 5.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ],
+      "distCumMoving": [
+       {
+        "pos": 0.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 5.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ]
+     },
+     "h600": {
+      "timeCum": [
+       {
+        "pos": 30.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 60.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 90.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 120.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 150.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 180.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 210.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 240.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 270.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 300.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 330.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 360.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 390.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 420.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 450.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 480.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 510.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 540.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 570.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 600.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ],
+      "distCumTotal": [
+       {
+        "pos": 0.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 5.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ],
+      "distCumStationary": [
+       {
+        "pos": 0.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 5.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ],
+      "distCumMoving": [
+       {
+        "pos": 0.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 0.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 1.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 2.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 3.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.25,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.5,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 4.75,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       },
+       {
+        "pos": 5.0,
+        "n": 0,
+        "days": 0,
+        "est": null,
+        "ci95": null,
+        "support": "no trips"
+       }
+      ]
+     }
+    },
+    "intervalConsumption": [
+     {
+      "fromKm": 0.0,
+      "n": 0,
+      "support": "no trips"
+     },
+     {
+      "fromKm": 0.5,
+      "n": 0,
+      "support": "no trips"
+     },
+     {
+      "fromKm": 1.0,
+      "n": 0,
+      "support": "no trips"
+     },
+     {
+      "fromKm": 1.5,
+      "n": 0,
+      "support": "no trips"
+     },
+     {
+      "fromKm": 2.0,
+      "n": 0,
+      "support": "no trips"
+     },
+     {
+      "fromKm": 2.5,
+      "n": 0,
+      "support": "no trips"
+     },
+     {
+      "fromKm": 3.0,
+      "n": 0,
+      "support": "no trips"
+     },
+     {
+      "fromKm": 3.5,
+      "n": 0,
+      "support": "no trips"
+     },
+     {
+      "fromKm": 4.0,
+      "n": 0,
+      "support": "no trips"
+     },
+     {
+      "fromKm": 4.5,
+      "n": 0,
+      "support": "no trips"
+     }
+    ]
+   },
+   "cold|oil-fallback": {
     "nTrips": 0,
     "nDays": 0,
     "sets": {
