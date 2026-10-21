@@ -472,7 +472,11 @@ if _v2:
     ok("M441 reconciliation is exact in every cohort (SOC bands + below 40 + missing = SOC-free baseline; all-SOC = band sum)", not _bad_rec, str(_bad_rec[:3]))
     ok("M441 the support rule (>= %d strict-drop intervals, >= %d drives, >= %d days) holds for every 'supported' cell and an 'empty' cell carries no estimate (%d cells)" % (
         _v2["support"]["minStrictIntervals"], _v2["support"]["minDrives"], _v2["support"]["minDays"], _ncell), not _bad_sup and not _bad_eff, str((_bad_sup + _bad_eff)[:3]))
-    ok("M441 the study block (if present) names the same master and extractor as the base block and carries its stamp", "regenCaptureV2Study" not in A or (A["regenCaptureV2Study"]["masterMd5"] == _v2["masterMd5"] and A["regenCaptureV2Study"]["policyHash"] == _v2["policyHash"]
+    def _study_carried(k):
+        """M466 (Director option B, analyses/M463_regen_lock_addendum.md): a run-once study block keeps its OWN provenance master; it is accepted with a different master only when its artifact stamp says carriedForward with a recorded basis."""
+        st_ = A["_artifactStamps"].get(k) or {}
+        return bool(st_.get("carriedForward")) and st_.get("basisNDrives") is not None
+    ok("M441 the study block (if present) names the same master and extractor as the base block and carries its stamp", "regenCaptureV2Study" not in A or ((A["regenCaptureV2Study"]["masterMd5"] == _v2["masterMd5"] or _study_carried("regenCaptureV2Study")) and A["regenCaptureV2Study"]["policyHash"] == _v2["policyHash"]
        and "regenCaptureV2Study" in A["_artifactStamps"]))
 # M442 (analyses/M442_spec.md Rev 1.2): harmonized levels, resolution bracket, gates and adjacent-bin contrasts. Payload invariants: both blocks present with stamps and the same master, the gates recorded as computed, every contrast label is
 # derived from its four checks (resolved only if all hold), every bracket b is non-negative, and the harmonized levels obey the same support rule as the v2 cells
@@ -480,7 +484,7 @@ _h2 = A.get("regenCaptureV2H")
 if _h2:
     _hs = A.get("regenCaptureV2HStudy") or {}
     ok("M442 regenCaptureV2H and regenCaptureV2HStudy present with their artifact stamps and the same master and spec", "regenCaptureV2H" in A["_artifactStamps"] and "regenCaptureV2HStudy" in A["_artifactStamps"]
-       and _hs.get("masterMd5") == _h2["masterMd5"] and _hs.get("specSha256") == _h2["specSha256"] and _h2["primary"] == "interp3" and "all" in _h2["cohorts"], str(sorted(_hs)[:6]))
+       and (_hs.get("masterMd5") == _h2["masterMd5"] or _study_carried("regenCaptureV2HStudy")) and _hs.get("specSha256") == _h2["specSha256"] and _h2["primary"] == "interp3" and "all" in _h2["cohorts"], str(sorted(_hs)[:6]))
     _bc = []
     for _kind, _rows in (_hs.get("contrasts") or {}).items():
         for _r in _rows:
@@ -519,7 +523,7 @@ if _sd:
             elif not _v.get("reason"):
                 _bad.append((_c, _vn, "unavailable without a reason"))
     ok("M444 every available view has coverage >= 0.80, >= 2 bars and at least one common-support band; every unavailable view states its reason", not _bad, str(_bad[:3]))
-    ok("M444 the study block (if present) names the same spec and master and carries its stamp", "regenSocStandardizedStudy" not in A or (A["regenSocStandardizedStudy"]["specSha256"] == _sd["specSha256"] and A["regenSocStandardizedStudy"]["masterMd5"] == _sd["masterMd5"]
+    ok("M444 the study block (if present) names the same spec and master and carries its stamp", "regenSocStandardizedStudy" not in A or (A["regenSocStandardizedStudy"]["specSha256"] == _sd["specSha256"] and (A["regenSocStandardizedStudy"]["masterMd5"] == _sd["masterMd5"] or _study_carried("regenSocStandardizedStudy"))
        and "regenSocStandardizedStudy" in A["_artifactStamps"]))
 # M446 (analyses/M446_spec.md Rev 1.1): cadence-stratified native display layer. Payload invariants: stamp and master, ONE reference weight vector (sums to 1), only the strata fast / slow, every supported cell meets the support floors, a cell with a value
 # carries a status other than empty, the standardized bars of an available view lie on a coverage >= 0.80, the resolution bracket is never negative, the build gates passed

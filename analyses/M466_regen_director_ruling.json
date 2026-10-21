@@ -1,0 +1,23 @@
+{
+ "milestone": "M466",
+ "role": "research-director (subagent), 2026-10-21, on conditions c1-c6 of the M463 O7 flag",
+ "decision": "accept",
+ "scientific_meaning": "The 606-drive refresh reproduces the 578-drive control exactly on all displayed cells. 8 of 776 interval-bearing cells (about 1 %) move outside their previous day interval, below the about 5 % expected from nested resampling, and every move is in the direction of the new drives. No supported cell loses support and S* moves by at most 0.0020.",
+ "limits": [
+  "Not checked: the regenCaptureV2H offset layer of the control (not displayed).",
+  "The new drives alone cannot give an interval for the 8 cells (fewer than 5 days), so they can neither confirm nor rule out a real shift.",
+  "The shoulder-fast standardized views appear for the first time. They have no earlier version to compare with, and the strata are not comparable."
+ ],
+ "language": [
+  "Cold speed view: use the engine reason, e.g. 'no SOC band has common support across speed groups (5 cold days)'. Never 'fewer than 2 supported temperature groups' for speed.",
+  "The 8 cells: 'point estimate moved outside the previous day interval after the 606-drive refresh; new-drive data too sparse for an interval'. Never 'corrected', 'shift detected' or 'confirmed'.",
+  "The shoulder-fast views are labelled 'newly available at 606 drives'. Do not draw a fast-vs-slow contrast."
+ ],
+ "follow_ups": [
+  "Re-verify the H offset layer in the control (condition for the next ingestion).",
+  "Record in the CHANGELOG: the 8 cells, 151 status changes, specSha256 0517fc23->1ec3f1d1 and offset A -0.3888->-0.387.",
+  "Watch the 8 cells at the next ingestion. If they move again, refer them to the Director."
+ ],
+ "needs_andrii_signoff": false,
+ "blindAudit": "analytical-auditor, verdict accept: C1-C5 reproduced exactly; qualification on C5 (cold: no SOC band is supported for ANY group, stronger than 'for both'); audit note: 8/776 is not a coverage test (previous intervals do not cover new data)."
+}

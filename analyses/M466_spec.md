@@ -1,0 +1,20 @@
+# M466: refresh of the dashboard blocks carried at M463 (606-drive corpus)
+
+Owner instruction (Andrii, chat 2026-10-21, 'go ahead'): recompute the carried dashboard blocks on the current 606-drive corpus. Scope A (regen), B (GTR family), C (other carried blocks). This file records stage A; B and C get their own sections when run.
+
+## Stage A: regen blocks (regenCaptureV2, regenCaptureV2H, regenSocStandardized, regenDisplayV2, regenLegacySensitivity)
+Method: no estimator, threshold or display rule changes. `python tools/regen_v2_stage.py` (the ingestion stage) recomputes the four per-ingestion cells on the live master (MD5 5556a0c6...); `tools/m440_regen_sens.py run` + `tools/m440_splice.py` re-run the legacy sensitivity (gate G1: exact reproduction of the published legacy bins, true). The run-once M441/M442/M444 study blocks stay carried with their own studyBasis (Director option B, analyses/M463_regen_lock_addendum.md). Stage fix: a carried study block keeps its previous stamp (tools/regen_v2_stage.py).
+
+Director conditions (M463, M446 Rev 1.1 O7), evidence in `analyses/M466_regen_refresh.json` (script `tools/regen_refresh_report.py`, previous state = git 3eb3f3c~1):
+- c1 no-new-drive control: today's code on the 578-row master reproduces every regenDisplayV2 cell and regenSocStandardized value exactly (only the provenance field specSha256 differs: payload 0517fc23 vs current spec 1ec3f1d1); regenCaptureV2 effOffset reproduces 1188/1188 leaves with the old offset A (-0.3888); the live refresh uses A = -0.387 (offsetUncertainty.pointEstimateA changed at M463), which moves the offset sensitivity layer (not displayed) by 0.01-0.02 pp. The H offset layer of the control was NOT re-verified (sandbox pool hung): condition for the next ingestion.
+- c2 per-cell status and previous-interval check: 776 interval-bearing display cells + 34 standardized bars; 8 cells' point left the previous day interval (6 shoulder-fast, 1 all-fast, 1 shoulder-slow), 0 bars; 151 status changes (empty->failed 76, thin->supported 41, failed->thin 31, thin->failed 3); no supported cell lost support; new-drives-only estimates per cell are in the report (none has an interval: fewer than 5 days or failed).
+- c3 cold diagnosis: the cold standardized view was unavailable before and is now; temperature has one supported group (10-20 C), speed has two supported groups but no SOC band is supported for any group (empty intersection, no group dropped). Wording per Director: use the engine reason for speed; 'fewer than 2 supported temperature groups' only for temperature.
+- c4 shoulder speed standardized coverage 0.8868 (>= 0.80); shoulder-fast temperature and speed views were unavailable at 578 (coverage 0.079 / 0.685) and are available now (0.9055 / 0.9986): label 'newly available at 606 drives'; no fast-vs-slow contrast.
+- c5 S*: max abs change 0.0020 (band 55-60), recorded in `analyses/regen_std_state.json` (`sstarRefresh`).
+- c6 blind audit (analytical-auditor): accept, C1-C5 reproduced exactly. Director ruling: `analyses/M466_regen_director_ruling.json` (accept, no sign-off needed).
+Above-100 % re-check (owner, via the parent session): 14 displayed cells with eff > 100 %, none supported (8 failed, 6 thin), `flagAbove100` labelling unchanged, no clipping or suppression (table in the CHANGELOG entry).
+
+Wording: 'refreshed on the current corpus'; the 8 cells: 'point estimate moved outside the previous day interval after the 606-drive refresh; new-drive data too sparse for an interval'; never 'increase', 'improvement', 'trend', 'corrected', 'confirmed', 'shift detected'.
+
+## Leaf-guard rules added (Director owns the list; this is the spec for them)
+The refresh drops optional markers and derived list entries that are written only while a data condition holds. Eleven narrow `field_changed` rules (ids `m466-regen-*`, `m466-stamp-*`) allow a vanished marker only where the governing field of the same entry changed (flagAbove100 -> eff; ciSuppressed -> days or status; narrative.thin -> narrative; extent -> extent; commonSupportBands; materialBins; carried-only stamp leaves -> generatedAt). Result: 82 lost leaves, 0 unexpected.
