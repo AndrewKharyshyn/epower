@@ -137,10 +137,10 @@ def _axis_unrounded(cache_, scen):     # same aggregation as sensitivity_gtr.run
         if ce is None:
             continue
         dist = e["dist"]
-        recs.append(dict(distance_km=dist, generator_kWh_100=ce["E_gen"] / dist * 100.0, traction_gross_kWh_100=ce["E_trac_gross"] / dist * 100.0, gen_to_traction_kWh_100=ce["E_gen_to_trac"] / dist * 100.0, eta_fuel_bus=ce["eta_fuel_bus"], f_gen=ce["f_gen"]))
+        recs.append(dict(distance_km=dist, generator_kWh_100=ce["E_gen"] / dist * 100.0, traction_gross_kWh_100=ce["E_trac_gross"] / dist * 100.0, gen_to_traction_kWh_100=ce["E_gen_to_trac"] / dist * 100.0, eta_fuel_bus=ce["eta_fuel_bus"], fuel_chem_kWh_100=ce["E_fuel"] / dist * 100.0, f_gen=ce["f_gen"]))
     cl = pd.DataFrame(recs)
     cl = cl[cl["f_gen"].notna()]
-    return dict(gen100=float(SG._wavg(cl, "generator_kWh_100")), trac100=float(SG._wavg(cl, "traction_gross_kWh_100")), fgen=float((cl["gen_to_traction_kWh_100"] * cl["distance_km"]).sum() / (cl["traction_gross_kWh_100"] * cl["distance_km"]).sum()), etaBus=float(SG._wavg(cl, "eta_fuel_bus")))
+    return dict(gen100=float(SG._wavg(cl, "generator_kWh_100")), trac100=float(SG._wavg(cl, "traction_gross_kWh_100")), fgen=float((cl["gen_to_traction_kWh_100"] * cl["distance_km"]).sum() / (cl["traction_gross_kWh_100"] * cl["distance_km"]).sum()), etaBus=float(SG._wavg(cl, "generator_kWh_100") / SG._wavg(cl, "fuel_chem_kWh_100")))      # M471: ratio of sums
 
 
 sens_unr = []

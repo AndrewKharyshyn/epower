@@ -107,7 +107,7 @@ def payload_checks(arrays_path):
     gl = {g.get("term"): g.get("value") for g in gtr.get("glossary", [])}
     gloss_ok = True
     if "f_gen" in gl and not _approx(gl["f_gen"], corp.get("fGen")): gloss_ok = False
-    tb = gl.get("η tank→bus")
+    tb = gl.get("Generator-bus/fuel ratio")      # M471: the term of corpus.etaBus (the pre-M332 term "η tank→bus" is a forbidden wording)
     if tb is not None and not _approx(tb, corp.get("etaBus")): gloss_ok = False
     bb = gl.get("Battery-buffer share")
     if bb is not None and corp.get("fGen") is not None and not _approx(bb, 1 - float(corp["fGen"])): gloss_ok = False

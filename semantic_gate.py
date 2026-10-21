@@ -1089,7 +1089,7 @@ ok("A4 G3 MC data-quality note: each listed contributor's nominal energy equals 
 _g4 = A["generatorTractionRecon"]
 _gl4 = {g["term"]: g["value"] for g in _g4["glossary"]}
 ok("A4 G5 glossary efficiency rows equal corpus.etaEng / corpus.etaBus (bound, 3 decimals)",
-   _gl4.get("η_eng") == f"{float(_g4['corpus']['etaEng']):.3f}" and _gl4.get("Net traction-bus/fuel index") == f"{float(_g4['corpus']['etaBus']):.3f}")
+   _gl4.get("η_eng") == f"{float(_g4['corpus']['etaEng']):.3f}" and _gl4.get("Generator-bus/fuel ratio") == f"{float(_g4['corpus']['etaBus']):.3f}")
 _sc5 = _g4["gtrClosure"]["scope"]
 _note5 = A["_artifactStamps"]["generatorTractionRecon"]["computationStatusNote"]
 _gtr5 = ((f"gtrClosure recomputed on the live corpus ({_sc5['nDrives']} drives" in _note5) if "carriedAtIngestion" not in _sc5

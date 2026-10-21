@@ -387,6 +387,8 @@ RULES = [
          rx=r"\bno capacity observable\b|\bcontains no capacity observable\b|\bpassive obd cannot produce (?:a|one)\b"),
     Rule("M469-calendar-literals", "regex", "M469/audit (hardcoded literals): the calendar-aging rate factors are bound to seasonalLife.calendarAnnualFactor / monthly[].calendarFactor and the Arrhenius Ea (0.5 eV); the typed Q10=2 parameterisation, the 0.44 driving-heat uplift with ~1.5% of hours at ~40 C, and the typed winter factor 0.145 are retired (no duty-weighted producer exists)",
          rx=r"\bq10 2\b|\brising to 0 44\b|\b1 5 of hours at 40 c\b|\bwinter quarter factor 0 145\b"),
+    Rule("M471-F01-etabus-label", "regex", "M471/audit F01: corpus.etaBus is the GENERATOR-bus / chemical-fuel ratio (glossary term eta tank->bus); the net traction-bus / fuel index is flows.etaTankToTraction (a different number). The M332 label 'Net traction-bus/fuel index' on etaBus mixed the two up",
+         rx=r"\bnet traction bus fuel index\b"),
 ]
 
 
