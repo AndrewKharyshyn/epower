@@ -359,6 +359,8 @@ RULES = [
          rx=r"\bflips? to 0 39\b|\bconfirming the apparent uptrend was a summer\b|\bsummer (?:heat load )?confound confirmed\b"),
     Rule("M467-F02-nocapacity", "regex", "M467/audit F02: an apparent scale of the logged BMS SoC is estimable (capacityBasis.ahPer100); what is not identified is physical full capacity, accessible capacity and capacity fade; 'no capacity observable' is too absolute",
          rx=r"\bno capacity observable\b|\bcontains no capacity observable\b|\bpassive obd cannot produce (?:a|one)\b"),
+    Rule("M469-calendar-literals", "regex", "M469/audit (hardcoded literals): the calendar-aging rate factors are bound to seasonalLife.calendarAnnualFactor / monthly[].calendarFactor and the Arrhenius Ea (0.5 eV); the typed Q10=2 parameterisation, the 0.44 driving-heat uplift with ~1.5% of hours at ~40 C, and the typed winter factor 0.145 are retired (no duty-weighted producer exists)",
+         rx=r"\bq10 2\b|\brising to 0 44\b|\b1 5 of hours at 40 c\b|\bwinter quarter factor 0 145\b"),
 ]
 
 
