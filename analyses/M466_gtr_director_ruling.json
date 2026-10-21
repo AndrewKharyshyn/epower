@@ -1,0 +1,26 @@
+{
+ "milestone": "M466",
+ "role": "research-director (subagent), 2026-10-21, GTR family refresh at 606 drives (Rev 2 route)",
+ "decision": "revise -> follow-ups (1)-(3) accepted as proposed with the wording below",
+ "scientific_meaning": "The estimated f_gen moving from 0.466 to 0.518 is a composition effect: the 28 new drives (5 days, 30 % of km, mostly highway) shift the highway traction share, and dropping those 5 days brings the estimate back to 0.466. The 0.5 threshold sits inside the day-clustered CI [0.425, 0.580] both before and after, so the side of 0.5 is not established either way; the cross is not a change in mechanism.",
+ "limits": [
+  "Shift-share is confounded by regime and polling stratum (17/28 slow-polled, shoulder/cold).",
+  "3 of 67 leave-one-day-out days alone put the estimate below 0.5.",
+  "New-minus-old CI [-0.050, 0.300] includes 0."
+ ],
+ "language": [
+  "f_gen is estimated/reconstructed, never measured.",
+  "False branch: 'point estimate crossed 0.5 within an interval that already contained 0.5; side of 0.5 not established'.",
+  "Never 'majority from generator', 'confirmed', 'reversal', 'corrected'.",
+  "Show CI and n (376 drives, 67 days) next to the point; state the composition shift."
+ ],
+ "follow_ups": [
+  "(1) ACCEPT: scoped flip acknowledgement bound to master MD5, O axes sha256, flipped axes and the ruling; frozen list unamended; synthetic test.",
+  "(2) ACCEPT with the wording above (jsx line bound to pointBelow0p5AllVariants).",
+  "(3) ACCEPT conditional: if the gtrClosure f_gen estimate leaves its previous CI [0.382, 0.534] or any other bool flips, STOP and re-brief; no generic acknowledgement.",
+  "CHANGELOG records the 0.466 control, the D2/D3 attribution and this ruling."
+ ],
+ "needs_andrii_signoff": true,
+ "blindAudit": "analytical-auditor Rev 2, verdict accept: D1-D4 reproduced; note: the independent-resampling difference interval ignores the shared day 2026-10-13; the joint-day interval [-0.050, 0.300] is the one reported; 5-day percentile CIs are coarse.",
+ "ownerSignoff": "Andrii, in chat, as delivered to this session: (1) 'Yes: ship the GTR family refresh at 606 drives with the Director's wording (point estimate crossed 0.5 within an interval that already contained 0.5; side of 0.5 not established).' (2) relayed by the parent session (local_431f2fde...) as Andrii's verbatim 'go with option 1' = YES, ship the stage-B GTR-family refresh to the 606-drive corpus (f_gen BASE 0.518 on 376 drives; same wording; frozen M373 flip list unamended, scoped acknowledgement only)."
+}

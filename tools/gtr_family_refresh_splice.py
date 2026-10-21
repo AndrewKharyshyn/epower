@@ -103,7 +103,39 @@ def _apply_band_ack(stops, breaches, ack, master_md5, rows_sha):
     return [], {"ruling": ack["ruling"], "driveMasterMd5": master_md5, "simultaneityRowsSha256": rows_sha, "acknowledged": b, "band": BAND_SHARE_PP}
 
 
-def plan(A, O, label, spec_sha, master_md5, ack=None):
+FLIP_STOP = "reading flip: sensitivity f_gen >= 0.5 on an axis"
+
+
+def _axes_sha(axes):
+    """Content hash of the O sensitivity axes (axis label + the four rounded values; the O file itself carries a run-time field)."""
+    return _rows_sha([{k: r[k] for k in ("axis", "gen100", "trac100", "fgen", "etaBus")} for r in axes])
+
+
+def _apply_flip_ack(stops, flips, ack, master_md5, axes_sha):
+    """M466 (analyses/M466_spec.md section B; Director ruling cited by the ack): narrowly scoped acknowledgement of the sensitivity f_gen >= 0.5 reading-flip stop ONLY.
+    The frozen M373 flip list is NOT amended: every other flip stop (speedSplit ordering, simultaneity ordering) stays unacknowledgeable, as do key sets, n_days, BASE and the allow-list.
+    Accepted iff FLIP_STOP is present, the ack is bound to the live drive_master MD5 and to the content hash of the O sensitivity axes, names exactly the flipped (axis, fgen) set and cites a ruling.
+    Returns (stops_without_FLIP_STOP, record) on success, else (stops + a refusal stop, None). Nothing but FLIP_STOP is ever removed."""
+    why = []
+    if FLIP_STOP not in stops:
+        why.append("no sensitivity reading-flip stop to acknowledge")
+    if not ack.get("ruling"):
+        why.append("no ruling reference")
+    if ack.get("driveMasterMd5") != master_md5:
+        why.append("bound to a different drive_master.csv MD5")
+    if ack.get("sensitivityAxesSha256") != axes_sha:
+        why.append("bound to different O sensitivity axes")
+    key = lambda x: x["axis"]
+    a, b = sorted(ack.get("acknowledged", []), key=key), sorted(flips, key=key)
+    if len(a) != len(b) or any(key(x) != key(y) or abs(x["fgen"] - y["fgen"]) > 1e-9 for x, y in zip(a, b)):
+        why.append("acknowledged flips %s != actual flips %s" % (a, b))
+    if why:
+        return stops + ["flip acknowledgement refused: " + "; ".join(why)], None
+    return [x for x in stops if x != FLIP_STOP], {"ruling": ack["ruling"], "driveMasterMd5": master_md5, "sensitivityAxesSha256": axes_sha, "acknowledged": b,
+                                                   "scope": "sensitivity f_gen >= 0.5 stop only; the frozen M373 flip list is unchanged"}
+
+
+def plan(A, O, label, spec_sha, master_md5, ack=None, flip_ack=None):
     """Pure core (testable): returns (new_arrays, delta, stops)."""
     stops = []
     G = A["generatorTractionRecon"]
@@ -136,8 +168,9 @@ def plan(A, O, label, spec_sha, master_md5, ack=None):
     if [r["axis"] for r in G["sensitivity"]] != [r["axis"] for r in vals["sensitivity"]]:
         stops.append("sensitivity: axis labels differ")
     # ---- reading flips (frozen M373 list) ----
-    if any(r["fgen"] >= 0.5 for r in vals["sensitivity"]):
-        stops.append("reading flip: sensitivity f_gen >= 0.5 on an axis")
+    flips = [{"axis": r["axis"], "fgen": r["fgen"]} for r in vals["sensitivity"] if r["fgen"] >= 0.5]
+    if flips:
+        stops.append(FLIP_STOP)
     sp = {r["bin"]: r for r in vals["speedSplit"]}
     if sp["90-120"]["fGen"] < sp["20-60"]["fGen"]:
         stops.append("reading flip: speedSplit f_gen decreases from the 20-60 bin to the 90-120 bin")
@@ -170,6 +203,12 @@ def plan(A, O, label, spec_sha, master_md5, ack=None):
             if mv > BAND_FGEN:
                 stops.append(f"speedSplit: f_gen moved by more than {BAND_FGEN}")
         delta["blocks"][b] = d
+    if flip_ack is not None:
+        stops, frec = _apply_flip_ack(stops, flips, flip_ack, master_md5, _axes_sha(vals["sensitivity"]))
+        if frec:
+            delta["flipAcknowledgement"] = frec
+        else:
+            delta["flipAcknowledgementRefused"] = stops[-1]
     if ack is not None:
         stops, rec = _apply_band_ack(stops, breaches, ack, master_md5, _rows_sha(vals["simultaneity"]))
         if rec:
@@ -257,7 +296,10 @@ def main():
     ack = None
     if os.environ.get("XT_ACK_GTR_BAND"):
         ack = json.load(open(os.environ["XT_ACK_GTR_BAND"], encoding="utf-8"))
-    new, delta, stops = plan(A, O, a.label, M377_PIN.spec_sha("analyses/M377_spec.md"), md5("drive_master.csv"), ack)
+    flip_ack = None
+    if os.environ.get("XT_ACK_GTR_FLIP"):
+        flip_ack = json.load(open(os.environ["XT_ACK_GTR_FLIP"], encoding="utf-8"))
+    new, delta, stops = plan(A, O, a.label, M377_PIN.spec_sha("analyses/M377_spec.md"), md5("drive_master.csv"), ack, flip_ack)
     delta["stops"] = stops
     with open("analyses/gtr_family_delta.json", "w", encoding="utf-8", newline="\n") as f:
         f.write(json.dumps(delta, indent=1, ensure_ascii=False) + "\n")

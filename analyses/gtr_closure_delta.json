@@ -11,14 +11,14 @@
     ]
    ],
    "new": [
-    0.613,
+    0.622,
     [
-     0.591,
-     0.633
+     0.601,
+     0.641
     ]
    ],
    "newEstInsidePrevCI": true,
-   "ciWidthRatio": 1.0
+   "ciWidthRatio": 0.9524
   },
   {
    "path": "/excessWithoutDual",
@@ -30,14 +30,14 @@
     ]
    ],
    "new": [
-    -0.1076,
+    -0.0893,
     [
-     -0.1346,
-     -0.0869
+     -0.1167,
+     -0.0718
     ]
    ],
    "newEstInsidePrevCI": true,
-   "ciWidthRatio": 1.0
+   "ciWidthRatio": 0.9413
   },
   {
    "path": "/fGen",
@@ -49,14 +49,14 @@
     ]
    ],
    "new": [
-    0.4662,
+    0.5182,
     [
-     0.3823,
-     0.5342
+     0.425,
+     0.5798
     ]
    ],
    "newEstInsidePrevCI": true,
-   "ciWidthRatio": 1.0
+   "ciWidthRatio": 1.0191
   },
   {
    "path": "/nodeExcess",
@@ -68,42 +68,42 @@
     ]
    ],
    "new": [
-    0.068,
+    0.0542,
     [
-     0.0537,
-     0.0863
+     0.0423,
+     0.0729
     ]
    ],
    "newEstInsidePrevCI": true,
-   "ciWidthRatio": 1.0
+   "ciWidthRatio": 0.9387
   }
  ],
  "pointOnly": [
   {
    "path": "/alphaStar/nInfeasibleDrivesBaseline",
    "prev": 20,
-   "new": 20,
+   "new": 23,
    "comparedAs": "share of set size",
    "prevShare": 0.0578,
-   "newShare": 0.0578,
-   "absDiff": 0.0,
-   "relDiff": 0.0,
+   "newShare": 0.0615,
+   "absDiff": 0.003694,
+   "relDiff": 0.0639,
    "withinBand": true
   },
   {
    "path": "/alphaStar/variantMax",
    "prev": 0.748,
-   "new": 0.748,
-   "absDiff": 0.0,
-   "relDiff": 0.0,
+   "new": 0.783,
+   "absDiff": 0.035,
+   "relDiff": 0.04679,
    "withinBand": true
   },
   {
    "path": "/alphaStar/variantMin",
    "prev": 0.218,
-   "new": 0.218,
-   "absDiff": 0.0,
-   "relDiff": 0.0,
+   "new": 0.202,
+   "absDiff": 0.016,
+   "relDiff": 0.07339,
    "withinBand": true
   },
   {
@@ -117,34 +117,34 @@
   {
    "path": "/fGen/variantMax",
    "prev": 0.4897,
-   "new": 0.4897,
-   "absDiff": 0.0,
-   "relDiff": 0.0,
-   "withinBand": true
+   "new": 0.5398,
+   "absDiff": 0.0501,
+   "relDiff": 0.10231,
+   "withinBand": false
   },
   {
    "path": "/fGen/variantMin",
    "prev": 0.4209,
-   "new": 0.4209,
-   "absDiff": 0.0,
-   "relDiff": 0.0,
-   "withinBand": true
+   "new": 0.4759,
+   "absDiff": 0.055,
+   "relDiff": 0.13067,
+   "withinBand": false
   },
   {
    "path": "/interval/hi",
    "prev": 0.068,
-   "new": 0.068,
-   "absDiff": 0.0,
-   "relDiff": 0.0,
-   "withinBand": true
+   "new": 0.0542,
+   "absDiff": 0.0138,
+   "relDiff": 0.20294,
+   "withinBand": false
   },
   {
    "path": "/interval/lo",
    "prev": -0.1076,
-   "new": -0.1076,
-   "absDiff": 0.0,
-   "relDiff": 0.0,
-   "withinBand": true
+   "new": -0.0893,
+   "absDiff": 0.0183,
+   "relDiff": 0.17007,
+   "withinBand": false
   },
   {
    "path": "/interval/nVariants",
@@ -165,74 +165,161 @@
   {
    "path": "/per100km/battToTractionResidual",
    "prev": 9.999,
-   "new": 9.999,
-   "absDiff": 0.0,
-   "relDiff": 0.0,
-   "withinBand": true
+   "new": 8.808,
+   "absDiff": 1.191,
+   "relDiff": 0.11911,
+   "withinBand": false
   },
   {
    "path": "/per100km/genToBattDual",
    "prev": 2.814,
-   "new": 2.814,
-   "absDiff": 0.0,
-   "relDiff": 0.0,
-   "withinBand": true
+   "new": 2.282,
+   "absDiff": 0.532,
+   "relDiff": 0.18905,
+   "withinBand": false
   },
   {
    "path": "/per100km/genToBattEngineOn",
    "prev": 5.573,
-   "new": 5.573,
-   "absDiff": 0.0,
-   "relDiff": 0.0,
-   "withinBand": true
+   "new": 4.999,
+   "absDiff": 0.574,
+   "relDiff": 0.103,
+   "withinBand": false
   },
   {
    "path": "/per100km/genToBattUpper",
    "prev": 8.387,
-   "new": 8.387,
-   "absDiff": 0.0,
-   "relDiff": 0.0,
-   "withinBand": true
+   "new": 7.28,
+   "absDiff": 1.107,
+   "relDiff": 0.13199,
+   "withinBand": false
   },
   {
    "path": "/per100km/genToTraction",
    "prev": 8.731,
-   "new": 8.731,
-   "absDiff": 0.0,
-   "relDiff": 0.0,
+   "new": 9.474,
+   "absDiff": 0.743,
+   "relDiff": 0.0851,
    "withinBand": true
   },
   {
    "path": "/per100km/generator",
    "prev": 16.029,
-   "new": 16.029,
-   "absDiff": 0.0,
-   "relDiff": 0.0,
+   "new": 15.893,
+   "absDiff": 0.136,
+   "relDiff": 0.00848,
    "withinBand": true
   },
   {
    "path": "/per100km/regenToBatt",
    "prev": 3.065,
-   "new": 3.065,
-   "absDiff": 0.0,
-   "relDiff": 0.0,
-   "withinBand": true
+   "new": 2.683,
+   "absDiff": 0.382,
+   "relDiff": 0.12463,
+   "withinBand": false
   }
  ],
- "boolFlips": [],
+ "boolFlips": [
+  {
+   "path": "/fGen/pointBelow0p5AllVariants",
+   "prev": true,
+   "new": false
+  },
+  {
+   "path": "/fGen/stopTriggered",
+   "prev": false,
+   "new": true
+  }
+ ],
  "typeChanges": [],
  "listChanges": [],
- "scopeChanges": [],
+ "scopeChanges": [
+  {
+   "path": "/scope/km",
+   "prev": 2593.9,
+   "new": 3716.8
+  },
+  {
+   "path": "/scope/nCanonical",
+   "prev": 578,
+   "new": 606
+  },
+  {
+   "path": "/scope/nDays",
+   "prev": 63,
+   "new": 67
+  },
+  {
+   "path": "/scope/nDrives",
+   "prev": 346,
+   "new": 374
+  }
+ ],
  "stringChanges": [
   {
+   "path": "/_staleness"
+  },
+  {
+   "path": "/scope/excludedNote"
+  },
+  {
    "path": "/sources/closureDiag/sha256"
+  },
+  {
+   "path": "/sources/fuelReconMaster/sha256"
   },
   {
    "path": "/sources/step2/sha256"
   }
  ],
- "stops": [],
- "escalations": [],
+ "stops": [
+  {
+   "rule": "flag/verdict flip",
+   "path": "/fGen/pointBelow0p5AllVariants"
+  },
+  {
+   "rule": "flag/verdict flip",
+   "path": "/fGen/stopTriggered"
+  }
+ ],
+ "escalations": [
+  {
+   "rule": "point-only leaf beyond the escalation band (10% relative, 0.01 absolute when |previous| < 0.1)",
+   "path": "/fGen/variantMax"
+  },
+  {
+   "rule": "point-only leaf beyond the escalation band (10% relative, 0.01 absolute when |previous| < 0.1)",
+   "path": "/fGen/variantMin"
+  },
+  {
+   "rule": "point-only leaf beyond the escalation band (10% relative, 0.01 absolute when |previous| < 0.1)",
+   "path": "/interval/hi"
+  },
+  {
+   "rule": "point-only leaf beyond the escalation band (10% relative, 0.01 absolute when |previous| < 0.1)",
+   "path": "/interval/lo"
+  },
+  {
+   "rule": "point-only leaf beyond the escalation band (10% relative, 0.01 absolute when |previous| < 0.1)",
+   "path": "/per100km/battToTractionResidual"
+  },
+  {
+   "rule": "point-only leaf beyond the escalation band (10% relative, 0.01 absolute when |previous| < 0.1)",
+   "path": "/per100km/genToBattDual"
+  },
+  {
+   "rule": "point-only leaf beyond the escalation band (10% relative, 0.01 absolute when |previous| < 0.1)",
+   "path": "/per100km/genToBattEngineOn"
+  },
+  {
+   "rule": "point-only leaf beyond the escalation band (10% relative, 0.01 absolute when |previous| < 0.1)",
+   "path": "/per100km/genToBattUpper"
+  },
+  {
+   "rule": "point-only leaf beyond the escalation band (10% relative, 0.01 absolute when |previous| < 0.1)",
+   "path": "/per100km/regenToBatt"
+  }
+ ],
  "units": {
   "fractions": "0-1 unless the leaf name ends in Pct",
   "per100km": "kWh per 100 km",
@@ -242,18 +329,187 @@
   "nCiChecked": 4,
   "nInsidePreviousCI": 4,
   "nPointOnly": 17,
-  "nPointOnlyWithinBand": 17,
-  "nStops": 0,
-  "nEscalations": 0,
-  "nStringChanges": 2
+  "nPointOnlyWithinBand": 8,
+  "nStops": 2,
+  "nEscalations": 9,
+  "nStringChanges": 5
  },
  "set": {
-  "nDrives": 346,
-  "nDays": 63,
-  "km": 2593.9,
+  "nDrives": 374,
+  "nDays": 67,
+  "km": 3716.8,
   "nPrevious": 346,
-  "nNew": 0,
-  "newIds": [],
+  "nNew": 28,
+  "newIds": [
+   {
+    "file": "2026-10-13_15-41-11.csv",
+    "date": "2026-10-13",
+    "km": 1.0,
+    "type": "urban"
+   },
+   {
+    "file": "2026-10-13_16-00-43.csv",
+    "date": "2026-10-13",
+    "km": 1.0,
+    "type": "urban"
+   },
+   {
+    "file": "2026-10-13_19-47-36.csv",
+    "date": "2026-10-13",
+    "km": 2.2,
+    "type": "urban"
+   },
+   {
+    "file": "2026-10-13_20-04-05.csv",
+    "date": "2026-10-13",
+    "km": 26.5,
+    "type": "urban"
+   },
+   {
+    "file": "2026-10-13_21-52-23.csv",
+    "date": "2026-10-13",
+    "km": 2.4,
+    "type": "urban"
+   },
+   {
+    "file": "2026-10-13_22-08-01.csv",
+    "date": "2026-10-13",
+    "km": 22.0,
+    "type": "urban"
+   },
+   {
+    "file": "2026-10-13_22-55-32.csv",
+    "date": "2026-10-13",
+    "km": 2.4,
+    "type": "urban"
+   },
+   {
+    "file": "2026-10-14_06-51-43.csv",
+    "date": "2026-10-14",
+    "km": 183.0,
+    "type": "highway"
+   },
+   {
+    "file": "2026-10-14_09-29-12.csv",
+    "date": "2026-10-14",
+    "km": 128.9,
+    "type": "highway"
+   },
+   {
+    "file": "2026-10-14_22-25-29.csv",
+    "date": "2026-10-14",
+    "km": 44.9,
+    "type": "mixed"
+   },
+   {
+    "file": "2026-10-15_08-07-05.csv",
+    "date": "2026-10-15",
+    "km": 29.9,
+    "type": "urban"
+   },
+   {
+    "file": "2026-10-15_09-37-09.csv",
+    "date": "2026-10-15",
+    "km": 21.7,
+    "type": "urban"
+   },
+   {
+    "file": "2026-10-15_10-19-34.csv",
+    "date": "2026-10-15",
+    "km": 5.9,
+    "type": "mixed_highway"
+   },
+   {
+    "file": "2026-10-15_10-40-56.csv",
+    "date": "2026-10-15",
+    "km": 3.9,
+    "type": "urban"
+   },
+   {
+    "file": "2026-10-15_13-55-10.csv",
+    "date": "2026-10-15",
+    "km": 26.4,
+    "type": "urban"
+   },
+   {
+    "file": "2026-10-15_14-57-44.csv",
+    "date": "2026-10-15",
+    "km": 30.1,
+    "type": "urban"
+   },
+   {
+    "file": "2026-10-15_18-30-00.csv",
+    "date": "2026-10-15",
+    "km": 44.0,
+    "type": "urban"
+   },
+   {
+    "file": "2026-10-16_07-52-05.csv",
+    "date": "2026-10-16",
+    "km": 44.7,
+    "type": "urban"
+   },
+   {
+    "file": "2026-10-16_19-23-56.csv",
+    "date": "2026-10-16",
+    "km": 44.1,
+    "type": "mixed"
+   },
+   {
+    "file": "2026-10-17_10-09-49.csv",
+    "date": "2026-10-17",
+    "km": 43.9,
+    "type": "mixed_highway"
+   },
+   {
+    "file": "2026-10-17_11-45-33.csv",
+    "date": "2026-10-17",
+    "km": 8.2,
+    "type": "urban"
+   },
+   {
+    "file": "2026-10-17_12-42-21.csv",
+    "date": "2026-10-17",
+    "km": 6.2,
+    "type": "mixed"
+   },
+   {
+    "file": "2026-10-17_14-02-26.csv",
+    "date": "2026-10-17",
+    "km": 68.8,
+    "type": "mixed"
+   },
+   {
+    "file": "2026-10-17_16-05-39.csv",
+    "date": "2026-10-17",
+    "km": 138.0,
+    "type": "highway"
+   },
+   {
+    "file": "2026-10-17_18-22-49.csv",
+    "date": "2026-10-17",
+    "km": 186.2,
+    "type": "mixed_highway"
+   },
+   {
+    "file": "2026-10-17_22-01-20.csv",
+    "date": "2026-10-17",
+    "km": 1.9,
+    "type": "urban"
+   },
+   {
+    "file": "2026-10-17_22-20-41.csv",
+    "date": "2026-10-17",
+    "km": 2.4,
+    "type": "urban"
+   },
+   {
+    "file": "2026-10-17_23-13-01.csv",
+    "date": "2026-10-17",
+    "km": 2.3,
+    "type": "urban"
+   }
+  ],
   "previousPerDrive": {
    "path": "analyses/closure_baselines/perdrive_346drives.csv",
    "sha256": "ef1d1f41ce20c53522fede92886e1f2f3c9dacbba6566b3616fbd04c85475e18",
@@ -263,21 +519,122 @@
  },
  "checks": {
   "rawOriginals": {
-   "nChecked": 346,
+   "nChecked": 374,
    "nMismatch": 0
   },
   "flags": {
-   "nCompared": 566,
+   "nCompared": 594,
    "nDiverging": 0
   },
+  "repin": {
+   "previousPerDrive": {
+    "path": "analyses/closure_baselines/perdrive_346drives_recal_5556a0c6.csv",
+    "sha256": "43bae98150071b554a696dc223da174a30eff636d4cd33d2d163db605700e472",
+    "nDrives": 346,
+    "master": "5556a0c6c8bcde0f6c64b8b9655208ed"
+   },
+   "repinnedFrom": {
+    "path": "analyses/closure_baselines/perdrive_346drives.csv",
+    "sha256": "ef1d1f41ce20c53522fede92886e1f2f3c9dacbba6566b3616fbd04c85475e18",
+    "nDrives": 346,
+    "master": "a641f34d7528d004b900c151cbde3d6d"
+   },
+   "repinReason": "auto (M398): closure drift attributed to the recalibrated offset columns (hybrid run reproduces the pin exactly; changed columns ['I_offset_2p_A_applied', 'I_offset_A_applied', 'cell_spread_loaded_p95_adj_hub_mv', 'cell_spread_loaded_p95_adj_mv', 'energy_residual_kwh_corr', 'energy_residual_kwh_corr2p', 'net_draw_kwh_corr', 'net_draw_kwh_corr2p', 'net_draw_per100km_corr', 'net_draw_per100km_corr2p', 'offset_2p_kwh_removed', 'offset_kwh_removed'])",
+   "note": "re-pinned automatically (M398): closure drift attributed to the recalibrated offset columns, hybrid run reproduces the previous pin exactly; identity stays exact (1e-5) for later runs",
+   "attribution": {
+    "rule": "M398",
+    "pinMasterEqualsCommittedMaster": true,
+    "masterColumnsChangedOnPreviousIds": [
+     "I_offset_2p_A_applied",
+     "I_offset_A_applied",
+     "cell_spread_loaded_p95_adj_hub_mv",
+     "cell_spread_loaded_p95_adj_mv",
+     "energy_residual_kwh_corr",
+     "energy_residual_kwh_corr2p",
+     "net_draw_kwh_corr",
+     "net_draw_kwh_corr2p",
+     "net_draw_per100km_corr",
+     "net_draw_per100km_corr2p",
+     "offset_2p_kwh_removed",
+     "offset_kwh_removed"
+    ],
+    "allWithinRecalibrationColumns": true,
+    "hybridRunIdentityExact": true,
+    "nPrevious": 346,
+    "tolerance": {
+     "maxAbs": 0.001,
+     "colSumRelChange": 0.001
+    },
+    "driftColumns": {
+     "g2t": {
+      "nDrivesChanged": 103,
+      "maxAbs": 0.00014,
+      "colSumRelChange": 9.27e-06
+     },
+     "trac": {
+      "nDrivesChanged": 94,
+      "maxAbs": 9e-05,
+      "colSumRelChange": 9.5e-07
+     },
+     "b2t": {
+      "nDrivesChanged": 83,
+      "maxAbs": 6e-05,
+      "colSumRelChange": 6.17e-06
+     },
+     "g2b_model": {
+      "nDrivesChanged": 100,
+      "maxAbs": 0.00014,
+      "colSumRelChange": 1.115e-05
+     },
+     "excess": {
+      "nDrivesChanged": 80,
+      "maxAbs": 0.00014,
+      "colSumRelChange": 7.468e-05
+     },
+     "excess_engonly": {
+      "nDrivesChanged": 89,
+      "maxAbs": 0.00014,
+      "colSumRelChange": 4.715e-05
+     },
+     "excess_ps": {
+      "nDrivesChanged": 80,
+      "maxAbs": 0.00014,
+      "colSumRelChange": 7.468e-05
+     },
+     "batt_resid": {
+      "nDrivesChanged": 79,
+      "maxAbs": 6e-05,
+      "colSumRelChange": 4.245e-05
+     },
+     "batt_resid_modelg2b": {
+      "nDrivesChanged": 73,
+      "maxAbs": 9e-05,
+      "colSumRelChange": 6.673e-05
+     }
+    },
+    "nDrivesChangedConvention": "at >1e-5 on 5-dp rounded values (descriptive only; the decision uses maxAbs and colSumRelChange)",
+    "cumulativeVsOriginalPin": null
+   },
+   "originalPin": {
+    "path": "analyses/closure_baselines/perdrive_346drives.csv",
+    "sha256": "ef1d1f41ce20c53522fede92886e1f2f3c9dacbba6566b3616fbd04c85475e18",
+    "nDrives": 346,
+    "master": "a641f34d7528d004b900c151cbde3d6d"
+   }
+  },
   "previousIdentity": {
-   "nIdentical": 346,
-   "columns": 23
+   "attributedRecalibrationDrift": true,
+   "newPin": {
+    "path": "analyses/closure_baselines/perdrive_346drives_recal_5556a0c6.csv",
+    "sha256": "43bae98150071b554a696dc223da174a30eff636d4cd33d2d163db605700e472",
+    "nDrives": 346,
+    "master": "5556a0c6c8bcde0f6c64b8b9655208ed"
+   }
   }
  },
  "specSha256Frozen": "96b1297f047eaaf46314c797b2d32f63626b45cadbb90f20335cc1bb45c3e745",
  "infeasibleAlphaDrives": {
-  "n": 20,
+  "n": 23,
   "inPreviousSet": [
    "2026-09-14_07-50-59.csv",
    "2026-09-16_14-01-15.csv",
@@ -300,6 +657,65 @@
    "20260906_122920.csv",
    "20260909_140527.csv"
   ],
-  "inNewDrives": []
+  "inNewDrives": [
+   "2026-10-15_10-40-56.csv",
+   "2026-10-16_19-23-56.csv",
+   "2026-10-17_23-13-01.csv"
+  ]
+ },
+ "acknowledgement": {
+  "ruling": "analyses/M466_gtr_closure_director_ruling.json",
+  "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+  "perDriveSha256": "f1b251b8eb3ef52716fa33eb80f11bc779a5b6e97e41eb6a34a59e817dcd9612",
+  "stopsSha256": "6dd715e8f93b44439e1218b0da9af4909f16ac8144dfba75d85c48fb08193064",
+  "stops": [
+   {
+    "rule": "flag/verdict flip",
+    "path": "/fGen/pointBelow0p5AllVariants"
+   },
+   {
+    "rule": "flag/verdict flip",
+    "path": "/fGen/stopTriggered"
+   }
+  ],
+  "escalations": [
+   {
+    "rule": "point-only leaf beyond the escalation band (10% relative, 0.01 absolute when |previous| < 0.1)",
+    "path": "/fGen/variantMax"
+   },
+   {
+    "rule": "point-only leaf beyond the escalation band (10% relative, 0.01 absolute when |previous| < 0.1)",
+    "path": "/fGen/variantMin"
+   },
+   {
+    "rule": "point-only leaf beyond the escalation band (10% relative, 0.01 absolute when |previous| < 0.1)",
+    "path": "/interval/hi"
+   },
+   {
+    "rule": "point-only leaf beyond the escalation band (10% relative, 0.01 absolute when |previous| < 0.1)",
+    "path": "/interval/lo"
+   },
+   {
+    "rule": "point-only leaf beyond the escalation band (10% relative, 0.01 absolute when |previous| < 0.1)",
+    "path": "/per100km/battToTractionResidual"
+   },
+   {
+    "rule": "point-only leaf beyond the escalation band (10% relative, 0.01 absolute when |previous| < 0.1)",
+    "path": "/per100km/genToBattDual"
+   },
+   {
+    "rule": "point-only leaf beyond the escalation band (10% relative, 0.01 absolute when |previous| < 0.1)",
+    "path": "/per100km/genToBattEngineOn"
+   },
+   {
+    "rule": "point-only leaf beyond the escalation band (10% relative, 0.01 absolute when |previous| < 0.1)",
+    "path": "/per100km/genToBattUpper"
+   },
+   {
+    "rule": "point-only leaf beyond the escalation band (10% relative, 0.01 absolute when |previous| < 0.1)",
+    "path": "/per100km/regenToBatt"
+   }
+  ],
+  "scope": "exactly the listed stops and escalations; every other stop stays unacknowledgeable"
  }
 }

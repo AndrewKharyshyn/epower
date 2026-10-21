@@ -776,9 +776,13 @@ _fg3 = [r["fgen"] for r in _G3["sensitivity"]]
 _pb3 = _rb3["sensitivity"]["previousBlock"]
 _mg3 = 0.5 - max(_fg3)
 _rel3 = "is smaller than" if _mg3 < _pb3["combinedDriftMaxAbsFgen_R_minus_published"] else "is not smaller than"      # M388: the relation word follows the payload numbers
-ok("A2 REQUIRED M373 sensitivity previous-table disclosure is TRUE: the refreshed table has no axis at or above 0.5, the previous table had 3, and the rendered margin-vs-drift relation (smaller / not smaller) matches the payload numbers",
-   max(_fg3) < 0.5 and _pb3["nAxesFgenAtOrAbove0p5"] == 3
-   and "the margin of the highest axis to 0.5 here (%.3f) %s that drift (%s)" % (_mg3, _rel3, _pb3["combinedDriftMaxAbsFgen_R_minus_published"]) in _all3)
+if max(_fg3) < 0.5:
+    ok("A2 REQUIRED M373 sensitivity previous-table disclosure is TRUE: the refreshed table has no axis at or above 0.5, the previous table had 3, and the rendered margin-vs-drift relation (smaller / not smaller) matches the payload numbers",
+       _pb3["nAxesFgenAtOrAbove0p5"] == 3
+       and "the margin of the highest axis to 0.5 here (%.3f) %s that drift (%s)" % (_mg3, _rel3, _pb3["combinedDriftMaxAbsFgen_R_minus_published"]) in _all3)
+else:        # M466 (Director wording): the refreshed table has axes at or above 0.5; the rendered sentence states the script-counted number and the crossing wording
+    ok("A2 REQUIRED M466 sensitivity table with axes at or above 0.5: the rendered sentence states the payload count and 'crossed 0.5 within an interval that already contained 0.5; side of 0.5 not established'",
+       "the refreshed table has %d of %d axes at or above 0.5 (highest %.2f): the point estimate crossed 0.5 within an interval that already contained 0.5; side of 0.5 not established" % (sum(1 for x in _fg3 if x >= 0.5), len(_fg3), max(_fg3)) in _all3)
 _l4, _l5 = _G3["limitations"][4], _G3["limitations"][5]
 ok("A2 REQUIRED M373 limitations[4] and [5]: recomputed-on-the-live-corpus wording present, crossval no longer called 'current', most urban engine-on time is charge-and-drive or fully banked (TRUE)",
    "recomputed on the live corpus at ingestion on raw/ = sha256-verified originals (M366) as descriptive point values with no interval" in _l4 and "the M265 fix did not change them" in _l4

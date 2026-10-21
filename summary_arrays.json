@@ -59722,7 +59722,7 @@
     "rawManifestBackfill": "M294: raw_manifest.json was absent at the M293 array build; identity backfilled from the 2026-09-25 446-drive manifest."
    },
    "computationStatus": "computed",
-   "computationStatusNote": "M463: generated from the payload. Recomputed on the 606-drive corpus: headline and cohort splits (refresh_gtr_headline: 376 drives); sensitivity (M426, 348 drives, 63 days); simultaneity (M426, 348 drives, 63 days); speedSplit (M426, 348 drives, 63 days); eligibilityAlignment current counts; gtrClosure recomputed on the live corpus (346 drives, 63 days); crossval carried at M280 (2026-09-17).",
+   "computationStatusNote": "M466: generated from the payload. Recomputed on the 606-drive corpus: headline and cohort splits (refresh_gtr_headline: 376 drives); sensitivity (M466, 376 drives, 67 days); simultaneity (M466, 376 drives, 67 days); speedSplit (M466, 376 drives, 67 days); eligibilityAlignment current counts; gtrClosure recomputed on the live corpus (374 drives, 67 days); crossval carried at M280 (2026-09-17).",
    "reissuedFrom": "5197ab6dc2a44b99ccb246af03f8f6b0",
    "reissueNote": "M312: master hash re-issued; only cell_spread_loaded_p95_adj_hub_mv changed (per-column hash check); block content unchanged unless listed (cellHealthTrend).",
    "includedInReleaseAt": "2026-10-20T22:13:33.912768+00:00",
@@ -148694,73 +148694,73 @@
   "sensitivity": [
    {
     "axis": "BASE (central)",
-    "gen100": 16.04,
-    "trac100": 18.74,
-    "fgen": 0.466,
-    "etaBus": 0.325
+    "gen100": 15.9,
+    "trac100": 18.29,
+    "fgen": 0.518,
+    "etaBus": 0.33
    },
    {
     "axis": "BSFC optimistic (-6%)",
-    "gen100": 16.91,
-    "trac100": 19.46,
-    "fgen": 0.486,
-    "etaBus": 0.343
+    "gen100": 16.76,
+    "trac100": 19.03,
+    "fgen": 0.537,
+    "etaBus": 0.347
    },
    {
     "axis": "BSFC conservative (+9%)",
-    "gen100": 14.71,
-    "trac100": 17.68,
-    "fgen": 0.434,
-    "etaBus": 0.298
+    "gen100": 14.58,
+    "trac100": 17.2,
+    "fgen": 0.487,
+    "etaBus": 0.302
    },
    {
     "axis": "η_gen low (0.90)",
-    "gen100": 15.19,
-    "trac100": 18.06,
-    "fgen": 0.446,
-    "etaBus": 0.308
+    "gen100": 15.06,
+    "trac100": 17.59,
+    "fgen": 0.499,
+    "etaBus": 0.312
    },
    {
     "axis": "η_gen high (0.97)",
-    "gen100": 16.37,
-    "trac100": 19.02,
-    "fgen": 0.474,
-    "etaBus": 0.332
+    "gen100": 16.23,
+    "trac100": 18.57,
+    "fgen": 0.525,
+    "etaBus": 0.337
    },
    {
     "axis": "P_aux low (0.2kW)",
-    "gen100": 16.04,
-    "trac100": 19.49,
-    "fgen": 0.457,
-    "etaBus": 0.325
+    "gen100": 15.9,
+    "trac100": 18.95,
+    "fgen": 0.508,
+    "etaBus": 0.33
    },
    {
     "axis": "P_aux high (1.2kW)",
-    "gen100": 16.04,
-    "trac100": 17.14,
-    "fgen": 0.488,
-    "etaBus": 0.325
+    "gen100": 15.9,
+    "trac100": 16.88,
+    "fgen": 0.54,
+    "etaBus": 0.33
    },
    {
     "axis": "cold penalty OFF",
-    "gen100": 17.07,
-    "trac100": 19.51,
-    "fgen": 0.487,
-    "etaBus": 0.342
+    "gen100": 16.69,
+    "trac100": 18.89,
+    "fgen": 0.533,
+    "etaBus": 0.343
    },
    {
     "axis": "cold penalty heavy (×1.45)",
     "gen100": 15.46,
-    "trac100": 18.39,
-    "fgen": 0.456,
-    "etaBus": 0.316
+    "trac100": 18.02,
+    "fgen": 0.511,
+    "etaBus": 0.322
    },
    {
     "axis": "OPT band wide (1750-2250)",
-    "gen100": 16.05,
-    "trac100": 18.75,
-    "fgen": 0.467,
-    "etaBus": 0.326
+    "gen100": 15.92,
+    "trac100": 18.31,
+    "fgen": 0.519,
+    "etaBus": 0.33
    }
   ],
   "limitations": [
@@ -148783,81 +148783,81 @@
   "simultaneity": [
    {
     "type": "urban",
-    "nDrives": 296,
-    "engineOnHours": 17.4,
-    "genPlusBattDischarge": 17.9,
-    "chargesAndDrives": 50.9,
-    "genAloneNeutral": 3.0,
-    "fullyBanked": 28.3
+    "nDrives": 313,
+    "engineOnHours": 19.9,
+    "genPlusBattDischarge": 18.6,
+    "chargesAndDrives": 51.2,
+    "genAloneNeutral": 3.1,
+    "fullyBanked": 27.1
    },
    {
     "type": "mixed",
-    "nDrives": 14,
-    "engineOnHours": 2.6,
-    "genPlusBattDischarge": 25.1,
-    "chargesAndDrives": 57.3,
-    "genAloneNeutral": 3.6,
-    "fullyBanked": 14.0
+    "nDrives": 18,
+    "engineOnHours": 3.8,
+    "genPlusBattDischarge": 25.7,
+    "chargesAndDrives": 57.6,
+    "genAloneNeutral": 3.7,
+    "fullyBanked": 13.1
    },
    {
     "type": "mixed_highway",
-    "nDrives": 7,
-    "engineOnHours": 4.3,
-    "genPlusBattDischarge": 46.9,
-    "chargesAndDrives": 38.6,
-    "genAloneNeutral": 4.2,
-    "fullyBanked": 10.2
+    "nDrives": 10,
+    "engineOnHours": 6.3,
+    "genPlusBattDischarge": 46.1,
+    "chargesAndDrives": 39.6,
+    "genAloneNeutral": 5.0,
+    "fullyBanked": 9.3
    },
    {
     "type": "highway",
-    "nDrives": 2,
-    "engineOnHours": 1.8,
-    "genPlusBattDischarge": 46.3,
-    "chargesAndDrives": 36.1,
-    "genAloneNeutral": 11.8,
-    "fullyBanked": 5.8
+    "nDrives": 5,
+    "engineOnHours": 5.8,
+    "genPlusBattDischarge": 47.9,
+    "chargesAndDrives": 36.0,
+    "genAloneNeutral": 10.9,
+    "fullyBanked": 5.2
    }
   ],
   "speedSplit": [
    {
     "bin": "0-20",
-    "nDrives": 348,
-    "distKm": 214.2,
-    "generator": 6.48,
-    "battery": 29.24,
-    "fGen": 0.1813
+    "nDrives": 376,
+    "distKm": 243.8,
+    "generator": 6.28,
+    "battery": 28.51,
+    "fGen": 0.1806
    },
    {
     "bin": "20-60",
-    "nDrives": 344,
-    "distKm": 1187.4,
-    "generator": 5.67,
+    "nDrives": 372,
+    "distKm": 1432.6,
+    "generator": 5.69,
     "battery": 11.99,
-    "fGen": 0.3209
+    "fGen": 0.3218
    },
    {
     "bin": "60-90",
-    "nDrives": 92,
-    "distKm": 730.8,
-    "generator": 9.42,
-    "battery": 5.58,
-    "fGen": 0.628
+    "nDrives": 112,
+    "distKm": 1135.5,
+    "generator": 9.36,
+    "battery": 5.6,
+    "fGen": 0.6257
    },
    {
     "bin": "90-120",
-    "nDrives": 52,
-    "distKm": 444.0,
-    "generator": 16.3,
-    "battery": 3.04,
-    "fGen": 0.8427
+    "nDrives": 67,
+    "distKm": 884.2,
+    "generator": 16.32,
+    "battery": 2.53,
+    "fGen": 0.8657
    },
    {
     "bin": "120+",
-    "nDrives": 18,
-    "distKm": 21.3,
-    "generator": 22.51,
-    "battery": 4.21,
-    "fGen": 0.8424
+    "nDrives": 22,
+    "distKm": 24.3,
+    "generator": 22.37,
+    "battery": 3.96,
+    "fGen": 0.8496
    }
   ],
   "_provenance": "M253 (2026-09-13) restoration: generatorTractionRecon was found absent from summary_arrays.json (regression, root cause not identified this session -- likely lost during an untracked seasonal-wiring pass). Headline corpus/flows/driveTypeSplit figures freshly recomputed from fuel_recon_master.csv (135 clean / 138 fuel-instrumented drives, 1391.2 km) and verified to match the last-recorded M248 figures to within rounding. rpmFinding freshly recomputed from the current 374-drive rpmDistribution. crossval and sensitivity are carried forward from their last-surviving source files (crossval.csv, sensitivity.json) at the disclosed M246 fuel-subset basis -- their generating code was not preserved. The per-second speedSplit and simultaneity sub-analyses had no surviving source of any kind and are omitted (not fabricated) pending new code. M279 (2026-09-17): the `sensitivity` table was REBUILT from raw telemetry through the current M265-corrected recon_engine (generating code restored as sensitivity_gtr.py) and now reproduces the corrected corpus headline at BASE (f_gen 0.488, gen 15.75, trac 18.23, eta_bus 0.331); the previously shipped table (BASE f_gen 0.693) was pre-M265-sign and at the lost M246 subset basis. crossval and simultaneity remain pending rebuild. M280 (2026-09-17): crossval.csv (the 82-drive Path A/Path B source, reported lost) was recovered and re-audited: it reproduces the shipped crossval dict exactly, and the generator cross-validation is sign-invariant under the M265 fix (Path B generator is fuel-derived), so crossval values are unchanged. Path A's road-load coefficients remain unpreserved, so crossval stays at the 82-drive basis. simultaneity remains pending rebuild. M281 (2026-09-17): rpmFinding refreshed to the 410-drive corpus and to the TRUE [1850,2150] OPT-band occupancy (63.4% of engine-on time; anchored to the stamped rpmDistribution bin totals with the two OPT-boundary bins split at 1850/2150 via a raw 1 Hz sub-bin pass, independent pure-raw cross-check 64.4%). The shipped 58.5% was the 1975-2025 spike bin alone (58.7% at 410) -- it labelled the band [1850,2150] but valued only its central spike, understating the OPT concentration. Not sign-dependent. rpmFinding generating code stored as rpm_opt_pass.py. simultaneity remains the last pending §4b sub-analysis. M282 (2026-09-17): simultaneity (per-second gen/battery state by drive type) REBUILT from central_estimate_v2_persample at the corrected M265 sign (generating code simultaneity_gtr.py; was null since M253, no surviving source). The corrected sign inverts the M246 reading -- urban is predominantly battery-charging (charges+drives 52.8% / fully-banked 25.2%), gen+battery-discharge rises urban 18.4% -> highway 46.3% -- reframed away from 'saturation' per §4a. All four §4b sub-analyses (sensitivity M279, crossval M280, rpmFinding M281, simultaneity M282) are now current. M285 (2026-09-19): productionCheck.nAll 374->410 and the Warm/Shoulder cohort-corpus counts (326->346, 48->64) refreshed (the M260 cohort-count refresh had not landed in the M284 file); audit[0] fuel-flow coverage text 138/374 -> 181/410. Headline numerics unchanged (re-aggregated from fuel_recon_master.csv, exact match).",
@@ -148869,34 +148869,34 @@
     "gtrClosure.scope"
    ],
    "headline": {
-    "nDrives": 348,
-    "nProduction": 348,
-    "kmProduction": 2600.7,
+    "nDrives": 376,
+    "nProduction": 376,
+    "kmProduction": 3723.6,
     "producer": "refresh_gtr_headline.py (recomputed at every ingestion)"
    },
    "refreshed": [
     {
      "block": "sensitivity",
-     "rerunMilestone": "M426",
-     "nDrives": 348,
-     "nDays": 63
+     "rerunMilestone": "M466",
+     "nDrives": 376,
+     "nDays": 67
     },
     {
      "block": "simultaneity",
-     "rerunMilestone": "M426",
-     "nDrives": 348,
-     "nDays": 63
+     "rerunMilestone": "M466",
+     "nDrives": 376,
+     "nDays": 67
     },
     {
      "block": "speedSplit",
-     "rerunMilestone": "M426",
-     "nDrives": 348,
-     "nDays": 63
+     "rerunMilestone": "M466",
+     "nDrives": 376,
+     "nDays": 67
     }
    ],
    "closure": {
-    "nDrives": 346,
-    "nDays": 63,
+    "nDrives": 374,
+    "nDays": 67,
     "carriedAtIngestion": false
    },
    "carried": [
@@ -148913,92 +148913,92 @@
   "gtrClosure": {
    "basis": "fuel-PID subset, model-derived; raw/ = sha256-verified originals (M366); not M299-reproducible",
    "scope": {
-    "nDrives": 346,
-    "nDays": 63,
-    "km": 2593.9,
-    "nCanonical": 578,
+    "nDrives": 374,
+    "nDays": 67,
+    "km": 3716.8,
+    "nCanonical": 606,
     "excludedNoBatteryInputs": [
      "20260512_195020.csv",
      "20260813_145651.csv",
      "20260813_150341.csv"
     ],
-    "excludedNote": "NaN battery offset or NaN charge-class columns in the master: the closure skips these drives by design (pre-registered M336 rule). Before M349 the published reconstruction gave zero battery power for such a drive (f_gen = 1 by construction); M349 repaired the published rows (current published f_gen: 20260813_145651 0.5752, 20260813_150341 0.3639); no published row has f_gen = 1 now. Set note (as of the M375 eligibility alignment): the closure set is 346 drives; the headline set is the 348 canonical-clean (ens_outlier_v2) of 350 fuel-instrumented drives, 348 - 2 = 346; headline drives not in the closure: 20260813_145651 (NaN battery inputs); 20260813_150341 (NaN battery inputs); NaN-battery-input drive(s) in neither set (no published row or canonical outlier): 20260512_195020",
+    "excludedNote": "NaN battery offset or NaN charge-class columns in the master: the closure skips these drives by design (pre-registered M336 rule). Before M349 the published reconstruction gave zero battery power for such a drive (f_gen = 1 by construction); M349 repaired the published rows (current published f_gen: 20260813_145651 0.5752, 20260813_150341 0.3640); no published row has f_gen = 1 now. Set note (as of the M375 eligibility alignment): the closure set is 374 drives; the headline set is the 376 canonical-clean (ens_outlier_v2) of 378 fuel-instrumented drives, 376 - 2 = 374; headline drives not in the closure: 20260813_145651 (NaN battery inputs); 20260813_150341 (NaN battery inputs); NaN-battery-input drive(s) in neither set (no published row or canonical outlier): 20260512_195020",
     "publishedRowsWithFgenOne": [],
     "excludedWithoutPublishedRow": [
      "20260512_195020.csv"
     ]
    },
    "per100km": {
-    "generator": 16.029,
-    "genToTraction": 8.731,
-    "genToBattEngineOn": 5.573,
-    "genToBattDual": 2.814,
-    "genToBattUpper": 8.387,
-    "regenToBatt": 3.065,
-    "battToTractionResidual": 9.999
+    "generator": 15.893,
+    "genToTraction": 9.474,
+    "genToBattEngineOn": 4.999,
+    "genToBattDual": 2.282,
+    "genToBattUpper": 7.28,
+    "regenToBatt": 2.683,
+    "battToTractionResidual": 8.808
    },
    "nodeExcess": {
-    "relToGenerator": 0.068,
+    "relToGenerator": 0.0542,
     "ci95": [
-     0.0537,
-     0.0863
+     0.0423,
+     0.0729
     ],
     "tolerance": 0.05,
     "closedUnderRule": false
    },
    "excessWithoutDual": {
-    "relToGenerator": -0.1076,
+    "relToGenerator": -0.0893,
     "ci95": [
-     -0.1346,
-     -0.0869
+     -0.1167,
+     -0.0718
     ]
    },
    "interval": {
-    "lo": -0.1076,
-    "hi": 0.068,
+    "lo": -0.0893,
+    "hi": 0.0542,
     "zeroInsideAllVariants": true,
     "nVariants": 23
    },
    "fGen": {
-    "est": 0.4662,
+    "est": 0.5182,
     "ci95": [
-     0.3823,
-     0.5342
+     0.425,
+     0.5798
     ],
     "ciContains0p5": true,
-    "variantMin": 0.4209,
-    "variantMax": 0.4897,
-    "pointBelow0p5AllVariants": true,
+    "variantMin": 0.4759,
+    "variantMax": 0.5398,
+    "pointBelow0p5AllVariants": false,
     "nVariants": 23,
-    "stopTriggered": false
+    "stopTriggered": true
    },
    "alphaStar": {
-    "est": 0.613,
+    "est": 0.622,
     "ci95": [
-     0.591,
-     0.633
+     0.601,
+     0.641
     ],
-    "variantMin": 0.218,
-    "variantMax": 0.748,
-    "nInfeasibleDrivesBaseline": 20,
+    "variantMin": 0.202,
+    "variantMax": 0.783,
+    "nInfeasibleDrivesBaseline": 23,
     "label": "implied closure parameter solved from the same data; not an estimate of the generator share of the dual charge"
    },
    "method": "day-clustered percentile bootstrap (seed 42, 4000 draws), corpus ratio-of-sums",
    "sources": {
     "closureDiag": {
      "path": "analyses/M377c_closure_diag.json",
-     "sha256": "1c02afd3dc06d702f7250241f27a8cede48e6c0721f6ed205893d5b2837db911"
+     "sha256": "290a8036c09b0a4b3f93f025b752bb2a4390d9fbb23de2486172245ffd8a5fb5"
     },
     "step2": {
      "path": "analyses/M377c_step2_result.json",
-     "sha256": "076f118e7e8b65cb8431e089b08e81700576bd043ee626617f8bba403ad8aa83"
+     "sha256": "8e06fe0f4b0f3a6cd8efb4ffd51f54bcb38fec7c124f5774f8c45206e10b8daa"
     },
     "fuelReconMaster": {
      "path": "fuel_recon_master.csv",
-     "sha256": "97069edb20cdd56570553a835183fa8ae39a6fea68eebd811cb83ed95987cdde"
+     "sha256": "3653735d9538607e8410ae8ec644545da02a3db93e1d7a0d4ea8b20977490e2c"
     }
    },
-   "_staleness": "recomputed on the live corpus at ingestion (346 drives, 63 days; expected-set rule, previous set pinned in analyses/gtr_closure_record.json; spec analyses/M377c_spec.md Rev 2) on the sha256-verified originals (M366 basis); producers tools/gtr_closure_diag.py sha256 ed2109f38d43 and tools/gtr_interval_sens.py sha256 4b9aaa5472b1 (--ingest); refreshed by the gtr_closure_refresh stage at every ingestion"
+   "_staleness": "recomputed on the live corpus at ingestion (374 drives, 67 days; expected-set rule, previous set pinned in analyses/gtr_closure_record.json; spec analyses/M377c_spec.md Rev 2) on the sha256-verified originals (M366 basis); producers tools/gtr_closure_diag.py sha256 3eb0dcfdadd7 and tools/gtr_interval_sens.py sha256 4b9aaa5472b1 (--ingest); refreshed by the gtr_closure_refresh stage at every ingestion"
   },
   "staleBlocks": {
    "blocks": [
@@ -149022,14 +149022,14 @@
    {
     "block": "sensitivity",
     "basisMilestone": "M373",
-    "rerunMilestone": "M426",
-    "nDrives": 348,
-    "nDays": 63,
+    "rerunMilestone": "M466",
+    "nDrives": 376,
+    "nDays": 67,
     "rawBasis": "raw/ = sha256-verified originals (M366)",
-    "status": "descriptive point values, no interval; drive set = canonical-clean (ens_outlier_v2), 348 of 350 fuel-instrumented drives; recomputed on the live corpus at ingestion M426",
+    "status": "descriptive point values, no interval; drive set = canonical-clean (ens_outlier_v2), 376 of 378 fuel-instrumented drives; recomputed on the live corpus at ingestion M466",
     "provenanceDelta": "O minus R (former per-sample raw, current master): provenance; R minus published: combined drive-set + code + basis drift, unattributed (analyses/M375_delta.json)",
     "source": {
-     "O": "analyses/M377_O_blocks.json sha256 c969ae755848810d",
+     "O": "analyses/M377_O_blocks.json sha256 49dde328c8a3f728",
      "spec": "analyses/M377_spec.md sha256 d0fffe3d94e23ff0",
      "scripts": {
       "tools/m373_point.py": "0db60863f380b22a",
@@ -149037,19 +149037,19 @@
       "simultaneity_gtr.py": "9988c382d92ae5aa",
       "speed_split.py": "ebf7f51a5cf5d113",
       "recon_engine.py": "3699d965a45a3023",
-      "fuel_recon.py": "729ef765aca215db",
+      "fuel_recon.py": "d23922730e9ac6f6",
       "model_constants.py": "70486c933c844505"
      }
     },
     "baseGate": {
      "passed": true,
      "equalsLiveHeadline": {
-      "gen100": 16.04,
-      "trac100": 18.74,
-      "fgen": 0.466,
-      "etaBus": 0.325
+      "gen100": 15.9,
+      "trac100": 18.29,
+      "fgen": 0.518,
+      "etaBus": 0.33
      },
-     "nClean": 348
+     "nClean": 376
     },
     "provenanceMaxAbsDelta_O_minus_R": {
      "gen100": 0.02,
@@ -149076,14 +149076,14 @@
    {
     "block": "simultaneity",
     "basisMilestone": "M373",
-    "rerunMilestone": "M426",
-    "nDrives": 348,
-    "nDays": 63,
+    "rerunMilestone": "M466",
+    "nDrives": 376,
+    "nDays": 67,
     "rawBasis": "raw/ = sha256-verified originals (M366)",
-    "status": "descriptive point values, no interval; drive set = canonical-clean (ens_outlier_v2), 348 of 350 fuel-instrumented drives; recomputed on the live corpus at ingestion M426",
+    "status": "descriptive point values, no interval; drive set = canonical-clean (ens_outlier_v2), 376 of 378 fuel-instrumented drives; recomputed on the live corpus at ingestion M466",
     "provenanceDelta": "O minus R (former per-sample raw, current master): provenance; R minus published: combined drive-set + code + basis drift, unattributed (analyses/M375_delta.json)",
     "source": {
-     "O": "analyses/M377_O_blocks.json sha256 c969ae755848810d",
+     "O": "analyses/M377_O_blocks.json sha256 49dde328c8a3f728",
      "spec": "analyses/M377_spec.md sha256 d0fffe3d94e23ff0",
      "scripts": {
       "tools/m373_point.py": "0db60863f380b22a",
@@ -149091,7 +149091,7 @@
       "simultaneity_gtr.py": "9988c382d92ae5aa",
       "speed_split.py": "ebf7f51a5cf5d113",
       "recon_engine.py": "3699d965a45a3023",
-      "fuel_recon.py": "729ef765aca215db",
+      "fuel_recon.py": "d23922730e9ac6f6",
       "model_constants.py": "70486c933c844505"
      }
     },
@@ -149108,14 +149108,14 @@
    {
     "block": "speedSplit",
     "basisMilestone": "M373",
-    "rerunMilestone": "M426",
-    "nDrives": 348,
-    "nDays": 63,
+    "rerunMilestone": "M466",
+    "nDrives": 376,
+    "nDays": 67,
     "rawBasis": "raw/ = sha256-verified originals (M366)",
-    "status": "descriptive point values, no interval; drive set = canonical-clean (ens_outlier_v2), 348 of 350 fuel-instrumented drives; recomputed on the live corpus at ingestion M426",
+    "status": "descriptive point values, no interval; drive set = canonical-clean (ens_outlier_v2), 376 of 378 fuel-instrumented drives; recomputed on the live corpus at ingestion M466",
     "provenanceDelta": "O minus R (former per-sample raw, current master): provenance; R minus published: combined drive-set + code + basis drift, unattributed (analyses/M375_delta.json)",
     "source": {
-     "O": "analyses/M377_O_blocks.json sha256 c969ae755848810d",
+     "O": "analyses/M377_O_blocks.json sha256 49dde328c8a3f728",
      "spec": "analyses/M377_spec.md sha256 d0fffe3d94e23ff0",
      "scripts": {
       "tools/m373_point.py": "0db60863f380b22a",
@@ -149123,13 +149123,13 @@
       "simultaneity_gtr.py": "9988c382d92ae5aa",
       "speed_split.py": "ebf7f51a5cf5d113",
       "recon_engine.py": "3699d965a45a3023",
-      "fuel_recon.py": "729ef765aca215db",
+      "fuel_recon.py": "d23922730e9ac6f6",
       "model_constants.py": "70486c933c844505"
      }
     },
     "validation": {
-     "nChecked": 348,
-     "nMatched": 348,
+     "nChecked": 376,
+     "nMatched": 376,
      "maxAbsDiffKwh100km": 0.0,
      "passed": true,
      "toleranceKwhPer100km": 0.01
@@ -149149,11 +149149,11 @@
     "kmProduction": 2003.9
    },
    "current": {
-    "nProduction": 348,
-    "nDrives": 348,
-    "kmProduction": 2600.7
+    "nProduction": 376,
+    "nDrives": 376,
+    "kmProduction": 3723.6
    },
-   "nFuelInstrumentedRows": 350,
+   "nFuelInstrumentedRows": 378,
    "excluded": [
     {
      "file": "20260513_182950.csv",
@@ -149272,58 +149272,12 @@
     "warm": false,
     "shoulder": true
    },
-   "note": "Eligibility aligned to canonical-clean (ens_outlier_v2) in M375 (a definition change, not a correction; the key nProduction now counts canonical-clean fuel-instrumented drives). Previous counts 261 / 260 / 2003.9 km (nProduction / nDrives / km), now 348 / 348 / 2600.7 km. Excluded fuel-instrumented drives: 20260513_182950 (urban, 20.7 km, f_gen NaN); 20260813_144601 (urban, 0.9 km, f_gen present). All-view corpus values are unchanged at published precision; Warm: corpus fuelChem 47.64 to 47.63; driveTypeSplit[0] fGen 0.3903 to 0.3899; driveTypeSplit[0] genToTraction 7.59 to 7.58; driveTypeSplit[0] km 993.1 to 992.2; driveTypeSplit[0] n 161 to 160; driveTypeSplit[0] tractionGross 19.45 to 19.44; flows engineLoss 30.49 to 30.48; flows fuelChem 47.64 to 47.63; flows genToTraction 9.08 to 9.07; kmProduction 1712.6 to 1711.7; nDrives 178 to 177; nProduction 178 to 177; Shoulder: nProduction 81 to 80.",
+   "note": "Eligibility aligned to canonical-clean (ens_outlier_v2) in M375 (a definition change, not a correction; the key nProduction now counts canonical-clean fuel-instrumented drives). Previous counts 261 / 260 / 2003.9 km (nProduction / nDrives / km), now 376 / 376 / 3723.6 km. Excluded fuel-instrumented drives: 20260513_182950 (urban, 20.7 km, f_gen NaN); 20260813_144601 (urban, 0.9 km, f_gen present). All-view corpus values are unchanged at published precision; Warm: corpus fuelChem 47.64 to 47.63; driveTypeSplit[0] fGen 0.3903 to 0.3899; driveTypeSplit[0] genToTraction 7.59 to 7.58; driveTypeSplit[0] km 993.1 to 992.2; driveTypeSplit[0] n 161 to 160; driveTypeSplit[0] tractionGross 19.45 to 19.44; flows engineLoss 30.49 to 30.48; flows fuelChem 47.64 to 47.63; flows genToTraction 9.08 to 9.07; kmProduction 1712.6 to 1711.7; nDrives 178 to 177; nProduction 178 to 177; Shoulder: nProduction 81 to 80.",
    "source": {
     "effect": "analyses/M375_eligibility_effect.json sha256 8ef39723ec8e01e2",
     "spec": "analyses/M375_spec.md sha256 c20e6e4722b0c08f"
    },
    "basisFrozenRecord": "previous / changedFields / sensitivityNote: M375 record (489 drives), not recomputed; current / excluded / nFuelInstrumentedRows: live files"
-  },
-  "carriedAtIngestion": {
-   "milestone": "M463",
-   "blocks": [
-    "sensitivity",
-    "simultaneity",
-    "speedSplit",
-    "gtrClosure"
-   ],
-   "basisMilestone": "M373",
-   "carried": {
-    "sensitivity": {
-     "nDrives": 348,
-     "nDays": 63,
-     "baseFgen": 0.466
-    },
-    "simultaneity": {
-     "nDrives": 348,
-     "nDays": 63
-    },
-    "speedSplit": {
-     "nDrives": 348,
-     "nDays": 63
-    },
-    "gtrClosure": {
-     "nDrives": 346,
-     "nDays": 63,
-     "fGen": 0.4662,
-     "ci95": [
-      0.3823,
-      0.5342
-     ],
-     "ciContains0p5": true
-    }
-   },
-   "liveHeadline": {
-    "nProduction": 376,
-    "nDrives": 376,
-    "kmProduction": 3723.6,
-    "fGen": 0.518,
-    "generator": 15.9,
-    "tractionGross": 18.29,
-    "etaBus": 0.33
-   },
-   "followUp": "M464",
-   "statement": "Carried at ingestion M463, not recomputed: sensitivity, simultaneity and speedSplit sit on the M373 set (348 drives, 63 days) and gtrClosure on 346 drives (63 days). The live GTR headline above is refreshed on 376 drives: f_gen 0.518. The carried sensitivity BASE row shows f_gen 0.466 and the carried closure f_gen 0.4662 (95% CI 0.3823 to 0.5342). The values are on different drive sets and the difference is not yet attributed (M464); the carried blocks are not a statement about the current corpus. The live point estimate crossed 0.5 within an interval that already contained 0.5; the generator/battery supply split is not established."
   }
  },
  "integrationScenarios": {
