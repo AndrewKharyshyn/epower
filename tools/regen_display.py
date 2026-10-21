@@ -378,10 +378,11 @@ def sha_file(p):
     return hashlib.sha256(open(p, "rb").read()).hexdigest()
 
 
-def build(workers=5):
+def build(workers=5, arrays=None):
     dm, reg = G.load_master()
     files = list(dm["file"])
-    A = json.load(open("summary_arrays.json", encoding="utf-8"))
+    # M463: the stage passes the arrays it is about to write, so the gates compare against the FRESH regenCaptureV2 / regenSocStandardized blocks, not the carried ones on disk
+    A = arrays if arrays is not None else json.load(open("summary_arrays.json", encoding="utf-8"))
     i_off = float(A["offsetUncertainty"]["pointEstimateA"])
     K.ensure(files, i_off, variant="base", workers=workers)
     T, hdrs = K.load(files, "base")

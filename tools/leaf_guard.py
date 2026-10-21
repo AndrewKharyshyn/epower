@@ -207,12 +207,109 @@ def cond_moved_to_complement_list(prev, cur, path, bound, rule):
         return False
 
 
+def _refit_transition_ok(prev, cur, rule):
+    """M463 (Director ruling, analyses/M463_leaf_guard_addendum.md): the exact one-shot M119-v2 refit transition. Previous block carriedForward at prevCorpus drives, current block
+    fresh at curCorpus drives with frozenBasis false. The exact previous/current values make it unable to fire on any later ingestion."""
+    try:
+        p, c = prev["socHysteresisV2"], cur["socHysteresisV2"]
+        return (p.get("recomputeMode") == rule["prevMode"] and p.get("corpusSizeAtRecompute") == rule["prevCorpus"] and c.get("recomputeMode") == rule["curMode"]
+                and c.get("corpusSizeAtRecompute") == rule["curCorpus"] and c.get("frozenBasis") is False)
+    except (KeyError, TypeError, AttributeError):
+        return False
+
+
+def cond_refit_recompute_transition(prev, cur, path, bound, rule):
+    """M463. A leaf of the M119-v2 block (or of its artifact stamp) may vanish only inside the declared refit transition AND only as a shrink: the block named by the rule
+    template (for a prefix rule) or the parent container (for an exact rule) must still exist, non-null, in the current arrays (a deleted block fails)."""
+    if not _refit_transition_ok(prev, cur, rule):
+        return False
+    n = rule.get("anchorDepth") or len(rule["pathTemplate"].split("/"))        # anchorDepth: the container that must still exist (default: the template block)
+    anchor = path[:n] if (rule.get("matchPrefix") or rule.get("anchorDepth")) else path[:-1]
+    try:
+        return get(cur, anchor) is not None
+    except (KeyError, IndexError, TypeError):
+        return False
+
+
+def _sha256_file(p):
+    import hashlib
+    h = hashlib.sha256()
+    with open(p, "rb") as f:
+        for ch in iter(lambda: f.read(1 << 20), b""):
+            h.update(ch)
+    return h.hexdigest()
+
+
+def cond_f03_list_cleared_by_refit(prev, cur, path, bound, rule):
+    """M463. The F03 changed-raw-hash list of the M119-v2 monitor may be emptied only inside the declared refit transition, only when the current list is EMPTY, and only for a file
+    whose archived raw copy now has the sha256 recorded in raw_manifest.json (so the entry cannot be dropped while the file still mismatches)."""
+    if not _refit_transition_ok(prev, cur, rule) or not isinstance(path[-1], int):
+        return False
+    try:
+        if get(cur, path[:-1]) != []:
+            return False
+        name = get(prev, path)
+        rec = [r for r in json.load(open(os.path.join(ROOT, "raw_manifest.json"), encoding="utf-8"))["files"] if r.get("raw_name") == name]
+        d = os.environ.get("XT_RAW_DIR") or os.path.join(ROOT, "raw")
+        import re
+        m_ = re.fullmatch(r"(\d{4})(\d{2})(\d{2})_(\d{2})(\d{2})(\d{2})\.csv", name)
+        cands = (name, name.replace("_", " ", 1)) + (("%s-%s-%s %s-%s-%s.csv" % m_.groups(),) if m_ else ())     # config keys use '_' or the compact form, the raw directory 'YYYY-MM-DD HH-MM-SS.csv'
+        f = next((os.path.join(d, c) for c in cands if os.path.exists(os.path.join(d, c))), None)
+        return len(rec) == 1 and f is not None and _sha256_file(f) == rec[0]["sha256"]
+    except (KeyError, IndexError, TypeError, OSError, ValueError):
+        return False
+
+
+def cond_fit_attempts_shortened_converged(prev, cur, path, bound, rule):
+    """M463. An entry of a fit-attempts list (a fallback attempt that failed or was tried first) may vanish only because the current list is SHORTER (the lost index is past its end) and
+    its final attempt converged without error, so the estimate comes from a converged fit (a worse outcome, or a failed final attempt, fails)."""
+    try:
+        lst = get(cur, path[:-2])
+        i = path[-2]
+        last = lst[-1]
+        return isinstance(lst, list) and isinstance(i, int) and i >= len(lst) and len(lst) >= 1 and last.get("converged") is True and last.get("error") is None
+    except (KeyError, IndexError, TypeError, AttributeError):
+        return False
+
+
+def cond_list_shortened_nonempty(prev, cur, path, bound, rule):
+    """M463. An element of a list may vanish only because the current list is shorter (the lost index is past its end) and still non-empty (a modal sequence that changed length;
+    an emptied or deleted list fails)."""
+    try:
+        lst = get(cur, path[:-1])
+        return isinstance(lst, list) and isinstance(path[-1], int) and len(lst) >= 1 and path[-1] >= len(lst)
+    except (KeyError, IndexError, TypeError):
+        return False
+
+
+def cond_two_part_switch(prev, cur, path, bound, rule):
+    """M463 (diagnosis of the CrawlStopGo cold losses). The phase-energy estimator reports a two-part block when zeroShare >= threshold (0.25) and a plain day-bootstrap median otherwise
+    (compute_summary_arrays.py, pre-registered). A leaf under `twoPart` may vanish only when the zeroShare fell below the threshold and the current block has `bootMedian`;
+    a leaf under `bootMedian` only when the zeroShare rose to the threshold or above and the current block has `twoPart`. The metric block is the prefix named by the rule template."""
+    n = len(rule["pathTemplate"].split("/"))
+    try:
+        pb, cb = get(prev, path[:n]), get(cur, path[:n])
+        t = rule["threshold"]
+        sub = path[n]
+        if sub == "twoPart":
+            return pb["zeroShare"] >= t and cb["zeroShare"] < t and "bootMedian" in cb and "twoPart" not in cb
+        if sub == "bootMedian":
+            return pb["zeroShare"] < t and cb["zeroShare"] >= t and "twoPart" in cb and "bootMedian" not in cb
+    except (KeyError, IndexError, TypeError):
+        return False
+    return False
+
+
 CONDITIONS = {"field_changed": cond_field_changed, "stamp_hash_changed": cond_stamp_hash_changed, "parent_null_in_current": cond_parent_null_in_current, "sibling_present": cond_sibling_present,
-              "field_changed_and_empty": cond_field_changed_and_empty, "cohort_min_support_crossed": cond_cohort_min_support_crossed, "placeholder_row_observed": cond_placeholder_row_observed, "moved_to_complement_list": cond_moved_to_complement_list}
+              "field_changed_and_empty": cond_field_changed_and_empty, "cohort_min_support_crossed": cond_cohort_min_support_crossed, "placeholder_row_observed": cond_placeholder_row_observed, "moved_to_complement_list": cond_moved_to_complement_list,
+              "refit_recompute_transition": cond_refit_recompute_transition, "f03_list_cleared_by_refit": cond_f03_list_cleared_by_refit, "fit_attempts_shortened_converged": cond_fit_attempts_shortened_converged,
+              "list_shortened_nonempty": cond_list_shortened_nonempty, "two_part_switch": cond_two_part_switch}
 
 
 REQUIRED_PARAMS = {"sibling_present": ("sibling",), "field_changed": ("entryDepth", "field"), "field_changed_and_empty": ("entryDepth", "field"), "placeholder_row_observed": ("entryDepth", "allowedLeaves", "observedFields"),
-                   "moved_to_complement_list": ("listField", "complementField")}
+                   "moved_to_complement_list": ("listField", "complementField"),
+                   "refit_recompute_transition": ("prevMode", "curMode", "prevCorpus", "curCorpus"), "f03_list_cleared_by_refit": ("prevMode", "curMode", "prevCorpus", "curCorpus"),
+                   "two_part_switch": ("threshold",)}
 
 
 def check_rules(rules):

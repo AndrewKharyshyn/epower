@@ -1,0 +1,8 @@
+# M463 addendum to M442 (C9) and M444 (B5): run-once study locks versus the current master (tooling, not a method change)
+
+Origin: ingestion M463 (578 -> 606 drives) stopped in stage `regen_v2` because `h_blocks` / `std_blocks` required the M442 / M444 study results to carry the CURRENT master MD5. The locks forbid a re-run of the study (rerun = recorded deviation); they do not require the study to sit on the current master. The equality check mixed the two. Director ruling (research-director, 2026-10-20, option B; Andrii approved in chat): amend the stage, do not re-run the studies.
+
+Rule: (1) the study results are verified against their lock (`M442_confirm.lock` specSha256 and the recorded `firstOutputSha256` / `resultSha256` of the carried `regenCaptureV2HStudy`; `M444_first.lock` specSha256 and resultSha256); a mismatch is a SystemExit (study altered). (2) Carried study blocks keep their OWN provenance master MD5 and get `studyBasis` {masterMd5, nDrives, note}; they are never restamped with the current MD5. (3) Per-ingestion cells (`regenCaptureV2`, `regenCaptureV2H`, `regenSocStandardized`, `regenDisplayV2`) use the current master. (4) `--study` is not passed at ingestion. Estimators, the B6 cadence-invariance FAIL, `b_nat` (sensitivity only) and all display rules are unchanged.
+
+Wording: study blocks 'study basis: 578 drives (master a641f34d), carried forward unchanged'; never 'study re-run', 'confirmed on 606 drives', 'validated'.
+Tests: `tests/synthetic/test_regen_v2_study_locks.py`. Checks after the stage: O7 on `regenDisplayV2` and `analyses/regen_std_state.json` (support status, S*, points leaving the previous day interval) and a focused blind audit of the provenance logic.

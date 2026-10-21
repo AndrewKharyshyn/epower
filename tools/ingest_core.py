@@ -240,7 +240,10 @@ def step3_determinism(master_path):
 # Additive leaves that on-demand studies splice INTO a block the arrays build recomputes (the top-level rule below cannot see them).
 # They are carried when the fresh block lacks them. M460: evTraction.detectorSensitivity (M432) and evTraction.zeroFuelVariant (M460) are written by
 # tools/m432_splice.py / tools/m460_splice.py and refreshed only on demand.
-NESTED_CARRIED = (("evTraction", "detectorSensitivity"), ("evTraction", "zeroFuelVariant"))
+# M463: socHysteresisV2.outOfTimeEvaluation (M428 study record, own basis), .deferredBacklog and .bootstrap are additive/record leaves of the M119-v2 block that an
+# explicit refit (recompute_m119v2=True) rebuilds without; carried when the fresh block lacks them (the leaf guard caught their loss at the first refit since M428).
+NESTED_CARRIED = (("evTraction", "detectorSensitivity"), ("evTraction", "zeroFuelVariant"),
+                  ("socHysteresisV2", "outOfTimeEvaluation"), ("socHysteresisV2", "deferredBacklog"), ("socHysteresisV2", "bootstrap"))
 
 
 def carry_forward(arrays, prev):

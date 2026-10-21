@@ -25,12 +25,16 @@ jobs:
       - name: Compile all Python
         run: python -m compileall -q *.py tools
       - name: Import integrity (files present, raw names/rows, master MD5)
-        run: python tools/verify_import.py --quick --expect-master-md5 a641f34d7528d004b900c151cbde3d6d
+        run: python tools/verify_import.py --quick --expect-master-md5 5556a0c6c8bcde0f6c64b8b9655208ed
         env: {XT_RAW_DIR: raw}
       - name: Unit tests
         run: |
           for t in test_seasonal_adjust test_seasonal test_assumptions_registry test_track4 test_cohort_rates test_post_step_idempotent; do python $t.py; done
           python tests/synthetic/test_estimator_gate.py
+          python tests/synthetic/test_m296_parity_additive.py
+          python tests/synthetic/test_regen_v2_study_locks.py
+          python tests/synthetic/test_leaf_guard_m463.py
+          python tests/synthetic/test_gtr_carry_label.py
           python tests/synthetic/test_plausibility_gate.py
           python tests/synthetic/test_signal_representation.py
           python tests/synthetic/test_f03_provenance_wording.py

@@ -15,7 +15,10 @@ assert a["inputBasis"]["masterMd5"] == A["masterRefitAudit"]["publishedMasterMD5
 assert a["computedAt"] < a["includedInReleaseAt"] and str(a["basisNDrives"]) in a["computationStatusNote"]
 p = st["masterRefitProvenance"]
 assert p["basisNDrives"] == p["inputBasis"]["nDrives"] == A["masterRefitProvenance"]["rebuildFromRepositoryArchive"]["nRowsRebuilt"]
-assert st["socHysteresisV2"]["basisNDrives"] == A["socHysteresisV2"]["nDrivesCovered"]
+if st["socHysteresisV2"].get("carriedForward"):
+    assert st["socHysteresisV2"]["basisNDrives"] == A["socHysteresisV2"]["nDrivesCovered"]
+else:      # M463: a fresh M119-v2 refit is not a carried block; its input basis is its own covered count
+    assert "basisNDrives" not in st["socHysteresisV2"] and st["socHysteresisV2"]["inputBasis"]["nDrives"] == A["socHysteresisV2"]["nDrivesCovered"]
 assert all("carriedFromMaster" not in v for v in st.values())
 assert st["generatorTractionRecon"]["carriedBlocks"] == A["generatorTractionRecon"]["staleBlocks"]["blocks"] and st["seasonalCharts"]["carriedBlocks"] == A["seasonalCharts"]["_staleness"]["stillStale"]
 # derive() is idempotent and writes only the stamps

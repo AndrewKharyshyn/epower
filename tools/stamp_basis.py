@@ -60,6 +60,11 @@ def derive(A):
                 s["basisNDrives"] = ob["nDrives"]
                 if ob["note"]:
                     s["computationStatusNote"] = ob["note"]
+        elif carried and isinstance(s.get("basisNDrives"), int):
+            # M463: a carried stamp without a block-declared basis (the regen blocks) states its input basis as the carried basis recorded by restamp_ingest (never the live corpus size)
+            s["inputBasis"] = {"nDrives": s["basisNDrives"], "masterMd5": s.get("corpusHash"), "source": "carried stamp: basisNDrives, corpusHash"}
+            s["computedAt"] = s.get("generatedAt")
+            s.pop("computedAtNote", None)
         else:
             s["inputBasis"] = {"nDrives": total, "masterMd5": s.get("corpusHash"), "source": "stamping pass: meta.totalDrives, corpusHash"}
             s["computedAt"] = s.get("generatedAt")

@@ -700,6 +700,146 @@
      "rule": "report-only (not a gate): bT sign flip, or |delta bT| > half the width of the bT day-clustered bootstrap CI"
     }
    }
+  },
+  {
+   "milestone": "M317",
+   "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "generatedAtUtc": "2026-10-20T20:33:09.570708+00:00",
+   "gitCommit": "8a53a560bb69bd162ac4de4d5139d0c699a6759e",
+   "codeKey": {
+    "m19b_sha256": "af4fd6a87847f6d386d20c3499e9690dfbb95593e3f451e60b7a2c86b22561e7",
+    "huber_slope_ci_sha256": "1026fea2720585756ce665e0d527811a82d61d762c11c77930c42eba96bf344a",
+    "python": "3.12.10",
+    "numpy": "2.4.4",
+    "pandas": "3.0.2",
+    "scikit_learn": "1.8.0",
+    "SPREAD_T_REF": 25.0,
+    "epsilon": 1.35,
+    "max_iter": 500,
+    "n_boot": 4000,
+    "seed": 42
+   },
+   "data": {
+    "nRowsMaster": 606,
+    "nEligible": 577,
+    "nClean": 576,
+    "nDays": 117,
+    "exclusion": "ens_outlier_v2",
+    "keepSetSha256": "0744c4dafb6728c0ca3c10fb6ce39ec67d62513cc97c7a208acbaa22ae7d4288"
+   },
+   "firstStage": {
+    "intercept": 17.393480630222403,
+    "bT": -0.00252300735387125,
+    "bI": 0.04905315490934512,
+    "I_ref": 99.1,
+    "n_iter": 30,
+    "scale": 2.3498478482824696
+   },
+   "slopeI": {
+    "label": "OLS slope of the Huber-adjusted series; CI = day-clustered bootstrap with an OLS first stage (NOT a Huber-slope CI); months = days / 30.44",
+    "value": 0.472,
+    "ci95": [
+     0.212,
+     0.704
+    ],
+    "nClean": 576
+   },
+   "slopeII": {
+    "label": "second-stage Huber slope of the stored (0.1-rounded) adjusted series; months = total_seconds / (30.4375 x 86400)",
+    "point_slope_mv_per_month": 0.4824272748087345,
+    "n": 576,
+    "n_days": 117,
+    "seed": 42,
+    "headline": "S1",
+    "S1": {
+     "method": "S1 (day-clustered, two-stage; headline)",
+     "n_groups": 117,
+     "n_draws": 4000,
+     "failed_draws": 0,
+     "nonconverged_draws": 0,
+     "inconclusive": false,
+     "ci95": [
+      0.20825759733417396,
+      0.7831388179661937
+     ],
+     "half_width": 0.28744061031600987
+    },
+    "conditional": {
+     "method": "conditional (day-clustered, first stage held fixed; conservative sensitivity)",
+     "n_groups": 117,
+     "n_draws": 4000,
+     "failed_draws": 0,
+     "nonconverged_draws": 0,
+     "inconclusive": false,
+     "ci95": [
+      0.19409919301412554,
+      0.8006580065666814
+     ],
+     "half_width": 0.30327940677627796,
+     "materially_wider_than_S1": false,
+     "half_width_ratio_to_S1": 1.055102848699267
+    },
+    "S2": {
+     "method": "S2 (7-day blocks, conditional; uncalibrated)",
+     "n_groups": 23,
+     "n_draws": 4000,
+     "failed_draws": 0,
+     "nonconverged_draws": 0,
+     "inconclusive": false,
+     "ci95": [
+      -0.056282696360622476,
+      0.8996648400439194
+     ],
+     "half_width": 0.47797376820227094,
+     "materially_wider_than_S1": true,
+     "half_width_ratio_to_S1": 1.6628609564834644
+    },
+    "S2_S1": {
+     "method": "S2-S1 (7-day blocks, two-stage; uncalibrated)",
+     "n_groups": 23,
+     "n_draws": 4000,
+     "failed_draws": 0,
+     "nonconverged_draws": 0,
+     "inconclusive": false,
+     "ci95": [
+      -0.005433441399224957,
+      0.874867182982559
+     ],
+     "half_width": 0.440150312190892,
+     "materially_wider_than_S1": true,
+     "half_width_ratio_to_S1": 1.5312739271844515
+    }
+   },
+   "stability": {
+    "leaveLast8Days": {
+     "leftOutDays": [
+      "2026-10-10",
+      "2026-10-11",
+      "2026-10-12",
+      "2026-10-13",
+      "2026-10-14",
+      "2026-10-15",
+      "2026-10-16",
+      "2026-10-17"
+     ],
+     "nRows": 530,
+     "bT": 0.014523631231135644,
+     "bI": 0.04535445258907148,
+     "deltaBT": 0.017046638585006893,
+     "deltaBI": -0.003698702320273639
+    },
+    "bT_ci95_day_clustered_bootstrap": [
+     -0.07743950124433209,
+     0.06620622516538219
+    ],
+    "bT_bootstrap_failed_draws": 0,
+    "flag": {
+     "raised": true,
+     "bT_sign_flip": true,
+     "abs_deltaBT_gt_half_ci_width": false,
+     "rule": "report-only (not a gate): bT sign flip, or |delta bT| > half the width of the bT day-clustered bootstrap CI"
+    }
+   }
   }
  ]
 }
