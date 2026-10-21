@@ -1,6 +1,7 @@
 import pandas as pd, numpy as np, warnings, json
 warnings.filterwarnings('ignore')
 import model_constants as MC
+from clock_unwrap import unwrap_clock      # M467 (audit F06)
 
 import os
 BASE=(os.environ.get('XT_RAW_DIR') or '/mnt/project').rstrip('/')+'/'   # M306: env-aware (unset -> legacy path, unchanged behaviour)
@@ -30,8 +31,8 @@ def _parse_time(s):
     try:
         t = pd.to_datetime(s, format='%H:%M:%S.%f', errors='raise')
     except (ValueError, TypeError):
-        return pd.to_datetime(s, errors='coerce')
-    return t + (pd.Timestamp.now().normalize() - pd.Timestamp('1900-01-01'))
+        return unwrap_clock(pd.to_datetime(s, errors='coerce'))      # M467 (audit F06): midnight rollover
+    return unwrap_clock(t + (pd.Timestamp.now().normalize() - pd.Timestamp('1900-01-01')))
 
 def load_drive(f, offset_A):
     df=pd.read_csv(BASE+f, low_memory=False, usecols=lambda c: c in _USECOLS)   # M383: only the channels this module reads

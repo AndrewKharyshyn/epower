@@ -223,7 +223,13 @@ def check_expected(rep):
         e = exp["allowedDifferences"].get(c)
         if e is None:
             bad.append({"column": c, "why": "not registered", "found": d}); continue
-        if d["nRowsDiffer"] > e["maxRows"] or d["nNullPatternMismatch"] > e.get("maxNullPatternMismatch", 0):
+        cap, elig = e.get("maxRows"), None
+        if cap is None and e.get("maxRowsFromNonNull"):        # M467 (audit F04): the cap is the exact eligible row set of the frozen transform, not a magic number
+            pub = pd.read_csv("drive_master.csv", usecols=["file", e["maxRowsFromNonNull"]], low_memory=False)
+            elig = set(pub.loc[pub[e["maxRowsFromNonNull"]].notna(), "file"]); cap = len(elig)
+            if any(f not in elig for f in d["files"]):
+                bad.append({"column": c, "why": "differs on a file outside the eligible row set", "found": d["files"], "eligibleColumn": e["maxRowsFromNonNull"]})
+        if d["nRowsDiffer"] > cap or d["nNullPatternMismatch"] > e.get("maxNullPatternMismatch", 0):
             bad.append({"column": c, "why": "more rows than registered", "found": d, "registered": e})
         if e.get("maxAbsDiff") is not None and d["maxAbsDiff"] is not None and d["maxAbsDiff"] > e["maxAbsDiff"]:
             bad.append({"column": c, "why": "larger difference than registered", "found": d, "registered": e})

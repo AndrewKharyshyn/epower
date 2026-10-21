@@ -1,5 +1,5 @@
 """M354 (F08.r1) known-answer test of cohortMeta.{observed, eligibleForCohortView, inferenceAvailable, nDaysObserved}: recomputed independently from
-seasonal_drive_master.csv (thermal_regime_raw = physical class, thermal_regime = class after the M310 minimum-support rule)."""
+seasonal_drive_master.csv (thermal_regime_raw = assigned class before the support gate (M467: thermal_regime_physical is the threshold class), thermal_regime = class after the M310 minimum-support rule)."""
 import json, os, sys
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 os.chdir(ROOT)

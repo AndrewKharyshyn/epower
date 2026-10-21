@@ -379,6 +379,7 @@ _REJECTED_CHANNELS = {
 }
 
 
+from clock_unwrap import unwrap_clock      # M467 (audit F06)
 from soc_spike import soc_spike_mask, SOC_SPIKE_JUMP_PP, SOC_SPIKE_NEIGHBOUR_TOL_PP, SOC_SPIKE_MAX_GAP_S   # M388c / M390 (analyses/M390_spec.md)
 
 
@@ -532,8 +533,8 @@ def _parse_time_col(s):
     try:
         t = pd.to_datetime(s, format='%H:%M:%S.%f', errors='raise')
     except (ValueError, TypeError):
-        return pd.to_datetime(s, format='mixed', errors='coerce')
-    return t + (pd.Timestamp.now().normalize() - pd.Timestamp('1900-01-01'))
+        return unwrap_clock(pd.to_datetime(s, format='mixed', errors='coerce'))      # M467 (audit F06): midnight rollover
+    return unwrap_clock(t + (pd.Timestamp.now().normalize() - pd.Timestamp('1900-01-01')))
 
 
 def _prep_bytes(csv_bytes):

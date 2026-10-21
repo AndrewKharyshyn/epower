@@ -1,5 +1,5 @@
 {
- "_provenance": "Registered expectations of the replay (analyses/M417_spec.md). The sample tier allows no difference. The full tier allows exactly these columns, with row, null-pattern, magnitude and file caps measured on 2026-10-12 (554 drives) and set slightly above; anything else, or more, fails. Edit only with a CHANGELOG entry that explains the new exception.",
+ "_provenance": "Registered expectations of the replay (analyses/M417_spec.md). The sample tier allows no difference. The full tier allows exactly these columns, with row, null-pattern, magnitude and file caps measured on 2026-10-12 (554 drives) and set slightly above; M467 (audit F04): the offset-follow columns no longer carry a fixed row cap, their cap is the number of published rows with a non-null I_offset_2p_A_applied (the exact eligible set, 592 on the 606-drive master) and every differing file must be in that set; anything else, or more, fails. Edit only with a CHANGELOG entry that explains the new exception.",
  "sample": {
   "allowedDifferences": {}
  },
@@ -36,27 +36,27 @@
    },
    "I_offset_2p_A_applied": {
     "reason": "two-pass current offset: the published constant (-0.3834 A) is frozen at the last acknowledged recalibration; a refit on the current corpus differs in the fourth decimal (the recalibration allow-list of tools/ingest_core.py)",
-    "maxRows": 554,
+    "maxRowsFromNonNull": "I_offset_2p_A_applied",
     "maxAbsDiff": 0.0005
    },
    "offset_2p_kwh_removed": {
     "reason": "follows I_offset_2p_A_applied (frozen two-pass offset)",
-    "maxRows": 554,
+    "maxRowsFromNonNull": "I_offset_2p_A_applied",
     "maxAbsDiff": 0.001
    },
    "net_draw_kwh_corr2p": {
     "reason": "follows I_offset_2p_A_applied (frozen two-pass offset)",
-    "maxRows": 554,
+    "maxRowsFromNonNull": "I_offset_2p_A_applied",
     "maxAbsDiff": 0.001
    },
    "energy_residual_kwh_corr2p": {
     "reason": "follows I_offset_2p_A_applied (frozen two-pass offset)",
-    "maxRows": 554,
+    "maxRowsFromNonNull": "I_offset_2p_A_applied",
     "maxAbsDiff": 0.001
    },
    "net_draw_per100km_corr2p": {
     "reason": "follows I_offset_2p_A_applied and, for one row, the repaired distance",
-    "maxRows": 554,
+    "maxRowsFromNonNull": "I_offset_2p_A_applied",
     "maxNullPatternMismatch": 1
    }
   }

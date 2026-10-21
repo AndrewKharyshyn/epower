@@ -156,6 +156,7 @@ def build(master_path=None, out_dir=None):
         }
 
         regime = sc.classify_thermal_regime(amb["ambient_time_mean_c"], th)
+        regime_physical = regime        # M467 (audit F05): the threshold class BEFORE the recorded owner reassignment (thermal_regime_raw is the assigned class before the support gate)
         regime, regime_override = sc.apply_regime_override(regime, fname, cfg["cohorts"].get("regimeOverrides"))        # M426: recorded owner reassignment of a boundary drive
         season = sc.meteorological_season(cal["calendar_month"])
 
@@ -205,6 +206,7 @@ def build(master_path=None, out_dir=None):
             "calendar_month": cal["calendar_month"],
             "meteorological_season": season,
             "thermal_regime": regime,
+            "thermal_regime_physical": regime_physical,
             "thermal_regime_override": regime_override,
             "thermal_regime_version": cfg["thermalRegimeVersion"],
             "odo_start": _f(r.get("odo_start")), "odo_end": _f(r.get("odo_end")),
