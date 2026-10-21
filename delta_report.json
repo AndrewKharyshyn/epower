@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-10-13T17:56:30+00:00",
+ "generated_utc": "2026-10-20T22:18:29+00:00",
  "has_baseline": true,
  "flags": [
   "EnergyIntensity.shoulder: outside previous CI",
@@ -10,22 +10,22 @@
  "route_to_audit": true,
  "kpis": {
   "meta.totalDrives": {
-   "value": 578,
+   "value": 606,
    "ci": null,
    "prev": 524,
-   "delta": 54
+   "delta": 82
   },
   "EnergyIntensity.all (kWh/100km, canonical-clean)": {
-   "value": 17.986641988156954,
+   "value": 17.492840137450603,
    "ci": [
-    16.317992725468873,
-    20.247370157727975
+    15.98005939331306,
+    19.632296180899427
    ],
    "prev": 17.759971850743913,
-   "delta": 0.22667013741304132,
+   "delta": -0.26713171329330976,
    "outside_prev_ci": false,
-   "delta_over_halfwidth": 0.1092947561484942,
-   "cumulative_drift": 0.39650917866760693
+   "delta_over_halfwidth": -0.12880433125039423,
+   "cumulative_drift": -0.09729267203874414
   },
   "EnergyIntensity.warm": {
    "value": 17.20496027087479,
@@ -40,28 +40,28 @@
    "cumulative_drift": 0.21396918972947176
   },
   "EnergyIntensity.shoulder": {
-   "value": 23.94790334186121,
+   "value": 19.254713281806275,
    "ci": [
-    20.426585569137437,
-    28.528079744875775
+    16.0937808672053,
+    24.73208772581232
    ],
    "prev": 26.928784895576964,
-   "delta": -2.9808815537157543,
+   "delta": -7.674071613770689,
    "outside_prev_ci": true,
-   "delta_over_halfwidth": -1.2227344700931233,
-   "cumulative_drift": -2.848847785140183
+   "delta_over_halfwidth": -3.1478445953090506,
+   "cumulative_drift": -7.542037845195118
   },
   "generatorTractionRecon.corpus.fGen": {
-   "value": 0.466,
+   "value": 0.518,
    "ci": null,
    "prev": 0.459,
-   "delta": 0.007000000000000006
+   "delta": 0.059
   },
   "generatorTractionRecon.corpus.etaBus": {
-   "value": 0.325,
+   "value": 0.33,
    "ci": null,
    "prev": 0.325,
-   "delta": 0.0
+   "delta": 0.0050000000000000044
   }
  },
  "gtrFamily": {
@@ -455,27 +455,26 @@
  },
  "dissipationMonitor": {
   "informational": "report-only (M394): never routes to audit; list the flags in the CHANGELOG acknowledgement",
-  "n_new_drives": 24,
+  "n_new_drives": 28,
   "n_flags": 2,
   "flags": [
    {
-    "T_pack": 9.9,
-    "band": "5-10C",
+    "band": "15-25C",
     "dur_s": 11,
-    "file": "2026-10-13_07-42-34.csv",
-    "flag": "first_sustained_in_band",
-    "rpm_mean": 1799.4,
-    "soc_mean": 79.2,
-    "source": "FUEL"
-   },
-   {
-    "band": "5-10C",
-    "dur_s": 11,
-    "file": "2026-10-13_07-42-34.csv",
+    "file": "2026-10-16_07-52-05.csv",
     "flag": "fuel_event_not_in_census",
     "note": "fuel-indicated unfuelled (unconfirmed by census; low-power fuelled generation not ruled out)",
-    "rpm_mean": 1799.4,
-    "soc_mean": 79.2
+    "rpm_mean": 1499.4,
+    "soc_mean": 79.1
+   },
+   {
+    "band": "15-25C",
+    "dur_s": 18,
+    "file": "2026-10-16_07-52-05.csv",
+    "flag": "fuel_event_not_in_census",
+    "note": "fuel-indicated unfuelled (unconfirmed by census; low-power fuelled generation not ruled out)",
+    "rpm_mean": 1604.0,
+    "soc_mean": 79.3
    }
   ],
   "validation_gap_bands": [
@@ -485,25 +484,25 @@
  "cadenceMonitor": {
   "informational": "report-only (M396): never routes to audit; report any flag to the owner first",
   "expected_regime": "fast",
-  "n_new_drives": 24,
+  "n_new_drives": 28,
   "n_flags": 1,
   "flags": [
    {
     "action": "check the app PID / polling settings (HV-current channel); fast polling was re-activated on 2026-10-09 and is expected",
-    "after_fast_in_batch_or_before": false,
-    "first_slow_date": "2026-10-09",
-    "first_slow_file": "2026-10-09_19-06-39.csv",
-    "first_slow_time": "19:06:57.946",
+    "after_fast_in_batch_or_before": true,
+    "first_slow_date": "2026-10-15",
+    "first_slow_file": "2026-10-15_09-37-09.csv",
+    "first_slow_time": "09:37:35.548",
     "flag": "cadence_slow_while_fast_expected",
-    "median_interval_new_slow_s": 1.407,
-    "n_fast_new": 19,
-    "n_new": 24,
-    "n_slow_new": 5,
-    "reference_fast_median_s": 0.852,
-    "reference_slow_median_s": 1.404,
+    "median_interval_new_slow_s": 1.39,
+    "n_fast_new": 11,
+    "n_new": 28,
+    "n_slow_new": 17,
+    "reference_fast_median_s": 0.834,
+    "reference_slow_median_s": 1.405,
     "slower_than_reference_slow": false
    }
   ],
-  "last_regime": "fast"
+  "last_regime": "slow"
  }
 }

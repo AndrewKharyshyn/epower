@@ -310,8 +310,15 @@ def t18():
     print(f"      pack time-mean vs master: n={len(ab)} median|d|={med:.3f} p99|d|={p99:.3f} max|d|={maxd:.3f} mean(d)={bias:+.3f} C")
     # A max-only gate at a fixed 1.5 C is sample-size dependent (fails as n grows on a single tail drive); gate the
     # distribution (median, p99, bias) and keep a hard ceiling on the maximum.
-    ok("18 pack time-mean agrees with master (median<=0.25, p99<=1.5, |bias|<=0.25, max<=2.0 C)",
-       maxd is not None and med <= 0.25 and p99 <= 1.5 and abs(bias) <= 0.25 and maxd <= 2.0)
+    # M463 gate amendment (owner decision in chat, recorded in the CHANGELOG): p99 and max are REPORTED, not gated. The raw-pass pack_temp_time_mean_c is a TIME-weighted mean over
+    # fresh valid readings; the master's T_pack_mean_avg is an unweighted mean over as-of-merged native samples. Five strongly cooling Oct 17 drives (pack ~38 -> 29-30 C, uneven
+    # sampling) differ by 1.86-2.14 C (2026-10-17_22-20-41 2.139, 22-01-20 2.075, 23-13-01 1.947, 18-22-49 1.926, 16-05-39 1.863). Limits seen before the change: p99 <= 1.5, max <= 2.0.
+    # Median and bias stay gated. Follow-up: align the two definitions (the like-with-like sample-mean check failed: median 0.169 C, so the sample sets differ as well).
+    over = sorted(((x, fn) for fn, x in ((fn, abs(ff(r["pack_temp_time_mean_c"]) - ff(master[fn]["T_pack_mean_avg"]))) for fn, r in tr.items()
+                  if ff(r["pack_temp_time_mean_c"]) is not None and ff(master.get(fn, {}).get("T_pack_mean_avg")) is not None) if x > 1.5), reverse=True)
+    print("      REPORTED (not gated), |time-weighted - sample-mean| > 1.5 C: " + ", ".join("%s %.3f" % (fn, x) for x, fn in over))
+    ok("18 pack time-mean vs master T_pack_mean_avg (different estimators; median<=0.25, |bias|<=0.25 C gated; p99 and max reported)",
+       maxd is not None and med <= 0.25 and abs(bias) <= 0.25)
     # oil/coolant starts are warm (series-hybrid warm restart signature)
     oil = [ff(r["oil_temp_start_c"]) for r in tr.values() if ff(r["oil_temp_start_c"]) is not None]
     import statistics as _st

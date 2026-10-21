@@ -748,9 +748,19 @@ ok("A2 REQUIRED M373 speedSplit text: 'f_gen is higher in the faster bins' and '
    all(_ss[a]["fGen"] < _ss[b]["fGen"] for a, b in zip(_bins, _bins[1:])) and _ss["0-20"]["battery"] > _ss["90-120"]["battery"]
    and all(x in _all3 for x in ("f_gen is higher in each faster bin", "the battery arm's absolute contribution is lower in the faster bins", "this is a property of the binning",
                                 "matched fuel_recon_master.csv on %d of %d drives" % (_rb3["speedSplit"]["validation"]["nMatched"], _rb3["speedSplit"]["validation"]["nChecked"]))))
-ok("A2 REQUIRED M373 sensitivity caption: refreshed note rendered and BASE equals the live headline (gate passed in the run)",
-   "Recomputed on the live corpus at ingestion on raw/ = sha256-verified originals over %d drives (the BASE row equals the live headline); descriptive point values, no interval." % _rb3["sensitivity"]["nDrives"] in _all3
-   and _rb3["sensitivity"]["baseGate"]["passed"] and _rb3["sensitivity"]["baseGate"]["equalsLiveHeadline"] == {"gen100": _G3["corpus"]["generator"], "trac100": _G3["corpus"]["tractionGross"], "fgen": _G3["corpus"]["fGen"], "etaBus": _G3["corpus"]["etaBus"]})
+# M463: a milestone that CARRIES the GTR-family blocks (generatorTractionRecon.carriedAtIngestion, tools/gtr_carry_label.py) renders a carry caption and the carry statement instead of the 'BASE equals the live headline' sentence,
+# and the BASE gate is checked against the block's OWN recorded live headline at the time of its refresh (never against the newer live headline).
+_carry = _G3.get("carriedAtIngestion")
+_live_head = {"gen100": _G3["corpus"]["generator"], "trac100": _G3["corpus"]["tractionGross"], "fgen": _G3["corpus"]["fGen"], "etaBus": _G3["corpus"]["etaBus"]}
+if _carry:
+    ok("A2 REQUIRED M463 carried GTR-family blocks: the carry statement and the carried sensitivity caption are rendered, the live headline numbers in the statement equal the payload, and the carried BASE row equals the block's own recorded gate (not the newer live headline)",
+       _carry["statement"] in _all3 and ("Carried from the %s refresh on raw/ = sha256-verified originals over %d drives (not recomputed at this ingestion; the BASE row can differ from the live headline, see the carry note); descriptive point values, no interval." % (_rb3["sensitivity"]["basisMilestone"], _rb3["sensitivity"]["nDrives"])) in _all3
+       and _rb3["sensitivity"]["baseGate"]["passed"] and _G3["sensitivity"][0]["fgen"] == _carry["carried"]["sensitivity"]["baseFgen"] == _rb3["sensitivity"]["baseGate"]["equalsLiveHeadline"]["fgen"]
+       and _carry["liveHeadline"]["fGen"] == _live_head["fgen"] and _carry["liveHeadline"]["nProduction"] == _G3["nProduction"] and _carry["followUp"] in _carry["statement"])
+else:
+    ok("A2 REQUIRED M373 sensitivity caption: refreshed note rendered and BASE equals the live headline (gate passed in the run)",
+       "Recomputed on the live corpus at ingestion on raw/ = sha256-verified originals over %d drives (the BASE row equals the live headline); descriptive point values, no interval." % _rb3["sensitivity"]["nDrives"] in _all3
+       and _rb3["sensitivity"]["baseGate"]["passed"] and _rb3["sensitivity"]["baseGate"]["equalsLiveHeadline"] == _live_head)
 ok("A2 REQUIRED M373 the section-4a sentence in the simultaneity paragraph is qualified (no typed 38 % / 62 % numbers, no 'deliberately')",
    "this table does not test it" in _all3 and "holds ~38% load" not in _all3)
 ok("A2 REQUIRED M373 wording fixes: buffer sentence (urban larger charge-and-drive, highway larger battery-discharge: TRUE in the payload), thin 120+ bin not higher than 90-120 (TRUE), sensitivity title and previous-table disclosure, logged standstill draw, drive-type chart n labelled as a different set",
@@ -779,16 +789,21 @@ _fr5 = _pd.read_csv("fuel_recon_master.csv")
 _ex5 = EL.excluded_files(EL.load_flags("drive_master.csv"), _fr5["file"])
 _can5 = _fr5[~_fr5["file"].isin(_ex5)]
 _ea = _G3.get("eligibilityAlignment") or {}
-ok("A2 REQUIRED M375 payload: eligibilityAlignment states the canonical-clean headline counts (recomputed from the files: nProduction = canonical-clean fuel rows, nDrives = those with f_gen, km), the excluded IDs equal the drive_master flags, and the headline carries exactly these counts",
-   bool(_ea) and _G3["nProduction"] == len(_can5) == _ea["current"]["nProduction"] and _G3["nDrives"] == int(_can5["f_gen"].notna().sum()) == _ea["current"]["nDrives"]
-   and abs(_G3["kmProduction"] - round(float(_can5[_can5["f_gen"].notna()]["distance_km"].sum()), 1)) < 1e-9 and sorted(e["file"] for e in _ea["excluded"]) == sorted(_ex5) and _ea["nFuelInstrumentedRows"] == len(_fr5))
+# M463: when the family blocks are CARRIED (generatorTractionRecon.carriedAtIngestion) the eligibility alignment states the counts of the carried blocks (smaller than the live headline set); the live headline is still recomputed from the files
+_carry5 = _G3.get("carriedAtIngestion")
+_ea_live = bool(_ea) and _ea["current"]["nProduction"] == len(_can5) and _ea["current"]["nDrives"] == int(_can5["f_gen"].notna().sum()) and _ea["nFuelInstrumentedRows"] == len(_fr5)
+_ea_carried = bool(_ea) and bool(_carry5) and _ea["current"]["nProduction"] == _carry5["carried"]["sensitivity"]["nDrives"] < len(_can5) and _ea["nFuelInstrumentedRows"] < len(_fr5)
+ok("A2 REQUIRED M375 payload: eligibilityAlignment states the canonical-clean headline counts (recomputed from the files: nProduction = canonical-clean fuel rows, nDrives = those with f_gen, km), the excluded IDs equal the drive_master flags, and the headline carries exactly these counts (carried blocks: their own recorded counts)",
+   bool(_ea) and _G3["nProduction"] == len(_can5) and _G3["nDrives"] == int(_can5["f_gen"].notna().sum()) and (_ea_live or _ea_carried)
+   and abs(_G3["kmProduction"] - round(float(_can5[_can5["f_gen"].notna()]["distance_km"].sum()), 1)) < 1e-9 and sorted(e["file"] for e in _ea["excluded"]) == sorted(_ex5))
 for _m in ("all", "warm", "shoulder", "compare"):
     _t5 = " ".join(" ".join(T.get(k, "") for k in T if k.endswith("__" + _m)).split())
     ok(f"A2 REQUIRED M375 {_m} dumps: the one-time eligibility note is rendered from the payload (the P_aux-low sentence is rendered wherever the sensitivity table is: all / warm / shoulder, not Compare)",
        bool(_ea) and " ".join(_ea["note"].split()) in _t5 and (_m == "compare" or " ".join(_ea["sensitivityNote"].split()) in _t5), _m)
+_cn_d, _cn_p, _cn_f = (_ea["current"]["nDrives"], _ea["current"]["nProduction"], _ea["nFuelInstrumentedRows"]) if _carry5 else (_G3["nDrives"], _G3["nProduction"], len(_fr5))   # M463: carried blocks state their own counts
 ok("A2 REQUIRED M375 refreshed-block statuses and the closure set note state canonical-clean with script-bound counts",
-   all(("canonical-clean (ens_outlier_v2), %d of %d fuel-instrumented drives" % (_n5, len(_fr5))) in _rb3[b]["status"] for b, _n5 in (("sensitivity", _G3["nDrives"]), ("simultaneity", _G3["nDrives"]), ("speedSplit", _G3["nProduction"])))
-   and "the headline set is the %d canonical-clean (ens_outlier_v2) of %d fuel-instrumented drives" % (_G3["nProduction"], len(_fr5)) in _G3["gtrClosure"]["scope"]["excludedNote"] and "open item" not in _G3["gtrClosure"]["scope"]["excludedNote"])
+   all(("canonical-clean (ens_outlier_v2), %d of %d fuel-instrumented drives" % (_n5, _cn_f)) in _rb3[b]["status"] for b, _n5 in (("sensitivity", _cn_d), ("simultaneity", _cn_d), ("speedSplit", _cn_p)))
+   and "the headline set is the %d canonical-clean (ens_outlier_v2) of %d fuel-instrumented drives" % (_cn_p, _cn_f) in _G3["gtrClosure"]["scope"]["excludedNote"] and "open item" not in _G3["gtrClosure"]["scope"]["excludedNote"])
 ok("A2 REQUIRED M375 the seasonal GeneratorTractionRecon entry metadata states the canonical-clean rule and the one-time note says it is a definition change, not a correction",
    "canonical-clean (ens_outlier_v2) and f_gen not NaN" in json.load(open("summary_arrays.json", encoding="utf-8"))["seasonalCharts"]["charts"]["GeneratorTractionRecon"]["statisticalUnit"] and "not a correction" in _ea.get("note", ""))
 _pv2 = json.load(open("summary_arrays.json", encoding="utf-8"))["provenanceSensitivity"]["disclosure"]
@@ -990,7 +1005,10 @@ sh = T.get("highway_vs_city__shoulder", ""); wm = T.get("highway_vs_city__warm",
 ok("C cube follows selector (Shoulder shows 'Showing: Shoulder')", "Showing: Shoulder" in sh)
 ok("C cube follows selector (Warm shows 'Showing: Warm')", "Showing: Warm" in wm)
 ok("C Compare shows both cohorts", "Showing:WarmShoulder" in cm.replace(" ", ""))
-ok("C Shoulder non-urban classes rendered as not observed", sh.count("not observed") >= 3)
+# M463: follows the support state of the payload (the hard-coded >= 3 held while the shoulder cohort had unobserved non-urban classes; with the Oct 13-17 drives none is unobserved any more)
+_sh_none = len({(r["m"], r["c"]) for r in (A.get("comparisonCube") or {}).get("rows", []) if r.get("k") == "shoulder" and r.get("st") == "none"})
+_sh_thin = any(r.get("k") == "shoulder" and r.get("st") == "thin" for r in (A.get("comparisonCube") or {}).get("rows", []))
+ok("C Shoulder non-urban classes rendered by their support state (not observed >= payload count of 'none' rows; thin rows rendered as thin)", sh.count("not observed") >= _sh_none and (not _sh_thin or "thin" in sh.lower()), f"none rows {_sh_none}")
 cc = A["seasonalCharts"]["_meta"]["cohortCounts"]
 ok("C Cold has no fabricated data (cold n=0 -> no cold tab dumps)", cc["cold"] > 0 or not any(k.endswith("__cold") for k in T))
 # a leaked token is a rendered value, not the word used in prose ("... is NaN for this leg"): flag NaN/undefined

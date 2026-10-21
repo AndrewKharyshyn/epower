@@ -52,7 +52,13 @@ def produce(sub):
 full = produce(dm_r)
 # parity guard vs the fresh top-level blocks
 TOP = dict(CAT_A, EnergyPath="energyPath", SocLevelSensitivityChart="dodSocLevelSensitivity")
-bad = [cid for cid, key in TOP.items() if json.dumps(full[cid], sort_keys=True) != json.dumps(A.get(key), sort_keys=True)]
+# M463 (owner-approved): additive leaves carried forward onto the top-level evTraction block after the fresh build (M432 detectorSensitivity,
+# M461 zeroFuelVariant) are not part of category_A; only these two are excluded from the parity comparison, every other leaf must match exactly.
+ADDITIVE_TOP = {"evTraction": ("detectorSensitivity", "zeroFuelVariant")}
+def _top(key):
+    v = A.get(key)
+    return {k: x for k, x in v.items() if k not in ADDITIVE_TOP[key]} if key in ADDITIVE_TOP and isinstance(v, dict) else v
+bad = [cid for cid, key in TOP.items() if json.dumps(full[cid], sort_keys=True) != json.dumps(_top(key), sort_keys=True)]
 if bad:
     print("PARITY FAILURE (per-cohort call path != released top-level):", bad); sys.exit(1)
 

@@ -40,6 +40,32 @@ def build_block(res, A, md5, st):
             "cohorts": base, "legacyComparison": S.legacy_block(A, base["all"]), "sensitivityEnsClean": res.get("sensitivityEnsClean")}
 
 
+# M463 (Director ruling, option B; spec addendum analyses/M463_regen_lock_addendum.md): the run-once STUDY results (M442 confirm run, M444 first run) are locked,
+# not tied to the current master. They are verified against the lock / the recorded hashes and carried with their OWN provenance master; only the per-ingestion
+# cells use the current master. A carried study block is never restamped with the current md5.
+STUDY_BASIS_NDRIVES = {"a641f34d7528d004b900c151cbde3d6d": 578}      # corpus of the study runs (the M426 master; drive_master rows at that MD5)
+
+
+def study_basis(md5_study):
+    return {"masterMd5": md5_study, "nDrives": STUDY_BASIS_NDRIVES.get(md5_study), "note": "study basis: carried forward unchanged from the run-once study; not re-run on the current master"}
+
+
+def check_locks_h(R1, R2, rr, A):
+    lock = json.load(open("analyses/M442_confirm.lock", encoding="utf-8"))
+    if lock.get("specSha256") != R1["_provenance"]["specSha256"]:
+        raise SystemExit("analyses/M442_confirm.lock specSha256 differs from analyses/M442_result.json: the confirm run was altered")
+    prev = A.get("regenCaptureV2HStudy")
+    if prev:
+        if prev.get("firstOutputSha256") != sha("analyses/M442_result.json") or prev.get("resultSha256") != sha("analyses/M442_result_rerun.json" if rr else "analyses/M442_result.json"):
+            raise SystemExit("M442 result files differ from the recorded hashes in regenCaptureV2HStudy: the run-once study was altered")
+
+
+def check_lock_std(first):
+    lock = json.load(open("analyses/M444_first.lock", encoding="utf-8"))
+    if lock.get("resultSha256") != sha("analyses/M444_result.json") or lock.get("specSha256") != first["_provenance"]["specSha256"]:
+        raise SystemExit("analyses/M444_result.json differs from analyses/M444_first.lock: the run-once study was altered")
+
+
 def study_block(md5):
     R_ = json.load(open("analyses/M441_result.json", encoding="utf-8"))
     if R_["_provenance"]["masterMd5"] != md5:
@@ -58,8 +84,7 @@ def h_blocks(A, md5):
     R1 = json.load(open("analyses/M442_result.json", encoding="utf-8"))               # the first confirm output (kept untouched)
     rr = os.path.exists("analyses/M442_result_rerun.json")
     R2 = json.load(open("analyses/M442_result_rerun.json", encoding="utf-8")) if rr else R1      # recorded-deviation rerun (spec C9) supersedes contrasts, G2 and sensitivities
-    if R1["_provenance"]["masterMd5"] != md5:
-        raise SystemExit("analyses/M442_result.json was computed on a different master: re-run the study (needs a recorded deviation, spec C9)")
+    check_locks_h(R1, R2, rr, A)
     res, st = G.run(stack=MG.HARM, oos_delta=MG.DELTA, ens_clean=False)
     lvl = {"milestone": "M442", "spec": "analyses/M442_spec.md", "specSha256": R1["_provenance"]["specSha256"], "specSha256Current": sha("analyses/M442_spec.md"), "masterMd5": md5, "primary": "interp3", "deltaS": MG.DELTA, "phases": MG.PH, "extractorVersion": R.EXTRACTOR_VERSION, "codeHashes": st["codeHashes"],
            "label": "apparent KE recovery at common sampling resolution (3 s grid, assumed mass); resolution-conditional; assumed masses; not a correction of the legacy values",
@@ -67,7 +92,7 @@ def h_blocks(A, md5):
                        "Each level is shown with its day-clustered interval and assumed-mass range; the resolution bracket b is in the study block. Contrasts between adjacent bins are 'resolved' only under the rule of spec M442 Rev 1.2 (D5); otherwise 'not resolved at this resolution'."),
            "outOfSupport": res.get("outOfSupport"), "refresh": "recomputed at every ingestion by the stage regen_v2 (after the M442 confirm run exists)", "cohorts": res["cohorts"]}
     study = {"milestone": "M442", "result": "analyses/M442_result_rerun.json" if rr else "analyses/M442_result.json", "resultSha256": sha("analyses/M442_result_rerun.json" if rr else "analyses/M442_result.json"),
-             "firstOutput": "analyses/M442_result.json", "firstOutputSha256": sha("analyses/M442_result.json"), "deviation": R2.get("deviation"), "masterMd5": md5, "specSha256": R1["_provenance"]["specSha256"], "primary": "interp3",
+             "firstOutput": "analyses/M442_result.json", "firstOutputSha256": sha("analyses/M442_result.json"), "deviation": R2.get("deviation"), "masterMd5": R1["_provenance"]["masterMd5"], "studyBasis": study_basis(R1["_provenance"]["masterMd5"]), "specSha256": R1["_provenance"]["specSha256"], "primary": "interp3",
              "verdict": R2.get("verdict"), "G1": R2.get("G1"), "G2": R2.get("G2"), "G3": R2.get("G3"), "H1": R2.get("H1"), "H2": R2.get("H2"), "bracket": R2.get("bracket"), "contrasts": R2.get("contrasts"), "sensitivities": R2.get("sensitivities"),
              "reading": ("Gates G1-G3 and the resolution bracket b of spec M442 Rev 1.2; H1 and H2 are reported and do not block. A contrast between adjacent bins is labelled resolved only if its even-day interval excludes 0, it exceeds b(A) + b(B), it has the same sign at both ends of the assumed-mass range and on even, odd and all days; contrasts are unadjusted for multiplicity. "
                          "Sensitivities are ranges over declared conventions, not confidence intervals."),
@@ -80,8 +105,7 @@ def std_blocks(A, md5, with_study):
     import regen_std as RS
     prim, _ = RS.run(study=False)
     first = json.load(open("analyses/M444_result.json", encoding="utf-8"))
-    if first["_provenance"]["masterMd5"] != md5:
-        raise SystemExit("analyses/M444_result.json was computed on a different master: re-run the study (needs a recorded deviation, spec B5)")
+    check_lock_std(first)
     state = {c: {v: {"available": b[v]["availability"]["available"], "groups": sorted(b[v]["bars"]), "bands": b[v]["commonSupportBands"]} for v in ("temperature", "speed")} for c, b in prim["cohorts"].items()}
     sp = "analyses/regen_std_state.json"
     old = json.load(open(sp, encoding="utf-8")) if os.path.exists(sp) else None
@@ -99,7 +123,7 @@ def std_blocks(A, md5, with_study):
                refresh="recomputed at every ingestion by the stage regen_v2 (after the first run of the M444 analysis exists)")
     study = None
     if with_study and first.get("study"):
-        study = dict(first["study"], milestone="M444", result="analyses/M444_result.json", resultSha256=sha("analyses/M444_result.json"), specSha256=first["_provenance"]["specSha256"], masterMd5=md5,
+        study = dict(first["study"], milestone="M444", result="analyses/M444_result.json", resultSha256=sha("analyses/M444_result.json"), specSha256=first["_provenance"]["specSha256"], masterMd5=first["_provenance"]["masterMd5"], studyBasis=study_basis(first["_provenance"]["masterMd5"]),
                      redundantSensitivities=["ensCleanDrives: the ens-flagged drives hold almost no kept intervals, so it reproduces the primary (spec M444 Rev 2.2 S11)"],
                      reading="Braking-demand check (episode deceleration ladder), chronological holdouts and sensitivities of the SOC-standardized bars; descriptive, with no decision resting on them; ranges over declared conventions, never combined with the statistical interval.",
                      refresh="on demand: each ingestion carries this block forward unchanged")
@@ -153,18 +177,18 @@ def main(argv=None):
         N["regenCaptureV2H"] = lvl
         N["_artifactStamps"]["regenCaptureV2H"] = stamp_for(A, "regenCaptureV2H", lvl, md5, "M442: derived by tools/regen_v2_stage.py from the per-drive cache (interp3 variants); additive harmonized levels of the apparent KE recovery")
         N["regenCaptureV2HStudy"] = hs
-        N["_artifactStamps"]["regenCaptureV2HStudy"] = stamp_for(A, "regenCaptureV2HStudy", hs, md5, "M442: derived by tools/m442_gate.py (confirm run); gates, resolution bracket, contrasts and sensitivities; carried forward at ingestion")
+        N["_artifactStamps"]["regenCaptureV2HStudy"] = stamp_for(A, "regenCaptureV2HStudy", hs, hs["masterMd5"], "M442: derived by tools/m442_gate.py (confirm run); gates, resolution bracket, contrasts and sensitivities; carried forward at ingestion")
     if os.path.exists("analyses/M444_first.lock") and os.path.exists("analyses/M444_result.json"):
         sb, sstudy = std_blocks(A, md5, "--study" in argv)
         N["regenSocStandardized"] = sb
         N["_artifactStamps"]["regenSocStandardized"] = stamp_for(A, "regenSocStandardized", sb, md5, "M444: derived by tools/regen_std.py from the per-drive cache; additive SOC-standardized apparent KE recovery by pack temperature and speed")
         if sstudy:
             N["regenSocStandardizedStudy"] = sstudy
-            N["_artifactStamps"]["regenSocStandardizedStudy"] = stamp_for(A, "regenSocStandardizedStudy", sstudy, md5, "M444: derived by tools/regen_std.py (on demand); demand-ladder check, chronological holdouts and sensitivities; carried forward at ingestion")
+            N["_artifactStamps"]["regenSocStandardizedStudy"] = stamp_for(A, "regenSocStandardizedStudy", sstudy, sstudy["masterMd5"], "M444: derived by tools/regen_std.py (on demand); demand-ladder check, chronological holdouts and sensitivities; carried forward at ingestion")
     if os.path.exists("analyses/M446_spec.md"):
         import regen_display as RD
         if RD.frozen_ok():
-            db = RD.build()
+            db = RD.build(arrays=N)
             if not db["gates"]["pass"]:
                 raise SystemExit("regenDisplayV2 build gates failed: %r" % (db["gates"],))
             N["regenDisplayV2"] = db
