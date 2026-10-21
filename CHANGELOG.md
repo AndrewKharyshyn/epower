@@ -1,3 +1,16 @@
+## M469 (2026-10-21): Audit 2026-10-21: bind the calendar-aging literals; state the denominator families and missing energy
+
+**Rationale.** Spec analyses/M469_spec.md; JSX text and language gate only, no payload value changed. The methodology paragraph now reads the Arrhenius Ea (S.seasonalLife.assumptions.arrhenius.EaEv, refC), the parked annual rate factor (S.seasonalLife.calendarAnnualFactor, 0.399) and the Dec-Feb mean monthly calendarFactor (0.143, about 7x) from the payload; the typed Q10=2, the 0.44 driving-heat uplift with '~1.5% of hours at ~40 C' (no producer) and the typed winter factor 0.145 (already stale against the payload) are retired and added as language rule M469-calendar-literals. Overview Counts by basis adds the rainflow SoC-trace count (S.rfDodHistogram.nFilesUsed) and states that the drives without a current-integral energy metric (S.eligibility families headline n minus current-integral n = 14) have missing, not zero, energy. Open: literature constants, historical 446/489/82-drive text, per-figure weighting labels. Gates: release_check.py PASSED; dump_tabs 51 files, 0 console errors; rendered text verified.
+
+**State.** `drive_master.csv` 606 rows, MD5 `5556a0c6c8bcde0f6c64b8b9655208ed`.
+
+**Gates (runs/20261020T221332Z).** restamp_ingest=ok; build_html=ok; jsdom=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `analyses/M469_spec.md`, `xtrail_summary.jsx`, `xtrail_dashboard.html`, `language_gate.py`.
+
+
 ## M468 (2026-10-21): Audit 2026-10-21 F03: provenance stamps state each block's own input basis
 
 **Rationale.** Spec analyses/M468_spec.md; metadata only, no figure or producer changed. tools/stamp_basis.py: a carried block's inputBasis.masterMd5 is the master the block records itself (regenCaptureV2Study, regenCaptureV2HStudy, regenSocStandardizedStudy: a641f34d... at 578 drives, was the live master 5556a0c6...), and the fresh socHysteresisV2 refit is computed with a coherent note and the live master as basis (was 'NOT recomputed' / null). check() (semantic_gate) now fails the incoherent forms; test_stamp_basis.py has the known-answer and mutation controls. release_check.py gains a WARN listing computed stamps whose raw-manifest corpus hash differs from the live one (8 blocks, all with the 2026-09-25 snapshot; explaining each is a follow-up needing a per-block dependency review; the 3-way fullConfigHash warning is unchanged, no blanket restamp). The three 578-basis regen studies stay carried at their own basis (run-once, M463/M466 decision). summary_arrays.json diff: 4 stamps only. Gates: release_check.py PASSED, test_stamp_basis OK.
