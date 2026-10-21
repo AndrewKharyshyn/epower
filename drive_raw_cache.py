@@ -42,6 +42,7 @@ import time as _time
 
 import pandas as pd
 
+from clock_unwrap import unwrap_clock      # M467 (audit F06)
 from soc_spike import despike_frame      # M390 (analyses/M390_spec.md)
 
 SCHEMA_VERSION = 7
@@ -124,10 +125,10 @@ def fast_time(s, mixed=False):
     try:
         if len(s) and (s.dtype == object or str(s.dtype).startswith("str")):
             t = pd.to_datetime(s, format="%H:%M:%S.%f", errors="raise")
-            return t + (pd.Timestamp.now().normalize() - pd.Timestamp("1900-01-01"))
+            return unwrap_clock(t + (pd.Timestamp.now().normalize() - pd.Timestamp("1900-01-01")))      # M467 (audit F06): midnight rollover
     except (ValueError, TypeError):
         pass
-    return pd.to_datetime(s, errors="coerce", format="mixed") if mixed else pd.to_datetime(s, errors="coerce")
+    return unwrap_clock(pd.to_datetime(s, errors="coerce", format="mixed") if mixed else pd.to_datetime(s, errors="coerce"))
 
 
 def _md5(b):
@@ -169,12 +170,12 @@ def add_file(fname, raw_bytes, cache_dir=CACHE_DIR, manifest=None):
     # the consumers' own format='mixed', errors='coerce' convention.
     if 'time' in slim.columns:
         try:
-            slim['time'] = pd.to_datetime(slim['time'],
-                                          format='%H:%M:%S.%f',
-                                          errors='raise')
+            slim['time'] = unwrap_clock(pd.to_datetime(slim['time'],
+                                                       format='%H:%M:%S.%f',
+                                                       errors='raise'))      # M467 (audit F06): midnight rollover
         except (ValueError, TypeError):
-            slim['time'] = pd.to_datetime(slim['time'], format='mixed',
-                                          errors='coerce')
+            slim['time'] = unwrap_clock(pd.to_datetime(slim['time'], format='mixed',
+                                                       errors='coerce'))
     payload = {'schema': SCHEMA_VERSION, 'file': fname,
                'src_md5': _md5(raw_bytes), 'n_rows': int(len(slim)),
                'cols': keep, 'df': slim}

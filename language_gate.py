@@ -355,6 +355,10 @@ RULES = [
          rx=r"\b(?:upper|lower) bound (?:of|on|for) (?:the )?(?:estimated )?(?:rpm defined )?(?:engine off|ev) (?:distance )?share\b|\bthe true (?:engine off|ev) (?:distance )?share (?:is|lies|falls)\b|\b(?:engine off|ev) (?:distance )?share is (?:robust|insensitive) to\b|\bdetector (?:conventions? )?(?:is|are) (?:immaterial|irrelevant)\b"),
     Rule("M430-r2-dismissed", "regex", "M430/audit F05: the in-sample R2 of the parked-soak fits is printed with its plain meaning (the through-origin Sen line against a free-level mean of the log excess ratio); it is not 'not a meaningful diagnostic' and not omitted, and 'the first-order model does not describe the pairs' overstates (a negative R2 does not mean no decay; held-out errors are reported)",
          rx=r"\br2 is not a meaningful diagnostic\b|\bnot a meaningful diagnostic for this fit\b|\bdoes not describe (?:the|these) pairs\b|\bnot that there is no decay\b"),
+    Rule("M467-F02-spread-flip", "regex", "M467/audit F02: the controlled cell-spread slope is positive on the current corpus (degradationTrends.cellSpread, cluster-robust OLS); the early-corpus 'flips to -0.39 ... summer confound confirmed' reading is superseded and may appear only as a dated historical note",
+         rx=r"\bflips? to 0 39\b|\bconfirming the apparent uptrend was a summer\b|\bsummer (?:heat load )?confound confirmed\b"),
+    Rule("M467-F02-nocapacity", "regex", "M467/audit F02: an apparent scale of the logged BMS SoC is estimable (capacityBasis.ahPer100); what is not identified is physical full capacity, accessible capacity and capacity fade; 'no capacity observable' is too absolute",
+         rx=r"\bno capacity observable\b|\bcontains no capacity observable\b|\bpassive obd cannot produce (?:a|one)\b"),
 ]
 
 

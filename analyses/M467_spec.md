@@ -1,0 +1,18 @@
+# M467 spec: hygiene fixes from the independent deep audit of 2026-10-21 (snapshot M466)
+
+Source: `epower_deep_audit_2026-10-21.pdf` (findings F02, F04, F05, F06, F07, F09). Opus research-director triage: all six "do-now", no headline figure changes.
+Owner rulings (Andrii, chat, 2026-10-21): GTR Sankey stays visible; no road-load / reference-test / metering data will exist; publication reframe and dataset release are out of scope.
+This milestone changes NO scientific estimator and NO value of `drive_master.csv` or any `summary_arrays.json` figure. Out of scope here (later milestones): F01 reducer, F03 provenance
+gate, literal binding, seasonal cold support display.
+
+| Id | Defect (audit) | Change | Known-answer test | Acceptance |
+|---|---|---|---|---|
+| F02 | Methodology text still says raw +0.61 mV/month flips to -0.39 after control (summer confound confirmed); "no capacity observable" | M15 sentence becomes a dated historical note followed by the current controlled slope, CI, n, days bound to `S.degradationTrends.cellSpread.clusterRobustOLS`; capacity wording becomes "apparent SoC scale estimable (bound to `S.capacityBasis.ahPer100`), physical full capacity and fade not identified"; old wording added to `language_gate.py` (rules `M467-F02-spread-flip`, `M467-F02-nocapacity`) | `tests/synthetic/test_language_gate.py` (rules fire on the old wording, not on the new) | no rendered mode contains the old claim; semantic gate green |
+| F04 | Replay allowance `maxRows: 554` for the frozen-offset columns; 592 rows change by 0.0002 A | cap = number of published rows with non-null `I_offset_2p_A_applied` (exact eligible set), differing files must lie in it; no cap raised by hand | `tests/synthetic/test_replay_expected_eligible.py` | 592 eligible rows pass; 593, a file outside the set, a larger magnitude fail |
+| F05 | `thermal_regime_raw` is written after `apply_regime_override`, so the 5.0 C boundary drive (2026-10-10_06-57-23) never records its physical class | additive column `thermal_regime_physical` (threshold class before any reassignment) in `seasonal_drive_master.csv`; `thermal_regime_raw` keeps its meaning (assigned class before the support gate; the cohort counts and the M426 owner override are unchanged) | recomputed master: all pre-existing columns byte-identical, the new column differs from `thermal_regime_raw` on exactly the one override drive | 0 changed cells in existing columns |
+| F06 | Midnight-crossing clock steps back ~24 h (86,399 s instead of 3 s) | one function `clock_unwrap.unwrap_clock` (+1 day at each backward step > 12 h, only on a one-date time-only series, identity object when nothing wraps) called by all four raw-time parsers | `tests/synthetic/test_clock_unwrap.py` (23:59:58..00:00:01 -> 3 s, 0.003 kWh; multi-midnight; ambiguous <= 12 h step untouched; NaT kept; 25 corpus files identity) | corpus unchanged (no file wraps) |
+| F07 | SHA-256 memo in `tools/regen_v2_cache.py` keyed on whole-second mtime | key = (size, `st_mtime_ns`) | `tests/synthetic/test_sha_memo_ns.py` (same-length edit +0.25 s) | stale digest not returned |
+| F09 | `test_source_inventory.py` asserts the git list outside a checkout | git branch guarded; no-git branch tested directly | the test itself | passes with and without git |
+
+Gates: unit list of `.github/workflows/ci.yml` plus the three new tests; `python release_check.py`; deep-diff of `drive_master.csv` (MD5 `5556a0c6...` unchanged) and `summary_arrays.json`
+(unchanged); dashboard rebuilt (content change: F02 text) and presented per the dashboard change rule. Escalation: none expected; any change of a figure or a gate failure that is not an environment error goes to the Director.

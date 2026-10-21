@@ -88,7 +88,7 @@
     },
     "_regimeOverrides": "M426: explicit per-drive reassignment to the adjacent regime, recorded in seasonal_drive_master.thermal_regime_override; applied only while the physical classification equals physicalRegime (seasonal_core.apply_regime_override). Not a change of the thresholds.",
     "minDrivesForStatistics": 10,
-    "_minDrivesForStatistics": "M310: a thermal cohort with fewer drives is relabelled '<regime>_insufficient' in the seasonal master (thermal_regime_raw keeps the physical class) and every cohort builder sees it as empty; matches the dashboard's minimum of 10"
+    "_minDrivesForStatistics": "M310: a thermal cohort with fewer drives is relabelled '<regime>_insufficient' in the seasonal master (thermal_regime_raw keeps the assigned class before the support gate, i.e. after the M426 owner reassignment; thermal_regime_physical, M467, is the threshold class before any reassignment) and every cohort builder sees it as empty; matches the dashboard's minimum of 10"
   },
 
   "warnings": {

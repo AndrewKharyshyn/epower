@@ -58,9 +58,11 @@ def raw_dir():
 
 
 def raw_sha256(fn, memo):
-    """SHA-256 of the raw file bytes, memoised per (size, mtime) in regen_cache/_sha.json."""
+    """SHA-256 of the raw file bytes, memoised per (size, mtime_ns) in regen_cache/_sha.json. M467 (audit F07): the key was (size, whole-second mtime), so a
+    same-length edit within one second returned the former digest; nanosecond mtime narrows that window to filesystem timestamp granularity. The memo is a
+    speed cache, not a content-identity proof: new or changed identities are always hashed in full (a key mismatch rehashes)."""
     p = os.path.join(raw_dir(), fn)
-    st = os.stat(p); key = "%d:%d" % (st.st_size, int(st.st_mtime))
+    st = os.stat(p); key = "%d:%d" % (st.st_size, st.st_mtime_ns)
     e = memo.get(fn)
     if e and e[0] == key:
         return e[1]
