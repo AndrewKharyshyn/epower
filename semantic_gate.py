@@ -301,7 +301,7 @@ def _tl(ci, noun="slope"):
         return "trend not resolved (95% interval includes 0)"
     return ("positive " if ci[0] > 0 else "negative ") + noun + " (95% interval excludes 0; conditional on the model, not a capacity or SOH change)"
 _ds_m427 = A.get("dependenceSensitivity")
-_STAND = ["%s; equivalence not established; no stability or SOH claim" % _tl(_ds_m427["trendSlopes"][k]["cr1"]["ci95NormalAsReleased"]) for k in ("cellSpread", "resistanceVreg")] if _ds_m427 else []
+_STAND = ["%s; equivalence not established; no stability or SOH claim" % _tl(_ds_m427["trendSlopes"][k]["cr1"]["ci95T_Gminus1"]) for k in ("cellSpread", "resistanceVreg")] if _ds_m427 else []
 _cs_m427 = A["degradationTrends"]["cellSpread"]["clusterRobustOLS"]["ci95"]
 # M407 (analyses/M407_spec.md): dashboard binding of the M406 sensitivities (reporting-only); text rendered from the payload, Director wording
 _h407 = [(k, t) for k, t in T.items() if k.startswith("health__") and not k.endswith("__compare")]
@@ -314,7 +314,7 @@ if _ds:
         ok("A2 REQUIRED M407 %s: five procedures in the fixed order with the dependence-conservative label, for both series" % _k,
            _pn.count("CR1 (released interval, the reference)") == 2 and all(_pn.count(x) == 2 for x in ("CR2 (Satterthwaite t)", "Wild cluster bootstrap-t", "Day-cluster pairs bootstrap", "Week-block pairs bootstrap (dependence-conservative)")))
         _cs = _ds["trendSlopes"]["cellSpread"]
-        _lows = [_cs["cr1"]["ci95NormalAsReleased"][0], _cs["cr2"]["ci95T"][0], _cs["wildClusterBootstrapT"]["ci95PercentileT"][0], _cs["dayClusterPairsBootstrap"]["ci95"][0], _cs["weekBlockPairsBootstrap"]["ci95"][0]]
+        _lows = [_cs["cr1"]["ci95T_Gminus1"][0], _cs["cr2"]["ci95T"][0], _cs["wildClusterBootstrapT"]["ci95PercentileT"][0], _cs["dayClusterPairsBootstrap"]["ci95"][0], _cs["weekBlockPairsBootstrap"]["ci95"][0]]
         _mixed = any(x <= 0 for x in _lows) and any(x > 0 for x in _lows)
         _sp = _cs["seedSpread"]["wildPValueRange"]
         ok("A2 REQUIRED M407 %s: sign sentence follows the payload (lower bound sign change computed from the five lower bounds) and the wild p is shown with its seed range" % _k,
@@ -681,7 +681,8 @@ ok("A2 REQUIRED depth-squared weighted cycle sum wording present", any("depth-sq
 ok("A2 REQUIRED regen-by-temperature Compare title says pack-temperature bin", any("pack-temperature bin" in t for t in T.values()))
 ok("A2 REQUIRED direction-reversals label present (M363: 'Pack-current direction reversals', not an engine-start count)", any("Pack-current direction reversals" in t for t in T.values()))
 # M351 (p22.12 / p23.16 / F31.r1)
-ok("A2 REQUIRED cell-spread interval basis stated (cluster-robust (CR1) normal (z), day clusters)", any("cluster-robust (CR1) normal (z) interval" in t and "day clusters" in t for t in T.values()))
+_ref473 = A["degradationTrends"]["cellSpread"]["clusterRobustOLS"].get("ciReference")      # M473: the label is bound to the payload reference (t(df=G-1)), never a typed 'normal (z)'
+ok("A2 REQUIRED cell-spread interval basis stated (cluster-robust (CR1) %s interval, day clusters; bound to ciReference)" % _ref473, bool(_ref473) and any(("cluster-robust (CR1) %s interval" % _ref473) in t and "day clusters" in t for t in T.values()))
 ok("A2 REQUIRED resistance-record simulation is an IID residual-model reference distribution, not a noise test, day dependence not modelled", any(all(x in t for x in ("IID residual-model reference distribution", "not a noise test", "Day dependence is not modelled")) for t in T.values()))
 ok("A2 REQUIRED rounded-to-zero p-values shown as p<0.001 in the Risk table; p-values stated unadjusted for multiplicity", any("p<0.001" in t and "unadjusted for multiplicity" in t for t in T.values()))
 # M352 (F13.3 / p21.5 / p21.6)

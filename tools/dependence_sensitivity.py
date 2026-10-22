@@ -163,6 +163,10 @@ def _design(dm, ycol, covars, icol):
     return dd, X, dd["y"].to_numpy(float), use
 
 
+CR1_REFERENCE_NOTE = ("ci95NormalAsReleased is the normal-reference interval, the released convention before M473; the released interval is ci95T_Gminus1 (t reference, df = G-1), "
+                      "the reference the equivalence test already used; kept as the history of the convention, not a second released interval")
+
+
 def slope_block(dd, X, y, use, B=N_BOOT, seed=SEED, delta=None, spread=False):
     k = 1
     days = dd["day"].to_numpy()
@@ -170,7 +174,7 @@ def slope_block(dd, X, y, use, B=N_BOOT, seed=SEED, delta=None, spread=False):
     b2, se2, df2, flags = cr2(X, y, days, k)
     t1 = stats.t.ppf(0.975, G - 1)
     out = {"n": int(n), "nDays": int(G), "formula": "y ~ months" + "".join(" + " + c for c in use),
-           "cr1": {"slope": b, "se": se1, "ci95NormalAsReleased": [b - stats.norm.ppf(0.975) * se1, b + stats.norm.ppf(0.975) * se1], "ci95T_Gminus1": [b - t1 * se1, b + t1 * se1], "df": G - 1},
+           "cr1": {"slope": b, "se": se1, "ci95NormalAsReleased": [b - stats.norm.ppf(0.975) * se1, b + stats.norm.ppf(0.975) * se1], "ci95T_Gminus1": [b - t1 * se1, b + t1 * se1], "df": G - 1, "referenceNote": CR1_REFERENCE_NOTE},
            "cr2": {"slope": b2, "se": se2, "df": df2, "ci95T": [b2 - stats.t.ppf(0.975, df2) * se2, b2 + stats.t.ppf(0.975, df2) * se2], **flags},
            "wildClusterBootstrapT": wild_cluster(X, y, days, k, B, seed),
            "dayClusterPairsBootstrap": pairs_block_ci(X, y, days, k, B, seed),

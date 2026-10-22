@@ -154,13 +154,18 @@ def _cluster_ols(d, covars=('T',)):
     res = sm.OLS(dd['y'].values, X).fit(cov_type='cluster',
                                         cov_kwds={'groups': dd['day'].values})
     b = float(res.params['months']); se = float(res.bse['months'])
-    lo, hi = res.conf_int().loc['months'].tolist()
+    # M473 (audit 2026-10-21, trend-table convention): the interval uses the cluster-t reference t(G-1), G = number of day clusters, the same reference the equivalence test
+    # (_tost) has used since M158; statsmodels' conf_int() on a cluster covariance is NORMAL. The slope and the cluster SE are unchanged.
+    G = int(dd['day'].nunique())
+    tcrit = float(stats.t.ppf(0.975, G - 1)) if G > 1 else float(stats.norm.ppf(0.975))
+    lo, hi = b - tcrit * se, b + tcrit * se
     # lag-1 residual autocorrelation on day-ordered residuals
     order = dd.sort_values(['day', 'months']).index
     resid = pd.Series(res.resid.values, index=dd.index).loc[order].values
     ac1 = float(np.corrcoef(resid[:-1], resid[1:])[0, 1]) if len(resid) > 3 else np.nan
     return {'slope': _jround(b), 'se': _jround(se),
             'ci95': [_jround(lo), _jround(hi)],
+            'ciReference': f't(df={G - 1})' if G > 1 else 'normal',
             'nObs': int(dd.shape[0]), 'nDays': int(dd['day'].nunique()),
             'residAutocorrLag1': _jround(ac1, 3),
             'formula': 'y ~ months' + ''.join(' + ' + c for c in use)}
