@@ -389,6 +389,8 @@ RULES = [
          rx=r"\bq10 2\b|\brising to 0 44\b|\b1 5 of hours at 40 c\b|\bwinter quarter factor 0 145\b"),
     Rule("M471-F01-etabus-label", "regex", "M471/audit F01: corpus.etaBus is the GENERATOR-bus / chemical-fuel ratio (glossary term eta tank->bus); the net traction-bus / fuel index is flows.etaTankToTraction (a different number). The M332 label 'Net traction-bus/fuel index' on etaBus mixed the two up",
          rx=r"\bnet traction bus fuel index\b"),
+    Rule("M472-cold-single-trip", "regex", "M472/Director: the cold cohort is in effect one trip (cohortSupport): its values are single-trip descriptors, never validated or robust cohort values, never a description of winter behaviour",
+         rx=r"\bcold (?:cohort )?(?:is |are |values? (?:is |are )?)?(?:validated|robust)\b|\bcold (?:values?|figures?|cohort) (?:describes?|represents?|shows?) winter\b|\bwinter inference from (?:the )?cold\b"),
 ]
 
 

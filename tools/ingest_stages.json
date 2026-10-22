@@ -407,6 +407,18 @@
    ]
   },
   {
+   "id": "cohort_support",
+   "title": "M472: cohort support accounting (drives, days, km, largest-drive / largest-day share, effective days, leave-one-day-out of two km-weighted metrics, physical-class sensitivity of the boundary drive); additive payload block cohortSupport + stamp; descriptive, no interval; spec analyses/M472_spec.md",
+   "cmd": [
+    "python3",
+    "tools/cohort_support.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json"
+   ]
+  },
+  {
    "id": "regen_v2",
    "title": "M441: interval-based extractor v2 of the apparent battery-side KE recovery (spec analyses/M441_spec.md Rev 2.1): per-drive cache regen_cache/ (only new or invalidated drives are extracted), observed cells by pack temperature, speed during braking and SOC band with day-clustered intervals and support status; additive payload key regenCaptureV2 + stamp; the legacy regen keys are untouched; the on-demand study block regenCaptureV2Study is carried forward",
    "cmd": [
