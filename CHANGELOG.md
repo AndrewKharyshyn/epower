@@ -1,3 +1,16 @@
+## M478 (2026-10-22): Layout: the Cohort support accounting moves from the sticky cohort selector to the end of the Overview tab
+
+**Rationale.** Owner request (chat, 2026-10-22): the M472 cohort-support table was rendered inside the sticky cohort-selector bar and covered about half of the page. It is now a component (CohortSupportBlock) rendered once at the end of the Overview tab; the sticky bar again holds only the cohort buttons. Second owner request (same day): the observed-count line (Observed 606 = Warm + Shoulder + Cold, boundary-drive and Cold notes) also leaves the sticky bar and is rendered by CohortObservedNote just above the support table at the end of Overview; the cohort scope note is no longer inside the sticky element and scrolls with the page. Layout only: same S.cohortSupport payload, same text, no number or wording changed. release_check PASSED. Note: the sidecar / spread-sensitivity / resistance-estimand follow-ups proposed earlier shift by one (M479-M481).
+
+**State.** `drive_master.csv` 606 rows, MD5 `5556a0c6c8bcde0f6c64b8b9655208ed`.
+
+**Gates (runs/20261020T221332Z).** restamp_ingest=ok; build_html=ok; jsdom=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `xtrail_summary.jsx`, `xtrail_dashboard.html`, `CHANGELOG.md`.
+
+
 ## M477 (2026-10-22): External recheck 2026-10-22 (P1-4): positive cell-spread headline states the procedure-dependence of its lower bound, bound to serialDependence rowsRule; reporting only
 
 **Rationale.** Director (Opus, revise): the released CR1 slope's positive lower bound depends on the interval procedure (7- and 14-day moving-block intervals include zero; serialDependence.trendSlopes.cellSpread.rowsRule.classification = procedure-dependent), but the headline sentences did not say so. New helper spreadProcNote() in xtrail_summary.jsx appends '; the lower bound is procedure-dependent (k of n serial-dependence interval procedures exclude zero, m include it: <names>)' at the four spread headline sites, only when the CR1 interval excludes zero and the classification is procedure-dependent; counts and names come from rowsRule, nothing typed. CR1 stays the released reference; no estimator, interval or payload key changed; no interval was selected to force an answer. New semantic_gate check 'A2 REQUIRED M477' requires the sentence iff positive lower limit and procedure-dependent classification. External audit figures were not used. Gates: release_check PASSED. Follow-ups: M478 sidecar, M479 spread sensitivity spec + blind audit, M480 resistance estimand.
