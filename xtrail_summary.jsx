@@ -4987,7 +4987,7 @@ function SerialDependencePanel(){
   const ci=(a)=>Array.isArray(a)?`[${f2(a[0])}, ${f2(a[1])}]`:"n/a";
   const th={textAlign:"left",padding:"3px 8px",borderBottom:"1px solid #cbd5e1",fontWeight:600,color:"#0f172a",fontSize:10};
   const td={padding:"3px 8px",borderBottom:"1px solid #e2e8f0",fontSize:10};
-  const series=[["cellSpread","Cell-voltage spread trend","mV/month"],["resistanceVreg","Resistance (power) proxy trend","mΩ/month"]];
+  const series=[["cellSpread","Cell-voltage spread trend","mV/month"],["resistanceVreg","Resistance (power) proxy trend (V-regression sensitivity S0: months + T + load current, no HV-current-density term; the primary estimand is powerFade)","mΩ/month"]];
   const rate=(o)=>o&&typeof o.rate==="number"?`${(100*o.rate).toFixed(1)} % ± ${(100*o.mcse).toFixed(1)}`:"n/a";
   const H=D.harnessCoverage&&D.harnessCoverage.scenarios;
   const rowsOf=(t)=>{ const hs=t.hac||{}, mb=t.movingBlock||{};
@@ -5009,7 +5009,7 @@ function SerialDependencePanel(){
       <strong style={{color:"#0f172a"}}>Serial-dependence sensitivity (M410; pre-registered, additive; the released estimators and the statements above are unchanged).</strong> {D.reading}. {D.reportingRule}. Resampling: {D.resampling}.
       {series.map(([key,title,unit])=>{ const t=D.trendSlopes[key]; if(!t) return null; const ac=t.residualAutocorr||{}, r1=ac["1"]||{}, r2=ac["2"]||{}, r3=ac["3"]||{}, po=ac.pooled||{}, vf=t.vifDiagnostic||{}, mc=t.misspecControl||{}, gl=t.gls||{}, sv=t.semivariogram||{}; return (
         <div key={key} style={{marginTop:10}}>
-          <div style={{fontWeight:600,color:"#0f172a"}}>{title} ({t.n} observations, {t.nDays} days, {t.nWeeks} ISO weeks): {trendLabel(M?.trendSlopes?.[key]?.cr1?.ci95T_Gminus1,"slope")}; equivalence not established; no stability or SOH claim.</div>
+          <div style={{fontWeight:600,color:"#0f172a"}}>{title} ({t.n} observations, {t.nDays} days, {t.nWeeks} ISO weeks): {trendLabel(M?.trendSlopes?.[key]?.cr1?.ci95T_Gminus1,"slope")}; {key==="resistanceVreg"?"equivalence not established on this sensitivity design (not computed for the primary design)":"equivalence not established"}; no stability or SOH claim.</div>
           <div>Neighbouring-day residual autocorrelation: rho_1 = {f2(r1.rho)} ({r1.nPairs} day pairs, 95% week-resampling interval {ci(r1.ci95)}). {ac.statement}. {ac.powerDisclosure}. Descriptive only (not rules): rho_2 = {f2(r2.rho)} ({r2.nPairs} pairs), rho_3 = {f2(r3.rho)} ({r3.nPairs} pairs). {ac.multiplicityNote}. {po.label}: rho_1-3 = {f2(po.rho)}, interval {ci(po.ci95)}{ac.disagreementWithOriginalStatistic?`; ${ac.disagreementWithOriginalStatistic}`:"; it agrees with the rule statistic"}. {ac.forkingPathNote}. The percentile interval of rho_1 is shifted: the bootstrap median {f2(r1.bootstrapMedian)} lies {r1.bootstrapMedian<r1.rho?"below":"above"} the point estimate {f2(r1.rho)}; no bias correction is applied.</div>
           <table style={{borderCollapse:"collapse",margin:"4px 0"}}><thead><tr><th style={th}>Procedure (fixed order, after the rows above)</th><th style={th}>95% interval ({unit})</th><th style={th}>Detail</th></tr></thead>
             <tbody>{rowsOf(t).map(p=>(<tr key={p.k}><td style={td}>{p.k}</td><td style={td}>{ci(p.ci)}</td><td style={td}>{p.n}</td></tr>))}
@@ -5079,7 +5079,7 @@ function DependencePanel(){
       <strong style={{color:"#0f172a"}}>Inference sensitivities (M406; additive, the released estimators and the statements above are unchanged).</strong> {D.reading}. {D.reportingRule}. Day = cluster, ISO week = block, 4000 draws.
       {series.map(([key,title,unit])=>{ const t=D.trendSlopes[key]; if(!t) return null; const reg=t.byLoggingRegime||{}; return (
         <div key={key} style={{marginTop:10}}>
-          <div style={{fontWeight:600,color:"#0f172a"}}>{title}: slope {f2(t.cr1?.slope)} {unit}, n={t.n} observations, {t.nDays} days; {trendLabel(t.cr1?.ci95T_Gminus1,"slope")}; equivalence not established; no stability or SOH claim.</div>
+          <div style={{fontWeight:600,color:"#0f172a"}}>{title}: slope {f2(t.cr1?.slope)} {unit}, n={t.n} observations, {t.nDays} days; {trendLabel(t.cr1?.ci95T_Gminus1,"slope")}; {key==="resistanceVreg"?"equivalence not established on this sensitivity design (not computed for the primary design)":"equivalence not established"}; no stability or SOH claim.</div>
           <table style={{borderCollapse:"collapse",margin:"4px 0"}}><thead><tr><th style={th}>Procedure (fixed order)</th><th style={th}>95% interval ({unit})</th><th style={th}>Detail</th></tr></thead>
             <tbody>{procs(t).map(p=>(<tr key={p.k}><td style={td}>{p.k}</td><td style={td}>{ci(p.ci)}</td><td style={td}>{p.n}</td></tr>))}</tbody></table>
           <div>Reading across procedures: {signSentence(t)}.</div>

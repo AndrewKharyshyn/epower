@@ -301,7 +301,7 @@ def _tl(ci, noun="slope"):
         return "trend not resolved (95% interval includes 0)"
     return ("positive " if ci[0] > 0 else "negative ") + noun + " (95% interval excludes 0; conditional on the model, not a capacity or SOH change)"
 _ds_m427 = A.get("dependenceSensitivity")
-_STAND = ["%s; equivalence not established; no stability or SOH claim" % _tl(_ds_m427["trendSlopes"][k]["cr1"]["ci95T_Gminus1"]) for k in ("cellSpread", "resistanceVreg")] if _ds_m427 else []
+_STAND = [("%s; equivalence not established on this sensitivity design (not computed for the primary design); no stability or SOH claim" if k == "resistanceVreg" else "%s; equivalence not established; no stability or SOH claim") % _tl(_ds_m427["trendSlopes"][k]["cr1"]["ci95T_Gminus1"]) for k in ("cellSpread", "resistanceVreg")] if _ds_m427 else []   # M481 (Director 2026-10-22): the resistance row is the S0 sensitivity design
 _cs_m427 = A["degradationTrends"]["cellSpread"]["clusterRobustOLS"]["ci95"]
 # M407 (analyses/M407_spec.md): dashboard binding of the M406 sensitivities (reporting-only); text rendered from the payload, Director wording
 _h407 = [(k, t) for k, t in T.items() if k.startswith("health__") and not k.endswith("__compare")]
