@@ -1,0 +1,36 @@
+{
+ "milestone": "M480b",
+ "auditor": "analytical-auditor (Sonnet, high effort), blind: definitions + data paths (drive_master.csv, raw/) only; no tools/, tests/, analyses/, CHANGELOG or repo-root *.py read",
+ "date": "2026-10-22",
+ "verdict": "supported (all claimed numbers reproduced; one population ambiguity for O3 and several method concerns)",
+ "reproduced": {
+  "O0m": "0.580 [0.295, 0.865] 456/115",
+  "O1m": "0.339 [0.060, 0.618] 373/113; O0m|rows 0.470; Delta -0.131; analytic CR1 [-0.267, +0.005]; bootstrap percentile (seed 42, 4000) [-0.281, +0.004]",
+  "O2m": "0.564 [0.192, 0.935] 302/104; O0m|rows 0.609; Delta -0.046; analytic [-0.166, +0.074]; bootstrap [-0.170, +0.076]",
+  "O3m": "0.095 [-0.086, 0.276] 454/115 only if restricted to drives that also have an O0 value; taken literally from the spec text (all population drives with N >= 20 low-current pairs) it is 0.143 [-0.033, 0.319] 568/117"
+ },
+ "checks": {
+  "n_loaded_spread_samples": "pairs with |I| > 50 equal the master for all 606 drives (0 mismatches; 577 drives > 0, 29 zero)",
+  "p95": "max |diff| 0.0500 mV over 577 drives (master rounded to 0.1); 3 drives sit at 0.05000000000000071",
+  "population": "576",
+  "weights": "closed-form L-statistic equals brute-force enumeration of all C(N,20) subsets for N = 20, 21, 22, 23, 25 (diff < 1e-13); weights sum to 1; Monte Carlo at N = 60 agrees to 3e-5"
+ },
+ "mismatches": [
+  "O3 drive count: the claim's 454 drives need the extra O0-presence restriction (needed for the same-row reference). The spec text gives 568. Disclose both.",
+  "O1 bootstrap lower bound -0.281 vs claimed -0.269: across seeds 1 / 7 / 42 / 2024 it ranges -0.267 to -0.281, always below -0.235, so the verdict is unchanged."
+ ],
+ "ranked_concerns": [
+  "1. Unmodelled regime x time heterogeneity. The fast regime exists only at months 3.0-5.0. Within-regime O0 slope is 2.42 (148 drives) against 0.55 in the slow regime (308 drives). O2 within-regime slopes are 2.75 (fast, 60 drives) and 0.42 (slow, 242 drives). The regime term is an intercept shift only, with no interaction. The O2 slope is 0.564 with the indicator and 0.460 without it. O0 on all 456 rows is 0.580 without the indicator and 0.694 with it. Pooled slopes are therefore regime-mix dependent.",
+  "2. Support loss is regime- and covariate-dependent. Drives with an O2 value are 59 % of slow-regime drives and 36 % of fast-regime drives. O2 rows are 20 % fast against 29 % fast in the population. O0 coverage falls from 83 % to 73 % over the months. Supported drives have much higher T_pack (29-31 vs 23-25) and peak I (119-131 vs 68-83 A). Selection on covariates plus extrapolation is possible. The pair offset is cadence-quantised (median |offset| 48 ms, 59 % within 50 ms), so O2 is partly a cadence filter.",
+  "3. The O1 attenuation sits mainly in the fast regime (Delta -0.58 [-1.22, +0.05]) against the slow regime (-0.10 [-0.24, +0.05]). The pooled Delta hides this.",
+  "4. The threshold -0.5 * slope(O0m|rows) treats the reference slope as fixed. A bootstrap of the slope ratio gives O1 [0.25, 1.02] and O2 [0.59, 1.13]. The verdict is the same.",
+  "5. Pairs within a drive are autocorrelated and N differs across restrictions (median N 43.5 / 29 / 21.5 for O0 / O1 / O2). The outcome noise differs, and OLS is unweighted.",
+  "6. The observation window is only about 5-6 months, so seasonal and age effects are not separable beyond T_pack. No leakage found: pairing is within-drive and the resampling unit is the day."
+ ],
+ "language_concerns": [
+  "The 'consistent, imprecise' verdict is justified and conservative. The O1 Delta interval reaches -0.27 / -0.28 and also reaches +0.005, so it does not exclude zero. State that O2 does satisfy the half-reference rule.",
+  "O3: the interval [-0.09, 0.28] contains about half of the O0 slope, so the control does not show a flat null. Say 'not distinguished from zero, imprecise'. State which O3 population is used.",
+  "Keep 'estimated', not 'measured', for the slopes. Do not read the slope as ageing: the window is short and the regime is confounded with time."
+ ],
+ "audit_files": "session scratchpad (audit480b/extract.py, chk.py, model.py, m3.py, diag.py, diag2.py), not committed"
+}

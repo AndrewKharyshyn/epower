@@ -114,7 +114,10 @@ def _prepare(dd, ycol, extra=()):
 
 def fit_outcome(dd, ycol, cols=(), B=0, full=False):
     d = _prepare(dd, ycol)
-    s, X, y = M0.fit(d, list(cols), B, full=full)
+    keep = [c for c in cols if d[c].nunique() > 1]           # a covariate that is constant within the rows (e.g. the regime indicator at an early cutoff) is dropped and recorded
+    s, X, y = M0.fit(d, keep, B, full=full)
+    if len(keep) != len(cols):
+        s["dropped_constant_columns"] = [c for c in cols if c not in keep]
     return s, X, y, d
 
 
@@ -303,6 +306,11 @@ def analyse_outcomes(frame, data, B, power_draws, released=None):
             prim[key] = {"informative": entry["informative"], "point": s["slope"], "b_ref": b_ref, "delta_lo": dl, "delta_hi": dh, "cr1_lo": s["ci95"][0]}
             entry["moving_block"] = {"L%d" % L: SD.moving_block(X, y, SD.day_axis(d["date"]), L, B) for L in SD.BLOCK_L}
         res["outcomes"][key] = entry
+    # O3m on every drive with at least m low-current pairs (the spec text); the table above keeps only drives that also have an O0m value so that the same-row reference exists
+    r3 = fr.dropna(subset=["y_O3"])
+    if len(r3) >= 20 and r3["day"].nunique() >= 5:
+        s3, _, _, _ = fit_outcome(r3, "y_O3", (), 0)
+        res["O3_all_population"] = {k: s3[k] for k in ("slope", "se", "ci95", "n_drives", "n_days")}
     res["primary_inputs"] = prim
     res["verdict"], res["informative_outcomes"] = verdict(prim)
     res["verdict_rule_precedence"] = "not_supported > supported_provisional > consistent_imprecise > underpowered_inconclusive"
@@ -329,7 +337,7 @@ def analyse_outcomes(frame, data, B, power_draws, released=None):
             tmp = rows.copy()
             tmp["w"] = w
             dd = tmp.reset_index(drop=True)
-            Xw, yw = M0.design(dd.assign(y=dd["y_" + key]), list(extra))
+            Xw, yw = M0.design(dd.assign(y=dd["y_" + key]), [c for c in extra if dd[c].nunique() > 1])
             sw = np.sqrt(dd["w"].to_numpy())
             b, se, G, n, p = DS.cr1(Xw * sw[:, None], yw * sw, dd["day"].to_numpy(), 1)
             t1 = stats.t.ppf(0.975, G - 1)

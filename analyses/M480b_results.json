@@ -1,0 +1,809 @@
+{
+ "outcomes": {
+  "O1": {
+   "n_drives": 373,
+   "n_days": 113,
+   "columns": [],
+   "slope": 0.3390685713650682,
+   "se": 0.1409944344374594,
+   "ci95": [
+    0.05970617291626101,
+    0.6184309698138754
+   ],
+   "ciReference": "t(df=112)",
+   "vif_months": 1.1678739137481404,
+   "partial_r2_months_on_block": null,
+   "days_for_half_leverage": 12,
+   "months_span": 5.092402464065708,
+   "cr2": {
+    "slope": 0.3390685713650682,
+    "se": 0.14352768469325186,
+    "df": 31.854410174513134,
+    "ci95T": [
+     0.046659831078874725,
+     0.6314773116512616
+    ],
+    "clustersWithUnitLeverage": 0
+   },
+   "wildClusterBootstrapT": {
+    "ci95PercentileT": [
+     0.053417549856302426,
+     0.6316641120331075
+    ],
+    "pValueNullImposed": 0.02949262684328918,
+    "nDraws": 4000,
+    "weights": "Rademacher by cluster",
+    "seed": 42
+   },
+   "O0m_on_rows": {
+    "slope": 0.46963727583326376,
+    "se": 0.15555543988877396,
+    "ci95": [
+     0.16142411158696168,
+     0.7778504400795658
+    ]
+   },
+   "lost_fraction_vs_O0m_rows": 0.18201754385964908,
+   "regime_mix": {
+    "slow": 244,
+    "fast": 129
+   },
+   "delta": {
+    "point": -0.13056870446819557,
+    "analytic": [
+     -0.26659942254367763,
+     0.005462013607286459
+    ],
+    "bootstrap": {
+     "ci95": [
+      -0.26862510867486517,
+      0.005909072800071361
+     ],
+     "nDraws": 4000,
+     "skippedSingular": 0,
+     "nBlocks": 113
+    },
+    "bootstrap_contains_point": true,
+    "used_for_verdict": "bootstrap"
+   },
+   "slope_ratio_vs_O0m_rows": 0.7219796826465035,
+   "power_gate": {
+    "theta_0": {
+     "theta": 0.0,
+     "draws": 500,
+     "detection_probability": 0.018,
+     "median_half_width": 0.27755480858555764,
+     "label_shares": {
+      "explained_like": 0.028,
+      "supported_like": 0.018,
+      "consistent_imprecise": 0.954
+     }
+    },
+    "theta_half_ref": {
+     "theta": 0.23481863791663188,
+     "draws": 500,
+     "detection_probability": 0.398,
+     "median_half_width": 0.2775548085855576,
+     "label_shares": {
+      "explained_like": 0.01,
+      "supported_like": 0.348,
+      "consistent_imprecise": 0.642
+     }
+    },
+    "theta_ref": {
+     "theta": 0.46963727583326376,
+     "draws": 500,
+     "detection_probability": 0.91,
+     "median_half_width": 0.2775548085855569,
+     "label_shares": {
+      "explained_like": 0.0,
+      "supported_like": 0.866,
+      "consistent_imprecise": 0.134
+     }
+    }
+   },
+   "mde80": 0.3984804621341461,
+   "underpowered": false,
+   "informative": true,
+   "moving_block": {
+    "L7": {
+     "L": 7,
+     "ci95": [
+      -0.2353117322705353,
+      0.6358054076949969
+     ],
+     "nDraws": 4000,
+     "skippedSingular": 0,
+     "drawSizeRange": [
+      202.0,
+      518.0
+     ],
+     "nBlocksPerDraw": 23
+    },
+    "L14": {
+     "L": 14,
+     "ci95": [
+      -0.5181767767475645,
+      0.6227757914928307
+     ],
+     "nDraws": 4000,
+     "skippedSingular": 0,
+     "drawSizeRange": [
+      226.0,
+      593.0
+     ],
+     "nBlocksPerDraw": 12
+    }
+   }
+  },
+  "O2": {
+   "n_drives": 302,
+   "n_days": 104,
+   "columns": [
+    "fast"
+   ],
+   "slope": 0.5635021842246635,
+   "se": 0.18737268513187577,
+   "ci95": [
+    0.19189265609268769,
+    0.9351117123566393
+   ],
+   "ciReference": "t(df=103)",
+   "vif_months": 1.2358656778573764,
+   "partial_r2_months_on_block": 0.10605915639601038,
+   "days_for_half_leverage": 10,
+   "months_span": 5.092402464065708,
+   "cr2": {
+    "slope": 0.5635021842246635,
+    "se": 0.19327609184237388,
+    "df": 26.06692862106345,
+    "ci95T": [
+     0.16626712769031293,
+     0.960737240759014
+    ],
+    "clustersWithUnitLeverage": 0
+   },
+   "wildClusterBootstrapT": {
+    "ci95PercentileT": [
+     0.15492880462711583,
+     0.9598871162580037
+    ],
+    "pValueNullImposed": 0.0094976255936016,
+    "nDraws": 4000,
+    "weights": "Rademacher by cluster",
+    "seed": 42
+   },
+   "O0m_on_rows": {
+    "slope": 0.6094169554267709,
+    "se": 0.1678072679904453,
+    "ci95": [
+     0.27661081758893014,
+     0.9422230932646116
+    ]
+   },
+   "lost_fraction_vs_O0m_rows": 0.3377192982456141,
+   "regime_mix": {
+    "slow": 242,
+    "fast": 60
+   },
+   "delta": {
+    "point": -0.04591477120210741,
+    "analytic": [
+     -0.16611308702971372,
+     0.07428354462549892
+    ],
+    "bootstrap": {
+     "ci95": [
+      -0.17207821041610763,
+      0.07578693252952189
+     ],
+     "nDraws": 4000,
+     "skippedSingular": 0,
+     "nBlocks": 104
+    },
+    "bootstrap_contains_point": true,
+    "used_for_verdict": "bootstrap"
+   },
+   "slope_ratio_vs_O0m_rows": 0.9246578704559449,
+   "power_gate": {
+    "theta_0": {
+     "theta": 0.0,
+     "draws": 500,
+     "detection_probability": 0.016,
+     "median_half_width": 0.36402041789349493,
+     "label_shares": {
+      "explained_like": 0.022,
+      "supported_like": 0.016,
+      "consistent_imprecise": 0.962
+     }
+    },
+    "theta_half_ref": {
+     "theta": 0.30470847771338544,
+     "draws": 500,
+     "detection_probability": 0.352,
+     "median_half_width": 0.3640204178934955,
+     "label_shares": {
+      "explained_like": 0.008,
+      "supported_like": 0.342,
+      "consistent_imprecise": 0.65
+     }
+    },
+    "theta_ref": {
+     "theta": 0.6094169554267709,
+     "draws": 500,
+     "detection_probability": 0.9,
+     "median_half_width": 0.36402041789349554,
+     "label_shares": {
+      "explained_like": 0.0,
+      "supported_like": 0.892,
+      "consistent_imprecise": 0.108
+     }
+    }
+   },
+   "mde80": 0.5299628469144432,
+   "underpowered": false,
+   "informative": true,
+   "moving_block": {
+    "L7": {
+     "L": 7,
+     "ci95": [
+      -0.20567008371280748,
+      0.8727492403044453
+     ],
+     "nDraws": 4000,
+     "skippedSingular": 1,
+     "drawSizeRange": [
+      170.0,
+      462.0
+     ],
+     "nBlocksPerDraw": 23
+    },
+    "L14": {
+     "L": 14,
+     "ci95": [
+      -0.4317926483001865,
+      0.8666469559088885
+     ],
+     "nDraws": 4000,
+     "skippedSingular": 16,
+     "drawSizeRange": [
+      189.0,
+      527.0
+     ],
+     "nBlocksPerDraw": 12
+    }
+   }
+  },
+  "O3": {
+   "n_drives": 454,
+   "n_days": 115,
+   "columns": [],
+   "slope": 0.09490700001329293,
+   "se": 0.09133389106236318,
+   "ci95": [
+    -0.08602473472541448,
+    0.2758387347520003
+   ],
+   "ciReference": "t(df=114)",
+   "vif_months": 1.1542717152804765,
+   "partial_r2_months_on_block": null,
+   "days_for_half_leverage": 12,
+   "months_span": 5.092402464065708,
+   "cr2": {
+    "slope": 0.09490700001329293,
+    "se": 0.09291756746669788,
+    "df": 31.3732689138611,
+    "ci95T": [
+     -0.09450828579879213,
+     0.284322285825378
+    ],
+    "clustersWithUnitLeverage": 0
+   },
+   "wildClusterBootstrapT": {
+    "ci95PercentileT": [
+     -0.08906338567398618,
+     0.28431068235689844
+    ],
+    "pValueNullImposed": 0.3241689577605599,
+    "nDraws": 4000,
+    "weights": "Rademacher by cluster",
+    "seed": 42
+   },
+   "O0m_on_rows": {
+    "slope": 0.5767295728385795,
+    "se": 0.14438238801280612,
+    "ci95": [
+     0.29070917422184894,
+     0.8627499714553101
+    ]
+   },
+   "lost_fraction_vs_O0m_rows": 0.004385964912280715,
+   "regime_mix": {
+    "slow": 306,
+    "fast": 148
+   },
+   "delta": {
+    "point": -0.48182257282528657,
+    "analytic": [
+     -0.7762666653726756,
+     -0.1873784802778975
+    ],
+    "bootstrap": {
+     "ci95": [
+      -0.7830021525949004,
+      -0.17399913999495034
+     ],
+     "nDraws": 4000,
+     "skippedSingular": 0,
+     "nBlocks": 115
+    },
+    "bootstrap_contains_point": true,
+    "used_for_verdict": "bootstrap"
+   },
+   "slope_ratio_vs_O0m_rows": 0.1645606615006309
+  }
+ },
+ "O0m": {
+  "n_drives": 456,
+  "n_days": 115,
+  "columns": [],
+  "slope": 0.5800094633939152,
+  "se": 0.14407093999402582,
+  "ci95": [
+   0.29460604090360826,
+   0.8654128858842223
+  ],
+  "ciReference": "t(df=114)",
+  "vif_months": 1.152035459261385,
+  "partial_r2_months_on_block": null,
+  "days_for_half_leverage": 13,
+  "months_span": 5.092402464065708,
+  "cr2": {
+   "slope": 0.5800094633939152,
+   "se": 0.14674903229659905,
+   "df": 31.741865654258223,
+   "ci95T": [
+    0.2809961003504504,
+    0.8790228264373801
+   ],
+   "clustersWithUnitLeverage": 0
+  },
+  "wildClusterBootstrapT": {
+   "ci95PercentileT": [
+    0.29140897750179295,
+    0.8751870759508091
+   ],
+   "pValueNullImposed": 0.0012496875781054736,
+   "nDraws": 4000,
+   "weights": "Rademacher by cluster",
+   "seed": 42
+  },
+  "moving_block": {
+   "L7": {
+    "L": 7,
+    "ci95": [
+     -0.08814751006645108,
+     0.8960505078154029
+    ],
+    "nDraws": 4000,
+    "skippedSingular": 0,
+    "drawSizeRange": [
+     238.0,
+     634.0
+    ],
+    "nBlocksPerDraw": 23
+   },
+   "L14": {
+    "L": 14,
+    "ci95": [
+     -0.3639936658044293,
+     0.8458123864644634
+    ],
+    "nDraws": 4000,
+    "skippedSingular": 0,
+    "drawSizeRange": [
+     260.0,
+     744.0
+    ],
+    "nBlocksPerDraw": 12
+   }
+  }
+ },
+ "O3_all_population": {
+  "slope": 0.14298747666099687,
+  "se": 0.08897261241487187,
+  "ci95": [
+   -0.03323399299461274,
+   0.31920894631660646
+  ],
+  "n_drives": 568,
+  "n_days": 117
+ },
+ "primary_inputs": {
+  "O1": {
+   "informative": true,
+   "point": 0.3390685713650682,
+   "b_ref": 0.46963727583326376,
+   "delta_lo": -0.26862510867486517,
+   "delta_hi": 0.005909072800071361,
+   "cr1_lo": 0.05970617291626101
+  },
+  "O2": {
+   "informative": true,
+   "point": 0.5635021842246635,
+   "b_ref": 0.6094169554267709,
+   "delta_lo": -0.17207821041610763,
+   "delta_hi": 0.07578693252952189,
+   "cr1_lo": 0.19189265609268769
+  }
+ },
+ "verdict": "consistent_imprecise",
+ "informative_outcomes": [
+  "O1",
+  "O2"
+ ],
+ "verdict_rule_precedence": "not_supported > supported_provisional > consistent_imprecise > underpowered_inconclusive",
+ "sensitivities": {
+  "O1_m10": {
+   "slope": 0.4322864694877029,
+   "se": 0.13603050320615134,
+   "ci95": [
+    0.16283622291679878,
+    0.701736716058607
+   ],
+   "n_drives": 495,
+   "n_days": 116
+  },
+  "O1_m30": {
+   "slope": 0.23783628082640182,
+   "se": 0.1567734394302082,
+   "ci95": [
+    -0.0731977578641084,
+    0.548870319516912
+   ],
+   "n_drives": 285,
+   "n_days": 101
+  },
+  "O1_median": {
+   "slope": 0.37601764565039036,
+   "se": 0.09431135922807031,
+   "ci95": [
+    0.1891517766532175,
+    0.5628835146475633
+   ],
+   "n_drives": 373,
+   "n_days": 113
+  },
+  "O1_balanced": {
+   "slope": 0.2919215352962534,
+   "se": 0.14934211825169513,
+   "ci95": [
+    -0.0041637394158168806,
+    0.5880068100083238
+   ],
+   "n_drives": 316,
+   "n_days": 107
+  },
+  "O1_wls_min(N,200)": {
+   "slope": 0.2574812217135602,
+   "se": 0.17754444297423774,
+   "ci95": [
+    -0.09430033348350791,
+    0.6092627769106282
+   ],
+   "n_drives": 373,
+   "n_days": 113
+  },
+  "O1_released_statistic_variable_n": {
+   "slope": 0.34811903615209383,
+   "se": 0.14859625702650173,
+   "ci95": [
+    0.05369460068366816,
+    0.6425434716205195
+   ],
+   "n_drives": 373,
+   "n_days": 113
+  },
+  "O2_m10": {
+   "slope": 0.608849806934394,
+   "se": 0.22258257624087058,
+   "ci95": [
+    0.16791543773760542,
+    1.0497841761311824
+   ],
+   "n_drives": 429,
+   "n_days": 115
+  },
+  "O2_m30": {
+   "slope": 0.5641894374810509,
+   "se": 0.21225951764848688,
+   "ci95": [
+    0.14268410222251643,
+    0.9856947727395853
+   ],
+   "n_drives": 235,
+   "n_days": 94
+  },
+  "O2_median": {
+   "slope": 0.5212113196687775,
+   "se": 0.12684641981995126,
+   "ci95": [
+    0.2696413633469871,
+    0.772781275990568
+   ],
+   "n_drives": 302,
+   "n_days": 104
+  },
+  "O2_balanced": {
+   "slope": 0.733806687291899,
+   "se": 0.20740017902511046,
+   "ci95": [
+    0.3222277819573347,
+    1.1453855926264633
+   ],
+   "n_drives": 265,
+   "n_days": 99
+  },
+  "O2_off25": {
+   "evaluable": false,
+   "n_drives": 0
+  },
+  "O2_off100": {
+   "slope": 0.6924902091055732,
+   "se": 0.15146941598326485,
+   "ci95": [
+    0.3924304626638244,
+    0.9925499555473221
+   ],
+   "n_drives": 448,
+   "n_days": 115
+  },
+  "O2_wls_min(N,200)": {
+   "slope": 0.48979258729558106,
+   "se": 0.19691293937664273,
+   "ci95": [
+    0.09926221498793619,
+    0.8803229596032259
+   ],
+   "n_drives": 302,
+   "n_days": 104
+  },
+  "O2_released_statistic_variable_n": {
+   "slope": 0.5691745847721293,
+   "se": 0.19173069102283577,
+   "ci95": [
+    0.18892197981390108,
+    0.9494271897303577
+   ],
+   "n_drives": 302,
+   "n_days": 104
+  }
+ },
+ "companions": {
+  "O0_slow_regime": {
+   "slope": 0.5523462071024923,
+   "se": 0.1566894566799763,
+   "ci95": [
+    0.2406409632213684,
+    0.8640514509836161
+   ],
+   "n_drives": 308,
+   "n_days": 83,
+   "months_span": 5.092402464065708
+  },
+  "O0_cutoffs": [
+   {
+    "cutoff": "2026-07-31",
+    "n_drives": 153,
+    "n_days": 43,
+    "slope": 0.4548292317833401,
+    "ci95": [
+     -0.2055253766889098,
+     1.11518384025559
+    ]
+   },
+   {
+    "cutoff": "2026-08-31",
+    "n_drives": 252,
+    "n_days": 69,
+    "slope": -0.34428948090644057,
+    "ci95": [
+     -0.8423779556620462,
+     0.15379899384916507
+    ]
+   },
+   {
+    "cutoff": "2026-09-30",
+    "n_drives": 367,
+    "n_days": 98,
+    "slope": 0.14429566329186416,
+    "ci95": [
+     -0.17781931481124458,
+     0.4664106413949729
+    ]
+   },
+   {
+    "cutoff": "2026-10-17",
+    "n_drives": 456,
+    "n_days": 115,
+    "slope": 0.5800094633939152,
+    "ci95": [
+     0.29460604090360826,
+     0.8654128858842223
+    ]
+   },
+   {
+    "cutoff": "leave_last_8_days_out",
+    "n_drives": 415,
+    "n_days": 107,
+    "slope": 0.2655612291523243,
+    "ci95": [
+     0.007610664406847156,
+     0.5235117938978013
+    ]
+   }
+  ],
+  "O1_slow_regime": {
+   "slope": 0.33771360346588775,
+   "se": 0.16259410939643543,
+   "ci95": [
+    0.014078124235572365,
+    0.6613490826962032
+   ],
+   "n_drives": 244,
+   "n_days": 80,
+   "months_span": 5.092402464065708
+  },
+  "O1_cutoffs": [
+   {
+    "cutoff": "2026-07-31",
+    "n_drives": 134,
+    "n_days": 43,
+    "slope": 0.22944378203094384,
+    "ci95": [
+     -0.4487063028287508,
+     0.9075938668906385
+    ]
+   },
+   {
+    "cutoff": "2026-08-31",
+    "n_drives": 224,
+    "n_days": 68,
+    "slope": -0.5036197127175,
+    "ci95": [
+     -0.9554731908914079,
+     -0.05176623454359197
+    ]
+   },
+   {
+    "cutoff": "2026-09-30",
+    "n_drives": 301,
+    "n_days": 96,
+    "slope": -0.06018153926813251,
+    "ci95": [
+     -0.36866950913810537,
+     0.24830643060184032
+    ]
+   },
+   {
+    "cutoff": "2026-10-17",
+    "n_drives": 373,
+    "n_days": 113,
+    "slope": 0.3390685713650682,
+    "ci95": [
+     0.05970617291626101,
+     0.6184309698138754
+    ]
+   },
+   {
+    "cutoff": "leave_last_8_days_out",
+    "n_drives": 338,
+    "n_days": 105,
+    "slope": 0.04137180173152577,
+    "ci95": [
+     -0.2150398533889442,
+     0.29778345685199575
+    ]
+   }
+  ],
+  "O2_slow_regime": {
+   "slope": 0.42100890160639143,
+   "se": 0.2004050309435146,
+   "ci95": [
+    0.02195150288217279,
+    0.8200663003306101
+   ],
+   "n_drives": 242,
+   "n_days": 78,
+   "months_span": 5.092402464065708
+  },
+  "O2_cutoffs": [
+   {
+    "cutoff": "2026-07-31",
+    "n_drives": 118,
+    "n_days": 40,
+    "slope": 0.21158492443029664,
+    "ci95": [
+     -0.5712017660167122,
+     0.9943716148773055
+    ]
+   },
+   {
+    "cutoff": "2026-08-31",
+    "n_drives": 188,
+    "n_days": 66,
+    "slope": -0.3895308912784935,
+    "ci95": [
+     -1.0509855670807307,
+     0.2719237845237438
+    ]
+   },
+   {
+    "cutoff": "2026-09-30",
+    "n_drives": 263,
+    "n_days": 93,
+    "slope": 0.13084638523121364,
+    "ci95": [
+     -0.24525631917814802,
+     0.5069490896405753
+    ]
+   },
+   {
+    "cutoff": "2026-10-17",
+    "n_drives": 302,
+    "n_days": 104,
+    "slope": 0.5635021842246635,
+    "ci95": [
+     0.19189265609268769,
+     0.9351117123566393
+    ]
+   },
+   {
+    "cutoff": "leave_last_8_days_out",
+    "n_drives": 273,
+    "n_days": 96,
+    "slope": 0.041000721662988175,
+    "ci95": [
+     -0.3695942482933356,
+     0.45159569161931196
+    ]
+   }
+  ],
+  "O2_slow_regime_primary_adjacent": {
+   "slope": 0.42100890160639143,
+   "se": 0.2004050309435146,
+   "ci95": [
+    0.02195150288217279,
+    0.8200663003306101
+   ],
+   "n_drives": 242,
+   "n_days": 78,
+   "months_span": 5.092402464065708
+  }
+ },
+ "cache_checks": {
+  "drives_checked": 606,
+  "problems": 0
+ },
+ "method": {
+  "version": 1,
+  "estimator": "fixed-n upper L-statistic, exact expectation of the numpy-linear p95 of an m-subset (m=20 primary)",
+  "design": "OLS y ~ months + T + I (+ regime indicator for O2m); cluster = calendar day; CR1 t(G-1)",
+  "seed": 42,
+  "boot": 4000,
+  "power_draws": 500,
+  "halfRule": 0.5,
+  "minDrives": 100,
+  "minDays": 40,
+  "detectMin": 0.8,
+  "implementationNote": "the power gate's operating characteristic is reported per outcome (labels explained_like / supported_like / consistent_imprecise) because the combined verdict needs both outcomes on different rows"
+ },
+ "provenance": {
+  "master_md5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+  "sidecar_sha256": "8c5cfe150499d2b6f725591563c68c367d8b54aa1c597294e501c07380541188",
+  "pair_cache_manifest_hash": "05ba214c836d5050c8f5a2b9801192601a2d04cad70459a1a931284c2b75246c",
+  "script_sha256": "10da828d6e846337cf58c1ba335770164e19030caa21f0a0c4b5fe9eb8f69287",
+  "pair_cache_script_sha256": "639ad59b3ce71d1505f075f51a3c7ce0c9a275f8ffa2b9cb60e9cfbd9ed69e69",
+  "spec_sha256": "6070e73b161548073fe2e3151ae0b2a23352f2ad26c17701abc4f9169030e7f7"
+ }
+}
