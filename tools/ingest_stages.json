@@ -51,6 +51,19 @@
    ]
   },
   {
+   "id": "timing_support",
+   "title": "M479: per-PID timing, max/min pair-offset and loaded-support sidecar (timing_support.csv + summary), flag-only; incremental by raw sha256; n_loaded matched against the master",
+   "cmd": [
+    "python3",
+    "tools/timing_support.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "timing_support.csv",
+    "timing_support_summary.json"
+   ]
+  },
+  {
    "id": "exposure_coverage",
    "title": "M414: exposure-basis coverage gate and reconciliation (every drive with a finite legacy gtc has a sidecar Ah value; no legacy fallback); writes analyses/M414_exposure_reconciliation.json",
    "cmd": [

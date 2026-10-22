@@ -1,0 +1,312 @@
+{
+ "methodVersion": 1,
+ "nDrives": 606,
+ "nonInformativeFlags": [
+  "flag_skew_gt50ms"
+ ],
+ "reasons": {
+  "ok": 594,
+  "no_cell_voltage": 7,
+  "no_current_series": 5
+ },
+ "flags": {
+  "flag_support_lt20": {
+   "true": 138,
+   "false": 456,
+   "null": 12
+  },
+  "flag_support_lt30": {
+   "true": 228,
+   "false": 366,
+   "null": 12
+  },
+  "flag_one_episode": {
+   "true": 69,
+   "false": 525,
+   "null": 12
+  },
+  "flag_skew_gt50ms": {
+   "true": 599,
+   "false": 0,
+   "null": 7
+  },
+  "flag_neg_loaded": {
+   "true": 299,
+   "false": 295,
+   "null": 12
+  },
+  "flag_regime_cross_i": {
+   "true": 17,
+   "false": 577,
+   "null": 12
+  },
+  "flag_regime_cross_vmax": {
+   "true": 19,
+   "false": 580,
+   "null": 7
+  },
+  "flag_gap20_i": {
+   "true": 47,
+   "false": 548,
+   "null": 11
+  },
+  "i_regime_cross": {
+   "true": 17,
+   "false": 577,
+   "null": 12
+  },
+  "vmax_regime_cross": {
+   "true": 19,
+   "false": 580,
+   "null": 7
+  }
+ },
+ "byRegime": {
+  "fast": {
+   "nDrives": 179,
+   "i_dt_q50": {
+    "n": 179,
+    "q05": 0.7555,
+    "q50": 0.821,
+    "q95": 0.9311
+   },
+   "i_dt_iqr_ratio": {
+    "n": 179,
+    "q05": 0.1168,
+    "q50": 0.176,
+    "q95": 0.2211
+   },
+   "i_frac_dt_gt3s": {
+    "n": 179,
+    "q05": 0.0,
+    "q50": 0.0,
+    "q95": 0.0007
+   },
+   "i_gap20_s": {
+    "n": 179,
+    "q05": 0.0,
+    "q50": 0.0,
+    "q95": 0.0
+   },
+   "off_med_ms": {
+    "n": 179,
+    "q05": 60.0,
+    "q50": 60.0,
+    "q95": 64.0
+   },
+   "off_abs_p95_ms": {
+    "n": 179,
+    "q05": 84.0,
+    "q50": 95.0,
+    "q95": 109.41
+   },
+   "n_loaded": {
+    "n": 179,
+    "q05": 0.0,
+    "q50": 59.0,
+    "q95": 405.1
+   },
+   "n_episodes": {
+    "n": 179,
+    "q05": 0.0,
+    "q50": 8.0,
+    "q95": 62.4
+   },
+   "cur_age_p95_ms": {
+    "n": 169,
+    "q05": 71.8,
+    "q50": 87.0,
+    "q95": 108.6
+   },
+   "frac_neg_loaded": {
+    "n": 169,
+    "q05": 0.0,
+    "q50": 0.0123,
+    "q95": 0.0455
+   }
+  },
+  "slow": {
+   "nDrives": 415,
+   "i_dt_q50": {
+    "n": 415,
+    "q05": 1.161,
+    "q50": 1.404,
+    "q95": 2.0028
+   },
+   "i_dt_iqr_ratio": {
+    "n": 415,
+    "q05": 0.0959,
+    "q50": 0.164,
+    "q95": 0.453
+   },
+   "i_frac_dt_gt3s": {
+    "n": 415,
+    "q05": 0.0,
+    "q50": 0.0015,
+    "q95": 0.0641
+   },
+   "i_gap20_s": {
+    "n": 415,
+    "q05": 0.0,
+    "q50": 0.0,
+    "q95": 54.8404
+   },
+   "off_med_ms": {
+    "n": 415,
+    "q05": 37.0,
+    "q50": 41.0,
+    "q95": 60.65
+   },
+   "off_abs_p95_ms": {
+    "n": 415,
+    "q05": 61.0,
+    "q50": 83.0,
+    "q95": 143.19
+   },
+   "n_loaded": {
+    "n": 415,
+    "q05": 2.7,
+    "q50": 36.0,
+    "q95": 713.2
+   },
+   "n_episodes": {
+    "n": 415,
+    "q05": 1.0,
+    "q50": 9.0,
+    "q95": 113.0
+   },
+   "cur_age_p95_ms": {
+    "n": 408,
+    "q05": 96.3925,
+    "q50": 140.45,
+    "q95": 258.535
+   },
+   "frac_neg_loaded": {
+    "n": 408,
+    "q05": 0.0,
+    "q50": 0.0,
+    "q95": 0.0496
+   }
+  },
+  "unknown": {
+   "nDrives": 12,
+   "i_dt_q50": {
+    "n": 1,
+    "q05": 3.281,
+    "q50": 3.281,
+    "q95": 3.281
+   },
+   "i_dt_iqr_ratio": {
+    "n": 1,
+    "q05": 0.0,
+    "q50": 0.0,
+    "q95": 0.0
+   },
+   "i_frac_dt_gt3s": {
+    "n": 1,
+    "q05": 1.0,
+    "q50": 1.0,
+    "q95": 1.0
+   },
+   "i_gap20_s": {
+    "n": 1,
+    "q05": 0.0,
+    "q50": 0.0,
+    "q95": 0.0
+   },
+   "off_med_ms": {
+    "n": 5,
+    "q05": 42.2,
+    "q50": 49.0,
+    "q95": 81.8
+   },
+   "off_abs_p95_ms": {
+    "n": 5,
+    "q05": 79.88,
+    "q50": 115.5,
+    "q95": 154.75
+   },
+   "n_loaded": null,
+   "n_episodes": null,
+   "cur_age_p95_ms": null,
+   "frac_neg_loaded": null
+  }
+ },
+ "all": {
+  "i_dt_q50": {
+   "n": 595,
+   "q05": 0.7705,
+   "q50": 1.283,
+   "q95": 1.9021
+  },
+  "i_dt_iqr_ratio": {
+   "n": 595,
+   "q05": 0.0981,
+   "q50": 0.1665,
+   "q95": 0.4027
+  },
+  "i_frac_dt_gt3s": {
+   "n": 595,
+   "q05": 0.0,
+   "q50": 0.0,
+   "q95": 0.0378
+  },
+  "i_gap20_s": {
+   "n": 595,
+   "q05": 0.0,
+   "q50": 0.0,
+   "q95": 36.885
+  },
+  "off_med_ms": {
+   "n": 599,
+   "q05": 37.0,
+   "q50": 47.0,
+   "q95": 63.0
+  },
+  "off_abs_p95_ms": {
+   "n": 599,
+   "q05": 61.0,
+   "q50": 85.0,
+   "q95": 132.0
+  },
+  "n_loaded": {
+   "n": 594,
+   "q05": 1.0,
+   "q50": 41.5,
+   "q95": 636.45
+  },
+  "n_episodes": {
+   "n": 594,
+   "q05": 1.0,
+   "q50": 9.0,
+   "q95": 98.35
+  },
+  "cur_age_p95_ms": {
+   "n": 577,
+   "q05": 80.9,
+   "q50": 122.8,
+   "q95": 247.84
+  },
+  "frac_neg_loaded": {
+   "n": 577,
+   "q05": 0.0,
+   "q50": 0.0062,
+   "q95": 0.0477
+  }
+ },
+ "thresholds": {
+  "fastSlowS": 1.05,
+  "windowS": 60.0,
+  "windowMinIntervals": 5,
+  "episodeBreakS": 10.0,
+  "loadedA": 50.0,
+  "skewMs": 50.0,
+  "supportLt": [
+   20,
+   30
+  ],
+  "episodesLt": 3,
+  "status": "exploratory, fixed in analyses/M479_spec.md"
+ },
+ "statement": "report-only descriptors of logged timestamps and loaded support; offsets and gaps are logged timestamp differences between reported values, not acquisition latency; no flag is a quality verdict, a filter or a degradation indicator"
+}
