@@ -1,0 +1,122 @@
+{
+ "blocks": {
+  "regenCaptureV2": {
+   "nCells": 1350,
+   "onlyOld": 0,
+   "onlyNew": 0,
+   "nWithEff": 1346,
+   "maxAbsShiftPp": 0.46999999999999886,
+   "medianAbsShiftPp": 0.009999999999990905,
+   "p95AbsShiftPp": 0.049999999999998934,
+   "nShiftOver0p1pp": 17,
+   "nShiftOver0p5pp": 0
+  },
+  "regenCaptureV2H": {
+   "nCells": 1296,
+   "onlyOld": 0,
+   "onlyNew": 0,
+   "nWithEff": 1296,
+   "maxAbsShiftPp": 0.8900000000000006,
+   "medianAbsShiftPp": 0.0,
+   "p95AbsShiftPp": 0.04000000000000625,
+   "nShiftOver0p1pp": 12,
+   "nShiftOver0p5pp": 1
+  },
+  "regenSocStandardized": {
+   "nCells": 64,
+   "onlyOld": 0,
+   "onlyNew": 0,
+   "nWithEff": 64,
+   "maxAbsShiftPp": 0.06999999999999318,
+   "medianAbsShiftPp": 0.00999999999999801,
+   "p95AbsShiftPp": 0.028500000000002444,
+   "nShiftOver0p1pp": 0,
+   "nShiftOver0p5pp": 0
+  },
+  "regenDisplayV2": {
+   "nCells": 2389,
+   "onlyOld": 0,
+   "onlyNew": 0,
+   "nWithEff": 1980,
+   "maxAbsShiftPp": 0.46999999999999886,
+   "medianAbsShiftPp": 0.009999999999999787,
+   "p95AbsShiftPp": 0.07000000000000739,
+   "nShiftOver0p1pp": 50,
+   "nShiftOver0p5pp": 0
+  }
+ },
+ "o7": {
+  "a_displayedCellChangedSupportStatus": 0,
+  "b_standardizedStarChanged": 0,
+  "c_displayedPointLeftPreviousDayInterval": 0,
+  "d_b6Changed": 0,
+  "e_above100Appeared": 0,
+  "supportCountChanges": 5
+ },
+ "bars": {
+  "nBars": 38,
+  "maxAbsShiftPp": 0.030000000000001137,
+  "medianAbsShiftPp": 0.0
+ },
+ "referenceMixSha256": {
+  "old": "d355c9e7059c033ebc3cca06528bc934a65ab2f60e4e4fcacc96270e82053ecb",
+  "new": "d355c9e7059c033ebc3cca06528bc934a65ab2f60e4e4fcacc96270e82053ecb",
+  "weightsEqual": true
+ },
+ "b6": {
+  "old": {
+   "source": "regenCaptureV2Study.cadenceInvariance.decision",
+   "supportedCellsFailing": 14,
+   "nSupportedCells": 21,
+   "blocksStageME": true,
+   "note": "the pre-registered cadence-invariance check B6 (fast-polled drives against their thinned version) FAILED; shown beside the display; the condition (2) of M441 Rev 2.2 is not discharged (M446 Rev 1.1 D1)"
+  },
+  "new": {
+   "source": "regenCaptureV2Study.cadenceInvariance.decision",
+   "supportedCellsFailing": 14,
+   "nSupportedCells": 21,
+   "blocksStageME": true,
+   "note": "the pre-registered cadence-invariance check B6 (fast-polled drives against their thinned version) FAILED; shown beside the display; the condition (2) of M441 Rev 2.2 is not discharged (M446 Rev 1.1 D1)"
+  },
+  "equal": true
+ },
+ "flags": {
+  "statusChanged": [],
+  "leftOldInterval": [],
+  "above100Changed": [],
+  "supportCountChanged": [
+   [
+    "regenCaptureV2H/cohorts/all/cadence/byRegime/slow/speed/allSoc/10-20",
+    "n",
+    9730,
+    9731
+   ],
+   [
+    "regenCaptureV2H/cohorts/all/cadence/byRegime/slow/speed/noSocCondition/10-20",
+    "n",
+    9730,
+    9731
+   ],
+   [
+    "regenCaptureV2H/cohorts/warm/bridge/S5_instantaneousBinning/bySpeed/10-20",
+    "n",
+    10035,
+    10036
+   ],
+   [
+    "regenCaptureV2H/cohorts/warm/views/speed/allSoc/10-20",
+    "n",
+    10035,
+    10036
+   ],
+   [
+    "regenCaptureV2H/cohorts/warm/views/speed/noSocCondition/10-20",
+    "n",
+    10035,
+    10036
+   ]
+  ],
+  "barLeftOldInterval": [],
+  "barAvailabilityChanged": []
+ }
+}

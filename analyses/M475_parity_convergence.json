@@ -1,0 +1,1353 @@
+{
+ "summary": {
+  "variant": "base",
+  "nFiles": 40,
+  "nOk": 38,
+  "iOffA": -0.387,
+  "totalChargeNewKwh": 12.88792330247162,
+  "totalChargeOldKwh": 12.887701364289748,
+  "corpusRelDiff": 1.722092835627881e-05,
+  "perDriveRelCharge": {
+   "min": -0.006223897074073628,
+   "p05": -6.400459825556692e-05,
+   "median": 1.5980530778514286e-05,
+   "p95": 4.049023416467689e-05,
+   "max": 5.126618510149343e-05
+  },
+  "perDriveRelChargeAbsMax": 0.006223897074073628,
+  "perIntervalMaxAbsKwhMax": 5.88848800468951e-06,
+  "dv2MaxAbsDiffMax": 0.0,
+  "intervalsWithDifferentBinKEset": 0,
+  "nIntervals": 16205,
+  "touchFlips": 0,
+  "touchOldOnly": 0,
+  "touchNewOnly": 0,
+  "timing": {
+   "newS": 0.7161548001458868,
+   "oldS": 0.7610255000181496,
+   "ratioOldOverNew": 1.0626550291405186,
+   "note": "extract_drive wall time per drive excluding the frame load, summed over the drives, this machine, 1 process per drive"
+  },
+  "wallS": 8.323533773422241,
+  "convergence": {
+   "sumAbsErrVsExactKwh": {
+    "0.05": 0.00023944650806107095,
+    "0.025": 5.76831053056855e-05,
+    "0.0125": 2.477199746819526e-05,
+    "0.00625": 5.292221699278035e-06
+   },
+   "ratioPerHalving": [
+    4.15106826846699,
+    2.3285609236697513,
+    4.680831392905301
+   ]
+  }
+ },
+ "perDrive": [
+  {
+   "file": "2026-09-13_12-01-09.csv",
+   "status": "ok",
+   "nIntervals": 57,
+   "chargeNew": 0.01718550799019887,
+   "chargeOld": 0.017185226214868204,
+   "relCharge": 1.6396370181135586e-05,
+   "relChargeOff": 2.758721999597657e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 4.290816326533218,
+   "binChargeMaxAbsDiffKwh": 6.20112270462497e-05,
+   "perIntervalMaxAbsKwh": 6.502636636603921e-07,
+   "tNewS": 0.011520699947141111,
+   "tOldS": 0.010321500012651086,
+   "cadence": {
+    "speedDtMed": 1.4600000000000009,
+    "ivDtMed": 1.4700000000000006,
+    "nativeDtQ90": {
+     "speed": 1.8320000000000007,
+     "I": 1.7892000000000015,
+     "V": 1.781800000000004
+    }
+   },
+   "conv": {
+    "0.025": 0.01718560921116713,
+    "0.0125": 0.0171855499043646,
+    "0.00625": 0.01718552247066894,
+    "0.05": 0.017185226214868204
+   }
+  },
+  {
+   "file": "2026-09-22_21-59-14.csv",
+   "status": "ok",
+   "nIntervals": 69,
+   "chargeNew": 0.011981926767945846,
+   "chargeOld": 0.011982259900746152,
+   "relCharge": -2.7802167793461108e-05,
+   "relChargeOff": -3.0595204255297024e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 2.729338842979928,
+   "binChargeMaxAbsDiffKwh": 3.864783470077784e-05,
+   "perIntervalMaxAbsKwh": 3.7613220347639475e-07,
+   "tNewS": 0.017032000003382564,
+   "tOldS": 0.011744100018404424,
+   "cadence": {
+    "speedDtMed": 1.3930000000000007,
+    "ivDtMed": 1.3962500000000109,
+    "nativeDtQ90": {
+     "speed": 1.7350000000000003,
+     "I": 1.7808000000000022,
+     "V": 1.760799999999992
+    }
+   },
+   "conv": {
+    "0.025": 0.01198189253601811,
+    "0.0125": 0.011981929024373084,
+    "0.00625": 0.011981922398906351,
+    "0.05": 0.011982259900746152
+   }
+  },
+  {
+   "file": "2026-09-22_22-14-10.csv",
+   "status": "ok",
+   "nIntervals": 657,
+   "chargeNew": 0.47166771293744425,
+   "chargeOld": 0.471655652806847,
+   "relCharge": 2.5569778556591435e-05,
+   "relChargeOff": 2.6966328216518002e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 7.027681660900498,
+   "binChargeMaxAbsDiffKwh": 9.120933497554998e-05,
+   "perIntervalMaxAbsKwh": 2.033955637352914e-06,
+   "tNewS": 0.025424799998290837,
+   "tOldS": 0.02458129997830838,
+   "cadence": {
+    "speedDtMed": 1.3935000000000137,
+    "ivDtMed": 1.4000000000000057,
+    "nativeDtQ90": {
+     "speed": 1.726500000000044,
+     "I": 1.724000000000069,
+     "V": 1.725000000000091
+    }
+   },
+   "conv": {
+    "0.025": 0.47166511238179065,
+    "0.0125": 0.4716671117888799,
+    "0.00625": 0.4716674907312493,
+    "0.05": 0.471655652806847
+   }
+  },
+  {
+   "file": "2026-09-30_10-51-47.csv",
+   "status": "ok",
+   "nIntervals": 86,
+   "chargeNew": 0.04565165810502419,
+   "chargeOld": 0.045651381244554395,
+   "relCharge": 6.064667973789051e-06,
+   "relChargeOff": -3.3356351031216265e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 4.280612244899089,
+   "binChargeMaxAbsDiffKwh": 5.709267811614409e-05,
+   "perIntervalMaxAbsKwh": 8.1591445209514e-07,
+   "tNewS": 0.012557900045067072,
+   "tOldS": 0.012353400001302361,
+   "cadence": {
+    "speedDtMed": 1.5210000000000008,
+    "ivDtMed": 1.538249999999998,
+    "nativeDtQ90": {
+     "speed": 1.930199999999998,
+     "I": 1.8838999999999615,
+     "V": 1.8730000000000246
+    }
+   },
+   "conv": {
+    "0.025": 0.04565159980218231,
+    "0.0125": 0.04565173330558994,
+    "0.00625": 0.04565166439950726,
+    "0.05": 0.045651381244554395
+   }
+  },
+  {
+   "file": "2026-10-03_18-52-09.csv",
+   "status": "ok",
+   "nIntervals": 676,
+   "chargeNew": 0.18790208503734557,
+   "chargeOld": 0.1878948277613416,
+   "relCharge": 3.862413931477752e-05,
+   "relChargeOff": 3.118810760100044e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 4.996093749988177,
+   "binChargeMaxAbsDiffKwh": 7.817182326175774e-05,
+   "perIntervalMaxAbsKwh": 2.278466693646274e-06,
+   "tNewS": 0.02179729996714741,
+   "tOldS": 0.017600499908439815,
+   "cadence": {
+    "speedDtMed": 0.828000000000003,
+    "ivDtMed": 0.8324999999999907,
+    "nativeDtQ90": {
+     "speed": 1.0334999999999894,
+     "I": 1.024000000000001,
+     "V": 1.0210000000000108
+    }
+   },
+   "conv": {
+    "0.025": 0.18790222140321228,
+    "0.0125": 0.18790202546047147,
+    "0.00625": 0.18790206971782783,
+    "0.05": 0.1878948277613416
+   }
+  },
+  {
+   "file": "2026-10-06_07-41-04.csv",
+   "status": "ok",
+   "nIntervals": 123,
+   "chargeNew": 0.02522201402461614,
+   "chargeOld": 0.025221454476144406,
+   "relCharge": 2.2185416477991964e-05,
+   "relChargeOff": 2.0401739544144108e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 3.1551246537360385,
+   "binChargeMaxAbsDiffKwh": 5.323267523678994e-05,
+   "perIntervalMaxAbsKwh": 8.522161371545857e-07,
+   "tNewS": 0.011445900076068938,
+   "tOldS": 0.01259919989388436,
+   "cadence": {
+    "speedDtMed": 0.867999999999995,
+    "ivDtMed": 0.866500000000002,
+    "nativeDtQ90": {
+     "speed": 1.0400000000000205,
+     "I": 1.0385999999999986,
+     "V": 1.0317999999999856
+    }
+   },
+   "conv": {
+    "0.025": 0.025222164337507538,
+    "0.0125": 0.025222010913217616,
+    "0.00625": 0.02522200354890585,
+    "0.05": 0.025221454476144406
+   }
+  },
+  {
+   "file": "2026-10-08_10-14-58.csv",
+   "status": "ok",
+   "nIntervals": 464,
+   "chargeNew": 0.6748960787690212,
+   "chargeOld": 0.6748919030404417,
+   "relCharge": 6.1872554119685205e-06,
+   "relChargeOff": 1.8745288169208386e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 10.900826446264546,
+   "binChargeMaxAbsDiffKwh": 0.00019147197668678909,
+   "perIntervalMaxAbsKwh": 5.134593365416218e-06,
+   "tNewS": 0.028555699973367155,
+   "tOldS": 0.02876649994868785,
+   "cadence": {
+    "speedDtMed": 1.4670000000000485,
+    "ivDtMed": 1.4685000000000628,
+    "nativeDtQ90": {
+     "speed": 1.8119999999999492,
+     "I": 1.8245000000000573,
+     "V": 1.8305000000000433
+    }
+   },
+   "conv": {
+    "0.025": 0.6748930489601334,
+    "0.0125": 0.6748953838706286,
+    "0.00625": 0.6748959740688094,
+    "0.05": 0.6748919030404417
+   }
+  },
+  {
+   "file": "2026-10-08_15-35-05.csv",
+   "status": "ok",
+   "nIntervals": 129,
+   "chargeNew": 0.07640837224577703,
+   "chargeOld": 0.07640736925990266,
+   "relCharge": 1.3126821196480473e-05,
+   "relChargeOff": -3.062922230218263e-06,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 2.7395957193816827,
+   "binChargeMaxAbsDiffKwh": 2.0668769279920418e-05,
+   "perIntervalMaxAbsKwh": 1.944083638323081e-06,
+   "tNewS": 0.015160999959334731,
+   "tOldS": 0.015077400021255016,
+   "cadence": {
+    "speedDtMed": 1.4429999999999836,
+    "ivDtMed": 1.4579999999999842,
+    "nativeDtQ90": {
+     "speed": 1.8008000000000095,
+     "I": 1.7881999999999951,
+     "V": 1.7874000000000052
+    }
+   },
+   "conv": {
+    "0.025": 0.07640917062884833,
+    "0.0125": 0.07640816420901378,
+    "0.00625": 0.07640834477858807,
+    "0.05": 0.07640736925990266
+   }
+  },
+  {
+   "file": "2026-10-11_11-10-55.csv",
+   "status": "ok",
+   "nIntervals": 317,
+   "chargeNew": 0.02889845625385006,
+   "chargeOld": 0.02889940200965037,
+   "relCharge": -3.27257913500817e-05,
+   "relChargeOff": -1.7182870960109686e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 3.995555555557985,
+   "binChargeMaxAbsDiffKwh": 4.9526805336345936e-05,
+   "perIntervalMaxAbsKwh": 1.0362392659945445e-06,
+   "tNewS": 0.011568099958822131,
+   "tOldS": 0.012452999944798648,
+   "cadence": {
+    "speedDtMed": 0.8030000000000044,
+    "ivDtMed": 0.8000000000000043,
+    "nativeDtQ90": {
+     "speed": 1.0,
+     "I": 0.9802000000000134,
+     "V": 0.9877999999999929
+    }
+   },
+   "conv": {
+    "0.025": 0.02889823793584992,
+    "0.0125": 0.028898370450496962,
+    "0.00625": 0.02889844542898824,
+    "0.05": 0.02889940200965037
+   }
+  },
+  {
+   "file": "2026-10-13_07-42-34.csv",
+   "status": "ok",
+   "nIntervals": 5,
+   "chargeNew": 2.6688620990471657e-05,
+   "chargeOld": 2.6855768529645315e-05,
+   "relCharge": -0.006223897074073628,
+   "relChargeOff": -0.003260226160546569,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 0.0,
+   "binChargeMaxAbsDiffKwh": 1.671475391736581e-07,
+   "perIntervalMaxAbsKwh": 1.671475391736581e-07,
+   "tNewS": 0.014812700101174414,
+   "tOldS": 0.013742099981755018,
+   "cadence": {
+    "speedDtMed": 0.8709999999999987,
+    "ivDtMed": 0.8699999999999903,
+    "nativeDtQ90": {
+     "speed": 1.0247999999999993,
+     "I": 1.0323999999999955,
+     "V": 1.0362000000000022
+    }
+   },
+   "conv": {
+    "0.025": 2.6754194670235662e-05,
+    "0.0125": 2.6694843580785062e-05,
+    "0.00625": 2.669140439103953e-05,
+    "0.05": 2.6855768529645315e-05
+   }
+  },
+  {
+   "file": "2026-10-13_08-26-07.csv",
+   "status": "ok",
+   "nIntervals": 281,
+   "chargeNew": 0.10086836548018477,
+   "chargeOld": 0.10086791626884853,
+   "relCharge": 4.453461049422859e-06,
+   "relChargeOff": 2.2958189416588503e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 2.010000000001156,
+   "binChargeMaxAbsDiffKwh": 1.6283440239865524e-05,
+   "perIntervalMaxAbsKwh": 1.574668938650087e-06,
+   "tNewS": 0.013320000027306378,
+   "tOldS": 0.014231699984520674,
+   "cadence": {
+    "speedDtMed": 0.8439999999999941,
+    "ivDtMed": 0.8434999999999775,
+    "nativeDtQ90": {
+     "speed": 1.0759999999999756,
+     "I": 1.0698000000000207,
+     "V": 1.0721999999999867
+    }
+   },
+   "conv": {
+    "0.025": 0.10086851506905528,
+    "0.0125": 0.10086827077102492,
+    "0.00625": 0.10086835324212746,
+    "0.05": 0.10086791626884853
+   }
+  },
+  {
+   "file": "20260512_195020.csv",
+   "status": "noIntervals",
+   "nNew": null,
+   "nOld": null
+  },
+  {
+   "file": "20260523_210427.csv",
+   "status": "ok",
+   "nIntervals": 189,
+   "chargeNew": 0.0630555596997422,
+   "chargeOld": 0.06305878433183143,
+   "relCharge": -5.11369212615242e-05,
+   "relChargeOff": -3.0310604506039897e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 6.909763313611961,
+   "binChargeMaxAbsDiffKwh": 0.00010577271521428652,
+   "perIntervalMaxAbsKwh": 1.5341011504930134e-06,
+   "tNewS": 0.01871870004106313,
+   "tOldS": 0.018283900106325746,
+   "cadence": {
+    "speedDtMed": 1.308499999999981,
+    "ivDtMed": 1.3085000000000235,
+    "nativeDtQ90": {
+     "speed": 1.857500000000016,
+     "I": 1.862400000000001,
+     "V": 1.8558000000000108
+    }
+   },
+   "conv": {
+    "0.025": 0.06305618973861007,
+    "0.0125": 0.06305550256615218,
+    "0.00625": 0.06305559615172564,
+    "0.05": 0.06305878433183143
+   }
+  },
+  {
+   "file": "20260614_133431.csv",
+   "status": "ok",
+   "nIntervals": 699,
+   "chargeNew": 0.4481207303389682,
+   "chargeOld": 0.44810767629473963,
+   "relCharge": 2.9131489860913216e-05,
+   "relChargeOff": 2.1484360839421293e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 13.840236686327444,
+   "binChargeMaxAbsDiffKwh": 0.00019180246449786078,
+   "perIntervalMaxAbsKwh": 5.88848800468951e-06,
+   "tNewS": 0.02148929995018989,
+   "tOldS": 0.02559600002132356,
+   "cadence": {
+    "speedDtMed": 1.2539999999999054,
+    "ivDtMed": 1.2530000000000427,
+    "nativeDtQ90": {
+     "speed": 1.6384999999999927,
+     "I": 1.6415000000000197,
+     "V": 1.6939999999999884
+    }
+   },
+   "conv": {
+    "0.025": 0.4481200539098275,
+    "0.0125": 0.4481197212010998,
+    "0.00625": 0.4481204442314196,
+    "0.05": 0.44810767629473963
+   }
+  },
+  {
+   "file": "20260619_190927.csv",
+   "status": "ok",
+   "nIntervals": 984,
+   "chargeNew": 2.1023269631263144,
+   "chargeOld": 2.102311458126783,
+   "relCharge": 7.375215252461682e-06,
+   "relChargeOff": 1.0207867700254261e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 21.56213017756545,
+   "binChargeMaxAbsDiffKwh": 0.0003389674123952559,
+   "perIntervalMaxAbsKwh": 5.833459841341447e-06,
+   "tNewS": 0.04673319996800274,
+   "tOldS": 0.053085000021383166,
+   "cadence": {
+    "speedDtMed": 1.1649999999999636,
+    "ivDtMed": 1.1639999999999873,
+    "nativeDtQ90": {
+     "speed": 1.3090000000000033,
+     "I": 1.3090000000001283,
+     "V": 1.308999999999878
+    }
+   },
+   "conv": {
+    "0.025": 2.1023172037298172,
+    "0.0125": 2.1023228610719946,
+    "0.00625": 2.102326174139913,
+    "0.05": 2.102311458126783
+   }
+  },
+  {
+   "file": "20260620_105353.csv",
+   "status": "ok",
+   "nIntervals": 462,
+   "chargeNew": 0.3619912014156047,
+   "chargeOld": 0.3619809380146282,
+   "relCharge": 2.8353429417517652e-05,
+   "relChargeOff": 3.2815883621806215e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 4.609467455632171,
+   "binChargeMaxAbsDiffKwh": 5.5155346986148455e-05,
+   "perIntervalMaxAbsKwh": 1.0385682389191069e-06,
+   "tNewS": 0.01740160002373159,
+   "tOldS": 0.023423700011335313,
+   "cadence": {
+    "speedDtMed": 1.2559999999999718,
+    "ivDtMed": 1.2579999999999814,
+    "nativeDtQ90": {
+     "speed": 1.5065000000000737,
+     "I": 1.4914999999999736,
+     "V": 1.505500000000069
+    }
+   },
+   "conv": {
+    "0.025": 0.3619877057242563,
+    "0.0125": 0.3619904383529292,
+    "0.00625": 0.3619909913121018,
+    "0.05": 0.3619809380146282
+   }
+  },
+  {
+   "file": "20260622_203803.csv",
+   "status": "ok",
+   "nIntervals": 269,
+   "chargeNew": 0.1574353921034458,
+   "chargeOld": 0.15743264972796545,
+   "relCharge": 1.7419356690495605e-05,
+   "relChargeOff": 9.442256443425987e-06,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 6.147928994075755,
+   "binChargeMaxAbsDiffKwh": 0.00011480065600149789,
+   "perIntervalMaxAbsKwh": 2.062505819269006e-06,
+   "tNewS": 0.01694050000514835,
+   "tOldS": 0.01970980002079159,
+   "cadence": {
+    "speedDtMed": 1.3159999999999172,
+    "ivDtMed": 1.3170000000000073,
+    "nativeDtQ90": {
+     "speed": 2.1365000000000354,
+     "I": 2.1440000000000055,
+     "V": 2.1621999999999986
+    }
+   },
+   "conv": {
+    "0.025": 0.15743571290830916,
+    "0.0125": 0.15743529179751536,
+    "0.00625": 0.15743532850151892,
+    "0.05": 0.15743264972796545
+   }
+  },
+  {
+   "file": "20260627_111449.csv",
+   "status": "ok",
+   "nIntervals": 191,
+   "chargeNew": 0.08257615657817602,
+   "chargeOld": 0.0825757609088157,
+   "relCharge": 4.791592059979295e-06,
+   "relChargeOff": 3.1525571633888574e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 4.609467455618756,
+   "binChargeMaxAbsDiffKwh": 8.185583534753445e-05,
+   "perIntervalMaxAbsKwh": 7.2567734388327e-07,
+   "tNewS": 0.012607199954800308,
+   "tOldS": 0.017228699987754226,
+   "cadence": {
+    "speedDtMed": 1.2839999999999918,
+    "ivDtMed": 1.2834999999999894,
+    "nativeDtQ90": {
+     "speed": 1.4950000000000274,
+     "I": 1.4702000000000097,
+     "V": 1.481499999999997
+    }
+   },
+   "conv": {
+    "0.025": 0.08257702589507815,
+    "0.0125": 0.08257621295455593,
+    "0.00625": 0.08257608699725218,
+    "0.05": 0.0825757609088157
+   }
+  },
+  {
+   "file": "20260714_170217.csv",
+   "status": "ok",
+   "nIntervals": 132,
+   "chargeNew": 0.1154328187031396,
+   "chargeOld": 0.11542690120625666,
+   "relCharge": 5.126618510149343e-05,
+   "relChargeOff": 4.89007757391707e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 3.4706994328963674,
+   "binChargeMaxAbsDiffKwh": 4.704468302880256e-05,
+   "perIntervalMaxAbsKwh": 3.364800516343809e-06,
+   "tNewS": 0.014832000015303493,
+   "tOldS": 0.0145464000524953,
+   "cadence": {
+    "speedDtMed": 1.3100000000000023,
+    "ivDtMed": 1.3090000000000188,
+    "nativeDtQ90": {
+     "speed": 2.073800000000006,
+     "I": 2.095500000000004,
+     "V": 2.11399999999999
+    }
+   },
+   "conv": {
+    "0.025": 0.11543411144743537,
+    "0.0125": 0.11543250139953479,
+    "0.00625": 0.11543274147468138,
+    "0.05": 0.11542690120625666
+   }
+  },
+  {
+   "file": "20260716_094756.csv",
+   "status": "ok",
+   "nIntervals": 524,
+   "chargeNew": 1.865983657708648,
+   "chargeOld": 1.8659345350843748,
+   "relCharge": 2.6326016990153667e-05,
+   "relChargeOff": 2.6049804048543092e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 17.790123456299625,
+   "binChargeMaxAbsDiffKwh": 0.00039288991673306316,
+   "perIntervalMaxAbsKwh": 5.416852784646559e-06,
+   "tNewS": 0.03428420005366206,
+   "tOldS": 0.035980000044219196,
+   "cadence": {
+    "speedDtMed": 1.9079999999999018,
+    "ivDtMed": 1.9070000000000888,
+    "nativeDtQ90": {
+     "speed": 2.198599999999851,
+     "I": 2.200000000000159,
+     "V": 2.20049999999992
+    }
+   },
+   "conv": {
+    "0.025": 1.8659748218453873,
+    "0.0125": 1.8659813493759332,
+    "0.00625": 1.8659830236297112,
+    "0.05": 1.8659345350843748
+   }
+  },
+  {
+   "file": "20260717_134302.csv",
+   "status": "ok",
+   "nIntervals": 546,
+   "chargeNew": 0.1517536040622165,
+   "chargeOld": 0.1517495592323803,
+   "relCharge": 2.66546397674496e-05,
+   "relChargeOff": 3.934315498628904e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 12.00000000000557,
+   "binChargeMaxAbsDiffKwh": 2.8001385388775517e-05,
+   "perIntervalMaxAbsKwh": 1.7098774314243045e-06,
+   "tNewS": 0.02255170000717044,
+   "tOldS": 0.022566900006495416,
+   "cadence": {
+    "speedDtMed": 1.1629999999999896,
+    "ivDtMed": 1.16400000000003,
+    "nativeDtQ90": {
+     "speed": 1.296999999999997,
+     "I": 1.2949999999999675,
+     "V": 1.2960000000000491
+    }
+   },
+   "conv": {
+    "0.025": 0.1517522838226453,
+    "0.0125": 0.15175267546977958,
+    "0.00625": 0.15175342325660124,
+    "0.05": 0.1517495592323803
+   }
+  },
+  {
+   "file": "20260720_204835.csv",
+   "status": "ok",
+   "nIntervals": 1326,
+   "chargeNew": 2.1418356299070362,
+   "chargeOld": 2.141774627213774,
+   "relCharge": 2.8482312044897428e-05,
+   "relChargeOff": 2.8881017885285822e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 21.785123966816627,
+   "binChargeMaxAbsDiffKwh": 0.0003177867238293511,
+   "perIntervalMaxAbsKwh": 4.992178148276183e-06,
+   "tNewS": 0.036549200071021914,
+   "tOldS": 0.04077840002719313,
+   "cadence": {
+    "speedDtMed": 1.1590000000001055,
+    "ivDtMed": 1.1594999999999267,
+    "nativeDtQ90": {
+     "speed": 1.2970000000000255,
+     "I": 1.2960000000000491,
+     "V": 1.2949999999999704
+    }
+   },
+   "conv": {
+    "0.025": 2.1418238494361637,
+    "0.0125": 2.141830653269884,
+    "0.00625": 2.1418348275117545,
+    "0.05": 2.141774627213774
+   }
+  },
+  {
+   "file": "20260721_194652.csv",
+   "status": "ok",
+   "nIntervals": 99,
+   "chargeNew": 0.06745529213221291,
+   "chargeOld": 0.06745531715219283,
+   "relCharge": -3.7091190105539955e-07,
+   "relChargeOff": 2.0707049158041147e-06,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 4.284438775504896,
+   "binChargeMaxAbsDiffKwh": 7.89294053125107e-05,
+   "perIntervalMaxAbsKwh": 1.2788317198210095e-06,
+   "tNewS": 0.009981500101275742,
+   "tOldS": 0.012750900001265109,
+   "cadence": {
+    "speedDtMed": 1.4069999999999823,
+    "ivDtMed": 1.4109999999999978,
+    "nativeDtQ90": {
+     "speed": 1.9266000000000014,
+     "I": 1.9315999999999873,
+     "V": 1.8879999999999995
+    }
+   },
+   "conv": {
+    "0.025": 0.06745503597208499,
+    "0.0125": 0.06745518670508217,
+    "0.00625": 0.06745529137905087,
+    "0.05": 0.06745531715219283
+   }
+  },
+  {
+   "file": "20260721_200534.csv",
+   "status": "ok",
+   "nIntervals": 752,
+   "chargeNew": 0.22198577510636916,
+   "chargeOld": 0.22197987779535427,
+   "relCharge": 2.6566872067215105e-05,
+   "relChargeOff": 1.9934403664615408e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 10.417769376205342,
+   "binChargeMaxAbsDiffKwh": 0.00022399201282706938,
+   "perIntervalMaxAbsKwh": 3.6798647212402807e-06,
+   "tNewS": 0.022565299994312227,
+   "tOldS": 0.025597200030460954,
+   "cadence": {
+    "speedDtMed": 1.1650000000000205,
+    "ivDtMed": 1.1674999999999898,
+    "nativeDtQ90": {
+     "speed": 1.4519999999999982,
+     "I": 1.4563000000000004,
+     "V": 1.4539000000001012
+    }
+   },
+   "conv": {
+    "0.025": 0.2219831283821312,
+    "0.0125": 0.2219853001776873,
+    "0.00625": 0.22198569319266753,
+    "0.05": 0.22197987779535427
+   }
+  },
+  {
+   "file": "20260722_121252.csv",
+   "status": "ok",
+   "nIntervals": 132,
+   "chargeNew": 0.008026443916455173,
+   "chargeOld": 0.008027543059166788,
+   "relCharge": -0.00013692143455514236,
+   "relChargeOff": -6.841608233586514e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 4.689582056016661e-13,
+   "binChargeMaxAbsDiffKwh": 7.865045757307482e-07,
+   "perIntervalMaxAbsKwh": 7.865045757307482e-07,
+   "tNewS": 0.01491809997241944,
+   "tOldS": 0.015405000071041286,
+   "cadence": {
+    "speedDtMed": 1.2100000000000009,
+    "ivDtMed": 1.2180000000000106,
+    "nativeDtQ90": {
+     "speed": 1.529000000000007,
+     "I": 1.5360000000000014,
+     "V": 1.5372000000000015
+    }
+   },
+   "conv": {
+    "0.025": 0.008026252152306812,
+    "0.0125": 0.008026419535731959,
+    "0.00625": 0.008026440992659544,
+    "0.05": 0.008027543059166788
+   }
+  },
+  {
+   "file": "20260722_163339.csv",
+   "status": "ok",
+   "nIntervals": 30,
+   "chargeNew": 0.009710890788096027,
+   "chargeOld": 0.009710394928996372,
+   "relCharge": 5.1064771647440096e-05,
+   "relChargeOff": 0.00014626806256126673,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 3.800453514738365,
+   "binChargeMaxAbsDiffKwh": 2.7628661355771824e-05,
+   "perIntervalMaxAbsKwh": 1.3354532782134526e-06,
+   "tNewS": 0.009324799990281463,
+   "tOldS": 0.008925899979658425,
+   "cadence": {
+    "speedDtMed": 1.748000000000001,
+    "ivDtMed": 1.7604999999999968,
+    "nativeDtQ90": {
+     "speed": 2.1461999999999954,
+     "I": 2.1106,
+     "V": 2.124199999999999
+    }
+   },
+   "conv": {
+    "0.025": 0.009710874999466901,
+    "0.0125": 0.009710847668532746,
+    "0.00625": 0.009710896089942578,
+    "0.05": 0.009710394928996372
+   }
+  },
+  {
+   "file": "20260723_132356.csv",
+   "status": "ok",
+   "nIntervals": 301,
+   "chargeNew": 0.2680285199578622,
+   "chargeOld": 0.26802560823349036,
+   "relCharge": 1.0863605127231261e-05,
+   "relChargeOff": 1.7587124360621545e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 4.628698224841628,
+   "binChargeMaxAbsDiffKwh": 0.00014162208016727483,
+   "perIntervalMaxAbsKwh": 2.801700470137381e-06,
+   "tNewS": 0.01925189991015941,
+   "tOldS": 0.019733099965378642,
+   "cadence": {
+    "speedDtMed": 1.1930000000000973,
+    "ivDtMed": 1.1920000000000037,
+    "nativeDtQ90": {
+     "speed": 1.3556000000000041,
+     "I": 1.3559999999999945,
+     "V": 1.3532000000000155
+    }
+   },
+   "conv": {
+    "0.025": 0.2680280128593501,
+    "0.0125": 0.2680280214704157,
+    "0.00625": 0.2680284227725227,
+    "0.05": 0.26802560823349036
+   }
+  },
+  {
+   "file": "20260725_133048.csv",
+   "status": "ok",
+   "nIntervals": 195,
+   "chargeNew": 0.21016272246610154,
+   "chargeOld": 0.2101583520909238,
+   "relCharge": 2.0795629268460852e-05,
+   "relChargeOff": 2.4157222035351313e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 4.747732426303912,
+   "binChargeMaxAbsDiffKwh": 6.764953626829532e-05,
+   "perIntervalMaxAbsKwh": 2.0672781641355165e-06,
+   "tNewS": 0.019421300035901368,
+   "tOldS": 0.021118999924510717,
+   "cadence": {
+    "speedDtMed": 2.0335000000000036,
+    "ivDtMed": 2.0415000000000276,
+    "nativeDtQ90": {
+     "speed": 2.411300000000003,
+     "I": 2.426199999999983,
+     "V": 2.4407999999999674
+    }
+   },
+   "conv": {
+    "0.025": 0.21016216002369006,
+    "0.0125": 0.21016259239854138,
+    "0.00625": 0.21016262311310902,
+    "0.05": 0.2101583520909238
+   }
+  },
+  {
+   "file": "20260808_160215.csv",
+   "status": "ok",
+   "nIntervals": 1100,
+   "chargeNew": 1.0809605781763416,
+   "chargeOld": 1.080942991417146,
+   "relCharge": 1.6269830449201047e-05,
+   "relChargeOff": 1.5367176432657086e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 10.002066115728667,
+   "binChargeMaxAbsDiffKwh": 0.00024212603954365183,
+   "perIntervalMaxAbsKwh": 4.822985486858028e-06,
+   "tNewS": 0.03041760006453842,
+   "tOldS": 0.03465909999795258,
+   "cadence": {
+    "speedDtMed": 1.1550000000002,
+    "ivDtMed": 1.1530000000001337,
+    "nativeDtQ90": {
+     "speed": 1.2839999999999236,
+     "I": 1.2823000000000777,
+     "V": 1.2812999999999137
+    }
+   },
+   "conv": {
+    "0.025": 1.0809576198922735,
+    "0.0125": 1.0809573201643767,
+    "0.00625": 1.0809598277560806,
+    "0.05": 1.080942991417146
+   }
+  },
+  {
+   "file": "20260814_122308.csv",
+   "status": "ok",
+   "nIntervals": 251,
+   "chargeNew": 0.05880302413271172,
+   "chargeOld": 0.05880197963860412,
+   "relCharge": 1.7762907201766922e-05,
+   "relChargeOff": 2.653263289796983e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 2.8622448979608066,
+   "binChargeMaxAbsDiffKwh": 2.803838915847452e-05,
+   "perIntervalMaxAbsKwh": 1.9981842832481837e-06,
+   "tNewS": 0.0117906000232324,
+   "tOldS": 0.01181719999294728,
+   "cadence": {
+    "speedDtMed": 0.7680000000000007,
+    "ivDtMed": 0.768250000000009,
+    "nativeDtQ90": {
+     "speed": 0.9561999999999898,
+     "I": 0.9383999999999901,
+     "V": 0.9458999999999975
+    }
+   },
+   "conv": {
+    "0.025": 0.058802971728243184,
+    "0.0125": 0.058802867920860556,
+    "0.00625": 0.058803026022595704,
+    "0.05": 0.05880197963860412
+   }
+  },
+  {
+   "file": "20260816_124817.csv",
+   "status": "noIntervals",
+   "nNew": null,
+   "nOld": null
+  },
+  {
+   "file": "20260820_105758.csv",
+   "status": "ok",
+   "nIntervals": 2685,
+   "chargeNew": 1.1348546953133107,
+   "chargeOld": 1.1348551544630452,
+   "relCharge": -4.0458884347448936e-07,
+   "relChargeOff": -3.053245792967015e-08,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 77.64705882352882,
+   "binChargeMaxAbsDiffKwh": 0.0002441801420141228,
+   "perIntervalMaxAbsKwh": 3.6632057168863377e-06,
+   "tNewS": 0.039084300049580634,
+   "tOldS": 0.0457886999938637,
+   "cadence": {
+    "speedDtMed": 0.7880000000000109,
+    "ivDtMed": 0.7875000000000227,
+    "nativeDtQ90": {
+     "speed": 0.9650000000001455,
+     "I": 0.9655999999999952,
+     "V": 0.9649999999998272
+    }
+   },
+   "conv": {
+    "0.025": 1.1348524683877317,
+    "0.0125": 1.134852336425285,
+    "0.00625": 1.1348551813079,
+    "0.05": 1.1348551544630452
+   }
+  },
+  {
+   "file": "20260822_191324.csv",
+   "status": "ok",
+   "nIntervals": 565,
+   "chargeNew": 0.22758294030990145,
+   "chargeOld": 0.22757936930942224,
+   "relCharge": 1.5691231107827526e-05,
+   "relChargeOff": 9.488017000093243e-06,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 6.022499999995091,
+   "binChargeMaxAbsDiffKwh": 0.0001103918989231044,
+   "perIntervalMaxAbsKwh": 2.6750437542926667e-06,
+   "tNewS": 0.02141789998859167,
+   "tOldS": 0.022948099998757243,
+   "cadence": {
+    "speedDtMed": 0.7960000000000491,
+    "ivDtMed": 0.799999999999983,
+    "nativeDtQ90": {
+     "speed": 0.9544000000000266,
+     "I": 0.9559999999999889,
+     "V": 0.9510000000000218
+    }
+   },
+   "conv": {
+    "0.025": 0.22758302993367807,
+    "0.0125": 0.2275825116707667,
+    "0.00625": 0.2275829330391283,
+    "0.05": 0.22757936930942224
+   }
+  },
+  {
+   "file": "20260822_205359.csv",
+   "status": "ok",
+   "nIntervals": 340,
+   "chargeNew": 0.11835288459159328,
+   "chargeOld": 0.11835033235354586,
+   "relCharge": 2.1565110943615627e-05,
+   "relChargeOff": 3.9959676764035974e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 5.315555555543199,
+   "binChargeMaxAbsDiffKwh": 7.6337316586673e-05,
+   "perIntervalMaxAbsKwh": 1.6425841718624087e-06,
+   "tNewS": 0.016646899981424212,
+   "tOldS": 0.016346000018529594,
+   "cadence": {
+    "speedDtMed": 0.8500000000000085,
+    "ivDtMed": 0.8537499999999909,
+    "nativeDtQ90": {
+     "speed": 1.015999999999977,
+     "I": 1.0190999999999986,
+     "V": 1.0145000000000013
+    }
+   },
+   "conv": {
+    "0.025": 0.11835259172525224,
+    "0.0125": 0.11835275088051538,
+    "0.00625": 0.11835285808897676,
+    "0.05": 0.11835033235354586
+   }
+  },
+  {
+   "file": "20260901_112814.csv",
+   "status": "ok",
+   "nIntervals": 702,
+   "chargeNew": 0.08934375535904844,
+   "chargeOld": 0.08934580925039606,
+   "relCharge": -2.298811063277114e-05,
+   "relChargeOff": -3.8296056114860135e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 3.9955555555555975,
+   "binChargeMaxAbsDiffKwh": 8.26650807050737e-05,
+   "perIntervalMaxAbsKwh": 2.0327208298820646e-06,
+   "tNewS": 0.019660599995404482,
+   "tOldS": 0.022575800074264407,
+   "cadence": {
+    "speedDtMed": 0.7850000000000392,
+    "ivDtMed": 0.7887499999999861,
+    "nativeDtQ90": {
+     "speed": 0.9679999999999751,
+     "I": 0.9749999999999737,
+     "V": 0.9650000000000147
+    }
+   },
+   "conv": {
+    "0.025": 0.08934418929481952,
+    "0.0125": 0.08934338476129211,
+    "0.00625": 0.08934382334315552,
+    "0.05": 0.08934580925039606
+   }
+  },
+  {
+   "file": "20260904_080352.csv",
+   "status": "ok",
+   "nIntervals": 262,
+   "chargeNew": 0.05843100878154034,
+   "chargeOld": 0.058430398797188435,
+   "relCharge": 1.0439503485530406e-05,
+   "relChargeOff": -1.7953069889972098e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 3.714843750001066,
+   "binChargeMaxAbsDiffKwh": 2.5771711422649802e-05,
+   "perIntervalMaxAbsKwh": 1.7293383489280952e-06,
+   "tNewS": 0.008684800006449223,
+   "tOldS": 0.011339099961332977,
+   "cadence": {
+    "speedDtMed": 0.7600000000000193,
+    "ivDtMed": 0.7630000000000052,
+    "nativeDtQ90": {
+     "speed": 0.8753999999999963,
+     "I": 0.8752000000000066,
+     "V": 0.8656000000000035
+    }
+   },
+   "conv": {
+    "0.025": 0.05843147573762836,
+    "0.0125": 0.058431023967952356,
+    "0.00625": 0.05843096909831519,
+    "0.05": 0.058430398797188435
+   }
+  },
+  {
+   "file": "20260905_103157.csv",
+   "status": "ok",
+   "nIntervals": 210,
+   "chargeNew": 0.07999906860493056,
+   "chargeOld": 0.0799974907419026,
+   "relCharge": 1.9723906504117102e-05,
+   "relChargeOff": 2.021747939866189e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 2.8367346938792224,
+   "binChargeMaxAbsDiffKwh": 3.158406609684179e-05,
+   "perIntervalMaxAbsKwh": 2.3104143294487307e-06,
+   "tNewS": 0.012740399921312928,
+   "tOldS": 0.012648100033402443,
+   "cadence": {
+    "speedDtMed": 0.7480000000000331,
+    "ivDtMed": 0.7500000000000142,
+    "nativeDtQ90": {
+     "speed": 0.9470000000000027,
+     "I": 0.9616000000000214,
+     "V": 0.9491999999999977
+    }
+   },
+   "conv": {
+    "0.025": 0.07999954271278009,
+    "0.0125": 0.0799989453890095,
+    "0.00625": 0.07999905646243138,
+    "0.05": 0.0799974907419026
+   }
+  },
+  {
+   "file": "20260905_124450.csv",
+   "status": "ok",
+   "nIntervals": 210,
+   "chargeNew": 0.05201623898342923,
+   "chargeOld": 0.0520143231979486,
+   "relCharge": 3.68318832745218e-05,
+   "relChargeOff": 3.2686951537021206e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 5.684341886080801e-13,
+   "binChargeMaxAbsDiffKwh": 1.680446292532875e-06,
+   "perIntervalMaxAbsKwh": 1.680446292532875e-06,
+   "tNewS": 0.00934460002463311,
+   "tOldS": 0.008998899953439832,
+   "cadence": {
+    "speedDtMed": 0.8870000000000005,
+    "ivDtMed": 0.8764999999999912,
+    "nativeDtQ90": {
+     "speed": 1.0479999999999912,
+     "I": 1.0397000000000105,
+     "V": 1.0472000000000024
+    }
+   },
+   "conv": {
+    "0.025": 0.05201618775856906,
+    "0.0125": 0.052016100165104995,
+    "0.00625": 0.05201621042792442,
+    "0.05": 0.0520143231979486
+   }
+  },
+  {
+   "file": "20260909_140527.csv",
+   "status": "ok",
+   "nIntervals": 58,
+   "chargeNew": 0.025652061883601533,
+   "chargeOld": 0.02565201458348525,
+   "relCharge": 1.8439142909469267e-06,
+   "relChargeOff": 5.348240574334992e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 2.4279155188253867,
+   "binChargeMaxAbsDiffKwh": 5.0704620243433376e-05,
+   "perIntervalMaxAbsKwh": 1.4163485056719813e-06,
+   "tNewS": 0.00903339998330921,
+   "tOldS": 0.008972799987532198,
+   "cadence": {
+    "speedDtMed": 1.4540000000000077,
+    "ivDtMed": 1.463249999999999,
+    "nativeDtQ90": {
+     "speed": 1.8021999999999991,
+     "I": 1.7837000000000032,
+     "V": 1.8134000000000043
+    }
+   },
+   "conv": {
+    "0.025": 0.02565214628712561,
+    "0.0125": 0.02565204524372266,
+    "0.00625": 0.025652060981620952,
+    "0.05": 0.02565201458348525
+   }
+  },
+  {
+   "file": "20260909_154548.csv",
+   "status": "ok",
+   "nIntervals": 127,
+   "chargeNew": 0.04533682209242359,
+   "chargeOld": 0.04533726838351614,
+   "relCharge": -9.84380198601183e-06,
+   "relChargeOff": -2.658941607050975e-05,
+   "dv2MaxAbsDiff": 0.0,
+   "binKEsetDiffers": 0,
+   "touchFlips": 0,
+   "touchOldOnly": 0,
+   "touchNewOnly": 0,
+   "binDv2MaxAbsDiff": 2.763376932222741,
+   "binChargeMaxAbsDiffKwh": 3.437923581239052e-05,
+   "perIntervalMaxAbsKwh": 1.1116800175048e-06,
+   "tNewS": 0.01656709995586425,
+   "tOldS": 0.016731100040487945,
+   "cadence": {
+    "speedDtMed": 1.4290000000000305,
+    "ivDtMed": 1.439249999999987,
+    "nativeDtQ90": {
+     "speed": 1.7899999999999978,
+     "I": 1.7722000000000007,
+     "V": 1.7739000000000014
+    }
+   },
+   "conv": {
+    "0.025": 0.04533677335579015,
+    "0.0125": 0.04533681824133566,
+    "0.00625": 0.04533682503812904,
+    "0.05": 0.04533726838351614
+   }
+  }
+ ],
+ "_provenance": "GENERATED by tools/m475_parity.py (M475 spec analyses/M475_spec.md); reporting only"
+}

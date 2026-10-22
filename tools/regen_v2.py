@@ -2,10 +2,11 @@
 """M441 (spec analyses/M441_spec.md Rev 2.1): interval-based extractor v2 of the apparent battery-side KE recovery (regen programme, stage MC).
 extract_drive(df, ...) works on NATIVE samples (raw rows with a numeric in-range value), never on a fixed 1 s grid:
   - speed intervals = spans between consecutive native speed samples (dt in (0, 5] s; longer spans are gaps and are never bridged);
-  - current and voltage are interpolated piecewise-linearly through EVERY native sample (each bracketing gap <= 5 s); charge energy = integral of max(I V / 1000, 0) (BMS current is charge-positive) on equal slices of <= 0.05 s (trapezoid);
+  - current and voltage are interpolated piecewise-linearly through EVERY native sample (each bracketing gap <= 5 s); charge energy = integral of max(I V / 1000, 0) (BMS current is charge-positive), EXACT since regen-v2.3 (M475): pieces are cut at every
+    native I and V sample time and every 10 km/h speed crossing, I V is a quadratic on a piece and its positive part is integrated in closed form (Simpson is exact; the piece is cut at the zero of I); before regen-v2.3: trapezoid on equal slices of <= 0.05 s (kept for the boxcar path);
   - engine-off = RPM known and <= 300 at both interval ends (latest native sample, age <= 5 s) and no native RPM sample inside above 300; unknown is never off;
   - episodes: maximal runs of consecutive valid engine-off intervals with v1 <= v0; leading/trailing plateaus are trimmed (reported, not in the estimator); inner plateaus enter with KE 0 and their charge;
-  - speed bins by the INSTANTANEOUS speed (linear inside an interval): each slice's exact KE loss and charge go to the 10 km/h bin of its mid-point speed (bins 0..12, bin 13 = overflow >= 130 km/h);
+  - speed bins by the INSTANTANEOUS speed (linear inside an interval): each piece's exact KE loss and charge go to the 10 km/h bin of its mid-point speed (bins 0..12, bin 13 = overflow >= 130 km/h); a bin is touched when the exact overlap is >= touchMinS (half a former slice);
   - pack temperature (all four probes, age <= 10 s) and SOC (age <= 10 s, 0-100) are attributes at the interval START.
 Mass-free quantities are stored (dv2 in (km/h)^2); the class mass and the cohort are applied at aggregation. Nothing here uses ambient temperature."""
 import hashlib, json, os, sys
@@ -17,8 +18,8 @@ for p_ in (ROOT, os.path.join(ROOT, "tools")):
     if p_ not in sys.path:
         sys.path.insert(0, p_)
 
-EXTRACTOR_VERSION = "regen-v2.2"
-POLICY = {"dtMaxS": 5.0, "rpmAgeS": 5.0, "tempAgeS": 10.0, "socAgeS": 10.0, "ivGapS": 5.0, "sliceS": 0.05, "engineOffRpm": 300.0, "speedBinKmh": 10, "nSpeedBins": 14, "overflowFromKmh": 130,
+EXTRACTOR_VERSION = "regen-v2.3"
+POLICY = {"dtMaxS": 5.0, "rpmAgeS": 5.0, "tempAgeS": 10.0, "socAgeS": 10.0, "ivGapS": 5.0, "sliceS": 0.05, "integration": "exact-piecewise", "touchMinS": 0.025, "engineOffRpm": 300.0, "speedBinKmh": 10, "nSpeedBins": 14, "overflowFromKmh": 130,
           "speedRange": [0, 260], "voltageRange": [200, 450], "tempRange": [-40, 90], "socRange": [0, 100]}
 POLICY_HASH = hashlib.sha256(json.dumps(POLICY, sort_keys=True).encode()).hexdigest()[:16]
 NB = POLICY["nSpeedBins"]
@@ -109,6 +110,59 @@ def _boxcar_power(i_t, i_v, v_t, v_v, i_off, w, lo, hi):
     k = np.arange(len(g))
     a = np.clip(k - n // 2, 0, len(g)); b = np.clip(k + n - n // 2, 0, len(g))
     return g, (c[b] - c[a]) / np.maximum(b - a, 1)
+
+
+def _pos_part_integral(Ia, Ib, Va, Vb, h):
+    """Exact integral over a piece of length h of max(I V, 0) in A V s, for I and V linear on the piece (V > 0): the piece is cut at the zero of I and Simpson's rule (exact for the quadratic I V) is applied to the positive part."""
+    with np.errstate(divide="ignore", invalid="ignore"):
+        z = np.where(Ia != Ib, Ia / (Ia - Ib), 0.0)
+    f0 = np.where(Ia > 0, 0.0, np.where(Ib > 0, z, 1.0))
+    f1 = np.where(Ib > 0, 1.0, np.where(Ia > 0, z, 0.0))
+    w = np.maximum(f1 - f0, 0.0)
+    fm = (f0 + f1) / 2.0
+    P = lambda f: (Ia + (Ib - Ia) * f) * (Va + (Vb - Va) * f)
+    return w * h / 6.0 * (P(f0) + 4.0 * P(fm) + P(f1)) * (w > 0)
+
+
+def _exact_energy(t0, dt, v0, v1, i_t, i_v, v_t, v_v, i_off):
+    """M475: exact piecewise version of _slice_energy. Pieces are cut at the native I and V sample times inside each interval and at the instantaneous-speed crossings of the 10 km/h bin edges (10 ... 130). Returns the piece arrays:
+    owner interval, speed-bin index (mid-point speed of the piece), dv2 (exact v_a^2 - v_b^2), charge, offset charge, touch weight (1 where the piece is at least touchMinS long)."""
+    m = t0.size
+    t1 = t0 + dt
+    own, tim = [np.arange(m), np.arange(m)], [t0, t1]
+    for kt in (i_t, v_t):
+        a = np.searchsorted(kt, t0, side="right"); b = np.searchsorted(kt, t1, side="left")
+        n = np.maximum(b - a, 0)
+        tot = int(n.sum())
+        if tot:
+            idx = np.arange(tot) - np.repeat(np.cumsum(n) - n, n) + np.repeat(a, n)
+            own.append(np.repeat(np.arange(m), n)); tim.append(kt[idx])
+    ed = POLICY["speedBinKmh"]
+    lo, hi = np.minimum(v0, v1), np.maximum(v0, v1)
+    kmin = np.maximum(np.floor(lo / ed).astype(np.int64) + 1, 1)
+    kmax = np.minimum(np.ceil(hi / ed).astype(np.int64) - 1, NB - 1)
+    ne = np.where(v1 != v0, np.maximum(kmax - kmin + 1, 0), 0)
+    tote = int(ne.sum())
+    if tote:
+        k = np.arange(tote) - np.repeat(np.cumsum(ne) - ne, ne) + np.repeat(kmin, ne)
+        o = np.repeat(np.arange(m), ne)
+        own.append(o); tim.append(t0[o] + dt[o] * (k * ed - v0[o]) / (v1[o] - v0[o]))
+    O, T = np.concatenate(own), np.concatenate(tim)
+    srt = np.lexsort((T, O))
+    O, T = O[srt], T[srt]
+    same = O[1:] == O[:-1]
+    keep = same & (T[1:] > T[:-1])
+    ta, tb, ow = T[:-1][keep], T[1:][keep], O[:-1][keep]
+    Ia, Ib = np.interp(ta, i_t, i_v), np.interp(tb, i_t, i_v)
+    Va, Vb = np.interp(ta, v_t, v_v), np.interp(tb, v_t, v_v)
+    h = tb - ta
+    ch = _pos_part_integral(Ia, Ib, Va, Vb, h) / 1000.0 / 3600.0
+    cho = _pos_part_integral(Ia + i_off, Ib + i_off, Va, Vb, h) / 1000.0 / 3600.0 if i_off is not None else None
+    sl = (v1 - v0) / dt
+    va, vb = v0[ow] + sl[ow] * (ta - t0[ow]), v0[ow] + sl[ow] * (tb - t0[ow])
+    vm = (va + vb) / 2.0
+    bn = np.minimum((np.maximum(vm, 0) // ed).astype(int), NB - 1)
+    return {"owner": ow, "bin": bn, "dv2": va ** 2 - vb ** 2, "ch": ch, "cho": cho, "touchw": (h >= POLICY["touchMinS"]).astype(np.int64)}
 
 
 def _slice_energy(t0, dt, v0, v1, i_t, i_v, v_t, v_v, i_off, h, boxcar=None):
@@ -231,12 +285,15 @@ def extract_drive(df, C=None, i_off=None, dt_max=None, iv_gap=None, iv_lag_s=0.0
     nprobe = np.isfinite(tprobe).sum(axis=0)
     tpack = np.where(nprobe == 4, tprobe.mean(axis=0), np.nan)
     soc0, _ = latest(soc_t, soc_v, t0[kidx], P["socAgeS"])
-    S = _slice_energy(t0[kidx], dt[kidx], v0[kidx], v1[kidx], i_t, i_v, v_t, v_v, i_off, P["sliceS"], boxcar=boxcar_s)
+    if boxcar_s:        # the boxcar sensitivity is defined on the 20 Hz grid: it keeps the slice code
+        S = _slice_energy(t0[kidx], dt[kidx], v0[kidx], v1[kidx], i_t, i_v, v_t, v_v, i_off, P["sliceS"], boxcar=boxcar_s)
+    else:
+        S = _exact_energy(t0[kidx], dt[kidx], v0[kidx], v1[kidx], i_t, i_v, v_t, v_v, i_off)
     m = kidx.size
     comb = S["owner"] * NB + S["bin"]
     size = m * NB
     bins = {"dv2": np.bincount(comb, weights=S["dv2"], minlength=size).reshape(m, NB), "charge": np.bincount(comb, weights=S["ch"], minlength=size).reshape(m, NB),
-            "touch": (np.bincount(comb, minlength=size).reshape(m, NB) > 0).astype(np.int8)}
+            "touch": (np.bincount(comb, weights=S["touchw"] if "touchw" in S else None, minlength=size).reshape(m, NB) > 0).astype(np.int8)}
     iv = {"t0": t0[kidx], "dt": dt[kidx], "v0": v0[kidx], "v1": v1[kidx], "dv2": v0[kidx] ** 2 - v1[kidx] ** 2, "charge": bins["charge"].sum(axis=1),
           "tpack": tpack, "nprobe": nprobe.astype(np.int8), "soc": soc0, "cls": np.where(v0[kidx] < 10, 0, np.where(v1[kidx] < 10, 1, 2)).astype(np.int8),
           "plateau": (v1[kidx] == v0[kidx]), "trimmed": trimmed[kidx], "endsAtStandstill": v1[kidx] == 0, "episode": ep[kidx]}
