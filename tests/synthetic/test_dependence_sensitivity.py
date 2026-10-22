@@ -39,7 +39,8 @@ for key, ycol, icol in (("cellSpread", "cell_spread_loaded_p95_mv", "peak_I_disc
     bk, sek, Gd, nd_, _ = DS.cr1(Xd, yd, dd["day"].to_numpy(), 1)
     r = rel[key]["clusterRobustOLS"]
     assert abs(bk - r["slope"]) < 6e-5 and abs(sek - r["se"]) < 6e-5 and Gd == r["nDays"] and nd_ == r["nObs"], (key, bk, sek, r)
-    lo, hi = bk - stats.norm.ppf(0.975) * sek, bk + stats.norm.ppf(0.975) * sek
+    tcr = stats.t.ppf(0.975, Gd - 1)          # M473: the released interval uses the cluster-t reference t(G-1) (it was the normal reference before)
+    lo, hi = bk - tcr * sek, bk + tcr * sek
     assert abs(lo - r["ci95"][0]) < 2e-4 and abs(hi - r["ci95"][1]) < 2e-4
 
 # ---- weighted median equals np.median for unit weights and for integer weights

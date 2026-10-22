@@ -4919,7 +4919,7 @@ function HealthStatusCard(){
   const rows=[
     {k:"Cell-voltage spread trend (loaded p95; T + current controlled)", ev:"observed exposure / "+trendLabel(co.ci95,"conditional slope"),
      g:<CiGlyph est={co.slope} lo={co.ci95?.[0]} hi={co.ci95?.[1]} unit="mV/month"/>,
-     t:`${fmtKeep(co.slope,2,0)} mV/mo, 95% CI [${fmtKeep(co.ci95?.[0],2,0)}, ${fmtKeep(co.ci95?.[1],2,0)}] (cluster-robust (CR1) normal (z) interval, ${co.nDays} day clusters), n=${co.nObs}, ${co.nDays} days, ${cs?.windowMonths}-mo window; equivalence not established (TOST ${fmtP(cs?.releasedEquivalence?.pTOST)})`},
+     t:`${fmtKeep(co.slope,2,0)} mV/mo, 95% CI [${fmtKeep(co.ci95?.[0],2,0)}, ${fmtKeep(co.ci95?.[1],2,0)}] (cluster-robust (CR1) ${co.ciReference||"t(G-1)"} interval, ${co.nDays} day clusters), n=${co.nObs}, ${co.nDays} days, ${cs?.windowMonths}-mo window; equivalence not established (TOST ${fmtP(cs?.releasedEquivalence?.pTOST)})`},
     {k:"Resistance (power) proxy trend (V-regression; T + HV-current-density adjusted, partial)", ev:"proxy / "+trendLabel(pf.ci95MohmPerMo,"slope"),
      g:<CiGlyph est={pf.slopeMohmPerMoTctrl} lo={pf.ci95MohmPerMo?.[0]} hi={pf.ci95MohmPerMo?.[1]} unit="mΩ/month"/>,
      t:`${pf.slopeMohmPerMoTctrl} mΩ/mo [${pf.ci95MohmPerMo?.[0]}, ${pf.ci95MohmPerMo?.[1]}], n=${pf.nClean}; CI half-width ±${pf.mdeRisePctPerYr}%/yr (precision, not a power calculation)`},
@@ -4990,9 +4990,9 @@ function SerialDependencePanel(){
   const readSentence=(key,t)=>{ const rr=t.rowsRule||{}, inc=rr.rowsIncludingZero||[], exc=rr.rowsExcludingZero||[];
     if(rr.classification!=="procedure-dependent") return `${rr.classification}`;
     const m=M&&M.trendSlopes&&M.trendSlopes[key];
-    const ups=[]; if(m){ [m.cr1?.ci95NormalAsReleased,m.cr2?.ci95T,m.wildClusterBootstrapT?.ci95PercentileT,m.dayClusterPairsBootstrap?.ci95,m.weekBlockPairsBootstrap?.ci95].forEach(a=>{ if(Array.isArray(a)) ups.push(a[1]); }); }
+    const ups=[]; if(m){ [m.cr1?.ci95T_Gminus1,m.cr2?.ci95T,m.wildClusterBootstrapT?.ci95PercentileT,m.dayClusterPairsBootstrap?.ci95,m.weekBlockPairsBootstrap?.ci95].forEach(a=>{ if(Array.isArray(a)) ups.push(a[1]); }); }
     (rowsOf(t)).forEach(r=>{ if(Array.isArray(r.ci)) ups.push(r.ci[1]); });
-    const ref=m?.cr1?.ci95NormalAsReleased, width=ref?ref[1]-ref[0]:NaN;
+    const ref=m?.cr1?.ci95T_Gminus1, width=ref?ref[1]-ref[0]:NaN;
     const sim=ups.length&&(Math.max(...ups)-Math.min(...ups))<=0.25*width;
     return `procedure-dependent: ${exc.length} of ${inc.length+exc.length} OLS-based rows exclude 0; the lower bound changes sign across procedures; the upper bound ${sim?"is similar":"also varies"}`;
   };
@@ -5001,7 +5001,7 @@ function SerialDependencePanel(){
       <strong style={{color:"#0f172a"}}>Serial-dependence sensitivity (M410; pre-registered, additive; the released estimators and the statements above are unchanged).</strong> {D.reading}. {D.reportingRule}. Resampling: {D.resampling}.
       {series.map(([key,title,unit])=>{ const t=D.trendSlopes[key]; if(!t) return null; const ac=t.residualAutocorr||{}, r1=ac["1"]||{}, r2=ac["2"]||{}, r3=ac["3"]||{}, po=ac.pooled||{}, vf=t.vifDiagnostic||{}, mc=t.misspecControl||{}, gl=t.gls||{}, sv=t.semivariogram||{}; return (
         <div key={key} style={{marginTop:10}}>
-          <div style={{fontWeight:600,color:"#0f172a"}}>{title} ({t.n} observations, {t.nDays} days, {t.nWeeks} ISO weeks): {trendLabel(M?.trendSlopes?.[key]?.cr1?.ci95NormalAsReleased,"slope")}; equivalence not established; no stability or SOH claim.</div>
+          <div style={{fontWeight:600,color:"#0f172a"}}>{title} ({t.n} observations, {t.nDays} days, {t.nWeeks} ISO weeks): {trendLabel(M?.trendSlopes?.[key]?.cr1?.ci95T_Gminus1,"slope")}; equivalence not established; no stability or SOH claim.</div>
           <div>Neighbouring-day residual autocorrelation: rho_1 = {f2(r1.rho)} ({r1.nPairs} day pairs, 95% week-resampling interval {ci(r1.ci95)}). {ac.statement}. {ac.powerDisclosure}. Descriptive only (not rules): rho_2 = {f2(r2.rho)} ({r2.nPairs} pairs), rho_3 = {f2(r3.rho)} ({r3.nPairs} pairs). {ac.multiplicityNote}. {po.label}: rho_1-3 = {f2(po.rho)}, interval {ci(po.ci95)}{ac.disagreementWithOriginalStatistic?`; ${ac.disagreementWithOriginalStatistic}`:"; it agrees with the rule statistic"}. {ac.forkingPathNote}. The percentile interval of rho_1 is shifted: the bootstrap median {f2(r1.bootstrapMedian)} lies {r1.bootstrapMedian<r1.rho?"below":"above"} the point estimate {f2(r1.rho)}; no bias correction is applied.</div>
           <table style={{borderCollapse:"collapse",margin:"4px 0"}}><thead><tr><th style={th}>Procedure (fixed order, after the rows above)</th><th style={th}>95% interval ({unit})</th><th style={th}>Detail</th></tr></thead>
             <tbody>{rowsOf(t).map(p=>(<tr key={p.k}><td style={td}>{p.k}</td><td style={td}>{ci(p.ci)}</td><td style={td}>{p.n}</td></tr>))}
@@ -5044,7 +5044,7 @@ function DependencePanel(){
   const procs=(t)=>{ const sp=t.seedSpread||{}, w=t.wildClusterBootstrapT||{}, wb=t.weekBlockPairsBootstrap||{}, dp=t.dayClusterPairsBootstrap||{};
     const wp=typeof w.pValueNullImposed==="number"?`null-imposed p about ${w.pValueNullImposed.toFixed(2)}`+(sp.wildPValueRange?` (seed range ${sp.wildPValueRange[0].toFixed(3)}-${sp.wildPValueRange[1].toFixed(3)})`:""):"";
     return [
-      {k:"CR1 (released interval, the reference)", ci:t.cr1?.ci95NormalAsReleased, n:`SE ${f2(t.cr1?.se)}`},
+      {k:"CR1 (released interval, the reference)", ci:t.cr1?.ci95T_Gminus1, n:`SE ${f2(t.cr1?.se)}, cluster-t reference, df ${t.cr1?.df}`},
       {k:"CR2 (Satterthwaite t)", ci:t.cr2?.ci95T, n:`SE ${f2(t.cr2?.se)}, df ${(t.cr2?.df??NaN).toFixed(1)}`},
       {k:"Wild cluster bootstrap-t", ci:w.ci95PercentileT, n:wp},
       {k:"Day-cluster pairs bootstrap", ci:dp.ci95, n:`${dp.nBlocks} day blocks`},
@@ -5053,7 +5053,7 @@ function DependencePanel(){
   const signSentence=(t)=>{ const P=procs(t).filter(p=>Array.isArray(p.ci)); if(!P.length) return "";
     const lows=P.map(p=>p.ci[0]), ups=P.map(p=>p.ci[1]);
     const mixed=lows.some(x=>x<=0)&&lows.some(x=>x>0);
-    const ref=t.cr1?.ci95NormalAsReleased, width=ref?ref[1]-ref[0]:NaN;
+    const ref=t.cr1?.ci95T_Gminus1, width=ref?ref[1]-ref[0]:NaN;
     const upSim=(Math.max(...ups)-Math.min(...ups))<=0.25*width;
     const lowTxt=mixed?"lower bound changes sign across procedures":(lows.every(x=>x>0)?"all lower bounds lie above zero":"all lower bounds lie at or below zero");
     return `${lowTxt}; upper bound ${upSim?"similar":"also varies"} (lower bounds ${f2(Math.min(...lows))} to ${f2(Math.max(...lows))}, upper bounds ${f2(Math.min(...ups))} to ${f2(Math.max(...ups))})`;
@@ -5071,13 +5071,13 @@ function DependencePanel(){
       <strong style={{color:"#0f172a"}}>Inference sensitivities (M406; additive, the released estimators and the statements above are unchanged).</strong> {D.reading}. {D.reportingRule}. Day = cluster, ISO week = block, 4000 draws.
       {series.map(([key,title,unit])=>{ const t=D.trendSlopes[key]; if(!t) return null; const reg=t.byLoggingRegime||{}; return (
         <div key={key} style={{marginTop:10}}>
-          <div style={{fontWeight:600,color:"#0f172a"}}>{title}: slope {f2(t.cr1?.slope)} {unit}, n={t.n} observations, {t.nDays} days; {trendLabel(t.cr1?.ci95NormalAsReleased,"slope")}; equivalence not established; no stability or SOH claim.</div>
+          <div style={{fontWeight:600,color:"#0f172a"}}>{title}: slope {f2(t.cr1?.slope)} {unit}, n={t.n} observations, {t.nDays} days; {trendLabel(t.cr1?.ci95T_Gminus1,"slope")}; equivalence not established; no stability or SOH claim.</div>
           <table style={{borderCollapse:"collapse",margin:"4px 0"}}><thead><tr><th style={th}>Procedure (fixed order)</th><th style={th}>95% interval ({unit})</th><th style={th}>Detail</th></tr></thead>
             <tbody>{procs(t).map(p=>(<tr key={p.k}><td style={td}>{p.k}</td><td style={td}>{ci(p.ci)}</td><td style={td}>{p.n}</td></tr>))}</tbody></table>
           <div>Reading across procedures: {signSentence(t)}.</div>
-          <div>Zero-slope test ({ciSpansZero(t.cr1?.ci95NormalAsReleased)===false?"interval excludes 0":"trend not resolved"}): slope a two-sided 5 % test flags with 80 % probability at the observed SE (design-conditional): {f2(t.minEffect80?.cr2)} {unit} (CR2), {f2(t.minEffect80?.cr1)} {unit} (CR1).</div>
+          <div>Zero-slope test ({ciSpansZero(t.cr1?.ci95T_Gminus1)===false?"interval excludes 0":"trend not resolved"}): slope a two-sided 5 % test flags with 80 % probability at the observed SE (design-conditional): {f2(t.minEffect80?.cr2)} {unit} (CR2), {f2(t.minEffect80?.cr1)} {unit} (CR1).</div>
           <div>Equivalence sensitivity: the released TOST re-run with the CR2 standard error and {String(t.tostSensitivityCR2?.refDist||"")} against the same frozen bound {f2(t.tostSensitivityCR2?.delta)} {unit}: 90% interval {ci(t.tostSensitivityCR2?.equivCI90)}, p={(t.tostSensitivityCR2?.pTOST??NaN).toFixed(2)}, equivalence {t.tostSensitivityCR2?.equivalent?"established":"not established"} (sensitivity only; the released decision is unchanged).</div>
-          {(reg.fast||reg.slow)&&(<div>By logging regime (imprecise; not a regime comparison; subgroup, not a finding): {["fast","slow"].filter(r=>reg[r]).map(r=>{ const g=reg[r]; return `${r}: ${g.nDays} day clusters, CR1 ${ci(g.cr1?.ci95NormalAsReleased)}, CR2 ${ci(g.cr2?.ci95T)}, week-block ${ci(g.weekBlockPairsBootstrap?.ci95)} (${g.weekBlockPairsBootstrap?.nBlocks} blocks${g.weekBlockPairsBootstrap?.fewBlocks?", fewer than 10":""})`;}).join("; ")}.</div>)}
+          {(reg.fast||reg.slow)&&(<div>By logging regime (imprecise; not a regime comparison; subgroup, not a finding): {["fast","slow"].filter(r=>reg[r]).map(r=>{ const g=reg[r]; return `${r}: ${g.nDays} day clusters, CR1 ${ci(g.cr1?.ci95T_Gminus1)}, CR2 ${ci(g.cr2?.ci95T)}, week-block ${ci(g.weekBlockPairsBootstrap?.ci95)} (${g.weekBlockPairsBootstrap?.nBlocks} blocks${g.weekBlockPairsBootstrap?.fewBlocks?", fewer than 10":""})`;}).join("; ")}.</div>)}
         </div>); })}
       <div style={{marginTop:12,fontWeight:600,color:"#0f172a"}}>Thesis quantities: day-cluster and week-block intervals (descriptive precision; consistent with, not a test of the thesis)</div>
       <table style={{borderCollapse:"collapse",margin:"4px 0"}}><thead><tr><th style={th}>Quantity</th><th style={th}>Estimate</th><th style={th}>Day-cluster 95% interval</th><th style={th}>Week-block 95% interval</th><th style={th}>Width ratio</th><th style={th}>n drives / days / weeks</th></tr></thead>
@@ -12571,7 +12571,7 @@ export default function App() {
           <EvidenceGroup title="Battery-health indicators">
             <ConclusionItem status="notEstablished"
               title="A cell-voltage-spread trend is not established in this window"
-              metric={`cluster-robust slope ${fmtKeep(S.degradationTrends?.cellSpread?.clusterRobustOLS?.slope,2,0)} mV/month, 95% CI [${fmtKeep(S.degradationTrends?.cellSpread?.clusterRobustOLS?.ci95?.[0],2,0)}, ${fmtKeep(S.degradationTrends?.cellSpread?.clusterRobustOLS?.ci95?.[1],2,0)}] (cluster-robust (CR1) normal (z) interval, ${S.degradationTrends?.cellSpread?.clusterRobustOLS?.nDays} day clusters; slope adjusted for pack temperature and current)`}
+              metric={`cluster-robust slope ${fmtKeep(S.degradationTrends?.cellSpread?.clusterRobustOLS?.slope,2,0)} mV/month, 95% CI [${fmtKeep(S.degradationTrends?.cellSpread?.clusterRobustOLS?.ci95?.[0],2,0)}, ${fmtKeep(S.degradationTrends?.cellSpread?.clusterRobustOLS?.ci95?.[1],2,0)}] (cluster-robust (CR1) ${S.degradationTrends?.cellSpread?.clusterRobustOLS?.ciReference||"t(G-1)"} interval, ${S.degradationTrends?.cellSpread?.clusterRobustOLS?.nDays} day clusters; slope adjusted for pack temperature and current)`}
               text={`${spreadSpans()===false?"The temperature/current-controlled spread trend is a positive conditional slope (95% interval excludes zero; season-confounded, not a capacity or SOH change), and a formal equivalence test does not establish stability":"The temperature/current-controlled spread trend is indistinguishable from zero, and a formal equivalence test does not establish stability either"} (TOST ${fmtP(S.degradationTrends?.cellSpread?.releasedEquivalence?.pTOST)}). The ${S.degradationTrends?.cellSpread?.windowMonths}-month window is simply too short to separate genuine stability from a slow drift.`}
               caveat="A confidence interval that includes zero is neither proof of degradation nor proof of stability."
             />

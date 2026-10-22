@@ -325,7 +325,7 @@ def series(dd, X, y, use, released_rows=None, B=N_BOOT):
             "descriptiveNote": "reported descriptively whatever the rule result (Rev 3 item 3; Rev 1 had conditioned the control on a supported result)",
             "spline": "y ~ T + I + cubic truncated-power spline of calendar day (4 interior knots at day quantiles, linear term included; months column removed)"}
     # rule over rows: any row including zero -> procedure-dependent
-    rows = {"cr1": (released_rows or {}).get("cr1", {}).get("ci95NormalAsReleased"), "cr2": (released_rows or {}).get("cr2", {}).get("ci95T"),
+    rows = {"cr1": (released_rows or {}).get("cr1", {}).get("ci95T_Gminus1"), "cr2": (released_rows or {}).get("cr2", {}).get("ci95T"),
             "wildClusterBootstrapT": (released_rows or {}).get("wildClusterBootstrapT", {}).get("ci95PercentileT"),
             "dayClusterPairsBootstrap": (released_rows or {}).get("dayClusterPairsBootstrap", {}).get("ci95"),
             "weekBlockPairsBootstrap": (released_rows or {}).get("weekBlockPairsBootstrap", {}).get("ci95")}

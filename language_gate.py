@@ -391,6 +391,8 @@ RULES = [
          rx=r"\bnet traction bus fuel index\b"),
     Rule("M472-cold-single-trip", "regex", "M472/Director: the cold cohort is in effect one trip (cohortSupport): its values are single-trip descriptors, never validated or robust cohort values, never a description of winter behaviour",
          rx=r"\bcold (?:cohort )?(?:is |are |values? (?:is |are )?)?(?:validated|robust)\b|\bcold (?:values?|figures?|cohort) (?:describes?|represents?|shows?) winter\b|\bwinter inference from (?:the )?cold\b"),
+    Rule("M473-normal-z-label", "regex", "M473/audit: the released cluster-robust trend intervals use the cluster-t reference t(G-1) (degradationTrends.*.clusterRobustOLS.ciReference); the former label 'cluster-robust (CR1) normal (z) interval' is no longer true",
+         rx=r"\bcluster robust (?:cr1 )?normal z interval\b"),
 ]
 
 
