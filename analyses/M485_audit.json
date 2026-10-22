@@ -1,0 +1,32 @@
+{
+ "milestone": "M485",
+ "auditor": "analytical-auditor (Sonnet, high effort), blind: definitions + drive_master.csv only; no code, no payload, no tests, no CHANGELOG, no M480 / M480b material",
+ "date": "2026-10-23",
+ "verdict": "supported (numbers reproduced exactly); the dashboard sentence is accurate but the auditor suggests one added caveat",
+ "reproduced": {
+  "window": "2026-05-15..2026-10-17, 155 days, 5.1 months, 576 drives, 117 days",
+  "cutoffs": [
+   ["2026-05-31", 3.5267, [-6.0699, 13.1232], "27/6"],
+   ["2026-06-30", -0.3411, [-1.4531, 0.7708], "89/24"],
+   ["2026-07-31", 0.3950, [-0.3247, 1.1147], "182/44"],
+   ["2026-08-31", -0.3527, [-0.8627, 0.1574], "286/70"],
+   ["2026-09-30", 0.1594, [-0.1299, 0.4486], "467/100"],
+   ["2026-10-17", 0.5239, [0.2665, 0.7814], "576/117"]
+  ],
+  "leave_last_8": ["2026-10-09", 0.2766, [0.0332, 0.5199], "530/109"],
+  "derived": "m=6, k=1, s=4, first excluding zero=2026-10-17"
+ },
+ "mismatches": "None. Every slope, interval and count matches to 4 decimals (absolute difference 0). No month-end cutoff was suppressed or 'no new data'. The 12 rows with NaN ens_outlier_v2 are not in the eligible set (they lack an outcome or a covariate), so the NaN-as-not-true rule has no effect here. All dates are plain YYYY-MM-DD strings (no timestamps, 0 unparseable). Origin = first non-null-outcome day = first eligible day (2026-05-15).",
+ "method_concerns": [
+  "1. Grid dependence (most important): the month-end rule is deterministic and not tuned, but 'excluded zero at 1 of 6' depends on the grid. Refitting at every eligible day with >= 20 drives and >= 5 days, the interval excludes zero at 13 of 113 cutoffs: 12 positive (including 2026-06-09 at +5.22 and 2026-06-10 at +4.70) and 1 negative (about 2026-08-29, -0.47). Month-ends happen to miss these. The sign flips are real, so the instability is not an artefact of the grid.",
+  "2. Fragile endpoint: the released significance depends on the last days. Dropping the last 8 days gives +0.277 [0.033, 0.520]. Dropping 12 days gives +0.241 [-0.036, 0.517]. Dropping 16 days gives +0.209 [-0.086, 0.504]. Only the full-sample and the leave-last-8 intervals exclude zero; leave-last-12 does not.",
+  "3. Early cutoffs (27 drives on 6 days, 89 on 24) have very few clusters. The t(G-1) interval is very wide there (about +/-9.6 mV at G=6), and CR1 with few clusters is unreliable, so those rows are uninformative rather than evidence of instability. The 20-drive and 5-day floor is permissive. The sign flips come mostly from noise-dominated early fits.",
+  "4. k of m and s are descriptive counts of nested, highly overlapping fits. They are not a test statistic, a frequency or a replication count. m=6 is arbitrary because it follows from the calendar and the floor.",
+  "5. The model is linear in months with covariates T_pack_mean_avg and peak_I_discharge. The window is 5.1 months, so the slope is confounded with season and temperature adaptation. The CI is not a multiplicity-adjusted interval across cutoffs."
+ ],
+ "language_concerns": [
+  "The proposed sentence is arithmetically accurate (1 of 6 excluded zero; s=4). The nesting and 'not independent replication' clause is correct. It could still be over-read as 'mostly null'. Suggest adding: 'the sole interval excluding zero is the full-sample one, the sign of the point estimate changed between early cutoffs, and the interval's exclusion of zero is sensitive to removal of the last ~12 days'. Do not write 'stable' or 'unstable' as a verdict. Do not read k/m as a power or a significance rate.",
+  "Say 'not established' rather than 'no effect' for the 5 of 6 intervals that include zero. State 'estimated slope (adjusted for T_pack_mean_avg and peak_I_discharge)', not 'degradation rate'."
+ ],
+ "audit_files": "session scratchpad (audit485/a.py, b.py), not committed"
+}
