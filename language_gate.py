@@ -403,6 +403,8 @@ RULES = [
          rx=r"\bnot explained by the tested restrictions\b|\bfixed[ -]n(?: \w+){0,4} p95\b|\b(?:o3|low current|negative control)(?: \w+){0,6} (?:shows? no|is flat|flat control|null control)\b|\bpair level(?: \w+){0,3} (?:confirms?|confirmed|survives?|persists?)\b"),
     Rule("M481-resistance-serial-title", "regex", "M481/Director (2026-10-22): the serial-dependence and equivalence rows for the resistance proxy are computed on the V-regression sensitivity design S0 (no HV-current-density term); the primary resistance estimand is powerFade (S1, partial adjustment); the unqualified title Resistance (power) proxy trend followed directly by the observation count is retired; no S1 equivalence verdict exists",
          rx=r"\bresistance power proxy trend (?:\d+ )?observations\b"),
+    Rule("M482-power-fade-tab-wording", "regex", "M482/Director labelling (2026-10-22): the power-fade trend is an estimated, model-derived resistance proxy (powerFade, primary, partial adjustment), never measured resistance; the accumulated turnover is integrated from logged current, an estimate, never from measured data",
+         rx=r"\bpower fade measured\b|\bresistance rise (?:is )?(?:actually )?measured\b|\bday cumulative from measured data\b"),
 ]
 
 

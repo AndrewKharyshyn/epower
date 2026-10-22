@@ -2562,7 +2562,7 @@ function CycleProjectionChart() {
      by kind: capacity fade has NO observable in this corpus (cap_ah_est is
      CAP_KWH / V_pack_median, an algebraic restatement of the assumed capacity constant (unverified)
      — it cannot detect capacity loss even in principle), whereas resistance
-     rise is actually measured (M25) and is currently a null result with a
+     rise is estimated from a load-excited proxy (M25, model-derived) and is currently a null result with a
      stated minimum detectable effect. No crossing year is offered here on
      purpose: extrapolating a slope whose interval spans zero would be noise
      multiplied by time. */
@@ -2720,6 +2720,11 @@ function CycleProjectionChart() {
             alongside its precision (the CI half-width) — without this table, &ldquo;no resolved power-fade trend&rdquo; would be
             unfalsifiable rather than a finding.
           </div>
+          {t.cadenceSensitivity?.specs && (() => { const cs = t.cadenceSensitivity, pub = cs.specs.find(x => x.id === cs.publishedIsSpec); return (
+            <div data-power-fade-estimand="true" style={{fontSize:8.5,color:"#64748b",marginTop:5,lineHeight:1.5}}>
+              <strong style={{color:"#334155"}}>Estimand and adjustment (M482).</strong> This slope is the primary resistance-proxy estimand (specification {cs.publishedIsSpec}{pub ? `, n = ${pub.n} drives on ${pub.nDays} days` : ""}: temperature, load current and two HV-current-density covariates; the adjustment is partial). Across the {cs.nSpecs} cadence-handling specifications the slope ranges from {cs.slopeMin ?? "n/a"} to {cs.slopeMax ?? "n/a"} m&Omega;/month and {cs.allIntervalsSpanZero ? "every 95% interval spans zero, which is not evidence of no change" : "not every 95% interval spans zero"}. The equivalence test and the serial-dependence rows in the Health tab are computed on the sensitivity design without the density term (S0); no equivalence test exists for the primary design. Window {t.windowMo} months. An estimated proxy trend, not a measured resistance and not a degradation rate.
+            </div>
+          ); })()}
         </div>
       </div>
     );
@@ -2875,7 +2880,7 @@ function CycleProjectionChart() {
             both. */}
         {[["history",`${S.daysSpan}-Day History`],
           ["projection","Capacity fade — scenarios"],
-          ["power","Power fade — measured"],
+          ["power","Power fade — estimated proxy"],
           ["official","Official disclosure — Reg. 2023/1542"]].map(([k,l])=>(
           <button key={k} onClick={()=>setView(k)} style={{
             padding:"4px 10px",borderRadius:5,border:"1px solid #e2e8f0",fontSize:10,
@@ -11463,9 +11468,9 @@ export default function App() {
           <EngineStartRate/>
         </Section>
         <Section seasonAware title="P — Accumulated Turnover · Capacity-Fade Scenarios · Power-Fade Status" accent="#a78bfa">
-          <div style={{fontSize:11,color:"#64748b",marginBottom:6}}><strong>History:</strong> {S.daysSpan}-day cumulative from measured data ({S.dateRange}, calendar days, not driving days). <strong style={{color:"#b45309"}}>M61 (2026-07-27):</strong> the single &ldquo;15-year projection&rdquo; has been split into the two degradation mechanisms it was conflating, because their evidence status differs by <em>kind</em>, not degree.</div>
+          <div style={{fontSize:11,color:"#64748b",marginBottom:6}}><strong>History:</strong> {S.daysSpan}-day cumulative from logged data ({S.dateRange}, calendar days, not driving days). <strong style={{color:"#b45309"}}>M61 (2026-07-27):</strong> the single &ldquo;15-year projection&rdquo; has been split into the two degradation mechanisms it was conflating, because their evidence status differs by <em>kind</em>, not degree.</div>
           <div style={{fontSize:11,color:"#64748b",marginBottom:6}}><strong>Capacity fade</strong> (usable Ah loss) has <em>no observable signal whatsoever</em> in this corpus and is <strong>not directly measurable from this telemetry</strong>. The “Capacity fade — scenarios” view below therefore models how fast battery <em>cycling exposure</em> (gross capacity turnover, GTC) accumulates under different driving and seasonal-use scenarios — it does not predict remaining capacity, SOH, or a battery-replacement date. Following the M114 audit, <strong>no crossing-year or end-of-life figure is produced</strong>; the scenarios are compared on turnover rate alone.</div>
-          <div style={{fontSize:11,color:"#64748b",marginBottom:10}}><strong>Power fade</strong> (resistance-rise proxy, M25) is computed from a load-excited regression, shows {trendLabel(S.powerFade?.ci95MohmPerMo,"slope")}, and is reported with its CI half-width and the monitoring window it would need, instead of an extrapolated year.</div>
+          <div style={{fontSize:11,color:"#64748b",marginBottom:10}}><strong>Power fade</strong> (resistance-rise proxy, M25) is computed from a load-excited regression, shows {trendLabel(S.powerFade?.ci95MohmPerMo,"slope")}, and is reported with its CI half-width and the monitoring window it would need, instead of an extrapolated year. It is the primary resistance-proxy estimand, with a partial HV-current-density adjustment; the equivalence test uses the sensitivity design without the density term (Health tab).</div>
           <CycleProjectionChart/>
         </Section>
         <Section seasonAware title="R — Regenerative Energy Analysis" accent="#22c55e">
