@@ -1,0 +1,37 @@
+{
+ "milestone": "M481",
+ "date": "2026-10-22",
+ "question": "Which resistance-proxy estimand is primary: degradationTrends.resistanceVreg (OLS months + T + load current, slope +0.886) or powerFade (published specification S1 of the cadence panel, months + T + HV-current-density covariates, slope +0.656)? And should the equivalence test and the dependence panels follow the primary?",
+ "origin": "Director review of the external cell-spread / cadence recheck 2026-10-22 (decision 'revise'): follow-up 'M479 Director: which resistance estimand is primary' (renumbered M481).",
+ "facts_from_disk_2026_10_22": {
+  "population": "both fits use the same 274 canonical-clean drives on 98 days, window about 5.09 months, outcome vreg_R_pack_mohm",
+  "powerFade": {
+   "slope": 0.656, "ci95": [-0.426, 1.837], "pSlopeGt0": 0.885, "mdeMohmPerMo": 1.131, "mdeRisePctPerYr": 10.4,
+   "design": "months + T + two HV-current-density covariates (median interval + coverage); partial adjustment (M170); cadenceControlled true",
+   "ci_type_in_payload": "day-cluster interval, nBoot 4000 field present; equals the S1 interval of cadenceSensitivity",
+   "role_in_code": "'the PRIMARY resistance estimand is powerFade' (degradation_trends.py comment, M207; resistanceVreg.primaryEstimandRef = 'powerFade')"
+  },
+  "resistanceVreg": {
+   "slope": 0.886, "ci95": [-0.1798, 1.9518], "se": 0.537, "ci_reference": "t(df=97)", "design": "months + T + vreg_I_p95_A (load current), no density covariate", "cadenceControlled": false,
+   "role": "sensitivity_cadence_uncontrolled (payload field); equals S0 'no cadence covariate' of the cadence panel",
+   "feeds": ["released equivalence test: tostSlopeUsed 0.886, tostSeUsed 0.537, bound oem75pct_over14yr delta 0.5439 (locked 2026-08-11), pTOST 0.7372, equivCI90 [-0.0058, 1.7778], equivalent false", "dependenceSensitivity.trendSlopes.resistanceVreg (CR1 0.886)", "serialDependence.trendSlopes.resistanceVreg (every row includes zero)"]
+  },
+  "cadence_panel_7_specs": "S0 0.886; S1 (published) 0.656; S2 0.540; S3 0.360; S4 0.232; S5 0.630 (before latest fast run, 246 drives); S6 slow-regime only 0.498 (167 drives); range 0.232-0.886; every 95% interval spans zero; note says no fade rate is claimed",
+  "dashboard": "Health tab headline row already shows powerFade 0.656 [-0.426, 1.837] n=274 labelled 'T + HV-current-density adjusted, partial' (correct for powerFade); the dependence/serial panels show the resistanceVreg row, relabelled in M476 as 'V-regression sensitivity; months + T + load current, no HV-current-density term; the primary estimand is powerFade'",
+  "language_state": "'not resolved (95% interval includes 0)', no fade rate claimed, 'partial' adjustment; M393 emulation study is stale (242 clean drives)"
+ },
+ "inconsistency_to_rule_on": "The displayed primary (powerFade, S1) is not the estimand behind the released equivalence decision (resistanceVreg = S0, cadence-uncontrolled) nor behind the serial-dependence / dependence-sensitivity rows. Under both designs the interval spans zero and equivalence is not established (S0 pTOST 0.737); the equivalence outcome for S1 has not been computed in the payload.",
+ "options": {
+  "A": "Keep powerFade as the primary and leave resistanceVreg as a labelled sensitivity (status quo after M476); state in the dashboard that the equivalence test and dependence panels use the cadence-uncontrolled S0 design. No estimator change.",
+  "B": "Re-base the equivalence test and the dependence panels on the primary design S1 (bound stays locked at 0.5439). A change of the estimator basis of a released test: needs a pre-registered spec written before computing S1's TOST, blind audit, Director; S0 stays reported as sensitivity.",
+  "C": "Replace the primary by a pre-registered cadence handling other than S1 (e.g. slow-regime only S6, or run dummies S4): not justified by the data seen so far; would be a new analysis with the same post-hoc risk as in M480b."
+ },
+ "constraints": "No figure enters the article without Opus audit + Andrii sign-off; TOST 'not established' is not 'no degradation' (short window); CAP_KWH and the 20,000 GTC threshold are verified:false; the equivalence bound was LOCKED 2026-08-11 and must not move; M393 emulation is stale; Andrii's decision of 2026-10-19 (parked): no road-load / reference data exist.",
+ "questions": [
+  "1. Confirm powerFade (S1) as the primary resistance estimand, or rule otherwise, with the reasons.",
+  "2. Option A, B or C for the equivalence test and dependence panels. If B, the exact pre-registration needed (what is frozen before computing S1's TOST, which interval/reference, SE source) and whether S1 can be run through the same cluster-robust t(G-1) path as S0.",
+  "3. Wording the dashboard may use now for 'primary' vs 'sensitivity' and for the equivalence statement; forbidden wording.",
+  "4. Whether any change is an estimator change needing a blind audit, or labelling only (then no audit).",
+  "5. Anything that should wait for the cold-season extension or other data."
+ ]
+}

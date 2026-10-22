@@ -401,6 +401,8 @@ RULES = [
          rx=r"\bcadence invariant\b|\b(?:spread|slope)(?: \w+){0,12} not a (?:logging|logger) artefact\b|\brules? out (?:a |the )?(?:logger|logging|cadence)\b|\b(?:controls?|controlled) for (?:the )?(?:logger|logging|cadence)\b|\bremoves? the (?:logger|logging|cadence) effect\b|\btiming (?:and loading mix )?proxies (?:are|were) independent controls\b"),
     Rule("M480b-pair-level-wording", "regex", "M480b/Director (2026-10-22): the pair-level result is consistent, imprecise (unresolved at pair level); the restricted-condition outcome is a fixed-n upper L-statistic (about q0.90), never called p95; the low-current control is not distinguished from zero but imprecise, never a flat or null control; never not-explained-by-the-tested-restrictions, or pair-level confirmed / survives / persists",
          rx=r"\bnot explained by the tested restrictions\b|\bfixed[ -]n(?: \w+){0,4} p95\b|\b(?:o3|low current|negative control)(?: \w+){0,6} (?:shows? no|is flat|flat control|null control)\b|\bpair level(?: \w+){0,3} (?:confirms?|confirmed|survives?|persists?)\b"),
+    Rule("M481-resistance-serial-title", "regex", "M481/Director (2026-10-22): the serial-dependence and equivalence rows for the resistance proxy are computed on the V-regression sensitivity design S0 (no HV-current-density term); the primary resistance estimand is powerFade (S1, partial adjustment); the unqualified title Resistance (power) proxy trend followed directly by the observation count is retired; no S1 equivalence verdict exists",
+         rx=r"\bresistance power proxy trend (?:\d+ )?observations\b"),
 ]
 
 
