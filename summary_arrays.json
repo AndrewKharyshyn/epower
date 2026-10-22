@@ -60180,6 +60180,27 @@
     "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    }
+  },
+  "windowCaveat": {
+   "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-10-22T21:12:29.849589+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M485: derived by tools/window_caveat.py from drive_master.csv; descriptive cumulative refits of the released cell-spread estimator (analyses/M485_spec.md)",
+   "includedInReleaseAt": "2026-10-22T21:12:29.849589+00:00",
+   "inputBasis": {
+    "nDrives": 606,
+    "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-10-22T21:12:29.849589+00:00"
   }
  },
  "ambientTable": {
@@ -351235,5 +351256,186 @@
    "the displayed cohorts use the assigned class; the physical-threshold class is a sensitivity beside it, never a replacement",
    "ambient class describes context and exposure; it is not a pack-temperature measurement"
   ]
+ },
+ "windowCaveat": {
+  "methodVersion": 1,
+  "quantity": "cell-spread slope (released estimator)",
+  "formula": "y ~ months + T + I",
+  "estimator": "degradation_trends._cluster_ols: cluster-robust OLS, day clusters, CR1, interval t(G-1); formula pinned; a cutoff whose fitted formula would differ is not evaluable",
+  "window": {
+   "firstDay": "2026-05-15",
+   "lastDay": "2026-10-17",
+   "spanDays": 155,
+   "spanMonths": 5.1,
+   "nDrives": 576,
+   "nDays": 117,
+   "resistanceWindowKey": "powerFade.windowMo"
+  },
+  "rule": {
+   "cutoffs": "last calendar day of each month from the first eligible month up to, excluding, the last eligible month, plus the last eligible day",
+   "minDrives": 20,
+   "minDays": 5,
+   "leaveLastKs": [
+    8,
+    12,
+    16
+   ],
+   "leaveLastNote": "the 8 is the number used by tools/record_spread_fit.py (its leave-days-out check); that rule refits a first stage on the keep set, a different object; 12 and 16 were chosen after the first result was seen (data-informed, all reported)",
+   "countsExclude": [
+    "noNewData",
+    "notEvaluable",
+    "leaveLastK",
+    "daily"
+   ],
+   "signRule": "an exactly-zero estimate has sign 0 and counts as no change",
+   "daily": "a refit at every distinct eligible day meeting the support rule and the pinned formula; counts only"
+  },
+  "cutoffs": [
+   {
+    "cutoff": "2026-05-31",
+    "status": "ok",
+    "nDrives": 27,
+    "nDays": 6,
+    "slope": 3.5267,
+    "se": 3.7332,
+    "ci95": [
+     -6.0699,
+     13.1232
+    ],
+    "excludesZero": false,
+    "sign": 1
+   },
+   {
+    "cutoff": "2026-06-30",
+    "status": "ok",
+    "nDrives": 89,
+    "nDays": 24,
+    "slope": -0.3411,
+    "se": 0.5375,
+    "ci95": [
+     -1.4531,
+     0.7708
+    ],
+    "excludesZero": false,
+    "sign": -1
+   },
+   {
+    "cutoff": "2026-07-31",
+    "status": "ok",
+    "nDrives": 182,
+    "nDays": 44,
+    "slope": 0.395,
+    "se": 0.3569,
+    "ci95": [
+     -0.3247,
+     1.1147
+    ],
+    "excludesZero": false,
+    "sign": 1
+   },
+   {
+    "cutoff": "2026-08-31",
+    "status": "ok",
+    "nDrives": 286,
+    "nDays": 70,
+    "slope": -0.3527,
+    "se": 0.2557,
+    "ci95": [
+     -0.8627,
+     0.1574
+    ],
+    "excludesZero": false,
+    "sign": -1
+   },
+   {
+    "cutoff": "2026-09-30",
+    "status": "ok",
+    "nDrives": 467,
+    "nDays": 100,
+    "slope": 0.1594,
+    "se": 0.1458,
+    "ci95": [
+     -0.1299,
+     0.4486
+    ],
+    "excludesZero": false,
+    "sign": 1
+   },
+   {
+    "cutoff": "2026-10-17",
+    "status": "ok",
+    "nDrives": 576,
+    "nDays": 117,
+    "slope": 0.5239,
+    "se": 0.13,
+    "ci95": [
+     0.2665,
+     0.7814
+    ],
+    "excludesZero": true,
+    "sign": 1
+   }
+  ],
+  "leaveLastK": [
+   {
+    "k": 8,
+    "cutoff": "2026-10-09",
+    "status": "ok",
+    "nDrives": 530,
+    "nDays": 109,
+    "slope": 0.2766,
+    "se": 0.1228,
+    "ci95": [
+     0.0332,
+     0.5199
+    ],
+    "excludesZero": true,
+    "sign": 1
+   },
+   {
+    "k": 12,
+    "cutoff": "2026-10-05",
+    "status": "ok",
+    "nDrives": 500,
+    "nDays": 105,
+    "slope": 0.2407,
+    "se": 0.1394,
+    "ci95": [
+     -0.0357,
+     0.517
+    ],
+    "excludesZero": false,
+    "sign": 1
+   },
+   {
+    "k": 16,
+    "cutoff": "2026-10-01",
+    "status": "ok",
+    "nDrives": 475,
+    "nDays": 101,
+    "slope": 0.2094,
+    "se": 0.1487,
+    "ci95": [
+     -0.0856,
+     0.5044
+    ],
+    "excludesZero": false,
+    "sign": 1
+   }
+  ],
+  "daily": {
+   "nEvaluable": 113,
+   "nExcludeZeroPos": 12,
+   "nExcludeZeroNeg": 1,
+   "nSignChanges": 7
+  },
+  "summary": {
+   "nEvaluableCutoffs": 6,
+   "nIntervalExcludesZero": 1,
+   "nSignChanges": 4,
+   "firstCutoffExcludingZero": "2026-10-17",
+   "firstCutoffExcludingZeroIsLastDay": true
+  },
+  "statement": "Descriptive: cumulative refits of the released cell-spread estimator at calendar month-end cutoffs. The refits are nested and reuse almost all observations, so the counts are not independent evidence; no claim beyond the released interval."
  }
 }
