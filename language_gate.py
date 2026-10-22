@@ -393,6 +393,8 @@ RULES = [
          rx=r"\bcold (?:cohort )?(?:is |are |values? (?:is |are )?)?(?:validated|robust)\b|\bcold (?:values?|figures?|cohort) (?:describes?|represents?|shows?) winter\b|\bwinter inference from (?:the )?cold\b"),
     Rule("M473-normal-z-label", "regex", "M473/audit: the released cluster-robust trend intervals use the cluster-t reference t(G-1) (degradationTrends.*.clusterRobustOLS.ciReference); the former label 'cluster-robust (CR1) normal (z) interval' is no longer true",
          rx=r"\bcluster robust (?:cr1 )?normal z interval\b"),
+    Rule("M474-capacity-scale-readings", "regex", "M474/audit: the apparent logged-SoC scale (capacityBasis) does not identify full or accessible capacity, state of health, or which of 2.1 kWh / 1.8 kWh is gross or usable; the 5 Ah figure is documentary, not a pack test of this vehicle",
+         rx=r"\b(?:confirms?|proves?|shows?|establishes?) (?:that )?(?:the )?(?:2 1 kwh|1 8 kwh)(?: is| are| was)? (?:a )?(?:the )?(?:gross|usable|accessible|full)\b|\bfitted (?:soc )?scale (?:is|equals|gives) (?:the )?(?:usable|accessible|full|physical) capacity\b"),
 ]
 
 
