@@ -2641,7 +2641,7 @@ def _fade_modes(dm, cyc, seasonal, power_fade):
     if seasonal and seasonal.get('rate') and seasonal.get('accumulated'):
         rows.append({'label': 'All-year model (M28)', 'color': '#ec4899',
                      'primary': False,
-                     'basis': ('seasonal re-weighting of the same measured '
+                     'basis': ('seasonal re-weighting of the same estimated per-class '
                                'intensities over Kyiv climate normals; the cold '
                                'tail below the lowest logged pack-probe reading '
                                'is modelled, not observed'),
@@ -2945,7 +2945,7 @@ def _official_disclosure_correlation(dm, cfg, cyc, fade_modes, power_fade):
             'officialCapacityFadePct': od.get('capacityFadePct'),
             'note': (f"Nissan's {life_km:,} km / {od.get('capacityFadePct')}% "
                      f"capacity-fade reference point maps, via this study's "
-                     f"measured gtcPerKm per usage mix, onto {lo:,}"
+                     f"estimated gtcPerKm (from logged current; assumed capacity) per usage mix, onto {lo:,}"
                      f"\u2013{hi:,} GTC" +
                      (f" -- a band that BRACKETS the study's assumed "
                       f"{thr:,} GTC capacity-fade threshold" if brackets else
@@ -2954,7 +2954,7 @@ def _official_disclosure_correlation(dm, cfg, cyc, fade_modes, power_fade):
                      '. First external anchor for a constant previously '
                      'carried as thresholdVerified: false -- still an order-'
                      'of-magnitude corroboration, not a calibration: '
-                     'gtcPerKm reflects this buffer\'s OWN measured cycling '
+                     'gtcPerKm reflects this buffer\'s OWN estimated cycling '
                      'intensity, and the disclosed percentage is a maximum '
                      'decrease, not a defined GTC endpoint.')}
 

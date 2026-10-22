@@ -405,6 +405,8 @@ RULES = [
          rx=r"\bresistance power proxy trend (?:\d+ )?observations\b"),
     Rule("M482-power-fade-tab-wording", "regex", "M482/Director labelling (2026-10-22): the power-fade trend is an estimated, model-derived resistance proxy (powerFade, primary, partial adjustment), never measured resistance; the accumulated turnover is integrated from logged current, an estimate, never from measured data",
          rx=r"\bpower fade measured\b|\bresistance rise (?:is )?(?:actually )?measured\b|\bday cumulative from measured data\b"),
+    Rule("M483-measured-intensity-wording", "regex", "M483/Director (2026-10-22): the per-class GTC/km intensity is integrated from the logged HV current and voltage and divided by an assumed capacity constant, so it is estimated (from logged current; assumed capacity), never measured, observed or app-calculated (app-calculated applies to the logger fuel rate and counter); the observed logged mix is a logged mix; the M25 resistance null is an estimated proxy result; the evidence class is logged telemetry (thermal sensor readings and negations such as not measured are unaffected)",
+         rx=r"\bmeasured mix\b|\bmeasured (?:driving )?intensities\b|\bmeasured driving type intensity\b|\bmeasured per class intensities\b|\bmeasured gtcperkm\b|\bown measured cycling intensity\b|\bmeasured telemetry\b|\bmeasured inputs are those\b|\bmeasured and modeled figures\b|\bworkload is measured\b|\bwhether the measured m25\b|\bobserved estimated gtcperkm\b|\bown observed estimated cycling intensity\b|\bapp calculated (?:per class |driving )?intensities\b|\bobserved logged app calculated (?:per class |driving )?intensities\b"),
 ]
 
 

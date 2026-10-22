@@ -11453,7 +11453,7 @@
      "label": "All-year model (M28)",
      "color": "#ec4899",
      "primary": false,
-     "basis": "seasonal re-weighting of the same measured intensities over Kyiv climate normals; the cold tail below the lowest logged pack-probe reading is modelled, not observed",
+     "basis": "seasonal re-weighting of the same estimated per-class intensities (integrated from logged current) over Kyiv climate normals; the cold tail below the lowest logged pack-probe reading is modelled, not observed",
      "rateGtcYr": 1916,
      "accumulatedGtc": 4201,
      "gtcPerKm": null,
@@ -11695,7 +11695,7 @@
    "expectedLifeYr": null,
    "expectedLifeKm": 190000,
    "noWarrantyImplication": true,
-   "note": "Capacity fade / power fade / internal-resistance increase are all defined AT the 14yr / 190,000km condition, not as a linear rate; this study's officialDisclosureCorrelation.resistance.trendContext uses a linear-in-throughput approximation only to sanity-check whether the measured M25 null result is consistent with the disclosed life-point figure at the CURRENT mileage, not to restate the disclosure as a rate."
+   "note": "Capacity fade / power fade / internal-resistance increase are all defined AT the 14yr / 190,000km condition, not as a linear rate; this study's officialDisclosureCorrelation.resistance.trendContext uses a linear-in-throughput approximation only to sanity-check whether the estimated M25 proxy null result is consistent with the disclosed life-point figure at the CURRENT mileage, not to restate the disclosure as a rate."
   },
   "supplier": {
    "_provenance": "M79 (2026-07-31). Vehicle Energy Japan (VE-J) news release, 2023-09-19 -- 2023 Nissan Global Supplier Award, Global Innovation Award, for battery cells/modules supplying the Nissan X-Trail e-POWER system.",
@@ -11802,7 +11802,7 @@
    "bracketsThreshold": true,
    "officialLifeKm": 190000,
    "officialCapacityFadePct": 34.0,
-   "note": "Nissan's 190,000 km / 34.0% capacity-fade reference point maps, via this study's measured gtcPerKm per usage mix, onto 15,240–21,360 GTC -- a band that BRACKETS the study's assumed 20,000 GTC capacity-fade threshold. First external anchor for a constant previously carried as thresholdVerified: false -- still an order-of-magnitude corroboration, not a calibration: gtcPerKm reflects this buffer's OWN measured cycling intensity, and the disclosed percentage is a maximum decrease, not a defined GTC endpoint."
+   "note": "Nissan's 190,000 km / 34.0% capacity-fade reference point maps, via this study's estimated gtcPerKm (from logged current; assumed capacity) per usage mix, onto 15,240–21,360 GTC -- a band that BRACKETS the study's assumed 20,000 GTC capacity-fade threshold. First external anchor for a constant previously carried as thresholdVerified: false -- still an order-of-magnitude corroboration, not a calibration: gtcPerKm reflects this buffer's OWN estimated cycling intensity, and the disclosed percentage is a maximum decrease, not a defined GTC endpoint."
   },
   "usageRate": {
    "odometerKm": 46930,
@@ -11855,7 +11855,7 @@
     "official": "34.0% @ 190,000 km",
     "ours": "no observable in this corpus (fadeModes.capacity: MODELED ONLY)",
     "verdict": "consistent_by_design",
-    "note": "Nissan's 190,000 km / 34.0% capacity-fade reference point maps, via this study's measured gtcPerKm per usage mix, onto 15,240–21,360 GTC -- a band that BRACKETS the study's assumed 20,000 GTC capacity-fade threshold. First external anchor for a constant previously carried as thresholdVerified: false -- still an order-of-magnitude corroboration, not a calibration: gtcPerKm reflects this buffer's OWN measured cycling intensity, and the disclosed percentage is a maximum decrease, not a defined GTC endpoint."
+    "note": "Nissan's 190,000 km / 34.0% capacity-fade reference point maps, via this study's estimated gtcPerKm (from logged current; assumed capacity) per usage mix, onto 15,240–21,360 GTC -- a band that BRACKETS the study's assumed 20,000 GTC capacity-fade threshold. First external anchor for a constant previously carried as thresholdVerified: false -- still an order-of-magnitude corroboration, not a calibration: gtcPerKm reflects this buffer's OWN estimated cycling intensity, and the disclosed percentage is a maximum decrease, not a defined GTC endpoint."
    },
    {
     "parameter": "Expected life-time",
@@ -56305,7 +56305,7 @@
   },
   "new_no_archived_counterpart": {
    "dodSocLevelSensitivity": "M91 (2026-08-06). SoC-window-LEVEL diagnostic split of the existing rf_damage_k2 (M17), re-blended through a labeled config.socLevelWeighting ladder cited to Wikner (Chalmers, 2017). Master + config only; never folds into rf_damage_k2 or any GTC/FCE crossing -- see the function docstring for the corpus finding (virtually all cycling sits in the elevated-SoC band by her breakpoints).",
-   "seasonalLife.observedConstant": "M92 (2026-08-06). Observed logged distance mix carried through the SAME M28 constant-mix seasonal model as selectedConstant, so the one row whose workload is measured also carries climatic + hot-tail stress instead of staying a bare warm-floor figure.",
+   "seasonalLife.observedConstant": "M92 (2026-08-06). Observed logged distance mix carried through the SAME M28 constant-mix seasonal model as selectedConstant, so the one row whose workload is observed (logged) also carries climatic + hot-tail stress instead of staying a bare warm-floor figure.",
    "seasonalLife.hotTail.observed": "M92 (2026-08-06). Companion to observedConstant -- same _hot_block() path already used for hotTail.selected/allYear."
   }
  },
