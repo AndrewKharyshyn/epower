@@ -10587,6 +10587,18 @@ function ColdNoData({chart,cohort}){
       : <>No {label.toLowerCase()}-cohort payload for {chart} in this build; the all-data figures are not substituted.</>}
   </div>;
 }
+// the observed-count line and boundary notes leave the sticky selector bar (owner request, 2026-10-22); rendered at the end of the Overview tab
+function CohortObservedNote(){
+  const cm=S.cohortMeta||{}, a=cm.all, w=cm.warm, s=cm.shoulder, c=cm.cold; if(!a||a.observed==null||!w||!s||!c) return null;
+      const inf=["warm","shoulder","cold"].filter(k=>cm[k]&&cm[k].inferenceAvailable).map(k=>k.charAt(0).toUpperCase()+k.slice(1));
+      const minN=S.seasonalCharts?._meta?.cohortSuppressedBelowMinSupport?.minDrivesForStatistics;
+      const dates=(typeof coldObservedInfo==="function")?coldObservedInfo().dates:[];
+      return <div data-cohort-observed="1" style={{textAlign:"center",marginTop:14,fontSize:9,color:"#64748b",lineHeight:1.4}}>
+        Observed {a.observed} = Warm {w.observed} + Shoulder {s.observed} + Cold {c.observed}; analysed as cohorts: {inf.length?inf.join(", "):"none"} (at least {minN} drives).
+        {(S.ambientTable?.regimeOverrides||[]).map((o,i)=><span key={i} data-regime-override="1"> Boundary drive {o.file} (ambient readouts at the Cold limit; {o.physicalRegime} by the time-weighted mean) is assigned to {o.assignedRegime.charAt(0).toUpperCase()+o.assignedRegime.slice(1)} by owner decision (2026-10-13).{o.sensitivity&&<> Energy intensity with and without this assignment (kWh/100 km, ratio of sums, 95% CI by calendar day):{["cold","shoulder"].map(c=>{const s=o.sensitivity[c]; return s&&s.applied&&s.removed?<span key={c}> {c.charAt(0).toUpperCase()+c.slice(1)} {s.applied.value.toFixed(1)} ({s.applied.ci95.lo.toFixed(1)}–{s.applied.ci95.hi.toFixed(1)}; {s.applied.n} drives, {s.applied.ci95.nClusters} days) with, {s.removed.value.toFixed(1)} ({s.removed.ci95.lo.toFixed(1)}–{s.removed.ci95.hi.toFixed(1)}; {s.removed.n} drives, {s.removed.ci95.nClusters} days) without{c==="cold"?";":"."}</span>:null;})} Descriptive only; route mix and season are confounded.</>}</span>)}
+        {c.observed>0 && !c.inferenceAvailable && <> The Cold class ({c.observed} drive{c.observed===1?"":"s"} on {c.nDaysObserved} calendar day{c.nDaysObserved===1?"":"s"}{dates.length?`: ${dates.join(", ")}`:""}) is shown as observed only: no cohort statistics and no winter inference.</>}
+      </div>; 
+}
 // M478-layout: the cohort support accounting is rendered once at the end of the Overview tab (it was inside the sticky cohort selector and covered half of the page)
 function CohortSupportBlock(){
   if(!S.cohortSupport) return null;
@@ -10610,7 +10622,7 @@ function CohortSelector({cohort,setCohort}){
   // M253 (season-toggle sticky): pinned to the top of the viewport on scroll
   // so switching cohorts doesn't require scrolling back up first. Carries its
   // own background + bottom border/shadow since content now scrolls under it.
-  return <div data-cohort-selector="1" style={{display:"flex",flexWrap:"wrap",gap:4,marginBottom:10,justifyContent:"center",alignItems:"center",position:"sticky",top:0,zIndex:50,background:"#f8fafcf2",backdropFilter:"blur(2px)",padding:"6px 0",borderBottom:"1px solid #e2e8f0",boxShadow:"0 2px 4px rgba(15,23,42,0.04)"}}>
+  return <><div data-cohort-selector="1" style={{display:"flex",flexWrap:"wrap",gap:4,marginBottom:10,justifyContent:"center",alignItems:"center",position:"sticky",top:0,zIndex:50,background:"#f8fafcf2",backdropFilter:"blur(2px)",padding:"6px 0",borderBottom:"1px solid #e2e8f0",boxShadow:"0 2px 4px rgba(15,23,42,0.04)"}}>
     <span style={{fontSize:10,color:"#94a3b8",marginRight:2,textTransform:"uppercase",letterSpacing:0.5}}>Thermal cohort</span>
     {COHORT_MODES.map(m=>{
       const on=cohort===m, meta=COHORT_META[m];
@@ -10626,19 +10638,11 @@ function CohortSelector({cohort,setCohort}){
         {meta.label}{n!=null && <span title={belowSupport?"observed drives; below the minimum for a cohort view":"drives analysed in this cohort view"} style={{opacity:0.75,fontSize:9,marginLeft:4}}>{n}{belowSupport?"\u2020":""}</span>}
       </button>;
     })}
-    {(()=>{ const cm=S.cohortMeta||{}, a=cm.all, w=cm.warm, s=cm.shoulder, c=cm.cold; if(!a||a.observed==null||!w||!s||!c) return null;
-      const inf=["warm","shoulder","cold"].filter(k=>cm[k]&&cm[k].inferenceAvailable).map(k=>k.charAt(0).toUpperCase()+k.slice(1));
-      const minN=S.seasonalCharts?._meta?.cohortSuppressedBelowMinSupport?.minDrivesForStatistics;
-      const dates=(typeof coldObservedInfo==="function")?coldObservedInfo().dates:[];
-      return <div data-cohort-observed="1" style={{flexBasis:"100%",textAlign:"center",fontSize:9,color:"#64748b",lineHeight:1.4}}>
-        Observed {a.observed} = Warm {w.observed} + Shoulder {s.observed} + Cold {c.observed}; analysed as cohorts: {inf.length?inf.join(", "):"none"} (at least {minN} drives).
-        {(S.ambientTable?.regimeOverrides||[]).map((o,i)=><span key={i} data-regime-override="1"> Boundary drive {o.file} (ambient readouts at the Cold limit; {o.physicalRegime} by the time-weighted mean) is assigned to {o.assignedRegime.charAt(0).toUpperCase()+o.assignedRegime.slice(1)} by owner decision (2026-10-13).{o.sensitivity&&<> Energy intensity with and without this assignment (kWh/100 km, ratio of sums, 95% CI by calendar day):{["cold","shoulder"].map(c=>{const s=o.sensitivity[c]; return s&&s.applied&&s.removed?<span key={c}> {c.charAt(0).toUpperCase()+c.slice(1)} {s.applied.value.toFixed(1)} ({s.applied.ci95.lo.toFixed(1)}–{s.applied.ci95.hi.toFixed(1)}; {s.applied.n} drives, {s.applied.ci95.nClusters} days) with, {s.removed.value.toFixed(1)} ({s.removed.ci95.lo.toFixed(1)}–{s.removed.ci95.hi.toFixed(1)}; {s.removed.n} drives, {s.removed.ci95.nClusters} days) without{c==="cold"?";":"."}</span>:null;})} Descriptive only; route mix and season are confounded.</>}</span>)}
-        {c.observed>0 && !c.inferenceAvailable && <> The Cold class ({c.observed} drive{c.observed===1?"":"s"} on {c.nDaysObserved} calendar day{c.nDaysObserved===1?"":"s"}{dates.length?`: ${dates.join(", ")}`:""}) is shown as observed only: no cohort statistics and no winter inference.</>}
-      </div>; })()}
-    {cohort!=="all" && <div data-season-scope="1" style={{flexBasis:"100%",textAlign:"center",fontSize:9,color:"#94a3b8",lineHeight:1.4}}>
+  </div>
+    {cohort!=="all" && <div data-season-scope="1" style={{textAlign:"center",fontSize:9,color:"#94a3b8",lineHeight:1.4}}>
       The thermal-cohort filter (ambient classes, not calendar seasons) applies only to sections without an <em>All-data reference</em> tag; tagged sections, narrative, records and provenance are corpus-wide. A cohort view needs ≥{COHORT_MIN_SUPPORT_DRIVES} drives {S.cohortMeta?.cold?.inferenceAvailable?<>(Cold: {S.cohortMeta.cold.eligibleForCohortView} drives on {S.cohortMeta.cold.nDaysObserved} calendar days meet the support rule; with so few days the intervals are wide and the cohort is not a seasonal-effect estimate).</>:<>(Cold: {coldObservedInfo().n} observed, below support).</>}
     </div>}
-  </div>;
+  </>;
 }
 /* ─── COMPARE MODE (M256) ──────────────────────────────────────────────────
    When the season selector is set to "Compare", every cohort-aware chart
@@ -11443,7 +11447,8 @@ export default function App() {
           <div style={{fontSize:10,color:"#64748b",marginBottom:6}}>Gross energy discharged from the battery per 100 km — how hard the buffer is typically worked, not the net start/end SoC balance. <span style={{color:"#fbbf24"}}>Basis (M21): gross_discharge_kwh/100km, since e-POWER actively steers SoC back toward a target band over a trip — a <em>net</em> (discharge − charge) figure mostly reflects where the buffer happened to land relative to where it started, which trends toward zero on longer drives regardless of how hard the battery actually worked, not genuine efficiency. Bands are the 10th–90th percentile per class (median marked), not raw min–max, so a handful of near-zero/negative-net outlier trips no longer distort the low end.</span></div>
           <BatteryDrawSpectrum/>
         </Section>
-      <CohortSupportBlock/>
+      <CohortObservedNote/>
+        <CohortSupportBlock/>
       </>)}
 
       {/* ── CHARTS ── */}
