@@ -62,6 +62,7 @@ function buildS(config, arrays) {
     dependenceSensitivity: A.dependenceSensitivity || null,  // M406/M407: CR2, wild bootstrap, week-block sensitivities (reporting-only)
     serialDependence: A.serialDependence || null,
     windowCaveat: A.windowCaveat || null,
+    powerFadeEquivalence: A.powerFadeEquivalence || null,
     integrationScenarios: A.integrationScenarios || null,  // M420: single-choice integration scenarios beside the energy Monte Carlo (reporting-only)
     cohortSupport: A.cohortSupport || null,  // M472: descriptive support accounting per thermal cohort (largest-drive / largest-day share, effective days, leave-one-day-out, physical-class sensitivity)
     thermalSupportLedger: A.thermalSupportLedger || null,  // M418: candidate / accepted / excluded / right-censored counts of the thermal estimates (reporting-only)
@@ -2723,7 +2724,7 @@ function CycleProjectionChart() {
           </div>
           {t.cadenceSensitivity?.specs && (() => { const cs = t.cadenceSensitivity, pub = cs.specs.find(x => x.id === cs.publishedIsSpec); return (
             <div data-power-fade-estimand="true" style={{fontSize:8.5,color:"#64748b",marginTop:5,lineHeight:1.5}}>
-              <strong style={{color:"#334155"}}>Estimand and adjustment (M482).</strong> This slope is the primary resistance-proxy estimand (specification {cs.publishedIsSpec}{pub ? `, n = ${pub.n} drives on ${pub.nDays} days` : ""}: temperature, load current and two HV-current-density covariates; the adjustment is partial). Across the {cs.nSpecs} cadence-handling specifications the slope ranges from {cs.slopeMin ?? "n/a"} to {cs.slopeMax ?? "n/a"} m&Omega;/month and {cs.allIntervalsSpanZero ? "every 95% interval spans zero, which is not evidence of no change" : "not every 95% interval spans zero"}. The equivalence test and the serial-dependence rows in the Health tab are computed on the sensitivity design without the density term (S0); no equivalence test exists for the primary design. Window {t.windowMo} months. An estimated proxy trend, not a measured resistance and not a degradation rate.
+              <strong style={{color:"#334155"}}>Estimand and adjustment (M482).</strong> This slope is the primary resistance-proxy estimand (specification {cs.publishedIsSpec}{pub ? `, n = ${pub.n} drives on ${pub.nDays} days` : ""}: temperature, load current and two HV-current-density covariates; the adjustment is partial). Across the {cs.nSpecs} cadence-handling specifications the slope ranges from {cs.slopeMin ?? "n/a"} to {cs.slopeMax ?? "n/a"} m&Omega;/month and {cs.allIntervalsSpanZero ? "every 95% interval spans zero, which is not evidence of no change" : "not every 95% interval spans zero"}. The equivalence test and the serial-dependence rows in the Health tab are computed on the sensitivity design without the density term (S0). {primaryEquivalenceSentence() || "No equivalence test exists for the primary design."} Window {t.windowMo} months. An estimated proxy trend, not a measured resistance and not a degradation rate.
             </div>
           ); })()}
         </div>
@@ -4955,6 +4956,21 @@ function trendLabel(ci,noun){ const sp=ciSpansZero(ci); return sp===null?'unavai
 function spreadSpans(){ return ciSpansZero(S.degradationTrends?.cellSpread?.clusterRobustOLS?.ci95); }
 // M477 (external recheck 2026-10-22, Director): a positive conditional spread slope is stated together with the procedure-dependence of its lower bound, bound to serialDependence.trendSlopes.cellSpread.rowsRule (no typed counts)
 // M485 (spec analyses/M485_spec.md Rev 2): the observation window and the cumulative-refit counts of the released cell-spread estimator, generated from S.windowCaveat only (no typed counts)
+// M486 (spec analyses/M486_spec.md Rev 2.1): the equivalence test on the PRIMARY resistance design (powerFade S1), generated from S.powerFadeEquivalence only; the fallback is the M481 wording
+function primaryEquivalenceSentence(){
+  const e=S.powerFadeEquivalence;
+  if(!e||!e.s1||!e.bound||!e.verdict) return "";
+  const word={notEstablished:"equivalence not established",procedureDependent:"procedure-dependent, equivalence not established",established:"within the locked bound over this window"}[e.verdict];
+  const cr=e.cadenceRange||{};
+  const rng=cr.nSpecs?`The slope depends on the cadence specification (M395: ${cr.slopeMin} to ${cr.slopeMax} m\u03a9/month across ${cr.nSpecs} specifications${cr.allIntervalsSpanZero?", every 95 % interval spans zero":""}). `:"";
+  const att=e.s1.equivalenceAttainable ? `The observed SE ${e.s1.se.toFixed(3)} is below the ${e.s1.seMaxForEquivalence.toFixed(3)} m\u03a9/month needed for equivalence to be attainable.` : `At this precision the test could not show equivalence: it requires an SE below ${e.s1.seMaxForEquivalence.toFixed(3)} m\u03a9/month (bound / t0.95,df), the observed SE is ${e.s1.se.toFixed(3)}, so even a slope estimate of exactly 0 would not lie inside the bound.`;
+  return `Equivalence test on the primary design (powerFade, specification S1, density-adjusted partial slope): slope ${e.s1.slope} m\u03a9/month, 90 % interval [${e.s1.ci90[0]}, ${e.s1.ci90[1]}] against the locked bound of \u00b1${e.bound.value} m\u03a9/month; ${word}. ${rng}This is not evidence of no change. ${att}`;
+}
+function primaryEquivalenceShort(){
+  const e=S.powerFadeEquivalence;
+  if(!e||!e.verdict) return "";
+  return {notEstablished:"primary design (S1): equivalence not established",procedureDependent:"primary design (S1): procedure-dependent, equivalence not established",established:"primary design (S1): within the locked bound over this window"}[e.verdict];
+}
 function spreadWindowSentence(){
   const w=S.windowCaveat;
   if(!w||!w.window||!w.summary) return "";
@@ -5043,7 +5059,7 @@ function SerialDependencePanel(){
       <strong style={{color:"#0f172a"}}>Serial-dependence sensitivity (M410; pre-registered, additive; the released estimators and the statements above are unchanged).</strong> {D.reading}. {D.reportingRule}. Resampling: {D.resampling}.
       {series.map(([key,title,unit])=>{ const t=D.trendSlopes[key]; if(!t) return null; const ac=t.residualAutocorr||{}, r1=ac["1"]||{}, r2=ac["2"]||{}, r3=ac["3"]||{}, po=ac.pooled||{}, vf=t.vifDiagnostic||{}, mc=t.misspecControl||{}, gl=t.gls||{}, sv=t.semivariogram||{}; return (
         <div key={key} style={{marginTop:10}}>
-          <div style={{fontWeight:600,color:"#0f172a"}}>{title} ({t.n} observations, {t.nDays} days, {t.nWeeks} ISO weeks): {trendLabel(M?.trendSlopes?.[key]?.cr1?.ci95T_Gminus1,"slope")}; {key==="resistanceVreg"?"equivalence not established on this sensitivity design (not computed for the primary design)":"equivalence not established"}; no stability or SOH claim.</div>
+          <div style={{fontWeight:600,color:"#0f172a"}}>{title} ({t.n} observations, {t.nDays} days, {t.nWeeks} ISO weeks): {trendLabel(M?.trendSlopes?.[key]?.cr1?.ci95T_Gminus1,"slope")}; {key==="resistanceVreg"?(primaryEquivalenceShort()?"equivalence not established on this sensitivity design (S0); "+primaryEquivalenceShort():"equivalence not established on this sensitivity design (not computed for the primary design)"):"equivalence not established"}; no stability or SOH claim.</div>
           <div>Neighbouring-day residual autocorrelation: rho_1 = {f2(r1.rho)} ({r1.nPairs} day pairs, 95% week-resampling interval {ci(r1.ci95)}). {ac.statement}. {ac.powerDisclosure}. Descriptive only (not rules): rho_2 = {f2(r2.rho)} ({r2.nPairs} pairs), rho_3 = {f2(r3.rho)} ({r3.nPairs} pairs). {ac.multiplicityNote}. {po.label}: rho_1-3 = {f2(po.rho)}, interval {ci(po.ci95)}{ac.disagreementWithOriginalStatistic?`; ${ac.disagreementWithOriginalStatistic}`:"; it agrees with the rule statistic"}. {ac.forkingPathNote}. The percentile interval of rho_1 is shifted: the bootstrap median {f2(r1.bootstrapMedian)} lies {r1.bootstrapMedian<r1.rho?"below":"above"} the point estimate {f2(r1.rho)}; no bias correction is applied.</div>
           <table style={{borderCollapse:"collapse",margin:"4px 0"}}><thead><tr><th style={th}>Procedure (fixed order, after the rows above)</th><th style={th}>95% interval ({unit})</th><th style={th}>Detail</th></tr></thead>
             <tbody>{rowsOf(t).map(p=>(<tr key={p.k}><td style={td}>{p.k}</td><td style={td}>{ci(p.ci)}</td><td style={td}>{p.n}</td></tr>))}
@@ -5113,7 +5129,7 @@ function DependencePanel(){
       <strong style={{color:"#0f172a"}}>Inference sensitivities (M406; additive, the released estimators and the statements above are unchanged).</strong> {D.reading}. {D.reportingRule}. Day = cluster, ISO week = block, 4000 draws.
       {series.map(([key,title,unit])=>{ const t=D.trendSlopes[key]; if(!t) return null; const reg=t.byLoggingRegime||{}; return (
         <div key={key} style={{marginTop:10}}>
-          <div style={{fontWeight:600,color:"#0f172a"}}>{title}: slope {f2(t.cr1?.slope)} {unit}, n={t.n} observations, {t.nDays} days; {trendLabel(t.cr1?.ci95T_Gminus1,"slope")}; {key==="resistanceVreg"?"equivalence not established on this sensitivity design (not computed for the primary design)":"equivalence not established"}; no stability or SOH claim.</div>
+          <div style={{fontWeight:600,color:"#0f172a"}}>{title}: slope {f2(t.cr1?.slope)} {unit}, n={t.n} observations, {t.nDays} days; {trendLabel(t.cr1?.ci95T_Gminus1,"slope")}; {key==="resistanceVreg"?(primaryEquivalenceShort()?"equivalence not established on this sensitivity design (S0); "+primaryEquivalenceShort():"equivalence not established on this sensitivity design (not computed for the primary design)"):"equivalence not established"}; no stability or SOH claim.</div>
           <table style={{borderCollapse:"collapse",margin:"4px 0"}}><thead><tr><th style={th}>Procedure (fixed order)</th><th style={th}>95% interval ({unit})</th><th style={th}>Detail</th></tr></thead>
             <tbody>{procs(t).map(p=>(<tr key={p.k}><td style={td}>{p.k}</td><td style={td}>{ci(p.ci)}</td><td style={td}>{p.n}</td></tr>))}</tbody></table>
           <div>Reading across procedures: {signSentence(t)}.</div>

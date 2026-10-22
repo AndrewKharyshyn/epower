@@ -60201,6 +60201,27 @@
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
    "computedAt": "2026-10-22T21:12:29.849589+00:00"
+  },
+  "powerFadeEquivalence": {
+   "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-10-22T22:30:46.723586+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M486: derived by tools/powerfade_equivalence.py from drive_master.csv and the tracked powerfade_density.csv; equivalence test on the primary resistance design (analyses/M486_spec.md)",
+   "includedInReleaseAt": "2026-10-22T22:30:46.723586+00:00",
+   "inputBasis": {
+    "nDrives": 606,
+    "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-10-22T22:30:46.723586+00:00"
   }
  },
  "ambientTable": {
@@ -351437,5 +351458,100 @@
    "firstCutoffExcludingZeroIsLastDay": true
   },
   "statement": "Descriptive: cumulative refits of the released cell-spread estimator at calendar month-end cutoffs. The refits are nested and reuse almost all observations, so the counts are not independent evidence; no claim beyond the released interval."
+ },
+ "powerFadeEquivalence": {
+  "methodVersion": 1,
+  "quantity": "pack-resistance proxy slope, primary design (powerFade, specification S1)",
+  "bound": {
+   "value": 0.5439,
+   "unit": "mOhm/month",
+   "label": "oem75pct_over14yr",
+   "lockDate": "2026-08-11",
+   "source": "degradationTrends.resistanceVreg.releasedEquivalence.delta, read as a constant (never recomputed, not rescaled)",
+   "baselineMedianMohm": 121.825,
+   "currentMedianMohm": 130.3
+  },
+  "s0Control": {
+   "slope": 0.886,
+   "se": 0.537,
+   "df": 97,
+   "ci90": [
+    -0.0058,
+    1.7778
+   ],
+   "pTOST": 0.7372,
+   "equivalent": false,
+   "nDrives": 274,
+   "nDays": 98,
+   "formula": "y ~ months + T + I",
+   "seMaxForEquivalence": 0.3275,
+   "equivalenceAttainable": false
+  },
+  "s1": {
+   "slope": 0.6564,
+   "se": 0.5574,
+   "df": 97,
+   "ci90": [
+    -0.2693,
+    1.5821
+   ],
+   "pTOST": 0.5798,
+   "equivalent": false,
+   "nDrives": 274,
+   "nDays": 98,
+   "formula": "y ~ months + T + I + de + dc",
+   "seMaxForEquivalence": 0.3275,
+   "equivalenceAttainable": false
+  },
+  "bootstrap": {
+   "ci90": [
+    -0.2542,
+    1.6532
+   ],
+   "ci95Reproduced": [
+    -0.4262,
+    1.8374
+   ],
+   "drawsRequested": 4000,
+   "drawsUsed": 4000,
+   "drawsDropped": 0,
+   "seed": 42,
+   "monthsScale": "days / 30.44 from the minimum date of the clean complete cases (the published function's scale)",
+   "pointSlope": 0.6564
+  },
+  "procedures": {
+   "cr1TostInside": false,
+   "bootstrap90Inside": false
+  },
+  "verdict": "notEstablished",
+  "reconciliation": {
+   "s0VsReleased": "slope, SE, n, days, pTOST and 90 % interval equal",
+   "s1SlopeVsPublished": [
+    0.6564,
+    0.656
+   ],
+   "publishedCi95": [
+    -0.426,
+    1.837
+   ],
+   "publishedNBoot": 4000,
+   "fileSetSize": 274,
+   "cadenceControlled": true
+  },
+  "cadenceRange": {
+   "slopeMin": 0.232,
+   "slopeMax": 0.886,
+   "nSpecs": 7,
+   "allIntervalsSpanZero": true
+  },
+  "blindAuditRef": null,
+  "repeatedLooks": "re-run at every ingestion, no alpha spending",
+  "statement": "Equivalence test on the primary design (powerFade, specification S1): a descriptive TOST at the locked bound over a short window; the verdict is determined by the published slope relative to the bound; not established is not evidence of no degradation; the first established verdict would require a blind audit before it may be displayed.",
+  "sidecar": {
+   "file": "powerfade_density.csv",
+   "sha256": "6909731d05c3214f1d237c195c19e7da04628c3dc95f7ad23797578ddcae5e61",
+   "rows": 274,
+   "nDensityResolved": 274
+  }
  }
 }

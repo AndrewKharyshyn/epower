@@ -420,6 +420,19 @@
    ]
   },
   {
+   "id": "powerfade_equivalence",
+   "title": "M486: equivalence test on the primary resistance design (powerFade S1): CR1 TOST at the locked bound plus the published bootstrap, density covariates cached in powerfade_density.csv by raw sha256; additive payload block powerFadeEquivalence + stamp; six hard stops; needs raw/ like ah_throughput; spec analyses/M486_spec.md",
+   "cmd": [
+    "python3",
+    "tools/powerfade_equivalence.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json",
+    "powerfade_density.csv"
+   ]
+  },
+  {
    "id": "thermal_support_ledger",
    "title": "M418: thermal support ledger (candidate / excluded / accepted / reached / right-censored counts for warm-up lag, hvcEngine80C, warm-up curve and the fuel penalty, all corpus plus warm and shoulder cohorts; reconciled with the published estimator n; spec analyses/M418_spec.md); additive payload block thermalSupportLedger + stamp; the estimators are unchanged",
    "cmd": [
