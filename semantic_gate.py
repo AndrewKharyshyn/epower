@@ -476,7 +476,11 @@ if _v2:
         """M466 (Director option B, analyses/M463_regen_lock_addendum.md): a run-once study block keeps its OWN provenance master; it is accepted with a different master only when its artifact stamp says carriedForward with a recorded basis."""
         st_ = A["_artifactStamps"].get(k) or {}
         return bool(st_.get("carriedForward")) and st_.get("basisNDrives") is not None
-    ok("M441 the study block (if present) names the same master and extractor as the base block and carries its stamp", "regenCaptureV2Study" not in A or ((A["regenCaptureV2Study"]["masterMd5"] == _v2["masterMd5"] or _study_carried("regenCaptureV2Study")) and A["regenCaptureV2Study"]["policyHash"] == _v2["policyHash"]
+    def _m475_carried_pair(study):
+        """M475 (Director ruling): the live blocks use extractor regen-v2.3 (exact piecewise integration) while the run-once study was produced with the slice quadrature (extractor regen-v2.1, numerically identical to regen-v2.2); accepted only for a CARRIED study, against a base block that names regen-v2.3 and carries the disclosure of the quadrature change."""
+        return (study.get("extractorVersion") in ("regen-v2.1", "regen-v2.2") and _v2.get("extractorVersion") == "regen-v2.3" and _study_carried("regenCaptureV2Study")
+                and any(str(d_).startswith("integration (M475, extractor regen-v2.3)") for d_ in _v2.get("disclosures", [])))
+    ok("M441 the study block (if present) names the same master and extractor as the base block and carries its stamp", "regenCaptureV2Study" not in A or ((A["regenCaptureV2Study"]["masterMd5"] == _v2["masterMd5"] or _study_carried("regenCaptureV2Study")) and (A["regenCaptureV2Study"]["policyHash"] == _v2["policyHash"] or _m475_carried_pair(A["regenCaptureV2Study"]))
        and "regenCaptureV2Study" in A["_artifactStamps"]))
 # M442 (analyses/M442_spec.md Rev 1.2): harmonized levels, resolution bracket, gates and adjacent-bin contrasts. Payload invariants: both blocks present with stamps and the same master, the gates recorded as computed, every contrast label is
 # derived from its four checks (resolved only if all hold), every bracket b is non-negative, and the harmonized levels obey the same support rule as the v2 cells
