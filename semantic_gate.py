@@ -386,6 +386,15 @@ if _sdp:
            not _re407.search(r"\b(significant(?:ly)?|confirmed|stable|robust|detected|detectable|MDE|rules? out|demonstrates|measured)\b|observed power|post hoc power|powered to detect|\bno serial dependence\b|\bdays are independent\b|\bcr1 (?:is )?adequate\b|\b(?:hac|gls) (?:is )?(?:the )?(?:corrected|primary)\b", _pn))
 # M421 (analyses/M421_spec.md, Director ruling analyses/M421_director_ruling_2026-10-12.md; audit F14 and F12): the two-pass offset is a model-derived residual-balance offset conditional on the SoC/capacity ledger, shown with its
 # payload-bound numbers; the generator-closure note states the need for an independent electrical reference
+# M477 (external recheck 2026-10-22, Director): the positive conditional spread statement carries the procedure-dependence of its lower bound, from the payload rowsRule
+if _sdp:
+    _rr477 = _sdp["trendSlopes"]["cellSpread"]["rowsRule"]
+    _lo477 = A["degradationTrends"]["cellSpread"]["clusterRobustOLS"]["ci95"][0]
+    _pos477 = [(k, t) for k, t in T.items() if (k.startswith("health__") or k.startswith("conclusions__")) and not k.endswith("__compare") and "ositive conditional cell-spread slope at" in t]
+    _want477 = _lo477 > 0 and _rr477["classification"] == "procedure-dependent"
+    _sent477 = "the lower bound is procedure-dependent (%d of %d serial-dependence interval procedures exclude zero, %d include it" % (len(_rr477["rowsExcludingZero"]), len(_rr477["rowsIncludingZero"]) + len(_rr477["rowsExcludingZero"]), len(_rr477["rowsIncludingZero"]))
+    ok("A2 REQUIRED M477 the positive cell-spread headline states the procedure-dependent lower bound with counts from rowsRule (iff positive lower limit and classification procedure-dependent)",
+       (len(_pos477) >= 1 or not _want477) and all((_sent477 in t) == _want477 for k, t in _pos477))
 _ou = A.get("offsetUncertainty") or {}
 ok("M421 the offset headline equals the offsetUncertainty point estimate (one source) and the capacity scenarios and the I2R dual report exist in the payload",
    abs(A.get("offset2pA", _ou.get("pointEstimateA")) - _ou["pointEstimateA"]) < 1e-9 and len(_ou["capacitySensitivity"]["rows"]) >= 2 and "offsetModelTest" in A["capacityBasis"] and A["capacityBasis"]["offsetModelTest"]["acceptance"]["acceptI2R"] is False)
