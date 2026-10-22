@@ -395,6 +395,33 @@ if _sdp:
     _sent477 = "the lower bound is procedure-dependent (%d of %d serial-dependence interval procedures exclude zero, %d include it" % (len(_rr477["rowsExcludingZero"]), len(_rr477["rowsIncludingZero"]) + len(_rr477["rowsExcludingZero"]), len(_rr477["rowsIncludingZero"]))
     ok("A2 REQUIRED M477 the positive cell-spread headline states the procedure-dependent lower bound with counts from rowsRule (iff positive lower limit and classification procedure-dependent)",
        (len(_pos477) >= 1 or not _want477) and all((_sent477 in t) == _want477 for k, t in _pos477))
+# M485 (analyses/M485_spec.md Rev 2): the window caveat. The sentence is generated from the payload block (independent mirror of tools/window_caveat.sentence); every cell-spread headline carries it; the table is rendered; the counts follow the rows
+_wc485 = A.get("windowCaveat")
+if _wc485:
+    _w485, _s485 = _wc485["window"], _wc485["summary"]
+    _d485 = _wc485["daily"]
+    _lk485 = [r for r in _wc485["leaveLastK"] if r["status"] == "ok"]
+    _inc485 = [r["k"] for r in _lk485 if not r["excludesZero"]]
+    _cl485 = ("" if not _lk485 else ("the interval includes zero when the last %d days are removed" % min(_inc485) if _inc485 else
+              "the interval excludes zero after removal of the last %s days" % (str(_lk485[0]["k"]) if len(_lk485) == 1 else ", ".join(str(r["k"]) for r in _lk485[:-1]) + " and " + str(_lk485[-1]["k"]))))
+    _sent485 = "; ".join(["Cell-spread observation window %.1f months (%d drives on %d days). Cumulative refits of the released estimator at month-end cutoffs: the interval excluded zero at %d of %d cutoffs and the point estimate changed sign %d times"
+                          % (_w485["spanMonths"], _w485["nDrives"], _w485["nDays"], _s485["nIntervalExcludesZero"], _s485["nEvaluableCutoffs"], _s485["nSignChanges"]),
+                          "month-end cutoffs are one fixed grid (at daily cutoffs the interval excluded zero at %d of %d, %d positive, %d negative)"
+                          % (_d485["nExcludeZeroPos"] + _d485["nExcludeZeroNeg"], _d485["nEvaluable"], _d485["nExcludeZeroPos"], _d485["nExcludeZeroNeg"])]
+                         + ([_cl485] if _cl485 else []) + ["the refits are nested, reuse almost all observations and are not independent replication"]) + "; no claim beyond the released interval."
+    _hd485 = [(k, t) for k, t in T.items() if "ositive conditional cell-spread slope at" in t or "ell-spread trend not resolved at" in t]
+    ok("A2 REQUIRED M485 every cell-spread headline carries the window sentence generated from windowCaveat (%d dumps)" % len(_hd485), len(_hd485) >= 1 and all(_sent485 in t for k, t in _hd485))
+    _h485 = [(k, t) for k, t in T.items() if k.startswith("health__") and not k.endswith("__compare")]
+    ok("A2 REQUIRED M485 the window table and sentence are rendered in the Health dumps and list every payload cutoff", len(_h485) >= 3 and all("Observation window and cutoff sensitivity (M485" in t and _sent485 in t and all(r["cutoff"] in t for r in _wc485["cutoffs"]) for k, t in _h485))
+    _ok485 = [r for r in _wc485["cutoffs"] if r["status"] == "ok"]
+    _sg485 = [r["sign"] for r in _ok485]
+    _rel485 = A["degradationTrends"]["cellSpread"]["clusterRobustOLS"]
+    ok("A2 REQUIRED M485 the leave-last-k series is exactly k = 8, 12, 16 (all reported) and the Health dumps list each row outside the counts",
+       [r["k"] for r in _wc485["leaveLastK"]] == [8, 12, 16] and len(_h485) >= 3 and all(all(("leave the last %d days out" % r["k"]) in t for r in _wc485["leaveLastK"]) for k, t in _h485))
+    ok("A2 REQUIRED M485 counts follow the rows (m, k, s), the final row equals the released cell-spread fit, the window facts equal the released n and days",
+       _s485["nEvaluableCutoffs"] == len(_ok485) and _s485["nIntervalExcludesZero"] == sum(bool(r["excludesZero"]) for r in _ok485) and _s485["nSignChanges"] == sum(1 for a_, b_ in zip(_sg485, _sg485[1:]) if a_ * b_ < 0)
+       and _wc485["cutoffs"][-1]["cutoff"] == _w485["lastDay"] and (_wc485["cutoffs"][-1]["slope"], _wc485["cutoffs"][-1]["ci95"], _wc485["cutoffs"][-1]["nDrives"], _wc485["cutoffs"][-1]["nDays"]) == (_rel485["slope"], _rel485["ci95"], _rel485["nObs"], _rel485["nDays"])
+       and (_w485["nDrives"], _w485["nDays"]) == (_rel485["nObs"], _rel485["nDays"]))
 _ou = A.get("offsetUncertainty") or {}
 ok("M421 the offset headline equals the offsetUncertainty point estimate (one source) and the capacity scenarios and the I2R dual report exist in the payload",
    abs(A.get("offset2pA", _ou.get("pointEstimateA")) - _ou["pointEstimateA"]) < 1e-9 and len(_ou["capacitySensitivity"]["rows"]) >= 2 and "offsetModelTest" in A["capacityBasis"] and A["capacityBasis"]["offsetModelTest"]["acceptance"]["acceptI2R"] is False)

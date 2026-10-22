@@ -408,6 +408,18 @@
    ]
   },
   {
+   "id": "window_caveat",
+   "title": "M485: pipeline-computed observation-window and cutoff-sensitivity caveat for the released cell-spread slope (cumulative month-end refits of the released estimator, descriptive); additive payload block windowCaveat + stamp; hard stop if the final row differs from the released fit; spec analyses/M485_spec.md",
+   "cmd": [
+    "python3",
+    "tools/window_caveat.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json"
+   ]
+  },
+  {
    "id": "thermal_support_ledger",
    "title": "M418: thermal support ledger (candidate / excluded / accepted / reached / right-censored counts for warm-up lag, hvcEngine80C, warm-up curve and the fuel penalty, all corpus plus warm and shoulder cohorts; reconciled with the published estimator n; spec analyses/M418_spec.md); additive payload block thermalSupportLedger + stamp; the estimators are unchanged",
    "cmd": [
