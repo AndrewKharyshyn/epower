@@ -3418,7 +3418,7 @@ def _seasonal_projection(dm, odometer_km, cfg, obs_mix=None):
                               ay_hs, ay_af, ay_flat),
         'observed': _hot_block(obs_rate['mid'], obs_acc['mid'], obs_base,   # M92
                                obs_hs, obs_af, obs_flat),
-        'note': ('MEASURED high-T cycle-damage sensitivity (the logged corpus is '
+        'note': ('Logged-sensor high-T cycle-damage sensitivity (the logged corpus is '
                  'almost entirely Warm and Shoulder ambient class (Cold-class drives '
                  'are below minimum support), so pack thermal exposure is '
                  'characterised directly for that range). Reported as a labelled sensitivity only, never '
@@ -18338,7 +18338,7 @@ def build_summary_arrays(dm, raw_loader=None, with_raw=True, odometer_km=None,
         'retracted (crossing years, threshold/workload/matrix spans, calendar-'
         'life ceiling, seasonal/hot-tail/plating year sensitivities, years-to-'
         'official-life). Exposure rates, accumulations, intensities, thresholds-'
-        'as-flagged-constants, m(k), DoD/SoC shares, measured thermics and the '
+        'as-flagged-constants, m(k), DoD/SoC shares, logged thermics and the '
         'power-fade proxy are retained. This study reports how hard the pack is '
         'worked and that no degradation trend is resolved in this window; it does not '
         'translate that into an end-of-life or 80% SOH date.')
