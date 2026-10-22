@@ -336,7 +336,7 @@ def build(master_csv_or_df='drive_master.csv'):
                              'vreg_R_pack_mohm'].median())
     cell_bounds = [
         ('reach50mV_over14yr', (50 - cs_med) / life_mo,
-         f'unloaded spread grows from {cs_med:.1f} mV to a 50 mV balancing-'
+         f'all-paired-sample mean spread grows from {cs_med:.1f} mV to a 50 mV balancing-'
          f'concern level over the ~14 yr horizon'),
         ('reach30mV_over14yr', (30 - cs_med) / life_mo,
          f'stricter: reach 30 mV over 14 yr'),

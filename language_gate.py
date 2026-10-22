@@ -395,6 +395,8 @@ RULES = [
          rx=r"\bcluster robust (?:cr1 )?normal z interval\b"),
     Rule("M474-capacity-scale-readings", "regex", "M474/audit: the apparent logged-SoC scale (capacityBasis) does not identify full or accessible capacity, state of health, or which of 2.1 kWh / 1.8 kWh is gross or usable; the 5 Ah figure is documentary, not a pack test of this vehicle",
          rx=r"\b(?:confirms?|proves?|shows?|establishes?) (?:that )?(?:the )?(?:2 1 kwh|1 8 kwh)(?: is| are| was)? (?:a )?(?:the )?(?:gross|usable|accessible|full)\b|\bfitted (?:soc )?scale (?:is|equals|gives) (?:the )?(?:usable|accessible|full|physical) capacity\b"),
+    Rule("M476-spread-baseline-and-resistance-labels", "regex", "M476/Director (external recheck 2026-10-22): cell_spread_mean_mv is the mean over ALL paired samples of a drive (loaded and low-current), so its median is an all-paired-sample mean spread, never a resting or unloaded spread; the resistanceVreg trend is the sensitivity without a HV-current-density term (the primary resistance estimand is powerFade), never labelled density-adjusted",
+         rx=r"\bresting spread median\b|\bunloaded spread grows\b|\bv regression t hv current density adjusted(?! partial)"),
 ]
 
 

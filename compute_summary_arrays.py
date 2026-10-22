@@ -625,7 +625,7 @@ def _cell_health_trend(dm, n_boot=4000, seed=42):
     ens_outlier_v2-clean set (v6 canonical intensity-normalized filter). Reports
     OLS and Huber slopes (mV/month) plus a cluster-by-calendar-day bootstrap 95%
     CI and P(slope>0), the same protocol M19 documents. Absolute resting spread
-    is the median of the unloaded cell_spread_mean_mv. Always reported with the
+    is the median of cell_spread_mean_mv (all paired samples, loaded and low-current; not a rest-qualified value). Always reported with the
     CI; the point estimate alone is never the headline.
 
     Audit remediation (P0.2, source-only pass): this is a SECONDARY robustness
