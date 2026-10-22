@@ -245,6 +245,9 @@ def analyse(frame, B, released=None):
     if len(sub) >= 20 and sub["day"].nunique() >= 5:
         s6, _, _ = fit(sub, [], B, full=True)
         s6["rows_dropped_vs_S0"] = int(len(d0) - len(sub))
+        s6["S0_on_rows"] = {"slope": s6["slope"], "se": s6["se"], "ci95": s6["ci95"], "n_drives": s6["n_drives"], "n_days": s6["n_days"],
+                            "note": "S6 is the S0 model fitted on the support-subset rows, so S0 on these rows is this fit itself; ratio below is against the full-sample S0"}
+        s6["slope_ratio_vs_S0_full"] = s6["slope"] / s0["slope"]
         label(s6, s0["se"])
         res["S6"] = s6
     else:

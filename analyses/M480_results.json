@@ -1,0 +1,684 @@
+{
+ "S0": {
+  "n_drives": 576,
+  "n_days": 117,
+  "columns": [],
+  "slope": 0.5239136087070829,
+  "se": 0.1299775531570591,
+  "ci95": [
+   0.26647668718820317,
+   0.7813505302259627
+  ],
+  "ciReference": "t(df=116)",
+  "vif_months": 1.1465861737997447,
+  "partial_r2_months_on_block": null,
+  "days_for_half_leverage": 14,
+  "months_span": 5.092402464065708,
+  "cr2": {
+   "slope": 0.5239136087070829,
+   "se": 0.1318267424169463,
+   "df": 33.04794572350534,
+   "ci95T": [
+    0.2557248657336788,
+    0.792102351680487
+   ],
+   "clustersWithUnitLeverage": 0
+  },
+  "wildClusterBootstrapT": {
+   "ci95PercentileT": [
+    0.26124258494007263,
+    0.7797689220537709
+   ],
+   "pValueNullImposed": 0.000999750062484379,
+   "nDraws": 4000,
+   "weights": "Rademacher by cluster",
+   "seed": 42
+  },
+  "label": "reference",
+  "dayClusterPairsBootstrap": {
+   "ci95": [
+    0.25127397838994664,
+    0.7842197738661774
+   ],
+   "nBlocks": 117,
+   "nDraws": 4000,
+   "skippedSingular": 0,
+   "fewBlocks": false
+  },
+  "movingBlock": {
+   "L7": {
+    "L": 7,
+    "ci95": [
+     -0.03104609737992302,
+     0.7937369863005788
+    ],
+    "nDraws": 4000,
+    "skippedSingular": 0,
+    "drawSizeRange": [
+     330.0,
+     825.0
+    ],
+    "nBlocksPerDraw": 23
+   },
+   "L14": {
+    "L": 14,
+    "ci95": [
+     -0.3135330775329402,
+     0.7476948395280898
+    ],
+    "nDraws": 4000,
+    "skippedSingular": 0,
+    "drawSizeRange": [
+     302.0,
+     953.0
+    ],
+    "nBlocksPerDraw": 12
+   }
+  }
+ },
+ "specs": {
+  "S1": {
+   "n_drives": 576,
+   "n_days": 117,
+   "columns": [
+    "i_dt_q50",
+    "i_row_cov"
+   ],
+   "slope": 0.5565792256566386,
+   "se": 0.13730071704817876,
+   "ci95": [
+    0.2846378553147378,
+    0.8285205959985396
+   ],
+   "ciReference": "t(df=116)",
+   "vif_months": 1.319779064752198,
+   "partial_r2_months_on_block": 0.13122869999833786,
+   "days_for_half_leverage": 11,
+   "months_span": 5.092402464065708,
+   "cr2": {
+    "slope": 0.5565792256566386,
+    "se": 0.14012833135568373,
+    "df": 30.310195945153378,
+    "ci95T": [
+     0.2705217582990961,
+     0.8426366930141812
+    ],
+    "clustersWithUnitLeverage": 0
+   },
+   "wildClusterBootstrapT": {
+    "ci95PercentileT": [
+     0.2836704030844504,
+     0.8226774255809771
+    ],
+    "pValueNullImposed": 0.0004998750312421895,
+    "nDraws": 4000,
+    "weights": "Rademacher by cluster",
+    "seed": 42
+   },
+   "rows_dropped_vs_S0": 0,
+   "S0_on_rows": {
+    "slope": 0.5239136087070829,
+    "se": 0.1299775531570591,
+    "ci95": [
+     0.26647668718820317,
+     0.7813505302259627
+    ],
+    "n_drives": 576,
+    "n_days": 117
+   },
+   "slope_ratio_vs_S0_rows": 1.062349243094044,
+   "se_ratio_vs_ref": 1.0563417583516952,
+   "label": "ok"
+  },
+  "S2": {
+   "n_drives": 576,
+   "n_days": 117,
+   "columns": [
+    "log1p_n_loaded",
+    "i_dt_iqr_ratio",
+    "gt3_ind",
+    "log1p_gap20_s",
+    "vmax_dt_q50",
+    "off_abs_p95_ms",
+    "cur_age_p95_ms"
+   ],
+   "slope": 0.7041128190351926,
+   "se": 0.21440100436978993,
+   "ci95": [
+    0.2794646148270419,
+    1.1287610232433434
+   ],
+   "ciReference": "t(df=116)",
+   "vif_months": 1.8108530232853732,
+   "partial_r2_months_on_block": 0.36682538060458925,
+   "days_for_half_leverage": 13,
+   "months_span": 5.092402464065708,
+   "cr2": {
+    "slope": 0.7041128190351926,
+    "se": 0.22185388515289553,
+    "df": 31.197639274910927,
+    "ci95T": [
+     0.25175498866354656,
+     1.1564706494068386
+    ],
+    "clustersWithUnitLeverage": 0
+   },
+   "wildClusterBootstrapT": {
+    "ci95PercentileT": [
+     0.27349327728246964,
+     1.1468053543756975
+    ],
+    "pValueNullImposed": 0.0022494376405898524,
+    "nDraws": 4000,
+    "weights": "Rademacher by cluster",
+    "seed": 42
+   },
+   "rows_dropped_vs_S0": 0,
+   "S0_on_rows": {
+    "slope": 0.5239136087070829,
+    "se": 0.1299775531570591,
+    "ci95": [
+     0.26647668718820317,
+     0.7813505302259627
+    ],
+    "n_drives": 576,
+    "n_days": 117
+   },
+   "slope_ratio_vs_S0_rows": 1.343948329139238,
+   "se_ratio_vs_ref": 1.6495233150813144,
+   "label": "ok"
+  },
+  "S3": {
+   "n_drives": 576,
+   "n_days": 117,
+   "columns": [
+    "i_abs_med",
+    "i_abs_p95",
+    "soc_med",
+    "chg_share"
+   ],
+   "slope": 0.4962394191353747,
+   "se": 0.12145270670263539,
+   "ci95": [
+    0.25568703017109773,
+    0.7367918080996517
+   ],
+   "ciReference": "t(df=116)",
+   "vif_months": 1.1525664555201032,
+   "partial_r2_months_on_block": 0.005188665427244055,
+   "days_for_half_leverage": 14,
+   "months_span": 5.092402464065708,
+   "cr2": {
+    "slope": 0.4962394191353747,
+    "se": 0.12333726498248335,
+    "df": 33.38137666574893,
+    "ci95T": [
+     0.24541673070269832,
+     0.7470621075680511
+    ],
+    "clustersWithUnitLeverage": 0
+   },
+   "wildClusterBootstrapT": {
+    "ci95PercentileT": [
+     0.2572433794210727,
+     0.7319077814702588
+    ],
+    "pValueNullImposed": 0.0004998750312421895,
+    "nDraws": 4000,
+    "weights": "Rademacher by cluster",
+    "seed": 42
+   },
+   "rows_dropped_vs_S0": 0,
+   "S0_on_rows": {
+    "slope": 0.5239136087070829,
+    "se": 0.1299775531570591,
+    "ci95": [
+     0.26647668718820317,
+     0.7813505302259627
+    ],
+    "n_drives": 576,
+    "n_days": 117
+   },
+   "slope_ratio_vs_S0_rows": 0.9471779524108894,
+   "se_ratio_vs_ref": 0.9344129332537697,
+   "label": "ok"
+  },
+  "S4": {
+   "n_drives": 576,
+   "n_days": 117,
+   "columns": [
+    "log1p_n_loaded",
+    "i_dt_iqr_ratio",
+    "gt3_ind",
+    "log1p_gap20_s",
+    "vmax_dt_q50",
+    "off_abs_p95_ms",
+    "cur_age_p95_ms",
+    "i_abs_med",
+    "i_abs_p95",
+    "soc_med",
+    "chg_share"
+   ],
+   "slope": 0.5913109236800835,
+   "se": 0.2156927311078715,
+   "ci95": [
+    0.16410429190641673,
+    1.0185175554537502
+   ],
+   "ciReference": "t(df=116)",
+   "vif_months": 1.8271383979815656,
+   "partial_r2_months_on_block": 0.3724688972294735,
+   "days_for_half_leverage": 13,
+   "months_span": 5.092402464065708,
+   "cr2": {
+    "slope": 0.5913109236800835,
+    "se": 0.22450541702137541,
+    "df": 31.823943637197956,
+    "ci95T": [
+     0.13390911383801785,
+     1.0487127335221493
+    ],
+    "clustersWithUnitLeverage": 0
+   },
+   "wildClusterBootstrapT": {
+    "ci95PercentileT": [
+     0.15478162835741965,
+     1.0430560277939704
+    ],
+    "pValueNullImposed": 0.006248437890527368,
+    "nDraws": 4000,
+    "weights": "Rademacher by cluster",
+    "seed": 42
+   },
+   "rows_dropped_vs_S0": 0,
+   "S0_on_rows": {
+    "slope": 0.5239136087070829,
+    "se": 0.1299775531570591,
+    "ci95": [
+     0.26647668718820317,
+     0.7813505302259627
+    ],
+    "n_drives": 576,
+    "n_days": 117
+   },
+   "slope_ratio_vs_S0_rows": 1.1286420391700152,
+   "se_ratio_vs_ref": 1.6594613905928661,
+   "label": "ok",
+   "dayClusterPairsBootstrap": {
+    "ci95": [
+     0.16658571423771976,
+     1.0091211775884006
+    ],
+    "nBlocks": 117,
+    "nDraws": 4000,
+    "skippedSingular": 0,
+    "fewBlocks": false
+   },
+   "movingBlock": {
+    "L7": {
+     "L": 7,
+     "ci95": [
+      -0.01162972491318533,
+      0.9880049894820909
+     ],
+     "nDraws": 4000,
+     "skippedSingular": 0,
+     "drawSizeRange": [
+      330.0,
+      825.0
+     ],
+     "nBlocksPerDraw": 23
+    },
+    "L14": {
+     "L": 14,
+     "ci95": [
+      -0.2480068859043191,
+      0.8960631708794181
+     ],
+     "nDraws": 4000,
+     "skippedSingular": 0,
+     "drawSizeRange": [
+      302.0,
+      953.0
+     ],
+     "nBlocksPerDraw": 12
+    }
+   }
+  }
+ },
+ "verdict": "supported_provisional",
+ "verdictLabel": "provisional; pair-level test M480b pending",
+ "S5": {
+  "fast": {
+   "n_drives": 169,
+   "n_days": 36,
+   "columns": [],
+   "slope": 2.104143299065992,
+   "se": 0.6046258106808371,
+   "ci95": [
+    0.8766876471780338,
+    3.3315989509539503
+   ],
+   "ciReference": "t(df=35)",
+   "vif_months": 1.5215076020481404,
+   "partial_r2_months_on_block": null,
+   "days_for_half_leverage": 6,
+   "months_span": 2.0369609856262834,
+   "cr2": {
+    "slope": 2.104143299065992,
+    "se": 0.6212225246136831,
+    "df": 15.524589267724782,
+    "ci95T": [
+     0.7839251520780322,
+     3.424361446053952
+    ],
+    "clustersWithUnitLeverage": 0
+   },
+   "wildClusterBootstrapT": {
+    "ci95PercentileT": [
+     0.8027681200381716,
+     3.423928350034295
+    ],
+    "pValueNullImposed": 0.008747813046738315,
+    "nDraws": 4000,
+    "weights": "Rademacher by cluster",
+    "seed": 42
+   },
+   "se_ratio_vs_ref": 4.65177098656592,
+   "label": "imprecise"
+  },
+  "slow": {
+   "n_drives": 407,
+   "n_days": 85,
+   "columns": [],
+   "slope": 0.46874087268253073,
+   "se": 0.13849883314463363,
+   "ci95": [
+    0.1933207542262566,
+    0.7441609911388049
+   ],
+   "ciReference": "t(df=84)",
+   "vif_months": 1.1194642674602138,
+   "partial_r2_months_on_block": null,
+   "days_for_half_leverage": 9,
+   "months_span": 5.092402464065708,
+   "cr2": {
+    "slope": 0.46874087268253073,
+    "se": 0.1420001646015187,
+    "df": 25.670475065688045,
+    "ci95T": [
+     0.1766728867724192,
+     0.7608088585926422
+    ],
+    "clustersWithUnitLeverage": 0
+   },
+   "wildClusterBootstrapT": {
+    "ci95PercentileT": [
+     0.19447441715448244,
+     0.7381035661772932
+    ],
+    "pValueNullImposed": 0.002749312671832042,
+    "nDraws": 4000,
+    "weights": "Rademacher by cluster",
+    "seed": 42
+   },
+   "se_ratio_vs_ref": 1.0655596276479968,
+   "label": "ok"
+  },
+  "unknown_regime_drives_excluded": 0
+ },
+ "S6": {
+  "n_drives": 365,
+  "n_days": 111,
+  "columns": [],
+  "slope": 0.48584035325648256,
+  "se": 0.16207462357157604,
+  "ci95": [
+   0.16464649114766022,
+   0.807034215365305
+  ],
+  "ciReference": "t(df=110)",
+  "vif_months": 1.1794967581331264,
+  "partial_r2_months_on_block": null,
+  "days_for_half_leverage": 13,
+  "months_span": 5.092402464065708,
+  "cr2": {
+   "slope": 0.48584035325648256,
+   "se": 0.1649061680628139,
+   "df": 32.08129595168197,
+   "ci95T": [
+    0.14997086089367223,
+    0.8217098456192928
+   ],
+   "clustersWithUnitLeverage": 0
+  },
+  "wildClusterBootstrapT": {
+   "ci95PercentileT": [
+    0.16070090925900699,
+    0.8162806530540913
+   ],
+   "pValueNullImposed": 0.007998000499875032,
+   "nDraws": 4000,
+   "weights": "Rademacher by cluster",
+   "seed": 42
+  },
+  "rows_dropped_vs_S0": 211,
+  "S0_on_rows": {
+   "slope": 0.48584035325648256,
+   "se": 0.16207462357157604,
+   "ci95": [
+    0.16464649114766022,
+    0.807034215365305
+   ],
+   "n_drives": 365,
+   "n_days": 111,
+   "note": "S6 is the S0 model fitted on the support-subset rows, so S0 on these rows is this fit itself; ratio below is against the full-sample S0"
+  },
+  "slope_ratio_vs_S0_full": 0.9273291343880955,
+  "se_ratio_vs_ref": 1.246943180840866,
+  "label": "ok"
+ },
+ "strataAtOrBelowZeroPassingGate": [],
+ "drift": {
+  "chg_share": {
+   "slope_per_month": 0.0004895852251954316,
+   "ci95": [
+    -0.008779723696827467,
+    0.009758894147218328
+   ],
+   "n_drives": 576,
+   "n_days": 117
+  },
+  "cur_age_p95_ms": {
+   "slope_per_month": -19.521321459173752,
+   "ci95": [
+    -23.770509069776793,
+    -15.27213384857071
+   ],
+   "n_drives": 576,
+   "n_days": 117
+  },
+  "gt3_ind": {
+   "slope_per_month": -0.16218749703310625,
+   "ci95": [
+    -0.20150917661891293,
+    -0.12286581744729957
+   ],
+   "n_drives": 576,
+   "n_days": 117
+  },
+  "i_abs_med": {
+   "slope_per_month": -0.4161835990673801,
+   "ci95": [
+    -0.905757267600709,
+    0.07339006946594873
+   ],
+   "n_drives": 576,
+   "n_days": 117
+  },
+  "i_abs_p95": {
+   "slope_per_month": -2.6711003945660883,
+   "ci95": [
+    -4.1583999459987115,
+    -1.1838008431334655
+   ],
+   "n_drives": 576,
+   "n_days": 117
+  },
+  "i_dt_iqr_ratio": {
+   "slope_per_month": -0.019546568619954185,
+   "ci95": [
+    -0.03341386164762099,
+    -0.005679275592287383
+   ],
+   "n_drives": 576,
+   "n_days": 117
+  },
+  "i_dt_q50": {
+   "slope_per_month": -0.08748642062554982,
+   "ci95": [
+    -0.12284241602749676,
+    -0.052130425223602866
+   ],
+   "n_drives": 576,
+   "n_days": 117
+  },
+  "i_row_cov": {
+   "slope_per_month": 0.006389591314697133,
+   "ci95": [
+    0.003228761479861817,
+    0.009550421149532449
+   ],
+   "n_drives": 576,
+   "n_days": 117
+  },
+  "log1p_gap20_s": {
+   "slope_per_month": -0.2931853883399248,
+   "ci95": [
+    -0.3875879335649165,
+    -0.19878284311493308
+   ],
+   "n_drives": 576,
+   "n_days": 117
+  },
+  "log1p_n_loaded": {
+   "slope_per_month": -0.2066224335310029,
+   "ci95": [
+    -0.3412569665755402,
+    -0.07198790048646558
+   ],
+   "n_drives": 576,
+   "n_days": 117
+  },
+  "off_abs_p95_ms": {
+   "slope_per_month": -5.376888846339581,
+   "ci95": [
+    -7.843627163164006,
+    -2.9101505295151546
+   ],
+   "n_drives": 576,
+   "n_days": 117
+  },
+  "soc_med": {
+   "slope_per_month": -0.24258539803192214,
+   "ci95": [
+    -0.6461506699916402,
+    0.1609798739277959
+   ],
+   "n_drives": 576,
+   "n_days": 117
+  },
+  "vmax_dt_q50": {
+   "slope_per_month": -0.08913327249359243,
+   "ci95": [
+    -0.12463911944065567,
+    -0.053627425546529196
+   ],
+   "n_drives": 576,
+   "n_days": 117
+  }
+ },
+ "influence": {
+  "slope_full": 0.5239136087070839,
+  "loo_min": 0.4524252962559524,
+  "loo_max": 0.5603195565599839,
+  "top3_days": [
+   "2026-10-17",
+   "2026-06-09",
+   "2026-08-30"
+  ],
+  "slope_without_top3": 0.45398298394115577,
+  "n_days_after_dropping": 114
+ },
+ "correlation_i_abs_p95_vs_peak_I_discharge": 0.7263451286969764,
+ "cutoffSeries": [
+  {
+   "cutoff": "2026-07-31",
+   "n_drives": 182,
+   "n_days": 44,
+   "slope": 0.39501229250852893,
+   "ci95": [
+    -0.3246832538014059,
+    1.1147078388184637
+   ]
+  },
+  {
+   "cutoff": "2026-08-31",
+   "n_drives": 286,
+   "n_days": 70,
+   "slope": -0.3526625645862268,
+   "ci95": [
+    -0.862711742721825,
+    0.15738661354937145
+   ]
+  },
+  {
+   "cutoff": "2026-09-30",
+   "n_drives": 467,
+   "n_days": 100,
+   "slope": 0.15935295756836626,
+   "ci95": [
+    -0.1298756462825586,
+    0.4485815614192911
+   ]
+  },
+  {
+   "cutoff": "2026-10-17",
+   "n_drives": 576,
+   "n_days": 117,
+   "slope": 0.5239136087070829,
+   "ci95": [
+    0.26647668718820317,
+    0.7813505302259627
+   ]
+  },
+  {
+   "cutoff": "leave_last_8_days_out",
+   "n_drives": 530,
+   "n_days": 109,
+   "slope": 0.27656258242732124,
+   "ci95": [
+    0.03323234918651724,
+    0.5198928156681253
+   ]
+  }
+ ],
+ "deviations": [
+  "wild cluster bootstrap uses the existing Rademacher-by-cluster code path (spec text said Webb weights; G is about 117)",
+  "precision-gate SE ratio for S5 and S6 is taken against the full-sample S0 SE (their rows differ from S0)"
+ ],
+ "method": {
+  "version": 1,
+  "design": "OLS y ~ months + T + I + block; cluster = calendar day; CR1 interval t(G-1); wild cluster bootstrap-t and CR2 from tools/dependence_sensitivity.py; seed 42; 4000 draws",
+  "halfRule": 0.5,
+  "minAdjSpecs": 3,
+  "seRatioMax": 2.0,
+  "vifMax": 10.0
+ },
+ "provenance": {
+  "master_md5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+  "sidecar_sha256": "8c5cfe150499d2b6f725591563c68c367d8b54aa1c597294e501c07380541188",
+  "script_sha256": "4f630ea6495d155270c39743b0680b1b90aafa2ce66588a94430bf0d27be1386",
+  "spec_sha256": "f5eb5069e62c012ddb62523befe72820874bb92f237aa090fec1137efdb07946"
+ }
+}

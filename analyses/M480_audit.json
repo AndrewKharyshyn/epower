@@ -1,0 +1,44 @@
+{
+ "milestone": "M480",
+ "auditor": "analytical-auditor (Sonnet, high effort), blind: claim + data paths only, no code, no author reasoning",
+ "date": "2026-10-22",
+ "verdict": "partly supported (all numbers reproduce; the causal-sounding conclusion over-reaches)",
+ "reproduced": {
+  "S0": "+0.524 [0.266, 0.781] n=576 G=117",
+  "S1": "+0.557 [0.285, 0.829]",
+  "S2": "+0.704 [0.279, 1.129]",
+  "S3": "+0.496 [0.256, 0.737]",
+  "S4": "+0.591 [0.164, 1.019]",
+  "S1-S4_rows": "576 drives / 117 days each, identical rows to S0 (no missing in any block column)",
+  "cutoffs_S0": "07-31 +0.395 (182 drives, 44 days, CI -0.325..1.115); 08-31 -0.353 (286, 70 d, -0.863..0.157); 09-30 +0.159 (467, 100 d, -0.130..0.449)",
+  "drift_i_dt_q50": "-0.0875 s/month [-0.1228, -0.0521]",
+  "eligibility": "2 ens_outlier_v2 true, 12 NaN (kept, NaN is not true); 606 -> 576 after required non-nulls"
+ },
+ "mismatches": "none; max abs diff < 0.001 on every slope and bound, drive/day counts equal",
+ "vif_partial_r2": {
+  "S0": "VIF(months)=1.15, R2(months|others)=0.13",
+  "S2": "VIF 1.81, R2(months|block+T+I)=0.448; partial R2 of months on y 0.037",
+  "S4": "VIF 1.83, R2 0.453; partial R2 on y 0.030",
+  "worst_block_VIF": "cur_age_p95_ms 4.8-4.9 (corr with months -0.51), n_loaded 3.1-4.1, vmax_dt_q50 3.1"
+ },
+ "alt_variance": {
+  "CR3_jackknife": "S0 [0.258, 0.789]; S1 [0.272, 0.841]; S2 [0.245, 1.163]; S3 [0.247, 0.746]; S4 [0.122, 1.060]; all lower bounds still > 0",
+  "wild_cluster_bootstrap_t": "Rademacher, null-imposed, 4000, seed 42: p S0 0.0003, S2 0.0013, S4 0.0083",
+  "leave_one_day_out_slope": "S0 0.452-0.560; S4 0.433-0.638"
+ },
+ "method_concerns": [
+  "HIGH: window is only 5.1 months (May-Oct 2026); monthly means of the outcome are non-monotonic (21.4, 23.1, 24.3, 22.4, 21.7, 24.5 mV). Time is confounded with season, usage and logger setting; T_pack and peak_I enter only linearly. The slope is a within-window association, not a degradation rate.",
+  "HIGH: the S0 slope is not stable: cutoff refits give +0.40, -0.35, +0.16, with CIs covering 0 in all three. Full-sample significance rests on the October data. The pre-registered decision tests only the full-sample slope.",
+  "HIGH (logic): proxy adjustment cannot rule out a time-correlated timing confound. Proxies are noisy per-drive summaries (error-in-variables), so adjustment is partial; i_dt_q50 drifts -0.087 s/month, cur_age_p95 correlates -0.51 with months, so the logger-timing change is real and time-correlated. The slope stays stable or rises after adjustment (S2 +34 %), which fits a time-correlated residual confound as well as a genuine trend. Stability under adjustment is weak evidence only.",
+  "MED: leakage / bad control. n_loaded, i_abs_*, soc_med, cur_age_p95, chg_share are computed on the same loaded pairs that define the outcome (a p95 depends on support size); they may be mediators / outcome-derived. S3/S4 adjustment is therefore not clean; S1/S2 timing columns are less affected. The S3 result (slope barely changes) is uninformative.",
+  "MED: S4 has 15 regressors with 117 clusters. CR1 CIs are about the same as CR3 and wild bootstrap, so CR1 is adequate. S2/S4 are 2x wider (SE 0.21 vs 0.13); the S4 lower bound 0.164 (CR3 0.122) is near zero.",
+  "MED: the decision rule ('above half of S0, lower bound > 0') is a low bar. It is satisfied by a slope that moves up and has a wide CI. It is not a TOST or equivalence test and does not show the proxies are exhausted.",
+  "LOW: clustering by calendar day is right; no row-level resampling; no cross-validation involved. 4 specifications plus 3 cutoffs plus drift are not multiplicity-adjusted, but the decision uses a conjunction, so no inflation risk for it. Only T and peak_I are unstandardised; the months slope is unaffected by scaling."
+ ],
+ "language_concerns": [
+  "'not explained by the tested proxies' is acceptable as a literal statement; do not extend to 'real degradation', 'not a logger artefact' or 'physical trend'.",
+  "State the 5.1-month window, the non-monotonic monthly means, the sign-unstable cutoffs and that the slope is an association (estimated), not a measured degradation rate; 'not excluded' not 'excluded' for logger-timing confounding.",
+  "Do not describe S3/S4 as independent controls since they share the outcome's loaded pairs."
+ ],
+ "audit_scripts": ["scratchpad/audit480/a.py", "scratchpad/audit480/b.py (session scratchpad, not committed)"]
+}
