@@ -1,0 +1,54 @@
+# M491 spec (Rev 1): joint-date day bootstrap for the Warm-minus-Shoulder urban contrast
+
+Status: Rev 1, written 2026-10-23 BEFORE any M491 computation. Origin: external audit Update 7 (2026-10-22), finding A08 (P2), confirmed on disk by an Opus feasibility review. Needs: this spec, a Director ruling on the questions below, a blind audit, a Director decision on the result.
+
+## Question
+`m297_comparison_cube.py` computes the difference of the two cohort ratios (Shoulder minus Warm, energy intensity kWh/100 km as a ratio of sums) with `diff = bs - bw`, where `bw` and `bs` are two INDEPENDENT calendar-day bootstraps (days resampled within each cohort separately). Where both cohorts contain drives on the same calendar day (28 shared dates in the all-urban band), the day-level shocks (weather, route mix, traffic) are shared, so the two resampled estimates are positively correlated in the data and independent in the bootstrap. Independent resampling drops that covariance: for a difference it makes the interval too wide when the covariance is positive. The correct resampling unit for the contrast is the calendar day across both cohorts.
+
+## Estimand (unchanged)
+Per band (all urban trips; < 3 km; 3-10 km; >= 10 km): difference = ratio-of-sums energy intensity (Shoulder) minus ratio-of-sums (Warm), 100 x sum(gross_throughput_kwh) / sum(distance_km) per cohort, on canonical-clean urban drives with a gross energy integral and distance > 0. Point estimates, n drives, n days and km are unchanged byte for byte.
+
+## Change (frozen)
+1. Joint-day bootstrap for the DIFFERENCE interval: let D be the union of calendar dates present in either cohort of the band; draw G = |D| dates with replacement; each drawn date contributes its Warm sums to Warm and its Shoulder sums to Shoulder (zero for a cohort with no drive that date); per draw the two ratios of sums and their difference are formed. Percentile 95 % interval of the difference. 4,000 draws (the number of the existing difference interval: `B*2` with `B = 2000`).
+2. Randomness: a dedicated generator `np.random.default_rng(SEED + 2)` with the module's existing `SEED = 20260925`, so the draws of the per-cohort intervals (`rng2` stream) are consumed exactly as before and the per-cohort intervals stay byte-identical. The audit's own sensitivity setting (seed 297482, 20,000 draws) is NOT adopted; the module keeps its own registered seed and 4,000 draws (CLAUDE.md's seed 42 / 4,000 draws is the project-wide default for other estimators; this module's seed predates it and is recorded here, see question 1).
+3. A draw in which a cohort has a zero distance denominator (no drawn date contains that cohort) is discarded and counted (`nDrawsDropped`); the number of discarded draws is reported per band.
+4. Kept for continuity and comparison: the former independent-cohort interval is stored beside the new one as `difference.ci95IndependentCohorts` (computed as before, same stream), with the covariance diagnostics `nSharedDates`, `nUnionDates`, `bootstrapCorrelation` (correlation of the two cohort ratios across the joint draws). The displayed interval (`difference.ci95`) becomes the joint-day interval; the label changes from 'cohort-stratified calendar-day bootstrap (days resampled within each cohort)' to 'joint calendar-day bootstrap (dates shared by both cohorts resampled together)'.
+5. The Cold column stays point-only (M465): no interval, no difference. Nothing else in `comparisonCube` changes.
+
+## Known-answer tests (written before the run, `tests/synthetic/test_m491_joint_day.py`)
+- Two cohorts with identical day-level shocks (shared dates, per-day ratio shocks identical in both cohorts): the true difference variance is 0; the joint-day interval is much narrower than the independent one (ratio of widths < 0.5), the independent interval stays as before.
+- Two cohorts with disjoint dates: the joint-day and independent intervals agree within Monte Carlo error (width ratio within 0.9-1.1).
+- A negative-covariance construction: the joint interval is wider than the independent one.
+- A cohort with no drive on a drawn date contributes zeros; draws with an empty cohort are dropped and counted; reproducible with the seed.
+- Per-cohort intervals, point estimates, counts and km byte-identical to the stored block.
+
+## Reporting and acceptance (frozen; pre-registered)
+- A. Isolation: only `difference.ci95`, `difference.method`, `difference.ci95IndependentCohorts`, `difference.nSharedDates`, `nUnionDates`, `bootstrapCorrelation`, `nDrawsDropped` change or appear; every other leaf of `comparisonCube` is byte-identical (isolation diff).
+- B. Per band: the joint and the independent interval, their width ratio, the shared-date count and the bootstrap correlation.
+- C. Decision rule: a band's reading is 'the interval includes zero' / 'excludes zero'. If any band's reading changes between the independent and the joint interval, the milestone STOPS before the payload splice and goes to the Director (the audit's own sensitivity found no change; this is a check, not an expectation).
+- D. Language: 'joint calendar-day bootstrap', 'dates shared by both cohorts are resampled together', 'an uncertainty analysis, not a change of the point estimate'; never 'corrected' or 'the previous interval was wrong'. The route class, trip length and season confounding disclosure stays. The audit also asks for a block sensitivity across neighbouring dates ('replication over time'); NOT in this milestone (question 3).
+
+## What would falsify the change
+(i) Any per-cohort interval, point estimate or count differs (A). (ii) The joint interval for disjoint dates differs materially from the independent one (the construction would then not be a pure covariance correction). (iii) The width ratio on the identical-shocks test is not below 0.5.
+
+## Validation chain (frozen)
+py_compile, the known-answer tests, a run of `m297_comparison_cube.py` through the ingestion stage `comparison_cube`, the isolation diff (`tools/m465_diff_check.py` pattern: add / change only the registered leaves), `node build_html.js`, `node validate_jsdom.js`, `python release_check.py`, the CI unit list (new files staged), blind audit (`analytical-auditor`, Sonnet, claim + data path only: the joint-day interval of each band from `drive_master.csv` and `seasonal_drive_master.csv` with a stated 4,000-draw procedure, agreement within Monte Carlo error, not the same stream), Director decision.
+
+## Questions for the Director
+1. Seed and draws: keep this module's registered seed 20260925 and 4,000 draws (the project-wide default is seed 42 / 4,000 draws; the audit used seed 297482 / 20,000), or move the new interval to seed 42? A deviation from the project default must be recorded either way.
+2. Display: replace the displayed interval by the joint-day interval and keep the independent interval as a stored sensitivity (proposed), or display both?
+3. Add the week-block sensitivity the audit recommends as a separate later milestone, or not at all?
+4. Wording of the cold / insufficient-support bands is unchanged; confirm.
+
+## Rev 2 (Director ruling 2026-10-23, decision 'revise'; written BEFORE any M491 computation)
+Answers: (1) keep the module's registered seed 20260925 and the 4,000 difference draws, on a dedicated stream `SEED + 2`; moving to seed 42 would mix a stream change into a method change; the deviation from the project default (seed 42 / 4,000 draws) is recorded here and in the CHANGELOG entry. (2) Display the joint-day interval; keep the independent-cohort interval as a stored sensitivity named in the band note; do not display both. (3) The week-block sensitivity is a separate later milestone with its own spec; NOT part of M491. (4) Cold / insufficient-support wording unchanged; Cold stays point-only (M465).
+Verified by the Director in the code: `diff = bs - bw` from two independent `cohort_ratio` draws (`rng2 = SEED + 1`, `B * 2 = 4000` each); the per-cohort intervals use the same draws; `_meta.uncertainty` states B = 2000 / seed = SEED and does not describe the contrast. NOT yet verified (a script must write them, never typed): the 28 shared dates and the audit's 'no change'.
+Amendments (frozen):
+- A1. Pre-registered SENSITIVITY B (date-type stratified joint bootstrap): strata = warm-only dates, shoulder-only dates, shared dates; each stratum resampled with replacement within itself; the draw count per stratum equals the stratum size. With disjoint dates it reduces exactly to the independent design. Stored as `difference.ci95Stratified`; the decision rule C applies to BOTH variants (primary joint, sensitivity stratified); a reading flip in either variant stops before the splice.
+- A2. Dropped draws: a cap of 0.5 % of the 4,000 draws per band (20 draws); above it the milestone STOPS and goes to the Director; `nDrawsDropped` reported per band and per variant.
+- A3. KAT1: ALL dates shared (n days >= 30, n drives >= 60 per cohort, stated in the test) with an identical multiplicative day shock in both cohorts: the joint interval width / the independent width < 0.5. KAT2: disjoint dates, fixed sizes (>= 30 days per cohort): the width ratio judged as the MEAN over >= 20 seeds, within 0.9-1.1. KAT3 (negative covariance): joint wider than independent, mean over >= 20 seeds.
+- A4. Blind-audit Monte Carlo tolerance (numeric): each interval endpoint is compared with the auditor's endpoint with a tolerance of 3 x the endpoint standard error, estimated from >= 10 repeated seeds of the auditor's own bootstrap; endpoints outside it are a mismatch.
+- A5. Isolation list, full leaf paths under `/comparisonCube/urbanContrast/bands[i]/difference/`: `ci95` (value), `method` (text), `ci95IndependentCohorts`, `ci95Stratified`, `nSharedDates`, `nUnionDates`, `bootstrapCorrelation`, `nDrawsDropped`, `nDrawsDroppedStratified`, `seed`, `B`, plus a contrast sentence in `_meta` (so the contrast's seed / B are no longer undescribed). Every other leaf byte-identical.
+- A6. Language gate (M326): the old difference-method label 'cohort-stratified calendar-day bootstrap (days resampled within each cohort)' is added as a rule with the ledger id M491/A08; allowed wording as in D.
+- A7. Before the splice, grep every consumer of `difference.ci95` / `difference.method` (jsx, semantic_gate, tests, tools/m465_diff_check.py) and list them in the CHANGELOG; the Dashboard change rule applies (render + sources in the commit).
+Risks recorded by the Director: the unstratified union design randomises each cohort's day count, so small bands may widen (the stratified sensitivity covers it); if the bootstrap correlation is near 0 the interval change is noise and must not be presented as a finding; a shared date is weather-confounded, so the cohort label itself is day-driven (the confounding disclosure stays).

@@ -19,8 +19,10 @@ intensity with day-cluster CIs, their difference with a cohort-stratified day bo
 contrast inside trip-length bands (route duration confounding), plus descriptive SoC-ceiling medians.
 Idempotent; writes top-level `comparisonCube` and stamps it from the `highwayVsCity` stamp (same corpus).
 """
-import copy, json, os
+import copy, json, os, sys
 import numpy as np, pandas as pd
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "tools"))
+import joint_day_bootstrap as JB          # M491 (spec analyses/M491_spec.md Rev 2): joint calendar-day bootstrap of the Warm/Shoulder difference
 
 W = os.path.dirname(os.path.abspath(__file__)); P = lambda n: os.path.join(W, n)
 B, SEED = 2000, 20260925
@@ -136,9 +138,19 @@ def contrast(g, label, rng):
     q = lambda a: [round(float(x), 2) for x in np.quantile(a, [0.025, 0.975])]
     out["warm"] = {"estimate": round(ew, 2), "ci95": q(bw), "nDrives": int(len(w)), "nDays": gw, "km": round(float(w.distance_km.sum()), 1)}
     out["shoulder"] = {"estimate": round(es, 2), "ci95": q(bs), "nDrives": int(len(s)), "nDays": gs, "km": round(float(s.distance_km.sum()), 1)}
-    diff = bs - bw  # independent cohort-stratified day bootstraps
-    out["difference"] = {"estimate": round(es - ew, 2), "ci95": q(diff), "direction": "Shoulder minus Warm",
-                         "method": "cohort-stratified calendar-day bootstrap (days resampled within each cohort), B=4000"}
+    diff = bs - bw  # independent cohort-stratified day bootstraps: kept as the stored sensitivity ci95IndependentCohorts (M491)
+    dw = w.groupby("day")[["gross_throughput_kwh", "distance_km"]].sum().rename(columns={"gross_throughput_kwh": "num", "distance_km": "den"})
+    ds = s.groupby("day")[["gross_throughput_kwh", "distance_km"]].sum().rename(columns={"gross_throughput_kwh": "num", "distance_km": "den"})
+    jd, jra, jrb, jdrop, nunion, nshared = JB.joint_difference(dw, ds, rngJ, B * 2)
+    sd, sdrop = JB.stratified_difference(dw, ds, rngS, B * 2)
+    for _v, _n in (("joint", jdrop), ("stratified", sdrop)):
+        if _n > JB.DROP_CAP * B * 2:
+            raise SystemExit("M491 STOP: %d of %d %s draws discarded in band %r (cap %.1f %%): Director decision needed" % (_n, B * 2, _v, label, JB.DROP_CAP * 100))
+    out["difference"] = {"estimate": round(es - ew, 2), "ci95": JB.interval(jd), "direction": "Shoulder minus Warm",
+                         "method": "joint calendar-day bootstrap (dates shared by both cohorts resampled together), B=4000, seed=%d (stream SEED+2)" % SEED,
+                         "ci95IndependentCohorts": q(diff), "ci95Stratified": JB.interval(sd),
+                         "nSharedDates": nshared, "nUnionDates": nunion, "bootstrapCorrelation": round(float(np.corrcoef(jra, jrb)[0, 1]), 3),
+                         "nDrawsDropped": jdrop, "nDrawsDroppedStratified": sdrop, "seed": SEED, "B": B * 2}
     out["status"] = "observed" if min(len(w), len(s)) >= MIN_N and min(gw, gs) >= MIN_DAYS else "insufficient_support"
     return out
 
@@ -159,6 +171,7 @@ def cold_cell(g):
 
 
 rng2 = np.random.default_rng(SEED + 1)
+rngJ, rngS = np.random.default_rng(SEED + 2), np.random.default_rng(SEED + 3)       # M491: dedicated streams, so the per-cohort intervals (rng2) are consumed exactly as before
 bands = [("all urban trips", u)]
 for lo, hi, lab in ((0, 3, "< 3 km"), (3, 10, "3–10 km"), (10, 1e9, "≥ 10 km")):
     bands.append((lab, u[(u.distance_km >= lo) & (u.distance_km < hi)]))
@@ -179,6 +192,7 @@ A["comparisonCube"] = {
               "eligibility": "canonical_clean (ens_invalid / ens_outlier_v2 excluded)",
               "minSupport": {"drives": MIN_N, "days": MIN_DAYS},
               "uncertainty": f"percentile bootstrap, calendar day as cluster, B={B}, seed={SEED}", "B": B,
+              "contrastUncertainty": f"Warm-vs-Shoulder difference: joint calendar-day bootstrap over the union of dates, {B * 2} draws, seed={SEED} (stream SEED+2); the independent-cohort interval (ci95IndependentCohorts) and a date-type stratified interval (ci95Stratified, SEED+3) are stored sensitivities; M491",
               "statusCodes": {"obs": "observed", "thin": "insufficient_support (estimate shown, flagged)", "none": "not_observed (null, not zero)"},
               "cohortCountsClean": counts,
               "note": ("Typed rows (metric x drive class x thermal cohort). Classes absent from a cohort are 'not_observed' "
@@ -205,7 +219,7 @@ st = copy.deepcopy(A["_artifactStamps"]["highwayVsCity"])
 st["computationStatus"] = "computed"
 st["computationStatusNote"] = "M297: typed class x cohort comparison cube + urban Warm-vs-Shoulder contrast (m297_comparison_cube.py)."
 A["_artifactStamps"]["comparisonCube"] = st
-json.dump(A, open(P("summary_arrays.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+json.dump(A, open(P("summary_arrays.json"), "w", encoding="utf-8", newline=chr(10)), ensure_ascii=False, indent=1)      # M491: LF on every platform (a Windows run wrote CRLF)
 from collections import Counter
 print("rows:", len(rows), Counter(r["status"] for r in rows))
 for b in urban:

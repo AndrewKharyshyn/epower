@@ -1,0 +1,167 @@
+{
+ "auditor": "analytical-auditor (Sonnet), claim + data path only",
+ "tolerance": "3 x endpoint SD across >= 10 auditor seeds (spec A4)",
+ "bands": {
+  "all": {
+   "auditorJoint": [
+    -3.887,
+    1.215
+   ],
+   "auditorEndpointSD": [
+    0.033,
+    0.065
+   ],
+   "auditorShared": 28,
+   "auditorUnion": 107,
+   "auditorCorr": 0.056
+  },
+  "lt3": {
+   "auditorJoint": [
+    -1.926,
+    1.913
+   ],
+   "auditorEndpointSD": [
+    0.039,
+    0.045
+   ],
+   "auditorShared": 19,
+   "auditorUnion": 86,
+   "auditorCorr": -0.029
+  },
+  "3to10": {
+   "auditorJoint": [
+    -5.639,
+    1.116
+   ],
+   "auditorEndpointSD": [
+    0.06,
+    0.1
+   ],
+   "auditorShared": 5,
+   "auditorUnion": 71,
+   "auditorCorr": -0.011
+  },
+  "ge10": {
+   "auditorJoint": [
+    -2.637,
+    0.651
+   ],
+   "auditorEndpointSD": [
+    0.027,
+    0.039
+   ],
+   "auditorShared": 3,
+   "auditorUnion": 55,
+   "auditorCorr": 0.01
+  }
+ },
+ "auditorIndependent": {
+  "all": [
+   -3.907,
+   1.271
+  ],
+  "lt3": [
+   -1.863,
+   1.912
+  ],
+  "3to10": [
+   -5.538,
+   1.057
+  ],
+  "ge10": [
+   -2.598,
+   0.65
+  ]
+ },
+ "comparison": [
+  {
+   "band": "all",
+   "endpoint": "lo",
+   "ours": -3.88,
+   "auditor": -3.887,
+   "absDiff": 0.007,
+   "tol3SD": 0.099,
+   "withinTolerance": true
+  },
+  {
+   "band": "all",
+   "endpoint": "hi",
+   "ours": 1.33,
+   "auditor": 1.215,
+   "absDiff": 0.115,
+   "tol3SD": 0.195,
+   "withinTolerance": true
+  },
+  {
+   "band": "all",
+   "sharedUnionMatch": true
+  },
+  {
+   "band": "lt3",
+   "endpoint": "lo",
+   "ours": -1.93,
+   "auditor": -1.926,
+   "absDiff": 0.004,
+   "tol3SD": 0.117,
+   "withinTolerance": true
+  },
+  {
+   "band": "lt3",
+   "endpoint": "hi",
+   "ours": 1.89,
+   "auditor": 1.913,
+   "absDiff": 0.023,
+   "tol3SD": 0.135,
+   "withinTolerance": true
+  },
+  {
+   "band": "lt3",
+   "sharedUnionMatch": true
+  },
+  {
+   "band": "3to10",
+   "endpoint": "lo",
+   "ours": -5.65,
+   "auditor": -5.639,
+   "absDiff": 0.011,
+   "tol3SD": 0.18,
+   "withinTolerance": true
+  },
+  {
+   "band": "3to10",
+   "endpoint": "hi",
+   "ours": 1.21,
+   "auditor": 1.116,
+   "absDiff": 0.094,
+   "tol3SD": 0.3,
+   "withinTolerance": true
+  },
+  {
+   "band": "3to10",
+   "sharedUnionMatch": true
+  },
+  {
+   "band": "ge10",
+   "endpoint": "lo",
+   "ours": -2.66,
+   "auditor": -2.637,
+   "absDiff": 0.023,
+   "tol3SD": 0.081,
+   "withinTolerance": true
+  },
+  {
+   "band": "ge10",
+   "endpoint": "hi",
+   "ours": 0.68,
+   "auditor": 0.651,
+   "absDiff": 0.029,
+   "tol3SD": 0.117,
+   "withinTolerance": true
+  },
+  {
+   "band": "ge10",
+   "sharedUnionMatch": true
+  }
+ ],
+ "mismatches": 0
+}

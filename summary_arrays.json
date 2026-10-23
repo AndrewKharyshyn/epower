@@ -86569,6 +86569,7 @@
    },
    "uncertainty": "percentile bootstrap, calendar day as cluster, B=2000, seed=20260925",
    "B": 2000,
+   "contrastUncertainty": "Warm-vs-Shoulder difference: joint calendar-day bootstrap over the union of dates, 4000 draws, seed=20260925 (stream SEED+2); the independent-cohort interval (ci95IndependentCohorts) and a date-type stratified interval (ci95Stratified, SEED+3) are stored sensitivities; M491",
    "statusCodes": {
     "obs": "observed",
     "thin": "insufficient_support (estimate shown, flagged)",
@@ -89425,11 +89426,26 @@
      "difference": {
       "estimate": -1.67,
       "ci95": [
+       -3.88,
+       1.33
+      ],
+      "direction": "Shoulder minus Warm",
+      "method": "joint calendar-day bootstrap (dates shared by both cohorts resampled together), B=4000, seed=20260925 (stream SEED+2)",
+      "ci95IndependentCohorts": [
        -3.96,
        1.27
       ],
-      "direction": "Shoulder minus Warm",
-      "method": "cohort-stratified calendar-day bootstrap (days resampled within each cohort), B=4000"
+      "ci95Stratified": [
+       -3.72,
+       1.12
+      ],
+      "nSharedDates": 28,
+      "nUnionDates": 107,
+      "bootstrapCorrelation": 0.071,
+      "nDrawsDropped": 0,
+      "nDrawsDroppedStratified": 0,
+      "seed": 20260925,
+      "B": 4000
      },
      "status": "observed",
      "cold": {
@@ -89466,11 +89482,26 @@
      "difference": {
       "estimate": 0.03,
       "ci95": [
+       -1.93,
+       1.89
+      ],
+      "direction": "Shoulder minus Warm",
+      "method": "joint calendar-day bootstrap (dates shared by both cohorts resampled together), B=4000, seed=20260925 (stream SEED+2)",
+      "ci95IndependentCohorts": [
        -1.87,
        1.86
       ],
-      "direction": "Shoulder minus Warm",
-      "method": "cohort-stratified calendar-day bootstrap (days resampled within each cohort), B=4000"
+      "ci95Stratified": [
+       -1.93,
+       1.82
+      ],
+      "nSharedDates": 19,
+      "nUnionDates": 86,
+      "bootstrapCorrelation": -0.05,
+      "nDrawsDropped": 0,
+      "nDrawsDroppedStratified": 0,
+      "seed": 20260925,
+      "B": 4000
      },
      "status": "observed",
      "cold": {
@@ -89507,11 +89538,26 @@
      "difference": {
       "estimate": -2.49,
       "ci95": [
+       -5.65,
+       1.21
+      ],
+      "direction": "Shoulder minus Warm",
+      "method": "joint calendar-day bootstrap (dates shared by both cohorts resampled together), B=4000, seed=20260925 (stream SEED+2)",
+      "ci95IndependentCohorts": [
        -5.47,
        1.19
       ],
-      "direction": "Shoulder minus Warm",
-      "method": "cohort-stratified calendar-day bootstrap (days resampled within each cohort), B=4000"
+      "ci95Stratified": [
+       -5.5,
+       0.94
+      ],
+      "nSharedDates": 5,
+      "nUnionDates": 71,
+      "bootstrapCorrelation": -0.013,
+      "nDrawsDropped": 0,
+      "nDrawsDroppedStratified": 0,
+      "seed": 20260925,
+      "B": 4000
      },
      "status": "observed",
      "cold": null
@@ -89541,11 +89587,26 @@
      "difference": {
       "estimate": -1.04,
       "ci95": [
+       -2.66,
+       0.68
+      ],
+      "direction": "Shoulder minus Warm",
+      "method": "joint calendar-day bootstrap (dates shared by both cohorts resampled together), B=4000, seed=20260925 (stream SEED+2)",
+      "ci95IndependentCohorts": [
        -2.62,
        0.62
       ],
-      "direction": "Shoulder minus Warm",
-      "method": "cohort-stratified calendar-day bootstrap (days resampled within each cohort), B=4000"
+      "ci95Stratified": [
+       -2.64,
+       0.71
+      ],
+      "nSharedDates": 3,
+      "nUnionDates": 55,
+      "bootstrapCorrelation": 0.028,
+      "nDrawsDropped": 0,
+      "nDrawsDroppedStratified": 0,
+      "seed": 20260925,
+      "B": 4000
      },
      "status": "observed",
      "cold": null
