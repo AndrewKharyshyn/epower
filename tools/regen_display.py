@@ -371,7 +371,7 @@ def spec_sha():
 
 
 def frozen_ok():
-    return ("M446 spec sha256 " + spec_sha()) in open("CHANGELOG.md", encoding="utf-8").read(120000)
+    return ("M446 spec sha256 " + spec_sha()) in open("CHANGELOG.md", encoding="utf-8").read()      # M490: the whole file; a 120000-character head window silently skipped regenDisplayV2 once newer entries pushed the M446/M451 record out of it
 
 
 def sha_file(p):

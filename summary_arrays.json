@@ -59896,15 +59896,15 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-22T08:02:19.414956+00:00",
+   "generatedAt": "2026-10-23T12:03:03.697823+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
    },
    "computationStatus": "computed",
    "computationStatusNote": "M441: derived by tools/regen_v2_stage.py from the per-drive cache of the interval extractor v2 and the frame cache; additive observed apparent KE recovery by pack temperature, speed and SOC band",
-   "includedInReleaseAt": "2026-10-22T08:02:19.414956+00:00",
-   "computedAt": "2026-10-22T08:02:19.414956+00:00",
+   "includedInReleaseAt": "2026-10-23T12:03:03.697823+00:00",
+   "computedAt": "2026-10-23T12:03:03.697823+00:00",
    "inputBasis": {
     "nDrives": 606,
     "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
@@ -59917,15 +59917,15 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-22T07:29:54.005453+00:00",
+   "generatedAt": "2026-10-23T12:05:51.671870+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
    },
    "computationStatus": "computed",
    "computationStatusNote": "M442: derived by tools/regen_v2_stage.py from the per-drive cache (interp3 variants); additive harmonized levels of the apparent KE recovery",
-   "includedInReleaseAt": "2026-10-22T07:29:54.005453+00:00",
-   "computedAt": "2026-10-22T07:29:54.005453+00:00",
+   "includedInReleaseAt": "2026-10-23T12:05:51.671870+00:00",
+   "computedAt": "2026-10-23T12:05:51.671870+00:00",
    "inputBasis": {
     "nDrives": 606,
     "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
@@ -151052,8 +151052,9 @@
    "despikeSrc": "6d76b2b6fb681b0d",
    "speedPrioritySrc": "7373db328c0223b6",
    "policyHash": "221bd77473ef9726",
-   "extractorSrc": "6da91d90e2255587",
-   "extractorVersion": "regen-v2.3"
+   "extractorSrc": "74886da96d288e0a",
+   "extractorVersion": "regen-v2.3",
+   "closureSrc": "617b824f341f9e2e"
   },
   "offsetA": -0.387,
   "bootstrap": {
@@ -186575,8 +186576,9 @@
    "despikeSrc": "6d76b2b6fb681b0d",
    "speedPrioritySrc": "7373db328c0223b6",
    "policyHash": "221bd77473ef9726",
-   "extractorSrc": "6da91d90e2255587",
-   "extractorVersion": "regen-v2.3"
+   "extractorSrc": "74886da96d288e0a",
+   "extractorVersion": "regen-v2.3",
+   "closureSrc": "617b824f341f9e2e"
   },
   "label": "apparent KE recovery at common sampling resolution (3 s grid, assumed mass); resolution-conditional; assumed masses; not a correction of the legacy values",
   "reading": "Levels of the v2 cells after every channel is reduced to a common 3 s grid (speed, current and voltage interpolated to the grid nodes, other channels latest sample, four grid phases averaged). The level depends on the resolution; the continuous-time recovery is not identified. Each level is shown with its day-clustered interval and assumed-mass range; the resolution bracket b is in the study block. Contrasts between adjacent bins are 'resolved' only under the rule of spec M442 Rev 1.2 (D5); otherwise 'not resolved at this resolution'.",

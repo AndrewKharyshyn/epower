@@ -45,9 +45,9 @@ S = run([0.0], [2.0], [150.0], [120.0], [-1.0, 3.0], [1.0, 1.0], [-1.0, 3.0], [3
 assert sorted(S["bin"].tolist()) == [12, 13] and abs(S["dv2"].sum() - (150.0 ** 2 - 120.0 ** 2)) < 1e-6
 # touch rule: a crossing 0.01 s before the end leaves a 0.01 s piece: not touched (< 0.025 s); a 0.03 s piece is touched
 S = run([0.0], [1.0], [30.0], [19.7], [-1.0, 3.0], [1.0, 1.0], [-1.0, 3.0], [300.0, 300.0])      # crossing 20 at t = 10/10.3 = 0.9709: the bin 1 piece is 0.0291 s
-assert sorted(S["bin"].tolist()) == [1, 2] and S["touchw"][S["bin"] == 1].tolist() == [1]
+assert sorted(S["bin"].tolist()) == [1, 2] and R.touch_flags(S["owner"] * R.NB + S["bin"], S["piece_h"], R.NB)[1] == 1      # M490: total-overlap rule
 S = run([0.0], [1.0], [30.0], [19.8], [-1.0, 3.0], [1.0, 1.0], [-1.0, 3.0], [300.0, 300.0])      # the bin 1 piece is 0.0196 s
-assert S["touchw"][S["bin"] == 1].tolist() == [0]
+assert R.touch_flags(S["owner"] * R.NB + S["bin"], S["piece_h"], R.NB)[1] == 0
 
 # random channels: exact vs a very fine trapezoid reference (second order), per interval and total
 rng = np.random.default_rng(11)
