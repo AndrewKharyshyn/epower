@@ -1,7 +1,8 @@
 """M489 known-answer tests (audit Update 7 A05, A07, A09): (A05) the dependency-closure hash changes when a shared helper, a constant or an imported repository module changes, and the real pair-cache / regen-cache
 closures reach the helpers the audit named; (A07) the replay identities flag an isolated corruption in a LATE row (beyond the first 12 differing files) and a rebuilt value that does not follow the frozen offset or the
 distance repair, and the committed full report passes; (A09) a missing regen-cache entry or raw directory is a named failure."""
-import copy, importlib, json, os, sys, tempfile, textwrap
+import copy, importlib, json, linecache, os, shutil, sys, tempfile, textwrap
+sys.dont_write_bytecode = True       # the throw-away modules are rewritten within one second: a stale .pyc (same mtime, same size) must never be loaded
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 os.chdir(ROOT); sys.path.insert(0, ROOT); sys.path.insert(0, os.path.join(ROOT, "tools"))
 import numpy as np
@@ -18,6 +19,7 @@ def load(modname):
     for m in [m for m in sys.modules if m in (modname, "helper_m489")]:
         del sys.modules[m]
     importlib.invalidate_caches()
+    linecache.clearcache()
     return importlib.import_module(modname)
 write("helper_m489.py", "K = 3\ndef shared(x):\n    return x + K\n")
 write("root_m489.py", "import helper_m489 as H\nLIMIT = 5\ndef extract(x):\n    return H.shared(x) * LIMIT\n")
@@ -29,16 +31,14 @@ try:
     assert h0 == hash_now(), "hash must be deterministic"
     write("helper_m489.py", "K = 3\ndef shared(x):\n    return x + K + 0\n")           # helper body changes
     h1 = hash_now(); assert h1 != h0, "a changed shared helper must change the hash"
-    write("helper_m489.py", "K = 4\ndef shared(x):\n    return x + K + 0\n")             # constant changes
+    write("helper_m489.py", "K = 44\ndef shared(x):\n    return x + K + 0\n")             # constant changes
     h2 = hash_now(); assert h2 != h1, "a changed helper constant must change the hash"
-    write("root_m489.py", "import helper_m489 as H\nLIMIT = 6\ndef extract(x):\n    return H.shared(x) * LIMIT\n")   # root constant changes
+    write("root_m489.py", "import helper_m489 as H\nLIMIT = 66\ndef extract(x):\n    return H.shared(x) * LIMIT\n")   # root constant changes
     h3 = hash_now(); assert h3 != h2, "a changed root constant must change the hash"
     assert dep_hash.closure_hash([load("root_m489").extract], modules=(load("helper_m489"),), extra={"v": 1}) != dep_hash.closure_hash([load("root_m489").extract], modules=(load("helper_m489"),), extra={"v": 2}), "schema/extra must be keyed"
 finally:
     sys.path.remove(tmpd)
-    for f in os.listdir(tmpd):
-        os.remove(os.path.join(tmpd, f))
-    os.rmdir(tmpd)
+    shutil.rmtree(tmpd, ignore_errors=True)
 
 # the real closures reach what the audit named
 import compute_drive_summary_v6 as D
