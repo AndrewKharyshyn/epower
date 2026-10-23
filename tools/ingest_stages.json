@@ -457,6 +457,18 @@
    ]
   },
   {
+   "id": "highway_session_gtc",
+   "title": "M488: highway-session GTC over explicit inclusive dates on the unrounded Ah ledger (ah_throughput.csv); additive payload block highwaySessionGtc + stamp; hard stop if a declared date has no ledger entry",
+   "cmd": [
+    "python3",
+    "tools/highway_session_gtc.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json"
+   ]
+  },
+  {
    "id": "regen_v2",
    "title": "M441: interval-based extractor v2 of the apparent battery-side KE recovery (spec analyses/M441_spec.md Rev 2.1): per-drive cache regen_cache/ (only new or invalidated drives are extracted), observed cells by pack temperature, speed during braking and SOC band with day-clustered intervals and support status; additive payload key regenCaptureV2 + stamp; the legacy regen keys are untouched; the on-demand study block regenCaptureV2Study is carried forward",
    "cmd": [
