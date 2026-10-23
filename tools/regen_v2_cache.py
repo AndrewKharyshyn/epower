@@ -50,7 +50,16 @@ def _src(path):
 def code_hashes():
     import compute_summary_arrays as C, drive_raw_cache as drc
     return {"loaderSchema": drc.SCHEMA_VERSION, "despikeSrc": _src(os.path.join(ROOT, "soc_spike.py"))[:16], "speedPrioritySrc": sha256_b(inspect.getsource(C._apply_speed_priority).encode())[:16],
-            "policyHash": R.POLICY_HASH, "extractorSrc": _src(os.path.join(ROOT, "tools", "regen_v2.py"))[:16], "extractorVersion": R.EXTRACTOR_VERSION}
+            "policyHash": R.POLICY_HASH, "extractorSrc": _src(os.path.join(ROOT, "tools", "regen_v2.py"))[:16], "extractorVersion": R.EXTRACTOR_VERSION,
+            "closureSrc": closure_src(C, drc)}
+
+
+def closure_src(C, drc):
+    """M489 (audit A05): hash of the dependency closure of the extractor and of the frame loader: every shared helper they reach (compute_summary_arrays _apply_speed_priority / _ft / RAW_MAP, the drive_raw_cache loader
+    and what it calls), its constants, the repository modules it imports, the library versions. The former key hashed regen_v2.py, soc_spike.py and _apply_speed_priority only, so a change to RAW_MAP, _ft or the loader
+    body (only SCHEMA_VERSION was keyed) left stale entries valid."""
+    import dep_hash
+    return dep_hash.closure_hash([R.extract_drive, drc.make_frame_loader], modules=(C, drc), extra={"loaderSchema": drc.SCHEMA_VERSION, "extractorVersion": R.EXTRACTOR_VERSION})[:16]
 
 
 def raw_dir():
@@ -68,6 +77,17 @@ def raw_sha256(fn, memo):
         return e[1]
     h = sha256_b(open(p, "rb").read()); memo[fn] = [key, h]
     return h
+
+
+class CacheAbsentError(RuntimeError):
+    """M489 (audit A09): the aggregation reads the per-drive cache only; a missing entry (a fresh clone, a cleared regen_cache/, a variant never extracted) is a named failure with its remedy, not a bare FileNotFoundError."""
+
+
+def _require(path, fn, variant):
+    if not os.path.exists(path):
+        raise CacheAbsentError("regen cache entry missing: %s (drive %s, variant %s). regen_cache/ is derived and git-ignored: build it with the ingestion stage regen_v2 (tools/regen_v2_stage.py) or "
+                               "regen_v2_cache.ensure(files, i_off, variant=%r), which needs the staged raw files (raw_only/ or XT_RAW_DIR_STAGED); aggregation never rereads raw CSVs." % (path, fn, variant, variant))
+    return path
 
 
 def _paths(fn, variant):
@@ -136,6 +156,8 @@ def ensure(files, i_off, variant="base", workers=5):
     """Extract only the new or invalidated drives (and the offset files whose i_off changed). Returns the stats dict."""
     from concurrent.futures import ProcessPoolExecutor
     ch = code_hashes()
+    if not os.path.isdir(raw_dir()):
+        raise CacheAbsentError("raw directory not found: %s. The cache extractor needs the staged raw files (raw_only/, or XT_RAW_DIR_STAGED); run tools/stage_raw.py (ingestion stage stage_raw) first." % raw_dir())
     os.makedirs(CACHE_DIR, exist_ok=True)
     mp = os.path.join(CACHE_DIR, "_sha.json")
     memo = json.load(open(mp, encoding="utf-8")) if os.path.exists(mp) else {}
@@ -167,7 +189,7 @@ def load(files, variant="base", with_off=True):
     hdrs = {}
     for di, fn in enumerate(files):
         mp, op = _paths(fn, variant)
-        with np.load(mp, allow_pickle=False) as z:
+        with np.load(_require(mp, fn, variant), allow_pickle=False) as z:
             hdrs[fn] = json.loads(str(z["hdr"]))
             if "iv_t0" not in z.files:
                 continue
@@ -177,7 +199,7 @@ def load(files, variant="base", with_off=True):
                 cols["bin_" + k].append(z["bin_" + k])
             cols["drive"].append(np.full(len(z["iv_t0"]), di, np.int32))
         if with_off:
-            with np.load(op, allow_pickle=False) as z:
+            with np.load(_require(op, fn, variant), allow_pickle=False) as z:
                 cols["iv_chargeOff"].append(z["iv_chargeOff"]); cols["bin_chargeOff"].append(z["bin_chargeOff"])
     out = {k: (np.concatenate(v) if v else np.array([])) for k, v in cols.items()}
     return out, hdrs

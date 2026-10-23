@@ -45,7 +45,7 @@ def mutate(f):
 assert mutate(lambda x: x["columnsDiffering"].update({"gtc": {"nRowsDiffer": 1, "nNullPatternMismatch": 0, "maxAbsDiff": 0.1, "files": ["a"]}})), "unregistered column must fail"
 assert mutate(lambda x: x["columnsDiffering"]["distance_km"].update(nRowsDiffer=2)), "more rows must fail"
 assert mutate(lambda x: x["columnsDiffering"]["distance_km"].update(maxAbsDiff=9.0)), "larger difference must fail"
-assert mutate(lambda x: x["columnsDiffering"]["distance_km"].update(files=["20260801_000000.csv"])), "other file must fail"
+assert mutate(lambda x: x["columnsDiffering"]["distance_km"].update(files=["20260801_000000.csv"], filesAll=["20260801_000000.csv"])), "other file must fail"
 assert mutate(lambda x: x.update(publishedOnlyColumns=x["publishedOnlyColumns"][:-1])), "changed published-only columns must fail"
 assert mutate(lambda x: x.update(rebuiltOnlyColumns=["new_col"])), "rebuilt-only column must fail"
 assert mutate(lambda x: x.update(nRowsRebuilt=x["nRowsRebuilt"] - 1)), "row count mismatch must fail"
