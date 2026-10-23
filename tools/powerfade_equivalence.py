@@ -103,19 +103,8 @@ def bootstrap_s1(cc, have_d, n_boot):
     y = have_d[RCOL].values.astype(float)
     b = np.linalg.lstsq(X, y, rcond=None)[0]
     days = have_d["date"].values
-    uniq = np.unique(days)
-    grp = {d: np.where(days == d)[0] for d in uniq}
-    rng = np.random.default_rng(42)
-    boot = []
-    for _ in range(n_boot):
-        idx = np.concatenate([grp[d] for d in rng.choice(uniq, size=len(uniq), replace=True)])
-        if len(np.unique(t[idx])) < 3:
-            continue
-        try:
-            boot.append(float(np.linalg.lstsq(X[idx], y[idx], rcond=None)[0][1]))
-        except Exception:
-            pass
-    boot = np.asarray(boot)
+    import day_bootstrap as DB
+    boot = DB.ols_boot_slopes(X, y, days, coef=1, nb=n_boot, seed=42, t=t)[0]      # M492: sufficient-statistics day bootstrap, same draws and estimator as the former loop
     q = np.percentile(boot, [2.5, 5.0, 95.0, 97.5])
     return {"slope": float(b[1]), "ci95": [float(q[0]), float(q[3])], "ci90": [float(q[1]), float(q[2])], "drawsRequested": int(n_boot), "drawsUsed": int(len(boot)),
             "drawsDropped": int(n_boot - len(boot)), "seed": 42, "monthsScale": "days / 30.44 from the minimum date of the clean complete cases (the published function's scale)"}
