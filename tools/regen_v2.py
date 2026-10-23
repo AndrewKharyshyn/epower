@@ -126,7 +126,7 @@ def _pos_part_integral(Ia, Ib, Va, Vb, h):
 
 def _exact_energy(t0, dt, v0, v1, i_t, i_v, v_t, v_v, i_off):
     """M475: exact piecewise version of _slice_energy. Pieces are cut at the native I and V sample times inside each interval and at the instantaneous-speed crossings of the 10 km/h bin edges (10 ... 130). Returns the piece arrays:
-    owner interval, speed-bin index (mid-point speed of the piece), dv2 (exact v_a^2 - v_b^2), charge, offset charge, touch weight (1 where the piece is at least touchMinS long)."""
+    owner interval, speed-bin index (mid-point speed of the piece), dv2 (exact v_a^2 - v_b^2), charge, offset charge, piece duration h (M490: the support rule is applied to the TOTAL overlap of an interval with a bin, summed over its pieces)."""
     m = t0.size
     t1 = t0 + dt
     own, tim = [np.arange(m), np.arange(m)], [t0, t1]
@@ -162,7 +162,17 @@ def _exact_energy(t0, dt, v0, v1, i_t, i_v, v_t, v_v, i_off):
     va, vb = v0[ow] + sl[ow] * (ta - t0[ow]), v0[ow] + sl[ow] * (tb - t0[ow])
     vm = (va + vb) / 2.0
     bn = np.minimum((np.maximum(vm, 0) // ed).astype(int), NB - 1)
-    return {"owner": ow, "bin": bn, "dv2": va ** 2 - vb ** 2, "ch": ch, "cho": cho, "touchw": (h >= POLICY["touchMinS"]).astype(np.int64)}
+    return {"owner": ow, "bin": bn, "dv2": va ** 2 - vb ** 2, "ch": ch, "cho": cho, "piece_h": h}
+
+
+TOUCH_TOL_S = 1e-9
+
+
+def touch_flags(comb, piece_h, size):
+    """M490 (spec analyses/M490_spec.md Rev 2, audit Update 7 A06): the registered M441 support rule, an interval TOUCHES a speed bin iff its total overlap with the bin is at least touchMinS. `comb` = owner * NB + bin of each piece,
+    `piece_h` = piece durations. Subdivision invariant: inserting a redundant native knot splits a piece but not the total. The former implementation thresholded each piece and asked whether any piece passed. Returns int8 flags of length `size`."""
+    tot = np.bincount(comb, weights=piece_h, minlength=size)
+    return (tot >= POLICY["touchMinS"] - TOUCH_TOL_S).astype(np.int8)
 
 
 def _slice_energy(t0, dt, v0, v1, i_t, i_v, v_t, v_v, i_off, h, boxcar=None):
@@ -293,7 +303,7 @@ def extract_drive(df, C=None, i_off=None, dt_max=None, iv_gap=None, iv_lag_s=0.0
     comb = S["owner"] * NB + S["bin"]
     size = m * NB
     bins = {"dv2": np.bincount(comb, weights=S["dv2"], minlength=size).reshape(m, NB), "charge": np.bincount(comb, weights=S["ch"], minlength=size).reshape(m, NB),
-            "touch": (np.bincount(comb, weights=S["touchw"] if "touchw" in S else None, minlength=size).reshape(m, NB) > 0).astype(np.int8)}
+            "touch": (touch_flags(comb, S["piece_h"], size).reshape(m, NB) if "piece_h" in S else (np.bincount(comb, minlength=size).reshape(m, NB) > 0).astype(np.int8))}      # M490: slice (boxcar) path unchanged: any piece, locked sensitivity only
     iv = {"t0": t0[kidx], "dt": dt[kidx], "v0": v0[kidx], "v1": v1[kidx], "dv2": v0[kidx] ** 2 - v1[kidx] ** 2, "charge": bins["charge"].sum(axis=1),
           "tpack": tpack, "nprobe": nprobe.astype(np.int8), "soc": soc0, "cls": np.where(v0[kidx] < 10, 0, np.where(v1[kidx] < 10, 1, 2)).astype(np.int8),
           "plateau": (v1[kidx] == v0[kidx]), "trimmed": trimmed[kidx], "endsAtStandstill": v1[kidx] == 0, "episode": ep[kidx]}

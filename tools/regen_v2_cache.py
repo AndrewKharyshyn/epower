@@ -13,7 +13,7 @@ for p_ in (ROOT, os.path.join(ROOT, "tools")):
         sys.path.insert(0, p_)
 import regen_v2 as R
 
-CACHE_DIR = os.path.join(ROOT, "regen_cache")
+CACHE_DIR = os.environ.get("XT_REGEN_CACHE_DIR") or os.path.join(ROOT, "regen_cache")      # M490: an environment override reaches the spawned extraction workers (a module attribute set in the parent does not); default unchanged
 VARIANTS = {"base": {}, "lagP1": {"iv_lag_s": 1.0}, "lagM1": {"iv_lag_s": -1.0}, "ceil2": {"dt_max": 2.0, "iv_gap": 2.0}, "dec0": {"decimate": 0}, "dec1": {"decimate": 1}}
 def variant_kwargs(variant):
     """Extractor keyword arguments of a cache variant id. base | lagP1 | lagM1 | ceil2 | dec0 | dec1 | box3 (P3 boxcar W = 3 s) | h{D}p{k} (M442 common grid Delta = D s, phase k * D / 4 s)

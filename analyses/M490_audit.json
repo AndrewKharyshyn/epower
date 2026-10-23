@@ -1,0 +1,29 @@
+{
+ "auditor": "analytical-auditor (Sonnet), claim + data path only (cache arrays for the intervals, raw I/V timestamps)",
+ "sample": {
+  "nDrives": 40,
+  "fast": 20,
+  "slow": 20,
+  "nIntervals": 21808,
+  "cellsCompared": 305312
+ },
+ "totalRuleVsBinTouchMismatches": 0,
+ "touchCellsNew": 22752,
+ "touchCellsOldPieceRule": 22752,
+ "cellsOldVsNewDiffer": 0,
+ "cellsWithTotalGe25msAllPiecesLt25ms": 0,
+ "pieceSeconds": {
+  "n": 66161,
+  "median": 0.228,
+  "p1": 0.047,
+  "minimum": "1.5e-12 (a bin-edge crossing coinciding with a knot, not a real piece)"
+ },
+ "verdict": "accept (the total rule reproduces bin_touch; on this sample it is indistinguishable from the old rule: the fix is prospective, no corpus effect)",
+ "methodConcerns": [
+  "fast / slow split by the median step of the native HV-current samples (the auditor's interpretation; the pipeline uses the ev_rpm median step)",
+  "the sample shows no cell where the old rule would differ, so it gives no evidence of an effect"
+ ],
+ "languageConcerns": [
+  "do not claim the touch rule alignment changed any result on this corpus"
+ ]
+}
