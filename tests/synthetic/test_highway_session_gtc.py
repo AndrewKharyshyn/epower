@@ -9,7 +9,7 @@ import highway_session_gtc as H
 
 CAP = H.CAP_AH_RATED
 # (1) synthetic: 3 days, session = d2..d3 inclusive; two drives on d2
-ah = pd.DataFrame(dict(file=list("abcd"), date=["2026-01-01", "2026-01-02", "2026-01-02", "2026-01-03"], ah_throughput=[10.0, 20.0, 5.0, 30.0]))
+ah = pd.DataFrame(dict(file=list("abcd"), date=["2026-01-01", "2026-01-02", "2026-01-02", "2026-01-03"], gross_throughput_ah=[10.0, 20.0, 5.0, 30.0]))
 sess = [dict(id="s", label="s", dates=["2026-01-02", "2026-01-03"])]
 b = H.build(ah, sess)
 assert abs(b["totalGtc"] - (20.0 + 5.0 + 30.0) / CAP) < 1e-6, b["totalGtc"]
@@ -18,7 +18,7 @@ assert abs(b["corpusGtc"] - 65.0 / CAP) < 1e-6 and abs(b["sharePct"] - 55 / 65 *
 cum = {"2026-01-01": 10.0, "2026-01-02": 35.0, "2026-01-03": 65.0}
 assert abs((cum["2026-01-03"] - cum["2026-01-02"]) / CAP - 30.0 / CAP) < 1e-9 and b["totalGtc"] > 30.0 / CAP
 # a missing Ah entry is not counted and a missing date is listed
-ah2 = ah.copy(); ah2.loc[3, "ah_throughput"] = float("nan")
+ah2 = ah.copy(); ah2.loc[3, "gross_throughput_ah"] = float("nan")
 b2 = H.build(ah2, sess)
 assert b2["missingDates"] == ["2026-01-03"] and abs(b2["totalGtc"] - 25.0 / CAP) < 1e-6
 # two sessions may not share a date
@@ -41,7 +41,8 @@ assert abs(blk["corpusGtc"] - sum(tot.values())) < 1e-5 and not blk["missingDate
 assert abs(blk["sharePct"] - want / sum(tot.values()) * 100) < 1e-3
 assert blk["nDeclaredDates"] == sum(len(s["dates"]) for s in H.SESSIONS) == len(blk["declaredDates"])
 assert abs(sum(s["gtc"] for s in blk["sessions"]) - blk["totalGtc"]) < 1e-5
-assert H.build(live) == blk, "payload block differs from a rebuild"
+dm = pd.read_csv("drive_master.csv", low_memory=False)
+assert H.build(H.EF.exposure_frame(dm, H.EF.RATED)) == blk, "payload block differs from a rebuild"
 md5 = hashlib.md5(open("drive_master.csv", "rb").read()).hexdigest()
 new, ch, bad = H.splice(A, blk, md5)
 assert not bad and ch == [] or all(c.startswith("/highwaySessionGtc") or c.startswith("/_artifactStamps/highwaySessionGtc") for c in ch), ch

@@ -12,6 +12,7 @@ ROUTED = {"compute_summary_arrays.py": "build_summary_arrays: exposure_frame() a
           "tools/m368_ledger_round.py": "exposure_frame(), pinned legacy (ledger prose stays legacy)", "tools/exposure_frame.py": "the shared function itself",
           "records_rainflow.py": "exposure_frame() in its main path (coulometric FCE in the record note)", "m296_refresh_master_seasonal.py": "exposure_frame() before category_A on the cohort subsets",
           "tools/regen_seasonal_raw.py": "exposure_frame() and the basis in every cache key",
+          "tools/highway_session_gtc.py": "exposure_frame(dm, RATED) gross_throughput_ah, unrounded Ah per date (M488)",
           "tools/exposure_basis_refresh.py": "exposure_frame(dm, 'legacy2p1kWh') for the legacy disclosure values of the exposureBasis block (M423)"}
 LEGACY_BY_DESIGN = {
     "compute_drive_summary_v6.py": "producer of the legacy master columns (the master is never rewritten)",

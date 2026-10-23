@@ -60229,15 +60229,15 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-23T07:56:30.043978+00:00",
+   "generatedAt": "2026-10-23T08:34:24.646047+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
    },
    "computationStatus": "computed",
    "computationStatusNote": "M488: derived by tools/highway_session_gtc.py from ah_throughput.csv (explicit inclusive dates, unrounded Ah); additive block",
-   "includedInReleaseAt": "2026-10-23T07:56:30.043978+00:00",
-   "computedAt": "2026-10-23T07:56:30.043978+00:00",
+   "includedInReleaseAt": "2026-10-23T08:34:24.646047+00:00",
+   "computedAt": "2026-10-23T08:34:24.646047+00:00",
    "inputBasis": {
     "nDrives": 606,
     "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
@@ -351580,7 +351580,7 @@
   "methodVersion": 1,
   "basis": "rated5Ah",
   "capAhRated": 5.0,
-  "source": "ah_throughput.csv: per-drive ah_throughput / CAP_AH_RATED, summed per calendar date, unrounded; the declared date sets are inclusive and listed per session",
+  "source": "tools/exposure_frame.py rated frame (ah_throughput.csv sidecar): per-drive gross_throughput_ah / CAP_AH_RATED, summed per calendar date, unrounded; the declared date sets are inclusive and listed per session",
   "sessions": [
    {
     "id": "jun09_14",
