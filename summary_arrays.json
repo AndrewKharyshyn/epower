@@ -11088,7 +11088,7 @@
      }
     ]
    },
-   "note": "Logged-sensor high-T cycle-damage sensitivity (the logged corpus is almost entirely Warm and Shoulder ambient class (Cold-class drives are below minimum support), so pack thermal exposure is characterised directly for that range). Reported as a labelled sensitivity only, never folded into the primary crossing. Calendar-aging axis (calendarLifeYrShaded) is duty-blended/parked-dominated and is NOT affected by this in-drive cycling term."
+   "note": "Logged-sensor high-T cycle-damage sensitivity (the logged corpus is almost entirely Warm and Shoulder ambient class (Cold-class drives are thinly observed and concentrated, see cohortSupport), so pack thermal exposure is characterised directly for that range). Reported as a labelled sensitivity only, never folded into the primary crossing. Calendar-aging axis (calendarLifeYrShaded) is duty-blended/parked-dominated and is NOT affected by this in-drive cycling term."
   },
   "assumptions": {
    "_provenance": "M28 (2026-07-10). Inputs for the all-year seasonal cycle-life extrapolation. monthlyTempC = user-supplied Kyiv monthly mean daily temperatures (external climatology; NOT measured by this study; note it diverges by up to 1.1C from the older archived 'climate' block, which is retained unchanged per provenance convention). All model parameters below are assumptions carried with lo/mid/hi bands because the cold tail below the lowest logged pack-probe reading is modelled, not observed; consumptionSlopePerC is anchored to the 15-30% hybrid winter consumption penalty range reported in cold-climate fleet literature, coldSoakRetention encodes inter-drive pack cooling under the 5-6 short-city-drives/day working pattern, and platingDamageWeights are generic NMC low-temperature stress multipliers (sensitivity only, not fitted to this pack).",
@@ -11153,7 +11153,7 @@
      2.0,
      2.5
     ],
-    "_provenance": "M85 (2026-08-05): high-temperature cycle-damage sensitivity, symmetric to the cold platingDamageWeights. Unlike the cold tail, this one comes from logged BMS sensor readings: the logged corpus is almost entirely Warm and Shoulder ambient class (Cold-class drives are below minimum support), so pack thermal exposure is characterised directly for that range (time-weighted mean pack ~34.2C, 54.3% of drive-time >=35C, highway thermal rise +17C above ambient). A hot class-month is one whose modeled pack temp (ambient + logged per-class rise) exceeds tempThresholdC; its cycles are damage-weighted either by the per-temp Arrhenius factor (arrhenius block, Ea/refC) or by the flatDamageWeights ladder. Reported as a labelled sensitivity only, never folded into the primary crossing (same discipline as plating). This is a CYCLE-damage overlay; the calendar-aging axis (calendarLifeYrShaded) is duty-blended and dominated by the parked/winter state, so it is NOT changed by this term.",
+    "_provenance": "M85 (2026-08-05): high-temperature cycle-damage sensitivity, symmetric to the cold platingDamageWeights. Unlike the cold tail, this one comes from logged BMS sensor readings: the logged corpus is almost entirely Warm and Shoulder ambient class (Cold-class drives are thinly observed and concentrated, see cohortSupport), so pack thermal exposure is characterised directly for that range (time-weighted mean pack ~34.2C, 54.3% of drive-time >=35C, highway thermal rise +17C above ambient). A hot class-month is one whose modeled pack temp (ambient + logged per-class rise) exceeds tempThresholdC; its cycles are damage-weighted either by the per-temp Arrhenius factor (arrhenius block, Ea/refC) or by the flatDamageWeights ladder. Reported as a labelled sensitivity only, never folded into the primary crossing (same discipline as plating). This is a CYCLE-damage overlay; the calendar-aging axis (calendarLifeYrShaded) is duty-blended and dominated by the parked/winter state, so it is NOT changed by this term.",
     "note": "High-T stress is the in-drive cycling accelerant (pack does its charge/discharge work at ~35C, ~1.95x calendar-basis Arrhenius acceleration vs 25C). It is distinct from and opposite to the cold plating tail; both are carried so the two ends of the temperature axis are visible."
    },
    "workSeasonTempThresholdC": 12.0,
@@ -13055,7 +13055,7 @@
    "fuelStateLoadMax": 8.0,
    "fuelStateLoadProxyMin": 20.0,
    "basis": "duration-weighted, 1 Hz grid (1 sample ~= 1 s); fuelled/motored split reuses the M46/M48 dissipation-census classifier thresholds",
-   "loadProxyBasis": "M89: calc-load-only fuelled proxy for files carrying eng_load_calc but not boost at all (logging-profile gap 2026-05-15..2026-06-18); calibrated at RPM>fuelStateRpmMin against the boost-covered corpus (98.3% recall, 0.33% contamination at load>=fuelStateLoadProxyMin). Motored is NOT proxied this way -- at RPM>1400 it is only ~2.5% of the boost-classified population, so load-based motored recall (up to 78.9%) carries 30%+ contamination from fuelled leakage and is not reliable enough to report."
+   "loadProxyBasis": "M89: calc-load-only fuelled proxy for files carrying eng_load_calc but not boost at all (logging-profile gap 2026-05-15..2026-06-18); calibrated at RPM>fuelStateRpmMin against the boost-covered corpus (historical M89 calibration, not recomputed on the current corpus: 98.3% recall, 0.33% contamination at load>=fuelStateLoadProxyMin). Motored is NOT proxied this way -- at RPM>1400 it is only ~2.5% of the boost-classified population, so load-based motored recall (up to 78.9%) carries 30%+ contamination from fuelled leakage and is not reliable enough to report."
   }
  },
  "turboBySpeedCtx": [
@@ -49530,7 +49530,7 @@
     "p75Kw": 2.282
    }
   ],
-  "interpretation": "Standstill draw rises monotonically with ambient temperature above ~15 C, consistent with an AC-compressor climate-load proxy, but no HVAC state channel exists (compressor on/off, fan speed, setpoint) so this is a descriptive correlation, NOT a mechanism claim. Ambient below ~15 C is thinly observed (the Cold class is below minimum support) -- this characterises the warm end of the range only.",
+  "interpretation": "Standstill draw rises monotonically with ambient temperature above ~15 C, consistent with an AC-compressor climate-load proxy, but no HVAC state channel exists (compressor on/off, fan speed, setpoint) so this is a descriptive correlation, NOT a mechanism claim. Ambient below ~15 C is thinly observed (the Cold class is thinly observed and concentrated, see cohortSupport) -- this characterises the warm end of the range only.",
   "methodology": "Extends standstillStats (M26): per-drive standstill_draw_kw (key-on, stationary median draw, from drive_master, ens-unfiltered to match the M26 scope) paired with the drive-start ambient temperature (ambientByDrive[file][0]). Spearman rank correlation (day-clustered bootstrap, seed 42, 4000 draws); an OLS slope (kW/C) is reported as a descriptive summary, not a causal estimate. Binned median/IQR by ambient band. EXPLORATORY -- no HVAC state channel, no causality claim. Single vehicle / ~single driver."
  },
  "fullCellCaseStudy": {
@@ -310662,7 +310662,7 @@
        "fuelStateLoadMax": 8.0,
        "fuelStateLoadProxyMin": 20.0,
        "basis": "duration-weighted, 1 Hz grid (1 sample ~= 1 s); fuelled/motored split reuses the M46/M48 dissipation-census classifier thresholds",
-       "loadProxyBasis": "M89: calc-load-only fuelled proxy for files carrying eng_load_calc but not boost at all (logging-profile gap 2026-05-15..2026-06-18); calibrated at RPM>fuelStateRpmMin against the boost-covered corpus (98.3% recall, 0.33% contamination at load>=fuelStateLoadProxyMin). Motored is NOT proxied this way -- at RPM>1400 it is only ~2.5% of the boost-classified population, so load-based motored recall (up to 78.9%) carries 30%+ contamination from fuelled leakage and is not reliable enough to report."
+       "loadProxyBasis": "M89: calc-load-only fuelled proxy for files carrying eng_load_calc but not boost at all (logging-profile gap 2026-05-15..2026-06-18); calibrated at RPM>fuelStateRpmMin against the boost-covered corpus (historical M89 calibration, not recomputed on the current corpus: 98.3% recall, 0.33% contamination at load>=fuelStateLoadProxyMin). Motored is NOT proxied this way -- at RPM>1400 it is only ~2.5% of the boost-classified population, so load-based motored recall (up to 78.9%) carries 30%+ contamination from fuelled leakage and is not reliable enough to report."
       }
      },
      "warm": {
@@ -310912,7 +310912,7 @@
        "fuelStateLoadMax": 8.0,
        "fuelStateLoadProxyMin": 20.0,
        "basis": "duration-weighted, 1 Hz grid (1 sample ~= 1 s); fuelled/motored split reuses the M46/M48 dissipation-census classifier thresholds",
-       "loadProxyBasis": "M89: calc-load-only fuelled proxy for files carrying eng_load_calc but not boost at all (logging-profile gap 2026-05-15..2026-06-18); calibrated at RPM>fuelStateRpmMin against the boost-covered corpus (98.3% recall, 0.33% contamination at load>=fuelStateLoadProxyMin). Motored is NOT proxied this way -- at RPM>1400 it is only ~2.5% of the boost-classified population, so load-based motored recall (up to 78.9%) carries 30%+ contamination from fuelled leakage and is not reliable enough to report."
+       "loadProxyBasis": "M89: calc-load-only fuelled proxy for files carrying eng_load_calc but not boost at all (logging-profile gap 2026-05-15..2026-06-18); calibrated at RPM>fuelStateRpmMin against the boost-covered corpus (historical M89 calibration, not recomputed on the current corpus: 98.3% recall, 0.33% contamination at load>=fuelStateLoadProxyMin). Motored is NOT proxied this way -- at RPM>1400 it is only ~2.5% of the boost-classified population, so load-based motored recall (up to 78.9%) carries 30%+ contamination from fuelled leakage and is not reliable enough to report."
       }
      },
      "shoulder": {
@@ -311162,7 +311162,7 @@
        "fuelStateLoadMax": 8.0,
        "fuelStateLoadProxyMin": 20.0,
        "basis": "duration-weighted, 1 Hz grid (1 sample ~= 1 s); fuelled/motored split reuses the M46/M48 dissipation-census classifier thresholds",
-       "loadProxyBasis": "M89: calc-load-only fuelled proxy for files carrying eng_load_calc but not boost at all (logging-profile gap 2026-05-15..2026-06-18); calibrated at RPM>fuelStateRpmMin against the boost-covered corpus (98.3% recall, 0.33% contamination at load>=fuelStateLoadProxyMin). Motored is NOT proxied this way -- at RPM>1400 it is only ~2.5% of the boost-classified population, so load-based motored recall (up to 78.9%) carries 30%+ contamination from fuelled leakage and is not reliable enough to report."
+       "loadProxyBasis": "M89: calc-load-only fuelled proxy for files carrying eng_load_calc but not boost at all (logging-profile gap 2026-05-15..2026-06-18); calibrated at RPM>fuelStateRpmMin against the boost-covered corpus (historical M89 calibration, not recomputed on the current corpus: 98.3% recall, 0.33% contamination at load>=fuelStateLoadProxyMin). Motored is NOT proxied this way -- at RPM>1400 it is only ~2.5% of the boost-classified population, so load-based motored recall (up to 78.9%) carries 30%+ contamination from fuelled leakage and is not reliable enough to report."
       }
      },
      "cold": {
@@ -311348,7 +311348,7 @@
        "fuelStateLoadMax": 8.0,
        "fuelStateLoadProxyMin": 20.0,
        "basis": "duration-weighted, 1 Hz grid (1 sample ~= 1 s); fuelled/motored split reuses the M46/M48 dissipation-census classifier thresholds",
-       "loadProxyBasis": "M89: calc-load-only fuelled proxy for files carrying eng_load_calc but not boost at all (logging-profile gap 2026-05-15..2026-06-18); calibrated at RPM>fuelStateRpmMin against the boost-covered corpus (98.3% recall, 0.33% contamination at load>=fuelStateLoadProxyMin). Motored is NOT proxied this way -- at RPM>1400 it is only ~2.5% of the boost-classified population, so load-based motored recall (up to 78.9%) carries 30%+ contamination from fuelled leakage and is not reliable enough to report."
+       "loadProxyBasis": "M89: calc-load-only fuelled proxy for files carrying eng_load_calc but not boost at all (logging-profile gap 2026-05-15..2026-06-18); calibrated at RPM>fuelStateRpmMin against the boost-covered corpus (historical M89 calibration, not recomputed on the current corpus: 98.3% recall, 0.33% contamination at load>=fuelStateLoadProxyMin). Motored is NOT proxied this way -- at RPM>1400 it is only ~2.5% of the boost-classified population, so load-based motored recall (up to 78.9%) carries 30%+ contamination from fuelled leakage and is not reliable enough to report."
       }
      }
     },

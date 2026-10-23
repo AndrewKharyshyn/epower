@@ -3420,7 +3420,7 @@ def _seasonal_projection(dm, odometer_km, cfg, obs_mix=None):
                                obs_hs, obs_af, obs_flat),
         'note': ('Logged-sensor high-T cycle-damage sensitivity (the logged corpus is '
                  'almost entirely Warm and Shoulder ambient class (Cold-class drives '
-                 'are below minimum support), so pack thermal exposure is '
+                 'are thinly observed and concentrated, see cohortSupport), so pack thermal exposure is '
                  'characterised directly for that range). Reported as a labelled sensitivity only, never '
                  'folded into the primary crossing. Calendar-aging axis '
                  '(calendarLifeYrShaded) is duty-blended/parked-dominated and '
@@ -4619,7 +4619,7 @@ class _RawAccum:
                     'files carrying eng_load_calc but not boost at all '
                     '(logging-profile gap 2026-05-15..2026-06-18); '
                     'calibrated at RPM>fuelStateRpmMin against the '
-                    'boost-covered corpus (98.3% recall, 0.33% '
+                    'boost-covered corpus (historical M89 calibration, not recomputed on the current corpus: 98.3% recall, 0.33% '
                     'contamination at load>=fuelStateLoadProxyMin). '
                     'Motored is NOT proxied this way -- at RPM>1400 it is '
                     'only ~2.5% of the boost-classified population, so '
@@ -14011,7 +14011,7 @@ def _aux_load_ambient(dm, ambient_by_drive=None):
             '~15 C, consistent with an AC-compressor climate-load proxy, but no '
             'HVAC state channel exists (compressor on/off, fan speed, setpoint) so '
             'this is a descriptive correlation, NOT a mechanism claim. Ambient below '
-            '~15 C is thinly observed (the Cold class is below minimum support) -- '
+            '~15 C is thinly observed (the Cold class is thinly observed and concentrated, see cohortSupport) -- '
             'this characterises the warm end of the range only.'),
         'methodology': (
             'Extends standstillStats (M26): per-drive standstill_draw_kw (key-on, '
