@@ -1,0 +1,299 @@
+{
+ "_provenance": "GENERATED for M494 acceptance (spec analyses/M494_spec.md Rev 2) from summary_arrays.json urbanContrastBlocks",
+ "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+ "specSha256": "fbf1ea2cb45f9a06687e80570a1f013eccb9bc8845d66c0a57f0af6c13f71669",
+ "overallVerdict": "unchanged",
+ "bands": [
+  {
+   "band": "all urban trips",
+   "verdict": "unchanged",
+   "jointDay": [
+    -3.88,
+    1.33
+   ],
+   "weeks": {
+    "union": 23,
+    "warm": 20,
+    "shoulder": 11,
+    "mixed": 8
+   },
+   "procedures": {
+    "W": {
+     "ci95": [
+      -4.63,
+      2.18
+     ],
+     "fewBlocks": false,
+     "includesZero": true,
+     "widthRatioToJointDay": 1.307,
+     "widthRatioToL1": 1.338,
+     "nDrawsDropped": 0,
+     "endpointMcSd": [
+      0.074,
+      0.077
+     ],
+     "endpointWithinMcErrorOfZero": false
+    },
+    "WS": {
+     "ci95": [
+      -4.06,
+      1.6
+     ],
+     "fewBlocks": false,
+     "includesZero": true,
+     "widthRatioToJointDay": 1.086,
+     "widthRatioToL1": 1.112,
+     "nDrawsDropped": 0,
+     "endpointMcSd": [
+      0.066,
+      0.107
+     ],
+     "endpointWithinMcErrorOfZero": false
+    },
+    "M7": {
+     "ci95": [
+      -4.73,
+      2.06
+     ],
+     "fewBlocks": false,
+     "includesZero": true,
+     "widthRatioToJointDay": 1.303,
+     "widthRatioToL1": 1.334,
+     "nDrawsDropped": 0,
+     "endpointMcSd": [
+      0.065,
+      0.098
+     ],
+     "endpointWithinMcErrorOfZero": false
+    },
+    "M14": {
+     "ci95": null,
+     "fewBlocks": true,
+     "includesZero": null,
+     "widthRatioToJointDay": null,
+     "widthRatioToL1": null,
+     "nDrawsDropped": 0
+    }
+   },
+   "referenceL1": [
+    -3.87,
+    1.22
+   ]
+  },
+  {
+   "band": "< 3 km",
+   "verdict": "unchanged",
+   "jointDay": [
+    -1.93,
+    1.89
+   ],
+   "weeks": {
+    "union": 20,
+    "warm": 18,
+    "shoulder": 10,
+    "mixed": 8
+   },
+   "procedures": {
+    "W": {
+     "ci95": [
+      -2.95,
+      2.56
+     ],
+     "fewBlocks": false,
+     "includesZero": true,
+     "widthRatioToJointDay": 1.442,
+     "widthRatioToL1": 1.388,
+     "nDrawsDropped": 0,
+     "endpointMcSd": [
+      0.055,
+      0.059
+     ],
+     "endpointWithinMcErrorOfZero": false
+    },
+    "WS": {
+     "ci95": [
+      -2.53,
+      2.43
+     ],
+     "fewBlocks": false,
+     "includesZero": true,
+     "widthRatioToJointDay": 1.298,
+     "widthRatioToL1": 1.249,
+     "nDrawsDropped": 0,
+     "endpointMcSd": [
+      0.03,
+      0.036
+     ],
+     "endpointWithinMcErrorOfZero": false
+    },
+    "M7": {
+     "ci95": [
+      -2.57,
+      2.42
+     ],
+     "fewBlocks": false,
+     "includesZero": true,
+     "widthRatioToJointDay": 1.306,
+     "widthRatioToL1": 1.257,
+     "nDrawsDropped": 0,
+     "endpointMcSd": [
+      0.043,
+      0.048
+     ],
+     "endpointWithinMcErrorOfZero": false
+    },
+    "M14": {
+     "ci95": null,
+     "fewBlocks": true,
+     "includesZero": null,
+     "widthRatioToJointDay": null,
+     "widthRatioToL1": null,
+     "nDrawsDropped": 0
+    }
+   },
+   "referenceL1": [
+    -1.97,
+    2.0
+   ]
+  },
+  {
+   "band": "3–10 km",
+   "verdict": "unchanged",
+   "jointDay": [
+    -5.65,
+    1.21
+   ],
+   "weeks": {
+    "union": 22,
+    "warm": 20,
+    "shoulder": 9,
+    "mixed": 7
+   },
+   "procedures": {
+    "W": {
+     "ci95": [
+      -5.25,
+      0.32
+     ],
+     "fewBlocks": false,
+     "includesZero": true,
+     "widthRatioToJointDay": 0.812,
+     "widthRatioToL1": 0.836,
+     "nDrawsDropped": 0,
+     "endpointMcSd": [
+      0.083,
+      0.039
+     ],
+     "endpointWithinMcErrorOfZero": false
+    },
+    "WS": {
+     "ci95": [
+      -4.94,
+      0.03
+     ],
+     "fewBlocks": false,
+     "includesZero": true,
+     "widthRatioToJointDay": 0.724,
+     "widthRatioToL1": 0.746,
+     "nDrawsDropped": 0,
+     "endpointMcSd": [
+      0.058,
+      0.039
+     ],
+     "endpointWithinMcErrorOfZero": true
+    },
+    "M7": {
+     "ci95": null,
+     "fewBlocks": true,
+     "includesZero": null,
+     "widthRatioToJointDay": null,
+     "widthRatioToL1": null,
+     "nDrawsDropped": 0
+    },
+    "M14": {
+     "ci95": null,
+     "fewBlocks": true,
+     "includesZero": null,
+     "widthRatioToJointDay": null,
+     "widthRatioToL1": null,
+     "nDrawsDropped": 0
+    }
+   },
+   "referenceL1": [
+    -5.64,
+    1.02
+   ]
+  },
+  {
+   "band": "≥ 10 km",
+   "verdict": "unchanged",
+   "jointDay": [
+    -2.66,
+    0.68
+   ],
+   "weeks": {
+    "union": 20,
+    "warm": 16,
+    "shoulder": 9,
+    "mixed": 5
+   },
+   "procedures": {
+    "W": {
+     "ci95": [
+      -2.74,
+      1.29
+     ],
+     "fewBlocks": false,
+     "includesZero": true,
+     "widthRatioToJointDay": 1.207,
+     "widthRatioToL1": 1.185,
+     "nDrawsDropped": 0,
+     "endpointMcSd": [
+      0.044,
+      0.047
+     ],
+     "endpointWithinMcErrorOfZero": false
+    },
+    "WS": {
+     "ci95": [
+      -2.69,
+      1.31
+     ],
+     "fewBlocks": false,
+     "includesZero": true,
+     "widthRatioToJointDay": 1.198,
+     "widthRatioToL1": 1.176,
+     "nDrawsDropped": 0,
+     "endpointMcSd": [
+      0.017,
+      0.041
+     ],
+     "endpointWithinMcErrorOfZero": false
+    },
+    "M7": {
+     "ci95": null,
+     "fewBlocks": true,
+     "includesZero": null,
+     "widthRatioToJointDay": null,
+     "widthRatioToL1": null,
+     "nDrawsDropped": 0
+    },
+    "M14": {
+     "ci95": null,
+     "fewBlocks": true,
+     "includesZero": null,
+     "widthRatioToJointDay": null,
+     "widthRatioToL1": null,
+     "nDrawsDropped": 0
+    }
+   },
+   "referenceL1": [
+    -2.66,
+    0.74
+   ]
+  }
+ ],
+ "knownAnswerTests": "tests/synthetic/test_m494_block_bootstrap.py: KAT1 0.983, KAT6 1.111, KAT2 1.399 / 1.396, KAT3 0.996, KAT7 circular bias -0.022 vs released rule -0.080",
+ "isolation": "248 leaves added under /urbanContrastBlocks and its stamp; 0 other leaf changed or removed",
+ "directorDecision": "revise (wording / disclosure only; verdict rule applied as frozen: overall 'unchanged'); revisions applied: MC-error clause from the payload, 'weeks stratified by cohort occupancy', compact table, extra language-gate rules"
+}

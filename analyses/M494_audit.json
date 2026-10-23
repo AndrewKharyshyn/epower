@@ -1,0 +1,270 @@
+{
+ "auditor": "analytical-auditor (Sonnet), claim + data path only",
+ "tolerance": "3 x the auditor's endpoint SD over 10 seeds",
+ "comparison": [
+  {
+   "band": "all urban trips",
+   "weekAndSpanCountsMatch": true
+  },
+  {
+   "band": "all urban trips",
+   "procedure": "W",
+   "endpoint": "lo",
+   "ours": -4.63,
+   "auditor": -4.707,
+   "absDiff": 0.077,
+   "tol3SD": 0.126,
+   "withinTolerance": true
+  },
+  {
+   "band": "all urban trips",
+   "procedure": "W",
+   "endpoint": "hi",
+   "ours": 2.18,
+   "auditor": 2.195,
+   "absDiff": 0.015,
+   "tol3SD": 0.243,
+   "withinTolerance": true
+  },
+  {
+   "band": "all urban trips",
+   "procedure": "WS",
+   "endpoint": "lo",
+   "ours": -4.06,
+   "auditor": -4.106,
+   "absDiff": 0.046,
+   "tol3SD": 0.189,
+   "withinTolerance": true
+  },
+  {
+   "band": "all urban trips",
+   "procedure": "WS",
+   "endpoint": "hi",
+   "ours": 1.6,
+   "auditor": 1.562,
+   "absDiff": 0.038,
+   "tol3SD": 0.261,
+   "withinTolerance": true
+  },
+  {
+   "band": "all urban trips",
+   "procedure": "M7",
+   "endpoint": "lo",
+   "ours": -4.73,
+   "auditor": -4.649,
+   "absDiff": 0.081,
+   "tol3SD": 0.171,
+   "withinTolerance": true
+  },
+  {
+   "band": "all urban trips",
+   "procedure": "M7",
+   "endpoint": "hi",
+   "ours": 2.06,
+   "auditor": 2.086,
+   "absDiff": 0.026,
+   "tol3SD": 0.192,
+   "withinTolerance": true
+  },
+  {
+   "band": "all urban trips",
+   "procedure": "M14",
+   "auditorWithheld": true,
+   "ours_fewBlocks": true
+  },
+  {
+   "band": "< 3 km",
+   "weekAndSpanCountsMatch": true
+  },
+  {
+   "band": "< 3 km",
+   "procedure": "W",
+   "endpoint": "lo",
+   "ours": -2.95,
+   "auditor": -2.874,
+   "absDiff": 0.076,
+   "tol3SD": 0.207,
+   "withinTolerance": true
+  },
+  {
+   "band": "< 3 km",
+   "procedure": "W",
+   "endpoint": "hi",
+   "ours": 2.56,
+   "auditor": 2.605,
+   "absDiff": 0.045,
+   "tol3SD": 0.111,
+   "withinTolerance": true
+  },
+  {
+   "band": "< 3 km",
+   "procedure": "WS",
+   "endpoint": "lo",
+   "ours": -2.53,
+   "auditor": -2.535,
+   "absDiff": 0.005,
+   "tol3SD": 0.15,
+   "withinTolerance": true
+  },
+  {
+   "band": "< 3 km",
+   "procedure": "WS",
+   "endpoint": "hi",
+   "ours": 2.43,
+   "auditor": 2.492,
+   "absDiff": 0.062,
+   "tol3SD": 0.09,
+   "withinTolerance": true
+  },
+  {
+   "band": "< 3 km",
+   "procedure": "M7",
+   "endpoint": "lo",
+   "ours": -2.57,
+   "auditor": -2.466,
+   "absDiff": 0.104,
+   "tol3SD": 0.204,
+   "withinTolerance": true
+  },
+  {
+   "band": "< 3 km",
+   "procedure": "M7",
+   "endpoint": "hi",
+   "ours": 2.42,
+   "auditor": 2.481,
+   "absDiff": 0.061,
+   "tol3SD": 0.129,
+   "withinTolerance": true
+  },
+  {
+   "band": "< 3 km",
+   "procedure": "M14",
+   "auditorWithheld": true,
+   "ours_fewBlocks": true
+  },
+  {
+   "band": "3–10 km",
+   "weekAndSpanCountsMatch": true
+  },
+  {
+   "band": "3–10 km",
+   "procedure": "W",
+   "endpoint": "lo",
+   "ours": -5.25,
+   "auditor": -5.156,
+   "absDiff": 0.094,
+   "tol3SD": 0.234,
+   "withinTolerance": true
+  },
+  {
+   "band": "3–10 km",
+   "procedure": "W",
+   "endpoint": "hi",
+   "ours": 0.32,
+   "auditor": 0.314,
+   "absDiff": 0.006,
+   "tol3SD": 0.177,
+   "withinTolerance": true
+  },
+  {
+   "band": "3–10 km",
+   "procedure": "WS",
+   "endpoint": "lo",
+   "ours": -4.94,
+   "auditor": -4.93,
+   "absDiff": 0.01,
+   "tol3SD": 0.189,
+   "withinTolerance": true
+  },
+  {
+   "band": "3–10 km",
+   "procedure": "WS",
+   "endpoint": "hi",
+   "ours": 0.03,
+   "auditor": 0.032,
+   "absDiff": 0.002,
+   "tol3SD": 0.216,
+   "withinTolerance": true
+  },
+  {
+   "band": "3–10 km",
+   "procedure": "M7",
+   "withheldBoth": true
+  },
+  {
+   "band": "3–10 km",
+   "procedure": "M7",
+   "auditorWithheld": true,
+   "ours_fewBlocks": true
+  },
+  {
+   "band": "3–10 km",
+   "procedure": "M14",
+   "auditorWithheld": true,
+   "ours_fewBlocks": true
+  },
+  {
+   "band": "≥ 10 km",
+   "weekAndSpanCountsMatch": true
+  },
+  {
+   "band": "≥ 10 km",
+   "procedure": "W",
+   "endpoint": "lo",
+   "ours": -2.74,
+   "auditor": -2.7,
+   "absDiff": 0.04,
+   "tol3SD": 0.126,
+   "withinTolerance": true
+  },
+  {
+   "band": "≥ 10 km",
+   "procedure": "W",
+   "endpoint": "hi",
+   "ours": 1.29,
+   "auditor": 1.336,
+   "absDiff": 0.046,
+   "tol3SD": 0.102,
+   "withinTolerance": true
+  },
+  {
+   "band": "≥ 10 km",
+   "procedure": "WS",
+   "endpoint": "lo",
+   "ours": -2.69,
+   "auditor": -2.656,
+   "absDiff": 0.034,
+   "tol3SD": 0.111,
+   "withinTolerance": true
+  },
+  {
+   "band": "≥ 10 km",
+   "procedure": "WS",
+   "endpoint": "hi",
+   "ours": 1.31,
+   "auditor": 1.297,
+   "absDiff": 0.013,
+   "tol3SD": 0.132,
+   "withinTolerance": true
+  },
+  {
+   "band": "≥ 10 km",
+   "procedure": "M7",
+   "withheldBoth": true
+  },
+  {
+   "band": "≥ 10 km",
+   "procedure": "M7",
+   "auditorWithheld": true,
+   "ours_fewBlocks": true
+  },
+  {
+   "band": "≥ 10 km",
+   "procedure": "M14",
+   "auditorWithheld": true,
+   "ours_fewBlocks": true
+  }
+ ],
+ "mismatches": 0,
+ "note": "3-10 km WS upper endpoint is about +0.03 (auditor 0.032, seed SD 0.07): borderline, the sign of that endpoint is not stable; the reading stays 'includes zero'"
+}
