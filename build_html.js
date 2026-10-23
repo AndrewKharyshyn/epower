@@ -99,7 +99,8 @@ const REQUIRED_BLOCKS=[
   'masterRefitProvenance',  // M311: rebuild from the repository raw archive, labelled provenance sensitivity (tools/build_refit_provenance.py)
   'provenanceSensitivity',  // M307/F03: computed provenance-sensitivity notice (f03_provenance_flag.py)
   'fuelContract',           // M334: Fuel-tab disclosure block (tools/fuel_contract.py -> fuel_contract_flag.py)
-  'cohortSupport'           // M472: descriptive cohort support accounting (tools/cohort_support.py)
+  'cohortSupport',          // M472: descriptive cohort support accounting (tools/cohort_support.py)
+  'highwaySessionGtc'       // M488: highway-session GTC over explicit inclusive dates on the unrounded Ah ledger (tools/highway_session_gtc.py)
 ];
 const missing=REQUIRED_BLOCKS.filter(k=>arraysObj[k]==null);
 if(missing.length){

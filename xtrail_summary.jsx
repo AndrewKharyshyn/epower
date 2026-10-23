@@ -1686,29 +1686,16 @@ function CycleProjectionChart() {
   const observedRate  = gtcTotal*(365.25/daysIncl);          // annualised observed pace
   const cityHeavyProj = (S.cycleProjections||[]).find(p=>p.label==="City-heavy");
 
-  // Highway-session contribution (Jun 9-14 / Jun 19 / Jun 21) — recomputed
-  // from the actual cumulative-GTC ledger rather than hand-typed deltas, so
-  // it can never drift out of sync with drive_master.csv again.
+  // Highway-session contribution (declared inclusive dates Jun 9-14 / Jun 19 / Jun 21): M488 (audit Update 7 A02) -- summed over the explicit date
+  // set on the unrounded per-drive Ah ledger by tools/highway_session_gtc.py (S.highwaySessionGtc), no cumulative end point is subtracted.
   const findCum = day => { const p=histPts.find(x=>x[0]===day); return p ? p[1] : null; };
-  const hwyStart=findCum(29), hwyEnd=findCum(34);            // Jun 9 → Jun 14
-  const j19Prev=findCum(38),  j19=findCum(39);               // Jun 18 → Jun 19
-  const j21Prev=findCum(40),  j21=findCum(41);               // Jun 20 → Jun 21
-  const hwyDelta = (hwyEnd!=null&&hwyStart!=null) ? hwyEnd-hwyStart : null;
-  const j19Delta = (j19!=null&&j19Prev!=null) ? j19-j19Prev : null;
-  const j21Delta = (j21!=null&&j21Prev!=null) ? j21-j21Prev : null;
-  const hwySessionsTotal = [hwyDelta,j19Delta,j21Delta].every(v=>v!=null) ? hwyDelta+j19Delta+j21Delta : null;
-  const hwySessionsDays  = 8; // Jun9-14 (6d) + Jun19 (1d) + Jun21 (1d)
-  const hwySessionsPctSpan  = hwySessionsTotal!=null ? hwySessionsDays/daysIncl*100 : null;
-  const hwySessionsPctTotal = hwySessionsTotal!=null ? hwySessionsTotal/gtcTotal*100 : null;
-
-  // Most recent data block — from the day after the Jun 21 leg through the
-  // latest logged point — drives the green "new data" annotation below.
-  // Anchored to a fixed calendar date (not a fixed count of days-back) so it
-  // keeps tracking "everything added since the Jun 21 road trip" as new
-  // drives accumulate, rather than pinning to whatever the last batch was.
-  const recentAnchorDay = 42; // Jun 22
-  const recentAnchorCum = findCum(recentAnchorDay);
-  const recentDelta = recentAnchorCum!=null ? gtcTotal-recentAnchorCum : null;
+  const HS = S.highwaySessionGtc;
+  const hwySession = id => HS?.sessions?.find(s=>s.id===id)?.gtc ?? null;
+  const j19Delta = hwySession("jun19"), j21Delta = hwySession("jun21");
+  const hwySessionsTotal = HS?.totalGtc ?? null;
+  const hwySessionsDays  = HS?.nDeclaredDates ?? null;
+  const hwySessionsPctSpan  = (hwySessionsTotal!=null && hwySessionsDays!=null) ? hwySessionsDays/daysIncl*100 : null;
+  const hwySessionsPctTotal = hwySessionsTotal!=null ? HS.sharePct : null;   // share of the corpus GTC on the same Ah ledger
 
   // Largest genuine single-calendar-day EFC jump (only counts pairs of
   // consecutively-logged days, so multi-day gaps between drives can't
@@ -2961,7 +2948,7 @@ function CycleProjectionChart() {
       )}
       {view !== "projection" && (
       <div style={{marginTop:8,padding:8,background:"#f1f5f9",borderRadius:6,fontSize:10,color:"#64748b"}}>
-        {view==="history" && (<><strong style={{color:"#0f172a"}}>Road trips dominate throughput:</strong> three highway sessions (Jun 9–14, 6 days + Jun 19, 1 day + Jun 21, 1 day — 8 days total{hwySessionsPctSpan!=null?`, ${hwySessionsPctSpan.toFixed(0)}% of the ${daysIncl}-day span`:""}) added {hwySessionsTotal!=null?hwySessionsTotal.toFixed(1):"—"} of {gtcTotal.toFixed(1)} cycles (gross-throughput basis, {xbRated() ? "rated 5 Ah reference" : "2.1kWh/cycle"}) — <strong style={{color:"#f97316"}}>{hwySessionsPctTotal!=null?hwySessionsPctTotal.toFixed(0):"—"}% of the entire total</strong>. {maxDayJump && (maxDayJump.day===39 ? "Jun 19 alone (696km in one day)" : `${maxDayJump.label} alone`)} still holds the single largest one-day accumulation ({maxDayJump?maxDayJump.delta.toFixed(1):"—"} cycles); Jun 21's 207km highway leg added {j21Delta!=null?j21Delta.toFixed(1):"—"} more, confirming that high-km days dominate cumulative cycle count regardless of their low per-km intensity.</>)}
+        {view==="history" && (<><strong style={{color:"#0f172a"}}>Road trips dominate throughput:</strong> three highway sessions (Jun 9–14, 6 days + Jun 19, 1 day + Jun 21, 1 day — {hwySessionsDays??"—"} days total{hwySessionsPctSpan!=null?`, ${hwySessionsPctSpan.toFixed(0)}% of the ${daysIncl}-day span`:""}) added {hwySessionsTotal!=null?hwySessionsTotal.toFixed(1):"—"} of {gtcTotal.toFixed(1)} cycles (gross-throughput basis, {xbRated() ? "rated 5 Ah reference" : "2.1kWh/cycle"}) — <strong style={{color:"#f97316"}}>{hwySessionsPctTotal!=null?hwySessionsPctTotal.toFixed(0):"—"}% of the entire total</strong>. {maxDayJump && (maxDayJump.day===39 ? "Jun 19 alone (696km in one day)" : `${maxDayJump.label} alone`)} still holds the single largest one-day accumulation ({maxDayJump?maxDayJump.delta.toFixed(1):"—"} cycles); Jun 21's 207km highway leg added {j21Delta!=null?j21Delta.toFixed(1):"—"} more, confirming that high-km days dominate cumulative cycle count regardless of their low per-km intensity.</>)}
         {view==="power" && (<><strong style={{color:"#0f172a"}}>Power fade is reported separately from capacity fade, and deliberately without a crossing year.</strong> {S.fadeModes?.power?.whyNotProjected} {S.fadeModes?.power?.relevance} <strong style={{color:"#b45309"}}>Read the null result with its precision:</strong> at n={S.powerFade?.nClean} load-excited drives over a {S.powerFade?.windowMo}-month window the interval half-width is ±{S.powerFade?.mdeRisePctPerYr}%/yr (a bootstrap CI half-width, not a power calculation), so “no resolved power-fade trend” means only that fade faster than this precision is not seen, not “nothing happening”. The level itself ({S.powerFade?.rMedianMohm} mΩ median) is a load-excited in-drive proxy, not relaxed-OCV resistance, and the strong temperature coefficient ({S.powerFade?.bTMohmPerDegC} mΩ/°C) means any seasonal shift in logging conditions would swamp an uncontrolled trend — which is why the slope is temperature-controlled and day-cluster bootstrapped ({S.powerFade?.nBoot.toLocaleString()} resamples) rather than fitted raw.</>)}
         {view==="official" && S.officialDisclosureCorrelation && (<><strong style={{color:"#0f172a"}}>M79 (2026-07-31):</strong> the manufacturer's own {S.officialDisclosureCorrelation.official?.regulation} battery durability filing is cross-checked here against this dashboard's logged-data and modeled figures — external validation, not a new measurement. {S.officialDisclosureCorrelation.verdictHeadline} <strong style={{color:"#b45309"}}>The capacity-fade threshold gains its first external anchor:</strong> the disclosed {S.officialDisclosureCorrelation.official?.expectedLifeKm?.toLocaleString()} km / {S.officialDisclosureCorrelation.official?.capacityFadePct}% reference point maps, through this study's own estimated gtcPerKm (from logged current; assumed capacity), onto {S.officialDisclosureCorrelation.capacityFadeAnchor?.rangeLowGtc?.toLocaleString()}–{S.officialDisclosureCorrelation.capacityFadeAnchor?.rangeHighGtc?.toLocaleString()} GTC — bracketing the {S.officialDisclosureCorrelation.capacityFadeAnchor?.scenarioThresholdGtc?.toLocaleString()}-GTC scenario threshold used throughout Section P, previously carried with no external provenance at all (order-of-magnitude corroboration only, not a calibration — see capacityFadeAnchor.note). Every figure on this panel is pipeline-bound to {"{...officialDisclosure, ...batterySupplier, ...vehicle}"} in config plus the live drive_master.csv, so it recomputes automatically as the corpus grows or the odometer is refreshed — nothing on this panel is a session-typed literal.</>)}
       </div>
