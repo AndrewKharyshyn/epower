@@ -5027,6 +5027,34 @@ function OutOfTimePanel(){
     </div>
   );
 }
+function RollingOriginPanel(){
+  // M495 (audit Update 7): rolling-origin evaluation of the declared M119-v2 pipeline design (design selected on the full data) and the frozen-fit protocol; every figure binds to S.socHysteresisV2.rollingOriginEvaluation / .prospectiveProtocol (script-written, tools/m495_rolling_origin.py, tools/m495_splice.py).
+  const E=S.socHysteresisV2?.rollingOriginEvaluation, PP=S.socHysteresisV2?.prospectiveProtocol;
+  if(!E) return null;
+  const f=(v,d=3)=>typeof v==="number"?v.toFixed(d):"n/a";
+  const ci=(a,d=3)=>Array.isArray(a)?`[${f(a[0],d)}, ${f(a[1],d)}]`:"n/a";
+  const th={textAlign:"left",padding:"3px 8px",borderBottom:"1px solid #cbd5e1",fontWeight:600,color:"#0f172a",fontSize:10};
+  const td={padding:"3px 8px",borderBottom:"1px solid #e2e8f0",fontSize:10,verticalAlign:"top"};
+  const sides=[["start","START model"],["stop","STOP model"]];
+  const flagText=(k,o)=>{ const parts=[]; const s=o.states||{};
+    if(s.D2==="MATERIAL") parts.push(`observed / expected events ${f(o.OE.point,2)} ${ci(o.OE.ci95,2)}: the model ${o.OE.point<1?"over":"under"}-predicts events at this origin`);
+    if(s.D1==="FAIL") parts.push(`the lower bound of the skill interval is ${f(o.skillVsB0.ci95[0],3)} (point ${f(o.skillVsB0.point,3)}; jackknife ${s.jackknifeD1}, Bonferroni lower bound ${f(o.skillVsB0.ci95Bonferroni[0],3)})`);
+    if(s.D3==="MATERIAL") parts.push(`pack temperature outside the training range (excess ${f(o.supportExcessPp.tpack,1)} pp); skill on in-support seconds ${f(o.inSupport?.skillVsB0,3)} (${o.inSupport?.states?.D1})`);
+    return `${k} origin ${o.origin} (${o.testStart} to ${o.testEnd}): ${parts.join("; ")}`; };
+  return (
+    <div data-rolling-origin="1" style={{padding:10,background:"#f8fafc",border:"1px solid #cbd5e1",borderRadius:8,marginBottom:10,fontSize:11,color:"#374151",lineHeight:1.6}}>
+      <strong style={{color:"#0f172a"}}>Rolling-origin evaluation of the declared hazard pipeline design (M495, audit Update 7).</strong> The design was selected on the full data, so this is out-of-time for estimation only, not prospective: at each origin the design is fit on the past only (spline knots, scale and baselines learned on the training rows, one embargo day) and applied unchanged to the next {E.geometry.windowDays} calendar days. Events are detector-derived (M231), hazards model-derived; intervals are day-clustered and conditional on each fold's fitted model.
+      {sides.map(([k,title])=>(<div key={k} style={{marginTop:4}}><strong style={{color:"#0f172a"}}>{title}:</strong>
+        <table style={{borderCollapse:"collapse",margin:"4px 0"}}><thead><tr><th style={th}>Origin / test window</th><th style={th}>Test drives / days / events</th><th style={th}>Skill vs constant baseline (95% CI)</th><th style={th}>O/E (95% CI)</th><th style={th}>D1 / D2 / D3</th></tr></thead>
+          <tbody>{E[k].origins.map(o=>(<tr key={o.origin}><td style={td}>{o.origin}: {o.testStart} to {o.testEnd}</td><td style={td}>{o.test.nDrives} / {o.test.nDays} / {o.test.events}</td>{o.evaluable?<><td style={td}>{f(o.skillVsB0.point)} {ci(o.skillVsB0.ci95)}</td><td style={td}>{f(o.OE.point,2)} {ci(o.OE.ci95,2)}</td><td style={td}>{o.states.D1} / {o.states.D2} / {o.states.D3}</td></>:<td style={td} colSpan={3}>not evaluable (counts only)</td>}</tr>))}</tbody></table>
+        {E[k].verdict}.{E[k].origins.filter(o=>o.evaluable&&(o.states.D1==="FAIL"||o.states.D2==="MATERIAL"||o.states.D3==="MATERIAL")).map(o=>(<div key={o.origin}>{flagText(k.toUpperCase(),o)}.</div>))}
+        {E[k].pooled && <div>Pooled over the evaluable origins (descriptive, no decision role; mixed models, training uncertainty not propagated): skill {f(E[k].pooled.point.skillVsB0)} {ci(E[k].pooled.ci95.skillVsB0)}, O/E {f(E[k].pooled.point.OE,2)} {ci(E[k].pooled.ci95.OE,2)}, {E[k].pooled.events} events on {E[k].pooled.nDays} days.</div>}
+      </div>))}
+      <div style={{marginTop:4}}>Reading: a flag at an origin applies the declared planning thresholds (skill interval above zero; O/E interval inside {E.thresholds.OEband[0]}-{E.thresholds.OEband[1]}; out-of-support excess below {E.thresholds.excessPpMax} pp); it is not a refit decision and a non-detection is not equivalence. The thresholds are not validated. The verdict label says "flagged" where the specification says "detected" (accepted wording deviation). The comparison with the carried results: the rolling-origin CV of M222.1 above is carried on the 489-drive basis and pooled only; the M428 evaluation above is of the former 489-drive design, not of the displayed fresh {S.socHysteresisV2.corpusSizeAtRecompute}-drive fit. Not for the article without an Opus audit and Andrii's sign-off.</div>
+      {PP && <div style={{marginTop:4}}>Frozen-fit protocol: the {S.socHysteresisV2.corpusSizeAtRecompute}-drive fit is saved with its coefficients, covariance, spline knots and baselines (SHA-256 {String(PP.frozenFitSha256).slice(0,12)}); it is to be evaluated unchanged on drives after {PP.lastTrainingDate} once the held-out period holds at least {PP.thresholds.drives} drives on {PP.thresholds.days} days, {PP.thresholds.eventsPerSide} events per side and {PP.thresholds.effectiveDayClusters} effective day clusters (one primary look; winter cold temperatures are expected to be extrapolation, so the in-support reading is reported beside the primary one). Held-out period now: {PP.heldOut.drives} drives on {PP.heldOut.days} days (flag-only monitor; threshold {PP.heldOut.driveAndDayThresholdMet?"met":"not met"}).</div>}
+    </div>
+  );
+}
 function SerialDependencePanel(){
   const D=S.serialDependence, M=S.dependenceSensitivity;
   if(!D||!D.trendSlopes) return null;
@@ -6954,6 +6982,7 @@ function SocHysteresisV2() {
         </div>
       )}
       <OutOfTimePanel />
+      <RollingOriginPanel />
       <div style={{ display: "flex", gap: 16, flexWrap: "wrap", marginBottom: 8 }}>
         <Ladder tag="start" title="START model — grouped contiguous day-block k-fold CV (k=5)" />
         <Ladder tag="stop" title="STOP model — grouped contiguous day-block k-fold CV (k=5)" />

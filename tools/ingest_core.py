@@ -243,7 +243,8 @@ def step3_determinism(master_path):
 # M463: socHysteresisV2.outOfTimeEvaluation (M428 study record, own basis), .deferredBacklog and .bootstrap are additive/record leaves of the M119-v2 block that an
 # explicit refit (recompute_m119v2=True) rebuilds without; carried when the fresh block lacks them (the leaf guard caught their loss at the first refit since M428).
 NESTED_CARRIED = (("evTraction", "detectorSensitivity"), ("evTraction", "zeroFuelVariant"),
-                  ("socHysteresisV2", "outOfTimeEvaluation"), ("socHysteresisV2", "deferredBacklog"), ("socHysteresisV2", "bootstrap"))
+                  ("socHysteresisV2", "outOfTimeEvaluation"), ("socHysteresisV2", "deferredBacklog"), ("socHysteresisV2", "bootstrap"),
+                  ("socHysteresisV2", "rollingOriginEvaluation"), ("socHysteresisV2", "prospectiveProtocol"))      # M495: on-demand rolling-origin record and the frozen-fit protocol
 
 
 def carry_forward(arrays, prev):

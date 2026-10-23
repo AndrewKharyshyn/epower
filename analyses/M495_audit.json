@@ -1,0 +1,291 @@
+{
+ "auditor": "analytical-auditor (Sonnet), claim + the at-risk tables only, design described in words",
+ "tolerances": "skill 5e-4, O/E 1.5e-3, lift 6e-3 (auditor values are rounded to 4 / 3 / 2 decimals); counts equal",
+ "comparison": [
+  {
+   "side": "start",
+   "origin": 1,
+   "metric": "skill_B0",
+   "ours": 0.1387,
+   "auditor": 0.1387,
+   "within": true
+  },
+  {
+   "side": "start",
+   "origin": 1,
+   "metric": "skill_B1",
+   "ours": 0.1296,
+   "auditor": 0.1296,
+   "within": true
+  },
+  {
+   "side": "start",
+   "origin": 1,
+   "metric": "OE",
+   "ours": 0.8074,
+   "auditor": 0.807,
+   "within": true
+  },
+  {
+   "side": "start",
+   "origin": 1,
+   "metric": "lift",
+   "ours": 4.4542,
+   "auditor": 4.45,
+   "within": true
+  },
+  {
+   "side": "start",
+   "origin": 1,
+   "counts": "train",
+   "ours": [
+    3832,
+    202,
+    48
+   ],
+   "auditor": [
+    3832,
+    202,
+    48
+   ],
+   "equal": true
+  },
+  {
+   "side": "start",
+   "origin": 1,
+   "counts": "test",
+   "ours": [
+    865,
+    104,
+    24
+   ],
+   "auditor": [
+    865,
+    104,
+    24
+   ],
+   "equal": true
+  },
+  {
+   "side": "start",
+   "origin": 2,
+   "metric": "skill_B0",
+   "ours": 0.1358,
+   "auditor": 0.1358,
+   "within": true
+  },
+  {
+   "side": "start",
+   "origin": 2,
+   "metric": "skill_B1",
+   "ours": 0.1111,
+   "auditor": 0.1111,
+   "within": true
+  },
+  {
+   "side": "start",
+   "origin": 2,
+   "metric": "OE",
+   "ours": 0.7028,
+   "auditor": 0.703,
+   "within": true
+  },
+  {
+   "side": "start",
+   "origin": 2,
+   "metric": "lift",
+   "ours": 4.9994,
+   "auditor": 5.0,
+   "within": true
+  },
+  {
+   "side": "start",
+   "origin": 2,
+   "counts": "train",
+   "ours": [
+    4722,
+    302,
+    72
+   ],
+   "auditor": [
+    4722,
+    302,
+    72
+   ],
+   "equal": true
+  },
+  {
+   "side": "start",
+   "origin": 2,
+   "counts": "test",
+   "ours": [
+    607,
+    179,
+    28
+   ],
+   "auditor": [
+    607,
+    179,
+    28
+   ],
+   "equal": true
+  },
+  {
+   "side": "start",
+   "origin": 0,
+   "geometry": true,
+   "equal": true
+  },
+  {
+   "side": "start",
+   "origin": 3,
+   "geometry": true,
+   "equal": true
+  },
+  {
+   "side": "stop",
+   "origin": 1,
+   "metric": "skill_B0",
+   "ours": 0.1887,
+   "auditor": 0.1887,
+   "within": true
+  },
+  {
+   "side": "stop",
+   "origin": 1,
+   "metric": "skill_B1",
+   "ours": 0.1474,
+   "auditor": 0.1474,
+   "within": true
+  },
+  {
+   "side": "stop",
+   "origin": 1,
+   "metric": "OE",
+   "ours": 0.8602,
+   "auditor": 0.86,
+   "within": true
+  },
+  {
+   "side": "stop",
+   "origin": 1,
+   "metric": "lift",
+   "ours": 5.6975,
+   "auditor": 5.7,
+   "within": true
+  },
+  {
+   "side": "stop",
+   "origin": 1,
+   "counts": "train",
+   "ours": [
+    3842,
+    204,
+    49
+   ],
+   "auditor": [
+    3842,
+    204,
+    49
+   ],
+   "equal": true
+  },
+  {
+   "side": "stop",
+   "origin": 1,
+   "counts": "test",
+   "ours": [
+    888,
+    98,
+    24
+   ],
+   "auditor": [
+    888,
+    98,
+    24
+   ],
+   "equal": true
+  },
+  {
+   "side": "stop",
+   "origin": 2,
+   "metric": "skill_B0",
+   "ours": 0.0718,
+   "auditor": 0.0718,
+   "within": true
+  },
+  {
+   "side": "stop",
+   "origin": 2,
+   "metric": "skill_B1",
+   "ours": 0.0595,
+   "auditor": 0.0595,
+   "within": true
+  },
+  {
+   "side": "stop",
+   "origin": 2,
+   "metric": "OE",
+   "ours": 0.6799,
+   "auditor": 0.68,
+   "within": true
+  },
+  {
+   "side": "stop",
+   "origin": 2,
+   "metric": "lift",
+   "ours": 2.8335,
+   "auditor": 2.83,
+   "within": true
+  },
+  {
+   "side": "stop",
+   "origin": 2,
+   "counts": "train",
+   "ours": [
+    4711,
+    296,
+    72
+   ],
+   "auditor": [
+    4711,
+    296,
+    72
+   ],
+   "equal": true
+  },
+  {
+   "side": "stop",
+   "origin": 2,
+   "counts": "test",
+   "ours": [
+    576,
+    162,
+    28
+   ],
+   "auditor": [
+    576,
+    162,
+    28
+   ],
+   "equal": true
+  },
+  {
+   "side": "stop",
+   "origin": 0,
+   "geometry": true,
+   "equal": true
+  },
+  {
+   "side": "stop",
+   "origin": 3,
+   "geometry": true,
+   "equal": true
+  }
+ ],
+ "mismatches": 0,
+ "notes": [
+  "the auditor re-implemented the restricted cubic spline design and the cloglog GLM from the written design; no author code read",
+  "the auditor's std uses ddof=1 (pandas); the effect is below the reported precision"
+ ]
+}

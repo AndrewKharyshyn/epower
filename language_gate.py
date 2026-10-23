@@ -422,6 +422,8 @@ RULES = [
          rx=r"cohort stratified (?:calendar )?day bootstrap|days resampled within each cohort"),
     Rule("M494-block-sensitivity-wording", "regex", "M494/Director: the week-block and moving-block intervals are a block sensitivity across neighbouring dates (an uncertainty analysis, not a change of the point estimate); the thermal cohorts are ambient-threshold classes confounded with season, date and drift. Block resampling does not 'account for dependence', 'confirm' or 'replicate' the contrast and is not 'robust'",
          rx=r"block (?:bootstrap|sensitivity) (?:confirms|replicates|accounts for)|(?:confirms|replicates) the (?:seasonal )?(?:urban )?contrast|robust(?:ly)? (?:to|across) (?:the )?(?:resampling|block)|accounts? for (?:serial )?dependence|no seasonal effect|(?:borderline|marginal(?:ly)?) significan\w* (?:difference|contrast|gap|interval|endpoint|urban|warm|shoulder)|nearly excludes zero|(?:tighter|more precise) (?:under|with) (?:the )?(?:week |block)"),
+    Rule("M495-rolling-origin-wording", "regex", "M495/Director: the rolling-origin evaluation of the declared pipeline design is out-of-time for estimation only (the design was selected on the full data), never prospective; a flag at an origin is a planning-threshold flag, not a refit decision, and the result is not a validation of the model; the verdict says 'flagged' where the specification says 'detected'",
+         rx=r"rolling origin (?:evaluation )?(?:is |was )?prospective|prospective rolling origin|(?:validates|validated|proves) the (?:hazard )?(?:model|pipeline)|degradation (?:was )?detected at origin"),
 ]
 
 
