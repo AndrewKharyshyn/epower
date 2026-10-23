@@ -1905,6 +1905,43 @@ def _spread_trend(dm, keep_mask):
             'n_clean': int(len(cc)), 'n_boot': int(len(boot))}
 
 
+_DENSITY_MEMO = {}          # M493: (sha256 of the raw bytes) -> (eff_dt_s, coverage_frac); a pure function of the bytes, shared by every call in the process
+
+
+def _density_of_bytes(b):
+    """(eff_dt_s, coverage_frac) of one drive's raw bytes (the body of `_i_channel_sampling_density`, one file). Memoised on the SHA-256 of the bytes (M493): a changed file hashes differently, so a stale entry cannot be returned."""
+    import io, hashlib
+    key = hashlib.sha256(b).hexdigest()
+    hit = _DENSITY_MEMO.get(key)
+    if hit is not None:
+        return hit
+    ICOL = '[BMS] HV Battery Current (A)'
+    try:
+        df = pd.read_csv(io.BytesIO(b), usecols=lambda c: c in ('time', ICOL), low_memory=False)
+    except Exception:
+        df = None                                           # an unreadable file is (nan, nan), as before; later steps raise as before
+    if df is None or 'time' not in df.columns or ICOL not in df.columns:
+        res = (np.nan, np.nan)
+    else:
+        ts = df['time']
+        td = pd.to_timedelta(ts, errors='coerce')
+        if td.notna().mean() > 0.5:
+            t = td.dt.total_seconds().values
+        else:
+            t = pd.to_numeric(ts, errors='coerce').values
+        t = np.asarray(t, float)
+        m = df[ICOL].notna().values
+        cov = float(m.mean())
+        if m.sum() < 3:
+            res = (np.nan, cov)
+        else:
+            d = np.diff(t[m])
+            d = d[(d > 0) & (d < 20)]
+            res = (float(np.median(d)) if len(d) else np.nan, cov)
+    _DENSITY_MEMO[key] = res
+    return res
+
+
 def _i_channel_sampling_density(files, raw_loader):
     """M170: per-drive sampling density of the HV-current channel that excites
     the vreg resistance proxy.
@@ -1926,36 +1963,14 @@ def _i_channel_sampling_density(files, raw_loader):
     median inter-sample interval of the current channel and coverage_frac is
     the fraction of logged rows carrying a current sample.
     """
-    import io
-    ICOL = '[BMS] HV Battery Current (A)'
     out = {}
     for fn in files:
         try:
             b = raw_loader(fn)
-            df = pd.read_csv(io.BytesIO(b),
-                             usecols=lambda c: c in ('time', ICOL),
-                             low_memory=False)
         except Exception:
             out[fn] = (np.nan, np.nan)
             continue
-        if 'time' not in df.columns or ICOL not in df.columns:
-            out[fn] = (np.nan, np.nan)
-            continue
-        ts = df['time']
-        td = pd.to_timedelta(ts, errors='coerce')
-        if td.notna().mean() > 0.5:
-            t = td.dt.total_seconds().values
-        else:
-            t = pd.to_numeric(ts, errors='coerce').values
-        t = np.asarray(t, float)
-        m = df[ICOL].notna().values
-        cov = float(m.mean())
-        if m.sum() < 3:
-            out[fn] = (np.nan, cov)
-            continue
-        d = np.diff(t[m])
-        d = d[(d > 0) & (d < 20)]
-        out[fn] = (float(np.median(d)) if len(d) else np.nan, cov)
+        out[fn] = _density_of_bytes(b)
     return out
 
 
