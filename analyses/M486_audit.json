@@ -1,0 +1,26 @@
+{
+ "milestone": "M486",
+ "auditor": "analytical-auditor (Sonnet, high effort), blind: definitions + drive_master.csv + raw/ only; no tools/, tests/, analyses/, CHANGELOG or repo-root *.py read before reproduction (the tool was only grepped afterwards)",
+ "date": "2026-10-23",
+ "verdict": "supported",
+ "claim": "M486 equivalence test on the primary design (S1): not established under the CR1 TOST and the bootstrap; the S1 slope 0.6564 itself exceeds the 0.5439 bound",
+ "reproduced": {
+  "S0": {"n": 274, "days": 98, "slope": 0.8860, "se": 0.5370, "ci90": [-0.0058, 1.7778], "pTOST": 0.7372, "equiv": false},
+  "S1": {"n": 274, "days": 98, "df": 97, "slope": 0.6564, "se": 0.5574, "ci90": [-0.2694, 1.5821], "pTOST": 0.5797, "equiv": false},
+  "bootstrap": {"point": 0.6564, "ci95": [-0.4262, 1.8374], "ci90": [-0.2542, 1.6532], "kept": 4000, "dropped": 0, "P(boot<bound)": 0.415}
+ },
+ "agrees": true,
+ "abs_diff": "max 0.0001 (S1 CI lower bound -0.2694 vs -0.2693; pTOST 0.5797 vs 0.5798; rounding level). Everything else matches to 4 decimals.",
+ "mismatches": ["none material. The bootstrap is identical with sorted-unique day order and first-appearance order (rows were already date-sorted), so row or day order does not explain anything."],
+ "density_check": "All 274 drives (not only 25; both regimes, 2026-05-15 to 2026-10-17; eff_dt_s 0.73 to 2.04, coverage 0.031 to 0.115) compared with powerfade_density.csv: max abs difference eff_dt_s 4.9e-12, coverage_frac 5.0e-13. Raw files mapped for all 274.",
+ "concerns_ranked": [
+  "1. The test is structurally uninformative here: equivalence needs t(0.95,97)*SE < 0.5439, i.e. SE < 0.328, but SE is 0.557 (half-width 0.925). Even a true slope of 0 would give 'not established'. The verdict is fixed by the window and the point estimate, as the spec concedes. It must not be read as evidence of change either: the one-sided test of slope > bound has p=0.42, and P(boot<=0)=0.115.",
+  "2. S1 slope is specification-dependent: S0 to S1 moves it by -0.23 (0.886 to 0.656), about 0.4 SE. Density covariates correlate with months (r=-0.42 eff_dt_s, +0.47 coverage; VIF of months 1.45). Logger regime shifts coincide with calendar time, so identification partly leans on regime-confounded variation. Calling S1 'the primary design' is a post-hoc choice (spec not blind). Report S0 and S1 together; the M395 specification-range caveat is needed.",
+  "3. Repeated looks with no alpha spending: harmless for a 'not established' verdict (it can only err toward the null), but it makes the first future 'established' result inflated. The blind-audit requirement and the Director escalation on a verdict flip are the right guard; keep the 90% interval / alpha 0.05 each side and never compare at 95%.",
+  "4. 'Both must agree' is an intersection-union rule: conservative for declaring equivalence (correct direction) but it inflates 'not established'. The pair is fair (CR1 t(G-1) and a percentile bootstrap on 98 days give nearly the same width), though neither corrects for the small G.",
+  "5. Bound-related: the bound is derived from the baseline median 121.8 mOhm vs a current 130.3 (about 7% stricter in relative terms); carried in the block, fine. Months scale 30.4375 (TOST) vs 30.44 (bootstrap) is immaterial. Bootstrap months origin and the 3-distinct-months rule are fine here (0 dropped).",
+  "6. No leakage or row-selection problem found: population 274/98 reproduced from the stated rule, with NaN ens_outlier_v2 treated as not-true (12 rows have no value, 2 are True); resampling unit is the calendar day."
+ ],
+ "language_concerns": ["Keep 'not established' / 'not evidence of no change'. Say 'estimated', not 'measured'. Do not state or imply that the window could have demonstrated equivalence (it could not at SE 0.557). Avoid calling the slope 'degradation'; it is a resistance-proxy slope whose 95% interval spans zero."],
+ "audit_files": "session scratchpad (audit486/dens.py, fit.py, cmp.py), not committed"
+}

@@ -301,7 +301,11 @@ def _tl(ci, noun="slope"):
         return "trend not resolved (95% interval includes 0)"
     return ("positive " if ci[0] > 0 else "negative ") + noun + " (95% interval excludes 0; conditional on the model, not a capacity or SOH change)"
 _ds_m427 = A.get("dependenceSensitivity")
-_STAND = [("%s; equivalence not established on this sensitivity design (not computed for the primary design); no stability or SOH claim" if k == "resistanceVreg" else "%s; equivalence not established; no stability or SOH claim") % _tl(_ds_m427["trendSlopes"][k]["cr1"]["ci95T_Gminus1"]) for k in ("cellSpread", "resistanceVreg")] if _ds_m427 else []   # M481 (Director 2026-10-22): the resistance row is the S0 sensitivity design
+_pfe486 = A.get("powerFadeEquivalence")
+_short486 = ({"notEstablished": "primary design (S1): equivalence not established", "procedureDependent": "primary design (S1): procedure-dependent, equivalence not established",
+              "established": "primary design (S1): within the locked bound over this window"}[_pfe486["verdict"]] if _pfe486 else None)
+_STAND = [(("%s; equivalence not established on this sensitivity design (S0); " + _short486 + "; no stability or SOH claim") if (k == "resistanceVreg" and _short486) else
+           "%s; equivalence not established on this sensitivity design (not computed for the primary design); no stability or SOH claim" if k == "resistanceVreg" else "%s; equivalence not established; no stability or SOH claim") % _tl(_ds_m427["trendSlopes"][k]["cr1"]["ci95T_Gminus1"]) for k in ("cellSpread", "resistanceVreg")] if _ds_m427 else []   # M481 (Director 2026-10-22): the resistance row is the S0 sensitivity design
 _cs_m427 = A["degradationTrends"]["cellSpread"]["clusterRobustOLS"]["ci95"]
 # M407 (analyses/M407_spec.md): dashboard binding of the M406 sensitivities (reporting-only); text rendered from the payload, Director wording
 _h407 = [(k, t) for k, t in T.items() if k.startswith("health__") and not k.endswith("__compare")]
@@ -422,6 +426,29 @@ if _wc485:
        _s485["nEvaluableCutoffs"] == len(_ok485) and _s485["nIntervalExcludesZero"] == sum(bool(r["excludesZero"]) for r in _ok485) and _s485["nSignChanges"] == sum(1 for a_, b_ in zip(_sg485, _sg485[1:]) if a_ * b_ < 0)
        and _wc485["cutoffs"][-1]["cutoff"] == _w485["lastDay"] and (_wc485["cutoffs"][-1]["slope"], _wc485["cutoffs"][-1]["ci95"], _wc485["cutoffs"][-1]["nDrives"], _wc485["cutoffs"][-1]["nDays"]) == (_rel485["slope"], _rel485["ci95"], _rel485["nObs"], _rel485["nDays"])
        and (_w485["nDrives"], _w485["nDays"]) == (_rel485["nObs"], _rel485["nDays"]))
+# M486 (analyses/M486_spec.md Rev 2.1): the equivalence test on the primary resistance design. pTOST, the 90 % interval and the verdict are recomputed from the stored slope / SE / df and the bound; an established verdict needs a blind audit reference
+_pe486 = A.get("powerFadeEquivalence")
+if _pe486:
+    from scipy import stats as _st486
+    _b486, _s1 = _pe486["bound"]["value"], _pe486["s1"]
+    _df486 = _s1["df"]
+    _crit486 = _st486.t.ppf(0.95, _df486)
+    _ci486 = [_s1["slope"] - _crit486 * _s1["se"], _s1["slope"] + _crit486 * _s1["se"]]
+    _p486 = max(1 - _st486.t.cdf((_s1["slope"] + _b486) / _s1["se"], _df486), _st486.t.cdf((_s1["slope"] - _b486) / _s1["se"], _df486))
+    _in486 = lambda lo_, hi_: lo_ > -_b486 and hi_ < _b486
+    _v486 = {2: "established", 1: "procedureDependent", 0: "notEstablished"}[int(_in486(*_ci486) and _p486 < 0.05) + int(_in486(*_pe486["bootstrap"]["ci90"]))]
+    ok("A2 REQUIRED M486 pTOST, the 90 % interval and the verdict follow from the stored slope, SE, df, bound and bootstrap interval",
+       abs(_p486 - _s1["pTOST"]) < 2e-4 and all(abs(a_ - b_) < 2e-4 for a_, b_ in zip(_ci486, _s1["ci90"])) and _v486 == _pe486["verdict"] and _pe486["bound"]["value"] == A["degradationTrends"]["resistanceVreg"]["releasedEquivalence"]["delta"]
+       and _pe486["bootstrap"]["drawsRequested"] == _pe486["bootstrap"]["drawsUsed"] + _pe486["bootstrap"]["drawsDropped"], (_p486, _ci486, _v486))
+    _smax486 = _b486 / _st486.t.ppf(0.95, _df486)
+    ok("A2 REQUIRED M486 (Rev 3, reporting only) the maximum SE for equivalence = bound / t0.95,df and the attainability flag follow from the stored bound, df and SE; the attainability clause is in the generated sentence",
+       abs(_smax486 - _s1["seMaxForEquivalence"]) < 1e-4 and _s1["equivalenceAttainable"] == (_s1["se"] < _smax486))
+    ok("A2 REQUIRED M486 an established verdict carries a blind-audit reference; the S0 control equals the released resistanceVreg fit and the S1 slope the published powerFade slope",
+       (_pe486["verdict"] != "established" or bool(_pe486.get("blindAuditRef"))) and _pe486["s0Control"]["slope"] == A["degradationTrends"]["resistanceVreg"]["clusterRobustOLS"]["slope"]
+       and abs(_s1["slope"] - A["powerFade"]["slopeMohmPerMoTctrl"]) <= 0.002 and _s1["nDrives"] == A["powerFade"]["nClean"])
+    _h486 = [(k, t) for k, t in T.items() if k.startswith("health__") and not k.endswith("__compare")]
+    ok("A2 REQUIRED M486 the Health dumps state the primary design's verdict in the S0 equivalence lines and no longer say that no test exists",
+       len(_h486) >= 3 and all(("equivalence not established on this sensitivity design (S0); " + _short486) in t and "not computed for the primary design" not in t for k, t in _h486))
 _ou = A.get("offsetUncertainty") or {}
 ok("M421 the offset headline equals the offsetUncertainty point estimate (one source) and the capacity scenarios and the I2R dual report exist in the payload",
    abs(A.get("offset2pA", _ou.get("pointEstimateA")) - _ou["pointEstimateA"]) < 1e-9 and len(_ou["capacitySensitivity"]["rows"]) >= 2 and "offsetModelTest" in A["capacityBasis"] and A["capacityBasis"]["offsetModelTest"]["acceptance"]["acceptI2R"] is False)

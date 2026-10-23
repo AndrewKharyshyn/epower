@@ -26,7 +26,7 @@ from pathlib import Path
 
 SRC = Path(os.environ.get("XT_WORK", Path(__file__).resolve().parent))
 SEARCH = [SRC, SRC / "claude", SRC / "seasonal", SRC / "track3", SRC / "track4"]
-REQUIRED = ["xtrail_summary.jsx", "summary_arrays.json", "summary_config.json", "energy_uncertainty_mc.json", "odometer_anomalies.json", "ah_throughput.csv", "timing_support.csv", "build_html.js", "validate_jsdom.js",
+REQUIRED = ["xtrail_summary.jsx", "summary_arrays.json", "summary_config.json", "energy_uncertainty_mc.json", "odometer_anomalies.json", "ah_throughput.csv", "timing_support.csv", "powerfade_density.csv", "degradation_trends.py", "build_html.js", "validate_jsdom.js",
             "test_cold_fixture.js", "test_ambient_table.js", "test_gtr_gate.js", "test_fuel_tab.js", "test_regen_axes.js", "package.json", "package-lock.json", "drive_master.csv", "battery_temp_extremes.csv", "originals_manifest.json", "raw_manifest.json", "soc_patterns.json",
             "seasonal_core.py", "seasonal_adjust.py", "test_seasonal_adjust.py", "cohort_arrays.py", "cohort_arrays.json",
             "seasonal_drive_master.csv", "seasonal_dependency.json", "raw_temperature_triplets.csv",
@@ -34,7 +34,7 @@ REQUIRED = ["xtrail_summary.jsx", "summary_arrays.json", "summary_config.json", 
             "patch_m284_data.py", "test_assumptions_registry.py", "refresh_seasonal_kpis.py", "records_resistance.py",
             "records_rainflow.py", "cohort_distributions.py", "test_track4.py", "apply_m284_post.sh",
             "dump_tabs.js", "semantic_gate.py", "test_cohort_rates.py", "records_disclosure.py", "f03_provenance_flag.py", "f03_provenance.json", "language_gate.py", "eligibility.py", "precision_gate.py", "precision_allowlist.json", "fuel_contract_flag.py", "fuel_contract.json", "fuel_recon_master.csv"]
-TOOLS_REQUIRED = ["refresh_meta_sources.py", "intake_air_block.py", "odometer_check.py", "ah_throughput.py", "timing_support.py", "exposure_frame.py", "stamp_basis.py"]   # M419: semantic_gate imports stamp_basis.check; called by apply_m284_post.sh (M355; M361 imports intake_air_block)
+TOOLS_REQUIRED = ["refresh_meta_sources.py", "intake_air_block.py", "odometer_check.py", "ah_throughput.py", "timing_support.py", "powerfade_equivalence.py", "exposure_frame.py", "stamp_basis.py"]   # M419: semantic_gate imports stamp_basis.check; called by apply_m284_post.sh (M355; M361 imports intake_air_block)
 OPTIONAL = ["warm_baseline_freeze.json", "event_ledger.json", "compute_seasonal.py", "seasonal_config.json",
             "seasonal_arrays.json", "test_seasonal.py"]
 LEGACY_NEEDS = ["test_seasonal.py", "compute_seasonal.py", "seasonal_config.json", "seasonal_arrays.json",
@@ -298,6 +298,7 @@ def main():
         run([sys.executable, "tools/odometer_check.py"], tmp, "odometer continuity: every anomaly of drive_master.csv is recorded (M401, audit D4)")
         run([sys.executable, "tools/ah_throughput.py", "--check"], tmp, "Ah-throughput sidecar: one row per master drive, null pattern and kWh of the identical loop match the master (M402, audit F16b)")
         run([sys.executable, "tools/timing_support.py", "--check"], tmp, "timing-support sidecar: one row per master drive, n_loaded equals the master n_loaded_spread_samples, flags follow their numbers (M479, flag-only)")
+        run([sys.executable, "tools/powerfade_equivalence.py", "--check"], tmp, "primary-design equivalence block: refitted from drive_master.csv and the tracked density sidecar (CR1 TOST, bootstrap, six hard stops), equals the payload block (M486)")
         _rr = Path(__file__).resolve().parent                                          # M417 (audit F11): the sample replay reads the real raw/ (not copied into the clean tree)
         if (_rr / "tools" / "replay_master.py").exists() and (_rr / "raw").is_dir():
             run([sys.executable, "tools/replay_master.py", "--sample", "--no-write", "--raw-dir", str(_rr / "raw")], _rr, "replay: the pinned sample of drives rebuilt from the sha256-verified raw files reproduces every column the builder produces (M417, audit F11)")
