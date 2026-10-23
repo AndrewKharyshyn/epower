@@ -1959,6 +1959,17 @@ def _i_channel_sampling_density(files, raw_loader):
     return out
 
 
+def _ols_day_boot(X, y, days, t, nb):
+    """M492: day-clustered bootstrap of the time slope (coefficient 1) from per-day sufficient statistics (tools/day_bootstrap.ols_boot_slopes): the same draws (per-draw rng.choice, seed 42) and the same estimator
+    as the former per-draw lstsq loop, to about 1e-12; the 'fewer than 3 distinct t' skip rule and the lstsq fallback for rank-deficient resamples are kept. Returns the bootstrap slopes in draw order."""
+    import os as _os, sys as _sys
+    _t = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'tools')
+    if _t not in _sys.path:
+        _sys.path.insert(0, _t)
+    import day_bootstrap as _db
+    return _db.ols_boot_slopes(X, y, days, coef=1, nb=nb, seed=42, t=t)[0]
+
+
 def _powerfade_trend(dm, raw_loader=None):
     """M25/M170: temporal trend of the vreg (else vsag) pack-resistance proxy
     controlling for pack temperature and mean load current, v2-clean,
@@ -2005,17 +2016,7 @@ def _powerfade_trend(dm, raw_loader=None):
     y = cc[rcol].values
     b, *_ = np.linalg.lstsq(X, y, rcond=None)
     days = dt.dt.date.values
-    uniq = np.unique(days)
-    rng = np.random.default_rng(42)
-    boot = []
-    for _ in range(N_BOOT):
-        pick = rng.choice(uniq, size=len(uniq), replace=True)
-        idx = np.concatenate([np.where(days == d)[0] for d in pick])
-        if len(np.unique(t_mo[idx])) < 3:
-            continue
-        bi, *_ = np.linalg.lstsq(X[idx], y[idx], rcond=None)
-        boot.append(float(bi[1]))
-    boot = np.asarray(boot)
+    boot = _ols_day_boot(X, y, days, t_mo, N_BOOT)          # M492: sufficient-statistics day bootstrap, same draws and estimator as the former per-draw lstsq loop
     lo, hi = np.percentile(boot, [2.5, 97.5])
     return {'R_basis': rcol,
             'R_median_mohm': round(float(np.median(y)), 1),
@@ -2065,17 +2066,7 @@ def _powerfade_cadence_specs(dm, raw_loader):
         b = np.linalg.lstsq(X, y, rcond=None)[0]
         days = df['date'].values
         uniq = np.unique(days)
-        grp = {d: np.where(days == d)[0] for d in uniq}
-        rng = np.random.default_rng(42)
-        boot = []
-        for _ in range(N_BOOT):
-            idx = np.concatenate([grp[d] for d in rng.choice(uniq, size=len(uniq), replace=True)])
-            if len(np.unique(df['_t'].values[idx])) < 3:
-                continue
-            try:
-                boot.append(float(np.linalg.lstsq(X[idx], y[idx], rcond=None)[0][1]))
-            except Exception:
-                pass
+        boot = _ols_day_boot(X, y, days, df['_t'].values, N_BOOT)      # M492: sufficient-statistics day bootstrap (same draws and estimator as the former loop)
         lo, hi = np.percentile(np.asarray(boot), [2.5, 97.5])
         return {'slope': round(float(b[1]), 3), 'ci95': [round(float(lo), 3), round(float(hi), 3)], 'n': int(len(df)), 'nDays': int(len(uniq))}
 
