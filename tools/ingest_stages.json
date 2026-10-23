@@ -347,6 +347,18 @@
    "verified": true
   },
   {
+   "id": "urban_week_block",
+   "title": "M494: week-block / moving-block / stratified-week sensitivity of the Warm-vs-Shoulder urban contrast; additive payload block urbanContrastBlocks + stamp; hard stop unless the tool reproduces the comparison cube; stops before the splice if a block procedure changes an includes-zero reading",
+   "cmd": [
+    "python3",
+    "tools/urban_week_block.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json"
+   ]
+  },
+  {
    "id": "post_splices",
    "title": "M377a: re-apply the post-ingestion splices the arrays rebuild drops (M361 notes, M362 engine-start distribution, M363 labels, M366 shift record); idempotent, deep-diff guarded",
    "cmd": [

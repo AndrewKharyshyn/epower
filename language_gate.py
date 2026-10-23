@@ -420,6 +420,8 @@ RULES = [
     Rule("M487-A04-coverage-released", "phrase", "M487/audit Update 7 A04: the coverage table column is the CR1 interval with the t(G-1) reference from the historical M410 harness, not the normal-reference 'released CR1'", phrase="Coverage: released CR1"),
     Rule("M491-A08-difference-method", "regex", "M491/audit Update 7 A08: the Warm-vs-Shoulder urban difference interval resamples the union of calendar dates jointly (dates shared by both cohorts together); the former label 'cohort-stratified calendar-day bootstrap (days resampled within each cohort)' described independent per-cohort resampling, which drops the covariance of shared dates (now the stored sensitivity ci95IndependentCohorts, not the displayed interval)",
          rx=r"cohort stratified (?:calendar )?day bootstrap|days resampled within each cohort"),
+    Rule("M494-block-sensitivity-wording", "regex", "M494/Director: the week-block and moving-block intervals are a block sensitivity across neighbouring dates (an uncertainty analysis, not a change of the point estimate); the thermal cohorts are ambient-threshold classes confounded with season, date and drift. Block resampling does not 'account for dependence', 'confirm' or 'replicate' the contrast and is not 'robust'",
+         rx=r"block (?:bootstrap|sensitivity) (?:confirms|replicates|accounts for)|(?:confirms|replicates) the (?:seasonal )?(?:urban )?contrast|robust(?:ly)? (?:to|across) (?:the )?(?:resampling|block)|accounts? for (?:serial )?dependence|no seasonal effect|(?:borderline|marginal(?:ly)?) significan\w* (?:difference|contrast|gap|interval|endpoint|urban|warm|shoulder)|nearly excludes zero|(?:tighter|more precise) (?:under|with) (?:the )?(?:week |block)"),
 ]
 
 
