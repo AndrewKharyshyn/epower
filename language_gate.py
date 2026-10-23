@@ -418,6 +418,8 @@ RULES = [
     Rule("M487-A03-cold-below-support", "regex", "M487/audit Update 7 A03: 13 Cold drives are analysed as a cohort against a minimum of 10; the limitation is concentration (one drive holds about 91% of the Cold km, about 1.2 effective dates), shown from cohortSupport. 'Cold-class drives are below minimum support' as an unconditional statement is stale",
          rx=r"\bcold class drives are below (?:the )?minimum support\b|\bthe cold class is below (?:the )?minimum support\b|\banalysed as a cohort below the minimum\b"),
     Rule("M487-A04-coverage-released", "phrase", "M487/audit Update 7 A04: the coverage table column is the CR1 interval with the t(G-1) reference from the historical M410 harness, not the normal-reference 'released CR1'", phrase="Coverage: released CR1"),
+    Rule("M491-A08-difference-method", "regex", "M491/audit Update 7 A08: the Warm-vs-Shoulder urban difference interval resamples the union of calendar dates jointly (dates shared by both cohorts together); the former label 'cohort-stratified calendar-day bootstrap (days resampled within each cohort)' described independent per-cohort resampling, which drops the covariance of shared dates (now the stored sensitivity ci95IndependentCohorts, not the displayed interval)",
+         rx=r"cohort stratified (?:calendar )?day bootstrap|days resampled within each cohort"),
 ]
 
 

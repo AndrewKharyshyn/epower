@@ -1,0 +1,154 @@
+{
+ "_provenance": "GENERATED for M491 acceptance (spec analyses/M491_spec.md Rev 2) from summary_arrays.json after m297_comparison_cube.py; masterMd5 and spec hash recorded",
+ "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+ "specSha256": "0b9b3fa009b1a9d3b35de6ec2453629c521d0626dd8311af70753a5035856053",
+ "seed": 20260925,
+ "streams": {
+  "cohortIntervals": "SEED+1 (unchanged)",
+  "joint": "SEED+2",
+  "stratified": "SEED+3"
+ },
+ "draws": 4000,
+ "bands": [
+  {
+   "band": "all urban trips",
+   "point": -1.67,
+   "joint": [
+    -3.88,
+    1.33
+   ],
+   "independent": [
+    -3.96,
+    1.27
+   ],
+   "stratified": [
+    -3.72,
+    1.12
+   ],
+   "includesZero": {
+    "joint": true,
+    "independent": true,
+    "stratified": true
+   },
+   "nSharedDates": 28,
+   "nUnionDates": 107,
+   "bootstrapCorrelation": 0.071,
+   "nDrawsDropped": 0,
+   "nDrawsDroppedStratified": 0,
+   "widths": {
+    "joint": 5.21,
+    "independent": 5.23,
+    "stratified": 4.84,
+    "jointOverIndependent": 0.996,
+    "stratifiedOverIndependent": 0.925
+   }
+  },
+  {
+   "band": "< 3 km",
+   "point": 0.03,
+   "joint": [
+    -1.93,
+    1.89
+   ],
+   "independent": [
+    -1.87,
+    1.86
+   ],
+   "stratified": [
+    -1.93,
+    1.82
+   ],
+   "includesZero": {
+    "joint": true,
+    "independent": true,
+    "stratified": true
+   },
+   "nSharedDates": 19,
+   "nUnionDates": 86,
+   "bootstrapCorrelation": -0.05,
+   "nDrawsDropped": 0,
+   "nDrawsDroppedStratified": 0,
+   "widths": {
+    "joint": 3.82,
+    "independent": 3.73,
+    "stratified": 3.75,
+    "jointOverIndependent": 1.024,
+    "stratifiedOverIndependent": 1.005
+   }
+  },
+  {
+   "band": "3\u201310 km",
+   "point": -2.49,
+   "joint": [
+    -5.65,
+    1.21
+   ],
+   "independent": [
+    -5.47,
+    1.19
+   ],
+   "stratified": [
+    -5.5,
+    0.94
+   ],
+   "includesZero": {
+    "joint": true,
+    "independent": true,
+    "stratified": true
+   },
+   "nSharedDates": 5,
+   "nUnionDates": 71,
+   "bootstrapCorrelation": -0.013,
+   "nDrawsDropped": 0,
+   "nDrawsDroppedStratified": 0,
+   "widths": {
+    "joint": 6.86,
+    "independent": 6.66,
+    "stratified": 6.44,
+    "jointOverIndependent": 1.03,
+    "stratifiedOverIndependent": 0.967
+   }
+  },
+  {
+   "band": "\u2265 10 km",
+   "point": -1.04,
+   "joint": [
+    -2.66,
+    0.68
+   ],
+   "independent": [
+    -2.62,
+    0.62
+   ],
+   "stratified": [
+    -2.64,
+    0.71
+   ],
+   "includesZero": {
+    "joint": true,
+    "independent": true,
+    "stratified": true
+   },
+   "nSharedDates": 3,
+   "nUnionDates": 55,
+   "bootstrapCorrelation": 0.028,
+   "nDrawsDropped": 0,
+   "nDrawsDroppedStratified": 0,
+   "widths": {
+    "joint": 3.34,
+    "independent": 3.24,
+    "stratified": 3.35,
+    "jointOverIndependent": 1.031,
+    "stratifiedOverIndependent": 1.034
+   }
+  }
+ ],
+ "acceptance": {
+  "A_isolation": "tools/m491_diff_check.py: 0 unregistered leaves (12 changed = ci95 endpoints, 45 added)",
+  "A_independentReproducesStored": true,
+  "C_readingFlips": false,
+  "dropCapOk": true
+ },
+ "knownAnswerTests": "tests/synthetic/test_m491_joint_day.py: KAT1 0.067 (<0.5), KAT2 1.007 / 0.994, KAT3 1.415, drop rule",
+ "directorDecision": "accept (2026-10-23): no reading flips; correlations near zero so the width differences are Monte Carlo / day-count noise, not a finding; wording 'uncertainty analysis, not a change of the point estimate'"
+}
