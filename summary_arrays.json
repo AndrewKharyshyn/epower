@@ -36894,6 +36894,1514 @@
      }
     ]
    }
+  },
+  "rollingOriginEvaluation": {
+   "milestone": "M495",
+   "spec": "analyses/M495_spec.md",
+   "specSha256": "bbf281f52183e7c91e1d77a400fc2b766d8da89b17ae2a247952e29975627a00",
+   "result": "analyses/M495_result.json",
+   "resultSha256": "9e4de41362603c2c9250e901db4c4cde01760fcf210df05cee733cc6f6d64129",
+   "scriptSha256": "64797d13d0a465dee093451a622356c9ee8bbd925648174358e9fbad05ffb9bc",
+   "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "bootstrap": {
+    "B": 4000,
+    "seed": 42,
+    "unit": "calendar day"
+   },
+   "geometry": {
+    "firstOffsetDays": 56,
+    "windowDays": 28,
+    "embargoDays": 1,
+    "minLastWindowDays": 14,
+    "evaluable": {
+     "events": 100,
+     "observedDays": 10
+    }
+   },
+   "fidelityM428": {
+    "reproducesM428": true,
+    "m119v2ModelSha256": "69d4a5712137c71d97c89f46297e49a4e11b286f010adcfdaa5872e6e94dfdd6",
+    "m428ModelSha256": "69d4a5712137c71d97c89f46297e49a4e11b286f010adcfdaa5872e6e94dfdd6"
+   },
+   "fits": 88,
+   "label": "model-derived hazards, detector-derived events (M231); rolling-origin evaluation of the declared pipeline design (design selected on the full data); out-of-time for estimation only",
+   "thresholds": {
+    "skillLowerBound": 0.0,
+    "OEband": [
+     0.8,
+     1.25
+    ],
+    "excessPpMax": 10.0,
+    "note": "declared planning thresholds, not validated"
+   },
+   "reading": "Rolling-origin evaluation of the declared M119-v2 pipeline design (the design was selected on the full data; out-of-time for estimation only, not prospective): at each origin the design is fit on the past only (spline knots, scale and baselines learned on the training rows) and applied unchanged to the next 28 calendar days, with a one-day embargo. Events are detector-derived (M231), hazards are model-derived; intervals are conditional on each fold's fitted model and rest on few day clusters. The verdict rules are declared planning thresholds, not validated; a flag is not a refit decision and a non-detection is not equivalence.",
+   "start": {
+    "verdict": "degradation flagged at origin(s) 2 (planning thresholds; a flag for Director review, not a refit decision)",
+    "notes": [
+     "origin 1: D2 indeterminate",
+     "origin 2: D2 MATERIAL",
+     "origin 3: jackknife disagrees (D1 PASS, D2 indeterminate)"
+    ],
+    "flaggedOrigins": [
+     2
+    ],
+    "extrapolationOrigins": [],
+    "origins": [
+     {
+      "origin": 0,
+      "cut": "2026-07-10",
+      "trainEnd": "2026-07-08",
+      "testStart": "2026-07-10",
+      "testEnd": "2026-08-07",
+      "train": {
+       "nDrives": 96,
+       "nDays": 27,
+       "atRiskSeconds": 93438,
+       "events": 1687
+      },
+      "test": {
+       "nDrives": 106,
+       "nDays": 21,
+       "atRiskSeconds": 114905,
+       "events": 2157
+      },
+      "evaluable": true,
+      "essDays": 15.77,
+      "prevalence": 0.01877,
+      "skillVsB0": {
+       "point": 0.0969,
+       "ci95": [
+        0.0817,
+        0.11416
+       ],
+       "ci95Bonferroni": [
+        0.07698,
+        0.12085
+       ],
+       "jackknifeT95": [
+        0.07847,
+        0.11434
+       ]
+      },
+      "skillVsB1": {
+       "point": 0.08,
+       "ci95": [
+        0.06531,
+        0.09916
+       ]
+      },
+      "OE": {
+       "point": 1.0447,
+       "ci95": [
+        0.97628,
+        1.12213
+       ],
+       "ci95Bonferroni": [
+        0.94963,
+        1.16437
+       ],
+       "jackknifeT95": [
+        0.96627,
+        1.1213
+       ]
+      },
+      "prAuc": 0.0631,
+      "lift": 3.36,
+      "calibration": {
+       "slope": 0.926,
+       "intercept": -0.214
+      },
+      "states": {
+       "D1": "PASS",
+       "D2": "within",
+       "D3": "not material",
+       "jackknifeD1": "PASS",
+       "jackknifeD2": "within"
+      },
+      "supportExcessPp": {
+       "soc": 1.19,
+       "speed": 0.04,
+       "tpack": 1.27,
+       "demand": 0.07,
+       "durationS": -0.0
+      },
+      "inSupport": {
+       "share": 0.91483,
+       "skillVsB0": 0.0998,
+       "OE": 1.001,
+       "states": {
+        "D1": "PASS",
+        "D2": "within",
+        "D3": "not material",
+        "jackknifeD1": "PASS",
+        "jackknifeD2": "within"
+       }
+      },
+      "perDrive": {
+       "minEvents": 3,
+       "nDrivesEligible": 91,
+       "medianSkillVsB0": 0.102295,
+       "shareSkillAbove0": 0.9231
+      }
+     },
+     {
+      "origin": 1,
+      "cut": "2026-08-07",
+      "trainEnd": "2026-08-05",
+      "testStart": "2026-08-07",
+      "testEnd": "2026-09-04",
+      "train": {
+       "nDrives": 202,
+       "nDays": 48,
+       "atRiskSeconds": 208971,
+       "events": 3832
+      },
+      "test": {
+       "nDrives": 104,
+       "nDays": 24,
+       "atRiskSeconds": 81978,
+       "events": 865
+      },
+      "evaluable": true,
+      "essDays": 18.29,
+      "prevalence": 0.01055,
+      "skillVsB0": {
+       "point": 0.1387,
+       "ci95": [
+        0.12239,
+        0.15668
+       ],
+       "ci95Bonferroni": [
+        0.11701,
+        0.16358
+       ],
+       "jackknifeT95": [
+        0.1196,
+        0.15717
+       ]
+      },
+      "skillVsB1": {
+       "point": 0.1296,
+       "ci95": [
+        0.11279,
+        0.14857
+       ]
+      },
+      "OE": {
+       "point": 0.8074,
+       "ci95": [
+        0.7137,
+        0.90455
+       ],
+       "ci95Bonferroni": [
+        0.68031,
+        0.93932
+       ],
+       "jackknifeT95": [
+        0.70342,
+        0.9137
+       ]
+      },
+      "prAuc": 0.047,
+      "lift": 4.45,
+      "calibration": {
+       "slope": 1.073,
+       "intercept": 0.051
+      },
+      "states": {
+       "D1": "PASS",
+       "D2": "indeterminate",
+       "D3": "not material",
+       "jackknifeD1": "PASS",
+       "jackknifeD2": "indeterminate"
+      },
+      "supportExcessPp": {
+       "soc": -0.86,
+       "speed": -0.64,
+       "tpack": -1.74,
+       "demand": -0.25,
+       "durationS": -0.86
+      },
+      "inSupport": {
+       "share": 0.98102,
+       "skillVsB0": 0.1404,
+       "OE": 0.7661,
+       "states": {
+        "D1": "PASS",
+        "D2": "indeterminate",
+        "D3": "not material",
+        "jackknifeD1": "PASS",
+        "jackknifeD2": "indeterminate"
+       }
+      },
+      "perDrive": {
+       "minEvents": 3,
+       "nDrivesEligible": 67,
+       "medianSkillVsB0": 0.142434,
+       "shareSkillAbove0": 0.9701
+      }
+     },
+     {
+      "origin": 2,
+      "cut": "2026-09-04",
+      "trainEnd": "2026-09-02",
+      "testStart": "2026-09-04",
+      "testEnd": "2026-10-02",
+      "train": {
+       "nDrives": 302,
+       "nDays": 72,
+       "atRiskSeconds": 289981,
+       "events": 4722
+      },
+      "test": {
+       "nDrives": 179,
+       "nDays": 28,
+       "atRiskSeconds": 78651,
+       "events": 607
+      },
+      "evaluable": true,
+      "essDays": 22.28,
+      "prevalence": 0.00772,
+      "skillVsB0": {
+       "point": 0.1358,
+       "ci95": [
+        0.10996,
+        0.16352
+       ],
+       "ci95Bonferroni": [
+        0.10035,
+        0.17117
+       ],
+       "jackknifeT95": [
+        0.10188,
+        0.16733
+       ]
+      },
+      "skillVsB1": {
+       "point": 0.1111,
+       "ci95": [
+        0.08167,
+        0.14262
+       ]
+      },
+      "OE": {
+       "point": 0.7028,
+       "ci95": [
+        0.61804,
+        0.772
+       ],
+       "ci95Bonferroni": [
+        0.5862,
+        0.80145
+       ],
+       "jackknifeT95": [
+        0.61549,
+        0.79702
+       ]
+      },
+      "prAuc": 0.0386,
+      "lift": 5.0,
+      "calibration": {
+       "slope": 0.896,
+       "intercept": -0.769
+      },
+      "states": {
+       "D1": "PASS",
+       "D2": "MATERIAL",
+       "D3": "not material",
+       "jackknifeD1": "PASS",
+       "jackknifeD2": "MATERIAL"
+      },
+      "supportExcessPp": {
+       "soc": 0.52,
+       "speed": -0.86,
+       "tpack": 5.95,
+       "demand": -0.51,
+       "durationS": -0.85
+      },
+      "inSupport": {
+       "share": 0.90008,
+       "skillVsB0": 0.1385,
+       "OE": 0.6864,
+       "states": {
+        "D1": "PASS",
+        "D2": "MATERIAL",
+        "D3": "not material",
+        "jackknifeD1": "PASS",
+        "jackknifeD2": "MATERIAL"
+       }
+      },
+      "perDrive": {
+       "minEvents": 3,
+       "nDrivesEligible": 61,
+       "medianSkillVsB0": 0.129804,
+       "shareSkillAbove0": 0.8852
+      }
+     },
+     {
+      "origin": 3,
+      "cut": "2026-10-02",
+      "trainEnd": "2026-09-30",
+      "testStart": "2026-10-02",
+      "testEnd": "2026-10-18",
+      "train": {
+       "nDrives": 478,
+       "nDays": 100,
+       "atRiskSeconds": 366760,
+       "events": 5313
+      },
+      "test": {
+       "nDrives": 107,
+       "nDays": 16,
+       "atRiskSeconds": 74778,
+       "events": 911
+      },
+      "evaluable": true,
+      "essDays": 11.21,
+      "prevalence": 0.01218,
+      "skillVsB0": {
+       "point": 0.113,
+       "ci95": [
+        0.09415,
+        0.13316
+       ],
+       "ci95Bonferroni": [
+        0.08722,
+        0.1394
+       ],
+       "jackknifeT95": [
+        0.0916,
+        0.13453
+       ]
+      },
+      "skillVsB1": {
+       "point": 0.1003,
+       "ci95": [
+        0.08121,
+        0.1208
+       ]
+      },
+      "OE": {
+       "point": 1.0681,
+       "ci95": [
+        0.89831,
+        1.20554
+       ],
+       "ci95Bonferroni": [
+        0.83664,
+        1.2686
+       ],
+       "jackknifeT95": [
+        0.89974,
+        1.25112
+       ]
+      },
+      "prAuc": 0.0585,
+      "lift": 4.8,
+      "calibration": {
+       "slope": 0.973,
+       "intercept": -0.035
+      },
+      "states": {
+       "D1": "PASS",
+       "D2": "within",
+       "D3": "not material",
+       "jackknifeD1": "PASS",
+       "jackknifeD2": "indeterminate"
+      },
+      "supportExcessPp": {
+       "soc": -0.79,
+       "speed": -0.46,
+       "tpack": 4.25,
+       "demand": 0.05,
+       "durationS": -0.27
+      },
+      "inSupport": {
+       "share": 0.90908,
+       "skillVsB0": 0.1148,
+       "OE": 1.0478,
+       "states": {
+        "D1": "PASS",
+        "D2": "within",
+        "D3": "not material",
+        "jackknifeD1": "PASS",
+        "jackknifeD2": "within"
+       }
+      },
+      "perDrive": {
+       "minEvents": 3,
+       "nDrivesEligible": 58,
+       "medianSkillVsB0": 0.10103,
+       "shareSkillAbove0": 0.8793
+      }
+     }
+    ],
+    "pooled": {
+     "nDrives": 496,
+     "nDays": 89,
+     "events": 4540,
+     "point": {
+      "prevalence": 0.013,
+      "OE": 0.9356,
+      "logLoss": 0.0616,
+      "skillVsB0": 0.1147,
+      "skillVsB1": 0.0991,
+      "dLogLossB1minusModel": 0.0068,
+      "brier": 0.0125,
+      "skillVsLaterConstant": 0.1092,
+      "prAuc": 0.0545,
+      "lift": 4.2082,
+      "calSlope": 0.9778,
+      "calIntercept": -0.1505
+     },
+     "ci95": {
+      "OE": [
+       0.87064,
+       0.99348
+      ],
+      "skillVsB0": [
+       0.10464,
+       0.12664
+      ],
+      "skillVsB1": [
+       0.08789,
+       0.11211
+      ],
+      "dLogLossB1minusModel": [
+       0.00612,
+       0.00742
+      ],
+      "prAuc": [
+       0.04786,
+       0.06012
+      ],
+      "lift": [
+       3.86005,
+       4.62473
+      ]
+     },
+     "note": "descriptive: pooled test rows of the evaluable folds (mixed models, training uncertainty not propagated); no decision role"
+    },
+    "sensitivities": {
+     "S1_embargoStates": {
+      "0": [
+       {
+        "k": 0,
+        "cut": "2026-07-10",
+        "states": [
+         "PASS",
+         "within",
+         "not material"
+        ]
+       },
+       {
+        "k": 1,
+        "cut": "2026-08-07",
+        "states": [
+         "PASS",
+         "indeterminate",
+         "not material"
+        ]
+       },
+       {
+        "k": 2,
+        "cut": "2026-09-04",
+        "states": [
+         "PASS",
+         "MATERIAL",
+         "not material"
+        ]
+       },
+       {
+        "k": 3,
+        "cut": "2026-10-02",
+        "states": [
+         "PASS",
+         "within",
+         "not material"
+        ]
+       }
+      ],
+      "3": [
+       {
+        "k": 0,
+        "cut": "2026-07-10",
+        "states": [
+         "PASS",
+         "within",
+         "not material"
+        ]
+       },
+       {
+        "k": 1,
+        "cut": "2026-08-07",
+        "states": [
+         "PASS",
+         "indeterminate",
+         "not material"
+        ]
+       },
+       {
+        "k": 2,
+        "cut": "2026-09-04",
+        "states": [
+         "PASS",
+         "MATERIAL",
+         "not material"
+        ]
+       },
+       {
+        "k": 3,
+        "cut": "2026-10-02",
+        "states": [
+         "PASS",
+         "within",
+         "not material"
+        ]
+       }
+      ]
+     },
+     "S2_windows": {
+      "14": [
+       {
+        "k": 0,
+        "cut": "2026-07-10",
+        "evaluable": true,
+        "states": [
+         "PASS",
+         "within",
+         "not material"
+        ],
+        "test": {
+         "nDrives": 72,
+         "nDays": 13,
+         "atRiskSeconds": 70310,
+         "events": 1253
+        }
+       },
+       {
+        "k": 1,
+        "cut": "2026-07-24",
+        "evaluable": false,
+        "states": null,
+        "test": {
+         "nDrives": 34,
+         "nDays": 8,
+         "atRiskSeconds": 44595,
+         "events": 904
+        }
+       },
+       {
+        "k": 2,
+        "cut": "2026-08-07",
+        "evaluable": true,
+        "states": [
+         "PASS",
+         "indeterminate",
+         "not material"
+        ],
+        "test": {
+         "nDrives": 47,
+         "nDays": 11,
+         "atRiskSeconds": 29683,
+         "events": 331
+        }
+       },
+       {
+        "k": 3,
+        "cut": "2026-08-21",
+        "evaluable": true,
+        "states": [
+         "PASS",
+         "indeterminate",
+         "not material"
+        ],
+        "test": {
+         "nDrives": 57,
+         "nDays": 13,
+         "atRiskSeconds": 52295,
+         "events": 534
+        }
+       },
+       {
+        "k": 4,
+        "cut": "2026-09-04",
+        "evaluable": true,
+        "states": [
+         "PASS",
+         "indeterminate",
+         "not material"
+        ],
+        "test": {
+         "nDrives": 96,
+         "nDays": 14,
+         "atRiskSeconds": 42733,
+         "events": 347
+        }
+       },
+       {
+        "k": 5,
+        "cut": "2026-09-18",
+        "evaluable": true,
+        "states": [
+         "PASS",
+         "indeterminate",
+         "MATERIAL"
+        ],
+        "test": {
+         "nDrives": 83,
+         "nDays": 14,
+         "atRiskSeconds": 35918,
+         "events": 260
+        }
+       },
+       {
+        "k": 6,
+        "cut": "2026-10-02",
+        "evaluable": true,
+        "states": [
+         "PASS",
+         "within",
+         "not material"
+        ],
+        "test": {
+         "nDrives": 107,
+         "nDays": 16,
+         "atRiskSeconds": 74778,
+         "events": 911
+        }
+       }
+      ],
+      "42": [
+       {
+        "k": 0,
+        "cut": "2026-07-10",
+        "evaluable": true,
+        "states": [
+         "PASS",
+         "within",
+         "not material"
+        ],
+        "test": {
+         "nDrives": 153,
+         "nDays": 32,
+         "atRiskSeconds": 144588,
+         "events": 2488
+        }
+       },
+       {
+        "k": 1,
+        "cut": "2026-08-21",
+        "evaluable": true,
+        "states": [
+         "PASS",
+         "MATERIAL",
+         "not material"
+        ],
+        "test": {
+         "nDrives": 236,
+         "nDays": 41,
+         "atRiskSeconds": 130946,
+         "events": 1141
+        }
+       },
+       {
+        "k": 2,
+        "cut": "2026-10-02",
+        "evaluable": true,
+        "states": [
+         "PASS",
+         "within",
+         "not material"
+        ],
+        "test": {
+         "nDrives": 107,
+         "nDays": 16,
+         "atRiskSeconds": 74778,
+         "events": 911
+        }
+       }
+      ]
+     },
+     "S5_m2221GeometryPooled": {
+      "nRounds": 16,
+      "minTrainDays": 40,
+      "stepDays": 5,
+      "pooled": {
+       "n": 287608,
+       "events": 3441,
+       "brier": 0.011565,
+       "logLoss": 0.057652,
+       "prAuc": 0.0535,
+       "calSlope": 0.992,
+       "calIntercept": -0.117,
+       "obsEvents": 3441,
+       "predEvents": 3750.6
+      },
+      "pooledLogLossCI": [
+       0.05096,
+       0.06403
+      ]
+     }
+    }
+   },
+   "stop": {
+    "verdict": "degradation flagged at origin(s) 2 (planning thresholds; a flag for Director review, not a refit decision)",
+    "notes": [
+     "origin 0: D2 indeterminate",
+     "origin 1: D2 indeterminate",
+     "origin 2: D2 indeterminate",
+     "origin 2: jackknife disagrees (D1 PASS, D2 indeterminate)",
+     "origin 2: embargo 0 changes the states ('PASS', 'indeterminate', 'MATERIAL')",
+     "origin 2: embargo 3 changes the states ('PASS', 'indeterminate', 'MATERIAL')",
+     "origin 2: extrapolation (D3)"
+    ],
+    "flaggedOrigins": [
+     2
+    ],
+    "extrapolationOrigins": [
+     2
+    ],
+    "origins": [
+     {
+      "origin": 0,
+      "cut": "2026-07-09",
+      "trainEnd": "2026-07-07",
+      "testStart": "2026-07-09",
+      "testEnd": "2026-08-06",
+      "train": {
+       "nDrives": 99,
+       "nDays": 28,
+       "atRiskSeconds": 98036,
+       "events": 1697
+      },
+      "test": {
+       "nDrives": 105,
+       "nDays": 21,
+       "atRiskSeconds": 113317,
+       "events": 2145
+      },
+      "evaluable": true,
+      "essDays": 10.72,
+      "prevalence": 0.01893,
+      "skillVsB0": {
+       "point": 0.1687,
+       "ci95": [
+        0.13929,
+        0.19423
+       ],
+       "ci95Bonferroni": [
+        0.12988,
+        0.20197
+       ],
+       "jackknifeT95": [
+        0.1363,
+        0.2027
+       ]
+      },
+      "skillVsB1": {
+       "point": 0.1292,
+       "ci95": [
+        0.10075,
+        0.15419
+       ]
+      },
+      "OE": {
+       "point": 0.8104,
+       "ci95": [
+        0.75428,
+        0.87787
+       ],
+       "ci95Bonferroni": [
+        0.72935,
+        0.90955
+       ],
+       "jackknifeT95": [
+        0.73924,
+        0.87633
+       ]
+      },
+      "prAuc": 0.0883,
+      "lift": 4.66,
+      "calibration": {
+       "slope": 0.871,
+       "intercept": -0.591
+      },
+      "states": {
+       "D1": "PASS",
+       "D2": "indeterminate",
+       "D3": "not material",
+       "jackknifeD1": "PASS",
+       "jackknifeD2": "indeterminate"
+      },
+      "supportExcessPp": {
+       "soc": 2.52,
+       "speed": 1.64,
+       "tpack": 0.68,
+       "demand": -0.29,
+       "durationS": -0.84
+      },
+      "inSupport": {
+       "share": 0.90225,
+       "skillVsB0": 0.192,
+       "OE": 0.8812,
+       "states": {
+        "D1": "PASS",
+        "D2": "within",
+        "D3": "not material",
+        "jackknifeD1": "PASS",
+        "jackknifeD2": "within"
+       }
+      },
+      "perDrive": {
+       "minEvents": 3,
+       "nDrivesEligible": 90,
+       "medianSkillVsB0": 0.170482,
+       "shareSkillAbove0": 0.8889
+      }
+     },
+     {
+      "origin": 1,
+      "cut": "2026-08-06",
+      "trainEnd": "2026-08-04",
+      "testStart": "2026-08-06",
+      "testEnd": "2026-09-03",
+      "train": {
+       "nDrives": 204,
+       "nDays": 49,
+       "atRiskSeconds": 211353,
+       "events": 3842
+      },
+      "test": {
+       "nDrives": 98,
+       "nDays": 24,
+       "atRiskSeconds": 49212,
+       "events": 888
+      },
+      "evaluable": true,
+      "essDays": 11.08,
+      "prevalence": 0.01804,
+      "skillVsB0": {
+       "point": 0.1887,
+       "ci95": [
+        0.1653,
+        0.21093
+       ],
+       "ci95Bonferroni": [
+        0.157,
+        0.21885
+       ],
+       "jackknifeT95": [
+        0.16207,
+        0.21759
+       ]
+      },
+      "skillVsB1": {
+       "point": 0.1474,
+       "ci95": [
+        0.12601,
+        0.16618
+       ]
+      },
+      "OE": {
+       "point": 0.8602,
+       "ci95": [
+        0.79191,
+        0.94862
+       ],
+       "ci95Bonferroni": [
+        0.76518,
+        0.99446
+       ],
+       "jackknifeT95": [
+        0.77487,
+        0.94035
+       ]
+      },
+      "prAuc": 0.1028,
+      "lift": 5.7,
+      "calibration": {
+       "slope": 1.113,
+       "intercept": 0.172
+      },
+      "states": {
+       "D1": "PASS",
+       "D2": "indeterminate",
+       "D3": "not material",
+       "jackknifeD1": "PASS",
+       "jackknifeD2": "indeterminate"
+      },
+      "supportExcessPp": {
+       "soc": -0.13,
+       "speed": 0.03,
+       "tpack": -1.23,
+       "demand": -0.5,
+       "durationS": 0.52
+      },
+      "inSupport": {
+       "share": 0.95253,
+       "skillVsB0": 0.1866,
+       "OE": 0.8595,
+       "states": {
+        "D1": "PASS",
+        "D2": "indeterminate",
+        "D3": "not material",
+        "jackknifeD1": "PASS",
+        "jackknifeD2": "indeterminate"
+       }
+      },
+      "perDrive": {
+       "minEvents": 3,
+       "nDrivesEligible": 67,
+       "medianSkillVsB0": 0.190809,
+       "shareSkillAbove0": 0.9851
+      }
+     },
+     {
+      "origin": 2,
+      "cut": "2026-09-03",
+      "trainEnd": "2026-09-01",
+      "testStart": "2026-09-03",
+      "testEnd": "2026-10-01",
+      "train": {
+       "nDrives": 296,
+       "nDays": 72,
+       "atRiskSeconds": 259529,
+       "events": 4711
+      },
+      "test": {
+       "nDrives": 162,
+       "nDays": 28,
+       "atRiskSeconds": 32998,
+       "events": 576
+      },
+      "evaluable": true,
+      "essDays": 15.72,
+      "prevalence": 0.01746,
+      "skillVsB0": {
+       "point": 0.0718,
+       "ci95": [
+        -0.00185,
+        0.11891
+       ],
+       "ci95Bonferroni": [
+        -0.04312,
+        0.13208
+       ],
+       "jackknifeT95": [
+        0.011,
+        0.14075
+       ]
+      },
+      "skillVsB1": {
+       "point": 0.0595,
+       "ci95": [
+        -0.00274,
+        0.10079
+       ]
+      },
+      "OE": {
+       "point": 0.6799,
+       "ci95": [
+        0.50601,
+        0.8409
+       ],
+       "ci95Bonferroni": [
+        0.44471,
+        0.89776
+       ],
+       "jackknifeT95": [
+        0.48984,
+        0.87486
+       ]
+      },
+      "prAuc": 0.0495,
+      "lift": 2.83,
+      "calibration": {
+       "slope": 0.703,
+       "intercept": -1.3
+      },
+      "states": {
+       "D1": "FAIL",
+       "D2": "indeterminate",
+       "D3": "MATERIAL",
+       "jackknifeD1": "PASS",
+       "jackknifeD2": "indeterminate"
+      },
+      "supportExcessPp": {
+       "soc": 2.71,
+       "speed": -0.86,
+       "tpack": 12.63,
+       "demand": -0.73,
+       "durationS": -1.0
+      },
+      "inSupport": {
+       "share": 0.82347,
+       "skillVsB0": 0.1008,
+       "OE": 0.8048,
+       "states": {
+        "D1": "PASS",
+        "D2": "indeterminate",
+        "D3": "not material",
+        "jackknifeD1": "PASS",
+        "jackknifeD2": "indeterminate"
+       }
+      },
+      "perDrive": {
+       "minEvents": 3,
+       "nDrivesEligible": 59,
+       "medianSkillVsB0": 0.145066,
+       "shareSkillAbove0": 0.8136
+      }
+     },
+     {
+      "origin": 3,
+      "cut": "2026-10-01",
+      "trainEnd": "2026-09-29",
+      "testStart": "2026-10-01",
+      "testEnd": "2026-10-18",
+      "train": {
+       "nDrives": 458,
+       "nDays": 100,
+       "atRiskSeconds": 292622,
+       "events": 5293
+      },
+      "test": {
+       "nDrives": 102,
+       "nDays": 17,
+       "atRiskSeconds": 61152,
+       "events": 922
+      },
+      "evaluable": true,
+      "essDays": 7.43,
+      "prevalence": 0.01508,
+      "skillVsB0": {
+       "point": 0.1626,
+       "ci95": [
+        0.09645,
+        0.20152
+       ],
+       "ci95Bonferroni": [
+        0.08536,
+        0.21225
+       ],
+       "jackknifeT95": [
+        0.10898,
+        0.22591
+       ]
+      },
+      "skillVsB1": {
+       "point": 0.1286,
+       "ci95": [
+        0.08526,
+        0.15391
+       ]
+      },
+      "OE": {
+       "point": 0.9297,
+       "ci95": [
+        0.85033,
+        0.98766
+       ],
+       "ci95Bonferroni": [
+        0.8164,
+        1.00537
+       ],
+       "jackknifeT95": [
+        0.85754,
+        1.00827
+       ]
+      },
+      "prAuc": 0.0807,
+      "lift": 5.35,
+      "calibration": {
+       "slope": 0.982,
+       "intercept": -0.136
+      },
+      "states": {
+       "D1": "PASS",
+       "D2": "within",
+       "D3": "not material",
+       "jackknifeD1": "PASS",
+       "jackknifeD2": "within"
+      },
+      "supportExcessPp": {
+       "soc": 0.02,
+       "speed": -0.84,
+       "tpack": 6.17,
+       "demand": -0.67,
+       "durationS": 1.32
+      },
+      "inSupport": {
+       "share": 0.88507,
+       "skillVsB0": 0.1626,
+       "OE": 0.964,
+       "states": {
+        "D1": "PASS",
+        "D2": "within",
+        "D3": "not material",
+        "jackknifeD1": "PASS",
+        "jackknifeD2": "within"
+       }
+      },
+      "perDrive": {
+       "minEvents": 3,
+       "nDrivesEligible": 59,
+       "medianSkillVsB0": 0.138323,
+       "shareSkillAbove0": 0.8983
+      }
+     }
+    ],
+    "pooled": {
+     "nDrives": 467,
+     "nDays": 90,
+     "events": 4531,
+     "point": {
+      "prevalence": 0.0177,
+      "OE": 0.8212,
+      "logLoss": 0.0747,
+      "skillVsB0": 0.159,
+      "skillVsB1": 0.1235,
+      "dLogLossB1minusModel": 0.0105,
+      "brier": 0.0168,
+      "skillVsLaterConstant": 0.1587,
+      "prAuc": 0.0821,
+      "lift": 4.6507,
+      "calSlope": 0.9033,
+      "calIntercept": -0.4975
+     },
+     "ci95": {
+      "OE": [
+       0.77328,
+       0.86954
+      ],
+      "skillVsB0": [
+       0.13778,
+       0.1771
+      ],
+      "skillVsB1": [
+       0.10591,
+       0.13873
+      ],
+      "dLogLossB1minusModel": [
+       0.00944,
+       0.01138
+      ],
+      "prAuc": [
+       0.07658,
+       0.08786
+      ],
+      "lift": [
+       4.06685,
+       5.28195
+      ]
+     },
+     "note": "descriptive: pooled test rows of the evaluable folds (mixed models, training uncertainty not propagated); no decision role"
+    },
+    "sensitivities": {
+     "S1_embargoStates": {
+      "0": [
+       {
+        "k": 0,
+        "cut": "2026-07-09",
+        "states": [
+         "PASS",
+         "indeterminate",
+         "not material"
+        ]
+       },
+       {
+        "k": 1,
+        "cut": "2026-08-06",
+        "states": [
+         "PASS",
+         "indeterminate",
+         "not material"
+        ]
+       },
+       {
+        "k": 2,
+        "cut": "2026-09-03",
+        "states": [
+         "PASS",
+         "indeterminate",
+         "MATERIAL"
+        ]
+       },
+       {
+        "k": 3,
+        "cut": "2026-10-01",
+        "states": [
+         "PASS",
+         "within",
+         "not material"
+        ]
+       }
+      ],
+      "3": [
+       {
+        "k": 0,
+        "cut": "2026-07-09",
+        "states": [
+         "PASS",
+         "indeterminate",
+         "not material"
+        ]
+       },
+       {
+        "k": 1,
+        "cut": "2026-08-06",
+        "states": [
+         "PASS",
+         "indeterminate",
+         "not material"
+        ]
+       },
+       {
+        "k": 2,
+        "cut": "2026-09-03",
+        "states": [
+         "PASS",
+         "indeterminate",
+         "MATERIAL"
+        ]
+       },
+       {
+        "k": 3,
+        "cut": "2026-10-01",
+        "states": [
+         "PASS",
+         "within",
+         "not material"
+        ]
+       }
+      ]
+     },
+     "S2_windows": {
+      "14": [
+       {
+        "k": 0,
+        "cut": "2026-07-09",
+        "evaluable": true,
+        "states": [
+         "PASS",
+         "indeterminate",
+         "not material"
+        ],
+        "test": {
+         "nDrives": 65,
+         "nDays": 13,
+         "atRiskSeconds": 59204,
+         "events": 1123
+        }
+       },
+       {
+        "k": 1,
+        "cut": "2026-07-23",
+        "evaluable": false,
+        "states": null,
+        "test": {
+         "nDrives": 40,
+         "nDays": 8,
+         "atRiskSeconds": 54113,
+         "events": 1022
+        }
+       },
+       {
+        "k": 2,
+        "cut": "2026-08-06",
+        "evaluable": true,
+        "states": [
+         "PASS",
+         "indeterminate",
+         "not material"
+        ],
+        "test": {
+         "nDrives": 42,
+         "nDays": 11,
+         "atRiskSeconds": 15373,
+         "events": 302
+        }
+       },
+       {
+        "k": 3,
+        "cut": "2026-08-20",
+        "evaluable": true,
+        "states": [
+         "PASS",
+         "indeterminate",
+         "not material"
+        ],
+        "test": {
+         "nDrives": 56,
+         "nDays": 13,
+         "atRiskSeconds": 33839,
+         "events": 586
+        }
+       },
+       {
+        "k": 4,
+        "cut": "2026-09-03",
+        "evaluable": true,
+        "states": [
+         "PASS",
+         "indeterminate",
+         "not material"
+        ],
+        "test": {
+         "nDrives": 88,
+         "nDays": 14,
+         "atRiskSeconds": 18487,
+         "events": 334
+        }
+       },
+       {
+        "k": 5,
+        "cut": "2026-09-17",
+        "evaluable": true,
+        "states": [
+         "PASS",
+         "indeterminate",
+         "MATERIAL"
+        ],
+        "test": {
+         "nDrives": 74,
+         "nDays": 14,
+         "atRiskSeconds": 14511,
+         "events": 242
+        }
+       },
+       {
+        "k": 6,
+        "cut": "2026-10-01",
+        "evaluable": true,
+        "states": [
+         "PASS",
+         "within",
+         "not material"
+        ],
+        "test": {
+         "nDrives": 102,
+         "nDays": 17,
+         "atRiskSeconds": 61152,
+         "events": 922
+        }
+       }
+      ],
+      "42": [
+       {
+        "k": 0,
+        "cut": "2026-07-09",
+        "evaluable": true,
+        "states": [
+         "PASS",
+         "indeterminate",
+         "not material"
+        ],
+        "test": {
+         "nDrives": 147,
+         "nDays": 32,
+         "atRiskSeconds": 128690,
+         "events": 2447
+        }
+       },
+       {
+        "k": 1,
+        "cut": "2026-08-20",
+        "evaluable": true,
+        "states": [
+         "PASS",
+         "indeterminate",
+         "not material"
+        ],
+        "test": {
+         "nDrives": 218,
+         "nDays": 41,
+         "atRiskSeconds": 66837,
+         "events": 1162
+        }
+       },
+       {
+        "k": 2,
+        "cut": "2026-10-01",
+        "evaluable": true,
+        "states": [
+         "PASS",
+         "within",
+         "not material"
+        ],
+        "test": {
+         "nDrives": 102,
+         "nDays": 17,
+         "atRiskSeconds": 61152,
+         "events": 922
+        }
+       }
+      ]
+     },
+     "S5_m2221GeometryPooled": {
+      "nRounds": 16,
+      "minTrainDays": 40,
+      "stepDays": 5,
+      "pooled": {
+       "n": 198170,
+       "events": 3421,
+       "brier": 0.016239,
+       "logLoss": 0.07242,
+       "prAuc": 0.0886,
+       "calSlope": 0.982,
+       "calIntercept": -0.168,
+       "obsEvents": 3421,
+       "predEvents": 3797.5
+      },
+      "pooledLogLossCI": [
+       0.06568,
+       0.08088
+      ]
+     }
+    }
+   }
+  },
+  "prospectiveProtocol": {
+   "milestone": "M495",
+   "frozenFit": "analyses/M495_frozen_fit.json",
+   "frozenFitSha256": "0be2cf961ae221f460fa074462e8ab0980fdb3e10d42fc2163fd310f8aca88e4",
+   "frozenMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "lastTrainingDate": "2026-10-17",
+   "heldOutRule": "date > lastTrainingDate and logged after the freeze (master MD5 recorded)",
+   "thresholds": {
+    "drives": 100,
+    "days": 40,
+    "eventsPerSide": 300,
+    "effectiveDayClusters": 15
+   },
+   "plan": "The frozen 606-drive fit is evaluated unchanged on drives logged after the last training date once the held-out period holds at least 100 drives on at least 40 days, at least 300 events per side and an effective number of day clusters of at least 15 (one primary look; later looks descriptive). Cold pack temperatures are expected to give extrapolation; the in-support reading is reported beside the primary one. A refit is a separate owner decision.",
+   "countFidelity": {
+    "start": {
+     "tableAtRiskSeconds": 463303,
+     "tableEvents": 6403,
+     "carriedAtRisk": 463303,
+     "carriedEvents": 6403,
+     "exactMatch": true
+    },
+    "stop": {
+     "tableAtRiskSeconds": 363304,
+     "tableEvents": 6373,
+     "carriedAtRisk": 363304,
+     "carriedEvents": 6373,
+     "exactMatch": true
+    }
+   },
+   "bitIdenticalRefit": {
+    "start": true,
+    "stop": true
+   },
+   "heldOut": {
+    "drives": 0,
+    "days": 0,
+    "driveAndDayThresholdMet": false,
+    "note": "flag-only monitor: counts of drives and days after the last training date; no event count and no hazard value is read"
+   }
   }
  },
  "headroomUtilization": {

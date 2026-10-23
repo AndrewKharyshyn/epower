@@ -1,0 +1,3988 @@
+{
+ "_provenance": {
+  "spec": "analyses/M495_spec.md",
+  "specSha256": "bbf281f52183e7c91e1d77a400fc2b766d8da89b17ae2a247952e29975627a00",
+  "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+  "scriptSha256": "64797d13d0a465dee093451a622356c9ee8bbd925648174358e9fbad05ffb9bc",
+  "m428ScriptSha256": "c28951d8f9aa7ad1241084f42fd57f2945fe840c27fac0e5773461f348d6109b",
+  "m119v2ModelSha256": "69d4a5712137c71d97c89f46297e49a4e11b286f010adcfdaa5872e6e94dfdd6",
+  "tablesSha256": "498abafb1cd77cb2fc0686d751f7eeb4c7cc69c118b4c4bd3f6b7e1664454003",
+  "tablesProv": {
+   "master_md5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "script_sha256": "d1d75bf4ab0aa96cba0ad847b7212aa2aa02560f01d6bd4b4d94c2854ec9f845",
+   "m119v2_model_sha256": "69d4a5712137c71d97c89f46297e49a4e11b286f010adcfdaa5872e6e94dfdd6",
+   "spec": "analyses/M318_spec.md",
+   "bootB": 4000,
+   "bootSeed": 42,
+   "raw_dir": "raw_only (tools/stage_raw.py)",
+   "generated": "2026-10-23T20:27:40+0300",
+   "n_first": null,
+   "secs": 602
+  },
+  "bootB": 4000,
+  "bootSeed": 42,
+  "python": "3.12.10",
+  "label": "model-derived hazards, detector-derived events (M231); rolling-origin evaluation of the declared pipeline design (design selected on the full data); out-of-time for estimation only"
+ },
+ "fidelityM428": {
+  "m119v2ModelSha256": "69d4a5712137c71d97c89f46297e49a4e11b286f010adcfdaa5872e6e94dfdd6",
+  "m428ModelSha256": "69d4a5712137c71d97c89f46297e49a4e11b286f010adcfdaa5872e6e94dfdd6",
+  "sides": {
+   "start": {
+    "skillVsB0": {
+     "reproduced": 0.127717,
+     "m428": 0.127717,
+     "equal1e-6": true
+    },
+    "OE": {
+     "reproduced": 0.989019,
+     "m428": 0.989019,
+     "equal1e-6": true
+    },
+    "prevalence": {
+     "reproduced": 0.010158,
+     "m428": 0.010158,
+     "equal1e-6": true
+    }
+   },
+   "stop": {
+    "skillVsB0": {
+     "reproduced": 0.124657,
+     "m428": 0.124657,
+     "equal1e-6": true
+    },
+    "OE": {
+     "reproduced": 0.895045,
+     "m428": 0.895045,
+     "equal1e-6": true
+    },
+    "prevalence": {
+     "reproduced": 0.01754,
+     "m428": 0.01754,
+     "equal1e-6": true
+    }
+   }
+  },
+  "reproducesM428": true
+ },
+ "geometry": {
+  "firstOffsetDays": 56,
+  "windowDays": 28,
+  "embargoDays": 1,
+  "minLastWindowDays": 14,
+  "evaluable": {
+   "events": 100,
+   "observedDays": 10
+  }
+ },
+ "start": {
+  "folds": [
+   {
+    "fold": {
+     "k": 0,
+     "cut": "2026-07-10",
+     "trainEnd": "2026-07-08",
+     "testStart": "2026-07-10",
+     "testEnd": "2026-08-07"
+    },
+    "train": {
+     "nDrives": 96,
+     "nDays": 27,
+     "atRiskSeconds": 93438,
+     "events": 1687
+    },
+    "test": {
+     "nDrives": 106,
+     "nDays": 21,
+     "atRiskSeconds": 114905,
+     "events": 2157
+    },
+    "evaluable": true,
+    "primary": {
+     "nDrives": 106,
+     "nDays": 21,
+     "atRiskSeconds": 114905,
+     "events": 2157,
+     "essDays": 15.77,
+     "point": {
+      "prevalence": 0.018772,
+      "OE": 1.044731,
+      "logLoss": 0.084205,
+      "skillVsB0": 0.096856,
+      "skillVsB1": 0.080029,
+      "dLogLossB1minusModel": 0.007325,
+      "brier": 0.018003,
+      "skillVsLaterConstant": 0.096717,
+      "prAuc": 0.063144,
+      "lift": 3.363735,
+      "calSlope": 0.925903,
+      "calIntercept": -0.213971
+     },
+     "ci95Percentile": {
+      "OE": [
+       0.97628,
+       1.12213
+      ],
+      "skillVsB0": [
+       0.0817,
+       0.11416
+      ],
+      "skillVsB1": [
+       0.06531,
+       0.09916
+      ],
+      "dLogLossB1minusModel": [
+       0.00615,
+       0.00861
+      ],
+      "prAuc": [
+       0.05476,
+       0.07084
+      ],
+      "lift": [
+       2.96035,
+       3.87942
+      ]
+     },
+     "undefinedDraws": {
+      "OE": 0,
+      "prAuc": 0
+     },
+     "bootstrapB": 4000,
+     "jackknife": {
+      "OE": {
+       "tInterval": [
+        0.96627,
+        1.1213
+       ],
+       "leaveOneDayOutRange": [
+        1.02942,
+        1.0597
+       ],
+       "df": 20
+      },
+      "skillVsB0": {
+       "tInterval": [
+        0.07847,
+        0.11434
+       ],
+       "leaveOneDayOutRange": [
+        0.09427,
+        0.10071
+       ],
+       "df": 20
+      },
+      "dLogLossB1minusModel": {
+       "tInterval": [
+        0.00594,
+        0.00866
+       ],
+       "leaveOneDayOutRange": [
+        0.00704,
+        0.00767
+       ],
+       "df": 20
+      }
+     },
+     "states": {
+      "D1": "PASS",
+      "D2": "within",
+      "D3": "not material",
+      "jackknifeD1": "PASS",
+      "jackknifeD2": "within"
+     },
+     "ci95PercentileBonferroni": {
+      "OE": [
+       0.94963,
+       1.16437
+      ],
+      "skillVsB0": [
+       0.07698,
+       0.12085
+      ],
+      "skillVsB1": [
+       0.06095,
+       0.1058
+      ],
+      "dLogLossB1minusModel": [
+       0.00574,
+       0.00924
+      ]
+     },
+     "bonferroniLevelPct": [
+      0.3125,
+      99.6875
+     ]
+    },
+    "support": {
+     "perPredictor": {
+      "soc": {
+       "basisMin": 44.5,
+       "basisMax": 81.0,
+       "basisP1": 48.5,
+       "basisP99": 76.5,
+       "basisShareOutsideP1P99": 0.016931013078190886,
+       "laterShareOutsideP1P99": 0.028797702449849878,
+       "excessPp": 1.1866689371658992,
+       "laterShareBelowP1": 0.006622862364562029,
+       "laterShareAboveP99": 0.022174840085287847,
+       "laterShareOutsideMinMax": 0.0009399068795961881
+      },
+      "speed": {
+       "basisMin": 0.0,
+       "basisMax": 132.0,
+       "basisP1": 0.0,
+       "basisP99": 93.0,
+       "basisShareOutsideP1P99": 0.009096941287270703,
+       "laterShareOutsideP1P99": 0.009512205735172533,
+       "excessPp": 0.04152644479018305,
+       "laterShareBelowP1": 0.0,
+       "laterShareAboveP99": 0.009512205735172533,
+       "laterShareOutsideMinMax": 0.0001044340977329098
+      },
+      "tpack": {
+       "basisMin": 14.0,
+       "basisMax": 45.0,
+       "basisP1": 16.5,
+       "basisP99": 43.25,
+       "basisShareOutsideP1P99": 0.016053425801065946,
+       "laterShareOutsideP1P99": 0.02874548540098342,
+       "excessPp": 1.2692059599917476,
+       "laterShareBelowP1": 0.0069883817066272134,
+       "laterShareAboveP99": 0.021757103694356208,
+       "laterShareOutsideMinMax": 0.005665549802010356
+      },
+      "demand": {
+       "basisMin": 0.0,
+       "basisMax": 50.38822799999997,
+       "basisP1": 0.0,
+       "basisP99": 21.94934549999999,
+       "basisShareOutsideP1P99": 0.009995933132130397,
+       "laterShareOutsideP1P99": 0.010713197859100996,
+       "excessPp": 0.07172647269705987,
+       "laterShareBelowP1": 0.0,
+       "laterShareAboveP99": 0.010713197859100996,
+       "laterShareOutsideMinMax": 0.0
+      },
+      "durationS": {
+       "basisMin": 0.0,
+       "basisMax": 1015.0,
+       "basisP1": 0.0,
+       "basisP99": 482.0,
+       "basisShareOutsideP1P99": 0.009995933132130397,
+       "laterShareOutsideP1P99": 0.009947347809059658,
+       "excessPp": -0.004858532307073886,
+       "laterShareBelowP1": 0.0,
+       "laterShareAboveP99": 0.009947347809059658,
+       "laterShareOutsideMinMax": 0.0
+      }
+     },
+     "basisUnionOutsideP1P99": 0.05966523256062844,
+     "laterUnionOutsideP1P99": 0.08517470954266568
+    },
+    "supportSplit": {
+     "inSupport": {
+      "nDrives": 106,
+      "nDays": 21,
+      "atRiskSeconds": 105118,
+      "events": 1819,
+      "essDays": 15.9,
+      "point": {
+       "prevalence": 0.017304,
+       "OE": 1.000998,
+       "logLoss": 0.078651,
+       "skillVsB0": 0.099796,
+       "skillVsB1": 0.081194,
+       "dLogLossB1minusModel": 0.00695,
+       "brier": 0.016645,
+       "skillVsLaterConstant": 0.09963,
+       "prAuc": 0.056868,
+       "lift": 3.286344,
+       "calSlope": 0.965861,
+       "calIntercept": -0.119621
+      },
+      "ci95Percentile": {
+       "OE": [
+        0.9309,
+        1.07964
+       ],
+       "skillVsB0": [
+        0.08667,
+        0.1155
+       ],
+       "skillVsB1": [
+        0.06708,
+        0.09962
+       ],
+       "dLogLossB1minusModel": [
+        0.00597,
+        0.00806
+       ],
+       "prAuc": [
+        0.04927,
+        0.06396
+       ],
+       "lift": [
+        2.86995,
+        3.79303
+       ]
+      },
+      "states": {
+       "D1": "PASS",
+       "D2": "within",
+       "D3": "not material",
+       "jackknifeD1": "PASS",
+       "jackknifeD2": "within"
+      },
+      "share": 0.91483
+     },
+     "outOfSupport": {
+      "nDrives": 82,
+      "nDays": 21,
+      "atRiskSeconds": 9787,
+      "events": 338,
+      "essDays": 9.48,
+      "point": {
+       "prevalence": 0.034536,
+       "OE": 1.365873,
+       "logLoss": 0.143856,
+       "skillVsB0": 0.079193,
+       "skillVsB1": 0.073133,
+       "dLogLossB1minusModel": 0.011351,
+       "brier": 0.032585,
+       "skillVsLaterConstant": 0.042051,
+       "prAuc": 0.094684,
+       "lift": 2.741636,
+       "calSlope": 0.6419,
+       "calIntercept": -0.841386
+      },
+      "ci95Percentile": {
+       "OE": [
+        1.24735,
+        1.55552
+       ],
+       "skillVsB0": [
+        0.04437,
+        0.12115
+       ],
+       "skillVsB1": [
+        0.04892,
+        0.10709
+       ],
+       "dLogLossB1minusModel": [
+        0.00729,
+        0.01812
+       ],
+       "prAuc": [
+        0.07852,
+        0.11997
+       ],
+       "lift": [
+        2.27005,
+        3.49737
+       ]
+      },
+      "states": {
+       "D1": "PASS",
+       "D2": "indeterminate",
+       "D3": "not material",
+       "jackknifeD1": "PASS",
+       "jackknifeD2": "indeterminate"
+      },
+      "share": 0.08517
+     }
+    },
+    "OEbyPackTemperatureBand": [
+     {
+      "band": "< 10 C",
+      "atRiskSeconds": 0,
+      "events": 0,
+      "expected": 0.0,
+      "OE": null
+     },
+     {
+      "band": "10 to < 20 C",
+      "atRiskSeconds": 2497,
+      "events": 26,
+      "expected": 12.92,
+      "OE": 2.0124
+     },
+     {
+      "band": "20 to < 30 C",
+      "atRiskSeconds": 16296,
+      "events": 238,
+      "expected": 163.8,
+      "OE": 1.453
+     },
+     {
+      "band": "30 to < 40 C",
+      "atRiskSeconds": 71207,
+      "events": 1318,
+      "expected": 1287.45,
+      "OE": 1.0237
+     },
+     {
+      "band": ">= 40 C",
+      "atRiskSeconds": 24905,
+      "events": 575,
+      "expected": 600.47,
+      "OE": 0.9576
+     }
+    ],
+    "perDrive": {
+     "minEvents": 3,
+     "nDrivesEligible": 91,
+     "medianSkillVsB0": 0.102295,
+     "shareSkillAbove0": 0.9231
+    }
+   },
+   {
+    "fold": {
+     "k": 1,
+     "cut": "2026-08-07",
+     "trainEnd": "2026-08-05",
+     "testStart": "2026-08-07",
+     "testEnd": "2026-09-04"
+    },
+    "train": {
+     "nDrives": 202,
+     "nDays": 48,
+     "atRiskSeconds": 208971,
+     "events": 3832
+    },
+    "test": {
+     "nDrives": 104,
+     "nDays": 24,
+     "atRiskSeconds": 81978,
+     "events": 865
+    },
+    "evaluable": true,
+    "primary": {
+     "nDrives": 104,
+     "nDays": 24,
+     "atRiskSeconds": 81978,
+     "events": 865,
+     "essDays": 18.29,
+     "point": {
+      "prevalence": 0.010552,
+      "OE": 0.807413,
+      "logLoss": 0.052115,
+      "skillVsB0": 0.138687,
+      "skillVsB1": 0.129565,
+      "dLogLossB1minusModel": 0.007757,
+      "brier": 0.010251,
+      "skillVsLaterConstant": 0.10947,
+      "prAuc": 0.046999,
+      "lift": 4.454227,
+      "calSlope": 1.07271,
+      "calIntercept": 0.050751
+     },
+     "ci95Percentile": {
+      "OE": [
+       0.7137,
+       0.90455
+      ],
+      "skillVsB0": [
+       0.12239,
+       0.15668
+      ],
+      "skillVsB1": [
+       0.11279,
+       0.14857
+      ],
+      "dLogLossB1minusModel": [
+       0.00675,
+       0.00872
+      ],
+      "prAuc": [
+       0.03859,
+       0.05876
+      ],
+      "lift": [
+       3.93316,
+       5.18884
+      ]
+     },
+     "undefinedDraws": {
+      "OE": 0,
+      "prAuc": 0
+     },
+     "bootstrapB": 4000,
+     "jackknife": {
+      "OE": {
+       "tInterval": [
+        0.70342,
+        0.9137
+       ],
+       "leaveOneDayOutRange": [
+        0.77331,
+        0.82951
+       ],
+       "df": 23
+      },
+      "skillVsB0": {
+       "tInterval": [
+        0.1196,
+        0.15717
+       ],
+       "leaveOneDayOutRange": [
+        0.13513,
+        0.14243
+       ],
+       "df": 23
+      },
+      "dLogLossB1minusModel": {
+       "tInterval": [
+        0.0067,
+        0.00884
+       ],
+       "leaveOneDayOutRange": [
+        0.00752,
+        0.00797
+       ],
+       "df": 23
+      }
+     },
+     "states": {
+      "D1": "PASS",
+      "D2": "indeterminate",
+      "D3": "not material",
+      "jackknifeD1": "PASS",
+      "jackknifeD2": "indeterminate"
+     },
+     "ci95PercentileBonferroni": {
+      "OE": [
+       0.68031,
+       0.93932
+      ],
+      "skillVsB0": [
+       0.11701,
+       0.16358
+      ],
+      "skillVsB1": [
+       0.10736,
+       0.15604
+      ],
+      "dLogLossB1minusModel": [
+       0.00635,
+       0.00906
+      ]
+     },
+     "bonferroniLevelPct": [
+      0.3125,
+      99.6875
+     ]
+    },
+    "support": {
+     "perPredictor": {
+      "soc": {
+       "basisMin": 44.5,
+       "basisMax": 84.5,
+       "basisP1": 48.5,
+       "basisP99": 78.0,
+       "basisShareOutsideP1P99": 0.015360983102918587,
+       "laterShareOutsideP1P99": 0.006745712264266022,
+       "excessPp": -0.8615270838652566,
+       "laterShareBelowP1": 0.005452682426992607,
+       "laterShareAboveP99": 0.0012930298372734149,
+       "laterShareOutsideMinMax": 0.0
+      },
+      "speed": {
+       "basisMin": 0.0,
+       "basisMax": 154.0,
+       "basisP1": 0.0,
+       "basisP99": 93.0,
+       "basisShareOutsideP1P99": 0.009034746448071743,
+       "laterShareOutsideP1P99": 0.0026592500426943816,
+       "excessPp": -0.6375496405377361,
+       "laterShareBelowP1": 0.0,
+       "laterShareAboveP99": 0.0026592500426943816,
+       "laterShareOutsideMinMax": 0.0
+      },
+      "tpack": {
+       "basisMin": 13.25,
+       "basisMax": 45.75,
+       "basisP1": 17.0,
+       "basisP99": 43.75,
+       "basisShareOutsideP1P99": 0.01820348277990726,
+       "laterShareOutsideP1P99": 0.0007684988655492938,
+       "excessPp": -1.7434983914357964,
+       "laterShareBelowP1": 0.0007684988655492938,
+       "laterShareAboveP99": 0.0,
+       "laterShareOutsideMinMax": 0.0
+      },
+      "demand": {
+       "basisMin": 0.0,
+       "basisMax": 50.38822799999997,
+       "basisP1": 0.0,
+       "basisP99": 22.06816199999999,
+       "basisShareOutsideP1P99": 0.009991817046384426,
+       "laterShareOutsideP1P99": 0.007489814340432799,
+       "excessPp": -0.2502002705951627,
+       "laterShareBelowP1": 0.0,
+       "laterShareAboveP99": 0.007489814340432799,
+       "laterShareOutsideMinMax": 0.0
+      },
+      "durationS": {
+       "basisMin": 0.0,
+       "basisMax": 1015.0,
+       "basisP1": 0.0,
+       "basisP99": 481.0,
+       "basisShareOutsideP1P99": 0.009987031693392863,
+       "laterShareOutsideP1P99": 0.0014150137841860012,
+       "excessPp": -0.8572017909206862,
+       "laterShareBelowP1": 0.0,
+       "laterShareAboveP99": 0.0014150137841860012,
+       "laterShareOutsideMinMax": 0.0
+      }
+     },
+     "basisUnionOutsideP1P99": 0.06076441228687234,
+     "laterUnionOutsideP1P99": 0.01898070213959843
+    },
+    "supportSplit": {
+     "inSupport": {
+      "nDrives": 104,
+      "nDays": 24,
+      "atRiskSeconds": 80422,
+      "events": 777,
+      "essDays": 18.26,
+      "point": {
+       "prevalence": 0.009662,
+       "OE": 0.766081,
+       "logLoss": 0.048964,
+       "skillVsB0": 0.140424,
+       "skillVsB1": 0.13074,
+       "dLogLossB1minusModel": 0.007364,
+       "brier": 0.009427,
+       "skillVsLaterConstant": 0.100586,
+       "prAuc": 0.041743,
+       "lift": 4.320572,
+       "calSlope": 1.055387,
+       "calIntercept": -0.064442
+      },
+      "ci95Percentile": {
+       "OE": [
+        0.66296,
+        0.87987
+       ],
+       "skillVsB0": [
+        0.123,
+        0.16145
+       ],
+       "skillVsB1": [
+        0.11359,
+        0.15092
+       ],
+       "dLogLossB1minusModel": [
+        0.0064,
+        0.00832
+       ],
+       "prAuc": [
+        0.03188,
+        0.05623
+       ],
+       "lift": [
+        3.63835,
+        5.20635
+       ]
+      },
+      "states": {
+       "D1": "PASS",
+       "D2": "indeterminate",
+       "D3": "not material",
+       "jackknifeD1": "PASS",
+       "jackknifeD2": "indeterminate"
+      },
+      "share": 0.98102
+     },
+     "outOfSupport": {
+      "nDrives": 64,
+      "nDays": 22,
+      "atRiskSeconds": 1556,
+      "events": 88,
+      "essDays": 15.38,
+      "point": {
+       "prevalence": 0.056555,
+       "OE": 1.541971,
+       "logLoss": 0.214943,
+       "skillVsB0": 0.117694,
+       "skillVsB1": 0.11549,
+       "dLogLossB1minusModel": 0.028065,
+       "brier": 0.052832,
+       "skillVsLaterConstant": 0.011222,
+       "prAuc": 0.10591,
+       "lift": 1.872686,
+       "calSlope": 0.644258,
+       "calIntercept": -0.616946
+      },
+      "ci95Percentile": {
+       "OE": [
+        1.1901,
+        1.99164
+       ],
+       "skillVsB0": [
+        0.06308,
+        0.16361
+       ],
+       "skillVsB1": [
+        0.04729,
+        0.17505
+       ],
+       "dLogLossB1minusModel": [
+        0.00939,
+        0.05249
+       ],
+       "prAuc": [
+        0.07997,
+        0.16651
+       ],
+       "lift": [
+        1.55893,
+        2.82001
+       ]
+      },
+      "states": {
+       "D1": "PASS",
+       "D2": "indeterminate",
+       "D3": "not material",
+       "jackknifeD1": "PASS",
+       "jackknifeD2": "indeterminate"
+      },
+      "share": 0.01898
+     }
+    },
+    "OEbyPackTemperatureBand": [
+     {
+      "band": "< 10 C",
+      "atRiskSeconds": 0,
+      "events": 0,
+      "expected": 0.0,
+      "OE": null
+     },
+     {
+      "band": "10 to < 20 C",
+      "atRiskSeconds": 2344,
+      "events": 21,
+      "expected": 25.72,
+      "OE": 0.8164
+     },
+     {
+      "band": "20 to < 30 C",
+      "atRiskSeconds": 28691,
+      "events": 264,
+      "expected": 301.9,
+      "OE": 0.8745
+     },
+     {
+      "band": "30 to < 40 C",
+      "atRiskSeconds": 48687,
+      "events": 560,
+      "expected": 709.64,
+      "OE": 0.7891
+     },
+     {
+      "band": ">= 40 C",
+      "atRiskSeconds": 2256,
+      "events": 20,
+      "expected": 34.06,
+      "OE": 0.5872
+     }
+    ],
+    "perDrive": {
+     "minEvents": 3,
+     "nDrivesEligible": 67,
+     "medianSkillVsB0": 0.142434,
+     "shareSkillAbove0": 0.9701
+    }
+   },
+   {
+    "fold": {
+     "k": 2,
+     "cut": "2026-09-04",
+     "trainEnd": "2026-09-02",
+     "testStart": "2026-09-04",
+     "testEnd": "2026-10-02"
+    },
+    "train": {
+     "nDrives": 302,
+     "nDays": 72,
+     "atRiskSeconds": 289981,
+     "events": 4722
+    },
+    "test": {
+     "nDrives": 179,
+     "nDays": 28,
+     "atRiskSeconds": 78651,
+     "events": 607
+    },
+    "evaluable": true,
+    "primary": {
+     "nDrives": 179,
+     "nDays": 28,
+     "atRiskSeconds": 78651,
+     "events": 607,
+     "essDays": 22.28,
+     "point": {
+      "prevalence": 0.007718,
+      "OE": 0.702787,
+      "logLoss": 0.041543,
+      "skillVsB0": 0.13577,
+      "skillVsB1": 0.111139,
+      "dLogLossB1minusModel": 0.005194,
+      "brier": 0.007571,
+      "skillVsLaterConstant": 0.081485,
+      "prAuc": 0.038583,
+      "lift": 4.99939,
+      "calSlope": 0.895728,
+      "calIntercept": -0.769059
+     },
+     "ci95Percentile": {
+      "OE": [
+       0.61804,
+       0.772
+      ],
+      "skillVsB0": [
+       0.10996,
+       0.16352
+      ],
+      "skillVsB1": [
+       0.08167,
+       0.14262
+      ],
+      "dLogLossB1minusModel": [
+       0.00388,
+       0.00661
+      ],
+      "prAuc": [
+       0.03039,
+       0.04909
+      ],
+      "lift": [
+       4.25844,
+       6.41931
+      ]
+     },
+     "undefinedDraws": {
+      "OE": 0,
+      "prAuc": 0
+     },
+     "bootstrapB": 4000,
+     "jackknife": {
+      "OE": {
+       "tInterval": [
+        0.61549,
+        0.79702
+       ],
+       "leaveOneDayOutRange": [
+        0.67299,
+        0.71964
+       ],
+       "df": 27
+      },
+      "skillVsB0": {
+       "tInterval": [
+        0.10188,
+        0.16733
+       ],
+       "leaveOneDayOutRange": [
+        0.13193,
+        0.14856
+       ],
+       "df": 27
+      },
+      "dLogLossB1minusModel": {
+       "tInterval": [
+        0.00373,
+        0.00669
+       ],
+       "leaveOneDayOutRange": [
+        0.00466,
+        0.00544
+       ],
+       "df": 27
+      }
+     },
+     "states": {
+      "D1": "PASS",
+      "D2": "MATERIAL",
+      "D3": "not material",
+      "jackknifeD1": "PASS",
+      "jackknifeD2": "MATERIAL"
+     },
+     "ci95PercentileBonferroni": {
+      "OE": [
+       0.5862,
+       0.80145
+      ],
+      "skillVsB0": [
+       0.10035,
+       0.17117
+      ],
+      "skillVsB1": [
+       0.07151,
+       0.15024
+      ],
+      "dLogLossB1minusModel": [
+       0.00344,
+       0.00713
+      ]
+     },
+     "bonferroniLevelPct": [
+      0.3125,
+      99.6875
+     ]
+    },
+    "support": {
+     "perPredictor": {
+      "soc": {
+       "basisMin": 44.5,
+       "basisMax": 84.5,
+       "basisP1": 49.0,
+       "basisP99": 77.5,
+       "basisShareOutsideP1P99": 0.0179184153444536,
+       "laterShareOutsideP1P99": 0.023102058460795157,
+       "excessPp": 0.5183643116341556,
+       "laterShareBelowP1": 0.009281509453153806,
+       "laterShareAboveP99": 0.013820549007641353,
+       "laterShareOutsideMinMax": 0.0
+      },
+      "speed": {
+       "basisMin": 0.0,
+       "basisMax": 154.0,
+       "basisP1": 0.0,
+       "basisP99": 91.0,
+       "basisShareOutsideP1P99": 0.009652356533703933,
+       "laterShareOutsideP1P99": 0.0010044373243823983,
+       "excessPp": -0.8647919209321534,
+       "laterShareBelowP1": 0.0,
+       "laterShareAboveP99": 0.0010044373243823983,
+       "laterShareOutsideMinMax": 0.0
+      },
+      "tpack": {
+       "basisMin": 13.25,
+       "basisMax": 45.75,
+       "basisP1": 17.0,
+       "basisP99": 43.5,
+       "basisShareOutsideP1P99": 0.01614933392187764,
+       "laterShareOutsideP1P99": 0.07559980165541443,
+       "excessPp": 5.9450467733536785,
+       "laterShareBelowP1": 0.07559980165541443,
+       "laterShareAboveP99": 0.0,
+       "laterShareOutsideMinMax": 0.010057087640335152
+      },
+      "demand": {
+       "basisMin": 0.0,
+       "basisMax": 50.38822799999997,
+       "basisP1": 0.0,
+       "basisP99": 21.820567200000017,
+       "basisShareOutsideP1P99": 0.010000655215341695,
+       "laterShareOutsideP1P99": 0.0048568994672667865,
+       "excessPp": -0.5143755748074909,
+       "laterShareBelowP1": 0.0,
+       "laterShareAboveP99": 0.0048568994672667865,
+       "laterShareOutsideMinMax": 0.0
+      },
+      "durationS": {
+       "basisMin": 0.0,
+       "basisMax": 1015.0,
+       "basisP1": 0.0,
+       "basisP99": 429.0,
+       "basisShareOutsideP1P99": 0.009955824691962576,
+       "laterShareOutsideP1P99": 0.0014112980127398253,
+       "excessPp": -0.8544526679222751,
+       "laterShareBelowP1": 0.0,
+       "laterShareAboveP99": 0.0014112980127398253,
+       "laterShareOutsideMinMax": 0.0
+      }
+     },
+     "basisUnionOutsideP1P99": 0.06180060072901328,
+     "laterUnionOutsideP1P99": 0.09992244218128186
+    },
+    "supportSplit": {
+     "inSupport": {
+      "nDrives": 158,
+      "nDays": 28,
+      "atRiskSeconds": 70792,
+      "events": 522,
+      "essDays": 21.45,
+      "point": {
+       "prevalence": 0.007374,
+       "OE": 0.686447,
+       "logLoss": 0.040197,
+       "skillVsB0": 0.138487,
+       "skillVsB1": 0.112282,
+       "dLogLossB1minusModel": 0.005084,
+       "brier": 0.007245,
+       "skillVsLaterConstant": 0.076994,
+       "prAuc": 0.034927,
+       "lift": 4.736628,
+       "calSlope": 0.906647,
+       "calIntercept": -0.753523
+      },
+      "ci95Percentile": {
+       "OE": [
+        0.58369,
+        0.76961
+       ],
+       "skillVsB0": [
+        0.11153,
+        0.16693
+       ],
+       "skillVsB1": [
+        0.0841,
+        0.14155
+       ],
+       "dLogLossB1minusModel": [
+        0.00393,
+        0.00623
+       ],
+       "prAuc": [
+        0.02708,
+        0.04405
+       ],
+       "lift": [
+        4.0399,
+        6.03569
+       ]
+      },
+      "states": {
+       "D1": "PASS",
+       "D2": "MATERIAL",
+       "D3": "not material",
+       "jackknifeD1": "PASS",
+       "jackknifeD2": "MATERIAL"
+      },
+      "share": 0.90008
+     },
+     "outOfSupport": {
+      "nDrives": 101,
+      "nDays": 28,
+      "atRiskSeconds": 7859,
+      "events": 85,
+      "essDays": 12.36,
+      "point": {
+       "prevalence": 0.010816,
+       "OE": 0.823111,
+       "logLoss": 0.053665,
+       "skillVsB0": 0.116981,
+       "skillVsB1": 0.103352,
+       "dLogLossB1minusModel": 0.006186,
+       "brier": 0.010501,
+       "skillVsLaterConstant": 0.101339,
+       "prAuc": 0.058835,
+       "lift": 5.439834,
+       "calSlope": 0.808737,
+       "calIntercept": -0.894538
+      },
+      "ci95Percentile": {
+       "OE": [
+        0.65328,
+        1.04979
+       ],
+       "skillVsB0": [
+        0.03861,
+        0.17906
+       ],
+       "skillVsB1": [
+        0.01326,
+        0.17526
+       ],
+       "dLogLossB1minusModel": [
+        0.00083,
+        0.01097
+       ],
+       "prAuc": [
+        0.03818,
+        0.10483
+       ],
+       "lift": [
+        3.49812,
+        9.43414
+       ]
+      },
+      "states": {
+       "D1": "PASS",
+       "D2": "indeterminate",
+       "D3": "not material",
+       "jackknifeD1": "PASS",
+       "jackknifeD2": "indeterminate"
+      },
+      "share": 0.09992
+     }
+    },
+    "OEbyPackTemperatureBand": [
+     {
+      "band": "< 10 C",
+      "atRiskSeconds": 0,
+      "events": 0,
+      "expected": 0.0,
+      "OE": null
+     },
+     {
+      "band": "10 to < 20 C",
+      "atRiskSeconds": 16894,
+      "events": 106,
+      "expected": 141.56,
+      "OE": 0.7488
+     },
+     {
+      "band": "20 to < 30 C",
+      "atRiskSeconds": 37950,
+      "events": 254,
+      "expected": 395.6,
+      "OE": 0.6421
+     },
+     {
+      "band": "30 to < 40 C",
+      "atRiskSeconds": 23807,
+      "events": 247,
+      "expected": 326.54,
+      "OE": 0.7564
+     },
+     {
+      "band": ">= 40 C",
+      "atRiskSeconds": 0,
+      "events": 0,
+      "expected": 0.0,
+      "OE": null
+     }
+    ],
+    "perDrive": {
+     "minEvents": 3,
+     "nDrivesEligible": 61,
+     "medianSkillVsB0": 0.129804,
+     "shareSkillAbove0": 0.8852
+    }
+   },
+   {
+    "fold": {
+     "k": 3,
+     "cut": "2026-10-02",
+     "trainEnd": "2026-09-30",
+     "testStart": "2026-10-02",
+     "testEnd": "2026-10-18"
+    },
+    "train": {
+     "nDrives": 478,
+     "nDays": 100,
+     "atRiskSeconds": 366760,
+     "events": 5313
+    },
+    "test": {
+     "nDrives": 107,
+     "nDays": 16,
+     "atRiskSeconds": 74778,
+     "events": 911
+    },
+    "evaluable": true,
+    "primary": {
+     "nDrives": 107,
+     "nDays": 16,
+     "atRiskSeconds": 74778,
+     "events": 911,
+     "essDays": 11.21,
+     "point": {
+      "prevalence": 0.012183,
+      "OE": 1.068132,
+      "logLoss": 0.058545,
+      "skillVsB0": 0.113,
+      "skillVsB1": 0.100333,
+      "dLogLossB1minusModel": 0.006529,
+      "brier": 0.011753,
+      "skillVsLaterConstant": 0.110353,
+      "prAuc": 0.058516,
+      "lift": 4.803194,
+      "calSlope": 0.97338,
+      "calIntercept": -0.034857
+     },
+     "ci95Percentile": {
+      "OE": [
+       0.89831,
+       1.20554
+      ],
+      "skillVsB0": [
+       0.09415,
+       0.13316
+      ],
+      "skillVsB1": [
+       0.08121,
+       0.1208
+      ],
+      "dLogLossB1minusModel": [
+       0.00501,
+       0.00786
+      ],
+      "prAuc": [
+       0.04113,
+       0.0718
+      ],
+      "lift": [
+       4.15997,
+       5.53946
+      ]
+     },
+     "undefinedDraws": {
+      "OE": 0,
+      "prAuc": 0
+     },
+     "bootstrapB": 4000,
+     "jackknife": {
+      "OE": {
+       "tInterval": [
+        0.89974,
+        1.25112
+       ],
+       "leaveOneDayOutRange": [
+        1.01411,
+        1.08971
+       ],
+       "df": 15
+      },
+      "skillVsB0": {
+       "tInterval": [
+        0.0916,
+        0.13453
+       ],
+       "leaveOneDayOutRange": [
+        0.10763,
+        0.11687
+       ],
+       "df": 15
+      },
+      "dLogLossB1minusModel": {
+       "tInterval": [
+        0.00491,
+        0.00826
+       ],
+       "leaveOneDayOutRange": [
+        0.00595,
+        0.00682
+       ],
+       "df": 15
+      }
+     },
+     "states": {
+      "D1": "PASS",
+      "D2": "within",
+      "D3": "not material",
+      "jackknifeD1": "PASS",
+      "jackknifeD2": "indeterminate"
+     },
+     "ci95PercentileBonferroni": {
+      "OE": [
+       0.83664,
+       1.2686
+      ],
+      "skillVsB0": [
+       0.08722,
+       0.1394
+      ],
+      "skillVsB1": [
+       0.07441,
+       0.12871
+      ],
+      "dLogLossB1minusModel": [
+       0.00433,
+       0.00829
+      ]
+     },
+     "bonferroniLevelPct": [
+      0.3125,
+      99.6875
+     ]
+    },
+    "support": {
+     "perPredictor": {
+      "soc": {
+       "basisMin": 44.5,
+       "basisMax": 84.5,
+       "basisP1": 49.0,
+       "basisP99": 77.5,
+       "basisShareOutsideP1P99": 0.019121496346384558,
+       "laterShareOutsideP1P99": 0.011246623338415042,
+       "excessPp": -0.7874873007969516,
+       "laterShareBelowP1": 0.0022733959185856803,
+       "laterShareAboveP99": 0.00897322741982936,
+       "laterShareOutsideMinMax": 0.0
+      },
+      "speed": {
+       "basisMin": 0.0,
+       "basisMax": 154.0,
+       "basisP1": 0.0,
+       "basisP99": 89.0,
+       "basisShareOutsideP1P99": 0.009720253026502345,
+       "laterShareOutsideP1P99": 0.005095081441065554,
+       "excessPp": -0.4625171585436791,
+       "laterShareBelowP1": 0.0,
+       "laterShareAboveP99": 0.005095081441065554,
+       "laterShareOutsideMinMax": 0.0
+      },
+      "tpack": {
+       "basisMin": 11.0,
+       "basisMax": 45.75,
+       "basisP1": 15.5,
+       "basisP99": 43.25,
+       "basisShareOutsideP1P99": 0.017987239611735196,
+       "laterShareOutsideP1P99": 0.0605258231030517,
+       "excessPp": 4.253858349131651,
+       "laterShareBelowP1": 0.0605258231030517,
+       "laterShareAboveP99": 0.0,
+       "laterShareOutsideMinMax": 0.00643237315788066
+      },
+      "demand": {
+       "basisMin": 0.0,
+       "basisMax": 50.38822799999997,
+       "basisP1": 0.0,
+       "basisP99": 21.44819162999995,
+       "basisShareOutsideP1P99": 0.010001090631475624,
+       "laterShareOutsideP1P99": 0.010497739976998582,
+       "excessPp": 0.04966493455229575,
+       "laterShareBelowP1": 0.0,
+       "laterShareAboveP99": 0.010497739976998582,
+       "laterShareOutsideMinMax": 0.0
+      },
+      "durationS": {
+       "basisMin": 0.0,
+       "basisMax": 1015.0,
+       "basisP1": 0.0,
+       "basisP99": 394.0,
+       "basisShareOutsideP1P99": 0.009946559057694405,
+       "laterShareOutsideP1P99": 0.007274866939474177,
+       "excessPp": -0.26716921182202286,
+       "laterShareBelowP1": 0.0,
+       "laterShareAboveP99": 0.007274866939474177,
+       "laterShareOutsideMinMax": 0.0
+      }
+     },
+     "basisUnionOutsideP1P99": 0.06428727233067946,
+     "laterUnionOutsideP1P99": 0.09092246382625906
+    },
+    "supportSplit": {
+     "inSupport": {
+      "nDrives": 92,
+      "nDays": 16,
+      "atRiskSeconds": 67979,
+      "events": 794,
+      "essDays": 10.61,
+      "point": {
+       "prevalence": 0.01168,
+       "OE": 1.047801,
+       "logLoss": 0.056549,
+       "skillVsB0": 0.114793,
+       "skillVsB1": 0.103343,
+       "dLogLossB1minusModel": 0.006517,
+       "brier": 0.011274,
+       "skillVsLaterConstant": 0.110682,
+       "prAuc": 0.05911,
+       "lift": 5.060791,
+       "calSlope": 1.02548,
+       "calIntercept": 0.147536
+      },
+      "ci95Percentile": {
+       "OE": [
+        0.87032,
+        1.19162
+       ],
+       "skillVsB0": [
+        0.09692,
+        0.13726
+       ],
+       "skillVsB1": [
+        0.0839,
+        0.13013
+       ],
+       "dLogLossB1minusModel": [
+        0.00546,
+        0.00757
+       ],
+       "prAuc": [
+        0.04061,
+        0.0748
+       ],
+       "lift": [
+        4.19972,
+        6.35002
+       ]
+      },
+      "states": {
+       "D1": "PASS",
+       "D2": "within",
+       "D3": "not material",
+       "jackknifeD1": "PASS",
+       "jackknifeD2": "within"
+      },
+      "share": 0.90908
+     },
+     "outOfSupport": {
+      "nDrives": 80,
+      "nDays": 16,
+      "atRiskSeconds": 6799,
+      "events": 117,
+      "essDays": 9.21,
+      "point": {
+       "prevalence": 0.017208,
+       "OE": 1.230111,
+       "logLoss": 0.078501,
+       "skillVsB0": 0.099872,
+       "skillVsB1": 0.078042,
+       "dLogLossB1minusModel": 0.006645,
+       "brier": 0.016545,
+       "skillVsLaterConstant": 0.097337,
+       "prAuc": 0.071431,
+       "lift": 4.15094,
+       "calSlope": 0.739506,
+       "calIntercept": -0.709825
+      },
+      "ci95Percentile": {
+       "OE": [
+        0.95503,
+        1.51894
+       ],
+       "skillVsB0": [
+        0.03016,
+        0.15975
+       ],
+       "skillVsB1": [
+        -0.0012,
+        0.13805
+       ],
+       "dLogLossB1minusModel": [
+        -8e-05,
+        0.01635
+       ],
+       "prAuc": [
+        0.04391,
+        0.11197
+       ],
+       "lift": [
+        2.91001,
+        6.00134
+       ]
+      },
+      "states": {
+       "D1": "PASS",
+       "D2": "indeterminate",
+       "D3": "not material",
+       "jackknifeD1": "PASS",
+       "jackknifeD2": "indeterminate"
+      },
+      "share": 0.09092
+     }
+    },
+    "OEbyPackTemperatureBand": [
+     {
+      "band": "< 10 C",
+      "atRiskSeconds": 207,
+      "events": 1,
+      "expected": 1.66,
+      "OE": 0.6034
+     },
+     {
+      "band": "10 to < 20 C",
+      "atRiskSeconds": 14336,
+      "events": 117,
+      "expected": 98.21,
+      "OE": 1.1913
+     },
+     {
+      "band": "20 to < 30 C",
+      "atRiskSeconds": 26553,
+      "events": 287,
+      "expected": 285.2,
+      "OE": 1.0063
+     },
+     {
+      "band": "30 to < 40 C",
+      "atRiskSeconds": 33682,
+      "events": 506,
+      "expected": 467.82,
+      "OE": 1.0816
+     },
+     {
+      "band": ">= 40 C",
+      "atRiskSeconds": 0,
+      "events": 0,
+      "expected": 0.0,
+      "OE": null
+     }
+    ],
+    "perDrive": {
+     "minEvents": 3,
+     "nDrivesEligible": 58,
+     "medianSkillVsB0": 0.10103,
+     "shareSkillAbove0": 0.8793
+    }
+   }
+  ],
+  "pooled": {
+   "nDrives": 496,
+   "nDays": 89,
+   "events": 4540,
+   "point": {
+    "prevalence": 0.01296,
+    "OE": 0.935588,
+    "logLoss": 0.061639,
+    "skillVsB0": 0.114662,
+    "skillVsB1": 0.099067,
+    "dLogLossB1minusModel": 0.006778,
+    "brier": 0.012513,
+    "skillVsLaterConstant": 0.109228,
+    "prAuc": 0.054538,
+    "lift": 4.208207,
+    "calSlope": 0.977847,
+    "calIntercept": -0.150534
+   },
+   "ci95Percentile": {
+    "OE": [
+     0.87064,
+     0.99348
+    ],
+    "skillVsB0": [
+     0.10464,
+     0.12664
+    ],
+    "skillVsB1": [
+     0.08789,
+     0.11211
+    ],
+    "dLogLossB1minusModel": [
+     0.00612,
+     0.00742
+    ],
+    "prAuc": [
+     0.04786,
+     0.06012
+    ],
+    "lift": [
+     3.86005,
+     4.62473
+    ]
+   },
+   "note": "descriptive: pooled test rows of the evaluable folds (mixed models, training uncertainty not propagated); no decision role"
+  },
+  "sensitivities": {
+   "S1_embargo": {
+    "0": [
+     {
+      "k": 0,
+      "cut": "2026-07-10",
+      "states": [
+       "PASS",
+       "within",
+       "not material"
+      ]
+     },
+     {
+      "k": 1,
+      "cut": "2026-08-07",
+      "states": [
+       "PASS",
+       "indeterminate",
+       "not material"
+      ]
+     },
+     {
+      "k": 2,
+      "cut": "2026-09-04",
+      "states": [
+       "PASS",
+       "MATERIAL",
+       "not material"
+      ]
+     },
+     {
+      "k": 3,
+      "cut": "2026-10-02",
+      "states": [
+       "PASS",
+       "within",
+       "not material"
+      ]
+     }
+    ],
+    "3": [
+     {
+      "k": 0,
+      "cut": "2026-07-10",
+      "states": [
+       "PASS",
+       "within",
+       "not material"
+      ]
+     },
+     {
+      "k": 1,
+      "cut": "2026-08-07",
+      "states": [
+       "PASS",
+       "indeterminate",
+       "not material"
+      ]
+     },
+     {
+      "k": 2,
+      "cut": "2026-09-04",
+      "states": [
+       "PASS",
+       "MATERIAL",
+       "not material"
+      ]
+     },
+     {
+      "k": 3,
+      "cut": "2026-10-02",
+      "states": [
+       "PASS",
+       "within",
+       "not material"
+      ]
+     }
+    ]
+   },
+   "S2_windows": {
+    "14": [
+     {
+      "k": 0,
+      "cut": "2026-07-10",
+      "evaluable": true,
+      "states": [
+       "PASS",
+       "within",
+       "not material"
+      ],
+      "test": {
+       "nDrives": 72,
+       "nDays": 13,
+       "atRiskSeconds": 70310,
+       "events": 1253
+      }
+     },
+     {
+      "k": 1,
+      "cut": "2026-07-24",
+      "evaluable": false,
+      "states": null,
+      "test": {
+       "nDrives": 34,
+       "nDays": 8,
+       "atRiskSeconds": 44595,
+       "events": 904
+      }
+     },
+     {
+      "k": 2,
+      "cut": "2026-08-07",
+      "evaluable": true,
+      "states": [
+       "PASS",
+       "indeterminate",
+       "not material"
+      ],
+      "test": {
+       "nDrives": 47,
+       "nDays": 11,
+       "atRiskSeconds": 29683,
+       "events": 331
+      }
+     },
+     {
+      "k": 3,
+      "cut": "2026-08-21",
+      "evaluable": true,
+      "states": [
+       "PASS",
+       "indeterminate",
+       "not material"
+      ],
+      "test": {
+       "nDrives": 57,
+       "nDays": 13,
+       "atRiskSeconds": 52295,
+       "events": 534
+      }
+     },
+     {
+      "k": 4,
+      "cut": "2026-09-04",
+      "evaluable": true,
+      "states": [
+       "PASS",
+       "indeterminate",
+       "not material"
+      ],
+      "test": {
+       "nDrives": 96,
+       "nDays": 14,
+       "atRiskSeconds": 42733,
+       "events": 347
+      }
+     },
+     {
+      "k": 5,
+      "cut": "2026-09-18",
+      "evaluable": true,
+      "states": [
+       "PASS",
+       "indeterminate",
+       "MATERIAL"
+      ],
+      "test": {
+       "nDrives": 83,
+       "nDays": 14,
+       "atRiskSeconds": 35918,
+       "events": 260
+      }
+     },
+     {
+      "k": 6,
+      "cut": "2026-10-02",
+      "evaluable": true,
+      "states": [
+       "PASS",
+       "within",
+       "not material"
+      ],
+      "test": {
+       "nDrives": 107,
+       "nDays": 16,
+       "atRiskSeconds": 74778,
+       "events": 911
+      }
+     }
+    ],
+    "42": [
+     {
+      "k": 0,
+      "cut": "2026-07-10",
+      "evaluable": true,
+      "states": [
+       "PASS",
+       "within",
+       "not material"
+      ],
+      "test": {
+       "nDrives": 153,
+       "nDays": 32,
+       "atRiskSeconds": 144588,
+       "events": 2488
+      }
+     },
+     {
+      "k": 1,
+      "cut": "2026-08-21",
+      "evaluable": true,
+      "states": [
+       "PASS",
+       "MATERIAL",
+       "not material"
+      ],
+      "test": {
+       "nDrives": 236,
+       "nDays": 41,
+       "atRiskSeconds": 130946,
+       "events": 1141
+      }
+     },
+     {
+      "k": 2,
+      "cut": "2026-10-02",
+      "evaluable": true,
+      "states": [
+       "PASS",
+       "within",
+       "not material"
+      ],
+      "test": {
+       "nDrives": 107,
+       "nDays": 16,
+       "atRiskSeconds": 74778,
+       "events": 911
+      }
+     }
+    ]
+   },
+   "S5_m2221Geometry": {
+    "nRounds": 16,
+    "minTrainDays": 40,
+    "stepDays": 5,
+    "nScored": 287608,
+    "nTotal": 445178,
+    "pooled": {
+     "n": 287608,
+     "events": 3441,
+     "brier": 0.011565,
+     "logLoss": 0.057652,
+     "prAuc": 0.0535,
+     "calSlope": 0.992,
+     "calIntercept": -0.117,
+     "obsEvents": 3441,
+     "predEvents": 3750.6
+    },
+    "pooledLogLossCI": [
+     0.05096,
+     0.06403
+    ],
+    "pooledPrAucCI": [
+     0.0468,
+     0.05966
+    ],
+    "perRound": [
+     {
+      "round": 0,
+      "nTrainDays": 40,
+      "nValDays": 5,
+      "nValAtRisk": 34146,
+      "nValEvents": 712,
+      "logLoss": 0.09347,
+      "brier": 0.020007
+     },
+     {
+      "round": 1,
+      "nTrainDays": 45,
+      "nValDays": 5,
+      "nValAtRisk": 22849,
+      "nValEvents": 417,
+      "logLoss": 0.0806,
+      "brier": 0.01745
+     },
+     {
+      "round": 2,
+      "nTrainDays": 50,
+      "nValDays": 5,
+      "nValAtRisk": 6503,
+      "nValEvents": 65,
+      "logLoss": 0.045722,
+      "brier": 0.00955
+     },
+     {
+      "round": 3,
+      "nTrainDays": 55,
+      "nValDays": 5,
+      "nValAtRisk": 18386,
+      "nValEvents": 195,
+      "logLoss": 0.052896,
+      "brier": 0.010325
+     },
+     {
+      "round": 4,
+      "nTrainDays": 60,
+      "nValDays": 5,
+      "nValAtRisk": 26980,
+      "nValEvents": 252,
+      "logLoss": 0.047126,
+      "brier": 0.009092
+     },
+     {
+      "round": 5,
+      "nTrainDays": 65,
+      "nValDays": 5,
+      "nValAtRisk": 18159,
+      "nValEvents": 244,
+      "logLoss": 0.064303,
+      "brier": 0.013018
+     },
+     {
+      "round": 6,
+      "nTrainDays": 70,
+      "nValDays": 5,
+      "nValAtRisk": 13366,
+      "nValEvents": 88,
+      "logLoss": 0.036746,
+      "brier": 0.006514
+     },
+     {
+      "round": 7,
+      "nTrainDays": 75,
+      "nValDays": 5,
+      "nValAtRisk": 10467,
+      "nValEvents": 66,
+      "logLoss": 0.036977,
+      "brier": 0.006237
+     },
+     {
+      "round": 8,
+      "nTrainDays": 80,
+      "nValDays": 5,
+      "nValAtRisk": 19720,
+      "nValEvents": 186,
+      "logLoss": 0.048598,
+      "brier": 0.009208
+     },
+     {
+      "round": 9,
+      "nTrainDays": 85,
+      "nValDays": 5,
+      "nValAtRisk": 13252,
+      "nValEvents": 91,
+      "logLoss": 0.038729,
+      "brier": 0.006768
+     },
+     {
+      "round": 10,
+      "nTrainDays": 90,
+      "nValDays": 5,
+      "nValAtRisk": 10496,
+      "nValEvents": 58,
+      "logLoss": 0.033159,
+      "brier": 0.005447
+     },
+     {
+      "round": 11,
+      "nTrainDays": 95,
+      "nValDays": 5,
+      "nValAtRisk": 14866,
+      "nValEvents": 131,
+      "logLoss": 0.042441,
+      "brier": 0.008494
+     },
+     {
+      "round": 12,
+      "nTrainDays": 100,
+      "nValDays": 5,
+      "nValAtRisk": 12932,
+      "nValEvents": 78,
+      "logLoss": 0.032278,
+      "brier": 0.005986
+     },
+     {
+      "round": 13,
+      "nTrainDays": 105,
+      "nValDays": 5,
+      "nValAtRisk": 23156,
+      "nValEvents": 314,
+      "logLoss": 0.06374,
+      "brier": 0.013007
+     },
+     {
+      "round": 14,
+      "nTrainDays": 110,
+      "nValDays": 5,
+      "nValAtRisk": 26908,
+      "nValEvents": 321,
+      "logLoss": 0.059259,
+      "brier": 0.011581
+     },
+     {
+      "round": 15,
+      "nTrainDays": 115,
+      "nValDays": 2,
+      "nValAtRisk": 15422,
+      "nValEvents": 223,
+      "logLoss": 0.066283,
+      "brier": 0.013843
+     }
+    ],
+    "note": "Alongside the existing blocked-day CV above, not a replacement: this is a genuine train-on-past-only (forward-chaining) evaluation of the SAME already-selected five-variable duration-aware spec, testing temporal drift / order-dependence rather than the pseudo-replication leakage guard blocked-day CV tests. A materially worse rolling-origin result than the blocked-day result is reported as a finding, not reconciled away."
+   }
+  },
+  "verdict": {
+   "verdict": "degradation flagged at origin(s) 2 (planning thresholds; a flag for Director review, not a refit decision)",
+   "notes": [
+    "origin 1: D2 indeterminate",
+    "origin 2: D2 MATERIAL",
+    "origin 3: jackknife disagrees (D1 PASS, D2 indeterminate)"
+   ],
+   "flaggedOrigins": [
+    2
+   ],
+   "extrapolationOrigins": []
+  },
+  "trendTable": [
+   {
+    "k": 0,
+    "testStart": "2026-07-10",
+    "testEnd": "2026-08-07",
+    "skillVsB0": 0.096856,
+    "OE": 1.044731,
+    "events": 2157,
+    "nDays": 21
+   },
+   {
+    "k": 1,
+    "testStart": "2026-08-07",
+    "testEnd": "2026-09-04",
+    "skillVsB0": 0.138687,
+    "OE": 0.807413,
+    "events": 865,
+    "nDays": 24
+   },
+   {
+    "k": 2,
+    "testStart": "2026-09-04",
+    "testEnd": "2026-10-02",
+    "skillVsB0": 0.13577,
+    "OE": 0.702787,
+    "events": 607,
+    "nDays": 28
+   },
+   {
+    "k": 3,
+    "testStart": "2026-10-02",
+    "testEnd": "2026-10-18",
+    "skillVsB0": 0.113,
+    "OE": 1.068132,
+    "events": 911,
+    "nDays": 16
+   }
+  ]
+ },
+ "stop": {
+  "folds": [
+   {
+    "fold": {
+     "k": 0,
+     "cut": "2026-07-09",
+     "trainEnd": "2026-07-07",
+     "testStart": "2026-07-09",
+     "testEnd": "2026-08-06"
+    },
+    "train": {
+     "nDrives": 99,
+     "nDays": 28,
+     "atRiskSeconds": 98036,
+     "events": 1697
+    },
+    "test": {
+     "nDrives": 105,
+     "nDays": 21,
+     "atRiskSeconds": 113317,
+     "events": 2145
+    },
+    "evaluable": true,
+    "primary": {
+     "nDrives": 105,
+     "nDays": 21,
+     "atRiskSeconds": 113317,
+     "events": 2145,
+     "essDays": 10.72,
+     "point": {
+      "prevalence": 0.018929,
+      "OE": 0.810431,
+      "logLoss": 0.07807,
+      "skillVsB0": 0.168735,
+      "skillVsB1": 0.129236,
+      "dLogLossB1minusModel": 0.011587,
+      "brier": 0.017928,
+      "skillVsLaterConstant": 0.168072,
+      "prAuc": 0.088291,
+      "lift": 4.664287,
+      "calSlope": 0.870741,
+      "calIntercept": -0.590628
+     },
+     "ci95Percentile": {
+      "OE": [
+       0.75428,
+       0.87787
+      ],
+      "skillVsB0": [
+       0.13929,
+       0.19423
+      ],
+      "skillVsB1": [
+       0.10075,
+       0.15419
+      ],
+      "dLogLossB1minusModel": [
+       0.01024,
+       0.01279
+      ],
+      "prAuc": [
+       0.08362,
+       0.09639
+      ],
+      "lift": [
+       3.79395,
+       5.74071
+      ]
+     },
+     "undefinedDraws": {
+      "OE": 0,
+      "prAuc": 0
+     },
+     "bootstrapB": 4000,
+     "jackknife": {
+      "OE": {
+       "tInterval": [
+        0.73924,
+        0.87633
+       ],
+       "leaveOneDayOutRange": [
+        0.79662,
+        0.83275
+       ],
+       "df": 20
+      },
+      "skillVsB0": {
+       "tInterval": [
+        0.1363,
+        0.2027
+       ],
+       "leaveOneDayOutRange": [
+        0.16002,
+        0.17762
+       ],
+       "df": 20
+      },
+      "dLogLossB1minusModel": {
+       "tInterval": [
+        0.01021,
+        0.01297
+       ],
+       "leaveOneDayOutRange": [
+        0.01138,
+        0.01206
+       ],
+       "df": 20
+      }
+     },
+     "states": {
+      "D1": "PASS",
+      "D2": "indeterminate",
+      "D3": "not material",
+      "jackknifeD1": "PASS",
+      "jackknifeD2": "indeterminate"
+     },
+     "ci95PercentileBonferroni": {
+      "OE": [
+       0.72935,
+       0.90955
+      ],
+      "skillVsB0": [
+       0.12988,
+       0.20197
+      ],
+      "skillVsB1": [
+       0.09153,
+       0.16149
+      ],
+      "dLogLossB1minusModel": [
+       0.00961,
+       0.01334
+      ]
+     },
+     "bonferroniLevelPct": [
+      0.3125,
+      99.6875
+     ]
+    },
+    "support": {
+     "perPredictor": {
+      "soc": {
+       "basisMin": 44.0,
+       "basisMax": 82.0,
+       "basisP1": 47.5,
+       "basisP99": 73.0,
+       "basisShareOutsideP1P99": 0.017442572116365417,
+       "laterShareOutsideP1P99": 0.04265026430279658,
+       "excessPp": 2.520769218643116,
+       "laterShareBelowP1": 0.008780677215245726,
+       "laterShareAboveP99": 0.033869587087550855,
+       "laterShareOutsideMinMax": 0.004094707766707555
+      },
+      "speed": {
+       "basisMin": 0.0,
+       "basisMax": 146.0,
+       "basisP1": 0.0,
+       "basisP99": 117.0,
+       "basisShareOutsideP1P99": 0.009312905463299196,
+       "laterShareOutsideP1P99": 0.025688996355357097,
+       "excessPp": 1.6376090892057902,
+       "laterShareBelowP1": 0.0,
+       "laterShareAboveP99": 0.025688996355357097,
+       "laterShareOutsideMinMax": 0.000741283302593609
+      },
+      "tpack": {
+       "basisMin": 11.5,
+       "basisMax": 45.0,
+       "basisP1": 16.0,
+       "basisP99": 43.5,
+       "basisShareOutsideP1P99": 0.017656779142355868,
+       "laterShareOutsideP1P99": 0.024435874581925043,
+       "excessPp": 0.6779095439569175,
+       "laterShareBelowP1": 0.0013237201832028735,
+       "laterShareAboveP99": 0.02311215439872217,
+       "laterShareOutsideMinMax": 0.002523893149306812
+      },
+      "demand": {
+       "basisMin": 0.0,
+       "basisMax": 21808.3125,
+       "basisP1": 0.0,
+       "basisP99": 9616.978906249979,
+       "basisShareOutsideP1P99": 0.010006528214125423,
+       "laterShareOutsideP1P99": 0.007121614585631458,
+       "excessPp": -0.28849136284939647,
+       "laterShareBelowP1": 0.0,
+       "laterShareAboveP99": 0.007121614585631458,
+       "laterShareOutsideMinMax": 0.0
+      },
+      "durationS": {
+       "basisMin": 0.0,
+       "basisMax": 1447.0,
+       "basisP1": 0.0,
+       "basisP99": 963.0,
+       "basisShareOutsideP1P99": 0.00999632787955445,
+       "laterShareOutsideP1P99": 0.0016149386235075054,
+       "excessPp": -0.8381389256046944,
+       "laterShareBelowP1": 0.0,
+       "laterShareAboveP99": 0.0016149386235075054,
+       "laterShareOutsideMinMax": 0.0
+      }
+     },
+     "basisUnionOutsideP1P99": 0.05951895222163287,
+     "laterUnionOutsideP1P99": 0.09775232312892151
+    },
+    "supportSplit": {
+     "inSupport": {
+      "nDrives": 105,
+      "nDays": 21,
+      "atRiskSeconds": 102240,
+      "events": 1922,
+      "essDays": 10.46,
+      "point": {
+       "prevalence": 0.018799,
+       "OE": 0.881165,
+       "logLoss": 0.075463,
+       "skillVsB0": 0.191967,
+       "skillVsB1": 0.148983,
+       "dLogLossB1minusModel": 0.013211,
+       "brier": 0.017511,
+       "skillVsLaterConstant": 0.191418,
+       "prAuc": 0.101348,
+       "lift": 5.391147,
+       "calSlope": 0.957604,
+       "calIntercept": -0.258894
+      },
+      "ci95Percentile": {
+       "OE": [
+        0.8455,
+        0.93681
+       ],
+       "skillVsB0": [
+        0.16939,
+        0.20983
+       ],
+       "skillVsB1": [
+        0.12564,
+        0.16761
+       ],
+       "dLogLossB1minusModel": [
+        0.01225,
+        0.01448
+       ],
+       "prAuc": [
+        0.09739,
+        0.10832
+       ],
+       "lift": [
+        4.43553,
+        6.36077
+       ]
+      },
+      "states": {
+       "D1": "PASS",
+       "D2": "within",
+       "D3": "not material",
+       "jackknifeD1": "PASS",
+       "jackknifeD2": "within"
+      },
+      "share": 0.90225
+     },
+     "outOfSupport": {
+      "nDrives": 71,
+      "nDays": 20,
+      "atRiskSeconds": 11077,
+      "events": 223,
+      "essDays": 8.76,
+      "point": {
+       "prevalence": 0.020132,
+       "OE": 0.479017,
+       "logLoss": 0.102133,
+       "skillVsB0": -0.034005,
+       "skillVsB1": -0.034464,
+       "dLogLossB1minusModel": -0.003403,
+       "brier": 0.021779,
+       "skillVsLaterConstant": -0.036339,
+       "prAuc": 0.057424,
+       "lift": 2.852379,
+       "calSlope": 0.469051,
+       "calIntercept": -2.090262
+      },
+      "ci95Percentile": {
+       "OE": [
+        0.37779,
+        0.63735
+       ],
+       "skillVsB0": [
+        -0.13582,
+        0.0561
+       ],
+       "skillVsB1": [
+        -0.07973,
+        0.02005
+       ],
+       "dLogLossB1minusModel": [
+        -0.00926,
+        0.00167
+       ],
+       "prAuc": [
+        0.04526,
+        0.08182
+       ],
+       "lift": [
+        2.13077,
+        4.62952
+       ]
+      },
+      "states": {
+       "D1": "FAIL",
+       "D2": "MATERIAL",
+       "D3": "not material",
+       "jackknifeD1": "FAIL",
+       "jackknifeD2": "MATERIAL"
+      },
+      "share": 0.09775
+     }
+    },
+    "OEbyPackTemperatureBand": [
+     {
+      "band": "< 10 C",
+      "atRiskSeconds": 0,
+      "events": 0,
+      "expected": 0.0,
+      "OE": null
+     },
+     {
+      "band": "10 to < 20 C",
+      "atRiskSeconds": 1848,
+      "events": 23,
+      "expected": 17.04,
+      "OE": 1.3495
+     },
+     {
+      "band": "20 to < 30 C",
+      "atRiskSeconds": 14892,
+      "events": 246,
+      "expected": 317.48,
+      "OE": 0.7748
+     },
+     {
+      "band": "30 to < 40 C",
+      "atRiskSeconds": 70041,
+      "events": 1296,
+      "expected": 1552.79,
+      "OE": 0.8346
+     },
+     {
+      "band": ">= 40 C",
+      "atRiskSeconds": 26536,
+      "events": 580,
+      "expected": 759.43,
+      "OE": 0.7637
+     }
+    ],
+    "perDrive": {
+     "minEvents": 3,
+     "nDrivesEligible": 90,
+     "medianSkillVsB0": 0.170482,
+     "shareSkillAbove0": 0.8889
+    }
+   },
+   {
+    "fold": {
+     "k": 1,
+     "cut": "2026-08-06",
+     "trainEnd": "2026-08-04",
+     "testStart": "2026-08-06",
+     "testEnd": "2026-09-03"
+    },
+    "train": {
+     "nDrives": 204,
+     "nDays": 49,
+     "atRiskSeconds": 211353,
+     "events": 3842
+    },
+    "test": {
+     "nDrives": 98,
+     "nDays": 24,
+     "atRiskSeconds": 49212,
+     "events": 888
+    },
+    "evaluable": true,
+    "primary": {
+     "nDrives": 98,
+     "nDays": 24,
+     "atRiskSeconds": 49212,
+     "events": 888,
+     "essDays": 11.08,
+     "point": {
+      "prevalence": 0.018044,
+      "OE": 0.860229,
+      "logLoss": 0.073285,
+      "skillVsB0": 0.188681,
+      "skillVsB1": 0.1474,
+      "dLogLossB1minusModel": 0.01267,
+      "brier": 0.016811,
+      "skillVsLaterConstant": 0.188677,
+      "prAuc": 0.102808,
+      "lift": 5.697531,
+      "calSlope": 1.112674,
+      "calIntercept": 0.172159
+     },
+     "ci95Percentile": {
+      "OE": [
+       0.79191,
+       0.94862
+      ],
+      "skillVsB0": [
+       0.1653,
+       0.21093
+      ],
+      "skillVsB1": [
+       0.12601,
+       0.16618
+      ],
+      "dLogLossB1minusModel": [
+       0.0111,
+       0.01491
+      ],
+      "prAuc": [
+       0.09068,
+       0.12335
+      ],
+      "lift": [
+       4.7269,
+       6.9886
+      ]
+     },
+     "undefinedDraws": {
+      "OE": 0,
+      "prAuc": 0
+     },
+     "bootstrapB": 4000,
+     "jackknife": {
+      "OE": {
+       "tInterval": [
+        0.77487,
+        0.94035
+       ],
+       "leaveOneDayOutRange": [
+        0.84189,
+        0.88342
+       ],
+       "df": 23
+      },
+      "skillVsB0": {
+       "tInterval": [
+        0.16207,
+        0.21759
+       ],
+       "leaveOneDayOutRange": [
+        0.17818,
+        0.19217
+       ],
+       "df": 23
+      },
+      "dLogLossB1minusModel": {
+       "tInterval": [
+        0.01042,
+        0.01467
+       ],
+       "leaveOneDayOutRange": [
+        0.01227,
+        0.0133
+       ],
+       "df": 23
+      }
+     },
+     "states": {
+      "D1": "PASS",
+      "D2": "indeterminate",
+      "D3": "not material",
+      "jackknifeD1": "PASS",
+      "jackknifeD2": "indeterminate"
+     },
+     "ci95PercentileBonferroni": {
+      "OE": [
+       0.76518,
+       0.99446
+      ],
+      "skillVsB0": [
+       0.157,
+       0.21885
+      ],
+      "skillVsB1": [
+       0.11736,
+       0.17298
+      ],
+      "dLogLossB1minusModel": [
+       0.01051,
+       0.01602
+      ]
+     },
+     "bonferroniLevelPct": [
+      0.3125,
+      99.6875
+     ]
+    },
+    "support": {
+     "perPredictor": {
+      "soc": {
+       "basisMin": 43.5,
+       "basisMax": 88.0,
+       "basisP1": 47.5,
+       "basisP99": 79.5,
+       "basisShareOutsideP1P99": 0.01655524170463632,
+       "laterShareOutsideP1P99": 0.015280825814841909,
+       "excessPp": -0.1274415889794411,
+       "laterShareBelowP1": 0.014224172965943267,
+       "laterShareAboveP99": 0.0010566528488986425,
+       "laterShareOutsideMinMax": 0.0
+      },
+      "speed": {
+       "basisMin": 0.0,
+       "basisMax": 170.0,
+       "basisP1": 0.0,
+       "basisP99": 125.0,
+       "basisShareOutsideP1P99": 0.009462841786016758,
+       "laterShareOutsideP1P99": 0.009794359099406649,
+       "excessPp": 0.033151731338989035,
+       "laterShareBelowP1": 0.0,
+       "laterShareAboveP99": 0.009794359099406649,
+       "laterShareOutsideMinMax": 0.0
+      },
+      "tpack": {
+       "basisMin": 11.5,
+       "basisMax": 45.75,
+       "basisP1": 17.5,
+       "basisP99": 44.0,
+       "basisShareOutsideP1P99": 0.01821123901718925,
+       "laterShareOutsideP1P99": 0.005913191904413558,
+       "excessPp": -1.2298047112775692,
+       "laterShareBelowP1": 0.005913191904413558,
+       "laterShareAboveP99": 0.0,
+       "laterShareOutsideMinMax": 0.0
+      },
+      "demand": {
+       "basisMin": 0.0,
+       "basisMax": 21808.3125,
+       "basisP1": 0.0,
+       "basisP99": 9314.291250000002,
+       "basisShareOutsideP1P99": 0.010002223767819713,
+       "laterShareOutsideP1P99": 0.005039421279362757,
+       "excessPp": -0.4962802488456956,
+       "laterShareBelowP1": 0.0,
+       "laterShareAboveP99": 0.005039421279362757,
+       "laterShareOutsideMinMax": 0.0
+      },
+      "durationS": {
+       "basisMin": 0.0,
+       "basisMax": 1447.0,
+       "basisP1": 0.0,
+       "basisP99": 797.0,
+       "basisShareOutsideP1P99": 0.00998329808424768,
+       "laterShareOutsideP1P99": 0.015219865073559295,
+       "excessPp": 0.5236566989311615,
+       "laterShareBelowP1": 0.0,
+       "laterShareAboveP99": 0.015219865073559295,
+       "laterShareOutsideMinMax": 0.0
+      }
+     },
+     "basisUnionOutsideP1P99": 0.061494277346429906,
+     "laterUnionOutsideP1P99": 0.0474680972120621
+    },
+    "supportSplit": {
+     "inSupport": {
+      "nDrives": 96,
+      "nDays": 24,
+      "atRiskSeconds": 46876,
+      "events": 877,
+      "essDays": 11.29,
+      "point": {
+       "prevalence": 0.018709,
+       "OE": 0.859545,
+       "logLoss": 0.075626,
+       "skillVsB0": 0.186636,
+       "skillVsB1": 0.148442,
+       "dLogLossB1minusModel": 0.013183,
+       "brier": 0.017422,
+       "skillVsLaterConstant": 0.186567,
+       "prAuc": 0.10338,
+       "lift": 5.525713,
+       "calSlope": 1.124078,
+       "calIntercept": 0.202902
+      },
+      "ci95Percentile": {
+       "OE": [
+        0.79115,
+        0.94331
+       ],
+       "skillVsB0": [
+        0.16048,
+        0.20889
+       ],
+       "skillVsB1": [
+        0.12457,
+        0.16845
+       ],
+       "dLogLossB1minusModel": [
+        0.01165,
+        0.01524
+       ],
+       "prAuc": [
+        0.09043,
+        0.12541
+       ],
+       "lift": [
+        4.55629,
+        6.69423
+       ]
+      },
+      "states": {
+       "D1": "PASS",
+       "D2": "indeterminate",
+       "D3": "not material",
+       "jackknifeD1": "PASS",
+       "jackknifeD2": "indeterminate"
+      },
+      "share": 0.95253
+     },
+     "outOfSupport": {
+      "nDrives": 46,
+      "nDays": 22,
+      "atRiskSeconds": 2336,
+      "events": 11,
+      "essDays": 6.46,
+      "point": {
+       "prevalence": 0.004709,
+       "OE": 0.918509,
+       "logLoss": 0.026308,
+       "skillVsB0": 0.291462,
+       "skillVsB1": 0.082612,
+       "dLogLossB1minusModel": 0.002369,
+       "brier": 0.004563,
+       "skillVsLaterConstant": 0.121,
+       "prAuc": 0.131291,
+       "lift": 27.881447,
+       "calSlope": 0.773513,
+       "calIntercept": -1.052802
+      },
+      "ci95Percentile": {
+       "OE": [
+        0.61413,
+        1.54613
+       ],
+       "skillVsB0": [
+        0.15613,
+        0.55877
+       ],
+       "skillVsB1": [
+        -0.08395,
+        0.35305
+       ],
+       "dLogLossB1minusModel": [
+        -0.00231,
+        0.00975
+       ],
+       "prAuc": [
+        0.01693,
+        0.48452
+       ],
+       "lift": [
+        4.96789,
+        137.30259
+       ]
+      },
+      "states": {
+       "D1": "PASS",
+       "D2": "indeterminate",
+       "D3": "not material",
+       "jackknifeD1": "PASS",
+       "jackknifeD2": "indeterminate"
+      },
+      "share": 0.04747
+     }
+    },
+    "OEbyPackTemperatureBand": [
+     {
+      "band": "< 10 C",
+      "atRiskSeconds": 0,
+      "events": 0,
+      "expected": 0.0,
+      "OE": null
+     },
+     {
+      "band": "10 to < 20 C",
+      "atRiskSeconds": 1297,
+      "events": 13,
+      "expected": 14.99,
+      "OE": 0.8671
+     },
+     {
+      "band": "20 to < 30 C",
+      "atRiskSeconds": 13993,
+      "events": 262,
+      "expected": 297.5,
+      "OE": 0.8807
+     },
+     {
+      "band": "30 to < 40 C",
+      "atRiskSeconds": 32924,
+      "events": 592,
+      "expected": 681.35,
+      "OE": 0.8689
+     },
+     {
+      "band": ">= 40 C",
+      "atRiskSeconds": 998,
+      "events": 21,
+      "expected": 38.43,
+      "OE": 0.5464
+     }
+    ],
+    "perDrive": {
+     "minEvents": 3,
+     "nDrivesEligible": 67,
+     "medianSkillVsB0": 0.190809,
+     "shareSkillAbove0": 0.9851
+    }
+   },
+   {
+    "fold": {
+     "k": 2,
+     "cut": "2026-09-03",
+     "trainEnd": "2026-09-01",
+     "testStart": "2026-09-03",
+     "testEnd": "2026-10-01"
+    },
+    "train": {
+     "nDrives": 296,
+     "nDays": 72,
+     "atRiskSeconds": 259529,
+     "events": 4711
+    },
+    "test": {
+     "nDrives": 162,
+     "nDays": 28,
+     "atRiskSeconds": 32998,
+     "events": 576
+    },
+    "evaluable": true,
+    "primary": {
+     "nDrives": 162,
+     "nDays": 28,
+     "atRiskSeconds": 32998,
+     "events": 576,
+     "essDays": 15.72,
+     "point": {
+      "prevalence": 0.017456,
+      "OE": 0.679904,
+      "logLoss": 0.08166,
+      "skillVsB0": 0.071814,
+      "skillVsB1": 0.059548,
+      "dLogLossB1minusModel": 0.005171,
+      "brier": 0.017243,
+      "skillVsLaterConstant": 0.071669,
+      "prAuc": 0.049461,
+      "lift": 2.833511,
+      "calSlope": 0.703036,
+      "calIntercept": -1.299871
+     },
+     "ci95Percentile": {
+      "OE": [
+       0.50601,
+       0.8409
+      ],
+      "skillVsB0": [
+       -0.00185,
+       0.11891
+      ],
+      "skillVsB1": [
+       -0.00274,
+       0.10079
+      ],
+      "dLogLossB1minusModel": [
+       -0.00024,
+       0.00901
+      ],
+      "prAuc": [
+       0.03636,
+       0.06605
+      ],
+      "lift": [
+       2.25213,
+       3.65363
+      ]
+     },
+     "undefinedDraws": {
+      "OE": 0,
+      "prAuc": 0
+     },
+     "bootstrapB": 4000,
+     "jackknife": {
+      "OE": {
+       "tInterval": [
+        0.48984,
+        0.87486
+       ],
+       "leaveOneDayOutRange": [
+        0.62569,
+        0.71581
+       ],
+       "df": 27
+      },
+      "skillVsB0": {
+       "tInterval": [
+        0.011,
+        0.14075
+       ],
+       "leaveOneDayOutRange": [
+        0.0526,
+        0.08366
+       ],
+       "df": 27
+      },
+      "dLogLossB1minusModel": {
+       "tInterval": [
+        0.00021,
+        0.01073
+       ],
+       "leaveOneDayOutRange": [
+        0.00353,
+        0.00597
+       ],
+       "df": 27
+      }
+     },
+     "states": {
+      "D1": "FAIL",
+      "D2": "indeterminate",
+      "D3": "MATERIAL",
+      "jackknifeD1": "PASS",
+      "jackknifeD2": "indeterminate"
+     },
+     "ci95PercentileBonferroni": {
+      "OE": [
+       0.44471,
+       0.89776
+      ],
+      "skillVsB0": [
+       -0.04312,
+       0.13208
+      ],
+      "skillVsB1": [
+       -0.04035,
+       0.1152
+      ],
+      "dLogLossB1minusModel": [
+       -0.0031,
+       0.01038
+      ]
+     },
+     "bonferroniLevelPct": [
+      0.3125,
+      99.6875
+     ]
+    },
+    "support": {
+     "perPredictor": {
+      "soc": {
+       "basisMin": 43.5,
+       "basisMax": 88.0,
+       "basisP1": 47.5,
+       "basisP99": 79.0,
+       "basisShareOutsideP1P99": 0.0187724685873255,
+       "laterShareOutsideP1P99": 0.04591187344687557,
+       "excessPp": 2.713940485955007,
+       "laterShareBelowP1": 0.024971210376386447,
+       "laterShareAboveP99": 0.02094066307048912,
+       "laterShareOutsideMinMax": 0.0012121946784653616
+      },
+      "speed": {
+       "basisMin": 0.0,
+       "basisMax": 170.0,
+       "basisP1": 0.0,
+       "basisP99": 125.0,
+       "basisShareOutsideP1P99": 0.009563478455201538,
+       "laterShareOutsideP1P99": 0.0010000606097339232,
+       "excessPp": -0.8563417845467615,
+       "laterShareBelowP1": 0.0,
+       "laterShareAboveP99": 0.0010000606097339232,
+       "laterShareOutsideMinMax": 0.0
+      },
+      "tpack": {
+       "basisMin": 11.5,
+       "basisMax": 45.75,
+       "basisP1": 17.75,
+       "basisP99": 44.0,
+       "basisShareOutsideP1P99": 0.01668021685437851,
+       "laterShareOutsideP1P99": 0.1429783623249894,
+       "excessPp": 12.629814547061088,
+       "laterShareBelowP1": 0.1429783623249894,
+       "laterShareAboveP99": 0.0,
+       "laterShareOutsideMinMax": 0.0
+      },
+      "demand": {
+       "basisMin": 0.0,
+       "basisMax": 21808.3125,
+       "basisP1": 0.0,
+       "basisP99": 9087.0,
+       "basisShareOutsideP1P99": 0.009991176323262525,
+       "laterShareOutsideP1P99": 0.0027274380265470636,
+       "excessPp": -0.7263738296715462,
+       "laterShareBelowP1": 0.0,
+       "laterShareAboveP99": 0.0027274380265470636,
+       "laterShareOutsideMinMax": 0.0
+      },
+      "durationS": {
+       "basisMin": 0.0,
+       "basisMax": 1447.0,
+       "basisP1": 0.0,
+       "basisP99": 827.0,
+       "basisShareOutsideP1P99": 0.009975763787476544,
+       "laterShareOutsideP1P99": 0.0,
+       "excessPp": -0.9975763787476545,
+       "laterShareBelowP1": 0.0,
+       "laterShareAboveP99": 0.0,
+       "laterShareOutsideMinMax": 0.0
+      }
+     },
+     "basisUnionOutsideP1P99": 0.061673261947605085,
+     "laterUnionOutsideP1P99": 0.17652585005151827
+    },
+    "supportSplit": {
+     "inSupport": {
+      "nDrives": 139,
+      "nDays": 28,
+      "atRiskSeconds": 27173,
+      "events": 528,
+      "essDays": 13.14,
+      "point": {
+       "prevalence": 0.019431,
+       "OE": 0.804765,
+       "logLoss": 0.086194,
+       "skillVsB0": 0.100848,
+       "skillVsB1": 0.087487,
+       "dLogLossB1minusModel": 0.008264,
+       "brier": 0.01885,
+       "skillVsLaterConstant": 0.100427,
+       "prAuc": 0.059111,
+       "lift": 3.042089,
+       "calSlope": 0.750221,
+       "calIntercept": -0.987453
+      },
+      "ci95Percentile": {
+       "OE": [
+        0.62206,
+        0.96523
+       ],
+       "skillVsB0": [
+        0.04482,
+        0.13837
+       ],
+       "skillVsB1": [
+        0.03465,
+        0.12461
+       ],
+       "dLogLossB1minusModel": [
+        0.00318,
+        0.01191
+       ],
+       "prAuc": [
+        0.04549,
+        0.0761
+       ],
+       "lift": [
+        2.39557,
+        3.89471
+       ]
+      },
+      "states": {
+       "D1": "PASS",
+       "D2": "indeterminate",
+       "D3": "not material",
+       "jackknifeD1": "PASS",
+       "jackknifeD2": "indeterminate"
+      },
+      "share": 0.82347
+     },
+     "outOfSupport": {
+      "nDrives": 69,
+      "nDays": 27,
+      "atRiskSeconds": 5825,
+      "events": 48,
+      "essDays": 12.71,
+      "point": {
+       "prevalence": 0.00824,
+       "OE": 0.251196,
+       "logLoss": 0.06051,
+       "skillVsB0": -0.181757,
+       "skillVsB1": -0.180658,
+       "dLogLossB1minusModel": -0.009259,
+       "brier": 0.00975,
+       "skillVsLaterConstant": -0.267237,
+       "prAuc": 0.016139,
+       "lift": 1.958518,
+       "calSlope": 0.489279,
+       "calIntercept": -2.92453
+      },
+      "ci95Percentile": {
+       "OE": [
+        0.15953,
+        0.42833
+       ],
+       "skillVsB0": [
+        -0.40584,
+        0.02275
+       ],
+       "skillVsB1": [
+        -0.32282,
+        -0.05166
+       ],
+       "dLogLossB1minusModel": [
+        -0.01497,
+        -0.00286
+       ],
+       "prAuc": [
+        0.00914,
+        0.07321
+       ],
+       "lift": [
+        1.38186,
+        8.14436
+       ]
+      },
+      "states": {
+       "D1": "FAIL",
+       "D2": "MATERIAL",
+       "D3": "not material",
+       "jackknifeD1": "FAIL",
+       "jackknifeD2": "MATERIAL"
+      },
+      "share": 0.17653
+     }
+    },
+    "OEbyPackTemperatureBand": [
+     {
+      "band": "< 10 C",
+      "atRiskSeconds": 0,
+      "events": 0,
+      "expected": 0.0,
+      "OE": null
+     },
+     {
+      "band": "10 to < 20 C",
+      "atRiskSeconds": 8816,
+      "events": 78,
+      "expected": 281.7,
+      "OE": 0.2769
+     },
+     {
+      "band": "20 to < 30 C",
+      "atRiskSeconds": 12775,
+      "events": 246,
+      "expected": 348.02,
+      "OE": 0.7069
+     },
+     {
+      "band": "30 to < 40 C",
+      "atRiskSeconds": 11407,
+      "events": 252,
+      "expected": 217.46,
+      "OE": 1.1588
+     },
+     {
+      "band": ">= 40 C",
+      "atRiskSeconds": 0,
+      "events": 0,
+      "expected": 0.0,
+      "OE": null
+     }
+    ],
+    "perDrive": {
+     "minEvents": 3,
+     "nDrivesEligible": 59,
+     "medianSkillVsB0": 0.145066,
+     "shareSkillAbove0": 0.8136
+    }
+   },
+   {
+    "fold": {
+     "k": 3,
+     "cut": "2026-10-01",
+     "trainEnd": "2026-09-29",
+     "testStart": "2026-10-01",
+     "testEnd": "2026-10-18"
+    },
+    "train": {
+     "nDrives": 458,
+     "nDays": 100,
+     "atRiskSeconds": 292622,
+     "events": 5293
+    },
+    "test": {
+     "nDrives": 102,
+     "nDays": 17,
+     "atRiskSeconds": 61152,
+     "events": 922
+    },
+    "evaluable": true,
+    "primary": {
+     "nDrives": 102,
+     "nDays": 17,
+     "atRiskSeconds": 61152,
+     "events": 922,
+     "essDays": 7.43,
+     "point": {
+      "prevalence": 0.015077,
+      "OE": 0.929742,
+      "logLoss": 0.065718,
+      "skillVsB0": 0.16257,
+      "skillVsB1": 0.128567,
+      "dLogLossB1minusModel": 0.009696,
+      "brier": 0.014278,
+      "skillVsLaterConstant": 0.159675,
+      "prAuc": 0.080683,
+      "lift": 5.351314,
+      "calSlope": 0.982,
+      "calIntercept": -0.136234
+     },
+     "ci95Percentile": {
+      "OE": [
+       0.85033,
+       0.98766
+      ],
+      "skillVsB0": [
+       0.09645,
+       0.20152
+      ],
+      "skillVsB1": [
+       0.08526,
+       0.15391
+      ],
+      "dLogLossB1minusModel": [
+       0.00757,
+       0.01061
+      ],
+      "prAuc": [
+       0.06702,
+       0.09248
+      ],
+      "lift": [
+       3.84474,
+       6.84691
+      ]
+     },
+     "undefinedDraws": {
+      "OE": 0,
+      "prAuc": 0
+     },
+     "bootstrapB": 4000,
+     "jackknife": {
+      "OE": {
+       "tInterval": [
+        0.85754,
+        1.00827
+       ],
+       "leaveOneDayOutRange": [
+        0.91079,
+        0.94591
+       ],
+       "df": 16
+      },
+      "skillVsB0": {
+       "tInterval": [
+        0.10898,
+        0.22591
+       ],
+       "leaveOneDayOutRange": [
+        0.14199,
+        0.16897
+       ],
+       "df": 16
+      },
+      "dLogLossB1minusModel": {
+       "tInterval": [
+        0.00836,
+        0.01137
+       ],
+       "leaveOneDayOutRange": [
+        0.00919,
+        0.00987
+       ],
+       "df": 16
+      }
+     },
+     "states": {
+      "D1": "PASS",
+      "D2": "within",
+      "D3": "not material",
+      "jackknifeD1": "PASS",
+      "jackknifeD2": "within"
+     },
+     "ci95PercentileBonferroni": {
+      "OE": [
+       0.8164,
+       1.00537
+      ],
+      "skillVsB0": [
+       0.08536,
+       0.21225
+      ],
+      "skillVsB1": [
+       0.07054,
+       0.16208
+      ],
+      "dLogLossB1minusModel": [
+       0.00617,
+       0.01091
+      ]
+     },
+     "bonferroniLevelPct": [
+      0.3125,
+      99.6875
+     ]
+    },
+    "support": {
+     "perPredictor": {
+      "soc": {
+       "basisMin": 42.5,
+       "basisMax": 88.0,
+       "basisP1": 47.0,
+       "basisP99": 79.5,
+       "basisShareOutsideP1P99": 0.014694725618716296,
+       "laterShareOutsideP1P99": 0.014864599686028258,
+       "excessPp": 0.016987406731196197,
+       "laterShareBelowP1": 0.005559916274201988,
+       "laterShareAboveP99": 0.009304683411826269,
+       "laterShareOutsideMinMax": 0.0
+      },
+      "speed": {
+       "basisMin": 0.0,
+       "basisMax": 170.0,
+       "basisP1": 0.0,
+       "basisP99": 123.0,
+       "basisShareOutsideP1P99": 0.009811292384031277,
+       "laterShareOutsideP1P99": 0.001389979068550497,
+       "excessPp": -0.8421313315480781,
+       "laterShareBelowP1": 0.0,
+       "laterShareAboveP99": 0.001389979068550497,
+       "laterShareOutsideMinMax": 0.0
+      },
+      "tpack": {
+       "basisMin": 11.5,
+       "basisMax": 45.75,
+       "basisP1": 15.5,
+       "basisP99": 43.75,
+       "basisShareOutsideP1P99": 0.01876140549924476,
+       "laterShareOutsideP1P99": 0.08050431711145997,
+       "excessPp": 6.174291161221522,
+       "laterShareBelowP1": 0.08050431711145997,
+       "laterShareAboveP99": 0.0,
+       "laterShareOutsideMinMax": 0.015338827838827838
+      },
+      "demand": {
+       "basisMin": 0.0,
+       "basisMax": 21808.3125,
+       "basisP1": 0.0,
+       "basisP99": 8897.61093749997,
+       "basisShareOutsideP1P99": 0.010002665554879674,
+       "laterShareOutsideP1P99": 0.0033195970695970695,
+       "excessPp": -0.6683068485282604,
+       "laterShareBelowP1": 0.0,
+       "laterShareAboveP99": 0.0033195970695970695,
+       "laterShareOutsideMinMax": 4.905808477237049e-05
+      },
+      "durationS": {
+       "basisMin": 0.0,
+       "basisMax": 1447.0,
+       "basisP1": 0.0,
+       "basisP99": 790.0,
+       "basisShareOutsideP1P99": 0.009985578664625353,
+       "laterShareOutsideP1P99": 0.023139063317634746,
+       "excessPp": 1.3153484653009393,
+       "laterShareBelowP1": 0.0,
+       "laterShareAboveP99": 0.023139063317634746,
+       "laterShareOutsideMinMax": 0.010400313971742544
+      }
+     },
+     "basisUnionOutsideP1P99": 0.059889550341396064,
+     "laterUnionOutsideP1P99": 0.11492673992673992
+    },
+    "supportSplit": {
+     "inSupport": {
+      "nDrives": 92,
+      "nDays": 17,
+      "atRiskSeconds": 54124,
+      "events": 890,
+      "essDays": 6.71,
+      "point": {
+       "prevalence": 0.016444,
+       "OE": 0.963997,
+       "logLoss": 0.070289,
+       "skillVsB0": 0.162565,
+       "skillVsB1": 0.126483,
+       "dLogLossB1minusModel": 0.010178,
+       "brier": 0.015544,
+       "skillVsLaterConstant": 0.161781,
+       "prAuc": 0.08269,
+       "lift": 5.02868,
+       "calSlope": 0.9691,
+       "calIntercept": -0.138906
+      },
+      "ci95Percentile": {
+       "OE": [
+        0.89304,
+        1.02741
+       ],
+       "skillVsB0": [
+        0.10571,
+        0.19815
+       ],
+       "skillVsB1": [
+        0.08762,
+        0.15068
+       ],
+       "dLogLossB1minusModel": [
+        0.0085,
+        0.01105
+       ],
+       "prAuc": [
+        0.07137,
+        0.09388
+       ],
+       "lift": [
+        3.59009,
+        6.46668
+       ]
+      },
+      "states": {
+       "D1": "PASS",
+       "D2": "within",
+       "D3": "not material",
+       "jackknifeD1": "PASS",
+       "jackknifeD2": "within"
+      },
+      "share": 0.88507
+     },
+     "outOfSupport": {
+      "nDrives": 42,
+      "nDays": 17,
+      "atRiskSeconds": 7028,
+      "events": 32,
+      "essDays": 7.57,
+      "point": {
+       "prevalence": 0.004553,
+       "OE": 0.467607,
+       "logLoss": 0.030513,
+       "skillVsB0": 0.162664,
+       "skillVsB1": 0.163943,
+       "dLogLossB1minusModel": 0.005983,
+       "brier": 0.004529,
+       "skillVsLaterConstant": -0.048789,
+       "prAuc": 0.136841,
+       "lift": 30.053665,
+       "calSlope": 0.609485,
+       "calIntercept": -2.400645
+      },
+      "ci95Percentile": {
+       "OE": [
+        0.32979,
+        0.66077
+       ],
+       "skillVsB0": [
+        -0.06764,
+        0.38011
+       ],
+       "skillVsB1": [
+        -0.10566,
+        0.30245
+       ],
+       "dLogLossB1minusModel": [
+        -0.00364,
+        0.01072
+       ],
+       "prAuc": [
+        0.01988,
+        0.39533
+       ],
+       "lift": [
+        3.68154,
+        126.03721
+       ]
+      },
+      "states": {
+       "D1": "FAIL",
+       "D2": "MATERIAL",
+       "D3": "not material",
+       "jackknifeD1": "FAIL",
+       "jackknifeD2": "MATERIAL"
+      },
+      "share": 0.11493
+     }
+    },
+    "OEbyPackTemperatureBand": [
+     {
+      "band": "< 10 C",
+      "atRiskSeconds": 333,
+      "events": 0,
+      "expected": 3.89,
+      "OE": null
+     },
+     {
+      "band": "10 to < 20 C",
+      "atRiskSeconds": 10955,
+      "events": 106,
+      "expected": 180.31,
+      "OE": 0.5879
+     },
+     {
+      "band": "20 to < 30 C",
+      "atRiskSeconds": 15197,
+      "events": 299,
+      "expected": 248.53,
+      "OE": 1.2031
+     },
+     {
+      "band": "30 to < 40 C",
+      "atRiskSeconds": 34667,
+      "events": 517,
+      "expected": 558.95,
+      "OE": 0.925
+     },
+     {
+      "band": ">= 40 C",
+      "atRiskSeconds": 0,
+      "events": 0,
+      "expected": 0.0,
+      "OE": null
+     }
+    ],
+    "perDrive": {
+     "minEvents": 3,
+     "nDrivesEligible": 59,
+     "medianSkillVsB0": 0.138323,
+     "shareSkillAbove0": 0.8983
+    }
+   }
+  ],
+  "pooled": {
+   "nDrives": 467,
+   "nDays": 90,
+   "events": 4531,
+   "point": {
+    "prevalence": 0.017652,
+    "OE": 0.82115,
+    "logLoss": 0.074671,
+    "skillVsB0": 0.158981,
+    "skillVsB1": 0.123477,
+    "dLogLossB1minusModel": 0.010519,
+    "brier": 0.016757,
+    "skillVsLaterConstant": 0.158695,
+    "prAuc": 0.082096,
+    "lift": 4.650676,
+    "calSlope": 0.903262,
+    "calIntercept": -0.497488
+   },
+   "ci95Percentile": {
+    "OE": [
+     0.77328,
+     0.86954
+    ],
+    "skillVsB0": [
+     0.13778,
+     0.1771
+    ],
+    "skillVsB1": [
+     0.10591,
+     0.13873
+    ],
+    "dLogLossB1minusModel": [
+     0.00944,
+     0.01138
+    ],
+    "prAuc": [
+     0.07658,
+     0.08786
+    ],
+    "lift": [
+     4.06685,
+     5.28195
+    ]
+   },
+   "note": "descriptive: pooled test rows of the evaluable folds (mixed models, training uncertainty not propagated); no decision role"
+  },
+  "sensitivities": {
+   "S1_embargo": {
+    "0": [
+     {
+      "k": 0,
+      "cut": "2026-07-09",
+      "states": [
+       "PASS",
+       "indeterminate",
+       "not material"
+      ]
+     },
+     {
+      "k": 1,
+      "cut": "2026-08-06",
+      "states": [
+       "PASS",
+       "indeterminate",
+       "not material"
+      ]
+     },
+     {
+      "k": 2,
+      "cut": "2026-09-03",
+      "states": [
+       "PASS",
+       "indeterminate",
+       "MATERIAL"
+      ]
+     },
+     {
+      "k": 3,
+      "cut": "2026-10-01",
+      "states": [
+       "PASS",
+       "within",
+       "not material"
+      ]
+     }
+    ],
+    "3": [
+     {
+      "k": 0,
+      "cut": "2026-07-09",
+      "states": [
+       "PASS",
+       "indeterminate",
+       "not material"
+      ]
+     },
+     {
+      "k": 1,
+      "cut": "2026-08-06",
+      "states": [
+       "PASS",
+       "indeterminate",
+       "not material"
+      ]
+     },
+     {
+      "k": 2,
+      "cut": "2026-09-03",
+      "states": [
+       "PASS",
+       "indeterminate",
+       "MATERIAL"
+      ]
+     },
+     {
+      "k": 3,
+      "cut": "2026-10-01",
+      "states": [
+       "PASS",
+       "within",
+       "not material"
+      ]
+     }
+    ]
+   },
+   "S2_windows": {
+    "14": [
+     {
+      "k": 0,
+      "cut": "2026-07-09",
+      "evaluable": true,
+      "states": [
+       "PASS",
+       "indeterminate",
+       "not material"
+      ],
+      "test": {
+       "nDrives": 65,
+       "nDays": 13,
+       "atRiskSeconds": 59204,
+       "events": 1123
+      }
+     },
+     {
+      "k": 1,
+      "cut": "2026-07-23",
+      "evaluable": false,
+      "states": null,
+      "test": {
+       "nDrives": 40,
+       "nDays": 8,
+       "atRiskSeconds": 54113,
+       "events": 1022
+      }
+     },
+     {
+      "k": 2,
+      "cut": "2026-08-06",
+      "evaluable": true,
+      "states": [
+       "PASS",
+       "indeterminate",
+       "not material"
+      ],
+      "test": {
+       "nDrives": 42,
+       "nDays": 11,
+       "atRiskSeconds": 15373,
+       "events": 302
+      }
+     },
+     {
+      "k": 3,
+      "cut": "2026-08-20",
+      "evaluable": true,
+      "states": [
+       "PASS",
+       "indeterminate",
+       "not material"
+      ],
+      "test": {
+       "nDrives": 56,
+       "nDays": 13,
+       "atRiskSeconds": 33839,
+       "events": 586
+      }
+     },
+     {
+      "k": 4,
+      "cut": "2026-09-03",
+      "evaluable": true,
+      "states": [
+       "PASS",
+       "indeterminate",
+       "not material"
+      ],
+      "test": {
+       "nDrives": 88,
+       "nDays": 14,
+       "atRiskSeconds": 18487,
+       "events": 334
+      }
+     },
+     {
+      "k": 5,
+      "cut": "2026-09-17",
+      "evaluable": true,
+      "states": [
+       "PASS",
+       "indeterminate",
+       "MATERIAL"
+      ],
+      "test": {
+       "nDrives": 74,
+       "nDays": 14,
+       "atRiskSeconds": 14511,
+       "events": 242
+      }
+     },
+     {
+      "k": 6,
+      "cut": "2026-10-01",
+      "evaluable": true,
+      "states": [
+       "PASS",
+       "within",
+       "not material"
+      ],
+      "test": {
+       "nDrives": 102,
+       "nDays": 17,
+       "atRiskSeconds": 61152,
+       "events": 922
+      }
+     }
+    ],
+    "42": [
+     {
+      "k": 0,
+      "cut": "2026-07-09",
+      "evaluable": true,
+      "states": [
+       "PASS",
+       "indeterminate",
+       "not material"
+      ],
+      "test": {
+       "nDrives": 147,
+       "nDays": 32,
+       "atRiskSeconds": 128690,
+       "events": 2447
+      }
+     },
+     {
+      "k": 1,
+      "cut": "2026-08-20",
+      "evaluable": true,
+      "states": [
+       "PASS",
+       "indeterminate",
+       "not material"
+      ],
+      "test": {
+       "nDrives": 218,
+       "nDays": 41,
+       "atRiskSeconds": 66837,
+       "events": 1162
+      }
+     },
+     {
+      "k": 2,
+      "cut": "2026-10-01",
+      "evaluable": true,
+      "states": [
+       "PASS",
+       "within",
+       "not material"
+      ],
+      "test": {
+       "nDrives": 102,
+       "nDays": 17,
+       "atRiskSeconds": 61152,
+       "events": 922
+      }
+     }
+    ]
+   },
+   "S5_m2221Geometry": {
+    "nRounds": 16,
+    "minTrainDays": 40,
+    "stepDays": 5,
+    "nScored": 198170,
+    "nTotal": 354715,
+    "pooled": {
+     "n": 198170,
+     "events": 3421,
+     "brier": 0.016239,
+     "logLoss": 0.07242,
+     "prAuc": 0.0886,
+     "calSlope": 0.982,
+     "calIntercept": -0.168,
+     "obsEvents": 3421,
+     "predEvents": 3797.5
+    },
+    "pooledLogLossCI": [
+     0.06568,
+     0.08088
+    ],
+    "pooledPrAucCI": [
+     0.0821,
+     0.09599
+    ],
+    "perRound": [
+     {
+      "round": 0,
+      "nTrainDays": 40,
+      "nValDays": 5,
+      "nValAtRisk": 37089,
+      "nValEvents": 713,
+      "logLoss": 0.077397,
+      "brier": 0.017994
+     },
+     {
+      "round": 1,
+      "nTrainDays": 45,
+      "nValDays": 5,
+      "nValAtRisk": 18806,
+      "nValEvents": 357,
+      "logLoss": 0.075168,
+      "brier": 0.017475
+     },
+     {
+      "round": 2,
+      "nTrainDays": 50,
+      "nValDays": 5,
+      "nValAtRisk": 6315,
+      "nValEvents": 97,
+      "logLoss": 0.061814,
+      "brier": 0.014223
+     },
+     {
+      "round": 3,
+      "nTrainDays": 55,
+      "nValDays": 5,
+      "nValAtRisk": 7971,
+      "nValEvents": 170,
+      "logLoss": 0.083408,
+      "brier": 0.019659
+     },
+     {
+      "round": 4,
+      "nTrainDays": 60,
+      "nValDays": 5,
+      "nValAtRisk": 13077,
+      "nValEvents": 266,
+      "logLoss": 0.082919,
+      "brier": 0.019013
+     },
+     {
+      "round": 5,
+      "nTrainDays": 65,
+      "nValDays": 5,
+      "nValAtRisk": 18399,
+      "nValEvents": 276,
+      "logLoss": 0.061949,
+      "brier": 0.01403
+     },
+     {
+      "round": 6,
+      "nTrainDays": 70,
+      "nValDays": 5,
+      "nValAtRisk": 3755,
+      "nValEvents": 64,
+      "logLoss": 0.072495,
+      "brier": 0.016045
+     },
+     {
+      "round": 7,
+      "nTrainDays": 75,
+      "nValDays": 5,
+      "nValAtRisk": 5095,
+      "nValEvents": 90,
+      "logLoss": 0.076505,
+      "brier": 0.016949
+     },
+     {
+      "round": 8,
+      "nTrainDays": 80,
+      "nValDays": 5,
+      "nValAtRisk": 9798,
+      "nValEvents": 187,
+      "logLoss": 0.080565,
+      "brier": 0.0181
+     },
+     {
+      "round": 9,
+      "nTrainDays": 85,
+      "nValDays": 5,
+      "nValAtRisk": 4738,
+      "nValEvents": 80,
+      "logLoss": 0.081183,
+      "brier": 0.016483
+     },
+     {
+      "round": 10,
+      "nTrainDays": 90,
+      "nValDays": 5,
+      "nValAtRisk": 4667,
+      "nValEvents": 58,
+      "logLoss": 0.068334,
+      "brier": 0.012792
+     },
+     {
+      "round": 11,
+      "nTrainDays": 95,
+      "nValDays": 5,
+      "nValAtRisk": 6367,
+      "nValEvents": 128,
+      "logLoss": 0.087896,
+      "brier": 0.019185
+     },
+     {
+      "round": 12,
+      "nTrainDays": 100,
+      "nValDays": 5,
+      "nValAtRisk": 5217,
+      "nValEvents": 78,
+      "logLoss": 0.069982,
+      "brier": 0.014137
+     },
+     {
+      "round": 13,
+      "nTrainDays": 105,
+      "nValDays": 5,
+      "nValAtRisk": 8161,
+      "nValEvents": 171,
+      "logLoss": 0.092825,
+      "brier": 0.020079
+     },
+     {
+      "round": 14,
+      "nTrainDays": 110,
+      "nValDays": 5,
+      "nValAtRisk": 26058,
+      "nValEvents": 349,
+      "logLoss": 0.058198,
+      "brier": 0.012648
+     },
+     {
+      "round": 15,
+      "nTrainDays": 115,
+      "nValDays": 3,
+      "nValAtRisk": 22657,
+      "nValEvents": 337,
+      "logLoss": 0.063303,
+      "brier": 0.014018
+     }
+    ],
+    "note": "Alongside the existing blocked-day CV above, not a replacement: this is a genuine train-on-past-only (forward-chaining) evaluation of the SAME already-selected five-variable duration-aware spec, testing temporal drift / order-dependence rather than the pseudo-replication leakage guard blocked-day CV tests. A materially worse rolling-origin result than the blocked-day result is reported as a finding, not reconciled away."
+   }
+  },
+  "verdict": {
+   "verdict": "degradation flagged at origin(s) 2 (planning thresholds; a flag for Director review, not a refit decision)",
+   "notes": [
+    "origin 0: D2 indeterminate",
+    "origin 1: D2 indeterminate",
+    "origin 2: D2 indeterminate",
+    "origin 2: jackknife disagrees (D1 PASS, D2 indeterminate)",
+    "origin 2: embargo 0 changes the states ('PASS', 'indeterminate', 'MATERIAL')",
+    "origin 2: embargo 3 changes the states ('PASS', 'indeterminate', 'MATERIAL')",
+    "origin 2: extrapolation (D3)"
+   ],
+   "flaggedOrigins": [
+    2
+   ],
+   "extrapolationOrigins": [
+    2
+   ]
+  },
+  "trendTable": [
+   {
+    "k": 0,
+    "testStart": "2026-07-09",
+    "testEnd": "2026-08-06",
+    "skillVsB0": 0.168735,
+    "OE": 0.810431,
+    "events": 2145,
+    "nDays": 21
+   },
+   {
+    "k": 1,
+    "testStart": "2026-08-06",
+    "testEnd": "2026-09-03",
+    "skillVsB0": 0.188681,
+    "OE": 0.860229,
+    "events": 888,
+    "nDays": 24
+   },
+   {
+    "k": 2,
+    "testStart": "2026-09-03",
+    "testEnd": "2026-10-01",
+    "skillVsB0": 0.071814,
+    "OE": 0.679904,
+    "events": 576,
+    "nDays": 28
+   },
+   {
+    "k": 3,
+    "testStart": "2026-10-01",
+    "testEnd": "2026-10-18",
+    "skillVsB0": 0.16257,
+    "OE": 0.929742,
+    "events": 922,
+    "nDays": 17
+   }
+  ]
+ },
+ "fits": 88,
+ "elapsedSeconds": 2884
+}

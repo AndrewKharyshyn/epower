@@ -530,6 +530,19 @@
    ]
   },
   {
+   "id": "hazard_prospective_monitor",
+   "title": "M495: flag-only monitor of the prospective evaluation of the frozen 606-drive hazard fit: refreshes socHysteresisV2.prospectiveProtocol.heldOut (drives and days after the last training date, threshold boolean); reads no event count and no hazard value",
+   "cmd": [
+    "python3",
+    "tools/m495_splice.py",
+    "--monitor"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json"
+   ]
+  },
+  {
    "id": "dissipation_monitor",
    "title": "M394: report-only monitor of the unfuelled (motored) engine dissipation mode: records every drive's events, flags the first sustained event per pack-temperature band, events below the SoC range seen, detector gaps and not-evaluable drives; never stops an ingestion (analyses/M394_spec.md)",
    "cmd": [
