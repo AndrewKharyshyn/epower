@@ -19,13 +19,17 @@ FIELDS = ("t", "spread_mv", "off_ms", "I", "cur_age_ms", "soc")
 
 
 def extractor_hash():
-    """Hash of this file and of the production constants and source of the helpers it relies on."""
+    """Hash of this file, of the production constants and of the FULL dependency closure of the extractor: the source of every shared helper it reaches (compute_drive_summary_v6 _prep_bytes / _series / _asof and what they call),
+    the constants they use, the repository modules they import (soc_spike), the schema (FIELDS, EXTRACTOR_VERSION) and the numpy / pandas versions. M489 (audit A05): it hashed only this file, the constants and soc_spike,
+    so a change to a shared helper left stale entries valid."""
     import compute_drive_summary_v6 as D
     import soc_spike
+    import dep_hash
     h = hashlib.sha256()
     h.update(open(os.path.abspath(__file__), "rb").read())
     h.update(json.dumps({"spread_tol": D.SPREAD_TOL, "v_align_tol": D.V_ALIGN_TOL, "soc": [soc_spike.SOC_SPIKE_JUMP_PP, soc_spike.SOC_SPIKE_NEIGHBOUR_TOL_PP, soc_spike.SOC_SPIKE_MAX_GAP_S]}, sort_keys=True).encode())
     h.update(open(soc_spike.__file__, "rb").read())
+    h.update(dep_hash.closure_hash([pairs_from_bytes], modules=(D, soc_spike), extra={"fields": FIELDS, "version": EXTRACTOR_VERSION}).encode())
     return h.hexdigest()
 
 

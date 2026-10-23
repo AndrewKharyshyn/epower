@@ -190,7 +190,6 @@ def tier_full(args):
     for c in common:
         a, b = ref[c], chk[c]
         ne = a != b
-        fl = sorted(map(str, ref.index[ne]))[:12]
         if ne.any():
             # numeric comparison to TOL before counting a text difference (the CSV text of a float can differ in the last digit)
             an, bn = pd.to_numeric(a, errors="coerce"), pd.to_numeric(b, errors="coerce")
@@ -201,12 +200,75 @@ def tier_full(args):
                 d = (an[both] - bn[both]).abs()
                 nd = int((d > TOL + TOL * an[both].abs()).sum())
                 if nd or nullmis:
-                    cls[c] = {"nRowsDiffer": nd, "nNullPatternMismatch": nullmis, "maxAbsDiff": float(d.max()) if len(d) else 0.0, "files": fl}
+                    bad_rows = (an.isna() != bn.isna()) | (both & ((an - bn).abs() > TOL + TOL * an.abs()))      # M489 (audit A07): the exact differing rows, every one of them
+                    fa = sorted(map(str, ref.index[bad_rows]))
+                    cls[c] = {"nRowsDiffer": nd, "nNullPatternMismatch": nullmis, "maxAbsDiff": float(d.max()) if len(d) else 0.0, "files": fa[:12], "filesAll": fa}
             else:
-                cls[c] = {"nRowsDiffer": int(ne.sum()), "nNullPatternMismatch": int(((a == "") != (b == "")).sum()), "maxAbsDiff": None, "files": fl}
-    files_diff = sorted({f for c in cls for f in ref.index[ref[c] != chk[c]]})
+                fa = sorted(map(str, ref.index[ne]))
+                cls[c] = {"nRowsDiffer": int(ne.sum()), "nNullPatternMismatch": int(((a == "") != (b == "")).sum()), "maxAbsDiff": None, "files": fa[:12], "filesAll": fa}
+    files_diff = sorted({f for c in cls for f in cls[c]["filesAll"]})
+    ident = identities(ref, chk, cls)
     return {"tier": "full", "nRowsPublished": int(len(ref)), "nRowsRebuilt": int(len(chk)), "publishedOnlyColumns": only_pub, "rebuiltOnlyColumns": only_reb, "nColumnsCompared": len(common),
-            "nColumnsIdentical": len(common) - len(cls), "columnsDiffering": cls, "nFilesWithAnyDifference": len(files_diff), "filesWithAnyDifference": files_diff[:60], "seconds": round(time.time() - t0, 1)}
+            "nColumnsIdentical": len(common) - len(cls), "columnsDiffering": cls, "nFilesWithAnyDifference": len(files_diff), "filesWithAnyDifference": files_diff[:60], "identities": ident, "seconds": round(time.time() - t0, 1)}
+
+
+ID_TOL = 2.5e-4      # three 4-decimal roundings (offset, net_draw, residual) can each move a value by 5e-5
+
+
+def identities(ref, chk, cls):
+    """M489 (audit A07): the registered exceptions are identities of the frozen transforms, not caps. Evaluated on ALL rows of the replay (published `ref` and rebuilt `chk`, text frames indexed by file):
+    (1) frozen offset: the published two-pass offset is ONE constant I_pub; the rebuild refits I_reb; for every row with a non-null published offset the rebuilt minus published value of offset_2p_kwh_removed equals
+        (I_reb - I_pub) x V_pack_median x h / 1000 (h = integr_time_h, else duration_s / 3600) and of net_draw_kwh_corr2p and energy_residual_kwh_corr2p equals its negative, within ID_TOL;
+    (2) distance: for every row published with distance_reset_repaired true, the rebuilt distance_km equals the published distance_endpoint_raw_km (the builder alone returns the endpoint value);
+    and every row that differs in a distance-derived column is a repaired row. Returns counts and the failing files; an empty failure list is the claim."""
+    out = {"toleranceKwh": ID_TOL}
+    num = lambda df, c: pd.to_numeric(df[c], errors="coerce")
+    ip, ir = num(ref, "I_offset_2p_A_applied"), num(chk, "I_offset_2p_A_applied")
+    pub_vals, reb_vals = sorted(set(ip.dropna().round(6))), sorted(set(ir.dropna().round(6)))
+    out["publishedOffsetValues"], out["rebuiltOffsetValues"] = pub_vals, reb_vals
+    fails = {}
+    if len(pub_vals) == 1 and len(reb_vals) == 1:
+        dI = reb_vals[0] - pub_vals[0]
+        V = num(ref, "V_pack_median")
+        h = num(ref, "integr_time_h").fillna(num(ref, "duration_s") / 3600.0)
+        elig = ip.notna() & V.notna() & h.notna()
+        exp_off = dI * V * h / 1000.0
+        for c, sign in (("offset_2p_kwh_removed", 1.0), ("net_draw_kwh_corr2p", -1.0), ("energy_residual_kwh_corr2p", -1.0)):
+            if c not in ref.columns or c not in chk.columns:
+                fails[c] = ["column missing"]
+                continue
+            d = num(chk, c) - num(ref, c)
+            nanmis = (num(chk, c).isna() != num(ref, c).isna()) & elig
+            bad = elig & ((d - sign * exp_off).abs() > ID_TOL)
+            fails[c] = sorted(map(str, ref.index[bad | nanmis]))
+        # per-100-km column: rebuilt - published = -(offset delta) / distance x 100 on the NON-repaired rows (2-decimal rounding of both values)
+        if "net_draw_per100km_corr2p" in ref.columns and "distance_reset_repaired" in ref.columns:
+            repaired = ref["distance_reset_repaired"].astype(str).str.lower().isin(("true", "1"))
+            dist = num(ref, "distance_km")
+            c = "net_draw_per100km_corr2p"
+            ok_rows = elig & ~repaired & (dist > 0)
+            dd = num(chk, c) - num(ref, c)
+            bad = ok_rows & ((dd + exp_off / dist * 100.0).abs() > 0.011)
+            nanmis = (num(chk, c).isna() != num(ref, c).isna()) & ok_rows
+            fails[c] = sorted(map(str, ref.index[bad | nanmis]))
+        out["offsetDeltaA"], out["nOffsetRows"] = round(dI, 6), int(elig.sum())
+    else:
+        fails["offsetConstant"] = ["published or rebuilt offset is not a single constant: %r / %r" % (pub_vals, reb_vals)]
+    out["offsetIdentityFailures"] = fails
+    if "distance_reset_repaired" in ref.columns:
+        rep_mask = ref["distance_reset_repaired"].astype(str).str.lower().isin(("true", "1"))
+    else:
+        rep_mask = pd.Series(False, index=ref.index)
+    out["repairedFiles"] = sorted(map(str, ref.index[rep_mask]))
+    dfail = []
+    if rep_mask.any():
+        e = num(ref, "distance_endpoint_raw_km")[rep_mask]
+        r = num(chk, "distance_km")[rep_mask]
+        dfail = sorted(map(str, ref.index[rep_mask][(e - r).abs().fillna(float("inf")) > 1e-6]))
+    out["distanceIdentityFailures"] = dfail
+    dcols = [c for c in cls if c in ("distance_km", "net_draw_per100km", "net_draw_per100km_corr")]      # the columns registered for the repaired row only (the corr2p column also follows the offset: checked above)
+    out["distanceDerivedOutsideRepaired"] = sorted({f for c in dcols for f in cls[c]["filesAll"] if f not in set(out["repairedFiles"])})
+    return out
 
 
 def check_expected(rep):
@@ -227,14 +289,30 @@ def check_expected(rep):
         if cap is None and e.get("maxRowsFromNonNull"):        # M467 (audit F04): the cap is the exact eligible row set of the frozen transform, not a magic number
             pub = pd.read_csv("drive_master.csv", usecols=["file", e["maxRowsFromNonNull"]], low_memory=False)
             elig = set(pub.loc[pub[e["maxRowsFromNonNull"]].notna(), "file"]); cap = len(elig)
-            if any(f not in elig for f in d["files"]):
-                bad.append({"column": c, "why": "differs on a file outside the eligible row set", "found": d["files"], "eligibleColumn": e["maxRowsFromNonNull"]})
+            if any(f not in elig for f in d.get("filesAll", d["files"])):
+                bad.append({"column": c, "why": "differs on a file outside the eligible row set", "found": [f for f in d.get("filesAll", d["files"]) if f not in elig][:12], "eligibleColumn": e["maxRowsFromNonNull"]})
         if d["nRowsDiffer"] > cap or d["nNullPatternMismatch"] > e.get("maxNullPatternMismatch", 0):
             bad.append({"column": c, "why": "more rows than registered", "found": d, "registered": e})
         if e.get("maxAbsDiff") is not None and d["maxAbsDiff"] is not None and d["maxAbsDiff"] > e["maxAbsDiff"]:
             bad.append({"column": c, "why": "larger difference than registered", "found": d, "registered": e})
-        if e.get("files") and any(f not in e["files"] for f in d["files"]):
-            bad.append({"column": c, "why": "differs on a file that is not registered", "found": d["files"], "registered": e["files"]})
+        if e.get("files") and any(f not in e["files"] for f in d.get("filesAll", d["files"])):
+            bad.append({"column": c, "why": "differs on a file that is not registered", "found": d.get("filesAll", d["files"])[:12], "registered": e["files"]})
+        if "filesAll" not in d:
+            bad.append({"column": c, "why": "the report lacks the full differing-row list (filesAll): regenerate it with tools/replay_master.py --full"})
+    ident = rep.get("identities")
+    if not ident:
+        bad.append({"identities": "the report lacks the transform identities (M489): regenerate it with tools/replay_master.py --full"})
+    else:
+        for c, f in (ident.get("offsetIdentityFailures") or {}).items():
+            if f:
+                bad.append({"identity": "frozen offset", "column": c, "why": "rebuilt - published differs from (I_reb - I_pub) x V x h / 1000", "files": f[:12], "n": len(f)})
+        if ident.get("distanceIdentityFailures"):
+            bad.append({"identity": "distance repair", "why": "rebuilt distance_km != published distance_endpoint_raw_km on a repaired row", "files": ident["distanceIdentityFailures"][:12]})
+        if ident.get("distanceDerivedOutsideRepaired"):
+            bad.append({"identity": "distance repair", "why": "a distance-derived column differs on a row that is not a repaired row", "files": ident["distanceDerivedOutsideRepaired"][:12]})
+        reg = exp.get("allowedDifferences", {}).get("distance_km", {}).get("files")
+        if reg is not None and sorted(ident.get("repairedFiles", [])) != sorted(reg):
+            bad.append({"identity": "distance repair", "why": "repaired rows differ from the registered files", "found": ident.get("repairedFiles"), "registered": reg})
     return bad
 
 
