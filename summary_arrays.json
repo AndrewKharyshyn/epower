@@ -57909,11 +57909,11 @@
        "atRiskSeconds": 207618,
        "events": 2494
       },
-      "validationStatus": "confirmed"
+      "validationStatus": "partially confirmed"
      }
     ],
-    "validationStatus": "confirmed",
-    "notes": "PR-AUC point estimates and calibration are close under a genuinely different (forward-chaining, not just leakage-guarded) validation scheme -- the blocked-day result is not an artifact of that scheme's own future-data access. The STOP-side comparison (not shown here) is also confirmed; see socHysteresisV2.sensitivity.rollingOrigin.stop.",
+    "validationStatus": "partially confirmed",
+    "notes": "The PR-AUC point estimate under the forward-chaining split is comparable with the blocked-day result, so that result is not an artifact of the access to later-dated training data under the blocked-day scheme. Calibration out of time is judged by the M495 rolling-origin evaluation (socHysteresisV2.rollingOriginEvaluation); it flags degradation at one or more origins on the start and stop side(s), so the row is not fully confirmed. The design was selected on the full data; the evaluation is out-of-time for estimation only.",
     "artifactIdentity": {
      "corpusHashShort": "5556a0c6c8bc",
      "generatedAt": "2026-10-19T17:14:33.246038+00:00"

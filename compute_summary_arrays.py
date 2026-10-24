@@ -16815,6 +16815,10 @@ def _evidence_ledger(arrays):
     ladder_start = ((v2.get('ladder') or {}).get('start') or {}).get('fiveVarDur') or {}
     ro = (((v2.get('sensitivity') or {}).get('rollingOrigin') or {}).get('start') or {}).get('pooled') or {}
     if ladder_start and ro:
+        # audit ST-01 (M496): the status follows the M495 rolling-origin evaluation instead of a literal
+        roe = v2.get('rollingOriginEvaluation') or {}
+        flagged_sides = [sd for sd in ('start', 'stop') if (roe.get(sd) or {}).get('flaggedOrigins')]
+        m119_status = 'partially confirmed' if flagged_sides else 'confirmed'
         rows.append({
             'topic': 'M119-v2 engine-start hazard model (START side)',
             'evidenceClass': 'modeled',
@@ -16829,16 +16833,15 @@ def _evidence_ledger(arrays):
                 {'label': 'Rolling-origin CV (M222, genuine train-on-past-only)',
                  'value': ro.get('prAuc'), 'unit': 'PR-AUC',
                  'support': {'atRiskSeconds': ro.get('n'), 'events': ro.get('events')},
-                 'validationStatus': 'confirmed'},
+                 'validationStatus': m119_status},
             ],
-            'validationStatus': 'confirmed',
-            'notes': ('PR-AUC point estimates and calibration are close '
-                     'under a genuinely different (forward-chaining, not '
-                     'just leakage-guarded) validation scheme -- the '
-                     'blocked-day result is not an artifact of that '
-                     'scheme\'s own future-data access. The STOP-side '
-                     'comparison (not shown here) is also confirmed; see '
-                     'socHysteresisV2.sensitivity.rollingOrigin.stop.'),
+            'validationStatus': m119_status,
+            'notes': ('The PR-AUC point estimate under the forward-chaining split is comparable with the '
+                     'blocked-day result, so that result is not an artifact of the access to later-dated training data under the blocked-day scheme. Calibration out of time is judged by the M495 rolling-origin '
+                     'evaluation (socHysteresisV2.rollingOriginEvaluation); ' +
+                     (('it flags degradation at one or more origins on the %s side(s), so the row is not fully confirmed.' % ' and '.join(flagged_sides))
+                      if flagged_sides else 'it flags no origin.') +
+                     ' The design was selected on the full data; the evaluation is out-of-time for estimation only.'),
         })
 
     # ---- Row 4: Regime transitions (drive-type Markov chain) ----
