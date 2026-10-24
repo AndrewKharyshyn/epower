@@ -145,7 +145,29 @@ def summarize(rows):
             "undefinedDrives": [rows[k]["file"] for k in sorted(undefined)], "transitions": tr}
 
 
-def overlap(rows, dm):
+def rev3(rows, dm):
+    """Rev 3 (data-informed, written after the Rev 2 result): headline flag = currentCoarse; voltage reported as its grid step; gridChange = (current class, voltage step) differs from the corpus-modal pair."""
+    import collections
+    pairs = collections.Counter((r["current"]["class"], r["voltage"]["grid_step"]) for r in rows if r["current"]["class"] not in ("undefined", "undefined_sparse") and r["voltage"]["grid_step"] is not None)
+    modal = pairs.most_common(1)[0][0]
+    order = order_of(rows)
+    undefined = {k for k, r in enumerate(rows) if r["current"]["class"] in ("undefined", "undefined_sparse") or r["voltage"]["grid_step"] is None}
+    cur = {k: r["current"]["class"] in ("0.1 A", "1 A") for k, r in enumerate(rows)}
+    chg = {k: ((r["current"]["class"], r["voltage"]["grid_step"]) != modal) for k, r in enumerate(rows)}
+    out = {"modalPair": {"currentClass": modal[0], "voltageStep": modal[1]}, "pairCounts": {"%s|%s" % k: v for k, v in sorted(pairs.items(), key=lambda kv: -kv[1])}}
+    for name, fl in (("currentCoarse", cur), ("gridChange", chg)):
+        rr = runs_of(order, fl, undefined)
+        out[name] = {"nDrives": int(sum(1 for k, v in fl.items() if v and k not in undefined)), "runs": [{"first": rows[r[0]]["date"], "last": rows[r[-1]]["date"], "spanDays": (pd.Timestamp(rows[r[-1]]["date"]) - pd.Timestamp(rows[r[0]]["date"])).days + 1, "nDrives": len(r)} for r in rr]}
+        out[name]["window"] = max(out[name]["runs"], key=lambda x: x["nDrives"]) if out[name]["runs"] else None
+    by = collections.defaultdict(collections.Counter)
+    for r in rows:
+        by[r["date"][:7]][r["voltage"]["grid_step"]] += 1
+    out["voltageStepByMonth"] = {m: {str(k): v for k, v in c.items()} for m, c in sorted(by.items())}
+    out["flagsByFile"] = {"currentCoarse": [rows[k]["file"] for k in sorted(cur) if cur[k]], "gridChange": [rows[k]["file"] for k in sorted(chg) if chg[k] and k not in undefined]}
+    return out
+
+
+def overlap(rows, dm, r3=None):
     """Counts of coarse drives among the eligible drives of powerFade S1 and of the cell-spread slope, each checked against its named payload key."""
     import powerfade_equivalence as PE
     A = json.load(open("summary_arrays.json", encoding="utf-8"))
@@ -157,10 +179,12 @@ def overlap(rows, dm):
     clean = ~flag.fillna(False).astype(bool)
     sp = set(digits(f) for f in dm.loc[clean & dm["cell_spread_loaded_p95_mv"].notna(), "file"])
     co = {digits(r["file"]) for r in rows if r["coarse"]}
+    cc = {digits(f) for f in (r3 or {}).get("flagsByFile", {}).get("currentCoarse", [])}
+    gc = {digits(f) for f in (r3 or {}).get("flagsByFile", {}).get("gridChange", [])}
     exp_s1 = A["powerFade"]["nClean"]
     exp_sp = A["degradationTrends"]["cellSpread"]["clusterRobustOLS"]["nObs"]
-    return {"powerFadeS1": {"eligible": len(s1), "payloadKey": "powerFade.nClean", "payloadValue": exp_s1, "verified": bool(len(s1) == exp_s1), "nCoarse": len(s1 & co)},
-            "cellSpreadSlope": {"eligible": len(sp), "payloadKey": "degradationTrends.cellSpread.clusterRobustOLS.nObs", "payloadValue": exp_sp, "verified": bool(len(sp) == exp_sp), "nCoarse": len(sp & co)}}
+    return {"powerFadeS1": {"eligible": len(s1), "payloadKey": "powerFade.nClean", "payloadValue": exp_s1, "verified": bool(len(s1) == exp_s1), "nCoarseRev2": len(s1 & co), "nCurrentCoarse": len(s1 & cc), "nGridChange": len(s1 & gc)},
+            "cellSpreadSlope": {"eligible": len(sp), "payloadKey": "degradationTrends.cellSpread.clusterRobustOLS.nObs", "payloadValue": exp_sp, "verified": bool(len(sp) == exp_sp), "nCoarseRev2": len(sp & co), "nCurrentCoarse": len(sp & cc), "nGridChange": len(sp & gc)}}
 
 
 def main():
@@ -174,40 +198,45 @@ def main():
     for ch in ("current", "voltage"):
         if sum(summ["classCounts"][ch].values()) != n_can:
             raise SystemExit("STOP: class counts do not add up to the manifest canonical count")
-    summ["overlap"] = overlap(rows, dm)
+    r3 = rev3(rows, dm)
+    summ["overlap"] = overlap(rows, dm, r3)
     prov = {"masterMd5": hashlib.md5(open("drive_master.csv", "rb").read()).hexdigest(), "rawManifestSha256": hashlib.sha256(open("raw_manifest.json", "rb").read()).hexdigest(),
             "scriptSha256": hashlib.sha256(open(__file__, "rb").read()).hexdigest(), "specSha256": hashlib.sha256(open("analyses/M503_spec.md", "rb").read()).hexdigest(),
             "basis": "raw/ = sha256-verified originals (M366)", "nCanonicalManifest": n_can}
-    res = {"spec": "analyses/M503_spec.md", "provenance": {**prov, "generatedAt": datetime.datetime.now(datetime.timezone.utc).isoformat()}, "summary": summ, "perDrive": rows}
+    res = {"spec": "analyses/M503_spec.md", "provenance": {**prov, "generatedAt": datetime.datetime.now(datetime.timezone.utc).isoformat()}, "rev2Preregistered": summ, "rev3DataInformed": r3, "perDrive": rows}
     with open(out_path, "w", encoding="utf-8", newline="\n") as f:
         json.dump(res, f, indent=1)
-    print(json.dumps({k: summ[k] for k in ("nDrives", "classCounts", "nCoarse", "firstCoarseDate", "lastCoarseDate", "windowLongestCoarseRun", "coarseInLongestRun", "coarseOutsideLongestRun", "overlap", "transitions")}, indent=1)[:4500])
+    print(json.dumps({"rev2": {k: summ[k] for k in ("nDrives", "classCounts", "nCoarse")}, "rev3": {k: r3[k] for k in ("modalPair", "currentCoarse", "gridChange", "voltageStepByMonth")}, "overlap": summ["overlap"]}, indent=1)[:5000])
     if "--splice" in sys.argv:
-        splice(summ, [r for r in rows if r["coarse"]], prov)
+        splice(summ, r3, rows, prov)
 
 
-def splice(summ, coarse_rows, prov):
+def splice(summ, r3, rows, prov):
     import copy
     P = "summary_arrays.json"
     raw = open(P, encoding="utf-8", newline="").read()
     A = json.loads(raw)
+    cur_files = set(r3["flagsByFile"]["currentCoarse"])
     blk = {"label": "grid of this CSV copy of the logged HV battery current and pack voltage per canonical drive (descriptive inventory, a dated snapshot; not a sensor resolution; logged / app-calculated values; no effect on any estimate is estimated)",
-           "spec": "analyses/M503_spec.md", "snapshotOfDrives": summ["nDrives"],
-           "classRule": {"current": "fine <= 0.06 A, 0.1 A <= 0.15, 1 A <= 1.5, coarser above", "voltage": "fine <= 0.06 V, 0.1 V <= 0.15, coarser above",
+           "spec": "analyses/M503_spec.md", "specRevision": "Rev 3 (data-informed: written after the Rev 2 result was seen; Rev 2 kept under rev2Preregistered)", "snapshotOfDrives": summ["nDrives"],
+           "classRule": {"current": "fine <= 0.06 A, 0.1 A <= 0.15, 1 A <= 1.5, coarser above", "voltage": "reported as its grid step (no fine/coarse label)",
                          "step": "minimum positive difference of the sorted distinct values rounded to 6 decimals; undefined with fewer than 5 distinct values; undefined_sparse below 20; mixed when the grid shares disagree"},
-           **{k: prov[k] for k in ("specSha256", "scriptSha256", "masterMd5", "rawManifestSha256", "basis")}, **summ,
-           "coarseDrives": [{"file": r["file"], "date": r["date"], "currentClass": r["current"]["class"], "voltageClass": r["voltage"]["class"]} for r in coarse_rows]}
+           **{k: prov[k] for k in ("specSha256", "scriptSha256", "masterMd5", "rawManifestSha256", "basis")},
+           "classCounts": summ["classCounts"], "modalPair": r3["modalPair"], "currentCoarse": r3["currentCoarse"], "gridChange": r3["gridChange"], "voltageStepByMonth": r3["voltageStepByMonth"],
+           "overlap": summ["overlap"], "transitions": summ["transitions"], "mixedDrives": summ["mixedDrives"], "undefinedDrives": summ["undefinedDrives"],
+           "rev2Preregistered": {"nCoarse": summ["nCoarse"], "note": "the Rev 2 voltage classes assumed a fine voltage grid that does not exist (the modal pack-voltage step is the coarser one), so its coarse flag was true for almost every drive and is not used"},
+           "currentCoarseDrives": [{"file": r["file"], "date": r["date"], "currentClass": r["current"]["class"], "voltageStep": r["voltage"]["grid_step"]} for r in rows if r["file"] in cur_files]}
     blk = json.loads(json.dumps(blk))
     A["signalResolution"] = blk
     st = copy.deepcopy(A["_artifactStamps"]["powerFadeEquivalence"])
     st.update(corpusHash=prov["masterMd5"], generatedAt=datetime.datetime.now(datetime.timezone.utc).isoformat(), computationStatus="computed",
-              computationStatusNote="M503: derived by tools/signal_resolution.py from the raw files of the canonical drives (spec analyses/M503_spec.md Rev 2); a dated snapshot, no ingestion stage", upstreamHashes={"driveMasterMd5": prov["masterMd5"]})
+              computationStatusNote="M503: derived by tools/signal_resolution.py from the raw files of the canonical drives (spec analyses/M503_spec.md Rev 2 + data-informed Rev 3); a dated snapshot, no ingestion stage", upstreamHashes={"driveMasterMd5": prov["masterMd5"]})
     st.pop("carriedForward", None)
     st["includedInReleaseAt"] = st["computedAt"] = st["generatedAt"]
     A["_artifactStamps"]["signalResolution"] = st
     with open(P, "w", encoding="utf-8", newline="\n") as f:
         f.write(json.dumps(A, ensure_ascii=False, indent=1) + ("\n" if raw.endswith("\n") else ""))
-    print(json.dumps({"spliced": True, "nCoarse": summ["nCoarse"]}))
+    print(json.dumps({"spliced": True, "nCurrentCoarse": r3["currentCoarse"]["nDrives"]}))
 
 
 if __name__ == "__main__":

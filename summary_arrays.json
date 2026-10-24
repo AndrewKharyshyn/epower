@@ -61960,6 +61960,27 @@
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
    "computedAt": "2026-10-24T10:42:12.914483+00:00"
+  },
+  "signalResolution": {
+   "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-10-24T18:46:28.145599+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M503: derived by tools/signal_resolution.py from the raw files of the canonical drives (spec analyses/M503_spec.md Rev 2 + data-informed Rev 3); a dated snapshot, no ingestion stage",
+   "includedInReleaseAt": "2026-10-24T18:46:28.145599+00:00",
+   "inputBasis": {
+    "nDrives": 606,
+    "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-10-24T18:46:28.145599+00:00"
   }
  },
  "ambientTable": {
@@ -354089,5 +354110,1689 @@
    "multiplicity": "12 intervals (6 day, 6 isoWeek); the any-exclusion rule leans conservative; no adjustment"
   },
   "decisionRule": "day-bootstrap interval of each decisive specification governs; week interval is a labelled sensitivity; 12 intervals, no multiplicity adjustment"
+ },
+ "signalResolution": {
+  "label": "grid of this CSV copy of the logged HV battery current and pack voltage per canonical drive (descriptive inventory, a dated snapshot; not a sensor resolution; logged / app-calculated values; no effect on any estimate is estimated)",
+  "spec": "analyses/M503_spec.md",
+  "specRevision": "Rev 3 (data-informed: written after the Rev 2 result was seen; Rev 2 kept under rev2Preregistered)",
+  "snapshotOfDrives": 606,
+  "classRule": {
+   "current": "fine <= 0.06 A, 0.1 A <= 0.15, 1 A <= 1.5, coarser above",
+   "voltage": "reported as its grid step (no fine/coarse label)",
+   "step": "minimum positive difference of the sorted distinct values rounded to 6 decimals; undefined with fewer than 5 distinct values; undefined_sparse below 20; mixed when the grid shares disagree"
+  },
+  "specSha256": "da3ca61abf104e6de4470e6d00bc206e0cdb3560033460de10d44e2b7b4fc6a5",
+  "scriptSha256": "b562459c13595c1ddb0441fe4e6516207b5a69725b787679ad3cc8abadd7e7cc",
+  "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+  "rawManifestSha256": "d6c6c5372768453728af3343877ec64c971a1f9d20f09da5b5ec1c7e274ce8df",
+  "basis": "raw/ = sha256-verified originals (M366)",
+  "classCounts": {
+   "current": {
+    "undefined": 13,
+    "fine": 394,
+    "1 A": 185,
+    "0.1 A": 14
+   },
+   "voltage": {
+    "undefined_sparse": 1,
+    "undefined": 6,
+    "coarser": 400,
+    "0.1 V": 199
+   }
+  },
+  "modalPair": {
+   "currentClass": "fine",
+   "voltageStep": 0.16
+  },
+  "currentCoarse": {
+   "nDrives": 199,
+   "runs": [
+    {
+     "first": "2026-08-29",
+     "last": "2026-09-30",
+     "spanDays": 33,
+     "nDrives": 199
+    }
+   ],
+   "window": {
+    "first": "2026-08-29",
+    "last": "2026-09-30",
+    "spanDays": 33,
+    "nDrives": 199
+   }
+  },
+  "gridChange": {
+   "nDrives": 199,
+   "runs": [
+    {
+     "first": "2026-08-29",
+     "last": "2026-09-30",
+     "spanDays": 33,
+     "nDrives": 199
+    }
+   ],
+   "window": {
+    "first": "2026-08-29",
+    "last": "2026-09-30",
+    "spanDays": 33,
+    "nDrives": 199
+   }
+  },
+  "voltageStepByMonth": {
+   "2026-05": {
+    "0.16": 34,
+    "None": 4
+   },
+   "2026-06": {
+    "0.16": 63
+   },
+   "2026-07": {
+    "0.16": 93
+   },
+   "2026-08": {
+    "0.16": 94,
+    "None": 2,
+    "0.1": 15
+   },
+   "2026-09": {
+    "0.1": 184,
+    "0.16": 2
+   },
+   "2026-10": {
+    "0.16": 115
+   }
+  },
+  "overlap": {
+   "powerFadeS1": {
+    "eligible": 274,
+    "payloadKey": "powerFade.nClean",
+    "payloadValue": 274,
+    "verified": true,
+    "nCoarseRev2": 274,
+    "nCurrentCoarse": 47,
+    "nGridChange": 47
+   },
+   "cellSpreadSlope": {
+    "eligible": 576,
+    "payloadKey": "degradationTrends.cellSpread.clusterRobustOLS.nObs",
+    "payloadValue": 576,
+    "verified": true,
+    "nCoarseRev2": 576,
+    "nCurrentCoarse": 194,
+    "nGridChange": 194
+   }
+  },
+  "transitions": [
+   {
+    "fromDate": "2026-08-28",
+    "toDate": "2026-08-29",
+    "from": [
+     "fine",
+     "coarser"
+    ],
+    "to": [
+     "1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-08-31",
+    "toDate": "2026-09-01",
+    "from": [
+     "1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "0.1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-09-01",
+    "toDate": "2026-09-01",
+    "from": [
+     "0.1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-09-04",
+    "toDate": "2026-09-04",
+    "from": [
+     "1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "0.1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-09-04",
+    "toDate": "2026-09-04",
+    "from": [
+     "0.1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-09-05",
+    "toDate": "2026-09-05",
+    "from": [
+     "1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "0.1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-09-05",
+    "toDate": "2026-09-05",
+    "from": [
+     "0.1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-09-07",
+    "toDate": "2026-09-07",
+    "from": [
+     "1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "0.1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-09-07",
+    "toDate": "2026-09-07",
+    "from": [
+     "0.1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-09-07",
+    "toDate": "2026-09-07",
+    "from": [
+     "1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "0.1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-09-07",
+    "toDate": "2026-09-07",
+    "from": [
+     "0.1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-09-10",
+    "toDate": "2026-09-10",
+    "from": [
+     "1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "0.1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-09-10",
+    "toDate": "2026-09-10",
+    "from": [
+     "0.1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-09-16",
+    "toDate": "2026-09-16",
+    "from": [
+     "1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "0.1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-09-16",
+    "toDate": "2026-09-16",
+    "from": [
+     "0.1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-09-17",
+    "toDate": "2026-09-17",
+    "from": [
+     "1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "0.1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-09-17",
+    "toDate": "2026-09-17",
+    "from": [
+     "0.1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-09-17",
+    "toDate": "2026-09-17",
+    "from": [
+     "1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "0.1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-09-17",
+    "toDate": "2026-09-17",
+    "from": [
+     "0.1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-09-18",
+    "toDate": "2026-09-18",
+    "from": [
+     "1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "0.1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-09-18",
+    "toDate": "2026-09-19",
+    "from": [
+     "0.1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-09-20",
+    "toDate": "2026-09-20",
+    "from": [
+     "1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "0.1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-09-20",
+    "toDate": "2026-09-20",
+    "from": [
+     "0.1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-09-22",
+    "toDate": "2026-09-22",
+    "from": [
+     "1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "0.1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-09-22",
+    "toDate": "2026-09-22",
+    "from": [
+     "0.1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-09-23",
+    "toDate": "2026-09-23",
+    "from": [
+     "1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "0.1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-09-23",
+    "toDate": "2026-09-23",
+    "from": [
+     "0.1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-09-30",
+    "toDate": "2026-09-30",
+    "from": [
+     "1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "0.1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-09-30",
+    "toDate": "2026-09-30",
+    "from": [
+     "0.1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "1 A",
+     "0.1 V"
+    ]
+   },
+   {
+    "fromDate": "2026-09-30",
+    "toDate": "2026-09-30",
+    "from": [
+     "1 A",
+     "0.1 V"
+    ],
+    "to": [
+     "fine",
+     "coarser"
+    ]
+   }
+  ],
+  "mixedDrives": [],
+  "undefinedDrives": [
+   "20260511_185709.csv",
+   "20260512_111617.csv",
+   "20260512_195020.csv",
+   "20260512_215542.csv",
+   "20260513_180335.csv",
+   "20260816_124817.csv",
+   "20260816_144003.csv"
+  ],
+  "rev2Preregistered": {
+   "nCoarse": 599,
+   "note": "the Rev 2 voltage classes assumed a fine voltage grid that does not exist (the modal pack-voltage step is the coarser one), so its coarse flag was true for almost every drive and is not used"
+  },
+  "currentCoarseDrives": [
+   {
+    "file": "20260829_100447.csv",
+    "date": "2026-08-29",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260829_191404.csv",
+    "date": "2026-08-29",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260829_193046.csv",
+    "date": "2026-08-29",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260829_194121.csv",
+    "date": "2026-08-29",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260830_121043.csv",
+    "date": "2026-08-30",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260830_122801.csv",
+    "date": "2026-08-30",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260830_125410.csv",
+    "date": "2026-08-30",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260830_155318.csv",
+    "date": "2026-08-30",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260830_165926.csv",
+    "date": "2026-08-30",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260830_190907.csv",
+    "date": "2026-08-30",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260830_192834.csv",
+    "date": "2026-08-30",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260830_200617.csv",
+    "date": "2026-08-30",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260831_134403.csv",
+    "date": "2026-08-31",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260831_201658.csv",
+    "date": "2026-08-31",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260831_203855.csv",
+    "date": "2026-08-31",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260901_074917.csv",
+    "date": "2026-09-01",
+    "currentClass": "0.1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260901_080956.csv",
+    "date": "2026-09-01",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260901_111543.csv",
+    "date": "2026-09-01",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260901_112814.csv",
+    "date": "2026-09-01",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260902_074300.csv",
+    "date": "2026-09-02",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260902_075316.csv",
+    "date": "2026-09-02",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260902_201704.csv",
+    "date": "2026-09-02",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260902_203318.csv",
+    "date": "2026-09-02",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260902_204646.csv",
+    "date": "2026-09-02",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260902_211511.csv",
+    "date": "2026-09-02",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260903_074822.csv",
+    "date": "2026-09-03",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260903_080232.csv",
+    "date": "2026-09-03",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260903_082326.csv",
+    "date": "2026-09-03",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260903_200514.csv",
+    "date": "2026-09-03",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260903_213855.csv",
+    "date": "2026-09-03",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260904_075123.csv",
+    "date": "2026-09-04",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260904_080352.csv",
+    "date": "2026-09-04",
+    "currentClass": "0.1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260904_203411.csv",
+    "date": "2026-09-04",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260905_103157.csv",
+    "date": "2026-09-05",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260905_104841.csv",
+    "date": "2026-09-05",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260905_110415.csv",
+    "date": "2026-09-05",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260905_122311.csv",
+    "date": "2026-09-05",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260905_123511.csv",
+    "date": "2026-09-05",
+    "currentClass": "0.1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260905_124450.csv",
+    "date": "2026-09-05",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260905_162310.csv",
+    "date": "2026-09-05",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260905_163145.csv",
+    "date": "2026-09-05",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260905_164824.csv",
+    "date": "2026-09-05",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260905_172322.csv",
+    "date": "2026-09-05",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260905_175245.csv",
+    "date": "2026-09-05",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260905_183226.csv",
+    "date": "2026-09-05",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260906_121520.csv",
+    "date": "2026-09-06",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260906_122920.csv",
+    "date": "2026-09-06",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260906_130754.csv",
+    "date": "2026-09-06",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260906_131945.csv",
+    "date": "2026-09-06",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260906_134827.csv",
+    "date": "2026-09-06",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260906_195140.csv",
+    "date": "2026-09-06",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260906_201552.csv",
+    "date": "2026-09-06",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260907_074534.csv",
+    "date": "2026-09-07",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260907_080214.csv",
+    "date": "2026-09-07",
+    "currentClass": "0.1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260907_081855.csv",
+    "date": "2026-09-07",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260907_082522.csv",
+    "date": "2026-09-07",
+    "currentClass": "0.1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260907_165532.csv",
+    "date": "2026-09-07",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260907_171659.csv",
+    "date": "2026-09-07",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260907_172745.csv",
+    "date": "2026-09-07",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260907_174600.csv",
+    "date": "2026-09-07",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260908_074435.csv",
+    "date": "2026-09-08",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260908_075934.csv",
+    "date": "2026-09-08",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260908_085530.csv",
+    "date": "2026-09-08",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260908_123156.csv",
+    "date": "2026-09-08",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260908_124726.csv",
+    "date": "2026-09-08",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260909_073950.csv",
+    "date": "2026-09-09",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260909_075611.csv",
+    "date": "2026-09-09",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260909_133503.csv",
+    "date": "2026-09-09",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260909_140527.csv",
+    "date": "2026-09-09",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260909_143711.csv",
+    "date": "2026-09-09",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260909_153731.csv",
+    "date": "2026-09-09",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260909_154548.csv",
+    "date": "2026-09-09",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260910_074344.csv",
+    "date": "2026-09-10",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260910_075908.csv",
+    "date": "2026-09-10",
+    "currentClass": "0.1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260910_081613.csv",
+    "date": "2026-09-10",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260910_135648.csv",
+    "date": "2026-09-10",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "20260910_143202.csv",
+    "date": "2026-09-10",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-11_07-42-27.csv",
+    "date": "2026-09-11",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-11_08-01-27.csv",
+    "date": "2026-09-11",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-11_15-04-47.csv",
+    "date": "2026-09-11",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-11_15-23-18.csv",
+    "date": "2026-09-11",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-11_19-24-41.csv",
+    "date": "2026-09-11",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-11_19-37-40.csv",
+    "date": "2026-09-11",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-11_21-57-07.csv",
+    "date": "2026-09-11",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-12_13-25-13.csv",
+    "date": "2026-09-12",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-12_13-33-36.csv",
+    "date": "2026-09-12",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-12_13-57-02.csv",
+    "date": "2026-09-12",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-12_14-15-41.csv",
+    "date": "2026-09-12",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-12_14-48-27.csv",
+    "date": "2026-09-12",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-12_15-01-43.csv",
+    "date": "2026-09-12",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-12_16-59-34.csv",
+    "date": "2026-09-12",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-13_11-48-59.csv",
+    "date": "2026-09-13",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-13_12-01-09.csv",
+    "date": "2026-09-13",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-13_12-08-25.csv",
+    "date": "2026-09-13",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-13_12-22-44.csv",
+    "date": "2026-09-13",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-13_13-01-46.csv",
+    "date": "2026-09-13",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-13_13-46-17.csv",
+    "date": "2026-09-13",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-13_17-11-06.csv",
+    "date": "2026-09-13",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-13_19-00-19.csv",
+    "date": "2026-09-13",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-13_19-10-18.csv",
+    "date": "2026-09-13",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-13_19-45-44.csv",
+    "date": "2026-09-13",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-13_20-30-29.csv",
+    "date": "2026-09-13",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-14_07-36-58.csv",
+    "date": "2026-09-14",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-14_07-50-59.csv",
+    "date": "2026-09-14",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-14_16-56-10.csv",
+    "date": "2026-09-14",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-14_17-08-07.csv",
+    "date": "2026-09-14",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-14_18-09-48.csv",
+    "date": "2026-09-14",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-14_18-49-32.csv",
+    "date": "2026-09-14",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-15_07-49-33.csv",
+    "date": "2026-09-15",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-15_08-06-11.csv",
+    "date": "2026-09-15",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-15_14-44-40.csv",
+    "date": "2026-09-15",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-16_07-35-39.csv",
+    "date": "2026-09-16",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-16_07-49-37.csv",
+    "date": "2026-09-16",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-16_13-54-36.csv",
+    "date": "2026-09-16",
+    "currentClass": "0.1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-16_14-01-15.csv",
+    "date": "2026-09-16",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-16_14-40-56.csv",
+    "date": "2026-09-16",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-16_18-07-46.csv",
+    "date": "2026-09-16",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-16_18-17-21.csv",
+    "date": "2026-09-16",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-16_19-00-34.csv",
+    "date": "2026-09-16",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-16_19-29-42.csv",
+    "date": "2026-09-16",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-17_07-42-09.csv",
+    "date": "2026-09-17",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-17_08-01-31.csv",
+    "date": "2026-09-17",
+    "currentClass": "0.1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-17_08-17-51.csv",
+    "date": "2026-09-17",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-17_18-42-24.csv",
+    "date": "2026-09-17",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-17_18-50-09.csv",
+    "date": "2026-09-17",
+    "currentClass": "0.1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-17_19-54-00.csv",
+    "date": "2026-09-17",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-18_07-43-41.csv",
+    "date": "2026-09-18",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-18_08-01-32.csv",
+    "date": "2026-09-18",
+    "currentClass": "0.1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-19_09-36-29.csv",
+    "date": "2026-09-19",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-19_12-04-29.csv",
+    "date": "2026-09-19",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-19_12-17-53.csv",
+    "date": "2026-09-19",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-19_12-56-56.csv",
+    "date": "2026-09-19",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-19_13-06-20.csv",
+    "date": "2026-09-19",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-19_15-44-41.csv",
+    "date": "2026-09-19",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-19_17-22-21.csv",
+    "date": "2026-09-19",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-19_17-42-40.csv",
+    "date": "2026-09-19",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-20_06-44-20.csv",
+    "date": "2026-09-20",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-20_10-38-25.csv",
+    "date": "2026-09-20",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-20_11-23-27.csv",
+    "date": "2026-09-20",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-20_18-02-44.csv",
+    "date": "2026-09-20",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-20_19-27-18.csv",
+    "date": "2026-09-20",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-20_20-25-25.csv",
+    "date": "2026-09-20",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-20_20-52-42.csv",
+    "date": "2026-09-20",
+    "currentClass": "0.1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-20_20-59-21.csv",
+    "date": "2026-09-20",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-21_07-36-37.csv",
+    "date": "2026-09-21",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-21_07-50-20.csv",
+    "date": "2026-09-21",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-21_12-02-22.csv",
+    "date": "2026-09-21",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-21_20-35-24.csv",
+    "date": "2026-09-21",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-21_20-55-26.csv",
+    "date": "2026-09-21",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-22_07-45-42.csv",
+    "date": "2026-09-22",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-22_07-59-37.csv",
+    "date": "2026-09-22",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-22_11-55-57.csv",
+    "date": "2026-09-22",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-22_16-13-42.csv",
+    "date": "2026-09-22",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-22_16-21-26.csv",
+    "date": "2026-09-22",
+    "currentClass": "0.1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-22_21-59-14.csv",
+    "date": "2026-09-22",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-22_22-14-10.csv",
+    "date": "2026-09-22",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-23_07-39-38.csv",
+    "date": "2026-09-23",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-23_07-51-39.csv",
+    "date": "2026-09-23",
+    "currentClass": "0.1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-23_08-11-14.csv",
+    "date": "2026-09-23",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-23_18-33-22.csv",
+    "date": "2026-09-23",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-24_20-27-48.csv",
+    "date": "2026-09-24",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-24_22-29-34.csv",
+    "date": "2026-09-24",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-25_13-48-33.csv",
+    "date": "2026-09-25",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-25_14-09-21.csv",
+    "date": "2026-09-25",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-25_14-30-29.csv",
+    "date": "2026-09-25",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-25_19-55-15.csv",
+    "date": "2026-09-25",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-25_20-14-16.csv",
+    "date": "2026-09-25",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-26_12-07-59.csv",
+    "date": "2026-09-26",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-26_12-21-17.csv",
+    "date": "2026-09-26",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-26_13-05-40.csv",
+    "date": "2026-09-26",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-26_13-47-37.csv",
+    "date": "2026-09-26",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-26_14-06-50.csv",
+    "date": "2026-09-26",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-26_16-47-35.csv",
+    "date": "2026-09-26",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-26_17-57-23.csv",
+    "date": "2026-09-26",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-26_18-08-40.csv",
+    "date": "2026-09-26",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-26_20-00-42.csv",
+    "date": "2026-09-26",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-27_13-43-58.csv",
+    "date": "2026-09-27",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-27_13-54-46.csv",
+    "date": "2026-09-27",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-27_14-12-39.csv",
+    "date": "2026-09-27",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-27_14-54-46.csv",
+    "date": "2026-09-27",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-27_15-12-43.csv",
+    "date": "2026-09-27",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-27_16-50-42.csv",
+    "date": "2026-09-27",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-27_17-01-21.csv",
+    "date": "2026-09-27",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-27_17-15-25.csv",
+    "date": "2026-09-27",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-27_17-34-35.csv",
+    "date": "2026-09-27",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-27_17-49-23.csv",
+    "date": "2026-09-27",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-27_19-57-33.csv",
+    "date": "2026-09-27",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-27_22-04-51.csv",
+    "date": "2026-09-27",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-28_21-24-27.csv",
+    "date": "2026-09-28",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-29_10-00-34.csv",
+    "date": "2026-09-29",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-29_10-13-01.csv",
+    "date": "2026-09-29",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-29_10-21-46.csv",
+    "date": "2026-09-29",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-29_20-39-13.csv",
+    "date": "2026-09-29",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-29_22-10-11.csv",
+    "date": "2026-09-29",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-29_22-22-40.csv",
+    "date": "2026-09-29",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-30_08-08-32.csv",
+    "date": "2026-09-30",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-30_08-21-17.csv",
+    "date": "2026-09-30",
+    "currentClass": "0.1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-30_10-39-05.csv",
+    "date": "2026-09-30",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   },
+   {
+    "file": "2026-09-30_10-51-47.csv",
+    "date": "2026-09-30",
+    "currentClass": "1 A",
+    "voltageStep": 0.1
+   }
+  ]
  }
 }
