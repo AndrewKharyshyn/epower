@@ -37,5 +37,5 @@ Targets: Applied Energy or IEEE TVT. Interactive React/JSX dashboard (`xtrail_su
 
 ## Article audit (current)
 Verdict: "scientifically promising, substantial revision required" (methodological backbone unusually strong). Remaining: three-way EFC disambiguation (FCE / standard EFC / Rainflow-EFC);
-stationary-start ratio rests on 7 events (Wilson CI ~160x-760x); Wikner (Chalmers 2017) source cell is a large-format NMC/LMO pouch (different chemistry/duty class); corpus-size/date reconciliation across sections;
+the stationary-vs-high-speed start ratio is now the SoC-standardised, day-clustered M497 estimate (`socHysteresis.startRatioClustered`; the earlier "7 events, Wilson CI ~160x-760x" described one SoC-60 cell with an iid interval and is stale); Wikner (Chalmers 2017) source cell is a large-format NMC/LMO pouch (different chemistry/duty class); corpus-size/date reconciliation across sections;
 code<->dashboard<->article consistency pass once the manuscript is provided.
