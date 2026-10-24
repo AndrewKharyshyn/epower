@@ -309,6 +309,10 @@ def _tl(ci, noun="slope"):
     return ("positive " if ci[0] > 0 else "negative ") + noun + " (95% interval excludes 0; conditional on the model, not a capacity or SOH change)"
 _ds_m427 = A.get("dependenceSensitivity")
 _pfe486 = A.get("powerFadeEquivalence")
+# M505 (Director): a carried snapshot must not be mistaken for a current result; WARN (not a failure) when the live powerFade slope no longer equals the block's A0 slope
+_vas505 = A.get("vregAlignmentSensitivity")
+if _vas505 and _vas505.get("snapshot") and A.get("powerFadeEquivalence") and round(float(A["powerFadeEquivalence"]["s1"]["slope"]), 4) != round(float(_vas505["snapshot"]["a0S1Slope"]), 4):
+    print("WARN M505 vregAlignmentSensitivity is a dated snapshot of %s drives (master %s): the live powerFade S1 slope %s differs from its A0 slope %s" % (_vas505["snapshot"]["nDrives"], _vas505.get("masterMd5", "")[:8], A["powerFadeEquivalence"]["s1"]["slope"], _vas505["snapshot"]["a0S1Slope"]))
 _short486 = ({"notEstablished": "primary design (S1): equivalence not established", "procedureDependent": "primary design (S1): procedure-dependent, equivalence not established",
               "established": "primary design (S1): within the locked bound over this window"}[_pfe486["verdict"]] if _pfe486 else None)
 _STAND = [(("%s; equivalence not established on this sensitivity design (S0); " + _short486 + "; no stability or SOH claim") if (k == "resistanceVreg" and _short486) else

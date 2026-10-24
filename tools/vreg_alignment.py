@@ -11,6 +11,8 @@ import numpy as np, pandas as pd
 import compute_drive_summary_v6 as D
 
 VARIANTS = ["A0", "A1", "A2", "A3", "A4"]
+POSTHOC = ["A1V"]      # post-hoc blind-audit decomposition (voltage interpolated, SoC nearest); NOT pre-registered, NOT in the verdict
+A2_NOTE = "A2 uses an inclusive 300 ms tolerance on integer-millisecond timestamps (merge_asof tolerance=300ms); a strict float boundary would drop a few more pairs (stated as a deviation of the spec, which did not name the boundary)"
 N_DRAWS, SEED, MONTH_DAYS = 4000, 42, 30.44
 MIN_PAIRED, WIDTH_MAX, FAIL_CAP = 150, 1.5, 0.01
 STATS = {"tiedTimestamps": 0, "socRowsPaired": 0, "socRowsChanged": 0}
@@ -34,11 +36,13 @@ def make_asof(variant):
             return pd.merge_asof(base, other.rename(columns={"v": name}), on="t", direction=direction, tolerance=pd.Timedelta(tol))
         return f
 
-    def a1(base, other, name, tol):
+    def a1(base, other, name, tol, _only=None):
         """Linear interpolation of `other` onto base['t'] between the neighbours t_prev <= t <= t_next (gap <= 2 x tol); an exact timestamp match takes that sample (the first of tied timestamps)."""
         if other is None:
             base[name] = np.nan
             return base
+        if _only is not None and name not in _only:
+            return orig(base, other, name, tol)         # post-hoc A1V: SoC keeps the production nearest pairing
         o = other.sort_values("t", kind="stable").reset_index(drop=True)
         to = o["t"].values.astype("datetime64[ns]").astype("int64")
         vo = o["v"].values.astype(float)
@@ -64,7 +68,8 @@ def make_asof(variant):
             STATS["socRowsPaired"] += int(both.sum())
             STATS["socRowsChanged"] += int((both & (np.abs(out - near) > 1e-9)).sum())
         return res
-    f = {"A0": a0, "A1": a1, "A2": a2, "A3": directed("backward"), "A4": directed("forward")}[variant]
+    a1v = lambda base, other, name, tol: a1(base, other, name, tol, _only=("V",))
+    f = {"A0": a0, "A1": a1, "A1V": a1v, "A2": a2, "A3": directed("backward"), "A4": directed("forward")}[variant]
     f._xt_variant = variant
     return f
 
@@ -85,7 +90,7 @@ def proxy_all_variants(csv_bytes):
     """{variant: {vreg_R_pack_mohm, vreg_I_p95_A, n_vreg_samples}} for one drive; the frame is prepared once and copied per call. The active-patch sentinel is verified inside each call."""
     df, t = D._prep_bytes(csv_bytes)
     out = {}
-    for v in VARIANTS:
+    for v in VARIANTS + POSTHOC:
         with patched_asof(v):
             if getattr(D._asof, "_xt_variant", None) != v:
                 raise SystemExit("STOP: alignment patch not active for variant " + v)
@@ -207,12 +212,12 @@ def main():
         if all(prox[f][v] == prox[f]["A0"] for f in prox):
             raise SystemExit("M505 STOP: variant %s equals A0 on every drive (patch not effective)" % v)
     dmv = {}
-    for v in VARIANTS:
+    for v in VARIANTS + POSTHOC:
         d = dm.copy()
         d["vreg_R_pack_mohm"] = [prox[f][v].get("vreg_R_pack_mohm", np.nan) for f in d["file"]]
         d["vreg_I_p95_A"] = [prox[f][v].get("vreg_I_p95_A", np.nan) for f in d["file"]]
         dmv[v] = d
-    own = {v: refits(dmv[v], dens, nb) for v in VARIANTS}
+    own = {v: refits(dmv[v], dens, nb) for v in VARIANTS + POSTHOC}
     pf, pe, rv = A["powerFade"], A["powerFadeEquivalence"], A["degradationTrends"]["resistanceVreg"]["clusterRobustOLS"]
     fid = {"S1": {"slope": own["A0"]["S1"]["slope"], "publishedSlope": pe["s1"]["slope"], "n": own["A0"]["S1"]["n"], "publishedN": pf["nClean"], "nDays": own["A0"]["S1"]["nDays"], "publishedNDays": pe["s1"]["nDays"]},
            "S0": {"slope": own["A0"]["S0"]["slope"], "publishedSlope": round(float(rv["slope"]), 4), "n": own["A0"]["S0"]["n"], "publishedN": rv["nObs"]},
@@ -254,7 +259,7 @@ def main():
             "scriptSha256": hashlib.sha256(open(__file__, "rb").read()).hexdigest(), "specSha256": hashlib.sha256(open("analyses/M505_spec.md", "rb").read()).hexdigest(),
             "basis": "raw/ = sha256-verified originals (M366)", "nCanonicalManifest": n_can, "seed": SEED, "nDraws": nb}
     out = {"spec": "analyses/M505_spec.md", "provenance": {**prov, "generatedAt": datetime.datetime.now(datetime.timezone.utc).isoformat()}, "fidelity": fid, "variantsRule": "A0 nearest 1500 ms | A1 interpolation | A2 nearest 300 ms | A3 backward | A4 forward",
-           "asofStats": STATS, "paired": res["paired"], "own": res["own"], "proxyShiftVsA0": shifts, "verdicts": res["verdicts"],
+           "a2BoundaryNote": A2_NOTE, "postHoc": {"label": "post-hoc blind-audit decomposition, not pre-registered, not in the verdict: A1V = voltage interpolated onto the current timestamps, SoC kept on the production nearest pairing", "A1V_own": own["A1V"]}, "asofStats": STATS, "paired": res["paired"], "own": res["own"], "proxyShiftVsA0": shifts, "verdicts": res["verdicts"],
            "perDrive": {str(f): {v: prox[f][v].get("vreg_R_pack_mohm") for v in VARIANTS} for f in dm["file"] if any(prox[f][v].get("vreg_R_pack_mohm") is not None for v in VARIANTS)}}
     with open(out_path, "w", encoding="utf-8", newline="\n") as f:
         json.dump(out, f, indent=1)
@@ -276,7 +281,8 @@ def splice(out, prov):
            "snapshot": {"nDrives": prov["nCanonicalManifest"], "a0S1Slope": out["fidelity"]["S1"]["slope"], "note": "dated snapshot; semantic_gate warns when the live powerFade slope differs from a0S1Slope"},
            "variantsRule": out["variantsRule"], "fidelity": out["fidelity"], "own": {v: cut(out["own"][v]) for v in VARIANTS},
            "paired": {v: {"A0": cut(out["paired"][v]["A0"]), "variant": cut(out["paired"][v]["variant"])} for v in out["paired"]},
-           "proxyShiftVsA0": out["proxyShiftVsA0"], "verdicts": out["verdicts"], "asofStats": out["asofStats"],
+           "proxyShiftVsA0": out["proxyShiftVsA0"], "verdicts": out["verdicts"], "asofStats": out["asofStats"], "a2BoundaryNote": out["a2BoundaryNote"],
+           "postHoc": {"label": out["postHoc"]["label"], "A1V_own": cut(out["postHoc"]["A1V_own"])},
            "multiplicity": "per design 4 non-A0 variants x 2 populations day intervals (+ A0 references), plus 5 ISO-week sensitivity intervals; no adjustment; the any-difference rule leans conservative"}
     blk = json.loads(json.dumps(blk))
     A["vregAlignmentSensitivity"] = blk
