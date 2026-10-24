@@ -63,6 +63,7 @@ function buildS(config, arrays) {
     serialDependence: A.serialDependence || null,
     windowCaveat: A.windowCaveat || null,
     powerFadeEquivalence: A.powerFadeEquivalence || null,
+    powerFadeTemperatureSpecs: A.powerFadeTemperatureSpecs || null,
     integrationScenarios: A.integrationScenarios || null,  // M420: single-choice integration scenarios beside the energy Monte Carlo (reporting-only)
     cohortSupport: A.cohortSupport || null,  // M472: descriptive support accounting per thermal cohort (largest-drive / largest-day share, effective days, leave-one-day-out, physical-class sensitivity)
     thermalSupportLedger: A.thermalSupportLedger || null,  // M418: candidate / accepted / excluded / right-censored counts of the thermal estimates (reporting-only)
@@ -4961,8 +4962,21 @@ function primaryEquivalenceSentence(){
   const cr=e.cadenceRange||{};
   const rng=cr.nSpecs?`The slope depends on the cadence specification (M395: ${cr.slopeMin} to ${cr.slopeMax} m\u03a9/month across ${cr.nSpecs} specifications${cr.allIntervalsSpanZero?", every 95 % interval spans zero":""}). `:"";
   const att=e.s1.equivalenceAttainable ? `The observed SE ${e.s1.se.toFixed(3)} is below the ${e.s1.seMaxForEquivalence.toFixed(3)} m\u03a9/month needed for equivalence to be attainable.` : `At this precision the test could not show equivalence: it requires an SE below ${e.s1.seMaxForEquivalence.toFixed(3)} m\u03a9/month (bound / t0.95,df), the observed SE is ${e.s1.se.toFixed(3)}, so even a slope estimate of exactly 0 would not lie inside the bound.`;
-  return `Equivalence test on the primary design (powerFade, specification S1, density-adjusted partial slope): slope ${e.s1.slope} m\u03a9/month, 90 % interval [${e.s1.ci90[0]}, ${e.s1.ci90[1]}] against the locked bound of \u00b1${e.bound.value} m\u03a9/month; ${word}. ${rng}This is not evidence of no change. ${att}`;
+  const bnd=` The locked bound maps the OEM-disclosed relative resistance limit onto the proxy median and spreads it linearly over 14 years: a planning assumption, not an OEM limit on this proxy.`;
+  return `Equivalence test on the primary design (powerFade, specification S1, density-adjusted partial slope): slope ${e.s1.slope} m\u03a9/month, 90 % interval [${e.s1.ci90[0]}, ${e.s1.ci90[1]}] against the locked bound of \u00b1${e.bound.value} m\u03a9/month; ${word}. ${rng}This is not evidence of no change. ${att}${bnd}${temperatureSpecsSentence()}`;
 }
+// M499 (spec analyses/M499_spec.md Rev 2, Director: accept): temperature-specification sensitivity of the resistance-proxy months coefficient, bound to S.powerFadeTemperatureSpecs only
+function temperatureSpecsSentence(){
+  const t=S.powerFadeTemperatureSpecs;
+  if(!t||!t.specs||!t.decision||!t.window||!t.tipping) return "";
+  const nm={T0:"linear pack temperature (released)",T1:"quadratic pack temperature",T2:"piecewise-linear pack temperature",T3:"key-on pack temperature (a noisier proxy of in-drive temperature)",T4:"ambient temperature",T5:"pack and ambient temperature"};
+  const dec=t.decision, ks=Object.keys(t.specs), excl=dec.specificationsExcludingZero||[], tp=t.tipping, w=t.window;
+  const list=ks.map(k=>`${nm[k]||k} ${t.specs[k].slope} [${t.specs[k].dayCi95[0]}, ${t.specs[k].dayCi95[1]}]`).join("; ");
+  const head=dec.outcome==="robust" ? "No temperature specification tested gives a day-clustered interval that excludes zero; the trend is not established." : `The conclusion depends on how temperature enters the model (${excl.map(k=>nm[k]||k).join(", ")} exclude${excl.length===1?"s":""} zero; the other ${ks.length-excl.length} include zero); the resistance trend remains unresolved and no slope is promoted.`;
+  const tip=tp.dZero==null ? "" : ` Changing the temperature coefficient by ${Math.abs(tp.dZero)} mΩ/°C (${Math.round(tp.dZeroFractionOfAbsBT*100)} % of its size) would bring the slope to zero; the temperature term drifts ${tp.tauDegCPerMonth} °C/month inside this window.`;
+  return ` Temperature-specification sensitivity (M499; estimated proxy, one warm-season window ${w.firstDate} to ${w.lastDate}, ${w.spanMonths} months): month coefficients with day-clustered 95 % intervals, mΩ/month: ${list}. ${head}${tip} Twelve intervals were computed without multiplicity adjustment and the week-clustered intervals are a sensitivity only. Planning reading, not a result: defer trend claims until a full year, including winter, is logged.`;
+}
+
 function primaryEquivalenceShort(){
   const e=S.powerFadeEquivalence;
   if(!e||!e.verdict) return "";
