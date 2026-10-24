@@ -1,0 +1,12 @@
+{"verdict":"reproduced with caveats",
+"reproduced":{"n_drives":604,"n_days":121,"bins":[55,60,65,70,75,80],"k_st":112,"k_hi":3961,"n_st":92798,"n_hi":76988,
+ "R_MH":43.20,"day_boot_ci95":[34.07,57.28],"isoweek_boot_ci95":[33.95,62.94],"poisson_ratio":62.67,"poisson_ci95":[47.78,82.19]},
+"claimed":{"k_st":114,"k_hi":3970,"R":43.3,"day_ci":[34,58],"wk_ci":[34,64],"poisson":[62.7,47.6,82.5]},
+"differences":{"k_st":-2,"k_hi":-9,"R":-0.10,"poisson":-0.03,"note":"within ~0.3% on R; 2 drives (606 vs 604) lack rpm/SoC channel in my reader; residual k gap likely edge handling (grid origin/midnight/fill)"},
+"tolerance":"R within 1; CI endpoints within ~1 (week upper 1.1)",
+"fill_limit_sensitivity_R":{"0s(no fill)":32.4,"2s":42.5,"5s":43.2,"10s":43.3},
+"fill_note":"no-fill drops to 489 drives (speed/SoC/rpm logged at differing cadences) so is not comparable; 2-10 s stable (+-1.5%), 5 s not a driver",
+"mh_vs_poisson":"Not a defect: different weighting of strongly heterogeneous bin-specific ratios (bin RR: 55:144, 60:283, 65:40, 70:3.9, 75:4.1, 80:17.8). MH weights by n_hi*n_st/N; Poisson MLE weights by information on log scale (stationary event counts). Estimand differs; report both and heterogeneity, not a single 'the' ratio.",
+"method_concerns":["Heterogeneity across SoC bins spans ~4x to ~280x: a common ratio is a weighted summary, not a constant effect; n_hi in bin 55 and 80 tiny (170, 45)","Day bootstrap treats days as iid; ISO-week upper bound is wider (63 vs 57), indicating between-day autocorrelation unmodelled by day resampling; prefer week interval as conservative","Frozen bin set is not re-selected inside bootstrap: eligibility variance omitted (small, bins 55-80 comfortably above 30 except 80 stationary 291/hi 45)","Per-second hazard counts repeated at-risk seconds within a start attempt; k_st is 112 events so stationary rate has wide Poisson uncertainty, which the day bootstrap does capture","Observational: speed band is not randomised; ratio is descriptive (high speed demands power), not causal"],
+"language_concerns":["describe as estimated per-second start-hazard ratio, not 'measured'; avoid causal wording"],
+"audit_files":["audit_package_2026-10-23/M497_blind/blind.py","audit_package_2026-10-23/M497_blind/an.py","audit_package_2026-10-23/M497_blind/audit_full.json","audit_package_2026-10-23/M497_blind/audit.json"]}
