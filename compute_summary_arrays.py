@@ -14565,7 +14565,7 @@ def _thermal_fuel_penalty_continuous(dm, raw_loader=None, raw_dir=None):
                           'down at one threshold. coolantCiSpansZero=true '
                           'means the continuous coolant effect is NOT '
                           'resolved once RPM/load are controlled for at '
-                          'this sample size, a genuine null result -- '
+                          'this sample size (not resolved; an absence of detection, not evidence of no effect) -- '
                           'this does not contradict combustionPenalty\'s '
                           'own resolved BINARY warmup-vs-warm ratio above, '
                           'since that comparison pools cells differently '
@@ -16868,10 +16868,10 @@ def _evidence_ledger(arrays):
             'notes': (('This check tests MODEL ADEQUACY, not a number '
                       'match: the second-order model does NOT improve '
                       'BIC over first-order (delta-BIC=%.1f, LR p=%.3f), '
-                      'which CONFIRMS the first-order model is an '
-                      'adequate description at this sample size -- a '
-                      'genuine null result reported as such, not evidence '
-                      'of a failed check.')
+                      'so the second-order model is not preferred at '
+                      'this sample size; that is an absence of detected '
+                      'improvement, not proof that the first-order model '
+                      'is adequate, and not evidence of a failed check.')
                      % (so.get('bicImprovement', 0), so.get('lrP', 1))),
         })
 
@@ -16883,7 +16883,7 @@ def _evidence_ledger(arrays):
         rv_ols = rv.get('clusterRobustOLS') or {}
         rows.append({
             'topic': 'Pack internal-resistance fade trend',
-            'evidenceClass': 'measured',
+            'evidenceClass': 'derived',
             'sourceKey': 'powerFade',
             'primary': {
                 'label': 'powerFade (HV-current-density adjusted, partial; day-clustered bootstrap)',
@@ -16918,7 +16918,7 @@ def _evidence_ledger(arrays):
                      'own methodology strings for the full distinction) -- '
                      'both slopes\' 95% CIs span zero, so neither detects '
                      'a resolvable fade trend at this corpus size/window, '
-                     'a genuine null result. Both metrics\' own SECONDARY '
+                     'a trend is not resolved in this window (an absence of detection, not evidence of no change). Both metrics\' own SECONDARY '
                      'method (day random-intercept mixed-effects, '
                      'statsmodels 0.15.0) failed to converge (LinAlgError: '
                      'Singular matrix) -- disclosed here rather than '
