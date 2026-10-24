@@ -78,11 +78,10 @@ def raw_loader(raw_dir=None):
 
 
 def manifest_sha_lookup():
-    """canonical file key -> recorded sha256 (raw_manifest.json), or None when unknown."""
-    p = os.path.join(ROOT, "raw_manifest.json")
-    recs = json.load(open(p, encoding="utf-8")).get("records") if os.path.exists(p) else None
-    m = {r.get("canonical"): r.get("sha256") for r in recs if r.get("role") == "canonical"} if isinstance(recs, list) else {}
-    return lambda f: m.get(f)
+    """canonical file key -> recorded sha256, or None. Audit PF-04 (M496): the former body read a 'records' key that raw_manifest.json does not
+    have (it stores 'files'), so it always returned None and every run hashed the raw files from disk. A recorded hash must not stand in for
+    the file content when deciding reuse, so the lookup is now an explicit None (same behaviour, stated)."""
+    return lambda f: None
 
 
 def _clean(prev):

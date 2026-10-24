@@ -358,7 +358,8 @@ def main():
                          "litres": round(r["cap5"]["total"], 4), "stationary": round(r[primary]["stationary"], 4), "moving": round(r[primary]["moving"], 4), "unknown": round(r[primary]["unknown"], 4)} for r in rows]
     out3["nAnalysis"], out3["expectedTripsFromFuelAnalytics"] = len(rows), expected
     prev_path = os.path.join("analyses", "M339_fuel_analytics2_preview.json")
-    json.dump({"fuelStates": out3, "fuelWarmup": out2}, open(prev_path, "w", encoding="utf-8", newline="\n"), indent=1, ensure_ascii=False, default=float)
+    if not nowrite:                                                          # audit PF-05 (M496): --no-write must not overwrite the tracked preview
+        json.dump({"fuelStates": out3, "fuelWarmup": out2}, open(prev_path, "w", encoding="utf-8", newline="\n"), indent=1, ensure_ascii=False, default=float)
     print(json.dumps({"n": len(rows), "expected": expected, "excl": excl, "stops": stops, "coverage": out3["coverage"], "speedRes": out3["speedResolutionKmh"],
                       "primary": variants[primary], "nCurves": len(cd)}, indent=1, default=float))
     if nowrite:

@@ -38,9 +38,13 @@ with tempfile.TemporaryDirectory() as td:
     # previous-ID identity
     old = pd.DataFrame({"file": ["a", "b"], "x": [1.0, 2.0], "t": ["u", "u"]})
     cur = pd.DataFrame({"file": ["a", "b", "c"], "x": [1.0, 2.0, 5.0], "t": ["u", "u", "u"]})
-    assert CM.assert_previous_identity(cur, old)["nIdentical"] == 2
-    cur2 = cur.copy(); cur2.loc[0, "x"] = 1.5
-    assert "differ" in stops(lambda: CM.assert_previous_identity(cur2, old))
+    _r = CM.ROOT; os.makedirs(os.path.join(td, "analyses"), exist_ok=True); CM.ROOT = td   # audit PF-05 (M496): the drift report must not overwrite the tracked analyses file
+    try:
+        assert CM.assert_previous_identity(cur, old)["nIdentical"] == 2
+        cur2 = cur.copy(); cur2.loc[0, "x"] = 1.5
+        assert "differ" in stops(lambda: CM.assert_previous_identity(cur2, old))
+    finally:
+        CM.ROOT = _r
 # flags
 assert CM.assert_flags_equal(dm)["nDiverging"] == 0
 dm_div = dm.copy(); dm_div.loc[0, "ens_invalid"] = True
