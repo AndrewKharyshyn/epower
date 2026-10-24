@@ -4,7 +4,7 @@ For the CURRENT state run `python tools/state.py` (writes STATE.md); counts, dat
 
 ## Purpose and thesis
 Longitudinal OBD-II telemetry study of a Nissan X-Trail T33 e-POWER (FWD), a series hybrid whose HV battery works as a power buffer, not an energy reservoir.
-Evidence: narrow SoC band (~44-88%), high-speed engine-on discharge share, buffer-impulse transients at engine starts, SoC-gated engine control.
+Evidence: narrow SoC band (see the payload for the current percentile band), high-speed engine-on discharge share, buffer-impulse transients at engine starts, SoC-gated engine control.
 Targets: Applied Energy or IEEE TVT. Interactive React/JSX dashboard (`xtrail_summary.jsx` -> `xtrail_dashboard.html`). The Ukrainian companion article is manual and out of scope for code changes.
 
 ## Vehicle and hardware
@@ -20,20 +20,20 @@ Targets: Applied Energy or IEEE TVT. Interactive React/JSX dashboard (`xtrail_su
 - Model-derived (Path B: fuel flow -> BSFC surface with 217 g/kWh floor -> generator brake -> DC-bus balance), modules `fuel_recon.py`, `recon_engine.py`, `model_constants.py`; `drive_master.csv` read-only.
 - Fuel channel caveats: the logged fuel rate/counter (app-calculated by the logger) is present on a subset of drives; coverage is not repeated here; highway f_gen rests on few drives.
 - P_aux is directly measured at standstill (Parasitic Draws / `auxLoadAmbient`, median ~1.2 kW, scaling 1.0->1.9 kW with ambient); in-motion aux is not separable.
-- History: the M245-M249 headline f_gen 0.60-0.69 was invalidated by a battery-current sign error (see findings-and-methods.md); live payload f_gen = 0.477 (2026-09-25).
+- History: the M245-M249 headline f_gen 0.60-0.69 was invalidated by a battery-current sign error (see findings-and-methods.md); the live value is `generatorTractionRecon.corpus.fGen` with its interval and variant range in `gtrClosure.fGen` (read the payload; no number is typed here).
 - Pending: BEV side-by-side (section 17); engine load/MAP in `classify_regime()`; E10-vs-E0 anchor residual; fuel/oil/AFR/MAP pipeline integration; rebuilding per-second sub-analyses (speedSplit, simultaneity, crossval, rpmFinding, sensitivity) to the current basis (files `speed_split.py`, `simultaneity_gtr.py`, `crossval_gtr.py`, `sensitivity_gtr.py`, `rpm_opt_pass.py` now exist).
 
 ## Statistics and degradation
-- Power fade (`powerFade`, cadence-controlled, primary): slope +0.013 mOhm/month, CI spans zero (values as of 2026-09; regenerate). `resistanceVreg` (cadence-uncontrolled) is sensitivity only. Cell-spread trend: cluster-robust OLS (authoritative), CI spans zero.
+- Power fade (`powerFade`, cadence-controlled, primary): slope and interval are in `powerFade` / `powerFadeEquivalence` (read the payload; the interval has spanned zero in every release so far). `resistanceVreg` (cadence-uncontrolled) is sensitivity only. Cell-spread trend: cluster-robust OLS (authoritative), CI spans zero.
 - TOST bounds locked at M108 (cell-spread 0.2315 mV/month, resistance 0.5439 mOhm/month): verdict "not established, window too short".
 - Energy MC policy (M217): full recompute every ingestion.
 - RPM histogram: the 1,400-1,600 rpm bin split into two setpoints (~1,500 and ~1,589) at M218.
-- Enhancement plan M220-M228 and the independent audit (33 findings F01-F33) closed except F02; F03 (raw provenance) is open: originals recovered outside raw/ in M323, re-anchoring undecided.
+- Enhancement plan M220-M228 and the independent audit (33 findings F01-F33) closed except F02; F03 (raw provenance) was resolved at the raw-file level by M366 (raw/ holds the sha256-verified originals); see CLAUDE.md Owner decisions.
 - M119-v2 (socHysteresisV2) fully recomputed at M264 (basis recorded in the CHANGELOG; M320-M321 replaced the fixed ladder); `recompute_m119v2` stays False for routine ingestion.
 
 ## Known artifacts
-- `degradation_trends.json` is an orphaned stale snapshot (decision pending: regenerate, retire, or document).
-- `corpus_manifest.py` `_classify()` misclassifies e4orce masters as auxiliary raw drives; use a clean `raw_only/` directory as `raw_dir`.
+- `degradation_trends.json` no longer exists (retired); `degradationTrends` in the payload is the live block.
+- `corpus_manifest.py` `_classify()` classifies the e4orce masters as `derived` (fixed in M207).
 
 ## Article audit (current)
 Verdict: "scientifically promising, substantial revision required" (methodological backbone unusually strong). Remaining: three-way EFC disambiguation (FCE / standard EFC / Rainflow-EFC);

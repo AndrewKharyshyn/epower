@@ -51620,7 +51620,7 @@
    },
    "hasOilCovariate": true,
    "coolantCiSpansZero": true,
-   "method": "Day-clustered bootstrap OLS (_dayboot_ols, the SAME estimator M223.1 introduced, reused directly), continuous coolant (and oil, where available) temperature plus RPM/load controls -- replaces the binary coldStartMaxC/warmThresholdC step function with an actual continuous relationship. A negative coolant/oil coefficient means fuel rate keeps falling smoothly as the engine warms, not just stepping down at one threshold. coolantCiSpansZero=true means the continuous coolant effect is NOT resolved once RPM/load are controlled for at this sample size, a genuine null result -- this does not contradict combustionPenalty's own resolved BINARY warmup-vs-warm ratio above, since that comparison pools cells differently and this model estimates a single linear slope across the full continuous range rather than a coarse two-state contrast; both are reported, neither is suppressed to make the other look cleaner."
+   "method": "Day-clustered bootstrap OLS (_dayboot_ols, the SAME estimator M223.1 introduced, reused directly), continuous coolant (and oil, where available) temperature plus RPM/load controls -- replaces the binary coldStartMaxC/warmThresholdC step function with an actual continuous relationship. A negative coolant/oil coefficient means fuel rate keeps falling smoothly as the engine warms, not just stepping down at one threshold. coolantCiSpansZero=true means the continuous coolant effect is NOT resolved once RPM/load are controlled for at this sample size (not resolved; an absence of detection, not evidence of no effect) -- this does not contradict combustionPenalty's own resolved BINARY warmup-vs-warm ratio above, since that comparison pools cells differently and this model estimates a single linear slope across the full continuous range rather than a coarse two-state contrast; both are reported, neither is suppressed to make the other look cleaner."
   },
   "attenuationDistance": null,
   "withinDayMatchedSubset": {
@@ -58109,7 +58109,7 @@
      }
     ],
     "validationStatus": "confirmed",
-    "notes": "This check tests MODEL ADEQUACY, not a number match: the second-order model does NOT improve BIC over first-order (delta-BIC=-183.5, LR p=0.109), which CONFIRMS the first-order model is an adequate description at this sample size -- a genuine null result reported as such, not evidence of a failed check.",
+    "notes": "This check tests MODEL ADEQUACY, not a number match: the second-order model does NOT improve BIC over first-order (delta-BIC=-183.5, LR p=0.109), so the second-order model is not preferred at this sample size; that is an absence of detected improvement, not proof that the first-order model is adequate, and not evidence of a failed check.",
     "artifactIdentity": {
      "corpusHashShort": "5556a0c6c8bc",
      "generatedAt": "2026-10-19T17:14:33.246038+00:00"
@@ -58117,7 +58117,7 @@
    },
    {
     "topic": "Pack internal-resistance fade trend",
-    "evidenceClass": "measured",
+    "evidenceClass": "derived",
     "sourceKey": "powerFade",
     "primary": {
      "label": "powerFade (HV-current-density adjusted, partial; day-clustered bootstrap)",
@@ -58146,7 +58146,7 @@
      }
     ],
     "validationStatus": "partially confirmed",
-    "notes": "powerFade and resistanceVreg are explicitly linked (resistanceVreg.primaryEstimandRef=powerFade): a magnitude difference is expected since one is adjusted for HV-current logging density and the other is not (see their own methodology strings for the full distinction) -- both slopes' 95% CIs span zero, so neither detects a resolvable fade trend at this corpus size/window, a genuine null result. Both metrics' own SECONDARY method (day random-intercept mixed-effects, statsmodels 0.15.0) failed to converge (LinAlgError: Singular matrix) -- disclosed here rather than omitted; cluster-robust OLS is authoritative for both, as already documented in degradationTrends.cellSpread/resistanceVreg themselves.",
+    "notes": "powerFade and resistanceVreg are explicitly linked (resistanceVreg.primaryEstimandRef=powerFade): a magnitude difference is expected since one is adjusted for HV-current logging density and the other is not (see their own methodology strings for the full distinction) -- both slopes' 95% CIs span zero, so neither detects a resolvable fade trend at this corpus size/window, a trend is not resolved in this window (an absence of detection, not evidence of no change). Both metrics' own SECONDARY method (day random-intercept mixed-effects, statsmodels 0.15.0) failed to converge (LinAlgError: Singular matrix) -- disclosed here rather than omitted; cluster-robust OLS is authoritative for both, as already documented in degradationTrends.cellSpread/resistanceVreg themselves.",
     "artifactIdentity": {
      "corpusHashShort": "5556a0c6c8bc",
      "generatedAt": "2026-10-19T17:14:33.246038+00:00"
@@ -321315,7 +321315,7 @@
        },
        "hasOilCovariate": true,
        "coolantCiSpansZero": true,
-       "method": "Day-clustered bootstrap OLS (_dayboot_ols, the SAME estimator M223.1 introduced, reused directly), continuous coolant (and oil, where available) temperature plus RPM/load controls -- replaces the binary coldStartMaxC/warmThresholdC step function with an actual continuous relationship. A negative coolant/oil coefficient means fuel rate keeps falling smoothly as the engine warms, not just stepping down at one threshold. coolantCiSpansZero=true means the continuous coolant effect is NOT resolved once RPM/load are controlled for at this sample size, a genuine null result -- this does not contradict combustionPenalty's own resolved BINARY warmup-vs-warm ratio above, since that comparison pools cells differently and this model estimates a single linear slope across the full continuous range rather than a coarse two-state contrast; both are reported, neither is suppressed to make the other look cleaner."
+       "method": "Day-clustered bootstrap OLS (_dayboot_ols, the SAME estimator M223.1 introduced, reused directly), continuous coolant (and oil, where available) temperature plus RPM/load controls -- replaces the binary coldStartMaxC/warmThresholdC step function with an actual continuous relationship. A negative coolant/oil coefficient means fuel rate keeps falling smoothly as the engine warms, not just stepping down at one threshold. coolantCiSpansZero=true means the continuous coolant effect is NOT resolved once RPM/load are controlled for at this sample size (not resolved; an absence of detection, not evidence of no effect) -- this does not contradict combustionPenalty's own resolved BINARY warmup-vs-warm ratio above, since that comparison pools cells differently and this model estimates a single linear slope across the full continuous range rather than a coarse two-state contrast; both are reported, neither is suppressed to make the other look cleaner."
       },
       "attenuationDistance": null,
       "withinDayMatchedSubset": {
@@ -321585,7 +321585,7 @@
        },
        "hasOilCovariate": true,
        "coolantCiSpansZero": true,
-       "method": "Day-clustered bootstrap OLS (_dayboot_ols, the SAME estimator M223.1 introduced, reused directly), continuous coolant (and oil, where available) temperature plus RPM/load controls -- replaces the binary coldStartMaxC/warmThresholdC step function with an actual continuous relationship. A negative coolant/oil coefficient means fuel rate keeps falling smoothly as the engine warms, not just stepping down at one threshold. coolantCiSpansZero=true means the continuous coolant effect is NOT resolved once RPM/load are controlled for at this sample size, a genuine null result -- this does not contradict combustionPenalty's own resolved BINARY warmup-vs-warm ratio above, since that comparison pools cells differently and this model estimates a single linear slope across the full continuous range rather than a coarse two-state contrast; both are reported, neither is suppressed to make the other look cleaner."
+       "method": "Day-clustered bootstrap OLS (_dayboot_ols, the SAME estimator M223.1 introduced, reused directly), continuous coolant (and oil, where available) temperature plus RPM/load controls -- replaces the binary coldStartMaxC/warmThresholdC step function with an actual continuous relationship. A negative coolant/oil coefficient means fuel rate keeps falling smoothly as the engine warms, not just stepping down at one threshold. coolantCiSpansZero=true means the continuous coolant effect is NOT resolved once RPM/load are controlled for at this sample size (not resolved; an absence of detection, not evidence of no effect) -- this does not contradict combustionPenalty's own resolved BINARY warmup-vs-warm ratio above, since that comparison pools cells differently and this model estimates a single linear slope across the full continuous range rather than a coarse two-state contrast; both are reported, neither is suppressed to make the other look cleaner."
       },
       "attenuationDistance": null,
       "withinDayMatchedSubset": {
@@ -321873,7 +321873,7 @@
        },
        "hasOilCovariate": true,
        "coolantCiSpansZero": true,
-       "method": "Day-clustered bootstrap OLS (_dayboot_ols, the SAME estimator M223.1 introduced, reused directly), continuous coolant (and oil, where available) temperature plus RPM/load controls -- replaces the binary coldStartMaxC/warmThresholdC step function with an actual continuous relationship. A negative coolant/oil coefficient means fuel rate keeps falling smoothly as the engine warms, not just stepping down at one threshold. coolantCiSpansZero=true means the continuous coolant effect is NOT resolved once RPM/load are controlled for at this sample size, a genuine null result -- this does not contradict combustionPenalty's own resolved BINARY warmup-vs-warm ratio above, since that comparison pools cells differently and this model estimates a single linear slope across the full continuous range rather than a coarse two-state contrast; both are reported, neither is suppressed to make the other look cleaner."
+       "method": "Day-clustered bootstrap OLS (_dayboot_ols, the SAME estimator M223.1 introduced, reused directly), continuous coolant (and oil, where available) temperature plus RPM/load controls -- replaces the binary coldStartMaxC/warmThresholdC step function with an actual continuous relationship. A negative coolant/oil coefficient means fuel rate keeps falling smoothly as the engine warms, not just stepping down at one threshold. coolantCiSpansZero=true means the continuous coolant effect is NOT resolved once RPM/load are controlled for at this sample size (not resolved; an absence of detection, not evidence of no effect) -- this does not contradict combustionPenalty's own resolved BINARY warmup-vs-warm ratio above, since that comparison pools cells differently and this model estimates a single linear slope across the full continuous range rather than a coarse two-state contrast; both are reported, neither is suppressed to make the other look cleaner."
       },
       "attenuationDistance": null,
       "withinDayMatchedSubset": {

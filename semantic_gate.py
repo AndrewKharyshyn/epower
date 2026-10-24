@@ -16,6 +16,13 @@ Exit 0 = pass. Run: node build_html.js && node dump_tabs.js && python3 semantic_
 """
 import glob, hashlib, json, os, re, sys
 
+# M502 (audit DB-11): rule texts contain non-ASCII characters; a default Windows console (cp1251) would crash before any summary
+for _st in (sys.stdout, sys.stderr):
+    try:
+        _st.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
 W = os.path.dirname(os.path.abspath(__file__)); P = lambda n: os.path.join(W, n)
 A = json.load(open(P("summary_arrays.json"), encoding="utf-8"))
 T = {os.path.basename(f)[:-4]: open(f, encoding="utf-8").read() for f in glob.glob(P("tabtext/*.txt"))}

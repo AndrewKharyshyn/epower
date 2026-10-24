@@ -9,7 +9,7 @@ and disk are ground truth. Items marked (verify) were written before M264-M299.
   transient blending), not proof of generator saturation.
 - At >=140 km/h acute continuous discharge depletes the buffer within seconds to minutes; the 170 km/h limiter is read as an
   electrical-architecture ceiling, not a tyre/RPM limit.
-- SoC operating band ~44-88% (44.5 pp span). The BMS controls the ceiling via motored/unfuelled engine dissipation at SoC >= ~78-80%.
+- SoC operating band: see `capacityBasis` / the SoC-band blocks in the payload for the current percentile band (an earlier text gave ~44-88 %, a different statistic). The BMS controls the ceiling via motored/unfuelled engine dissipation at SoC >= ~78-80%.
 - P(engine start) differs by ~307x between stationary and highway at matched SoC (the ratio rests on 7 stationary events; report the Wilson CI).
 - Engine RPM has discrete setpoints: dominant ~2,000 rpm (best-BSFC fixed point), plus governed setpoints ~1,500 and ~1,589 rpm.
 - Series hybrid makes "net draw" meaningless as an efficiency metric; gross throughput per 100 km is the workload metric (M35).
@@ -30,13 +30,13 @@ and disk are ground truth. Items marked (verify) were written before M264-M299.
 - `CAP_KWH=2.1` is `verified:false`; all capacity-dependent metrics carry this caveat.
 - TOST "not established" is not "no degradation": the window is too short, not a finding of zero effect.
 - The 20,000 GTC threshold has no validated pack-rated provenance (`SCENARIO_THRESHOLD_GTC`, `verified:false`).
-- Rainflow DoD: ~52.7% of cycles <= 2% DoD (verify against current payload); k=2 Woehler damage sum ~10x lower than gross FCE.
+- Rainflow DoD: the share of cycles <= 2% DoD is in the rainflow blocks of the payload (about half; read it there); k=2 Woehler damage sum ~10x lower than gross FCE.
 - CONFIRMED battery-current sign error in `recon_engine.py` (audit 2026-09-17; verify resolution in CHANGELOG M258+): the recon frame
   computed `Pbatt = +V*(I_raw - offset)` labelled "+discharge", while the main pipeline defines discharge-positive as
   `P = -I_raw*V` (compute_drive_summary_v6, "M11: BMS current is charge-positive"). Correct discharge-positive: `-I_raw - I_off`.
   Byte-exact self-reproduction of `fuel_recon_master.csv` cannot detect a convention error; per-drive anchoring to master totals
   preserved aggregate energy while swapping temporal phase. Corrected f_gen moved ~0.60 -> ~0.48-0.50; the buffer thesis survives/
-  strengthens; prose must say "roughly half", not "the majority". The live payload (2026-09-25) carries generatorTractionRecon.corpus.fGen = 0.477.
+  strengthens; prose must say "roughly half", not "the majority". The live value is `generatorTractionRecon.corpus.fGen` (read it from the payload; the 2026-09-25 value 0.477 is superseded).
 - Lesson: reproducibility (same code, same bytes) is not correctness. Gates must include independent recomputation and convention checks.
 
 ## Methodological rules
