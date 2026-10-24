@@ -23154,7 +23154,174 @@
     "ratio": 4.5
    }
   ],
-  "methodology": "Per-second state classification (1 Hz resampled grid, engine-on = rpm>500) across the corpus, distinct from the per-event M116/M118 detectors. Every second the engine is off is an at-risk sample for a start in the following second; every second it is on is at-risk for a stop. Marginal probability is tabulated by 5-point SoC bin; stratified probability adds a speed band (stationary <5, low 5-60, high >=60 km/h -- an independently-defined threshold for this per-second analysis only, NOT the same >=90 km/h boundary used by the drive_type Highway classifier (M115); the two serve different purposes and are not interchangeable). Both tables are filtered to cells with n>=30 to avoid presenting noisy small-sample estimates (e.g. a single-digit-n bin at the tails of the SoC range) with the same apparent weight as a well-supported one. Temperature and a recent-demand covariate were scoped out of this pass -- a full 4-way stratification fragments the sample too far for binned tables to remain trustworthy; that needs a regression-style model, not this pass. Replaces the dashboard's fixed per-class SoC hysteresis box with an actual probability surface: at matched SoC, P(start) differs by roughly two orders of magnitude between stationary and highway speed, showing SoC alone does not set the trigger point once demand is accounted for."
+  "methodology": "Per-second state classification (1 Hz resampled grid, engine-on = rpm>500) across the corpus, distinct from the per-event M116/M118 detectors. Every second the engine is off is an at-risk sample for a start in the following second; every second it is on is at-risk for a stop. Marginal probability is tabulated by 5-point SoC bin; stratified probability adds a speed band (stationary <5, low 5-60, high >=60 km/h -- an independently-defined threshold for this per-second analysis only, NOT the same >=90 km/h boundary used by the drive_type Highway classifier (M115); the two serve different purposes and are not interchangeable). Both tables are filtered to cells with n>=30 to avoid presenting noisy small-sample estimates (e.g. a single-digit-n bin at the tails of the SoC range) with the same apparent weight as a well-supported one. Temperature and a recent-demand covariate were scoped out of this pass -- a full 4-way stratification fragments the sample too far for binned tables to remain trustworthy; that needs a regression-style model, not this pass. Replaces the dashboard's fixed per-class SoC hysteresis box with an actual probability surface: at matched SoC, P(start) differs by roughly two orders of magnitude between stationary and highway speed, showing SoC alone does not set the trigger point once demand is accounted for.",
+  "startRatioClustered": {
+   "label": "estimated per-second start-hazard ratio, high speed vs stationary, SoC-standardised (Mantel-Haenszel); detector-derived starts (rpm > 500); descriptive, not an effect of speed",
+   "spec": "analyses/M497_spec.md",
+   "specSha256": "937653d9d53bd18d00353fccdbf8fcf0dd5d8265d37cfecee21fa663bce7b996",
+   "scriptSha256": "801c9a557bd256e85d03736bd8c340ba45241d3ef4515aece7be4cc572e26da5",
+   "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "resultFile": "analyses/M497_result.json",
+   "resultSha256": "72c01bc64edd69ff5f50318c9d2c265ca829db173bb459c5c385e8fc5b65831f",
+   "seed": 42,
+   "B": 4000,
+   "resamplingUnit": "calendar day (co-primary: ISO week; Poisson regression clustered by day)",
+   "nDrivesCovered": 604,
+   "nDays": 121,
+   "nWeeks": 23,
+   "frozenBins": [
+    55.0,
+    60.0,
+    65.0,
+    70.0,
+    75.0,
+    80.0
+   ],
+   "R": 43.34,
+   "kStationary": 114,
+   "kHigh": 3970,
+   "nAtRiskStationary": 93025,
+   "nAtRiskHigh": 77009,
+   "daysWithStationaryStart": 54,
+   "weeksWithStationaryStart": 18,
+   "top3DayShareOfStationaryStarts": 0.158,
+   "dayBootstrap": {
+    "lo": 34.11,
+    "hi": 57.81,
+    "upperUnbounded": false
+   },
+   "weekBootstrap": {
+    "lo": 34.04,
+    "hi": 63.53,
+    "upperUnbounded": false,
+    "coPrimary": true
+   },
+   "poissonClusterByDay": {
+    "ratio": 62.69,
+    "lo": 47.62,
+    "hi": 82.53,
+    "method": "Poisson, SoC-bin fixed effects, offset log n, CR1 by calendar day, Wald on log scale"
+   },
+   "decision": {
+    "L": 34.04,
+    "widestInterval": "weekBootstrap",
+    "widest": {
+     "lo": 34.04,
+     "hi": 63.53,
+     "upperUnbounded": false
+    },
+    "wording": "at least an order of magnitude higher",
+    "thinSupport": false
+   },
+   "perBin": [
+    {
+     "socBin": 55.0,
+     "ratio": 151.8,
+     "kStationary": 24,
+     "kHigh": 23,
+     "lo": 75.65,
+     "hi": 370.62,
+     "upperUnbounded": false
+    },
+    {
+     "socBin": 60.0,
+     "ratio": 261.6,
+     "kStationary": 14,
+     "kHigh": 1662,
+     "lo": 170.45,
+     "hi": 518.39,
+     "upperUnbounded": false
+    },
+    {
+     "socBin": 65.0,
+     "ratio": 40.6,
+     "kStationary": 27,
+     "kHigh": 2040,
+     "lo": 27.57,
+     "hi": 69.44,
+     "upperUnbounded": false
+    },
+    {
+     "socBin": 70.0,
+     "ratio": 3.8,
+     "kStationary": 22,
+     "kHigh": 158,
+     "lo": 2.51,
+     "hi": 6.7,
+     "upperUnbounded": false
+    },
+    {
+     "socBin": 75.0,
+     "ratio": 4.5,
+     "kStationary": 18,
+     "kHigh": 68,
+     "lo": 2.68,
+     "hi": 8.88,
+     "upperUnbounded": false
+    },
+    {
+     "socBin": 80.0,
+     "ratio": 14.4,
+     "kStationary": 9,
+     "kHigh": 19,
+     "lo": 5.02,
+     "hi": 51.61,
+     "upperUnbounded": false
+    }
+   ],
+   "perBinRange": {
+    "min": 3.8,
+    "max": 261.6,
+    "binsWithStationaryStart": 6,
+    "eligibleBinsExcluded": 0
+   },
+   "sensitivities": {
+    "crudeRatioIgnoringSoc": 29.12,
+    "driveLevelBootstrap": {
+     "lo": 34.43,
+     "hi": 56.54,
+     "upperUnbounded": false
+    },
+    "leaveOneDayOut": {
+     "min": 41.52,
+     "max": 45.39,
+     "nInfinite": 0
+    },
+    "leaveOneBinOut": {
+     "55.0": 42.98,
+     "60.0": 20.34,
+     "65.0": 45.05,
+     "70.0": 61.4,
+     "75.0": 51.84,
+     "80.0": 44.09
+    },
+    "stationaryBelow2kmh": {
+     "R": 45.06,
+     "lo": 34.76,
+     "hi": 62.69,
+     "upperUnbounded": false
+    },
+    "firstStartPerDriveRemoved": {
+     "R": 48.9,
+     "lo": 38.3,
+     "hi": 66.29,
+     "upperUnbounded": false
+    },
+    "iidKatzOldHeadlineCell": {
+     "socBin": 60.0,
+     "ratio": 261.6,
+     "lo": 154.7,
+     "hi": 442.6,
+     "label": "iid per-second; anti-conservative; comparison only"
+    }
+   },
+   "previousHeadline": {
+    "socBin": 60.0,
+    "ratioPublished": 262.9,
+    "ratioFromCounts": 261.6,
+    "note": "a single SoC-bin ratio (the largest of the bin ratios) with an iid per-second interval, a different estimand; the published value is computed from probabilities rounded to 5 decimals, the counts give the second figure"
+   }
+  }
  },
  "socHysteresisV2": {
   "link": "cloglog",
