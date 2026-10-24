@@ -1,3 +1,16 @@
+## M497 (2026-10-24): Start-hazard ratio (high speed vs stationary): SoC-standardised, day-clustered replacement of the max-over-bins headline (audit PB-01/ST-08) - SPEC FROZEN, results pending
+
+**Rationale.** Spec analyses/M497_spec.md Rev 2 written before any computation; research-director ruling 'revise' (nine revisions) folded in. M497 spec sha256 937653d9d53bd18d00353fccdbf8fcf0dd5d8265d37cfecee21fa663bce7b996. RESULT_PENDING_MARKER
+
+**State.** `drive_master.csv` 606 rows, MD5 `5556a0c6c8bcde0f6c64b8b9655208ed`.
+
+**Gates (runs/20261020T221332Z).** restamp_ingest=ok; build_html=ok; jsdom=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `analyses/M497_spec.md`, `tools/m497_start_ratio.py`, `tests/synthetic/test_m497_start_ratio.py`.
+
+
 ## M496 (2026-10-24): Audit 2026-10-23 wave A: dashboard fixes (DB-01/02/03/05/06/09, ST-01/02), ledger status from M495, test/tool write guards (PF-05), explicit manifest lookup (PF-04)
 
 **Rationale.** Independent audit 2026-10-23 (audit_package_2026-10-23/findings_register.csv). Applied only items that change wording, bindings or tooling, no estimator and no published figure: High-SoC Regen curves positioned by socBin (DB-01); section P no longer tagged cohort-aware (DB-09); 'about null' guarded (DB-02); one window length 160 days (DB-03); Shoulder route mix bound to cohortMeta (DB-05); engine-start label shares and engine-on fractions bound to the payload (DB-06); the unconditional 'cannot yet distinguish' sentence removed (ST-02); M222 comparison sentence reworded and the M119-v2 evidenceLedger status derived from rollingOriginEvaluation flags (partially confirmed; leaf splice tools/m496_ledger_splice.py, 3 leaves) (ST-01); fuel_analytics2 --no-write and test_gtr_closure_refresh no longer overwrite tracked analyses files (PF-05); ah_throughput.manifest_sha_lookup made an explicit None (PF-04). Audit correction: PB-03 (head-window gates) was NOT reproduced as a window defect: the M442/M444/M460 gates return False because the specs carry later revisions (M442 Rev 1.3 sha 0262d23a is recorded in the CHANGELOG), by design; no change made. Deferred (need spec/blind audit/Director or owner decision): PB-01, PB-04, PB-05, PB-07, CD-01..CD-06, ST-04..ST-09, DB-04, DB-10, RC-01/02, cache keys PF-01/02.
