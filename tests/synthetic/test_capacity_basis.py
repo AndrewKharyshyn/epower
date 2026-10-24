@@ -45,7 +45,8 @@ def build(n_drives=36, days=18, qcap_by_week=None, **kw):
 
 
 master, store = build()
-calls = []
+import collections
+calls = collections.deque()   # not a simple constant (M498)
 real_extract = CB.extract_drive
 CB.extract_drive = lambda b: (calls.append(1), real_extract(b))[1]
 with tempfile.TemporaryDirectory() as td:

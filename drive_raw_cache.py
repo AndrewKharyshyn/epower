@@ -47,6 +47,22 @@ from soc_spike import despike_frame      # M390 (analyses/M390_spec.md)
 
 SCHEMA_VERSION = 7
 
+_CODE_KEY = None
+
+
+def code_key():
+    """M498 (audit PF-01): closure hash of the builder of a cache entry (add_file and everything it reaches: unwrap_clock, the column list, the library versions).
+    Stored in every entry and manifest record; an entry whose code key differs from the current one is a miss, so a change of the builder cannot be served from
+    stale frames (SCHEMA_VERSION is kept as the manual bump)."""
+    global _CODE_KEY
+    if _CODE_KEY is None:
+        import importlib.util, sys as _sys
+        spec = importlib.util.spec_from_file_location("_xt_dep_hash", os.path.join(os.path.dirname(os.path.abspath(__file__)), "tools", "dep_hash.py"))
+        dh = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(dh)
+        _CODE_KEY = dh.closure_hash([add_file], modules=(_sys.modules[__name__],), extra={"schema": SCHEMA_VERSION, "slimCols": SLIM_COLS})[:16]
+    return _CODE_KEY
+
 # Union of raw columns consumed by all five raw passes (see module docstring).
 SLIM_COLS = [
     'time',
@@ -176,12 +192,12 @@ def add_file(fname, raw_bytes, cache_dir=CACHE_DIR, manifest=None):
         except (ValueError, TypeError):
             slim['time'] = unwrap_clock(pd.to_datetime(slim['time'], format='mixed',
                                                        errors='coerce'))
-    payload = {'schema': SCHEMA_VERSION, 'file': fname,
+    payload = {'schema': SCHEMA_VERSION, 'code': code_key(), 'file': fname,
                'src_md5': _md5(raw_bytes), 'n_rows': int(len(slim)),
                'cols': keep, 'df': slim}
     with gzip.open(_entry_path(cache_dir, fname), 'wb', compresslevel=1) as f:
         pickle.dump(payload, f, protocol=5)
-    man[fname] = {'schema': SCHEMA_VERSION, 'src_md5': payload['src_md5'],
+    man[fname] = {'schema': SCHEMA_VERSION, 'code': payload['code'], 'src_md5': payload['src_md5'],
                   'n_rows': payload['n_rows'], 'cols': keep}
     if manifest is None:
         _save_manifest(cache_dir, man)
@@ -200,7 +216,7 @@ def make_frame_loader(cache_dir=CACHE_DIR, verify_schema=True, raw_dir=None, arc
     was returned before). archive_only=True is the explicit archive-only mode: such frames are served on the recorded src_md5 and counted in `loader.stats`
     ("archiveOnlyServed"), so the provenance gap is visible instead of silent."""
     seen = {}
-    stats = {"archiveOnlyServed": 0, "missingSource": 0, "staleSource": 0}
+    stats = {"archiveOnlyServed": 0, "missingSource": 0, "staleSource": 0, "staleCode": 0}
 
     def _raw_md5(src):
         st = os.stat(src)
@@ -216,7 +232,8 @@ def make_frame_loader(cache_dir=CACHE_DIR, verify_schema=True, raw_dir=None, arc
             return None
         with gzip.open(p, 'rb') as f:
             payload = pickle.load(f)
-        if verify_schema and payload.get('schema') != SCHEMA_VERSION:
+        if verify_schema and (payload.get('schema') != SCHEMA_VERSION or payload.get('code') != code_key()):
+            stats["staleCode"] += int(payload.get('schema') == SCHEMA_VERSION)
             return None
         if raw_dir is not None:
             src = os.path.join(raw_dir, fname)
@@ -270,7 +287,7 @@ def add_missing(files, raw_dir, cache_dir=CACHE_DIR, budget_s=None,
     todo = []
     for fn in files:
         e = man.get(fn)
-        if e and e.get('schema') == SCHEMA_VERSION \
+        if e and e.get('schema') == SCHEMA_VERSION and e.get('code') == code_key() \
                 and os.path.exists(_entry_path(cache_dir, fn)):
             if not verify_md5:
                 continue
