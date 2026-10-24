@@ -41,3 +41,10 @@ d2[PE.RCOL] = 120 + TRUE_SLOPE * t_m + BT * d2[M.TREF] + 0.15 * Tc ** 2 + 0.05 *
 s0 = M.fit(d2, "T0", t0, knots, 100)[0]["slope"]; s1 = M.fit(d2, "T1", t0, knots, 100)[0]["slope"]
 assert abs(s1 - TRUE_SLOPE) < abs(s0 - TRUE_SLOPE), (s0, s1)
 print("test_m499_temp_spec: OK")
+
+# language rule added with M499: forbidden trend phrasings fire, the shipped wording does not
+import language_gate as _G
+_r = [x for x in _G.RULES if x.rid == "M499-resistance-trend-wording"][0]
+assert _r.hits("The resistance trend is significant in this window") and _r.hits("pack resistance is rising")
+assert not _r.hits("the resistance trend remains unresolved and no slope is promoted")
+print("test_m499_temp_spec (language rule): OK")

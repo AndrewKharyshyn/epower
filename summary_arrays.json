@@ -61939,6 +61939,27 @@
     "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    }
+  },
+  "powerFadeTemperatureSpecs": {
+   "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-10-24T10:42:12.914483+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M499: derived by tools/m499_temp_spec.py from drive_master.csv, seasonal_drive_master.csv and the tracked powerfade_density.csv (spec analyses/M499_spec.md Rev 2)",
+   "includedInReleaseAt": "2026-10-24T10:42:12.914483+00:00",
+   "inputBasis": {
+    "nDrives": 606,
+    "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-10-24T10:42:12.914483+00:00"
   }
  },
  "ambientTable": {
@@ -353832,5 +353853,241 @@
    "thermal cohorts are ambient-threshold classes, confounded with season, date and drift; week blocks also absorb season and composition variance, not only serial dependence",
    "the displayed interval stays the M491 joint calendar-day interval"
   ]
+ },
+ "powerFadeTemperatureSpecs": {
+  "label": "temperature-specification sensitivity of the resistance-proxy (vreg_R_pack_mohm) months coefficient, powerFade S1 design; estimated proxy, an association within one warm-season window, not a degradation rate",
+  "spec": "analyses/M499_spec.md",
+  "specSha256": "0e54cab1c65a3b65c864f1fb303f7fe42c207b508104faa56320291123867d02",
+  "scriptSha256": "838f985be03376993484a1b949b61fc47943c133a6219319f3aee646530cd29e",
+  "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+  "seasonalMasterMd5": "0018476d259a6e17102708d0f80dbdc3",
+  "seed": 42,
+  "nBoot": 4000,
+  "window": {
+   "firstDate": "2026-05-15",
+   "lastDate": "2026-10-17",
+   "spanDays": 156,
+   "spanMonths": 5.09
+  },
+  "fidelity": {
+   "slope": 0.6564,
+   "publishedSlope": 0.6564,
+   "n": 274,
+   "publishedN": 274,
+   "nDays": 98,
+   "bT": -2.868,
+   "publishedBT": -2.868,
+   "dayCi95": [
+    -0.4262,
+    1.8374
+   ],
+   "publishedDayCi95": [
+    -0.426,
+    1.837
+   ],
+   "passed": true
+  },
+  "specs": {
+   "T0": {
+    "n": 274,
+    "nDays": 98,
+    "nWeeks": 23,
+    "slope": 0.6564,
+    "dayCi95": [
+     -0.4262,
+     1.8374
+    ],
+    "dayIncludesZero": true,
+    "weekCi95": [
+     -0.399,
+     1.6518
+    ],
+    "weekIncludesZero": true,
+    "decisive": true,
+    "temperatureTerms": [
+     "T"
+    ]
+   },
+   "T1": {
+    "n": 274,
+    "nDays": 98,
+    "nWeeks": 23,
+    "slope": 0.7781,
+    "dayCi95": [
+     -0.2116,
+     1.8575
+    ],
+    "dayIncludesZero": true,
+    "weekCi95": [
+     -0.2027,
+     1.7632
+    ],
+    "weekIncludesZero": true,
+    "decisive": true,
+    "temperatureTerms": [
+     "T",
+     "T2"
+    ]
+   },
+   "T2": {
+    "n": 274,
+    "nDays": 98,
+    "nWeeks": 23,
+    "slope": 0.708,
+    "dayCi95": [
+     -0.3145,
+     1.795
+    ],
+    "dayIncludesZero": true,
+    "weekCi95": [
+     -0.1715,
+     1.5846
+    ],
+    "weekIncludesZero": true,
+    "decisive": true,
+    "temperatureTerms": [
+     "T",
+     "hinge1",
+     "hinge2"
+    ]
+   },
+   "T3": {
+    "n": 274,
+    "nDays": 98,
+    "nWeeks": 23,
+    "slope": 2.0003,
+    "dayCi95": [
+     0.6848,
+     3.4519
+    ],
+    "dayIncludesZero": false,
+    "weekCi95": [
+     0.7689,
+     3.1579
+    ],
+    "weekIncludesZero": false,
+    "decisive": true,
+    "temperatureTerms": [
+     "Tstart"
+    ]
+   },
+   "T4": {
+    "n": 274,
+    "nDays": 98,
+    "nWeeks": 23,
+    "slope": 1.3673,
+    "dayCi95": [
+     -0.9751,
+     3.9043
+    ],
+    "dayIncludesZero": true,
+    "weekCi95": [
+     -1.1617,
+     3.9938
+    ],
+    "weekIncludesZero": true,
+    "decisive": true,
+    "temperatureTerms": [
+     "Tamb"
+    ]
+   },
+   "T5": {
+    "n": 274,
+    "nDays": 98,
+    "nWeeks": 23,
+    "slope": 0.4701,
+    "dayCi95": [
+     -0.7898,
+     1.8159
+    ],
+    "dayIncludesZero": true,
+    "weekCi95": [
+     -0.7747,
+     1.644
+    ],
+    "weekIncludesZero": true,
+    "decisive": true,
+    "temperatureTerms": [
+     "T",
+     "Tamb"
+    ],
+    "packAmbient": {
+     "corr": 0.439,
+     "vif": 1.24
+    }
+   }
+  },
+  "pairedT0": {
+   "T0_on_T3subset": {
+    "slope": 0.6564,
+    "n": 274,
+    "dayCi95": [
+     -0.4262,
+     1.8374
+    ]
+   },
+   "T0_on_ambientSubset": {
+    "slope": 0.6564,
+    "n": 274,
+    "dayCi95": [
+     -0.4262,
+     1.8374
+    ]
+   }
+  },
+  "tipping": {
+   "tauDegCPerMonth": -1.3942,
+   "bT": -2.8684,
+   "bTDayCi95": [
+    -3.145,
+    -2.569
+   ],
+   "dZero": -0.471,
+   "dZeroFractionOfAbsBT": 0.164,
+   "dZeroWithinBTDayCi": false,
+   "grid": {
+    "-1.0": {
+     "slope": -0.7378,
+     "fractionOfAbsBT": -0.349
+    },
+    "-0.5": {
+     "slope": -0.0407,
+     "fractionOfAbsBT": -0.174
+    },
+    "0.5": {
+     "slope": 1.3535,
+     "fractionOfAbsBT": 0.174
+    },
+    "1.0": {
+     "slope": 2.0507,
+     "fractionOfAbsBT": 0.349
+    }
+   },
+   "identity": "slope(bT + d) = slope0 - d * tau; tau = months coefficient of T_pack_mean_avg on months + I + de + dc (same rows)"
+  },
+  "decision": {
+   "outcome": "dependent",
+   "specificationsExcludingZero": [
+    "T3"
+   ],
+   "decisiveSpecs": [
+    "T0",
+    "T1",
+    "T2",
+    "T3",
+    "T4",
+    "T5"
+   ],
+   "nonDecisive": [],
+   "tippingSensitive": true,
+   "falsificationClause": {
+    "allSlopesWithinQuarterHalfWidth": false,
+    "tippingShiftBelowQuarterHalfWidth": false,
+    "T0DayHalfWidth": 1.1318,
+    "reading": "sensitivity to temperature specification or to its coefficient is present"
+   },
+   "multiplicity": "12 intervals (6 day, 6 isoWeek); the any-exclusion rule leans conservative; no adjustment"
+  },
+  "decisionRule": "day-bootstrap interval of each decisive specification governs; week interval is a labelled sensitivity; 12 intervals, no multiplicity adjustment"
  }
 }

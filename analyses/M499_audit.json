@@ -1,0 +1,9 @@
+{"verdict":"reproduced","n_drives":274,"n_days":98,"n_weeks":23,
+"slopes":{"T0":0.6564,"T1":0.7781,"T2":0.7080,"T3":2.0003,"T4":1.3673,"T5":0.4701},
+"day_ci":{"T0":[-0.426,1.837],"T1":[-0.212,1.858],"T2":[-0.315,1.795],"T3":[0.685,3.452],"T4":[-0.975,3.904],"T5":[-0.790,1.816]},
+"week_ci":{"T0":[-0.399,1.652],"T1":[-0.203,1.763],"T2":[-0.172,1.585],"T3":[0.769,3.158],"T4":[-1.162,3.994],"T5":[-0.775,1.644]},
+"max_abs_diff_slope":0.0001,"max_abs_diff_ci":0.001,
+"tipping":{"bT":-2.8684,"tau":-1.3942,"d_zero":-0.4708,"identity":"holds to ~1e-13 on grid d=-1..0.5"},
+"T3":{"corr_startT_meanT":0.90,"corr_months_startT":-0.30,"corr_months_meanT":-0.40,"tau3":-1.323,"max_leverage":0.062,"top_influential_days":["2026-05-23","2026-10-10","2026-06-22"],"drop_top3_slope":2.258,"drop_top3_ci_1000draws":[1.075,3.613]},
+"comment":"T3 excluding zero is not driven by leverage or single days (dropping top 3 days raises slope, CI still excludes 0). T3 differs from T0 by swapping the regressor; start-temp is a noisier proxy for in-drive pack temperature (r=0.90) so it absorbs less of the temperature effect and months picks up more via the temperature-months link. It is a specification-dependent result, not evidence of a trend: 5 of 6 specs include zero; T3 is the only one using a key-on measure (thermal state at start, possibly reflecting soak/rest state). Not corrected for 6-spec multiplicity.",
+"files":["audit_package_2026-10-23/M499_blind/repro.py","audit_package_2026-10-23/M499_blind/audit.json"]}

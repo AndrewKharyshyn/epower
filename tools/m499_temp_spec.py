@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """M499 (spec analyses/M499_spec.md Rev 2): temperature-specification sensitivity of the resistance-proxy trend (powerFade S1) and a tipping row.
 Reads drive_master.csv, seasonal_drive_master.csv, powerfade_density.csv, summary_arrays.json (fidelity only). Read-only: writes only analyses/M499_result.json.
-Usage: python tools/m499_temp_spec.py [--out analyses/M499_result.json] [--nb 4000]"""
+Usage: python tools/m499_temp_spec.py [--out analyses/M499_result.json] [--nb 4000]   |   --splice (ingestion stage: compute and write the additive payload block powerFadeTemperatureSpecs + stamp; does not write analyses/M499_result.json)"""
 import datetime, hashlib, json, os, sys
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 os.chdir(ROOT); sys.path.insert(0, ROOT); sys.path.insert(0, os.path.join(ROOT, "tools"))
@@ -79,6 +79,49 @@ def fit(d, spec, t0, knots, nb):
     return out, X, y, t, names
 
 
+def build_block(res):
+    """Compact payload block (no bootstrap draws). Window dates and span are script-written."""
+    specs = {}
+    for k, v in res["specs"].items():
+        specs[k] = {"n": v["n"], "nDays": v["nDays"], "nWeeks": v["nWeeks"], "slope": round(v["slope"], 4), "dayCi95": [round(x, 4) for x in v["day"]["ci95"]], "dayIncludesZero": v["day"]["includesZero"],
+                    "weekCi95": [round(x, 4) for x in v["isoWeek"]["ci95"]], "weekIncludesZero": v["isoWeek"]["includesZero"], "decisive": bool(v.get("decisive", True)),
+                    "temperatureTerms": [n for n in v["coefNames"] if n not in ("const", "months", "I", "de", "dc")]}
+        if "pack_ambient" in v:
+            specs[k]["packAmbient"] = v["pack_ambient"]
+    t = res["tipping"]
+    return {"label": "temperature-specification sensitivity of the resistance-proxy (vreg_R_pack_mohm) months coefficient, powerFade S1 design; estimated proxy, an association within one warm-season window, not a degradation rate",
+            "spec": res["spec"], "specSha256": res["provenance"]["specSha256"], "scriptSha256": res["provenance"]["scriptSha256"], "masterMd5": res["provenance"]["masterMd5"],
+            "seasonalMasterMd5": res["provenance"]["seasonalMasterMd5"], "seed": res["provenance"]["seed"], "nBoot": res["provenance"]["nBoot"], "window": res["window"], "fidelity": res["fidelity"], "specs": specs,
+            "pairedT0": {k: {"slope": round(v["slope"], 4), "n": v["n"], "dayCi95": [round(x, 4) for x in v["day"]["ci95"]]} for k, v in res["pairedT0"].items()},
+            "tipping": {"tauDegCPerMonth": t["tauDegCPerMonth"], "bT": t["bT"], "bTDayCi95": t["bTDayCi95"], "dZero": t["dZero"], "dZeroFractionOfAbsBT": None if t["dZero"] is None else round(abs(t["dZero"]) / abs(t["bT"]), 3),
+                        "dZeroWithinBTDayCi": t["dZeroWithinBTDayCi"], "grid": {k: {"slope": g["slopeRefit"], "fractionOfAbsBT": g["fractionOfAbsBT"]} for k, g in t["grid"].items()}, "identity": t["identity"]},
+            "decision": res["decision"], "decisionRule": "day-bootstrap interval of each decisive specification governs; week interval is a labelled sensitivity; 12 intervals, no multiplicity adjustment"}
+
+
+def splice(res):
+    import copy
+    P = "summary_arrays.json"
+    raw = open(P, encoding="utf-8", newline="").read()
+    A = json.loads(raw)
+    blk = json.loads(json.dumps(build_block(res)))
+    md5 = res["provenance"]["masterMd5"]
+    old = (A.get("_artifactStamps") or {}).get("powerFadeTemperatureSpecs")
+    coherent = old and old.get("includedInReleaseAt") == old.get("computedAt") == old.get("generatedAt")
+    if A.get("powerFadeTemperatureSpecs") == blk and coherent and old.get("corpusHash") == md5:
+        print(json.dumps({"changed": False}))
+        return
+    A["powerFadeTemperatureSpecs"] = blk
+    st = copy.deepcopy(A["_artifactStamps"]["powerFadeEquivalence"])
+    st.update(corpusHash=md5, generatedAt=datetime.datetime.now(datetime.timezone.utc).isoformat(), computationStatus="computed",
+              computationStatusNote="M499: derived by tools/m499_temp_spec.py from drive_master.csv, seasonal_drive_master.csv and the tracked powerfade_density.csv (spec analyses/M499_spec.md Rev 2)", upstreamHashes={"driveMasterMd5": md5})
+    st.pop("carriedForward", None)
+    st["includedInReleaseAt"] = st["computedAt"] = st["generatedAt"]
+    A["_artifactStamps"]["powerFadeTemperatureSpecs"] = st
+    with open(P, "w", encoding="utf-8", newline="\n") as f:
+        f.write(json.dumps(A, ensure_ascii=False, indent=1) + ("\n" if raw.endswith("\n") else ""))
+    print(json.dumps({"changed": True, "outcome": blk["decision"]["outcome"]}))
+
+
 def main():
     out_path = sys.argv[sys.argv.index("--out") + 1] if "--out" in sys.argv else "analyses/M499_result.json"
     nb = int(sys.argv[sys.argv.index("--nb") + 1]) if "--nb" in sys.argv else NB_DEFAULT
@@ -100,7 +143,7 @@ def main():
     # ---- T0 fit and fidelity stop
     f0, X0, y0, tt0, n0 = fit(d, "T0", t0, knots, nb)
     bT = float(np.linalg.lstsq(X0, y0, rcond=None)[0][2])
-    chk = {"slope": round(f0["slope"], 4), "publishedSlope": pf["slopeMohmPerMoTctrl"], "n": f0["n"], "publishedN": pf["nClean"], "nDays": f0["nDays"], "bT": round(bT, 3), "publishedBT": pf["bTMohmPerDegC"],
+    chk = {"slope": round(f0["slope"], 4), "publishedSlope": pe["s1"]["slope"], "n": f0["n"], "publishedN": pf["nClean"], "nDays": f0["nDays"], "bT": round(bT, 3), "publishedBT": pf["bTMohmPerDegC"],
            "dayCi95": [round(x, 4) for x in f0["day"]["ci95"]], "publishedDayCi95": pf["ci95MohmPerMo"]}
     ok = (chk["slope"] == round(chk["publishedSlope"], 4) and chk["n"] == chk["publishedN"] and chk["nDays"] == 98 and chk["bT"] == round(chk["publishedBT"], 3)
           and [round(x, 3) for x in chk["dayCi95"]] == [round(x, 3) for x in chk["publishedDayCi95"]])
@@ -130,6 +173,8 @@ def main():
     for r in rows.values():
         r.setdefault("decisive", True)
     res["specs"], res["pairedT0"] = rows, paired
+    dts = pd.to_datetime(d["date"])
+    res["window"] = {"firstDate": str(dts.min().date()), "lastDate": str(dts.max().date()), "spanDays": int((dts.max() - dts.min()).days) + 1, "spanMonths": round(float((dts.max() - dts.min()).days / MONTH_DAYS), 2)}
     # ---- tipping row (T0 design)
     Z = np.column_stack([np.ones(len(d)), tt0, d[PE.ICOL].values.astype(float), d["_de"].values.astype(float), d["_dc"].values.astype(float)])
     tau = float(np.linalg.lstsq(Z, d[TREF].values.astype(float), rcond=None)[0][1])
@@ -158,6 +203,9 @@ def main():
                        "falsificationClause": {"allSlopesWithinQuarterHalfWidth": bool(cond_a), "tippingShiftBelowQuarterHalfWidth": bool(cond_b), "T0DayHalfWidth": round(H0, 4),
                                                "reading": "temperature-specification sensitivity not detected" if (cond_a and cond_b) else "sensitivity to temperature specification or to its coefficient is present"},
                        "multiplicity": "12 intervals (6 day, 6 isoWeek); the any-exclusion rule leans conservative; no adjustment"}
+    if "--splice" in sys.argv:
+        splice(res)
+        return
     with open(out_path, "w", encoding="utf-8", newline="\n") as f:
         json.dump(res, f, indent=1)
     print(json.dumps({"fidelity": res["fidelity"], "slopes": {s: [round(r["slope"], 4), [round(x, 3) for x in r["day"]["ci95"]], [round(x, 3) for x in r["isoWeek"]["ci95"]], r["n"]] for s, r in rows.items()},

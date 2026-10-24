@@ -445,6 +445,19 @@
    ]
   },
   {
+   "id": "powerfade_temperature_specs",
+   "title": "M499: temperature-specification sensitivity of the resistance-proxy trend (powerFade S1 design; six pre-registered specifications, day and ISO-week bootstrap, tipping row); additive payload block powerFadeTemperatureSpecs + stamp; needs the tracked powerfade_density.csv written by powerfade_equivalence; spec analyses/M499_spec.md Rev 2",
+   "cmd": [
+    "python3",
+    "tools/m499_temp_spec.py",
+    "--splice"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json"
+   ]
+  },
+  {
    "id": "thermal_support_ledger",
    "title": "M418: thermal support ledger (candidate / excluded / accepted / reached / right-censored counts for warm-up lag, hvcEngine80C, warm-up curve and the fuel penalty, all corpus plus warm and shoulder cohorts; reconciled with the published estimator n; spec analyses/M418_spec.md); additive payload block thermalSupportLedger + stamp; the estimators are unchanged",
    "cmd": [

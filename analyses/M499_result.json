@@ -1,0 +1,410 @@
+{
+ "spec": "analyses/M499_spec.md",
+ "provenance": {
+  "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+  "seasonalMasterMd5": "0018476d259a6e17102708d0f80dbdc3",
+  "scriptSha256": "838f985be03376993484a1b949b61fc47943c133a6219319f3aee646530cd29e",
+  "specSha256": "0e54cab1c65a3b65c864f1fb303f7fe42c207b508104faa56320291123867d02",
+  "seed": 42,
+  "nBoot": 4000,
+  "generatedAt": "2026-10-24T10:50:12.432133+00:00",
+  "monthsScale": "days / 30.44 from the minimum date of the clean complete cases"
+ },
+ "fidelity": {
+  "slope": 0.6564,
+  "publishedSlope": 0.6564,
+  "n": 274,
+  "publishedN": 274,
+  "nDays": 98,
+  "bT": -2.868,
+  "publishedBT": -2.868,
+  "dayCi95": [
+   -0.4262,
+   1.8374
+  ],
+  "publishedDayCi95": [
+   -0.426,
+   1.837
+  ],
+  "passed": true
+ },
+ "specs": {
+  "T0": {
+   "spec": "T0",
+   "n": 274,
+   "nDays": 98,
+   "slope": 0.6564073391865449,
+   "coefNames": [
+    "const",
+    "months",
+    "T",
+    "I",
+    "de",
+    "dc"
+   ],
+   "nWeeks": 23,
+   "day": {
+    "ci95": [
+     -0.4262270655316326,
+     1.837433042177826
+    ],
+    "includesZero": true,
+    "drawsUsed": 4000,
+    "drawsDropped": 0,
+    "nonDecisiveFailedDraws": false
+   },
+   "isoWeek": {
+    "ci95": [
+     -0.3989743900159613,
+     1.651750685464457
+    ],
+    "includesZero": true,
+    "drawsUsed": 4000,
+    "drawsDropped": 0,
+    "nonDecisiveFailedDraws": false
+   },
+   "decisive": true
+  },
+  "T1": {
+   "spec": "T1",
+   "n": 274,
+   "nDays": 98,
+   "slope": 0.7780611162782025,
+   "coefNames": [
+    "const",
+    "months",
+    "T",
+    "T2",
+    "I",
+    "de",
+    "dc"
+   ],
+   "nWeeks": 23,
+   "day": {
+    "ci95": [
+     -0.21158698673230472,
+     1.8575261487964447
+    ],
+    "includesZero": true,
+    "drawsUsed": 4000,
+    "drawsDropped": 0,
+    "nonDecisiveFailedDraws": false
+   },
+   "isoWeek": {
+    "ci95": [
+     -0.20272289663272752,
+     1.7631571421740615
+    ],
+    "includesZero": true,
+    "drawsUsed": 4000,
+    "drawsDropped": 0,
+    "nonDecisiveFailedDraws": false
+   },
+   "decisive": true
+  },
+  "T2": {
+   "spec": "T2",
+   "n": 274,
+   "nDays": 98,
+   "slope": 0.7080250387116653,
+   "coefNames": [
+    "const",
+    "months",
+    "T",
+    "hinge1",
+    "hinge2",
+    "I",
+    "de",
+    "dc"
+   ],
+   "nWeeks": 23,
+   "day": {
+    "ci95": [
+     -0.31453853300468887,
+     1.7949722684292355
+    ],
+    "includesZero": true,
+    "drawsUsed": 4000,
+    "drawsDropped": 0,
+    "nonDecisiveFailedDraws": false
+   },
+   "isoWeek": {
+    "ci95": [
+     -0.17151103820529026,
+     1.5845604305396195
+    ],
+    "includesZero": true,
+    "drawsUsed": 4000,
+    "drawsDropped": 0,
+    "nonDecisiveFailedDraws": false
+   },
+   "decisive": true
+  },
+  "T3": {
+   "spec": "T3",
+   "n": 274,
+   "nDays": 98,
+   "slope": 2.0003352441839892,
+   "coefNames": [
+    "const",
+    "months",
+    "Tstart",
+    "I",
+    "de",
+    "dc"
+   ],
+   "nWeeks": 23,
+   "day": {
+    "ci95": [
+     0.6848307100143777,
+     3.4519084850482145
+    ],
+    "includesZero": false,
+    "drawsUsed": 4000,
+    "drawsDropped": 0,
+    "nonDecisiveFailedDraws": false
+   },
+   "isoWeek": {
+    "ci95": [
+     0.7689031628703482,
+     3.1578577438569706
+    ],
+    "includesZero": false,
+    "drawsUsed": 4000,
+    "drawsDropped": 0,
+    "nonDecisiveFailedDraws": false
+   },
+   "decisive": true,
+   "overlapWithS1": {
+    "nSubset": 274,
+    "nS1": 274
+   },
+   "pairedT0": "T0_on_T3subset"
+  },
+  "T4": {
+   "spec": "T4",
+   "n": 274,
+   "nDays": 98,
+   "slope": 1.3673067699493375,
+   "coefNames": [
+    "const",
+    "months",
+    "Tamb",
+    "I",
+    "de",
+    "dc"
+   ],
+   "nWeeks": 23,
+   "day": {
+    "ci95": [
+     -0.9750945113521858,
+     3.904268393930742
+    ],
+    "includesZero": true,
+    "drawsUsed": 4000,
+    "drawsDropped": 0,
+    "nonDecisiveFailedDraws": false
+   },
+   "isoWeek": {
+    "ci95": [
+     -1.161704917150637,
+     3.9938014588893758
+    ],
+    "includesZero": true,
+    "drawsUsed": 4000,
+    "drawsDropped": 0,
+    "nonDecisiveFailedDraws": false
+   },
+   "decisive": true,
+   "overlapWithS1": {
+    "nSubset": 274,
+    "nS1": 274
+   },
+   "pairedT0": "T0_on_ambientSubset"
+  },
+  "T5": {
+   "spec": "T5",
+   "n": 274,
+   "nDays": 98,
+   "slope": 0.4700807032237939,
+   "coefNames": [
+    "const",
+    "months",
+    "T",
+    "Tamb",
+    "I",
+    "de",
+    "dc"
+   ],
+   "nWeeks": 23,
+   "day": {
+    "ci95": [
+     -0.7898150512837574,
+     1.8158571368543106
+    ],
+    "includesZero": true,
+    "drawsUsed": 4000,
+    "drawsDropped": 0,
+    "nonDecisiveFailedDraws": false
+   },
+   "isoWeek": {
+    "ci95": [
+     -0.7746765538918079,
+     1.6439666410546614
+    ],
+    "includesZero": true,
+    "drawsUsed": 4000,
+    "drawsDropped": 0,
+    "nonDecisiveFailedDraws": false
+   },
+   "decisive": true,
+   "overlapWithS1": {
+    "nSubset": 274,
+    "nS1": 274
+   },
+   "pairedT0": "T0_on_ambientSubset",
+   "pack_ambient": {
+    "corr": 0.439,
+    "vif": 1.24
+   }
+  }
+ },
+ "pairedT0": {
+  "T0_on_T3subset": {
+   "spec": "T0",
+   "n": 274,
+   "nDays": 98,
+   "slope": 0.6564073391865449,
+   "coefNames": [
+    "const",
+    "months",
+    "T",
+    "I",
+    "de",
+    "dc"
+   ],
+   "nWeeks": 23,
+   "day": {
+    "ci95": [
+     -0.4262270655316326,
+     1.837433042177826
+    ],
+    "includesZero": true,
+    "drawsUsed": 4000,
+    "drawsDropped": 0,
+    "nonDecisiveFailedDraws": false
+   },
+   "isoWeek": {
+    "ci95": [
+     -0.3989743900159613,
+     1.651750685464457
+    ],
+    "includesZero": true,
+    "drawsUsed": 4000,
+    "drawsDropped": 0,
+    "nonDecisiveFailedDraws": false
+   }
+  },
+  "T0_on_ambientSubset": {
+   "spec": "T0",
+   "n": 274,
+   "nDays": 98,
+   "slope": 0.6564073391865449,
+   "coefNames": [
+    "const",
+    "months",
+    "T",
+    "I",
+    "de",
+    "dc"
+   ],
+   "nWeeks": 23,
+   "day": {
+    "ci95": [
+     -0.4262270655316326,
+     1.837433042177826
+    ],
+    "includesZero": true,
+    "drawsUsed": 4000,
+    "drawsDropped": 0,
+    "nonDecisiveFailedDraws": false
+   },
+   "isoWeek": {
+    "ci95": [
+     -0.3989743900159613,
+     1.651750685464457
+    ],
+    "includesZero": true,
+    "drawsUsed": 4000,
+    "drawsDropped": 0,
+    "nonDecisiveFailedDraws": false
+   }
+  }
+ },
+ "window": {
+  "firstDate": "2026-05-15",
+  "lastDate": "2026-10-17",
+  "spanDays": 156,
+  "spanMonths": 5.09
+ },
+ "tipping": {
+  "tauDegCPerMonth": -1.3942,
+  "bT": -2.8684,
+  "bTDayCi95": [
+   -3.145,
+   -2.569
+  ],
+  "grid": {
+   "-1.0": {
+    "slopeFormula": -0.7378,
+    "slopeRefit": -0.7378,
+    "fractionOfAbsBT": -0.349,
+    "fractionOfBTHalfWidth": -3.472
+   },
+   "-0.5": {
+    "slopeFormula": -0.0407,
+    "slopeRefit": -0.0407,
+    "fractionOfAbsBT": -0.174,
+    "fractionOfBTHalfWidth": -1.736
+   },
+   "0.5": {
+    "slopeFormula": 1.3535,
+    "slopeRefit": 1.3535,
+    "fractionOfAbsBT": 0.174,
+    "fractionOfBTHalfWidth": 1.736
+   },
+   "1.0": {
+    "slopeFormula": 2.0507,
+    "slopeRefit": 2.0507,
+    "fractionOfAbsBT": 0.349,
+    "fractionOfBTHalfWidth": 3.472
+   }
+  },
+  "dZero": -0.471,
+  "dZeroWithinBTDayCi": false,
+  "identity": "slope(bT + d) = slope0 - d * tau; tau = months coefficient of T_pack_mean_avg on months + I + de + dc (same rows)"
+ },
+ "decision": {
+  "outcome": "dependent",
+  "specificationsExcludingZero": [
+   "T3"
+  ],
+  "decisiveSpecs": [
+   "T0",
+   "T1",
+   "T2",
+   "T3",
+   "T4",
+   "T5"
+  ],
+  "nonDecisive": [],
+  "tippingSensitive": true,
+  "falsificationClause": {
+   "allSlopesWithinQuarterHalfWidth": false,
+   "tippingShiftBelowQuarterHalfWidth": false,
+   "T0DayHalfWidth": 1.1318,
+   "reading": "sensitivity to temperature specification or to its coefficient is present"
+  },
+  "multiplicity": "12 intervals (6 day, 6 isoWeek); the any-exclusion rule leans conservative; no adjustment"
+ }
+}
