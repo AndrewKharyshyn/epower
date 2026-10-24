@@ -1,0 +1,10 @@
+{"verdict":"reproduced",
+"counts":{"canonical":606,"current_fine_le_0.05":394,"current_1.0":185,"current_0.1":14,"current_undefined":13,"V_0.16":401,"V_0.1":199,"V_undefined":6},
+"fine_step_exact":"all 394 fine-current drives have step exactly 0.05 A",
+"coarse_sets_identical":"current in {1.0,0.1} == V 0.1 V set (199, exact match); crosstab: fine/0.16=394, undef-current/0.16=7, undef/undef=6 (empty files; the 1 sparse V drive has 7 distinct values, V step 0.16)",
+"contiguity":"199 coarse drives span 20260829_100447..20260930_105147; the sorted-index span contains exactly 199 rows, all coarse (no fine drive between)",
+"overlap":{"S1_eligible":274,"S1_in_199":47,"cellspread_eligible":576,"cellspread_in_199":194},
+"matching":"raw names have space or underscore variants; matched by 14-digit timestamp, 606/606 matched to drive_master, no duplicate keys",
+"misclassification_test":"All coarse-current files have 100% of values on their grid (1.0 or 0.1) and >=36 distinct values, so no off-grid contamination hides a coarse file. Fine files have <=19% of values on the 1.0 grid, 100% on the 0.05 grid, >=40 distinct values; none is a coarse file with stray values, none is a short file mislabelled. Residual risk: files with <5 distinct values are undefined by construction (13 current, 6 V), none lies in the 199 window.",
+"differences":"none",
+"audit_files":["audit_package_2026-10-23/M503_blind/repro.py","part2.py","part3.py","steps.csv","grid_fractions.csv"]}
