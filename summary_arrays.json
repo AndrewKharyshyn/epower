@@ -61981,6 +61981,27 @@
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
    "computedAt": "2026-10-24T18:46:28.145599+00:00"
+  },
+  "urbanContrastBalance": {
+   "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-10-24T19:56:06.732988+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M504: derived by tools/urban_balance.py from drive_master.csv, seasonal_drive_master.csv and comparisonCube (spec analyses/M504_spec.md Rev 2); all-urban D0: 340 Warm and 147 Shoulder drives",
+   "includedInReleaseAt": "2026-10-24T19:56:06.732988+00:00",
+   "computedAt": "2026-10-24T19:56:06.732988+00:00",
+   "inputBasis": {
+    "nDrives": 606,
+    "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   }
   }
  },
  "ambientTable": {
@@ -355794,5 +355815,984 @@
     "voltageStep": 0.1
    }
   ]
+ },
+ "urbanContrastBalance": {
+  "label": "covariate balance and design-dependence of the Warm-vs-Shoulder urban energy-intensity contrast (reporting only; the displayed interval stays the M491 joint-day interval; the designs are restrictions, not adjustments; thermal cohorts are ambient-threshold classes confounded with date and season)",
+  "spec": "analyses/M504_spec.md",
+  "specSha256": "1c58c53589cae437000312e3e416fa69f4cf64317e03e3d09b844f0cf5e975c9",
+  "scriptSha256": "0ce09052aa55fedaf359c19747ec9e205cdf090e2503f74d8fbdbb0efb5eb77d",
+  "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+  "seasonalMasterMd5": "0018476d259a6e17102708d0f80dbdc3",
+  "seeds": {
+   "D0": "cube stream 20260925 + 2, 4000 draws, band after band",
+   "D1-D3": "42 + design index, 4000 draws"
+  },
+  "designRule": "D0 released (reproduced exactly); D1 same-date restriction; D2 common-support restriction (start hour, start SoC and pack temperature at start inside the intersection of the cohorts' P5-P95); D3 = D1 and D2; not estimable below 10 drives or 5 days in a cohort; non-decisive when more than 0.5 percent of draws are dropped",
+  "designDefinitionNote": "D3 = the rows of D1 that are also rows of D2, with the common-support ranges computed on the full band population; other definitions of common support inside the same-date set give different row counts and estimates, so the combined-restriction reading depends on the design and on this definition",
+  "endpointFlagRule": "endpointMcSensitive: the interval endpoint nearest to zero lies within 0.25 of zero (reporting only; the verdict rule is unchanged)",
+  "multiplicity": "12 non-D0 intervals across 4 overlapping bands; no adjustment; the any-estimable-design-differs rule leans conservative",
+  "bands": [
+   {
+    "band": "all urban trips",
+    "balance": {
+     "dayOfYear": {
+      "label": "day of year",
+      "nWarm": 340,
+      "nShoulder": 147,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 224.747,
+      "sdWarm": 39.733,
+      "meanShoulder": 260.088,
+      "sdShoulder": 30.606,
+      "smd": 0.997,
+      "shoulderInsideWarmP5P95": 0.694,
+      "warmInsideShoulderP5P95": 0.665
+     },
+     "startHour": {
+      "label": "start hour",
+      "nWarm": 340,
+      "nShoulder": 147,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 15.806,
+      "sdWarm": 3.809,
+      "meanShoulder": 13.953,
+      "sdShoulder": 5.555,
+      "smd": -0.389,
+      "shoulderInsideWarmP5P95": 0.537,
+      "warmInsideShoulderP5P95": 0.979
+     },
+     "socStart": {
+      "label": "start SoC",
+      "nWarm": 340,
+      "nShoulder": 147,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 58.256,
+      "sdWarm": 6.227,
+      "meanShoulder": 62.925,
+      "sdShoulder": 8.481,
+      "smd": 0.628,
+      "shoulderInsideWarmP5P95": 0.728,
+      "warmInsideShoulderP5P95": 0.9
+     },
+     "tPackStart": {
+      "label": "pack temperature at start",
+      "nWarm": 340,
+      "nShoulder": 147,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 27.381,
+      "sdWarm": 6.917,
+      "meanShoulder": 21.317,
+      "sdShoulder": 6.555,
+      "smd": -0.9,
+      "shoulderInsideWarmP5P95": 0.741,
+      "warmInsideShoulderP5P95": 0.844
+     },
+     "tPackMean": {
+      "label": "mean pack temperature (measured during the drive; description only)",
+      "nWarm": 340,
+      "nShoulder": 147,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 28.681,
+      "sdWarm": 6.74,
+      "meanShoulder": 22.421,
+      "sdShoulder": 6.575,
+      "smd": -0.94,
+      "shoulderInsideWarmP5P95": 0.769,
+      "warmInsideShoulderP5P95": 0.788
+     },
+     "speedMoving": {
+      "label": "moving speed",
+      "nWarm": 340,
+      "nShoulder": 147,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 27.777,
+      "sdWarm": 9.102,
+      "meanShoulder": 24.924,
+      "sdShoulder": 9.36,
+      "smd": -0.309,
+      "shoulderInsideWarmP5P95": 0.878,
+      "warmInsideShoulderP5P95": 0.912
+     },
+     "distance": {
+      "label": "distance",
+      "nWarm": 340,
+      "nShoulder": 147,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 6.351,
+      "sdWarm": 8.649,
+      "meanShoulder": 6.393,
+      "sdShoulder": 9.686,
+      "smd": 0.005,
+      "shoulderInsideWarmP5P95": 0.803,
+      "warmInsideShoulderP5P95": 0.95
+     },
+     "weekend": {
+      "label": "weekend share",
+      "nWarm": 340,
+      "nShoulder": 147,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 0.459,
+      "sdWarm": 0.499,
+      "meanShoulder": 0.252,
+      "sdShoulder": 0.435,
+      "smd": -0.443,
+      "shoulderInsideWarmP5P95": 1.0,
+      "warmInsideShoulderP5P95": 1.0
+     }
+    },
+    "designs": {
+     "D0": {
+      "warm": {
+       "nDrives": 340,
+       "nDays": 90
+      },
+      "shoulder": {
+       "nDrives": 147,
+       "nDays": 45
+      },
+      "estimable": true,
+      "warmEstimate": 27.62,
+      "shoulderEstimate": 25.96,
+      "estimate": -1.67,
+      "ci95": [
+       -3.88,
+       1.33
+      ],
+      "includesZero": true,
+      "nDraws": 4000,
+      "nDrawsDropped": 0,
+      "nUnionDates": 107,
+      "nSharedDates": 28,
+      "nonDecisive": false,
+      "lowPrecision": false,
+      "endpointMcSensitive": false
+     },
+     "D1": {
+      "warm": {
+       "nDrives": 102,
+       "nDays": 28
+      },
+      "shoulder": {
+       "nDrives": 79,
+       "nDays": 28
+      },
+      "estimable": true,
+      "warmEstimate": 30.44,
+      "shoulderEstimate": 27.67,
+      "estimate": -2.76,
+      "ci95": [
+       -6.22,
+       -0.03
+      ],
+      "includesZero": false,
+      "nDraws": 4000,
+      "nDrawsDropped": 0,
+      "nUnionDates": 28,
+      "nSharedDates": 28,
+      "nonDecisive": false,
+      "lowPrecision": false,
+      "endpointMcSensitive": true,
+      "widthRatioToD0": 1.188
+     },
+     "D2": {
+      "warm": {
+       "nDrives": 223,
+       "nDays": 81
+      },
+      "shoulder": {
+       "nDrives": 46,
+       "nDays": 22
+      },
+      "estimable": true,
+      "warmEstimate": 28.11,
+      "shoulderEstimate": 25.2,
+      "estimate": -2.9,
+      "ci95": [
+       -5.99,
+       1.21
+      ],
+      "includesZero": true,
+      "nDraws": 4000,
+      "nDrawsDropped": 0,
+      "nUnionDates": 94,
+      "nSharedDates": 9,
+      "nonDecisive": false,
+      "lowPrecision": false,
+      "endpointMcSensitive": false,
+      "widthRatioToD0": 1.382
+     },
+     "D3": {
+      "warm": {
+       "nDrives": 81,
+       "nDays": 27
+      },
+      "shoulder": {
+       "nDrives": 22,
+       "nDays": 10
+      },
+      "estimable": true,
+      "warmEstimate": 30.75,
+      "shoulderEstimate": 27.29,
+      "estimate": -3.46,
+      "ci95": [
+       -6.68,
+       -0.2
+      ],
+      "includesZero": false,
+      "nDraws": 4000,
+      "nDrawsDropped": 0,
+      "nUnionDates": 28,
+      "nSharedDates": 9,
+      "nonDecisive": false,
+      "lowPrecision": false,
+      "endpointMcSensitive": true,
+      "widthRatioToD0": 1.244
+     },
+     "fidelityD0": {
+      "estimateEqualsCube": true,
+      "ci95EqualsCube": true,
+      "cubeEstimate": -1.67,
+      "cubeCi95": [
+       -3.88,
+       1.33
+      ],
+      "note": "hard stop otherwise"
+     },
+     "commonSupportRanges": {
+      "startHour": [
+       9.588,
+       21.495
+      ],
+      "socStart": [
+       49.8,
+       68.5
+      ],
+      "tPackStart": [
+       16.75,
+       35.117
+      ]
+     },
+     "nSharedDates": 28,
+     "nExcludedMissingCovariate": 0
+    },
+    "verdict": "reading depends on the design",
+    "differing": [
+     {
+      "design": "D1",
+      "flip": "includes zero -> excludes zero",
+      "widthRatioToD0": 1.188,
+      "lowPrecision": false,
+      "endpointMcSensitive": true
+     },
+     {
+      "design": "D3",
+      "flip": "includes zero -> excludes zero",
+      "widthRatioToD0": 1.244,
+      "lowPrecision": false,
+      "endpointMcSensitive": true
+     }
+    ]
+   },
+   {
+    "band": "< 3 km",
+    "balance": {
+     "dayOfYear": {
+      "label": "day of year",
+      "nWarm": 186,
+      "nShoulder": 93,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 233.269,
+      "sdWarm": 40.329,
+      "meanShoulder": 262.237,
+      "sdShoulder": 23.744,
+      "smd": 0.875,
+      "shoulderInsideWarmP5P95": 0.796,
+      "warmInsideShoulderP5P95": 0.527
+     },
+     "startHour": {
+      "label": "start hour",
+      "nWarm": 186,
+      "nShoulder": 93,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 15.285,
+      "sdWarm": 3.652,
+      "meanShoulder": 12.426,
+      "sdShoulder": 5.261,
+      "smd": -0.631,
+      "shoulderInsideWarmP5P95": 0.441,
+      "warmInsideShoulderP5P95": 0.984
+     },
+     "socStart": {
+      "label": "start SoC",
+      "nWarm": 186,
+      "nShoulder": 93,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 58.871,
+      "sdWarm": 6.379,
+      "meanShoulder": 63.183,
+      "sdShoulder": 8.806,
+      "smd": 0.561,
+      "shoulderInsideWarmP5P95": 0.72,
+      "warmInsideShoulderP5P95": 0.892
+     },
+     "tPackStart": {
+      "label": "pack temperature at start",
+      "nWarm": 186,
+      "nShoulder": 93,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 25.985,
+      "sdWarm": 6.786,
+      "meanShoulder": 19.868,
+      "sdShoulder": 5.74,
+      "smd": -0.973,
+      "shoulderInsideWarmP5P95": 0.753,
+      "warmInsideShoulderP5P95": 0.833
+     },
+     "tPackMean": {
+      "label": "mean pack temperature (measured during the drive; description only)",
+      "nWarm": 186,
+      "nShoulder": 93,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 26.389,
+      "sdWarm": 6.529,
+      "meanShoulder": 20.153,
+      "sdShoulder": 5.406,
+      "smd": -1.04,
+      "shoulderInsideWarmP5P95": 0.742,
+      "warmInsideShoulderP5P95": 0.806
+     },
+     "speedMoving": {
+      "label": "moving speed",
+      "nWarm": 186,
+      "nShoulder": 93,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 22.915,
+      "sdWarm": 4.98,
+      "meanShoulder": 19.923,
+      "sdShoulder": 3.868,
+      "smd": -0.671,
+      "shoulderInsideWarmP5P95": 0.892,
+      "warmInsideShoulderP5P95": 0.747
+     },
+     "distance": {
+      "label": "distance",
+      "nWarm": 186,
+      "nShoulder": 93,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 1.878,
+      "sdWarm": 0.655,
+      "meanShoulder": 1.698,
+      "sdShoulder": 0.729,
+      "smd": -0.26,
+      "shoulderInsideWarmP5P95": 0.871,
+      "warmInsideShoulderP5P95": 0.871
+     },
+     "weekend": {
+      "label": "weekend share",
+      "nWarm": 186,
+      "nShoulder": 93,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 0.462,
+      "sdWarm": 0.5,
+      "meanShoulder": 0.269,
+      "sdShoulder": 0.446,
+      "smd": -0.41,
+      "shoulderInsideWarmP5P95": 1.0,
+      "warmInsideShoulderP5P95": 1.0
+     }
+    },
+    "designs": {
+     "D0": {
+      "warm": {
+       "nDrives": 186,
+       "nDays": 69
+      },
+      "shoulder": {
+       "nDrives": 93,
+       "nDays": 36
+      },
+      "estimable": true,
+      "warmEstimate": 37.04,
+      "shoulderEstimate": 37.07,
+      "estimate": 0.03,
+      "ci95": [
+       -1.93,
+       1.89
+      ],
+      "includesZero": true,
+      "nDraws": 4000,
+      "nDrawsDropped": 0,
+      "nUnionDates": 86,
+      "nSharedDates": 19,
+      "nonDecisive": false,
+      "lowPrecision": false,
+      "endpointMcSensitive": false
+     },
+     "D1": {
+      "warm": {
+       "nDrives": 53,
+       "nDays": 19
+      },
+      "shoulder": {
+       "nDrives": 48,
+       "nDays": 19
+      },
+      "estimable": true,
+      "warmEstimate": 36.0,
+      "shoulderEstimate": 35.78,
+      "estimate": -0.22,
+      "ci95": [
+       -2.65,
+       2.04
+      ],
+      "includesZero": true,
+      "nDraws": 4000,
+      "nDrawsDropped": 0,
+      "nUnionDates": 19,
+      "nSharedDates": 19,
+      "nonDecisive": false,
+      "lowPrecision": false,
+      "endpointMcSensitive": false,
+      "widthRatioToD0": 1.228
+     },
+     "D2": {
+      "warm": {
+       "nDrives": 117,
+       "nDays": 54
+      },
+      "shoulder": {
+       "nDrives": 25,
+       "nDays": 11
+      },
+      "estimable": true,
+      "warmEstimate": 36.89,
+      "shoulderEstimate": 38.14,
+      "estimate": 1.25,
+      "ci95": [
+       -1.51,
+       3.8
+      ],
+      "includesZero": true,
+      "nDraws": 4000,
+      "nDrawsDropped": 0,
+      "nUnionDates": 60,
+      "nSharedDates": 5,
+      "nonDecisive": false,
+      "lowPrecision": false,
+      "endpointMcSensitive": false,
+      "widthRatioToD0": 1.39
+     },
+     "D3": {
+      "warm": {
+       "nDrives": 36,
+       "nDays": 17
+      },
+      "shoulder": {
+       "nDrives": 14,
+       "nDays": 6
+      },
+      "estimable": true,
+      "warmEstimate": 35.73,
+      "shoulderEstimate": 36.29,
+      "estimate": 0.55,
+      "ci95": [
+       -3.42,
+       4.31
+      ],
+      "includesZero": true,
+      "nDraws": 4000,
+      "nDrawsDropped": 5,
+      "nUnionDates": 18,
+      "nSharedDates": 5,
+      "nonDecisive": false,
+      "lowPrecision": true,
+      "endpointMcSensitive": false,
+      "widthRatioToD0": 2.024
+     },
+     "fidelityD0": {
+      "estimateEqualsCube": true,
+      "ci95EqualsCube": true,
+      "cubeEstimate": 0.03,
+      "cubeCi95": [
+       -1.93,
+       1.89
+      ],
+      "note": "hard stop otherwise"
+     },
+     "commonSupportRanges": {
+      "startHour": [
+       9.754,
+       21.307
+      ],
+      "socStart": [
+       50.1,
+       69.0
+      ],
+      "tPackStart": [
+       16.062,
+       33.683
+      ]
+     },
+     "nSharedDates": 19,
+     "nExcludedMissingCovariate": 0
+    },
+    "verdict": "reading unchanged",
+    "differing": []
+   },
+   {
+    "band": "3–10 km",
+    "balance": {
+     "dayOfYear": {
+      "label": "day of year",
+      "nWarm": 90,
+      "nShoulder": 28,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 212.078,
+      "sdWarm": 41.12,
+      "meanShoulder": 262.286,
+      "sdShoulder": 30.123,
+      "smd": 1.393,
+      "shoulderInsideWarmP5P95": 0.643,
+      "warmInsideShoulderP5P95": 0.533
+     },
+     "startHour": {
+      "label": "start hour",
+      "nWarm": 90,
+      "nShoulder": 28,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 15.99,
+      "sdWarm": 3.874,
+      "meanShoulder": 15.179,
+      "sdShoulder": 5.229,
+      "smd": -0.176,
+      "shoulderInsideWarmP5P95": 0.679,
+      "warmInsideShoulderP5P95": 0.967
+     },
+     "socStart": {
+      "label": "start SoC",
+      "nWarm": 90,
+      "nShoulder": 28,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 57.45,
+      "sdWarm": 6.32,
+      "meanShoulder": 64.839,
+      "sdShoulder": 7.292,
+      "smd": 1.083,
+      "shoulderInsideWarmP5P95": 0.643,
+      "warmInsideShoulderP5P95": 0.678
+     },
+     "tPackStart": {
+      "label": "pack temperature at start",
+      "nWarm": 90,
+      "nShoulder": 28,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 28.829,
+      "sdWarm": 6.606,
+      "meanShoulder": 21.969,
+      "sdShoulder": 6.977,
+      "smd": -1.01,
+      "shoulderInsideWarmP5P95": 0.643,
+      "warmInsideShoulderP5P95": 0.8
+     },
+     "tPackMean": {
+      "label": "mean pack temperature (measured during the drive; description only)",
+      "nWarm": 90,
+      "nShoulder": 28,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 30.326,
+      "sdWarm": 6.231,
+      "meanShoulder": 23.196,
+      "sdShoulder": 6.221,
+      "smd": -1.145,
+      "shoulderInsideWarmP5P95": 0.5,
+      "warmInsideShoulderP5P95": 0.711
+     },
+     "speedMoving": {
+      "label": "moving speed",
+      "nWarm": 90,
+      "nShoulder": 28,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 28.051,
+      "sdWarm": 6.969,
+      "meanShoulder": 27.532,
+      "sdShoulder": 8.53,
+      "smd": -0.067,
+      "shoulderInsideWarmP5P95": 0.893,
+      "warmInsideShoulderP5P95": 0.867
+     },
+     "distance": {
+      "label": "distance",
+      "nWarm": 90,
+      "nShoulder": 28,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 5.214,
+      "sdWarm": 1.826,
+      "meanShoulder": 5.014,
+      "sdShoulder": 1.712,
+      "smd": -0.113,
+      "shoulderInsideWarmP5P95": 0.893,
+      "warmInsideShoulderP5P95": 0.878
+     },
+     "weekend": {
+      "label": "weekend share",
+      "nWarm": 90,
+      "nShoulder": 28,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 0.533,
+      "sdWarm": 0.502,
+      "meanShoulder": 0.321,
+      "sdShoulder": 0.476,
+      "smd": -0.439,
+      "shoulderInsideWarmP5P95": 1.0,
+      "warmInsideShoulderP5P95": 1.0
+     }
+    },
+    "designs": {
+     "D0": {
+      "warm": {
+       "nDrives": 90,
+       "nDays": 55
+      },
+      "shoulder": {
+       "nDrives": 28,
+       "nDays": 21
+      },
+      "estimable": true,
+      "warmEstimate": 33.21,
+      "shoulderEstimate": 30.72,
+      "estimate": -2.49,
+      "ci95": [
+       -5.65,
+       1.21
+      ],
+      "includesZero": true,
+      "nDraws": 4000,
+      "nDrawsDropped": 0,
+      "nUnionDates": 71,
+      "nSharedDates": 5,
+      "nonDecisive": false,
+      "lowPrecision": false,
+      "endpointMcSensitive": false
+     },
+     "D1": {
+      "warm": {
+       "nDrives": 5,
+       "nDays": 5
+      },
+      "shoulder": {
+       "nDrives": 7,
+       "nDays": 5
+      },
+      "estimable": false,
+      "reason": "fewer than 10 drives or 5 days in a cohort"
+     },
+     "D2": {
+      "warm": {
+       "nDrives": 42,
+       "nDays": 30
+      },
+      "shoulder": {
+       "nDrives": 7,
+       "nDays": 6
+      },
+      "estimable": false,
+      "reason": "fewer than 10 drives or 5 days in a cohort"
+     },
+     "D3": {
+      "warm": {
+       "nDrives": 2,
+       "nDays": 2
+      },
+      "shoulder": {
+       "nDrives": 2,
+       "nDays": 2
+      },
+      "estimable": false,
+      "reason": "fewer than 10 drives or 5 days in a cohort"
+     },
+     "fidelityD0": {
+      "estimateEqualsCube": true,
+      "ci95EqualsCube": true,
+      "cubeEstimate": -2.49,
+      "cubeCi95": [
+       -5.65,
+       1.21
+      ],
+      "note": "hard stop otherwise"
+     },
+     "commonSupportRanges": {
+      "startHour": [
+       9.49,
+       21.471
+      ],
+      "socStart": [
+       53.575,
+       68.275
+      ],
+      "tPackStart": [
+       18.613,
+       35.866
+      ]
+     },
+     "nSharedDates": 5,
+     "nExcludedMissingCovariate": 0
+    },
+    "verdict": "not assessable",
+    "differing": []
+   },
+   {
+    "band": "≥ 10 km",
+    "balance": {
+     "dayOfYear": {
+      "label": "day of year",
+      "nWarm": 64,
+      "nShoulder": 26,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 217.797,
+      "sdWarm": 28.941,
+      "meanShoulder": 250.038,
+      "sdShoulder": 47.833,
+      "smd": 0.816,
+      "shoulderInsideWarmP5P95": 0.269,
+      "warmInsideShoulderP5P95": 0.984
+     },
+     "startHour": {
+      "label": "start hour",
+      "nWarm": 64,
+      "nShoulder": 26,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 17.062,
+      "sdWarm": 3.903,
+      "meanShoulder": 18.094,
+      "sdShoulder": 4.54,
+      "smd": 0.244,
+      "shoulderInsideWarmP5P95": 0.654,
+      "warmInsideShoulderP5P95": 0.938
+     },
+     "socStart": {
+      "label": "start SoC",
+      "nWarm": 64,
+      "nShoulder": 26,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 57.602,
+      "sdWarm": 5.503,
+      "meanShoulder": 59.942,
+      "sdShoulder": 7.979,
+      "smd": 0.342,
+      "shoulderInsideWarmP5P95": 0.731,
+      "warmInsideShoulderP5P95": 0.953
+     },
+     "tPackStart": {
+      "label": "pack temperature at start",
+      "nWarm": 64,
+      "nShoulder": 26,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 29.4,
+      "sdWarm": 6.907,
+      "meanShoulder": 25.801,
+      "sdShoulder": 6.924,
+      "smd": -0.52,
+      "shoulderInsideWarmP5P95": 0.808,
+      "warmInsideShoulderP5P95": 0.781
+     },
+     "tPackMean": {
+      "label": "mean pack temperature (measured during the drive; description only)",
+      "nWarm": 64,
+      "nShoulder": 26,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 33.033,
+      "sdWarm": 5.074,
+      "meanShoulder": 29.7,
+      "sdShoulder": 5.313,
+      "smd": -0.642,
+      "shoulderInsideWarmP5P95": 0.808,
+      "warmInsideShoulderP5P95": 0.828
+     },
+     "speedMoving": {
+      "label": "moving speed",
+      "nWarm": 64,
+      "nShoulder": 26,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 41.522,
+      "sdWarm": 6.522,
+      "meanShoulder": 40.004,
+      "sdShoulder": 6.386,
+      "smd": -0.235,
+      "shoulderInsideWarmP5P95": 0.846,
+      "warmInsideShoulderP5P95": 0.828
+     },
+     "distance": {
+      "label": "distance",
+      "nWarm": 64,
+      "nShoulder": 26,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 20.945,
+      "sdWarm": 10.92,
+      "meanShoulder": 24.669,
+      "sdShoulder": 10.546,
+      "smd": 0.347,
+      "shoulderInsideWarmP5P95": 0.885,
+      "warmInsideShoulderP5P95": 0.75
+     },
+     "weekend": {
+      "label": "weekend share",
+      "nWarm": 64,
+      "nShoulder": 26,
+      "nMissingWarm": 0,
+      "nMissingShoulder": 0,
+      "meanWarm": 0.344,
+      "sdWarm": 0.479,
+      "meanShoulder": 0.115,
+      "sdShoulder": 0.326,
+      "smd": -0.564,
+      "shoulderInsideWarmP5P95": 1.0,
+      "warmInsideShoulderP5P95": 1.0
+     }
+    },
+    "designs": {
+     "D0": {
+      "warm": {
+       "nDrives": 64,
+       "nDays": 40
+      },
+      "shoulder": {
+       "nDrives": 26,
+       "nDays": 18
+      },
+      "estimable": true,
+      "warmEstimate": 23.21,
+      "shoulderEstimate": 22.17,
+      "estimate": -1.04,
+      "ci95": [
+       -2.66,
+       0.68
+      ],
+      "includesZero": true,
+      "nDraws": 4000,
+      "nDrawsDropped": 0,
+      "nUnionDates": 55,
+      "nSharedDates": 3,
+      "nonDecisive": false,
+      "lowPrecision": false,
+      "endpointMcSensitive": false
+     },
+     "D1": {
+      "warm": {
+       "nDrives": 4,
+       "nDays": 3
+      },
+      "shoulder": {
+       "nDrives": 3,
+       "nDays": 3
+      },
+      "estimable": false,
+      "reason": "fewer than 10 drives or 5 days in a cohort"
+     },
+     "D2": {
+      "warm": {
+       "nDrives": 38,
+       "nDays": 30
+      },
+      "shoulder": {
+       "nDrives": 10,
+       "nDays": 9
+      },
+      "estimable": true,
+      "warmEstimate": 23.65,
+      "shoulderEstimate": 22.45,
+      "estimate": -1.2,
+      "ci95": [
+       -3.74,
+       2.41
+      ],
+      "includesZero": true,
+      "nDraws": 4000,
+      "nDrawsDropped": 0,
+      "nUnionDates": 39,
+      "nSharedDates": 0,
+      "nonDecisive": false,
+      "lowPrecision": true,
+      "endpointMcSensitive": false,
+      "widthRatioToD0": 1.841
+     },
+     "D3": {
+      "warm": {
+       "nDrives": 3,
+       "nDays": 3
+      },
+      "shoulder": {
+       "nDrives": 0,
+       "nDays": 0
+      },
+      "estimable": false,
+      "reason": "fewer than 10 drives or 5 days in a cohort"
+     },
+     "fidelityD0": {
+      "estimateEqualsCube": true,
+      "ci95EqualsCube": true,
+      "cubeEstimate": -1.04,
+      "cubeCi95": [
+       -2.66,
+       0.68
+      ],
+      "note": "hard stop otherwise"
+     },
+     "commonSupportRanges": {
+      "startHour": [
+       10.921,
+       21.849
+      ],
+      "socStart": [
+       48.075,
+       66.35
+      ],
+      "tPackStart": [
+       18.788,
+       35.0
+      ]
+     },
+     "nSharedDates": 3,
+     "nExcludedMissingCovariate": 0
+    },
+    "verdict": "reading unchanged",
+    "differing": []
+   }
+  ],
+  "overallVerdict": "reading depends on the design",
+  "largestAbsSmdAllUrban": {
+   "covariate": "dayOfYear",
+   "absSmd": 0.997
+  }
  }
 }

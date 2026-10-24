@@ -65,6 +65,7 @@ function buildS(config, arrays) {
     powerFadeEquivalence: A.powerFadeEquivalence || null,
     powerFadeTemperatureSpecs: A.powerFadeTemperatureSpecs || null,
     signalResolution: A.signalResolution || null,
+    urbanContrastBalance: A.urbanContrastBalance || null,
     integrationScenarios: A.integrationScenarios || null,  // M420: single-choice integration scenarios beside the energy Monte Carlo (reporting-only)
     cohortSupport: A.cohortSupport || null,  // M472: descriptive support accounting per thermal cohort (largest-drive / largest-day share, effective days, leave-one-day-out, physical-class sensitivity)
     thermalSupportLedger: A.thermalSupportLedger || null,  // M418: candidate / accepted / excluded / right-censored counts of the thermal estimates (reporting-only)
@@ -10658,6 +10659,12 @@ function UrbanSeasonContrast(){
         return <div data-urban-blocks="1" style={{marginTop:4}}>Block sensitivity across neighbouring dates (95% intervals of Δ; both cohorts resampled together; an uncertainty analysis, not a change of the point estimate). W: ISO calendar weeks; WS: weeks stratified by cohort occupancy (warm-only / shoulder-only / mixed); M7 / M14: circular 7- and 14-day moving blocks, withheld ("—") when the cohorts occupy too few blocks.
           <table style={{borderCollapse:"collapse",margin:"3px 0"}}><thead><tr><th style={{...th,textAlign:"left"}}>Band</th><th style={th}>Joint day</th>{ks.map(k=><th key={k} style={th}>{k}</th>)}</tr></thead><tbody>{UB.bands.map(b=><tr key={b.band}><td style={{...td,textAlign:"left"}}>{b.band}</td><td style={td}>[{f(b.jointDay.ci95[0])}, {f(b.jointDay.ci95[1])}]</td>{ks.map(k=>{ const q=b.procedures[k]; return <td key={k} style={td}>{q&&q.ci95?"["+f(q.ci95[0])+", "+f(q.ci95[1])+"]":"—"}</td>; })}</tr>)}</tbody></table>
           Verdict: {vt}.{nz.length>0 && <> The interval endpoint nearest zero is within Monte Carlo error of zero for {nz.join("; ")} (seed-sensitive reading).</>} A narrower block interval is not stronger evidence; with this few weeks a percentile interval may undercover. The thermal cohorts are ambient-threshold classes, confounded with season, date and drift; week blocks also absorb season and composition variance, not only serial dependence.</div>; })()}
+      {S.urbanContrastBalance && (() => { const UB=S.urbanContrastBalance, b0=(UB.bands||[]).find(x=>x.band==="all urban trips"); if(!b0) return null;
+        const bal=b0.balance||{}, d=b0.designs||{}, ps=bal.tPackStart, big=UB.largestAbsSmdAllUrban, diff=(b0.differing||[]).map(x=>x.design), mc=(b0.differing||[]).some(x=>x.endpointMcSensitive);
+        const nn=(k)=>d[k]&&d[k].warm?`${d[k].warm.nDrives} Warm / ${d[k].shoulder.nDrives} Shoulder drives`:"";
+        return <div data-urban-balance="true" style={{marginTop:6,fontSize:9.5,color:"#475569",lineHeight:1.6}}>
+          <strong style={{color:"#0f172a"}}>Covariate balance and design dependence (M504, reporting only).</strong> The contrast above is an unadjusted comparison of ambient-threshold classes that are confounded with calendar date and season. Largest standardised difference between the cohorts (all urban trips): {big?`${big.covariate==="dayOfYear"?"calendar date":big.covariate} ${big.absSmd}`:"n/a"} (large by construction); pack temperature at key-on {ps&&ps.smd!=null?ps.smd:"n/a"} (Shoulder drives inside the Warm 5th–95th percentile range: {ps&&ps.shoulderInsideWarmP5P95!=null?Math.round(ps.shoulderInsideWarmP5P95*100):"n/a"} %). Verdict over the restricted designs for this band: <strong>{b0.verdict}</strong>{diff.length?<> (the same-date restriction, {nn("D1")}, and the combined restriction, {nn("D3")}, are the designs whose interval reading differs{mc?"; their interval endpoints lie within 0.25 of zero and are Monte Carlo-sensitive":""})</>:null}. {UB.designDefinitionNote}. The restrictions are sensitivity checks, not adjustments; no design is preferred and no thermal effect is estimated. The displayed interval stays the M491 joint-day interval.
+        </div>; })()}
     </div>
   </div>;
 }
