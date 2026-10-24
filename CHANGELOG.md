@@ -1,3 +1,16 @@
+## M503 (2026-10-24): Retroactive signal-resolution record of HV current and pack voltage (audit CD-07) - SPEC FROZEN, results pending
+
+**Rationale.** Spec analyses/M503_spec.md Rev 2 written before any computation; research-director ruling 'revise' (eight revisions) folded in; no ingestion stage (dated snapshot). M503 spec sha256 cc5d7275c2534aed3355180f6ba7a5ae736c85f4eb1ce5c07106e914abcda746. RESULT_PENDING_MARKER
+
+**State.** `drive_master.csv` 606 rows, MD5 `5556a0c6c8bcde0f6c64b8b9655208ed`.
+
+**Gates (runs/20261020T221332Z).** restamp_ingest=ok; build_html=ok; jsdom=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `analyses/M503_spec.md`, `tools/signal_resolution.py`, `tests/synthetic/test_signal_resolution.py`.
+
+
 ## M502 (2026-10-24): Audit 2026-10-23 triage of the remaining findings: small dashboard/wording fixes, doc corrections, and a disposition table for all 95 findings
 
 **Rationale.** Triage of the 71 findings not addressed by M496-M501 against the current payload and code (analyses/audit_2026-10-23_dispositions.md lists every finding with its disposition). Fixed here, no estimator or published figure changed: DB-04 (history annotations: band Jun 9-14, increment Jun 22-27 counted from the end of Jun 21, Jun 21 described as a day total), DB-07 (session bars scale with the largest group), DB-08 (cross-vehicle MWU p-value shown as <0.001 instead of 0), DB-11 (semantic_gate.py reconfigures stdout to utf-8; no crash on a cp1251 console), ST-03 (typed collinearity literal removed), ST-10 (the ledger and thermal-fuel-penalty wording 'genuine null result' and 'CONFIRMS ... adequate' replaced by absence-of-detection wording, resistance row class measured -> derived; generator strings in compute_summary_arrays.py, leaf splice tools/m502_text_splice.py, language rule M502-null-result-wording), PB-02/PF-14 (stale numbers and statements removed from docs/overview.md, findings-and-methods.md, script_index.md and workflow-and-tools.md; they now point to payload keys). Not changed, with reasons in the table: pipeline/master-level items (RC-02 distance rounding of short trips, RC-03, RC-04, RC-05, RC-07, CD-08, PF-10, PF-15) need their own pre-registered milestones because they alter drive_master or hashed pipeline code; DB-10 sits in the pre-registered M435 required sentence R2 (a spec revision); PB-11 is in a deprecated provenance record. Deferred new analyses or wording decisions (each needs a spec and Director review): ST-06 (intervals at 5-10 clusters), ST-09 (balance table and date-matched sensitivity for Warm vs Shoulder), ST-13, ST-14, ST-15, CD-05 (resistance trend depends on the I-V pairing rule), CD-06 (eligibility in sample counts), CD-07 (1 A / 0.1 V resolution window 2026-08-29..09-30 not recorded in signal_representation.json), ST-07 (Path A vs B agreement per km), ST-12, PB-12, PB-06.
