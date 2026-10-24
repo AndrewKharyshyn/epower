@@ -59,7 +59,7 @@ assert "not every" in blk["statement"] and "Emulated" not in blk["statement"] an
 emu = {"status": "ok", "study": "M393", "basis": {"nClean": 242, "seeds": 3, "slowPoolDrives": 40}, "stale": True, "nFastClean": 90, "nFastLoseProxy": 29, "nFastKeepProxy": 61,
        "pairedDiffEmulatedMinusOriginal": {"fast1": {"n": 52, "nDays": 20, "meanMohm": -1.545, "ci95": [-2.29, -0.658]}, "fast2": {"n": 9, "nDays": 5, "meanMohm": -1.738, "ci95": [-3.321, -0.59]}}}
 st = A._powerfade_cadence_block(r, emu)["statement"]
-assert "lowers the proxy by 1.5-1.7" in st and "on the 61 fast-regime drives that keep a proxy" in st and "removes it from 29 of 90" in st and "not a causal cadence effect" in st
+assert "also alters the I-V co-timing" in st and "lowers the proxy by 1.5-1.7" in st and "on the 61 fast-regime drives that keep a proxy" in st and "removes it from 29 of 90" in st and "not a causal cadence effect" in st
 assert "stale: the clean-drive count is now %d" % r["nClean"] in st
 nstale = A._powerfade_cadence_block(r, dict(emu, stale=False))["statement"]
 assert "stale" not in nstale

@@ -76,7 +76,7 @@ def summarize_sensitivity(study, dm, regime):
     share = float(d.loc[ok & (d["regime"] == "fast"), "gross_throughput_kwh"].sum() / d.loc[ok, "gross_throughput_kwh"].sum())
     shift = float(f2s["gross_throughput_kwh"]["estimate"] - 1.0)
     m = study["meta"]
-    return {"basis": "emulated sampling sensitivity (M379b): fast-regime drives thinned per PID column to the slow-regime interval distribution (and to twice it), pipeline re-run on the emulated logs; not a causal cadence effect (PID-set / polling-order change, I-V co-timing, jitter and app-internal calculations are not emulated); fast -> slow direction only",
+    return {"basis": "emulated sampling sensitivity (M379b): fast-regime drives thinned per PID column to the slow-regime interval distribution (and to twice it), pipeline re-run on the emulated logs; not a causal cadence effect (PID-set / polling-order change, jitter and app-internal calculations are not emulated; the per-column thinning also alters the I-V co-timing as a side effect (audit CD-04, M500)); fast -> slow direction only",
             "study": {"nDrives": m["nStudyDrives"], "nFastRegimeDrives": int((regime == "fast").sum()), "studySetNote": "the fast-regime drives with an energy block (gross_throughput_kwh present, distance_km > 0, not canonically flagged)", "nDays": m["nStudyDays"], "seeds": len(m["seeds"]), "controlSlowToSlowerDrives": m["nControlDrives"], "robustnessDrives": m["nRobustnessDrives"]},
             "grossThroughputRatio": {"fastToSlow": g(f2s, "gross_throughput_kwh"), "fastToSlower": g(f2sl, "gross_throughput_kwh"), "slowToSlowerControl": g(s2sl, "gross_throughput_kwh")},
             "sameDirectionKeys": {k: g(f2s, k) for k in ("gross_discharge_kwh", "gross_charge_kwh", "fce", "rf_efc")},
@@ -89,7 +89,7 @@ def summarize_sensitivity(study, dm, regime):
             "headlineQuarterRule": study["headlineQuarterRule"], "robustnessClassFlips": list(study["robustnessClassFlips"]),
             "corpusImplication": {"fastRegimeShareOfGrossThroughput": share, "impliedCorpusGrossThroughputShiftIfAllSlow": share * shift,
                                   "note": "descriptive arithmetic on the emulation, not a correction of any published figure"},
-            "limits": m["limits"], "source": "analyses/M379_cadence_sensitivity.json"}
+            "limits": [x.replace("I-V co-timing, jitter and app-internal calculations are not emulated", "jitter and app-internal calculations are not emulated; the per-column thinning also alters the I-V co-timing as a side effect (audit CD-04, M500)") for x in m["limits"]], "source": "analyses/M379_cadence_sensitivity.json"}
 
 
 def summarize_stratified(st, aud):
