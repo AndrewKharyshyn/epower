@@ -1,0 +1,9 @@
+{"verdict":"reproduced with caveats",
+"counts":"all exact: 340W/147S, 90/45 days; D1 102/28 & 79/28; D2 223/81 & 46/22; D3 (D1 rows that are also in D2, support computed on full urban set) 81/27 & 22/10",
+"estimates":{"all":-1.666,"D1":-2.765,"D2":-2.904,"D3":-3.465,"bands(<3,3-10,>=10)":[0.033,-2.486,-1.036]},
+"ci95_seed42":{"all":[-3.91,1.11],"D1":[-6.14,-0.04],"D2":[-5.95,1.12],"D3":[-6.67,-0.02]},
+"max_abs_diff_estimate":0.005,"max_abs_diff_bound":0.19,
+"smd":{"doy":0.9965,"hour":-0.3892,"soc":0.6276,"pack_start":-0.8998,"T_pack_mean_avg":-0.9403,"speed":-0.3091,"dist":0.0046,"weekend":-0.4433,"max_diff":0.003},
+"d1_upper_seed_sensitivity":{"seeds_0-7,42,1234,2024":[0.026,-0.053,-0.058,-0.079,0.014,-0.003,-0.016,0.059,-0.040,-0.092,-0.107],"share_excluding_zero_all11":"8/11=0.73","share_seeds_0-7":"5/8=0.63","100k_draws_seed42":[-6.14,-0.045]},
+"caveats":["D1 and D3 upper bounds sit within ~0.1 of zero: exclusion of zero is seed-dependent (about 1 in 4 seeds include 0); D1 should not be called significant. D3 upper -0.02 at seed 42 likewise borderline (not seed-tested).","Claimed all-urban upper 1.3 vs my 1.11 (diff 0.19, slightly over tolerance; likely RNG).","Alt common-support readings: D2 numpy 'lower'/'nearest' percentile gives 225/224 W, 46/47 S (small change); recomputing support within D1 or re-intersecting D2 then restricting to shared dates changes D3 materially (85 rows/-1.08; 44 rows/-2.18), so D3 depends on defining it as D1 rows intersect D2 rows with support from the full set. Not material for D2."],
+"files":["audit_package_2026-10-23/M504_blind/repro.py","audit_package_2026-10-23/M504_blind/repro_out.json"]}

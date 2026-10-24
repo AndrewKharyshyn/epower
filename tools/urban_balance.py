@@ -12,9 +12,12 @@ import numpy as np, pandas as pd
 import urban_week_block as UW
 import joint_day_bootstrap as JB
 
-CUBE_SEED, CUBE_DRAWS = 20260925, 8000       # m297_comparison_cube: B = 2000, draws = B * 2, rngJ = default_rng(SEED + 2)
+CUBE_SEED, CUBE_DRAWS = 20260925, 4000       # m297_comparison_cube: B = 2000, draws = B * 2 = 4000, rngJ = default_rng(SEED + 2)
 N_DRAWS, SEED = 4000, 42
 MIN_DRIVES, MIN_DAYS, LOW_DAYS, DROP_CAP, WIDTH_MAX = 10, 5, 10, 0.005, 1.5
+MC_NEAR_ZERO = 0.25      # Director (M504 decision): an interval endpoint within this distance of zero is flagged as Monte Carlo-sensitive (reporting only; the frozen verdict is unchanged)
+D3_NOTE = ("D3 = the rows of D1 that are also rows of D2, with the common-support ranges computed on the full band population; other definitions of common support inside the same-date set give different "
+           "row counts and estimates, so the combined-restriction reading depends on the design and on this definition")
 BANDS = UW.BANDS
 COVS = [("dayOfYear", "day of year"), ("startHour", "start hour"), ("socStart", "start SoC"), ("tPackStart", "pack temperature at start"),
         ("tPackMean", "mean pack temperature (measured during the drive; description only)"), ("speedMoving", "moving speed"), ("distance", "distance"), ("weekend", "weekend share")]
@@ -86,7 +89,8 @@ def design_result(g, rng, n_draws, exact_cube=None):
     ci = JB.interval(draws)
     out.update(estimable=True, warmEstimate=round(float(ew), 2), shoulderEstimate=round(float(es), 2), estimate=round(float(es - ew), 2), ci95=ci, includesZero=bool(ci[0] <= 0 <= ci[1]),
                nDraws=int(n_draws), nDrawsDropped=int(dropped), nUnionDates=int(nunion), nSharedDates=int(nshared),
-               nonDecisive=bool(dropped > DROP_CAP * n_draws), lowPrecision=bool(min(out["warm"]["nDays"], out["shoulder"]["nDays"]) < LOW_DAYS))
+               nonDecisive=bool(dropped > DROP_CAP * n_draws), lowPrecision=bool(min(out["warm"]["nDays"], out["shoulder"]["nDays"]) < LOW_DAYS),
+               endpointMcSensitive=bool(min(abs(ci[0]), abs(ci[1])) < MC_NEAR_ZERO))
     return out
 
 
@@ -115,6 +119,7 @@ def designs(g, rngs, cube_diff):
             r["widthRatioToD0"] = round((r["ci95"][1] - r["ci95"][0]) / base_w, 3)
             if r["widthRatioToD0"] > WIDTH_MAX:
                 r["lowPrecision"] = True
+    res["fidelityD0"] = {"estimateEqualsCube": True, "ci95EqualsCube": True, "cubeEstimate": cube_diff["estimate"], "cubeCi95": cube_diff["ci95"], "note": "hard stop otherwise"}
     res["commonSupportRanges"] = cs
     res["nSharedDates"] = int(len(shared))
     res["nExcludedMissingCovariate"] = n_missing
@@ -126,7 +131,7 @@ def verdict(dres):
     est = {k: dres[k] for k in ("D1", "D2", "D3") if dres[k].get("estimable") and not dres[k].get("nonDecisive")}
     if not base.get("estimable") or not est:
         return {"verdict": "not assessable", "differing": []}
-    diff = [{"design": k, "flip": ("excludes zero -> includes zero" if base["includesZero"] is False else "includes zero -> excludes zero"), "widthRatioToD0": v.get("widthRatioToD0"), "lowPrecision": bool(v.get("lowPrecision"))}
+    diff = [{"design": k, "flip": ("excludes zero -> includes zero" if base["includesZero"] is False else "includes zero -> excludes zero"), "widthRatioToD0": v.get("widthRatioToD0"), "lowPrecision": bool(v.get("lowPrecision")), "endpointMcSensitive": bool(v.get("endpointMcSensitive"))}
             for k, v in est.items() if v["includesZero"] != base["includesZero"]]
     if not diff:
         return {"verdict": "reading unchanged", "differing": []}
@@ -188,6 +193,7 @@ def splice(A, res, prov):
     blk = {"label": "covariate balance and design-dependence of the Warm-vs-Shoulder urban energy-intensity contrast (reporting only; the displayed interval stays the M491 joint-day interval; the designs are restrictions, not adjustments; thermal cohorts are ambient-threshold classes confounded with date and season)",
            "spec": "analyses/M504_spec.md", "specSha256": prov["specSha256"], "scriptSha256": prov["scriptSha256"], "masterMd5": prov["masterMd5"], "seasonalMasterMd5": prov["seasonalMasterMd5"], "seeds": prov["seeds"],
            "designRule": "D0 released (reproduced exactly); D1 same-date restriction; D2 common-support restriction (start hour, start SoC and pack temperature at start inside the intersection of the cohorts' P5-P95); D3 = D1 and D2; not estimable below 10 drives or 5 days in a cohort; non-decisive when more than 0.5 percent of draws are dropped",
+           "designDefinitionNote": D3_NOTE, "endpointFlagRule": "endpointMcSensitive: the interval endpoint nearest to zero lies within %.2f of zero (reporting only; the verdict rule is unchanged)" % MC_NEAR_ZERO,
            "multiplicity": "12 non-D0 intervals across 4 overlapping bands; no adjustment; the any-estimable-design-differs rule leans conservative",
            "bands": res["bands"], "overallVerdict": res["overallVerdict"], "largestAbsSmdAllUrban": res["largestAbsSmdAllUrban"]}
     blk = json.loads(json.dumps(blk))
