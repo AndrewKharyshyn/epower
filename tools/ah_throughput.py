@@ -99,6 +99,10 @@ def _row(f, date, res, sha):
 
 def build_sidecar(master, loader, path=SIDECAR, sha_lookup=None, rebuild=False):
     """One row per master drive (master order). Reuses a stored row when its raw sha256 and method_version are unchanged; otherwise recomputes it. Writes the CSV (6-decimal export)."""
+    import dep_hash
+    import compute_drive_summary_v6 as _D          # the extractor imports it locally; pass it so the closure reaches the shared helpers (audit CAP-2 pattern)
+    code = dep_hash.closure_hash([ah_from_bytes], modules=(sys.modules[__name__], _D), extra={"method": METHOD_VERSION})   # M498 (audit PF-02)
+    code_ok = dep_hash.sidecar_code_ok(path, code)
     old = {}
     if os.path.exists(path) and not rebuild:
         o = pd.read_csv(path, dtype={"raw_sha256": str}, keep_default_na=False, na_values=[""])
@@ -107,7 +111,7 @@ def build_sidecar(master, loader, path=SIDECAR, sha_lookup=None, rebuild=False):
     for _, m in master.iterrows():
         f, date = str(m["file"]), str(m["date"])
         prev = old.get(f)
-        reusable = prev is not None and prev.get("method_version") == METHOD_VERSION and prev.get("reason") != "raw_file_missing"
+        reusable = code_ok and prev is not None and prev.get("method_version") == METHOD_VERSION and prev.get("reason") != "raw_file_missing"
         sha = sha_lookup(f) if sha_lookup else None
         if reusable and sha and prev.get("raw_sha256") == sha:
             rows.append(_clean(prev))
@@ -125,6 +129,7 @@ def build_sidecar(master, loader, path=SIDECAR, sha_lookup=None, rebuild=False):
     for c in NUM:
         out[c] = pd.to_numeric(out[c], errors="coerce").round(6)
     out.to_csv(path, index=False, lineterminator="\n")
+    dep_hash.sidecar_code_write(path, code)
     return pd.read_csv(path, dtype={"raw_sha256": str}, keep_default_na=False, na_values=[""])
 
 

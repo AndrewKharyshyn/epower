@@ -45,6 +45,10 @@ def _read(path):
 
 def build_density(master, loader, sha_lookup, path=SIDECAR):
     """One row per master drive that carries the vreg proxy and a date (master order). A stored row is reused when its raw sha256 and METHOD_VERSION are unchanged; otherwise the raw file is read."""
+    import dep_hash
+    import compute_drive_summary_v6 as _D          # the extractor imports it locally; pass it so the closure reaches the shared helpers (audit CAP-2 pattern)
+    code = dep_hash.closure_hash([density_from_bytes], modules=(sys.modules[__name__], _D), extra={"method": METHOD_VERSION})   # M498 (audit PF-02)
+    code_ok = dep_hash.sidecar_code_ok(path, code)
     old = {}
     if os.path.exists(path):
         old = {r["file"]: r for r in _read(path).to_dict("records")}
@@ -54,7 +58,7 @@ def build_density(master, loader, sha_lookup, path=SIDECAR):
         f, date = str(m["file"]), str(m["date"])
         prev = old.get(f)
         sha = sha_lookup(f) if sha_lookup else None
-        ok_prev = prev is not None and prev.get("method_version") == METHOD_VERSION and prev.get("reason") not in ("raw_file_missing",)
+        ok_prev = code_ok and prev is not None and prev.get("method_version") == METHOD_VERSION and prev.get("reason") not in ("raw_file_missing",)
         if ok_prev and sha and prev.get("raw_sha256") == sha:
             rows.append({k: (None if (isinstance(prev.get(k), float) and np.isnan(prev.get(k))) else prev.get(k)) for k in COLS})
             continue
@@ -71,6 +75,7 @@ def build_density(master, loader, sha_lookup, path=SIDECAR):
                      "raw_sha256": h, "method_version": METHOD_VERSION, "reason": None if (np.isfinite(eff) and np.isfinite(cov)) else "density_unresolved"})
     out = pd.DataFrame(rows, columns=COLS)
     out.to_csv(path, index=False, lineterminator="\n", float_format="%.12g")
+    dep_hash.sidecar_code_write(path, code)
     return _read(path)
 
 

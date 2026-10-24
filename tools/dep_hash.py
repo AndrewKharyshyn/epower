@@ -4,13 +4,14 @@
 (through the names each code object references, resolved against the function's own globals, then against the extra modules given), the VALUE of every simple module-level constant they reference, and the whole file
 of any repository module a root or helper refers to as a module object (conservative: a change anywhere in that module forces a rebuild), plus the interpreter-independent library versions the arrays depend on.
 Over-inclusion is deliberate (a rebuild is cheap, a silently stale cache is not); a name that resolves to nothing is ignored. Pure function of the code and constants: no I/O besides reading source files."""
-import hashlib, inspect, json, os, sys, types
+import hashlib, inspect, json, os, re, sys, types
 
 import numpy as np
 import pandas as pd
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 _SIMPLE = (int, float, str, bool, type(None))
+_MUTABLE_STATE = re.compile(r"memo|cache|seen", re.I)
 
 
 def _simple(v):
@@ -59,9 +60,20 @@ def closure(roots, modules=()):
                     stack.append(v)
                 elif isinstance(v, types.ModuleType) and getattr(v, "__file__", None) and _in_repo(v.__file__):
                     files.add(os.path.abspath(v.__file__))
-                elif _simple(v) and not n.startswith("__"):
+                elif _simple(v) and not n.startswith("__") and not _MUTABLE_STATE.search(n):   # M498: memo/cache/seen variables change at run time and are not code
                     consts["%s.%s" % (scope.get("__name__", "?"), n)] = repr(v)
     return funcs, consts, sorted(files)
+
+
+def sidecar_code_ok(path, key):
+    """M498 (audit PF-02): a per-drive sidecar (CSV) may reuse its stored rows only when the companion file `<path>.codekey` holds the closure hash of the extractor that wrote them."""
+    p = path + ".codekey"
+    return os.path.exists(p) and open(p, encoding="utf-8").read().strip() == key
+
+
+def sidecar_code_write(path, key):
+    with open(path + ".codekey", "w", encoding="utf-8", newline="\n") as f:
+        f.write(key + "\n")
 
 
 def closure_hash(roots, modules=(), extra=None):

@@ -59,7 +59,7 @@ def closure_src(C, drc):
     and what it calls), its constants, the repository modules it imports, the library versions. The former key hashed regen_v2.py, soc_spike.py and _apply_speed_priority only, so a change to RAW_MAP, _ft or the loader
     body (only SCHEMA_VERSION was keyed) left stale entries valid."""
     import dep_hash
-    return dep_hash.closure_hash([R.extract_drive, drc.make_frame_loader], modules=(C, drc), extra={"loaderSchema": drc.SCHEMA_VERSION, "extractorVersion": R.EXTRACTOR_VERSION})[:16]
+    return dep_hash.closure_hash([R.extract_drive, drc.make_frame_loader, drc.add_file], modules=(C, drc), extra={"loaderSchema": drc.SCHEMA_VERSION, "extractorVersion": R.EXTRACTOR_VERSION})[:16]   # M498 (PF-03): add_file builds the cached frames
 
 
 def raw_dir():

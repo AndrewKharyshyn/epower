@@ -52,7 +52,8 @@ r = AH.ah_from_bytes(csv({s: -10.0 for s in range(5)}, range(5), volt=150.0))
 assert r["ah_discharge"] is None and r["reason"] == "no_iv_series", r
 
 # sidecar: one row per master drive, incremental by raw sha256, recomputed only when the hash changes
-calls = []
+import collections
+calls = collections.deque()   # not a simple constant: a mutating list would change the extractor closure hash (M498)
 real = AH.ah_from_bytes
 AH.ah_from_bytes = lambda b: (calls.append(1), real(b))[1]
 store = {"a.csv": csv({s: -10.0 for s in range(0, 61)}, range(0, 61)), "b.csv": csv({0: -10.0, 10: -10.0, 20: -10.0}, [0])}

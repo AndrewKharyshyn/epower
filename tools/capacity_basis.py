@@ -238,13 +238,16 @@ def extract_drive(csv_bytes):
 def load_records(master, loader, sha_lookup=None, cache_dir=CACHE_DIR, rebuild=False):
     """{file: extraction record | None} for the given master rows; per-drive cache keyed by raw sha256 and METHOD_VERSION."""
     os.makedirs(cache_dir, exist_ok=True)
+    import dep_hash
+    import compute_drive_summary_v6 as _D          # extract_drive imports it locally, so the closure walk cannot see it unless it is passed (CAP-2)
+    code = dep_hash.closure_hash([extract_drive], modules=(sys.modules[__name__], _D), extra={"method": METHOD_VERSION})   # M498 (audit PF-02): the extractor and what it reaches, not only the manual version
     out = {}
     for f in master["file"]:
         sha = sha_lookup(f) if sha_lookup else None
         cp = os.path.join(cache_dir, "%s.v%d.pkl" % (f, METHOD_VERSION))
         if sha and not rebuild and os.path.exists(cp):
             c = pickle.load(open(cp, "rb"))
-            if c.get("sha") == sha:
+            if c.get("sha") == sha and c.get("code") == code:
                 out[f] = c["rec"]
                 continue
         b = loader(f)
@@ -254,11 +257,11 @@ def load_records(master, loader, sha_lookup=None, cache_dir=CACHE_DIR, rebuild=F
         h = hashlib.sha256(b).hexdigest()
         if not rebuild and os.path.exists(cp):
             c = pickle.load(open(cp, "rb"))
-            if c.get("sha") == h:
+            if c.get("sha") == h and c.get("code") == code:
                 out[f] = c["rec"]
                 continue
         rec = extract_drive(b)
-        pickle.dump({"sha": h, "rec": rec}, open(cp, "wb"))
+        pickle.dump({"sha": h, "rec": rec, "code": code}, open(cp, "wb"))
         out[f] = rec
     return out
 
