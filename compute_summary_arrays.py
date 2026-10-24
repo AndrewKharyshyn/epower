@@ -2340,7 +2340,7 @@ def _powerfade_emulation_snapshot(n_clean):
         basis_n = int(d['B_specification_sensitivity']['M1_published_density']['n'])
         pd_ = {e: {'n': C[f'paired_diff_{e}']['n'], 'nDays': C[f'paired_diff_{e}']['n_days'], 'meanMohm': C[f'paired_diff_{e}']['mean_emulated_minus_original_mohm'],
                    'ci95': C[f'paired_diff_{e}']['ci95_day_clustered']} for e in ('fast1', 'fast2') if f'paired_diff_{e}' in C}
-        return {'status': 'ok', 'study': 'M393', 'label': 'emulated sampling sensitivity, not a causal cadence effect (PID order, I-V co-timing and jitter are not emulated)',
+        return {'status': 'ok', 'study': 'M393', 'label': 'emulated sampling sensitivity, not a causal cadence effect (PID order and jitter are not emulated; the emulation thins each logged column independently, so it also alters the I-V co-timing and the shift is not attributed to sampling density alone)',
                 'basis': {'nClean': basis_n, 'seeds': C['seeds'], 'slowPoolDrives': C['slow_pool_drives']}, 'stale': bool(basis_n != n_clean),
                 'eras': 'fast1 = 2026-08-14..09-06, fast2 = from 2026-10-01 (M379a)', 'nFastClean': C['n_fast_clean'], 'nFastLoseProxy': C['n_fast_lose_proxy_at_slow_sampling'],
                 'nFastKeepProxy': int(sum(v['n'] for v in pd_.values())), 'loseProxyByEra': C['lose_proxy_by_era'], 'pairedDiffEmulatedMinusOriginal': pd_,
@@ -2361,7 +2361,7 @@ def _powerfade_cadence_block(cs, emu):
     out = dict(cs)
     if emu and emu.get('status') == 'ok':
         diffs = [abs(v['meanMohm']) for v in emu['pairedDiffEmulatedMinusOriginal'].values()]
-        spec += (' Emulated slow-cadence sampling lowers the proxy by %.1f-%.1f mΩ on the %d fast-regime drives that keep a proxy and removes it from %d of %d fast-regime drives '
+        spec += (' Emulated slow-cadence thinning (each column thinned independently, which also alters the I-V co-timing; not attributed to sampling density) lowers the proxy by %.1f-%.1f mΩ on the %d fast-regime drives that keep a proxy and removes it from %d of %d fast-regime drives '
                  '(emulated sampling sensitivity, not a causal cadence effect; M393 study on %d clean drives%s).' % (
                      min(diffs), max(diffs), emu['nFastKeepProxy'], emu['nFastLoseProxy'], emu['nFastClean'], emu['basis']['nClean'],
                      ', stale: the clean-drive count is now %d' % cs['nClean'] if emu['stale'] else ''))
