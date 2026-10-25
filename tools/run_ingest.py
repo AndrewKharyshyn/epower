@@ -101,6 +101,7 @@ def main():
     if a.skip_unchanged:
         print("run_ingest: skip-unchanged: %s%s" % (skip_reason, " -> skipping %d stages" % len(skip_ids) if skip_ids else ""), file=sys.stderr)
     ts = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    run_started_at = dt.datetime.now(dt.timezone.utc).isoformat()     # M513: ISO start of this run (XT_RUN_STARTED_AT for the stamp pass)
     rd = os.path.join(ROOT, "runs", ts)
     if a.dry_run:
         print(json.dumps([{"id": s["id"], "cmd": s["cmd"], "verified": s.get("verified"), "implemented": s.get("implemented", True)} for s in stages], indent=1))
@@ -164,6 +165,8 @@ def main():
             log = os.path.join(rd, s["id"] + ".log")
             with open(log, "w") as lf:
                 senv = dict(env)
+                senv["XT_RUN_STAGES_OK"] = ",".join(r_["id"] for r_ in status["stages"] if r_.get("status") in ("ok", "restored_from_checkpoint"))     # M513: the run record the stamp pass reads
+                senv["XT_RUN_STARTED_AT"] = run_started_at
                 for k, v in (s.get("env") or {}).items():          # per-stage env; "$ROOT" expands to the repo root
                     senv[k] = v.replace("$ROOT", ROOT)
                 r, launch_error = launch(s["cmd"], cwd=ROOT, env=senv, stdout=lf, stderr=subprocess.STDOUT)

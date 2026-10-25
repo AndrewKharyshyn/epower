@@ -34,7 +34,7 @@ REQUIRED = ["xtrail_summary.jsx", "summary_arrays.json", "summary_config.json", 
             "patch_m284_data.py", "test_assumptions_registry.py", "refresh_seasonal_kpis.py", "records_resistance.py",
             "records_rainflow.py", "cohort_distributions.py", "test_track4.py", "apply_m284_post.sh",
             "dump_tabs.js", "semantic_gate.py", "test_cohort_rates.py", "records_disclosure.py", "f03_provenance_flag.py", "f03_provenance.json", "language_gate.py", "eligibility.py", "precision_gate.py", "precision_allowlist.json", "fuel_contract_flag.py", "fuel_contract.json", "fuel_recon_master.csv"]
-TOOLS_REQUIRED = ["refresh_meta_sources.py", "intake_air_block.py", "odometer_check.py", "ah_throughput.py", "timing_support.py", "powerfade_equivalence.py", "engine_runtime.py", "day_bootstrap.py", "exposure_frame.py", "stamp_basis.py"]   # M419: semantic_gate imports stamp_basis.check; called by apply_m284_post.sh (M355; M361 imports intake_air_block)
+TOOLS_REQUIRED = ["refresh_meta_sources.py", "intake_air_block.py", "odometer_check.py", "ah_throughput.py", "timing_support.py", "powerfade_equivalence.py", "engine_runtime.py", "stamp_common.py", "day_bootstrap.py", "exposure_frame.py", "stamp_basis.py"]   # M419: semantic_gate imports stamp_basis.check; called by apply_m284_post.sh (M355; M361 imports intake_air_block)
 OPTIONAL = ["warm_baseline_freeze.json", "event_ledger.json", "compute_seasonal.py", "seasonal_config.json",
             "seasonal_arrays.json", "test_seasonal.py"]
 LEGACY_NEEDS = ["test_seasonal.py", "compute_seasonal.py", "seasonal_config.json", "seasonal_arrays.json",
@@ -229,6 +229,20 @@ def payload_checks(arrays_path):
     except Exception:
         _raw_ok = False
     checks["every canonical raw file matches raw_manifest.json sha256 (raw/ = sha256-verified originals; 333 removed re-exports recorded) (M366)"] = bool(_raw_ok)
+    # M513 (analyses/M513_spec.md Rev 2): the stamps of the declared blocks are derived from their declared dependencies; config-section hashes equal the live config sections; a raw identity, when present,
+    # equals the live raw_manifest corpusHash (an absent one is a WARN: evidence missing). Headline blocks that would FAIL escalate to the Director.
+    try:
+        sys.path.insert(0, str(SRC / "tools"))
+        import stamp_common as _sc
+        _dir = Path(arrays_path).parent
+        _cfg = json.loads((_dir / "summary_config.json").read_text(encoding="utf-8"))
+        _live = json.loads((_dir / "raw_manifest.json").read_text(encoding="utf-8")).get("corpusHash")
+        _pb, _ = _sc.verify_declared(sa, _cfg, _sc.load_deps(str(SRC / "tools" / "stamp_dependencies.json")), _live)
+        for _p in _pb:
+            checks["M513 declared stamp: " + _p] = False
+        checks["declared stamps (tools/stamp_dependencies.json) derive from their declared dependencies: config sections and raw identity equal the live ones (M513)"] = not _pb
+    except Exception as _e:
+        checks["M513 declared stamps could not be verified: %r" % (_e,)] = False
     return checks
 
 def payload_warnings(arrays_path):
@@ -256,8 +270,8 @@ def payload_warnings(arrays_path):
         stale = sorted({v.get("fullConfigHash") for v in sa.get("_artifactStamps", {}).values()
                         if isinstance(v, dict) and v.get("fullConfigHash") not in (None, h)})
         if stale:
-            warns.append(f"_artifactStamps fullConfigHash {stale} != md5(summary_config.json) {h} - stamped under a "
-                         f"different config revision; under investigation (M300)")
+            # M513: INFO (retired as a warning): a whole-file hash is not a dependency; declared blocks name the md5 of each config section they read, and their previous whole-file hash is kept in stampLineage
+            print(f"INFO _artifactStamps fullConfigHash {stale} != md5(summary_config.json) {h} - undeclared stamps keep the whole-file hash of the config revision they were stamped under (M300 retired to INFO, M513)")
     # M468 (audit F03): a COMPUTED stamp that names a raw-manifest corpus hash other than the live one is listed (WARN): either the block really was not rebuilt on the live raw identity, or the stamp carries a stale upstream record; each needs a dependency explanation, never a blanket restamp
     rm = Path(arrays_path).with_name("raw_manifest.json")
     if rm.exists():
@@ -266,6 +280,14 @@ def payload_warnings(arrays_path):
                      and (v.get("upstreamHashes") or {}).get("rawManifestCorpusHash") not in (None, live))
         if lag:
             warns.append(f"_artifactStamps: {len(lag)} computed stamps name a raw-manifest corpus hash other than the live {live[:12]}: {lag}")
+    try:                                           # M513: a declared block whose raw identity is absent (evidence missing) stays a WARN
+        sys.path.insert(0, str(SRC / "tools"))
+        import stamp_common as _sc
+        _cfg2 = json.loads(Path(arrays_path).with_name("summary_config.json").read_text(encoding="utf-8"))
+        _live2 = json.loads(Path(arrays_path).with_name("raw_manifest.json").read_text(encoding="utf-8")).get("corpusHash")
+        warns.extend("declared stamp " + i for i in _sc.verify_declared(sa, _cfg2, _sc.load_deps(str(SRC / "tools" / "stamp_dependencies.json")), _live2)[1])
+    except Exception:
+        pass
     try:
         sys.path.insert(0, str(SRC / "tools"))
         import m321_ladder_monitor as _m321

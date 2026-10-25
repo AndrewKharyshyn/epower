@@ -80,6 +80,13 @@ def derive(A):
             s["computationStatus"] = "computed"
             s["computationStatusNote"] = "M468: refit fresh on the live corpus (recomputeMode=fresh, corpusSizeAtRecompute equals the stamp's drive count); generatedAt is the stamping pass"
             s.pop("carriedForward", None); s.pop("basisNDrives", None)
+        _orig = A["_artifactStamps"][k]
+        if _orig.get("dependencies"):                 # M513 (Rev 2 R1): a declared block's computedAt / computedAtNote come from tools/stamp_dependencies_apply.py, never from the stamping pass
+            s["computedAt"] = _orig.get("computedAt")
+            if "computedAtNote" in _orig:
+                s["computedAtNote"] = _orig["computedAtNote"]
+            else:
+                s.pop("computedAtNote", None)
         if "carriedFromMaster" in s:
             s["supersededCarryNote"] = s.pop("carryForwardNote", None)
             s.pop("carriedFromMaster")
