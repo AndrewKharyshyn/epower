@@ -647,6 +647,18 @@
    ]
   },
   {
+   "id": "stamp_dependencies",
+   "title": "M513: stamps of the declared blocks (tools/stamp_dependencies.json) re-derived from their declared dependencies after restamp_ingest; the live raw identity is written only for blocks whose producer stages ran OK in this run (XT_RUN_STAGES_OK from run_ingest), the prior identity goes to the append-only stampLineage when an identity value changes; writes only /_artifactStamps of the declared blocks; spec analyses/M513_spec.md Rev 2",
+   "cmd": [
+    "python3",
+    "tools/stamp_dependencies_apply.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json"
+   ]
+  },
+  {
    "id": "build_html",
    "title": "Build dashboard (REQUIRED_BLOCKS + stale-key gates)",
    "cmd": [

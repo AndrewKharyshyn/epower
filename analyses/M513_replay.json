@@ -1,0 +1,75 @@
+{
+ "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+ "scriptSha256": "a5982bf31a0602bb88601c2896f19cf3bf1ec946e851db06048b08f3f8f15625",
+ "blocks": {
+  "cohortMeta": {
+   "identical": true,
+   "diffPaths": [],
+   "blockMd5Repo": "eea36b9e62babaa0a2739528bb06eb07",
+   "blockMd5Replay": "eea36b9e62babaa0a2739528bb06eb07",
+   "ignoredLeaves": [],
+   "commands": [
+    "python.exe tools/refresh_cohort_meta.py"
+   ]
+  },
+  "ambientTable": {
+   "identical": true,
+   "diffPaths": [],
+   "blockMd5Repo": "cc862af846b3d55fef112836e00b4165",
+   "blockMd5Replay": "cc862af846b3d55fef112836e00b4165",
+   "ignoredLeaves": [],
+   "commands": [
+    "python.exe tools/build_ambient_table.py"
+   ]
+  },
+  "spreadFitProvenance": {
+   "identical": true,
+   "diffPaths": [],
+   "blockMd5Repo": "7c9d394970f5cc0e269646ababf5a9b0",
+   "blockMd5Replay": "7c9d394970f5cc0e269646ababf5a9b0",
+   "ignoredLeaves": [],
+   "commands": [
+    "python.exe tools/record_spread_fit.py"
+   ]
+  },
+  "crossVehicle": {
+   "identical": true,
+   "diffPaths": [],
+   "blockMd5Repo": "3e7ccb5f12ea7a42fa1d5da7256cb826",
+   "blockMd5Replay": "3e7ccb5f12ea7a42fa1d5da7256cb826",
+   "ignoredLeaves": [
+    "_meta.generated",
+    "eventDetectors._meta.generated",
+    "pureElectric._meta.generated",
+    "turboPattern._meta.generated",
+    "eventDetectors.socHysteresis.primary.startRatioClustered"
+   ],
+   "commands": [
+    "python.exe crosscheck_vehicles.py",
+    "python.exe crosscheck_events.py"
+   ]
+  },
+  "assumptionsRegistry": {
+   "identical": true,
+   "diffPaths": [],
+   "blockMd5Repo": "4cc03d35e44fb7831b616cb7c2b63547",
+   "blockMd5Replay": "4cc03d35e44fb7831b616cb7c2b63547",
+   "ignoredLeaves": [],
+   "commands": [
+    "python.exe patch_m284_data.py"
+   ]
+  },
+  "provenanceSensitivity": {
+   "identical": true,
+   "diffPaths": [],
+   "blockMd5Repo": "a5649df2cc381c07826b90cf720494b1",
+   "blockMd5Replay": "a5649df2cc381c07826b90cf720494b1",
+   "ignoredLeaves": [],
+   "commands": [
+    "python.exe tools/f03_provenance_build.py",
+    "python.exe f03_provenance_flag.py"
+   ]
+  }
+ },
+ "note": "replay in a temporary copy; the repository is not written; GTR and seasonalCharts are attested from git instead"
+}

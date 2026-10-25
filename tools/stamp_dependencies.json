@@ -1,0 +1,24 @@
+{
+ "_comment": "M513 (analyses/M513_spec.md Rev 2): declared dependencies of the artifact stamps below. A stamp of a declared block is re-derived from these declarations only (tools/stamp_dependencies_apply.py); undeclared blocks keep the arrays-builder stamp. configSections = computational summary_config.json sections only; inputFiles = repository files the producer reads besides drive_master.csv; producerStages = ingest_stages.json ids that must have run OK in the current run before a raw identity is written.",
+ "blocks": {
+  "ambientTable": {"producer": "tools/build_ambient_table.py", "producerStages": ["build_ambient_table"], "readsRaw": false, "readsRawManifest": false,
+                   "rawNote": "no direct raw read; reads raw_temperature_triplets.csv, which raw_temp_pass builds from raw", "configSections": ["ambientByDrive"],
+                   "inputFiles": ["seasonal_drive_master.csv", "raw_temperature_triplets.csv", "seasonal_config.json"]},
+  "assumptionsRegistry": {"producer": "patch_m284_data.py -> build_assumptions_registry", "producerStages": ["post_steps"], "readsRaw": false, "readsRawManifest": false,
+                          "configSections": ["vehicle", "kExponentLadder"], "inputFiles": []},
+  "cohortMeta": {"producer": "tools/refresh_cohort_meta.py", "producerStages": ["refresh_cohort_meta"], "readsRaw": false, "readsRawManifest": false,
+                 "configSections": [], "inputFiles": ["seasonal_drive_master.csv"]},
+  "crossVehicle": {"producer": "crosscheck_vehicles.inject", "producerStages": ["ingest_core"], "readsRaw": false, "readsRawManifest": false,
+                   "configSections": [], "inputFiles": ["e4orce_master.csv"]},
+  "generatorTractionRecon": {"producer": "fuel_recon.py / refresh_gtr_headline.py / tools/gtr_family_refresh.py / tools/gtr_closure_refresh.py", "producerStages": ["fuel_recon", "refresh_gtr_headline", "gtr_family_refresh", "gtr_closure_refresh"],
+                             "readsRaw": true, "readsRawManifest": false, "configSections": [], "configDependencyUnverified": true, "inputFiles": ["fuel_recon_master.csv"], "headline": true,
+                             "subBlockIdentity": "headline and family/closure are recomputed per ingestion; crossval is carried (generatorTractionRecon.staleBlocks) and has no live raw identity"},
+  "provenanceSensitivity": {"producer": "tools/f03_provenance_build.py", "producerStages": ["f03_provenance_build"], "readsRaw": true, "readsRawManifest": true,
+                            "configSections": [], "inputFiles": ["raw_manifest.json"]},
+  "seasonalCharts": {"producer": "compute_seasonal.py / m296_refresh_master_seasonal.py / tools/regen_seasonal_raw.py", "producerStages": ["compute_seasonal", "refresh_master_seasonal", "refresh_raw_seasonal"],
+                     "readsRaw": true, "readsRawManifest": false, "configSections": ["ambientByDrive", "socLevelWeighting"], "inputFiles": ["seasonal_config.json", "seasonal_drive_master.csv"], "headline": true,
+                     "subBlockIdentity": "_staleness.stillStale sub-blocks keep their own identity or none"},
+  "spreadFitProvenance": {"producer": "tools/record_spread_fit.py", "producerStages": ["record_spread_fit"], "readsRaw": false, "readsRawManifest": false,
+                          "configSections": [], "inputFiles": ["spread_fit_history.json"], "ownTime": "spreadFitProvenance.latest.generatedAtUtc"}
+ }
+}
