@@ -8412,7 +8412,7 @@ function SocBalancedFuel() {
         the buffer (flattering the raw figure); one ending higher-SoC spent fuel charging it. This
         {" "}<strong style={{ color: "#0f172a" }}>SoC-balances</strong> the consumption figure by charging the net battery-
         energy change back to fuel-equivalent (a <strong>scenario</strong> correction under an assumed pack capacity and generator efficiency). <strong style={{ color: "#dc2626" }}>Fuel-accumulator subset only</strong>
-        {" "}({C.dateSpan?.[0]}–{C.dateSpan?.[1]}): {C.nDrives} drives, {C.nDays} days, {C.totalDistKm} km — urban-dominated, warm-season.
+        {" "}({C.dateSpan?.[0]}–{C.dateSpan?.[1]}): {C.nDrives} drives, {C.nDays} days, {C.totalDistKm} km{C.routeMix ? ` — ${(C.routeMix.urbanTripShare*100).toFixed(0)} % of trips urban, ${(C.routeMix.nonUrbanDistShare*100).toFixed(0)} % of distance non-urban (${C.routeMix.nHighwayTrips} highway trips); not a full-year or winter observation season` : ""}.
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 8, marginBottom: 12 }}>
@@ -8463,8 +8463,8 @@ function SocBalancedFuel() {
       </div>
 
       <Caveat kind="caution">
-        Fuel-accumulator subset only ({C.dateSpan?.[0]}–{C.dateSpan?.[1]}) — urban-dominated (no pure-highway fuel),
-        no cold-season data; do not generalise to the full corpus. The battery-energy conversion uses
+        Fuel-accumulator subset only ({C.dateSpan?.[0]}–{C.dateSpan?.[1]}) {C.routeMix ? ` — ${(C.routeMix.urbanTripShare*100).toFixed(0)} % of trips urban but ${(C.routeMix.nonUrbanDistShare*100).toFixed(0)} % of distance non-urban (${C.routeMix.nHighwayTrips} highway trips, ${(C.routeMix.byDriveType.highway?.distKm ?? 0).toFixed(0)} km)` : ""},
+        not a full-year or winter observation season; do not generalise to the full corpus. The battery-energy conversion uses
         CAP_KWH = {C.capKwhAssumed} kWh (provenance <strong>unverified</strong>) and an assumed generator
         efficiency (swept 0.25–0.35); the SoC-neutral marginal consumption from the regression is invariant to CAP (CAP only rescales the battery-energy regressor).
         The regression's battery-energy coefficient is <strong>not identifiable</strong> here (the buffer's
@@ -10880,7 +10880,7 @@ const COMPARE_SPECS={
     {label:"Published basis incl. invalid (sensitivity)",unit:"kWh/100km",digits:2,get:d=>cmpDig(d,["publishedBasisSensitivity","value"])},
     {label:"Drives (clean paired)",digits:0,get:d=>cmpDig(d,["n"])},
     {label:"Paired km",digits:1,get:d=>cmpDig(d,["pairedKm"])}],
-    note:"M295: headline = canonical-clean paired basis (ens_invalid / ens_outlier_v2 excluded; route mix differs between cohorts — Shoulder is urban-only). The published-basis row keeps the canonically invalid drives and is shown only as an eligibility sensitivity." + (S.loggerCadence?.stratified ? ` Logger-cadence regime (M380): fast-cadence drives carry ${(S.loggerCadence.stratified.cohortByRegime.find(r=>r.cohort==="warm"&&r.regime==="fast").shareOfCohortGrossThroughput*100).toFixed(1)}% of the Warm and ${(S.loggerCadence.stratified.cohortByRegime.find(r=>r.cohort==="shoulder"&&r.regime==="fast").shareOfCohortGrossThroughput*100).toFixed(1)}% of the Shoulder gross throughput; the regime-stratified values and the slow-equivalent sensitivity are in Methods, Data provenance (observational; no value is corrected).` : "")},
+    note:"M295: headline = canonical-clean paired basis (ens_invalid / ens_outlier_v2 excluded; route mix differs between cohorts; counts in comparisonCube._meta.routeMixByCohort). The published-basis row keeps the canonically invalid drives and is shown only as an eligibility sensitivity." + (S.loggerCadence?.stratified ? ` Logger-cadence regime (M380): fast-cadence drives carry ${(S.loggerCadence.stratified.cohortByRegime.find(r=>r.cohort==="warm"&&r.regime==="fast").shareOfCohortGrossThroughput*100).toFixed(1)}% of the Warm and ${(S.loggerCadence.stratified.cohortByRegime.find(r=>r.cohort==="shoulder"&&r.regime==="fast").shareOfCohortGrossThroughput*100).toFixed(1)}% of the Shoulder gross throughput; the regime-stratified values and the slow-equivalent sensitivity are in Methods, Data provenance (observational; no value is corrected).` : "")},
   StartsPer100km:{kind:"kpi",title:"Pack-current direction reversals per 100 km (not an engine-start count; ratio of sums, day-cluster CI)",note:"Unique definition: n_sign_crossings (a count of pack-current direction reversals; a different quantity from RPM onsets, not an engine-start count) summed over paired-eligible drives ÷ their km; the interval resamples calendar days, never events.",metrics:[
     {label:"Direction reversals",unit:"/100km",digits:0,get:d=>cmpDig(d,["value"]),
      ci:d=>(d&&d.ci95&&typeof d.ci95.lo==="number"&&typeof d.ci95.hi==="number")?{lo:d.ci95.lo,hi:d.ci95.hi,ess:d.ci95.essDays,k:d.ci95.nClusters}:null},

@@ -438,6 +438,14 @@ RULES = [
          rx=r"block (?:bootstrap|sensitivity) (?:confirms|replicates|accounts for)|(?:confirms|replicates) the (?:seasonal )?(?:urban )?contrast|robust(?:ly)? (?:to|across) (?:the )?(?:resampling|block)|accounts? for (?:serial )?dependence|no seasonal effect|(?:borderline|marginal(?:ly)?) significan\w* (?:difference|contrast|gap|interval|endpoint|urban|warm|shoulder)|nearly excludes zero|(?:tighter|more precise) (?:under|with) (?:the )?(?:week |block)"),
     Rule("M495-rolling-origin-wording", "regex", "M495/Director: the rolling-origin evaluation of the declared pipeline design is out-of-time for estimation only (the design was selected on the full data), never prospective; a flag at an origin is a planning-threshold flag, not a refit decision, and the result is not a validation of the model; the verdict says 'flagged' where the specification says 'detected'",
          rx=r"rolling origin (?:evaluation )?(?:is |was )?prospective|prospective rolling origin|(?:validates|validated|proves) the (?:hazard )?(?:model|pipeline)|degradation (?:was )?detected at origin"),
+    Rule("M510-A02-shoulder-urbanonly", "regex", "M510/audit 2026-10-25 A02: Shoulder is not urban-only (it holds highway, mixed-highway and mixed drives, about half of its distance); the contrast is restricted to urban trips, the cohort is not; state the route mix from comparisonCube._meta.routeMixByCohort",
+         rx=r"\bshoulder is urban only\b"),
+    Rule("M510-A02-nohighway-fuel", "regex", "M510/audit 2026-10-25 A02: the SoC-balanced-fuel subset contains highway trips; say 'urban by trip count' and give the distance mix from socBalancedFuel.routeMix, never 'no pure-highway fuel'",
+         rx=r"\bno pure highway fuel\b|\bwarm season only no seasonal cold\b"),
+    Rule("M510-A02-degradation-claim", "regex", "M510/audit 2026-10-25 sec 5/12: the loaded cell-spread slope is a conditional association, not pack degradation, SOH or ageing; withheld claims",
+         rx=r"\bcell spread (?:slope |trend )?(?:proves|confirms|demonstrates|establishes) (?:pack )?(?:degradation|ageing|aging|deterioration)\b|\bpack (?:degradation|ageing|aging|deterioration) is (?:established|proven|confirmed|demonstrated)\b"),
+    Rule("M510-A02-capacity-proven", "regex", "M510/audit 2026-10-25 sec 7/12: the logged BMS-SoC energy scale (about 1.8 kWh per 100 points) is an apparent logged-scale estimate; the physical pack capacity is not identified and CAP_KWH stays verified:false",
+         rx=r"\b(?:proves|confirms|establishes|demonstrates) (?:that )?(?:the )?(?:full |physical |usable )?(?:pack )?capacity (?:is|of) 1 8\b|\b(?:physical|full) (?:pack )?capacity is (?:proven|confirmed|established) (?:to be )?1 8\b"),
 ]
 
 

@@ -46639,7 +46639,7 @@
    "r2": 0.988,
    "dERegCoeffIdentifiable": false
   },
-  "methodology": "Fuel-accumulator subset (2026-08-12 to 2026-10-17, 65 days, 331 drives): drives carrying the monotonic used-fuel accumulator \"Використане паливо (L)\"; trip fuel = accumulator delta, distance = speed integral, dSoC = end-start. Raw L/100km is confounded by SoC drift; SoC-balancing subtracts the equivalent fuel of the net battery-energy change, dFuel = dE/(eta*LHV) with dE = dSoC/100*CAP_KWH (CAP=2.1 kWh, verified:false), swept over eta in {0.25,0.30,0.35} (assumed E10 basis: 751 g/L x 41.15 MJ/kg = 8.5843 kWh/L; fuel composition not measured); the correction scales as CAP/(eta*LHV), so the unverified CAP is the dominant uncertainty and harmonising LHV does not validate it; headline eta=0.30. Day-clustered bootstrap (seed 42, 4000 draws) on the balanced fleet fuel consumption (L/100km; lower=better -- this is a consumption metric, not economy in the km/L sense). A charge-balancing regression (fuel ~ dist + dE) is reported as a descriptive cross-check, but the dE coefficient is NOT identifiable (the 2.1 kWh buffer gives tiny per-trip energy variance) so NO generator efficiency is claimed. SUBSET CAVEATS: urban-dominated (no pure-highway fuel), warm-season only (no seasonal-cold penalty) -- do not generalise beyond the covered date span above. Single vehicle / ~single driver. ELIGIBILITY (M511): canonical-clean trips only (excluded if ens_invalid OR ens_outlier_v2 is True; eligibility.py, M375); the former population (all accepted accumulator trips) is stored as the matched sensitivity allAccumulatorSensitivity.",
+  "methodology": "Fuel-accumulator subset (2026-08-12 to 2026-10-17, 65 days, 331 drives): drives carrying the monotonic used-fuel accumulator \"Використане паливо (L)\"; trip fuel = accumulator delta, distance = speed integral, dSoC = end-start. Raw L/100km is confounded by SoC drift; SoC-balancing subtracts the equivalent fuel of the net battery-energy change, dFuel = dE/(eta*LHV) with dE = dSoC/100*CAP_KWH (CAP=2.1 kWh, verified:false), swept over eta in {0.25,0.30,0.35} (assumed E10 basis: 751 g/L x 41.15 MJ/kg = 8.5843 kWh/L; fuel composition not measured); the correction scales as CAP/(eta*LHV), so the unverified CAP is the dominant uncertainty and harmonising LHV does not validate it; headline eta=0.30. Day-clustered bootstrap (seed 42, 4000 draws) on the balanced fleet fuel consumption (L/100km; lower=better -- this is a consumption metric, not economy in the km/L sense). A charge-balancing regression (fuel ~ dist + dE) is reported as a descriptive cross-check, but the dE coefficient is NOT identifiable (the 2.1 kWh buffer gives tiny per-trip energy variance) so NO generator efficiency is claimed. SUBSET CAVEATS: the route mix (routeMix) and the covered date span are stated in the payload; the span is not a full-year or winter observation season (a cold ambient class does not make it one) -- do not generalise beyond the covered date span above. Single vehicle / ~single driver. ELIGIBILITY (M511): canonical-clean trips only (excluded if ens_invalid OR ens_outlier_v2 is True; eligibility.py, M375); the former population (all accepted accumulator trips) is stored as the matched sensitivity allAccumulatorSensitivity.",
   "eligibility": {
    "rule": "excluded if ens_invalid OR ens_outlier_v2 is True (eligibility.py, M375)",
    "populationLabel": "canonical-clean accumulator trips",
@@ -46654,6 +46654,32 @@
     }
    ],
    "basis": "the SoC-balancing term uses BMS SoC (pack telemetry); the raw fleet figure shares the same trip set"
+  },
+  "routeMix": {
+   "basis": "canonical-clean accumulator trips; distance = speed integral; drive_type from the master (M510, audit 2026-10-25 A02)",
+   "byDriveType": {
+    "highway": {
+     "nTrips": 5,
+     "distKm": 650.6
+    },
+    "mixed": {
+     "nTrips": 18,
+     "distKm": 504.5
+    },
+    "mixed_highway": {
+     "nTrips": 10,
+     "distKm": 746.2
+    },
+    "urban": {
+     "nTrips": 298,
+     "distKm": 1785.3
+    }
+   },
+   "urbanTripShare": 0.9,
+   "nonUrbanTrips": 33,
+   "nonUrbanDistKm": 1901.3,
+   "nonUrbanDistShare": 0.516,
+   "nHighwayTrips": 5
   },
   "allAccumulatorSensitivity": {
    "populationLabel": "matched sensitivity (all accepted accumulator trips)",
@@ -88442,7 +88468,51 @@
     "shoulder": 169,
     "cold": 13
    },
-   "note": "Typed rows (metric x drive class x thermal cohort). Classes absent from a cohort are 'not_observed' with null estimates, never zero. Engine events are nested in drives and days, so every interval resamples calendar days, never events. Route mix differs sharply between cohorts (Shoulder is urban-only), so cross-cohort comparisons are valid only within a class."
+   "routeMixByCohort": {
+    "warm": {
+     "nDrives": 422,
+     "byClass": {
+      "urban": 343,
+      "mixed_highway": 32,
+      "mixed": 25,
+      "highway": 20,
+      "unknown": 2
+     },
+     "km": 8278.5,
+     "nonUrbanDrives": 79,
+     "nonUrbanKm": 6105.3,
+     "nonUrbanKmShare": 0.737,
+     "urbanDriveShare": 0.813
+    },
+    "shoulder": {
+     "nDrives": 169,
+     "byClass": {
+      "urban": 153,
+      "mixed": 8,
+      "mixed_highway": 5,
+      "highway": 2,
+      "unknown": 1
+     },
+     "km": 1959.1,
+     "nonUrbanDrives": 16,
+     "nonUrbanKm": 998.4,
+     "nonUrbanKmShare": 0.51,
+     "urbanDriveShare": 0.905
+    },
+    "cold": {
+     "nDrives": 13,
+     "byClass": {
+      "urban": 12,
+      "highway": 1
+     },
+     "km": 201.6,
+     "nonUrbanDrives": 1,
+     "nonUrbanKm": 183.0,
+     "nonUrbanKmShare": 0.908,
+     "urbanDriveShare": 0.923
+    }
+   },
+   "note": "Typed rows (metric x drive class x thermal cohort). Classes absent from a cohort are 'not_observed' with null estimates, never zero. Engine events are nested in drives and days, so every interval resamples calendar days, never events. Route mix differs between cohorts (non-urban share of distance: warm 73.7 %, shoulder 51.0 %, cold 90.8 %; counts in routeMixByCohort), so cross-cohort comparisons are valid only within a class."
   },
   "metrics": {
    "energy_intensity": {

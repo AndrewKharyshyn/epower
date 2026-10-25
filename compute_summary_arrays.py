@@ -12007,8 +12007,8 @@ def _thermal_warmup_lag(dm, frame_loader=None):
 # 2.1 kWh buffer's per-trip energy variance is tiny), so NO generator-efficiency
 # is claimed from it. ACCUMULATOR SUBSET (grows as fuel-logged drives are
 # ingested; dateSpan/nDrives/nDays are computed live, not hardcoded to a month):
-# urban-dominated (no pure-highway fuel), warm-season only (no seasonal-cold
-# penalty) -- do not generalise beyond the covered date span. CAP_KWH=2.1
+# route mix and span are stated in the payload (routeMix, dateSpan; M510); not a full-year or
+# winter observation season -- do not generalise beyond the covered date span. CAP_KWH=2.1
 # provenance is verified:false -- but the SoC-neutral marginal consumption
 # (regression distance coefficient) is robust to CAP, and the fleet correction
 # is eta-robust. M212 (2026-09-03): renamed "economy"->"consumption" throughout
@@ -12090,6 +12090,7 @@ def _soc_balanced_fuel(dm, raw_loader=None, raw_dir=None, _apply_eligibility=Tru
             continue
         d['date'] = str(r.get('date', ''))[:10]
         d['file'] = r['file']
+        d['drive_type'] = str(r.get('drive_type', '')).strip().lower().replace('city', 'urban')
         all_rows.append(d)
     if not _apply_eligibility:
         return _hf_block([x for x in all_rows])
@@ -12109,6 +12110,20 @@ def _soc_balanced_fuel(dm, raw_loader=None, raw_dir=None, _apply_eligibility=Tru
         'excludedFiles': [{'file': x['file'], 'date': x['date'], 'ens_outlier_v2': str(fl.loc[x['file'], 'ens_outlier_v2']),
                            'ens_invalid': str(fl.loc[x['file'], 'ens_invalid'])} for x in all_rows if x['file'] in ex],
         'basis': 'the SoC-balancing term uses BMS SoC (pack telemetry); the raw fleet figure shares the same trip set'}
+    _nu = [x for x in rows if x['drive_type'] != 'urban']
+    _bt = {}
+    for x in rows:
+        _b = _bt.setdefault(x['drive_type'], {'nTrips': 0, 'distKm': 0.0})
+        _b['nTrips'] += 1
+        _b['distKm'] += x['distKm']
+    _dist = sum(x['distKm'] for x in rows)
+    out['routeMix'] = {
+        'basis': 'canonical-clean accumulator trips; distance = speed integral; drive_type from the master (M510, audit 2026-10-25 A02)',
+        'byDriveType': {k: {'nTrips': v['nTrips'], 'distKm': round(v['distKm'], 1)} for k, v in sorted(_bt.items())},
+        'urbanTripShare': round(1.0 - len(_nu) / len(rows), 3), 'nonUrbanTrips': len(_nu),
+        'nonUrbanDistKm': round(sum(x['distKm'] for x in _nu), 1),
+        'nonUrbanDistShare': round(sum(x['distKm'] for x in _nu) / _dist, 3) if _dist > 0 else None,
+        'nHighwayTrips': sum(1 for x in rows if x['drive_type'] == 'highway')}
     out['methodology'] += (' ELIGIBILITY (M511): canonical-clean trips only (excluded if ens_invalid OR ens_outlier_v2 is True; eligibility.py, M375); '
                            'the former population (all accepted accumulator trips) is stored as the matched sensitivity allAccumulatorSensitivity.')
     if sens is not None:
@@ -12221,9 +12236,10 @@ def _hf_block(rows):
             'regression (fuel ~ dist + dE) is reported as a descriptive cross-check, '
             'but the dE coefficient is NOT identifiable (the 2.1 kWh buffer gives '
             'tiny per-trip energy variance) so NO generator efficiency is claimed. '
-            'SUBSET CAVEATS: urban-dominated (no pure-highway fuel), warm-season '
-            'only (no seasonal-cold penalty) -- do not generalise beyond the covered '
-            'date span above. Single vehicle / ~single driver.')}
+            'SUBSET CAVEATS: the route mix (routeMix) and the covered date span are stated '
+            'in the payload; the span is not a full-year or winter observation season '
+            '(a cold ambient class does not make it one) -- do not generalise beyond '
+            'the covered date span above. Single vehicle / ~single driver.')}
 
 
 

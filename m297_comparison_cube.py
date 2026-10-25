@@ -186,6 +186,15 @@ soc["cold"] = {"socCeilingMedian": round(float(uc.soc_max.median()), 2), "tripKm
 
 A = json.load(open(P("summary_arrays.json"), encoding="utf-8"))
 counts = {c: int(d.thermal_regime.eq(c).sum()) for c in ("warm", "shoulder", "cold")}
+# M510 (audit 2026-10-25 A02): the route-mix statement is generated from the accepted clean rows, never typed
+mix = {}
+for _c in ("warm", "shoulder", "cold"):
+    _g = d[d.thermal_regime.eq(_c)]
+    _nu = _g[~_g.classKey.eq("urban")]
+    mix[_c] = {"nDrives": int(len(_g)), "byClass": {str(k): int(v) for k, v in _g.classKey.value_counts().items()},
+               "km": round(float(_g.distance_km.sum()), 1), "nonUrbanDrives": int(len(_nu)), "nonUrbanKm": round(float(_nu.distance_km.sum()), 1),
+               "nonUrbanKmShare": round(float(_nu.distance_km.sum() / _g.distance_km.sum()), 3) if _g.distance_km.sum() > 0 else None,
+               "urbanDriveShare": round(float(_g.classKey.eq("urban").mean()), 3) if len(_g) else None}
 cold_days = int(d.loc[d.thermal_regime.eq("cold"), "date"].nunique())      # M426: the caveat follows the full support rule (drives AND days)
 A["comparisonCube"] = {
     "_meta": {"milestone": "M297", "basisNDrivesClean": int(len(d)), "basisNDrives": int(len(dm)),
@@ -195,10 +204,12 @@ A["comparisonCube"] = {
               "contrastUncertainty": f"Warm-vs-Shoulder difference: joint calendar-day bootstrap over the union of dates, {B * 2} draws, seed={SEED} (stream SEED+2); the independent-cohort interval (ci95IndependentCohorts) and a date-type stratified interval (ci95Stratified, SEED+3) are stored sensitivities; M491",
               "statusCodes": {"obs": "observed", "thin": "insufficient_support (estimate shown, flagged)", "none": "not_observed (null, not zero)"},
               "cohortCountsClean": counts,
+              "routeMixByCohort": mix,
               "note": ("Typed rows (metric x drive class x thermal cohort). Classes absent from a cohort are 'not_observed' "
                        "with null estimates, never zero. Engine events are nested in drives and days, so every interval "
-                       "resamples calendar days, never events. Route mix differs sharply between cohorts (Shoulder is "
-                       "urban-only), so cross-cohort comparisons are valid only within a class.")},
+                       "resamples calendar days, never events. Route mix differs between cohorts (non-urban share of distance: "
+                       + ", ".join("%s %.1f %%" % (c, 100 * mix[c]["nonUrbanKmShare"]) for c in ("warm", "shoulder", "cold") if mix[c]["nonUrbanKmShare"] is not None)
+                       + "; counts in routeMixByCohort), so cross-cohort comparisons are valid only within a class.")},
     # compact schema (M297, Project-size budget): metric metadata once; rows carry only typed values.
     "metrics": {m[0]: {"label": m[1], "unit": m[2], "estimand": m[6]} for m in METRICS},
     "rowKeys": {"m": "metricId", "c": "classKey", "k": "cohortKey", "est": "estimate", "iqr": "IQR [q1,q3]",
