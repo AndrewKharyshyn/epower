@@ -1,0 +1,13 @@
+{"verdict":"reproduced with caveats",
+"A0_equal_master":"274/274 (|diff|<=0.01 mOhm; p95 max diff 0.05 A)",
+"S0_refit(n_drives,n_days,slope,ci95)":{
+ "A0":[274,98,0.885,[-0.16,2.00]],"A1":[271,98,1.202,[0.12,2.39]],"A2":[265,"~95",0.891,"not claimed"],
+ "A3":[274,98,0.886,[-0.13,2.00]],"A4":[239,86,1.876,[0.33,3.67]],"V_only_interp":[271,98,1.093,[0.05,2.24]]},
+"median_shift_vs_A0_mOhm":{"A1":-1.39,"A2":0.0,"A3":0.0,"A4":-6.25,"V_only":-0.75},
+"agreement":"all slopes within 0.01 of claimed; A1 lower bound 0.12 vs 0.13, A4 upper 3.67 vs 3.59 (within 0.15)",
+"caveats":["A2 at exact 300 ms boundary: float timestamps give n 263/slope 0.921 unless tolerance gets +1e-6 s; with epsilon n 265/0.891 matches claim. Claim implicitly uses inclusive integer-ms tolerance; should be stated.",
+"A1 SoC interpolation matters: V-only interpolation gives slope 1.093 (shift -0.75) vs 1.202 (shift -1.39), i.e. about half of the A1 shift comes from SoC interpolation. A1 interval excludes 0 only marginally (0.05-0.12 lower bound).",
+"A4 excludes zero but forward-only pairing is a different (biased-lag) estimator; fewer drives (239, 86 days).",
+"Master filename keys differ between early (YYYYMMDD_HHMMSS) and late (YYYY-MM-DD_HH-MM-SS) rows; match must be on digits."],
+"files":["repro.py","analyze.py","proxies.csv","proxies_a2eps.csv","results.json"],
+"audit_dir":"audit_package_2026-10-23/M505_blind/"}

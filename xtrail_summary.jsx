@@ -66,6 +66,7 @@ function buildS(config, arrays) {
     powerFadeTemperatureSpecs: A.powerFadeTemperatureSpecs || null,
     signalResolution: A.signalResolution || null,
     urbanContrastBalance: A.urbanContrastBalance || null,
+    vregAlignmentSensitivity: A.vregAlignmentSensitivity || null,
     integrationScenarios: A.integrationScenarios || null,  // M420: single-choice integration scenarios beside the energy Monte Carlo (reporting-only)
     cohortSupport: A.cohortSupport || null,  // M472: descriptive support accounting per thermal cohort (largest-drive / largest-day share, effective days, leave-one-day-out, physical-class sensitivity)
     thermalSupportLedger: A.thermalSupportLedger || null,  // M418: candidate / accepted / excluded / right-censored counts of the thermal estimates (reporting-only)
@@ -4966,7 +4967,18 @@ function primaryEquivalenceSentence(){
   const rng=cr.nSpecs?`The slope depends on the cadence specification (M395: ${cr.slopeMin} to ${cr.slopeMax} m\u03a9/month across ${cr.nSpecs} specifications${cr.allIntervalsSpanZero?", every 95 % interval spans zero":""}). `:"";
   const att=e.s1.equivalenceAttainable ? `The observed SE ${e.s1.se.toFixed(3)} is below the ${e.s1.seMaxForEquivalence.toFixed(3)} m\u03a9/month needed for equivalence to be attainable.` : `At this precision the test could not show equivalence: it requires an SE below ${e.s1.seMaxForEquivalence.toFixed(3)} m\u03a9/month (bound / t0.95,df), the observed SE is ${e.s1.se.toFixed(3)}, so even a slope estimate of exactly 0 would not lie inside the bound.`;
   const bnd=` The locked bound maps the OEM-disclosed relative resistance limit onto the proxy median and spreads it linearly over 14 years: a planning assumption, not an OEM limit on this proxy.`;
-  return `Equivalence test on the primary design (powerFade, specification S1, density-adjusted partial slope): slope ${e.s1.slope} m\u03a9/month, 90 % interval [${e.s1.ci90[0]}, ${e.s1.ci90[1]}] against the locked bound of \u00b1${e.bound.value} m\u03a9/month; ${word}. ${rng}This is not evidence of no change. ${att}${bnd}${temperatureSpecsSentence()}`;
+  return `Equivalence test on the primary design (powerFade, specification S1, density-adjusted partial slope): slope ${e.s1.slope} m\u03a9/month, 90 % interval [${e.s1.ci90[0]}, ${e.s1.ci90[1]}] against the locked bound of \u00b1${e.bound.value} m\u03a9/month; ${word}. ${rng}This is not evidence of no change. ${att}${bnd}${temperatureSpecsSentence()}${vregAlignmentSentence()}`;
+}
+// M505 (spec analyses/M505_spec.md Rev 2, Director: accept): sensitivity of the estimated resistance proxy to the current-voltage alignment rule, bound to S.vregAlignmentSensitivity only (a dated snapshot)
+function vregAlignmentSentence(){
+  const g=S.vregAlignmentSensitivity;
+  if(!g||!g.verdicts||!g.snapshot||!g.own) return "";
+  const vs=g.verdicts, o=g.own, sl=(d)=>{ const a=["A0","A1","A2","A3","A4"].map(k=>o[k]?.[d]?.slope).filter(x=>typeof x==="number"); return a.length?[Math.min(...a),Math.max(...a)]:null; };
+  const s1=sl("S1"), s0=sl("S0"), p1=vs.S0?.A1, p4=vs.S0?.A4, sh=g.proxyShiftVsA0||{};
+  const f=x=>typeof x==="number"?x.toFixed(2):"n/a";
+  const s1t=vs.S1?.overall?.startsWith("reading unchanged") ? `The primary design (powerFade S1): reading unchanged across the five pre-registered alignment rules (slopes ${f(s1?.[0])} to ${f(s1?.[1])} m\u03a9/month, every day-clustered interval includes zero)` : `The primary design (powerFade S1): ${vs.S1?.overall}`;
+  const s0t=vs.S0?.overall==="reading unchanged across the five pre-registered alignment rules" ? "the resistanceVreg design (S0): reading unchanged" : `the resistanceVreg design (S0): ${vs.S0?.overall}${p1&&p1.pairedReading!=="unchanged"?` (synchronous interpolation, ${p1.pairedN} drives: slope ${f(p1.pairedSlopeA0)} to ${f(p1.pairedSlopeVariant)} m\u03a9/month, ${p1.pairedReading}; its interval bound is marginal`:" ("}${p4&&p4.pairedReading!=="unchanged"?`; forward-only pairing, a lag-biased alternative, ${p4.pairedN} drives${p4.lowPrecision?", lower precision":""}`:""})`;
+  return ` Alignment-rule sensitivity (M505; estimated proxy; ${g.basis}; a snapshot of ${g.snapshot.nDrives} drives): the proxy was recomputed with the current samples paired to the voltage and SoC samples by five pre-registered rules (production: nearest within 1.5 s; synchronous interpolation; nearest within 0.3 s; backward only; forward only). ${s1t}; ${s0t}. The per-drive proxy level moves by a median of ${f(sh.A1?.median)} m\u03a9 under synchronous interpolation and ${f(sh.A4?.median)} m\u03a9 under forward-only pairing. No pairing rule is preferred and production stays nearest within 1.5 s; this is a method disagreement within the released interval, not a trend.`;
 }
 // M503 (spec analyses/M503_spec.md Rev 2 + data-informed Rev 3, Director: accept): the logged grid of HV current and pack voltage, bound to S.signalResolution only (a dated snapshot of the corpus)
 function signalResolutionSentence(){
