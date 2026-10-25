@@ -1,19 +1,21 @@
-# Audit 2026-10-23: disposition of every finding (generated, M502; CD-05, CD-07 and ST-09 updated at M506)
+# Audit 2026-10-23: disposition of every finding (generated, M502; CD-05, CD-07 and ST-09 updated at M506; ST-06, ST-07 and PB-06 at M507)
 
-Source: `findings_register.csv` of the independent audit (95 findings; stream folders and the PDF were produced outside the repo tree). Dispositions are as of the M505 merge. "Documented limitation" means no code change and a stated reason; "deferred" means it needs a pre-registered spec and Director review; nothing here is a claim that the audit finding was wrong unless it says "audit finding corrected".
+Source: `findings_register.csv` of the independent audit (95 findings; stream folders and the PDF were produced outside the repo tree). Dispositions are as of the M507 milestone. "Documented limitation" means no code change and a stated reason; "deferred" means it needs a pre-registered spec and Director review; nothing here is a claim that the audit finding was wrong unless it says "audit finding corrected".
 
 | disposition | count |
 |---|---|
 | already built / declined | 3 |
 | already disclosed | 1 |
 | audit finding corrected | 2 |
+| cancelled (owner) | 1 |
 | confirmation (no action) | 5 |
 | decided: keep locked bound | 1 |
-| deferred (new analysis or wording decision) | 9 |
+| deferred (new analysis or wording decision) | 6 |
 | deferred (spec-verbatim text) | 1 |
 | documented limitation (pipeline / master change) | 9 |
-| fixed | 28 |
+| fixed | 29 |
 | fixed (disclosure + sensitivity) | 2 |
+| fixed (disclosure) | 1 |
 | maintainability backlog | 14 |
 | measurement / design limitation (disclosed) | 19 |
 | no action | 1 |
@@ -49,8 +51,8 @@ Source: `findings_register.csv` of the independent audit (95 findings; stream fo
 | ST-03 | Low | Hardcoded collinearity literal corr(T_pack, I_peak)=0.63 and temperature-coefficient range | fixed | M502 |
 | ST-04 | Medium | Cell-spread equivalence bound is derived from a different statistic than the tested outcom | decided: keep locked bound | every candidate bound gives the same verdict (M501) |
 | ST-05 | Medium | Day-clustered bootstrap / CR1 under-cover under day-to-day serial dependence; trend conclu | already built / declined | windowCaveat (M485), serialDependence HAC and moving-block rows (M477); a governing interval stays undesignated (M477 Director ruling) |
-| ST-06 | Medium | Percentile day bootstrap displayed with 5-10 day clusters under-covers materially | deferred (new analysis or wording decision) | each needs a pre-registered spec and Director review; listed in the M502 CHANGELOG entry |
-| ST-07 | Medium | Path A vs Path B agreement statistic r = 0.997 is a trip-size artefact | deferred (new analysis or wording decision) | each needs a pre-registered spec and Director review; listed in the M502 CHANGELOG entry |
+| ST-06 | Medium | Percentile day bootstrap displayed with 5-10 day clusters under-covers materially | fixed (disclosure) | M507 (stylised few-cluster coverage simulation + one dashboard sentence; no interval changed) |
+| ST-07 | Medium | Path A vs Path B agreement statistic r = 0.997 is a trip-size artefact | cancelled (owner) | the road-load data needed for the Path A vs Path B cross-validation do not exist now and will not exist in future (owner, chat 2026-10-25); the old crossval block stays labelled historic |
 | ST-08 | Medium | Wilson intervals on per-second at-risk counts treat seconds as independent trials | fixed | M497 (SoC-standardised, day-clustered ratio replaces the max-over-bins headline) |
 | ST-09 | Medium | Warm vs Shoulder thermal-cohort contrast is strongly confounded with date, time of day and | fixed | M504 (covariate balance and design-dependence of the Warm-vs-Shoulder contrast) |
 | ST-10 | Low | Evidence-ledger wording over-interprets non-significance and labels a model-derived proxy  | fixed | M502 |
@@ -66,7 +68,7 @@ Source: `findings_register.csv` of the independent audit (95 findings; stream fo
 | PB-03 | Info | [CORRECTED 2026-10-24] CHANGELOG head-window reads are small, but the M442/M444/M460 froze | audit finding corrected | frozen_ok() is False because the specs carry later revisions, not because of the read window (M496) |
 | PB-04 | High | Resistance equivalence bound transfers the OEM relative limit onto a proxy with a differen | fixed (disclosure + sensitivity) | M499 (temperature specifications, tipping row, bound wording); the locked bound is unchanged |
 | PB-05 | High | Resistance-proxy time trend is aliased with season inside a 5.1-month warm-season window | fixed (disclosure + sensitivity) | M499 (temperature specifications, tipping row, bound wording); the locked bound is unchanged |
-| PB-06 | Medium | Fixed-point engine operation and battery power buffering are OEM-stated design features, f | deferred (new analysis or wording decision) | each needs a pre-registered spec and Director review; listed in the M502 CHANGELOG entry |
+| PB-06 | Medium | Fixed-point engine operation and battery power buffering are OEM-stated design features, f | fixed | M507 (docs wording: consistent with the OEM fixed-point strategy) |
 | PB-07 | High | Generator-traction share rests on app-calculated fuel and an assumed BSFC surface, has no  | audit finding corrected | the f_gen interval and 23-variant range exist (gtrClosure.fGen); what stands is the dependence on app-calculated fuel and the non-closing balance |
 | PB-08 | Medium | Logger cadence regime is aliased with calendar time and cannot be separated retrospectivel | measurement / design limitation (disclosed) | inherent to the observational design, logger or capacity basis; stated in the dashboard caveats and CLAUDE.md language discipline |
 | PB-09 | Medium | Regeneration recovery levels are resolution-conditional; pre-registered cadence-invariance | measurement / design limitation (disclosed) | inherent to the observational design, logger or capacity basis; stated in the dashboard caveats and CLAUDE.md language discipline |
