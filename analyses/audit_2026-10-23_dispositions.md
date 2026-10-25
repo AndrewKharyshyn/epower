@@ -1,6 +1,6 @@
-# Audit 2026-10-23: disposition of every finding (generated, M502)
+# Audit 2026-10-23: disposition of every finding (generated, M502; CD-05, CD-07 and ST-09 updated at M506)
 
-Source: `findings_register.csv` of the independent audit (95 findings; stream folders and the PDF were produced outside the repo tree). Dispositions are as of the M502 merge. "Documented limitation" means no code change and a stated reason; "deferred" means it needs a pre-registered spec and Director review; nothing here is a claim that the audit finding was wrong unless it says "audit finding corrected".
+Source: `findings_register.csv` of the independent audit (95 findings; stream folders and the PDF were produced outside the repo tree). Dispositions are as of the M505 merge. "Documented limitation" means no code change and a stated reason; "deferred" means it needs a pre-registered spec and Director review; nothing here is a claim that the audit finding was wrong unless it says "audit finding corrected".
 
 | disposition | count |
 |---|---|
@@ -9,10 +9,10 @@ Source: `findings_register.csv` of the independent audit (95 findings; stream fo
 | audit finding corrected | 2 |
 | confirmation (no action) | 5 |
 | decided: keep locked bound | 1 |
-| deferred (new analysis or wording decision) | 12 |
+| deferred (new analysis or wording decision) | 9 |
 | deferred (spec-verbatim text) | 1 |
 | documented limitation (pipeline / master change) | 9 |
-| fixed | 25 |
+| fixed | 28 |
 | fixed (disclosure + sensitivity) | 2 |
 | maintainability backlog | 14 |
 | measurement / design limitation (disclosed) | 19 |
@@ -37,9 +37,9 @@ Source: `findings_register.csv` of the independent audit (95 findings; stream fo
 | CD-02 | Medium | Day-cluster CI understates multi-week temporal dependence of the cell-spread slope | already built / declined | windowCaveat (M485), serialDependence HAC and moving-block rows (M477); a governing interval stays undesignated (M477 Director ruling) |
 | CD-03 | Info | Cell-spread slope is not produced by logger timing, alignment, decimation, gaps or quantis | measurement / design limitation (disclosed) | see M499/M500 wording |
 | CD-04 | Medium | M379b/M393 emulation changes I-V co-timing, so the displayed "-1.5 to -1.7 mOhm at slow ca | fixed | M500 |
-| CD-05 | Medium | Resistance-proxy trend conclusion depends on the I-V alignment rule (method disagreement n | deferred (new analysis or wording decision) | each needs a pre-registered spec and Director review; listed in the M502 CHANGELOG entry |
+| CD-05 | Medium | Resistance-proxy trend conclusion depends on the I-V alignment rule (method disagreement n | fixed | M505 (alignment-rule sensitivity of the resistance proxy; dated snapshot) |
 | CD-06 | Medium | Resistance-proxy eligibility is defined in sample counts, so it depends on logger cadence | deferred (new analysis or wording decision) | each needs a pre-registered spec and Director review; listed in the M502 CHANGELOG entry |
-| CD-07 | Low | Undisclosed coarse-resolution window of HV current/voltage (2026-08-29..09-30) | deferred (new analysis or wording decision) | each needs a pre-registered spec and Director review; listed in the M502 CHANGELOG entry |
+| CD-07 | Low | Undisclosed coarse-resolution window of HV current/voltage (2026-08-29..09-30) | fixed | M503 (logged-grid record of HV current and pack voltage; dated snapshot) |
 | CD-08 | Low | Two raw-time readers bypass clock_unwrap (midnight rollover) | documented limitation (pipeline / master change) | fixing alters drive_master or hashed pipeline code and needs its own pre-registered milestone with refit-risk control; no published figure is wrong by more than the stated scale (e.g. short-trip distance rounding, corpus total unbiased) |
 | CD-09 | Low | Cadence regime is a drive-level median dichotomy; within-class and within-drive cadence va | measurement / design limitation (disclosed) | inherent to the observational design, logger or capacity basis; stated in the dashboard caveats and CLAUDE.md language discipline |
 | CD-10 | Info | Timing model of the raw logs: sequential single-PID rows, no backward jumps, no midnight c | measurement / design limitation (disclosed) | inherent to the observational design, logger or capacity basis; stated in the dashboard caveats and CLAUDE.md language discipline |
@@ -52,7 +52,7 @@ Source: `findings_register.csv` of the independent audit (95 findings; stream fo
 | ST-06 | Medium | Percentile day bootstrap displayed with 5-10 day clusters under-covers materially | deferred (new analysis or wording decision) | each needs a pre-registered spec and Director review; listed in the M502 CHANGELOG entry |
 | ST-07 | Medium | Path A vs Path B agreement statistic r = 0.997 is a trip-size artefact | deferred (new analysis or wording decision) | each needs a pre-registered spec and Director review; listed in the M502 CHANGELOG entry |
 | ST-08 | Medium | Wilson intervals on per-second at-risk counts treat seconds as independent trials | fixed | M497 (SoC-standardised, day-clustered ratio replaces the max-over-bins headline) |
-| ST-09 | Medium | Warm vs Shoulder thermal-cohort contrast is strongly confounded with date, time of day and | deferred (new analysis or wording decision) | each needs a pre-registered spec and Director review; listed in the M502 CHANGELOG entry |
+| ST-09 | Medium | Warm vs Shoulder thermal-cohort contrast is strongly confounded with date, time of day and | fixed | M504 (covariate balance and design-dependence of the Warm-vs-Shoulder contrast) |
 | ST-10 | Low | Evidence-ledger wording over-interprets non-significance and labels a model-derived proxy  | fixed | M502 |
 | ST-11 | Low | Field named MDE is the CI half-width (about 50 % power) | maintainability backlog | no effect on a reported result; optional speed-ups (PF-16..19) need a deep-diff gate |
 | ST-12 | Low | Comparison cube departs from the standing bootstrap convention (seed 42, 4000 draws) | deferred (new analysis or wording decision) | each needs a pre-registered spec and Director review; listed in the M502 CHANGELOG entry |
