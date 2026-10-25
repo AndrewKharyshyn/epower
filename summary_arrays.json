@@ -62023,6 +62023,27 @@
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
    "computedAt": "2026-10-24T21:23:12.194660+00:00"
+  },
+  "fewClusterCoverage": {
+   "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-10-25T08:12:37.097105+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M507: static, corpus-independent stylised simulation by tools/few_cluster_coverage.py (spec analyses/M507_spec.md; script and spec sha256 in the block); identical at every ingestion",
+   "includedInReleaseAt": "2026-10-25T08:12:37.097105+00:00",
+   "inputBasis": {
+    "nDrives": 606,
+    "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-10-25T08:12:37.097105+00:00"
   }
  },
  "ambientTable": {
@@ -357595,5 +357616,276 @@
    }
   },
   "multiplicity": "per design 4 non-A0 variants x 2 populations day intervals (+ A0 references), plus 5 ISO-week sensitivity intervals; no adjustment; the any-difference rule leans conservative"
+ },
+ "fewClusterCoverage": {
+  "label": "stylised, corpus-independent simulation of the coverage of the day-clustered percentile bootstrap (and, as a comparator that is not adopted, a linearised t(G-1) interval) for a ratio of sums with few day clusters; it describes the method, not the coverage of any displayed interval; no interval is changed",
+  "spec": "analyses/M507_spec.md",
+  "specSha256": "b463fbdff653cbb0fda71054e329caee4d97226e88b71d5e411feed297a8b880",
+  "scriptSha256": "df7b6923e7d89ab765428eba5a1a96fd978e2cdd7decc23caa84d1296e2ccf6c",
+  "seed": 42,
+  "reps": 2000,
+  "draws": 4000,
+  "design": {
+   "drivesPerDay": "1 + Poisson(2)",
+   "distance": "lognormal(log 4, 0.8) km",
+   "numerator": "distance x 0.25 x exp(day effect + N(0, 0.25^2))",
+   "dayEffect": "zero-mean Gaussian AR(1), marginal sd 0.15, lag-1 correlation phi, started from the stationary marginal",
+   "estimand": "ratio of sums over G days; population value R0 = 0.25 x exp((0.15^2 + 0.25^2)/2) (closed form), checked by a 10^6-day simulation"
+  },
+  "cells": [
+   {
+    "G": 3,
+    "phi": 0.0,
+    "reps": 2000,
+    "percentile": {
+     "coverage": 0.7445,
+     "mcse": 0.0098,
+     "meanWidth": 0.1046
+    },
+    "linearisedT": {
+     "coverage": 0.9065,
+     "mcse": 0.0065,
+     "meanWidth": 0.23446,
+     "status": "comparator, not adopted"
+    }
+   },
+   {
+    "G": 5,
+    "phi": 0.0,
+    "reps": 2000,
+    "percentile": {
+     "coverage": 0.8185,
+     "mcse": 0.0086,
+     "meanWidth": 0.08846
+    },
+    "linearisedT": {
+     "coverage": 0.905,
+     "mcse": 0.0066,
+     "meanWidth": 0.13514,
+     "status": "comparator, not adopted"
+    }
+   },
+   {
+    "G": 7,
+    "phi": 0.0,
+    "reps": 2000,
+    "percentile": {
+     "coverage": 0.8435,
+     "mcse": 0.0081,
+     "meanWidth": 0.08097
+    },
+    "linearisedT": {
+     "coverage": 0.8995,
+     "mcse": 0.0067,
+     "meanWidth": 0.10759,
+     "status": "comparator, not adopted"
+    }
+   },
+   {
+    "G": 10,
+    "phi": 0.0,
+    "reps": 2000,
+    "percentile": {
+     "coverage": 0.881,
+     "mcse": 0.0072,
+     "meanWidth": 0.07297
+    },
+    "linearisedT": {
+     "coverage": 0.9155,
+     "mcse": 0.0062,
+     "meanWidth": 0.0885,
+     "status": "comparator, not adopted"
+    }
+   },
+   {
+    "G": 15,
+    "phi": 0.0,
+    "reps": 2000,
+    "percentile": {
+     "coverage": 0.903,
+     "mcse": 0.0066,
+     "meanWidth": 0.06322
+    },
+    "linearisedT": {
+     "coverage": 0.932,
+     "mcse": 0.0056,
+     "meanWidth": 0.07175,
+     "status": "comparator, not adopted"
+    }
+   },
+   {
+    "G": 20,
+    "phi": 0.0,
+    "reps": 2000,
+    "percentile": {
+     "coverage": 0.9135,
+     "mcse": 0.0063,
+     "meanWidth": 0.05574
+    },
+    "linearisedT": {
+     "coverage": 0.9255,
+     "mcse": 0.0059,
+     "meanWidth": 0.06134,
+     "status": "comparator, not adopted"
+    }
+   },
+   {
+    "G": 40,
+    "phi": 0.0,
+    "reps": 2000,
+    "percentile": {
+     "coverage": 0.9255,
+     "mcse": 0.0059,
+     "meanWidth": 0.04215
+    },
+    "linearisedT": {
+     "coverage": 0.9345,
+     "mcse": 0.0055,
+     "meanWidth": 0.04433,
+     "status": "comparator, not adopted"
+    }
+   },
+   {
+    "G": 3,
+    "phi": 0.3,
+    "reps": 2000,
+    "percentile": {
+     "coverage": 0.6925,
+     "mcse": 0.0103,
+     "meanWidth": 0.09947
+    },
+    "linearisedT": {
+     "coverage": 0.894,
+     "mcse": 0.0069,
+     "meanWidth": 0.22818,
+     "status": "comparator, not adopted"
+    }
+   },
+   {
+    "G": 5,
+    "phi": 0.3,
+    "reps": 2000,
+    "percentile": {
+     "coverage": 0.76,
+     "mcse": 0.0095,
+     "meanWidth": 0.08483
+    },
+    "linearisedT": {
+     "coverage": 0.866,
+     "mcse": 0.0076,
+     "meanWidth": 0.12885,
+     "status": "comparator, not adopted"
+    }
+   },
+   {
+    "G": 7,
+    "phi": 0.3,
+    "reps": 2000,
+    "percentile": {
+     "coverage": 0.7975,
+     "mcse": 0.009,
+     "meanWidth": 0.07933
+    },
+    "linearisedT": {
+     "coverage": 0.874,
+     "mcse": 0.0074,
+     "meanWidth": 0.10541,
+     "status": "comparator, not adopted"
+    }
+   },
+   {
+    "G": 10,
+    "phi": 0.3,
+    "reps": 2000,
+    "percentile": {
+     "coverage": 0.827,
+     "mcse": 0.0085,
+     "meanWidth": 0.0704
+    },
+    "linearisedT": {
+     "coverage": 0.8665,
+     "mcse": 0.0076,
+     "meanWidth": 0.08515,
+     "status": "comparator, not adopted"
+    }
+   },
+   {
+    "G": 15,
+    "phi": 0.3,
+    "reps": 2000,
+    "percentile": {
+     "coverage": 0.865,
+     "mcse": 0.0076,
+     "meanWidth": 0.06172
+    },
+    "linearisedT": {
+     "coverage": 0.8955,
+     "mcse": 0.0068,
+     "meanWidth": 0.07004,
+     "status": "comparator, not adopted"
+    }
+   },
+   {
+    "G": 20,
+    "phi": 0.3,
+    "reps": 2000,
+    "percentile": {
+     "coverage": 0.8665,
+     "mcse": 0.0076,
+     "meanWidth": 0.05487
+    },
+    "linearisedT": {
+     "coverage": 0.8905,
+     "mcse": 0.007,
+     "meanWidth": 0.06032,
+     "status": "comparator, not adopted"
+    }
+   },
+   {
+    "G": 40,
+    "phi": 0.3,
+    "reps": 2000,
+    "percentile": {
+     "coverage": 0.8945,
+     "mcse": 0.0069,
+     "meanWidth": 0.0414
+    },
+    "linearisedT": {
+     "coverage": 0.909,
+     "mcse": 0.0064,
+     "meanWidth": 0.04349,
+     "status": "comparator, not adopted"
+    }
+   }
+  ],
+  "R0": 0.260854,
+  "R0Check": 0.260813,
+  "percentileCoverage": {
+   "phi=0.0": {
+    "3": 0.7445,
+    "5": 0.8185,
+    "7": 0.8435,
+    "10": 0.881,
+    "15": 0.903,
+    "20": 0.9135,
+    "40": 0.9255
+   },
+   "phi=0.3": {
+    "3": 0.6925,
+    "5": 0.76,
+    "7": 0.7975,
+    "10": 0.827,
+    "15": 0.865,
+    "20": 0.8665,
+    "40": 0.8945
+   }
+  },
+  "smallestGWithCoverageAtLeast0p93": {
+   "percentile|phi=0.0": 40,
+   "percentile|phi=0.3": null,
+   "linearisedT|phi=0.0": 15,
+   "linearisedT|phi=0.3": null
+  },
+  "dashboardBranch": "A"
  }
 }

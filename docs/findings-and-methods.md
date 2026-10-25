@@ -3,19 +3,20 @@
 Read before interpreting or citing any figure. Some items may be superseded by later CHANGELOG milestones; the CHANGELOG
 and disk are ground truth. Items marked (verify) were written before M264-M299.
 
-## Architectural discoveries
+## Architectural findings (consistent with the OEM design; the contribution is the quantified in-use metrics)
+Fixed-point engine operation near the best-BSFC point and battery transient support are design features stated by Nissan (Technical Review No. 89) and are standard for series hybrids; the findings below are therefore described as "consistent with the OEM fixed-point strategy", not as discoveries. What this study adds is their in-use quantification with intervals (gross throughput, SoC band occupancy, engine-on discharge share, the engine start hazard surface).
 - The HV battery is a power buffer. At 80-120 km/h the engine is on but simultaneously discharging the battery (~49% mean
   deficit); the metric was later reframed (M41) as an engine-on discharge share (SoC steering + load-point quantisation +
   transient blending), not proof of generator saturation.
 - At >=140 km/h acute continuous discharge depletes the buffer within seconds to minutes; the 170 km/h limiter is read as an
   electrical-architecture ceiling, not a tyre/RPM limit.
 - SoC operating band: see `capacityBasis` / the SoC-band blocks in the payload for the current percentile band (an earlier text gave ~44-88 %, a different statistic). The BMS controls the ceiling via motored/unfuelled engine dissipation at SoC >= ~78-80%.
-- P(engine start) differs by ~307x between stationary and highway at matched SoC (the ratio rests on 7 stationary events; report the Wilson CI).
+- P(engine start) is higher at high speed than when stationary at matched SoC; the SoC-standardised, day-clustered ratio, its intervals, the stationary-start counts and the wording ladder are in `socHysteresis.startRatioClustered` (M497; read the payload, do not quote a number from this file; the earlier "~307x on 7 events" was a single-bin ratio with an iid interval and is superseded).
 - Engine RPM has discrete setpoints: dominant ~2,000 rpm (best-BSFC fixed point), plus governed setpoints ~1,500 and ~1,589 rpm.
 - Series hybrid makes "net draw" meaningless as an efficiency metric; gross throughput per 100 km is the workload metric (M35).
 
 ## Generator/traction reconstruction: method rules
-- Generator->traction energy is not uniquely identifiable from measured channels (no generator PID). Path B (measured fuel flow ->
+- Generator->traction energy is not uniquely identifiable from the logged channels (no generator PID). Path B (logged / app-calculated fuel flow ->
   RPM/load-conditioned BSFC surface -> generator -> DC-bus balance) is cross-checked against an independent Path A (road-load)
   estimate. Report the disagreement; do not tune to agree.
 - 217 g/kWh is a floor/optimum (Nissan Tech Review No.89, X-Trail-direct), never a flat conversion factor; it is the hard minimum

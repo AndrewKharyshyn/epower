@@ -1,0 +1,7 @@
+{"verdict":"reproduced with caveats","reps":4000,"boot_draws":4000,"seed":"numpy default_rng(20261025)","script":"sim.py","raw":"raw_results.json",
+"mine_percentile_phi0":[0.7545,0.806,0.858,0.887,0.9015,0.909,0.9285],
+"mine_percentile_phi03":[0.691,0.759,0.8135,0.831,0.863,0.870,0.8905],
+"mine_t_phi0":[0.91,0.8995,0.915,0.914,0.922,0.924,0.939],
+"mine_t_phi03":[0.880,0.869,0.881,0.881,0.898,0.891,0.902],
+"max_abs_diff":0.018,"cells_gt_3SE":["percentile phi=0 G=7 (0.858 vs 0.84, ~3.3 MC SE of mine, ~2.4 with claimed-run error)","t phi=0 G=7 (0.915 vs 0.90, ~3.1 SE)"],
+"notes":"All 28 cells within 0.02; qualitative claims hold (percentile undercovers at small G, worse with phi=0.3; t interval closer to nominal but still under for phi=0.3). Differences look like Monte Carlo noise plus 2-decimal rounding; claimed t at G>=15 phi=0 (0.93) is slightly above mine (0.92-0.94 mixed). No evidence of AR(1) or SE-formula mismatch (stationary AR(1) with innovation sd sqrt(1-phi^2)*0.15 used)."}

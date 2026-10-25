@@ -67,6 +67,7 @@ function buildS(config, arrays) {
     signalResolution: A.signalResolution || null,
     urbanContrastBalance: A.urbanContrastBalance || null,
     vregAlignmentSensitivity: A.vregAlignmentSensitivity || null,
+    fewClusterCoverage: A.fewClusterCoverage || null,
     integrationScenarios: A.integrationScenarios || null,  // M420: single-choice integration scenarios beside the energy Monte Carlo (reporting-only)
     cohortSupport: A.cohortSupport || null,  // M472: descriptive support accounting per thermal cohort (largest-drive / largest-day share, effective days, leave-one-day-out, physical-class sensitivity)
     thermalSupportLedger: A.thermalSupportLedger || null,  // M418: candidate / accepted / excluded / right-censored counts of the thermal estimates (reporting-only)
@@ -5092,6 +5093,17 @@ function RollingOriginPanel(){
       {PP && <div style={{marginTop:4}}>Frozen-fit protocol: the {S.socHysteresisV2.corpusSizeAtRecompute}-drive fit is saved with its coefficients, covariance, spline knots and baselines (SHA-256 {String(PP.frozenFitSha256).slice(0,12)}); it is to be evaluated unchanged on drives after {PP.lastTrainingDate} once the held-out period holds at least {PP.thresholds.drives} drives on {PP.thresholds.days} days, {PP.thresholds.eventsPerSide} events per side and {PP.thresholds.effectiveDayClusters} effective day clusters (one primary look; winter cold temperatures are expected to be extrapolation, so the in-support reading is reported beside the primary one). Held-out period now: {PP.heldOut.drives} drives on {PP.heldOut.days} days (flag-only monitor; threshold {PP.heldOut.driveAndDayThresholdMet?"met":"not met"}).</div>}
     </div>
   );
+}
+// M507 (spec analyses/M507_spec.md Rev 2, Director: accept): coverage of the day-clustered percentile bootstrap with few clusters in a stylised, corpus-independent simulation, bound to S.fewClusterCoverage only
+function FewClusterNote(){
+  const g=S.fewClusterCoverage;
+  if(!g||!g.percentileCoverage) return null;
+  const p0=g.percentileCoverage["phi=0.0"], p3=g.percentileCoverage["phi=0.3"];
+  if(!p0) return null;
+  const pc=(x)=>typeof x==="number"?Math.round(x*100):"n/a";
+  return <div data-few-cluster="true" style={{marginTop:6,marginBottom:10,fontSize:10.5,color:"#475569",lineHeight:1.6}}>
+    <strong style={{color:"#0f172a"}}>Few day clusters (M507; stylised simulation, not a model of this corpus).</strong> {g.dashboardBranch==="A" ? "Intervals resting on fewer than 20 day clusters are approximate. " : ""}In a stylised simulation (not a model of this corpus) the percentile day bootstrap for a ratio of sums covered the true value in {pc(p0["5"])} % of repetitions at 5, {pc(p0["10"])} % at 10 and {pc(p0["20"])} % at 20 independent day clusters (nominal 95 %){p3 ? <>, and in {pc(p3["5"])} %, {pc(p3["10"])} % and {pc(p3["20"])} % when neighbouring days are serially correlated (lag-1 correlation 0.3)</> : null}{Object.values(g.cells||[]).length && (g.cells||[]).every(c=>c.percentile && c.percentile.coverage<0.95) ? "; coverage stayed below the nominal 95 % at every simulated cluster count" : ""}. This describes the method only: it gives no coverage for any displayed interval, and no interval is changed.
+  </div>;
 }
 function SerialDependencePanel(){
   const D=S.serialDependence, M=S.dependenceSensitivity;
@@ -12551,6 +12563,7 @@ export default function App() {
           </div>
           <DependencePanel/>
           <SerialDependencePanel/>
+          <FewClusterNote/>
           <WindowCaveatPanel/>
           <div style={{fontSize:11,color:"#64748b",lineHeight:1.7}}>
             <p>Jun19 re-verification: resting spread (|I|&lt;5A) across all 4 drives was 0.0104–0.0121V — within established baseline. Under-load spread reached 0.084V on Drive 1 — a thermal/polarization artifact, not degradation, since it collapses back to 0.010-0.012V at rest within the same drive. One raw sample briefly read 0.122V coinciding with a single corrupted current reading (−200.25A, outside sensor's valid range) — excluded as a logging artifact, not a real cell event. <strong style={{color:"#7c3aed"}}>M57 (2026-07-27):</strong> the "new high / beating the previous 0.060V record" framing is withdrawn — loaded spread has since gone considerably higher on later drives, and per-drive loaded maxima are a transient polarization measure that should not be tracked as records at all. The trended quantity is the adjusted p95 (M19), for which {spreadSpans()===false?"a positive conditional slope is estimated (95% interval excludes zero; season-confounded, not a capacity or SOH change)":"no directional trend is resolved (inconclusive, not shown flat)"}.</p>
