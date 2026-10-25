@@ -1,0 +1,189 @@
+{
+ "milestone": "M512",
+ "audit": "A04",
+ "spec": "analyses/M512_spec.md (Rev 2)",
+ "specSha256": "0e56dd2a78d847b57d47306ad3b95f756b7371e99483625509d415873e03d01b",
+ "scriptSha256": "301bbdf76992fcb0df99c51ecdf1fcb8f0fa0d9a1faef8b418fc403de3a797ab",
+ "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+ "controls": {
+  "C0": "passed: every drive's unrounded on/supported share equals engine_on_pct within 0.05+1e-9; recomputed legacy corpus figure equals meta.engineOnHours; sidecar covers every master drive",
+  "isolation": "only /engineRuntime and its stamp changed in summary_arrays.json"
+ },
+ "totals": {
+  "nDrives": 606,
+  "nDrivesWithRpm": 606,
+  "nDrivesWithoutRpm": 0,
+  "supportedOnHours": 97.5425,
+  "supportedHours": 229.5476,
+  "elapsedHours": 232.6344,
+  "elapsedHoursWithRpm": 232.6344,
+  "unsupportedHours": 3.0869,
+  "bracketHours": [
+   97.5425,
+   100.6294
+  ],
+  "scaledImputedHours": 98.3732,
+  "imputationAddHours": 0.8307,
+  "imputationAddPctOfSupportedOn": 0.8516,
+  "supportedOnShareOfSupported": 0.4249,
+  "kmWithRpm": 10460.84,
+  "kmAll": 10460.84,
+  "supportedOnPer10kKm": 93.2454,
+  "scaledImputedPer10kKm": 94.0395,
+  "legacyEngineOnHours": 98.3732
+ },
+ "rateIntervals": {
+  "supportedOnPer10kKm": {
+   "ci95": [
+    90.5059,
+    96.8432
+   ],
+   "nDays": 121,
+   "method": "day-clustered ratio-of-sums percentile bootstrap, seed 42, 4000 draws"
+  },
+  "scaledImputedPer10kKm": {
+   "ci95": [
+    91.1841,
+    97.8601
+   ],
+   "nDays": 121,
+   "method": "day-clustered ratio-of-sums percentile bootstrap, seed 42, 4000 draws"
+  }
+ },
+ "cleanSensitivity": {
+  "nDrives": 604,
+  "nDrivesWithRpm": 604,
+  "nDrivesWithoutRpm": 0,
+  "supportedOnHours": 97.34,
+  "supportedHours": 228.5386,
+  "elapsedHours": 231.4978,
+  "elapsedHoursWithRpm": 231.4978,
+  "unsupportedHours": 2.9592,
+  "bracketHours": [
+   97.34,
+   100.2992
+  ],
+  "scaledImputedHours": 98.1396,
+  "imputationAddHours": 0.7996,
+  "imputationAddPctOfSupportedOn": 0.8214,
+  "supportedOnShareOfSupported": 0.4259,
+  "kmWithRpm": 10439.24,
+  "kmAll": 10439.24,
+  "supportedOnPer10kKm": 93.2443,
+  "scaledImputedPer10kKm": 94.0103
+ },
+ "byClass": [
+  {
+   "nDrives": 510,
+   "nDrivesWithRpm": 510,
+   "nDrivesWithoutRpm": 0,
+   "supportedOnHours": 35.7575,
+   "supportedHours": 121.0721,
+   "elapsedHours": 123.1058,
+   "elapsedHoursWithRpm": 123.1058,
+   "unsupportedHours": 2.0336,
+   "bracketHours": [
+    35.7575,
+    37.7911
+   ],
+   "scaledImputedHours": 36.3656,
+   "imputationAddHours": 0.6081,
+   "imputationAddPctOfSupportedOn": 1.7005,
+   "supportedOnShareOfSupported": 0.2953,
+   "kmWithRpm": 3174.14,
+   "kmAll": 3174.14,
+   "supportedOnPer10kKm": 112.6525,
+   "scaledImputedPer10kKm": 114.5682,
+   "key": "urban",
+   "avgEngineOnPctCleanSet": 28.3
+  },
+  {
+   "nDrives": 33,
+   "nDrivesWithRpm": 33,
+   "nDrivesWithoutRpm": 0,
+   "supportedOnHours": 7.3927,
+   "supportedHours": 18.8045,
+   "elapsedHours": 18.9243,
+   "elapsedHoursWithRpm": 18.9243,
+   "unsupportedHours": 0.1198,
+   "bracketHours": [
+    7.3927,
+    7.5125
+   ],
+   "scaledImputedHours": 7.4429,
+   "imputationAddHours": 0.0502,
+   "imputationAddPctOfSupportedOn": 0.6786,
+   "supportedOnShareOfSupported": 0.3931,
+   "kmWithRpm": 893.5,
+   "kmAll": 893.5,
+   "supportedOnPer10kKm": 82.7392,
+   "scaledImputedPer10kKm": 83.3007,
+   "key": "mixed",
+   "avgEngineOnPctCleanSet": 40.1
+  },
+  {
+   "nDrives": 37,
+   "nDrivesWithRpm": 37,
+   "nDrivesWithoutRpm": 0,
+   "supportedOnHours": 28.6895,
+   "supportedHours": 52.0924,
+   "elapsedHours": 52.3547,
+   "elapsedHoursWithRpm": 52.3547,
+   "unsupportedHours": 0.2623,
+   "bracketHours": [
+    28.6895,
+    28.9518
+   ],
+   "scaledImputedHours": 28.8226,
+   "imputationAddHours": 0.1331,
+   "imputationAddPctOfSupportedOn": 0.464,
+   "supportedOnShareOfSupported": 0.5507,
+   "kmWithRpm": 3388.7,
+   "kmAll": 3388.7,
+   "supportedOnPer10kKm": 84.6621,
+   "scaledImputedPer10kKm": 85.055,
+   "key": "mixed_highway",
+   "avgEngineOnPctCleanSet": 54.1
+  },
+  {
+   "nDrives": 23,
+   "nDrivesWithRpm": 23,
+   "nDrivesWithoutRpm": 0,
+   "supportedOnHours": 25.6621,
+   "supportedHours": 37.5128,
+   "elapsedHours": 37.5753,
+   "elapsedHoursWithRpm": 37.5753,
+   "unsupportedHours": 0.0625,
+   "bracketHours": [
+    25.6621,
+    25.7245
+   ],
+   "scaledImputedHours": 25.7004,
+   "imputationAddHours": 0.0383,
+   "imputationAddPctOfSupportedOn": 0.1494,
+   "supportedOnShareOfSupported": 0.6841,
+   "kmWithRpm": 3004.5,
+   "kmAll": 3004.5,
+   "supportedOnPer10kKm": 85.4121,
+   "scaledImputedPer10kKm": 85.5398,
+   "key": "highway",
+   "avgEngineOnPctCleanSet": 68.8
+  }
+ ],
+ "blindAudit": {
+  "supportedOnHours": 97.5425,
+  "supportedHours": 229.5476,
+  "elapsedHours": 232.6344,
+  "unsupportedHours": 3.0869,
+  "scaledImputedHours": 98.3732,
+  "supportedOnPer10kKm": 93.2454,
+  "maxAbsPerDriveDiffPct": 0.0499,
+  "verdict": "reproduced"
+ },
+ "escalation": {
+  "imputedMinusSupportedPctOfSupportedOn": 0.8516,
+  "threshold": 5,
+  "fired": false
+ },
+ "limits": "eng_rpm > 400 means rotating, not fuelled; the supported-basis rate uses the whole-elapsed distance of drives with an RPM series (a lower bound of the elapsed-time rate); totals are exact over the declared population, not estimates of a larger one"
+}

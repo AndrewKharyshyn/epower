@@ -471,6 +471,19 @@
    ]
   },
   {
+   "id": "engine_runtime",
+   "title": "M512: engine runtime on a declared time base: per-drive RPM-supported seconds and engine-on seconds from the production helpers cached in engine_runtime_sidecar.csv (raw sha256 + method version + closure hash); C0 (per-drive engine_on_pct reproduction and the legacy corpus figure) is a STOP; additive payload block engineRuntime + stamp; needs raw/ like ah_throughput; spec analyses/M512_spec.md Rev 2",
+   "cmd": [
+    "python3",
+    "tools/engine_runtime.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json",
+    "engine_runtime_sidecar.csv"
+   ]
+  },
+  {
    "id": "thermal_support_ledger",
    "title": "M418: thermal support ledger (candidate / excluded / accepted / reached / right-censored counts for warm-up lag, hvcEngine80C, warm-up curve and the fuel penalty, all corpus plus warm and shoulder cohorts; reconciled with the published estimator n; spec analyses/M418_spec.md); additive payload block thermalSupportLedger + stamp; the estimators are unchanged",
    "cmd": [

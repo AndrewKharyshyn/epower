@@ -107,6 +107,14 @@ if _oot:
     ok("A2 REQUIRED M428 planning-threshold and conditional-on-the-fitted-basis-model disclosures are rendered", all(("declared planning choices, not validated" in t) and ("conditional on the fitted basis model" in t) and ("not equivalence" in t) for t in _hv.values()))
     ok("A2 REQUIRED M428 the STOP absent-table drives are described as having no engine-on second (counts from the payload)",
        all(("The STOP table lacks %d basis and %d later drives that have no engine-on second" % (_oot["stop"]["absentFromTable"]["basis"], _oot["stop"]["absentFromTable"]["later"])) in t for t in _hv.values()))
+# M512 (analyses/M512_spec.md Rev 2): the engine-hours panel renders the payload's supported / unsupported / elapsed hours and the labelled imputed figure
+_er = A.get("engineRuntime")
+if _er:
+    _erd = {k: t for k, t in T.items() if "Engine-on time on a declared time base (M512)" in t}
+    _tt = _er["totals"]
+    ok("A2 REQUIRED M512 engine-runtime panel rendered in the dumps that carry the RPM table", len(_erd) >= 3, f"{sorted(_erd)}")
+    ok("A2 REQUIRED M512 the panel states the payload hours (supported on-time, supported, elapsed, unsupported, imputed) and the 'imputed' label",
+       all(("%.1f h" % _tt["supportedOnHours"]).replace(" ", " ") in " ".join(t.split()).replace(" ", " ") and "imputed" in t for t in _erd.values()))
 # M429 (analyses/M429_spec.md Rev 2, Director ruling): the soak-interval text renders the payload (pack interval, pair funnel, method rows, post-hoc gap split) and labels the split as not pre-registered
 _hsc = A.get("heatSoakCarryover") or {}
 if _hsc.get("soakTauGapSplit"):

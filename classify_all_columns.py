@@ -23,7 +23,7 @@ GROUPS = {
    ["duration_s","eng_load_calc_mean","eng_load_calc_max","eng_load_abs_mean","eng_load_abs_max",
     "eng_load_abs_p95","eng_rpm_max","boost_max","map_kpa_max","map_kpa_mean","map_kpa_max_eng_on",
     "target_torque_max","target_torque_min"],
-   "USER-flagged engine-on duration + engine load/MAP/boost/rpm: cold raises load (heat+aux) and warm-up fuel; engine-on seconds = engine_on_pct*duration_s (derived)"),
+   "USER-flagged engine-on duration + engine load/MAP/boost/rpm: cold raises load (heat+aux) and warm-up fuel; engine_on_pct = engine-on share of RPM-supported time; engine_on_pct*duration_s is a duration-scaled (imputed) estimate, not engine-on seconds (M512)"),
  "ev_mode_share": ("thermal","inconclusive",
    ["ev_dist_pct","ev_dist_km","ev_kwh_per100km","ev_batt_kwh","ev_time_s","ev_moving_time_s"],
    "EV distance/time/energy share falls in cold"),

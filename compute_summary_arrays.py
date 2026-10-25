@@ -911,10 +911,11 @@ def category_A(dm, odometer_km=None):
         # count so "N drives >60min" is never hand-typed).
         'longDrivesN': int((dm['duration_s'] > 3600).sum()),
         # ---- M82 (2026-08-04): engineOnHours / engineHoursPer10k -- total ICE
-        # runtime and its per-10,000km rate. Category A: engine_on_pct (the
-        # duration-weighted %-of-drive-time eng_rpm>400, computed in
-        # compute_drive_summary_v6._v6_analyze_bytes) times duration_s is
-        # already the per-drive engine-on seconds; summing needs no raw pass.
+        # runtime and its per-10,000km rate. Category A: engine_on_pct is the engine-on SHARE of the
+        # RPM-SUPPORTED (gap-capped) interval time (compute_drive_summary_v6._v6_analyze_bytes); times duration_s it is
+        # a duration-scaled (imputed) estimate, NOT engine-on time, whenever RPM support and elapsed duration differ
+        # (M512, audit 2026-10-25 A04). The supported on-time, supported time and unsupported time are in the
+        # engineRuntime block (tools/engine_runtime.py); the key names here are unchanged.
         # Unfiltered by ens_outlier_v2, matching the adjacent movingHours /
         # stationaryHours / grossThroughputKwh corpus-total convention above.
         'engineOnHours': round(float((dm['duration_s'] * dm['engine_on_pct']
@@ -18279,7 +18280,7 @@ def build_summary_arrays(dm, raw_loader=None, with_raw=True, odometer_km=None,
                 'engineOnHours/engineHoursPer10k (meta, Category A) sum '
                 'duration_s x engine_on_pct/100 across the unfiltered master '
                 '-- same convention as the adjacent movingHours/stationaryHours '
-                '-- needing no raw pass since engine_on_pct is already a '
+                '-- (M512: a duration-scaled, imputed estimate; the RPM-supported on-time is in engineRuntime) needing no raw pass since engine_on_pct is already a '
                 'per-drive master column. engineHoursByType is the per-'
                 'CLASS_ORDER breakdown (totals: km/engineOnHours/hoursPer10k; '
                 'per-drive ens-clean mean: avgEngineOnPct), companion to '
