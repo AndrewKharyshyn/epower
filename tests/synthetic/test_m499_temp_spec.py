@@ -48,3 +48,14 @@ _r = [x for x in _G.RULES if x.rid == "M499-resistance-trend-wording"][0]
 assert _r.hits("The resistance trend is significant in this window") and _r.hits("pack resistance is rising")
 assert not _r.hits("the resistance trend remains unresolved and no slope is promoted")
 print("test_m499_temp_spec (language rule): OK")
+
+# A01 (audit 2026-10-25): the main-entry fidelity guard compares nDays with the live reference, not a constant 98
+_c = {"slope": 0.6564, "publishedSlope": 0.65641, "n": 274, "publishedN": 274, "nDays": 98, "publishedNDays": 98, "bT": -1.234, "publishedBT": -1.2341,
+      "dayCi95": [-0.4262, 1.8374], "publishedDayCi95": [-0.42623, 1.83743]}
+assert M.fidelity_ok(_c)
+assert M.fidelity_ok({**_c, "nDays": 99, "publishedNDays": 99})        # grown, consistent reference passes
+assert M.fidelity_ok({**_c, "nDays": 100, "publishedNDays": 100})
+assert not M.fidelity_ok({**_c, "nDays": 99})                          # inconsistent reference still fails
+assert not M.fidelity_ok({**_c, "nDays": 99, "publishedNDays": 99, "slope": 0.7})   # other checks stay strict
+assert not M.fidelity_ok({**_c, "n": 275})
+print("test_m499_temp_spec (A01 fidelity guard): OK")

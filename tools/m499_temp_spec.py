@@ -122,6 +122,14 @@ def splice(res):
     print(json.dumps({"changed": True, "outcome": blk["decision"]["outcome"]}))
 
 
+def fidelity_ok(chk):
+    """T0 must reproduce the published reference (slope, n, nDays, bT, day CI). nDays is compared with the live reference
+    (powerFadeEquivalence.s1.nDays), not a snapshot constant, so a grown eligible-date set passes (audit 2026-10-25 A01)."""
+    return bool(chk["slope"] == round(chk["publishedSlope"], 4) and chk["n"] == chk["publishedN"] and chk["nDays"] == chk["publishedNDays"]
+                and chk["bT"] == round(chk["publishedBT"], 3)
+                and [round(x, 3) for x in chk["dayCi95"]] == [round(x, 3) for x in chk["publishedDayCi95"]])
+
+
 def main():
     out_path = sys.argv[sys.argv.index("--out") + 1] if "--out" in sys.argv else "analyses/M499_result.json"
     nb = int(sys.argv[sys.argv.index("--nb") + 1]) if "--nb" in sys.argv else NB_DEFAULT
@@ -145,8 +153,8 @@ def main():
     bT = float(np.linalg.lstsq(X0, y0, rcond=None)[0][2])
     chk = {"slope": round(f0["slope"], 4), "publishedSlope": pe["s1"]["slope"], "n": f0["n"], "publishedN": pf["nClean"], "nDays": f0["nDays"], "bT": round(bT, 3), "publishedBT": pf["bTMohmPerDegC"],
            "dayCi95": [round(x, 4) for x in f0["day"]["ci95"]], "publishedDayCi95": pf["ci95MohmPerMo"]}
-    ok = (chk["slope"] == round(chk["publishedSlope"], 4) and chk["n"] == chk["publishedN"] and chk["nDays"] == 98 and chk["bT"] == round(chk["publishedBT"], 3)
-          and [round(x, 3) for x in chk["dayCi95"]] == [round(x, 3) for x in chk["publishedDayCi95"]])
+    chk["publishedNDays"] = pe["s1"]["nDays"]
+    ok = fidelity_ok(chk)
     res["fidelity"] = {**chk, "passed": bool(ok)}
     if not ok:
         print(json.dumps({"STOP": "fidelity", **chk}))
