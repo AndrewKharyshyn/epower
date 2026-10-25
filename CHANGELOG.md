@@ -1,3 +1,16 @@
+## M511 (2026-10-25): Audit 2026-10-25 A03: SoC-balanced fuel uses the canonical-clean population (eligibility-policy alignment) with a matched all-accumulator sensitivity
+
+**Rationale.** _soc_balanced_fuel now takes its primary population through eligibility.py (M375; excluded if ens_invalid OR ens_outlier_v2 is True; a missing flag is a STOP) because the balancing term uses BMS SoC; the former population is stored as socBalancedFuel.allAccumulatorSensitivity with the excluded files, and socBalancedFuel.eligibility records the rule. Control C0 (unfiltered run equals the stored block leaf for leaf) passed; one trip was excluded, no escalation rule fired, the headline stayed inside its previous CI; only socBalancedFuel and fuelContract changed in summary_arrays.json (isolation diff); drive_master.csv MD5 unchanged. Spec analyses/M511_spec.md Rev 2 after Director ruling revise (R1-R8); numbers in analyses/M511_result.json. The thermalFuelPenalty accumulator subset is inventoried as a possible sibling gap, not changed. Blind audit (analytical-auditor, independent code): 331 trips / 65 dates raw 5.650 balanced 5.477 L/100 km (clean) vs 332 trips raw 5.649 balanced 5.476 (all accepted), difference = 20260813_144601 only. Director decision: accept; deviations recorded: deltaVsPrimary is the difference of 3-dp rounded headline values (to be taken from unrounded sums on the next touch), and the sensitivity/eligibility blocks carry a few additive fields beyond R2/R3. Follow-up inventory: thermalFuelPenalty accumulator subset. No article figure; no Andrii sign-off needed.
+
+**State.** `drive_master.csv` 606 rows, MD5 `5556a0c6c8bcde0f6c64b8b9655208ed`.
+
+**Gates (runs/20261020T221332Z).** restamp_ingest=ok; build_html=ok; jsdom=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `compute_summary_arrays.py`, `tools/m511_fuel_eligibility_splice.py`, `tests/synthetic/test_soc_balanced_fuel_eligibility.py`, `fuel_contract_flag.py`, `fuel_contract.json`, `xtrail_summary.jsx`, `summary_arrays.json`, `xtrail_dashboard.html`, `analyses/M511_spec.md`, `analyses/M511_result.json`, `.github/workflows/ci.yml`.
+
+
 ## M509 (2026-10-25): Audit 2026-10-25 A01/A05: fidelity guard of the temperature-specification stage compares nDays with the live reference; ambient mean instructions say trapezoidal
 
 **Rationale.** A01: tools/m499_temp_spec.py hardcoded nDays == 98 and would STOP on any ingestion that adds an eligible resistance-proxy date; the guard is now fidelity_ok() comparing nDays with powerFadeEquivalence.s1.nDays, slope/n/bT/CI checks unchanged, known-answer test covers grown-consistent (pass) and inconsistent (fail) cases. A05: ambient_protocol.py and the ingest-drive skill now state the trapezoidal mean used in production; no data recomputed, drive_master.csv MD5 unchanged.
