@@ -1,3 +1,16 @@
+## M507 (2026-10-25): Few-cluster coverage of the day-clustered percentile bootstrap (audit ST-06), docs wording (PB-06) and ST-07 cancelled - SPEC FROZEN, results pending
+
+**Rationale.** Spec analyses/M507_spec.md Rev 2 written before any computation; research-director ruling 'revise' (nine revisions) folded in. M507 spec sha256 b463fbdff653cbb0fda71054e329caee4d97226e88b71d5e411feed297a8b880. RESULT_PENDING_MARKER
+
+**State.** `drive_master.csv` 606 rows, MD5 `5556a0c6c8bcde0f6c64b8b9655208ed`.
+
+**Gates (runs/20261020T221332Z).** restamp_ingest=ok; build_html=ok; jsdom=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `analyses/M507_spec.md`, `tools/few_cluster_coverage.py`, `tests/synthetic/test_few_cluster_coverage.py`.
+
+
 ## M506 (2026-10-25): Docs: audit disposition table updated for CD-05, CD-07 and ST-09 (fixed by M505, M503, M504)
 
 **Rationale.** analyses/audit_2026-10-23_dispositions.md listed CD-05, CD-07 and ST-09 as deferred; they were fixed by M505 (alignment-rule sensitivity), M503 (logged-grid record) and M504 (covariate balance and design dependence). Documentation only; the nine still-deferred items (ST-06, ST-13, ST-14, ST-15, CD-06, ST-07, ST-12, PB-12, PB-06) are unchanged. The audit PDF used to perform the audit is not needed any more (owner, chat 2026-10-25) and is not rebuilt.

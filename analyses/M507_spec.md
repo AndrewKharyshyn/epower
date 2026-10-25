@@ -1,0 +1,31 @@
+# M507 spec (Rev 2): coverage of the day-clustered percentile bootstrap with few clusters (audit ST-06)
+
+Status: Rev 2 (Rev 1 plus the section "Rev 2" at the end; the ruling "revise" of the research-director is folded in), written 2026-10-25 BEFORE any M507 computation. Origin: independent audit 2026-10-23, finding ST-06: the project's day-clustered percentile bootstrap is displayed with 5-10 day clusters in several places (regeneration display minimum 5 days, the cold engine-start cohort, the M495 folds, the cohort comparison cube minimum 3 days), where its coverage is below the nominal 95 %. The audit's simulation numbers are NOT targets. This is a method-property simulation, independent of the corpus: no data interval, estimator or decision changes; the existing per-block low-cluster flags stay.
+
+## Question
+How close to 95 % is the coverage of the project's percentile day bootstrap for a ratio of sums, and of a linearised t(G-1) interval, when the number of independent day clusters G is small, with and without serial dependence between neighbouring days?
+
+## Simulation design (frozen; stylised, not a model of any specific project interval)
+Cluster = a calendar day. A day has k = 1 + Poisson(2) drives; a drive has distance d ~ lognormal(log 4, 0.8) km and an energy numerator d x 0.25 x exp(e_day + e_drive) kWh, with e_drive ~ N(0, 0.25^2) and the day effect e_day following a zero-mean Gaussian AR(1) series along consecutive calendar days with marginal standard deviation 0.15 and lag-1 correlation phi in {0, 0.3}. The estimand is the ratio of sums R = sum(numerator) / sum(distance) over the G days; its population value R0 = E[numerator] / E[distance] is computed from a separate large simulation (10^6 days, its own seed). G in {5, 7, 10, 15, 20, 40}. 2,000 replications per (G, phi); seed 42 (a separate generator per cell); in each replication the interval is formed from the same G days.
+Intervals: (P) the project's percentile day bootstrap (resample the G days with replacement, 1,000 draws, 2.5th and 97.5th percentiles of the ratio of sums); (T) the linearised t interval R_hat +/- t(0.975, G-1) x SE with SE = sqrt( G/(G-1) x sum_i (n_i - R_hat d_i)^2 ) / sum_i d_i (the delta-method cluster-robust standard error). Per cell and method: coverage of R0 with its Monte Carlo standard error and the mean interval width.
+
+## Reporting rules (frozen)
+Coverage is reported as is; no method is selected or tuned. For each method the smallest G in the grid with coverage within two Monte Carlo standard errors of 0.93 or above is reported (not a decision rule). The dashboard states, bound to the payload block, the coverage of (P) at G = 5, 10 and 20 for phi = 0 and phi = 0.3 and that intervals resting on fewer than 20 day clusters are approximate; it makes no claim about the true coverage of any specific displayed interval and changes no interval. Wording: "stylised simulation", "approximate", never "corrected", "exact" or "valid".
+
+## Outputs
+`analyses/M507_result.json` (coverage table, widths, R0, seeds, provenance: script and spec sha256). Script `tools/few_cluster_coverage.py`; known-answer test `tests/synthetic/test_few_cluster_coverage.py` (delta-method SE equals a hand computation; deterministic rerun; R0 recovery; a reduced run asserts that the percentile coverage at G = 5 is clearly below 0.92 and at G = 40 near 0.95; the t interval at G = 5 is closer to 0.95 than the percentile interval). Payload: additive block `fewClusterCoverage` (static; stamp as carried) + stamp; dashboard: one short paragraph after the serial-dependence panel.
+
+## Out of scope
+Changing any displayed interval or any bootstrap; BCa or studentised intervals; the audit's other simulations.
+
+
+## Rev 2 (the research-director's ruling "revise", nine required revisions R1-R9; this section replaces any conflicting Rev 1 text above; written before any M507 computation)
+R1: the bootstrap uses 4,000 draws (the project setting), not 1,000.
+R2: the primary population value is the closed form R0 = 0.25 x exp((0.15^2 + 0.25^2) / 2); the 10^6-day simulation (seed 1042) is a check only and its value is reported beside it.
+R3: seeds come from `numpy.random.SeedSequence(42).spawn(n)` in the fixed cell order (phi ascending, then G ascending); the AR(1) day-effect series starts from its stationary marginal.
+R4: the grid is G in {3, 5, 7, 10, 15, 20, 40} (3 is the comparison cube's minimum); nothing is said below G = 3.
+R5: the tests check mechanics only (the delta-method SE against a hand computation, determinism, the R0 check, and a normal-mean interval near 0.95 at large G). The following are PREDICTIONS, logged here before the run and never test assertions: the percentile coverage at G = 5 is below 0.92; the linearised t interval is closer to 0.95 than the percentile interval at G = 5; both are near 0.95 at G = 40 for phi = 0.
+R6: the reporting rule "smallest G" is defined as the smallest G in the grid with coverage + 2 x MCSE >= 0.93 that also holds at every larger G in the grid; it is a description, never a flag or a suppression rule.
+R7 (dashboard branches, both pre-registered; the sentence is bound to the payload result): Branch A, if the percentile coverage at G = 20 (phi = 0) plus 2 MCSE is below 0.93: "intervals resting on fewer than 20 day clusters are approximate; in a stylised simulation (not a model of this corpus) the percentile day bootstrap covered X at 5, Y at 10 and Z at 20 clusters (phi = 0) and U, V, W with serial dependence (phi = 0.3)". Branch B, otherwise: "in a stylised simulation (not a model of this corpus) the percentile day bootstrap covered X at 5, Y at 10 and Z at 20 clusters (phi = 0); no 'approximate' statement is added". No coverage figure is placed beside or mapped to any specific displayed interval or cluster count.
+R8: the dashboard shows the percentile method only; the t interval stays in the payload labelled "comparator, not adopted".
+R9: the block is stamped "static, corpus-independent" with the spec and script sha256 (not "carried"); the stage-less block has no corpus dependence. Not added to `generatorTractionRecon.staleBlocks`. Language rule M507: the phrases "corrected", "exact", "valid", "true coverage", "adjusted" are forbidden next to the few-cluster statement.
