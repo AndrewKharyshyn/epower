@@ -8471,6 +8471,10 @@ function SocBalancedFuel() {
         per-trip energy variance is too small), so no generator efficiency is claimed. Single vehicle / ~single
         driver.
       </Caveat>
+      {C.eligibility && <div style={{ fontSize: 9, color: "#64748b", marginTop: 6 }}>
+        Population: {C.eligibility.populationLabel} ({C.nDrives} of {C.eligibility.nAcceptedAccumulatorTrips} accepted accumulator trips; {C.eligibility.nExcludedByRule} excluded by the rule: {C.eligibility.rule}).
+        {C.allAccumulatorSensitivity && ` Matched sensitivity (${C.allAccumulatorSensitivity.populationLabel}): raw ${C.allAccumulatorSensitivity.rawFleetL100}, balanced ${C.allAccumulatorSensitivity.socBalancedFleetL100} L/100 km (${C.allAccumulatorSensitivity.nDrives} trips).`}
+      </div>}
     </div>
   );
 }

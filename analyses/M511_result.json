@@ -1,0 +1,105 @@
+{
+ "milestone": "M511",
+ "audit": "A03",
+ "spec": "analyses/M511_spec.md (Rev 2)",
+ "specSha256": "a9067c7639359dc9d60bd347a0f740a514e5abeb2f67aa3ec14fa2fc81108928",
+ "scriptSha256": "bba1f76fd99b9d46f4d8852d0b6bdb942c50ed567574d0fdd0c723083df35eb8",
+ "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+ "control": "C0 passed: unfiltered run reproduces the stored socBalancedFuel leaf for leaf (methodology text excluded)",
+ "membershipIndependentOk": true,
+ "sensitivityEqualsPreM511Block": true,
+ "excluded": [
+  {
+   "file": "20260813_144601.csv",
+   "date": "2026-08-13",
+   "ens_outlier_v2": "True",
+   "ens_invalid": "True"
+  }
+ ],
+ "nAccepted": 332,
+ "nPrimary": 331,
+ "nDaysPrimary": 65,
+ "before": {
+  "nDrives": 332,
+  "nDays": 65,
+  "dateSpan": [
+   "2026-08-12",
+   "2026-10-17"
+  ],
+  "rawFleetL100": 5.649,
+  "socBalancedFleetL100": 5.476,
+  "socBalancedFleetDelta": -0.173,
+  "socBalancedFleetBoot": {
+   "bootMedian": 5.477,
+   "ci95": [
+    5.323,
+    5.629
+   ],
+   "nDrives": 332,
+   "nDays": 65
+  }
+ },
+ "after": {
+  "nDrives": 331,
+  "nDays": 65,
+  "dateSpan": [
+   "2026-08-12",
+   "2026-10-17"
+  ],
+  "rawFleetL100": 5.65,
+  "socBalancedFleetL100": 5.477,
+  "socBalancedFleetDelta": -0.173,
+  "socBalancedFleetBoot": {
+   "bootMedian": 5.477,
+   "ci95": [
+    5.324,
+    5.63
+   ],
+   "nDrives": 331,
+   "nDays": 65
+  }
+ },
+ "headlineInsidePreviousCi95": true,
+ "changedLeaves": [
+  "/allAccumulatorSensitivity (missing)",
+  "/byEta[0]/fleetL100",
+  "/byEta[0]/perTripCorrMedian",
+  "/byEta[0]/perTripCorrP95",
+  "/byEta[0]/perTripMedianL100",
+  "/byEta[1]/fleetL100",
+  "/byEta[1]/perTripCorrMedian",
+  "/byEta[1]/perTripCorrP95",
+  "/byEta[1]/perTripMedianL100",
+  "/byEta[2]/fleetDelta",
+  "/byEta[2]/perTripCorrMedian",
+  "/byEta[2]/perTripCorrP95",
+  "/byEta[2]/perTripMedianL100",
+  "/eligibility (missing)",
+  "/methodology",
+  "/nDrives",
+  "/rawFleetL100",
+  "/rawPerTripL100/median",
+  "/rawPerTripL100/n",
+  "/rawPerTripL100/p25",
+  "/rawPerTripL100/p75",
+  "/regression/fixedFuelPctOfMedianTrip",
+  "/regression/perTripFixedFuelL",
+  "/socBalancedFleetBoot/ci95[0]",
+  "/socBalancedFleetBoot/ci95[1]",
+  "/socBalancedFleetBoot/nDrives",
+  "/socBalancedFleetL100",
+  "/totalDistKm",
+  "/totalFuelL"
+ ],
+ "escalation": {
+  "tooManyTrips": false,
+  "tooManyDays": false,
+  "headlineOutsidePreviousCi": false,
+  "signFlipped": false,
+  "dateSpanChanged": false
+ },
+ "escalate": false,
+ "rawFleetNote": "rawFleetL100 has no stored interval; compared as a delta only",
+ "rawSource": "raw_only/ (staged master-key view of raw/)",
+ "limits": "CAP_KWH 2.1 verified:false; fuel logged/app-calculated; eligibility-policy alignment, estimand unchanged"
+}

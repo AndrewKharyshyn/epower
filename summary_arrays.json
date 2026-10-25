@@ -46570,59 +46570,59 @@
   "methodology": "Cold-start drives (coolant start <60 C). Per drive on a 1 Hz grid: time from start for coolant and oil to cross 60/70/80 C; the coolant->oil lag = oil_t70 - coolant_t70; the steady-state offset = median(coolant - oil) once coolant>=80 C; and the paired warm-up curves (median temp by time-from-start bin). Medians/IQR over cold-start drives; day-clustered bootstrap (seed 42, 4000 draws) on the lag. Extends warmupCurve (distance-domain coolant only) with the oil trajectory and the coolant-oil lag. Oil warms slower (more thermal mass, indirect heating), so it lags coolant. Fuel penalty (Aug-only subset) and emissions are NOT computed here. Single vehicle / ~single driver -- descriptive."
  },
  "socBalancedFuel": {
-  "nDrives": 332,
+  "nDrives": 331,
   "nDays": 65,
   "dateSpan": [
    "2026-08-12",
    "2026-10-17"
   ],
-  "totalDistKm": 3688.1,
-  "totalFuelL": 208.35,
+  "totalDistKm": 3686.6,
+  "totalFuelL": 208.28,
   "capKwhAssumed": 2.1,
   "capVerified": false,
   "lhvKwhPerL": 8.5843,
-  "rawFleetL100": 5.649,
+  "rawFleetL100": 5.65,
   "rawPerTripL100": {
-   "median": 6.232,
-   "p25": 5.035,
-   "p75": 8.321,
-   "n": 332
+   "median": 6.268,
+   "p25": 5.046,
+   "p75": 8.332,
+   "n": 331
   },
-  "socBalancedFleetL100": 5.476,
+  "socBalancedFleetL100": 5.477,
   "socBalancedFleetDelta": -0.173,
   "socBalancedFleetBoot": {
    "bootMedian": 5.477,
    "ci95": [
-    5.323,
-    5.629
+    5.324,
+    5.63
    ],
-   "nDrives": 332,
+   "nDrives": 331,
    "nDays": 65
   },
   "byEta": [
    {
     "eta": 0.25,
-    "fleetL100": 5.441,
+    "fleetL100": 5.442,
     "fleetDelta": -0.208,
-    "perTripMedianL100": 5.737,
-    "perTripCorrMedian": 1.376,
-    "perTripCorrP95": 8.983
+    "perTripMedianL100": 5.738,
+    "perTripCorrMedian": 1.371,
+    "perTripCorrP95": 8.986
    },
    {
     "eta": 0.3,
-    "fleetL100": 5.476,
+    "fleetL100": 5.477,
     "fleetDelta": -0.173,
-    "perTripMedianL100": 5.946,
-    "perTripCorrMedian": 1.146,
-    "perTripCorrP95": 7.486
+    "perTripMedianL100": 5.957,
+    "perTripCorrMedian": 1.142,
+    "perTripCorrP95": 7.488
    },
    {
     "eta": 0.35,
     "fleetL100": 5.501,
-    "fleetDelta": -0.149,
-    "perTripMedianL100": 6.017,
-    "perTripCorrMedian": 0.983,
-    "perTripCorrP95": 6.416
+    "fleetDelta": -0.148,
+    "perTripMedianL100": 6.02,
+    "perTripCorrMedian": 0.979,
+    "perTripCorrP95": 6.418
    }
   ],
   "dSoCPerTrip": {
@@ -46633,13 +46633,74 @@
    "p75": 7.5
   },
   "regression": {
-   "perTripFixedFuelL": -0.0018,
+   "perTripFixedFuelL": -0.0017,
    "socNeutralMarginalL100": 5.502,
-   "fixedFuelPctOfMedianTrip": -0.8,
+   "fixedFuelPctOfMedianTrip": -0.7,
    "r2": 0.988,
    "dERegCoeffIdentifiable": false
   },
-  "methodology": "Fuel-accumulator subset (2026-08-12 to 2026-10-17, 65 days, 332 drives): drives carrying the monotonic used-fuel accumulator \"Використане паливо (L)\"; trip fuel = accumulator delta, distance = speed integral, dSoC = end-start. Raw L/100km is confounded by SoC drift; SoC-balancing subtracts the equivalent fuel of the net battery-energy change, dFuel = dE/(eta*LHV) with dE = dSoC/100*CAP_KWH (CAP=2.1 kWh, verified:false), swept over eta in {0.25,0.30,0.35} (assumed E10 basis: 751 g/L x 41.15 MJ/kg = 8.5843 kWh/L; fuel composition not measured); the correction scales as CAP/(eta*LHV), so the unverified CAP is the dominant uncertainty and harmonising LHV does not validate it; headline eta=0.30. Day-clustered bootstrap (seed 42, 4000 draws) on the balanced fleet fuel consumption (L/100km; lower=better -- this is a consumption metric, not economy in the km/L sense). A charge-balancing regression (fuel ~ dist + dE) is reported as a descriptive cross-check, but the dE coefficient is NOT identifiable (the 2.1 kWh buffer gives tiny per-trip energy variance) so NO generator efficiency is claimed. SUBSET CAVEATS: urban-dominated (no pure-highway fuel), warm-season only (no seasonal-cold penalty) -- do not generalise beyond the covered date span above. Single vehicle / ~single driver."
+  "methodology": "Fuel-accumulator subset (2026-08-12 to 2026-10-17, 65 days, 331 drives): drives carrying the monotonic used-fuel accumulator \"Використане паливо (L)\"; trip fuel = accumulator delta, distance = speed integral, dSoC = end-start. Raw L/100km is confounded by SoC drift; SoC-balancing subtracts the equivalent fuel of the net battery-energy change, dFuel = dE/(eta*LHV) with dE = dSoC/100*CAP_KWH (CAP=2.1 kWh, verified:false), swept over eta in {0.25,0.30,0.35} (assumed E10 basis: 751 g/L x 41.15 MJ/kg = 8.5843 kWh/L; fuel composition not measured); the correction scales as CAP/(eta*LHV), so the unverified CAP is the dominant uncertainty and harmonising LHV does not validate it; headline eta=0.30. Day-clustered bootstrap (seed 42, 4000 draws) on the balanced fleet fuel consumption (L/100km; lower=better -- this is a consumption metric, not economy in the km/L sense). A charge-balancing regression (fuel ~ dist + dE) is reported as a descriptive cross-check, but the dE coefficient is NOT identifiable (the 2.1 kWh buffer gives tiny per-trip energy variance) so NO generator efficiency is claimed. SUBSET CAVEATS: urban-dominated (no pure-highway fuel), warm-season only (no seasonal-cold penalty) -- do not generalise beyond the covered date span above. Single vehicle / ~single driver. ELIGIBILITY (M511): canonical-clean trips only (excluded if ens_invalid OR ens_outlier_v2 is True; eligibility.py, M375); the former population (all accepted accumulator trips) is stored as the matched sensitivity allAccumulatorSensitivity.",
+  "eligibility": {
+   "rule": "excluded if ens_invalid OR ens_outlier_v2 is True (eligibility.py, M375)",
+   "populationLabel": "canonical-clean accumulator trips",
+   "nAcceptedAccumulatorTrips": 332,
+   "nExcludedByRule": 1,
+   "excludedFiles": [
+    {
+     "file": "20260813_144601.csv",
+     "date": "2026-08-13",
+     "ens_outlier_v2": "True",
+     "ens_invalid": "True"
+    }
+   ],
+   "basis": "the SoC-balancing term uses BMS SoC (pack telemetry); the raw fleet figure shares the same trip set"
+  },
+  "allAccumulatorSensitivity": {
+   "populationLabel": "matched sensitivity (all accepted accumulator trips)",
+   "nDrives": 332,
+   "nDays": 65,
+   "dateSpan": [
+    "2026-08-12",
+    "2026-10-17"
+   ],
+   "rawFleetL100": 5.649,
+   "socBalancedFleetL100": 5.476,
+   "byEta": [
+    {
+     "eta": 0.25,
+     "fleetL100": 5.441
+    },
+    {
+     "eta": 0.3,
+     "fleetL100": 5.476
+    },
+    {
+     "eta": 0.35,
+     "fleetL100": 5.501
+    }
+   ],
+   "socBalancedFleetBoot": {
+    "bootMedian": 5.477,
+    "ci95": [
+     5.323,
+     5.629
+    ],
+    "nDrives": 332,
+    "nDays": 65
+   },
+   "deltaVsPrimary": {
+    "socBalancedFleetL100": -0.001,
+    "rawFleetL100": -0.001
+   },
+   "extraFiles": [
+    {
+     "file": "20260813_144601.csv",
+     "date": "2026-08-13",
+     "ens_outlier_v2": "True",
+     "ens_invalid": "True"
+    }
+   ]
+  }
  },
  "handoffSequence": {
   "nHandoffs": 6628,
@@ -102274,7 +102335,7 @@
   "lhvStatus": "harmonised (M338): one assumed E10 basis (composition not measured)",
   "subsets": {
    "socBalanced": {
-    "nDrives": 332,
+    "nDrives": 331,
     "nDays": 65,
     "dateSpan": [
      "2026-08-12",

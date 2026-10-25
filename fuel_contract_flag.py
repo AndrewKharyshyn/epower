@@ -10,6 +10,8 @@ src = json.load(open(SRC, encoding="utf-8"))
 live = hashlib.md5(open("drive_master.csv", "rb").read()).hexdigest()
 assert src["inputs"]["driveMasterMd5"] == live, "fuel_contract.json was built against a different drive_master.csv; rerun tools/fuel_contract.py"
 assert src["inputs"]["fuelReconMasterMd5"] == hashlib.md5(open("fuel_recon_master.csv", "rb").read()).hexdigest(), "fuel_contract.json is stale vs fuel_recon_master.csv"
+_sb, _cs = arr.get("socBalancedFuel") or {}, src["subsets"]["socBalanced"]
+assert (_cs["nDrives"], _cs["nDays"], _cs["dateSpan"]) == (_sb.get("nDrives"), _sb.get("nDays"), _sb.get("dateSpan")), "fuel_contract.json subsets.socBalanced differs from summary_arrays.socBalancedFuel (M511 R6); rerun tools/fuel_contract.py"
 arr["fuelContract"] = src
 stamps = arr.get("_artifactStamps")
 _old = (stamps or {}).get("fuelContract") if isinstance(stamps, dict) else None

@@ -12077,17 +12077,56 @@ def _hf_perdrive(fn, raw_loader, raw_dir):
             'date': None}
 
 
-def _soc_balanced_fuel(dm, raw_loader=None, raw_dir=None):
+def _soc_balanced_fuel(dm, raw_loader=None, raw_dir=None, _apply_eligibility=True):
+    """M511 (audit 2026-10-25 A03): ONE pass over the accumulator trips; the primary population is canonical-clean
+    (eligibility.py, M375: excluded if ens_invalid OR ens_outlier_v2 is True; a missing flag is a STOP), the former population
+    (all accepted accumulator trips) is kept as the matched `allAccumulatorSensitivity`. `_apply_eligibility=False` is the
+    M511 control C0 (reproduces the pre-M511 block)."""
     import numpy as _np
-    rows = []
-    dates = []
+    all_rows = []
     for _, r in dm.iterrows():
         d = _hf_perdrive(r['file'], raw_loader, raw_dir)
         if d is None:
             continue
         d['date'] = str(r.get('date', ''))[:10]
-        rows.append(d)
-        dates.append(d['date'])
+        d['file'] = r['file']
+        all_rows.append(d)
+    if not _apply_eligibility:
+        return _hf_block([x for x in all_rows])
+    import eligibility as _elig
+    flags = dm[['file', 'ens_outlier_v2', 'ens_invalid']]
+    ex = _elig.excluded_files(flags, [x['file'] for x in all_rows])
+    rows = [x for x in all_rows if x['file'] not in ex]
+    out = _hf_block(rows)
+    if out is None:
+        return None
+    sens = _hf_block(all_rows) if ex else None
+    fl = flags.set_index('file')
+    out['eligibility'] = {
+        'rule': 'excluded if ens_invalid OR ens_outlier_v2 is True (eligibility.py, M375)',
+        'populationLabel': 'canonical-clean accumulator trips',
+        'nAcceptedAccumulatorTrips': len(all_rows), 'nExcludedByRule': len(ex),
+        'excludedFiles': [{'file': x['file'], 'date': x['date'], 'ens_outlier_v2': str(fl.loc[x['file'], 'ens_outlier_v2']),
+                           'ens_invalid': str(fl.loc[x['file'], 'ens_invalid'])} for x in all_rows if x['file'] in ex],
+        'basis': 'the SoC-balancing term uses BMS SoC (pack telemetry); the raw fleet figure shares the same trip set'}
+    out['methodology'] += (' ELIGIBILITY (M511): canonical-clean trips only (excluded if ens_invalid OR ens_outlier_v2 is True; eligibility.py, M375); '
+                           'the former population (all accepted accumulator trips) is stored as the matched sensitivity allAccumulatorSensitivity.')
+    if sens is not None:
+        out['allAccumulatorSensitivity'] = {
+            'populationLabel': 'matched sensitivity (all accepted accumulator trips)',
+            'nDrives': sens['nDrives'], 'nDays': sens['nDays'], 'dateSpan': sens['dateSpan'],
+            'rawFleetL100': sens['rawFleetL100'], 'socBalancedFleetL100': sens['socBalancedFleetL100'],
+            'byEta': [{'eta': e['eta'], 'fleetL100': e['fleetL100']} for e in sens['byEta']],
+            'socBalancedFleetBoot': sens['socBalancedFleetBoot'],
+            'deltaVsPrimary': {'socBalancedFleetL100': round(sens['socBalancedFleetL100'] - out['socBalancedFleetL100'], 6),
+                               'rawFleetL100': round(sens['rawFleetL100'] - out['rawFleetL100'], 6)},
+            'extraFiles': out['eligibility']['excludedFiles']}
+    return out
+
+
+def _hf_block(rows):
+    import numpy as _np
+    dates = [x['date'] for x in rows]
     if len(rows) < 5:
         return None
     fuelL = _np.array([x['fuelL'] for x in rows])
