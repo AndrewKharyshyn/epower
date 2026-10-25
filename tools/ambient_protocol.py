@@ -6,7 +6,8 @@ Canonical stored form per drive file: a list of floats [start, *interim, end], a
   2 values -> [start, end]
   3+ values-> [start, interim..., end]   (order = chronological; amb[-1] is always the end value)
 Shorthand accepted on input: "+10", "+12->+13", "+17->+19->+17", or a list/scalar.
-Consumers must read start = a[0], end = a[-1], drive mean = mean(a).
+Consumers must read start = a[0], end = a[-1]. The stored drive mean (ambient_time_mean_c) is the equal-spacing trapezoidal mean
+for 3+ readings (seasonal_core.ambient_derived_fields; reading times are inferred), not mean(a): [21, 24, 21] -> 22.5, not 22.
 
 Usage:
   python tools/ambient_protocol.py check [--config summary_config.json]          # report non-canonical entries, exit 1 if any

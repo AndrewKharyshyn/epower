@@ -1,3 +1,16 @@
+## M509 (2026-10-25): Audit 2026-10-25 A01/A05: fidelity guard of the temperature-specification stage compares nDays with the live reference; ambient mean instructions say trapezoidal
+
+**Rationale.** A01: tools/m499_temp_spec.py hardcoded nDays == 98 and would STOP on any ingestion that adds an eligible resistance-proxy date; the guard is now fidelity_ok() comparing nDays with powerFadeEquivalence.s1.nDays, slope/n/bT/CI checks unchanged, known-answer test covers grown-consistent (pass) and inconsistent (fail) cases. A05: ambient_protocol.py and the ingest-drive skill now state the trapezoidal mean used in production; no data recomputed, drive_master.csv MD5 unchanged.
+
+**State.** `drive_master.csv` 606 rows, MD5 `5556a0c6c8bcde0f6c64b8b9655208ed`.
+
+**Gates (runs/20261020T221332Z).** restamp_ingest=ok; build_html=ok; jsdom=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `tools/m499_temp_spec.py`, `tests/synthetic/test_m499_temp_spec.py`, `tools/ambient_protocol.py`, `.claude/skills/ingest-drive/SKILL.md`.
+
+
 ## M508 (2026-10-25): Automatic start of the ingest-drive skill when new raw drives appear (SessionStart hook) and skill notes for the first ingestion after M496-M507
 
 **Rationale.** Owner request (chat 2026-10-25): the ingest-drive skill should be applied automatically at the next ingestion. New: tools/new_raw_files.py (read-only: raw CSVs in raw/ that are not in raw_manifest.json, identity = the 14 timestamp digits, both name forms), the SessionStart hook .claude/hooks/new-drives-check.sh registered in .claude/settings.json next to the existing hook (silent when nothing is new, prints the standing instruction to start the ingest-drive skill before any other work otherwise, never blocks a session; exit code 0 always), CLAUDE.md (workflow entry points: the automatic trigger, owner-approved by this request), and a section in .claude/skills/ingest-drive/SKILL.md describing what to expect at the first ingestion after M496-M507 (one-time cache rebuilds from M498, the urban_contrast_balance escalation exit 3 and the --ack-verdict-change rule, restamped snapshots, the M505 stale-snapshot WARN, the M499 stage, the grid-step check of new files). Test tests/synthetic/test_new_raw_files.py (added to the CI unit list). The hook does not ingest anything by itself: the session starts the skill, which still stops on any failed gate and still asks Andrii for the driver-recorded ambients.
