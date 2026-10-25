@@ -121,4 +121,11 @@ for p in phrases:
     if not lg._words(p):
         continue                                       # purely symbolic entries cannot be word-matched; they stay on the exact-substring check A
     assert lg.hit_phrase(p, "xx " + p + " yy"), p
+# M510 (audit 2026-10-25 A02): the removed route-mix / season wording and the withheld-claim wordings are detected, the bound replacements are not
+_r = {x.rid: x for x in lg.RULES}
+assert _r["M510-A02-shoulder-urbanonly"].hits("Shoulder is urban-only") and not _r["M510-A02-shoulder-urbanonly"].hits("urban-only clean drives, Warm vs Shoulder")
+assert _r["M510-A02-nohighway-fuel"].hits("urban-dominated (no pure-highway fuel)") and _r["M510-A02-nohighway-fuel"].hits("warm-season only (no seasonal-cold penalty)")
+assert not _r["M510-A02-nohighway-fuel"].hits("90 % of trips urban, 52 % of distance non-urban (5 highway trips)")
+assert _r["M510-A02-degradation-claim"].hits("The cell-spread slope proves pack degradation") and not _r["M510-A02-degradation-claim"].hits("does not establish pack degradation")
+assert _r["M510-A02-capacity-proven"].hits("this confirms the pack capacity is 1.8 kWh") and not _r["M510-A02-capacity-proven"].hits("does not prove that the full pack is a 1.8 kWh pack")
 print("OK language_gate: normalisation, plural/stripped/ctx/negation rules, payload-values-only, jsx comments WARN, %d legacy phrases still detectable" % len(phrases))
