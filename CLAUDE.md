@@ -84,7 +84,7 @@ commit, so the repo dashboard always matches its sources. The agent opens the PR
   never stack new commits on merged history.
 
 ## Workflow entry points
-- Routine ingestion: skill `ingest-drive` (runs `python tools/run_ingest.py`; stops on any failed gate).
+- Routine ingestion: skill `ingest-drive` (runs `python tools/run_ingest.py`; stops on any failed gate). Automatic trigger (M508, owner 2026-10-25): the SessionStart hook `.claude/hooks/new-drives-check.sh` (`tools/new_raw_files.py`) reports raw CSVs in `raw/` that are not in `raw_manifest.json`; when it does, start the `ingest-drive` skill before any other work (it needs the driver-recorded ambients first; ask Andrii if they are missing). The hook is silent when nothing is new and never blocks a session.
 - New analysis / method change: skill `new-analysis` (pre-registered spec, blind audit, Director decision).
 - Article claims: no register (retired M301). A figure entering the article needs an Opus audit and Andrii's explicit sign-off, recorded in the CHANGELOG entry.
 - Release gate (authoritative, clean environment): `python release_check.py`.
