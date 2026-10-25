@@ -11430,17 +11430,17 @@ export default function App() {
   const sbs = S.socBandStats || {};
   const ceilDeltaMed = (sbs.urban && sbs.highway) ? Math.round(sbs.highway.ceilMed - sbs.urban.ceilMed) : null;
   const floorDeltaMed = (sbs.urban && sbs.highway) ? Math.round(sbs.highway.floorMed - sbs.urban.floorMed) : null;
-  // M90 (2026-08-06): live cross-check for the Engine RPM Distribution
+  // M512 (audit 2026-10-25 A04): the table below is the duration-scaled (imputed) estimate engine_on_pct x duration_s; the RPM-supported
+  // on-time and the unsupported time are in S.engineRuntime. M90 (2026-08-06): live cross-check for the Engine RPM Distribution
   // table's footnote, replacing hand-typed "55.9 h / 90.75 h-per-10,000km"
   // literals that had drifted from the current engine_on_pct-based table
-  // total (S.engineOnHours = 57.8 h) as the corpus grew past whichever
+  // total (S.engineOnHours, duration-scaled) as the corpus grew past whichever
   // drive count they were captured at -- a user-reported inconsistency
   // (57.8/90.7 table vs 55.9/90.75 footnote). rpmEngineOnHours is the
-  // INDEPENDENT raw-pass derivation (rpmDistribution.pooledHours, every
-  // bin except "0 (engine off)", built straight from the 1 Hz eng_rpm
-  // grid) -- a genuinely different code path from the table's own
-  // engine_on_pct x duration_s / drive_master method, so the two are a
-  // real cross-check rather than the same number restated.
+  // raw-pass derivation (rpmDistribution.pooledHours, every
+  // bin except "0 (engine off)", built from the 1 Hz eng_rpm
+  // grid, forward-filled up to 15 s: a different time base from both the
+  // supported intervals and the elapsed duration).
   const rpmEngineOnHours = (S.rpmDistribution?.pooledHours || [])
     .slice(1).reduce((a, b) => a + b, 0);
   const engineOnHoursAgreePct = (S.engineOnHours && rpmEngineOnHours)
@@ -12056,6 +12056,10 @@ export default function App() {
           </div>
             );
           })()}
+          {S.engineRuntime && (() => { const R = S.engineRuntime, T = R.totals, W = R.rateIntervals || {}; return (
+            <div style={{marginTop:10,padding:"8px 10px",background:"#f0fdf4",border:"1px solid #bbf7d0",borderRadius:6,fontSize:10.5,color:"#14532d",lineHeight:1.7}}>
+              <strong>Engine-on time on a declared time base (M512).</strong> Inside RPM-supported intervals (eng_rpm &gt; 400: the engine is rotating, not necessarily fuelled) the engine was on for <strong>{T.supportedOnHours.toFixed(1)}&nbsp;h</strong> of {T.supportedHours.toFixed(1)}&nbsp;h RPM-supported time ({T.elapsedHours.toFixed(1)}&nbsp;h elapsed; {T.unsupportedHours.toFixed(1)}&nbsp;h without RPM support, engine state unknown), {T.nDrivesWithRpm} of {T.nDrives} drives. The engine-rotating time over the elapsed span therefore lies between {T.bracketHours[0].toFixed(1)} and {T.bracketHours[1].toFixed(1)}&nbsp;h; the duration-scaled (imputed) figure {T.scaledImputedHours.toFixed(1)}&nbsp;h below assumes the same engine-on share in the unsupported time (+{T.imputationAddHours.toFixed(1)}&nbsp;h, {T.imputationAddPctOfSupportedOn.toFixed(2)}&nbsp;% of the supported on-time). Rate over the drives with an RPM series: {T.supportedOnPer10kKm.toFixed(1)}&nbsp;h per 10,000&nbsp;km{W.supportedOnPer10kKm ? ` (95 % day-clustered bootstrap ${W.supportedOnPer10kKm.ci95[0].toFixed(1)}–${W.supportedOnPer10kKm.ci95[1].toFixed(1)}, ${W.supportedOnPer10kKm.nDays} days)` : ""}, a lower bound of the elapsed-time rate; duration-scaled {T.scaledImputedPer10kKm.toFixed(1)}&nbsp;h per 10,000&nbsp;km. Population: all {T.nDrives} master drives (exposure total); totals are exact over that population.
+            </div>); })()}
           <div style={{marginTop:10,overflowX:"auto"}}>
             <table style={{width:"100%",borderCollapse:"collapse",fontSize:10,color:"#374151"}}>
               <thead>
@@ -12063,8 +12067,8 @@ export default function App() {
                   <th style={{padding:"5px 8px",fontWeight:700,color:"#374151"}}>Type</th>
                   <th style={{padding:"5px 8px",fontWeight:700,textAlign:"center"}}>n</th>
                   <th style={{padding:"5px 8px",fontWeight:700,textAlign:"right"}}>Avg engine-on %</th>
-                  <th style={{padding:"5px 8px",fontWeight:700,textAlign:"right"}}>Engine-on hours</th>
-                  <th style={{padding:"5px 8px",fontWeight:700,textAlign:"right"}}>Hours / 10,000km</th>
+                  <th style={{padding:"5px 8px",fontWeight:700,textAlign:"right"}}>Engine-on hours (duration-scaled, imputed)</th>
+                  <th style={{padding:"5px 8px",fontWeight:700,textAlign:"right"}}>Hours / 10,000km (duration-scaled)</th>
                 </tr>
               </thead>
               <tbody>
@@ -12092,10 +12096,10 @@ export default function App() {
           </div>
           <div style={{marginTop:8,fontSize:10,color:"#64748b"}}>
             Totals (row and column) sum to <strong style={{color:"#0f172a"}}>{S.engineOnHours.toFixed(1)}&nbsp;h</strong> / <strong style={{color:"#0f172a"}}>{S.engineHoursPer10k.toFixed(1)}&nbsp;h-per-10,000km</strong> here
-            (engine_on_pct × duration_s, summed from drive_master — no raw
-            pass). Cross-checked against a completely different derivation —
-            the RPM-occupancy chart above, built straight from the raw 1&nbsp;Hz
-            eng_rpm grid (every bin except "0 (engine off)") — which gives
+            (duration-scaled, imputed: engine_on_pct × duration_s, summed from drive_master — no raw
+            pass; not engine-on time, see the RPM-supported figure above). Compared with a different time base —
+            the RPM-occupancy chart above, built from the raw 1&nbsp;Hz
+            eng_rpm grid, forward-filled up to 15&nbsp;s (every bin except "0 (engine off)") — which gives
             {" "}{rpmEngineOnHours.toFixed(1)}&nbsp;h
             {engineOnHoursAgreePct!=null && <> (agreement within <strong style={{color:"#0f172a"}}>{engineOnHoursAgreePct.toFixed(1)}%</strong>)</>},
             out of that chart's own {S.rpmDistribution.coverage.hours.toFixed(0)}&nbsp;h
@@ -12681,8 +12685,8 @@ export default function App() {
               caveat="An observational description of the car's behaviour, not a reconstruction of Nissan's proprietary control algorithm. Predictive skill is not causal proof."
             />
             <ConclusionItem status="derived"
-              title="Total engine (generator) runtime and its distance-normalized rate"
-              metric={`${S.engineOnHours} h engine-on · ${S.engineHoursPer10k} h per 10,000 km`}
+              title="Engine (generator) rotating time and its distance-normalized rate"
+              metric={S.engineRuntime ? `${S.engineRuntime.totals.supportedOnHours.toFixed(1)} h engine-on in RPM-supported time (duration-scaled, imputed: ${S.engineOnHours} h) · ${S.engineRuntime.totals.supportedOnPer10kKm.toFixed(1)} h per 10,000 km` : `${S.engineOnHours} h duration-scaled engine-on estimate · ${S.engineHoursPer10k} h per 10,000 km`}
               text="Per the manufacturer-stated topology the 1.5 L unit drives a generator only; its logged runtime is reported per distance so it is comparable as the corpus grows, and is described as associated with demand rather than road speed (descriptive)."
             />
           </EvidenceGroup>
@@ -12812,7 +12816,7 @@ export default function App() {
 
           <GeneralGroup title="Engine & generator behaviour">
             <GeneralConclusion status="modelled" text="Engine start/stop timing is well-described by a five-variable model of SoC, speed, temperature, recent demand and state duration, which clearly out-predicts SoC alone — a behavioural description, not the manufacturer's algorithm." metric={`PR-AUC ${S.socHysteresisV2?.ladder?.start?.fiveVarDur?.prAuc}`} />
-            <GeneralConclusion status="derived" text="Engine runtime is associated with demand-related buffering behaviour rather than road speed (descriptive), consistent with the generator-only role stated by the manufacturer." metric={`${S.engineHoursPer10k} h/10,000 km`} />
+            <GeneralConclusion status="derived" text="Engine runtime is associated with demand-related buffering behaviour rather than road speed (descriptive), consistent with the generator-only role stated by the manufacturer." metric={S.engineRuntime ? `${S.engineRuntime.totals.supportedOnPer10kKm.toFixed(1)} h/10,000 km (RPM-supported on-time)` : `${S.engineHoursPer10k} h/10,000 km (duration-scaled)`} />
           </GeneralGroup>
 
           <GeneralGroup title="High-speed power blending">

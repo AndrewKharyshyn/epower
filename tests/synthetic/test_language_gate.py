@@ -128,4 +128,6 @@ assert _r["M510-A02-nohighway-fuel"].hits("urban-dominated (no pure-highway fuel
 assert not _r["M510-A02-nohighway-fuel"].hits("90 % of trips urban, 52 % of distance non-urban (5 highway trips)")
 assert _r["M510-A02-degradation-claim"].hits("The cell-spread slope proves pack degradation") and not _r["M510-A02-degradation-claim"].hits("does not establish pack degradation")
 assert _r["M510-A02-capacity-proven"].hits("this confirms the pack capacity is 1.8 kWh") and not _r["M510-A02-capacity-proven"].hits("does not prove that the full pack is a 1.8 kWh pack")
+_r512 = _r["M512-A04-engine-runtime"]
+assert _r512.hits("Total engine (generator) runtime and its rate") and _r512.hits("measured engine-on hours") and not _r512.hits("Engine-on time inside RPM-supported intervals (duration-scaled, imputed)")
 print("OK language_gate: normalisation, plural/stripped/ctx/negation rules, payload-values-only, jsx comments WARN, %d legacy phrases still detectable" % len(phrases))

@@ -62131,6 +62131,27 @@
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
    "computedAt": "2026-10-25T08:12:37.097105+00:00"
+  },
+  "engineRuntime": {
+   "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-10-25T17:18:45.467296+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M512: derived by tools/engine_runtime.py from drive_master.csv and the tracked engine_runtime_sidecar.csv (RPM-supported time base; analyses/M512_spec.md)",
+   "includedInReleaseAt": "2026-10-25T17:18:45.467296+00:00",
+   "inputBasis": {
+    "nDrives": 606,
+    "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-10-25T17:18:45.467296+00:00"
   }
  },
  "ambientTable": {
@@ -358018,5 +358039,181 @@
    "linearisedT|phi=0.3": null
   },
   "dashboardBranch": "A"
+ },
+ "engineRuntime": {
+  "methodVersion": 1,
+  "spec": "analyses/M512_spec.md (Rev 2)",
+  "statement": "Engine-on time inside RPM-supported intervals (eng_rpm > 400: the engine is rotating, not necessarily fuelled), the RPM-supported time and the elapsed time, per the declared population. Time without RPM support is unsupported: the engine state there is unknown, so the engine-rotating time over the elapsed span lies between the supported on-time and the supported on-time plus the unsupported time. The duration-scaled figure assumes the same engine-on share in the unsupported time (imputed).",
+  "population": "all master drives (unfiltered exposure total; the legacy corpus-total convention)",
+  "timeBase": "supported = native-timestamp steps of the eng_rpm series capped at the production DT_CAP_S; elapsed = master duration_s; unsupported = elapsed - supported (includes drives without an RPM series)",
+  "totals": {
+   "nDrives": 606,
+   "nDrivesWithRpm": 606,
+   "nDrivesWithoutRpm": 0,
+   "supportedOnHours": 97.5425,
+   "supportedHours": 229.5476,
+   "elapsedHours": 232.6344,
+   "elapsedHoursWithRpm": 232.6344,
+   "unsupportedHours": 3.0869,
+   "bracketHours": [
+    97.5425,
+    100.6294
+   ],
+   "scaledImputedHours": 98.3732,
+   "imputationAddHours": 0.8307,
+   "imputationAddPctOfSupportedOn": 0.8516,
+   "supportedOnShareOfSupported": 0.4249,
+   "kmWithRpm": 10460.84,
+   "kmAll": 10460.84,
+   "supportedOnPer10kKm": 93.2454,
+   "scaledImputedPer10kKm": 94.0395,
+   "legacyEngineOnHours": 98.3732
+  },
+  "rateIntervals": {
+   "supportedOnPer10kKm": {
+    "ci95": [
+     90.5059,
+     96.8432
+    ],
+    "nDays": 121,
+    "method": "day-clustered ratio-of-sums percentile bootstrap, seed 42, 4000 draws"
+   },
+   "scaledImputedPer10kKm": {
+    "ci95": [
+     91.1841,
+     97.8601
+    ],
+    "nDays": 121,
+    "method": "day-clustered ratio-of-sums percentile bootstrap, seed 42, 4000 draws"
+   }
+  },
+  "byClass": [
+   {
+    "nDrives": 510,
+    "nDrivesWithRpm": 510,
+    "nDrivesWithoutRpm": 0,
+    "supportedOnHours": 35.7575,
+    "supportedHours": 121.0721,
+    "elapsedHours": 123.1058,
+    "elapsedHoursWithRpm": 123.1058,
+    "unsupportedHours": 2.0336,
+    "bracketHours": [
+     35.7575,
+     37.7911
+    ],
+    "scaledImputedHours": 36.3656,
+    "imputationAddHours": 0.6081,
+    "imputationAddPctOfSupportedOn": 1.7005,
+    "supportedOnShareOfSupported": 0.2953,
+    "kmWithRpm": 3174.14,
+    "kmAll": 3174.14,
+    "supportedOnPer10kKm": 112.6525,
+    "scaledImputedPer10kKm": 114.5682,
+    "key": "urban",
+    "avgEngineOnPctCleanSet": 28.3
+   },
+   {
+    "nDrives": 33,
+    "nDrivesWithRpm": 33,
+    "nDrivesWithoutRpm": 0,
+    "supportedOnHours": 7.3927,
+    "supportedHours": 18.8045,
+    "elapsedHours": 18.9243,
+    "elapsedHoursWithRpm": 18.9243,
+    "unsupportedHours": 0.1198,
+    "bracketHours": [
+     7.3927,
+     7.5125
+    ],
+    "scaledImputedHours": 7.4429,
+    "imputationAddHours": 0.0502,
+    "imputationAddPctOfSupportedOn": 0.6786,
+    "supportedOnShareOfSupported": 0.3931,
+    "kmWithRpm": 893.5,
+    "kmAll": 893.5,
+    "supportedOnPer10kKm": 82.7392,
+    "scaledImputedPer10kKm": 83.3007,
+    "key": "mixed",
+    "avgEngineOnPctCleanSet": 40.1
+   },
+   {
+    "nDrives": 37,
+    "nDrivesWithRpm": 37,
+    "nDrivesWithoutRpm": 0,
+    "supportedOnHours": 28.6895,
+    "supportedHours": 52.0924,
+    "elapsedHours": 52.3547,
+    "elapsedHoursWithRpm": 52.3547,
+    "unsupportedHours": 0.2623,
+    "bracketHours": [
+     28.6895,
+     28.9518
+    ],
+    "scaledImputedHours": 28.8226,
+    "imputationAddHours": 0.1331,
+    "imputationAddPctOfSupportedOn": 0.464,
+    "supportedOnShareOfSupported": 0.5507,
+    "kmWithRpm": 3388.7,
+    "kmAll": 3388.7,
+    "supportedOnPer10kKm": 84.6621,
+    "scaledImputedPer10kKm": 85.055,
+    "key": "mixed_highway",
+    "avgEngineOnPctCleanSet": 54.1
+   },
+   {
+    "nDrives": 23,
+    "nDrivesWithRpm": 23,
+    "nDrivesWithoutRpm": 0,
+    "supportedOnHours": 25.6621,
+    "supportedHours": 37.5128,
+    "elapsedHours": 37.5753,
+    "elapsedHoursWithRpm": 37.5753,
+    "unsupportedHours": 0.0625,
+    "bracketHours": [
+     25.6621,
+     25.7245
+    ],
+    "scaledImputedHours": 25.7004,
+    "imputationAddHours": 0.0383,
+    "imputationAddPctOfSupportedOn": 0.1494,
+    "supportedOnShareOfSupported": 0.6841,
+    "kmWithRpm": 3004.5,
+    "kmAll": 3004.5,
+    "supportedOnPer10kKm": 85.4121,
+    "scaledImputedPer10kKm": 85.5398,
+    "key": "highway",
+    "avgEngineOnPctCleanSet": 68.8
+   }
+  ],
+  "cleanSensitivity": {
+   "nDrives": 604,
+   "nDrivesWithRpm": 604,
+   "nDrivesWithoutRpm": 0,
+   "supportedOnHours": 97.34,
+   "supportedHours": 228.5386,
+   "elapsedHours": 231.4978,
+   "elapsedHoursWithRpm": 231.4978,
+   "unsupportedHours": 2.9592,
+   "bracketHours": [
+    97.34,
+    100.2992
+   ],
+   "scaledImputedHours": 98.1396,
+   "imputationAddHours": 0.7996,
+   "imputationAddPctOfSupportedOn": 0.8214,
+   "supportedOnShareOfSupported": 0.4259,
+   "kmWithRpm": 10439.24,
+   "kmAll": 10439.24,
+   "supportedOnPer10kKm": 93.2443,
+   "scaledImputedPer10kKm": 94.0103
+  },
+  "drivesWithoutRpm": [],
+  "limits": "eng_rpm > 400 means rotating, not fuelled; the supported-basis rate uses the whole-elapsed distance of drives with an RPM series (a lower bound of the elapsed-time rate); totals are exact over the declared population, not estimates of a larger one",
+  "basis": "raw/ = sha256-verified originals (M366)",
+  "sidecar": {
+   "file": "engine_runtime_sidecar.csv",
+   "sha256": "a07dc3075ff523f50206ceee679ba1aa8150fca85a50165df5dca040d7348088",
+   "rows": 606
+  }
  }
 }

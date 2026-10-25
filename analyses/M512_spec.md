@@ -1,0 +1,44 @@
+# M512 spec (Rev 1): engine runtime on a declared time base (audit 2026-10-25 A04)
+
+Status: Rev 1, written 2026-10-25 BEFORE any M512 computation. Origin: independent audit 2026-10-25, finding A04: the headline `engineOnHours` multiplies each drive's `engine_on_pct` (an engine-on share of the RPM-SUPPORTED, gap-capped interval time) by the drive's full elapsed duration, so it extrapolates the supported share into time where RPM support is absent, and its code comment ("already the per-drive engine-on seconds") is false when support and elapsed duration differ. The audit's totals are known-answer targets for the reproduction check only; they are not typed into code or payload.
+
+## Question
+How much engine-on time lies inside RPM-supported intervals, how much of the elapsed time carries no RPM support, and how does the legacy duration-scaled figure relate to them, per drive, per drive class and for the corpus?
+
+## Definitions (production helpers, no reimplementation)
+For each canonical drive, with `eng` = the production `eng_rpm` series (`compute_drive_summary_v6._series(df, t, 'eng_rpm', lo=0)`) and `w` = `_tw_stats(eng)` (native-timestamp step, capped at `DT_CAP_S`):
+- `rpm_supported_s` = sum(w); `engine_on_s` = sum(w where eng > 400); `elapsed_s` = `duration_s` of the master; `unsupported_s` = elapsed_s - rpm_supported_s (capped-gap remainder and any span without an RPM sample; it is not a statement that the engine was off).
+- `engine_on_pct` (master, 1 dp) must equal round(engine_on_s / rpm_supported_s x 100, 1) for every drive (control C0).
+- Legacy imputed estimate: `duration_s x engine_on_pct / 100` (unchanged formula, renamed in text as "duration-scaled, imputed").
+
+## Deliverables
+1. Sidecar `engine_runtime_sidecar.csv` (one row per master drive: file, rpm_supported_s, engine_on_s, elapsed_s, raw_sha256, method_version, reason), following the `powerfade_density.csv` pattern: row reused when raw sha256 + method version + extractor code hash are unchanged; new/changed files read from `raw/`. NOT a master column (the `drive_master.csv` MD5 stays the corpus anchor).
+2. Additive payload block `engineRuntime` (top-level key, spliced; stamp as computed) with: population label (all master drives, unfiltered, matching the legacy corpus-total convention), nDrives, nDrivesWithRpm, `supportedOnHours`, `supportedHours`, `elapsedHours`, `unsupportedHours`, `supportedOnShareOfSupported`, `scaledImputedHours` (the legacy figure recomputed from the sidecar and the master), `imputationAddHours` and its percentage, per-class rows (same classes as the legacy table), `perTenThousandKm` for supported on-time and for the imputed figure (the distance denominator is the whole-elapsed distance, so the supported-basis rate is a lower bound), and the sidecar sha256.
+3. Existing keys (`engineOnHours`, `engineOnCoverageN`, `engineHoursPer10k`, the class table) keep their names and values; only their displayed labels change.
+4. Dashboard: the engine-hours KPI, the class table header/footnote, the RPM-agreement line and the conclusion text show the supported on-time as the primary figure with the elapsed and unsupported hours beside it, and the legacy figure labelled "duration-scaled (imputed)"; all numbers bound to `S.engineRuntime.*`, none typed. The false code comment in `compute_summary_arrays.py` is corrected.
+5. Time-base inventory (report only, no change in M512): which other headline denominators use elapsed time versus supported time (moving/stationary hours, starts per engine hour, other `duration_s x pct` products), recorded in the result JSON for the Director; changes to them are a separate milestone.
+
+## Method and checks
+Script `tools/engine_runtime.py` (sidecar build, block builder, splice under an allow-list: only `engineRuntime` and its stamp may change in `summary_arrays.json`). Known-answer test on a synthetic drive with a gap longer than the cap and a stretch without RPM samples (supported seconds, on-seconds and the imputed figure by hand). Controls: C0 per-drive `engine_on_pct` reproduction (all drives; any mismatch is a STOP); the recomputed legacy corpus figure equals the stored `engineOnHours`; the sidecar is deterministic run to run. Blind audit (claim + data path only): corpus supported on-time, supported time, elapsed time and imputed figure from raw. No bootstrap or interval is attached: these are exact totals over the declared population, not estimates of a larger population.
+
+## Decision rules and escalation
+Report as is. Escalate to the Director if the C0 control fails on more than a rounding-boundary drive, if the recomputed legacy figure differs from the stored one, if the supported-minus-imputed difference exceeds 5 % of the supported on-time, or if any other payload key moves. The sign or size of the difference does not select a headline.
+
+## Language
+"engine-on time inside RPM-supported intervals", "RPM-supported time", "unsupported elapsed time (no RPM support; engine state unknown)", "duration-scaled (imputed) engine-on estimate". Never "measured total engine runtime", "exact engine-on time", "corrected", "error". Add the removed wording as a `language_gate` rule (M512-A04) with the ledger id. Generator/traction quantities remain estimated, never measured.
+
+## Scope and out of scope
+In: sidecar, `engineRuntime` block, labels and bindings, comment fix, gate rules, tests, CHANGELOG, dashboard rebuild (content change: Dashboard change rule applies), ingestion stage entry so new drives extend the sidecar. Out of scope: replacing the master `engine_on_pct`, changing `engineOnHours` values, the starts-per-engine-hour and stationary/moving denominators (inventory only), the thermal-fuel and simultaneity engine-on definitions (inventory only).
+
+
+## Rev 2 (research-director ruling "revise", R1-R8; this section replaces any conflicting Rev 1 text above; written before any M512 computation)
+Meaning: `engine_on_pct` is a share of RPM-supported, 5 s-capped time. Engine-rotating time over the elapsed span lies in the hard bracket [supported_on, supported_on + unsupported]; the duration-scaled figure is one point inside it that assumes the same share in the unsupported time. `eng_rpm > 400` means rotating, not fuelled (a motored dissipation mode exists). Raw basis label: "raw/ = sha256-verified originals (M366)"; never "reproducible from raw data".
+R1: primary headline = supported on-time; shown with the hard bracket [supportedOn, supportedOn + unsupported] and the duration-scaled (imputed) figure labelled inside it. Title "Total engine (generator) runtime" loses "Total" (jsx ~12684): "engine rotating (eng_rpm>400)".
+R2: sidecar accepted, not a master column. Code identity by the M498 closure hash (`dep_hash.closure_hash` / `sidecar_code_ok`); a `raw_file_missing` row is never reused; drives with `eng` None or len <= 2 are listed with their reason; the sidecar is added to release_check REQUIRED.
+R3: rates use numerator and km on the SAME drive set. Primary rate = drives with RPM support; the legacy mismatched-population figure is kept for reproduction only. Report nDrives and nDays; per-10,000 km rates carry a day-clustered ratio-of-sums percentile bootstrap (seed 42, 4000 draws); the hour totals stay exact (no interval).
+R4: population = unfiltered as primary (an exposure total, not an energy rate); add a canonical-clean sensitivity row; disclose that class `avgEngineOnPct` uses the clean set.
+R5: inventory (report only unless listed under "fixed in M512"), found by grep: engineStateMachine.engineOnHours and entriesPerEngHour (compute_summary_arrays ~11259-11264; jsx ~8918/8927/8937); simultaneity_gtr engineOnHours (Pgen > 0; jsx ~5493); rpm_opt_pass (rpm >= 300 vs 400); rpmDistribution coverage; m375_expected engineOnSeconds; turboMeta / driveTypes / moving hours; fuelStates. Fixed in M512: the false descriptor at `classify_all_columns.py:26`, the provenance text at compute_summary_arrays ~18277 and the jsx comment at ~11433-11443. The agreement line (jsx ~11446) compares against a 1 Hz grid with ffill(15 s), a different time base: its wording says so.
+R6: ingestion stage `engine_runtime` after `stage_raw` and before `stamp_basis` / `leaf_guard`, with a STAMP_POLICY entry in `restamp_ingest`; C0 failure or legacy inequality is a STOP; `engineRuntime` is added to REQUIRED_BLOCKS and a jsdom assertion; `tools/engine_runtime.py --check` goes into release_check and the new tests into the CI unit list.
+R7: C0 compares UNROUNDED: |round(engine_on_s / rpm_supported_s x 100, 1) - engine_on_pct| > 0.05 + 1e-9 for any drive is a STOP (replaces the Rev 1 escalation wording about rounding-boundary drives).
+R8: the known-answer test also covers dt equal to the cap, a late first RPM sample, an RPM-less drive and backward dt attribution.
+Deviation from the Rev 1 "no interval" sentence: per-10,000 km RATES carry the day-clustered bootstrap (R3); hour totals remain exact.

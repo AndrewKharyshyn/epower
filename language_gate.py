@@ -446,7 +446,8 @@ RULES = [
          rx=r"\bcell spread (?:slope |trend )?(?:proves|confirms|demonstrates|establishes) (?:pack )?(?:degradation|ageing|aging|deterioration)\b|\bpack (?:degradation|ageing|aging|deterioration) is (?:established|proven|confirmed|demonstrated)\b"),
     Rule("M510-A02-capacity-proven", "regex", "M510/audit 2026-10-25 sec 7/12: the logged BMS-SoC energy scale (about 1.8 kWh per 100 points) is an apparent logged-scale estimate; the physical pack capacity is not identified and CAP_KWH stays verified:false",
          rx=r"\b(?:proves|confirms|establishes|demonstrates) (?:that )?(?:the )?(?:full |physical |usable )?(?:pack )?capacity (?:is|of) 1 8\b|\b(?:physical|full) (?:pack )?capacity is (?:proven|confirmed|established) (?:to be )?1 8\b"),
-]
+    Rule("M512-A04-engine-runtime", "regex", "M512/audit 2026-10-25 A04: engine_on_pct x duration_s is a duration-scaled (imputed) estimate, not total or measured engine runtime; the engine-on time is stated inside RPM-supported intervals (eng_rpm > 400: rotating, not necessarily fuelled) with the unsupported time beside it",
+         rx=r"\btotal engine (?:generator )?runtime\b|\b(?:measured|exact) (?:total )?engine (?:on )?(?:time|runtime|hours)\b|\bengine on seconds engine on pct duration s\b"),]
 
 
 _SCAN_CACHE = {}

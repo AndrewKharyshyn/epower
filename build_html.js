@@ -89,7 +89,7 @@ const REQUIRED_BLOCKS=[
   // §4b regression this milestone restores) ship silently through a build
   // with zero errors. Added now so a future drop of this key aborts the
   // build loudly instead of rendering a blank section.
-  'generatorTractionRecon',
+  'generatorTractionRecon','engineRuntime',
   '_artifactStamps',
   'seasonalCharts',
   'evidenceLedger',
