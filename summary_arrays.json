@@ -62444,20 +62444,20 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-25T21:35:06.969961+00:00",
+   "generatedAt": "2026-10-26T06:29:19.247662+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
    },
    "computationStatus": "computed",
    "computationStatusNote": "M514: derived by tools/resistance_joint_matrix.py from drive_master.csv, powerfade_density.csv and the tracked resistance_joint_sidecar.csv (analyses/M514_spec.md Rev 2)",
-   "includedInReleaseAt": "2026-10-25T21:35:06.969961+00:00",
+   "includedInReleaseAt": "2026-10-26T06:29:19.247662+00:00",
    "inputBasis": {
     "nDrives": 606,
     "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-25T21:35:06.969961+00:00"
+   "computedAt": "2026-10-26T06:29:19.247662+00:00"
   }
  },
  "ambientTable": {
@@ -362707,23 +362707,68 @@
   "repeatedLooks": "re-run at every ingestion, no alpha spending; up to 216 intervals, no multiplicity adjustment; a ladder change escalates to the Director",
   "blindAuditRef": {
    "file": "analyses/M514_audit.json",
-   "sha256": "ce8c487525ad39284c997c9a96fbc7c6e0414939afc45ac3930259fd58e934b4",
+   "sha256": "6af0dc753b84b9dbee039bf42ef8103b1813ba23337ba495e70be56f4137ef0d",
    "cellsCovered": [
     "A0G0C0T0",
+    "A0G0C0T1",
+    "A0G0C0T2",
     "A0G0C1T0",
+    "A0G0C1T1",
     "A0G0C1T2",
+    "A0G0C2T0",
     "A0G0C2T1",
+    "A0G0C2T2",
+    "A0G1C0T0",
+    "A0G1C0T1",
+    "A0G1C0T2",
     "A0G1C1T0",
-    "A0G2C1T0"
+    "A0G1C1T1",
+    "A0G1C1T2",
+    "A0G1C2T0",
+    "A0G1C2T1",
+    "A0G1C2T2",
+    "A0G2C0T0",
+    "A0G2C0T1",
+    "A0G2C0T2",
+    "A0G2C1T0",
+    "A0G2C1T1",
+    "A0G2C1T2",
+    "A0G2C2T0",
+    "A0G2C2T1",
+    "A0G2C2T2",
+    "A1G0C0T0",
+    "A1G0C0T1",
+    "A1G0C0T2",
+    "A1G0C1T0",
+    "A1G0C1T1",
+    "A1G0C1T2",
+    "A1G0C2T0",
+    "A1G0C2T1",
+    "A1G0C2T2",
+    "A1G1C0T0",
+    "A1G1C0T1",
+    "A1G1C0T2",
+    "A1G1C1T0",
+    "A1G1C1T1",
+    "A1G1C1T2",
+    "A1G1C2T0",
+    "A1G1C2T1",
+    "A1G1C2T2",
+    "A1G2C0T0",
+    "A1G2C0T1",
+    "A1G2C0T2",
+    "A1G2C1T0",
+    "A1G2C1T1",
+    "A1G2C1T2",
+    "A1G2C2T0",
+    "A1G2C2T1",
+    "A1G2C2T2"
    ],
    "notCovered": [
-    "A1 proxy (27 cells)",
-    "ISO-week, M7 and M14 intervals",
-    "failed-draw rule (R5)",
-    "the 48 cells not listed",
-    "fidelity against the author's code"
+    "the A1 proxy computation itself (audited at M505; the sidecar equals the M505 per-drive values)",
+    "fidelity against the author's code beyond the numbers (blind part only)"
    ],
-   "verdict": "reproduced (slopes and day intervals to 4 dp for all six cells, n and days equal)"
+   "verdict": "reproduced: all 54 cells (slopes, day / ISO-week / M7 / M14 intervals, failed-draw counts, decisive flags) and the ladder level L1"
   },
   "mcRule": "an M7/M14 interval is non-decisive when its endpoint nearest zero lies within 2 x the larger Monte Carlo SD of the two endpoints (8 repeats on separate streams; the 2 x SD threshold is an implementation choice taken from the M494 result review, recorded here)"
  }
