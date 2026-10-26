@@ -471,6 +471,19 @@
    ]
   },
   {
+   "id": "resistance_joint_matrix",
+   "title": "M514: joint instrumentation sensitivity matrix of the resistance-proxy months coefficient (54 pre-declared cells: alignment A0/A1 x logged grid period G0/G1/G2 x cadence and support C0/C1/C2 x temperature specification T0/T1/T2; day, ISO-week and circular moving-block intervals with common random numbers; pre-registered ladder); A1 proxies and logged-grid classes cached per drive in resistance_joint_sidecar.csv by raw sha256 + closure hash; additive payload block resistanceJointSensitivity + stamp; the S1 fidelity check is a STOP; needs raw/ like ah_throughput; spec analyses/M514_spec.md Rev 2",
+   "cmd": [
+    "python3",
+    "tools/resistance_joint_matrix.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json",
+    "resistance_joint_sidecar.csv"
+   ]
+  },
+  {
    "id": "engine_runtime",
    "title": "M512: engine runtime on a declared time base: per-drive RPM-supported seconds and engine-on seconds from the production helpers cached in engine_runtime_sidecar.csv (raw sha256 + method version + closure hash); C0 (per-drive engine_on_pct reproduction and the legacy corpus figure) is a STOP; additive payload block engineRuntime + stamp; needs raw/ like ah_throughput; spec analyses/M512_spec.md Rev 2",
    "cmd": [

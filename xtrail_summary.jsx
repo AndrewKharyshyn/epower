@@ -64,6 +64,7 @@ function buildS(config, arrays) {
     windowCaveat: A.windowCaveat || null,
     powerFadeEquivalence: A.powerFadeEquivalence || null,
     powerFadeTemperatureSpecs: A.powerFadeTemperatureSpecs || null,
+    resistanceJointSensitivity: A.resistanceJointSensitivity || null,   // M514
     signalResolution: A.signalResolution || null,
     urbanContrastBalance: A.urbanContrastBalance || null,
     vregAlignmentSensitivity: A.vregAlignmentSensitivity || null,
@@ -4968,7 +4969,7 @@ function primaryEquivalenceSentence(){
   const rng=cr.nSpecs?`The slope depends on the cadence specification (M395: ${cr.slopeMin} to ${cr.slopeMax} m\u03a9/month across ${cr.nSpecs} specifications${cr.allIntervalsSpanZero?", every 95 % interval spans zero":""}). `:"";
   const att=e.s1.equivalenceAttainable ? `The observed SE ${e.s1.se.toFixed(3)} is below the ${e.s1.seMaxForEquivalence.toFixed(3)} m\u03a9/month needed for equivalence to be attainable.` : `At this precision the test could not show equivalence: it requires an SE below ${e.s1.seMaxForEquivalence.toFixed(3)} m\u03a9/month (bound / t0.95,df), the observed SE is ${e.s1.se.toFixed(3)}, so even a slope estimate of exactly 0 would not lie inside the bound.`;
   const bnd=` The locked bound maps the OEM-disclosed relative resistance limit onto the proxy median and spreads it linearly over 14 years: a planning assumption, not an OEM limit on this proxy.`;
-  return `Equivalence test on the primary design (powerFade, specification S1, density-adjusted partial slope): slope ${e.s1.slope} m\u03a9/month, 90 % interval [${e.s1.ci90[0]}, ${e.s1.ci90[1]}] against the locked bound of \u00b1${e.bound.value} m\u03a9/month; ${word}. ${rng}This is not evidence of no change. ${att}${bnd}${temperatureSpecsSentence()}${vregAlignmentSentence()}`;
+  return `Equivalence test on the primary design (powerFade, specification S1, density-adjusted partial slope): slope ${e.s1.slope} m\u03a9/month, 90 % interval [${e.s1.ci90[0]}, ${e.s1.ci90[1]}] against the locked bound of \u00b1${e.bound.value} m\u03a9/month; ${word}. ${rng}This is not evidence of no change. ${att}${bnd}${temperatureSpecsSentence()}${vregAlignmentSentence()}${jointMatrixSentence()}`;
 }
 // M505 (spec analyses/M505_spec.md Rev 2, Director: accept): sensitivity of the estimated resistance proxy to the current-voltage alignment rule, bound to S.vregAlignmentSensitivity only (a dated snapshot)
 function vregAlignmentSentence(){
@@ -5002,6 +5003,18 @@ function temperatureSpecsSentence(){
   return ` Temperature-specification sensitivity (M499; estimated proxy, one warm-season window ${w.firstDate} to ${w.lastDate}, ${w.spanMonths} months): month coefficients with day-clustered 95 % intervals, mΩ/month: ${list}. ${head}${tip} Twelve intervals were computed without multiplicity adjustment and the week-clustered intervals are a sensitivity only. Planning reading, not a result: defer trend claims until a full year, including winter, is logged.`;
 }
 
+// M514 (spec analyses/M514_spec.md Rev 2, Director: revise then accept): joint instrumentation sensitivity of the resistance-proxy months coefficient, bound to S.resistanceJointSensitivity only
+function jointMatrixSentence(){
+  const j=S.resistanceJointSensitivity;
+  if(!j||!j.summary||!j.ladder||!j.pairedSet||!j.reference) return "";
+  const sm=j.summary, c=sm.intervalCounts||{}, lv=sm.levelMeansDescriptive||{}, ps=j.pairedSet;
+  const lad={L0:"reading unchanged across the pre-registered matrix",L1:"procedure-dependent, unresolved",L2:"conditional positive association across the matrix","not assessable":"not assessable"}[j.ladder.level]||j.ladder.level;
+  const f2=(x)=>typeof x==="number"?x.toFixed(2):"n/a";
+  const pos=sm.nPositiveSlopes===sm.nCells ? `the point estimate is positive in all ${sm.nCells} cells` : `the point estimate is positive in ${sm.nPositiveSlopes} of ${sm.nCells} cells`;
+  const cnt=["day","week","M7","M14"].map(p=>`${p==="week"?"ISO-week":p} ${c[p]?c[p].excludeZero:"n/a"}/${c[p]?c[p].decisive:"n/a"}`).join(", ");
+  const lm=(f)=>Object.keys(lv[f]||{}).map(l=>`${f}${l} ${f2(lv[f][l])}`).join(", ");
+  return ` Joint instrumentation sensitivity (M514; estimated proxy, one warm-season window; ${ps.nDrives} drives on ${ps.nDays} days; ${sm.nCells} pre-declared cells over response alignment, logged grid period, cadence and support, and temperature specification; the cells share the same drives and are not independent): ${pos} (${f2(sm.slopeRange[0])} to ${f2(sm.slopeRange[1])} m\u03a9/month); decisive intervals excluding zero: ${cnt}; reading: ${lad} (spread ratio ${f2(sm.spreadRatio)}). Descriptive level means, m\u03a9/month: ${lm("C")}; ${lm("G")}; ${lm("A")}; ${lm("T")}. The published S1 estimate is unchanged (reference cell on the paired set ${f2(j.reference.slope)}, day interval [${f2(j.reference.dayCi95[0])}, ${f2(j.reference.dayCi95[1])}]); the grid-period levels are aliased with calendar time and that cell is not blind; the audit covered six alignment-A0 cells (slopes and day intervals); this is not a degradation rate.`;
+}
 function primaryEquivalenceShort(){
   const e=S.powerFadeEquivalence;
   if(!e||!e.verdict) return "";
