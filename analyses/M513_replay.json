@@ -1,9 +1,49 @@
 {
  "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
- "scriptSha256": "a5982bf31a0602bb88601c2896f19cf3bf1ec946e851db06048b08f3f8f15625",
+ "scriptSha256": "530275c5166d4bd55b6accc3f3d9e0f0baa5481412a6086be983bafb80b5a309",
  "blocks": {
+  "powerFadeEquivalence": {
+   "identical": true,
+   "mode": "tool --check (read-only recomputation from the tracked sidecar, compared with the payload)",
+   "returncode": 0,
+   "tail": "{\"check\": \"powerFadeEquivalence\", \"matchesPayload\": true, \"verdict\": \"notEstablished\"}\n",
+   "rawIdentityEvidence": {
+    "sidecar": "powerfade_density.csv",
+    "nRowsWithSha": 274,
+    "nMatchManifest": 274,
+    "matches": true,
+    "nRowsTotal": 274
+   }
+  },
+  "engineRuntime": {
+   "identical": true,
+   "mode": "tool --check (read-only recomputation from the tracked sidecar, compared with the payload)",
+   "returncode": 0,
+   "tail": "e is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`\n  d[\"dclass\"] = d[\"drive_type\"].apply(_cond_class)\n",
+   "rawIdentityEvidence": {
+    "sidecar": "engine_runtime_sidecar.csv",
+    "nRowsWithSha": 606,
+    "nMatchManifest": 606,
+    "matches": true,
+    "nRowsTotal": 606
+   }
+  },
+  "resistanceJointSensitivity": {
+   "identical": true,
+   "mode": "tool --check (read-only recomputation from the tracked sidecar, compared with the payload)",
+   "returncode": 0,
+   "tail": "compute_drive_summary_v6.py loaded OK\n{\"check\": \"resistanceJointSensitivity\", \"matchesPayload\": true, \"ladder\": \"L1\"}\n",
+   "rawIdentityEvidence": {
+    "sidecar": "resistance_joint_sidecar.csv",
+    "nRowsWithSha": 606,
+    "nMatchManifest": 606,
+    "matches": true,
+    "nRowsTotal": 606
+   }
+  },
   "cohortMeta": {
    "identical": true,
+   "rawIdentityEvidence": null,
    "diffPaths": [],
    "blockMd5Repo": "eea36b9e62babaa0a2739528bb06eb07",
    "blockMd5Replay": "eea36b9e62babaa0a2739528bb06eb07",
@@ -14,6 +54,7 @@
   },
   "ambientTable": {
    "identical": true,
+   "rawIdentityEvidence": null,
    "diffPaths": [],
    "blockMd5Repo": "cc862af846b3d55fef112836e00b4165",
    "blockMd5Replay": "cc862af846b3d55fef112836e00b4165",
@@ -24,6 +65,7 @@
   },
   "spreadFitProvenance": {
    "identical": true,
+   "rawIdentityEvidence": null,
    "diffPaths": [],
    "blockMd5Repo": "7c9d394970f5cc0e269646ababf5a9b0",
    "blockMd5Replay": "7c9d394970f5cc0e269646ababf5a9b0",
@@ -34,6 +76,7 @@
   },
   "crossVehicle": {
    "identical": true,
+   "rawIdentityEvidence": null,
    "diffPaths": [],
    "blockMd5Repo": "3e7ccb5f12ea7a42fa1d5da7256cb826",
    "blockMd5Replay": "3e7ccb5f12ea7a42fa1d5da7256cb826",
@@ -51,6 +94,7 @@
   },
   "assumptionsRegistry": {
    "identical": true,
+   "rawIdentityEvidence": null,
    "diffPaths": [],
    "blockMd5Repo": "4cc03d35e44fb7831b616cb7c2b63547",
    "blockMd5Replay": "4cc03d35e44fb7831b616cb7c2b63547",
@@ -61,6 +105,7 @@
   },
   "provenanceSensitivity": {
    "identical": true,
+   "rawIdentityEvidence": null,
    "diffPaths": [],
    "blockMd5Repo": "a5649df2cc381c07826b90cf720494b1",
    "blockMd5Replay": "a5649df2cc381c07826b90cf720494b1",
@@ -68,6 +113,23 @@
    "commands": [
     "python.exe tools/f03_provenance_build.py",
     "python.exe f03_provenance_flag.py"
+   ]
+  },
+  "powerFadeTemperatureSpecs": {
+   "identical": true,
+   "rawIdentityEvidence": {
+    "sidecar": "powerfade_density.csv",
+    "nRowsWithSha": 274,
+    "nMatchManifest": 274,
+    "matches": true,
+    "nRowsTotal": 274
+   },
+   "diffPaths": [],
+   "blockMd5Repo": "57add6f412a48cd5d679213336ef7ed6",
+   "blockMd5Replay": "57add6f412a48cd5d679213336ef7ed6",
+   "ignoredLeaves": [],
+   "commands": [
+    "python.exe tools/m499_temp_spec.py --splice"
    ]
   }
  },

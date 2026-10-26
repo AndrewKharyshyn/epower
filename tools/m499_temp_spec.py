@@ -116,7 +116,8 @@ def splice(res):
               computationStatusNote="M499: derived by tools/m499_temp_spec.py from drive_master.csv, seasonal_drive_master.csv and the tracked powerfade_density.csv (spec analyses/M499_spec.md Rev 2)", upstreamHashes={"driveMasterMd5": md5})
     st.pop("carriedForward", None)
     st["includedInReleaseAt"] = st["computedAt"] = st["generatedAt"]
-    A["_artifactStamps"]["powerFadeTemperatureSpecs"] = st
+    import stamp_common as _sc
+    A["_artifactStamps"]["powerFadeTemperatureSpecs"] = _sc.carry_declared(old, st)      # M518: neither inherit the cloned stamp's declared fields nor lose the own lineage
     with open(P, "w", encoding="utf-8", newline="\n") as f:
         f.write(json.dumps(A, ensure_ascii=False, indent=1) + ("\n" if raw.endswith("\n") else ""))
     print(json.dumps({"changed": True, "outcome": blk["decision"]["outcome"]}))

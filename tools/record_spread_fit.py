@@ -138,7 +138,8 @@ def main():
              computationStatusNote="M317: Huber spread-fit provenance record (tools/record_spread_fit.py); append-only history in spread_fit_history.json.")
     for k in ("carriedForward", "basisNDrives", "reissuedFrom", "reissueNote"):
         s.pop(k, None)
-    A["_artifactStamps"]["spreadFitProvenance"] = s
+    import stamp_common as _sc
+    A["_artifactStamps"]["spreadFitProvenance"] = _sc.carry_declared(A["_artifactStamps"].get("spreadFitProvenance"), s)      # M518: keep the own declared lineage, never inherit the cloned cohortMeta one
     with open("summary_arrays.json", "w", encoding="utf-8") as f:
         f.write(json.dumps(A, ensure_ascii=False, indent=1))
     print(json.dumps({"added_to_history": added, "nRecords": len(hist["records"]), "slopeII_point": rec["slopeII"]["point_slope_mv_per_month"],

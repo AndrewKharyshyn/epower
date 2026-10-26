@@ -98,4 +98,23 @@ def verify_declared(A, cfg, deps, live_manifest):
                 problems.append("%s: raw identity %s differs from the live raw_manifest corpusHash %s" % (k, r[:12], (live_manifest or "")[:12]))
         elif (s.get("upstreamHashes") or {}).get("rawManifestCorpusHash") is not None:
             problems.append("%s: a block that does not read raw carries a raw-manifest identity" % k)
+    for k, st in (A.get("_artifactStamps") or {}).items():          # M518: an undeclared block never carries another block's declared-dependency fields (a cloned stamp)
+        if k not in deps and isinstance(st, dict) and any(f in st for f in DECLARED_FIELDS):
+            problems.append("%s: an undeclared stamp carries declared-dependency fields (cloned from a declared block)" % k)
     return problems, infos
+
+
+DECLARED_FIELDS = ("declaredIdentity", "stampLineage", "dependencies", "fullConfigHashNote")
+
+
+def carry_declared(old, new):
+    """M518: a splice that rebuilds a block's stamp from another block's stamp (copy of fuelContract / powerFadeEquivalence) must neither inherit that block's declared-dependency fields nor lose its own:
+    the clone's declared fields are removed and the block's own previous ones (declaredIdentity, append-only stampLineage, dependencies) are carried over, so tools/stamp_dependencies_apply.py
+    keeps appending to the same lineage at the next ingestion. Returns `new` (modified in place)."""
+    for k in DECLARED_FIELDS:
+        new.pop(k, None)
+    if old and old.get("declaredIdentity"):
+        for k in DECLARED_FIELDS:
+            if k in old:
+                new[k] = copy.deepcopy(old[k])
+    return new

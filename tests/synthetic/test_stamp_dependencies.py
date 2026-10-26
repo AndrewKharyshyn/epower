@@ -136,4 +136,15 @@ assert pb == [] and any("rawBlock" in x for x in inf)
 Ac = copy.deepcopy(Ag); Ac["_artifactStamps"]["ambTable"]["upstreamHashes"]["rawManifestCorpusHash"] = MAN
 assert any("does not read raw" in x for x in SC.verify_declared(Ac, CFG, Dd, MAN)[0])    # a non-raw block carries no raw identity
 assert any("not derived" in x for x in SC.verify_declared(A, CFG, Dd, MAN)[0])          # legacy stamp -> not derived
+# M518: splices that rebuild a block's stamp from a clone (fuelContract / powerFadeEquivalence) keep the block's own declared fields and never inherit the clone's
+import powerfade_equivalence as _PE, engine_runtime as _ER, stamp_common as _SCm
+_old = {"corpusHash": "a" * 32, "declaredIdentity": {"corpusHash": "a" * 32}, "stampLineage": [{"identity": {"x": 1}}], "dependencies": {"declaredIn": "t"}, "fullConfigHashNote": "n", "generatedAt": "g"}
+_clone = {"corpusHash": "z" * 32, "declaredIdentity": {"corpusHash": "clone"}, "stampLineage": [{"identity": {"clone": 1}}], "dependencies": {"declaredIn": "clone"}, "generatedAt": "g2"}
+_new = _SCm.carry_declared(_old, dict(_clone))
+assert _new["declaredIdentity"] == _old["declaredIdentity"] and _new["stampLineage"] == _old["stampLineage"] and _new["dependencies"] == _old["dependencies"] and _new["generatedAt"] == "g2"
+_new2 = _SCm.carry_declared(None, dict(_clone))
+assert not any(k in _new2 for k in _SCm.DECLARED_FIELDS)                         # a first-time stamp never inherits another block's lineage
+_A = {"_artifactStamps": {"fuelContract": dict(_clone), "engineRuntime": dict(_old)}, "engineRuntime": {"v": 1}}
+_n, _, _bad = _ER.splice(_A, {"v": 2}, "b" * 32)
+assert _n["_artifactStamps"]["engineRuntime"]["stampLineage"] == _old["stampLineage"] and _n["_artifactStamps"]["engineRuntime"]["corpusHash"] == "b" * 32 and not _bad
 print("test_stamp_dependencies (next-ingestion simulation): OK")

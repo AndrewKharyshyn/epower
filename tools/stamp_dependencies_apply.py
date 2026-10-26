@@ -57,7 +57,9 @@ def derive_all(A, cfg, deps, live_master, live_manifest, env, root, backfill=Fal
             else:
                 rb = ((replay or {}).get("blocks") or {}).get(k) or {}
                 evid = bool(rb.get("identical")) and (replay or {}).get("masterMd5") == live_master
-                if evid and raw_dep:
+                if evid and raw_dep and deps.get(k, {}).get("sidecar") and rb.get("rawIdentityEvidence", {}).get("matches"):
+                    raw_hash, raw_src = live_manifest, "sandbox / read-only replay at M518: the block is reproduced from the tracked sidecar, and every sidecar row's raw sha256 equals the sha256 of the same canonical file in the live raw_manifest.json (analyses/M513_replay.json rawIdentityEvidence)"
+                elif evid and raw_dep and not deps.get(k, {}).get("sidecar"):
                     raw_hash, raw_src = live_manifest, "replayed at M513 in a sandbox: the producer reproduces the block byte-for-byte on the live raw_manifest.json (analyses/M513_replay.json)"
             if not evid:
                 report[k] = {"skipped": "no replay / attestation evidence for this block; stamp left as it was"}

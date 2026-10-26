@@ -62253,22 +62253,57 @@
    "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
+   "fullConfigHash": null,
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-22T22:30:46.723586+00:00",
+   "generatedAt": "2026-10-26T08:19:39.865339+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
-    "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
+    "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+    "rawIdentitySource": "sandbox / read-only replay at M518: the block is reproduced from the tracked sidecar, and every sidecar row's raw sha256 equals the sha256 of the same canonical file in the live raw_manifest.json (analyses/M513_replay.json rawIdentityEvidence)",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "powerfade_density.csv": "8301d56b72cf85a95a0f9b27c17f86fc"
+    }
    },
    "computationStatus": "computed",
    "computationStatusNote": "M486: derived by tools/powerfade_equivalence.py from drive_master.csv and the tracked powerfade_density.csv; equivalence test on the primary resistance design (analyses/M486_spec.md)",
-   "includedInReleaseAt": "2026-10-22T22:30:46.723586+00:00",
+   "includedInReleaseAt": "2026-10-26T08:19:39.865339+00:00",
    "inputBasis": {
     "nDrives": 606,
     "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-22T22:30:46.723586+00:00"
+   "computedAt": "2026-10-26T08:19:39.865339+00:00",
+   "declaredIdentity": {
+    "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "powerfade_density.csv": "8301d56b72cf85a95a0f9b27c17f86fc"
+    },
+    "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+    "rawIdentitySource": "sandbox / read-only replay at M518: the block is reproduced from the tracked sidecar, and every sidecar row's raw sha256 equals the sha256 of the same canonical file in the live raw_manifest.json (analyses/M513_replay.json rawIdentityEvidence)"
+   },
+   "stampLineage": [
+    {
+     "identity": {
+      "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+      "upstreamHashes": {
+       "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
+      },
+      "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
+      "generatedAt": "2026-10-22T22:30:46.723586+00:00"
+     },
+     "supersededAtMilestone": "M513",
+     "supersededAt": "2026-10-26T08:10:07.872498+00:00",
+     "reason": "legacy stamp metadata (M294 raw-manifest backfill, M284 whole-config hash, fields cloned from another block) replaced by stamp metadata re-derived from declared dependencies"
+    }
+   ],
+   "dependencies": {
+    "declaredIn": "tools/stamp_dependencies.json",
+    "milestone": "M513"
+   },
+   "fullConfigHashNote": "whole-config hash retired for declared blocks (M513): the stamp names the md5 of each computational config section it reads (upstreamHashes.configSectionHashes); the previous value is kept in stampLineage"
   },
   "highwaySessionGtc": {
    "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
@@ -62316,22 +62351,59 @@
    "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
+   "fullConfigHash": null,
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-24T10:42:12.914483+00:00",
+   "generatedAt": "2026-10-26T08:19:49.298520+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
-    "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
+    "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+    "rawIdentitySource": "sandbox / read-only replay at M518: the block is reproduced from the tracked sidecar, and every sidecar row's raw sha256 equals the sha256 of the same canonical file in the live raw_manifest.json (analyses/M513_replay.json rawIdentityEvidence)",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "powerfade_density.csv": "8301d56b72cf85a95a0f9b27c17f86fc",
+     "seasonal_drive_master.csv": "0018476d259a6e17102708d0f80dbdc3"
+    }
    },
    "computationStatus": "computed",
    "computationStatusNote": "M499: derived by tools/m499_temp_spec.py from drive_master.csv, seasonal_drive_master.csv and the tracked powerfade_density.csv (spec analyses/M499_spec.md Rev 2)",
-   "includedInReleaseAt": "2026-10-24T10:42:12.914483+00:00",
+   "includedInReleaseAt": "2026-10-26T08:19:49.298520+00:00",
    "inputBasis": {
     "nDrives": 606,
     "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-24T10:42:12.914483+00:00"
+   "computedAt": "2026-10-26T08:19:49.298520+00:00",
+   "declaredIdentity": {
+    "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "powerfade_density.csv": "8301d56b72cf85a95a0f9b27c17f86fc",
+     "seasonal_drive_master.csv": "0018476d259a6e17102708d0f80dbdc3"
+    },
+    "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+    "rawIdentitySource": "sandbox / read-only replay at M518: the block is reproduced from the tracked sidecar, and every sidecar row's raw sha256 equals the sha256 of the same canonical file in the live raw_manifest.json (analyses/M513_replay.json rawIdentityEvidence)"
+   },
+   "stampLineage": [
+    {
+     "identity": {
+      "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+      "upstreamHashes": {
+       "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
+      },
+      "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
+      "generatedAt": "2026-10-24T10:42:12.914483+00:00"
+     },
+     "supersededAtMilestone": "M513",
+     "supersededAt": "2026-10-26T08:10:07.872498+00:00",
+     "reason": "legacy stamp metadata (M294 raw-manifest backfill, M284 whole-config hash, fields cloned from another block) replaced by stamp metadata re-derived from declared dependencies The block was refreshed by tools/m499_temp_spec.py --splice at M518 (scriptSha256 and fidelity.publishedNDays only) before this derivation; the stamp that refresh replaced is the identity recorded here."
+    }
+   ],
+   "dependencies": {
+    "declaredIn": "tools/stamp_dependencies.json",
+    "milestone": "M513"
+   },
+   "fullConfigHashNote": "whole-config hash retired for declared blocks (M513): the stamp names the md5 of each computational config section it reads (upstreamHashes.configSectionHashes); the previous value is kept in stampLineage"
   },
   "signalResolution": {
    "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
@@ -62421,43 +62493,117 @@
    "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
+   "fullConfigHash": null,
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-26T07:14:25.213115+00:00",
+   "generatedAt": "2026-10-26T08:19:55.363364+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
-    "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
+    "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+    "rawIdentitySource": "sandbox / read-only replay at M518: the block is reproduced from the tracked sidecar, and every sidecar row's raw sha256 equals the sha256 of the same canonical file in the live raw_manifest.json (analyses/M513_replay.json rawIdentityEvidence)",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "engine_runtime_sidecar.csv": "a736b73e23c0be4d03b35a52271d0d08"
+    }
    },
    "computationStatus": "computed",
    "computationStatusNote": "M512: derived by tools/engine_runtime.py from drive_master.csv and the tracked engine_runtime_sidecar.csv (RPM-supported time base; analyses/M512_spec.md)",
-   "includedInReleaseAt": "2026-10-26T07:14:25.213115+00:00",
+   "includedInReleaseAt": "2026-10-26T08:19:55.363364+00:00",
    "inputBasis": {
     "nDrives": 606,
     "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-26T07:14:25.213115+00:00"
+   "computedAt": "2026-10-26T08:19:55.363364+00:00",
+   "declaredIdentity": {
+    "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "engine_runtime_sidecar.csv": "a736b73e23c0be4d03b35a52271d0d08"
+    },
+    "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+    "rawIdentitySource": "sandbox / read-only replay at M518: the block is reproduced from the tracked sidecar, and every sidecar row's raw sha256 equals the sha256 of the same canonical file in the live raw_manifest.json (analyses/M513_replay.json rawIdentityEvidence)"
+   },
+   "stampLineage": [
+    {
+     "identity": {
+      "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+      "upstreamHashes": {
+       "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
+      },
+      "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
+      "generatedAt": "2026-10-26T07:14:25.213115+00:00"
+     },
+     "supersededAtMilestone": "M513",
+     "supersededAt": "2026-10-26T08:10:07.872498+00:00",
+     "reason": "legacy stamp metadata (M294 raw-manifest backfill, M284 whole-config hash, fields cloned from another block) replaced by stamp metadata re-derived from declared dependencies"
+    }
+   ],
+   "dependencies": {
+    "declaredIn": "tools/stamp_dependencies.json",
+    "milestone": "M513"
+   },
+   "fullConfigHashNote": "whole-config hash retired for declared blocks (M513): the stamp names the md5 of each computational config section it reads (upstreamHashes.configSectionHashes); the previous value is kept in stampLineage"
   },
   "resistanceJointSensitivity": {
    "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
+   "fullConfigHash": null,
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-26T06:29:19.247662+00:00",
+   "generatedAt": "2026-10-26T08:20:39.993494+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
-    "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
+    "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+    "rawIdentitySource": "sandbox / read-only replay at M518: the block is reproduced from the tracked sidecar, and every sidecar row's raw sha256 equals the sha256 of the same canonical file in the live raw_manifest.json (analyses/M513_replay.json rawIdentityEvidence)",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "resistance_joint_sidecar.csv": "6392b2c52281ff4db480520d5cff3f2f",
+     "powerfade_density.csv": "8301d56b72cf85a95a0f9b27c17f86fc",
+     "analyses/M503_result.json": "abb6c3b6a91d773b1318225af98b5b7f"
+    }
    },
    "computationStatus": "computed",
    "computationStatusNote": "M514: derived by tools/resistance_joint_matrix.py from drive_master.csv, powerfade_density.csv and the tracked resistance_joint_sidecar.csv (analyses/M514_spec.md Rev 2)",
-   "includedInReleaseAt": "2026-10-26T06:29:19.247662+00:00",
+   "includedInReleaseAt": "2026-10-26T08:20:39.993494+00:00",
    "inputBasis": {
     "nDrives": 606,
     "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-26T06:29:19.247662+00:00"
+   "computedAt": "2026-10-26T08:20:39.993494+00:00",
+   "declaredIdentity": {
+    "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "resistance_joint_sidecar.csv": "6392b2c52281ff4db480520d5cff3f2f",
+     "powerfade_density.csv": "8301d56b72cf85a95a0f9b27c17f86fc",
+     "analyses/M503_result.json": "abb6c3b6a91d773b1318225af98b5b7f"
+    },
+    "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+    "rawIdentitySource": "sandbox / read-only replay at M518: the block is reproduced from the tracked sidecar, and every sidecar row's raw sha256 equals the sha256 of the same canonical file in the live raw_manifest.json (analyses/M513_replay.json rawIdentityEvidence)"
+   },
+   "stampLineage": [
+    {
+     "identity": {
+      "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+      "upstreamHashes": {
+       "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
+      },
+      "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
+      "generatedAt": "2026-10-26T06:29:19.247662+00:00"
+     },
+     "supersededAtMilestone": "M513",
+     "supersededAt": "2026-10-26T08:10:07.872498+00:00",
+     "reason": "legacy stamp metadata (M294 raw-manifest backfill, M284 whole-config hash, fields cloned from another block) replaced by stamp metadata re-derived from declared dependencies"
+    }
+   ],
+   "dependencies": {
+    "declaredIn": "tools/stamp_dependencies.json",
+    "milestone": "M513"
+   },
+   "fullConfigHashNote": "whole-config hash retired for declared blocks (M513): the stamp names the md5 of each computational config section it reads (upstreamHashes.configSectionHashes); the previous value is kept in stampLineage"
   }
  },
  "ambientTable": {
@@ -354400,7 +354546,7 @@
   "label": "temperature-specification sensitivity of the resistance-proxy (vreg_R_pack_mohm) months coefficient, powerFade S1 design; estimated proxy, an association within one warm-season window, not a degradation rate",
   "spec": "analyses/M499_spec.md",
   "specSha256": "0e54cab1c65a3b65c864f1fb303f7fe42c207b508104faa56320291123867d02",
-  "scriptSha256": "838f985be03376993484a1b949b61fc47943c133a6219319f3aee646530cd29e",
+  "scriptSha256": "76aa23a625b0432912781dba5663af5ca798ade2c4ed295db4568a513c5fb9ca",
   "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
   "seasonalMasterMd5": "0018476d259a6e17102708d0f80dbdc3",
   "seed": 42,
@@ -354427,6 +354573,7 @@
     -0.426,
     1.837
    ],
+   "publishedNDays": 98,
    "passed": true
   },
   "specs": {
@@ -358592,7 +358739,7 @@
   "label": "joint instrumentation sensitivity matrix of the resistance-proxy (vreg_R_pack_mohm) months coefficient, powerFade S1 design; estimated proxy, a conditional association in one warm window, not a degradation rate, SOH or true resistance",
   "spec": "analyses/M514_spec.md (Rev 2)",
   "specSha256": "7d57dfa49e9e7bcb0f0d86f0225248959284571bb8aedcdfbb92d0e1f534cbcc",
-  "scriptSha256": "7c1c80f7aa45bab98d89d78849e7b690bf6e4bc56c0bdbd2deda3e76513f7393",
+  "scriptSha256": "67dd051a380a3300134e9bddd3a9a7abec994e5a7a10695e93cf5dbee0f67264",
   "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
   "seed": 42,
   "nBoot": 4000,
