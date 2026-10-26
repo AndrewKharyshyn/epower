@@ -462,7 +462,8 @@ def splice(A, blk, master_md5="", now=None):
                   upstreamHashes={"driveMasterMd5": master_md5})
         st.pop("carriedForward", None)
         st["includedInReleaseAt"] = st["computedAt"] = st["generatedAt"]
-        new["_artifactStamps"]["resistanceJointSensitivity"] = st
+        import stamp_common as _sc
+        new["_artifactStamps"]["resistanceJointSensitivity"] = _sc.carry_declared(old, st)      # M518: keep the declared-dependency lineage
     ch = [k for k in set(A) | set(new) if A.get(k) != new.get(k)]
     bad = [k for k in ch if k not in ("resistanceJointSensitivity", "_artifactStamps")]      # the stamp dict is checked entry by entry below
     st_bad = [k for k in set(A["_artifactStamps"]) | set(new["_artifactStamps"]) if A["_artifactStamps"].get(k) != new["_artifactStamps"].get(k) and k != "resistanceJointSensitivity"]

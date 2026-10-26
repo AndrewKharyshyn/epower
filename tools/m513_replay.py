@@ -17,14 +17,31 @@ CMDS = {
     "crossVehicle": [[PY, "crosscheck_vehicles.py"], [PY, "crosscheck_events.py"]],
     "assumptionsRegistry": [[PY, "patch_m284_data.py"]],
     "provenanceSensitivity": [[PY, "tools/f03_provenance_build.py"], [PY, "f03_provenance_flag.py"]],
+    "powerFadeTemperatureSpecs": [[PY, "tools/m499_temp_spec.py", "--splice"]],
 }
+
+
+CHECKS = {"powerFadeEquivalence": [PY, "tools/powerfade_equivalence.py", "--check"], "engineRuntime": [PY, "tools/engine_runtime.py", "--check"],
+          "resistanceJointSensitivity": [PY, "tools/resistance_joint_matrix.py", "--check"]}      # read-only recomputation of the block from the tracked sidecar(s), compared with the payload by the tool itself
+SIDECAR_OF = {"powerFadeEquivalence": "powerfade_density.csv", "powerFadeTemperatureSpecs": "powerfade_density.csv", "engineRuntime": "engine_runtime_sidecar.csv", "resistanceJointSensitivity": "resistance_joint_sidecar.csv"}
+
+
+def sidecar_matches_manifest(path):
+    """Every sidecar row (raw sha256 recorded when the row was computed) equals the sha256 of the same canonical file in raw_manifest.json: the sidecar was built on the identity the live manifest records."""
+    import re, pandas as pd
+    man = json.load(open(os.path.join(ROOT, "raw_manifest.json"), encoding="utf-8"))
+    sha = {re.sub(r"\D", "", r["canonical"]): r["sha256"] for r in man["files"] if r.get("role") == "canonical"}
+    s = pd.read_csv(os.path.join(ROOT, path), dtype=str, keep_default_na=False)
+    rows = s[s["raw_sha256"] != ""]
+    ok = sum(1 for _, r in rows.iterrows() if sha.get(re.sub(r"\D", "", r["file"])) == r["raw_sha256"])
+    return {"sidecar": path, "nRowsWithSha": int(len(rows)), "nMatchManifest": int(ok), "matches": bool(len(rows) > 0 and ok == len(rows)), "nRowsTotal": int(len(s))}
 
 
 def canon(o):
     return hashlib.md5(json.dumps(o, sort_keys=True, ensure_ascii=False, separators=(",", ":")).encode("utf-8")).hexdigest()
 
 
-EXTRA = {"provenanceSensitivity": ["analyses/F03_originals", "analyses/F03"], "spreadFitProvenance": ["analyses/M317_calibration.json", "analyses/M317_calibration_design2.json"]}
+EXTRA = {"provenanceSensitivity": ["analyses/F03_originals", "analyses/F03"], "spreadFitProvenance": ["analyses/M317_calibration.json", "analyses/M317_calibration_design2.json"], "powerFadeTemperatureSpecs": ["analyses/M499_spec.md"]}
 IGNORE = {"crossVehicle": [("_meta", "generated"), ("eventDetectors", "_meta", "generated"), ("pureElectric", "_meta", "generated"), ("turboPattern", "_meta", "generated"),
                            ("eventDetectors", "socHysteresis", "primary", "startRatioClustered")]}      # wall-clock stamps inside the block; startRatioClustered is added later by the M497 stage, not by the cross-vehicle producer
 
@@ -59,10 +76,16 @@ def sandbox(extra=()):
 
 def main(argv=None):
     argv = sys.argv[1:] if argv is None else argv
-    only = set(argv[argv.index("--only") + 1].split(",")) if "--only" in argv else set(CMDS)
+    only = set(argv[argv.index("--only") + 1].split(",")) if "--only" in argv else set(CMDS) | set(CHECKS)
     real = json.load(open(os.path.join(ROOT, "summary_arrays.json"), encoding="utf-8"))
     md5_master = hashlib.md5(open(os.path.join(ROOT, "drive_master.csv"), "rb").read()).hexdigest()
     res = {}
+    for k, c in CHECKS.items():
+        if k not in only:
+            continue
+        r = subprocess.run(c, cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=1500)
+        res[k] = {"identical": r.returncode == 0, "mode": "tool --check (read-only recomputation from the tracked sidecar, compared with the payload)", "returncode": r.returncode, "tail": (r.stdout + r.stderr)[-300:],
+                  "rawIdentityEvidence": sidecar_matches_manifest(SIDECAR_OF[k])}
     for k, cmds in CMDS.items():
         if k not in only:
             continue
@@ -88,7 +111,13 @@ def main(argv=None):
                     if isinstance(t_, dict):
                         t_.pop(path[-1], None)
             same = canon(a_) == canon(b_)
-            res[k] = {"identical": bool(same), "diffPaths": [] if same else paths(b_, a_), "blockMd5Repo": canon(b_), "blockMd5Replay": canon(a_), "ignoredLeaves": [".".join(x) for x in IGNORE.get(k, [])], "commands": [" ".join(os.path.basename(x) if i == 0 else x for i, x in enumerate(c)) for c in cmds]}
+            # M518: the producer rebuilds its own stamp from a clone; the declared-dependency fields (declaredIdentity, stampLineage, dependencies) of the repository stamp must survive in the sandbox copy
+            if k in (real.get("_artifactStamps") or {}) and (real["_artifactStamps"][k] or {}).get("declaredIdentity"):
+                so, sn = real["_artifactStamps"][k], (A.get("_artifactStamps") or {}).get(k) or {}
+                lineage_ok = all(sn.get(f) == so.get(f) for f in ("declaredIdentity", "stampLineage", "dependencies"))
+                res_lineage = bool(lineage_ok)
+                same = bool(same) and res_lineage
+            res[k] = {"identical": bool(same), "rawIdentityEvidence": (sidecar_matches_manifest(SIDECAR_OF[k]) if k in SIDECAR_OF else None), "diffPaths": [] if same else paths(b_, a_), "blockMd5Repo": canon(b_), "blockMd5Replay": canon(a_), "ignoredLeaves": [".".join(x) for x in IGNORE.get(k, [])], "commands": [" ".join(os.path.basename(x) if i == 0 else x for i, x in enumerate(c)) for c in cmds]}
         finally:
             shutil.rmtree(d, ignore_errors=True)
     out = {"masterMd5": md5_master, "scriptSha256": hashlib.sha256(open(__file__, "rb").read()).hexdigest(), "blocks": res,

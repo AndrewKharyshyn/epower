@@ -208,7 +208,8 @@ def splice(A, blk, master_md5="", now=None):
                   upstreamHashes={"driveMasterMd5": master_md5})
         st.pop("carriedForward", None)
         st["includedInReleaseAt"] = st["computedAt"] = st["generatedAt"]
-        new["_artifactStamps"]["engineRuntime"] = st
+        import stamp_common as _sc
+        new["_artifactStamps"]["engineRuntime"] = _sc.carry_declared(old, st)      # M518: keep the declared-dependency lineage
     ch = _paths(A, new)
     return new, ch, [c for c in ch if not any(c == a_ or c.startswith(a_ + "/") for a_ in ALLOWED)]
 

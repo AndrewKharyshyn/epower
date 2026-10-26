@@ -233,7 +233,8 @@ def splice(summ, r3, rows, prov):
               computationStatusNote="M503: derived by tools/signal_resolution.py from the raw files of the canonical drives (spec analyses/M503_spec.md Rev 2 + data-informed Rev 3); a dated snapshot, no ingestion stage", upstreamHashes={"driveMasterMd5": prov["masterMd5"]})
     st.pop("carriedForward", None)
     st["includedInReleaseAt"] = st["computedAt"] = st["generatedAt"]
-    A["_artifactStamps"]["signalResolution"] = st
+    import stamp_common as _sc
+    A["_artifactStamps"]["signalResolution"] = _sc.carry_declared(None, st)      # M518: an undeclared block never inherits a cloned declared lineage
     with open(P, "w", encoding="utf-8", newline="\n") as f:
         f.write(json.dumps(A, ensure_ascii=False, indent=1) + ("\n" if raw.endswith("\n") else ""))
     print(json.dumps({"spliced": True, "nCurrentCoarse": r3["currentCoarse"]["nDrives"]}))

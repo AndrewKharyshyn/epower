@@ -137,7 +137,8 @@ def splice(out, prov):
               computationStatusNote="M507: static, corpus-independent stylised simulation by tools/few_cluster_coverage.py (spec analyses/M507_spec.md; script and spec sha256 in the block); identical at every ingestion")
     st.pop("carriedForward", None)
     st["includedInReleaseAt"] = st["computedAt"] = st["generatedAt"]
-    A["_artifactStamps"]["fewClusterCoverage"] = st
+    import stamp_common as _sc
+    A["_artifactStamps"]["fewClusterCoverage"] = _sc.carry_declared(None, st)      # M518: an undeclared block never inherits a cloned declared lineage
     with open(P, "w", encoding="utf-8", newline="\n") as f:
         f.write(json.dumps(A, ensure_ascii=False, indent=1) + ("\n" if raw.endswith("\n") else ""))
     print(json.dumps({"spliced": True}))

@@ -106,7 +106,8 @@ s.update(corpusHash=live, generatedAt=datetime.datetime.now(datetime.timezone.ut
          computationStatusNote="M314: per-drive ambient table (tools/build_ambient_table.py) from summary_config.json ambientByDrive and drive_master.csv.")
 for k in ("carriedForward", "basisNDrives", "reissuedFrom", "reissueNote"):
     s.pop(k, None)
-A["_artifactStamps"]["ambientTable"] = s
+import stamp_common as _sc
+A["_artifactStamps"]["ambientTable"] = _sc.carry_declared(A["_artifactStamps"].get("ambientTable"), s)      # M518: keep the own declared lineage, never inherit the cloned cohortMeta one
 with open("summary_arrays.json", "w", encoding="utf-8") as f:
     f.write(json.dumps(A, ensure_ascii=False, indent=1))
 print(json.dumps({k: block[k] for k in ("nDrives", "nDays", "nInterimDrives", "nSingleValueLegacy", "rangeC")}))
