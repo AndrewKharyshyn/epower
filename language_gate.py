@@ -449,7 +449,9 @@ RULES = [
     Rule("M512-A04-engine-runtime", "regex", "M512/audit 2026-10-25 A04: engine_on_pct x duration_s is a duration-scaled (imputed) estimate, not total or measured engine runtime; the engine-on time is stated inside RPM-supported intervals (eng_rpm > 400: rotating, not necessarily fuelled) with the unsupported time beside it",
          rx=r"\btotal engine (?:generator )?runtime\b|\b(?:measured|exact) (?:total )?engine (?:on )?(?:time|runtime|hours)\b|\bengine on seconds engine on pct duration s\b"),
     Rule("M514-joint-matrix-wording", "regex", "M514/Director (2026-10-25): the joint instrumentation matrix reads 'procedure-dependent, unresolved'; the cells share the same drives and are not independent; G1/G2 are aliased with calendar time and G1 is not blind; never 'positive in every cell' alone, 'consistently positive', 'robust across the matrix', 'insensitive to' a choice, a better/preferred/best cell",
-         rx=r"\bpositive in every cell\b|\bconsistently positive\b|\b(?:better|preferred|best) cell\b|\bmatrix (?:confirms|proves|establishes)\b|\brobust across (?:the )?(?:matrix|cells|specifications)\b|\binsensitive to (?:the )?(?:alignment|grid|cadence|temperature)\b"),]
+         rx=r"\bpositive in every cell\b|\bconsistently positive\b|\b(?:better|preferred|best) cell\b|\bmatrix (?:confirms|proves|establishes)\b|\brobust across (?:the )?(?:matrix|cells|specifications)\b|\binsensitive to (?:the )?(?:alignment|grid|cadence|temperature)\b"),
+    Rule("M517-class-rate-wording", "regex", "M517/Director (2026-10-26): per-class engine-on rates are descriptive, not adjusted for speed or route mix, and class intervals are not a between-class test; never 'urban uses the engine more', 'significantly higher', or a ranking drawn from the class rates",
+         rx=r"\burban (?:uses|runs) the engine more\b|\b(?:significantly|reliably) (?:higher|lower) (?:engine|rate)\b|\bclass rates? (?:differ|are different) (?:significantly|reliably)\b"),]
 
 _SCAN_CACHE = {}
 
