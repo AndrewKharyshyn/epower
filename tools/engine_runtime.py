@@ -37,6 +37,7 @@ ALLOWED = ["/engineRuntime", "/_artifactStamps/engineRuntime"]
 RPM_ON = 400.0
 PCT_TOL = 0.05 + 1e-9
 N_BOOT, SEED = 4000, 42
+MIN_CLASS_DAYS, MIN_CLASS_DRIVES = 10, 20          # M517: a class with fewer days has no interval; fewer drives is flagged
 STATEMENT = ("Engine-on time inside RPM-supported intervals (eng_rpm > 400: the engine is rotating, not necessarily fuelled), the RPM-supported time and the elapsed time, per the declared population. "
              "Time without RPM support is unsupported: the engine state there is unknown, so the engine-rotating time over the elapsed span lies between the supported on-time and the supported on-time plus the unsupported time. "
              "The duration-scaled figure assumes the same engine-on share in the unsupported time (imputed).")
@@ -155,11 +156,20 @@ def compute_block(dm, side, legacy_hours):
         t = _totals(g)
         t["key"] = k
         t["avgEngineOnPctCleanSet"] = round(float(g[g["file"].isin(clean_files)]["engine_on_pct"].mean()), 1) if g["file"].isin(clean_files).any() else None
+        # M517 (analyses/M517_spec.md Rev 1): day-clustered interval of the per-class rates (same bootstrap as the corpus rate); fewer than 10 days -> no interval, fewer than 20 drives -> flagged
+        gr = g[g["rpm_supported_s"].notna()]
+        nd_ = int(gr["date"].astype(str).nunique())
+        t["nDaysWithRpm"], t["fewDays"], t["fewDrives"] = nd_, bool(nd_ < MIN_CLASS_DAYS), bool(int(len(gr)) < MIN_CLASS_DRIVES)
+        for key, num in (("supportedOnPer10kKmCi95", gr["engine_on_s"] / 3600), ("scaledImputedPer10kKmCi95", gr["elapsed_s"] * gr["engine_on_pct"] / 100 / 3600)):
+            if nd_ < MIN_CLASS_DAYS or float(gr["distance_km"].sum()) <= 0:
+                t[key] = None
+            else:
+                t[key] = _dayboot_ratio(num.values * 10000, gr["distance_km"].values, gr["date"].astype(str).values)[0]
         classes.append(t)
-    return {"methodVersion": METHOD_VERSION, "spec": "analyses/M512_spec.md (Rev 2)", "statement": STATEMENT,
+    return {"methodVersion": METHOD_VERSION, "spec": "analyses/M512_spec.md (Rev 2); per-class rate intervals analyses/M517_spec.md (Rev 1)", "statement": STATEMENT,
             "population": "all master drives (unfiltered exposure total; the legacy corpus-total convention)",
             "timeBase": "supported = native-timestamp steps of the eng_rpm series capped at the production DT_CAP_S; elapsed = master duration_s; unsupported = elapsed - supported (includes drives without an RPM series)",
-            "totals": pop, "rateIntervals": rate_ci, "byClass": classes,
+            "totals": pop, "rateIntervals": rate_ci, "byClass": classes, "unclassified": _totals(d[d["dclass"].isna()]),
             "cleanSensitivity": _totals(d[d["file"].isin(clean_files)]),
             "drivesWithoutRpm": d.loc[d["rpm_supported_s"].isna(), "file"].tolist(),
             "limits": "eng_rpm > 400 means rotating, not fuelled; the supported-basis rate uses the whole-elapsed distance of drives with an RPM series (a lower bound of the elapsed-time rate); totals are exact over the declared population, not estimates of a larger one",

@@ -46,4 +46,29 @@ import compute_summary_arrays as cs
 assert ER.CLASS_ORDER == cs.CLASS_ORDER and all(ER._cond_class(x) == cs._cond_class(x) for x in cs.CLASS_ORDER + ["unknown", None])
 _m = pd.DataFrame({"ens_invalid": [True, False, np.nan, "True"], "ens_outlier_v2": [False, False, np.nan, False]})
 assert ER._canonical_bad(_m).tolist() == cs._canonical_bad(_m).tolist() == [True, False, False, True]
+# M517: per-class rate intervals on a synthetic master: a long class has a bracketing interval, a short class (fewer than 10 days) has none and is flagged; deterministic; class hours add up with the unclassified
+rg = np.random.default_rng(5)
+rows_ = []
+for i in range(60):
+    rows_.append(("u%03d.csv" % i, "2026-06-%02d" % (1 + i // 2), "urban"))
+for i in range(5):
+    rows_.append(("h%03d.csv" % i, "2026-07-%02d" % (1 + i // 2), "highway"))
+rows_.append(("x000.csv", "2026-07-20", "unknown"))
+dmx = pd.DataFrame({"file": [r[0] for r in rows_], "date": [r[1] for r in rows_], "drive_type": [r[2] for r in rows_]})
+dmx["duration_s"] = rg.uniform(600, 1800, len(dmx)); dmx["distance_km"] = rg.uniform(3, 20, len(dmx))
+sup_ = dmx["duration_s"] * rg.uniform(0.9, 1.0, len(dmx)); on_ = sup_ * rg.uniform(0.2, 0.6, len(dmx))
+dmx["engine_on_pct"] = np.round(on_ / sup_ * 100, 1)
+sup_ = on_ / (dmx["engine_on_pct"] / 100)                      # make the share exactly the stored one (C0)
+sidex = pd.DataFrame({"file": dmx["file"], "rpm_supported_s": sup_, "engine_on_s": on_, "reason": None})
+dmx["ens_invalid"] = False; dmx["ens_outlier_v2"] = False
+legacy = float((dmx["duration_s"] * dmx["engine_on_pct"] / 100).sum()) / 3600
+blk1 = ER.compute_block(dmx, sidex, legacy); blk2 = ER.compute_block(dmx, sidex, legacy)
+assert blk1["byClass"] == blk2["byClass"]
+urb = [c for c in blk1["byClass"] if c["key"] == "urban"][0]; hwy = [c for c in blk1["byClass"] if c["key"] == "highway"][0]
+gu = dmx[dmx.drive_type == "urban"]
+pt = (on_[gu.index].sum() / 3600) / gu["distance_km"].sum() * 10000
+assert abs(urb["supportedOnPer10kKm"] - pt) < 1e-9 and urb["supportedOnPer10kKmCi95"][0] < pt < urb["supportedOnPer10kKmCi95"][1] and not urb["fewDays"] and urb["nDaysWithRpm"] == 30
+assert hwy["supportedOnPer10kKmCi95"] is None and hwy["fewDays"] is True and hwy["fewDrives"] is True and hwy["nDaysWithRpm"] == 3
+tot = blk1["totals"]["supportedOnHours"]
+assert abs(sum(c["supportedOnHours"] for c in blk1["byClass"]) + blk1["unclassified"]["supportedOnHours"] - tot) < 1e-9 and blk1["unclassified"]["nDrives"] == 1
 print("test_engine_runtime: OK")
