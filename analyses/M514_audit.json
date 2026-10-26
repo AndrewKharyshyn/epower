@@ -2,75 +2,84 @@
  "milestone": "M514",
  "auditor": "analytical-auditor (Sonnet), blind: spec text, master, density sidecar, M503 modal pair and the sidecar columns file/cur_class/volt_step/a1_R/a1_I only; no tool code, no payload block",
  "method": "independent OLS and calendar-day cluster percentile bootstrap (seed 42, 4000 draws, rng.integers per draw)",
- "cellsCovered": {
-  "A0G0C1T0": {
-   "n": 271,
-   "days": 98,
-   "slope": 0.6453,
-   "ci95": [
-    -0.4525,
-    1.8265
-   ]
-  },
-  "A0G1C1T0": {
-   "n": 271,
-   "days": 98,
-   "slope": 1.1446,
-   "ci95": [
-    0.1461,
-    2.477
-   ]
-  },
-  "A0G0C0T0": {
-   "n": 271,
-   "days": 98,
-   "slope": 0.8879,
-   "ci95": [
-    -0.1865,
-    2.0122
-   ]
-  },
-  "A0G0C2T1": {
-   "n": 271,
-   "days": 98,
-   "slope": 0.3058,
-   "ci95": [
-    -0.7941,
-    1.4052
-   ]
-  },
-  "A0G0C1T2": {
-   "n": 271,
-   "days": 98,
-   "slope": 0.7495,
-   "ci95": [
-    -0.2771,
-    1.8278
-   ]
-  },
-  "A0G2C1T0": {
-   "n": 224,
-   "days": 77,
-   "slope": 0.9804,
-   "ci95": [
-    -0.0321,
-    2.2369
-   ]
-  }
- },
+ "cellsCovered": [
+  "A0G0C0T0",
+  "A0G0C0T1",
+  "A0G0C0T2",
+  "A0G0C1T0",
+  "A0G0C1T1",
+  "A0G0C1T2",
+  "A0G0C2T0",
+  "A0G0C2T1",
+  "A0G0C2T2",
+  "A0G1C0T0",
+  "A0G1C0T1",
+  "A0G1C0T2",
+  "A0G1C1T0",
+  "A0G1C1T1",
+  "A0G1C1T2",
+  "A0G1C2T0",
+  "A0G1C2T1",
+  "A0G1C2T2",
+  "A0G2C0T0",
+  "A0G2C0T1",
+  "A0G2C0T2",
+  "A0G2C1T0",
+  "A0G2C1T1",
+  "A0G2C1T2",
+  "A0G2C2T0",
+  "A0G2C2T1",
+  "A0G2C2T2",
+  "A1G0C0T0",
+  "A1G0C0T1",
+  "A1G0C0T2",
+  "A1G0C1T0",
+  "A1G0C1T1",
+  "A1G0C1T2",
+  "A1G0C2T0",
+  "A1G0C2T1",
+  "A1G0C2T2",
+  "A1G1C0T0",
+  "A1G1C0T1",
+  "A1G1C0T2",
+  "A1G1C1T0",
+  "A1G1C1T1",
+  "A1G1C1T2",
+  "A1G1C2T0",
+  "A1G1C2T1",
+  "A1G1C2T2",
+  "A1G2C0T0",
+  "A1G2C0T1",
+  "A1G2C0T2",
+  "A1G2C1T0",
+  "A1G2C1T1",
+  "A1G2C1T2",
+  "A1G2C2T0",
+  "A1G2C2T1",
+  "A1G2C2T2"
+ ],
  "pairedSet": {
   "nDrives": 271,
   "nDays": 98,
   "gridChangeDrives": 47,
   "gridChangeDays": 21
  },
- "verdict": "reproduced (slopes and day intervals to 4 dp for all six cells, n and days equal)",
+ "verdict": "reproduced: all 54 cells (slopes, day / ISO-week / M7 / M14 intervals, failed-draw counts, decisive flags) and the ladder level L1",
  "notCovered": [
-  "A1 proxy (27 cells)",
-  "ISO-week, M7 and M14 intervals",
-  "failed-draw rule (R5)",
-  "the 48 cells not listed",
-  "fidelity against the author's code"
+  "the A1 proxy computation itself (audited at M505; the sidecar equals the M505 per-drive values)",
+  "fidelity against the author's code beyond the numbers (blind part only)"
  ],
- "note": "the auditor script was written to audit/m514_blind.py (untracked, not committed)"
+ "note": "the auditor script was written to audit/m514_blind.py (untracked, not committed)",
+ "extension": {
+  "date": "2026-10-26",
+  "scope": "all 54 cells, day / ISO-week / M7 / M14 intervals, failed-draw counts, decisive flags, summary and ladder level",
+  "auditor": "analytical-auditor (Sonnet, effort high), blind to the tool code and the payload block; conventions of the spec plus the RNG convention (default_rng(42), rng.integers per draw; blocks default_rng(42 + L); Monte Carlo repeats default_rng(100000 + 1000 r + L))",
+  "result": "independent reproduction: reference cell 0.645320 [-0.4525, 1.8265], slope range 0.305766 .. 1.654074, 54 of 54 positive, spread ratio 0.5916, decisive intervals excluding zero day 24/54, ISO-week 23/54, M7 22/49, M14 7/33, 76 decisive intervals whose reading differs from the reference, level L1; the author's payload agrees on all 54 cells: max absolute difference 1e-5 in the slopes and 0.0 in every interval endpoint, 0 differences in failed-draw counts, 0 differences in decisive flags",
+  "comparison": "made after the audit by the author from the auditor's table (not blind on the comparison side)",
+  "a1ProxyCheck": "the A1 values in resistance_joint_sidecar.csv equal the per-drive A1 proxies of analyses/M505_result.json (audited at M505) for all compared drives (271, 0 mismatches)",
+  "auditorConventions": [
+   "nearest-endpoint-to-zero Monte Carlo rule applied to all block intervals; the alternative (zero-excluding intervals only) leaves the level and the differing count unchanged",
+   "weighted column-RMS scaling and SVD condition number for the block fits"
+  ]
+ }
 }
