@@ -447,8 +447,9 @@ RULES = [
     Rule("M510-A02-capacity-proven", "regex", "M510/audit 2026-10-25 sec 7/12: the logged BMS-SoC energy scale (about 1.8 kWh per 100 points) is an apparent logged-scale estimate; the physical pack capacity is not identified and CAP_KWH stays verified:false",
          rx=r"\b(?:proves|confirms|establishes|demonstrates) (?:that )?(?:the )?(?:full |physical |usable )?(?:pack )?capacity (?:is|of) 1 8\b|\b(?:physical|full) (?:pack )?capacity is (?:proven|confirmed|established) (?:to be )?1 8\b"),
     Rule("M512-A04-engine-runtime", "regex", "M512/audit 2026-10-25 A04: engine_on_pct x duration_s is a duration-scaled (imputed) estimate, not total or measured engine runtime; the engine-on time is stated inside RPM-supported intervals (eng_rpm > 400: rotating, not necessarily fuelled) with the unsupported time beside it",
-         rx=r"\btotal engine (?:generator )?runtime\b|\b(?:measured|exact) (?:total )?engine (?:on )?(?:time|runtime|hours)\b|\bengine on seconds engine on pct duration s\b"),]
-
+         rx=r"\btotal engine (?:generator )?runtime\b|\b(?:measured|exact) (?:total )?engine (?:on )?(?:time|runtime|hours)\b|\bengine on seconds engine on pct duration s\b"),
+    Rule("M514-joint-matrix-wording", "regex", "M514/Director (2026-10-25): the joint instrumentation matrix reads 'procedure-dependent, unresolved'; the cells share the same drives and are not independent; G1/G2 are aliased with calendar time and G1 is not blind; never 'positive in every cell' alone, 'consistently positive', 'robust across the matrix', 'insensitive to' a choice, a better/preferred/best cell",
+         rx=r"\bpositive in every cell\b|\bconsistently positive\b|\b(?:better|preferred|best) cell\b|\bmatrix (?:confirms|proves|establishes)\b|\brobust across (?:the )?(?:matrix|cells|specifications)\b|\binsensitive to (?:the )?(?:alignment|grid|cadence|temperature)\b"),]
 
 _SCAN_CACHE = {}
 

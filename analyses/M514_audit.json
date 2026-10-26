@@ -1,0 +1,76 @@
+{
+ "milestone": "M514",
+ "auditor": "analytical-auditor (Sonnet), blind: spec text, master, density sidecar, M503 modal pair and the sidecar columns file/cur_class/volt_step/a1_R/a1_I only; no tool code, no payload block",
+ "method": "independent OLS and calendar-day cluster percentile bootstrap (seed 42, 4000 draws, rng.integers per draw)",
+ "cellsCovered": {
+  "A0G0C1T0": {
+   "n": 271,
+   "days": 98,
+   "slope": 0.6453,
+   "ci95": [
+    -0.4525,
+    1.8265
+   ]
+  },
+  "A0G1C1T0": {
+   "n": 271,
+   "days": 98,
+   "slope": 1.1446,
+   "ci95": [
+    0.1461,
+    2.477
+   ]
+  },
+  "A0G0C0T0": {
+   "n": 271,
+   "days": 98,
+   "slope": 0.8879,
+   "ci95": [
+    -0.1865,
+    2.0122
+   ]
+  },
+  "A0G0C2T1": {
+   "n": 271,
+   "days": 98,
+   "slope": 0.3058,
+   "ci95": [
+    -0.7941,
+    1.4052
+   ]
+  },
+  "A0G0C1T2": {
+   "n": 271,
+   "days": 98,
+   "slope": 0.7495,
+   "ci95": [
+    -0.2771,
+    1.8278
+   ]
+  },
+  "A0G2C1T0": {
+   "n": 224,
+   "days": 77,
+   "slope": 0.9804,
+   "ci95": [
+    -0.0321,
+    2.2369
+   ]
+  }
+ },
+ "pairedSet": {
+  "nDrives": 271,
+  "nDays": 98,
+  "gridChangeDrives": 47,
+  "gridChangeDays": 21
+ },
+ "verdict": "reproduced (slopes and day intervals to 4 dp for all six cells, n and days equal)",
+ "notCovered": [
+  "A1 proxy (27 cells)",
+  "ISO-week, M7 and M14 intervals",
+  "failed-draw rule (R5)",
+  "the 48 cells not listed",
+  "fidelity against the author's code"
+ ],
+ "note": "the auditor script was written to audit/m514_blind.py (untracked, not committed)"
+}
