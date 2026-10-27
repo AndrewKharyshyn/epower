@@ -64,6 +64,18 @@ def derive_all(A, cfg, deps, live_master, live_manifest, env, root, backfill=Fal
             if not evid:
                 report[k] = {"skipped": "no replay / attestation evidence for this block; stamp left as it was"}
                 continue
+        if not ran and not backfill and prior:
+            # M519 (R01): the producer did not run, so the computational identity does not advance. The block is re-derived from its PRIOR declaredIdentity (this undoes an in-place overwrite by
+            # restamp_blocks and appends no lineage); a live dependency that differs from it is reported as drift and fails the release gate until the producer is re-run or replay evidence is supplied.
+            live = SC.identity(d, live_master, cfg, root, raw_hash, raw_src)
+            drift = [x for x in ("corpusHash", "configSectionHashes", "inputFileMd5") if json.dumps(live.get(x), sort_keys=True) != json.dumps(prior.get(x), sort_keys=True)]
+            new, appended = SC.derive_stamp(s, copy.deepcopy(prior), milestone, "identity kept (producer not run)", now_iso)
+            new["computedAt"], new["computedAtNote"] = computed_at, note
+            if note is None:
+                new.pop("computedAtNote", None)
+            stamps[k] = new
+            report[k] = {"lineageAppended": appended, "rawIdentity": "carried", "ran": False, "identityKept": True, "dependencyDrift": drift}
+            continue
         ident = SC.identity(d, live_master, cfg, root, raw_hash, raw_src)
         new, appended = SC.derive_stamp(s, ident, milestone, "identity values changed (master, raw manifest, config section or input file)" , now_iso)
         new["computedAt"], new["computedAtNote"] = computed_at, note

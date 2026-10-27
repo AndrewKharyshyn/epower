@@ -237,7 +237,8 @@ def payload_checks(arrays_path):
         _dir = Path(arrays_path).parent
         _cfg = json.loads((_dir / "summary_config.json").read_text(encoding="utf-8"))
         _live = json.loads((_dir / "raw_manifest.json").read_text(encoding="utf-8")).get("corpusHash")
-        _pb, _ = _sc.verify_declared(sa, _cfg, _sc.load_deps(str(SRC / "tools" / "stamp_dependencies.json")), _live)
+        _lm = __import__("hashlib").md5((_dir / "drive_master.csv").read_bytes()).hexdigest()    # M519 (R01): live master and the declared input files (read from the source tree: the gate's clean copy holds only the required files) are compared with the declared identities
+        _pb, _ = _sc.verify_declared(sa, _cfg, _sc.load_deps(str(SRC / "tools" / "stamp_dependencies.json")), _live, _lm, str(SRC))
         for _p in _pb:
             checks["M513 declared stamp: " + _p] = False
         checks["declared stamps (tools/stamp_dependencies.json) derive from their declared dependencies: config sections and raw identity equal the live ones (M513)"] = not _pb

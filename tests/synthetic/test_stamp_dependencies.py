@@ -59,12 +59,12 @@ A2 = {**A, "_artifactStamps": base}
 A2["_artifactStamps"]["ambTable"]["generatedAt"] = "2026-10-26T00:00:00+00:00"          # restamp_blocks: generatedAt alone changes -> no lineage entry
 st4, _ = run(A2, backfill=False)
 assert len(st4["ambTable"]["stampLineage"]) == 1
-st5, _ = run(A2, cfg=dict(CFG, ambientByDrive={"x.csv": [10, 99]}))                      # a declared config value changes -> one entry, earlier entries byte-identical
+ENV_AMB = {"XT_RUN_STAGES_OK": "s_amb", "XT_RUN_STARTED_AT": "2026-10-25T09:00:00+00:00"}
+st5, _ = run(A2, cfg=dict(CFG, ambientByDrive={"x.csv": [10, 99]}), env=ENV_AMB)         # a declared config value changes AND the producer ran -> one entry, earlier entries byte-identical
 assert len(st5["ambTable"]["stampLineage"]) == 2 and st5["ambTable"]["stampLineage"][0] == base["ambTable"]["stampLineage"][0]
 assert st5["ambTable"]["stampLineage"][1]["identity"] == base["ambTable"]["declaredIdentity"]
-st6, _ = run(A2, master=MASTER2)                                                          # restamp_blocks overwrote corpusHash in place; the declared identity still records the previous master
-A2b = copy.deepcopy(A2); A2b["_artifactStamps"]["ambTable"]["corpusHash"] = MASTER2
-st6, _ = run(A2b, master=MASTER2)
+A2b = copy.deepcopy(A2); A2b["_artifactStamps"]["ambTable"]["corpusHash"] = MASTER2     # restamp_blocks overwrote corpusHash in place; the declared identity still records the previous master
+st6, _ = run(A2b, master=MASTER2, env=ENV_AMB)
 assert st6["ambTable"]["stampLineage"][1]["identity"]["corpusHash"] == MASTER
 
 # ingestion run: producers all OK -> run start is the computedAt, live raw identity written; a missing producer stage -> the prior raw identity is carried, not the live one
@@ -118,6 +118,47 @@ if os.path.exists("summary_arrays.json") and os.path.exists("raw_manifest.json")
         assert SB.check(D) == [], SB.check(D)
         n2, _ = AP.derive_all(D, cfg, deps, new_master, new_manifest, envr, ROOT, False, None, "M999", None)
         assert all(n2[k] == D["_artifactStamps"][k] for k in deps)
+# M519 (R01): a dependency changes but the producer did not run -> the computational identity does not advance (no new hash, no new lineage entry, computedAt kept), the drift is reported,
+# an in-place overwrite by restamp_blocks is undone, and the release gate fails until the producer runs or replay evidence is supplied
+st5n, rep5n = run(A2, cfg=dict(CFG, ambientByDrive={"x.csv": [10, 99]}))
+assert st5n["ambTable"] == A2["_artifactStamps"]["ambTable"] and rep5n["ambTable"]["identityKept"] and rep5n["ambTable"]["dependencyDrift"] == ["configSectionHashes"]
+st6n, rep6n = run(A2b, master=MASTER2)
+assert st6n["ambTable"]["corpusHash"] == MASTER and len(st6n["ambTable"]["stampLineage"]) == 1 and rep6n["ambTable"]["dependencyDrift"] == ["corpusHash"]
+assert st6n["ambTable"]["computedAt"] == A2b["_artifactStamps"]["ambTable"]["computedAt"]
+pbn, _ = SC.verify_declared({**A2, "_artifactStamps": st6n}, CFG, {"ambTable": DEPS["ambTable"]}, MAN, MASTER2, ROOT)
+assert any("declared master hash" in x and "not recomputed" in x for x in pbn)
+# the raw-temperature-triplets witness: an input file changes on disk, no producer stage ran
+with tempfile.TemporaryDirectory() as tmp:
+    FD = {"fileBlock": {"producerStages": ["s_file"], "readsRaw": False, "readsRawManifest": False, "configSections": [], "inputFiles": ["in.csv"]}}
+    open(os.path.join(tmp, "in.csv"), "w").write("t\n19.0\n")
+    AF = {"meta": {}, "fileBlock": {"v": 1}, "_artifactStamps": {"fileBlock": dict(copy.deepcopy(LEGACY), corpusHash=MASTER)}}
+    envf = {"XT_RUN_STAGES_OK": "s_file", "XT_RUN_STARTED_AT": "2026-10-25T09:00:00+00:00", "XT_STAMP_NOW": "2026-10-25T10:00:00+00:00"}
+    stf, _ = AP.derive_all(AF, CFG, FD, MASTER, MAN, envf, tmp, False, None, "M519", None)           # the producer ran: the stamp names the file hash
+    AF["_artifactStamps"] = stf
+    assert SC.verify_declared(AF, CFG, FD, MAN, MASTER, tmp)[0] == []
+    open(os.path.join(tmp, "in.csv"), "w").write("t\n19.125\n")                                     # 19.0 -> 19.125 C, no producer stage runs
+    stg, repg = AP.derive_all(AF, CFG, FD, MASTER, MAN, {"XT_STAMP_NOW": "2026-10-26T10:00:00+00:00"}, tmp, False, None, "M519", None)
+    assert stg["fileBlock"] == stf["fileBlock"] and repg["fileBlock"]["dependencyDrift"] == ["inputFileMd5"]          # identity did not advance; computedAt kept
+    assert any("in.csv" in x and "not recomputed" in x for x in SC.verify_declared({**AF, "_artifactStamps": stg}, CFG, FD, MAN, MASTER, tmp)[0])
+    steps = SC.verify_declared(AF, CFG, FD, MAN, MASTER, tmp)[0]
+    assert any("in.csv" in x for x in steps)                                                          # the gate also fails on the previous stamp: the producer must run
+    # negative controls (R01): a false stored file hash, a false declared master hash, and disagreeing representations all FAIL
+    bad = copy.deepcopy(AF); bad["_artifactStamps"] = stf; open(os.path.join(tmp, "in.csv"), "w").write("t\n19.0\n")
+    assert SC.verify_declared(bad, CFG, FD, MAN, MASTER, tmp)[0] == []
+    b1 = copy.deepcopy(bad); b1["_artifactStamps"]["fileBlock"]["declaredIdentity"]["inputFileMd5"]["in.csv"] = "0" * 32
+    assert any("disagree" in x or "in.csv" in x for x in SC.verify_declared(b1, CFG, FD, MAN, MASTER, tmp)[0])
+    b2 = copy.deepcopy(bad); b2["_artifactStamps"]["fileBlock"]["declaredIdentity"]["inputFileMd5"]["in.csv"] = "0" * 32; b2["_artifactStamps"]["fileBlock"]["upstreamHashes"]["inputFileMd5"]["in.csv"] = "0" * 32
+    assert any("in.csv" in x and "not recomputed" in x for x in SC.verify_declared(b2, CFG, FD, MAN, MASTER, tmp)[0])
+    b3 = copy.deepcopy(bad); b3["_artifactStamps"]["fileBlock"]["declaredIdentity"]["corpusHash"] = "9" * 32
+    assert len(SC.verify_declared(b3, CFG, FD, MAN, MASTER, tmp)[0]) >= 2                           # disagreement with upstreamHashes and with the live master
+    b4 = copy.deepcopy(bad); b4["_artifactStamps"]["fileBlock"]["upstreamHashes"]["driveMasterMd5"] = "8" * 32
+    assert any("disagree" in x for x in SC.verify_declared(b4, CFG, FD, MAN, MASTER, tmp)[0])
+# the real payload verifies against the live master and input files (read-only)
+if os.path.exists("summary_arrays.json") and os.path.exists("drive_master.csv"):
+    import hashlib
+    _R = json.load(open("summary_arrays.json", encoding="utf-8")); _c = json.load(open("summary_config.json", encoding="utf-8"))
+    _lm = hashlib.md5(open("drive_master.csv", "rb").read()).hexdigest()
+    assert SC.verify_declared(_R, _c, SC.load_deps(), json.load(open("raw_manifest.json"))["corpusHash"], _lm, ROOT)[0] == []
 # gate (release_check): negative controls
 Dd = {"ambTable": DEPS["ambTable"], "rawBlock": DEPS["rawBlock"]}
 good, _ = run(A, backfill=True, replay={"masterMd5": MASTER, "blocks": {"ambTable": {"identical": True}}}, attest=att)
