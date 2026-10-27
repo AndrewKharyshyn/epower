@@ -75,7 +75,7 @@ def derive_stamp(stamp, new_identity, milestone, reason, now_iso):
     return s, appended
 
 
-def verify_declared(A, cfg, deps, live_manifest):
+def verify_declared(A, cfg, deps, live_manifest, live_master=None, root=None):
     """M513 gate (release_check): returns (problems, infos) for the declared blocks. A problem FAILS the release: a declared block whose stamp was not derived from its declaration, whose
     config-section hashes differ from the live config sections, or whose raw identity (readsRaw / readsRawManifest) is present but differs from the live raw_manifest corpusHash. An absent raw
     identity (evidence missing, R7) is an info (WARN), never a pass-by-default."""
@@ -87,6 +87,22 @@ def verify_declared(A, cfg, deps, live_manifest):
         di = s.get("declaredIdentity")
         if not di or not s.get("dependencies"):
             problems.append("%s: stamp not derived from the declared dependencies" % k); continue
+        up = s.get("upstreamHashes") or {}
+        # M519 (R01): the two stored representations of the identity must agree, and the stored master / input-file identities must equal the live ones (an uncomputed dependency change must not pass)
+        for a, b, what in ((di.get("corpusHash"), up.get("driveMasterMd5"), "corpusHash"), (di.get("configSectionHashes") or {}, up.get("configSectionHashes") or {}, "configSectionHashes"),
+                           (di.get("inputFileMd5") or {}, up.get("inputFileMd5") or {}, "inputFileMd5")):
+            if a != b:
+                problems.append("%s: declaredIdentity.%s and upstreamHashes disagree" % (k, what))
+        if s.get("corpusHash") != di.get("corpusHash"):
+            problems.append("%s: stamp corpusHash differs from declaredIdentity.corpusHash" % k)
+        if set((di.get("inputFileMd5") or {})) != set(d.get("inputFiles", [])):
+            problems.append("%s: declaredIdentity.inputFileMd5 does not cover the declared input files" % k)
+        if live_master is not None and di.get("corpusHash") != live_master:
+            problems.append("%s: declared master hash %s differs from the live drive_master.csv %s (dependency changed, block not recomputed)" % (k, str(di.get("corpusHash"))[:12], live_master[:12]))
+        if root is not None:
+            for f in d.get("inputFiles", []):
+                if (di.get("inputFileMd5") or {}).get(f) != file_md5(os.path.join(root, f)):
+                    problems.append("%s: declared input file %s md5 differs from the live file (dependency changed, block not recomputed)" % (k, f))
         for name in d.get("configSections", []):
             if (di.get("configSectionHashes") or {}).get(name) != section_hash(cfg, name):
                 problems.append("%s: config section %s differs from the live summary_config.json" % (k, name))
