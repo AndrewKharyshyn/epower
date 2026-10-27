@@ -368,6 +368,8 @@ RULES = [
          rx=r"current sensor (?:offset|bias)|sensor offset residual|real sign consistent|not a fitting artefact|(?:idle hold|ready idle) (?:check|corroborat)|offset (?:is )?(?:corrected|recalibrat)|offset corrected|offset.{0,60}excludes zero|(?<!not a )calibrated (?:sensor )?zero"),
     Rule("M521-timebase-wording", "regex", "M521/Director: engine-on quantities name their time base; the speed-zone share is a share of logged samples (native cadence, not time-weighted), not an engine-on time share; rpm is logged, so 'field-logged', never 'field-measured'",
          rx=r"\bengine on time share\b|\bfield measured refinement\b"),
+    Rule("M522-band-occupancy", "regex", "M522/Director: the 300-1400 rpm band share is bound to the payload (low-occupancy, descriptive, no interval); never near-empty, a rev-through, or a literal share of engine-on time; time spent inside the band is not analysed",
+         rx=r"\bnear empty\b|\brev through\b|(?<!\d )\b4 of engine on time\b"),
     Rule("M399-archaeology", "regex", "reader-facing text must not carry change-log history (it belongs in CHANGELOG)",
          rx=r"\bthis paragraph previously quoted\b|\bprior hand typed\b|\bsuperseded 28 w figure\b|\brecomputed 2026 07 10\b|\brefreshed at m373\b"),
     Rule("M427-F04-ev-bound", "regex", "M427/audit F04: the +/-3 s nearest-sample alignment and the symmetric 3 s debounce can move engine-off boundaries in either direction; neither guarantees a one-sided bound; say 'estimated RPM-defined engine-off share' with a detector sensitivity range (not a confidence interval)",
