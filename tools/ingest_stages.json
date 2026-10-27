@@ -496,6 +496,19 @@
    ]
   },
   {
+   "id": "rpm_opt_band",
+   "title": "M525: observed occupancy of logged engine rpm in the closed OPT band [1850, 2150] (share of engine-on time, rpm >= 300, 1 Hz grid) on the live corpus with a day-clustered interval; faithfulness gate against the stored rpmDistribution (STOP on failure); per-drive sidecar rpm_opt_band_sidecar.csv keyed by the raw sha256 (only new or changed drives are parsed); additive payload key rpmOptBand + stamp; supersedes the numeric leaves of the one-off generatorTractionRecon.rpmFinding (left unchanged); spec analyses/M525_spec.md Rev 2",
+   "cmd": [
+    "python3",
+    "tools/rpm_opt_band.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json",
+    "rpm_opt_band_sidecar.csv"
+   ]
+  },
+  {
    "id": "engine_runtime",
    "title": "M512: engine runtime on a declared time base: per-drive RPM-supported seconds and engine-on seconds from the production helpers cached in engine_runtime_sidecar.csv (raw sha256 + method version + closure hash); C0 (per-drive engine_on_pct reproduction and the legacy corpus figure) is a STOP; additive payload block engineRuntime + stamp; needs raw/ like ah_throughput; spec analyses/M512_spec.md Rev 2",
    "cmd": [

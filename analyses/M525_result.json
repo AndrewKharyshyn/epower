@@ -1,0 +1,96 @@
+{
+ "estimand": "duration-weighted share of engine-on time (rpm >= 300, 1 Hz grid) with logged rpm in the closed band [1850, 2150] (model_constants OPT_LO/OPT_HI), pooled over drives",
+ "basis": "observed occupancy of logged engine rpm; not an efficiency, BSFC or optimum-operation claim; the band edges come from external OEM context",
+ "descriptive": true,
+ "displayed": false,
+ "supersedes": "generatorTractionRecon.rpmFinding (numeric leaves; 410-drive one-off pass)",
+ "faithfulness": {
+  "maxAbsDiffHours": 0.0,
+  "tolHours": 0.002,
+  "nBins": 13,
+  "driveCount": 606,
+  "storedDriveCount": 606,
+  "passed": true
+ },
+ "primary": {
+  "pct": 63.073,
+  "ci95Pct": [
+   60.614,
+   65.332
+  ],
+  "nDrives": 573,
+  "nDays": 121,
+  "engineOnSeconds": 359524,
+  "bandSeconds": 226763,
+  "band": [
+   1850.0,
+   2150.0
+  ],
+  "bootstrap": {
+   "B": 4000,
+   "seed": 42,
+   "unit": "calendar day",
+   "degenerateDraws": 0
+  }
+ },
+ "perDrive": {
+  "median": 59.48,
+  "p25": 42.86,
+  "p75": 71.78,
+  "n": 573
+ },
+ "anchored": {
+  "pct": 63.06,
+  "diffVsDirectPp": -0.013,
+  "note": "stored pooled hours + raw sub-bin shares; the direct ratio is primary"
+ },
+ "edgeSensitivity": {
+  "narrow50": 61.399,
+  "wide50": 64.548,
+  "wide100": 65.945
+ },
+ "cadenceStrata": {
+  "slow": {
+   "pct": 63.003,
+   "ci95Pct": [
+    60.112,
+    65.673
+   ],
+   "nDrives": 400,
+   "nDays": 85
+  },
+  "fast": {
+   "pct": 64.322,
+   "ci95Pct": [
+    59.829,
+    67.702
+   ],
+   "nDrives": 164,
+   "nDays": 37
+  }
+ },
+ "ensOutlierV2Excluded": {
+  "pct": 63.063,
+  "ci95Pct": [
+   60.606,
+   65.326
+  ],
+  "nDrives": 571,
+  "nDays": 121,
+  "nExcluded": 2
+ },
+ "limits": [
+  "day bootstrap does not capture serial day correlation",
+  "rpm is ECU-reported via the logging app and resampled to 1 s means (ffill limit 15 s)",
+  "band edges are external OEM context"
+ ],
+ "provenance": {
+  "spec": "analyses/M525_spec.md",
+  "specSha256": "9a6316e4ed65de73dbf714c9ab5c9f50b0464d5dba25e0b1bc23eca76429101e",
+  "toolSha256": "b0d620c677212e2a4f7199d3456a0ca1ce1f0fbbcf00bde2c878847da521d8c0",
+  "sidecar": "rpm_opt_band_sidecar.csv",
+  "sidecarSha256": "1654b9620bf3690843f6a26874f109d8b03b566680950408d3e56ac5b63580d7",
+  "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+  "reparsedDrives": 606
+ }
+}
