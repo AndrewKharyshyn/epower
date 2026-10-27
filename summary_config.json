@@ -4281,7 +4281,7 @@
    "statedFloorRpm": 1500,
    "statedFloorContext": "exhaust system specifically designed around an operating range that does not use engine speeds below 1500 rpm",
    "source": "Article 2, §4 (\"Overview of X-TRAIL-dedicated e-POWER system\").",
-   "note": "The corpus's own empirically-derived fuel-state classifier floor (M84, RPM_HIST_FUELSTATE_RPM_MIN) sits at 1400 rpm, measured directly from where boost/load cleanly separate fuelled from motored operation -- close to, and slightly below, the manufacturer's rounded 1500 rpm figure. The 300-1400 rpm band independently resolves as near-empty (~4% of engine-on time, a rev-through transient, M83), consistent with the stated floor; treat 1400 rpm as a field-logged refinement of the OEM's rounded number, not a contradiction of it."
+   "note": "The corpus's own empirically-derived fuel-state classifier floor (M84, RPM_HIST_FUELSTATE_RPM_MIN) sits at 1400 rpm, field-logged where boost/load separate fuelled from motored operation -- close to, and slightly below, the manufacturer's rounded 1500 rpm figure. The occupancy of the band below that floor is given in the RPM Distribution section (computed there from the payload; M83 reading), which is not in conflict with the stated floor; treat 1400 rpm as a field-logged refinement of the OEM's rounded number, not a contradiction of it."
   },
   "maxOutputPoint": {
    "kw": 106.0,
