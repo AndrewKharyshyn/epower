@@ -62666,6 +62666,64 @@
     "declaredIn": "tools/stamp_dependencies.json",
     "milestone": "M520"
    }
+  },
+  "rpmOptBand": {
+   "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": null,
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-10-27T18:55:07.230941+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+    "rawIdentitySource": "ingest run 2026-10-27T18:54:07.230941+00:00: producer stages rpm_opt_band ran OK; raw_manifest.json corpusHash of this run",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "rpm_opt_band_sidecar.csv": "9742758a12ece6439a03a5dfad930952",
+     "analyses/M525_spec.md": "8766b276fbb4a6fb8fd2a1a7ffc3d462"
+    }
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M525: derived by tools/rpm_opt_band.py from drive_master.csv, the raw drive files through rpm_opt_band_sidecar.csv (keyed by raw sha256) and the stored rpmDistribution (faithfulness gate)",
+   "includedInReleaseAt": "2026-10-27T18:55:07.230941+00:00",
+   "inputBasis": {
+    "nDrives": 606,
+    "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-10-27T18:54:07.230941+00:00",
+   "declaredIdentity": {
+    "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "rpm_opt_band_sidecar.csv": "9742758a12ece6439a03a5dfad930952",
+     "analyses/M525_spec.md": "8766b276fbb4a6fb8fd2a1a7ffc3d462"
+    },
+    "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+    "rawIdentitySource": "ingest run 2026-10-27T18:54:07.230941+00:00: producer stages rpm_opt_band ran OK; raw_manifest.json corpusHash of this run"
+   },
+   "stampLineage": [
+    {
+     "identity": {
+      "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+      "upstreamHashes": {
+       "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
+      },
+      "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
+      "generatedAt": "2026-10-27T18:55:07.230941+00:00"
+     },
+     "supersededAtMilestone": "M513",
+     "supersededAt": "2026-10-27T19:04:04.560613+00:00",
+     "reason": "legacy stamp metadata (M294 raw-manifest backfill, M284 whole-config hash, fields cloned from another block) replaced by stamp metadata re-derived from declared dependencies"
+    }
+   ],
+   "fullConfigHashNote": "whole-config hash retired for declared blocks (M513): the stamp names the md5 of each computational config section it reads (upstreamHashes.configSectionHashes); the previous value is kept in stampLineage",
+   "dependencies": {
+    "declaredIn": "tools/stamp_dependencies.json",
+    "milestone": "M513"
+   }
   }
  },
  "ambientTable": {
@@ -151309,7 +151367,9 @@
    "empiricalPct": 63.4,
    "empiricalLoad": "steady cruise / generator-charging load",
    "nissanClaimPct": 80,
-   "corpusWideDrives": 410
+   "corpusWideDrives": 410,
+   "supersededBy": "rpmOptBand",
+   "supersededNote": "numeric leaves are the one-off 410-drive pass (397 drives with engine-on time) and are not refreshed; the live occupancy with a day-clustered interval is in rpmOptBand (M525)"
   },
   "sensitivity": [
    {
@@ -363670,5 +363730,107 @@
    ]
   },
   "decisiveRules": "M514 R7 unchanged inside the restricted set (failed draws <= 1 %, fewBlocks, cond <= 1e9, >= 10 gridChange drives on >= 5 days for G1/G2, >= 150 drives on >= 50 days)"
+ },
+ "rpmOptBand": {
+  "estimand": "duration-weighted share of engine-on time (rpm >= 300, 1 Hz grid) with logged rpm in the closed band [1850, 2150] (model_constants OPT_LO/OPT_HI), pooled over drives",
+  "basis": "observed occupancy of logged engine rpm; not an efficiency, BSFC or optimum-operation claim; the band edges come from external OEM context",
+  "descriptive": true,
+  "displayed": false,
+  "supersedes": "generatorTractionRecon.rpmFinding (numeric leaves; 410-drive one-off pass)",
+  "timeOrder": {
+   "drivesWithBackwardsTime": 0,
+   "nDrives": 606,
+   "note": "read-only count; the time column has no date, so a midnight-crossing drive would go backwards; same convention as rpmDistribution"
+  },
+  "faithfulness": {
+   "maxAbsDiffHours": 0.0,
+   "tolHours": 0.002,
+   "nBins": 13,
+   "driveCount": 606,
+   "storedDriveCount": 606,
+   "passed": true
+  },
+  "primary": {
+   "pct": 63.073,
+   "ci95Pct": [
+    60.614,
+    65.332
+   ],
+   "nDrives": 573,
+   "nDays": 121,
+   "nDaysWithEngineOn": 120,
+   "engineOnSeconds": 359524,
+   "bandSeconds": 226763,
+   "band": [
+    1850.0,
+    2150.0
+   ],
+   "bootstrap": {
+    "B": 4000,
+    "seed": 42,
+    "unit": "calendar day",
+    "degenerateDraws": 0
+   }
+  },
+  "perDrive": {
+   "median": 59.48,
+   "p25": 42.86,
+   "p75": 71.78,
+   "n": 573
+  },
+  "anchored": {
+   "pct": 63.06,
+   "diffVsDirectPp": -0.013,
+   "note": "stored pooled hours + raw sub-bin shares; the direct ratio is primary"
+  },
+  "edgeSensitivity": {
+   "narrow50": 61.399,
+   "wide50": 64.548,
+   "wide100": 65.945
+  },
+  "cadenceStrata": {
+   "slow": {
+    "pct": 63.003,
+    "ci95Pct": [
+     60.112,
+     65.673
+    ],
+    "nDrives": 400,
+    "nDays": 85
+   },
+   "fast": {
+    "pct": 64.322,
+    "ci95Pct": [
+     59.829,
+     67.702
+    ],
+    "nDrives": 164,
+    "nDays": 37
+   }
+  },
+  "ensOutlierV2Excluded": {
+   "pct": 63.063,
+   "ci95Pct": [
+    60.606,
+    65.326
+   ],
+   "nDrives": 571,
+   "nDays": 121,
+   "nExcluded": 2
+  },
+  "limits": [
+   "day bootstrap does not capture serial day correlation",
+   "rpm is ECU-reported via the logging app and resampled to 1 s means (ffill limit 15 s)",
+   "band edges are external OEM context"
+  ],
+  "provenance": {
+   "spec": "analyses/M525_spec.md",
+   "specSha256": "9a6316e4ed65de73dbf714c9ab5c9f50b0464d5dba25e0b1bc23eca76429101e",
+   "toolSha256": "3d9db257dd24ede629c79097d4bfa1ad193376bee87886d17b8e4a2f9ace5d1a",
+   "sidecar": "rpm_opt_band_sidecar.csv",
+   "sidecarSha256": "d7d3eba0ecb5f7f63e8c831531f9173ce5582dc1a8de00c7cf550c17bcffdf36",
+   "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "reparsedDrives": 0
+  }
  }
 }

@@ -375,6 +375,8 @@ RULES = [
          scope=("dom", "jsx", "config")),
     Rule("M524-timebase-x-lines", "regex", "M524/Director: the engine-state occupancy chart is a share of RPM-supported 1 Hz time (off = rpm < 400), not of engine-on time; the simultaneity table is generator-active time (reconstructed generator power above zero), not rpm engine-on time",
          rx=r"\bengine rpm band occupancy of engine on time\b|\bof pooled engine time\b|\bpooled agrees with the rpm distribution\b"),
+    Rule("M525-opt-band-wording", "regex", "M525/Director: the best-point band is an observed occupancy of logged engine rpm bound to rpmOptBand (with its interval); the label steady cruise / generator-charging load is not derivable from an rpm histogram; the stale one-off wording computed once on 397 of 410 drives is gone",
+         rx=r"\bsteady cruise generator charging load\b|\bcomputed once on 397 of 410 drives\b", scope=("dom", "jsx", "config")),
     Rule("M399-archaeology", "regex", "reader-facing text must not carry change-log history (it belongs in CHANGELOG)",
          rx=r"\bthis paragraph previously quoted\b|\bprior hand typed\b|\bsuperseded 28 w figure\b|\brecomputed 2026 07 10\b|\brefreshed at m373\b"),
     Rule("M427-F04-ev-bound", "regex", "M427/audit F04: the +/-3 s nearest-sample alignment and the symmetric 3 s debounce can move engine-off boundaries in either direction; neither guarantees a one-sided bound; say 'estimated RPM-defined engine-off share' with a detector sensitivity range (not a confidence interval)",

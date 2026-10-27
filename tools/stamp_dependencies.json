@@ -209,6 +209,25 @@
     "--check"
    ],
    "sidecar": "resistance_joint_sidecar.csv"
-  }
+  },
+  "rpmOptBand": {
+  "producer": "tools/rpm_opt_band.py",
+  "producerStages": [
+   "rpm_opt_band"
+  ],
+  "readsRaw": true,
+  "readsRawManifest": false,
+  "rawNote": "through rpm_opt_band_sidecar.csv keyed by the raw sha256 (per-drive fine rpm bin counts on the pipeline 1 Hz grid)",
+  "configSections": [],
+  "inputFiles": [
+   "rpm_opt_band_sidecar.csv",
+   "analyses/M525_spec.md"
+  ],
+  "checkCommand": [
+   "tools/rpm_opt_band.py",
+   "--check"
+  ],
+  "sidecar": "rpm_opt_band_sidecar.csv"
+ }
  }
 }
