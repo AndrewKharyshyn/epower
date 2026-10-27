@@ -1459,7 +1459,7 @@ function EngineCyclingChart() {
         })()} <strong style={{color:"#7c3aed"}}>M57 (2026-07-27):</strong> this view was a hand-maintained config block bucketed by trip <em>distance</em> — a basis M21 retired everywhere else — and its figures had the urban/highway relationship inverted. It is now pipeline-computed on drive_type, consistent with every other conditioned view in this dashboard.{" "}
         <strong style={{color:"#0f172a"}}>By Speed</strong>: {(()=>{
           const Z=_eob||[]; const top=Z.length?Z.reduce((x,y)=>y.pct>x.pct?y:x):null; const cross=Z.find(z=>z.pct>=50);
-          return top?`engine-on time share (pooled, descriptive) is ${top.pct}% in the ${top.zone} km/h zone${cross?` and first reaches 50% in the ${cross.zone} km/h zone`:""}`:"engine-on time share by speed zone is not available";
+          return top?`share of logged samples with rpm > 300 (native cadence, not time-weighted; pooled, descriptive) is ${top.pct}% in the ${top.zone} km/h zone${cross?` and first reaches 50% in the ${cross.zone} km/h zone`:""}`:"share of logged samples with rpm > 300 by speed zone is not available";
         })()} — an observed association; speed and drive class are confounded, and the controller logic is not observed here.
       </div>
     </div>
@@ -9578,7 +9578,7 @@ function RpmSpeedSync() {
         Engine RPM correlates with speed only <MetricHighlight tone="derived">ρ = {rho.median}</MetricHighlight>
         {" "}(CI {ci(rb)}) — far below a geartrain's ~1 — and spends
         {" "}<MetricHighlight tone="measured">{lp.median != null ? Math.round(lp.median * 100) : "—"}%</MetricHighlight>
-        {" "}of engine-on time clamped at the ~{Math.round(lpMid)} rpm generator load-point. RPM holds flat
+        {" "}of moving 1 Hz time with rpm &gt; 400 clamped at the ~{Math.round(lpMid)} rpm generator load-point. RPM holds flat
         across the whole 30–110 km/h range and climbs only under sustained high-speed demand. In a series hybrid
         the engine drives a generator, not the wheels (topology stated by the manufacturer, M105); the observed pattern is
         consistent with that. <EvidenceBadge status="derived" />
@@ -9601,12 +9601,12 @@ function RpmSpeedSync() {
           <div style={{ marginTop: 8, marginBottom: 10, padding: "8px 10px", background: "#f8fafc", border: "1px dashed #cbd5e1", borderRadius: 8, fontSize: 9.5, color: "#64748b", lineHeight: 1.65 }}>
             <strong style={{ color: "#0f172a" }}>Reading this against the RPM Distribution section.</strong> That
             section's Manufacturer Cross-Check reports the same <strong>{RD.bins?.[peakBinIdx]} rpm</strong> band
-            (M206-aligned) as <strong>~{peakPctOfEngineOn.toFixed(0)}%</strong> of engine-on time, pooled and
+            (M206-aligned) as <strong>~{peakPctOfEngineOn.toFixed(0)}%</strong> of engine-on time (rpm ≥ 300, 1 Hz grid, duration-weighted), pooled and
             duration-weighted across all {RD.coverage?.nDrives ?? "—"} drives — lower than the
             {" "}<strong>{lp.median != null ? Math.round(lp.median * 100) : "—"}%</strong> shown here. Same band,
             different statistic, not a disagreement: this KPI is the <em>median of each drive's own</em> load-point
             fraction ({C.nDrivesCovered} drives, channel-gated); that one is a single pooled share of total
-            engine-on hours. They answer "typical drive" vs "typical engine-on second" respectively, and diverge
+            engine-on hours (rpm ≥ 300, 1 Hz grid). They answer "typical drive" vs "typical engine-on second" respectively, and diverge
             because higher-speed/highway drives spend a smaller load-point share but contribute
             disproportionately more engine-on hours to the pooled total.
           </div>
@@ -10499,7 +10499,7 @@ function CrossVehicle() {
           <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16,marginBottom:14}}>
             {["urban","mixed"].map(st => rpmOcc[st] ? (
               <div key={st}>
-                <div style={{fontSize:11,fontWeight:700,color:"#0f172a",marginBottom:6,textTransform:"capitalize"}}>{st} — engine RPM occupancy (% of engine-on time)</div>
+                <div style={{fontSize:11,fontWeight:700,color:"#0f172a",marginBottom:6,textTransform:"capitalize"}}>{st} — engine RPM occupancy (% of engine-on time, rpm ≥ 300, 1 Hz grid)</div>
                 <table style={{width:"100%",borderCollapse:"collapse",fontSize:10}}>
                   <thead>
                     <tr style={{textAlign:"left",color:"#475569",borderBottom:"1px solid #e2e8f0"}}>
@@ -10980,7 +10980,7 @@ const COMPARE_SPECS={
     cats:d=>Array.isArray(d)?d.map(x=>({label:x.zone,value:x.rate})):[]},
   EngineOnDuration:{kind:"box",title:"Engine-on segment duration by class \u2014 box: min\u00b7p10\u00b7med\u00b7p90\u00b7max",unit:"s",digits:0,log:true,
     cats:d=>Array.isArray(d)?d.map(x=>({label:x.label,med:x.median,q1:x.p10,q3:x.p90,wlo:x.min,whi:x.max,n:x.nSegments})):[]},
-  EngineOnBySpeed:{kind:"bars",title:"Engine-on time share by speed zone (%)",unit:"%",digits:0,
+  EngineOnBySpeed:{kind:"bars",title:"Share of logged samples with rpm > 300 by speed zone (%)",unit:"%",digits:0,
     cats:d=>Array.isArray(d)?d.map(x=>({label:x.zone,value:x.pct})):[]},
   RegenCaptureMeasured:{kind:"lines",title:"Apparent KE recovery proxy vs speed (%)",unit:"%",digits:1,
     xlabels:d=>Array.isArray(d)?d.map(r=>String(r[0])):[], y:d=>Array.isArray(d)?d.map(r=>r[1]):[]},
@@ -11627,7 +11627,7 @@ export default function App() {
           <CycleRateChart/>
         </Section>
         <Section seasonAware title="E — Engine ON/OFF Cycling by Drive Type & Speed" accent="#fb923c">
-          <div style={{fontSize:11,color:"#64748b",marginBottom:10}}>How often and how long the engine runs, derived from the RPM signal (RPM above {S.engineStartRate?.detector?.rpmThreshold ?? "—"} = ON; runs shorter than {S.engineStartRate?.detector?.minRunS ?? "—"} s filtered; short sensor gaps (up to {S.engineStartRate?.detector?.ffillLimitS ?? "—"} s) carried forward): detector-defined RPM-onset counts (labelled engine starts; not verified ignition or cold-start events) and engine-on durations and time shares, descriptive only; no wear or mechanism inference is drawn from them. The third view shows the engine-on time share by instantaneous speed zone (pooled, descriptive; speed and drive class are confounded, no attribution). n={S.engineOnDrives} drives with both speed+RPM PIDs / {S.dateRange} (5 early-May files lack the speed PID and are excluded from this chart only). The starts view shows the median of per-drive RPM-onset rates with spread, and the pooled ratio of sums (M343) with its CI is shown beside it in the All view; rates on drives of about 1 km are denominator-unstable (see the footnote).</div>
+          <div style={{fontSize:11,color:"#64748b",marginBottom:10}}>How often and how long the engine runs, derived from the RPM signal (RPM above {S.engineStartRate?.detector?.rpmThreshold ?? "—"} = ON; runs shorter than {S.engineStartRate?.detector?.minRunS ?? "—"} s filtered; short sensor gaps (up to {S.engineStartRate?.detector?.ffillLimitS ?? "—"} s) carried forward): detector-defined RPM-onset counts (labelled engine starts; not verified ignition or cold-start events) and engine-on durations and time shares, descriptive only; no wear or mechanism inference is drawn from them. The third view shows the share of logged samples with rpm &gt; 300 (native cadence, not time-weighted) by instantaneous speed zone (pooled, descriptive; speed and drive class are confounded, no attribution). n={S.engineOnDrives} drives with both speed+RPM PIDs / {S.dateRange} (5 early-May files lack the speed PID and are excluded from this chart only). The starts view shows the median of per-drive RPM-onset rates with spread, and the pooled ratio of sums (M343) with its CI is shown beside it in the All view; rates on drives of about 1 km are denominator-unstable (see the footnote).</div>
           <EngineCyclingChart/>
           <EngineStartRate/>
         </Section>
@@ -12007,11 +12007,11 @@ export default function App() {
             return (<>
               <div style={{fontSize:10,color:"#64748b",marginBottom:8}}>Derived from the calculated boost-pressure channel (Розрахунковий наддув) and engine RPM across <strong style={{color:"#0f172a"}}>{tm.nDrives} of {tm.totalDrives}</strong> drives carrying both PIDs ({tm.km} km / {tm.hours} h) — a direct reading of the turbocharger rather than an inference from engine-load alone. <strong style={{color:"#0f172a"}}>Corrected methodology (2026-07-05 audit):</strong> bars show % of ENGINE-ON time within each RPM band exceeding &gt;0.1 bar (meaningful boost, above sensor noise) — not the earlier &gt;0.05 bar figure computed against a denominator that mixed in engine-off time. On the current corpus, meaningful boost stays low ({midLo}-{midHi}%) through 1500-2500rpm and climbs above ~2500rpm ({highSeq}). The &lt;1500rpm band is already engine-on only (rpm &gt; 300 gate baked into every band, not just a low-RPM special case) — it contributes {lowBand.n.toLocaleString()} samples and shows {lowBand.activePct}% activation, essentially inactive this far below the turbo's useful range.</div>
               <div style={{padding:"8px 10px",background:"#eff6ff",borderRadius:6,marginBottom:8,fontSize:11,color:"#1e40af",border:"1px solid #bfdbfe"}}>
-                <strong>Boost-active duration: ~{overallPct?.toFixed(1) ?? "—"}% of ENGINE-ON time at &gt;0.1 bar</strong> (meaningful boost, {tm.nDrives} drives with the boost PID; sample-weighted mean across the RPM bands above). This corrects an earlier draft that used &gt;0.05 bar (barely above sensor noise) against a denominator that included engine-off time. Both the denominator and the threshold needed fixing — this figure and the chart below now use the same corrected basis throughout.
+                <strong>Boost-active duration: ~{overallPct?.toFixed(1) ?? "—"}% of ENGINE-ON time (rpm &gt; 300) at &gt;0.1 bar</strong> (meaningful boost, {tm.nDrives} drives logging boost and rpm PIDs; sample-weighted mean across the RPM bands above). This corrects an earlier draft that used &gt;0.05 bar (barely above sensor noise) against a denominator that included engine-off time. Both the denominator and the threshold needed fixing — this figure and the chart below now use the same corrected basis throughout.
               </div>
               <TurboPatternChart/>
               <div style={{marginTop:8,marginBottom:10,padding:8,background:"#f1f5f9",borderRadius:6,fontSize:10,color:"#64748b",lineHeight:1.6}}>
-                By speed (secondary context, engine-on time, &gt;0.1 bar): {T.map(z=>`${z.zone}km/h ${z.activePct}%`).join(" · ")}. Lowest at {minZ.zone} km/h ({minZ.activePct}%), highest at {maxZ.zone} km/h ({maxZ.activePct}%) — the shape does not track road speed monotonically, which is itself the point: RPM (not speed) is the mechanistically primary axis (chart above), since the same road speed can be held at very different engine RPM depending on generator load.
+                By speed (secondary context; on drives logging boost and rpm PIDs, rpm &gt; 300, boost &gt;0.1 bar): {T.map(z=>`${z.zone}km/h ${z.activePct}%`).join(" · ")}. Lowest at {minZ.zone} km/h ({minZ.activePct}%), highest at {maxZ.zone} km/h ({maxZ.activePct}%) — the shape does not track road speed monotonically, which is itself the point: RPM (not speed) is the mechanistically primary axis (chart above), since the same road speed can be held at very different engine RPM depending on generator load.
               </div>
               {[
                 ["Peak boost", `${peakBoost?.value ?? "—"} — ${peakBoost?.drive ?? "—"}, during a sustained high-speed pull`],
@@ -12067,7 +12067,7 @@ export default function App() {
               ? hrs[peakBinIdx]/engineOnHrsTotal*100 : 0;
             return (
           <div style={{marginTop:10,padding:"8px 10px",background:"#eff6ff",border:"1px solid #bfdbfe",borderRadius:6,fontSize:10.5,color:"#1e3a5f",lineHeight:1.7}}>
-            <strong style={{color:"#1e40af"}}>Manufacturer cross-check (M105).</strong> {S.oemTechReview.fixedPointOperation?.source} states this engine's designed steady-state operating point as <strong>{S.oemTechReview.fixedPointOperation?.bestThermalRpm} rpm</strong> (minimum BSFC {S.oemTechReview.fixedPointOperation?.bestThermalBsfcGPerKwh} g/kWh, moved down from a prior-generation {S.oemTechReview.fixedPointOperation?.priorGenerationFixedRpm} rpm fixed point specifically for quietness, ~{S.oemTechReview.fixedPointOperation?.statedNoiseReductionDba} dBA). This corpus's own duration-weighted occupancy chart above independently resolves a single dominant mode at <strong>{S.rpmDistribution.bins[peakBinIdx]} rpm</strong> covering ~{peakPctOfEngineOn.toFixed(0)}% of all engine-on time (M205: bin tightened around a 5rpm-resolution re-derivation putting the weighted center of mass at 2000.30&nbsp;rpm) — landing almost exactly on the disclosed design point, from raw field telemetry rather than a bench calibration. Separately, {S.oemTechReview.engineFloor?.source} states the engine's exhaust system is designed around a floor of <strong>{S.oemTechReview.engineFloor?.statedFloorRpm}+ rpm</strong>; this study's own boost/load fuel-state classifier (M84) independently resolves its floor at <strong>1400 rpm</strong>, with the 300-1400 rpm band near-empty (~4% of engine-on time, a transient rev-through, not a sustained band) — a field-measured refinement of the OEM's rounded figure, not a contradiction of it.
+            <strong style={{color:"#1e40af"}}>Manufacturer cross-check (M105).</strong> {S.oemTechReview.fixedPointOperation?.source} states this engine's designed steady-state operating point as <strong>{S.oemTechReview.fixedPointOperation?.bestThermalRpm} rpm</strong> (minimum BSFC {S.oemTechReview.fixedPointOperation?.bestThermalBsfcGPerKwh} g/kWh, moved down from a prior-generation {S.oemTechReview.fixedPointOperation?.priorGenerationFixedRpm} rpm fixed point specifically for quietness, ~{S.oemTechReview.fixedPointOperation?.statedNoiseReductionDba} dBA). This corpus's own duration-weighted occupancy chart above independently resolves a single dominant mode at <strong>{S.rpmDistribution.bins[peakBinIdx]} rpm</strong> covering ~{peakPctOfEngineOn.toFixed(0)}% of all engine-on time (rpm ≥ 300, 1 Hz grid, duration-weighted; M205: bin tightened around a 5rpm-resolution re-derivation putting the weighted center of mass at 2000.30&nbsp;rpm) — landing almost exactly on the disclosed design point, from raw field telemetry rather than a bench calibration. Separately, {S.oemTechReview.engineFloor?.source} states the engine's exhaust system is designed around a floor of <strong>{S.oemTechReview.engineFloor?.statedFloorRpm}+ rpm</strong>; this study's own boost/load fuel-state classifier (M84) independently resolves its floor at <strong>1400 rpm</strong>, with the 300-1400 rpm band near-empty (~4% of engine-on time, a transient rev-through, not a sustained band) — a field-logged refinement of the OEM's rounded figure, not a contradiction of it.
           </div>
             );
           })()}
@@ -12077,7 +12077,7 @@ export default function App() {
               {Array.isArray(R.byClass) && R.byClass.length>0 && (() => { const f1=(x)=>typeof x==="number"?x.toFixed(1):"n/a", ci=(c)=>Array.isArray(c)?`[${c[0].toFixed(1)}, ${c[1].toFixed(1)}]`:"no interval (fewer than 10 days)"; return (
                 <table style={{borderCollapse:"collapse",margin:"6px 0 2px",width:"100%",fontSize:9.5}} data-engine-runtime-classes="true"><thead><tr style={{textAlign:"left",background:"#dcfce7"}}>{["Class","Drives with RPM / days","On, RPM-supported (h)","RPM-supported (h)","Unsupported (h)","Bracket (h)","Supported rate, h per 10,000 km [95 % CI]","Duration-scaled (imputed) rate, h per 10,000 km [95 % CI]"].map(h=>(<th key={h} style={{padding:"3px 5px",fontWeight:700}}>{h}</th>))}</tr></thead>
                   <tbody>{R.byClass.map(c=>(<tr key={c.key} style={{borderTop:"1px solid #bbf7d0"}}><td style={{padding:"3px 5px",fontWeight:600}}>{String(c.key).replace("_"," ")}{c.fewDrives?" (few drives)":""}</td><td style={{padding:"3px 5px"}}>{c.nDrivesWithRpm} / {c.nDaysWithRpm}</td><td style={{padding:"3px 5px"}}>{f1(c.supportedOnHours)}</td><td style={{padding:"3px 5px"}}>{f1(c.supportedHours)}</td><td style={{padding:"3px 5px"}}>{f1(c.unsupportedHours)}</td><td style={{padding:"3px 5px"}}>{f1(c.bracketHours[0])} to {f1(c.bracketHours[1])}</td><td style={{padding:"3px 5px"}}>{f1(c.supportedOnPer10kKm)} {ci(c.supportedOnPer10kKmCi95)}</td><td style={{padding:"3px 5px"}}>{f1(c.scaledImputedPer10kKm)} {ci(c.scaledImputedPer10kKmCi95)}</td></tr>))}</tbody></table>); })()}
-              <div style={{fontSize:9,color:"#166534"}}>Per class (M517): hour totals are exact over the class; the rate intervals are 95 % day-clustered percentile intervals; the classes are listed side by side and no contrast between them is drawn. Rates are descriptive per class and not adjusted for speed or route mix; lower-speed classes accrue more engine hours per km by construction. Interval overlap or separation is not a test between classes.{R.unclassified && R.unclassified.nDrives>0 ? ` ${R.unclassified.nDrives} drives of unknown type are in the totals but in no class.` : ""}</div>
+              <div style={{fontSize:9,color:"#166534"}}>Per class (M517): RPM-supported engine-on time (eng_rpm &gt; 400); hour totals are exact over the class; the rate intervals are 95 % day-clustered percentile intervals; the classes are listed side by side and no contrast between them is drawn. Rates are descriptive per class and not adjusted for speed or route mix; lower-speed classes accrue more engine hours per km by construction. Interval overlap or separation is not a test between classes.{R.unclassified && R.unclassified.nDrives>0 ? ` ${R.unclassified.nDrives} drives of unknown type are in the totals but in no class.` : ""}</div>
             </div>); })()}
           <div style={{marginTop:10,overflowX:"auto"}}>
             <table style={{width:"100%",borderCollapse:"collapse",fontSize:10,color:"#374151"}}>

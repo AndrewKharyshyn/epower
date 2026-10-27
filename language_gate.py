@@ -366,6 +366,8 @@ RULES = [
          rx=r"\binjection off\b|\bburns no fuel\b|\bzero fuel consumption\b|\bmeasured fuel rate\b|\bindependent counter\b"),
     Rule("M421-offset-claims", "regex", "M421/Director (audit F14): the two-pass offset is a model-derived residual-balance offset conditional on the SoC/capacity ledger, not a calibrated sensor zero, a real bias, a corrected or recalibrated sensor, or corroborated by the Ready-mode idle current (which carries auxiliary load); its interval is fit variability",
          rx=r"current sensor (?:offset|bias)|sensor offset residual|real sign consistent|not a fitting artefact|(?:idle hold|ready idle) (?:check|corroborat)|offset (?:is )?(?:corrected|recalibrat)|offset corrected|offset.{0,60}excludes zero|(?<!not a )calibrated (?:sensor )?zero"),
+    Rule("M521-timebase-wording", "regex", "M521/Director: engine-on quantities name their time base; the speed-zone share is a share of logged samples (native cadence, not time-weighted), not an engine-on time share; rpm is logged, so 'field-logged', never 'field-measured'",
+         rx=r"\bengine on time share\b|\bfield measured refinement\b"),
     Rule("M399-archaeology", "regex", "reader-facing text must not carry change-log history (it belongs in CHANGELOG)",
          rx=r"\bthis paragraph previously quoted\b|\bprior hand typed\b|\bsuperseded 28 w figure\b|\brecomputed 2026 07 10\b|\brefreshed at m373\b"),
     Rule("M427-F04-ev-bound", "regex", "M427/audit F04: the +/-3 s nearest-sample alignment and the symmetric 3 s debounce can move engine-off boundaries in either direction; neither guarantees a one-sided bound; say 'estimated RPM-defined engine-off share' with a detector sensitivity range (not a confidence interval)",
