@@ -826,12 +826,12 @@ _simu = {r["type"]: r for r in _G3["simultaneity"]}
 _ss = {r["bin"]: r for r in _G3["speedSplit"]}
 _all3 = " ".join(" ".join(T.values()).split())
 _sts = ("genPlusBattDischarge", "chargesAndDrives", "genAloneNeutral", "fullyBanked")
-ok("A2 REQUIRED M373 simultaneity text: 'largest engine-on state in urban and mixed driving' is TRUE in the payload (charge-and-drive is the maximum state of both rows), the not-monotonic remark is TRUE, and the wording is rendered",
+ok("A2 REQUIRED M373 simultaneity text: 'largest generator-active state in urban and mixed driving' (M524 wording; M373 originally 'engine-on') is TRUE in the payload (charge-and-drive is the maximum state of both rows), the not-monotonic remark is TRUE, and the wording is rendered",
    all(max(_simu[t][k] for k in _sts) == _simu[t]["chargesAndDrives"] for t in ("urban", "mixed"))
    and not (all(a <= b for a, b in zip([_simu[t]["chargesAndDrives"] for t in ("urban", "mixed", "mixed_highway", "highway")], [_simu[t]["chargesAndDrives"] for t in ("urban", "mixed", "mixed_highway", "highway")][1:]))
             or all(a >= b for a, b in zip([_simu[t]["chargesAndDrives"] for t in ("urban", "mixed", "mixed_highway", "highway")], [_simu[t]["chargesAndDrives"] for t in ("urban", "mixed", "mixed_highway", "highway")][1:])))
-   and "charge-and-drive is the largest engine-on state in urban and mixed driving" in _all3 and "charge-and-drive is not monotonic across the four types" in _all3
-   and f"charge-and-drive for {_js(_simu['urban']['chargesAndDrives'])}% of engine-on time (mixed {_js(_simu['mixed']['chargesAndDrives'])}%)" in _all3)
+   and "charge-and-drive is the largest generator-active state in urban and mixed driving" in _all3 and "charge-and-drive is not monotonic across the four types" in _all3
+   and f"charge-and-drive for {_js(_simu['urban']['chargesAndDrives'])}% of generator-active time (mixed {_js(_simu['mixed']['chargesAndDrives'])}%)" in _all3)
 ok("A2 REQUIRED M373 simultaneity basis note: refreshed, descriptive, no interval, deadband deltas bound to refreshedBlocks",
    all(x in _all3 for x in ("Basis note: recomputed on the live corpus per-second", "descriptive point shares, no interval", "replacing the raw basis by the former lower-precision re-exports changes any share by at most %s pp at 0.5 kW" % _js(_rb3["simultaneity"]["deadbandMaxAbsDeltaPP_O_minus_R"]["primary_0.5kW"]))))
 _bins = ("0-20", "20-60", "60-90", "90-120")
