@@ -12134,10 +12134,17 @@ def _soc_balanced_fuel(dm, raw_loader=None, raw_dir=None, _apply_eligibility=Tru
             'rawFleetL100': sens['rawFleetL100'], 'socBalancedFleetL100': sens['socBalancedFleetL100'],
             'byEta': [{'eta': e['eta'], 'fleetL100': e['fleetL100']} for e in sens['byEta']],
             'socBalancedFleetBoot': sens['socBalancedFleetBoot'],
-            'deltaVsPrimary': {'socBalancedFleetL100': round(sens['socBalancedFleetL100'] - out['socBalancedFleetL100'], 6),
-                               'rawFleetL100': round(sens['rawFleetL100'] - out['rawFleetL100'], 6)},
+            # M520 (re-audit 2026-10-26): the deltas are differences of the UNROUNDED fleet figures (the three-decimal headlines are rounded displays); 6 decimals
+            'deltaVsPrimary': {'socBalancedFleetL100': round(_hf_unrounded(all_rows)['socBalancedFleetL100'] - _hf_unrounded(rows)['socBalancedFleetL100'], 6),
+                               'rawFleetL100': round(_hf_unrounded(all_rows)['rawFleetL100'] - _hf_unrounded(rows)['rawFleetL100'], 6)},
             'extraFiles': out['eligibility']['excludedFiles']}
     return out
+
+
+def _hf_unrounded(rows):
+    """M520: unrounded raw and SoC-balanced (eta 0.30) fleet L/100 km of a trip set, from the same sums as _hf_block (which rounds them to three decimals for display)."""
+    fuel = sum(x['fuelL'] for x in rows); dist = sum(x['distKm'] for x in rows); dE = sum(x['dE_kWh'] for x in rows)
+    return {'rawFleetL100': fuel / dist * 100.0, 'socBalancedFleetL100': (fuel - dE / (0.30 * _HF_LHV)) / dist * 100.0}
 
 
 def _hf_block(rows):

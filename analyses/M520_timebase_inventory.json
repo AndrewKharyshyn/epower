@@ -1,0 +1,123 @@
+{
+ "scope": "xtrail_summary.jsx lines quoting engine-on time/hours",
+ "nQuoting": 23,
+ "nWithoutNamedBase": 17,
+ "rows": [
+  {
+   "line": 1462,
+   "namesTimeBase": false,
+   "text": "return top?`engine-on time share (pooled, descriptive) is ${top.pct}% in the ${top.zone} km/h zone${cross?` and first reaches 50% in the ${cross.zone} km/h zone`:\"\"}`:\"engine-on time share by speed zone is not available\""
+  },
+  {
+   "line": 5428,
+   "namesTimeBase": false,
+   "text": "<li style={{marginBottom:5}}><strong>The BSFC surface is an assumed prior; the RPM occupancy is observed.</strong> The best-point (OPT) band, {R.rpmFinding.optLo}–{R.rpmFinding.optHi} rpm, is where, across {R.rpmFinding."
+  },
+  {
+   "line": 5518,
+   "namesTimeBase": false,
+   "text": "<strong>In this descriptive table, charge-and-drive is the largest engine-on state in urban and mixed driving.</strong> It is a point share with no interval, the ordering across drive types is not tested, and the highway"
+  },
+  {
+   "line": 5521,
+   "namesTimeBase": true,
+   "text": "Basis note: recomputed on the live corpus per-second at the M265 battery-current sign convention over the headline fuel-instrumented set ({rfb(R,\"simultaneity\").nDrives} drives, {rfb(R,\"simultaneity\").nDays} days; {R.sim"
+  },
+  {
+   "line": 6077,
+   "namesTimeBase": true,
+   "text": "{view===\"pooled\" && <>Engine off <strong style={{color:\"#0f172a\"}}>{offPct.toFixed(0)}%</strong> of all gridded time; of engine-on time, occupancy peaks sharply in the <strong style={{color:\"#0f172a\"}}>{bins[peakIdx]} rp"
+  },
+  {
+   "line": 9581,
+   "namesTimeBase": false,
+   "text": "{\" \"}of engine-on time clamped at the ~{Math.round(lpMid)} rpm generator load-point. RPM holds flat"
+  },
+  {
+   "line": 9604,
+   "namesTimeBase": false,
+   "text": "(M206-aligned) as <strong>~{peakPctOfEngineOn.toFixed(0)}%</strong> of engine-on time, pooled and"
+  },
+  {
+   "line": 9609,
+   "namesTimeBase": false,
+   "text": "engine-on hours. They answer \"typical drive\" vs \"typical engine-on second\" respectively, and diverge"
+  },
+  {
+   "line": 9611,
+   "namesTimeBase": false,
+   "text": "disproportionately more engine-on hours to the pooled total."
+  },
+  {
+   "line": 10502,
+   "namesTimeBase": false,
+   "text": "<div style={{fontSize:11,fontWeight:700,color:\"#0f172a\",marginBottom:6,textTransform:\"capitalize\"}}>{st} — engine RPM occupancy (% of engine-on time)</div>"
+  },
+  {
+   "line": 10874,
+   "namesTimeBase": false,
+   "text": "EngineStateMachine:{kind:\"bars\",title:\"Engine RPM-band occupancy (% of engine-on time)\",unit:\"%\",digits:1,"
+  },
+  {
+   "line": 10983,
+   "namesTimeBase": false,
+   "text": "EngineOnBySpeed:{kind:\"bars\",title:\"Engine-on time share by speed zone (%)\",unit:\"%\",digits:0,"
+  },
+  {
+   "line": 11630,
+   "namesTimeBase": true,
+   "text": "<div style={{fontSize:11,color:\"#64748b\",marginBottom:10}}>How often and how long the engine runs, derived from the RPM signal (RPM above {S.engineStartRate?.detector?.rpmThreshold ?? \"—\"} = ON; runs shorter than {S.engi"
+  },
+  {
+   "line": 12008,
+   "namesTimeBase": false,
+   "text": "<div style={{fontSize:10,color:\"#64748b\",marginBottom:8}}>Derived from the calculated boost-pressure channel (Розрахунковий наддув) and engine RPM across <strong style={{color:\"#0f172a\"}}>{tm.nDrives} of {tm.totalDrives}"
+  },
+  {
+   "line": 12010,
+   "namesTimeBase": false,
+   "text": "<strong>Boost-active duration: ~{overallPct?.toFixed(1) ?? \"—\"}% of ENGINE-ON time at &gt;0.1 bar</strong> (meaningful boost, {tm.nDrives} drives with the boost PID; sample-weighted mean across the RPM bands above). This"
+  },
+  {
+   "line": 12014,
+   "namesTimeBase": false,
+   "text": "By speed (secondary context, engine-on time, &gt;0.1 bar): {T.map(z=>`${z.zone}km/h ${z.activePct}%`).join(\" · \")}. Lowest at {minZ.zone} km/h ({minZ.activePct}%), highest at {maxZ.zone} km/h ({maxZ.activePct}%) — the sh"
+  },
+  {
+   "line": 12059,
+   "namesTimeBase": false,
+   "text": "// already uses, but denominated over engine-ON hours (excludes"
+  },
+  {
+   "line": 12061,
+   "namesTimeBase": false,
+   "text": "// claims (\"% of all engine-on time\")."
+  },
+  {
+   "line": 12070,
+   "namesTimeBase": false,
+   "text": "<strong style={{color:\"#1e40af\"}}>Manufacturer cross-check (M105).</strong> {S.oemTechReview.fixedPointOperation?.source} states this engine's designed steady-state operating point as <strong>{S.oemTechReview.fixedPointO"
+  },
+  {
+   "line": 12076,
+   "namesTimeBase": true,
+   "text": "<strong>Engine-on time on a declared time base (M512).</strong> Inside RPM-supported intervals (eng_rpm &gt; 400: the engine is rotating, not necessarily fuelled) the engine was on for <strong>{T.supportedOnHours.toFixed"
+  },
+  {
+   "line": 12080,
+   "namesTimeBase": false,
+   "text": "<div style={{fontSize:9,color:\"#166534\"}}>Per class (M517): hour totals are exact over the class; the rate intervals are 95 % day-clustered percentile intervals; the classes are listed side by side and no contrast betwee"
+  },
+  {
+   "line": 12089,
+   "namesTimeBase": true,
+   "text": "<th style={{padding:\"5px 8px\",fontWeight:700,textAlign:\"right\"}}>Engine-on hours (duration-scaled, imputed)</th>"
+  },
+  {
+   "line": 12119,
+   "namesTimeBase": true,
+   "text": "pass; not engine-on time, see the RPM-supported figure above). Compared with a different time base —"
+  }
+ ],
+ "note": "same-line heuristic only; a line without a named base may name it in an adjacent sentence. A wording change needs the basis of each channel confirmed (Director)."
+}

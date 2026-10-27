@@ -1,3 +1,16 @@
+## M520 (2026-10-27): Re-audit 2026-10-26 reporting follow-ups: post hoc support-restricted refits (payload only, resistanceSupportRestricted), unrounded deltaVsPrimary at the source, time-base inventory (Part C open)
+
+**Rationale.** Part A: six exploratory support-restricted cells (all slopes positive 1.42 to 1.76 mOhm/month, estimated proxy; all inside the central 95 % of the size-matched null, so no detectable support effect; M14 2/4 decisive exclude zero, so procedure-dependent), identity check against M514 max diff 0.0, blind audit accept, Director accept, owner decision payload only (2026-10-27), sibling key keeps the M514 block bytes; Part B: deltaVsPrimary from unrounded sums fixed in compute_summary_arrays.py (-0.000767 / -0.000283); Part C: inventory only, no wording changed; tooling: kept stamps keep their dependencies label (stamp_dependencies_apply.py); spec analyses/M520_spec.md Rev 2.1; no estimator, M514 block or master row changed.
+
+**State.** `drive_master.csv` 606 rows, MD5 `5556a0c6c8bcde0f6c64b8b9655208ed`.
+
+**Gates (runs/20261020T221332Z).** restamp_ingest=ok; build_html=ok; jsdom=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `analyses/M520_spec.md`, `analyses/M520_result.json`, `analyses/M520_audit.json`, `analyses/M520_timebase_inventory.json`, `tools/resistance_support_restricted.py`, `tools/m520_delta_splice.py`, `tools/m520_timebase_inventory.py`, `tools/stamp_dependencies_apply.py`, `tools/stamp_dependencies.json`, `tools/ingest_stages.json`, `tools/restamp_ingest.py`, `compute_summary_arrays.py`, `summary_arrays.json`, `xtrail_dashboard.html`, `tests/synthetic/test_resistance_support_restricted.py`, `tests/synthetic/test_m520_delta_unrounded.py`, `.github/workflows/ci.yml`.
+
+
 ## M519 (2026-10-27): Audit re-audit 2026-10-26: R01 declared-stamp gate compares live master and input-file identities and keeps the identity when the producer did not run; R02 joint-matrix sentence states both populations (271/98 G0-G1, 224/77 G2)
 
 **Rationale.** Closes the two P2 findings of the 2026-10-26 independent re-audit (snapshot M518): stored master / input-file identities and the two identity representations are now verified (negative controls incl. the 19.0 to 19.125 C witness), derive_all no longer advances an identity for a producer that did not run, and the nested Power fade view is covered by test_power_fade_matrix.js; no estimator, payload value or master row changed (spec analyses/M519_spec.md).

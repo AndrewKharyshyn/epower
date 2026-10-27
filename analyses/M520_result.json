@@ -1,0 +1,624 @@
+{
+ "label": "support-restricted refits of the resistance-proxy (vreg_R_pack_mohm) months coefficient, powerFade S1 design; POST HOC exploratory sensitivity (the restricted values were seen before registration); estimated proxy, a conditional association in one warm window, not a degradation rate, SOH or true resistance",
+ "postHoc": true,
+ "confirmatory": false,
+ "displayed": false,
+ "spec": "analyses/M520_spec.md (Rev 2.1)",
+ "specSha256": "724f92c463a9a6ebeba920f826a0b393f452d46bf20f48d0fa0bc16d836e09e7",
+ "scriptSha256": "7cc066e587a54f7d295be7b70f02db0123c0e400124f381d121ee321161eea7b",
+ "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+ "m514ScriptSha256": "67dd051a380a3300134e9bddd3a9a7abec994e5a7a10695e93cf5dbee0f67264",
+ "seed": 42,
+ "nBoot": 4000,
+ "supportMargin": {
+  "minSamples": 600,
+  "rule": "A0: n_vreg_samples >= 2 x 300; A1: a1_n >= 2 x 300 (M505 Rev 2 R2)"
+ },
+ "populations": {
+  "A0": {
+   "nDrives": 184,
+   "nDays": 77,
+   "nGridChangeDrives": 28,
+   "nGridChangeDays": 16,
+   "g2Subset": {
+    "nDrives": 156,
+    "nDays": 61
+   },
+   "gridChangeRuleMet": true,
+   "g2SubsetRuleMet": true,
+   "populationRuleMet": true
+  },
+  "A1": {
+   "nDrives": 184,
+   "nDays": 77,
+   "nGridChangeDrives": 28,
+   "nGridChangeDays": 16,
+   "g2Subset": {
+    "nDrives": 156,
+    "nDays": 61
+   },
+   "gridChangeRuleMet": true,
+   "g2SubsetRuleMet": true,
+   "populationRuleMet": true
+  }
+ },
+ "cells": [
+  {
+   "id": "A0G0C1T0",
+   "slope": 1.41981,
+   "n": 184,
+   "nDays": 77,
+   "nWeeks": 22,
+   "conditionNumber": 39.3988,
+   "day": {
+    "fewBlocks": false,
+    "ci95": [
+     0.59715,
+     2.38509
+    ],
+    "reading": "positive",
+    "failedDraws": 0,
+    "failedShare": 0.0,
+    "decisive": true
+   },
+   "week": {
+    "fewBlocks": false,
+    "ci95": [
+     0.46962,
+     2.26364
+    ],
+    "reading": "positive",
+    "failedDraws": 0,
+    "failedShare": 0.0,
+    "decisive": true
+   },
+   "M7": {
+    "fewBlocks": false,
+    "ci95": [
+     0.51129,
+     2.24411
+    ],
+    "reading": "positive",
+    "failedDraws": 0,
+    "failedShare": 0.0,
+    "endpointMcSd": [
+     0.02442,
+     0.0243
+    ],
+    "endpointWithinMcErrorOfZero": false,
+    "decisive": true
+   },
+   "M14": {
+    "fewBlocks": false,
+    "ci95": [
+     0.21432,
+     2.12797
+    ],
+    "reading": "positive",
+    "failedDraws": 0,
+    "failedShare": 0.0,
+    "endpointMcSd": [
+     0.03651,
+     0.01497
+    ],
+    "endpointWithinMcErrorOfZero": false,
+    "decisive": true
+   },
+   "readingAcrossProcedures": {
+    "day": "positive",
+    "week": "positive",
+    "M7": "positive",
+    "M14": "positive"
+   },
+   "sizeMatchedNull": {
+    "nDraws": 2000,
+    "k": 184,
+    "nullQuantiles": {
+     "p2.5": -0.10928,
+     "p50": 0.64219,
+     "p97.5": 1.441
+    },
+    "observedSlope": 1.41981,
+    "fractionOfNullAtOrBelowObserved": 0.9715,
+    "insideCentral95": true
+   }
+  },
+  {
+   "id": "A0G1C1T0",
+   "slope": 1.61471,
+   "n": 184,
+   "nDays": 77,
+   "nWeeks": 22,
+   "conditionNumber": 40.08812,
+   "day": {
+    "fewBlocks": false,
+    "ci95": [
+     0.72608,
+     2.70399
+    ],
+    "reading": "positive",
+    "failedDraws": 0,
+    "failedShare": 0.0,
+    "decisive": true
+   },
+   "week": {
+    "fewBlocks": false,
+    "ci95": [
+     0.19754,
+     2.71356
+    ],
+    "reading": "positive",
+    "failedDraws": 3,
+    "failedShare": 0.00075,
+    "decisive": true
+   },
+   "M7": {
+    "fewBlocks": false,
+    "ci95": [
+     0.65144,
+     2.42787
+    ],
+    "reading": "positive",
+    "failedDraws": 6,
+    "failedShare": 0.0015,
+    "endpointMcSd": [
+     0.05912,
+     0.02063
+    ],
+    "endpointWithinMcErrorOfZero": false,
+    "decisive": true
+   },
+   "M14": {
+    "fewBlocks": false,
+    "ci95": [
+     0.13349,
+     2.4184
+    ],
+    "reading": "positive",
+    "failedDraws": 69,
+    "failedShare": 0.01725,
+    "endpointMcSd": [
+     0.07443,
+     0.01924
+    ],
+    "endpointWithinMcErrorOfZero": true,
+    "decisive": false
+   },
+   "readingAcrossProcedures": {
+    "day": "positive",
+    "week": "positive",
+    "M7": "positive",
+    "M14": null
+   },
+   "sizeMatchedNull": {
+    "nDraws": 2000,
+    "k": 184,
+    "nullQuantiles": {
+     "p2.5": 0.36286,
+     "p50": 1.12919,
+     "p97.5": 2.05727
+    },
+    "observedSlope": 1.61471,
+    "fractionOfNullAtOrBelowObserved": 0.8605,
+    "insideCentral95": true
+   }
+  },
+  {
+   "id": "A0G2C1T0",
+   "slope": 1.65683,
+   "n": 156,
+   "nDays": 61,
+   "nWeeks": 18,
+   "conditionNumber": 37.99209,
+   "day": {
+    "fewBlocks": false,
+    "ci95": [
+     0.81895,
+     2.71255
+    ],
+    "reading": "positive",
+    "failedDraws": 0,
+    "failedShare": 0.0,
+    "decisive": true
+   },
+   "week": {
+    "fewBlocks": false,
+    "ci95": [
+     0.48061,
+     2.57355
+    ],
+    "reading": "positive",
+    "failedDraws": 0,
+    "failedShare": 0.0,
+    "decisive": true
+   },
+   "M7": {
+    "fewBlocks": false,
+    "ci95": [
+     0.60342,
+     2.45664
+    ],
+    "reading": "positive",
+    "failedDraws": 0,
+    "failedShare": 0.0,
+    "endpointMcSd": [
+     0.06557,
+     0.02962
+    ],
+    "endpointWithinMcErrorOfZero": false,
+    "decisive": true
+   },
+   "M14": {
+    "fewBlocks": false,
+    "ci95": [
+     -0.26356,
+     2.56487
+    ],
+    "reading": "includesZero",
+    "failedDraws": 0,
+    "failedShare": 0.0,
+    "endpointMcSd": [
+     0.07717,
+     0.05276
+    ],
+    "endpointWithinMcErrorOfZero": false,
+    "decisive": true
+   },
+   "subset": "G2: gridChange drives excluded",
+   "readingAcrossProcedures": {
+    "day": "positive",
+    "week": "positive",
+    "M7": "positive",
+    "M14": "includesZero"
+   },
+   "sizeMatchedNull": {
+    "nDraws": 2000,
+    "k": 156,
+    "nullQuantiles": {
+     "p2.5": 0.18354,
+     "p50": 0.9755,
+     "p97.5": 1.89325
+    },
+    "observedSlope": 1.65683,
+    "fractionOfNullAtOrBelowObserved": 0.937,
+    "insideCentral95": true
+   }
+  },
+  {
+   "id": "A1G0C1T0",
+   "slope": 1.50115,
+   "n": 184,
+   "nDays": 77,
+   "nWeeks": 22,
+   "conditionNumber": 39.41938,
+   "day": {
+    "fewBlocks": false,
+    "ci95": [
+     0.66289,
+     2.49532
+    ],
+    "reading": "positive",
+    "failedDraws": 0,
+    "failedShare": 0.0,
+    "decisive": true
+   },
+   "week": {
+    "fewBlocks": false,
+    "ci95": [
+     0.50149,
+     2.37307
+    ],
+    "reading": "positive",
+    "failedDraws": 0,
+    "failedShare": 0.0,
+    "decisive": true
+   },
+   "M7": {
+    "fewBlocks": false,
+    "ci95": [
+     0.56132,
+     2.3286
+    ],
+    "reading": "positive",
+    "failedDraws": 0,
+    "failedShare": 0.0,
+    "endpointMcSd": [
+     0.02059,
+     0.01934
+    ],
+    "endpointWithinMcErrorOfZero": false,
+    "decisive": true
+   },
+   "M14": {
+    "fewBlocks": false,
+    "ci95": [
+     0.22972,
+     2.24015
+    ],
+    "reading": "positive",
+    "failedDraws": 0,
+    "failedShare": 0.0,
+    "endpointMcSd": [
+     0.03453,
+     0.01199
+    ],
+    "endpointWithinMcErrorOfZero": false,
+    "decisive": true
+   },
+   "readingAcrossProcedures": {
+    "day": "positive",
+    "week": "positive",
+    "M7": "positive",
+    "M14": "positive"
+   },
+   "sizeMatchedNull": {
+    "nDraws": 2000,
+    "k": 184,
+    "nullQuantiles": {
+     "p2.5": -0.02278,
+     "p50": 0.74723,
+     "p97.5": 1.6207
+    },
+    "observedSlope": 1.50115,
+    "fractionOfNullAtOrBelowObserved": 0.953,
+    "insideCentral95": true
+   }
+  },
+  {
+   "id": "A1G1C1T0",
+   "slope": 1.69667,
+   "n": 184,
+   "nDays": 77,
+   "nWeeks": 22,
+   "conditionNumber": 40.11038,
+   "day": {
+    "fewBlocks": false,
+    "ci95": [
+     0.78839,
+     2.83253
+    ],
+    "reading": "positive",
+    "failedDraws": 0,
+    "failedShare": 0.0,
+    "decisive": true
+   },
+   "week": {
+    "fewBlocks": false,
+    "ci95": [
+     0.228,
+     2.81098
+    ],
+    "reading": "positive",
+    "failedDraws": 3,
+    "failedShare": 0.00075,
+    "decisive": true
+   },
+   "M7": {
+    "fewBlocks": false,
+    "ci95": [
+     0.67265,
+     2.54463
+    ],
+    "reading": "positive",
+    "failedDraws": 6,
+    "failedShare": 0.0015,
+    "endpointMcSd": [
+     0.05781,
+     0.0184
+    ],
+    "endpointWithinMcErrorOfZero": false,
+    "decisive": true
+   },
+   "M14": {
+    "fewBlocks": false,
+    "ci95": [
+     0.12707,
+     2.5214
+    ],
+    "reading": "positive",
+    "failedDraws": 69,
+    "failedShare": 0.01725,
+    "endpointMcSd": [
+     0.07006,
+     0.02805
+    ],
+    "endpointWithinMcErrorOfZero": true,
+    "decisive": false
+   },
+   "readingAcrossProcedures": {
+    "day": "positive",
+    "week": "positive",
+    "M7": "positive",
+    "M14": null
+   },
+   "sizeMatchedNull": {
+    "nDraws": 2000,
+    "k": 184,
+    "nullQuantiles": {
+     "p2.5": 0.43709,
+     "p50": 1.24822,
+     "p97.5": 2.17357
+    },
+    "observedSlope": 1.69667,
+    "fractionOfNullAtOrBelowObserved": 0.8515,
+    "insideCentral95": true
+   }
+  },
+  {
+   "id": "A1G2C1T0",
+   "slope": 1.75722,
+   "n": 156,
+   "nDays": 61,
+   "nWeeks": 18,
+   "conditionNumber": 38.01821,
+   "day": {
+    "fewBlocks": false,
+    "ci95": [
+     0.88965,
+     2.83839
+    ],
+    "reading": "positive",
+    "failedDraws": 0,
+    "failedShare": 0.0,
+    "decisive": true
+   },
+   "week": {
+    "fewBlocks": false,
+    "ci95": [
+     0.49973,
+     2.70505
+    ],
+    "reading": "positive",
+    "failedDraws": 0,
+    "failedShare": 0.0,
+    "decisive": true
+   },
+   "M7": {
+    "fewBlocks": false,
+    "ci95": [
+     0.61452,
+     2.58657
+    ],
+    "reading": "positive",
+    "failedDraws": 0,
+    "failedShare": 0.0,
+    "endpointMcSd": [
+     0.0759,
+     0.02698
+    ],
+    "endpointWithinMcErrorOfZero": false,
+    "decisive": true
+   },
+   "M14": {
+    "fewBlocks": false,
+    "ci95": [
+     -0.32762,
+     2.67728
+    ],
+    "reading": "includesZero",
+    "failedDraws": 0,
+    "failedShare": 0.0,
+    "endpointMcSd": [
+     0.07918,
+     0.04449
+    ],
+    "endpointWithinMcErrorOfZero": false,
+    "decisive": true
+   },
+   "subset": "G2: gridChange drives excluded",
+   "readingAcrossProcedures": {
+    "day": "positive",
+    "week": "positive",
+    "M7": "positive",
+    "M14": "includesZero"
+   },
+   "sizeMatchedNull": {
+    "nDraws": 2000,
+    "k": 156,
+    "nullQuantiles": {
+     "p2.5": 0.31678,
+     "p50": 1.06941,
+     "p97.5": 1.98285
+    },
+    "observedSlope": 1.75722,
+    "fractionOfNullAtOrBelowObserved": 0.932,
+    "insideCentral95": true
+   }
+  }
+ ],
+ "summary": {
+  "nCells": 6,
+  "nPositiveSlopes": 6,
+  "slopeRange": [
+   1.41981,
+   1.75722
+  ],
+  "intervalCounts": {
+   "day": {
+    "decisive": 6,
+    "excludeZero": 6,
+    "positive": 6
+   },
+   "week": {
+    "decisive": 6,
+    "excludeZero": 6,
+    "positive": 6
+   },
+   "M7": {
+    "decisive": 6,
+    "excludeZero": 6,
+    "positive": 6
+   },
+   "M14": {
+    "decisive": 4,
+    "excludeZero": 2,
+    "positive": 2
+   }
+  },
+  "proceduresDiffer": true,
+  "readingAcrossProcedures": "procedure-dependent or mixed",
+  "escalationK": 6,
+  "note": "six cells share one dataset and are not six independent results; no multiplicity control (6 cells x 4 procedures, re-looked at every ingestion); post hoc, exploratory; not part of the M514 ladder"
+ },
+ "selectionDiagnostic": {
+  "A0": {
+   "nRetained": 184,
+   "nExcluded": 87,
+   "daysLost": 21,
+   "standardizedMeanDifference": {
+    "months": -0.05239,
+    "T_pack_mean_avg": 0.62558,
+    "eff_dt_s": -0.07065,
+    "coverage_frac": -0.13554,
+    "distance_km": 1.11985,
+    "duration_s": 1.4193
+   },
+   "sampleCountSlopePerMonth": {
+    "slope": -91.72327,
+    "dayCi95": [
+     -249.33878,
+     60.98611
+    ],
+    "excludesZero": false
+   },
+   "flag": "no calendar trend in support detected (does not rule out confounding)"
+  },
+  "A1": {
+   "nRetained": 184,
+   "nExcluded": 87,
+   "daysLost": 21,
+   "standardizedMeanDifference": {
+    "months": -0.05239,
+    "T_pack_mean_avg": 0.62558,
+    "eff_dt_s": -0.07065,
+    "coverage_frac": -0.13554,
+    "distance_km": 1.11985,
+    "duration_s": 1.4193
+   },
+   "sampleCountSlopePerMonth": {
+    "slope": -89.94072,
+    "dayCi95": [
+     -246.76347,
+     63.12447
+    ],
+    "excludesZero": false
+   },
+   "flag": "no calendar trend in support detected (does not rule out confounding)"
+  }
+ },
+ "identityCheck": {
+  "passed": true,
+  "maxAbsDifference": 0.0,
+  "nValuesCompared": 54,
+  "tolerance": "5e-6",
+  "cells": [
+   "A0G0C1T0",
+   "A0G1C1T0",
+   "A0G2C1T0",
+   "A1G0C1T0",
+   "A1G1C1T0",
+   "A1G2C1T0"
+  ]
+ },
+ "decisiveRules": "M514 R7 unchanged inside the restricted set (failed draws <= 1 %, fewBlocks, cond <= 1e9, >= 10 gridChange drives on >= 5 days for G1/G2, >= 150 drives on >= 50 days)"
+}
