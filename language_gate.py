@@ -377,6 +377,8 @@ RULES = [
          rx=r"\bengine rpm band occupancy of engine on time\b|\bof pooled engine time\b|\bpooled agrees with the rpm distribution\b"),
     Rule("M525-opt-band-wording", "regex", "M525/Director: the best-point band is an observed occupancy of logged engine rpm bound to rpmOptBand (with its interval); the label steady cruise / generator-charging load is not derivable from an rpm histogram; the stale one-off wording computed once on 397 of 410 drives is gone",
          rx=r"\bsteady cruise generator charging load\b|\bcomputed once on 397 of 410 drives\b", scope=("dom", "jsx", "config")),
+    Rule("M526-corpus-size-text", "regex", "M526/Director: payload text must not state a corpus size as live or current when it describes an earlier milestone (446-drive, 320-drive), must not call the superseded 410-drive RPM sample current, and must not carry the hand-typed motored share of the boost-classified population (basis not traceable); applies to the payload as well (the M523 payload exemption is lifted for this pattern)",
+         rx=r"\bonly 2 5 of the boost classified population\b|\brefreshed m281 are current\b|\blive 446 drive\b|\bcurrent 320 drive\b"),
     Rule("M399-archaeology", "regex", "reader-facing text must not carry change-log history (it belongs in CHANGELOG)",
          rx=r"\bthis paragraph previously quoted\b|\bprior hand typed\b|\bsuperseded 28 w figure\b|\brecomputed 2026 07 10\b|\brefreshed at m373\b"),
     Rule("M427-F04-ev-bound", "regex", "M427/audit F04: the +/-3 s nearest-sample alignment and the symmetric 3 s debounce can move engine-off boundaries in either direction; neither guarantees a one-sided bound; say 'estimated RPM-defined engine-off share' with a detector sensitivity range (not a confidence interval)",

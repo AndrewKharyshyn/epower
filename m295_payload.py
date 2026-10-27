@@ -53,7 +53,7 @@ A["seasonalCharts"]["_meta"]["nativeEquivalence"] = {
     "cohort": round(ei["value"], 6), "cohortN": ei["n"], "cohortBasis": "canonical_clean paired-eligible (M295)",
     "publishedBasis": round(pub["value"], 6), "publishedN": pub["n"],
     "metaAnchor": round(anchor, 6), "deltaPctPublishedVsAnchor": round(100 * (pub["value"] - anchor) / anchor, 4),
-    "note": ("M295: re-derived on the live 446-drive payload (was frozen at the 410 basis: 17.10218, n=395). metaAnchor = "
+    "note": ("M295: re-derived on the 446-drive payload of that milestone (the corpus is larger now; was frozen at the 410 basis: 17.10218, n=395). metaAnchor = "
              "meta.grossThroughputKwh / the published-basis paired km; the residual is the gross throughput of rows with "
              "distance_km<=0 or missing, which meta includes. The headline cohort value is the canonical-clean basis.")}
 json.dump(A, open(p, "w", encoding="utf-8"), ensure_ascii=False, indent=1)

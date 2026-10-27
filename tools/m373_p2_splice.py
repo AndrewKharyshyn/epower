@@ -66,7 +66,7 @@ L4 = N["limitations"][4]
 for old_txt, new_txt in [
     ("so its figures are current, not stale.", "so the M265 fix did not change them (the figures are on the 82-drive recovered file, pre-M366 basis; see the crossval label)."),
     ("The sensitivity table was recomputed to the current corpus at the corrected sign (M279). The headline corpus figures, drive-type split, RPM empirical-grounding sample (410 drives, refreshed M281), and the speed-binned traction split (M255) are current.",
-     "The sensitivity table, the simultaneity table and the speed-binned traction split were refreshed at M373 on raw/ = sha256-verified originals (M366) as descriptive point values with no interval (see the refreshed-blocks line). The headline corpus figures, drive-type split and RPM empirical-grounding sample (410 drives, refreshed M281) are current."),
+     "The sensitivity table, the simultaneity table and the speed-binned traction split were refreshed at M373 on raw/ = sha256-verified originals (M366) as descriptive point values with no interval (see the refreshed-blocks line). The headline corpus figures and the drive-type split are current; the RPM empirical-grounding OPT-band occupancy of the earlier one-off 410-drive pass (M281) is superseded by the live rpmOptBand (M525)."),
 ]:
     assert L4.count(old_txt) == 1, old_txt[:60]
     L4 = L4.replace(old_txt, new_txt)
