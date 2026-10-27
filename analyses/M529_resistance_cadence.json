@@ -1,0 +1,272 @@
+{
+ "seed": 42,
+ "n_boot": 4000,
+ "model": "R ~ 1 + months + T_pack_mean_avg + vreg_I_p95_A [+ covariates]; day-clustered percentile bootstrap",
+ "A_reproduction": {
+  "stored_powerFade": {
+   "basis": "vreg_R_pack_mohm",
+   "rMedianMohm": 130.3,
+   "rP25Mohm": 118.6,
+   "rP75Mohm": 143.7,
+   "nClean": 274,
+   "nAllRows": 274,
+   "slopeMohmPerMoTctrl": 0.656,
+   "ci95MohmPerMo": [
+    -0.426,
+    1.837
+   ],
+   "pSlopeGt0": 0.885,
+   "bTMohmPerDegC": -2.868,
+   "nBoot": 4000,
+   "cadenceControlled": true,
+   "cadenceAdjustment": "partial: HV-current median interval + coverage covariates (M170); see cadenceSensitivity",
+   "windowMo": 5.09,
+   "mdeMohmPerMo": 1.131,
+   "mdeRisePctPerYr": 10.4,
+   "horizonBasis": "SE(slope) ~ T^-1.5 at constant logging cadence; assumes homogeneous residual variance and linear fade. Planning figure, not a measurement.",
+   "note": "M25/M56/M170/M395. Temperature- and HV-current-density-adjusted (partial, M170) V-regression resistance trend. The 95 % day-cluster interval spans zero: a trend is not resolved in this window. HV-current logging density, which changed mid-corpus with the PID configuration and biases this load-excited proxy upward, enters the trend as two covariates (M170); the adjustment is partial. HV-current-density adjustment (M170) is partial: across 7 cadence-handling specifications the slope ranges from 0.232 to 0.886 m\u03a9/month and every 95% interval spans zero (the published specification is S1); no fade rate is claimed. Emulated slow-cadence thinning (each column thinned independently, which also alters the I-V co-timing; not attributed to sampling density) lowers the proxy by 1.5-1.7 m\u03a9 on the 61 fast-regime drives that keep a proxy and removes it from 29 of 90 fast-regime drives (emulated sampling sensitivity, not a causal cadence effect; M393 study on 242 clean drives, stale: the clean-drive count is now 274)."
+  },
+  "pipeline_function_now": {
+   "R_basis": "vreg_R_pack_mohm",
+   "R_median_mohm": 130.3,
+   "slope_mohm_per_month_Tctrl": 0.656,
+   "bT_mohm_per_degC": -2.868,
+   "boot_ci95_mohm_per_month": [
+    -0.426,
+    1.837
+   ],
+   "p_slope_gt0": 0.885,
+   "n_clean": 274,
+   "n_boot": 4000,
+   "cadence_controlled": true
+  },
+  "own_M1_published_design": {
+   "slope": 0.6564,
+   "n": 274,
+   "n_days": 98,
+   "ci95": [
+    -0.426,
+    1.837
+   ],
+   "p_slope_gt0": 0.885,
+   "n_boot": 4000
+  },
+  "own_matches_pipeline_slope": true,
+  "cluster_robust_ols_M1": {
+   "slope": 0.6564,
+   "ci95": [
+    -0.436,
+    1.749
+   ],
+   "p": 0.239,
+   "n_clusters": 98
+  }
+ },
+ "B_specification_sensitivity": {
+  "era_counts": {
+   "slow": 167,
+   "fast1": 67,
+   "fast2": 40
+  },
+  "era_R_median_mohm": {
+   "fast1": 132.2,
+   "fast2": 152.0,
+   "slow": 125.4
+  },
+  "era_dens_eff_median_s": {
+   "fast1": 0.784,
+   "fast2": 0.84,
+   "slow": 1.288
+  },
+  "M0_no_cadence_covariate": {
+   "slope": 0.8861,
+   "n": 274,
+   "n_days": 98,
+   "ci95": [
+    -0.155,
+    1.996
+   ],
+   "p_slope_gt0": 0.951,
+   "n_boot": 4000
+  },
+  "M1_published_density": {
+   "slope": 0.6564,
+   "n": 274,
+   "n_days": 98,
+   "ci95": [
+    -0.426,
+    1.837
+   ],
+   "p_slope_gt0": 0.885,
+   "n_boot": 4000
+  },
+  "M2_regime_dummies": {
+   "slope": 0.2263,
+   "n": 274,
+   "n_days": 98,
+   "ci95": [
+    -0.996,
+    1.472
+   ],
+   "p_slope_gt0": 0.66,
+   "n_boot": 4000
+  },
+  "M3_density_plus_dummies": {
+   "slope": 0.0044,
+   "n": 274,
+   "n_days": 98,
+   "ci95": [
+    -1.247,
+    1.321
+   ],
+   "p_slope_gt0": 0.503,
+   "n_boot": 4000
+  },
+  "M4_published_model_to_2026-09-30": {
+   "slope": 0.2419,
+   "n": 217,
+   "n_days": 81,
+   "ci95": [
+    -1.365,
+    2.019
+   ],
+   "p_slope_gt0": 0.621,
+   "n_boot": 4000
+  },
+  "M5_slow_only_no_covariate": {
+   "slope": 0.4983,
+   "n": 167,
+   "n_days": 66,
+   "ci95": [
+    -0.604,
+    1.739
+   ],
+   "p_slope_gt0": 0.807,
+   "n_boot": 4000
+  },
+  "M6_before_latest_change_fast1_dummy": {
+   "slope": 0.0773,
+   "n": 217,
+   "n_days": 81,
+   "ci95": [
+    -1.57,
+    1.829
+   ],
+   "p_slope_gt0": 0.539,
+   "n_boot": 4000
+  }
+ },
+ "C_emulation": {
+  "n_fast_clean": 107,
+  "n_fast_clean_emulated": 78,
+  "seeds": 3,
+  "slow_pool_drives": 40,
+  "n_fast_lose_proxy_at_slow_sampling": 29,
+  "lose_proxy_by_era": {
+   "fast1": 14,
+   "fast2": 15
+  },
+  "paired_diff_fast1": {
+   "n": 53,
+   "n_days": 20,
+   "mean_emulated_minus_original_mohm": -1.604,
+   "median": -1.703,
+   "ci95_day_clustered": [
+    -2.226,
+    -0.89
+   ],
+   "original_mean": 132.57
+  },
+  "paired_diff_fast2": {
+   "n": 25,
+   "n_days": 12,
+   "mean_emulated_minus_original_mohm": -1.768,
+   "median": -1.493,
+   "ci95_day_clustered": [
+    -3.359,
+    -0.822
+   ],
+   "original_mean": 151.36
+  },
+  "same_drive_set": {
+   "n": 245,
+   "original_M0": {
+    "slope": 0.8918,
+    "n": 245,
+    "n_days": 96,
+    "ci95": [
+     -0.145,
+     2.048
+    ],
+    "p_slope_gt0": 0.956,
+    "n_boot": 4000
+   },
+   "emulated_M0": {
+    "slope": 0.6388,
+    "n": 245,
+    "n_days": 96,
+    "ci95": [
+     -0.36,
+     1.74
+    ],
+    "p_slope_gt0": 0.896,
+    "n_boot": 4000
+   },
+   "original_published_design": {
+    "slope": 0.6386,
+    "n": 245,
+    "n_days": 96,
+    "ci95": [
+     -0.458,
+     1.876
+    ],
+    "p_slope_gt0": 0.886,
+    "n_boot": 4000
+   },
+   "emulated_published_design": {
+    "slope": 0.4887,
+    "n": 245,
+    "n_days": 96,
+    "ci95": [
+     -0.575,
+     1.652
+    ],
+    "p_slope_gt0": 0.828,
+    "n_boot": 4000
+   }
+  },
+  "slow_equivalent_M0_no_covariate": {
+   "slope": 0.6626,
+   "n": 274,
+   "n_days": 98,
+   "ci95": [
+    -0.367,
+    1.752
+   ],
+   "p_slope_gt0": 0.896,
+   "n_boot": 4000
+  },
+  "original_M0_same_drives": {
+   "slope": 0.8861,
+   "n": 274,
+   "n_days": 98,
+   "ci95": [
+    -0.155,
+    1.996
+   ],
+   "p_slope_gt0": 0.951,
+   "n_boot": 4000
+  },
+  "slow_equivalent_published_design": {
+   "slope": 0.5025,
+   "n": 274,
+   "n_days": 98,
+   "ci95": [
+    -0.585,
+    1.655
+   ],
+   "p_slope_gt0": 0.83,
+   "n_boot": 4000
+  }
+ }
+}

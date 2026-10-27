@@ -67,9 +67,22 @@ gone = A._powerfade_cadence_block(r, {"status": "not_available", "reason": "x"})
 assert "emulation study is not available" in gone["statement"] and "Emulated slow-cadence" not in gone["statement"]
 assert "emulation study is not available" in A._powerfade_cadence_block(r, None)["statement"]
 # the snapshot is read from the committed M393 study, never typed; a different clean-drive count marks it stale
-snap = A._powerfade_emulation_snapshot(242)
-assert snap["status"] == "ok" and snap["nFastLoseProxy"] == 29 and snap["nFastClean"] == 90 and snap["basis"]["nClean"] == 242 and snap["stale"] is False and snap["nFastKeepProxy"] == 61
-assert A._powerfade_emulation_snapshot(243)["stale"] is True
+# M529: the snapshot is the M393 study re-run on the live corpus (analyses/M529_resistance_cadence.json); literal values below are the audited M529 result, not read back from the file under test
+snap = A._powerfade_emulation_snapshot(274)
+assert snap["status"] == "ok" and snap["nFastLoseProxy"] == 29 and snap["nFastClean"] == 107 and snap["basis"]["nClean"] == 274 and snap["stale"] is False and snap["nFastKeepProxy"] == 78
+assert snap["pairedDiffEmulatedMinusOriginal"]["fast1"]["n"] == 53 and snap["pairedDiffEmulatedMinusOriginal"]["fast2"]["n"] == 25
+assert A._powerfade_emulation_snapshot(275)["stale"] is True and A._powerfade_emulation_snapshot(242)["stale"] is True
+# the study file itself: Part A reproduced the pipeline slope, the clean set is the one the snapshot reports
+import json as _j
+_st = _j.load(open("analyses/M529_resistance_cadence.json", encoding="utf-8"))
+assert _st["A_reproduction"]["own_matches_pipeline_slope"] is True and _st["B_specification_sensitivity"]["M1_published_density"]["n"] == snap["basis"]["nClean"]
+# payload == JSON consistency (the payload leaves are generated from the study file, never typed)
+_pay = _j.load(open("summary_arrays.json", encoding="utf-8"))
+for _loc in (_pay["powerFade"]["cadenceSensitivity"], _pay["fadeModes"]["power"]["trend"]["cadenceSensitivity"]):
+    _e = _loc["emulation"]
+    assert _e["nFastClean"] == _st["C_emulation"]["n_fast_clean"] and _e["nFastKeepProxy"] == _st["C_emulation"]["n_fast_clean_emulated"] and _e["basis"]["nClean"] == _loc["nClean"] and _e["stale"] is False
+    for _era in ("fast1", "fast2"):
+        assert _e["pairedDiffEmulatedMinusOriginal"][_era]["meanMohm"] == _st["C_emulation"]["paired_diff_" + _era]["mean_emulated_minus_original_mohm"]
 na = A._powerfade_cadence_block({"status": "not_available", "reason": "x"}, None)
 assert na["status"] == "not_available" and "no fade rate is claimed" in na["statement"]
 print("OK powerfade cadence: specification set, latest-fast-run cut, bias recovery, generated statement")
