@@ -1,0 +1,7 @@
+{"claim":"M514 paired set, own-fit samples>=600, C1/T0, six A x G cells","reproduced":{"n_drives":184,"n_days":77,"estimate":1.41981,"ci95":[0.5972,2.3851]},
+"cells":{"A0G0":[1.41981,0.5972,2.3851,184,77],"A0G1":[1.61471,0.7261,2.704],"A0G2":[1.65683,0.819,2.7125,156,61],"A1G0":[1.50115,0.6629,2.4953],"A1G1":[1.69667,0.7884,2.8325],"A1G2":[1.75722,0.8896,2.8384]},
+"week_ci":{"A0G0":[0.4696,2.2636],"A0G1":[0.1976,2.7134],"A0G2":[0.4806,2.5736],"A1G0":[0.5015,2.3731],"A1G1":[0.2284,2.8108],"A1G2":[0.4997,2.7051]},
+"M7_A0G2":[0.387,2.452],"M14_A0G2":[-0.494,2.688],"M7_A1G2":[0.379,2.586],"M14_A1G2":[-0.498,2.8],
+"nvreg_trend_F*271/98d":[-91.723,-249.56,60.17],"agrees":true,"verdict":"accept",
+"ambiguities":["A1 cells need a1_I as the current covariate; with vreg_I_p95_A slopes differ 1e-4 (A1G2 1.75649 vs 1.75722)","n_vreg trend matches -91.7 only on the 271-drive F* set (274 gives -82.3)","M7/M14 are my own circular-block implementation, not M494 Rev 2 rules","A1 floor applied to a1_n, A0 to n_vreg_samples; both give the same 184/156 drives"],
+"script":"scratchpad a.py/b.py"}

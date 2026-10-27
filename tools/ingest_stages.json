@@ -484,6 +484,18 @@
    ]
   },
   {
+   "id": "resistance_support_restricted",
+   "title": "M520: post hoc exploratory support-restricted refits of the resistance-proxy months coefficient (six cells A0/A1 x G0/G1/G2, C1 T0; drives with >= 600 samples), selection diagnostic and size-matched null; reuses the M514 engine; additive payload block resistanceSupportRestricted + stamp; payload only (not displayed, owner 2026-10-27); identity check against the M514 cells is a STOP; spec analyses/M520_spec.md Rev 2.1",
+   "cmd": [
+    "python3",
+    "tools/resistance_support_restricted.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json"
+   ]
+  },
+  {
    "id": "engine_runtime",
    "title": "M512: engine runtime on a declared time base: per-drive RPM-supported seconds and engine-on seconds from the production helpers cached in engine_runtime_sidecar.csv (raw sha256 + method version + closure hash); C0 (per-drive engine_on_pct reproduction and the legacy corpus figure) is a STOP; additive payload block engineRuntime + stamp; needs raw/ like ah_throughput; spec analyses/M512_spec.md Rev 2",
    "cmd": [

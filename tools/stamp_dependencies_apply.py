@@ -73,6 +73,8 @@ def derive_all(A, cfg, deps, live_master, live_manifest, env, root, backfill=Fal
             new["computedAt"], new["computedAtNote"] = computed_at, note
             if note is None:
                 new.pop("computedAtNote", None)
+            if s.get("dependencies"):
+                new["dependencies"] = copy.deepcopy(s["dependencies"])          # the declaration milestone names when the identity was derived; keeping the identity keeps it
             stamps[k] = new
             report[k] = {"lineageAppended": appended, "rawIdentity": "carried", "ran": False, "identityKept": True, "dependencyDrift": drift}
             continue

@@ -188,6 +188,27 @@
     "--check"
    ],
    "sidecar": "resistance_joint_sidecar.csv"
+  },
+  "resistanceSupportRestricted": {
+   "producer": "tools/resistance_support_restricted.py",
+   "producerStages": [
+    "resistance_support_restricted"
+   ],
+   "readsRaw": true,
+   "readsRawManifest": false,
+   "rawNote": "through resistance_joint_sidecar.csv and powerfade_density.csv keyed by raw sha256 (same inputs as resistanceJointSensitivity)",
+   "configSections": [],
+   "inputFiles": [
+    "resistance_joint_sidecar.csv",
+    "powerfade_density.csv",
+    "analyses/M503_result.json",
+    "analyses/M520_spec.md"
+   ],
+   "checkCommand": [
+    "tools/resistance_support_restricted.py",
+    "--check"
+   ],
+   "sidecar": "resistance_joint_sidecar.csv"
   }
  }
 }
