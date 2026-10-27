@@ -1,0 +1,417 @@
+{
+ "spec": "analyses/M521_spec.md",
+ "errors": [],
+ "nLines": 23,
+ "nBaseNamedOnLine": 6,
+ "byBase": {
+  "B1": 8,
+  "B1n": 2,
+  "B2": 2,
+  "B3": 2,
+  "B4": 1,
+  "B5": 3,
+  "B6": 1,
+  "X": 4
+ },
+ "totals": {
+  "B1_onHours": 99.867,
+  "B1_griddedHours": 230.506,
+  "B1_transientBin300_1400_hours": 5.204,
+  "B1_threshold": 300,
+  "B2_supportedOnHours": 97.5425,
+  "B2_supportedHours": 229.5476,
+  "B2_elapsedHours": 232.6344,
+  "B3_scaledImputedHours": 98.3732,
+  "gapB1minusB2_hours": 2.325,
+  "gapPctOfB2": 2.38
+ },
+ "reconciliation": {
+  "storedEdgesHead": [
+   0.0,
+   300.0,
+   1400.0,
+   1475.0
+  ],
+  "closure": "np.histogram bins=RPM_HIST_EDGES (left-closed, right-open except the last bin)",
+  "threshold400Feasible": false,
+  "decomposition": {
+   "pairs": [
+    "B1 vs B2",
+    "B1 vs B3"
+   ],
+   "gapB1B2_h": 2.325,
+   "gapB1B3_h": 1.494,
+   "a_threshold_term": "not separable: 400 is not a stored edge; bound = 300-1400 bin hours 5.204",
+   "b_denominator_support": {
+    "B1_gridded_h": 230.506,
+    "B2_supported_h": 229.5476,
+    "B2_elapsed_h": 232.6344,
+    "griddedMinusSupported_h": 0.958
+   },
+   "c_residual_integration": "remainder, unexplained (no raw or 1 Hz re-integration in M521)"
+  },
+  "result": "reconciliation INFEASIBLE from stored data; difference listed as an unresolved time-base difference; 'closed' is not claimed"
+ },
+ "blindSample": {
+  "seed": 42,
+  "fixedLines": [
+   9609,
+   9611,
+   12080,
+   12010,
+   12014,
+   10983,
+   12076,
+   12119
+  ],
+  "poolSize": 11,
+  "drawnLines": [
+   1462,
+   12008,
+   12070
+  ],
+  "configPath": "/oemTechReview/engineFloor/note",
+  "auditorGets": "line text (from xtrail_summary.jsx / summary_config.json) and summary_arrays.json path; no B labels"
+ },
+ "blindResult": {
+  "nItems": 12,
+  "agreeFull": [
+   "L9609",
+   "L9611",
+   "L12008",
+   "L12010",
+   "L12070",
+   "L12076",
+   "L12080",
+   "CFG1"
+  ],
+  "disagreedOrUnresolved": {
+   "L1462": "mine 1 Hz grid; auditor native-cadence row count (auditor adopted)",
+   "L10983": "same as L1462",
+   "L12014": "mine unresolved; auditor resolved to the boost base (adopted)",
+   "L12119": "mine B2; the line text itself says duration-scaled imputed, auditor B3 (adopted)"
+  },
+  "agreementKOverN": "8/12",
+  "finding": "CFG1: summary_config.json oemTechReview.engineFloor.note quotes ~4% of engine-on time for the 300-1400 rpm band; the payload gives 5.21% (hard-coded literal, flagged, not edited)"
+ },
+ "rows": [
+  {
+   "line": 1462,
+   "namesBaseOnLine": false,
+   "payloadKey": "engineOnBySpeed",
+   "payloadKeyPresent": true,
+   "producerAnchor": "# ---- engineOnBySpeed ----",
+   "producerLines": [
+    3918
+   ],
+   "base": "B1n",
+   "note": "blind audit: share of native-cadence valid speed+rpm rows with rpm > 300 per speed zone (row count, not time-weighted)",
+   "hardcodedLiteralCandidates": [
+    "50%"
+   ]
+  },
+  {
+   "line": 5428,
+   "namesBaseOnLine": false,
+   "payloadKey": "rpmFinding",
+   "payloadKeyPresent": false,
+   "producerAnchor": "rpmFinding",
+   "producerLines": [],
+   "base": "X",
+   "note": "denominator of the band share not traced in M521 step 1; unresolved",
+   "hardcodedLiteralCandidates": []
+  },
+  {
+   "line": 5518,
+   "namesBaseOnLine": false,
+   "payloadKey": "simultaneity",
+   "payloadKeyPresent": false,
+   "producerAnchor": "simultaneity",
+   "producerLines": [],
+   "base": "X",
+   "note": "state shares of engine-on time; engine-on rule of the simultaneity block not traced; unresolved",
+   "hardcodedLiteralCandidates": []
+  },
+  {
+   "line": 5521,
+   "namesBaseOnLine": true,
+   "payloadKey": "simultaneity",
+   "payloadKeyPresent": false,
+   "producerAnchor": "simultaneity",
+   "producerLines": [],
+   "base": "X",
+   "note": "names its basis (per-second, M265) but not the engine-on threshold",
+   "hardcodedLiteralCandidates": []
+  },
+  {
+   "line": 6077,
+   "namesBaseOnLine": true,
+   "payloadKey": "rpmDistribution",
+   "payloadKeyPresent": true,
+   "producerAnchor": "out['rpmDistribution'] = {",
+   "producerLines": [
+    4580
+   ],
+   "base": "B1",
+   "note": "pooled hours; engine-off bin = rpm <= 300; text already says 'all gridded time'",
+   "hardcodedLiteralCandidates": [
+    "2000rpm",
+    "96%"
+   ]
+  },
+  {
+   "line": 9581,
+   "namesBaseOnLine": false,
+   "payloadKey": "rpmSyncPoint",
+   "payloadKeyPresent": false,
+   "producerAnchor": "_RSYNC_ENG_ON = 400.0",
+   "producerLines": [
+    10037
+   ],
+   "base": "B4",
+   "note": "rpm > 400 on the 1 Hz grid with speed >= _RSYNC_MOVE_V (moving); per-drive fraction",
+   "hardcodedLiteralCandidates": []
+  },
+  {
+   "line": 9604,
+   "namesBaseOnLine": false,
+   "payloadKey": "rpmDistribution",
+   "payloadKeyPresent": true,
+   "producerAnchor": "out['rpmDistribution'] = {",
+   "producerLines": [
+    4580
+   ],
+   "base": "B1",
+   "note": "peak bin hours / sum(bins[1:]) = pooled rpm>300 hours",
+   "hardcodedLiteralCandidates": []
+  },
+  {
+   "line": 9609,
+   "namesBaseOnLine": false,
+   "payloadKey": "rpmDistribution",
+   "payloadKeyPresent": true,
+   "producerAnchor": "out['rpmDistribution'] = {",
+   "producerLines": [
+    4580
+   ],
+   "base": "B1",
+   "note": "pooled share contrasted with per-drive median of B4 load-point fraction: two different bases in one sentence",
+   "hardcodedLiteralCandidates": []
+  },
+  {
+   "line": 9611,
+   "namesBaseOnLine": false,
+   "payloadKey": "rpmDistribution",
+   "payloadKeyPresent": true,
+   "producerAnchor": "out['rpmDistribution'] = {",
+   "producerLines": [
+    4580
+   ],
+   "base": "B1",
+   "note": "same sentence as 9609",
+   "hardcodedLiteralCandidates": []
+  },
+  {
+   "line": 10502,
+   "namesBaseOnLine": false,
+   "payloadKey": "rpmDistribution",
+   "payloadKeyPresent": true,
+   "producerAnchor": "out['rpmDistribution'] = {",
+   "producerLines": [
+    4580
+   ],
+   "base": "B1",
+   "note": "pct of engine-on (bins[1:]) per state",
+   "hardcodedLiteralCandidates": []
+  },
+  {
+   "line": 10874,
+   "namesBaseOnLine": false,
+   "payloadKey": "engineStateMachine",
+   "payloadKeyPresent": true,
+   "producerAnchor": "engineStateMachine",
+   "producerLines": [
+    11483,
+    11484,
+    11485
+   ],
+   "base": "X",
+   "note": "state machine occupancy; engine-on rule not traced",
+   "hardcodedLiteralCandidates": []
+  },
+  {
+   "line": 10983,
+   "namesBaseOnLine": false,
+   "payloadKey": "engineOnBySpeed",
+   "payloadKeyPresent": true,
+   "producerAnchor": "# ---- engineOnBySpeed ----",
+   "producerLines": [
+    3918
+   ],
+   "base": "B1n",
+   "note": "see 1462",
+   "hardcodedLiteralCandidates": []
+  },
+  {
+   "line": 11630,
+   "namesBaseOnLine": true,
+   "payloadKey": "engineStartRate",
+   "payloadKeyPresent": true,
+   "producerAnchor": "engineStartRate",
+   "producerLines": [],
+   "base": "B6",
+   "note": "detector-defined ON runs; the line states the detector rpm",
+   "hardcodedLiteralCandidates": []
+  },
+  {
+   "line": 12008,
+   "namesBaseOnLine": false,
+   "payloadKey": "turboMeta",
+   "payloadKeyPresent": true,
+   "producerAnchor": "out['turboMeta'] = {",
+   "producerLines": [
+    941
+   ],
+   "base": "B5",
+   "note": "drives carrying boost and rpm PIDs; hours = duration of those drives",
+   "hardcodedLiteralCandidates": [
+    "2500rpm",
+    "~2500rpm",
+    "1500rpm"
+   ]
+  },
+  {
+   "line": 12010,
+   "namesBaseOnLine": false,
+   "payloadKey": "turboByRpm",
+   "payloadKeyPresent": true,
+   "producerAnchor": "out['turboByRpm'] = tr",
+   "producerLines": [
+    4563
+   ],
+   "base": "B5",
+   "note": "sample-weighted mean of activePct over rpm bands (boost > 0.1 bar)",
+   "hardcodedLiteralCandidates": []
+  },
+  {
+   "line": 12014,
+   "namesBaseOnLine": false,
+   "payloadKey": "turboBySpeedCtx",
+   "payloadKeyPresent": true,
+   "producerAnchor": "turboBySpeedCtx",
+   "producerLines": [
+    931,
+    3695,
+    4639
+   ],
+   "base": "B5",
+   "note": "blind audit: rpm > 300 and boost non-NaN rows per speed zone, boost > 0.1 bar",
+   "hardcodedLiteralCandidates": []
+  },
+  {
+   "line": 12059,
+   "namesBaseOnLine": false,
+   "payloadKey": "rpmDistribution",
+   "payloadKeyPresent": true,
+   "producerAnchor": "out['rpmDistribution'] = {",
+   "producerLines": [
+    4580
+   ],
+   "base": "B1",
+   "note": "code comment",
+   "hardcodedLiteralCandidates": []
+  },
+  {
+   "line": 12061,
+   "namesBaseOnLine": false,
+   "payloadKey": "rpmDistribution",
+   "payloadKeyPresent": true,
+   "producerAnchor": "out['rpmDistribution'] = {",
+   "producerLines": [
+    4580
+   ],
+   "base": "B1",
+   "note": "code comment",
+   "hardcodedLiteralCandidates": []
+  },
+  {
+   "line": 12070,
+   "namesBaseOnLine": false,
+   "payloadKey": "rpmDistribution",
+   "payloadKeyPresent": true,
+   "producerAnchor": "out['rpmDistribution'] = {",
+   "producerLines": [
+    4580
+   ],
+   "base": "B1",
+   "note": "peakPctOfEngineOn on B1",
+   "hardcodedLiteralCandidates": [
+    "5rpm",
+    "1400 rpm",
+    "1400 rpm",
+    "~4%"
+   ]
+  },
+  {
+   "line": 12076,
+   "namesBaseOnLine": true,
+   "payloadKey": "engineRuntime",
+   "payloadKeyPresent": true,
+   "producerAnchor": "M512",
+   "producerLines": [
+    917,
+    18290
+   ],
+   "base": "B2",
+   "note": "names its base (M512)",
+   "hardcodedLiteralCandidates": [
+    "95 %"
+   ]
+  },
+  {
+   "line": 12080,
+   "namesBaseOnLine": false,
+   "payloadKey": "engineRuntime",
+   "payloadKeyPresent": true,
+   "producerAnchor": "M512",
+   "producerLines": [
+    917,
+    18290
+   ],
+   "base": "B2",
+   "note": "per-class hour totals on B2; the line says neither threshold nor base (the table above states 'RPM-supported')",
+   "hardcodedLiteralCandidates": [
+    "95 %"
+   ]
+  },
+  {
+   "line": 12089,
+   "namesBaseOnLine": true,
+   "payloadKey": "engineRuntime",
+   "payloadKeyPresent": true,
+   "producerAnchor": "M512",
+   "producerLines": [
+    917,
+    18290
+   ],
+   "base": "B3",
+   "note": "column header 'duration-scaled, imputed' (names B3)",
+   "hardcodedLiteralCandidates": []
+  },
+  {
+   "line": 12119,
+   "namesBaseOnLine": true,
+   "payloadKey": "engineHoursByType",
+   "payloadKeyPresent": true,
+   "producerAnchor": "engineOnHours",
+   "producerLines": [
+    913,
+    921,
+    981
+   ],
+   "base": "B3",
+   "note": "blind audit: sum(duration_s x engine_on_pct) from drive_master (duration-scaled imputed); the line itself names it",
+   "hardcodedLiteralCandidates": []
+  }
+ ]
+}

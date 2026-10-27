@@ -1,3 +1,16 @@
+## M521 (2026-10-27): Engine-on time-base wording (M520 Part C): 12 strings name their base; mapping of 23 lines to 7 bases
+
+**Rationale.** Wording only, no displayed number changes. Spec analyses/M521_spec.md Rev 1.1 (Director review revise, then ruling revise with scope); mapping analyses/M521_mapping.json via tools/m521_timebase_map.py: 23 lines onto B1 (rpm>=300, 1 Hz, duration-weighted), B1n (rpm>300 native rows), B2 (M512 eng_rpm>400 RPM-supported), B3 (duration-scaled imputed), B4, B5 (boost-PID drives), B6; 4 lines (5428, 5518, 5521, 10874) untraced and left unchanged. Blind audit 8/12 full agreement; the 4 disagreements (1462/10983 native-cadence row-count share, 12014, 12119) were adopted AFTER the blind round. The B1 vs B2 gap of 2.325 h (B1 vs B3 1.494 h) is NOT decomposed: 400 rpm is not a stored histogram edge (reconciliation infeasible from stored data), threshold bound 5.204 h; it stays an unresolved time-base difference, never attributed to the threshold. The speed-zone engine-on share is worded as a share of logged samples with rpm > 300 (native cadence, not time-weighted). Language rule M521-timebase-wording (old: engine-on time share, field-measured refinement). Stale '~4%' literal (payload 5.21 % = 5.204/99.867) flagged in summary_config.json and the 12070 clause, not edited: M522 (binding to an S.* key). No article figure; no Andrii sign-off required (Director).
+
+**State.** `drive_master.csv` 606 rows, MD5 `5556a0c6c8bcde0f6c64b8b9655208ed`.
+
+**Gates (runs/20261020T221332Z).** restamp_ingest=ok; build_html=ok; jsdom=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `analyses/M521_spec.md`, `analyses/M521_mapping.json`, `tools/m521_timebase_map.py`, `xtrail_summary.jsx`, `language_gate.py`, `xtrail_dashboard.html`.
+
+
 ## M520 (2026-10-27): Re-audit 2026-10-26 reporting follow-ups: post hoc support-restricted refits (payload only, resistanceSupportRestricted), unrounded deltaVsPrimary at the source, time-base inventory (Part C open)
 
 **Rationale.** Part A: six exploratory support-restricted cells (all slopes positive 1.42 to 1.76 mOhm/month, estimated proxy; all inside the central 95 % of the size-matched null, so no detectable support effect; M14 2/4 decisive exclude zero, so procedure-dependent), identity check against M514 max diff 0.0, blind audit accept, Director accept, owner decision payload only (2026-10-27), sibling key keeps the M514 block bytes; Part B: deltaVsPrimary from unrounded sums fixed in compute_summary_arrays.py (-0.000767 / -0.000283); Part C: inventory only, no wording changed; tooling: kept stamps keep their dependencies label (stamp_dependencies_apply.py); spec analyses/M520_spec.md Rev 2.1; no estimator, M514 block or master row changed.
