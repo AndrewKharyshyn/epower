@@ -130,20 +130,20 @@ assert any("declared master hash" in x and "not recomputed" in x for x in pbn)
 # the raw-temperature-triplets witness: an input file changes on disk, no producer stage ran
 with tempfile.TemporaryDirectory() as tmp:
     FD = {"fileBlock": {"producerStages": ["s_file"], "readsRaw": False, "readsRawManifest": False, "configSections": [], "inputFiles": ["in.csv"]}}
-    open(os.path.join(tmp, "in.csv"), "w").write("t\n19.0\n")
+    open(os.path.join(tmp, "in.csv"), "w", encoding="utf-8").write("t\n19.0\n")
     AF = {"meta": {}, "fileBlock": {"v": 1}, "_artifactStamps": {"fileBlock": dict(copy.deepcopy(LEGACY), corpusHash=MASTER)}}
     envf = {"XT_RUN_STAGES_OK": "s_file", "XT_RUN_STARTED_AT": "2026-10-25T09:00:00+00:00", "XT_STAMP_NOW": "2026-10-25T10:00:00+00:00"}
     stf, _ = AP.derive_all(AF, CFG, FD, MASTER, MAN, envf, tmp, False, None, "M519", None)           # the producer ran: the stamp names the file hash
     AF["_artifactStamps"] = stf
     assert SC.verify_declared(AF, CFG, FD, MAN, MASTER, tmp)[0] == []
-    open(os.path.join(tmp, "in.csv"), "w").write("t\n19.125\n")                                     # 19.0 -> 19.125 C, no producer stage runs
+    open(os.path.join(tmp, "in.csv"), "w", encoding="utf-8").write("t\n19.125\n")                                     # 19.0 -> 19.125 C, no producer stage runs
     stg, repg = AP.derive_all(AF, CFG, FD, MASTER, MAN, {"XT_STAMP_NOW": "2026-10-26T10:00:00+00:00"}, tmp, False, None, "M519", None)
     assert stg["fileBlock"] == stf["fileBlock"] and repg["fileBlock"]["dependencyDrift"] == ["inputFileMd5"]          # identity did not advance; computedAt kept
     assert any("in.csv" in x and "not recomputed" in x for x in SC.verify_declared({**AF, "_artifactStamps": stg}, CFG, FD, MAN, MASTER, tmp)[0])
     steps = SC.verify_declared(AF, CFG, FD, MAN, MASTER, tmp)[0]
     assert any("in.csv" in x for x in steps)                                                          # the gate also fails on the previous stamp: the producer must run
     # negative controls (R01): a false stored file hash, a false declared master hash, and disagreeing representations all FAIL
-    bad = copy.deepcopy(AF); bad["_artifactStamps"] = stf; open(os.path.join(tmp, "in.csv"), "w").write("t\n19.0\n")
+    bad = copy.deepcopy(AF); bad["_artifactStamps"] = stf; open(os.path.join(tmp, "in.csv"), "w", encoding="utf-8").write("t\n19.0\n")
     assert SC.verify_declared(bad, CFG, FD, MAN, MASTER, tmp)[0] == []
     b1 = copy.deepcopy(bad); b1["_artifactStamps"]["fileBlock"]["declaredIdentity"]["inputFileMd5"]["in.csv"] = "0" * 32
     assert any("disagree" in x or "in.csv" in x for x in SC.verify_declared(b1, CFG, FD, MAN, MASTER, tmp)[0])
@@ -158,7 +158,7 @@ if os.path.exists("summary_arrays.json") and os.path.exists("drive_master.csv"):
     import hashlib
     _R = json.load(open("summary_arrays.json", encoding="utf-8")); _c = json.load(open("summary_config.json", encoding="utf-8"))
     _lm = hashlib.md5(open("drive_master.csv", "rb").read()).hexdigest()
-    assert SC.verify_declared(_R, _c, SC.load_deps(), json.load(open("raw_manifest.json"))["corpusHash"], _lm, ROOT)[0] == []
+    assert SC.verify_declared(_R, _c, SC.load_deps(), json.load(open("raw_manifest.json", encoding="utf-8"))["corpusHash"], _lm, ROOT)[0] == []
 # gate (release_check): negative controls
 Dd = {"ambTable": DEPS["ambTable"], "rawBlock": DEPS["rawBlock"]}
 good, _ = run(A, backfill=True, replay={"masterMd5": MASTER, "blocks": {"ambTable": {"identical": True}}}, attest=att)
