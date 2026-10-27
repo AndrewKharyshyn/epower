@@ -1,0 +1,50 @@
+# M524 spec (Rev 1, DRAFT for Director review): the four untraced engine-on lines (M521 X lines): trace, name the base, fix one mislabelled title
+
+Status: PRE-REGISTERED DRAFT, 2026-10-27, written before any edit. Owner: Andrii (chat, 2026-10-27: "continue"). Origin: M521 Director ruling (X lines 5428, 5518, 5521, 10874 left unchanged, to be traced). Scope: wording only; NO payload key or value change, NO new computation. The payload-string work previously called M524 is renumbered M525.
+
+## 1. Trace (read before this spec; code and payload only, no outcome statistic)
+
+| Current line (text anchor) | Payload key | Producer | Engine-on rule / base |
+|---|---|---|---|
+| ~5428 "The BSFC surface is an assumed prior; the RPM occupancy is observed" | `generatorTractionRecon.rpmFinding` | `rpm_opt_pass.py` (byte-faithful to `_RawAccum.add`, M82) | B1 (rpm >= 300, 1 Hz grid, duration-weighted), OPT band [1850, 2150] share of engine-on seconds, anchored to the stamped rpmDistribution bin totals. Basis in the payload: `empiricalN` 284,260 s, `empiricalDrives` 397, `corpusWideDrives` 410. The live rpmDistribution has 359,521 engine-on s over 606 drives. `rpm_opt_pass.py` is not an ingestion stage and `rpmFinding` is not in `staleBlocks`: the block is on the 410-drive corpus, not refreshed (the sentence already prints "RPM basis: 410 drives"). |
+| ~5518, ~5521 "charge-and-drive is the largest engine-on state ..." / "Basis note: recomputed on the live corpus per-second" | `generatorTractionRecon.simultaneity` | `simultaneity_gtr.py` (substrate `recon_engine.central_estimate_v2_persample`, M265 sign) | NEW base B7: engine-on = RECONSTRUCTED generator power `Pgen_t > 0` (model-derived, not rpm), duration-weighted seconds on the headline fuel-instrumented, canonical-clean drives; shares of those seconds; deadbands 0.5 kW. `engineOnHours` per type (e.g. urban 19.9 h) are on this base and are not comparable with the rpm-based hours (99.9 h B1, 97.5 h B2). |
+| ~10902 chart title "Engine RPM-band occupancy (% of engine-on time)" (compare/chart config for EngineStateMachine) | `engineStateMachine.occupancy.<state>.pooled` | `_engine_state_machine` (`_ESM_EDGES = [400, 1400, 2300, 3200]`) | 1 Hz grid, off = rpm < 400. The plotted bars include the OFF state, and the pooled shares sum to 1 over ALL classified seconds (826,500 s = 229.58 h = RPM-supported time, M512 `supportedHours` 229.5476): off 57.5 %, low 1.2 %, load-point 35.1 %, mid 5.4 %, high 0.8 %. The title "(% of engine-on time)" is therefore wrong for the denominator; it is a share of classified (RPM-supported) 1 Hz time. |
+
+## 2. Change (wording only)
+
+1. 5428: keep every number; add the base and the corpus basis in the same sentence: "(rpm >= 300, 1 Hz grid, duration-weighted; computed on the 410-drive corpus of that pass and not refreshed to the current corpus)", derived from `rpmFinding.corpusWideDrives` (no new literal).
+2. 5518/5521: name the base once, in the basis note: "engine-on = reconstructed generator power above zero (model-derived, not an rpm threshold); duration-weighted seconds on the headline fuel-instrumented set"; the hours in this table are on that base and not comparable with the rpm-based engine-on hours.
+3. 10902 title: "Engine RPM-band occupancy (% of classified 1 Hz time; off = rpm < 400)". This changes a displayed LABEL (not a value). In the section's own chart (8922) check the same title/prose and fix identically if present.
+4. Language rule `M524-timebase-x-lines`: forbids the old title "Engine RPM-band occupancy (% of engine-on time)" and unqualified "engine-on" in the 5518/5521 sentences is not machine-checkable, so only the title is a rule; the rest is covered by the test below.
+5. CHANGELOG records the stale-block finding (F2): `rpmFinding` on 410 drives vs 606; refresh = `rpm_opt_pass.py` rerun = payload change = M525/M526 candidate (spec, audit, Director). Not done here.
+
+## 3. Acceptance and falsification
+
+- A1: `tests/synthetic/test_m524_xlines.py` checks (from `summary_arrays.json`) that the chart-title statement is true: off + low + loadPoint + mid + high pooled sum to 1.0 (+/- 1e-3), so the denominator is all classified time; `pooledTotalSeconds / 3600` equals `engineRuntime.totals.supportedHours` within 0.05 h; and that the rendered text for line 5428 contains `corpusWideDrives` from the payload (negative control: patched `corpusWideDrives` changes the text) and the rendered dumps contain the B7 sentence in the modes where the table renders.
+- A2: tab-dump diff before/after only in those three sentences/titles; `summary_arrays.json`, `cohort_arrays.json`, `summary_config.json`, master byte-identical.
+- A3: the language rule fires on the old title and passes the new one (positive and negative control).
+- Stop: any payload change; any claim about rpmFinding on the current corpus; any change to a displayed value.
+
+## 4. Language
+
+Allowed: "reconstructed generator power above zero (model-derived)", "classified (RPM-supported) 1 Hz time", "computed on the 410-drive corpus of that pass, not refreshed to the current corpus". Not: "measured" engine time or generator power, "engine runtime" without a base, "corrected" for the title fix, "up to date" for rpmFinding.
+
+## 5. Gates
+
+py_compile, `node build_html.js`, `node validate_jsdom.js`, `node dump_tabs.js` THEN `semantic_gate.py`, new test, `release_check.py`, the full CI unit list locally (background), CHANGELOG M524 with this session's gate counts, blind `analytical-auditor` (give the four line texts and the payload path, no labels: identify key, rule, denominator), Director decision. No article figure; no Andrii sign-off unless the Director says otherwise.
+
+## 6. Questions for the Director
+
+Q1 Is "classified 1 Hz time" the right title denominator, or should the chart exclude Off and renormalise (a value change, out of scope)? Q2 Is stating "not refreshed" for `rpmFinding` acceptable given it is a statement about the pipeline, and should the sentence also carry the live corpus size for contrast? Q3 B7 naming ("reconstructed generator power > 0"): wording OK? Q4 Is the missing refresh of `rpmFinding` an escalation (stale block outside `staleBlocks`) now, or a listed follow-up?
+
+## 7. Rev 2 (2026-10-27): Director review (verdict "revise, minor"); incorporated, no re-review needed
+
+- **Rulings.** Q1: keep the classified-time denominator (renormalising is a value change); title "Engine state occupancy (% of RPM-supported 1 Hz time; off = rpm < 400)"; the prose states that the 400 rpm cut differs from the RPM-distribution 300 rpm cut, so one minus off is not that chart's engine-on time. Q2: "not refreshed" is acceptable as a pipeline statement because `rpm_opt_pass.py` is absent from `tools/ingest_stages.json` (grep count 0) and `rpmFinding` is absent from `generatorTractionRecon.staleBlocks` (blocks: crossval only); the sentence says "397 of 410 drives" and carries the live corpus size from `rpmDistribution.coverage.nDrives` (606), with no value implied on 606 drives. Q3: B7 wording approved; traced: `simultaneity_gtr.py` classify uses `eon = Pg > 0.0` (strict zero; the 0.5 kW deadbands apply to traction and battery power, not to engine-on); prose says "generator-active time (Pgen_t > 0, model-derived, not an rpm threshold)"; `engineOnHours` keys unchanged. Q4: listed follow-up (registering `rpmFinding` in staleBlocks and rerunning `rpm_opt_pass.py` are payload changes: M526 candidate); escalate if `rpmFinding` feeds a headline or article figure.
+- **A1.** The tolerance is justified: classified hours 229.583 (1 Hz seconds count, 826,500 s) vs RPM-supported 229.5476 (gap-capped step integration) differ by 0.016 %; the test uses a 0.05 % relative tolerance, stated as two integration conventions. Negative controls added: shares not summing to 1 fail; a classified total off by 1 % fails; the old title fails; reverting "generator-active" or removing the Pgen_t > 0 sentence fails.
+- **A2.** Run in every mode (compare included); the simultaneity table renders in the fuel tab in all / warm / shoulder / cold (not in compare). Line references: the chart title is in the chart-config object (~10902), the ESM component prose ~8975; the origin note's 10874 was a pre-M522 line number.
+- **Language.** Never "measured" for engine or generator time; not "corrected" or "up to date"; no unqualified "engine-on" or "engine runtime"; rpm is logged/observed.
+- **Numbering.** M525 = payload-string work (loadProxyBasis, raw 5 rpm recompute, interval); M526 = rpmFinding refresh + staleBlocks registration; sweep for other one-off blocks outside staleBlocks.
+
+## 8. Audit findings and implementation notes (2026-10-27)
+
+Blind audit (no labels): (a) rpmFinding = rpm >= 300, 1 Hz, 284,260 s over 397 of 410 drives, not refreshed, not in `staleBlocks`/`refreshedBlocks`; (b) simultaneity = reconstructed Pgen_t > 0, 35.8 h over 376 clean fuel-instrumented drives (346 with generator-active time), refreshed at M466, wording matches; (c) state machine = off rpm < 400, denominator all classified seconds (826,500 s), shares sum 1.0000, 229.5833 h vs 229.5476 h (relative difference 0.016 %); title and "Pooled over all classified" correct. Audit found three further in-passage issues, fixed in M524 (wording only): the Callout said mid and high are "of pooled engine time" (they are shares of all classified time, off included; of non-off time they would be about 12.8 % and 1.9 %) -> "of pooled classified 1 Hz time (off included)"; "pooled agrees with the RPM-distribution ..." hid a 0.8 pp gap from the different cuts -> "is close to ... the rpm cuts differ, 400 here and 300 there" (no new literal); rule extended. Not fixed here (listed): MetricHighlight tone="measured" on rpm occupancy; the label "steady cruise / generator-charging load" on rpmFinding (not derivable from an rpm histogram; payload text); four engine-on definitions across blocks (rpm >= 300: 99.87 h / 78.96 h rpmFinding; off < 400; Pgen > 0: 35.8 h; supported-on 97.54 h). Payload staleness metadata incomplete for rpmFinding (M526).
