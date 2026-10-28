@@ -11292,48 +11292,48 @@
     "study": "M393",
     "label": "emulated sampling sensitivity, not a causal cadence effect (PID order and jitter are not emulated; the emulation thins each logged column independently, so it also alters the I-V co-timing and the shift is not attributed to sampling density alone)",
     "basis": {
-     "nClean": 242,
+     "nClean": 274,
      "seeds": 3,
      "slowPoolDrives": 40
     },
-    "stale": true,
+    "stale": false,
     "eras": "fast1 = 2026-08-14..09-06, fast2 = from 2026-10-01 (M379a)",
-    "nFastClean": 90,
+    "nFastClean": 107,
     "nFastLoseProxy": 29,
-    "nFastKeepProxy": 61,
+    "nFastKeepProxy": 78,
     "loseProxyByEra": {
-     "fast1": 15,
-     "fast2": 14
+     "fast1": 14,
+     "fast2": 15
     },
     "pairedDiffEmulatedMinusOriginal": {
      "fast1": {
-      "n": 52,
+      "n": 53,
       "nDays": 20,
-      "meanMohm": -1.545,
+      "meanMohm": -1.604,
       "ci95": [
-       -2.29,
-       -0.658
+       -2.226,
+       -0.89
       ]
      },
      "fast2": {
-      "n": 9,
-      "nDays": 5,
-      "meanMohm": -1.738,
+      "n": 25,
+      "nDays": 12,
+      "meanMohm": -1.768,
       "ci95": [
-       -3.321,
-       -0.59
+       -3.359,
+       -0.822
       ]
      }
     },
     "sameDriveSlope": {
-     "n": 213,
-     "noCovariateOriginal": 0.9996,
-     "noCovariateEmulated": 0.7084,
-     "publishedDesignOriginal": 0.4829,
-     "publishedDesignEmulated": 0.4078
+     "n": 245,
+     "noCovariateOriginal": 0.8918,
+     "noCovariateEmulated": 0.6388,
+     "publishedDesignOriginal": 0.6386,
+     "publishedDesignEmulated": 0.4887
     }
    },
-   "statement": "HV-current-density adjustment (M170) is partial: across 7 cadence-handling specifications the slope ranges from 0.232 to 0.886 mΩ/month and every 95% interval spans zero (the published specification is S1); no fade rate is claimed. Emulated slow-cadence thinning (each column thinned independently, which also alters the I-V co-timing; not attributed to sampling density) lowers the proxy by 1.5-1.7 mΩ on the 61 fast-regime drives that keep a proxy and removes it from 29 of 90 fast-regime drives (emulated sampling sensitivity, not a causal cadence effect; M393 study on 242 clean drives, stale: the clean-drive count is now 274)."
+   "statement": "HV-current-density adjustment (M170) is partial: across 7 cadence-handling specifications the slope ranges from 0.232 to 0.886 mΩ/month and every 95% interval spans zero (the published specification is S1); no fade rate is claimed. Emulated slow-cadence thinning (each column thinned independently, which also alters the I-V co-timing; not attributed to sampling density) lowers the proxy by 1.6-1.8 mΩ on the 78 fast-regime drives that keep a proxy and removes it from 29 of 107 fast-regime drives (emulated sampling sensitivity, not a causal cadence effect; M393 study on 274 clean drives)."
   },
   "windowMo": 5.09,
   "mdeMohmPerMo": 1.131,
@@ -11369,7 +11369,7 @@
    }
   ],
   "horizonBasis": "SE(slope) ~ T^-1.5 at constant logging cadence; assumes homogeneous residual variance and linear fade. Planning figure, not a measurement.",
-  "note": "M25/M56/M170/M395. Temperature- and HV-current-density-adjusted (partial, M170) V-regression resistance trend. The 95 % day-cluster interval spans zero: a trend is not resolved in this window. HV-current logging density, which changed mid-corpus with the PID configuration and biases this load-excited proxy upward, enters the trend as two covariates (M170); the adjustment is partial. HV-current-density adjustment (M170) is partial: across 7 cadence-handling specifications the slope ranges from 0.232 to 0.886 mΩ/month and every 95% interval spans zero (the published specification is S1); no fade rate is claimed. Emulated slow-cadence thinning (each column thinned independently, which also alters the I-V co-timing; not attributed to sampling density) lowers the proxy by 1.5-1.7 mΩ on the 61 fast-regime drives that keep a proxy and removes it from 29 of 90 fast-regime drives (emulated sampling sensitivity, not a causal cadence effect; M393 study on 242 clean drives, stale: the clean-drive count is now 274)."
+  "note": "M25/M56/M170/M395. Temperature- and HV-current-density-adjusted (partial, M170) V-regression resistance trend. The 95 % day-cluster interval spans zero: a trend is not resolved in this window. HV-current logging density, which changed mid-corpus with the PID configuration and biases this load-excited proxy upward, enters the trend as two covariates (M170); the adjustment is partial. HV-current-density adjustment (M170) is partial: across 7 cadence-handling specifications the slope ranges from 0.232 to 0.886 mΩ/month and every 95% interval spans zero (the published specification is S1); no fade rate is claimed. Emulated slow-cadence thinning (each column thinned independently, which also alters the I-V co-timing; not attributed to sampling density) lowers the proxy by 1.6-1.8 mΩ on the 78 fast-regime drives that keep a proxy and removes it from 29 of 107 fast-regime drives (emulated sampling sensitivity, not a causal cadence effect; M393 study on 274 clean drives)."
  },
  "fadeModes": {
   "basis": "M61. Two-dimensional scenario sensitivity replacing the five single-threshold crossing labels, plus explicit separation of capacity-fade and power-fade mechanisms.",
@@ -11589,48 +11589,48 @@
       "study": "M393",
       "label": "emulated sampling sensitivity, not a causal cadence effect (PID order and jitter are not emulated; the emulation thins each logged column independently, so it also alters the I-V co-timing and the shift is not attributed to sampling density alone)",
       "basis": {
-       "nClean": 242,
+       "nClean": 274,
        "seeds": 3,
        "slowPoolDrives": 40
       },
-      "stale": true,
+      "stale": false,
       "eras": "fast1 = 2026-08-14..09-06, fast2 = from 2026-10-01 (M379a)",
-      "nFastClean": 90,
+      "nFastClean": 107,
       "nFastLoseProxy": 29,
-      "nFastKeepProxy": 61,
+      "nFastKeepProxy": 78,
       "loseProxyByEra": {
-       "fast1": 15,
-       "fast2": 14
+       "fast1": 14,
+       "fast2": 15
       },
       "pairedDiffEmulatedMinusOriginal": {
        "fast1": {
-        "n": 52,
+        "n": 53,
         "nDays": 20,
-        "meanMohm": -1.545,
+        "meanMohm": -1.604,
         "ci95": [
-         -2.29,
-         -0.658
+         -2.226,
+         -0.89
         ]
        },
        "fast2": {
-        "n": 9,
-        "nDays": 5,
-        "meanMohm": -1.738,
+        "n": 25,
+        "nDays": 12,
+        "meanMohm": -1.768,
         "ci95": [
-         -3.321,
-         -0.59
+         -3.359,
+         -0.822
         ]
        }
       },
       "sameDriveSlope": {
-       "n": 213,
-       "noCovariateOriginal": 0.9996,
-       "noCovariateEmulated": 0.7084,
-       "publishedDesignOriginal": 0.4829,
-       "publishedDesignEmulated": 0.4078
+       "n": 245,
+       "noCovariateOriginal": 0.8918,
+       "noCovariateEmulated": 0.6388,
+       "publishedDesignOriginal": 0.6386,
+       "publishedDesignEmulated": 0.4887
       }
      },
-     "statement": "HV-current-density adjustment (M170) is partial: across 7 cadence-handling specifications the slope ranges from 0.232 to 0.886 mΩ/month and every 95% interval spans zero (the published specification is S1); no fade rate is claimed. Emulated slow-cadence thinning (each column thinned independently, which also alters the I-V co-timing; not attributed to sampling density) lowers the proxy by 1.5-1.7 mΩ on the 61 fast-regime drives that keep a proxy and removes it from 29 of 90 fast-regime drives (emulated sampling sensitivity, not a causal cadence effect; M393 study on 242 clean drives, stale: the clean-drive count is now 274)."
+     "statement": "HV-current-density adjustment (M170) is partial: across 7 cadence-handling specifications the slope ranges from 0.232 to 0.886 mΩ/month and every 95% interval spans zero (the published specification is S1); no fade rate is claimed. Emulated slow-cadence thinning (each column thinned independently, which also alters the I-V co-timing; not attributed to sampling density) lowers the proxy by 1.6-1.8 mΩ on the 78 fast-regime drives that keep a proxy and removes it from 29 of 107 fast-regime drives (emulated sampling sensitivity, not a causal cadence effect; M393 study on 274 clean drives)."
     },
     "windowMo": 5.09,
     "mdeMohmPerMo": 1.131,
@@ -11666,7 +11666,7 @@
      }
     ],
     "horizonBasis": "SE(slope) ~ T^-1.5 at constant logging cadence; assumes homogeneous residual variance and linear fade. Planning figure, not a measurement.",
-    "note": "M25/M56/M170/M395. Temperature- and HV-current-density-adjusted (partial, M170) V-regression resistance trend. The 95 % day-cluster interval spans zero: a trend is not resolved in this window. HV-current logging density, which changed mid-corpus with the PID configuration and biases this load-excited proxy upward, enters the trend as two covariates (M170); the adjustment is partial. HV-current-density adjustment (M170) is partial: across 7 cadence-handling specifications the slope ranges from 0.232 to 0.886 mΩ/month and every 95% interval spans zero (the published specification is S1); no fade rate is claimed. Emulated slow-cadence thinning (each column thinned independently, which also alters the I-V co-timing; not attributed to sampling density) lowers the proxy by 1.5-1.7 mΩ on the 61 fast-regime drives that keep a proxy and removes it from 29 of 90 fast-regime drives (emulated sampling sensitivity, not a causal cadence effect; M393 study on 242 clean drives, stale: the clean-drive count is now 274)."
+    "note": "M25/M56/M170/M395. Temperature- and HV-current-density-adjusted (partial, M170) V-regression resistance trend. The 95 % day-cluster interval spans zero: a trend is not resolved in this window. HV-current logging density, which changed mid-corpus with the PID configuration and biases this load-excited proxy upward, enters the trend as two covariates (M170); the adjustment is partial. HV-current-density adjustment (M170) is partial: across 7 cadence-handling specifications the slope ranges from 0.232 to 0.886 mΩ/month and every 95% interval spans zero (the published specification is S1); no fade rate is claimed. Emulated slow-cadence thinning (each column thinned independently, which also alters the I-V co-timing; not attributed to sampling density) lowers the proxy by 1.6-1.8 mΩ on the 78 fast-regime drives that keep a proxy and removes it from 29 of 107 fast-regime drives (emulated sampling sensitivity, not a causal cadence effect; M393 study on 274 clean drives)."
    },
    "meanDodPct": 4.1,
    "relevance": "For a series-hybrid power buffer cycled at 20-33 C peaks and ~4 % mean DoD, resistance rise is the more plausible functional limit than Ah loss; it is also the only one of the two this dataset can observe."

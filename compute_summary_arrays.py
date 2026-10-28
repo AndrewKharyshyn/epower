@@ -2331,9 +2331,9 @@ def _powerfade_emulation_snapshot(n_clean):
     """M395: the M393 emulated-sampling study (analyses/M393_resistance_cadence.py) as a labelled SNAPSHOT, read from its JSON, never typed. Missing or unreadable study: an explicit
     {'status': 'not_available'} (the dashboard statement says so), never a silent None. stale = the clean-drive count differs from the study's (other changes of the corpus are not detected)."""
     import json as _json, os as _os
-    p = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'analyses', 'M393_resistance_cadence.json')
+    p = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'analyses', 'M529_resistance_cadence.json')   # M529: the M393 study re-run on the live corpus (script unchanged; the M393 output stays the pre-registered record)
     if not _os.path.exists(p):
-        return {'status': 'not_available', 'reason': 'analyses/M393_resistance_cadence.json not found'}
+        return {'status': 'not_available', 'reason': 'analyses/M529_resistance_cadence.json not found'}
     try:
         d = _json.load(open(p, encoding='utf-8'))
         C = d['C_emulation']
