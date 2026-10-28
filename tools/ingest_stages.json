@@ -523,6 +523,20 @@
    ]
   },
   {
+   "id": "rpm_fuel_state",
+   "title": "M531: day-clustered interval for the motored share of the boost-classified engine seconds above fuelStateRpmMin (the share shown beside the RPM Distribution chart), per cohort with a pre-registered support rule (>= 10 days with motored seconds and < 2.5 % zero-numerator draws), zero-inflation descriptives, polling-regime-period and outlier sensitivities, a post hoc grid-only-ffill sensitivity found by the blind audit; faithfulness gate against the stored rpmDistribution motored/fuelled hours (STOP on failure); per-drive sidecar rpm_fuel_state_sidecar.csv keyed by the raw sha256, the row-function source hash and the pipeline thresholds; additive payload key motoredShare + stamp; spec analyses/M531_spec.md Rev 2",
+   "cmd": [
+    "python3",
+    "tools/rpm_fuel_state.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json",
+    "rpm_fuel_state_sidecar.csv",
+    "rpm_fuel_state_sidecar.meta.json"
+   ]
+  },
+  {
    "id": "engine_runtime",
    "title": "M512: engine runtime on a declared time base: per-drive RPM-supported seconds and engine-on seconds from the production helpers cached in engine_runtime_sidecar.csv (raw sha256 + method version + closure hash); C0 (per-drive engine_on_pct reproduction and the legacy corpus figure) is a STOP; additive payload block engineRuntime + stamp; needs raw/ like ah_throughput; spec analyses/M512_spec.md Rev 2",
    "cmd": [

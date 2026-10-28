@@ -6,7 +6,7 @@ os.chdir(ROOT); sys.path.insert(0, ROOT)
 import language_gate as G
 
 jsx = open("xtrail_summary.jsx", encoding="utf-8").read()
-m = re.search(r"function motoredShareText\(rd, floor\)\{.*?\n\}\n", jsx, re.S)
+m = re.search(r"function motoredShareText\(rd, floor, ms, key\)\{.*?\n\}\n", jsx, re.S)
 assert m, "helper not found"
 A = json.load(open("summary_arrays.json", encoding="utf-8"))
 RD = A["rpmDistribution"]; FLOOR = RD["params"]["fuelStateRpmMin"]

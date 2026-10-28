@@ -385,6 +385,8 @@ RULES = [
          rx=r"\bcorpus now \d+ drives\b"),
     Rule("M527-recomputed-mode-centres", "regex", "M527/Director: the rpm mode centres are RECOMPUTED on the current corpus and bound to rpmModeCentres; a historical value (2000.30 rpm) is dated history only (M205 reported ...) and never stands as the current value; the old not-recomputed qualifier no longer applies to these numbers",
          rx=r"\b2000 30\b(?<!reported 2000 30)", scope=("dom", "jsx", "config")),
+    Rule("M531-motored-share-interval", "regex", "M531/Director: the motored share carries its day-clustered interval (or states exploratory, no interval where the support rule fails); the descriptive, no interval label next to the share is gone; grid-only gap-fill is a labelled post hoc sensitivity, never the headline",
+         rx=r"\bboost classified engine on hours.{0,140}descriptive no interval\b", scope=("dom", "jsx", "config")),
     Rule("M399-archaeology", "regex", "reader-facing text must not carry change-log history (it belongs in CHANGELOG)",
          rx=r"\bthis paragraph previously quoted\b|\bprior hand typed\b|\bsuperseded 28 w figure\b|\brecomputed 2026 07 10\b|\brefreshed at m373\b"),
     Rule("M427-F04-ev-bound", "regex", "M427/audit F04: the +/-3 s nearest-sample alignment and the symmetric 3 s debounce can move engine-off boundaries in either direction; neither guarantees a one-sided bound; say 'estimated RPM-defined engine-off share' with a detector sensitivity range (not a confidence interval)",

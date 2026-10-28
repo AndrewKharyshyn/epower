@@ -62782,6 +62782,64 @@
     "declaredIn": "tools/stamp_dependencies.json",
     "milestone": "M513"
    }
+  },
+  "motoredShare": {
+   "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": null,
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-10-28T10:48:08.453462+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+    "rawIdentitySource": "ingest run 2026-10-28T10:47:08.453462+00:00: producer stages rpm_fuel_state ran OK; raw_manifest.json corpusHash of this run",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "rpm_fuel_state_sidecar.csv": "c735d2ee3ff397e66fc5092473c2c101",
+     "analyses/M531_spec.md": "12dc21ce288e44c6575796802c165d32"
+    }
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M531: derived by tools/rpm_fuel_state.py from drive_master.csv, the raw drive files through rpm_fuel_state_sidecar.csv (keyed by raw sha256) and the stored rpmDistribution (faithfulness gate)",
+   "includedInReleaseAt": "2026-10-28T10:48:08.453462+00:00",
+   "inputBasis": {
+    "nDrives": 606,
+    "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-10-28T10:47:08.453462+00:00",
+   "declaredIdentity": {
+    "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "rpm_fuel_state_sidecar.csv": "c735d2ee3ff397e66fc5092473c2c101",
+     "analyses/M531_spec.md": "12dc21ce288e44c6575796802c165d32"
+    },
+    "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+    "rawIdentitySource": "ingest run 2026-10-28T10:47:08.453462+00:00: producer stages rpm_fuel_state ran OK; raw_manifest.json corpusHash of this run"
+   },
+   "stampLineage": [
+    {
+     "identity": {
+      "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+      "upstreamHashes": {
+       "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
+      },
+      "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
+      "generatedAt": "2026-10-28T10:40:10.526099+00:00"
+     },
+     "supersededAtMilestone": "M513",
+     "supersededAt": "2026-10-28T10:40:19.253967+00:00",
+     "reason": "legacy stamp metadata (M294 raw-manifest backfill, M284 whole-config hash, fields cloned from another block) replaced by stamp metadata re-derived from declared dependencies"
+    }
+   ],
+   "dependencies": {
+    "declaredIn": "tools/stamp_dependencies.json",
+    "milestone": "M513"
+   },
+   "fullConfigHashNote": "whole-config hash retired for declared blocks (M513): the stamp names the md5 of each computational config section it reads (upstreamHashes.configSectionHashes); the previous value is kept in stampLineage"
   }
  },
  "ambientTable": {
@@ -364668,6 +364726,259 @@
    "toolSha256": "1ca88a14a7ba9c49c9917adf289ff2695bb5567ae13e067c0e226c15e13220de",
    "sidecar": "rpm_mode_centres_sidecar.csv",
    "sidecarSha256": "660a1da3c4f4307673b69e09328ec49aa24ec23ee3893e97fcbfc50904bd3635",
+   "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "reparsedDrives": 0
+  }
+ },
+ "motoredShare": {
+  "estimand": "motored seconds / (motored + fuelled seconds) of the boost-classified 1 Hz seconds in the rpm bins with lower edge >= fuelStateRpmMin (strict eng_rpm > fuelStateRpmMin), pooled over the boost-verified drives",
+  "basis": "observed share of classified seconds of app-calculated boost and engine load (thresholds read from the pipeline constants); not a direct observation of the fuel state, not an energy share; rpm exactly at the floor is excluded; raw/ = sha256-verified originals (M366)",
+  "descriptive": true,
+  "displayed": false,
+  "thresholds": {
+   "floorRpm": 1400.0,
+   "boostMotored": -0.7,
+   "boostFuelled": -0.55,
+   "loadMax": 8.0
+  },
+  "faithfulness": {
+   "maxAbsDiffHoursMotored": 0.0,
+   "maxAbsDiffHoursFuelled": 0.0,
+   "tolHours": 0.001,
+   "nSamplesMotored": 2687,
+   "storedNSamplesMotored": 2687,
+   "nSamplesFuelled": 283062,
+   "storedNSamplesFuelled": 283062,
+   "nDrivesBoostVerified": 550,
+   "storedNDrivesFuelState": 550,
+   "motoredHoursAboveFloor_sumOfRoundedBinHours": 0.747,
+   "storedMotoredHoursAboveFloor": 0.747,
+   "denominatorHours_sumOfRoundedBinHours": 79.375,
+   "storedDenominatorHours": 79.375,
+   "exactMotoredHoursAboveFloor": 0.7464,
+   "passed": true
+  },
+  "pooled": {
+   "pct": 0.9403,
+   "ci95Pct": [
+    0.6035,
+    1.4046
+   ],
+   "intervalShown": true,
+   "intervalNotShownReason": null,
+   "bootstrapCi95PctRaw": [
+    0.6035,
+    1.4046
+   ],
+   "motoredSeconds": 2687,
+   "classifiedSeconds": 285749,
+   "nDrivesWithClassified": 513,
+   "nDrivesWithMotored": 189,
+   "nDays": 107,
+   "nDaysWithMotored": 81,
+   "zeroNumeratorDrawShare": 0.0,
+   "degenerateDraws": 0
+  },
+  "unclassifiedSecondsAboveFloor": {
+   "seconds": 8921,
+   "shareOfClassifiedPlusUnclassifiedPct": 3.027
+  },
+  "cohorts": {
+   "warm": {
+    "pct": 0.8808,
+    "ci95Pct": [
+     0.4931,
+     1.4564
+    ],
+    "intervalShown": true,
+    "intervalNotShownReason": null,
+    "bootstrapCi95PctRaw": [
+     0.4931,
+     1.4564
+    ],
+    "motoredSeconds": 1905,
+    "classifiedSeconds": 216271,
+    "nDrivesWithClassified": 361,
+    "nDrivesWithMotored": 136,
+    "nDays": 87,
+    "nDaysWithMotored": 61,
+    "zeroNumeratorDrawShare": 0.0,
+    "degenerateDraws": 0
+   },
+   "shoulder": {
+    "pct": 1.1464,
+    "ci95Pct": [
+     0.5821,
+     1.9694
+    ],
+    "intervalShown": true,
+    "intervalNotShownReason": null,
+    "bootstrapCi95PctRaw": [
+     0.5821,
+     1.9694
+    ],
+    "motoredSeconds": 706,
+    "classifiedSeconds": 61584,
+    "nDrivesWithClassified": 140,
+    "nDrivesWithMotored": 51,
+    "nDays": 49,
+    "nDaysWithMotored": 28,
+    "zeroNumeratorDrawShare": 0.0,
+    "degenerateDraws": 0
+   },
+   "cold": {
+    "pct": 0.9628,
+    "ci95Pct": null,
+    "intervalShown": false,
+    "intervalNotShownReason": "fewer than 10 days with motored seconds or >= 2.5 % of draws with a zero numerator",
+    "bootstrapCi95PctRaw": [
+     0.0,
+     3.4451
+    ],
+    "motoredSeconds": 76,
+    "classifiedSeconds": 7894,
+    "nDrivesWithClassified": 12,
+    "nDrivesWithMotored": 2,
+    "nDays": 5,
+    "nDaysWithMotored": 2,
+    "zeroNumeratorDrawShare": 0.083,
+    "degenerateDraws": 0
+   }
+  },
+  "descriptives": {
+   "drivesWithMotoredPct": 36.84,
+   "nDrivesWithMotored": 189,
+   "top5DrivesShareOfMotoredSecondsPct": 34.13,
+   "top5DaysShareOfMotoredSecondsPct": 45.37,
+   "perDriveShare": {
+    "median": 0.309,
+    "p25": 0.123,
+    "p75": 0.656,
+    "nDrives": 106,
+    "minClassifiedSeconds": 600
+   },
+   "leaveOneDayOutRangePct": [
+    0.822,
+    0.9806
+   ]
+  },
+  "pollingRegimePeriods": {
+   "slow": {
+    "pct": 1.1271,
+    "ci95Pct": [
+     0.6744,
+     1.7826
+    ],
+    "intervalShown": true,
+    "intervalNotShownReason": null,
+    "bootstrapCi95PctRaw": [
+     0.6744,
+     1.7826
+    ],
+    "motoredSeconds": 2339,
+    "classifiedSeconds": 207523,
+    "nDrivesWithClassified": 347,
+    "nDrivesWithMotored": 143,
+    "nDays": 71,
+    "nDaysWithMotored": 57,
+    "zeroNumeratorDrawShare": 0.0,
+    "degenerateDraws": 0
+   },
+   "fast": {
+    "pct": 0.4478,
+    "ci95Pct": [
+     0.212,
+     0.71
+    ],
+    "intervalShown": true,
+    "intervalNotShownReason": null,
+    "bootstrapCi95PctRaw": [
+     0.212,
+     0.71
+    ],
+    "motoredSeconds": 327,
+    "classifiedSeconds": 73026,
+    "nDrivesWithClassified": 163,
+    "nDrivesWithMotored": 45,
+    "nDays": 37,
+    "nDaysWithMotored": 25,
+    "zeroNumeratorDrawShare": 0.0,
+    "degenerateDraws": 0
+   }
+  },
+  "ensOutlierV2Excluded": {
+   "pct": 0.9405,
+   "ci95Pct": [
+    0.6107,
+    1.3761
+   ],
+   "intervalShown": true,
+   "intervalNotShownReason": null,
+   "bootstrapCi95PctRaw": [
+    0.6107,
+    1.3761
+   ],
+   "motoredSeconds": 2687,
+   "classifiedSeconds": 285695,
+   "nDrivesWithClassified": 512,
+   "nDrivesWithMotored": 189,
+   "nDays": 106,
+   "nDaysWithMotored": 81,
+   "zeroNumeratorDrawShare": 0.0,
+   "degenerateDraws": 0
+  },
+  "allMasterDaysResampling": {
+   "pct": 0.9403,
+   "ci95Pct": [
+    0.6007,
+    1.3863
+   ],
+   "nDays": 121,
+   "nDaysWithMotored": 81
+  },
+  "gridOnlyFfillSensitivity_postHoc_auditorFound": {
+   "pct": 1.204,
+   "ci95Pct": [
+    0.8574,
+    1.6827
+   ],
+   "motoredSeconds": 3445,
+   "classifiedSeconds": 286132,
+   "nDrivesWithMotored": 245,
+   "nDaysWithMotored": 90,
+   "nDays": 107,
+   "note": "NOT the pipeline convention; moves the point by about 28 % and the drive count by 56"
+  },
+  "twoStageDayThenDriveCi95Pct": [
+   0.5375,
+   1.543
+  ],
+  "escalationRule": "at later ingestions a pooled share outside [0.60, 1.40] (the first-run 95 percent interval) escalates to the Director",
+  "tripwires": {
+   "halfWidthExceedsEstimate": false,
+   "top5DrivesOver50pct": false,
+   "leaveOneDayOutRangeWiderThanBootstrap": false,
+   "cohortIntervalNotShown": {
+    "warm": false,
+    "shoulder": false,
+    "cold": true
+   },
+   "slowFastPeriodsDifferBeyondCombinedIntervals": false
+  },
+  "limits": [
+   "hours-weighted: long drives dominate",
+   "the polling-regime split is confounded with calendar date, season and ambient",
+   "boost and load are app-calculated channels",
+   "the day bootstrap does not capture serial day correlation",
+   "motored is a rare, zero-inflated state (most drives never reach it)",
+   "unclassified seconds (boost between the two thresholds, or load at or above the maximum at motored boost) are excluded from the denominator"
+  ],
+  "provenance": {
+   "spec": "analyses/M531_spec.md",
+   "specSha256": "f832574f172c035015aa3f732f4fe5a1c54e7640dc5799852ec92c6507151dda",
+   "toolSha256": "619c7c687ebb1469b9f75a07c99c79a473c3ac38f0c460bae75d8e537df775f1",
+   "sidecar": "rpm_fuel_state_sidecar.csv",
+   "sidecarSha256": "59108bba548016c66c9e053c9855997d97905a733f427c6cda7b683ed3a8e6d0",
    "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
    "reparsedDrives": 0
   }

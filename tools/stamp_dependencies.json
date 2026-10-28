@@ -247,6 +247,25 @@
    "--check"
   ],
   "sidecar": "rpm_mode_centres_sidecar.csv"
+ },
+ "motoredShare": {
+  "producer": "tools/rpm_fuel_state.py",
+  "producerStages": [
+   "rpm_fuel_state"
+  ],
+  "readsRaw": true,
+  "readsRawManifest": false,
+  "rawNote": "through rpm_fuel_state_sidecar.csv keyed by the raw sha256 (per-drive motored / fuelled second counts per rpm bin on the boost-verified path of the pipeline 1 Hz grid)",
+  "configSections": [],
+  "inputFiles": [
+   "rpm_fuel_state_sidecar.csv",
+   "analyses/M531_spec.md"
+  ],
+  "checkCommand": [
+   "tools/rpm_fuel_state.py",
+   "--check"
+  ],
+  "sidecar": "rpm_fuel_state_sidecar.csv"
  }
  }
 }

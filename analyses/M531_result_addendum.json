@@ -1,0 +1,26 @@
+{
+ "note": "addendum to analyses/M531_result.json (the first output is kept byte-identical). Added after the first run on the Director's review of the blind audit: (1) the resampling-population sensitivity over all 121 master days (reproduces the audit's convention), (2) the grid-only-ffill sensitivity found by the blind audit (post hoc), (3) the escalation rule for later ingestions. Same raw files; the sidecar was rebuilt because the source hash of the row function changed.",
+ "allMasterDaysResampling": {
+  "pct": 0.9403,
+  "ci95Pct": [
+   0.6007,
+   1.3863
+  ],
+  "nDays": 121,
+  "nDaysWithMotored": 81
+ },
+ "gridOnlyFfillSensitivity_postHoc_auditorFound": {
+  "pct": 1.204,
+  "ci95Pct": [
+   0.8574,
+   1.6827
+  ],
+  "motoredSeconds": 3445,
+  "classifiedSeconds": 286132,
+  "nDrivesWithMotored": 245,
+  "nDaysWithMotored": 90,
+  "nDays": 107,
+  "note": "NOT the pipeline convention; moves the point by about 28 % and the drive count by 56"
+ },
+ "escalationRule": "at later ingestions a pooled share outside [0.60, 1.40] (the first-run 95 percent interval) escalates to the Director"
+}
