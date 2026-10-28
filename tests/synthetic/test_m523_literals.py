@@ -48,7 +48,8 @@ assert "(n/a)" in run(RD, None)
 R = {r.rid: r for r in G.RULES}["M523-historical-rpm-literals"]
 assert R.hits("at this RPM floor it is only ~2.5% of the boost-classified population, so a calc-load-only rule")
 assert R.hits("derived from raw field telemetry rather than a bench calibration")
-assert R.hits("the weighted center of mass 2000.30 rpm, and nothing else is said")      # (d) injected unqualified number
+# M527 superseded the 2000.30 alternative (the value is recomputed and bound to rpmModeCentres; the historical value is dated history): the M527 rule owns it
+assert not R.hits("the weighted center of mass 2000.30 rpm, and nothing else is said")
 assert R.hits("the mode 45/55 across a bin edge")
 assert not R.hits("weighted center of mass 2000.30 rpm; historical M205 re-derivation at 5 rpm resolution on the corpus of that date, not recomputed on the current corpus)")
 assert not R.hits("derived from logged field telemetry rather than a bench calibration")
