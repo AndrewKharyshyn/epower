@@ -1,0 +1,327 @@
+{
+ "note": "addendum to analyses/M527_result.json (the first output is kept byte-identical). Added after the first run: (1) shares on the historical subsets (required by the Director Q1 ruling; omitted from the first output by oversight); (2) S1b with the PRE-REGISTERED flanks [1900,1975)+[2025,2100) (the first output used the outer flanks [1900,1950)+[2050,2100), an unstated deviation; with the pre-registered flanks the excess share is 100 % by construction) and the outer-flank variant kept as a labelled deviation; (3) the engine rpm channel resolution from signal_representation.json. Same sidecar, no re-parse.",
+ "S1_live": {
+  "S1a_window_over_1900_2100_pct": {
+   "pct": 94.952,
+   "ci95Pct": [
+    94.531,
+    95.387
+   ],
+   "nDays": 121
+  },
+  "S1b_preregistered_flanks_pct_100_by_construction": {
+   "pct": 100.0,
+   "ci95Pct": [
+    100.0,
+    100.0
+   ],
+   "nDays": 121,
+   "backgroundFlanks": [
+    [
+     1900,
+     1975
+    ],
+    [
+     2025,
+     2100
+    ]
+   ]
+  },
+  "S1b_outer_flank_variant_pct_labelled_deviation": {
+   "pct": 99.601,
+   "ci95Pct": [
+    99.506,
+    99.691
+   ],
+   "nDays": 121,
+   "backgroundFlanks": [
+    [
+     1900,
+     1950
+    ],
+    [
+     2050,
+     2100
+    ]
+   ]
+  },
+  "S2_1900_2000_over_1900_2100_pct": {
+   "pct": 49.982,
+   "ci95Pct": [
+    49.104,
+    51.037
+   ],
+   "nDays": 121
+  },
+  "S1_M218_best_10rpm_subbin_of_window_mass": {
+   "c2000": {
+    "pct": 92.43,
+    "startRpm": 1995
+   },
+   "c1500": {
+    "pct": 83.92,
+    "startRpm": 1495
+   },
+   "c1589": {
+    "pct": 82.9,
+    "startRpm": 1584
+   }
+  }
+ },
+ "historicalSubsets": {
+  "first307_M205": {
+   "drives": 307,
+   "lastDate": "2026-09-01",
+   "c2000": {
+    "centre": 1999.738,
+    "ci95": [
+     1999.68,
+     1999.787
+    ],
+    "nSamples": 155588,
+    "nDrives": 292,
+    "nDays": 75
+   },
+   "c2000n": {
+    "centre": 1999.632,
+    "ci95": [
+     1999.602,
+     1999.659
+    ],
+    "nSamples": 153288,
+    "nDrives": 291,
+    "nDays": 75
+   },
+   "c1500": {
+    "centre": 1499.833,
+    "ci95": [
+     1499.714,
+     1499.959
+    ],
+    "nSamples": 13257,
+    "nDrives": 280,
+    "nDays": 75
+   },
+   "c1500n": {
+    "centre": 1499.681,
+    "ci95": [
+     1499.593,
+     1499.783
+    ],
+    "nSamples": 12848,
+    "nDrives": 276,
+    "nDays": 75
+   },
+   "c1589": {
+    "centre": 1589.306,
+    "ci95": [
+     1589.117,
+     1589.48
+    ],
+    "nSamples": 8883,
+    "nDrives": 265,
+    "nDays": 75
+   },
+   "c1589n": {
+    "centre": 1588.864,
+    "ci95": [
+     1588.757,
+     1588.986
+    ],
+    "nSamples": 8240,
+    "nDrives": 256,
+    "nDays": 75
+   },
+   "shares": {
+    "S1a_pct": {
+     "pct": 94.68,
+     "ci95Pct": [
+      94.22,
+      95.132
+     ],
+     "nDays": 75
+    },
+    "S1b_preregistered_flanks_pct": {
+     "pct": 100.0,
+     "ci95Pct": [
+      100.0,
+      100.0
+     ],
+     "nDays": 75,
+     "backgroundFlanks": [
+      [
+       1900,
+       1975
+      ],
+      [
+       2025,
+       2100
+      ]
+     ]
+    },
+    "S1b_outer_flank_variant_pct": {
+     "pct": 99.572,
+     "ci95Pct": [
+      99.462,
+      99.68
+     ],
+     "nDays": 75,
+     "backgroundFlanks": [
+      [
+       1900,
+       1950
+      ],
+      [
+       2050,
+       2100
+      ]
+     ]
+    },
+    "S2_pct": {
+     "pct": 49.584,
+     "ci95Pct": [
+      48.564,
+      50.843
+     ],
+     "nDays": 75
+    },
+    "best10rpmSubbinPct": {
+     "c2000": 92.37,
+     "c1500": 83.95,
+     "c1589": 82.02
+    }
+   }
+  },
+  "first320_M218": {
+   "drives": 320,
+   "lastDate": "2026-09-03",
+   "c2000": {
+    "centre": 1999.735,
+    "ci95": [
+     1999.677,
+     1999.783
+    ],
+    "nSamples": 156691,
+    "nDrives": 303,
+    "nDays": 77
+   },
+   "c2000n": {
+    "centre": 1999.63,
+    "ci95": [
+     1999.6,
+     1999.657
+    ],
+    "nSamples": 154382,
+    "nDrives": 302,
+    "nDays": 77
+   },
+   "c1500": {
+    "centre": 1499.822,
+    "ci95": [
+     1499.705,
+     1499.949
+    ],
+    "nSamples": 13689,
+    "nDrives": 290,
+    "nDays": 77
+   },
+   "c1500n": {
+    "centre": 1499.673,
+    "ci95": [
+     1499.587,
+     1499.774
+    ],
+    "nSamples": 13275,
+    "nDrives": 286,
+    "nDays": 77
+   },
+   "c1589": {
+    "centre": 1589.297,
+    "ci95": [
+     1589.112,
+     1589.463
+    ],
+    "nSamples": 9139,
+    "nDrives": 275,
+    "nDays": 77
+   },
+   "c1589n": {
+    "centre": 1588.859,
+    "ci95": [
+     1588.758,
+     1588.978
+    ],
+    "nSamples": 8486,
+    "nDrives": 266,
+    "nDays": 77
+   },
+   "shares": {
+    "S1a_pct": {
+     "pct": 94.699,
+     "ci95Pct": [
+      94.269,
+      95.163
+     ],
+     "nDays": 77
+    },
+    "S1b_preregistered_flanks_pct": {
+     "pct": 100.0,
+     "ci95Pct": [
+      100.0,
+      100.0
+     ],
+     "nDays": 77,
+     "backgroundFlanks": [
+      [
+       1900,
+       1975
+      ],
+      [
+       2025,
+       2100
+      ]
+     ]
+    },
+    "S1b_outer_flank_variant_pct": {
+     "pct": 99.572,
+     "ci95Pct": [
+      99.457,
+      99.678
+     ],
+     "nDays": 77,
+     "backgroundFlanks": [
+      [
+       1900,
+       1950
+      ],
+      [
+       2050,
+       2100
+      ]
+     ]
+    },
+    "S2_pct": {
+     "pct": 49.66,
+     "ci95Pct": [
+      48.661,
+      50.84
+     ],
+     "nDays": 77
+    },
+    "best10rpmSubbinPct": {
+     "c2000": 92.39,
+     "c1500": 83.91,
+     "c1589": 82.23
+    }
+   }
+  }
+ },
+ "rpmChannelResolution": {
+  "status": "ok",
+  "source": "signal_representation.json",
+  "filesWithChannel": 104,
+  "gridStepCounts": {
+   "1.0": 104
+  }
+ }
+}

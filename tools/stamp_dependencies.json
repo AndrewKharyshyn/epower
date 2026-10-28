@@ -228,6 +228,25 @@
    "--check"
   ],
   "sidecar": "rpm_opt_band_sidecar.csv"
+ },
+ "rpmModeCentres": {
+  "producer": "tools/rpm_mode_centres.py",
+  "producerStages": [
+   "rpm_mode_centres"
+  ],
+  "readsRaw": true,
+  "readsRawManifest": false,
+  "rawNote": "through rpm_mode_centres_sidecar.csv keyed by the raw sha256 (per-drive 1 rpm bin counts and window sums on the pipeline 1 Hz grid)",
+  "configSections": [],
+  "inputFiles": [
+   "rpm_mode_centres_sidecar.csv",
+   "analyses/M527_spec.md"
+  ],
+  "checkCommand": [
+   "tools/rpm_mode_centres.py",
+   "--check"
+  ],
+  "sidecar": "rpm_mode_centres_sidecar.csv"
  }
  }
 }

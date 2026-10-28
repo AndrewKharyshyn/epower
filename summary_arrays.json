@@ -62724,6 +62724,64 @@
     "declaredIn": "tools/stamp_dependencies.json",
     "milestone": "M513"
    }
+  },
+  "rpmModeCentres": {
+   "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": null,
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-10-28T08:41:40.721903+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+    "rawIdentitySource": "ingest run 2026-10-28T08:40:40.721903+00:00: producer stages rpm_mode_centres ran OK; raw_manifest.json corpusHash of this run",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "rpm_mode_centres_sidecar.csv": "8ac6a299fa614eb58530a122b8c44708",
+     "analyses/M527_spec.md": "9498110cc300887c99616ee38954589f"
+    }
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M527: derived by tools/rpm_mode_centres.py from drive_master.csv, the raw drive files through rpm_mode_centres_sidecar.csv (keyed by raw sha256) and the stored rpmDistribution (faithfulness gate)",
+   "includedInReleaseAt": "2026-10-28T08:41:40.721903+00:00",
+   "inputBasis": {
+    "nDrives": 606,
+    "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-10-28T08:40:40.721903+00:00",
+   "declaredIdentity": {
+    "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "rpm_mode_centres_sidecar.csv": "8ac6a299fa614eb58530a122b8c44708",
+     "analyses/M527_spec.md": "9498110cc300887c99616ee38954589f"
+    },
+    "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+    "rawIdentitySource": "ingest run 2026-10-28T08:40:40.721903+00:00: producer stages rpm_mode_centres ran OK; raw_manifest.json corpusHash of this run"
+   },
+   "stampLineage": [
+    {
+     "identity": {
+      "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+      "upstreamHashes": {
+       "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
+      },
+      "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
+      "generatedAt": "2026-10-28T08:41:40.721903+00:00"
+     },
+     "supersededAtMilestone": "M513",
+     "supersededAt": "2026-10-28T08:49:22.146749+00:00",
+     "reason": "legacy stamp metadata (M294 raw-manifest backfill, M284 whole-config hash, fields cloned from another block) replaced by stamp metadata re-derived from declared dependencies"
+    }
+   ],
+   "fullConfigHashNote": "whole-config hash retired for declared blocks (M513): the stamp names the md5 of each computational config section it reads (upstreamHashes.configSectionHashes); the previous value is kept in stampLineage",
+   "dependencies": {
+    "declaredIn": "tools/stamp_dependencies.json",
+    "milestone": "M513"
+   }
   }
  },
  "ambientTable": {
@@ -363829,6 +363887,787 @@
    "toolSha256": "3d9db257dd24ede629c79097d4bfa1ad193376bee87886d17b8e4a2f9ace5d1a",
    "sidecar": "rpm_opt_band_sidecar.csv",
    "sidecarSha256": "d7d3eba0ecb5f7f63e8c831531f9173ce5582dc1a8de00c7cf550c17bcffdf36",
+   "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "reparsedDrives": 0
+  }
+ },
+ "rpmModeCentres": {
+  "estimand": "duration-weighted centre of mass (mean logged engine rpm of the 1 Hz grid samples) of the ~2000, ~1500 and ~1589 rpm modes in pre-registered windows, mass-in-window shares and the old 45/55 split, pooled over drives",
+  "basis": "observed occupancy of logged engine rpm (ECU-reported via the logging app, resampled to 1 s means, ffill limit 15 s); the rpm channel resolution is 1 rpm; not a measured setpoint, not an efficiency or optimum claim",
+  "descriptive": true,
+  "displayed": false,
+  "rpmChannelResolution": {
+   "status": "ok",
+   "source": "signal_representation.json",
+   "filesWithChannel": 104,
+   "gridStepCounts": {
+    "1.0": 104
+   }
+  },
+  "windows": {
+   "c2000": [
+    1975,
+    2025
+   ],
+   "c2000n": [
+    1985,
+    2015
+   ],
+   "c1500": [
+    1475,
+    1525
+   ],
+   "c1500n": [
+    1485,
+    1515
+   ],
+   "c1589": [
+    1564,
+    1614
+   ],
+   "c1589n": [
+    1574,
+    1604
+   ]
+  },
+  "historical": {
+   "c2000": {
+    "value": 2000.3,
+    "source": "M205",
+    "drives": 307,
+    "window": [
+     1975,
+     2025
+    ]
+   },
+   "c1500n": {
+    "value": 1500.08,
+    "source": "M205",
+    "drives": 307,
+    "window": [
+     1485,
+     1515
+    ]
+   },
+   "c1500": {
+    "range": [
+     1499.69,
+     1500.08
+    ],
+    "source": "M218",
+    "drives": 320,
+    "window": [
+     1475,
+     1525
+    ],
+    "note": "window dependent"
+   },
+   "c1589": {
+    "range": [
+     1588.62,
+     1589.29
+    ],
+    "source": "M218",
+    "drives": 320,
+    "window": [
+     1564,
+     1614
+    ],
+    "note": "window dependent"
+   },
+   "S2_old_edge_split_pct": {
+    "value": [
+     45.3,
+     54.7
+    ],
+    "source": "M205",
+    "drives": 307,
+    "note": "mass of the old 1900-2000 / 2000-2100 bins across the edge at 2000"
+   },
+   "S1_M205": {
+    "value": ">96",
+    "source": "M205",
+    "drives": 307,
+    "note": "96 %+ of that window's mass sits within +/-25 rpm of 2000 (ambiguous sentence)"
+   },
+   "S1_M218": {
+    "value": ">90",
+    "source": "M218",
+    "drives": 320,
+    "note": "more than 90 % of each spike's own mass in a single 10 rpm sub-bin"
+   },
+   "S3_background_s_per_rpm": {
+    "value": {
+     "1400-1475": 10.1,
+     "1525-1564": 21.9,
+     "1614-1975": 29.7
+    },
+    "source": "M218",
+    "drives": 320
+   },
+   "S3_spike_s_per_rpm": {
+    "value": {
+     "1475-1525": 274,
+     "1564-1614": 183
+    },
+    "source": "M218",
+    "drives": 320
+   }
+  },
+  "faithfulness": {
+   "maxAbsDiffHours": 0.0,
+   "tolHours": 0.002,
+   "perBin": {
+    "1400-1475": 0.0,
+    "1475-1525": 0.0,
+    "1525-1564 (valley)": 0.0,
+    "1564-1614": 0.0,
+    "1614-1975 (valley)": 0.0,
+    "1975-2025": 0.0,
+    "2025-2100": 0.0
+   },
+   "windowCountsEqualBinSums": true,
+   "driveCountWithRpm": 606,
+   "rpmDistributionDriveCount": 606,
+   "driveCountInRange": 573,
+   "passed": true
+  },
+  "centres": {
+   "c2000": {
+    "centre": 1999.708,
+    "ci95": [
+     1999.653,
+     1999.755
+    ],
+    "nSamples": 209600,
+    "nDrives": 549,
+    "nDays": 121
+   },
+   "c2000n": {
+    "centre": 1999.617,
+    "ci95": [
+     1999.586,
+     1999.644
+    ],
+    "nSamples": 206647,
+    "nDrives": 548,
+    "nDays": 121
+   },
+   "c1500": {
+    "centre": 1499.804,
+    "ci95": [
+     1499.719,
+     1499.894
+    ],
+    "nSamples": 26976,
+    "nDrives": 529,
+    "nDays": 121
+   },
+   "c1500n": {
+    "centre": 1499.647,
+    "ci95": [
+     1499.585,
+     1499.714
+    ],
+    "nSamples": 26279,
+    "nDrives": 524,
+    "nDays": 121
+   },
+   "c1589": {
+    "centre": 1589.153,
+    "ci95": [
+     1589.002,
+     1589.283
+    ],
+    "nSamples": 14487,
+    "nDrives": 503,
+    "nDays": 121
+   },
+   "c1589n": {
+    "centre": 1588.808,
+    "ci95": [
+     1588.729,
+     1588.89
+    ],
+    "nSamples": 13524,
+    "nDrives": 487,
+    "nDays": 121
+   }
+  },
+  "centresNativeRows": {
+   "c2000": {
+    "centre": 1999.704,
+    "ci95": [
+     1999.657,
+     1999.745
+    ],
+    "nSamples": 2570975,
+    "nDrives": 549,
+    "nDays": 121
+   },
+   "c2000n": {
+    "centre": 1999.613,
+    "ci95": [
+     1999.583,
+     1999.64
+    ],
+    "nSamples": 2538474,
+    "nDrives": 548,
+    "nDays": 121
+   },
+   "c1500": {
+    "centre": 1499.774,
+    "ci95": [
+     1499.687,
+     1499.871
+    ],
+    "nSamples": 299046,
+    "nDrives": 527,
+    "nDays": 121
+   },
+   "c1500n": {
+    "centre": 1499.622,
+    "ci95": [
+     1499.558,
+     1499.689
+    ],
+    "nSamples": 291698,
+    "nDrives": 521,
+    "nDays": 121
+   },
+   "c1589": {
+    "centre": 1589.013,
+    "ci95": [
+     1588.869,
+     1589.14
+    ],
+    "nSamples": 173700,
+    "nDrives": 503,
+    "nDays": 121
+   },
+   "c1589n": {
+    "centre": 1588.656,
+    "ci95": [
+     1588.59,
+     1588.72
+    ],
+    "nSamples": 161995,
+    "nDrives": 491,
+    "nDays": 121
+   }
+  },
+  "perDriveCentre": {
+   "c2000": {
+    "median": 1999.57,
+    "p25": 1999.333,
+    "p75": 1999.799,
+    "nDrives": 407
+   },
+   "c2000n": {
+    "median": 1999.57,
+    "p25": 1999.388,
+    "p75": 1999.716,
+    "nDrives": 406
+   },
+   "c1500": {
+    "median": 1499.677,
+    "p25": 1499.476,
+    "p75": 1500.14,
+    "nDrives": 114
+   },
+   "c1500n": {
+    "median": 1499.594,
+    "p25": 1499.411,
+    "p75": 1499.905,
+    "nDrives": 113
+   },
+   "c1589": {
+    "median": 1589.135,
+    "p25": 1588.761,
+    "p75": 1589.684,
+    "nDrives": 60
+   },
+   "c1589n": {
+    "median": 1588.826,
+    "p25": 1588.591,
+    "p75": 1589.093,
+    "nDrives": 56
+   }
+  },
+  "shares": {
+   "S1a_window_over_1900_2100_pct": {
+    "pct": 94.952,
+    "ci95Pct": [
+     94.531,
+     95.387
+    ],
+    "nDays": 121
+   },
+   "S1b_preregistered_flanks_pct_100_by_construction": {
+    "pct": 100.0,
+    "ci95Pct": [
+     100.0,
+     100.0
+    ],
+    "nDays": 121,
+    "backgroundFlanks": [
+     [
+      1900,
+      1975
+     ],
+     [
+      2025,
+      2100
+     ]
+    ]
+   },
+   "S1b_outer_flank_variant_pct_labelled_deviation": {
+    "pct": 99.601,
+    "ci95Pct": [
+     99.506,
+     99.691
+    ],
+    "nDays": 121,
+    "backgroundFlanks": [
+     [
+      1900,
+      1950
+     ],
+     [
+      2050,
+      2100
+     ]
+    ]
+   },
+   "S2_1900_2000_over_1900_2100_pct": {
+    "pct": 49.982,
+    "ci95Pct": [
+     49.104,
+     51.037
+    ],
+    "nDays": 121
+   },
+   "S1_M218_best_10rpm_subbin_of_window_mass": {
+    "c2000": {
+     "pct": 92.43,
+     "startRpm": 1995
+    },
+    "c1500": {
+     "pct": 83.92,
+     "startRpm": 1495
+    },
+    "c1589": {
+     "pct": 82.9,
+     "startRpm": 1584
+    }
+   }
+  },
+  "densitiesSecondsPerRpm": {
+   "1400-1475": 14.04,
+   "1525-1564": 37.08,
+   "1614-1975": 41.36,
+   "1475-1525 (spike)": 539.52,
+   "1564-1614 (spike)": 289.74,
+   "1975-2025 (spike)": 4192.0
+  },
+  "pollingRegimePeriods": {
+   "slow": {
+    "c2000": {
+     "centre": 1999.717,
+     "ci95": [
+      1999.652,
+      1999.765
+     ],
+     "nSamples": 158645,
+     "nDrives": 386,
+     "nDays": 85
+    },
+    "c1500": {
+     "centre": 1499.813,
+     "ci95": [
+      1499.694,
+      1499.931
+     ],
+     "nSamples": 17612,
+     "nDrives": 367,
+     "nDays": 85
+    },
+    "c1589": {
+     "centre": 1589.147,
+     "ci95": [
+      1588.956,
+      1589.311
+     ],
+     "nSamples": 10446,
+     "nDrives": 347,
+     "nDays": 85
+    }
+   },
+   "fast": {
+    "c2000": {
+     "centre": 1999.678,
+     "ci95": [
+      1999.526,
+      1999.792
+     ],
+     "nSamples": 47704,
+     "nDrives": 155,
+     "nDays": 37
+    },
+    "c1500": {
+     "centre": 1499.801,
+     "ci95": [
+      1499.684,
+      1499.932
+     ],
+     "nSamples": 8388,
+     "nDrives": 153,
+     "nDays": 37
+    },
+    "c1589": {
+     "centre": 1589.166,
+     "ci95": [
+      1588.951,
+      1589.386
+     ],
+     "nSamples": 3871,
+     "nDrives": 149,
+     "nDays": 37
+    }
+   }
+  },
+  "ensOutlierV2Excluded": {
+   "c2000": {
+    "centre": 1999.708,
+    "ci95": [
+     1999.652,
+     1999.755
+    ],
+    "nSamples": 209123,
+    "nDrives": 547,
+    "nDays": 121
+   },
+   "c1500": {
+    "centre": 1499.802,
+    "ci95": [
+     1499.717,
+     1499.893
+    ],
+    "nSamples": 26933,
+    "nDrives": 528,
+    "nDays": 121
+   },
+   "c1589": {
+    "centre": 1589.149,
+    "ci95": [
+     1588.997,
+     1589.28
+    ],
+    "nSamples": 14459,
+    "nDrives": 502,
+    "nDays": 121
+   }
+  },
+  "historicalSubsets": {
+   "first307_M205": {
+    "drives": 307,
+    "lastDate": "2026-09-01",
+    "c2000": {
+     "centre": 1999.738,
+     "ci95": [
+      1999.68,
+      1999.787
+     ],
+     "nSamples": 155588,
+     "nDrives": 292,
+     "nDays": 75
+    },
+    "c2000n": {
+     "centre": 1999.632,
+     "ci95": [
+      1999.602,
+      1999.659
+     ],
+     "nSamples": 153288,
+     "nDrives": 291,
+     "nDays": 75
+    },
+    "c1500": {
+     "centre": 1499.833,
+     "ci95": [
+      1499.714,
+      1499.959
+     ],
+     "nSamples": 13257,
+     "nDrives": 280,
+     "nDays": 75
+    },
+    "c1500n": {
+     "centre": 1499.681,
+     "ci95": [
+      1499.593,
+      1499.783
+     ],
+     "nSamples": 12848,
+     "nDrives": 276,
+     "nDays": 75
+    },
+    "c1589": {
+     "centre": 1589.306,
+     "ci95": [
+      1589.117,
+      1589.48
+     ],
+     "nSamples": 8883,
+     "nDrives": 265,
+     "nDays": 75
+    },
+    "c1589n": {
+     "centre": 1588.864,
+     "ci95": [
+      1588.757,
+      1588.986
+     ],
+     "nSamples": 8240,
+     "nDrives": 256,
+     "nDays": 75
+    },
+    "shares": {
+     "S1a_pct": {
+      "pct": 94.68,
+      "ci95Pct": [
+       94.22,
+       95.132
+      ],
+      "nDays": 75
+     },
+     "S1b_preregistered_flanks_pct": {
+      "pct": 100.0,
+      "ci95Pct": [
+       100.0,
+       100.0
+      ],
+      "nDays": 75,
+      "backgroundFlanks": [
+       [
+        1900,
+        1975
+       ],
+       [
+        2025,
+        2100
+       ]
+      ]
+     },
+     "S1b_outer_flank_variant_pct": {
+      "pct": 99.572,
+      "ci95Pct": [
+       99.462,
+       99.68
+      ],
+      "nDays": 75,
+      "backgroundFlanks": [
+       [
+        1900,
+        1950
+       ],
+       [
+        2050,
+        2100
+       ]
+      ]
+     },
+     "S2_pct": {
+      "pct": 49.584,
+      "ci95Pct": [
+       48.564,
+       50.843
+      ],
+      "nDays": 75
+     },
+     "best10rpmSubbinPct": {
+      "c2000": 92.37,
+      "c1500": 83.95,
+      "c1589": 82.02
+     }
+    }
+   },
+   "first320_M218": {
+    "drives": 320,
+    "lastDate": "2026-09-03",
+    "c2000": {
+     "centre": 1999.735,
+     "ci95": [
+      1999.677,
+      1999.783
+     ],
+     "nSamples": 156691,
+     "nDrives": 303,
+     "nDays": 77
+    },
+    "c2000n": {
+     "centre": 1999.63,
+     "ci95": [
+      1999.6,
+      1999.657
+     ],
+     "nSamples": 154382,
+     "nDrives": 302,
+     "nDays": 77
+    },
+    "c1500": {
+     "centre": 1499.822,
+     "ci95": [
+      1499.705,
+      1499.949
+     ],
+     "nSamples": 13689,
+     "nDrives": 290,
+     "nDays": 77
+    },
+    "c1500n": {
+     "centre": 1499.673,
+     "ci95": [
+      1499.587,
+      1499.774
+     ],
+     "nSamples": 13275,
+     "nDrives": 286,
+     "nDays": 77
+    },
+    "c1589": {
+     "centre": 1589.297,
+     "ci95": [
+      1589.112,
+      1589.463
+     ],
+     "nSamples": 9139,
+     "nDrives": 275,
+     "nDays": 77
+    },
+    "c1589n": {
+     "centre": 1588.859,
+     "ci95": [
+      1588.758,
+      1588.978
+     ],
+     "nSamples": 8486,
+     "nDrives": 266,
+     "nDays": 77
+    },
+    "shares": {
+     "S1a_pct": {
+      "pct": 94.699,
+      "ci95Pct": [
+       94.269,
+       95.163
+      ],
+      "nDays": 77
+     },
+     "S1b_preregistered_flanks_pct": {
+      "pct": 100.0,
+      "ci95Pct": [
+       100.0,
+       100.0
+      ],
+      "nDays": 77,
+      "backgroundFlanks": [
+       [
+        1900,
+        1975
+       ],
+       [
+        2025,
+        2100
+       ]
+      ]
+     },
+     "S1b_outer_flank_variant_pct": {
+      "pct": 99.572,
+      "ci95Pct": [
+       99.457,
+       99.678
+      ],
+      "nDays": 77,
+      "backgroundFlanks": [
+       [
+        1900,
+        1950
+       ],
+       [
+        2050,
+        2100
+       ]
+      ]
+     },
+     "S2_pct": {
+      "pct": 49.66,
+      "ci95Pct": [
+       48.661,
+       50.84
+      ],
+      "nDays": 77
+     },
+     "best10rpmSubbinPct": {
+      "c2000": 92.39,
+      "c1500": 83.91,
+      "c1589": 82.23
+     }
+    }
+   }
+  },
+  "tripwires": {
+   "centre_vs_historical_c2000": {
+    "diffRpm": -0.592,
+    "outsideLiveCI": true,
+    "over1rpm": false
+   },
+   "centre_vs_historical_c1500n": {
+    "diffRpm": -0.433,
+    "outsideLiveCI": true,
+    "over1rpm": false
+   },
+   "centre_vs_historical_c1500": {
+    "outsideHistoricalRange": false,
+    "diffToNearestEndRpm": 0.114
+   },
+   "centre_vs_historical_c1589": {
+    "outsideHistoricalRange": false,
+    "diffToNearestEndRpm": 0.137
+   },
+   "S2_diff_pp": 4.682,
+   "S1a_vs_96_pp": -1.048,
+   "S1b_outer_vs_96_pp": 3.601,
+   "S1_readings_disagree_pp": 4.649,
+   "pooled_vs_per_drive_median_over1rpm": {
+    "c2000": false,
+    "c1500": false,
+    "c1589": false
+   },
+   "outlier_exclusion_shift_over0p5rpm": {
+    "c2000": false,
+    "c1500": false,
+    "c1589": false
+   },
+   "regime_difference_over1rpm": {
+    "c2000": false,
+    "c1500": false,
+    "c1589": false
+   }
+  },
+  "deviationFromHistoricalPass": "M205/M218 replayed the 1 Hz grid at 5 rpm resolution on the archive of that date; this pass uses 1 rpm bins plus exact window sums on the sha256-verified originals (M366); historical values carry no intervals",
+  "limits": [
+   "window ranges are window dependence, not uncertainty",
+   "day bootstrap does not capture serial day correlation",
+   "the polling-regime split is confounded with calendar date, season and ambient",
+   "the faithfulness gate shares grid_rpm and tests the sidecar plumbing, not fidelity to raw (the blind audit implements the convention independently)"
+  ],
+  "provenance": {
+   "spec": "analyses/M527_spec.md",
+   "specSha256": "3740f841a7dd8da3fc22ad11f84587dbf91fe9d47e9137db4bdf931e9ea080f5",
+   "toolSha256": "1ca88a14a7ba9c49c9917adf289ff2695bb5567ae13e067c0e226c15e13220de",
+   "sidecar": "rpm_mode_centres_sidecar.csv",
+   "sidecarSha256": "660a1da3c4f4307673b69e09328ec49aa24ec23ee3893e97fcbfc50904bd3635",
    "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
    "reparsedDrives": 0
   }

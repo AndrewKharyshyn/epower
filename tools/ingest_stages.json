@@ -509,6 +509,20 @@
    ]
   },
   {
+   "id": "rpm_mode_centres",
+   "title": "M527: duration-weighted centres of mass of the ~2000 / ~1500 / ~1589 rpm modes, mass-in-window shares, the old 45/55 split and background densities of logged engine rpm on the live corpus with day-clustered intervals (replaces the historical M205/M218 values shown as 'not recomputed'); faithfulness gate against the stored rpmDistribution (STOP on failure); per-drive sidecar rpm_mode_centres_sidecar.csv (1 rpm bins [1400, 2100) + exact window sums) keyed by the raw sha256, grid source hash and window list; additive payload key rpmModeCentres + stamp; spec analyses/M527_spec.md Rev 2",
+   "cmd": [
+    "python3",
+    "tools/rpm_mode_centres.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json",
+    "rpm_mode_centres_sidecar.csv",
+    "rpm_mode_centres_sidecar.meta.json"
+   ]
+  },
+  {
    "id": "engine_runtime",
    "title": "M512: engine runtime on a declared time base: per-drive RPM-supported seconds and engine-on seconds from the production helpers cached in engine_runtime_sidecar.csv (raw sha256 + method version + closure hash); C0 (per-drive engine_on_pct reproduction and the legacy corpus figure) is a STOP; additive payload block engineRuntime + stamp; needs raw/ like ah_throughput; spec analyses/M512_spec.md Rev 2",
    "cmd": [
