@@ -2341,14 +2341,63 @@ def _powerfade_emulation_snapshot(n_clean):
         basis_n = int(d['B_specification_sensitivity']['M1_published_density']['n'])
         pd_ = {e: {'n': C[f'paired_diff_{e}']['n'], 'nDays': C[f'paired_diff_{e}']['n_days'], 'meanMohm': C[f'paired_diff_{e}']['mean_emulated_minus_original_mohm'],
                    'ci95': C[f'paired_diff_{e}']['ci95_day_clustered']} for e in ('fast1', 'fast2') if f'paired_diff_{e}' in C}
-        return {'status': 'ok', 'study': 'M393', 'label': 'emulated sampling sensitivity, not a causal cadence effect (PID order and jitter are not emulated; the emulation thins each logged column independently, so it also alters the I-V co-timing and the shift is not attributed to sampling density alone)',
+        out = {'status': 'ok', 'study': 'M393', 'label': 'emulated sampling sensitivity, not a causal cadence effect (PID order and jitter are not emulated; the emulation thins each logged column independently, so it also alters the I-V co-timing and the shift is not attributed to sampling density alone)',
                 'basis': {'nClean': basis_n, 'seeds': C['seeds'], 'slowPoolDrives': C['slow_pool_drives']}, 'stale': bool(basis_n != n_clean),
                 'eras': 'fast1 = 2026-08-14..09-06, fast2 = from 2026-10-01 (M379a)', 'nFastClean': C['n_fast_clean'], 'nFastLoseProxy': C['n_fast_lose_proxy_at_slow_sampling'],
                 'nFastKeepProxy': int(sum(v['n'] for v in pd_.values())), 'loseProxyByEra': C['lose_proxy_by_era'], 'pairedDiffEmulatedMinusOriginal': pd_,
                 'sameDriveSlope': {'n': sd['n'], 'noCovariateOriginal': sd['original_M0']['slope'], 'noCovariateEmulated': sd['emulated_M0']['slope'],
                                    'publishedDesignOriginal': sd['original_published_design']['slope'], 'publishedDesignEmulated': sd['emulated_published_design']['slope']}}
+        out['seedSensitivity'] = _powerfade_seed_sensitivity(out)   # M533
+        return out
     except Exception as ex:
         return {'status': 'not_available', 'reason': 'unreadable study file: ' + repr(ex)[:120]}
+
+
+def _powerfade_seed_sensitivity(emu, expected_sha=None):
+    """M533: spread of the M393 / M529 emulated-sampling result over the 11 slow-pool draws and seeds of M532 (analyses/M532_emulation_seed_sensitivity.json), read from that
+    JSON, never typed. Descriptive min / max over replicates (reference draw included): not an interval, not a bound. not_available when the file is missing / unreadable, its
+    SHA-256 differs from `expected_sha` (the hash stored in the payload leaf) or its control replicate does not reproduce the snapshot; stale = the snapshot basis is stale."""
+    import json as _json, os as _os, hashlib as _hl
+    p = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'analyses', 'M532_emulation_seed_sensitivity.json')
+    na = lambda why: {'status': 'not_available', 'source': 'M532', 'reason': why}
+    if not _os.path.exists(p):
+        return na('analyses/M532_emulation_seed_sensitivity.json not found')
+    try:
+        raw = open(p, 'rb').read()
+        sha = _hl.sha256(raw).hexdigest()
+        if expected_sha and sha != expected_sha:
+            return na('SHA-256 of the M532 file differs from the payload leaf')
+        d = _json.loads(raw.decode('utf-8'))
+        reps = d['replicates']
+        r0 = reps[0]
+        eras = ('fast1', 'fast2')
+        ctl = (int(r0['nKept']) == int(emu['nFastKeepProxy']) and int(r0['nLose']) == int(emu['nFastLoseProxy']) and bool(d.get('controlPassed')) and all(
+            int(r0['paired'][e]['n']) == int(emu['pairedDiffEmulatedMinusOriginal'][e]['n']) and abs(r0['paired'][e]['mean'] - emu['pairedDiffEmulatedMinusOriginal'][e]['meanMohm']) < 5e-4
+            and all(abs(a - b) < 5e-4 for a, b in zip(r0['paired'][e]['ci95'], emu['pairedDiffEmulatedMinusOriginal'][e]['ci95'])) for e in eras))
+        if not ctl:
+            return na('the M532 control replicate does not reproduce the snapshot')
+        mean = lambda r, e: float(r['paired'][e].get('meanUnrounded', r['paired'][e]['mean']))
+        rng = {e: [round(min(abs(mean(r, e)) for r in reps), 3), round(max(abs(mean(r, e)) for r in reps), 3)] for e in eras}
+        zero = {e: [int(r['k']) for r in reps if r['paired'][e]['ci95'][0] <= 0.0 <= r['paired'][e]['ci95'][1]] for e in eras}
+        lose = [int(r['nLose']) for r in reps]
+        allm = [mean(r, e) for r in reps for e in eras]
+        return {'status': 'ok', 'source': 'M532', 'sourceSha256': sha, 'nReplicates': len(reps), 'referenceIsControl': True, 'controlMatchesSnapshot': True,
+                'eraMeanRangeMohm': rng, 'absSpanMohm': [min(rng[e][0] for e in eras), max(rng[e][1] for e in eras)], 'loseRange': [min(lose), max(lose)],
+                'nEraReplicates': len(reps) * len(eras), 'nEraMeansNegative': int(sum(1 for m in allm if m < 0)), 'nIntervalIncludesZero': int(sum(len(v) for v in zero.values())),
+                'intervalIncludesZeroByEra': {e: len(zero[e]) for e in eras}, 'poolSeeds': list(d['poolSeeds']), 'basisNClean': int(emu['basis']['nClean']), 'stale': bool(emu['stale'])}
+    except Exception as ex:
+        return na('unreadable M532 file: ' + repr(ex)[:120])
+
+
+def _powerfade_seed_clause(emu):
+    """M533: the sentence part after the reference-draw numbers, bound to emulation.seedSensitivity (no typed numbers)."""
+    ss = emu.get('seedSensitivity') or {}
+    if ss.get('status') != 'ok':
+        return '; sensitivity to the slow-pool draw and the seeds is not available on this build'
+    r, z = ss['eraMeanRangeMohm'], ss['intervalIncludesZeroByEra']
+    return ('; across %d slow-pool draws and seeds (reference draw included) the era-mean lowering spans %.1f-%.1f mΩ (fast1) and %.1f-%.1f mΩ (fast2), and the paired interval includes zero in %d of %d era replicates (fast1 %d, fast2 %d)%s'
+            % (ss['nReplicates'], r['fast1'][0], r['fast1'][1], r['fast2'][0], r['fast2'][1], ss['nIntervalIncludesZero'], ss['nEraReplicates'], z['fast1'], z['fast2'],
+               ', computed on the previous basis (%d clean drives)' % ss['basisNClean'] if ss.get('stale') else ''))
 
 
 def _powerfade_cadence_block(cs, emu):
@@ -2362,9 +2411,9 @@ def _powerfade_cadence_block(cs, emu):
     out = dict(cs)
     if emu and emu.get('status') == 'ok':
         diffs = [abs(v['meanMohm']) for v in emu['pairedDiffEmulatedMinusOriginal'].values()]
-        spec += (' Emulated slow-cadence thinning (each column thinned independently, which also alters the I-V co-timing; not attributed to sampling density) lowers the proxy by %.1f-%.1f mΩ on the %d fast-regime drives that keep a proxy and removes it from %d of %d fast-regime drives '
-                 '(emulated sampling sensitivity, not a causal cadence effect; M393 study on %d clean drives%s).' % (
-                     min(diffs), max(diffs), emu['nFastKeepProxy'], emu['nFastLoseProxy'], emu['nFastClean'], emu['basis']['nClean'],
+        spec += (' In the reference draw, emulated slow-cadence thinning (each column thinned independently, which also alters the I-V co-timing; not attributed to sampling density) lowers the proxy by %.1f-%.1f mΩ on the %d fast-regime drives that keep a proxy and removes it from %d of %d fast-regime drives'
+                 '%s (emulated sampling sensitivity, not a causal cadence effect; M393 study on %d clean drives%s).' % (
+                     min(diffs), max(diffs), emu['nFastKeepProxy'], emu['nFastLoseProxy'], emu['nFastClean'], _powerfade_seed_clause(emu), emu['basis']['nClean'],
                      ', stale: the clean-drive count is now %d' % cs['nClean'] if emu['stale'] else ''))
     else:
         spec += ' The M393 emulation study is not available on this build.'
