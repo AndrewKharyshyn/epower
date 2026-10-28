@@ -381,6 +381,8 @@ RULES = [
          rx=r"\bonly 2 5 of the boost classified population\b|\brefreshed m281 are current\b|\blive 446 drive\b|\bcurrent 320 drive\b"),
     Rule("M528-dated-narrative", "regex", "M528/Director: hand-written dated notes must read as of their date (at that date, then-current); the 2026-07-14 distance-mix note is a dated snapshot that reweights, not corrects, the distance mix; the 374-drive rpmFinding entry is superseded by rpmOptBand (M525)",
          rx=r"\bcurrent dataset distance mix audit 2026 07 14\b|\bcorrects the distance mix\b|\brecomputed on the current 194 drive corpus\b|\bfreshly recomputed from the current 374 drive rpmdistribution\b"),
+    Rule("M530-ledger-corpus-now", "regex", "M530/Director: dated session-ledger notes name their date (corpus as of <date>: N drives); a present-tense corpus now N drives reads false once the corpus has grown; the batch phrase lifts the study to N drives is dated by construction and is not flagged",
+         rx=r"\bcorpus now \d+ drives\b"),
     Rule("M399-archaeology", "regex", "reader-facing text must not carry change-log history (it belongs in CHANGELOG)",
          rx=r"\bthis paragraph previously quoted\b|\bprior hand typed\b|\bsuperseded 28 w figure\b|\brecomputed 2026 07 10\b|\brefreshed at m373\b"),
     Rule("M427-F04-ev-bound", "regex", "M427/audit F04: the +/-3 s nearest-sample alignment and the symmetric 3 s debounce can move engine-off boundaries in either direction; neither guarantees a one-sided bound; say 'estimated RPM-defined engine-off share' with a detector sensitivity range (not a confidence interval)",
