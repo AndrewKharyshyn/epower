@@ -11378,10 +11378,159 @@
       43
      ],
      "basisNClean": 274,
-     "stale": false
+     "stale": false,
+     "unionOverStudies": {
+      "status": "ok",
+      "sources": [
+       "M532",
+       "M534"
+      ],
+      "sourceSha256": {
+       "M532": "be401474a1ebb9fd9607f60297c872928ad372ca93a86de5a55966bf18f59215",
+       "M534": "c94888de52177efbdb896ce1c54564154171ca682a948f07a5f6a523af5eba40"
+      },
+      "nConfigurations": 41,
+      "nDuplicatesCheckedEqual": 5,
+      "nByArm": {
+       "M532": 11,
+       "P": 10,
+       "S": 10,
+       "N20": 5,
+       "N80": 5
+      },
+      "nEraConfigurations": 82,
+      "eraMeanRangeMohm": {
+       "fast1": [
+        0.873,
+        2.291
+       ],
+       "fast2": [
+        0.847,
+        3.585
+       ]
+      },
+      "rangeByArm": {
+       "M532": {
+        "fast1": [
+         1.085,
+         2.158
+        ],
+        "fast2": [
+         1.24,
+         3.057
+        ]
+       },
+       "P": {
+        "fast1": [
+         0.873,
+         2.291
+        ],
+        "fast2": [
+         1.233,
+         2.523
+        ]
+       },
+       "S": {
+        "fast1": [
+         1.014,
+         1.981
+        ],
+        "fast2": [
+         0.847,
+         2.486
+        ]
+       },
+       "N20": {
+        "fast1": [
+         1.08,
+         2.141
+        ],
+        "fast2": [
+         1.46,
+         3.585
+        ]
+       },
+       "N80": {
+        "fast1": [
+         0.944,
+         1.751
+        ],
+        "fast2": [
+         1.789,
+         3.11
+        ]
+       }
+      },
+      "rangeByPoolSize": {
+       "20": {
+        "fast1": [
+         1.08,
+         2.141
+        ],
+        "fast2": [
+         1.46,
+         3.585
+        ]
+       },
+       "40": {
+        "fast1": [
+         0.873,
+         2.291
+        ],
+        "fast2": [
+         0.847,
+         3.057
+        ]
+       },
+       "80": {
+        "fast1": [
+         0.944,
+         1.751
+        ],
+        "fast2": [
+         1.789,
+         3.11
+        ]
+       }
+      },
+      "nIntervalIncludesZero": 8,
+      "intervalIncludesZeroByEra": {
+       "fast1": 4,
+       "fast2": 4
+      },
+      "nEraMeansNegative": 82,
+      "loseRange": [
+       27,
+       32
+      ],
+      "attribution": {
+       "fast1": {
+        "sdPoolDraws": 0.346,
+        "sdSeeds": 0.244,
+        "ratio": 1.419,
+        "withinBand": true
+       },
+       "fast2": {
+        "sdPoolDraws": 0.411,
+        "sdSeeds": 0.454,
+        "ratio": 0.905,
+        "withinBand": true
+       }
+      },
+      "ratioBand": [
+       0.5,
+       2.0
+      ],
+      "poolSizes": [
+       20,
+       40,
+       80
+      ],
+      "stale": false
+     }
     }
    },
-   "statement": "HV-current-density adjustment (M170) is partial: across 7 cadence-handling specifications the slope ranges from 0.232 to 0.886 mΩ/month and every 95% interval spans zero (the published specification is S1); no fade rate is claimed. In the reference draw, emulated slow-cadence thinning (each column thinned independently, which also alters the I-V co-timing; not attributed to sampling density) lowers the proxy by 1.6-1.8 mΩ on the 78 fast-regime drives that keep a proxy and removes it from 29 of 107 fast-regime drives; across 11 slow-pool draws and seeds (reference draw included) the era-mean lowering spans 1.1-2.2 mΩ (fast1) and 1.2-3.1 mΩ (fast2), and the paired interval includes zero in 2 of 22 era replicates (fast1 1, fast2 1) (emulated sampling sensitivity, not a causal cadence effect; M393 study on 274 clean drives)."
+   "statement": "HV-current-density adjustment (M170) is partial: across 7 cadence-handling specifications the slope ranges from 0.232 to 0.886 mΩ/month and every 95% interval spans zero (the published specification is S1); no fade rate is claimed. In the reference draw, emulated slow-cadence thinning (each column thinned independently, which also alters the I-V co-timing; not attributed to sampling density) lowers the proxy by 1.6-1.8 mΩ on the 78 fast-regime drives that keep a proxy and removes it from 29 of 107 fast-regime drives; across 41 slow-pool configurations (11 coupled draws and seeds, M532; 30 single-factor and pool-size runs of 20, 40 or 80 slow drives, M534) the era-mean lowering spans 0.9-2.3 mΩ (fast1) and 0.8-3.6 mΩ (fast2) (min / max across configurations, descriptive, not an interval), the paired interval includes zero in 8 of 82 era configurations (fast1 4, fast2 4), and the spread cannot be apportioned between the pool draw and the seeds (standard-deviation ratio 1.4 and 0.9, not resolved at 10 replicates per arm) (emulated sampling sensitivity, not a causal cadence effect; M393 study on 274 clean drives)."
   },
   "windowMo": 5.09,
   "mdeMohmPerMo": 1.131,
@@ -11417,7 +11566,7 @@
    }
   ],
   "horizonBasis": "SE(slope) ~ T^-1.5 at constant logging cadence; assumes homogeneous residual variance and linear fade. Planning figure, not a measurement.",
-  "note": "M25/M56/M170/M395. Temperature- and HV-current-density-adjusted (partial, M170) V-regression resistance trend. The 95 % day-cluster interval spans zero: a trend is not resolved in this window. HV-current logging density, which changed mid-corpus with the PID configuration and biases this load-excited proxy upward, enters the trend as two covariates (M170); the adjustment is partial. HV-current-density adjustment (M170) is partial: across 7 cadence-handling specifications the slope ranges from 0.232 to 0.886 mΩ/month and every 95% interval spans zero (the published specification is S1); no fade rate is claimed. In the reference draw, emulated slow-cadence thinning (each column thinned independently, which also alters the I-V co-timing; not attributed to sampling density) lowers the proxy by 1.6-1.8 mΩ on the 78 fast-regime drives that keep a proxy and removes it from 29 of 107 fast-regime drives; across 11 slow-pool draws and seeds (reference draw included) the era-mean lowering spans 1.1-2.2 mΩ (fast1) and 1.2-3.1 mΩ (fast2), and the paired interval includes zero in 2 of 22 era replicates (fast1 1, fast2 1) (emulated sampling sensitivity, not a causal cadence effect; M393 study on 274 clean drives)."
+  "note": "M25/M56/M170/M395. Temperature- and HV-current-density-adjusted (partial, M170) V-regression resistance trend. The 95 % day-cluster interval spans zero: a trend is not resolved in this window. HV-current logging density, which changed mid-corpus with the PID configuration and biases this load-excited proxy upward, enters the trend as two covariates (M170); the adjustment is partial. HV-current-density adjustment (M170) is partial: across 7 cadence-handling specifications the slope ranges from 0.232 to 0.886 mΩ/month and every 95% interval spans zero (the published specification is S1); no fade rate is claimed. In the reference draw, emulated slow-cadence thinning (each column thinned independently, which also alters the I-V co-timing; not attributed to sampling density) lowers the proxy by 1.6-1.8 mΩ on the 78 fast-regime drives that keep a proxy and removes it from 29 of 107 fast-regime drives; across 41 slow-pool configurations (11 coupled draws and seeds, M532; 30 single-factor and pool-size runs of 20, 40 or 80 slow drives, M534) the era-mean lowering spans 0.9-2.3 mΩ (fast1) and 0.8-3.6 mΩ (fast2) (min / max across configurations, descriptive, not an interval), the paired interval includes zero in 8 of 82 era configurations (fast1 4, fast2 4), and the spread cannot be apportioned between the pool draw and the seeds (standard-deviation ratio 1.4 and 0.9, not resolved at 10 replicates per arm) (emulated sampling sensitivity, not a causal cadence effect; M393 study on 274 clean drives)."
  },
  "fadeModes": {
   "basis": "M61. Two-dimensional scenario sensitivity replacing the five single-threshold crossing labels, plus explicit separation of capacity-fade and power-fade mechanisms.",
@@ -11723,10 +11872,159 @@
         43
        ],
        "basisNClean": 274,
-       "stale": false
+       "stale": false,
+       "unionOverStudies": {
+        "status": "ok",
+        "sources": [
+         "M532",
+         "M534"
+        ],
+        "sourceSha256": {
+         "M532": "be401474a1ebb9fd9607f60297c872928ad372ca93a86de5a55966bf18f59215",
+         "M534": "c94888de52177efbdb896ce1c54564154171ca682a948f07a5f6a523af5eba40"
+        },
+        "nConfigurations": 41,
+        "nDuplicatesCheckedEqual": 5,
+        "nByArm": {
+         "M532": 11,
+         "P": 10,
+         "S": 10,
+         "N20": 5,
+         "N80": 5
+        },
+        "nEraConfigurations": 82,
+        "eraMeanRangeMohm": {
+         "fast1": [
+          0.873,
+          2.291
+         ],
+         "fast2": [
+          0.847,
+          3.585
+         ]
+        },
+        "rangeByArm": {
+         "M532": {
+          "fast1": [
+           1.085,
+           2.158
+          ],
+          "fast2": [
+           1.24,
+           3.057
+          ]
+         },
+         "P": {
+          "fast1": [
+           0.873,
+           2.291
+          ],
+          "fast2": [
+           1.233,
+           2.523
+          ]
+         },
+         "S": {
+          "fast1": [
+           1.014,
+           1.981
+          ],
+          "fast2": [
+           0.847,
+           2.486
+          ]
+         },
+         "N20": {
+          "fast1": [
+           1.08,
+           2.141
+          ],
+          "fast2": [
+           1.46,
+           3.585
+          ]
+         },
+         "N80": {
+          "fast1": [
+           0.944,
+           1.751
+          ],
+          "fast2": [
+           1.789,
+           3.11
+          ]
+         }
+        },
+        "rangeByPoolSize": {
+         "20": {
+          "fast1": [
+           1.08,
+           2.141
+          ],
+          "fast2": [
+           1.46,
+           3.585
+          ]
+         },
+         "40": {
+          "fast1": [
+           0.873,
+           2.291
+          ],
+          "fast2": [
+           0.847,
+           3.057
+          ]
+         },
+         "80": {
+          "fast1": [
+           0.944,
+           1.751
+          ],
+          "fast2": [
+           1.789,
+           3.11
+          ]
+         }
+        },
+        "nIntervalIncludesZero": 8,
+        "intervalIncludesZeroByEra": {
+         "fast1": 4,
+         "fast2": 4
+        },
+        "nEraMeansNegative": 82,
+        "loseRange": [
+         27,
+         32
+        ],
+        "attribution": {
+         "fast1": {
+          "sdPoolDraws": 0.346,
+          "sdSeeds": 0.244,
+          "ratio": 1.419,
+          "withinBand": true
+         },
+         "fast2": {
+          "sdPoolDraws": 0.411,
+          "sdSeeds": 0.454,
+          "ratio": 0.905,
+          "withinBand": true
+         }
+        },
+        "ratioBand": [
+         0.5,
+         2.0
+        ],
+        "poolSizes": [
+         20,
+         40,
+         80
+        ],
+        "stale": false
+       }
       }
      },
-     "statement": "HV-current-density adjustment (M170) is partial: across 7 cadence-handling specifications the slope ranges from 0.232 to 0.886 mΩ/month and every 95% interval spans zero (the published specification is S1); no fade rate is claimed. In the reference draw, emulated slow-cadence thinning (each column thinned independently, which also alters the I-V co-timing; not attributed to sampling density) lowers the proxy by 1.6-1.8 mΩ on the 78 fast-regime drives that keep a proxy and removes it from 29 of 107 fast-regime drives; across 11 slow-pool draws and seeds (reference draw included) the era-mean lowering spans 1.1-2.2 mΩ (fast1) and 1.2-3.1 mΩ (fast2), and the paired interval includes zero in 2 of 22 era replicates (fast1 1, fast2 1) (emulated sampling sensitivity, not a causal cadence effect; M393 study on 274 clean drives)."
+     "statement": "HV-current-density adjustment (M170) is partial: across 7 cadence-handling specifications the slope ranges from 0.232 to 0.886 mΩ/month and every 95% interval spans zero (the published specification is S1); no fade rate is claimed. In the reference draw, emulated slow-cadence thinning (each column thinned independently, which also alters the I-V co-timing; not attributed to sampling density) lowers the proxy by 1.6-1.8 mΩ on the 78 fast-regime drives that keep a proxy and removes it from 29 of 107 fast-regime drives; across 41 slow-pool configurations (11 coupled draws and seeds, M532; 30 single-factor and pool-size runs of 20, 40 or 80 slow drives, M534) the era-mean lowering spans 0.9-2.3 mΩ (fast1) and 0.8-3.6 mΩ (fast2) (min / max across configurations, descriptive, not an interval), the paired interval includes zero in 8 of 82 era configurations (fast1 4, fast2 4), and the spread cannot be apportioned between the pool draw and the seeds (standard-deviation ratio 1.4 and 0.9, not resolved at 10 replicates per arm) (emulated sampling sensitivity, not a causal cadence effect; M393 study on 274 clean drives)."
     },
     "windowMo": 5.09,
     "mdeMohmPerMo": 1.131,
@@ -11762,7 +12060,7 @@
      }
     ],
     "horizonBasis": "SE(slope) ~ T^-1.5 at constant logging cadence; assumes homogeneous residual variance and linear fade. Planning figure, not a measurement.",
-    "note": "M25/M56/M170/M395. Temperature- and HV-current-density-adjusted (partial, M170) V-regression resistance trend. The 95 % day-cluster interval spans zero: a trend is not resolved in this window. HV-current logging density, which changed mid-corpus with the PID configuration and biases this load-excited proxy upward, enters the trend as two covariates (M170); the adjustment is partial. HV-current-density adjustment (M170) is partial: across 7 cadence-handling specifications the slope ranges from 0.232 to 0.886 mΩ/month and every 95% interval spans zero (the published specification is S1); no fade rate is claimed. In the reference draw, emulated slow-cadence thinning (each column thinned independently, which also alters the I-V co-timing; not attributed to sampling density) lowers the proxy by 1.6-1.8 mΩ on the 78 fast-regime drives that keep a proxy and removes it from 29 of 107 fast-regime drives; across 11 slow-pool draws and seeds (reference draw included) the era-mean lowering spans 1.1-2.2 mΩ (fast1) and 1.2-3.1 mΩ (fast2), and the paired interval includes zero in 2 of 22 era replicates (fast1 1, fast2 1) (emulated sampling sensitivity, not a causal cadence effect; M393 study on 274 clean drives)."
+    "note": "M25/M56/M170/M395. Temperature- and HV-current-density-adjusted (partial, M170) V-regression resistance trend. The 95 % day-cluster interval spans zero: a trend is not resolved in this window. HV-current logging density, which changed mid-corpus with the PID configuration and biases this load-excited proxy upward, enters the trend as two covariates (M170); the adjustment is partial. HV-current-density adjustment (M170) is partial: across 7 cadence-handling specifications the slope ranges from 0.232 to 0.886 mΩ/month and every 95% interval spans zero (the published specification is S1); no fade rate is claimed. In the reference draw, emulated slow-cadence thinning (each column thinned independently, which also alters the I-V co-timing; not attributed to sampling density) lowers the proxy by 1.6-1.8 mΩ on the 78 fast-regime drives that keep a proxy and removes it from 29 of 107 fast-regime drives; across 41 slow-pool configurations (11 coupled draws and seeds, M532; 30 single-factor and pool-size runs of 20, 40 or 80 slow drives, M534) the era-mean lowering spans 0.9-2.3 mΩ (fast1) and 0.8-3.6 mΩ (fast2) (min / max across configurations, descriptive, not an interval), the paired interval includes zero in 8 of 82 era configurations (fast1 4, fast2 4), and the spread cannot be apportioned between the pool draw and the seeds (standard-deviation ratio 1.4 and 0.9, not resolved at 10 replicates per arm) (emulated sampling sensitivity, not a causal cadence effect; M393 study on 274 clean drives)."
    },
    "meanDodPct": 4.1,
    "relevance": "For a series-hybrid power buffer cycled at 20-33 C peaks and ~4 % mean DoD, resistance rise is the more plausible functional limit than Ah loss; it is also the only one of the two this dataset can observe."

@@ -2348,6 +2348,7 @@ def _powerfade_emulation_snapshot(n_clean):
                 'sameDriveSlope': {'n': sd['n'], 'noCovariateOriginal': sd['original_M0']['slope'], 'noCovariateEmulated': sd['emulated_M0']['slope'],
                                    'publishedDesignOriginal': sd['original_published_design']['slope'], 'publishedDesignEmulated': sd['emulated_published_design']['slope']}}
         out['seedSensitivity'] = _powerfade_seed_sensitivity(out)   # M533
+        out['seedSensitivity']['unionOverStudies'] = _powerfade_union_over_studies(out)   # M537
         return out
     except Exception as ex:
         return {'status': 'not_available', 'reason': 'unreadable study file: ' + repr(ex)[:120]}
@@ -2389,11 +2390,90 @@ def _powerfade_seed_sensitivity(emu, expected_sha=None):
         return na('unreadable M532 file: ' + repr(ex)[:120])
 
 
+def _powerfade_union_over_studies(emu, expected=None):
+    """M537: the descriptive spread of the emulated paired difference over the UNIQUE (pool seed, seed offset, pool size) configurations of M532 (analyses/M532_emulation_seed_sensitivity.json, pool size 40) and
+    M534 (analyses/M534_pool_seed_size.json), read from those JSONs, never typed. min / max across configurations (not an interval, not a bound). Duplicates (the M534 control = M532 k0, the M534 N40 runs = arm P) are
+    checked numerically equal and counted once. not_available on a missing / unreadable file, a SHA-256 differing from `expected` ({'M532': sha, 'M534': sha} stored in the payload leaf), a duplicate mismatch or a control
+    mismatch; stale = the snapshot basis is stale."""
+    import json as _json, os as _os, hashlib as _hl
+    d0 = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'analyses')
+    na = lambda why: {'status': 'not_available', 'sources': ['M532', 'M534'], 'reason': why}
+    paths = {'M532': _os.path.join(d0, 'M532_emulation_seed_sensitivity.json'), 'M534': _os.path.join(d0, 'M534_pool_seed_size.json')}
+    try:
+        raws = {k: open(v, 'rb').read() for k, v in paths.items()}
+    except OSError as ex:
+        return na('source file missing: ' + repr(ex)[:100])
+    try:
+        sha = {k: _hl.sha256(v).hexdigest() for k, v in raws.items()}
+        if expected and any(sha[k] != expected.get(k) for k in sha):
+            return na('SHA-256 of an M532 / M534 file differs from the payload leaf')
+        j32, j34 = (_json.loads(raws['M532'].decode('utf-8')), _json.loads(raws['M534'].decode('utf-8')))
+        eras = ('fast1', 'fast2')
+        conf, dups, dup_ok = {}, 0, True
+        def add(rec, arm, size):
+            nonlocal dups, dup_ok
+            key = (int(rec['poolSeed']), int(rec['seedOffset']), int(size))
+            val = {e: (float(rec['paired'][e].get('meanUnrounded', rec['paired'][e]['mean'])), [float(x) for x in rec['paired'][e]['ci95']]) for e in eras}
+            if key in conf:
+                dups += 1
+                o = conf[key]
+                dup_ok = dup_ok and all(abs(o['v'][e][0] - val[e][0]) < 1e-9 and o['v'][e][1] == val[e][1] for e in eras) and o['lose'] == int(rec['nLose'])
+                return
+            conf[key] = {'arm': arm, 'size': int(size), 'v': val, 'lose': int(rec['nLose'])}
+        for r in j32['replicates']:
+            add(r, 'M532', 40)
+        for r in j34['replicates']:
+            arm = 'N%d' % r['poolSize'] if r['arm'] == 'N' else r['arm']
+            add(r, arm, r['poolSize'])
+        if not dup_ok or not (j32.get('controlPassed') and j34.get('controlPassed')):
+            return na('duplicate configurations differ or a control did not pass')
+        if any(int(r['nFastClean']) != int(emu['nFastClean']) for r in j32['replicates'] + j34['replicates']):
+            return na('a replicate fast-clean count differs from the snapshot')
+        absm = lambda c, e: abs(c['v'][e][0])
+        rng = lambda cs, e: [round(min(absm(c, e) for c in cs), 3), round(max(absm(c, e) for c in cs), 3)]
+        cs = list(conf.values())
+        zero = {e: sum(1 for c in cs if c['v'][e][1][0] <= 0.0 <= c['v'][e][1][1]) for e in eras}
+        arms = sorted({c['arm'] for c in cs}, key=lambda a: ('M532', 'P', 'S', 'N20', 'N80').index(a) if a in ('M532', 'P', 'S', 'N20', 'N80') else 9)
+        sd = lambda ids, e: float(__import__('numpy').std([float(r['paired'][e].get('meanUnrounded', r['paired'][e]['mean'])) for r in j34['replicates'] if ids(r)], ddof=1))
+        att = {}
+        for e in eras:
+            sp = sd(lambda r: r['id'].startswith('P_'), e)
+            ss = sd(lambda r: r['id'].startswith('S_') or r['id'] == 'P_R7_k0', e)
+            st = j34['summary']['attribution'][e]
+            if abs(round(sp, 3) - st['sdP']) > 1e-3 or abs(round(ss, 3) - st['sdS']) > 1e-3:
+                return na('the M534 attribution block does not reproduce')
+            att[e] = {'sdPoolDraws': round(sp, 3), 'sdSeeds': round(ss, 3), 'ratio': round(sp / ss, 3), 'withinBand': bool(0.5 <= sp / ss <= 2.0)}
+        return {'status': 'ok', 'sources': ['M532', 'M534'], 'sourceSha256': sha, 'nConfigurations': len(cs), 'nDuplicatesCheckedEqual': dups,
+                'nByArm': {a: sum(1 for c in cs if c['arm'] == a) for a in arms}, 'nEraConfigurations': len(cs) * len(eras),
+                'eraMeanRangeMohm': {e: rng(cs, e) for e in eras}, 'rangeByArm': {a: {e: rng([c for c in cs if c['arm'] == a], e) for e in eras} for a in arms},
+                'rangeByPoolSize': {str(z): {e: rng([c for c in cs if c['size'] == z], e) for e in eras} for z in sorted({c['size'] for c in cs})},
+                'nIntervalIncludesZero': int(sum(zero.values())), 'intervalIncludesZeroByEra': zero, 'nEraMeansNegative': int(sum(1 for c in cs for e in eras if c['v'][e][0] < 0)),
+                'loseRange': [min(c['lose'] for c in cs), max(c['lose'] for c in cs)], 'attribution': att, 'ratioBand': [0.5, 2.0], 'poolSizes': sorted({c['size'] for c in cs}),
+                'stale': bool(emu['stale'])}
+    except Exception as ex:
+        return na('unreadable M532 / M534 file: ' + repr(ex)[:120])
+
+
 def _powerfade_seed_clause(emu):
-    """M533: the sentence part after the reference-draw numbers, bound to emulation.seedSensitivity (no typed numbers)."""
+    """M533 / M537: the sentence part after the reference-draw numbers, bound to emulation.seedSensitivity (no typed numbers). M537: the union over the M532 and M534 configurations when available; else the M533 (M532-only)
+    clause plus a sentence saying the wider spread is not available; else the not-available sentence."""
     ss = emu.get('seedSensitivity') or {}
     if ss.get('status') != 'ok':
         return '; sensitivity to the slow-pool draw and the seeds is not available on this build'
+    u = ss.get('unionOverStudies') or {}
+    if u.get('status') != 'ok':
+        return _powerfade_seed_clause_m532(emu, ss) + '; the wider spread over the M534 configurations is not available on this build'
+    r, z, at = u['eraMeanRangeMohm'], u['intervalIncludesZeroByEra'], u['attribution']
+    sizes = ', '.join(str(x) for x in u['poolSizes'][:-1]) + ' or ' + str(u['poolSizes'][-1])
+    return ('; across %d slow-pool configurations (%d coupled draws and seeds, M532; %d single-factor and pool-size runs of %s slow drives, M534) the era-mean lowering spans %.1f-%.1f mΩ (fast1) and %.1f-%.1f mΩ (fast2) '
+            '(min / max across configurations, descriptive, not an interval), the paired interval includes zero in %d of %d era configurations (fast1 %d, fast2 %d), and the spread cannot be apportioned between the pool draw and the seeds '
+            '(standard-deviation ratio %.1f and %.1f, not resolved at 10 replicates per arm)%s'
+            % (u['nConfigurations'], u['nByArm']['M532'], u['nConfigurations'] - u['nByArm']['M532'], sizes, r['fast1'][0], r['fast1'][1], r['fast2'][0], r['fast2'][1], u['nIntervalIncludesZero'], u['nEraConfigurations'],
+               z['fast1'], z['fast2'], at['fast1']['ratio'], at['fast2']['ratio'], ', computed on the previous basis (%d clean drives)' % ss['basisNClean'] if u.get('stale') else ''))
+
+
+def _powerfade_seed_clause_m532(emu, ss):
+    """M533: the M532-only clause (kept as the fallback of M537)."""
     r, z = ss['eraMeanRangeMohm'], ss['intervalIncludesZeroByEra']
     return ('; across %d slow-pool draws and seeds (reference draw included) the era-mean lowering spans %.1f-%.1f mΩ (fast1) and %.1f-%.1f mΩ (fast2), and the paired interval includes zero in %d of %d era replicates (fast1 %d, fast2 %d)%s'
             % (ss['nReplicates'], r['fast1'][0], r['fast1'][1], r['fast2'][0], r['fast2'][1], ss['nIntervalIncludesZero'], ss['nEraReplicates'], z['fast1'], z['fast2'],

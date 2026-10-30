@@ -26,9 +26,7 @@ for loc in (A["powerFade"]["cadenceSensitivity"], A["fadeModes"]["power"]["trend
     assert ss["loseRange"] == [min(r["nLose"] for r in reps), max(r["nLose"] for r in reps)] == [27, 31]
     assert ss["poolSeeds"] == J["poolSeeds"] and ss["stale"] is False and ss["basisNClean"] == 274
     st = loc["statement"]
-    want = ("In the reference draw, emulated slow-cadence thinning", "across %d slow-pool draws and seeds (reference draw included) the era-mean lowering spans %.1f-%.1f mΩ (fast1) and %.1f-%.1f mΩ (fast2)"
-            % (len(reps), lo("fast1"), hi("fast1"), lo("fast2"), hi("fast2")),
-            "the paired interval includes zero in %d of 22 era replicates (fast1 %d, fast2 %d)" % (sum(zero.values()), zero["fast1"], zero["fast2"]), "not a causal cadence effect")
+    want = ("In the reference draw, emulated slow-cadence thinning", "not a causal cadence effect")           # M537 supersession: the displayed spread clause is the union over M532 + M534 (tests/synthetic/test_m537_union_spread.py)
     assert all(w in st for w in want), [w for w in want if w not in st]
     assert " ;" not in st and "previous basis" not in st
 
@@ -44,6 +42,11 @@ emu = C._powerfade_emulation_snapshot(274)
 assert emu["seedSensitivity"]["status"] == "ok"
 # negative controls
 ok = emu["seedSensitivity"]
+# the M532-only clause (the M537 fallback) keeps the M533 recomputed wording
+m532c = C._powerfade_seed_clause_m532(emu, ok)
+want32 = ("across %d slow-pool draws and seeds (reference draw included) the era-mean lowering spans %.1f-%.1f mΩ (fast1) and %.1f-%.1f mΩ (fast2)" % (len(reps), lo("fast1"), hi("fast1"), lo("fast2"), hi("fast2")),
+          "the paired interval includes zero in %d of 22 era replicates (fast1 %d, fast2 %d)" % (sum(zero.values()), zero["fast1"], zero["fast2"]))
+assert all(w in m532c for w in want32), [w for w in want32 if w not in m532c]
 assert C._powerfade_seed_sensitivity(emu, ok["sourceSha256"])["status"] == "ok"
 bad = C._powerfade_seed_sensitivity(emu, "0" * 64)
 assert bad["status"] == "not_available" and "SHA-256" in bad["reason"]
@@ -68,6 +71,6 @@ def strings(o):
         for v in o: yield from strings(v)
     elif isinstance(o, str): yield o
 assert not [s for s in strings(A) if R.hits(s)] and "no fade rate is claimed. Emulated slow" not in open("xtrail_dashboard.html", encoding="utf-8").read()
-import m533_cadence_splice as S
+import m537_cadence_splice as S   # M537 supersession: the payload now carries the union sub-leaf, the M533 splice (key-set walk) would stop
 assert S.main(["--check"]) == 0
 print("OK test_m533_seed_sensitivity: leaf = independent recomputation, statement, A2, negatives, rule, splice")
