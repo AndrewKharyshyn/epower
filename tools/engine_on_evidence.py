@@ -133,7 +133,7 @@ def build_sidecar(dm, rebuild=False):
     import ah_throughput as AH
     load = AH.raw_loader()
     src = _src_hash()
-    meta = json.load(open(META)) if os.path.exists(META) else {}
+    meta = json.load(open(META, encoding="utf-8")) if os.path.exists(META) else {}
     old = {}
     if not rebuild and os.path.exists(SIDECAR) and meta.get("rowFnSha256") == src:
         old = pd.read_csv(SIDECAR, dtype={"sha256": str}).set_index("file").to_dict("index")
@@ -151,7 +151,7 @@ def build_sidecar(dm, rebuild=False):
         rows.append({"file": f, "sha256": sha, "date": d, **r}); reparsed += 1
     sc = pd.DataFrame(rows)
     sc.to_csv(SIDECAR, index=False, lineterminator="\n")
-    json.dump({"rowFnSha256": src, "thresholds": list(TS), "holds": list(HOLDS), "runs": list(RUNS), "note": "evidence only (M536 phase 1); raw/ = sha256-verified originals (M366)"}, open(META, "w", newline="\n"), indent=1)
+    json.dump({"rowFnSha256": src, "thresholds": list(TS), "holds": list(HOLDS), "runs": list(RUNS), "note": "evidence only (M536 phase 1); raw/ = sha256-verified originals (M366)"}, open(META, "w", encoding="utf-8", newline=chr(10)), indent=1)
     return sc, reparsed
 
 
