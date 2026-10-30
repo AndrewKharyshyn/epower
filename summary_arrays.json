@@ -63295,38 +63295,42 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": null,
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-30T17:21:14.951421+00:00",
+   "generatedAt": "2026-10-30T20:21:26.039762+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
     "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
-    "rawIdentitySource": "ingest run 2026-10-30T17:20:14.951421+00:00: producer stages engine_on_rule ran OK; raw_manifest.json corpusHash of this run",
+    "rawIdentitySource": "ingest run 2026-10-30T20:20:26.039762+00:00: producer stages engine_on_rule ran OK; raw_manifest.json corpusHash of this run",
     "configSectionHashes": {},
     "inputFileMd5": {
-     "engine_on_rule_sidecar.csv": "528f3d2d2ca815795c847147bbd2d335",
+     "engine_on_rule_sidecar.csv": "c40c7495a54968749416491b97195561",
      "analyses/M540_spec.md": "bf4bcf97ee4c45dfe959581055c3edcc",
+     "analyses/M542_spec.md": "5660edc33d93163b44bc21bc3d57a5ea",
+     "seasonal_drive_master.csv": "0018476d259a6e17102708d0f80dbdc3",
      "tools/engine_on_rule.py": "ea654f843911f97007572929edbb9f2d"
     }
    },
    "computationStatus": "computed",
    "computationStatusNote": "M540: derived by tools/engine_on_rule_block.py from drive_master.csv and the raw drive files through engine_on_rule_sidecar.csv (keyed by raw sha256); gates against the stored rpmDistribution",
-   "includedInReleaseAt": "2026-10-30T17:21:14.951421+00:00",
+   "includedInReleaseAt": "2026-10-30T20:21:26.039762+00:00",
    "inputBasis": {
     "nDrives": 606,
     "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-30T17:20:14.951421+00:00",
+   "computedAt": "2026-10-30T20:20:26.039762+00:00",
    "declaredIdentity": {
     "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
     "configSectionHashes": {},
     "inputFileMd5": {
-     "engine_on_rule_sidecar.csv": "528f3d2d2ca815795c847147bbd2d335",
+     "engine_on_rule_sidecar.csv": "c40c7495a54968749416491b97195561",
      "analyses/M540_spec.md": "bf4bcf97ee4c45dfe959581055c3edcc",
+     "analyses/M542_spec.md": "5660edc33d93163b44bc21bc3d57a5ea",
+     "seasonal_drive_master.csv": "0018476d259a6e17102708d0f80dbdc3",
      "tools/engine_on_rule.py": "ea654f843911f97007572929edbb9f2d"
     },
     "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
-    "rawIdentitySource": "ingest run 2026-10-30T17:20:14.951421+00:00: producer stages engine_on_rule ran OK; raw_manifest.json corpusHash of this run"
+    "rawIdentitySource": "ingest run 2026-10-30T20:20:26.039762+00:00: producer stages engine_on_rule ran OK; raw_manifest.json corpusHash of this run"
    },
    "stampLineage": [
     {
@@ -63341,6 +63345,58 @@
      "supersededAtMilestone": "M513",
      "supersededAt": "2026-10-30T14:47:52.261221+00:00",
      "reason": "legacy stamp metadata (M294 raw-manifest backfill, M284 whole-config hash, fields cloned from another block) replaced by stamp metadata re-derived from declared dependencies"
+    },
+    {
+     "identity": {
+      "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+      "configSectionHashes": {},
+      "inputFileMd5": {
+       "engine_on_rule_sidecar.csv": "528f3d2d2ca815795c847147bbd2d335",
+       "analyses/M540_spec.md": "bf4bcf97ee4c45dfe959581055c3edcc",
+       "tools/engine_on_rule.py": "ea654f843911f97007572929edbb9f2d"
+      },
+      "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+      "rawIdentitySource": "ingest run 2026-10-30T17:20:14.951421+00:00: producer stages engine_on_rule ran OK; raw_manifest.json corpusHash of this run"
+     },
+     "supersededAtMilestone": "M513",
+     "supersededAt": "2026-10-30T19:45:25.356854+00:00",
+     "reason": "identity values changed (master, raw manifest, config section or input file)"
+    },
+    {
+     "identity": {
+      "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+      "configSectionHashes": {},
+      "inputFileMd5": {
+       "engine_on_rule_sidecar.csv": "c40c7495a54968749416491b97195561",
+       "analyses/M540_spec.md": "bf4bcf97ee4c45dfe959581055c3edcc",
+       "analyses/M542_spec.md": "d6f6ecc436f3f00229f3ca9e4d557822",
+       "seasonal_drive_master.csv": "0018476d259a6e17102708d0f80dbdc3",
+       "tools/engine_on_rule.py": "ea654f843911f97007572929edbb9f2d"
+      },
+      "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+      "rawIdentitySource": "ingest run 2026-10-30T19:47:19.932332+00:00: producer stages engine_on_rule ran OK; raw_manifest.json corpusHash of this run"
+     },
+     "supersededAtMilestone": "M513",
+     "supersededAt": "2026-10-30T20:13:51.369744+00:00",
+     "reason": "identity values changed (master, raw manifest, config section or input file)"
+    },
+    {
+     "identity": {
+      "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+      "configSectionHashes": {},
+      "inputFileMd5": {
+       "engine_on_rule_sidecar.csv": "c40c7495a54968749416491b97195561",
+       "analyses/M540_spec.md": "bf4bcf97ee4c45dfe959581055c3edcc",
+       "analyses/M542_spec.md": "61503cea07d5a99f5a90f665878eb30c",
+       "seasonal_drive_master.csv": "0018476d259a6e17102708d0f80dbdc3",
+       "tools/engine_on_rule.py": "ea654f843911f97007572929edbb9f2d"
+      },
+      "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+      "rawIdentitySource": "ingest run 2026-10-30T19:47:19.932332+00:00: producer stages engine_on_rule ran OK; raw_manifest.json corpusHash of this run"
+     },
+     "supersededAtMilestone": "M513",
+     "supersededAt": "2026-10-30T20:21:27.038469+00:00",
+     "reason": "identity values changed (master, raw manifest, config section or input file)"
     }
    ],
    "dependencies": {
@@ -365990,7 +366046,8 @@
    "secondsRpmGt6000": 0,
    "driveCount": 606,
    "storedDriveCount": 606,
-   "passed": true
+   "passed": true,
+   "cohortGatesPassed": true
   },
   "pooled": {
    "nDrives": 606,
@@ -366188,6 +366245,227 @@
     "lowRpmBandPctOfGe300": 1.384
    }
   },
+  "byCohort": {
+   "cold": {
+    "nDrives": 13,
+    "nDays": 5,
+    "validSeconds": 13075,
+    "validHours": 3.6319,
+    "ge300Seconds": 8575,
+    "ge300Hours": 2.3819,
+    "engineOnSeconds": 8513,
+    "engineOnHours": 2.3647,
+    "lowRpmBandSeconds": 62,
+    "lowRpmBandHours": 0.0172,
+    "exact400Seconds": 0,
+    "engineOnPctOfValid": {
+     "pct": 65.109,
+     "ci95Pct": [
+      38.328,
+      78.3054
+     ]
+    },
+    "lowRpmBandPctOfGe300": {
+     "pct": 0.723,
+     "ci95Pct": [
+      0.0,
+      0.8093
+     ]
+    },
+    "exploratory": true,
+    "note": "few distinct calendar days (5): a percentile interval over days has no reliable coverage; exploratory, no claim"
+   },
+   "shoulder": {
+    "nDrives": 170,
+    "nDays": 50,
+    "validSeconds": 191934,
+    "validHours": 53.315,
+    "ge300Seconds": 72833,
+    "ge300Hours": 20.2314,
+    "engineOnSeconds": 71721,
+    "engineOnHours": 19.9225,
+    "lowRpmBandSeconds": 1112,
+    "lowRpmBandHours": 0.3089,
+    "exact400Seconds": 16,
+    "engineOnPctOfValid": {
+     "pct": 37.3675,
+     "ci95Pct": [
+      30.5168,
+      43.0491
+     ]
+    },
+    "lowRpmBandPctOfGe300": {
+     "pct": 1.5268,
+     "ci95Pct": [
+      1.3094,
+      1.838
+     ]
+    },
+    "exploratory": false,
+    "note": "day-clustered percentile bootstrap within the cohort"
+   },
+   "warm": {
+    "nDrives": 423,
+    "nDays": 101,
+    "validSeconds": 624814,
+    "validHours": 173.5594,
+    "ge300Seconds": 278116,
+    "ge300Hours": 77.2544,
+    "engineOnSeconds": 273577,
+    "engineOnHours": 75.9936,
+    "lowRpmBandSeconds": 4539,
+    "lowRpmBandHours": 1.2608,
+    "exact400Seconds": 37,
+    "engineOnPctOfValid": {
+     "pct": 43.7854,
+     "ci95Pct": [
+      39.2842,
+      47.7508
+     ]
+    },
+    "lowRpmBandPctOfGe300": {
+     "pct": 1.6321,
+     "ci95Pct": [
+      1.4839,
+      1.8086
+     ]
+    },
+    "exploratory": false,
+    "note": "day-clustered percentile bootstrap within the cohort"
+   }
+  },
+  "cohortSource": "thermal_regime of seasonal_drive_master.csv (every label present; the M426 overrides and the M310 _insufficient relabel are already applied)",
+  "cohortBootstrap": "each cohort is bootstrapped separately on its own calendar days; a calendar day can occur in two cohorts; no cohort contrast is computed",
+  "cohortGates": {
+   "G1CohortPartition": true,
+   "G2": {
+    "cold": {
+     "binsEqualStoredCohortHistogram": true,
+     "perDriveIdentityGe300": true
+    },
+    "shoulder": {
+     "binsEqualStoredCohortHistogram": true,
+     "perDriveIdentityGe300": true
+    },
+    "warm": {
+     "binsEqualStoredCohortHistogram": true,
+     "perDriveIdentityGe300": true
+    }
+   },
+   "G2StoredCohortCountsEqual": true,
+   "G3MeanColumnsIdenticalToM540Sidecar": true,
+   "nValidLastEqualsNValid": true,
+   "passed": true
+  },
+  "aggregatorSensitivity": {
+   "pooled": {
+    "engineOnHoursMean": 98.2808,
+    "engineOnHoursLast": 97.6492,
+    "engineOnRelDiffPct": -0.6427,
+    "bandHoursMean": 1.5869,
+    "bandHoursLast": 1.8628,
+    "bandRelDiffPct": 17.3814,
+    "driveLevelBandSecondsDiff": {
+     "p5": -1.0,
+     "median": 0.0,
+     "p95": 9.0,
+     "nDrivesDiffering": 327
+    }
+   },
+   "byCohort": {
+    "cold": {
+     "engineOnHoursMean": 2.3647,
+     "engineOnHoursLast": 2.3483,
+     "engineOnRelDiffPct": -0.6931,
+     "bandHoursMean": 0.0172,
+     "bandHoursLast": 0.0233,
+     "bandRelDiffPct": 35.4839,
+     "driveLevelBandSecondsDiff": {
+      "p5": -0.3999999999999999,
+      "median": 0.0,
+      "p95": 8.999999999999972,
+      "nDrivesDiffering": 4
+     }
+    },
+    "shoulder": {
+     "engineOnHoursMean": 19.9225,
+     "engineOnHoursLast": 19.7817,
+     "engineOnRelDiffPct": -0.7069,
+     "bandHoursMean": 0.3089,
+     "bandHoursLast": 0.3764,
+     "bandRelDiffPct": 21.8525,
+     "driveLevelBandSecondsDiff": {
+      "p5": -1.0,
+      "median": 0.0,
+      "p95": 7.549999999999983,
+      "nDrivesDiffering": 80
+     }
+    },
+    "warm": {
+     "engineOnHoursMean": 75.9936,
+     "engineOnHoursLast": 75.5192,
+     "engineOnRelDiffPct": -0.6243,
+     "bandHoursMean": 1.2608,
+     "bandHoursLast": 1.4631,
+     "bandRelDiffPct": 16.0388,
+     "driveLevelBandSecondsDiff": {
+      "p5": -1.0,
+      "median": 0.0,
+      "p95": 9.0,
+      "nDrivesDiffering": 243
+     }
+    }
+   },
+   "byCadenceStratum": {
+    "fast": {
+     "engineOnHoursMean": 22.0269,
+     "engineOnHoursLast": 21.8142,
+     "engineOnRelDiffPct": -0.966,
+     "bandHoursMean": 0.2767,
+     "bandHoursLast": 0.3764,
+     "bandRelDiffPct": 36.0442,
+     "driveLevelBandSecondsDiff": {
+      "p5": -1.0,
+      "median": 1.0,
+      "p95": 9.199999999999989,
+      "nDrivesDiffering": 112
+     }
+    },
+    "slow": {
+     "engineOnHoursMean": 74.3333,
+     "engineOnHoursLast": 73.9278,
+     "engineOnRelDiffPct": -0.5456,
+     "bandHoursMean": 1.2833,
+     "bandHoursLast": 1.4536,
+     "bandRelDiffPct": 13.2684,
+     "driveLevelBandSecondsDiff": {
+      "p5": -1.0,
+      "median": 0.0,
+      "p95": 9.0,
+      "nDrivesDiffering": 206
+     }
+    },
+    "unlabelled": {
+     "engineOnHoursMean": 1.9206,
+     "engineOnHoursLast": 1.9072,
+     "engineOnRelDiffPct": -0.6942,
+     "bandHoursMean": 0.0269,
+     "bandHoursLast": 0.0328,
+     "bandRelDiffPct": 21.6495,
+     "driveLevelBandSecondsDiff": {
+      "p5": -1.0,
+      "median": 1.0,
+      "p95": 7.599999999999994,
+      "nDrivesDiffering": 9
+     }
+    }
+   },
+   "definition": "last = last value of the natively forward-filled (15 rows) series in each clock-aligned 1 s bin, then grid forward fill 15 s, negatives dropped; mean = the pipeline convention (the record). The hold limits (15 rows / 15 s) are untested (wave 2c).",
+   "tripwires": {
+    "pooledEngineOnOver1Pct": false,
+    "bandOver25PctPooledOrWarmShoulder": false
+   }
+  },
   "tripwires": {
    "classUnder10Days": [],
    "exact400HoursOver0.1": false,
@@ -366205,15 +366483,19 @@
    "the day bootstrap does not capture serial day correlation",
    "the hold limit counts native rows and grid seconds",
    "convenience sample; the shares describe this corpus, not representative use",
-   "displayed since M541 (wave 2b-i): the pooled engine-on and band figures in the Fuel tab; the occupancy bins, OPT-band and mode-centre shares stay on the rpm >= 300 basis until M542"
+   "aggregator sensitivity (M542): last = last value of the natively forward-filled series per 1 s bin; the variant defined as the last raw non-NaN row before the fill was not run; n_valid_last equals n_valid by construction (it tests nothing); the 15-row / 15-s hold limits are untested (wave 2c)",
+   "the band (300-400 rpm) is aggregator-sensitive (pooled and per cadence stratum differences are in aggregatorSensitivity); no cadence contrast is drawn; cold is exploratory (few days)",
+   "displayed since M541 (wave 2b-i): the pooled engine-on and band figures in the Fuel tab; the occupancy bins, OPT-band and mode-centre shares stay on the rpm >= 300 basis until M543"
   ],
   "provenance": {
    "spec": "analyses/M540_spec.md",
    "specSha256": "859d306cc2c85d124816a2c9f41dd2e5fa8061d7dc957c8a77aa2398a6230196",
-   "toolSha256": "cb2dde153628890b7e74f1dc088983105f3a2301d5081bfbe14d97ca48d364bd",
+   "toolSha256": "0f0a7697ad465b39ee282191d081f0caae6a51d6725d48630b995f2a635053c7",
    "ruleModuleSha256": "6f475db52b5a91c2bc8947c0a5afa9e4c5a025b7fe9c5689e72ae3aef8d23916",
+   "specCohort": "analyses/M542_spec.md",
+   "specCohortSha256": "13fc3a1d51685c044bbd6efaa4208fe1416544ef8c88666a3178397b1f4884a8",
    "sidecar": "engine_on_rule_sidecar.csv",
-   "sidecarSha256": "2c8e5caba66f714271e91ff4850e65f85bd6cc9765a1bc2b9eb859b478b4e4db",
+   "sidecarSha256": "ed7608c006fc4ac4eaefe3f566a2d7c216647c6138f795f3ac513c7e1e29b3df",
    "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
    "reparsedDrives": 0
   }
