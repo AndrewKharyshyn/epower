@@ -1,0 +1,23 @@
+{
+ "task1": {
+  "n": 20,
+  "engineOnExact": "20/20 (groupby floor-to-second mean, then reindex 1 s, ffill limit 15, dropna)",
+  "bandExact": "20/20 vs sum(b9..b13)+eq_hi (layout inferred by fit; eq_hi == my count at exactly 2150 on all 20)",
+  "mismatches": [],
+  "aggregatorNote": "pandas resample('1s').mean() on the raw time index (default left/floor) gave only 6/20 exact (diffs -3..+3 s); groupby on floor(time,1s) gave 20/20; round gave 5/20, ceil 18/20. Spec words 'clock-aligned resample MEAN' are ambiguous; the sidecars correspond to floor-to-second bin means. Sidecar header says eq_hi counts exactly 2150."
+ },
+ "task2": {
+  "a": "pass",
+  "b": "pass",
+  "c": "fail",
+  "d": "partial",
+  "findings": [
+   "(a) fuel text 64.1%, CI 61.6-66.4, 573 drives, 120 days (121 resampled), 98.3 h (353811/3600=98.28), edge 62.4-67.0 (narrow50 62.39..wide100 67.01), earlier rpm>=300 basis 63.1% CI 60.6-65.3 all match summary_arrays rpmOptBand.",
+   "(b) 100*58.222/98.2808=59.2 -> 59; labelled 'pooled, all drives' in distribution__all and highway_vs_city__all.",
+   "(c) highway_vs_city__all calls rpm>300 time engine-on: 'bars show % of ENGINE-ON time...(rpm > 300 gate...)', 'The <1500rpm band is already engine-on only (rpm > 300 gate)', 'Boost-active duration ~10.5% of ENGINE-ON time (rpm > 300)'. Contradicts rule rpm>400. Other rpm>=300 figures are labelled as that basis.",
+   "(d) fuel__cold repeats the OPT sentence verbatim (573 drives, 98.3 engine-on h) with no 'pooled, all drives' label while the cold view is 13 drives; header says tagged sections are corpus-wide but the sentence itself does not say so. highway_vs_city__cold and distribution__cold carry the pooled labels correctly.",
+   "Minor: distribution__all '605 drives, 97.6 engine-on hours' is a different base from 98.3 h, not cross-labelled."
+  ]
+ },
+ "verdict": "revise (fix rpm>300 'engine-on' wording in highway_vs_city boost sentences; add pooled/all-drives label to fuel OPT sentence in cohort views; Task 1 passes)"
+}

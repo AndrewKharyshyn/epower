@@ -6,13 +6,14 @@ os.chdir(ROOT); sys.path.insert(0, ROOT)
 import language_gate as G
 
 A = json.load(open("summary_arrays.json", encoding="utf-8"))
-O = A["rpmOptBand"]; P = O["primary"]
+O = A["rpmOptBand"]; P = O["primaryRule"]; P3 = O["primary"]       # M543: the displayed share is the engine-on rule (rpm > 400) leaf; the rpm >= 300 leaf is quoted once, labelled
 assert O["faithfulness"]["passed"] and O["descriptive"] is True
-ev = [P["pct"]] + list(O["edgeSensitivity"].values())
+ev = [P["pct"]] + list(O["edgeSensitivityRule"].values())
 exp = [
-    "%.1f%% of rpm ≥ 300 time (rpm ≥ 300 basis, until the engine-on rule is applied to this block; 95 %% CI %.1f–%.1f, day-clustered bootstrap; %d drives, %d days with engine-on time (%d resampled), %.1f h at rpm ≥ 300)" % (P["pct"], P["ci95Pct"][0], P["ci95Pct"][1], P["nDrives"], P["nDaysWithEngineOn"], P["nDays"], P["engineOnSeconds"] / 3600),
+    "%.1f%% of engine-on time (rpm > 400, 1 Hz grid, pooled, all drives; 95 %% CI %.1f–%.1f, day-clustered bootstrap; %d drives, %d days with engine-on time (%d resampled), %.1f engine-on h)" % (P["pct"], P["ci95Pct"][0], P["ci95Pct"][1], P["nDrives"], P["nDaysWithEngineOn"], P["nDays"], P["ruleEngineOnSeconds"] / 3600),
     "gives %.1f–%.1f%%, a band-definition range, not an interval" % (min(ev), max(ev)),
-    "observed occupancy of logged engine rpm (rpm ≥ 300, 1 Hz grid, duration-weighted)",
+    "on the earlier rpm ≥ 300 basis the share is %.1f%% (95 %% CI %.1f–%.1f)" % (P3["pct"], P3["ci95Pct"][0], P3["ci95Pct"][1]),
+    "observed occupancy of logged engine rpm (rpm > 400, 1 Hz grid, duration-weighted)",
 ]
 jsx = open("xtrail_summary.jsx", encoding="utf-8").read()
 assert "steady cruise" not in jsx.split("The best-point (OPT) band")[1][:2500] and "empiricalLoad" not in jsx

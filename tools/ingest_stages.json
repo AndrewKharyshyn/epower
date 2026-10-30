@@ -496,19 +496,6 @@
    ]
   },
   {
-   "id": "rpm_opt_band",
-   "title": "M525: observed occupancy of logged engine rpm in the closed OPT band [1850, 2150] (share of engine-on time, rpm >= 300, 1 Hz grid) on the live corpus with a day-clustered interval; faithfulness gate against the stored rpmDistribution (STOP on failure); per-drive sidecar rpm_opt_band_sidecar.csv keyed by the raw sha256 (only new or changed drives are parsed); additive payload key rpmOptBand + stamp; supersedes the numeric leaves of the one-off generatorTractionRecon.rpmFinding (left unchanged); spec analyses/M525_spec.md Rev 2",
-   "cmd": [
-    "python3",
-    "tools/rpm_opt_band.py"
-   ],
-   "verified": true,
-   "outputs": [
-    "summary_arrays.json",
-    "rpm_opt_band_sidecar.csv"
-   ]
-  },
-  {
    "id": "rpm_mode_centres",
    "title": "M527: duration-weighted centres of mass of the ~2000 / ~1500 / ~1589 rpm modes, mass-in-window shares, the old 45/55 split and background densities of logged engine rpm on the live corpus with day-clustered intervals (replaces the historical M205/M218 values shown as 'not recomputed'); faithfulness gate against the stored rpmDistribution (STOP on failure); per-drive sidecar rpm_mode_centres_sidecar.csv (1 rpm bins [1400, 2100) + exact window sums) keyed by the raw sha256, grid source hash and window list; additive payload key rpmModeCentres + stamp; spec analyses/M527_spec.md Rev 2",
    "cmd": [
@@ -575,6 +562,19 @@
     "summary_arrays.json",
     "engine_on_rule_sidecar.csv",
     "engine_on_rule_sidecar.meta.json"
+   ]
+  },
+  {
+   "id": "rpm_opt_band",
+   "title": "M525: observed occupancy of logged engine rpm in the closed OPT band [1850, 2150] (share of engine-on time, rpm >= 300, 1 Hz grid) on the live corpus with a day-clustered interval; faithfulness gate against the stored rpmDistribution (STOP on failure); per-drive sidecar rpm_opt_band_sidecar.csv keyed by the raw sha256 (only new or changed drives are parsed); additive payload key rpmOptBand + stamp; supersedes the numeric leaves of the one-off generatorTractionRecon.rpmFinding (left unchanged); spec analyses/M525_spec.md Rev 2",
+   "cmd": [
+    "python3",
+    "tools/rpm_opt_band.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json",
+    "rpm_opt_band_sidecar.csv"
    ]
   },
   {
