@@ -1,0 +1,236 @@
+{
+ "method": "grep (regex on rpm threshold comparisons and constants); the annotated producer table is analyses/M536_inventory.json",
+ "n": 46,
+ "rows": [
+  {
+   "file": "compute_summary_arrays.py",
+   "line": 1917,
+   "text": "'EV state is eng_rpm <= 400 (engine not rotating), the same threshold '"
+  },
+  {
+   "file": "compute_summary_arrays.py",
+   "line": 6575,
+   "text": "'rpm>500) across the corpus, distinct from the per-event M116/M118 '"
+  },
+  {
+   "file": "compute_summary_arrays.py",
+   "line": 7850,
+   "text": "on = g[g['rpm'] > 800].dropna(subset=['soc', 'rpm', 'boost'])"
+  },
+  {
+   "file": "compute_summary_arrays.py",
+   "line": 10089,
+   "text": "_RSYNC_ENG_ON = 400.0"
+  },
+  {
+   "file": "compute_summary_arrays.py",
+   "line": 13050,
+   "text": "rpm<=300 (engine off/idle) & speed>3 km/h & deceleration>0 & target"
+  },
+  {
+   "file": "compute_summary_arrays.py",
+   "line": 13086,
+   "text": "eng_off = _np.nan_to_num(rpm, nan=9999.0) <= 300  # regenByZone's own threshold"
+  },
+  {
+   "file": "compute_summary_arrays.py",
+   "line": 13262,
+   "text": "'Restricted to rpm<=300 (engine off/idle) & speed>3 km/h '"
+  },
+  {
+   "file": "compute_summary_arrays.py",
+   "line": 13385,
+   "text": "eng_off = np.nan_to_num(rpm, nan=9999.0) <= 300  # regenByZone's own threshold"
+  },
+  {
+   "file": "compute_summary_arrays.py",
+   "line": 13597,
+   "text": "'on': (g['rpm'].values > 800.0),"
+  },
+  {
+   "file": "compute_summary_arrays.py",
+   "line": 14545,
+   "text": "'note': ('Engine-on fraction (rpm>400) at matched road speed, cold vs warm: a descriptive conditional contrast. '"
+  },
+  {
+   "file": "compute_summary_arrays.py",
+   "line": 14889,
+   "text": "first_five_min_on_frac = (float((win['rpm'].values > 800).mean())"
+  },
+  {
+   "file": "compute_summary_arrays.py",
+   "line": 18079,
+   "text": "'MOTORED (rpm>2000, boost<-0.70~MAP<25kPa, load<8%) '"
+  },
+  {
+   "file": "compute_summary_arrays.py",
+   "line": 18080,
+   "text": "'vs FUELLED (rpm>2000, boost>=-0.55~MAP>=40kPa). '"
+  },
+  {
+   "file": "compute_drive_summary_v6.py",
+   "line": 21,
+   "text": "eng_rpm>400 engine-on threshold, so ev_* and engine_on_pct are complementary"
+  },
+  {
+   "file": "compute_drive_summary_v6.py",
+   "line": 637,
+   "text": "m_ev = (ev['tq'] > 50) & (ev['eng_rpm'].fillna(0) < 400)"
+  },
+  {
+   "file": "compute_drive_summary_v6.py",
+   "line": 722,
+   "text": "eng_on = e['eng_rpm'].fillna(0) > 400"
+  },
+  {
+   "file": "compute_drive_summary_v6.py",
+   "line": 1044,
+   "text": "on = m2[m2['eng_rpm'].fillna(0) > 400]"
+  },
+  {
+   "file": "compute_drive_summary_v6.py",
+   "line": 1429,
+   "text": "Definition. EV state := ICE not rotating (eng_rpm <= 400, the SAME"
+  },
+  {
+   "file": "compute_drive_summary_v6.py",
+   "line": 1507,
+   "text": "off = _ev_debounce(known & (g['rpm'] <= 400), EV_DEBOUNCE_S) & known"
+  },
+  {
+   "file": "tools/capacity_basis.py",
+   "line": 68,
+   "text": "eng = float(np.mean(rpm[me] > 400.0)) if me.any() else float(\"nan\")"
+  },
+  {
+   "file": "tools/dissipation_events.py",
+   "line": 8,
+   "text": "PUB  = rpm > 2000 and boost < -0.70 (MAP ~ < 25 kPa) and calc load < 8          the published census classifier (needs rpm, boost, load, soc)"
+  },
+  {
+   "file": "tools/dissipation_events.py",
+   "line": 9,
+   "text": "FUEL = rpm > 1200 and logged fuel rate < 0.2 L/h and absolute throttle B < 10 %  independent indicator (app-calculated fuel rate; only the 60-column logging generation)"
+  },
+  {
+   "file": "tools/dissipation_monitor.py",
+   "line": 29,
+   "text": "RULE = (\"PUB = rpm>2000 & boost<-0.70 & load<8; FUEL = rpm>1200 & logged fuel<0.2 L/h & throttle B<10%; event >= 3 s; sustained = >= 10 s and |rpm slope| < 30 rpm/s; \""
+  },
+  {
+   "file": "tools/engine_on_evidence.py",
+   "line": 5,
+   "text": "- 1 Hz grid of the pipeline (byte-faithful to rpm_opt_band.grid_rpm / _RawAccum.add, but the NaN seconds are kept): seconds with rpm >= T for T in 250..500 (step 50), > 300, > 400, the 300-400 band an"
+  },
+  {
+   "file": "tools/engine_on_evidence.py",
+   "line": 7,
+   "text": "- interval integration of the production helpers (compute_drive_summary_v6._prep_bytes / _series / _tw_stats; the M512 engineRuntime basis): supported seconds and seconds with rpm >= 300, > 300, >= 40"
+  },
+  {
+   "file": "tools/engine_runtime.py",
+   "line": 37,
+   "text": "RPM_ON = 400.0"
+  },
+  {
+   "file": "tools/engine_runtime.py",
+   "line": 41,
+   "text": "STATEMENT = (\"Engine-on time inside RPM-supported intervals (eng_rpm > 400: the engine is rotating, not necessarily fuelled), the RPM-supported time and the elapsed time, per the declared population. "
+  },
+  {
+   "file": "tools/engine_runtime.py",
+   "line": 175,
+   "text": "\"limits\": \"eng_rpm > 400 means rotating, not fuelled; the supported-basis rate uses the whole-elapsed distance of drives with an RPM series (a lower bound of the elapsed-time rate); totals are exact o"
+  },
+  {
+   "file": "tools/engine_start_rate.py",
+   "line": 4,
+   "text": "rpm > 300 (NaN = off), run-length encoded, only runs >= MIN_ENGINE_START_S (2 s) are starts. Known answer: the per-drive starts/100 km equals the value the released _RawAccum.add appends"
+  },
+  {
+   "file": "tools/engine_start_rate.py",
+   "line": 195,
+   "text": "\"limits\": [\"a trip is one master file: restarts across a file boundary are first starts\", \"ffill(limit=15) is applied twice (raw columns and the 1 s grid) and can bridge gaps of ~15-30 s, merging runs"
+  },
+  {
+   "file": "tools/fuel_analytics2.py",
+   "line": 99,
+   "text": "on = (np.nan_to_num(rpm) > 400) & (flow > 0)"
+  },
+  {
+   "file": "tools/fuel_analytics2.py",
+   "line": 293,
+   "text": "out2 = {\"alignment\": \"first rate sample with rpm > 400 and rate > 0 inside the counter window (left-censored trips excluded and counted)\","
+  },
+  {
+   "file": "tools/gtr_interval_sens.py",
+   "line": 38,
+   "text": "\"\"\"per-sample charge-class energies (kWh) at offset (applied + extra); engine on = rpm>400, torque-verified regen = tq<-15.\"\"\""
+  },
+  {
+   "file": "tools/gtr_interval_sens.py",
+   "line": 165,
+   "text": "g[\"on_raw\"] = (g[\"rpm\"].fillna(0) > 400).values"
+  },
+  {
+   "file": "tools/m427_splice.py",
+   "line": 78,
+   "text": "SUBS18 = [('(isolates enrichment+cold-friction; day-clustered bootstrap, seed 42, ', '(a conditional contrast at matched RPMxload; enrichment, cold friction, oil and coolant state and demand stay enta"
+  },
+  {
+   "file": "tools/m497_splice.py",
+   "line": 19,
+   "text": "\"label\": \"estimated per-second start-hazard ratio, high speed vs stationary, SoC-standardised (Mantel-Haenszel); detector-derived starts (rpm > 500); descriptive, not an effect of speed\","
+  },
+  {
+   "file": "tools/m521_timebase_map.py",
+   "line": 4,
+   "text": "Base codes: B1 = eng_rpm > 300 on the 1 Hz grid, time-weighted (rpmDistribution, engineOnDuration); B1n = rpm > 300 on native-cadence rows, row-count share (engineOnBySpeed); B2 = eng_rpm > 400 inside"
+  },
+  {
+   "file": "tools/m521_timebase_map.py",
+   "line": 5,
+   "text": "engineRuntime); B3 = B2 duration-scaled imputed; B4 = eng_rpm > 400 on the 1 Hz grid with a moving filter (rsync/dst blocks); B5 = boost-PID-drives sample-weighted"
+  },
+  {
+   "file": "tools/m521_timebase_map.py",
+   "line": 17,
+   "text": "1462: (\"engine-on time share\", \"engineOnBySpeed\", \"# ---- engineOnBySpeed ----\", \"B1n\", \"blind audit: share of native-cadence valid speed+rpm rows with rpm > 300 per speed zone (row count, not time-we"
+  },
+  {
+   "file": "tools/m521_timebase_map.py",
+   "line": 21,
+   "text": "6077: (\"Engine off\", \"rpmDistribution\", \"out['rpmDistribution'] = {\", \"B1\", \"pooled hours; engine-off bin = rpm <= 300; text already says 'all gridded time'\"),"
+  },
+  {
+   "file": "tools/m521_timebase_map.py",
+   "line": 22,
+   "text": "9581: (\"of engine-on time clamped\", \"rpmSyncPoint\", \"_RSYNC_ENG_ON = 400.0\", \"B4\", \"rpm > 400 on the 1 Hz grid with speed >= _RSYNC_MOVE_V (moving); per-drive fraction\"),"
+  },
+  {
+   "file": "tools/m521_timebase_map.py",
+   "line": 23,
+   "text": "9604: (\"peakPctOfEngineOn\", \"rpmDistribution\", \"out['rpmDistribution'] = {\", \"B1\", \"peak bin hours / sum(bins[1:]) = pooled rpm>300 hours\"),"
+  },
+  {
+   "file": "tools/m521_timebase_map.py",
+   "line": 32,
+   "text": "12014: (\"engine-on time, &gt;0.1 bar\", \"turboBySpeedCtx\", \"turboBySpeedCtx\", \"B5\", \"blind audit: rpm > 300 and boost non-NaN rows per speed zone, boost > 0.1 bar\"),"
+  },
+  {
+   "file": "tools/rpm_opt_band.py",
+   "line": 4,
+   "text": "Estimand: duration-weighted share of ENGINE-ON time (rpm >= 300 on the 1 Hz grid, the rpmDistribution convention) with logged rpm in the CLOSED band [OPT_LO, OPT_HI] = [1850, 2150]"
+  },
+  {
+   "file": "tools/rpm_opt_band.py",
+   "line": 166,
+   "text": "blk = {\"estimand\": \"duration-weighted share of engine-on time (rpm >= 300, 1 Hz grid) with logged rpm in the closed band [1850, 2150] (model_constants OPT_LO/OPT_HI), pooled over drives\","
+  },
+  {
+   "file": "tools/zero_fuel.py",
+   "line": 237,
+   "text": "\"rule\": \"M46/M48 classifier (rpm > 2000, boost <= -0.70, calculated load <= 8) seconds that also carry the debounced zero-fuel state; below the minimum share the channel cannot see the motored state\"}"
+  }
+ ]
+}
