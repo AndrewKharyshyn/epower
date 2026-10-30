@@ -284,6 +284,26 @@
     "--check"
    ],
    "sidecar": "driving_mix_sidecar.csv"
+  },
+  "engineOnRule": {
+   "producer": "tools/engine_on_rule_block.py",
+   "producerStages": [
+    "engine_on_rule"
+   ],
+   "readsRaw": true,
+   "readsRawManifest": false,
+   "rawNote": "through engine_on_rule_sidecar.csv keyed by the raw sha256 (per-drive integer counts on the pipeline 1 Hz rpm grid)",
+   "configSections": [],
+   "inputFiles": [
+    "engine_on_rule_sidecar.csv",
+    "analyses/M540_spec.md",
+    "tools/engine_on_rule.py"
+   ],
+   "checkCommand": [
+    "tools/engine_on_rule_block.py",
+    "--check"
+   ],
+   "sidecar": "engine_on_rule_sidecar.csv"
   }
  }
 }

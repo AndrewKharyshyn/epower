@@ -94,6 +94,9 @@ def compute(sc, dm, A):
     out["faithfulness"]["passed"] = bool(pooled_ok and all(byc_ok.values()) and ident and len(sc) == rd["coverage"]["nDrives"])
     out["pooled"] = part(sc)
     out["byClass"] = {k: part(sc[cls == k]) for k in CLASSES if (cls == k).any()}
+    un = ~np.isin(cls, CLASSES)
+    if un.any():
+        out["unclassified"] = {**part(sc[un]), "note": "drives without a drive_type of the four classes (the master label unknown): included in pooled, absent from byClass"}
     p = out["pooled"]
     out["boundaryEvidence"] = {"exact400Seconds": p["exact400Seconds"], "exact400Hours": _hrs(p["exact400Seconds"]), "nDrivesWithExact400": int((sc["eq400"] > 0).sum()), "maxExact400SecondsPerDrive": int(sc["eq400"].max())}
     er = (A.get("engineRuntime") or {}).get("totals", {})
