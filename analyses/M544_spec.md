@@ -64,3 +64,63 @@ Q1 Is the evidence-first split (M544 evidence, M545 build, M546 state machine) r
 - **Language:** `engineOnBySpeed` and the turbo blocks are native-row shares: write "rpm > 400, native rows", not "1 Hz grid". The `language_gate.py` retire rules (condition 5) come in M545.
 - **Missing sites added:** `compute_summary_arrays.py` about 4317 (regen `rp <= 300`, excluded by decision (g)), about 4387 (onset), about 4988 (`hvcTurboActivity`); `crosscheck_events.py` 107-175; `rpmDistribution.params.engineOnThresholdRpm` (text, 300); JSX about 11040 (`EngineOnBySpeed` title) and about 5927-5929 (`TurboByRpm`); `engineHoursByType` / `engineOnFrac` (master `engine_on_pct`, > 400) shown beside the > 300 turbo row in one table: not affected, mixed basis to be labelled in M545.
 - **Risks recorded:** an unanchored replacement could hit the regen / onset literals (anchors asserted); `max_label` in `hvcTurboActivity` depends on drive order (the loader order is fixed); the run is tied to the master MD5 5556a0c6 (recorded); the day bootstrap covers the pooled median only (segsPer10min and onFraction get no interval); cold is exploratory.
+
+
+## 10. Evidence results and escalation (2026-10-31; all numbers read from analyses/M544_evidence.json, written by the tool)
+- Gates: G0a per-drive state equality (606 drives), G0b stored blocks and the four cohort charts reproduced exactly, G0c only the five targeted finalize keys differ (engineOnDuration, engineOnBySpeed, turboByRpm, turboBySpeedCtx, hvcTurboActivity); the onset-sensitivity copy additionally changes engineStartsByType, hvcEngineTriggerSoC, hvcEngineStopSoC, socBands (counts only; the name 'RPM onset' is kept). Run: 606 of 606 drives, master MD5 5556a0c6c8bcde0f6c64b8b9655208ed, 239.5 s.
+- engineOnDuration (all drives, rpm > 300 gate -> rpm > 400):
+  - Urban: median 26.0 -> 25.0 (-3.846 %), p10 8.0 -> 7.0, p90 95.0 -> 92.0, nSegments 3109 -> 3197 (2.83 %), onFraction 30.1 -> 29.6
+  - Mixed: median 30.0 -> 28.0 (-6.667 %), p10 7.0 -> 6.0, p90 87.4 -> 82.4, nSegments 647 -> 677 (4.637 %), onFraction 40.1 -> 39.5
+  - Mixed Highway: median 24.0 -> 21.0 (-12.5 %), p10 6.0 -> 5.0, p90 91.0 -> 84.0, nSegments 2573 -> 2793 (8.55 %), onFraction 56.4 -> 55.4
+  - Highway: median 30.0 -> 25.0 (-16.667 %), p10 6.0 -> 5.0, p90 156.0 -> 139.0, nSegments 1425 -> 1543 (8.281 %), onFraction 69.4 -> 68.7
+- Day-clustered pooled median segment length (seed 42, 4000 draws), 300 [CI] -> 400 [CI]: highway: 30.0 [[26.0, 35.0]] -> 25.0 [[23.0, 32.0]] OUTSIDE CI300; mixed: 30.0 [[26.0, 34.0]] -> 28.0 [[24.0, 32.0]]; mixed_highway: 24.0 [[22.0, 27.0]] -> 21.0 [[19.0, 24.0]] OUTSIDE CI300; unknown: 74.5 [[74.5, 74.5]] -> 74.0 [[74.0, 74.0]] OUTSIDE CI300; urban: 26.0 [[24.0, 30.0]] -> 25.0 [[22.0, 28.0]].
+- Run-boundary taxonomy (a run can split, drop or shorten, never merge): highway: unchanged 761, shortened 554, split 108, dropped 2 (runs 1425 -> sub-runs 1543); mixed: unchanged 343, shortened 276, split 28, dropped 0 (runs 647 -> sub-runs 677); mixed_highway: unchanged 1353, shortened 1018, split 201, dropped 1 (runs 2573 -> sub-runs 2793); unknown: unchanged 1, shortened 1, split 0, dropped 0 (runs 2 -> sub-runs 2); urban: unchanged 1643, shortened 1371, split 88, dropped 7 (runs 3109 -> sub-runs 3197).
+- engineOnBySpeed (percent, displayed integers): 0-20 14 -> 14, 20-40 26 -> 25, 40-60 46 -> 45, 60-80 57 -> 55, 80-100 81 -> 79, 100-120 98 -> 98, 120+ 96 -> 96. Turbo: bands from 1500 rpm up identical (identity gate E4 True); the lowest band loses native rows; hvcTurboActivity strings change in every class.
+- Escalation per the Rev 2 rules (materiality 5 percent on every displayed field; shift outside the 300 interval): TRIPPED for the highway and mixed_highway median segment length, for p10 / p90 / segsPer10min / nSegments of mixed_highway and highway, and for four displayed engineOnBySpeed integers. These are deterministic re-definitions of run boundaries on the same data, not tests or corrections. Decision requested from the Director before M545.
+- Blind audit (analyses/M544_audit.json, analyses/M544_audit_script.py): 20/20 drives exact on segment count, sum and median at both thresholds and on the lowest-band turbo rows; taxonomy consistent (own 20-drive taxonomy: 353 unchanged, 297 shortened, 51 split, 0 dropped). Grid convention of the audit recorded: floor-to-second MEAN over every second first..last, no dropna, native ffill 15 rows before, grid ffill 15 s after.
+
+
+## 11. Addendum (2026-10-31): Director decision (narrow revise) and the tool re-run
+- Director decision on the evidence: narrow revise; deviations acceptable; no Director round trip needed unless a check fails. Required before any M545 code: (a) the E3 identity gate, (b) the exact E1 check, (c) the complete flip and materiality list. Delivered by a tool re-run (`analyses/M544_evidence_addendum.json`; the first evidence file `analyses/M544_evidence.json` is kept; the re-run reproduced the same gates).
+- E3 identity (engineOnBySpeed): per speed zone the drop in engine-on rows from the 300 to the 400 gate equals the count of native rows with 300 < rpm <= 400: [6794.0, 7885.0, 15572.0, 19457.0, 14325.0, 5610.0, 394.0] (drops) = [6794.0, 7885.0, 15572.0, 19457.0, 14325.0, 5610.0, 394.0] (rows), equal: True.
+- E1 exact: the rule engine-on seconds of the 400 copy equal `engineOnRule` per-drive seconds on 606 drives, 0 different (equal: True).
+- Complete list, all-drives view (cohort charts are in the addendum file): material (>= 5 percent) fields 59 in total across cohorts; the non-material changed fields of the all-drives view:
+  - engineOnDuration Urban median: 26.0 -> 25.0 (-3.846 %)
+  - engineOnDuration Urban p90: 95.0 -> 92.0 (-3.158 %)
+  - engineOnDuration Urban onFraction: 30.1 -> 29.6 (-1.661 %)
+  - engineOnDuration Urban segsPer10min: 4.3 -> 4.4 (2.326 %)
+  - engineOnDuration Urban nSegments: 3109 -> 3197 (2.83 %)
+  - engineOnDuration Mixed max: 325.0 -> 323.0 (-0.615 %)
+  - engineOnDuration Mixed onFraction: 40.1 -> 39.5 (-1.496 %)
+  - engineOnDuration Mixed nSegments: 647 -> 677 (4.637 %)
+  - engineOnDuration Mixed Highway onFraction: 56.4 -> 55.4 (-1.773 %)
+  - engineOnDuration Highway onFraction: 69.4 -> 68.7 (-1.009 %)
+  - engineOnBySpeed 20-40 pct: 26 -> 25 (-3.846 %)
+  - engineOnBySpeed 40-60 pct: 46 -> 45 (-2.174 %)
+  - engineOnBySpeed 60-80 pct: 57 -> 55 (-3.509 %)
+  - engineOnBySpeed 80-100 pct: 81 -> 79 (-2.469 %)
+  - turboBySpeedCtx 120-160 activePct: 35 -> 36 (2.857 %)
+  - hvcTurboActivity urban string: 7.3% of engine-on time (n=1,223,556, >0.1 bar);  -> 7.4% of engine-on time (n=1,200,763, >0.1 bar); 
+  - hvcTurboActivity mixed string: 3.0% of engine-on time (n=238,071, >0.1 bar); pe -> 3.1% of engine-on time (n=233,523, >0.1 bar); pe
+  - hvcTurboActivity mixed_highway string: 13.6% of engine-on time (n=865,790, >0.1 bar); p -> 13.9% of engine-on time (n=847,918, >0.1 bar); p
+  - hvcTurboActivity highway string: 13.5% of engine-on time (n=831,403, >0.1 bar); p -> 13.7% of engine-on time (n=820,480, >0.1 bar); p
+  - hvcTurboActivity city string: 7.3% of engine-on time (n=1,223,556, >0.1 bar);  -> 7.4% of engine-on time (n=1,200,763, >0.1 bar); 
+- Material fields of the all-drives view (>= 5 percent):
+  - engineOnDuration Urban p10: 8.0 -> 7.0 (-12.5 %)
+  - engineOnDuration Mixed min: 2.0 -> 1.0 (-50.0 %)
+  - engineOnDuration Mixed median: 30.0 -> 28.0 (-6.667 %)
+  - engineOnDuration Mixed p10: 7.0 -> 6.0 (-14.286 %)
+  - engineOnDuration Mixed p90: 87.4 -> 82.4 (-5.721 %)
+  - engineOnDuration Mixed segsPer10min: 5.7 -> 6.0 (5.263 %)
+  - engineOnDuration Mixed Highway median: 24.0 -> 21.0 (-12.5 %)
+  - engineOnDuration Mixed Highway p10: 6.0 -> 5.0 (-16.667 %)
+  - engineOnDuration Mixed Highway p90: 91.0 -> 84.0 (-7.692 %)
+  - engineOnDuration Mixed Highway segsPer10min: 8.2 -> 8.9 (8.537 %)
+  - engineOnDuration Mixed Highway nSegments: 2573 -> 2793 (8.55 %)
+  - engineOnDuration Highway median: 30.0 -> 25.0 (-16.667 %)
+  - engineOnDuration Highway p10: 6.0 -> 5.0 (-16.667 %)
+  - engineOnDuration Highway p90: 156.0 -> 139.0 (-10.897 %)
+  - engineOnDuration Highway segsPer10min: 6.3 -> 6.8 (7.937 %)
+  - engineOnDuration Highway nSegments: 1425 -> 1543 (8.281 %)
+  - turboByRpm <1500 n: 261101 -> 204965 (-21.5 %)
+- Conditions for M545 (Director): (1) design = hybrid: module-level pure functions with a threshold argument, called at 300 by `_RawAccum` (byte-identical G0 test) and at 400 by a sidecar that caches per-drive sufficient statistics so cohorts (all / warm / shoulder / cold) merge by summation; rule siblings additive only, stored > 300 keys unchanged; option C stays rejected. (2) Rebind, each with a label, the Highway-vs-city boost sentences and the `hvcTurboActivity` row first, then `EngineOnDuration`, `EngineOnBySpeed`, `TurboByRpm` (primary and the four cohort charts), `turboBySpeedCtx`; label the `engineHoursByType` mixed basis. (3) Wording: run lengths are a 'run-boundary re-definition (rpm > 400, 1 Hz grid; deterministic, same data)', never 'correction', never a shift presented as a finding, never 'false engine-on'; native-row blocks say 'rpm > 400, native rows'. (4) The day-clustered interval belongs to each definition separately; no 300-versus-400 contrast is drawn as a test; the 'unknown' class (2 segments, 3 days) is exploratory with no interval reading. (5) `crosscheck_events`: the e-4ORCE side uses the same threshold function and basis as the primary side, with an identity test and updated docstring text. (6) Onset sensitivity: keep the name 'RPM onset (> 300 rpm, run >= 2 s)'; the > 400 version stays a sensitivity; dependants (trigger / stop SoC, `socBands`) are counts only and never displayed. (7) `language_gate.py` retire rules for each old 'engine-on (rpm > 300)' wording and the synthetic split / drop / shorten test as in Rev 2. (8) `engineStateMachine` (M546) stays a separate milestone, run after M545 is merged. No article figure.

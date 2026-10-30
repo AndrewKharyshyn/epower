@@ -1,0 +1,1240 @@
+{
+ "spec": "analyses/M544_spec.md Rev 2 + Director addendum",
+ "E3_engineOnBySpeed_identity": {
+  "dropInOnRowsPerZone": [
+   6794.0,
+   7885.0,
+   15572.0,
+   19457.0,
+   14325.0,
+   5610.0,
+   394.0
+  ],
+  "rowsWithRpm300to400PerZone": [
+   6794.0,
+   7885.0,
+   15572.0,
+   19457.0,
+   14325.0,
+   5610.0,
+   394.0
+  ],
+  "equal": true
+ },
+ "E1_ruleSecondsExact": {
+  "nDrivesCompared": 606,
+  "nDifferent": 0,
+  "differences": {},
+  "equal": true
+ },
+ "changedFieldsMaterial5pct": [
+  {
+   "cohort": "all",
+   "block": "engineOnDuration",
+   "key": "Urban",
+   "field": "p10",
+   "at300": 8.0,
+   "at400": 7.0,
+   "relPct": -12.5
+  },
+  {
+   "cohort": "all",
+   "block": "engineOnDuration",
+   "key": "Mixed",
+   "field": "min",
+   "at300": 2.0,
+   "at400": 1.0,
+   "relPct": -50.0
+  },
+  {
+   "cohort": "all",
+   "block": "engineOnDuration",
+   "key": "Mixed",
+   "field": "median",
+   "at300": 30.0,
+   "at400": 28.0,
+   "relPct": -6.667
+  },
+  {
+   "cohort": "all",
+   "block": "engineOnDuration",
+   "key": "Mixed",
+   "field": "p10",
+   "at300": 7.0,
+   "at400": 6.0,
+   "relPct": -14.286
+  },
+  {
+   "cohort": "all",
+   "block": "engineOnDuration",
+   "key": "Mixed",
+   "field": "p90",
+   "at300": 87.4,
+   "at400": 82.4,
+   "relPct": -5.721
+  },
+  {
+   "cohort": "all",
+   "block": "engineOnDuration",
+   "key": "Mixed",
+   "field": "segsPer10min",
+   "at300": 5.7,
+   "at400": 6.0,
+   "relPct": 5.263
+  },
+  {
+   "cohort": "all",
+   "block": "engineOnDuration",
+   "key": "Mixed Highway",
+   "field": "median",
+   "at300": 24.0,
+   "at400": 21.0,
+   "relPct": -12.5
+  },
+  {
+   "cohort": "all",
+   "block": "engineOnDuration",
+   "key": "Mixed Highway",
+   "field": "p10",
+   "at300": 6.0,
+   "at400": 5.0,
+   "relPct": -16.667
+  },
+  {
+   "cohort": "all",
+   "block": "engineOnDuration",
+   "key": "Mixed Highway",
+   "field": "p90",
+   "at300": 91.0,
+   "at400": 84.0,
+   "relPct": -7.692
+  },
+  {
+   "cohort": "all",
+   "block": "engineOnDuration",
+   "key": "Mixed Highway",
+   "field": "segsPer10min",
+   "at300": 8.2,
+   "at400": 8.9,
+   "relPct": 8.537
+  },
+  {
+   "cohort": "all",
+   "block": "engineOnDuration",
+   "key": "Mixed Highway",
+   "field": "nSegments",
+   "at300": 2573,
+   "at400": 2793,
+   "relPct": 8.55
+  },
+  {
+   "cohort": "all",
+   "block": "engineOnDuration",
+   "key": "Highway",
+   "field": "median",
+   "at300": 30.0,
+   "at400": 25.0,
+   "relPct": -16.667
+  },
+  {
+   "cohort": "all",
+   "block": "engineOnDuration",
+   "key": "Highway",
+   "field": "p10",
+   "at300": 6.0,
+   "at400": 5.0,
+   "relPct": -16.667
+  },
+  {
+   "cohort": "all",
+   "block": "engineOnDuration",
+   "key": "Highway",
+   "field": "p90",
+   "at300": 156.0,
+   "at400": 139.0,
+   "relPct": -10.897
+  },
+  {
+   "cohort": "all",
+   "block": "engineOnDuration",
+   "key": "Highway",
+   "field": "segsPer10min",
+   "at300": 6.3,
+   "at400": 6.8,
+   "relPct": 7.937
+  },
+  {
+   "cohort": "all",
+   "block": "engineOnDuration",
+   "key": "Highway",
+   "field": "nSegments",
+   "at300": 1425,
+   "at400": 1543,
+   "relPct": 8.281
+  },
+  {
+   "cohort": "all",
+   "block": "turboByRpm",
+   "key": "<1500",
+   "field": "n",
+   "at300": 261101,
+   "at400": 204965,
+   "relPct": -21.5
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnDuration",
+   "key": "Urban",
+   "field": "p10",
+   "at300": 8.0,
+   "at400": 7.0,
+   "relPct": -12.5
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnDuration",
+   "key": "Mixed",
+   "field": "min",
+   "at300": 2.0,
+   "at400": 1.0,
+   "relPct": -50.0
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnDuration",
+   "key": "Mixed",
+   "field": "median",
+   "at300": 31.0,
+   "at400": 29.0,
+   "relPct": -6.452
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnDuration",
+   "key": "Mixed",
+   "field": "p10",
+   "at300": 7.0,
+   "at400": 6.0,
+   "relPct": -14.286
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnDuration",
+   "key": "Mixed",
+   "field": "p90",
+   "at300": 90.0,
+   "at400": 85.0,
+   "relPct": -5.556
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnDuration",
+   "key": "Mixed",
+   "field": "segsPer10min",
+   "at300": 5.7,
+   "at400": 6.0,
+   "relPct": 5.263
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnDuration",
+   "key": "Mixed Highway",
+   "field": "median",
+   "at300": 24.0,
+   "at400": 21.0,
+   "relPct": -12.5
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnDuration",
+   "key": "Mixed Highway",
+   "field": "p10",
+   "at300": 6.0,
+   "at400": 5.0,
+   "relPct": -16.667
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnDuration",
+   "key": "Mixed Highway",
+   "field": "p90",
+   "at300": 89.0,
+   "at400": 82.0,
+   "relPct": -7.865
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnDuration",
+   "key": "Mixed Highway",
+   "field": "segsPer10min",
+   "at300": 8.3,
+   "at400": 9.0,
+   "relPct": 8.434
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnDuration",
+   "key": "Mixed Highway",
+   "field": "nSegments",
+   "at300": 2242,
+   "at400": 2434,
+   "relPct": 8.564
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnDuration",
+   "key": "Highway",
+   "field": "median",
+   "at300": 30.0,
+   "at400": 25.0,
+   "relPct": -16.667
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnDuration",
+   "key": "Highway",
+   "field": "p10",
+   "at300": 6.0,
+   "at400": 5.0,
+   "relPct": -16.667
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnDuration",
+   "key": "Highway",
+   "field": "p90",
+   "at300": 156.0,
+   "at400": 139.0,
+   "relPct": -10.897
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnDuration",
+   "key": "Highway",
+   "field": "segsPer10min",
+   "at300": 6.5,
+   "at400": 7.1,
+   "relPct": 9.231
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnDuration",
+   "key": "Highway",
+   "field": "nSegments",
+   "at300": 1246,
+   "at400": 1350,
+   "relPct": 8.347
+  },
+  {
+   "cohort": "warm",
+   "block": "turboByRpm",
+   "key": "<1500",
+   "field": "n",
+   "at300": 172711,
+   "at400": 131130,
+   "relPct": -24.075
+  },
+  {
+   "cohort": "warm",
+   "block": "turboByRpm",
+   "key": "<1500",
+   "field": "maxBoost",
+   "at300": 0.03,
+   "at400": 0.02,
+   "relPct": -33.333
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnDuration",
+   "key": "Urban",
+   "field": "min",
+   "at300": 2.0,
+   "at400": 1.0,
+   "relPct": -50.0
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnDuration",
+   "key": "Urban",
+   "field": "median",
+   "at300": 26.0,
+   "at400": 24.0,
+   "relPct": -7.692
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnDuration",
+   "key": "Urban",
+   "field": "p10",
+   "at300": 7.0,
+   "at400": 6.0,
+   "relPct": -14.286
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnDuration",
+   "key": "Mixed",
+   "field": "median",
+   "at300": 28.0,
+   "at400": 26.5,
+   "relPct": -5.357
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnDuration",
+   "key": "Mixed",
+   "field": "p10",
+   "at300": 7.0,
+   "at400": 6.0,
+   "relPct": -14.286
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnDuration",
+   "key": "Mixed",
+   "field": "segsPer10min",
+   "at300": 5.8,
+   "at400": 6.1,
+   "relPct": 5.172
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnDuration",
+   "key": "Mixed Highway",
+   "field": "p90",
+   "at300": 106.0,
+   "at400": 93.2,
+   "relPct": -12.075
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnDuration",
+   "key": "Mixed Highway",
+   "field": "segsPer10min",
+   "at300": 7.8,
+   "at400": 8.4,
+   "relPct": 7.692
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnDuration",
+   "key": "Mixed Highway",
+   "field": "nSegments",
+   "at300": 331,
+   "at400": 359,
+   "relPct": 8.459
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnDuration",
+   "key": "Highway",
+   "field": "min",
+   "at300": 3.0,
+   "at400": 2.0,
+   "relPct": -33.333
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnDuration",
+   "key": "Highway",
+   "field": "median",
+   "at300": 31.5,
+   "at400": 29.0,
+   "relPct": -7.937
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnDuration",
+   "key": "Highway",
+   "field": "p10",
+   "at300": 5.3,
+   "at400": 4.0,
+   "relPct": -24.528
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnDuration",
+   "key": "Highway",
+   "field": "p90",
+   "at300": 347.1,
+   "at400": 319.8,
+   "relPct": -7.865
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnDuration",
+   "key": "Highway",
+   "field": "segsPer10min",
+   "at300": 4.0,
+   "at400": 4.2,
+   "relPct": 5.0
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnDuration",
+   "key": "Highway",
+   "field": "nSegments",
+   "at300": 84,
+   "at400": 89,
+   "relPct": 5.952
+  },
+  {
+   "cohort": "shoulder",
+   "block": "turboByRpm",
+   "key": "<1500",
+   "field": "n",
+   "at300": 78423,
+   "at400": 65035,
+   "relPct": -17.072
+  },
+  {
+   "cohort": "cold",
+   "block": "engineOnDuration",
+   "key": "Urban",
+   "field": "max",
+   "at300": 509.0,
+   "at400": 276.0,
+   "relPct": -45.776
+  },
+  {
+   "cohort": "cold",
+   "block": "engineOnDuration",
+   "key": "Urban",
+   "field": "p90",
+   "at300": 197.0,
+   "at400": 224.8,
+   "relPct": 14.112
+  },
+  {
+   "cohort": "cold",
+   "block": "engineOnDuration",
+   "key": "Highway",
+   "field": "median",
+   "at300": 28.0,
+   "at400": 24.0,
+   "relPct": -14.286
+  },
+  {
+   "cohort": "cold",
+   "block": "engineOnDuration",
+   "key": "Highway",
+   "field": "p10",
+   "at300": 10.4,
+   "at400": 9.3,
+   "relPct": -10.577
+  },
+  {
+   "cohort": "cold",
+   "block": "engineOnDuration",
+   "key": "Highway",
+   "field": "p90",
+   "at300": 110.6,
+   "at400": 100.9,
+   "relPct": -8.77
+  },
+  {
+   "cohort": "cold",
+   "block": "engineOnDuration",
+   "key": "Highway",
+   "field": "segsPer10min",
+   "at300": 7.3,
+   "at400": 7.9,
+   "relPct": 8.219
+  },
+  {
+   "cohort": "cold",
+   "block": "engineOnDuration",
+   "key": "Highway",
+   "field": "nSegments",
+   "at300": 95,
+   "at400": 104,
+   "relPct": 9.474
+  },
+  {
+   "cohort": "cold",
+   "block": "turboByRpm",
+   "key": "<1500",
+   "field": "n",
+   "at300": 9967,
+   "at400": 8800,
+   "relPct": -11.709
+  }
+ ],
+ "changedFieldsOther": [
+  {
+   "cohort": "all",
+   "block": "engineOnDuration",
+   "key": "Urban",
+   "field": "median",
+   "at300": 26.0,
+   "at400": 25.0,
+   "relPct": -3.846
+  },
+  {
+   "cohort": "all",
+   "block": "engineOnDuration",
+   "key": "Urban",
+   "field": "p90",
+   "at300": 95.0,
+   "at400": 92.0,
+   "relPct": -3.158
+  },
+  {
+   "cohort": "all",
+   "block": "engineOnDuration",
+   "key": "Urban",
+   "field": "onFraction",
+   "at300": 30.1,
+   "at400": 29.6,
+   "relPct": -1.661
+  },
+  {
+   "cohort": "all",
+   "block": "engineOnDuration",
+   "key": "Urban",
+   "field": "segsPer10min",
+   "at300": 4.3,
+   "at400": 4.4,
+   "relPct": 2.326
+  },
+  {
+   "cohort": "all",
+   "block": "engineOnDuration",
+   "key": "Urban",
+   "field": "nSegments",
+   "at300": 3109,
+   "at400": 3197,
+   "relPct": 2.83
+  },
+  {
+   "cohort": "all",
+   "block": "engineOnDuration",
+   "key": "Mixed",
+   "field": "max",
+   "at300": 325.0,
+   "at400": 323.0,
+   "relPct": -0.615
+  },
+  {
+   "cohort": "all",
+   "block": "engineOnDuration",
+   "key": "Mixed",
+   "field": "onFraction",
+   "at300": 40.1,
+   "at400": 39.5,
+   "relPct": -1.496
+  },
+  {
+   "cohort": "all",
+   "block": "engineOnDuration",
+   "key": "Mixed",
+   "field": "nSegments",
+   "at300": 647,
+   "at400": 677,
+   "relPct": 4.637
+  },
+  {
+   "cohort": "all",
+   "block": "engineOnDuration",
+   "key": "Mixed Highway",
+   "field": "onFraction",
+   "at300": 56.4,
+   "at400": 55.4,
+   "relPct": -1.773
+  },
+  {
+   "cohort": "all",
+   "block": "engineOnDuration",
+   "key": "Highway",
+   "field": "onFraction",
+   "at300": 69.4,
+   "at400": 68.7,
+   "relPct": -1.009
+  },
+  {
+   "cohort": "all",
+   "block": "engineOnBySpeed",
+   "key": "20-40",
+   "field": "pct",
+   "at300": 26,
+   "at400": 25,
+   "relPct": -3.846
+  },
+  {
+   "cohort": "all",
+   "block": "engineOnBySpeed",
+   "key": "40-60",
+   "field": "pct",
+   "at300": 46,
+   "at400": 45,
+   "relPct": -2.174
+  },
+  {
+   "cohort": "all",
+   "block": "engineOnBySpeed",
+   "key": "60-80",
+   "field": "pct",
+   "at300": 57,
+   "at400": 55,
+   "relPct": -3.509
+  },
+  {
+   "cohort": "all",
+   "block": "engineOnBySpeed",
+   "key": "80-100",
+   "field": "pct",
+   "at300": 81,
+   "at400": 79,
+   "relPct": -2.469
+  },
+  {
+   "cohort": "all",
+   "block": "turboBySpeedCtx",
+   "key": "120-160",
+   "field": "activePct",
+   "at300": 35,
+   "at400": 36,
+   "relPct": 2.857
+  },
+  {
+   "cohort": "all",
+   "block": "hvcTurboActivity",
+   "key": "urban",
+   "field": "string",
+   "at300": "7.3% of engine-on time (n=1,223,556, >0.1 bar); peak 1.56 bar — Jul20 D6",
+   "at400": "7.4% of engine-on time (n=1,200,763, >0.1 bar); peak 1.56 bar — Jul20 D6"
+  },
+  {
+   "cohort": "all",
+   "block": "hvcTurboActivity",
+   "key": "mixed",
+   "field": "string",
+   "at300": "3.0% of engine-on time (n=238,071, >0.1 bar); peak 1.43 bar — Jul15 D2",
+   "at400": "3.1% of engine-on time (n=233,523, >0.1 bar); peak 1.43 bar — Jul15 D2"
+  },
+  {
+   "cohort": "all",
+   "block": "hvcTurboActivity",
+   "key": "mixed_highway",
+   "field": "string",
+   "at300": "13.6% of engine-on time (n=865,790, >0.1 bar); peak 1.56 bar — Sep13 D10",
+   "at400": "13.9% of engine-on time (n=847,918, >0.1 bar); peak 1.56 bar — Sep13 D10"
+  },
+  {
+   "cohort": "all",
+   "block": "hvcTurboActivity",
+   "key": "highway",
+   "field": "string",
+   "at300": "13.5% of engine-on time (n=831,403, >0.1 bar); peak 1.55 bar — Oct17 D5",
+   "at400": "13.7% of engine-on time (n=820,480, >0.1 bar); peak 1.55 bar — Oct17 D5"
+  },
+  {
+   "cohort": "all",
+   "block": "hvcTurboActivity",
+   "key": "city",
+   "field": "string",
+   "at300": "7.3% of engine-on time (n=1,223,556, >0.1 bar); peak 1.56 bar — Jul20 D6",
+   "at400": "7.4% of engine-on time (n=1,200,763, >0.1 bar); peak 1.56 bar — Jul20 D6"
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnDuration",
+   "key": "Urban",
+   "field": "max",
+   "at300": 358.0,
+   "at400": 357.0,
+   "relPct": -0.279
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnDuration",
+   "key": "Urban",
+   "field": "median",
+   "at300": 26.0,
+   "at400": 25.0,
+   "relPct": -3.846
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnDuration",
+   "key": "Urban",
+   "field": "p90",
+   "at300": 92.0,
+   "at400": 90.0,
+   "relPct": -2.174
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnDuration",
+   "key": "Urban",
+   "field": "onFraction",
+   "at300": 29.8,
+   "at400": 29.3,
+   "relPct": -1.678
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnDuration",
+   "key": "Urban",
+   "field": "segsPer10min",
+   "at300": 4.3,
+   "at400": 4.4,
+   "relPct": 2.326
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnDuration",
+   "key": "Urban",
+   "field": "nSegments",
+   "at300": 2158,
+   "at400": 2202,
+   "relPct": 2.039
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnDuration",
+   "key": "Mixed",
+   "field": "onFraction",
+   "at300": 40.2,
+   "at400": 39.6,
+   "relPct": -1.493
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnDuration",
+   "key": "Mixed",
+   "field": "nSegments",
+   "at300": 468,
+   "at400": 491,
+   "relPct": 4.915
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnDuration",
+   "key": "Mixed Highway",
+   "field": "onFraction",
+   "at300": 55.6,
+   "at400": 54.6,
+   "relPct": -1.799
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnDuration",
+   "key": "Highway",
+   "field": "max",
+   "at300": 1315.0,
+   "at400": 1314.0,
+   "relPct": -0.076
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnDuration",
+   "key": "Highway",
+   "field": "onFraction",
+   "at300": 68.8,
+   "at400": 68.0,
+   "relPct": -1.163
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnBySpeed",
+   "key": "20-40",
+   "field": "pct",
+   "at300": 26,
+   "at400": 25,
+   "relPct": -3.846
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnBySpeed",
+   "key": "40-60",
+   "field": "pct",
+   "at300": 47,
+   "at400": 46,
+   "relPct": -2.128
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnBySpeed",
+   "key": "60-80",
+   "field": "pct",
+   "at300": 56,
+   "at400": 55,
+   "relPct": -1.786
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnBySpeed",
+   "key": "80-100",
+   "field": "pct",
+   "at300": 80,
+   "at400": 78,
+   "relPct": -2.5
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnBySpeed",
+   "key": "100-120",
+   "field": "pct",
+   "at300": 98,
+   "at400": 97,
+   "relPct": -1.02
+  },
+  {
+   "cohort": "warm",
+   "block": "engineOnBySpeed",
+   "key": "120+",
+   "field": "pct",
+   "at300": 97,
+   "at400": 96,
+   "relPct": -1.031
+  },
+  {
+   "cohort": "warm",
+   "block": "hvcTurboActivity",
+   "key": "urban",
+   "field": "string",
+   "at300": "8.0% of engine-on time (n=818,770, >0.1 bar); peak 1.56 bar — Jul20 D6",
+   "at400": "8.1% of engine-on time (n=802,957, >0.1 bar); peak 1.56 bar — Jul20 D6"
+  },
+  {
+   "cohort": "warm",
+   "block": "hvcTurboActivity",
+   "key": "mixed",
+   "field": "string",
+   "at300": "3.8% of engine-on time (n=160,564, >0.1 bar); peak 1.43 bar — Jul15 D2",
+   "at400": "3.8% of engine-on time (n=157,752, >0.1 bar); peak 1.43 bar — Jul15 D2"
+  },
+  {
+   "cohort": "warm",
+   "block": "hvcTurboActivity",
+   "key": "mixed_highway",
+   "field": "string",
+   "at300": "15.7% of engine-on time (n=675,377, >0.1 bar); peak 1.56 bar — Sep13 D10",
+   "at400": "16.0% of engine-on time (n=661,241, >0.1 bar); peak 1.56 bar — Sep13 D10"
+  },
+  {
+   "cohort": "warm",
+   "block": "hvcTurboActivity",
+   "key": "highway",
+   "field": "string",
+   "at300": "17.1% of engine-on time (n=637,878, >0.1 bar); peak 1.53 bar — Jul11 D1",
+   "at400": "17.4% of engine-on time (n=629,058, >0.1 bar); peak 1.53 bar — Jul11 D1"
+  },
+  {
+   "cohort": "warm",
+   "block": "hvcTurboActivity",
+   "key": "city",
+   "field": "string",
+   "at300": "8.0% of engine-on time (n=818,770, >0.1 bar); peak 1.56 bar — Jul20 D6",
+   "at400": "8.1% of engine-on time (n=802,957, >0.1 bar); peak 1.56 bar — Jul20 D6"
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnDuration",
+   "key": "Urban",
+   "field": "p90",
+   "at300": 100.2,
+   "at400": 97.0,
+   "relPct": -3.194
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnDuration",
+   "key": "Urban",
+   "field": "onFraction",
+   "at300": 30.3,
+   "at400": 29.9,
+   "relPct": -1.32
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnDuration",
+   "key": "Urban",
+   "field": "segsPer10min",
+   "at300": 4.1,
+   "at400": 4.3,
+   "relPct": 4.878
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnDuration",
+   "key": "Urban",
+   "field": "nSegments",
+   "at300": 929,
+   "at400": 972,
+   "relPct": 4.629
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnDuration",
+   "key": "Mixed",
+   "field": "max",
+   "at300": 325.0,
+   "at400": 323.0,
+   "relPct": -0.615
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnDuration",
+   "key": "Mixed",
+   "field": "p90",
+   "at300": 78.2,
+   "at400": 76.0,
+   "relPct": -2.813
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnDuration",
+   "key": "Mixed",
+   "field": "onFraction",
+   "at300": 40.0,
+   "at400": 39.2,
+   "relPct": -2.0
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnDuration",
+   "key": "Mixed",
+   "field": "nSegments",
+   "at300": 179,
+   "at400": 186,
+   "relPct": 3.911
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnDuration",
+   "key": "Mixed Highway",
+   "field": "max",
+   "at300": 614.0,
+   "at400": 613.0,
+   "relPct": -0.163
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnDuration",
+   "key": "Mixed Highway",
+   "field": "median",
+   "at300": 27.0,
+   "at400": 26.0,
+   "relPct": -3.704
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnDuration",
+   "key": "Mixed Highway",
+   "field": "onFraction",
+   "at300": 61.6,
+   "at400": 60.7,
+   "relPct": -1.461
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnDuration",
+   "key": "Highway",
+   "field": "max",
+   "at300": 773.0,
+   "at400": 771.0,
+   "relPct": -0.259
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnDuration",
+   "key": "Highway",
+   "field": "onFraction",
+   "at300": 67.8,
+   "at400": 67.2,
+   "relPct": -0.885
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnBySpeed",
+   "key": "20-40",
+   "field": "pct",
+   "at300": 26,
+   "at400": 25,
+   "relPct": -3.846
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnBySpeed",
+   "key": "40-60",
+   "field": "pct",
+   "at300": 44,
+   "at400": 43,
+   "relPct": -2.273
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnBySpeed",
+   "key": "60-80",
+   "field": "pct",
+   "at300": 58,
+   "at400": 57,
+   "relPct": -1.724
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnBySpeed",
+   "key": "80-100",
+   "field": "pct",
+   "at300": 87,
+   "at400": 85,
+   "relPct": -2.299
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnBySpeed",
+   "key": "100-120",
+   "field": "pct",
+   "at300": 99,
+   "at400": 98,
+   "relPct": -1.01
+  },
+  {
+   "cohort": "shoulder",
+   "block": "engineOnBySpeed",
+   "key": "120+",
+   "field": "pct",
+   "at300": 86,
+   "at400": 85,
+   "relPct": -1.163
+  },
+  {
+   "cohort": "shoulder",
+   "block": "hvcTurboActivity",
+   "key": "urban",
+   "field": "string",
+   "at300": "6.2% of engine-on time (n=382,153, >0.1 bar); peak 1.50 bar — Oct01 D8",
+   "at400": "6.3% of engine-on time (n=375,291, >0.1 bar); peak 1.50 bar — Oct01 D8"
+  },
+  {
+   "cohort": "shoulder",
+   "block": "hvcTurboActivity",
+   "key": "mixed",
+   "field": "string",
+   "at300": "1.6% of engine-on time (n=77,507, >0.1 bar); peak 1.43 bar — Oct08 D3",
+   "at400": "1.6% of engine-on time (n=75,771, >0.1 bar); peak 1.43 bar — Oct08 D3"
+  },
+  {
+   "cohort": "shoulder",
+   "block": "hvcTurboActivity",
+   "key": "mixed_highway",
+   "field": "string",
+   "at300": "6.2% of engine-on time (n=190,413, >0.1 bar); peak 1.47 bar — Oct10 D4",
+   "at400": "6.3% of engine-on time (n=186,677, >0.1 bar); peak 1.47 bar — Oct10 D4"
+  },
+  {
+   "cohort": "shoulder",
+   "block": "hvcTurboActivity",
+   "key": "highway",
+   "field": "string",
+   "at300": "2.3% of engine-on time (n=104,613, >0.1 bar); peak 1.55 bar — Oct17 D5",
+   "at400": "2.3% of engine-on time (n=103,559, >0.1 bar); peak 1.55 bar — Oct17 D5"
+  },
+  {
+   "cohort": "shoulder",
+   "block": "hvcTurboActivity",
+   "key": "city",
+   "field": "string",
+   "at300": "6.2% of engine-on time (n=382,153, >0.1 bar); peak 1.50 bar — Oct01 D8",
+   "at400": "6.3% of engine-on time (n=375,291, >0.1 bar); peak 1.50 bar — Oct01 D8"
+  },
+  {
+   "cohort": "cold",
+   "block": "engineOnDuration",
+   "key": "Urban",
+   "field": "median",
+   "at300": 40.5,
+   "at400": 42.0,
+   "relPct": 3.704
+  },
+  {
+   "cohort": "cold",
+   "block": "engineOnDuration",
+   "key": "Urban",
+   "field": "p10",
+   "at300": 10.5,
+   "at400": 10.6,
+   "relPct": 0.952
+  },
+  {
+   "cohort": "cold",
+   "block": "engineOnDuration",
+   "key": "Urban",
+   "field": "onFraction",
+   "at300": 41.4,
+   "at400": 41.2,
+   "relPct": -0.483
+  },
+  {
+   "cohort": "cold",
+   "block": "engineOnDuration",
+   "key": "Urban",
+   "field": "segsPer10min",
+   "at300": 2.5,
+   "at400": 2.6,
+   "relPct": 4.0
+  },
+  {
+   "cohort": "cold",
+   "block": "engineOnDuration",
+   "key": "Urban",
+   "field": "nSegments",
+   "at300": 22,
+   "at400": 23,
+   "relPct": 4.545
+  },
+  {
+   "cohort": "cold",
+   "block": "engineOnDuration",
+   "key": "Highway",
+   "field": "onFraction",
+   "at300": 81.7,
+   "at400": 81.0,
+   "relPct": -0.857
+  },
+  {
+   "cohort": "cold",
+   "block": "engineOnBySpeed",
+   "key": "60-80",
+   "field": "pct",
+   "at300": 62,
+   "at400": 60,
+   "relPct": -3.226
+  },
+  {
+   "cohort": "cold",
+   "block": "engineOnBySpeed",
+   "key": "80-100",
+   "field": "pct",
+   "at300": 90,
+   "at400": 88,
+   "relPct": -2.222
+  },
+  {
+   "cohort": "cold",
+   "block": "hvcTurboActivity",
+   "key": "urban",
+   "field": "string",
+   "at300": "0.0% of engine-on time (n=22,633, >0.1 bar); peak 0.05 bar — Oct13 D11",
+   "at400": "0.0% of engine-on time (n=22,515, >0.1 bar); peak 0.05 bar — Oct13 D11"
+  },
+  {
+   "cohort": "cold",
+   "block": "hvcTurboActivity",
+   "key": "highway",
+   "field": "string",
+   "at300": "1.0% of engine-on time (n=88,912, >0.1 bar); peak 0.99 bar — Oct14 D1",
+   "at400": "1.0% of engine-on time (n=87,863, >0.1 bar); peak 0.99 bar — Oct14 D1"
+  },
+  {
+   "cohort": "cold",
+   "block": "hvcTurboActivity",
+   "key": "city",
+   "field": "string",
+   "at300": "0.0% of engine-on time (n=22,633, >0.1 bar); peak 0.05 bar — Oct13 D11",
+   "at400": "0.0% of engine-on time (n=22,515, >0.1 bar); peak 0.05 bar — Oct13 D11"
+  }
+ ]
+}
