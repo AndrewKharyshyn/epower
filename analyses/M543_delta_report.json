@@ -1,0 +1,66 @@
+{
+ "generator": "script-written from summary_arrays.json and the jsdom tab dumps before (M542) / after (M543)",
+ "spec": "analyses/M543_spec.md Rev 2",
+ "specSha256": "665280e81bc77ebdad04909774fd1c4fa9ab7eddab4e4398507310d9c92f15ab",
+ "rebound": [
+  {
+   "string": "OPT-band share of engine-on time",
+   "before_pct": 63.073,
+   "before_ci": [
+    60.614,
+    65.332
+   ],
+   "after_pct": 64.092,
+   "after_ci": [
+    61.597,
+    66.407
+   ],
+   "insideBeforeInterval": true,
+   "shiftPp": 1.019
+  },
+  {
+   "string": "OPT-band engine-on hours",
+   "before": 99.9,
+   "after": 98.3
+  },
+  {
+   "string": "OPT-band edge-sensitivity range",
+   "before": [
+    61.399,
+    65.945
+   ],
+   "after": [
+    62.39,
+    67.01
+   ]
+  },
+  {
+   "string": "peak-bin share of engine-on time (pooled, all drives)",
+   "before_integer": 58,
+   "after_integer": 59,
+   "numeratorHours": 58.222,
+   "denominatorHours_before": 99.867,
+   "denominatorHours_after": 98.2808,
+   "preRegisteredFlip": "58 -> 59",
+   "before_exact": 58.3,
+   "after_exact": 59.24
+  }
+ ],
+ "unchanged": "rpmModeCentres, motoredShare (every window / floor >= 1400: invariance test), rpmDistribution, engineOnRule, cohort_arrays.json",
+ "tabsChanged": [
+  "distribution__all.txt",
+  "distribution__cold.txt",
+  "distribution__shoulder.txt",
+  "distribution__warm.txt",
+  "fuel__all.txt",
+  "fuel__cold.txt",
+  "fuel__shoulder.txt",
+  "fuel__warm.txt",
+  "highway_vs_city__all.txt",
+  "highway_vs_city__cold.txt",
+  "highway_vs_city__compare.txt",
+  "highway_vs_city__shoulder.txt",
+  "highway_vs_city__warm.txt"
+ ],
+ "unlistedFlips": 0
+}

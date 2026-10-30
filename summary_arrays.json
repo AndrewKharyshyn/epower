@@ -63067,36 +63067,40 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": null,
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-27T18:55:07.230941+00:00",
+   "generatedAt": "2026-10-30T21:03:41.519157+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
     "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
-    "rawIdentitySource": "ingest run 2026-10-27T18:54:07.230941+00:00: producer stages rpm_opt_band ran OK; raw_manifest.json corpusHash of this run",
+    "rawIdentitySource": "ingest run 2026-10-30T21:02:41.519157+00:00: producer stages rpm_opt_band ran OK; raw_manifest.json corpusHash of this run",
     "configSectionHashes": {},
     "inputFileMd5": {
      "rpm_opt_band_sidecar.csv": "9742758a12ece6439a03a5dfad930952",
-     "analyses/M525_spec.md": "8766b276fbb4a6fb8fd2a1a7ffc3d462"
+     "analyses/M525_spec.md": "8766b276fbb4a6fb8fd2a1a7ffc3d462",
+     "analyses/M543_spec.md": "6fa6704714ec1e7ff14f93989e9ecf8f",
+     "engine_on_rule_sidecar.csv": "c40c7495a54968749416491b97195561"
     }
    },
    "computationStatus": "computed",
    "computationStatusNote": "M525: derived by tools/rpm_opt_band.py from drive_master.csv, the raw drive files through rpm_opt_band_sidecar.csv (keyed by raw sha256) and the stored rpmDistribution (faithfulness gate)",
-   "includedInReleaseAt": "2026-10-27T18:55:07.230941+00:00",
+   "includedInReleaseAt": "2026-10-30T21:03:41.519157+00:00",
    "inputBasis": {
     "nDrives": 606,
     "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-27T18:54:07.230941+00:00",
+   "computedAt": "2026-10-30T21:02:41.519157+00:00",
    "declaredIdentity": {
     "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
     "configSectionHashes": {},
     "inputFileMd5": {
      "rpm_opt_band_sidecar.csv": "9742758a12ece6439a03a5dfad930952",
-     "analyses/M525_spec.md": "8766b276fbb4a6fb8fd2a1a7ffc3d462"
+     "analyses/M525_spec.md": "8766b276fbb4a6fb8fd2a1a7ffc3d462",
+     "analyses/M543_spec.md": "6fa6704714ec1e7ff14f93989e9ecf8f",
+     "engine_on_rule_sidecar.csv": "c40c7495a54968749416491b97195561"
     },
     "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
-    "rawIdentitySource": "ingest run 2026-10-27T18:54:07.230941+00:00: producer stages rpm_opt_band ran OK; raw_manifest.json corpusHash of this run"
+    "rawIdentitySource": "ingest run 2026-10-30T21:02:41.519157+00:00: producer stages rpm_opt_band ran OK; raw_manifest.json corpusHash of this run"
    },
    "stampLineage": [
     {
@@ -63111,13 +63115,62 @@
      "supersededAtMilestone": "M513",
      "supersededAt": "2026-10-27T19:04:04.560613+00:00",
      "reason": "legacy stamp metadata (M294 raw-manifest backfill, M284 whole-config hash, fields cloned from another block) replaced by stamp metadata re-derived from declared dependencies"
+    },
+    {
+     "identity": {
+      "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+      "configSectionHashes": {},
+      "inputFileMd5": {
+       "rpm_opt_band_sidecar.csv": "9742758a12ece6439a03a5dfad930952",
+       "analyses/M525_spec.md": "8766b276fbb4a6fb8fd2a1a7ffc3d462"
+      },
+      "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+      "rawIdentitySource": "ingest run 2026-10-27T18:54:07.230941+00:00: producer stages rpm_opt_band ran OK; raw_manifest.json corpusHash of this run"
+     },
+     "supersededAtMilestone": "M513",
+     "supersededAt": "2026-10-30T21:03:42.527565+00:00",
+     "reason": "identity values changed (master, raw manifest, config section or input file)"
+    },
+    {
+     "identity": {
+      "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+      "configSectionHashes": {},
+      "inputFileMd5": {
+       "rpm_opt_band_sidecar.csv": "9742758a12ece6439a03a5dfad930952",
+       "analyses/M525_spec.md": "8766b276fbb4a6fb8fd2a1a7ffc3d462",
+       "analyses/M543_spec.md": "f1043e6b93bf5b4c084a04190c9bee7d",
+       "engine_on_rule_sidecar.csv": "c40c7495a54968749416491b97195561"
+      },
+      "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+      "rawIdentitySource": "ingest run 2026-10-30T21:02:41.519157+00:00: producer stages rpm_opt_band ran OK; raw_manifest.json corpusHash of this run"
+     },
+     "supersededAtMilestone": "M513",
+     "supersededAt": "2026-10-30T21:27:57.934855+00:00",
+     "reason": "identity values changed (master, raw manifest, config section or input file)"
+    },
+    {
+     "identity": {
+      "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+      "configSectionHashes": {},
+      "inputFileMd5": {
+       "rpm_opt_band_sidecar.csv": "9742758a12ece6439a03a5dfad930952",
+       "analyses/M525_spec.md": "8766b276fbb4a6fb8fd2a1a7ffc3d462",
+       "analyses/M543_spec.md": "973ecd3ef3436a5babc47f37e269e709",
+       "engine_on_rule_sidecar.csv": "c40c7495a54968749416491b97195561"
+      },
+      "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+      "rawIdentitySource": "ingest run 2026-10-30T21:02:41.519157+00:00: producer stages rpm_opt_band ran OK; raw_manifest.json corpusHash of this run"
+     },
+     "supersededAtMilestone": "M513",
+     "supersededAt": "2026-10-30T21:55:04.892387+00:00",
+     "reason": "identity values changed (master, raw manifest, config section or input file)"
     }
    ],
-   "fullConfigHashNote": "whole-config hash retired for declared blocks (M513): the stamp names the md5 of each computational config section it reads (upstreamHashes.configSectionHashes); the previous value is kept in stampLineage",
    "dependencies": {
     "declaredIn": "tools/stamp_dependencies.json",
     "milestone": "M513"
-   }
+   },
+   "fullConfigHashNote": "whole-config hash retired for declared blocks (M513): the stamp names the md5 of each computational config section it reads (upstreamHashes.configSectionHashes); the previous value is kept in stampLineage"
   },
   "rpmModeCentres": {
    "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
@@ -364498,15 +364551,90 @@
    "nDays": 121,
    "nExcluded": 2
   },
+  "ruleGates": {
+   "allDrivesInRuleSidecar": true,
+   "sha256EqualBothSidecars": true,
+   "ruleGe300EqualsBinSumPerDrive": true,
+   "passed": true
+  },
+  "primaryRule": {
+   "pct": 64.092,
+   "ci95Pct": [
+    61.597,
+    66.407
+   ],
+   "nDrives": 573,
+   "nDays": 121,
+   "nDaysWithEngineOn": 120,
+   "ruleEngineOnSeconds": 353811,
+   "bandSeconds": 226763,
+   "band": [
+    1850.0,
+    2150.0
+   ],
+   "bootstrap": {
+    "B": 4000,
+    "seed": 42,
+    "unit": "calendar day",
+    "degenerateDraws": 0
+   }
+  },
+  "perDriveRule": {
+   "median": 61.06,
+   "p25": 43.72,
+   "p75": 73.51,
+   "n": 573
+  },
+  "edgeSensitivityRule": {
+   "narrow50": 62.39,
+   "wide50": 65.591,
+   "wide100": 67.01
+  },
+  "cadenceStrataRule": {
+   "slow": {
+    "pct": 64.091,
+    "ci95Pct": [
+     61.155,
+     66.846
+    ],
+    "nDrives": 400,
+    "nDays": 85
+   },
+   "fast": {
+    "pct": 65.13,
+    "ci95Pct": [
+     60.64,
+     68.535
+    ],
+    "nDrives": 164,
+    "nDays": 37
+   }
+  },
+  "ruleBasis": {
+   "thresholdRpm": 400.0,
+   "boundary": "gt",
+   "denominator": "engine_on_rule_sidecar.csv gt400 (rpm > 400 on the 1 Hz grid), per drive, joined by file and raw sha256",
+   "statement": "share of engine-on time (rpm > 400, 1 Hz grid) with logged rpm in the closed band; the rpm >= 300 leaves (primary, edgeSensitivity, cadenceStrata, perDrive, anchored, ensOutlierV2Excluded) are unchanged and labelled",
+   "sensitivityNotes": [
+    "cadence strata are descriptive, no contrast is drawn",
+    "the last-versus-mean aggregator sensitivity of this share is not computed",
+    "ensOutlierV2Excluded is not migrated"
+   ]
+  },
   "limits": [
    "day bootstrap does not capture serial day correlation",
    "rpm is ECU-reported via the logging app and resampled to 1 s means (ffill limit 15 s)",
-   "band edges are external OEM context"
+   "band edges are external OEM context",
+   "primaryRule and the other Rule leaves use the engine-on rule denominator (rpm > 400, M543); the unsuffixed leaves keep the rpm >= 300 denominator",
+   "the last-versus-mean aggregator sensitivity of the Rule share is not computed; ensOutlierV2Excluded is not migrated"
   ],
   "provenance": {
    "spec": "analyses/M525_spec.md",
    "specSha256": "9a6316e4ed65de73dbf714c9ab5c9f50b0464d5dba25e0b1bc23eca76429101e",
-   "toolSha256": "3d9db257dd24ede629c79097d4bfa1ad193376bee87886d17b8e4a2f9ace5d1a",
+   "toolSha256": "d71a64a7a66f6e96ce178caf64edc05841f8777b450555b7699e40835735b69a",
+   "specRule": "analyses/M543_spec.md",
+   "specRuleSha256": "665280e81bc77ebdad04909774fd1c4fa9ab7eddab4e4398507310d9c92f15ab",
+   "ruleSidecarSha256": "ed7608c006fc4ac4eaefe3f566a2d7c216647c6138f795f3ac513c7e1e29b3df",
    "sidecar": "rpm_opt_band_sidecar.csv",
    "sidecarSha256": "d7d3eba0ecb5f7f63e8c831531f9173ce5582dc1a8de00c7cf550c17bcffdf36",
    "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",

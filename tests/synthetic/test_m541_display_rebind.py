@@ -18,7 +18,7 @@ for i in hits:
     key = next((k for k in allowed if k in l), None)
     assert key, ("unregistered engine-on slice(1) total", i + 1, l.strip()[:100])
     found.append(key)
-assert found.count("const engineOnHrsTotal = hrs.slice(1)") == 2 and found.count("const on = h && h.length > 1 ? h.slice(1)") == 1 and found.count("    .slice(1).reduce((a, b) => a + b, 0);") == 1, found
+assert found.count("const engineOnHrsTotal = hrs.slice(1)") == 0 and found.count("const on = h && h.length > 1 ? h.slice(1)") == 1 and found.count("    .slice(1).reduce((a, b) => a + b, 0);") == 1, found
 assert "rpmGe300Hours" in src and "rpm ≥ 300 basis" in src
 
 # the rule block is read through the guarded accessor only; the guard names the declared rule

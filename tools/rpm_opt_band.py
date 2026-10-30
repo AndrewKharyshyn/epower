@@ -152,6 +152,33 @@ def compute(sc, dm, A, hist_edges, edges, opt_lo, opt_hi, nb=NB):
     ex = dm.set_index("file")["ens_outlier_v2"].reindex(sc["file"]).fillna(False).astype(bool).values
     p, c, d, _ = ratio_ci(pb[~ex], on[~ex], days[~ex], nb)
     out["ensOutlierV2Excluded"] = {"pct": round(100 * p, 3), "ci95Pct": [round(100 * c[0], 3), round(100 * c[1], 3)], "nDrives": int((on[~ex] > 0).sum()), "nDays": d, "nExcluded": int(ex.sum())}
+    # M543 (analyses/M543_spec.md Rev 2): the same band share with the engine-on RULE denominator (rpm > 400, tools/engine_on_rule.py) as additive sibling leaves; the closed band lies above 400, so the numerator is unchanged
+    rs = pd.read_csv(os.path.join(ROOT, "engine_on_rule_sidecar.csv"), dtype={"sha256": str}).set_index("file")
+    inrs = sc["file"].isin(rs.index).values
+    gt = sc["file"].map(rs["gt400"]).fillna(0).values.astype(np.int64)
+    ge_rule = sc["file"].map(rs["ge300"]).fillna(-1).values.astype(np.int64)
+    rg = {"allDrivesInRuleSidecar": bool(inrs.all()), "sha256EqualBothSidecars": bool((sc["file"].map(rs["sha256"]).values == sc["sha256"].values).all()),
+          "ruleGe300EqualsBinSumPerDrive": bool((ge_rule == on).all())}
+    rg["passed"] = bool(all(rg.values()))
+    out["ruleGates"] = rg
+    out["faithfulness"]["passed"] = bool(out["faithfulness"]["passed"] and rg["passed"])
+    prt, cir, ndr, nbr = ratio_ci(pb, gt, days, nb)
+    out["primaryRule"] = {"pct": round(100 * prt, 3), "ci95Pct": [round(100 * cir[0], 3), round(100 * cir[1], 3)], "nDrives": int((gt > 0).sum()), "nDays": ndr, "nDaysWithEngineOn": int(len(np.unique(days[gt > 0]))),
+                          "ruleEngineOnSeconds": int(gt.sum()), "bandSeconds": int(pb.sum()), "band": [opt_lo, opt_hi], "bootstrap": {"B": nb, "seed": SEED, "unit": "calendar day", "degenerateDraws": nbr}}
+    sh = pb[gt > 0] / gt[gt > 0]
+    out["perDriveRule"] = {"median": round(100 * float(np.median(sh)), 2), "p25": round(100 * float(np.percentile(sh, 25)), 2), "p75": round(100 * float(np.percentile(sh, 75)), 2), "n": int(len(sh))}
+    out["edgeSensitivityRule"] = {k: round(100 * float(band(lo, hi).sum()) / float(gt.sum()), 3) for k, (lo, hi) in BANDS.items() if k != "primary"}
+    cr2 = pd.read_csv(os.path.join(ROOT, "cadence_regime.csv")).set_index("file")["regime"]
+    reg2 = sc["file"].map(cr2).values
+    strata2 = {}
+    for lab in ("slow", "fast"):
+        m = reg2 == lab
+        if m.sum() and gt[m].sum() > 0:
+            p2, c2, d2, _ = ratio_ci(pb[m], gt[m], days[m], nb)
+            strata2[lab] = {"pct": round(100 * p2, 3), "ci95Pct": [round(100 * c2[0], 3), round(100 * c2[1], 3)], "nDrives": int((gt[m] > 0).sum()), "nDays": d2}
+    out["cadenceStrataRule"] = strata2
+    out["ruleBasis"] = {"thresholdRpm": 400.0, "boundary": "gt", "denominator": "engine_on_rule_sidecar.csv gt400 (rpm > 400 on the 1 Hz grid), per drive, joined by file and raw sha256", "statement": "share of engine-on time (rpm > 400, 1 Hz grid) with logged rpm in the closed band; the rpm >= 300 leaves (primary, edgeSensitivity, cadenceStrata, perDrive, anchored, ensOutlierV2Excluded) are unchanged and labelled",
+                        "sensitivityNotes": ["cadence strata are descriptive, no contrast is drawn", "the last-versus-mean aggregator sensitivity of this share is not computed", "ensOutlierV2Excluded is not migrated"]}
     return out
 
 
@@ -166,8 +193,8 @@ def build_block(dm, A, now=None, nb=NB, rebuild=False):
     blk = {"estimand": "duration-weighted share of engine-on time (rpm >= 300, 1 Hz grid) with logged rpm in the closed band [1850, 2150] (model_constants OPT_LO/OPT_HI), pooled over drives",
            "basis": "observed occupancy of logged engine rpm; not an efficiency, BSFC or optimum-operation claim; the band edges come from external OEM context",
            "descriptive": True, "displayed": False, "supersedes": "generatorTractionRecon.rpmFinding (numeric leaves; 410-drive one-off pass)", **r,
-           "limits": ["day bootstrap does not capture serial day correlation", "rpm is ECU-reported via the logging app and resampled to 1 s means (ffill limit 15 s)", "band edges are external OEM context"],
-           "provenance": {"spec": SPEC, "specSha256": sha(SPEC), "toolSha256": sha("tools/rpm_opt_band.py"), "sidecar": "rpm_opt_band_sidecar.csv", "sidecarSha256": sha("rpm_opt_band_sidecar.csv"),
+           "limits": ["day bootstrap does not capture serial day correlation", "rpm is ECU-reported via the logging app and resampled to 1 s means (ffill limit 15 s)", "band edges are external OEM context", "primaryRule and the other Rule leaves use the engine-on rule denominator (rpm > 400, M543); the unsuffixed leaves keep the rpm >= 300 denominator", "the last-versus-mean aggregator sensitivity of the Rule share is not computed; ensOutlierV2Excluded is not migrated"],
+           "provenance": {"spec": SPEC, "specSha256": sha(SPEC), "toolSha256": sha("tools/rpm_opt_band.py"), "specRule": "analyses/M543_spec.md", "specRuleSha256": sha("analyses/M543_spec.md"), "ruleSidecarSha256": sha("engine_on_rule_sidecar.csv"), "sidecar": "rpm_opt_band_sidecar.csv", "sidecarSha256": sha("rpm_opt_band_sidecar.csv"),
                           "masterMd5": hashlib.md5(open(os.path.join(ROOT, "drive_master.csv"), "rb").read()).hexdigest(), "reparsedDrives": reparsed}}
     return blk
 

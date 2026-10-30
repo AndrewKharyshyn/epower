@@ -238,14 +238,21 @@
    "anchor": "Estimand: duration-weighted share of ENGINE-ON time (rpm >= ",
    "family": "doc-300",
    "rule": "text only (docstring / language)",
-   "migration": "wave2"
+   "migration": "done M543 (rule leaves added as siblings; the unsuffixed leaves stay on the rpm >= 300 basis, labelled)"
   },
   {
    "file": "tools/rpm_opt_band.py",
    "anchor": "blk = {\"estimand\": \"duration-weighted share of engine-on tim",
    "family": "doc-300",
    "rule": "text only (docstring / language)",
-   "migration": "wave2"
+   "migration": "done M543 (rule leaves added as siblings; the unsuffixed leaves stay on the rpm >= 300 basis, labelled)"
+  },
+  {
+   "file": "tools/rpm_opt_band.py",
+   "anchor": "out[\"ruleBasis\"] = {\"thresholdRpm\": 400.0",
+   "family": "doc-400",
+   "rule": "text only (rule basis statement of the rpmOptBand Rule leaves)",
+   "migration": "none"
   }
  ],
  "knownBoundaryNotes": [
