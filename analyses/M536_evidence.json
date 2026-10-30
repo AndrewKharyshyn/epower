@@ -1,0 +1,206 @@
+{
+ "nDrives": 606,
+ "nDays": 121,
+ "gridded_h": 230.5064,
+ "storedRpmDistribution": {
+  "onHours": null,
+  "note": "A1 compares g_ge300 hours with the stored B1 on-hours (99.867 h in M521) and gridded hours (230.506 h)"
+ },
+ "thresholdTable": {
+  "ge250": {
+   "hours": 100.4722,
+   "pctOfGriddedValid": {
+    "pct": 43.5876,
+    "ci95Pct": [
+     39.6387,
+     47.1929
+    ],
+    "nDays": 121
+   }
+  },
+  "ge300": {
+   "hours": 99.8678,
+   "pctOfGriddedValid": {
+    "pct": 43.3254,
+    "ci95Pct": [
+     39.3891,
+     46.9101
+    ],
+    "nDays": 121
+   }
+  },
+  "ge350": {
+   "hours": 99.1111,
+   "pctOfGriddedValid": {
+    "pct": 42.9971,
+    "ci95Pct": [
+     39.0836,
+     46.5791
+    ],
+    "nDays": 121
+   }
+  },
+  "ge400": {
+   "hours": 98.2956,
+   "pctOfGriddedValid": {
+    "pct": 42.6433,
+    "ci95Pct": [
+     38.7588,
+     46.1987
+    ],
+    "nDays": 121
+   }
+  },
+  "ge450": {
+   "hours": 97.4744,
+   "pctOfGriddedValid": {
+    "pct": 42.2871,
+    "ci95Pct": [
+     38.438,
+     45.8142
+    ],
+    "nDays": 121
+   }
+  },
+  "ge500": {
+   "hours": 97.1856,
+   "pctOfGriddedValid": {
+    "pct": 42.1618,
+    "ci95Pct": [
+     38.3194,
+     45.6742
+    ],
+    "nDays": 121
+   }
+  },
+  "gt300": {
+   "hours": 99.8558
+  },
+  "gt400": {
+   "hours": 98.2808,
+   "pctOfGriddedValid": {
+    "pct": 42.6369,
+    "ci95Pct": [
+     38.7513,
+     46.1924
+    ],
+    "nDays": 121
+   }
+  }
+ },
+ "hysteresis": {
+  "hold1": 99.7711,
+  "hold2": 99.9219,
+  "hold3": 100.1583,
+  "hold5": 100.4611
+ },
+ "minRunFilters": {
+  "run3_ge300": 99.8339,
+  "run5_ge300": 99.58,
+  "run3_gt400": 98.2097,
+  "run5_gt400": 97.8203
+ },
+ "b6Rule": {
+  "onHours": 99.8528,
+  "runs": 7745
+ },
+ "gapDecomposition": {
+  "population": "drives with an interval series (the M512 basis)",
+  "nDrives": 606,
+  "B1_grid_ge300_h": 99.8678,
+  "B2_interval_gt400_h": 97.5425,
+  "gap_h": 2.3253,
+  "order1": {
+   "threshold_h": 1.5869,
+   "integration_h": 0.7383
+  },
+  "order2": {
+   "integration_h": 0.4919,
+   "threshold_h": 1.8334
+  },
+  "average": {
+   "threshold_h": 1.7101,
+   "integration_h": 0.6151
+  },
+  "residual_h": 0.0,
+  "note": "order1 and order2 each sum to the gap by construction; the residual is 0 unless the populations differ; the supported-time denominator term concerns shares, not hours"
+ },
+ "denominators": {
+  "gridded_valid_h": 230.5064,
+  "interval_supported_h": 229.5476
+ },
+ "band300_400": {
+  "hours": 1.5722,
+  "pctOfGe300": {
+   "pct": 1.5743,
+   "ci95Pct": [
+    1.4446,
+    1.7289
+   ],
+   "nDays": 121
+  },
+  "adjacentToOffPctOfBand": 62.279,
+  "loadPositivePctOfBandValidLoad": 99.062,
+  "loadPositivePctAbove400ValidLoad": 99.924
+ },
+ "byCadenceRegime": {
+  "fast": {
+   "nDrives": 179,
+   "ge300_h": 22.304,
+   "bandPctOfGe300": 1.228,
+   "adjacentToOffPctOfBand": 82.657
+  },
+  "slow": {
+   "nDrives": 415,
+   "ge300_h": 75.617,
+   "bandPctOfGe300": 1.682,
+   "adjacentToOffPctOfBand": 57.449
+  },
+  "unknown": {
+   "nDrives": 12,
+   "ge300_h": 1.948,
+   "bandPctOfGe300": 1.369,
+   "adjacentToOffPctOfBand": 83.333
+  }
+ },
+ "tripwires": {
+  "thresholdChangesOnHoursOver3PctOfB1": {
+   "250": false,
+   "300": false,
+   "350": false,
+   "400": false,
+   "450": false,
+   "500": false
+  },
+  "thresholdChangePctOfB1": {
+   "250": 0.605,
+   "300": 0.0,
+   "350": 0.758,
+   "400": 1.574,
+   "450": 2.397,
+   "500": 2.686
+  },
+  "band300_400OverOnePctOfEngineOn": true,
+  "bandPctOfEngineOn": 1.574,
+  "decompositionResidualOver0.5h": false,
+  "bandDiffersMoreThan2xBetweenCadenceStrata": false,
+  "hysteresisVsPlainOver1PctOfB1": {
+   "hold1": false,
+   "hold2": false,
+   "hold3": false,
+   "hold5": false
+  },
+  "xBasisProducersUnresolved": [
+   "rpmFinding (M521 row 5428)",
+   "simultaneity (rows 5518, 5521)",
+   "engineStateMachine (row 10874)"
+  ]
+ },
+ "provenance": {
+  "spec": "analyses/M536_spec.md",
+  "specSha256": "3d88945d9a5139f1cc5f3a52d6f0cb610a6f70763d88e1a351b986ddacbf3e15",
+  "toolSha256": "dd153a4b303922b70b4fcf6b3f14f09bdb389a16db1f0ae421dfd8f66b236fc9",
+  "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+  "sidecar": "engine_on_evidence_sidecar.csv"
+ }
+}

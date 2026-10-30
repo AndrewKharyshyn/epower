@@ -1,0 +1,59 @@
+{
+ "method": "annotated from analyses/M536_inventory_grep.json (46 grep rows) and analyses/M521_mapping.json (23 display lines); the sites are rules, not figures",
+ "families": {
+  "rpm>=300 / >300 (1 Hz grid)": {
+   "sites": [
+    "rpmDistribution bins (left-closed 300; engine-off bin below 300), rpmOptBand (tools/rpm_opt_band.py), rpmModeCentres, motoredShare (above fuelStateRpmMin 2000)",
+    "engineOnBySpeed / turbo blocks (rpm > 300 rows)",
+    "engineStartRate / engineStartsByType (> 300, NaN = off, run >= 2 s; MIN_ENGINE_START_S)",
+    "regeneration engine-off proxy rpm <= 300 (regenByZone, compute_summary_arrays ~13086, ~13385; owner decision 2026-10-14 (g))"
+   ],
+   "note": "closed vs open boundary at 300 differs between sites (>= in histogram, > in start detector)"
+  },
+  "rpm>400 (engine rotating) / <=400 (EV state)": {
+   "sites": [
+    "compute_drive_summary_v6 engine_on_pct and EV state (eng_rpm <= 400, 'the SAME threshold', ev_* and engine_on_pct complementary; ~21, ~722, ~1044, ~1429, ~1507)",
+    "engineRuntime (M512, RPM_ON = 400 on RPM-supported intervals)",
+    "rpmSyncPoint (_RSYNC_ENG_ON = 400, moving filter)",
+    "capacity_basis.py, gtr_interval_sens.py (engine on = rpm > 400), fuel_analytics2.py (rpm > 400 & flow > 0)",
+    "cold/warm engine-on fraction at matched road speed (~14545)"
+   ],
+   "note": "the per-drive master column engine_on_pct and the EV-state definition of the pipeline already use 400"
+  },
+  "rpm>800 / <=100 (start and event rules)": {
+   "sites": [
+    "_engine_start_scan (rpm > 800 after sustained <= 100 for 3 s), buffer / ramp / trigger events",
+    "first-five-minute on fraction (> 800), ~7850, ~13597"
+   ],
+   "note": "event definitions, not a time base; keep separate by name"
+  },
+  "rpm>1200/>2000 (state classifiers)": {
+   "sites": [
+    "motored / fuelled split (rpm > 2000), dissipation census (PUB rpm > 2000; FUEL rpm > 1200)"
+   ],
+   "note": "not engine-on definitions"
+  },
+  "unresolved X-basis": {
+   "sites": [
+    "rpmFinding (M521 5428)",
+    "simultaneity (5518, 5521)",
+    "engineStateMachine (10874)"
+   ],
+   "note": "engine-on rule not traced in M521"
+  }
+ },
+ "integrations": {
+  "1 Hz grid, duration-weighted": [
+   "rpmDistribution family",
+   "start-rate detector",
+   "rpmSyncPoint"
+  ],
+  "interval-weighted (dt capped), RPM-supported": [
+   "engineRuntime (M512)",
+   "master engine_on_pct"
+  ],
+  "row counts": [
+   "engineOnBySpeed (native cadence rows)"
+  ]
+ }
+}
