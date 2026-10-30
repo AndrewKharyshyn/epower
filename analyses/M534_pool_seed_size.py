@@ -62,8 +62,7 @@ def run_replicate(rid):
         return json.load(open(cp, encoding="utf-8"))
     res = _run_replicate(rid)
     os.makedirs(os.path.dirname(cp), exist_ok=True)
-    json.dump(res, open(cp, "w", encoding="utf-8", newline="
-"))
+    json.dump(res, open(cp, "w", encoding="utf-8", newline=chr(10)))
     return res
 
 
