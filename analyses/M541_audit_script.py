@@ -1,6 +1,6 @@
 import json,re,sys,pandas as pd,numpy as np
 base='raw/'
-files=json.load(open('analyses/M541_audit_sample.json'))['files']
+files=json.load(open('analyses/M541_audit_sample.json',encoding='utf-8'))['files']
 def rawname(f):
     m=re.match(r'(\d{4})-?(\d{2})-?(\d{2})[_ ](\d{2})-?(\d{2})-?(\d{2})\.csv',f)
     return '%s-%s-%s %s-%s-%s.csv'%m.groups()
@@ -22,7 +22,7 @@ def run(f,agg):
 out={}
 for agg in('mean','last'):
     out[agg]=[run(f,agg) for f in files]
-json.dump({'perDrive':out['mean'],'perDrive_lastAgg':out['last']},open('analyses/M541_audit.json','w'),indent=1)
+json.dump({'perDrive':out['mean'],'perDrive_lastAgg':out['last']},open('analyses/M541_audit.json','w',encoding='utf-8'),indent=1)
 sc=pd.read_csv('engine_on_rule_sidecar.csv').set_index('file')
 for agg in out:
     mm=0
