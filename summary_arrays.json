@@ -63288,6 +63288,66 @@
     "declaredIn": "tools/stamp_dependencies.json",
     "milestone": "M513"
    }
+  },
+  "engineOnRule": {
+   "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": null,
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-10-30T14:48:48.910612+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+    "rawIdentitySource": "ingest run 2026-10-30T14:47:41+00:00: producer stages engine_on_rule ran OK; raw_manifest.json corpusHash of this run",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "engine_on_rule_sidecar.csv": "528f3d2d2ca815795c847147bbd2d335",
+     "analyses/M540_spec.md": "bf4bcf97ee4c45dfe959581055c3edcc",
+     "tools/engine_on_rule.py": "ea654f843911f97007572929edbb9f2d"
+    }
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M540: derived by tools/engine_on_rule_block.py from drive_master.csv and the raw drive files through engine_on_rule_sidecar.csv (keyed by raw sha256); gates against the stored rpmDistribution",
+   "includedInReleaseAt": "2026-10-30T14:48:48.910612+00:00",
+   "inputBasis": {
+    "nDrives": 606,
+    "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-10-30T14:47:41+00:00",
+   "declaredIdentity": {
+    "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "engine_on_rule_sidecar.csv": "528f3d2d2ca815795c847147bbd2d335",
+     "analyses/M540_spec.md": "bf4bcf97ee4c45dfe959581055c3edcc",
+     "tools/engine_on_rule.py": "ea654f843911f97007572929edbb9f2d"
+    },
+    "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+    "rawIdentitySource": "ingest run 2026-10-30T14:47:41+00:00: producer stages engine_on_rule ran OK; raw_manifest.json corpusHash of this run"
+   },
+   "stampLineage": [
+    {
+     "identity": {
+      "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+      "upstreamHashes": {
+       "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
+      },
+      "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
+      "generatedAt": "2026-10-30T14:47:51.299893+00:00"
+     },
+     "supersededAtMilestone": "M513",
+     "supersededAt": "2026-10-30T14:47:52.261221+00:00",
+     "reason": "legacy stamp metadata (M294 raw-manifest backfill, M284 whole-config hash, fields cloned from another block) replaced by stamp metadata re-derived from declared dependencies"
+    }
+   ],
+   "dependencies": {
+    "declaredIn": "tools/stamp_dependencies.json",
+    "milestone": "M513"
+   },
+   "fullConfigHashNote": "whole-config hash retired for declared blocks (M513): the stamp names the md5 of each computational config section it reads (upstreamHashes.configSectionHashes); the previous value is kept in stampLineage"
   }
  },
  "ambientTable": {
@@ -365892,6 +365952,270 @@
    "toolSha256": "8b04e562b5f24621b376befcebb5abd95567fed6e01bf94d2cfa973cf8ddc60a",
    "sidecar": "driving_mix_sidecar.csv",
    "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
+  }
+ },
+ "engineOnRule": {
+  "estimand": "seconds and hours of the 1 Hz grid with logged rpm > 400 (engine-on under the project rule), the closed band 300 <= rpm <= 400 (low-rpm rotation band) and the stored rpm >= 300 basis, pooled and by drive type",
+  "basis": "logged rpm (app-reported), resampled to the pipeline 1 Hz grid (hold limit 15 native rows and 15 grid seconds); deterministic re-definition on the same data, not a correction",
+  "descriptive": true,
+  "displayed": false,
+  "rule": {
+   "thresholdRpm": 400.0,
+   "boundary": "gt",
+   "bandClosedRpm": [
+    300.0,
+    400.0
+   ],
+   "engineOnName": "engine-on (rpm > 400, 1 Hz grid)",
+   "bandName": "low-rpm rotation band (logged rpm, 300-400 rpm)",
+   "nanPolicy": "a missing second is neither engine-on nor in the band; counts of missing seconds are reported separately",
+   "separateNames": [
+    "generator-active (reconstructed Pgen > 0)",
+    "RPM onset (> 300 rpm, run >= 2 s)",
+    "engine-start trigger (> 800 after <= 100)",
+    "engine-off proxy (300 rpm, owner decision 2026-10-14 (g))"
+   ]
+  },
+  "faithfulness": {
+   "pooledHoursEqualStored": true,
+   "byClassHoursEqualStored": {
+    "urban": true,
+    "mixed": true,
+    "mixed_highway": true,
+    "highway": true
+   },
+   "nBins": 13,
+   "perDriveIdentityGe300": true,
+   "drivesWithRpmGt6000": 0,
+   "secondsRpmGt6000": 0,
+   "driveCount": 606,
+   "storedDriveCount": 606,
+   "passed": true
+  },
+  "pooled": {
+   "nDrives": 606,
+   "nDays": 121,
+   "validSeconds": 829823,
+   "validHours": 230.5064,
+   "ge300Seconds": 359524,
+   "ge300Hours": 99.8678,
+   "engineOnSeconds": 353811,
+   "engineOnHours": 98.2808,
+   "lowRpmBandSeconds": 5713,
+   "lowRpmBandHours": 1.5869,
+   "exact400Seconds": 53,
+   "engineOnPctOfValid": {
+    "pct": 42.6369,
+    "ci95Pct": [
+     38.7513,
+     46.1924
+    ]
+   },
+   "lowRpmBandPctOfGe300": {
+    "pct": 1.589,
+    "ci95Pct": [
+     1.4583,
+     1.7457
+    ]
+   }
+  },
+  "byClass": {
+   "urban": {
+    "nDrives": 510,
+    "nDays": 110,
+    "validSeconds": 438455,
+    "validHours": 121.7931,
+    "ge300Seconds": 132129,
+    "ge300Hours": 36.7025,
+    "engineOnSeconds": 129868,
+    "engineOnHours": 36.0744,
+    "lowRpmBandSeconds": 2261,
+    "lowRpmBandHours": 0.6281,
+    "exact400Seconds": 18,
+    "engineOnPctOfValid": {
+     "pct": 29.6195,
+     "ci95Pct": [
+      28.405,
+      30.8439
+     ]
+    },
+    "lowRpmBandPctOfGe300": {
+     "pct": 1.7112,
+     "ci95Pct": [
+      1.537,
+      1.8935
+     ]
+    }
+   },
+   "mixed": {
+    "nDrives": 33,
+    "nDays": 27,
+    "validSeconds": 67897,
+    "validHours": 18.8603,
+    "ge300Seconds": 27253,
+    "ge300Hours": 7.5703,
+    "engineOnSeconds": 26787,
+    "engineOnHours": 7.4408,
+    "lowRpmBandSeconds": 466,
+    "lowRpmBandHours": 0.1294,
+    "exact400Seconds": 2,
+    "engineOnPctOfValid": {
+     "pct": 39.4524,
+     "ci95Pct": [
+      37.8656,
+      41.2065
+     ]
+    },
+    "lowRpmBandPctOfGe300": {
+     "pct": 1.7099,
+     "ci95Pct": [
+      1.5221,
+      1.8877
+     ]
+    }
+   },
+   "mixed_highway": {
+    "nDrives": 37,
+    "nDays": 27,
+    "validSeconds": 188018,
+    "validHours": 52.2272,
+    "ge300Seconds": 106131,
+    "ge300Hours": 29.4808,
+    "engineOnSeconds": 104209,
+    "engineOnHours": 28.9469,
+    "lowRpmBandSeconds": 1922,
+    "lowRpmBandHours": 0.5339,
+    "exact400Seconds": 20,
+    "engineOnPctOfValid": {
+     "pct": 55.425,
+     "ci95Pct": [
+      52.9987,
+      57.7891
+     ]
+    },
+    "lowRpmBandPctOfGe300": {
+     "pct": 1.811,
+     "ci95Pct": [
+      1.5798,
+      2.0768
+     ]
+    }
+   },
+   "highway": {
+    "nDrives": 23,
+    "nDays": 14,
+    "validSeconds": 135164,
+    "validHours": 37.5456,
+    "ge300Seconds": 93862,
+    "ge300Hours": 26.0728,
+    "engineOnSeconds": 92799,
+    "engineOnHours": 25.7775,
+    "lowRpmBandSeconds": 1063,
+    "lowRpmBandHours": 0.2953,
+    "exact400Seconds": 13,
+    "engineOnPctOfValid": {
+     "pct": 68.6566,
+     "ci95Pct": [
+      64.8796,
+      71.9827
+     ]
+    },
+    "lowRpmBandPctOfGe300": {
+     "pct": 1.1325,
+     "ci95Pct": [
+      0.9252,
+      1.3504
+     ]
+    }
+   }
+  },
+  "unclassified": {
+   "nDrives": 3,
+   "nDays": 3,
+   "validSeconds": 289,
+   "validHours": 0.0803,
+   "ge300Seconds": 149,
+   "ge300Hours": 0.0414,
+   "engineOnSeconds": 148,
+   "engineOnHours": 0.0411,
+   "lowRpmBandSeconds": 1,
+   "lowRpmBandHours": 0.0003,
+   "exact400Seconds": 0,
+   "engineOnPctOfValid": {
+    "pct": 51.2111,
+    "ci95Pct": [
+     0.0,
+     85.0575
+    ]
+   },
+   "lowRpmBandPctOfGe300": {
+    "pct": 0.6711,
+    "ci95Pct": [
+     0.6711,
+     0.6711
+    ]
+   },
+   "note": "drives without a drive_type of the four classes (the master label unknown): included in pooled, absent from byClass"
+  },
+  "boundaryEvidence": {
+   "exact400Seconds": 53,
+   "exact400Hours": 0.0147,
+   "nDrivesWithExact400": 31,
+   "maxExact400SecondsPerDrive": 4
+  },
+  "integrationCrossCheck": {
+   "engineOnGridHours": 98.2808,
+   "engineRuntimeSupportedOnHours": 97.5425,
+   "integrationTermHours": 0.7383,
+   "integrationTermPctOfEngineOn": 0.7512,
+   "expectedInterval_M536wave0_pct": [
+    0.6424,
+    0.8724
+   ],
+   "flag": "within"
+  },
+  "bandByCadenceStratum": {
+   "fast": {
+    "nDrives": 179,
+    "lowRpmBandPctOfGe300": 1.24
+   },
+   "slow": {
+    "nDrives": 415,
+    "lowRpmBandPctOfGe300": 1.697
+   },
+   "unlabelled": {
+    "nDrives": 12,
+    "lowRpmBandPctOfGe300": 1.384
+   }
+  },
+  "tripwires": {
+   "classUnder10Days": [],
+   "exact400HoursOver0.1": false,
+   "integrationOutsideExpected": false
+  },
+  "method": {
+   "cluster": "calendar day",
+   "draws": 4000,
+   "seed": 42,
+   "interval": "percentile, ratio of sums"
+  },
+  "limits": [
+   "logged rpm is app-reported, not measured",
+   "the low-rpm band carries load (about 99 % positive app-calculated load in M536): it is reported, not discarded",
+   "the day bootstrap does not capture serial day correlation",
+   "the hold limit counts native rows and grid seconds",
+   "convenience sample; the shares describe this corpus, not representative use",
+   "no consumer is rebound by this block (wave 2b)"
+  ],
+  "provenance": {
+   "spec": "analyses/M540_spec.md",
+   "specSha256": "859d306cc2c85d124816a2c9f41dd2e5fa8061d7dc957c8a77aa2398a6230196",
+   "toolSha256": "6b4053806bc2242578431961fffb5ad850f1916fbeb7dde516ff947b3153b37b",
+   "ruleModuleSha256": "6f475db52b5a91c2bc8947c0a5afa9e4c5a025b7fe9c5689e72ae3aef8d23916",
+   "sidecar": "engine_on_rule_sidecar.csv",
+   "sidecarSha256": "2c8e5caba66f714271e91ff4850e65f85bd6cc9765a1bc2b9eb859b478b4e4db",
+   "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "reparsedDrives": 0
   }
  }
 }

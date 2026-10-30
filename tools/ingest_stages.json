@@ -564,6 +564,20 @@
    ]
   },
   {
+   "id": "engine_on_rule",
+   "title": "M540: engine-on under the project rule (rpm > 400, strict) and the closed low-rpm rotation band [300, 400] next to the stored >= 300 basis, pooled and by drive type, with day-clustered intervals; additive top-level payload block engineOnRule + stamp; per-drive sidecar engine_on_rule_sidecar.csv keyed by the raw sha256 (13 integer RPM_HIST bin counts); STOP unless round(sum/3600, 3) of the bins equals the stored rpmDistribution pooled and byClass hours exactly and ge300 == sum(bins[1:]) + n(rpm > 6000) per drive; flag-only cross-check against engineRuntime; needs raw/ like engine_runtime; spec analyses/M540_spec.md Rev 2",
+   "cmd": [
+    "python3",
+    "tools/engine_on_rule_block.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json",
+    "engine_on_rule_sidecar.csv",
+    "engine_on_rule_sidecar.meta.json"
+   ]
+  },
+  {
    "id": "thermal_support_ledger",
    "title": "M418: thermal support ledger (candidate / excluded / accepted / reached / right-censored counts for warm-up lag, hvcEngine80C, warm-up curve and the fuel penalty, all corpus plus warm and shoulder cohorts; reconciled with the published estimator n; spec analyses/M418_spec.md); additive payload block thermalSupportLedger + stamp; the estimators are unchanged",
    "cmd": [
