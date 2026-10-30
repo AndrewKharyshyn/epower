@@ -211,61 +211,79 @@
    "sidecar": "resistance_joint_sidecar.csv"
   },
   "rpmOptBand": {
-  "producer": "tools/rpm_opt_band.py",
-  "producerStages": [
-   "rpm_opt_band"
-  ],
-  "readsRaw": true,
-  "readsRawManifest": false,
-  "rawNote": "through rpm_opt_band_sidecar.csv keyed by the raw sha256 (per-drive fine rpm bin counts on the pipeline 1 Hz grid)",
-  "configSections": [],
-  "inputFiles": [
-   "rpm_opt_band_sidecar.csv",
-   "analyses/M525_spec.md"
-  ],
-  "checkCommand": [
-   "tools/rpm_opt_band.py",
-   "--check"
-  ],
-  "sidecar": "rpm_opt_band_sidecar.csv"
- },
- "rpmModeCentres": {
-  "producer": "tools/rpm_mode_centres.py",
-  "producerStages": [
-   "rpm_mode_centres"
-  ],
-  "readsRaw": true,
-  "readsRawManifest": false,
-  "rawNote": "through rpm_mode_centres_sidecar.csv keyed by the raw sha256 (per-drive 1 rpm bin counts and window sums on the pipeline 1 Hz grid)",
-  "configSections": [],
-  "inputFiles": [
-   "rpm_mode_centres_sidecar.csv",
-   "analyses/M527_spec.md"
-  ],
-  "checkCommand": [
-   "tools/rpm_mode_centres.py",
-   "--check"
-  ],
-  "sidecar": "rpm_mode_centres_sidecar.csv"
- },
- "motoredShare": {
-  "producer": "tools/rpm_fuel_state.py",
-  "producerStages": [
-   "rpm_fuel_state"
-  ],
-  "readsRaw": true,
-  "readsRawManifest": false,
-  "rawNote": "through rpm_fuel_state_sidecar.csv keyed by the raw sha256 (per-drive motored / fuelled second counts per rpm bin on the boost-verified path of the pipeline 1 Hz grid)",
-  "configSections": [],
-  "inputFiles": [
-   "rpm_fuel_state_sidecar.csv",
-   "analyses/M531_spec.md"
-  ],
-  "checkCommand": [
-   "tools/rpm_fuel_state.py",
-   "--check"
-  ],
-  "sidecar": "rpm_fuel_state_sidecar.csv"
- }
+   "producer": "tools/rpm_opt_band.py",
+   "producerStages": [
+    "rpm_opt_band"
+   ],
+   "readsRaw": true,
+   "readsRawManifest": false,
+   "rawNote": "through rpm_opt_band_sidecar.csv keyed by the raw sha256 (per-drive fine rpm bin counts on the pipeline 1 Hz grid)",
+   "configSections": [],
+   "inputFiles": [
+    "rpm_opt_band_sidecar.csv",
+    "analyses/M525_spec.md"
+   ],
+   "checkCommand": [
+    "tools/rpm_opt_band.py",
+    "--check"
+   ],
+   "sidecar": "rpm_opt_band_sidecar.csv"
+  },
+  "rpmModeCentres": {
+   "producer": "tools/rpm_mode_centres.py",
+   "producerStages": [
+    "rpm_mode_centres"
+   ],
+   "readsRaw": true,
+   "readsRawManifest": false,
+   "rawNote": "through rpm_mode_centres_sidecar.csv keyed by the raw sha256 (per-drive 1 rpm bin counts and window sums on the pipeline 1 Hz grid)",
+   "configSections": [],
+   "inputFiles": [
+    "rpm_mode_centres_sidecar.csv",
+    "analyses/M527_spec.md"
+   ],
+   "checkCommand": [
+    "tools/rpm_mode_centres.py",
+    "--check"
+   ],
+   "sidecar": "rpm_mode_centres_sidecar.csv"
+  },
+  "motoredShare": {
+   "producer": "tools/rpm_fuel_state.py",
+   "producerStages": [
+    "rpm_fuel_state"
+   ],
+   "readsRaw": true,
+   "readsRawManifest": false,
+   "rawNote": "through rpm_fuel_state_sidecar.csv keyed by the raw sha256 (per-drive motored / fuelled second counts per rpm bin on the boost-verified path of the pipeline 1 Hz grid)",
+   "configSections": [],
+   "inputFiles": [
+    "rpm_fuel_state_sidecar.csv",
+    "analyses/M531_spec.md"
+   ],
+   "checkCommand": [
+    "tools/rpm_fuel_state.py",
+    "--check"
+   ],
+   "sidecar": "rpm_fuel_state_sidecar.csv"
+  },
+  "observedMixDetail": {
+   "producer": "tools/driving_mix.py",
+   "producerStages": [
+    "driving_mix"
+   ],
+   "readsRaw": false,
+   "readsRawManifest": false,
+   "configSections": [],
+   "inputFiles": [
+    "driving_mix_sidecar.csv",
+    "analyses/M535_spec.md"
+   ],
+   "checkCommand": [
+    "tools/driving_mix.py",
+    "--check"
+   ],
+   "sidecar": "driving_mix_sidecar.csv"
+  }
  }
 }

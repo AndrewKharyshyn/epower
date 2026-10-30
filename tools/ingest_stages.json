@@ -537,6 +537,20 @@
    ]
   },
   {
+   "id": "driving_mix",
+   "title": "M535: day-clustered intervals and the 4-type breakdown of the logged distance mix (additive payload key observedMixDetail, sibling of observedMix which is not changed); master-only; tie-out with observedMix is a STOP; ISO-week and leave-one-day-out sensitivities; sidecar driving_mix_sidecar.csv keyed to the master MD5; spec analyses/M535_spec.md Rev 4",
+   "cmd": [
+    "python3",
+    "tools/driving_mix.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json",
+    "driving_mix_sidecar.csv",
+    "driving_mix_sidecar.meta.json"
+   ]
+  },
+  {
    "id": "engine_runtime",
    "title": "M512: engine runtime on a declared time base: per-drive RPM-supported seconds and engine-on seconds from the production helpers cached in engine_runtime_sidecar.csv (raw sha256 + method version + closure hash); C0 (per-drive engine_on_pct reproduction and the legacy corpus figure) is a STOP; additive payload block engineRuntime + stamp; needs raw/ like ah_throughput; spec analyses/M512_spec.md Rev 2",
    "cmd": [
