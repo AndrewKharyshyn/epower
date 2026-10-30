@@ -1,0 +1,590 @@
+{
+ "convention": "mean (record): ffill15 native, neg->NaN, floor-second bins MEAN, grid ffill15, dropna; last = last of ffilled native per bin",
+ "task1": {
+  "n": 20,
+  "exactMean": 20,
+  "exactLast": 20,
+  "mismatches": []
+ },
+ "task2": {
+  "nCold": 13,
+  "engineOnH": 2.3647,
+  "bandH": 0.0172,
+  "ref": [
+   2.3647,
+   0.0172
+  ],
+  "match": [
+   true,
+   true
+  ],
+  "nDays": 5,
+  "refDays": 5,
+  "daysMatch": true,
+  "eonSec": 8513,
+  "bandSec": 62
+ },
+ "task3": {
+  "sidecarRows": 606,
+  "cohortCounts": {
+   "warm": 423,
+   "shoulder": 170,
+   "cold": 13
+  },
+  "reportedCounts": {
+   "cold": 13,
+   "shoulder": 170,
+   "warm": 423
+  },
+  "countsMatch": true,
+  "sumEngineOn": 353811,
+  "pooledEngineOn": 353811,
+  "sumMatch": true,
+  "sumByCohort": {
+   "cold": 8513,
+   "shoulder": 71721,
+   "warm": 273577
+  },
+  "cohortSecMatch": {
+   "cold": true,
+   "shoulder": true,
+   "warm": true
+  },
+  "nDrivesMatch": true,
+  "own20RelDiffPct": [
+   -0.25,
+   -12.121
+  ],
+  "reported": [
+   -0.6427,
+   17.3814
+  ],
+  "signMatch": [
+   true,
+   false
+  ]
+ },
+ "rows": [
+  {
+   "f": "2026-10-02_07-50-49.csv",
+   "cohort": "cold",
+   "mean": [
+    399,
+    188,
+    188,
+    0
+   ],
+   "last": [
+    399,
+    188,
+    188,
+    0
+   ],
+   "okm": true,
+   "okl": true,
+   "side": [
+    399,
+    188,
+    188,
+    399,
+    188,
+    188
+   ]
+  },
+  {
+   "f": "2026-09-30_08-08-32.csv",
+   "cohort": "cold",
+   "mean": [
+    337,
+    168,
+    168,
+    0
+   ],
+   "last": [
+    337,
+    168,
+    168,
+    0
+   ],
+   "okm": true,
+   "okl": true,
+   "side": [
+    337,
+    168,
+    168,
+    337,
+    168,
+    168
+   ]
+  },
+  {
+   "f": "2026-10-13_07-42-34.csv",
+   "cohort": "cold",
+   "mean": [
+    547,
+    543,
+    542,
+    1
+   ],
+   "last": [
+    547,
+    541,
+    541,
+    0
+   ],
+   "okm": true,
+   "okl": true,
+   "side": [
+    547,
+    543,
+    542,
+    547,
+    541,
+    541
+   ]
+  },
+  {
+   "f": "2026-10-13_07-56-36.csv",
+   "cohort": "cold",
+   "mean": [
+    247,
+    0,
+    0,
+    0
+   ],
+   "last": [
+    247,
+    0,
+    0,
+    0
+   ],
+   "okm": true,
+   "okl": true,
+   "side": [
+    247,
+    0,
+    0,
+    247,
+    0,
+    0
+   ]
+  },
+  {
+   "f": "2026-10-13_15-41-11.csv",
+   "cohort": "shoulder",
+   "mean": [
+    165,
+    0,
+    0,
+    0
+   ],
+   "last": [
+    165,
+    0,
+    0,
+    0
+   ],
+   "okm": true,
+   "okl": true,
+   "side": [
+    165,
+    0,
+    0,
+    165,
+    0,
+    0
+   ]
+  },
+  {
+   "f": "2026-10-03_09-58-07.csv",
+   "cohort": "shoulder",
+   "mean": [
+    130,
+    0,
+    0,
+    0
+   ],
+   "last": [
+    130,
+    0,
+    0,
+    0
+   ],
+   "okm": true,
+   "okl": true,
+   "side": [
+    130,
+    0,
+    0,
+    130,
+    0,
+    0
+   ]
+  },
+  {
+   "f": "2026-10-05_07-41-08.csv",
+   "cohort": "shoulder",
+   "mean": [
+    579,
+    380,
+    375,
+    5
+   ],
+   "last": [
+    579,
+    377,
+    375,
+    2
+   ],
+   "okm": true,
+   "okl": true,
+   "side": [
+    579,
+    380,
+    375,
+    579,
+    377,
+    375
+   ]
+  },
+  {
+   "f": "2026-10-17_22-01-20.csv",
+   "cohort": "shoulder",
+   "mean": [
+    362,
+    67,
+    67,
+    0
+   ],
+   "last": [
+    362,
+    67,
+    67,
+    0
+   ],
+   "okm": true,
+   "okl": true,
+   "side": [
+    362,
+    67,
+    67,
+    362,
+    67,
+    67
+   ]
+  },
+  {
+   "f": "20260515_222240.csv",
+   "cohort": "shoulder",
+   "mean": [
+    1401,
+    394,
+    390,
+    4
+   ],
+   "last": [
+    1401,
+    392,
+    387,
+    5
+   ],
+   "okm": true,
+   "okl": true,
+   "side": [
+    1401,
+    394,
+    390,
+    1401,
+    392,
+    387
+   ]
+  },
+  {
+   "f": "20260909_075611.csv",
+   "cohort": "shoulder",
+   "mean": [
+    532,
+    87,
+    84,
+    3
+   ],
+   "last": [
+    532,
+    87,
+    85,
+    2
+   ],
+   "okm": true,
+   "okl": true,
+   "side": [
+    532,
+    87,
+    84,
+    532,
+    87,
+    85
+   ]
+  },
+  {
+   "f": "20260818_150110.csv",
+   "cohort": "warm",
+   "mean": [
+    489,
+    171,
+    166,
+    5
+   ],
+   "last": [
+    489,
+    170,
+    165,
+    5
+   ],
+   "okm": true,
+   "okl": true,
+   "side": [
+    489,
+    171,
+    166,
+    489,
+    170,
+    165
+   ]
+  },
+  {
+   "f": "20260901_080956.csv",
+   "cohort": "warm",
+   "mean": [
+    476,
+    126,
+    124,
+    2
+   ],
+   "last": [
+    476,
+    126,
+    124,
+    2
+   ],
+   "okm": true,
+   "okl": true,
+   "side": [
+    476,
+    126,
+    124,
+    476,
+    126,
+    124
+   ]
+  },
+  {
+   "f": "20260821_081939.csv",
+   "cohort": "warm",
+   "mean": [
+    3539,
+    999,
+    981,
+    18
+   ],
+   "last": [
+    3539,
+    990,
+    973,
+    17
+   ],
+   "okm": true,
+   "okl": true,
+   "side": [
+    3539,
+    999,
+    981,
+    3539,
+    990,
+    973
+   ]
+  },
+  {
+   "f": "20260822_141715.csv",
+   "cohort": "warm",
+   "mean": [
+    1448,
+    630,
+    622,
+    8
+   ],
+   "last": [
+    1448,
+    628,
+    623,
+    5
+   ],
+   "okm": true,
+   "okl": true,
+   "side": [
+    1448,
+    630,
+    622,
+    1448,
+    628,
+    623
+   ]
+  },
+  {
+   "f": "2026-10-04_12-52-59.csv",
+   "cohort": "warm",
+   "mean": [
+    248,
+    115,
+    114,
+    1
+   ],
+   "last": [
+    248,
+    115,
+    113,
+    2
+   ],
+   "okm": true,
+   "okl": true,
+   "side": [
+    248,
+    115,
+    114,
+    248,
+    115,
+    113
+   ]
+  },
+  {
+   "f": "20260620_192922.csv",
+   "cohort": "warm",
+   "mean": [
+    562,
+    103,
+    99,
+    4
+   ],
+   "last": [
+    562,
+    103,
+    99,
+    4
+   ],
+   "okm": true,
+   "okl": true,
+   "side": [
+    562,
+    103,
+    99,
+    562,
+    103,
+    99
+   ]
+  },
+  {
+   "f": "20260705_122016.csv",
+   "cohort": "warm",
+   "mean": [
+    1358,
+    385,
+    371,
+    14
+   ],
+   "last": [
+    1358,
+    383,
+    370,
+    13
+   ],
+   "okm": true,
+   "okl": true,
+   "side": [
+    1358,
+    385,
+    371,
+    1358,
+    383,
+    370
+   ]
+  },
+  {
+   "f": "20260621_145249.csv",
+   "cohort": "warm",
+   "mean": [
+    506,
+    247,
+    247,
+    0
+   ],
+   "last": [
+    506,
+    248,
+    248,
+    0
+   ],
+   "okm": true,
+   "okl": true,
+   "side": [
+    506,
+    247,
+    247,
+    506,
+    248,
+    248
+   ]
+  },
+  {
+   "f": "20260617_150930.csv",
+   "cohort": "warm",
+   "mean": [
+    368,
+    125,
+    125,
+    0
+   ],
+   "last": [
+    368,
+    125,
+    125,
+    0
+   ],
+   "okm": true,
+   "okl": true,
+   "side": [
+    368,
+    125,
+    125,
+    368,
+    125,
+    125
+   ]
+  },
+  {
+   "f": "20260802_081226.csv",
+   "cohort": "warm",
+   "mean": [
+    507,
+    131,
+    130,
+    1
+   ],
+   "last": [
+    507,
+    131,
+    130,
+    1
+   ],
+   "okm": true,
+   "okl": true,
+   "side": [
+    507,
+    131,
+    130,
+    507,
+    131,
+    130
+   ]
+  }
+ ],
+ "verdict": "accept (20/20 exact both aggregators; cold exact; cohort sums equal pooled); band sign on the 20-drive subset differs from the corpus sign: subsample property, not an error"
+}
