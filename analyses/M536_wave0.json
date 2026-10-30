@@ -1,0 +1,183 @@
+{
+ "nDrives": 606,
+ "a1_L15_reproducesPhase1": true,
+ "holdLimitSweep": {
+  "L0": {
+   "totalHours": 232.8025,
+   "validHours": 180.9219,
+   "missingHours": 51.8806,
+   "zeroHours": 101.1864,
+   "ge300_h": 78.6733,
+   "gt400_h": 77.2608,
+   "ge400_h": 77.2789,
+   "band_h": 1.3944,
+   "ge300_changeVsL15_pctOfB1": -21.2225,
+   "gt400_changeVsL15_pctOfB1": -21.0478
+  },
+  "L5": {
+   "totalHours": 232.8025,
+   "validHours": 230.0739,
+   "missingHours": 2.7286,
+   "zeroHours": 129.0811,
+   "ge300_h": 99.4978,
+   "gt400_h": 97.7408,
+   "ge400_h": 97.7608,
+   "band_h": 1.7369,
+   "ge300_changeVsL15_pctOfB1": -0.3705,
+   "gt400_changeVsL15_pctOfB1": -0.5407
+  },
+  "L15": {
+   "totalHours": 232.8025,
+   "validHours": 230.5064,
+   "missingHours": 2.2961,
+   "zeroHours": 128.6611,
+   "ge300_h": 99.8678,
+   "gt400_h": 98.2808,
+   "ge400_h": 98.2956,
+   "band_h": 1.5722,
+   "ge300_changeVsL15_pctOfB1": 0.0,
+   "gt400_changeVsL15_pctOfB1": 0.0
+  }
+ },
+ "byCadenceRegime": {
+  "fast": {
+   "nDrives": 179,
+   "L0": {
+    "missingPctOfSeconds": 2.812,
+    "bandPctOfGe300": 1.548
+   },
+   "L5": {
+    "missingPctOfSeconds": 0.886,
+    "bandPctOfGe300": 1.411
+   },
+   "L15": {
+    "missingPctOfSeconds": 0.855,
+    "bandPctOfGe300": 1.228
+   }
+  },
+  "slow": {
+   "nDrives": 415,
+   "L0": {
+    "missingPctOfSeconds": 29.198,
+    "bandPctOfGe300": 1.881
+   },
+   "L5": {
+    "missingPctOfSeconds": 0.889,
+    "bandPctOfGe300": 1.854
+   },
+   "L15": {
+    "missingPctOfSeconds": 0.67,
+    "bandPctOfGe300": 1.682
+   }
+  },
+  "unlabelled": {
+   "nDrives": 12,
+   "L0": {
+    "missingPctOfSeconds": 16.55,
+    "bandPctOfGe300": 1.207
+   },
+   "L5": {
+    "missingPctOfSeconds": 14.026,
+    "bandPctOfGe300": 1.383
+   },
+   "L15": {
+    "missingPctOfSeconds": 13.154,
+    "bandPctOfGe300": 1.369
+   }
+  }
+ },
+ "intervals": {
+  "thresholdTermPctOfGe300": {
+   "pct": 1.589,
+   "ci95Pct": [
+    1.4583,
+    1.7457
+   ],
+   "nDays": 121
+  },
+  "integrationTermPctOfGt400": {
+   "pct": 0.7512,
+   "ci95Pct": [
+    0.6424,
+    0.8724
+   ],
+   "nDays": 121
+  }
+ },
+ "hysteresisVsPlainGt400": {
+  "hold1": {
+   "hours": 99.7711,
+   "diffVsGt400_h": 1.4903,
+   "diffPctOfB1": 1.4923
+  },
+  "hold2": {
+   "hours": 99.9219,
+   "diffVsGt400_h": 1.6411,
+   "diffPctOfB1": 1.6433
+  },
+  "hold3": {
+   "hours": 100.1583,
+   "diffVsGt400_h": 1.8775,
+   "diffPctOfB1": 1.88
+  },
+  "hold5": {
+   "hours": 100.4611,
+   "diffVsGt400_h": 2.1803,
+   "diffPctOfB1": 2.1832
+  }
+ },
+ "tripwires": {
+  "holdLimitChangesOnHoursOver1PctOfB1": {
+   "L0": true,
+   "L5": false,
+   "L15": false
+  },
+  "nanSecondsDifferOver2xBetweenStrata": false,
+  "missingPctOfSecondsFastSlowL15": [
+   0.855,
+   0.67
+  ],
+  "hysteresisVsGt400Over1PctOfB1": {
+   "hold1": true,
+   "hold2": true,
+   "hold3": true,
+   "hold5": true
+  }
+ },
+ "codeTrace": {
+  "rpmFinding": {
+   "payload": "generatorTractionRecon.rpmFinding",
+   "producer": "rpm_opt_pass.py (one-off 410-drive pass)",
+   "rule": "engine-on = rpm >= 300 on the pipeline 1 Hz grid (all RPM_HIST bins but [0,300))",
+   "evidence": "rpm_opt_pass.py lines 19-25 (grid), 39-40 (RPM_HIST_EDGES [0, 300, 1400, ...]), 75-87 (anchored to the stored rpmDistribution bin totals)",
+   "family": "B1 (>= 300, 1 Hz grid, duration weighted)",
+   "status": "traced; numeric leaves are the 410-drive pass, not refreshed, superseded by rpmOptBand (M525, also B1); migrates with the B1 family"
+  },
+  "simultaneity": {
+   "payload": "generatorTractionRecon.simultaneity",
+   "producer": "simultaneity_gtr.py",
+   "rule": "engine-on second = reconstructed generator power Pgen_t > 0 (eon = Pg > 0.0), weighted by dt",
+   "evidence": "simultaneity_gtr.py line 8 (docstring) and lines 96-103 (eon = Pg > 0.0)",
+   "family": "generator-active (reconstructed Pgen > 0): NOT an rpm rule",
+   "status": "traced; stays a separately named concept (generator-active), never migrates to an rpm threshold; its engineOnHours leaf is generator-active hours"
+  },
+  "engineStateMachine": {
+   "payload": "engineStateMachine",
+   "producer": "compute_summary_arrays._engine_state_machine / _esm_classify / _esm_grid",
+   "rule": "per-second state on a 1 Hz grid: off rpm < 400, low 400-1400, loadPoint 1400-2300, mid 2300-3200, high >= 3200 (boundaries >=); NaN rpm seconds excluded (state -1)",
+   "evidence": "compute_summary_arrays.py line 11238 (_ESM_EDGES = [400, 1400, 2300, 3200]), lines 11271-11278 (_esm_classify: rpm >= edge, non-finite -> -1)",
+   "family": "400 family with a >= boundary on the 1 Hz grid (engine_runtime uses > 400 on intervals)",
+   "status": "traced; the boundary differs from engine_runtime (> 400 vs >= 400); 5 seconds at exactly 400 rpm in a 20-drive sample"
+  }
+ },
+ "provenance": {
+  "spec": "analyses/M536_spec.md",
+  "specSha256": "4685658fde73a56ef2ffdf92e579ac04762afe94a06ef21a0ea55100aa419a18",
+  "toolSha256": "5f5be75d2dfc600c3c9262c238e0916eff495d3811c26b9fc3516737240e6234",
+  "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+  "sidecars": [
+   "engine_on_wave0_sidecar.csv",
+   "engine_on_evidence_sidecar.csv"
+  ]
+ }
+}
