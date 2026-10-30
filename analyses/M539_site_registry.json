@@ -1,0 +1,255 @@
+{
+ "spec": "analyses/M539_spec.md Rev 2",
+ "note": "anchors are line substrings; tools/engine_on_sites.py fails on a code line that compares an rpm-like name with 300 or 400 and is not listed here. Sites NOT found by the pattern but known: histogram code via RPM_HIST_EDGES (cs.RPM_HIST_EDGES, tools/rpm_opt_pass.py, tools/engine_on_optband_check.py copy the same edges), the cohort rpmDistribution from regen_seasonal_raw, engineStateMachine via _ESM_EDGES [400, ...] (>= boundary), crosscheck_events text.",
+ "sites": [
+  {
+   "file": "compute_summary_arrays.py",
+   "anchor": "eon = (rr > 300) & valid",
+   "family": "legacy-300-grid",
+   "rule": "engine-on > 300 on the 1 Hz grid (rr/rp > 300, NaN dropped or not on); migrates to the sibling leaves",
+   "migration": "wave2 (engineOnDuration)"
+  },
+  {
+   "file": "compute_summary_arrays.py",
+   "anchor": "eng = rp > 300",
+   "family": "legacy-300-grid",
+   "rule": "engine-on > 300 on the 1 Hz grid (rr/rp > 300, NaN dropped or not on); migrates to the sibling leaves",
+   "migration": "wave3 (engineOnBySpeed 4051 / turbo 4198)"
+  },
+  {
+   "file": "compute_summary_arrays.py",
+   "anchor": "eng = rp > 300",
+   "family": "legacy-300-grid",
+   "rule": "engine-on > 300 on the 1 Hz grid (rr/rp > 300, NaN dropped or not on); migrates to the sibling leaves",
+   "migration": "wave3 (engineOnBySpeed 4051 / turbo 4198)"
+  },
+  {
+   "file": "compute_summary_arrays.py",
+   "anchor": "eng_off = rp <= 300",
+   "family": "regen-proxy-300",
+   "rule": "engine-off proxy rpm <= 300 (owner decision 2026-10-14 (g)); NaN policy per site",
+   "migration": "none (decision g)"
+  },
+  {
+   "file": "compute_summary_arrays.py",
+   "anchor": "on = np.nan_to_num(er, nan=0.0) > 300     # NaN -> off bound",
+   "family": "event-onset-300",
+   "rule": "RPM onset (> 300 rpm, run >= 2 s; NaN = off); keeps its own name (Director Q3)",
+   "migration": "none (event detector)"
+  },
+  {
+   "file": "compute_summary_arrays.py",
+   "anchor": "m = (rp > 300) & ~np.isnan(bo)",
+   "family": "legacy-300-grid",
+   "rule": "engine-on > 300 on the 1 Hz grid (rr/rp > 300, NaN dropped or not on); migrates to the sibling leaves",
+   "migration": "wave3 (turbo)"
+  },
+  {
+   "file": "compute_summary_arrays.py",
+   "anchor": "_RSYNC_ENG_ON = 400.0",
+   "family": "rule-400-constant",
+   "rule": "engine-on > 400 (strict) constant; must equal tools/engine_on_rule.THRESHOLD_RPM",
+   "migration": "wave1-check"
+  },
+  {
+   "file": "compute_summary_arrays.py",
+   "anchor": "_DST_ENG_ON = 400.0",
+   "family": "rule-400-constant",
+   "rule": "engine-on > 400 (strict) constant; must equal tools/engine_on_rule.THRESHOLD_RPM",
+   "migration": "wave1-check"
+  },
+  {
+   "file": "compute_summary_arrays.py",
+   "anchor": "_DA_ENG_ON = 400.0",
+   "family": "rule-400-constant",
+   "rule": "engine-on > 400 (strict) constant; must equal tools/engine_on_rule.THRESHOLD_RPM",
+   "migration": "wave1-check"
+  },
+  {
+   "file": "compute_summary_arrays.py",
+   "anchor": "_VGT_ENG_ON = 400.0",
+   "family": "rule-400-constant",
+   "rule": "engine-on > 400 (strict) constant; must equal tools/engine_on_rule.THRESHOLD_RPM",
+   "migration": "wave1-check"
+  },
+  {
+   "file": "compute_summary_arrays.py",
+   "anchor": "rpm<=300 (engine off/idle) & speed>3 km/h & deceleration>0 &",
+   "family": "regen-proxy-300",
+   "rule": "text only inside a regen description",
+   "migration": "none (decision g)"
+  },
+  {
+   "file": "compute_summary_arrays.py",
+   "anchor": "eng_off = _np.nan_to_num(rpm, nan=9999.0) <= 300  # regenByZ",
+   "family": "regen-proxy-300",
+   "rule": "engine-off proxy rpm <= 300 (owner decision 2026-10-14 (g)); NaN policy per site",
+   "migration": "none (decision g)"
+  },
+  {
+   "file": "compute_summary_arrays.py",
+   "anchor": "eng_off = np.nan_to_num(rpm, nan=9999.0) <= 300  # regenByZo",
+   "family": "regen-proxy-300",
+   "rule": "engine-off proxy rpm <= 300 (owner decision 2026-10-14 (g)); NaN policy per site",
+   "migration": "none (decision g)"
+  },
+  {
+   "file": "compute_summary_arrays.py",
+   "anchor": "_ESH_ENG_ON = 400.0",
+   "family": "rule-400-constant",
+   "rule": "engine-on > 400 (strict) constant; must equal tools/engine_on_rule.THRESHOLD_RPM",
+   "migration": "wave1-check"
+  },
+  {
+   "file": "compute_summary_arrays.py",
+   "anchor": "_OF_ENG_ON = 400.0     # engine considered fuelling above 40",
+   "family": "rule-400-constant",
+   "rule": "engine-on > 400 (strict) constant; must equal tools/engine_on_rule.THRESHOLD_RPM",
+   "migration": "wave1-check"
+  },
+  {
+   "file": "compute_drive_summary_v6.py",
+   "anchor": "eng_rpm>400 engine-on threshold, so ev_* and engine_on_pct a",
+   "family": "doc-400",
+   "rule": "text only (docstring)",
+   "migration": "none"
+  },
+  {
+   "file": "compute_drive_summary_v6.py",
+   "anchor": "m_ev = (ev['tq'] > 50) & (ev['eng_rpm'].fillna(0) < 400)",
+   "family": "rule-400",
+   "rule": "engine-on / EV-state rule rpm 400 (strict > for on; < or <= for EV off in the master pipeline)",
+   "migration": "wave2-check boundary"
+  },
+  {
+   "file": "compute_drive_summary_v6.py",
+   "anchor": "eng_on = e['eng_rpm'].fillna(0) > 400",
+   "family": "rule-400",
+   "rule": "engine-on / EV-state rule rpm 400 (strict > for on; < or <= for EV off in the master pipeline)",
+   "migration": "wave2-check boundary"
+  },
+  {
+   "file": "compute_drive_summary_v6.py",
+   "anchor": "on = m2[m2['eng_rpm'].fillna(0) > 400]",
+   "family": "rule-400",
+   "rule": "engine-on / EV-state rule rpm 400 (strict > for on; < or <= for EV off in the master pipeline)",
+   "migration": "wave2-check boundary"
+  },
+  {
+   "file": "compute_drive_summary_v6.py",
+   "anchor": "Definition. EV state := ICE not rotating (eng_rpm <= 400, th",
+   "family": "doc-400",
+   "rule": "text only (docstring)",
+   "migration": "none"
+  },
+  {
+   "file": "compute_drive_summary_v6.py",
+   "anchor": "off = _ev_debounce(known & (g['rpm'] <= 400), EV_DEBOUNCE_S)",
+   "family": "rule-400",
+   "rule": "engine-on / EV-state rule rpm 400 (strict > for on; < or <= for EV off in the master pipeline)",
+   "migration": "wave2-check boundary"
+  },
+  {
+   "file": "rpm_opt_pass.py",
+   "anchor": "(the faithfulness gate). Engine-on = rpm>=300 (all bins but ",
+   "family": "doc-300",
+   "rule": "text only (docstring / language)",
+   "migration": "wave2"
+  },
+  {
+   "file": "recon_engine.py",
+   "anchor": "on=(g['rpm'].fillna(0)>400).values",
+   "family": "rule-400",
+   "rule": "engine-on / EV-state rule rpm 400 (strict > for on; < or <= for EV off in the master pipeline)",
+   "migration": "wave2-check boundary"
+  },
+  {
+   "file": "tools/capacity_basis.py",
+   "anchor": "eng = float(np.mean(rpm[me] > 400.0)) if me.any() else float",
+   "family": "rule-400",
+   "rule": "engine-on / EV-state rule rpm 400 (strict > for on; < or <= for EV off in the master pipeline)",
+   "migration": "wave2-check boundary"
+  },
+  {
+   "file": "tools/engine_runtime.py",
+   "anchor": "RPM_ON = 400.0",
+   "family": "rule-400-constant",
+   "rule": "engine-on > 400 (strict) constant; must equal tools/engine_on_rule.THRESHOLD_RPM",
+   "migration": "wave1-check"
+  },
+  {
+   "file": "tools/engine_runtime.py",
+   "anchor": "STATEMENT = (\"Engine-on time inside RPM-supported intervals ",
+   "family": "doc-400",
+   "rule": "text only (docstring / language)",
+   "migration": "none"
+  },
+  {
+   "file": "tools/engine_start_rate.py",
+   "anchor": "rpm > 300 (NaN = off), run-length encoded, only runs >= MIN_",
+   "family": "doc-300",
+   "rule": "text only (docstring / language)",
+   "migration": "wave2"
+  },
+  {
+   "file": "tools/engine_start_rate.py",
+   "anchor": "on = np.nan_to_num(er, nan=0.0) > 300",
+   "family": "event-onset-300",
+   "rule": "RPM onset (> 300 rpm, run >= 2 s; NaN = off); keeps its own name (Director Q3)",
+   "migration": "none (event detector)"
+  },
+  {
+   "file": "tools/fuel_analytics2.py",
+   "anchor": "on = (np.nan_to_num(rpm) > 400) & (flow > 0)",
+   "family": "rule-400",
+   "rule": "engine-on / EV-state rule rpm 400 (strict > for on; < or <= for EV off in the master pipeline)",
+   "migration": "wave2-check boundary"
+  },
+  {
+   "file": "tools/fuel_analytics2.py",
+   "anchor": "out2 = {\"alignment\": \"first rate sample with rpm > 400 and r",
+   "family": "doc-400",
+   "rule": "text only (docstring / language)",
+   "migration": "none"
+  },
+  {
+   "file": "tools/gtr_interval_sens.py",
+   "anchor": "g[\"on_raw\"] = (g[\"rpm\"].fillna(0) > 400).values",
+   "family": "rule-400",
+   "rule": "engine-on / EV-state rule rpm 400 (strict > for on; < or <= for EV off in the master pipeline)",
+   "migration": "wave2-check boundary"
+  },
+  {
+   "file": "tools/m427_splice.py",
+   "anchor": "SUBS18 = [('(isolates enrichment+cold-friction; day-clustere",
+   "family": "doc-400",
+   "rule": "text only (docstring / language)",
+   "migration": "none"
+  },
+  {
+   "file": "tools/m440_regen_sens.py",
+   "anchor": "eng_off = rp <= 300",
+   "family": "regen-proxy-300",
+   "rule": "engine-off proxy rpm <= 300 (owner decision 2026-10-14 (g)); NaN policy per site",
+   "migration": "none (decision g)"
+  },
+  {
+   "file": "tools/rpm_opt_band.py",
+   "anchor": "Estimand: duration-weighted share of ENGINE-ON time (rpm >= ",
+   "family": "doc-300",
+   "rule": "text only (docstring / language)",
+   "migration": "wave2"
+  },
+  {
+   "file": "tools/rpm_opt_band.py",
+   "anchor": "blk = {\"estimand\": \"duration-weighted share of engine-on tim",
+   "family": "doc-300",
+   "rule": "text only (docstring / language)",
+   "migration": "wave2"
+  }
+ ],
+ "knownBoundaryNotes": [
+  "compute_drive_summary_v6.py: the EV mask for torque uses fillna(0) < 400 while the EV debounce uses <= 400 (they differ only at exactly 400 rpm; 0.015 h in the corpus); not changed in wave 1",
+  "engineStateMachine uses rpm >= 400 for 'low' (_ESM_EDGES), engine_runtime uses > 400: harmonised in wave 2"
+ ]
+}
