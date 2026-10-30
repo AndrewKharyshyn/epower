@@ -56,6 +56,18 @@ def pool_for(slow_files, R, size):
 
 
 def run_replicate(rid):
+    """checkpointed (infrastructure only, added after two interrupted runs): a finished replicate is stored in analyses/M534_replicates/<id>.json and reused on a restart"""
+    cp = os.path.join(ROOT, "analyses", "M534_replicates", rid + ".json")
+    if os.path.exists(cp):
+        return json.load(open(cp, encoding="utf-8"))
+    res = _run_replicate(rid)
+    os.makedirs(os.path.dirname(cp), exist_ok=True)
+    json.dump(res, open(cp, "w", encoding="utf-8", newline="
+"))
+    return res
+
+
+def _run_replicate(rid):
     C = setup(); V, CE, cc, NB = C["V"], C["CE"], C["cc"], C["NB"]
     arm, R, k, size = specs()[rid]
     t0 = time.time()
