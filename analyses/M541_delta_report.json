@@ -1,0 +1,65 @@
+{
+ "generator": "analyses/M541_spec.md Rev 2; script-written from summary_arrays.json engineOnRule and the jsdom tab dumps before/after",
+ "specSha256_Rev2": "c6dc94b262d36f2f3b188b82eb9f786c8f5d690017aea621f9cac7f9afd4ebf4",
+ "rebound": [
+  {
+   "string": "RPM-occupancy engine-on hours (footnote)",
+   "before": "99.9",
+   "after_rule_hours": 98.3,
+   "rendered_after": "98.3",
+   "basis": "rpm > 400"
+  },
+  {
+   "string": "agreement with the duration-scaled imputed total",
+   "before_pct": "1.5",
+   "after_pct": "0.1",
+   "wordingClass": "unchanged ('agreement within')"
+  },
+  {
+   "string": "engine-on share of valid time",
+   "after": {
+    "pct": 42.6369,
+    "ci95Pct": [
+     38.7513,
+     46.1924
+    ]
+   }
+  },
+  {
+   "string": "low-rpm rotation band",
+   "after_hours": 1.5869,
+   "after_share_of_ge300": {
+    "pct": 1.589,
+    "ci95Pct": [
+     1.4583,
+     1.7457
+    ]
+   }
+  }
+ ],
+ "relabelledOnly": "strings that keep their value and gain the 'rpm >= 300 basis' tag: peak share of rpm >= 300 time (9651 / 12124 sites), OPT-band share (rpmOptBand), per-season occupancy titles, CompareBlock title, 300-1400 band share; no value changes",
+ "unlistedFlips": 0,
+ "tabsChanged": [
+  "cross-vehicle__all.txt",
+  "cross-vehicle__cold.txt",
+  "cross-vehicle__compare.txt",
+  "cross-vehicle__shoulder.txt",
+  "cross-vehicle__warm.txt",
+  "distribution__all.txt",
+  "distribution__cold.txt",
+  "distribution__shoulder.txt",
+  "distribution__warm.txt",
+  "fuel__all.txt",
+  "fuel__cold.txt",
+  "fuel__shoulder.txt",
+  "fuel__warm.txt",
+  "highway_vs_city__all.txt",
+  "highway_vs_city__cold.txt",
+  "highway_vs_city__compare.txt",
+  "highway_vs_city__shoulder.txt",
+  "highway_vs_city__warm.txt"
+ ],
+ "cohortViews": {
+  "cold/warm/shoulder/compare": "no pooled engine-on quote (guard); label-only changes"
+ }
+}

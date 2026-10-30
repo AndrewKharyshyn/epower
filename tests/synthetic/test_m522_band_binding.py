@@ -17,7 +17,7 @@ def run(rd, floor, scope="pooled, all cohorts"):
     return subprocess.run(["node", "-e", js], capture_output=True, text=True, encoding="utf-8", check=True).stdout.strip()
 
 h = RD["pooledHours"]; on = sum(h[1:])
-exp = "(%.1f %% of engine-on time, pooled, all cohorts, %.1f h of %.1f h;" % (h[1] / on * 100, h[1], on)
+exp = "(%.1f %% of rpm ≥ 300 time, pooled, all cohorts, %.1f h of %.1f h;" % (h[1] / on * 100, h[1], on)
 base = run(RD, FLOOR)
 assert exp in base and ("300-%s rpm band" % int(FLOOR)) in base, base
 # (a) patched pooledHours[1] changes the text

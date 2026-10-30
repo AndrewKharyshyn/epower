@@ -42,7 +42,7 @@ ic = B["integrationCrossCheck"]
 assert ic["integrationTermHours"] > 0 and abs(ic["integrationTermHours"] - (p["engineOnHours"] - A["engineRuntime"]["totals"]["supportedOnHours"])) < 2e-4 and ic["flag"] == "within"
 assert B["faithfulness"]["passed"] is True and B["faithfulness"]["secondsRpmGt6000"] == int(sc["gt6000"].sum())
 # rule block names and separate names
-assert B["rule"]["thresholdRpm"] == 400.0 and B["rule"]["boundary"] == "gt" and B["rule"]["bandClosedRpm"] == [300.0, 400.0] and B["displayed"] is False
+assert B["rule"]["thresholdRpm"] == 400.0 and B["rule"]["boundary"] == "gt" and B["rule"]["bandClosedRpm"] == [300.0, 400.0] and B["displayed"] is True
 # plumbing
 assert "engine_on_rule" in [s["id"] for s in json.load(open("tools/ingest_stages.json", encoding="utf-8"))["stages"]]
 sd = json.load(open("tools/stamp_dependencies.json", encoding="utf-8"))["blocks"]["engineOnRule"]

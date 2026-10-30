@@ -63295,12 +63295,12 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": null,
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-30T14:48:48.910612+00:00",
+   "generatedAt": "2026-10-30T17:21:14.951421+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
     "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
-    "rawIdentitySource": "ingest run 2026-10-30T14:47:41+00:00: producer stages engine_on_rule ran OK; raw_manifest.json corpusHash of this run",
+    "rawIdentitySource": "ingest run 2026-10-30T17:20:14.951421+00:00: producer stages engine_on_rule ran OK; raw_manifest.json corpusHash of this run",
     "configSectionHashes": {},
     "inputFileMd5": {
      "engine_on_rule_sidecar.csv": "528f3d2d2ca815795c847147bbd2d335",
@@ -63310,13 +63310,13 @@
    },
    "computationStatus": "computed",
    "computationStatusNote": "M540: derived by tools/engine_on_rule_block.py from drive_master.csv and the raw drive files through engine_on_rule_sidecar.csv (keyed by raw sha256); gates against the stored rpmDistribution",
-   "includedInReleaseAt": "2026-10-30T14:48:48.910612+00:00",
+   "includedInReleaseAt": "2026-10-30T17:21:14.951421+00:00",
    "inputBasis": {
     "nDrives": 606,
     "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-30T14:47:41+00:00",
+   "computedAt": "2026-10-30T17:20:14.951421+00:00",
    "declaredIdentity": {
     "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
     "configSectionHashes": {},
@@ -63326,7 +63326,7 @@
      "tools/engine_on_rule.py": "ea654f843911f97007572929edbb9f2d"
     },
     "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
-    "rawIdentitySource": "ingest run 2026-10-30T14:47:41+00:00: producer stages engine_on_rule ran OK; raw_manifest.json corpusHash of this run"
+    "rawIdentitySource": "ingest run 2026-10-30T17:20:14.951421+00:00: producer stages engine_on_rule ran OK; raw_manifest.json corpusHash of this run"
    },
    "stampLineage": [
     {
@@ -365958,7 +365958,7 @@
   "estimand": "seconds and hours of the 1 Hz grid with logged rpm > 400 (engine-on under the project rule), the closed band 300 <= rpm <= 400 (low-rpm rotation band) and the stored rpm >= 300 basis, pooled and by drive type",
   "basis": "logged rpm (app-reported), resampled to the pipeline 1 Hz grid (hold limit 15 native rows and 15 grid seconds); deterministic re-definition on the same data, not a correction",
   "descriptive": true,
-  "displayed": false,
+  "displayed": true,
   "rule": {
    "thresholdRpm": 400.0,
    "boundary": "gt",
@@ -366205,12 +366205,12 @@
    "the day bootstrap does not capture serial day correlation",
    "the hold limit counts native rows and grid seconds",
    "convenience sample; the shares describe this corpus, not representative use",
-   "no consumer is rebound by this block (wave 2b)"
+   "displayed since M541 (wave 2b-i): the pooled engine-on and band figures in the Fuel tab; the occupancy bins, OPT-band and mode-centre shares stay on the rpm >= 300 basis until M542"
   ],
   "provenance": {
    "spec": "analyses/M540_spec.md",
    "specSha256": "859d306cc2c85d124816a2c9f41dd2e5fa8061d7dc957c8a77aa2398a6230196",
-   "toolSha256": "6b4053806bc2242578431961fffb5ad850f1916fbeb7dde516ff947b3153b37b",
+   "toolSha256": "cb2dde153628890b7e74f1dc088983105f3a2301d5081bfbe14d97ca48d364bd",
    "ruleModuleSha256": "6f475db52b5a91c2bc8947c0a5afa9e4c5a025b7fe9c5689e72ae3aef8d23916",
    "sidecar": "engine_on_rule_sidecar.csv",
    "sidecarSha256": "2c8e5caba66f714271e91ff4850e65f85bd6cc9765a1bc2b9eb859b478b4e4db",
