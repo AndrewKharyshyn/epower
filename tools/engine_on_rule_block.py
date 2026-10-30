@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """M540 (analyses/M540_spec.md Rev 2): wave 2a of the engine-on migration: the additive top-level payload block engineOnRule (+ stamp). Engine-on under the project rule (tools/engine_on_rule.py: logged rpm > 400, strict) and the closed
-low-rpm rotation band [300, 400], next to the stored >= 300 basis, pooled and by drive type, with day-clustered intervals. Nothing is rebound or displayed; rpmDistribution is not touched.
+low-rpm rotation band [300, 400], next to the stored >= 300 basis, pooled and by drive type, with day-clustered intervals. rpmDistribution is not touched (M541 displays this block).
 
 Per-drive sidecar engine_on_rule_sidecar.csv (tracked; keyed by the raw-file SHA-256 AND by engine_on_rule_sidecar.meta.json: source hash of the row function + the rule constants + RPM_HIST_EDGES; a mismatch rebuilds all): the
 valid 1 Hz grid seconds of rpm_opt_band.grid_rpm (byte-faithful to _RawAccum.add), seconds >= 300, > 400, exactly 400, > 6000 and the 13 integer RPM_HIST bin counts. Gates (STOP, nothing written): round(sum/3600, 3) of the 13 bins equals the stored
@@ -119,12 +119,12 @@ def build_block(dm, A, rebuild=False):
     sha = lambda p: hashlib.sha256(open(os.path.join(ROOT, p), "rb").read()).hexdigest()
     return {"estimand": "seconds and hours of the 1 Hz grid with logged rpm > 400 (engine-on under the project rule), the closed band 300 <= rpm <= 400 (low-rpm rotation band) and the stored rpm >= 300 basis, pooled and by drive type",
             "basis": "logged rpm (app-reported), resampled to the pipeline 1 Hz grid (hold limit 15 native rows and 15 grid seconds); deterministic re-definition on the same data, not a correction",
-            "descriptive": True, "displayed": False,
+            "descriptive": True, "displayed": True,
             "rule": {"thresholdRpm": ER.THRESHOLD_RPM, "boundary": ER.BOUNDARY, "bandClosedRpm": [ER.BAND_LO_RPM, ER.THRESHOLD_RPM], "engineOnName": "engine-on (rpm > 400, 1 Hz grid)", "bandName": "low-rpm rotation band (logged rpm, 300-400 rpm)", "nanPolicy": ER.NAN_POLICY,
                      "separateNames": ["generator-active (reconstructed Pgen > 0)", "RPM onset (> 300 rpm, run >= 2 s)", "engine-start trigger (> 800 after <= 100)", "engine-off proxy (300 rpm, owner decision 2026-10-14 (g))"]},
             **r, "method": {"cluster": "calendar day", "draws": NB, "seed": SEED, "interval": "percentile, ratio of sums"},
             "limits": ["logged rpm is app-reported, not measured", "the low-rpm band carries load (about 99 % positive app-calculated load in M536): it is reported, not discarded", "the day bootstrap does not capture serial day correlation",
-                       "the hold limit counts native rows and grid seconds", "convenience sample; the shares describe this corpus, not representative use", "no consumer is rebound by this block (wave 2b)"],
+                       "the hold limit counts native rows and grid seconds", "convenience sample; the shares describe this corpus, not representative use", "displayed since M541 (wave 2b-i): the pooled engine-on and band figures in the Fuel tab; the occupancy bins, OPT-band and mode-centre shares stay on the rpm >= 300 basis until M542"],
             "provenance": {"spec": SPEC, "specSha256": sha(SPEC), "toolSha256": sha("tools/engine_on_rule_block.py"), "ruleModuleSha256": sha("tools/engine_on_rule.py"), "sidecar": "engine_on_rule_sidecar.csv", "sidecarSha256": sha("engine_on_rule_sidecar.csv"),
                            "masterMd5": hashlib.md5(open(os.path.join(ROOT, "drive_master.csv"), "rb").read()).hexdigest(), "reparsedDrives": rep}}
 

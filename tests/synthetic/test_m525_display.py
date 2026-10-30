@@ -10,7 +10,7 @@ O = A["rpmOptBand"]; P = O["primary"]
 assert O["faithfulness"]["passed"] and O["descriptive"] is True
 ev = [P["pct"]] + list(O["edgeSensitivity"].values())
 exp = [
-    "%.1f%% of engine-on time (95 %% CI %.1f–%.1f, day-clustered bootstrap; %d drives, %d days with engine-on time (%d resampled), %.1f engine-on h)" % (P["pct"], P["ci95Pct"][0], P["ci95Pct"][1], P["nDrives"], P["nDaysWithEngineOn"], P["nDays"], P["engineOnSeconds"] / 3600),
+    "%.1f%% of rpm ≥ 300 time (rpm ≥ 300 basis, until the engine-on rule is applied to this block; 95 %% CI %.1f–%.1f, day-clustered bootstrap; %d drives, %d days with engine-on time (%d resampled), %.1f h at rpm ≥ 300)" % (P["pct"], P["ci95Pct"][0], P["ci95Pct"][1], P["nDrives"], P["nDaysWithEngineOn"], P["nDays"], P["engineOnSeconds"] / 3600),
     "gives %.1f–%.1f%%, a band-definition range, not an interval" % (min(ev), max(ev)),
     "observed occupancy of logged engine rpm (rpm ≥ 300, 1 Hz grid, duration-weighted)",
 ]
