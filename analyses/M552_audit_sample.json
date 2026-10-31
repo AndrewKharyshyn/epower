@@ -1,0 +1,84 @@
+{
+ "spec": "analyses/M552_spec.md Rev 2 (A1)",
+ "seed": 42,
+ "drawnBeforeCodeAndProducerRun": true,
+ "stratification": "drive type x cadence regime (2 per cell) + the 3 shortest and 3 longest I sample periods + the 3 largest duration / (n_I_samples x period) ratios (metadata proxy for gaps); drives with energy_null_reason or sign_check ANOMALY excluded",
+ "files": [
+  "2026-10-08_07-35-40.csv",
+  "2026-10-10_06-57-23.csv",
+  "2026-10-14_09-29-12.csv",
+  "2026-10-17_16-05-39.csv",
+  "20260513_182950.csv",
+  "20260621_213241.csv",
+  "20260627_111449.csv",
+  "20260627_154430.csv",
+  "20260629_175248.csv",
+  "20260714_110056.csv",
+  "20260718_145814.csv",
+  "20260723_211841.csv",
+  "20260803_193840.csv",
+  "20260806_155444.csv",
+  "20260813_144601.csv",
+  "20260820_214927.csv",
+  "20260829_100447.csv",
+  "20260830_125410.csv",
+  "20260830_165926.csv",
+  "20260902_203318.csv",
+  "20260904_075123.csv",
+  "20260905_110415.csv",
+  "20260905_123511.csv",
+  "20260906_122920.csv"
+ ],
+ "strata": {
+  "highway|fast": [
+   "2026-10-14_09-29-12.csv",
+   "20260830_125410.csv"
+  ],
+  "highway|slow": [
+   "2026-10-17_16-05-39.csv",
+   "20260627_154430.csv"
+  ],
+  "mixed|fast": [
+   "20260820_214927.csv",
+   "20260829_100447.csv"
+  ],
+  "mixed|slow": [
+   "20260621_213241.csv",
+   "20260803_193840.csv"
+  ],
+  "mixed_highway|fast": [
+   "2026-10-10_06-57-23.csv",
+   "20260830_165926.csv"
+  ],
+  "mixed_highway|slow": [
+   "20260718_145814.csv",
+   "20260806_155444.csv"
+  ],
+  "urban|fast": [
+   "2026-10-08_07-35-40.csv",
+   "20260904_075123.csv"
+  ],
+  "urban|slow": [
+   "20260627_111449.csv",
+   "20260723_211841.csv"
+  ]
+ },
+ "shortestPeriod": [
+  "20260905_110415.csv",
+  "20260905_123511.csv",
+  "20260902_203318.csv"
+ ],
+ "longestPeriod": [
+  "20260813_144601.csv",
+  "20260714_110056.csv",
+  "20260629_175248.csv"
+ ],
+ "gapProxyTop3": [
+  "20260513_182950.csv",
+  "20260906_122920.csv",
+  "20260813_144601.csv"
+ ],
+ "drawnFrom": "drive_master.csv, cadence_regime.csv (metadata only; no M552 result exists)",
+ "drawnAt": "2026-10-31T20:08:44.191082+00:00",
+ "sha256": "44a3634064dc2bed6b397aa46161784e2720d5b857a28608aa74643666da0c5f"
+}
