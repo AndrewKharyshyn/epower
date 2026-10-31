@@ -185,6 +185,7 @@ jobs:
           python tests/synthetic/test_m410_wording.py
           python tests/synthetic/test_m547_wording.py
           python tests/synthetic/test_probe_ranking.py
+          python tests/synthetic/test_power_peak_temp.py
           python tests/synthetic/test_exposure_frame.py
           python tests/synthetic/test_exposure_readers.py
           python tests/synthetic/test_m404_wording.py
@@ -206,6 +207,7 @@ jobs:
           node test_power_fade_matrix.js
           node test_motored_share_view.js
           node test_probe_rank_view.js
+          node test_kw_peak_view.js
       - name: Release gate
         run: python release_check.py
         env: {XT_RAW_DIR: raw}
