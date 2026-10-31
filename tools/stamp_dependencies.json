@@ -308,6 +308,116 @@
     "--check"
    ],
    "sidecar": "engine_on_rule_sidecar.csv"
+  },
+  "engineOnDurationRule": {
+   "producer": "tools/engine_on_blocks_stage.py",
+   "producerStages": [
+    "engine_on_blocks"
+   ],
+   "readsRaw": true,
+   "readsRawManifest": false,
+   "rawNote": "through engine_on_blocks_sidecar.json keyed by the raw sha256 (per-drive sufficient statistics of the engine-on blocks at rpm > 400)",
+   "configSections": [],
+   "inputFiles": [
+    "engine_on_blocks_sidecar.json",
+    "engine_on_rule_sidecar.csv",
+    "analyses/M545_spec.md",
+    "seasonal_drive_master.csv",
+    "tools/engine_on_blocks.py"
+   ],
+   "checkCommand": [
+    "tools/engine_on_blocks_stage.py",
+    "--check"
+   ],
+   "sidecar": "engine_on_blocks_sidecar.json"
+  },
+  "engineOnBySpeedRule": {
+   "producer": "tools/engine_on_blocks_stage.py",
+   "producerStages": [
+    "engine_on_blocks"
+   ],
+   "readsRaw": true,
+   "readsRawManifest": false,
+   "rawNote": "through engine_on_blocks_sidecar.json keyed by the raw sha256 (per-drive sufficient statistics of the engine-on blocks at rpm > 400)",
+   "configSections": [],
+   "inputFiles": [
+    "engine_on_blocks_sidecar.json",
+    "engine_on_rule_sidecar.csv",
+    "analyses/M545_spec.md",
+    "seasonal_drive_master.csv",
+    "tools/engine_on_blocks.py"
+   ],
+   "checkCommand": [
+    "tools/engine_on_blocks_stage.py",
+    "--check"
+   ],
+   "sidecar": "engine_on_blocks_sidecar.json"
+  },
+  "turboByRpmRule": {
+   "producer": "tools/engine_on_blocks_stage.py",
+   "producerStages": [
+    "engine_on_blocks"
+   ],
+   "readsRaw": true,
+   "readsRawManifest": false,
+   "rawNote": "through engine_on_blocks_sidecar.json keyed by the raw sha256 (per-drive sufficient statistics of the engine-on blocks at rpm > 400)",
+   "configSections": [],
+   "inputFiles": [
+    "engine_on_blocks_sidecar.json",
+    "engine_on_rule_sidecar.csv",
+    "analyses/M545_spec.md",
+    "seasonal_drive_master.csv",
+    "tools/engine_on_blocks.py"
+   ],
+   "checkCommand": [
+    "tools/engine_on_blocks_stage.py",
+    "--check"
+   ],
+   "sidecar": "engine_on_blocks_sidecar.json"
+  },
+  "turboBySpeedCtxRule": {
+   "producer": "tools/engine_on_blocks_stage.py",
+   "producerStages": [
+    "engine_on_blocks"
+   ],
+   "readsRaw": true,
+   "readsRawManifest": false,
+   "rawNote": "through engine_on_blocks_sidecar.json keyed by the raw sha256 (per-drive sufficient statistics of the engine-on blocks at rpm > 400)",
+   "configSections": [],
+   "inputFiles": [
+    "engine_on_blocks_sidecar.json",
+    "engine_on_rule_sidecar.csv",
+    "analyses/M545_spec.md",
+    "seasonal_drive_master.csv",
+    "tools/engine_on_blocks.py"
+   ],
+   "checkCommand": [
+    "tools/engine_on_blocks_stage.py",
+    "--check"
+   ],
+   "sidecar": "engine_on_blocks_sidecar.json"
+  },
+  "hvcTurboActivityRule": {
+   "producer": "tools/engine_on_blocks_stage.py",
+   "producerStages": [
+    "engine_on_blocks"
+   ],
+   "readsRaw": true,
+   "readsRawManifest": false,
+   "rawNote": "through engine_on_blocks_sidecar.json keyed by the raw sha256 (per-drive sufficient statistics of the engine-on blocks at rpm > 400)",
+   "configSections": [],
+   "inputFiles": [
+    "engine_on_blocks_sidecar.json",
+    "engine_on_rule_sidecar.csv",
+    "analyses/M545_spec.md",
+    "seasonal_drive_master.csv",
+    "tools/engine_on_blocks.py"
+   ],
+   "checkCommand": [
+    "tools/engine_on_blocks_stage.py",
+    "--check"
+   ],
+   "sidecar": "engine_on_blocks_sidecar.json"
   }
  }
 }

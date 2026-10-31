@@ -11,6 +11,9 @@ aux dm built on the fly (aux master unchanged). Covers recommended-sequence
 analyses #2, #3 (event resolution), #5, and #4, complementing the M129 master-level
 ``byStratum`` layer.
 
+Engine-on basis (M545): the e-4ORCE side calls the same pure kernels (tools/engine_on_blocks.py) at the same threshold as the primary side (ENGINE_ON_STORED_RPM = 300 rpm, stored basis), so the
+primary-versus-aux comparison is like for like; the project rule (400 rpm, strict, 1 Hz grid) lives in the engineOnRule / ...Rule blocks of the primary payload and is not applied here.
+
 Why a SEPARATE module from crosscheck_vehicles.py: running the detectors imports
 ``compute_summary_arrays`` (which references CAP_KWH and heavy per-frame machinery).
 ``crosscheck_vehicles.py`` is contractually a pure CAP-free master reader, so the
@@ -104,7 +107,7 @@ def compute_aux_detectors(e4_master, raw_dir):
     loader = _aux_frame_loader(raw_dir, ing)
 
     # engineOnDuration (stratified) via the identical _RawAccum
-    acc = csa._RawAccum()
+    acc = csa._RawAccum(eng_on_rpm=csa.ENGINE_ON_STORED_RPM)   # M545: the same engine-on kernels and gate as the primary side (stored basis, 300 rpm gate, tools/engine_on_blocks.py); the rule siblings (400 rpm) are not part of this cross-check
     dist = dict(zip(dm['file'], dm['distance_km']))
     dtype = dict(zip(dm['file'], dm['drive_type']))
     for fn in dm['file']:

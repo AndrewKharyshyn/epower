@@ -1,0 +1,169 @@
+{
+ "spec": "analyses/M545_spec.md Rev 2 (A4)",
+ "seed": 42,
+ "stratification": "drive_type x cadence regime (2 per cell, fast / slow) + 4 cold + 3 warm + 3 shoulder cohort drives",
+ "files": [
+  "2026-09-11_08-01-27.csv",
+  "2026-10-01_08-14-08.csv",
+  "2026-10-02_08-04-04.csv",
+  "2026-10-06_07-58-35.csv",
+  "2026-10-10_06-57-23.csv",
+  "2026-10-11_15-16-20.csv",
+  "2026-10-13_07-42-34.csv",
+  "2026-10-13_08-10-25.csv",
+  "2026-10-13_15-41-11.csv",
+  "2026-10-14_06-51-43.csv",
+  "20260612_142400.csv",
+  "20260619_122407.csv",
+  "20260621_213241.csv",
+  "20260627_144929.csv",
+  "20260711_174010.csv",
+  "20260718_145814.csv",
+  "20260803_193840.csv",
+  "20260806_155444.csv",
+  "20260808_124714.csv",
+  "20260809_120000.csv",
+  "20260818_111200.csv",
+  "20260819_135903.csv",
+  "20260820_214927.csv",
+  "20260829_100447.csv",
+  "20260830_155318.csv",
+  "20260830_165926.csv"
+ ],
+ "strata": {
+  "2026-09-11_08-01-27.csv": [
+   "urban",
+   "slow",
+   "shoulder"
+  ],
+  "2026-10-01_08-14-08.csv": [
+   "urban",
+   "slow",
+   "cold"
+  ],
+  "2026-10-02_08-04-04.csv": [
+   "urban",
+   "fast",
+   "cold"
+  ],
+  "2026-10-06_07-58-35.csv": [
+   "urban",
+   "fast",
+   "shoulder"
+  ],
+  "2026-10-10_06-57-23.csv": [
+   "mixed_highway",
+   "fast",
+   "shoulder"
+  ],
+  "2026-10-11_15-16-20.csv": [
+   "urban",
+   "fast",
+   "shoulder"
+  ],
+  "2026-10-13_07-42-34.csv": [
+   "urban",
+   "fast",
+   "cold"
+  ],
+  "2026-10-13_08-10-25.csv": [
+   "urban",
+   "fast",
+   "cold"
+  ],
+  "2026-10-13_15-41-11.csv": [
+   "urban",
+   "fast",
+   "shoulder"
+  ],
+  "2026-10-14_06-51-43.csv": [
+   "highway",
+   "fast",
+   "cold"
+  ],
+  "20260612_142400.csv": [
+   "urban",
+   "slow",
+   "warm"
+  ],
+  "20260619_122407.csv": [
+   "highway",
+   "slow",
+   "warm"
+  ],
+  "20260621_213241.csv": [
+   "mixed",
+   "slow",
+   "warm"
+  ],
+  "20260627_144929.csv": [
+   "highway",
+   "slow",
+   "warm"
+  ],
+  "20260711_174010.csv": [
+   "mixed_highway",
+   "slow",
+   "warm"
+  ],
+  "20260718_145814.csv": [
+   "mixed_highway",
+   "slow",
+   "warm"
+  ],
+  "20260803_193840.csv": [
+   "mixed",
+   "slow",
+   "warm"
+  ],
+  "20260806_155444.csv": [
+   "mixed_highway",
+   "slow",
+   "warm"
+  ],
+  "20260808_124714.csv": [
+   "urban",
+   "slow",
+   "warm"
+  ],
+  "20260809_120000.csv": [
+   "urban",
+   "slow",
+   "warm"
+  ],
+  "20260818_111200.csv": [
+   "urban",
+   "fast",
+   "warm"
+  ],
+  "20260819_135903.csv": [
+   "urban",
+   "fast",
+   "warm"
+  ],
+  "20260820_214927.csv": [
+   "mixed",
+   "fast",
+   "warm"
+  ],
+  "20260829_100447.csv": [
+   "mixed",
+   "fast",
+   "warm"
+  ],
+  "20260830_155318.csv": [
+   "highway",
+   "fast",
+   "warm"
+  ],
+  "20260830_165926.csv": [
+   "mixed_highway",
+   "fast",
+   "warm"
+  ]
+ },
+ "drawnAt": "2026-10-31T08:26:34.239864+00:00",
+ "drawnFrom": "drive_master.csv, cadence_regime.csv, seasonal_drive_master.csv metadata only (no result value read)",
+ "deviation": "drawn after the producer run (the draw depends only on metadata, not on any result) and before the audit run; recorded as a deviation from the spec wording \"drawn before the run\"",
+ "sha256": "fbe06e49f1cb1c1b4fff4f63f0ca3c2cb06df237e24f9d9b29d75780e3115bc6"
+}

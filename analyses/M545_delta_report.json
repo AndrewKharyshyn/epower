@@ -1,0 +1,454 @@
+{
+ "spec": "analyses/M545_spec.md Rev 2",
+ "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+ "note": "script-written; stored (rpm > 300) vs Rule (rpm > 400) values, descriptive, no contrast test; the Rule lists equal the M544 evidence at400 values (gate M544KnownAnswers)",
+ "pooled": {
+  "engineOnDuration": [
+   {
+    "key": "Urban",
+    "median": {
+     "stored300": 26.0,
+     "rule400": 25.0,
+     "relPct": -3.846
+    },
+    "p10": {
+     "stored300": 8.0,
+     "rule400": 7.0,
+     "relPct": -12.5
+    },
+    "p90": {
+     "stored300": 95.0,
+     "rule400": 92.0,
+     "relPct": -3.158
+    },
+    "onFraction": {
+     "stored300": 30.1,
+     "rule400": 29.6,
+     "relPct": -1.661
+    },
+    "segsPer10min": {
+     "stored300": 4.3,
+     "rule400": 4.4,
+     "relPct": 2.326
+    },
+    "nSegments": {
+     "stored300": 3109,
+     "rule400": 3197,
+     "relPct": 2.83
+    }
+   },
+   {
+    "key": "Mixed",
+    "min": {
+     "stored300": 2.0,
+     "rule400": 1.0,
+     "relPct": -50.0
+    },
+    "max": {
+     "stored300": 325.0,
+     "rule400": 323.0,
+     "relPct": -0.615
+    },
+    "median": {
+     "stored300": 30.0,
+     "rule400": 28.0,
+     "relPct": -6.667
+    },
+    "p10": {
+     "stored300": 7.0,
+     "rule400": 6.0,
+     "relPct": -14.286
+    },
+    "p90": {
+     "stored300": 87.4,
+     "rule400": 82.4,
+     "relPct": -5.721
+    },
+    "onFraction": {
+     "stored300": 40.1,
+     "rule400": 39.5,
+     "relPct": -1.496
+    },
+    "segsPer10min": {
+     "stored300": 5.7,
+     "rule400": 6.0,
+     "relPct": 5.263
+    },
+    "nSegments": {
+     "stored300": 647,
+     "rule400": 677,
+     "relPct": 4.637
+    }
+   },
+   {
+    "key": "Mixed Highway",
+    "median": {
+     "stored300": 24.0,
+     "rule400": 21.0,
+     "relPct": -12.5
+    },
+    "p10": {
+     "stored300": 6.0,
+     "rule400": 5.0,
+     "relPct": -16.667
+    },
+    "p90": {
+     "stored300": 91.0,
+     "rule400": 84.0,
+     "relPct": -7.692
+    },
+    "onFraction": {
+     "stored300": 56.4,
+     "rule400": 55.4,
+     "relPct": -1.773
+    },
+    "segsPer10min": {
+     "stored300": 8.2,
+     "rule400": 8.9,
+     "relPct": 8.537
+    },
+    "nSegments": {
+     "stored300": 2573,
+     "rule400": 2793,
+     "relPct": 8.55
+    }
+   },
+   {
+    "key": "Highway",
+    "median": {
+     "stored300": 30.0,
+     "rule400": 25.0,
+     "relPct": -16.667
+    },
+    "p10": {
+     "stored300": 6.0,
+     "rule400": 5.0,
+     "relPct": -16.667
+    },
+    "p90": {
+     "stored300": 156.0,
+     "rule400": 139.0,
+     "relPct": -10.897
+    },
+    "onFraction": {
+     "stored300": 69.4,
+     "rule400": 68.7,
+     "relPct": -1.009
+    },
+    "segsPer10min": {
+     "stored300": 6.3,
+     "rule400": 6.8,
+     "relPct": 7.937
+    },
+    "nSegments": {
+     "stored300": 1425,
+     "rule400": 1543,
+     "relPct": 8.281
+    }
+   }
+  ],
+  "engineOnBySpeed": [
+   {
+    "key": "0-20"
+   },
+   {
+    "key": "20-40",
+    "pct": {
+     "stored300": 26,
+     "rule400": 25,
+     "relPct": -3.846
+    }
+   },
+   {
+    "key": "40-60",
+    "pct": {
+     "stored300": 46,
+     "rule400": 45,
+     "relPct": -2.174
+    }
+   },
+   {
+    "key": "60-80",
+    "pct": {
+     "stored300": 57,
+     "rule400": 55,
+     "relPct": -3.509
+    }
+   },
+   {
+    "key": "80-100",
+    "pct": {
+     "stored300": 81,
+     "rule400": 79,
+     "relPct": -2.469
+    }
+   },
+   {
+    "key": "100-120"
+   },
+   {
+    "key": "120+"
+   }
+  ],
+  "turboByRpm": [
+   {
+    "key": "<1500",
+    "n": {
+     "stored300": 261101,
+     "rule400": 204965,
+     "relPct": -21.5
+    }
+   },
+   {
+    "key": "1500-2000"
+   },
+   {
+    "key": "2000-2500"
+   },
+   {
+    "key": "2500-3000"
+   },
+   {
+    "key": "3000-3500"
+   },
+   {
+    "key": "3500-4000"
+   },
+   {
+    "key": "4000+"
+   }
+  ],
+  "turboBySpeedCtx": [
+   {
+    "key": "0-40"
+   },
+   {
+    "key": "40-60"
+   },
+   {
+    "key": "60-80"
+   },
+   {
+    "key": "80-100"
+   },
+   {
+    "key": "100-120"
+   },
+   {
+    "key": "120-160",
+    "activePct": {
+     "stored300": 35,
+     "rule400": 36,
+     "relPct": 2.857
+    }
+   }
+  ]
+ },
+ "hvcTurboActivity": {
+  "stored300": {
+   "urban": "7.3% of engine-on time (n=1,223,556, >0.1 bar); peak 1.56 bar — Jul20 D6",
+   "mixed": "3.0% of engine-on time (n=238,071, >0.1 bar); peak 1.43 bar — Jul15 D2",
+   "mixed_highway": "13.6% of engine-on time (n=865,790, >0.1 bar); peak 1.56 bar — Sep13 D10",
+   "highway": "13.5% of engine-on time (n=831,403, >0.1 bar); peak 1.55 bar — Oct17 D5"
+  },
+  "rule400": {
+   "urban": "7.4% of engine-on native rows (rpm > 400, logged samples; n=1,200,763, >0.1 bar); peak 1.56 bar — Jul20 D6",
+   "mixed": "3.1% of engine-on native rows (rpm > 400, logged samples; n=233,523, >0.1 bar); peak 1.43 bar — Jul15 D2",
+   "mixed_highway": "13.9% of engine-on native rows (rpm > 400, logged samples; n=847,918, >0.1 bar); peak 1.56 bar — Sep13 D10",
+   "highway": "13.7% of engine-on native rows (rpm > 400, logged samples; n=820,480, >0.1 bar); peak 1.55 bar — Oct17 D5"
+  },
+  "detail": {
+   "urban": {
+    "n": 1200763,
+    "act": 88952,
+    "sharePct": 7.408,
+    "maxBoost": 1.56,
+    "maxLabel": "Jul20 D6",
+    "nDrives": 433,
+    "nDrivesInClass": 510,
+    "nDays": 94,
+    "exploratory": false,
+    "ci95": [
+     3.54,
+     12.26
+    ]
+   },
+   "mixed": {
+    "n": 233523,
+    "act": 7233,
+    "sharePct": 3.097,
+    "maxBoost": 1.43,
+    "maxLabel": "Jul15 D2",
+    "nDrives": 31,
+    "nDrivesInClass": 33,
+    "nDays": 25,
+    "exploratory": false,
+    "ci95": [
+     2.01,
+     4.51
+    ]
+   },
+   "mixed_highway": {
+    "n": 847918,
+    "act": 117759,
+    "sharePct": 13.888,
+    "maxBoost": 1.56,
+    "maxLabel": "Sep13 D10",
+    "nDrives": 28,
+    "nDrivesInClass": 37,
+    "nDays": 20,
+    "exploratory": false,
+    "ci95": [
+     9.69,
+     18.85
+    ]
+   },
+   "highway": {
+    "n": 820480,
+    "act": 112505,
+    "sharePct": 13.712,
+    "maxBoost": 1.55,
+    "maxLabel": "Oct17 D5",
+    "nDrives": 20,
+    "nDrivesInClass": 23,
+    "nDays": 12,
+    "exploratory": false,
+    "ci95": [
+     7.3,
+     21.7
+    ]
+   }
+  }
+ },
+ "gates": {
+  "E1RuleSecondsExact": {
+   "nCompared": 606,
+   "nDifferent": 0,
+   "passed": true
+  },
+  "driveSetEqualsStoredBlock": true,
+  "M544KnownAnswers": {
+   "nMismatches": 0,
+   "mismatches": [],
+   "passed": true
+  },
+  "passed": true
+ },
+ "intervalsRule": {
+  "engineOnDuration": {
+   "urban": {
+    "nDrives": 510,
+    "nDays": 110,
+    "nSegments": 3197,
+    "medianCi95": [
+     22.0,
+     28.0
+    ],
+    "exploratory": false
+   },
+   "mixed": {
+    "nDrives": 33,
+    "nDays": 27,
+    "nSegments": 677,
+    "medianCi95": [
+     24.0,
+     32.0
+    ],
+    "exploratory": false
+   },
+   "mixed_highway": {
+    "nDrives": 37,
+    "nDays": 27,
+    "nSegments": 2793,
+    "medianCi95": [
+     19.0,
+     24.0
+    ],
+    "exploratory": false
+   },
+   "highway": {
+    "nDrives": 23,
+    "nDays": 14,
+    "nSegments": 1543,
+    "medianCi95": [
+     23.0,
+     32.0
+    ],
+    "exploratory": false
+   }
+  },
+  "engineOnBySpeedZones": [
+   {
+    "zone": "0-20",
+    "onRows": 353898,
+    "totRows": 2620910,
+    "pctExact": 13.503,
+    "ci95": [
+     12.09,
+     15.04
+    ]
+   },
+   {
+    "zone": "20-40",
+    "onRows": 386118,
+    "totRows": 1526907,
+    "pctExact": 25.288,
+    "ci95": [
+     23.83,
+     26.77
+    ]
+   },
+   {
+    "zone": "40-60",
+    "onRows": 629055,
+    "totRows": 1395784,
+    "pctExact": 45.068,
+    "ci95": [
+     43.2,
+     46.93
+    ]
+   },
+   {
+    "zone": "60-80",
+    "onRows": 815916,
+    "totRows": 1476238,
+    "pctExact": 55.27,
+    "ci95": [
+     53.92,
+     56.81
+    ]
+   },
+   {
+    "zone": "80-100",
+    "onRows": 590696,
+    "totRows": 746250,
+    "pctExact": 79.155,
+    "ci95": [
+     76.79,
+     81.64
+    ]
+   },
+   {
+    "zone": "100-120",
+    "onRows": 937197,
+    "totRows": 960884,
+    "pctExact": 97.535,
+    "ci95": [
+     96.72,
+     98.14
+    ]
+   },
+   {
+    "zone": "120+",
+    "onRows": 46566,
+    "totRows": 48753,
+    "pctExact": 95.514,
+    "ci95": [
+     92.83,
+     96.81
+    ]
+   }
+  ]
+ },
+ "nFieldsChangedPooled": 32
+}
