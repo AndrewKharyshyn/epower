@@ -8958,7 +8958,10 @@ function EngineStateMachine() {
   // _engine_state_machine() (real per-second RPM-band occupancy/dwell/
   // transition-matrix extraction, not a reimplementation) -- "all"
   // verified byte-identical to the pre-existing corpus-wide value.
-  const C = cohortOr("EngineStateMachine",_coh,S.engineStateMachine);
+  // M546: the Rule sibling engineStateMachineRule (off = rpm <= 400, strict engine-on boundary; all drives: pooled, a season cohort: byCohort); the stored block is the fallback when the sibling is absent
+  const C = cohortOrRule("EngineStateMachine",_coh,"engineStateMachineRule",S.engineStateMachine);
+  const _smRule = !!engineOnBlockRule("engineStateMachineRule");
+  const _smStoredOff = (_smRule && _coh==="all") ? S.engineStateMachine?.occupancy?.off?.pooled : null;
   if (!C || !C.occupancy) return null;
   const STATES = C.states || ["off", "low", "loadPoint", "mid", "high"];
   const SM = {
@@ -9004,9 +9007,8 @@ function EngineStateMachine() {
 
       <Callout kind="finding">
         Pooled over all classified (RPM-supported) 1 Hz time (off = rpm &le; 400, the project's engine-on rule; the RPM-distribution chart's stored bins start at 300 rpm, so one minus off here is not that chart's rpm &ge; 300 time; the 300&ndash;400 rpm band is reported separately in that section), the engine is off <MetricHighlight tone="derived">{Math.round(offOcc * 100)}%</MetricHighlight> of the
-        time (per-drive median runs higher, {Math.round((offOccMed || 0) * 100)}% — short/idle-heavy drives skew a
-        median-of-ratios upward; pooled is close to the RPM-distribution and EV-traction figures elsewhere on this
-        dashboard; the rpm cuts differ, 400 here and 300 for the stored bins there) and, when running, sits overwhelmingly at the <MetricHighlight tone="derived">load-point</MetricHighlight>
+        time{_smStoredOff!=null ? ` (stored basis, off = rpm < 400: ${Math.round(_smStoredOff * 100)}%)` : ""} (per-drive median runs higher, {Math.round((offOccMed || 0) * 100)}% — short/idle-heavy drives skew a
+        median-of-ratios upward; {_smRule ? "these shares are on the state grid (1 s mean resample, hold 3 s) and are not compared with the pipeline-grid shares elsewhere on this dashboard" : "pooled is close to the RPM-distribution and EV-traction figures elsewhere on this dashboard"}; the rpm cuts differ, 400 here and 300 for the stored bins there) and, when running, sits overwhelmingly at the <MetricHighlight tone="derived">load-point</MetricHighlight>
         {" "}({Math.round(lp * 100)}% pooled occupancy, self-transition {C.perState.loadPoint?.selfTransition}) — a clear
         attractor it enters {C.perState.loadPoint?.entriesPerEngHour}× per engine-hour, jumping there directly from
         off (the transient "low" band lasts a median 1 s). Mid and high are brief but real: <MetricHighlight tone="measured">{(midOcc * 100).toFixed(1)}%</MetricHighlight> and
@@ -9091,7 +9093,7 @@ function EngineStateMachine() {
             const ed = (C.stateEdgesRpm || {})[s] || [];
             return (
               <div key={s} style={{ display: "grid", gridTemplateColumns: "1fr 0.55fr 0.7fr 0.7fr", gap: 3, fontSize: 9, padding: "2px 0", borderBottom: "1px solid #f1f5f9", fontVariantNumeric: "tabular-nums" }}>
-                <span style={{ color: m.c, fontWeight: 600 }}>{m.name}<span style={{ color: "#cbd5e1", fontSize: 7 }}> {ed[0]}{ed[1] ? "–" + ed[1] : "+"}</span></span>
+                <span style={{ color: m.c, fontWeight: 600 }}>{m.name}<span style={{ color: "#cbd5e1", fontSize: 7 }}> {s==="low" && C.stateEdgesRpm?.offBoundary ? ">" : ""}{ed[0]}{ed[1] ? "–" + ed[1] : "+"}</span></span>
                 <span style={{ textAlign: "right", color: "#475569" }}>{oc != null ? Math.round(oc * 100) + "%" : "—"}</span>
                 <span style={{ textAlign: "right", color: "#475569" }}>{ps.dwellS?.median}s</span>
                 <span style={{ textAlign: "right", color: (ps.battKw?.median || 0) >= 0 ? "#dc2626" : "#16a34a", fontWeight: 600 }}>{ps.battKw?.median}</span>
@@ -10942,7 +10944,7 @@ const COMPARE_SPECS={
     cats:d=>Array.isArray(d)?d.map(x=>({label:x.label||x.bin,value:x.pct})):[]},
   SocBySpeed:{kind:"box",title:"SoC by speed zone \u2014 box: min\u00b7q1\u00b7med\u00b7q3\u00b7max (%)",unit:"% SoC",digits:0,
     cats:d=>Array.isArray(d)?d.map(r=>({label:r[0],med:r[4],q1:r[3],q3:r[5],wlo:r[2],whi:r[6]})):[]},
-  EngineStateMachine:{kind:"bars",title:"Engine state occupancy (% of RPM-supported 1 Hz time; off = rpm < 400)",unit:"%",digits:1,
+  EngineStateMachine:{kind:"bars",title:"Engine state occupancy (% of RPM-supported 1 Hz time; stored basis, off = rpm < 400)",unit:"%",digits:1,
     cats:d=>{ if(!d||!d.occupancy)return[]; const st=["off","low","loadPoint","mid","high"],lab={off:"Off",low:"Low",loadPoint:"Load-pt",mid:"Mid",high:"High"};
       return st.map(k=>{ const o=d.occupancy[k]; let v=null; if(o){ v=(typeof o.pooled==="number")?o.pooled:cmpDig(o,["perDriveMedIqr","median"]); } return {label:lab[k],value:v!=null?v*100:null}; }); }},
   // ---- multi-line curves ----

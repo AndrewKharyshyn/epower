@@ -449,6 +449,64 @@
    "note": "the 1 s grid is NaN between raw rows (raw sampling interval > 1 s); grid NaN reads as engine-off, so the second fill is load-bearing; no-second-fill variants are not meaningful (runs split into many short runs)"
   }
  },
+ "onsetSensitivity400": {
+  "name": "count-only sensitivity of the RPM onset detector at rpm > 400 (run >= 2 s); the detector of record is 'RPM onset (> 300 rpm, run >= 2 s)'",
+  "displayed": false,
+  "countsOnly": true,
+  "pooledPrimaryDrives": {
+   "nDrives": 601,
+   "events300": 7721,
+   "events400": 8162,
+   "drivesWithOnset300": 570,
+   "drivesWithOnset400": 570
+  },
+  "byClass": {
+   "urban": {
+    "nDrives": 508,
+    "events300": 3082,
+    "events400": 3166,
+    "drivesWithOnset300": 477,
+    "drivesWithOnset400": 477
+   },
+   "mixed": {
+    "nDrives": 33,
+    "events300": 647,
+    "events400": 676,
+    "drivesWithOnset300": 33,
+    "drivesWithOnset400": 33
+   },
+   "mixed_highway": {
+    "nDrives": 37,
+    "events300": 2569,
+    "events400": 2783,
+    "drivesWithOnset300": 37,
+    "drivesWithOnset400": 37
+   },
+   "highway": {
+    "nDrives": 23,
+    "events300": 1423,
+    "events400": 1537,
+    "drivesWithOnset300": 23,
+    "drivesWithOnset400": 23
+   }
+  },
+  "allProcessedDrives": {
+   "nDrives": 606,
+   "events300": 7745,
+   "events400": 8188,
+   "drivesWithOnset300": 573,
+   "drivesWithOnset400": 573
+  },
+  "containment": {
+   "everyAbove400RunInsideAbove300Run": true,
+   "driveSetNested": true,
+   "note": "event counts are not nested (a run above 300 can split into several above 400); the property is containment"
+  },
+  "limits": [
+   "counts only; no rate per 100 km, no interval, never displayed",
+   "trigger / stop SoC and socBands are not recomputed at 400"
+  ]
+ },
  "publishedEngineStartsByType": {
   "avgPerDriveRates": {
    "Urban": 102,
@@ -456,7 +514,7 @@
    "Mixed Highway": 75,
    "Highway": 46
   },
-  "note": "unweighted MEAN of per-drive rates (short trips dominate: the per-drive extremes are driven by very short drives); not comparable with the pooled ratio of sums",
+  "note": "unweighted MEAN of per-drive rates (short trips dominate: the per-drive maximum is 500 per 100 km on a 1.2 km drive); not comparable with the pooled ratio of sums",
   "seasonalContractCoverageAll": {
    "n_drives": 606,
    "km": 10460.84

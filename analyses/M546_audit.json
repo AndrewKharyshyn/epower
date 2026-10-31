@@ -1,0 +1,48 @@
+{
+ "nDrivesChecked": 32,
+ "nExactMatch": 32,
+ "nNeededCalibration": 32,
+ "calibrations": [
+  "C1 transitions and spells are counted over the NaN-dropped classified sequence (adjacent rows after dropping), not over strictly consecutive seconds; a gap-aware variant matched only 21/32 (transitions 0/11 more failures); resolved by comparing with the claim. Document says 'a gap is not a state' but never states pairs/spells bridge gaps.",
+  "C2 raw rpm column identity: eng_rpm = 'Оберти двигуна (rpm)' (the x1000 twin and VCM Motor RPM not used; identical values in the files checked) is not named in the document; chosen by inspection, not calibrated against claim.",
+  "C3 (implementation slip, not doc gap) first attempt used a TimedeltaIndex whose pandas resample anchors bins at the first row, giving 4/32; the document's 'absolute clock second' sentence was correct and fixed it. Clarify that origin must be the absolute second (calendar-anchored DatetimeIndex)."
+ ],
+ "mismatches": [],
+ "exactly400PerDrive": {
+  "2026-10-16_07-52-05.csv": 3,
+  "20260610_094100.csv": 2,
+  "20260711_160253.csv": 1,
+  "20260718_145814.csv": 2,
+  "20260724_174828.csv": 2,
+  "20260817_183543.csv": 1,
+  "20260818_111200.csv": 2,
+  "20260829_100447.csv": 1,
+  "20260830_165926.csv": 2,
+  "others_23": 0
+ },
+ "pooledConsistent": {
+  "value": true,
+  "detail": "9 boundary drives total 16 exactly-400 seconds (all counts equal the claim; last-second exclusion changes none). My own pooled count over all 605 eligible drives (last classified second excluded) is 77 and off minus low = +77/-77 exactly, so the sample is a consistent subset (16 of 77)."
+ },
+ "intervalReproduced": {
+  "bootMedian": 0.7129,
+  "ci95": [
+   0.6949,
+   0.7262
+  ],
+  "withinTolerance": true,
+  "detail": "own implementation, 605 drives with >=20 rows and 20 classified s, 121 days, per-drive off share secs/classified, day-clustered percentile bootstrap seed 42 4000 draws (median of drive medians). Claim 0.713 [0.695,0.726]. Canonical-clean only (592 drives, 117 days): 0.7122 [0.6944,0.7252]; row-sum variant 0.7137 [0.6947,0.7259]; seed 1 same within 0.001."
+ },
+ "renderedChecks": {
+  "all": "PASS: engine-off KPI 58% (my pooled rule share 57.51%), stored basis quoted once 'off = rpm < 400: 57%' (mine 57.50%), load-point 35%, mid 5.4%, high 0.8%, per-drive median 71% (mine 71.3%), 605 drives, 121 days all match.",
+  "cold": "PARTIAL: KPI 35% pooled / 55% per-drive median / 13 drives / 5 days are cohort values, distinct from the pooled 58%/71%, as required; the stored-basis 57% is absent as expected. Cold cohort membership is not defined in the documents given, so 35%/55% not independently recomputed. Note 5 days (<5 would be exploratory) is at the threshold; the sentence has no interval reading caveat visible."
+ },
+ "documentGaps": [
+  "State that pairs and spells are formed over the NaN-dropped classified sequence and bridge gaps.",
+  "Name the rpm column (eng_rpm = 'Оберти двигуна (rpm)') and the sample-eligibility rule's row count (raw rows vs grid rows).",
+  "State resample origin explicitly (absolute second, calendar-anchored, not first-row-anchored).",
+  "Section 2 negative-rpm mask vs section 5 'no native forward fill': say whether the mask applies on the state grid (applied by me; no effect seen).",
+  "Define pooled-share denominators (row sums exclude last second) with the per-drive off share definition used by the bootstrap."
+ ],
+ "verdict": "accept (task scope: all per-drive claims reproduced exactly after two convention clarifications; document needs the gaps above)"
+}
