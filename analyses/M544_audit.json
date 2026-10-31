@@ -1,0 +1,17 @@
+{
+ "task1": {
+  "n": 20,
+  "exactSegments": "40/40",
+  "exactSum": "40/40",
+  "exactMedian": "40/40",
+  "exactBoostRows": "20/20",
+  "mismatches": []
+ },
+ "task2": {
+  "consistent": true,
+  "ownTaxonomy": "20 drives: runsLow 701 = unchanged 353 + shortened 297 + split 51 + dropped 0; no merged category"
+ },
+ "verdict": "accept",
+ "gridConvention": "floor-to-second MEAN over every second first..last (no dropna), native ffill 15 rows before, grid ffill 15 s after, negatives NaN, NaN = off, segment = maximal run of rpm > T; boost channel calculated boost, ffill 15 rows",
+ "deviations": "none; taxonomy by drive class not reproduced (class not given), pooled shares compared"
+}
