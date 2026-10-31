@@ -19,7 +19,7 @@ LEGACY_BY_DESIGN = {
     "energy_uncertainty_mc.py": "Q2: the energy Monte Carlo draws are kWh / 2.1 and stay legacy, labelled",
     "ingest_e4orce.py": "e4orce leg of the cross-vehicle comparison stays legacy until an e4orce Ah sidecar exists",
     "crosscheck_vehicles.py": "cross-vehicle comparison, both legs legacy",
-    "sustained_current_peaks.py": "standalone probe, not in the summary payload",
+    "sustained_current_peaks.py": "deprecated standalone probe (M548), not in the summary payload",
     "classify_all_columns.py": "column documentation / classification only",
     "tools/m358_splice.py": "retired one-off splice (asserts C == A / cap_ah_est on the legacy basis)",
     "tools/cadence_sensitivity.py": "cadence monitors compare same-basis emulated frames; key names only",

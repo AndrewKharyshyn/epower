@@ -1,3 +1,16 @@
+## M548 (2026-10-31): audit 2026-10-29 housekeeping: overview.md state sentence (F20), sustained_current_peaks.py deprecated (F15)
+
+**Rationale.** docs/overview.md line 27 stated a fixed cell-spread interval state that the payload no longer has (the published interval excludes zero and is procedure-dependent per M477); it now points to the payload keys instead of typing a state. sustained_current_peaks.py gets a DEPRECATED header (no other reference; not in the pipeline or the payload); no payload, master or dashboard change.
+
+**State.** `drive_master.csv` 606 rows, MD5 `5556a0c6c8bcde0f6c64b8b9655208ed`.
+
+**Gates (runs/20261020T221332Z).** restamp_ingest=ok; build_html=ok; jsdom=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `docs/overview.md`, `sustained_current_peaks.py`, `tests/synthetic/test_exposure_readers.py`.
+
+
 ## M547 (2026-10-31): Audit 2026-10-29 wording wave A: 16 rewritten rows (F02-F04, F06-F14, F16, F18, F19, F21) plus section-9 labels; sentences generated from the interval and rowsRule; 16 M547 language-gate rules
 
 **Rationale.** Spec analyses/M547_spec.md Rev 2.1 (Director: revise on Rev 1, go on Rev 2 with four conditions recorded). Wording only: masterMd5 5556a0c6c8bcde0f6c64b8b9655208ed unchanged, ML16 untouched, no estimator, eligibility, number or payload-key change, no article figure. xtrail_summary.jsx: Health conclusions (cell spread, resistance) generated from the published interval sign and the M477 rowsRule (spreadConclusion, resistanceConclusion); altitude, boost, cadence, generator-headroom, dissipation-scenario, fuel-state-proxy, reported-SoC, thermal-margin, sensor-range, population-scope, Exposure scenarios, risk-zone and cell-snapshot wording rewritten; legacy regeneration headline labelled; section-9 labels adopted where the quoted text exists in source (22 of 28 audit quotes are not in source: no action). Two payload text leaves spliced (tools/m547_splice.py, deep-diff = 2 leaves): lowSpeedDissipation.relief.verdict and the Peak motor torque record note. Builder strings changed in compute_summary_arrays.py. 16 M547-* rules in language_gate.py; tests/synthetic/test_m547_wording.py added to ci.yml; release_check PASSED. Deferred: F01 (M549), F05 and N07 (M550), N01/N02 (M551), N13 (M552), F13 rerun (data), F21 bridge fields, start-impulse title and median diagram (engine-on follow-up). Andrii sign-off (chat, 2026-10-31, reply 'Approve all five' to the question whether he signs off the F04, F08, F10, F11 and F21 wording): given for F04, F08, F10, F11, F21.
