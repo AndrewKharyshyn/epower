@@ -618,6 +618,20 @@
    ]
   },
   {
+   "id": "energy_packets",
+   "title": "M551: energy packets = observed same-sign electrical exchange runs with boundary censoring (audit 2026-10-29 N01), per logger-cadence stratum, no pooled headline: additive payload block energyPackets (+ stamp) from the master's own current / voltage pairing and the released-ledger directional split; per-drive records cached by the raw sha256 and the extractor hash (packet_cache/, only new drives are extracted); STOP when a drive's run energies plus the gap-bridged energy do not reconcile to the master gross_discharge_kwh / gross_charge_kwh / gross_throughput_kwh; the escalation flags (censored share, deadband change, unknown-cadence share) are written to the block; needs raw/ and cadence_regime.csv; spec analyses/M551_spec.md Rev 2",
+   "cmd": [
+    "python3",
+    "tools/energy_packets.py",
+    "--splice"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json",
+    "analyses/M551_check.json"
+   ]
+  },
+  {
    "id": "rpm_opt_band",
    "title": "M525: observed occupancy of logged engine rpm in the closed OPT band [1850, 2150] (share of engine-on time, rpm >= 300, 1 Hz grid) on the live corpus with a day-clustered interval; faithfulness gate against the stored rpmDistribution (STOP on failure); per-drive sidecar rpm_opt_band_sidecar.csv keyed by the raw sha256 (only new or changed drives are parsed); additive payload key rpmOptBand + stamp; supersedes the numeric leaves of the one-off generatorTractionRecon.rpmFinding (left unchanged); spec analyses/M525_spec.md Rev 2",
    "cmd": [

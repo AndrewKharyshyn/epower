@@ -1,0 +1,78 @@
+{
+ "spec": "analyses/M551_spec.md Rev 2 (A1, S8)",
+ "seed": 42,
+ "drawnBeforeCodeAndProducerRun": true,
+ "stratification": "drive type x cadence regime (2 per cell) + the 3 shortest and 3 longest I sample periods + up to 3 unknown-cadence drives; drives with energy_null_reason or sign_check ANOMALY excluded. Recorded deviation from the Rev 1 'most gaps' stratum: gap counts need a raw pass (producer-side work).",
+ "files": [
+  "2026-10-08_07-35-40.csv",
+  "2026-10-10_06-57-23.csv",
+  "2026-10-14_09-29-12.csv",
+  "2026-10-17_16-05-39.csv",
+  "20260621_213241.csv",
+  "20260627_111449.csv",
+  "20260627_154430.csv",
+  "20260629_175248.csv",
+  "20260714_110056.csv",
+  "20260718_145814.csv",
+  "20260723_211841.csv",
+  "20260803_193840.csv",
+  "20260806_155444.csv",
+  "20260813_144601.csv",
+  "20260820_214927.csv",
+  "20260829_100447.csv",
+  "20260830_125410.csv",
+  "20260830_165926.csv",
+  "20260902_203318.csv",
+  "20260904_075123.csv",
+  "20260905_110415.csv",
+  "20260905_123511.csv"
+ ],
+ "strata": {
+  "highway|fast": [
+   "2026-10-14_09-29-12.csv",
+   "20260830_125410.csv"
+  ],
+  "highway|slow": [
+   "2026-10-17_16-05-39.csv",
+   "20260627_154430.csv"
+  ],
+  "mixed|fast": [
+   "20260820_214927.csv",
+   "20260829_100447.csv"
+  ],
+  "mixed|slow": [
+   "20260621_213241.csv",
+   "20260803_193840.csv"
+  ],
+  "mixed_highway|fast": [
+   "2026-10-10_06-57-23.csv",
+   "20260830_165926.csv"
+  ],
+  "mixed_highway|slow": [
+   "20260718_145814.csv",
+   "20260806_155444.csv"
+  ],
+  "urban|fast": [
+   "2026-10-08_07-35-40.csv",
+   "20260904_075123.csv"
+  ],
+  "urban|slow": [
+   "20260627_111449.csv",
+   "20260723_211841.csv"
+  ]
+ },
+ "shortestPeriod": [
+  "20260905_110415.csv",
+  "20260905_123511.csv",
+  "20260902_203318.csv"
+ ],
+ "longestPeriod": [
+  "20260813_144601.csv",
+  "20260714_110056.csv",
+  "20260629_175248.csv"
+ ],
+ "unknownCadence": [],
+ "drawnFrom": "drive_master.csv, cadence_regime.csv (metadata only; no M551 result exists)",
+ "drawnAt": "2026-10-31T18:44:19.863252+00:00",
+ "sha256": "fedf4171a3bc88ae688553a25d4be92a6a013bb81462e96e68148a7a67f09495"
+}

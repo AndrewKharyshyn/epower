@@ -526,6 +526,8 @@ RULES = [
          rx=r"\breads (highest|lowest) in\b|\bhottest probe in \d+ of samples\b|\bcoldest probe in \d+ of samples\b|\bhottest probe reads highest\b"),
     Rule("M550-F05-kw-view", "regex", "M550/AUD29-F05: the kW view of the charge-rate risk map no longer plots power against the peak-current temperature; its title and axis state the peak-power sample (a reconstructed I x V sample), never a power value labelled not co-timed on a shared temperature axis",
          rx=r"\bdrive peak charge power not co timed with peak current\b", scope=("dom", "jsx")),
+    Rule("M551-N01-runs", "regex", "M551/AUD29-N01: an energy-exchange run is an observed electrical exchange, not a cycle; the cadence strata are not pooled or called comparable; a count share of tiny runs is not a share of battery stress",
+         rx=r"\bpooled (energy )?runs?\b|\bruns? are comparable\b|\benergy exchange cycles?\b|\btiny runs? (carry|cause) \w+ stress\b", scope=("dom", "jsx", "payload")),
 ]
 
 _SCAN_CACHE = {}

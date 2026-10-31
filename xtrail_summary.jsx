@@ -4987,6 +4987,30 @@ function probeRankLine(sensor){
   const f=x=>x.pct.toFixed(1)+" %"+(x.ci95Pct?` (95 % CI ${x.ci95Pct[0].toFixed(1)}–${x.ci95Pct[1].toFixed(1)})`:"");
   return `${w==="hot"?"uniquely hottest":"uniquely coldest"} ${f(E.unique)} of observed time; tied for the extreme ${f(E.tied)}; ${P.nDrives} drives, ${P.nDays} days`;
 }
+// M551 (audit 2026-10-29 N01): observed same-sign electrical exchange runs (S.energyPackets), per logger-cadence stratum; no pooled headline and no contrast between strata.
+function EnergyPacketsView(){
+  const B=S.energyPackets, [st,setSt]=useState(null);
+  if(!B||!B.strata) return null;
+  const keys=Object.keys(B.strata).filter(k=>k!=="unknown"), cur=st&&B.strata[st]?st:keys[0], D=B.strata[cur];
+  const f=(x,n=1)=>x==null?"—":Number(x).toFixed(n), iv=x=>x&&x.ci95?` (${f(x.ci95[0])}–${f(x.ci95[1])})`:"", pv=x=>x&&x.value!=null?`${f(x.value)}${iv(x)}`:"—", pc=x=>x&&x.pct!=null?`${f(x.pct,2)} %${x.ci95Pct?` (${f(x.ci95Pct[0],2)}–${f(x.ci95Pct[1],2)})`:""}`:"—";
+  const rows=[["overall","All runs"],["discharge","Discharge runs"],["charge","Charge runs"]];
+  const lab={fast:"fast-polled drives",slow:"slow-polled drives"};
+  return (
+    <Section title="Energy Exchange Runs — observed same-sign runs (descriptive)" accent="#60a5fa">
+      <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-packets-note="1">A run is a maximal stretch in which the logged pack power (a reconstructed current × voltage product) keeps one sign inside a supported logging segment; it is an observed electrical exchange, not an ageing cycle, and the count share of tiny runs is not a share of battery stress. The run count depends on the logger cadence, so the two strata are shown separately and are not comparable; no pooled value is given. Intervals are day-clustered ({B.rule.intervals}); the p99 interval needs at least 20 days.</div>
+      <div style={{display:"flex",gap:6,marginBottom:6}}>
+        {keys.map(k=>(<button key={k} data-packets-stratum={k} onClick={()=>setSt(k)} style={{fontSize:10,padding:"3px 8px",borderRadius:4,cursor:"pointer",border:"1px solid #cbd5e1",background:cur===k?"#0f172a":"#fff",color:cur===k?"#fff":"#334155"}}>{lab[k]||k}</button>))}
+      </div>
+      <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-packets-support="1">{D.nDrives} drives on {D.nDays} days; {D.nRunsAll.toLocaleString()} runs, {D.nRunsComplete.toLocaleString()} complete; {f(D.censoredRunSharePct,2)} % of runs and {f(D.censoredEnergySharePct,2)} % of the run energy are censored at a segment edge (a logging gap or the file edge). Reconciliation to the released energy ledger: {B.reconciliation.nCompared} drives compared, {B.reconciliation.nMisses} misses.</div>
+      <table style={{width:"100%",fontSize:9,borderCollapse:"collapse"}}>
+        <thead><tr style={{color:"#64748b",textAlign:"right"}}><th style={{textAlign:"left"}}></th><th>complete runs</th><th>median Wh</th><th>p90 Wh</th><th>p99 Wh</th><th>median s</th><th>below 1 Wh, share of runs %</th><th>below 1 Wh, share of energy %</th></tr></thead>
+        <tbody>{rows.map(([k,l])=>{ const o=D[k]; if(!o||!o.energyWh) return null; const c=o.energyWh.completeOnly; return (
+          <tr key={k} style={{textAlign:"right",borderTop:"1px solid #e2e8f0"}}><td style={{textAlign:"left",color:"#0f172a"}}>{l}</td><td>{o.nComplete.toLocaleString()}</td><td>{pv(c.median)}</td><td>{pv(c.p90)}</td><td>{pv(c.p99)}</td><td>{pv(o.durationS.completeOnly.median)}</td><td>{pc(o.below1Wh.countSharePct)}</td><td>{pc(o.below1Wh.energySharePct)}</td></tr>); })}</tbody>
+      </table>
+      <div style={{fontSize:9,color:"#94a3b8",marginTop:6}} data-packets-bracket="1">Censoring is length-biased (long runs meet gaps more often), so complete-only quantiles are biased low. Bracket with censored runs counted as lower bounds (all runs, all signs): median {pv(D.overall.energyWh.allRunsCensoredAsLowerBounds.median)} Wh, p90 {pv(D.overall.energyWh.allRunsCensoredAsLowerBounds.p90)} Wh. Current deadband (run definition only, the removed energy is an explicit residual): share of complete runs below 1 Wh is {Object.entries(D.deadbandSensitivity).map(([k,v])=>`${f(v.below1WhCountSharePct)} % at ≤ ${k}`).join(", ")}.</div>
+    </Section>
+  );
+}
 function spreadConclusion(){
   const o=S.degradationTrends?.cellSpread?.clusterRobustOLS, ci=o?.ci95, sp=ciSpansZero(ci), rr=S.serialDependence?.trendSlopes?.cellSpread?.rowsRule;
   const proc=sp===false && rr?.classification==="procedure-dependent";
@@ -12574,7 +12598,7 @@ export default function App() {
       </>)}
 
       {/* ── RECORDS ── */}
-      {tab==="records"&&(
+      {tab==="records"&&(<>
         <Section title={`Dataset Extremes (${S.records.filter(r=>!r.auditOnly).length} metrics)`}>
           {/* M37 (2026-07-15): each row now carries r.note -- the mechanistic
               reading of the extremum plus the setting drive's own operating
@@ -12632,7 +12656,8 @@ export default function App() {
             "Set on:", the setting drive's operating context read from its own master row.
           </div>
         </Section>
-      )}
+        <EnergyPacketsView/>
+      </>)}
 
       {/* ── HEALTH ── */}
       {tab==="health"&&(<>
