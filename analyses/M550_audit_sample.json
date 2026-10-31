@@ -1,0 +1,52 @@
+{
+ "spec": "analyses/M550_spec.md Rev 3 (R4 / D9)",
+ "seed": 42,
+ "rule": "the 6 largest |gap| between the peak-power and the peak-current moments, and 3 late-tier drives (seed 42); duplicates are replaced from the stratified pool; tie drives (nTiesAtMinP > 1) are always included. Writes analyses/M550_audit_sample.json (file keys only, no value).",
+ "files": [
+  "2026-09-19_12-56-56.csv",
+  "2026-09-21_07-36-37.csv",
+  "2026-09-26_16-47-35.csv",
+  "2026-10-03_18-32-35.csv",
+  "2026-10-08_12-43-34.csv",
+  "2026-10-08_12-54-39.csv",
+  "2026-10-14_06-51-43.csv",
+  "2026-10-17_10-09-49.csv",
+  "2026-10-17_11-45-33.csv",
+  "20260513_182950.csv",
+  "20260613_195920.csv",
+  "20260619_122407.csv",
+  "20260621_164617.csv",
+  "20260627_144929.csv",
+  "20260709_215155.csv",
+  "20260716_065600.csv",
+  "20260720_165307.csv",
+  "20260724_204259.csv",
+  "20260804_215437.csv",
+  "20260814_101007.csv",
+  "20260814_182203.csv",
+  "20260814_213416.csv",
+  "20260822_215052.csv",
+  "20260830_155318.csv",
+  "20260902_075316.csv"
+ ],
+ "gaps6": [
+  "20260619_122407.csv",
+  "2026-10-14_06-51-43.csv",
+  "20260716_065600.csv",
+  "2026-10-17_10-09-49.csv",
+  "20260613_195920.csv",
+  "20260724_204259.csv"
+ ],
+ "late3": [
+  "2026-09-26_16-47-35.csv",
+  "2026-10-08_12-43-34.csv",
+  "2026-10-17_11-45-33.csv"
+ ],
+ "ties": [
+  "20260513_182950.csv"
+ ],
+ "strataCells": 8,
+ "drawnAfterExtractionBeforeAuditor": true,
+ "drawnAt": "2026-10-31T17:04:47.820037+00:00",
+ "sha256": "76cffd25f987169f9762d060780d9d2e3848f8c1cf199a0317bef476bd18c28f"
+}

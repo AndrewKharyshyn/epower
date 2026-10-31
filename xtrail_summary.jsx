@@ -3798,6 +3798,18 @@ function crateAxisModel(unit,pts,AXp,RLa,C0){
   return {vals,lines,yMax,step,ticks,sec};
 }
 /*M358-MODEL-END*/
+// M550 (audit 2026-10-29 F05 + N07): the kW view plots each drive at the T1 sample nearest its peak charge POWER sample (S.powerPeakTemperature.kwViewX, keyed by file); the A and C views keep the peak-current temperature.
+function kwViewVals(vals, pts){
+  const KX=S.powerPeakTemperature?.kwViewX;
+  if(!KX) return null;
+  return vals.map(p=>{ const k=KX[pts[p.i]?.[5]]; return k&&k.x!=null?{...p,t:k.x,tier:k.tier,ageS:k.ageS}:null; }).filter(Boolean);
+}
+function powerPeakCaption(){
+  const B=S.powerPeakTemperature, m=B?.summary; if(!m) return null;
+  const d=m.dT1SignedKwMinusI, fx=(x,n=1)=>x==null?"—":Number(x).toFixed(n), ct=m.classKw;
+  const cad=Object.entries(m.noneShareByCadence||{}).map(([k,v])=>`${k} ${v.tiersKw.cotimed}/${v.tiersKw.nearby}/${v.tiersKw.late}/${v.tiersKw.none}`).join("; ");
+  return `kW view: T1 is the logged pack-temperature sample nearest the peak-power sample (a reconstructed I×V sample; signed age stored). Tiers within 1 s / within 3 s / 3–10 s (hollow, paired 3–10 s apart, slow polling) / omitted beyond 10 s: ${ct.cotimed} / ${ct.nearby} / ${ct.late} / ${ct.none} of ${m.nViewA} drives (by cadence, same order: ${cad}). The effect of the pairing is small in this corpus: median ΔT1 (peak-power minus peak-current sample) ${fx(d.median)} °C${d.ci95?` (95 % CI ${fx(d.ci95[0])} to ${fx(d.ci95[1])})`:""}, p99 |ΔT1| ${fx(m.absDt1?.p99)} °C, ${d.nDrives} drives on ${d.nDays} days (≤ 3 s tiers); the two moments differ by more than 3 s on ${m.nGapOver3s} of ${m.nViewA} drives. T1 is logged at 1 °C resolution, so smaller differences cannot be shown.`;
+}
 function CRateRiskMap() {
   const [hover, setHover] = useState(null);
   const [unit, setUnit] = useState("A");
@@ -3814,6 +3826,8 @@ function CRateRiskMap() {
   const pts = S.cRatePointsAK || [];
   const AXp = S.cRateAxes || {};
   const M = crateAxisModel(unit, pts, AXp, S.cRateRefLinesAK, RL);
+  const kwv = unit==="kW" ? kwViewVals(M.vals, pts) : null;
+  const VALS = kwv || M.vals;
   const xMin=AX.xMin ?? 8, xMax=AX.xMax ?? 55, yMin=0, yMax=M.yMax;
   const xS = v=>(v-xMin)/(xMax-xMin)*pw;
   const yS = v=>ph-(v-yMin)/(yMax-yMin)*ph;
@@ -3825,7 +3839,7 @@ function CRateRiskMap() {
   const fmtTick = y => unit==="C" ? `${y}C` : String(y);
   const annotate = M.sec && M.sec.mode==="tickAnnotations";
   const yTitle = unit==="A" ? "Peak charge current, A — logged (BMS-reported via OBD)"
-    : unit==="kW" ? "Drive peak charge power (not co-timed with peak current), kW"
+    : unit==="kW" ? "Drive peak charge power (reconstructed I×V sample), kW"
     : (xbRated() ? "Peak C-rate = current / 5 A (rated capacity 5 Ah)" : "Peak C-rate (assumes CAP_KWH = 2.1 kWh, verified:false)");
   const nKwMissing = AXp.diagnostics?.nKwMissing ?? 0;
   const dg = AXp.diagnostics || {};
@@ -3841,7 +3855,7 @@ function CRateRiskMap() {
             style={{fontSize:10,padding:"3px 8px",borderRadius:4,cursor:"pointer",border:"1px solid #cbd5e1",
               background:unit===k?"#0f172a":"#fff",color:unit===k?"#fff":"#334155"}}>{l}</button>
         ))}
-        <span style={{fontSize:9,color:"#64748b"}}>{unit==="C" ? (xbRated() ? xbLab("crate") : "C-rate scales with the unverified CAP_KWH = 2.1 kWh") : "raw/ = sha256-verified originals (M366)"} · n={M.vals.length} of {pts.length} drives plotted{unit==="kW"&&nKwMissing>0?` (${nKwMissing} without a power value)`:""}</span>
+        <span style={{fontSize:9,color:"#64748b"}}>{unit==="C" ? (xbRated() ? xbLab("crate") : "C-rate scales with the unverified CAP_KWH = 2.1 kWh") : "raw/ = sha256-verified originals (M366)"} · n={VALS.length} of {pts.length} drives plotted{unit==="kW"&&nKwMissing>0?` (${nKwMissing} without a power value)`:""}</span>
       </div>
       <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{overflow:"hidden"}}>
 
@@ -3919,12 +3933,12 @@ function CRateRiskMap() {
         {/* Axes */}
         <line x1={PL} y1={PT+ph} x2={PL+pw} y2={PT+ph} stroke="#d1d5db" strokeWidth={1}/>
         <line x1={PL} y1={PT} x2={PL} y2={PT+ph} stroke="#d1d5db" strokeWidth={1}/>
-        <text x={PL+pw/2} y={H-5} textAnchor="middle" fill="#64748b" fontSize={9}>Battery temperature — Sensor 1, at the moment of peak charge current (°C)</text>
+        <text x={PL+pw/2} y={H-5} textAnchor="middle" fill="#64748b" fontSize={9}>{kwv?"Battery temperature — Sensor 1, at the sample nearest the peak charge power (°C)":"Battery temperature — Sensor 1, at the moment of peak charge current (°C)"}</text>
         <text x={12} y={PT+ph/2} textAnchor="middle" fill="#64748b" fontSize={8}
           transform={`rotate(-90,12,${PT+ph/2})`}>{yTitle}</text>
 
         {/* Data points */}
-        {M.vals.map(({i,t,c,type,a,kw,v})=>{
+        {VALS.map(({i,t,c,type,a,kw,v,tier,ageS})=>{
           const cx=PL+xS(t), cy=PT+yS(v);
           const col = t<20&&c>6?"#ef4444":t<25&&c>12?"#f97316":typeColor[type]||"#94a3b8";
           const isHov=hover===i;
@@ -3932,9 +3946,9 @@ function CRateRiskMap() {
           const isBig=c>15;
           return (
             <g key={i} onMouseEnter={()=>setHover(i)} onMouseLeave={()=>setHover(null)} style={{cursor:"pointer"}}>
-              <circle cx={cx} cy={cy} r={isHov?6:isStar?3:isBig?4:3}
-                fill={col} opacity={hover!==null&&!isHov?0.2:0.85}
-                stroke={isStar?"#1e293b":"none"} strokeWidth={isStar?1.25:0}/>
+              <circle cx={cx} cy={cy} r={isHov?6:isStar?3:isBig?4:3} data-kw-tier={tier||undefined}
+                fill={tier==="late"?"none":col} opacity={hover!==null&&!isHov?0.2:0.85}
+                stroke={tier==="late"?col:(isStar?"#1e293b":"none")} strokeWidth={tier==="late"?1.25:(isStar?1.25:0)}/>
               {isHov&&(()=>{
                 const lx=cx>PL+pw-190?cx-198:cx+8;
                 return (
@@ -3959,7 +3973,9 @@ function CRateRiskMap() {
           <span key={l} style={{color:c}}>● {l}</span>
         ))}
         <span style={{color:"#64748b"}}>○ dark-ringed = C-rate &gt; 30 (assumed-capacity units)</span>
+        {kwv&&<span data-kw-late-legend="1" style={{color:"#64748b"}}>◯ hollow = T1 sample 3–10 s from the peak-power sample</span>}
       </div>
+      {kwv&&powerPeakCaption()&&<div data-kw-caption="1" style={{marginTop:6,fontSize:9,color:"#64748b",lineHeight:1.5}}>{powerPeakCaption()}</div>}
       <div style={{marginTop:8,padding:8,background:"#f1f5f9",borderRadius:6,fontSize:10,color:"#64748b",lineHeight:1.6}}>
         <strong style={{color:"#0f172a"}}>M358 (F21.r1) — axes:</strong> the primary axes are the peak charge current in A (logged by the BMS and read over OBD; no capacity assumption) and the drive peak charge power in kW (derived as logged HV current × logged HV voltage; the drive-level maximum, not co-timed with peak current by construction: across the {dg.impliedVoltageOverVmed?.n ?? "—"} drives with both values the implied voltage kW×1000/A is {dg.impliedVoltageOverVmed?.median ?? "—"}× the pack median voltage (IQR {dg.impliedVoltageOverVmed?.p25 ?? "—"}–{dg.impliedVoltageOverVmed?.p75 ?? "—"}), {dg.impliedVoltageOverVmed?.outside0p9to1p1Frac != null ? (100*dg.impliedVoltageOverVmed.outside0p9to1p1Frac).toFixed(1) : "—"}% of drives lie outside 0.9–1.1×, and the correlation of A with kW is {dg.corrAKw != null ? fmtSig(+dg.corrAKw,3) : "—"}). C-rate is {xbRated() ? <>the peak current divided by the rated capacity 5 Ah (C = A ÷ 5 A; {xbLab("crate")})</> : <>a normalisation of A by the assumed pack capacity (C = A ÷ (CAP_KWH × 1000 ÷ pack median voltage), per drive; CAP_KWH = 2.1 kWh is unverified)</>} and is shown secondary; the secondary axis uses the corpus-median C-per-A ratio {AXp.cPerA?.median != null ? fmtSig(+AXp.cPerA.median,3) : "—"}(half-IQR {AXp.cPerA?.halfIqrRel != null ? (100*AXp.cPerA.halfIqrRel).toFixed(1) : "—"}%, n={AXp.cPerA?.n ?? "—"}). The median reference line is a median of per-drive peaks on each axis separately (median A and median kW are not one operating point). Peak values are single-sample maxima on the raw/ = sha256-verified originals (M366).
       </div>

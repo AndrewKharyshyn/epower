@@ -524,6 +524,8 @@ RULES = [
          rx=r"\bpure electric traction support\b|\bpure electric traction engine off distance\b|\bcar off standby\b|\b2 1 kwh hv battery nominal verified false\b", scope=("dom", "jsx")),
     Rule("M549-F01-first-index-share", "regex", "M549/AUD29-F01: a first-index (argmax / argmin) row share is a tie-biased diagnostic, not the share of time a probe is hottest or coldest; the role sentence reports unique and tied time from S.temperatureProbeRanking",
          rx=r"\breads (highest|lowest) in\b|\bhottest probe in \d+ of samples\b|\bcoldest probe in \d+ of samples\b|\bhottest probe reads highest\b"),
+    Rule("M550-F05-kw-view", "regex", "M550/AUD29-F05: the kW view of the charge-rate risk map no longer plots power against the peak-current temperature; its title and axis state the peak-power sample (a reconstructed I x V sample), never a power value labelled not co-timed on a shared temperature axis",
+         rx=r"\bdrive peak charge power not co timed with peak current\b", scope=("dom", "jsx")),
 ]
 
 _SCAN_CACHE = {}

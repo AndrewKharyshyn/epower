@@ -604,6 +604,20 @@
    ]
   },
   {
+   "id": "power_peak_temp",
+   "title": "M550: temperature and freshness at the peak-charge-power sample (audit 2026-10-29 F05 + N07 partial): additive payload block powerPeakTemperature (+ stamp) with per-drive ages and tiers (cotimed <= 1 s, nearby <= 3 s, late 3-10 s, none) for the peak charge power and the master's replicated peak-current pairing, and the keyed kW-view map; per-drive records cached by the raw sha256 and the extractor hash (powerpeak_cache/); STOP on a known-answer miss (rebuilt peak_charge_kw / peak_I_charge / T1_at_peak_Crate must equal the master); needs raw/ and cadence_regime.csv; spec analyses/M550_spec.md Rev 3",
+   "cmd": [
+    "python3",
+    "tools/power_peak_temp.py",
+    "--splice"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json",
+    "analyses/M550_check.json"
+   ]
+  },
+  {
    "id": "rpm_opt_band",
    "title": "M525: observed occupancy of logged engine rpm in the closed OPT band [1850, 2150] (share of engine-on time, rpm >= 300, 1 Hz grid) on the live corpus with a day-clustered interval; faithfulness gate against the stored rpmDistribution (STOP on failure); per-drive sidecar rpm_opt_band_sidecar.csv keyed by the raw sha256 (only new or changed drives are parsed); additive payload key rpmOptBand + stamp; supersedes the numeric leaves of the one-off generatorTractionRecon.rpmFinding (left unchanged); spec analyses/M525_spec.md Rev 2",
    "cmd": [

@@ -246,6 +246,13 @@
    "family": "doc-400",
    "rule": "text only (estimand statement of engineStateMachineRule: off = rpm <= 400)",
    "migration": "none"
+  },
+  {
+   "file": "tools/power_peak_temp.py",
+   "anchor": "eng_on = e[\"eng_rpm\"].fillna(0) > 400",
+   "family": "rule-400",
+   "rule": "replica of the master's own engine-on gate used only to reproduce its channel-gated current-peak pairing (M550); strict > 400, the same site as compute_drive_summary_v6.py",
+   "migration": "follows the master (not an independent definition)"
   }
  ],
  "knownBoundaryNotes": [
