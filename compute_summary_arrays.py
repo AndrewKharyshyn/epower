@@ -41,6 +41,22 @@ import pandas as pd
 import os as _os_xf
 from drive_raw_cache import fast_time as _ft   # M386 (audit F21): exact, faster replacement of pd.to_datetime on raw time strings
 import degradation_trends
+
+
+def _load_engine_on_blocks():
+    """M545: path-based import of tools/engine_on_blocks.py (root scripts must not put tools/ on sys.path: its module names would shadow root modules)."""
+    import importlib.util
+    p = _os_xf.path.join(_os_xf.path.dirname(_os_xf.path.abspath(__file__)), "tools", "engine_on_blocks.py")
+    spec = importlib.util.spec_from_file_location("engine_on_blocks", p)
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    return m
+
+
+_EOB = _load_engine_on_blocks()
+ENGINE_ON_STORED_RPM = _EOB.ENGINE_ON_STORED_RPM
+engine_on_runs, engine_on_by_speed = _EOB.engine_on_runs, _EOB.engine_on_by_speed
+turbo_by_rpm_band, turbo_by_speed_zone, hvc_turbo_counts = _EOB.turbo_by_rpm_band, _EOB.turbo_by_speed_zone, _EOB.hvc_turbo_counts
 try:
     import m119v2_model              # M147: M119-v2 five-variable hazard model
 except Exception:                    # pragma: no cover - keeps arrays build resilient
@@ -3744,7 +3760,9 @@ def _soc_level_sensitivity(dm, cfg):
 class _RawAccum:
     """Pooled accumulators fed one raw file at a time; O(rows) total."""
 
-    def __init__(self):
+    def __init__(self, eng_on_rpm=ENGINE_ON_STORED_RPM):
+        # M545: the engine-on gate of the five engine-on blocks (engineOnDuration, engineOnBySpeed, turbo*, hvcTurbo); the stored payload uses ENGINE_ON_STORED_RPM
+        self.eng_on_rpm = eng_on_rpm
         # socBySpeed: per zone collect all SoC samples (weighted by dt via repeat-free
         # quantiles on the pooled sample — dt is ~1 s so sample count ~ time weight)
         self.soc_by_zone = {lbl: [] for _, _, lbl, _ in Z_SOC}
@@ -4028,34 +4046,23 @@ class _RawAccum:
         # (same engine-on threshold engineOnBySpeed uses, so the two views are
         # consistent by construction).
         if 'eng_rpm' in hz.columns and cond_class is not None:
-            rr = hz['eng_rpm'].values
-            valid = ~np.isnan(rr)
-            eon = (rr > 300) & valid
-            if valid.any():
-                dd = np.diff(eon.astype(int), prepend=0)
-                starts = np.where(dd == 1)[0]
-                ends = np.where(np.diff(eon.astype(int), append=0) == -1)[0]
-                nseg = min(len(starts), len(ends))
-                durs = (ends[:nseg] - starts[:nseg] + 1).astype(float)
+            _runs = engine_on_runs(hz['eng_rpm'].values, self.eng_on_rpm)
+            if _runs is not None:
                 k = str(cond_class)
-                self.eod.setdefault(k, []).extend(durs.tolist())
+                self.eod.setdefault(k, []).extend(_runs['durs'].tolist())
                 acc = self.eod_on.setdefault(k, [0.0, 0.0, 0.0])
-                acc[0] += float(eon.sum())
-                acc[1] += float(valid.sum())
-                acc[2] += float(nseg)
+                acc[0] += _runs['on']
+                acc[1] += _runs['valid']
+                acc[2] += _runs['nseg']
 
         # ---- engineOnBySpeed ----
         if spd is not None and rpm is not None:
             sp, rp = spd.values, rpm.values
-            z = np.digitize(sp, Z_ENGINE[1:-1])
-            eng = rp > 300
-            ok = ~np.isnan(sp) & ~np.isnan(rp)
-            if ok.any():
+            _tot, _on, _any = engine_on_by_speed(sp, rp, Z_ENGINE[1:-1], len(Z_ENGINE_LBL), self.eng_on_rpm)
+            if _any:
                 self.eng_on_files += 1
-            for i in range(len(Z_ENGINE_LBL)):
-                m = (z == i) & ok
-                self.eng_tot[i] += m.sum()
-                self.eng_on[i] += (eng & m).sum()
+            self.eng_tot += _tot
+            self.eng_on += _on
 
         # ---- M82: rpmDistribution (duration-weighted RPM occupancy) ----
         # Uses the 1 Hz grid (hz), NOT the native-sampled `rpm` series above,
@@ -4195,29 +4202,19 @@ class _RawAccum:
         # ---- turbo (engine-on, >0.1 bar) ----
         if boost is not None and rpm is not None:
             bo, rp = boost.values, rpm.values
-            eng = rp > 300
-            for lo, hi, lbl in RPM_BANDS:
-                m = (rp >= lo) & (rp < hi) & eng & ~np.isnan(bo)
-                if not m.any():
-                    continue
-                bb = bo[m]
+            for lbl, v in turbo_by_rpm_band(bo, rp, RPM_BANDS, self.eng_on_rpm).items():
                 d = self.turbo_rpm[lbl]
-                d['n'] += len(bb)
-                act = bb[bb > 0.1]
-                d['act'] += len(act)
-                d['sumAct'] += act.sum()
-                d['max'] = max(d['max'], float(bb.max()))
+                d['n'] += v['n']
+                d['act'] += v['act']
+                d['sumAct'] += v['sumAct']
+                d['max'] = max(d['max'], v['max'])
             if spd is not None:
                 sp = spd.values
-                for lo, hi, lbl in Z_TURBO_SPD:
-                    m = (sp >= lo) & (sp < hi) & eng & ~np.isnan(bo)
-                    if not m.any():
-                        continue
-                    bb = bo[m]
+                for lbl, v in turbo_by_speed_zone(bo, rp, sp, Z_TURBO_SPD, self.eng_on_rpm).items():
                     d = self.turbo_spd[lbl]
-                    d['n'] += len(bb)
-                    d['act'] += (bb > 0.1).sum()
-                    d['max'] = max(d['max'], float(bb.max()))
+                    d['n'] += v['n']
+                    d['act'] += v['act']
+                    d['max'] = max(d['max'], v['max'])
 
         # ---- socVcmPoints (subsample every ~200th valid pair) ----
         if soc is not None and socv is not None:
@@ -4411,13 +4408,12 @@ class _RawAccum:
             cls2 = _cond_class(cond_class)
             if cls2:
                 bo, rp = boost.values, rpm.values
-                m = (rp > 300) & ~np.isnan(bo)
-                if m.any():
-                    bb = bo[m]
+                _hv = hvc_turbo_counts(bo, rp, self.eng_on_rpm)
+                if _hv is not None:
                     d = self.hvc_turbo[cls2]
-                    d['n'] += int(len(bb))
-                    d['act'] += int((bb > 0.1).sum())
-                    mx = float(bb.max())
+                    d['n'] += _hv['n']
+                    d['act'] += _hv['act']
+                    mx = _hv['max']
                     if mx > d['max']:
                         d['max'] = mx
                         d['max_label'] = file_label
