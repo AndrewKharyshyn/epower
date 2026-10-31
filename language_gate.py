@@ -522,6 +522,8 @@ RULES = [
          rx=r"\bfull cell array worked examples\b|\bfull output ceiling\b", scope=("dom", "jsx")),
     Rule("M547-S9-labels", "regex", "M547/AUD29 section 9: engine-off travel (not pure-electric traction); parked SoC-drift equivalent (not Car OFF standby power); the 2.1 kWh battery reference is assumed",
          rx=r"\bpure electric traction support\b|\bpure electric traction engine off distance\b|\bcar off standby\b|\b2 1 kwh hv battery nominal verified false\b", scope=("dom", "jsx")),
+    Rule("M549-F01-first-index-share", "regex", "M549/AUD29-F01: a first-index (argmax / argmin) row share is a tie-biased diagnostic, not the share of time a probe is hottest or coldest; the role sentence reports unique and tied time from S.temperatureProbeRanking",
+         rx=r"\breads (highest|lowest) in\b|\bhottest probe in \d+ of samples\b|\bcoldest probe in \d+ of samples\b|\bhottest probe reads highest\b"),
 ]
 
 _SCAN_CACHE = {}

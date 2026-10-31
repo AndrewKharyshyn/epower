@@ -4806,13 +4806,9 @@ class _RawAccum:
             lo, hi = self.sensor[s]
             if lo is None:
                 continue
-            hotpct = round(self.hot_count[s] / self.hotcold_tot * 100) if self.hotcold_tot else 0
-            coldpct = round(self.cold_count[s] / self.hotcold_tot * 100) if self.hotcold_tot else 0
+            # M549 (audit 2026-10-29 F01): the first-index row shares are tie-biased and are no longer written into the role text; the dashboard
+            # composes the sentence from S.temperatureProbeRanking (unique / tied time, tools/probe_ranking.py). hot_count / cold_count stay the legacy diagnostic.
             role = roles[s]
-            if s == 'T1':
-                role += f" \u2014 reads highest in {hotpct}% of samples"
-            if s == 'T4':
-                role += f" \u2014 reads lowest in {coldpct}% of samples"
             ss.append({'sensor': f"Sensor {i+1}", 'lo': round(lo), 'hi': round(hi),
                        'role': role, 'color': colr[s]})
         out['sensorSummary'] = ss

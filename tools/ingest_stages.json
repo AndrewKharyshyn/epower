@@ -590,6 +590,20 @@
    ]
   },
   {
+   "id": "probe_ranking",
+   "title": "M549: temperature-probe ranking with an explicit tie policy (unique / tied / fractional time per probe on the pipeline 1 Hz grid, last aggregator; day-clustered intervals; S1 mean and S2 fresh-reading sensitivities): additive payload block temperatureProbeRanking (+ stamp) and the text-only removal of the tie-biased first-index percentages from the sensorSummary role leaves; per-drive sufficient statistics cached by the raw sha256 and the extractor hash (probe_cache/, only new drives are extracted); STOP on an identity violation (firstIndex = unique + tied for T1 hot, = unique for T4 cold); needs raw/; spec analyses/M549_spec.md Rev 2",
+   "cmd": [
+    "python3",
+    "tools/probe_ranking.py",
+    "--splice"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json",
+    "analyses/M549_check.json"
+   ]
+  },
+  {
    "id": "rpm_opt_band",
    "title": "M525: observed occupancy of logged engine rpm in the closed OPT band [1850, 2150] (share of engine-on time, rpm >= 300, 1 Hz grid) on the live corpus with a day-clustered interval; faithfulness gate against the stored rpmDistribution (STOP on failure); per-drive sidecar rpm_opt_band_sidecar.csv keyed by the raw sha256 (only new or changed drives are parsed); additive payload key rpmOptBand + stamp; supersedes the numeric leaves of the one-off generatorTractionRecon.rpmFinding (left unchanged); spec analyses/M525_spec.md Rev 2",
    "cmd": [
