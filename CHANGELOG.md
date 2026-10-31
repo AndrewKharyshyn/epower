@@ -1,3 +1,16 @@
+## M549 (2026-10-31): temperature-probe ranking with an explicit tie policy (audit 2026-10-29 F01): unique / tied / fractional time per probe, tie-biased first-index shares retired from the role text
+
+**Rationale.** The released accumulator ranked T1..T4 with argmax / argmin (first index wins every tie) over native rows, so 'reads highest in 88% of samples' mixed a tie policy with a row population. New additive block temperatureProbeRanking (tools/probe_ranking.py, stage probe_ranking): pipeline 1 Hz grid, last aggregator, one grid second = one second, canonical-clean drives; unique, tied, any-tie and fractional shares and tie time per probe for the maximum and the minimum, day-clustered ratio-of-sums intervals (seed 42, 4000 draws), cohort and cadence detail, MEAN (S1) and fresh-5s (S2) sensitivities, G-Q averaging-artefact share, legacy first-index diagnostic. G0: the legacy rule on native rows reproduces the stored role percentages and eolBaselines.s1Delta (4,423,016 rows) exactly. Exact identities on the same seconds hold on every drive (T1 hot first-index = unique + tied; T4 cold first-index = unique). Blind audit (Sonnet, analyses/M549_audit_brief.md, sample analyses/M549_audit_sample.json drawn before code): 23 drives, 0 mismatches in valid seconds, unique, tied, fractional, tie time and legacy counts. Director: revise (Rev 2 in analyses/M549_spec.md). Payload: block added, 10 sensorSummary role text leaves lose the percentage suffix (keys unchanged), drive_master.csv MD5 5556a0c6 and ML16 untouched. Language rule M549-F01-first-index-share. No article figure.
+
+**State.** `drive_master.csv` 606 rows, MD5 `5556a0c6c8bcde0f6c64b8b9655208ed`.
+
+**Gates (runs/20261020T221332Z).** restamp_ingest=ok; build_html=ok; jsdom=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `tools/probe_ranking.py`, `tests/synthetic/test_probe_ranking.py`, `test_probe_rank_view.js`, `analyses/M549_spec.md`, `language_gate.py`, `compute_summary_arrays.py`, `xtrail_summary.jsx`, `summary_arrays.json`, `tools/ingest_stages.json`, `docs/conventions_of_record.md`.
+
+
 ## M548 (2026-10-31): audit 2026-10-29 housekeeping: overview.md state sentence (F20), sustained_current_peaks.py deprecated (F15)
 
 **Rationale.** docs/overview.md line 27 stated a fixed cell-spread interval state that the payload no longer has (the published interval excludes zero and is procedure-dependent per M477); it now points to the payload keys instead of typing a state. sustained_current_peaks.py gets a DEPRECATED header (no other reference; not in the pipeline or the payload); no payload, master or dashboard change.

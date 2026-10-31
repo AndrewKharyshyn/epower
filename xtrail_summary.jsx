@@ -4964,6 +4964,13 @@ function trendLabel(ci,noun){ const sp=ciSpansZero(ci); return sp===null?'unavai
 function spreadSpans(){ return ciSpansZero(S.degradationTrends?.cellSpread?.clusterRobustOLS?.ci95); }
 // M547 (spec analyses/M547_spec.md Rev 2, AUD29-F03/F04): title, status, headline sentence and caveat of the Health conclusions are generated
 // from ONE result object (the published interval sign and the M477 rowsRule), so a static title cannot disagree with the live interval.
+// M549 (audit 2026-10-29 F01): temperature-probe ranking sentence from S.temperatureProbeRanking (unique / tied time with day-clustered intervals; no first-index share)
+function probeRankLine(sensor){
+  const w=sensor==="Sensor 1"?"hot":sensor==="Sensor 4"?"cold":null, p=sensor==="Sensor 1"?"T1":"T4", B=S.temperatureProbeRanking, P=w&&B?.pooled?.[w], E=P?.[p];
+  if(!E||E.unique?.pct==null) return null;
+  const f=x=>x.pct.toFixed(1)+" %"+(x.ci95Pct?` (95 % CI ${x.ci95Pct[0].toFixed(1)}–${x.ci95Pct[1].toFixed(1)})`:"");
+  return `${w==="hot"?"uniquely hottest":"uniquely coldest"} ${f(E.unique)} of observed time; tied for the extreme ${f(E.tied)}; ${P.nDrives} drives, ${P.nDays} days`;
+}
 function spreadConclusion(){
   const o=S.degradationTrends?.cellSpread?.clusterRobustOLS, ci=o?.ci95, sp=ciSpansZero(ci), rr=S.serialDependence?.trendSlopes?.cellSpread?.rowsRule;
   const proc=sp===false && rr?.classification==="procedure-dependent";
@@ -12262,6 +12269,7 @@ export default function App() {
                 <div style={{fontSize:9,color:s.color,fontWeight:700}}>{s.sensor}</div>
                 <div style={{fontSize:13,fontWeight:800,color:"#0f172a"}}>{s.lo}–{s.hi}°C</div>
                 <div style={{fontSize:8,color:"#64748b"}}>{s.role}</div>
+                {probeRankLine(s.sensor)&&<div data-probe-rank={s.sensor} style={{fontSize:8,color:"#64748b",marginTop:2}}>{probeRankLine(s.sensor)}</div>}
               </div>
             ))}
           </div>
@@ -13229,7 +13237,7 @@ export default function App() {
                 col:"#eab308"
               },{
                 n:"4", label:"Sensor 1 peak and Sensor 1-minus-pack-mean delta",
-                ref:`Sensor 1 median +${S.eolBaselines?.s1Delta.medianC}°C above 4-sensor mean; p90 +${S.eolBaselines?.s1Delta.p90C}°C; max +${S.eolBaselines?.s1Delta.maxC}°C. Sensor 1 is hottest probe in ${S.eolBaselines?.s1Delta.hottestPct}% of samples (${S.eolBaselines?.s1Delta.nFiles}-drive pool, n = ${S.eolBaselines?.s1Delta.nSamples.toLocaleString()} four-sensor rows; M43 recompute reproduces the archived deltas exactly).`,
+                ref:`Sensor 1 median +${S.eolBaselines?.s1Delta.medianC}°C above 4-sensor mean; p90 +${S.eolBaselines?.s1Delta.p90C}°C; max +${S.eolBaselines?.s1Delta.maxC}°C. By the first-index rule Sensor 1 is ranked hottest in ${S.eolBaselines?.s1Delta.hottestPct}% of native rows (a tie-biased diagnostic, not a physical share${probeRankLine("Sensor 1")?`; ${probeRankLine("Sensor 1")}`:""}) (${S.eolBaselines?.s1Delta.nFiles}-drive pool, n = ${S.eolBaselines?.s1Delta.nSamples.toLocaleString()} four-sensor rows; M43 recompute reproduces the archived deltas exactly).`,
                 watch:"Delta climbing on equivalent routes would be consistent with I²R heat increase from rising resistance (other causes, e.g. cooling-airflow changes, not excluded). Reference route: any of the Jun 9–14 long highway drives.",
                 col:"#22c55e"
               },{

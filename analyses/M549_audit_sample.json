@@ -1,0 +1,81 @@
+{
+ "spec": "analyses/M549_spec.md Rev 2 (A1)",
+ "seed": 42,
+ "drawnBeforeCodeAndProducerRun": true,
+ "stratification": "cadence regime x thermal regime (2 per cell, 4 in cold) + 4 further drives drawn at random; recorded deviation from Rev 1 section 8: the 'highest legacy tie share' stratum is replaced by random draws because the legacy tie share needs a raw pass (producer-side work) that must not precede the draw",
+ "files": [
+  "2026-09-13_12-22-44.csv",
+  "2026-09-13_19-45-44.csv",
+  "2026-09-19_13-06-20.csv",
+  "2026-09-21_12-02-22.csv",
+  "2026-09-27_13-43-58.csv",
+  "2026-09-30_08-21-17.csv",
+  "2026-10-01_07-38-47.csv",
+  "2026-10-01_07-57-02.csv",
+  "2026-10-01_08-14-08.csv",
+  "2026-10-02_07-50-49.csv",
+  "2026-10-02_19-04-06.csv",
+  "2026-10-03_14-33-03.csv",
+  "2026-10-07_18-52-44.csv",
+  "2026-10-11_11-10-55.csv",
+  "2026-10-13_07-56-36.csv",
+  "2026-10-13_08-10-25.csv",
+  "2026-10-13_22-55-32.csv",
+  "20260511_185709.csv",
+  "20260514_093059.csv",
+  "20260515_074031.csv",
+  "20260609_132041.csv",
+  "20260610_094100.csv",
+  "20260830_155318.csv"
+ ],
+ "strata": {
+  "fast|cold": [
+   "2026-10-02_07-50-49.csv",
+   "2026-10-13_07-56-36.csv",
+   "2026-10-13_08-10-25.csv",
+   "2026-10-13_22-55-32.csv"
+  ],
+  "fast|shoulder": [
+   "2026-10-02_19-04-06.csv",
+   "2026-10-11_11-10-55.csv"
+  ],
+  "fast|warm": [
+   "2026-10-07_18-52-44.csv",
+   "20260830_155318.csv"
+  ],
+  "slow|cold": [
+   "2026-09-30_08-21-17.csv",
+   "2026-10-01_07-38-47.csv",
+   "2026-10-01_07-57-02.csv",
+   "2026-10-01_08-14-08.csv"
+  ],
+  "slow|shoulder": [
+   "2026-09-13_12-22-44.csv",
+   "2026-09-21_12-02-22.csv"
+  ],
+  "slow|warm": [
+   "2026-09-13_19-45-44.csv",
+   "2026-09-27_13-43-58.csv"
+  ],
+  "unknown|shoulder": [
+   "20260514_093059.csv",
+   "20260515_074031.csv"
+  ],
+  "unknown|warm": [
+   "20260511_185709.csv"
+  ],
+  "random4": [
+   "2026-09-19_13-06-20.csv",
+   "2026-10-03_14-33-03.csv",
+   "20260609_132041.csv",
+   "20260610_094100.csv"
+  ]
+ },
+ "strataColumns": [
+  "cadence regime",
+  "thermal regime"
+ ],
+ "drawnFrom": "drive_master.csv (T4_peak present), cadence_regime.csv, seasonal_drive_master.csv; metadata only; no M549 result exists yet",
+ "drawnAt": "2026-10-31T16:04:38.058883+00:00",
+ "sha256": "cec5ac3665228e1ce8aec27ae76cafb7d5d8fedcb9dd7aa1d403958dc4a01836"
+}
