@@ -418,6 +418,24 @@
     "--check"
    ],
    "sidecar": "engine_on_blocks_sidecar.json"
+  },
+  "engineStateMachineRule": {
+   "producer": "tools/engine_state_machine_stage.py",
+   "producerStages": [
+    "engine_state_machine_rule"
+   ],
+   "readsRaw": true,
+   "readsRawManifest": false,
+   "rawNote": "through the pipeline frame loader over raw_only/ (the raw sha256 list is part of the cache key in the block provenance)",
+   "configSections": [],
+   "inputFiles": [
+    "analyses/M546_spec.md",
+    "seasonal_drive_master.csv"
+   ],
+   "checkCommand": [
+    "tools/engine_state_machine_stage.py",
+    "--check"
+   ]
   }
  }
 }

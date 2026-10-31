@@ -29,7 +29,7 @@ assert not esm_ok(bad, SUP)[0]
 
 # sources: old title gone, new title present; rpmFinding basis payload-bound; simultaneity block generator-active
 assert "Engine RPM-band occupancy (% of engine-on time)" not in jsx
-assert "Engine state occupancy (% of RPM-supported 1 Hz time; off = rpm < 400)" in jsx
+assert "Engine state occupancy (% of RPM-supported 1 Hz time; stored basis, off = rpm < 400)" in jsx          # M546: the compare-mode title carries the stored-basis label
 # M525: the best-point item now binds to the refreshed rpmOptBand; the M524 "not refreshed" disclosure is gone with the stale numbers
 assert "S.rpmOptBand" in jsx and "this block was computed once on" not in jsx
 i = jsx.index("This is the per-second state decomposition behind the reconstruction."); j = jsx.index("Does the generator drive the motor while charging the battery?", i)

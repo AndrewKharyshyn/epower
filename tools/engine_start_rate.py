@@ -44,9 +44,10 @@ def build_hz(df, lim=15):
     return g1.resample("1s").mean().ffill(limit=lim)
 
 
-def onsets(hz):
+def onsets(hz, thr=300):
+    """thr = 300 is the detector of record ('RPM onset (> 300 rpm, run >= 2 s)'); thr = 400 is the M546 count-only sensitivity (never displayed)"""
     er = hz["eng_rpm"].values
-    on = np.nan_to_num(er, nan=0.0) > 300
+    on = np.nan_to_num(er, nan=0.0) > thr
     edges = np.diff(np.concatenate([[0], on.astype(int), [0]]))
     s_idx = np.where(edges == 1)[0]
     seg_len = np.where(edges == -1)[0] - s_idx
@@ -91,6 +92,9 @@ def main():
             continue
         s_idx, seg, lc = onsets(hz)
         n = int(len(s_idx))
+        s4, seg4, _lc4 = onsets(hz, 400)                                    # M546 count-only sensitivity
+        on300 = np.nan_to_num(hz["eng_rpm"].values, nan=0.0) > 300
+        contained = bool(all(on300[j:j + int(L)].all() for j, L in zip(s4, seg4)))      # every > 400 run (>= 2 s) lies inside a > 300 run
         mine = (n / km * 100) if (km and km > 0 and cls) else None
         if rel is not None or mine is not None:
             known["nCompared"] += 1
@@ -102,7 +106,7 @@ def main():
         bnd = [band(float(tc[j])) for j in s_idx]
         mot = [bool(np.isfinite(np.nanmean(load[j:j + 3])) and np.nanmean(load[j:j + 3]) < MOTORED_LOAD) if np.isfinite(load[j:j + 3]).any() else False for j in s_idx]
         rows.append({"file": fn, "day": str(fn)[:10] if "-" in str(fn)[:5] else f"{str(fn)[:4]}-{str(fn)[4:6]}-{str(fn)[6:8]}", "km": float(km) if km else 0.0, "cls": cls or "unknown",
-                     "cohort": coh.get(fn, "unknown"), "n": n, "first": 1 if n else 0, "restarts": max(n - 1, 0), "leftCensored": bool(lc), "canonClean": bool(not bad.iloc[i]),
+                     "cohort": coh.get(fn, "unknown"), "n": n, "n400": int(len(s4)), "contained400": contained, "first": 1 if n else 0, "restarts": max(n - 1, 0), "leftCensored": bool(lc), "canonClean": bool(not bad.iloc[i]),
                      "motoredFlag": int(sum(mot)), **{f"b_{b}": int(sum(1 for x in bnd if x == b)) for b in BANDS}})
     d = pd.DataFrame(rows)
     d["day"] = d["day"].str.replace(r"^(\d{4})-(\d{2})-(\d{2}).*$", r"\1-\2-\3", regex=True)
@@ -177,6 +181,16 @@ def main():
                              "shareWithin30min": round(float((gap <= 30).mean()), 3),
                              "note": "file start from the file key, end = start + duration_s; a restart across a file boundary is counted as a trip-first start, so the first/restart split is a file-boundary artefact, not a cold-start measure"}
     res["sensitivity"] = sens
+    # M546 (analyses/M546_spec.md Rev 2, Director R2): COUNT-ONLY onset sensitivity at 400 rpm. A > 300 run can split into several > 400 runs, so the event count is not nested; the tested property is containment (each > 400 run of >= 2 s lies inside a
+    # > 300 run; drives with a > 400 onset are a subset of drives with a > 300 onset). No rate, no interval, no dependants (trigger / stop SoC, socBands are not recomputed); never displayed; the detector keeps its name.
+    def cnt(sub):
+        return {"nDrives": int(len(sub)), "events300": int(sub.n.sum()), "events400": int(sub.n400.sum()), "drivesWithOnset300": int((sub.n > 0).sum()), "drivesWithOnset400": int((sub.n400 > 0).sum())}
+    res["onsetSensitivity400"] = {"name": "count-only sensitivity of the RPM onset detector at rpm > 400 (run >= 2 s); the detector of record is 'RPM onset (> 300 rpm, run >= 2 s)'", "displayed": False, "countsOnly": True,
+                                  "pooledPrimaryDrives": cnt(prim), "byClass": {c: cnt(prim[prim.cls == c]) for c in ("urban", "mixed", "mixed_highway", "highway") if (prim.cls == c).any()},
+                                  "allProcessedDrives": cnt(d),
+                                  "containment": {"everyAbove400RunInsideAbove300Run": bool(d.contained400.all()), "driveSetNested": bool(((d.n400 > 0) <= (d.n > 0)).all()),
+                                                  "note": "event counts are not nested (a run above 300 can split into several above 400); the property is containment"},
+                                  "limits": ["counts only; no rate per 100 km, no interval, never displayed", "trigger / stop SoC and socBands are not recomputed at 400"]}
     pub = {x["label"]: x for x in (A.get("engineStartsByType") or [])}
     res["publishedEngineStartsByType"] = {"avgPerDriveRates": {k: v.get("avg") for k, v in pub.items()}, "note": published_note(pub),
                                           "seasonalContractCoverageAll": (A["seasonalCharts"]["charts"]["EngineStartsByType"].get("coverage") or {}).get("all")}
@@ -191,7 +205,7 @@ def main():
                  "basis": "RPM onsets from the released detector on the pipeline frame cache (raw/ = sha256-verified originals (M366)); not M299-reproducible; RPM onsets are not current-direction reversals and not fuel-on starts",
                  "inputs": {"driveMasterMd5": hashlib.md5(open("drive_master.csv", "rb").read()).hexdigest()}, "method": "ratio of sums, day-clustered percentile bootstrap (seed 42, 4000 draws); interval only with >= 7 distinct days (5-6 low-cluster, < 5 points only)",
                  "detector": res["detector"], "primary": res["primary"], "byClass": res["byClass"], "decomposition": res["decomposition"], "byCoolantBand": res["byCoolantBand"], "flags": res["flags"],
-                 "sensitivity": res["sensitivity"], "fileGapContext": res["fileGapContext"], "knownAnswer": res["knownAnswer"], "publishedEngineStartsByType": res["publishedEngineStartsByType"],
+                 "sensitivity": res["sensitivity"], "onsetSensitivity400": res["onsetSensitivity400"], "fileGapContext": res["fileGapContext"], "knownAnswer": res["knownAnswer"], "publishedEngineStartsByType": res["publishedEngineStartsByType"],
                  "limits": ["a trip is one master file: restarts across a file boundary are first starts", "ffill(limit=15) is applied twice (raw columns and the 1 s grid) and can bridge gaps of ~15-30 s, merging runs", "the 1 s mean can cross the 300 rpm threshold", "rpm > 300 also counts generator-motored spin-ups: named RPM onsets, not fuel-on starts",
                             "coolant band is the start context at onset, not a cold-start or thermal-penalty claim", "F10.r1 stays partly open: cold thermal starts and fuel-on starts are not separated"]}
     block_out = json.loads(json.dumps(block_out, default=float))

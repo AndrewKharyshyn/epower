@@ -41,3 +41,13 @@ Calendar day is the resampling cluster; day-clustered percentile bootstrap, seed
 - Per-drive off share used by the bootstrap: the off seconds divided by the classified seconds of the drive (the occupancy fraction of that drive); the interval is the day-clustered percentile bootstrap (calendar day) of the median over drives.
 - Pooled-share denominator: the pooled occupancy of a state is the row sum of the transition matrix of that state divided by the total of all row sums; the row sums exclude the last classified second of each drive (it has no outgoing transition).
 - Cohort membership: a drive belongs to the warm, shoulder or cold cohort by the `thermal_regime` column of `seasonal_drive_master.csv`; drives with another label are in the all-drives view only. A cohort view is computed over the drives of that label only.
+
+## 10. Additions after the second blind pass (conventions the auditor had to choose without a claim)
+- Time stamps are time-of-day only (HH:MM:SS.fraction, no date): they are parsed by `fast_time` and unwrapped by `clock_unwrap.unwrap_clock` (M467): one day is added at each backward step larger than 12 hours (midnight rollover); a smaller backward step is left untouched. Rows with an unparseable time are dropped from the grid frame.
+- Bin mean: the 1 s mean skips NaN native values inside the bin (pandas default); a bin with no value is NaN.
+- Empty seconds: the resample index is regular from the first to the last bin, so a second without any native row exists as a NaN row on that index before `ffill(limit=3)`; the hold can bridge such seconds (up to 3). A second still NaN after the hold is dropped from the state sequence (section 9).
+- Exactly 400: float equality of the bin MEAN with 400.0 (a bin averaging several native values counts only when the mean equals 400.0).
+- Median dwell: a dwell is the length of a maximal run of one state in classified seconds (the dropped sequence, section 9); the median is the plain median of the run lengths of that state within the scope (mean of the two middle values for an even count).
+- Self-transition of a state = diagonal count / row sum of the transition matrix (no smoothing); null for an empty row.
+- Column: of the rpm columns of a raw file, the engine speed is the PID named in `_ESM_COLS`; a second 'x1000 (rpm)' column exists in some files and is not used.
+- Eligibility: a drive with fewer than 20 valid-rpm rows or fewer than 20 classified seconds is not part of the block (a per-drive output can still be written with an eligible flag).

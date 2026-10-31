@@ -1,0 +1,1789 @@
+{
+ "task": "Blind reproduction of per-drive engine operating-point state statistics under the strict engine-on boundary: state 'off' = rpm <= 400 (a second at exactly 400 rpm is off); low = (400, 1400); loadPoint [1400, 2300); mid [2300, 3200); high >= 3200.",
+ "definitions": "Use docs/conventions_of_record.md (section 5, the state-machine grid, and section 8) and nothing else about the code. Per drive: state-grid seconds, drives need at least 20 rows and 20 classified seconds. transition counts t->t+1 over classified pairs; a spell is a maximal run of one state (a classified run); the last run of a drive counts as a spell.",
+ "dataPath": {
+  "rawCsv": "raw/ (sha256-verified originals; file key digits match the raw file name)",
+  "master": "drive_master.csv",
+  "dashboardText": "tabtext/distribution__all.txt, tabtext/distribution__cold.txt",
+  "payload": "summary_arrays.json key engineStateMachineRule"
+ },
+ "perDriveClaims": {
+  "2026-09-11_08-01-27.csv": {
+   "classifiedSeconds": 602,
+   "secondsPerState_strict": {
+    "off": 510,
+    "low": 3,
+    "loadPoint": 89,
+    "mid": 0,
+    "high": 0
+   },
+   "secondsExactly400_stateGrid": 0,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     508,
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     1,
+     2,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     88,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 2,
+    "low": 1,
+    "loadPoint": 1,
+    "mid": 0,
+    "high": 0
+   }
+  },
+  "2026-10-01_08-14-08.csv": {
+   "classifiedSeconds": 387,
+   "secondsPerState_strict": {
+    "off": 147,
+    "low": 0,
+    "loadPoint": 240,
+    "mid": 0,
+    "high": 0
+   },
+   "secondsExactly400_stateGrid": 0,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     146,
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     239,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 1,
+    "low": 0,
+    "loadPoint": 1,
+    "mid": 0,
+    "high": 0
+   }
+  },
+  "2026-10-02_08-04-04.csv": {
+   "classifiedSeconds": 412,
+   "secondsPerState_strict": {
+    "off": 233,
+    "low": 1,
+    "loadPoint": 178,
+    "mid": 0,
+    "high": 0
+   },
+   "secondsExactly400_stateGrid": 0,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     232,
+     1,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     177,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 1,
+    "low": 1,
+    "loadPoint": 1,
+    "mid": 0,
+    "high": 0
+   }
+  },
+  "2026-10-06_07-58-35.csv": {
+   "classifiedSeconds": 231,
+   "secondsPerState_strict": {
+    "off": 231,
+    "low": 0,
+    "loadPoint": 0,
+    "mid": 0,
+    "high": 0
+   },
+   "secondsExactly400_stateGrid": 0,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     230,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 1,
+    "low": 0,
+    "loadPoint": 0,
+    "mid": 0,
+    "high": 0
+   }
+  },
+  "2026-10-10_06-57-23.csv": {
+   "classifiedSeconds": 7317,
+   "secondsPerState_strict": {
+    "off": 3082,
+    "low": 98,
+    "loadPoint": 3060,
+    "mid": 1035,
+    "high": 42
+   },
+   "secondsExactly400_stateGrid": 0,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     2989,
+     19,
+     72,
+     1,
+     0
+    ],
+    [
+     54,
+     20,
+     24,
+     0,
+     0
+    ],
+    [
+     38,
+     58,
+     2831,
+     133,
+     0
+    ],
+    [
+     0,
+     1,
+     132,
+     891,
+     11
+    ],
+    [
+     0,
+     0,
+     1,
+     10,
+     31
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 93,
+    "low": 78,
+    "loadPoint": 229,
+    "mid": 144,
+    "high": 11
+   }
+  },
+  "2026-10-11_15-16-20.csv": {
+   "classifiedSeconds": 490,
+   "secondsPerState_strict": {
+    "off": 393,
+    "low": 6,
+    "loadPoint": 91,
+    "mid": 0,
+    "high": 0
+   },
+   "secondsExactly400_stateGrid": 0,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     389,
+     1,
+     2,
+     0,
+     0
+    ],
+    [
+     3,
+     2,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     3,
+     88,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 4,
+    "low": 4,
+    "loadPoint": 3,
+    "mid": 0,
+    "high": 0
+   }
+  },
+  "2026-10-13_07-42-34.csv": {
+   "classifiedSeconds": 547,
+   "secondsPerState_strict": {
+    "off": 5,
+    "low": 4,
+    "loadPoint": 536,
+    "mid": 2,
+    "high": 0
+   },
+   "secondsExactly400_stateGrid": 0,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     4,
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     2,
+     2,
+     0,
+     0
+    ],
+    [
+     1,
+     2,
+     530,
+     2,
+     0
+    ],
+    [
+     0,
+     0,
+     2,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 1,
+    "low": 2,
+    "loadPoint": 6,
+    "mid": 2,
+    "high": 0
+   }
+  },
+  "2026-10-13_08-10-25.csv": {
+   "classifiedSeconds": 831,
+   "secondsPerState_strict": {
+    "off": 458,
+    "low": 10,
+    "loadPoint": 363,
+    "mid": 0,
+    "high": 0
+   },
+   "secondsExactly400_stateGrid": 0,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     448,
+     2,
+     8,
+     0,
+     0
+    ],
+    [
+     5,
+     3,
+     2,
+     0,
+     0
+    ],
+    [
+     4,
+     5,
+     353,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 10,
+    "low": 7,
+    "loadPoint": 10,
+    "mid": 0,
+    "high": 0
+   }
+  },
+  "2026-10-13_15-41-11.csv": {
+   "classifiedSeconds": 165,
+   "secondsPerState_strict": {
+    "off": 165,
+    "low": 0,
+    "loadPoint": 0,
+    "mid": 0,
+    "high": 0
+   },
+   "secondsExactly400_stateGrid": 0,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     164,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 1,
+    "low": 0,
+    "loadPoint": 0,
+    "mid": 0,
+    "high": 0
+   }
+  },
+  "2026-10-14_06-51-43.csv": {
+   "classifiedSeconds": 7854,
+   "secondsPerState_strict": {
+    "off": 1542,
+    "low": 142,
+    "loadPoint": 5205,
+    "mid": 948,
+    "high": 17
+   },
+   "secondsExactly400_stateGrid": 0,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     1424,
+     19,
+     98,
+     0,
+     0
+    ],
+    [
+     67,
+     44,
+     31,
+     0,
+     0
+    ],
+    [
+     50,
+     76,
+     4932,
+     147,
+     0
+    ],
+    [
+     0,
+     3,
+     143,
+     795,
+     7
+    ],
+    [
+     0,
+     0,
+     1,
+     6,
+     10
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 118,
+    "low": 98,
+    "loadPoint": 273,
+    "mid": 153,
+    "high": 7
+   }
+  },
+  "2026-10-16_07-52-05.csv": {
+   "classifiedSeconds": 4451,
+   "secondsPerState_strict": {
+    "off": 2646,
+    "low": 26,
+    "loadPoint": 1621,
+    "mid": 154,
+    "high": 4
+   },
+   "secondsExactly400_stateGrid": 3,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     2615,
+     5,
+     25,
+     0,
+     0
+    ],
+    [
+     12,
+     7,
+     6,
+     1,
+     0
+    ],
+    [
+     18,
+     14,
+     1570,
+     18,
+     1
+    ],
+    [
+     0,
+     0,
+     20,
+     134,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     1,
+     3
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 31,
+    "low": 19,
+    "loadPoint": 51,
+    "mid": 20,
+    "high": 1
+   }
+  },
+  "20260610_094100.csv": {
+   "classifiedSeconds": 3654,
+   "secondsPerState_strict": {
+    "off": 1924,
+    "low": 44,
+    "loadPoint": 1597,
+    "mid": 83,
+    "high": 6
+   },
+   "secondsExactly400_stateGrid": 2,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     1877,
+     4,
+     41,
+     1,
+     0
+    ],
+    [
+     22,
+     16,
+     6,
+     0,
+     0
+    ],
+    [
+     24,
+     24,
+     1532,
+     17,
+     0
+    ],
+    [
+     0,
+     0,
+     18,
+     61,
+     4
+    ],
+    [
+     0,
+     0,
+     0,
+     4,
+     2
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 47,
+    "low": 28,
+    "loadPoint": 65,
+    "mid": 22,
+    "high": 4
+   }
+  },
+  "20260612_142400.csv": {
+   "classifiedSeconds": 495,
+   "secondsPerState_strict": {
+    "off": 331,
+    "low": 1,
+    "loadPoint": 163,
+    "mid": 0,
+    "high": 0
+   },
+   "secondsExactly400_stateGrid": 0,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     329,
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     1,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     1,
+     162,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 2,
+    "low": 1,
+    "loadPoint": 1,
+    "mid": 0,
+    "high": 0
+   }
+  },
+  "20260619_122407.csv": {
+   "classifiedSeconds": 14940,
+   "secondsPerState_strict": {
+    "off": 5912,
+    "low": 257,
+    "loadPoint": 5312,
+    "mid": 3015,
+    "high": 444
+   },
+   "secondsExactly400_stateGrid": 0,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     5717,
+     13,
+     167,
+     14,
+     0
+    ],
+    [
+     80,
+     127,
+     38,
+     11,
+     1
+    ],
+    [
+     108,
+     103,
+     4820,
+     260,
+     21
+    ],
+    [
+     5,
+     14,
+     268,
+     2646,
+     82
+    ],
+    [
+     1,
+     0,
+     19,
+     84,
+     340
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 195,
+    "low": 130,
+    "loadPoint": 492,
+    "mid": 369,
+    "high": 104
+   }
+  },
+  "20260621_213241.csv": {
+   "classifiedSeconds": 1624,
+   "secondsPerState_strict": {
+    "off": 903,
+    "low": 26,
+    "loadPoint": 695,
+    "mid": 0,
+    "high": 0
+   },
+   "secondsExactly400_stateGrid": 0,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     883,
+     1,
+     18,
+     0,
+     0
+    ],
+    [
+     8,
+     15,
+     3,
+     0,
+     0
+    ],
+    [
+     11,
+     10,
+     674,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 20,
+    "low": 11,
+    "loadPoint": 21,
+    "mid": 0,
+    "high": 0
+   }
+  },
+  "20260627_144929.csv": {
+   "classifiedSeconds": 1200,
+   "secondsPerState_strict": {
+    "off": 174,
+    "low": 14,
+    "loadPoint": 495,
+    "mid": 455,
+    "high": 62
+   },
+   "secondsExactly400_stateGrid": 0,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     169,
+     1,
+     3,
+     0,
+     0
+    ],
+    [
+     3,
+     7,
+     3,
+     1,
+     0
+    ],
+    [
+     1,
+     5,
+     460,
+     29,
+     0
+    ],
+    [
+     0,
+     1,
+     29,
+     413,
+     12
+    ],
+    [
+     0,
+     0,
+     0,
+     12,
+     50
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 5,
+    "low": 7,
+    "loadPoint": 35,
+    "mid": 42,
+    "high": 12
+   }
+  },
+  "20260711_160253.csv": {
+   "classifiedSeconds": 5371,
+   "secondsPerState_strict": {
+    "off": 1584,
+    "low": 121,
+    "loadPoint": 1948,
+    "mid": 1373,
+    "high": 345
+   },
+   "secondsExactly400_stateGrid": 1,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     1487,
+     8,
+     80,
+     8,
+     0
+    ],
+    [
+     48,
+     45,
+     27,
+     1,
+     0
+    ],
+    [
+     48,
+     60,
+     1709,
+     121,
+     10
+    ],
+    [
+     0,
+     8,
+     126,
+     1170,
+     69
+    ],
+    [
+     0,
+     0,
+     6,
+     73,
+     266
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 97,
+    "low": 76,
+    "loadPoint": 239,
+    "mid": 203,
+    "high": 79
+   }
+  },
+  "20260711_174010.csv": {
+   "classifiedSeconds": 2535,
+   "secondsPerState_strict": {
+    "off": 1422,
+    "low": 36,
+    "loadPoint": 748,
+    "mid": 224,
+    "high": 105
+   },
+   "secondsExactly400_stateGrid": 0,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     1394,
+     4,
+     19,
+     4,
+     0
+    ],
+    [
+     11,
+     17,
+     8,
+     0,
+     0
+    ],
+    [
+     15,
+     14,
+     690,
+     27,
+     2
+    ],
+    [
+     1,
+     1,
+     25,
+     182,
+     15
+    ],
+    [
+     0,
+     0,
+     6,
+     11,
+     88
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 28,
+    "low": 19,
+    "loadPoint": 58,
+    "mid": 42,
+    "high": 17
+   }
+  },
+  "20260718_145814.csv": {
+   "classifiedSeconds": 3146,
+   "secondsPerState_strict": {
+    "off": 1213,
+    "low": 78,
+    "loadPoint": 1676,
+    "mid": 133,
+    "high": 46
+   },
+   "secondsExactly400_stateGrid": 2,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     1148,
+     5,
+     58,
+     1,
+     0
+    ],
+    [
+     30,
+     32,
+     16,
+     0,
+     0
+    ],
+    [
+     34,
+     41,
+     1573,
+     25,
+     3
+    ],
+    [
+     0,
+     0,
+     26,
+     102,
+     5
+    ],
+    [
+     0,
+     0,
+     3,
+     5,
+     38
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 65,
+    "low": 46,
+    "loadPoint": 103,
+    "mid": 31,
+    "high": 8
+   }
+  },
+  "20260724_174828.csv": {
+   "classifiedSeconds": 3477,
+   "secondsPerState_strict": {
+    "off": 2258,
+    "low": 94,
+    "loadPoint": 1085,
+    "mid": 36,
+    "high": 4
+   },
+   "secondsExactly400_stateGrid": 2,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     2195,
+     8,
+     52,
+     2,
+     0
+    ],
+    [
+     22,
+     53,
+     19,
+     0,
+     0
+    ],
+    [
+     40,
+     30,
+     1004,
+     10,
+     1
+    ],
+    [
+     0,
+     3,
+     10,
+     22,
+     1
+    ],
+    [
+     0,
+     0,
+     0,
+     2,
+     2
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 63,
+    "low": 41,
+    "loadPoint": 81,
+    "mid": 14,
+    "high": 2
+   }
+  },
+  "20260803_193840.csv": {
+   "classifiedSeconds": 1959,
+   "secondsPerState_strict": {
+    "off": 1124,
+    "low": 24,
+    "loadPoint": 810,
+    "mid": 1,
+    "high": 0
+   },
+   "secondsExactly400_stateGrid": 0,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     1094,
+     2,
+     27,
+     0,
+     0
+    ],
+    [
+     13,
+     8,
+     2,
+     1,
+     0
+    ],
+    [
+     16,
+     14,
+     780,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 30,
+    "low": 16,
+    "loadPoint": 30,
+    "mid": 1,
+    "high": 0
+   }
+  },
+  "20260806_155444.csv": {
+   "classifiedSeconds": 1910,
+   "secondsPerState_strict": {
+    "off": 914,
+    "low": 57,
+    "loadPoint": 682,
+    "mid": 151,
+    "high": 106
+   },
+   "secondsExactly400_stateGrid": 0,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     861,
+     6,
+     46,
+     0,
+     0
+    ],
+    [
+     24,
+     18,
+     14,
+     1,
+     0
+    ],
+    [
+     27,
+     33,
+     594,
+     27,
+     1
+    ],
+    [
+     1,
+     0,
+     24,
+     114,
+     12
+    ],
+    [
+     0,
+     0,
+     4,
+     9,
+     93
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 53,
+    "low": 39,
+    "loadPoint": 88,
+    "mid": 37,
+    "high": 13
+   }
+  },
+  "20260808_124714.csv": {
+   "classifiedSeconds": 803,
+   "secondsPerState_strict": {
+    "off": 625,
+    "low": 5,
+    "loadPoint": 173,
+    "mid": 0,
+    "high": 0
+   },
+   "secondsExactly400_stateGrid": 0,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     619,
+     0,
+     5,
+     0,
+     0
+    ],
+    [
+     2,
+     3,
+     0,
+     0,
+     0
+    ],
+    [
+     3,
+     2,
+     168,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 6,
+    "low": 2,
+    "loadPoint": 5,
+    "mid": 0,
+    "high": 0
+   }
+  },
+  "20260809_120000.csv": {
+   "classifiedSeconds": 479,
+   "secondsPerState_strict": {
+    "off": 347,
+    "low": 0,
+    "loadPoint": 132,
+    "mid": 0,
+    "high": 0
+   },
+   "secondsExactly400_stateGrid": 0,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     345,
+     0,
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     1,
+     0,
+     131,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 2,
+    "low": 0,
+    "loadPoint": 1,
+    "mid": 0,
+    "high": 0
+   }
+  },
+  "20260816_144003.csv": {
+   "classifiedSeconds": 5662,
+   "secondsPerState_strict": {
+    "off": 2603,
+    "low": 165,
+    "loadPoint": 2154,
+    "mid": 586,
+    "high": 154
+   },
+   "secondsExactly400_stateGrid": 0,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     2517,
+     55,
+     30,
+     0,
+     0
+    ],
+    [
+     66,
+     35,
+     60,
+     4,
+     0
+    ],
+    [
+     19,
+     74,
+     1979,
+     79,
+     3
+    ],
+    [
+     0,
+     1,
+     78,
+     482,
+     25
+    ],
+    [
+     0,
+     0,
+     7,
+     21,
+     126
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 86,
+    "low": 130,
+    "loadPoint": 175,
+    "mid": 104,
+    "high": 28
+   }
+  },
+  "20260817_183543.csv": {
+   "classifiedSeconds": 3454,
+   "secondsPerState_strict": {
+    "off": 2344,
+    "low": 39,
+    "loadPoint": 1030,
+    "mid": 21,
+    "high": 20
+   },
+   "secondsExactly400_stateGrid": 1,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     2310,
+     10,
+     23,
+     0,
+     0
+    ],
+    [
+     23,
+     6,
+     10,
+     0,
+     0
+    ],
+    [
+     10,
+     23,
+     994,
+     3,
+     0
+    ],
+    [
+     0,
+     0,
+     3,
+     17,
+     1
+    ],
+    [
+     0,
+     0,
+     0,
+     1,
+     19
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 34,
+    "low": 33,
+    "loadPoint": 36,
+    "mid": 4,
+    "high": 1
+   }
+  },
+  "20260818_111200.csv": {
+   "classifiedSeconds": 2364,
+   "secondsPerState_strict": {
+    "off": 1595,
+    "low": 17,
+    "loadPoint": 752,
+    "mid": 0,
+    "high": 0
+   },
+   "secondsExactly400_stateGrid": 2,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     1579,
+     5,
+     10,
+     0,
+     0
+    ],
+    [
+     10,
+     2,
+     5,
+     0,
+     0
+    ],
+    [
+     5,
+     10,
+     737,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 16,
+    "low": 15,
+    "loadPoint": 15,
+    "mid": 0,
+    "high": 0
+   }
+  },
+  "20260819_135903.csv": {
+   "classifiedSeconds": 2419,
+   "secondsPerState_strict": {
+    "off": 1740,
+    "low": 16,
+    "loadPoint": 663,
+    "mid": 0,
+    "high": 0
+   },
+   "secondsExactly400_stateGrid": 0,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     1720,
+     3,
+     16,
+     0,
+     0
+    ],
+    [
+     9,
+     4,
+     3,
+     0,
+     0
+    ],
+    [
+     10,
+     9,
+     644,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 20,
+    "low": 12,
+    "loadPoint": 19,
+    "mid": 0,
+    "high": 0
+   }
+  },
+  "20260820_214927.csv": {
+   "classifiedSeconds": 1999,
+   "secondsPerState_strict": {
+    "off": 1324,
+    "low": 15,
+    "loadPoint": 561,
+    "mid": 96,
+    "high": 3
+   },
+   "secondsExactly400_stateGrid": 0,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     1311,
+     4,
+     8,
+     0,
+     0
+    ],
+    [
+     8,
+     3,
+     4,
+     0,
+     0
+    ],
+    [
+     4,
+     8,
+     542,
+     7,
+     0
+    ],
+    [
+     0,
+     0,
+     7,
+     88,
+     1
+    ],
+    [
+     0,
+     0,
+     0,
+     1,
+     2
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 13,
+    "low": 12,
+    "loadPoint": 19,
+    "mid": 8,
+    "high": 1
+   }
+  },
+  "20260829_100447.csv": {
+   "classifiedSeconds": 3052,
+   "secondsPerState_strict": {
+    "off": 1917,
+    "low": 32,
+    "loadPoint": 1014,
+    "mid": 63,
+    "high": 26
+   },
+   "secondsExactly400_stateGrid": 1,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     1890,
+     4,
+     22,
+     0,
+     0
+    ],
+    [
+     18,
+     9,
+     5,
+     0,
+     0
+    ],
+    [
+     8,
+     19,
+     980,
+     7,
+     0
+    ],
+    [
+     0,
+     0,
+     7,
+     52,
+     4
+    ],
+    [
+     0,
+     0,
+     0,
+     4,
+     22
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 27,
+    "low": 23,
+    "loadPoint": 34,
+    "mid": 11,
+    "high": 4
+   }
+  },
+  "20260830_155318.csv": {
+   "classifiedSeconds": 3305,
+   "secondsPerState_strict": {
+    "off": 683,
+    "low": 37,
+    "loadPoint": 2002,
+    "mid": 507,
+    "high": 76
+   },
+   "secondsExactly400_stateGrid": 0,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     657,
+     3,
+     22,
+     0,
+     0
+    ],
+    [
+     11,
+     14,
+     11,
+     1,
+     0
+    ],
+    [
+     13,
+     19,
+     1873,
+     96,
+     1
+    ],
+    [
+     1,
+     1,
+     92,
+     401,
+     12
+    ],
+    [
+     0,
+     0,
+     4,
+     9,
+     63
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 26,
+    "low": 23,
+    "loadPoint": 129,
+    "mid": 106,
+    "high": 13
+   }
+  },
+  "20260830_165926.csv": {
+   "classifiedSeconds": 4917,
+   "secondsPerState_strict": {
+    "off": 1602,
+    "low": 104,
+    "loadPoint": 2700,
+    "mid": 480,
+    "high": 31
+   },
+   "secondsExactly400_stateGrid": 2,
+   "transitionCounts_strict_5x5_rows_from_cols_to_order_off_low_loadPoint_mid_high": [
+    [
+     1517,
+     13,
+     71,
+     0,
+     0
+    ],
+    [
+     48,
+     27,
+     28,
+     1,
+     0
+    ],
+    [
+     36,
+     64,
+     2505,
+     94,
+     1
+    ],
+    [
+     0,
+     0,
+     95,
+     375,
+     10
+    ],
+    [
+     0,
+     0,
+     1,
+     10,
+     20
+    ]
+   ],
+   "spellsPerState_strict": {
+    "off": 85,
+    "low": 77,
+    "loadPoint": 195,
+    "mid": 105,
+    "high": 11
+   }
+  }
+ },
+ "pooledClaims": {
+  "transitionRowSumsOffAndLow_rule_minus_stored": {
+   "off": 77.0,
+   "low": -77.0,
+   "meaning": "pooled over all drives, the strict boundary moves exactly this many transition-matrix row-sum seconds from low to off (last classified second of each drive excluded); the auditor reproduces the count of exactly-400 seconds per drive and the pooled sum over the sample, and states whether the sample is consistent with it"
+  },
+  "bootstrapOffMedian": {
+   "what": "occupancy.off.boot of the Rule block: median over drives of the per-drive off fraction with a day-clustered percentile bootstrap interval (4000 draws)",
+   "bootMedian": 0.713,
+   "ci95": [
+    0.695,
+    0.726
+   ],
+   "tolerance": "+-0.02 on each bound (any seed)"
+  }
+ },
+ "renderedChecks": "In tabtext/distribution__all.txt the engine-off KPI and the finding sentence quote the Rule pooled off share and, once, the stored basis (off = rpm < 400); in tabtext/distribution__cold.txt the state table quotes the cold-cohort values (byCohort.cold), not the pooled ones."
+}

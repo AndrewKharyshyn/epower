@@ -61880,20 +61880,20 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-10-20T20:57:51.124362+00:00",
+   "generatedAt": "2026-10-31T09:31:31.810457+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
    },
    "computationStatus": "computed",
    "computationStatusNote": "M343: computed by tools/engine_start_rate.py from the pipeline frame cache; additive, no published value recomputed; not M299-reproducible.",
-   "includedInReleaseAt": "2026-10-20T20:57:51.124362+00:00",
+   "includedInReleaseAt": "2026-10-31T09:31:31.810457+00:00",
    "inputBasis": {
     "nDrives": 606,
     "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-10-20T20:57:51.124362+00:00"
+   "computedAt": "2026-10-31T09:31:31.810457+00:00"
   },
   "exposureBasis": {
    "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
@@ -63867,6 +63867,79 @@
     "milestone": "M545"
    },
    "fullConfigHashNote": "whole-config hash retired for declared blocks (M513): the stamp names the md5 of each computational config section it reads (upstreamHashes.configSectionHashes); the previous value is kept in stampLineage"
+  },
+  "engineStateMachineRule": {
+   "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": null,
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-10-31T09:29:20.026290+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+    "rawIdentitySource": "ingest run 2026-10-31T09:28:20.026290+00:00: producer stages engine_state_machine_rule ran OK; raw_manifest.json corpusHash of this run",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "analyses/M546_spec.md": "fd090200e6c3306cf2ea9e76ae014b56",
+     "seasonal_drive_master.csv": "0018476d259a6e17102708d0f80dbdc3"
+    }
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M546: derived by tools/engine_state_machine_stage.py (compute_summary_arrays._engine_state_machine with strict_off) from drive_master.csv and the raw drive files through the pipeline frame loader; gates: drive set, unrounded row-sum conservation",
+   "includedInReleaseAt": "2026-10-31T09:29:20.026290+00:00",
+   "inputBasis": {
+    "nDrives": 606,
+    "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-10-31T09:28:20.026290+00:00",
+   "declaredIdentity": {
+    "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "analyses/M546_spec.md": "fd090200e6c3306cf2ea9e76ae014b56",
+     "seasonal_drive_master.csv": "0018476d259a6e17102708d0f80dbdc3"
+    },
+    "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+    "rawIdentitySource": "ingest run 2026-10-31T09:28:20.026290+00:00: producer stages engine_state_machine_rule ran OK; raw_manifest.json corpusHash of this run"
+   },
+   "stampLineage": [
+    {
+     "identity": {
+      "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+      "upstreamHashes": {
+       "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
+      },
+      "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
+      "generatedAt": "2026-10-31T09:29:20.026290+00:00"
+     },
+     "supersededAtMilestone": "M546",
+     "supersededAt": "2026-10-31T09:29:27.362249+00:00",
+     "reason": "legacy stamp metadata (M294 raw-manifest backfill, M284 whole-config hash, fields cloned from another block) replaced by stamp metadata re-derived from declared dependencies"
+    },
+    {
+     "identity": {
+      "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+      "configSectionHashes": {},
+      "inputFileMd5": {
+       "analyses/M546_spec.md": "220471022db905a87922cec62a985715",
+       "seasonal_drive_master.csv": "0018476d259a6e17102708d0f80dbdc3"
+      },
+      "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+      "rawIdentitySource": "ingest run 2026-10-31T09:28:20.026290+00:00: producer stages engine_state_machine_rule ran OK; raw_manifest.json corpusHash of this run"
+     },
+     "supersededAtMilestone": "M546",
+     "supersededAt": "2026-10-31T09:49:49.333254+00:00",
+     "reason": "identity values changed (master, raw manifest, config section or input file)"
+    }
+   ],
+   "fullConfigHashNote": "whole-config hash retired for declared blocks (M513): the stamp names the md5 of each computational config section it reads (upstreamHashes.configSectionHashes); the previous value is kept in stampLineage",
+   "dependencies": {
+    "declaredIn": "tools/stamp_dependencies.json",
+    "milestone": "M546"
+   }
   }
  },
  "ambientTable": {
@@ -96978,6 +97051,64 @@
     "changeInTotalStartsPct": 1.46,
     "note": "the 1 s grid is NaN between raw rows (raw sampling interval > 1 s); grid NaN reads as engine-off, so the second fill is load-bearing; no-second-fill variants are not meaningful (runs split into many short runs)"
    }
+  },
+  "onsetSensitivity400": {
+   "name": "count-only sensitivity of the RPM onset detector at rpm > 400 (run >= 2 s); the detector of record is 'RPM onset (> 300 rpm, run >= 2 s)'",
+   "displayed": false,
+   "countsOnly": true,
+   "pooledPrimaryDrives": {
+    "nDrives": 601,
+    "events300": 7721,
+    "events400": 8162,
+    "drivesWithOnset300": 570,
+    "drivesWithOnset400": 570
+   },
+   "byClass": {
+    "urban": {
+     "nDrives": 508,
+     "events300": 3082,
+     "events400": 3166,
+     "drivesWithOnset300": 477,
+     "drivesWithOnset400": 477
+    },
+    "mixed": {
+     "nDrives": 33,
+     "events300": 647,
+     "events400": 676,
+     "drivesWithOnset300": 33,
+     "drivesWithOnset400": 33
+    },
+    "mixed_highway": {
+     "nDrives": 37,
+     "events300": 2569,
+     "events400": 2783,
+     "drivesWithOnset300": 37,
+     "drivesWithOnset400": 37
+    },
+    "highway": {
+     "nDrives": 23,
+     "events300": 1423,
+     "events400": 1537,
+     "drivesWithOnset300": 23,
+     "drivesWithOnset400": 23
+    }
+   },
+   "allProcessedDrives": {
+    "nDrives": 606,
+    "events300": 7745,
+    "events400": 8188,
+    "drivesWithOnset300": 573,
+    "drivesWithOnset400": 573
+   },
+   "containment": {
+    "everyAbove400RunInsideAbove300Run": true,
+    "driveSetNested": true,
+    "note": "event counts are not nested (a run above 300 can split into several above 400); the property is containment"
+   },
+   "limits": [
+    "counts only; no rate per 100 km, no interval, never displayed",
+    "trigger / stop SoC and socBands are not recomputed at 400"
+   ]
   },
   "fileGapContext": {
    "nConsecutivePairs": 600,
@@ -368707,6 +368838,1471 @@
     "n": 831403,
     "label": "stored basis (rpm > 300, native rows)"
    }
+  }
+ },
+ "engineStateMachineRule": {
+  "estimand": "engine operating-point state machine on the state grid (1 s mean resample, hold 3 s) with the strict engine-on boundary: 'off' = rpm <= 400, so a second at exactly 400 rpm is 'off'; the stored block (rpm >= 400 is 'low') is unchanged",
+  "basis": "rpm > 400 (strict) for leaving 'off'; the state limits 1400 / 2300 / 3200 are not engine-on gates and stay '>='; a deterministic re-definition on the same data, not a correction",
+  "rule": {
+   "thresholdRpm": 400,
+   "boundary": "gt",
+   "name": "engine-on (rpm > 400)",
+   "storedKey": "engineStateMachine",
+   "offState": "rpm <= 400"
+  },
+  "descriptive": true,
+  "displayed": false,
+  "pooled": {
+   "nDrivesCovered": 605,
+   "nDays": 121,
+   "engineOnHours": 97.6,
+   "states": [
+    "off",
+    "low",
+    "loadPoint",
+    "mid",
+    "high"
+   ],
+   "stateEdgesRpm": {
+    "off": [
+     0,
+     400
+    ],
+    "low": [
+     400,
+     1400
+    ],
+    "loadPoint": [
+     1400,
+     2300
+    ],
+    "mid": [
+     2300,
+     3200
+    ],
+    "high": [
+     3200,
+     null
+    ],
+    "offBoundary": "rpm <= 400 (strict engine-on boundary)"
+   },
+   "occupancy": {
+    "off": {
+     "perDriveMedIqr": {
+      "median": 0.713,
+      "p25": 0.611,
+      "p75": 0.777,
+      "n": 605
+     },
+     "boot": {
+      "bootMedian": 0.713,
+      "ci95": [
+       0.695,
+       0.726
+      ],
+      "nDrives": 605,
+      "nDays": 121
+     },
+     "pooled": 0.5751
+    },
+    "low": {
+     "perDriveMedIqr": {
+      "median": 0.006,
+      "p25": 0.002,
+      "p75": 0.01,
+      "n": 605
+     },
+     "boot": {
+      "bootMedian": 0.006,
+      "ci95": [
+       0.006,
+       0.007
+      ],
+      "nDrives": 605,
+      "nDays": 121
+     },
+     "pooled": 0.0114
+    },
+    "loadPoint": {
+     "perDriveMedIqr": {
+      "median": 0.275,
+      "p25": 0.22,
+      "p75": 0.359,
+      "n": 605
+     },
+     "boot": {
+      "bootMedian": 0.275,
+      "ci95": [
+       0.262,
+       0.285
+      ],
+      "nDrives": 605,
+      "nDays": 121
+     },
+     "pooled": 0.3511
+    },
+    "mid": {
+     "perDriveMedIqr": {
+      "median": 0.0,
+      "p25": 0.0,
+      "p75": 0.005,
+      "n": 605
+     },
+     "boot": {
+      "bootMedian": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "nDrives": 605,
+      "nDays": 121
+     },
+     "pooled": 0.0544
+    },
+    "high": {
+     "perDriveMedIqr": {
+      "median": 0.0,
+      "p25": 0.0,
+      "p75": 0.0,
+      "n": 605
+     },
+     "boot": {
+      "bootMedian": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "nDrives": 605,
+      "nDays": 121
+     },
+     "pooled": 0.008
+    }
+   },
+   "pooledTotalSeconds": 826500,
+   "perState": {
+    "off": {
+     "dwellS": {
+      "median": 21.0,
+      "p25": 5.0,
+      "p75": 71.0,
+      "n": 8921
+     },
+     "entriesPerEngHour": 85.38,
+     "battKw": {
+      "median": 1.78,
+      "p25": 0.351,
+      "p75": 7.099,
+      "n": 462669
+     },
+     "selfTransition": 0.982
+    },
+    "low": {
+     "dwellS": {
+      "median": 1.0,
+      "p25": 1.0,
+      "p75": 2.0,
+      "n": 5848
+     },
+     "entriesPerEngHour": 59.94,
+     "battKw": {
+      "median": -6.689,
+      "p25": -24.898,
+      "p75": 6.217,
+      "n": 9100
+     },
+     "selfTransition": 0.38
+    },
+    "loadPoint": {
+     "dwellS": {
+      "median": 9.0,
+      "p25": 3.0,
+      "p75": 23.0,
+      "n": 14779
+     },
+     "entriesPerEngHour": 151.33,
+     "battKw": {
+      "median": -4.579,
+      "p25": -12.296,
+      "p75": 1.949,
+      "n": 284304
+     },
+     "selfTransition": 0.949
+    },
+    "mid": {
+     "dwellS": {
+      "median": 3.0,
+      "p25": 2.0,
+      "p75": 7.0,
+      "n": 7036
+     },
+     "entriesPerEngHour": 72.11,
+     "battKw": {
+      "median": 2.822,
+      "p25": 0.214,
+      "p75": 8.928,
+      "n": 43639
+     },
+     "selfTransition": 0.844
+    },
+    "high": {
+     "dwellS": {
+      "median": 3.0,
+      "p25": 2.0,
+      "p75": 6.0,
+      "n": 1305
+     },
+     "entriesPerEngHour": 13.38,
+     "battKw": {
+      "median": 2.704,
+      "p25": -1.383,
+      "p75": 9.602,
+      "n": 6393
+     },
+     "selfTransition": 0.803
+    }
+   },
+   "transitionMatrix": {
+    "from": [
+     "off",
+     "low",
+     "loadPoint",
+     "mid",
+     "high"
+    ],
+    "to": [
+     "off",
+     "low",
+     "loadPoint",
+     "mid",
+     "high"
+    ],
+    "counts": [
+     [
+      466937,
+      937,
+      7237,
+      187,
+      0
+     ],
+     [
+      4152,
+      3575,
+      1562,
+      128,
+      3
+     ],
+     [
+      4117,
+      4755,
+      275422,
+      5678,
+      187
+     ],
+     [
+      56,
+      140,
+      5725,
+      37952,
+      1115
+     ],
+     [
+      5,
+      16,
+      241,
+      1043,
+      5330
+     ]
+    ],
+    "prob": [
+     [
+      0.9824,
+      0.002,
+      0.0152,
+      0.0004,
+      0.0
+     ],
+     [
+      0.4408,
+      0.3795,
+      0.1658,
+      0.0136,
+      0.0003
+     ],
+     [
+      0.0142,
+      0.0164,
+      0.9492,
+      0.0196,
+      0.0006
+     ],
+     [
+      0.0012,
+      0.0031,
+      0.1273,
+      0.8436,
+      0.0248
+     ],
+     [
+      0.0008,
+      0.0024,
+      0.0363,
+      0.1572,
+      0.8033
+     ]
+    ]
+   },
+   "methodology": "Per-second engine operating-point state on a 1 Hz grid: off rpm<=400 (strict engine-on boundary); low >400-1400; loadPoint 1400-2300 (the OEM-nominal ~2000-rpm generator load-point -- NOT a measured BSFC optimum, no efficiency claim); mid 2300-3200; high >=3200. Per drive: state occupancy, within-drive first-order transition counts (t->t+1), per-state dwell run-lengths, per-state entry counts and per-state battery kW (p=(-I)*V, M11). Occupancy is per-drive median/IQR with a day-clustered bootstrap (seed 42, 4000 draws); occupancy.<state>.pooled (M203) is the corpus-pooled, duration-weighted share of ALL classified engine time -- derived from the transition-matrix row sums, so it excludes only the single last classified sample of each drive (~0.05% relative undercount at this corpus size). Use pooled for \"how much of engine time\", not the per-drive median: mid/high are zero-inflated across drives (most individual drives never reach the state at all), so their per-drive median reads 0% even though pooled occupancy is real and non-trivial; \"off\" per-drive median reads above pooled because short/idle-heavy drives skew the median upward. Pooled \"off\" is the share of classified state-grid time (1 s mean resample, hold 3 s), not of engine time, and is not compared with the pipeline-grid shares of other blocks. Dwell, entry rate (per engine-on hour), battery kW and the transition matrix are pooled. Extends rpmDistribution (occupancy only) and M118 (start-dwell only) with the full dwell/entry/transition state machine. Single vehicle / ~single driver -- descriptive."
+  },
+  "byCohort": {
+   "warm": {
+    "nDrivesCovered": 422,
+    "nDays": 101,
+    "engineOnHours": 75.4,
+    "states": [
+     "off",
+     "low",
+     "loadPoint",
+     "mid",
+     "high"
+    ],
+    "stateEdgesRpm": {
+     "off": [
+      0,
+      400
+     ],
+     "low": [
+      400,
+      1400
+     ],
+     "loadPoint": [
+      1400,
+      2300
+     ],
+     "mid": [
+      2300,
+      3200
+     ],
+     "high": [
+      3200,
+      null
+     ],
+     "offBoundary": "rpm <= 400 (strict engine-on boundary)"
+    },
+    "occupancy": {
+     "off": {
+      "perDriveMedIqr": {
+       "median": 0.708,
+       "p25": 0.618,
+       "p75": 0.763,
+       "n": 422
+      },
+      "boot": {
+       "bootMedian": 0.708,
+       "ci95": [
+        0.689,
+        0.724
+       ],
+       "nDrives": 422,
+       "nDays": 101
+      },
+      "pooled": 0.5635
+     },
+     "low": {
+      "perDriveMedIqr": {
+       "median": 0.007,
+       "p25": 0.003,
+       "p75": 0.011,
+       "n": 422
+      },
+      "boot": {
+       "bootMedian": 0.007,
+       "ci95": [
+        0.006,
+        0.008
+       ],
+       "nDrives": 422,
+       "nDays": 101
+      },
+      "pooled": 0.012
+     },
+     "loadPoint": {
+      "perDriveMedIqr": {
+       "median": 0.276,
+       "p25": 0.23,
+       "p75": 0.353,
+       "n": 422
+      },
+      "boot": {
+       "bootMedian": 0.276,
+       "ci95": [
+        0.263,
+        0.29
+       ],
+       "nDrives": 422,
+       "nDays": 101
+      },
+      "pooled": 0.3538
+     },
+     "mid": {
+      "perDriveMedIqr": {
+       "median": 0.0,
+       "p25": 0.0,
+       "p75": 0.011,
+       "n": 422
+      },
+      "boot": {
+       "bootMedian": 0.0,
+       "ci95": [
+        0.0,
+        0.0
+       ],
+       "nDrives": 422,
+       "nDays": 101
+      },
+      "pooled": 0.0609
+     },
+     "high": {
+      "perDriveMedIqr": {
+       "median": 0.0,
+       "p25": 0.0,
+       "p75": 0.0,
+       "n": 422
+      },
+      "boot": {
+       "bootMedian": 0.0,
+       "ci95": [
+        0.0,
+        0.0
+       ],
+       "nDrives": 422,
+       "nDays": 101
+      },
+      "pooled": 0.0098
+     }
+    },
+    "pooledTotalSeconds": 622090,
+    "perState": {
+     "off": {
+      "dwellS": {
+       "median": 19.0,
+       "p25": 5.0,
+       "p75": 66.0,
+       "n": 6980
+      },
+      "entriesPerEngHour": 87.09,
+      "battKw": {
+       "median": 1.812,
+       "p25": 0.193,
+       "p75": 7.242,
+       "n": 343562
+      },
+      "selfTransition": 0.981
+     },
+     "low": {
+      "dwellS": {
+       "median": 1.0,
+       "p25": 1.0,
+       "p75": 2.0,
+       "n": 4587
+      },
+      "entriesPerEngHour": 60.81,
+      "battKw": {
+       "median": -7.799,
+       "p25": -25.364,
+       "p75": 6.088,
+       "n": 7197
+      },
+      "selfTransition": 0.384
+     },
+     "loadPoint": {
+      "dwellS": {
+       "median": 8.0,
+       "p25": 3.0,
+       "p75": 22.0,
+       "n": 11794
+      },
+      "entriesPerEngHour": 156.18,
+      "battKw": {
+       "median": -4.509,
+       "p25": -12.309,
+       "p75": 2.198,
+       "n": 215881
+      },
+      "selfTransition": 0.946
+     },
+     "mid": {
+      "dwellS": {
+       "median": 3.0,
+       "p25": 2.0,
+       "p75": 7.0,
+       "n": 5840
+      },
+      "entriesPerEngHour": 77.42,
+      "battKw": {
+       "median": 2.912,
+       "p25": 0.25,
+       "p75": 9.359,
+       "n": 36667
+      },
+      "selfTransition": 0.846
+     },
+     "high": {
+      "dwellS": {
+       "median": 4.0,
+       "p25": 2.0,
+       "p75": 6.0,
+       "n": 1178
+      },
+      "entriesPerEngHour": 15.62,
+      "battKw": {
+       "median": 2.562,
+       "p25": -1.438,
+       "p75": 9.324,
+       "n": 5899
+      },
+      "selfTransition": 0.808
+     }
+    },
+    "transitionMatrix": {
+     "from": [
+      "off",
+      "low",
+      "loadPoint",
+      "mid",
+      "high"
+     ],
+     "to": [
+      "off",
+      "low",
+      "loadPoint",
+      "mid",
+      "high"
+     ],
+     "counts": [
+      [
+       343958,
+       709,
+       5701,
+       165,
+       0
+      ],
+      [
+       3283,
+       2861,
+       1197,
+       103,
+       3
+      ],
+      [
+       3232,
+       3751,
+       208324,
+       4630,
+       165
+      ],
+      [
+       50,
+       115,
+       4665,
+       32044,
+       1010
+      ],
+      [
+       5,
+       12,
+       219,
+       942,
+       4946
+      ]
+     ],
+     "prob": [
+      [
+       0.9812,
+       0.002,
+       0.0163,
+       0.0005,
+       0.0
+      ],
+      [
+       0.4408,
+       0.3842,
+       0.1607,
+       0.0138,
+       0.0004
+      ],
+      [
+       0.0147,
+       0.017,
+       0.9465,
+       0.021,
+       0.0007
+      ],
+      [
+       0.0013,
+       0.003,
+       0.1231,
+       0.8458,
+       0.0267
+      ],
+      [
+       0.0008,
+       0.002,
+       0.0358,
+       0.1538,
+       0.8076
+      ]
+     ]
+    },
+    "methodology": "Per-second engine operating-point state on a 1 Hz grid: off rpm<=400 (strict engine-on boundary); low >400-1400; loadPoint 1400-2300 (the OEM-nominal ~2000-rpm generator load-point -- NOT a measured BSFC optimum, no efficiency claim); mid 2300-3200; high >=3200. Per drive: state occupancy, within-drive first-order transition counts (t->t+1), per-state dwell run-lengths, per-state entry counts and per-state battery kW (p=(-I)*V, M11). Occupancy is per-drive median/IQR with a day-clustered bootstrap (seed 42, 4000 draws); occupancy.<state>.pooled (M203) is the corpus-pooled, duration-weighted share of ALL classified engine time -- derived from the transition-matrix row sums, so it excludes only the single last classified sample of each drive (~0.05% relative undercount at this corpus size). Use pooled for \"how much of engine time\", not the per-drive median: mid/high are zero-inflated across drives (most individual drives never reach the state at all), so their per-drive median reads 0% even though pooled occupancy is real and non-trivial; \"off\" per-drive median reads above pooled because short/idle-heavy drives skew the median upward. Pooled \"off\" is the share of classified state-grid time (1 s mean resample, hold 3 s), not of engine time, and is not compared with the pipeline-grid shares of other blocks. Dwell, entry rate (per engine-on hour), battery kW and the transition matrix are pooled. Extends rpmDistribution (occupancy only) and M118 (start-dwell only) with the full dwell/entry/transition state machine. Single vehicle / ~single driver -- descriptive."
+   },
+   "shoulder": {
+    "nDrivesCovered": 170,
+    "nDays": 50,
+    "engineOnHours": 19.8,
+    "states": [
+     "off",
+     "low",
+     "loadPoint",
+     "mid",
+     "high"
+    ],
+    "stateEdgesRpm": {
+     "off": [
+      0,
+      400
+     ],
+     "low": [
+      400,
+      1400
+     ],
+     "loadPoint": [
+      1400,
+      2300
+     ],
+     "mid": [
+      2300,
+      3200
+     ],
+     "high": [
+      3200,
+      null
+     ],
+     "offBoundary": "rpm <= 400 (strict engine-on boundary)"
+    },
+    "occupancy": {
+     "off": {
+      "perDriveMedIqr": {
+       "median": 0.729,
+       "p25": 0.607,
+       "p75": 0.802,
+       "n": 170
+      },
+      "boot": {
+       "bootMedian": 0.729,
+       "ci95": [
+        0.708,
+        0.749
+       ],
+       "nDrives": 170,
+       "nDays": 50
+      },
+      "pooled": 0.6279
+     },
+     "low": {
+      "perDriveMedIqr": {
+       "median": 0.005,
+       "p25": 0.0,
+       "p75": 0.009,
+       "n": 170
+      },
+      "boot": {
+       "bootMedian": 0.005,
+       "ci95": [
+        0.003,
+        0.006
+       ],
+       "nDrives": 170,
+       "nDays": 50
+      },
+      "pooled": 0.0095
+     },
+     "loadPoint": {
+      "perDriveMedIqr": {
+       "median": 0.257,
+       "p25": 0.191,
+       "p75": 0.366,
+       "n": 170
+      },
+      "boot": {
+       "bootMedian": 0.257,
+       "ci95": [
+        0.241,
+        0.285
+       ],
+       "nDrives": 170,
+       "nDays": 50
+      },
+      "pooled": 0.3278
+     },
+     "mid": {
+      "perDriveMedIqr": {
+       "median": 0.0,
+       "p25": 0.0,
+       "p75": 0.0,
+       "n": 170
+      },
+      "boot": {
+       "bootMedian": 0.0,
+       "ci95": [
+        0.0,
+        0.0
+       ],
+       "nDrives": 170,
+       "nDays": 50
+      },
+      "pooled": 0.0322
+     },
+     "high": {
+      "perDriveMedIqr": {
+       "median": 0.0,
+       "p25": 0.0,
+       "p75": 0.0,
+       "n": 170
+      },
+      "boot": {
+       "bootMedian": 0.0,
+       "ci95": [
+        0.0,
+        0.0
+       ],
+       "nDrives": 170,
+       "nDays": 50
+      },
+      "pooled": 0.0026
+     }
+    },
+    "pooledTotalSeconds": 191348,
+    "perState": {
+     "off": {
+      "dwellS": {
+       "median": 30.0,
+       "p25": 5.0,
+       "p75": 95.75,
+       "n": 1798
+      },
+      "entriesPerEngHour": 82.35,
+      "battKw": {
+       "median": 1.572,
+       "p25": 0.36,
+       "p75": 6.75,
+       "n": 114520
+      },
+      "selfTransition": 0.986
+     },
+     "low": {
+      "dwellS": {
+       "median": 1.0,
+       "p25": 1.0,
+       "p75": 2.0,
+       "n": 1152
+      },
+      "entriesPerEngHour": 58.24,
+      "battKw": {
+       "median": -3.021,
+       "p25": -21.836,
+       "p75": 6.618,
+       "n": 1744
+      },
+      "selfTransition": 0.366
+     },
+     "loadPoint": {
+      "dwellS": {
+       "median": 11.0,
+       "p25": 3.0,
+       "p75": 28.0,
+       "n": 2685
+      },
+      "entriesPerEngHour": 135.68,
+      "battKw": {
+       "median": -5.167,
+       "p25": -12.664,
+       "p75": 1.04,
+       "n": 61090
+      },
+      "selfTransition": 0.957
+     },
+     "mid": {
+      "dwellS": {
+       "median": 3.0,
+       "p25": 2.0,
+       "p75": 7.0,
+       "n": 1041
+      },
+      "entriesPerEngHour": 52.63,
+      "battKw": {
+       "median": 2.633,
+       "p25": 0.126,
+       "p75": 7.328,
+       "n": 6022
+      },
+      "selfTransition": 0.831
+     },
+     "high": {
+      "dwellS": {
+       "median": 3.0,
+       "p25": 1.75,
+       "p75": 4.0,
+       "n": 120
+      },
+      "entriesPerEngHour": 6.07,
+      "battKw": {
+       "median": 4.106,
+       "p25": 0.268,
+       "p75": 14.099,
+       "n": 477
+      },
+      "selfTransition": 0.757
+     }
+    },
+    "transitionMatrix": {
+     "from": [
+      "off",
+      "low",
+      "loadPoint",
+      "mid",
+      "high"
+     ],
+     "to": [
+      "off",
+      "low",
+      "loadPoint",
+      "mid",
+      "high"
+     ],
+     "counts": [
+      [
+       118508,
+       206,
+       1419,
+       22,
+       0
+      ],
+      [
+       796,
+       664,
+       329,
+       25,
+       0
+      ],
+      [
+       827,
+       920,
+       60063,
+       899,
+       22
+      ],
+      [
+       6,
+       22,
+       915,
+       5113,
+       98
+      ],
+      [
+       0,
+       4,
+       21,
+       95,
+       374
+      ]
+     ],
+     "prob": [
+      [
+       0.9863,
+       0.0017,
+       0.0118,
+       0.0002,
+       0.0
+      ],
+      [
+       0.4388,
+       0.366,
+       0.1814,
+       0.0138,
+       0.0
+      ],
+      [
+       0.0132,
+       0.0147,
+       0.9575,
+       0.0143,
+       0.0004
+      ],
+      [
+       0.001,
+       0.0036,
+       0.1487,
+       0.8308,
+       0.0159
+      ],
+      [
+       0.0,
+       0.0081,
+       0.0425,
+       0.1923,
+       0.7571
+      ]
+     ]
+    },
+    "methodology": "Per-second engine operating-point state on a 1 Hz grid: off rpm<=400 (strict engine-on boundary); low >400-1400; loadPoint 1400-2300 (the OEM-nominal ~2000-rpm generator load-point -- NOT a measured BSFC optimum, no efficiency claim); mid 2300-3200; high >=3200. Per drive: state occupancy, within-drive first-order transition counts (t->t+1), per-state dwell run-lengths, per-state entry counts and per-state battery kW (p=(-I)*V, M11). Occupancy is per-drive median/IQR with a day-clustered bootstrap (seed 42, 4000 draws); occupancy.<state>.pooled (M203) is the corpus-pooled, duration-weighted share of ALL classified engine time -- derived from the transition-matrix row sums, so it excludes only the single last classified sample of each drive (~0.05% relative undercount at this corpus size). Use pooled for \"how much of engine time\", not the per-drive median: mid/high are zero-inflated across drives (most individual drives never reach the state at all), so their per-drive median reads 0% even though pooled occupancy is real and non-trivial; \"off\" per-drive median reads above pooled because short/idle-heavy drives skew the median upward. Pooled \"off\" is the share of classified state-grid time (1 s mean resample, hold 3 s), not of engine time, and is not compared with the pipeline-grid shares of other blocks. Dwell, entry rate (per engine-on hour), battery kW and the transition matrix are pooled. Extends rpmDistribution (occupancy only) and M118 (start-dwell only) with the full dwell/entry/transition state machine. Single vehicle / ~single driver -- descriptive."
+   },
+   "cold": {
+    "nDrivesCovered": 13,
+    "nDays": 5,
+    "engineOnHours": 2.4,
+    "states": [
+     "off",
+     "low",
+     "loadPoint",
+     "mid",
+     "high"
+    ],
+    "stateEdgesRpm": {
+     "off": [
+      0,
+      400
+     ],
+     "low": [
+      400,
+      1400
+     ],
+     "loadPoint": [
+      1400,
+      2300
+     ],
+     "mid": [
+      2300,
+      3200
+     ],
+     "high": [
+      3200,
+      null
+     ],
+     "offBoundary": "rpm <= 400 (strict engine-on boundary)"
+    },
+    "occupancy": {
+     "off": {
+      "perDriveMedIqr": {
+       "median": 0.551,
+       "p25": 0.399,
+       "p75": 0.838,
+       "n": 13
+      },
+      "boot": {
+       "bootMedian": 0.551,
+       "ci95": [
+        0.399,
+        0.787
+       ],
+       "nDrives": 13,
+       "nDays": 5
+      },
+      "pooled": 0.3529
+     },
+     "low": {
+      "perDriveMedIqr": {
+       "median": 0.0,
+       "p25": 0.0,
+       "p75": 0.003,
+       "n": 13
+      },
+      "boot": {
+       "bootMedian": 0.0,
+       "ci95": [
+        0.0,
+        0.003
+       ],
+       "nDrives": 13,
+       "nDays": 5
+      },
+      "pooled": 0.0122
+     },
+     "loadPoint": {
+      "perDriveMedIqr": {
+       "median": 0.437,
+       "p25": 0.162,
+       "p75": 0.601,
+       "n": 13
+      },
+      "boot": {
+       "bootMedian": 0.437,
+       "ci95": [
+        0.21,
+        0.601
+       ],
+       "nDrives": 13,
+       "nDays": 5
+      },
+      "pooled": 0.5609
+     },
+     "mid": {
+      "perDriveMedIqr": {
+       "median": 0.0,
+       "p25": 0.0,
+       "p75": 0.0,
+       "n": 13
+      },
+      "boot": {
+       "bootMedian": 0.0,
+       "ci95": [
+        0.0,
+        0.0
+       ],
+       "nDrives": 13,
+       "nDays": 5
+      },
+      "pooled": 0.0727
+     },
+     "high": {
+      "perDriveMedIqr": {
+       "median": 0.0,
+       "p25": 0.0,
+       "p75": 0.0,
+       "n": 13
+      },
+      "boot": {
+       "bootMedian": 0.0,
+       "ci95": [
+        0.0,
+        0.0
+       ],
+       "nDrives": 13,
+       "nDays": 5
+      },
+      "pooled": 0.0013
+     }
+    },
+    "pooledTotalSeconds": 13062,
+    "perState": {
+     "off": {
+      "dwellS": {
+       "median": 6.0,
+       "p25": 2.0,
+       "p75": 20.5,
+       "n": 143
+      },
+      "entriesPerEngHour": 55.74,
+      "battKw": {
+       "median": 2.031,
+       "p25": 0.451,
+       "p75": 7.028,
+       "n": 4587
+      },
+      "selfTransition": 0.97
+     },
+     "low": {
+      "dwellS": {
+       "median": 1.0,
+       "p25": 1.0,
+       "p75": 2.0,
+       "n": 109
+      },
+      "entriesPerEngHour": 46.38,
+      "battKw": {
+       "median": -6.068,
+       "p25": -32.295,
+       "p75": 5.908,
+       "n": 159
+      },
+      "selfTransition": 0.314
+     },
+     "loadPoint": {
+      "dwellS": {
+       "median": 10.0,
+       "p25": 4.0,
+       "p75": 26.0,
+       "n": 300
+      },
+      "entriesPerEngHour": 127.22,
+      "battKw": {
+       "median": -1.811,
+       "p25": -6.815,
+       "p75": 2.5,
+       "n": 7333
+      },
+      "selfTransition": 0.96
+     },
+     "mid": {
+      "dwellS": {
+       "median": 4.0,
+       "p25": 2.0,
+       "p75": 7.0,
+       "n": 155
+      },
+      "entriesPerEngHour": 65.95,
+      "battKw": {
+       "median": 1.121,
+       "p25": -0.264,
+       "p75": 4.248,
+       "n": 950
+      },
+      "selfTransition": 0.837
+     },
+     "high": {
+      "dwellS": {
+       "median": 2.0,
+       "p25": 1.0,
+       "p75": 2.5,
+       "n": 7
+      },
+      "entriesPerEngHour": 2.98,
+      "battKw": {
+       "median": 2.066,
+       "p25": -3.33,
+       "p75": 5.254,
+       "n": 17
+      },
+      "selfTransition": 0.588
+     }
+    },
+    "transitionMatrix": {
+     "from": [
+      "off",
+      "low",
+      "loadPoint",
+      "mid",
+      "high"
+     ],
+     "to": [
+      "off",
+      "low",
+      "loadPoint",
+      "mid",
+      "high"
+     ],
+     "counts": [
+      [
+       4471,
+       22,
+       117,
+       0,
+       0
+      ],
+      [
+       73,
+       50,
+       36,
+       0,
+       0
+      ],
+      [
+       58,
+       84,
+       7035,
+       149,
+       0
+      ],
+      [
+       0,
+       3,
+       145,
+       795,
+       7
+      ],
+      [
+       0,
+       0,
+       1,
+       6,
+       10
+      ]
+     ],
+     "prob": [
+      [
+       0.9698,
+       0.0048,
+       0.0254,
+       0.0,
+       0.0
+      ],
+      [
+       0.4591,
+       0.3145,
+       0.2264,
+       0.0,
+       0.0
+      ],
+      [
+       0.0079,
+       0.0115,
+       0.9603,
+       0.0203,
+       0.0
+      ],
+      [
+       0.0,
+       0.0032,
+       0.1526,
+       0.8368,
+       0.0074
+      ],
+      [
+       0.0,
+       0.0,
+       0.0588,
+       0.3529,
+       0.5882
+      ]
+     ]
+    },
+    "methodology": "Per-second engine operating-point state on a 1 Hz grid: off rpm<=400 (strict engine-on boundary); low >400-1400; loadPoint 1400-2300 (the OEM-nominal ~2000-rpm generator load-point -- NOT a measured BSFC optimum, no efficiency claim); mid 2300-3200; high >=3200. Per drive: state occupancy, within-drive first-order transition counts (t->t+1), per-state dwell run-lengths, per-state entry counts and per-state battery kW (p=(-I)*V, M11). Occupancy is per-drive median/IQR with a day-clustered bootstrap (seed 42, 4000 draws); occupancy.<state>.pooled (M203) is the corpus-pooled, duration-weighted share of ALL classified engine time -- derived from the transition-matrix row sums, so it excludes only the single last classified sample of each drive (~0.05% relative undercount at this corpus size). Use pooled for \"how much of engine time\", not the per-drive median: mid/high are zero-inflated across drives (most individual drives never reach the state at all), so their per-drive median reads 0% even though pooled occupancy is real and non-trivial; \"off\" per-drive median reads above pooled because short/idle-heavy drives skew the median upward. Pooled \"off\" is the share of classified state-grid time (1 s mean resample, hold 3 s), not of engine time, and is not compared with the pipeline-grid shares of other blocks. Dwell, entry rate (per engine-on hour), battery kW and the transition matrix are pooled. Extends rpmDistribution (occupancy only) and M118 (start-dwell only) with the full dwell/entry/transition state machine. Single vehicle / ~single driver -- descriptive."
+   }
+  },
+  "detail": {
+   "pooled": {
+    "nDrives": 605,
+    "nDays": 121,
+    "exploratory": false,
+    "secondsExactly400OnStateGrid": 77,
+    "secondsExactly400LastClassifiedExcluded": 77,
+    "pooledOffShareUnroundedPct": {
+     "stored": 57.498004,
+     "rule": 57.50732,
+     "movePp": 0.009316
+    },
+    "classifiedSecondsPooled": {
+     "stored": 826500,
+     "rule": 826500
+    }
+   },
+   "byCohort": {
+    "warm": {
+     "nDrives": 422,
+     "nDays": 101,
+     "exploratory": false
+    },
+    "shoulder": {
+     "nDrives": 170,
+     "nDays": 50,
+     "exploratory": false
+    },
+    "cold": {
+     "nDrives": 13,
+     "nDays": 5,
+     "exploratory": false
+    }
+   },
+   "perDriveExactly400": {
+    "2026-09-13_19-45-44.csv": {
+     "all": 3,
+     "lastExcluded": 3,
+     "classifiedSeconds": 2503
+    },
+    "2026-09-13_20-30-29.csv": {
+     "all": 2,
+     "lastExcluded": 2,
+     "classifiedSeconds": 2124
+    },
+    "2026-09-25_14-30-29.csv": {
+     "all": 1,
+     "lastExcluded": 1,
+     "classifiedSeconds": 1174
+    },
+    "2026-09-26_16-47-35.csv": {
+     "all": 2,
+     "lastExcluded": 2,
+     "classifiedSeconds": 2795
+    },
+    "2026-10-07_22-13-43.csv": {
+     "all": 2,
+     "lastExcluded": 2,
+     "classifiedSeconds": 483
+    },
+    "2026-10-08_08-34-36.csv": {
+     "all": 1,
+     "lastExcluded": 1,
+     "classifiedSeconds": 1946
+    },
+    "2026-10-10_19-49-29.csv": {
+     "all": 4,
+     "lastExcluded": 4,
+     "classifiedSeconds": 6114
+    },
+    "2026-10-15_08-07-05.csv": {
+     "all": 3,
+     "lastExcluded": 3,
+     "classifiedSeconds": 3943
+    },
+    "2026-10-16_07-52-05.csv": {
+     "all": 3,
+     "lastExcluded": 3,
+     "classifiedSeconds": 4451
+    },
+    "2026-10-17_16-05-39.csv": {
+     "all": 3,
+     "lastExcluded": 3,
+     "classifiedSeconds": 6472
+    },
+    "20260609_132041.csv": {
+     "all": 3,
+     "lastExcluded": 3,
+     "classifiedSeconds": 5089
+    },
+    "20260610_094100.csv": {
+     "all": 2,
+     "lastExcluded": 2,
+     "classifiedSeconds": 3654
+    },
+    "20260611_061120.csv": {
+     "all": 2,
+     "lastExcluded": 2,
+     "classifiedSeconds": 8132
+    },
+    "20260613_101500.csv": {
+     "all": 3,
+     "lastExcluded": 3,
+     "classifiedSeconds": 4975
+    },
+    "20260619_190927.csv": {
+     "all": 2,
+     "lastExcluded": 2,
+     "classifiedSeconds": 6366
+    },
+    "20260627_114435.csv": {
+     "all": 4,
+     "lastExcluded": 4,
+     "classifiedSeconds": 8653
+    },
+    "20260627_154430.csv": {
+     "all": 2,
+     "lastExcluded": 2,
+     "classifiedSeconds": 5964
+    },
+    "20260627_175120.csv": {
+     "all": 1,
+     "lastExcluded": 1,
+     "classifiedSeconds": 5343
+    },
+    "20260711_160253.csv": {
+     "all": 1,
+     "lastExcluded": 1,
+     "classifiedSeconds": 5371
+    },
+    "20260718_145814.csv": {
+     "all": 2,
+     "lastExcluded": 2,
+     "classifiedSeconds": 3146
+    },
+    "20260720_134059.csv": {
+     "all": 3,
+     "lastExcluded": 3,
+     "classifiedSeconds": 9502
+    },
+    "20260723_113724.csv": {
+     "all": 2,
+     "lastExcluded": 2,
+     "classifiedSeconds": 4668
+    },
+    "20260723_215445.csv": {
+     "all": 6,
+     "lastExcluded": 6,
+     "classifiedSeconds": 3064
+    },
+    "20260724_174828.csv": {
+     "all": 2,
+     "lastExcluded": 2,
+     "classifiedSeconds": 3477
+    },
+    "20260725_140026.csv": {
+     "all": 1,
+     "lastExcluded": 1,
+     "classifiedSeconds": 8067
+    },
+    "20260726_200146.csv": {
+     "all": 3,
+     "lastExcluded": 3,
+     "classifiedSeconds": 5150
+    },
+    "20260802_132422.csv": {
+     "all": 1,
+     "lastExcluded": 1,
+     "classifiedSeconds": 7092
+    },
+    "20260804_215437.csv": {
+     "all": 3,
+     "lastExcluded": 3,
+     "classifiedSeconds": 5734
+    },
+    "20260816_124817.csv": {
+     "all": 1,
+     "lastExcluded": 1,
+     "classifiedSeconds": 4644
+    },
+    "20260817_183543.csv": {
+     "all": 1,
+     "lastExcluded": 1,
+     "classifiedSeconds": 3454
+    },
+    "20260818_111200.csv": {
+     "all": 2,
+     "lastExcluded": 2,
+     "classifiedSeconds": 2364
+    },
+    "20260829_100447.csv": {
+     "all": 1,
+     "lastExcluded": 1,
+     "classifiedSeconds": 3052
+    },
+    "20260829_191404.csv": {
+     "all": 2,
+     "lastExcluded": 2,
+     "classifiedSeconds": 724
+    },
+    "20260830_125410.csv": {
+     "all": 1,
+     "lastExcluded": 1,
+     "classifiedSeconds": 5254
+    },
+    "20260830_165926.csv": {
+     "all": 2,
+     "lastExcluded": 2,
+     "classifiedSeconds": 4917
+    }
+   }
+  },
+  "limits": [
+   "logged rpm is app-reported, not measured",
+   "the state grid differs from the pipeline grid of engineOnRule (1 s mean resample, hold 3 s, no native forward fill), so shares are compared only within this block",
+   "the pooled off share is a share of classified state-grid time, not of engine time",
+   "no stored-versus-Rule contrast or difference interval is drawn",
+   "fewer than 5 calendar days: exploratory, no interval reading",
+   "the day bootstrap does not capture serial day correlation; convenience sample",
+   "engineDwellSurvival keeps the stored boundary (rpm >= 400): stored basis"
+  ],
+  "provenance": {
+   "spec": "analyses/M546_spec.md",
+   "specSha256": "bfd8c99737797b12d14ea68626da2027ea3e7aa43928a99c87f20fa4a782a8a5",
+   "toolSha256": "9d507e8ba466c96c82606790f7d96a7a9ace7a66a18895663ed365a09f56b4b0",
+   "cacheKey": "fa583e5d7f5a1601345f986cf58e65e138d87baf7a0aee332fdaaa78abf74e0e",
+   "gates": {
+    "driveSetEqualsStored": true,
+    "conservationRowSums": {
+     "nExactly400LastExcluded": 77,
+     "offRuleMinusStored": 77.0,
+     "lowRuleMinusStored": -77.0,
+     "otherRowsEqual": true,
+     "passed": true
+    },
+    "matrixOutsideOffLowEqual": true,
+    "A3": {
+     "tripwire": "unrounded pooled off share moves by >= 0.01 percentage points",
+     "hit": false,
+     "otherStatesDiffer": false
+    },
+    "passed": true
+   },
+   "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "cohortSource": "thermal_regime of seasonal_drive_master.csv"
   }
  }
 }

@@ -164,13 +164,6 @@
    "migration": "wave2"
   },
   {
-   "file": "tools/engine_start_rate.py",
-   "anchor": "on = np.nan_to_num(er, nan=0.0) > 300",
-   "family": "event-onset-300",
-   "rule": "RPM onset (> 300 rpm, run >= 2 s; NaN = off); keeps its own name (Director Q3)",
-   "migration": "none (event detector)"
-  },
-  {
    "file": "tools/fuel_analytics2.py",
    "anchor": "on = (np.nan_to_num(rpm) > 400) & (flow > 0)",
    "family": "rule-400",
@@ -224,6 +217,34 @@
    "anchor": "out[\"ruleBasis\"] = {\"thresholdRpm\": 400.0",
    "family": "doc-400",
    "rule": "text only (rule basis statement of the rpmOptBand Rule leaves)",
+   "migration": "none"
+  },
+  {
+   "file": "tools/engine_start_rate.py",
+   "anchor": "on300 = np.nan_to_num(hz[\"eng_rpm\"].values, nan=0.0) > 300",
+   "family": "event-onset-300",
+   "rule": "containment check of the M546 count-only onset sensitivity: every > 400 run lies inside a > 300 run of the detector of record (RPM onset keeps its own name) ; the detector itself is now onsets(hz, thr=300) (thr is an argument, default 300 = the detector of record; thr=400 is the count-only sensitivity)",
+   "migration": "none (event detector)"
+  },
+  {
+   "file": "tools/engine_start_rate.py",
+   "anchor": "res[\"onsetSensitivity400\"] = {\"name\"",
+   "family": "doc-400",
+   "rule": "text only (name of the count-only onset sensitivity at rpm > 400, never displayed)",
+   "migration": "none"
+  },
+  {
+   "file": "tools/engine_state_machine_stage.py",
+   "anchor": "second at exactly 400 rpm is 'off', not 'low'",
+   "family": "doc-400",
+   "rule": "text only (stage docstring: strict engine-on boundary of the state machine)",
+   "migration": "none"
+  },
+  {
+   "file": "tools/engine_state_machine_stage.py",
+   "anchor": "blk = {\"estimand\": \"engine operating-point state machine",
+   "family": "doc-400",
+   "rule": "text only (estimand statement of engineStateMachineRule: off = rpm <= 400)",
    "migration": "none"
   }
  ],
