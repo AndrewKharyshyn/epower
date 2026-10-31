@@ -1,0 +1,243 @@
+{
+ "spec": "analyses/M546_spec.md Rev 1 (A4)",
+ "seed": 42,
+ "drawnBeforeCodeAndProducerRun": true,
+ "stratification": "drive_type x cadence regime (2 per cell, fast / slow) + 4 cold + 3 warm + 3 shoulder cohort drives + 6 drives with exactly-400 seconds on the pipeline grid (engine_on_rule_sidecar.csv eq400 > 0)",
+ "files": [
+  "2026-09-11_08-01-27.csv",
+  "2026-10-01_08-14-08.csv",
+  "2026-10-02_08-04-04.csv",
+  "2026-10-06_07-58-35.csv",
+  "2026-10-10_06-57-23.csv",
+  "2026-10-11_15-16-20.csv",
+  "2026-10-13_07-42-34.csv",
+  "2026-10-13_08-10-25.csv",
+  "2026-10-13_15-41-11.csv",
+  "2026-10-14_06-51-43.csv",
+  "2026-10-16_07-52-05.csv",
+  "20260610_094100.csv",
+  "20260612_142400.csv",
+  "20260619_122407.csv",
+  "20260621_213241.csv",
+  "20260627_144929.csv",
+  "20260711_160253.csv",
+  "20260711_174010.csv",
+  "20260718_145814.csv",
+  "20260724_174828.csv",
+  "20260803_193840.csv",
+  "20260806_155444.csv",
+  "20260808_124714.csv",
+  "20260809_120000.csv",
+  "20260816_144003.csv",
+  "20260817_183543.csv",
+  "20260818_111200.csv",
+  "20260819_135903.csv",
+  "20260820_214927.csv",
+  "20260829_100447.csv",
+  "20260830_155318.csv",
+  "20260830_165926.csv"
+ ],
+ "strata": {
+  "2026-09-11_08-01-27.csv": [
+   "urban",
+   "slow",
+   "shoulder",
+   0
+  ],
+  "2026-10-01_08-14-08.csv": [
+   "urban",
+   "slow",
+   "cold",
+   0
+  ],
+  "2026-10-02_08-04-04.csv": [
+   "urban",
+   "fast",
+   "cold",
+   0
+  ],
+  "2026-10-06_07-58-35.csv": [
+   "urban",
+   "fast",
+   "shoulder",
+   0
+  ],
+  "2026-10-10_06-57-23.csv": [
+   "mixed_highway",
+   "fast",
+   "shoulder",
+   0
+  ],
+  "2026-10-11_15-16-20.csv": [
+   "urban",
+   "fast",
+   "shoulder",
+   0
+  ],
+  "2026-10-13_07-42-34.csv": [
+   "urban",
+   "fast",
+   "cold",
+   0
+  ],
+  "2026-10-13_08-10-25.csv": [
+   "urban",
+   "fast",
+   "cold",
+   0
+  ],
+  "2026-10-13_15-41-11.csv": [
+   "urban",
+   "fast",
+   "shoulder",
+   0
+  ],
+  "2026-10-14_06-51-43.csv": [
+   "highway",
+   "fast",
+   "cold",
+   0
+  ],
+  "2026-10-16_07-52-05.csv": [
+   "urban",
+   "slow",
+   "shoulder",
+   3
+  ],
+  "20260610_094100.csv": [
+   "mixed_highway",
+   "slow",
+   "warm",
+   2
+  ],
+  "20260612_142400.csv": [
+   "urban",
+   "slow",
+   "warm",
+   0
+  ],
+  "20260619_122407.csv": [
+   "highway",
+   "slow",
+   "warm",
+   0
+  ],
+  "20260621_213241.csv": [
+   "mixed",
+   "slow",
+   "warm",
+   0
+  ],
+  "20260627_144929.csv": [
+   "highway",
+   "slow",
+   "warm",
+   0
+  ],
+  "20260711_160253.csv": [
+   "highway",
+   "slow",
+   "warm",
+   1
+  ],
+  "20260711_174010.csv": [
+   "mixed_highway",
+   "slow",
+   "warm",
+   0
+  ],
+  "20260718_145814.csv": [
+   "mixed_highway",
+   "slow",
+   "warm",
+   1
+  ],
+  "20260724_174828.csv": [
+   "urban",
+   "slow",
+   "shoulder",
+   2
+  ],
+  "20260803_193840.csv": [
+   "mixed",
+   "slow",
+   "warm",
+   0
+  ],
+  "20260806_155444.csv": [
+   "mixed_highway",
+   "slow",
+   "warm",
+   0
+  ],
+  "20260808_124714.csv": [
+   "urban",
+   "slow",
+   "warm",
+   0
+  ],
+  "20260809_120000.csv": [
+   "urban",
+   "slow",
+   "warm",
+   0
+  ],
+  "20260816_144003.csv": [
+   "mixed_highway",
+   "unlabelled",
+   "warm",
+   1
+  ],
+  "20260817_183543.csv": [
+   "urban",
+   "fast",
+   "warm",
+   1
+  ],
+  "20260818_111200.csv": [
+   "urban",
+   "fast",
+   "warm",
+   1
+  ],
+  "20260819_135903.csv": [
+   "urban",
+   "fast",
+   "warm",
+   0
+  ],
+  "20260820_214927.csv": [
+   "mixed",
+   "fast",
+   "warm",
+   0
+  ],
+  "20260829_100447.csv": [
+   "mixed",
+   "fast",
+   "warm",
+   0
+  ],
+  "20260830_155318.csv": [
+   "highway",
+   "fast",
+   "warm",
+   0
+  ],
+  "20260830_165926.csv": [
+   "mixed_highway",
+   "fast",
+   "warm",
+   1
+  ]
+ },
+ "strataColumns": [
+  "drive_type",
+  "cadence regime",
+  "cohort",
+  "eq400 seconds on the pipeline grid"
+ ],
+ "drawnAt": "2026-10-31T09:22:09.417696+00:00",
+ "drawnFrom": "drive_master.csv, cadence_regime.csv, seasonal_drive_master.csv, engine_on_rule_sidecar.csv (M540 result) metadata only; no M546 result exists yet",
+ "sha256": "6c9e58c799b5323dec3bd384f7548f1f8b7b2323986c2730ed715512a8f4e2d6"
+}
