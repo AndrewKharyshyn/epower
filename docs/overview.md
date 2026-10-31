@@ -24,7 +24,7 @@ Targets: Applied Energy or IEEE TVT. Interactive React/JSX dashboard (`xtrail_su
 - Pending: BEV side-by-side (section 17); engine load/MAP in `classify_regime()`; E10-vs-E0 anchor residual; fuel/oil/AFR/MAP pipeline integration; rebuilding per-second sub-analyses (speedSplit, simultaneity, crossval, rpmFinding, sensitivity) to the current basis (files `speed_split.py`, `simultaneity_gtr.py`, `crossval_gtr.py`, `sensitivity_gtr.py`, `rpm_opt_pass.py` now exist).
 
 ## Statistics and degradation
-- Power fade (`powerFade`, cadence-controlled, primary): slope and interval are in `powerFade` / `powerFadeEquivalence` (read the payload; the interval has spanned zero in every release so far). `resistanceVreg` (cadence-uncontrolled) is sensitivity only. Cell-spread trend: cluster-robust OLS (authoritative), CI spans zero.
+- Power fade (`powerFade`, cadence-controlled, primary): slope and interval are in `powerFade` / `powerFadeEquivalence` (read the payload for the current interval; no interval state is typed here). `resistanceVreg` (cadence-uncontrolled) is sensitivity only. Cell-spread trend: cluster-robust OLS is the published interval (`degradationTrends.cellSpread.clusterRobustOLS.ci95`) and `serialDependence.trendSlopes.cellSpread.rowsRule` states whether it is procedure-dependent (M477); the dashboard Health conclusion is generated from both, so read them, not this line.
 - TOST bounds locked at M108 (cell-spread 0.2315 mV/month, resistance 0.5439 mOhm/month): verdict "not established, window too short".
 - Energy MC policy (M217): full recompute every ingestion.
 - RPM histogram: the 1,400-1,600 rpm bin split into two setpoints (~1,500 and ~1,589) at M218.

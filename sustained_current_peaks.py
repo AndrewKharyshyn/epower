@@ -2,6 +2,10 @@
 """
 sustained_current_peaks.py  (M283, 2026-09-17)
 
+DEPRECATED (M548, audit 2026-10-29 F15): standalone probe, not part of the pipeline, not read by the
+summary payload and not referenced by any other script. Kept only as the surviving generator of
+`sustained_current_peaks.csv`; do not cite that CSV for a reported figure. Not run at ingestion.
+
 Persistent generator for the rolling-window sustained pack-current peaks
 (discharge AND charge), 1/5/10/30 s.  This artifact previously existed only as
 `sustained_current_peaks.csv` with NO surviving generating code (the same
