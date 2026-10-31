@@ -1,4 +1,4 @@
-# M545 spec (Rev 1, DRAFT for Director review): wave 3 of the engine-on migration: rule-based sibling leaves for the `_RawAccum` engine-on blocks, display rebind, `crosscheck_events` identity
+# M545 spec (Rev 2, Director review incorporated; Rev 1 text below, superseded where section 12 says so): wave 3 of the engine-on migration: rule-based sibling leaves for the `_RawAccum` engine-on blocks, display rebind, `crosscheck_events` identity
 
 Status: PRE-REGISTERED DRAFT, 2026-10-31, before any code. Owner: Andrii (delegation in the M538 / M539 CHANGELOG entries: engine-on = logged rpm > 400, strict, 1 Hz grid; closed 300-400 rpm band reported separately). Programme: `analyses/M539_spec.md` Rev 2. Merged: M540 (`engineOnRule`), M541, M542, M543, M544 (evidence only, `analyses/M544_spec.md` sections 10-11, `analyses/M544_evidence.json`, `analyses/M544_evidence_addendum.json`). This spec carries the eight Director conditions of the M544 decision (section 11 of the M544 spec) as binding requirements; each is mapped in section 8.
 
@@ -62,3 +62,16 @@ New `language_gate.py` rules (ledger id M545) retire each old 'engine-on (rpm > 
 
 ## 11. Questions for the Director
 Q1: Is a per-drive sidecar of run-length lists acceptable (about 30 000 runs in total), or should it store run-length histograms (exact for integer-valued medians)? Q2: May `hvcTurboActivityRule` strings quote the stored 300 share once as a labelled secondary? Q3: Is the count-only onset 400 leaf in this wave or deferred to M546?
+
+## 12. Rev 2 (2026-10-31): Director review (revise); incorporated. Rev 1 SHA-256 recorded before the edit: 22a2abdaf3efa773fbc43fe73c630c124c65c763d8eaf22c8eb908be8f73d975
+Where this section and sections 1-11 differ, this section governs.
+- Deviations stated (section 8 mapping): (cond. 1) run lengths merge by CONCATENATION, not summation, because exact medians, p10 and p90 need the lengths; counts, zone and turbo statistics merge by summation. (cond. 6) the count-only onset sensitivity is DEFERRED to M546 (Director Q3): section 6 is deleted from this wave, the stored name 'RPM onset (> 300 rpm, run >= 2 s)' is untouched, no `onsetSensitivity400` leaf is built here. (cond. 7) the retire rules are in section 9; the synthetic split / drop / shorten test sits in section 4 and A5.
+- Language: Rule strings on native rows never say 'of engine-on time' (M521: a share of logged samples, native cadence, not time-weighted); they read 'share of engine-on native rows (rpm > 400, logged samples)'. The M545 retire rules are scoped to DOM / JSX (and payload leaves of the Rule siblings only), never to the stored > 300 payload strings, which stay byte-identical (G0); no key is renamed. Also forbidden: 'true' or 'more accurate' engine-on, and 'shift' or 'drop' presented as a finding.
+- Q2 answer: the stored 300 share may be quoted once per row or sentence as 'stored basis (rpm > 300, native rows)', with no arrow, delta, percent change or difference interval.
+- Q1 answer: run-length lists are accepted (about 30 000 integers, auditable).
+- Order of work: G0 (the `_RawAccum` refactor to the pure functions, with the inline expressions frozen verbatim in the test) is its own commit BEFORE the stage; the arrays diff must be completely empty (not 'apart from new leaves').
+- Sidecar: stores no drive class, cohort, cadence stratum or rendered label; these are joined from the master at aggregation so a refit cannot leave the cache stale. Cache key = raw SHA-256 + function hash + grid-convention version + loader version + threshold. Deterministic JSON, LF.
+- Every Rule leaf carries n drives and n days. Each cohort view has a minimum-days floor: fewer than 5 days = exploratory, no interval reading. A day-clustered CI is added for the `engineOnBySpeedRule` zone percentages (the sidecar counts allow it).
+- Known answers are pinned to master MD5 `5556a0c6c8bcde0f6c64b8b9655208ed` and 606 drives; STOP if an ingestion intervenes.
+- A3 compares against the 300-definition interval exclusions already recorded in M544 section 10 (highway, mixed_highway; unknown has no reading). Internal tripwire only, never displayed.
+- A4: a fresh sample with a recorded hash, drawn and committed before the run; strata drive type x cadence x cohort, including cold; the auditor reproduces one bootstrap CI; claim and data path only.
