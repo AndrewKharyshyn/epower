@@ -11264,10 +11264,11 @@ def _esm_grid(fn, raw_loader, frame_loader):
     return g.resample('1s').mean().ffill(limit=3)
 
 
-def _esm_classify(rpm):
+def _esm_classify(rpm, strict_off=False):
+    """M546: strict_off=True puts a second at exactly _ESM_EDGES[0] rpm into 'off' (engine-on = rpm > 400, strict); the default keeps the stored 'rpm >= edge' boundary (byte-identical). The state limits 1400 / 2300 / 3200 are not engine-on gates and stay '>='."""
     import numpy as _np
     st = _np.zeros(len(rpm), int)
-    st[rpm >= _ESM_EDGES[0]] = 1
+    st[(rpm > _ESM_EDGES[0]) if strict_off else (rpm >= _ESM_EDGES[0])] = 1
     st[rpm >= _ESM_EDGES[1]] = 2
     st[rpm >= _ESM_EDGES[2]] = 3
     st[rpm >= _ESM_EDGES[3]] = 4
@@ -11275,7 +11276,7 @@ def _esm_classify(rpm):
     return st
 
 
-def _engine_state_machine(dm, raw_loader, frame_loader=None):
+def _engine_state_machine(dm, raw_loader, frame_loader=None, strict_off=False):
     import numpy as _np
     S = _ESM_STATES
     occ = {s: [] for s in S}
@@ -11294,7 +11295,7 @@ def _engine_state_machine(dm, raw_loader, frame_loader=None):
         g = g.dropna(subset=['rpm'])
         if len(g) < 20:
             continue
-        st = _esm_classify(g['rpm'].values)
+        st = _esm_classify(g['rpm'].values, strict_off=strict_off)
         if (st >= 0).sum() < 20:
             continue
         nDrives += 1
@@ -11388,7 +11389,7 @@ def _engine_state_machine(dm, raw_loader, frame_loader=None):
             'entriesPerEngHour': round(entries[s] / engHours, 2) if engHours else None,
             'battKw': mi(battkw[s]),
             'selfTransition': round(float(P[si, si]), 3)}
-    return {
+    _res = {
         'nDrivesCovered': nDrives, 'nDays': len(days),
         'engineOnHours': round(engHours, 1),
         'states': S,
@@ -11428,6 +11429,21 @@ def _engine_state_machine(dm, raw_loader, frame_loader=None):
             'machine. Single vehicle / ~single driver -- descriptive.'
             % (_ESM_EDGES[0], _ESM_EDGES[0], _ESM_EDGES[1], _ESM_EDGES[1],
                _ESM_EDGES[2], _ESM_EDGES[2], _ESM_EDGES[3], _ESM_EDGES[3]))}
+    if strict_off:
+        # M546 (analyses/M546_spec.md Rev 2): the strict engine-on boundary; the wording follows the rule
+        m = _res['methodology']
+        for a, b in (('off rpm<%d; ' % _ESM_EDGES[0], 'off rpm<=%d (strict engine-on boundary); ' % _ESM_EDGES[0]),
+                     ('low %d-%d; ' % (_ESM_EDGES[0], _ESM_EDGES[1]), 'low >%d-%d; ' % (_ESM_EDGES[0], _ESM_EDGES[1])),
+                     ('Pooled "off" matches '
+                      'rpmDistribution.pooledPct[0] and evTraction.evPctTime (independent '
+                      'pooled computations over the same classified seconds). ',
+                      'Pooled "off" is the share of classified state-grid time (1 s mean resample, hold 3 s), not of engine time, and '
+                      'is not compared with the pipeline-grid shares of other blocks. ')):
+            assert m.count(a) == 1, a
+            m = m.replace(a, b)
+        _res['methodology'] = m
+        _res['stateEdgesRpm'] = dict(_res['stateEdgesRpm'], offBoundary='rpm <= %d (strict engine-on boundary)' % _ESM_EDGES[0])
+    return _res
 
 
 
