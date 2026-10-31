@@ -7728,7 +7728,7 @@
    "metric": "Peak motor torque",
    "value": "+330 Nm",
    "drive": "Jul05 D2",
-   "note": "Highest commanded traction torque. The single front motor is the only path to the wheels, so this is the drivetrain's full output ceiling, not one axle's share. Set on: urban · peak 100 km/h · 10.5 km / 23 min.",
+   "note": "Highest commanded traction torque. The single front motor is the only path to the wheels, so this is the peak commanded (target) torque of that motor, not one axle's share; it is not a measured shaft torque or a verified output ceiling. Set on: urban · peak 100 km/h · 10.5 km / 23 min.",
    "disclosure": {
     "eligibilityRule": "sanity cap: target_torque_max <= 400 Nm (physical-plausibility bound on target-torque channel)",
     "column": "target_torque_max",
@@ -41940,7 +41940,7 @@
     "p": 8.49e-06
    },
    "mwuMotoredHighVsLow": 3.12e-06,
-   "verdict": "Elevation is a WEAK, marginally significant predictor of dissipation time and does NOT significantly predict the SoC ceiling. Totals are carried by a handful of drives. Consistent with, but not established by, the data."
+   "verdict": "The logged altitude proxy shows a weak association with dissipation time and with the trip maximum SoC (nominal, unadjusted Spearman p-values over drives, not clustered by day or route and not multiplicity-adjusted). Totals are carried by a handful of drives. Consistent with, but not established by, the data; no causal terrain conclusion."
   }
  },
  "crawlStopGo": {
