@@ -259,7 +259,7 @@ def main():
     res.update(summary=summary, nKwViewX=len(kw_x))
     res["rawListSha256"] = hashlib.sha256(json.dumps(sorted((r["file"], r["rawSha256"]) for r in recs.values())).encode()).hexdigest()
     json.dump(res, open(OUT if not only else OUT.replace(".json", "_sample.json"), "w", encoding="utf-8"), indent=1, default=float)
-    json.dump({f: r for f, r in recs.items()}, open(os.path.join(CACHE, "_all.json" if not only else "_sample.json"), "w"), default=float)
+    json.dump({f: r for f, r in recs.items()}, open(os.path.join(CACHE, "_all.json" if not only else "_sample.json"), "w", encoding="utf-8"), default=float)
     print(json.dumps({"ok": True, "stats": stats, "knownAnswer": ka, "summary": summary}, default=float)[:3000])
     if mode == "--splice" and not only:
         splice(res, recs, kw_x, A)
