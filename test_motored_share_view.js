@@ -17,13 +17,13 @@ const TABS=['overview','charts','fuel','distribution','highway vs city','thermal
   let found=false;
   for(const t of TABS){
     click(btns().find(b=>b.textContent.trim().toLowerCase()===t));await sleep(300);
-    if(!btns().some(b=>/^Fuelled, extended/.test(b.textContent.trim())))continue;
+    if(!btns().some(b=>/^Fuelled proxy, extended/.test(b.textContent.trim())))continue;
     found=true;
     const modes=btns().filter(b=>b.hasAttribute('data-cohort-btn')&&!b.disabled).map(b=>b.getAttribute('data-cohort-btn'));
     ok('tab '+t+': cohort modes selectable',modes.length>=4,JSON.stringify(modes));
     for(const m of modes){
       click(d.querySelector(`button[data-cohort-btn="${m}"]`));await sleep(400);
-      const eb=btns().find(b=>/^Fuelled, extended/.test(b.textContent.trim()));
+      const eb=btns().find(b=>/^Fuelled proxy, extended/.test(b.textContent.trim()));
       if(!eb){ok(m+': chart replaced by the compare block (no extended view)',m==='compare');continue;}
       click(eb);await sleep(300);
       const txt=d.getElementById('root').textContent;

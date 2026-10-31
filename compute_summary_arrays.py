@@ -1560,8 +1560,9 @@ def _records(dm):
         # ---- drivetrain / ICE ----
         ('Peak motor torque', f"+{tq:.0f} Nm" if tq is not None else None, tq_i,
          'Highest commanded traction torque. The single front motor is the '
-         'only path to the wheels, so this is the drivetrain\'s full output '
-         'ceiling, not one axle\'s share.',
+         'only path to the wheels, so this is the peak commanded (target) '
+         'torque of that motor, not one axle\'s share; it is not a measured '
+         'shaft torque or a verified output ceiling.',
          ('class', 'vmax', 'trip')),
         ('Peak engine load', f"{load:.1f}%" if load is not None else None, load_i,
          'Highest in-range OBD Absolute Engine Load PID value (can exceed 100% '
@@ -9003,10 +9004,13 @@ def _low_speed_dissipation(dm, raw_loader, frame_loader=None):
                                       'p': float(f'{p2:.3g}')}
                 rel['mwuMotoredHighVsLow'] = float(f'{pm:.3g}')
                 rel['verdict'] = (
-                    'Elevation is a WEAK, marginally significant predictor of '
-                    'dissipation time and does NOT significantly predict the '
-                    'SoC ceiling. Totals are carried by a handful of drives. '
-                    'Consistent with, but not established by, the data.')
+                    'The logged altitude proxy shows a weak association with '
+                    'dissipation time and with the trip maximum SoC (nominal, '
+                    'unadjusted Spearman p-values over drives, not clustered '
+                    'by day or route and not multiplicity-adjusted). Totals '
+                    'are carried by a handful of drives. Consistent with, but '
+                    'not established by, the data; no causal terrain '
+                    'conclusion.')
             except Exception:
                 pass
         out['relief'] = rel
