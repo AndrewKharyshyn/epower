@@ -1,0 +1,2727 @@
+{
+ "task": "Blind reproduction of per-drive engine-on statistics under the rule: engine-on = logged engine rpm strictly greater than 400.",
+ "definitions": {
+  "rpmThreshold": "rpm > 400 (strict), NaN is never engine-on",
+  "gridBlock": "runs and seconds are on the pipeline 1 Hz grid: native ffill limit 15 rows, floor-to-second MEAN resample, grid ffill 15 s, negatives to NaN; a run is a maximal contiguous stretch of engine-on grid seconds, NaN breaks a run",
+  "nativeRowBlocks": "speed-zone counts and turbo counts use native (not resampled) rows with a valid speed / boost; engine-on speed zones by speed km/h: 0-20, 20-40, 40-60, 60-80, 80-100, 100-120, 120+ (7 zones, in that order); turbo rpm bands (rpm >= lo and < hi): <1500, 1500-2000, 2000-2500, 2500-3000, 3000-3500, 3500-4000, 4000+; turbo speed zones (>= lo and < hi km/h): 0-40, 40-60, 60-80, 80-100, 100-120, 120-160; active boost = boost > 0.1 bar; a turbo row counts only where the engine is on (rpm > 400) and the boost is valid"
+ },
+ "dataPath": {
+  "rawCsv": "raw/ (sha256-verified originals, read-only; file key digits match the raw file name)",
+  "master": "drive_master.csv (drive_type, date, distance)",
+  "dashboardText": "tabtext/*.txt (rendered tab dumps) and summary_arrays.json keys engineOnDurationRule, engineOnBySpeedRule, turboByRpmRule, turboBySpeedCtxRule, hvcTurboActivityRule"
+ },
+ "perDriveClaims": {
+  "2026-09-11_08-01-27.csv": {
+   "engineOnRunLengthsSeconds_1Hz_grid": [
+    92
+   ],
+   "gridEngineOnSeconds": 92.0,
+   "gridValidSeconds": 602.0,
+   "speedZoneNativeRows_total_per_zone": [
+    3835.0,
+    1575.0,
+    450.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "speedZoneNativeRows_engineOn_per_zone": [
+    660.0,
+    165.0,
+    90.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "turboByRpmBand_[n,active,sumActiveBoost,maxBoost]": {
+    "1500-2000": [
+     480,
+     0,
+     0.0,
+     0.02
+    ],
+    "2000-2500": [
+     165,
+     0,
+     0.0,
+     0.02
+    ],
+    "<1500": [
+     270,
+     0,
+     0.0,
+     0.0
+    ]
+   },
+   "turboBySpeedZone_[n,active,maxBoost]": {
+    "0-40": [
+     770,
+     0,
+     0.02
+    ],
+    "40-60": [
+     84,
+     0,
+     0.02
+    ]
+   },
+   "hvc_[n,active,maxBoost]": [
+    915,
+    0,
+    0.02
+   ]
+  },
+  "2026-10-01_08-14-08.csv": {
+   "engineOnRunLengthsSeconds_1Hz_grid": [
+    240
+   ],
+   "gridEngineOnSeconds": 240.0,
+   "gridValidSeconds": 387.0,
+   "speedZoneNativeRows_total_per_zone": [
+    2261.0,
+    1515.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "speedZoneNativeRows_engineOn_per_zone": [
+    1391.0,
+    930.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "turboByRpmBand_[n,active,sumActiveBoost,maxBoost]": {
+    "1500-2000": [
+     1541,
+     0,
+     0.0,
+     0.0
+    ],
+    "2000-2500": [
+     315,
+     0,
+     0.0,
+     0.0
+    ],
+    "<1500": [
+     465,
+     0,
+     0.0,
+     0.0
+    ]
+   },
+   "turboBySpeedZone_[n,active,maxBoost]": {
+    "0-40": [
+     2166,
+     0,
+     0.0
+    ]
+   },
+   "hvc_[n,active,maxBoost]": [
+    2321,
+    0,
+    0.0
+   ]
+  },
+  "2026-10-02_08-04-04.csv": {
+   "engineOnRunLengthsSeconds_1Hz_grid": [
+    178
+   ],
+   "gridEngineOnSeconds": 178.0,
+   "gridValidSeconds": 412.0,
+   "speedZoneNativeRows_total_per_zone": [
+    3310.0,
+    1161.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "speedZoneNativeRows_engineOn_per_zone": [
+    1805.0,
+    78.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "turboByRpmBand_[n,active,sumActiveBoost,maxBoost]": {
+    "1500-2000": [
+     1175,
+     0,
+     0.0,
+     0.0
+    ],
+    "<1500": [
+     708,
+     0,
+     0.0,
+     0.0
+    ]
+   },
+   "turboBySpeedZone_[n,active,maxBoost]": {
+    "0-40": [
+     1883,
+     0,
+     0.0
+    ]
+   },
+   "hvc_[n,active,maxBoost]": [
+    1883,
+    0,
+    0.0
+   ]
+  },
+  "2026-10-06_07-58-35.csv": {
+   "engineOnRunLengthsSeconds_1Hz_grid": [],
+   "gridEngineOnSeconds": 0.0,
+   "gridValidSeconds": 231.0,
+   "speedZoneNativeRows_total_per_zone": [
+    1986.0,
+    628.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "speedZoneNativeRows_engineOn_per_zone": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "turboByRpmBand_[n,active,sumActiveBoost,maxBoost]": {},
+   "turboBySpeedZone_[n,active,maxBoost]": {},
+   "hvc_[n,active,maxBoost]": null
+  },
+  "2026-10-10_06-57-23.csv": {
+   "engineOnRunLengthsSeconds_1Hz_grid": [
+    112,
+    48,
+    13,
+    33,
+    29,
+    61,
+    55,
+    25,
+    10,
+    57,
+    65,
+    186,
+    64,
+    12,
+    178,
+    28,
+    16,
+    13,
+    22,
+    63,
+    12,
+    29,
+    101,
+    22,
+    2,
+    22,
+    52,
+    148,
+    5,
+    15,
+    90,
+    216,
+    173,
+    125,
+    48,
+    88,
+    62,
+    40,
+    59,
+    211,
+    21,
+    17,
+    45,
+    4,
+    9,
+    3,
+    5,
+    3,
+    8,
+    14,
+    24,
+    23,
+    60,
+    87,
+    44,
+    9,
+    325,
+    90,
+    13,
+    8,
+    13,
+    58,
+    106,
+    63,
+    103,
+    31,
+    154,
+    46,
+    30,
+    35,
+    28,
+    18,
+    11,
+    4,
+    17,
+    27,
+    16,
+    17,
+    46,
+    22,
+    12
+   ],
+   "gridEngineOnSeconds": 4279.0,
+   "gridValidSeconds": 7317.0,
+   "speedZoneNativeRows_total_per_zone": [
+    16887.0,
+    13879.0,
+    11772.0,
+    12263.0,
+    18349.0,
+    25893.0,
+    96.0
+   ],
+   "speedZoneNativeRows_engineOn_per_zone": [
+    3366.0,
+    2258.0,
+    4178.0,
+    7508.0,
+    15386.0,
+    25355.0,
+    96.0
+   ],
+   "turboByRpmBand_[n,active,sumActiveBoost,maxBoost]": {
+    "1500-2000": [
+     17776,
+     490,
+     61.030000000000015,
+     0.46
+    ],
+    "2000-2500": [
+     25769,
+     887,
+     151.45000000000002,
+     0.5700000000000001
+    ],
+    "2500-3000": [
+     8539,
+     2162,
+     765.91,
+     1.13
+    ],
+    "3000-3500": [
+     3580,
+     1671,
+     669.29,
+     1.0
+    ],
+    "3500-4000": [
+     109,
+     109,
+     78.98999999999997,
+     0.97
+    ],
+    "4000+": [
+     54,
+     54,
+     65.14999999999998,
+     1.29
+    ],
+    "<1500": [
+     2320,
+     0,
+     0.0,
+     0.01
+    ]
+   },
+   "turboBySpeedZone_[n,active,maxBoost]": {
+    "0-40": [
+     5624,
+     56,
+     0.16
+    ],
+    "100-120": [
+     25355,
+     2269,
+     1.29
+    ],
+    "120-160": [
+     96,
+     54,
+     1.2
+    ],
+    "40-60": [
+     4178,
+     204,
+     0.5700000000000001
+    ],
+    "60-80": [
+     7508,
+     462,
+     1.13
+    ],
+    "80-100": [
+     15386,
+     2328,
+     1.08
+    ]
+   },
+   "hvc_[n,active,maxBoost]": [
+    58147,
+    5373,
+    1.29
+   ]
+  },
+  "2026-10-11_15-16-20.csv": {
+   "engineOnRunLengthsSeconds_1Hz_grid": [
+    63,
+    18,
+    16
+   ],
+   "gridEngineOnSeconds": 97.0,
+   "gridValidSeconds": 490.0,
+   "speedZoneNativeRows_total_per_zone": [
+    4636.0,
+    463.0,
+    463.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "speedZoneNativeRows_engineOn_per_zone": [
+    454.0,
+    202.0,
+    463.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "turboByRpmBand_[n,active,sumActiveBoost,maxBoost]": {
+    "1500-2000": [
+     753,
+     0,
+     0.0,
+     0.05
+    ],
+    "2000-2500": [
+     129,
+     0,
+     0.0,
+     0.04
+    ],
+    "<1500": [
+     237,
+     0,
+     0.0,
+     0.0
+    ]
+   },
+   "turboBySpeedZone_[n,active,maxBoost]": {
+    "0-40": [
+     656,
+     0,
+     0.05
+    ],
+    "40-60": [
+     463,
+     0,
+     0.0
+    ]
+   },
+   "hvc_[n,active,maxBoost]": [
+    1119,
+    0,
+    0.05
+   ]
+  },
+  "2026-10-13_07-42-34.csv": {
+   "engineOnRunLengthsSeconds_1Hz_grid": [
+    276,
+    232,
+    34
+   ],
+   "gridEngineOnSeconds": 542.0,
+   "gridValidSeconds": 547.0,
+   "speedZoneNativeRows_total_per_zone": [
+    3485.0,
+    2496.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "speedZoneNativeRows_engineOn_per_zone": [
+    3410.0,
+    2496.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "turboByRpmBand_[n,active,sumActiveBoost,maxBoost]": {
+    "1500-2000": [
+     3931,
+     0,
+     0.0,
+     0.0
+    ],
+    "2000-2500": [
+     853,
+     0,
+     0.0,
+     0.0
+    ],
+    "<1500": [
+     1122,
+     0,
+     0.0,
+     0.0
+    ]
+   },
+   "turboBySpeedZone_[n,active,maxBoost]": {
+    "0-40": [
+     5906,
+     0,
+     0.0
+    ]
+   },
+   "hvc_[n,active,maxBoost]": [
+    5906,
+    0,
+    0.0
+   ]
+  },
+  "2026-10-13_08-10-25.csv": {
+   "engineOnRunLengthsSeconds_1Hz_grid": [
+    196,
+    38,
+    10,
+    6,
+    2,
+    13,
+    16,
+    67,
+    28
+   ],
+   "gridEngineOnSeconds": 376.0,
+   "gridValidSeconds": 831.0,
+   "speedZoneNativeRows_total_per_zone": [
+    6836.0,
+    2175.0,
+    193.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "speedZoneNativeRows_engineOn_per_zone": [
+    3075.0,
+    871.0,
+    116.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "turboByRpmBand_[n,active,sumActiveBoost,maxBoost]": {
+    "1500-2000": [
+     2294,
+     0,
+     0.0,
+     0.0
+    ],
+    "2000-2500": [
+     257,
+     0,
+     0.0,
+     0.0
+    ],
+    "<1500": [
+     1511,
+     0,
+     0.0,
+     0.0
+    ]
+   },
+   "turboBySpeedZone_[n,active,maxBoost]": {
+    "0-40": [
+     3946,
+     0,
+     0.0
+    ],
+    "40-60": [
+     116,
+     0,
+     0.0
+    ]
+   },
+   "hvc_[n,active,maxBoost]": [
+    4062,
+    0,
+    0.0
+   ]
+  },
+  "2026-10-13_15-41-11.csv": {
+   "engineOnRunLengthsSeconds_1Hz_grid": [],
+   "gridEngineOnSeconds": 0.0,
+   "gridValidSeconds": 165.0,
+   "speedZoneNativeRows_total_per_zone": [
+    858.0,
+    534.0,
+    318.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "speedZoneNativeRows_engineOn_per_zone": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "turboByRpmBand_[n,active,sumActiveBoost,maxBoost]": {},
+   "turboBySpeedZone_[n,active,maxBoost]": {},
+   "hvc_[n,active,maxBoost]": null
+  },
+  "2026-10-14_06-51-43.csv": {
+   "engineOnRunLengthsSeconds_1Hz_grid": [
+    213,
+    11,
+    341,
+    91,
+    15,
+    34,
+    133,
+    5,
+    38,
+    26,
+    10,
+    8,
+    18,
+    56,
+    35,
+    63,
+    16,
+    27,
+    14,
+    60,
+    5,
+    4,
+    17,
+    14,
+    13,
+    52,
+    11,
+    22,
+    18,
+    21,
+    30,
+    12,
+    24,
+    12,
+    19,
+    14,
+    56,
+    84,
+    15,
+    47,
+    27,
+    18,
+    79,
+    33,
+    15,
+    11,
+    25,
+    73,
+    11,
+    43,
+    20,
+    13,
+    96,
+    27,
+    52,
+    9,
+    5,
+    81,
+    53,
+    24,
+    11,
+    17,
+    52,
+    23,
+    10,
+    27,
+    90,
+    28,
+    18,
+    43,
+    110,
+    47,
+    5,
+    14,
+    11,
+    24,
+    63,
+    22,
+    20,
+    10,
+    43,
+    9,
+    19,
+    19,
+    63,
+    109,
+    6,
+    1692,
+    388,
+    126,
+    3,
+    211,
+    103,
+    6,
+    29,
+    13,
+    23,
+    123,
+    17,
+    64,
+    83,
+    31,
+    69,
+    47
+   ],
+   "gridEngineOnSeconds": 6360.0,
+   "gridValidSeconds": 7854.0,
+   "speedZoneNativeRows_total_per_zone": [
+    2646.0,
+    3815.0,
+    7037.0,
+    25630.0,
+    30658.0,
+    39772.0,
+    0.0
+   ],
+   "speedZoneNativeRows_engineOn_per_zone": [
+    857.0,
+    1486.0,
+    3638.0,
+    15397.0,
+    26880.0,
+    39605.0,
+    0.0
+   ],
+   "turboByRpmBand_[n,active,sumActiveBoost,maxBoost]": {
+    "1500-2000": [
+     29081,
+     0,
+     0.0,
+     0.09
+    ],
+    "2000-2500": [
+     47948,
+     40,
+     4.95,
+     0.14
+    ],
+    "2500-3000": [
+     7450,
+     368,
+     108.59,
+     0.62
+    ],
+    "3000-3500": [
+     1129,
+     424,
+     140.44,
+     0.77
+    ],
+    "3500-4000": [
+     69,
+     56,
+     39.07,
+     0.99
+    ],
+    "<1500": [
+     2186,
+     0,
+     0.0,
+     0.01
+    ]
+   },
+   "turboBySpeedZone_[n,active,maxBoost]": {
+    "0-40": [
+     2343,
+     0,
+     0.04
+    ],
+    "100-120": [
+     39605,
+     613,
+     0.99
+    ],
+    "40-60": [
+     3638,
+     13,
+     0.11
+    ],
+    "60-80": [
+     15397,
+     14,
+     0.14
+    ],
+    "80-100": [
+     26880,
+     248,
+     0.65
+    ]
+   },
+   "hvc_[n,active,maxBoost]": [
+    87863,
+    888,
+    0.99
+   ]
+  },
+  "20260612_142400.csv": {
+   "engineOnRunLengthsSeconds_1Hz_grid": [
+    164
+   ],
+   "gridEngineOnSeconds": 164.0,
+   "gridValidSeconds": 513.0,
+   "speedZoneNativeRows_total_per_zone": [
+    1942.0,
+    488.0,
+    810.0,
+    108.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "speedZoneNativeRows_engineOn_per_zone": [
+    201.0,
+    244.0,
+    729.0,
+    108.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "turboByRpmBand_[n,active,sumActiveBoost,maxBoost]": {},
+   "turboBySpeedZone_[n,active,maxBoost]": {},
+   "hvc_[n,active,maxBoost]": null
+  },
+  "20260619_122407.csv": {
+   "engineOnRunLengthsSeconds_1Hz_grid": [
+    156,
+    109,
+    34,
+    8,
+    33,
+    134,
+    16,
+    40,
+    9,
+    51,
+    43,
+    59,
+    4,
+    9,
+    24,
+    7,
+    49,
+    13,
+    28,
+    19,
+    34,
+    5,
+    14,
+    5,
+    56,
+    6,
+    82,
+    4,
+    5,
+    63,
+    2,
+    35,
+    3,
+    9,
+    32,
+    7,
+    36,
+    93,
+    10,
+    12,
+    29,
+    9,
+    47,
+    11,
+    11,
+    51,
+    7,
+    12,
+    19,
+    190,
+    24,
+    16,
+    4,
+    3,
+    7,
+    16,
+    27,
+    7,
+    12,
+    25,
+    16,
+    5,
+    44,
+    7,
+    41,
+    4,
+    60,
+    29,
+    17,
+    40,
+    7,
+    4,
+    85,
+    29,
+    34,
+    19,
+    104,
+    15,
+    95,
+    180,
+    22,
+    5,
+    11,
+    43,
+    21,
+    215,
+    79,
+    80,
+    62,
+    9,
+    10,
+    242,
+    7,
+    8,
+    2,
+    8,
+    87,
+    38,
+    18,
+    111,
+    23,
+    2,
+    6,
+    4,
+    118,
+    311,
+    67,
+    92,
+    34,
+    35,
+    50,
+    21,
+    2,
+    57,
+    25,
+    24,
+    54,
+    72,
+    19,
+    33,
+    27,
+    28,
+    24,
+    23,
+    22,
+    9,
+    11,
+    4,
+    5,
+    4,
+    5,
+    17,
+    36,
+    42,
+    4,
+    4,
+    37,
+    12,
+    43,
+    32,
+    19,
+    16,
+    27,
+    8,
+    11,
+    16,
+    7,
+    83,
+    18,
+    17,
+    19,
+    37,
+    15,
+    2,
+    7,
+    9,
+    9,
+    14,
+    8,
+    17,
+    24,
+    29,
+    13,
+    137,
+    24,
+    193,
+    111,
+    19,
+    138,
+    52,
+    13,
+    268,
+    55,
+    11,
+    80,
+    33,
+    378,
+    60,
+    10,
+    418,
+    176,
+    3,
+    62,
+    152,
+    87,
+    194,
+    35,
+    5,
+    9,
+    436,
+    7,
+    133,
+    79,
+    15
+   ],
+   "gridEngineOnSeconds": 9054.0,
+   "gridValidSeconds": 14943.0,
+   "speedZoneNativeRows_total_per_zone": [
+    24709.0,
+    5320.0,
+    9096.0,
+    19845.0,
+    16460.0,
+    34991.0,
+    1660.0
+   ],
+   "speedZoneNativeRows_engineOn_per_zone": [
+    3644.0,
+    474.0,
+    4117.0,
+    11727.0,
+    12571.0,
+    33900.0,
+    1660.0
+   ],
+   "turboByRpmBand_[n,active,sumActiveBoost,maxBoost]": {
+    "1500-2000": [
+     14952,
+     912,
+     106.68000000000002,
+     0.17
+    ],
+    "2000-2500": [
+     23184,
+     2016,
+     326.28000000000003,
+     0.5700000000000001
+    ],
+    "2500-3000": [
+     13512,
+     2364,
+     790.56,
+     0.91
+    ],
+    "3000-3500": [
+     4692,
+     2400,
+     804.36,
+     1.22
+    ],
+    "3500-4000": [
+     1200,
+     1104,
+     363.12,
+     1.26
+    ],
+    "4000+": [
+     180,
+     180,
+     154.07999999999998,
+     1.47
+    ],
+    "<1500": [
+     2808,
+     0,
+     0.0,
+     0.01
+    ]
+   },
+   "turboBySpeedZone_[n,active,maxBoost]": {
+    "0-40": [
+     2898,
+     10,
+     0.15
+    ],
+    "100-120": [
+     23856,
+     3854,
+     1.47
+    ],
+    "120-160": [
+     1168,
+     326,
+     1.03
+    ],
+    "40-60": [
+     2897,
+     379,
+     0.91
+    ],
+    "60-80": [
+     8251,
+     741,
+     1.22
+    ],
+    "80-100": [
+     8847,
+     1792,
+     1.26
+    ]
+   },
+   "hvc_[n,active,maxBoost]": [
+    60528,
+    8976,
+    1.47
+   ]
+  },
+  "20260621_213241.csv": {
+   "engineOnRunLengthsSeconds_1Hz_grid": [
+    82,
+    79,
+    46,
+    35,
+    45,
+    26,
+    72,
+    39,
+    10,
+    4,
+    33,
+    11,
+    17,
+    120,
+    26,
+    16,
+    27,
+    14,
+    21
+   ],
+   "gridEngineOnSeconds": 723.0,
+   "gridValidSeconds": 1625.0,
+   "speedZoneNativeRows_total_per_zone": [
+    1527.0,
+    1889.0,
+    2945.0,
+    2820.0,
+    1377.0,
+    257.0,
+    0.0
+   ],
+   "speedZoneNativeRows_engineOn_per_zone": [
+    0.0,
+    271.0,
+    1485.0,
+    1726.0,
+    1162.0,
+    257.0,
+    0.0
+   ],
+   "turboByRpmBand_[n,active,sumActiveBoost,maxBoost]": {
+    "1500-2000": [
+     2076,
+     12,
+     3.360000000000001,
+     0.28
+    ],
+    "2000-2500": [
+     2100,
+     12,
+     4.08,
+     0.34
+    ],
+    "<1500": [
+     180,
+     0,
+     0.0,
+     0.0
+    ]
+   },
+   "turboBySpeedZone_[n,active,maxBoost]": {
+    "0-40": [
+     191,
+     10,
+     0.34
+    ],
+    "100-120": [
+     181,
+     0,
+     0.07
+    ],
+    "40-60": [
+     1045,
+     10,
+     0.28
+    ],
+    "60-80": [
+     1214,
+     0,
+     0.09
+    ],
+    "80-100": [
+     818,
+     0,
+     0.09
+    ]
+   },
+   "hvc_[n,active,maxBoost]": [
+    4356,
+    24,
+    0.34
+   ]
+  },
+  "20260627_144929.csv": {
+   "engineOnRunLengthsSeconds_1Hz_grid": [
+    680,
+    246,
+    83,
+    18
+   ],
+   "gridEngineOnSeconds": 1027.0,
+   "gridValidSeconds": 1200.0,
+   "speedZoneNativeRows_total_per_zone": [
+    702.0,
+    108.0,
+    284.0,
+    296.0,
+    1041.0,
+    9544.0,
+    94.0
+   ],
+   "speedZoneNativeRows_engineOn_per_zone": [
+    0.0,
+    27.0,
+    41.0,
+    148.0,
+    852.0,
+    9409.0,
+    94.0
+   ],
+   "turboByRpmBand_[n,active,sumActiveBoost,maxBoost]": {
+    "1500-2000": [
+     1632,
+     288,
+     32.64,
+     0.13
+    ],
+    "2000-2500": [
+     3804,
+     324,
+     41.04,
+     0.32
+    ],
+    "2500-3000": [
+     2976,
+     216,
+     92.76,
+     0.97
+    ],
+    "3000-3500": [
+     660,
+     408,
+     88.8,
+     0.73
+    ],
+    "3500-4000": [
+     180,
+     168,
+     48.000000000000014,
+     0.67
+    ],
+    "<1500": [
+     144,
+     0,
+     0.0,
+     0.01
+    ]
+   },
+   "turboBySpeedZone_[n,active,maxBoost]": {
+    "0-40": [
+     19,
+     0,
+     0.09
+    ],
+    "100-120": [
+     6621,
+     855,
+     0.73
+    ],
+    "120-160": [
+     66,
+     18,
+     0.11
+    ],
+    "40-60": [
+     29,
+     0,
+     0.08
+    ],
+    "60-80": [
+     104,
+     47,
+     0.96
+    ],
+    "80-100": [
+     600,
+     189,
+     0.97
+    ]
+   },
+   "hvc_[n,active,maxBoost]": [
+    9396,
+    1404,
+    0.97
+   ]
+  },
+  "20260711_174010.csv": {
+   "engineOnRunLengthsSeconds_1Hz_grid": [
+    16,
+    134,
+    119,
+    57,
+    50,
+    18,
+    24,
+    75,
+    75,
+    8,
+    81,
+    6,
+    120,
+    10,
+    15,
+    18,
+    35,
+    77,
+    50,
+    12,
+    16,
+    12,
+    28,
+    7,
+    4,
+    43,
+    4
+   ],
+   "gridEngineOnSeconds": 1114.0,
+   "gridValidSeconds": 2537.0,
+   "speedZoneNativeRows_total_per_zone": [
+    3193.0,
+    1702.0,
+    2701.0,
+    4493.0,
+    2269.0,
+    1539.0,
+    2092.0
+   ],
+   "speedZoneNativeRows_engineOn_per_zone": [
+    0.0,
+    298.0,
+    394.0,
+    2251.0,
+    1931.0,
+    1458.0,
+    2024.0
+   ],
+   "turboByRpmBand_[n,active,sumActiveBoost,maxBoost]": {
+    "1500-2000": [
+     2148,
+     12,
+     1.3200000000000003,
+     0.11
+    ],
+    "2000-2500": [
+     2856,
+     72,
+     12.0,
+     0.32
+    ],
+    "2500-3000": [
+     936,
+     156,
+     55.320000000000014,
+     1.19
+    ],
+    "3000-3500": [
+     780,
+     72,
+     26.759999999999998,
+     0.49
+    ],
+    "3500-4000": [
+     408,
+     252,
+     81.12,
+     0.53
+    ],
+    "4000+": [
+     24,
+     24,
+     14.64,
+     0.68
+    ],
+    "<1500": [
+     276,
+     0,
+     0.0,
+     0.0
+    ]
+   },
+   "turboBySpeedZone_[n,active,maxBoost]": {
+    "0-40": [
+     210,
+     9,
+     0.17
+    ],
+    "100-120": [
+     1026,
+     86,
+     0.53
+    ],
+    "120-160": [
+     1424,
+     209,
+     0.68
+    ],
+    "40-60": [
+     278,
+     47,
+     1.19
+    ],
+    "60-80": [
+     1583,
+     57,
+     0.72
+    ],
+    "80-100": [
+     1359,
+     58,
+     0.45
+    ]
+   },
+   "hvc_[n,active,maxBoost]": [
+    7428,
+    588,
+    1.19
+   ]
+  },
+  "20260718_145814.csv": {
+   "engineOnRunLengthsSeconds_1Hz_grid": [
+    134,
+    35,
+    17,
+    11,
+    8,
+    12,
+    4,
+    24,
+    2,
+    21,
+    42,
+    23,
+    8,
+    7,
+    12,
+    52,
+    60,
+    50,
+    80,
+    54,
+    10,
+    12,
+    178,
+    77,
+    43,
+    8,
+    32,
+    11,
+    12,
+    55,
+    11,
+    44,
+    6,
+    29,
+    8,
+    8,
+    8,
+    5,
+    53,
+    5,
+    43,
+    57,
+    5,
+    44,
+    37,
+    13,
+    69,
+    6,
+    12,
+    8,
+    7,
+    8,
+    30,
+    3,
+    3,
+    7,
+    39,
+    4,
+    87,
+    63,
+    101,
+    35
+   ],
+   "gridEngineOnSeconds": 1952.0,
+   "gridValidSeconds": 3150.0,
+   "speedZoneNativeRows_total_per_zone": [
+    1750.0,
+    1024.0,
+    6172.0,
+    11599.0,
+    6355.0,
+    6156.0,
+    324.0
+   ],
+   "speedZoneNativeRows_engineOn_per_zone": [
+    256.0,
+    229.0,
+    2607.0,
+    6928.0,
+    4898.0,
+    5671.0,
+    324.0
+   ],
+   "turboByRpmBand_[n,active,sumActiveBoost,maxBoost]": {
+    "1500-2000": [
+     7356,
+     3300,
+     375.1200000000001,
+     0.22
+    ],
+    "2000-2500": [
+     8832,
+     4152,
+     489.60000000000014,
+     0.6
+    ],
+    "2500-3000": [
+     756,
+     264,
+     67.2,
+     0.52
+    ],
+    "3000-3500": [
+     432,
+     312,
+     120.48000000000002,
+     0.8300000000000001
+    ],
+    "3500-4000": [
+     240,
+     204,
+     104.52000000000001,
+     1.2
+    ],
+    "4000+": [
+     96,
+     96,
+     78.36,
+     1.15
+    ],
+    "<1500": [
+     888,
+     0,
+     0.0,
+     0.01
+    ]
+   },
+   "turboBySpeedZone_[n,active,maxBoost]": {
+    "0-40": [
+     341,
+     76,
+     0.6
+    ],
+    "100-120": [
+     3991,
+     2241,
+     1.04
+    ],
+    "120-160": [
+     228,
+     38,
+     0.41
+    ],
+    "40-60": [
+     1835,
+     315,
+     0.42
+    ],
+    "60-80": [
+     4876,
+     2379,
+     0.52
+    ],
+    "80-100": [
+     3446,
+     1552,
+     1.2
+    ]
+   },
+   "hvc_[n,active,maxBoost]": [
+    18600,
+    8328,
+    1.2
+   ]
+  },
+  "20260803_193840.csv": {
+   "engineOnRunLengthsSeconds_1Hz_grid": [
+    52,
+    16,
+    109,
+    48,
+    16,
+    22,
+    27,
+    16,
+    3,
+    13,
+    8,
+    32,
+    17,
+    10,
+    15,
+    26,
+    32,
+    43,
+    17,
+    4,
+    11,
+    63,
+    18,
+    52,
+    2,
+    7,
+    25,
+    96,
+    44
+   ],
+   "gridEngineOnSeconds": 844.0,
+   "gridValidSeconds": 1959.0,
+   "speedZoneNativeRows_total_per_zone": [
+    4664.0,
+    3209.0,
+    6349.0,
+    5419.0,
+    1713.0,
+    985.0,
+    0.0
+   ],
+   "speedZoneNativeRows_engineOn_per_zone": [
+    133.0,
+    1282.0,
+    2949.0,
+    2966.0,
+    1272.0,
+    958.0,
+    0.0
+   ],
+   "turboByRpmBand_[n,active,sumActiveBoost,maxBoost]": {
+    "1500-2000": [
+     4051,
+     132,
+     23.400000000000006,
+     0.31
+    ],
+    "2000-2500": [
+     4140,
+     179,
+     35.290000000000006,
+     0.43
+    ],
+    "<1500": [
+     286,
+     0,
+     0.0,
+     0.0
+    ]
+   },
+   "turboBySpeedZone_[n,active,maxBoost]": {
+    "0-40": [
+     987,
+     75,
+     0.39
+    ],
+    "100-120": [
+     655,
+     0,
+     0.09
+    ],
+    "40-60": [
+     2065,
+     143,
+     0.43
+    ],
+    "60-80": [
+     2082,
+     29,
+     0.13
+    ],
+    "80-100": [
+     872,
+     0,
+     0.1
+    ]
+   },
+   "hvc_[n,active,maxBoost]": [
+    8477,
+    311,
+    0.43
+   ]
+  },
+  "20260806_155444.csv": {
+   "engineOnRunLengthsSeconds_1Hz_grid": [
+    126,
+    27,
+    9,
+    68,
+    53,
+    24,
+    62,
+    36,
+    3,
+    37,
+    48,
+    6,
+    27,
+    5,
+    9,
+    7,
+    22,
+    6,
+    44,
+    19,
+    4,
+    22,
+    11,
+    35,
+    13,
+    16,
+    45,
+    12,
+    7,
+    14,
+    10,
+    4,
+    6,
+    7,
+    4,
+    10,
+    16,
+    9,
+    4,
+    10,
+    5,
+    6,
+    21,
+    2,
+    26,
+    15,
+    6,
+    13,
+    7,
+    5,
+    9
+   ],
+   "gridEngineOnSeconds": 1012.0,
+   "gridValidSeconds": 1959.0,
+   "speedZoneNativeRows_total_per_zone": [
+    2265.0,
+    2459.0,
+    4614.0,
+    5537.0,
+    3539.0,
+    2133.0,
+    1120.0
+   ],
+   "speedZoneNativeRows_engineOn_per_zone": [
+    444.0,
+    731.0,
+    2171.0,
+    3174.0,
+    2295.0,
+    1609.0,
+    1040.0
+   ],
+   "turboByRpmBand_[n,active,sumActiveBoost,maxBoost]": {
+    "1500-2000": [
+     3396,
+     300,
+     36.84,
+     0.16
+    ],
+    "2000-2500": [
+     3780,
+     612,
+     126.72,
+     1.05
+    ],
+    "2500-3000": [
+     852,
+     492,
+     248.88,
+     1.0
+    ],
+    "3000-3500": [
+     516,
+     312,
+     88.08000000000001,
+     1.32
+    ],
+    "3500-4000": [
+     444,
+     444,
+     160.92000000000002,
+     1.21
+    ],
+    "4000+": [
+     372,
+     372,
+     375.0,
+     1.26
+    ],
+    "<1500": [
+     828,
+     0,
+     0.0,
+     0.01
+    ]
+   },
+   "turboBySpeedZone_[n,active,maxBoost]": {
+    "0-40": [
+     827,
+     48,
+     0.29
+    ],
+    "100-120": [
+     1133,
+     579,
+     1.24
+    ],
+    "120-160": [
+     732,
+     438,
+     1.17
+    ],
+    "40-60": [
+     1527,
+     141,
+     1.05
+    ],
+    "60-80": [
+     2234,
+     340,
+     0.91
+    ],
+    "80-100": [
+     1615,
+     455,
+     1.32
+    ]
+   },
+   "hvc_[n,active,maxBoost]": [
+    10188,
+    2532,
+    1.32
+   ]
+  },
+  "20260808_124714.csv": {
+   "engineOnRunLengthsSeconds_1Hz_grid": [
+    54,
+    16,
+    18,
+    74,
+    15
+   ],
+   "gridEngineOnSeconds": 177.0,
+   "gridValidSeconds": 816.0,
+   "speedZoneNativeRows_total_per_zone": [
+    4039.0,
+    2416.0,
+    1604.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "speedZoneNativeRows_engineOn_per_zone": [
+    361.0,
+    935.0,
+    493.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "turboByRpmBand_[n,active,sumActiveBoost,maxBoost]": {
+    "1500-2000": [
+     1028,
+     0,
+     0.0,
+     0.08
+    ],
+    "2000-2500": [
+     495,
+     0,
+     0.0,
+     0.09
+    ],
+    "<1500": [
+     56,
+     0,
+     0.0,
+     0.0
+    ]
+   },
+   "turboBySpeedZone_[n,active,maxBoost]": {
+    "0-40": [
+     886,
+     0,
+     0.08
+    ],
+    "40-60": [
+     338,
+     0,
+     0.09
+    ]
+   },
+   "hvc_[n,active,maxBoost]": [
+    1579,
+    0,
+    0.09
+   ]
+  },
+  "20260809_120000.csv": {
+   "engineOnRunLengthsSeconds_1Hz_grid": [
+    132
+   ],
+   "gridEngineOnSeconds": 132.0,
+   "gridValidSeconds": 520.0,
+   "speedZoneNativeRows_total_per_zone": [
+    2282.0,
+    244.0,
+    1025.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "speedZoneNativeRows_engineOn_per_zone": [
+    0.0,
+    136.0,
+    1012.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "turboByRpmBand_[n,active,sumActiveBoost,maxBoost]": {
+    "1500-2000": [
+     432,
+     0,
+     0.0,
+     0.03
+    ],
+    "2000-2500": [
+     396,
+     0,
+     0.0,
+     0.04
+    ],
+    "<1500": [
+     192,
+     0,
+     0.0,
+     0.0
+    ]
+   },
+   "turboBySpeedZone_[n,active,maxBoost]": {
+    "0-40": [
+     96,
+     0,
+     0.0
+    ],
+    "40-60": [
+     712,
+     0,
+     0.04
+    ]
+   },
+   "hvc_[n,active,maxBoost]": [
+    1020,
+    0,
+    0.04
+   ]
+  },
+  "20260818_111200.csv": {
+   "engineOnRunLengthsSeconds_1Hz_grid": [
+    140,
+    18,
+    15,
+    71,
+    18,
+    16,
+    47,
+    105,
+    136,
+    73,
+    31,
+    28,
+    13,
+    32,
+    28
+   ],
+   "gridEngineOnSeconds": 771.0,
+   "gridValidSeconds": 2364.0,
+   "speedZoneNativeRows_total_per_zone": [
+    11441.0,
+    6088.0,
+    8103.0,
+    4482.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "speedZoneNativeRows_engineOn_per_zone": [
+    955.0,
+    1254.0,
+    4529.0,
+    2835.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "turboByRpmBand_[n,active,sumActiveBoost,maxBoost]": {
+    "1500-2000": [
+     4851,
+     176,
+     42.370000000000005,
+     0.53
+    ],
+    "2000-2500": [
+     4333,
+     287,
+     70.91999999999999,
+     0.7000000000000001
+    ],
+    "<1500": [
+     389,
+     0,
+     0.0,
+     0.0
+    ]
+   },
+   "turboBySpeedZone_[n,active,maxBoost]": {
+    "0-40": [
+     2209,
+     193,
+     0.64
+    ],
+    "40-60": [
+     4529,
+     270,
+     0.7000000000000001
+    ],
+    "60-80": [
+     2835,
+     0,
+     0.1
+    ]
+   },
+   "hvc_[n,active,maxBoost]": [
+    9573,
+    463,
+    0.7000000000000001
+   ]
+  },
+  "20260819_135903.csv": {
+   "engineOnRunLengthsSeconds_1Hz_grid": [
+    76,
+    48,
+    64,
+    17,
+    64,
+    26,
+    57,
+    12,
+    103,
+    12,
+    41,
+    17,
+    19,
+    27,
+    6,
+    63,
+    22,
+    4,
+    10
+   ],
+   "gridEngineOnSeconds": 688.0,
+   "gridValidSeconds": 2419.0,
+   "speedZoneNativeRows_total_per_zone": [
+    15646.0,
+    7750.0,
+    6633.0,
+    1473.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "speedZoneNativeRows_engineOn_per_zone": [
+    1173.0,
+    2711.0,
+    3583.0,
+    1406.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "turboByRpmBand_[n,active,sumActiveBoost,maxBoost]": {
+    "1500-2000": [
+     4747,
+     88,
+     11.079999999999998,
+     0.15
+    ],
+    "2000-2500": [
+     3503,
+     54,
+     7.020000000000002,
+     0.15
+    ],
+    "<1500": [
+     623,
+     0,
+     0.0,
+     0.01
+    ]
+   },
+   "turboBySpeedZone_[n,active,maxBoost]": {
+    "0-40": [
+     3884,
+     27,
+     0.12
+    ],
+    "40-60": [
+     3583,
+     102,
+     0.15
+    ],
+    "60-80": [
+     1406,
+     13,
+     0.12
+    ]
+   },
+   "hvc_[n,active,maxBoost]": [
+    8873,
+    142,
+    0.15
+   ]
+  },
+  "20260820_214927.csv": {
+   "engineOnRunLengthsSeconds_1Hz_grid": [
+    66,
+    16,
+    12,
+    47,
+    15,
+    8,
+    9,
+    79,
+    68,
+    113,
+    71,
+    172
+   ],
+   "gridEngineOnSeconds": 676.0,
+   "gridValidSeconds": 1999.0,
+   "speedZoneNativeRows_total_per_zone": [
+    7129.0,
+    5084.0,
+    3187.0,
+    7269.0,
+    482.0,
+    1632.0,
+    0.0
+   ],
+   "speedZoneNativeRows_engineOn_per_zone": [
+    619.0,
+    1291.0,
+    428.0,
+    3959.0,
+    433.0,
+    1632.0,
+    0.0
+   ],
+   "turboByRpmBand_[n,active,sumActiveBoost,maxBoost]": {
+    "1500-2000": [
+     3579,
+     97,
+     21.82,
+     0.51
+    ],
+    "2000-2500": [
+     3544,
+     135,
+     30.169999999999998,
+     0.55
+    ],
+    "2500-3000": [
+     477,
+     39,
+     17.140000000000008,
+     0.8200000000000001
+    ],
+    "3000-3500": [
+     567,
+     96,
+     61.56,
+     1.19
+    ],
+    "3500-4000": [
+     30,
+     30,
+     30.499999999999993,
+     1.06
+    ],
+    "<1500": [
+     165,
+     0,
+     0.0,
+     0.0
+    ]
+   },
+   "turboBySpeedZone_[n,active,maxBoost]": {
+    "0-40": [
+     1910,
+     105,
+     0.28
+    ],
+    "100-120": [
+     1632,
+     108,
+     1.02
+    ],
+    "40-60": [
+     428,
+     97,
+     0.55
+    ],
+    "60-80": [
+     3959,
+     30,
+     0.13
+    ],
+    "80-100": [
+     433,
+     57,
+     1.19
+    ]
+   },
+   "hvc_[n,active,maxBoost]": [
+    8362,
+    397,
+    1.19
+   ]
+  },
+  "20260829_100447.csv": {
+   "engineOnRunLengthsSeconds_1Hz_grid": [
+    103,
+    102,
+    9,
+    10,
+    16,
+    17,
+    49,
+    45,
+    22,
+    75,
+    39,
+    11,
+    46,
+    28,
+    32,
+    43,
+    5,
+    39,
+    27,
+    29,
+    65,
+    59,
+    201,
+    7,
+    49,
+    16
+   ],
+   "gridEngineOnSeconds": 1144.0,
+   "gridValidSeconds": 3052.0,
+   "speedZoneNativeRows_total_per_zone": [
+    5501.0,
+    3671.0,
+    9925.0,
+    17985.0,
+    763.0,
+    1639.0,
+    0.0
+   ],
+   "speedZoneNativeRows_engineOn_per_zone": [
+    711.0,
+    673.0,
+    2615.0,
+    8397.0,
+    696.0,
+    1625.0,
+    0.0
+   ],
+   "turboByRpmBand_[n,active,sumActiveBoost,maxBoost]": {
+    "1500-2000": [
+     6321,
+     10,
+     1.1,
+     0.11
+    ],
+    "2000-2500": [
+     6670,
+     20,
+     4.100000000000001,
+     0.28
+    ],
+    "2500-3000": [
+     591,
+     0,
+     0.0,
+     0.03
+    ],
+    "3000-3500": [
+     523,
+     0,
+     0.0,
+     0.08
+    ],
+    "<1500": [
+     612,
+     0,
+     0.0,
+     0.0
+    ]
+   },
+   "turboBySpeedZone_[n,active,maxBoost]": {
+    "0-40": [
+     1384,
+     10,
+     0.13
+    ],
+    "100-120": [
+     1625,
+     0,
+     0.08
+    ],
+    "40-60": [
+     2615,
+     20,
+     0.28
+    ],
+    "60-80": [
+     8397,
+     0,
+     0.08
+    ],
+    "80-100": [
+     696,
+     0,
+     0.07
+    ]
+   },
+   "hvc_[n,active,maxBoost]": [
+    14717,
+    30,
+    0.28
+   ]
+  },
+  "20260830_155318.csv": {
+   "engineOnRunLengthsSeconds_1Hz_grid": [
+    319,
+    9,
+    32,
+    17,
+    22,
+    43,
+    38,
+    21,
+    92,
+    60,
+    76,
+    74,
+    72,
+    3,
+    101,
+    80,
+    12,
+    374,
+    953,
+    19,
+    213,
+    5
+   ],
+   "gridEngineOnSeconds": 2635.0,
+   "gridValidSeconds": 3305.0,
+   "speedZoneNativeRows_total_per_zone": [
+    1303.0,
+    1082.0,
+    4466.0,
+    6487.0,
+    6116.0,
+    24582.0,
+    1214.0
+   ],
+   "speedZoneNativeRows_engineOn_per_zone": [
+    0.0,
+    58.0,
+    1333.0,
+    3506.0,
+    5281.0,
+    24474.0,
+    1131.0
+   ],
+   "turboByRpmBand_[n,active,sumActiveBoost,maxBoost]": {
+    "1500-2000": [
+     10361,
+     1864,
+     209.44000000000008,
+     0.15
+    ],
+    "2000-2500": [
+     19395,
+     2438,
+     343.04999999999995,
+     0.68
+    ],
+    "2500-3000": [
+     3573,
+     520,
+     168.63,
+     0.94
+    ],
+    "3000-3500": [
+     1037,
+     670,
+     251.38,
+     1.27
+    ],
+    "3500-4000": [
+     94,
+     55,
+     38.589999999999975,
+     1.03
+    ],
+    "4000+": [
+     711,
+     711,
+     612.3600000000001,
+     1.18
+    ],
+    "<1500": [
+     612,
+     0,
+     0.0,
+     0.01
+    ]
+   },
+   "turboBySpeedZone_[n,active,maxBoost]": {
+    "0-40": [
+     58,
+     19,
+     0.41
+    ],
+    "100-120": [
+     24474,
+     4132,
+     1.03
+    ],
+    "120-160": [
+     639,
+     368,
+     1.18
+    ],
+    "40-60": [
+     1333,
+     134,
+     0.94
+    ],
+    "60-80": [
+     3506,
+     332,
+     1.27
+    ],
+    "80-100": [
+     5281,
+     794,
+     1.02
+    ]
+   },
+   "hvc_[n,active,maxBoost]": [
+    35783,
+    6258,
+    1.27
+   ]
+  },
+  "20260830_165926.csv": {
+   "engineOnRunLengthsSeconds_1Hz_grid": [
+    439,
+    127,
+    7,
+    34,
+    35,
+    130,
+    90,
+    308,
+    20,
+    94,
+    298,
+    67,
+    29,
+    19,
+    32,
+    6,
+    13,
+    8,
+    10,
+    15,
+    5,
+    20,
+    15,
+    2,
+    78,
+    14,
+    7,
+    14,
+    131,
+    118,
+    8,
+    18,
+    9,
+    19,
+    22,
+    4,
+    37,
+    8,
+    75,
+    21,
+    12,
+    33,
+    50,
+    13,
+    21,
+    6,
+    35,
+    18,
+    34,
+    23,
+    31,
+    35,
+    8,
+    18,
+    17,
+    4,
+    19,
+    24,
+    43,
+    55,
+    47,
+    37,
+    65,
+    33,
+    6,
+    9,
+    9,
+    55,
+    14,
+    47,
+    16,
+    23,
+    15,
+    24,
+    6,
+    43
+   ],
+   "gridEngineOnSeconds": 3354.0,
+   "gridValidSeconds": 4917.0,
+   "speedZoneNativeRows_total_per_zone": [
+    3212.0,
+    4872.0,
+    10633.0,
+    16469.0,
+    15373.0,
+    15518.0,
+    87.0
+   ],
+   "speedZoneNativeRows_engineOn_per_zone": [
+    83.0,
+    138.0,
+    4706.0,
+    10539.0,
+    13464.0,
+    15491.0,
+    87.0
+   ],
+   "turboByRpmBand_[n,active,sumActiveBoost,maxBoost]": {
+    "1500-2000": [
+     15646,
+     1768,
+     204.07000000000005,
+     0.16
+    ],
+    "2000-2500": [
+     23305,
+     2679,
+     340.11,
+     0.56
+    ],
+    "2500-3000": [
+     3229,
+     613,
+     217.97,
+     0.74
+    ],
+    "3000-3500": [
+     865,
+     626,
+     157.64,
+     0.92
+    ],
+    "3500-4000": [
+     28,
+     28,
+     5.77,
+     0.29
+    ],
+    "<1500": [
+     1435,
+     0,
+     0.0,
+     0.01
+    ]
+   },
+   "turboBySpeedZone_[n,active,maxBoost]": {
+    "0-40": [
+     221,
+     23,
+     0.15
+    ],
+    "100-120": [
+     15491,
+     3094,
+     0.57
+    ],
+    "120-160": [
+     87,
+     10,
+     0.12
+    ],
+    "40-60": [
+     4706,
+     385,
+     0.27
+    ],
+    "60-80": [
+     10539,
+     703,
+     0.74
+    ],
+    "80-100": [
+     13464,
+     1499,
+     0.92
+    ]
+   },
+   "hvc_[n,active,maxBoost]": [
+    44508,
+    5714,
+    0.92
+   ]
+  }
+ },
+ "intervalClaim": {
+  "what": "hvcTurboActivityRule: mixed class, share of engine-on native rows with boost > 0.1 bar, pooled over all drives of drive_type mixed that log boost and rpm",
+  "sharePct": 3.097,
+  "ci95": [
+   2.01,
+   4.51
+  ],
+  "method": "percentile bootstrap, calendar day as the resampling cluster, 4000 draws, ratio of sums; tolerance +-0.15 pp on each bound (any seed)",
+  "nDrives": 33,
+  "nDays": 25
+ },
+ "renderedChecks": "In tabtext/highway_vs_city__all.txt the Turbo activity row cells equal the hvcTurboActivityRule pooled strings; in tabtext/charts__cold.txt the engine-on by speed and run-length sentences quote the cold-cohort values (byCohort.cold), not the pooled ones."
+}

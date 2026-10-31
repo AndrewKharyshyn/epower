@@ -13,17 +13,14 @@ except AssertionError:
     pass
 # strict boundary: a run exactly at 400 does not count at > 400
 assert W.classify_runs(np.array([0, 1, 1, 0], dtype=bool), np.array([0, 0, 0, 0], dtype=bool))["dropped"] == 1
-# anchors: counts in the live source, and the substituted copies change exactly those literals
+# anchors: the evidence tool re-creates _RawAccum from its source with literal substitutions. Since M545 G0 the literals are gone (the stored gate is the named constant ENGINE_ON_STORED_RPM, called through
+# tools/engine_on_blocks.py), so the tool is ARCHIVAL (its recorded outputs are the M544 evidence); the registry anchors must be absent from the live source and the constant must be 300
 import compute_summary_arrays as C
 src = inspect.getsource(C._RawAccum)
+assert C.ENGINE_ON_STORED_RPM == 300
 for old, new, cnt in W.ANCHORS:
-    assert src.count(old) == cnt, old
+    assert src.count(old) == 0, ("literal gate reappeared", old)
 assert src.count("rp <= 300") >= 1 and src.count(W.ONSET[0]) == 1                  # regeneration proxy and onset detector exist and are not anchors
-C2, cls, sub = W.build_classes()
-s400 = inspect.getsource(cls["t400"]) if False else None
-assert set(cls) == {"t300", "t400", "t400onset"} and sub["observerLine"]
-a = cls["t400"]()
-assert hasattr(a, "eng_on") and not hasattr(a, "_eon_hook")                           # the hook attribute is created by add(), not by the constructor
 # recorded evidence (present after the run)
 p = "analyses/M544_evidence.json"
 if os.path.exists(p):

@@ -63457,6 +63457,416 @@
     "milestone": "M513"
    },
    "fullConfigHashNote": "whole-config hash retired for declared blocks (M513): the stamp names the md5 of each computational config section it reads (upstreamHashes.configSectionHashes); the previous value is kept in stampLineage"
+  },
+  "engineOnDurationRule": {
+   "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": null,
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-10-31T08:33:29.290826+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+    "rawIdentitySource": "ingest run 2026-10-31T08:32:31.209648+00:00: producer stages engine_on_blocks ran OK; raw_manifest.json corpusHash of this run",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "engine_on_blocks_sidecar.json": "c7a6cb5b2559c3f02fe40d9f12aa6657",
+     "engine_on_rule_sidecar.csv": "c40c7495a54968749416491b97195561",
+     "analyses/M545_spec.md": "287fd10213a32089d78da72647d4ac0f",
+     "seasonal_drive_master.csv": "0018476d259a6e17102708d0f80dbdc3",
+     "tools/engine_on_blocks.py": "5593dd1fd595af374c062719130363ee"
+    }
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M545: derived by tools/engine_on_blocks_stage.py from drive_master.csv and the raw drive files through engine_on_blocks_sidecar.json (keyed by raw sha256); gates E1 and the M544 known answers",
+   "includedInReleaseAt": "2026-10-31T08:33:29.290826+00:00",
+   "inputBasis": {
+    "nDrives": 606,
+    "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-10-31T08:32:31.209648+00:00",
+   "declaredIdentity": {
+    "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "engine_on_blocks_sidecar.json": "c7a6cb5b2559c3f02fe40d9f12aa6657",
+     "engine_on_rule_sidecar.csv": "c40c7495a54968749416491b97195561",
+     "analyses/M545_spec.md": "287fd10213a32089d78da72647d4ac0f",
+     "seasonal_drive_master.csv": "0018476d259a6e17102708d0f80dbdc3",
+     "tools/engine_on_blocks.py": "5593dd1fd595af374c062719130363ee"
+    },
+    "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+    "rawIdentitySource": "ingest run 2026-10-31T08:32:31.209648+00:00: producer stages engine_on_blocks ran OK; raw_manifest.json corpusHash of this run"
+   },
+   "stampLineage": [
+    {
+     "identity": {
+      "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+      "upstreamHashes": {
+       "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
+      },
+      "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
+      "generatedAt": "2026-10-31T08:18:25.274993+00:00"
+     },
+     "supersededAtMilestone": "M545",
+     "supersededAt": "2026-10-31T08:18:52.533293+00:00",
+     "reason": "legacy stamp metadata (M294 raw-manifest backfill, M284 whole-config hash, fields cloned from another block) replaced by stamp metadata re-derived from declared dependencies"
+    },
+    {
+     "identity": {
+      "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+      "configSectionHashes": {},
+      "inputFileMd5": {
+       "engine_on_blocks_sidecar.json": "c7a6cb5b2559c3f02fe40d9f12aa6657",
+       "engine_on_rule_sidecar.csv": "c40c7495a54968749416491b97195561",
+       "analyses/M545_spec.md": "0838a11194f1a251f81d2ecc84509ef0",
+       "seasonal_drive_master.csv": "0018476d259a6e17102708d0f80dbdc3",
+       "tools/engine_on_blocks.py": "5593dd1fd595af374c062719130363ee"
+      },
+      "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+      "rawIdentitySource": "ingest run 2026-10-31T08:32:29.769769+00:00: producer stages engine_on_blocks ran OK; raw_manifest.json corpusHash of this run"
+     },
+     "supersededAtMilestone": "M545",
+     "supersededAt": "2026-10-31T08:37:10.769927+00:00",
+     "reason": "identity values changed (master, raw manifest, config section or input file)"
+    }
+   ],
+   "dependencies": {
+    "declaredIn": "tools/stamp_dependencies.json",
+    "milestone": "M545"
+   },
+   "fullConfigHashNote": "whole-config hash retired for declared blocks (M513): the stamp names the md5 of each computational config section it reads (upstreamHashes.configSectionHashes); the previous value is kept in stampLineage"
+  },
+  "engineOnBySpeedRule": {
+   "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": null,
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-10-31T08:33:29.290826+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+    "rawIdentitySource": "ingest run 2026-10-31T08:32:31.209648+00:00: producer stages engine_on_blocks ran OK; raw_manifest.json corpusHash of this run",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "engine_on_blocks_sidecar.json": "c7a6cb5b2559c3f02fe40d9f12aa6657",
+     "engine_on_rule_sidecar.csv": "c40c7495a54968749416491b97195561",
+     "analyses/M545_spec.md": "287fd10213a32089d78da72647d4ac0f",
+     "seasonal_drive_master.csv": "0018476d259a6e17102708d0f80dbdc3",
+     "tools/engine_on_blocks.py": "5593dd1fd595af374c062719130363ee"
+    }
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M545: derived by tools/engine_on_blocks_stage.py from drive_master.csv and the raw drive files through engine_on_blocks_sidecar.json (keyed by raw sha256); gates E1 and the M544 known answers",
+   "includedInReleaseAt": "2026-10-31T08:33:29.290826+00:00",
+   "inputBasis": {
+    "nDrives": 606,
+    "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-10-31T08:32:31.209648+00:00",
+   "declaredIdentity": {
+    "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "engine_on_blocks_sidecar.json": "c7a6cb5b2559c3f02fe40d9f12aa6657",
+     "engine_on_rule_sidecar.csv": "c40c7495a54968749416491b97195561",
+     "analyses/M545_spec.md": "287fd10213a32089d78da72647d4ac0f",
+     "seasonal_drive_master.csv": "0018476d259a6e17102708d0f80dbdc3",
+     "tools/engine_on_blocks.py": "5593dd1fd595af374c062719130363ee"
+    },
+    "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+    "rawIdentitySource": "ingest run 2026-10-31T08:32:31.209648+00:00: producer stages engine_on_blocks ran OK; raw_manifest.json corpusHash of this run"
+   },
+   "stampLineage": [
+    {
+     "identity": {
+      "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+      "upstreamHashes": {
+       "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
+      },
+      "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
+      "generatedAt": "2026-10-31T08:18:25.274993+00:00"
+     },
+     "supersededAtMilestone": "M545",
+     "supersededAt": "2026-10-31T08:18:52.533293+00:00",
+     "reason": "legacy stamp metadata (M294 raw-manifest backfill, M284 whole-config hash, fields cloned from another block) replaced by stamp metadata re-derived from declared dependencies"
+    },
+    {
+     "identity": {
+      "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+      "configSectionHashes": {},
+      "inputFileMd5": {
+       "engine_on_blocks_sidecar.json": "c7a6cb5b2559c3f02fe40d9f12aa6657",
+       "engine_on_rule_sidecar.csv": "c40c7495a54968749416491b97195561",
+       "analyses/M545_spec.md": "0838a11194f1a251f81d2ecc84509ef0",
+       "seasonal_drive_master.csv": "0018476d259a6e17102708d0f80dbdc3",
+       "tools/engine_on_blocks.py": "5593dd1fd595af374c062719130363ee"
+      },
+      "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+      "rawIdentitySource": "ingest run 2026-10-31T08:32:29.769769+00:00: producer stages engine_on_blocks ran OK; raw_manifest.json corpusHash of this run"
+     },
+     "supersededAtMilestone": "M545",
+     "supersededAt": "2026-10-31T08:37:10.769927+00:00",
+     "reason": "identity values changed (master, raw manifest, config section or input file)"
+    }
+   ],
+   "dependencies": {
+    "declaredIn": "tools/stamp_dependencies.json",
+    "milestone": "M545"
+   },
+   "fullConfigHashNote": "whole-config hash retired for declared blocks (M513): the stamp names the md5 of each computational config section it reads (upstreamHashes.configSectionHashes); the previous value is kept in stampLineage"
+  },
+  "turboByRpmRule": {
+   "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": null,
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-10-31T08:33:29.290826+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+    "rawIdentitySource": "ingest run 2026-10-31T08:32:31.209648+00:00: producer stages engine_on_blocks ran OK; raw_manifest.json corpusHash of this run",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "engine_on_blocks_sidecar.json": "c7a6cb5b2559c3f02fe40d9f12aa6657",
+     "engine_on_rule_sidecar.csv": "c40c7495a54968749416491b97195561",
+     "analyses/M545_spec.md": "287fd10213a32089d78da72647d4ac0f",
+     "seasonal_drive_master.csv": "0018476d259a6e17102708d0f80dbdc3",
+     "tools/engine_on_blocks.py": "5593dd1fd595af374c062719130363ee"
+    }
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M545: derived by tools/engine_on_blocks_stage.py from drive_master.csv and the raw drive files through engine_on_blocks_sidecar.json (keyed by raw sha256); gates E1 and the M544 known answers",
+   "includedInReleaseAt": "2026-10-31T08:33:29.290826+00:00",
+   "inputBasis": {
+    "nDrives": 606,
+    "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-10-31T08:32:31.209648+00:00",
+   "declaredIdentity": {
+    "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "engine_on_blocks_sidecar.json": "c7a6cb5b2559c3f02fe40d9f12aa6657",
+     "engine_on_rule_sidecar.csv": "c40c7495a54968749416491b97195561",
+     "analyses/M545_spec.md": "287fd10213a32089d78da72647d4ac0f",
+     "seasonal_drive_master.csv": "0018476d259a6e17102708d0f80dbdc3",
+     "tools/engine_on_blocks.py": "5593dd1fd595af374c062719130363ee"
+    },
+    "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+    "rawIdentitySource": "ingest run 2026-10-31T08:32:31.209648+00:00: producer stages engine_on_blocks ran OK; raw_manifest.json corpusHash of this run"
+   },
+   "stampLineage": [
+    {
+     "identity": {
+      "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+      "upstreamHashes": {
+       "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
+      },
+      "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
+      "generatedAt": "2026-10-31T08:18:25.274993+00:00"
+     },
+     "supersededAtMilestone": "M545",
+     "supersededAt": "2026-10-31T08:18:52.533293+00:00",
+     "reason": "legacy stamp metadata (M294 raw-manifest backfill, M284 whole-config hash, fields cloned from another block) replaced by stamp metadata re-derived from declared dependencies"
+    },
+    {
+     "identity": {
+      "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+      "configSectionHashes": {},
+      "inputFileMd5": {
+       "engine_on_blocks_sidecar.json": "c7a6cb5b2559c3f02fe40d9f12aa6657",
+       "engine_on_rule_sidecar.csv": "c40c7495a54968749416491b97195561",
+       "analyses/M545_spec.md": "0838a11194f1a251f81d2ecc84509ef0",
+       "seasonal_drive_master.csv": "0018476d259a6e17102708d0f80dbdc3",
+       "tools/engine_on_blocks.py": "5593dd1fd595af374c062719130363ee"
+      },
+      "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+      "rawIdentitySource": "ingest run 2026-10-31T08:32:29.769769+00:00: producer stages engine_on_blocks ran OK; raw_manifest.json corpusHash of this run"
+     },
+     "supersededAtMilestone": "M545",
+     "supersededAt": "2026-10-31T08:37:10.769927+00:00",
+     "reason": "identity values changed (master, raw manifest, config section or input file)"
+    }
+   ],
+   "dependencies": {
+    "declaredIn": "tools/stamp_dependencies.json",
+    "milestone": "M545"
+   },
+   "fullConfigHashNote": "whole-config hash retired for declared blocks (M513): the stamp names the md5 of each computational config section it reads (upstreamHashes.configSectionHashes); the previous value is kept in stampLineage"
+  },
+  "turboBySpeedCtxRule": {
+   "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": null,
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-10-31T08:33:29.290826+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+    "rawIdentitySource": "ingest run 2026-10-31T08:32:31.209648+00:00: producer stages engine_on_blocks ran OK; raw_manifest.json corpusHash of this run",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "engine_on_blocks_sidecar.json": "c7a6cb5b2559c3f02fe40d9f12aa6657",
+     "engine_on_rule_sidecar.csv": "c40c7495a54968749416491b97195561",
+     "analyses/M545_spec.md": "287fd10213a32089d78da72647d4ac0f",
+     "seasonal_drive_master.csv": "0018476d259a6e17102708d0f80dbdc3",
+     "tools/engine_on_blocks.py": "5593dd1fd595af374c062719130363ee"
+    }
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M545: derived by tools/engine_on_blocks_stage.py from drive_master.csv and the raw drive files through engine_on_blocks_sidecar.json (keyed by raw sha256); gates E1 and the M544 known answers",
+   "includedInReleaseAt": "2026-10-31T08:33:29.290826+00:00",
+   "inputBasis": {
+    "nDrives": 606,
+    "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-10-31T08:32:31.209648+00:00",
+   "declaredIdentity": {
+    "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "engine_on_blocks_sidecar.json": "c7a6cb5b2559c3f02fe40d9f12aa6657",
+     "engine_on_rule_sidecar.csv": "c40c7495a54968749416491b97195561",
+     "analyses/M545_spec.md": "287fd10213a32089d78da72647d4ac0f",
+     "seasonal_drive_master.csv": "0018476d259a6e17102708d0f80dbdc3",
+     "tools/engine_on_blocks.py": "5593dd1fd595af374c062719130363ee"
+    },
+    "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+    "rawIdentitySource": "ingest run 2026-10-31T08:32:31.209648+00:00: producer stages engine_on_blocks ran OK; raw_manifest.json corpusHash of this run"
+   },
+   "stampLineage": [
+    {
+     "identity": {
+      "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+      "upstreamHashes": {
+       "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
+      },
+      "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
+      "generatedAt": "2026-10-31T08:18:25.274993+00:00"
+     },
+     "supersededAtMilestone": "M545",
+     "supersededAt": "2026-10-31T08:18:52.533293+00:00",
+     "reason": "legacy stamp metadata (M294 raw-manifest backfill, M284 whole-config hash, fields cloned from another block) replaced by stamp metadata re-derived from declared dependencies"
+    },
+    {
+     "identity": {
+      "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+      "configSectionHashes": {},
+      "inputFileMd5": {
+       "engine_on_blocks_sidecar.json": "c7a6cb5b2559c3f02fe40d9f12aa6657",
+       "engine_on_rule_sidecar.csv": "c40c7495a54968749416491b97195561",
+       "analyses/M545_spec.md": "0838a11194f1a251f81d2ecc84509ef0",
+       "seasonal_drive_master.csv": "0018476d259a6e17102708d0f80dbdc3",
+       "tools/engine_on_blocks.py": "5593dd1fd595af374c062719130363ee"
+      },
+      "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+      "rawIdentitySource": "ingest run 2026-10-31T08:32:29.769769+00:00: producer stages engine_on_blocks ran OK; raw_manifest.json corpusHash of this run"
+     },
+     "supersededAtMilestone": "M545",
+     "supersededAt": "2026-10-31T08:37:10.769927+00:00",
+     "reason": "identity values changed (master, raw manifest, config section or input file)"
+    }
+   ],
+   "dependencies": {
+    "declaredIn": "tools/stamp_dependencies.json",
+    "milestone": "M545"
+   },
+   "fullConfigHashNote": "whole-config hash retired for declared blocks (M513): the stamp names the md5 of each computational config section it reads (upstreamHashes.configSectionHashes); the previous value is kept in stampLineage"
+  },
+  "hvcTurboActivityRule": {
+   "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": null,
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-10-31T08:33:29.290826+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+    "rawIdentitySource": "ingest run 2026-10-31T08:32:31.209648+00:00: producer stages engine_on_blocks ran OK; raw_manifest.json corpusHash of this run",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "engine_on_blocks_sidecar.json": "c7a6cb5b2559c3f02fe40d9f12aa6657",
+     "engine_on_rule_sidecar.csv": "c40c7495a54968749416491b97195561",
+     "analyses/M545_spec.md": "287fd10213a32089d78da72647d4ac0f",
+     "seasonal_drive_master.csv": "0018476d259a6e17102708d0f80dbdc3",
+     "tools/engine_on_blocks.py": "5593dd1fd595af374c062719130363ee"
+    }
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M545: derived by tools/engine_on_blocks_stage.py from drive_master.csv and the raw drive files through engine_on_blocks_sidecar.json (keyed by raw sha256); gates E1 and the M544 known answers",
+   "includedInReleaseAt": "2026-10-31T08:33:29.290826+00:00",
+   "inputBasis": {
+    "nDrives": 606,
+    "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-10-31T08:32:31.209648+00:00",
+   "declaredIdentity": {
+    "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "engine_on_blocks_sidecar.json": "c7a6cb5b2559c3f02fe40d9f12aa6657",
+     "engine_on_rule_sidecar.csv": "c40c7495a54968749416491b97195561",
+     "analyses/M545_spec.md": "287fd10213a32089d78da72647d4ac0f",
+     "seasonal_drive_master.csv": "0018476d259a6e17102708d0f80dbdc3",
+     "tools/engine_on_blocks.py": "5593dd1fd595af374c062719130363ee"
+    },
+    "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+    "rawIdentitySource": "ingest run 2026-10-31T08:32:31.209648+00:00: producer stages engine_on_blocks ran OK; raw_manifest.json corpusHash of this run"
+   },
+   "stampLineage": [
+    {
+     "identity": {
+      "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+      "upstreamHashes": {
+       "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
+      },
+      "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
+      "generatedAt": "2026-10-31T08:18:25.274993+00:00"
+     },
+     "supersededAtMilestone": "M545",
+     "supersededAt": "2026-10-31T08:18:52.533293+00:00",
+     "reason": "legacy stamp metadata (M294 raw-manifest backfill, M284 whole-config hash, fields cloned from another block) replaced by stamp metadata re-derived from declared dependencies"
+    },
+    {
+     "identity": {
+      "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
+      "configSectionHashes": {},
+      "inputFileMd5": {
+       "engine_on_blocks_sidecar.json": "c7a6cb5b2559c3f02fe40d9f12aa6657",
+       "engine_on_rule_sidecar.csv": "c40c7495a54968749416491b97195561",
+       "analyses/M545_spec.md": "0838a11194f1a251f81d2ecc84509ef0",
+       "seasonal_drive_master.csv": "0018476d259a6e17102708d0f80dbdc3",
+       "tools/engine_on_blocks.py": "5593dd1fd595af374c062719130363ee"
+      },
+      "rawManifestCorpusHash": "9aee34b759a8c1f523b44edfa0654d635106e859bf57fc51efa0cf0ce03afdcd",
+      "rawIdentitySource": "ingest run 2026-10-31T08:32:29.769769+00:00: producer stages engine_on_blocks ran OK; raw_manifest.json corpusHash of this run"
+     },
+     "supersededAtMilestone": "M545",
+     "supersededAt": "2026-10-31T08:37:10.769927+00:00",
+     "reason": "identity values changed (master, raw manifest, config section or input file)"
+    }
+   ],
+   "dependencies": {
+    "declaredIn": "tools/stamp_dependencies.json",
+    "milestone": "M545"
+   },
+   "fullConfigHashNote": "whole-config hash retired for declared blocks (M513): the stamp names the md5 of each computational config section it reads (upstreamHashes.configSectionHashes); the previous value is kept in stampLineage"
   }
  },
  "ambientTable": {
@@ -366626,6 +367036,1677 @@
    "sidecarSha256": "ed7608c006fc4ac4eaefe3f566a2d7c216647c6138f795f3ac513c7e1e29b3df",
    "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
    "reparsedDrives": 0
+  }
+ },
+ "engineOnDurationRule": {
+  "estimand": "engine-on run lengths (rpm > 400, 1 Hz grid, strict; NaN breaks a run): run-boundary re-definition (rpm > 400, 1 Hz grid; deterministic, same data)",
+  "basis": "rpm > 400 (strict) on the pipeline convention of the stored block; a deterministic re-definition on the same data, not a correction; the stored rpm > 300 block is unchanged (key engineOnDuration)",
+  "rule": {
+   "thresholdRpm": 400,
+   "boundary": "gt",
+   "name": "engine-on (rpm > 400)",
+   "storedKey": "engineOnDuration"
+  },
+  "descriptive": true,
+  "displayed": false,
+  "pooled": [
+   {
+    "label": "Urban",
+    "min": 1.0,
+    "max": 624.0,
+    "median": 25.0,
+    "p10": 7.0,
+    "p90": 92.0,
+    "onFraction": 29.6,
+    "segsPer10min": 4.4,
+    "nSegments": 3197,
+    "color": "#ef4444"
+   },
+   {
+    "label": "Mixed",
+    "min": 1.0,
+    "max": 323.0,
+    "median": 28.0,
+    "p10": 6.0,
+    "p90": 82.4,
+    "onFraction": 39.5,
+    "segsPer10min": 6.0,
+    "nSegments": 677,
+    "color": "#eab308"
+   },
+   {
+    "label": "Mixed Highway",
+    "min": 1.0,
+    "max": 1447.0,
+    "median": 21.0,
+    "p10": 5.0,
+    "p90": 84.0,
+    "onFraction": 55.4,
+    "segsPer10min": 8.9,
+    "nSegments": 2793,
+    "color": "#3b82f6"
+   },
+   {
+    "label": "Highway",
+    "min": 1.0,
+    "max": 1692.0,
+    "median": 25.0,
+    "p10": 5.0,
+    "p90": 139.0,
+    "onFraction": 68.7,
+    "segsPer10min": 6.8,
+    "nSegments": 1543,
+    "color": "#22c55e"
+   }
+  ],
+  "byCohort": {
+   "warm": [
+    {
+     "label": "Urban",
+     "min": 1.0,
+     "max": 357.0,
+     "median": 25.0,
+     "p10": 7.0,
+     "p90": 90.0,
+     "onFraction": 29.3,
+     "segsPer10min": 4.4,
+     "nSegments": 2202,
+     "color": "#ef4444"
+    },
+    {
+     "label": "Mixed",
+     "min": 1.0,
+     "max": 241.0,
+     "median": 29.0,
+     "p10": 6.0,
+     "p90": 85.0,
+     "onFraction": 39.6,
+     "segsPer10min": 6.0,
+     "nSegments": 491,
+     "color": "#eab308"
+    },
+    {
+     "label": "Mixed Highway",
+     "min": 1.0,
+     "max": 1447.0,
+     "median": 21.0,
+     "p10": 5.0,
+     "p90": 82.0,
+     "onFraction": 54.6,
+     "segsPer10min": 9.0,
+     "nSegments": 2434,
+     "color": "#3b82f6"
+    },
+    {
+     "label": "Highway",
+     "min": 1.0,
+     "max": 1314.0,
+     "median": 25.0,
+     "p10": 5.0,
+     "p90": 139.0,
+     "onFraction": 68.0,
+     "segsPer10min": 7.1,
+     "nSegments": 1350,
+     "color": "#22c55e"
+    }
+   ],
+   "shoulder": [
+    {
+     "label": "Urban",
+     "min": 1.0,
+     "max": 624.0,
+     "median": 24.0,
+     "p10": 6.0,
+     "p90": 97.0,
+     "onFraction": 29.9,
+     "segsPer10min": 4.3,
+     "nSegments": 972,
+     "color": "#ef4444"
+    },
+    {
+     "label": "Mixed",
+     "min": 2.0,
+     "max": 323.0,
+     "median": 26.5,
+     "p10": 6.0,
+     "p90": 76.0,
+     "onFraction": 39.2,
+     "segsPer10min": 6.1,
+     "nSegments": 186,
+     "color": "#eab308"
+    },
+    {
+     "label": "Mixed Highway",
+     "min": 2.0,
+     "max": 613.0,
+     "median": 26.0,
+     "p10": 5.0,
+     "p90": 93.2,
+     "onFraction": 60.7,
+     "segsPer10min": 8.4,
+     "nSegments": 359,
+     "color": "#3b82f6"
+    },
+    {
+     "label": "Highway",
+     "min": 2.0,
+     "max": 771.0,
+     "median": 29.0,
+     "p10": 4.0,
+     "p90": 319.8,
+     "onFraction": 67.2,
+     "segsPer10min": 4.2,
+     "nSegments": 89,
+     "color": "#22c55e"
+    }
+   ],
+   "cold": [
+    {
+     "label": "Urban",
+     "min": 2.0,
+     "max": 276.0,
+     "median": 42.0,
+     "p10": 10.6,
+     "p90": 224.8,
+     "onFraction": 41.2,
+     "segsPer10min": 2.6,
+     "nSegments": 23,
+     "color": "#ef4444"
+    },
+    {
+     "label": "Highway",
+     "min": 3.0,
+     "max": 1692.0,
+     "median": 24.0,
+     "p10": 9.3,
+     "p90": 100.9,
+     "onFraction": 81.0,
+     "segsPer10min": 7.9,
+     "nSegments": 104,
+     "color": "#22c55e"
+    }
+   ]
+  },
+  "detail": {
+   "pooled": {
+    "urban": {
+     "nDrives": 510,
+     "nDays": 110,
+     "nSegments": 3197,
+     "medianCi95": [
+      22.0,
+      28.0
+     ],
+     "exploratory": false
+    },
+    "mixed": {
+     "nDrives": 33,
+     "nDays": 27,
+     "nSegments": 677,
+     "medianCi95": [
+      24.0,
+      32.0
+     ],
+     "exploratory": false
+    },
+    "mixed_highway": {
+     "nDrives": 37,
+     "nDays": 27,
+     "nSegments": 2793,
+     "medianCi95": [
+      19.0,
+      24.0
+     ],
+     "exploratory": false
+    },
+    "highway": {
+     "nDrives": 23,
+     "nDays": 14,
+     "nSegments": 1543,
+     "medianCi95": [
+      23.0,
+      32.0
+     ],
+     "exploratory": false
+    }
+   },
+   "byCohort": {
+    "warm": {
+     "urban": {
+      "nDrives": 344,
+      "nDays": 91,
+      "nSegments": 2202,
+      "medianCi95": [
+       22.0,
+       29.0
+      ],
+      "exploratory": false
+     },
+     "mixed": {
+      "nDrives": 25,
+      "nDays": 20,
+      "nSegments": 491,
+      "medianCi95": [
+       24.0,
+       35.0
+      ],
+      "exploratory": false
+     },
+     "mixed_highway": {
+      "nDrives": 32,
+      "nDays": 24,
+      "nSegments": 2434,
+      "medianCi95": [
+       19.0,
+       24.0
+      ],
+      "exploratory": false
+     },
+     "highway": {
+      "nDrives": 20,
+      "nDays": 12,
+      "nSegments": 1350,
+      "medianCi95": [
+       23.0,
+       33.0
+      ],
+      "exploratory": false
+     }
+    },
+    "shoulder": {
+     "urban": {
+      "nDrives": 154,
+      "nDays": 48,
+      "nSegments": 972,
+      "medianCi95": [
+       20.0,
+       31.0
+      ],
+      "exploratory": false
+     },
+     "mixed": {
+      "nDrives": 8,
+      "nDays": 7,
+      "nSegments": 186,
+      "medianCi95": [
+       18.0,
+       34.0
+      ],
+      "exploratory": false
+     },
+     "mixed_highway": {
+      "nDrives": 5,
+      "nDays": 3,
+      "nSegments": 359,
+      "medianCi95": [
+       22.0,
+       75.0
+      ],
+      "exploratory": true
+     },
+     "highway": {
+      "nDrives": 2,
+      "nDays": 2,
+      "nSegments": 89,
+      "medianCi95": [
+       22.0,
+       34.0
+      ],
+      "exploratory": true
+     }
+    },
+    "cold": {
+     "urban": {
+      "nDrives": 12,
+      "nDays": 4,
+      "nSegments": 23,
+      "medianCi95": [
+       38.0,
+       178.0
+      ],
+      "exploratory": true
+     },
+     "highway": {
+      "nDrives": 1,
+      "nDays": 1,
+      "nSegments": 104,
+      "medianCi95": null,
+      "exploratory": true
+     }
+    }
+   }
+  },
+  "limits": [
+   "logged rpm and boost are app-reported, not measured",
+   "native-row blocks are shares of logged samples at the native cadence, not time-weighted (M521)",
+   "no 300-versus-400 contrast or difference interval is drawn",
+   "fewer than 5 calendar days: exploratory, no interval reading",
+   "the day bootstrap does not capture serial day correlation; convenience sample"
+  ],
+  "provenance": {
+   "spec": "analyses/M545_spec.md",
+   "specSha256": "80ca1dbc764d571f8564f2e38e93668cd433ca0b352d50d6ffaa8a72f7e5e1c3",
+   "toolSha256": "d0ea7552c81dbfcdf13fa1dd9ea2b4f6b181855f6630f9664056641d655c4513",
+   "kernelsSha256": "3f86f803f3a1660ff336dcb05f56a4cf286387234638c869dc01e7e8b37708c6",
+   "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "reparsedDrives": 0,
+   "gates": {
+    "E1RuleSecondsExact": {
+     "nCompared": 606,
+     "nDifferent": 0,
+     "passed": true
+    },
+    "driveSetEqualsStoredBlock": true,
+    "M544KnownAnswers": {
+     "nMismatches": 0,
+     "mismatches": [],
+     "passed": true
+    },
+    "passed": true
+   },
+   "method": {
+    "cluster": "calendar day",
+    "draws": 4000,
+    "seed": 42,
+    "interval": "percentile; ratio of sums (shares) or pooled median of run lengths",
+    "minDaysForIntervalReading": 5
+   },
+   "cohortSource": "thermal_regime of seasonal_drive_master.csv"
+  }
+ },
+ "engineOnBySpeedRule": {
+  "estimand": "share of native rows with logged rpm > 400 per speed zone (rpm > 400, native rows)",
+  "basis": "rpm > 400 (strict) on the pipeline convention of the stored block; a deterministic re-definition on the same data, not a correction; the stored rpm > 300 block is unchanged (key engineOnBySpeed)",
+  "rule": {
+   "thresholdRpm": 400,
+   "boundary": "gt",
+   "name": "engine-on (rpm > 400)",
+   "storedKey": "engineOnBySpeed"
+  },
+  "descriptive": true,
+  "displayed": false,
+  "pooled": [
+   {
+    "zone": "0-20",
+    "pct": 14,
+    "color": "#3b82f6"
+   },
+   {
+    "zone": "20-40",
+    "pct": 25,
+    "color": "#60a5fa"
+   },
+   {
+    "zone": "40-60",
+    "pct": 45,
+    "color": "#4ade80"
+   },
+   {
+    "zone": "60-80",
+    "pct": 55,
+    "color": "#eab308"
+   },
+   {
+    "zone": "80-100",
+    "pct": 79,
+    "color": "#f97316"
+   },
+   {
+    "zone": "100-120",
+    "pct": 98,
+    "color": "#ef4444"
+   },
+   {
+    "zone": "120+",
+    "pct": 96,
+    "color": "#dc2626"
+   }
+  ],
+  "byCohort": {
+   "warm": [
+    {
+     "zone": "0-20",
+     "pct": 12,
+     "color": "#3b82f6"
+    },
+    {
+     "zone": "20-40",
+     "pct": 25,
+     "color": "#60a5fa"
+    },
+    {
+     "zone": "40-60",
+     "pct": 46,
+     "color": "#4ade80"
+    },
+    {
+     "zone": "60-80",
+     "pct": 55,
+     "color": "#eab308"
+    },
+    {
+     "zone": "80-100",
+     "pct": 78,
+     "color": "#f97316"
+    },
+    {
+     "zone": "100-120",
+     "pct": 97,
+     "color": "#ef4444"
+    },
+    {
+     "zone": "120+",
+     "pct": 96,
+     "color": "#dc2626"
+    }
+   ],
+   "shoulder": [
+    {
+     "zone": "0-20",
+     "pct": 17,
+     "color": "#3b82f6"
+    },
+    {
+     "zone": "20-40",
+     "pct": 25,
+     "color": "#60a5fa"
+    },
+    {
+     "zone": "40-60",
+     "pct": 43,
+     "color": "#4ade80"
+    },
+    {
+     "zone": "60-80",
+     "pct": 57,
+     "color": "#eab308"
+    },
+    {
+     "zone": "80-100",
+     "pct": 85,
+     "color": "#f97316"
+    },
+    {
+     "zone": "100-120",
+     "pct": 98,
+     "color": "#ef4444"
+    },
+    {
+     "zone": "120+",
+     "pct": 85,
+     "color": "#dc2626"
+    }
+   ],
+   "cold": [
+    {
+     "zone": "0-20",
+     "pct": 39,
+     "color": "#3b82f6"
+    },
+    {
+     "zone": "20-40",
+     "pct": 41,
+     "color": "#60a5fa"
+    },
+    {
+     "zone": "40-60",
+     "pct": 52,
+     "color": "#4ade80"
+    },
+    {
+     "zone": "60-80",
+     "pct": 60,
+     "color": "#eab308"
+    },
+    {
+     "zone": "80-100",
+     "pct": 88,
+     "color": "#f97316"
+    },
+    {
+     "zone": "100-120",
+     "pct": 100,
+     "color": "#ef4444"
+    },
+    {
+     "zone": "120+",
+     "pct": 0,
+     "color": "#dc2626"
+    }
+   ]
+  },
+  "detail": {
+   "pooled": {
+    "nDrives": 604,
+    "nDays": 121,
+    "exploratory": false,
+    "zones": [
+     {
+      "zone": "0-20",
+      "onRows": 353898,
+      "totRows": 2620910,
+      "pctExact": 13.503,
+      "ci95": [
+       12.09,
+       15.04
+      ]
+     },
+     {
+      "zone": "20-40",
+      "onRows": 386118,
+      "totRows": 1526907,
+      "pctExact": 25.288,
+      "ci95": [
+       23.83,
+       26.77
+      ]
+     },
+     {
+      "zone": "40-60",
+      "onRows": 629055,
+      "totRows": 1395784,
+      "pctExact": 45.068,
+      "ci95": [
+       43.2,
+       46.93
+      ]
+     },
+     {
+      "zone": "60-80",
+      "onRows": 815916,
+      "totRows": 1476238,
+      "pctExact": 55.27,
+      "ci95": [
+       53.92,
+       56.81
+      ]
+     },
+     {
+      "zone": "80-100",
+      "onRows": 590696,
+      "totRows": 746250,
+      "pctExact": 79.155,
+      "ci95": [
+       76.79,
+       81.64
+      ]
+     },
+     {
+      "zone": "100-120",
+      "onRows": 937197,
+      "totRows": 960884,
+      "pctExact": 97.535,
+      "ci95": [
+       96.72,
+       98.14
+      ]
+     },
+     {
+      "zone": "120+",
+      "onRows": 46566,
+      "totRows": 48753,
+      "pctExact": 95.514,
+      "ci95": [
+       92.83,
+       96.81
+      ]
+     }
+    ]
+   },
+   "byCohort": {
+    "warm": {
+     "nDrives": 421,
+     "nDays": 101,
+     "exploratory": false,
+     "zones": [
+      {
+       "zone": "0-20",
+       "onRows": 211536,
+       "totRows": 1835587,
+       "pctExact": 11.524,
+       "ci95": [
+        10.06,
+        13.06
+       ]
+      },
+      {
+       "zone": "20-40",
+       "onRows": 253819,
+       "totRows": 1015729,
+       "pctExact": 24.989,
+       "ci95": [
+        23.27,
+        26.68
+       ]
+      },
+      {
+       "zone": "40-60",
+       "onRows": 491701,
+       "totRows": 1077447,
+       "pctExact": 45.636,
+       "ci95": [
+        43.37,
+        48.06
+       ]
+      },
+      {
+       "zone": "60-80",
+       "onRows": 643218,
+       "totRows": 1173815,
+       "pctExact": 54.797,
+       "ci95": [
+        53.13,
+        56.66
+       ]
+      },
+      {
+       "zone": "80-100",
+       "onRows": 460394,
+       "totRows": 593497,
+       "pctExact": 77.573,
+       "ci95": [
+        75.44,
+        80.08
+       ]
+      },
+      {
+       "zone": "100-120",
+       "onRows": 747125,
+       "totRows": 768099,
+       "pctExact": 97.269,
+       "ci95": [
+        96.47,
+        97.9
+       ]
+      },
+      {
+       "zone": "120+",
+       "onRows": 44674,
+       "totRows": 46536,
+       "pctExact": 95.999,
+       "ci95": [
+        93.59,
+        97.15
+       ]
+      }
+     ]
+    },
+    "shoulder": {
+     "nDrives": 170,
+     "nDays": 50,
+     "exploratory": false,
+     "zones": [
+      {
+       "zone": "0-20",
+       "onRows": 126677,
+       "totRows": 745415,
+       "pctExact": 16.994,
+       "ci95": [
+        14.13,
+        20.33
+       ]
+      },
+      {
+       "zone": "20-40",
+       "onRows": 123733,
+       "totRows": 490361,
+       "pctExact": 25.233,
+       "ci95": [
+        22.68,
+        28.25
+       ]
+      },
+      {
+       "zone": "40-60",
+       "onRows": 133110,
+       "totRows": 310156,
+       "pctExact": 42.917,
+       "ci95": [
+        39.45,
+        45.91
+       ]
+      },
+      {
+       "zone": "60-80",
+       "onRows": 157301,
+       "totRows": 276793,
+       "pctExact": 56.83,
+       "ci95": [
+        54.8,
+        60.55
+       ]
+      },
+      {
+       "zone": "80-100",
+       "onRows": 103422,
+       "totRows": 122095,
+       "pctExact": 84.706,
+       "ci95": [
+        82.91,
+        87.58
+       ]
+      },
+      {
+       "zone": "100-120",
+       "onRows": 150467,
+       "totRows": 153013,
+       "pctExact": 98.336,
+       "ci95": [
+        89.85,
+        99.34
+       ]
+      },
+      {
+       "zone": "120+",
+       "onRows": 1892,
+       "totRows": 2217,
+       "pctExact": 85.341,
+       "ci95": [
+        69.54,
+        97.96
+       ]
+      }
+     ]
+    },
+    "cold": {
+     "nDrives": 13,
+     "nDays": 5,
+     "exploratory": false,
+     "zones": [
+      {
+       "zone": "0-20",
+       "onRows": 15685,
+       "totRows": 39908,
+       "pctExact": 39.303,
+       "ci95": [
+        35.64,
+        47.79
+       ]
+      },
+      {
+       "zone": "20-40",
+       "onRows": 8566,
+       "totRows": 20817,
+       "pctExact": 41.149,
+       "ci95": [
+        26.95,
+        47.67
+       ]
+      },
+      {
+       "zone": "40-60",
+       "onRows": 4244,
+       "totRows": 8181,
+       "pctExact": 51.876,
+       "ci95": [
+        51.7,
+        52.97
+       ]
+      },
+      {
+       "zone": "60-80",
+       "onRows": 15397,
+       "totRows": 25630,
+       "pctExact": 60.074,
+       "ci95": [
+        60.07,
+        60.07
+       ]
+      },
+      {
+       "zone": "80-100",
+       "onRows": 26880,
+       "totRows": 30658,
+       "pctExact": 87.677,
+       "ci95": [
+        87.68,
+        87.68
+       ]
+      },
+      {
+       "zone": "100-120",
+       "onRows": 39605,
+       "totRows": 39772,
+       "pctExact": 99.58,
+       "ci95": [
+        99.58,
+        99.58
+       ]
+      },
+      {
+       "zone": "120+",
+       "onRows": 0,
+       "totRows": 0,
+       "pctExact": 0.0,
+       "ci95": null
+      }
+     ]
+    }
+   }
+  },
+  "limits": [
+   "logged rpm and boost are app-reported, not measured",
+   "native-row blocks are shares of logged samples at the native cadence, not time-weighted (M521)",
+   "no 300-versus-400 contrast or difference interval is drawn",
+   "fewer than 5 calendar days: exploratory, no interval reading",
+   "the day bootstrap does not capture serial day correlation; convenience sample"
+  ],
+  "provenance": {
+   "spec": "analyses/M545_spec.md",
+   "specSha256": "80ca1dbc764d571f8564f2e38e93668cd433ca0b352d50d6ffaa8a72f7e5e1c3",
+   "toolSha256": "d0ea7552c81dbfcdf13fa1dd9ea2b4f6b181855f6630f9664056641d655c4513",
+   "kernelsSha256": "3f86f803f3a1660ff336dcb05f56a4cf286387234638c869dc01e7e8b37708c6",
+   "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "reparsedDrives": 0,
+   "gates": {
+    "E1RuleSecondsExact": {
+     "nCompared": 606,
+     "nDifferent": 0,
+     "passed": true
+    },
+    "driveSetEqualsStoredBlock": true,
+    "M544KnownAnswers": {
+     "nMismatches": 0,
+     "mismatches": [],
+     "passed": true
+    },
+    "passed": true
+   },
+   "method": {
+    "cluster": "calendar day",
+    "draws": 4000,
+    "seed": 42,
+    "interval": "percentile; ratio of sums (shares) or pooled median of run lengths",
+    "minDaysForIntervalReading": 5
+   },
+   "cohortSource": "thermal_regime of seasonal_drive_master.csv"
+  }
+ },
+ "turboByRpmRule": {
+  "estimand": "boost > 0.1 bar share of engine-on native rows (rpm > 400, native rows) per rpm band",
+  "basis": "rpm > 400 (strict) on the pipeline convention of the stored block; a deterministic re-definition on the same data, not a correction; the stored rpm > 300 block is unchanged (key turboByRpm)",
+  "rule": {
+   "thresholdRpm": 400,
+   "boundary": "gt",
+   "name": "engine-on (rpm > 400)",
+   "storedKey": "turboByRpm"
+  },
+  "descriptive": true,
+  "displayed": false,
+  "pooled": [
+   {
+    "rpm": "<1500",
+    "n": 204965,
+    "activePct": 0,
+    "meanActive": 0.0,
+    "maxBoost": 0.03
+   },
+   {
+    "rpm": "1500-2000",
+    "n": 1255392,
+    "activePct": 7,
+    "meanActive": 0.131,
+    "maxBoost": 0.63
+   },
+   {
+    "rpm": "2000-2500",
+    "n": 1298481,
+    "activePct": 10,
+    "meanActive": 0.166,
+    "maxBoost": 1.24
+   },
+   {
+    "rpm": "2500-3000",
+    "n": 231748,
+    "activePct": 20,
+    "meanActive": 0.36,
+    "maxBoost": 1.26
+   },
+   {
+    "rpm": "3000-3500",
+    "n": 83318,
+    "activePct": 51,
+    "meanActive": 0.347,
+    "maxBoost": 1.39
+   },
+   {
+    "rpm": "3500-4000",
+    "n": 19800,
+    "activePct": 82,
+    "meanActive": 0.388,
+    "maxBoost": 1.53
+   },
+   {
+    "rpm": "4000+",
+    "n": 8980,
+    "activePct": 100,
+    "meanActive": 1.016,
+    "maxBoost": 1.56
+   }
+  ],
+  "byCohort": {
+   "warm": [
+    {
+     "rpm": "<1500",
+     "n": 131130,
+     "activePct": 0,
+     "meanActive": 0.0,
+     "maxBoost": 0.02
+    },
+    {
+     "rpm": "1500-2000",
+     "n": 886204,
+     "activePct": 8,
+     "meanActive": 0.13,
+     "maxBoost": 0.63
+    },
+    {
+     "rpm": "2000-2500",
+     "n": 951858,
+     "activePct": 12,
+     "meanActive": 0.165,
+     "maxBoost": 1.24
+    },
+    {
+     "rpm": "2500-3000",
+     "n": 183802,
+     "activePct": 21,
+     "meanActive": 0.365,
+     "maxBoost": 1.26
+    },
+    {
+     "rpm": "3000-3500",
+     "n": 71023,
+     "activePct": 53,
+     "meanActive": 0.34,
+     "maxBoost": 1.39
+    },
+    {
+     "rpm": "3500-4000",
+     "n": 18994,
+     "activePct": 82,
+     "meanActive": 0.379,
+     "maxBoost": 1.53
+    },
+    {
+     "rpm": "4000+",
+     "n": 7997,
+     "activePct": 100,
+     "meanActive": 1.008,
+     "maxBoost": 1.56
+    }
+   ],
+   "shoulder": [
+    {
+     "rpm": "<1500",
+     "n": 65035,
+     "activePct": 0,
+     "meanActive": 0.0,
+     "maxBoost": 0.03
+    },
+    {
+     "rpm": "1500-2000",
+     "n": 326756,
+     "activePct": 3,
+     "meanActive": 0.137,
+     "maxBoost": 0.58
+    },
+    {
+     "rpm": "2000-2500",
+     "n": 296125,
+     "activePct": 5,
+     "meanActive": 0.177,
+     "maxBoost": 0.99
+    },
+    {
+     "rpm": "2500-3000",
+     "n": 40496,
+     "activePct": 19,
+     "meanActive": 0.339,
+     "maxBoost": 1.21
+    },
+    {
+     "rpm": "3000-3500",
+     "n": 11166,
+     "activePct": 39,
+     "meanActive": 0.402,
+     "maxBoost": 1.27
+    },
+    {
+     "rpm": "3500-4000",
+     "n": 737,
+     "activePct": 82,
+     "meanActive": 0.573,
+     "maxBoost": 1.45
+    },
+    {
+     "rpm": "4000+",
+     "n": 983,
+     "activePct": 100,
+     "meanActive": 1.08,
+     "maxBoost": 1.55
+    }
+   ],
+   "cold": [
+    {
+     "rpm": "<1500",
+     "n": 8800,
+     "activePct": 0,
+     "meanActive": 0.0,
+     "maxBoost": 0.01
+    },
+    {
+     "rpm": "1500-2000",
+     "n": 42432,
+     "activePct": 0,
+     "meanActive": 0.0,
+     "maxBoost": 0.09
+    },
+    {
+     "rpm": "2000-2500",
+     "n": 50498,
+     "activePct": 0,
+     "meanActive": 0.124,
+     "maxBoost": 0.14
+    },
+    {
+     "rpm": "2500-3000",
+     "n": 7450,
+     "activePct": 5,
+     "meanActive": 0.295,
+     "maxBoost": 0.62
+    },
+    {
+     "rpm": "3000-3500",
+     "n": 1129,
+     "activePct": 38,
+     "meanActive": 0.331,
+     "maxBoost": 0.77
+    },
+    {
+     "rpm": "3500-4000",
+     "n": 69,
+     "activePct": 81,
+     "meanActive": 0.698,
+     "maxBoost": 0.99
+    }
+   ]
+  },
+  "detail": {
+   "pooled": {
+    "nDrives": 606,
+    "nDays": 121,
+    "exploratory": false
+   },
+   "byCohort": {
+    "warm": {
+     "nDrives": 423,
+     "nDays": 101,
+     "exploratory": false
+    },
+    "shoulder": {
+     "nDrives": 170,
+     "nDays": 50,
+     "exploratory": false
+    },
+    "cold": {
+     "nDrives": 13,
+     "nDays": 5,
+     "exploratory": false
+    }
+   }
+  },
+  "limits": [
+   "logged rpm and boost are app-reported, not measured",
+   "native-row blocks are shares of logged samples at the native cadence, not time-weighted (M521)",
+   "no 300-versus-400 contrast or difference interval is drawn",
+   "fewer than 5 calendar days: exploratory, no interval reading",
+   "the day bootstrap does not capture serial day correlation; convenience sample"
+  ],
+  "provenance": {
+   "spec": "analyses/M545_spec.md",
+   "specSha256": "80ca1dbc764d571f8564f2e38e93668cd433ca0b352d50d6ffaa8a72f7e5e1c3",
+   "toolSha256": "d0ea7552c81dbfcdf13fa1dd9ea2b4f6b181855f6630f9664056641d655c4513",
+   "kernelsSha256": "3f86f803f3a1660ff336dcb05f56a4cf286387234638c869dc01e7e8b37708c6",
+   "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "reparsedDrives": 0,
+   "gates": {
+    "E1RuleSecondsExact": {
+     "nCompared": 606,
+     "nDifferent": 0,
+     "passed": true
+    },
+    "driveSetEqualsStoredBlock": true,
+    "M544KnownAnswers": {
+     "nMismatches": 0,
+     "mismatches": [],
+     "passed": true
+    },
+    "passed": true
+   },
+   "method": {
+    "cluster": "calendar day",
+    "draws": 4000,
+    "seed": 42,
+    "interval": "percentile; ratio of sums (shares) or pooled median of run lengths",
+    "minDaysForIntervalReading": 5
+   },
+   "cohortSource": "thermal_regime of seasonal_drive_master.csv"
+  }
+ },
+ "turboBySpeedCtxRule": {
+  "estimand": "boost > 0.1 bar share of engine-on native rows (rpm > 400, native rows) per speed zone",
+  "basis": "rpm > 400 (strict) on the pipeline convention of the stored block; a deterministic re-definition on the same data, not a correction; the stored rpm > 300 block is unchanged (key turboBySpeedCtx)",
+  "rule": {
+   "thresholdRpm": 400,
+   "boundary": "gt",
+   "name": "engine-on (rpm > 400)",
+   "storedKey": "turboBySpeedCtx"
+  },
+  "descriptive": true,
+  "displayed": false,
+  "pooled": [
+   {
+    "zone": "0-40",
+    "activePct": 2,
+    "maxBoost": 1.18
+   },
+   {
+    "zone": "40-60",
+    "activePct": 10,
+    "maxBoost": 1.4
+   },
+   {
+    "zone": "60-80",
+    "activePct": 8,
+    "maxBoost": 1.56
+   },
+   {
+    "zone": "80-100",
+    "activePct": 13,
+    "maxBoost": 1.56
+   },
+   {
+    "zone": "100-120",
+    "activePct": 15,
+    "maxBoost": 1.53
+   },
+   {
+    "zone": "120-160",
+    "activePct": 36,
+    "maxBoost": 1.55
+   }
+  ],
+  "byCohort": {
+   "warm": [
+    {
+     "zone": "0-40",
+     "activePct": 3,
+     "maxBoost": 1.18
+    },
+    {
+     "zone": "40-60",
+     "activePct": 11,
+     "maxBoost": 1.4
+    },
+    {
+     "zone": "60-80",
+     "activePct": 9,
+     "maxBoost": 1.56
+    },
+    {
+     "zone": "80-100",
+     "activePct": 16,
+     "maxBoost": 1.56
+    },
+    {
+     "zone": "100-120",
+     "activePct": 19,
+     "maxBoost": 1.53
+    },
+    {
+     "zone": "120-160",
+     "activePct": 35,
+     "maxBoost": 1.5
+    }
+   ],
+   "shoulder": [
+    {
+     "zone": "0-40",
+     "activePct": 1,
+     "maxBoost": 1.12
+    },
+    {
+     "zone": "40-60",
+     "activePct": 9,
+     "maxBoost": 1.01
+    },
+    {
+     "zone": "60-80",
+     "activePct": 6,
+     "maxBoost": 1.45
+    },
+    {
+     "zone": "80-100",
+     "activePct": 8,
+     "maxBoost": 1.5
+    },
+    {
+     "zone": "100-120",
+     "activePct": 4,
+     "maxBoost": 1.47
+    },
+    {
+     "zone": "120-160",
+     "activePct": 45,
+     "maxBoost": 1.55
+    }
+   ],
+   "cold": [
+    {
+     "zone": "0-40",
+     "activePct": 0,
+     "maxBoost": 0.05
+    },
+    {
+     "zone": "40-60",
+     "activePct": 0,
+     "maxBoost": 0.11
+    },
+    {
+     "zone": "60-80",
+     "activePct": 0,
+     "maxBoost": 0.14
+    },
+    {
+     "zone": "80-100",
+     "activePct": 1,
+     "maxBoost": 0.65
+    },
+    {
+     "zone": "100-120",
+     "activePct": 2,
+     "maxBoost": 0.99
+    }
+   ]
+  },
+  "detail": {
+   "pooled": {
+    "nDrives": 606,
+    "nDays": 121,
+    "exploratory": false
+   },
+   "byCohort": {
+    "warm": {
+     "nDrives": 423,
+     "nDays": 101,
+     "exploratory": false
+    },
+    "shoulder": {
+     "nDrives": 170,
+     "nDays": 50,
+     "exploratory": false
+    },
+    "cold": {
+     "nDrives": 13,
+     "nDays": 5,
+     "exploratory": false
+    }
+   }
+  },
+  "limits": [
+   "logged rpm and boost are app-reported, not measured",
+   "native-row blocks are shares of logged samples at the native cadence, not time-weighted (M521)",
+   "no 300-versus-400 contrast or difference interval is drawn",
+   "fewer than 5 calendar days: exploratory, no interval reading",
+   "the day bootstrap does not capture serial day correlation; convenience sample"
+  ],
+  "provenance": {
+   "spec": "analyses/M545_spec.md",
+   "specSha256": "80ca1dbc764d571f8564f2e38e93668cd433ca0b352d50d6ffaa8a72f7e5e1c3",
+   "toolSha256": "d0ea7552c81dbfcdf13fa1dd9ea2b4f6b181855f6630f9664056641d655c4513",
+   "kernelsSha256": "3f86f803f3a1660ff336dcb05f56a4cf286387234638c869dc01e7e8b37708c6",
+   "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "reparsedDrives": 0,
+   "gates": {
+    "E1RuleSecondsExact": {
+     "nCompared": 606,
+     "nDifferent": 0,
+     "passed": true
+    },
+    "driveSetEqualsStoredBlock": true,
+    "M544KnownAnswers": {
+     "nMismatches": 0,
+     "mismatches": [],
+     "passed": true
+    },
+    "passed": true
+   },
+   "method": {
+    "cluster": "calendar day",
+    "draws": 4000,
+    "seed": 42,
+    "interval": "percentile; ratio of sums (shares) or pooled median of run lengths",
+    "minDaysForIntervalReading": 5
+   },
+   "cohortSource": "thermal_regime of seasonal_drive_master.csv"
+  }
+ },
+ "hvcTurboActivityRule": {
+  "estimand": "boost > 0.1 bar share of engine-on native rows (rpm > 400, logged samples) per drive type",
+  "basis": "rpm > 400 (strict) on the pipeline convention of the stored block; a deterministic re-definition on the same data, not a correction; the stored rpm > 300 block is unchanged (key hvcTurboActivity)",
+  "rule": {
+   "thresholdRpm": 400,
+   "boundary": "gt",
+   "name": "engine-on (rpm > 400)",
+   "storedKey": "hvcTurboActivity"
+  },
+  "descriptive": true,
+  "displayed": false,
+  "pooled": {
+   "urban": "7.4% of engine-on native rows (rpm > 400, logged samples; n=1,200,763, >0.1 bar); peak 1.56 bar — Jul20 D6",
+   "mixed": "3.1% of engine-on native rows (rpm > 400, logged samples; n=233,523, >0.1 bar); peak 1.43 bar — Jul15 D2",
+   "mixed_highway": "13.9% of engine-on native rows (rpm > 400, logged samples; n=847,918, >0.1 bar); peak 1.56 bar — Sep13 D10",
+   "highway": "13.7% of engine-on native rows (rpm > 400, logged samples; n=820,480, >0.1 bar); peak 1.55 bar — Oct17 D5",
+   "city": "7.4% of engine-on native rows (rpm > 400, logged samples; n=1,200,763, >0.1 bar); peak 1.56 bar — Jul20 D6"
+  },
+  "byCohort": {
+   "warm": {
+    "urban": "8.1% of engine-on native rows (rpm > 400, logged samples; n=802,957, >0.1 bar); peak 1.56 bar — Jul20 D6",
+    "mixed": "3.8% of engine-on native rows (rpm > 400, logged samples; n=157,752, >0.1 bar); peak 1.43 bar — Jul15 D2",
+    "mixed_highway": "16.0% of engine-on native rows (rpm > 400, logged samples; n=661,241, >0.1 bar); peak 1.56 bar — Sep13 D10",
+    "highway": "17.4% of engine-on native rows (rpm > 400, logged samples; n=629,058, >0.1 bar); peak 1.53 bar — Jul11 D1"
+   },
+   "shoulder": {
+    "urban": "6.3% of engine-on native rows (rpm > 400, logged samples; n=375,291, >0.1 bar); peak 1.50 bar — Oct01 D8",
+    "mixed": "1.6% of engine-on native rows (rpm > 400, logged samples; n=75,771, >0.1 bar); peak 1.43 bar — Oct08 D3",
+    "mixed_highway": "6.3% of engine-on native rows (rpm > 400, logged samples; n=186,677, >0.1 bar); peak 1.47 bar — Oct10 D4",
+    "highway": "2.3% of engine-on native rows (rpm > 400, logged samples; n=103,559, >0.1 bar); peak 1.55 bar — Oct17 D5"
+   },
+   "cold": {
+    "urban": "0.0% of engine-on native rows (rpm > 400, logged samples; n=22,515, >0.1 bar); peak 0.05 bar — Oct13 D11",
+    "mixed": null,
+    "mixed_highway": null,
+    "highway": "1.0% of engine-on native rows (rpm > 400, logged samples; n=87,863, >0.1 bar); peak 0.99 bar — Oct14 D1"
+   }
+  },
+  "detail": {
+   "pooled": {
+    "urban": {
+     "n": 1200763,
+     "act": 88952,
+     "sharePct": 7.408,
+     "maxBoost": 1.56,
+     "maxLabel": "Jul20 D6",
+     "nDrives": 433,
+     "nDrivesInClass": 510,
+     "nDays": 94,
+     "exploratory": false,
+     "ci95": [
+      3.54,
+      12.26
+     ]
+    },
+    "mixed": {
+     "n": 233523,
+     "act": 7233,
+     "sharePct": 3.097,
+     "maxBoost": 1.43,
+     "maxLabel": "Jul15 D2",
+     "nDrives": 31,
+     "nDrivesInClass": 33,
+     "nDays": 25,
+     "exploratory": false,
+     "ci95": [
+      2.01,
+      4.51
+     ]
+    },
+    "mixed_highway": {
+     "n": 847918,
+     "act": 117759,
+     "sharePct": 13.888,
+     "maxBoost": 1.56,
+     "maxLabel": "Sep13 D10",
+     "nDrives": 28,
+     "nDrivesInClass": 37,
+     "nDays": 20,
+     "exploratory": false,
+     "ci95": [
+      9.69,
+      18.85
+     ]
+    },
+    "highway": {
+     "n": 820480,
+     "act": 112505,
+     "sharePct": 13.712,
+     "maxBoost": 1.55,
+     "maxLabel": "Oct17 D5",
+     "nDrives": 20,
+     "nDrivesInClass": 23,
+     "nDays": 12,
+     "exploratory": false,
+     "ci95": [
+      7.3,
+      21.7
+     ]
+    }
+   },
+   "byCohort": {
+    "warm": {
+     "urban": {
+      "n": 802957,
+      "act": 65317,
+      "sharePct": 8.135,
+      "maxBoost": 1.56,
+      "maxLabel": "Jul20 D6",
+      "nDrives": 297,
+      "nDrivesInClass": 344,
+      "nDays": 78,
+      "exploratory": false,
+      "ci95": [
+       4.3,
+       12.8
+      ]
+     },
+     "mixed": {
+      "n": 157752,
+      "act": 6028,
+      "sharePct": 3.821,
+      "maxBoost": 1.43,
+      "maxLabel": "Jul15 D2",
+      "nDrives": 23,
+      "nDrivesInClass": 25,
+      "nDays": 18,
+      "exploratory": false,
+      "ci95": [
+       2.36,
+       5.75
+      ]
+     },
+     "mixed_highway": {
+      "n": 661241,
+      "act": 105985,
+      "sharePct": 16.028,
+      "maxBoost": 1.56,
+      "maxLabel": "Sep13 D10",
+      "nDrives": 23,
+      "nDrivesInClass": 32,
+      "nDays": 17,
+      "exploratory": false,
+      "ci95": [
+       11.49,
+       20.85
+      ]
+     },
+     "highway": {
+      "n": 629058,
+      "act": 109220,
+      "sharePct": 17.362,
+      "maxBoost": 1.53,
+      "maxLabel": "Jul11 D1",
+      "nDrives": 17,
+      "nDrivesInClass": 20,
+      "nDays": 10,
+      "exploratory": false,
+      "ci95": [
+       11.54,
+       25.21
+      ]
+     }
+    },
+    "shoulder": {
+     "urban": {
+      "n": 375291,
+      "act": 23635,
+      "sharePct": 6.298,
+      "maxBoost": 1.5,
+      "maxLabel": "Oct01 D8",
+      "nDrives": 125,
+      "nDrivesInClass": 154,
+      "nDays": 43,
+      "exploratory": false,
+      "ci95": [
+       0.49,
+       14.37
+      ]
+     },
+     "mixed": {
+      "n": 75771,
+      "act": 1205,
+      "sharePct": 1.59,
+      "maxBoost": 1.43,
+      "maxLabel": "Oct08 D3",
+      "nDrives": 8,
+      "nDrivesInClass": 8,
+      "nDays": 7,
+      "exploratory": false,
+      "ci95": [
+       0.52,
+       3.03
+      ]
+     },
+     "mixed_highway": {
+      "n": 186677,
+      "act": 11774,
+      "sharePct": 6.307,
+      "maxBoost": 1.47,
+      "maxLabel": "Oct10 D4",
+      "nDrives": 5,
+      "nDrivesInClass": 5,
+      "nDays": 3,
+      "exploratory": true,
+      "ci95": [
+       2.51,
+       20.87
+      ]
+     },
+     "highway": {
+      "n": 103559,
+      "act": 2397,
+      "sharePct": 2.315,
+      "maxBoost": 1.55,
+      "maxLabel": "Oct17 D5",
+      "nDrives": 2,
+      "nDrivesInClass": 2,
+      "nDays": 2,
+      "exploratory": true,
+      "ci95": [
+       1.92,
+       2.77
+      ]
+     }
+    },
+    "cold": {
+     "urban": {
+      "n": 22515,
+      "act": 0,
+      "sharePct": 0.0,
+      "maxBoost": 0.05,
+      "maxLabel": "Oct13 D11",
+      "nDrives": 11,
+      "nDrivesInClass": 12,
+      "nDays": 4,
+      "exploratory": true,
+      "ci95": [
+       0.0,
+       0.0
+      ]
+     },
+     "highway": {
+      "n": 87863,
+      "act": 888,
+      "sharePct": 1.011,
+      "maxBoost": 0.99,
+      "maxLabel": "Oct14 D1",
+      "nDrives": 1,
+      "nDrivesInClass": 1,
+      "nDays": 1,
+      "exploratory": true,
+      "ci95": null
+     }
+    }
+   }
+  },
+  "limits": [
+   "logged rpm and boost are app-reported, not measured",
+   "native-row blocks are shares of logged samples at the native cadence, not time-weighted (M521)",
+   "no 300-versus-400 contrast or difference interval is drawn",
+   "fewer than 5 calendar days: exploratory, no interval reading",
+   "the day bootstrap does not capture serial day correlation; convenience sample"
+  ],
+  "provenance": {
+   "spec": "analyses/M545_spec.md",
+   "specSha256": "80ca1dbc764d571f8564f2e38e93668cd433ca0b352d50d6ffaa8a72f7e5e1c3",
+   "toolSha256": "d0ea7552c81dbfcdf13fa1dd9ea2b4f6b181855f6630f9664056641d655c4513",
+   "kernelsSha256": "3f86f803f3a1660ff336dcb05f56a4cf286387234638c869dc01e7e8b37708c6",
+   "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+   "reparsedDrives": 0,
+   "gates": {
+    "E1RuleSecondsExact": {
+     "nCompared": 606,
+     "nDifferent": 0,
+     "passed": true
+    },
+    "driveSetEqualsStoredBlock": true,
+    "M544KnownAnswers": {
+     "nMismatches": 0,
+     "mismatches": [],
+     "passed": true
+    },
+    "passed": true
+   },
+   "method": {
+    "cluster": "calendar day",
+    "draws": 4000,
+    "seed": 42,
+    "interval": "percentile; ratio of sums (shares) or pooled median of run lengths",
+    "minDaysForIntervalReading": 5
+   },
+   "cohortSource": "thermal_regime of seasonal_drive_master.csv"
+  },
+  "storedBasis": {
+   "urban": {
+    "sharePct": 7.3,
+    "n": 1223556,
+    "label": "stored basis (rpm > 300, native rows)"
+   },
+   "mixed": {
+    "sharePct": 3.0,
+    "n": 238071,
+    "label": "stored basis (rpm > 300, native rows)"
+   },
+   "mixed_highway": {
+    "sharePct": 13.6,
+    "n": 865790,
+    "label": "stored basis (rpm > 300, native rows)"
+   },
+   "highway": {
+    "sharePct": 13.5,
+    "n": 831403,
+    "label": "stored basis (rpm > 300, native rows)"
+   }
   }
  }
 }

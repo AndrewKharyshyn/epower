@@ -1,0 +1,31 @@
+{
+ "nDrivesChecked": 26,
+ "nExactMatch": 26,
+ "mismatches": [],
+ "conventions": [
+  "grid second bin = floor of absolute clock time (not time since first row); relative flooring shifts run boundaries by 1 s",
+  "speed-zone TOTAL native rows require valid speed AND valid (ffilled) rpm; engine-on counts require rpm>400",
+  "speed = [VCM] Vehicle Speed column when drive_master speed_source=vcm, else OBD speed (older vcm drives mismatched otherwise)",
+  "native ffill limit 15 rows gives 16 rows per sample; boost negatives stay in n (valid = non-NaN) but maxBoost is floored at 0.0",
+  "hvc null and empty turbo dicts when no engine-on row has valid boost (3 drives); first guess variants (relative flooring, negative->NaN) were wrong and discarded; numbers given are after resolving conventions from the claim, so agreement is convention-calibrated on the 26-drive sample, not fully blind"
+ ],
+ "intervalReproduced": {
+  "share": 3.0973,
+  "ci95": [
+   2.0078,
+   4.5131
+  ],
+  "withinTolerance": true,
+  "nDrivesMixed": 33,
+  "nDrivesWithBoostRows": 31,
+  "nDays": 25,
+  "method": "seed 42, 4000 draws, day-clustered percentile, ratio of sums"
+ },
+ "renderedChecks": {
+  "highway_vs_city__all Turbo activity row": "pass: all four class cells equal hvcTurboActivityRule.pooled strings (7.4/3.1/13.9/13.7 %, n and peaks identical)",
+  "charts__cold run-length sentence": "pass: Urban median 42s p90 224.8s 41.2% ON; highway 24s p90 100.9s 81% ON = engineOnDurationRule.byCohort.cold, not pooled (25/92/29.6 etc.)",
+  "charts__cold by-speed sentence": "pass: 100% in 100-120 and first 50% in 40-60 = byCohort.cold (52% at 40-60); pooled would give 98% and 60-80",
+  "limit": "cold-cohort values themselves not independently recomputed"
+ },
+ "verdict": "accept"
+}

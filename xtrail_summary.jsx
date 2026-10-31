@@ -1289,8 +1289,9 @@ function EngineCyclingChart() {
   if(cohortNoData(_coh,["EngineStartsByType", "EngineOnDuration", "EngineOnBySpeed"])) return <ColdNoData chart="Engine Cycling" cohort={_coh}/>;
   if(_coh==="compare") return <CompareMulti ids={["StartsPer100km","EngineStartsByType","EngineOnDuration","EngineOnBySpeed"]}/>;
   const _est=cohortOr("EngineStartsByType",_coh,S.engineStartsByType);
-  const _eod=cohortOr("EngineOnDuration",_coh,S.engineOnDuration);
-  const _eob=cohortOr("EngineOnBySpeed",_coh,S.engineOnBySpeed);
+  const _eodR=engineOnBlockRule("engineOnDurationRule"), _eobR=engineOnBlockRule("engineOnBySpeedRule");
+  const _eod=cohortOrRule("EngineOnDuration",_coh,"engineOnDurationRule",S.engineOnDuration);
+  const _eob=cohortOrRule("EngineOnBySpeed",_coh,"engineOnBySpeedRule",S.engineOnBySpeed);
 
   // Starts view: lollipop chart — much cleaner than range bars for starts/100km
   const StartsView = () => {
@@ -1455,11 +1456,14 @@ function EngineCyclingChart() {
         <strong style={{color:"#0f172a"}}>ON Duration</strong> shows the length of detector-defined ON runs on a log scale (descriptive). {(()=>{
           const D=_eod||[], u=D.find(x=>x.label==="Urban"), h=D.find(x=>x.label==="Highway");
           if(!u||!h) return "";
-          return `Urban median ${u.median}s (p90 ${u.p90}s, ${u.onFraction}% ON) vs highway median ${h.median}s (p90 ${h.p90}s, ${h.onFraction}% ON); an observed difference between drive classes, with no mechanism or purpose inferred.`;
+          const _ci=(k)=>{ const d=(_coh==="all"&&_eodR&&_eodR.detail&&_eodR.detail.pooled)?_eodR.detail.pooled[k]:null; return (d&&d.medianCi95&&!d.exploratory)?`, median 95% CI ${d.medianCi95[0]}\u2013${d.medianCi95[1]} s over ${d.nDays} days`:""; };
+          const _bs=_eodR?" Run lengths: engine-on runs under rpm > 400 on the 1 Hz grid (run-boundary re-definition, deterministic, same data; the stored rpm > 300 runs are the compare-mode basis).":"";
+          return `Urban median ${u.median}s (p90 ${u.p90}s, ${u.onFraction}% ON${_ci("urban")}) vs highway median ${h.median}s (p90 ${h.p90}s, ${h.onFraction}% ON${_ci("highway")}); an observed difference between drive classes, with no mechanism or purpose inferred.${_bs}`;
         })()} <strong style={{color:"#7c3aed"}}>M57 (2026-07-27):</strong> this view was a hand-maintained config block bucketed by trip <em>distance</em> — a basis M21 retired everywhere else — and its figures had the urban/highway relationship inverted. It is now pipeline-computed on drive_type, consistent with every other conditioned view in this dashboard.{" "}
         <strong style={{color:"#0f172a"}}>By Speed</strong>: {(()=>{
           const Z=_eob||[]; const top=Z.length?Z.reduce((x,y)=>y.pct>x.pct?y:x):null; const cross=Z.find(z=>z.pct>=50);
-          return top?`share of logged samples with rpm > 300 (native cadence, not time-weighted; pooled, descriptive) is ${top.pct}% in the ${top.zone} km/h zone${cross?` and first reaches 50% in the ${cross.zone} km/h zone`:""}`:"share of logged samples with rpm > 300 by speed zone is not available";
+          const _thr=_eobR?400:300, _bn=_eobR?"rpm > 400, native rows":"rpm > 300";
+          return top?`share of logged samples with ${_bn} (native cadence, not time-weighted; pooled, descriptive) is ${top.pct}% in the ${top.zone} km/h zone${cross?` and first reaches 50% in the ${cross.zone} km/h zone`:""}`:`share of logged samples with rpm > ${_thr} by speed zone is not available`;
         })()} — an observed association; speed and drive class are confounded, and the controller logic is not observed here.
       </div>
     </div>
@@ -5926,7 +5930,8 @@ function TurboPatternChart() {
   const _coh=useCohort();
   if(cohortNoData(_coh,["TurboByRpm"])) return <ColdNoData chart="Turbo Pattern" cohort={_coh}/>;
   if(_coh==="compare") return <CompareBlock id="TurboByRpm"/>;
-  const D = cohortOr("TurboByRpm",_coh,S.turboByRpm);
+  const D = cohortOrRule("TurboByRpm",_coh,"turboByRpmRule",S.turboByRpm);
+  const _tbR=!!engineOnBlockRule("turboByRpmRule");
   // M72: PB 40 -> 50 (H 280 -> 290). The caption was split into two lines
   // to stop it overflowing 560px, which then pushed it into the "rpm" row.
   const W=560, H=290, PL=54, PR=44, PT=24, PB=50;
@@ -5986,7 +5991,7 @@ function TurboPatternChart() {
         <text x={14} y={PT+ph/2} textAnchor="middle" fill="#3b82f6" fontSize={8} transform={`rotate(-90,14,${PT+ph/2})`}>% of time-in-band boost active</text>
         <text x={W-8} y={PT+ph/2} textAnchor="middle" fill="#f97316" fontSize={8} transform={`rotate(-90,${W-8},${PT+ph/2})`}>Boost (bar)</text>
         {/* M72: 128 chars at 8px ≈ 563px on a 560px canvas. Split. */}
-        <text x={PL+pw/2} y={H-11} textAnchor="middle" fill="#64748b" fontSize={7.5}>bars = % of time-AT-THIS-RPM with boost active (conditional, not % of total drive time)</text>
+        <text x={PL+pw/2} y={H-11} textAnchor="middle" fill="#64748b" fontSize={7.5}>bars = % of {_tbR?"engine-on logged samples (rpm > 400, native rows)":"samples"} AT THIS RPM with boost active (conditional, not % of total drive time)</text>
         <text x={PL+pw/2} y={H-3} textAnchor="middle" fill="#94a3b8" fontSize={7}>line = mean active boost · dashed = max</text>
       </svg>
       <div style={{display:"flex",gap:14,marginTop:2,fontSize:9,justifyContent:"center"}}>
@@ -10788,6 +10793,15 @@ function cohortOr(id, coh, primary){
   if(coh==="warm"||coh==="shoulder"||coh==="cold"){ const d=seasonalData(id,coh); return d==null?null:d; }
   return primary; // all, compare -> corpus-wide primary
 }
+// M545: the Rule siblings of the stored _RawAccum engine-on blocks (engineOnDurationRule, engineOnBySpeedRule, turboByRpmRule, turboBySpeedCtxRule, hvcTurboActivityRule: rpm > 400, strict); null unless the block is on the declared rule.
+function engineOnBlockRule(key){ const b=S[key]; return (b && b.rule && b.rule.thresholdRpm===400 && b.rule.boundary==='gt' && b.pooled) ? b : null; }
+// the chart data of one view: the Rule sibling (all drives: pooled; a season cohort: byCohort[cohort], null when absent) or, when the sibling is absent, the stored block exactly as before
+function cohortOrRule(id, coh, ruleKey, stored){
+  const R=engineOnBlockRule(ruleKey);
+  if(!R) return cohortOr(id,coh,stored);
+  if(coh==="warm"||coh==="shoulder"||coh==="cold"){ const d=R.byCohort&&R.byCohort[coh]; return d==null?null:d; }
+  return R.pooled;
+}
 function cohortNoData(coh, ids){
   if(coh==="all"||coh==="compare") return false;
   if(!cohortAvailable(coh)) return true;
@@ -10922,7 +10936,7 @@ const COMPARE_SPECS={
     cats:d=>{ if(!Array.isArray(d))return[]; const t=d.reduce((a,x)=>a+(x.drives||0),0)||1; return d.map(x=>({label:x.label,value:(x.drives||0)/t*100})); }},
   SpeedDist:{kind:"bars",title:"Time-in-speed distribution (%)",unit:"%",digits:1,
     cats:d=>(d&&Array.isArray(d.zones))?d.zones.map((z,i)=>({label:z,value:(d.overall||[])[i]})):[]},
-  TurboByRpm:{kind:"bars",title:"Turbo active share by RPM band (%)",unit:"%",digits:0,
+  TurboByRpm:{kind:"bars",title:"Turbo active share by RPM band (%; stored basis, rpm > 300)",unit:"%",digits:0,
     cats:d=>Array.isArray(d)?d.map(x=>({label:x.rpm,value:x.activePct})):[]},
   TerrainTorqueDist:{kind:"bars",title:"Torque / terrain distribution (%)",unit:"%",digits:1,
     cats:d=>Array.isArray(d)?d.map(x=>({label:x.label||x.bin,value:x.pct})):[]},
@@ -11035,9 +11049,9 @@ const COMPARE_SPECS={
   // ---- multi-chart section sub-charts (C / E / R) ----
   CycleBySpeed:{kind:"bars",title:"Cycling rate by speed zone (GTC/100km)",unit:"GTC/100km",digits:1,
     cats:d=>Array.isArray(d)?d.map(x=>({label:x.zone,value:x.rate})):[]},
-  EngineOnDuration:{kind:"box",title:"Engine-on segment duration by class \u2014 box: min\u00b7p10\u00b7med\u00b7p90\u00b7max",unit:"s",digits:0,log:true,
+  EngineOnDuration:{kind:"box",title:"Engine-on segment duration by class (stored basis, rpm > 300) \u2014 box: min\u00b7p10\u00b7med\u00b7p90\u00b7max",unit:"s",digits:0,log:true,
     cats:d=>Array.isArray(d)?d.map(x=>({label:x.label,med:x.median,q1:x.p10,q3:x.p90,wlo:x.min,whi:x.max,n:x.nSegments})):[]},
-  EngineOnBySpeed:{kind:"bars",title:"Share of logged samples with rpm > 300 by speed zone (%)",unit:"%",digits:0,
+  EngineOnBySpeed:{kind:"bars",title:"Share of logged samples with rpm > 300 by speed zone (%; stored basis)",unit:"%",digits:0,
     cats:d=>Array.isArray(d)?d.map(x=>({label:x.zone,value:x.pct})):[]},
   RegenCaptureMeasured:{kind:"lines",title:"Apparent KE recovery proxy vs speed (%)",unit:"%",digits:1,
     xlabels:d=>Array.isArray(d)?d.map(r=>String(r[0])):[], y:d=>Array.isArray(d)?d.map(r=>r[1]):[]},
@@ -11901,18 +11915,24 @@ export default function App() {
               dashboard. Colors switched to the dashboard-wide CLASS_ORDER
               palette (urban/mixed/mixed_highway/highway) so the same class
               reads as the same color on every chart, not just this table. */}
-          {S.highwayVsCity.map(r=>(
+          {S.highwayVsCity.map(r=>{
+            // M545: the Turbo activity row reads hvcTurboActivityRule (engine-on native rows, rpm > 400); the stored rpm > 300 share is quoted once per cell as the labelled stored basis (no difference drawn)
+            const _hvR=r.metric==="Turbo activity"?engineOnBlockRule("hvcTurboActivityRule"):null;
+            const cell=(k)=>{ if(!_hvR||!_hvR.pooled[k]) return r[k]; const sb=_hvR.storedBasis&&_hvR.storedBasis[k]; return <>{_hvR.pooled[k]}{sb&&<span style={{display:"block",fontSize:8,fontWeight:400,color:"#94a3b8"}}>{sb.label}: {sb.sharePct.toFixed(1)}% (n={sb.n.toLocaleString()})</span>}</>; };
+            const note=_hvR?"engine-on native rows, rpm > 400 (logged samples, not time-weighted; all drives, pooled, not changed by the cohort selector)":r.note;
+            return (
             <div key={r.metric} style={{display:"flex",gap:6,marginBottom:8,alignItems:"center",borderBottom:"1px solid #e2e8f0",paddingBottom:6}}>
               <span style={{width:132,flexShrink:0}}>
                 <span style={{fontSize:11,color:"#64748b"}}>{r.metric}</span>
-                {r.note && <span style={{display:"block",fontSize:8,color:"#94a3b8",lineHeight:1.35,marginTop:1}}>{r.note}</span>}
+                {note && <span style={{display:"block",fontSize:8,color:"#94a3b8",lineHeight:1.35,marginTop:1}}>{note}</span>}
               </span>
-              <span style={{flex:1,fontSize:10,color:"#ef4444",fontWeight:600,textAlign:"center"}}>{r.urban}</span>
-              <span style={{flex:1,fontSize:10,color:"#eab308",fontWeight:600,textAlign:"center"}}>{r.mixed}</span>
-              <span style={{flex:1,fontSize:10,color:"#3b82f6",fontWeight:600,textAlign:"center"}}>{r.mixed_highway}</span>
-              <span style={{flex:1,fontSize:10,color:"#22c55e",fontWeight:600,textAlign:"center"}}>{r.highway}</span>
+              <span style={{flex:1,fontSize:10,color:"#ef4444",fontWeight:600,textAlign:"center"}}>{cell("urban")}</span>
+              <span style={{flex:1,fontSize:10,color:"#eab308",fontWeight:600,textAlign:"center"}}>{cell("mixed")}</span>
+              <span style={{flex:1,fontSize:10,color:"#3b82f6",fontWeight:600,textAlign:"center"}}>{cell("mixed_highway")}</span>
+              <span style={{flex:1,fontSize:10,color:"#22c55e",fontWeight:600,textAlign:"center"}}>{cell("highway")}</span>
             </div>
-          ))}
+            );
+          })}
           <div style={{display:"flex",gap:6,marginTop:4}}>
             <span style={{width:132}}/>
             <span style={{flex:1,fontSize:9,color:"#ef4444",textAlign:"center",fontWeight:700}}>URBAN</span>
@@ -12045,7 +12065,9 @@ export default function App() {
             // longer resemble S.turboByRpm / S.turboBySpeedCtx at all.
             // Rewritten to read every number from those two arrays plus the
             // new S.turboMeta coverage counter, so it can't drift again.
-            const D = S.turboByRpm, T = S.turboBySpeedCtx, tm = S.turboMeta;
+            const _tR=engineOnBlockRule("turboByRpmRule"), _tsR=engineOnBlockRule("turboBySpeedCtxRule");
+            const D = _tR ? _tR.pooled : S.turboByRpm, T = _tsR ? _tsR.pooled : S.turboBySpeedCtx, tm = S.turboMeta;
+            const _tb = (_tR && _tsR) ? "rpm > 400, native rows" : "rpm > 300";
             const totalN = D.reduce((a, d) => a + d.n, 0);
             const totalAct = D.reduce((a, d) => a + d.n * d.activePct / 100, 0);
             const overallPct = totalN ? (totalAct / totalN * 100) : null;
@@ -12065,13 +12087,13 @@ export default function App() {
             const peakLoad = S.records.find(r => r.metric === "Peak engine load");
             const peakTorque = S.records.find(r => r.metric === "Peak motor torque");
             return (<>
-              <div style={{fontSize:10,color:"#64748b",marginBottom:8}}>Derived from the calculated boost-pressure channel (Розрахунковий наддув) and engine RPM across <strong style={{color:"#0f172a"}}>{tm.nDrives} of {tm.totalDrives}</strong> drives carrying both PIDs ({tm.km} km / {tm.hours} h) — a direct reading of the turbocharger rather than an inference from engine-load alone. <strong style={{color:"#0f172a"}}>Corrected methodology (2026-07-05 audit):</strong> bars show % of ENGINE-ON time within each RPM band exceeding &gt;0.1 bar (meaningful boost, above sensor noise) — not the earlier &gt;0.05 bar figure computed against a denominator that mixed in engine-off time. On the current corpus, meaningful boost stays low ({midLo}-{midHi}%) through 1500-2500rpm and climbs above ~2500rpm ({highSeq}). The &lt;1500rpm band is already engine-on only (rpm &gt; 300 gate baked into every band, not just a low-RPM special case) — it contributes {lowBand.n.toLocaleString()} samples and shows {lowBand.activePct}% activation, essentially inactive this far below the turbo's useful range.</div>
+              <div style={{fontSize:10,color:"#64748b",marginBottom:8}}>Derived from the calculated boost-pressure channel (Розрахунковий наддув) and engine RPM across <strong style={{color:"#0f172a"}}>{tm.nDrives} of {tm.totalDrives}</strong> drives carrying both PIDs ({tm.km} km / {tm.hours} h) — a direct reading of the turbocharger rather than an inference from engine-load alone. <strong style={{color:"#0f172a"}}>Corrected methodology (2026-07-05 audit):</strong> bars show % of ENGINE-ON time within each RPM band exceeding &gt;0.1 bar (meaningful boost, above sensor noise) — not the earlier &gt;0.05 bar figure computed against a denominator that mixed in engine-off time. On the current corpus, meaningful boost stays low ({midLo}-{midHi}%) through 1500-2500rpm and climbs above ~2500rpm ({highSeq}). The &lt;1500rpm band is already engine-on only ({_tb} gate applied to every band, not just a low-RPM special case) — it contributes {lowBand.n.toLocaleString()} samples and shows {lowBand.activePct}% activation, essentially inactive this far below the turbo's useful range.</div>
               <div style={{padding:"8px 10px",background:"#eff6ff",borderRadius:6,marginBottom:8,fontSize:11,color:"#1e40af",border:"1px solid #bfdbfe"}}>
-                <strong>Boost-active duration: ~{overallPct?.toFixed(1) ?? "—"}% of ENGINE-ON time (rpm &gt; 300) at &gt;0.1 bar</strong> (meaningful boost, {tm.nDrives} drives logging boost and rpm PIDs; sample-weighted mean across the RPM bands above). This corrects an earlier draft that used &gt;0.05 bar (barely above sensor noise) against a denominator that included engine-off time. Both the denominator and the threshold needed fixing — this figure and the chart below now use the same corrected basis throughout.
+                <strong>Boost-active duration: ~{overallPct?.toFixed(1) ?? "—"}% of ENGINE-ON logged samples ({_tb}; not time-weighted; all drives, pooled, not changed by the cohort selector) at &gt;0.1 bar</strong> (meaningful boost, {tm.nDrives} drives logging boost and rpm PIDs; sample-weighted mean across the RPM bands above). This corrects an earlier draft that used &gt;0.05 bar (barely above sensor noise) against a denominator that included engine-off time. Both the denominator and the threshold needed fixing — this figure and the chart below now use the same corrected basis throughout.
               </div>
               <TurboPatternChart/>
               <div style={{marginTop:8,marginBottom:10,padding:8,background:"#f1f5f9",borderRadius:6,fontSize:10,color:"#64748b",lineHeight:1.6}}>
-                By speed (secondary context; on drives logging boost and rpm PIDs, rpm &gt; 300, boost &gt;0.1 bar): {T.map(z=>`${z.zone}km/h ${z.activePct}%`).join(" · ")}. Lowest at {minZ.zone} km/h ({minZ.activePct}%), highest at {maxZ.zone} km/h ({maxZ.activePct}%) — the shape does not track road speed monotonically, which is itself the point: RPM (not speed) is the mechanistically primary axis (chart above), since the same road speed can be held at very different engine RPM depending on generator load.
+                By speed (secondary context; on drives logging boost and rpm PIDs, {_tb}, boost &gt;0.1 bar): {T.map(z=>`${z.zone}km/h ${z.activePct}%`).join(" · ")}. Lowest at {minZ.zone} km/h ({minZ.activePct}%), highest at {maxZ.zone} km/h ({maxZ.activePct}%) — the shape does not track road speed monotonically, which is itself the point: RPM (not speed) is the mechanistically primary axis (chart above), since the same road speed can be held at very different engine RPM depending on generator load.
               </div>
               {[
                 ["Peak boost", `${peakBoost?.value ?? "—"} — ${peakBoost?.drive ?? "—"}, during a sustained high-speed pull`],
@@ -12152,7 +12174,7 @@ export default function App() {
                   <th style={{padding:"5px 8px",fontWeight:700,color:"#374151"}}>Type</th>
                   <th style={{padding:"5px 8px",fontWeight:700,textAlign:"center"}}>n</th>
                   <th style={{padding:"5px 8px",fontWeight:700,textAlign:"right"}}>Avg engine-on %</th>
-                  <th style={{padding:"5px 8px",fontWeight:700,textAlign:"right"}}>Engine-on hours (duration-scaled, imputed)</th>
+                  <th style={{padding:"5px 8px",fontWeight:700,textAlign:"right"}}>Engine-on hours (duration-scaled, imputed; drive-master engine_on_pct basis, not the rpm &gt; 400 rule)</th>
                   <th style={{padding:"5px 8px",fontWeight:700,textAlign:"right"}}>Hours / 10,000km (duration-scaled)</th>
                 </tr>
               </thead>
