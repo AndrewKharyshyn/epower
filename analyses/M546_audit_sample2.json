@@ -1,0 +1,53 @@
+{
+ "spec": "analyses/M546_spec.md Rev 2 (Director: second blind pass)",
+ "seed": 42,
+ "files": [
+  "2026-09-13_20-30-29.csv",
+  "2026-09-24_22-29-34.csv",
+  "2026-10-15_10-40-56.csv",
+  "20260523_113305.csv",
+  "20260611_061120.csv",
+  "20260830_125410.csv",
+  "20260830_192834.csv",
+  "20260905_103157.csv"
+ ],
+ "notInFirstSample": true,
+ "stratification": "3 drives with exactly-400 seconds on the pipeline grid + 3 drives with NaN-rpm rows on the state grid (no exactly-400 on the pipeline grid) + 2 random; none in analyses/M546_audit_sample.json",
+ "strata": {
+  "2026-09-13_20-30-29.csv": {
+   "eq400PipelineGrid": 2,
+   "nanRpmRowsStateGrid": 0
+  },
+  "2026-09-24_22-29-34.csv": {
+   "eq400PipelineGrid": 0,
+   "nanRpmRowsStateGrid": 1
+  },
+  "2026-10-15_10-40-56.csv": {
+   "eq400PipelineGrid": 0,
+   "nanRpmRowsStateGrid": 0
+  },
+  "20260523_113305.csv": {
+   "eq400PipelineGrid": 0,
+   "nanRpmRowsStateGrid": 31
+  },
+  "20260611_061120.csv": {
+   "eq400PipelineGrid": 2,
+   "nanRpmRowsStateGrid": 76
+  },
+  "20260830_125410.csv": {
+   "eq400PipelineGrid": 1,
+   "nanRpmRowsStateGrid": 0
+  },
+  "20260830_192834.csv": {
+   "eq400PipelineGrid": 0,
+   "nanRpmRowsStateGrid": 1
+  },
+  "20260905_103157.csv": {
+   "eq400PipelineGrid": 0,
+   "nanRpmRowsStateGrid": 0
+  }
+ },
+ "drawnAt": "2026-10-31T09:46:12.286712+00:00",
+ "drawnFrom": "metadata (the M540 sidecar eq400 column and the NaN-row count of the state grid); no claim value exists yet; the auditor computes before seeing any claim",
+ "sha256": "58c1f548e7cf41ce7d55bb49d98c524d805cbb2e9562aecf4612820a81fb8c97"
+}
