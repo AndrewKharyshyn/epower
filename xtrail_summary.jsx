@@ -5011,6 +5011,29 @@ function EnergyPacketsView(){
     </Section>
   );
 }
+// M552 (audit 2026-10-29 N02): observed net mean power over 5-120 s windows (S.powerDuration), per logger-cadence stratum; exact continuous-start value with the 1 s grid lower bracket; no pooled headline.
+function PowerDurationView(){
+  const B=S.powerDuration, [st,setSt]=useState(null);
+  if(!B||!B.strata) return null;
+  const keys=Object.keys(B.strata).filter(k=>k!=="unknown"), cur=st&&B.strata[st]?st:keys[0], D=B.strata[cur];
+  const f=(x,n=1)=>x==null?"—":Number(x).toFixed(n), pv=x=>x&&x.value!=null?`${f(x.value)}${x.ci95?` (${f(x.ci95[0])}–${f(x.ci95[1])})`:""}`:"—";
+  const lab={fast:"fast-polled drives",slow:"slow-polled drives"};
+  return (
+    <Section title="Observed Power Demand by Window Length (descriptive)" accent="#60a5fa">
+      <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-duration-note="1">Highest observed net mean power of the logged pack, a reconstructed current × voltage product, over a window of the stated length, one value per drive and direction (charge shown as a magnitude), then percentiles across drives. These are observed extrema of these logs, not ratings, capabilities or limits, and not time-weighted operating percentiles; longer windows can include reversals (net moving means). The value is the exact continuous-start maximum; the 1 s start-grid value is a lower bracket. A drive with more eligible time has more windows, so its maximum tends to be larger (rank correlation with eligible time is in the payload). The two cadence strata are shown separately and are not comparable; no pooled value is given. Intervals are day-clustered ({B.rule.intervals}).</div>
+      <div style={{display:"flex",gap:6,marginBottom:6}}>
+        {keys.map(k=>(<button key={k} data-duration-stratum={k} onClick={()=>setSt(k)} style={{fontSize:10,padding:"3px 8px",borderRadius:4,cursor:"pointer",border:"1px solid #cbd5e1",background:cur===k?"#0f172a":"#fff",color:cur===k?"#fff":"#334155"}}>{lab[k]||k}</button>))}
+      </div>
+      <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-duration-support="1">{D.nDrives} drives on {D.nDays} days; median sample period {f(D.samplePeriodS?.median,2)} s. Closure and bounds checked on every drive: window mean ≤ the drive's sample extreme, energy closes to the ledger, extremes non-increasing with window length ({B.knownAnswer.misses.ka4+B.knownAnswer.misses.ka5+B.knownAnswer.misses.ka6} misses in {B.knownAnswer.n.ka4} / {B.knownAnswer.n.ka5} / {B.knownAnswer.n.ka6Drives} drives).</div>
+      <table style={{width:"100%",fontSize:9,borderCollapse:"collapse"}}>
+        <thead><tr style={{color:"#64748b",textAlign:"right"}}><th style={{textAlign:"left"}}>window</th><th>drives (days)</th><th>discharge median kW</th><th>discharge p95 kW</th><th>grid p95 (lower bracket)</th><th>charge median kW</th><th>charge p95 kW</th><th>grid p95 (lower bracket)</th></tr></thead>
+        <tbody>{Object.entries(D.byW).map(([W,r])=>(
+          <tr key={W} data-duration-row={W} style={{textAlign:"right",borderTop:"1px solid #e2e8f0"}}><td style={{textAlign:"left",color:"#0f172a"}}>{W} s{r.resolutionLimited?" (resolution-limited)":""}</td><td>{r.nDrivesSupported} ({r.nDaysSupported})</td><td>{pv(r.discharge.exact.p50)}</td><td>{pv(r.discharge.exact.p95)}</td><td>{f(r.discharge.gridLowerBracket?.p95)}</td><td>{pv(r.charge.exact.p50)}</td><td>{pv(r.charge.exact.p95)}</td><td>{f(r.charge.gridLowerBracket?.p95)}</td></tr>))}</tbody>
+      </table>
+      <div style={{fontSize:9,color:"#94a3b8",marginTop:6}} data-duration-footnote="1">Percentiles are per-drive weighted (a long drive and a short drive count once each). Maximum across drives, 5 s: discharge {f(D.byW["5"].discharge.max)} kW, charge {f(D.byW["5"].charge.max)} kW (single logged drives, no interval). Window length against the sample period: windows shorter than twice the median sample period would be flagged resolution-limited.</div>
+    </Section>
+  );
+}
 function spreadConclusion(){
   const o=S.degradationTrends?.cellSpread?.clusterRobustOLS, ci=o?.ci95, sp=ciSpansZero(ci), rr=S.serialDependence?.trendSlopes?.cellSpread?.rowsRule;
   const proc=sp===false && rr?.classification==="procedure-dependent";
@@ -12657,6 +12680,7 @@ export default function App() {
           </div>
         </Section>
         <EnergyPacketsView/>
+        <PowerDurationView/>
       </>)}
 
       {/* ── HEALTH ── */}
