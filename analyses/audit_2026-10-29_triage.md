@@ -2,8 +2,8 @@
 
 Source: `epower_audit_2026-10-29.html` (snapshot M533, 606 drives, score 6.70/10, post hoc and exploratory).
 Triage: Opus research-director brief plus greps at M545 (2026-10-31). Effort figures are estimates.
-Status: PLANNING ONLY. No implementation starts before M546 merges (`xtrail_summary.jsx`, `language_gate.py`,
-`compute_summary_arrays.py` `_RawAccum` are being edited by the M545/M546 session).
+Status (2026-11-01): the planned milestones M547-M556 are merged (see the table); numbers below are the ACTUAL tags. Remaining: M557 (held items) and
+the follow-ups listed after the table. The original planning note (no implementation before M546 merged) is superseded.
 
 Rules for use of the audit's numbers: known-answer targets and external corroboration only; never typed into the repo.
 Anything entering the article still needs the Opus audit and Andrii's sign-off.
@@ -11,19 +11,28 @@ Anything entering the article still needs the Opus audit and Andrii's sign-off.
 Tiers: A = wording/label fix (language_gate rule with ledger id for the OLD wording, sentences generated from payload);
 B = code fix that changes numbers (spec, blind audit); C = new analysis (spec, blind audit, Director); D = parked.
 
-## Milestone sequence (proposed numbers; renumber from the CHANGELOG head)
+## Milestone sequence (actual numbers; tags on main)
 
-| Milestone | Scope | Tier | Days |
+| Milestone | Scope | Tier | Status |
 |---|---|---|---|
-| M547 | Wording wave A: F02 F03 F04 F06 F07 F08 F09 F10 F11 F12 F13 F14 F16 F18 F19 F21 plus the 26 section-9 rewrites | A | 4-5 |
-| M548 | F20 (`docs/overview.md:27` stale; generate state sentences), F15 (deprecate `sustained_current_peaks.py`, no other reference found) | A / D | 0.5 |
-| M549 | F01 hottest/coldest tie policy: unique, tied and fractional time, elapsed-time weights, freshness; known-answer test (4 equal probes: unique 0, tied 100 %, fractional 25 % each) | B | 1.5 |
-| M550 | F05 + N07: temperature and freshness at the native power-peak timestamp; peak-current temperature kept for A / C-rate views | B | 3.5 |
-| M551 | N01 energy-packet size and boundary censoring; N02 5/10/30/60/120 s power-duration profile. Stratify by logger cadence (B6 still failed). Known-answer check against the audit's p95 table and 0.479 % sub-1 Wh energy share | C | 4.5 |
-| M552 | N13 direct thesis test (see below) | C | 2-3 |
-| M553 | N06 common-support estimator bridge, F17 (2 drives recoverable under alternative alignment, as a named sensitivity, published estimator unchanged), N12 block-secant SoC scale as sensitivity (CAP_KWH unchanged) | C | 4 |
-| M554 | N05 signal-validity registry (all-zero BMS 12 V = unavailable, raw zeros preserved) | A/B | 0.5 |
-| M555 | After the engine-on migration ends: F08/F09 follow-ups, N03 orthogonal thermal-demand state, N08 channel-dependency graph | C | 5.5 |
+| M547 | Wording wave A: F02 F03 F04 F06 F07 F08 F09 F10 F11 F12 F13 F14 F16 F18 F19 F21 plus the section-9 rewrites | A | merged (PR 234) |
+| M548 | F20 (`docs/overview.md:27` stale), F15 (deprecate `sustained_current_peaks.py`) | A / D | merged (PR 235) |
+| M549 | F01 hottest/coldest tie policy (unique, tied, fractional time; freshness) | B | merged (PR 236) |
+| M550 | F05 + N07 (partial): temperature and freshness at the native power-peak timestamp, tiers cotimed / nearby / late / none | B | merged (PR 237) |
+| M551 | N01 energy-exchange runs and boundary censoring (N02 was split off) | C | merged (PR 238) |
+| M552 | N02 5/10/30/60/120 s power-duration profile, exact continuous-start maximum, per cadence stratum | C | merged (PR 239) |
+| M553 | N13 direct thesis test: excursion of integrated net charge and terminal energy, R = throughput / excursion, assumed 2.1 kWh as a labelled twin (`CAP_KWH` unchanged) | C | merged (PR 240) |
+| M554 | N06 common-support estimator bridge and F17 (union-clock named sensitivity, two recoverable drives in no total); N12 block-secants already existed in `capacityBasis` | C | merged (PR 241) |
+| M555 | N12 second half: observability of the logged cell-voltage channels against the pack-voltage namespace (split out of M554) | C | merged (PR 242) |
+| M556 | N05 signal-validity registry (all-zero BMS 12 V = unavailable, raw zeros preserved); repair of the M555 wording rule | A/B | merged (PR 243) |
+| M557 | HELD until the engine-on migration ends: F08/F09 follow-ups, N03 orthogonal thermal-demand state, N08 channel-dependency graph | C | not started |
+
+## Follow-ups named by the merged milestones (each needs its own spec; none started)
+- Sensitivity of the published cell-spread relaxation (1 s mean, forward fill limit 3) to the Max / Min sampling offset and carry-forward (M555 R6; no published value changed so far).
+- Uninterrupted-direction variant of the power-duration profile (M552), other N07 peak pairings and the A/C fallback asymmetry in the charge-rate risk map (M550).
+- Ah per SoC point is satisfied by the existing `capacityBasis` block (apparent capacity of the logged scale); no new block is planned (M553 R4, M554 section 0).
+- Re-check at every ingestion: the M556 intake-air out-of-bound trigger and the M554 / M555 escalation flags (the new stages write them into the payload).
+- N11 (claim ledger) still needs Andrii's decision; N04, N09, N10 stay parked.
 
 ## Findings (F01-F21), validity and repo locations at M545
 
