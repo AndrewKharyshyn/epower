@@ -1,0 +1,539 @@
+{
+ "schemaVersion": 1,
+ "note": "Hand-curated declarations (spec analyses/M557_spec.md Rev 2). The ingestion stage never edits this file; a change needs a spec revision and a CHANGELOG id. 'raw_logged' and 'app_calculated' nodes carry an exact header string that must exist in the raw files; 'latent_unlogged' nodes stand for inputs inside the app or ECU that are not logged.",
+ "nodes": [
+  {
+   "id": "hv_current",
+   "label": "HV battery current",
+   "kind": "raw_logged",
+   "source": "[BMS] HV Battery Current (A)",
+   "parents": [],
+   "derivation": "BMS-reported, logged"
+  },
+  {
+   "id": "hv_voltage",
+   "label": "HV battery voltage",
+   "kind": "raw_logged",
+   "source": "[BMS] HV Battery voltage (V)",
+   "parents": [],
+   "derivation": "BMS-reported, logged"
+  },
+  {
+   "id": "soc_reported",
+   "label": "Reported HV state of charge",
+   "kind": "raw_logged",
+   "source": "[BMS] HV State of charge (%)",
+   "parents": [],
+   "derivation": "BMS-reported display value, logged"
+  },
+  {
+   "id": "pack_temp",
+   "label": "HV battery temperature sensors",
+   "kind": "raw_logged",
+   "source": "[BMS] HV Battery Temperature Sensor 1 (℃)",
+   "parents": [],
+   "derivation": "BMS-reported, logged"
+  },
+  {
+   "id": "cell_max",
+   "label": "Max cell voltage",
+   "kind": "raw_logged",
+   "source": "[BMS] Max Cell Voltage (V)",
+   "parents": [],
+   "derivation": "BMS-reported, logged"
+  },
+  {
+   "id": "cell_min",
+   "label": "Min cell voltage",
+   "kind": "raw_logged",
+   "source": "[BMS] Min Cell Voltage (V)",
+   "parents": [],
+   "derivation": "BMS-reported, logged"
+  },
+  {
+   "id": "motor_torque_actual",
+   "label": "Motor torque (actual)",
+   "kind": "raw_logged",
+   "source": "[VCM] Motor Torque (N⋅m)",
+   "parents": [],
+   "derivation": "VCM-reported, logged"
+  },
+  {
+   "id": "motor_torque_target",
+   "label": "Target motor torque",
+   "kind": "raw_logged",
+   "source": "[VCM] Target Motor Torque (N⋅m)",
+   "parents": [
+    "motor_torque_command_latent"
+   ],
+   "derivation": "VCM command value; its upstream inputs are not logged"
+  },
+  {
+   "id": "motor_torque_command_latent",
+   "label": "VCM torque-command inputs",
+   "kind": "latent_unlogged",
+   "source": "inside the VCM",
+   "parents": [],
+   "derivation": "driver demand and control logic inside the VCM, not logged"
+  },
+  {
+   "id": "engine_rpm",
+   "label": "Engine speed",
+   "kind": "raw_logged",
+   "source": "Оберти двигуна (rpm)",
+   "parents": [],
+   "derivation": "ECU PID, logged through the app"
+  },
+  {
+   "id": "map_kpa",
+   "label": "Intake manifold pressure (absolute)",
+   "kind": "raw_logged",
+   "source": "Тиск у впускному колекторі (абсолютний) (kPa)",
+   "parents": [],
+   "derivation": "ECU PID, logged through the app"
+  },
+  {
+   "id": "baro_kpa",
+   "label": "Barometric pressure",
+   "kind": "raw_logged",
+   "source": "Атмосферний тиск (абсолютний) (kPa)",
+   "parents": [],
+   "derivation": "ECU PID, logged through the app"
+  },
+  {
+   "id": "boost_calc",
+   "label": "Calculated boost",
+   "kind": "app_calculated",
+   "source": "Розрахунковий наддув (bar)",
+   "parents": [
+    "map_kpa",
+    "baro_kpa"
+   ],
+   "derivation": "app-calculated from the manifold and barometric pressures"
+  },
+  {
+   "id": "maf",
+   "label": "Mass air flow",
+   "kind": "raw_logged",
+   "source": "Масова витрата повітря (g/sec)",
+   "parents": [],
+   "derivation": "ECU PID, logged through the app"
+  },
+  {
+   "id": "engine_load_calc",
+   "label": "Calculated engine load",
+   "kind": "app_calculated",
+   "source": "Розрахункове значення навантаження на двигун (%)",
+   "parents": [
+    "engine_load_latent"
+   ],
+   "derivation": "ECU-calculated load, its inputs are not logged"
+  },
+  {
+   "id": "engine_load_latent",
+   "label": "ECU load-calculation inputs",
+   "kind": "latent_unlogged",
+   "source": "inside the ECU",
+   "parents": [],
+   "derivation": "inputs of the ECU load calculation, not logged"
+  },
+  {
+   "id": "fuel_rate",
+   "label": "Fuel rate",
+   "kind": "app_calculated",
+   "source": "Витрати палива (L/h)",
+   "parents": [
+    "maf",
+    "fuel_rate_latent"
+   ],
+   "derivation": "app-calculated (not an injector measurement) from air flow and an assumed air-fuel ratio"
+  },
+  {
+   "id": "fuel_rate_latent",
+   "label": "App fuel-rate model inputs",
+   "kind": "latent_unlogged",
+   "source": "inside the logger app",
+   "parents": [],
+   "derivation": "assumed air-fuel ratio, density and correction factors of the app, not logged"
+  },
+  {
+   "id": "fuel_counter",
+   "label": "Fuel counter (used fuel)",
+   "kind": "app_calculated",
+   "source": "Використане паливо (L)",
+   "parents": [
+    "fuel_rate"
+   ],
+   "derivation": "app integral of the app-calculated fuel rate"
+  },
+  {
+   "id": "rail_pressure_actual",
+   "label": "Fuel rail pressure (actual)",
+   "kind": "raw_logged",
+   "source": "Тиск у паливній рампі (kPa)",
+   "parents": [],
+   "derivation": "ECU PID, logged through the app"
+  },
+  {
+   "id": "rail_pressure_commanded",
+   "label": "Commanded fuel rail pressure",
+   "kind": "raw_logged",
+   "source": "Commanded Fuel Rail Pressure (kPa)",
+   "parents": [
+    "rail_command_latent"
+   ],
+   "derivation": "ECU command value; its inputs are not logged"
+  },
+  {
+   "id": "rail_command_latent",
+   "label": "ECU rail-pressure command inputs",
+   "kind": "latent_unlogged",
+   "source": "inside the ECU",
+   "parents": [],
+   "derivation": "control logic inside the ECU, not logged"
+  },
+  {
+   "id": "vehicle_speed",
+   "label": "Vehicle speed",
+   "kind": "raw_logged",
+   "source": "Швидкість автомобіля (km/h)",
+   "parents": [],
+   "derivation": "ECU PID, logged through the app"
+  },
+  {
+   "id": "cap_kwh",
+   "label": "Assumed pack energy capacity CAP_KWH",
+   "kind": "constant",
+   "source": "assumptionsRegistry cap_kwh (2.1 kWh, verified:false)",
+   "parents": [],
+   "derivation": "assumed normalisation constant",
+   "verified": false
+  },
+  {
+   "id": "rated_5ah",
+   "label": "OEM rated 5 Ah (lead)",
+   "kind": "constant",
+   "source": "assumptionsRegistry (Article-10 lead, not adopted)",
+   "parents": [],
+   "derivation": "OEM disclosure used as a lead only",
+   "verified": false
+  },
+  {
+   "id": "displacement_fmep",
+   "label": "Engine displacement and FMEP assumption",
+   "kind": "constant",
+   "source": "compute_summary_arrays.py DISPLACEMENT_L and the pumping / friction assumption",
+   "parents": [],
+   "derivation": "assumed model constants",
+   "verified": false
+  },
+  {
+   "id": "power_iv",
+   "label": "Pack power P = I x V",
+   "kind": "derived",
+   "source": "compute_drive_summary_v6.py (power from current and voltage)",
+   "parents": [
+    "hv_current",
+    "hv_voltage"
+   ],
+   "derivation": "P = Id x V / 1000"
+  },
+  {
+   "id": "gross_throughput_kwh",
+   "label": "Gross throughput (released)",
+   "kind": "derived",
+   "source": "compute_drive_summary_v6.py gross_discharge_kwh / gross_charge_kwh",
+   "parents": [
+    "power_iv"
+   ],
+   "derivation": "piecewise-linear integral of P with the zero-crossing-aware split, nearest-pair 1.5 s alignment, 5 s step cap"
+  },
+  {
+   "id": "gross_throughput_reimpl",
+   "label": "Same-algorithm re-implementation of the gross throughput",
+   "kind": "derived",
+   "source": "tools/integration_scenarios.py baseline",
+   "parents": [
+    "power_iv"
+   ],
+   "derivation": "the production algorithm re-coded; the same derivation as the released value",
+   "sameDerivationAs": "gross_throughput_kwh"
+  },
+  {
+   "id": "gross_throughput_m220",
+   "label": "Independent re-integration (M220)",
+   "kind": "derived",
+   "source": "M220 true trapezoidal integration on interpolated native timestamps",
+   "parents": [
+    "hv_current",
+    "hv_voltage"
+   ],
+   "derivation": "a different integration algorithm applied to the same current and voltage channels"
+  },
+  {
+   "id": "gtc_fce",
+   "label": "GTC and FCE",
+   "kind": "derived",
+   "source": "payload GTC / FCE",
+   "parents": [
+    "gross_throughput_kwh",
+    "cap_kwh"
+   ],
+   "derivation": "gross throughput divided by the assumed capacity"
+  },
+  {
+   "id": "buffer_impulse_events",
+   "label": "Buffer discharge-impulse events",
+   "kind": "derived",
+   "source": "bufferImpulse (M116)",
+   "parents": [
+    "power_iv",
+    "engine_rpm"
+   ],
+   "derivation": "detector on pack power and engine speed"
+  },
+  {
+   "id": "four_detector_chain",
+   "label": "Four-detector start-event chain",
+   "kind": "derived",
+   "source": "startEventChain (M221): buffer AND ramp AND handoff AND recovery",
+   "parents": [
+    "buffer_impulse_events",
+    "power_iv",
+    "engine_rpm",
+    "motor_torque_actual"
+   ],
+   "derivation": "the chain includes the buffer detector as its first member"
+  },
+  {
+   "id": "hazard_start_model",
+   "label": "Engine-start hazard model (blocked-day CV)",
+   "kind": "model_output",
+   "source": "socHysteresisV2 ladder",
+   "parents": [
+    "soc_reported",
+    "power_iv",
+    "engine_rpm"
+   ],
+   "derivation": "hazard model fitted on the start events"
+  },
+  {
+   "id": "rolling_origin_cv",
+   "label": "Rolling-origin cross-validation of the hazard model",
+   "kind": "model_output",
+   "source": "socHysteresisV2 rolling-origin (M222)",
+   "parents": [
+    "hazard_start_model"
+   ],
+   "derivation": "the same model and data under a forward-chaining split"
+  },
+  {
+   "id": "regime_first_order",
+   "label": "First-order regime transition model",
+   "kind": "model_output",
+   "source": "regimeTransition.countMatrix",
+   "parents": [
+    "vehicle_speed"
+   ],
+   "derivation": "Markov model of drive types classified from speed"
+  },
+  {
+   "id": "regime_second_order",
+   "label": "Second-order regime transition model",
+   "kind": "model_output",
+   "source": "regimeTransition M223.2",
+   "parents": [
+    "regime_first_order"
+   ],
+   "derivation": "the same data with two previous drive types"
+  },
+  {
+   "id": "power_fade_trend",
+   "label": "Resistance-proxy trend (powerFade)",
+   "kind": "model_output",
+   "source": "powerFade",
+   "parents": [
+    "vreg_r_proxy",
+    "pack_temp",
+    "hv_current"
+   ],
+   "derivation": "voltage-sag resistance proxy trend, current-density adjusted"
+  },
+  {
+   "id": "resistance_vreg_trend",
+   "label": "Resistance-proxy trend (resistanceVreg)",
+   "kind": "model_output",
+   "source": "degradationTrends.resistanceVreg",
+   "parents": [
+    "vreg_r_proxy",
+    "pack_temp",
+    "hv_current"
+   ],
+   "derivation": "voltage-sag resistance proxy, cluster-robust OLS specification"
+  },
+  {
+   "id": "ceiling_defence_kw",
+   "label": "Ceiling-defence diverted power",
+   "kind": "model_output",
+   "source": "lowSpeedDissipation ceilingDefence",
+   "parents": [
+    "engine_rpm",
+    "boost_calc",
+    "engine_load_calc",
+    "soc_reported",
+    "vehicle_speed",
+    "hv_current",
+    "hv_voltage"
+   ],
+   "derivation": "excess of the observed motored deceleration over the reference deceleration"
+  },
+  {
+   "id": "fuel_cut_coast_kw",
+   "label": "Fuel-cut coast diverted power (bias reference)",
+   "kind": "model_output",
+   "source": "lowSpeedDissipation fuelCutCoast",
+   "parents": [
+    "engine_rpm",
+    "boost_calc",
+    "engine_load_calc",
+    "soc_reported",
+    "vehicle_speed",
+    "hv_current",
+    "hv_voltage"
+   ],
+   "derivation": "the same reference method applied where the pack charges normally"
+  },
+  {
+   "id": "cadence_thinning_estimate",
+   "label": "Cadence-emulated throughput ratio (fast to slow)",
+   "kind": "model_output",
+   "source": "loggerCadence.sensitivity.grossThroughputRatio",
+   "parents": [
+    "gross_throughput_kwh"
+   ],
+   "derivation": "fast-regime drives thinned to the slow interval distribution"
+  },
+  {
+   "id": "cadence_slow_to_slower",
+   "label": "Slow-to-slower thinning control",
+   "kind": "model_output",
+   "source": "loggerCadence.sensitivity.grossThroughputRatio.slowToSlowerControl",
+   "parents": [
+    "gross_throughput_kwh"
+   ],
+   "derivation": "slow-regime drives thinned to twice the slow intervals"
+  },
+  {
+   "id": "peak_keys_thinned",
+   "label": "Peak keys under emulated thinning",
+   "kind": "model_output",
+   "source": "loggerCadence.sensitivity.negativeControls",
+   "parents": [
+    "power_iv",
+    "hv_current"
+   ],
+   "derivation": "peak discharge power and peak charge current recomputed on thinned samples (a one-sided bias is expected)"
+  },
+  {
+   "id": "power_fade_s1",
+   "label": "Resistance-proxy equivalence specification S1",
+   "kind": "model_output",
+   "source": "powerFadeEquivalence.s1",
+   "parents": [
+    "vreg_r_proxy",
+    "pack_temp",
+    "hv_current"
+   ],
+   "derivation": "equivalence test on the primary design"
+  },
+  {
+   "id": "power_fade_s0_control",
+   "label": "Specification S0 control",
+   "kind": "model_output",
+   "source": "powerFadeEquivalence.s0Control",
+   "parents": [
+    "vreg_r_proxy",
+    "pack_temp",
+    "hv_current"
+   ],
+   "derivation": "the cluster-robust OLS specification used as the control"
+  },
+  {
+   "id": "power_fade_temp_specs",
+   "label": "Resistance-proxy temperature specifications",
+   "kind": "model_output",
+   "source": "powerFadeTemperatureSpecs",
+   "parents": [
+    "vreg_r_proxy",
+    "pack_temp",
+    "hv_current"
+   ],
+   "derivation": "alternative temperature adjustments of the resistance proxy"
+  },
+  {
+   "id": "power_fade_temp_falsification",
+   "label": "Temperature-specification falsification clause",
+   "kind": "derived",
+   "source": "powerFadeTemperatureSpecs.decision.falsificationClause",
+   "parents": [
+    "power_fade_temp_specs"
+   ],
+   "derivation": "a deterministic function of the T0-T5 fitted slopes, the T0 day half-width and the tipping row; no new data or fit"
+  },
+  {
+   "id": "vreg_r_proxy",
+   "label": "Voltage-sag resistance proxy per drive",
+   "kind": "derived",
+   "source": "compute_drive_summary_v6.py vreg_R_pack_mohm",
+   "parents": [
+    "hv_voltage",
+    "soc_reported",
+    "hv_current"
+   ],
+   "derivation": "Huber regression of the pack voltage on SoC and discharge current, time-aligned at 1500 ms; one value per drive"
+  },
+  {
+   "id": "serial_trend_cellspread",
+   "label": "Cell-spread trend slope under serial dependence",
+   "kind": "model_output",
+   "source": "serialDependence.trendSlopes.cellSpread",
+   "parents": [
+    "cell_max",
+    "cell_min"
+   ],
+   "derivation": "cell-voltage-spread trend slope with serial-dependence-robust intervals"
+  },
+  {
+   "id": "serial_trend_resistance",
+   "label": "Resistance-proxy trend slope under serial dependence",
+   "kind": "model_output",
+   "source": "serialDependence.trendSlopes.resistanceVreg",
+   "parents": [
+    "vreg_r_proxy",
+    "pack_temp",
+    "hv_current"
+   ],
+   "derivation": "resistance-proxy trend slope with serial-dependence-robust intervals"
+  },
+  {
+   "id": "serial_misspec_cs",
+   "label": "Mis-specification control of the cell-spread trend",
+   "kind": "model_output",
+   "source": "serialDependence.trendSlopes.cellSpread.misspecControl",
+   "parents": [
+    "serial_trend_cellspread"
+   ],
+   "derivation": "estimates the residual autocorrelation before and after a slow-mean removal, not the slope"
+  },
+  {
+   "id": "serial_misspec_rv",
+   "label": "Mis-specification control of the resistance trend",
+   "kind": "model_output",
+   "source": "serialDependence.trendSlopes.resistanceVreg.misspecControl",
+   "parents": [
+    "serial_trend_resistance"
+   ],
+   "derivation": "estimates the residual autocorrelation before and after a slow-mean removal, not the slope"
+  }
+ ]
+}

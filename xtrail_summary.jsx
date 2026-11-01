@@ -5142,6 +5142,30 @@ function SignalValidityView(){
     </Section>
   );
 }
+function ChannelDependencyView(){
+  const B=S.channelDependency;
+  if(!B||!B.claims) return null;
+  const clsLab={coding_check_only:"coding check only (same derivation)",circular:"circular (the check contains or derives from its target)",model_adequacy:"model adequacy (same model, other split or order)",shared_raw_input:"shares the raw channels",independent_conditional_on_unverified_constant:"independent apart from an unverified constant",independent:"independent",negative_control:"negative control"};
+  const led=B.claims.filter(c=>c.origin==="ledger"), ctl=B.claims.filter(c=>c.origin==="control");
+  return (
+    <Section title="Dependency of Checks and Controls on Their Targets (descriptive)" accent="#64748b">
+      <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-depend-note="1">The dependencies below are hand-curated declarations (graph {String(B.inputs.graphSha256).slice(0,8)}, claims {String(B.inputs.claimsSha256).slice(0,8)}); the class of each check is computed from them. A class describes how a check relates to its target, not whether the check is useful. No validation status is changed here; where a ledger wording conflicts with the computed class, the conflict is marked and left for a separate ruling.</div>
+      <table style={{width:"100%",fontSize:9,borderCollapse:"collapse"}} data-depend-ledger="1">
+        <thead><tr style={{color:"#64748b",textAlign:"left"}}><th>check</th><th>target</th><th>validator</th><th>computed relation</th><th>settled after the blind audit</th><th>current status</th><th>wording</th></tr></thead>
+        <tbody>{led.map(c=>(
+          <tr key={c.id} data-depend-row={c.id} style={{borderTop:"1px solid #e2e8f0"}}><td>{c.id}</td><td>{c.targetLabel}</td><td>{c.validatorLabels.join("; ")}</td><td>{clsLab[c.computedClass]||c.computedClass}</td><td>{c.settledClass!==c.computedClass?`${clsLab[c.settledClass]||c.settledClass} (settled by the Director after the blind audit)`:"same"}</td><td>{c.currentValidationStatus||"—"}</td><td>{(c.wordingConflicts||[]).length?"conflict marked":"no conflict"}</td></tr>
+        ))}</tbody>
+      </table>
+      <table style={{width:"100%",fontSize:9,borderCollapse:"collapse",marginTop:8}} data-depend-controls="1">
+        <thead><tr style={{color:"#64748b",textAlign:"left"}}><th>control</th><th>target</th><th>expected outcome</th><th>null mechanism</th><th>notes from the blind audit</th></tr></thead>
+        <tbody>{ctl.map(c=>(
+          <tr key={c.id} data-depend-row={c.id} style={{borderTop:"1px solid #e2e8f0"}}><td>{c.validatorLabels.join("; ")}{c.computedClass==="decision_rule"?" (pre-registered decision rule)":""}</td><td>{c.targetLabel}</td><td>{String(c.expectedOutcome).replace(/_/g," ")}</td><td>{c.nullMechanism}</td><td>{(c.auditNotes||[]).join("; ")}{c.poolControlOverlap?`; ${c.poolControlOverlap.overlap} of ${c.poolControlOverlap.nControl} control drives are also pool drives (selection recomputed on the current corpus)`:""}</td></tr>
+        ))}</tbody>
+      </table>
+      <div style={{fontSize:9,color:"#94a3b8",marginTop:6}} data-depend-foot="1">{led.length} ledger checks and {ctl.length} controls and decision rules; {B.conflictClaims.length} ledger checks carry a wording conflict ({B.conflictClaims.join(", ")}). Latent inputs inside the app, the ECU or the VCM are declared, not observed.</div>
+    </Section>
+  );
+}
 function spreadConclusion(){
   const o=S.degradationTrends?.cellSpread?.clusterRobustOLS, ci=o?.ci95, sp=ciSpansZero(ci), rr=S.serialDependence?.trendSlopes?.cellSpread?.rowsRule;
   const proc=sp===false && rr?.classification==="procedure-dependent";
@@ -12052,6 +12076,7 @@ export default function App() {
         <Section title="Selected cell-channel snapshots (case study; asynchronously polled channels, not a simultaneous complete-pack array)" accent="#b45309"><FullCellCaseStudy/></Section>
         <CellObservabilityView/>
         <SignalValidityView/>
+        <ChannelDependencyView/>
         <Section title="Mountain-Road Pattern — Grade, Buffer State and Dissipation (M57)" accent="#7c3aed"><MountainPattern/></Section>
         <Section seasonAware title="Engine-Off Travel — Distance Share &amp; Longest Engine-Off Run" accent="#059669"><EvTraction/></Section>
         {S.regimeTransition && (()=>{const RT=S.regimeTransition;

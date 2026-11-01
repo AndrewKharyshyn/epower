@@ -538,6 +538,8 @@ RULES = [
          rx=r"\b(sensor|data) (fault|error)s? in (the )?(max|min)\w*|\bg01 (is|equals) (the )?(sum|cell [0-9])\w*|\bpack (voltage )?(equals|is) the sum of (the )?(logged )?cells?\b|\bsimultaneous(ly)? (cell|max|min)\w*|\bcell (imbalance|balancing) (is|was) (measured|shown)\b", scope=("dom", "jsx", "payload")),
     Rule("M556-N05-signal-validity", "regex", "M556/AUD29-N05: an all-zero BMS 12 V channel is unavailable, not a 0 V supply, battery fault, failed DC/DC or sensor fault; the intake-air sentinel and out-of-bound samples are not interpreted; a validity rule holds in the corpus files counted, never always",
          rx=r"\b(0 ?v supply|zero volt(age)? supply|dead 12 ?v|failed dc ?/? ?dc|12 ?v (battery )?(is |was )?(dead|faulty|failed))\b|\b(sensor|invalid sensor) fault\w*|\binvalid sensor\b|\bmeasured 0 ?v\b|\bnot supported by the ecu\b|\bintake air (sensor )?(overheat\w*|fault|error)\b", scope=("dom", "jsx", "payload")),
+    Rule("M557-N08-dependency", "regex", "M557/AUD29-N08: a check that shares the raw channels of its target, re-codes the same derivation or contains its target is not an independent validation; a derived sibling does not validate its parent; the class of a check does not say whether it is useful",
+         rx=r"\bindependent validation (by|from|through) (a )?(same algorithm|re ?implementation|rolling origin|second order)\w*|\bderived sibling validates (its|the) parent\b|\bcircular check (confirms|proves|validates)\w*|\bshared input check (is|as) independent\b", scope=("dom", "jsx", "payload")),
 ]
 
 _SCAN_CACHE = {}

@@ -25,14 +25,16 @@ B = code fix that changes numbers (spec, blind audit); C = new analysis (spec, b
 | M554 | N06 common-support estimator bridge and F17 (union-clock named sensitivity, two recoverable drives in no total); N12 block-secants already existed in `capacityBasis` | C | merged (PR 241) |
 | M555 | N12 second half: observability of the logged cell-voltage channels against the pack-voltage namespace (split out of M554) | C | merged (PR 242) |
 | M556 | N05 signal-validity registry (all-zero BMS 12 V = unavailable, raw zeros preserved); repair of the M555 wording rule | A/B | merged (PR 243) |
-| M557 | HELD until the engine-on migration ends: F08/F09 follow-ups, N03 orthogonal thermal-demand state, N08 channel-dependency graph | C | not started |
+| M557 | N08 channel-dependency graph and independence audit of the evidence-ledger checks and the named negative controls (the earlier "held until the engine-on migration ends" label was wrong: the migration closed with M546) | C | PR open |
+| M558 | N09 observation-boundary and unlogged-trip sensitivity (adopted 2026-11-01 on the owner's point that the car is often driven without logging): flag gaps between logged drives with possible unlogged travel using the odometer readings given at each ingestion, left/right-censored spell shares, stratify the cross-drive thermal/SoC inference by gap confidence | C | not started |
+| M559 | N03 orthogonal thermal-demand state and the F09 separate-fields follow-up | C | not started |
 
 ## Follow-ups named by the merged milestones (each needs its own spec; none started)
 - Sensitivity of the published cell-spread relaxation (1 s mean, forward fill limit 3) to the Max / Min sampling offset and carry-forward (M555 R6; no published value changed so far).
 - Uninterrupted-direction variant of the power-duration profile (M552), other N07 peak pairings and the A/C fallback asymmetry in the charge-rate risk map (M550).
 - Ah per SoC point is satisfied by the existing `capacityBasis` block (apparent capacity of the logged scale); no new block is planned (M553 R4, M554 section 0).
 - Re-check at every ingestion: the M556 intake-air out-of-bound trigger and the M554 / M555 escalation flags (the new stages write them into the payload).
-- N11 (claim ledger) still needs Andrii's decision; N04, N09, N10 stay parked.
+- N11 (claim ledger) still needs Andrii's decision; N04 and N10 stay parked (N09 is M558).
 
 ## Findings (F01-F21), validity and repo locations at M545
 
@@ -46,7 +48,7 @@ F19 agree, jsx:~12030 | F20 partly (STATE.md current, overview.md stale) | F21 a
 ## New items
 
 Adopt: N01, N02, N05, N06, N07, N08, N12, N03 (last, high merge risk with the engine-on migration).
-Parked (low thesis value, nothing blocked): N04 (rail tracking), N09 (unlogged-trip sensitivity), N10 (tail concentration).
+Parked (low thesis value, nothing blocked): N04 (rail tracking), N10 (tail concentration). N09 (unlogged-trip sensitivity) was un-parked on 2026-11-01 by the owner and is M558.
 N11 (claim ledger): register retired M301; needs Andrii. Proposal: short frozen list of primary estimands in the article
 spec plus a multiplicity rule (Holm or FDR) applied to that list only; everything else labelled exploratory.
 
