@@ -528,6 +528,8 @@ RULES = [
          rx=r"\bdrive peak charge power not co timed with peak current\b", scope=("dom", "jsx")),
     Rule("M551-N01-runs", "regex", "M551/AUD29-N01: an energy-exchange run is an observed electrical exchange, not a cycle; the cadence strata are not pooled or called comparable; a count share of tiny runs is not a share of battery stress",
          rx=r"\bpooled (energy )?runs?\b|\bruns? are comparable\b|\benergy exchange cycles?\b|\btiny runs? (carry|cause) \w+ stress\b", scope=("dom", "jsx", "payload")),
+    Rule("M552-N02-window-maxima", "regex", "M552/AUD29-N02: an observed window maximum of the logged, reconstructed power is not a rating, capability or limit, and the cadence strata are not pooled or called comparable",
+         rx=r"\bobserved (net )?mean power (rating|capability|limit)s?\b|\bwindow (maxima|maximum) (is|are) (a )?(rating|capability|limit)s?\b|\bpower demand (rating|capability)\b", scope=("dom", "jsx", "payload")),
 ]
 
 _SCAN_CACHE = {}
