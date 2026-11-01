@@ -533,7 +533,7 @@ RULES = [
     Rule("M553-N13-window-use", "regex", "M553/AUD29-N13: the excursion of the integrated charge or terminal energy is not a usable capacity, depth of discharge, cycle count or state of health; the assumed 2.1 kWh window is unverified, a window-use verdict neither proves nor refutes the thesis, and the cadence strata are not pooled",
          rx=r"\b(window|battery) (is |was |gets? )?(used up|exhausted)\b|\bproves? (the )?(buffer|thesis)\b|\bmeasured (net charge|soc) excursion\b|\busable capacity of [0-9]|\bdepth of discharge (of|is) [0-9]|\bpooled (window|excursion)s?\b", scope=("dom", "jsx", "payload")),
     Rule("M554-F17-N06-bridge", "regex", "M554/AUD29-F17+N06+N12: the two drives without published energy have no integrable pairs under the nearest-pair rule within 1.5 s, not no usable raw current or voltage; the union-clock energy is an estimated named sensitivity, never measured, true, corrected or validated; apparent capacity of the logged SoC scale is never true, full or usable capacity",
-         rx=r"no usable raw (current|voltage)|union clock (energy|integration) is (the )?(true|measured|correct|validated)|(corrected|repaired) (the )?(two )?(null|missing) energy|apparent capacity (is|equals) (the )?(true|full|usable) capacity", scope=("dom", "jsx", "payload")),
+         rx=r"\bno usable raw (current|voltage)\b|\bunion clock (energy|integration) is (the )?(true|measured|correct|validated)\b|\b(corrected|repaired) (the )?(two )?(null|missing) energy\b|\bapparent capacity (is|equals) (the )?(true|full|usable) capacity\b", scope=("dom", "jsx", "payload")),
 ]
 
 _SCAN_CACHE = {}
