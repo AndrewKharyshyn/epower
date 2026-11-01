@@ -534,6 +534,8 @@ RULES = [
          rx=r"\b(window|battery) (is |was |gets? )?(used up|exhausted)\b|\bproves? (the )?(buffer|thesis)\b|\bmeasured (net charge|soc) excursion\b|\busable capacity of [0-9]|\bdepth of discharge (of|is) [0-9]|\bpooled (window|excursion)s?\b", scope=("dom", "jsx", "payload")),
     Rule("M554-F17-N06-bridge", "regex", "M554/AUD29-F17+N06+N12: the two drives without published energy have no integrable pairs under the nearest-pair rule within 1.5 s, not no usable raw current or voltage; the union-clock energy is an estimated named sensitivity, never measured, true, corrected or validated; apparent capacity of the logged SoC scale is never true, full or usable capacity",
          rx=r"\bno usable raw (current|voltage)\b|\bunion clock (energy|integration) is (the )?(true|measured|correct|validated)\b|\b(corrected|repaired) (the )?(two )?(null|missing) energy\b|\bapparent capacity (is|equals) (the )?(true|full|usable) capacity\b", scope=("dom", "jsx", "payload")),
+    Rule("M555-N12-cell-observability", "regex", "M555/AUD29-N12: the cell-voltage channels are BMS-reported, logged and polled in a cycle (not simultaneous); the logged G01 channel is not a cell; Max below Min within the sampling offset is not a sensor fault or data error; no pack-equals-sum-of-cells statement",
+         rx=r"\b(sensor|data) (fault|error)s? in (the )?(max|min)\bw*|\bbG01 (is|equals) (the )?(sum|cell [0-9])\bw*|\bbpack (voltage )?(equals|is) the sum of (the )?(logged )?cells?\bb|\bbsimultaneous(ly)? (cell|max|min)\bw*|\bbcell (imbalance|balancing) (is|was) (measured|shown)\bb", scope=("dom", "jsx", "payload")),
 ]
 
 _SCAN_CACHE = {}
