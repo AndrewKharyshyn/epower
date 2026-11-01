@@ -190,6 +190,7 @@ jobs:
           python tests/synthetic/test_power_duration.py
           python tests/synthetic/test_window_use.py
           python tests/synthetic/test_common_support.py
+          python tests/synthetic/test_cell_observability.py
           python tests/synthetic/test_exposure_frame.py
           python tests/synthetic/test_exposure_readers.py
           python tests/synthetic/test_m404_wording.py
@@ -216,6 +217,7 @@ jobs:
           node test_power_duration_view.js
           node test_window_use_view.js
           node test_common_support_view.js
+          node test_cell_observability_view.js
       - name: Release gate
         run: python release_check.py
         env: {XT_RAW_DIR: raw}

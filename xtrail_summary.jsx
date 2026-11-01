@@ -5094,6 +5094,33 @@ function CommonSupportBridgeView(){
     </div>
   );
 }
+function CellObservabilityView(){
+  const B=S.cellObservability, [st,setSt]=useState(null);
+  if(!B||!B.strata) return null;
+  const keys=Object.keys(B.strata), cur=st&&B.strata[st]?st:keys[0], D=B.strata[cur];
+  const f=(x,n=2)=>x==null?"—":Number(x).toFixed(n), pc=(x,n=2)=>x==null?"—":`${(100*x).toFixed(n)} %`;
+  const lab=k=>{const [e,c]=k.split("|");return `${e==="maxMin"?"Max / Min channels":"Max / Min plus the logged G01 channel"}, ${c==="fast"?"fast-polled":c==="slow"?"slow-polled":"cadence unknown"} drives`;};
+  const short=c=>c.includes("Max")?"Max cell voltage":c.includes("Min")?"Min cell voltage":"G01 channel";
+  const mm=D.maxMinConsistency, pol=mm&&mm.polling, per=B.perCellExample||[];
+  return (
+    <Section title="Observability of the Logged Cell-Voltage Channels (descriptive)" accent="#b45309">
+      <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-cellobs-note="1">BMS-reported, logged channels, polled in a cycle: they are not simultaneous, and co-timed means exactly equal timestamps. For each channel, coverage is the share of pack-voltage samples with a channel sample within 1.5 s, and age is the time since the last channel sample. No spread, balance, health or capacity statement is made here; the per-cell channels of three early drives are a selected-channel example only. Strata are not comparable and no pooled value is given.</div>
+      <div style={{display:"flex",gap:6,marginBottom:6,flexWrap:"wrap"}}>
+        {keys.map(k=>(<button key={k} data-cellobs-stratum={k} onClick={()=>setSt(k)} style={{fontSize:10,padding:"3px 8px",borderRadius:4,cursor:"pointer",border:"1px solid #cbd5e1",background:cur===k?"#0f172a":"#fff",color:cur===k?"#fff":"#334155"}}>{lab(k)}</button>))}
+      </div>
+      <div style={{fontSize:9,color:"#64748b",marginBottom:4}} data-cellobs-support="1">{D.nDrives} drives on {D.nDays} days; {pc(D.completeSetDriveShare.share,1)} of drives have every channel of the set at coverage ≥ 95 %.</div>
+      <table style={{width:"100%",fontSize:9,borderCollapse:"collapse"}} data-cellobs-table="1">
+        <thead><tr style={{color:"#64748b",textAlign:"right"}}><th style={{textAlign:"left"}}>channel</th><th>coverage (median of drives)</th><th>exactly co-timed with a pack sample</th><th>nearest pack sample, median s</th><th>age, median s</th><th>age p95 above 3 s, share of drives</th><th>1 s points carried forward by the published resampling</th></tr></thead>
+        <tbody>{Object.entries(D.channels).filter(([c,v])=>v.drivesWithSamples>0).map(([c,v])=>(
+          <tr key={c} data-cellobs-row={short(c)} style={{textAlign:"right",borderTop:"1px solid #e2e8f0"}}><td style={{textAlign:"left"}}>{short(c)}</td><td>{pc(v.coverageMedianOfDrives,1)}</td><td>{pc(v.exactCoTimedShareMedianOfDrives,1)}</td><td>{f(v.offsetMedianS,3)}</td><td>{f(v.ageMedianS)}</td><td>{pc(v.driveShareWithAgeP95Over3s,1)}</td><td>{pc(v.carriedForwardShareMedianOfDrives,1)}</td></tr>
+        ))}</tbody>
+      </table>
+      <div style={{fontSize:9,color:"#334155",marginTop:6}} data-cellobs-consistency="1">{pol?`Max below Min beyond resolution in ${pc(pol.share,2)}${pol.ci95?` (95 % interval ${pc(pol.ci95[0],2)}–${pc(pol.ci95[1],2)})`:""} of ${pol.pairs} polling-cycle pairs (${pol.nDrives} drives, ${pol.nDays} days), of the order of the Max / Min sampling offset shown above; nearest-sample pairings within 0.25, 0.5 and 1.5 s give the same share to within ${f(100*Math.max(...["nearest0.25","nearest0.5","nearest1.5"].map(k=>Math.abs(mm[k].share-pol.share))),3)} percentage points.`:"No Max / Min pairs in this stratum."} Where the published cell-spread resampling carries a value forward, it uses the stated share of 1 s grid points (none beyond its 3-sample limit); no cell-spread value is changed here.</div>
+      {Object.entries(D.otherChannels||{}).map(([c,v])=>(<div key={c} style={{fontSize:9,color:"#334155",marginTop:4}} data-cellobs-g01="1">The logged G01 channel has values about {f(v.scaleRatioToMaxMinMidMedianOfDrives,2)} times the Max / Min mid-range, so no band test and no cell wording are applied. Descriptive, added after the scale pre-check: |G01 − (Max + Min)| has a per-drive median of {f(v.descriptiveAbsDiffToMaxPlusMinV.p50MedianOfDrives,3)} V and a 95th percentile of {f(v.descriptiveAbsDiffToMaxPlusMinV.p95MedianOfDrives,3)} V, numerically consistent with Max + Min.</div>))}
+      <div style={{fontSize:9,color:"#94a3b8",marginTop:6}} data-cellobs-example="1">Selected-channel example, per-cell channels of {per.length} early drives: {per.map(x=>`${x.nCellChannels} per-cell channels, ${x.coverageClassCounts.sparse} of them below 50 % coverage`).join("; ")}. Raw files outside the master: {B.reconciliation.rawNotInMaster} ({B.reconciliation.rawNotInMasterByRole["auxiliary (e4ORCE exports)"]} auxiliary exports, {B.reconciliation.rawNotInMasterByRole["comparison_only (typedExclusions)"]} comparison-only captures).</div>
+    </Section>
+  );
+}
 function spreadConclusion(){
   const o=S.degradationTrends?.cellSpread?.clusterRobustOLS, ci=o?.ci95, sp=ciSpansZero(ci), rr=S.serialDependence?.trendSlopes?.cellSpread?.rowsRule;
   const proc=sp===false && rr?.classification==="procedure-dependent";
@@ -12002,6 +12029,7 @@ export default function App() {
         <Section title="Barometric / Air-Density Compensation (exploratory)" accent="#2563eb"><BaroCompensation/></Section>
         <Section title="HV Aux/Climate Load vs Ambient (exploratory)" accent="#ea580c"><AuxLoadAmbient/></Section>
         <Section title="Selected cell-channel snapshots (case study; asynchronously polled channels, not a simultaneous complete-pack array)" accent="#b45309"><FullCellCaseStudy/></Section>
+        <CellObservabilityView/>
         <Section title="Mountain-Road Pattern — Grade, Buffer State and Dissipation (M57)" accent="#7c3aed"><MountainPattern/></Section>
         <Section seasonAware title="Engine-Off Travel — Distance Share &amp; Longest Engine-Off Run" accent="#059669"><EvTraction/></Section>
         {S.regimeTransition && (()=>{const RT=S.regimeTransition;
