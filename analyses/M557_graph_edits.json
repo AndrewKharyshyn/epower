@@ -1,0 +1,145 @@
+{
+ "milestone": "M557",
+ "orderedBy": "Director ruling after the blind audit (R4): the only edits allowed to the frozen declarations",
+ "hashesBefore": {
+  "channel_dependency_graph.json": "200f39b394719e7da5703913868e30b99d6fc30950e3df8f77ab45e8b0deec61",
+  "independence_claims.json": "ee485971e3f76ec4b990cc91f2e3aa0e83974188060d027cce9f3f540f167699"
+ },
+ "hashesAfter": {
+  "channel_dependency_graph.json": "cfb40926c268c15b775479a800f12bec640a9ae533760d56cdb0515ef4c520f7",
+  "independence_claims.json": "d7d4545f17c634b6c4e03f6796f99d02afc916bc07cd7ff0d561ad57f5e05c29"
+ },
+ "edits": [
+  {
+   "node": "ceiling_defence_kw",
+   "parentsBefore": [
+    "engine_rpm",
+    "map_kpa",
+    "power_iv",
+    "displacement_fmep"
+   ],
+   "parentsAfter": [
+    "engine_rpm",
+    "boost_calc",
+    "engine_load_calc",
+    "soc_reported",
+    "vehicle_speed",
+    "hv_current",
+    "hv_voltage"
+   ],
+   "reason": "Director: FMEP and displacement are used only in energy.model, not in ceilingDefence or fuelCutCoast; the direct manifold-pressure parent is replaced by the calculated boost and load"
+  },
+  {
+   "node": "fuel_cut_coast_kw",
+   "parentsBefore": [
+    "engine_rpm",
+    "map_kpa",
+    "power_iv",
+    "displacement_fmep"
+   ],
+   "parentsAfter": [
+    "engine_rpm",
+    "boost_calc",
+    "engine_load_calc",
+    "soc_reported",
+    "vehicle_speed",
+    "hv_current",
+    "hv_voltage"
+   ],
+   "reason": "Director: FMEP and displacement are used only in energy.model, not in ceilingDefence or fuelCutCoast; the direct manifold-pressure parent is replaced by the calculated boost and load"
+  },
+  {
+   "node": "power_fade_trend",
+   "parentsBefore": [
+    "hv_current",
+    "hv_voltage",
+    "pack_temp"
+   ],
+   "parentsAfter": [
+    "vreg_r_proxy",
+    "pack_temp",
+    "hv_current"
+   ],
+   "reason": "Director: nested specifications fitted to the same response proxy; add the shared derived response node, SoC and the current timestamps through it"
+  },
+  {
+   "node": "resistance_vreg_trend",
+   "parentsBefore": [
+    "hv_current",
+    "hv_voltage",
+    "pack_temp"
+   ],
+   "parentsAfter": [
+    "vreg_r_proxy",
+    "pack_temp",
+    "hv_current"
+   ],
+   "reason": "Director: nested specifications fitted to the same response proxy; add the shared derived response node, SoC and the current timestamps through it"
+  },
+  {
+   "node": "power_fade_s1",
+   "parentsBefore": [
+    "hv_current",
+    "hv_voltage",
+    "pack_temp"
+   ],
+   "parentsAfter": [
+    "vreg_r_proxy",
+    "pack_temp",
+    "hv_current"
+   ],
+   "reason": "Director: nested specifications fitted to the same response proxy; add the shared derived response node, SoC and the current timestamps through it"
+  },
+  {
+   "node": "power_fade_s0_control",
+   "parentsBefore": [
+    "hv_current",
+    "hv_voltage",
+    "pack_temp"
+   ],
+   "parentsAfter": [
+    "vreg_r_proxy",
+    "pack_temp",
+    "hv_current"
+   ],
+   "reason": "Director: nested specifications fitted to the same response proxy; add the shared derived response node, SoC and the current timestamps through it"
+  },
+  {
+   "node": "power_fade_temp_specs",
+   "parentsBefore": [
+    "hv_current",
+    "hv_voltage",
+    "pack_temp"
+   ],
+   "parentsAfter": [
+    "vreg_r_proxy",
+    "pack_temp",
+    "hv_current"
+   ],
+   "reason": "Director: nested specifications fitted to the same response proxy; add the shared derived response node, SoC and the current timestamps through it"
+  },
+  {
+   "node": "vreg_r_proxy",
+   "added": true
+  },
+  {
+   "nodes": [
+    "serial_trend_cellspread",
+    "serial_trend_resistance",
+    "serial_misspec_cs",
+    "serial_misspec_rv"
+   ],
+   "removed": [
+    "serial_dependence_trend",
+    "serial_misspec_control"
+   ],
+   "reason": "Director: C4 and C5 mapped two different slopes to one node pair"
+  },
+  {
+   "node": "power_fade_temp_falsification",
+   "kindBefore": "model_output",
+   "kindAfter": "derived",
+   "reason": "Director: a decision rule, circular with its target by construction"
+  }
+ ]
+}

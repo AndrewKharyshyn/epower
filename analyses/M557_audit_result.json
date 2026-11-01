@@ -1,0 +1,179 @@
+{
+ "_meta": {
+  "auditor": "blind; read compute_summary_arrays.py, compute_drive_summary_v6.py, energy_mc_precompute.py, m119v2_model.py, degradation_trends.py, tools/{integration_scenarios,cadence_sensitivity,cadence_regime,serial_dependence,dependence_sensitivity,powerfade_equivalence,m499_temp_spec}.py and summary_arrays.json only; forbidden M557/graph/claims files not read",
+  "sharedUnverifiedConstant_rule": "strict: true only if the intersection contains a constant the repo marks verified:false (CAP_KWH=2.1, 20,000 GTC, FMEP etc.). Shared assumed processing parameters (step cap, alignment tolerance, classifier thresholds) are listed in sharedAssumedParameters and do not set the flag. See ambiguities.",
+  "headers": {
+   "I": "[BMS] HV Battery Current (A)",
+   "V": "[BMS] HV Battery voltage (V)",
+   "SoC": "[BMS] HV State of charge (%)",
+   "rpm": "Оберти двигуна (rpm)",
+   "speedVCM": "[VCM] Vehicle Speed (km/h)",
+   "speedOBD": "Швидкість автомобіля (km/h)",
+   "T1-T4": "[BMS] HV Battery Temperature Sensor 1..4 (℃)",
+   "Vcell": "[BMS] Max Cell Voltage (V) / [BMS] Min Cell Voltage (V)",
+   "boost": "Розрахунковий наддув (bar)",
+   "load": "Розрахункове значення навантаження на двигун (%)",
+   "torque": "[VCM] Target Motor Torque (N⋅m)",
+   "time": "time"
+  }
+ },
+ "1": {
+  "target": "Released gross throughput (energyUncertaintyMC.grossThroughputMC.nominalReleasedThroughputKwh = sum of drive_master gross_throughput_kwh from compute_drive_summary_v6.analyze_bytes, energy block ~l.624-700)",
+  "validator": "energy_mc_precompute._integrate at the 1500 ms nominal tolerance, compared with the master (energyUncertaintyMC.validation.maxAbsDevDischargeKwh = 5e-05)",
+  "targetRawAncestors": ["[BMS] HV Battery Current (A)", "[BMS] HV Battery voltage (V)", "time", "constants: V_ALIGN_TOL 1500 ms nearest merge_asof, DT_CAP_S 5 s step cap, |I|<900 A, V in [200,450] V; no current-offset term in gross throughput"],
+  "validatorRawAncestors": ["[BMS] HV Battery Current (A)", "[BMS] HV Battery voltage (V)", "time", "same constants (copied 'verbatim' per energy_mc_precompute header)"],
+  "shared": ["I", "V", "time", "nearest-match alignment 1500 ms", "5 s cap", "zero-crossing-aware split (M229)", "|I|<900, V 200-450 filters"],
+  "sharedAssumedParameters": ["DT_CAP_S=5", "V_ALIGN_TOL=1500 ms"],
+  "sharedUnverifiedConstant": false,
+  "class": "coding_check_only",
+  "evidence": "energy_mc_precompute._integrate docstring: 'byte-for-byte the same construction as compute_drive_summary_v6.py'; module header: 'independent re-implementation exercises the SAME algorithm'; validator not independent of target by design."
+ },
+ "2": {
+  "target": "Released gross throughput (as item 1)",
+  "validator": "energy_mc_precompute._integration_alt_estimators['trueTrapezoidal'] (energyUncertaintyMC.independentIntegrationCheck.trueTrapezoidal: n=592 drives, mean abs dev 0.456 %)",
+  "targetRawAncestors": ["[BMS] HV Battery Current (A)", "[BMS] HV Battery voltage (V)", "time", "V_ALIGN_TOL 1500 ms, DT_CAP_S 5 s"],
+  "validatorRawAncestors": ["[BMS] HV Battery Current (A)", "[BMS] HV Battery voltage (V)", "time (union of I and V native timestamps, linear interpolation, no extrapolation)", "DT_CAP_S 5 s", "same zero-crossing directional split; reference dis_ref/chg_ref taken from the released value"],
+  "shared": ["I", "V", "time", "5 s step cap", "zero-crossing split", "|I|<900 and V 200-450 filters (via _series)"],
+  "sharedAssumedParameters": ["DT_CAP_S=5", "I/V sample filters"],
+  "sharedUnverifiedConstant": false,
+  "class": "shared_raw_input",
+  "evidence": "Different alignment/interpolation numerics, same two logged channels and same cap; code comment says the M229 split was copied so deviation 'should now deviate ~0'. Not fully independent: the 5 s cap and channel pair are common; the cap is not varied in this check (varied elsewhere in integrationScenarios C2-C5)."
+ },
+ "3": {
+  "target": "bufferImpulse (compute_summary_arrays._buffer_impulse_summary / _buffer_impulse_events): nEvents=3293 over 606 drives",
+  "validator": "startEventChain.attritionFunnel (_start_event_chain, nWithFullChain=2511 of nWithBuffer=3293; nTrig=6761)",
+  "targetRawAncestors": ["Оберти двигуна (rpm)", "[BMS] HV Battery Current (A)", "[BMS] HV Battery voltage (V)", "time", "constants: rpm<=100 for 3 s then >800 trigger; excess>1.5 A, peak>=3 A, baseline window [-8,-2] s, search [-1,+8] s, V merge 3 s"],
+  "validatorRawAncestors": ["Оберти двигуна (rpm)", "[BMS] HV Battery Current (A)", "[BMS] HV Battery voltage (V)", "time", "[VCM] Vehicle Speed (km/h) (+OBD fallback via _apply_speed_priority)", "Розрахунковий наддув (bar) (boost onset 0.10, boost_obs)", "[BMS] HV State of charge (%)", "pack/coolant temperature, acceleration, target torque (context only)", "constants: load-point rpm 1400, plateau bin 250 rpm, 3 s plateau, debt floor 3 Wh, 120 s window"],
+  "shared": ["rpm", "I", "V", "time", "engine-start trigger definition", "the entire _buffer_impulse_events output (set setB is a component of the chain)"],
+  "sharedAssumedParameters": ["trigger thresholds 100/800 rpm, 3 s pre-off", "3 A peak gate"],
+  "sharedUnverifiedConstant": false,
+  "class": "circular",
+  "evidence": "_start_event_chain computes setB = {e['t0'] for e in _buffer_impulse_events(fr)} and intersects with ramp, handoff and debt-recovery sets; _buffer_debt_recovery_events also calls _buffer_impulse_events. The validator contains the target; the funnel ratio nWithFullChain/nWithBuffer is a conditional share, not a corroboration of the 3293."
+ },
+ "4": {
+  "target": "socHysteresisV2.ladder.start.fiveVarDur (blocked-day 5-fold CV; PR-AUC 0.0572)",
+  "validator": "socHysteresisV2.sensitivity.rollingOrigin.start.pooled (m119v2_model.rolling_origin_cv, PR-AUC 0.053)",
+  "targetRawAncestors": ["Оберти двигуна (rpm)", "[BMS] HV State of charge (%)", "[VCM] Vehicle Speed (km/h) (OBD fallback)", "[BMS] HV Battery Temperature Sensor 1-4 (℃) (>=3 sensors)", "[BMS] HV Battery Current (A)", "[BMS] HV Battery voltage (V) (demand = median discharge kW [t-8,t-2])", "time / calendar day (file name) for folds", "constants: RPM_OFF 100, RPM_ON 800, START_OFF_S 3, START_ON_S 2, carry-forward ages, RCS knots"],
+  "validatorRawAncestors": ["identical (same at-risk table tbl, same CORE5 complete cases, same DesignSpec fiveVarDur with INTERACTIONS)", "calendar day (forward-chaining folds)"],
+  "shared": ["entire at-risk table and feature construction", "spec fiveVarDur", "link cloglog", "day-clustered bootstrap code", "model selection performed on the full data (ladder/sensitivity_screen)"],
+  "sharedAssumedParameters": ["debounce thresholds", "spline knots (learned per fold)"],
+  "sharedUnverifiedConstant": false,
+  "class": "model_adequacy",
+  "evidence": "rolling_origin_cv docstring: runs the ALREADY-SELECTED fiveVarDur spec on rolling-origin folds of the same complete-case sample; changes only the split. Spec choice itself used full-data blocked CV, so the rolling-origin result is out-of-time for estimation only, not for design selection (acknowledged in the validator row note)."
+ },
+ "5": {
+  "target": "regimeTransition first-order Markov model (selfTransitionShare 0.802, nTransitions 601)",
+  "validator": "regimeTransition.secondOrder (_regime_transition_hardening item 4; nTriples 599, bicImprovement -183.5, lrP 0.109)",
+  "targetRawAncestors": ["drive_type per drive = classify_drive_type_tw on [VCM] Vehicle Speed (km/h) (OBD 'Швидкість автомобіля (km/h)' fallback, time-weighted; thresholds 3, 60, 90 km/h, pct_hw>0.4, pct_ur>0.6, avg_mov>60)", "drive date/time_start/time_end (file timestamps) for ordering"],
+  "validatorRawAncestors": ["same drive_type sequence and ordering (same triples sample as first-order refit)"],
+  "shared": ["drive_type labels", "chronological chain and chain-break rules", "all upstream speed data and classifier thresholds"],
+  "sharedAssumedParameters": ["drive-type thresholds (3/60/90 km/h, 0.4/0.6/60)"],
+  "sharedUnverifiedConstant": false,
+  "class": "model_adequacy",
+  "evidence": "secondOrder conditions on previous two drive types on the same sample; BIC/LR comparison of nested order. Row note itself: tests model adequacy, not a number match."
+ },
+ "6": {
+  "target": "powerFade.slopeMohmPerMoTctrl (compute_drive_summary_v6._powerfade_trend via compute_summary_arrays._power_fade: months + T_pack_mean_avg + vreg_I_p95_A + eff_dt_s + coverage_frac, day bootstrap seed 42)",
+  "validator": "degradationTrends.resistanceVreg (clusterRobustOLS: months + T + I, no cadence covariates; role sensitivity_cadence_uncontrolled, primaryEstimandRef=powerFade)",
+  "targetRawAncestors": ["vreg_R_pack_mohm: Huber regression of [BMS] HV Battery voltage (V) on [BMS] HV State of charge (%) and discharge current from [BMS] HV Battery Current (A) (time-aligned 1500 ms)", "T_pack_mean_avg from [BMS] HV Battery Temperature Sensor 1-4 (℃)", "vreg_I_p95_A from I", "HV-current timestamps (median interval eff_dt_s, coverage_frac)", "drive date", "ens_outlier_v2 clean set", "constants: VSAG_REST_A 5, VREG_MIN_N 300, VREG_MIN_I_P95 40, R plausibility window"],
+  "validatorRawAncestors": ["same y (vreg_R_pack_mohm), T_pack_mean_avg, vreg_I_p95_A, date, same clean set (n=274, 98 days) minus the two HV-current density covariates"],
+  "shared": ["vreg_R_pack_mohm proxy and all its raw channels", "T_pack_mean_avg", "vreg_I_p95_A", "date axis", "clean set"],
+  "sharedAssumedParameters": ["Huber epsilon 1.35", "proxy gates"],
+  "sharedUnverifiedConstant": false,
+  "class": "model_adequacy",
+  "evidence": "reconcile (compute_summary_arrays._reconcile_resistance_models docstring): 'the SAME regression with and WITHOUT the M170 cadence control'. Nested specifications on identical data; the validator is S0, the target S1 (a richer model). Different CI procedures (percentile day bootstrap vs cluster-robust OLS) but same y, rows and months scale up to 30.44 vs 30.4375."
+ },
+ "7": {
+  "target": "lowSpeedDissipation.energy.ceilingDefence.divertedMeanKw = 12.2 kW (28 drives, 1057 s; _low_speed_dissipation, motored seconds with SoC>=80)",
+  "validator": "lowSpeedDissipation.energy.fuelCutCoast.divertedMeanKw = 10.8 kW (66 drives, 679 s; motored seconds with SoC<80), published as energy.negativeControl (excessKw 1.4)",
+  "targetRawAncestors": ["[BMS] HV Battery Current (A)", "[BMS] HV Battery voltage (V)", "[BMS] HV State of charge (%)", "Оберти двигуна (rpm)", "Розрахунковий наддув (bar)", "Розрахункове значення навантаження на двигун (%)", "[VCM] Vehicle Speed (km/h) (decel control: dv<0, v>20, p_dis<0)", "time", "constants: RPM_MIN 2000, BOOST_MOTORED -0.70, LOAD_MAX 8, KNEE_SOC 80, control min 30 samples"],
+  "validatorRawAncestors": ["identical channels and identical formula divertedWh = ref*ns/3.6 - packWh with the same per-drive refChgKw"],
+  "shared": ["all channels", "motored classifier", "within-drive engine-off decel charge median reference", "grid construction (1 s resample, ffill 3)", "KNEE_SOC split variable"],
+  "sharedAssumedParameters": ["RPM_MIN, BOOST_MOTORED, LOAD_MAX, KNEE_SOC"],
+  "sharedUnverifiedConstant": false,
+  "class": "negative_control",
+  "nullMechanism": "Intended null: below the SoC knee the pack accepts regen normally, so true dissipation should be ~0 kW. Mechanism is NOT a clean null: diverted = ref*ns/3.6 - packWh with ref the median decel charge, so any motored second whose charge is below the median decel charge is booked as diverted (one-sided, positive bias by construction; code comment: 'pure method bias'). The control also differs from the target in drive set (66 vs 28 drives) and SoC range. Payload outcome: coastKw 10.8 kW (88 % of ceilingKw 12.2); control is far from null; excessKw 1.4 kW. No interval attached to either value.",
+  "underlyingRelation": "same function, same derivation on the complementary SoC subset (shared_raw_input)"
+ },
+ "8": {
+  "target": "loggerCadence.sensitivity.grossThroughputRatio.fastToSlow = 0.9741 [0.9728, 0.9755] (130 fast-regime drives, 26 days, 20 seeds; tools/cadence_sensitivity.py with tools/cadence_emulate.py)",
+  "validator": "grossThroughputRatio.slowToSlowerControl = 0.9167 [0.9088, 0.9232] (100 random slow-regime drives, factor 2.0 thinning)",
+  "targetRawAncestors": ["[BMS] HV Battery Current (A) and [BMS] HV Battery voltage (V) of the 130 fast drives after per-column thinning, re-run through analyze_bytes", "interval pool: HV-current (and other) update intervals of 40 random slow drives (pool seed 42)", "master gross_throughput_kwh of the same drives", "I_sample_period_s regime rule (<1.05 s fast)", "date (cluster)", "emulator draws (seeds 1-20, dithering)"],
+  "validatorRawAncestors": ["I and V of the 100 control slow drives thinned to 2x slow intervals, analyze_bytes", "the same interval pool (40 slow drives)", "same analyze_bytes algorithm, same emulator", "pool is drawn from slow_all, control from slow_ok: pool-drive/control-drive overlap not excluded by code"],
+  "shared": ["emulator and pool intervals", "analyze_bytes energy integration (5 s cap, 1500 ms alignment)", "I and V channel types", "ratio-of-sums day-bootstrap code", "possible overlap of pool drives with control drives"],
+  "sharedAssumedParameters": ["pool seed 42 / 40 pool drives", "DT_CAP_S 5", "V_ALIGN_TOL 1500"],
+  "sharedUnverifiedConstant": false,
+  "class": "negative_control",
+  "nullMechanism": "Not a null control: thinning logged I/V samples must reduce gross throughput (drops intra-interval peaks; ratio <1 expected), so the control is one-sided/biased by design. It tests reproducibility/dose-response of the emulator on the other regime (stronger thinning, 2x), not absence of a cadence effect. Payload outcome: 0.9167 [0.9088, 0.9232], close to fastToSlower 0.9080 [0.9057, 0.9102]; fastToSlow 0.9741. A genuine null for the emulator would be the keep-all identity (validation.identityKeepAllMaxAbsDiff 0.0), which is a different element.",
+  "underlyingRelation": "same algorithm on disjoint drive sets with a shared interval pool and a different factor (shared_raw_input via pool)"
+ },
+ "9": {
+  "target": "grossThroughputRatio.fastToSlow = 0.9741 [0.9728, 0.9755]",
+  "validator": "loggerCadence.sensitivity.negativeControls: peak_discharge_kw estimate -1.939 kW movementDetected true; peak_I_charge estimate +3.247 A movementDetected true (mean emulated-minus-original, same 130 drives)",
+  "targetRawAncestors": ["I", "V (thinned) over 130 fast drives", "interval pool of 40 slow drives"],
+  "validatorRawAncestors": ["peak_discharge_kw = max(P) from I and V; peak_I_charge = min(Id) from I; same thinned logs, same drives, same seeds"],
+  "shared": ["I and V of the same thinned logs", "emulator draws", "drive set and day clusters", "5 s cap/1500 ms alignment for the P series"],
+  "sharedAssumedParameters": ["as item 8"],
+  "sharedUnverifiedConstant": false,
+  "class": "negative_control",
+  "nullMechanism": "Labeled 'reported (one-sided bias; negative control)' in cadence_sensitivity.stat_key. Thinning can only remove samples, so extremum statistics must move in one direction (max P falls, min Id rises toward zero). They are expected NOT to be null: a positive/detection control showing the emulator can move a key, with guaranteed sign. Payload outcome: movementDetected true for both (-1.94 kW, +3.25 A). Because movement is guaranteed by construction, it validates emulator sensitivity but says nothing about whether the throughput ratio 0.974 is accurate.",
+  "underlyingRelation": "different statistics of the same thinned I/V logs (shared_raw_input)"
+ },
+ "10": {
+  "target": "serialDependence.trendSlopes.cellSpread: months slope of y ~ months + T + I (y = cell_spread_loaded_p95_mv; n=576, 117 days)",
+  "validator": "serialDependence.trendSlopes.cellSpread.misspecControl: rho_{1-3} of day-mean residuals before (design with months) and after (y ~ T + I + cubic spline of calendar day, no months): rhoPre 0.238, rhoPost 0.021, ci95 post [-0.129, 0.143], ci95 pre-minus-post [0.071, 0.403]",
+  "targetRawAncestors": ["[BMS] Max Cell Voltage (V)", "[BMS] Min Cell Voltage (V) (paired 300 ms, spread*1000, loaded p95)", "[BMS] HV Battery Current (A) (|I|>50 loaded filter; peak_I_discharge covariate)", "[BMS] HV Battery Temperature Sensor 1-4 (℃) -> T_pack_mean_avg", "drive date (months axis)", "ens_outlier_v2 clean set"],
+  "validatorRawAncestors": ["same y, T, I, date and rows; residuals of the same design (rhoPre); spline of calendar day replaces months (rhoPost)"],
+  "shared": ["everything: same y, covariates, rows, day clusters"],
+  "sharedAssumedParameters": ["SPREAD_TOL 300 ms", "loaded threshold 50 A", "spline: 4 interior knots at day quantiles"],
+  "sharedUnverifiedConstant": false,
+  "class": "negative_control",
+  "nullMechanism": "The control is not a null for the slope. It re-fits with a flexible time term to see whether apparent residual autocorrelation is slow mean structure. Expected: if dependence is only misspecification, rhoPost ~0; if AR(1) dependence, rhoPost also falls (stated caution in the block: drop 'also occurs under pure AR(1) in the harness'), so it is biased toward mimicking the misspecification story. It estimates rho, not the slope. Payload: rhoPre 0.238 -> rhoPost 0.021; block reading 'does not separate slow-varying mean structure from short-memory dependence at this precision'.",
+  "underlyingRelation": "model_adequacy (same data refit with different mean structure)"
+ },
+ "11": {
+  "target": "serialDependence.trendSlopes.resistanceVreg: months slope of y ~ months + T + I (y = vreg_R_pack_mohm; n=274, 98 days)",
+  "validator": "its misspecControl: rhoPre -0.0105, rhoPost -0.0421, ci95 post [-0.184, 0.077], ci95 pre-minus-post [-0.097, 0.188]",
+  "targetRawAncestors": ["vreg_R_pack_mohm (Huber V ~ SoC + Id from [BMS] HV Battery voltage (V), [BMS] HV State of charge (%), [BMS] HV Battery Current (A))", "T_pack_mean_avg from T1-T4", "vreg_I_p95_A", "date", "clean set"],
+  "validatorRawAncestors": ["same y, T, I, date, rows; spline of calendar day instead of months"],
+  "shared": ["everything"],
+  "sharedAssumedParameters": ["proxy gates", "spline knots"],
+  "sharedUnverifiedConstant": false,
+  "class": "negative_control",
+  "nullMechanism": "As item 10, but rhoPre is already ~0, so there is no dependence for the control to remove; it cannot discriminate (floor). Direction of change is within noise (pre-minus-post interval spans 0). Payload reading: 'does not separate slow-varying mean structure from short-memory dependence at this precision'. Estimates rho, not the slope; neither design includes the cadence covariates of powerFade S1.",
+  "underlyingRelation": "model_adequacy"
+ },
+ "12": {
+  "target": "powerFadeEquivalence.s1: slope 0.6564, se 0.5574, ci90 [-0.2693, 1.5821], pTOST 0.5798, notEstablished (y ~ months + T + I + de + dc; n=274, 98 days)",
+  "validator": "powerFadeEquivalence.s0Control: slope 0.886, se 0.537, ci90 [-0.0058, 1.7778], pTOST 0.7372 (y ~ months + T + I) through the same code path; the tool stops unless it reproduces the released resistanceVreg fit/TOST (STOP (i))",
+  "targetRawAncestors": ["vreg_R_pack_mohm (V, SoC, I)", "T_pack_mean_avg (T1-T4)", "vreg_I_p95_A", "HV-current timestamps (eff_dt_s, coverage_frac from powerfade_density.csv)", "date", "locked bound delta 0.5439 mOhm/month (read from resistanceVreg.releasedEquivalence; derived from an OEM-75%-over-14-years assumption)"],
+  "validatorRawAncestors": ["same without eff_dt_s and coverage_frac; same locked bound"],
+  "shared": ["y, T, I, date, rows, TOST code, locked bound"],
+  "sharedAssumedParameters": ["bound oem75pct_over14yr"],
+  "sharedUnverifiedConstant": false,
+  "class": "negative_control",
+  "nullMechanism": "S0 is a code-path known-answer/reproduction control, not a null: it reproduces the released cadence-UNCONTROLLED design, which the repo says is biased upward by logging density (slope +0.886 vs 0.656). It therefore guards implementation fidelity, not the S1 verdict. Payload outcome: reproduces released fit (STOP (i) passed), pTOST 0.737, equivalent false, equivalenceAttainable false (seMax 0.3275 < se 0.537).",
+  "underlyingRelation": "model_adequacy (nested, same data)"
+ },
+ "13": {
+  "target": "powerFadeTemperatureSpecs.specs (T0-T5 temperature specifications of the S1 months coefficient; decision outcome 'dependent', T3 day CI [0.685, 3.452] excludes zero)",
+  "validator": "powerFadeTemperatureSpecs.decision.falsificationClause (allSlopesWithinQuarterHalfWidth false, tippingShiftBelowQuarterHalfWidth false, T0DayHalfWidth 1.1318, reading 'sensitivity ... is present')",
+  "targetRawAncestors": ["as item 12 target", "pack_temp_start_c (seasonal_drive_master; T1-T4 at drive start)", "ambient_time_mean_c (seasonal_drive_master; driver-recorded ambient samples, unlogged external input)", "date"],
+  "validatorRawAncestors": ["derived entirely from the same fitted slopes (cond_a: |slope_s - T0 slope on paired subset| <= 0.25*H0), the T0 day-CI half-width H0, and the tipping row tau (cond_b: 1.0*|tau| < 0.25*H0); no new data"],
+  "shared": ["all of it: the clause is a deterministic function of the specification-set outputs"],
+  "sharedAssumedParameters": ["quarter-half-width criterion 0.25*H0 (frozen)", "tipping grid +-1 degC/month"],
+  "sharedUnverifiedConstant": false,
+  "class": "negative_control",
+  "nullMechanism": "Not a data control: the falsification clause is a pre-registered decision threshold computed from the same fits (tools/m499_temp_spec.py main, 'decision' block). It cannot be null/biased independent of the target; it is circular with the target. Payload outcome: both conditions false (max |slope diff| exceeds 0.283 = 0.25*1.1318; |tau| 1.394 > 0.283), so 'sensitivity present'. 12 intervals, no multiplicity adjustment.",
+  "underlyingRelation": "circular (validator is a function of the target set)"
+ },
+ "ambiguities": [
+  "sharedUnverifiedConstant: brief says 'assumed constant'. I used the strict repo sense (verified:false, e.g. CAP_KWH=2.1, 20,000 GTC) and found none in any intersection; if broader assumed processing parameters count (5 s step cap, 1500 ms tolerance, 90/60 km/h drive-type cut-offs, KNEE_SOC 80, locked bound 0.5439) then items 1,2,5,7,8,9,12,13 would be true. Class assignments do not change either way (a shared data input already exists in every item).",
+  "Item 1/2: 'released gross throughput' is the sum of master gross_throughput_kwh (no current offset applied, no CAP_KWH); GTC/FCE would add CAP_KWH (verified:false) but are not the named target.",
+  "Items 7-13: brief defines class 'negative_control' for these items but the validators are of different natures (complementary subset, emulator control, extremum keys, refit control, known-answer reproduction, decision-rule clause). I gave class=negative_control and the underlying structural relation in underlyingRelation.",
+  "Item 8: whether pool drives (40, drawn from slow_all with seed 42) overlap with control drives (100, drawn from slow_ok after the pool draw on the same RNG) was not determined from data; code does not forbid overlap.",
+  "Item 10/11: validator estimates serial correlation rho, not the slope; no number-to-number comparison is possible.",
+  "Item 3: bufferImpulse extras (bufferExtra: capacityMultiple) use CAP_KWH=2.1 but not the event count; excluded from ancestors of nEvents.",
+  "Item 4: model-form selection used full-data blocked CV, so rolling-origin is out-of-time for fitting only."
+ ]
+}

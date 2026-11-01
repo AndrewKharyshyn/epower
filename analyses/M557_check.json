@@ -1,0 +1,840 @@
+{
+ "milestone": "M557",
+ "mode": "--splice",
+ "graphSha256": "cfb40926c268c15b775479a800f12bec640a9ae533760d56cdb0515ef4c520f7",
+ "claimsSha256": "d7d4545f17c634b6c4e03f6796f99d02afc916bc07cd7ff0d561ad57f5e05c29",
+ "graphProblems": [],
+ "headerCheck": {
+  "nodes": 19,
+  "missing": []
+ },
+ "coverage": {
+  "ledgerChecks": 6,
+  "ledgerChecksWithoutClaim": [],
+  "claimsWithoutLedgerCheck": [],
+  "duplicateLedgerClaims": 0,
+  "scanHits": [
+   "/loggerCadence/sensitivity/grossThroughputRatio/slowToSlowerControl",
+   "/loggerCadence/sensitivity/negativeControls",
+   "/lowSpeedDissipation/energy/negativeControl",
+   "/powerFadeEquivalence/s0Control",
+   "/powerFadeTemperatureSpecs/decision/falsificationClause",
+   "/serialDependence/trendSlopes/cellSpread/misspecControl",
+   "/serialDependence/trendSlopes/resistanceVreg/misspecControl"
+  ],
+  "scanHitsWithoutClaim": [],
+  "controlClaimsWithoutHit": [],
+  "exclusionsSeen": [
+   "referenceIsControl"
+  ],
+  "exclusionsWithoutJustification": []
+ },
+ "auditResultSha256": "16dcd59135e4d2feb63186079998dfff1510d587924364a4cb68b1f535ec0bd7",
+ "claims": [
+  {
+   "id": "E1",
+   "origin": "ledger",
+   "target": "gross_throughput_kwh",
+   "targetLabel": "Gross throughput (released)",
+   "validators": [
+    "gross_throughput_reimpl"
+   ],
+   "validatorLabels": [
+    "Same-algorithm re-implementation of the gross throughput"
+   ],
+   "declaredClass": "coding_check_only",
+   "channelAxis": "same raw channels",
+   "sampleAxis": "same drives",
+   "algorithmAxis": "same algorithm",
+   "relation": "coding_check_only",
+   "sharedDataAncestors": [
+    "hv_current",
+    "hv_voltage"
+   ],
+   "sharedUnverifiedConstants": [],
+   "targetDataAncestors": [
+    "hv_current",
+    "hv_voltage"
+   ],
+   "validatorDataAncestors": [
+    "hv_current",
+    "hv_voltage"
+   ],
+   "computedClass": "coding_check_only",
+   "ledgerCheckLabel": "Same-algorithm re-implementation (coding-bug check only, not methodologically independent)",
+   "currentValidationStatus": "confirmed",
+   "rowValidationStatus": "confirmed",
+   "evidenceClass": "measured",
+   "wordingConflicts": [
+    "evidenceClass 'measured' on a derived quantity"
+   ],
+   "settledClass": "coding_check_only",
+   "auditNotes": [],
+   "preRegisteredClass": "coding_check_only",
+   "preRegisteredExpectationMet": true,
+   "auditor": {
+    "class": "coding_check_only",
+    "relation": null,
+    "sharedInputs": [
+     "I",
+     "V",
+     "time",
+     "nearest-match alignment 1500 ms",
+     "5 s cap",
+     "zero-crossing-aware split (M229)",
+     "|I|<900, V 200-450 filters"
+    ]
+   },
+   "ancestorDisagreement": true
+  },
+  {
+   "id": "E2",
+   "origin": "ledger",
+   "target": "gross_throughput_kwh",
+   "targetLabel": "Gross throughput (released)",
+   "validators": [
+    "gross_throughput_m220"
+   ],
+   "validatorLabels": [
+    "Independent re-integration (M220)"
+   ],
+   "declaredClass": "shared_raw_input",
+   "channelAxis": "same raw channels (current, voltage)",
+   "sampleAxis": "same drives",
+   "algorithmAxis": "different integration algorithm",
+   "relation": "shared_raw_input",
+   "sharedDataAncestors": [
+    "hv_current",
+    "hv_voltage"
+   ],
+   "sharedUnverifiedConstants": [],
+   "targetDataAncestors": [
+    "hv_current",
+    "hv_voltage"
+   ],
+   "validatorDataAncestors": [
+    "hv_current",
+    "hv_voltage"
+   ],
+   "computedClass": "shared_raw_input",
+   "ledgerCheckLabel": "Independent re-integration (M220, true trapezoidal on interpolated native timestamps)",
+   "currentValidationStatus": "confirmed",
+   "rowValidationStatus": "confirmed",
+   "evidenceClass": "measured",
+   "wordingConflicts": [
+    "the ledger text says 'independent' but the computed class is shared_raw_input",
+    "evidenceClass 'measured' on a derived quantity"
+   ],
+   "settledClass": "shared_raw_input",
+   "auditNotes": [],
+   "preRegisteredClass": "shared_raw_input",
+   "preRegisteredExpectationMet": true,
+   "auditor": {
+    "class": "shared_raw_input",
+    "relation": null,
+    "sharedInputs": [
+     "I",
+     "V",
+     "time",
+     "5 s step cap",
+     "zero-crossing split",
+     "|I|<900 and V 200-450 filters (via _series)"
+    ]
+   },
+   "ancestorDisagreement": true
+  },
+  {
+   "id": "E3",
+   "origin": "ledger",
+   "target": "buffer_impulse_events",
+   "targetLabel": "Buffer discharge-impulse events",
+   "validators": [
+    "four_detector_chain"
+   ],
+   "validatorLabels": [
+    "Four-detector start-event chain"
+   ],
+   "declaredClass": "circular",
+   "channelAxis": "overlapping (pack power, engine speed)",
+   "sampleAxis": "same events",
+   "algorithmAxis": "the chain includes the primary detector",
+   "relation": "circular",
+   "sharedDataAncestors": [],
+   "sharedUnverifiedConstants": [],
+   "targetDataAncestors": [
+    "engine_rpm",
+    "hv_current",
+    "hv_voltage"
+   ],
+   "validatorDataAncestors": [
+    "engine_rpm",
+    "hv_current",
+    "hv_voltage",
+    "motor_torque_actual"
+   ],
+   "computedClass": "circular",
+   "ledgerCheckLabel": "Full 4-detector chain reconciliation (M221 startEventChain: buffer AND ramp AND handoff AND recovery)",
+   "currentValidationStatus": "partially confirmed",
+   "rowValidationStatus": "partially confirmed",
+   "evidenceClass": "measured",
+   "wordingConflicts": [
+    "the ledger text says 'independent' but the computed class is circular",
+    "evidenceClass 'measured' on a derived quantity"
+   ],
+   "settledClass": "circular",
+   "auditNotes": [],
+   "preRegisteredClass": "circular",
+   "preRegisteredExpectationMet": true,
+   "auditor": {
+    "class": "circular",
+    "relation": null,
+    "sharedInputs": [
+     "rpm",
+     "I",
+     "V",
+     "time",
+     "engine-start trigger definition",
+     "the entire _buffer_impulse_events output (set setB is a component of the chain)"
+    ]
+   },
+   "ancestorDisagreement": true
+  },
+  {
+   "id": "E4",
+   "origin": "ledger",
+   "target": "hazard_start_model",
+   "targetLabel": "Engine-start hazard model (blocked-day CV)",
+   "validators": [
+    "rolling_origin_cv"
+   ],
+   "validatorLabels": [
+    "Rolling-origin cross-validation of the hazard model"
+   ],
+   "declaredClass": "model_adequacy",
+   "channelAxis": "same",
+   "sampleAxis": "same events, forward-chaining split",
+   "algorithmAxis": "same model, different split",
+   "relation": "model_adequacy",
+   "sharedDataAncestors": [],
+   "sharedUnverifiedConstants": [],
+   "targetDataAncestors": [
+    "engine_rpm",
+    "hv_current",
+    "hv_voltage",
+    "soc_reported"
+   ],
+   "validatorDataAncestors": [
+    "engine_rpm",
+    "hv_current",
+    "hv_voltage",
+    "soc_reported"
+   ],
+   "computedClass": "model_adequacy",
+   "ledgerCheckLabel": "Rolling-origin CV (M222, genuine train-on-past-only)",
+   "currentValidationStatus": "partially confirmed",
+   "rowValidationStatus": "partially confirmed",
+   "evidenceClass": "modeled",
+   "wordingConflicts": [],
+   "settledClass": "model_adequacy",
+   "auditNotes": [
+    "out-of-time for fitting only: the specification was selected on the full data"
+   ],
+   "preRegisteredClass": "model_adequacy",
+   "preRegisteredExpectationMet": true,
+   "auditor": {
+    "class": "model_adequacy",
+    "relation": null,
+    "sharedInputs": [
+     "entire at-risk table and feature construction",
+     "spec fiveVarDur",
+     "link cloglog",
+     "day-clustered bootstrap code",
+     "model selection performed on the full data (ladder/sensitivity_screen)"
+    ]
+   },
+   "ancestorDisagreement": true
+  },
+  {
+   "id": "E5",
+   "origin": "ledger",
+   "target": "regime_first_order",
+   "targetLabel": "First-order regime transition model",
+   "validators": [
+    "regime_second_order"
+   ],
+   "validatorLabels": [
+    "Second-order regime transition model"
+   ],
+   "declaredClass": "model_adequacy",
+   "channelAxis": "same",
+   "sampleAxis": "same transitions",
+   "algorithmAxis": "richer model order",
+   "relation": "model_adequacy",
+   "sharedDataAncestors": [],
+   "sharedUnverifiedConstants": [],
+   "targetDataAncestors": [
+    "vehicle_speed"
+   ],
+   "validatorDataAncestors": [
+    "vehicle_speed"
+   ],
+   "computedClass": "model_adequacy",
+   "ledgerCheckLabel": "Second-order model comparison (M223.2, previous-two-drive-type)",
+   "currentValidationStatus": "confirmed",
+   "rowValidationStatus": "confirmed",
+   "evidenceClass": "derived",
+   "wordingConflicts": [],
+   "settledClass": "model_adequacy",
+   "auditNotes": [],
+   "preRegisteredClass": "model_adequacy",
+   "preRegisteredExpectationMet": true,
+   "auditor": {
+    "class": "model_adequacy",
+    "relation": null,
+    "sharedInputs": [
+     "drive_type labels",
+     "chronological chain and chain-break rules",
+     "all upstream speed data and classifier thresholds"
+    ]
+   },
+   "ancestorDisagreement": true
+  },
+  {
+   "id": "E6",
+   "origin": "ledger",
+   "target": "power_fade_trend",
+   "targetLabel": "Resistance-proxy trend (powerFade)",
+   "validators": [
+    "resistance_vreg_trend"
+   ],
+   "validatorLabels": [
+    "Resistance-proxy trend (resistanceVreg)"
+   ],
+   "declaredClass": "shared_raw_input",
+   "channelAxis": "same raw channels (current, voltage, pack temperature)",
+   "sampleAxis": "overlapping drives",
+   "algorithmAxis": "different specification",
+   "relation": "shared_raw_input",
+   "sharedDataAncestors": [
+    "hv_current",
+    "hv_voltage",
+    "pack_temp",
+    "soc_reported"
+   ],
+   "sharedUnverifiedConstants": [],
+   "targetDataAncestors": [
+    "hv_current",
+    "hv_voltage",
+    "pack_temp",
+    "soc_reported"
+   ],
+   "validatorDataAncestors": [
+    "hv_current",
+    "hv_voltage",
+    "pack_temp",
+    "soc_reported"
+   ],
+   "computedClass": "shared_raw_input",
+   "ledgerCheckLabel": "resistanceVreg (sensitivity_cadence_uncontrolled, cluster-robust OLS, explicit sensitivity check against powerFade)",
+   "currentValidationStatus": "partially confirmed",
+   "rowValidationStatus": "partially confirmed",
+   "evidenceClass": "derived",
+   "wordingConflicts": [],
+   "settledClass": "model_adequacy",
+   "settledBy": "Director after blind audit (analyses/M557_audit_result.json): nested specifications fitted to the same response proxy on the same drives; the pre-registered expectation shared_raw_input is recorded as not met",
+   "auditNotes": [],
+   "preRegisteredClass": "shared_raw_input",
+   "preRegisteredExpectationMet": false,
+   "auditor": {
+    "class": "model_adequacy",
+    "relation": null,
+    "sharedInputs": [
+     "vreg_R_pack_mohm proxy and all its raw channels",
+     "T_pack_mean_avg",
+     "vreg_I_p95_A",
+     "date axis",
+     "clean set"
+    ]
+   },
+   "ancestorDisagreement": true
+  },
+  {
+   "id": "C1",
+   "origin": "control",
+   "target": "ceiling_defence_kw",
+   "targetLabel": "Ceiling-defence diverted power",
+   "validators": [
+    "fuel_cut_coast_kw"
+   ],
+   "validatorLabels": [
+    "Fuel-cut coast diverted power (bias reference)"
+   ],
+   "declaredClass": "negative_control",
+   "channelAxis": "same raw channels",
+   "sampleAxis": "disjoint operating modes",
+   "algorithmAxis": "same reference method",
+   "relation": "shared_raw_input",
+   "sharedDataAncestors": [
+    "baro_kpa",
+    "boost_calc",
+    "engine_load_calc",
+    "engine_load_latent",
+    "engine_rpm",
+    "hv_current",
+    "hv_voltage",
+    "map_kpa",
+    "soc_reported",
+    "vehicle_speed"
+   ],
+   "sharedUnverifiedConstants": [],
+   "targetDataAncestors": [
+    "baro_kpa",
+    "boost_calc",
+    "engine_load_calc",
+    "engine_load_latent",
+    "engine_rpm",
+    "hv_current",
+    "hv_voltage",
+    "map_kpa",
+    "soc_reported",
+    "vehicle_speed"
+   ],
+   "validatorDataAncestors": [
+    "baro_kpa",
+    "boost_calc",
+    "engine_load_calc",
+    "engine_load_latent",
+    "engine_rpm",
+    "hv_current",
+    "hv_voltage",
+    "map_kpa",
+    "soc_reported",
+    "vehicle_speed"
+   ],
+   "computedClass": "negative_control",
+   "controlProblems": [],
+   "expectedOutcome": "bias_reference",
+   "nullMechanism": "where the pack charges normally below the knee no dissipation can occur, so the diverted power the reference method reports there is the method's upward bias; it is a bias reference, not a null test of the headline",
+   "observedOutcome": {
+    "ceilingKw": 12.2,
+    "coastKw": 10.8,
+    "methodBiasKw": 10.8,
+    "excessKw": 1.4
+   },
+   "wordingFlags": [
+    "the payload block text uses the word 'measured' (reported, not changed)"
+   ],
+   "settledClass": "negative_control",
+   "auditNotes": [
+    "bias reference, not a null: coastKw is 88 % of ceilingKw by construction",
+    "the two sets contain different drives"
+   ],
+   "auditor": {
+    "class": "negative_control",
+    "relation": "same function, same derivation on the complementary SoC subset (shared_raw_input)",
+    "sharedInputs": [
+     "all channels",
+     "motored classifier",
+     "within-drive engine-off decel charge median reference",
+     "grid construction (1 s resample, ffill 3)",
+     "KNEE_SOC split variable"
+    ]
+   },
+   "ancestorDisagreement": true
+  },
+  {
+   "id": "C2",
+   "origin": "control",
+   "target": "cadence_thinning_estimate",
+   "targetLabel": "Cadence-emulated throughput ratio (fast to slow)",
+   "validators": [
+    "cadence_slow_to_slower"
+   ],
+   "validatorLabels": [
+    "Slow-to-slower thinning control"
+   ],
+   "declaredClass": "negative_control",
+   "channelAxis": "same raw channels",
+   "sampleAxis": "disjoint drives (fast versus slow regime)",
+   "algorithmAxis": "same emulator",
+   "relation": "shared_raw_input",
+   "sharedDataAncestors": [
+    "hv_current",
+    "hv_voltage"
+   ],
+   "sharedUnverifiedConstants": [],
+   "targetDataAncestors": [
+    "hv_current",
+    "hv_voltage"
+   ],
+   "validatorDataAncestors": [
+    "hv_current",
+    "hv_voltage"
+   ],
+   "computedClass": "negative_control",
+   "controlProblems": [],
+   "expectedOutcome": "bias_reference",
+   "nullMechanism": "the same thinning emulator applied to drives that are already at the slow interval, to separate the emulator's own effect from the fast-to-slow difference; a non-unit ratio is the emulator effect",
+   "observedOutcome": {
+    "estimate": 0.9167230769986581
+   },
+   "settledClass": "negative_control",
+   "auditNotes": [
+    "one-sided by construction: thinning must lower throughput",
+    "the pool and control drives may overlap (see poolControlOverlap)"
+   ],
+   "auditor": {
+    "class": "negative_control",
+    "relation": "same algorithm on disjoint drive sets with a shared interval pool and a different factor (shared_raw_input via pool)",
+    "sharedInputs": [
+     "emulator and pool intervals",
+     "analyze_bytes energy integration (5 s cap, 1500 ms alignment)",
+     "I and V channel types",
+     "ratio-of-sums day-bootstrap code",
+     "possible overlap of pool drives with control drives"
+    ]
+   },
+   "ancestorDisagreement": true,
+   "poolControlOverlap": {
+    "basis": "selection code of tools/cadence_sensitivity.py (seed 42) recomputed on the current corpus; the stored study keys are not available",
+    "nSlowWithRaw": 415,
+    "nSlowOk": 412,
+    "nPool": 40,
+    "nControl": 100,
+    "overlap": 12,
+    "overlapKeys": [
+     "20260610094100",
+     "20260611100510",
+     "20260617152114",
+     "20260722210850",
+     "20260723210016",
+     "20260804194234",
+     "20260906134827",
+     "20260914073658",
+     "20260916192942",
+     "20260922075937",
+     "20260922215914",
+     "20260929203913"
+    ]
+   }
+  },
+  {
+   "id": "C3",
+   "origin": "control",
+   "target": "cadence_thinning_estimate",
+   "targetLabel": "Cadence-emulated throughput ratio (fast to slow)",
+   "validators": [
+    "peak_keys_thinned"
+   ],
+   "validatorLabels": [
+    "Peak keys under emulated thinning"
+   ],
+   "declaredClass": "negative_control",
+   "channelAxis": "same raw channels",
+   "sampleAxis": "same drives",
+   "algorithmAxis": "different quantity (peaks)",
+   "relation": "shared_raw_input",
+   "sharedDataAncestors": [
+    "hv_current",
+    "hv_voltage"
+   ],
+   "sharedUnverifiedConstants": [],
+   "targetDataAncestors": [
+    "hv_current",
+    "hv_voltage"
+   ],
+   "validatorDataAncestors": [
+    "hv_current",
+    "hv_voltage"
+   ],
+   "computedClass": "negative_control",
+   "controlProblems": [],
+   "expectedOutcome": "nonnull_one_sided",
+   "nullMechanism": "peak keys are expected to move in one direction under thinning (a maximum cannot rise when samples are removed), so movement is the expected outcome and its sign is the check; no null is expected",
+   "observedOutcome": {
+    "peak_discharge_kw.estimate": -1.9392307692307695,
+    "peak_discharge_kw.movementDetected": true,
+    "peak_I_charge.estimate": 3.247038461538461,
+    "peak_I_charge.movementDetected": true
+   },
+   "movementByKey": {
+    "peak_discharge_kw": true,
+    "peak_I_charge": true
+   },
+   "settledClass": "negative_control",
+   "auditNotes": [
+    "one-sided by construction: a maximum cannot rise when samples are removed"
+   ],
+   "auditor": {
+    "class": "negative_control",
+    "relation": "different statistics of the same thinned I/V logs (shared_raw_input)",
+    "sharedInputs": [
+     "I and V of the same thinned logs",
+     "emulator draws",
+     "drive set and day clusters",
+     "5 s cap/1500 ms alignment for the P series"
+    ]
+   },
+   "ancestorDisagreement": true
+  },
+  {
+   "id": "C4",
+   "origin": "control",
+   "target": "serial_trend_cellspread",
+   "targetLabel": "Cell-spread trend slope under serial dependence",
+   "validators": [
+    "serial_misspec_cs"
+   ],
+   "validatorLabels": [
+    "Mis-specification control of the cell-spread trend"
+   ],
+   "declaredClass": "negative_control",
+   "channelAxis": "same",
+   "sampleAxis": "same drives",
+   "algorithmAxis": "diagnostic of the same residuals",
+   "relation": "model_adequacy",
+   "sharedDataAncestors": [],
+   "sharedUnverifiedConstants": [],
+   "targetDataAncestors": [
+    "cell_max",
+    "cell_min"
+   ],
+   "validatorDataAncestors": [
+    "cell_max",
+    "cell_min"
+   ],
+   "computedClass": "negative_control",
+   "controlProblems": [],
+   "expectedOutcome": "bias_reference",
+   "nullMechanism": "a drop of the residual autocorrelation after removing a slow mean also occurs under pure AR(1) in the harness, so the control is a reference for the drop and cannot by itself identify seasonal structure",
+   "observedOutcome": {
+    "rhoPre": 0.23804,
+    "rhoPost": 0.02102
+   },
+   "settledClass": "negative_control",
+   "auditNotes": [
+    "estimates residual autocorrelation, not the slope"
+   ],
+   "auditor": {
+    "class": "negative_control",
+    "relation": "model_adequacy (same data refit with different mean structure)",
+    "sharedInputs": [
+     "everything: same y, covariates, rows, day clusters"
+    ]
+   },
+   "ancestorDisagreement": true
+  },
+  {
+   "id": "C5",
+   "origin": "control",
+   "target": "serial_trend_resistance",
+   "targetLabel": "Resistance-proxy trend slope under serial dependence",
+   "validators": [
+    "serial_misspec_rv"
+   ],
+   "validatorLabels": [
+    "Mis-specification control of the resistance trend"
+   ],
+   "declaredClass": "negative_control",
+   "channelAxis": "same",
+   "sampleAxis": "same drives",
+   "algorithmAxis": "diagnostic of the same residuals",
+   "relation": "model_adequacy",
+   "sharedDataAncestors": [],
+   "sharedUnverifiedConstants": [],
+   "targetDataAncestors": [
+    "hv_current",
+    "hv_voltage",
+    "pack_temp",
+    "soc_reported"
+   ],
+   "validatorDataAncestors": [
+    "hv_current",
+    "hv_voltage",
+    "pack_temp",
+    "soc_reported"
+   ],
+   "computedClass": "negative_control",
+   "controlProblems": [],
+   "expectedOutcome": "bias_reference",
+   "nullMechanism": "as for the cell-spread control: the drop under pure AR(1) is the reference",
+   "observedOutcome": {
+    "rhoPre": -0.0105,
+    "rhoPost": -0.04205
+   },
+   "settledClass": "negative_control",
+   "auditNotes": [
+    "estimates residual autocorrelation, not the slope",
+    "cannot discriminate: the autocorrelation before the slow-mean removal is already about zero"
+   ],
+   "auditor": {
+    "class": "negative_control",
+    "relation": "model_adequacy",
+    "sharedInputs": [
+     "everything"
+    ]
+   },
+   "ancestorDisagreement": true
+  },
+  {
+   "id": "C6",
+   "origin": "control",
+   "target": "power_fade_s1",
+   "targetLabel": "Resistance-proxy equivalence specification S1",
+   "validators": [
+    "power_fade_s0_control"
+   ],
+   "validatorLabels": [
+    "Specification S0 control"
+   ],
+   "declaredClass": "negative_control",
+   "channelAxis": "same raw channels",
+   "sampleAxis": "same drives",
+   "algorithmAxis": "different specification",
+   "relation": "shared_raw_input",
+   "sharedDataAncestors": [
+    "hv_current",
+    "hv_voltage",
+    "pack_temp",
+    "soc_reported"
+   ],
+   "sharedUnverifiedConstants": [],
+   "targetDataAncestors": [
+    "hv_current",
+    "hv_voltage",
+    "pack_temp",
+    "soc_reported"
+   ],
+   "validatorDataAncestors": [
+    "hv_current",
+    "hv_voltage",
+    "pack_temp",
+    "soc_reported"
+   ],
+   "computedClass": "negative_control",
+   "controlProblems": [],
+   "expectedOutcome": "bias_reference",
+   "nullMechanism": "specification S0 is the cluster-robust OLS used as the reference slope; it is a specification reference, not a null control",
+   "observedOutcome": {
+    "slope": 0.886,
+    "se": 0.537,
+    "df": 97,
+    "pTOST": 0.7372,
+    "equivalent": false,
+    "nDrives": 274,
+    "nDays": 98,
+    "formula": "y ~ months + T + I",
+    "seMaxForEquivalence": 0.3275,
+    "equivalenceAttainable": false
+   },
+   "settledClass": "negative_control",
+   "settledRelation": "model_adequacy",
+   "settledBy": "Director after blind audit: nested specification fitted to the same response proxy on the same drives",
+   "auditNotes": [],
+   "auditor": {
+    "class": "negative_control",
+    "relation": "model_adequacy (nested, same data)",
+    "sharedInputs": [
+     "y, T, I, date, rows, TOST code, locked bound"
+    ]
+   },
+   "ancestorDisagreement": true
+  },
+  {
+   "id": "C7",
+   "origin": "control",
+   "target": "power_fade_temp_specs",
+   "targetLabel": "Resistance-proxy temperature specifications",
+   "validators": [
+    "power_fade_temp_falsification"
+   ],
+   "validatorLabels": [
+    "Temperature-specification falsification clause"
+   ],
+   "declaredClass": "decision_rule",
+   "channelAxis": "same",
+   "sampleAxis": "same drives",
+   "algorithmAxis": "decision rule on the specification set",
+   "relation": "circular",
+   "sharedDataAncestors": [],
+   "sharedUnverifiedConstants": [],
+   "targetDataAncestors": [
+    "hv_current",
+    "hv_voltage",
+    "pack_temp",
+    "soc_reported"
+   ],
+   "validatorDataAncestors": [
+    "hv_current",
+    "hv_voltage",
+    "pack_temp",
+    "soc_reported"
+   ],
+   "computedClass": "decision_rule",
+   "controlProblems": [],
+   "expectedOutcome": "decision_rule",
+   "nullMechanism": "a pre-registered decision rule on the spread of the specification slopes; its outcome is a decision, not a null result, and it adds no data or fit, so it is circular with its target by construction",
+   "observedOutcome": {
+    "allSlopesWithinQuarterHalfWidth": false,
+    "tippingShiftBelowQuarterHalfWidth": false,
+    "T0DayHalfWidth": 1.1318,
+    "reading": "sensitivity to temperature specification or to its coefficient is present"
+   },
+   "settledClass": "decision_rule",
+   "auditNotes": [
+    "pre-registered decision rule; circular with its target by construction"
+   ],
+   "auditor": {
+    "class": "negative_control",
+    "relation": "circular (validator is a function of the target set)",
+    "sharedInputs": [
+     "all of it: the clause is a deterministic function of the specification-set outputs"
+    ]
+   },
+   "ancestorDisagreement": true
+  }
+ ],
+ "nodeCounts": {
+  "raw_logged": 15,
+  "app_calculated": 4,
+  "latent_unlogged": 4,
+  "derived": 9,
+  "constant": 3,
+  "model_output": 18,
+  "external_reference": 0
+ },
+ "conflictClaims": [
+  "E1",
+  "E2",
+  "E3"
+ ],
+ "triggers": [
+  [
+   "E2",
+   "the ledger text says 'independent' but the computed class is shared_raw_input"
+  ],
+  [
+   "E3",
+   "the ledger text says 'independent' but the computed class is circular"
+  ]
+ ],
+ "preRegisteredNotMet": [
+  "E6"
+ ],
+ "settledOverrides": [
+  "E6",
+  "C6"
+ ],
+ "reconciliation": {
+  "signalValidityColumnsAlsoNodes": [],
+  "note": "the M556 registry channels (BMS 12 V, intake air, supply voltages) are not used by any claim; no overlap is expected"
+ },
+ "classCounts": {
+  "coding_check_only": 1,
+  "shared_raw_input": 2,
+  "circular": 1,
+  "model_adequacy": 2,
+  "negative_control": 6,
+  "decision_rule": 1
+ }
+}

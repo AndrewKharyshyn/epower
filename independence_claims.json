@@ -1,0 +1,264 @@
+{
+ "schemaVersion": 1,
+ "note": "Hand-curated declarations (spec analyses/M557_spec.md Rev 2). Coverage is checked against the evidenceLedger checks and a deterministic scan of the payload keys; the ingestion stage never edits this file.",
+ "classes": [
+  "independent",
+  "independent_conditional_on_unverified_constant",
+  "shared_raw_input",
+  "coding_check_only",
+  "model_adequacy",
+  "circular",
+  "negative_control",
+  "decision_rule"
+ ],
+ "expectedOutcomes": [
+  "null",
+  "nonnull",
+  "nonnull_one_sided",
+  "bias_reference",
+  "decision_rule"
+ ],
+ "scan": {
+  "keyPattern": "(?i)(negative_?controls?$|misspec_?control$|falsification_?clause$|s0_?control$|.*[a-z]control$)",
+  "exclusions": {
+   "cadenceControlled": "a boolean flag that a specification adjusts for cadence, not a control",
+   "referenceIsControl": "a boolean flag on a reference row",
+   "controlMatchesSnapshot": "a boolean consistency flag",
+   "demandControlledRegen": "a demand-controlled estimate, not a control",
+   "conditionControlledQuantiles": "a condition-controlled estimate, not a control",
+   "socControlSurface": "a SoC control surface (an analysis object), not a validation control",
+   "controlSlowToSlowerDrives": "the drive count of the slow-to-slower control, covered by its own claim"
+  }
+ },
+ "claims": [
+  {
+   "id": "E1",
+   "origin": "ledger",
+   "ledgerRef": {
+    "sourceKey": "energyUncertaintyMC",
+    "checkIndex": 0
+   },
+   "target": "gross_throughput_kwh",
+   "validators": [
+    "gross_throughput_reimpl"
+   ],
+   "declaredClass": "coding_check_only",
+   "channelAxis": "same raw channels",
+   "sampleAxis": "same drives",
+   "algorithmAxis": "same algorithm"
+  },
+  {
+   "id": "E2",
+   "origin": "ledger",
+   "ledgerRef": {
+    "sourceKey": "energyUncertaintyMC",
+    "checkIndex": 1
+   },
+   "target": "gross_throughput_kwh",
+   "validators": [
+    "gross_throughput_m220"
+   ],
+   "declaredClass": "shared_raw_input",
+   "channelAxis": "same raw channels (current, voltage)",
+   "sampleAxis": "same drives",
+   "algorithmAxis": "different integration algorithm"
+  },
+  {
+   "id": "E3",
+   "origin": "ledger",
+   "ledgerRef": {
+    "sourceKey": "startEventChain",
+    "checkIndex": 0
+   },
+   "target": "buffer_impulse_events",
+   "validators": [
+    "four_detector_chain"
+   ],
+   "declaredClass": "circular",
+   "channelAxis": "overlapping (pack power, engine speed)",
+   "sampleAxis": "same events",
+   "algorithmAxis": "the chain includes the primary detector"
+  },
+  {
+   "id": "E4",
+   "origin": "ledger",
+   "ledgerRef": {
+    "sourceKey": "socHysteresisV2",
+    "checkIndex": 0
+   },
+   "target": "hazard_start_model",
+   "validators": [
+    "rolling_origin_cv"
+   ],
+   "declaredClass": "model_adequacy",
+   "channelAxis": "same",
+   "sampleAxis": "same events, forward-chaining split",
+   "algorithmAxis": "same model, different split",
+   "auditNotes": [
+    "out-of-time for fitting only: the specification was selected on the full data"
+   ]
+  },
+  {
+   "id": "E5",
+   "origin": "ledger",
+   "ledgerRef": {
+    "sourceKey": "regimeTransition",
+    "checkIndex": 0
+   },
+   "target": "regime_first_order",
+   "validators": [
+    "regime_second_order"
+   ],
+   "declaredClass": "model_adequacy",
+   "channelAxis": "same",
+   "sampleAxis": "same transitions",
+   "algorithmAxis": "richer model order"
+  },
+  {
+   "id": "E6",
+   "origin": "ledger",
+   "ledgerRef": {
+    "sourceKey": "powerFade",
+    "checkIndex": 0
+   },
+   "target": "power_fade_trend",
+   "validators": [
+    "resistance_vreg_trend"
+   ],
+   "declaredClass": "shared_raw_input",
+   "channelAxis": "same raw channels (current, voltage, pack temperature)",
+   "sampleAxis": "overlapping drives",
+   "algorithmAxis": "different specification",
+   "settledClass": "model_adequacy",
+   "settledBy": "Director after blind audit (analyses/M557_audit_result.json): nested specifications fitted to the same response proxy on the same drives; the pre-registered expectation shared_raw_input is recorded as not met"
+  },
+  {
+   "id": "C1",
+   "origin": "control",
+   "payloadPath": "/lowSpeedDissipation/energy/negativeControl",
+   "target": "ceiling_defence_kw",
+   "validators": [
+    "fuel_cut_coast_kw"
+   ],
+   "declaredClass": "negative_control",
+   "expectedOutcome": "bias_reference",
+   "nullMechanism": "where the pack charges normally below the knee no dissipation can occur, so the diverted power the reference method reports there is the method's upward bias; it is a bias reference, not a null test of the headline",
+   "channelAxis": "same raw channels",
+   "sampleAxis": "disjoint operating modes",
+   "algorithmAxis": "same reference method",
+   "auditNotes": [
+    "bias reference, not a null: coastKw is 88 % of ceilingKw by construction",
+    "the two sets contain different drives"
+   ]
+  },
+  {
+   "id": "C2",
+   "origin": "control",
+   "payloadPath": "/loggerCadence/sensitivity/grossThroughputRatio/slowToSlowerControl",
+   "target": "cadence_thinning_estimate",
+   "validators": [
+    "cadence_slow_to_slower"
+   ],
+   "declaredClass": "negative_control",
+   "expectedOutcome": "bias_reference",
+   "nullMechanism": "the same thinning emulator applied to drives that are already at the slow interval, to separate the emulator's own effect from the fast-to-slow difference; a non-unit ratio is the emulator effect",
+   "channelAxis": "same raw channels",
+   "sampleAxis": "disjoint drives (fast versus slow regime)",
+   "algorithmAxis": "same emulator",
+   "auditNotes": [
+    "one-sided by construction: thinning must lower throughput",
+    "the pool and control drives may overlap (see poolControlOverlap)"
+   ]
+  },
+  {
+   "id": "C3",
+   "origin": "control",
+   "payloadPath": "/loggerCadence/sensitivity/negativeControls",
+   "target": "cadence_thinning_estimate",
+   "validators": [
+    "peak_keys_thinned"
+   ],
+   "declaredClass": "negative_control",
+   "expectedOutcome": "nonnull_one_sided",
+   "nullMechanism": "peak keys are expected to move in one direction under thinning (a maximum cannot rise when samples are removed), so movement is the expected outcome and its sign is the check; no null is expected",
+   "channelAxis": "same raw channels",
+   "sampleAxis": "same drives",
+   "algorithmAxis": "different quantity (peaks)",
+   "auditNotes": [
+    "one-sided by construction: a maximum cannot rise when samples are removed"
+   ]
+  },
+  {
+   "id": "C4",
+   "origin": "control",
+   "payloadPath": "/serialDependence/trendSlopes/cellSpread/misspecControl",
+   "target": "serial_trend_cellspread",
+   "validators": [
+    "serial_misspec_cs"
+   ],
+   "declaredClass": "negative_control",
+   "expectedOutcome": "bias_reference",
+   "nullMechanism": "a drop of the residual autocorrelation after removing a slow mean also occurs under pure AR(1) in the harness, so the control is a reference for the drop and cannot by itself identify seasonal structure",
+   "channelAxis": "same",
+   "sampleAxis": "same drives",
+   "algorithmAxis": "diagnostic of the same residuals",
+   "auditNotes": [
+    "estimates residual autocorrelation, not the slope"
+   ]
+  },
+  {
+   "id": "C5",
+   "origin": "control",
+   "payloadPath": "/serialDependence/trendSlopes/resistanceVreg/misspecControl",
+   "target": "serial_trend_resistance",
+   "validators": [
+    "serial_misspec_rv"
+   ],
+   "declaredClass": "negative_control",
+   "expectedOutcome": "bias_reference",
+   "nullMechanism": "as for the cell-spread control: the drop under pure AR(1) is the reference",
+   "channelAxis": "same",
+   "sampleAxis": "same drives",
+   "algorithmAxis": "diagnostic of the same residuals",
+   "auditNotes": [
+    "estimates residual autocorrelation, not the slope",
+    "cannot discriminate: the autocorrelation before the slow-mean removal is already about zero"
+   ]
+  },
+  {
+   "id": "C6",
+   "origin": "control",
+   "payloadPath": "/powerFadeEquivalence/s0Control",
+   "target": "power_fade_s1",
+   "validators": [
+    "power_fade_s0_control"
+   ],
+   "declaredClass": "negative_control",
+   "expectedOutcome": "bias_reference",
+   "nullMechanism": "specification S0 is the cluster-robust OLS used as the reference slope; it is a specification reference, not a null control",
+   "channelAxis": "same raw channels",
+   "sampleAxis": "same drives",
+   "algorithmAxis": "different specification",
+   "settledRelation": "model_adequacy",
+   "settledBy": "Director after blind audit: nested specification fitted to the same response proxy on the same drives"
+  },
+  {
+   "id": "C7",
+   "origin": "control",
+   "payloadPath": "/powerFadeTemperatureSpecs/decision/falsificationClause",
+   "target": "power_fade_temp_specs",
+   "validators": [
+    "power_fade_temp_falsification"
+   ],
+   "declaredClass": "decision_rule",
+   "expectedOutcome": "decision_rule",
+   "nullMechanism": "a pre-registered decision rule on the spread of the specification slopes; its outcome is a decision, not a null result, and it adds no data or fit, so it is circular with its target by construction",
+   "channelAxis": "same",
+   "sampleAxis": "same drives",
+   "algorithmAxis": "decision rule on the specification set",
+   "auditNotes": [
+    "pre-registered decision rule; circular with its target by construction"
+   ]
+  }
+ ]
+}
