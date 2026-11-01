@@ -530,6 +530,8 @@ RULES = [
          rx=r"\bpooled (energy )?runs?\b|\bruns? are comparable\b|\benergy exchange cycles?\b|\btiny runs? (carry|cause) \w+ stress\b", scope=("dom", "jsx", "payload")),
     Rule("M552-N02-window-maxima", "regex", "M552/AUD29-N02: an observed window maximum of the logged, reconstructed power is not a rating, capability or limit, and the cadence strata are not pooled or called comparable",
          rx=r"\bobserved (net )?mean power (rating|capability|limit)s?\b|\bwindow (maxima|maximum) (is|are) (a )?(rating|capability|limit)s?\b|\bpower demand (rating|capability)\b", scope=("dom", "jsx", "payload")),
+    Rule("M553-N13-window-use", "regex", "M553/AUD29-N13: the excursion of the integrated charge or terminal energy is not a usable capacity, depth of discharge, cycle count or state of health; the assumed 2.1 kWh window is unverified, a window-use verdict neither proves nor refutes the thesis, and the cadence strata are not pooled",
+         rx=r"\b(window|battery) (is |was |gets? )?(used up|exhausted)\b|\bproves? (the )?(buffer|thesis)\b|\bmeasured (net charge|soc) excursion\b|\busable capacity of [0-9]|\bdepth of discharge (of|is) [0-9]|\bpooled (window|excursion)s?\b", scope=("dom", "jsx", "payload")),
 ]
 
 _SCAN_CACHE = {}

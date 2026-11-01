@@ -5034,6 +5034,39 @@ function PowerDurationView(){
     </Section>
   );
 }
+function WindowUseView(){
+  const B=S.windowUse, [st,setSt]=useState(null);
+  if(!B||!B.strata) return null;
+  const keys=Object.keys(B.strata).filter(k=>k!=="unknown"), cur=st&&B.strata[st]?st:keys[0], D=B.strata[cur];
+  const f=(x,n=2)=>x==null?"—":Number(x).toFixed(n), pv=(x,n=2)=>x&&x.value!=null?`${f(x.value,n)}${x.ci95?` (${f(x.ci95[0],n)}–${f(x.ci95[1],n)})`:""}`:"—";
+  const pc=x=>x==null?"—":`${(100*x).toFixed(1)} %`;
+  const lab={fast:"fast-polled drives",slow:"slow-polled drives"}, rf=D.referenceFree, aw=D.assumedWindow, R=D.throughputOverExcursion, so=D.socVersusCharge, os=D.offsetSensitivity;
+  return (
+    <Section title="Use of the Assumed Battery Window (descriptive)" accent="#34d399">
+      <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-window-note="1">Per drive, the excursion of the integrated net charge (Ah, estimated from the logged pack current) and of the terminal energy (kWh, a reconstructed current × voltage integral, not stored energy), the reported state-of-charge excursion in points, and how those compare with an assumed 2.1 kWh window (verified:false, unchanged). Reference-free rows come first. Strata are not comparable and no pooled value is given; the upper bracket sums segment excursions (no gap bridging), the lower bracket is the largest single segment.</div>
+      <div style={{display:"flex",gap:6,marginBottom:6}}>
+        {keys.map(k=>(<button key={k} data-window-stratum={k} onClick={()=>setSt(k)} style={{fontSize:10,padding:"3px 8px",borderRadius:4,cursor:"pointer",border:"1px solid #cbd5e1",background:cur===k?"#0f172a":"#fff",color:cur===k?"#fff":"#334155"}}>{lab[k]||k}</button>))}
+      </div>
+      <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-window-support="1">{D.nDrives} drives on {D.nDays} days. Known answers checked on every drive: closure to the master net draw, and net ≤ excursion ≤ gross throughput.</div>
+      <table style={{width:"100%",fontSize:9,borderCollapse:"collapse"}} data-window-ref="1">
+        <thead><tr style={{color:"#64748b",textAlign:"right"}}><th style={{textAlign:"left"}}>reference-free</th><th>median</th><th>p90</th><th>p95</th></tr></thead>
+        <tbody>
+          <tr data-window-row="ah" style={{textAlign:"right",borderTop:"1px solid #e2e8f0"}}><td style={{textAlign:"left"}}>net charge excursion, Ah (upper bracket)</td><td>{pv(rf.netChargeExcursionAhUpper.p50)}</td><td>{pv(rf.netChargeExcursionAhUpper.p90)}</td><td>{pv(rf.netChargeExcursionAhUpper.p95)}</td></tr>
+          <tr data-window-row="soc" style={{textAlign:"right",borderTop:"1px solid #e2e8f0"}}><td style={{textAlign:"left"}}>reported SoC excursion, points</td><td>{pv(rf.reportedSocExcursionPoints.p50,1)}</td><td>{pv(rf.reportedSocExcursionPoints.p90,1)}</td><td>{pv(rf.reportedSocExcursionPoints.p95,1)}</td></tr>
+          <tr data-window-row="socshare" style={{textAlign:"right",borderTop:"1px solid #e2e8f0"}}><td style={{textAlign:"left"}}>SoC excursion / observed range ({f(rf.observedSocRange.widthPoints,1)} points, not a BMS limit)</td><td>{pc(rf.socExcursionShareOfObservedRange.p50)}</td><td>{pc(rf.socExcursionShareOfObservedRange.p90)}</td><td>{pc(rf.socExcursionShareOfObservedRange.p95)}</td></tr>
+          <tr data-window-row="R" style={{textAlign:"right",borderTop:"1px solid #e2e8f0"}}><td style={{textAlign:"left"}}>gross throughput / energy excursion (R, no capacity assumed)</td><td colSpan={3}>median {pv({value:R.median,ci95:R.ci95},1)}; 5th percentile {f(R.p5,1)}; {R.nDrives} drives, {R.nDays} days</td></tr>
+        </tbody>
+      </table>
+      <table style={{width:"100%",fontSize:9,borderCollapse:"collapse",marginTop:8}} data-window-assumed="1">
+        <thead><tr style={{color:"#64748b",textAlign:"right"}}><th style={{textAlign:"left"}}>assumed window (verified:false)</th><th>median share</th><th>p95 share</th><th>drives ≥ 25 %</th><th>drives ≥ 50 %</th><th>drives ≥ 100 %</th></tr></thead>
+        <tbody>{Object.entries(aw).map(([cap,r])=>(
+          <tr key={cap} data-window-cap={cap} style={{textAlign:"right",borderTop:"1px solid #e2e8f0"}}><td style={{textAlign:"left"}}>{cap} kWh{cap==="2.1"?" (CAP_KWH)":" (sensitivity)"}</td><td>{pc(r.shareUpper.p50.value)}</td><td>{pc(r.shareUpper.p95.value)}</td>{["0.25","0.5","1.0"].map(t=>(<td key={t}>{pc(r["drivesWithShareAtLeast"+t].share)}</td>))}</tr>
+        ))}</tbody>
+      </table>
+      <div style={{fontSize:9,color:"#94a3b8",marginTop:6}} data-window-footnote="1">Rule (fixed before the data): {R.rule}. Verdict at 1.5 kWh: {R["verdictAtCap1.5"]}; at 2.1 kWh: {R["verdictAtCap2.1"]}. Neither verdict is a proof, and "not supported" would not be evidence against buffer use. {os&&os.removedOffset?`With the logged current offset removed, ${os.removedOffset.classificationFlips} drive(s) change the share ≥ 100 % classification at 2.1 kWh (${f(100*os.removedOffset.shareAtLeast1At2p1,1)} % of drives remain at or above the line); the verdict is unchanged. `:""}{so?`Reported SoC versus integrated charge excursion: Spearman ${f(so.spearman)}, partial on duration ${f(so.partialOnDuration)} (0.5-point SoC steps; extremes are not time-aligned). `:""}Reported SoC confinement is a controller policy, not proof of capacity; the 5 Ah rated figure is a lead only and no capacity, depth-of-discharge or state-of-health quantity is estimated here.</div>
+    </Section>
+  );
+}
 function spreadConclusion(){
   const o=S.degradationTrends?.cellSpread?.clusterRobustOLS, ci=o?.ci95, sp=ciSpansZero(ci), rr=S.serialDependence?.trendSlopes?.cellSpread?.rowsRule;
   const proc=sp===false && rr?.classification==="procedure-dependent";
@@ -12681,6 +12714,7 @@ export default function App() {
         </Section>
         <EnergyPacketsView/>
         <PowerDurationView/>
+        <WindowUseView/>
       </>)}
 
       {/* ── HEALTH ── */}
