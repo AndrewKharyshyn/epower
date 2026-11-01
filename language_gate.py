@@ -540,6 +540,8 @@ RULES = [
          rx=r"\b(0 ?v supply|zero volt(age)? supply|dead 12 ?v|failed dc ?/? ?dc|12 ?v (battery )?(is |was )?(dead|faulty|failed))\b|\b(sensor|invalid sensor) fault\w*|\binvalid sensor\b|\bmeasured 0 ?v\b|\bnot supported by the ecu\b|\bintake air (sensor )?(overheat\w*|fault|error)\b", scope=("dom", "jsx", "payload")),
     Rule("M557-N08-dependency", "regex", "M557/AUD29-N08: a check that shares the raw channels of its target, re-codes the same derivation or contains its target is not an independent validation; a derived sibling does not validate its parent; the class of a check does not say whether it is useful",
          rx=r"\bindependent validation (by|from|through) (a )?(same algorithm|re ?implementation|rolling origin|second order)\w*|\bderived sibling validates (its|the) parent\b|\bcircular check (confirms|proves|validates)\w*|\bshared input check (is|as) independent\b", scope=("dom", "jsx", "payload")),
+    Rule("M559-N03-purpose", "regex", "M559/AUD29-N03: rotation is logged, combustion and purpose are not; the fuel, boost and load channels are proxies and the candidate labels are non-exclusive, so no state is stated as the purpose of the engine; fuel cut is never confirmed",
+         rx=r"\bthe engine (runs|is running|is rotating) (in order )?to (warm up|dissipate|burn off|charge)\w*|\bengine (is )?(burning|dissipating) (off )?(surplus|excess) energy\b|\bfuel cut(-?off)? (is )?(confirmed|proven|proved|detected)\b|\b(confirmed|proven) (fuel cut|dissipation|motoring)\b|\bpurpose of the (engine|rotation) is\b|\bexclusive (purpose|label|state)\b", scope=("dom", "jsx", "payload")),
 ]
 
 _SCAN_CACHE = {}

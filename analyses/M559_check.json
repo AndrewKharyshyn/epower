@@ -1,0 +1,4092 @@
+{
+ "milestone": "M559",
+ "mode": "--splice",
+ "stats": {
+  "cacheHits": 606,
+  "extracted": 0,
+  "noRaw": 0,
+  "notOk": 11
+ },
+ "knownAnswer": {
+  "n": {
+   "drives": 595,
+   "legacyEqNew": 595
+  },
+  "misses": {},
+  "legacyMotoredSecondsFromCache": 1736,
+  "dissipationCensusPayloadMotoredSamples": 1736,
+  "residualSeconds": 0
+ },
+ "extractorSourceHash": "96fe44e278026ac1",
+ "eligible": {
+  "masterRows": 606,
+  "withRaw": 606,
+  "ok": 595,
+  "canonClean": 593,
+  "fuelAllZeroOrMissing": 246,
+  "noBoostOrLoad": 51,
+  "noCoolant": 0
+ },
+ "strata": {
+  "fast": {
+   "nDrives": 163,
+   "nDays": 36,
+   "rotatingSeconds": 78001,
+   "flow": {
+    "charging": {
+     "share": 0.632723,
+     "ci95": [
+      0.562321,
+      0.752924
+     ],
+     "pairs": 78001,
+     "violations": 49353,
+     "nDrives": 163,
+     "nDays": 36
+    },
+    "neutral": {
+     "share": 0.072897,
+     "ci95": [
+      0.044795,
+      0.095483
+     ],
+     "pairs": 78001,
+     "violations": 5686,
+     "nDrives": 163,
+     "nDays": 36
+    },
+    "discharging": {
+     "share": 0.294265,
+     "ci95": [
+      0.198129,
+      0.349574
+     ],
+     "pairs": 78001,
+     "violations": 22953,
+     "nDrives": 163,
+     "nDays": 36
+    },
+    "unknown": {
+     "share": 0.000115,
+     "ci95": [
+      3.1e-05,
+      0.000258
+     ],
+     "pairs": 78001,
+     "violations": 9,
+     "nDrives": 163,
+     "nDays": 36
+    }
+   },
+   "thermal": {
+    "cold": {
+     "share": 0.165959,
+     "ci95": [
+      0.108127,
+      0.262165
+     ],
+     "pairs": 78001,
+     "violations": 12945,
+     "nDrives": 163,
+     "nDays": 36
+    },
+    "warming": {
+     "share": 0.197138,
+     "ci95": [
+      0.144811,
+      0.28027
+     ],
+     "pairs": 78001,
+     "violations": 15377,
+     "nDrives": 163,
+     "nDays": 36
+    },
+    "warm": {
+     "share": 0.636812,
+     "ci95": [
+      0.462575,
+      0.742478
+     ],
+     "pairs": 78001,
+     "violations": 49672,
+     "nDrives": 163,
+     "nDays": 36
+    },
+    "unknown": {
+     "share": 9e-05,
+     "ci95": [
+      1.7e-05,
+      0.000223
+     ],
+     "pairs": 78001,
+     "violations": 7,
+     "nDrives": 163,
+     "nDays": 36
+    }
+   },
+   "comb": {
+    "motored": {
+     "share": 0.024936,
+     "ci95": [
+      0.016344,
+      0.039669
+     ],
+     "pairs": 78001,
+     "violations": 1945,
+     "nDrives": 163,
+     "nDays": 36
+    },
+    "ambiguous": {
+     "share": 0.029666,
+     "ci95": [
+      0.021764,
+      0.042018
+     ],
+     "pairs": 78001,
+     "violations": 2314,
+     "nDrives": 163,
+     "nDays": 36
+    },
+    "fuelled": {
+     "share": 0.94536,
+     "ci95": [
+      0.919316,
+      0.959855
+     ],
+     "pairs": 78001,
+     "violations": 73739,
+     "nDrives": 163,
+     "nDays": 36
+    },
+    "no_signal": {
+     "share": 3.8e-05,
+     "ci95": [
+      0.0,
+      0.000146
+     ],
+     "pairs": 78001,
+     "violations": 3,
+     "nDrives": 163,
+     "nDays": 36
+    }
+   },
+   "rotation": {
+    "low": {
+     "share": 0.019282,
+     "ci95": [
+      0.017033,
+      0.021838
+     ],
+     "pairs": 78001,
+     "violations": 1504,
+     "nDrives": 163,
+     "nDays": 36
+    },
+    "mid": {
+     "share": 0.505442,
+     "ci95": [
+      0.446273,
+      0.603685
+     ],
+     "pairs": 78001,
+     "violations": 39425,
+     "nDrives": 163,
+     "nDays": 36
+    },
+    "high": {
+     "share": 0.475276,
+     "ci95": [
+      0.375258,
+      0.535317
+     ],
+     "pairs": 78001,
+     "violations": 37072,
+     "nDrives": 163,
+     "nDays": 36
+    }
+   },
+   "fuelFlagShareOfFuelled": {
+    "share": 0.981014,
+    "ci95": [
+     0.97828,
+     0.983298
+    ],
+    "pairs": 73739,
+    "violations": 72339,
+    "nDrives": 163,
+    "nDays": 36
+   },
+   "labels": {
+    "generation_net_charge": {
+     "share": 0.601915,
+     "ci95": [
+      0.534419,
+      0.716912
+     ],
+     "pairs": 78001,
+     "violations": 46950,
+     "nDrives": 163,
+     "nDays": 36
+    },
+    "generation_with_pack_discharge": {
+     "share": 0.257856,
+     "ci95": [
+      0.15679,
+      0.317037
+     ],
+     "pairs": 78001,
+     "violations": 20113,
+     "nDrives": 163,
+     "nDays": 36
+    },
+    "thermal_context": {
+     "share": 0.165959,
+     "ci95": [
+      0.108127,
+      0.262165
+     ],
+     "pairs": 78001,
+     "violations": 12945,
+     "nDrives": 163,
+     "nDays": 36
+    },
+    "dissipation_candidate": {
+     "share": 0.00209,
+     "ci95": [
+      0.000106,
+      0.00452
+     ],
+     "pairs": 78001,
+     "violations": 163,
+     "nDrives": 163,
+     "nDays": 36
+    }
+   },
+   "unresolvedNoCandidate": {
+    "share": 0.115268,
+    "ci95": [
+     0.083792,
+     0.136862
+    ],
+    "pairs": 78001,
+    "violations": 8991,
+    "nDrives": 163,
+    "nDays": 36
+   },
+   "unresolvedExceptThermal": {
+    "share": 0.138139,
+    "ci95": [
+     0.115215,
+     0.157179
+    ],
+    "pairs": 78001,
+    "violations": 10775,
+    "nDrives": 163,
+    "nDays": 36
+   },
+   "spinUpShare": {
+    "share": 0.143203,
+    "ci95": [
+     0.126411,
+     0.163015
+    ],
+    "pairs": 78001,
+    "violations": 11170,
+    "nDrives": 163,
+    "nDays": 36
+   },
+   "mixedFunctions": {
+    "nLabels0": {
+     "share": 0.115268,
+     "ci95": [
+      0.083792,
+      0.136862
+     ],
+     "pairs": 78001,
+     "violations": 8991,
+     "nDrives": 163,
+     "nDays": 36
+    },
+    "nLabels1": {
+     "share": 0.741644,
+     "ci95": [
+      0.673483,
+      0.781643
+     ],
+     "pairs": 78001,
+     "violations": 57849,
+     "nDrives": 163,
+     "nDays": 36
+    },
+    "nLabels2": {
+     "share": 0.143088,
+     "ci95": [
+      0.093839,
+      0.227254
+     ],
+     "pairs": 78001,
+     "violations": 11161,
+     "nDrives": 163,
+     "nDays": 36
+    },
+    "nLabels3p": {
+     "share": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "pairs": 78001,
+     "violations": 0,
+     "nDrives": 163,
+     "nDays": 36
+    }
+   },
+   "acceptanceProbe": {
+    "rotatingSocAtLeast80NeutralOrDischargingSeconds": 364,
+    "nDrives": 11,
+    "nDays": 9,
+    "supported": true,
+    "exploratory": true,
+    "dissipationCandidateShare": {
+     "share": 0.06044,
+     "ci95": [
+      0.005786,
+      0.128716
+     ],
+     "pairs": 364,
+     "violations": 22,
+     "nDrives": 11,
+     "nDays": 9
+    },
+    "unresolvedNoCandidateShare": {
+     "share": 0.717033,
+     "ci95": [
+      0.516773,
+      0.914286
+     ],
+     "pairs": 364,
+     "violations": 261,
+     "nDrives": 11,
+     "nDays": 9
+    },
+    "unresolvedExceptThermalShare": {
+     "share": 0.728022,
+     "ci95": [
+      0.534836,
+      0.927673
+     ],
+     "pairs": 364,
+     "violations": 265,
+     "nDrives": 11,
+     "nDays": 9
+    }
+   },
+   "unresolvedReasons": {
+    "noSignal": {
+     "share": 3.8e-05,
+     "ci95": [
+      0.0,
+      0.000146
+     ],
+     "pairs": 78001,
+     "violations": 3,
+     "nDrives": 163,
+     "nDays": 36
+    },
+    "fuelMissing": {
+     "share": 0.01632,
+     "ci95": [
+      0.014446,
+      0.018503
+     ],
+     "pairs": 78001,
+     "violations": 1273,
+     "nDrives": 163,
+     "nDays": 36
+    },
+    "other": {
+     "share": 0.098909,
+     "ci95": [
+      0.066708,
+      0.12167
+     ],
+     "pairs": 78001,
+     "violations": 7715,
+     "nDrives": 163,
+     "nDays": 36
+    }
+   },
+   "thermalBandTable": {
+    "coolWarm75": {
+     "warming": {
+      "share": 0.142088,
+      "ci95": [
+       0.101319,
+       0.206897
+      ],
+      "pairs": 78001,
+      "violations": 11083,
+      "nDrives": 163,
+      "nDays": 36
+     },
+     "warm": {
+      "share": 0.691863,
+      "ci95": [
+       0.535069,
+       0.788421
+      ],
+      "pairs": 78001,
+      "violations": 53966,
+      "nDrives": 163,
+      "nDays": 36
+     },
+     "cold": {
+      "share": 0.165959,
+      "ci95": [
+       0.108127,
+       0.262165
+      ],
+      "pairs": 78001,
+      "violations": 12945,
+      "nDrives": 163,
+      "nDays": 36
+     }
+    },
+    "base": {
+     "warming": {
+      "share": 0.197138,
+      "ci95": [
+       0.144811,
+       0.28027
+      ],
+      "pairs": 78001,
+      "violations": 15377,
+      "nDrives": 163,
+      "nDays": 36
+     },
+     "warm": {
+      "share": 0.636812,
+      "ci95": [
+       0.462575,
+       0.742478
+      ],
+      "pairs": 78001,
+      "violations": 49672,
+      "nDrives": 163,
+      "nDays": 36
+     },
+     "cold": {
+      "share": 0.165959,
+      "ci95": [
+       0.108127,
+       0.262165
+      ],
+      "pairs": 78001,
+      "violations": 12945,
+      "nDrives": 163,
+      "nDays": 36
+     }
+    },
+    "coolWarm85": {
+     "warming": {
+      "share": 0.737606,
+      "ci95": [
+       0.663867,
+       0.785009
+      ],
+      "pairs": 78001,
+      "violations": 57534,
+      "nDrives": 163,
+      "nDays": 36
+     },
+     "warm": {
+      "share": 0.096345,
+      "ci95": [
+       0.063824,
+       0.126811
+      ],
+      "pairs": 78001,
+      "violations": 7515,
+      "nDrives": 163,
+      "nDays": 36
+     },
+     "cold": {
+      "share": 0.165959,
+      "ci95": [
+       0.108127,
+       0.262165
+      ],
+      "pairs": 78001,
+      "violations": 12945,
+      "nDrives": 163,
+      "nDays": 36
+     }
+    }
+   },
+   "crossTable": {
+    "charging|cold|ambiguous|F|-": {
+     "seconds": 470,
+     "nDrives": 63,
+     "nDays": 31,
+     "supported": true
+    },
+    "charging|cold|ambiguous|F|S": {
+     "seconds": 30,
+     "nDrives": 16,
+     "nDays": 14,
+     "supported": false
+    },
+    "charging|cold|ambiguous|n|-": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "charging|cold|ambiguous|n|S": {
+     "seconds": 5,
+     "nDrives": 5,
+     "nDays": 5,
+     "supported": false
+    },
+    "charging|cold|fuelled|F|-": {
+     "seconds": 8988,
+     "nDrives": 128,
+     "nDays": 35,
+     "supported": true
+    },
+    "charging|cold|fuelled|F|S": {
+     "seconds": 399,
+     "nDrives": 63,
+     "nDays": 32,
+     "supported": true
+    },
+    "charging|cold|fuelled|n|-": {
+     "seconds": 7,
+     "nDrives": 7,
+     "nDays": 7,
+     "supported": false
+    },
+    "charging|cold|fuelled|n|S": {
+     "seconds": 28,
+     "nDrives": 22,
+     "nDays": 17,
+     "supported": false
+    },
+    "charging|cold|motored|F|-": {
+     "seconds": 5,
+     "nDrives": 4,
+     "nDays": 4,
+     "supported": false
+    },
+    "charging|cold|motored|F|S": {
+     "seconds": 8,
+     "nDrives": 7,
+     "nDays": 7,
+     "supported": false
+    },
+    "charging|cold|motored|n|-": {
+     "seconds": 5,
+     "nDrives": 2,
+     "nDays": 2,
+     "supported": false
+    },
+    "charging|cold|motored|n|S": {
+     "seconds": 16,
+     "nDrives": 2,
+     "nDays": 2,
+     "supported": false
+    },
+    "charging|warming|ambiguous|F|-": {
+     "seconds": 179,
+     "nDrives": 16,
+     "nDays": 9,
+     "supported": false
+    },
+    "charging|warming|ambiguous|F|S": {
+     "seconds": 111,
+     "nDrives": 55,
+     "nDays": 30,
+     "supported": false
+    },
+    "charging|warming|ambiguous|n|-": {
+     "seconds": 2,
+     "nDrives": 2,
+     "nDays": 2,
+     "supported": false
+    },
+    "charging|warming|ambiguous|n|S": {
+     "seconds": 8,
+     "nDrives": 8,
+     "nDays": 7,
+     "supported": false
+    },
+    "charging|warming|fuelled|F|-": {
+     "seconds": 9851,
+     "nDrives": 140,
+     "nDays": 36,
+     "supported": true
+    },
+    "charging|warming|fuelled|F|S": {
+     "seconds": 1232,
+     "nDrives": 124,
+     "nDays": 35,
+     "supported": true
+    },
+    "charging|warming|fuelled|n|-": {
+     "seconds": 13,
+     "nDrives": 11,
+     "nDays": 9,
+     "supported": false
+    },
+    "charging|warming|fuelled|n|S": {
+     "seconds": 66,
+     "nDrives": 38,
+     "nDays": 27,
+     "supported": false
+    },
+    "charging|warming|motored|F|-": {
+     "seconds": 51,
+     "nDrives": 16,
+     "nDays": 12,
+     "supported": false
+    },
+    "charging|warming|motored|F|S": {
+     "seconds": 109,
+     "nDrives": 62,
+     "nDays": 29,
+     "supported": false
+    },
+    "charging|warming|motored|n|-": {
+     "seconds": 80,
+     "nDrives": 12,
+     "nDays": 11,
+     "supported": false
+    },
+    "charging|warming|motored|n|S": {
+     "seconds": 28,
+     "nDrives": 9,
+     "nDays": 8,
+     "supported": false
+    },
+    "charging|warm|ambiguous|F|-": {
+     "seconds": 48,
+     "nDrives": 14,
+     "nDays": 9,
+     "supported": false
+    },
+    "charging|warm|ambiguous|F|S": {
+     "seconds": 323,
+     "nDrives": 62,
+     "nDays": 27,
+     "supported": true
+    },
+    "charging|warm|ambiguous|n|-": {
+     "seconds": 3,
+     "nDrives": 2,
+     "nDays": 2,
+     "supported": false
+    },
+    "charging|warm|ambiguous|n|S": {
+     "seconds": 27,
+     "nDrives": 18,
+     "nDays": 13,
+     "supported": false
+    },
+    "charging|warm|fuelled|F|-": {
+     "seconds": 23370,
+     "nDrives": 87,
+     "nDays": 29,
+     "supported": true
+    },
+    "charging|warm|fuelled|F|S": {
+     "seconds": 3110,
+     "nDrives": 88,
+     "nDays": 30,
+     "supported": true
+    },
+    "charging|warm|fuelled|n|-": {
+     "seconds": 30,
+     "nDrives": 14,
+     "nDays": 9,
+     "supported": false
+    },
+    "charging|warm|fuelled|n|S": {
+     "seconds": 222,
+     "nDrives": 53,
+     "nDays": 28,
+     "supported": true
+    },
+    "charging|warm|motored|F|-": {
+     "seconds": 73,
+     "nDrives": 24,
+     "nDays": 14,
+     "supported": false
+    },
+    "charging|warm|motored|F|S": {
+     "seconds": 429,
+     "nDrives": 64,
+     "nDays": 28,
+     "supported": true
+    },
+    "charging|warm|motored|n|-": {
+     "seconds": 10,
+     "nDrives": 8,
+     "nDays": 6,
+     "supported": false
+    },
+    "charging|warm|motored|n|S": {
+     "seconds": 16,
+     "nDrives": 11,
+     "nDays": 9,
+     "supported": false
+    },
+    "discharging|cold|ambiguous|F|-": {
+     "seconds": 411,
+     "nDrives": 53,
+     "nDays": 29,
+     "supported": true
+    },
+    "discharging|cold|ambiguous|F|S": {
+     "seconds": 37,
+     "nDrives": 30,
+     "nDays": 18,
+     "supported": false
+    },
+    "discharging|cold|ambiguous|n|S": {
+     "seconds": 36,
+     "nDrives": 30,
+     "nDays": 22,
+     "supported": false
+    },
+    "discharging|cold|fuelled|F|-": {
+     "seconds": 1469,
+     "nDrives": 114,
+     "nDays": 35,
+     "supported": true
+    },
+    "discharging|cold|fuelled|F|S": {
+     "seconds": 357,
+     "nDrives": 109,
+     "nDays": 35,
+     "supported": true
+    },
+    "discharging|cold|fuelled|n|-": {
+     "seconds": 2,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "discharging|cold|fuelled|n|S": {
+     "seconds": 83,
+     "nDrives": 60,
+     "nDays": 32,
+     "supported": false
+    },
+    "discharging|cold|motored|F|-": {
+     "seconds": 9,
+     "nDrives": 3,
+     "nDays": 3,
+     "supported": false
+    },
+    "discharging|cold|motored|F|S": {
+     "seconds": 10,
+     "nDrives": 8,
+     "nDays": 8,
+     "supported": false
+    },
+    "discharging|cold|motored|n|-": {
+     "seconds": 11,
+     "nDrives": 3,
+     "nDays": 3,
+     "supported": false
+    },
+    "discharging|cold|motored|n|S": {
+     "seconds": 12,
+     "nDrives": 5,
+     "nDays": 4,
+     "supported": false
+    },
+    "discharging|warming|ambiguous|F|-": {
+     "seconds": 49,
+     "nDrives": 9,
+     "nDays": 8,
+     "supported": false
+    },
+    "discharging|warming|ambiguous|F|S": {
+     "seconds": 43,
+     "nDrives": 30,
+     "nDays": 19,
+     "supported": false
+    },
+    "discharging|warming|ambiguous|n|-": {
+     "seconds": 5,
+     "nDrives": 5,
+     "nDays": 4,
+     "supported": false
+    },
+    "discharging|warming|ambiguous|n|S": {
+     "seconds": 44,
+     "nDrives": 33,
+     "nDays": 22,
+     "supported": false
+    },
+    "discharging|warming|fuelled|F|-": {
+     "seconds": 1399,
+     "nDrives": 100,
+     "nDays": 33,
+     "supported": true
+    },
+    "discharging|warming|fuelled|F|S": {
+     "seconds": 461,
+     "nDrives": 90,
+     "nDays": 33,
+     "supported": true
+    },
+    "discharging|warming|fuelled|n|-": {
+     "seconds": 19,
+     "nDrives": 6,
+     "nDays": 5,
+     "supported": false
+    },
+    "discharging|warming|fuelled|n|S": {
+     "seconds": 182,
+     "nDrives": 79,
+     "nDays": 31,
+     "supported": false
+    },
+    "discharging|warming|motored|F|-": {
+     "seconds": 206,
+     "nDrives": 17,
+     "nDays": 13,
+     "supported": true
+    },
+    "discharging|warming|motored|F|S": {
+     "seconds": 67,
+     "nDrives": 35,
+     "nDays": 23,
+     "supported": false
+    },
+    "discharging|warming|motored|n|-": {
+     "seconds": 261,
+     "nDrives": 13,
+     "nDays": 12,
+     "supported": true
+    },
+    "discharging|warming|motored|n|S": {
+     "seconds": 47,
+     "nDrives": 11,
+     "nDays": 10,
+     "supported": false
+    },
+    "discharging|warm|ambiguous|F|-": {
+     "seconds": 42,
+     "nDrives": 13,
+     "nDays": 9,
+     "supported": false
+    },
+    "discharging|warm|ambiguous|F|S": {
+     "seconds": 115,
+     "nDrives": 47,
+     "nDays": 25,
+     "supported": false
+    },
+    "discharging|warm|ambiguous|n|-": {
+     "seconds": 10,
+     "nDrives": 7,
+     "nDays": 5,
+     "supported": false
+    },
+    "discharging|warm|ambiguous|n|S": {
+     "seconds": 171,
+     "nDrives": 49,
+     "nDays": 24,
+     "supported": false
+    },
+    "discharging|warm|fuelled|F|-": {
+     "seconds": 14385,
+     "nDrives": 72,
+     "nDays": 28,
+     "supported": true
+    },
+    "discharging|warm|fuelled|F|S": {
+     "seconds": 2139,
+     "nDrives": 75,
+     "nDays": 29,
+     "supported": true
+    },
+    "discharging|warm|fuelled|n|-": {
+     "seconds": 82,
+     "nDrives": 15,
+     "nDays": 10,
+     "supported": false
+    },
+    "discharging|warm|fuelled|n|S": {
+     "seconds": 616,
+     "nDrives": 72,
+     "nDays": 29,
+     "supported": true
+    },
+    "discharging|warm|motored|F|-": {
+     "seconds": 50,
+     "nDrives": 18,
+     "nDays": 11,
+     "supported": false
+    },
+    "discharging|warm|motored|F|S": {
+     "seconds": 86,
+     "nDrives": 39,
+     "nDays": 20,
+     "supported": false
+    },
+    "discharging|warm|motored|n|-": {
+     "seconds": 22,
+     "nDrives": 13,
+     "nDays": 9,
+     "supported": false
+    },
+    "discharging|warm|motored|n|S": {
+     "seconds": 15,
+     "nDrives": 13,
+     "nDays": 10,
+     "supported": false
+    },
+    "neutral|cold|ambiguous|F|-": {
+     "seconds": 62,
+     "nDrives": 24,
+     "nDays": 16,
+     "supported": false
+    },
+    "neutral|cold|ambiguous|F|S": {
+     "seconds": 6,
+     "nDrives": 6,
+     "nDays": 6,
+     "supported": false
+    },
+    "neutral|cold|ambiguous|n|S": {
+     "seconds": 2,
+     "nDrives": 2,
+     "nDays": 2,
+     "supported": false
+    },
+    "neutral|cold|fuelled|F|-": {
+     "seconds": 411,
+     "nDrives": 101,
+     "nDays": 35,
+     "supported": true
+    },
+    "neutral|cold|fuelled|F|S": {
+     "seconds": 47,
+     "nDrives": 32,
+     "nDays": 22,
+     "supported": false
+    },
+    "neutral|cold|fuelled|n|S": {
+     "seconds": 7,
+     "nDrives": 7,
+     "nDays": 7,
+     "supported": false
+    },
+    "neutral|cold|motored|F|-": {
+     "seconds": 2,
+     "nDrives": 2,
+     "nDays": 2,
+     "supported": false
+    },
+    "neutral|cold|motored|F|S": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "neutral|cold|motored|n|-": {
+     "seconds": 3,
+     "nDrives": 3,
+     "nDays": 3,
+     "supported": false
+    },
+    "neutral|cold|motored|n|S": {
+     "seconds": 2,
+     "nDrives": 2,
+     "nDays": 2,
+     "supported": false
+    },
+    "neutral|unknown|no_signal|n|S": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "neutral|warming|ambiguous|F|-": {
+     "seconds": 38,
+     "nDrives": 8,
+     "nDays": 6,
+     "supported": false
+    },
+    "neutral|warming|ambiguous|F|S": {
+     "seconds": 13,
+     "nDrives": 9,
+     "nDays": 9,
+     "supported": false
+    },
+    "neutral|warming|ambiguous|n|S": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "neutral|warming|fuelled|F|-": {
+     "seconds": 429,
+     "nDrives": 85,
+     "nDays": 30,
+     "supported": true
+    },
+    "neutral|warming|fuelled|F|S": {
+     "seconds": 72,
+     "nDrives": 44,
+     "nDays": 28,
+     "supported": false
+    },
+    "neutral|warming|fuelled|n|-": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "neutral|warming|fuelled|n|S": {
+     "seconds": 15,
+     "nDrives": 14,
+     "nDays": 10,
+     "supported": false
+    },
+    "neutral|warming|motored|F|-": {
+     "seconds": 248,
+     "nDrives": 6,
+     "nDays": 5,
+     "supported": false
+    },
+    "neutral|warming|motored|F|S": {
+     "seconds": 16,
+     "nDrives": 10,
+     "nDays": 7,
+     "supported": false
+    },
+    "neutral|warming|motored|n|-": {
+     "seconds": 23,
+     "nDrives": 7,
+     "nDays": 6,
+     "supported": false
+    },
+    "neutral|warming|motored|n|S": {
+     "seconds": 8,
+     "nDrives": 7,
+     "nDays": 6,
+     "supported": false
+    },
+    "neutral|warm|ambiguous|F|-": {
+     "seconds": 3,
+     "nDrives": 3,
+     "nDays": 2,
+     "supported": false
+    },
+    "neutral|warm|ambiguous|F|S": {
+     "seconds": 18,
+     "nDrives": 15,
+     "nDays": 11,
+     "supported": false
+    },
+    "neutral|warm|ambiguous|n|S": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "neutral|warm|fuelled|F|-": {
+     "seconds": 3975,
+     "nDrives": 69,
+     "nDays": 29,
+     "supported": true
+    },
+    "neutral|warm|fuelled|F|S": {
+     "seconds": 239,
+     "nDrives": 57,
+     "nDays": 25,
+     "supported": true
+    },
+    "neutral|warm|fuelled|n|-": {
+     "seconds": 5,
+     "nDrives": 4,
+     "nDays": 3,
+     "supported": false
+    },
+    "neutral|warm|fuelled|n|S": {
+     "seconds": 21,
+     "nDrives": 16,
+     "nDays": 13,
+     "supported": false
+    },
+    "neutral|warm|motored|F|-": {
+     "seconds": 5,
+     "nDrives": 4,
+     "nDays": 3,
+     "supported": false
+    },
+    "neutral|warm|motored|F|S": {
+     "seconds": 9,
+     "nDrives": 9,
+     "nDays": 9,
+     "supported": false
+    },
+    "neutral|warm|motored|n|-": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "neutral|warm|motored|n|S": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "unknown|cold|fuelled|F|-": {
+     "seconds": 3,
+     "nDrives": 3,
+     "nDays": 3,
+     "supported": false
+    },
+    "unknown|unknown|fuelled|F|-": {
+     "seconds": 3,
+     "nDrives": 3,
+     "nDays": 3,
+     "supported": false
+    },
+    "unknown|unknown|fuelled|n|-": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "unknown|unknown|no_signal|n|S": {
+     "seconds": 2,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    }
+   },
+   "crossTableSupportedCells": 24,
+   "sensitivityPp": {
+    "flow1A": {
+     "label_generation_net_charge": 1.382,
+     "label_generation_with_pack_discharge": 1.574,
+     "label_thermal_context": 0.0,
+     "label_dissipation_candidate": 0.0,
+     "nLabels0": 2.708,
+     "flow_charging": 1.559,
+     "flow_discharging": 1.805,
+     "thermal_cold": 0.0,
+     "thermal_warm": 0.0
+    },
+    "flow5A": {
+     "label_generation_net_charge": 3.954,
+     "label_generation_with_pack_discharge": 4.394,
+     "label_thermal_context": 0.0,
+     "label_dissipation_candidate": 0.0,
+     "nLabels0": 7.461,
+     "flow_charging": 4.305,
+     "flow_discharging": 4.942,
+     "thermal_cold": 0.0,
+     "thermal_warm": 0.0
+    },
+    "rpm600": {
+     "label_generation_net_charge": 0.525,
+     "label_generation_with_pack_discharge": 0.22,
+     "label_thermal_context": 0.143,
+     "label_dissipation_candidate": 0.005,
+     "nLabels0": 0.726,
+     "flow_charging": 0.064,
+     "flow_discharging": 0.098,
+     "thermal_cold": 0.143,
+     "thermal_warm": 0.131
+    },
+    "coolCold55": {
+     "label_generation_net_charge": 0.0,
+     "label_generation_with_pack_discharge": 0.0,
+     "label_thermal_context": 4.402,
+     "label_dissipation_candidate": 0.0,
+     "nLabels0": 0.742,
+     "flow_charging": 0.0,
+     "flow_discharging": 0.0,
+     "thermal_cold": 4.402,
+     "thermal_warm": 0.0
+    },
+    "coolCold65": {
+     "label_generation_net_charge": 0.0,
+     "label_generation_with_pack_discharge": 0.0,
+     "label_thermal_context": 5.672,
+     "label_dissipation_candidate": 0.0,
+     "nLabels0": 1.483,
+     "flow_charging": 0.0,
+     "flow_discharging": 0.0,
+     "thermal_cold": 5.672,
+     "thermal_warm": 0.0
+    },
+    "coolWarm75": {
+     "label_generation_net_charge": 0.0,
+     "label_generation_with_pack_discharge": 0.0,
+     "label_thermal_context": 0.0,
+     "label_dissipation_candidate": 0.0,
+     "nLabels0": 0.0,
+     "flow_charging": 0.0,
+     "flow_discharging": 0.0,
+     "thermal_cold": 0.0,
+     "thermal_warm": 5.505
+    },
+    "coolWarm85": {
+     "label_generation_net_charge": 0.0,
+     "label_generation_with_pack_discharge": 0.0,
+     "label_thermal_context": 0.0,
+     "label_dissipation_candidate": 0.0,
+     "nLabels0": 0.0,
+     "flow_charging": 0.0,
+     "flow_discharging": 0.0,
+     "thermal_cold": 0.0,
+     "thermal_warm": 54.047
+    },
+    "fuel005": {
+     "label_generation_net_charge": 0.001,
+     "label_generation_with_pack_discharge": 0.004,
+     "label_thermal_context": 0.0,
+     "label_dissipation_candidate": 0.0,
+     "nLabels0": 0.005,
+     "flow_charging": 0.0,
+     "flow_discharging": 0.0,
+     "thermal_cold": 0.0,
+     "thermal_warm": 0.0
+    },
+    "fuel010": {
+     "label_generation_net_charge": 0.017,
+     "label_generation_with_pack_discharge": 0.026,
+     "label_thermal_context": 0.0,
+     "label_dissipation_candidate": 0.0,
+     "nLabels0": 0.041,
+     "flow_charging": 0.0,
+     "flow_discharging": 0.0,
+     "thermal_cold": 0.0,
+     "thermal_warm": 0.0
+    }
+   },
+   "sensitivityMaxPp": 54.047
+  },
+  "slow": {
+   "nDrives": 399,
+   "nDays": 85,
+   "rotatingSeconds": 265586,
+   "flow": {
+    "charging": {
+     "share": 0.557458,
+     "ci95": [
+      0.524887,
+      0.605137
+     ],
+     "pairs": 265586,
+     "violations": 148053,
+     "nDrives": 399,
+     "nDays": 85
+    },
+    "neutral": {
+     "share": 0.069996,
+     "ci95": [
+      0.057011,
+      0.079551
+     ],
+     "pairs": 265586,
+     "violations": 18590,
+     "nDrives": 399,
+     "nDays": 85
+    },
+    "discharging": {
+     "share": 0.371996,
+     "ci95": [
+      0.333644,
+      0.398394
+     ],
+     "pairs": 265586,
+     "violations": 98797,
+     "nDrives": 399,
+     "nDays": 85
+    },
+    "unknown": {
+     "share": 0.00055,
+     "ci95": [
+      0.000297,
+      0.000885
+     ],
+     "pairs": 265586,
+     "violations": 146,
+     "nDrives": 399,
+     "nDays": 85
+    }
+   },
+   "thermal": {
+    "cold": {
+     "share": 0.098736,
+     "ci95": [
+      0.070756,
+      0.142413
+     ],
+     "pairs": 265586,
+     "violations": 26223,
+     "nDrives": 399,
+     "nDays": 85
+    },
+    "warming": {
+     "share": 0.12091,
+     "ci95": [
+      0.093019,
+      0.16433
+     ],
+     "pairs": 265586,
+     "violations": 32112,
+     "nDrives": 399,
+     "nDays": 85
+    },
+    "warm": {
+     "share": 0.78026,
+     "ci95": [
+      0.695315,
+      0.834928
+     ],
+     "pairs": 265586,
+     "violations": 207226,
+     "nDrives": 399,
+     "nDays": 85
+    },
+    "unknown": {
+     "share": 9.4e-05,
+     "ci95": [
+      4.5e-05,
+      0.000163
+     ],
+     "pairs": 265586,
+     "violations": 25,
+     "nDrives": 399,
+     "nDays": 85
+    }
+   },
+   "comb": {
+    "motored": {
+     "share": 0.021387,
+     "ci95": [
+      0.01617,
+      0.028186
+     ],
+     "pairs": 265586,
+     "violations": 5680,
+     "nDrives": 399,
+     "nDays": 85
+    },
+    "ambiguous": {
+     "share": 0.022863,
+     "ci95": [
+      0.018713,
+      0.028723
+     ],
+     "pairs": 265586,
+     "violations": 6072,
+     "nDrives": 399,
+     "nDays": 85
+    },
+    "fuelled": {
+     "share": 0.785685,
+     "ci95": [
+      0.651721,
+      0.884596
+     ],
+     "pairs": 265586,
+     "violations": 208667,
+     "nDrives": 399,
+     "nDays": 85
+    },
+    "no_signal": {
+     "share": 0.170065,
+     "ci95": [
+      0.067388,
+      0.307989
+     ],
+     "pairs": 265586,
+     "violations": 45167,
+     "nDrives": 399,
+     "nDays": 85
+    }
+   },
+   "rotation": {
+    "low": {
+     "share": 0.019572,
+     "ci95": [
+      0.017699,
+      0.021803
+     ],
+     "pairs": 265586,
+     "violations": 5198,
+     "nDrives": 399,
+     "nDays": 85
+    },
+    "mid": {
+     "share": 0.433701,
+     "ci95": [
+      0.400594,
+      0.47999
+     ],
+     "pairs": 265586,
+     "violations": 115185,
+     "nDrives": 399,
+     "nDays": 85
+    },
+    "high": {
+     "share": 0.546727,
+     "ci95": [
+      0.499533,
+      0.58033
+     ],
+     "pairs": 265586,
+     "violations": 145203,
+     "nDrives": 399,
+     "nDays": 85
+    }
+   },
+   "fuelFlagShareOfFuelled": {
+    "share": 0.239487,
+    "ci95": [
+     0.118763,
+     0.411375
+    ],
+    "pairs": 208667,
+    "violations": 49973,
+    "nDrives": 346,
+    "nDays": 85
+   },
+   "labels": {
+    "generation_net_charge": {
+     "share": 0.129965,
+     "ci95": [
+      0.072829,
+      0.2074
+     ],
+     "pairs": 265586,
+     "violations": 34517,
+     "nDrives": 399,
+     "nDays": 85
+    },
+    "generation_with_pack_discharge": {
+     "share": 0.04565,
+     "ci95": [
+      0.014694,
+      0.091474
+     ],
+     "pairs": 265586,
+     "violations": 12124,
+     "nDrives": 399,
+     "nDays": 85
+    },
+    "thermal_context": {
+     "share": 0.098736,
+     "ci95": [
+      0.070756,
+      0.142413
+     ],
+     "pairs": 265586,
+     "violations": 26223,
+     "nDrives": 399,
+     "nDays": 85
+    },
+    "dissipation_candidate": {
+     "share": 0.004323,
+     "ci95": [
+      0.001749,
+      0.008098
+     ],
+     "pairs": 265586,
+     "violations": 1148,
+     "nDrives": 399,
+     "nDays": 85
+    }
+   },
+   "unresolvedNoCandidate": {
+    "share": 0.769453,
+    "ci95": [
+     0.649048,
+     0.859856
+    ],
+    "pairs": 265586,
+    "violations": 204356,
+    "nDrives": 399,
+    "nDays": 85
+   },
+   "unresolvedExceptThermal": {
+    "share": 0.820062,
+    "ci95": [
+     0.7051,
+     0.906273
+    ],
+    "pairs": 265586,
+    "violations": 217797,
+    "nDrives": 399,
+    "nDays": 85
+   },
+   "spinUpShare": {
+    "share": 0.162185,
+    "ci95": [
+     0.148011,
+     0.180062
+    ],
+    "pairs": 265586,
+    "violations": 43074,
+    "nDrives": 399,
+    "nDays": 85
+   },
+   "mixedFunctions": {
+    "nLabels0": {
+     "share": 0.769453,
+     "ci95": [
+      0.649048,
+      0.859856
+     ],
+     "pairs": 265586,
+     "violations": 204356,
+     "nDrives": 399,
+     "nDays": 85
+    },
+    "nLabels1": {
+     "share": 0.182419,
+     "ci95": [
+      0.103299,
+      0.289638
+     ],
+     "pairs": 265586,
+     "violations": 48448,
+     "nDrives": 399,
+     "nDays": 85
+    },
+    "nLabels2": {
+     "share": 0.048128,
+     "ci95": [
+      0.029612,
+      0.076557
+     ],
+     "pairs": 265586,
+     "violations": 12782,
+     "nDrives": 399,
+     "nDays": 85
+    },
+    "nLabels3p": {
+     "share": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "pairs": 265586,
+     "violations": 0,
+     "nDrives": 399,
+     "nDays": 85
+    }
+   },
+   "acceptanceProbe": {
+    "rotatingSocAtLeast80NeutralOrDischargingSeconds": 1181,
+    "nDrives": 39,
+    "nDays": 28,
+    "supported": true,
+    "exploratory": true,
+    "dissipationCandidateShare": {
+     "share": 0.318374,
+     "ci95": [
+      0.148373,
+      0.470665
+     ],
+     "pairs": 1181,
+     "violations": 376,
+     "nDrives": 39,
+     "nDays": 28
+    },
+    "unresolvedNoCandidateShare": {
+     "share": 0.61812,
+     "ci95": [
+      0.442364,
+      0.808034
+     ],
+     "pairs": 1181,
+     "violations": 730,
+     "nDrives": 39,
+     "nDays": 28
+    },
+    "unresolvedExceptThermalShare": {
+     "share": 0.650296,
+     "ci95": [
+      0.507383,
+      0.813058
+     ],
+     "pairs": 1181,
+     "violations": 768,
+     "nDrives": 39,
+     "nDays": 28
+    }
+   },
+   "unresolvedReasons": {
+    "noSignal": {
+     "share": 0.15723,
+     "ci95": [
+      0.056938,
+      0.291174
+     ],
+     "pairs": 265586,
+     "violations": 41758,
+     "nDrives": 399,
+     "nDays": 85
+    },
+    "fuelMissing": {
+     "share": 0.570862,
+     "ci95": [
+      0.393819,
+      0.708542
+     ],
+     "pairs": 265586,
+     "violations": 151613,
+     "nDrives": 399,
+     "nDays": 85
+    },
+    "other": {
+     "share": 0.041361,
+     "ci95": [
+      0.030018,
+      0.055339
+     ],
+     "pairs": 265586,
+     "violations": 10985,
+     "nDrives": 399,
+     "nDays": 85
+    }
+   },
+   "thermalBandTable": {
+    "coolWarm75": {
+     "warming": {
+      "share": 0.077854,
+      "ci95": [
+       0.056669,
+       0.110951
+      ],
+      "pairs": 265586,
+      "violations": 20677,
+      "nDrives": 399,
+      "nDays": 85
+     },
+     "warm": {
+      "share": 0.823315,
+      "ci95": [
+       0.747509,
+       0.871282
+      ],
+      "pairs": 265586,
+      "violations": 218661,
+      "nDrives": 399,
+      "nDays": 85
+     },
+     "cold": {
+      "share": 0.098736,
+      "ci95": [
+       0.070756,
+       0.142413
+      ],
+      "pairs": 265586,
+      "violations": 26223,
+      "nDrives": 399,
+      "nDays": 85
+     }
+    },
+    "base": {
+     "warming": {
+      "share": 0.12091,
+      "ci95": [
+       0.093019,
+       0.16433
+      ],
+      "pairs": 265586,
+      "violations": 32112,
+      "nDrives": 399,
+      "nDays": 85
+     },
+     "warm": {
+      "share": 0.78026,
+      "ci95": [
+       0.695315,
+       0.834928
+      ],
+      "pairs": 265586,
+      "violations": 207226,
+      "nDrives": 399,
+      "nDays": 85
+     },
+     "cold": {
+      "share": 0.098736,
+      "ci95": [
+       0.070756,
+       0.142413
+      ],
+      "pairs": 265586,
+      "violations": 26223,
+      "nDrives": 399,
+      "nDays": 85
+     }
+    },
+    "coolWarm85": {
+     "warming": {
+      "share": 0.721409,
+      "ci95": [
+       0.697188,
+       0.74067
+      ],
+      "pairs": 265586,
+      "violations": 191596,
+      "nDrives": 399,
+      "nDays": 85
+     },
+     "warm": {
+      "share": 0.179761,
+      "ci95": [
+       0.146536,
+       0.204496
+      ],
+      "pairs": 265586,
+      "violations": 47742,
+      "nDrives": 399,
+      "nDays": 85
+     },
+     "cold": {
+      "share": 0.098736,
+      "ci95": [
+       0.070756,
+       0.142413
+      ],
+      "pairs": 265586,
+      "violations": 26223,
+      "nDrives": 399,
+      "nDays": 85
+     }
+    }
+   },
+   "crossTable": {
+    "charging|cold|ambiguous|F|-": {
+     "seconds": 691,
+     "nDrives": 86,
+     "nDays": 28,
+     "supported": true
+    },
+    "charging|cold|ambiguous|F|S": {
+     "seconds": 34,
+     "nDrives": 17,
+     "nDays": 15,
+     "supported": false
+    },
+    "charging|cold|ambiguous|n|-": {
+     "seconds": 238,
+     "nDrives": 36,
+     "nDays": 23,
+     "supported": true
+    },
+    "charging|cold|ambiguous|n|S": {
+     "seconds": 29,
+     "nDrives": 20,
+     "nDays": 18,
+     "supported": false
+    },
+    "charging|cold|fuelled|F|-": {
+     "seconds": 10105,
+     "nDrives": 152,
+     "nDays": 33,
+     "supported": true
+    },
+    "charging|cold|fuelled|F|S": {
+     "seconds": 488,
+     "nDrives": 87,
+     "nDays": 33,
+     "supported": true
+    },
+    "charging|cold|fuelled|n|-": {
+     "seconds": 4705,
+     "nDrives": 105,
+     "nDays": 43,
+     "supported": true
+    },
+    "charging|cold|fuelled|n|S": {
+     "seconds": 262,
+     "nDrives": 82,
+     "nDays": 49,
+     "supported": true
+    },
+    "charging|cold|motored|F|-": {
+     "seconds": 8,
+     "nDrives": 4,
+     "nDays": 4,
+     "supported": false
+    },
+    "charging|cold|motored|F|S": {
+     "seconds": 15,
+     "nDrives": 11,
+     "nDays": 10,
+     "supported": false
+    },
+    "charging|cold|motored|n|-": {
+     "seconds": 150,
+     "nDrives": 6,
+     "nDays": 6,
+     "supported": false
+    },
+    "charging|cold|motored|n|S": {
+     "seconds": 15,
+     "nDrives": 4,
+     "nDays": 4,
+     "supported": false
+    },
+    "charging|cold|no_signal|n|-": {
+     "seconds": 2269,
+     "nDrives": 41,
+     "nDays": 17,
+     "supported": true
+    },
+    "charging|cold|no_signal|n|S": {
+     "seconds": 187,
+     "nDrives": 26,
+     "nDays": 17,
+     "supported": false
+    },
+    "charging|unknown|fuelled|n|S": {
+     "seconds": 2,
+     "nDrives": 2,
+     "nDays": 2,
+     "supported": false
+    },
+    "charging|unknown|no_signal|n|S": {
+     "seconds": 2,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "charging|warming|ambiguous|F|-": {
+     "seconds": 251,
+     "nDrives": 17,
+     "nDays": 16,
+     "supported": true
+    },
+    "charging|warming|ambiguous|F|S": {
+     "seconds": 102,
+     "nDrives": 52,
+     "nDays": 26,
+     "supported": false
+    },
+    "charging|warming|ambiguous|n|-": {
+     "seconds": 25,
+     "nDrives": 16,
+     "nDays": 15,
+     "supported": false
+    },
+    "charging|warming|ambiguous|n|S": {
+     "seconds": 146,
+     "nDrives": 78,
+     "nDays": 44,
+     "supported": false
+    },
+    "charging|warming|fuelled|F|-": {
+     "seconds": 8781,
+     "nDrives": 144,
+     "nDays": 33,
+     "supported": true
+    },
+    "charging|warming|fuelled|F|S": {
+     "seconds": 1086,
+     "nDrives": 130,
+     "nDays": 32,
+     "supported": true
+    },
+    "charging|warming|fuelled|n|-": {
+     "seconds": 8960,
+     "nDrives": 160,
+     "nDays": 41,
+     "supported": true
+    },
+    "charging|warming|fuelled|n|S": {
+     "seconds": 1388,
+     "nDrives": 178,
+     "nDays": 62,
+     "supported": true
+    },
+    "charging|warming|motored|F|-": {
+     "seconds": 52,
+     "nDrives": 17,
+     "nDays": 14,
+     "supported": false
+    },
+    "charging|warming|motored|F|S": {
+     "seconds": 76,
+     "nDrives": 43,
+     "nDays": 22,
+     "supported": false
+    },
+    "charging|warming|motored|n|-": {
+     "seconds": 334,
+     "nDrives": 33,
+     "nDays": 26,
+     "supported": true
+    },
+    "charging|warming|motored|n|S": {
+     "seconds": 156,
+     "nDrives": 54,
+     "nDays": 36,
+     "supported": false
+    },
+    "charging|warming|no_signal|F|-": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "charging|warming|no_signal|F|S": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "charging|warming|no_signal|n|-": {
+     "seconds": 2683,
+     "nDrives": 51,
+     "nDays": 17,
+     "supported": true
+    },
+    "charging|warming|no_signal|n|S": {
+     "seconds": 422,
+     "nDrives": 48,
+     "nDays": 16,
+     "supported": true
+    },
+    "charging|warm|ambiguous|F|-": {
+     "seconds": 45,
+     "nDrives": 16,
+     "nDays": 9,
+     "supported": false
+    },
+    "charging|warm|ambiguous|F|S": {
+     "seconds": 173,
+     "nDrives": 41,
+     "nDays": 19,
+     "supported": false
+    },
+    "charging|warm|ambiguous|n|-": {
+     "seconds": 288,
+     "nDrives": 69,
+     "nDays": 31,
+     "supported": true
+    },
+    "charging|warm|ambiguous|n|S": {
+     "seconds": 1221,
+     "nDrives": 120,
+     "nDays": 42,
+     "supported": true
+    },
+    "charging|warm|fuelled|F|-": {
+     "seconds": 12248,
+     "nDrives": 62,
+     "nDays": 21,
+     "supported": true
+    },
+    "charging|warm|fuelled|F|S": {
+     "seconds": 1819,
+     "nDrives": 62,
+     "nDays": 21,
+     "supported": true
+    },
+    "charging|warm|fuelled|n|-": {
+     "seconds": 56945,
+     "nDrives": 144,
+     "nDays": 43,
+     "supported": true
+    },
+    "charging|warm|fuelled|n|S": {
+     "seconds": 10184,
+     "nDrives": 164,
+     "nDays": 51,
+     "supported": true
+    },
+    "charging|warm|motored|F|-": {
+     "seconds": 56,
+     "nDrives": 14,
+     "nDays": 7,
+     "supported": false
+    },
+    "charging|warm|motored|F|S": {
+     "seconds": 260,
+     "nDrives": 38,
+     "nDays": 17,
+     "supported": true
+    },
+    "charging|warm|motored|n|-": {
+     "seconds": 634,
+     "nDrives": 70,
+     "nDays": 33,
+     "supported": true
+    },
+    "charging|warm|motored|n|S": {
+     "seconds": 1448,
+     "nDrives": 110,
+     "nDays": 40,
+     "supported": true
+    },
+    "charging|warm|no_signal|F|S": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "charging|warm|no_signal|n|-": {
+     "seconds": 15650,
+     "nDrives": 39,
+     "nDays": 16,
+     "supported": true
+    },
+    "charging|warm|no_signal|n|S": {
+     "seconds": 3417,
+     "nDrives": 37,
+     "nDays": 13,
+     "supported": true
+    },
+    "discharging|cold|ambiguous|F|-": {
+     "seconds": 540,
+     "nDrives": 66,
+     "nDays": 25,
+     "supported": true
+    },
+    "discharging|cold|ambiguous|F|S": {
+     "seconds": 58,
+     "nDrives": 38,
+     "nDays": 22,
+     "supported": false
+    },
+    "discharging|cold|ambiguous|n|-": {
+     "seconds": 245,
+     "nDrives": 37,
+     "nDays": 22,
+     "supported": true
+    },
+    "discharging|cold|ambiguous|n|S": {
+     "seconds": 80,
+     "nDrives": 60,
+     "nDays": 42,
+     "supported": false
+    },
+    "discharging|cold|fuelled|F|-": {
+     "seconds": 1639,
+     "nDrives": 132,
+     "nDays": 33,
+     "supported": true
+    },
+    "discharging|cold|fuelled|F|S": {
+     "seconds": 381,
+     "nDrives": 129,
+     "nDays": 33,
+     "supported": true
+    },
+    "discharging|cold|fuelled|n|-": {
+     "seconds": 1370,
+     "nDrives": 89,
+     "nDays": 36,
+     "supported": true
+    },
+    "discharging|cold|fuelled|n|S": {
+     "seconds": 400,
+     "nDrives": 151,
+     "nDays": 66,
+     "supported": true
+    },
+    "discharging|cold|motored|F|-": {
+     "seconds": 6,
+     "nDrives": 2,
+     "nDays": 2,
+     "supported": false
+    },
+    "discharging|cold|motored|F|S": {
+     "seconds": 16,
+     "nDrives": 11,
+     "nDays": 11,
+     "supported": false
+    },
+    "discharging|cold|motored|n|-": {
+     "seconds": 104,
+     "nDrives": 5,
+     "nDays": 5,
+     "supported": false
+    },
+    "discharging|cold|motored|n|S": {
+     "seconds": 25,
+     "nDrives": 5,
+     "nDays": 5,
+     "supported": false
+    },
+    "discharging|cold|no_signal|n|-": {
+     "seconds": 607,
+     "nDrives": 36,
+     "nDays": 15,
+     "supported": true
+    },
+    "discharging|cold|no_signal|n|S": {
+     "seconds": 143,
+     "nDrives": 36,
+     "nDays": 16,
+     "supported": false
+    },
+    "discharging|unknown|fuelled|n|S": {
+     "seconds": 2,
+     "nDrives": 2,
+     "nDays": 2,
+     "supported": false
+    },
+    "discharging|unknown|no_signal|n|S": {
+     "seconds": 3,
+     "nDrives": 2,
+     "nDays": 2,
+     "supported": false
+    },
+    "discharging|warming|ambiguous|F|-": {
+     "seconds": 22,
+     "nDrives": 8,
+     "nDays": 8,
+     "supported": false
+    },
+    "discharging|warming|ambiguous|F|S": {
+     "seconds": 45,
+     "nDrives": 31,
+     "nDays": 16,
+     "supported": false
+    },
+    "discharging|warming|ambiguous|n|-": {
+     "seconds": 48,
+     "nDrives": 25,
+     "nDays": 19,
+     "supported": false
+    },
+    "discharging|warming|ambiguous|n|S": {
+     "seconds": 128,
+     "nDrives": 74,
+     "nDays": 43,
+     "supported": false
+    },
+    "discharging|warming|fuelled|F|-": {
+     "seconds": 836,
+     "nDrives": 81,
+     "nDays": 29,
+     "supported": true
+    },
+    "discharging|warming|fuelled|F|S": {
+     "seconds": 362,
+     "nDrives": 81,
+     "nDays": 29,
+     "supported": true
+    },
+    "discharging|warming|fuelled|n|-": {
+     "seconds": 2115,
+     "nDrives": 129,
+     "nDays": 44,
+     "supported": true
+    },
+    "discharging|warming|fuelled|n|S": {
+     "seconds": 932,
+     "nDrives": 178,
+     "nDays": 60,
+     "supported": true
+    },
+    "discharging|warming|motored|F|-": {
+     "seconds": 224,
+     "nDrives": 11,
+     "nDays": 9,
+     "supported": true
+    },
+    "discharging|warming|motored|F|S": {
+     "seconds": 30,
+     "nDrives": 24,
+     "nDays": 15,
+     "supported": false
+    },
+    "discharging|warming|motored|n|-": {
+     "seconds": 499,
+     "nDrives": 35,
+     "nDays": 24,
+     "supported": true
+    },
+    "discharging|warming|motored|n|S": {
+     "seconds": 162,
+     "nDrives": 43,
+     "nDays": 26,
+     "supported": false
+    },
+    "discharging|warming|no_signal|n|-": {
+     "seconds": 546,
+     "nDrives": 35,
+     "nDays": 13,
+     "supported": true
+    },
+    "discharging|warming|no_signal|n|S": {
+     "seconds": 241,
+     "nDrives": 36,
+     "nDays": 12,
+     "supported": true
+    },
+    "discharging|warm|ambiguous|F|-": {
+     "seconds": 22,
+     "nDrives": 12,
+     "nDays": 7,
+     "supported": false
+    },
+    "discharging|warm|ambiguous|F|S": {
+     "seconds": 83,
+     "nDrives": 22,
+     "nDays": 8,
+     "supported": false
+    },
+    "discharging|warm|ambiguous|n|-": {
+     "seconds": 309,
+     "nDrives": 58,
+     "nDays": 29,
+     "supported": true
+    },
+    "discharging|warm|ambiguous|n|S": {
+     "seconds": 862,
+     "nDrives": 113,
+     "nDays": 42,
+     "supported": true
+    },
+    "discharging|warm|fuelled|F|-": {
+     "seconds": 7816,
+     "nDrives": 39,
+     "nDays": 15,
+     "supported": true
+    },
+    "discharging|warm|fuelled|F|S": {
+     "seconds": 1150,
+     "nDrives": 48,
+     "nDays": 18,
+     "supported": true
+    },
+    "discharging|warm|fuelled|n|-": {
+     "seconds": 50121,
+     "nDrives": 124,
+     "nDays": 44,
+     "supported": true
+    },
+    "discharging|warm|fuelled|n|S": {
+     "seconds": 9915,
+     "nDrives": 165,
+     "nDays": 53,
+     "supported": true
+    },
+    "discharging|warm|motored|F|-": {
+     "seconds": 47,
+     "nDrives": 9,
+     "nDays": 6,
+     "supported": false
+    },
+    "discharging|warm|motored|F|S": {
+     "seconds": 56,
+     "nDrives": 18,
+     "nDays": 11,
+     "supported": false
+    },
+    "discharging|warm|motored|n|-": {
+     "seconds": 542,
+     "nDrives": 59,
+     "nDays": 28,
+     "supported": true
+    },
+    "discharging|warm|motored|n|S": {
+     "seconds": 405,
+     "nDrives": 67,
+     "nDays": 28,
+     "supported": true
+    },
+    "discharging|warm|no_signal|n|-": {
+     "seconds": 12704,
+     "nDrives": 28,
+     "nDays": 12,
+     "supported": true
+    },
+    "discharging|warm|no_signal|n|S": {
+     "seconds": 2956,
+     "nDrives": 32,
+     "nDays": 12,
+     "supported": true
+    },
+    "neutral|cold|ambiguous|F|-": {
+     "seconds": 146,
+     "nDrives": 36,
+     "nDays": 20,
+     "supported": false
+    },
+    "neutral|cold|ambiguous|F|S": {
+     "seconds": 8,
+     "nDrives": 5,
+     "nDays": 4,
+     "supported": false
+    },
+    "neutral|cold|ambiguous|n|-": {
+     "seconds": 76,
+     "nDrives": 22,
+     "nDays": 17,
+     "supported": false
+    },
+    "neutral|cold|ambiguous|n|S": {
+     "seconds": 7,
+     "nDrives": 6,
+     "nDays": 6,
+     "supported": false
+    },
+    "neutral|cold|fuelled|F|-": {
+     "seconds": 540,
+     "nDrives": 110,
+     "nDays": 33,
+     "supported": true
+    },
+    "neutral|cold|fuelled|F|S": {
+     "seconds": 77,
+     "nDrives": 41,
+     "nDays": 26,
+     "supported": false
+    },
+    "neutral|cold|fuelled|n|-": {
+     "seconds": 275,
+     "nDrives": 67,
+     "nDays": 32,
+     "supported": true
+    },
+    "neutral|cold|fuelled|n|S": {
+     "seconds": 54,
+     "nDrives": 35,
+     "nDays": 27,
+     "supported": false
+    },
+    "neutral|cold|motored|F|S": {
+     "seconds": 5,
+     "nDrives": 3,
+     "nDays": 3,
+     "supported": false
+    },
+    "neutral|cold|motored|n|-": {
+     "seconds": 4,
+     "nDrives": 2,
+     "nDays": 2,
+     "supported": false
+    },
+    "neutral|cold|motored|n|S": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "neutral|cold|no_signal|n|-": {
+     "seconds": 144,
+     "nDrives": 31,
+     "nDays": 15,
+     "supported": false
+    },
+    "neutral|cold|no_signal|n|S": {
+     "seconds": 14,
+     "nDrives": 8,
+     "nDays": 6,
+     "supported": false
+    },
+    "neutral|warming|ambiguous|F|-": {
+     "seconds": 39,
+     "nDrives": 10,
+     "nDays": 8,
+     "supported": false
+    },
+    "neutral|warming|ambiguous|F|S": {
+     "seconds": 15,
+     "nDrives": 7,
+     "nDays": 6,
+     "supported": false
+    },
+    "neutral|warming|ambiguous|n|-": {
+     "seconds": 3,
+     "nDrives": 2,
+     "nDays": 2,
+     "supported": false
+    },
+    "neutral|warming|ambiguous|n|S": {
+     "seconds": 25,
+     "nDrives": 20,
+     "nDays": 17,
+     "supported": false
+    },
+    "neutral|warming|fuelled|F|-": {
+     "seconds": 319,
+     "nDrives": 71,
+     "nDays": 28,
+     "supported": true
+    },
+    "neutral|warming|fuelled|F|S": {
+     "seconds": 72,
+     "nDrives": 39,
+     "nDays": 22,
+     "supported": false
+    },
+    "neutral|warming|fuelled|n|-": {
+     "seconds": 461,
+     "nDrives": 103,
+     "nDays": 36,
+     "supported": true
+    },
+    "neutral|warming|fuelled|n|S": {
+     "seconds": 117,
+     "nDrives": 66,
+     "nDays": 39,
+     "supported": false
+    },
+    "neutral|warming|motored|F|-": {
+     "seconds": 153,
+     "nDrives": 8,
+     "nDays": 6,
+     "supported": false
+    },
+    "neutral|warming|motored|F|S": {
+     "seconds": 15,
+     "nDrives": 9,
+     "nDays": 6,
+     "supported": false
+    },
+    "neutral|warming|motored|n|-": {
+     "seconds": 42,
+     "nDrives": 13,
+     "nDays": 12,
+     "supported": false
+    },
+    "neutral|warming|motored|n|S": {
+     "seconds": 22,
+     "nDrives": 15,
+     "nDays": 14,
+     "supported": false
+    },
+    "neutral|warming|no_signal|n|-": {
+     "seconds": 107,
+     "nDrives": 27,
+     "nDays": 12,
+     "supported": false
+    },
+    "neutral|warming|no_signal|n|S": {
+     "seconds": 39,
+     "nDrives": 18,
+     "nDays": 9,
+     "supported": false
+    },
+    "neutral|warm|ambiguous|F|-": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "neutral|warm|ambiguous|F|S": {
+     "seconds": 5,
+     "nDrives": 4,
+     "nDays": 2,
+     "supported": false
+    },
+    "neutral|warm|ambiguous|n|-": {
+     "seconds": 15,
+     "nDrives": 11,
+     "nDays": 10,
+     "supported": false
+    },
+    "neutral|warm|ambiguous|n|S": {
+     "seconds": 42,
+     "nDrives": 33,
+     "nDays": 22,
+     "supported": false
+    },
+    "neutral|warm|fuelled|F|-": {
+     "seconds": 2106,
+     "nDrives": 39,
+     "nDays": 13,
+     "supported": true
+    },
+    "neutral|warm|fuelled|F|S": {
+     "seconds": 139,
+     "nDrives": 28,
+     "nDays": 12,
+     "supported": false
+    },
+    "neutral|warm|fuelled|n|-": {
+     "seconds": 9814,
+     "nDrives": 104,
+     "nDays": 34,
+     "supported": true
+    },
+    "neutral|warm|fuelled|n|S": {
+     "seconds": 641,
+     "nDrives": 103,
+     "nDays": 38,
+     "supported": true
+    },
+    "neutral|warm|motored|F|-": {
+     "seconds": 2,
+     "nDrives": 2,
+     "nDays": 2,
+     "supported": false
+    },
+    "neutral|warm|motored|F|S": {
+     "seconds": 5,
+     "nDrives": 5,
+     "nDays": 4,
+     "supported": false
+    },
+    "neutral|warm|motored|n|-": {
+     "seconds": 45,
+     "nDrives": 20,
+     "nDays": 16,
+     "supported": false
+    },
+    "neutral|warm|motored|n|S": {
+     "seconds": 66,
+     "nDrives": 33,
+     "nDays": 21,
+     "supported": false
+    },
+    "neutral|warm|no_signal|n|-": {
+     "seconds": 2715,
+     "nDrives": 26,
+     "nDays": 11,
+     "supported": true
+    },
+    "neutral|warm|no_signal|n|S": {
+     "seconds": 214,
+     "nDrives": 25,
+     "nDays": 10,
+     "supported": true
+    },
+    "unknown|cold|ambiguous|F|-": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "unknown|cold|ambiguous|n|S": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "unknown|cold|fuelled|n|-": {
+     "seconds": 6,
+     "nDrives": 4,
+     "nDays": 3,
+     "supported": false
+    },
+    "unknown|cold|fuelled|n|S": {
+     "seconds": 9,
+     "nDrives": 5,
+     "nDays": 4,
+     "supported": false
+    },
+    "unknown|cold|no_signal|n|-": {
+     "seconds": 4,
+     "nDrives": 4,
+     "nDays": 4,
+     "supported": false
+    },
+    "unknown|cold|no_signal|n|S": {
+     "seconds": 41,
+     "nDrives": 11,
+     "nDays": 10,
+     "supported": false
+    },
+    "unknown|unknown|ambiguous|F|S": {
+     "seconds": 2,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "unknown|unknown|fuelled|F|S": {
+     "seconds": 2,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "unknown|unknown|fuelled|n|-": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "unknown|unknown|no_signal|F|S": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "unknown|unknown|no_signal|n|-": {
+     "seconds": 4,
+     "nDrives": 4,
+     "nDays": 3,
+     "supported": false
+    },
+    "unknown|unknown|no_signal|n|S": {
+     "seconds": 6,
+     "nDrives": 4,
+     "nDays": 4,
+     "supported": false
+    },
+    "unknown|warming|fuelled|F|-": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "unknown|warming|fuelled|F|S": {
+     "seconds": 2,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "unknown|warming|fuelled|n|-": {
+     "seconds": 2,
+     "nDrives": 2,
+     "nDays": 2,
+     "supported": false
+    },
+    "unknown|warming|fuelled|n|S": {
+     "seconds": 5,
+     "nDrives": 4,
+     "nDays": 4,
+     "supported": false
+    },
+    "unknown|warming|no_signal|n|-": {
+     "seconds": 2,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "unknown|warming|no_signal|n|S": {
+     "seconds": 17,
+     "nDrives": 8,
+     "nDays": 5,
+     "supported": false
+    },
+    "unknown|warm|ambiguous|n|S": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "unknown|warm|fuelled|F|S": {
+     "seconds": 4,
+     "nDrives": 2,
+     "nDays": 2,
+     "supported": false
+    },
+    "unknown|warm|fuelled|n|-": {
+     "seconds": 2,
+     "nDrives": 2,
+     "nDays": 2,
+     "supported": false
+    },
+    "unknown|warm|fuelled|n|S": {
+     "seconds": 6,
+     "nDrives": 6,
+     "nDays": 6,
+     "supported": false
+    },
+    "unknown|warm|no_signal|n|-": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "unknown|warm|no_signal|n|S": {
+     "seconds": 25,
+     "nDrives": 7,
+     "nDays": 7,
+     "supported": false
+    }
+   },
+   "crossTableSupportedCells": 60,
+   "sensitivityPp": {
+    "flow1A": {
+     "label_generation_net_charge": 0.269,
+     "label_generation_with_pack_discharge": 0.301,
+     "label_thermal_context": 0.0,
+     "label_dissipation_candidate": 0.0,
+     "nLabels0": 0.475,
+     "flow_charging": 1.594,
+     "flow_discharging": 1.839,
+     "thermal_cold": 0.0,
+     "thermal_warm": 0.0
+    },
+    "flow5A": {
+     "label_generation_net_charge": 0.727,
+     "label_generation_with_pack_discharge": 0.746,
+     "label_thermal_context": 0.0,
+     "label_dissipation_candidate": 0.0,
+     "nLabels0": 1.208,
+     "flow_charging": 4.311,
+     "flow_discharging": 5.149,
+     "thermal_cold": 0.0,
+     "thermal_warm": 0.0
+    },
+    "rpm600": {
+     "label_generation_net_charge": 0.165,
+     "label_generation_with_pack_discharge": 0.056,
+     "label_thermal_context": 0.115,
+     "label_dissipation_candidate": 0.011,
+     "nLabels0": 0.256,
+     "flow_charging": 0.103,
+     "flow_discharging": 0.053,
+     "thermal_cold": 0.115,
+     "thermal_warm": 0.116
+    },
+    "coolCold55": {
+     "label_generation_net_charge": 0.0,
+     "label_generation_with_pack_discharge": 0.0,
+     "label_thermal_context": 2.571,
+     "label_dissipation_candidate": 0.0,
+     "nLabels0": 1.35,
+     "flow_charging": 0.0,
+     "flow_discharging": 0.0,
+     "thermal_cold": 2.571,
+     "thermal_warm": 0.0
+    },
+    "coolCold65": {
+     "label_generation_net_charge": 0.0,
+     "label_generation_with_pack_discharge": 0.0,
+     "label_thermal_context": 2.638,
+     "label_dissipation_candidate": 0.0,
+     "nLabels0": 1.532,
+     "flow_charging": 0.0,
+     "flow_discharging": 0.0,
+     "thermal_cold": 2.638,
+     "thermal_warm": 0.0
+    },
+    "coolWarm75": {
+     "label_generation_net_charge": 0.0,
+     "label_generation_with_pack_discharge": 0.0,
+     "label_thermal_context": 0.0,
+     "label_dissipation_candidate": 0.0,
+     "nLabels0": 0.0,
+     "flow_charging": 0.0,
+     "flow_discharging": 0.0,
+     "thermal_cold": 0.0,
+     "thermal_warm": 4.306
+    },
+    "coolWarm85": {
+     "label_generation_net_charge": 0.0,
+     "label_generation_with_pack_discharge": 0.0,
+     "label_thermal_context": 0.0,
+     "label_dissipation_candidate": 0.0,
+     "nLabels0": 0.0,
+     "flow_charging": 0.0,
+     "flow_discharging": 0.0,
+     "thermal_cold": 0.0,
+     "thermal_warm": 60.05
+    },
+    "fuel005": {
+     "label_generation_net_charge": 0.001,
+     "label_generation_with_pack_discharge": 0.001,
+     "label_thermal_context": 0.0,
+     "label_dissipation_candidate": 0.0,
+     "nLabels0": 0.0,
+     "flow_charging": 0.0,
+     "flow_discharging": 0.0,
+     "thermal_cold": 0.0,
+     "thermal_warm": 0.0
+    },
+    "fuel010": {
+     "label_generation_net_charge": 0.003,
+     "label_generation_with_pack_discharge": 0.008,
+     "label_thermal_context": 0.0,
+     "label_dissipation_candidate": 0.0,
+     "nLabels0": 0.008,
+     "flow_charging": 0.0,
+     "flow_discharging": 0.0,
+     "thermal_cold": 0.0,
+     "thermal_warm": 0.0
+    }
+   },
+   "sensitivityMaxPp": 60.05
+  },
+  "slow_fuelValid": {
+   "nDrives": 183,
+   "nDays": 33,
+   "rotatingSeconds": 55198,
+   "flow": {
+    "charging": {
+     "share": 0.668321,
+     "ci95": [
+      0.590638,
+      0.766192
+     ],
+     "pairs": 55198,
+     "violations": 36890,
+     "nDrives": 183,
+     "nDays": 33
+    },
+    "neutral": {
+     "share": 0.068064,
+     "ci95": [
+      0.045708,
+      0.087909
+     ],
+     "pairs": 55198,
+     "violations": 3757,
+     "nDrives": 183,
+     "nDays": 33
+    },
+    "discharging": {
+     "share": 0.263343,
+     "ci95": [
+      0.18266,
+      0.322931
+     ],
+     "pairs": 55198,
+     "violations": 14536,
+     "nDrives": 183,
+     "nDays": 33
+    },
+    "unknown": {
+     "share": 0.000272,
+     "ci95": [
+      2.4e-05,
+      0.000793
+     ],
+     "pairs": 55198,
+     "violations": 15,
+     "nDrives": 183,
+     "nDays": 33
+    }
+   },
+   "thermal": {
+    "cold": {
+     "share": 0.271604,
+     "ci95": [
+      0.171751,
+      0.447114
+     ],
+     "pairs": 55198,
+     "violations": 14992,
+     "nDrives": 183,
+     "nDays": 33
+    },
+    "warming": {
+     "share": 0.240987,
+     "ci95": [
+      0.157149,
+      0.35556
+     ],
+     "pairs": 55198,
+     "violations": 13302,
+     "nDrives": 183,
+     "nDays": 33
+    },
+    "warm": {
+     "share": 0.487318,
+     "ci95": [
+      0.218374,
+      0.666182
+     ],
+     "pairs": 55198,
+     "violations": 26899,
+     "nDrives": 183,
+     "nDays": 33
+    },
+    "unknown": {
+     "share": 9.1e-05,
+     "ci95": [
+      0.0,
+      0.000293
+     ],
+     "pairs": 55198,
+     "violations": 5,
+     "nDrives": 183,
+     "nDays": 33
+    }
+   },
+   "comb": {
+    "motored": {
+     "share": 0.029693,
+     "ci95": [
+      0.018851,
+      0.04708
+     ],
+     "pairs": 55198,
+     "violations": 1639,
+     "nDrives": 183,
+     "nDays": 33
+    },
+    "ambiguous": {
+     "share": 0.046542,
+     "ci95": [
+      0.033739,
+      0.066588
+     ],
+     "pairs": 55198,
+     "violations": 2569,
+     "nDrives": 183,
+     "nDays": 33
+    },
+    "fuelled": {
+     "share": 0.923675,
+     "ci95": [
+      0.890162,
+      0.945214
+     ],
+     "pairs": 55198,
+     "violations": 50985,
+     "nDrives": 183,
+     "nDays": 33
+    },
+    "no_signal": {
+     "share": 9.1e-05,
+     "ci95": [
+      0.0,
+      0.000381
+     ],
+     "pairs": 55198,
+     "violations": 5,
+     "nDrives": 183,
+     "nDays": 33
+    }
+   },
+   "rotation": {
+    "low": {
+     "share": 0.016142,
+     "ci95": [
+      0.01326,
+      0.019447
+     ],
+     "pairs": 55198,
+     "violations": 891,
+     "nDrives": 183,
+     "nDays": 33
+    },
+    "mid": {
+     "share": 0.550364,
+     "ci95": [
+      0.469104,
+      0.663198
+     ],
+     "pairs": 55198,
+     "violations": 30379,
+     "nDrives": 183,
+     "nDays": 33
+    },
+    "high": {
+     "share": 0.433494,
+     "ci95": [
+      0.321606,
+      0.515381
+     ],
+     "pairs": 55198,
+     "violations": 23928,
+     "nDrives": 183,
+     "nDays": 33
+    }
+   },
+   "fuelFlagShareOfFuelled": {
+    "share": 0.980151,
+    "ci95": [
+     0.977206,
+     0.982632
+    ],
+    "pairs": 50985,
+    "violations": 49973,
+    "nDrives": 183,
+    "nDays": 33
+   },
+   "labels": {
+    "generation_net_charge": {
+     "share": 0.625331,
+     "ci95": [
+      0.553988,
+      0.717399
+     ],
+     "pairs": 55198,
+     "violations": 34517,
+     "nDrives": 183,
+     "nDays": 33
+    },
+    "generation_with_pack_discharge": {
+     "share": 0.219646,
+     "ci95": [
+      0.130057,
+      0.288023
+     ],
+     "pairs": 55198,
+     "violations": 12124,
+     "nDrives": 183,
+     "nDays": 33
+    },
+    "thermal_context": {
+     "share": 0.271604,
+     "ci95": [
+      0.171751,
+      0.447114
+     ],
+     "pairs": 55198,
+     "violations": 14992,
+     "nDrives": 183,
+     "nDays": 33
+    },
+    "dissipation_candidate": {
+     "share": 0.002283,
+     "ci95": [
+      0.000295,
+      0.00623
+     ],
+     "pairs": 55198,
+     "violations": 126,
+     "nDrives": 183,
+     "nDays": 33
+    }
+   },
+   "unresolvedNoCandidate": {
+    "share": 0.109008,
+    "ci95": [
+     0.07962,
+     0.128453
+    ],
+    "pairs": 55198,
+    "violations": 6017,
+    "nDrives": 183,
+    "nDays": 33
+   },
+   "unresolvedExceptThermal": {
+    "share": 0.152741,
+    "ci95": [
+     0.134409,
+     0.170428
+    ],
+    "pairs": 55198,
+    "violations": 8431,
+    "nDrives": 183,
+    "nDays": 33
+   },
+   "spinUpShare": {
+    "share": 0.141509,
+    "ci95": [
+     0.126903,
+     0.161053
+    ],
+    "pairs": 55198,
+    "violations": 7811,
+    "nDrives": 183,
+    "nDays": 33
+   },
+   "mixedFunctions": {
+    "nLabels0": {
+     "share": 0.109008,
+     "ci95": [
+      0.07962,
+      0.128453
+     ],
+     "pairs": 55198,
+     "violations": 6017,
+     "nDrives": 183,
+     "nDays": 33
+    },
+    "nLabels1": {
+     "share": 0.663122,
+     "ci95": [
+      0.532754,
+      0.733735
+     ],
+     "pairs": 55198,
+     "violations": 36603,
+     "nDrives": 183,
+     "nDays": 33
+    },
+    "nLabels2": {
+     "share": 0.227871,
+     "ci95": [
+      0.143116,
+      0.378981
+     ],
+     "pairs": 55198,
+     "violations": 12578,
+     "nDrives": 183,
+     "nDays": 33
+    },
+    "nLabels3p": {
+     "share": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "pairs": 55198,
+     "violations": 0,
+     "nDrives": 183,
+     "nDays": 33
+    }
+   },
+   "acceptanceProbe": {
+    "rotatingSocAtLeast80NeutralOrDischargingSeconds": 311,
+    "nDrives": 10,
+    "nDays": 10,
+    "supported": true,
+    "exploratory": true,
+    "dissipationCandidateShare": {
+     "share": 0.064309,
+     "ci95": [
+      0.0,
+      0.156878
+     ],
+     "pairs": 311,
+     "violations": 20,
+     "nDrives": 10,
+     "nDays": 10
+    },
+    "unresolvedNoCandidateShare": {
+     "share": 0.810289,
+     "ci95": [
+      0.623333,
+      0.98777
+     ],
+     "pairs": 311,
+     "violations": 252,
+     "nDrives": 10,
+     "nDays": 10
+    },
+    "unresolvedExceptThermalShare": {
+     "share": 0.81672,
+     "ci95": [
+      0.624976,
+      0.98777
+     ],
+     "pairs": 311,
+     "violations": 254,
+     "nDrives": 10,
+     "nDays": 10
+    }
+   },
+   "unresolvedReasons": {
+    "noSignal": {
+     "share": 9.1e-05,
+     "ci95": [
+      0.0,
+      0.000381
+     ],
+     "pairs": 55198,
+     "violations": 5,
+     "nDrives": 183,
+     "nDays": 33
+    },
+    "fuelMissing": {
+     "share": 0.015653,
+     "ci95": [
+      0.012283,
+      0.0183
+     ],
+     "pairs": 55198,
+     "violations": 864,
+     "nDrives": 183,
+     "nDays": 33
+    },
+    "other": {
+     "share": 0.093264,
+     "ci95": [
+      0.064806,
+      0.11312
+     ],
+     "pairs": 55198,
+     "violations": 5148,
+     "nDrives": 183,
+     "nDays": 33
+    }
+   },
+   "thermalBandTable": {
+    "coolWarm75": {
+     "warming": {
+      "share": 0.185586,
+      "ci95": [
+       0.118504,
+       0.279858
+      ],
+      "pairs": 55198,
+      "violations": 10244,
+      "nDrives": 183,
+      "nDays": 33
+     },
+     "warm": {
+      "share": 0.542719,
+      "ci95": [
+       0.286336,
+       0.707758
+      ],
+      "pairs": 55198,
+      "violations": 29957,
+      "nDrives": 183,
+      "nDays": 33
+     },
+     "cold": {
+      "share": 0.271604,
+      "ci95": [
+       0.171751,
+       0.447114
+      ],
+      "pairs": 55198,
+      "violations": 14992,
+      "nDrives": 183,
+      "nDays": 33
+     }
+    },
+    "base": {
+     "warming": {
+      "share": 0.240987,
+      "ci95": [
+       0.157149,
+       0.35556
+      ],
+      "pairs": 55198,
+      "violations": 13302,
+      "nDrives": 183,
+      "nDays": 33
+     },
+     "warm": {
+      "share": 0.487318,
+      "ci95": [
+       0.218374,
+       0.666182
+      ],
+      "pairs": 55198,
+      "violations": 26899,
+      "nDrives": 183,
+      "nDays": 33
+     },
+     "cold": {
+      "share": 0.271604,
+      "ci95": [
+       0.171751,
+       0.447114
+      ],
+      "pairs": 55198,
+      "violations": 14992,
+      "nDrives": 183,
+      "nDays": 33
+     }
+    },
+    "coolWarm85": {
+     "warming": {
+      "share": 0.660694,
+      "ci95": [
+       0.528298,
+       0.730365
+      ],
+      "pairs": 55198,
+      "violations": 36469,
+      "nDrives": 183,
+      "nDays": 33
+     },
+     "warm": {
+      "share": 0.067611,
+      "ci95": [
+       0.020799,
+       0.100809
+      ],
+      "pairs": 55198,
+      "violations": 3732,
+      "nDrives": 183,
+      "nDays": 33
+     },
+     "cold": {
+      "share": 0.271604,
+      "ci95": [
+       0.171751,
+       0.447114
+      ],
+      "pairs": 55198,
+      "violations": 14992,
+      "nDrives": 183,
+      "nDays": 33
+     }
+    }
+   },
+   "crossTable": {
+    "charging|cold|ambiguous|F|-": {
+     "seconds": 691,
+     "nDrives": 86,
+     "nDays": 28,
+     "supported": true
+    },
+    "charging|cold|ambiguous|F|S": {
+     "seconds": 34,
+     "nDrives": 17,
+     "nDays": 15,
+     "supported": false
+    },
+    "charging|cold|ambiguous|n|-": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "charging|cold|ambiguous|n|S": {
+     "seconds": 8,
+     "nDrives": 7,
+     "nDays": 6,
+     "supported": false
+    },
+    "charging|cold|fuelled|F|-": {
+     "seconds": 10105,
+     "nDrives": 152,
+     "nDays": 33,
+     "supported": true
+    },
+    "charging|cold|fuelled|F|S": {
+     "seconds": 488,
+     "nDrives": 87,
+     "nDays": 33,
+     "supported": true
+    },
+    "charging|cold|fuelled|n|-": {
+     "seconds": 11,
+     "nDrives": 8,
+     "nDays": 7,
+     "supported": false
+    },
+    "charging|cold|fuelled|n|S": {
+     "seconds": 34,
+     "nDrives": 24,
+     "nDays": 17,
+     "supported": false
+    },
+    "charging|cold|motored|F|-": {
+     "seconds": 8,
+     "nDrives": 4,
+     "nDays": 4,
+     "supported": false
+    },
+    "charging|cold|motored|F|S": {
+     "seconds": 15,
+     "nDrives": 11,
+     "nDays": 10,
+     "supported": false
+    },
+    "charging|cold|motored|n|-": {
+     "seconds": 9,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "charging|warming|ambiguous|F|-": {
+     "seconds": 251,
+     "nDrives": 17,
+     "nDays": 16,
+     "supported": true
+    },
+    "charging|warming|ambiguous|F|S": {
+     "seconds": 102,
+     "nDrives": 52,
+     "nDays": 26,
+     "supported": false
+    },
+    "charging|warming|ambiguous|n|-": {
+     "seconds": 6,
+     "nDrives": 3,
+     "nDays": 2,
+     "supported": false
+    },
+    "charging|warming|ambiguous|n|S": {
+     "seconds": 23,
+     "nDrives": 19,
+     "nDays": 13,
+     "supported": false
+    },
+    "charging|warming|fuelled|F|-": {
+     "seconds": 8781,
+     "nDrives": 144,
+     "nDays": 33,
+     "supported": true
+    },
+    "charging|warming|fuelled|F|S": {
+     "seconds": 1086,
+     "nDrives": 130,
+     "nDays": 32,
+     "supported": true
+    },
+    "charging|warming|fuelled|n|-": {
+     "seconds": 14,
+     "nDrives": 7,
+     "nDays": 5,
+     "supported": false
+    },
+    "charging|warming|fuelled|n|S": {
+     "seconds": 84,
+     "nDrives": 50,
+     "nDays": 26,
+     "supported": false
+    },
+    "charging|warming|motored|F|-": {
+     "seconds": 52,
+     "nDrives": 17,
+     "nDays": 14,
+     "supported": false
+    },
+    "charging|warming|motored|F|S": {
+     "seconds": 76,
+     "nDrives": 43,
+     "nDays": 22,
+     "supported": false
+    },
+    "charging|warming|motored|n|-": {
+     "seconds": 109,
+     "nDrives": 11,
+     "nDays": 10,
+     "supported": false
+    },
+    "charging|warming|motored|n|S": {
+     "seconds": 11,
+     "nDrives": 7,
+     "nDays": 7,
+     "supported": false
+    },
+    "charging|warming|no_signal|F|-": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "charging|warming|no_signal|F|S": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "charging|warm|ambiguous|F|-": {
+     "seconds": 45,
+     "nDrives": 16,
+     "nDays": 9,
+     "supported": false
+    },
+    "charging|warm|ambiguous|F|S": {
+     "seconds": 173,
+     "nDrives": 41,
+     "nDays": 19,
+     "supported": false
+    },
+    "charging|warm|ambiguous|n|-": {
+     "seconds": 11,
+     "nDrives": 8,
+     "nDays": 5,
+     "supported": false
+    },
+    "charging|warm|ambiguous|n|S": {
+     "seconds": 31,
+     "nDrives": 16,
+     "nDays": 9,
+     "supported": false
+    },
+    "charging|warm|fuelled|F|-": {
+     "seconds": 12248,
+     "nDrives": 62,
+     "nDays": 21,
+     "supported": true
+    },
+    "charging|warm|fuelled|F|S": {
+     "seconds": 1819,
+     "nDrives": 62,
+     "nDays": 21,
+     "supported": true
+    },
+    "charging|warm|fuelled|n|-": {
+     "seconds": 32,
+     "nDrives": 13,
+     "nDays": 7,
+     "supported": false
+    },
+    "charging|warm|fuelled|n|S": {
+     "seconds": 160,
+     "nDrives": 35,
+     "nDays": 15,
+     "supported": false
+    },
+    "charging|warm|motored|F|-": {
+     "seconds": 56,
+     "nDrives": 14,
+     "nDays": 7,
+     "supported": false
+    },
+    "charging|warm|motored|F|S": {
+     "seconds": 260,
+     "nDrives": 38,
+     "nDays": 17,
+     "supported": true
+    },
+    "charging|warm|motored|n|-": {
+     "seconds": 32,
+     "nDrives": 5,
+     "nDays": 4,
+     "supported": false
+    },
+    "charging|warm|motored|n|S": {
+     "seconds": 20,
+     "nDrives": 7,
+     "nDays": 5,
+     "supported": false
+    },
+    "charging|warm|no_signal|F|S": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "charging|warm|no_signal|n|S": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "discharging|cold|ambiguous|F|-": {
+     "seconds": 540,
+     "nDrives": 66,
+     "nDays": 25,
+     "supported": true
+    },
+    "discharging|cold|ambiguous|F|S": {
+     "seconds": 58,
+     "nDrives": 38,
+     "nDays": 22,
+     "supported": false
+    },
+    "discharging|cold|ambiguous|n|S": {
+     "seconds": 51,
+     "nDrives": 37,
+     "nDays": 20,
+     "supported": false
+    },
+    "discharging|cold|fuelled|F|-": {
+     "seconds": 1639,
+     "nDrives": 132,
+     "nDays": 33,
+     "supported": true
+    },
+    "discharging|cold|fuelled|F|S": {
+     "seconds": 381,
+     "nDrives": 129,
+     "nDays": 33,
+     "supported": true
+    },
+    "discharging|cold|fuelled|n|S": {
+     "seconds": 92,
+     "nDrives": 64,
+     "nDays": 30,
+     "supported": false
+    },
+    "discharging|cold|motored|F|-": {
+     "seconds": 6,
+     "nDrives": 2,
+     "nDays": 2,
+     "supported": false
+    },
+    "discharging|cold|motored|F|S": {
+     "seconds": 16,
+     "nDrives": 11,
+     "nDays": 11,
+     "supported": false
+    },
+    "discharging|cold|motored|n|-": {
+     "seconds": 13,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "discharging|cold|motored|n|S": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "discharging|warming|ambiguous|F|-": {
+     "seconds": 22,
+     "nDrives": 8,
+     "nDays": 8,
+     "supported": false
+    },
+    "discharging|warming|ambiguous|F|S": {
+     "seconds": 45,
+     "nDrives": 31,
+     "nDays": 16,
+     "supported": false
+    },
+    "discharging|warming|ambiguous|n|-": {
+     "seconds": 9,
+     "nDrives": 7,
+     "nDays": 6,
+     "supported": false
+    },
+    "discharging|warming|ambiguous|n|S": {
+     "seconds": 35,
+     "nDrives": 24,
+     "nDays": 15,
+     "supported": false
+    },
+    "discharging|warming|fuelled|F|-": {
+     "seconds": 836,
+     "nDrives": 81,
+     "nDays": 29,
+     "supported": true
+    },
+    "discharging|warming|fuelled|F|S": {
+     "seconds": 362,
+     "nDrives": 81,
+     "nDays": 29,
+     "supported": true
+    },
+    "discharging|warming|fuelled|n|-": {
+     "seconds": 10,
+     "nDrives": 8,
+     "nDays": 8,
+     "supported": false
+    },
+    "discharging|warming|fuelled|n|S": {
+     "seconds": 126,
+     "nDrives": 59,
+     "nDays": 26,
+     "supported": false
+    },
+    "discharging|warming|motored|F|-": {
+     "seconds": 224,
+     "nDrives": 11,
+     "nDays": 9,
+     "supported": true
+    },
+    "discharging|warming|motored|F|S": {
+     "seconds": 30,
+     "nDrives": 24,
+     "nDays": 15,
+     "supported": false
+    },
+    "discharging|warming|motored|n|-": {
+     "seconds": 289,
+     "nDrives": 11,
+     "nDays": 9,
+     "supported": true
+    },
+    "discharging|warming|motored|n|S": {
+     "seconds": 38,
+     "nDrives": 13,
+     "nDays": 9,
+     "supported": false
+    },
+    "discharging|warm|ambiguous|F|-": {
+     "seconds": 22,
+     "nDrives": 12,
+     "nDays": 7,
+     "supported": false
+    },
+    "discharging|warm|ambiguous|F|S": {
+     "seconds": 83,
+     "nDrives": 22,
+     "nDays": 8,
+     "supported": false
+    },
+    "discharging|warm|ambiguous|n|-": {
+     "seconds": 14,
+     "nDrives": 7,
+     "nDays": 5,
+     "supported": false
+    },
+    "discharging|warm|ambiguous|n|S": {
+     "seconds": 87,
+     "nDrives": 23,
+     "nDays": 12,
+     "supported": false
+    },
+    "discharging|warm|fuelled|F|-": {
+     "seconds": 7816,
+     "nDrives": 39,
+     "nDays": 15,
+     "supported": true
+    },
+    "discharging|warm|fuelled|F|S": {
+     "seconds": 1150,
+     "nDrives": 48,
+     "nDays": 18,
+     "supported": true
+    },
+    "discharging|warm|fuelled|n|-": {
+     "seconds": 74,
+     "nDrives": 17,
+     "nDays": 10,
+     "supported": false
+    },
+    "discharging|warm|fuelled|n|S": {
+     "seconds": 318,
+     "nDrives": 48,
+     "nDays": 18,
+     "supported": true
+    },
+    "discharging|warm|motored|F|-": {
+     "seconds": 47,
+     "nDrives": 9,
+     "nDays": 6,
+     "supported": false
+    },
+    "discharging|warm|motored|F|S": {
+     "seconds": 56,
+     "nDrives": 18,
+     "nDays": 11,
+     "supported": false
+    },
+    "discharging|warm|motored|n|-": {
+     "seconds": 18,
+     "nDrives": 5,
+     "nDays": 3,
+     "supported": false
+    },
+    "discharging|warm|motored|n|S": {
+     "seconds": 28,
+     "nDrives": 8,
+     "nDays": 5,
+     "supported": false
+    },
+    "neutral|cold|ambiguous|F|-": {
+     "seconds": 146,
+     "nDrives": 36,
+     "nDays": 20,
+     "supported": false
+    },
+    "neutral|cold|ambiguous|F|S": {
+     "seconds": 8,
+     "nDrives": 5,
+     "nDays": 4,
+     "supported": false
+    },
+    "neutral|cold|ambiguous|n|S": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "neutral|cold|fuelled|F|-": {
+     "seconds": 540,
+     "nDrives": 110,
+     "nDays": 33,
+     "supported": true
+    },
+    "neutral|cold|fuelled|F|S": {
+     "seconds": 77,
+     "nDrives": 41,
+     "nDays": 26,
+     "supported": false
+    },
+    "neutral|cold|fuelled|n|S": {
+     "seconds": 11,
+     "nDrives": 9,
+     "nDays": 9,
+     "supported": false
+    },
+    "neutral|cold|motored|F|S": {
+     "seconds": 5,
+     "nDrives": 3,
+     "nDays": 3,
+     "supported": false
+    },
+    "neutral|cold|motored|n|-": {
+     "seconds": 2,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "neutral|warming|ambiguous|F|-": {
+     "seconds": 39,
+     "nDrives": 10,
+     "nDays": 8,
+     "supported": false
+    },
+    "neutral|warming|ambiguous|F|S": {
+     "seconds": 15,
+     "nDrives": 7,
+     "nDays": 6,
+     "supported": false
+    },
+    "neutral|warming|ambiguous|n|S": {
+     "seconds": 4,
+     "nDrives": 4,
+     "nDays": 4,
+     "supported": false
+    },
+    "neutral|warming|fuelled|F|-": {
+     "seconds": 319,
+     "nDrives": 71,
+     "nDays": 28,
+     "supported": true
+    },
+    "neutral|warming|fuelled|F|S": {
+     "seconds": 72,
+     "nDrives": 39,
+     "nDays": 22,
+     "supported": false
+    },
+    "neutral|warming|fuelled|n|-": {
+     "seconds": 3,
+     "nDrives": 2,
+     "nDays": 2,
+     "supported": false
+    },
+    "neutral|warming|fuelled|n|S": {
+     "seconds": 20,
+     "nDrives": 14,
+     "nDays": 11,
+     "supported": false
+    },
+    "neutral|warming|motored|F|-": {
+     "seconds": 153,
+     "nDrives": 8,
+     "nDays": 6,
+     "supported": false
+    },
+    "neutral|warming|motored|F|S": {
+     "seconds": 15,
+     "nDrives": 9,
+     "nDays": 6,
+     "supported": false
+    },
+    "neutral|warming|motored|n|-": {
+     "seconds": 27,
+     "nDrives": 6,
+     "nDays": 6,
+     "supported": false
+    },
+    "neutral|warming|motored|n|S": {
+     "seconds": 9,
+     "nDrives": 5,
+     "nDays": 5,
+     "supported": false
+    },
+    "neutral|warm|ambiguous|F|-": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "neutral|warm|ambiguous|F|S": {
+     "seconds": 5,
+     "nDrives": 4,
+     "nDays": 2,
+     "supported": false
+    },
+    "neutral|warm|ambiguous|n|-": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "neutral|warm|ambiguous|n|S": {
+     "seconds": 4,
+     "nDrives": 4,
+     "nDays": 4,
+     "supported": false
+    },
+    "neutral|warm|fuelled|F|-": {
+     "seconds": 2106,
+     "nDrives": 39,
+     "nDays": 13,
+     "supported": true
+    },
+    "neutral|warm|fuelled|F|S": {
+     "seconds": 139,
+     "nDrives": 28,
+     "nDays": 12,
+     "supported": false
+    },
+    "neutral|warm|fuelled|n|-": {
+     "seconds": 2,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "neutral|warm|fuelled|n|S": {
+     "seconds": 19,
+     "nDrives": 15,
+     "nDays": 8,
+     "supported": false
+    },
+    "neutral|warm|motored|F|-": {
+     "seconds": 2,
+     "nDrives": 2,
+     "nDays": 2,
+     "supported": false
+    },
+    "neutral|warm|motored|F|S": {
+     "seconds": 5,
+     "nDrives": 5,
+     "nDays": 4,
+     "supported": false
+    },
+    "neutral|warm|motored|n|-": {
+     "seconds": 2,
+     "nDrives": 2,
+     "nDays": 2,
+     "supported": false
+    },
+    "neutral|warm|motored|n|S": {
+     "seconds": 5,
+     "nDrives": 2,
+     "nDays": 2,
+     "supported": false
+    },
+    "unknown|cold|ambiguous|F|-": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "unknown|unknown|ambiguous|F|S": {
+     "seconds": 2,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "unknown|unknown|fuelled|F|S": {
+     "seconds": 2,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "unknown|unknown|no_signal|F|S": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "unknown|warming|fuelled|F|-": {
+     "seconds": 1,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "unknown|warming|fuelled|F|S": {
+     "seconds": 2,
+     "nDrives": 1,
+     "nDays": 1,
+     "supported": false
+    },
+    "unknown|warm|fuelled|F|S": {
+     "seconds": 4,
+     "nDrives": 2,
+     "nDays": 2,
+     "supported": false
+    },
+    "unknown|warm|fuelled|n|S": {
+     "seconds": 2,
+     "nDrives": 2,
+     "nDays": 2,
+     "supported": false
+    }
+   },
+   "crossTableSupportedCells": 22,
+   "sensitivityPp": {
+    "flow1A": {
+     "label_generation_net_charge": 1.294,
+     "label_generation_with_pack_discharge": 1.449,
+     "label_thermal_context": 0.0,
+     "label_dissipation_candidate": 0.0,
+     "nLabels0": 2.286,
+     "flow_charging": 1.509,
+     "flow_discharging": 1.761,
+     "thermal_cold": 0.0,
+     "thermal_warm": 0.0
+    },
+    "flow5A": {
+     "label_generation_net_charge": 3.498,
+     "label_generation_with_pack_discharge": 3.587,
+     "label_thermal_context": 0.0,
+     "label_dissipation_candidate": 0.0,
+     "nLabels0": 5.812,
+     "flow_charging": 4.1,
+     "flow_discharging": 4.326,
+     "thermal_cold": 0.0,
+     "thermal_warm": 0.0
+    },
+    "rpm600": {
+     "label_generation_net_charge": 0.632,
+     "label_generation_with_pack_discharge": 0.214,
+     "label_thermal_context": 0.251,
+     "label_dissipation_candidate": 0.003,
+     "nLabels0": 0.828,
+     "flow_charging": 0.101,
+     "flow_discharging": 0.102,
+     "thermal_cold": 0.251,
+     "thermal_warm": 0.205
+    },
+    "coolCold55": {
+     "label_generation_net_charge": 0.0,
+     "label_generation_with_pack_discharge": 0.0,
+     "label_thermal_context": 6.886,
+     "label_dissipation_candidate": 0.0,
+     "nLabels0": 1.38,
+     "flow_charging": 0.0,
+     "flow_discharging": 0.0,
+     "thermal_cold": 6.886,
+     "thermal_warm": 0.0
+    },
+    "coolCold65": {
+     "label_generation_net_charge": 0.0,
+     "label_generation_with_pack_discharge": 0.0,
+     "label_thermal_context": 7.363,
+     "label_dissipation_candidate": 0.0,
+     "nLabels0": 2.04,
+     "flow_charging": 0.0,
+     "flow_discharging": 0.0,
+     "thermal_cold": 7.363,
+     "thermal_warm": 0.0
+    },
+    "coolWarm75": {
+     "label_generation_net_charge": 0.0,
+     "label_generation_with_pack_discharge": 0.0,
+     "label_thermal_context": 0.0,
+     "label_dissipation_candidate": 0.0,
+     "nLabels0": 0.0,
+     "flow_charging": 0.0,
+     "flow_discharging": 0.0,
+     "thermal_cold": 0.0,
+     "thermal_warm": 5.54
+    },
+    "coolWarm85": {
+     "label_generation_net_charge": 0.0,
+     "label_generation_with_pack_discharge": 0.0,
+     "label_thermal_context": 0.0,
+     "label_dissipation_candidate": 0.0,
+     "nLabels0": 0.0,
+     "flow_charging": 0.0,
+     "flow_discharging": 0.0,
+     "thermal_cold": 0.0,
+     "thermal_warm": 41.971
+    },
+    "fuel005": {
+     "label_generation_net_charge": 0.005,
+     "label_generation_with_pack_discharge": 0.004,
+     "label_thermal_context": 0.0,
+     "label_dissipation_candidate": 0.0,
+     "nLabels0": 0.002,
+     "flow_charging": 0.0,
+     "flow_discharging": 0.0,
+     "thermal_cold": 0.0,
+     "thermal_warm": 0.0
+    },
+    "fuel010": {
+     "label_generation_net_charge": 0.013,
+     "label_generation_with_pack_discharge": 0.036,
+     "label_thermal_context": 0.0,
+     "label_dissipation_candidate": 0.0,
+     "nLabels0": 0.04,
+     "flow_charging": 0.0,
+     "flow_discharging": 0.0,
+     "thermal_cold": 0.0,
+     "thermal_warm": 0.0
+    }
+   },
+   "sensitivityMaxPp": 41.971
+  }
+ },
+ "rawListSha256": "46565d2399af5142d90039cb7f3cf18faff0615dd73b4ebaa4ed8dfef6c17ce4"
+}
