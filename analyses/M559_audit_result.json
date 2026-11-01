@@ -1,0 +1,2052 @@
+{
+ "nWindows": 58,
+ "ambiguousRules": [
+  "Window taken by grid index (first resampled second = 0, start and end inclusive, 21 s); consistent with startTime clock times",
+  "Grid: floor of first timestamp, reindexed to continuous 1 s grid before ffill(3); gaps become NaN",
+  "Spin: rpm NaN after ffill treated as not rotating, so NaN gaps create crossings; crossing at k is the later second of the pair; seconds within |i-k|<=3 flagged",
+  "Coolant 'at or before that second': raw sample time <= grid-second start; sub-second samples inside the same second are not used",
+  "Coolant boundaries: age exactly 30 s is known (unknown only if > 30); exactly 60 C is cold, exactly 80 C is warming",
+  "generation_with_pack_discharge: missing speed treated as not > 5",
+  "fuelFlag when fuel mean is NaN after ffill: false; 'zero throughout the file' evaluated on the grid with NaN as 0",
+  "dissipation_candidate uses strict rpm > 2000 (Director ruling); rpmExactly2000 = rpm==2000 AND motored AND low load (spin ignored)",
+  "Midnight rollover detected by a time decrease > 12 h",
+  "Brief says 'comb no_signal when boost missing', ambiguous band -0.70..-0.55 yields 'ambiguous' which gets no label",
+  "thermal_context label is independent of comb/flow; a second may carry several labels (non-exclusive); unresolved = no label at all",
+  "File name mapping: sample uses '_' between date and time, raw uses a space"
+ ],
+ "windows": [
+  {
+   "rot": {
+    "mid": 11
+   },
+   "flow": {
+    "charging": 11
+   },
+   "thermal": {
+    "cold": 11
+   },
+   "comb": {
+    "fuelled": 11
+   },
+   "labels": {
+    "generation_net_charge": 11,
+    "thermal_context": 11
+   },
+   "unresolved": 0,
+   "spin": 4,
+   "rpmExactly2000": 0,
+   "rotSeconds": 11,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "2026-10-12_08-41-25.csv",
+   "category": "engineStart",
+   "stratum": "fast",
+   "startIndexS": 1054,
+   "endIndexS": 1074
+  },
+  {
+   "rot": {},
+   "flow": {},
+   "thermal": {},
+   "comb": {},
+   "labels": {},
+   "unresolved": 0,
+   "spin": 0,
+   "rpmExactly2000": 0,
+   "rotSeconds": 0,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "2026-10-03_17-27-25.csv",
+   "category": "brakingRpm0Charging",
+   "stratum": "fast",
+   "startIndexS": 289,
+   "endIndexS": 309
+  },
+  {
+   "rot": {
+    "low": 1,
+    "mid": 7,
+    "high": 4
+   },
+   "flow": {
+    "charging": 7,
+    "discharging": 5
+   },
+   "thermal": {
+    "warm": 12
+   },
+   "comb": {
+    "fuelled": 12
+   },
+   "labels": {
+    "generation_with_pack_discharge": 4,
+    "generation_net_charge": 6
+   },
+   "unresolved": 2,
+   "spin": 5,
+   "rpmExactly2000": 0,
+   "rotSeconds": 12,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "20260816_171638.csv",
+   "category": "engineStart",
+   "stratum": "fast",
+   "startIndexS": 352,
+   "endIndexS": 372
+  },
+  {
+   "rot": {},
+   "flow": {},
+   "thermal": {},
+   "comb": {},
+   "labels": {},
+   "unresolved": 0,
+   "spin": 0,
+   "rpmExactly2000": 0,
+   "rotSeconds": 0,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "2026-10-06_07-58-35.csv",
+   "category": "brakingRpm0Charging",
+   "stratum": "fast",
+   "startIndexS": 123,
+   "endIndexS": 143
+  },
+  {
+   "rot": {
+    "low": 2,
+    "high": 2,
+    "mid": 2
+   },
+   "flow": {
+    "discharging": 4,
+    "charging": 2
+   },
+   "thermal": {
+    "warm": 6
+   },
+   "comb": {
+    "fuelled": 6
+   },
+   "labels": {
+    "generation_with_pack_discharge": 2,
+    "generation_net_charge": 2
+   },
+   "unresolved": 2,
+   "spin": 6,
+   "rpmExactly2000": 0,
+   "rotSeconds": 6,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "20260826_203739.csv",
+   "category": "engineStop",
+   "stratum": "fast",
+   "startIndexS": 1230,
+   "endIndexS": 1250
+  },
+  {
+   "rot": {
+    "high": 7,
+    "mid": 3
+   },
+   "flow": {
+    "charging": 9,
+    "discharging": 1
+   },
+   "thermal": {
+    "warm": 10
+   },
+   "comb": {
+    "fuelled": 9,
+    "motored": 1
+   },
+   "labels": {
+    "generation_net_charge": 9
+   },
+   "unresolved": 1,
+   "spin": 3,
+   "rpmExactly2000": 0,
+   "rotSeconds": 10,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "20260820_214927.csv",
+   "category": "engineStop",
+   "stratum": "fast",
+   "startIndexS": 828,
+   "endIndexS": 848
+  },
+  {
+   "rot": {
+    "mid": 18,
+    "low": 1
+   },
+   "flow": {
+    "charging": 11,
+    "neutral": 7,
+    "discharging": 1
+   },
+   "thermal": {
+    "warming": 19
+   },
+   "comb": {
+    "ambiguous": 3,
+    "motored": 2,
+    "fuelled": 14
+   },
+   "labels": {
+    "generation_net_charge": 9,
+    "generation_with_pack_discharge": 1
+   },
+   "unresolved": 9,
+   "spin": 7,
+   "rpmExactly2000": 0,
+   "rotSeconds": 19,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "2026-10-05_07-41-08.csv",
+   "category": "flowDeadbandEdge",
+   "stratum": "fast",
+   "startIndexS": 518,
+   "endIndexS": 538
+  },
+  {
+   "rot": {
+    "mid": 9,
+    "high": 8
+   },
+   "flow": {
+    "discharging": 9,
+    "neutral": 1,
+    "charging": 7
+   },
+   "thermal": {
+    "warm": 17
+   },
+   "comb": {
+    "fuelled": 17
+   },
+   "labels": {
+    "generation_with_pack_discharge": 9,
+    "generation_net_charge": 7
+   },
+   "unresolved": 1,
+   "spin": 4,
+   "rpmExactly2000": 0,
+   "rotSeconds": 17,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "20260903_213855.csv",
+   "category": "flowDeadbandEdge",
+   "stratum": "fast",
+   "startIndexS": 666,
+   "endIndexS": 686
+  },
+  {
+   "rot": {
+    "mid": 21
+   },
+   "flow": {
+    "charging": 12,
+    "neutral": 8,
+    "discharging": 1
+   },
+   "thermal": {
+    "cold": 21
+   },
+   "comb": {
+    "ambiguous": 10,
+    "fuelled": 11
+   },
+   "labels": {
+    "thermal_context": 21,
+    "generation_net_charge": 8
+   },
+   "unresolved": 0,
+   "spin": 0,
+   "rpmExactly2000": 0,
+   "rotSeconds": 21,
+   "windowSeconds": 21,
+   "unsure": [
+    [
+     84,
+     "coolant edge",
+     60.0,
+     0.8300000000017462
+    ]
+   ],
+   "file": "20260822_173539.csv",
+   "category": "genCharging",
+   "stratum": "fast",
+   "startIndexS": 64,
+   "endIndexS": 84
+  },
+  {
+   "rot": {
+    "mid": 20,
+    "high": 1
+   },
+   "flow": {
+    "charging": 19,
+    "neutral": 2
+   },
+   "thermal": {
+    "cold": 21
+   },
+   "comb": {
+    "ambiguous": 4,
+    "fuelled": 17
+   },
+   "labels": {
+    "thermal_context": 21,
+    "generation_net_charge": 15
+   },
+   "unresolved": 0,
+   "spin": 0,
+   "rpmExactly2000": 0,
+   "rotSeconds": 21,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "2026-10-05_11-38-00.csv",
+   "category": "genCharging",
+   "stratum": "fast",
+   "startIndexS": 236,
+   "endIndexS": 256
+  },
+  {
+   "rot": {
+    "mid": 4,
+    "high": 2,
+    "low": 1
+   },
+   "flow": {
+    "discharging": 3,
+    "charging": 4
+   },
+   "thermal": {
+    "warm": 7
+   },
+   "comb": {
+    "fuelled": 7
+   },
+   "labels": {
+    "generation_with_pack_discharge": 2,
+    "generation_net_charge": 4
+   },
+   "unresolved": 1,
+   "spin": 7,
+   "rpmExactly2000": 0,
+   "rotSeconds": 7,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "20260905_110415.csv",
+   "category": "genDischargingMoving",
+   "stratum": "fast",
+   "startIndexS": 255,
+   "endIndexS": 275
+  },
+  {
+   "rot": {
+    "mid": 8,
+    "high": 4
+   },
+   "flow": {
+    "discharging": 4,
+    "charging": 8
+   },
+   "thermal": {
+    "warm": 12
+   },
+   "comb": {
+    "fuelled": 11,
+    "motored": 1
+   },
+   "labels": {
+    "generation_with_pack_discharge": 3,
+    "generation_net_charge": 7
+   },
+   "unresolved": 2,
+   "spin": 7,
+   "rpmExactly2000": 0,
+   "rotSeconds": 12,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "20260823_161315.csv",
+   "category": "genDischargingMoving",
+   "stratum": "fast",
+   "startIndexS": 320,
+   "endIndexS": 340
+  },
+  {
+   "rot": {
+    "high": 5,
+    "mid": 8,
+    "low": 2
+   },
+   "flow": {
+    "charging": 8,
+    "discharging": 7
+   },
+   "thermal": {
+    "warm": 15
+   },
+   "comb": {
+    "fuelled": 8,
+    "motored": 5,
+    "ambiguous": 2
+   },
+   "labels": {
+    "generation_net_charge": 6,
+    "generation_with_pack_discharge": 1
+   },
+   "unresolved": 8,
+   "spin": 3,
+   "rpmExactly2000": 0,
+   "rotSeconds": 15,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "20260820_225027.csv",
+   "category": "fuelZeroRotating",
+   "stratum": "fast",
+   "startIndexS": 120,
+   "endIndexS": 140
+  },
+  {
+   "rot": {
+    "high": 3,
+    "mid": 11
+   },
+   "flow": {
+    "charging": 14
+   },
+   "thermal": {
+    "warm": 14
+   },
+   "comb": {
+    "fuelled": 7,
+    "ambiguous": 1,
+    "motored": 6
+   },
+   "labels": {
+    "generation_net_charge": 7
+   },
+   "unresolved": 7,
+   "spin": 3,
+   "rpmExactly2000": 0,
+   "rotSeconds": 14,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "20260824_222425.csv",
+   "category": "fuelZeroRotating",
+   "stratum": "fast",
+   "startIndexS": 136,
+   "endIndexS": 156
+  },
+  {
+   "rot": {
+    "mid": 10,
+    "high": 11
+   },
+   "flow": {
+    "charging": 18,
+    "discharging": 3
+   },
+   "thermal": {
+    "cold": 8,
+    "warming": 13
+   },
+   "comb": {
+    "fuelled": 21
+   },
+   "labels": {
+    "generation_net_charge": 18,
+    "thermal_context": 8,
+    "generation_with_pack_discharge": 3
+   },
+   "unresolved": 0,
+   "spin": 1,
+   "rpmExactly2000": 0,
+   "rotSeconds": 21,
+   "windowSeconds": 21,
+   "unsure": [
+    [
+     62,
+     "coolant edge",
+     60.0,
+     0.2569999999977881
+    ],
+    [
+     63,
+     "coolant edge",
+     60.0,
+     1.256999999997788
+    ],
+    [
+     64,
+     "coolant edge",
+     60.0,
+     2.256999999997788
+    ],
+    [
+     65,
+     "coolant edge",
+     60.0,
+     3.256999999997788
+    ],
+    [
+     66,
+     "coolant edge",
+     60.0,
+     4.256999999997788
+    ]
+   ],
+   "file": "20260819_124907.csv",
+   "category": "coolant60",
+   "stratum": "fast",
+   "startIndexS": 59,
+   "endIndexS": 79
+  },
+  {
+   "rot": {
+    "mid": 17,
+    "high": 4
+   },
+   "flow": {
+    "charging": 19,
+    "neutral": 1,
+    "discharging": 1
+   },
+   "thermal": {
+    "cold": 21
+   },
+   "comb": {
+    "fuelled": 21
+   },
+   "labels": {
+    "generation_net_charge": 19,
+    "thermal_context": 21,
+    "generation_with_pack_discharge": 1
+   },
+   "unresolved": 0,
+   "spin": 0,
+   "rpmExactly2000": 0,
+   "rotSeconds": 21,
+   "windowSeconds": 21,
+   "unsure": [
+    [
+     377,
+     "coolant edge",
+     60.0,
+     0.9419999999990978
+    ],
+    [
+     378,
+     "coolant edge",
+     60.0,
+     1.9419999999990978
+    ],
+    [
+     379,
+     "coolant edge",
+     60.0,
+     2.941999999999098
+    ],
+    [
+     380,
+     "coolant edge",
+     60.0,
+     3.941999999999098
+    ],
+    [
+     381,
+     "coolant edge",
+     60.0,
+     0.3569999999999709
+    ],
+    [
+     382,
+     "coolant edge",
+     60.0,
+     1.356999999999971
+    ],
+    [
+     383,
+     "coolant edge",
+     60.0,
+     2.356999999999971
+    ]
+   ],
+   "file": "2026-10-08_07-54-51.csv",
+   "category": "coolant60",
+   "stratum": "fast",
+   "startIndexS": 363,
+   "endIndexS": 383
+  },
+  {
+   "rot": {
+    "high": 15,
+    "mid": 6
+   },
+   "flow": {
+    "discharging": 14,
+    "charging": 4,
+    "neutral": 3
+   },
+   "thermal": {
+    "warming": 9,
+    "warm": 12
+   },
+   "comb": {
+    "fuelled": 21
+   },
+   "labels": {
+    "generation_with_pack_discharge": 14,
+    "generation_net_charge": 4
+   },
+   "unresolved": 3,
+   "spin": 0,
+   "rpmExactly2000": 0,
+   "rotSeconds": 21,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "20260826_224518.csv",
+   "category": "coolant80",
+   "stratum": "fast",
+   "startIndexS": 317,
+   "endIndexS": 337
+  },
+  {
+   "rot": {
+    "mid": 21
+   },
+   "flow": {
+    "neutral": 2,
+    "discharging": 6,
+    "charging": 13
+   },
+   "thermal": {
+    "cold": 21
+   },
+   "comb": {
+    "fuelled": 21
+   },
+   "labels": {
+    "thermal_context": 21,
+    "generation_with_pack_discharge": 6,
+    "generation_net_charge": 13
+   },
+   "unresolved": 0,
+   "spin": 0,
+   "rpmExactly2000": 0,
+   "rotSeconds": 21,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "20260829_191404.csv",
+   "category": "coldRotating",
+   "stratum": "fast",
+   "startIndexS": 106,
+   "endIndexS": 126
+  },
+  {
+   "rot": {
+    "mid": 10,
+    "high": 8
+   },
+   "flow": {
+    "charging": 8,
+    "discharging": 10
+   },
+   "thermal": {
+    "warm": 18
+   },
+   "comb": {
+    "motored": 1,
+    "fuelled": 17
+   },
+   "labels": {
+    "generation_with_pack_discharge": 9,
+    "generation_net_charge": 7
+   },
+   "unresolved": 2,
+   "spin": 5,
+   "rpmExactly2000": 0,
+   "rotSeconds": 18,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "20260823_152957.csv",
+   "category": "coolant80",
+   "stratum": "fast",
+   "startIndexS": 448,
+   "endIndexS": 468
+  },
+  {
+   "rot": {
+    "mid": 21
+   },
+   "flow": {
+    "charging": 21
+   },
+   "thermal": {
+    "cold": 21
+   },
+   "comb": {
+    "fuelled": 21
+   },
+   "labels": {
+    "generation_net_charge": 21,
+    "thermal_context": 21
+   },
+   "unresolved": 0,
+   "spin": 0,
+   "rpmExactly2000": 0,
+   "rotSeconds": 21,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "20260905_103157.csv",
+   "category": "coldRotating",
+   "stratum": "fast",
+   "startIndexS": 55,
+   "endIndexS": 75
+  },
+  {
+   "rot": {
+    "mid": 21
+   },
+   "flow": {
+    "discharging": 19,
+    "neutral": 2
+   },
+   "thermal": {
+    "warming": 21
+   },
+   "comb": {
+    "ambiguous": 2,
+    "fuelled": 8,
+    "motored": 11
+   },
+   "labels": {
+    "generation_with_pack_discharge": 5
+   },
+   "unresolved": 16,
+   "spin": 0,
+   "rpmExactly2000": 0,
+   "rotSeconds": 21,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "2026-10-08_07-35-40.csv",
+   "category": "highSocNeutralOrDischarging",
+   "stratum": "fast",
+   "startIndexS": 337,
+   "endIndexS": 357
+  },
+  {
+   "rot": {
+    "mid": 9,
+    "high": 12
+   },
+   "flow": {
+    "charging": 7,
+    "discharging": 13,
+    "neutral": 1
+   },
+   "thermal": {
+    "warm": 21
+   },
+   "comb": {
+    "fuelled": 20,
+    "motored": 1
+   },
+   "labels": {
+    "generation_net_charge": 6,
+    "generation_with_pack_discharge": 13,
+    "dissipation_candidate": 1
+   },
+   "unresolved": 1,
+   "spin": 2,
+   "rpmExactly2000": 0,
+   "rotSeconds": 21,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "2026-10-14_09-29-12.csv",
+   "category": "motoredDissipation",
+   "stratum": "fast",
+   "startIndexS": 2481,
+   "endIndexS": 2501
+  },
+  {
+   "rot": {
+    "high": 19,
+    "mid": 1,
+    "low": 1
+   },
+   "flow": {
+    "discharging": 15,
+    "charging": 6
+   },
+   "thermal": {
+    "warm": 21
+   },
+   "comb": {
+    "fuelled": 20,
+    "motored": 1
+   },
+   "labels": {
+    "generation_with_pack_discharge": 14,
+    "generation_net_charge": 5,
+    "dissipation_candidate": 1
+   },
+   "unresolved": 1,
+   "spin": 0,
+   "rpmExactly2000": 0,
+   "rotSeconds": 21,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "2026-10-03_18-32-35.csv",
+   "category": "motoredDissipation",
+   "stratum": "fast",
+   "startIndexS": 389,
+   "endIndexS": 409
+  },
+  {
+   "rot": {
+    "mid": 16,
+    "low": 1
+   },
+   "flow": {
+    "charging": 4,
+    "neutral": 13
+   },
+   "thermal": {
+    "warming": 17
+   },
+   "comb": {
+    "motored": 16,
+    "ambiguous": 1
+   },
+   "labels": {},
+   "unresolved": 17,
+   "spin": 3,
+   "rpmExactly2000": 0,
+   "rotSeconds": 17,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "2026-10-13_19-47-36.csv",
+   "category": "highSocNeutralOrDischarging",
+   "stratum": "fast",
+   "startIndexS": 821,
+   "endIndexS": 841
+  },
+  {
+   "rot": {
+    "high": 7,
+    "mid": 10
+   },
+   "flow": {
+    "charging": 13,
+    "discharging": 4
+   },
+   "thermal": {
+    "warming": 17
+   },
+   "comb": {
+    "fuelled": 7,
+    "ambiguous": 3,
+    "motored": 7
+   },
+   "labels": {
+    "generation_net_charge": 7
+   },
+   "unresolved": 10,
+   "spin": 7,
+   "rpmExactly2000": 0,
+   "rotSeconds": 17,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "2026-10-14_22-25-29.csv",
+   "category": "boostEdge",
+   "stratum": "fast",
+   "startIndexS": 333,
+   "endIndexS": 353
+  },
+  {
+   "rot": {
+    "high": 17,
+    "mid": 4
+   },
+   "flow": {
+    "discharging": 12,
+    "charging": 7,
+    "neutral": 2
+   },
+   "thermal": {
+    "warm": 21
+   },
+   "comb": {
+    "fuelled": 20,
+    "motored": 1
+   },
+   "labels": {
+    "generation_with_pack_discharge": 11,
+    "generation_net_charge": 7
+   },
+   "unresolved": 3,
+   "spin": 0,
+   "rpmExactly2000": 0,
+   "rotSeconds": 21,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "2026-10-14_06-51-43.csv",
+   "category": "boostEdge",
+   "stratum": "fast",
+   "startIndexS": 4140,
+   "endIndexS": 4160
+  },
+  {
+   "rot": {
+    "high": 11,
+    "low": 3
+   },
+   "flow": {
+    "discharging": 10,
+    "charging": 4
+   },
+   "thermal": {
+    "warm": 14
+   },
+   "comb": {
+    "fuelled": 13,
+    "motored": 1
+   },
+   "labels": {
+    "generation_with_pack_discharge": 10,
+    "dissipation_candidate": 1
+   },
+   "unresolved": 3,
+   "spin": 6,
+   "rpmExactly2000": 0,
+   "rotSeconds": 14,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "2026-10-01_19-58-38.csv",
+   "category": "loadEdge",
+   "stratum": "fast",
+   "startIndexS": 1426,
+   "endIndexS": 1446
+  },
+  {
+   "rot": {
+    "mid": 8,
+    "high": 7,
+    "low": 2
+   },
+   "flow": {
+    "charging": 13,
+    "discharging": 3,
+    "neutral": 1
+   },
+   "thermal": {
+    "warm": 17
+   },
+   "comb": {
+    "no_signal": 17
+   },
+   "labels": {},
+   "unresolved": 17,
+   "spin": 7,
+   "rpmExactly2000": 0,
+   "rotSeconds": 17,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "20260611_100510.csv",
+   "category": "engineStart",
+   "stratum": "slow",
+   "startIndexS": 842,
+   "endIndexS": 862
+  },
+  {
+   "rot": {
+    "mid": 4,
+    "high": 3,
+    "low": 1
+   },
+   "flow": {
+    "discharging": 5,
+    "charging": 3
+   },
+   "thermal": {
+    "warm": 8
+   },
+   "comb": {
+    "ambiguous": 2,
+    "fuelled": 5,
+    "motored": 1
+   },
+   "labels": {},
+   "unresolved": 8,
+   "spin": 8,
+   "rpmExactly2000": 0,
+   "rotSeconds": 8,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "20260619_190927.csv",
+   "category": "engineStart",
+   "stratum": "slow",
+   "startIndexS": 5288,
+   "endIndexS": 5308
+  },
+  {
+   "rot": {
+    "mid": 9,
+    "high": 1
+   },
+   "flow": {
+    "charging": 10
+   },
+   "thermal": {
+    "cold": 1,
+    "warming": 9
+   },
+   "comb": {
+    "fuelled": 8,
+    "ambiguous": 2
+   },
+   "labels": {
+    "generation_net_charge": 8,
+    "thermal_context": 1
+   },
+   "unresolved": 2,
+   "spin": 3,
+   "rpmExactly2000": 0,
+   "rotSeconds": 10,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "2026-09-20_19-27-18.csv",
+   "category": "engineStop",
+   "stratum": "slow",
+   "startIndexS": 255,
+   "endIndexS": 275
+  },
+  {
+   "rot": {
+    "mid": 3,
+    "low": 2
+   },
+   "flow": {
+    "discharging": 4,
+    "charging": 1
+   },
+   "thermal": {
+    "warm": 5
+   },
+   "comb": {
+    "fuelled": 4,
+    "ambiguous": 1
+   },
+   "labels": {},
+   "unresolved": 5,
+   "spin": 5,
+   "rpmExactly2000": 0,
+   "rotSeconds": 5,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "20260718_145814.csv",
+   "category": "engineStop",
+   "stratum": "slow",
+   "startIndexS": 2048,
+   "endIndexS": 2068
+  },
+  {
+   "rot": {},
+   "flow": {},
+   "thermal": {},
+   "comb": {},
+   "labels": {},
+   "unresolved": 0,
+   "spin": 0,
+   "rpmExactly2000": 0,
+   "rotSeconds": 0,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "2026-09-16_19-29-42.csv",
+   "category": "brakingRpm0Charging",
+   "stratum": "slow",
+   "startIndexS": 1062,
+   "endIndexS": 1082
+  },
+  {
+   "rot": {},
+   "flow": {},
+   "thermal": {},
+   "comb": {},
+   "labels": {},
+   "unresolved": 0,
+   "spin": 0,
+   "rpmExactly2000": 0,
+   "rotSeconds": 0,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "20260707_213501.csv",
+   "category": "brakingRpm0Charging",
+   "stratum": "slow",
+   "startIndexS": 1176,
+   "endIndexS": 1196
+  },
+  {
+   "rot": {
+    "mid": 19,
+    "high": 2
+   },
+   "flow": {
+    "discharging": 15,
+    "charging": 6
+   },
+   "thermal": {
+    "cold": 21
+   },
+   "comb": {
+    "fuelled": 10,
+    "ambiguous": 11
+   },
+   "labels": {
+    "thermal_context": 21
+   },
+   "unresolved": 0,
+   "spin": 0,
+   "rpmExactly2000": 0,
+   "rotSeconds": 21,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "20260712_174020.csv",
+   "category": "flowDeadbandEdge",
+   "stratum": "slow",
+   "startIndexS": 74,
+   "endIndexS": 94
+  },
+  {
+   "rot": {
+    "high": 21
+   },
+   "flow": {
+    "discharging": 3,
+    "neutral": 4,
+    "charging": 14
+   },
+   "thermal": {
+    "warm": 21
+   },
+   "comb": {
+    "fuelled": 21
+   },
+   "labels": {},
+   "unresolved": 21,
+   "spin": 0,
+   "rpmExactly2000": 0,
+   "rotSeconds": 21,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "20260714_123712.csv",
+   "category": "flowDeadbandEdge",
+   "stratum": "slow",
+   "startIndexS": 147,
+   "endIndexS": 167
+  },
+  {
+   "rot": {
+    "high": 16,
+    "mid": 5
+   },
+   "flow": {
+    "discharging": 11,
+    "charging": 9,
+    "neutral": 1
+   },
+   "thermal": {
+    "warming": 21
+   },
+   "comb": {
+    "fuelled": 17,
+    "motored": 3,
+    "ambiguous": 1
+   },
+   "labels": {
+    "generation_with_pack_discharge": 10,
+    "generation_net_charge": 6,
+    "dissipation_candidate": 1
+   },
+   "unresolved": 4,
+   "spin": 0,
+   "rpmExactly2000": 0,
+   "rotSeconds": 21,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "2026-09-19_12-56-56.csv",
+   "category": "genCharging",
+   "stratum": "slow",
+   "startIndexS": 173,
+   "endIndexS": 193
+  },
+  {
+   "rot": {
+    "high": 11,
+    "mid": 10
+   },
+   "flow": {
+    "charging": 21
+   },
+   "thermal": {
+    "cold": 21
+   },
+   "comb": {
+    "fuelled": 21
+   },
+   "labels": {
+    "generation_net_charge": 21,
+    "thermal_context": 21
+   },
+   "unresolved": 0,
+   "spin": 0,
+   "rpmExactly2000": 0,
+   "rotSeconds": 21,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "20260812_085229.csv",
+   "category": "genCharging",
+   "stratum": "slow",
+   "startIndexS": 211,
+   "endIndexS": 231
+  },
+  {
+   "rot": {
+    "mid": 13
+   },
+   "flow": {
+    "discharging": 8,
+    "charging": 5
+   },
+   "thermal": {
+    "cold": 13
+   },
+   "comb": {
+    "ambiguous": 2,
+    "fuelled": 11
+   },
+   "labels": {
+    "thermal_context": 13,
+    "generation_with_pack_discharge": 6,
+    "generation_net_charge": 5
+   },
+   "unresolved": 0,
+   "spin": 4,
+   "rpmExactly2000": 0,
+   "rotSeconds": 13,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "2026-09-16_14-01-15.csv",
+   "category": "genDischargingMoving",
+   "stratum": "slow",
+   "startIndexS": 198,
+   "endIndexS": 218
+  },
+  {
+   "rot": {
+    "mid": 17
+   },
+   "flow": {
+    "charging": 16,
+    "discharging": 1
+   },
+   "thermal": {
+    "warming": 17
+   },
+   "comb": {
+    "fuelled": 16,
+    "ambiguous": 1
+   },
+   "labels": {},
+   "unresolved": 17,
+   "spin": 3,
+   "rpmExactly2000": 0,
+   "rotSeconds": 17,
+   "windowSeconds": 21,
+   "unsure": [
+    [
+     128,
+     "coolant edge",
+     80.0,
+     0.012000000002444722
+    ],
+    [
+     129,
+     "coolant edge",
+     80.0,
+     1.0120000000024447
+    ],
+    [
+     130,
+     "coolant edge",
+     80.0,
+     2.0120000000024447
+    ],
+    [
+     131,
+     "coolant edge",
+     80.0,
+     0.30799999999726424
+    ],
+    [
+     132,
+     "coolant edge",
+     80.0,
+     1.3079999999972642
+    ]
+   ],
+   "file": "20260808_124714.csv",
+   "category": "coolant80",
+   "stratum": "slow",
+   "startIndexS": 116,
+   "endIndexS": 136
+  },
+  {
+   "rot": {
+    "high": 17,
+    "mid": 4
+   },
+   "flow": {
+    "discharging": 17,
+    "charging": 4
+   },
+   "thermal": {
+    "warm": 21
+   },
+   "comb": {
+    "motored": 8,
+    "fuelled": 13
+   },
+   "labels": {
+    "dissipation_candidate": 7
+   },
+   "unresolved": 14,
+   "spin": 1,
+   "rpmExactly2000": 0,
+   "rotSeconds": 21,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "20260723_215445.csv",
+   "category": "highSocNeutralOrDischarging",
+   "stratum": "slow",
+   "startIndexS": 1784,
+   "endIndexS": 1804
+  },
+  {
+   "rot": {
+    "high": 9,
+    "mid": 12
+   },
+   "flow": {
+    "charging": 15,
+    "discharging": 6
+   },
+   "thermal": {
+    "cold": 12,
+    "warming": 9
+   },
+   "comb": {
+    "fuelled": 21
+   },
+   "labels": {
+    "generation_net_charge": 15,
+    "thermal_context": 12,
+    "generation_with_pack_discharge": 6
+   },
+   "unresolved": 0,
+   "spin": 0,
+   "rpmExactly2000": 0,
+   "rotSeconds": 21,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "2026-09-12_14-48-27.csv",
+   "category": "genDischargingMoving",
+   "stratum": "slow",
+   "startIndexS": 201,
+   "endIndexS": 221
+  },
+  {
+   "rot": {
+    "mid": 12
+   },
+   "flow": {
+    "discharging": 12
+   },
+   "thermal": {
+    "cold": 12
+   },
+   "comb": {
+    "ambiguous": 2,
+    "fuelled": 10
+   },
+   "labels": {
+    "thermal_context": 12,
+    "generation_with_pack_discharge": 10
+   },
+   "unresolved": 0,
+   "spin": 4,
+   "rpmExactly2000": 0,
+   "rotSeconds": 12,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "20260908_075934.csv",
+   "category": "fuelZeroRotating",
+   "stratum": "slow",
+   "startIndexS": 249,
+   "endIndexS": 269
+  },
+  {
+   "rot": {
+    "mid": 5
+   },
+   "flow": {
+    "charging": 4,
+    "neutral": 1
+   },
+   "thermal": {
+    "warm": 5
+   },
+   "comb": {
+    "motored": 5
+   },
+   "labels": {},
+   "unresolved": 5,
+   "spin": 5,
+   "rpmExactly2000": 0,
+   "rotSeconds": 5,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "20260709_215155.csv",
+   "category": "highSocNeutralOrDischarging",
+   "stratum": "slow",
+   "startIndexS": 1153,
+   "endIndexS": 1173
+  },
+  {
+   "rot": {
+    "high": 4,
+    "mid": 6,
+    "low": 2
+   },
+   "flow": {
+    "charging": 10,
+    "discharging": 2
+   },
+   "thermal": {
+    "cold": 12
+   },
+   "comb": {
+    "fuelled": 9,
+    "motored": 3
+   },
+   "labels": {
+    "generation_net_charge": 7,
+    "thermal_context": 12
+   },
+   "unresolved": 0,
+   "spin": 3,
+   "rpmExactly2000": 0,
+   "rotSeconds": 12,
+   "windowSeconds": 21,
+   "unsure": [
+    [
+     352,
+     "coolant edge",
+     60.0,
+     0.5910000000003492
+    ],
+    [
+     353,
+     "coolant edge",
+     60.0,
+     1.5910000000003492
+    ],
+    [
+     354,
+     "coolant edge",
+     60.0,
+     2.5910000000003492
+    ],
+    [
+     355,
+     "coolant edge",
+     60.0,
+     3.5910000000003492
+    ],
+    [
+     356,
+     "coolant edge",
+     60.0,
+     4.591000000000349
+    ]
+   ],
+   "file": "2026-09-14_07-50-59.csv",
+   "category": "fuelZeroRotating",
+   "stratum": "slow",
+   "startIndexS": 345,
+   "endIndexS": 365
+  },
+  {
+   "rot": {
+    "mid": 21
+   },
+   "flow": {
+    "neutral": 3,
+    "discharging": 18
+   },
+   "thermal": {
+    "warming": 21
+   },
+   "comb": {
+    "motored": 21
+   },
+   "labels": {},
+   "unresolved": 21,
+   "spin": 0,
+   "rpmExactly2000": 0,
+   "rotSeconds": 21,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "2026-09-20_06-44-20.csv",
+   "category": "coolant60",
+   "stratum": "slow",
+   "startIndexS": 599,
+   "endIndexS": 619
+  },
+  {
+   "rot": {
+    "high": 4,
+    "mid": 17
+   },
+   "flow": {
+    "charging": 21
+   },
+   "thermal": {
+    "cold": 11,
+    "warming": 10
+   },
+   "comb": {
+    "no_signal": 21
+   },
+   "labels": {
+    "thermal_context": 11
+   },
+   "unresolved": 10,
+   "spin": 0,
+   "rpmExactly2000": 0,
+   "rotSeconds": 21,
+   "windowSeconds": 21,
+   "unsure": [
+    [
+     176,
+     "coolant edge",
+     60.0,
+     0.15899999999965075
+    ],
+    [
+     177,
+     "coolant edge",
+     60.0,
+     1.1589999999996508
+    ],
+    [
+     178,
+     "coolant edge",
+     60.0,
+     2.1589999999996508
+    ],
+    [
+     179,
+     "coolant edge",
+     60.0,
+     3.1589999999996508
+    ]
+   ],
+   "file": "20260516_131423.csv",
+   "category": "coolant60",
+   "stratum": "slow",
+   "startIndexS": 169,
+   "endIndexS": 189
+  },
+  {
+   "rot": {
+    "mid": 16
+   },
+   "flow": {
+    "discharging": 13,
+    "charging": 3
+   },
+   "thermal": {
+    "cold": 16
+   },
+   "comb": {
+    "no_signal": 16
+   },
+   "labels": {
+    "thermal_context": 16
+   },
+   "unresolved": 0,
+   "spin": 4,
+   "rpmExactly2000": 0,
+   "rotSeconds": 16,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "20260616_162643.csv",
+   "category": "coldRotating",
+   "stratum": "slow",
+   "startIndexS": 158,
+   "endIndexS": 178
+  },
+  {
+   "rot": {
+    "mid": 10,
+    "high": 11
+   },
+   "flow": {
+    "charging": 21
+   },
+   "thermal": {
+    "cold": 21
+   },
+   "comb": {
+    "fuelled": 21
+   },
+   "labels": {
+    "generation_net_charge": 21,
+    "thermal_context": 21
+   },
+   "unresolved": 0,
+   "spin": 0,
+   "rpmExactly2000": 0,
+   "rotSeconds": 21,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "2026-09-18_07-43-41.csv",
+   "category": "coldRotating",
+   "stratum": "slow",
+   "startIndexS": 137,
+   "endIndexS": 157
+  },
+  {
+   "rot": {
+    "mid": 21
+   },
+   "flow": {
+    "charging": 18,
+    "neutral": 3
+   },
+   "thermal": {
+    "warming": 14,
+    "warm": 7
+   },
+   "comb": {
+    "fuelled": 21
+   },
+   "labels": {},
+   "unresolved": 21,
+   "spin": 0,
+   "rpmExactly2000": 0,
+   "rotSeconds": 21,
+   "windowSeconds": 21,
+   "unsure": [
+    [
+     82,
+     "coolant edge",
+     80.0,
+     0.6540000000022701
+    ],
+    [
+     83,
+     "coolant edge",
+     80.0,
+     1.65400000000227
+    ]
+   ],
+   "file": "20260721_122503.csv",
+   "category": "coolant80",
+   "stratum": "slow",
+   "startIndexS": 70,
+   "endIndexS": 90
+  },
+  {
+   "rot": {
+    "high": 17,
+    "mid": 4
+   },
+   "flow": {
+    "charging": 21
+   },
+   "thermal": {
+    "warm": 21
+   },
+   "comb": {
+    "fuelled": 18,
+    "motored": 3
+   },
+   "labels": {
+    "generation_net_charge": 18,
+    "dissipation_candidate": 1
+   },
+   "unresolved": 2,
+   "spin": 0,
+   "rpmExactly2000": 0,
+   "rotSeconds": 21,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "2026-10-17_14-02-26.csv",
+   "category": "motoredDissipation",
+   "stratum": "slow",
+   "startIndexS": 1686,
+   "endIndexS": 1706
+  },
+  {
+   "rot": {
+    "high": 9,
+    "mid": 12
+   },
+   "flow": {
+    "charging": 15,
+    "discharging": 4,
+    "neutral": 2
+   },
+   "thermal": {
+    "warming": 21
+   },
+   "comb": {
+    "motored": 11,
+    "fuelled": 10
+   },
+   "labels": {
+    "dissipation_candidate": 6
+   },
+   "unresolved": 15,
+   "spin": 3,
+   "rpmExactly2000": 0,
+   "rotSeconds": 21,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "20260720_113826.csv",
+   "category": "motoredDissipation",
+   "stratum": "slow",
+   "startIndexS": 685,
+   "endIndexS": 705
+  },
+  {
+   "rot": {
+    "low": 1,
+    "high": 4,
+    "mid": 12
+   },
+   "flow": {
+    "discharging": 10,
+    "charging": 5,
+    "neutral": 2
+   },
+   "thermal": {
+    "warm": 17
+   },
+   "comb": {
+    "fuelled": 4,
+    "motored": 13
+   },
+   "labels": {},
+   "unresolved": 17,
+   "spin": 9,
+   "rpmExactly2000": 0,
+   "rotSeconds": 17,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "20260719_154351.csv",
+   "category": "boostEdge",
+   "stratum": "slow",
+   "startIndexS": 1749,
+   "endIndexS": 1769
+  },
+  {
+   "rot": {
+    "high": 6
+   },
+   "flow": {
+    "unknown": 5,
+    "discharging": 1
+   },
+   "thermal": {
+    "cold": 2,
+    "unknown": 1,
+    "warm": 3
+   },
+   "comb": {
+    "no_signal": 6
+   },
+   "labels": {
+    "thermal_context": 2
+   },
+   "unresolved": 4,
+   "spin": 6,
+   "rpmExactly2000": 0,
+   "rotSeconds": 6,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "20260609_132041.csv",
+   "category": "coolantAge30",
+   "stratum": "slow",
+   "startIndexS": 682,
+   "endIndexS": 702
+  },
+  {
+   "rot": {
+    "high": 17,
+    "mid": 4
+   },
+   "flow": {
+    "discharging": 10,
+    "charging": 9,
+    "neutral": 2
+   },
+   "thermal": {
+    "warm": 21
+   },
+   "comb": {
+    "fuelled": 17,
+    "motored": 3,
+    "ambiguous": 1
+   },
+   "labels": {
+    "generation_with_pack_discharge": 8,
+    "generation_net_charge": 7,
+    "dissipation_candidate": 2
+   },
+   "unresolved": 4,
+   "spin": 0,
+   "rpmExactly2000": 0,
+   "rotSeconds": 21,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "2026-09-27_15-12-43.csv",
+   "category": "boostEdge",
+   "stratum": "slow",
+   "startIndexS": 979,
+   "endIndexS": 999
+  },
+  {
+   "rot": {
+    "high": 14,
+    "mid": 2
+   },
+   "flow": {
+    "charging": 8,
+    "discharging": 8
+   },
+   "thermal": {
+    "cold": 16
+   },
+   "comb": {
+    "motored": 15,
+    "fuelled": 1
+   },
+   "labels": {
+    "thermal_context": 16,
+    "dissipation_candidate": 11
+   },
+   "unresolved": 0,
+   "spin": 3,
+   "rpmExactly2000": 0,
+   "rotSeconds": 16,
+   "windowSeconds": 21,
+   "unsure": [
+    [
+     992,
+     "coolant edge",
+     60.0,
+     1.099000000001979
+    ],
+    [
+     993,
+     "coolant edge",
+     60.0,
+     2.099000000001979
+    ],
+    [
+     994,
+     "coolant edge",
+     60.0,
+     0.8430000000007567
+    ],
+    [
+     995,
+     "coolant edge",
+     60.0,
+     1.8430000000007567
+    ],
+    [
+     996,
+     "coolant edge",
+     60.0,
+     0.5449999999982538
+    ],
+    [
+     997,
+     "coolant edge",
+     60.0,
+     1.5449999999982538
+    ],
+    [
+     998,
+     "coolant edge",
+     60.0,
+     0.05099999999947613
+    ],
+    [
+     999,
+     "coolant edge",
+     60.0,
+     1.0509999999994761
+    ],
+    [
+     1000,
+     "coolant edge",
+     60.0,
+     2.050999999999476
+    ],
+    [
+     1001,
+     "coolant edge",
+     60.0,
+     0.5670000000027358
+    ],
+    [
+     1002,
+     "coolant edge",
+     60.0,
+     1.5670000000027358
+    ],
+    [
+     1003,
+     "coolant edge",
+     60.0,
+     0.15499999999883585
+    ],
+    [
+     1004,
+     "coolant edge",
+     60.0,
+     1.1549999999988358
+    ],
+    [
+     1005,
+     "coolant edge",
+     60.0,
+     2.154999999998836
+    ],
+    [
+     1006,
+     "coolant edge",
+     60.0,
+     3.154999999998836
+    ],
+    [
+     1007,
+     "coolant edge",
+     60.0,
+     0.33800000000337604
+    ]
+   ],
+   "file": "20260721_172632.csv",
+   "category": "loadEdge",
+   "stratum": "slow",
+   "startIndexS": 992,
+   "endIndexS": 1012
+  },
+  {
+   "rot": {
+    "high": 8,
+    "mid": 4,
+    "low": 1
+   },
+   "flow": {
+    "charging": 13
+   },
+   "thermal": {
+    "warm": 13
+   },
+   "comb": {
+    "fuelled": 11,
+    "motored": 2
+   },
+   "labels": {
+    "generation_net_charge": 10
+   },
+   "unresolved": 3,
+   "spin": 3,
+   "rpmExactly2000": 0,
+   "rotSeconds": 13,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "2026-10-15_18-30-00.csv",
+   "category": "loadEdge",
+   "stratum": "slow",
+   "startIndexS": 1296,
+   "endIndexS": 1316
+  },
+  {
+   "rot": {
+    "mid": 21
+   },
+   "flow": {
+    "charging": 16,
+    "neutral": 2,
+    "discharging": 3
+   },
+   "thermal": {
+    "warming": 21
+   },
+   "comb": {
+    "no_signal": 21
+   },
+   "labels": {},
+   "unresolved": 21,
+   "spin": 3,
+   "rpmExactly2000": 0,
+   "rotSeconds": 21,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "20260515_075207.csv",
+   "category": "fuelAllZero",
+   "stratum": "slow",
+   "startIndexS": 368,
+   "endIndexS": 388
+  },
+  {
+   "rot": {
+    "mid": 13,
+    "high": 5
+   },
+   "flow": {
+    "discharging": 3,
+    "charging": 15
+   },
+   "thermal": {
+    "warming": 18
+   },
+   "comb": {
+    "no_signal": 18
+   },
+   "labels": {},
+   "unresolved": 18,
+   "spin": 4,
+   "rpmExactly2000": 0,
+   "rotSeconds": 18,
+   "windowSeconds": 21,
+   "unsure": [],
+   "file": "20260515_191551.csv",
+   "category": "noBoost",
+   "stratum": "slow",
+   "startIndexS": 276,
+   "endIndexS": 296
+  }
+ ]
+}

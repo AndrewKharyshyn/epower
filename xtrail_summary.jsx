@@ -5166,6 +5166,44 @@ function ChannelDependencyView(){
     </Section>
   );
 }
+function EngineContextFieldsView(){
+  const B=S.engineContextFields;
+  if(!B||!B.strata) return null;
+  const pc=(x)=>x==null?"n/a":`${(100*x).toFixed(1)} %`;
+  const sh=(o)=>o?`${pc(o.share)}${o.ci95?` [${pc(o.ci95[0])}, ${pc(o.ci95[1])}]`:""}`:"n/a";
+  const names={fast:"fast-polled drives",slow:"slow-polled drives",slow_fuelValid:"slow-polled drives with a valid fuel channel (selected by logging era, not representative; no contrast with the other groups)",unknown:"drives without a cadence label"};
+  const keys=Object.keys(B.strata);
+  const coldMax=Math.max(...keys.map(k=>Math.max(B.strata[k].sensitivityPp?.coolCold55?.thermal_cold??0,B.strata[k].sensitivityPp?.coolCold65?.thermal_cold??0)));
+  const bandMax=Math.max(...keys.map(k=>Math.max(B.strata[k].sensitivityPp?.coolWarm75?.thermal_warm??0,B.strata[k].sensitivityPp?.coolWarm85?.thermal_warm??0)));
+  const rows=(st)=>[
+    ["pack flow (charging / neutral / discharging)",`${pc(st.flow.charging?.share)} / ${pc(st.flow.neutral?.share)} / ${pc(st.flow.discharging?.share)}`],
+    ["coolant context (cold / warming / warm / unknown)",`${pc(st.thermal.cold?.share)} / ${pc(st.thermal.warming?.share)} / ${pc(st.thermal.warm?.share)} / ${pc(st.thermal.unknown?.share)}`],
+    ["combustion proxy by boost class (motored / ambiguous / fuelled / no signal)",`${pc(st.comb.motored?.share)} / ${pc(st.comb.ambiguous?.share)} / ${pc(st.comb.fuelled?.share)} / ${pc(st.comb.no_signal?.share)}`],
+    ["candidate: generation with net charge",sh(st.labels.generation_net_charge)],
+    ["candidate: generation with pack discharge",sh(st.labels.generation_with_pack_discharge)],
+    ["candidate: thermal context (cold coolant only)",sh(st.labels.thermal_context)],
+    ["candidate: dissipation (motored boost, low load, high rpm)",sh(st.labels.dissipation_candidate)],
+    ["unresolved: no candidate at all",sh(st.unresolvedNoCandidate)],
+    ["unresolved: no candidate other than thermal context",sh(st.unresolvedExceptThermal)],
+    ["unresolved by reason (combustion signal missing / fuel sub-flag missing / other)",`${pc(st.unresolvedReasons.noSignal?.share)} / ${pc(st.unresolvedReasons.fuelMissing?.share)} / ${pc(st.unresolvedReasons.other?.share)}`],
+    ["coolant warming / warm share with the warm cut at 75 / 80 / 85 C",["coolWarm75","base","coolWarm85"].map(n=>`${pc(st.thermalBandTable[n].warming?.share)} / ${pc(st.thermalBandTable[n].warm?.share)}`).join("  |  ")],
+    ["rotating seconds within 3 s of an engine start or stop",sh(st.spinUpShare)],
+    [`exploratory: rotating at state of charge 80 % or higher with neutral or discharging pack current (${st.acceptanceProbe.rotatingSocAtLeast80NeutralOrDischargingSeconds} s on ${st.acceptanceProbe.nDrives} drives, ${st.acceptanceProbe.nDays} days${st.acceptanceProbe.supported?"":"; below the support floor, no interval"}): dissipation candidate / unresolved without thermal`,`${sh(st.acceptanceProbe.dissipationCandidateShare)} / ${sh(st.acceptanceProbe.unresolvedExceptThermalShare)}`],
+    ["largest change of any share under the threshold sensitivities, including the warm-band cuts (percentage points)",`${st.sensitivityMaxPp.toFixed(1)}`]];
+  return (
+    <Section title="Engine Rotation, Pack Flow, Coolant and Combustion Proxy as Separate Fields (descriptive)" accent="#64748b">
+      <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-ecf-note="1">Rotation is logged; combustion and purpose are not. Each engine-rotating second (rpm above {B.params.rpm_on}) carries four separate fields: rotation level, net pack flow (deadband {B.params.flow_db} A), coolant context (the last logged coolant sample, valid up to {B.params.cool_age} s) and a combustion proxy (calculated boost class; the app-calculated fuel rate is a sub-flag, not independent evidence). Candidate labels are not exclusive and none states the purpose of the engine; a second without a candidate is unresolved. The thermal-context label fires on every cold-coolant second, so the unresolved share is shown with and without it; the warming and warm values stay a descriptive field. The bands are analysis bands, not identified thresholds. The cadence groups are not pooled. The earlier dissipation, motoring and start panels are unchanged.</div>
+      {keys.map(k=>{const st=B.strata[k]; return (
+        <div key={k} style={{marginTop:8}} data-ecf-stratum={k}>
+          <div style={{fontSize:10,fontWeight:600,color:"#475569"}}>{names[k]||k}: {st.nDrives} drives, {st.nDays} days, {st.rotatingSeconds} rotating seconds</div>
+          <table style={{width:"100%",fontSize:9,borderCollapse:"collapse"}}>
+            <tbody>{rows(st).map((r,i)=>(<tr key={i} data-ecf-row={`${k}-${i}`} style={{borderTop:"1px solid #e2e8f0"}}><td>{r[0]}</td><td>{r[1]}</td></tr>))}</tbody>
+          </table>
+        </div>);})}
+      <div style={{fontSize:9,color:"#94a3b8",marginTop:6}} data-ecf-foot="1">Shares are of engine-rotating time with day-clustered 95 % intervals (seed {B.seed}, {B.draws} draws) where at least {B.minDays} days contribute. The cold cut moves the cold share by up to {coldMax.toFixed(1)} percentage points between 55 and 65 C; the coolant warm cut (warm above {B.params.cool_warm} C) moves the warm share by up to {bandMax.toFixed(0)} percentage points between 75 and 85 C, because normal operating temperature lies near it, so the warming and warm rows are band-dependent and are shown at three cuts. Fuel rate is missing or zero in {B.eligible.fuelAllZeroOrMissing} of {B.eligible.canonClean} canonical-clean drives, so those seconds carry no fuel flag. The motored seconds match the earlier dissipation census exactly ({B.knownAnswer.legacyMotoredSecondsFromCache} s, residual {B.knownAnswer.residualSeconds} s).</div>
+    </Section>
+  );
+}
 function spreadConclusion(){
   const o=S.degradationTrends?.cellSpread?.clusterRobustOLS, ci=o?.ci95, sp=ciSpansZero(ci), rr=S.serialDependence?.trendSlopes?.cellSpread?.rowsRule;
   const proc=sp===false && rr?.classification==="procedure-dependent";
@@ -12077,6 +12115,7 @@ export default function App() {
         <CellObservabilityView/>
         <SignalValidityView/>
         <ChannelDependencyView/>
+        <EngineContextFieldsView/>
         <Section title="Mountain-Road Pattern — Grade, Buffer State and Dissipation (M57)" accent="#7c3aed"><MountainPattern/></Section>
         <Section seasonAware title="Engine-Off Travel — Distance Share &amp; Longest Engine-Off Run" accent="#059669"><EvTraction/></Section>
         {S.regimeTransition && (()=>{const RT=S.regimeTransition;

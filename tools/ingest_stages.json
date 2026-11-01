@@ -716,6 +716,20 @@
    ]
   },
   {
+   "id": "engine_context_fields",
+   "title": "M559: orthogonal engine-context fields (audit 2026-10-29 N03): for every 1 s grid sample with the engine rotating (rpm > 400) separate rotation level, net pack-flow state, coolant context (last non-null raw sample, valid <= 30 s) and combustion evidence (legacy boost classes, calculated fuel rate as a sub-flag), non-exclusive candidate labels, unresolved shares with and without the thermal label, mixed-function table, high-SoC acceptance probe and threshold sensitivities per cadence stratum; exact reconciliation of the motored seconds to the M46 dissipation census (STOP on a non-zero residual); per-drive cache ecf_cache/ keyed by raw sha256 and extractor hash; additive payload block engineContextFields (+ stamp); no existing block changes; spec analyses/M559_spec.md Rev 2",
+   "cmd": [
+    "python3",
+    "tools/engine_context_fields.py",
+    "--splice"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json",
+    "analyses/M559_check.json"
+   ]
+  },
+  {
    "id": "rpm_opt_band",
    "title": "M525: observed occupancy of logged engine rpm in the closed OPT band [1850, 2150] (share of engine-on time, rpm >= 300, 1 Hz grid) on the live corpus with a day-clustered interval; faithfulness gate against the stored rpmDistribution (STOP on failure); per-drive sidecar rpm_opt_band_sidecar.csv keyed by the raw sha256 (only new or changed drives are parsed); additive payload key rpmOptBand + stamp; supersedes the numeric leaves of the one-off generatorTractionRecon.rpmFinding (left unchanged); spec analyses/M525_spec.md Rev 2",
    "cmd": [

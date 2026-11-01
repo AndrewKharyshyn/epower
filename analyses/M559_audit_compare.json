@@ -1,0 +1,22 @@
+{
+ "milestone": "M559",
+ "windowsCompared": 58,
+ "windowsWithAnyCountDifference": 0,
+ "differences": [],
+ "auditorUnsureSeconds": 45,
+ "auditorUnsureNote": "the unsure seconds are coolant values within 0.5 C of a cut or an age near 30 s, and missing speed for the discharging label; the windows containing them agree with the tool on every count (thermal, labels, unresolved), i.e. none of them changed a class",
+ "auditorAmbiguousRules": [
+  "Window taken by grid index (first resampled second = 0, start and end inclusive, 21 s); consistent with startTime clock times",
+  "Grid: floor of first timestamp, reindexed to continuous 1 s grid before ffill(3); gaps become NaN",
+  "Spin: rpm NaN after ffill treated as not rotating, so NaN gaps create crossings; crossing at k is the later second of the pair; seconds within |i-k|<=3 flagged",
+  "Coolant 'at or before that second': raw sample time <= grid-second start; sub-second samples inside the same second are not used",
+  "Coolant boundaries: age exactly 30 s is known (unknown only if > 30); exactly 60 C is cold, exactly 80 C is warming",
+  "generation_with_pack_discharge: missing speed treated as not > 5",
+  "fuelFlag when fuel mean is NaN after ffill: false; 'zero throughout the file' evaluated on the grid with NaN as 0",
+  "dissipation_candidate uses strict rpm > 2000 (Director ruling); rpmExactly2000 = rpm==2000 AND motored AND low load (spin ignored)",
+  "Midnight rollover detected by a time decrease > 12 h",
+  "Brief says 'comb no_signal when boost missing', ambiguous band -0.70..-0.55 yields 'ambiguous' which gets no label",
+  "thermal_context label is independent of comb/flow; a second may carry several labels (non-exclusive); unresolved = no label at all",
+  "File name mapping: sample uses '_' between date and time, raw uses a space"
+ ]
+}
