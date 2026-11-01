@@ -1,0 +1,108 @@
+{
+ "schemaVersion": 1,
+ "note": "Hand-curated declarations (spec analyses/M556_spec.md Rev 2). The ingestion stage never edits this file; an entry change needs a spec revision and a CHANGELOG id.",
+ "entries": [
+  {
+   "id": "bms_12v_supply",
+   "column": "[BMS] 12V Battery Supply Voltage (V)",
+   "instrumentLocation": "HV-battery management system (BMS) report of the 12 V supply voltage, read through the OBD logger",
+   "rule": {
+    "kind": "all_non_missing_equal",
+    "value": 0.0,
+    "scope": "per file"
+   },
+   "physicalJustification": "a powered 12 V system cannot physically be at 0 V while the logger is running; the cause of the 0 response is unknown",
+   "status": "unavailable_when_rule_holds",
+   "permissibleAnalyses": [
+    "counting files, days and samples where the rule holds",
+    "documenting the channel as unavailable"
+   ],
+   "impermissibleAnalyses": [
+    "any physical statement about the 12 V supply or battery",
+    "12 V ageing",
+    "rest-state SoC from the 12 V channel",
+    "DC/DC efficiency"
+   ],
+   "consumers": [],
+   "references": [
+    "AUD29-N05",
+    "analyses/M556_spec.md"
+   ]
+  },
+  {
+   "id": "intake_air_minus100",
+   "column": "[BMS] HV Battery Intake Air Temperature (℃)",
+   "instrumentLocation": "HV-battery intake air temperature report of the BMS",
+   "rule": {
+    "kind": "value_equals",
+    "value": -100.0,
+    "scope": "per sample"
+   },
+   "physicalJustification": "-100 degC is a documented raw-file sentinel (CHANGELOG M319); the master removes it with the [-40, 90] bound",
+   "status": "handled_upstream",
+   "permissibleAnalyses": [
+    "counting sentinel samples",
+    "reading the master T_intake (NaN = unavailable)"
+   ],
+   "impermissibleAnalyses": [
+    "treating -100 as a temperature"
+   ],
+   "consumers": [
+    "compute_drive_summary_v6.py (bound)",
+    "tools/intake_air_block.py"
+   ],
+   "references": [
+    "M319",
+    "tools/intake_air_block.py"
+   ]
+  },
+  {
+   "id": "elm327_supply",
+   "column": "Напруга (ELM327) (V)",
+   "instrumentLocation": "OBD adapter (ELM327) supply voltage",
+   "rule": {
+    "kind": "declared_sparse"
+   },
+   "physicalJustification": "sparse observations at the adapter, not the BMS 12 V channel",
+   "status": "sparse_location_specific",
+   "permissibleAnalyses": [
+    "counting files, days and samples",
+    "descriptive range"
+   ],
+   "impermissibleAnalyses": [
+    "12 V ageing",
+    "rest-state SoC",
+    "DC/DC efficiency",
+    "comparison with the BMS 12 V channel"
+   ],
+   "consumers": [],
+   "references": [
+    "AUD29-N05"
+   ]
+  },
+  {
+   "id": "ecu_supply",
+   "column": "Напруга на ЕБУ (V)",
+   "instrumentLocation": "engine control unit supply voltage",
+   "rule": {
+    "kind": "declared_sparse"
+   },
+   "physicalJustification": "sparse observations at the ECU, not the BMS 12 V channel",
+   "status": "sparse_location_specific",
+   "permissibleAnalyses": [
+    "counting files, days and samples",
+    "descriptive range"
+   ],
+   "impermissibleAnalyses": [
+    "12 V ageing",
+    "rest-state SoC",
+    "DC/DC efficiency",
+    "comparison with the BMS 12 V channel"
+   ],
+   "consumers": [],
+   "references": [
+    "AUD29-N05"
+   ]
+  }
+ ]
+}

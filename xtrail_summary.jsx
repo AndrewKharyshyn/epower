@@ -5121,6 +5121,27 @@ function CellObservabilityView(){
     </Section>
   );
 }
+function SignalValidityView(){
+  const B=S.signalValidity;
+  if(!B||!B.entries) return null;
+  const f=(x,n=2)=>x==null?"—":Number(x).toFixed(n), air=B.entries.find(e=>e.rule&&e.rule.kind==="value_equals"), bms=B.entries.find(e=>e.rule&&e.rule.kind==="all_non_missing_equal");
+  const statusLab={unavailable_when_rule_holds:"unavailable when the rule holds",handled_upstream:"handled upstream",sparse_location_specific:"sparse, location-specific"};
+  const holds=e=>e.rule.kind==="all_non_missing_equal"?`${e.filesRuleHolds} of ${e.filesWithSamples} files, ${e.daysRuleHolds} days`:e.rule.kind==="value_equals"?`${e.filesWithSentinel} files, ${e.daysWithSentinel} days (${e.sentinelSamples} samples)`:`${e.filesWithSamples} files, ${e.daysWithSamples} days`;
+  return (
+    <Section title="Declared Validity Rules of Logged Channels (descriptive)" accent="#64748b">
+      <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-validity-note="1">Each channel below has a declared validity rule with its physical justification; a rule holds in the corpus files counted. Raw zeros and raw sentinel values stay in the raw files; nothing is suppressed or repaired, and no physical statement is made from an unavailable channel.</div>
+      <table style={{width:"100%",fontSize:9,borderCollapse:"collapse"}} data-validity-table="1">
+        <thead><tr style={{color:"#64748b",textAlign:"right"}}><th style={{textAlign:"left"}}>channel</th><th style={{textAlign:"left"}}>location</th><th style={{textAlign:"left"}}>status</th><th>where the rule holds</th><th>active period</th><th>samples per second (median)</th></tr></thead>
+        <tbody>{B.entries.map(e=>(
+          <tr key={e.id} data-validity-row={e.id} style={{textAlign:"right",borderTop:"1px solid #e2e8f0"}}><td style={{textAlign:"left"}}>{e.column}</td><td style={{textAlign:"left"}}>{e.instrumentLocation}</td><td style={{textAlign:"left"}}>{statusLab[e.status]||e.status}</td><td>{holds(e)}</td><td>{e.activePeriod?`${e.activePeriod[0]} to ${e.activePeriod[1]}`:"—"}</td><td>{f(e.freshnessSamplesPerSecondMedian,3)}</td></tr>
+        ))}</tbody>
+      </table>
+      {bms&&(<div style={{fontSize:9,color:"#334155",marginTop:6}} data-validity-bms="1">BMS 12 V supply channel: unavailable (all logged values equal 0 in {bms.filesRuleHolds} files); {bms.nonZeroValuesInDeclaredChannel} non-zero values in the channel; the cause of the 0 response is unknown. No 12 V chart or conclusion is drawn from it. The adapter and ECU supply channels are sparse, location-specific observations and support no ageing, rest-state or DC/DC statement.</div>)}
+      {air&&(<div style={{fontSize:9,color:"#334155",marginTop:4}} data-validity-air="1">Intake-air temperature: the −100 °C sentinel is removed upstream by the existing [{air.bounds[0]}, {air.bounds[1]}] °C bound. In addition {air.otherOutOfBoundSamples} samples in {(air.otherOutOfBoundFiles||[]).length} files lie outside that bound and are not the sentinel; they are excluded upstream by the same bound and are not interpreted ({B.masterIntakeCheck?`${B.masterIntakeCheck.rowsOutsideBound} master rows outside the bound`:"master check not available"}).</div>)}
+      <div style={{fontSize:9,color:"#94a3b8",marginTop:6}} data-validity-inventory="1">{B.inventory.nChannels} channels are all zero in at least one file; zero can be a physical state (for example an engine that never ran), so this count is not a validity declaration.</div>
+    </Section>
+  );
+}
 function spreadConclusion(){
   const o=S.degradationTrends?.cellSpread?.clusterRobustOLS, ci=o?.ci95, sp=ciSpansZero(ci), rr=S.serialDependence?.trendSlopes?.cellSpread?.rowsRule;
   const proc=sp===false && rr?.classification==="procedure-dependent";
@@ -12030,6 +12051,7 @@ export default function App() {
         <Section title="HV Aux/Climate Load vs Ambient (exploratory)" accent="#ea580c"><AuxLoadAmbient/></Section>
         <Section title="Selected cell-channel snapshots (case study; asynchronously polled channels, not a simultaneous complete-pack array)" accent="#b45309"><FullCellCaseStudy/></Section>
         <CellObservabilityView/>
+        <SignalValidityView/>
         <Section title="Mountain-Road Pattern — Grade, Buffer State and Dissipation (M57)" accent="#7c3aed"><MountainPattern/></Section>
         <Section seasonAware title="Engine-Off Travel — Distance Share &amp; Longest Engine-Off Run" accent="#059669"><EvTraction/></Section>
         {S.regimeTransition && (()=>{const RT=S.regimeTransition;

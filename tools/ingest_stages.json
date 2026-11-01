@@ -688,6 +688,20 @@
    ]
   },
   {
+   "id": "signal_validity",
+   "title": "M556: signal-validity registry (audit 2026-10-29 N05): verifies the declarations of signal_validity_registry.json against the raw corpus and writes the additive payload block signalValidity (+ stamp): per declared channel the files / days / samples where its rule holds, active period, freshness, resolution, permissible analyses, the intake-air sentinel count (handled upstream) and an inventory of all-zero channels (not a validity declaration); raw zeros are preserved and nothing is suppressed; per-file records cached by the raw sha256, the extractor hash and the registry hash (validity_cache/); STOP on a known-answer miss (second text-route count, partition identity, a non-zero BMS 12 V value); never edits the registry; spec analyses/M556_spec.md Rev 3",
+   "cmd": [
+    "python3",
+    "tools/signal_validity.py",
+    "--splice"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json",
+    "analyses/M556_check.json"
+   ]
+  },
+  {
    "id": "rpm_opt_band",
    "title": "M525: observed occupancy of logged engine rpm in the closed OPT band [1850, 2150] (share of engine-on time, rpm >= 300, 1 Hz grid) on the live corpus with a day-clustered interval; faithfulness gate against the stored rpmDistribution (STOP on failure); per-drive sidecar rpm_opt_band_sidecar.csv keyed by the raw sha256 (only new or changed drives are parsed); additive payload key rpmOptBand + stamp; supersedes the numeric leaves of the one-off generatorTractionRecon.rpmFinding (left unchanged); spec analyses/M525_spec.md Rev 2",
    "cmd": [
