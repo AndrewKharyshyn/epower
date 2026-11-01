@@ -1,0 +1,466 @@
+{
+ "milestone": "M556",
+ "mode": "--splice",
+ "stats": {
+  "cacheHits": 606,
+  "extracted": 0,
+  "noRaw": 0,
+  "unparsed": 0
+ },
+ "knownAnswer": {
+  "n": {
+   "textRoute": 641,
+   "partition": 1
+  },
+  "misses": {
+   "textRoute": 0,
+   "partition": 0,
+   "bms12NonZero": 0,
+   "headerMatches": 0
+  },
+  "examples": {
+   "textRoute": [],
+   "partition": [],
+   "bms12NonZero": [],
+   "headerMatches": []
+  }
+ },
+ "extractorSourceHash": "9e77e09f94c44a9d",
+ "registrySha256": "5b1b3bba471bc6a00db3047f6062515f162d13d7ec6396d77987c3f4bd104a28",
+ "reconciliation": {
+  "rawFilesInRaw": 617,
+  "masterRows": 606,
+  "masterRowsParsed": 606,
+  "unparsedMasterRows": [],
+  "rawNotInMaster": 11,
+  "rawNotInMasterByRole": {
+   "auxiliary (e4ORCE exports)": 9,
+   "comparison_only (typedExclusions)": 2,
+   "unexplained": 0
+  }
+ },
+ "entries": [
+  {
+   "id": "bms_12v_supply",
+   "column": "[BMS] 12V Battery Supply Voltage (V)",
+   "instrumentLocation": "HV-battery management system (BMS) report of the 12 V supply voltage, read through the OBD logger",
+   "status": "unavailable_when_rule_holds",
+   "rule": {
+    "kind": "all_non_missing_equal",
+    "value": 0.0,
+    "scope": "per file"
+   },
+   "physicalJustification": "a powered 12 V system cannot physically be at 0 V while the logger is running; the cause of the 0 response is unknown",
+   "permissibleAnalyses": [
+    "counting files, days and samples where the rule holds",
+    "documenting the channel as unavailable"
+   ],
+   "impermissibleAnalyses": [
+    "any physical statement about the 12 V supply or battery",
+    "12 V ageing",
+    "rest-state SoC from the 12 V channel",
+    "DC/DC efficiency"
+   ],
+   "consumers": [],
+   "filesWithHeader": 32,
+   "filesWithSamples": 32,
+   "headerOnlyEmptyFiles": 0,
+   "samples": 50823,
+   "headerMatchesOverOne": 0,
+   "valueRange": [
+    0.0,
+    0.0
+   ],
+   "freshnessSamplesPerSecondMedian": 0.6015,
+   "resolution": {
+    "value": null,
+    "reason": "fewer than 5 distinct values in every file"
+   },
+   "textRouteAgrees": true,
+   "filesRuleHolds": 32,
+   "filesRuleNotHolding": 0,
+   "daysRuleHolds": 14,
+   "samplesRuleHolds": 50823,
+   "nonZeroValuesInDeclaredChannel": 0,
+   "shareOfChannelFilesWhereRuleHolds": 1.0,
+   "activePeriod": [
+    "2026-05-11",
+    "2026-08-13"
+   ],
+   "verdict": "unavailable in the files where the rule holds (all logged values equal 0); raw zeros preserved"
+  },
+  {
+   "id": "intake_air_minus100",
+   "column": "[BMS] HV Battery Intake Air Temperature (\u2103)",
+   "instrumentLocation": "HV-battery intake air temperature report of the BMS",
+   "status": "handled_upstream",
+   "rule": {
+    "kind": "value_equals",
+    "value": -100.0,
+    "scope": "per sample"
+   },
+   "physicalJustification": "-100 degC is a documented raw-file sentinel (CHANGELOG M319); the master removes it with the [-40, 90] bound",
+   "permissibleAnalyses": [
+    "counting sentinel samples",
+    "reading the master T_intake (NaN = unavailable)"
+   ],
+   "impermissibleAnalyses": [
+    "treating -100 as a temperature"
+   ],
+   "consumers": [
+    "compute_drive_summary_v6.py (bound)",
+    "tools/intake_air_block.py"
+   ],
+   "filesWithHeader": 598,
+   "filesWithSamples": 598,
+   "headerOnlyEmptyFiles": 0,
+   "samples": 356994,
+   "headerMatchesOverOne": 0,
+   "valueRange": [
+    -100.0,
+    107.0
+   ],
+   "freshnessSamplesPerSecondMedian": 0.1202,
+   "resolution": {
+    "value": null,
+    "reason": "no signal_representation record for the files carrying the channel"
+   },
+   "textRouteAgrees": true,
+   "filesWithSentinel": 328,
+   "daysWithSentinel": 54,
+   "sentinelSamples": 28362,
+   "otherOutOfBoundSamples": 20,
+   "bounds": [
+    -40.0,
+    90.0
+   ],
+   "otherOutOfBoundFiles": [
+    {
+     "file": "20260515_191551.csv",
+     "day": "2026-05-15",
+     "samples": 1,
+     "maxValue": 107.0
+    },
+    {
+     "file": "20260515_222240.csv",
+     "day": "2026-05-15",
+     "samples": 2,
+     "maxValue": 107.0
+    },
+    {
+     "file": "20260609_132041.csv",
+     "day": "2026-06-09",
+     "samples": 2,
+     "maxValue": 107.0
+    },
+    {
+     "file": "20260610_094100.csv",
+     "day": "2026-06-10",
+     "samples": 4,
+     "maxValue": 107.0
+    },
+    {
+     "file": "20260611_100510.csv",
+     "day": "2026-06-11",
+     "samples": 1,
+     "maxValue": 107.0
+    },
+    {
+     "file": "20260612_142400.csv",
+     "day": "2026-06-12",
+     "samples": 1,
+     "maxValue": 107.0
+    },
+    {
+     "file": "20260617_150930.csv",
+     "day": "2026-06-17",
+     "samples": 1,
+     "maxValue": 107.0
+    },
+    {
+     "file": "20260618_124611.csv",
+     "day": "2026-06-18",
+     "samples": 1,
+     "maxValue": 107.0
+    },
+    {
+     "file": "20260627_085219.csv",
+     "day": "2026-06-27",
+     "samples": 3,
+     "maxValue": 107.0
+    },
+    {
+     "file": "20260717_103448.csv",
+     "day": "2026-07-17",
+     "samples": 1,
+     "maxValue": 107.0
+    },
+    {
+     "file": "20260723_215445.csv",
+     "day": "2026-07-23",
+     "samples": 1,
+     "maxValue": 107.0
+    },
+    {
+     "file": "20260724_165858.csv",
+     "day": "2026-07-24",
+     "samples": 1,
+     "maxValue": 107.0
+    },
+    {
+     "file": "20260724_174828.csv",
+     "day": "2026-07-24",
+     "samples": 1,
+     "maxValue": 107.0
+    }
+   ],
+   "activePeriod": [
+    "2026-08-24",
+    "2026-10-17"
+   ],
+   "verdict": "handled upstream (the master removes the sentinel by its bound); counted here only"
+  },
+  {
+   "id": "elm327_supply",
+   "column": "\u041d\u0430\u043f\u0440\u0443\u0433\u0430 (ELM327) (V)",
+   "instrumentLocation": "OBD adapter (ELM327) supply voltage",
+   "status": "sparse_location_specific",
+   "rule": {
+    "kind": "declared_sparse"
+   },
+   "physicalJustification": "sparse observations at the adapter, not the BMS 12 V channel",
+   "permissibleAnalyses": [
+    "counting files, days and samples",
+    "descriptive range"
+   ],
+   "impermissibleAnalyses": [
+    "12 V ageing",
+    "rest-state SoC",
+    "DC/DC efficiency",
+    "comparison with the BMS 12 V channel"
+   ],
+   "consumers": [],
+   "filesWithHeader": 8,
+   "filesWithSamples": 8,
+   "headerOnlyEmptyFiles": 0,
+   "samples": 110,
+   "headerMatchesOverOne": 0,
+   "valueRange": [
+    12.8,
+    14.4
+   ],
+   "freshnessSamplesPerSecondMedian": 0.0149,
+   "resolution": {
+    "value": null,
+    "reason": "fewer than 5 distinct values in every file"
+   },
+   "textRouteAgrees": true,
+   "daysWithSamples": 6,
+   "activePeriod": [
+    "2026-05-11",
+    "2026-06-03"
+   ],
+   "verdict": "sparse, location-specific observations: descriptive only"
+  },
+  {
+   "id": "ecu_supply",
+   "column": "\u041d\u0430\u043f\u0440\u0443\u0433\u0430 \u043d\u0430 \u0415\u0411\u0423 (V)",
+   "instrumentLocation": "engine control unit supply voltage",
+   "status": "sparse_location_specific",
+   "rule": {
+    "kind": "declared_sparse"
+   },
+   "physicalJustification": "sparse observations at the ECU, not the BMS 12 V channel",
+   "permissibleAnalyses": [
+    "counting files, days and samples",
+    "descriptive range"
+   ],
+   "impermissibleAnalyses": [
+    "12 V ageing",
+    "rest-state SoC",
+    "DC/DC efficiency",
+    "comparison with the BMS 12 V channel"
+   ],
+   "consumers": [],
+   "filesWithHeader": 3,
+   "filesWithSamples": 3,
+   "headerOnlyEmptyFiles": 0,
+   "samples": 73,
+   "headerMatchesOverOne": 0,
+   "valueRange": [
+    12.803,
+    14.382
+   ],
+   "freshnessSamplesPerSecondMedian": 0.0153,
+   "resolution": {
+    "value": null,
+    "reason": "no signal_representation record for the files carrying the channel"
+   },
+   "textRouteAgrees": true,
+   "daysWithSamples": 3,
+   "activePeriod": [
+    "2026-05-11",
+    "2026-05-15"
+   ],
+   "verdict": "sparse, location-specific observations: descriptive only"
+  }
+ ],
+ "masterIntakeCheck": {
+  "column": "T_intake",
+  "nNonMissing": 270,
+  "min": 9.0,
+  "max": 32.8,
+  "rowsOutsideBound": 0,
+  "bounds": [
+   -40.0,
+   90.0
+  ]
+ },
+ "inventory": {
+  "label": "channels that are all zero in at least one file (n >= 5): zero can be a physical state (for example an engine that never ran); this list is not a validity declaration unless the channel has a registry entry",
+  "nChannels": 52,
+  "top": [
+   {
+    "column": "Commanded Variable Geometry Turbo A Position (%)",
+    "files": 76,
+    "days": 35,
+    "samples": 22260,
+    "declaredInRegistry": false
+   },
+   {
+    "column": "Commanded Variable Geometry Turbo B Position (%)",
+    "files": 76,
+    "days": 35,
+    "samples": 22260,
+    "declaredInRegistry": false
+   },
+   {
+    "column": "Variable Geometry Turbo A Position (%)",
+    "files": 73,
+    "days": 35,
+    "samples": 20596,
+    "declaredInRegistry": false
+   },
+   {
+    "column": "\u041c\u0438\u0442\u0442\u0454\u0432\u0430 \u0432\u0438\u0442\u0440\u0430\u0442\u0430 \u043f\u0430\u043b\u0438\u0432\u0430 (\u043b/100 \u043a\u043c) (L/100km)",
+    "files": 34,
+    "days": 23,
+    "samples": 4809,
+    "declaredInRegistry": false
+   },
+   {
+    "column": "\u0412\u0430\u0440\u0442\u0456\u0441\u0442\u044c \u043f\u0430\u043b\u0438\u0432\u0430 (\u20b4)",
+    "files": 33,
+    "days": 24,
+    "samples": 6013,
+    "declaredInRegistry": false
+   },
+   {
+    "column": "\u0412\u0438\u043a\u043e\u0440\u0438\u0441\u0442\u0430\u043d\u0435 \u043f\u0430\u043b\u0438\u0432\u043e (L)",
+    "files": 33,
+    "days": 24,
+    "samples": 6013,
+    "declaredInRegistry": false
+   },
+   {
+    "column": "\u041e\u0431\u0435\u0440\u0442\u0438 \u0434\u0432\u0438\u0433\u0443\u043d\u0430 (rpm)",
+    "files": 33,
+    "days": 24,
+    "samples": 6476,
+    "declaredInRegistry": false
+   },
+   {
+    "column": "\u041e\u0431\u0435\u0440\u0442\u0438 \u0434\u0432\u0438\u0433\u0443\u043d\u0430 x1000 (rpm)",
+    "files": 33,
+    "days": 24,
+    "samples": 6476,
+    "declaredInRegistry": false
+   },
+   {
+    "column": "\u0420\u043e\u0437\u0440\u0430\u0445\u0443\u043d\u043a\u043e\u0432\u0435 \u0437\u043d\u0430\u0447\u0435\u043d\u043d\u044f \u043d\u0430\u0432\u0430\u043d\u0442\u0430\u0436\u0435\u043d\u043d\u044f \u043d\u0430 \u0434\u0432\u0438\u0433\u0443\u043d (%)",
+    "files": 33,
+    "days": 23,
+    "samples": 6246,
+    "declaredInRegistry": false
+   },
+   {
+    "column": "[BMS] 12V Battery Supply Voltage (V)",
+    "files": 32,
+    "days": 14,
+    "samples": 50823,
+    "declaredInRegistry": true
+   },
+   {
+    "column": "\u0412\u0438\u0442\u0440\u0430\u0442\u0438 \u043f\u0430\u043b\u0438\u0432\u0430 (L/h)",
+    "files": 32,
+    "days": 23,
+    "samples": 6034,
+    "declaredInRegistry": false
+   },
+   {
+    "column": "\u041c\u0438\u0442\u0442\u0454\u0432\u0430 \u0432\u0438\u0442\u0440\u0430\u0442\u0430 \u043f\u0430\u043b\u0438\u0432\u0430 (\u043b/\u0433\u043e\u0434) (L/h)",
+    "files": 32,
+    "days": 23,
+    "samples": 6034,
+    "declaredInRegistry": false
+   },
+   {
+    "column": "\u0410\u0431\u0441\u043e\u043b\u044e\u0442\u043d\u0435 \u0437\u043d\u0430\u0447\u0435\u043d\u043d\u044f \u043d\u0430\u0432\u0430\u043d\u0442\u0430\u0436\u0435\u043d\u043d\u044f \u043d\u0430 \u0434\u0432\u0438\u0433\u0443\u043d (%)",
+    "files": 31,
+    "days": 22,
+    "samples": 6150,
+    "declaredInRegistry": false
+   },
+   {
+    "column": "\u0421\u043f\u0456\u0432\u0432\u0456\u0434\u043d\u043e\u0448\u0435\u043d\u043d\u044f \u043f\u0430\u043b\u0438\u0432\u043e/\u043f\u043e\u0432\u0456\u0442\u0440\u044f ()",
+    "files": 30,
+    "days": 21,
+    "samples": 5935,
+    "declaredInRegistry": false
+   },
+   {
+    "column": "\u0421\u0435\u0440\u0435\u0434\u043d\u044f \u0432\u0438\u0442\u0440\u0430\u0442\u0430 \u043f\u0430\u043b\u0438\u0432\u0430 (\u043b/100 \u043a\u043c) (L/100km)",
+    "files": 29,
+    "days": 20,
+    "samples": 5597,
+    "declaredInRegistry": false
+   },
+   {
+    "column": "\u041c\u043e\u043c\u0435\u043d\u0442\u0430\u043b\u044c\u043d\u0430 \u043f\u043e\u0442\u0443\u0436\u043d\u0456\u0441\u0442\u044c \u0434\u0432\u0438\u0433\u0443\u043d\u0430 (\u0432\u0456\u0434 \u0432\u0438\u0442\u0440\u0430\u0442\u0438 \u043f\u0430\u043b\u044c\u043d\u043e\u0433\u043e) (hp)",
+    "files": 19,
+    "days": 15,
+    "samples": 2470,
+    "declaredInRegistry": false
+   },
+   {
+    "column": "\u041c\u043e\u043c\u0435\u043d\u0442\u0430\u043b\u044c\u043d\u0430 \u043f\u043e\u0442\u0443\u0436\u043d\u0456\u0441\u0442\u044c \u0434\u0432\u0438\u0433\u0443\u043d\u0430 (\u0432\u0456\u0434 \u0432\u0438\u0442\u0440\u0430\u0442\u0438 \u043f\u0430\u043b\u044c\u043d\u043e\u0433\u043e) (kW)",
+    "files": 13,
+    "days": 8,
+    "samples": 3564,
+    "declaredInRegistry": false
+   },
+   {
+    "column": "\u0421\u0435\u0440\u0435\u0434\u043d\u044f \u0432\u0438\u0442\u0440\u0430\u0442\u0430 \u043f\u0430\u043b\u0438\u0432\u0430 (\u043b/100 \u043a\u043c) 10 sec (L/100km)",
+    "files": 6,
+    "days": 6,
+    "samples": 957,
+    "declaredInRegistry": false
+   },
+   {
+    "column": "[NC] \u041c\u0430\u0441\u043e\u0432\u0430 \u0432\u0438\u0442\u0440\u0430\u0442\u0430 \u043f\u043e\u0432\u0456\u0442\u0440\u044f (g/sec)",
+    "files": 5,
+    "days": 3,
+    "samples": 407,
+    "declaredInRegistry": false
+   },
+   {
+    "column": "\u0412\u0430\u0440\u0442\u0456\u0441\u0442\u044c \u043f\u0430\u043b\u0438\u0432\u0430 (\u0421\u044c\u043e\u0433\u043e\u0434\u043d\u0456) (\u20b4)",
+    "files": 5,
+    "days": 5,
+    "samples": 132,
+    "declaredInRegistry": false
+   }
+  ],
+  "coverage": "full read of every parsed master-mapped raw file (signal_representation.json covers only a subset of recent files and is used for resolution cross-checks, not for the inventory)"
+ }
+}
