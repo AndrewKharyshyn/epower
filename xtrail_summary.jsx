@@ -5067,6 +5067,33 @@ function WindowUseView(){
     </Section>
   );
 }
+function CommonSupportBridgeView(){
+  const B=S.commonSupportBridge, [st,setSt]=useState(null);
+  if(!B||!B.strata) return null;
+  const keys=Object.keys(B.strata).filter(k=>k!=="unknown"&&B.strata[k].primaryCommonSupport), cur=st&&B.strata[st]?st:keys[0], D=B.strata[cur];
+  if(!D) return null;
+  const f=(x,n=4)=>x==null?"—":Number(x).toFixed(n), dp=(x,n=3)=>x==null?"—":(100*(x-1)).toFixed(n), lab={fast:"fast-polled drives",slow:"slow-polled drives"}, g=D.primaryCommonSupport.grossThroughput, ws=D.withinDriveSupport;
+  const ladRows=Object.entries(D.ladderDriveLevel).filter(([k,v])=>k!=="definition"&&v&&!(k==="Ugap1.5"&&cur==="slow"));
+  const ladName={Ptol3000:"published method, 3 s match tolerance",Ptol5000:"published method, 5 s match tolerance",U5s:"union clock, channel gap ≤ 5 s","Ugap1.5":"union clock, channel gap ≤ 1.5 s (support-reducing on slow-polled drives)","Ugap3.0":"union clock, channel gap ≤ 3 s","Ugap10.0":"union clock, channel gap ≤ 10 s"};
+  return (
+    <div style={{marginTop:10}} data-bridge-root="1">
+      <div style={{fontWeight:600,fontSize:11,color:"#0f172a",marginBottom:4}}>Common-support comparison of two integration methods (descriptive)</div>
+      <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-bridge-note="1">The published nearest-pair integration is compared with a union-clock integration (a named sensitivity; its energy is estimated). The intersection estimate evaluates both on the seconds both support, per drive; support added or lost is reported separately and is not part of the difference. Both methods use the same app-logged current and voltage channels, so agreement validates neither absolute energy nor sensor offset or scale. Strata are not comparable and no pooled value is given.</div>
+      <div style={{display:"flex",gap:6,marginBottom:6}}>
+        {keys.map(k=>(<button key={k} data-bridge-stratum={k} onClick={()=>setSt(k)} style={{fontSize:10,padding:"3px 8px",borderRadius:4,cursor:"pointer",border:"1px solid #cbd5e1",background:cur===k?"#0f172a":"#fff",color:cur===k?"#fff":"#334155"}}>{lab[k]||k}</button>))}
+      </div>
+      <div style={{fontSize:9,color:"#334155",marginBottom:4}} data-bridge-primary="1">Intersection estimate, union clock minus published method, gross throughput: {dp(g.ratio)} %{g.ci95?` (95 % interval ${dp(g.ci95[0])} to ${dp(g.ci95[1])} %)`:""}; {g.nDrives} drives on {g.nDays} days; {f(D.primaryCommonSupport.perDriveRatio.shareOutside1Pct*100,1)} % of drives differ by more than 1 %.</div>
+      <div style={{fontSize:9,color:"#334155",marginBottom:4}} data-bridge-support="1">Support only one method has (within these drives): union clock only {f(ws.uOnlySeconds,1)} s and {f(ws.uOnlyKwh,3)} kWh; published method only {f(ws.pOnlySeconds,1)} s and {f(ws.pOnlyKwh,3)} kWh. Drives where the published method has no energy but the union clock has support: {D.addedDrivesNullP.nDrives} ({f(D.addedDrivesNullP.uKwh,3)} kWh), kept out of every total.</div>
+      <table style={{width:"100%",fontSize:9,borderCollapse:"collapse"}} data-bridge-ladder="1">
+        <thead><tr style={{color:"#64748b",textAlign:"right"}}><th style={{textAlign:"left"}}>drive-level row (mixes support)</th><th>difference to published, %</th><th>support share</th></tr></thead>
+        <tbody>{ladRows.map(([k,v])=>(
+          <tr key={k} data-bridge-row={k} style={{textAlign:"right",borderTop:"1px solid #e2e8f0"}}><td style={{textAlign:"left"}}>{ladName[k]||k}</td><td>{dp(v.ratio)}{v.ci95?` (${dp(v.ci95[0])} to ${dp(v.ci95[1])})`:""}</td><td>{v.supportSecondsShareOfU5s!=null?f(100*v.supportSecondsShareOfU5s,1)+" %":"—"}</td></tr>
+        ))}</tbody>
+      </table>
+      <div style={{fontSize:9,color:"#94a3b8",marginTop:6}} data-bridge-f17="1">{(B.f17||[]).map(x=>`${x.file}: no energy under the published rule (${x.pNullReason}, nearest voltage within 1.5 s of each current sample); recoverable under an alternative alignment (union clock) on ${f(100*x.uSupportShare,0)} % of the drive, estimated ${f(x.uGrossDischargeKwh+x.uGrossChargeKwh,3)} kWh gross`).join("; ")}. This is a statement about that matching rule, not about the raw channels.</div>
+    </div>
+  );
+}
 function spreadConclusion(){
   const o=S.degradationTrends?.cellSpread?.clusterRobustOLS, ci=o?.ci95, sp=ciSpansZero(ci), rr=S.serialDependence?.trendSlopes?.cellSpread?.rowsRule;
   const proc=sp===false && rr?.classification==="procedure-dependent";
@@ -13433,6 +13460,7 @@ export default function App() {
             </div>
             )}
             <IntegrationScenarios/>
+            <CommonSupportBridgeView/>
           </ProvenanceBlock>
           <ProvenanceBlock letter="D" title="Drive & event classification">
             <p style={{marginTop:0}}>Each metric family publishes its own denominator, and a channel-by-channel map separates where a signal is physically present from where the dependent metric actually validated:</p>
