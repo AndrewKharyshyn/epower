@@ -26,7 +26,7 @@ B = code fix that changes numbers (spec, blind audit); C = new analysis (spec, b
 | M555 | N12 second half: observability of the logged cell-voltage channels against the pack-voltage namespace (split out of M554) | C | merged (PR 242) |
 | M556 | N05 signal-validity registry (all-zero BMS 12 V = unavailable, raw zeros preserved); repair of the M555 wording rule | A/B | merged (PR 243) |
 | M557 | N08 channel-dependency graph and independence audit of the evidence-ledger checks and the named negative controls (the earlier "held until the engine-on migration ends" label was wrong: the migration closed with M546) | C | PR open |
-| M558 | N09 observation-boundary and unlogged-trip sensitivity (adopted 2026-11-01 on the owner's point that the car is often driven without logging): flag gaps between logged drives with possible unlogged travel using the odometer readings given at each ingestion, left/right-censored spell shares, stratify the cross-drive thermal/SoC inference by gap confidence | C | not started |
+| M558 | N09 observation-boundary and unlogged-trip sensitivity (adopted 2026-11-01 on the owner's point that the car is often driven without logging): flag gaps between logged drives with possible unlogged travel using the odometer readings given at each ingestion, left/right-censored spell shares, stratify the cross-drive thermal/SoC inference by gap confidence | C | DROPPED 2026-11-01 by the owner (see below) |
 | M559 | N03 orthogonal thermal-demand state and the F09 separate-fields follow-up | C | not started |
 
 ## Follow-ups named by the merged milestones (each needs its own spec; none started)
@@ -78,3 +78,5 @@ Cite as external corroboration only: 0.106 % energy agreement (N06 is the intern
 reported BMS SoC; commanded torque; reference-scaled turnover; a bound comes from the CI endpoint, the half-width is
 precision only; "consistent with ... under the declared screen", never always / confirmed / immune / independent sensor;
 model scenario, never physical bound; "Exposure scenarios", not "Capacity fade".
+
+N09 / M558 dropped (2026-11-01, owner): the logger odometer channel is the app's own distance counter (about 10,365 km against a dash reading of 46,930 km), so it cannot see unlogged driving. The dash readings per ingestion are not stored as a list (only the latest is kept in `summary_config.json`), and the 13-17 Oct interval shows 1,354 km on the dash against 1,123 km logged, not explained by the logs (all raw files present, in-drive speed integral matches the distance counter within 0.3 %). Not resolvable without a verified reading history, so the milestone number M558 is not used. Spec and findings kept in `analyses/M558_spec.md`. The next milestone is M559 (N03 + F09 separate fields).
