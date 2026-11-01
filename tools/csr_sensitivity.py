@@ -274,7 +274,7 @@ def main():
             res["strata"][c] = stratum_block(sub)
     res["rawListSha256"] = hashlib.sha256(json.dumps(sorted((a["file"], a["rawSha256"]) for a in recs.values())).encode()).hexdigest()
     json.dump(res, open(OUT if not only else OUT.replace(".json", "_sample.json"), "w", encoding="utf-8"), indent=1, default=float)
-    json.dump({f: a["rec"] for f, a in recs.items()}, open(os.path.join(CACHE, "_all.json" if not only else "_sample.json"), "w"), default=float)
+    json.dump({f: a["rec"] for f, a in recs.items()}, open(os.path.join(CACHE, "_all.json" if not only else "_sample.json"), "w", encoding="utf-8"), default=float)
     print(json.dumps({"ok": True, "stats": stats, "knownAnswer": ka}, default=float))
     if mode == "--splice" and not only:
         if not (ka["reproducesStored"] and ka.get("pooledIntervalMatchesStored")):
