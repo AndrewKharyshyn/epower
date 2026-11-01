@@ -40,6 +40,7 @@ def find_windows(g, fresh):
     if len(g2) < 30:
         return g2, []
     f2 = fresh.loc[g2.index]
+    last_real = {c: (fresh.index[fresh[c].to_numpy()].max() if fresh[c].any() else None) for c in ("maxv", "minv", "I")}   # last second holding a real sample of each channel
     spread = (g2["maxv"] - g2["minv"]).values * 1000.0
     cur = g2["I"].abs().values
     resting = cur < REST_I
@@ -70,8 +71,10 @@ def find_windows(g, fresh):
                         used = list(range(max(0, i - 1), i + 1)) + list(range(j - min(5, len(seg)), j))
                         fr = f2[["maxv", "minv"]].iloc[used].to_numpy()
                         onset_rows = f2[["maxv", "minv"]].iloc[max(0, i - 1):i + 1].to_numpy()
+                        used_ts = idx[used]
+                        trailing = bool(any(lr is not None and (used_ts > lr).any() for lr in last_real.values()))   # an onset / asymptote second lies after a channel's last real sample (filled past the end of its data)
                         wins.append({"i": i, "j": j, "pre0": pre0, "key": str(idx[i]), "onset": s_onset, "asym": s_asym, "mag": m, "half": half, "restRows": j - i,
-                                     "gapInside": gap, "freshAll": bool(fr.all()), "onsetFilled": bool(not onset_rows.all()), "negative": bool(m < 0)})
+                                     "gapInside": gap, "trailingFill": trailing, "freshAll": bool(fr.all()), "onsetFilled": bool(not onset_rows.all()), "negative": bool(m < 0)})
                 i = j
                 continue
             i = j

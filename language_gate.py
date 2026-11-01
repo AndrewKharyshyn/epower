@@ -542,6 +542,8 @@ RULES = [
          rx=r"\bindependent validation (by|from|through) (a )?(same algorithm|re ?implementation|rolling origin|second order)\w*|\bderived sibling validates (its|the) parent\b|\bcircular check (confirms|proves|validates)\w*|\bshared input check (is|as) independent\b", scope=("dom", "jsx", "payload")),
     Rule("M559-N03-purpose", "regex", "M559/AUD29-N03: rotation is logged, combustion and purpose are not; the fuel, boost and load channels are proxies and the candidate labels are non-exclusive, so no state is stated as the purpose of the engine; fuel cut is never confirmed",
          rx=r"\bthe engine (runs|is running|is rotating) (in order )?to (warm up|dissipate|burn off|charge)\w*|\bengine (is )?(burning|dissipating) (off )?(surplus|excess) energy\b|\bfuel cut(-?off)? (is )?(confirmed|proven|proved|detected)\b|\b(confirmed|proven) (fuel cut|dissipation|motoring)\b|\bpurpose of the (engine|rotation) is\b|\bexclusive (purpose|label|state)\b", scope=("dom", "jsx", "payload")),
+    Rule("M560-csr", "regex", "M560/AUD29-N12b: the cell-spread relaxation is an exploratory median at the 1 mV resolution floor; a sensitivity result is stated as a change of the median under a named variant, never as the pack being balanced or healthy, and never as pairing or fill not mattering",
+         rx=r"\bthe cell spread is (balanced|healthy|stable)\b|\bcell spread (relaxes|relaxation) (is|was) (fast|small) (and|so) (the )?(pack|cells) (is|are) (well balanced|healthy)\b|\bpairing (does not|did not) (matter|change)\b|\bunchanged by (pairing|fill|forward fill)\b", scope=("dom", "jsx", "payload")),
 ]
 
 _SCAN_CACHE = {}

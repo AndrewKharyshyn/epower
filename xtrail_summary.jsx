@@ -5204,6 +5204,36 @@ function EngineContextFieldsView(){
     </Section>
   );
 }
+function CsrSensitivityView(){
+  const B=S.cellSpreadRelaxationSensitivity;
+  if(!B||!B.strata) return null;
+  const mv=(x)=>x==null?"n/a":`${x.toFixed(2)} mV`;
+  const med=(o)=>!o||o.median==null?"n/a":`${mv(o.median)}${o.ci95?` [${mv(o.ci95[0])}, ${mv(o.ci95[1])}]`:""}`;
+  const pc=(x)=>x==null?"n/a":`${(100*x).toFixed(1)} %`;
+  const names={fast:"fast-polled drives",slow:"slow-polled drives",unknown:"drives without a cadence label"};
+  const famA={V3:"re-measured on the same windows: polling-cycle pairing",V4:"re-measured on the same windows: nearest-reading pairing (1.5 s)",V8:"separate estimand: native pair level, no 1 s mean"};
+  const famB={V1_fillMM0:"window set: no forward fill of Max / Min",V2_fillMM1:"window set: 1 s fill of Max / Min",V9a_fillI0:"window set: no fill of the current",V9b_fillI1:"window set: 1 s fill of the current",V6_freshOnly:"window set: real samples of both channels only",V7_strictContiguity:"window set: no removed second inside the window"};
+  const keys=Object.keys(B.strata);
+  return (
+    <Section title="Sensitivity of the Cell-Spread Relaxation to Pairing, Fill and Gaps (exploratory)" accent="#64748b">
+      <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-csr-note="1">This is a sensitivity of the exploratory relaxation result above; the published block and its text are unchanged. The highest-cell and lowest-cell voltages are polled in a cycle, not at the same instant, and the published resampling averages them to 1 s and carries values forward for up to 3 s. Each row changes one step. Re-measured rows use the same rest windows; window-set rows change which windows exist (added and dropped counts are shown). The native pair-level row is a separate estimand: the published onset averages the last loaded row and the first rest row and so contains an ohmic load term. The channel resolution is 1 mV, so magnitudes lie on a 0.5 mV lattice and a median of about 1 mV is at the resolution floor, not a measured widening. The cadence groups are not pooled, and no cell diagnosis, balance or health statement is made.</div>
+      {keys.map(k=>{const st=B.strata[k]; return (
+        <div key={k} style={{marginTop:8}} data-csr-stratum={k}>
+          <div style={{fontSize:10,fontWeight:600,color:"#475569"}}>{names[k]||k}: {st.nDrives} drives, {st.nDays} days, {st.nWindows} rest windows</div>
+          <table style={{width:"100%",fontSize:9,borderCollapse:"collapse"}}>
+            <thead><tr style={{color:"#64748b",textAlign:"left"}}><th>variant</th><th>windows</th><th>median relaxation magnitude [95% interval]</th><th>difference from the published rule</th><th>added / dropped</th></tr></thead>
+            <tbody>
+              <tr data-csr-row={`${k}-V0`} style={{borderTop:"1px solid #e2e8f0"}}><td>published rule (reference)</td><td>{st.V0.n}</td><td>{med(st.V0)}</td><td>-</td><td>-</td></tr>
+              {Object.keys(famA).map(n=>(<tr key={n} data-csr-row={`${k}-${n}`} style={{borderTop:"1px solid #e2e8f0"}}><td>{famA[n]}</td><td>{st.familyA_fixedWindows[n].n}</td><td>{med(st.familyA_fixedWindows[n])}</td><td>{mv(st.familyA_fixedWindows[n].differenceOfMediansMv)}{st.familyA_fixedWindows[n].insideV0Interval===false?" (outside the reference interval)":""}</td><td>{n==="V8"?`${st.familyA_fixedWindows[n].straddlingPairsExcluded} straddling pairs excluded`:`${st.familyA_fixedWindows[n].notRemeasurable} not re-measurable`}</td></tr>))}
+              {Object.keys(famB).map(n=>(<tr key={n} data-csr-row={`${k}-${n}`} style={{borderTop:"1px solid #e2e8f0"}}><td>{famB[n]}</td><td>{st.familyB_windowSet[n].n} ({pc(st.familyB_windowSet[n].keptShareOfV0)} of the reference windows kept)</td><td>{med(st.familyB_windowSet[n])}</td><td>{mv(st.familyB_windowSet[n].differenceOfMediansMv)}{st.familyB_windowSet[n].insideV0Interval===false?" (outside the reference interval)":""}</td><td>{st.familyB_windowSet[n].added} / {st.familyB_windowSet[n].dropped}</td></tr>))}
+              <tr data-csr-row={`${k}-placebo`} style={{borderTop:"1px solid #e2e8f0"}}><td>placebo: pseudo load-offs inside long rests without preceding load</td><td>{st.placebo.n}</td><td>{med(st.placebo)}</td><td>reference median inside the placebo quartile range: {String(st.placebo.v0InsidePlaceboIQR)}</td><td>-</td></tr>
+            </tbody>
+          </table>
+        </div>);})}
+      <div style={{fontSize:9,color:"#94a3b8",marginTop:6}} data-csr-foot="1">Reference: {B.pooledV0.n} rest windows on {B.pooledV0.nDays} days reproduce the published block exactly (pooled interval {mv(B.pooledV0.ci95[0])} to {mv(B.pooledV0.ci95[1])}); intervals are day-clustered percentile bootstrap (seed {B.seed}, {B.draws} draws) and are lattice-bound. Half-time has no median here because the published index counts rows of the collapsed grid, not seconds. Flags raised: {keys.map(k=>`${names[k]||k}: ${[...(B.flags[k].variantOutsideV0Interval||[]),...(B.flags[k].freshOnlyKeepsUnder60Pct?["fresh-only keeps under 60 %"]:[]),...(B.flags[k].windowsAddedOver5Pct||[]).map(x=>x+" adds over 5 % windows"),...(B.flags[k].v0InsidePlaceboIQR?["reference inside the placebo quartile range"]:[])].join("; ")||"none"}`).join(" | ")}. Trailing fill: {keys.map(k=>`${names[k]||k}: ${B.strata[k].trailingFill.windowsWithTrailingFill} of ${B.strata[k].nWindows} windows (${pc(B.strata[k].trailingFill.shareOfV0)}) use a second filled past a channel's last real sample; the reference median without them is ${med(B.strata[k].trailingFill.V0WithoutThem)}`).join(" | ")}. A median at the 1 mV logging resolution is above the rest placebo in aggregate, single windows cannot be told apart from rest noise, and the slow-polled magnitude depends on how it is built.</div>
+    </Section>
+  );
+}
 function spreadConclusion(){
   const o=S.degradationTrends?.cellSpread?.clusterRobustOLS, ci=o?.ci95, sp=ciSpansZero(ci), rr=S.serialDependence?.trendSlopes?.cellSpread?.rowsRule;
   const proc=sp===false && rr?.classification==="procedure-dependent";
@@ -12113,6 +12143,7 @@ export default function App() {
         <Section title="HV Aux/Climate Load vs Ambient (exploratory)" accent="#ea580c"><AuxLoadAmbient/></Section>
         <Section title="Selected cell-channel snapshots (case study; asynchronously polled channels, not a simultaneous complete-pack array)" accent="#b45309"><FullCellCaseStudy/></Section>
         <CellObservabilityView/>
+        <CsrSensitivityView/>
         <SignalValidityView/>
         <ChannelDependencyView/>
         <EngineContextFieldsView/>
