@@ -12131,7 +12131,7 @@
    "motorRatedKw": 150,
    "motorRatedNm": 330,
    "bufferedChannelDeficitKw": 84.0,
-   "note": "Observed instantaneous peak battery discharge (73.3 kW, Jun19 D1) exceeds the 66.0 kW rating because the rating is a sustained/derated figure at exactly 80% SoC, room temperature, whereas the corpus peak is a warm-pack (median 28.0°C) instantaneous extremum. With the front motor rated 150 kW / 330 N·m, peak traction demand exceeds the 66.0 kW battery cap by ~84.0 kW at full power, which must be sourced directly from the generator across the shared HV DC bus -- an external OEM bound on the buffered/direct power split flagged as structurally unmeasurable from the BMS shunt alone (see energyPath)."
+   "note": "Single-sample peak battery discharge (73.3 kW, Jun19 D1; a reconstructed I x V sample) exceeds the 66.0 kW figure, which the OEM material discloses at 80 % SoC; no pulse duration is stated, so the two are not directly comparable, and this study does not explain the exceedance. The nearest logged Sensor-1 probe reading was 39 C, co-timed (within 1 s): the T1 sample is 0.167 s after the peak sample. The motor's rated output (150 kW) exceeds the disclosed battery figure by 84.0 kW (difference of rated figures, losses not included); the split of such demand between battery and generator cannot be resolved from the BMS shunt alone (see energyPath)."
   },
   "resistance": {
    "officialNewMohm": 210.0,
@@ -12220,8 +12220,8 @@
     "parameter": "Power",
     "official": "66.0 kW @ 80% SoC",
     "ours": "73.3 kW peak (Jun19 D1)",
-    "verdict": "consistent",
-    "note": "Warm/instantaneous peak exceeds the derated rating as expected; the rating caps the buffered channel against a 150 kW motor."
+    "verdict": "not_comparable",
+    "note": "Single-sample peak exceeds the disclosed figure; the disclosure states no pulse duration, so the two are not directly comparable. The motor's rated output (150 kW) exceeds the disclosed figure (difference of rated figures)."
    },
    {
     "parameter": "Internal resistance",
@@ -63969,7 +63969,7 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-11-02T09:14:19.316641+00:00",
+   "generatedAt": "2026-11-02T09:59:19.612916+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
@@ -63977,13 +63977,13 @@
    },
    "computationStatus": "computed",
    "computationStatusNote": "M550: computed by tools/power_peak_temp.py from the raw bytes; additive, no published value recomputed; not M299-reproducible.",
-   "includedInReleaseAt": "2026-11-02T09:14:19.316641+00:00",
+   "includedInReleaseAt": "2026-11-02T09:59:19.612916+00:00",
    "inputBasis": {
     "nDrives": 606,
     "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-11-02T09:14:19.316641+00:00"
+   "computedAt": "2026-11-02T09:59:19.612916+00:00"
   },
   "energyPackets": {
    "corpusHash": "5556a0c6c8bcde0f6c64b8b9655208ed",
@@ -389465,6 +389465,3446 @@
     "ageS": 2.964
    }
   },
+  "dischargePeak": {
+   "20260515_075207.csv": {
+    "kw": 12.5,
+    "x": 16.0,
+    "tier": "cotimed",
+    "ageS": 0.122
+   },
+   "20260515_191551.csv": {
+    "kw": 33.9,
+    "x": 29.0,
+    "tier": "cotimed",
+    "ageS": 0.267
+   },
+   "20260515_194744.csv": {
+    "kw": 56.5,
+    "x": 33.0,
+    "tier": "cotimed",
+    "ageS": 0.264
+   },
+   "20260515_222240.csv": {
+    "kw": 45.9,
+    "x": 35.0,
+    "tier": "cotimed",
+    "ageS": 0.12
+   },
+   "20260516_121520.csv": {
+    "kw": 23.6,
+    "x": 19.0,
+    "tier": "cotimed",
+    "ageS": 0.416
+   },
+   "20260516_125903.csv": {
+    "kw": 43.0,
+    "x": 21.0,
+    "tier": "cotimed",
+    "ageS": 0.118
+   },
+   "20260516_131423.csv": {
+    "kw": 34.5,
+    "x": 29.0,
+    "tier": "cotimed",
+    "ageS": 0.164
+   },
+   "20260516_134339.csv": {
+    "kw": 40.7,
+    "x": 30.0,
+    "tier": "cotimed",
+    "ageS": 0.153
+   },
+   "20260516_175004.csv": {
+    "kw": 27.2,
+    "x": 29.0,
+    "tier": "cotimed",
+    "ageS": 0.192
+   },
+   "20260516_182041.csv": {
+    "kw": 11.9,
+    "x": 31.0,
+    "tier": "cotimed",
+    "ageS": 0.409
+   },
+   "20260516_191121.csv": {
+    "kw": 50.1,
+    "x": 32.0,
+    "tier": "cotimed",
+    "ageS": 0.173
+   },
+   "20260517_112115.csv": {
+    "kw": 21.5,
+    "x": 20.0,
+    "tier": "cotimed",
+    "ageS": 0.339
+   },
+   "20260517_120100.csv": {
+    "kw": 22.6,
+    "x": 21.0,
+    "tier": "cotimed",
+    "ageS": 0.14
+   },
+   "20260517_141712.csv": {
+    "kw": 16.2,
+    "x": 25.0,
+    "tier": "cotimed",
+    "ageS": 0.194
+   },
+   "20260517_145435.csv": {
+    "kw": 37.5,
+    "x": 28.0,
+    "tier": "cotimed",
+    "ageS": 0.205
+   },
+   "20260518_073827.csv": {
+    "kw": 16.2,
+    "x": 21.0,
+    "tier": "cotimed",
+    "ageS": 0.212
+   },
+   "20260523_113305.csv": {
+    "kw": 25.2,
+    "x": 21.0,
+    "tier": "cotimed",
+    "ageS": 0.145
+   },
+   "20260523_120859.csv": {
+    "kw": 32.2,
+    "x": 23.0,
+    "tier": "cotimed",
+    "ageS": 0.134
+   },
+   "20260523_124943.csv": {
+    "kw": 30.4,
+    "x": 26.0,
+    "tier": "cotimed",
+    "ageS": 0.215
+   },
+   "20260523_131019.csv": {
+    "kw": 56.7,
+    "x": 31.0,
+    "tier": "cotimed",
+    "ageS": 0.157
+   },
+   "20260523_144629.csv": {
+    "kw": 42.3,
+    "x": 40.0,
+    "tier": "cotimed",
+    "ageS": 0.192
+   },
+   "20260523_183218.csv": {
+    "kw": 30.2,
+    "x": 38.0,
+    "tier": "cotimed",
+    "ageS": 0.168
+   },
+   "20260523_210427.csv": {
+    "kw": 29.4,
+    "x": 34.0,
+    "tier": "cotimed",
+    "ageS": 0.115
+   },
+   "20260523_213300.csv": {
+    "kw": 61.3,
+    "x": 39.0,
+    "tier": "cotimed",
+    "ageS": 0.157
+   },
+   "20260523_222103.csv": {
+    "kw": 49.1,
+    "x": 41.0,
+    "tier": "cotimed",
+    "ageS": 0.184
+   },
+   "20260531_183645.csv": {
+    "kw": 48.5,
+    "x": 31.0,
+    "tier": "cotimed",
+    "ageS": 0.127
+   },
+   "20260531_200637.csv": {
+    "kw": 31.7,
+    "x": 45.0,
+    "tier": "cotimed",
+    "ageS": 0.142
+   },
+   "20260603_122008.csv": {
+    "kw": 19.2,
+    "x": 16.0,
+    "tier": "cotimed",
+    "ageS": 0.123
+   },
+   "20260603_124919.csv": {
+    "kw": 27.6,
+    "x": 17.0,
+    "tier": "cotimed",
+    "ageS": 0.192
+   },
+   "20260609_132041.csv": {
+    "kw": 57.9,
+    "x": 40.0,
+    "tier": "cotimed",
+    "ageS": 0.192
+   },
+   "20260609_153039.csv": {
+    "kw": 54.9,
+    "x": 43.0,
+    "tier": "cotimed",
+    "ageS": 0.192
+   },
+   "20260609_164033.csv": {
+    "kw": 67.4,
+    "x": 38.0,
+    "tier": "cotimed",
+    "ageS": 0.245
+   },
+   "20260609_223056.csv": {
+    "kw": 69.3,
+    "x": 42.0,
+    "tier": "cotimed",
+    "ageS": 0.192
+   },
+   "20260610_094100.csv": {
+    "kw": 59.1,
+    "x": 37.0,
+    "tier": "cotimed",
+    "ageS": 0.119
+   },
+   "20260610_105454.csv": {
+    "kw": 64.6,
+    "x": 45.0,
+    "tier": "cotimed",
+    "ageS": 0.12
+   },
+   "20260611_061120.csv": {
+    "kw": 57.3,
+    "x": 41.0,
+    "tier": "cotimed",
+    "ageS": 0.145
+   },
+   "20260611_100510.csv": {
+    "kw": 48.9,
+    "x": 39.0,
+    "tier": "cotimed",
+    "ageS": 0.13
+   },
+   "20260611_134347.csv": {
+    "kw": 57.0,
+    "x": 42.0,
+    "tier": "cotimed",
+    "ageS": 0.108
+   },
+   "20260611_203850.csv": {
+    "kw": 18.9,
+    "x": 39.0,
+    "tier": "cotimed",
+    "ageS": 0.12
+   },
+   "20260611_215131.csv": {
+    "kw": 50.2,
+    "x": 39.0,
+    "tier": "cotimed",
+    "ageS": 0.12
+   },
+   "20260612_142400.csv": {
+    "kw": 28.0,
+    "x": 24.0,
+    "tier": "cotimed",
+    "ageS": 0.251
+   },
+   "20260612_152740.csv": {
+    "kw": 63.3,
+    "x": 38.0,
+    "tier": "cotimed",
+    "ageS": 0.12
+   },
+   "20260612_170759.csv": {
+    "kw": 57.6,
+    "x": 42.0,
+    "tier": "cotimed",
+    "ageS": 0.142
+   },
+   "20260613_101500.csv": {
+    "kw": 52.5,
+    "x": 32.0,
+    "tier": "cotimed",
+    "ageS": 0.121
+   },
+   "20260613_181221.csv": {
+    "kw": 49.4,
+    "x": 27.0,
+    "tier": "cotimed",
+    "ageS": 0.155
+   },
+   "20260613_195920.csv": {
+    "kw": 51.1,
+    "x": 38.0,
+    "tier": "cotimed",
+    "ageS": 0.131
+   },
+   "20260614_133431.csv": {
+    "kw": 47.6,
+    "x": 25.0,
+    "tier": "cotimed",
+    "ageS": 0.136
+   },
+   "20260616_160533.csv": {
+    "kw": 28.1,
+    "x": 17.0,
+    "tier": "cotimed",
+    "ageS": 0.1
+   },
+   "20260616_162643.csv": {
+    "kw": 22.8,
+    "x": 19.0,
+    "tier": "cotimed",
+    "ageS": 0.142
+   },
+   "20260617_150930.csv": {
+    "kw": 28.3,
+    "x": 15.0,
+    "tier": "cotimed",
+    "ageS": 0.119
+   },
+   "20260617_152114.csv": {
+    "kw": 28.7,
+    "x": 19.0,
+    "tier": "cotimed",
+    "ageS": 0.14
+   },
+   "20260618_124611.csv": {
+    "kw": 25.7,
+    "x": 18.0,
+    "tier": "cotimed",
+    "ageS": 0.202
+   },
+   "20260618_150516.csv": {
+    "kw": 18.0,
+    "x": 21.0,
+    "tier": "cotimed",
+    "ageS": 0.312
+   },
+   "20260619_122407.csv": {
+    "kw": 73.3,
+    "x": 39.0,
+    "tier": "cotimed",
+    "ageS": 0.167
+   },
+   "20260619_180138.csv": {
+    "kw": 57.3,
+    "x": 38.0,
+    "tier": "cotimed",
+    "ageS": 0.123
+   },
+   "20260619_190927.csv": {
+    "kw": 58.2,
+    "x": 41.0,
+    "tier": "cotimed",
+    "ageS": 0.134
+   },
+   "20260619_210959.csv": {
+    "kw": 57.9,
+    "x": 45.0,
+    "tier": "cotimed",
+    "ageS": 0.108
+   },
+   "20260620_090055.csv": {
+    "kw": 43.5,
+    "x": 26.0,
+    "tier": "cotimed",
+    "ageS": 0.148
+   },
+   "20260620_105353.csv": {
+    "kw": 25.9,
+    "x": 29.0,
+    "tier": "cotimed",
+    "ageS": 0.157
+   },
+   "20260620_135838.csv": {
+    "kw": 27.4,
+    "x": 28.0,
+    "tier": "cotimed",
+    "ageS": 0.367
+   },
+   "20260620_165602.csv": {
+    "kw": 29.4,
+    "x": 31.0,
+    "tier": "cotimed",
+    "ageS": 0.119
+   },
+   "20260620_182933.csv": {
+    "kw": 25.4,
+    "x": 35.0,
+    "tier": "cotimed",
+    "ageS": 0.184
+   },
+   "20260620_192922.csv": {
+    "kw": 23.6,
+    "x": 37.0,
+    "tier": "cotimed",
+    "ageS": 0.145
+   },
+   "20260620_220001.csv": {
+    "kw": 33.7,
+    "x": 36.0,
+    "tier": "cotimed",
+    "ageS": 0.323
+   },
+   "20260621_124457.csv": {
+    "kw": 18.7,
+    "x": 21.0,
+    "tier": "cotimed",
+    "ageS": 0.133
+   },
+   "20260621_145249.csv": {
+    "kw": 32.4,
+    "x": 23.0,
+    "tier": "cotimed",
+    "ageS": 0.131
+   },
+   "20260621_164617.csv": {
+    "kw": 56.6,
+    "x": 42.0,
+    "tier": "cotimed",
+    "ageS": 0.18
+   },
+   "20260621_212214.csv": {
+    "kw": 35.8,
+    "x": 44.0,
+    "tier": "cotimed",
+    "ageS": 0.228
+   },
+   "20260621_213241.csv": {
+    "kw": 51.0,
+    "x": 45.0,
+    "tier": "cotimed",
+    "ageS": 0.155
+   },
+   "20260622_203803.csv": {
+    "kw": 32.4,
+    "x": 32.0,
+    "tier": "cotimed",
+    "ageS": 0.125
+   },
+   "20260622_212051.csv": {
+    "kw": 29.4,
+    "x": 34.0,
+    "tier": "cotimed",
+    "ageS": 0.119
+   },
+   "20260622_214145.csv": {
+    "kw": 24.7,
+    "x": 36.0,
+    "tier": "cotimed",
+    "ageS": 0.185
+   },
+   "20260622_220001.csv": {
+    "kw": 32.8,
+    "x": 37.0,
+    "tier": "cotimed",
+    "ageS": 0.229
+   },
+   "20260624_112335.csv": {
+    "kw": 26.8,
+    "x": 23.0,
+    "tier": "cotimed",
+    "ageS": 0.131
+   },
+   "20260624_130757.csv": {
+    "kw": 28.5,
+    "x": 26.0,
+    "tier": "cotimed",
+    "ageS": 0.181
+   },
+   "20260625_122850.csv": {
+    "kw": 32.4,
+    "x": 24.0,
+    "tier": "cotimed",
+    "ageS": 0.456
+   },
+   "20260625_153901.csv": {
+    "kw": 46.6,
+    "x": 29.0,
+    "tier": "cotimed",
+    "ageS": 0.121
+   },
+   "20260625_210502.csv": {
+    "kw": 34.4,
+    "x": 32.0,
+    "tier": "cotimed",
+    "ageS": 0.132
+   },
+   "20260625_212737.csv": {
+    "kw": 70.5,
+    "x": 39.0,
+    "tier": "cotimed",
+    "ageS": 0.24
+   },
+   "20260627_085219.csv": {
+    "kw": 34.3,
+    "x": 26.0,
+    "tier": "cotimed",
+    "ageS": 0.12
+   },
+   "20260627_093529.csv": {
+    "kw": 48.5,
+    "x": 29.0,
+    "tier": "cotimed",
+    "ageS": 0.408
+   },
+   "20260627_111449.csv": {
+    "kw": 31.9,
+    "x": 30.0,
+    "tier": "cotimed",
+    "ageS": 0.172
+   },
+   "20260627_114435.csv": {
+    "kw": 69.9,
+    "x": 38.0,
+    "tier": "cotimed",
+    "ageS": 0.203
+   },
+   "20260627_144929.csv": {
+    "kw": 37.3,
+    "x": 39.0,
+    "tier": "cotimed",
+    "ageS": 0.119
+   },
+   "20260627_154430.csv": {
+    "kw": 68.8,
+    "x": 37.0,
+    "tier": "cotimed",
+    "ageS": 0.133
+   },
+   "20260627_175120.csv": {
+    "kw": 59.4,
+    "x": 44.0,
+    "tier": "cotimed",
+    "ageS": 0.108
+   },
+   "20260629_172408.csv": {
+    "kw": 21.4,
+    "x": 22.0,
+    "tier": "cotimed",
+    "ageS": 0.519
+   },
+   "20260629_180647.csv": {
+    "kw": 50.2,
+    "x": 27.0,
+    "tier": "cotimed",
+    "ageS": 0.145
+   },
+   "20260702_193433.csv": {
+    "kw": 33.2,
+    "x": 24.0,
+    "tier": "cotimed",
+    "ageS": 0.173
+   },
+   "20260702_204613.csv": {
+    "kw": 44.0,
+    "x": 30.0,
+    "tier": "cotimed",
+    "ageS": 0.112
+   },
+   "20260705_105038.csv": {
+    "kw": 17.6,
+    "x": 21.0,
+    "tier": "cotimed",
+    "ageS": 0.135
+   },
+   "20260705_122016.csv": {
+    "kw": 62.4,
+    "x": 28.0,
+    "tier": "cotimed",
+    "ageS": 0.202
+   },
+   "20260707_213501.csv": {
+    "kw": 55.3,
+    "x": 27.0,
+    "tier": "cotimed",
+    "ageS": 0.145
+   },
+   "20260707_222959.csv": {
+    "kw": 26.4,
+    "x": 32.0,
+    "tier": "cotimed",
+    "ageS": 0.106
+   },
+   "20260709_215155.csv": {
+    "kw": 63.4,
+    "x": 23.0,
+    "tier": "cotimed",
+    "ageS": 0.108
+   },
+   "20260711_160253.csv": {
+    "kw": 54.1,
+    "x": 36.0,
+    "tier": "cotimed",
+    "ageS": 0.108
+   },
+   "20260711_174010.csv": {
+    "kw": 45.4,
+    "x": 44.0,
+    "tier": "cotimed",
+    "ageS": 0.18
+   },
+   "20260711_221618.csv": {
+    "kw": 40.2,
+    "x": 38.0,
+    "tier": "cotimed",
+    "ageS": 0.311
+   },
+   "20260712_105413.csv": {
+    "kw": 40.5,
+    "x": 20.0,
+    "tier": "cotimed",
+    "ageS": 0.179
+   },
+   "20260712_155818.csv": {
+    "kw": 49.3,
+    "x": 31.0,
+    "tier": "cotimed",
+    "ageS": 0.155
+   },
+   "20260712_174020.csv": {
+    "kw": 30.5,
+    "x": 34.0,
+    "tier": "cotimed",
+    "ageS": 0.147
+   },
+   "20260712_210439.csv": {
+    "kw": 40.9,
+    "x": 34.0,
+    "tier": "cotimed",
+    "ageS": 0.3
+   },
+   "20260713_132033.csv": {
+    "kw": 51.3,
+    "x": 36.0,
+    "tier": "cotimed",
+    "ageS": 0.13
+   },
+   "20260713_182953.csv": {
+    "kw": 65.3,
+    "x": 32.0,
+    "tier": "cotimed",
+    "ageS": 0.268
+   },
+   "20260713_203027.csv": {
+    "kw": 26.4,
+    "x": 39.0,
+    "tier": "cotimed",
+    "ageS": 0.181
+   },
+   "20260713_214505.csv": {
+    "kw": 45.8,
+    "x": 39.0,
+    "tier": "cotimed",
+    "ageS": 0.136
+   },
+   "20260714_110056.csv": {
+    "kw": 20.4,
+    "x": 24.0,
+    "tier": "cotimed",
+    "ageS": 0.511
+   },
+   "20260714_113619.csv": {
+    "kw": 56.0,
+    "x": 25.0,
+    "tier": "cotimed",
+    "ageS": 0.264
+   },
+   "20260714_115210.csv": {
+    "kw": 34.6,
+    "x": 29.0,
+    "tier": "cotimed",
+    "ageS": 0.107
+   },
+   "20260714_123712.csv": {
+    "kw": 54.3,
+    "x": 32.0,
+    "tier": "cotimed",
+    "ageS": 0.139
+   },
+   "20260714_145846.csv": {
+    "kw": 44.1,
+    "x": 33.0,
+    "tier": "cotimed",
+    "ageS": 0.187
+   },
+   "20260714_153151.csv": {
+    "kw": 44.6,
+    "x": 38.0,
+    "tier": "cotimed",
+    "ageS": 0.157
+   },
+   "20260714_161833.csv": {
+    "kw": 56.3,
+    "x": 42.0,
+    "tier": "cotimed",
+    "ageS": 0.12
+   },
+   "20260714_165014.csv": {
+    "kw": 37.0,
+    "x": 43.0,
+    "tier": "cotimed",
+    "ageS": 0.124
+   },
+   "20260714_170217.csv": {
+    "kw": 53.0,
+    "x": 44.0,
+    "tier": "cotimed",
+    "ageS": 0.132
+   },
+   "20260715_160647.csv": {
+    "kw": 49.5,
+    "x": 30.0,
+    "tier": "cotimed",
+    "ageS": 0.144
+   },
+   "20260715_194309.csv": {
+    "kw": 67.5,
+    "x": 37.0,
+    "tier": "cotimed",
+    "ageS": 0.411
+   },
+   "20260716_062606.csv": {
+    "kw": 56.4,
+    "x": 30.0,
+    "tier": "cotimed",
+    "ageS": 0.205
+   },
+   "20260716_065600.csv": {
+    "kw": 56.5,
+    "x": 37.0,
+    "tier": "cotimed",
+    "ageS": 0.159
+   },
+   "20260716_094756.csv": {
+    "kw": 52.1,
+    "x": 44.0,
+    "tier": "cotimed",
+    "ageS": 0.216
+   },
+   "20260716_115134.csv": {
+    "kw": 68.6,
+    "x": 43.0,
+    "tier": "cotimed",
+    "ageS": 0.121
+   },
+   "20260716_180727.csv": {
+    "kw": 41.0,
+    "x": 42.0,
+    "tier": "cotimed",
+    "ageS": 0.124
+   },
+   "20260716_194201.csv": {
+    "kw": 34.7,
+    "x": 41.0,
+    "tier": "cotimed",
+    "ageS": 0.144
+   },
+   "20260716_215356.csv": {
+    "kw": 40.4,
+    "x": 38.0,
+    "tier": "cotimed",
+    "ageS": 0.107
+   },
+   "20260716_224347.csv": {
+    "kw": 24.0,
+    "x": 39.0,
+    "tier": "cotimed",
+    "ageS": 0.144
+   },
+   "20260717_103448.csv": {
+    "kw": 37.2,
+    "x": 29.0,
+    "tier": "cotimed",
+    "ageS": 0.17
+   },
+   "20260717_134302.csv": {
+    "kw": 32.3,
+    "x": 29.0,
+    "tier": "cotimed",
+    "ageS": 0.133
+   },
+   "20260717_163635.csv": {
+    "kw": 31.7,
+    "x": 30.0,
+    "tier": "cotimed",
+    "ageS": 0.12
+   },
+   "20260718_113222.csv": {
+    "kw": 25.1,
+    "x": 25.0,
+    "tier": "cotimed",
+    "ageS": 0.18
+   },
+   "20260718_125100.csv": {
+    "kw": 51.1,
+    "x": 27.0,
+    "tier": "cotimed",
+    "ageS": 0.265
+   },
+   "20260718_145814.csv": {
+    "kw": 67.7,
+    "x": 38.0,
+    "tier": "cotimed",
+    "ageS": 0.132
+   },
+   "20260718_161611.csv": {
+    "kw": 32.7,
+    "x": 44.0,
+    "tier": "cotimed",
+    "ageS": 0.251
+   },
+   "20260718_163414.csv": {
+    "kw": 55.2,
+    "x": 45.0,
+    "tier": "cotimed",
+    "ageS": 0.217
+   },
+   "20260718_203313.csv": {
+    "kw": 58.9,
+    "x": 43.0,
+    "tier": "cotimed",
+    "ageS": 0.108
+   },
+   "20260718_213832.csv": {
+    "kw": 48.7,
+    "x": 43.0,
+    "tier": "cotimed",
+    "ageS": 0.143
+   },
+   "20260718_220312.csv": {
+    "kw": 26.7,
+    "x": 43.0,
+    "tier": "cotimed",
+    "ageS": 0.155
+   },
+   "20260719_154351.csv": {
+    "kw": 40.1,
+    "x": 30.0,
+    "tier": "cotimed",
+    "ageS": 0.132
+   },
+   "20260719_171252.csv": {
+    "kw": 21.9,
+    "x": 32.0,
+    "tier": "cotimed",
+    "ageS": 0.204
+   },
+   "20260719_184433.csv": {
+    "kw": 52.3,
+    "x": 35.0,
+    "tier": "cotimed",
+    "ageS": 0.132
+   },
+   "20260719_204958.csv": {
+    "kw": 51.9,
+    "x": 39.0,
+    "tier": "cotimed",
+    "ageS": 0.239
+   },
+   "20260719_212912.csv": {
+    "kw": 30.4,
+    "x": 41.0,
+    "tier": "cotimed",
+    "ageS": 0.109
+   },
+   "20260719_214117.csv": {
+    "kw": 38.3,
+    "x": 42.0,
+    "tier": "cotimed",
+    "ageS": 0.119
+   },
+   "20260720_113826.csv": {
+    "kw": 40.1,
+    "x": 28.0,
+    "tier": "cotimed",
+    "ageS": 0.129
+   },
+   "20260720_134059.csv": {
+    "kw": 68.9,
+    "x": 48.0,
+    "tier": "cotimed",
+    "ageS": 0.156
+   },
+   "20260720_165307.csv": {
+    "kw": 68.1,
+    "x": 47.0,
+    "tier": "cotimed",
+    "ageS": 0.17
+   },
+   "20260720_174210.csv": {
+    "kw": 52.8,
+    "x": 48.0,
+    "tier": "cotimed",
+    "ageS": 0.128
+   },
+   "20260720_190055.csv": {
+    "kw": 43.4,
+    "x": 45.0,
+    "tier": "cotimed",
+    "ageS": 0.172
+   },
+   "20260720_204835.csv": {
+    "kw": 61.2,
+    "x": 42.0,
+    "tier": "cotimed",
+    "ageS": 0.12
+   },
+   "20260721_114246.csv": {
+    "kw": 50.2,
+    "x": 21.0,
+    "tier": "cotimed",
+    "ageS": 0.108
+   },
+   "20260721_172632.csv": {
+    "kw": 49.8,
+    "x": 30.0,
+    "tier": "cotimed",
+    "ageS": 0.119
+   },
+   "20260721_193330.csv": {
+    "kw": 30.4,
+    "x": 31.0,
+    "tier": "cotimed",
+    "ageS": 0.193
+   },
+   "20260721_194652.csv": {
+    "kw": 48.8,
+    "x": 32.0,
+    "tier": "cotimed",
+    "ageS": 0.192
+   },
+   "20260721_200534.csv": {
+    "kw": 41.9,
+    "x": 34.0,
+    "tier": "cotimed",
+    "ageS": 0.12
+   },
+   "20260722_121252.csv": {
+    "kw": 30.7,
+    "x": 17.0,
+    "tier": "cotimed",
+    "ageS": 0.132
+   },
+   "20260722_134152.csv": {
+    "kw": 37.0,
+    "x": 22.0,
+    "tier": "cotimed",
+    "ageS": 0.193
+   },
+   "20260722_163339.csv": {
+    "kw": 29.2,
+    "x": 22.0,
+    "tier": "cotimed",
+    "ageS": 0.182
+   },
+   "20260722_184814.csv": {
+    "kw": 46.4,
+    "x": 24.0,
+    "tier": "cotimed",
+    "ageS": 0.131
+   },
+   "20260722_204810.csv": {
+    "kw": 33.6,
+    "x": 24.0,
+    "tier": "cotimed",
+    "ageS": 0.275
+   },
+   "20260722_210850.csv": {
+    "kw": 26.3,
+    "x": 26.0,
+    "tier": "cotimed",
+    "ageS": 0.234
+   },
+   "20260723_113724.csv": {
+    "kw": 65.2,
+    "x": 24.0,
+    "tier": "cotimed",
+    "ageS": 0.169
+   },
+   "20260723_132356.csv": {
+    "kw": 44.6,
+    "x": 40.0,
+    "tier": "cotimed",
+    "ageS": 0.12
+   },
+   "20260723_173055.csv": {
+    "kw": 60.0,
+    "x": 36.0,
+    "tier": "cotimed",
+    "ageS": 0.145
+   },
+   "20260723_200033.csv": {
+    "kw": 53.5,
+    "x": 36.0,
+    "tier": "cotimed",
+    "ageS": 0.184
+   },
+   "20260723_210016.csv": {
+    "kw": 33.5,
+    "x": 37.0,
+    "tier": "cotimed",
+    "ageS": 0.116
+   },
+   "20260723_211841.csv": {
+    "kw": 33.6,
+    "x": 38.0,
+    "tier": "cotimed",
+    "ageS": 0.168
+   },
+   "20260723_215445.csv": {
+    "kw": 54.1,
+    "x": 43.0,
+    "tier": "cotimed",
+    "ageS": 0.119
+   },
+   "20260724_114905.csv": {
+    "kw": 44.3,
+    "x": 18.0,
+    "tier": "cotimed",
+    "ageS": 0.144
+   },
+   "20260724_144854.csv": {
+    "kw": 48.2,
+    "x": 20.0,
+    "tier": "cotimed",
+    "ageS": 0.117
+   },
+   "20260724_165858.csv": {
+    "kw": 57.7,
+    "x": 40.0,
+    "tier": "cotimed",
+    "ageS": 0.12
+   },
+   "20260724_174828.csv": {
+    "kw": 55.7,
+    "x": 41.0,
+    "tier": "cotimed",
+    "ageS": 0.188
+   },
+   "20260724_204259.csv": {
+    "kw": 52.7,
+    "x": 37.0,
+    "tier": "cotimed",
+    "ageS": 0.121
+   },
+   "20260725_113418.csv": {
+    "kw": 67.4,
+    "x": 38.0,
+    "tier": "cotimed",
+    "ageS": 0.135
+   },
+   "20260725_125221.csv": {
+    "kw": 34.2,
+    "x": 38.0,
+    "tier": "cotimed",
+    "ageS": 0.122
+   },
+   "20260725_133048.csv": {
+    "kw": 47.7,
+    "x": 39.0,
+    "tier": "cotimed",
+    "ageS": 0.216
+   },
+   "20260725_140026.csv": {
+    "kw": 62.9,
+    "x": 44.0,
+    "tier": "cotimed",
+    "ageS": 0.155
+   },
+   "20260725_163749.csv": {
+    "kw": 38.9,
+    "x": 44.0,
+    "tier": "cotimed",
+    "ageS": 0.132
+   },
+   "20260726_103326.csv": {
+    "kw": 59.3,
+    "x": 43.0,
+    "tier": "cotimed",
+    "ageS": 0.132
+   },
+   "20260726_141738.csv": {
+    "kw": 66.5,
+    "x": 40.0,
+    "tier": "cotimed",
+    "ageS": 0.12
+   },
+   "20260726_172244.csv": {
+    "kw": 54.9,
+    "x": 39.0,
+    "tier": "cotimed",
+    "ageS": 0.131
+   },
+   "20260726_200146.csv": {
+    "kw": 60.5,
+    "x": 43.0,
+    "tier": "cotimed",
+    "ageS": 0.109
+   },
+   "20260801_180617.csv": {
+    "kw": 61.8,
+    "x": 23.0,
+    "tier": "cotimed",
+    "ageS": 0.119
+   },
+   "20260802_081226.csv": {
+    "kw": 24.4,
+    "x": 25.0,
+    "tier": "cotimed",
+    "ageS": 0.119
+   },
+   "20260802_093339.csv": {
+    "kw": 31.4,
+    "x": 25.0,
+    "tier": "cotimed",
+    "ageS": 0.169
+   },
+   "20260802_132422.csv": {
+    "kw": 55.2,
+    "x": 38.0,
+    "tier": "cotimed",
+    "ageS": 0.119
+   },
+   "20260802_153306.csv": {
+    "kw": 51.8,
+    "x": 46.0,
+    "tier": "cotimed",
+    "ageS": 0.121
+   },
+   "20260802_163037.csv": {
+    "kw": 28.3,
+    "x": 44.0,
+    "tier": "cotimed",
+    "ageS": 0.14
+   },
+   "20260802_184302.csv": {
+    "kw": 64.8,
+    "x": 42.0,
+    "tier": "cotimed",
+    "ageS": 0.168
+   },
+   "20260802_193654.csv": {
+    "kw": 51.9,
+    "x": 45.0,
+    "tier": "cotimed",
+    "ageS": 0.192
+   },
+   "20260802_213351.csv": {
+    "kw": 54.2,
+    "x": 43.0,
+    "tier": "cotimed",
+    "ageS": 0.108
+   },
+   "20260803_181923.csv": {
+    "kw": 46.0,
+    "x": 34.0,
+    "tier": "cotimed",
+    "ageS": 0.119
+   },
+   "20260803_193840.csv": {
+    "kw": 52.2,
+    "x": 40.0,
+    "tier": "cotimed",
+    "ageS": 0.132
+   },
+   "20260803_215920.csv": {
+    "kw": 56.8,
+    "x": 41.0,
+    "tier": "cotimed",
+    "ageS": 0.12
+   },
+   "20260804_153453.csv": {
+    "kw": 49.7,
+    "x": 29.0,
+    "tier": "cotimed",
+    "ageS": 0.135
+   },
+   "20260804_155949.csv": {
+    "kw": 34.6,
+    "x": 32.0,
+    "tier": "cotimed",
+    "ageS": 0.113
+   },
+   "20260804_191929.csv": {
+    "kw": 27.0,
+    "x": 33.0,
+    "tier": "cotimed",
+    "ageS": 0.362
+   },
+   "20260804_194234.csv": {
+    "kw": 23.6,
+    "x": 34.0,
+    "tier": "cotimed",
+    "ageS": 0.108
+   },
+   "20260804_200003.csv": {
+    "kw": 34.0,
+    "x": 37.0,
+    "tier": "cotimed",
+    "ageS": 0.109
+   },
+   "20260804_201351.csv": {
+    "kw": 49.8,
+    "x": 40.0,
+    "tier": "cotimed",
+    "ageS": 0.109
+   },
+   "20260804_215437.csv": {
+    "kw": 63.9,
+    "x": 46.0,
+    "tier": "cotimed",
+    "ageS": 0.137
+   },
+   "20260806_155444.csv": {
+    "kw": 63.3,
+    "x": 31.0,
+    "tier": "cotimed",
+    "ageS": 0.132
+   },
+   "20260808_122545.csv": {
+    "kw": 32.2,
+    "x": 27.0,
+    "tier": "cotimed",
+    "ageS": 0.123
+   },
+   "20260808_124714.csv": {
+    "kw": 24.9,
+    "x": 30.0,
+    "tier": "cotimed",
+    "ageS": 0.136
+   },
+   "20260808_130411.csv": {
+    "kw": 11.8,
+    "x": 31.0,
+    "tier": "cotimed",
+    "ageS": 0.247
+   },
+   "20260808_160215.csv": {
+    "kw": 53.2,
+    "x": 32.0,
+    "tier": "cotimed",
+    "ageS": 0.119
+   },
+   "20260808_201800.csv": {
+    "kw": 60.5,
+    "x": 39.0,
+    "tier": "cotimed",
+    "ageS": 0.133
+   },
+   "20260809_120000.csv": {
+    "kw": 35.2,
+    "x": 23.0,
+    "tier": "cotimed",
+    "ageS": 0.12
+   },
+   "20260809_123655.csv": {
+    "kw": 20.2,
+    "x": 25.0,
+    "tier": "cotimed",
+    "ageS": 0.14
+   },
+   "20260809_124523.csv": {
+    "kw": 20.9,
+    "x": 26.0,
+    "tier": "cotimed",
+    "ageS": 0.167
+   },
+   "20260809_130557.csv": {
+    "kw": 5.8,
+    "x": 26.0,
+    "tier": "cotimed",
+    "ageS": 0.196
+   },
+   "20260809_131803.csv": {
+    "kw": 31.4,
+    "x": 27.0,
+    "tier": "cotimed",
+    "ageS": 0.121
+   },
+   "20260809_181739.csv": {
+    "kw": 64.5,
+    "x": 27.0,
+    "tier": "cotimed",
+    "ageS": 0.134
+   },
+   "20260809_191254.csv": {
+    "kw": 26.9,
+    "x": 31.0,
+    "tier": "cotimed",
+    "ageS": 0.149
+   },
+   "20260809_192100.csv": {
+    "kw": 36.9,
+    "x": 32.0,
+    "tier": "cotimed",
+    "ageS": 0.148
+   },
+   "20260810_151356.csv": {
+    "kw": 57.3,
+    "x": 22.0,
+    "tier": "cotimed",
+    "ageS": 0.148
+   },
+   "20260810_152212.csv": {
+    "kw": 38.3,
+    "x": 25.0,
+    "tier": "cotimed",
+    "ageS": 0.146
+   },
+   "20260812_085229.csv": {
+    "kw": 30.9,
+    "x": 27.0,
+    "tier": "cotimed",
+    "ageS": 0.122
+   },
+   "20260812_093511.csv": {
+    "kw": 60.5,
+    "x": 29.0,
+    "tier": "cotimed",
+    "ageS": 0.204
+   },
+   "20260813_115220.csv": {
+    "kw": 23.4,
+    "x": 20.0,
+    "tier": "cotimed",
+    "ageS": 0.119
+   },
+   "20260813_144601.csv": {
+    "kw": 23.9,
+    "x": 24.0,
+    "tier": "cotimed",
+    "ageS": -0.837
+   },
+   "20260814_101007.csv": {
+    "kw": 11.3,
+    "x": 18.0,
+    "tier": "nearby",
+    "ageS": 1.892
+   },
+   "20260814_102213.csv": {
+    "kw": 23.7,
+    "x": 18.0,
+    "tier": "cotimed",
+    "ageS": 0.572
+   },
+   "20260814_121438.csv": {
+    "kw": 37.3,
+    "x": 20.0,
+    "tier": "nearby",
+    "ageS": -1.477
+   },
+   "20260814_122308.csv": {
+    "kw": 52.2,
+    "x": 22.0,
+    "tier": "cotimed",
+    "ageS": 0.899
+   },
+   "20260814_182203.csv": {
+    "kw": 57.2,
+    "x": 27.0,
+    "tier": "cotimed",
+    "ageS": -0.119
+   },
+   "20260814_213416.csv": {
+    "kw": 63.3,
+    "x": 39.0,
+    "tier": "nearby",
+    "ageS": 1.51
+   },
+   "20260816_165356.csv": {
+    "kw": 39.8,
+    "x": 45.0,
+    "tier": "cotimed",
+    "ageS": -0.96
+   },
+   "20260816_171638.csv": {
+    "kw": 40.1,
+    "x": 46.0,
+    "tier": "cotimed",
+    "ageS": 0.639
+   },
+   "20260816_173527.csv": {
+    "kw": 34.8,
+    "x": 45.0,
+    "tier": "cotimed",
+    "ageS": -0.132
+   },
+   "20260816_174235.csv": {
+    "kw": 32.3,
+    "x": 46.0,
+    "tier": "cotimed",
+    "ageS": -0.132
+   },
+   "20260817_084821.csv": {
+    "kw": 31.8,
+    "x": 24.0,
+    "tier": "cotimed",
+    "ageS": -0.277
+   },
+   "20260817_175652.csv": {
+    "kw": 44.1,
+    "x": 28.0,
+    "tier": "nearby",
+    "ageS": 1.43
+   },
+   "20260817_181818.csv": {
+    "kw": 36.2,
+    "x": 30.0,
+    "tier": "nearby",
+    "ageS": -2.504
+   },
+   "20260817_183543.csv": {
+    "kw": 57.4,
+    "x": 32.0,
+    "tier": "nearby",
+    "ageS": -1.619
+   },
+   "20260818_092516.csv": {
+    "kw": 31.4,
+    "x": 30.0,
+    "tier": "late",
+    "ageS": -3.163
+   },
+   "20260818_111200.csv": {
+    "kw": 48.4,
+    "x": 30.0,
+    "tier": "cotimed",
+    "ageS": -0.112
+   },
+   "20260818_124141.csv": {
+    "kw": 62.0,
+    "x": 35.0,
+    "tier": "late",
+    "ageS": 3.024
+   },
+   "20260818_140544.csv": {
+    "kw": 67.3,
+    "x": 38.0,
+    "tier": "late",
+    "ageS": 3.771
+   },
+   "20260818_150110.csv": {
+    "kw": 41.5,
+    "x": 41.0,
+    "tier": "cotimed",
+    "ageS": 0.813
+   },
+   "20260819_123747.csv": {
+    "kw": 34.2,
+    "x": 18.0,
+    "tier": "nearby",
+    "ageS": 1.729
+   },
+   "20260819_124907.csv": {
+    "kw": 53.0,
+    "x": 26.0,
+    "tier": "cotimed",
+    "ageS": 0.64
+   },
+   "20260819_135903.csv": {
+    "kw": 54.2,
+    "x": 33.0,
+    "tier": "nearby",
+    "ageS": 2.211
+   },
+   "20260820_105758.csv": {
+    "kw": 43.6,
+    "x": 31.0,
+    "tier": "nearby",
+    "ageS": 2.604
+   },
+   "20260820_201853.csv": {
+    "kw": 49.6,
+    "x": 34.0,
+    "tier": "nearby",
+    "ageS": 2.864
+   },
+   "20260820_214927.csv": {
+    "kw": 38.3,
+    "x": 40.0,
+    "tier": "nearby",
+    "ageS": 2.456
+   },
+   "20260820_225027.csv": {
+    "kw": 28.3,
+    "x": 39.0,
+    "tier": "cotimed",
+    "ageS": 0.685
+   },
+   "20260821_081939.csv": {
+    "kw": 38.5,
+    "x": 32.0,
+    "tier": "late",
+    "ageS": 3.056
+   },
+   "20260821_193713.csv": {
+    "kw": 31.0,
+    "x": 29.0,
+    "tier": "nearby",
+    "ageS": 2.145
+   },
+   "20260821_205225.csv": {
+    "kw": 34.7,
+    "x": 31.0,
+    "tier": "late",
+    "ageS": 3.116
+   },
+   "20260821_225137.csv": {
+    "kw": 55.6,
+    "x": 36.0,
+    "tier": "nearby",
+    "ageS": -2.391
+   },
+   "20260822_102139.csv": {
+    "kw": 45.9,
+    "x": 28.0,
+    "tier": "nearby",
+    "ageS": 1.58
+   },
+   "20260822_110317.csv": {
+    "kw": 57.6,
+    "x": 36.0,
+    "tier": "nearby",
+    "ageS": -1.006
+   },
+   "20260822_141715.csv": {
+    "kw": 47.1,
+    "x": 38.0,
+    "tier": "nearby",
+    "ageS": -2.352
+   },
+   "20260822_173539.csv": {
+    "kw": 36.2,
+    "x": 39.0,
+    "tier": "nearby",
+    "ageS": -2.56
+   },
+   "20260822_191324.csv": {
+    "kw": 46.6,
+    "x": 40.0,
+    "tier": "cotimed",
+    "ageS": 0.699
+   },
+   "20260822_205359.csv": {
+    "kw": 35.7,
+    "x": 40.0,
+    "tier": "nearby",
+    "ageS": 1.616
+   },
+   "20260822_215052.csv": {
+    "kw": 45.8,
+    "x": 40.0,
+    "tier": "nearby",
+    "ageS": -1.704
+   },
+   "20260823_152957.csv": {
+    "kw": 53.1,
+    "x": 31.0,
+    "tier": "nearby",
+    "ageS": -1.637
+   },
+   "20260823_161315.csv": {
+    "kw": 49.1,
+    "x": 35.0,
+    "tier": "nearby",
+    "ageS": 1.521
+   },
+   "20260823_210116.csv": {
+    "kw": 54.8,
+    "x": 32.0,
+    "tier": "nearby",
+    "ageS": 2.295
+   },
+   "20260824_081823.csv": {
+    "kw": 55.0,
+    "x": 23.0,
+    "tier": "nearby",
+    "ageS": -2.372
+   },
+   "20260824_104612.csv": {
+    "kw": 44.8,
+    "x": 30.0,
+    "tier": "nearby",
+    "ageS": -1.704
+   },
+   "20260824_133602.csv": {
+    "kw": 25.3,
+    "x": 30.0,
+    "tier": "nearby",
+    "ageS": -2.327
+   },
+   "20260824_174511.csv": {
+    "kw": 49.8,
+    "x": 30.0,
+    "tier": "cotimed",
+    "ageS": 0.885
+   },
+   "20260824_202635.csv": {
+    "kw": 54.2,
+    "x": 34.0,
+    "tier": "cotimed",
+    "ageS": -0.12
+   },
+   "20260824_212048.csv": {
+    "kw": 52.0,
+    "x": 36.0,
+    "tier": "nearby",
+    "ageS": 1.968
+   },
+   "20260824_222425.csv": {
+    "kw": 25.5,
+    "x": 36.0,
+    "tier": "nearby",
+    "ageS": 2.222
+   },
+   "20260825_102604.csv": {
+    "kw": 52.3,
+    "x": 26.0,
+    "tier": "nearby",
+    "ageS": 1.627
+   },
+   "20260825_123247.csv": {
+    "kw": 47.7,
+    "x": 29.0,
+    "tier": "cotimed",
+    "ageS": -0.095
+   },
+   "20260825_183427.csv": {
+    "kw": 69.2,
+    "x": 30.0,
+    "tier": "cotimed",
+    "ageS": -0.123
+   },
+   "20260826_203739.csv": {
+    "kw": 52.5,
+    "x": 27.0,
+    "tier": "nearby",
+    "ageS": -1.611
+   },
+   "20260826_224518.csv": {
+    "kw": 52.8,
+    "x": 37.0,
+    "tier": "nearby",
+    "ageS": -1.061
+   },
+   "20260828_202030.csv": {
+    "kw": 48.8,
+    "x": 29.0,
+    "tier": "cotimed",
+    "ageS": -0.123
+   },
+   "20260829_100447.csv": {
+    "kw": 38.4,
+    "x": 23.0,
+    "tier": "nearby",
+    "ageS": -2.079
+   },
+   "20260829_191404.csv": {
+    "kw": 36.6,
+    "x": 28.0,
+    "tier": "nearby",
+    "ageS": 2.229
+   },
+   "20260829_193046.csv": {
+    "kw": 48.6,
+    "x": 30.0,
+    "tier": "nearby",
+    "ageS": 2.874
+   },
+   "20260829_194121.csv": {
+    "kw": 53.0,
+    "x": 32.0,
+    "tier": "nearby",
+    "ageS": -2.684
+   },
+   "20260830_121043.csv": {
+    "kw": 40.6,
+    "x": 22.0,
+    "tier": "cotimed",
+    "ageS": -0.832
+   },
+   "20260830_122801.csv": {
+    "kw": 50.7,
+    "x": 31.0,
+    "tier": "nearby",
+    "ageS": 2.305
+   },
+   "20260830_125410.csv": {
+    "kw": 49.4,
+    "x": 37.0,
+    "tier": "nearby",
+    "ageS": 2.98
+   },
+   "20260830_155318.csv": {
+    "kw": 62.2,
+    "x": 37.0,
+    "tier": "nearby",
+    "ageS": 2.935
+   },
+   "20260830_165926.csv": {
+    "kw": 56.1,
+    "x": 43.0,
+    "tier": "nearby",
+    "ageS": -1.96
+   },
+   "20260830_190907.csv": {
+    "kw": 42.5,
+    "x": 43.0,
+    "tier": "cotimed",
+    "ageS": -0.107
+   },
+   "20260830_192834.csv": {
+    "kw": 56.0,
+    "x": 43.0,
+    "tier": "nearby",
+    "ageS": -1.824
+   },
+   "20260830_200617.csv": {
+    "kw": 33.6,
+    "x": 44.0,
+    "tier": "nearby",
+    "ageS": 1.639
+   },
+   "20260831_134403.csv": {
+    "kw": 31.9,
+    "x": 24.0,
+    "tier": "nearby",
+    "ageS": 2.36
+   },
+   "20260831_201658.csv": {
+    "kw": 31.8,
+    "x": 34.0,
+    "tier": "cotimed",
+    "ageS": -0.133
+   },
+   "20260831_203855.csv": {
+    "kw": 48.9,
+    "x": 37.0,
+    "tier": "cotimed",
+    "ageS": 0.627
+   },
+   "20260901_074917.csv": {
+    "kw": 15.9,
+    "x": 26.0,
+    "tier": "nearby",
+    "ageS": -2.377
+   },
+   "20260901_080956.csv": {
+    "kw": 20.2,
+    "x": 26.0,
+    "tier": "cotimed",
+    "ageS": -0.144
+   },
+   "20260901_111543.csv": {
+    "kw": 41.1,
+    "x": 25.0,
+    "tier": "cotimed",
+    "ageS": -0.879
+   },
+   "20260901_112814.csv": {
+    "kw": 34.6,
+    "x": 27.0,
+    "tier": "nearby",
+    "ageS": 2.38
+   },
+   "20260902_074300.csv": {
+    "kw": 17.9,
+    "x": 18.0,
+    "tier": "cotimed",
+    "ageS": 0.879
+   },
+   "20260902_075316.csv": {
+    "kw": 32.3,
+    "x": 19.0,
+    "tier": "cotimed",
+    "ageS": -0.147
+   },
+   "20260902_201704.csv": {
+    "kw": 29.4,
+    "x": 28.0,
+    "tier": "nearby",
+    "ageS": -1.558
+   },
+   "20260902_203318.csv": {
+    "kw": 17.0,
+    "x": 29.0,
+    "tier": "nearby",
+    "ageS": 1.623
+   },
+   "20260902_204646.csv": {
+    "kw": 41.2,
+    "x": 31.0,
+    "tier": "nearby",
+    "ageS": 2.899
+   },
+   "20260902_211511.csv": {
+    "kw": 35.7,
+    "x": 33.0,
+    "tier": "nearby",
+    "ageS": 2.832
+   },
+   "20260903_074822.csv": {
+    "kw": 10.5,
+    "x": 21.0,
+    "tier": "nearby",
+    "ageS": 2.269
+   },
+   "20260903_082326.csv": {
+    "kw": 11.2,
+    "x": 22.0,
+    "tier": "cotimed",
+    "ageS": -0.803
+   },
+   "20260903_200514.csv": {
+    "kw": 23.3,
+    "x": 31.0,
+    "tier": "nearby",
+    "ageS": -1.558
+   },
+   "20260903_213855.csv": {
+    "kw": 37.6,
+    "x": 34.0,
+    "tier": "cotimed",
+    "ageS": -0.881
+   },
+   "20260904_075123.csv": {
+    "kw": 13.7,
+    "x": 20.0,
+    "tier": "cotimed",
+    "ageS": -0.848
+   },
+   "20260904_080352.csv": {
+    "kw": 16.3,
+    "x": 21.0,
+    "tier": "cotimed",
+    "ageS": -0.128
+   },
+   "20260904_203411.csv": {
+    "kw": 65.4,
+    "x": 30.0,
+    "tier": "nearby",
+    "ageS": 2.209
+   },
+   "20260905_103157.csv": {
+    "kw": 31.6,
+    "x": 23.0,
+    "tier": "nearby",
+    "ageS": -2.267
+   },
+   "20260905_104841.csv": {
+    "kw": 41.1,
+    "x": 25.0,
+    "tier": "nearby",
+    "ageS": -1.736
+   },
+   "20260905_110415.csv": {
+    "kw": 54.6,
+    "x": 29.0,
+    "tier": "cotimed",
+    "ageS": 0.723
+   },
+   "20260905_122311.csv": {
+    "kw": 23.7,
+    "x": 29.0,
+    "tier": "nearby",
+    "ageS": 2.212
+   },
+   "20260905_123511.csv": {
+    "kw": 20.0,
+    "x": 31.0,
+    "tier": "cotimed",
+    "ageS": 0.719
+   },
+   "20260905_124450.csv": {
+    "kw": 24.5,
+    "x": 31.0,
+    "tier": "nearby",
+    "ageS": 2.248
+   },
+   "20260905_162310.csv": {
+    "kw": 33.7,
+    "x": 28.0,
+    "tier": "nearby",
+    "ageS": -2.009
+   },
+   "20260905_163145.csv": {
+    "kw": 42.7,
+    "x": 30.0,
+    "tier": "nearby",
+    "ageS": 1.792
+   },
+   "20260905_164824.csv": {
+    "kw": 58.7,
+    "x": 33.0,
+    "tier": "nearby",
+    "ageS": 2.945
+   },
+   "20260905_172322.csv": {
+    "kw": 55.0,
+    "x": 37.0,
+    "tier": "nearby",
+    "ageS": -1.488
+   },
+   "20260905_175245.csv": {
+    "kw": 51.3,
+    "x": 37.0,
+    "tier": "nearby",
+    "ageS": 1.916
+   },
+   "20260905_183226.csv": {
+    "kw": 45.5,
+    "x": 37.0,
+    "tier": "cotimed",
+    "ageS": 0.708
+   },
+   "20260906_121520.csv": {
+    "kw": 30.4,
+    "x": 18.0,
+    "tier": "cotimed",
+    "ageS": 0.651
+   },
+   "20260906_122920.csv": {
+    "kw": 42.6,
+    "x": 21.0,
+    "tier": "nearby",
+    "ageS": 1.732
+   },
+   "20260906_130754.csv": {
+    "kw": 20.1,
+    "x": 21.0,
+    "tier": "nearby",
+    "ageS": 1.345
+   },
+   "20260906_131945.csv": {
+    "kw": 31.8,
+    "x": 23.0,
+    "tier": "late",
+    "ageS": -6.249
+   },
+   "20260906_134827.csv": {
+    "kw": 15.8,
+    "x": 24.0,
+    "tier": "late",
+    "ageS": -6.769
+   },
+   "20260906_195140.csv": {
+    "kw": 23.1,
+    "x": 21.0,
+    "tier": "late",
+    "ageS": -3.64
+   },
+   "20260906_201552.csv": {
+    "kw": 37.3,
+    "x": 23.0,
+    "tier": "nearby",
+    "ageS": 1.057
+   },
+   "20260907_074534.csv": {
+    "kw": 16.6,
+    "x": 19.0,
+    "tier": "nearby",
+    "ageS": 1.306
+   },
+   "20260907_081855.csv": {
+    "kw": 28.7,
+    "x": 19.0,
+    "tier": "cotimed",
+    "ageS": -0.563
+   },
+   "20260907_165532.csv": {
+    "kw": 25.0,
+    "x": 21.0,
+    "tier": "late",
+    "ageS": 6.909
+   },
+   "20260907_171659.csv": {
+    "kw": 20.2,
+    "x": 23.0,
+    "tier": "late",
+    "ageS": 6.349
+   },
+   "20260907_172745.csv": {
+    "kw": 30.8,
+    "x": 24.0,
+    "tier": "late",
+    "ageS": -5.125
+   },
+   "20260907_174600.csv": {
+    "kw": 28.3,
+    "x": 25.0,
+    "tier": "late",
+    "ageS": 6.946
+   },
+   "20260908_074435.csv": {
+    "kw": 13.5,
+    "x": 17.0,
+    "tier": "cotimed",
+    "ageS": 0.931
+   },
+   "20260908_075934.csv": {
+    "kw": 21.5,
+    "x": 19.0,
+    "tier": "nearby",
+    "ageS": 1.883
+   },
+   "20260908_085530.csv": {
+    "kw": 27.1,
+    "x": 20.0,
+    "tier": "late",
+    "ageS": -4.272
+   },
+   "20260908_123156.csv": {
+    "kw": 22.4,
+    "x": 21.0,
+    "tier": "late",
+    "ageS": 5.401
+   },
+   "20260908_124726.csv": {
+    "kw": 27.0,
+    "x": 24.0,
+    "tier": "nearby",
+    "ageS": 1.209
+   },
+   "20260909_073950.csv": {
+    "kw": 19.3,
+    "x": 19.0,
+    "tier": "nearby",
+    "ageS": 2.713
+   },
+   "20260909_075611.csv": {
+    "kw": 22.2,
+    "x": 22.0,
+    "tier": "nearby",
+    "ageS": 1.375
+   },
+   "20260909_133503.csv": {
+    "kw": 27.4,
+    "x": 24.0,
+    "tier": "cotimed",
+    "ageS": -0.753
+   },
+   "20260909_140527.csv": {
+    "kw": 34.2,
+    "x": 25.0,
+    "tier": "late",
+    "ageS": -6.366
+   },
+   "20260909_143711.csv": {
+    "kw": 27.5,
+    "x": 27.0,
+    "tier": "cotimed",
+    "ageS": 0.985
+   },
+   "20260909_153731.csv": {
+    "kw": 47.6,
+    "x": 29.0,
+    "tier": "late",
+    "ageS": -4.53
+   },
+   "20260909_154548.csv": {
+    "kw": 45.9,
+    "x": 33.0,
+    "tier": "nearby",
+    "ageS": -2.0
+   },
+   "20260910_074344.csv": {
+    "kw": 65.1,
+    "x": 22.0,
+    "tier": "late",
+    "ageS": 3.735
+   },
+   "20260910_081613.csv": {
+    "kw": 24.9,
+    "x": 24.0,
+    "tier": "cotimed",
+    "ageS": -0.629
+   },
+   "20260910_135648.csv": {
+    "kw": 41.3,
+    "x": 26.0,
+    "tier": "nearby",
+    "ageS": 2.819
+   },
+   "20260910_143202.csv": {
+    "kw": 30.2,
+    "x": 30.0,
+    "tier": "late",
+    "ageS": 4.281
+   },
+   "2026-09-11_07-42-27.csv": {
+    "kw": 19.7,
+    "x": 21.0,
+    "tier": "cotimed",
+    "ageS": -0.528
+   },
+   "2026-09-11_08-01-27.csv": {
+    "kw": 27.2,
+    "x": 23.0,
+    "tier": "nearby",
+    "ageS": -1.989
+   },
+   "2026-09-11_15-04-47.csv": {
+    "kw": 26.5,
+    "x": 31.0,
+    "tier": "nearby",
+    "ageS": 1.216
+   },
+   "2026-09-11_15-23-18.csv": {
+    "kw": 25.5,
+    "x": 32.0,
+    "tier": "late",
+    "ageS": 5.604
+   },
+   "2026-09-11_19-24-41.csv": {
+    "kw": 31.6,
+    "x": 29.0,
+    "tier": "late",
+    "ageS": 4.019
+   },
+   "2026-09-11_19-37-40.csv": {
+    "kw": 56.5,
+    "x": 32.0,
+    "tier": "late",
+    "ageS": -5.113
+   },
+   "2026-09-11_21-57-07.csv": {
+    "kw": 34.4,
+    "x": 33.0,
+    "tier": "late",
+    "ageS": 4.231
+   },
+   "2026-09-12_13-25-13.csv": {
+    "kw": 30.8,
+    "x": 17.0,
+    "tier": "cotimed",
+    "ageS": -0.791
+   },
+   "2026-09-12_13-33-36.csv": {
+    "kw": 29.1,
+    "x": 18.0,
+    "tier": "late",
+    "ageS": -6.236
+   },
+   "2026-09-12_13-57-02.csv": {
+    "kw": 21.7,
+    "x": 23.0,
+    "tier": "nearby",
+    "ageS": -2.211
+   },
+   "2026-09-12_14-15-41.csv": {
+    "kw": 23.9,
+    "x": 24.0,
+    "tier": "cotimed",
+    "ageS": -0.475
+   },
+   "2026-09-12_14-48-27.csv": {
+    "kw": 34.9,
+    "x": 26.0,
+    "tier": "cotimed",
+    "ageS": -0.828
+   },
+   "2026-09-12_15-01-43.csv": {
+    "kw": 25.0,
+    "x": 27.0,
+    "tier": "late",
+    "ageS": -6.232
+   },
+   "2026-09-12_16-59-34.csv": {
+    "kw": 51.9,
+    "x": 25.0,
+    "tier": "late",
+    "ageS": -3.931
+   },
+   "2026-09-13_11-48-59.csv": {
+    "kw": 22.0,
+    "x": 14.0,
+    "tier": "nearby",
+    "ageS": 2.692
+   },
+   "2026-09-13_12-01-09.csv": {
+    "kw": 27.0,
+    "x": 17.0,
+    "tier": "nearby",
+    "ageS": 1.337
+   },
+   "2026-09-13_12-08-25.csv": {
+    "kw": 26.6,
+    "x": 18.0,
+    "tier": "nearby",
+    "ageS": 2.749
+   },
+   "2026-09-13_12-22-44.csv": {
+    "kw": 24.8,
+    "x": 19.0,
+    "tier": "late",
+    "ageS": -3.816
+   },
+   "2026-09-13_13-01-46.csv": {
+    "kw": 54.8,
+    "x": 29.0,
+    "tier": "late",
+    "ageS": 6.361
+   },
+   "2026-09-13_13-46-17.csv": {
+    "kw": 51.2,
+    "x": 38.0,
+    "tier": "late",
+    "ageS": 3.73
+   },
+   "2026-09-13_17-11-06.csv": {
+    "kw": 54.0,
+    "x": 37.0,
+    "tier": "nearby",
+    "ageS": -1.983
+   },
+   "2026-09-13_19-00-19.csv": {
+    "kw": 46.3,
+    "x": 33.0,
+    "tier": "late",
+    "ageS": -4.986
+   },
+   "2026-09-13_19-10-18.csv": {
+    "kw": 33.7,
+    "x": 36.0,
+    "tier": "late",
+    "ageS": -3.429
+   },
+   "2026-09-13_19-45-44.csv": {
+    "kw": 46.4,
+    "x": 38.0,
+    "tier": "late",
+    "ageS": 4.179
+   },
+   "2026-09-13_20-30-29.csv": {
+    "kw": 54.4,
+    "x": 40.0,
+    "tier": "cotimed",
+    "ageS": -0.833
+   },
+   "2026-09-14_07-36-58.csv": {
+    "kw": 21.8,
+    "x": 20.0,
+    "tier": "late",
+    "ageS": -3.33
+   },
+   "2026-09-14_07-50-59.csv": {
+    "kw": 33.2,
+    "x": 24.0,
+    "tier": "nearby",
+    "ageS": 2.856
+   },
+   "2026-09-14_16-56-10.csv": {
+    "kw": 30.4,
+    "x": 21.0,
+    "tier": "late",
+    "ageS": 3.74
+   },
+   "2026-09-14_17-08-07.csv": {
+    "kw": 46.4,
+    "x": 25.0,
+    "tier": "late",
+    "ageS": -5.656
+   },
+   "2026-09-14_18-09-48.csv": {
+    "kw": 37.3,
+    "x": 27.0,
+    "tier": "late",
+    "ageS": -3.691
+   },
+   "2026-09-14_18-49-32.csv": {
+    "kw": 34.1,
+    "x": 31.0,
+    "tier": "late",
+    "ageS": -4.935
+   },
+   "2026-09-15_07-49-33.csv": {
+    "kw": 12.2,
+    "x": 16.0,
+    "tier": "cotimed",
+    "ageS": -0.625
+   },
+   "2026-09-15_08-06-11.csv": {
+    "kw": 32.3,
+    "x": 20.0,
+    "tier": "nearby",
+    "ageS": 1.216
+   },
+   "2026-09-15_14-44-40.csv": {
+    "kw": 21.4,
+    "x": 20.0,
+    "tier": "late",
+    "ageS": -6.698
+   },
+   "2026-09-16_07-35-39.csv": {
+    "kw": 22.7,
+    "x": 18.0,
+    "tier": "nearby",
+    "ageS": 1.024
+   },
+   "2026-09-16_07-49-37.csv": {
+    "kw": 20.4,
+    "x": 20.0,
+    "tier": "late",
+    "ageS": 5.156
+   },
+   "2026-09-16_14-01-15.csv": {
+    "kw": 23.1,
+    "x": 20.0,
+    "tier": "late",
+    "ageS": 6.943
+   },
+   "2026-09-16_14-40-56.csv": {
+    "kw": 24.7,
+    "x": 23.0,
+    "tier": "late",
+    "ageS": 5.403
+   },
+   "2026-09-16_18-07-46.csv": {
+    "kw": 20.0,
+    "x": 32.0,
+    "tier": "late",
+    "ageS": 5.611
+   },
+   "2026-09-16_18-17-21.csv": {
+    "kw": 22.3,
+    "x": 33.0,
+    "tier": "late",
+    "ageS": -5.163
+   },
+   "2026-09-16_19-00-34.csv": {
+    "kw": 29.7,
+    "x": 35.0,
+    "tier": "late",
+    "ageS": -5.907
+   },
+   "2026-09-16_19-29-42.csv": {
+    "kw": 37.1,
+    "x": 37.0,
+    "tier": "nearby",
+    "ageS": -1.899
+   },
+   "2026-09-17_07-42-09.csv": {
+    "kw": 13.3,
+    "x": 21.0,
+    "tier": "late",
+    "ageS": -4.515
+   },
+   "2026-09-17_08-17-51.csv": {
+    "kw": 28.0,
+    "x": 22.0,
+    "tier": "late",
+    "ageS": 5.619
+   },
+   "2026-09-17_18-42-24.csv": {
+    "kw": 26.5,
+    "x": 35.0,
+    "tier": "late",
+    "ageS": 6.204
+   },
+   "2026-09-17_18-50-09.csv": {
+    "kw": 18.7,
+    "x": 35.0,
+    "tier": "late",
+    "ageS": -7.398
+   },
+   "2026-09-17_19-54-00.csv": {
+    "kw": 30.2,
+    "x": 37.0,
+    "tier": "late",
+    "ageS": 3.575
+   },
+   "2026-09-18_07-43-41.csv": {
+    "kw": 15.1,
+    "x": 21.0,
+    "tier": "nearby",
+    "ageS": 1.088
+   },
+   "2026-09-18_08-01-32.csv": {
+    "kw": 20.2,
+    "x": 22.0,
+    "tier": "nearby",
+    "ageS": 1.326
+   },
+   "2026-09-19_09-36-29.csv": {
+    "kw": 23.3,
+    "x": 18.0,
+    "tier": "nearby",
+    "ageS": 2.292
+   },
+   "2026-09-19_12-04-29.csv": {
+    "kw": 15.7,
+    "x": 18.0,
+    "tier": "cotimed",
+    "ageS": -0.552
+   },
+   "2026-09-19_12-17-53.csv": {
+    "kw": 40.8,
+    "x": 21.0,
+    "tier": "nearby",
+    "ageS": -1.776
+   },
+   "2026-09-19_12-56-56.csv": {
+    "kw": 45.4,
+    "x": 24.0,
+    "tier": "late",
+    "ageS": 6.535
+   },
+   "2026-09-19_13-06-20.csv": {
+    "kw": 36.6,
+    "x": 29.0,
+    "tier": "cotimed",
+    "ageS": -0.671
+   },
+   "2026-09-19_15-44-41.csv": {
+    "kw": 43.4,
+    "x": 27.0,
+    "tier": "nearby",
+    "ageS": -1.775
+   },
+   "2026-09-19_17-22-21.csv": {
+    "kw": 24.6,
+    "x": 30.0,
+    "tier": "late",
+    "ageS": 3.502
+   },
+   "2026-09-19_17-42-40.csv": {
+    "kw": 66.3,
+    "x": 37.0,
+    "tier": "late",
+    "ageS": -3.273
+   },
+   "2026-09-20_06-44-20.csv": {
+    "kw": 22.4,
+    "x": 22.0,
+    "tier": "nearby",
+    "ageS": 2.656
+   },
+   "2026-09-20_10-38-25.csv": {
+    "kw": 25.3,
+    "x": 20.0,
+    "tier": "late",
+    "ageS": 7.761
+   },
+   "2026-09-20_11-23-27.csv": {
+    "kw": 23.4,
+    "x": 22.0,
+    "tier": "nearby",
+    "ageS": -1.729
+   },
+   "2026-09-20_18-02-44.csv": {
+    "kw": 26.9,
+    "x": 27.0,
+    "tier": "late",
+    "ageS": -6.421
+   },
+   "2026-09-20_19-27-18.csv": {
+    "kw": 17.7,
+    "x": 28.0,
+    "tier": "late",
+    "ageS": -7.257
+   },
+   "2026-09-20_20-25-25.csv": {
+    "kw": 40.1,
+    "x": 29.0,
+    "tier": "late",
+    "ageS": -6.699
+   },
+   "2026-09-20_20-52-42.csv": {
+    "kw": 18.3,
+    "x": 31.0,
+    "tier": "late",
+    "ageS": -4.777
+   },
+   "2026-09-20_20-59-21.csv": {
+    "kw": 23.3,
+    "x": 31.0,
+    "tier": "nearby",
+    "ageS": -1.88
+   },
+   "2026-09-21_07-36-37.csv": {
+    "kw": 17.5,
+    "x": 23.0,
+    "tier": "late",
+    "ageS": 5.476
+   },
+   "2026-09-21_07-50-20.csv": {
+    "kw": 24.1,
+    "x": 24.0,
+    "tier": "late",
+    "ageS": 6.52
+   },
+   "2026-09-21_12-02-22.csv": {
+    "kw": 21.6,
+    "x": 20.0,
+    "tier": "late",
+    "ageS": 6.887
+   },
+   "2026-09-21_20-35-24.csv": {
+    "kw": 33.5,
+    "x": 22.0,
+    "tier": "late",
+    "ageS": 6.3
+   },
+   "2026-09-21_20-55-26.csv": {
+    "kw": 34.8,
+    "x": 24.0,
+    "tier": "late",
+    "ageS": 6.66
+   },
+   "2026-09-22_07-45-42.csv": {
+    "kw": 13.4,
+    "x": 17.0,
+    "tier": "late",
+    "ageS": -5.708
+   },
+   "2026-09-22_07-59-37.csv": {
+    "kw": 18.7,
+    "x": 18.0,
+    "tier": "late",
+    "ageS": 6.613
+   },
+   "2026-09-22_11-55-57.csv": {
+    "kw": 30.9,
+    "x": 16.0,
+    "tier": "nearby",
+    "ageS": 1.144
+   },
+   "2026-09-22_16-13-42.csv": {
+    "kw": 21.4,
+    "x": 16.0,
+    "tier": "late",
+    "ageS": -3.754
+   },
+   "2026-09-22_16-21-26.csv": {
+    "kw": 17.7,
+    "x": 16.0,
+    "tier": "late",
+    "ageS": 5.595
+   },
+   "2026-09-22_21-59-14.csv": {
+    "kw": 26.9,
+    "x": 16.0,
+    "tier": "late",
+    "ageS": 6.529
+   },
+   "2026-09-22_22-14-10.csv": {
+    "kw": 26.3,
+    "x": 19.0,
+    "tier": "late",
+    "ageS": -5.2
+   },
+   "2026-09-23_07-39-38.csv": {
+    "kw": 18.4,
+    "x": 14.0,
+    "tier": "nearby",
+    "ageS": -1.923
+   },
+   "2026-09-23_07-51-39.csv": {
+    "kw": 14.3,
+    "x": 18.0,
+    "tier": "cotimed",
+    "ageS": -0.569
+   },
+   "2026-09-23_08-11-14.csv": {
+    "kw": 22.3,
+    "x": 18.0,
+    "tier": "late",
+    "ageS": -6.276
+   },
+   "2026-09-23_18-33-22.csv": {
+    "kw": 30.4,
+    "x": 16.0,
+    "tier": "nearby",
+    "ageS": 1.337
+   },
+   "2026-09-24_20-27-48.csv": {
+    "kw": 23.7,
+    "x": 21.0,
+    "tier": "late",
+    "ageS": -4.948
+   },
+   "2026-09-24_22-29-34.csv": {
+    "kw": 25.3,
+    "x": 23.0,
+    "tier": "late",
+    "ageS": -4.907
+   },
+   "2026-09-25_13-48-33.csv": {
+    "kw": 40.6,
+    "x": 12.0,
+    "tier": "cotimed",
+    "ageS": -0.626
+   },
+   "2026-09-25_14-09-21.csv": {
+    "kw": 37.8,
+    "x": 17.0,
+    "tier": "late",
+    "ageS": -6.321
+   },
+   "2026-09-25_14-30-29.csv": {
+    "kw": 39.6,
+    "x": 19.0,
+    "tier": "nearby",
+    "ageS": 1.108
+   },
+   "2026-09-25_19-55-15.csv": {
+    "kw": 22.0,
+    "x": 20.0,
+    "tier": "late",
+    "ageS": 4.176
+   },
+   "2026-09-25_20-14-16.csv": {
+    "kw": 21.8,
+    "x": 21.0,
+    "tier": "nearby",
+    "ageS": -1.828
+   },
+   "2026-09-26_12-07-59.csv": {
+    "kw": 32.0,
+    "x": 14.0,
+    "tier": "nearby",
+    "ageS": 2.753
+   },
+   "2026-09-26_12-21-17.csv": {
+    "kw": 33.4,
+    "x": 16.0,
+    "tier": "late",
+    "ageS": 5.382
+   },
+   "2026-09-26_13-05-40.csv": {
+    "kw": 28.2,
+    "x": 20.0,
+    "tier": "late",
+    "ageS": -6.538
+   },
+   "2026-09-26_13-47-37.csv": {
+    "kw": 40.7,
+    "x": 22.0,
+    "tier": "cotimed",
+    "ageS": -0.492
+   },
+   "2026-09-26_14-06-50.csv": {
+    "kw": 22.0,
+    "x": 24.0,
+    "tier": "nearby",
+    "ageS": 1.253
+   },
+   "2026-09-26_16-47-35.csv": {
+    "kw": 56.8,
+    "x": 32.0,
+    "tier": "late",
+    "ageS": -6.256
+   },
+   "2026-09-26_17-57-23.csv": {
+    "kw": 28.1,
+    "x": 36.0,
+    "tier": "late",
+    "ageS": 6.997
+   },
+   "2026-09-26_18-08-40.csv": {
+    "kw": 33.3,
+    "x": 38.0,
+    "tier": "late",
+    "ageS": 6.856
+   },
+   "2026-09-26_20-00-42.csv": {
+    "kw": 47.3,
+    "x": 35.0,
+    "tier": "nearby",
+    "ageS": 2.58
+   },
+   "2026-09-27_13-43-58.csv": {
+    "kw": 21.6,
+    "x": 16.0,
+    "tier": "late",
+    "ageS": -6.285
+   },
+   "2026-09-27_13-54-46.csv": {
+    "kw": 30.4,
+    "x": 19.0,
+    "tier": "late",
+    "ageS": -8.894
+   },
+   "2026-09-27_14-12-39.csv": {
+    "kw": 34.1,
+    "x": 20.0,
+    "tier": "late",
+    "ageS": -6.304
+   },
+   "2026-09-27_14-54-46.csv": {
+    "kw": 24.6,
+    "x": 22.0,
+    "tier": "late",
+    "ageS": 6.941
+   },
+   "2026-09-27_15-12-43.csv": {
+    "kw": 44.3,
+    "x": 29.0,
+    "tier": "late",
+    "ageS": 6.675
+   },
+   "2026-09-27_16-50-42.csv": {
+    "kw": 42.1,
+    "x": 31.0,
+    "tier": "nearby",
+    "ageS": 1.344
+   },
+   "2026-09-27_17-01-21.csv": {
+    "kw": 30.4,
+    "x": 32.0,
+    "tier": "late",
+    "ageS": -4.944
+   },
+   "2026-09-27_17-15-25.csv": {
+    "kw": 26.3,
+    "x": 33.0,
+    "tier": "late",
+    "ageS": 5.676
+   },
+   "2026-09-27_17-34-35.csv": {
+    "kw": 33.7,
+    "x": 33.0,
+    "tier": "nearby",
+    "ageS": -2.143
+   },
+   "2026-09-27_17-49-23.csv": {
+    "kw": 29.6,
+    "x": 34.0,
+    "tier": "cotimed",
+    "ageS": -0.624
+   },
+   "2026-09-27_19-57-33.csv": {
+    "kw": 39.2,
+    "x": 33.0,
+    "tier": "nearby",
+    "ageS": -2.024
+   },
+   "2026-09-27_22-04-51.csv": {
+    "kw": 26.7,
+    "x": 31.0,
+    "tier": "cotimed",
+    "ageS": -0.506
+   },
+   "2026-09-28_21-24-27.csv": {
+    "kw": 57.8,
+    "x": 25.0,
+    "tier": "nearby",
+    "ageS": 2.42
+   },
+   "2026-09-29_10-00-34.csv": {
+    "kw": 22.8,
+    "x": 14.0,
+    "tier": "nearby",
+    "ageS": 2.472
+   },
+   "2026-09-29_10-13-01.csv": {
+    "kw": 30.4,
+    "x": 17.0,
+    "tier": "nearby",
+    "ageS": 1.168
+   },
+   "2026-09-29_10-21-46.csv": {
+    "kw": 19.9,
+    "x": 19.0,
+    "tier": "late",
+    "ageS": -7.933
+   },
+   "2026-09-29_20-39-13.csv": {
+    "kw": 28.0,
+    "x": 27.0,
+    "tier": "late",
+    "ageS": -3.661
+   },
+   "2026-09-29_22-10-11.csv": {
+    "kw": 30.5,
+    "x": 27.0,
+    "tier": "late",
+    "ageS": 5.216
+   },
+   "2026-09-29_22-22-40.csv": {
+    "kw": 22.7,
+    "x": 28.0,
+    "tier": "late",
+    "ageS": 4.259
+   },
+   "2026-09-30_08-08-32.csv": {
+    "kw": 14.0,
+    "x": 14.0,
+    "tier": "late",
+    "ageS": -6.976
+   },
+   "2026-09-30_10-39-05.csv": {
+    "kw": 12.3,
+    "x": 14.0,
+    "tier": "late",
+    "ageS": 5.676
+   },
+   "2026-09-30_10-51-47.csv": {
+    "kw": 20.3,
+    "x": 16.0,
+    "tier": "late",
+    "ageS": 5.889
+   },
+   "2026-09-30_20-12-47.csv": {
+    "kw": 24.5,
+    "x": 23.0,
+    "tier": "nearby",
+    "ageS": 1.052
+   },
+   "2026-09-30_20-39-00.csv": {
+    "kw": 30.9,
+    "x": 28.0,
+    "tier": "late",
+    "ageS": -5.777
+   },
+   "2026-10-01_07-38-47.csv": {
+    "kw": 13.5,
+    "x": 14.0,
+    "tier": "late",
+    "ageS": -4.803
+   },
+   "2026-10-01_07-57-02.csv": {
+    "kw": 19.1,
+    "x": 16.0,
+    "tier": "nearby",
+    "ageS": -2.084
+   },
+   "2026-10-01_08-14-08.csv": {
+    "kw": 15.3,
+    "x": 16.0,
+    "tier": "nearby",
+    "ageS": -2.065
+   },
+   "2026-10-01_16-45-44.csv": {
+    "kw": 23.4,
+    "x": 16.0,
+    "tier": "nearby",
+    "ageS": -2.933
+   },
+   "2026-10-01_16-57-31.csv": {
+    "kw": 26.7,
+    "x": 18.0,
+    "tier": "nearby",
+    "ageS": 1.496
+   },
+   "2026-10-01_17-40-07.csv": {
+    "kw": 30.8,
+    "x": 19.0,
+    "tier": "cotimed",
+    "ageS": -0.785
+   },
+   "2026-10-01_18-19-32.csv": {
+    "kw": 42.1,
+    "x": 24.0,
+    "tier": "nearby",
+    "ageS": 1.196
+   },
+   "2026-10-01_19-58-38.csv": {
+    "kw": 71.1,
+    "x": 34.0,
+    "tier": "nearby",
+    "ageS": 1.484
+   },
+   "2026-10-02_07-50-49.csv": {
+    "kw": 24.9,
+    "x": 15.0,
+    "tier": "late",
+    "ageS": -3.417
+   },
+   "2026-10-02_08-04-04.csv": {
+    "kw": 14.4,
+    "x": 16.0,
+    "tier": "cotimed",
+    "ageS": -0.11
+   },
+   "2026-10-02_19-04-06.csv": {
+    "kw": 33.0,
+    "x": 20.0,
+    "tier": "cotimed",
+    "ageS": 0.662
+   },
+   "2026-10-02_21-02-25.csv": {
+    "kw": 35.2,
+    "x": 23.0,
+    "tier": "nearby",
+    "ageS": 2.9
+   },
+   "2026-10-03_09-48-44.csv": {
+    "kw": 28.3,
+    "x": 9.0,
+    "tier": "cotimed",
+    "ageS": -0.096
+   },
+   "2026-10-03_09-58-07.csv": {
+    "kw": 22.5,
+    "x": 13.0,
+    "tier": "late",
+    "ageS": -3.274
+   },
+   "2026-10-03_12-06-18.csv": {
+    "kw": 26.2,
+    "x": 13.0,
+    "tier": "nearby",
+    "ageS": -1.971
+   },
+   "2026-10-03_14-33-03.csv": {
+    "kw": 32.2,
+    "x": 17.0,
+    "tier": "nearby",
+    "ageS": -1.628
+   },
+   "2026-10-03_15-01-24.csv": {
+    "kw": 25.3,
+    "x": 18.0,
+    "tier": "nearby",
+    "ageS": -2.428
+   },
+   "2026-10-03_16-02-23.csv": {
+    "kw": 26.4,
+    "x": 20.0,
+    "tier": "nearby",
+    "ageS": -1.737
+   },
+   "2026-10-03_16-19-05.csv": {
+    "kw": 29.5,
+    "x": 23.0,
+    "tier": "cotimed",
+    "ageS": 0.681
+   },
+   "2026-10-03_16-39-03.csv": {
+    "kw": 29.7,
+    "x": 25.0,
+    "tier": "late",
+    "ageS": -3.221
+   },
+   "2026-10-03_17-05-43.csv": {
+    "kw": 34.7,
+    "x": 28.0,
+    "tier": "nearby",
+    "ageS": -1.052
+   },
+   "2026-10-03_18-32-35.csv": {
+    "kw": 51.3,
+    "x": 30.0,
+    "tier": "nearby",
+    "ageS": -1.88
+   },
+   "2026-10-03_18-52-09.csv": {
+    "kw": 26.7,
+    "x": 35.0,
+    "tier": "nearby",
+    "ageS": -2.628
+   },
+   "2026-10-04_11-38-19.csv": {
+    "kw": 29.2,
+    "x": 14.0,
+    "tier": "cotimed",
+    "ageS": -0.147
+   },
+   "2026-10-04_12-02-58.csv": {
+    "kw": 44.8,
+    "x": 16.0,
+    "tier": "nearby",
+    "ageS": 2.619
+   },
+   "2026-10-04_12-52-59.csv": {
+    "kw": 9.8,
+    "x": 18.0,
+    "tier": "late",
+    "ageS": -3.125
+   },
+   "2026-10-04_13-05-56.csv": {
+    "kw": 48.6,
+    "x": 20.0,
+    "tier": "nearby",
+    "ageS": -1.676
+   },
+   "2026-10-04_14-38-51.csv": {
+    "kw": 15.0,
+    "x": 22.0,
+    "tier": "nearby",
+    "ageS": 2.196
+   },
+   "2026-10-04_14-52-00.csv": {
+    "kw": 24.2,
+    "x": 22.0,
+    "tier": "nearby",
+    "ageS": -2.411
+   },
+   "2026-10-05_07-41-08.csv": {
+    "kw": 20.4,
+    "x": 17.0,
+    "tier": "cotimed",
+    "ageS": -0.12
+   },
+   "2026-10-05_07-55-02.csv": {
+    "kw": 27.1,
+    "x": 18.0,
+    "tier": "nearby",
+    "ageS": -2.442
+   },
+   "2026-10-05_11-23-02.csv": {
+    "kw": 24.7,
+    "x": 18.0,
+    "tier": "nearby",
+    "ageS": -2.873
+   },
+   "2026-10-05_11-38-00.csv": {
+    "kw": 26.9,
+    "x": 19.0,
+    "tier": "nearby",
+    "ageS": -1.862
+   },
+   "2026-10-06_07-41-04.csv": {
+    "kw": 17.7,
+    "x": 18.0,
+    "tier": "nearby",
+    "ageS": 2.525
+   },
+   "2026-10-06_08-14-57.csv": {
+    "kw": 24.3,
+    "x": 20.0,
+    "tier": "cotimed",
+    "ageS": -0.108
+   },
+   "2026-10-06_19-50-08.csv": {
+    "kw": 25.4,
+    "x": 23.0,
+    "tier": "nearby",
+    "ageS": 1.657
+   },
+   "2026-10-06_20-13-30.csv": {
+    "kw": 27.0,
+    "x": 26.0,
+    "tier": "cotimed",
+    "ageS": -0.895
+   },
+   "2026-10-06_20-38-00.csv": {
+    "kw": 42.3,
+    "x": 29.0,
+    "tier": "nearby",
+    "ageS": -2.645
+   },
+   "2026-10-07_07-41-59.csv": {
+    "kw": 23.9,
+    "x": 20.0,
+    "tier": "cotimed",
+    "ageS": -0.119
+   },
+   "2026-10-07_08-16-33.csv": {
+    "kw": 22.8,
+    "x": 20.0,
+    "tier": "late",
+    "ageS": 3.172
+   },
+   "2026-10-07_18-52-44.csv": {
+    "kw": 21.5,
+    "x": 32.0,
+    "tier": "late",
+    "ageS": 3.176
+   },
+   "2026-10-07_22-13-43.csv": {
+    "kw": 31.7,
+    "x": 28.0,
+    "tier": "cotimed",
+    "ageS": 0.936
+   },
+   "2026-10-08_07-35-40.csv": {
+    "kw": 18.4,
+    "x": 17.0,
+    "tier": "nearby",
+    "ageS": 2.903
+   },
+   "2026-10-08_07-54-51.csv": {
+    "kw": 19.3,
+    "x": 21.0,
+    "tier": "late",
+    "ageS": 3.789
+   },
+   "2026-10-08_08-34-36.csv": {
+    "kw": 60.2,
+    "x": 29.0,
+    "tier": "nearby",
+    "ageS": -1.818
+   },
+   "2026-10-08_10-14-58.csv": {
+    "kw": 42.8,
+    "x": 34.0,
+    "tier": "nearby",
+    "ageS": 1.179
+   },
+   "2026-10-08_10-55-20.csv": {
+    "kw": 32.3,
+    "x": 38.0,
+    "tier": "late",
+    "ageS": -7.831
+   },
+   "2026-10-08_11-57-02.csv": {
+    "kw": 32.4,
+    "x": 36.0,
+    "tier": "nearby",
+    "ageS": 1.299
+   },
+   "2026-10-08_12-06-51.csv": {
+    "kw": 29.9,
+    "x": 38.0,
+    "tier": "nearby",
+    "ageS": -2.01
+   },
+   "2026-10-08_12-43-34.csv": {
+    "kw": 51.7,
+    "x": 38.0,
+    "tier": "late",
+    "ageS": 7.585
+   },
+   "2026-10-08_12-54-39.csv": {
+    "kw": 32.4,
+    "x": 40.0,
+    "tier": "late",
+    "ageS": 4.488
+   },
+   "2026-10-08_15-35-05.csv": {
+    "kw": 29.0,
+    "x": 39.0,
+    "tier": "nearby",
+    "ageS": -2.004
+   },
+   "2026-10-08_15-45-19.csv": {
+    "kw": 26.2,
+    "x": 39.0,
+    "tier": "late",
+    "ageS": 7.043
+   },
+   "2026-10-08_19-58-51.csv": {
+    "kw": 36.1,
+    "x": 35.0,
+    "tier": "nearby",
+    "ageS": -1.869
+   },
+   "2026-10-08_20-28-00.csv": {
+    "kw": 24.4,
+    "x": 35.0,
+    "tier": "nearby",
+    "ageS": 2.415
+   },
+   "2026-10-08_21-05-51.csv": {
+    "kw": 23.0,
+    "x": 35.0,
+    "tier": "nearby",
+    "ageS": -2.157
+   },
+   "2026-10-08_21-24-03.csv": {
+    "kw": 22.1,
+    "x": 36.0,
+    "tier": "late",
+    "ageS": 6.258
+   },
+   "2026-10-09_19-06-39.csv": {
+    "kw": 51.0,
+    "x": 19.0,
+    "tier": "late",
+    "ageS": 3.917
+   },
+   "2026-10-09_19-53-19.csv": {
+    "kw": 40.7,
+    "x": 30.0,
+    "tier": "cotimed",
+    "ageS": -0.483
+   },
+   "2026-10-09_20-36-10.csv": {
+    "kw": 52.1,
+    "x": 38.0,
+    "tier": "late",
+    "ageS": 3.891
+   },
+   "2026-10-09_21-27-00.csv": {
+    "kw": 31.6,
+    "x": 37.0,
+    "tier": "cotimed",
+    "ageS": -0.493
+   },
+   "2026-10-09_21-50-51.csv": {
+    "kw": 28.6,
+    "x": 37.0,
+    "tier": "nearby",
+    "ageS": 1.702
+   },
+   "2026-10-10_06-57-23.csv": {
+    "kw": 52.3,
+    "x": 39.0,
+    "tier": "nearby",
+    "ageS": 2.872
+   },
+   "2026-10-10_14-09-42.csv": {
+    "kw": 52.6,
+    "x": 30.0,
+    "tier": "nearby",
+    "ageS": -2.695
+   },
+   "2026-10-10_15-53-26.csv": {
+    "kw": 47.4,
+    "x": 31.0,
+    "tier": "cotimed",
+    "ageS": -0.849
+   },
+   "2026-10-10_19-49-29.csv": {
+    "kw": 63.0,
+    "x": 34.0,
+    "tier": "nearby",
+    "ageS": 1.545
+   },
+   "2026-10-10_21-41-35.csv": {
+    "kw": 32.9,
+    "x": 42.0,
+    "tier": "nearby",
+    "ageS": 1.261
+   },
+   "2026-10-11_10-42-38.csv": {
+    "kw": 21.3,
+    "x": 14.0,
+    "tier": "nearby",
+    "ageS": -2.372
+   },
+   "2026-10-11_12-38-17.csv": {
+    "kw": 35.5,
+    "x": 20.0,
+    "tier": "nearby",
+    "ageS": 1.696
+   },
+   "2026-10-11_13-16-22.csv": {
+    "kw": 43.2,
+    "x": 24.0,
+    "tier": "cotimed",
+    "ageS": -0.12
+   },
+   "2026-10-11_13-59-37.csv": {
+    "kw": 46.7,
+    "x": 27.0,
+    "tier": "cotimed",
+    "ageS": -0.856
+   },
+   "2026-10-11_14-26-47.csv": {
+    "kw": 34.2,
+    "x": 30.0,
+    "tier": "late",
+    "ageS": -3.261
+   },
+   "2026-10-11_15-16-20.csv": {
+    "kw": 25.6,
+    "x": 29.0,
+    "tier": "nearby",
+    "ageS": -2.928
+   },
+   "2026-10-12_08-41-25.csv": {
+    "kw": 32.7,
+    "x": 13.0,
+    "tier": "cotimed",
+    "ageS": -0.111
+   },
+   "2026-10-12_09-24-15.csv": {
+    "kw": 22.9,
+    "x": 19.0,
+    "tier": "cotimed",
+    "ageS": -0.839
+   },
+   "2026-10-12_09-36-13.csv": {
+    "kw": 20.4,
+    "x": 21.0,
+    "tier": "nearby",
+    "ageS": -2.675
+   },
+   "2026-10-13_07-42-34.csv": {
+    "kw": 17.5,
+    "x": 11.0,
+    "tier": "late",
+    "ageS": -3.402
+   },
+   "2026-10-13_08-10-25.csv": {
+    "kw": 25.1,
+    "x": 11.0,
+    "tier": "nearby",
+    "ageS": 2.209
+   },
+   "2026-10-13_08-26-07.csv": {
+    "kw": 21.8,
+    "x": 15.0,
+    "tier": "nearby",
+    "ageS": 2.02
+   },
+   "2026-10-13_15-41-11.csv": {
+    "kw": 22.9,
+    "x": 12.0,
+    "tier": "nearby",
+    "ageS": 2.39
+   },
+   "2026-10-13_16-00-43.csv": {
+    "kw": 30.6,
+    "x": 13.0,
+    "tier": "late",
+    "ageS": -3.132
+   },
+   "2026-10-13_19-47-36.csv": {
+    "kw": 31.2,
+    "x": 14.0,
+    "tier": "cotimed",
+    "ageS": 0.625
+   },
+   "2026-10-13_20-04-05.csv": {
+    "kw": 45.1,
+    "x": 24.0,
+    "tier": "cotimed",
+    "ageS": -0.132
+   },
+   "2026-10-13_21-52-23.csv": {
+    "kw": 22.4,
+    "x": 25.0,
+    "tier": "nearby",
+    "ageS": 1.696
+   },
+   "2026-10-13_22-08-01.csv": {
+    "kw": 36.5,
+    "x": 28.0,
+    "tier": "cotimed",
+    "ageS": -0.132
+   },
+   "2026-10-13_22-55-32.csv": {
+    "kw": 28.7,
+    "x": 31.0,
+    "tier": "nearby",
+    "ageS": -2.664
+   },
+   "2026-10-14_06-51-43.csv": {
+    "kw": 50.0,
+    "x": 22.0,
+    "tier": "nearby",
+    "ageS": -1.587
+   },
+   "2026-10-14_09-29-12.csv": {
+    "kw": 53.3,
+    "x": 35.0,
+    "tier": "nearby",
+    "ageS": -1.927
+   },
+   "2026-10-14_22-25-29.csv": {
+    "kw": 55.0,
+    "x": 27.0,
+    "tier": "nearby",
+    "ageS": 1.776
+   },
+   "2026-10-15_08-07-05.csv": {
+    "kw": 59.2,
+    "x": 28.0,
+    "tier": "nearby",
+    "ageS": 2.908
+   },
+   "2026-10-15_09-37-09.csv": {
+    "kw": 46.2,
+    "x": 33.0,
+    "tier": "cotimed",
+    "ageS": -0.566
+   },
+   "2026-10-15_10-19-34.csv": {
+    "kw": 57.3,
+    "x": 36.0,
+    "tier": "late",
+    "ageS": 5.362
+   },
+   "2026-10-15_10-40-56.csv": {
+    "kw": 43.2,
+    "x": 37.0,
+    "tier": "nearby",
+    "ageS": -2.097
+   },
+   "2026-10-15_13-55-10.csv": {
+    "kw": 50.0,
+    "x": 33.0,
+    "tier": "late",
+    "ageS": 4.123
+   },
+   "2026-10-15_14-57-44.csv": {
+    "kw": 57.3,
+    "x": 37.0,
+    "tier": "cotimed",
+    "ageS": -0.77
+   },
+   "2026-10-15_18-30-00.csv": {
+    "kw": 37.3,
+    "x": 34.0,
+    "tier": "nearby",
+    "ageS": 2.585
+   },
+   "2026-10-16_07-52-05.csv": {
+    "kw": 44.3,
+    "x": 24.0,
+    "tier": "nearby",
+    "ageS": -1.729
+   },
+   "2026-10-16_19-23-56.csv": {
+    "kw": 38.3,
+    "x": 24.0,
+    "tier": "late",
+    "ageS": -6.128
+   },
+   "2026-10-17_10-09-49.csv": {
+    "kw": 66.2,
+    "x": 25.0,
+    "tier": "late",
+    "ageS": -3.402
+   },
+   "2026-10-17_11-45-33.csv": {
+    "kw": 47.3,
+    "x": 31.0,
+    "tier": "nearby",
+    "ageS": 2.803
+   },
+   "2026-10-17_12-42-21.csv": {
+    "kw": 39.5,
+    "x": 31.0,
+    "tier": "late",
+    "ageS": 5.201
+   },
+   "2026-10-17_14-02-26.csv": {
+    "kw": 46.7,
+    "x": 38.0,
+    "tier": "late",
+    "ageS": 9.126
+   },
+   "2026-10-17_16-05-39.csv": {
+    "kw": 57.8,
+    "x": 39.0,
+    "tier": "nearby",
+    "ageS": 1.117
+   },
+   "2026-10-17_18-22-49.csv": {
+    "kw": 55.7,
+    "x": 41.0,
+    "tier": "late",
+    "ageS": -6.085
+   },
+   "2026-10-17_22-01-20.csv": {
+    "kw": 30.9,
+    "x": 39.0,
+    "tier": "late",
+    "ageS": 5.532
+   },
+   "2026-10-17_22-20-41.csv": {
+    "kw": 44.5,
+    "x": 38.0,
+    "tier": "cotimed",
+    "ageS": -0.688
+   },
+   "2026-10-17_23-13-01.csv": {
+    "kw": 20.5,
+    "x": 36.0,
+    "tier": "nearby",
+    "ageS": -2.309
+   }
+  },
   "summary": {
    "population": {
     "akPlotted": 573,
@@ -389580,6 +393020,28 @@
     "dual": 14
    },
    "globalMinIdDiagnosticDiffers": 2,
+   "dischargePeak": {
+    "tiersDis": {
+     "cotimed": 295,
+     "nearby": 160,
+     "late": 118,
+     "none": 0
+    },
+    "tiersDisByCadence": {
+     "fast": {
+      "cotimed": 53,
+      "nearby": 101,
+      "late": 15,
+      "none": 0
+     },
+     "slow": {
+      "cotimed": 242,
+      "nearby": 59,
+      "late": 103,
+      "none": 0
+     }
+    }
+   },
    "tiersAC": {
     "cotimed": 295,
     "nearby": 142,
@@ -389682,17 +393144,20 @@
     "peakKw": 592,
     "peakI": 592,
     "t1PeakI": 437,
-    "t1PeakIFallbackSkipped": 136
+    "t1PeakIFallbackSkipped": 136,
+    "peakDis": 592
    },
    "misses": {
     "peakKw": 0,
     "peakI": 0,
-    "t1PeakI": 0
+    "t1PeakI": 0,
+    "peakDis": 0
    },
    "examples": {
     "peakKw": [],
     "peakI": [],
-    "t1PeakI": []
+    "t1PeakI": [],
+    "peakDis": []
    }
   },
   "limits": [

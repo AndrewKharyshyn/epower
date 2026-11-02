@@ -14,7 +14,7 @@ const TABS=['overview','charts','fuel','distribution','highway vs city','thermal
   await sleep(900);
   const pts=A.cRatePointsAK;const tiers={};Object.values(B.kwViewX).forEach(v=>{tiers[v.tier]=(tiers[v.tier]||0)+1;});
   ok('payload: keyed map covers every plotted drive',pts.every(p=>p[5] in B.kwViewX)&&Object.keys(B.kwViewX).length===pts.length);
-  ok('payload: known answers exact',JSON.stringify(B.knownAnswer.misses)===JSON.stringify({peakKw:0,peakI:0,t1PeakI:0}));
+  ok('payload: known answers exact',JSON.stringify(B.knownAnswer.misses)===JSON.stringify({peakKw:0,peakI:0,t1PeakI:0,peakDis:0}));
   let seen=false;
   for(const t of TABS){
     click(btns().find(b=>b.textContent.trim().toLowerCase()===t));await sleep(300);

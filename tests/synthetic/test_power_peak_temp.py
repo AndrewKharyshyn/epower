@@ -54,7 +54,7 @@ a = json.load(open("summary_arrays.json", encoding="utf-8"))
 B = a["powerPeakTemperature"]
 ak = [p[5] for p in a["cRatePointsAK"]]
 assert len(set(ak)) == len(ak) and set(B["kwViewX"]) == set(ak)
-assert B["knownAnswer"]["misses"] == {"peakKw": 0, "peakI": 0, "t1PeakI": 0}
+assert B["knownAnswer"]["misses"] == {"peakKw": 0, "peakI": 0, "t1PeakI": 0, "peakDis": 0}
 assert all(v["tier"] in ("cotimed", "nearby", "late") and v["x"] is not None for v in B["kwViewX"].values() if v["x"] is not None)
 # language rule AUD29-F05: the old kW title fires, the new one does not
 import language_gate as G

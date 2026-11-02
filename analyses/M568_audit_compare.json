@@ -1,0 +1,24 @@
+{
+ "milestone": "M568",
+ "sample": "analyses/M568_audit_sample.json (17 drives incl. the corpus-peak drive)",
+ "drivesCompared": 17,
+ "quantities": [
+  "max P (0.05 kW)",
+  "signed age (1e-3 s)",
+  "tier",
+  "T1 at nearest sample (0.05 C)"
+ ],
+ "mismatches": 0,
+ "auditorTierCounts": {
+  "cotimed": 8,
+  "nearby": 8,
+  "late": 1,
+  "none": 0
+ },
+ "corpusPeakDrive": "20260619_122407.csv: 73.3 kW, T1 39.0 C, age +0.167 s, cotimed (auditor and author agree)",
+ "ambiguitiesReportedByAuditor": [
+  "timestamps carry the run date; ages and kW compared",
+  "no equal-distance T1 tie occurred in the sample"
+ ],
+ "verdict": "0 disagreements"
+}
