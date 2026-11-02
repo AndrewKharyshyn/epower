@@ -12789,6 +12789,26 @@ def _csr_grid(fr):
     return g.resample('1s').mean().ffill(limit=3)
 
 
+def _csr_interpretation(R):
+    """M564 (Director wording ruling, AUD29-N12): the interpretation sentence of the cell-spread relaxation block, generated from the block's own leaves (no balance, cycling-depth, stress or buffer claim)."""
+    g = lambda x: format(x, "g")
+    ld, asy, bt = R["loadedSpreadMv"], R["restAsymptoteMv"], R.get("relaxationMagnitudeBoot")
+    t = ("Exploratory. Over %d rest windows (%d drives, %d days) the median logged max-min cell spread is %s mV at load-off (IQR %s-%s) and %s mV at rest (IQR %s-%s)."
+         % (R["nRestWindows"], R["nDrivesCovered"], R["nDays"], g(ld["median"]), g(ld["p25"]), g(ld["p75"]), g(asy["median"]), g(asy["p25"]), g(asy["p75"])))
+    if bt:
+        t += (" The median relaxation magnitude is %s mV (day-clustered 95%% CI %s to %s), at the 1 mV step of the logged spread; the relaxation time is not resolvable at the logged cadence."
+              % (g(bt["bootMedian"]), g(bt["ci95"][0]), g(bt["ci95"][1])))
+    return t + " Max and Min are BMS-reported channels polled in a cycle; this is not a cell balance, health or stress diagnosis."
+
+
+def _fcs_interpretation(examples):
+    """M564: case-study sentence generated from the examples' own spreads."""
+    mx = max(e["spreadMv"] for e in examples)
+    cells = " / ".join(str(c) for c in sorted({e["cellsInSnapshot"] for e in examples}, reverse=True))
+    return ("%d worked examples across the observed SoC range, reconstructed from a very slow per-cell round-robin poll via forward-fill. In these %d files the logged max-min spread stayed <= %s mV on samples of %s cells (case study of polled BMS channels; not a balance measure, not corpus-wide)."
+            % (len(examples), len(examples), format(mx, "g"), cells))
+
+
 def _cell_spread_relaxation(dm, frame_loader=None):
     if frame_loader is None:
         return None
@@ -12874,7 +12894,7 @@ def _cell_spread_relaxation(dm, frame_loader=None):
                 'nEvents': int(v.size), 'nDays': int(uniq.size)}
 
     magv = _np.asarray(mag, float)
-    return {
+    out = {
         'exploratory': True,
         'nDrivesCovered': nDrives, 'nRestWindows': nRest, 'nDays': len(days),
         'loadedSpreadMv': mi(loaded),
@@ -12886,13 +12906,7 @@ def _cell_spread_relaxation(dm, frame_loader=None):
         'relaxationMagnitudeBoot': dayboot(mag, dates),
         'thresholds': {'restI': _CSR_REST_I, 'loadI': _CSR_LOAD_I,
                        'minRestS': _CSR_MIN_REST_S},
-        'interpretation': (
-            'The max-min cell spread sits at a stable ~10-11 mV baseline; load adds '
-            'only a small (~1 mV median) widening that relaxes within ~1-2 s -- at '
-            'or below the logged cadence, so >=5 s relaxation dynamics are minimal. '
-            'Consistent with a well-balanced, shallow-cycled buffer that never '
-            'deeply stresses the cells. This is a small-effect/near-null result, '
-            'reported honestly, NOT a cell-health diagnosis.'),
+        'interpretation': None,
         'methodology': (
             'Rest window = |I|<%g A sustained >=%d s, immediately preceded by a '
             'loaded period (mean |I|>=%g A over the prior %d s). Per window: spread '
@@ -12905,6 +12919,8 @@ def _cell_spread_relaxation(dm, frame_loader=None):
             'cellHealthTrend (long-term unloaded level). Single vehicle / ~single '
             'driver.'
             % (_CSR_REST_I, _CSR_MIN_REST_S, _CSR_LOAD_I, _CSR_PRELOAD_S))}
+    out['interpretation'] = _csr_interpretation(out)
+    return out
 
 
 
@@ -14313,12 +14329,7 @@ def _full_cell_case_study(dm, raw_loader=None, raw_dir=None):
         'caseStudyOnly': True, 'nExamples': len(examples),
         'nFilesWithHeaderColumns': None,   # not enumerated here; see methodology
         'examples': examples,
-        'interpretation': (
-            'Three worked examples across the observed SoC range, reconstructed '
-            'from a very slow per-cell round-robin poll via forward-fill. All '
-            'three show tight balance (spread <=21 mV on an 80-cell / 25-60-cell '
-            'sample), consistent with a well-balanced pack; not a corpus-wide '
-            'claim.'),
+        'interpretation': _fcs_interpretation(examples),
         'methodology': (
             'Exactly 3 raw files carry individual per-cell voltage columns '
             '("[BMS] Battery Cell #01 (V)".."#80"). Each cell updates only a '

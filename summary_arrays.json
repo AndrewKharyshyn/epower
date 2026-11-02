@@ -47340,7 +47340,7 @@
    "loadI": 20.0,
    "minRestS": 5
   },
-  "interpretation": "The max-min cell spread sits at a stable ~10-11 mV baseline; load adds only a small (~1 mV median) widening that relaxes within ~1-2 s -- at or below the logged cadence, so >=5 s relaxation dynamics are minimal. Consistent with a well-balanced, shallow-cycled buffer that never deeply stresses the cells. This is a small-effect/near-null result, reported honestly, NOT a cell-health diagnosis.",
+  "interpretation": "Exploratory. Over 830 rest windows (593 drives, 108 days) the median logged max-min cell spread is 11.12 mV at load-off (IQR 9-13.5) and 10 mV at rest (IQR 8-12). The median relaxation magnitude is 1 mV (day-clustered 95% CI 1 to 1.5), at the 1 mV step of the logged spread; the relaxation time is not resolvable at the logged cadence. Max and Min are BMS-reported channels polled in a cycle; this is not a cell balance, health or stress diagnosis.",
   "methodology": "Rest window = |I|<5 A sustained >=5 s, immediately preceded by a loaded period (mean |I|>=20 A over the prior 3 s). Per window: spread (max-min)*1000 mV at load-off, the rest asymptote (median of the last up-to-5 s), the relaxation magnitude (onset-asymptote) and the half-time (first second below onset-0.5*magnitude, only for >1 mV relaxations). Median/IQR over rest windows; day-clustered bootstrap (seed 42, 4000 draws) on the magnitude. EXPLORATORY; no cell diagnosis; sub-5 s relaxation is not resolvable at this cadence. Distinct from cellHealthTrend (long-term unloaded level). Single vehicle / ~single driver."
  },
  "vgtAirPath": {
@@ -51812,7 +51812,7 @@
     ]
    }
   ],
-  "interpretation": "Three worked examples across the observed SoC range, reconstructed from a very slow per-cell round-robin poll via forward-fill. All three show tight balance (spread <=21 mV on an 80-cell / 25-60-cell sample), consistent with a well-balanced pack; not a corpus-wide claim.",
+  "interpretation": "3 worked examples across the observed SoC range, reconstructed from a very slow per-cell round-robin poll via forward-fill. In these 3 files the logged max-min spread stayed <= 21 mV on samples of 80 / 60 / 25 cells (case study of polled BMS channels; not a balance measure, not corpus-wide).",
   "methodology": "Exactly 3 raw files carry individual per-cell voltage columns (\"[BMS] Battery Cell #01 (V)\"..\"#80\"). Each cell updates only a handful of times across an entire drive (slow round-robin), so a representative snapshot is reconstructed by resampling to 1 s and forward-filling (limit 90 s) to the timestamp with the highest cell completeness; this is a RECONSTRUCTED array, not a simultaneous measurement, and is disclosed as such. Per example: mean/min/max/spread/std across the reconstructed cells, plus the 3 lowest and 3 highest cells by number. WORKED EXAMPLES ONLY -- no statistical aggregation, no corpus-wide claim, no cell-health diagnosis. The header column is present in far more files than 3, but non-null coverage sufficient to reconstruct a usable snapshot remains rare."
  },
  "thermalFuelPenalty": {
@@ -328699,7 +328699,7 @@
        "loadI": 20.0,
        "minRestS": 5
       },
-      "interpretation": "The max-min cell spread sits at a stable ~10-11 mV baseline; load adds only a small (~1 mV median) widening that relaxes within ~1-2 s -- at or below the logged cadence, so >=5 s relaxation dynamics are minimal. Consistent with a well-balanced, shallow-cycled buffer that never deeply stresses the cells. This is a small-effect/near-null result, reported honestly, NOT a cell-health diagnosis.",
+      "interpretation": "Exploratory. Over 830 rest windows (593 drives, 108 days) the median logged max-min cell spread is 11.12 mV at load-off (IQR 9-13.5) and 10 mV at rest (IQR 8-12). The median relaxation magnitude is 1 mV (day-clustered 95% CI 1 to 1.5), at the 1 mV step of the logged spread; the relaxation time is not resolvable at the logged cadence. Max and Min are BMS-reported channels polled in a cycle; this is not a cell balance, health or stress diagnosis.",
       "methodology": "Rest window = |I|<5 A sustained >=5 s, immediately preceded by a loaded period (mean |I|>=20 A over the prior 3 s). Per window: spread (max-min)*1000 mV at load-off, the rest asymptote (median of the last up-to-5 s), the relaxation magnitude (onset-asymptote) and the half-time (first second below onset-0.5*magnitude, only for >1 mV relaxations). Median/IQR over rest windows; day-clustered bootstrap (seed 42, 4000 draws) on the magnitude. EXPLORATORY; no cell diagnosis; sub-5 s relaxation is not resolvable at this cadence. Distinct from cellHealthTrend (long-term unloaded level). Single vehicle / ~single driver."
      },
      "warm": {
@@ -328747,7 +328747,7 @@
        "loadI": 20.0,
        "minRestS": 5
       },
-      "interpretation": "The max-min cell spread sits at a stable ~10-11 mV baseline; load adds only a small (~1 mV median) widening that relaxes within ~1-2 s -- at or below the logged cadence, so >=5 s relaxation dynamics are minimal. Consistent with a well-balanced, shallow-cycled buffer that never deeply stresses the cells. This is a small-effect/near-null result, reported honestly, NOT a cell-health diagnosis.",
+      "interpretation": "Exploratory. Over 653 rest windows (418 drives, 85 days) the median logged max-min cell spread is 11 mV at load-off (IQR 9-13) and 9 mV at rest (IQR 8-11). The median relaxation magnitude is 1 mV (day-clustered 95% CI 1 to 1.5), at the 1 mV step of the logged spread; the relaxation time is not resolvable at the logged cadence. Max and Min are BMS-reported channels polled in a cycle; this is not a cell balance, health or stress diagnosis.",
       "methodology": "Rest window = |I|<5 A sustained >=5 s, immediately preceded by a loaded period (mean |I|>=20 A over the prior 3 s). Per window: spread (max-min)*1000 mV at load-off, the rest asymptote (median of the last up-to-5 s), the relaxation magnitude (onset-asymptote) and the half-time (first second below onset-0.5*magnitude, only for >1 mV relaxations). Median/IQR over rest windows; day-clustered bootstrap (seed 42, 4000 draws) on the magnitude. EXPLORATORY; no cell diagnosis; sub-5 s relaxation is not resolvable at this cadence. Distinct from cellHealthTrend (long-term unloaded level). Single vehicle / ~single driver."
      },
      "shoulder": {
@@ -328795,7 +328795,7 @@
        "loadI": 20.0,
        "minRestS": 5
       },
-      "interpretation": "The max-min cell spread sits at a stable ~10-11 mV baseline; load adds only a small (~1 mV median) widening that relaxes within ~1-2 s -- at or below the logged cadence, so >=5 s relaxation dynamics are minimal. Consistent with a well-balanced, shallow-cycled buffer that never deeply stresses the cells. This is a small-effect/near-null result, reported honestly, NOT a cell-health diagnosis.",
+      "interpretation": "Exploratory. Over 168 rest windows (162 drives, 40 days) the median logged max-min cell spread is 11.87 mV at load-off (IQR 10-14.5) and 11 mV at rest (IQR 9-12). The median relaxation magnitude is 1.5 mV (day-clustered 95% CI 1 to 2), at the 1 mV step of the logged spread; the relaxation time is not resolvable at the logged cadence. Max and Min are BMS-reported channels polled in a cycle; this is not a cell balance, health or stress diagnosis.",
       "methodology": "Rest window = |I|<5 A sustained >=5 s, immediately preceded by a loaded period (mean |I|>=20 A over the prior 3 s). Per window: spread (max-min)*1000 mV at load-off, the rest asymptote (median of the last up-to-5 s), the relaxation magnitude (onset-asymptote) and the half-time (first second below onset-0.5*magnitude, only for >1 mV relaxations). Median/IQR over rest windows; day-clustered bootstrap (seed 42, 4000 draws) on the magnitude. EXPLORATORY; no cell diagnosis; sub-5 s relaxation is not resolvable at this cadence. Distinct from cellHealthTrend (long-term unloaded level). Single vehicle / ~single driver."
      },
      "cold": {
@@ -328843,7 +328843,7 @@
        "loadI": 20.0,
        "minRestS": 5
       },
-      "interpretation": "The max-min cell spread sits at a stable ~10-11 mV baseline; load adds only a small (~1 mV median) widening that relaxes within ~1-2 s -- at or below the logged cadence, so >=5 s relaxation dynamics are minimal. Consistent with a well-balanced, shallow-cycled buffer that never deeply stresses the cells. This is a small-effect/near-null result, reported honestly, NOT a cell-health diagnosis.",
+      "interpretation": "Exploratory. Over 9 rest windows (13 drives, 4 days) the median logged max-min cell spread is 12 mV at load-off (IQR 11-13.25) and 12 mV at rest (IQR 9-13). The median relaxation magnitude is 1.25 mV (day-clustered 95% CI -0.5 to 3), at the 1 mV step of the logged spread; the relaxation time is not resolvable at the logged cadence. Max and Min are BMS-reported channels polled in a cycle; this is not a cell balance, health or stress diagnosis.",
       "methodology": "Rest window = |I|<5 A sustained >=5 s, immediately preceded by a loaded period (mean |I|>=20 A over the prior 3 s). Per window: spread (max-min)*1000 mV at load-off, the rest asymptote (median of the last up-to-5 s), the relaxation magnitude (onset-asymptote) and the half-time (first second below onset-0.5*magnitude, only for >1 mV relaxations). Median/IQR over rest windows; day-clustered bootstrap (seed 42, 4000 draws) on the magnitude. EXPLORATORY; no cell diagnosis; sub-5 s relaxation is not resolvable at this cadence. Distinct from cellHealthTrend (long-term unloaded level). Single vehicle / ~single driver."
      }
     },

@@ -7905,7 +7905,7 @@ function FullCellCaseStudy() {
       <Caveat kind="caution">
         Case study only — 3 files, worked examples, not aggregated or extrapolated. Snapshots are reconstructed
         via forward-fill across a slow round-robin poll, not simultaneous readings. All three examples show
-        tight balance (spread ≤21 mV), consistent with a well-balanced pack — descriptive, not a cell-health
+        the logged max–min spread stayed ≤{Math.max(...C.examples.map(e => e.spreadMv))} mV — descriptive, polled BMS channels, not a balance measure or a cell-health
         diagnosis. The per-cell column exists in the header of far more files, but non-null coverage sufficient
         to reconstruct a usable snapshot remains rare; whether that supports a broader statistical successor to
         this module is a separate scope decision.
@@ -8379,6 +8379,20 @@ function CellSpreadRelaxation() {
   const boot = C.relaxationMagnitudeBoot || {};
   const ci = o => (o && o.ci95) ? `${o.ci95[0]}–${o.ci95[1]}` : "—";
   const mx = Math.max(ld.median, as.median, 1) * 1.15;
+  // M564 (Director wording ruling AUD29-N12): the sensitivity sentence is generated from S.cellSpreadRelaxationSensitivity, never typed.
+  const csrSensText = () => {
+    const X = S.cellSpreadRelaxationSensitivity;
+    if (!X || !X.strata) return "";
+    const nm = { fast: "fast-polled", slow: "slow-polled" };
+    return Object.keys(X.strata).filter(k => nm[k]).map(k => {
+      const x = X.strata[k], pl = x.placebo, v0 = x.V0, v8 = x.familyA_fixedWindows && x.familyA_fixedWindows.V8, fr = x.familyB_windowSet && x.familyB_windowSet.V6_freshOnly;
+      let t = `${nm[k]} drives: the rest placebo (pseudo load-offs at rest) gives a median of ${pl.median} mV`;
+      t += !pl.placeboMedianAtLeastV0 ? ", so the aggregate lies above rest noise" : ", so the aggregate is not above rest noise";
+      if (pl.v0InsidePlaceboIQR) t += ", but single windows cannot be told apart from it";
+      if (v8 && fr) t += `; the magnitude is construction-dependent (${v8.median} mV on native pairs against ${v0.median} mV on the 1 s grid; ${(100 * fr.keptShareOfV0).toFixed(1)} % of windows rest on fresh samples of both channels)`;
+      return t + ".";
+    }).join(" ");
+  };
 
   const SBar = ({ label, v, c }) => (
     <div style={{ marginBottom: 5 }}>
@@ -8406,12 +8420,9 @@ function CellSpreadRelaxation() {
       </div>
 
       <Callout kind="method">
-        The spread sits at a stable <MetricHighlight tone="measured">~{as.median} mV baseline</MetricHighlight>;
-        load adds only a small <MetricHighlight tone="derived">~{mg.median} mV</MetricHighlight> widening
-        ({C.pctRestsWithRelaxationGt1mV}% of rests exceed 1 mV) that relaxes within ~1–2 s — at or below the
-        sampling cadence, so ≥5 s relaxation dynamics are minimal. A near-null result: the shallow-cycled
-        buffer barely stresses the cells, consistent with the power-buffer picture. This is not a cell-health
-        claim. <EvidenceBadge status="derived" />
+        <span data-csr-interpretation="1">{C.interpretation}</span>
+        {C===S.cellSpreadRelaxation&&csrSensText()&&<span data-csr-sensitivity-text="1"> {csrSensText()}</span>}
+        {" "}<EvidenceBadge status="derived" />
       </Callout>
 
       <div style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 6, padding: "10px 12px", marginBottom: 8 }}>

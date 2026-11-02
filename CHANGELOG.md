@@ -1,3 +1,16 @@
+## M564 (2026-11-02): Cell-spread relaxation wording: interpretation sentences generated from the payload, old claims gated (AUD29-N12 wording ticket)
+
+**Rationale.** Director wording ruling (verdict revise, then applied): the published cellSpreadRelaxation interpretation and the dashboard callout claimed relaxation within 1-2 s, a stable baseline, a well-balanced shallow-cycled buffer that never deeply stresses the cells and consistency with the power-buffer picture; M560 shows the median relaxation is 1.0 mV = the 1 mV step of the logged spread, above the rest placebo (median 0) in aggregate only, single windows not distinguishable from rest noise, slow-polled magnitude construction-dependent (2.0 vs 1.0 mV; 2.1 % fresh-sample windows), half-time unresolvable. New sentences are generated from the block's own leaves (compute_summary_arrays._csr_interpretation, _fcs_interpretation) and from cellSpreadRelaxationSensitivity in the callout (fast and slow strata, no pooling); no balance, cycling-depth, stress, buffer or thesis statement; the 3-file case study now states the computed maximum spread (21 mV from the examples) as a case study of polled BMS channels, not a balance measure. Payload change: 6 interpretation string leaves only (cellSpreadRelaxation, its 4 seasonal copies, fullCellCaseStudy), asserted by tools/csr_wording_splice.py (0 numeric leaves changed); master MD5 unchanged. The OLD wording is a language rule (M564-N12-csr-wording) with a test that each old claim fires; the generic phrase 'reported honestly' was narrowed to 'near-null result, reported honestly' because it hit unrelated payload text. No article figure.
+
+**State.** `drive_master.csv` 606 rows, MD5 `5556a0c6c8bcde0f6c64b8b9655208ed`.
+
+**Gates (runs/20261020T221332Z).** restamp_ingest=ok; build_html=ok; jsdom=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `compute_summary_arrays.py`, `xtrail_summary.jsx`, `summary_arrays.json`, `xtrail_dashboard.html`, `language_gate.py`, `tools/csr_wording_splice.py`, `tests/synthetic/test_csr_wording.py`, `.github/workflows/ci.yml`.
+
+
 ## M563 (2026-11-02): CI: python-tests sharded into a 3-way matrix
 
 **Rationale.** Tooling only. M562 measured python-tests 10.3 min, js-tests 4.1, release-check 6.8, whole run about 10.5 min. python-tests is now a 3-shard matrix (fail-fast false): the unchanged list of 183 command lines is written to a file in the job and split round-robin by line (61 lines per shard); each shard compiles, checks import integrity and runs its lines, stopping on its first failure; the release-gate aggregator still needs python-tests (all shards), js-tests and release-check. Nothing added or dropped. Expected run time about the length of release-check (about 7 min); measure on this PR. Risk: a python test that relied on a file written by an earlier test now runs in another job; a failing shard would show it.
