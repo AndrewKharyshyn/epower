@@ -5034,6 +5034,32 @@ function PowerDurationView(){
     </Section>
   );
 }
+// M561 (audit 2026-10-29 N02 follow-up): the same window lengths over windows with no change of power direction (S.powerDurationUninterrupted), beside the M552 net values on the same drives; per cadence stratum, no pooled headline.
+function PowerDurationUninterruptedView(){
+  const B=S.powerDurationUninterrupted, [st,setSt]=useState(null);
+  if(!B||!B.strata) return null;
+  const keys=Object.keys(B.strata).filter(k=>k!=="unknown"), cur=st&&B.strata[st]?st:keys[0], D=B.strata[cur];
+  const f=(x,n=1)=>x==null?"—":Number(x).toFixed(n), pv=x=>x&&x.value!=null?`${f(x.value)}${x.ci95?` (${f(x.ci95[0])}–${f(x.ci95[1])})`:""}`:"—", pc=x=>x==null?"—":`${(100*x).toFixed(0)} %`;
+  const lab={fast:"fast-polled drives",slow:"slow-polled drives"};
+  const cell=(r,d)=>{const b=r[d],q=b.displayRule;return [b.uninterrupted&&q.showP95?pv(b.uninterrupted.p95):"—",b.net552OnSameDrives&&q.showCell?f(b.net552OnSameDrives.p95):"—",`${pc(b.eligibleRunShare)} (n=${q.nEligible})${q.lowSupport?" low support":""}`,q.showCell?pc(b.shareUninterruptedEqualsNet):"—"];};
+  const brk=[];Object.entries(D.byW).forEach(([W,r])=>["discharge","charge"].forEach(d=>{const t=r[d].bracketTriggered;if(t&&t.triggered&&t.noInterpP95ShiftKw!=null)brk.push(`${W} s ${d}: ending each run at the last same-sign sample instead of the interpolated zero crossing lowers the value by up to ${f(t.noInterpP95ShiftKw,2)} kW (p95 of the per-drive shifts); the interpolated zero is the pre-registered primary, the no-interpolation value is a lower bracket`);}));
+  return (
+    <Section title="Observed Power Demand Without a Change of Direction (descriptive)" accent="#60a5fa">
+      <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-uninterrupted-note="1">Highest mean power of the logged pack, a reconstructed current × voltage product, observed over a window of the stated length during which the power did not change direction (the sign change is placed at the sample-interpolated zero). One value per drive and direction, percentiles across drives that have such a window; the net values from the section above are shown for the same drives. The difference of the pooled percentiles is not the percentile of the per-drive differences. These are observed extrema of these logs, not ratings, capabilities or limits. The two cadence groups are not pooled and not compared.</div>
+      <div style={{display:"flex",gap:6,marginBottom:6}}>
+        {keys.map(k=>(<button key={k} data-uninterrupted-stratum={k} onClick={()=>setSt(k)} style={{fontSize:10,padding:"3px 8px",borderRadius:4,cursor:"pointer",border:"1px solid #cbd5e1",background:cur===k?"#0f172a":"#fff",color:cur===k?"#fff":"#334155"}}>{lab[k]||k}</button>))}
+      </div>
+      <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-uninterrupted-support="1">{D.nDrives} drives on {D.nDays} days. Known answers checked on every drive: the one-direction value never exceeds the net value, the grid value never exceeds the exact value, values are non-increasing with window length over comparable runs ({B.knownAnswer.misses.kb5LeqNet+B.knownAnswer.misses.kb5Monotone} misses).</div>
+      <table style={{width:"100%",fontSize:9,borderCollapse:"collapse"}}>
+        <thead><tr style={{color:"#64748b",textAlign:"right"}}><th style={{textAlign:"left"}}>window</th><th>discharge p95, no reversal kW</th><th>net p95 (same drives)</th><th>drives with such a window</th><th>equals net</th><th>charge p95, no reversal kW</th><th>net p95 (same drives)</th><th>drives with such a window</th><th>equals net</th></tr></thead>
+        <tbody>{Object.entries(D.byW).map(([W,r])=>{const a=cell(r,"discharge"),c=cell(r,"charge");return (
+          <tr key={W} data-uninterrupted-row={W} style={{textAlign:"right",borderTop:"1px solid #e2e8f0"}}><td style={{textAlign:"left",color:"#0f172a"}}>{W} s</td><td>{a[0]}</td><td>{a[1]}</td><td>{a[2]}</td><td>{a[3]}</td><td>{c[0]}</td><td>{c[1]}</td><td>{c[2]}</td><td>{c[3]}</td></tr>);})}</tbody>
+      </table>
+      {brk.length>0&&<div style={{fontSize:9,color:"#64748b",marginTop:6}} data-uninterrupted-bracket="1">Sensitivity to the run end: {brk.join("; ")}.</div>}
+      <div style={{fontSize:9,color:"#94a3b8",marginTop:6}} data-uninterrupted-footnote="1">"Equals net" is the share of drives whose net maximum already lies inside one direction. The percentiles are per-drive weighted and conditional on a drive having such a window (the share is beside them). Rows with a long window are conditional on the drives that have one, a different drive set from the net value; a cell is shown only with at least 20 drives on 5 days (p95 needs 40), and cells where under half of the drives qualify are marked low support. The share is for the primary definition. The result depends on the current offset and on noise near zero power; the near-zero brackets are in the data block and are sensitivities, not gates. Median run length without a change of direction: discharge {f(D.runSeconds.dis&&D.runSeconds.dis.median)} s, charge {f(D.runSeconds.chg&&D.runSeconds.chg.median)} s.</div>
+    </Section>
+  );
+}
 function WindowUseView(){
   const B=S.windowUse, [st,setSt]=useState(null);
   if(!B||!B.strata) return null;
@@ -12886,6 +12912,7 @@ export default function App() {
         </Section>
         <EnergyPacketsView/>
         <PowerDurationView/>
+        <PowerDurationUninterruptedView/>
         <WindowUseView/>
       </>)}
 
