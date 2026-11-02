@@ -1,7 +1,7 @@
 name: ci
 # M368 (Actions-minutes budget): pull_request + manual dispatch only, one run per ref at a time (a newer push cancels the older run).
 # M562 (2026-11-02, repository public, minutes no longer critical): the former single job (about 25 min) is split into parallel jobs python-tests, js-tests and
-# release-check; the job named release-gate is a cheap aggregator that needs all three (the merge rule names it). Run it manually from the Actions tab when a
+# release-check (M563: python-tests is a 3-shard matrix); the job named release-gate is a cheap aggregator that needs all three (the merge rule names it). Run it manually from the Actions tab when a
 # branch has no PR yet (workflow_dispatch).
 on:
   pull_request:
@@ -12,6 +12,9 @@ concurrency:
 jobs:
   python-tests:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: {shard: [0, 1, 2]}
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
@@ -26,8 +29,10 @@ jobs:
       - name: Import integrity (files present, raw names/rows, master MD5)
         run: python tools/verify_import.py --quick --expect-master-md5 5556a0c6c8bcde0f6c64b8b9655208ed
         env: {XT_RAW_DIR: raw}
-      - name: Unit tests (python)
+      - name: Unit tests (python, shard ${{ matrix.shard }} of 3)
         run: |
+          # M563: the list is split round-robin by line over 3 parallel shards; add a new test as one line in the list, nothing else to change.
+          cat > ci_python_tests.txt <<'LIST'
           for t in test_seasonal_adjust test_seasonal test_assumptions_registry test_track4 test_cohort_rates test_post_step_idempotent; do python $t.py; done
           python tests/synthetic/test_estimator_gate.py
           python tests/synthetic/test_m296_parity_additive.py
@@ -211,6 +216,10 @@ jobs:
           python tests/synthetic/test_csg_phase_np.py
           python tools/fuel_analytics2.py --no-write --limit 3
           python tools/parity_load_drive.py --fuel 20
+          LIST
+          awk -v i=${{ matrix.shard }} 'NR % 3 == i' ci_python_tests.txt > ci_shard.txt
+          echo "shard ${{ matrix.shard }}: $(wc -l < ci_shard.txt) of $(wc -l < ci_python_tests.txt) lines"
+          while IFS= read -r cmd; do echo "+ $cmd"; eval "$cmd" || exit 1; done < ci_shard.txt
   js-tests:
     runs-on: ubuntu-latest
     timeout-minutes: 30
