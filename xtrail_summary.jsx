@@ -908,6 +908,95 @@ function ChartWithTable({ chart, children, label="Show table" }) {
   );
 }
 
+/* M570 (2026-11-02; spec analyses/M570_spec.md): connected series of estimates with 95 % intervals over an ordered x (window length, origin, horizon).
+   Same rules as the interval plot: pure tested model, no interval invented, a gap (no estimate) breaks the line instead of being interpolated.
+   A point may carry a grey `bound` bar (identification bounds): it widens the axis but is never drawn or described as an interval. */
+/*M570-MODEL-BEGIN*/
+function bandSeriesModel(series, opts){
+  const o=opts||{}, xlog=!!o.xlog, num=v=>typeof v==="number"&&isFinite(v);
+  const out=(series||[]).map(s=>({...s,pts:(s.pts||[]).map(p=>{
+    const xok=num(p.x)&&(!xlog||p.x>0), hasEst=xok&&num(p.est);
+    const okInt=hasEst&&num(p.lo)&&num(p.hi)&&p.lo<=p.est&&p.est<=p.hi;
+    const bound=xok&&Array.isArray(p.bound)&&num(p.bound[0])&&num(p.bound[1])&&p.bound[0]<=p.bound[1]?p.bound:null;
+    return {...p,bound,kind:okInt?"interval":(hasEst?"point":"none")};
+  })}));
+  const xs=[], xl={}, ys=[];
+  out.forEach(s=>s.pts.forEach(p=>{
+    if(p.kind==="none"&&!p.bound) return;
+    xs.push(p.x); if(xl[p.x]===undefined) xl[p.x]=p.xl!==undefined?p.xl:String(p.x);
+    if(p.kind==="interval") ys.push(p.lo,p.hi); else if(p.kind==="point") ys.push(p.est);
+    if(p.bound) ys.push(p.bound[0],p.bound[1]);
+  }));
+  if(o.zero) ys.push(0);
+  if(num(o.ref)) ys.push(o.ref);
+  let xmin=xs.length?Math.min(...xs):(xlog?1:0), xmax=xs.length?Math.max(...xs):(xlog?10:1);
+  if(xmin===xmax){ if(xlog){ xmin/=2; xmax*=2; } else { xmin-=1; xmax+=1; } }
+  const xticks=[...new Set(xs)].sort((a,b)=>a-b).map(x=>({x,label:xl[x]}));
+  let lo=ys.length?Math.min(...ys):0, hi=ys.length?Math.max(...ys):1;
+  if(Array.isArray(o.ylim)){ lo=o.ylim[0]; hi=o.ylim[1]; }
+  if(hi===lo) hi=lo+1;
+  const raw=(hi-lo)/4, mag=Math.pow(10,Math.floor(Math.log10(raw))), nrm=raw/mag;
+  const step=(nrm<=1?1:nrm<=2?2:nrm<=5?5:10)*mag;
+  const tmin=Math.floor(lo/step+1e-9)*step, tmax=Math.ceil(hi/step-1e-9)*step;
+  const yticks=[]; for(let v=tmin; v<=tmax+step*1e-9; v+=step) yticks.push(parseFloat(v.toPrecision(12)));
+  const fixed=Array.isArray(o.ylim);
+  return {series:out,xmin,xmax,xlog,xticks,ymin:fixed?lo:yticks[0],ymax:fixed?hi:yticks[yticks.length-1],yticks:fixed?yticks.filter(v=>v>=lo-1e-9&&v<=hi+1e-9):yticks};
+}
+/*M570-MODEL-END*/
+function BandSeries({ series, xLabel, yLabel, xlog=false, zero=false, refLine, ylim, fmt, ariaLabel, caption }) {
+  const M = bandSeriesModel(series, { xlog, zero, ref: refLine, ylim });
+  if (!M.series.some(s => s.pts.some(p => p.kind !== "none"))) return null;
+  const W = 540, H = 236, PL = 52, PR = 16, PT = 8, PB = 44, pw = W - PL - PR, ph = H - PT - PB, ins = 16;
+  const fv = fmt || (v => (Math.abs(v) >= 100 ? v.toFixed(0) : Math.abs(v) >= 10 ? v.toFixed(1) : v.toFixed(2)));
+  const gx = v => (xlog ? Math.log(v) : v), x0 = gx(M.xmin), x1 = gx(M.xmax);
+  const xS = v => PL + ins + (x1 === x0 ? 0.5 : (gx(v) - x0) / (x1 - x0)) * (pw - 2 * ins);
+  const yS = v => PT + ph - (v - M.ymin) / (M.ymax - M.ymin) * ph;
+  const n = M.series.length, dx = i => (i - (n - 1) / 2) * 5;
+  const COL = ["#2563eb", "#ea580c", "#059669", "#7c3aed"];
+  return (
+    <div data-band-series="1">
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 10, fontSize: 9.5, color: "#475569", marginBottom: 2 }}>
+        {M.series.map((s, i) => <span key={i}><span style={{ display: "inline-block", width: 16, borderTop: `2px ${s.dash ? "dashed" : "solid"} ${s.color || COL[i % 4]}`, verticalAlign: "middle", marginRight: 4 }}></span>{s.label}</span>)}
+        {M.series.some(s => s.pts.some(p => p.bound)) && <span><span style={{ display: "inline-block", width: 12, height: 8, background: "#e2e8f0", border: "1px solid #cbd5e1", verticalAlign: "middle", marginRight: 4 }}></span>{M.boundLabel || "identification bounds (not an interval)"}</span>}
+      </div>
+      <svg width="100%" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={ariaLabel || yLabel} style={{ overflow: "visible" }}>
+        {M.yticks.map(t => (
+          <g key={t}>
+            <line x1={PL} y1={yS(t)} x2={PL + pw} y2={yS(t)} stroke="#f1f5f9" strokeWidth={1} />
+            <text x={PL - 5} y={yS(t) + 3} textAnchor="end" fill="#94a3b8" fontSize={8}>{fv(t)}</text>
+          </g>
+        ))}
+        {M.xticks.map(t => <text key={t.x} x={xS(t.x)} y={PT + ph + 12} textAnchor="middle" fill="#94a3b8" fontSize={8}>{t.label}</text>)}
+        {typeof refLine === "number" && refLine >= M.ymin && refLine <= M.ymax && <line x1={PL} y1={yS(refLine)} x2={PL + pw} y2={yS(refLine)} stroke="#475569" strokeWidth={1} strokeDasharray="3 3" />}
+        <text x={PL + pw / 2} y={H - 4} textAnchor="middle" fill="#64748b" fontSize={8.5}>{xLabel}</text>
+        <text x={10} y={PT + ph / 2} textAnchor="middle" fill="#64748b" fontSize={8.5} transform={`rotate(-90 10 ${PT + ph / 2})`}>{yLabel}</text>
+        {M.series.map((s, i) => s.pts.filter(p => p.bound).map((p, k) => <rect key={`b${i}-${k}`} x={xS(p.x) - 7} y={yS(p.bound[1])} width={14} height={Math.max(1, yS(p.bound[0]) - yS(p.bound[1]))} fill="#e2e8f0" stroke="#cbd5e1" strokeWidth={0.8} />))}
+        {M.series.map((s, i) => {
+          const c = s.color || COL[i % 4], segs = []; let cur = [];
+          s.pts.forEach(p => { if (p.kind === "none") { if (cur.length) segs.push(cur); cur = []; } else cur.push(p); });
+          if (cur.length) segs.push(cur);
+          return (
+            <g key={i}>
+              {segs.filter(g => g.length > 1).map((g, k) => <path key={k} d={g.map((p, j) => `${j ? "L" : "M"}${(xS(p.x) + dx(i)).toFixed(1)} ${yS(p.est).toFixed(1)}`).join(" ")} fill="none" stroke={c} strokeWidth={1.2} strokeDasharray={s.dash || undefined} opacity={0.7} />)}
+              {s.pts.filter(p => p.kind !== "none").map((p, k) => {
+                const cx = xS(p.x) + dx(i), cy = yS(p.est);
+                return (
+                  <g key={k} data-band-point={p.kind}>
+                    <title>{`${s.label}, ${p.xl !== undefined ? p.xl : p.x}: ${fv(p.est)}${p.kind === "interval" ? ` (${fv(p.lo)}, ${fv(p.hi)})` : ""}`}</title>
+                    {p.kind === "interval" && <g><line x1={cx} y1={yS(p.lo)} x2={cx} y2={yS(p.hi)} stroke={c} strokeWidth={1.4} /><line x1={cx - 2.5} y1={yS(p.lo)} x2={cx + 2.5} y2={yS(p.lo)} stroke={c} strokeWidth={1} /><line x1={cx - 2.5} y1={yS(p.hi)} x2={cx + 2.5} y2={yS(p.hi)} stroke={c} strokeWidth={1} /></g>}
+                    <circle cx={cx} cy={cy} r={2.8} fill={p.kind === "interval" && !p.hollow ? c : "#fff"} stroke={c} strokeWidth={1.4} />
+                  </g>
+                );
+              })}
+            </g>
+          );
+        })}
+      </svg>
+      <div style={{ fontSize: 9, color: "#94a3b8", marginTop: 2 }}>Dot = estimate, bar = 95% interval; an open dot has no interval in the table; a gap in the line is a point the table does not support. {caption}</div>
+    </div>
+  );
+}
+
 /* ─── M69 (2026-07-29): above-the-line label layout for horizontal range charts ─
    Both the Cycle-Rate "By Drive Type" plot and the Engine-Cycling "Starts/100km"
    plot drew their lo / med / hi values ON the whisker line, vertically centred at
@@ -5134,11 +5223,15 @@ function PowerDurationView(){
         {keys.map(k=>(<button key={k} data-duration-stratum={k} onClick={()=>setSt(k)} style={{fontSize:10,padding:"3px 8px",borderRadius:4,cursor:"pointer",border:"1px solid #cbd5e1",background:cur===k?"#0f172a":"#fff",color:cur===k?"#fff":"#334155"}}>{lab[k]||k}</button>))}
       </div>
       <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-duration-support="1">{D.nDrives} drives on {D.nDays} days; median sample period {f(D.samplePeriodS?.median,2)} s. Closure and bounds checked on every drive: window mean ≤ the drive's sample extreme, energy closes to the ledger, extremes non-increasing with window length ({B.knownAnswer.misses.ka4+B.knownAnswer.misses.ka5+B.knownAnswer.misses.ka6} misses in {B.knownAnswer.n.ka4} / {B.knownAnswer.n.ka5} / {B.knownAnswer.n.ka6Drives} drives).</div>
+      <ChartWithTable chart={<BandSeries xlog zero xLabel="window length (s, log axis)" yLabel="kW (charge as a magnitude)" ariaLabel="Observed power demand by window length: median and p95 across drives, discharge and charge, with day-clustered 95% intervals" fmt={v=>f(v,0)}
+        caption="Percentiles across drives of one value per drive and direction; observed extrema of these logs, not ratings or limits. Open dots: resolution-limited windows or no interval. This cadence group only; the two groups are not pooled."
+        series={[["discharge","p95","discharge p95","#2563eb",""],["discharge","p50","discharge median","#2563eb","3 3"],["charge","p95","charge p95","#ea580c",""],["charge","p50","charge median","#ea580c","3 3"]].map(([d,q,label,color,dash])=>({label,color,dash,pts:Object.entries(D.byW).map(([W,r])=>{const o=r[d].exact[q];return {x:Number(W),xl:`${W}`,est:o&&o.value!=null?o.value:null,lo:o?.ci95?.[0],hi:o?.ci95?.[1],hollow:!!r.resolutionLimited};})}))}/>}>
       <table style={{width:"100%",fontSize:9,borderCollapse:"collapse"}}>
         <thead><tr style={{color:"#64748b",textAlign:"right"}}><th style={{textAlign:"left"}}>window</th><th>drives (days)</th><th>discharge median kW</th><th>discharge p95 kW</th><th>grid p95 (lower bracket)</th><th>charge median kW</th><th>charge p95 kW</th><th>grid p95 (lower bracket)</th></tr></thead>
         <tbody>{Object.entries(D.byW).map(([W,r])=>(
           <tr key={W} data-duration-row={W} style={{textAlign:"right",borderTop:"1px solid #e2e8f0"}}><td style={{textAlign:"left",color:"#0f172a"}}>{W} s{r.resolutionLimited?" (resolution-limited)":""}</td><td>{r.nDrivesSupported} ({r.nDaysSupported})</td><td>{pv(r.discharge.exact.p50)}</td><td>{pv(r.discharge.exact.p95)}</td><td>{f(r.discharge.gridLowerBracket?.p95)}</td><td>{pv(r.charge.exact.p50)}</td><td>{pv(r.charge.exact.p95)}</td><td>{f(r.charge.gridLowerBracket?.p95)}</td></tr>))}</tbody>
       </table>
+      </ChartWithTable>
       <div style={{fontSize:9,color:"#94a3b8",marginTop:6}} data-duration-footnote="1">Percentiles are per-drive weighted (a long drive and a short drive count once each). Maximum across drives, 5 s: discharge {f(D.byW["5"].discharge.max)} kW, charge {f(D.byW["5"].charge.max)} kW (single logged drives, no interval). Window length against the sample period: windows shorter than twice the median sample period would be flagged resolution-limited.</div>
     </Section>
   );
@@ -5159,11 +5252,17 @@ function PowerDurationUninterruptedView(){
         {keys.map(k=>(<button key={k} data-uninterrupted-stratum={k} onClick={()=>setSt(k)} style={{fontSize:10,padding:"3px 8px",borderRadius:4,cursor:"pointer",border:"1px solid #cbd5e1",background:cur===k?"#0f172a":"#fff",color:cur===k?"#fff":"#334155"}}>{lab[k]||k}</button>))}
       </div>
       <div style={{fontSize:9,color:"#64748b",marginBottom:6}} data-uninterrupted-support="1">{D.nDrives} drives on {D.nDays} days. Known answers checked on every drive: the one-direction value never exceeds the net value, the grid value never exceeds the exact value, values are non-increasing with window length over comparable runs ({B.knownAnswer.misses.kb5LeqNet+B.knownAnswer.misses.kb5Monotone} misses).</div>
+      <ChartWithTable chart={<BandSeries xlog zero xLabel="window length (s, log axis)" yLabel="kW (charge as a magnitude)" ariaLabel="Highest mean power over windows without a change of direction: p95 across drives, beside the net p95 on the same drives" fmt={v=>f(v,0)}
+        caption="Points follow the table's display rule: a value is drawn only where the table shows it (enough drives with such a window); the net p95 on the same drives has no interval in the table. Observed extrema of these logs, not ratings or limits. This cadence group only."
+        series={[["discharge","#2563eb"],["charge","#ea580c"]].flatMap(([d,color])=>[
+          {label:`${d} p95, no reversal`,color,dash:"",pts:Object.entries(D.byW).map(([W,r])=>{const b=r[d],q=b.displayRule,o=b.uninterrupted&&q.showP95?b.uninterrupted.p95:null;return {x:Number(W),xl:`${W}`,est:o&&o.value!=null?o.value:null,lo:o?.ci95?.[0],hi:o?.ci95?.[1]};})},
+          {label:`${d} p95, net (same drives)`,color,dash:"3 3",pts:Object.entries(D.byW).map(([W,r])=>{const b=r[d],q=b.displayRule;return {x:Number(W),xl:`${W}`,est:b.net552OnSameDrives&&q.showCell?b.net552OnSameDrives.p95:null};})}])}/>}>
       <table style={{width:"100%",fontSize:9,borderCollapse:"collapse"}}>
         <thead><tr style={{color:"#64748b",textAlign:"right"}}><th style={{textAlign:"left"}}>window</th><th>discharge p95, no reversal kW</th><th>net p95 (same drives)</th><th>drives with such a window</th><th>equals net</th><th>charge p95, no reversal kW</th><th>net p95 (same drives)</th><th>drives with such a window</th><th>equals net</th></tr></thead>
         <tbody>{Object.entries(D.byW).map(([W,r])=>{const a=cell(r,"discharge"),c=cell(r,"charge");return (
           <tr key={W} data-uninterrupted-row={W} style={{textAlign:"right",borderTop:"1px solid #e2e8f0"}}><td style={{textAlign:"left",color:"#0f172a"}}>{W} s</td><td>{a[0]}</td><td>{a[1]}</td><td>{a[2]}</td><td>{a[3]}</td><td>{c[0]}</td><td>{c[1]}</td><td>{c[2]}</td><td>{c[3]}</td></tr>);})}</tbody>
       </table>
+      </ChartWithTable>
       {brk.length>0&&<div style={{fontSize:9,color:"#64748b",marginTop:6}} data-uninterrupted-bracket="1">Sensitivity to the run end: {brk.join("; ")}.</div>}
       {D.runEndBracket&&D.supportCollapse&&(<div style={{marginTop:8}} data-runend="1">
         <div style={{fontSize:9,color:"#64748b",marginBottom:4}} data-runend-note="1">Run end and support (M566). The sign between two samples is not observed: the primary run ends at the interpolated zero, the lower bracket at the last same-sign sample, and the upper bracket under an assumed linear-to-zero path at the adjacent opposite-sign sample. The upper bracket bounds the extent of a run and the eligible share; it is not a bound on the power value, and it is not compared with the net values. Share = drives with such a window among drives with a supported segment of at least that length (this base shrinks with the window length, so the share need not fall steadily). Smallest window with a share under 50 %: {["discharge","charge"].map(d=>`${d} ${D.supportCollapse[d].primary.firstWBelow50==null?"none":D.supportCollapse[d].primary.firstWBelow50+" s"} (no interpolated tail ${D.supportCollapse[d].noInterp.firstWBelow50==null?"none":D.supportCollapse[d].noInterp.firstWBelow50+" s"}, upper bracket ${D.supportCollapse[d].upper.firstWBelow50==null?"none":D.supportCollapse[d].upper.firstWBelow50+" s"})`).join("; ")}.</div>
@@ -5544,8 +5643,17 @@ function RollingOriginPanel(){
     <div data-rolling-origin="1" style={{padding:10,background:"#f8fafc",border:"1px solid #cbd5e1",borderRadius:8,marginBottom:10,fontSize:11,color:"#374151",lineHeight:1.6}}>
       <strong style={{color:"#0f172a"}}>Rolling-origin evaluation of the declared hazard pipeline design (M495, audit Update 7).</strong> The design was selected on the full data, so this is out-of-time for estimation only, not prospective: at each origin the design is fit on the past only (spline knots, scale and baselines learned on the training rows, one embargo day) and applied unchanged to the next {E.geometry.windowDays} calendar days. Events are detector-derived (M231), hazards model-derived; intervals are day-clustered and conditional on each fold's fitted model.
       {sides.map(([k,title])=>(<div key={k} style={{marginTop:4}}><strong style={{color:"#0f172a"}}>{title}:</strong>
+        <ChartWithTable chart={<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(300px,1fr))",gap:10}}>
+          <BandSeries xLabel="origin (ordinal, one point per fold)" yLabel="skill vs constant baseline" refLine={0} fmt={v=>f(v,2)} ariaLabel={`${title}: skill versus the constant baseline by origin with day-clustered 95% intervals`}
+            caption="Dashed line: no skill over the constant baseline. Intervals are conditional on each fold's fitted model."
+            series={[{label:"skill vs constant baseline (95% CI)",pts:E[k].origins.map((o,i)=>({x:i+1,xl:String(o.origin),est:o.evaluable?o.skillVsB0.point:null,lo:o.evaluable?o.skillVsB0.ci95?.[0]:null,hi:o.evaluable?o.skillVsB0.ci95?.[1]:null}))}]}/>
+          <BandSeries xLabel="origin (ordinal, one point per fold)" yLabel="observed / expected events" refLine={1} fmt={v=>f(v,2)} ariaLabel={`${title}: observed over expected events by origin with day-clustered 95% intervals`}
+            caption="Dashed line: observed equals expected. Origins that are not evaluable (counts only) are gaps."
+            series={[{label:"O/E (95% CI)",color:"#ea580c",pts:E[k].origins.map((o,i)=>({x:i+1,xl:String(o.origin),est:o.evaluable?o.OE.point:null,lo:o.evaluable?o.OE.ci95?.[0]:null,hi:o.evaluable?o.OE.ci95?.[1]:null}))}]}/>
+        </div>}>
         <table style={{borderCollapse:"collapse",margin:"4px 0"}}><thead><tr><th style={th}>Origin / test window</th><th style={th}>Test drives / days / events</th><th style={th}>Skill vs constant baseline (95% CI)</th><th style={th}>O/E (95% CI)</th><th style={th}>D1 / D2 / D3</th></tr></thead>
           <tbody>{E[k].origins.map(o=>(<tr key={o.origin}><td style={td}>{o.origin}: {o.testStart} to {o.testEnd}</td><td style={td}>{o.test.nDrives} / {o.test.nDays} / {o.test.events}</td>{o.evaluable?<><td style={td}>{f(o.skillVsB0.point)} {ci(o.skillVsB0.ci95)}</td><td style={td}>{f(o.OE.point,2)} {ci(o.OE.ci95,2)}</td><td style={td}>{o.states.D1} / {o.states.D2} / {o.states.D3}</td></>:<td style={td} colSpan={3}>not evaluable (counts only)</td>}</tr>))}</tbody></table>
+        </ChartWithTable>
         {E[k].verdict}.{E[k].origins.filter(o=>o.evaluable&&(o.states.D1==="FAIL"||o.states.D2==="MATERIAL"||o.states.D3==="MATERIAL")).map(o=>(<div key={o.origin}>{flagText(k.toUpperCase(),o)}.</div>))}
         {E[k].pooled && <div>Pooled over the evaluable origins (descriptive, no decision role; mixed models, training uncertainty not propagated): skill {f(E[k].pooled.point.skillVsB0)} {ci(E[k].pooled.ci95.skillVsB0)}, O/E {f(E[k].pooled.point.OE,2)} {ci(E[k].pooled.ci95.OE,2)}, {E[k].pooled.events} events on {E[k].pooled.nDays} days.</div>}
       </div>))}
@@ -9096,6 +9204,10 @@ function TimeToThresholdPanel() {
           {" "}{c.n} cold starts on {c.days} days (effective days {f(c.essDays,1)}); {c.reached} reached it; right-censored (observation ended before the threshold): {c.censoredTripEnd} at trip end, {c.censoredChannelLoss} by channel loss; {c.eventsAfterGapOver10s} events after a gap over 10 s; start temperature quartiles {q(c.startC)} {"°"}C; lag to the first valid sample {q(c.lagToFirstValidS)} s{fl==="oil"?`; ${c.atOrAboveAtStart} already at or above the threshold at the start (time 0)`:""}. {R.R4}.
           <div>This {R.R1}.</div>
           <div>The Kaplan-Meier (product-limit) estimate {R.R2}.</div>
+          <ChartWithTable chart={<BandSeries xLabel="within (s)" yLabel="share of cold starts" ylim={[0,1]} fmt={v=>f(v,1)} ariaLabel={`${NAME[fl]} ${t} °C: observed share before key-off and Kaplan-Meier (product-limit) estimate of the share reached, by horizon`}
+            caption="Observed share and Kaplan-Meier (product-limit) estimate with 95% CI; the grey bar is the worst-case (Manski) identification range, not a confidence interval. Unsupported horizons are gaps."
+            series={[{label:"Observed share before key-off (95% CI)",color:"#2563eb",pts:c.horizons.map(h=>({x:h.h,xl:String(h.h),est:h.supported?h.E1.point:null,lo:h.supported?h.E1.ci95?.[0]:null,hi:h.supported?h.E1.ci95?.[1]:null,bound:h.supported&&h.bounds?[h.bounds.low.point,h.bounds.high.point]:null}))},
+              {label:"Kaplan-Meier (product-limit) estimate (95% CI)",color:"#ea580c",pts:c.horizons.map(h=>({x:h.h,xl:String(h.h),est:h.supported?h.E2.point:null,lo:h.supported?h.E2.ci95?.[0]:null,hi:h.supported?h.E2.ci95?.[1]:null}))}]}/>}>
           <table style={{borderCollapse:"collapse",margin:"4px 0"}}><thead><tr><th style={th}>Within (s)</th><th style={th}>At risk (drives / days)</th><th style={th}>Observed share before key-off (95% CI)</th><th style={th}>Kaplan-Meier (product-limit) estimate of the share reached (95% CI)</th><th style={th}>Worst-case (Manski) identification bounds, outer interval</th><th style={th}>Hazard-tilt sensitivity, theta = 0.25 / 0.5 / 1 / 2 / 4</th><th style={th}>Reading</th></tr></thead>
             <tbody>{c.horizons.map(h=>h.supported?(
               <tr key={h.h}><td style={td}>{h.h}</td><td style={td}>{h.atRisk} / {h.atRiskDays}</td><td style={td}>{f(h.E1.point)} {ci(h.E1.ci95)}</td><td style={td}>{f(h.E2.point)} {ci(h.E2.ci95)}</td>
@@ -9105,6 +9217,7 @@ function TimeToThresholdPanel() {
             ):(
               <tr key={h.h}><td style={td}>{h.h}</td><td style={td} colSpan={6}>not supported (at risk {h.atRisk} drives on {h.atRiskDays} days)</td></tr>
             ))}</tbody></table>
+          </ChartWithTable>
           <div>{c.median.shown
             ? <span>{c.median.text} (95% CI {f(c.median.ci95[0],0)} to {typeof c.median.ci95[1]==="number"?f(c.median.ci95[1],0):c.median.ci95[1]} s; hazard-tilt theta = 0.5: {f(c.median.tiltedAtBand["0.5"],0)} s, theta = 2: {f(c.median.tiltedAtBand["2"],0)} s).</span>
             : <span>{R.R5}.</span>}

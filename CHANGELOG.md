@@ -1,3 +1,16 @@
+## M570 (2026-11-02): Table-to-chart conversion, batch 2: shared curve-with-intervals plot for power-duration (net and no-reversal), rolling-origin skill and O/E, and time-to-threshold
+
+**Rationale.** Presentation only: ordered tables of estimates with 95% intervals are drawn as connected series with interval bars above the unchanged table, which stays in the DOM under 'Show table'; no estimator, payload key or number changed. A point is drawn only where the table supports it (display rules showP95/showCell and supported horizons), a gap breaks the line, the worst-case identification bounds are a grey bar and never an interval, and an estimate without an interval is an open dot. The fuel distribution tables were dropped from the list (their ECDF and windowed pooled-rate charts already exist).
+
+**State.** `drive_master.csv` 606 rows, MD5 `5556a0c6c8bcde0f6c64b8b9655208ed`.
+
+**Gates (runs/20261020T221332Z).** restamp_ingest=ok; build_html=ok; jsdom=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `xtrail_summary.jsx`, `xtrail_dashboard.html`, `test_band_series.js`, `.github/workflows/ci.yml`, `analyses/M570_spec.md`, `analyses/table_to_chart_audit.md`.
+
+
 ## M569 (2026-11-02): Table-to-chart conversion, batch 1: shared interval (forest) plot for four CI tables (engine-start rate, window cutoff sensitivity, regen extraction-rule sensitivity, detector sensitivity)
 
 **Rationale.** Presentation only: rows that are estimates with a 95% interval are drawn as a dot-and-interval plot (zero line where relevant) above the unchanged table, which stays in the DOM under 'Show table'; no estimator, payload key or number changed, every plotted value is the one the table prints, and a row without an interval is drawn as an open point, never given one. The nine cross-vehicle tables are excluded by owner decision (2026-11-02); the previous M569 draft (cell-spread step versus trend) is renumbered M573.
