@@ -1,0 +1,8 @@
+{"C1":{"reproduced":true,"n":576,"days":117,"slope":0.524,"ci":[0.266,0.781]},
+"C2":{"reproduced":true,"months":[0.157,-0.129,0.443],"step":[2.263,1.168,3.358],"dAIC":-20.74},
+"C3":{"reproduced":true,"months":[0.021,-0.256,0.298],"step":[2.084,0.956,3.213]},
+"C4":{"reproduced":"yes within tolerance","week_clustered_t22":[0.111,0.845],"point":0.478,"boot_pct_seed42_4000":[0.081,0.856],"note":"lower bounds 0.02 above claim (0.09/0.06); cluster small-sample correction on"},
+"C5":{"reproduced":true,"n_drives":145,"days":28,"diff_mV":3.06,"ci":[1.98,4.14],"ci_no_corr":[2.01,4.11]},
+"concerns":["step date 2026-10-01 chosen post hoc; step and slope collinear (months slope loses significance), so trend vs level shift is not separable; multiple specifications (C1-C4) are multiple looks","C5 adjacent-window comparison is a step contrast not a trend; Oct window only 8 days","week bootstrap with 23 clusters is coarse"],
+"verdict":"accept (claims reproduce; language should say trend not established once step is allowed)",
+"files":["audit/m573_audit.py","audit/m573_c5.py"]}
