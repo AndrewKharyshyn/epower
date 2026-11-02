@@ -823,6 +823,91 @@ function TempIntervalPlot({ rows, max, color }) {
   );
 }
 
+/* M569 (2026-11-02; spec analyses/M569_spec.md, audit analyses/table_to_chart_audit.md): shared interval ("forest") plot for tables whose rows
+   are estimates with a 95 % interval. The model is pure and tested (test_interval_forest.js); it never invents an interval: a row without
+   a valid interval is drawn as a point, a row without an estimate as text. Every plotted value is the one the table beside it prints. */
+/*M569-MODEL-BEGIN*/
+function intervalForestModel(rows, opts){
+  const o=opts||{}, zero=o.zero!==false;
+  const num=v=>typeof v==="number"&&isFinite(v);
+  const out=(rows||[]).map(r=>{
+    const hasEst=num(r.est), okInt=hasEst&&num(r.lo)&&num(r.hi)&&r.lo<=r.est&&r.est<=r.hi;
+    return {...r, kind: okInt?"interval":(hasEst?"point":"none")};
+  });
+  const vals=[];
+  out.forEach(r=>{ if(r.kind==="interval") vals.push(r.lo,r.hi); else if(r.kind==="point") vals.push(r.est); });
+  if(zero) vals.push(0);
+  if(!vals.length) return {rows:out,min:0,max:1,ticks:[0,1]};
+  const lo=Math.min(...vals); let hi=Math.max(...vals);
+  if(hi===lo) hi=lo+1;
+  const raw=(hi-lo)/4, mag=Math.pow(10,Math.floor(Math.log10(raw))), nrm=raw/mag;
+  const step=(nrm<=1?1:nrm<=2?2:nrm<=5?5:10)*mag;
+  const tmin=Math.floor(lo/step+1e-9)*step, tmax=Math.ceil(hi/step-1e-9)*step;
+  const ticks=[]; for(let v=tmin; v<=tmax+step*1e-9; v+=step) ticks.push(parseFloat(v.toPrecision(12)));
+  return {rows:out,min:ticks[0],max:ticks[ticks.length-1],ticks};
+}
+/*M569-MODEL-END*/
+function IntervalForest({ rows, xLabel, zero=true, color="#2563eb", ariaLabel, fmt, caption, lblW=176 }) {
+  const M = intervalForestModel(rows, { zero });
+  if (!M.rows.length) return null;
+  const W = 540, PL = lblW, PR = 158, PT = 6, PB = 32, rowH = 28;
+  const pw = W - PL - PR, ph = M.rows.length * rowH, H = PT + ph + PB;
+  const xS = v => PL + (v - M.min) / (M.max - M.min) * pw;
+  const fv = fmt || (v => (Math.abs(v) >= 100 ? v.toFixed(0) : Math.abs(v) >= 10 ? v.toFixed(1) : v.toFixed(2)));
+  const wrap = s => { // at most two lines of about 36 characters; the full text stays in <title> and in the table below
+    const words = String(s || "").split(" "), lines = [""];
+    words.forEach(w => { const l = lines[lines.length - 1]; if ((l + " " + w).trim().length <= 36 || !l) lines[lines.length - 1] = (l + " " + w).trim(); else lines.push(w); });
+    if (lines.length > 2) { lines.length = 2; lines[1] = lines[1].slice(0, 35) + "…"; }
+    return lines;
+  };
+  const zeroIn = M.min <= 0 && M.max >= 0;
+  return (
+    <div data-interval-forest="1">
+      <svg width="100%" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={ariaLabel || xLabel} style={{ overflow: "visible" }}>
+        {M.ticks.map(t => (
+          <g key={t}>
+            <line x1={xS(t)} y1={PT} x2={xS(t)} y2={PT + ph} stroke="#f1f5f9" strokeWidth={1} />
+            <text x={xS(t)} y={PT + ph + 12} textAnchor="middle" fill="#94a3b8" fontSize={8}>{fv(t)}</text>
+          </g>
+        ))}
+        {zero && zeroIn && <line x1={xS(0)} y1={PT} x2={xS(0)} y2={PT + ph} stroke="#475569" strokeWidth={1} strokeDasharray="3 3" />}
+        <text x={PL + pw / 2} y={H - 4} textAnchor="middle" fill="#64748b" fontSize={8.5}>{xLabel}</text>
+        {M.rows.map((r, i) => {
+          const cy = PT + i * rowH + rowH / 2, c = r.color || color, op = r.muted ? 0.4 : 1, ls = wrap(r.label);
+          const txt = r.valueText || (r.kind === "interval" ? `${fv(r.est)} (${fv(r.lo)}, ${fv(r.hi)})` : r.kind === "point" ? `${fv(r.est)} (no interval)` : "");
+          return (
+            <g key={i} opacity={op} data-forest-row={r.kind}>
+              <title>{r.sub ? `${r.label} (${r.sub})` : r.label}</title>
+              {ls.map((l, k) => <text key={k} x={PL - 8} y={cy + (ls.length === 1 ? 3 : k === 0 ? -2 : 8)} textAnchor="end" fontSize={8.5} fill="#374151" fontWeight={600}>{l}</text>)}
+              {r.kind === "interval" && <g>
+                <line x1={xS(r.lo)} y1={cy} x2={xS(r.hi)} y2={cy} stroke={c} strokeWidth={1.6} />
+                <line x1={xS(r.lo)} y1={cy - 4} x2={xS(r.lo)} y2={cy + 4} stroke={c} strokeWidth={1.2} />
+                <line x1={xS(r.hi)} y1={cy - 4} x2={xS(r.hi)} y2={cy + 4} stroke={c} strokeWidth={1.2} />
+              </g>}
+              {r.kind !== "none" && <circle cx={xS(r.est)} cy={cy} r={r.kind === "interval" ? 3.2 : 3.6} fill={r.kind === "interval" ? c : "#fff"} stroke={c} strokeWidth={1.6} />}
+              {r.kind === "none" && <text x={PL + 6} y={cy + 3} fontSize={8.5} fill="#94a3b8" fontStyle="italic">{r.note || "not available"}</text>}
+              <text x={W - PR + 8} y={cy + (r.sub ? -1 : 3)} fontSize={8.5} fill="#0f172a" fontWeight={700}>{txt}</text>
+              {r.sub && <text x={W - PR + 8} y={cy + 9} fontSize={7.5} fill="#94a3b8">{String(r.sub).length > 44 ? String(r.sub).slice(0, 43) + "…" : r.sub}</text>}
+            </g>
+          );
+        })}
+      </svg>
+      <div style={{ fontSize: 9, color: "#94a3b8", marginTop: 2 }}>Dot = estimate, line = 95% interval{zero ? ", dashed line = zero" : ""}; an open dot has no interval in the table. {caption}</div>
+    </div>
+  );
+}
+function ChartWithTable({ chart, children, label="Show table" }) {
+  return (
+    <div data-chart-with-table="1">
+      {chart}
+      <details style={{ marginTop: 4 }}>
+        <summary style={{ fontSize: 9.5, color: "#64748b", cursor: "pointer" }}>{label}</summary>
+        {children}
+      </details>
+    </div>
+  );
+}
+
 /* ─── M69 (2026-07-29): above-the-line label layout for horizontal range charts ─
    Both the Cycle-Rate "By Drive Type" plot and the Engine-Cycling "Starts/100km"
    plot drew their lo / med / hi values ON the whisker line, vertically centred at
@@ -1254,10 +1339,13 @@ function EngineStartRate(){
     <div style={{fontSize:11,fontWeight:700,color:"#334155",marginBottom:4}}>Engine-start rate (RPM onsets), pooled ratio of sums</div>
     {coh==="all"&&<div style={{fontSize:12,color:"#0f172a",marginBottom:6}}><strong>{f1(A.est)} RPM onsets per 100 km</strong> (95% CI {ci(A)}; {A.nTrips} drives, {A.nDays} days, {A.km} km).</div>}
     <div style={{fontSize:10,color:"#64748b",marginBottom:6}}>Detector: engine speed above {D.rpmThreshold} rpm on a {D.gridS} s grid (missing samples count as off), runs of at least {D.minRunS} s, carry-forward limit {D.ffillLimitS} s applied twice. RPM onsets are not current-direction reversals; the two are different quantities.</div>
+    <ChartWithTable chart={<IntervalForest xLabel="RPM onsets per 100 km (95% CI)" ariaLabel="Engine-start rate (RPM onsets per 100 km) by group with its 95% CI" fmt={f1} zero={false}
+      rows={[...showCoh.map(c=>[c==="all"?"All data":(COHORT_META[c]||{label:c}).label,P[c]]),...(coh==="all"?["urban","mixed","mixed_highway","highway"].map(k=>[`class: ${k.replace("_"," ")}`,Z.byClass[k]]):[])].filter(([,e])=>e).map(([label,e])=>({label,est:e.est,lo:e.ci95?.[0],hi:e.ci95?.[1],sub:`${e.nTrips} drives, ${e.nDays} days`}))}/>}>
     <table style={{fontSize:10,borderCollapse:"collapse"}}><thead><tr style={{color:"#64748b"}}><th style={{padding:"2px 8px",textAlign:"left"}}>group</th><th style={{padding:"2px 8px"}}>onsets/100 km</th><th style={{padding:"2px 8px"}}>95% CI</th><th style={{padding:"2px 8px"}}>drives</th><th style={{padding:"2px 8px"}}>days</th><th style={{padding:"2px 8px"}}>onsets</th><th style={{padding:"2px 8px"}}>km</th><th style={{padding:"2px 8px",textAlign:"left"}}>support</th></tr></thead><tbody>
       {showCoh.map(c=>rowOf(c==="all"?"All data":(COHORT_META[c]||{label:c}).label,P[c]))}
       {coh==="all"&&["urban","mixed","mixed_highway","highway"].map(k=>rowOf(`class: ${k.replace("_"," ")}`,Z.byClass[k]))}
     </tbody></table>
+    </ChartWithTable>
     {(coh==="all"||coh==="compare")&&!cohortAvailable("cold")&&<div style={{fontSize:10,color:"#b45309",marginTop:3}}>Cold: below minimum support ({cold.nDrives} drives, {cold.nStarts} onsets over {cold.km} km); included in All only, not estimated.</div>}
     {coh==="all"&&<div>
       <div style={{fontSize:10.5,color:"#334155",marginTop:8}}>First onset in a log file versus later onsets in the same file (per 100 km): {f1(DC.all.firstPer100km.est)} ({ci(DC.all.firstPer100km)}) and {f1(DC.all.restartsPer100km.est)} ({ci(DC.all.restartsPer100km)}). This split is file-boundary bookkeeping, not a cold-start measure: {G.startWithin30min} of {G.nConsecutivePairs} consecutive log files start within 30 minutes of the previous file&rsquo;s end ({G.startWithin5min} within 5 minutes, {G.startWithin60min} within 60), and an onset after a file boundary is counted as the first in its file.</div>
@@ -3044,9 +3132,13 @@ function RegenSensitivityNote({view}) {
     <Collapsible title="Sensitivity of the apparent KE recovery to the extraction rule (M440, stage MB): expand for the details" subtitle={`How much each declared rule of the legacy extraction moves the bars on the same drives (${Cc.nSteps.toLocaleString()} qualifying steps, ${Cc.nDrives} drives, ${Cc.nDays} days). A range over declared conventions, not a replacement value.`}>
       <div data-m440="note" style={{fontSize:10,color:"#475569",lineHeight:1.6}}>
         Apparent KE recovery (assumed mass), sensitivity to the extraction rule, cohort {_coh==="all"?"all drives":_coh}. Each row changes one declared rule of the legacy extraction and recomputes the bars on the same drives; the legacy bars are reproduced exactly before any variant is read ({R.reproduction.nStepsReproduced.toLocaleString()} steps). These are ranges over declared conventions: no interval is drawn around them, they are not a replacement value, and a difference does not show which rule is closer to the truth. Legacy speed bins use the step END speed.
+        <ChartWithTable chart={<IntervalForest xLabel="Largest difference from the legacy bar, pp (95% day-clustered interval)" ariaLabel="Apparent KE recovery: largest difference from the legacy bar for each changed extraction rule" fmt={v=>sg(v)} lblW={230}
+          caption="One bin per rule (the bin with the largest difference); a range over declared conventions, not a replacement value."
+          rows={rows.map(r=>({label:LAB[r.n],est:r.big?r.big[1].delta:null,lo:r.big?.[1].deltaCi95?.[0],hi:r.big?.[1].deltaCi95?.[1],sub:r.big?`at ${r.big[0]}${kind==="temp"?"":" km/h"}; material ${r.nmat} of ${r.nev}`:"",note:"not evaluable"}))}/>}>
         <table style={{borderCollapse:"collapse",margin:"6px 0"}}><thead><tr><th style={th}>Rule changed</th><th style={th}>KE retained</th><th style={th}>Material {unit}</th><th style={th}>Largest difference from the legacy bar (pp, 95% day-clustered interval)</th></tr></thead>
           <tbody>{rows.map(r=>(<tr key={r.n}><td style={td}>{LAB[r.n]}</td><td style={td}>{f(100*r.ke,1)}%</td><td style={td}>{r.nmat} of {r.nev} evaluable</td>
             <td style={td}>{r.big?`${sg(r.big[1].delta)} (${r.big[1].deltaCi95?`${sg(r.big[1].deltaCi95[0])} to ${sg(r.big[1].deltaCi95[1])}`:"interval not available"}) at ${r.big[0]}${kind==="temp"?"":" km/h"}`:"not evaluable"}</td></tr>))}</tbody></table>
+        </ChartWithTable>
         <div>Material means the difference exceeds the half-width of the bin's published mass-uncertainty range and its day-clustered interval excludes zero; not material is not evidence of harmlessness. Bins with fewer than 5 contributing days are not evaluable.</div>
         {AS&&<div>The age rule is a polling-cadence effect, not long staleness: the steps older than 2 s are almost all on slow-cadence drives ({f(100*AS.gt2_le3s.slowCadenceShare,1)}% of the steps aged 2–3 s), and the recovery of a step falls with the age band ({f(AS.le1s.ratio,1)}%, {f(AS.gt1_le2s.ratio,1)}%, {f(AS.gt2_le3s.ratio,1)}%, {f(AS.gt3_le5s.ratio,1)}% for ≤1, 1–2, 2–3 and 3–5 s); the same cadence effect is present in the retained slow-cadence steps, so this rule only trims it, and the trim depends on the threshold.</div>}
         {VM&&kind==="speed"&&<div>The start-speed rule moves steps one way only ({f(100*VM.stepShare,1)}% of the steps change bin, {f(100*VM.keMovedUpShare,1)}% of the kinetic energy moves to a higher bin and none to a lower one), so its bin-wise differences compare different populations; the low-speed bins are limited by the 1 km/h speed resolution.</div>}
@@ -5390,8 +5482,12 @@ function WindowCaveatPanel(){
   return (
     <div data-window-caveat="true" style={{padding:10,background:"#f8fafc",border:"1px solid #cbd5e1",borderRadius:8,marginBottom:10,fontSize:11,color:"#374151",lineHeight:1.6}}>
       <strong style={{color:"#0f172a"}}>Observation window and cutoff sensitivity (M485; cell-spread, released estimator).</strong> {spreadWindowSentence()}
+      <ChartWithTable chart={<IntervalForest xLabel="Slope [95% interval] (mV/month)" ariaLabel="Cell-spread slope by cutoff day with its 95% interval" fmt={f2}
+        caption="Cumulative nested refits; they reuse almost all observations and are not independent replication. Rows without an interval are not evaluable at that cutoff."
+        rows={[...w.cutoffs.map(r=>({label:r.cutoff,ok:r})),...(w.leaveLastK||[]).map(r=>({label:`${r.cutoff||"n/a"} (last ${r.k} days left out)`,ok:r,muted:true}))].map(({label,ok,muted})=>({label,muted,est:ok.status==="ok"?ok.slope:null,lo:ok.ci95?.[0],hi:ok.ci95?.[1],sub:`${ok.nDrives??"n/a"} drives, ${ok.nDays??"n/a"} days`,note:desc(ok)}))}/>}>
       <table style={{borderCollapse:"collapse",margin:"4px 0",width:"100%"}}><thead><tr><th style={th}>Cutoff (calendar day)</th><th style={th}>Drives</th><th style={th}>Days</th><th style={th}>Slope [95% interval] (mV/month)</th></tr></thead>
         <tbody>{rows.map(r=>(<tr key={r.cutoff}><td style={td}>{r.cutoff}</td><td style={td}>{r.nDrives??"n/a"}</td><td style={td}>{r.nDays??"n/a"}</td><td style={td}>{desc(r)}</td></tr>))}</tbody></table>
+      </ChartWithTable>
       <div>Refits at every eligible day (daily grid, counts only): {w.daily?.nEvaluable} evaluable fits, the interval excluded zero at {(w.daily?.nExcludeZeroPos??0)+(w.daily?.nExcludeZeroNeg??0)} ({w.daily?.nExcludeZeroPos} positive, {w.daily?.nExcludeZeroNeg} negative), {w.daily?.nSignChanges} sign changes between consecutive fits; consecutive daily fits are nested and almost identical, so a run of consecutive exclusions is not a set of separate findings, and fits at very small support are unstable.</div>
       <div>The final cutoff is the last eligible day, that is the released estimate itself, so the count of intervals excluding zero is not independent evidence. K in the sentence is the smallest of the fixed depths 8, 12 and 16 days at which the interval includes zero; it is not a threshold, and the interval still excludes zero when 8 days are removed if the table above says so.</div>
       <div>First cutoff at which the interval excludes zero: {w.summary.firstCutoffExcludingZero ?? "none"}. Intervals are the released CR1 intervals with the t(G-1) reference on the drives dated up to the cutoff; the first rows rest on few days. {w.rule?.leaveLastNote ? w.rule.leaveLastNote.charAt(0).toUpperCase()+w.rule.leaveLastNote.slice(1)+"." : ""}</div>
@@ -7537,8 +7633,12 @@ function DetectorSensitivityPanel(){
       {" "}{Object.entries(D.axisRanges).map(([k,v])=>`${AX[k]} ${rng(v.sharePct,1)}%`).join("; ")}.
       The RPM threshold moves the share most, and it is a definition choice (how much engine spin-down counts as engine-off), not an error estimate. The alignment-tolerance effect is partly coverage loss and one-directional by construction (a second without an engine reading is never counted as engine-off); the debounce acts in opposite directions on different drives.
       These are ranges over declared conventions, not confidence intervals and not a bound on the true share; they are deterministic given the data and are not merged with, or compared with, the sampling interval.
+      <ChartWithTable chart={<IntervalForest xLabel="Paired effect, pp (95% day-clustered CI)" ariaLabel="Detector sensitivity: paired effect on the engine-off distance share, one axis at a time"
+        fmt={v=>sg(v,2)} caption="Muted rows are stress rows or not comparable (see the table)."
+        rows={rows.map(r=>({label:`${AX[r.axis]||(r.axis==="G"?"coverage gate":r.axis)}: ${r.value}`,est:r.detectorPp,lo:r.detectorPpCi95?.[0],hi:r.detectorPpCi95?.[1],muted:!(r.role==="core"&&r.comparable),sub:roleText(r),note:"not evaluable"}))}/>}>
       <table style={{borderCollapse:"collapse",margin:"6px 0"}}><thead><tr><th style={th}>One axis at a time</th><th style={th}>Setting</th><th style={th}>Paired effect, pp (95% day-clustered CI)</th><th style={th}>Common support (drives / km)</th><th style={th}>Support lost / gained, pp</th><th style={th}>Role</th></tr></thead>
         <tbody>{rows.map((r,i)=>(<tr key={i}><td style={td}>{AX[r.axis]||(r.axis==="G"?"coverage gate":r.axis)}</td><td style={td}>{r.value}</td><td style={td}>{sg(r.detectorPp,2)} ({sg(r.detectorPpCi95?.[0],2)}, {sg(r.detectorPpCi95?.[1],2)})</td><td style={td}>{f(r.nCommonPct,1)}% / {f(r.kmCommonPct,1)}%</td><td style={td}>{sg(r.supportLostPp,2)} / {sg(r.supportGainedPp,2)}</td><td style={td}>{roleText(r)}</td></tr>))}</tbody></table>
+      </ChartWithTable>
       <div style={{marginTop:4}}>Joint outer envelope (secondary): over the {F.nCells}-cell factorial of {F.nComparable} comparable conventions the share runs from {f(F.sharePctRange[0],1)} to {f(F.sharePctRange[1],1)}% ({sg(F.deltaPpRange[0])} to {sg(F.deltaPpRange[1])} percentage points as a paired difference on the drives valid under both settings). Lowest cell {sg(F.minCell.detectorPp,2)} pp ({F.minCell.direction} {F.minCell.A} s, threshold {F.minCell.thresholdRpm} rpm, debounce {F.minCell.debounceSamples}); highest cell {sg(F.maxCell.detectorPp,2)} pp ({F.maxCell.direction} {F.maxCell.A} s, threshold {F.maxCell.thresholdRpm} rpm, debounce {F.maxCell.debounceSamples}).
       A variant is comparable only if it keeps at least {f(100*D.comparability.minShare,0)}% of the released drives and of the released distance. The paired effect is not observed on drives that fail a variant&rsquo;s validity gate, so it is not carried back to them.</div>
       <div style={{marginTop:4}}>Basis: {D.label}. Evaluated on {D.evaluatedOn.nWithResult} of {D.evaluatedOn.nDrives} drives with a result{S.totalDrives&&S.totalDrives!==D.evaluatedOn.nDrives?`; the corpus now has ${S.totalDrives}, so this range is stale until the study is re-run`:""}. Re-run on demand; not for article use.</div>
