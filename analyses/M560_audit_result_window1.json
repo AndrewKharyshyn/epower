@@ -1,0 +1,23 @@
+{
+ "windows": [
+  {
+   "file": "20260901_111543.csv",
+   "key": "2026-11-01 11:27:27",
+   "V0": -0.7499999999998064,
+   "V1": 0.2500000000000835,
+   "V3": -0.24999999999997335,
+   "V8": 0.49999999999994493,
+   "V6_fresh": false,
+   "V7_strict": true
+  }
+ ],
+ "ambiguousRules": [
+  "Key date part is the run date, not the file date: matched on time-of-day modulo 24 h.",
+  "V3 with NaN in paired series: onset=nanmean of the two onset rows; asymptote=nanmedian of last min(5,j-i) rows (NaN skipped), requires >=5 finite in rest.",
+  "Rest run taken as maximal consecutive cur<5 rows of the collapsed grid (removed seconds do not break a run).",
+  "V8 'both members before T0': max_t<T0 and min_t<T0; asymptote members both >=T0, pair time (later member) in [T1-5,T1).",
+  "V3 pair time grid: 1 s mean keyed by floor(second); ffill limit 3 over full second range of pairs before aligning.",
+  "Pair rule: first Min at or after Max time and before next Max; ties at equal timestamps accepted; <=1.5 s inclusive.",
+  "V6 fresh uses the G(3,3) fresh flags of Max and Min in the row's own second; current freshness not required."
+ ]
+}

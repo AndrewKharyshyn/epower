@@ -194,6 +194,7 @@ jobs:
           python tests/synthetic/test_signal_validity.py
           python tests/synthetic/test_dependency_audit.py
           python tests/synthetic/test_engine_context_fields.py
+          python tests/synthetic/test_csr_sensitivity.py
           python tests/synthetic/test_m556_wording.py
           python tests/synthetic/test_exposure_frame.py
           python tests/synthetic/test_exposure_readers.py
@@ -225,6 +226,7 @@ jobs:
           node test_signal_validity_view.js
           node test_dependency_audit_view.js
           node test_engine_context_fields_view.js
+          node test_csr_sensitivity_view.js
       - name: Release gate
         run: python release_check.py
         env: {XT_RAW_DIR: raw}

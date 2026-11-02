@@ -716,6 +716,20 @@
    ]
   },
   {
+   "id": "csr_sensitivity",
+   "title": "M560: sensitivity of the cell-spread relaxation (M194 cellSpreadRelaxation) to Max/Min pairing, forward fill, freshness and gap collapsing: V0 must reproduce the stored block exactly (STOP otherwise); re-measurement on the fixed V0 windows (polling-cycle pairing, nearest 1.5 s pairing, native pair level) and window-set variants (no/1 s Max-Min fill, no/1 s current fill, real samples only, strict contiguity) with a placebo null, per cadence stratum, never pooled; per-drive cache csr_cache/ keyed by raw sha256 and extractor hash; additive payload block cellSpreadRelaxationSensitivity (+ stamp); the published block and its text are unchanged; spec analyses/M560_spec.md Rev 2",
+   "cmd": [
+    "python3",
+    "tools/csr_sensitivity.py",
+    "--splice"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json",
+    "analyses/M560_check.json"
+   ]
+  },
+  {
    "id": "engine_context_fields",
    "title": "M559: orthogonal engine-context fields (audit 2026-10-29 N03): for every 1 s grid sample with the engine rotating (rpm > 400) separate rotation level, net pack-flow state, coolant context (last non-null raw sample, valid <= 30 s) and combustion evidence (legacy boost classes, calculated fuel rate as a sub-flag), non-exclusive candidate labels, unresolved shares with and without the thermal label, mixed-function table, high-SoC acceptance probe and threshold sensitivities per cadence stratum; exact reconciliation of the motored seconds to the M46 dissipation census (STOP on a non-zero residual); per-drive cache ecf_cache/ keyed by raw sha256 and extractor hash; additive payload block engineContextFields (+ stamp); no existing block changes; spec analyses/M559_spec.md Rev 2",
    "cmd": [
