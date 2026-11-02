@@ -64189,7 +64189,7 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-11-02T05:48:58.822790+00:00",
+   "generatedAt": "2026-11-02T08:40:19.320370+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
@@ -64197,13 +64197,13 @@
    },
    "computationStatus": "computed",
    "computationStatusNote": "M561: computed by tools/power_duration_uninterrupted.py from the raw bytes; additive, no published value recomputed; not M299-reproducible.",
-   "includedInReleaseAt": "2026-11-02T05:48:58.822790+00:00",
+   "includedInReleaseAt": "2026-11-02T08:40:19.320370+00:00",
    "inputBasis": {
     "nDrives": 606,
     "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-11-02T05:48:58.822790+00:00"
+   "computedAt": "2026-11-02T08:40:19.320370+00:00"
   }
  },
  "ambientTable": {
@@ -397451,11 +397451,13 @@
    "nDrives": 592,
    "misses": {
     "kb5LeqNet": 0,
-    "kb5Monotone": 0
+    "kb5Monotone": 0,
+    "ku6Ordering": 0
    },
    "examples": {
     "kb5LeqNet": [],
-    "kb5Monotone": []
+    "kb5Monotone": [],
+    "ku6Ordering": []
    }
   },
   "strata": {
@@ -398966,6 +398968,424 @@
       "median": 2.6,
       "p95": 24.54,
       "n": 12736
+     }
+    },
+    "runEndBracket": {
+     "5": {
+      "discharge": {
+       "nDrivesWithSegment": 178,
+       "nPaired": 178,
+       "upperOnlyDrives": 0,
+       "eligibleShare": {
+        "noInterp": 1.0,
+        "primary": 1.0,
+        "upper": 1.0
+       },
+       "upperPaired": {
+        "p50": 24.541,
+        "p95": 35.878
+       },
+       "primaryPaired": {
+        "p50": 24.541,
+        "p95": 35.878
+       },
+       "upperMinusPrimary": {
+        "p50": 0.0,
+        "p95": 0.026
+       },
+       "primaryMinusNoInterp": {
+        "p50": 0.0,
+        "p95": 0.191
+       },
+       "holdMinusUpper": {
+        "p50": 0.0,
+        "p95": 0.744
+       },
+       "triggers": []
+      },
+      "charge": {
+       "nDrivesWithSegment": 178,
+       "nPaired": 177,
+       "upperOnlyDrives": 1,
+       "eligibleShare": {
+        "noInterp": 0.9831,
+        "primary": 0.9944,
+        "upper": 1.0
+       },
+       "upperPaired": {
+        "p50": 32.277,
+        "p95": 47.662
+       },
+       "primaryPaired": {
+        "p50": 32.277,
+        "p95": 47.619
+       },
+       "upperMinusPrimary": {
+        "p50": 0.0,
+        "p95": 0.024
+       },
+       "primaryMinusNoInterp": {
+        "p50": 0.0,
+        "p95": 0.568
+       },
+       "holdMinusUpper": {
+        "p50": 0.0,
+        "p95": 0.829
+       },
+       "triggers": []
+      }
+     },
+     "10": {
+      "discharge": {
+       "nDrivesWithSegment": 178,
+       "nPaired": 178,
+       "upperOnlyDrives": 0,
+       "eligibleShare": {
+        "noInterp": 0.9944,
+        "primary": 1.0,
+        "upper": 1.0
+       },
+       "upperPaired": {
+        "p50": 19.689,
+        "p95": 28.684
+       },
+       "primaryPaired": {
+        "p50": 19.679,
+        "p95": 28.684
+       },
+       "upperMinusPrimary": {
+        "p50": 0.0,
+        "p95": 0.063
+       },
+       "primaryMinusNoInterp": {
+        "p50": 0.0,
+        "p95": 0.42
+       },
+       "holdMinusUpper": {
+        "p50": 0.0,
+        "p95": 0.548
+       },
+       "triggers": []
+      },
+      "charge": {
+       "nDrivesWithSegment": 178,
+       "nPaired": 167,
+       "upperOnlyDrives": 0,
+       "eligibleShare": {
+        "noInterp": 0.927,
+        "primary": 0.9382,
+        "upper": 0.9382
+       },
+       "upperPaired": {
+        "p50": 27.216,
+        "p95": 39.969
+       },
+       "primaryPaired": {
+        "p50": 27.185,
+        "p95": 39.902
+       },
+       "upperMinusPrimary": {
+        "p50": 0.0,
+        "p95": 0.053
+       },
+       "primaryMinusNoInterp": {
+        "p50": 0.0,
+        "p95": 0.146
+       },
+       "holdMinusUpper": {
+        "p50": 0.0,
+        "p95": 0.757
+       },
+       "triggers": []
+      }
+     },
+     "30": {
+      "discharge": {
+       "nDrivesWithSegment": 178,
+       "nPaired": 175,
+       "upperOnlyDrives": 0,
+       "eligibleShare": {
+        "noInterp": 0.9831,
+        "primary": 0.9831,
+        "upper": 0.9831
+       },
+       "upperPaired": {
+        "p50": 7.58,
+        "p95": 19.052
+       },
+       "primaryPaired": {
+        "p50": 7.332,
+        "p95": 19.052
+       },
+       "upperMinusPrimary": {
+        "p50": 0.0,
+        "p95": 0.736
+       },
+       "primaryMinusNoInterp": {
+        "p50": 0.0,
+        "p95": 0.308
+       },
+       "holdMinusUpper": {
+        "p50": 0.0,
+        "p95": 0.171
+       },
+       "triggers": []
+      },
+      "charge": {
+       "nDrivesWithSegment": 178,
+       "nPaired": 145,
+       "upperOnlyDrives": 3,
+       "eligibleShare": {
+        "noInterp": 0.7865,
+        "primary": 0.8146,
+        "upper": 0.8315
+       },
+       "upperPaired": {
+        "p50": 17.658,
+        "p95": 22.746
+       },
+       "primaryPaired": {
+        "p50": 17.603,
+        "p95": 22.746
+       },
+       "upperMinusPrimary": {
+        "p50": 0.0,
+        "p95": 0.02
+       },
+       "primaryMinusNoInterp": {
+        "p50": 0.0,
+        "p95": 0.061
+       },
+       "holdMinusUpper": {
+        "p50": 0.0,
+        "p95": 0.138
+       },
+       "triggers": []
+      }
+     },
+     "60": {
+      "discharge": {
+       "nDrivesWithSegment": 178,
+       "nPaired": 123,
+       "upperOnlyDrives": 0,
+       "eligibleShare": {
+        "noInterp": 0.691,
+        "primary": 0.691,
+        "upper": 0.691
+       },
+       "upperPaired": {
+        "p50": 3.166,
+        "p95": 10.799
+       },
+       "primaryPaired": {
+        "p50": 3.108,
+        "p95": 10.49
+       },
+       "upperMinusPrimary": {
+        "p50": 0.0,
+        "p95": 0.031
+       },
+       "primaryMinusNoInterp": {
+        "p50": 0.0,
+        "p95": 0.08
+       },
+       "holdMinusUpper": {
+        "p50": 0.004,
+        "p95": 0.109
+       },
+       "triggers": []
+      },
+      "charge": {
+       "nDrivesWithSegment": 178,
+       "nPaired": 80,
+       "upperOnlyDrives": 3,
+       "eligibleShare": {
+        "noInterp": 0.4438,
+        "primary": 0.4494,
+        "upper": 0.4663
+       },
+       "upperPaired": {
+        "p50": 13.292,
+        "p95": 18.181
+       },
+       "primaryPaired": {
+        "p50": 13.268,
+        "p95": 18.181
+       },
+       "upperMinusPrimary": {
+        "p50": 0.0,
+        "p95": 0.014
+       },
+       "primaryMinusNoInterp": {
+        "p50": 0.0,
+        "p95": 0.043
+       },
+       "holdMinusUpper": {
+        "p50": 0.0,
+        "p95": 0.084
+       },
+       "triggers": []
+      }
+     },
+     "120": {
+      "discharge": {
+       "nDrivesWithSegment": 177,
+       "nPaired": 45,
+       "upperOnlyDrives": 1,
+       "eligibleShare": {
+        "noInterp": 0.2429,
+        "primary": 0.2542,
+        "upper": 0.2599
+       },
+       "upperPaired": {
+        "p50": 1.681,
+        "p95": 4.634
+       },
+       "primaryPaired": {
+        "p50": 1.681,
+        "p95": 4.623
+       },
+       "upperMinusPrimary": {
+        "p50": 0.0,
+        "p95": 0.014
+       },
+       "primaryMinusNoInterp": {
+        "p50": 0.0,
+        "p95": 0.035
+       },
+       "holdMinusUpper": {
+        "p50": 0.0,
+        "p95": 0.052
+       },
+       "triggers": []
+      },
+      "charge": {
+       "nDrivesWithSegment": 177,
+       "nPaired": 14,
+       "upperOnlyDrives": 3,
+       "eligibleShare": {
+        "noInterp": 0.0734,
+        "primary": 0.0791,
+        "upper": 0.096
+       },
+       "upperPaired": {
+        "p50": 7.181,
+        "p95": 14.298
+       },
+       "primaryPaired": {
+        "p50": 7.181,
+        "p95": 14.298
+       },
+       "upperMinusPrimary": {
+        "p50": 0.0,
+        "p95": 0.001
+       },
+       "primaryMinusNoInterp": {
+        "p50": 0.0,
+        "p95": 0.004
+       },
+       "holdMinusUpper": {
+        "p50": 0.0,
+        "p95": 0.019
+       },
+       "triggers": []
+      }
+     }
+    },
+    "supportCollapse": {
+     "discharge": {
+      "primary": {
+       "shareByW": {
+        "5": 1.0,
+        "10": 1.0,
+        "30": 0.9831,
+        "60": 0.691,
+        "120": 0.2542
+       },
+       "firstWBelow50": 120,
+       "monotoneInW": true
+      },
+      "noInterp": {
+       "shareByW": {
+        "5": 1.0,
+        "10": 0.9944,
+        "30": 0.9831,
+        "60": 0.691,
+        "120": 0.2429
+       },
+       "firstWBelow50": 120,
+       "monotoneInW": true
+      },
+      "deadband": {
+       "shareByW": {
+        "5": 1.0,
+        "10": 1.0,
+        "30": 0.9831,
+        "60": 0.6966,
+        "120": 0.2542
+       },
+       "firstWBelow50": 120,
+       "monotoneInW": true
+      },
+      "upper": {
+       "shareByW": {
+        "5": 1.0,
+        "10": 1.0,
+        "30": 0.9831,
+        "60": 0.691,
+        "120": 0.2599
+       },
+       "firstWBelow50": 120
+      },
+      "bracketsDiffer": false,
+      "denominator": "drives with a supported segment of at least W seconds (shrinks with W)"
+     },
+     "charge": {
+      "primary": {
+       "shareByW": {
+        "5": 0.9944,
+        "10": 0.9382,
+        "30": 0.8146,
+        "60": 0.4494,
+        "120": 0.0791
+       },
+       "firstWBelow50": 60,
+       "monotoneInW": true
+      },
+      "noInterp": {
+       "shareByW": {
+        "5": 0.9831,
+        "10": 0.927,
+        "30": 0.7865,
+        "60": 0.4438,
+        "120": 0.0734
+       },
+       "firstWBelow50": 60,
+       "monotoneInW": true
+      },
+      "deadband": {
+       "shareByW": {
+        "5": 0.9944,
+        "10": 0.9382,
+        "30": 0.8146,
+        "60": 0.4494,
+        "120": 0.0847
+       },
+       "firstWBelow50": 60,
+       "monotoneInW": true
+      },
+      "upper": {
+       "shareByW": {
+        "5": 1.0,
+        "10": 0.9382,
+        "30": 0.8315,
+        "60": 0.4663,
+        "120": 0.096
+       },
+       "firstWBelow50": 60
+      },
+      "bracketsDiffer": false,
+      "denominator": "drives with a supported segment of at least W seconds (shrinks with W)"
      }
     }
    },
@@ -400490,6 +400910,424 @@
       "median": 3.28,
       "p95": 23.72,
       "n": 36389
+     }
+    },
+    "runEndBracket": {
+     "5": {
+      "discharge": {
+       "nDrivesWithSegment": 412,
+       "nPaired": 412,
+       "upperOnlyDrives": 0,
+       "eligibleShare": {
+        "noInterp": 1.0,
+        "primary": 1.0,
+        "upper": 1.0
+       },
+       "upperPaired": {
+        "p50": 25.132,
+        "p95": 38.001
+       },
+       "primaryPaired": {
+        "p50": 25.121,
+        "p95": 37.464
+       },
+       "upperMinusPrimary": {
+        "p50": 0.0,
+        "p95": 0.27
+       },
+       "primaryMinusNoInterp": {
+        "p50": 0.0,
+        "p95": 1.312
+       },
+       "holdMinusUpper": {
+        "p50": 0.0,
+        "p95": 5.185
+       },
+       "triggers": []
+      },
+      "charge": {
+       "nDrivesWithSegment": 412,
+       "nPaired": 412,
+       "upperOnlyDrives": 0,
+       "eligibleShare": {
+        "noInterp": 0.9976,
+        "primary": 1.0,
+        "upper": 1.0
+       },
+       "upperPaired": {
+        "p50": 32.319,
+        "p95": 56.831
+       },
+       "primaryPaired": {
+        "p50": 32.314,
+        "p95": 56.831
+       },
+       "upperMinusPrimary": {
+        "p50": 0.0,
+        "p95": 0.081
+       },
+       "primaryMinusNoInterp": {
+        "p50": 0.0,
+        "p95": 0.222
+       },
+       "holdMinusUpper": {
+        "p50": 0.0,
+        "p95": 2.512
+       },
+       "triggers": []
+      }
+     },
+     "10": {
+      "discharge": {
+       "nDrivesWithSegment": 412,
+       "nPaired": 412,
+       "upperOnlyDrives": 0,
+       "eligibleShare": {
+        "noInterp": 1.0,
+        "primary": 1.0,
+        "upper": 1.0
+       },
+       "upperPaired": {
+        "p50": 19.667,
+        "p95": 30.583
+       },
+       "primaryPaired": {
+        "p50": 19.643,
+        "p95": 30.467
+       },
+       "upperMinusPrimary": {
+        "p50": 0.0,
+        "p95": 0.451
+       },
+       "primaryMinusNoInterp": {
+        "p50": 0.0,
+        "p95": 2.53
+       },
+       "holdMinusUpper": {
+        "p50": 0.0,
+        "p95": 2.306
+       },
+       "triggers": []
+      },
+      "charge": {
+       "nDrivesWithSegment": 412,
+       "nPaired": 404,
+       "upperOnlyDrives": 5,
+       "eligibleShare": {
+        "noInterp": 0.9782,
+        "primary": 0.9806,
+        "upper": 0.9927
+       },
+       "upperPaired": {
+        "p50": 26.907,
+        "p95": 45.739
+       },
+       "primaryPaired": {
+        "p50": 26.907,
+        "p95": 44.464
+       },
+       "upperMinusPrimary": {
+        "p50": 0.0,
+        "p95": 0.178
+       },
+       "primaryMinusNoInterp": {
+        "p50": 0.0,
+        "p95": 0.821
+       },
+       "holdMinusUpper": {
+        "p50": 0.0,
+        "p95": 1.718
+       },
+       "triggers": []
+      }
+     },
+     "30": {
+      "discharge": {
+       "nDrivesWithSegment": 412,
+       "nPaired": 403,
+       "upperOnlyDrives": 2,
+       "eligibleShare": {
+        "noInterp": 0.9757,
+        "primary": 0.9782,
+        "upper": 0.983
+       },
+       "upperPaired": {
+        "p50": 9.034,
+        "p95": 20.212
+       },
+       "primaryPaired": {
+        "p50": 8.746,
+        "p95": 20.212
+       },
+       "upperMinusPrimary": {
+        "p50": 0.0,
+        "p95": 0.616
+       },
+       "primaryMinusNoInterp": {
+        "p50": 0.0,
+        "p95": 1.701
+       },
+       "holdMinusUpper": {
+        "p50": 0.023,
+        "p95": 0.552
+       },
+       "triggers": []
+      },
+      "charge": {
+       "nDrivesWithSegment": 412,
+       "nPaired": 364,
+       "upperOnlyDrives": 5,
+       "eligibleShare": {
+        "noInterp": 0.8689,
+        "primary": 0.8835,
+        "upper": 0.8956
+       },
+       "upperPaired": {
+        "p50": 18.061,
+        "p95": 25.981
+       },
+       "primaryPaired": {
+        "p50": 18.052,
+        "p95": 25.9
+       },
+       "upperMinusPrimary": {
+        "p50": 0.0,
+        "p95": 0.075
+       },
+       "primaryMinusNoInterp": {
+        "p50": 0.0,
+        "p95": 0.514
+       },
+       "holdMinusUpper": {
+        "p50": 0.0,
+        "p95": 0.466
+       },
+       "triggers": []
+      }
+     },
+     "60": {
+      "discharge": {
+       "nDrivesWithSegment": 412,
+       "nPaired": 318,
+       "upperOnlyDrives": 2,
+       "eligibleShare": {
+        "noInterp": 0.7646,
+        "primary": 0.7718,
+        "upper": 0.7767
+       },
+       "upperPaired": {
+        "p50": 3.358,
+        "p95": 12.742
+       },
+       "primaryPaired": {
+        "p50": 3.226,
+        "p95": 12.422
+       },
+       "upperMinusPrimary": {
+        "p50": 0.001,
+        "p95": 0.049
+       },
+       "primaryMinusNoInterp": {
+        "p50": 0.001,
+        "p95": 0.199
+       },
+       "holdMinusUpper": {
+        "p50": 0.017,
+        "p95": 0.199
+       },
+       "triggers": []
+      },
+      "charge": {
+       "nDrivesWithSegment": 412,
+       "nPaired": 185,
+       "upperOnlyDrives": 3,
+       "eligibleShare": {
+        "noInterp": 0.4199,
+        "primary": 0.449,
+        "upper": 0.4563
+       },
+       "upperPaired": {
+        "p50": 13.612,
+        "p95": 18.589
+       },
+       "primaryPaired": {
+        "p50": 13.583,
+        "p95": 18.154
+       },
+       "upperMinusPrimary": {
+        "p50": 0.0,
+        "p95": 0.072
+       },
+       "primaryMinusNoInterp": {
+        "p50": 0.0,
+        "p95": 0.086
+       },
+       "holdMinusUpper": {
+        "p50": 0.0,
+        "p95": 0.221
+       },
+       "triggers": []
+      }
+     },
+     "120": {
+      "discharge": {
+       "nDrivesWithSegment": 409,
+       "nPaired": 126,
+       "upperOnlyDrives": 0,
+       "eligibleShare": {
+        "noInterp": 0.3056,
+        "primary": 0.3081,
+        "upper": 0.3081
+       },
+       "upperPaired": {
+        "p50": 1.952,
+        "p95": 5.367
+       },
+       "primaryPaired": {
+        "p50": 1.95,
+        "p95": 5.36
+       },
+       "upperMinusPrimary": {
+        "p50": 0.001,
+        "p95": 0.023
+       },
+       "primaryMinusNoInterp": {
+        "p50": 0.001,
+        "p95": 0.073
+       },
+       "holdMinusUpper": {
+        "p50": 0.009,
+        "p95": 0.112
+       },
+       "triggers": []
+      },
+      "charge": {
+       "nDrivesWithSegment": 409,
+       "nPaired": 25,
+       "upperOnlyDrives": 0,
+       "eligibleShare": {
+        "noInterp": 0.0513,
+        "primary": 0.0611,
+        "upper": 0.0611
+       },
+       "upperPaired": {
+        "p50": 7.62,
+        "p95": 15.744
+       },
+       "primaryPaired": {
+        "p50": 7.62,
+        "p95": 15.743
+       },
+       "upperMinusPrimary": {
+        "p50": 0.0,
+        "p95": 0.009
+       },
+       "primaryMinusNoInterp": {
+        "p50": 0.0,
+        "p95": 0.013
+       },
+       "holdMinusUpper": {
+        "p50": 0.0,
+        "p95": 0.094
+       },
+       "triggers": []
+      }
+     }
+    },
+    "supportCollapse": {
+     "discharge": {
+      "primary": {
+       "shareByW": {
+        "5": 1.0,
+        "10": 1.0,
+        "30": 0.9782,
+        "60": 0.7718,
+        "120": 0.3081
+       },
+       "firstWBelow50": 120,
+       "monotoneInW": true
+      },
+      "noInterp": {
+       "shareByW": {
+        "5": 1.0,
+        "10": 1.0,
+        "30": 0.9757,
+        "60": 0.7646,
+        "120": 0.3056
+       },
+       "firstWBelow50": 120,
+       "monotoneInW": true
+      },
+      "deadband": {
+       "shareByW": {
+        "5": 1.0,
+        "10": 1.0,
+        "30": 0.9782,
+        "60": 0.7913,
+        "120": 0.3105
+       },
+       "firstWBelow50": 120,
+       "monotoneInW": true
+      },
+      "upper": {
+       "shareByW": {
+        "5": 1.0,
+        "10": 1.0,
+        "30": 0.983,
+        "60": 0.7767,
+        "120": 0.3081
+       },
+       "firstWBelow50": 120
+      },
+      "bracketsDiffer": false,
+      "denominator": "drives with a supported segment of at least W seconds (shrinks with W)"
+     },
+     "charge": {
+      "primary": {
+       "shareByW": {
+        "5": 1.0,
+        "10": 0.9806,
+        "30": 0.8835,
+        "60": 0.449,
+        "120": 0.0611
+       },
+       "firstWBelow50": 60,
+       "monotoneInW": true
+      },
+      "noInterp": {
+       "shareByW": {
+        "5": 0.9976,
+        "10": 0.9782,
+        "30": 0.8689,
+        "60": 0.4199,
+        "120": 0.0513
+       },
+       "firstWBelow50": 60,
+       "monotoneInW": true
+      },
+      "deadband": {
+       "shareByW": {
+        "5": 1.0,
+        "10": 0.983,
+        "30": 0.8932,
+        "60": 0.4587,
+        "120": 0.066
+       },
+       "firstWBelow50": 60,
+       "monotoneInW": true
+      },
+      "upper": {
+       "shareByW": {
+        "5": 1.0,
+        "10": 0.9927,
+        "30": 0.8956,
+        "60": 0.4563,
+        "120": 0.0611
+       },
+       "firstWBelow50": 60
+      },
+      "bracketsDiffer": false,
+      "denominator": "drives with a supported segment of at least W seconds (shrinks with W)"
      }
     }
    }
