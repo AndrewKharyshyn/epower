@@ -1,0 +1,718 @@
+{
+ "milestone": "M573",
+ "spec": "analyses/M573_spec.md Rev 1",
+ "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+ "masterRows": 606,
+ "analysisFrame": {
+  "n": 576,
+  "days": 117,
+  "firstDate": "2026-05-15",
+  "lastDate": "2026-10-17",
+  "stepDate": "2026-10-01",
+  "windowMonths": 5.09
+ },
+ "item1_2_models": {
+  "M0_linear_released": {
+   "est": 0.5239,
+   "se": 0.13,
+   "ci95": [
+    0.2665,
+    0.7814
+   ],
+   "n": 576,
+   "G": 117,
+   "aic": 3150.89,
+   "r2": 0.2516,
+   "cv_rmse_day_blocked": 3.727,
+   "formula": "y ~ months + T + I"
+  },
+  "M1_linear_soc": {
+   "est": 0.4712,
+   "se": 0.1269,
+   "ci95": [
+    0.2198,
+    0.7226
+   ],
+   "n": 576,
+   "G": 117,
+   "aic": 3123.12,
+   "r2": 0.2918,
+   "cv_rmse_day_blocked": 3.64,
+   "formula": "y ~ months + T + I + soc + socr"
+  },
+  "M2_linear_soc_rest": {
+   "est": 0.3601,
+   "se": 0.1298,
+   "ci95": [
+    0.1029,
+    0.6173
+   ],
+   "n": 576,
+   "G": 117,
+   "aic": 3113.92,
+   "r2": 0.3078,
+   "cv_rmse_day_blocked": 3.607,
+   "formula": "y ~ months + T + I + soc + socr + lrest + first"
+  },
+  "M3_step": {
+   "est": 0.1568,
+   "se": 0.1443,
+   "ci95": [
+    -0.129,
+    0.4427
+   ],
+   "n": 576,
+   "G": 117,
+   "aic": 3130.15,
+   "r2": 0.2806,
+   "cv_rmse_day_blocked": 3.669,
+   "step_term": {
+    "est": 2.2631,
+    "se": 0.5529,
+    "ci95": [
+     1.1681,
+     3.3582
+    ]
+   },
+   "formula": "y ~ months + step + T + I"
+  },
+  "M4_step_soc": {
+   "est": 0.1325,
+   "se": 0.1383,
+   "ci95": [
+    -0.1414,
+    0.4065
+   ],
+   "n": 576,
+   "G": 117,
+   "aic": 3104.72,
+   "r2": 0.3164,
+   "cv_rmse_day_blocked": 3.595,
+   "step_term": {
+    "est": 2.093,
+    "se": 0.5784,
+    "ci95": [
+     0.9473,
+     3.2387
+    ]
+   },
+   "formula": "y ~ months + step + T + I + soc + socr"
+  },
+  "M5_step_soc_rest": {
+   "est": 0.0208,
+   "se": 0.1398,
+   "ci95": [
+    -0.2561,
+    0.2977
+   ],
+   "n": 576,
+   "G": 117,
+   "aic": 3095.38,
+   "r2": 0.332,
+   "cv_rmse_day_blocked": 3.56,
+   "step_term": {
+    "est": 2.0842,
+    "se": 0.5698,
+    "ci95": [
+     0.9556,
+     3.2128
+    ]
+   },
+   "formula": "y ~ months + step + T + I + soc + socr + lrest + first"
+  },
+  "M6_month_fixed_effects": {
+   "aic": 3095.79,
+   "r2": 0.3339,
+   "n": 576,
+   "cv_rmse_day_blocked": 3.569,
+   "formula": "y ~ T + I + soc + socr + month dummies (no linear months term)"
+  },
+  "changePointScan": {
+   "best": [
+    {
+     "day": "2026-09-27",
+     "jump_mv": 2.41
+    },
+    {
+     "day": "2026-09-26",
+     "jump_mv": 2.36
+    },
+    {
+     "day": "2026-09-25",
+     "jump_mv": 2.33
+    }
+   ],
+   "note": "descriptive; residual of y ~ T + I + soc; not a tested date"
+  }
+ },
+ "item3_dependence": {
+  "weekCluster_linear": {
+   "est": 0.4712,
+   "se": 0.1816,
+   "ci95": [
+    0.0946,
+    0.8478
+   ],
+   "n": 576,
+   "G": 23,
+   "aic": 3123.12,
+   "r2": 0.2918
+  },
+  "weekCluster_step": {
+   "est": 0.1325,
+   "se": 0.1199,
+   "ci95": [
+    -0.1162,
+    0.3813
+   ],
+   "n": 576,
+   "G": 23,
+   "aic": 3104.72,
+   "r2": 0.3164
+  },
+  "weekBlockBootstrap_linear": {
+   "ci95": [
+    0.0574,
+    0.8561
+   ],
+   "median": 0.4657,
+   "pGt0": 0.984,
+   "nBlocks": 23,
+   "draws": 4000,
+   "seed": 42
+  },
+  "weekBlockBootstrap_step": {
+   "ci95": [
+    -0.1654,
+    0.4035
+   ],
+   "median": 0.1392,
+   "pGt0": 0.8405,
+   "nBlocks": 23,
+   "draws": 4000,
+   "seed": 42
+  },
+  "leaveOneWeekOut_linear": [
+   {
+    "weekDropped": "2026-20",
+    "est": 0.5172,
+    "ci95": [
+     0.2224,
+     0.812
+    ]
+   },
+   {
+    "weekDropped": "2026-21",
+    "est": 0.4698,
+    "ci95": [
+     0.1979,
+     0.7417
+    ]
+   },
+   {
+    "weekDropped": "2026-22",
+    "est": 0.4857,
+    "ci95": [
+     0.2329,
+     0.7385
+    ]
+   },
+   {
+    "weekDropped": "2026-23",
+    "est": 0.4913,
+    "ci95": [
+     0.2372,
+     0.7453
+    ]
+   },
+   {
+    "weekDropped": "2026-24",
+    "est": 0.5295,
+    "ci95": [
+     0.268,
+     0.791
+    ]
+   },
+   {
+    "weekDropped": "2026-25",
+    "est": 0.4895,
+    "ci95": [
+     0.2222,
+     0.7569
+    ]
+   },
+   {
+    "weekDropped": "2026-26",
+    "est": 0.4569,
+    "ci95": [
+     0.2023,
+     0.7115
+    ]
+   },
+   {
+    "weekDropped": "2026-27",
+    "est": 0.4589,
+    "ci95": [
+     0.2051,
+     0.7128
+    ]
+   },
+   {
+    "weekDropped": "2026-28",
+    "est": 0.469,
+    "ci95": [
+     0.2156,
+     0.7224
+    ]
+   },
+   {
+    "weekDropped": "2026-29",
+    "est": 0.4821,
+    "ci95": [
+     0.2317,
+     0.7324
+    ]
+   },
+   {
+    "weekDropped": "2026-30",
+    "est": 0.4937,
+    "ci95": [
+     0.2301,
+     0.7573
+    ]
+   },
+   {
+    "weekDropped": "2026-31",
+    "est": 0.4728,
+    "ci95": [
+     0.2219,
+     0.7237
+    ]
+   },
+   {
+    "weekDropped": "2026-32",
+    "est": 0.4538,
+    "ci95": [
+     0.209,
+     0.6986
+    ]
+   },
+   {
+    "weekDropped": "2026-33",
+    "est": 0.4712,
+    "ci95": [
+     0.222,
+     0.7205
+    ]
+   },
+   {
+    "weekDropped": "2026-34",
+    "est": 0.5013,
+    "ci95": [
+     0.2584,
+     0.7441
+    ]
+   },
+   {
+    "weekDropped": "2026-35",
+    "est": 0.4612,
+    "ci95": [
+     0.2157,
+     0.7068
+    ]
+   },
+   {
+    "weekDropped": "2026-36",
+    "est": 0.4994,
+    "ci95": [
+     0.246,
+     0.7528
+    ]
+   },
+   {
+    "weekDropped": "2026-37",
+    "est": 0.5029,
+    "ci95": [
+     0.2539,
+     0.7519
+    ]
+   },
+   {
+    "weekDropped": "2026-38",
+    "est": 0.5104,
+    "ci95": [
+     0.2532,
+     0.7676
+    ]
+   },
+   {
+    "weekDropped": "2026-39",
+    "est": 0.4568,
+    "ci95": [
+     0.1954,
+     0.7181
+    ]
+   },
+   {
+    "weekDropped": "2026-40",
+    "est": 0.4191,
+    "ci95": [
+     0.1489,
+     0.6894
+    ]
+   },
+   {
+    "weekDropped": "2026-41",
+    "est": 0.4327,
+    "ci95": [
+     0.1417,
+     0.7238
+    ]
+   },
+   {
+    "weekDropped": "2026-42",
+    "est": 0.2996,
+    "ci95": [
+     0.0639,
+     0.5353
+    ]
+   }
+  ],
+  "leaveOneWeekOut_range": [
+   0.2996,
+   0.5295
+  ],
+  "dayMeanResidualAutocorrLag1": 0.268
+ },
+ "item4_matched": {
+  "definition": "late (2026-10-10..2026-10-17) minus September, coarsened-exact matched on pack-T class (5), peak-I class (5), SOC class (4), distance class (3); weights = late drives per cell",
+  "effect_mv": 3.34,
+  "ci95_dayclustered_bootstrap": [
+   1.32,
+   6.3
+  ],
+  "matchedCells": 20,
+  "lateDrivesMatched": 23,
+  "lateDrivesTotal": 46,
+  "sepDrives": 181,
+  "lateDays": 8,
+  "sepDays": 30,
+  "draws": 4000,
+  "seed": 42
+ },
+ "item5_cadence": {
+  "stepTermWithRegime": {
+   "est": 2.3153,
+   "se": 0.6343,
+   "ci95": [
+    1.059,
+    3.5716
+   ]
+  },
+  "regimeTermWithStep": {
+   "est": 0.7087,
+   "se": 0.5081,
+   "ci95": [
+    -0.2976,
+    1.715
+   ]
+  },
+  "byPeriod": {
+   "2026-05": {
+    "n": 38,
+    "slowShare": 0.71,
+    "medianPeriod_s": 1.344
+   },
+   "2026-06": {
+    "n": 63,
+    "slowShare": 1.0,
+    "medianPeriod_s": 1.313
+   },
+   "2026-07": {
+    "n": 93,
+    "slowShare": 1.0,
+    "medianPeriod_s": 1.227
+   },
+   "2026-08": {
+    "n": 111,
+    "slowShare": 0.37,
+    "medianPeriod_s": 0.859
+   },
+   "2026-09": {
+    "n": 186,
+    "slowShare": 0.83,
+    "medianPeriod_s": 1.417
+   },
+   "2026-10": {
+    "n": 68,
+    "slowShare": 0.29,
+    "medianPeriod_s": 0.869
+   },
+   "Oct10-17": {
+    "n": 47,
+    "slowShare": 0.36,
+    "medianPeriod_s": 0.899
+   }
+  },
+  "slopeWithoutRegime": {
+   "est": 0.4712,
+   "ci95": [
+    0.2198,
+    0.7226
+   ]
+  },
+  "slopeWithRegime": {
+   "est": 0.5081,
+   "ci95": [
+    0.2349,
+    0.7812
+   ]
+  },
+  "slopeWithRegimeAndStep": {
+   "est": 0.1881,
+   "ci95": [
+    -0.0782,
+    0.4543
+   ]
+  },
+  "regimeRule": "slow: I_sample_period_s >= 1.05 s (M379a)"
+ },
+ "item4b_cold_start_and_segments": {
+  "definition": "cold start = first drive after >4 h rest; late = 2026-10-10..2026-10-17 vs September; effect adjusted for start-sensor mean T and the window median |I| (day-clustered, t(G-1))",
+  "startTempMedians_cold": {
+   "0.0": {
+    "t1": 19.0,
+    "t2": 19.0,
+    "t3": 17.0,
+    "t4": 17.0,
+    "tmean": 18.0,
+    "trange": 1.0,
+    "pairgrad": 1.0
+   },
+   "1.0": {
+    "t1": 14.0,
+    "t2": 14.0,
+    "t3": 13.0,
+    "t4": 13.0,
+    "tmean": 13.5,
+    "trange": 1.0,
+    "pairgrad": 1.0
+   }
+  },
+  "nCold": {
+   "sep": 33,
+   "late": 11
+  },
+  "wholeDriveLoadedP95_cold": {
+   "lateEffect_mv": 5.91,
+   "ci95": [
+    3.03,
+    8.79
+   ],
+   "n": 44,
+   "nLate": 11,
+   "days": 28
+  },
+  "wholeDriveLoadedP95_cold_plusPairGradient": {
+   "lateEffect_mv": 5.25,
+   "ci95": [
+    1.84,
+    8.67
+   ],
+   "n": 44,
+   "nLate": 11,
+   "days": 28
+  },
+  "earlyWindow_0_2min_median": {
+   "lateEffect_mv": -0.96,
+   "ci95": [
+    -2.22,
+    0.3
+   ],
+   "n": 44,
+   "nLate": 11,
+   "days": 28
+  },
+  "earlyWindow_0_2min_p95": {
+   "lateEffect_mv": 0.36,
+   "ci95": [
+    -1.8,
+    2.52
+   ],
+   "n": 44,
+   "nLate": 11,
+   "days": 28
+  },
+  "earlyWindow_2_10min_median": {
+   "lateEffect_mv": 0.36,
+   "ci95": [
+    -1.51,
+    2.24
+   ],
+   "n": 44,
+   "nLate": 11,
+   "days": 28
+  },
+  "earlyWindow_2_10min_p95": {
+   "lateEffect_mv": 1.33,
+   "ci95": [
+    -1.61,
+    4.27
+   ],
+   "n": 44,
+   "nLate": 11,
+   "days": 28
+  },
+  "first20min_loaded_p95_allDrives": {
+   "lateEffect_mv": 3.06,
+   "ci95": [
+    1.98,
+    4.14
+   ],
+   "n": 145,
+   "nLate": 41,
+   "days": 28
+  },
+  "first20min_loaded_p95_cold": {
+   "lateEffect_mv": 4.39,
+   "ci95": [
+    1.07,
+    7.72
+   ],
+   "n": 40,
+   "nLate": 9,
+   "days": 27
+  },
+  "sensorResolution": "integer degC; a gradient below 1 degC is not resolvable; cell-level temperatures are not logged"
+ },
+ "item7_external": {
+  "status": "NOT INGESTED, descriptive only; never enters a fit or an interval",
+  "residualModel": "y ~ T + I + soc on the master analysis frame (n=576)",
+  "files": [
+   {
+    "file": "2026-11-01 14-36-31.csv",
+    "sha256": "ff76258d7a6e5f15262bb944c193a3ccc3ba4ec8bb281dd86adbc1851b96a332",
+    "I_sample_period_s": 1.535,
+    "regime": "slow",
+    "T": 11.3,
+    "peak_I": 88.2,
+    "soc": 65.94,
+    "loaded_p95": 26.0,
+    "n_loaded": 87,
+    "mean_spread": 12.6,
+    "modelResidual_mv": 3.12
+   },
+   {
+    "file": "2026-11-01 15-10-23.csv",
+    "sha256": "7799281363ae9eceeec2d0dbcbeaedc5942f880d84f166b7756bb71dcf4859c0",
+    "I_sample_period_s": 1.445,
+    "regime": "slow",
+    "T": 16.3,
+    "peak_I": 111.8,
+    "soc": 60.17,
+    "loaded_p95": 37.6,
+    "n_loaded": 24,
+    "mean_spread": 12.7,
+    "modelResidual_mv": 14.84
+   },
+   {
+    "file": "2026-11-01 16-11-27.csv",
+    "sha256": "862d16e5888520b6e70ee8b5984b242591f7169cfd1749c1c81580f8751a9531",
+    "I_sample_period_s": 1.49,
+    "regime": "slow",
+    "T": 20.6,
+    "peak_I": 112.0,
+    "soc": 60.58,
+    "loaded_p95": 31.0,
+    "n_loaded": 71,
+    "mean_spread": 11.9,
+    "modelResidual_mv": 8.18
+   },
+   {
+    "file": "2026-11-01 17-36-14.csv",
+    "sha256": "586433022d697ac27bbfd82a3c4881dc4b091e0ec81d91cb12fe8508a5930787",
+    "I_sample_period_s": 1.568,
+    "regime": "slow",
+    "T": 22.0,
+    "peak_I": 81.8,
+    "soc": 64.94,
+    "loaded_p95": 27.0,
+    "n_loaded": 26,
+    "mean_spread": 12.8,
+    "modelResidual_mv": 4.64
+   },
+   {
+    "file": "2026-11-01 17-56-38.csv",
+    "sha256": "00be17f68f615f87f6e8be3f5e2fea70c805398de18ed6555a5f8eb5d332f0f2",
+    "I_sample_period_s": 1.51,
+    "regime": "slow",
+    "T": 23.5,
+    "peak_I": 64.5,
+    "soc": 59.04,
+    "loaded_p95": 24.1,
+    "n_loaded": 19,
+    "mean_spread": 11.2,
+    "modelResidual_mv": 3.61
+   },
+   {
+    "file": "2026-11-01 18-15-30.csv",
+    "sha256": "af8e0861df465d272a113cc738e5abf94f6ece055f100b6642368943f546befc",
+    "I_sample_period_s": 1.472,
+    "regime": "slow",
+    "T": 23.8,
+    "peak_I": 70.3,
+    "soc": 57.64,
+    "loaded_p95": 56.2,
+    "n_loaded": 8,
+    "mean_spread": 10.4,
+    "modelResidual_mv": 35.73
+   },
+   {
+    "file": "2026-11-02 07-40-02.csv",
+    "sha256": "9737a0aebc4ce8f426bdbdb820d24f602501d6f89c3e65414b1de3e91872a873",
+    "I_sample_period_s": 1.408,
+    "regime": "slow",
+    "T": 10.4,
+    "peak_I": 30.6,
+    "soc": 58.6,
+    "loaded_p95": 25.0,
+    "n_loaded": 21,
+    "mean_spread": 12.3,
+    "modelResidual_mv": 5.97
+   },
+   {
+    "file": "2026-11-02 07-57-54.csv",
+    "sha256": "5bb409fbaccccadefd8ac3355cd98e5b5fd5fbd79380260034e899fe87be06d8",
+    "I_sample_period_s": 1.486,
+    "regime": "slow",
+    "T": 13.1,
+    "peak_I": 45.8,
+    "soc": 74.25,
+    "loaded_p95": null,
+    "n_loaded": null,
+    "mean_spread": 12.3,
+    "modelResidual_mv": null
+   },
+   {
+    "file": "2026-11-02 08-12-15.csv",
+    "sha256": "af880298ce61b3288a4123076056c968b47f9754ebded8dc348c43df57df5513",
+    "I_sample_period_s": 1.472,
+    "regime": "slow",
+    "T": 13.6,
+    "peak_I": 62.0,
+    "soc": 57.83,
+    "loaded_p95": 25.5,
+    "n_loaded": 16,
+    "mean_spread": 12.1,
+    "modelResidual_mv": 5.3
+   }
+  ],
+  "summary_nLoadedGe15": {
+   "n": 7,
+   "residualMedian_mv": 5.3,
+   "loadedP95Median_mv": 26.0
+  },
+  "modelResidualSD_mv": 3.67
+ },
+ "masterMd5After": "5556a0c6c8bcde0f6c64b8b9655208ed"
+}

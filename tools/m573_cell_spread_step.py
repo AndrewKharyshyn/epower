@@ -1,0 +1,331 @@
+#!/usr/bin/env python3
+"""M573 (spec analyses/M573_spec.md Rev 1): step versus trend in the loaded p95 cell-spread slope. Analysis only: reads drive_master.csv and raw CSVs
+read-only, writes analyses/M573_step_vs_trend.json, touches nothing else (no ingestion, no payload key, no master column).
+Items: 1 step vs trend (AIC, day-blocked CV), 2 covariates (SOC, rest time), 3 dependence (leave-one-week-out, ISO-week cluster, week-block bootstrap,
+seed 42, 4000), 4 matched-state contrast, 4b cold-start sensors and equal-length segments (raw), 5 logger cadence by month, 7 external descriptive check of
+un-ingested files (never enters a fit). Usage: python tools/m573_cell_spread_step.py [--skip-raw] [--external DIR NAME ...] [--out PATH]"""
+import argparse, hashlib, json, os, sys
+import numpy as np
+import pandas as pd
+import statsmodels.api as sm
+from scipy import stats
+
+ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+sys.path.insert(0, ROOT)
+SEED, NBOOT = 42, 4000
+STEP_DATE = "2026-10-01"
+LATE = ("2026-10-10", "2026-10-17")
+SEP = ("2026-09-01", "2026-09-30")
+YCOL, TCOL, ICOL = "cell_spread_loaded_p95_mv", "T_pack_mean_avg", "peak_I_discharge"
+
+
+def md5(path):
+    h = hashlib.md5()
+    with open(path, "rb") as f:
+        for b in iter(lambda: f.read(1 << 20), b""):
+            h.update(b)
+    return h.hexdigest()
+
+
+def sha256(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for b in iter(lambda: f.read(1 << 20), b""):
+            h.update(b)
+    return h.hexdigest()
+
+
+def _r(x, nd=3):
+    return None if x is None or (isinstance(x, float) and not np.isfinite(x)) else round(float(x), nd)
+
+
+def fit_cluster(d, cols, group="day", ycol="y", coef="months"):
+    """Cluster-robust OLS (released protocol: cluster covariance, t(G-1) interval). Returns the estimate of `coef` plus n, G, AIC, R2."""
+    X = sm.add_constant(d[cols].astype(float))
+    ols = sm.OLS(d[ycol].astype(float).values, X)
+    res = ols.fit(cov_type="cluster", cov_kwds={"groups": d[group].values})
+    G = int(d[group].nunique())
+    tcrit = float(stats.t.ppf(0.975, G - 1)) if G > 1 else float(stats.norm.ppf(0.975))
+    b, se = float(res.params[coef]), float(res.bse[coef])
+    return {"est": _r(b, 4), "se": _r(se, 4), "ci95": [_r(b - tcrit * se, 4), _r(b + tcrit * se, 4)], "n": int(len(d)), "G": G,
+            "aic": _r(ols.fit().aic, 2), "r2": _r(res.rsquared, 4)}
+
+
+def week_block_bootstrap(d, cols, coef="months", n=NBOOT, seed=SEED, group="wk", ycol="y"):
+    """Percentile interval of `coef` with calendar-week blocks as the resampling unit."""
+    rng = np.random.default_rng(seed)
+    keys = d[group].unique()
+    parts = {k: g for k, g in d.groupby(group)}
+    j = 1 + cols.index(coef)
+    out = []
+    for _ in range(n):
+        s = pd.concat([parts[k] for k in rng.choice(keys, len(keys))])
+        A = np.c_[np.ones(len(s)), s[cols].values.astype(float)]
+        out.append(np.linalg.lstsq(A, s[ycol].values.astype(float), rcond=None)[0][j])
+    out = np.asarray(out)
+    return {"ci95": [_r(np.percentile(out, 2.5), 4), _r(np.percentile(out, 97.5), 4)], "median": _r(np.median(out), 4), "pGt0": _r((out > 0).mean(), 4), "nBlocks": int(len(keys)), "draws": n, "seed": seed}
+
+
+def day_blocked_cv(d, cols, k=10, ycol="y"):
+    """RMSE of out-of-fold predictions with whole calendar days held out (deterministic folds: days sorted, dealt round-robin)."""
+    days = np.array(sorted(d["day"].unique()))
+    fold = {dy: i % k for i, dy in enumerate(days)}
+    f = d["day"].map(fold).values
+    err = np.full(len(d), np.nan)
+    X = sm.add_constant(d[cols].astype(float)).values
+    y = d[ycol].astype(float).values
+    for i in range(k):
+        te = f == i
+        if te.all() or not te.any():
+            continue
+        beta = np.linalg.lstsq(X[~te], y[~te], rcond=None)[0]
+        err[te] = y[te] - X[te] @ beta
+    return _r(np.sqrt(np.nanmean(err ** 2)), 3)
+
+
+def month_fe(d):
+    m = pd.get_dummies(d["date"].dt.strftime("%m"), prefix="m", drop_first=True).astype(float)
+    return pd.concat([d, m.set_index(d.index)], axis=1), list(m.columns)
+
+
+def build_frame(dm):
+    """Analysis frame on the canonical-clean set exactly as the released estimator (degradation_trends._prep), plus covariates."""
+    import degradation_trends as dt
+    full = dm.copy()
+    full["_ts"] = pd.to_datetime(full["date"].astype(str) + " " + full["time_start"].astype(str), errors="coerce")
+    full["_te"] = pd.to_datetime(full["date"].astype(str) + " " + full["time_end"].astype(str), errors="coerce")
+    full = full.sort_values("_ts")
+    full["rest_h"] = (full["_ts"] - full["_te"].shift()).dt.total_seconds() / 3600.0
+    d = dt._prep(full, YCOL, icol=ICOL)
+    d = d.dropna(subset=["T", "I"]).copy()
+    d["soc"] = d["rf_socmean_wtd_pct"]
+    d["socr"] = d["soc_max"] - d["soc_min"]
+    d["lrest"] = np.log1p(d["rest_h"].clip(0, 200))
+    d["first"] = (d["rest_h"] > 4).astype(float)
+    d["step"] = (d["date"] >= STEP_DATE).astype(float)
+    d["wk"] = d["date"].dt.strftime("%G-%V")
+    d["slow"] = (d["I_sample_period_s"] >= 1.05).astype(float)
+    return d
+
+
+def item_models(d):
+    base = ["months", "T", "I"]
+    soc = base + ["soc", "socr"]
+    rest = soc + ["lrest", "first"]
+    specs = {"M0_linear_released": base, "M1_linear_soc": soc, "M2_linear_soc_rest": rest,
+             "M3_step": ["months", "step", "T", "I"], "M4_step_soc": ["months", "step"] + soc[1:], "M5_step_soc_rest": ["months", "step"] + rest[1:]}
+    out = {}
+    dd = d.dropna(subset=["soc", "socr", "lrest"]).copy()
+    for name, cols in specs.items():
+        dat = d if name == "M0_linear_released" else dd
+        r = fit_cluster(dat, cols)
+        r["cv_rmse_day_blocked"] = day_blocked_cv(dat, cols)
+        if "step" in cols:
+            r["step_term"] = {k: v for k, v in fit_cluster(dat, cols, coef="step").items() if k in ("est", "se", "ci95")}
+        r["formula"] = "y ~ " + " + ".join(cols)
+        out[name] = r
+    fe, fe_cols = month_fe(dd)
+    r = fit_cluster(fe, ["T", "I", "soc", "socr"] + fe_cols, coef="T")
+    out["M6_month_fixed_effects"] = {"aic": r["aic"], "r2": r["r2"], "n": r["n"], "cv_rmse_day_blocked": day_blocked_cv(fe, ["T", "I", "soc", "socr"] + fe_cols),
+                                     "formula": "y ~ T + I + soc + socr + month dummies (no linear months term)"}
+    # data-driven single level-step scan on the M1 residual (descriptive; the pre-set date STEP_DATE is the tested one)
+    X = sm.add_constant(dd[["T", "I", "soc"]]); res = sm.OLS(dd["y"], X).fit().resid
+    dd = dd.assign(res=res)
+    days = sorted(dd["day"].unique())
+    scan = []
+    for c in days[20:-10]:
+        a, b = dd.loc[dd["day"] < c, "res"], dd.loc[dd["day"] >= c, "res"]
+        scan.append((c, float(b.mean() - a.mean()), float(((a - a.mean()) ** 2).sum() + ((b - b.mean()) ** 2).sum())))
+    scan.sort(key=lambda t: t[2])
+    out["changePointScan"] = {"best": [{"day": c, "jump_mv": _r(j, 2)} for c, j, _ in scan[:3]], "note": "descriptive; residual of y ~ T + I + soc; not a tested date"}
+    return out, dd
+
+
+def item_dependence(dd):
+    cols = ["months", "T", "I", "soc", "socr"]
+    stp = ["months", "step", "T", "I", "soc", "socr"]
+    out = {"weekCluster_linear": fit_cluster(dd, cols, group="wk"), "weekCluster_step": fit_cluster(dd, stp, group="wk"),
+           "weekBlockBootstrap_linear": week_block_bootstrap(dd, cols), "weekBlockBootstrap_step": week_block_bootstrap(dd, stp)}
+    loo = []
+    for w in sorted(dd["wk"].unique()):
+        r = fit_cluster(dd[dd["wk"] != w], cols)
+        loo.append({"weekDropped": w, "est": r["est"], "ci95": r["ci95"]})
+    out["leaveOneWeekOut_linear"] = loo
+    out["leaveOneWeekOut_range"] = [min(x["est"] for x in loo), max(x["est"] for x in loo)]
+    res = sm.OLS(dd["y"], sm.add_constant(dd[cols])).fit().resid
+    dm_ = dd.assign(res=res.values).groupby("day")["res"].mean()
+    out["dayMeanResidualAutocorrLag1"] = _r(dm_.autocorr(1), 3)
+    return out
+
+
+def item_matched(dd):
+    d = dd.copy()
+    d["grp"] = np.where((d["date"] >= LATE[0]) & (d["date"] <= LATE[1] + " 23:59"), "late", np.where((d["date"] >= SEP[0]) & (d["date"] <= SEP[1] + " 23:59"), "sep", None))
+    d = d[d["grp"].notna()].copy()
+    d["cT"] = pd.cut(d["T"], [-99, 15, 20, 25, 30, 99], labels=False)
+    d["cI"] = pd.cut(d["I"], [0, 60, 90, 120, 160, 999], labels=False)
+    d["cS"] = pd.cut(d["soc"], [0, 57, 61, 65, 100], labels=False)
+    d["cD"] = pd.cut(d["distance_km"], [-1, 5, 25, 9999], labels=False)
+
+    def eff(x):
+        cells = x.groupby(["cT", "cI", "cS", "cD", "grp"])["y"].agg(["mean", "size"]).unstack("grp").dropna()
+        if cells.empty:
+            return np.nan, 0, 0
+        w = cells[("size", "late")]
+        return float(((cells[("mean", "late")] - cells[("mean", "sep")]) * w).sum() / w.sum()), int(len(cells)), int(w.sum())
+    e, ncell, nlate = eff(d)
+    rng = np.random.default_rng(SEED)
+    ds = {g: [x for _, x in d[d["grp"] == g].groupby("day")] for g in ("late", "sep")}
+    boots = []
+    for _ in range(NBOOT):
+        s = pd.concat([ds[g][i] for g in ("late", "sep") for i in rng.integers(0, len(ds[g]), len(ds[g]))])
+        v = eff(s)[0]
+        if np.isfinite(v):
+            boots.append(v)
+    boots = np.asarray(boots)
+    return {"definition": "late (%s..%s) minus September, coarsened-exact matched on pack-T class (5), peak-I class (5), SOC class (4), distance class (3); weights = late drives per cell" % LATE,
+            "effect_mv": _r(e, 2), "ci95_dayclustered_bootstrap": [_r(np.percentile(boots, 2.5), 2), _r(np.percentile(boots, 97.5), 2)] if len(boots) else None,
+            "matchedCells": ncell, "lateDrivesMatched": nlate, "lateDrivesTotal": int((d["grp"] == "late").sum()), "sepDrives": int((d["grp"] == "sep").sum()),
+            "lateDays": int(d.loc[d["grp"] == "late", "day"].nunique()), "sepDays": int(d.loc[d["grp"] == "sep", "day"].nunique()), "draws": len(boots), "seed": SEED}
+
+
+def item_cadence(dm, dd):
+    d = dm.copy(); d["date"] = pd.to_datetime(d["date"])
+    d["slow"] = d["I_sample_period_s"] >= 1.05
+    d["per"] = np.where(d["date"] >= LATE[0], "Oct10-17", d["date"].dt.strftime("%Y-%m"))
+    g = d.groupby("per").agg(n=("slow", "size"), slowShare=("slow", "mean"), medianPeriod_s=("I_sample_period_s", "median"))
+    cols = ["months", "T", "I", "soc", "socr"]
+    r0 = fit_cluster(dd, cols)
+    r1 = fit_cluster(dd, cols + ["slow"])
+    cols2 = ["months", "step", "slow", "T", "I", "soc", "socr"]
+    r2 = fit_cluster(dd, cols2)
+    st2 = fit_cluster(dd, cols2, coef="step")
+    return {"stepTermWithRegime": {k: st2[k] for k in ("est", "se", "ci95")}, "regimeTermWithStep": {k: v for k, v in fit_cluster(dd, cols2, coef="slow").items() if k in ("est", "se", "ci95")},"byPeriod": {k: {"n": int(v.n), "slowShare": _r(v.slowShare, 2), "medianPeriod_s": _r(v.medianPeriod_s, 3)} for k, v in g.iterrows()},
+            "slopeWithoutRegime": {k: r0[k] for k in ("est", "ci95")}, "slopeWithRegime": {k: r1[k] for k in ("est", "ci95")}, "slopeWithRegimeAndStep": {k: r2[k] for k in ("est", "ci95")},
+            "regimeRule": "slow: I_sample_period_s >= 1.05 s (M379a)"}
+
+
+# ----------------------------------------------------------------------------------------------- raw-based items
+def _paired_spread(csv_bytes):
+    """Pipeline pairing (compute_drive_summary_v6: Vmax/Vmin merge_asof within SPREAD_TOL; I aligned within V_ALIGN_TOL). Returns (frame t, spread_mv, I, T1..T4 start, t0)."""
+    import compute_drive_summary_v6 as c
+    df, t = c._prep_bytes(csv_bytes)
+    vmax, vmin = c._series(df, t, "Vcell_max", lo=2.0, hi=5.0), c._series(df, t, "Vcell_min", lo=2.0, hi=5.0)
+    I = c._series(df, t, "I")
+    if I is not None:
+        I = I[I["v"].abs() < 900]
+    if vmax is None or vmin is None:
+        return None
+    p = pd.merge_asof(vmax.rename(columns={"v": "vmax"}), vmin.rename(columns={"v": "vmin"}), on="t", direction="nearest", tolerance=pd.Timedelta(c.SPREAD_TOL)).dropna().reset_index(drop=True)
+    p["spread"] = (p["vmax"] - p["vmin"]) * 1000.0
+    p = c._asof(p, I, "I", c.V_ALIGN_TOL)
+    t0 = t.min()
+    p["s"] = (p["t"] - t0).dt.total_seconds()
+    temps = []
+    for k in ("T1", "T2", "T3", "T4"):
+        s = c._series(df, t, k, lo=-40, hi=90)
+        temps.append(float(s["v"].iloc[0]) if s is not None else np.nan)
+    return p, temps
+
+
+def _raw_path(raw_dir, fn):
+    p = os.path.join(raw_dir, fn)
+    return p if os.path.exists(p) else os.path.join(raw_dir, fn[:10] + " " + fn[11:])
+
+
+def item_cold_and_segments(dm, d_all, raw_dir):
+    rows = []
+    sub = d_all[((d_all["date"] >= SEP[0]) & (d_all["date"] <= SEP[1] + " 23:59")) | ((d_all["date"] >= LATE[0]) & (d_all["date"] <= LATE[1] + " 23:59"))]
+    for _, r in sub.iterrows():
+        pth = _raw_path(raw_dir, r["file"])
+        if not os.path.exists(pth):
+            continue
+        out = _paired_spread(open(pth, "rb").read())
+        if out is None:
+            continue
+        p, temps = out
+        row = {"file": r["file"], "date": r["date"], "late": float(r["date"] >= pd.Timestamp(LATE[0])), "rest_h": r["rest_h"], "T": r["T"], "Imax": r["I"], "y": r["y"], "t1": temps[0], "t2": temps[1], "t3": temps[2], "t4": temps[3]}
+        for lab, (a, b) in {"w0_2": (0, 120), "w2_10": (120, 600)}.items():
+            w = p[(p["s"] >= a) & (p["s"] < b)]
+            row[lab + "_med"] = w["spread"].median() if len(w) >= 5 else np.nan
+            row[lab + "_p95"] = w["spread"].quantile(0.95) if len(w) >= 20 else np.nan
+            row[lab + "_absI"] = w["I"].abs().median() if len(w) >= 5 else np.nan
+        w = p[(p["s"] < 1200) & (p["I"].abs() > 50)]
+        row["first20_loaded_p95"] = w["spread"].quantile(0.95) if len(w) >= 10 else np.nan
+        row["first20_n_loaded"] = len(w)
+        rows.append(row)
+    f = pd.DataFrame(rows)
+    f["tmean"] = f[["t1", "t2", "t3", "t4"]].mean(axis=1)
+    f["trange"] = f[["t1", "t2", "t3", "t4"]].max(axis=1) - f[["t1", "t2", "t3", "t4"]].min(axis=1)
+    f["pairgrad"] = (f.t1 + f.t2) / 2 - (f.t3 + f.t4) / 2
+    cold = f[(f["rest_h"] > 4) | f["rest_h"].isna()].copy()
+
+    def eff(dat, ycol, adj):
+        x = dat.dropna(subset=[ycol] + adj)
+        if len(x) < 12 or x["late"].nunique() < 2:
+            return None
+        res = sm.OLS(x[ycol], sm.add_constant(x[adj + ["late"]])).fit(cov_type="cluster", cov_kwds={"groups": x["date"].astype(str).values})
+        G = x["date"].nunique(); t = stats.t.ppf(0.975, G - 1)
+        b, se = float(res.params["late"]), float(res.bse["late"])
+        return {"lateEffect_mv": _r(b, 2), "ci95": [_r(b - t * se, 2), _r(b + t * se, 2)], "n": int(len(x)), "nLate": int(x["late"].sum()), "days": int(G)}
+    o = {"definition": "cold start = first drive after >4 h rest; late = %s..%s vs September; effect adjusted for start-sensor mean T and the window median |I| (day-clustered, t(G-1))" % LATE,
+         "startTempMedians_cold": {g: {k: _r(v, 1) for k, v in cold[cold["late"] == g][["t1", "t2", "t3", "t4", "tmean", "trange", "pairgrad"]].median().items()} for g in (0.0, 1.0)},
+         "nCold": {"sep": int((cold["late"] == 0).sum()), "late": int((cold["late"] == 1).sum())},
+         "wholeDriveLoadedP95_cold": eff(cold, "y", ["tmean"]),
+         "wholeDriveLoadedP95_cold_plusPairGradient": eff(cold, "y", ["tmean", "pairgrad"]),
+         "earlyWindow_0_2min_median": eff(cold, "w0_2_med", ["tmean", "w0_2_absI"]), "earlyWindow_0_2min_p95": eff(cold, "w0_2_p95", ["tmean", "w0_2_absI"]),
+         "earlyWindow_2_10min_median": eff(cold, "w2_10_med", ["tmean", "w2_10_absI"]), "earlyWindow_2_10min_p95": eff(cold, "w2_10_p95", ["tmean", "w2_10_absI"]),
+         "first20min_loaded_p95_allDrives": eff(f.assign(Tm=f["T"]), "first20_loaded_p95", ["Tm", "Imax"]),
+         "first20min_loaded_p95_cold": eff(cold.assign(Tm=cold["T"]), "first20_loaded_p95", ["Tm", "Imax"]),
+         "sensorResolution": "integer degC; a gradient below 1 degC is not resolvable; cell-level temperatures are not logged"}
+    return o
+
+
+def item_external(dm, dd, ext_dir, names):
+    import compute_drive_summary_v6 as c
+    X = sm.add_constant(dd[["T", "I", "soc"]]); m = sm.OLS(dd["y"], X).fit()
+    rows = []
+    for n in names:
+        pth = os.path.join(ext_dir, n if n.endswith(".csv") else n + ".csv")
+        b = open(pth, "rb").read()
+        r = c.analyze_bytes(b, os.path.basename(pth))
+        row = {"file": os.path.basename(pth), "sha256": sha256(pth), "I_sample_period_s": r.get("I_sample_period_s"), "regime": None if r.get("I_sample_period_s") is None else ("slow" if r["I_sample_period_s"] >= 1.05 else "fast"),
+               "T": r.get(TCOL), "peak_I": r.get(ICOL), "soc": r.get("rf_socmean_wtd_pct"), "loaded_p95": r.get(YCOL), "n_loaded": r.get("n_loaded_spread_samples"), "mean_spread": r.get("cell_spread_mean_mv")}
+        if None not in (row["T"], row["peak_I"], row["soc"]):
+            row["modelResidual_mv"] = _r(((row["loaded_p95"] - float(m.predict([[1, row["T"], row["peak_I"], row["soc"]]])[0])) if row["loaded_p95"] is not None and row["loaded_p95"] == row["loaded_p95"] else np.nan), 2)
+        rows.append(row)
+    ok = [x for x in rows if x.get("n_loaded") and x["n_loaded"] >= 15 and x.get("modelResidual_mv") is not None]
+    return {"status": "NOT INGESTED, descriptive only; never enters a fit or an interval", "residualModel": "y ~ T + I + soc on the master analysis frame (n=%d)" % len(dd), "files": rows,
+            "summary_nLoadedGe15": {"n": len(ok), "residualMedian_mv": _r(np.median([x["modelResidual_mv"] for x in ok]), 2) if ok else None, "loadedP95Median_mv": _r(np.median([x["loaded_p95"] for x in ok]), 1) if ok else None},
+            "modelResidualSD_mv": _r(np.sqrt(m.scale), 2)}
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--skip-raw", action="store_true")
+    ap.add_argument("--raw-dir", default=os.path.join(ROOT, "raw"))
+    ap.add_argument("--external", nargs="*", default=None, help="DIR followed by file names (with or without .csv)")
+    ap.add_argument("--out", default=os.path.join(ROOT, "analyses", "M573_step_vs_trend.json"))
+    a = ap.parse_args()
+    mpath = os.path.join(ROOT, "drive_master.csv")
+    md5_before = md5(mpath)
+    dm = pd.read_csv(mpath)
+    d = build_frame(dm)
+    models, dd = item_models(d)
+    out = {"milestone": "M573", "spec": "analyses/M573_spec.md Rev 1", "masterMd5": md5_before, "masterRows": int(len(dm)), "analysisFrame": {"n": int(len(dd)), "days": int(dd["day"].nunique()), "firstDate": str(dd["date"].min().date()), "lastDate": str(dd["date"].max().date()),
+           "stepDate": STEP_DATE, "windowMonths": _r(dd["months"].max(), 2)},
+           "item1_2_models": models, "item3_dependence": item_dependence(dd), "item4_matched": item_matched(dd), "item5_cadence": item_cadence(dm, dd)}
+    if not a.skip_raw:
+        out["item4b_cold_start_and_segments"] = item_cold_and_segments(dm, d, a.raw_dir)
+    if a.external:
+        out["item7_external"] = item_external(dm, dd, a.external[0], a.external[1:])
+    assert md5(mpath) == md5_before, "drive_master.csv changed: STOP"
+    out["masterMd5After"] = md5(mpath)
+    os.makedirs(os.path.dirname(a.out), exist_ok=True)
+    with open(a.out, "w", encoding="utf-8") as f:
+        json.dump(out, f, indent=1, ensure_ascii=False)
+    print("wrote", a.out)
+
+
+if __name__ == "__main__":
+    main()

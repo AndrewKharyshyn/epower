@@ -1,3 +1,16 @@
+## M573 (2026-11-02): Step versus trend in the loaded p95 cell-spread slope: analysis only (tool, known-answer tests, blind audit, Director ruling); no ingestion, no payload or dashboard change
+
+**Rationale.** The released cell-spread slope turned positive in the last weeks of the window; this milestone tests whether a late-September/October level shift fits better than a steady trend (model-derived, 5.1-month window). With a step term the months slope no longer excludes zero (0.02 [-0.26, 0.30] mV/month with SOC and rest time; step +2.1 mV [1.0, 3.2], date chosen post hoc), the excess persists on equal-length first-20-min segments (+3.1 mV [2.0, 4.1]) and is not detected in the first 10 min of cold starts; polling regime does not absorb it. Blind audit (Sonnet) reproduced C1-C5, Director (Opus) ruled revise with GO for a later additive payload block; degradation and real imbalance growth neither established nor excluded, cause unidentified. The nine Nov 1-2 files stayed outside every fit (not ingested, sha256 recorded). Pre-registered confirmatory test: step date fixed 2026-10-01, evaluated on drives ingested after 2026-10-17. Released estimator unchanged; the payload block and wording cross-reference are a follow-up milestone.
+
+**State.** `drive_master.csv` 606 rows, MD5 `5556a0c6c8bcde0f6c64b8b9655208ed`.
+
+**Gates.** Analysis-only milestone: `tools/m573_cell_spread_step.py` writes `analyses/M573_step_vs_trend.json` and nothing else; `test_m573_cell_spread_step.py` KA1-KA5 pass (KA4 reproduces the released clusterRobustOLS slope 0.5239 / CI [0.2665, 0.7814] and KA5 the master MD5); ingestion and dashboard gates were not run because nothing in the payload or dashboard changed. The Gates and Delta-flags lines of the draft template (stale M572 run) are replaced here.
+
+**Delta flags.** None: no payload value changed.
+
+**Files.** `tools/m573_cell_spread_step.py`, `test_m573_cell_spread_step.py`, `analyses/M573_spec.md`, `analyses/M573_step_vs_trend.json`, `analyses/M573_audit_result.json`.
+
+
 ## M572 (2026-11-02): Table-to-chart conversion, batch 4: out-of-time evaluation (skill, O/E) and inference-procedure intervals (dependence and serial-dependence panels); conversion programme closed
 
 **Rationale.** Presentation only: the interval plot gains interval-only rows (flagged range, drawn without a dot) and a named reference line (O/E = 1); the out-of-time panel and the two dependence panels get charts above their unchanged tables (kept under 'Show table'); no estimator, payload key or number changed. The semantic gate checks M407/M412 now expect each procedure label four times per panel (chart and table, two series) instead of two; the labels are still the full wording, the chart label is one contiguous string, and the tooltip no longer repeats it. The audit records why the transition matrix (already shaded), packets/window-use tables (log axis, mixed units) and the thesis-quantities table (mixed units) are not converted.
