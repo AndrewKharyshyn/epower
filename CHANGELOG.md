@@ -1,3 +1,16 @@
+## M571 (2026-11-02): Table-to-chart conversion, batch 3: fuel consumption by distance band (interval plot), generator-active state mix by drive type (100% stacked bars), Warm/Shoulder flows (dumbbell)
+
+**Rationale.** Presentation only: three tables get a chart above them with the unchanged table kept under 'Show table'; no estimator, payload key or number changed. The stacked bars draw the printed point shares without rescaling (a row that does not sum to 100 +- 1 is flagged in its tooltip); the dumbbell spans only Warm and Shoulder and draws Cold as an exploratory dot with no difference; the net traction/fuel index row (different unit) stays table-only; a distance band without an interval stays text, never drawn.
+
+**State.** `drive_master.csv` 606 rows, MD5 `5556a0c6c8bcde0f6c64b8b9655208ed`.
+
+**Gates (runs/20261020T221332Z).** restamp_ingest=ok; build_html=ok; jsdom=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `xtrail_summary.jsx`, `xtrail_dashboard.html`, `test_share_charts.js`, `.github/workflows/ci.yml`, `analyses/M571_spec.md`.
+
+
 ## M570 (2026-11-02): Table-to-chart conversion, batch 2: shared curve-with-intervals plot for power-duration (net and no-reversal), rolling-origin skill and O/E, and time-to-threshold
 
 **Rationale.** Presentation only: ordered tables of estimates with 95% intervals are drawn as connected series with interval bars above the unchanged table, which stays in the DOM under 'Show table'; no estimator, payload key or number changed. A point is drawn only where the table supports it (display rules showP95/showCell and supported horizons), a gap breaks the line, the worst-case identification bounds are a grey bar and never an interval, and an estimate without an interval is an open dot. The fuel distribution tables were dropped from the list (their ECDF and windowed pooled-rate charts already exist).
