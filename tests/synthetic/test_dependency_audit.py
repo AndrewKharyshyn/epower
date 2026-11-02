@@ -67,7 +67,8 @@ A = json.load(open("summary_arrays.json", encoding="utf-8"))
 B = A["channelDependency"]
 got = {c["id"]: c["computedClass"] for c in B["claims"]}
 for k, v in DA.PRE_REGISTERED.items():
-    assert got[k] == v, (k, got[k], v)
+    assert got[k] == v or k == "E6", (k, got[k], v)      # M565: E6 now computes model_adequacy (R2b); its pre-registered shared_raw_input stays recorded as not met
+assert got["E6"] == "model_adequacy"
 assert all(got[k] == "negative_control" for k in ("C1", "C2", "C3", "C4", "C5", "C6")) and got["C7"] == "decision_rule" and len(B["claims"]) == 13
 rel = {c["id"]: c["relation"] for c in B["claims"]}
 assert rel["C7"] == "circular"                                   # Director: a decision rule, circular with its target by construction
@@ -75,5 +76,5 @@ settled = {c["id"]: c["settledClass"] for c in B["claims"]}
 assert settled["E6"] == "model_adequacy" and B["preRegisteredNotMet"] == ["E6"]   # the pre-registered expectation for E6 is recorded as not met
 assert not any(c["sharedUnverifiedConstants"] for c in B["claims"])        # the spurious FMEP link of C1 is gone
 assert not B["coverage"]["ledgerChecksWithoutClaim"] and not B["coverage"]["scanHitsWithoutClaim"] and not B["coverage"]["controlClaimsWithoutHit"]
-assert all(c["declaredClass"] == c["computedClass"] for c in B["claims"])
+assert all(c["declaredClass"] == c["computedClass"] for c in B["claims"] if c["id"] != "E6")   # E6: declared shared_raw_input, computed model_adequacy since M565 (declaration not edited)
 print("test_dependency_audit OK")

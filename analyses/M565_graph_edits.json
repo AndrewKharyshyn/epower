@@ -1,0 +1,46 @@
+{
+ "milestone": "M565",
+ "spec": "analyses/M565_spec.md Rev 2",
+ "file": "channel_dependency_graph.json",
+ "graphSha256Before": "cfb40926c268c15b775479a800f12bec640a9ae533760d56cdb0515ef4c520f7",
+ "graphSha256After": "059190e90a217b03fd41d3b1610c2ecf2bba61fb0a49298f4a8f4c45fd9986fd",
+ "claimsSha256Unchanged": "d7d4545f17c634b6c4e03f6796f99d02afc916bc07cd7ff0d561ad57f5e05c29",
+ "edits": [
+  {
+   "node": "power_fade_trend",
+   "added": {
+    "responseNode": "vreg_r_proxy"
+   }
+  },
+  {
+   "node": "resistance_vreg_trend",
+   "added": {
+    "responseNode": "vreg_r_proxy"
+   }
+  },
+  {
+   "node": "power_fade_s1",
+   "added": {
+    "responseNode": "vreg_r_proxy"
+   }
+  },
+  {
+   "node": "power_fade_s0_control",
+   "added": {
+    "responseNode": "vreg_r_proxy"
+   }
+  },
+  {
+   "node": "power_fade_temp_specs",
+   "added": {
+    "responseNode": "vreg_r_proxy"
+   }
+  },
+  {
+   "node": "serial_trend_resistance",
+   "added": {
+    "responseNode": "vreg_r_proxy"
+   }
+  }
+ ]
+}

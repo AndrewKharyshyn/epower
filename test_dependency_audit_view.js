@@ -11,8 +11,8 @@ const d=dom.window.document;const click=el=>el.dispatchEvent(new dom.window.Mous
 const btns=()=>[...d.querySelectorAll('button')];
 (async()=>{
   await sleep(900);
-  ok('payload: 13 claims, coverage closed, every declared class equals the computed class',B.claims.length===13&&!B.coverage.ledgerChecksWithoutClaim.length&&!B.coverage.scanHitsWithoutClaim.length&&!B.coverage.controlClaimsWithoutHit.length&&B.claims.every(c=>c.declaredClass===c.computedClass));
-  ok('payload: pre-registered classes (E1 coding, E2 shared, E3 circular, E4/E5 model adequacy, E6 shared)',['coding_check_only','shared_raw_input','circular','model_adequacy','model_adequacy','shared_raw_input'].every((k,i)=>B.claims.find(c=>c.id==='E'+(i+1)).computedClass===k));
+  ok('payload: 13 claims, coverage closed, every declared class equals the computed class',B.claims.length===13&&!B.coverage.ledgerChecksWithoutClaim.length&&!B.coverage.scanHitsWithoutClaim.length&&!B.coverage.controlClaimsWithoutHit.length&&B.claims.every(c=>c.id==='E6'||c.declaredClass===c.computedClass));
+  ok('payload: classes (E1 coding, E2 shared, E3 circular, E4/E5/E6 model adequacy: E6 since M565 R2b, its pre-registered shared_raw_input stays recorded as not met)',['coding_check_only','shared_raw_input','circular','model_adequacy','model_adequacy','model_adequacy'].every((k,i)=>B.claims.find(c=>c.id==='E'+(i+1)).computedClass===k));
   const tab=btns().find(b=>b.textContent.trim().toLowerCase()==='distribution');
   ok('Distribution tab button',!!tab);if(tab){click(tab);await sleep(500);}
   const note=d.querySelector('[data-depend-note]');
@@ -23,7 +23,7 @@ const btns=()=>[...d.querySelectorAll('button')];
     const e3=d.querySelector('[data-depend-row="E3"]').textContent;
     ok('E3 shown as circular with its current status and a marked conflict',/circular/.test(e3)&&e3.includes(B.claims.find(c=>c.id==='E3').currentValidationStatus)&&/conflict marked/.test(e3),e3.slice(0,200));
     ok('controls table shows expected outcome, null mechanism, the blind-audit notes and the decision-rule label',/null mechanism/.test(d.querySelector('[data-depend-controls]').textContent)&&/bias reference/.test(d.querySelector('[data-depend-controls]').textContent)&&/notes from the blind audit/.test(d.querySelector('[data-depend-controls]').textContent)&&/pre-registered decision rule/.test(d.querySelector('[data-depend-controls]').textContent)&&/also pool drives/.test(d.querySelector('[data-depend-controls]').textContent));
-    const e6=d.querySelector('[data-depend-row="E6"]').textContent; ok('E6 shows the settled class after the blind audit',/model adequacy/.test(e6)&&/settled by the Director after the blind audit/.test(e6),e6.slice(0,260));
+    const e6=d.querySelector('[data-depend-row="E6"]').textContent; ok('E6 shows the model adequacy class (computed since M565) and the audit trail stays in the payload',/model adequacy/.test(e6)&&B.claims.find(c=>c.id==='E6').settledBy&&B.preRegisteredNotMet.join()==='E6',e6.slice(0,260));
     ok('footer states the counts and that latent inputs are declared, not observed',/6 ledger checks and 7 controls and decision rules/.test(d.querySelector('[data-depend-foot]').textContent)&&/declared, not observed/.test(d.querySelector('[data-depend-foot]').textContent));
     ok('no forbidden wording',!/independent validation by|derived sibling validates|circular check (confirms|proves)/i.test(d.querySelector('[data-depend-note]').parentElement.textContent));
   }
