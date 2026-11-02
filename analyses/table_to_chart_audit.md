@@ -26,11 +26,11 @@ section keeps a "show table" toggle so exact values stay one click away.
 | 9 | Fuel distribution trend (`FuelDistributionTrend`, 8684/8686) | q10..q90 per window; pooled L/100 km by window start | (dropped in M570: the ECDF and the windowed pooled rate with CI are already drawn above the two tables) | | |
 | 10 | Time-to-threshold (`TimeToThresholdPanel`, 8974, 9012) | seconds vs observed share, Kaplan-Meier (CI), Manski bounds, tilt | step curve with CI band and worst-case bound | `FxLines` | Both curves already ordered in time |
 | 11 | Engine start rate (`EngineStartRate`, 1248/1255) | group vs onsets/100 km with CI; onsets by coolant band | interval plot by group; bar by coolant band | `CatBars`, `TempIntervalPlot` | 1255 is share per band: bar is enough |
-| 12 | Drive-type regime transition matrix (inline, 12197) | row/column probabilities with counts | heatmap (shade = probability, count in cell) | new `Heatmap` | Currently a number grid; top reader gain per effort |
+| 12 | Drive-type regime transition matrix (inline, 12197) | row/column probabilities with counts | (dropped in M572: the cells are already shaded by probability with the count in the cell, so it already is a heatmap; the audit mis-described it as a plain number grid) | | |
 | 13 | GTR drive-type breakdown (`GeneratorTractionRecon`, 5825) | drive type vs gen+batt discharge / charges+drives / gen alone / fully banked | stacked horizontal bars | `FxStack` | Check shares sum to 100 % before drawing |
 | 14 | GTR Warm vs Shoulder difference (`GtrSankeyMultiples`, 11784) | flow vs warm, shoulder, delta | diverging bar of delta, or dumbbell | `CmpBars` | Sankey remains; this replaces the delta table only |
 | 15 | (removed by owner, 2026-11-02: the nine cross-vehicle tables stay as tables) | | | | |
-| 16 | Energy packets / window use (`EnergyPacketsView` 5005, `WindowUseView` 5077) | median / p90 / p99 (p95) per stratum | quantile range bars (median dot, p90-p99 whisker), log axis for energy | `TempIntervalPlot` | Needs a log axis: check quantile spacing |
+| 16 | Energy packets / window use (`EnergyPacketsView` 5005, `WindowUseView` 5077) | (dropped in M572: percentiles span orders of magnitude and would need a log axis for three rows each; the window-use table mixes Ah, SoC points and shares, so one axis would mislead) | | | |
 
 ## Tier 2: convert only as a companion (chart plus table)
 
@@ -73,3 +73,6 @@ section keeps a "show table" toggle so exact values stay one click away.
 Counts: Tier 1 = 15 groups covering roughly 21 of the 78 table sites; Tier 2 = 7; Tier 3 = the remainder.
 Site counts are approximate: sites 2705-2836, 13654, 13766 and several CrossVehicle/inline tables were classified from
 a one-line header peek, so confirm the exact columns when each batch is specified.
+
+## Status after M572
+Converted: M569 (items 1, 2, 3, 11 group table), M570 (items 4, 7, 10), M571 (items 8, 13, 14), M572 (items 5, 6). Dropped with reasons: 9, 12, 15 (owner), 16, the thesis-quantities table (mixed units per row), the coolant-band share table of item 11 (minor). No further conversion is planned.

@@ -1,3 +1,16 @@
+## M572 (2026-11-02): Table-to-chart conversion, batch 4: out-of-time evaluation (skill, O/E) and inference-procedure intervals (dependence and serial-dependence panels); conversion programme closed
+
+**Rationale.** Presentation only: the interval plot gains interval-only rows (flagged range, drawn without a dot) and a named reference line (O/E = 1); the out-of-time panel and the two dependence panels get charts above their unchanged tables (kept under 'Show table'); no estimator, payload key or number changed. The semantic gate checks M407/M412 now expect each procedure label four times per panel (chart and table, two series) instead of two; the labels are still the full wording, the chart label is one contiguous string, and the tooltip no longer repeats it. The audit records why the transition matrix (already shaded), packets/window-use tables (log axis, mixed units) and the thesis-quantities table (mixed units) are not converted.
+
+**State.** `drive_master.csv` 606 rows, MD5 `5556a0c6c8bcde0f6c64b8b9655208ed`.
+
+**Gates (runs/20261020T221332Z).** restamp_ingest=ok; build_html=ok; jsdom=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `xtrail_summary.jsx`, `xtrail_dashboard.html`, `test_interval_forest.js`, `semantic_gate.py`, `analyses/M572_spec.md`, `analyses/table_to_chart_audit.md`.
+
+
 ## M571 (2026-11-02): Table-to-chart conversion, batch 3: fuel consumption by distance band (interval plot), generator-active state mix by drive type (100% stacked bars), Warm/Shoulder flows (dumbbell)
 
 **Rationale.** Presentation only: three tables get a chart above them with the unchanged table kept under 'Show table'; no estimator, payload key or number changed. The stacked bars draw the printed point shares without rescaling (a row that does not sum to 100 +- 1 is flagged in its tooltip); the dumbbell spans only Warm and Shoulder and draws Cold as an exploratory dot with no difference; the net traction/fuel index row (different unit) stays table-only; a distance band without an interval stays text, never drawn.

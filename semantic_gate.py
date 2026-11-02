@@ -335,7 +335,8 @@ if _ds:
         _j = _t.index("Limits:", _i) if _i >= 0 and "Limits:" in _t[_i:] else -1
         _pn = _t[_i:_j] if _i >= 0 and _j > _i else ""
         ok("A2 REQUIRED M407 %s: five procedures in the fixed order with the dependence-conservative label, for both series" % _k,
-           _pn.count("CR1 (released interval, the reference)") == 2 and all(_pn.count(x) == 2 for x in ("CR2 (Satterthwaite t)", "Wild cluster bootstrap-t", "Day-cluster pairs bootstrap", "Week-block pairs bootstrap (dependence-conservative)")))
+           # M572: each procedure label is rendered twice per series, once in the interval plot and once in the table beneath it (both carry the full label)
+           _pn.count("CR1 (released interval, the reference)") == 4 and all(_pn.count(x) == 4 for x in ("CR2 (Satterthwaite t)", "Wild cluster bootstrap-t", "Day-cluster pairs bootstrap", "Week-block pairs bootstrap (dependence-conservative)")))
         _cs = _ds["trendSlopes"]["cellSpread"]
         _lows = [_cs["cr1"]["ci95T_Gminus1"][0], _cs["cr2"]["ci95T"][0], _cs["wildClusterBootstrapT"]["ci95PercentileT"][0], _cs["dayClusterPairsBootstrap"]["ci95"][0], _cs["weekBlockPairsBootstrap"]["ci95"][0]]
         _mixed = any(x <= 0 for x in _lows) and any(x > 0 for x in _lows)
@@ -398,7 +399,8 @@ if _sdp:
         ok("A2 REQUIRED M412 %s: classification sentences follow the payload row lists (cell spread: counted from rowsExcludingZero; resistance proxy: its classification verbatim)" % _k,
            (_sent in _pn) == (_cl["classification"] == "procedure-dependent") and ("Reading across the OLS-based rows (M406 rows plus the five above; GLS and the control take no part): " + _rv["rowsRule"]["classification"]) in _pn)
         ok("A2 REQUIRED M412 %s: five new rows in the fixed order plus GLS marked as a separate estimator outside every rule" % _k,
-           _pn.count("AR(1) GLS on day means (separate estimator, outside every rule)") == 2 and all(_pn.count(x) == 2 for x in ("HAC, 3 days", "HAC, 7 days (weekly-scale truncation)", "HAC, 14 days", "Moving-block bootstrap, 7 days", "Moving-block bootstrap, 14 days")))
+           # M572: each label is rendered twice per series, once in the interval plot and once in the table beneath it (both carry the full label)
+           _pn.count("AR(1) GLS on day means (separate estimator, outside every rule)") == 4 and all(_pn.count(x) == 4 for x in ("HAC, 3 days", "HAC, 7 days (weekly-scale truncation)", "HAC, 14 days", "Moving-block bootstrap, 7 days", "Moving-block bootstrap, 14 days")))
         ok("A2 REQUIRED M412 %s: forking-path note, multiplicity note, bootstrap-shift sentence and the descriptive control sentence are rendered" % _k,
            _pn.count(_cs["residualAutocorr"]["forkingPathNote"]) == 2 and _pn.count(_cs["residualAutocorr"]["multiplicityNote"]) == 2 and _pn.count("The percentile interval of rho_1 is shifted") == 2
            and _pn.count("a drop from rho_pre to rho_post is not read as seasonal") == 2)

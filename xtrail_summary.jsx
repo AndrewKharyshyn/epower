@@ -832,11 +832,13 @@ function intervalForestModel(rows, opts){
   const num=v=>typeof v==="number"&&isFinite(v);
   const out=(rows||[]).map(r=>{
     const hasEst=num(r.est), okInt=hasEst&&num(r.lo)&&num(r.hi)&&r.lo<=r.est&&r.est<=r.hi;
-    return {...r, kind: okInt?"interval":(hasEst?"point":"none")};
+    const okRange=!hasEst&&r.range===true&&num(r.lo)&&num(r.hi)&&r.lo<=r.hi;   // M572: an interval the table prints without a point estimate
+    return {...r, kind: okInt?"interval":(hasEst?"point":(okRange?"range":"none"))};
   });
   const vals=[];
-  out.forEach(r=>{ if(r.kind==="interval") vals.push(r.lo,r.hi); else if(r.kind==="point") vals.push(r.est); });
+  out.forEach(r=>{ if(r.kind==="interval"||r.kind==="range") vals.push(r.lo,r.hi); else if(r.kind==="point") vals.push(r.est); });
   if(zero) vals.push(0);
+  if(num(o.ref)) vals.push(o.ref);
   if(!vals.length) return {rows:out,min:0,max:1,ticks:[0,1]};
   const lo=Math.min(...vals); let hi=Math.max(...vals);
   if(hi===lo) hi=lo+1;
@@ -847,8 +849,8 @@ function intervalForestModel(rows, opts){
   return {rows:out,min:ticks[0],max:ticks[ticks.length-1],ticks};
 }
 /*M569-MODEL-END*/
-function IntervalForest({ rows, xLabel, zero=true, color="#2563eb", ariaLabel, fmt, caption, lblW=176 }) {
-  const M = intervalForestModel(rows, { zero });
+function IntervalForest({ rows, xLabel, zero=true, refLine, refText="zero", color="#2563eb", ariaLabel, fmt, caption, lblW=176 }) {
+  const M = intervalForestModel(rows, { zero, ref: refLine });
   if (!M.rows.length) return null;
   const W = 540, PL = lblW, PR = 158, PT = 6, PB = 32, rowH = 28;
   const pw = W - PL - PR, ph = M.rows.length * rowH, H = PT + ph + PB;
@@ -860,7 +862,7 @@ function IntervalForest({ rows, xLabel, zero=true, color="#2563eb", ariaLabel, f
     if (lines.length > 2) { lines.length = 2; lines[1] = lines[1].slice(0, 35) + "…"; }
     return lines;
   };
-  const zeroIn = M.min <= 0 && M.max >= 0;
+  const refV = typeof refLine === "number" ? refLine : (zero ? 0 : null), zeroIn = refV !== null && M.min <= refV && M.max >= refV;
   return (
     <div data-interval-forest="1">
       <svg width="100%" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={ariaLabel || xLabel} style={{ overflow: "visible" }}>
@@ -870,21 +872,21 @@ function IntervalForest({ rows, xLabel, zero=true, color="#2563eb", ariaLabel, f
             <text x={xS(t)} y={PT + ph + 12} textAnchor="middle" fill="#94a3b8" fontSize={8}>{fv(t)}</text>
           </g>
         ))}
-        {zero && zeroIn && <line x1={xS(0)} y1={PT} x2={xS(0)} y2={PT + ph} stroke="#475569" strokeWidth={1} strokeDasharray="3 3" />}
+        {zeroIn && <line x1={xS(refV)} y1={PT} x2={xS(refV)} y2={PT + ph} stroke="#475569" strokeWidth={1} strokeDasharray="3 3" />}
         <text x={PL + pw / 2} y={H - 4} textAnchor="middle" fill="#64748b" fontSize={8.5}>{xLabel}</text>
         {M.rows.map((r, i) => {
           const cy = PT + i * rowH + rowH / 2, c = r.color || color, op = r.muted ? 0.4 : 1, ls = wrap(r.label);
-          const txt = r.valueText || (r.kind === "interval" ? `${fv(r.est)} (${fv(r.lo)}, ${fv(r.hi)})` : r.kind === "point" ? `${fv(r.est)} (no interval)` : "");
+          const txt = r.valueText || (r.kind === "interval" ? `${fv(r.est)} (${fv(r.lo)}, ${fv(r.hi)})` : r.kind === "range" ? `[${fv(r.lo)}, ${fv(r.hi)}]` : r.kind === "point" ? `${fv(r.est)} (no interval)` : "");
           return (
             <g key={i} opacity={op} data-forest-row={r.kind}>
-              <title>{r.sub ? `${r.label} (${r.sub})` : r.label}</title>
-              {ls.map((l, k) => <text key={k} x={PL - 8} y={cy + (ls.length === 1 ? 3 : k === 0 ? -2 : 8)} textAnchor="end" fontSize={8.5} fill="#374151" fontWeight={600}>{l}</text>)}
-              {r.kind === "interval" && <g>
+              {r.sub && <title>{r.sub}</title>}
+              {ls.map((l, k) => <text key={k} x={PL - 8} y={cy + (ls.length === 1 ? 3 : k === 0 ? -2 : 8)} textAnchor="end" fontSize={8.5} fill="#374151" fontWeight={600}>{k < ls.length - 1 ? l + " " : l}</text>)}
+              {(r.kind === "interval" || r.kind === "range") && <g>
                 <line x1={xS(r.lo)} y1={cy} x2={xS(r.hi)} y2={cy} stroke={c} strokeWidth={1.6} />
                 <line x1={xS(r.lo)} y1={cy - 4} x2={xS(r.lo)} y2={cy + 4} stroke={c} strokeWidth={1.2} />
                 <line x1={xS(r.hi)} y1={cy - 4} x2={xS(r.hi)} y2={cy + 4} stroke={c} strokeWidth={1.2} />
               </g>}
-              {r.kind !== "none" && <circle cx={xS(r.est)} cy={cy} r={r.kind === "interval" ? 3.2 : 3.6} fill={r.kind === "interval" ? c : "#fff"} stroke={c} strokeWidth={1.6} />}
+              {(r.kind === "interval" || r.kind === "point") && <circle cx={xS(r.est)} cy={cy} r={r.kind === "interval" ? 3.2 : 3.6} fill={r.kind === "interval" ? c : "#fff"} stroke={c} strokeWidth={1.6} />}
               {r.kind === "none" && <text x={PL + 6} y={cy + 3} fontSize={8.5} fill="#94a3b8" fontStyle="italic">{r.note || "not available"}</text>}
               <text x={W - PR + 8} y={cy + (r.sub ? -1 : 3)} fontSize={8.5} fill="#0f172a" fontWeight={700}>{txt}</text>
               {r.sub && <text x={W - PR + 8} y={cy + 9} fontSize={7.5} fill="#94a3b8">{String(r.sub).length > 44 ? String(r.sub).slice(0, 43) + "…" : r.sub}</text>}
@@ -892,7 +894,7 @@ function IntervalForest({ rows, xLabel, zero=true, color="#2563eb", ariaLabel, f
           );
         })}
       </svg>
-      <div style={{ fontSize: 9, color: "#94a3b8", marginTop: 2 }}>Dot = estimate, line = 95% interval{zero ? ", dashed line = zero" : ""}; an open dot has no interval in the table. {caption}</div>
+      <div style={{ fontSize: 9, color: "#94a3b8", marginTop: 2 }}>Dot = estimate, line = 95% interval{refV !== null ? `, dashed line = ${refText}` : ""}; an open dot has no interval in the table{M.rows.some(r => r.kind === "range") ? "; a line without a dot is an interval the table prints without a point estimate" : ""}. {caption}</div>
     </div>
   );
 }
@@ -5709,8 +5711,17 @@ function OutOfTimePanel(){
   return (
     <div data-out-of-time="1" style={{padding:10,background:"#f8fafc",border:"1px solid #cbd5e1",borderRadius:8,marginBottom:10,fontSize:11,color:"#374151",lineHeight:1.6}}>
       <strong style={{color:"#0f172a"}}>Out-of-time evaluation of the frozen design (M428, audit F08).</strong> The model is fit once on the {E.split.nBasisDrives} basis drives and applied unchanged to the {E.split.nLaterDrives} later drives ({E.start.later.nDays} calendar days; no later row enters knots, scale or coefficients). Events are detector-derived (M231), hazards are model-derived; the intervals are day-clustered percentile bootstrap intervals (B={E.bootstrap.B}, seed {E.bootstrap.seed}) conditional on the fitted basis model and rest on few day clusters. The thresholds are declared planning choices, not validated.
+      <ChartWithTable chart={<div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(300px,1fr))",gap:10}}>
+        <IntervalForest xLabel="Log-loss skill vs basis-rate constant (95% CI)" refLine={0} refText="no skill over the constant" fmt={v=>f(v,2)} lblW={110} ariaLabel="Out-of-time evaluation: log-loss skill versus the basis-rate constant, START and STOP models"
+          caption="Day-clustered intervals conditional on the fitted basis model, resting on few day clusters."
+          rows={sides.map(([k,title])=>({label:title,est:E[k].skillVsB0.point,lo:E[k].skillVsB0.ci95?.[0],hi:E[k].skillVsB0.ci95?.[1],sub:`${E[k].later.nDrives} later drives, ${E[k].later.nDays} days`}))}/>
+        <IntervalForest xLabel="O/E (95% CI)" zero={false} refLine={1} refText="observed equals expected" fmt={v=>f(v,2)} lblW={140} ariaLabel="Out-of-time evaluation: observed over expected events, pooled, in-support and out-of-support seconds, START and STOP models"
+          caption="Out-of-support and in-support rows are the later at-risk seconds outside or inside the basis range."
+          rows={sides.flatMap(([k,title])=>[["pooled",E[k].OE,E[k].OE?.point,E[k].OE?.ci95,`${E[k].later.events} events`],["in-support",E[k].inSupport,E[k].inSupport?.OE,E[k].inSupport?.OEci95,`${E[k].inSupport?.events} events`],["out-of-support",E[k].outOfSupport,E[k].outOfSupport?.OE,E[k].outOfSupport?.OEci95,`${E[k].outOfSupport?.events} events`]].map(([w,o,est,c,sub])=>({label:`${title}, ${w}`,est:typeof est==="number"?est:null,lo:c?.[0],hi:c?.[1],sub,note:"not available"})))}/>
+      </div>}>
       <table style={{borderCollapse:"collapse",margin:"6px 0"}}><thead><tr><th style={th}>Model</th><th style={th}>Later drives / days / events</th><th style={th}>O/E (95% CI)</th><th style={th}>Log-loss skill vs basis-rate constant (95% CI)</th><th style={th}>PR-AUC (lift)</th><th style={th}>Largest out-of-support excess</th><th style={th}>D1 / D2 / D3</th></tr></thead>
         <tbody>{sides.map(([k,title])=>{ const x=E[k]; return (<tr key={k}><td style={td}>{title}</td><td style={td}>{x.later.nDrives} / {x.later.nDays} / {x.later.events} (effective days {f(x.later.essDays,1)})</td><td style={td}>{f(x.OE.point)} {ci(x.OE.ci95)}</td><td style={td}>{f(x.skillVsB0.point)} {ci(x.skillVsB0.ci95)}</td><td style={td}>{f(x.prAuc.point)} ({f(x.prAuc.lift,2)}× at prevalence {f(x.later.prevalence,4)})</td><td style={td}>{top(x.supportExcessPp)}</td><td style={td}>{x.states.D1} / {x.states.D2} / {x.states.D3}</td></tr>); })}</tbody></table>
+      </ChartWithTable>
       {sides.map(([k,title])=>(<div key={k}><strong style={{color:"#0f172a"}}>{title}:</strong> {E[k].outcome}. Out-of-support seconds ({f(100*(E[k].outOfSupport?.share??NaN),1)}% of later at-risk seconds): O/E {f(E[k].outOfSupport?.OE)} {ci(E[k].outOfSupport?.OEci95)} ({E[k].outOfSupport?.events} events); in-support seconds: O/E {f(E[k].inSupport?.OE)} {ci(E[k].inSupport?.OEci95)} ({E[k].inSupport?.events} events).</div>))}
       <div style={{marginTop:4}}>Reading: D1 asks whether the lower bound of the skill interval is above zero; D2 whether the O/E interval lies inside the band {E.thresholds.OEband[0]}-{E.thresholds.OEband[1]} (wholly outside is material, otherwise indeterminate); D3 whether any predictor has more than {E.thresholds.excessPpMax} percentage points more later seconds outside the basis [P1, P99] than the basis itself. Pack temperature is a known, non-blind case (the later days extend below the fit basis). A non-detection with this few day clusters is not equivalence, and a refit is an explicit owner decision, not an automatic consequence.</div>
       <div style={{marginTop:4}}>Fidelity of the evaluated object: {allWithin?"the reproduction of the frozen design matches the carried block within the declared tolerances":"a tolerance failed; the evaluated object is the reproduced frozen design, not the displayed surfaces"} (raw-table count differences START {fid[0].diffAtRisk}/{fid[0].diffEvents}, STOP {fid[1].diffAtRisk}/{fid[1].diffEvents} at-risk seconds/events; blocked-CV log-loss relative difference {f(fid[0].blockedCvRelDiff,5)} / {f(fid[1].blockedCvRelDiff,5)}; largest surface hazard difference {f(fid[0].surfaceMaxAbsDiff,4)} / {f(fid[1].surfaceMaxAbsDiff,4)}).</div>
@@ -5798,9 +5809,13 @@ function SerialDependencePanel(){
         <div key={key} style={{marginTop:10}}>
           <div style={{fontWeight:600,color:"#0f172a"}}>{title} ({t.n} observations, {t.nDays} days, {t.nWeeks} ISO weeks): {trendLabel(M?.trendSlopes?.[key]?.cr1?.ci95T_Gminus1,"slope")}; {key==="resistanceVreg"?(primaryEquivalenceShort()?"equivalence not established on this sensitivity design (S0); "+primaryEquivalenceShort():"equivalence not established on this sensitivity design (not computed for the primary design)"):"equivalence not established"}; no stability or SOH claim.</div>
           <div>Neighbouring-day residual autocorrelation: rho_1 = {f2(r1.rho)} ({r1.nPairs} day pairs, 95% week-resampling interval {ci(r1.ci95)}). {ac.statement}. {ac.powerDisclosure}. Descriptive only (not rules): rho_2 = {f2(r2.rho)} ({r2.nPairs} pairs), rho_3 = {f2(r3.rho)} ({r3.nPairs} pairs). {ac.multiplicityNote}. {po.label}: rho_1-3 = {f2(po.rho)}, interval {ci(po.ci95)}{ac.disagreementWithOriginalStatistic?`; ${ac.disagreementWithOriginalStatistic}`:"; it agrees with the rule statistic"}. {ac.forkingPathNote}. The percentile interval of rho_1 is shifted: the bootstrap median {f2(r1.bootstrapMedian)} lies {r1.bootstrapMedian<r1.rho?"below":"above"} the point estimate {f2(r1.rho)}; no bias correction is applied.</div>
+          <ChartWithTable chart={<IntervalForest xLabel={`95% interval (${unit})`} lblW={200} ariaLabel={`${key==="cellSpread"?"Cell-voltage spread":"Resistance proxy"} trend slope: 95% interval under serial-dependence procedures`}
+            caption="Procedures after the M406 rows; the AR(1) GLS row is a separate estimator outside every rule and its dot is its own slope; the other rows are intervals only."
+            rows={[...rowsOf(t).map(p=>({label:p.k,range:true,lo:p.ci?.[0],hi:p.ci?.[1],sub:p.n,note:"not available"})),{label:"AR(1) GLS on day means (separate estimator, outside every rule)",est:typeof gl.slope==="number"?gl.slope:null,lo:gl.ci95T?.[0],hi:gl.ci95T?.[1],range:true,sub:`slope ${f2(gl.slope)} ${unit}`,note:"not available"}]}/>}>
           <table style={{borderCollapse:"collapse",margin:"4px 0"}}><thead><tr><th style={th}>Procedure (fixed order, after the rows above)</th><th style={th}>95% interval ({unit})</th><th style={th}>Detail</th></tr></thead>
             <tbody>{rowsOf(t).map(p=>(<tr key={p.k}><td style={td}>{p.k}</td><td style={td}>{ci(p.ci)}</td><td style={td}>{p.n}</td></tr>))}
               <tr><td style={td}>AR(1) GLS on day means (separate estimator, outside every rule)</td><td style={td}>{ci(gl.ci95T)}</td><td style={td}>slope {f2(gl.slope)} {unit}, SE {f2(gl.se)}, rho {f2(gl.rho)}; t({gl.dfT}) interval</td></tr></tbody></table>
+          </ChartWithTable>
           <div>Reading across the OLS-based rows (M406 rows plus the five above; GLS and the control take no part): {readSentence(key,t)}. {t.rowsRule?.rule}.</div>
           <div>Semivariogram of the day-mean residuals (descriptive; sill {f2(sv.sill)}): {(sv.bins||[]).map(b=>`${b.binDays} d: ${b.gamma==null?"n/a":b.gamma.toFixed(2)} (${b.nPairs} pairs)`).join("; ")}.</div>
           <div>AR(1) variance-inflation diagnostic: phi from the attenuated rho_1 = {f2(vf.phiUsed)}, ratio {(vf.vif??NaN).toFixed(2)} (standard-error ratio {(vf.seRatioImplied??NaN).toFixed(2)}); {vf.note}.</div>
@@ -5867,8 +5882,12 @@ function DependencePanel(){
       {series.map(([key,title,unit])=>{ const t=D.trendSlopes[key]; if(!t) return null; const reg=t.byLoggingRegime||{}; return (
         <div key={key} style={{marginTop:10}}>
           <div style={{fontWeight:600,color:"#0f172a"}}>{title}: slope {f2(t.cr1?.slope)} {unit}, n={t.n} observations, {t.nDays} days; {trendLabel(t.cr1?.ci95T_Gminus1,"slope")}; {key==="resistanceVreg"?(primaryEquivalenceShort()?"equivalence not established on this sensitivity design (S0); "+primaryEquivalenceShort():"equivalence not established on this sensitivity design (not computed for the primary design)"):"equivalence not established"}; no stability or SOH claim.</div>
+          <ChartWithTable chart={<IntervalForest xLabel={`95% interval (${unit})`} lblW={200} ariaLabel={`${key==="cellSpread"?"Cell-voltage spread":"Resistance proxy"} trend slope: 95% interval under each inference procedure`}
+            caption="The dot is the released CR1 slope; the other procedures are intervals only. Reading across procedures is stated below the table; the chart adds no verdict."
+            rows={procs(t).map((p,i)=>({label:p.k,range:true,est:i===0&&typeof t.cr1?.slope==="number"?t.cr1.slope:null,lo:p.ci?.[0],hi:p.ci?.[1],sub:p.n,note:"not available"}))}/>}>
           <table style={{borderCollapse:"collapse",margin:"4px 0"}}><thead><tr><th style={th}>Procedure (fixed order)</th><th style={th}>95% interval ({unit})</th><th style={th}>Detail</th></tr></thead>
             <tbody>{procs(t).map(p=>(<tr key={p.k}><td style={td}>{p.k}</td><td style={td}>{ci(p.ci)}</td><td style={td}>{p.n}</td></tr>))}</tbody></table>
+          </ChartWithTable>
           <div>Reading across procedures: {signSentence(t)}.</div>
           <div>Zero-slope test ({ciSpansZero(t.cr1?.ci95T_Gminus1)===false?"interval excludes 0":"trend not resolved"}): slope a two-sided 5 % test flags with 80 % probability at the observed SE (design-conditional): {f2(t.minEffect80?.cr2)} {unit} (CR2), {f2(t.minEffect80?.cr1)} {unit} (CR1).</div>
           <div>Equivalence sensitivity: the released TOST re-run with the CR2 standard error and {String(t.tostSensitivityCR2?.refDist||"")} against the same frozen bound {f2(t.tostSensitivityCR2?.delta)} {unit}: 90% interval {ci(t.tostSensitivityCR2?.equivCI90)}, p={(t.tostSensitivityCR2?.pTOST??NaN).toFixed(2)}, equivalence {t.tostSensitivityCR2?.equivalent?"established":"not established"} (sensitivity only; the released decision is unchanged).</div>
