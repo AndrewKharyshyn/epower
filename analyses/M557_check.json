@@ -1,7 +1,7 @@
 {
  "milestone": "M557",
  "mode": "--splice",
- "graphSha256": "cfb40926c268c15b775479a800f12bec640a9ae533760d56cdb0515ef4c520f7",
+ "graphSha256": "059190e90a217b03fd41d3b1610c2ecf2bba61fb0a49298f4a8f4c45fd9986fd",
  "claimsSha256": "d7d4545f17c634b6c4e03f6796f99d02afc916bc07cd7ff0d561ad57f5e05c29",
  "graphProblems": [],
  "headerCheck": {
@@ -314,7 +314,7 @@
    "channelAxis": "same raw channels (current, voltage, pack temperature)",
    "sampleAxis": "overlapping drives",
    "algorithmAxis": "different specification",
-   "relation": "shared_raw_input",
+   "relation": "model_adequacy",
    "sharedDataAncestors": [
     "hv_current",
     "hv_voltage",
@@ -334,7 +334,7 @@
     "pack_temp",
     "soc_reported"
    ],
-   "computedClass": "shared_raw_input",
+   "computedClass": "model_adequacy",
    "ledgerCheckLabel": "resistanceVreg (sensitivity_cadence_uncontrolled, cluster-robust OLS, explicit sensitivity check against powerFade)",
    "currentValidationStatus": "partially confirmed",
    "rowValidationStatus": "partially confirmed",
@@ -691,7 +691,7 @@
    "channelAxis": "same raw channels",
    "sampleAxis": "same drives",
    "algorithmAxis": "different specification",
-   "relation": "shared_raw_input",
+   "relation": "model_adequacy",
    "sharedDataAncestors": [
     "hv_current",
     "hv_voltage",
@@ -816,13 +816,20 @@
   [
    "E3",
    "the ledger text says 'independent' but the computed class is circular"
+  ],
+  [
+   "E6",
+   "computed model_adequacy differs from the pre-registered shared_raw_input"
+  ],
+  [
+   "E6",
+   "declared shared_raw_input differs from computed model_adequacy"
   ]
  ],
  "preRegisteredNotMet": [
   "E6"
  ],
  "settledOverrides": [
-  "E6",
   "C6"
  ],
  "reconciliation": {
@@ -831,9 +838,9 @@
  },
  "classCounts": {
   "coding_check_only": 1,
-  "shared_raw_input": 2,
+  "shared_raw_input": 1,
   "circular": 1,
-  "model_adequacy": 2,
+  "model_adequacy": 3,
   "negative_control": 6,
   "decision_rule": 1
  }

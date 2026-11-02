@@ -351,6 +351,7 @@
    "id": "power_fade_trend",
    "label": "Resistance-proxy trend (powerFade)",
    "kind": "model_output",
+   "responseNode": "vreg_r_proxy",
    "source": "powerFade",
    "parents": [
     "vreg_r_proxy",
@@ -363,6 +364,7 @@
    "id": "resistance_vreg_trend",
    "label": "Resistance-proxy trend (resistanceVreg)",
    "kind": "model_output",
+   "responseNode": "vreg_r_proxy",
    "source": "degradationTrends.resistanceVreg",
    "parents": [
     "vreg_r_proxy",
@@ -438,6 +440,7 @@
    "id": "power_fade_s1",
    "label": "Resistance-proxy equivalence specification S1",
    "kind": "model_output",
+   "responseNode": "vreg_r_proxy",
    "source": "powerFadeEquivalence.s1",
    "parents": [
     "vreg_r_proxy",
@@ -450,6 +453,7 @@
    "id": "power_fade_s0_control",
    "label": "Specification S0 control",
    "kind": "model_output",
+   "responseNode": "vreg_r_proxy",
    "source": "powerFadeEquivalence.s0Control",
    "parents": [
     "vreg_r_proxy",
@@ -462,6 +466,7 @@
    "id": "power_fade_temp_specs",
    "label": "Resistance-proxy temperature specifications",
    "kind": "model_output",
+   "responseNode": "vreg_r_proxy",
    "source": "powerFadeTemperatureSpecs",
    "parents": [
     "vreg_r_proxy",
@@ -507,6 +512,7 @@
    "id": "serial_trend_resistance",
    "label": "Resistance-proxy trend slope under serial dependence",
    "kind": "model_output",
+   "responseNode": "vreg_r_proxy",
    "source": "serialDependence.trendSlopes.resistanceVreg",
    "parents": [
     "vreg_r_proxy",
