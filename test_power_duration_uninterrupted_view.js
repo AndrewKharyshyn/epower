@@ -14,7 +14,7 @@ const pv=x=>x&&x.value!=null?`${f(x.value)}${x.ci95?` (${f(x.ci95[0])}–${f(x.c
 const pc=x=>x==null?'—':`${(100*x).toFixed(0)} %`;
 (async()=>{
   await sleep(900);
-  ok('payload: known answers closed, strata only, no pooled key',JSON.stringify(B.knownAnswer.misses)===JSON.stringify({kb5LeqNet:0,kb5Monotone:0})&&!('pooled' in B)&&Object.keys(B.strata).every(k=>['fast','slow','unknown'].includes(k)));
+  ok('payload: known answers closed, strata only, no pooled key',JSON.stringify(B.knownAnswer.misses)===JSON.stringify({kb5LeqNet:0,kb5Monotone:0,ku6Ordering:0})&&!('pooled' in B)&&Object.keys(B.strata).every(k=>['fast','slow','unknown'].includes(k)));
   click(btns().find(b=>b.textContent.trim().toLowerCase()==='records'));await sleep(400);
   const note=d.querySelector('[data-uninterrupted-note]');
   ok('section rendered on the Records tab',!!note);
@@ -41,6 +41,10 @@ const pc=x=>x==null?'—':`${(100*x).toFixed(0)} %`;
     click(d.querySelector('[data-uninterrupted-stratum="fast"]'));await sleep(250);
     const f120=[...d.querySelectorAll('[data-uninterrupted-row]')].find(x=>x.getAttribute('data-uninterrupted-row')==='120');
     ok('fast W=120 charge: cell hidden by the display rule (fewer than 20 drives)',!!f120&&!B.strata.fast.byW['120'].charge.displayRule.showCell&&f120.textContent.includes('(n='+B.strata.fast.byW['120'].charge.displayRule.nEligible+')'));
+    const re=d.querySelector('[data-runend-note]');
+    ok('run-end note: assumed linear-to-zero path, extent not value, not compared with net, base shrinks, smallest window under 50 %',!!re&&/assumed linear-to-zero path/.test(re.textContent)&&/not a bound on the power value/.test(re.textContent)&&/not compared with the net values/.test(re.textContent)&&/base shrinks with the window length/.test(re.textContent)&&/Smallest window with a share under 50 %/.test(re.textContent),re&&re.textContent.slice(0,120));
+    const rr=[...d.querySelectorAll('[data-runend-row]')];
+    ok('run-end table: one row per window length with lower / primary / upper shares',rr.length===5&&rr.every(x=>(x.textContent.match(/ \/ /g)||[]).length>=4));
     const foot=d.querySelector('[data-uninterrupted-footnote]').textContent;
     ok('footnote: equals-net definition, conditional percentiles, current offset and near-zero dependence',/Equals net/.test(foot)&&/conditional on a drive having such a window/.test(foot)&&/current offset/.test(foot));
     ok('no forbidden wording in the section',!/rating|sustained|steady|continuous|reversal penalty/i.test((note.textContent+foot).replace(/not ratings, capabilities/g,'')));

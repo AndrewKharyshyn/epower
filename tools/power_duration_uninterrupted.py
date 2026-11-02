@@ -45,6 +45,27 @@ def runs_of(t, q, interp=True):
     return out
 
 
+def runs_ext(t, q, mode="ramp"):
+    """M566 (spec Rev 2) run-end bracket: the chain of knots with q >= 0 (no interpolated zero), extended on each side to the ADJACENT opposite-sign sample time when the step there has positive length and the run end is not an observed zero sample: mode "ramp" puts a zero knot at that time (linear ramp from the last same-sign value, the upper bracket under an assumed linear-to-zero path), mode "hold" keeps the last same-sign power to that time (payload-only sensitivity). Runs never merge across an opposite-sign sample; nothing is added at a segment end. A single same-sign sample between two opposite-sign samples becomes a triangle."""
+    t = np.asarray(t, float); q = np.asarray(q, float) + 0.0
+    n = len(t); ok = q >= 0; out = []; i = 0
+    while i < n:
+        if not ok[i]:
+            i += 1; continue
+        j = i
+        while j + 1 < n and ok[j + 1]:
+            j += 1
+        tt, qq = list(t[i:j + 1]), list(q[i:j + 1])
+        if i > 0 and q[i] != 0 and t[i] - t[i - 1] > 0:
+            tt.insert(0, t[i - 1]); qq.insert(0, 0.0 if mode == "ramp" else q[i])
+        if j < n - 1 and q[j] != 0 and t[j + 1] - t[j] > 0:
+            tt.append(t[j + 1]); qq.append(0.0 if mode == "ramp" else q[j])
+        if len(tt) >= 2:
+            out.append((np.array(tt) - tt[0], np.array(qq)))
+        i = j + 1
+    return out
+
+
 def run_best(runs, W, end_budget=None):
     """best exact / grid / shifted value over runs of length >= W; end_budget limits eligible run time (exposure-standardised). Returns dict or None when no run is eligible."""
     best = None; elig = 0.0; rem = end_budget
@@ -114,6 +135,14 @@ def drive_record(ts, P, Ia, i_off=0.0, m552=None):
         for a, b in idx:
             lst += runs_of(ts[a:b] - ts[a], sgn * P[a:b], False)
         runs[("noInterp", dirn)] = lst
+    for dirn, sgn in (("dis", 1.0), ("chg", -1.0)):
+        for md in ("ramp", "hold"):
+            lst = []
+            for a_, b_ in idx:
+                lst += runs_ext(ts[a_:b_] - ts[a_], sgn * P[a_:b_], md)
+            runs[(md, dirn)] = lst
+    rec["upperRunSeconds"] = {d: [round(float(t[-1]), 3) for t, _ in runs[("ramp", d)]] for d in ("dis", "chg")}
+    rec["ku6Violations"] = 0
     rec["runSeconds"] = {d: [round(float(t[-1]), 3) for t, _ in runs[("primary", d)]] for d in ("dis", "chg")}
     rec["ka6Violations"] = 0
     prim = {}
@@ -130,6 +159,17 @@ def drive_record(ts, P, Ia, i_off=0.0, m552=None):
             for v in ("noInterp", "deadband", "offPlus", "offMinus"):
                 bv = run_best(runs[(v, dirn)], W)
                 row[dirn][v] = bv["exact"] if bv else None
+            for v, key in (("ramp", "upper"), ("hold", "hold")):
+                bv = run_best(runs[(v, dirn)], W)
+                row[dirn][key] = bv["exact"] if bv else None
+            r_ = row[dirn]
+            lo_, pr_, up_, ho_ = r_["noInterp"], r_["exact"], r_["upper"], r_["hold"]
+            if lo_ is not None and (pr_ is None or pr_ < lo_ - TOL):
+                rec["ku6Violations"] += 1
+            if pr_ is not None and (up_ is None or up_ < pr_ - TOL):
+                rec["ku6Violations"] += 1
+            if up_ is not None and (ho_ is None or ho_ < up_ - TOL):
+                rec["ku6Violations"] += 1
         rec["byW"][str(W)] = row
     # KB5 monotone in W over runs eligible for both windows (integer multiples), per direction
     for dirn in ("dis", "chg"):
@@ -154,7 +194,7 @@ def drive_record(ts, P, Ia, i_off=0.0, m552=None):
 
 
 def _src_hash():
-    return hashlib.sha256("".join(inspect.getsource(f) for f in (runs_of, run_best, _quantum, drive_record)).encode()).hexdigest()[:16]
+    return hashlib.sha256("".join(inspect.getsource(f) for f in (runs_of, runs_ext, run_best, _quantum, drive_record)).encode()).hexdigest()[:16]
 
 
 # ---------------------------------------------------------------- aggregation
@@ -210,7 +250,60 @@ def stratum_block(recs):
                                        "noInterpP95ShiftKw": blk["nearZeroSensitivity"]["noInterp"]["p95"] if blk["nearZeroSensitivity"]["noInterp"] else None}
             row[name] = blk
         res["byW"][w] = row
+    res["runEndBracket"] = _run_end_bracket(recs)
+    res["supportCollapse"] = _support_collapse(res)
     return res
+
+
+def _pp(v, qs=(50, 95)):
+    return {f"p{q}": round(float(np.percentile(v, q)), 3) for q in qs} if len(v) else None
+
+
+def _run_end_bracket(recs):
+    """M566: per W and direction the upper bracket (run extended to the adjacent opposite-sign sample, linear ramp to zero), paired with the primary on drives eligible under both; hold sensitivity; shares; Director triggers."""
+    out = {}
+    for W in WINDOWS:
+        w = str(W); row = {}
+        withseg = [r for r in recs if r["rec"]["m552"][w]["segEligible"] > 0]
+        for dirn, name in (("dis", "discharge"), ("chg", "charge")):
+            g = lambda r, k: r["rec"]["byW"][w][dirn][k]
+            both = [r for r in withseg if g(r, "exact") is not None and g(r, "upper") is not None]
+            up_only = [r for r in withseg if g(r, "exact") is None and g(r, "upper") is not None]
+            lo_pair = [r for r in both if g(r, "noInterp") is not None]
+            sh = lambda k: round(sum(1 for r in withseg if g(r, k) is not None) / len(withseg), 4) if withseg else None
+            blk = {"nDrivesWithSegment": len(withseg), "nPaired": len(both), "upperOnlyDrives": len(up_only),
+                   "eligibleShare": {"noInterp": sh("noInterp"), "primary": sh("exact"), "upper": sh("upper")},
+                   "upperPaired": _pp([g(r, "upper") for r in both]), "primaryPaired": _pp([g(r, "exact") for r in both]),
+                   "upperMinusPrimary": _pp([g(r, "upper") - g(r, "exact") for r in both]),
+                   "primaryMinusNoInterp": _pp([g(r, "exact") - g(r, "noInterp") for r in lo_pair]),
+                   "holdMinusUpper": _pp([g(r, "hold") - g(r, "upper") for r in both if g(r, "hold") is not None])}
+            trig = []
+            if blk["upperMinusPrimary"] and blk["primaryPaired"] and blk["primaryPaired"]["p95"] and blk["upperMinusPrimary"]["p95"] > 0.05 * blk["primaryPaired"]["p95"]:
+                trig.append("upper minus primary at the p95 exceeds 5 % of the primary p95")
+            if blk["eligibleShare"]["upper"] is not None and blk["eligibleShare"]["primary"] is not None and blk["eligibleShare"]["upper"] - blk["eligibleShare"]["primary"] > 0.10:
+                trig.append("upper eligible share exceeds the primary share by more than 10 percentage points")
+            blk["triggers"] = trig
+            row[name] = blk
+        out[w] = row
+    return out
+
+
+def _support_collapse(res):
+    """M566: eligible share under three run definitions at every W, the smallest W with a share under 50 %, and whether the share is monotone in W (the denominator, drives with a segment of length W, shrinks with W)."""
+    out = {}
+    for name in ("discharge", "charge"):
+        d = {}
+        for k, key in (("primary", "primary"), ("noInterp", "noInterp"), ("deadband", "deadband")):
+            sh = [res["byW"][str(W)][name]["eligibleShareByBracket"][key] for W in WINDOWS]
+            below = [W for W, x in zip(WINDOWS, sh) if x is not None and x < 0.5]
+            d[k] = {"shareByW": dict(zip(map(str, WINDOWS), sh)), "firstWBelow50": below[0] if below else None, "monotoneInW": bool(all(a >= b - 1e-12 for a, b in zip(sh, sh[1:])))}
+        d["upper"] = {"shareByW": {str(W): res["runEndBracket"][str(W)][name]["eligibleShare"]["upper"] for W in WINDOWS}}
+        ub = [W for W in WINDOWS if d["upper"]["shareByW"][str(W)] is not None and d["upper"]["shareByW"][str(W)] < 0.5]
+        d["upper"]["firstWBelow50"] = ub[0] if ub else None
+        d["bracketsDiffer"] = len({d[k]["firstWBelow50"] for k in ("primary", "noInterp", "deadband", "upper")}) > 1
+        d["denominator"] = "drives with a supported segment of at least W seconds (shrinks with W)"
+        out[name] = d
+    return out
 
 
 # ---------------------------------------------------------------- driver
@@ -263,7 +356,7 @@ def load_records(only=None):
 
 
 def known_answers(recs):
-    n, bad = 0, {"kb5LeqNet": [], "kb5Monotone": []}
+    n, bad = 0, {"kb5LeqNet": [], "kb5Monotone": [], "ku6Ordering": []}
     for fn, a in recs.items():
         if not a.get("ok") or a["excluded"]:
             continue
@@ -272,6 +365,8 @@ def known_answers(recs):
             bad["kb5LeqNet"].append((fn, a["rec"]["ka5Violations"]))
         if a["rec"]["ka6Violations"]:
             bad["kb5Monotone"].append((fn, a["rec"]["ka6Violations"]))
+        if a["rec"].get("ku6Violations"):
+            bad["ku6Ordering"].append((fn, a["rec"]["ku6Violations"]))
     return {"nDrives": n, "misses": {k: len(v) for k, v in bad.items()}, "examples": {k: v[:5] for k, v in bad.items()}}
 
 
