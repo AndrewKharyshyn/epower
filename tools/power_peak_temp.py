@@ -106,6 +106,8 @@ def extract_frames(df, t):
         vI, aI = _near(t1s, tI, D.ENG_ALIGN_TOL and 3.0)
         rec.update(channelI=ch, tPeakI=str(tI), T1AtPeakI=None if vI is None else round(vI, 1), ageIS=aI, vAgeIS=float(vage[int(e.index.get_loc(ix))]),
                    gapS=float((tP - tI).total_seconds()))
+        v10, a10 = _near(t1s, tI, LATE_S)          # M567: the late tier (3-10 s) for the current pair, same rule as the power pair
+        rec.update(T1AtPeakI_10s=None if v10 is None else round(v10, 1), ageI_any=a10 if v10 is not None else (_near(t1s, tI, 1e9)[1] if t1s is not None else None))
     # diagnostic: the global minimum-Id sample (not the master's pairing)
     iG = int(e["Id"].values.argmin())
     vG, aG = _near(t1s, e["t"].iloc[iG], NEARBY_S)
@@ -240,7 +242,65 @@ def build(dm, recs, A):
         "nChannel": {c: int(sum(1 for r in pop if r.get("channelI") == c)) for c in ("reg", "egc", "dual")},
         "globalMinIdDiagnosticDiffers": int(sum(1 for r in pop if r.get("T1AtPeakI") is not None and r.get("T1AtGlobalMinId") != r.get("T1AtPeakI"))),
     }
-    return kw_x, summary
+    ac_x, ac_sum, checks = _build_ac(dm, ok, A, akfiles)
+    summary.update(ac_sum)
+    return kw_x, summary, ac_x, checks
+
+
+def _tier_ac(r):
+    """tier and x of the A / C views (M567): the master's current-peak sample, nearest native T1, same tiers as the kW view."""
+    if not r or r.get("tPeakI") is None:
+        return {"x": None, "tier": "none", "ageS": None}
+    c = _cls(r.get("ageI_any"))
+    v = r.get("T1AtPeakI") if c in ("cotimed", "nearby") else (r.get("T1AtPeakI_10s") if c == "late" else None)
+    return {"x": v, "tier": c if v is not None else "none", "ageS": None if r.get("ageI_any") is None else round(r["ageI_any"], 3)}
+
+
+def _build_ac(dm, ok, A, akfiles):
+    ac_x = {f: _tier_ac(ok.get(f)) for f in akfiles}
+    ak = {p[5]: p for p in A["cRatePointsAK"]}
+    fb = dm.set_index("file")["T1_at_peak_Crate_isFallback"].to_dict()
+    # R3 hard assertion: legacy non-fallback <=> cotimed / nearby, legacy fallback <=> late / none (plotted drives with a recorded flag)
+    bad = [(f, fb[f], ac_x[f]["tier"]) for f in akfiles if f in fb and pd.notna(fb[f]) and (bool(fb[f]) == (ac_x[f]["tier"] in ("cotimed", "nearby")))]
+    cnt = lambda L: {c: int(sum(1 for x in L if x == c)) for c in ("cotimed", "nearby", "late", "none")}
+    cad = {f: ok[f]["cadence"] for f in akfiles if f in ok}
+    by_cad = {}
+    for c in sorted(set(cad.values())):
+        fs = [f for f in akfiles if cad.get(f) == c]
+        by_cad[c] = {"n": len(fs), "tiersAC": cnt([ac_x[f]["tier"] for f in fs]), "noneShareAC": round(sum(1 for f in fs if ac_x[f]["tier"] == "none") / len(fs), 4)}
+    shares = [v["noneShareAC"] for v in by_cad.values() if v["n"] >= 20]
+    moved = {"fallback": [], "nonFallback": []}
+    for f in akfiles:
+        x, leg = ac_x[f]["x"], ak[f][0]
+        if x is None or leg is None:
+            continue
+        moved["fallback" if (f in fb and pd.notna(fb[f]) and bool(fb[f])) else "nonFallback"].append((x - leg, ok[f]["day"]))
+    qm = lambda L: ({"n": len(L), "nDays": len({d for _, d in L}), "signedMedian": round(float(np.median([m for m, _ in L])), 2), "absMedian": round(float(np.median([abs(m) for m, _ in L])), 2),
+                     "absP90": round(float(np.percentile([abs(m) for m, _ in L], 90)), 2), "nMoved": int(sum(1 for m, _ in L if abs(m) > 1e-9)), "maxSigned": round(float(max(m for m, _ in L)), 2)} if L else None)
+    zones = (A.get("cRateRefLines") or {}).get("zones") or {}
+    cold = zones.get("coldBelowC")
+    pts = [(ak[f][0], ak[f][1], f) for f in akfiles]
+    new3 = [(ac_x[f]["x"], ak[f][1], f) for f in akfiles if ac_x[f]["tier"] in ("cotimed", "nearby")]
+    late = [(ac_x[f]["x"], ak[f][1], f) for f in akfiles if ac_x[f]["tier"] == "late"]
+    top = max(pts, key=lambda p: p[1]) if pts else None
+    cmp = {"coldBelowC": cold,
+           "legacy": {"nPoints": len(pts), "nCold": sum(1 for p in pts if cold is not None and p[0] < cold), "minT": min((p[0] for p in pts), default=None)},
+           "within3s": {"nPoints": len(new3), "nCold": sum(1 for p in new3 if cold is not None and p[0] < cold), "minT": min((p[0] for p in new3), default=None)},
+           "late": {"nPoints": len(late), "nCold": sum(1 for p in late if cold is not None and p[0] < cold)},
+           "highestCratePeak": None if not top else {"cRate": top[1], "legacyT": top[0], "tier": ac_x[top[2]]["tier"], "newT": ac_x[top[2]]["x"], "ageS": ac_x[top[2]]["ageS"]}}
+    # like-for-like on the same plotted drives (Director, A3 ruling): the within-3 s count alone has a different denominator than the legacy count
+    allx = [(ac_x[f]["x"], f) for f in akfiles if ac_x[f]["x"] is not None]
+    cmp["likeForLike"] = {"n": len(akfiles), "legacyNCold": cmp["legacy"]["nCold"], "tierRuleNCold": sum(1 for x, f in allx if cold is not None and x < cold),
+                          "byCadence": {c: {"n": sum(1 for f in akfiles if cad.get(f) == c), "legacyNCold": sum(1 for f in akfiles if cad.get(f) == c and cold is not None and ak[f][0] < cold),
+                                            "within3sNCold": sum(1 for x, f in allx if cad.get(f) == c and ac_x[f]["tier"] in ("cotimed", "nearby") and cold is not None and x < cold),
+                                            "lateNCold": sum(1 for x, f in allx if cad.get(f) == c and ac_x[f]["tier"] == "late" and cold is not None and x < cold)} for c in sorted(set(cad.values()))}}
+    cmp["coldCountChanged"] = bool(cmp["likeForLike"]["legacyNCold"] != cmp["likeForLike"]["tierRuleNCold"])
+    cmp["highestPeakTChanged"] = bool(cmp["highestCratePeak"] and cmp["highestCratePeak"]["legacyT"] != cmp["highestCratePeak"]["newT"])
+    summ = {"tiersAC": cnt([ac_x[f]["tier"] for f in akfiles]), "tiersACByCadence": by_cad, "noneShareACSpreadPp": (round(100 * (max(shares) - min(shares)), 2) if len(shares) > 1 else None),
+            "noneShareAC": round(sum(1 for f in akfiles if ac_x[f]["tier"] == "none") / len(akfiles), 4) if akfiles else None,
+            "acVsLegacy": {"movedFallbackDrives": qm(moved["fallback"]), "movedNonFallbackDrives": qm(moved["nonFallback"]), "coldZoneAndPeak": cmp,
+                           "note": "signed move = new x minus legacy x (T1_at_peak_Crate, the drive-maximum T1 for fallback drives)"}}
+    return ac_x, summ, bad
 
 
 def main():
@@ -255,23 +315,31 @@ def main():
     if any(ka["misses"].values()):
         json.dump(res, open(OUT, "w", encoding="utf-8"), indent=1, default=float)
         print(json.dumps({"STOP": "known-answer miss", **ka}, default=float)); sys.exit(2)
-    kw_x, summary = build(dm, recs, A)
-    res.update(summary=summary, nKwViewX=len(kw_x))
+    kw_x, summary, ac_x, ac_checks = build(dm, recs, A)
+    res.update(summary=summary, nKwViewX=len(kw_x), nAcViewX=len(ac_x), acConsistencyMisses=ac_checks)
+    if ac_checks:
+        json.dump(res, open(OUT, "w", encoding="utf-8"), indent=1, default=float)
+        print(json.dumps({"STOP": "A / C tier vs legacy fallback flag disagree (R3)", "examples": ac_checks[:5], "n": len(ac_checks)}, default=float)); sys.exit(2)
     res["rawListSha256"] = hashlib.sha256(json.dumps(sorted((r["file"], r["rawSha256"]) for r in recs.values())).encode()).hexdigest()
     json.dump(res, open(OUT if not only else OUT.replace(".json", "_sample.json"), "w", encoding="utf-8"), indent=1, default=float)
     json.dump({f: r for f, r in recs.items()}, open(os.path.join(CACHE, "_all.json" if not only else "_sample.json"), "w", encoding="utf-8"), default=float)
     print(json.dumps({"ok": True, "stats": stats, "knownAnswer": ka, "summary": summary}, default=float)[:3000])
     if mode == "--splice" and not only:
-        splice(res, recs, kw_x, A)
+        splice(res, recs, kw_x, A, ac_x)
 
 
-def splice(res, recs, kw_x, A):
+def _tod(ts):
+    """M567: clock time of day only. The logger exports a clock time without a date and the frame loader attaches the date of the run, so the full timestamp changed with the day the producer ran (a determinism defect of the M550 payload); ages and tiers never depended on it."""
+    return None if ts is None else pd.Timestamp(ts).strftime("%H:%M:%S.%f")
+
+
+def splice(res, recs, kw_x, A, ac_x):
     """additive write of S.powerPeakTemperature (+ stamp); every existing key (cRatePoints, cRatePointsAK, cRateRefLines*, cRateAxes) stays byte-identical."""
     ok = {f: r for f, r in recs.items() if r.get("ok")}
     rows = []
     for f in sorted(ok):
         r = ok[f]
-        rows.append([f, r.get("tPeakKw"), r.get("T1AtPeakKw"), r.get("ageKwS"), _cls(r.get("ageKwS")), r.get("tPeakI"), r.get("T1AtPeakI"), r.get("ageIS"),
+        rows.append([f, _tod(r.get("tPeakKw")), r.get("T1AtPeakKw"), r.get("ageKwS"), _cls(r.get("ageKwS")), _tod(r.get("tPeakI")), r.get("T1AtPeakI"), r.get("ageIS"),
                      _cls(r.get("ageIS")) if r.get("T1AtPeakI") is not None else "none", r.get("gapS"), r.get("vAgeKwS"), r.get("channelI"), r.get("nTiesAtMinP")])
     block = {"_provenance": "GENERATED by tools/power_peak_temp.py (M550). Do not hand-edit.", "schemaVersion": 1,
              "basis": "raw bytes through the master's own helpers (_prep_bytes, _series, _asof); raw/ = sha256-verified originals (M366); app-reported BMS channels (logged, not measured); the power peak is a reconstructed I x V sample",
@@ -279,10 +347,10 @@ def splice(res, recs, kw_x, A):
              "rule": {"nearestSampleNoInterpolation": True, "tiers": {"cotimed": "|age| <= 1 s", "nearby": "1 s < |age| <= 3 s", "late": "3 s < |age| <= 10 s", "none": "beyond 10 s or no T1 sample (omitted)"},
                       "ageSign": "T1 sample time minus peak sample time (seconds)", "ties": "first sample in (t, row) order", "currentPair": "the master's channel-gated peak-C-rate sample, replicated exactly (reg / egc / dual), T1 within 3 s"},
              "perDriveColumns": ["file", "tPeakKw", "T1AtPeakKw(<=3 s)", "ageKwS", "classKw", "tPeakI", "T1AtPeakI", "ageIS", "classI", "gapS", "vAgeKwS", "channelI", "nTiesAtMinP"],
-             "perDrive": rows, "kwViewX": kw_x, "summary": res["summary"], "knownAnswer": res["knownAnswer"],
-             "limits": ["P = Id x V is reconstructed from a current sample and the voltage sample paired within 1.5 s (vAgeKwS), not a native power sample", "T1 is logged at 1 degC resolution: differences below 1 degC cannot be shown",
+             "perDrive": rows, "kwViewX": kw_x, "acViewX": ac_x, "summary": res["summary"], "knownAnswer": res["knownAnswer"],
+             "limits": ["tPeakKw / tPeakI are clock times of day (M567; the logger exports no date)", "P = Id x V is reconstructed from a current sample and the voltage sample paired within 1.5 s (vAgeKwS), not a native power sample", "T1 is logged at 1 degC resolution: differences below 1 degC cannot be shown",
                         "summary statistics use the <= 3 s tiers only; the late tier (3-10 s) is a labelled sensitivity, paired 3-10 s apart under slow polling",
-                        "the A / C views keep the peak-current temperature (its fallback to the drive-maximum T1 for drives without a T1 sample within 3 s is the pre-existing master convention and a named follow-up)",
+                        "M567: the A / C views plot acViewX (T1 sample nearest the master's current-peak sample, tiers within 1 s / 3 s / hollow 3-10 s / omitted beyond 10 s); the drive-maximum fallback of T1_at_peak_Crate stays in the master and in cRatePoints* (unchanged) but is no longer drawn; the late tier departs from the master's 3 s convention (inherited from M550 as pre-registered)",
                         "N07 is partial: only the peak charge current and peak charge power pairs carry ages and classes; the other peak pairings are inventoried in analyses/M550_spec.md follow-ups",
                         "a drive whose minimum P is not negative has no charge sample; its 'peak' is the smallest positive P"]}
     block = json.loads(json.dumps(block, default=float))
@@ -290,7 +358,7 @@ def splice(res, recs, kw_x, A):
     skip = ("powerPeakTemperature", "_artifactStamps")
     before = {k: json.dumps(v, sort_keys=True) for k, v in A2.items() if k not in skip}
     stamps_before = {k: json.dumps(v, sort_keys=True) for k, v in A2["_artifactStamps"].items() if k != "powerPeakTemperature"}
-    assert [p[5] for p in A2["cRatePointsAK"]] == [p[5] for p in A["cRatePointsAK"]] and set(block["kwViewX"]) == {p[5] for p in A2["cRatePointsAK"]}, "keyed map join assertion"
+    assert [p[5] for p in A2["cRatePointsAK"]] == [p[5] for p in A["cRatePointsAK"]] and set(block["kwViewX"]) == {p[5] for p in A2["cRatePointsAK"]} and set(block["acViewX"]) == set(block["kwViewX"]), "keyed map join assertion"
     A2["powerPeakTemperature"] = block
     st = copy.deepcopy(A2["_artifactStamps"]["fuelContract"])
     st.update(corpusHash=block["inputs"]["driveMasterMd5"], generatedAt=datetime.datetime.now(datetime.timezone.utc).isoformat(), computationStatus="computed",

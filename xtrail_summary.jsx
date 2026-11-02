@@ -196,9 +196,17 @@ const M294 = (() => {
   const E = S.energyPath || {};
   const src = Object.fromEntries((E.chargeSources || []).map(s => [s.key, s]));
   const cold = S.cRateRefLines?.zones?.coldBelowC;   // M433 (audit F21): declared zone threshold from the payload, no silent default
-  const pts = S.cRatePoints || [];
+  // M567: the point set is cRatePointsAK (same points and order as cRatePoints) joined to the tiered x of the A / C views; the primary counts use the cotimed and nearby tiers only, late points are counted separately, omitted points are not counted
+  const ak = S.cRatePointsAK || [], AXm = S.powerPeakTemperature?.acViewX;
+  const LFc = S.powerPeakTemperature?.summary?.acVsLegacy?.coldZoneAndPeak?.likeForLike;
+  const near3 = p => AXm && AXm[p[5]] && (AXm[p[5]].tier === "cotimed" || AXm[p[5]].tier === "nearby");
+  const pts = AXm ? ak.filter(near3).map(p => [AXm[p[5]].x, p[1]]) : (S.cRatePoints || []);
+  const latePts = AXm ? ak.filter(p => AXm[p[5]] && AXm[p[5]].tier === "late").map(p => [AXm[p[5]].x, p[1]]) : [];
   const coldPts = typeof cold === "number" ? pts.filter(p => p[0] < cold) : [];
-  const peak = pts.length ? pts.reduce((a, b) => (b[1] > a[1] ? b : a)) : null;
+  const peakAK = ak.length ? ak.reduce((a, b) => (b[1] > a[1] ? b : a)) : null;
+  const peakX = AXm && peakAK ? AXm[peakAK[5]] : null;
+  const peak = peakAK ? [peakX ? peakX.x : peakAK[0], peakAK[1]] : (pts.length ? pts.reduce((a, b) => (b[1] > a[1] ? b : a)) : null);
+  const peakWhen = !peakX ? "co-timed" : (peakX.tier === "cotimed" || peakX.tier === "nearby") ? `co-timed, within ${Math.max(1, Math.ceil(Math.abs(peakX.ageS ?? 0)))} s` : peakX.x == null ? "without a T1 sample within 10 s" : `paired ${Math.abs(peakX.ageS ?? 0).toFixed(1)} s apart`;
   const win = (S.socBandReset?.windows || []);
   const firstElev = win.find(w => w.elevated);
   const firstNs = win.find(w => !w.elevated);
@@ -213,7 +221,8 @@ const M294 = (() => {
     engOnNonBrakePct: src.eng_only?.pct, overlapPct: src.dual?.pct,
     engOffBrakePct: src.pure_regen?.pct, engOffResidPct: src.lowtq_engoff?.pct,
     engOnPct: E.engOnChargePct, brakingStatesPct: E.regenTouchedPct,
-    coldC: cold, nColdPts: coldPts.length, nPts: pts.length,
+    coldSentence: `${coldPts.length} of ${pts.length} within 3 s${AXm && latePts.length ? `, plus ${latePts.filter(p => typeof cold === "number" && p[0] < cold).length} of ${latePts.length} paired 3–10 s apart (mostly slow polling)` : ""}${LFc ? `; ${LFc.tierRuleNCold} of ${LFc.n} under the timing-tier rule against ${LFc.legacyNCold} of ${LFc.n} under the previous drive-maximum convention` : ""}`,
+    coldC: cold, nColdPts: coldPts.length, nPts: pts.length, nLate: latePts.length, nColdLate: typeof cold === "number" ? latePts.filter(p => p[0] < cold).length : 0, peakWhen,
     maxColdC: coldPts.length ? Math.max(...coldPts.map(p => p[1])).toFixed(1) : null,
     minPtT: pts.length ? Math.min(...pts.map(p => p[0])) : null,
     peakC: peak ? peak[1] : null, peakT: peak ? peak[0] : null,
@@ -3799,10 +3808,18 @@ function crateAxisModel(unit,pts,AXp,RLa,C0){
 }
 /*M358-MODEL-END*/
 // M550 (audit 2026-10-29 F05 + N07): the kW view plots each drive at the T1 sample nearest its peak charge POWER sample (S.powerPeakTemperature.kwViewX, keyed by file); the A and C views keep the peak-current temperature.
-function kwViewVals(vals, pts){
-  const KX=S.powerPeakTemperature?.kwViewX;
+function kwViewVals(vals, pts, key="kwViewX"){
+  const KX=S.powerPeakTemperature?.[key];
   if(!KX) return null;
   return vals.map(p=>{ const k=KX[pts[p.i]?.[5]]; return k&&k.x!=null?{...p,t:k.x,tier:k.tier,ageS:k.ageS}:null; }).filter(Boolean);
+}
+// M567: the A and C views use the same timing tiers as the kW view, on the master's current-peak sample (S.powerPeakTemperature.acViewX).
+function currentPeakCaption(){
+  const B=S.powerPeakTemperature, m=B?.summary; if(!m||!m.tiersAC) return null;
+  const t=m.tiersAC, L=m.acVsLegacy, f=L&&L.movedFallbackDrives, fx=(x,n=1)=>x==null?"\u2014":Number(x).toFixed(n);
+  const cad=Object.entries(m.tiersACByCadence||{}).map(([k,v])=>`${k} ${v.tiersAC.cotimed}/${v.tiersAC.nearby}/${v.tiersAC.late}/${v.tiersAC.none}`).join("; ");
+  const n=m.nViewA;
+  return `A and C views: T1 is the logged pack-temperature sample nearest the current-peak charge sample (the largest charge current across the regeneration, engine and dual channels; signed age stored). Tiers within 1 s / within 3 s / 3\u201310 s (hollow, paired 3\u201310 s apart, mostly slow polling) / omitted beyond 10 s: ${t.cotimed} / ${t.nearby} / ${t.late} / ${t.none} of ${n} drives (by cadence, same order: ${cad}). ${f?`${f.nMoved} of ${f.n} drives without a T1 sample within 3 s of the peak moved relative to the previous drive-maximum convention (they were drawn at the hottest T1 of the drive); every move is to an equal or lower temperature (median ${fx(f.signedMedian)} \u00b0C, 90th percentile of the absolute move ${fx(f.absP90)} \u00b0C, ${f.nDays} days). `:""}T1 is logged at 1 \u00b0C resolution.`;
 }
 function powerPeakCaption(){
   const B=S.powerPeakTemperature, m=B?.summary; if(!m) return null;
@@ -3826,7 +3843,7 @@ function CRateRiskMap() {
   const pts = S.cRatePointsAK || [];
   const AXp = S.cRateAxes || {};
   const M = crateAxisModel(unit, pts, AXp, S.cRateRefLinesAK, RL);
-  const kwv = unit==="kW" ? kwViewVals(M.vals, pts) : null;
+  const kwv = kwViewVals(M.vals, pts, unit==="kW" ? "kwViewX" : "acViewX");
   const VALS = kwv || M.vals;
   const xMin=AX.xMin ?? 8, xMax=AX.xMax ?? 55, yMin=0, yMax=M.yMax;
   const xS = v=>(v-xMin)/(xMax-xMin)*pw;
@@ -3933,7 +3950,7 @@ function CRateRiskMap() {
         {/* Axes */}
         <line x1={PL} y1={PT+ph} x2={PL+pw} y2={PT+ph} stroke="#d1d5db" strokeWidth={1}/>
         <line x1={PL} y1={PT} x2={PL} y2={PT+ph} stroke="#d1d5db" strokeWidth={1}/>
-        <text x={PL+pw/2} y={H-5} textAnchor="middle" fill="#64748b" fontSize={9}>{kwv?"Battery temperature — Sensor 1, at the sample nearest the peak charge power (°C)":"Battery temperature — Sensor 1, at the moment of peak charge current (°C)"}</text>
+        <text x={PL+pw/2} y={H-5} textAnchor="middle" fill="#64748b" fontSize={9}>{kwv?(unit==="kW"?"Battery temperature — Sensor 1, at the sample nearest the peak charge power (°C)":"Battery temperature — Sensor 1, at the sample nearest the peak charge current (°C)"):"Battery temperature — Sensor 1, at the moment of peak charge current (°C)"}</text>
         <text x={12} y={PT+ph/2} textAnchor="middle" fill="#64748b" fontSize={8}
           transform={`rotate(-90,12,${PT+ph/2})`}>{yTitle}</text>
 
@@ -3973,9 +3990,9 @@ function CRateRiskMap() {
           <span key={l} style={{color:c}}>● {l}</span>
         ))}
         <span style={{color:"#64748b"}}>○ dark-ringed = C-rate &gt; 30 (assumed-capacity units)</span>
-        {kwv&&<span data-kw-late-legend="1" style={{color:"#64748b"}}>◯ hollow = T1 sample 3–10 s from the peak-power sample</span>}
+        {kwv&&<span data-kw-late-legend="1" style={{color:"#64748b"}}>◯ hollow = T1 sample 3–10 s from the peak-{unit==="kW"?"power":"current"} sample</span>}
       </div>
-      {kwv&&powerPeakCaption()&&<div data-kw-caption="1" style={{marginTop:6,fontSize:9,color:"#64748b",lineHeight:1.5}}>{powerPeakCaption()}</div>}
+      {kwv&&(unit==="kW"?powerPeakCaption():currentPeakCaption())&&<div data-kw-caption="1" data-ac-caption={unit==="kW"?undefined:"1"} style={{marginTop:6,fontSize:9,color:"#64748b",lineHeight:1.5}}>{unit==="kW"?powerPeakCaption():currentPeakCaption()}</div>}
       <div style={{marginTop:8,padding:8,background:"#f1f5f9",borderRadius:6,fontSize:10,color:"#64748b",lineHeight:1.6}}>
         <strong style={{color:"#0f172a"}}>M358 (F21.r1) — axes:</strong> the primary axes are the peak charge current in A (logged by the BMS and read over OBD; no capacity assumption) and the drive peak charge power in kW (derived as logged HV current × logged HV voltage; the drive-level maximum, not co-timed with peak current by construction: across the {dg.impliedVoltageOverVmed?.n ?? "—"} drives with both values the implied voltage kW×1000/A is {dg.impliedVoltageOverVmed?.median ?? "—"}× the pack median voltage (IQR {dg.impliedVoltageOverVmed?.p25 ?? "—"}–{dg.impliedVoltageOverVmed?.p75 ?? "—"}), {dg.impliedVoltageOverVmed?.outside0p9to1p1Frac != null ? (100*dg.impliedVoltageOverVmed.outside0p9to1p1Frac).toFixed(1) : "—"}% of drives lie outside 0.9–1.1×, and the correlation of A with kW is {dg.corrAKw != null ? fmtSig(+dg.corrAKw,3) : "—"}). C-rate is {xbRated() ? <>the peak current divided by the rated capacity 5 Ah (C = A ÷ 5 A; {xbLab("crate")})</> : <>a normalisation of A by the assumed pack capacity (C = A ÷ (CAP_KWH × 1000 ÷ pack median voltage), per drive; CAP_KWH = 2.1 kWh is unverified)</>} and is shown secondary; the secondary axis uses the corpus-median C-per-A ratio {AXp.cPerA?.median != null ? fmtSig(+AXp.cPerA.median,3) : "—"}(half-IQR {AXp.cPerA?.halfIqrRel != null ? (100*AXp.cPerA.halfIqrRel).toFixed(1) : "—"}%, n={AXp.cPerA?.n ?? "—"}). The median reference line is a median of per-drive peaks on each axis separately (median A and median kW are not one operating point). Peak values are single-sample maxima on the raw/ = sha256-verified originals (M366).
       </div>
@@ -3983,9 +4000,9 @@ function CRateRiskMap() {
         <strong style={{color:"#ef4444"}}>Cooler (&lt;{S.cRateRefLines?.zones?.coldBelowC ?? "—"}°C):</strong> a temperature context band; generic Li-ion guidance associates cold charging at high current with a plating stressor, which these logs cannot confirm or exclude.{" "}
         <strong style={{color:"#22c55e"}}>Intermediate ({S.cRateRefLines?.zones?.optimalLoC ?? "—"}–{S.cRateRefLines?.zones?.optimalHiC ?? "—"}°C):</strong> the main dataset cluster.{" "}
         <strong style={{color:"#f97316"}}>Warmer (≥{S.cRateRefLines?.zones?.heatAboveC ?? "—"}°C):</strong> generic guidance associates sustained higher temperature with faster calendar ageing; reached only in sustained summer highway driving. These boundaries are generic reference context, not validated Nissan limits and not a damage or safety verdict. Dataset ceiling {S.tPeakC}°C (Sensor 1, {S.tPeakDrive}).{" "}
-        <strong style={{color:"#0f172a"}}>Charge-current extremes (dark ring):</strong> absolute peak {S.cRateRefLines?.dualPeakC ?? "—"}C ({S.peakChargeA ?? "—"}A) and pure-regen peak {S.cRateRefLines?.regenPeakC ?? "—"}C. The highest plotted peak ({M294.peakC}C) was co-timed with a {M294.peakT}°C pack; {M294.nColdPts} of {M294.nPts} peaks sit below the {M294.coldC}°C line (highest there {M294.maxColdC ?? "—"}C). C-rate convention: {xbRated() ? <>C = A ÷ 5 A (rated capacity 5 Ah, Nissan Article-10, documentary) — a reference denominator, not a measured capacity</> : <>C = A ÷ ({capKwhText()} kWh assumed capacity ÷ nominal pack voltage) — an ASSUMED Ah denominator, not a measured capacity</>}; the current in A is the logged quantity.{" "}
+        <strong style={{color:"#0f172a"}}>Charge-current extremes (dark ring):</strong> absolute peak {S.cRateRefLines?.dualPeakC ?? "—"}C ({S.peakChargeA ?? "—"}A) and pure-regen peak {S.cRateRefLines?.regenPeakC ?? "—"}C. The highest plotted peak ({M294.peakC}C) had a T1 reading of {M294.peakT}°C at the sample nearest it ({M294.peakWhen}); {M294.nColdPts} of {M294.nPts} peaks sit below the {M294.coldC}°C line (highest there {M294.maxColdC ?? "—"}C). C-rate convention: {xbRated() ? <>C = A ÷ 5 A (rated capacity 5 Ah, Nissan Article-10, documentary) — a reference denominator, not a measured capacity</> : <>C = A ÷ ({capKwhText()} kWh assumed capacity ÷ nominal pack voltage) — an ASSUMED Ah denominator, not a measured capacity</>}; the current in A is the logged quantity.{" "}
         <strong style={{color:"#7c3aed"}}>M58 (2026-07-27):</strong> the three reference lines were hand-typed, and one — a &ldquo;30.5C engine-only ceiling&rdquo; — had gone stale: engine-only and dual-channel peaks are now the <em>same</em> event ({S.cRateRefLines?.enginePeakDrive ?? "—"}), so the map was drawing two separately-labelled ceilings for one number. Lines and axis bounds are now derived from the master with headroom. The zone boundaries themselves remain <em>external</em> reference values, not measurements from this dataset: {S.cRateRefLines?.zones?.source ?? "generic Li-ion guidance."}{" "}
-        <strong style={{color:"#7c3aed"}}>M239 (Deep Article Audit C1):</strong> each point's x-position previously used T1_peak — the drive's hottest reading ANYWHERE in the drive, not necessarily when the peak current occurred. Current and temperature are both logged on native timestamps, so this now pairs each drive's peak charge C-rate with battery temperature <em>at that exact sample</em> (asof-aligned, 3 s tolerance). Effect on this corpus: the median point moved 2°C (up to 16°C) toward the true co-timed reading; points move from the optimal band into the cold-risk zone (on the live payload {M294.nColdPts} of {M294.nPts} points sit below {S.cRateRefLines?.zones?.coldBelowC ?? "—"}°C; highest there {M294.maxColdC ?? "—"}C); and 25 of the 49 points previously drawn above the generic warmer-band boundary move out of it — those charge events happened at a cooler moment than the drive's separately-timed peak temperature. A drive-level fallback (T1_peak) is retained only for the small minority of drives lacking a raw current+temperature probe (early logs predating full PID coverage).
+        <strong style={{color:"#7c3aed"}}>M239 / M567 (timing of the temperature):</strong> the x-position first used the drive's hottest T1 reading anywhere in the drive (M239 replaced it by the T1 at the current-peak sample, and kept the drive maximum for drives without a T1 sample within 3 s). Since M567 the A and C views use the same timing tiers as the kW view (T1 at the sample nearest the current-peak sample: within 1 s, within 3 s, hollow when paired 3&ndash;10 s apart, omitted beyond 10 s); the counts and the drives that moved relative to the previous drive-maximum convention are in the caption above. On the live payload, peaks below {S.cRateRefLines?.zones?.coldBelowC ?? "—"}°C: {M294.coldSentence} (highest C-rate among the within-3 s ones: {M294.maxColdC ?? "—"}C). Temperature channels are logged, app-reported BMS probes.
       </div>
     </div>
   );
@@ -4956,7 +4973,7 @@ function HealthStatusCard(){
     {k:"Capacity SOH", ev:"unavailable", g:<span data-not-observed="1" style={{fontSize:9,color:"#64748b",padding:"1px 6px",border:"1px dashed #cbd5e1",borderRadius:4}}>apparent SoC scale only</span>,
      t:`An apparent scale of the logged BMS SoC is estimable${S.capacityBasis?.ahPer100?.point!=null ? ": "+S.capacityBasis.ahPer100.point+" Ah ("+S.capacityBasis.kWhPer100?.point+" kWh) per 100 SoC points, day-bootstrap 95% CI ["+S.capacityBasis.ahPer100.bootstrapCI95?.join(", ")+"] Ah / ["+S.capacityBasis.kWhPer100?.bootstrapCI95?.join(", ")+"] kWh, "+S.capacityBasis.population?.nDrives+" drives on "+S.capacityBasis.population?.nDays+" days ("+S.capacityBasis.population?.nEvents?.toLocaleString()+" events), range over the method variants ["+S.capacityBasis.ahPer100.methodRange?.join(", ")+"] Ah" : ""}. It is the scale of the logged signal, not full capacity, accessible capacity or state of health: physical full capacity and capacity fade are not identified (passive OBD logging never leaves the SoC window, so no relaxed-OCV coulomb count exists; current-sensor gain and any BMS SoC remapping are not separable). It does not show whether 2.1 kWh is a gross capacity and the fitted scale the usable part, and 2.1 kWh stays an assumed constant. The 5 Ah figure is a documentary reference (the manufacturer's Article 10 disclosure), not a pack test of this vehicle.`},
     {k:"Cool-pack charging exposure", ev:"observed exposure / outcome unobserved",
-     g:<span style={{fontSize:9,color:"#334155"}}>{M294.nColdPts} of {M294.nPts} peaks &lt;{M294.coldC}°C</span>,
+     g:<span style={{fontSize:9,color:"#334155"}}>peaks &lt;{M294.coldC}°C: {M294.coldSentence}</span>,
      t:`coldest co-timed ${M294.minPtT}°C; plating occurrence and winter cold-pack behaviour unmeasured (Cold class: ${S.cohortMeta?.cold?.observed ?? 0} observed drives, ${S.cohortMeta?.cold?.eligibleForCohortView ?? 0} analysed as a cohort).`},
   ];
   return <div data-health-status-card="1" style={{overflowX:"auto"}}>
@@ -12991,7 +13008,7 @@ export default function App() {
               },
               "Cold-start high-rate charging": {
                 status:"MODERATELY COOL EXPOSURE LOGGED",
-                detail:`Moderately cool charging exposure comes from logged BMS sensor readings: ${M294.nColdPts} of ${M294.nPts} plotted per-drive charge peaks sit below the ${M294.coldC}\u00B0C reference line (co-timed battery temperature, coldest ${M294.minPtT}\u00B0C; highest ${M294.maxColdC ?? "\u2014"}C on the assumed-capacity C scale). Plating occurrence and winter cold-pack behaviour are unmeasured: only ${S.cohortMeta?.cold?.observed ?? 0} drive${(S.cohortMeta?.cold?.observed ?? 0)===1?"":"s"} with ambient \u2264${S.seasonalCharts?._meta?.thresholds?.cold?.replace("<=","") ?? "5"}\u00B0C ${(S.cohortMeta?.cold?.observed ?? 0)===1?"is":"are"} logged (Cold class: ${S.cohortMeta?.cold?.eligibleForCohortView ?? 0} analysed as a cohort; the minimum for an inferential cohort view is ${S.ambientTable?.cohortMinDrives ?? "n/a"}), and a charge peak at a cool temperature is an exposure, not evidence of chemical damage. The ${M294.coldC}\u00B0C line is generic Li-ion guidance, not a validated Nissan limit. Closing the gap needs winter logging with the full PID set.`
+                detail:`Moderately cool charging exposure comes from logged BMS sensor readings: plotted per-drive charge peaks below the ${M294.coldC}°C reference line: ${M294.coldSentence} (co-timed battery temperature, coldest ${M294.minPtT}\u00B0C; highest ${M294.maxColdC ?? "\u2014"}C on the assumed-capacity C scale). Plating occurrence and winter cold-pack behaviour are unmeasured: only ${S.cohortMeta?.cold?.observed ?? 0} drive${(S.cohortMeta?.cold?.observed ?? 0)===1?"":"s"} with ambient \u2264${S.seasonalCharts?._meta?.thresholds?.cold?.replace("<=","") ?? "5"}\u00B0C ${(S.cohortMeta?.cold?.observed ?? 0)===1?"is":"are"} logged (Cold class: ${S.cohortMeta?.cold?.eligibleForCohortView ?? 0} analysed as a cohort; the minimum for an inferential cohort view is ${S.ambientTable?.cohortMinDrives ?? "n/a"}), and a charge peak at a cool temperature is an exposure, not evidence of chemical damage. The ${M294.coldC}\u00B0C line is generic Li-ion guidance, not a validated Nissan limit. Closing the gap needs winter logging with the full PID set.`
               }
             };
             // M155 (2026-08-22): resolve the cell-health row by stable prefix as

@@ -1082,8 +1082,11 @@ ep = {s["key"]: s["pct"] for s in A["energyPath"]["chargeSources"]}
 ok("B operating-state shares in Conclusions == energyPath",
    f"engine-off braking {ep['pure_regen']}%" in conc and f"braking overlap {ep['dual']}%" in conc, str(ep))
 cold = A["cRateRefLines"]["zones"]["coldBelowC"]
-n_cold = sum(1 for p in A["cRatePoints"] if p[0] < cold)
-ok("B cool-charging count in Health == cRatePoints", f"{n_cold} of {len(A['cRatePoints'])}" in T.get("health__all", ""), str(n_cold))
+# M567: the Health count uses the points with a T1 sample within 3 s of the current peak (tiers cotimed / nearby of powerPeakTemperature.acViewX); late points are counted separately
+_acx = A["powerPeakTemperature"]["acViewX"]
+_near3 = [(_acx[p[5]]["x"], p[1]) for p in A["cRatePointsAK"] if _acx[p[5]]["tier"] in ("cotimed", "nearby")]
+n_cold = sum(1 for p in _near3 if p[0] < cold)
+ok("B cool-charging count in Health == cRatePointsAK within 3 s (acViewX)", f"{n_cold} of {len(_near3)}" in T.get("health__all", ""), str(n_cold))
 ei = A["seasonalCharts"]["charts"]["EnergyIntensity"]["data"]
 ok("B EnergyIntensity headline is the clean basis", str(ei["all"].get("eligibility","")).startswith("canonical_clean")
    and "publishedBasisSensitivity" in ei["shoulder"])
