@@ -908,6 +908,100 @@ function ChartWithTable({ chart, children, label="Show table" }) {
   );
 }
 
+/* M571 (2026-11-02; spec analyses/M571_spec.md): 100 % stacked bars of printed point shares and a dumbbell plot of values on one axis.
+   Same rules as M569/M570: pure tested models, a missing or invalid value is skipped (never zeroed or rescaled), no interval is invented. */
+/*M571-MODEL-BEGIN*/
+function shareStackModel(rows, keys){
+  const ok=v=>typeof v==="number"&&isFinite(v)&&v>=0;
+  return (rows||[]).map(r=>{
+    let x=0; const segs=[];
+    (keys||[]).forEach(k=>{ const v=r.shares?r.shares[k]:undefined; if(!ok(v)) return; segs.push({k,v,x0:x,x1:x+v}); x+=v; });
+    return {...r,segs,total:x,off:segs.length>0&&Math.abs(x-100)>1,empty:segs.length===0};
+  });
+}
+function dumbbellModel(rows, keys, spanKeys){
+  const ok=v=>typeof v==="number"&&isFinite(v);
+  const out=(rows||[]).map(r=>{
+    const pts=(keys||[]).filter(k=>r.vals&&ok(r.vals[k])).map(k=>({k,v:r.vals[k]})), vs=pts.filter(p=>!spanKeys||spanKeys.includes(p.k)).map(p=>p.v);
+    return {...r,pts,lo:vs.length>1?Math.min(...vs):null,hi:vs.length>1?Math.max(...vs):null};
+  });
+  const all=out.flatMap(r=>r.pts.map(p=>p.v)).concat([0]);
+  const lo=Math.min(...all); let hi=Math.max(...all); if(hi===lo) hi=lo+1;
+  const raw=(hi-lo)/4, mag=Math.pow(10,Math.floor(Math.log10(raw))), nrm=raw/mag;
+  const step=(nrm<=1?1:nrm<=2?2:nrm<=5?5:10)*mag;
+  const tmin=Math.floor(lo/step+1e-9)*step, tmax=Math.ceil(hi/step-1e-9)*step;
+  const ticks=[]; for(let v=tmin; v<=tmax+step*1e-9; v+=step) ticks.push(parseFloat(v.toPrecision(12)));
+  return {rows:out,min:ticks[0],max:ticks[ticks.length-1],ticks};
+}
+/*M571-MODEL-END*/
+function ShareStack({ rows, keys, ariaLabel, caption, lblW=210 }) {
+  const M = shareStackModel(rows, keys.map(k => k.k));
+  if (!M.length) return null;
+  const W = 540, PR = 14, PT = 4, PB = 20, rowH = 26, pw = W - lblW - PR, H = PT + M.length * rowH + PB;
+  const xS = v => lblW + Math.min(v, 100) / 100 * pw, col = Object.fromEntries(keys.map(k => [k.k, k.color])), lab = Object.fromEntries(keys.map(k => [k.k, k.label]));
+  return (
+    <div data-share-stack="1">
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 10, fontSize: 9.5, color: "#475569", marginBottom: 2 }}>
+        {keys.map(k => <span key={k.k}><span style={{ display: "inline-block", width: 9, height: 9, background: k.color, marginRight: 4 }}></span>{k.label}</span>)}
+      </div>
+      <svg width="100%" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={ariaLabel} style={{ overflow: "visible" }}>
+        {[0, 25, 50, 75, 100].map(v => <text key={v} x={xS(v)} y={H - 6} textAnchor="middle" fill="#94a3b8" fontSize={8}>{v}%</text>)}
+        {M.map((r, i) => {
+          const cy = PT + i * rowH + rowH / 2;
+          return (
+            <g key={i} data-share-row={r.empty ? "none" : "bar"}>
+              <text x={lblW - 8} y={cy - (r.sub ? 2 : -3)} textAnchor="end" fontSize={9} fill="#0f172a" fontWeight={700}>{r.label}</text>
+              {r.sub && <text x={lblW - 8} y={cy + 8} textAnchor="end" fontSize={7.5} fill="#94a3b8">{r.sub}</text>}
+              {r.empty && <text x={lblW + 6} y={cy + 3} fontSize={8.5} fill="#94a3b8" fontStyle="italic">no shares in the table</text>}
+              {r.segs.map(s => (
+                <g key={s.k}>
+                  <rect x={xS(s.x0)} y={cy - 8} width={Math.max(0, xS(s.x1) - xS(s.x0))} height={16} fill={col[s.k]}><title>{`${r.label}: ${lab[s.k]} ${s.v}%${r.off ? ` (shares sum to ${r.total.toFixed(1)}%)` : ""}`}</title></rect>
+                  {xS(s.x1) - xS(s.x0) >= 24 && <text x={(xS(s.x0) + xS(s.x1)) / 2} y={cy + 3} textAnchor="middle" fontSize={8} fill="#fff" fontWeight={700}>{s.v}</text>}
+                </g>
+              ))}
+            </g>
+          );
+        })}
+      </svg>
+      <div style={{ fontSize: 9, color: "#94a3b8", marginTop: 2 }}>Bars are the shares printed in the table (percent of generator-active seconds); they are not rescaled. {caption}</div>
+    </div>
+  );
+}
+function DumbbellPlot({ rows, keys, spanKeys, xLabel, ariaLabel, caption, fmt, lblW=190 }) {
+  const M = dumbbellModel(rows, keys.map(k => k.k), spanKeys);
+  if (!M.rows.some(r => r.pts.length)) return null;
+  const W = 540, PR = 96, PT = 6, PB = 32, rowH = 26, pw = W - lblW - PR, H = PT + M.rows.length * rowH + PB;
+  const xS = v => lblW + (v - M.min) / (M.max - M.min) * pw, fv = fmt || (v => v.toFixed(2));
+  return (
+    <div data-dumbbell="1">
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 10, fontSize: 9.5, color: "#475569", marginBottom: 2 }}>
+        {keys.map(k => <span key={k.k}><span style={{ display: "inline-block", width: 9, height: 9, borderRadius: 5, background: k.color, marginRight: 4 }}></span>{k.label}</span>)}
+      </div>
+      <svg width="100%" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={ariaLabel || xLabel} style={{ overflow: "visible" }}>
+        {M.ticks.map(t => (
+          <g key={t}>
+            <line x1={xS(t)} y1={PT} x2={xS(t)} y2={PT + M.rows.length * rowH} stroke="#f1f5f9" strokeWidth={1} />
+            <text x={xS(t)} y={PT + M.rows.length * rowH + 12} textAnchor="middle" fill="#94a3b8" fontSize={8}>{fv(t)}</text>
+          </g>
+        ))}
+        <text x={lblW + pw / 2} y={H - 4} textAnchor="middle" fill="#64748b" fontSize={8.5}>{xLabel}</text>
+        {M.rows.map((r, i) => {
+          const cy = PT + i * rowH + rowH / 2;
+          return (
+            <g key={i} data-dumbbell-row={r.pts.length}>
+              <text x={lblW - 8} y={cy + 3} textAnchor="end" fontSize={9} fill="#374151" fontWeight={600}>{r.label}</text>
+              {r.lo !== null && <line x1={xS(r.lo)} y1={cy} x2={xS(r.hi)} y2={cy} stroke="#cbd5e1" strokeWidth={2} />}
+              {r.pts.map(p => { const k = keys.find(q => q.k === p.k); return <circle key={p.k} cx={xS(p.v)} cy={cy} r={3.8} fill={k.color} stroke="#fff" strokeWidth={0.8}><title>{`${r.label}, ${k.label}: ${fv(p.v)}`}</title></circle>; })}
+              {r.valueText && <text x={W - PR + 8} y={cy + 3} fontSize={8.5} fill="#0f172a" fontWeight={700}>{r.valueText}</text>}
+            </g>
+          );
+        })}
+      </svg>
+      <div style={{ fontSize: 9, color: "#94a3b8", marginTop: 2 }}>{caption}</div>
+    </div>
+  );
+}
+
 /* M570 (2026-11-02; spec analyses/M570_spec.md): connected series of estimates with 95 % intervals over an ordered x (window length, origin, horizon).
    Same rules as the interval plot: pure tested model, no interval invented, a gap (no estimate) breaks the line instead of being interpolated.
    A point may carry a grey `bound` bar (identification bounds): it widens the axis but is never drawn or described as an interval. */
@@ -6050,6 +6144,10 @@ function GeneratorTractionRecon() {
         <li style={{marginBottom:3}}><strong>Gen alone (neutral)</strong> — generator output ≈ traction demand, battery essentially idle. A narrow, transient balance point.</li>
         <li><strong>Fully banked</strong> — the engine runs with little or no traction demand, sending nearly all output to the battery (SoC-recovery / BMS-commanded charging while stopped or coasting).</li>
       </ul>
+      <ChartWithTable chart={<ShareStack ariaLabel="Generator-active state mix by drive type: share of generator-active seconds in each of four reconstructed states"
+        keys={[{k:"genPlusBattDischarge",label:"Gen+batt discharge",color:"#dc2626"},{k:"chargesAndDrives",label:"Charges+drives",color:"#2563eb"},{k:"genAloneNeutral",label:"Gen alone",color:"#94a3b8"},{k:"fullyBanked",label:"Fully banked",color:"#d97706"}]}
+        caption="Time shares of generator-active seconds, a state-mix description, not a validation of the generator split; point shares with no interval, and the ordering across drive types is not tested."
+        rows={R.simultaneity.map(row=>({label:typeLabel[row.type],sub:`n=${row.nDrives}, ${row.engineOnHours} h generator-active`,shares:{genPlusBattDischarge:row.genPlusBattDischarge,chargesAndDrives:row.chargesAndDrives,genAloneNeutral:row.genAloneNeutral,fullyBanked:row.fullyBanked}}))}/>}>
       <div style={{overflowX:"auto",marginBottom:6}}>
         <table style={{width:"100%",borderCollapse:"collapse",fontSize:10}}>
           <thead><tr style={{textAlign:"left",color:"#64748b",borderBottom:"1px solid #e2e8f0"}}>
@@ -6067,6 +6165,7 @@ function GeneratorTractionRecon() {
           </tbody>
         </table>
       </div>
+      </ChartWithTable>
       <div style={{fontSize:10.5,color:"#475569",lineHeight:1.65,marginBottom:4}}>
         <strong>In this descriptive table, charge-and-drive is the largest generator-active state in urban and mixed driving.</strong> It is a point share with no interval, the ordering across drive types is not tested, and the highway and mixed-highway rows rest on {R.simultaneity.find(r=>r.type==="highway")?.nDrives} and {R.simultaneity.find(r=>r.type==="mixed_highway")?.nDrives} drives. In the urban row the reconstructed state is charge-and-drive for {R.simultaneity.find(r=>r.type==="urban")?.chargesAndDrives}% of generator-active time (mixed {R.simultaneity.find(r=>r.type==="mixed")?.chargesAndDrives}%) and fully banked, with little or no traction, for another {R.simultaneity.find(r=>r.type==="urban")?.fullyBanked}%; the battery discharges <em>alongside</em> the generator for {R.simultaneity.find(r=>r.type==="urban")?.genPlusBattDischarge}% of urban generator-active time. In the highway row the battery discharges alongside the generator for {R.simultaneity.find(r=>r.type==="highway")?.genPlusBattDischarge}% of generator-active time and charge-and-drive is {R.simultaneity.find(r=>r.type==="highway")?.chargesAndDrives}% (direction only; charge-and-drive is not monotonic across the four types). The urban row has the larger charge-and-drive share and the highway row ({R.simultaneity.find(r=>r.type==="highway")?.nDrives} drives) the larger battery-discharge share; this state mix is consistent with, but does not test, a power-buffer role (a state-mix description, not a validation of the generator split). Two things keep this precise. It is a <em>time</em> share, not an energy share — complementary to the f_gen energy allocation above (a state can be brief but energy-dense), and the engine-off EV driving that carries much of urban traction is not counted here at all. §4a examines <em>why</em> the battery discharges alongside the generator at speed: its sample-level decomposition reports that this is not generator saturation (the evidence and its limits are stated there; this table does not test it).
       </div>
@@ -8868,10 +8967,14 @@ function FuelVsTripLength(){
       </div></div>)}
     <div style={{fontSize:10,color:"#64748b",margin:"2px 0 6px"}}>Identical trips in both panels ({R.fuel01Trips} trips with distance ≥ 0.5 km). {coh!=="compare"&&<>Colour = first logged engine-coolant temperature (oil as fallback):{" "}{Object.keys(FX_TEMP_COL).map(k=><span key={k} style={{marginRight:8}}><span style={{display:"inline-block",width:8,height:8,borderRadius:4,background:FX_TEMP_COL[k],marginRight:3}}></span>{k}</span>)}</>}</div>
     {coh==="all"&&<div>
+      <ChartWithTable chart={<IntervalForest xLabel="pooled L/100 km (95% CI)" zero={false} ariaLabel="Pooled fuel consumption by trip-distance band with its day-clustered 95% CI" fmt={v=>v.toFixed(2)}
+        caption="Descriptive pooled ratios of summed litres to summed km; trip length is confounded with start temperature, speed mix and season, so no cause is attributed. A band without an interval is points only."
+        rows={[...F.bands.map(b=>({label:`${b.band} km`,est:b.pooledL100?b.pooledL100.est:null,lo:b.pooledL100?.ci95?.[0],hi:b.pooledL100?.ci95?.[1],sub:`${b.nTrips} trips, ${b.nDays} days`,note:"points only"})),{label:"all ≥ 0.5 km",est:F.pooledAll.est,lo:F.pooledAll.ci95?.[0],hi:F.pooledAll.ci95?.[1],sub:`${F.pooledAll.nTrips} trips, ${F.pooledAll.nDays} days`,color:"#0f172a"}]}/>}>
       <table style={{fontSize:10,borderCollapse:"collapse"}}><thead><tr style={{color:"#64748b"}}><th style={{padding:"2px 8px",textAlign:"left"}}>distance band (km)</th><th style={{padding:"2px 8px"}}>trips · days</th><th style={{padding:"2px 8px"}}>pooled L/100 km (95% CI)</th><th style={{padding:"2px 8px",textAlign:"left"}}>support</th></tr></thead>
         <tbody>{F.bands.map(b=><tr key={b.band} style={{borderTop:"1px solid #f1f5f9"}}><td style={{padding:"2px 8px"}}>{b.band}</td><td style={{padding:"2px 8px",textAlign:"center"}}>{b.nTrips} · {b.nDays}</td>
           <td style={{padding:"2px 8px",textAlign:"center",fontWeight:700}}>{b.pooledL100?`${b.pooledL100.est.toFixed(2)} (${b.pooledL100.ci95[0].toFixed(2)}–${b.pooledL100.ci95[1].toFixed(2)})`:"points only"}</td><td style={{padding:"2px 8px"}}>{b.support}</td></tr>)}
           <tr style={{borderTop:"1px solid #cbd5e1",fontWeight:700}}><td style={{padding:"2px 8px"}}>all ≥ 0.5 km</td><td style={{padding:"2px 8px",textAlign:"center"}}>{F.pooledAll.nTrips} · {F.pooledAll.nDays}</td><td style={{padding:"2px 8px",textAlign:"center"}}>{F.pooledAll.est.toFixed(2)} ({F.pooledAll.ci95[0].toFixed(2)}–{F.pooledAll.ci95[1].toFixed(2)})</td><td></td></tr></tbody></table>
+      </ChartWithTable>
       <div style={{fontSize:10.5,color:"#334155",marginTop:6}}>Pooled rates are ratios of summed litres to summed km (day-clustered bootstrap, seed 42, 4000 draws); they are descriptive. Trip length is confounded with start temperature, speed mix and season, so no cause is attributed to the pattern (the existing cold-start fuel-rate association is a separate, adjusted analysis). Rates are not corrected for the SoC change. The {R.withoutFuelData.counterFlatOrRateUnusable} trips excluded for a flat counter or unusable rate are mostly short, so short-trip bands may be biased upward. Basis: raw/ = sha256-verified originals (M366); not M299-reproducible.</div>
     </div>}
     <div data-fuel-short-trips="1" style={{fontSize:10,color:"#64748b",marginTop:6}}>Trips under 0.5 km are not in the rate panels (litres versus duration): {short.length?short.map(t=>`${t.id.replace(".csv","")}: ${t.V_cnt.toFixed(3)} L in ${t.durationS==null?"n/a":Math.round(t.durationS)+" s"}`).join("; "):"none"}.</div>
@@ -12019,6 +12122,10 @@ function GtrSankeyMultiples(){
     </div></div></GtrRevealCtx.Provider>
     {(byKey.warm&&byKey.shoulder)&&<div style={{marginTop:8,overflowX:"auto"}}>
       <div style={{fontSize:10,fontWeight:700,color:"#334155",marginBottom:2}}>Difference table (Warm − Shoulder, kWh/100&nbsp;km)</div>
+      <ChartWithTable chart={<DumbbellPlot xLabel="kWh/100 km" spanKeys={["warm","shoulder"]} ariaLabel="Model accounting by cohort: Warm and Shoulder (and the exploratory Cold band) for each flow, per 100 km"
+        keys={[{k:"warm",label:"Warm",color:COHORT_COL.warm},{k:"shoulder",label:"Shoulder",color:COHORT_COL.shoulder}].concat(byKey.cold?[{k:"cold",label:"Cold (exploratory)",color:COHORT_COL.cold}]:[])}
+        caption="Warm − Shoulder conflates season with route, not a controlled seasonal contrast; the net traction/fuel index (a different unit) is in the table only. Cold is exploratory: point values only, no interval and no difference."
+        rows={rows.filter(([k])=>k!=="etaTankToTraction").map(([k,lbl])=>{ const w=byKey.warm[k],sh=byKey.shoulder[k]; return {label:lbl,vals:{warm:w,shoulder:sh,cold:byKey.cold?byKey.cold[k]:null},valueText:(w!=null&&sh!=null)?`Δ ${(w-sh>=0?"+":"")+(w-sh).toFixed(2)}`:""}; })}/>}>
       <table style={{fontSize:10,borderCollapse:"collapse",minWidth:360}}>
         <thead><tr>{["Flow","Warm","Shoulder","\u0394 (W\u2212S)"].concat(byKey.cold?["Cold (exploratory)"]:[]).concat(["provenance"]).map(h=><th key={h} style={{textAlign:(h==="Flow"||h==="provenance")?"left":"right",padding:"2px 8px",color:"#64748b",fontWeight:600}}>{h}</th>)}</tr></thead>
         <tbody>{rows.map(([k,lbl,prov])=>{ const w=byKey.warm[k],sh=byKey.shoulder[k],dg=k==="etaTankToTraction"?3:2,dl=(w!=null&&sh!=null)?(w-sh):null;
@@ -12031,6 +12138,7 @@ function GtrSankeyMultiples(){
             <td style={{padding:"2px 8px",color:"#94a3b8",fontSize:9}}>{prov}</td>
           </tr>; })}</tbody>
       </table>
+      </ChartWithTable>
       <div style={{fontSize:9,color:"#94a3b8",marginTop:3}}>Shoulder rests on far fewer drives ({cm.shoulder?cm.shoulder.n:"?"}) than Warm ({cm.warm?cm.warm.n:"?"}) and is {cm.shoulder&&cm.shoulder.routeMix&&cm.shoulder.routeMix.urban!=null?`${cm.shoulder.routeMix.urban}% urban by drives`:"mostly urban"}, so Warm−Shoulder conflates season with route — not a controlled seasonal contrast.{byKey.cold&&<> Cold ({cm.cold?cm.cold.n:"?"} drives on {cm.cold?cm.cold.nDaysObserved:"?"} calendar days) is exploratory: point values only, no interval and no difference; it is a display band, not an identified temperature or season effect.</>}</div>
     </div>}
   </div>;
