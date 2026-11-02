@@ -3,8 +3,9 @@
 read-only, writes analyses/M573_step_vs_trend.json, touches nothing else (no ingestion, no payload key, no master column).
 Items: 1 step vs trend (AIC, day-blocked CV), 2 covariates (SOC, rest time), 3 dependence (leave-one-week-out, ISO-week cluster, week-block bootstrap,
 seed 42, 4000), 4 matched-state contrast, 4b cold-start sensors and equal-length segments (raw), 5 logger cadence by month, 7 external descriptive check of
-un-ingested files (never enters a fit). Usage: python tools/m573_cell_spread_step.py [--skip-raw] [--external DIR NAME ...] [--out PATH]"""
-import argparse, hashlib, json, os, sys
+un-ingested files (never enters a fit). Usage: python tools/m573_cell_spread_step.py [--skip-raw] [--external DIR NAME ...] [--out PATH]
+M574 (spec analyses/M574_spec.md Rev 1): --splice runs items 1-5 and 4b (never --external), writes analyses/M574_check.json and the additive payload block cellSpreadStep (+ stamp) into summary_arrays.json."""
+import argparse, copy, datetime, hashlib, json, os, sys
 import numpy as np
 import pandas as pd
 import statsmodels.api as sm
@@ -16,6 +17,8 @@ SEED, NBOOT = 42, 4000
 STEP_DATE = "2026-10-01"
 LATE = ("2026-10-10", "2026-10-17")
 SEP = ("2026-09-01", "2026-09-30")
+CUTOFF = "2026-10-17"                       # confirmatory test: drives dated after this day (M573 Rev 2, pre-registered)
+ARR = os.path.join(ROOT, "summary_arrays.json")
 YCOL, TCOL, ICOL = "cell_spread_loaded_p95_mv", "T_pack_mean_avg", "peak_I_discharge"
 
 
@@ -300,9 +303,86 @@ def item_external(dm, dd, ext_dir, names):
             "modelResidualSD_mv": _r(np.sqrt(m.scale), 2)}
 
 
+def confirmatory(dd, cutoff=CUTOFF, min_n=10, min_days=5):
+    """Pre-registered confirmatory test (M573 Rev 2): drives dated after `cutoff` against the pre-step model (y ~ T + I + soc fitted on drives before STEP_DATE):
+    mean residual with a day-clustered t(G-1) interval, and the post-step months slope. Evaluable only with >= min_n drives on >= min_days days."""
+    post = dd[dd["date"] > pd.Timestamp(cutoff)]
+    n, days = int(len(post)), int(post["day"].nunique())
+    base = {"cutoff": cutoff, "stepDate": STEP_DATE, "minDrives": min_n, "minDays": min_days, "nDrivesAfterCutoff": n, "nDaysAfterCutoff": days}
+    if n < min_n or days < min_days:
+        return {**base, "status": "awaiting data", "note": "no number is given below the support floor"}
+    pre = dd[dd["date"] < pd.Timestamp(STEP_DATE)]
+    m = sm.OLS(pre["y"], sm.add_constant(pre[["T", "I", "soc"]])).fit()
+    res = post["y"].values - m.predict(sm.add_constant(post[["T", "I", "soc"]], has_constant="add")).values
+    r = sm.OLS(res, np.ones((n, 1))).fit(cov_type="cluster", cov_kwds={"groups": post["day"].values})
+    G = days
+    tc = float(stats.t.ppf(0.975, G - 1)) if G > 1 else float(stats.norm.ppf(0.975))
+    b, se = float(r.params[0]), float(r.bse[0])
+    lvl = [_r(b - tc * se, 3), _r(b + tc * se, 3)]
+    sl = fit_cluster(dd[dd["date"] >= pd.Timestamp(STEP_DATE)], ["months", "T", "I", "soc"])
+    lvl_up, sl_zero, sl_up = lvl[0] > 0, sl["ci95"][0] <= 0 <= sl["ci95"][1], sl["ci95"][0] > 0
+    label = "continued rise" if sl_up else ("raised level, flat slope" if (lvl_up and sl_zero) else ("back at pre-step level" if lvl[0] <= 0 <= lvl[1] else "mixed"))
+    return {**base, "status": "evaluated", "meanResidualMv": _r(b, 3), "meanResidualCi95": lvl, "postStepSlope": {k: sl[k] for k in ("est", "se", "ci95", "n", "G")}, "outcome": label,
+            "preStepModel": {"n": int(len(pre)), "formula": "y ~ T + I + soc"}}
+
+
+def build_block(out, conf, dm_md5):
+    """Payload block cellSpreadStep from the analysis result (no external files, no free text beyond the declared statement)."""
+    mod = out["item1_2_models"]
+    keep = ("est", "se", "ci95", "n", "G", "aic", "cv_rmse_day_blocked", "formula", "step_term", "r2")
+    models = {k: {x: v[x] for x in keep if x in v} for k, v in mod.items() if k != "changePointScan"}
+    dep = out["item3_dependence"]
+    win = out["analysisFrame"]["windowMonths"]
+    m0, m2, m3, m5 = mod["M0_linear_released"], mod["M2_linear_soc_rest"], mod["M3_step"], mod["M5_step_soc_rest"]
+    step_better = bool(m3["aic"] < m0["aic"] and m5["aic"] < m2["aic"] and m3["cv_rmse_day_blocked"] <= m0["cv_rmse_day_blocked"] and m5["cv_rmse_day_blocked"] <= m2["cv_rmse_day_blocked"])
+    lo, hi = m5["ci95"]
+    spans0 = bool(lo <= 0 <= hi)
+    base = "degradation and real imbalance growth are neither established nor excluded; the cause is unidentified; the step size is conditional on a post hoc date and is not adjusted for selection."
+    if step_better and spans0:
+        st = f"Within the {win}-month window, a level shift around late September / early October (date chosen post hoc) fits better than a steady linear trend (model-derived); the steady trend is not established once the shift is allowed; " + base
+    elif step_better:
+        st = f"Within the {win}-month window, a level shift around late September / early October (date chosen post hoc) fits better than a steady linear trend (model-derived), and the months slope still excludes zero with the shift allowed; " + base
+    else:
+        st = f"Within the {win}-month window, the level-shift model does not fit better than the steady linear trend on both criteria (model-derived); " + base
+    return {"_provenance": "GENERATED by tools/m573_cell_spread_step.py --splice (M574). Do not hand-edit.", "schemaVersion": 1, "stepPreferred": step_better, "monthsSlopeWithStepSpansZero": spans0, "statement": st,
+            "stepDate": STEP_DATE, "stepDateNote": "chosen post hoc and fixed; never re-picked (M573 Rev 2)",
+            "inputs": {"driveMasterMd5": dm_md5, "excludedFiles": "the Nov 1-2 files supplied for the M573 descriptive check are not ingested and never enter this block"},
+            "analysisFrame": out["analysisFrame"], "models": models, "changePointScan": mod["changePointScan"],
+            "dependence": {k: dep[k] for k in ("weekCluster_linear", "weekCluster_step", "weekBlockBootstrap_linear", "weekBlockBootstrap_step", "leaveOneWeekOut_range", "dayMeanResidualAutocorrLag1")},
+            "matchedContrast": out["item4_matched"], "cadence": out["item5_cadence"], "coldStartAndSegments": out.get("item4b_cold_start_and_segments"), "confirmatory": conf,
+            "limits": ["step date chosen post hoc (the data-driven scan's best date is reported); AIC and intervals ignore date selection and multiplicity",
+                       "residual lag-1 autocorrelation about 0.27; the late window is 8 days and the week-cluster count is small",
+                       "month fixed effects fit as well as the step, so a single October step is not uniquely supported",
+                       "cold-start early-window intervals are wide: not detected, not excluded", "the polling regime is reported with the step, not excluded",
+                       "cell-level temperatures are not logged; the four pack sensors are integer degC", "one half-season only; a return to the same temperature in spring is not observed",
+                       "model-derived association: no capacity, state-of-health or cell-deterioration quantity is estimated"]}
+
+
+def splice(block):
+    """additive write of S.cellSpreadStep (+ stamp); no existing key and no other stamp changes."""
+    block = json.loads(json.dumps(block, default=float))
+    A2 = json.load(open(ARR, encoding="utf-8"))
+    skip = ("cellSpreadStep", "_artifactStamps")
+    before = {k: json.dumps(v, sort_keys=True) for k, v in A2.items() if k not in skip}
+    stamps_before = {k: json.dumps(v, sort_keys=True) for k, v in A2["_artifactStamps"].items() if k != "cellSpreadStep"}
+    A2["cellSpreadStep"] = block
+    st = copy.deepcopy(A2["_artifactStamps"]["fuelContract"])
+    st.update(corpusHash=block["inputs"]["driveMasterMd5"], generatedAt=datetime.datetime.now(datetime.timezone.utc).isoformat(), computationStatus="computed",
+              computationStatusNote="M574: computed by tools/m573_cell_spread_step.py from the master and the raw CSVs; additive, no published value recomputed; not M299-reproducible.", upstreamHashes={"driveMasterMd5": block["inputs"]["driveMasterMd5"]})
+    st.pop("carriedForward", None)
+    st["includedInReleaseAt"] = st["computedAt"] = st["generatedAt"]
+    A2["_artifactStamps"]["cellSpreadStep"] = st
+    assert before == {k: json.dumps(v, sort_keys=True) for k, v in A2.items() if k not in skip}
+    assert stamps_before == {k: json.dumps(v, sort_keys=True) for k, v in A2["_artifactStamps"].items() if k != "cellSpreadStep"}
+    with open(ARR, "w", encoding="utf-8", newline="\n") as f:
+        json.dump(A2, f, ensure_ascii=False, indent=1)
+    print(json.dumps({"cellSpreadStep": "written"}))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--skip-raw", action="store_true")
+    ap.add_argument("--splice", action="store_true", help="M574: also write the additive payload block (never with --external)")
     ap.add_argument("--raw-dir", default=os.path.join(ROOT, "raw"))
     ap.add_argument("--external", nargs="*", default=None, help="DIR followed by file names (with or without .csv)")
     ap.add_argument("--out", default=os.path.join(ROOT, "analyses", "M573_step_vs_trend.json"))
@@ -317,14 +397,21 @@ def main():
            "item1_2_models": models, "item3_dependence": item_dependence(dd), "item4_matched": item_matched(dd), "item5_cadence": item_cadence(dm, dd)}
     if not a.skip_raw:
         out["item4b_cold_start_and_segments"] = item_cold_and_segments(dm, d, a.raw_dir)
+    out["confirmatory"] = confirmatory(dd)
+    if a.splice and a.external:
+        sys.exit("STOP: --splice never takes external files")
     if a.external:
         out["item7_external"] = item_external(dm, dd, a.external[0], a.external[1:])
     assert md5(mpath) == md5_before, "drive_master.csv changed: STOP"
     out["masterMd5After"] = md5(mpath)
+    if a.splice:
+        a.out = os.path.join(ROOT, "analyses", "M574_check.json")
     os.makedirs(os.path.dirname(a.out), exist_ok=True)
     with open(a.out, "w", encoding="utf-8") as f:
         json.dump(out, f, indent=1, ensure_ascii=False)
     print("wrote", a.out)
+    if a.splice:
+        splice(build_block(out, out["confirmatory"], out["masterMd5After"]))
 
 
 if __name__ == "__main__":

@@ -205,6 +205,7 @@ jobs:
           python tests/synthetic/test_engine_context_fields.py
           python tests/synthetic/test_csr_sensitivity.py
           python tests/synthetic/test_m556_wording.py
+          python tests/synthetic/test_m574_wording.py
           python test_m573_cell_spread_step.py
           python tests/synthetic/test_csr_wording.py
           python tests/synthetic/test_exposure_frame.py
@@ -257,6 +258,7 @@ jobs:
           node test_engine_context_fields_view.js
           node test_csr_sensitivity_view.js
           node test_interval_forest.js
+          node test_cell_spread_step_view.js
           node test_band_series.js
           node test_share_charts.js
   release-check:

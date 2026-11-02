@@ -674,6 +674,20 @@
    ]
   },
   {
+   "id": "cell_spread_step",
+   "title": "M574: step sensitivity of the loaded p95 cell-spread trend (M573, Director ruling): month/step/SOC/rest models, week-block dependence, matched and equal-length contrasts, cold-start sensors, polling regime, pre-registered confirmatory test (awaiting data until >= 10 drives on >= 5 days after 2026-10-17); additive payload block cellSpreadStep (+ stamp); the step date is fixed at 2026-10-01 and never re-picked; files not ingested never enter; needs raw/; spec analyses/M574_spec.md Rev 1",
+   "cmd": [
+    "python3",
+    "tools/m573_cell_spread_step.py",
+    "--splice"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json",
+    "analyses/M574_check.json"
+   ]
+  },
+  {
    "id": "common_support",
    "title": "M554: common-support bridge between the published nearest-pair integration and the union-clock integration (audit 2026-10-29 N06 + F17), per logger-cadence stratum, no pooled headline: additive payload block commonSupportBridge (+ stamp) with the seconds-level intersection estimate, support added / lost, gap influence, the drive-level ladder and the recoverable-under-alternative-alignment drives (in no total); per-drive records cached by the raw sha256 and the extractor hash (bridge_cache/, only new drives are extracted); STOP on a known-answer miss (P reproduces the master gross discharge / charge, P steps equal the no-bridge integration, U |net| <= gross); the escalation flags (pre-registered and Rev 3) are written to the block; needs raw/ and cadence_regime.csv; spec analyses/M554_spec.md Rev 3",
    "cmd": [

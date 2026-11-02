@@ -5572,6 +5572,44 @@ function CsrSensitivityView(){
     </Section>
   );
 }
+// M574 (spec analyses/M574_spec.md Rev 1, Director ruling M573): step sensitivity of the loaded p95 cell-spread trend, bound to S.cellSpreadStep only (no typed number); the Nov 1-2 files are not in the block
+function stepXref(){
+  const B=S.cellSpreadStep, m=B&&B.models&&B.models.M5_step_soc_rest;
+  if(!B||!m||!m.ci95) return "";
+  const f=(x)=>x==null?"n/a":Number(x).toFixed(2);
+  return ` Step sensitivity (exploratory, see the panel below): with a level-shift term dated ${B.stepDate} (chosen post hoc) the months slope is ${f(m.est)} mV/month, 95% interval [${f(m.ci95[0])}, ${f(m.ci95[1])}] (${m.n} drives, ${m.G} days); the cause of the shift is unidentified.`;
+}
+function CellSpreadStepView(){
+  const B=S.cellSpreadStep;
+  if(!B||!B.models) return null;
+  const f=(x,n=2)=>x==null?"n/a":Number(x).toFixed(n);
+  const iv=(c,n=2)=>Array.isArray(c)?`[${f(c[0],n)}, ${f(c[1],n)}]`:"n/a";
+  const lab={M0_linear_released:"released model: months + pack T + peak current",M1_linear_soc:"+ mean SOC and SOC range",M2_linear_soc_rest:"+ SOC, SOC range, rest time, first drive after rest",M3_step:"months + level step + pack T + peak current",M4_step_soc:"level step + SOC, SOC range",M5_step_soc_rest:"level step + SOC, SOC range, rest time, first drive after rest",M6_month_fixed_effects:"calendar-month fixed effects instead of a months term"};
+  const af=B.analysisFrame||{}, cs=B.coldStartAndSegments||{}, dp=B.dependence||{}, mc=B.matchedContrast||{}, cad=B.cadence||{}, cf=B.confirmatory||{};
+  const eff=(o)=>o?`${f(o.lateEffect_mv)} mV ${iv(o.ci95)} (${o.n} drives, ${o.days} days)`:"n/a";
+  return (
+    <Section title="Step Sensitivity of the Cell-Spread Trend (exploratory)" accent="#64748b">
+      <div style={{fontSize:10,color:"#334155",lineHeight:1.6}} data-csstep-note="1">{B.statement}</div>
+      <div style={{fontSize:9,color:"#64748b",marginTop:4}} data-csstep-support="1">{af.n} drives on {af.days} days, {af.windowMonths}-month window ({af.firstDate} to {af.lastDate}); loaded p95 cell spread; cluster-robust OLS, day clusters, t(G-1) intervals; AIC from plain OLS; cross-validation holds out whole days.</div>
+      <table style={{width:"100%",fontSize:9,borderCollapse:"collapse",marginTop:6}}>
+        <thead><tr style={{color:"#64748b",textAlign:"left"}}><th>model</th><th>months slope, mV/month [95% interval]</th><th>level step, mV [95% interval]</th><th>AIC</th><th>day-blocked CV RMSE, mV</th></tr></thead>
+        <tbody>
+          {Object.keys(lab).filter(k=>B.models[k]).map(k=>{const m=B.models[k]; return (
+            <tr key={k} data-csstep-model={k} style={{borderTop:"1px solid #e2e8f0"}}><td>{lab[k]}</td><td>{m.est==null?"no months term":`${f(m.est)} ${iv(m.ci95)}`}</td><td>{m.step_term?`${f(m.step_term.est)} ${iv(m.step_term.ci95)}`:"-"}</td><td>{f(m.aic,1)}</td><td>{f(m.cv_rmse_day_blocked)}</td></tr>);})}
+        </tbody>
+      </table>
+      <div style={{fontSize:9,color:"#475569",lineHeight:1.6,marginTop:6}} data-csstep-extra="1">
+        <div data-csstep-row="dependence">Calendar-week block bootstrap (seed {dp.weekBlockBootstrap_linear&&dp.weekBlockBootstrap_linear.seed}, {dp.weekBlockBootstrap_linear&&dp.weekBlockBootstrap_linear.draws} draws, {dp.weekBlockBootstrap_linear&&dp.weekBlockBootstrap_linear.nBlocks} weeks) of the months slope: linear {iv(dp.weekBlockBootstrap_linear&&dp.weekBlockBootstrap_linear.ci95)}; with the step {iv(dp.weekBlockBootstrap_step&&dp.weekBlockBootstrap_step.ci95)}. Leave-one-week-out slope range {iv(dp.leaveOneWeekOut_range)}; lag-1 autocorrelation of day-mean residuals {f(dp.dayMeanResidualAutocorrLag1)}.</div>
+        <div data-csstep-row="matched">Matched contrast, {mc.definition}: {f(mc.effect_mv)} mV {iv(mc.ci95_dayclustered_bootstrap)} ({mc.lateDrivesMatched} of {mc.lateDrivesTotal} later drives matched, {mc.lateDays} and {mc.sepDays} days).</div>
+        <div data-csstep-row="equal-length">Equal-length segment (loaded p95 over the first 20 min of each drive), later window minus September, adjusted for pack T and peak current: {eff(cs.first20min_loaded_p95_allDrives)}.</div>
+        <div data-csstep-row="cold-start">Cold starts (first drive after more than 4 h rest), same contrast: whole-drive loaded p95 {eff(cs.wholeDriveLoadedP95_cold)}; first 2 min median spread {eff(cs.earlyWindow_0_2min_median)}; minutes 2 to 10 median {eff(cs.earlyWindow_2_10min_median)}. An interval that includes zero is not detected, not excluded.</div>
+        <div data-csstep-row="cadence">With the logger polling regime added: step {iv(cad.stepTermWithRegime&&cad.stepTermWithRegime.ci95)} mV, months slope {iv(cad.slopeWithRegimeAndStep&&cad.slopeWithRegimeAndStep.ci95)} mV/month; the regime is reported, not excluded.</div>
+        <div data-csstep-row="confirmatory">Pre-registered confirmatory test (step date fixed {B.stepDate}, drives dated after {cf.cutoff}): {cf.status==="evaluated"?`${cf.outcome}; mean residual vs the pre-step model ${f(cf.meanResidualMv)} mV ${iv(cf.meanResidualCi95)}, post-step slope ${f(cf.postStepSlope&&cf.postStepSlope.est)} ${iv(cf.postStepSlope&&cf.postStepSlope.ci95)} mV/month (${cf.nDrivesAfterCutoff} drives, ${cf.nDaysAfterCutoff} days).`:`awaiting data (${cf.nDrivesAfterCutoff} drives on ${cf.nDaysAfterCutoff} days; at least ${cf.minDrives} drives on ${cf.minDays} days are needed before any number is given).`}</div>
+      </div>
+      <div style={{fontSize:9,color:"#94a3b8",marginTop:6}} data-csstep-foot="1">Limits: {(B.limits||[]).join("; ")}. A model-derived association; the released estimator and its text are unchanged. Files supplied but not ingested do not enter this panel.</div>
+    </Section>
+  );
+}
 function spreadConclusion(){
   const o=S.degradationTrends?.cellSpread?.clusterRobustOLS, ci=o?.ci95, sp=ciSpansZero(ci), rr=S.serialDependence?.trendSlopes?.cellSpread?.rowsRule;
   const proc=sp===false && rr?.classification==="procedure-dependent";
@@ -5579,11 +5617,11 @@ function spreadConclusion(){
   if(sp===null) return {status:"limited", title:"A cell-voltage-spread trend is unavailable", short:"The cell-voltage-spread trend is unavailable.",
     caveat:"No published interval is available, so neither a trend nor stability can be stated."};
   if(sp) return {status:"notEstablished", title:"A cell-voltage-spread trend is not resolved in this window", short:`The loaded cell-voltage spread trend is not resolved (${num}).`,
-    caveat:"A confidence interval that includes zero is neither proof of degradation nor proof of stability."};
+    caveat:"A confidence interval that includes zero is neither proof of degradation nor proof of stability."+stepXref()};
   const dir=ci[0]>0?"rises":"falls";
   return {status:"derived", title:`Loaded cell-voltage spread ${dir} under the published temperature/current adjustment${proc?"; the lower bound is procedure-dependent":""}; battery ageing is not identified`,
     short:`Loaded cell-voltage spread ${dir} under the published adjustment (${num})${proc?", with a procedure-dependent lower bound":""}; this conditional proxy trend does not establish battery ageing.`,
-    caveat:"A conditional proxy slope under the published temperature/current adjustment, confounded by season, cadence and sampling design; it is not measured capacity fade or diagnosed cell deterioration, and broader sensitivities are reported in Methods."};
+    caveat:"A conditional proxy slope under the published temperature/current adjustment, confounded by season, cadence and sampling design; it is not measured capacity fade or diagnosed cell deterioration, and broader sensitivities are reported in Methods."+stepXref()};
 }
 function resistanceConclusion(){
   const p=S.powerFade, ci=p?.ci95MohmPerMo, sp=ciSpansZero(ci);
@@ -13393,6 +13431,7 @@ export default function App() {
           <SerialDependencePanel/>
           <FewClusterNote/>
           <WindowCaveatPanel/>
+          <CellSpreadStepView/>
           <div style={{fontSize:11,color:"#64748b",lineHeight:1.7}}>
             <p>Jun19 re-verification: resting spread (|I|&lt;5A) across all 4 drives was 0.0104–0.0121V — within established baseline. Under-load spread reached 0.084V on Drive 1 — a thermal/polarization artifact, not degradation, since it collapses back to 0.010-0.012V at rest within the same drive. One raw sample briefly read 0.122V coinciding with a single current reading of −200.25A; that spread value was excluded under the artifact rule in force at the time, and is not used as a cell-health result. <strong style={{color:"#7c3aed"}}>M57 (2026-07-27):</strong> the "new high / beating the previous 0.060V record" framing is withdrawn — loaded spread has since gone considerably higher on later drives, and per-drive loaded maxima are a transient polarization measure that should not be tracked as records at all. The trended quantity is the adjusted p95 (M19), for which {spreadSpans()===false?"a positive conditional slope is estimated (95% interval excludes zero; season-confounded, not a capacity or SOH change)":"no directional trend is resolved (inconclusive, not shown flat)"}.</p>
           </div>
