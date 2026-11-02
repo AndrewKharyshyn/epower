@@ -23,7 +23,12 @@ const TABS=['overview','charts','fuel','distribution','highway vs city','thermal
     seen=true;
     const ab=btns().find(b=>b.textContent.trim()==='Peak charge current (A)');click(ab);await sleep(200);
     const nA=d.querySelectorAll('svg circle').length;
-    ok('A view: no kW tier markers or caption',d.querySelectorAll('[data-kw-tier]').length===0&&!d.querySelector('[data-kw-caption]'));
+    const atiers={};Object.values(B.acViewX).forEach(v=>{atiers[v.tier]=(atiers[v.tier]||0)+1;});
+    const am=[...d.querySelectorAll('circle[data-kw-tier]')], an=(k)=>am.filter(c=>c.getAttribute('data-kw-tier')===k).length;
+    ok('A view (M567): plotted points equal cotimed + nearby + late of acViewX, none omitted',am.length===(atiers.cotimed||0)+(atiers.nearby||0)+(atiers.late||0)&&an('cotimed')===(atiers.cotimed||0)&&an('nearby')===(atiers.nearby||0)&&an('late')===(atiers.late||0),JSON.stringify([am.length,atiers]));
+    ok('A view (M567): late points hollow, current-peak caption with tiers, moved count and 1 degC resolution',am.filter(c=>c.getAttribute('data-kw-tier')==='late').every(c=>c.getAttribute('fill')==='none')&&!!d.querySelector('[data-ac-caption]')&&/nearest the current-peak charge sample/.test(d.querySelector('[data-ac-caption]').textContent)&&/moved relative to the previous drive-maximum convention/.test(d.querySelector('[data-ac-caption]').textContent)&&/1 °C resolution/.test(d.querySelector('[data-ac-caption]').textContent));
+    const cb=btns().find(b=>/C-rate/.test(b.textContent.trim()));if(cb){click(cb);await sleep(250);ok('C view (M567): same plotted points as the A view',d.querySelectorAll('circle[data-kw-tier]').length===am.length&&!!d.querySelector('[data-ac-caption]'));click(ab);await sleep(200);}
+    ok('A view: a legacy-fallback drive moved to an equal or lower temperature',Object.keys(B.acViewX).filter(f=>B.acViewX[f].x!=null).every(f=>{const q=pts.find(p=>p[5]===f);return B.acViewX[f].x<=q[0]+1e-9;}));
     click(kb);await sleep(300);
     const marks=[...d.querySelectorAll('circle[data-kw-tier]')];
     const n=(k)=>marks.filter(c=>c.getAttribute('data-kw-tier')===k).length;
@@ -36,7 +41,7 @@ const TABS=['overview','charts','fuel','distribution','highway vs city','thermal
     ok('kW view: no forbidden effect wording',!!cap&&!/no effect|negligible|identical|resolved/i.test(cap.textContent));
     ok('kW view: axis names the peak-power sample',d.getElementById('root').textContent.includes('nearest the peak charge power'));
     click(ab);await sleep(200);
-    ok('back on A: the peak-current axis label returns',d.getElementById('root').textContent.includes('at the moment of peak charge current'));
+    ok('back on A: the peak-current axis label (nearest-sample wording) returns',d.getElementById('root').textContent.includes('nearest the peak charge current'));
     break;
   }
   ok('the risk map was found',seen);
