@@ -1,3 +1,16 @@
+## M562 (2026-11-02): CI split into parallel jobs (python-tests, js-tests, release-check) with a release-gate aggregator
+
+**Rationale.** Tooling only, no analysis or payload change. Owner decision 2026-11-02 (repository public, Actions minutes no longer critical): the single serial job took about 25 min per PR run (M557, M559, M560 runs 25-26 min; the CLAUDE.md figure of 7 min was stale). Split: python-tests (compile, import integrity, 183 python test lines), js-tests (17 jsdom tests), release-check (release_check.py), each with its own checkout; job release-gate is an aggregator that needs all three and passes only if all succeed, so the merge rule that names release-gate is unchanged. Test lists are the former lists partitioned by command type, nothing added or dropped (183 + 17 lines). Measure the run time on this PR; shard python-tests as a matrix if it is still the long pole.
+
+**State.** `drive_master.csv` 606 rows, MD5 `5556a0c6c8bcde0f6c64b8b9655208ed`.
+
+**Gates (runs/20261020T221332Z).** restamp_ingest=ok; build_html=ok; jsdom=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `.github/workflows/ci.yml`, `CLAUDE.md`.
+
+
 ## M561 (2026-11-02): Power-duration, uninterrupted-direction variant: highest mean power over 5-120 s windows with no change of direction (audit 2026-10-29 N02 follow-up)
 
 **Rationale.** Spec Rev 1-2 (Director: revise, R1-R7; Rev 1 SHA-256 b715e038...), audit sample committed before code, tools/power_duration_uninterrupted.py (runs of P>=0 / P<=0 with interpolated zero knots, closed runs, run-restricted exact extremum via the M552 kernel), additive block powerDurationUninterrupted (powerDuration byte-unchanged, drive_master untouched), Records-tab section next to the net values. KB1-KB4b unit-pinned; KB5 hard gates 0 misses on 592 drives. Blind audit (Sonnet) 660/660 cells and 44/44 run-length lists, max diff 2e-12. A3 ESCALATION recorded: (T1) eligible-run share at 120 s is 25 / 8 % (fast discharge / charge) and 31 / 6 % (slow) so 69-94 % of drives have no 120 s one-direction window; (T2) slow W=10 and W=30 discharge: the no-interpolated-tail lower bracket shifts p95 by 2.53 / 1.70 kW (above 5 % of p95 and the interval half-width), fast W=120 discharge offPlus by 0.31 kW. Director ruling (go after changes): primary definition stays (changing it after the result would be tuning); display support rule ADDED AFTER SEEING RESULTS (recorded deviation): cell shown only with n>=20 drives on >=5 days, p95 needs n>=40, p99/max n>=200, share under 50 % marked low support with the share and n beside it; bracket note shown for triggered cells; eligible share also under the no-interpolation and deadband brackets (script-written); the 120 s row is conditional on a different drive set than the net row. Language rule M561-N02-uninterrupted. No article figure (A4). Follow-ups named, not done: share at W=60 location, optional upper bracket.
