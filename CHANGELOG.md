@@ -1,3 +1,16 @@
+## M563 (2026-11-02): CI: python-tests sharded into a 3-way matrix
+
+**Rationale.** Tooling only. M562 measured python-tests 10.3 min, js-tests 4.1, release-check 6.8, whole run about 10.5 min. python-tests is now a 3-shard matrix (fail-fast false): the unchanged list of 183 command lines is written to a file in the job and split round-robin by line (61 lines per shard); each shard compiles, checks import integrity and runs its lines, stopping on its first failure; the release-gate aggregator still needs python-tests (all shards), js-tests and release-check. Nothing added or dropped. Expected run time about the length of release-check (about 7 min); measure on this PR. Risk: a python test that relied on a file written by an earlier test now runs in another job; a failing shard would show it.
+
+**State.** `drive_master.csv` 606 rows, MD5 `5556a0c6c8bcde0f6c64b8b9655208ed`.
+
+**Gates (runs/20261020T221332Z).** restamp_ingest=ok; build_html=ok; jsdom=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: outside previous CI; EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width; EnergyIntensity.shoulder: CI half-width changed >50%; EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `.github/workflows/ci.yml`, `CLAUDE.md`.
+
+
 ## M562 (2026-11-02): CI split into parallel jobs (python-tests, js-tests, release-check) with a release-gate aggregator
 
 **Rationale.** Tooling only, no analysis or payload change. Owner decision 2026-11-02 (repository public, Actions minutes no longer critical): the single serial job took about 25 min per PR run (M557, M559, M560 runs 25-26 min; the CLAUDE.md figure of 7 min was stale). Split: python-tests (compile, import integrity, 183 python test lines), js-tests (17 jsdom tests), release-check (release_check.py), each with its own checkout; job release-gate is an aggregator that needs all three and passes only if all succeed, so the merge rule that names release-gate is unchanged. Test lists are the former lists partitioned by command type, nothing added or dropped (183 + 17 lines). Measure the run time on this PR; shard python-tests as a matrix if it is still the long pole.
