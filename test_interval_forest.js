@@ -41,4 +41,15 @@ t('extra row fields pass through',v.rows[0].color==='#f00'&&v.rows[0].muted===tr
 v=intervalForestModel([{label:'a',est:100,lo:90,hi:120}]);
 t('large values: step 50, ticks 0..150',eq(v.ticks,[0,50,100,150]),JSON.stringify(v.ticks));
 
+v=intervalForestModel([{label:'r',lo:1,hi:3,range:true},{label:'n',lo:1,hi:3}]);
+t('interval-only row is a range only when flagged',v.rows[0].kind==='range'&&v.rows[1].kind==='none');
+t('range widens the axis',v.max>=3);
+v=intervalForestModel([{label:'r',lo:3,hi:1,range:true}]);
+t('inverted range is rejected',v.rows[0].kind==='none');
+v=intervalForestModel([{label:'r',est:2,lo:1,hi:3,range:true}]);
+t('an estimate wins over the range flag',v.rows[0].kind==='interval');
+v=intervalForestModel([{label:'a',est:1.2,lo:0.9,hi:1.6}],{zero:false,ref:1});
+t('ref inside the axis; zero:false keeps zero out',v.min>0&&v.min<=0.9&&v.max>=1.6);
+v=intervalForestModel([{label:'a',est:5,lo:4,hi:6}],{zero:false,ref:1});
+t('a ref outside the data widens the axis to include it',v.min<=1&&v.max>=6);
 console.log(f?'INTERVAL FOREST TEST FAILED':'INTERVAL FOREST TEST PASSED'); process.exit(f?1:0);
