@@ -646,6 +646,20 @@
    ]
   },
   {
+   "id": "power_duration_uninterrupted",
+   "title": "M561: uninterrupted-direction variant of the M552 power-duration profile (audit 2026-10-29 N02 follow-up): highest mean power over 5 / 10 / 30 / 60 / 120 s windows lying inside one run of P >= 0 (discharge) or P <= 0 (charge), zero knot at the interpolated sign change, closed runs, per logger-cadence stratum, no pooled headline: additive payload block powerDurationUninterrupted (+ stamp), conditional percentile base with the eligible share beside it, near-zero brackets (no interpolated tail, deadband, current offset); per-drive records cached by the raw sha256 and the extractor hashes (duration_cache/, key prefix u561_); STOP on a known-answer miss (one-direction value <= net value, grid <= exact, monotone in window length over comparable runs); needs raw/ and cadence_regime.csv; spec analyses/M561_spec.md Rev 2",
+   "cmd": [
+    "python3",
+    "tools/power_duration_uninterrupted.py",
+    "--splice"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json",
+    "analyses/M561_check.json"
+   ]
+  },
+  {
    "id": "window_use",
    "title": "M553: use of the assumed battery window (audit 2026-10-29 N13): per-drive excursion of the integrated net charge (Ah) and terminal energy (kWh), reported SoC excursion, throughput over excursion R, per logger-cadence stratum, no pooled headline: additive payload block windowUse (+ stamp); per-drive records cached by the raw sha256 and the extractor hashes (window_cache/, only new drives are extracted); STOP on a known-answer miss (closure to net_draw_kwh, |net| <= excursion <= gross throughput); the escalation flags are written to the block; CAP_KWH unchanged; needs raw/ and cadence_regime.csv; spec analyses/M553_spec.md Rev 2",
    "cmd": [
