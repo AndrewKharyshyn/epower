@@ -76,5 +76,60 @@ class TestM573(unittest.TestCase):
         self.assertEqual(a, m.md5(p))
 
 
+def conf_frame(post_shift, post_slope, n_post_days=12, per_day=3, seed=1):
+    """pre-step period (80 days to 2026-09-30), step period 2026-10-01..10-17, then n_post_days after the cutoff."""
+    rng = np.random.default_rng(seed)
+    start = pd.Timestamp("2026-07-10")
+    rows = []
+    total = 80 + 17 + n_post_days
+    for k in range(total):
+        date = start + pd.Timedelta(days=k)
+        months = k / 30.4375
+        T, I, soc = rng.normal(25, 4), rng.normal(100, 15), rng.normal(62, 3)
+        base = 20 + 0.1 * (T - 25) + 0.02 * (I - 100) + 0.2 * (soc - 62)
+        lvl = 0.0
+        if date >= pd.Timestamp("2026-10-01"):
+            lvl = 2.5 + (post_slope * (months - 80 / 30.4375) if date > pd.Timestamp("2026-10-17") else 0.0)
+            if date > pd.Timestamp("2026-10-17"):
+                lvl = post_shift + post_slope * (date - pd.Timestamp("2026-10-17")).days / 30.4375
+        for _ in range(per_day):
+            rows.append({"date": date, "day": str(date.date()), "months": months, "T": T, "I": I, "soc": soc, "y": base + lvl + rng.normal(0, 1.0)})
+    return pd.DataFrame(rows)
+
+
+class TestConfirmatory(unittest.TestCase):
+    def test_ka6_awaiting_data(self):
+        d = conf_frame(2.5, 0.0, n_post_days=3, per_day=2)
+        r = m.confirmatory(d)
+        self.assertEqual(r["status"], "awaiting data")
+        self.assertNotIn("meanResidualMv", r)
+
+    def test_ka6_raised_level_flat_slope(self):
+        r = m.confirmatory(conf_frame(2.5, 0.0))
+        self.assertEqual(r["status"], "evaluated")
+        self.assertEqual(r["outcome"], "raised level, flat slope", r)
+
+    def test_ka6_back_at_pre_step_level(self):
+        r = m.confirmatory(conf_frame(0.0, 0.0))
+        self.assertEqual(r["status"], "evaluated")
+        self.assertEqual(r["outcome"], "back at pre-step level", r)
+
+
+class TestPayloadTieOut(unittest.TestCase):
+    def test_ka7_block_equals_audited_result(self):
+        with open(os.path.join(ROOT, "summary_arrays.json"), encoding="utf-8") as f:
+            B = json.load(f)["cellSpreadStep"]
+        with open(os.path.join(ROOT, "analyses", "M573_step_vs_trend.json"), encoding="utf-8") as f:
+            R = json.load(f)
+        for k in ("M0_linear_released", "M3_step", "M5_step_soc_rest", "M6_month_fixed_effects"):
+            for q in ("aic", "cv_rmse_day_blocked"):
+                self.assertEqual(B["models"][k][q], R["item1_2_models"][k][q], (k, q))
+        self.assertEqual(B["models"]["M5_step_soc_rest"]["step_term"], R["item1_2_models"]["M5_step_soc_rest"]["step_term"])
+        self.assertEqual(B["dependence"]["weekBlockBootstrap_step"], R["item3_dependence"]["weekBlockBootstrap_step"])
+        self.assertEqual(B["matchedContrast"]["effect_mv"], R["item4_matched"]["effect_mv"])
+        self.assertNotIn("item7_external", json.dumps(B))
+        self.assertEqual(B["confirmatory"]["status"], "awaiting data")
+
+
 if __name__ == "__main__":
     unittest.main()

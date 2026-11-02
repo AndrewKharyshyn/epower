@@ -1,0 +1,599 @@
+{
+ "milestone": "M573",
+ "spec": "analyses/M573_spec.md Rev 1",
+ "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+ "masterRows": 606,
+ "analysisFrame": {
+  "n": 576,
+  "days": 117,
+  "firstDate": "2026-05-15",
+  "lastDate": "2026-10-17",
+  "stepDate": "2026-10-01",
+  "windowMonths": 5.09
+ },
+ "item1_2_models": {
+  "M0_linear_released": {
+   "est": 0.5239,
+   "se": 0.13,
+   "ci95": [
+    0.2665,
+    0.7814
+   ],
+   "n": 576,
+   "G": 117,
+   "aic": 3150.89,
+   "r2": 0.2516,
+   "cv_rmse_day_blocked": 3.727,
+   "formula": "y ~ months + T + I"
+  },
+  "M1_linear_soc": {
+   "est": 0.4712,
+   "se": 0.1269,
+   "ci95": [
+    0.2198,
+    0.7226
+   ],
+   "n": 576,
+   "G": 117,
+   "aic": 3123.12,
+   "r2": 0.2918,
+   "cv_rmse_day_blocked": 3.64,
+   "formula": "y ~ months + T + I + soc + socr"
+  },
+  "M2_linear_soc_rest": {
+   "est": 0.3601,
+   "se": 0.1298,
+   "ci95": [
+    0.1029,
+    0.6173
+   ],
+   "n": 576,
+   "G": 117,
+   "aic": 3113.92,
+   "r2": 0.3078,
+   "cv_rmse_day_blocked": 3.607,
+   "formula": "y ~ months + T + I + soc + socr + lrest + first"
+  },
+  "M3_step": {
+   "est": 0.1568,
+   "se": 0.1443,
+   "ci95": [
+    -0.129,
+    0.4427
+   ],
+   "n": 576,
+   "G": 117,
+   "aic": 3130.15,
+   "r2": 0.2806,
+   "cv_rmse_day_blocked": 3.669,
+   "step_term": {
+    "est": 2.2631,
+    "se": 0.5529,
+    "ci95": [
+     1.1681,
+     3.3582
+    ]
+   },
+   "formula": "y ~ months + step + T + I"
+  },
+  "M4_step_soc": {
+   "est": 0.1325,
+   "se": 0.1383,
+   "ci95": [
+    -0.1414,
+    0.4065
+   ],
+   "n": 576,
+   "G": 117,
+   "aic": 3104.72,
+   "r2": 0.3164,
+   "cv_rmse_day_blocked": 3.595,
+   "step_term": {
+    "est": 2.093,
+    "se": 0.5784,
+    "ci95": [
+     0.9473,
+     3.2387
+    ]
+   },
+   "formula": "y ~ months + step + T + I + soc + socr"
+  },
+  "M5_step_soc_rest": {
+   "est": 0.0208,
+   "se": 0.1398,
+   "ci95": [
+    -0.2561,
+    0.2977
+   ],
+   "n": 576,
+   "G": 117,
+   "aic": 3095.38,
+   "r2": 0.332,
+   "cv_rmse_day_blocked": 3.56,
+   "step_term": {
+    "est": 2.0842,
+    "se": 0.5698,
+    "ci95": [
+     0.9556,
+     3.2128
+    ]
+   },
+   "formula": "y ~ months + step + T + I + soc + socr + lrest + first"
+  },
+  "M6_month_fixed_effects": {
+   "aic": 3095.79,
+   "r2": 0.3339,
+   "n": 576,
+   "cv_rmse_day_blocked": 3.569,
+   "formula": "y ~ T + I + soc + socr + month dummies (no linear months term)"
+  },
+  "changePointScan": {
+   "best": [
+    {
+     "day": "2026-09-27",
+     "jump_mv": 2.41
+    },
+    {
+     "day": "2026-09-26",
+     "jump_mv": 2.36
+    },
+    {
+     "day": "2026-09-25",
+     "jump_mv": 2.33
+    }
+   ],
+   "note": "descriptive; residual of y ~ T + I + soc; not a tested date"
+  }
+ },
+ "item3_dependence": {
+  "weekCluster_linear": {
+   "est": 0.4712,
+   "se": 0.1816,
+   "ci95": [
+    0.0946,
+    0.8478
+   ],
+   "n": 576,
+   "G": 23,
+   "aic": 3123.12,
+   "r2": 0.2918
+  },
+  "weekCluster_step": {
+   "est": 0.1325,
+   "se": 0.1199,
+   "ci95": [
+    -0.1162,
+    0.3813
+   ],
+   "n": 576,
+   "G": 23,
+   "aic": 3104.72,
+   "r2": 0.3164
+  },
+  "weekBlockBootstrap_linear": {
+   "ci95": [
+    0.0574,
+    0.8561
+   ],
+   "median": 0.4657,
+   "pGt0": 0.984,
+   "nBlocks": 23,
+   "draws": 4000,
+   "seed": 42
+  },
+  "weekBlockBootstrap_step": {
+   "ci95": [
+    -0.1654,
+    0.4035
+   ],
+   "median": 0.1392,
+   "pGt0": 0.8405,
+   "nBlocks": 23,
+   "draws": 4000,
+   "seed": 42
+  },
+  "leaveOneWeekOut_linear": [
+   {
+    "weekDropped": "2026-20",
+    "est": 0.5172,
+    "ci95": [
+     0.2224,
+     0.812
+    ]
+   },
+   {
+    "weekDropped": "2026-21",
+    "est": 0.4698,
+    "ci95": [
+     0.1979,
+     0.7417
+    ]
+   },
+   {
+    "weekDropped": "2026-22",
+    "est": 0.4857,
+    "ci95": [
+     0.2329,
+     0.7385
+    ]
+   },
+   {
+    "weekDropped": "2026-23",
+    "est": 0.4913,
+    "ci95": [
+     0.2372,
+     0.7453
+    ]
+   },
+   {
+    "weekDropped": "2026-24",
+    "est": 0.5295,
+    "ci95": [
+     0.268,
+     0.791
+    ]
+   },
+   {
+    "weekDropped": "2026-25",
+    "est": 0.4895,
+    "ci95": [
+     0.2222,
+     0.7569
+    ]
+   },
+   {
+    "weekDropped": "2026-26",
+    "est": 0.4569,
+    "ci95": [
+     0.2023,
+     0.7115
+    ]
+   },
+   {
+    "weekDropped": "2026-27",
+    "est": 0.4589,
+    "ci95": [
+     0.2051,
+     0.7128
+    ]
+   },
+   {
+    "weekDropped": "2026-28",
+    "est": 0.469,
+    "ci95": [
+     0.2156,
+     0.7224
+    ]
+   },
+   {
+    "weekDropped": "2026-29",
+    "est": 0.4821,
+    "ci95": [
+     0.2317,
+     0.7324
+    ]
+   },
+   {
+    "weekDropped": "2026-30",
+    "est": 0.4937,
+    "ci95": [
+     0.2301,
+     0.7573
+    ]
+   },
+   {
+    "weekDropped": "2026-31",
+    "est": 0.4728,
+    "ci95": [
+     0.2219,
+     0.7237
+    ]
+   },
+   {
+    "weekDropped": "2026-32",
+    "est": 0.4538,
+    "ci95": [
+     0.209,
+     0.6986
+    ]
+   },
+   {
+    "weekDropped": "2026-33",
+    "est": 0.4712,
+    "ci95": [
+     0.222,
+     0.7205
+    ]
+   },
+   {
+    "weekDropped": "2026-34",
+    "est": 0.5013,
+    "ci95": [
+     0.2584,
+     0.7441
+    ]
+   },
+   {
+    "weekDropped": "2026-35",
+    "est": 0.4612,
+    "ci95": [
+     0.2157,
+     0.7068
+    ]
+   },
+   {
+    "weekDropped": "2026-36",
+    "est": 0.4994,
+    "ci95": [
+     0.246,
+     0.7528
+    ]
+   },
+   {
+    "weekDropped": "2026-37",
+    "est": 0.5029,
+    "ci95": [
+     0.2539,
+     0.7519
+    ]
+   },
+   {
+    "weekDropped": "2026-38",
+    "est": 0.5104,
+    "ci95": [
+     0.2532,
+     0.7676
+    ]
+   },
+   {
+    "weekDropped": "2026-39",
+    "est": 0.4568,
+    "ci95": [
+     0.1954,
+     0.7181
+    ]
+   },
+   {
+    "weekDropped": "2026-40",
+    "est": 0.4191,
+    "ci95": [
+     0.1489,
+     0.6894
+    ]
+   },
+   {
+    "weekDropped": "2026-41",
+    "est": 0.4327,
+    "ci95": [
+     0.1417,
+     0.7238
+    ]
+   },
+   {
+    "weekDropped": "2026-42",
+    "est": 0.2996,
+    "ci95": [
+     0.0639,
+     0.5353
+    ]
+   }
+  ],
+  "leaveOneWeekOut_range": [
+   0.2996,
+   0.5295
+  ],
+  "dayMeanResidualAutocorrLag1": 0.268
+ },
+ "item4_matched": {
+  "definition": "late (2026-10-10..2026-10-17) minus September, coarsened-exact matched on pack-T class (5), peak-I class (5), SOC class (4), distance class (3); weights = late drives per cell",
+  "effect_mv": 3.34,
+  "ci95_dayclustered_bootstrap": [
+   1.32,
+   6.3
+  ],
+  "matchedCells": 20,
+  "lateDrivesMatched": 23,
+  "lateDrivesTotal": 46,
+  "sepDrives": 181,
+  "lateDays": 8,
+  "sepDays": 30,
+  "draws": 4000,
+  "seed": 42
+ },
+ "item5_cadence": {
+  "stepTermWithRegime": {
+   "est": 2.3153,
+   "se": 0.6343,
+   "ci95": [
+    1.059,
+    3.5716
+   ]
+  },
+  "regimeTermWithStep": {
+   "est": 0.7087,
+   "se": 0.5081,
+   "ci95": [
+    -0.2976,
+    1.715
+   ]
+  },
+  "byPeriod": {
+   "2026-05": {
+    "n": 38,
+    "slowShare": 0.71,
+    "medianPeriod_s": 1.344
+   },
+   "2026-06": {
+    "n": 63,
+    "slowShare": 1.0,
+    "medianPeriod_s": 1.313
+   },
+   "2026-07": {
+    "n": 93,
+    "slowShare": 1.0,
+    "medianPeriod_s": 1.227
+   },
+   "2026-08": {
+    "n": 111,
+    "slowShare": 0.37,
+    "medianPeriod_s": 0.859
+   },
+   "2026-09": {
+    "n": 186,
+    "slowShare": 0.83,
+    "medianPeriod_s": 1.417
+   },
+   "2026-10": {
+    "n": 68,
+    "slowShare": 0.29,
+    "medianPeriod_s": 0.869
+   },
+   "Oct10-17": {
+    "n": 47,
+    "slowShare": 0.36,
+    "medianPeriod_s": 0.899
+   }
+  },
+  "slopeWithoutRegime": {
+   "est": 0.4712,
+   "ci95": [
+    0.2198,
+    0.7226
+   ]
+  },
+  "slopeWithRegime": {
+   "est": 0.5081,
+   "ci95": [
+    0.2349,
+    0.7812
+   ]
+  },
+  "slopeWithRegimeAndStep": {
+   "est": 0.1881,
+   "ci95": [
+    -0.0782,
+    0.4543
+   ]
+  },
+  "regimeRule": "slow: I_sample_period_s >= 1.05 s (M379a)"
+ },
+ "item4b_cold_start_and_segments": {
+  "definition": "cold start = first drive after >4 h rest; late = 2026-10-10..2026-10-17 vs September; effect adjusted for start-sensor mean T and the window median |I| (day-clustered, t(G-1))",
+  "startTempMedians_cold": {
+   "0.0": {
+    "t1": 19.0,
+    "t2": 19.0,
+    "t3": 17.0,
+    "t4": 17.0,
+    "tmean": 18.0,
+    "trange": 1.0,
+    "pairgrad": 1.0
+   },
+   "1.0": {
+    "t1": 14.0,
+    "t2": 14.0,
+    "t3": 13.0,
+    "t4": 13.0,
+    "tmean": 13.5,
+    "trange": 1.0,
+    "pairgrad": 1.0
+   }
+  },
+  "nCold": {
+   "sep": 33,
+   "late": 11
+  },
+  "wholeDriveLoadedP95_cold": {
+   "lateEffect_mv": 5.91,
+   "ci95": [
+    3.03,
+    8.79
+   ],
+   "n": 44,
+   "nLate": 11,
+   "days": 28
+  },
+  "wholeDriveLoadedP95_cold_plusPairGradient": {
+   "lateEffect_mv": 5.25,
+   "ci95": [
+    1.84,
+    8.67
+   ],
+   "n": 44,
+   "nLate": 11,
+   "days": 28
+  },
+  "earlyWindow_0_2min_median": {
+   "lateEffect_mv": -0.96,
+   "ci95": [
+    -2.22,
+    0.3
+   ],
+   "n": 44,
+   "nLate": 11,
+   "days": 28
+  },
+  "earlyWindow_0_2min_p95": {
+   "lateEffect_mv": 0.36,
+   "ci95": [
+    -1.8,
+    2.52
+   ],
+   "n": 44,
+   "nLate": 11,
+   "days": 28
+  },
+  "earlyWindow_2_10min_median": {
+   "lateEffect_mv": 0.36,
+   "ci95": [
+    -1.51,
+    2.24
+   ],
+   "n": 44,
+   "nLate": 11,
+   "days": 28
+  },
+  "earlyWindow_2_10min_p95": {
+   "lateEffect_mv": 1.33,
+   "ci95": [
+    -1.61,
+    4.27
+   ],
+   "n": 44,
+   "nLate": 11,
+   "days": 28
+  },
+  "first20min_loaded_p95_allDrives": {
+   "lateEffect_mv": 3.06,
+   "ci95": [
+    1.98,
+    4.14
+   ],
+   "n": 145,
+   "nLate": 41,
+   "days": 28
+  },
+  "first20min_loaded_p95_cold": {
+   "lateEffect_mv": 4.39,
+   "ci95": [
+    1.07,
+    7.72
+   ],
+   "n": 40,
+   "nLate": 9,
+   "days": 27
+  },
+  "sensorResolution": "integer degC; a gradient below 1 degC is not resolvable; cell-level temperatures are not logged"
+ },
+ "confirmatory": {
+  "cutoff": "2026-10-17",
+  "stepDate": "2026-10-01",
+  "minDrives": 10,
+  "minDays": 5,
+  "nDrivesAfterCutoff": 0,
+  "nDaysAfterCutoff": 0,
+  "status": "awaiting data",
+  "note": "no number is given below the support floor"
+ },
+ "masterMd5After": "5556a0c6c8bcde0f6c64b8b9655208ed"
+}
