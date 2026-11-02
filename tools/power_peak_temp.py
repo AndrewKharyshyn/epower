@@ -72,6 +72,12 @@ def extract_frames(df, t):
     ties = np.flatnonzero(e["P"].values == minP)
     rec.update(ok=True, nE=int(len(e)), peakKwRebuilt=round(float(e["P"].min()), 1), peakIRebuilt=round(float(e["Id"].min()), 1),
                tPeakKw=str(tP), nTiesAtMinP=int(len(ties)), vAgeKwS=float(vage[iP]))
+    # M568: the peak DISCHARGE power sample (first maximum of P in (t, row) order), same nearest-T1 rule and tiers
+    iD = int(e["P"].values.argmax()); tD = e["t"].iloc[iD]
+    vD, aD = _near(t1s, tD, LATE_S)
+    rec.update(tPeakDis=str(tD), peakDisRebuilt=round(float(e["P"].max()), 1), nTiesAtMaxP=int(len(np.flatnonzero(e["P"].values == float(e["P"].max())))),
+               T1AtPeakDis_10s=None if vD is None else round(vD, 1), T1AtPeakDis=None if (vD is None or abs(aD) > NEARBY_S) else round(vD, 1),
+               ageDisS=aD if vD is not None else (_near(t1s, tD, 1e9)[1] if t1s is not None else None))
     v_, a_ = _near(t1s, tP, NEARBY_S)
     rec.update(T1AtPeakKw=v_, ageKwS=a_)
     if v_ is None:
@@ -179,8 +185,8 @@ def load_records(only=None):
 
 def known_answers(dm, recs):
     """KA2 / KA3 (STOP on a miss)."""
-    bad = {"peakKw": [], "peakI": [], "t1PeakI": []}
-    n = {"peakKw": 0, "peakI": 0, "t1PeakI": 0, "t1PeakIFallbackSkipped": 0}
+    bad = {"peakKw": [], "peakI": [], "t1PeakI": [], "peakDis": []}
+    n = {"peakKw": 0, "peakI": 0, "t1PeakI": 0, "t1PeakIFallbackSkipped": 0, "peakDis": 0}
     for _, r in dm.iterrows():
         a = recs.get(r["file"])
         if a is None or not a.get("ok"):
@@ -189,6 +195,10 @@ def known_answers(dm, recs):
             n["peakKw"] += 1
             if a["peakKwRebuilt"] != round(float(r["peak_charge_kw"]), 1):
                 bad["peakKw"].append((r["file"], a["peakKwRebuilt"], float(r["peak_charge_kw"])))
+        if pd.notna(r.get("peak_discharge_kw")):
+            n["peakDis"] += 1
+            if a["peakDisRebuilt"] != round(float(r["peak_discharge_kw"]), 1):
+                bad["peakDis"].append((r["file"], a["peakDisRebuilt"], float(r["peak_discharge_kw"])))
         if pd.notna(r.get("peak_I_charge")):
             n["peakI"] += 1
             if a["peakIRebuilt"] != round(float(r["peak_I_charge"]), 1):
@@ -242,9 +252,19 @@ def build(dm, recs, A):
         "nChannel": {c: int(sum(1 for r in pop if r.get("channelI") == c)) for c in ("reg", "egc", "dual")},
         "globalMinIdDiagnosticDiffers": int(sum(1 for r in pop if r.get("T1AtPeakI") is not None and r.get("T1AtGlobalMinId") != r.get("T1AtPeakI"))),
     }
+    dis_x = {}
+    for f in akfiles:
+        r = ok.get(f)
+        if not r or r.get("peakDisRebuilt") is None:
+            dis_x[f] = {"kw": None, "x": None, "tier": "none", "ageS": None}; continue
+        c = _cls(r.get("ageDisS")); v = r.get("T1AtPeakDis") if c in ("cotimed", "nearby") else (r.get("T1AtPeakDis_10s") if c == "late" else None)
+        dis_x[f] = {"kw": r["peakDisRebuilt"], "x": v, "tier": c if v is not None else "none", "ageS": None if r.get("ageDisS") is None else round(r["ageDisS"], 3)}
+    summary_dis = {"tiersDis": cnt([dis_x[f]["tier"] for f in akfiles]),
+                   "tiersDisByCadence": {c: cnt([dis_x[f]["tier"] for f in akfiles if f in ok and ok[f]["cadence"] == c]) for c in sorted({ok[f]["cadence"] for f in akfiles if f in ok})}}
+    summary["dischargePeak"] = summary_dis
     ac_x, ac_sum, checks = _build_ac(dm, ok, A, akfiles)
     summary.update(ac_sum)
-    return kw_x, summary, ac_x, checks
+    return kw_x, summary, ac_x, checks, dis_x
 
 
 def _tier_ac(r):
@@ -315,7 +335,7 @@ def main():
     if any(ka["misses"].values()):
         json.dump(res, open(OUT, "w", encoding="utf-8"), indent=1, default=float)
         print(json.dumps({"STOP": "known-answer miss", **ka}, default=float)); sys.exit(2)
-    kw_x, summary, ac_x, ac_checks = build(dm, recs, A)
+    kw_x, summary, ac_x, ac_checks, dis_x = build(dm, recs, A)
     res.update(summary=summary, nKwViewX=len(kw_x), nAcViewX=len(ac_x), acConsistencyMisses=ac_checks)
     if ac_checks:
         json.dump(res, open(OUT, "w", encoding="utf-8"), indent=1, default=float)
@@ -325,7 +345,7 @@ def main():
     json.dump({f: r for f, r in recs.items()}, open(os.path.join(CACHE, "_all.json" if not only else "_sample.json"), "w", encoding="utf-8"), default=float)
     print(json.dumps({"ok": True, "stats": stats, "knownAnswer": ka, "summary": summary}, default=float)[:3000])
     if mode == "--splice" and not only:
-        splice(res, recs, kw_x, A, ac_x)
+        splice(res, recs, kw_x, A, ac_x, dis_x)
 
 
 def _tod(ts):
@@ -333,7 +353,7 @@ def _tod(ts):
     return None if ts is None else pd.Timestamp(ts).strftime("%H:%M:%S.%f")
 
 
-def splice(res, recs, kw_x, A, ac_x):
+def splice(res, recs, kw_x, A, ac_x, dis_x):
     """additive write of S.powerPeakTemperature (+ stamp); every existing key (cRatePoints, cRatePointsAK, cRateRefLines*, cRateAxes) stays byte-identical."""
     ok = {f: r for f, r in recs.items() if r.get("ok")}
     rows = []
@@ -347,7 +367,7 @@ def splice(res, recs, kw_x, A, ac_x):
              "rule": {"nearestSampleNoInterpolation": True, "tiers": {"cotimed": "|age| <= 1 s", "nearby": "1 s < |age| <= 3 s", "late": "3 s < |age| <= 10 s", "none": "beyond 10 s or no T1 sample (omitted)"},
                       "ageSign": "T1 sample time minus peak sample time (seconds)", "ties": "first sample in (t, row) order", "currentPair": "the master's channel-gated peak-C-rate sample, replicated exactly (reg / egc / dual), T1 within 3 s"},
              "perDriveColumns": ["file", "tPeakKw", "T1AtPeakKw(<=3 s)", "ageKwS", "classKw", "tPeakI", "T1AtPeakI", "ageIS", "classI", "gapS", "vAgeKwS", "channelI", "nTiesAtMinP"],
-             "perDrive": rows, "kwViewX": kw_x, "acViewX": ac_x, "summary": res["summary"], "knownAnswer": res["knownAnswer"],
+             "perDrive": rows, "kwViewX": kw_x, "acViewX": ac_x, "dischargePeak": dis_x, "summary": res["summary"], "knownAnswer": res["knownAnswer"],
              "limits": ["tPeakKw / tPeakI are clock times of day (M567; the logger exports no date)", "P = Id x V is reconstructed from a current sample and the voltage sample paired within 1.5 s (vAgeKwS), not a native power sample", "T1 is logged at 1 degC resolution: differences below 1 degC cannot be shown",
                         "summary statistics use the <= 3 s tiers only; the late tier (3-10 s) is a labelled sensitivity, paired 3-10 s apart under slow polling",
                         "M567: the A / C views plot acViewX (T1 sample nearest the master's current-peak sample, tiers within 1 s / 3 s / hollow 3-10 s / omitted beyond 10 s); the drive-maximum fallback of T1_at_peak_Crate stays in the master and in cRatePoints* (unchanged) but is no longer drawn; the late tier departs from the master's 3 s convention (inherited from M550 as pre-registered)",
@@ -355,7 +375,7 @@ def splice(res, recs, kw_x, A, ac_x):
                         "a drive whose minimum P is not negative has no charge sample; its 'peak' is the smallest positive P"]}
     block = json.loads(json.dumps(block, default=float))
     A2 = json.load(open(ARR, encoding="utf-8"))
-    skip = ("powerPeakTemperature", "_artifactStamps")
+    skip = ("powerPeakTemperature", "_artifactStamps", "officialDisclosureCorrelation")
     before = {k: json.dumps(v, sort_keys=True) for k, v in A2.items() if k not in skip}
     stamps_before = {k: json.dumps(v, sort_keys=True) for k, v in A2["_artifactStamps"].items() if k != "powerPeakTemperature"}
     assert [p[5] for p in A2["cRatePointsAK"]] == [p[5] for p in A["cRatePointsAK"]] and set(block["kwViewX"]) == {p[5] for p in A2["cRatePointsAK"]} and set(block["acViewX"]) == set(block["kwViewX"]), "keyed map join assertion"
@@ -366,6 +386,16 @@ def splice(res, recs, kw_x, A, ac_x):
     st.pop("carriedForward", None)
     st["includedInReleaseAt"] = st["computedAt"] = st["generatedAt"]
     A2["_artifactStamps"]["powerPeakTemperature"] = st
+    # M568: the officialDisclosureCorrelation notes are regenerated from the generator's own helpers with the discharge-peak entry of the corpus-peak drive
+    import compute_summary_arrays as CSA
+    dmx = pd.read_csv("drive_master.csv", low_memory=False)
+    pkf = dmx.loc[dmx["peak_discharge_kw"].idxmax(), "file"]
+    odc = A2["officialDisclosureCorrelation"]
+    odc["power"]["note"] = CSA._od_power_note(odc["power"], dict(block["dischargePeak"][pkf], file=pkf))
+    odc["rows"][1]["note"] = CSA._od_power_row_note(odc["power"])
+    odc["rows"][1]["verdict"] = "not_comparable"        # Director final ruling (M568): no pulse duration is stated, so the observed peak and the disclosed figure are not directly comparable; the generator sets the same value
+    assert {k: v for k, v in A["officialDisclosureCorrelation"].items() if k not in ("power", "rows")} == {k: v for k, v in odc.items() if k not in ("power", "rows")}
+    assert {k: v for k, v in A["officialDisclosureCorrelation"]["power"].items() if k != "note"} == {k: v for k, v in odc["power"].items() if k != "note"}
     assert before == {k: json.dumps(v, sort_keys=True) for k, v in A2.items() if k not in skip}
     assert stamps_before == {k: json.dumps(v, sort_keys=True) for k, v in A2["_artifactStamps"].items() if k != "powerPeakTemperature"}
     with open(ARR, "w", encoding="utf-8", newline="\n") as f:

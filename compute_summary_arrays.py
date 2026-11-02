@@ -2910,6 +2910,33 @@ def _fade_modes(dm, cyc, seasonal, power_fade):
             'entirely modeled, the other is measured and currently null.')}
 
 
+def _od_power_note(power, pk=None):
+    """M568 (AUD29-N07, Director final text): the peak-power sentence of the official-disclosure correlation, generated from the block's own leaves; pk = the discharge-peak entry {file, x, tier, ageS} of the corpus-peak drive (added by the power_peak_temp stage). The Sensor-1 probe reading at the nearest sample is not the corpus median of the drive-mean pack temperature and is not called pack temperature."""
+    g = lambda x: format(x, "g")
+    f1 = lambda x: format(x, ".1f")
+    t = ("Single-sample peak battery discharge (%s kW, %s; a reconstructed I x V sample) exceeds the %s kW figure, which the OEM material discloses at %s %% SoC; no pulse duration is stated, so the two are not directly comparable, and this study does not explain the exceedance."
+         % (f1(power["measuredPeakKw"]), power["measuredPeakDrive"], f1(power["officialKw"]), power["officialConditionSoc"]))
+    if pk is not None:
+        if pk.get("x") is not None:
+            lab = {"cotimed": "co-timed (within 1 s)", "nearby": "nearby (within 3 s)", "late": "paired 3-10 s apart"}[pk["tier"]]
+            a = pk["ageS"]
+            t += (" The nearest logged Sensor-1 probe reading was %s C, %s: the T1 sample is %s s %s the peak sample."
+                  % (g(pk["x"]), lab, g(abs(a)), "after" if a >= 0 else "before"))
+        else:
+            t += " No Sensor-1 sample lies within 10 s of the peak sample."
+    if power.get("motorRatedKw") is not None:
+        t += (" The motor's rated output (%s kW) exceeds the disclosed battery figure by %s kW (difference of rated figures, losses not included); the split of such demand between battery and generator cannot be resolved from the BMS shunt alone (see energyPath)."
+              % (g(power["motorRatedKw"]), f1(power["bufferedChannelDeficitKw"])))
+    return t
+
+
+def _od_power_row_note(power):
+    base = "Single-sample peak exceeds the disclosed figure; the disclosure states no pulse duration, so the two are not directly comparable."
+    if power.get("motorRatedKw") is not None:
+        base += " The motor's rated output (%s kW) exceeds the disclosed figure (difference of rated figures)." % format(power["motorRatedKw"], "g")
+    return base
+
+
 def _official_disclosure_correlation(dm, cfg, cyc, fade_modes, power_fade):
     """M79 (2026-07-31): cross-check of the Nissan X-Trail e-POWER (T33)
     official battery durability disclosure (Article 10, Regulation (EU)
@@ -2998,19 +3025,8 @@ def _official_disclosure_correlation(dm, cfg, cyc, fade_modes, power_fade):
         'measuredPeakKw': peak_kw, 'measuredPeakDrive': peak_drive,
         'motorRatedKw': motor_kw, 'motorRatedNm': motor_nm,
         'bufferedChannelDeficitKw': buffered_deficit_kw,
-        'note': (f"Observed instantaneous peak battery discharge "
-                 f"({peak_kw} kW, {peak_drive}) exceeds the {od['powerKw']} kW "
-                 f"rating because the rating is a sustained/derated figure at "
-                 f"exactly {od.get('powerConditionSoc')}% SoC, room "
-                 f"temperature, whereas the corpus peak is a warm-pack "
-                 f"(median {peak_pack_c}\u00b0C) instantaneous extremum. With "
-                 f"the front motor rated {motor_kw} kW / {motor_nm} N\u00b7m, "
-                 f"peak traction demand exceeds the {od['powerKw']} kW "
-                 f"battery cap by ~{buffered_deficit_kw} kW at full power, "
-                 f"which must be sourced directly from the generator across "
-                 f"the shared HV DC bus -- an external OEM bound on the "
-                 f"buffered/direct power split flagged as structurally "
-                 f"unmeasurable from the BMS shunt alone (see energyPath).")}
+        'note': None}
+    power['note'] = _od_power_note(power)
 
     # ---- 3. internal resistance (explicitly NOT a level comparison) ----
     r_off_new_mohm = od['internalResistanceOhm'] * 1000.0
@@ -3140,10 +3156,8 @@ def _official_disclosure_correlation(dm, cfg, cyc, fade_modes, power_fade):
              'an independent capacity measurement (see fadeModes.capacity).'),
         _row('Power', f"{power['officialKw']} kW @ {power['officialConditionSoc']}% SoC",
              f"{power['measuredPeakKw']} kW peak ({power['measuredPeakDrive']})",
-             'consistent',
-             'Warm/instantaneous peak exceeds the derated rating as '
-             'expected; the rating caps the buffered channel against a '
-             f"{power['motorRatedKw']} kW motor."),
+             'not_comparable',
+             _od_power_row_note(power)),
         _row('Internal resistance', f"{resistance['officialNewMohm']} m\u03a9 pack "
              f"({resistance['officialPerCellMohm']} m\u03a9/cell est.)",
              f"{resistance['ourVregPackMohm']} m\u03a9 pack "
