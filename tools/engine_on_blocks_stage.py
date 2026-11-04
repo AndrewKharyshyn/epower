@@ -265,7 +265,24 @@ def build_blocks(dm, A, rebuild=False):
     gates = {"E1RuleSecondsExact": {"nCompared": int(sum(1 for fn in ent if fn in rs.index)), "nDifferent": len(e1), "passed": not e1}}
     res = by_cohort(ent, rows)
     gates["driveSetEqualsStoredBlock"] = bool(res["all"][1]["engineOnBySpeed"]["nDrives"] == A["engineOnDrives"])
-    gates["M544KnownAnswers"] = ka_m544(res)
+    # M575: the M544 evidence is bound to its master (nDrivesMaster rows, masterMd5). The master is append-only (0 pre-existing-row diffs gate), so after an ingestion the known answers are checked on the
+    # SAME first nDrivesMaster drives (full strength on the evidence corpus); the appended drives are not covered by the pinned answers and are recorded as such.
+    ka_res, ka_basis = res, "all master rows (evidence corpus = current corpus)"
+    pe = os.path.join(ROOT, "analyses", "M544_evidence.json")
+    n_ev = json.load(open(pe, encoding="utf-8")).get("nDrivesMaster") if os.path.exists(pe) else None
+    if n_ev and n_ev < len(rows):
+        rows_ka = rows[:n_ev]
+        keep = {r["file"] for r in rows_ka}
+        ka_res = by_cohort({fn: e for fn, e in ent.items() if fn in keep}, rows_ka)
+        ka_basis = "first %d master rows (the M544 evidence corpus); %d appended drives are not covered by the pinned answers" % (n_ev, len(rows) - n_ev)
+    ev_ident = True
+    if n_ev and n_ev < len(rows):          # Director (M575): the first n_ev rows must BE the evidence corpus: their drive files equal, in order, those of the committed master the evidence was derived from (byte identity does not hold, the ingestion rewrites the file)
+        import csv, io, subprocess
+        blob = subprocess.run(["git", "show", "HEAD:drive_master.csv"], cwd=ROOT, capture_output=True).stdout.decode("utf-8")
+        committed = [r_["file"] for r_ in csv.DictReader(io.StringIO(blob))]
+        ev_ident = bool(len(committed) == n_ev and committed == [r_["file"] for r_ in rows[:n_ev]])
+    gates["M544KnownAnswers"] = dict(ka_m544(ka_res), basis=ka_basis, evidenceRowsIdentical=ev_ident, nAppended=(len(rows) - n_ev) if n_ev and n_ev < len(rows) else 0)
+    gates["M544KnownAnswers"]["passed"] = bool(gates["M544KnownAnswers"]["passed"] and ev_ident)
     gates["passed"] = bool(gates["E1RuleSecondsExact"]["passed"] and gates["driveSetEqualsStoredBlock"] and gates["M544KnownAnswers"]["passed"])
     sha = lambda q: hashlib.sha256(open(os.path.join(ROOT, q), "rb").read()).hexdigest()
     md5 = hashlib.md5(open(os.path.join(ROOT, "drive_master.csv"), "rb").read()).hexdigest()

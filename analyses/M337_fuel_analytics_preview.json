@@ -3,23 +3,23 @@
  "schemaVersion": 1,
  "basis": "logged/app-calculated fuel counter and rate (Car Scanner ELM OBD2); raw/ = sha256-verified originals (M366); not M299-reproducible",
  "inputs": {
-  "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
+  "driveMasterMd5": "1e599176dafd8575dc7addede8d79358"
  },
  "method": "day-clustered percentile bootstrap (seed 42, 4000 draws), ratio-of-sums; day = trip start date; interval only with >=7 distinct days (5-6 low-cluster, <5 points only)",
  "reconciliation": {
-  "canonicalDrives": 606,
-  "fuelContractUsable": 347,
+  "canonicalDrives": 621,
+  "fuelContractUsable": 361,
   "removedByCanonicalCleanMask": 1,
   "excludedReset": 0,
-  "analysisEligible": 346,
+  "analysisEligible": 360,
   "kmBelow0p5NotInRatePanels": 3,
-  "fuel01Trips": 343,
-  "fuel11PrimaryTrips": 260,
+  "fuel01Trips": 357,
+  "fuel11PrimaryTrips": 271,
   "auditReference": 234,
   "withoutFuelData": {
    "noCounterColumn": 226,
-   "counterFlatOrRateUnusable": 33,
-   "flatShareUnder2km": 0.879,
+   "counterFlatOrRateUnusable": 34,
+   "flatShareUnder2km": 0.882,
    "note": "selection on a counter increment > 0 is resolution-driven and may bias short-trip band rates upward"
   },
   "noRaw": 0,
@@ -31,79 +31,79 @@
  "fuel12": {
   "definition": "sum(V_int - V_cnt)/sum(V_cnt); positive = rate integral above counter; V_cnt = counter(last valid) - counter(first valid); V_int = rate integral on the rate's own valid sample times inside that window, each step using the time since the PREVIOUS valid rate sample (for the first in-window sample that sample may lie before the window), dt capped at 5 s",
   "aggregate": {
-   "est": 0.0008,
+   "est": 0.00078,
    "ci95": [
     0.00021,
-    0.00153
+    0.00156
    ],
-   "nTrips": 346,
-   "nDays": 65
+   "nTrips": 360,
+   "nDays": 68
   },
-  "alsoOverMeanVolume": 0.0008,
+  "alsoOverMeanVolume": 0.00078,
   "perTripRelMedianIqr": [
    0.0,
    -1e-05,
-   0.00087
+   0.00079
   ],
-  "nRelativeShown": 339,
+  "nRelativeShown": 353,
   "nBelowFloor": 7,
   "nFlag5pct": 0,
   "integrationVariants": {
    "trapezoid": {
-    "est": 0.00073,
+    "est": 0.0007,
     "ci95": [
-     0.00014,
-     0.00146
+     0.0001,
+     0.00147
     ],
-    "nTrips": 346,
-    "nDays": 65
+    "nTrips": 360,
+    "nDays": 68
    },
    "cap2s": {
-    "est": -0.00223,
+    "est": -0.00229,
     "ci95": [
-     -0.00517,
-     2e-05
+     -0.00513,
+     -6e-05
     ],
-    "nTrips": 346,
-    "nDays": 65
+    "nTrips": 360,
+    "nDays": 68
    },
    "cap10s": {
-    "est": 0.00084,
+    "est": 0.00082,
     "ci95": [
      0.00027,
-     0.00155
+     0.00157
     ],
-    "nTrips": 346,
-    "nDays": 65
+    "nTrips": 360,
+    "nDays": 68
    },
    "gapFreeTripsBase": {
-    "est": 0.0009,
+    "est": 0.00089,
     "ci95": [
      0.00029,
-     0.00165
+     0.00161
     ],
-    "nTrips": 330,
-    "nDays": 63
+    "nTrips": 342,
+    "nDays": 66
    },
    "gappedTripsBase": {
     "est": -0.00013,
     "ci95": [
-     -0.00061,
-     0.00198
+     -0.00058,
+     0.00164
     ],
-    "nTrips": 16,
-    "nDays": 11
+    "nTrips": 18,
+    "nDays": 12
    }
   },
   "f03Sensitivity": {
    "hashPass": {
-    "est": 0.00084,
+    "est": 0.00082,
     "ci95": [
      0.00011,
-     0.00191
+     0.00184
     ],
-    "nTrips": 249,
-    "nDays": 50
+    "nTrips": 263,
+    "nDays": 53
    },
    "hashFail": {
     "est": 0.00068,
@@ -135,45 +135,45 @@
   "bands": [
    {
     "band": "0.5-2",
-    "nTrips": 83,
-    "nDays": 39,
+    "nTrips": 86,
+    "nDays": 42,
     "support": "ci",
     "pooledL100": {
-     "est": 10.10429,
+     "est": 10.02936,
      "ci95": [
-      8.95937,
-      11.37977
+      8.94508,
+      11.1864
      ],
-     "nTrips": 83,
-     "nDays": 39
+     "nTrips": 86,
+     "nDays": 42
     },
     "byStartTemp": {
      "<40C": {
-      "nTrips": 31,
-      "nDays": 25,
+      "nTrips": 32,
+      "nDays": 26,
       "support": "ci",
       "pooledL100": {
-       "est": 14.85029,
+       "est": 14.5757,
        "ci95": [
-        12.67779,
-        17.32111
+        12.41647,
+        16.99176
        ],
-       "nTrips": 31,
-       "nDays": 25
+       "nTrips": 32,
+       "nDays": 26
       }
      },
      "40-60C": {
-      "nTrips": 34,
-      "nDays": 22,
+      "nTrips": 36,
+      "nDays": 24,
       "support": "ci",
       "pooledL100": {
-       "est": 7.84833,
+       "est": 7.87066,
        "ci95": [
-        6.91908,
-        8.8786
+        6.96396,
+        8.86698
        ],
-       "nTrips": 34,
-       "nDays": 22
+       "nTrips": 36,
+       "nDays": 24
       }
      },
      ">=60C": {
@@ -194,76 +194,76 @@
    },
    {
     "band": "2-5",
-    "nTrips": 148,
-    "nDays": 50,
+    "nTrips": 157,
+    "nDays": 53,
     "support": "ci",
     "pooledL100": {
-     "est": 7.53137,
+     "est": 7.59647,
      "ci95": [
-      7.14633,
-      7.9582
+      7.21378,
+      8.03042
      ],
-     "nTrips": 148,
-     "nDays": 50
+     "nTrips": 157,
+     "nDays": 53
     },
     "byStartTemp": {
      "<40C": {
-      "nTrips": 53,
-      "nDays": 36,
+      "nTrips": 57,
+      "nDays": 39,
       "support": "ci",
       "pooledL100": {
-       "est": 10.30044,
+       "est": 10.52686,
        "ci95": [
-        9.4708,
-        11.16714
+        9.71447,
+        11.39256
        ],
-       "nTrips": 53,
-       "nDays": 36
+       "nTrips": 57,
+       "nDays": 39
       }
      },
      "40-60C": {
-      "nTrips": 52,
-      "nDays": 31,
+      "nTrips": 55,
+      "nDays": 33,
       "support": "ci",
       "pooledL100": {
-       "est": 6.33327,
+       "est": 6.29252,
        "ci95": [
-        5.94077,
-        6.68873
+        5.91639,
+        6.63155
        ],
-       "nTrips": 52,
-       "nDays": 31
+       "nTrips": 55,
+       "nDays": 33
       }
      },
      ">=60C": {
-      "nTrips": 43,
-      "nDays": 26,
+      "nTrips": 45,
+      "nDays": 28,
       "support": "ci",
       "pooledL100": {
-       "est": 5.86748,
+       "est": 5.84902,
        "ci95": [
-        5.37341,
-        6.40736
+        5.39961,
+        6.35317
        ],
-       "nTrips": 43,
-       "nDays": 26
+       "nTrips": 45,
+       "nDays": 28
       }
      }
     }
    },
    {
     "band": "5-10",
-    "nTrips": 32,
-    "nDays": 23,
+    "nTrips": 33,
+    "nDays": 24,
     "support": "ci",
     "pooledL100": {
-     "est": 6.28029,
+     "est": 6.23344,
      "ci95": [
-      5.81719,
-      6.88053
+      5.76764,
+      6.80503
      ],
-     "nTrips": 32,
-     "nDays": 23
+     "nTrips": 33,
+     "nDays": 24
     },
     "byStartTemp": {
      "<40C": {
@@ -281,17 +281,17 @@
       }
      },
      "40-60C": {
-      "nTrips": 17,
-      "nDays": 15,
+      "nTrips": 18,
+      "nDays": 16,
       "support": "ci",
       "pooledL100": {
-       "est": 6.18922,
+       "est": 6.11263,
        "ci95": [
-        5.5304,
-        6.99182
+        5.51793,
+        6.84763
        ],
-       "nTrips": 17,
-       "nDays": 15
+       "nTrips": 18,
+       "nDays": 16
       }
      },
      ">=60C": {
@@ -312,31 +312,31 @@
    },
    {
     "band": "10-20",
-    "nTrips": 30,
-    "nDays": 25,
+    "nTrips": 31,
+    "nDays": 26,
     "support": "ci",
     "pooledL100": {
-     "est": 5.11163,
+     "est": 5.16754,
      "ci95": [
-      4.79033,
-      5.44124
+      4.83446,
+      5.52203
      ],
-     "nTrips": 30,
-     "nDays": 25
+     "nTrips": 31,
+     "nDays": 26
     },
     "byStartTemp": {
      "<40C": {
-      "nTrips": 9,
-      "nDays": 8,
+      "nTrips": 10,
+      "nDays": 9,
       "support": "ci",
       "pooledL100": {
-       "est": 4.77105,
+       "est": 4.95253,
        "ci95": [
-        4.54226,
-        5.02475
+        4.61151,
+        5.46467
        ],
-       "nTrips": 9,
-       "nDays": 8
+       "nTrips": 10,
+       "nDays": 9
       }
      },
      "40-60C": {
@@ -430,13 +430,13 @@
    }
   ],
   "pooledAll": {
-   "est": 5.67678,
+   "est": 5.70434,
    "ci95": [
-    5.51559,
-    5.89212
+    5.54382,
+    5.93892
    ],
-   "nTrips": 343,
-   "nDays": 65
+   "nTrips": 357,
+   "nDays": 68
   },
   "shortTripsNotInRatePanels": {
    "n": 3,
@@ -447,108 +447,45 @@
  "fuel11": {
   "distribution": {
    "primary_km_ge_2": {
-    "nTrips": 260,
-    "nDays": 65,
+    "nTrips": 271,
+    "nDays": 68,
     "support": "ci",
     "est": {
      "tripWeighted": {
-      "q10": 4.314,
+      "q10": 4.316,
       "q25": 4.806,
-      "q50": 5.814,
-      "q75": 7.561,
-      "q90": 10.344
-     },
-     "distanceWeighted": {
-      "q10": 4.301,
-      "q25": 4.637,
-      "q50": 5.436,
-      "q75": 5.829,
-      "q90": 6.391
-     }
-    },
-    "ci95": {
-     "trip_q10": [
-      4.151,
-      4.48
-     ],
-     "trip_q25": [
-      4.691,
-      5.045
-     ],
-     "trip_q50": [
-      5.544,
-      6.07
-     ],
-     "trip_q75": [
-      6.959,
-      8.145
-     ],
-     "trip_q90": [
-      9.463,
-      11.867
-     ],
-     "dist_q10": [
-      4.206,
-      4.52
-     ],
-     "dist_q25": [
-      4.478,
-      5.03
-     ],
-     "dist_q50": [
-      5.04,
-      5.673
-     ],
-     "dist_q75": [
-      5.631,
-      6.035
-     ],
-     "dist_q90": [
-      6.035,
-      7.255
-     ]
-    }
-   },
-   "sens_km_ge_0.5": {
-    "nTrips": 343,
-    "nDays": 65,
-    "support": "ci",
-    "est": {
-     "tripWeighted": {
-      "q10": 4.337,
-      "q25": 5.053,
-      "q50": 6.31,
-      "q75": 8.589,
-      "q90": 13.235
+      "q50": 5.831,
+      "q75": 7.606,
+      "q90": 10.545
      },
      "distanceWeighted": {
       "q10": 4.316,
       "q25": 4.649,
-      "q50": 5.476,
+      "q50": 5.436,
       "q75": 5.831,
-      "q90": 6.958
+      "q90": 6.6
      }
     },
     "ci95": {
      "trip_q10": [
-      4.206,
-      4.523
+      4.182,
+      4.48
      ],
      "trip_q25": [
-      4.814,
-      5.275
+      4.698,
+      5.045
      ],
      "trip_q50": [
-      5.952,
-      6.833
+      5.598,
+      6.119
      ],
      "trip_q75": [
-      8.067,
-      9.606
+      6.993,
+      8.21
      ],
      "trip_q90": [
-      11.605,
-      15.34
+      9.615,
+      12.042
      ],
      "dist_q10": [
       4.206,
@@ -556,73 +493,136 @@
      ],
      "dist_q25": [
       4.481,
+      5.032
+     ],
+     "dist_q50": [
+      5.079,
+      5.673
+     ],
+     "dist_q75": [
+      5.651,
+      6.035
+     ],
+     "dist_q90": [
+      6.035,
+      7.305
+     ]
+    }
+   },
+   "sens_km_ge_0.5": {
+    "nTrips": 357,
+    "nDays": 68,
+    "support": "ci",
+    "est": {
+     "tripWeighted": {
+      "q10": 4.382,
+      "q25": 5.061,
+      "q50": 6.387,
+      "q75": 8.684,
+      "q90": 13.307
+     },
+     "distanceWeighted": {
+      "q10": 4.316,
+      "q25": 4.649,
+      "q50": 5.476,
+      "q75": 5.831,
+      "q90": 6.993
+     }
+    },
+    "ci95": {
+     "trip_q10": [
+      4.219,
+      4.523
+     ],
+     "trip_q25": [
+      4.836,
+      5.275
+     ],
+     "trip_q50": [
+      6.018,
+      6.907
+     ],
+     "trip_q75": [
+      8.091,
+      9.617
+     ],
+     "trip_q90": [
+      11.792,
+      15.475
+     ],
+     "dist_q10": [
+      4.206,
+      4.52
+     ],
+     "dist_q25": [
+      4.52,
       5.04
      ],
      "dist_q50": [
-      5.081,
+      5.098,
       5.673
      ],
      "dist_q75": [
       5.703,
-      6.035
+      6.08
      ],
      "dist_q90": [
       6.114,
-      7.846
+      8.071
      ]
     }
    },
    "sens_km_ge_5": {
-    "nTrips": 112,
-    "nDays": 48,
+    "nTrips": 114,
+    "nDays": 49,
     "support": "ci",
     "est": {
      "tripWeighted": {
-      "q10": 4.207,
-      "q25": 4.542,
-      "q50": 5.132,
-      "q75": 5.835,
-      "q90": 6.992
+      "q10": 4.21,
+      "q25": 4.55,
+      "q50": 5.145,
+      "q75": 5.844,
+      "q90": 7.033
      },
      "distanceWeighted": {
       "q10": 4.301,
-      "q25": 4.613,
+      "q25": 4.615,
       "q50": 5.275,
-      "q75": 5.761,
+      "q75": 5.781,
       "q90": 6.035
      }
     },
     "ci95": {
      "trip_q10": [
       3.967,
-      4.405
+      4.433
      ],
      "trip_q25": [
-      4.44,
-      4.74
+      4.447,
+      4.797
      ],
      "trip_q50": [
-      4.887,
+      4.94,
       5.476
      ],
      "trip_q75": [
-      5.639,
-      6.174
+      5.647,
+      6.194
      ],
      "trip_q90": [
-      6.212,
-      7.652
+      6.29,
+      7.43
      ],
      "dist_q10": [
       4.126,
       4.52
      ],
      "dist_q25": [
-      4.455,
+      4.44,
       5.03
      ],
      "dist_q50": [
-      4.94,
+      4.939,
       5.631
      ],
      "dist_q75": [
@@ -630,8 +630,8 @@
       5.831
      ],
      "dist_q90": [
-      5.784,
-      6.114
+      5.788,
+      6.194
      ]
     }
    },
@@ -658,16 +658,16 @@
      }
     },
     "shoulder": {
-     "nTrips": 98,
-     "nDays": 40,
+     "nTrips": 109,
+     "nDays": 43,
      "support": "ci",
      "est": {
       "tripWeighted": {
-       "q10": 4.265,
-       "q25": 4.776,
-       "q50": 5.677,
-       "q75": 8.796,
-       "q90": 14.0
+       "q10": 4.297,
+       "q25": 4.769,
+       "q50": 5.743,
+       "q75": 9.041,
+       "q90": 14.174
       },
       "distanceWeighted": {
        "q10": 4.301,
@@ -679,24 +679,24 @@
      },
      "ci95": {
       "trip_q10": [
-       3.928,
-       4.537
+       4.047,
+       4.551
       ],
       "trip_q25": [
-       4.521,
-       5.079
+       4.532,
+       5.069
       ],
       "trip_q50": [
-       5.432,
-       6.275
+       5.436,
+       6.299
       ],
       "trip_q75": [
-       6.958,
-       10.539
+       7.089,
+       10.846
       ],
       "trip_q90": [
-       10.545,
-       15.849
+       11.296,
+       16.045
       ],
       "dist_q10": [
        3.928,
@@ -707,7 +707,7 @@
        5.167
       ],
       "dist_q50": [
-       4.603,
+       4.731,
        5.631
       ],
       "dist_q75": [
@@ -716,7 +716,7 @@
       ],
       "dist_q90": [
        5.703,
-       8.348
+       9.041
       ]
      }
     },
@@ -891,6 +891,36 @@
       ],
       "nTrips": 77,
       "nDays": 13
+     }
+    },
+    {
+     "start": "2026-10-19",
+     "days": 14,
+     "nTrips": 6,
+     "nDays": 1,
+     "litres": 2.216,
+     "km": 33.2,
+     "support": "points only",
+     "shareKmInTripsUnder5km": 0.322,
+     "shareTripsStartCoolantUnder40C": 0.333,
+     "pooledL100": {
+      "est": 6.6758,
+      "ci95": null
+     }
+    },
+    {
+     "start": "2026-11-02",
+     "days": 14,
+     "nTrips": 8,
+     "nDays": 2,
+     "litres": 1.871,
+     "km": 20.6,
+     "support": "points only",
+     "shareKmInTripsUnder5km": 1.0,
+     "shareTripsStartCoolantUnder40C": 0.5,
+     "pooledL100": {
+      "est": 9.0825,
+      "ci95": null
      }
     }
    ],
@@ -1088,6 +1118,36 @@
       ],
       "nTrips": 33,
       "nDays": 6
+     }
+    },
+    {
+     "start": "2026-10-26",
+     "days": 7,
+     "nTrips": 6,
+     "nDays": 1,
+     "litres": 2.216,
+     "km": 33.2,
+     "support": "points only",
+     "shareKmInTripsUnder5km": 0.322,
+     "shareTripsStartCoolantUnder40C": 0.333,
+     "pooledL100": {
+      "est": 6.6758,
+      "ci95": null
+     }
+    },
+    {
+     "start": "2026-11-02",
+     "days": 7,
+     "nTrips": 8,
+     "nDays": 2,
+     "litres": 1.871,
+     "km": 20.6,
+     "support": "points only",
+     "shareKmInTripsUnder5km": 1.0,
+     "shareTripsStartCoolantUnder40C": 0.5,
+     "pooledL100": {
+      "est": 9.0825,
+      "ci95": null
      }
     }
    ]
@@ -6624,6 +6684,230 @@
    "durationS": 542.0,
    "dSocPp": -6.0,
    "startCoolant": 52.0,
+   "tempBand": "40-60C",
+   "tempSource": "coolant",
+   "cohort": "shoulder",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261101_143631.csv",
+   "day": "2026-11-01",
+   "km": 12.8,
+   "V_cnt": 0.9034,
+   "V_int": 0.9034,
+   "durationS": 1366.0,
+   "dSocPp": 4.0,
+   "startCoolant": 7.0,
+   "tempBand": "<40C",
+   "tempSource": "coolant",
+   "cohort": "shoulder",
+   "gap": true,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261101_151023.csv",
+   "day": "2026-11-01",
+   "km": 3.5,
+   "V_cnt": 0.2481,
+   "V_int": 0.2481,
+   "durationS": 529.0,
+   "dSocPp": 5.0,
+   "startCoolant": 55.0,
+   "tempBand": "40-60C",
+   "tempSource": "coolant",
+   "cohort": "shoulder",
+   "gap": true,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261101_161127.csv",
+   "day": "2026-11-01",
+   "km": 9.7,
+   "V_cnt": 0.5026,
+   "V_int": 0.5026,
+   "durationS": 1158.0,
+   "dSocPp": -13.0,
+   "startCoolant": 44.0,
+   "tempBand": "40-60C",
+   "tempSource": "coolant",
+   "cohort": "shoulder",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261101_173614.csv",
+   "day": "2026-11-01",
+   "km": 2.5,
+   "V_cnt": 0.2714,
+   "V_int": 0.2714,
+   "durationS": 491.0,
+   "dSocPp": 18.0,
+   "startCoolant": 38.0,
+   "tempBand": "<40C",
+   "tempSource": "coolant",
+   "cohort": "shoulder",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261101_175638.csv",
+   "day": "2026-11-01",
+   "km": 3.1,
+   "V_cnt": 0.142,
+   "V_int": 0.142,
+   "durationS": 676.0,
+   "dSocPp": -8.0,
+   "startCoolant": 55.0,
+   "tempBand": "40-60C",
+   "tempSource": "coolant",
+   "cohort": "shoulder",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261101_181530.csv",
+   "day": "2026-11-01",
+   "km": 1.6,
+   "V_cnt": 0.1488,
+   "V_int": 0.1488,
+   "durationS": 827.0,
+   "dSocPp": -1.0,
+   "startCoolant": 55.0,
+   "tempBand": "40-60C",
+   "tempSource": "coolant",
+   "cohort": "shoulder",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261102_074002.csv",
+   "day": "2026-11-02",
+   "km": 2.3,
+   "V_cnt": 0.38,
+   "V_int": 0.38,
+   "durationS": 502.0,
+   "dSocPp": 22.0,
+   "startCoolant": 10.0,
+   "tempBand": "<40C",
+   "tempSource": "coolant",
+   "cohort": "shoulder",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261102_081215.csv",
+   "day": "2026-11-02",
+   "km": 1.9,
+   "V_cnt": 0.1652,
+   "V_int": 0.1652,
+   "durationS": 380.0,
+   "dSocPp": 0.0,
+   "startCoolant": 38.0,
+   "tempBand": "<40C",
+   "tempSource": "coolant",
+   "cohort": "shoulder",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261102_143412.csv",
+   "day": "2026-11-02",
+   "km": 2.5,
+   "V_cnt": 0.2712,
+   "V_int": 0.2712,
+   "durationS": 398.0,
+   "dSocPp": 10.0,
+   "startCoolant": 16.0,
+   "tempBand": "<40C",
+   "tempSource": "coolant",
+   "cohort": "shoulder",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261102_144215.csv",
+   "day": "2026-11-02",
+   "km": 4.0,
+   "V_cnt": 0.1786,
+   "V_int": 0.1786,
+   "durationS": 521.0,
+   "dSocPp": -10.0,
+   "startCoolant": 60.0,
+   "tempBand": ">=60C",
+   "tempSource": "coolant",
+   "cohort": "shoulder",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261103_074010.csv",
+   "day": "2026-11-03",
+   "km": 2.4,
+   "V_cnt": 0.4072,
+   "V_int": 0.4072,
+   "durationS": 488.0,
+   "dSocPp": 24.5,
+   "startCoolant": 10.0,
+   "tempBand": "<40C",
+   "tempSource": "coolant",
+   "cohort": "shoulder",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261103_075355.csv",
+   "day": "2026-11-03",
+   "km": 3.6,
+   "V_cnt": 0.2435,
+   "V_int": 0.2435,
+   "durationS": 863.0,
+   "dSocPp": -5.5,
+   "startCoolant": 61.0,
+   "tempBand": ">=60C",
+   "tempSource": "coolant",
+   "cohort": "shoulder",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261103_150748.csv",
+   "day": "2026-11-03",
+   "km": 1.7,
+   "V_cnt": 0.1215,
+   "V_int": 0.1216,
+   "durationS": 351.0,
+   "dSocPp": -2.0,
+   "startCoolant": 44.0,
+   "tempBand": "40-60C",
+   "tempSource": "coolant",
+   "cohort": "shoulder",
+   "gap": false,
+   "hashPass": true,
+   "reset": false
+  },
+  {
+   "id": "20261103_152337.csv",
+   "day": "2026-11-03",
+   "km": 2.2,
+   "V_cnt": 0.1038,
+   "V_int": 0.1038,
+   "durationS": 436.0,
+   "dSocPp": -9.5,
+   "startCoolant": 55.0,
    "tempBand": "40-60C",
    "tempSource": "coolant",
    "cohort": "shoulder",

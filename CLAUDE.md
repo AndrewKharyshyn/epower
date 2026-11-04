@@ -57,6 +57,11 @@ that section (verify in the rebuilt dashboard). The historical Sep 04-11 gap was
 ## Language gate (standing, M326)
 Forbidden/required wording lives in `language_gate.py` (RULES) and is enforced by `semantic_gate.py` check A2 on the rendered tab dumps, payload string values, `summary_config.json` and `xtrail_summary.jsx` strings (comments WARN). Matching is normalised (NFKC, punctuation collapsed, plural-safe, stripped form, context rules). Every wording fix adds the OLD wording as a rule with its ledger id; a wave (spec `analyses/M326_spec.md`) never renames payload keys.
 
+## ODO reading date (standing, owner decision 2026-11-03)
+The dash ODO that Andrii gives with an ingestion ("ODO: <km>") is always as of the END of the last ingested drive, i.e. the date of the newest
+drive in the batch. Set `summary_config.json` `vehicle.odometerKm` to the value and `vehicle.odometerAsOf` to that newest drive date; do not
+infer the date from a parenthetical such as an unlogged-driving window, and do not ask.
+
 ## Dashboard change rule (standing)
 Whenever `xtrail_dashboard.html` is rebuilt with a content change (new/changed figure, KPI, tab or wording; not a
 byte-identical rebuild): (1) present it in the session: `SendUserFile` with `display: "render"` on `xtrail_dashboard.html`,

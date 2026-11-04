@@ -6,7 +6,7 @@
  "spec": "analyses/M520_spec.md (Rev 2.1)",
  "specSha256": "724f92c463a9a6ebeba920f826a0b393f452d46bf20f48d0fa0bc16d836e09e7",
  "scriptSha256": "7cc066e587a54f7d295be7b70f02db0123c0e400124f381d121ee321161eea7b",
- "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+ "masterMd5": "1e599176dafd8575dc7addede8d79358",
  "m514ScriptSha256": "67dd051a380a3300134e9bddd3a9a7abec994e5a7a10695e93cf5dbee0f67264",
  "seed": 42,
  "nBoot": 4000,
@@ -114,12 +114,12 @@
     "nDraws": 2000,
     "k": 184,
     "nullQuantiles": {
-     "p2.5": -0.10928,
-     "p50": 0.64219,
-     "p97.5": 1.441
+     "p2.5": 0.1675,
+     "p50": 1.0205,
+     "p97.5": 1.93429
     },
     "observedSlope": 1.41981,
-    "fractionOfNullAtOrBelowObserved": 0.9715,
+    "fractionOfNullAtOrBelowObserved": 0.7885,
     "insideCentral95": true
    }
   },
@@ -194,12 +194,12 @@
     "nDraws": 2000,
     "k": 184,
     "nullQuantiles": {
-     "p2.5": 0.36286,
-     "p50": 1.12919,
-     "p97.5": 2.05727
+     "p2.5": 0.59141,
+     "p50": 1.57922,
+     "p97.5": 2.64879
     },
     "observedSlope": 1.61471,
-    "fractionOfNullAtOrBelowObserved": 0.8605,
+    "fractionOfNullAtOrBelowObserved": 0.5295,
     "insideCentral95": true
    }
   },
@@ -275,12 +275,12 @@
     "nDraws": 2000,
     "k": 156,
     "nullQuantiles": {
-     "p2.5": 0.18354,
-     "p50": 0.9755,
-     "p97.5": 1.89325
+     "p2.5": 0.5221,
+     "p50": 1.46869,
+     "p97.5": 2.68239
     },
     "observedSlope": 1.65683,
-    "fractionOfNullAtOrBelowObserved": 0.937,
+    "fractionOfNullAtOrBelowObserved": 0.6475,
     "insideCentral95": true
    }
   },
@@ -355,12 +355,12 @@
     "nDraws": 2000,
     "k": 184,
     "nullQuantiles": {
-     "p2.5": -0.02278,
-     "p50": 0.74723,
-     "p97.5": 1.6207
+     "p2.5": 0.25896,
+     "p50": 1.14341,
+     "p97.5": 2.10454
     },
     "observedSlope": 1.50115,
-    "fractionOfNullAtOrBelowObserved": 0.953,
+    "fractionOfNullAtOrBelowObserved": 0.773,
     "insideCentral95": true
    }
   },
@@ -435,12 +435,12 @@
     "nDraws": 2000,
     "k": 184,
     "nullQuantiles": {
-     "p2.5": 0.43709,
-     "p50": 1.24822,
-     "p97.5": 2.17357
+     "p2.5": 0.71766,
+     "p50": 1.68409,
+     "p97.5": 2.75375
     },
     "observedSlope": 1.69667,
-    "fractionOfNullAtOrBelowObserved": 0.8515,
+    "fractionOfNullAtOrBelowObserved": 0.511,
     "insideCentral95": true
    }
   },
@@ -516,12 +516,12 @@
     "nDraws": 2000,
     "k": 156,
     "nullQuantiles": {
-     "p2.5": 0.31678,
-     "p50": 1.06941,
-     "p97.5": 1.98285
+     "p2.5": 0.65136,
+     "p50": 1.59957,
+     "p97.5": 2.74297
     },
     "observedSlope": 1.75722,
-    "fractionOfNullAtOrBelowObserved": 0.932,
+    "fractionOfNullAtOrBelowObserved": 0.6265,
     "insideCentral95": true
    }
   }
@@ -563,21 +563,21 @@
  "selectionDiagnostic": {
   "A0": {
    "nRetained": 184,
-   "nExcluded": 87,
-   "daysLost": 21,
+   "nExcluded": 91,
+   "daysLost": 24,
    "standardizedMeanDifference": {
-    "months": -0.05239,
-    "T_pack_mean_avg": 0.62558,
-    "eff_dt_s": -0.07065,
-    "coverage_frac": -0.13554,
-    "distance_km": 1.11985,
-    "duration_s": 1.4193
+    "months": -0.12958,
+    "T_pack_mean_avg": 0.68736,
+    "eff_dt_s": -0.07501,
+    "coverage_frac": -0.1411,
+    "distance_km": 1.11833,
+    "duration_s": 1.41662
    },
    "sampleCountSlopePerMonth": {
-    "slope": -91.72327,
+    "slope": -103.36732,
     "dayCi95": [
-     -249.33878,
-     60.98611
+     -252.58156,
+     38.28463
     ],
     "excludesZero": false
    },
@@ -585,21 +585,21 @@
   },
   "A1": {
    "nRetained": 184,
-   "nExcluded": 87,
-   "daysLost": 21,
+   "nExcluded": 91,
+   "daysLost": 24,
    "standardizedMeanDifference": {
-    "months": -0.05239,
-    "T_pack_mean_avg": 0.62558,
-    "eff_dt_s": -0.07065,
-    "coverage_frac": -0.13554,
-    "distance_km": 1.11985,
-    "duration_s": 1.4193
+    "months": -0.12958,
+    "T_pack_mean_avg": 0.68736,
+    "eff_dt_s": -0.07501,
+    "coverage_frac": -0.1411,
+    "distance_km": 1.11833,
+    "duration_s": 1.41662
    },
    "sampleCountSlopePerMonth": {
-    "slope": -89.94072,
+    "slope": -101.64415,
     "dayCi95": [
-     -246.76347,
-     63.12447
+     -250.84009,
+     39.91902
     ],
     "excludesZero": false
    },

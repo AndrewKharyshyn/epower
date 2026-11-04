@@ -102,3 +102,15 @@ mcse = dc.std() / np.sqrt(len(dc))
 assert abs(dc.mean() - point) < 4 * mcse + 0.05 * dc.std(), ("KAT7 circular bias", dc.mean() - point, mcse)
 assert abs(dn.mean() - point) > abs(dc.mean() - point), ("KAT7 negative control", dn.mean() - point, dc.mean() - point)
 print("test_m494_block_bootstrap OK (KAT1 %.3f, KAT6 %.3f, KAT2 %.3f / %.3f, KAT3 %.3f, KAT7 bias circular %.4f vs released %.4f)" % (np.mean(r1), np.mean(r6), np.mean(r2w), np.mean(r2m), np.mean(r3), dc.mean() - point, dn.mean() - point))
+
+# KAT8 (M575): the verdict-change acknowledgement splices only when the recomputed block equals what the ruling saw
+import urban_week_block as UWB
+fake = {"overallVerdict": "depends on the resampling unit", "bands": [{"band": "b", "verdict": "depends on the resampling unit", "jointDay": {"ci95": [-6.03, 0.19]}, "procedures": {"W": {"ci95": [-5.86, -0.65]}, "M14": {"ci95": None}}}]}
+ack = {"ruling": "r.json", "masterMd5": "m", "nDrives": 621, "overallVerdict": fake["overallVerdict"], "bands": UWB.band_digest(fake)}
+assert UWB.ack_ok(ack, fake, "m", 621) == [], "KAT8 match"
+assert UWB.ack_ok(dict(ack, masterMd5="x"), fake, "m", 621), "KAT8 md5 mismatch"
+assert UWB.ack_ok(dict(ack, nDrives=620), fake, "m", 621), "KAT8 n mismatch"
+moved = {**fake, "bands": [{**fake["bands"][0], "jointDay": {"ci95": [-6.03, 0.20]}}]}
+assert UWB.ack_ok(ack, moved, "m", 621), "KAT8 moved interval"
+assert UWB.ack_ok({k: v for k, v in ack.items() if k != "ruling"}, fake, "m", 621), "KAT8 no ruling"
+print("test_m494 KAT8 OK (verdict-change acknowledgement binds master, n, verdict and every band interval)")

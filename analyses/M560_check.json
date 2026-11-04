@@ -2,16 +2,16 @@
  "milestone": "M560",
  "mode": "--splice",
  "stats": {
-  "cacheHits": 606,
+  "cacheHits": 621,
   "extracted": 0,
   "noRaw": 0,
   "notCovered": 13
  },
  "knownAnswer": {
-  "nDrivesCovered": 593,
-  "nWindows": 830,
-  "storedNDrivesCovered": 593,
-  "storedNRestWindows": 830,
+  "nDrivesCovered": 608,
+  "nWindows": 844,
+  "storedNDrivesCovered": 608,
+  "storedNRestWindows": 844,
   "medianMagnitude": 1.0,
   "storedMedian": 1.0,
   "reproducesStored": true,
@@ -20,97 +20,97 @@
  "extractorSourceHash": "e64fb75769ae096b",
  "strata": {
   "fast": {
-   "nDrives": 89,
-   "nDays": 36,
-   "nWindows": 203,
+   "nDrives": 93,
+   "nDays": 38,
+   "nWindows": 209,
    "V0": {
-    "n": 203,
-    "nDays": 36,
-    "median": 1.0,
+    "n": 209,
+    "nDays": 38,
+    "median": 0.75,
     "p25": -0.5,
-    "p75": 3.13,
+    "p75": 3.0,
     "ci95": [
      0.5,
      1.5
     ],
-    "shareAbove1mV": 0.4926,
-    "shareOnHalfMvLattice": 0.7291
+    "shareAbove1mV": 0.488,
+    "shareOnHalfMvLattice": 0.7273
    },
    "V0_halfCategoriesStrict": null,
    "familyA_fixedWindows": {
     "V3": {
-     "n": 203,
-     "nDays": 36,
-     "median": 1.5,
+     "n": 209,
+     "nDays": 38,
+     "median": 1.25,
      "p25": 0.0,
      "p75": 3.0,
      "ci95": [
       1.0,
       1.5
      ],
-     "shareAbove1mV": 0.5172,
-     "shareOnHalfMvLattice": 0.7783,
+     "shareAbove1mV": 0.5072,
+     "shareOnHalfMvLattice": 0.7799,
      "notRemeasurable": 0,
      "differenceOfMediansMv": 0.5,
      "insideV0Interval": true
     },
     "V4": {
-     "n": 203,
-     "nDays": 36,
-     "median": 1.5,
+     "n": 209,
+     "nDays": 38,
+     "median": 1.25,
      "p25": 0.0,
      "p75": 3.0,
      "ci95": [
       1.0,
       1.5
      ],
-     "shareAbove1mV": 0.5172,
-     "shareOnHalfMvLattice": 0.7783,
+     "shareAbove1mV": 0.5072,
+     "shareOnHalfMvLattice": 0.7799,
      "notRemeasurable": 0,
      "differenceOfMediansMv": 0.5,
      "insideV0Interval": true
     },
     "V8": {
-     "n": 203,
-     "nDays": 36,
+     "n": 209,
+     "nDays": 38,
      "median": 1.5,
-     "p25": -0.25,
+     "p25": -0.5,
      "p75": 3.5,
      "ci95": [
       1.0,
       2.0
      ],
-     "shareAbove1mV": 0.5271,
+     "shareAbove1mV": 0.5263,
      "shareOnHalfMvLattice": 1.0,
      "notRemeasurable": 0,
-     "differenceOfMediansMv": 0.5,
+     "differenceOfMediansMv": 0.75,
      "insideV0Interval": true,
-     "straddlingPairsExcluded": 22,
-     "differenceVsV0MaxAbsMedianMv": 0.5
+     "straddlingPairsExcluded": 23,
+     "differenceVsV0MaxAbsMedianMv": 0.75
     }
    },
    "trailingFill": {
     "windowsWithTrailingFill": 1,
-    "shareOfV0": 0.0049,
+    "shareOfV0": 0.0048,
     "V0WithoutThem": {
-     "n": 202,
-     "nDays": 36,
-     "median": 1.0,
+     "n": 208,
+     "nDays": 38,
+     "median": 0.88,
      "p25": -0.5,
-     "p75": 3.19,
+     "p75": 3.0,
      "ci95": [
       0.5,
       1.5
      ],
-     "shareAbove1mV": 0.495,
-     "shareOnHalfMvLattice": 0.7327
+     "shareAbove1mV": 0.4904,
+     "shareOnHalfMvLattice": 0.7308
     },
     "note": "an onset or asymptote second lies after a channel's last real sample and is forward-filled (up to 3 s) past the end of that channel's data; a published-construction artefact of the 1 s grid"
    },
    "familyB_windowSet": {
     "V1_fillMM0": {
-     "n": 199,
-     "nDays": 36,
+     "n": 203,
+     "nDays": 38,
      "median": 0.75,
      "p25": -0.5,
      "p75": 3.0,
@@ -118,124 +118,124 @@
       0.5,
       1.5
      ],
-     "shareAbove1mV": 0.4724,
-     "shareOnHalfMvLattice": 0.7136,
+     "shareAbove1mV": 0.468,
+     "shareOnHalfMvLattice": 0.7143,
      "added": 2,
-     "dropped": 6,
-     "keptShareOfV0": 0.9704,
-     "differenceOfMediansMv": -0.25,
+     "dropped": 8,
+     "keptShareOfV0": 0.9617,
+     "differenceOfMediansMv": 0.0,
      "insideV0Interval": true
     },
     "V2_fillMM1": {
-     "n": 202,
-     "nDays": 36,
-     "median": 0.88,
-     "p25": -0.5,
-     "p75": 3.19,
+     "n": 208,
+     "nDays": 38,
+     "median": 0.75,
+     "p25": -0.56,
+     "p75": 3.0,
      "ci95": [
       0.5,
       1.5
      ],
-     "shareAbove1mV": 0.4752,
-     "shareOnHalfMvLattice": 0.7277,
+     "shareAbove1mV": 0.4663,
+     "shareOnHalfMvLattice": 0.726,
      "added": 0,
      "dropped": 1,
-     "keptShareOfV0": 0.9951,
-     "differenceOfMediansMv": -0.12,
-     "insideV0Interval": true
-    },
-    "V9a_fillI0": {
-     "n": 199,
-     "nDays": 36,
-     "median": 1.0,
-     "p25": -0.5,
-     "p75": 3.25,
-     "ci95": [
-      0.5,
-      1.5
-     ],
-     "shareAbove1mV": 0.4824,
-     "shareOnHalfMvLattice": 0.7186,
-     "added": 0,
-     "dropped": 4,
-     "keptShareOfV0": 0.9803,
+     "keptShareOfV0": 0.9952,
      "differenceOfMediansMv": 0.0,
      "insideV0Interval": true
     },
-    "V9b_fillI1": {
-     "n": 202,
-     "nDays": 36,
-     "median": 0.88,
+    "V9a_fillI0": {
+     "n": 203,
+     "nDays": 38,
+     "median": 1.0,
      "p25": -0.5,
-     "p75": 3.19,
+     "p75": 3.12,
      "ci95": [
       0.5,
       1.5
      ],
-     "shareAbove1mV": 0.4752,
-     "shareOnHalfMvLattice": 0.7277,
+     "shareAbove1mV": 0.4778,
+     "shareOnHalfMvLattice": 0.7192,
+     "added": 0,
+     "dropped": 6,
+     "keptShareOfV0": 0.9713,
+     "differenceOfMediansMv": 0.25,
+     "insideV0Interval": true
+    },
+    "V9b_fillI1": {
+     "n": 208,
+     "nDays": 38,
+     "median": 0.75,
+     "p25": -0.56,
+     "p75": 3.0,
+     "ci95": [
+      0.5,
+      1.5
+     ],
+     "shareAbove1mV": 0.4663,
+     "shareOnHalfMvLattice": 0.726,
      "added": 0,
      "dropped": 1,
-     "keptShareOfV0": 0.9951,
-     "differenceOfMediansMv": -0.12,
+     "keptShareOfV0": 0.9952,
+     "differenceOfMediansMv": 0.0,
      "insideV0Interval": true
     },
     "V6_freshOnly": {
-     "n": 167,
-     "nDays": 33,
+     "n": 170,
+     "nDays": 35,
      "median": 0.75,
      "p25": -0.5,
      "p75": 3.0,
      "ci95": [
       0.5,
-      1.37
+      1.25
      ],
-     "shareAbove1mV": 0.4671,
-     "shareOnHalfMvLattice": 0.7365,
+     "shareAbove1mV": 0.4647,
+     "shareOnHalfMvLattice": 0.7353,
      "added": 0,
-     "dropped": 36,
-     "keptShareOfV0": 0.8227,
-     "differenceOfMediansMv": -0.25,
+     "dropped": 39,
+     "keptShareOfV0": 0.8134,
+     "differenceOfMediansMv": 0.0,
      "insideV0Interval": true
     },
     "V7_strictContiguity": {
-     "n": 202,
-     "nDays": 36,
-     "median": 1.0,
+     "n": 208,
+     "nDays": 38,
+     "median": 0.88,
      "p25": -0.5,
-     "p75": 3.19,
+     "p75": 3.0,
      "ci95": [
       0.5,
       1.5
      ],
-     "shareAbove1mV": 0.495,
-     "shareOnHalfMvLattice": 0.7327,
+     "shareAbove1mV": 0.4904,
+     "shareOnHalfMvLattice": 0.7308,
      "added": 0,
      "dropped": 1,
-     "keptShareOfV0": 0.9951,
-     "differenceOfMediansMv": 0.0,
+     "keptShareOfV0": 0.9952,
+     "differenceOfMediansMv": 0.13,
      "insideV0Interval": true,
      "halfTimeCategoryCountsSeconds": {
-      "1": 44,
+      "1": 45,
       "0": 34,
-      "2": 15,
-      "none": 102,
+      "2": 16,
+      "none": 106,
       "3plus": 7
      }
     }
    },
    "placebo": {
-    "n": 78,
-    "nDays": 30,
+    "n": 80,
+    "nDays": 31,
     "median": 0.0,
     "p25": -1.0,
     "p75": 1.0,
     "ci95": [
-     -0.5,
+     -0.38,
      0.5
     ],
-    "shareAbove1mV": 0.2179,
-    "shareOnHalfMvLattice": 0.8205,
+    "shareAbove1mV": 0.225,
+    "shareOnHalfMvLattice": 0.825,
     "v0InsidePlaceboIQR": true,
     "placeboMedianAtLeastV0": false
    },
@@ -246,12 +246,12 @@
    }
   },
   "slow": {
-   "nDrives": 246,
-   "nDays": 76,
-   "nWindows": 627,
+   "nDrives": 252,
+   "nDays": 78,
+   "nWindows": 635,
    "V0": {
-    "n": 627,
-    "nDays": 76,
+    "n": 635,
+    "nDays": 78,
     "median": 1.0,
     "p25": -0.5,
     "p75": 3.0,
@@ -259,14 +259,14 @@
      1.0,
      1.5
     ],
-    "shareAbove1mV": 0.5439,
+    "shareAbove1mV": 0.5386,
     "shareOnHalfMvLattice": 1.0
    },
    "V0_halfCategoriesStrict": null,
    "familyA_fixedWindows": {
     "V3": {
-     "n": 627,
-     "nDays": 76,
+     "n": 635,
+     "nDays": 78,
      "median": 1.0,
      "p25": -0.5,
      "p75": 3.0,
@@ -274,15 +274,15 @@
       1.0,
       1.5
      ],
-     "shareAbove1mV": 0.4896,
+     "shareAbove1mV": 0.485,
      "shareOnHalfMvLattice": 1.0,
      "notRemeasurable": 0,
      "differenceOfMediansMv": 0.0,
      "insideV0Interval": true
     },
     "V4": {
-     "n": 627,
-     "nDays": 76,
+     "n": 635,
+     "nDays": 78,
      "median": 1.0,
      "p25": -0.5,
      "p75": 3.0,
@@ -290,15 +290,15 @@
       1.0,
       1.5
      ],
-     "shareAbove1mV": 0.4896,
+     "shareAbove1mV": 0.485,
      "shareOnHalfMvLattice": 1.0,
      "notRemeasurable": 0,
      "differenceOfMediansMv": 0.0,
      "insideV0Interval": true
     },
     "V8": {
-     "n": 627,
-     "nDays": 76,
+     "n": 635,
+     "nDays": 78,
      "median": 2.0,
      "p25": -0.5,
      "p75": 4.0,
@@ -306,7 +306,7 @@
       1.5,
       2.0
      ],
-     "shareAbove1mV": 0.5678,
+     "shareAbove1mV": 0.5638,
      "shareOnHalfMvLattice": 1.0,
      "notRemeasurable": 0,
      "differenceOfMediansMv": 1.0,
@@ -317,10 +317,10 @@
    },
    "trailingFill": {
     "windowsWithTrailingFill": 7,
-    "shareOfV0": 0.0112,
+    "shareOfV0": 0.011,
     "V0WithoutThem": {
-     "n": 620,
-     "nDays": 75,
+     "n": 628,
+     "nDays": 77,
      "median": 1.0,
      "p25": -0.5,
      "p75": 3.0,
@@ -328,14 +328,50 @@
       1.0,
       1.5
      ],
-     "shareAbove1mV": 0.5452,
+     "shareAbove1mV": 0.5398,
      "shareOnHalfMvLattice": 1.0
     },
     "note": "an onset or asymptote second lies after a channel's last real sample and is forward-filled (up to 3 s) past the end of that channel's data; a published-construction artefact of the 1 s grid"
    },
    "familyB_windowSet": {
     "V1_fillMM0": {
-     "n": 365,
+     "n": 368,
+     "nDays": 65,
+     "median": 1.5,
+     "p25": 0.0,
+     "p75": 2.62,
+     "ci95": [
+      1.0,
+      1.5
+     ],
+     "shareAbove1mV": 0.5027,
+     "shareOnHalfMvLattice": 1.0,
+     "added": 114,
+     "dropped": 381,
+     "keptShareOfV0": 0.4,
+     "differenceOfMediansMv": 0.5,
+     "insideV0Interval": true
+    },
+    "V2_fillMM1": {
+     "n": 598,
+     "nDays": 78,
+     "median": 1.0,
+     "p25": -0.5,
+     "p75": 3.0,
+     "ci95": [
+      1.0,
+      1.5
+     ],
+     "shareAbove1mV": 0.495,
+     "shareOnHalfMvLattice": 1.0,
+     "added": 6,
+     "dropped": 43,
+     "keptShareOfV0": 0.9323,
+     "differenceOfMediansMv": 0.0,
+     "insideV0Interval": true
+    },
+    "V9a_fillI0": {
+     "n": 364,
      "nDays": 64,
      "median": 1.5,
      "p25": 0.0,
@@ -344,66 +380,30 @@
       1.0,
       1.5
      ],
-     "shareAbove1mV": 0.5068,
-     "shareOnHalfMvLattice": 1.0,
-     "added": 112,
-     "dropped": 374,
-     "keptShareOfV0": 0.4035,
-     "differenceOfMediansMv": 0.5,
-     "insideV0Interval": true
-    },
-    "V2_fillMM1": {
-     "n": 590,
-     "nDays": 76,
-     "median": 1.25,
-     "p25": -0.5,
-     "p75": 3.0,
-     "ci95": [
-      1.0,
-      1.5
-     ],
-     "shareAbove1mV": 0.5,
-     "shareOnHalfMvLattice": 1.0,
-     "added": 6,
-     "dropped": 43,
-     "keptShareOfV0": 0.9314,
-     "differenceOfMediansMv": 0.25,
-     "insideV0Interval": true
-    },
-    "V9a_fillI0": {
-     "n": 361,
-     "nDays": 63,
-     "median": 1.5,
-     "p25": 0.0,
-     "p75": 3.0,
-     "ci95": [
-      1.0,
-      1.5
-     ],
-     "shareAbove1mV": 0.5319,
+     "shareAbove1mV": 0.5302,
      "shareOnHalfMvLattice": 1.0,
      "added": 74,
-     "dropped": 340,
-     "keptShareOfV0": 0.4577,
+     "dropped": 345,
+     "keptShareOfV0": 0.4567,
      "differenceOfMediansMv": 0.5,
      "insideV0Interval": true
     },
     "V9b_fillI1": {
-     "n": 587,
-     "nDays": 76,
-     "median": 1.5,
+     "n": 595,
+     "nDays": 78,
+     "median": 1.0,
      "p25": -0.5,
      "p75": 3.0,
      "ci95": [
       1.0,
       1.5
      ],
-     "shareAbove1mV": 0.5026,
+     "shareAbove1mV": 0.4975,
      "shareOnHalfMvLattice": 1.0,
      "added": 4,
      "dropped": 44,
-     "keptShareOfV0": 0.9298,
-     "differenceOfMediansMv": 0.5,
+     "keptShareOfV0": 0.9307,
+     "differenceOfMediansMv": 0.0,
      "insideV0Interval": true
     },
     "V6_freshOnly": {
@@ -419,14 +419,14 @@
      "shareAbove1mV": 0.7692,
      "shareOnHalfMvLattice": 1.0,
      "added": 0,
-     "dropped": 614,
-     "keptShareOfV0": 0.0207,
+     "dropped": 622,
+     "keptShareOfV0": 0.0205,
      "differenceOfMediansMv": 1.0,
      "insideV0Interval": false
     },
     "V7_strictContiguity": {
-     "n": 616,
-     "nDays": 75,
+     "n": 624,
+     "nDays": 77,
      "median": 1.0,
      "p25": -0.5,
      "p75": 3.0,
@@ -434,25 +434,25 @@
       1.0,
       1.5
      ],
-     "shareAbove1mV": 0.5455,
+     "shareAbove1mV": 0.5401,
      "shareOnHalfMvLattice": 1.0,
      "added": 0,
      "dropped": 11,
-     "keptShareOfV0": 0.9825,
+     "keptShareOfV0": 0.9827,
      "differenceOfMediansMv": 0.0,
      "insideV0Interval": true,
      "halfTimeCategoryCountsSeconds": {
       "3plus": 34,
-      "none": 280,
+      "none": 287,
       "2": 70,
-      "1": 74,
+      "1": 75,
       "0": 158
      }
     }
    },
    "placebo": {
-    "n": 280,
-    "nDays": 64,
+    "n": 283,
+    "nDays": 65,
     "median": 0.0,
     "p25": -1.0,
     "p75": 1.0,
@@ -460,7 +460,7 @@
      0.0,
      0.5
     ],
-    "shareAbove1mV": 0.2357,
+    "shareAbove1mV": 0.2403,
     "shareOnHalfMvLattice": 1.0,
     "v0InsidePlaceboIQR": true,
     "placeboMedianAtLeastV0": false
@@ -473,8 +473,8 @@
   }
  },
  "pooledV0": {
-  "n": 830,
-  "nDays": 108,
+  "n": 844,
+  "nDays": 111,
   "median": 1.0,
   "p25": -0.5,
   "p75": 3.0,
@@ -482,12 +482,12 @@
    1.0,
    1.5
   ],
-  "shareAbove1mV": 0.5313,
-  "shareOnHalfMvLattice": 0.9337,
+  "shareAbove1mV": 0.5261,
+  "shareOnHalfMvLattice": 0.9325,
   "storedInterval": [
    1.0,
    1.5
   ]
  },
- "rawListSha256": "7314f457253c597f20f8c81ccbb2e47f13221690368c42a2096686c15a3ae344"
+ "rawListSha256": "95dcd288cbcb239657176944e6918869a3a6d55227315cf6a82edb84014eb9eb"
 }

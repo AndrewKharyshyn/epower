@@ -15,6 +15,8 @@ import release_journal as RJ
 
 SRC_EXT = (".py", ".js", ".jsx", ".sh")
 STORE = os.path.join("runs", ".checkpoints")
+STAGE_ENV = ("XT_INGEST_LABEL", "XT_ALLOW_STALE_CARRY", "XT_RECOMPUTE_M119V2")
+STAGE_ENV_ONLY = {"XT_ALLOW_STALE_CARRY": ("build_html",)}          # M575: read by one stage only: it must not change the hash of every stage whose code merely names it                         # M575: env inputs that only some stages read: hashed into those stages' code hash (when set), not into the base key
 EXTRA_EXCLUDE_TOP = {"regen_cache"}                      # content-keyed cache: not part of the data state
 CODELIKE_PREFIX = ("docs/", "tests/", "snapshots/")
 CODELIKE_FILES = ("tools/ingest_stages.json", "CHANGELOG.md", "CLAUDE.md", "STATE.md", "state.json")
@@ -26,8 +28,14 @@ class CheckpointError(RuntimeError):
     pass
 
 
+def is_ack_input(rel):
+    """M575: gate acknowledgements, Director rulings and the leaf-guard rule list are consulted only by the stage that stops on them; editing one after a gate stop must not invalidate the
+    checkpoints of the stages that already passed (the stopped stage and all later stages re-run anyway). They are hashed as code-like files, not as data."""
+    return rel in ("analyses/leaf_guard_rules.json", "analyses/M321_acknowledgements.json") or (rel.startswith("analyses/") and re.search(r"(_ack|_ruling|_director_ruling)[^/]*\.json$", rel) is not None)
+
+
 def is_codelike(rel):
-    return rel.endswith(SRC_EXT) or rel in CODELIKE_FILES or rel.startswith(CODELIKE_PREFIX) or (rel.startswith("analyses/") and rel.endswith(".md"))
+    return is_ack_input(rel) or rel.endswith(SRC_EXT) or rel in CODELIKE_FILES or rel.startswith(CODELIKE_PREFIX) or (rel.startswith("analyses/") and rel.endswith(".md"))
 
 
 def _h(*parts):
@@ -87,7 +95,7 @@ class Checkpoints:
     def env_identity(self):
         raw = os.path.join(self.root, "raw")
         listing = sorted((f, os.path.getsize(os.path.join(raw, f)), os.stat(os.path.join(raw, f)).st_mtime_ns) for f in os.listdir(raw)) if os.path.isdir(raw) else []
-        xt = {k: v for k, v in sorted(os.environ.items()) if k.startswith("XT_") and k != "XT_RAW_DIR"}
+        xt = {k: v for k, v in sorted(os.environ.items()) if k.startswith("XT_") and k != "XT_RAW_DIR" and not k.startswith("XT_ACK_") and k not in STAGE_ENV}      # M575: acks are consulted only by the stage that stops on them
         import subprocess
         try:                                                   # blobs of the files that stages read from git (leaf_guard git:HEAD, m321 update): a code-only commit does not change them
             head = subprocess.run(["git", "rev-parse", "HEAD:summary_arrays.json", "HEAD:summary_config.json", "HEAD:drive_master.csv"], cwd=self.root, capture_output=True, text=True, timeout=30).stdout
@@ -167,6 +175,14 @@ class Checkpoints:
                 files |= set(self.closure(r))
         body = [(f, RJ._sha(os.path.join(self.root, f))) for f in sorted(files) if os.path.isfile(os.path.join(self.root, f))]
         definition = {k: stage.get(k) for k in ("id", "cmd", "env", "outputs")}
+        envs = []
+        for v in STAGE_ENV:
+            if v in STAGE_ENV_ONLY and stage["id"] not in STAGE_ENV_ONLY[v]:
+                continue
+            if v in os.environ and any(v in open(os.path.join(self.root, f), encoding="utf-8", errors="replace").read() for f, _ in body if f.endswith(SRC_EXT)):
+                envs.append((v, os.environ[v]))
+        if envs:                                                # unchanged hash for stages that do not read a set variable (checkpoints stay valid)
+            return _h(json.dumps(definition, sort_keys=True), json.dumps(body), json.dumps(envs))
         return _h(json.dumps(definition, sort_keys=True), json.dumps(body))
 
     # ------------------------------------------------------------------ chain
@@ -218,8 +234,7 @@ class Checkpoints:
         if _h(json.dumps(sorted(data.items()))) != applied[-1][1]["post"]:
             raise CheckpointError("restored tree does not match the recorded state after stage %s" % applied[-1][1]["id"])
         self.prev, self.prev_aux, self.key, self.n = data, aux, applied[-1][1]["key"], k
-        for name, _e in entries[k:]:                                          # stale tail
-            shutil.rmtree(os.path.join(self.chain_dir, name), ignore_errors=True)
+        self._stale_tail = [name for name, _e in entries[k:]]              # M575: the stale tail is removed lazily, at the first save of this run: a run killed before any new stage finished keeps the stored chain
         info = {"restoredStages": k, "lastRestored": applied[-1][1]["id"], "firstExecuted": self.stages[k]["id"] if k < len(self.stages) else None}
         if k < len(entries) or k < len(self.stages):
             info["reason"] = "stage %s: code or earlier inputs changed, or no checkpoint" % (self.stages[k]["id"] if k < len(self.stages) else "-")
@@ -231,6 +246,9 @@ class Checkpoints:
             return
         try:
             i = self.n
+            for name in getattr(self, "_stale_tail", []):
+                shutil.rmtree(os.path.join(self.chain_dir, name), ignore_errors=True)
+            self._stale_tail = []
             if i == 0 and os.path.isdir(self.chain_dir):                      # a fresh (non-resumed) chain replaces the stored one
                 shutil.rmtree(self.chain_dir, ignore_errors=True)
             data, aux, sizes = self.scan()

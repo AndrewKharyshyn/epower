@@ -896,6 +896,19 @@
    ]
   },
   {
+   "id": "start_ratio_refresh",
+   "title": "M575: re-run the pre-registered M497 estimator (SoC-standardised, day-clustered start-hazard ratio, seed 42, 4000 draws; unchanged spec) on the live master and re-apply its splice, because the arrays rebuild drops socHysteresis.startRatioClustered",
+   "cmd": [
+    "python3",
+    "tools/m497_refresh.py"
+   ],
+   "verified": false,
+   "outputs": [
+    "summary_arrays.json",
+    "analyses/M497_result.json"
+   ]
+  },
+  {
    "id": "exposure_basis_refresh",
    "title": "M423: refresh the additive block exposureBasis (populations, rated-over-legacy factor, legacy-basis disclosure values, rated point beside the Monte Carlo, primary exposure) for the new corpus; the legacy values are recomputed from the master with the released builders (no second arrays build), the rated side is this payload; the M415 block was spliced once and no stage refreshed it (found by the M422 rehearsal); writes only /exposureBasis and its stamp; spec analyses/M423_spec.md",
    "cmd": [
@@ -920,22 +933,6 @@
    ]
   },
   {
-   "id": "leaf_guard",
-   "title": "M377a: lost-leaf guard: every leaf of the committed summary_arrays.json must still exist or be covered by a declared, data-conditioned rule (analyses/leaf_guard_rules.json); fails on any unexpected loss",
-   "cmd": [
-    "python3",
-    "tools/leaf_guard.py",
-    "--previous",
-    "git:HEAD",
-    "--out",
-    "analyses/leaf_guard_report.json"
-   ],
-   "verified": true,
-   "outputs": [
-    "analyses/leaf_guard_report.json"
-   ]
-  },
-  {
    "id": "restamp_ingest",
    "title": "M389: re-issue the artifact stamps (regenerated / carried per tools/restamp_ingest.py STAMP_POLICY; a stale key without a policy entry STOPS), generate the GTR stamp note from the payload, re-apply the M382 F03 MC data-quality step; needs XT_INGEST_LABEL",
    "cmd": [
@@ -957,6 +954,51 @@
    "verified": true,
    "outputs": [
     "summary_arrays.json"
+   ]
+  },
+  {
+   "id": "m483_wording_splice",
+   "title": "M575: re-apply the M483 wording edit of the carried _provenance leaf seasonalLife.observedConstant (rebuilt from an untracked baseline on every ingestion); idempotent exact-string edit",
+   "cmd": [
+    "python3",
+    "tools/provenance_wording_splice.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json"
+   ]
+  },
+  {
+   "id": "m432_refresh",
+   "title": "M575: refresh the on-demand M432 detector-sensitivity block on the live master (tools/m432_ev_sens.py run + tools/m432_splice.py); the semantic gate needs its released share to equal evPctDistance",
+   "cmd": [
+    "python3",
+    "tools/m432_refresh.py"
+   ],
+   "verified": false,
+   "outputs": [
+    "summary_arrays.json",
+    "analyses/M432_result.json",
+    "analyses/M432_result_per_drive.csv.gz"
+   ],
+   "env": {
+    "XT_RAW_DIR": "$ROOT/raw_only"
+   }
+  },
+  {
+   "id": "leaf_guard",
+   "title": "M377a (M575: runs after restamp_ingest and stamp_dependencies, so it checks the final payload): lost-leaf guard: every leaf of the committed summary_arrays.json must still exist or be covered by a declared, data-conditioned rule (analyses/leaf_guard_rules.json); fails on any unexpected loss",
+   "cmd": [
+    "python3",
+    "tools/leaf_guard.py",
+    "--previous",
+    "git:HEAD",
+    "--out",
+    "analyses/leaf_guard_report.json"
+   ],
+   "verified": true,
+   "outputs": [
+    "analyses/leaf_guard_report.json"
    ]
   },
   {

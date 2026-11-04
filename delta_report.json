@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-10-20T22:18:29+00:00",
+ "generated_utc": "2026-11-04T23:11:21+00:00",
  "has_baseline": true,
  "flags": [
   "EnergyIntensity.shoulder: outside previous CI",
@@ -10,22 +10,22 @@
  "route_to_audit": true,
  "kpis": {
   "meta.totalDrives": {
-   "value": 606,
+   "value": 621,
    "ci": null,
    "prev": 524,
-   "delta": 82
+   "delta": 97
   },
   "EnergyIntensity.all (kWh/100km, canonical-clean)": {
-   "value": 17.492840137450603,
+   "value": 17.55330998868413,
    "ci": [
-    15.98005939331306,
-    19.632296180899427
+    16.06624376482798,
+    19.714983700282772
    ],
    "prev": 17.759971850743913,
-   "delta": -0.26713171329330976,
+   "delta": -0.2066618620597822,
    "outside_prev_ci": false,
-   "delta_over_halfwidth": -0.12880433125039423,
-   "cumulative_drift": -0.09729267203874414
+   "delta_over_halfwidth": -0.09964725868524624,
+   "cumulative_drift": -0.036822820805216594
   },
   "EnergyIntensity.warm": {
    "value": 17.20496027087479,
@@ -40,32 +40,32 @@
    "cumulative_drift": 0.21396918972947176
   },
   "EnergyIntensity.shoulder": {
-   "value": 19.254713281806275,
+   "value": 19.518785068304773,
    "ci": [
-    16.0937808672053,
-    24.73208772581232
+    16.26820374598123,
+    25.226336362005487
    ],
    "prev": 26.928784895576964,
-   "delta": -7.674071613770689,
+   "delta": -7.409999827272191,
    "outside_prev_ci": true,
-   "delta_over_halfwidth": -3.1478445953090506,
-   "cumulative_drift": -7.542037845195118
+   "delta_over_halfwidth": -3.039524398712076,
+   "cumulative_drift": -7.27796605869662
   },
   "generatorTractionRecon.corpus.fGen": {
-   "value": 0.518,
+   "value": 0.516,
    "ci": null,
    "prev": 0.459,
-   "delta": 0.059
+   "delta": 0.056999999999999995
   },
   "generatorTractionRecon.corpus.etaBus": {
-   "value": 0.33,
+   "value": 0.328,
    "ci": null,
    "prev": 0.325,
-   "delta": 0.0050000000000000044
+   "delta": 0.0030000000000000027
   }
  },
  "gtrFamily": {
-  "label": "M426",
+  "label": "M575",
   "bands": {
    "speedSplitFgenAbs": 0.05,
    "simultaneityShareAbsPP": 5.0,
@@ -74,43 +74,43 @@
   "blocks": {
    "sensitivity": {
     "nDrives": {
-     "previous": 348,
-     "new": 348
+     "previous": 376,
+     "new": 391
     },
     "nDays": {
-     "previous": 63,
-     "new": 63
+     "previous": 67,
+     "new": 70
     },
-    "nDaysRelativeChange": 0.0,
+    "nDaysRelativeChange": 0.0448,
     "maxAbsMove": {
-     "gen100": 0.0,
-     "trac100": 0.0,
-     "fgen": 0.0,
-     "etaBus": 0.0
+     "gen100": 0.08,
+     "trac100": 0.06,
+     "fgen": 0.002,
+     "etaBus": 0.001
     }
    },
    "simultaneity": {
     "nDrives": {
-     "previous": 348,
-     "new": 348
+     "previous": 376,
+     "new": 391
     },
     "nDays": {
-     "previous": 63,
-     "new": 63
+     "previous": 67,
+     "new": 70
     },
-    "nDaysRelativeChange": 0.0,
+    "nDaysRelativeChange": 0.0448,
     "maxAbsMovePP": {
-     "genPlusBattDischarge": 0.0,
-     "chargesAndDrives": 0.0,
+     "genPlusBattDischarge": 0.3,
+     "chargesAndDrives": 0.4,
      "genAloneNeutral": 0.0,
-     "fullyBanked": 0.0
+     "fullyBanked": 0.1
     },
     "rowMovePP": {
      "urban": {
-      "genPlusBattDischarge": 0.0,
-      "chargesAndDrives": 0.0,
+      "genPlusBattDischarge": 0.3,
+      "chargesAndDrives": -0.4,
       "genAloneNeutral": 0.0,
-      "fullyBanked": 0.0
+      "fullyBanked": 0.1
      },
      "mixed": {
       "genPlusBattDischarge": 0.0,
@@ -134,18 +134,58 @@
    },
    "speedSplit": {
     "nDrives": {
-     "previous": 348,
-     "new": 348
+     "previous": 376,
+     "new": 391
     },
     "nDays": {
-     "previous": 63,
-     "new": 63
+     "previous": 67,
+     "new": 70
     },
-    "nDaysRelativeChange": 0.0,
-    "maxAbsMoveFgen": 0.0
+    "nDaysRelativeChange": 0.0448,
+    "maxAbsMoveFgen": 0.0016
    }
   },
-  "changedPaths": 3,
+  "flipAcknowledgement": {
+   "ruling": "analyses/M575_gtr_director_ruling.json",
+   "driveMasterMd5": "1e599176dafd8575dc7addede8d79358",
+   "sensitivityAxesSha256": "3dd210c798bdd96806a1d8ab34c0e2d8365c592d0e9fb6cd4059d953d68ccd05",
+   "acknowledged": [
+    {
+     "axis": "BASE (central)",
+     "fgen": 0.516
+    },
+    {
+     "axis": "BSFC optimistic (-6%)",
+     "fgen": 0.535
+    },
+    {
+     "axis": "OPT band wide (1750-2250)",
+     "fgen": 0.517
+    },
+    {
+     "axis": "P_aux high (1.2kW)",
+     "fgen": 0.538
+    },
+    {
+     "axis": "P_aux low (0.2kW)",
+     "fgen": 0.506
+    },
+    {
+     "axis": "cold penalty OFF",
+     "fgen": 0.532
+    },
+    {
+     "axis": "cold penalty heavy (\u00d71.45)",
+     "fgen": 0.509
+    },
+    {
+     "axis": "\u03b7_gen high (0.97)",
+     "fgen": 0.524
+    }
+   ],
+   "scope": "sensitivity f_gen >= 0.5 stop only; the frozen M373 flip list is unchanged"
+  },
+  "changedPaths": 96,
   "stops": []
  },
  "gtrClosure": {
@@ -154,17 +194,17 @@
    {
     "path": "/alphaStar",
     "prev": [
-     0.613,
+     0.622,
      [
-      0.591,
-      0.633
+      0.601,
+      0.641
      ]
     ],
     "new": [
-     0.613,
+     0.619,
      [
-      0.591,
-      0.633
+      0.598,
+      0.638
      ]
     ],
     "newEstInsidePrevCI": true,
@@ -173,87 +213,87 @@
    {
     "path": "/excessWithoutDual",
     "prev": [
-     -0.1076,
+     -0.0893,
      [
-      -0.1346,
-      -0.0869
+      -0.1167,
+      -0.0718
      ]
     ],
     "new": [
-     -0.1076,
+     -0.0891,
      [
-      -0.1346,
-      -0.0869
+      -0.1153,
+      -0.0715
      ]
     ],
     "newEstInsidePrevCI": true,
-    "ciWidthRatio": 1.0
+    "ciWidthRatio": 0.9755
    },
    {
     "path": "/fGen",
     "prev": [
-     0.4662,
+     0.5182,
      [
-      0.3823,
-      0.5342
+      0.425,
+      0.5798
      ]
     ],
     "new": [
-     0.4662,
+     0.5165,
      [
-      0.3823,
-      0.5342
+      0.4278,
+      0.5797
      ]
     ],
     "newEstInsidePrevCI": true,
-    "ciWidthRatio": 1.0
+    "ciWidthRatio": 0.9813
    },
    {
     "path": "/nodeExcess",
     "prev": [
-     0.068,
+     0.0542,
      [
-      0.0537,
-      0.0863
+      0.0423,
+      0.0729
      ]
     ],
     "new": [
-     0.068,
+     0.0549,
      [
-      0.0537,
-      0.0863
+      0.043,
+      0.0735
      ]
     ],
     "newEstInsidePrevCI": true,
-    "ciWidthRatio": 1.0
+    "ciWidthRatio": 0.9967
    }
   ],
   "pointOnly": [
    {
     "path": "/alphaStar/nInfeasibleDrivesBaseline",
-    "prev": 20,
-    "new": 20,
+    "prev": 23,
+    "new": 23,
     "comparedAs": "share of set size",
-    "prevShare": 0.0578,
-    "newShare": 0.0578,
-    "absDiff": 0.0,
-    "relDiff": 0.0,
+    "prevShare": 0.0615,
+    "newShare": 0.0591,
+    "absDiff": 0.002371,
+    "relDiff": 0.03856,
     "withinBand": true
    },
    {
     "path": "/alphaStar/variantMax",
-    "prev": 0.748,
-    "new": 0.748,
-    "absDiff": 0.0,
-    "relDiff": 0.0,
+    "prev": 0.783,
+    "new": 0.779,
+    "absDiff": 0.004,
+    "relDiff": 0.00511,
     "withinBand": true
    },
    {
     "path": "/alphaStar/variantMin",
-    "prev": 0.218,
-    "new": 0.218,
-    "absDiff": 0.0,
-    "relDiff": 0.0,
+    "prev": 0.202,
+    "new": 0.199,
+    "absDiff": 0.003,
+    "relDiff": 0.01485,
     "withinBand": true
    },
    {
@@ -266,34 +306,34 @@
    },
    {
     "path": "/fGen/variantMax",
-    "prev": 0.4897,
-    "new": 0.4897,
-    "absDiff": 0.0,
-    "relDiff": 0.0,
+    "prev": 0.5398,
+    "new": 0.5382,
+    "absDiff": 0.0016,
+    "relDiff": 0.00296,
     "withinBand": true
    },
    {
     "path": "/fGen/variantMin",
-    "prev": 0.4209,
-    "new": 0.4209,
-    "absDiff": 0.0,
-    "relDiff": 0.0,
+    "prev": 0.4759,
+    "new": 0.4743,
+    "absDiff": 0.0016,
+    "relDiff": 0.00336,
     "withinBand": true
    },
    {
     "path": "/interval/hi",
-    "prev": 0.068,
-    "new": 0.068,
-    "absDiff": 0.0,
-    "relDiff": 0.0,
+    "prev": 0.0542,
+    "new": 0.0549,
+    "absDiff": 0.0007,
+    "relDiff": 0.01292,
     "withinBand": true
    },
    {
     "path": "/interval/lo",
-    "prev": -0.1076,
-    "new": -0.1076,
-    "absDiff": 0.0,
-    "relDiff": 0.0,
+    "prev": -0.0893,
+    "new": -0.0891,
+    "absDiff": 0.0002,
+    "relDiff": 0.00224,
     "withinBand": true
    },
    {
@@ -314,68 +354,98 @@
    },
    {
     "path": "/per100km/battToTractionResidual",
-    "prev": 9.999,
-    "new": 9.999,
-    "absDiff": 0.0,
-    "relDiff": 0.0,
+    "prev": 8.808,
+    "new": 8.855,
+    "absDiff": 0.047,
+    "relDiff": 0.00534,
     "withinBand": true
    },
    {
     "path": "/per100km/genToBattDual",
-    "prev": 2.814,
-    "new": 2.814,
-    "absDiff": 0.0,
-    "relDiff": 0.0,
+    "prev": 2.282,
+    "new": 2.296,
+    "absDiff": 0.014,
+    "relDiff": 0.00613,
     "withinBand": true
    },
    {
     "path": "/per100km/genToBattEngineOn",
-    "prev": 5.573,
-    "new": 5.573,
-    "absDiff": 0.0,
-    "relDiff": 0.0,
+    "prev": 4.999,
+    "new": 5.057,
+    "absDiff": 0.058,
+    "relDiff": 0.0116,
     "withinBand": true
    },
    {
     "path": "/per100km/genToBattUpper",
-    "prev": 8.387,
-    "new": 8.387,
-    "absDiff": 0.0,
-    "relDiff": 0.0,
+    "prev": 7.28,
+    "new": 7.353,
+    "absDiff": 0.073,
+    "relDiff": 0.01003,
     "withinBand": true
    },
    {
     "path": "/per100km/genToTraction",
-    "prev": 8.731,
-    "new": 8.731,
-    "absDiff": 0.0,
-    "relDiff": 0.0,
+    "prev": 9.474,
+    "new": 9.46,
+    "absDiff": 0.014,
+    "relDiff": 0.00148,
     "withinBand": true
    },
    {
     "path": "/per100km/generator",
-    "prev": 16.029,
-    "new": 16.029,
-    "absDiff": 0.0,
-    "relDiff": 0.0,
+    "prev": 15.893,
+    "new": 15.938,
+    "absDiff": 0.045,
+    "relDiff": 0.00283,
     "withinBand": true
    },
    {
     "path": "/per100km/regenToBatt",
-    "prev": 3.065,
-    "new": 3.065,
-    "absDiff": 0.0,
-    "relDiff": 0.0,
+    "prev": 2.683,
+    "new": 2.674,
+    "absDiff": 0.009,
+    "relDiff": 0.00335,
     "withinBand": true
    }
   ],
   "boolFlips": [],
   "typeChanges": [],
   "listChanges": [],
-  "scopeChanges": [],
+  "scopeChanges": [
+   {
+    "path": "/scope/km",
+    "prev": 3716.8,
+    "new": 3771.2
+   },
+   {
+    "path": "/scope/nCanonical",
+    "prev": 606,
+    "new": 621
+   },
+   {
+    "path": "/scope/nDays",
+    "prev": 67,
+    "new": 70
+   },
+   {
+    "path": "/scope/nDrives",
+    "prev": 374,
+    "new": 389
+   }
+  ],
   "stringChanges": [
    {
+    "path": "/_staleness"
+   },
+   {
+    "path": "/scope/excludedNote"
+   },
+   {
     "path": "/sources/closureDiag/sha256"
+   },
+   {
+    "path": "/sources/fuelReconMaster/sha256"
    },
    {
     "path": "/sources/step2/sha256"
@@ -395,39 +465,231 @@
    "nPointOnlyWithinBand": 17,
    "nStops": 0,
    "nEscalations": 0,
-   "nStringChanges": 2
+   "nStringChanges": 5
   },
   "set": {
-   "nDrives": 346,
-   "nDays": 63,
-   "km": 2593.9,
-   "nPrevious": 346,
-   "nNew": 0,
-   "newIds": [],
+   "nDrives": 389,
+   "nDays": 70,
+   "km": 3771.2,
+   "nPrevious": 374,
+   "nNew": 15,
+   "newIds": [
+    {
+     "file": "2026-11-01_14-36-31.csv",
+     "date": "2026-11-01",
+     "km": 12.8,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-01_15-10-23.csv",
+     "date": "2026-11-01",
+     "km": 3.5,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-01_16-11-27.csv",
+     "date": "2026-11-01",
+     "km": 9.7,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-01_17-36-14.csv",
+     "date": "2026-11-01",
+     "km": 2.5,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-01_17-56-38.csv",
+     "date": "2026-11-01",
+     "km": 3.1,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-01_18-15-30.csv",
+     "date": "2026-11-01",
+     "km": 1.6,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-02_07-40-02.csv",
+     "date": "2026-11-02",
+     "km": 2.3,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-02_07-57-54.csv",
+     "date": "2026-11-02",
+     "km": 0.6,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-02_08-12-15.csv",
+     "date": "2026-11-02",
+     "km": 1.9,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-02_14-34-12.csv",
+     "date": "2026-11-02",
+     "km": 2.5,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-02_14-42-15.csv",
+     "date": "2026-11-02",
+     "km": 4.0,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-03_07-40-10.csv",
+     "date": "2026-11-03",
+     "km": 2.4,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-03_07-53-55.csv",
+     "date": "2026-11-03",
+     "km": 3.6,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-03_15-07-48.csv",
+     "date": "2026-11-03",
+     "km": 1.7,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-03_15-23-37.csv",
+     "date": "2026-11-03",
+     "km": 2.2,
+     "type": "urban"
+    }
+   ],
    "previousPerDrive": {
-    "path": "analyses/closure_baselines/perdrive_346drives.csv",
-    "sha256": "ef1d1f41ce20c53522fede92886e1f2f3c9dacbba6566b3616fbd04c85475e18",
-    "nDrives": 346,
-    "master": "a641f34d7528d004b900c151cbde3d6d"
+    "path": "analyses/closure_baselines/perdrive_374drives.csv",
+    "sha256": "f1b251b8eb3ef52716fa33eb80f11bc779a5b6e97e41eb6a34a59e817dcd9612",
+    "nDrives": 374,
+    "master": "5556a0c6c8bcde0f6c64b8b9655208ed"
    }
   },
   "checks": {
    "rawOriginals": {
-    "nChecked": 346,
+    "nChecked": 389,
     "nMismatch": 0
    },
    "flags": {
-    "nCompared": 566,
+    "nCompared": 609,
     "nDiverging": 0
    },
+   "repin": {
+    "previousPerDrive": {
+     "path": "analyses/closure_baselines/perdrive_374drives_recal_1e599176.csv",
+     "sha256": "f5f174023ff7080580749aa7457d571a89b56d61dec43692bc779a1646679f3a",
+     "nDrives": 374,
+     "master": "1e599176dafd8575dc7addede8d79358"
+    },
+    "repinnedFrom": {
+     "path": "analyses/closure_baselines/perdrive_374drives.csv",
+     "sha256": "f1b251b8eb3ef52716fa33eb80f11bc779a5b6e97e41eb6a34a59e817dcd9612",
+     "nDrives": 374,
+     "master": "5556a0c6c8bcde0f6c64b8b9655208ed"
+    },
+    "repinReason": "auto (M398): closure drift attributed to the recalibrated offset columns (hybrid run reproduces the pin exactly; changed columns ['I_offset_2p_A_applied', 'I_offset_A_applied', 'cell_spread_loaded_p95_adj_hub_mv', 'cell_spread_loaded_p95_adj_mv', 'energy_residual_kwh_corr', 'energy_residual_kwh_corr2p', 'net_draw_kwh_corr', 'net_draw_kwh_corr2p', 'net_draw_per100km_corr', 'net_draw_per100km_corr2p', 'offset_2p_kwh_removed', 'offset_kwh_removed'])",
+    "note": "re-pinned automatically (M398): closure drift attributed to the recalibrated offset columns, hybrid run reproduces the previous pin exactly; identity stays exact (1e-5) for later runs",
+    "attribution": {
+     "rule": "M398",
+     "pinMasterEqualsCommittedMaster": true,
+     "masterColumnsChangedOnPreviousIds": [
+      "I_offset_2p_A_applied",
+      "I_offset_A_applied",
+      "cell_spread_loaded_p95_adj_hub_mv",
+      "cell_spread_loaded_p95_adj_mv",
+      "energy_residual_kwh_corr",
+      "energy_residual_kwh_corr2p",
+      "net_draw_kwh_corr",
+      "net_draw_kwh_corr2p",
+      "net_draw_per100km_corr",
+      "net_draw_per100km_corr2p",
+      "offset_2p_kwh_removed",
+      "offset_kwh_removed"
+     ],
+     "allWithinRecalibrationColumns": true,
+     "hybridRunIdentityExact": true,
+     "nPrevious": 374,
+     "tolerance": {
+      "maxAbs": 0.001,
+      "colSumRelChange": 0.001
+     },
+     "driftColumns": {
+      "g2t": {
+       "nDrivesChanged": 94,
+       "maxAbs": 0.00016,
+       "colSumRelChange": 6.16e-06
+      },
+      "trac": {
+       "nDrivesChanged": 89,
+       "maxAbs": 0.00012,
+       "colSumRelChange": 9.1e-07
+      },
+      "b2t": {
+       "nDrivesChanged": 77,
+       "maxAbs": 6e-05,
+       "colSumRelChange": 4.46e-06
+      },
+      "g2b_model": {
+       "nDrivesChanged": 100,
+       "maxAbs": 0.00015,
+       "colSumRelChange": 9.1e-06
+      },
+      "excess": {
+       "nDrivesChanged": 73,
+       "maxAbs": 0.00015,
+       "colSumRelChange": 6.773e-05
+      },
+      "excess_engonly": {
+       "nDrivesChanged": 85,
+       "maxAbs": 0.00015,
+       "colSumRelChange": 4.112e-05
+      },
+      "excess_ps": {
+       "nDrivesChanged": 73,
+       "maxAbs": 0.00015,
+       "colSumRelChange": 6.773e-05
+      },
+      "batt_resid": {
+       "nDrivesChanged": 67,
+       "maxAbs": 6e-05,
+       "colSumRelChange": 3.399e-05
+      },
+      "batt_resid_modelg2b": {
+       "nDrivesChanged": 73,
+       "maxAbs": 0.00012,
+       "colSumRelChange": 6.319e-05
+      }
+     },
+     "nDrivesChangedConvention": "at >1e-5 on 5-dp rounded values (descriptive only; the decision uses maxAbs and colSumRelChange)",
+     "cumulativeVsOriginalPin": null
+    },
+    "originalPin": {
+     "path": "analyses/closure_baselines/perdrive_374drives.csv",
+     "sha256": "f1b251b8eb3ef52716fa33eb80f11bc779a5b6e97e41eb6a34a59e817dcd9612",
+     "nDrives": 374,
+     "master": "5556a0c6c8bcde0f6c64b8b9655208ed"
+    }
+   },
    "previousIdentity": {
-    "nIdentical": 346,
-    "columns": 23
+    "attributedRecalibrationDrift": true,
+    "newPin": {
+     "path": "analyses/closure_baselines/perdrive_374drives_recal_1e599176.csv",
+     "sha256": "f5f174023ff7080580749aa7457d571a89b56d61dec43692bc779a1646679f3a",
+     "nDrives": 374,
+     "master": "1e599176dafd8575dc7addede8d79358"
+    }
    }
   },
   "specSha256Frozen": "96b1297f047eaaf46314c797b2d32f63626b45cadbb90f20335cc1bb45c3e745",
   "infeasibleAlphaDrives": {
-   "n": 20,
+   "n": 23,
    "inPreviousSet": [
     "2026-09-14_07-50-59.csv",
     "2026-09-16_14-01-15.csv",
@@ -440,6 +702,9 @@
     "2026-10-02_08-04-04.csv",
     "2026-10-06_08-14-57.csv",
     "2026-10-13_07-42-34.csv",
+    "2026-10-15_10-40-56.csv",
+    "2026-10-16_19-23-56.csv",
+    "2026-10-17_23-13-01.csv",
     "20260515_075207.csv",
     "20260603_122008.csv",
     "20260814_101007.csv",
@@ -455,26 +720,35 @@
  },
  "dissipationMonitor": {
   "informational": "report-only (M394): never routes to audit; list the flags in the CHANGELOG acknowledgement",
-  "n_new_drives": 28,
-  "n_flags": 2,
+  "n_new_drives": 15,
+  "n_flags": 3,
   "flags": [
    {
-    "band": "15-25C",
+    "band": "10-15C",
     "dur_s": 11,
-    "file": "2026-10-16_07-52-05.csv",
+    "file": "2026-11-02_07-40-02.csv",
     "flag": "fuel_event_not_in_census",
     "note": "fuel-indicated unfuelled (unconfirmed by census; low-power fuelled generation not ruled out)",
-    "rpm_mean": 1499.4,
-    "soc_mean": 79.1
+    "rpm_mean": 1561.5,
+    "soc_mean": 79.8
    },
    {
-    "band": "15-25C",
-    "dur_s": 18,
-    "file": "2026-10-16_07-52-05.csv",
+    "band": "10-15C",
+    "dur_s": 28,
+    "file": "2026-11-03_07-40-10.csv",
     "flag": "fuel_event_not_in_census",
     "note": "fuel-indicated unfuelled (unconfirmed by census; low-power fuelled generation not ruled out)",
-    "rpm_mean": 1604.0,
-    "soc_mean": 79.3
+    "rpm_mean": 1726.6,
+    "soc_mean": 79.7
+   },
+   {
+    "band": "10-15C",
+    "dur_s": 11,
+    "file": "2026-11-03_07-53-55.csv",
+    "flag": "fuel_event_not_in_census",
+    "note": "fuel-indicated unfuelled (unconfirmed by census; low-power fuelled generation not ruled out)",
+    "rpm_mean": 1566.4,
+    "soc_mean": 79.5
    }
   ],
   "validation_gap_bands": [
@@ -484,25 +758,25 @@
  "cadenceMonitor": {
   "informational": "report-only (M396): never routes to audit; report any flag to the owner first",
   "expected_regime": "fast",
-  "n_new_drives": 28,
+  "n_new_drives": 15,
   "n_flags": 1,
   "flags": [
    {
     "action": "check the app PID / polling settings (HV-current channel); fast polling was re-activated on 2026-10-09 and is expected",
-    "after_fast_in_batch_or_before": true,
-    "first_slow_date": "2026-10-15",
-    "first_slow_file": "2026-10-15_09-37-09.csv",
-    "first_slow_time": "09:37:35.548",
+    "after_fast_in_batch_or_before": false,
+    "first_slow_date": "2026-11-01",
+    "first_slow_file": "2026-11-01_14-36-31.csv",
+    "first_slow_time": "14:37:05.976",
     "flag": "cadence_slow_while_fast_expected",
-    "median_interval_new_slow_s": 1.39,
-    "n_fast_new": 11,
-    "n_new": 28,
-    "n_slow_new": 17,
-    "reference_fast_median_s": 0.834,
-    "reference_slow_median_s": 1.405,
+    "median_interval_new_slow_s": 1.486,
+    "n_fast_new": 6,
+    "n_new": 15,
+    "n_slow_new": 9,
+    "reference_fast_median_s": 0.843,
+    "reference_slow_median_s": 1.404,
     "slower_than_reference_slow": false
    }
   ],
-  "last_regime": "slow"
+  "last_regime": "fast"
  }
 }

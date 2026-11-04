@@ -3,7 +3,7 @@
 four trip-length bands): ISO-calendar-week blocks (W), date-type stratified weeks (WS), 7- and 14-day CIRCULAR moving blocks (M7, M14) and a block-length-1 reference (M1), both cohorts resampled together (tools/block_bootstrap.py).
 Reporting only: the released contrast (comparisonCube.urbanContrast, M491 joint-day interval) is read, never changed. The tool reproduces the cube's eligibility from drive_master.csv and seasonal_drive_master.csv and HARD-STOPS unless its
 point estimates, drive counts and day counts equal the cube's. Nothing is typed: every number comes from the master and the cube. Seed 42, 4,000 draws (project default); the cube keeps its registered seed 20260925.
-Usage: python tools/urban_week_block.py [--dry-run] [--check]   (writes ONLY /urbanContrastBlocks and /_artifactStamps/urbanContrastBlocks of summary_arrays.json; --check recomputes and compares with the payload, read-only)"""
+Usage: python tools/urban_week_block.py [--dry-run] [--check] [--ack-verdict-change RULING.json | env XT_ACK_URBAN_WEEK_BLOCK=RULING.json]   (writes ONLY /urbanContrastBlocks and /_artifactStamps/urbanContrastBlocks of summary_arrays.json; --check recomputes and compares with the payload, read-only)"""
 import copy, datetime, hashlib, json, os, sys
 
 import numpy as np
@@ -165,6 +165,27 @@ def splice(A, blk, master_md5, now=None):
     return new, ch, [c for c in ch if not any(c == a_ or c.startswith(a_ + "/") for a_ in ALLOWED)]
 
 
+def band_digest(blk):
+    """Per-band verdict, joint-day interval and procedure intervals exactly as the stage prints them (the content a Director ruling acknowledges)."""
+    return [{"band": b["band"], "verdict": b["verdict"], "jointDay": b["jointDay"]["ci95"], **{k: p["ci95"] for k, p in b["procedures"].items()}} for b in blk["bands"]]
+
+
+def ack_ok(ack, blk, master_md5, n_drives):
+    """M575 (Director ruling cited by the ack file): acknowledges a verdict change of the M494 stop ONLY when the recomputed block equals what the ruling saw. Returns a list of reasons it is refused (empty = accepted)."""
+    why = []
+    if not ack.get("ruling"):
+        why.append("no ruling reference")
+    if ack.get("masterMd5") != master_md5:
+        why.append("bound to a different drive_master.csv MD5")
+    if ack.get("nDrives") != n_drives:
+        why.append("bound to a different drive count")
+    if ack.get("overallVerdict") != blk["overallVerdict"]:
+        why.append("overall verdict differs from the acknowledged one")
+    if ack.get("bands") != band_digest(blk):
+        why.append("per-band verdicts/intervals differ from the acknowledged ones")
+    return why
+
+
 def main(argv=None):
     argv = sys.argv[1:] if argv is None else argv
     os.chdir(ROOT)
@@ -184,8 +205,17 @@ def main(argv=None):
     if bad:
         return 1
     if blk["overallVerdict"] == "depends on the resampling unit":
-        print("M494 STOP before the splice: verdict 'depends on the resampling unit' goes to the Director")
-        return 3
+        ack_path = os.environ.get("XT_ACK_URBAN_WEEK_BLOCK") or (argv[argv.index("--ack-verdict-change") + 1] if "--ack-verdict-change" in argv else None)
+        if ack_path:
+            why = ack_ok(json.load(open(ack_path, encoding="utf-8")), blk, md5, int(A["meta"]["totalDrives"]))
+            if not why:
+                print("M494 verdict change acknowledged (ruling %s); splicing" % json.load(open(ack_path, encoding="utf-8"))["ruling"])
+            else:
+                print("M494 STOP: acknowledgement refused: " + "; ".join(why))
+                return 3
+        else:
+            print("M494 STOP before the splice: verdict 'depends on the resampling unit' goes to the Director")
+            return 3
     if "--dry-run" not in argv and changed:
         with open("summary_arrays.json", "w", encoding="utf-8", newline="\n") as f:
             f.write(json.dumps(new, ensure_ascii=False, indent=1) + ("\n" if raw.endswith("\n") else ""))
