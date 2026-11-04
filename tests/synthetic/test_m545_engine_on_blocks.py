@@ -45,7 +45,7 @@ assert d4["engineOnDuration"]["urban"]["medianCi95"] is None
 # ---- the sidecar stores no class / cohort / cadence / date / label ----
 sc_path = os.path.join(ROOT, "engine_on_blocks_sidecar.json")
 J = json.load(open(sc_path, encoding="utf-8"))
-assert J["meta"]["thresholdRpm"] == 400 and J["meta"]["boundary"] == "gt" and len(J["drives"]) == 606
+assert J["meta"]["thresholdRpm"] == 400 and J["meta"]["boundary"] == "gt" and len(J["drives"]) >= 606      # M575: one record per ingested drive (606 at the evidence date)
 one = next(iter(J["drives"].values()))
 assert set(one) == {"runs", "eod", "spdTot", "spdOn", "spdAny", "tr", "ts", "hvc", "sha256"}, set(one)
 txt = open(sc_path, encoding="utf-8").read()

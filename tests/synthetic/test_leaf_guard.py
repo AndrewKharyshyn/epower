@@ -201,7 +201,7 @@ def flip(ack, prev=None, cur=None):
     if ack is None:
         if os.path.exists(_ap): os.remove(_ap)
     else:
-        json.dump(ack, open(_ap, "w"))
+        json.dump(ack, open(_ap, "w", encoding="utf-8"))
     return LG.guard(prev or fp(), cur or fc(), [FR])["nUnexpected"]
 try:
     assert flip(_ack) == 0

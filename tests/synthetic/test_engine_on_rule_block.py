@@ -10,15 +10,26 @@ B = A["engineOnRule"]
 sc = pd.read_csv("engine_on_rule_sidecar.csv"); ev = pd.read_csv("engine_on_evidence_sidecar.csv"); dm = pd.read_csv("drive_master.csv", low_memory=False)
 # one-time gate: the production sidecar equals the phase-1 evidence sidecar drive by drive (ge300, gt400, valid seconds)
 m = sc.merge(ev, on="file")
-assert len(m) == len(sc) == len(ev) == 606
+sc6 = sc[sc["file"].isin(ev["file"])]      # M575: the evidence corpus (the first 606 drives); the production sidecar grows with every ingestion
+assert len(m) == len(sc6) == len(ev) == 606 and len(sc) == len(dm)
 assert (m["ge300"] == m["g_ge300"]).all() and (m["gt400"] == m["g_gt400"]).all() and (m["n_valid"] == m["grid_valid_s"]).all()
 p = B["pooled"]
-assert p["ge300Seconds"] == int(sc["ge300"].sum()) == 359524 and p["engineOnSeconds"] == int(sc["gt400"].sum()) == 353811 and p["validSeconds"] == int(sc["n_valid"].sum())
-assert p["lowRpmBandSeconds"] == p["ge300Seconds"] - p["engineOnSeconds"] == 5713                                         # closed band = the exact complement of > 400 inside >= 300
-assert abs(p["engineOnHours"] - 98.2808) < 1e-3 and abs(p["ge300Hours"] - 99.8678) < 1e-3 and abs(p["lowRpmBandHours"] - 1.5870) < 1.5e-3
-assert p["nDrives"] == 606 and p["nDays"] == 121
-assert abs(p["engineOnPctOfValid"]["pct"] - 42.6369) < 2e-3 and abs(p["engineOnPctOfValid"]["ci95Pct"][0] - 38.7513) < 0.02 and abs(p["engineOnPctOfValid"]["ci95Pct"][1] - 46.1924) < 0.02
-assert abs(p["lowRpmBandPctOfGe300"]["pct"] - 1.589) < 2e-3 and abs(p["lowRpmBandPctOfGe300"]["ci95Pct"][0] - 1.4583) < 0.02 and abs(p["lowRpmBandPctOfGe300"]["ci95Pct"][1] - 1.7457) < 0.02
+assert p["ge300Seconds"] == int(sc["ge300"].sum()) and p["engineOnSeconds"] == int(sc["gt400"].sum()) and p["validSeconds"] == int(sc["n_valid"].sum())
+assert int(sc6["ge300"].sum()) == 359524 and int(sc6["gt400"].sum()) == 353811      # known answers of the evidence corpus
+assert p["lowRpmBandSeconds"] == p["ge300Seconds"] - p["engineOnSeconds"] and int(sc6["ge300"].sum()) - int(sc6["gt400"].sum()) == 5713      # closed band = the exact complement of > 400 inside >= 300
+assert abs(sc6["gt400"].sum() / 3600 - 98.2808) < 1e-3 and abs(sc6["ge300"].sum() / 3600 - 99.8678) < 1e-3 and abs((sc6["ge300"].sum() - sc6["gt400"].sum()) / 3600 - 1.5870) < 1.5e-3
+assert abs(p["engineOnHours"] - sc["gt400"].sum() / 3600) < 1e-3 and abs(p["ge300Hours"] - sc["ge300"].sum() / 3600) < 1e-3
+assert p["nDrives"] == len(sc) and p["nDays"] == sc["date"].nunique()
+def _boot(df, col, den):      # day-clustered percentile bootstrap, seed 42, 4000 draws
+    g = df.groupby("date")[[col, den]].sum(); ix = np.random.default_rng(42).integers(0, len(g), (4000, len(g)))
+    q = 100 * g[col].values[ix].sum(1) / g[den].values[ix].sum(1)
+    return 100 * g[col].sum() / g[den].sum(), np.percentile(q, 2.5), np.percentile(q, 97.5)
+e6 = _boot(sc6, "gt400", "n_valid"); b6 = _boot(sc6.assign(low=sc6["ge300"] - sc6["gt400"]), "low", "ge300")      # known answers of the evidence corpus (606 drives)
+assert abs(e6[0] - 42.6369) < 2e-3 and abs(e6[1] - 38.7513) < 0.02 and abs(e6[2] - 46.1924) < 0.02
+assert abs(b6[0] - 1.589) < 2e-3 and abs(b6[1] - 1.4583) < 0.02 and abs(b6[2] - 1.7457) < 0.02
+ef = _boot(sc, "gt400", "n_valid"); bf = _boot(sc.assign(low=sc["ge300"] - sc["gt400"]), "low", "ge300")      # the payload (all drives)
+assert abs(p["engineOnPctOfValid"]["pct"] - ef[0]) < 2e-3 and abs(p["engineOnPctOfValid"]["ci95Pct"][0] - ef[1]) < 0.02 and abs(p["engineOnPctOfValid"]["ci95Pct"][1] - ef[2]) < 0.02
+assert abs(p["lowRpmBandPctOfGe300"]["pct"] - bf[0]) < 2e-3 and abs(p["lowRpmBandPctOfGe300"]["ci95Pct"][0] - bf[1]) < 0.02 and abs(p["lowRpmBandPctOfGe300"]["ci95Pct"][1] - bf[2]) < 0.02
 # independent day-clustered interval of the engine-on share (seed 42, 4000 draws, whole days)
 dd = sc.groupby("date")[["gt400", "n_valid"]].sum()
 idx = np.random.default_rng(42).integers(0, len(dd), (4000, len(dd)))
@@ -37,7 +48,7 @@ assert sum(v["engineOnSeconds"] for v in B["byClass"].values()) + B.get("unclass
 assert B["unclassified"]["nDrives"] == int((~np.isin(cls, list(B["byClass"]))).sum())
 # exact-400 evidence and the cross-check sign
 be = B["boundaryEvidence"]
-assert be["exact400Seconds"] == int(sc["eq400"].sum()) == 53 and be["nDrivesWithExact400"] == int((sc["eq400"] > 0).sum()) and be["maxExact400SecondsPerDrive"] == int(sc["eq400"].max())
+assert be["exact400Seconds"] == int(sc["eq400"].sum()) and int(sc6["eq400"].sum()) == 53 and be["nDrivesWithExact400"] == int((sc["eq400"] > 0).sum()) and be["maxExact400SecondsPerDrive"] == int(sc["eq400"].max())
 ic = B["integrationCrossCheck"]
 assert ic["integrationTermHours"] > 0 and abs(ic["integrationTermHours"] - (p["engineOnHours"] - A["engineRuntime"]["totals"]["supportedOnHours"])) < 2e-4 and ic["flag"] == "within"
 assert B["faithfulness"]["passed"] is True and B["faithfulness"]["secondsRpmGt6000"] == int(sc["gt6000"].sum())

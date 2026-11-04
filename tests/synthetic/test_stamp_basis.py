@@ -48,7 +48,10 @@ for k in ("regenCaptureV2Study", "regenCaptureV2HStudy", "regenSocStandardizedSt
     assert ib["nDrives"] == st[k]["basisNDrives"] < A["meta"]["totalDrives"] and ib["masterMd5"] == A[k]["masterMd5"] == st[k]["upstreamHashes"]["driveMasterMd5"] != st[k]["corpusHash"], k
     assert bad(lambda X, k=k: X["_artifactStamps"][k]["inputBasis"].update(masterMd5=X["_artifactStamps"][k]["corpusHash"])), "the live master on a carried smaller basis must fail"
 sh = st["socHysteresisV2"]
-assert sh["computationStatus"] == "computed" and A["socHysteresisV2"]["recomputeMode"] == "fresh" and "NOT recomputed" not in sh["computationStatusNote"] and sh["inputBasis"]["masterMd5"] == sh["corpusHash"]
-assert bad(lambda X: X["_artifactStamps"]["socHysteresisV2"].update(computationStatusNote="This block was NOT recomputed in this build")), "computed + NOT recomputed must fail"
-assert bad(lambda X: X["socHysteresisV2"].update(recomputeMode="carriedForward")), "status computed vs recomputeMode carriedForward must fail"
+if A["socHysteresisV2"]["recomputeMode"] == "fresh":
+    assert sh["computationStatus"] == "computed" and "NOT recomputed" not in sh["computationStatusNote"] and sh["inputBasis"]["masterMd5"] == sh["corpusHash"]
+    assert bad(lambda X: X["_artifactStamps"]["socHysteresisV2"].update(computationStatusNote="This block was NOT recomputed in this build")), "computed + NOT recomputed must fail"
+    assert bad(lambda X: X["socHysteresisV2"].update(recomputeMode="carriedForward")), "status computed vs recomputeMode carriedForward must fail"
+else:      # M575: the M119-v2 refit is deferred by the owner; the block is a disclosed carry-forward and the stamp must say so
+    assert A["socHysteresisV2"]["recomputeMode"] == "carriedForward" and A["socHysteresisV2"]["frozenBasis"] is True and sh["computationStatus"] == "carriedForward" and "NOT recomputed" in sh["computationStatusNote"]
 print("OK test_stamp_basis")

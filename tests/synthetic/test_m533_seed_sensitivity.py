@@ -24,15 +24,19 @@ for loc in (A["powerFade"]["cadenceSensitivity"], A["fadeModes"]["power"]["trend
         assert ss["intervalIncludesZeroByEra"][e] == zero[e]
     assert ss["nIntervalIncludesZero"] == sum(zero.values()) == 2 and ss["nEraMeansNegative"] == neg == 22
     assert ss["loseRange"] == [min(r["nLose"] for r in reps), max(r["nLose"] for r in reps)] == [27, 31]
-    assert ss["poolSeeds"] == J["poolSeeds"] and ss["stale"] is False and ss["basisNClean"] == 274
+    assert ss["poolSeeds"] == J["poolSeeds"] and ss["basisNClean"] == 274 and ss["stale"] is (274 != loc["nClean"])      # M575: a dated study on 274 clean drives; stale is derived from the live clean count
     st = loc["statement"]
     want = ("In the reference draw, emulated slow-cadence thinning", "not a causal cadence effect")           # M537 supersession: the displayed spread clause is the union over M532 + M534 (tests/synthetic/test_m537_union_spread.py)
     assert all(w in st for w in want), [w for w in want if w not in st]
-    assert " ;" not in st and "previous basis" not in st
+    assert " ;" not in st
+    if loc["emulation"]["stale"]:      # M575: the generated statement discloses the dated basis
+        assert "previous basis" in st and ("stale: the clean-drive count is now %d" % loc["nClean"]) in st
+    else:
+        assert "previous basis" not in st
 
 # the notes carry the same tail
 for h in (A["powerFade"], A["fadeModes"]["power"]["trend"]):
-    assert h["note"].endswith(h["cadenceSensitivity"]["statement"])
+    assert h["cadenceSensitivity"]["statement"] in h["note"]      # M575: the arrays rebuild embeds the regenerated statement and keeps the load-excited-proxy caution after it (the one-off tail splice is not an ingestion stage)
 
 # A2: the leaf is not an estimate: absent from verify_declared dependencies and the CI-checkable set
 for f in ("tools/stamp_dependencies.json", "release_check.py", "tools/stamp_dependencies_apply.py"):
@@ -72,5 +76,6 @@ def strings(o):
     elif isinstance(o, str): yield o
 assert not [s for s in strings(A) if R.hits(s)] and "no fade rate is claimed. Emulated slow" not in open("xtrail_dashboard.html", encoding="utf-8").read()
 import m537_cadence_splice as S   # M537 supersession: the payload now carries the union sub-leaf, the M533 splice (key-set walk) would stop
-assert S.main(["--check"]) == 0
+if not A["powerFade"]["cadenceSensitivity"]["emulation"]["stale"]:      # M575: on a dated (stale) basis the generated statement carries the stale clause and the splice stops by design (its dry run lists only the two trend-note tails)
+    assert S.main(["--check"]) == 0
 print("OK test_m533_seed_sensitivity: leaf = independent recomputation, statement, A2, negatives, rule, splice")
