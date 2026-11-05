@@ -17,6 +17,8 @@ SEED, NBOOT = 42, 4000
 STEP_DATE = "2026-10-01"
 LATE = ("2026-10-10", "2026-10-17")
 SEP = ("2026-09-01", "2026-09-30")
+LOOKS = os.path.join(ROOT, "analyses", "M580_looks.json")       # M580: append-only ledger of the ingestion looks at the confirmatory block (written only by --splice)
+TERM_DRIVES, TERM_DAYS, TERM_FALLBACK = 20, 10, "2027-01-31"      # M580 Rev 1: terminal evaluation point (in-range drives / in-range days after the cutoff; fallback date)
 CUTOFF = "2026-10-17"                       # confirmatory test: drives dated after this day (M573 Rev 2, pre-registered)
 ARR = os.path.join(ROOT, "summary_arrays.json")
 YCOL, TCOL, ICOL = "cell_spread_loaded_p95_mv", "T_pack_mean_avg", "peak_I_discharge"
@@ -303,9 +305,20 @@ def item_external(dm, dd, ext_dir, names):
             "modelResidualSD_mv": _r(np.sqrt(m.scale), 2)}
 
 
-def confirmatory(dd, cutoff=CUTOFF, min_n=10, min_days=5):
+def _mean_resid_ci(res, groups):
+    """Intercept-only OLS on the residuals, calendar-day cluster covariance, t(G-1) interval (the M574 estimator)."""
+    G = int(len(set(groups)))
+    r = sm.OLS(res, np.ones((len(res), 1))).fit(cov_type="cluster", cov_kwds={"groups": groups})
+    tc = float(stats.t.ppf(0.975, G - 1)) if G > 1 else float(stats.norm.ppf(0.975))
+    b, se = float(r.params[0]), float(r.bse[0])
+    return b, [_r(b - tc * se, 3), _r(b + tc * se, 3)]
+
+
+def confirmatory(dd, cutoff=CUTOFF, min_n=10, min_days=5, through=None):
     """Pre-registered confirmatory test (M573 Rev 2): drives dated after `cutoff` against the pre-step model (y ~ T + I + soc fitted on drives before STEP_DATE):
     mean residual with a day-clustered t(G-1) interval, and the post-step months slope. Evaluable only with >= min_n drives on >= min_days days."""
+    if through is not None:
+        dd = dd[dd["date"] <= pd.Timestamp(through)]
     post = dd[dd["date"] > pd.Timestamp(cutoff)]
     n, days = int(len(post)), int(post["day"].nunique())
     base = {"cutoff": cutoff, "stepDate": STEP_DATE, "minDrives": min_n, "minDays": min_days, "nDrivesAfterCutoff": n, "nDaysAfterCutoff": days}
@@ -314,16 +327,86 @@ def confirmatory(dd, cutoff=CUTOFF, min_n=10, min_days=5):
     pre = dd[dd["date"] < pd.Timestamp(STEP_DATE)]
     m = sm.OLS(pre["y"], sm.add_constant(pre[["T", "I", "soc"]])).fit()
     res = post["y"].values - m.predict(sm.add_constant(post[["T", "I", "soc"]], has_constant="add")).values
-    r = sm.OLS(res, np.ones((n, 1))).fit(cov_type="cluster", cov_kwds={"groups": post["day"].values})
-    G = days
-    tc = float(stats.t.ppf(0.975, G - 1)) if G > 1 else float(stats.norm.ppf(0.975))
-    b, se = float(r.params[0]), float(r.bse[0])
-    lvl = [_r(b - tc * se, 3), _r(b + tc * se, 3)]
+    b, lvl = _mean_resid_ci(res, post["day"].values)
     sl = fit_cluster(dd[dd["date"] >= pd.Timestamp(STEP_DATE)], ["months", "T", "I", "soc"])
     lvl_up, sl_zero, sl_up = lvl[0] > 0, sl["ci95"][0] <= 0 <= sl["ci95"][1], sl["ci95"][0] > 0
     label = "continued rise" if sl_up else ("raised level, flat slope" if (lvl_up and sl_zero) else ("back at pre-step level" if lvl[0] <= 0 <= lvl[1] else "mixed"))
+    # M580 (spec Rev 1): additive caveat fields; every existing leaf above is unchanged
+    tmin, tmax, p5 = float(pre["T"].min()), float(pre["T"].max()), float(np.percentile(pre["T"], 5))
+    inr = post[(post["T"] >= tmin) & (post["T"] <= tmax)]
+    i_n, i_days = int(len(inr)), int(inr["day"].nunique())
+    meets = bool(i_n >= min_n and i_days >= min_days)
+    ir = {"n": i_n, "days": i_days, "meetsSupportFloor": meets, "label": "post hoc sensitivity" if meets else "post hoc; below the floor", "meanResidualMv": None, "meanResidualCi95": None}
+    if i_n >= 2 and i_days >= 2:
+        ib, ici = _mean_resid_ci(inr["y"].values - m.predict(sm.add_constant(inr[["T", "I", "soc"]], has_constant="add")).values, inr["day"].values)
+        ir["meanResidualMv"], ir["meanResidualCi95"] = _r(ib, 3), ici
+    fit_hash = hashlib.sha256(json.dumps({"n": int(len(pre)), "coef": {k: round(float(v), 6) for k, v in m.params.items()}}, sort_keys=True).encode("utf-8")).hexdigest()
     return {**base, "status": "evaluated", "meanResidualMv": _r(b, 3), "meanResidualCi95": lvl, "postStepSlope": {k: sl[k] for k in ("est", "se", "ci95", "n", "G")}, "outcome": label,
-            "preStepModel": {"n": int(len(pre)), "formula": "y ~ T + I + soc"}}
+            "preStepModel": {"n": int(len(pre)), "formula": "y ~ T + I + soc"},
+            "predictionMet": bool(label == "raised level, flat slope"),
+            "preStepTRange": {"min": _r(tmin, 2), "p5": _r(p5, 2), "max": _r(tmax, 2), "nFitDrives": int(len(pre))}, "preStepFitHash": fit_hash,
+            "nBelowPreStepTmin": int((post["T"] < tmin).sum()), "nAbovePreStepTmax": int((post["T"] > tmax).sum()), "inRangeSensitivity": ir}
+
+
+def terminal_day(dd, cutoff=CUTOFF):
+    """First calendar day D with >= TERM_DRIVES in-range drives on >= TERM_DAYS distinct in-range days dated in (cutoff, D]; in-range = within the pre-step fit T range (strict bounds as in M580)."""
+    pre = dd[dd["date"] < pd.Timestamp(STEP_DATE)]
+    post = dd[dd["date"] > pd.Timestamp(cutoff)]
+    inr = post[(post["T"] >= pre["T"].min()) & (post["T"] <= pre["T"].max())].sort_values("date")
+    for d in sorted(inr["date"].unique()):
+        s = inr[inr["date"] <= d]
+        if len(s) >= TERM_DRIVES and s["day"].nunique() >= TERM_DAYS:
+            return pd.Timestamp(d).strftime("%Y-%m-%d")
+    return None
+
+
+def apply_looks(conf, dd, dm_md5, path=None, write=True, spec_path=None):
+    """M580 (spec Rev 1 R6/R7): evaluationNumber, lookLabel and terminalEvaluation from an append-only looks ledger keyed by the master MD5. Idempotent: the same master is never a second look; the terminal
+    evaluation, once written, is frozen. A change of the pre-step fit (n or hash) STOPs for the Director."""
+    path = path or LOOKS
+    led = json.load(open(path, encoding="utf-8")) if os.path.exists(path) else {"schema": 1, "looks": [], "terminal": None, "preStepFit": None}
+    conf = dict(conf)
+    post = dd[dd["date"] > pd.Timestamp(conf["cutoff"])]
+    pre = dd[dd["date"] < pd.Timestamp(STEP_DATE)]
+    inr = post[(post["T"] >= pre["T"].min()) & (post["T"] <= pre["T"].max())]
+    term_rule = ("terminal = first calendar day D after the cutoff %s with >= %d in-range drives on >= %d distinct in-range days (in-range = within the pre-step fit temperature range); "
+                 "fallback: the drives dated <= %s; later looks are descriptive" % (conf["cutoff"], TERM_DRIVES, TERM_DAYS, TERM_FALLBACK))
+    if conf["status"] != "evaluated":
+        conf["terminalEvaluation"] = {"status": "not evaluable yet", "rule": term_rule}
+        return conf, led
+    fit = {"n": conf["preStepModel"]["n"], "hash": conf["preStepFitHash"]}
+    if led["preStepFit"] is None:
+        led["preStepFit"] = fit
+    elif led["preStepFit"] != fit:
+        raise SystemExit("STOP: the pre-step fit changed (n or coefficient hash): the M580 frozen fit is violated; Director")
+    rec = next((x for x in led["looks"] if x["masterMd5"] == dm_md5), None)
+    if rec is None:
+        rec = {"masterMd5": dm_md5, "nDrivesFrame": int(len(dd)), "dataThrough": pd.Timestamp(dd["date"].max()).strftime("%Y-%m-%d"), "evaluationNumber": 1 + len(led["looks"]),
+               "outcome": conf["outcome"], "nDrivesAfterCutoff": conf["nDrivesAfterCutoff"], "nDaysAfterCutoff": conf["nDaysAfterCutoff"]}
+        led["looks"].append(rec)
+    if led["terminal"] is None:
+        D = terminal_day(dd, conf["cutoff"])
+        through, how = D, "primary"
+        if D is None and dd["date"].max() >= pd.Timestamp(TERM_FALLBACK):
+            through, how = TERM_FALLBACK, "fallback"
+        if through is not None:
+            full = confirmatory(dd, conf["cutoff"], through=through)
+            sha = hashlib.sha256(open(spec_path or os.path.join(ROOT, "analyses", "M580_spec.md"), "rb").read()).hexdigest()
+            led["terminal"] = {"frozen": True, "rule": term_rule, "how": how, "D": D, "dataThrough": through, "evaluationNumber": rec["evaluationNumber"], "specSha256": sha,
+                               "n": full["nDrivesAfterCutoff"], "days": full["nDaysAfterCutoff"], "outcome": full.get("outcome"),
+                               "values": {k: full.get(k) for k in ("meanResidualMv", "meanResidualCi95", "postStepSlope", "predictionMet", "inRangeSensitivity", "nBelowPreStepTmin", "nAbovePreStepTmax")}}
+    conf["evaluationNumber"] = rec["evaluationNumber"]
+    t = led["terminal"]
+    if t is None:
+        conf["terminalEvaluation"] = {"status": "not reached", "rule": term_rule, "nInRangeDrives": int(len(inr)), "nInRangeDays": int(inr["day"].nunique()), "needDrives": TERM_DRIVES, "needDays": TERM_DAYS, "fallbackDate": TERM_FALLBACK}
+        conf["lookLabel"] = ("first evaluation at the minimum support (%d days)" % conf["minDays"]) if (rec["evaluationNumber"] == 1 and conf["nDaysAfterCutoff"] == conf["minDays"]) else ("interim look %d; not the terminal evaluation" % rec["evaluationNumber"])
+    else:
+        conf["terminalEvaluation"] = t
+        conf["lookLabel"] = ("terminal evaluation (data through %s)" % t["dataThrough"]) if rec["evaluationNumber"] == t["evaluationNumber"] else "after the terminal evaluation; descriptive"
+    if write:
+        with open(path, "w", encoding="utf-8", newline="\n") as f:
+            json.dump(led, f, indent=1)
+    return conf, led
 
 
 def build_block(out, conf, dm_md5):
@@ -398,6 +481,8 @@ def main():
     if not a.skip_raw:
         out["item4b_cold_start_and_segments"] = item_cold_and_segments(dm, d, a.raw_dir)
     out["confirmatory"] = confirmatory(dd)
+    if a.splice and not a.external:
+        out["confirmatory"], _ = apply_looks(out["confirmatory"], dd, md5_before)      # M580: looks ledger (idempotent per master MD5)
     if a.splice and a.external:
         sys.exit("STOP: --splice never takes external files")
     if a.external:
