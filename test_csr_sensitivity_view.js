@@ -11,7 +11,7 @@ const d=dom.window.document;const click=el=>el.dispatchEvent(new dom.window.Mous
 const btns=()=>[...d.querySelectorAll('button')];
 (async()=>{
   await sleep(900);
-  ok('payload: V0 reproduces the stored block (830 windows) and strata present',!!B&&B.knownAnswer.reproducesStored&&B.knownAnswer.pooledIntervalMatchesStored&&B.pooledV0.n===830&&Object.keys(B.strata).length>=2);
+  ok('payload: V0 reproduces the stored block (window count follows the corpus: 830 at 593 covered drives, 844 at 608; M575) and strata present',!!B&&B.knownAnswer.reproducesStored&&B.knownAnswer.pooledIntervalMatchesStored&&B.pooledV0.n===B.knownAnswer.storedNRestWindows&&B.pooledV0.n===B.knownAnswer.nWindows&&Object.keys(B.strata).length>=2);
   const tab=btns().find(b=>b.textContent.trim().toLowerCase()==='distribution');
   ok('Distribution tab button',!!tab);if(tab){click(tab);await sleep(500);}
   const note=d.querySelector('[data-csr-note]');

@@ -121,6 +121,14 @@ class TestPayloadTieOut(unittest.TestCase):
             B = json.load(f)["cellSpreadStep"]
         with open(os.path.join(ROOT, "analyses", "M573_step_vs_trend.json"), encoding="utf-8") as f:
             R = json.load(f)
+        if B["inputs"]["driveMasterMd5"] != R["masterMd5"]:
+            # M575: the payload block is recomputed on the live master (621 drives); analyses/M573_step_vs_trend.json is the dated 606-drive study.
+            # The tie-out then holds only for the frame: same step date, same start, the live frame extends the dated one.
+            self.assertEqual(B["analysisFrame"]["stepDate"], R["analysisFrame"]["stepDate"])
+            self.assertEqual(B["analysisFrame"]["firstDate"], R["analysisFrame"]["firstDate"])
+            self.assertGreater(B["analysisFrame"]["n"], R["analysisFrame"]["n"])
+            self.assertNotIn("item7_external", json.dumps(B))
+            return
         for k in ("M0_linear_released", "M3_step", "M5_step_soc_rest", "M6_month_fixed_effects"):
             for q in ("aic", "cv_rmse_day_blocked"):
                 self.assertEqual(B["models"][k][q], R["item1_2_models"][k][q], (k, q))
