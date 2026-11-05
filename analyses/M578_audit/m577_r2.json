@@ -1,0 +1,104 @@
+{
+ "n_drives": 559,
+ "n_days": 120,
+ "G": 120,
+ "support_T": [
+  12.7,
+  39.4
+ ],
+ "n_eligible_pre_support": 600,
+ "weeks": 25,
+ "terms": {
+  "step": {
+   "est": 3.037,
+   "se": 0.745,
+   "cr2_t": [
+    1.563,
+    4.512
+   ],
+   "sat": [
+    1.529,
+    4.546
+   ],
+   "df_sat": 36.8,
+   "boot_day": [
+    1.734,
+    4.76
+   ],
+   "boot_week": [
+    1.66,
+    7.028
+   ],
+   "B": [
+    1.339,
+    4.419
+   ],
+   "C": [
+    -1.554,
+    7.746
+   ],
+   "mde": 2.08,
+   "label": "procedure-dependent",
+   "df_dependent": false
+  },
+  "slow": {
+   "est": 1.166,
+   "se": 0.589,
+   "cr2_t": [
+    -0.001,
+    2.333
+   ],
+   "sat": [
+    -0.029,
+    2.361
+   ],
+   "df_sat": 36.5,
+   "boot_day": [
+    0.019,
+    2.424
+   ],
+   "boot_week": [
+    -0.138,
+    2.957
+   ],
+   "B": [
+    -0.046,
+    2.342
+   ],
+   "C": [
+    -4.148,
+    5.384
+   ],
+   "mde": 1.65,
+   "label": "not distinguishable from zero (not equivalence)",
+   "df_dependent": false
+  }
+ },
+ "C": {
+  "n": 143,
+  "arms_drives_days": {
+   "0": [
+    94,
+    43
+   ],
+   "1": [
+    49,
+    17
+   ]
+  },
+  "T_q25": 21.0
+ },
+ "vif": {
+  "months": 1.93,
+  "step": 1.7,
+  "slow": 1.25,
+  "T": 1.81,
+  "I": 1.74,
+  "soc": 1.23,
+  "socr": 1.68,
+  "lrest": 5.51,
+  "first": 5.34
+ },
+ "corr_step_months": 0.6,
+ "ambiguity": "Spline: natural cubic, boundary knots at support ends + interior 25/50/75% (4 cols, ESL basis; spec text says 3 df). Sat df via W-matrix trace formula (M406 dependence_sensitivity convention), reimplemented. MDE=2.8*se. slow CR2 lower bound -0.001 (day-boot 0.019): knife-edge. lrest/first VIF 5.5/5.3 (>5, not gated). Full: analyses/M578_audit/m577_r2_full.json"
+}
