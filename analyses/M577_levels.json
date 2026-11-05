@@ -1,0 +1,355 @@
+{
+ "milestone": "M577",
+ "spec": "analyses/M577_spec.md Rev 1",
+ "specSha256": "7f1e59652c3755eabe7d4cf4f00f7d7795e5da93238219768bd1ab1c16857ecc",
+ "masterMd5": "1e599176dafd8575dc7addede8d79358",
+ "masterMd5After": "1e599176dafd8575dc7addede8d79358",
+ "scriptSha256": "e4ce59a616b378d7e1a2e73ac1f4ce8834282f196ef1f91dbae7e2bc72f17e65",
+ "seed": 42,
+ "draws": 4000,
+ "support": {
+  "commonSupportT": [
+   12.7,
+   39.4
+  ],
+  "nInSupport": 551,
+  "nOutside": 39,
+  "outsideByStep": {
+   "0": 30,
+   "1": 9
+  },
+  "outsideDays": 21,
+  "armsInSupport": {
+   "0": {
+    "n": 437,
+    "days": 99
+   },
+   "1": {
+    "n": 114,
+    "days": 20
+   }
+  },
+  "m119FitBasisSensitivity": "model A-include below; the 9 C figure is a flagged sensitivity, not the rule"
+ },
+ "frame": {
+  "frameDrives": 590,
+  "droppedMissingCovariateOrSamplePeriod": 0,
+  "nAnalysis": 551,
+  "days": 119,
+  "first": "2026-05-15",
+  "last": "2026-11-03"
+ },
+ "modelC_info": {
+  "T_upper_quantile25": 21.05,
+  "n": 138,
+  "days": 59,
+  "evaluable": true,
+  "arms": {
+   "0": {
+    "n": 94,
+    "days": 43
+   },
+   "1": {
+    "n": 44,
+    "days": 16
+   }
+  },
+  "monthsOfStep0Drives": {
+   "2026-05": 5,
+   "2026-06": 9,
+   "2026-07": 5,
+   "2026-08": 4,
+   "2026-09": 71
+  }
+ },
+ "modelA": {
+  "terms": {
+   "step": {
+    "est": 2.9866,
+    "se": 0.7633,
+    "ci95": [
+     1.4752,
+     4.4981
+    ],
+    "n": 551,
+    "days": 119,
+    "G": 119,
+    "dfSatterthwaite": 34.66,
+    "mde80": 2.1561,
+    "unitLeverageClusters": 0
+   },
+   "slow": {
+    "est": 1.231,
+    "se": 0.5869,
+    "ci95": [
+     0.0688,
+     2.3932
+    ],
+    "n": 551,
+    "days": 119,
+    "G": 119,
+    "dfSatterthwaite": 36.2,
+    "mde80": 1.6579,
+    "unitLeverageClusters": 0
+   }
+  },
+  "dayBootstrap": {
+   "step": {
+    "ci95": [
+     1.6493,
+     4.7681
+    ],
+    "draws": 4000,
+    "seed": 42,
+    "nDays": 119
+   },
+   "slow": {
+    "ci95": [
+     0.1012,
+     2.4705
+    ],
+    "draws": 4000,
+    "seed": 42,
+    "nDays": 119
+   }
+  },
+  "dependenceE": {
+   "step": {
+    "weekBlockBootstrap": {
+     "ci95": [
+      1.5929,
+      8.5253
+     ],
+     "draws": 4000,
+     "seed": 42,
+     "nBlocks": 25
+    },
+    "leaveOneWeekOut": {
+     "min": 2.5134,
+     "max": 3.8883,
+     "nWeeks": 25
+    }
+   },
+   "slow": {
+    "weekBlockBootstrap": {
+     "ci95": [
+      -0.0794,
+      3.1019
+     ],
+     "draws": 4000,
+     "seed": 42,
+     "nBlocks": 25
+    },
+    "leaveOneWeekOut": {
+     "min": 0.8538,
+     "max": 1.6346,
+     "nWeeks": 25
+    }
+   }
+  },
+  "formula": "y ~ months + step + slow + T + I + soc + socr + lrest + first"
+ },
+ "modelB": {
+  "terms": {
+   "step": {
+    "est": 2.8448,
+    "se": 0.7976,
+    "ci95": [
+     1.2653,
+     4.4244
+    ],
+    "n": 551,
+    "days": 119,
+    "G": 119,
+    "dfSatterthwaite": 35.55,
+    "mde80": 2.2533,
+    "unitLeverageClusters": 0
+   },
+   "slow": {
+    "est": 1.2161,
+    "se": 0.6018,
+    "ci95": [
+     0.0242,
+     2.4079
+    ],
+    "n": 551,
+    "days": 119,
+    "G": 119,
+    "dfSatterthwaite": 37.05,
+    "mde80": 1.7002,
+    "unitLeverageClusters": 0
+   }
+  },
+  "splineKnotsT": [
+   21.05,
+   27.7,
+   33.35
+  ],
+  "splineColumns": 4
+ },
+ "modelC": {
+  "step": {
+   "est": 2.9587,
+   "se": 2.5133,
+   "ci95": [
+    -2.0722,
+    7.9897
+   ],
+   "n": 138,
+   "days": 59,
+   "G": 59,
+   "dfSatterthwaite": 9.66,
+   "mde80": 7.1619,
+   "unitLeverageClusters": 0
+  },
+  "slow": {
+   "est": 0.7781,
+   "se": 2.563,
+   "ci95": [
+    -4.3523,
+    5.9084
+   ],
+   "n": 138,
+   "days": 59,
+   "G": 59,
+   "dfSatterthwaite": 11.04,
+   "mde80": 7.3034,
+   "unitLeverageClusters": 0
+  }
+ },
+ "labels": {
+  "step": {
+   "label": "procedure-dependent",
+   "modelsNotEvaluable": [],
+   "mde80_A": 2.1561,
+   "vif": 1.634
+  },
+  "slow": {
+   "label": "procedure-dependent",
+   "modelsNotEvaluable": [],
+   "mde80_A": 1.6579,
+   "vif": 1.229
+  }
+ },
+ "sensitivities": {
+  "A_noPidDay": {
+   "step": {
+    "est": 2.9733,
+    "se": 0.7688,
+    "ci95": [
+     1.4508,
+     4.4957
+    ],
+    "n": 548,
+    "days": 118,
+    "G": 118,
+    "dfSatterthwaite": 33.82,
+    "mde80": 2.1719,
+    "unitLeverageClusters": 0
+   },
+   "slow": {
+    "est": 1.2393,
+    "se": 0.5868,
+    "ci95": [
+     0.0772,
+     2.4015
+    ],
+    "n": 548,
+    "days": 118,
+    "G": 118,
+    "dfSatterthwaite": 36.19,
+    "mde80": 1.6578,
+    "unitLeverageClusters": 0
+   }
+  },
+  "A_adjustedOutcome": {
+   "step": {
+    "est": 2.9936,
+    "se": 0.7636,
+    "ci95": [
+     1.4815,
+     4.5057
+    ],
+    "n": 551,
+    "days": 119,
+    "G": 119,
+    "dfSatterthwaite": 34.66,
+    "mde80": 2.1571,
+    "unitLeverageClusters": 0
+   },
+   "slow": {
+    "est": 1.2358,
+    "se": 0.587,
+    "ci95": [
+     0.0735,
+     2.3982
+    ],
+    "n": 551,
+    "days": 119,
+    "G": 119,
+    "dfSatterthwaite": 36.2,
+    "mde80": 1.6582,
+    "unitLeverageClusters": 0
+   }
+  },
+  "A_includeOutsideSupport": {
+   "step": {
+    "est": 2.8505,
+    "se": 0.7964,
+    "ci95": [
+     1.2734,
+     4.4275
+    ],
+    "n": 590,
+    "days": 120,
+    "G": 120,
+    "dfSatterthwaite": 35.58,
+    "mde80": 2.2498,
+    "unitLeverageClusters": 0
+   },
+   "slow": {
+    "est": 1.0816,
+    "se": 0.6311,
+    "ci95": [
+     -0.1681,
+     2.3313
+    ],
+    "n": 590,
+    "days": 120,
+    "G": 120,
+    "dfSatterthwaite": 37.78,
+    "mde80": 1.7828,
+    "unitLeverageClusters": 0
+   },
+   "n": 590
+  }
+ },
+ "q3Pid": {
+  "pidDate": "2026-11-03",
+  "nDrives": 4,
+  "nDays": 1,
+  "label": "not identified (P on 1 day)",
+  "samplePeriodS": {
+   "2026-11-01..02": {
+    "n": 10,
+    "median": 1.472,
+    "q25": 1.417,
+    "q75": 1.505
+   },
+   "2026-11-03": {
+    "n": 4,
+    "median": 0.887,
+    "q25": 0.804,
+    "q75": 0.972
+   },
+   "earlier": {
+    "n": 576,
+    "median": 1.284,
+    "q25": 0.88,
+    "q75": 1.441
+   }
+  },
+  "descriptiveYMedianP1": 24.6
+ },
+ "multiplicity": "2 terms (step, slow) x models A, B, C, E and sensitivities, uncorrected; no family-wise claim"
+}

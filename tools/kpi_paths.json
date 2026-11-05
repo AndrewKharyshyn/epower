@@ -9,6 +9,9 @@
     {"name": "EnergyIntensity.shoulder", "path": ["seasonalCharts", "charts", "EnergyIntensity", "data", "shoulder", "value"],
      "ci": [["seasonalCharts", "charts", "EnergyIntensity", "data", "shoulder", "ci95", "lo"], ["seasonalCharts", "charts", "EnergyIntensity", "data", "shoulder", "ci95", "hi"]]},
     {"name": "generatorTractionRecon.corpus.fGen", "path": ["generatorTractionRecon", "corpus", "fGen"], "ci": null},
-    {"name": "generatorTractionRecon.corpus.etaBus", "path": ["generatorTractionRecon", "corpus", "etaBus"], "ci": null}
+    {"name": "generatorTractionRecon.corpus.etaBus", "path": ["generatorTractionRecon", "corpus", "etaBus"], "ci": null},
+    {"name": "cellSpreadStep.M0 linear slope (mV/month)", "path": ["cellSpreadStep", "models", "M0_linear_released", "est"], "ci": [["cellSpreadStep", "models", "M0_linear_released", "ci95", 0], ["cellSpreadStep", "models", "M0_linear_released", "ci95", 1]]},
+    {"name": "cellSpreadStep.M3 step term (mV)", "path": ["cellSpreadStep", "models", "M3_step", "step_term", "est"], "ci": [["cellSpreadStep", "models", "M3_step", "step_term", "ci95", 0], ["cellSpreadStep", "models", "M3_step", "step_term", "ci95", 1]]},
+    {"name": "degradationTrends.cellSpread slope (mV/month, CR t-ref)", "path": ["degradationTrends", "cellSpread", "clusterRobustOLS", "slope"], "ci": [["degradationTrends", "cellSpread", "clusterRobustOLS", "ci95", 0], ["degradationTrends", "cellSpread", "clusterRobustOLS", "ci95", 1]]}
   ]
 }

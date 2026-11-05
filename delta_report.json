@@ -1,10 +1,7 @@
 {
- "generated_utc": "2026-11-04T23:11:21+00:00",
+ "generated_utc": "2026-11-05T06:15:38+00:00",
  "has_baseline": true,
  "flags": [
-  "EnergyIntensity.shoulder: outside previous CI",
-  "EnergyIntensity.shoulder: |delta| > 0.5 x prev CI half-width",
-  "EnergyIntensity.shoulder: CI half-width changed >50%",
   "EnergyIntensity.shoulder: cumulative drift > baseline CI half-width"
  ],
  "route_to_audit": true,
@@ -12,8 +9,8 @@
   "meta.totalDrives": {
    "value": 621,
    "ci": null,
-   "prev": 524,
-   "delta": 97
+   "prev": 621,
+   "delta": 0
   },
   "EnergyIntensity.all (kWh/100km, canonical-clean)": {
    "value": 17.55330998868413,
@@ -21,10 +18,10 @@
     16.06624376482798,
     19.714983700282772
    ],
-   "prev": 17.759971850743913,
-   "delta": -0.2066618620597822,
+   "prev": 17.55330998868413,
+   "delta": 0.0,
    "outside_prev_ci": false,
-   "delta_over_halfwidth": -0.09964725868524624,
+   "delta_over_halfwidth": 0.0,
    "cumulative_drift": -0.036822820805216594
   },
   "EnergyIntensity.warm": {
@@ -33,10 +30,10 @@
     15.62505216713496,
     19.575306036652385
    ],
-   "prev": 17.082815533980586,
-   "delta": 0.12214473689420302,
+   "prev": 17.20496027087479,
+   "delta": 0.0,
    "outside_prev_ci": false,
-   "delta_over_halfwidth": 0.06279315668355957,
+   "delta_over_halfwidth": 0.0,
    "cumulative_drift": 0.21396918972947176
   },
   "EnergyIntensity.shoulder": {
@@ -45,23 +42,44 @@
     16.26820374598123,
     25.226336362005487
    ],
-   "prev": 26.928784895576964,
-   "delta": -7.409999827272191,
-   "outside_prev_ci": true,
-   "delta_over_halfwidth": -3.039524398712076,
+   "prev": 19.518785068304773,
+   "delta": 0.0,
+   "outside_prev_ci": false,
+   "delta_over_halfwidth": 0.0,
    "cumulative_drift": -7.27796605869662
   },
   "generatorTractionRecon.corpus.fGen": {
    "value": 0.516,
    "ci": null,
-   "prev": 0.459,
-   "delta": 0.056999999999999995
+   "prev": 0.516,
+   "delta": 0.0
   },
   "generatorTractionRecon.corpus.etaBus": {
    "value": 0.328,
    "ci": null,
-   "prev": 0.325,
-   "delta": 0.0030000000000000027
+   "prev": 0.328,
+   "delta": 0.0
+  },
+  "cellSpreadStep.M0 linear slope (mV/month)": {
+   "value": 0.6816,
+   "ci": [
+    null,
+    null
+   ]
+  },
+  "cellSpreadStep.M3 step term (mV)": {
+   "value": 2.7308,
+   "ci": [
+    null,
+    null
+   ]
+  },
+  "degradationTrends.cellSpread slope (mV/month, CR t-ref)": {
+   "value": 0.6816,
+   "ci": [
+    null,
+    null
+   ]
   }
  },
  "gtrFamily": {
