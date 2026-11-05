@@ -1,0 +1,20 @@
+{
+ "milestone": "M578",
+ "date": "2026-11-05",
+ "role": "research-director (Opus), brief of the main session",
+ "decision": "accept",
+ "text": "M578 GTR family refresh, 632 master (402 canonical-clean fuel drives, 72 days; previous 391/70). The FLIP_STOP fires because the M466/M575 scoped acks are bound to earlier master MD5s; it is not a new reading flip. The f_gen >= 0.5 set is the same 8 axes as M466/M575; BSFC conservative (0.484) and eta_gen low (0.495) stay below 0.5. Largest moves: sensitivity f_gen 0.002, simultaneity 0.4 pp (band 5), speedSplit f_gen 0.0062 (band 0.05). A new scoped ack is allowed under the M466 section B route, no blind audit, the frozen M373 flip list unamended.",
+ "conditions": [
+  "Axis strings and f_gen byte-exact from script output; the >=0.5 set equals the M466 8-axis set, else STOP.",
+  "Bound to master MD5 1574a8156a36c6ea4ea1dfdaafc7cc72 and the axes sha256 from script output.",
+  "The new BASE day-clustered CI (seed 42, 4000 draws) still contains 0.5 and BASE stays inside [0.425, 0.580], else STOP and re-brief.",
+  "gtrClosure f_gen inside its previous CI, no other boolean flip, n_days/key-set/allow-list pass, gtr_family_delta stops == only the flip.",
+  "Record the renewal in the CHANGELOG M578 entry with old and new values and n (391/70 -> 402/72). Track BASE against the M466 anchor: 0.518 -> 0.516 -> 0.515; P_aux low is 0.0047 above 0.5 (if it drops below 0.5 the acknowledged set changes: STOP)."
+ ],
+ "wording": [
+  "f_gen is estimated/reconstructed/model-derived, never measured.",
+  "Point estimate at or above 0.5 within an interval that contains 0.5; side of 0.5 not established. Never 'generator majority', 'confirmed', 'reversal' or 'corrected'.",
+  "Show the CI and n (402 drives, 72 days) next to the point.",
+  "No article figure without an Opus audit and Andrii's sign-off."
+ ]
+}

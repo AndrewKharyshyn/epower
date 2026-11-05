@@ -2,52 +2,52 @@
  "milestone": "M377c",
  "step": 2,
  "scope": "fuel-PID subset only; raw/ = sha256-verified originals (M366)",
- "n_drives": 389,
+ "n_drives": 400,
  "excluded_no_battery_inputs": [
   "20260512_195020.csv",
   "20260813_145651.csv",
   "20260813_150341.csv"
  ],
- "logger_median_dt_s": 0.92,
+ "logger_median_dt_s": 0.923,
  "variants": {
   "baseline": {
    "f_gen": {
-    "est": 0.5165,
+    "est": 0.5148,
     "ci95": [
-     0.4278,
-     0.5797
+     0.4251,
+     0.576
     ]
    },
-   "G_per100": 9.46,
-   "trac_per100": 18.315,
-   "E_gen_per100": 15.938,
+   "G_per100": 9.433,
+   "trac_per100": 18.324,
+   "E_gen_per100": 15.971,
    "X_lo_rel": {
-    "est": -0.0891,
+    "est": -0.0897,
     "ci95": [
-     -0.1153,
-     -0.0715
+     -0.116,
+     -0.0729
     ]
    },
    "X_hi_rel": {
     "est": 0.0549,
     "ci95": [
      0.043,
-     0.0735
+     0.0734
     ]
    },
    "alpha_star": {
-    "est": 0.619,
+    "est": 0.62,
     "ci95": [
-     0.598,
-     0.638
+     0.6,
+     0.639
     ]
    },
    "zero_in_X_pointwise": true,
    "zero_in_X_ci": true,
    "f_gen_ci_contains_0p5": true,
    "f_gen_point_vs_0p5": "above",
-   "n_infeasible_alpha_drives": 23,
-   "n_drives_dual_zero": 35,
+   "n_infeasible_alpha_drives": 24,
+   "n_drives_dual_zero": 37,
    "infeasible_alpha_files": [
     "2026-09-14_07-50-59.csv",
     "2026-09-16_14-01-15.csv",
@@ -63,6 +63,7 @@
     "2026-10-15_10-40-56.csv",
     "2026-10-16_19-23-56.csv",
     "2026-10-17_23-13-01.csv",
+    "2026-11-04_21-26-25.csv",
     "20260515_075207.csv",
     "20260603_122008.csv",
     "20260814_101007.csv",
@@ -76,42 +77,42 @@
   },
   "bsfc_x0.94": {
    "f_gen": {
-    "est": 0.5353,
+    "est": 0.5337,
     "ci95": [
-     0.4485,
-     0.597
+     0.4458,
+     0.5933
     ]
    },
-   "G_per100": 10.202,
-   "trac_per100": 19.057,
-   "E_gen_per100": 16.803,
+   "G_per100": 10.176,
+   "trac_per100": 19.067,
+   "E_gen_per100": 16.838,
    "X_lo_rel": {
-    "est": -0.0919,
+    "est": -0.0925,
     "ci95": [
-     -0.1192,
-     -0.0738
+     -0.1195,
+     -0.075
     ]
    },
    "X_hi_rel": {
     "est": 0.0447,
     "ci95": [
      0.0348,
-     0.0603
+     0.06
     ]
    },
    "alpha_star": {
-    "est": 0.672,
+    "est": 0.674,
     "ci95": [
-     0.651,
-     0.692
+     0.654,
+     0.693
     ]
    },
    "zero_in_X_pointwise": true,
    "zero_in_X_ci": true,
    "f_gen_ci_contains_0p5": true,
    "f_gen_point_vs_0p5": "above",
-   "n_infeasible_alpha_drives": 26,
-   "n_drives_dual_zero": 35,
+   "n_infeasible_alpha_drives": 27,
+   "n_drives_dual_zero": 37,
    "infeasible_alpha_files": [
     "2026-09-14_07-50-59.csv",
     "2026-09-15_08-06-11.csv",
@@ -130,6 +131,7 @@
     "2026-10-13_07-42-34.csv",
     "2026-10-16_19-23-56.csv",
     "2026-10-17_23-13-01.csv",
+    "2026-11-04_21-26-25.csv",
     "20260515_075207.csv",
     "20260603_122008.csv",
     "20260814_101007.csv",
@@ -143,42 +145,42 @@
   },
   "bsfc_x1.09": {
    "f_gen": {
-    "est": 0.4859,
+    "est": 0.484,
     "ci95": [
-     0.3948,
-     0.5516
+     0.392,
+     0.5474
     ]
    },
-   "G_per100": 8.369,
-   "trac_per100": 17.224,
-   "E_gen_per100": 14.622,
+   "G_per100": 8.341,
+   "trac_per100": 17.233,
+   "E_gen_per100": 14.652,
    "X_lo_rel": {
-    "est": -0.0818,
+    "est": -0.0823,
     "ci95": [
-     -0.1057,
-     -0.0658
+     -0.1063,
+     -0.0668
     ]
    },
    "X_hi_rel": {
-    "est": 0.0752,
+    "est": 0.0753,
     "ci95": [
-     0.0592,
-     0.1001
+     0.0595,
+     0.1
     ]
    },
    "alpha_star": {
-    "est": 0.521,
+    "est": 0.522,
     "ci95": [
-     0.5,
-     0.54
+     0.502,
+     0.541
     ]
    },
    "zero_in_X_pointwise": true,
    "zero_in_X_ci": true,
    "f_gen_ci_contains_0p5": true,
    "f_gen_point_vs_0p5": "below",
-   "n_infeasible_alpha_drives": 16,
-   "n_drives_dual_zero": 35,
+   "n_infeasible_alpha_drives": 17,
+   "n_drives_dual_zero": 37,
    "infeasible_alpha_files": [
     "2026-09-14_07-50-59.csv",
     "2026-09-18_08-01-32.csv",
@@ -191,6 +193,7 @@
     "2026-10-13_07-42-34.csv",
     "2026-10-15_10-40-56.csv",
     "2026-10-17_23-13-01.csv",
+    "2026-11-04_21-26-25.csv",
     "20260515_075207.csv",
     "20260603_122008.csv",
     "20260904_080352.csv",
@@ -200,42 +203,42 @@
   },
   "eta_gen_0.93": {
    "f_gen": {
-    "est": 0.509,
+    "est": 0.5072,
     "ci95": [
-     0.4196,
-     0.5728
+     0.4169,
+     0.5689
     ]
    },
-   "G_per100": 9.178,
-   "trac_per100": 18.032,
-   "E_gen_per100": 15.602,
+   "G_per100": 9.15,
+   "trac_per100": 18.042,
+   "E_gen_per100": 15.634,
    "X_lo_rel": {
-    "est": -0.0877,
+    "est": -0.0882,
     "ci95": [
-     -0.1134,
-     -0.0703
+     -0.114,
+     -0.0716
     ]
    },
    "X_hi_rel": {
     "est": 0.0595,
     "ci95": [
      0.0467,
-     0.0795
+     0.0793
     ]
    },
    "alpha_star": {
-    "est": 0.596,
+    "est": 0.597,
     "ci95": [
-     0.575,
-     0.615
+     0.577,
+     0.616
     ]
    },
    "zero_in_X_pointwise": true,
    "zero_in_X_ci": true,
    "f_gen_ci_contains_0p5": true,
    "f_gen_point_vs_0p5": "above",
-   "n_infeasible_alpha_drives": 19,
-   "n_drives_dual_zero": 35,
+   "n_infeasible_alpha_drives": 20,
+   "n_drives_dual_zero": 37,
    "infeasible_alpha_files": [
     "2026-09-14_07-50-59.csv",
     "2026-09-18_08-01-32.csv",
@@ -248,6 +251,7 @@
     "2026-10-15_10-40-56.csv",
     "2026-10-16_19-23-56.csv",
     "2026-10-17_23-13-01.csv",
+    "2026-11-04_21-26-25.csv",
     "20260515_075207.csv",
     "20260603_122008.csv",
     "20260814_101007.csv",
@@ -260,42 +264,42 @@
   },
   "eta_gen_0.97": {
    "f_gen": {
-    "est": 0.5239,
+    "est": 0.5222,
     "ci95": [
-     0.4359,
-     0.5866
+     0.4333,
+     0.5829
     ]
    },
-   "G_per100": 9.745,
-   "trac_per100": 18.6,
-   "E_gen_per100": 16.273,
+   "G_per100": 9.718,
+   "trac_per100": 18.61,
+   "E_gen_per100": 16.307,
    "X_lo_rel": {
-    "est": -0.0904,
+    "est": -0.091,
     "ci95": [
-     -0.117,
-     -0.0726
+     -0.1177,
+     -0.0739
     ]
    },
    "X_hi_rel": {
-    "est": 0.0507,
+    "est": 0.0506,
     "ci95": [
      0.0396,
-     0.0681
+     0.0678
     ]
    },
    "alpha_star": {
-    "est": 0.641,
+    "est": 0.642,
     "ci95": [
-     0.62,
-     0.66
+     0.622,
+     0.661
     ]
    },
    "zero_in_X_pointwise": true,
    "zero_in_X_ci": true,
    "f_gen_ci_contains_0p5": true,
    "f_gen_point_vs_0p5": "above",
-   "n_infeasible_alpha_drives": 22,
-   "n_drives_dual_zero": 35,
+   "n_infeasible_alpha_drives": 23,
+   "n_drives_dual_zero": 37,
    "infeasible_alpha_files": [
     "2026-09-14_07-50-59.csv",
     "2026-09-16_14-01-15.csv",
@@ -310,6 +314,7 @@
     "2026-10-13_07-42-34.csv",
     "2026-10-16_19-23-56.csv",
     "2026-10-17_23-13-01.csv",
+    "2026-11-04_21-26-25.csv",
     "20260515_075207.csv",
     "20260603_122008.csv",
     "20260814_101007.csv",
@@ -323,42 +328,42 @@
   },
   "eta_pe_0.96": {
    "f_gen": {
-    "est": 0.511,
+    "est": 0.5092,
     "ci95": [
-     0.4219,
-     0.5747
+     0.4191,
+     0.5708
     ]
    },
-   "G_per100": 9.253,
-   "trac_per100": 18.108,
-   "E_gen_per100": 15.692,
+   "G_per100": 9.226,
+   "trac_per100": 18.117,
+   "E_gen_per100": 15.725,
    "X_lo_rel": {
-    "est": -0.0881,
+    "est": -0.0886,
     "ci95": [
-     -0.1139,
-     -0.0707
+     -0.1146,
+     -0.072
     ]
    },
    "X_hi_rel": {
     "est": 0.0582,
     "ci95": [
-     0.0456,
-     0.0778
+     0.0457,
+     0.0777
     ]
    },
    "alpha_star": {
-    "est": 0.602,
+    "est": 0.604,
     "ci95": [
-     0.581,
-     0.621
+     0.584,
+     0.622
     ]
    },
    "zero_in_X_pointwise": true,
    "zero_in_X_ci": true,
    "f_gen_ci_contains_0p5": true,
    "f_gen_point_vs_0p5": "above",
-   "n_infeasible_alpha_drives": 20,
-   "n_drives_dual_zero": 35,
+   "n_infeasible_alpha_drives": 21,
+   "n_drives_dual_zero": 37,
    "infeasible_alpha_files": [
     "2026-09-14_07-50-59.csv",
     "2026-09-18_08-01-32.csv",
@@ -372,6 +377,7 @@
     "2026-10-15_10-40-56.csv",
     "2026-10-16_19-23-56.csv",
     "2026-10-17_23-13-01.csv",
+    "2026-11-04_21-26-25.csv",
     "20260515_075207.csv",
     "20260603_122008.csv",
     "20260814_101007.csv",
@@ -384,42 +390,42 @@
   },
   "eta_pe_0.99": {
    "f_gen": {
-    "est": 0.522,
+    "est": 0.5202,
     "ci95": [
-     0.4338,
-     0.5847
+     0.4311,
+     0.581
     ]
    },
-   "G_per100": 9.668,
-   "trac_per100": 18.523,
-   "E_gen_per100": 16.183,
+   "G_per100": 9.641,
+   "trac_per100": 18.533,
+   "E_gen_per100": 16.216,
    "X_lo_rel": {
-    "est": -0.0901,
+    "est": -0.0906,
     "ci95": [
-     -0.1166,
-     -0.0723
+     -0.1172,
+     -0.0736
     ]
    },
    "X_hi_rel": {
-    "est": 0.0518,
+    "est": 0.0517,
     "ci95": [
      0.0405,
-     0.0695
+     0.0692
     ]
    },
    "alpha_star": {
-    "est": 0.635,
+    "est": 0.637,
     "ci95": [
-     0.614,
-     0.654
+     0.616,
+     0.656
     ]
    },
    "zero_in_X_pointwise": true,
    "zero_in_X_ci": true,
    "f_gen_ci_contains_0p5": true,
    "f_gen_point_vs_0p5": "above",
-   "n_infeasible_alpha_drives": 22,
-   "n_drives_dual_zero": 35,
+   "n_infeasible_alpha_drives": 23,
+   "n_drives_dual_zero": 37,
    "infeasible_alpha_files": [
     "2026-09-14_07-50-59.csv",
     "2026-09-16_14-01-15.csv",
@@ -434,6 +440,7 @@
     "2026-10-13_07-42-34.csv",
     "2026-10-16_19-23-56.csv",
     "2026-10-17_23-13-01.csv",
+    "2026-11-04_21-26-25.csv",
     "20260515_075207.csv",
     "20260603_122008.csv",
     "20260814_101007.csv",
@@ -447,42 +454,42 @@
   },
   "paux_0.2": {
    "f_gen": {
-    "est": 0.5066,
+    "est": 0.5049,
     "ci95": [
-     0.4187,
-     0.5698
+     0.4161,
+     0.5661
     ]
    },
-   "G_per100": 9.616,
-   "trac_per100": 18.98,
-   "E_gen_per100": 15.938,
+   "G_per100": 9.591,
+   "trac_per100": 18.996,
+   "E_gen_per100": 15.971,
    "X_lo_rel": {
-    "est": -0.0794,
+    "est": -0.0798,
     "ci95": [
-     -0.1045,
-     -0.0625
+     -0.1051,
+     -0.0636
     ]
    },
    "X_hi_rel": {
-    "est": 0.0647,
+    "est": 0.0648,
     "ci95": [
-     0.0521,
-     0.0843
+     0.0523,
+     0.0842
     ]
    },
    "alpha_star": {
-    "est": 0.551,
+    "est": 0.552,
     "ci95": [
-     0.533,
-     0.568
+     0.535,
+     0.569
     ]
    },
    "zero_in_X_pointwise": true,
    "zero_in_X_ci": true,
    "f_gen_ci_contains_0p5": true,
    "f_gen_point_vs_0p5": "above",
-   "n_infeasible_alpha_drives": 13,
-   "n_drives_dual_zero": 35,
+   "n_infeasible_alpha_drives": 14,
+   "n_drives_dual_zero": 37,
    "infeasible_alpha_files": [
     "2026-09-11_08-01-27.csv",
     "2026-09-14_07-50-59.csv",
@@ -492,6 +499,7 @@
     "2026-10-06_08-14-57.csv",
     "2026-10-15_10-40-56.csv",
     "2026-10-17_23-13-01.csv",
+    "2026-11-04_21-26-25.csv",
     "20260515_075207.csv",
     "20260603_122008.csv",
     "20260814_101007.csv",
@@ -501,42 +509,42 @@
   },
   "paux_1.2": {
    "f_gen": {
-    "est": 0.5382,
+    "est": 0.5364,
     "ci95": [
-     0.4482,
-     0.6012
+     0.4445,
+     0.5975
     ]
    },
-   "G_per100": 9.092,
-   "trac_per100": 16.892,
-   "E_gen_per100": 15.938,
+   "G_per100": 9.06,
+   "trac_per100": 16.888,
+   "E_gen_per100": 15.971,
    "X_lo_rel": {
-    "est": -0.1122,
+    "est": -0.1131,
     "ci95": [
-     -0.1406,
-     -0.0933
+     -0.142,
+     -0.0949
     ]
    },
    "X_hi_rel": {
-    "est": 0.0318,
+    "est": 0.0315,
     "ci95": [
      0.0206,
-     0.0487
+     0.0482
     ]
    },
    "alpha_star": {
-    "est": 0.779,
+    "est": 0.782,
     "ci95": [
-     0.736,
-     0.824
+     0.739,
+     0.827
     ]
    },
    "zero_in_X_pointwise": true,
    "zero_in_X_ci": true,
    "f_gen_ci_contains_0p5": true,
    "f_gen_point_vs_0p5": "above",
-   "n_infeasible_alpha_drives": 58,
-   "n_drives_dual_zero": 35,
+   "n_infeasible_alpha_drives": 63,
+   "n_drives_dual_zero": 37,
    "infeasible_alpha_files": [
     "2026-09-11_08-01-27.csv",
     "2026-09-13_13-46-17.csv",
@@ -577,6 +585,11 @@
     "2026-10-17_18-22-49.csv",
     "2026-10-17_23-13-01.csv",
     "2026-11-01_14-36-31.csv",
+    "2026-11-03_19-55-57.csv",
+    "2026-11-04_19-12-25.csv",
+    "2026-11-04_21-26-25.csv",
+    "2026-11-04_21-34-14.csv",
+    "2026-11-05_09-13-42.csv",
     "20260515_075207.csv",
     "20260603_122008.csv",
     "20260814_101007.csv",
@@ -600,42 +613,42 @@
   },
   "paux_0_nonphysical_bound": {
    "f_gen": {
-    "est": 0.5002,
+    "est": 0.4985,
     "ci95": [
-     0.4129,
-     0.5632
+     0.4106,
+     0.5594
     ]
    },
-   "G_per100": 9.719,
-   "trac_per100": 19.429,
-   "E_gen_per100": 15.938,
+   "G_per100": 9.695,
+   "trac_per100": 19.45,
+   "E_gen_per100": 15.971,
    "X_lo_rel": {
-    "est": -0.0729,
+    "est": -0.0733,
     "ci95": [
-     -0.0972,
-     -0.0567
+     -0.0978,
+     -0.0576
     ]
    },
    "X_hi_rel": {
-    "est": 0.0711,
+    "est": 0.0713,
     "ci95": [
-     0.0581,
+     0.0584,
      0.0915
     ]
    },
    "alpha_star": {
-    "est": 0.506,
+    "est": 0.507,
     "ci95": [
-     0.486,
+     0.488,
      0.525
     ]
    },
    "zero_in_X_pointwise": true,
    "zero_in_X_ci": true,
    "f_gen_ci_contains_0p5": true,
-   "f_gen_point_vs_0p5": "above",
+   "f_gen_point_vs_0p5": "below",
    "n_infeasible_alpha_drives": 11,
-   "n_drives_dual_zero": 35,
+   "n_drives_dual_zero": 37,
    "infeasible_alpha_files": [
     "2026-09-11_08-01-27.csv",
     "2026-09-18_08-01-32.csv",
@@ -652,42 +665,42 @@
   },
   "anchor_off": {
    "f_gen": {
-    "est": 0.5005,
+    "est": 0.4988,
     "ci95": [
-     0.4125,
-     0.5635
+     0.4099,
+     0.5598
     ]
    },
-   "G_per100": 9.409,
-   "trac_per100": 18.8,
-   "E_gen_per100": 15.938,
+   "G_per100": 9.383,
+   "trac_per100": 18.812,
+   "E_gen_per100": 15.971,
    "X_lo_rel": {
-    "est": -0.0923,
+    "est": -0.0929,
     "ci95": [
-     -0.1182,
-     -0.075
+     -0.1188,
+     -0.0762
     ]
    },
    "X_hi_rel": {
     "est": 0.0517,
     "ci95": [
      0.0396,
-     0.0707
+     0.0703
     ]
    },
    "alpha_star": {
-    "est": 0.641,
+    "est": 0.642,
     "ci95": [
-     0.617,
-     0.663
+     0.62,
+     0.664
     ]
    },
    "zero_in_X_pointwise": true,
    "zero_in_X_ci": true,
    "f_gen_ci_contains_0p5": true,
-   "f_gen_point_vs_0p5": "above",
-   "n_infeasible_alpha_drives": 21,
-   "n_drives_dual_zero": 35,
+   "f_gen_point_vs_0p5": "below",
+   "n_infeasible_alpha_drives": 22,
+   "n_drives_dual_zero": 37,
    "infeasible_alpha_files": [
     "2026-09-14_07-50-59.csv",
     "2026-09-18_08-01-32.csv",
@@ -702,6 +715,7 @@
     "2026-10-15_10-40-56.csv",
     "2026-10-16_19-23-56.csv",
     "2026-10-17_23-13-01.csv",
+    "2026-11-04_21-26-25.csv",
     "20260515_075207.csv",
     "20260603_122008.csv",
     "20260814_101007.csv",
@@ -714,42 +728,42 @@
   },
   "lag_-5s": {
    "f_gen": {
-    "est": 0.5087,
+    "est": 0.507,
     "ci95": [
-     0.421,
-     0.5721
+     0.4179,
+     0.5681
     ]
    },
-   "G_per100": 9.168,
-   "trac_per100": 18.022,
-   "E_gen_per100": 14.682,
+   "G_per100": 9.144,
+   "trac_per100": 18.035,
+   "E_gen_per100": 14.717,
    "X_lo_rel": {
-    "est": -0.0312,
+    "est": -0.0318,
     "ci95": [
-     -0.0463,
-     -0.0221
+     -0.0468,
+     -0.0228
     ]
    },
    "X_hi_rel": {
-    "est": 0.1252,
+    "est": 0.1251,
     "ci95": [
-     0.101,
-     0.1621
+     0.1014,
+     0.1616
     ]
    },
    "alpha_star": {
-    "est": 0.199,
+    "est": 0.203,
     "ci95": [
-     0.169,
-     0.232
+     0.173,
+     0.235
     ]
    },
    "zero_in_X_pointwise": true,
    "zero_in_X_ci": true,
    "f_gen_ci_contains_0p5": true,
    "f_gen_point_vs_0p5": "above",
-   "n_infeasible_alpha_drives": 56,
-   "n_drives_dual_zero": 35,
+   "n_infeasible_alpha_drives": 57,
+   "n_drives_dual_zero": 37,
    "infeasible_alpha_files": [
     "2026-09-11_08-01-27.csv",
     "2026-09-13_13-01-46.csv",
@@ -785,6 +799,7 @@
     "2026-10-17_18-22-49.csv",
     "2026-10-17_23-13-01.csv",
     "2026-11-01_17-56-38.csv",
+    "2026-11-04_21-26-25.csv",
     "20260515_075207.csv",
     "20260603_122008.csv",
     "20260814_101007.csv",
@@ -811,42 +826,42 @@
   },
   "lag_-2s": {
    "f_gen": {
-    "est": 0.5196,
+    "est": 0.5178,
     "ci95": [
-     0.432,
-     0.5821
+     0.4295,
+     0.5784
     ]
    },
-   "G_per100": 9.577,
-   "trac_per100": 18.431,
-   "E_gen_per100": 15.586,
+   "G_per100": 9.549,
+   "trac_per100": 18.441,
+   "E_gen_per100": 15.619,
    "X_lo_rel": {
-    "est": -0.0611,
+    "est": -0.0618,
     "ci95": [
-     -0.0853,
-     -0.0455
+     -0.0863,
+     -0.0466
     ]
    },
    "X_hi_rel": {
-    "est": 0.0862,
+    "est": 0.086,
     "ci95": [
      0.0712,
-     0.1089
+     0.1084
     ]
    },
    "alpha_star": {
-    "est": 0.415,
+    "est": 0.418,
     "ci95": [
-     0.378,
-     0.452
+     0.382,
+     0.454
     ]
    },
    "zero_in_X_pointwise": true,
    "zero_in_X_ci": true,
    "f_gen_ci_contains_0p5": true,
    "f_gen_point_vs_0p5": "above",
-   "n_infeasible_alpha_drives": 23,
-   "n_drives_dual_zero": 35,
+   "n_infeasible_alpha_drives": 24,
+   "n_drives_dual_zero": 37,
    "infeasible_alpha_files": [
     "2026-09-11_08-01-27.csv",
     "2026-09-13_13-46-17.csv",
@@ -865,6 +880,7 @@
     "2026-10-13_07-42-34.csv",
     "2026-10-15_10-40-56.csv",
     "2026-10-17_23-13-01.csv",
+    "2026-11-04_21-26-25.csv",
     "20260515_075207.csv",
     "20260603_122008.csv",
     "20260814_101007.csv",
@@ -875,33 +891,33 @@
   },
   "lag_+2s": {
    "f_gen": {
-    "est": 0.504,
+    "est": 0.5024,
     "ci95": [
-     0.413,
-     0.5692
+     0.41,
+     0.5653
     ]
    },
-   "G_per100": 8.998,
-   "trac_per100": 17.853,
-   "E_gen_per100": 15.467,
+   "G_per100": 8.975,
+   "trac_per100": 17.867,
+   "E_gen_per100": 15.502,
    "X_lo_rel": {
-    "est": -0.0913,
+    "est": -0.0917,
     "ci95": [
-     -0.1165,
-     -0.0745
+     -0.1171,
+     -0.0755
     ]
    },
    "X_hi_rel": {
-    "est": 0.0571,
+    "est": 0.0572,
     "ci95": [
-     0.0434,
-     0.0785
+     0.0437,
+     0.078
     ]
    },
    "alpha_star": {
-    "est": 0.615,
+    "est": 0.616,
     "ci95": [
-     0.59,
+     0.592,
      0.638
     ]
    },
@@ -909,8 +925,8 @@
    "zero_in_X_ci": true,
    "f_gen_ci_contains_0p5": true,
    "f_gen_point_vs_0p5": "above",
-   "n_infeasible_alpha_drives": 22,
-   "n_drives_dual_zero": 35,
+   "n_infeasible_alpha_drives": 23,
+   "n_drives_dual_zero": 37,
    "infeasible_alpha_files": [
     "2026-09-11_08-01-27.csv",
     "2026-09-14_07-50-59.csv",
@@ -927,6 +943,7 @@
     "2026-10-15_10-40-56.csv",
     "2026-10-16_19-23-56.csv",
     "2026-10-17_23-13-01.csv",
+    "2026-11-04_21-26-25.csv",
     "20260515_075207.csv",
     "20260603_122008.csv",
     "20260814_101007.csv",
@@ -938,33 +955,33 @@
   },
   "lag_+5s": {
    "f_gen": {
-    "est": 0.4903,
+    "est": 0.4886,
     "ci95": [
-     0.3959,
-     0.558
+     0.3929,
+     0.5541
     ]
    },
-   "G_per100": 8.518,
-   "trac_per100": 17.372,
-   "E_gen_per100": 14.651,
+   "G_per100": 8.497,
+   "trac_per100": 17.388,
+   "E_gen_per100": 14.687,
    "X_lo_rel": {
-    "est": -0.0735,
+    "est": -0.0739,
     "ci95": [
-     -0.0958,
-     -0.0591
+     -0.0963,
+     -0.0598
     ]
    },
    "X_hi_rel": {
-    "est": 0.0832,
+    "est": 0.0833,
     "ci95": [
-     0.0646,
-     0.1121
+     0.0651,
+     0.1119
     ]
    },
    "alpha_star": {
-    "est": 0.469,
+    "est": 0.47,
     "ci95": [
-     0.446,
+     0.447,
      0.49
     ]
    },
@@ -972,8 +989,8 @@
    "zero_in_X_ci": true,
    "f_gen_ci_contains_0p5": true,
    "f_gen_point_vs_0p5": "below",
-   "n_infeasible_alpha_drives": 20,
-   "n_drives_dual_zero": 35,
+   "n_infeasible_alpha_drives": 21,
+   "n_drives_dual_zero": 37,
    "infeasible_alpha_files": [
     "2026-09-11_08-01-27.csv",
     "2026-09-18_08-01-32.csv",
@@ -988,6 +1005,7 @@
     "2026-10-15_10-40-56.csv",
     "2026-10-17_23-13-01.csv",
     "2026-11-01_17-56-38.csv",
+    "2026-11-04_21-26-25.csv",
     "20260515_075207.csv",
     "20260603_122008.csv",
     "20260814_101007.csv",
@@ -999,42 +1017,42 @@
   },
   "offset_-1A": {
    "f_gen": {
-    "est": 0.5056,
+    "est": 0.5038,
     "ci95": [
-     0.4179,
-     0.5686
+     0.4151,
+     0.5649
     ]
    },
-   "G_per100": 9.646,
-   "trac_per100": 19.08,
-   "E_gen_per100": 15.938,
+   "G_per100": 9.622,
+   "trac_per100": 19.098,
+   "E_gen_per100": 15.971,
    "X_lo_rel": {
-    "est": -0.09,
+    "est": -0.0905,
     "ci95": [
-     -0.1168,
-     -0.072
+     -0.1173,
+     -0.0733
     ]
    },
    "X_hi_rel": {
-    "est": 0.0516,
+    "est": 0.0515,
     "ci95": [
      0.0405,
-     0.069
+     0.0686
     ]
    },
    "alpha_star": {
-    "est": 0.636,
+    "est": 0.637,
     "ci95": [
-     0.615,
-     0.655
+     0.617,
+     0.656
     ]
    },
    "zero_in_X_pointwise": true,
    "zero_in_X_ci": true,
    "f_gen_ci_contains_0p5": true,
    "f_gen_point_vs_0p5": "above",
-   "n_infeasible_alpha_drives": 24,
-   "n_drives_dual_zero": 35,
+   "n_infeasible_alpha_drives": 25,
+   "n_drives_dual_zero": 37,
    "infeasible_alpha_files": [
     "2026-09-14_07-50-59.csv",
     "2026-09-16_14-01-15.csv",
@@ -1051,6 +1069,7 @@
     "2026-10-13_07-42-34.csv",
     "2026-10-16_19-23-56.csv",
     "2026-10-17_23-13-01.csv",
+    "2026-11-04_21-26-25.csv",
     "20260515_075207.csv",
     "20260603_122008.csv",
     "20260814_101007.csv",
@@ -1064,33 +1083,33 @@
   },
   "offset_+1A": {
    "f_gen": {
-    "est": 0.5272,
+    "est": 0.5254,
     "ci95": [
-     0.4377,
-     0.5903
+     0.4342,
+     0.5866
     ]
    },
-   "G_per100": 9.273,
-   "trac_per100": 17.59,
-   "E_gen_per100": 15.938,
+   "G_per100": 9.243,
+   "trac_per100": 17.593,
+   "E_gen_per100": 15.971,
    "X_lo_rel": {
-    "est": -0.088,
+    "est": -0.0886,
     "ci95": [
-     -0.1135,
-     -0.0709
+     -0.1142,
+     -0.0721
     ]
    },
    "X_hi_rel": {
     "est": 0.0585,
     "ci95": [
-     0.0457,
-     0.0786
+     0.0458,
+     0.0785
     ]
    },
    "alpha_star": {
-    "est": 0.601,
+    "est": 0.602,
     "ci95": [
-     0.579,
+     0.582,
      0.621
     ]
    },
@@ -1098,8 +1117,8 @@
    "zero_in_X_ci": true,
    "f_gen_ci_contains_0p5": true,
    "f_gen_point_vs_0p5": "above",
-   "n_infeasible_alpha_drives": 17,
-   "n_drives_dual_zero": 35,
+   "n_infeasible_alpha_drives": 18,
+   "n_drives_dual_zero": 37,
    "infeasible_alpha_files": [
     "2026-09-14_07-50-59.csv",
     "2026-09-18_08-01-32.csv",
@@ -1111,6 +1130,7 @@
     "2026-10-15_10-40-56.csv",
     "2026-10-16_19-23-56.csv",
     "2026-10-17_23-13-01.csv",
+    "2026-11-04_21-26-25.csv",
     "20260515_075207.csv",
     "20260603_122008.csv",
     "20260814_101007.csv",
@@ -1122,42 +1142,42 @@
   },
   "lag_-5s_anchor_off": {
    "f_gen": {
-    "est": 0.4928,
+    "est": 0.4911,
     "ci95": [
-     0.4062,
-     0.5561
+     0.4027,
+     0.5519
     ]
    },
-   "G_per100": 9.125,
-   "trac_per100": 18.515,
-   "E_gen_per100": 14.682,
+   "G_per100": 9.101,
+   "trac_per100": 18.53,
+   "E_gen_per100": 14.717,
    "X_lo_rel": {
-    "est": -0.0341,
+    "est": -0.0347,
     "ci95": [
-     -0.0488,
-     -0.0251
+     -0.0498,
+     -0.0259
     ]
    },
    "X_hi_rel": {
     "est": 0.1222,
     "ci95": [
-     0.0979,
-     0.1591
+     0.0985,
+     0.1588
     ]
    },
    "alpha_star": {
-    "est": 0.218,
+    "est": 0.221,
     "ci95": [
-     0.191,
-     0.247
+     0.195,
+     0.249
     ]
    },
    "zero_in_X_pointwise": true,
    "zero_in_X_ci": true,
    "f_gen_ci_contains_0p5": true,
    "f_gen_point_vs_0p5": "below",
-   "n_infeasible_alpha_drives": 48,
-   "n_drives_dual_zero": 35,
+   "n_infeasible_alpha_drives": 49,
+   "n_drives_dual_zero": 37,
    "infeasible_alpha_files": [
     "2026-09-11_08-01-27.csv",
     "2026-09-13_13-01-46.csv",
@@ -1188,6 +1208,7 @@
     "2026-10-17_14-02-26.csv",
     "2026-10-17_23-13-01.csv",
     "2026-11-01_17-56-38.csv",
+    "2026-11-04_21-26-25.csv",
     "20260515_075207.csv",
     "20260603_122008.csv",
     "20260814_101007.csv",
@@ -1211,33 +1232,33 @@
   },
   "lag_+5s_anchor_off": {
    "f_gen": {
-    "est": 0.4743,
+    "est": 0.4726,
     "ci95": [
-     0.3813,
-     0.5415
+     0.3774,
+     0.5378
     ]
    },
-   "G_per100": 8.471,
-   "trac_per100": 17.862,
-   "E_gen_per100": 14.651,
+   "G_per100": 8.45,
+   "trac_per100": 17.88,
+   "E_gen_per100": 14.687,
    "X_lo_rel": {
-    "est": -0.0767,
+    "est": -0.077,
     "ci95": [
      -0.0991,
-     -0.0624
+     -0.0632
     ]
    },
    "X_hi_rel": {
-    "est": 0.08,
+    "est": 0.0802,
     "ci95": [
-     0.0613,
-     0.1092
+     0.0618,
+     0.1091
     ]
    },
    "alpha_star": {
-    "est": 0.489,
+    "est": 0.49,
     "ci95": [
-     0.462,
+     0.465,
      0.514
     ]
    },
@@ -1245,8 +1266,8 @@
    "zero_in_X_ci": true,
    "f_gen_ci_contains_0p5": true,
    "f_gen_point_vs_0p5": "below",
-   "n_infeasible_alpha_drives": 19,
-   "n_drives_dual_zero": 35,
+   "n_infeasible_alpha_drives": 20,
+   "n_drives_dual_zero": 37,
    "infeasible_alpha_files": [
     "2026-09-11_08-01-27.csv",
     "2026-09-14_07-50-59.csv",
@@ -1260,6 +1281,7 @@
     "2026-10-15_10-40-56.csv",
     "2026-10-17_23-13-01.csv",
     "2026-11-01_17-56-38.csv",
+    "2026-11-04_21-26-25.csv",
     "20260515_075207.csv",
     "20260603_122008.csv",
     "20260814_101007.csv",
@@ -1271,42 +1293,42 @@
   },
   "offset_-1A_anchor_off": {
    "f_gen": {
-    "est": 0.4897,
+    "est": 0.488,
     "ci95": [
-     0.403,
-     0.5522
+     0.4001,
+     0.5489
     ]
    },
-   "G_per100": 9.597,
-   "trac_per100": 19.597,
-   "E_gen_per100": 15.938,
+   "G_per100": 9.573,
+   "trac_per100": 19.618,
+   "E_gen_per100": 15.971,
    "X_lo_rel": {
-    "est": -0.0931,
+    "est": -0.0936,
     "ci95": [
-     -0.1196,
-     -0.0753
+     -0.1201,
+     -0.0766
     ]
    },
    "X_hi_rel": {
-    "est": 0.0485,
+    "est": 0.0484,
     "ci95": [
-     0.0372,
-     0.066
+     0.0373,
+     0.0658
     ]
    },
    "alpha_star": {
-    "est": 0.658,
+    "est": 0.659,
     "ci95": [
-     0.634,
-     0.679
+     0.637,
+     0.68
     ]
    },
    "zero_in_X_pointwise": true,
    "zero_in_X_ci": true,
    "f_gen_ci_contains_0p5": true,
    "f_gen_point_vs_0p5": "below",
-   "n_infeasible_alpha_drives": 23,
-   "n_drives_dual_zero": 35,
+   "n_infeasible_alpha_drives": 24,
+   "n_drives_dual_zero": 37,
    "infeasible_alpha_files": [
     "2026-09-14_07-50-59.csv",
     "2026-09-18_08-01-32.csv",
@@ -1322,6 +1344,7 @@
     "2026-10-15_18-30-00.csv",
     "2026-10-16_19-23-56.csv",
     "2026-10-17_23-13-01.csv",
+    "2026-11-04_21-26-25.csv",
     "20260515_075207.csv",
     "20260603_122008.csv",
     "20260814_101007.csv",
@@ -1335,42 +1358,42 @@
   },
   "offset_+1A_anchor_off": {
    "f_gen": {
-    "est": 0.511,
+    "est": 0.5092,
     "ci95": [
-     0.4221,
-     0.5741
+     0.4191,
+     0.5704
     ]
    },
-   "G_per100": 9.221,
-   "trac_per100": 18.044,
-   "E_gen_per100": 15.938,
+   "G_per100": 9.191,
+   "trac_per100": 18.049,
+   "E_gen_per100": 15.971,
    "X_lo_rel": {
-    "est": -0.0913,
+    "est": -0.0918,
     "ci95": [
-     -0.1165,
-     -0.0744
+     -0.117,
+     -0.0756
     ]
    },
    "X_hi_rel": {
     "est": 0.0553,
     "ci95": [
      0.0422,
-     0.0756
+     0.0753
     ]
    },
    "alpha_star": {
-    "est": 0.623,
+    "est": 0.624,
     "ci95": [
-     0.598,
-     0.646
+     0.6,
+     0.647
     ]
    },
    "zero_in_X_pointwise": true,
    "zero_in_X_ci": true,
    "f_gen_ci_contains_0p5": true,
    "f_gen_point_vs_0p5": "above",
-   "n_infeasible_alpha_drives": 18,
-   "n_drives_dual_zero": 35,
+   "n_infeasible_alpha_drives": 19,
+   "n_drives_dual_zero": 37,
    "infeasible_alpha_files": [
     "2026-09-14_07-50-59.csv",
     "2026-09-18_08-01-32.csv",
@@ -1383,6 +1406,7 @@
     "2026-10-15_10-40-56.csv",
     "2026-10-16_19-23-56.csv",
     "2026-10-17_23-13-01.csv",
+    "2026-11-04_21-26-25.csv",
     "20260515_075207.csv",
     "20260603_122008.csv",
     "20260814_101007.csv",
@@ -1394,42 +1418,42 @@
   },
   "corner_high_G": {
    "f_gen": {
-    "est": 0.538,
+    "est": 0.5364,
     "ci95": [
-     0.4533,
-     0.5985
+     0.4506,
+     0.595
     ]
    },
-   "G_per100": 10.905,
-   "trac_per100": 20.269,
-   "E_gen_per100": 17.42,
+   "G_per100": 10.882,
+   "trac_per100": 20.287,
+   "E_gen_per100": 17.456,
    "X_lo_rel": {
-    "est": -0.0837,
+    "est": -0.0842,
     "ci95": [
-     -0.1102,
-     -0.0662
+     -0.1106,
+     -0.0672
     ]
    },
    "X_hi_rel": {
     "est": 0.0481,
     "ci95": [
-     0.0387,
-     0.0628
+     0.0388,
+     0.0627
     ]
    },
    "alpha_star": {
-    "est": 0.635,
+    "est": 0.636,
     "ci95": [
-     0.617,
-     0.652
+     0.619,
+     0.653
     ]
    },
    "zero_in_X_pointwise": true,
    "zero_in_X_ci": true,
    "f_gen_ci_contains_0p5": true,
    "f_gen_point_vs_0p5": "above",
-   "n_infeasible_alpha_drives": 17,
-   "n_drives_dual_zero": 35,
+   "n_infeasible_alpha_drives": 18,
+   "n_drives_dual_zero": 37,
    "infeasible_alpha_files": [
     "2026-09-14_07-50-59.csv",
     "2026-09-17_08-17-51.csv",
@@ -1441,6 +1465,7 @@
     "2026-10-11_10-42-38.csv",
     "2026-10-15_10-40-56.csv",
     "2026-10-17_23-13-01.csv",
+    "2026-11-04_21-26-25.csv",
     "20260515_075207.csv",
     "20260603_122008.csv",
     "20260814_101007.csv",
@@ -1452,42 +1477,42 @@
   },
   "corner_low_G": {
    "f_gen": {
-    "est": 0.494,
+    "est": 0.492,
     "ci95": [
-     0.3998,
-     0.5606
+     0.3957,
+     0.5568
     ]
    },
-   "G_per100": 7.614,
-   "trac_per100": 15.414,
-   "E_gen_per100": 14.094,
+   "G_per100": 7.582,
+   "trac_per100": 15.411,
+   "E_gen_per100": 14.123,
    "X_lo_rel": {
-    "est": -0.1009,
+    "est": -0.1016,
     "ci95": [
-     -0.125,
-     -0.0849
+     -0.1258,
+     -0.086
     ]
    },
    "X_hi_rel": {
-    "est": 0.062,
+    "est": 0.0618,
     "ci95": [
      0.0446,
-     0.0888
+     0.0885
     ]
    },
    "alpha_star": {
-    "est": 0.62,
+    "est": 0.622,
     "ci95": [
-     0.577,
-     0.663
+     0.581,
+     0.665
     ]
    },
    "zero_in_X_pointwise": true,
    "zero_in_X_ci": true,
    "f_gen_ci_contains_0p5": true,
    "f_gen_point_vs_0p5": "below",
-   "n_infeasible_alpha_drives": 24,
-   "n_drives_dual_zero": 35,
+   "n_infeasible_alpha_drives": 25,
+   "n_drives_dual_zero": 37,
    "infeasible_alpha_files": [
     "2026-09-14_07-50-59.csv",
     "2026-09-15_08-06-11.csv",
@@ -1505,6 +1530,7 @@
     "2026-10-16_19-23-56.csv",
     "2026-10-17_16-05-39.csv",
     "2026-10-17_23-13-01.csv",
+    "2026-11-04_21-26-25.csv",
     "20260515_075207.csv",
     "20260603_122008.csv",
     "20260814_101007.csv",
@@ -1572,45 +1598,45 @@
    "note": "<10 distinct days: not evaluable"
   },
   "urban": {
-   "n_drives": 356,
-   "n_days": 69,
+   "n_drives": 367,
+   "n_days": 71,
    "f_gen": {
-    "est": 0.3732,
+    "est": 0.374,
     "ci95": [
-     0.3525,
+     0.355,
      0.3907
     ]
    },
-   "G_per100": 7.109,
-   "trac_per100": 19.047,
-   "E_gen_per100": 16.172,
+   "G_per100": 7.123,
+   "trac_per100": 19.044,
+   "E_gen_per100": 16.231,
    "X_lo_rel": {
-    "est": -0.1368,
+    "est": -0.1364,
     "ci95": [
-     -0.1515,
-     -0.124
+     -0.1501,
+     -0.1244
     ]
    },
    "X_hi_rel": {
-    "est": 0.0879,
+    "est": 0.0867,
     "ci95": [
-     0.0767,
-     0.101
+     0.0765,
+     0.0993
     ]
    },
    "alpha_star": {
-    "est": 0.609,
+    "est": 0.611,
     "ci95": [
-     0.587,
-     0.628
+     0.59,
+     0.63
     ]
    },
    "zero_in_X_pointwise": true,
    "zero_in_X_ci": true,
    "f_gen_ci_contains_0p5": false,
    "f_gen_point_vs_0p5": "below",
-   "n_infeasible_alpha_drives": 22,
-   "n_drives_dual_zero": 35,
+   "n_infeasible_alpha_drives": 23,
+   "n_drives_dual_zero": 37,
    "infeasible_alpha_files": [
     "2026-09-14_07-50-59.csv",
     "2026-09-16_14-01-15.csv",
@@ -1625,6 +1651,7 @@
     "2026-10-13_07-42-34.csv",
     "2026-10-15_10-40-56.csv",
     "2026-10-17_23-13-01.csv",
+    "2026-11-04_21-26-25.csv",
     "20260515_075207.csv",
     "20260603_122008.csv",
     "20260814_101007.csv",
@@ -1637,15 +1664,15 @@
    ]
   }
  },
- "n_days": 70,
- "km": 3771.2,
+ "n_days": 72,
+ "km": 3826.7,
  "dual_samples": {
-  "gen_feasible_share_of_charge_energy": 0.5964,
-  "share_samples_with_Pgen_gt_0": 0.9435,
-  "n_samples": 15020
+  "gen_feasible_share_of_charge_energy": 0.598,
+  "share_samples_with_Pgen_gt_0": 0.9411,
+  "n_samples": 15434
  },
  "lag_descriptor_flow_vs_rpm_s": {
-  "n": 358,
+  "n": 367,
   "median": 0.0,
   "p25_p75": [
    -1.0,
@@ -1654,9 +1681,9 @@
  },
  "reconciliation_2c": {
   "note": "circular weights (variance of the same data): sensitivity only, never primary",
-  "share_of_adjustment_on_G": 0.911,
-  "implied_f_gen": 0.473,
-  "baseline_f_gen": 0.5165
+  "share_of_adjustment_on_G": 0.91,
+  "implied_f_gen": 0.4713,
+  "baseline_f_gen": 0.5148
  },
  "stop_condition_flags": {
   "baseline": {
@@ -1696,11 +1723,11 @@
    "ci_newly_contains_0.5": false
   },
   "paux_0_nonphysical_bound": {
-   "point_crosses_0.5": false,
+   "point_crosses_0.5": true,
    "ci_newly_contains_0.5": false
   },
   "anchor_off": {
-   "point_crosses_0.5": false,
+   "point_crosses_0.5": true,
    "ci_newly_contains_0.5": false
   },
   "lag_-5s": {
@@ -1756,120 +1783,96 @@
  "m372": {
   "checks": {
    "rawOriginals": {
-    "nChecked": 389,
+    "nChecked": 400,
     "nMismatch": 0
    },
    "flags": {
-    "nCompared": 609,
+    "nCompared": 620,
     "nDiverging": 0
    },
    "expectedSet": {
-    "nDrives": 389,
-    "nDays": 70,
-    "km": 3771.2,
-    "nPrevious": 374,
-    "nNew": 15,
+    "nDrives": 400,
+    "nDays": 72,
+    "km": 3826.7,
+    "nPrevious": 389,
+    "nNew": 11,
     "newIds": [
      {
-      "file": "2026-11-01_14-36-31.csv",
-      "date": "2026-11-01",
-      "km": 12.8,
+      "file": "2026-11-03_19-55-57.csv",
+      "date": "2026-11-03",
+      "km": 19.1,
       "type": "urban"
      },
      {
-      "file": "2026-11-01_15-10-23.csv",
-      "date": "2026-11-01",
-      "km": 3.5,
-      "type": "urban"
-     },
-     {
-      "file": "2026-11-01_16-11-27.csv",
-      "date": "2026-11-01",
-      "km": 9.7,
-      "type": "urban"
-     },
-     {
-      "file": "2026-11-01_17-36-14.csv",
-      "date": "2026-11-01",
+      "file": "2026-11-04_07-45-12.csv",
+      "date": "2026-11-04",
       "km": 2.5,
       "type": "urban"
      },
      {
-      "file": "2026-11-01_17-56-38.csv",
-      "date": "2026-11-01",
-      "km": 3.1,
+      "file": "2026-11-04_08-01-15.csv",
+      "date": "2026-11-04",
+      "km": 0.7,
       "type": "urban"
      },
      {
-      "file": "2026-11-01_18-15-30.csv",
-      "date": "2026-11-01",
-      "km": 1.6,
+      "file": "2026-11-04_08-17-06.csv",
+      "date": "2026-11-04",
+      "km": 1.1,
       "type": "urban"
      },
      {
-      "file": "2026-11-02_07-40-02.csv",
-      "date": "2026-11-02",
+      "file": "2026-11-04_08-25-16.csv",
+      "date": "2026-11-04",
+      "km": 1.0,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-04_19-12-25.csv",
+      "date": "2026-11-04",
+      "km": 2.0,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-04_19-23-52.csv",
+      "date": "2026-11-04",
+      "km": 2.1,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-04_19-40-19.csv",
+      "date": "2026-11-04",
       "km": 2.3,
       "type": "urban"
      },
      {
-      "file": "2026-11-02_07-57-54.csv",
-      "date": "2026-11-02",
-      "km": 0.6,
+      "file": "2026-11-04_21-26-25.csv",
+      "date": "2026-11-04",
+      "km": 0.8,
       "type": "urban"
      },
      {
-      "file": "2026-11-02_08-12-15.csv",
-      "date": "2026-11-02",
-      "km": 1.9,
+      "file": "2026-11-04_21-34-14.csv",
+      "date": "2026-11-04",
+      "km": 18.0,
       "type": "urban"
      },
      {
-      "file": "2026-11-02_14-34-12.csv",
-      "date": "2026-11-02",
-      "km": 2.5,
-      "type": "urban"
-     },
-     {
-      "file": "2026-11-02_14-42-15.csv",
-      "date": "2026-11-02",
-      "km": 4.0,
-      "type": "urban"
-     },
-     {
-      "file": "2026-11-03_07-40-10.csv",
-      "date": "2026-11-03",
-      "km": 2.4,
-      "type": "urban"
-     },
-     {
-      "file": "2026-11-03_07-53-55.csv",
-      "date": "2026-11-03",
-      "km": 3.6,
-      "type": "urban"
-     },
-     {
-      "file": "2026-11-03_15-07-48.csv",
-      "date": "2026-11-03",
-      "km": 1.7,
-      "type": "urban"
-     },
-     {
-      "file": "2026-11-03_15-23-37.csv",
-      "date": "2026-11-03",
-      "km": 2.2,
+      "file": "2026-11-05_09-13-42.csv",
+      "date": "2026-11-05",
+      "km": 5.9,
       "type": "urban"
      }
     ],
     "previousPerDrive": {
-     "path": "analyses/closure_baselines/perdrive_374drives_recal_1e599176.csv",
-     "sha256": "f5f174023ff7080580749aa7457d571a89b56d61dec43692bc779a1646679f3a",
-     "nDrives": 374,
-     "master": "1e599176dafd8575dc7addede8d79358"
+     "path": "analyses/closure_baselines/perdrive_389drives_recal_1574a815.csv",
+     "sha256": "0cf49f60ba9a1038e6bd068d50b86fbd8633a9a5e1089ad856913294053c9c0d",
+     "nDrives": 389,
+     "master": "1574a8156a36c6ea4ea1dfdaafc7cc72"
     }
    }
   },
-  "scriptGit": "61fb642",
+  "scriptGit": "5e0a5bb",
   "summaryArraysSha256Start": ""
  }
 }

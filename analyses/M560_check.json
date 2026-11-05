@@ -2,16 +2,16 @@
  "milestone": "M560",
  "mode": "--splice",
  "stats": {
-  "cacheHits": 621,
+  "cacheHits": 632,
   "extracted": 0,
   "noRaw": 0,
   "notCovered": 13
  },
  "knownAnswer": {
-  "nDrivesCovered": 608,
-  "nWindows": 844,
-  "storedNDrivesCovered": 608,
-  "storedNRestWindows": 844,
+  "nDrivesCovered": 619,
+  "nWindows": 849,
+  "storedNDrivesCovered": 619,
+  "storedNRestWindows": 849,
   "medianMagnitude": 1.0,
   "storedMedian": 1.0,
   "reproducesStored": true,
@@ -20,27 +20,27 @@
  "extractorSourceHash": "e64fb75769ae096b",
  "strata": {
   "fast": {
-   "nDrives": 93,
-   "nDays": 38,
-   "nWindows": 209,
+   "nDrives": 97,
+   "nDays": 40,
+   "nWindows": 214,
    "V0": {
-    "n": 209,
-    "nDays": 38,
-    "median": 0.75,
+    "n": 214,
+    "nDays": 40,
+    "median": 0.88,
     "p25": -0.5,
-    "p75": 3.0,
+    "p75": 3.19,
     "ci95": [
      0.5,
      1.5
     ],
-    "shareAbove1mV": 0.488,
-    "shareOnHalfMvLattice": 0.7273
+    "shareAbove1mV": 0.4907,
+    "shareOnHalfMvLattice": 0.7336
    },
    "V0_halfCategoriesStrict": null,
    "familyA_fixedWindows": {
     "V3": {
-     "n": 209,
-     "nDays": 38,
+     "n": 214,
+     "nDays": 40,
      "median": 1.25,
      "p25": 0.0,
      "p75": 3.0,
@@ -48,15 +48,15 @@
       1.0,
       1.5
      ],
-     "shareAbove1mV": 0.5072,
-     "shareOnHalfMvLattice": 0.7799,
+     "shareAbove1mV": 0.5093,
+     "shareOnHalfMvLattice": 0.785,
      "notRemeasurable": 0,
-     "differenceOfMediansMv": 0.5,
+     "differenceOfMediansMv": 0.37,
      "insideV0Interval": true
     },
     "V4": {
-     "n": 209,
-     "nDays": 38,
+     "n": 214,
+     "nDays": 40,
      "median": 1.25,
      "p25": 0.0,
      "p75": 3.0,
@@ -64,125 +64,125 @@
       1.0,
       1.5
      ],
-     "shareAbove1mV": 0.5072,
-     "shareOnHalfMvLattice": 0.7799,
+     "shareAbove1mV": 0.5093,
+     "shareOnHalfMvLattice": 0.785,
      "notRemeasurable": 0,
-     "differenceOfMediansMv": 0.5,
+     "differenceOfMediansMv": 0.37,
      "insideV0Interval": true
     },
     "V8": {
-     "n": 209,
-     "nDays": 38,
-     "median": 1.5,
+     "n": 214,
+     "nDays": 40,
+     "median": 1.75,
      "p25": -0.5,
      "p75": 3.5,
      "ci95": [
       1.0,
       2.0
      ],
-     "shareAbove1mV": 0.5263,
+     "shareAbove1mV": 0.528,
      "shareOnHalfMvLattice": 1.0,
      "notRemeasurable": 0,
-     "differenceOfMediansMv": 0.75,
-     "insideV0Interval": true,
+     "differenceOfMediansMv": 0.87,
+     "insideV0Interval": false,
      "straddlingPairsExcluded": 23,
-     "differenceVsV0MaxAbsMedianMv": 0.75
+     "differenceVsV0MaxAbsMedianMv": 0.87
     }
    },
    "trailingFill": {
     "windowsWithTrailingFill": 1,
-    "shareOfV0": 0.0048,
+    "shareOfV0": 0.0047,
     "V0WithoutThem": {
-     "n": 208,
-     "nDays": 38,
-     "median": 0.88,
+     "n": 213,
+     "nDays": 40,
+     "median": 1.0,
      "p25": -0.5,
-     "p75": 3.0,
+     "p75": 3.25,
      "ci95": [
       0.5,
       1.5
      ],
-     "shareAbove1mV": 0.4904,
-     "shareOnHalfMvLattice": 0.7308
+     "shareAbove1mV": 0.493,
+     "shareOnHalfMvLattice": 0.7371
     },
     "note": "an onset or asymptote second lies after a channel's last real sample and is forward-filled (up to 3 s) past the end of that channel's data; a published-construction artefact of the 1 s grid"
    },
    "familyB_windowSet": {
     "V1_fillMM0": {
-     "n": 203,
-     "nDays": 38,
-     "median": 0.75,
+     "n": 208,
+     "nDays": 40,
+     "median": 0.88,
      "p25": -0.5,
-     "p75": 3.0,
+     "p75": 3.06,
      "ci95": [
       0.5,
       1.5
      ],
-     "shareAbove1mV": 0.468,
-     "shareOnHalfMvLattice": 0.7143,
+     "shareAbove1mV": 0.4712,
+     "shareOnHalfMvLattice": 0.7212,
      "added": 2,
      "dropped": 8,
-     "keptShareOfV0": 0.9617,
+     "keptShareOfV0": 0.9626,
      "differenceOfMediansMv": 0.0,
      "insideV0Interval": true
     },
     "V2_fillMM1": {
-     "n": 208,
-     "nDays": 38,
+     "n": 213,
+     "nDays": 40,
      "median": 0.75,
-     "p25": -0.56,
-     "p75": 3.0,
+     "p25": -0.5,
+     "p75": 3.25,
      "ci95": [
       0.5,
       1.5
      ],
-     "shareAbove1mV": 0.4663,
-     "shareOnHalfMvLattice": 0.726,
+     "shareAbove1mV": 0.4695,
+     "shareOnHalfMvLattice": 0.7324,
      "added": 0,
      "dropped": 1,
-     "keptShareOfV0": 0.9952,
-     "differenceOfMediansMv": 0.0,
+     "keptShareOfV0": 0.9953,
+     "differenceOfMediansMv": -0.13,
      "insideV0Interval": true
     },
     "V9a_fillI0": {
-     "n": 203,
-     "nDays": 38,
+     "n": 208,
+     "nDays": 40,
      "median": 1.0,
      "p25": -0.5,
-     "p75": 3.12,
+     "p75": 3.25,
      "ci95": [
       0.5,
       1.5
      ],
-     "shareAbove1mV": 0.4778,
-     "shareOnHalfMvLattice": 0.7192,
+     "shareAbove1mV": 0.4856,
+     "shareOnHalfMvLattice": 0.726,
      "added": 0,
      "dropped": 6,
-     "keptShareOfV0": 0.9713,
-     "differenceOfMediansMv": 0.25,
+     "keptShareOfV0": 0.972,
+     "differenceOfMediansMv": 0.12,
      "insideV0Interval": true
     },
     "V9b_fillI1": {
-     "n": 208,
-     "nDays": 38,
+     "n": 213,
+     "nDays": 40,
      "median": 0.75,
-     "p25": -0.56,
-     "p75": 3.0,
+     "p25": -0.5,
+     "p75": 3.25,
      "ci95": [
       0.5,
       1.5
      ],
-     "shareAbove1mV": 0.4663,
-     "shareOnHalfMvLattice": 0.726,
+     "shareAbove1mV": 0.4695,
+     "shareOnHalfMvLattice": 0.7324,
      "added": 0,
      "dropped": 1,
-     "keptShareOfV0": 0.9952,
-     "differenceOfMediansMv": 0.0,
+     "keptShareOfV0": 0.9953,
+     "differenceOfMediansMv": -0.13,
      "insideV0Interval": true
     },
     "V6_freshOnly": {
-     "n": 170,
-     "nDays": 35,
+     "n": 172,
+     "nDays": 36,
      "median": 0.75,
      "p25": -0.5,
      "p75": 3.0,
@@ -190,52 +190,52 @@
       0.5,
       1.25
      ],
-     "shareAbove1mV": 0.4647,
-     "shareOnHalfMvLattice": 0.7353,
+     "shareAbove1mV": 0.4651,
+     "shareOnHalfMvLattice": 0.7384,
      "added": 0,
-     "dropped": 39,
-     "keptShareOfV0": 0.8134,
-     "differenceOfMediansMv": 0.0,
+     "dropped": 42,
+     "keptShareOfV0": 0.8037,
+     "differenceOfMediansMv": -0.13,
      "insideV0Interval": true
     },
     "V7_strictContiguity": {
-     "n": 208,
-     "nDays": 38,
-     "median": 0.88,
+     "n": 213,
+     "nDays": 40,
+     "median": 1.0,
      "p25": -0.5,
-     "p75": 3.0,
+     "p75": 3.25,
      "ci95": [
       0.5,
       1.5
      ],
-     "shareAbove1mV": 0.4904,
-     "shareOnHalfMvLattice": 0.7308,
+     "shareAbove1mV": 0.493,
+     "shareOnHalfMvLattice": 0.7371,
      "added": 0,
      "dropped": 1,
-     "keptShareOfV0": 0.9952,
-     "differenceOfMediansMv": 0.13,
+     "keptShareOfV0": 0.9953,
+     "differenceOfMediansMv": 0.12,
      "insideV0Interval": true,
      "halfTimeCategoryCountsSeconds": {
-      "1": 45,
-      "0": 34,
+      "1": 46,
+      "0": 36,
       "2": 16,
-      "none": 106,
+      "none": 108,
       "3plus": 7
      }
     }
    },
    "placebo": {
-    "n": 80,
-    "nDays": 31,
+    "n": 88,
+    "nDays": 33,
     "median": 0.0,
-    "p25": -1.0,
+    "p25": -0.81,
     "p75": 1.0,
     "ci95": [
-     -0.38,
+     -0.25,
      0.5
     ],
-    "shareAbove1mV": 0.225,
-    "shareOnHalfMvLattice": 0.825,
+    "shareAbove1mV": 0.2386,
+    "shareOnHalfMvLattice": 0.8295,
     "v0InsidePlaceboIQR": true,
     "placeboMedianAtLeastV0": false
    },
@@ -473,8 +473,8 @@
   }
  },
  "pooledV0": {
-  "n": 844,
-  "nDays": 111,
+  "n": 849,
+  "nDays": 113,
   "median": 1.0,
   "p25": -0.5,
   "p75": 3.0,
@@ -482,12 +482,12 @@
    1.0,
    1.5
   ],
-  "shareAbove1mV": 0.5261,
-  "shareOnHalfMvLattice": 0.9325,
+  "shareAbove1mV": 0.5265,
+  "shareOnHalfMvLattice": 0.9329,
   "storedInterval": [
    1.0,
    1.5
   ]
  },
- "rawListSha256": "95dcd288cbcb239657176944e6918869a3a6d55227315cf6a82edb84014eb9eb"
+ "rawListSha256": "573cc2badc3e9473256271a91f62c9678c1c763ad0928bebaa88b883349c9365"
 }

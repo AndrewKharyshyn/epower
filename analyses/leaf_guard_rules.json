@@ -697,5 +697,63 @@
    "provenanceSensitivity",
    "seasonalCharts"
   ]
+ },
+ {
+  "id": "m578-carryover-lodo-k10",
+  "rationale": "M578 (Director ruling): differsFromK10 lists the statement keys where the leave-one-day-out statement differs from the k=10 statement; it may lose a key only where the displayed k=10 statement for that key changed and the leave-one-day-out statement now equals it (oil S3: 'not shown to be worse than the empirical gap bins' -> 'worse than the empirical gap bins', a displayed statement change recorded in the CHANGELOG).",
+  "milestone": "M578",
+  "pathTemplate": "interDriveCarryover/thermalDecay/{key}/fitQuality/leaveOneDayOut/cells/{key}/differsFromK10/{i}",
+  "condition": "lodo_matches_k10"
+ },
+ {
+  "id": "m578-confirmatory-note",
+  "rationale": "M578 (Director ruling): the note 'no number is given below the support floor' is written only while the M574 confirmatory block is awaiting data; it may vanish only where the block status changed (awaiting data -> evaluated). Not interpreted here.",
+  "milestone": "M578",
+  "pathTemplate": "cellSpreadStep/confirmatory/note",
+  "condition": "field_changed",
+  "entryDepth": 2,
+  "field": "status"
+ },
+ {
+  "id": "m578-regen-speed-droppedGroups",
+  "rationale": "M578 (Director ruling): droppedGroups of the speed availability block is derived from the coverage rule; an entry may vanish only where the coverage value changed.",
+  "milestone": "M578",
+  "pathTemplate": "regenDisplayV2/cohorts/{key}/strata/{key}/standardized/speed/availability/droppedGroups/{i}",
+  "condition": "field_changed",
+  "entryDepth": 8,
+  "field": "coverage"
+ },
+ {
+  "id": "m578-regen-speed-commonSupportBands",
+  "rationale": "M578 (Director ruling): commonSupportBands of the speed standardization is derived from the common-support rule; an entry may vanish only where the excluded reference KE share changed (support shrank; analyses/regen_std_state.json lastFlags empty in this run).",
+  "milestone": "M578",
+  "pathTemplate": "regenDisplayV2/cohorts/{key}/strata/{key}/standardized/speed/commonSupportBands/{i}",
+  "condition": "field_changed",
+  "entryDepth": 7,
+  "field": "excludedReferenceKeShare"
+ },
+ {
+  "id": "m578-highsoc-decline-note",
+  "rationale": "M578 (Director ruling): the thin-support note of a cold declineByStratum row is written while the stratum has too few eligible SoC bins; it may vanish only where the row now carries its peakSocBin (exploratory, no interval).",
+  "milestone": "M578",
+  "pathTemplate": "seasonalCharts/charts/HighSocRegen/data/{key}/declineByStratum/{i}/note",
+  "condition": "sibling_present",
+  "sibling": "peakSocBin"
+ },
+ {
+  "id": "m578-crawlstopgo-tercile-note",
+  "rationale": "M578 (Director ruling): the note 'insufficient samples for a pack temperature tercile split' is written while the split is unavailable; it may vanish only where the block now carries its bands (bands below the floor carry no estimate).",
+  "milestone": "M578",
+  "pathTemplate": "seasonalCharts/charts/CrawlStopGo/data/{key}/stopEffectCovariates/tpackAtStop_vs_restartProb/note",
+  "condition": "sibling_present",
+  "sibling": "bands"
+ },
+ {
+  "id": "m578-thermal-ledger-note",
+  "rationale": "M578 (Director ruling): the informational note of a reconciliation check is written while the estimator published no block for the cohort; it may vanish only where the check now reconciles (equal true).",
+  "milestone": "M578",
+  "pathTemplate": "thermalSupportLedger/reconciliation/checks/{key}/note",
+  "condition": "sibling_present",
+  "sibling": "equal"
  }
 ]

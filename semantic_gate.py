@@ -211,10 +211,13 @@ if _fs:
        and all(("%.3f" % _fs["settings"][str(F_)][k_]["E1"]["point"]) in _dfs and ("%.3f" % _fs["settings"][str(F_)][k_]["E2"]["point"]) in _dfs for F_ in _fs["fills"] for k_ in _fs["headlineCells"] if _fs["settings"][str(F_)][k_]["supported600"])
        and ("coolant %.2f s" % _fs["sampleIntervalS"]["coolant"]["medianS"]) in _dfs and _dfs.count("Sensitivity to the forward-fill limit and the trip-end tolerance (M437)") == 1)
 # M438 (analyses/M438_spec.md Rev 2.1): start-temperature strata of the headline cells, produced in the ledger stage
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "tools"))
+import m438_weights_check as _W438          # M578
 _ss = ((_tt or {}).get("startStrata")) if _tt else None
 if _ss:
-    ok("M438 payload checks pass (strata partition the M435 cells, pooled equals the M435 cell, E1_std = E1 and F_high_std = F_high in every draw) and the weights sum to 1",
-       all(v is True for v in _ss["checks"].values()) and all(abs(sum(c_["weights"]) - 1.0) < 1e-5 and sum(s_["n"] for s_ in c_["strata"]) == c_["n"] for c_ in _ss["cells"].values()))
+    ok("M438 payload checks pass (strata partition the M435 cells, pooled equals the M435 cell, E1_std = E1 and F_high_std = F_high in every draw) and each weight equals its stratum share n_i/N to payload precision (4 dp)",
+       all(v is True for v in _ss["checks"].values()) and all(_W438.weights_match_shares(c_["weights"], [s_["n"] for s_ in c_["strata"]], c_["n"]) for c_ in _ss["cells"].values()))
     _dss = T.get("distribution__all", "")
     ok("A2 REQUIRED M438 all: the strata block renders the cut points, the required sentences, every class statement and the standardized values of the payload",
        _dss.count("Within start-temperature terciles (M438).") == 1 and _ss["required"]["entanglement"] in _dss and _ss["required"]["R1"] in _dss and _ss["required"]["contrasts"] in _dss

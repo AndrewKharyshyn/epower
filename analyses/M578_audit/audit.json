@@ -1,0 +1,35 @@
+{
+ "n_master": 632,
+ "n_sidecar": 632,
+ "n_old_sidecar": 621,
+ "sidecar_files_match_master": true,
+ "rule_disagreements": [],
+ "old_rows_missing_in_new": 0,
+ "pre_batch_diff_rows": 0,
+ "pre_batch_byte_identical_full_row": 621,
+ "n_new_rows": 11,
+ "new_rows_regimes": {
+  "fast": 11
+ },
+ "new_rows_min_file": "2026-11-03_19-55-57.csv",
+ "new_rows_ge_20261103_19-55-57": 11,
+ "n_in_1.06_1.135": 0,
+ "counts": {
+  "fast": 196,
+  "slow": 424,
+  "null": 12
+ },
+ "old_vs_new_diff": [
+  [
+   "2026-11-04_08-01-15.csv",
+   "2026-11-04",
+   1.055,
+   "slow",
+   "fast"
+  ]
+ ],
+ "max_period_older_fast": 0.984,
+ "min_period_slow": 1.137,
+ "max_period_all_fast": 1.055,
+ "rule_disagreements_note": "12 listed by audit.py were None-vs-NaN comparison artefacts (null period, sidecar blank); true disagreements 0"
+}

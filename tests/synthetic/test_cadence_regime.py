@@ -7,13 +7,14 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), 
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 import cadence_regime as C
 
-assert C.classify(0.85) == "fast" and C.classify(0.999) == "fast" and C.classify(1.1) == "slow" and C.classify(1.45) == "slow"
+assert C.classify(0.85) == "fast" and C.classify(0.999) == "fast" and C.classify(1.14) == "slow" and C.classify(1.45) == "slow"
+assert C.classify(1.001) == "fast" and C.classify(1.055) == "fast" and C.classify(1.059) == "fast" and C.classify(1.135) == "slow" and C.classify(1.137) == "slow"      # M578: threshold 1.10 s, guard zone [1.06, 1.135)
 assert C.classify(None) is None and C.classify(float("nan")) is None
-for bad in (1.0, 1.05, 1.0999):
+for bad in (1.06, 1.0999, 1.1, 1.134):
     try:
         C.classify(bad)
     except SystemExit as e:
-        assert "empty gap" in str(e)
+        assert "guard zone" in str(e)
     else:
         raise AssertionError("a drive inside the gap must STOP: %r" % bad)
 

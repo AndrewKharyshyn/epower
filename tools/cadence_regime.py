@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Logger PID-cadence regime per drive (M379a, analyses/M379_spec.md Rev 2 P1). Descriptive covariate, derived deterministically from the master column
-`I_sample_period_s` (median update interval of the HV-current PID): regime "fast" if the period is below THRESHOLD_S (1.05 s, the midpoint of the empty gap in the
-bimodal distribution), "slow" if at or above it, null when the period is missing. STOP (exit 1) when any drive lies inside the declared gap [1.0, 1.1) s.
+`I_sample_period_s` (median update interval of the HV-current PID): regime "fast" if the period is below THRESHOLD_S (1.10 s since M578; 1.05 s before, the midpoint of the then-empty gap in the
+bimodal distribution), "slow" if at or above it, null when the period is missing. STOP (exit 1) when any drive lies inside the declared guard zone [1.06, 1.135) s (M578; [1.0, 1.1) s before).
 Writes the sidecar cadence_regime.csv (file, date, time_start, I_sample_period_s, regime) and the additive payload block summary_arrays.json['loggerCadence']
 (rule, counts, runs in time order, days with both regimes, the statement that the effect on the pipeline keys is not yet quantified). The master is not touched.
 Usage: python tools/cadence_regime.py [--dry-run]"""
@@ -9,7 +9,10 @@ import argparse, copy, datetime, hashlib, json, os, sys
 import pandas as pd
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
-THRESHOLD_S, GAP = 1.05, (1.0, 1.1)
+# M578 (owner amendment, Andrii chat 2026-11-05, Director ruling analyses/M578_cadence_threshold_director_ruling.json, analyses/M379_rev4_addendum.md): the cut moves from 1.05 s to 1.10 s after
+# the 2026-11-03 PID-set change put drives at 1.001-1.055 s into the former gap. No assignment of the 621 older drives changes (fast max 0.984 s, slow min 1.137 s). Guard zone: a drive with
+# 1.06 <= period < 1.135 s STOPs for Director review (empty today). Post hoc by construction: chosen after seeing the 11 new periods.
+THRESHOLD_S, GAP = 1.10, (1.06, 1.135)
 
 
 def classify(period):
@@ -17,7 +20,7 @@ def classify(period):
     if period is None or period != period:
         return None
     if GAP[0] <= period < GAP[1]:
-        raise SystemExit("STOP: a drive lies inside the declared empty gap [%.1f, %.1f) s (period %.3f): the bimodal assumption no longer holds (Director)" % (GAP[0], GAP[1], period))
+        raise SystemExit("STOP: a drive lies inside the declared guard zone [%.3f, %.3f) s (period %.3f): the bimodal assumption no longer holds (Director)" % (GAP[0], GAP[1], period))
     return "fast" if period < THRESHOLD_S else "slow"
 
 
@@ -47,6 +50,7 @@ def build(dm):
     n_null = int(d["regime"].isna().sum())
     blk = {"rule": "regime = fast if I_sample_period_s < %.2f s, slow if >= %.2f s, null if missing; I_sample_period_s = median update interval of the HV-current PID per drive (master column); the distribution is bimodal with an empty gap [%.1f, %.1f) s that is asserted at every run" % (THRESHOLD_S, THRESHOLD_S, GAP[0], GAP[1]),
            "thresholdS": THRESHOLD_S, "gapS": list(GAP), "nDrives": int(len(d)),
+           "amendment": "M578: threshold 1.10 s (was 1.05 s) by owner decision after the 2026-11-03 PID-set change; chosen post hoc after seeing the new periods; the 621 older assignments are unchanged; fast (period < 1.1 s) pools two PID sets from 2026-11-03; the period is a proxy for the polling epoch, not a physical regime; no cadence effect is claimed",
            "counts": {"fast": int(counts.get("fast", 0)), "slow": int(counts.get("slow", 0)), "null": n_null},
            "nDaysByRegime": {g: int(d[d["regime"] == g]["date"].astype(str).str[:10].nunique()) for g in ("fast", "slow")},
            "runs": runs, "daysWithBothRegimes": sorted(by_day[by_day > 1].index.tolist()),

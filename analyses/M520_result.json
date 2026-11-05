@@ -6,8 +6,8 @@
  "spec": "analyses/M520_spec.md (Rev 2.1)",
  "specSha256": "724f92c463a9a6ebeba920f826a0b393f452d46bf20f48d0fa0bc16d836e09e7",
  "scriptSha256": "7cc066e587a54f7d295be7b70f02db0123c0e400124f381d121ee321161eea7b",
- "masterMd5": "1e599176dafd8575dc7addede8d79358",
- "m514ScriptSha256": "67dd051a380a3300134e9bddd3a9a7abec994e5a7a10695e93cf5dbee0f67264",
+ "masterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72",
+ "m514ScriptSha256": "4eba094286023161ae8d744cfe4bd010fbba82d6ea5ea9483f626f7debd1f818",
  "seed": 42,
  "nBoot": 4000,
  "supportMargin": {
@@ -16,26 +16,26 @@
  },
  "populations": {
   "A0": {
-   "nDrives": 184,
-   "nDays": 77,
+   "nDrives": 185,
+   "nDays": 78,
    "nGridChangeDrives": 28,
    "nGridChangeDays": 16,
    "g2Subset": {
-    "nDrives": 156,
-    "nDays": 61
+    "nDrives": 157,
+    "nDays": 62
    },
    "gridChangeRuleMet": true,
    "g2SubsetRuleMet": true,
    "populationRuleMet": true
   },
   "A1": {
-   "nDrives": 184,
-   "nDays": 77,
+   "nDrives": 185,
+   "nDays": 78,
    "nGridChangeDrives": 28,
    "nGridChangeDays": 16,
    "g2Subset": {
-    "nDrives": 156,
-    "nDays": 61
+    "nDrives": 157,
+    "nDays": 62
    },
    "gridChangeRuleMet": true,
    "g2SubsetRuleMet": true,
@@ -45,16 +45,16 @@
  "cells": [
   {
    "id": "A0G0C1T0",
-   "slope": 1.41981,
-   "n": 184,
-   "nDays": 77,
-   "nWeeks": 22,
-   "conditionNumber": 39.3988,
+   "slope": 1.44862,
+   "n": 185,
+   "nDays": 78,
+   "nWeeks": 23,
+   "conditionNumber": 39.27049,
    "day": {
     "fewBlocks": false,
     "ci95": [
-     0.59715,
-     2.38509
+     0.65827,
+     2.39872
     ],
     "reading": "positive",
     "failedDraws": 0,
@@ -64,8 +64,8 @@
    "week": {
     "fewBlocks": false,
     "ci95": [
-     0.46962,
-     2.26364
+     0.61984,
+     2.25996
     ],
     "reading": "positive",
     "failedDraws": 0,
@@ -75,15 +75,15 @@
    "M7": {
     "fewBlocks": false,
     "ci95": [
-     0.51129,
-     2.24411
+     0.61872,
+     2.36122
     ],
     "reading": "positive",
     "failedDraws": 0,
     "failedShare": 0.0,
     "endpointMcSd": [
-     0.02442,
-     0.0243
+     0.01669,
+     0.02676
     ],
     "endpointWithinMcErrorOfZero": false,
     "decisive": true
@@ -91,15 +91,15 @@
    "M14": {
     "fewBlocks": false,
     "ci95": [
-     0.21432,
-     2.12797
+     0.5644,
+     2.24255
     ],
     "reading": "positive",
     "failedDraws": 0,
     "failedShare": 0.0,
     "endpointMcSd": [
-     0.03651,
-     0.01497
+     0.01594,
+     0.02173
     ],
     "endpointWithinMcErrorOfZero": false,
     "decisive": true
@@ -112,29 +112,29 @@
    },
    "sizeMatchedNull": {
     "nDraws": 2000,
-    "k": 184,
+    "k": 185,
     "nullQuantiles": {
-     "p2.5": 0.1675,
-     "p50": 1.0205,
-     "p97.5": 1.93429
+     "p2.5": 0.16713,
+     "p50": 1.04418,
+     "p97.5": 2.02428
     },
-    "observedSlope": 1.41981,
-    "fractionOfNullAtOrBelowObserved": 0.7885,
+    "observedSlope": 1.44862,
+    "fractionOfNullAtOrBelowObserved": 0.795,
     "insideCentral95": true
    }
   },
   {
    "id": "A0G1C1T0",
-   "slope": 1.61471,
-   "n": 184,
-   "nDays": 77,
-   "nWeeks": 22,
-   "conditionNumber": 40.08812,
+   "slope": 1.6409,
+   "n": 185,
+   "nDays": 78,
+   "nWeeks": 23,
+   "conditionNumber": 39.94191,
    "day": {
     "fewBlocks": false,
     "ci95": [
-     0.72608,
-     2.70399
+     0.77306,
+     2.77274
     ],
     "reading": "positive",
     "failedDraws": 0,
@@ -144,26 +144,26 @@
    "week": {
     "fewBlocks": false,
     "ci95": [
-     0.19754,
-     2.71356
+     0.47819,
+     2.70976
     ],
     "reading": "positive",
-    "failedDraws": 3,
-    "failedShare": 0.00075,
+    "failedDraws": 2,
+    "failedShare": 0.0005,
     "decisive": true
    },
    "M7": {
     "fewBlocks": false,
     "ci95": [
-     0.65144,
-     2.42787
+     0.7905,
+     2.5993
     ],
     "reading": "positive",
-    "failedDraws": 6,
-    "failedShare": 0.0015,
+    "failedDraws": 12,
+    "failedShare": 0.003,
     "endpointMcSd": [
-     0.05912,
-     0.02063
+     0.02238,
+     0.01731
     ],
     "endpointWithinMcErrorOfZero": false,
     "decisive": true
@@ -171,17 +171,17 @@
    "M14": {
     "fewBlocks": false,
     "ci95": [
-     0.13349,
-     2.4184
+     0.65701,
+     2.58017
     ],
     "reading": "positive",
-    "failedDraws": 69,
-    "failedShare": 0.01725,
+    "failedDraws": 106,
+    "failedShare": 0.0265,
     "endpointMcSd": [
-     0.07443,
-     0.01924
+     0.04758,
+     0.02425
     ],
-    "endpointWithinMcErrorOfZero": true,
+    "endpointWithinMcErrorOfZero": false,
     "decisive": false
    },
    "readingAcrossProcedures": {
@@ -192,29 +192,29 @@
    },
    "sizeMatchedNull": {
     "nDraws": 2000,
-    "k": 184,
+    "k": 185,
     "nullQuantiles": {
-     "p2.5": 0.59141,
-     "p50": 1.57922,
-     "p97.5": 2.64879
+     "p2.5": 0.73178,
+     "p50": 1.5846,
+     "p97.5": 2.54046
     },
-    "observedSlope": 1.61471,
-    "fractionOfNullAtOrBelowObserved": 0.5295,
+    "observedSlope": 1.6409,
+    "fractionOfNullAtOrBelowObserved": 0.552,
     "insideCentral95": true
    }
   },
   {
    "id": "A0G2C1T0",
-   "slope": 1.65683,
-   "n": 156,
-   "nDays": 61,
-   "nWeeks": 18,
-   "conditionNumber": 37.99209,
+   "slope": 1.68119,
+   "n": 157,
+   "nDays": 62,
+   "nWeeks": 19,
+   "conditionNumber": 37.82909,
    "day": {
     "fewBlocks": false,
     "ci95": [
-     0.81895,
-     2.71255
+     0.87505,
+     2.73441
     ],
     "reading": "positive",
     "failedDraws": 0,
@@ -224,8 +224,8 @@
    "week": {
     "fewBlocks": false,
     "ci95": [
-     0.48061,
-     2.57355
+     0.74344,
+     2.65388
     ],
     "reading": "positive",
     "failedDraws": 0,
@@ -235,15 +235,15 @@
    "M7": {
     "fewBlocks": false,
     "ci95": [
-     0.60342,
-     2.45664
+     0.78188,
+     2.59714
     ],
     "reading": "positive",
     "failedDraws": 0,
     "failedShare": 0.0,
     "endpointMcSd": [
-     0.06557,
-     0.02962
+     0.02922,
+     0.0237
     ],
     "endpointWithinMcErrorOfZero": false,
     "decisive": true
@@ -251,15 +251,15 @@
    "M14": {
     "fewBlocks": false,
     "ci95": [
-     -0.26356,
-     2.56487
+     0.38607,
+     2.81664
     ],
-    "reading": "includesZero",
+    "reading": "positive",
     "failedDraws": 0,
     "failedShare": 0.0,
     "endpointMcSd": [
-     0.07717,
-     0.05276
+     0.04593,
+     0.03748
     ],
     "endpointWithinMcErrorOfZero": false,
     "decisive": true
@@ -269,33 +269,33 @@
     "day": "positive",
     "week": "positive",
     "M7": "positive",
-    "M14": "includesZero"
+    "M14": "positive"
    },
    "sizeMatchedNull": {
     "nDraws": 2000,
-    "k": 156,
+    "k": 157,
     "nullQuantiles": {
-     "p2.5": 0.5221,
-     "p50": 1.46869,
-     "p97.5": 2.68239
+     "p2.5": 0.51292,
+     "p50": 1.45418,
+     "p97.5": 2.55842
     },
-    "observedSlope": 1.65683,
-    "fractionOfNullAtOrBelowObserved": 0.6475,
+    "observedSlope": 1.68119,
+    "fractionOfNullAtOrBelowObserved": 0.6795,
     "insideCentral95": true
    }
   },
   {
    "id": "A1G0C1T0",
-   "slope": 1.50115,
-   "n": 184,
-   "nDays": 77,
-   "nWeeks": 22,
-   "conditionNumber": 39.41938,
+   "slope": 1.52525,
+   "n": 185,
+   "nDays": 78,
+   "nWeeks": 23,
+   "conditionNumber": 39.29021,
    "day": {
     "fewBlocks": false,
     "ci95": [
-     0.66289,
-     2.49532
+     0.68416,
+     2.50449
     ],
     "reading": "positive",
     "failedDraws": 0,
@@ -305,8 +305,8 @@
    "week": {
     "fewBlocks": false,
     "ci95": [
-     0.50149,
-     2.37307
+     0.66626,
+     2.3778
     ],
     "reading": "positive",
     "failedDraws": 0,
@@ -316,15 +316,15 @@
    "M7": {
     "fewBlocks": false,
     "ci95": [
-     0.56132,
-     2.3286
+     0.66321,
+     2.42371
     ],
     "reading": "positive",
     "failedDraws": 0,
     "failedShare": 0.0,
     "endpointMcSd": [
-     0.02059,
-     0.01934
+     0.01977,
+     0.02101
     ],
     "endpointWithinMcErrorOfZero": false,
     "decisive": true
@@ -332,15 +332,15 @@
    "M14": {
     "fewBlocks": false,
     "ci95": [
-     0.22972,
-     2.24015
+     0.59368,
+     2.35399
     ],
     "reading": "positive",
     "failedDraws": 0,
     "failedShare": 0.0,
     "endpointMcSd": [
-     0.03453,
-     0.01199
+     0.01907,
+     0.02172
     ],
     "endpointWithinMcErrorOfZero": false,
     "decisive": true
@@ -353,29 +353,29 @@
    },
    "sizeMatchedNull": {
     "nDraws": 2000,
-    "k": 184,
+    "k": 185,
     "nullQuantiles": {
-     "p2.5": 0.25896,
-     "p50": 1.14341,
-     "p97.5": 2.10454
+     "p2.5": 0.31518,
+     "p50": 1.15974,
+     "p97.5": 2.16802
     },
-    "observedSlope": 1.50115,
-    "fractionOfNullAtOrBelowObserved": 0.773,
+    "observedSlope": 1.52525,
+    "fractionOfNullAtOrBelowObserved": 0.798,
     "insideCentral95": true
    }
   },
   {
    "id": "A1G1C1T0",
-   "slope": 1.69667,
-   "n": 184,
-   "nDays": 77,
-   "nWeeks": 22,
-   "conditionNumber": 40.11038,
+   "slope": 1.71724,
+   "n": 185,
+   "nDays": 78,
+   "nWeeks": 23,
+   "conditionNumber": 39.96291,
    "day": {
     "fewBlocks": false,
     "ci95": [
-     0.78839,
-     2.83253
+     0.81615,
+     2.8882
     ],
     "reading": "positive",
     "failedDraws": 0,
@@ -385,26 +385,26 @@
    "week": {
     "fewBlocks": false,
     "ci95": [
-     0.228,
-     2.81098
+     0.50061,
+     2.77921
     ],
     "reading": "positive",
-    "failedDraws": 3,
-    "failedShare": 0.00075,
+    "failedDraws": 2,
+    "failedShare": 0.0005,
     "decisive": true
    },
    "M7": {
     "fewBlocks": false,
     "ci95": [
-     0.67265,
-     2.54463
+     0.8131,
+     2.67113
     ],
     "reading": "positive",
-    "failedDraws": 6,
-    "failedShare": 0.0015,
+    "failedDraws": 12,
+    "failedShare": 0.003,
     "endpointMcSd": [
-     0.05781,
-     0.0184
+     0.02992,
+     0.02103
     ],
     "endpointWithinMcErrorOfZero": false,
     "decisive": true
@@ -412,17 +412,17 @@
    "M14": {
     "fewBlocks": false,
     "ci95": [
-     0.12707,
-     2.5214
+     0.66543,
+     2.6462
     ],
     "reading": "positive",
-    "failedDraws": 69,
-    "failedShare": 0.01725,
+    "failedDraws": 106,
+    "failedShare": 0.0265,
     "endpointMcSd": [
-     0.07006,
-     0.02805
+     0.05588,
+     0.02276
     ],
-    "endpointWithinMcErrorOfZero": true,
+    "endpointWithinMcErrorOfZero": false,
     "decisive": false
    },
    "readingAcrossProcedures": {
@@ -433,29 +433,29 @@
    },
    "sizeMatchedNull": {
     "nDraws": 2000,
-    "k": 184,
+    "k": 185,
     "nullQuantiles": {
-     "p2.5": 0.71766,
-     "p50": 1.68409,
-     "p97.5": 2.75375
+     "p2.5": 0.76819,
+     "p50": 1.68366,
+     "p97.5": 2.76049
     },
-    "observedSlope": 1.69667,
-    "fractionOfNullAtOrBelowObserved": 0.511,
+    "observedSlope": 1.71724,
+    "fractionOfNullAtOrBelowObserved": 0.523,
     "insideCentral95": true
    }
   },
   {
    "id": "A1G2C1T0",
-   "slope": 1.75722,
-   "n": 156,
-   "nDays": 61,
-   "nWeeks": 18,
-   "conditionNumber": 38.01821,
+   "slope": 1.77516,
+   "n": 157,
+   "nDays": 62,
+   "nWeeks": 19,
+   "conditionNumber": 37.85359,
    "day": {
     "fewBlocks": false,
     "ci95": [
-     0.88965,
-     2.83839
+     0.93104,
+     2.84034
     ],
     "reading": "positive",
     "failedDraws": 0,
@@ -465,8 +465,8 @@
    "week": {
     "fewBlocks": false,
     "ci95": [
-     0.49973,
-     2.70505
+     0.77574,
+     2.7707
     ],
     "reading": "positive",
     "failedDraws": 0,
@@ -476,15 +476,15 @@
    "M7": {
     "fewBlocks": false,
     "ci95": [
-     0.61452,
-     2.58657
+     0.82267,
+     2.7229
     ],
     "reading": "positive",
     "failedDraws": 0,
     "failedShare": 0.0,
     "endpointMcSd": [
-     0.0759,
-     0.02698
+     0.0358,
+     0.01957
     ],
     "endpointWithinMcErrorOfZero": false,
     "decisive": true
@@ -492,15 +492,15 @@
    "M14": {
     "fewBlocks": false,
     "ci95": [
-     -0.32762,
-     2.67728
+     0.41006,
+     2.89188
     ],
-    "reading": "includesZero",
+    "reading": "positive",
     "failedDraws": 0,
     "failedShare": 0.0,
     "endpointMcSd": [
-     0.07918,
-     0.04449
+     0.0352,
+     0.04542
     ],
     "endpointWithinMcErrorOfZero": false,
     "decisive": true
@@ -510,18 +510,18 @@
     "day": "positive",
     "week": "positive",
     "M7": "positive",
-    "M14": "includesZero"
+    "M14": "positive"
    },
    "sizeMatchedNull": {
     "nDraws": 2000,
-    "k": 156,
+    "k": 157,
     "nullQuantiles": {
-     "p2.5": 0.65136,
-     "p50": 1.59957,
-     "p97.5": 2.74297
+     "p2.5": 0.65686,
+     "p50": 1.57521,
+     "p97.5": 2.68685
     },
-    "observedSlope": 1.75722,
-    "fractionOfNullAtOrBelowObserved": 0.6265,
+    "observedSlope": 1.77516,
+    "fractionOfNullAtOrBelowObserved": 0.64,
     "insideCentral95": true
    }
   }
@@ -530,8 +530,8 @@
   "nCells": 6,
   "nPositiveSlopes": 6,
   "slopeRange": [
-   1.41981,
-   1.75722
+   1.44862,
+   1.77516
   ],
   "intervalCounts": {
    "day": {
@@ -551,55 +551,55 @@
    },
    "M14": {
     "decisive": 4,
-    "excludeZero": 2,
-    "positive": 2
+    "excludeZero": 4,
+    "positive": 4
    }
   },
   "proceduresDiffer": true,
-  "readingAcrossProcedures": "procedure-dependent or mixed",
+  "readingAcrossProcedures": "positive in every decisive interval of all four procedures",
   "escalationK": 6,
   "note": "six cells share one dataset and are not six independent results; no multiplicity control (6 cells x 4 procedures, re-looked at every ingestion); post hoc, exploratory; not part of the M514 ladder"
  },
  "selectionDiagnostic": {
   "A0": {
-   "nRetained": 184,
+   "nRetained": 185,
    "nExcluded": 91,
    "daysLost": 24,
    "standardizedMeanDifference": {
-    "months": -0.12958,
-    "T_pack_mean_avg": 0.68736,
-    "eff_dt_s": -0.07501,
-    "coverage_frac": -0.1411,
-    "distance_km": 1.11833,
-    "duration_s": 1.41662
+    "months": -0.11896,
+    "T_pack_mean_avg": 0.67868,
+    "eff_dt_s": -0.0782,
+    "coverage_frac": -0.14122,
+    "distance_km": 1.11603,
+    "duration_s": 1.41508
    },
    "sampleCountSlopePerMonth": {
-    "slope": -103.36732,
+    "slope": -102.46799,
     "dayCi95": [
-     -252.58156,
-     38.28463
+     -253.8642,
+     42.99992
     ],
     "excludesZero": false
    },
    "flag": "no calendar trend in support detected (does not rule out confounding)"
   },
   "A1": {
-   "nRetained": 184,
+   "nRetained": 185,
    "nExcluded": 91,
    "daysLost": 24,
    "standardizedMeanDifference": {
-    "months": -0.12958,
-    "T_pack_mean_avg": 0.68736,
-    "eff_dt_s": -0.07501,
-    "coverage_frac": -0.1411,
-    "distance_km": 1.11833,
-    "duration_s": 1.41662
+    "months": -0.11896,
+    "T_pack_mean_avg": 0.67868,
+    "eff_dt_s": -0.0782,
+    "coverage_frac": -0.14122,
+    "distance_km": 1.11603,
+    "duration_s": 1.41508
    },
    "sampleCountSlopePerMonth": {
-    "slope": -101.64415,
+    "slope": -100.74868,
     "dayCi95": [
-     -250.84009,
-     39.91902
+     -251.65737,
+     44.36325
     ],
     "excludesZero": false
    },

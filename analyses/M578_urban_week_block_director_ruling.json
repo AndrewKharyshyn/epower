@@ -1,0 +1,17 @@
+{
+ "milestone": "M578",
+ "date": "2026-11-05",
+ "role": "research-director (Opus), brief of the main session",
+ "decision": "accept",
+ "text": "M578 M494 urban week-block stop, 632 master. The verdict 'depends on the resampling unit' equals the one published after M575; this is not a verdict change. The gate stops on that verdict unconditionally unless a ruling-bound ack matches. 3-10 km band (the only band that drives the verdict) and < 3 km are identical to M575 because no new drive entered them (warm 90/55, shoulder 33/24; 186/69 and 102/39); one new Shoulder drive entered all urban trips and >= 10 km (shoulder 162 -> 163 and 27 -> 28 drives); point estimates -1.5 -> -1.54 and -1.07 -> -1.02 lie inside their previous CIs. Precedent: analyses/M575_urban_week_block_director_ruling.json.",
+ "conditions": [
+  "Ack bound to master MD5 and n drives verified at the gate run.",
+  "The 9 changed leaves stay inside the allow-list.",
+  "CHANGELOG M578 records this ruling and states that no Andrii approval exists or is implied."
+ ],
+ "wording": [
+  "Reuse the M575 wording: day-clustered reading primary; week-block intervals (W, WS) exclude zero at 3-10 km while the day-clustered interval includes it; narrower block intervals are not stronger evidence; the Warm-vs-Shoulder contrast is not established; thermal cohorts are confounded with season, date and drift.",
+  "Never: significant, robust, confirmed, accounts for dependence, no seasonal effect, tighter, more precise, at the edge of zero, verdict confirmed by new data."
+ ],
+ "followUp": "Tooling milestone (spec first): let the gate pass when the verdict and the deciding band digest equal the previously acknowledged state."
+}
