@@ -397,6 +397,19 @@
    ]
   },
   {
+   "id": "pid_epoch",
+   "title": "M582a: header-derived PID-set class per drive (reads only the raw CSV headers and the non-null fraction of two named columns; sidecar pid_epoch.csv + additive payload block pidEpoch; post hoc, descriptive, no cadence effect claimed; spec analyses/M582_spec.md Rev 1)",
+   "cmd": [
+    "python3",
+    "tools/pid_epoch.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json",
+    "pid_epoch.csv"
+   ]
+  },
+  {
    "id": "capacity_basis",
    "title": "M403: apparent capacity of the logged BMS SoC scale, estimated (additive payload block capacityBasis + documentary CAP_AH_RATED provenance entry; per-drive extraction cached by raw sha256; no headline or master change)",
    "cmd": [

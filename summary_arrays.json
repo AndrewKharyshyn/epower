@@ -65841,6 +65841,27 @@
     "masterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    }
+  },
+  "pidEpoch": {
+   "corpusHash": "1574a8156a36c6ea4ea1dfdaafc7cc72",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": "1e8a2a45a61c093f6c5b65537ae6dd8f",
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-11-05T22:05:03.457973+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72"
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M582a: derived by tools/pid_epoch.py from the raw CSV headers (header-only read, plus the non-null fraction of two named columns); descriptive, additive, post hoc; no published value recomputed; not M299-reproducible.",
+   "includedInReleaseAt": "2026-11-05T22:05:03.457973+00:00",
+   "inputBasis": {
+    "nDrives": 632,
+    "masterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-11-05T22:05:03.457973+00:00"
   }
  },
  "ambientTable": {
@@ -415500,5 +415521,309 @@
    "the strata are not comparable (cadence invariance fails); no pooled value is given",
    "a verdict of not supported is not evidence against buffer use and consistent with buffer use is not a proof; no capacity, depth-of-discharge or state-of-health quantity is estimated here"
   ]
+ },
+ "pidEpoch": {
+  "rule": "pidSetClass from the raw header only: A = '[BMS] HV Battery Intake Air Temperature (℃)' present and '[VCM] Motor Power Consumption (%)' absent; B = IAT absent and MPC present; C = both absent; D = both present",
+  "disclosure": "post hoc: the class was defined after the 2026-11-03 step had been seen in the data; it is a header-derived projection of the logger configuration, not an identified epoch; the column-set hash is reported only (too fine to use as a covariate) and the number of columns is descriptive only",
+  "statement": "PID-set class is a header-derived, post hoc proxy for the logger configuration; the period contrast is descriptive and confounded with date, regime and drive mix; no cadence effect and no causal mechanism is claimed",
+  "nDrives": 632,
+  "masterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72",
+  "counts": {
+   "A": {
+    "drives": 606,
+    "days": 122,
+    "firstDate": "2026-05-11",
+    "lastDate": "2026-11-03",
+    "periodS": {
+     "n": 601,
+     "median": 1.283,
+     "q25": 0.876,
+     "q75": 1.445
+    },
+    "iatNonNullFraction": {
+     "n": 606,
+     "median": 0.01,
+     "q25": 0.004,
+     "q75": 0.041
+    },
+    "mpcNonNullFraction": null
+   },
+   "B": {
+    "drives": 14,
+    "days": 4,
+    "firstDate": "2026-05-13",
+    "lastDate": "2026-11-05",
+    "periodS": {
+     "n": 14,
+     "median": 0.97,
+     "q25": 0.952,
+     "q75": 0.998
+    },
+    "iatNonNullFraction": null,
+    "mpcNonNullFraction": {
+     "n": 14,
+     "median": 0.062,
+     "q25": 0.062,
+     "q75": 0.062
+    }
+   },
+   "C": {
+    "drives": 7,
+    "days": 3,
+    "firstDate": "2026-05-12",
+    "lastDate": "2026-08-16",
+    "periodS": null,
+    "iatNonNullFraction": null,
+    "mpcNonNullFraction": null
+   },
+   "D": {
+    "drives": 5,
+    "days": 3,
+    "firstDate": "2026-05-15",
+    "lastDate": "2026-08-13",
+    "periodS": {
+     "n": 5,
+     "median": 2.692,
+     "q25": 1.369,
+     "q75": 3.537
+    },
+    "iatNonNullFraction": {
+     "n": 5,
+     "median": 0.022,
+     "q25": 0.02,
+     "q75": 0.031
+    },
+    "mpcNonNullFraction": {
+     "n": 5,
+     "median": 0.02,
+     "q25": 0.018,
+     "q75": 0.027
+    }
+   }
+  },
+  "periodByClassAndRegime": {
+   "A": {
+    "fast": {
+     "n": 182,
+     "median": 0.817,
+     "q25": 0.778,
+     "q75": 0.86
+    },
+    "slow": {
+     "n": 419,
+     "median": 1.407,
+     "q25": 1.257,
+     "q75": 1.474
+    }
+   },
+   "B": {
+    "fast": {
+     "n": 14,
+     "median": 0.97,
+     "q25": 0.952,
+     "q75": 0.998
+    },
+    "slow": null
+   },
+   "C": {
+    "fast": null,
+    "slow": null
+   },
+   "D": {
+    "fast": null,
+    "slow": {
+     "n": 5,
+     "median": 2.692,
+     "q25": 1.369,
+     "q75": 3.537
+    }
+   }
+  },
+  "earlyClassB": [
+   {
+    "file": "20260513_182950.csv",
+    "day": "2026-05-13"
+   }
+  ],
+  "classC": [
+   {
+    "file": "20260512_111617.csv",
+    "day": "2026-05-12"
+   },
+   {
+    "file": "20260512_195020.csv",
+    "day": "2026-05-12"
+   },
+   {
+    "file": "20260512_215542.csv",
+    "day": "2026-05-12"
+   },
+   {
+    "file": "20260513_180335.csv",
+    "day": "2026-05-13"
+   },
+   {
+    "file": "20260513_224232.csv",
+    "day": "2026-05-13"
+   },
+   {
+    "file": "20260816_124817.csv",
+    "day": "2026-08-16"
+   },
+   {
+    "file": "20260816_144003.csv",
+    "day": "2026-08-16"
+   }
+  ],
+  "classD": [
+   {
+    "file": "20260515_075207.csv",
+    "day": "2026-05-15"
+   },
+   {
+    "file": "20260531_200637.csv",
+    "day": "2026-05-31"
+   },
+   {
+    "file": "20260813_144601.csv",
+    "day": "2026-08-13"
+   },
+   {
+    "file": "20260813_145651.csv",
+    "day": "2026-08-13"
+   },
+   {
+    "file": "20260813_150341.csv",
+    "day": "2026-08-13"
+   }
+  ],
+  "distinctColumnSets": 50,
+  "runs": [
+   {
+    "cls": "B",
+    "n": 1,
+    "days": 1,
+    "start": "2026-05-13",
+    "end": "2026-05-13",
+    "lastFile": "20260513_182950.csv"
+   },
+   {
+    "cls": "C",
+    "n": 1,
+    "days": 1,
+    "start": "2026-05-13",
+    "end": "2026-05-13",
+    "lastFile": "20260513_224232.csv"
+   },
+   {
+    "cls": "A",
+    "n": 4,
+    "days": 2,
+    "start": "2026-05-14",
+    "end": "2026-05-15",
+    "lastFile": "20260515_074031.csv"
+   },
+   {
+    "cls": "D",
+    "n": 1,
+    "days": 1,
+    "start": "2026-05-15",
+    "end": "2026-05-15",
+    "lastFile": "20260515_075207.csv"
+   },
+   {
+    "cls": "A",
+    "n": 25,
+    "days": 6,
+    "start": "2026-05-15",
+    "end": "2026-05-31",
+    "lastFile": "20260531_183645.csv"
+   },
+   {
+    "cls": "D",
+    "n": 1,
+    "days": 1,
+    "start": "2026-05-31",
+    "end": "2026-05-31",
+    "lastFile": "20260531_200637.csv"
+   },
+   {
+    "cls": "A",
+    "n": 194,
+    "days": 48,
+    "start": "2026-06-03",
+    "end": "2026-08-13",
+    "lastFile": "20260813_115220.csv"
+   },
+   {
+    "cls": "D",
+    "n": 3,
+    "days": 1,
+    "start": "2026-08-13",
+    "end": "2026-08-13",
+    "lastFile": "20260813_150341.csv"
+   },
+   {
+    "cls": "A",
+    "n": 6,
+    "days": 1,
+    "start": "2026-08-14",
+    "end": "2026-08-14",
+    "lastFile": "20260814_213416.csv"
+   },
+   {
+    "cls": "C",
+    "n": 2,
+    "days": 1,
+    "start": "2026-08-16",
+    "end": "2026-08-16",
+    "lastFile": "20260816_144003.csv"
+   },
+   {
+    "cls": "A",
+    "n": 376,
+    "days": 65,
+    "start": "2026-08-16",
+    "end": "2026-11-03",
+    "lastFile": "2026-11-03_07-53-55.csv"
+   },
+   {
+    "cls": "B",
+    "n": 13,
+    "days": 3,
+    "start": "2026-11-03",
+    "end": "2026-11-05",
+    "lastFile": "2026-11-05_09-13-42.csv"
+   }
+  ],
+  "withinDayContrast": {
+   "note": "days that contain both a class A and a class B drive; descriptive, no interval, no inference",
+   "days": [
+    {
+     "day": "2026-11-03",
+     "A": {
+      "n": 2,
+      "median": 0.802,
+      "q25": 0.801,
+      "q75": 0.804
+     },
+     "B": {
+      "n": 3,
+      "median": 0.968,
+      "q25": 0.944,
+      "q75": 0.976
+     }
+    }
+   ]
+  },
+  "q3Readiness": {
+   "indicator": "pidSetClass B, final consecutive run in time order",
+   "runDrives": 13,
+   "runDays": 3,
+   "floorDrives": 10,
+   "floorDays": 5,
+   "status": "not identified (floors not met)"
+  },
+  "source": "raw CSV headers via tools/pid_epoch.py; sidecar pid_epoch.csv; spec analyses/M582_spec.md Rev 1"
  }
 }
