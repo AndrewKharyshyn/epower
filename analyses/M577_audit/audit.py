@@ -50,4 +50,4 @@ def vif(j):
 V={'step':vif(1+colsA.index('step')),'slow':vif(1+colsA.index('slow'))}
 cnt={a:[int(((c.step==a)).sum()),int(c[c.step==a].day.nunique())] for a in (0,1)}
 print(json.dumps(dict(n0=n0,support=[lo,hi],n=len(s),days=s.day.nunique(),A=A,boot_day=bd,boot_week=bd and bw,nweeks=nw,C=C,nC=len(c),daysC=c.day.nunique(),Cq=q,Carm=cnt,vif=V),default=float,indent=1))
-json.dump(dict(n_drives=len(s),n_days=int(s.day.nunique()),support=[lo,hi],A=A,boot_day=bd,boot_week=bw,C=C,nC=len(c),C_arm_drives_days=cnt,vif=V),open('analyses/M577_audit/audit.json','w'),default=float,indent=1)
+json.dump(dict(n_drives=len(s),n_days=int(s.day.nunique()),support=[lo,hi],A=A,boot_day=bd,boot_week=bw,C=C,nC=len(c),C_arm_drives_days=cnt,vif=V),open('analyses/M577_audit/audit.json','w',encoding='utf-8'),default=float,indent=1)
