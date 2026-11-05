@@ -222,6 +222,20 @@ if _cfm and _cfm.get("status") == "evaluated":
            and ("%d of %d drives lie below the temperature range of the pre-step fit" % (_cfm["nBelowPreStepTmin"], _cfm["nDrivesAfterCutoff"])) in _row580(t_)
            and "the cause is unidentified; degradation and imbalance growth are neither established nor excluded" in _row580(t_) and _cfm["lookLabel"] in _row580(t_)
            and ("post hoc; below the floor" in _row580(t_) or _cfm["inRangeSensitivity"]["meetsSupportFloor"]) for k_, t_ in _rows580))
+# M582a (analyses/M582_spec.md Rev 1): the PID-set class row prints the class counts, the class B and class A period medians, the post hoc statement and the Q3 readiness from the payload
+_pe = A.get("pidEpoch")
+if _pe:
+    _K582 = "PID-set class (M582a):"
+    _rows582 = [(k, t) for k, t in T.items() if _K582 in t]
+    _row582 = lambda t: t[t.index(_K582):t.index(_K582) + 2500]
+    _c582 = _pe["counts"]
+    ok("A2 REQUIRED M582 the PID-set class row prints the class counts, the class B and A period medians, the post hoc statement and the Q3 readiness from the payload (%d dumps)" % len(_rows582),
+       len(_rows582) >= 1 and all(
+           all(("%s %d drives" % (k_, _c582[k_]["drives"])) in _row582(t_) for k_ in "ABCD")
+           and ("%.3f s (%d drives, quartiles" % (_c582["B"]["periodS"]["median"], _c582["B"]["periodS"]["n"])) in _row582(t_)
+           and ("%.3f s for class A (%d drives)" % (_c582["A"]["periodS"]["median"], _c582["A"]["periodS"]["n"])) in _row582(t_)
+           and "assigned after the 2026-11-03 step had been seen (post hoc)" in _row582(t_) and _pe["statement"] in _row582(t_) and _pe["q3Readiness"]["status"] in _row582(t_)
+           for k_, t_ in _rows582))
 # M438 (analyses/M438_spec.md Rev 2.1): start-temperature strata of the headline cells, produced in the ledger stage
 import os as _os, sys as _sys
 _sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "tools"))
