@@ -49,5 +49,5 @@ assert S.unregistered({"sites": [s for s in reg["sites"] if "_RSYNC_ENG_ON" not 
 assert sum(1 for s in reg["sites"] if s["family"] == "rule-400-constant") == 7
 
 # wave 1 changes no producer: the master anchor
-assert hashlib.md5(open("drive_master.csv", "rb").read()).hexdigest().startswith("5556a0c6")
+assert hashlib.md5(open("drive_master.csv", "rb").read()).hexdigest() == __import__("re").search(r"--expect-master-md5 (\w+)", open(".github/workflows/ci.yml", encoding="utf-8").read()).group(1)      # M575: the anchor follows the CI pin (606 drives: 5556a0c6; 621: 1e599176)
 print("OK test_engine_on_rule: known answers, constants, edge copies, regen proxy 300, registry and grep tripwire")

@@ -207,6 +207,48 @@ def cond_moved_to_complement_list(prev, cur, path, bound, rule):
         return False
 
 
+def cond_trendslope_flip_ack(prev, cur, path, bound, rule):
+    """M575 (Director ruling, analyses/M575_leaf_guard_director_ruling.json). Like moved_to_complement_list, but the classification MAY change, only when an acknowledgement file
+    pins the exact transition: block key, previous and current classification, unchanged union of row names, the live master MD5, and a recorded ruling."""
+    try:
+        import hashlib
+        rr_p, rr_c = get(prev, path[:-2]), get(cur, path[:-2])
+        a, b = rule["listField"], rule["complementField"]
+        if path[-2] != a:
+            return False
+        ack = json.load(open(os.path.join(ROOT, rule["ackFile"]), encoding="utf-8"))
+        md5 = hashlib.md5(open(os.path.join(ROOT, "drive_master.csv"), "rb").read()).hexdigest()
+        dropped = set(rr_p[a]) - set(rr_c[a])
+        return bool(ack.get("ruling") and ack.get("block") == path[2] and ack.get("masterMd5") == md5
+                    and ack.get("prevClassification") == rr_p.get("classification") and ack.get("curClassification") == rr_c.get("classification")
+                    and rr_p.get("classification") != rr_c.get("classification")
+                    and len(rr_c[a]) < len(rr_p[a]) and dropped <= set(rr_c[b]) and set(rr_p[a]) | set(rr_p[b]) == set(rr_c[a]) | set(rr_c[b])
+                    and ack.get("nRows") == len(set(rr_c[a]) | set(rr_c[b])))
+    except (KeyError, IndexError, TypeError, AttributeError, OSError, ValueError):
+        return False
+
+
+def cond_stamp_computed_at_set(prev, cur, path, bound, rule):
+    """M575 (Director ruling): a stamp's computedAtNote ('no calculation time ... M513 backfill') may vanish only where the previous computedAt was null and the current computedAt is the ingest run start
+    (env XT_RUN_STARTED_AT, set by run_ingest for every stage), and only for the listed block keys."""
+    k = bound.get("key")
+    try:
+        if k not in rule["keys"]:
+            return False
+        p_at, c_at = prev["_artifactStamps"][k].get("computedAt"), cur["_artifactStamps"][k].get("computedAt")
+        if p_at is not None or not c_at:
+            return False
+        # the stamp time must be the start of a recorded ingest run (run_ingest names runs/<UTC ts>/ after its start and passes the same instant as XT_RUN_STARTED_AT): the current run,
+        # or the earlier run of the same ingestion whose checkpoints a --resume restored
+        run_at = os.environ.get("XT_RUN_STARTED_AT")
+        if run_at and c_at == run_at:
+            return True
+        ts = str(c_at)[:19].replace("-", "").replace(":", "") + "Z"
+        return len(ts) == 16 and os.path.isdir(os.path.join(ROOT, "runs", ts))
+    except (KeyError, TypeError, AttributeError):
+        return False
+
+
 def _refit_transition_ok(prev, cur, rule):
     """M463 (Director ruling, analyses/M463_leaf_guard_addendum.md): the exact one-shot M119-v2 refit transition. Previous block carriedForward at prevCorpus drives, current block
     fresh at curCorpus drives with frozenBasis false. The exact previous/current values make it unable to fire on any later ingestion."""
@@ -303,11 +345,11 @@ def cond_two_part_switch(prev, cur, path, bound, rule):
 CONDITIONS = {"field_changed": cond_field_changed, "stamp_hash_changed": cond_stamp_hash_changed, "parent_null_in_current": cond_parent_null_in_current, "sibling_present": cond_sibling_present,
               "field_changed_and_empty": cond_field_changed_and_empty, "cohort_min_support_crossed": cond_cohort_min_support_crossed, "placeholder_row_observed": cond_placeholder_row_observed, "moved_to_complement_list": cond_moved_to_complement_list,
               "refit_recompute_transition": cond_refit_recompute_transition, "f03_list_cleared_by_refit": cond_f03_list_cleared_by_refit, "fit_attempts_shortened_converged": cond_fit_attempts_shortened_converged,
-              "list_shortened_nonempty": cond_list_shortened_nonempty, "two_part_switch": cond_two_part_switch}
+              "list_shortened_nonempty": cond_list_shortened_nonempty, "two_part_switch": cond_two_part_switch, "trendslope_flip_ack": cond_trendslope_flip_ack, "stamp_computed_at_set": cond_stamp_computed_at_set}
 
 
 REQUIRED_PARAMS = {"sibling_present": ("sibling",), "field_changed": ("entryDepth", "field"), "field_changed_and_empty": ("entryDepth", "field"), "placeholder_row_observed": ("entryDepth", "allowedLeaves", "observedFields"),
-                   "moved_to_complement_list": ("listField", "complementField"),
+                   "moved_to_complement_list": ("listField", "complementField"), "trendslope_flip_ack": ("listField", "complementField", "ackFile"), "stamp_computed_at_set": ("keys",),
                    "refit_recompute_transition": ("prevMode", "curMode", "prevCorpus", "curCorpus"), "f03_list_cleared_by_refit": ("prevMode", "curMode", "prevCorpus", "curCorpus"),
                    "two_part_switch": ("threshold",)}
 

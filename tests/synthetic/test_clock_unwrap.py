@@ -36,7 +36,7 @@ tn = unwrap_clock(nat)
 assert tn.isna().tolist() == [False, True, False] and (tn.iloc[2] - tn.iloc[0]).total_seconds() == 2.0
 # corpus: no current file wraps, so unwrap is the identity on the real data (sample of files)
 raw = os.environ.get("XT_RAW_DIR") or os.path.join(ROOT, "raw")
-files = sorted(f for f in os.listdir(raw) if f.endswith(".csv"))[::25]
+files = [f for f in sorted(f for f in os.listdir(raw) if f.endswith(".csv")) if "time" in pd.read_csv(os.path.join(raw, f), nrows=0).columns][::25]      # M575: comparison-only exports have no time column
 for f in files:
     s = pd.read_csv(os.path.join(raw, f), usecols=["time"], low_memory=False)["time"]
     raw_t = pd.to_datetime(s, errors="coerce")

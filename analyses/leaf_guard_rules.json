@@ -635,5 +635,67 @@
   "condition": "field_changed",
   "entryDepth": 11,
   "field": "status"
+ },
+ {
+  "id": "m575-carryover-method-note",
+  "rationale": "M575 (Director ruling): the isoWeek row note 'fewer than about 25 blocks: coarse sensitivity' is written only while nClusters < 25; with the 15 added drives the block count crossed 25 (field nClusters changed), so the note is no longer written.",
+  "milestone": "M575",
+  "pathTemplate": "interDriveCarryover/thermalDecay/{key}/methodTable/{i}/note",
+  "condition": "field_changed",
+  "entryDepth": 5,
+  "field": "nClusters"
+ },
+ {
+  "id": "m575-carryover-s3-differs",
+  "rationale": "M575 (Director ruling): differsFromDayBootstrap lists statements whose wording differs from the day bootstrap; it may empty only where the block-bootstrap statements changed (S3 'worse than the empirical gap bins' -> 'not shown to be worse than the empirical gap bins').",
+  "milestone": "M575",
+  "pathTemplate": "interDriveCarryover/thermalDecay/{key}/fitQuality/cells/{key}/blockBootstrap/differsFromDayBootstrap/{i}",
+  "condition": "field_changed",
+  "entryDepth": 7,
+  "field": "statements"
+ },
+ {
+  "id": "m575-regen-droppedGroups",
+  "rationale": "M575 (Director ruling): droppedGroups of the temperature availability block is derived from the coverage rule; an entry may vanish only where the coverage value changed.",
+  "milestone": "M575",
+  "pathTemplate": "regenDisplayV2/cohorts/{key}/strata/{key}/standardized/temperature/availability/droppedGroups/{i}",
+  "condition": "field_changed",
+  "entryDepth": 8,
+  "field": "coverage"
+ },
+ {
+  "id": "m575-thermal-thin-note",
+  "rationale": "M575 (Director ruling): a thin-support note of a time-to-threshold start-strata cell is written while a stratum has fewer than twice the support floor of drives; it may vanish only where the cell's day count changed (support grew with the added drives).",
+  "milestone": "M575",
+  "pathTemplate": "thermalSupportLedger/timeToThreshold/startStrata/cells/{key}/notes/thin/{i}",
+  "condition": "field_changed",
+  "entryDepth": 5,
+  "field": "days"
+ },
+ {
+  "id": "m575-trendslope-classification-flip-ack",
+  "rationale": "M575 (Director ruling): serialDependence trend-slope rows moved from rowsIncludingZero to rowsExcludingZero AND the classification changed ('every row includes zero' -> 'procedure-dependent'); allowed only with an acknowledgement file pinning block, both classifications, the unchanged row union, the live master MD5 and the ruling.",
+  "milestone": "M575",
+  "pathTemplate": "serialDependence/trendSlopes/{key}/rowsRule/rowsIncludingZero/{i}",
+  "condition": "trendslope_flip_ack",
+  "listField": "rowsIncludingZero",
+  "complementField": "rowsExcludingZero",
+  "ackFile": "analyses/M575_resistanceVreg_ack.json"
+ },
+ {
+  "id": "m575-stamp-computedAtNote",
+  "rationale": "M575 (Director ruling): the M513 backfill note 'the block carries no calculation time ...' is replaced when the stamp now carries a calculation time (producer stages ran OK in this run): previous computedAt null, current computedAt equal to the ingest run start. Limited to the seven M575 blocks.",
+  "milestone": "M575",
+  "pathTemplate": "_artifactStamps/{key}/computedAtNote",
+  "condition": "stamp_computed_at_set",
+  "keys": [
+   "ambientTable",
+   "assumptionsRegistry",
+   "cohortMeta",
+   "crossVehicle",
+   "generatorTractionRecon",
+   "provenanceSensitivity",
+   "seasonalCharts"
+  ]
  }
 ]

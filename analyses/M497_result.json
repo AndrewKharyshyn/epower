@@ -1,21 +1,21 @@
 {
  "spec": "analyses/M497_spec.md",
  "provenance": {
-  "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
+  "masterMd5": "1e599176dafd8575dc7addede8d79358",
   "scriptSha256": "801c9a557bd256e85d03736bd8c340ba45241d3ef4515aece7be4cc572e26da5",
   "specSha256": "937653d9d53bd18d00353fccdbf8fcf0dd5d8265d37cfecee21fa663bce7b996",
   "seed": 42,
   "B": 4000,
-  "generatedAt": "2026-10-24T07:59:55.541405+00:00",
+  "generatedAt": "2026-11-04T22:35:17.015105+00:00",
   "limit": null
  },
  "fidelity": {
   "checked": true,
   "mismatches": []
  },
- "nDrivesCovered": 604,
- "nDays": 121,
- "nWeeks": 23,
+ "nDrivesCovered": 619,
+ "nDays": 124,
+ "nWeeks": 25,
  "frozenBins": [
   55.0,
   60.0,
@@ -25,22 +25,22 @@
   80.0
  ],
  "primary": {
-  "R": 43.34,
-  "kStationary": 114,
-  "kHigh": 3970,
-  "nAtRiskStationary": 93025,
-  "nAtRiskHigh": 77009,
-  "daysWithStationaryStart": 54,
-  "weeksWithStationaryStart": 18,
-  "top3DayShareOfStationaryStarts": 0.158,
+  "R": 42.14,
+  "kStationary": 120,
+  "kHigh": 3977,
+  "nAtRiskStationary": 94984,
+  "nAtRiskHigh": 77136,
+  "daysWithStationaryStart": 56,
+  "weeksWithStationaryStart": 19,
+  "top3DayShareOfStationaryStarts": 0.15,
   "dayBootstrap": {
    "nDraws": 4000,
    "nUndefined": 0,
    "nInfinite": 0,
    "infiniteShare": 0.0,
-   "lo": 34.11,
-   "median": 43.34,
-   "hi": 57.81,
+   "lo": 33.4,
+   "median": 42.28,
+   "hi": 56.02,
    "upperUnbounded": false,
    "intervalReported": true,
    "method": "percentile by order statistics over all non-undefined draws (+inf kept)"
@@ -50,30 +50,30 @@
    "nUndefined": 0,
    "nInfinite": 0,
    "infiniteShare": 0.0,
-   "lo": 34.04,
-   "median": 43.83,
-   "hi": 63.53,
+   "lo": 32.93,
+   "median": 42.5,
+   "hi": 60.84,
    "upperUnbounded": false,
    "intervalReported": true,
    "method": "percentile by order statistics over all non-undefined draws (+inf kept)",
    "coPrimary": true
   },
   "poissonClusterByDay": {
-   "ratio": 62.69,
-   "lo": 47.62,
-   "hi": 82.53,
-   "logSE": 0.1403,
-   "nClusters": 121,
-   "nCells": 826,
+   "ratio": 60.28,
+   "lo": 45.9,
+   "hi": 79.17,
+   "logSE": 0.139,
+   "nClusters": 124,
+   "nCells": 847,
    "method": "Poisson, SoC-bin fixed effects, offset log n, CR1 by calendar day, Wald on log scale"
   }
  },
  "decision": {
-  "L": 34.04,
+  "L": 32.93,
   "widestInterval": "weekBootstrap",
   "widest": {
-   "lo": 34.04,
-   "hi": 63.53,
+   "lo": 32.93,
+   "hi": 60.84,
    "upperUnbounded": false
   },
   "wording": "at least an order of magnitude higher",
@@ -88,132 +88,132 @@
    "nUndefined": 0,
    "nInfinite": 0,
    "infiniteShare": 0.0,
-   "lo": 75.65,
-   "median": 154.84,
-   "hi": 370.62,
+   "lo": 74.99,
+   "median": 160.07,
+   "hi": 371.21,
    "upperUnbounded": false,
    "intervalReported": true,
    "method": "percentile by order statistics over all non-undefined draws (+inf kept)",
-   "ratio": 151.8
+   "ratio": 154.2
   },
   {
    "socBin": 60.0,
    "kStationary": 14,
-   "kHigh": 1662,
+   "kHigh": 1666,
    "nDraws": 4000,
    "nUndefined": 0,
    "nInfinite": 0,
    "infiniteShare": 0.0,
-   "lo": 170.45,
-   "median": 263.14,
-   "hi": 518.39,
+   "lo": 172.17,
+   "median": 268.53,
+   "hi": 511.28,
    "upperUnbounded": false,
    "intervalReported": true,
    "method": "percentile by order statistics over all non-undefined draws (+inf kept)",
-   "ratio": 261.6
+   "ratio": 266.9
   },
   {
    "socBin": 65.0,
    "kStationary": 27,
-   "kHigh": 2040,
+   "kHigh": 2043,
    "nDraws": 4000,
    "nUndefined": 0,
    "nInfinite": 0,
    "infiniteShare": 0.0,
-   "lo": 27.57,
-   "median": 40.61,
-   "hi": 69.44,
+   "lo": 27.97,
+   "median": 41.75,
+   "hi": 73.82,
    "upperUnbounded": false,
    "intervalReported": true,
    "method": "percentile by order statistics over all non-undefined draws (+inf kept)",
-   "ratio": 40.6
+   "ratio": 41.3
   },
   {
    "socBin": 70.0,
-   "kStationary": 22,
+   "kStationary": 24,
    "kHigh": 158,
    "nDraws": 4000,
    "nUndefined": 0,
    "nInfinite": 0,
    "infiniteShare": 0.0,
-   "lo": 2.51,
-   "median": 3.81,
-   "hi": 6.7,
+   "lo": 2.39,
+   "median": 3.64,
+   "hi": 6.07,
    "upperUnbounded": false,
    "intervalReported": true,
    "method": "percentile by order statistics over all non-undefined draws (+inf kept)",
-   "ratio": 3.8
+   "ratio": 3.6
   },
   {
    "socBin": 75.0,
-   "kStationary": 18,
+   "kStationary": 20,
    "kHigh": 68,
    "nDraws": 4000,
    "nUndefined": 0,
    "nInfinite": 0,
    "infiniteShare": 0.0,
-   "lo": 2.68,
-   "median": 4.53,
-   "hi": 8.88,
+   "lo": 2.54,
+   "median": 4.23,
+   "hi": 7.5,
    "upperUnbounded": false,
    "intervalReported": true,
    "method": "percentile by order statistics over all non-undefined draws (+inf kept)",
-   "ratio": 4.5
+   "ratio": 4.2
   },
   {
    "socBin": 80.0,
-   "kStationary": 9,
+   "kStationary": 11,
    "kHigh": 19,
    "nDraws": 4000,
    "nUndefined": 0,
-   "nInfinite": 1,
-   "infiniteShare": 0.0003,
-   "lo": 5.02,
-   "median": 14.14,
-   "hi": 51.61,
+   "nInfinite": 2,
+   "infiniteShare": 0.0005,
+   "lo": 5.19,
+   "median": 13.86,
+   "hi": 43.03,
    "upperUnbounded": false,
    "intervalReported": true,
    "method": "percentile by order statistics over all non-undefined draws (+inf kept)",
-   "ratio": 14.4
+   "ratio": 14.1
   }
  ],
  "perBinRange": {
-  "min": 3.8,
-  "max": 261.6,
+  "min": 3.6,
+  "max": 266.9,
   "binsWithStationaryStart": 6,
   "eligibleBinsExcluded": 0
  },
  "sensitivities": {
-  "S1_crudeRatio": 29.12,
+  "S1_crudeRatio": 28.79,
   "S2_driveBootstrap": {
    "nDraws": 4000,
    "nUndefined": 0,
    "nInfinite": 0,
    "infiniteShare": 0.0,
-   "lo": 34.43,
-   "median": 43.5,
-   "hi": 56.54,
+   "lo": 33.33,
+   "median": 42.1,
+   "hi": 54.72,
    "upperUnbounded": false,
    "intervalReported": true,
    "method": "percentile by order statistics over all non-undefined draws (+inf kept)"
   },
   "S3_leaveOneDayOut": {
-   "min": 41.52,
-   "max": 45.39,
+   "min": 40.38,
+   "max": 44.02,
    "nInfinite": 0
   },
   "S3_dayWithMostStationaryStarts": {
    "day": "2026-09-13",
    "kStationary": 7,
-   "R_without": 43.51
+   "R_without": 42.28
   },
   "S4_leaveOneBinOut": {
-   "55.0": 42.98,
-   "60.0": 20.34,
-   "65.0": 45.05,
-   "70.0": 61.4,
-   "75.0": 51.84,
-   "80.0": 44.09
+   "55.0": 41.79,
+   "60.0": 19.73,
+   "65.0": 42.62,
+   "70.0": 60.74,
+   "75.0": 50.97,
+   "80.0": 42.87
   },
   "S5_stationaryBelow2kmh": {
    "frozenBins": [
@@ -224,16 +224,16 @@
     75.0,
     80.0
    ],
-   "R": 45.06,
-   "kStationary": 94,
+   "R": 44.03,
+   "kStationary": 99,
    "dayBootstrap": {
     "nDraws": 4000,
     "nUndefined": 0,
     "nInfinite": 0,
     "infiniteShare": 0.0,
-    "lo": 34.76,
-    "median": 45.01,
-    "hi": 62.69,
+    "lo": 34.1,
+    "median": 44.25,
+    "hi": 60.65,
     "upperUnbounded": false,
     "intervalReported": true,
     "method": "percentile by order statistics over all non-undefined draws (+inf kept)"
@@ -241,9 +241,9 @@
   },
   "S6_iidKatzOldHeadlineCell": {
    "socBin": 60.0,
-   "ratio": 261.6,
-   "lo": 154.7,
-   "hi": 442.6,
+   "ratio": 266.9,
+   "lo": 157.8,
+   "hi": 451.5,
    "label": "iid per-second; anti-conservative; comparison only"
   },
   "S7_firstStartPerDriveRemoved": {
@@ -255,16 +255,16 @@
     75.0,
     80.0
    ],
-   "R": 48.9,
-   "kStationary": 101,
+   "R": 47.99,
+   "kStationary": 106,
    "dayBootstrap": {
     "nDraws": 4000,
     "nUndefined": 0,
     "nInfinite": 0,
     "infiniteShare": 0.0,
-    "lo": 38.3,
-    "median": 48.99,
-    "hi": 66.29,
+    "lo": 37.87,
+    "median": 48.26,
+    "hi": 64.99,
     "upperUnbounded": false,
     "intervalReported": true,
     "method": "percentile by order statistics over all non-undefined draws (+inf kept)"
@@ -393,7 +393,10 @@
    "2026-10-14",
    "2026-10-15",
    "2026-10-16",
-   "2026-10-17"
+   "2026-10-17",
+   "2026-11-01",
+   "2026-11-02",
+   "2026-11-03"
   ],
   "binsLower": [
    35.0,
@@ -32546,6 +32549,804 @@
      [
       0,
       0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ]
+   ],
+   [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      32
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      31
+     ],
+     [
+      0,
+      32
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      328
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      274
+     ],
+     [
+      0,
+      328
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      575
+     ],
+     [
+      4,
+      31
+     ],
+     [
+      0,
+      437
+     ],
+     [
+      0,
+      575
+     ],
+     [
+      4,
+      31
+     ]
+    ],
+    [
+     [
+      0,
+      176
+     ],
+     [
+      3,
+      69
+     ],
+     [
+      0,
+      144
+     ],
+     [
+      0,
+      176
+     ],
+     [
+      3,
+      69
+     ]
+    ],
+    [
+     [
+      0,
+      79
+     ],
+     [
+      0,
+      20
+     ],
+     [
+      0,
+      69
+     ],
+     [
+      0,
+      79
+     ],
+     [
+      0,
+      20
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      7
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      7
+     ]
+    ],
+    [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ]
+   ],
+   [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      61
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      21
+     ],
+     [
+      0,
+      61
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      3
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      93
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      80
+     ],
+     [
+      0,
+      93
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      81
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      74
+     ],
+     [
+      0,
+      81
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      63
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      45
+     ],
+     [
+      1,
+      63
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      13
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      2,
+      13
+     ],
+     [
+      2,
+      13
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ]
+   ],
+   [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      49
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      16
+     ],
+     [
+      0,
+      49
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      34
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      33
+     ],
+     [
+      0,
+      34
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      32
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      24
+     ],
+     [
+      0,
+      32
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      139
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      98
+     ],
+     [
+      0,
+      139
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      2,
+      185
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      165
+     ],
+     [
+      1,
+      184
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      53
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      41
+     ],
+     [
+      1,
+      53
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      42
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      42
+     ],
+     [
+      0,
+      42
      ],
      [
       0,

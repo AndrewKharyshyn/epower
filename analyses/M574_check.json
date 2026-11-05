@@ -1,145 +1,145 @@
 {
  "milestone": "M573",
  "spec": "analyses/M573_spec.md Rev 1",
- "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
- "masterRows": 606,
+ "masterMd5": "1e599176dafd8575dc7addede8d79358",
+ "masterRows": 621,
  "analysisFrame": {
-  "n": 576,
-  "days": 117,
+  "n": 590,
+  "days": 120,
   "firstDate": "2026-05-15",
-  "lastDate": "2026-10-17",
+  "lastDate": "2026-11-03",
   "stepDate": "2026-10-01",
-  "windowMonths": 5.09
+  "windowMonths": 5.65
  },
  "item1_2_models": {
   "M0_linear_released": {
-   "est": 0.5239,
-   "se": 0.13,
+   "est": 0.6816,
+   "se": 0.1695,
    "ci95": [
-    0.2665,
-    0.7814
+    0.3461,
+    1.0171
    ],
-   "n": 576,
-   "G": 117,
-   "aic": 3150.89,
-   "r2": 0.2516,
-   "cv_rmse_day_blocked": 3.727,
+   "n": 590,
+   "G": 120,
+   "aic": 3315.02,
+   "r2": 0.2215,
+   "cv_rmse_day_blocked": 4.014,
    "formula": "y ~ months + T + I"
   },
   "M1_linear_soc": {
-   "est": 0.4712,
-   "se": 0.1269,
+   "est": 0.6344,
+   "se": 0.1728,
    "ci95": [
-    0.2198,
-    0.7226
+    0.2922,
+    0.9765
    ],
-   "n": 576,
-   "G": 117,
-   "aic": 3123.12,
-   "r2": 0.2918,
-   "cv_rmse_day_blocked": 3.64,
+   "n": 590,
+   "G": 120,
+   "aic": 3293.93,
+   "r2": 0.2539,
+   "cv_rmse_day_blocked": 3.942,
    "formula": "y ~ months + T + I + soc + socr"
   },
   "M2_linear_soc_rest": {
-   "est": 0.3601,
-   "se": 0.1298,
+   "est": 0.5094,
+   "se": 0.1678,
    "ci95": [
-    0.1029,
-    0.6173
+    0.1771,
+    0.8417
    ],
-   "n": 576,
-   "G": 117,
-   "aic": 3113.92,
-   "r2": 0.3078,
-   "cv_rmse_day_blocked": 3.607,
+   "n": 590,
+   "G": 120,
+   "aic": 3282.78,
+   "r2": 0.2728,
+   "cv_rmse_day_blocked": 3.906,
    "formula": "y ~ months + T + I + soc + socr + lrest + first"
   },
   "M3_step": {
-   "est": 0.1568,
-   "se": 0.1443,
+   "est": 0.2134,
+   "se": 0.1491,
    "ci95": [
-    -0.129,
-    0.4427
+    -0.0819,
+    0.5087
    ],
-   "n": 576,
-   "G": 117,
-   "aic": 3130.15,
-   "r2": 0.2806,
-   "cv_rmse_day_blocked": 3.669,
+   "n": 590,
+   "G": 120,
+   "aic": 3287.3,
+   "r2": 0.2597,
+   "cv_rmse_day_blocked": 3.925,
    "step_term": {
-    "est": 2.2631,
-    "se": 0.5529,
+    "est": 2.7308,
+    "se": 0.6614,
     "ci95": [
-     1.1681,
-     3.3582
+     1.4212,
+     4.0404
     ]
    },
    "formula": "y ~ months + step + T + I"
   },
   "M4_step_soc": {
-   "est": 0.1325,
-   "se": 0.1383,
+   "est": 0.1951,
+   "se": 0.1452,
    "ci95": [
-    -0.1414,
-    0.4065
+    -0.0925,
+    0.4826
    ],
-   "n": 576,
-   "G": 117,
-   "aic": 3104.72,
-   "r2": 0.3164,
-   "cv_rmse_day_blocked": 3.595,
+   "n": 590,
+   "G": 120,
+   "aic": 3268.84,
+   "r2": 0.2874,
+   "cv_rmse_day_blocked": 3.865,
    "step_term": {
-    "est": 2.093,
-    "se": 0.5784,
+    "est": 2.5643,
+    "se": 0.6852,
     "ci95": [
-     0.9473,
-     3.2387
+     1.2075,
+     3.9212
     ]
    },
    "formula": "y ~ months + step + T + I + soc + socr"
   },
   "M5_step_soc_rest": {
-   "est": 0.0208,
-   "se": 0.1398,
+   "est": 0.0763,
+   "se": 0.1437,
    "ci95": [
-    -0.2561,
-    0.2977
+    -0.2083,
+    0.3609
    ],
-   "n": 576,
-   "G": 117,
-   "aic": 3095.38,
-   "r2": 0.332,
-   "cv_rmse_day_blocked": 3.56,
+   "n": 590,
+   "G": 120,
+   "aic": 3258.11,
+   "r2": 0.305,
+   "cv_rmse_day_blocked": 3.829,
    "step_term": {
-    "est": 2.0842,
-    "se": 0.5698,
+    "est": 2.5246,
+    "se": 0.671,
     "ci95": [
-     0.9556,
-     3.2128
+     1.1961,
+     3.8532
     ]
    },
    "formula": "y ~ months + step + T + I + soc + socr + lrest + first"
   },
   "M6_month_fixed_effects": {
-   "aic": 3095.79,
-   "r2": 0.3339,
-   "n": 576,
-   "cv_rmse_day_blocked": 3.569,
+   "aic": 3238.28,
+   "r2": 0.3325,
+   "n": 590,
+   "cv_rmse_day_blocked": 3.839,
    "formula": "y ~ T + I + soc + socr + month dummies (no linear months term)"
   },
   "changePointScan": {
    "best": [
     {
+     "day": "2026-10-10",
+     "jump_mv": 4.01
+    },
+    {
      "day": "2026-09-27",
-     "jump_mv": 2.41
+     "jump_mv": 2.77
     },
     {
      "day": "2026-09-26",
-     "jump_mv": 2.36
-    },
-    {
-     "day": "2026-09-25",
-     "jump_mv": 2.33
+     "jump_mv": 2.7
     }
    ],
    "note": "descriptive; residual of y ~ T + I + soc; not a tested date"
@@ -147,242 +147,258 @@
  },
  "item3_dependence": {
   "weekCluster_linear": {
-   "est": 0.4712,
-   "se": 0.1816,
+   "est": 0.6344,
+   "se": 0.2044,
    "ci95": [
-    0.0946,
-    0.8478
+    0.2126,
+    1.0561
    ],
-   "n": 576,
-   "G": 23,
-   "aic": 3123.12,
-   "r2": 0.2918
+   "n": 590,
+   "G": 25,
+   "aic": 3293.93,
+   "r2": 0.2539
   },
   "weekCluster_step": {
-   "est": 0.1325,
-   "se": 0.1199,
+   "est": 0.1951,
+   "se": 0.1303,
    "ci95": [
-    -0.1162,
-    0.3813
+    -0.0738,
+    0.4639
    ],
-   "n": 576,
-   "G": 23,
-   "aic": 3104.72,
-   "r2": 0.3164
+   "n": 590,
+   "G": 25,
+   "aic": 3268.84,
+   "r2": 0.2874
   },
   "weekBlockBootstrap_linear": {
    "ci95": [
-    0.0574,
-    0.8561
+    0.213,
+    1.1105
    ],
-   "median": 0.4657,
-   "pGt0": 0.984,
-   "nBlocks": 23,
+   "median": 0.6362,
+   "pGt0": 0.9968,
+   "nBlocks": 25,
    "draws": 4000,
    "seed": 42
   },
   "weekBlockBootstrap_step": {
    "ci95": [
-    -0.1654,
-    0.4035
+    -0.1212,
+    0.5056
    ],
-   "median": 0.1392,
-   "pGt0": 0.8405,
-   "nBlocks": 23,
+   "median": 0.2043,
+   "pGt0": 0.915,
+   "nBlocks": 25,
    "draws": 4000,
    "seed": 42
   },
   "leaveOneWeekOut_linear": [
    {
     "weekDropped": "2026-20",
-    "est": 0.5172,
+    "est": 0.7027,
     "ci95": [
-     0.2224,
-     0.812
+     0.3087,
+     1.0966
     ]
    },
    {
     "weekDropped": "2026-21",
-    "est": 0.4698,
+    "est": 0.6443,
     "ci95": [
-     0.1979,
-     0.7417
+     0.2771,
+     1.0116
     ]
    },
    {
     "weekDropped": "2026-22",
-    "est": 0.4857,
+    "est": 0.65,
     "ci95": [
-     0.2329,
-     0.7385
+     0.3051,
+     0.9948
     ]
    },
    {
     "weekDropped": "2026-23",
-    "est": 0.4913,
+    "est": 0.6559,
     "ci95": [
-     0.2372,
-     0.7453
+     0.3089,
+     1.003
     ]
    },
    {
     "weekDropped": "2026-24",
-    "est": 0.5295,
+    "est": 0.7005,
     "ci95": [
-     0.268,
-     0.791
+     0.3393,
+     1.0617
     ]
    },
    {
     "weekDropped": "2026-25",
-    "est": 0.4895,
+    "est": 0.6589,
     "ci95": [
-     0.2222,
-     0.7569
+     0.2954,
+     1.0224
     ]
    },
    {
     "weekDropped": "2026-26",
-    "est": 0.4569,
+    "est": 0.6258,
     "ci95": [
-     0.2023,
-     0.7115
+     0.2757,
+     0.976
     ]
    },
    {
     "weekDropped": "2026-27",
-    "est": 0.4589,
+    "est": 0.6238,
     "ci95": [
-     0.2051,
-     0.7128
+     0.2779,
+     0.9697
     ]
    },
    {
     "weekDropped": "2026-28",
-    "est": 0.469,
+    "est": 0.6326,
     "ci95": [
-     0.2156,
-     0.7224
+     0.2878,
+     0.9774
     ]
    },
    {
     "weekDropped": "2026-29",
-    "est": 0.4821,
+    "est": 0.647,
     "ci95": [
-     0.2317,
-     0.7324
+     0.302,
+     0.9919
     ]
    },
    {
     "weekDropped": "2026-30",
-    "est": 0.4937,
+    "est": 0.6549,
     "ci95": [
-     0.2301,
-     0.7573
+     0.302,
+     1.0078
     ]
    },
    {
     "weekDropped": "2026-31",
-    "est": 0.4728,
+    "est": 0.6353,
     "ci95": [
-     0.2219,
-     0.7237
+     0.2936,
+     0.977
     ]
    },
    {
     "weekDropped": "2026-32",
-    "est": 0.4538,
+    "est": 0.6153,
     "ci95": [
-     0.209,
-     0.6986
+     0.2796,
+     0.9509
     ]
    },
    {
     "weekDropped": "2026-33",
-    "est": 0.4712,
+    "est": 0.6332,
     "ci95": [
-     0.222,
-     0.7205
+     0.2926,
+     0.9737
     ]
    },
    {
     "weekDropped": "2026-34",
-    "est": 0.5013,
+    "est": 0.6626,
     "ci95": [
-     0.2584,
-     0.7441
+     0.3255,
+     0.9996
     ]
    },
    {
     "weekDropped": "2026-35",
-    "est": 0.4612,
+    "est": 0.6232,
     "ci95": [
-     0.2157,
-     0.7068
+     0.2858,
+     0.9607
     ]
    },
    {
     "weekDropped": "2026-36",
-    "est": 0.4994,
+    "est": 0.6648,
     "ci95": [
-     0.246,
-     0.7528
+     0.3188,
+     1.0107
     ]
    },
    {
     "weekDropped": "2026-37",
-    "est": 0.5029,
+    "est": 0.6701,
     "ci95": [
-     0.2539,
-     0.7519
+     0.3257,
+     1.0145
     ]
    },
    {
     "weekDropped": "2026-38",
-    "est": 0.5104,
+    "est": 0.6797,
     "ci95": [
-     0.2532,
-     0.7676
+     0.3276,
+     1.0317
     ]
    },
    {
     "weekDropped": "2026-39",
-    "est": 0.4568,
+    "est": 0.6271,
     "ci95": [
-     0.1954,
-     0.7181
+     0.2715,
+     0.9828
     ]
    },
    {
     "weekDropped": "2026-40",
-    "est": 0.4191,
+    "est": 0.6184,
     "ci95": [
-     0.1489,
-     0.6894
+     0.2412,
+     0.9957
     ]
    },
    {
     "weekDropped": "2026-41",
-    "est": 0.4327,
+    "est": 0.6281,
     "ci95": [
-     0.1417,
-     0.7238
+     0.2313,
+     1.0249
     ]
    },
    {
     "weekDropped": "2026-42",
-    "est": 0.2996,
+    "est": 0.5057,
     "ci95": [
-     0.0639,
-     0.5353
+     0.134,
+     0.8774
+    ]
+   },
+   {
+    "weekDropped": "2026-44",
+    "est": 0.5061,
+    "ci95": [
+     0.2585,
+     0.7537
+    ]
+   },
+   {
+    "weekDropped": "2026-45",
+    "est": 0.6073,
+    "ci95": [
+     0.2534,
+     0.9612
     ]
    }
   ],
   "leaveOneWeekOut_range": [
-   0.2996,
-   0.5295
+   0.5057,
+   0.7027
   ],
-  "dayMeanResidualAutocorrLag1": 0.268
+  "dayMeanResidualAutocorrLag1": 0.334
  },
  "item4_matched": {
   "definition": "late (2026-10-10..2026-10-17) minus September, coarsened-exact matched on pack-T class (5), peak-I class (5), SOC class (4), distance class (3); weights = late drives per cell",
@@ -402,19 +418,19 @@
  },
  "item5_cadence": {
   "stepTermWithRegime": {
-   "est": 2.3153,
-   "se": 0.6343,
+   "est": 2.8872,
+   "se": 0.7752,
    "ci95": [
-    1.059,
-    3.5716
+    1.3521,
+    4.4223
    ]
   },
   "regimeTermWithStep": {
-   "est": 0.7087,
-   "se": 0.5081,
+   "est": 1.1156,
+   "se": 0.6123,
    "ci95": [
-    -0.2976,
-    1.715
+    -0.0968,
+    2.3281
    ]
   },
   "byPeriod": {
@@ -449,30 +465,30 @@
     "medianPeriod_s": 0.869
    },
    "Oct10-17": {
-    "n": 47,
-    "slowShare": 0.36,
-    "medianPeriod_s": 0.899
+    "n": 62,
+    "slowShare": 0.42,
+    "medianPeriod_s": 0.938
    }
   },
   "slopeWithoutRegime": {
-   "est": 0.4712,
+   "est": 0.6344,
    "ci95": [
-    0.2198,
-    0.7226
+    0.2922,
+    0.9765
    ]
   },
   "slopeWithRegime": {
-   "est": 0.5081,
+   "est": 0.7126,
    "ci95": [
-    0.2349,
-    0.7812
+    0.3052,
+    1.1201
    ]
   },
   "slopeWithRegimeAndStep": {
-   "est": 0.1881,
+   "est": 0.2784,
    "ci95": [
-    -0.0782,
-    0.4543
+    -0.0195,
+    0.5762
    ]
   },
   "regimeRule": "slow: I_sample_period_s >= 1.05 s (M379a)"
@@ -590,10 +606,10 @@
   "stepDate": "2026-10-01",
   "minDrives": 10,
   "minDays": 5,
-  "nDrivesAfterCutoff": 0,
-  "nDaysAfterCutoff": 0,
+  "nDrivesAfterCutoff": 14,
+  "nDaysAfterCutoff": 3,
   "status": "awaiting data",
   "note": "no number is given below the support floor"
  },
- "masterMd5After": "5556a0c6c8bcde0f6c64b8b9655208ed"
+ "masterMd5After": "1e599176dafd8575dc7addede8d79358"
 }

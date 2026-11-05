@@ -34,34 +34,50 @@
    "reference_fast_median_s": 0.834,
    "reference_slow_median_s": 1.405,
    "slower_than_reference_slow": false
+  },
+  {
+   "action": "check the app PID / polling settings (HV-current channel); fast polling was re-activated on 2026-10-09 and is expected",
+   "after_fast_in_batch_or_before": false,
+   "first_slow_date": "2026-11-01",
+   "first_slow_file": "2026-11-01_14-36-31.csv",
+   "first_slow_time": "14:37:05.976",
+   "flag": "cadence_slow_while_fast_expected",
+   "median_interval_new_slow_s": 1.486,
+   "n_fast_new": 6,
+   "n_new": 15,
+   "n_slow_new": 9,
+   "recorded_with_last_file": "2026-11-03_15-23-37.csv",
+   "reference_fast_median_s": 0.843,
+   "reference_slow_median_s": 1.404,
+   "slower_than_reference_slow": false
   }
  ],
- "last_regime": "slow",
+ "last_regime": "fast",
  "last_seen": [
-  "2026-10-17",
-  "23:13:21.988",
-  "2026-10-17_23-13-01.csv"
+  "2026-11-03",
+  "15:23:56.538",
+  "2026-11-03_15-23-37.csv"
  ],
  "last_update": {
   "flags": [
    {
     "action": "check the app PID / polling settings (HV-current channel); fast polling was re-activated on 2026-10-09 and is expected",
-    "after_fast_in_batch_or_before": true,
-    "first_slow_date": "2026-10-15",
-    "first_slow_file": "2026-10-15_09-37-09.csv",
-    "first_slow_time": "09:37:35.548",
+    "after_fast_in_batch_or_before": false,
+    "first_slow_date": "2026-11-01",
+    "first_slow_file": "2026-11-01_14-36-31.csv",
+    "first_slow_time": "14:37:05.976",
     "flag": "cadence_slow_while_fast_expected",
-    "median_interval_new_slow_s": 1.39,
-    "n_fast_new": 11,
-    "n_new": 28,
-    "n_slow_new": 17,
-    "reference_fast_median_s": 0.834,
-    "reference_slow_median_s": 1.405,
+    "median_interval_new_slow_s": 1.486,
+    "n_fast_new": 6,
+    "n_new": 15,
+    "n_slow_new": 9,
+    "reference_fast_median_s": 0.843,
+    "reference_slow_median_s": 1.404,
     "slower_than_reference_slow": false
    }
   ],
   "n_flags": 1,
-  "n_new_drives": 28
+  "n_new_drives": 15
  },
  "n_drives_at_bootstrap": 554,
  "rule": "regime per drive from the sidecar (fast: master I_sample_period_s < 1.05 s, M379a); flag = a new drive is slow while fast polling is expected (owner re-activated it 2026-10-09); report-only; thresholds fixed and not tuned (analyses/M396_spec.md)"

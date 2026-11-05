@@ -10,7 +10,7 @@ B = A["engineOnRule"]
 sc = pd.read_csv("engine_on_rule_sidecar.csv")
 sdm = pd.read_csv("seasonal_drive_master.csv", low_memory=False, usecols=["file", "thermal_regime"]).set_index("file")["thermal_regime"]
 lab = sc["file"].map(sdm).fillna("unclassified").values
-assert set(B["byCohort"]) == set(lab) and sum(v["nDrives"] for v in B["byCohort"].values()) == len(sc) == 606
+assert set(B["byCohort"]) == set(lab) and sum(v["nDrives"] for v in B["byCohort"].values()) == len(sc) >= 606      # M575: grows with every ingestion (606 at the evidence date)
 cc = A["seasonalCharts"]["_meta"]["cohortCounts"]
 for k, v in B["byCohort"].items():
     m = lab == k; d = sc[m]

@@ -1,0 +1,20 @@
+{
+ "milestone": "M575",
+ "date": "2026-11-03",
+ "role": "research-director (Opus), brief of the main session",
+ "decision": "accept",
+ "text": "M575 GTR family refresh, 621 master (391 canonical-clean fuel drives, 70 days). The FLIP_STOP fires because the M466 scoped ack is bound to the 606 master MD5. It is not a new reading flip. The set of axes with f_gen >= 0.5 is the same 8 axes acknowledged in analyses/M466_gtr_flip_ack.json, and the same 2 axes stay below 0.5 (BSFC conservative, eta_gen low). The largest move on any axis is 0.002 (BASE 0.518 -> 0.516), well inside the M466 day-clustered CI [0.425, 0.580], which contains 0.5. Adding the 15 cold drives over 3 days does not change the reading: the side of 0.5 is still not established. A new scoped ack is allowed under the M466 spec section B route with no new blind audit, because there is no method change and no estimate outside its previous CI. The frozen M373 flip list stays unamended.",
+ "conditions": [
+  "Axis strings and f_gen values byte-exact from script output; set must equal the M466 acknowledged 8-axis set, else STOP.",
+  "Bound to the post-ingest drive_master MD5 and the new O sensitivity axes sha256.",
+  "The rerun prints the new BASE day-clustered CI (seed 42, 4000 draws); if it no longer contains 0.5 or BASE leaves [0.425, 0.580], STOP and re-brief.",
+  "gtrClosure f_gen inside its previous CI, no other boolean flips, speedSplit and simultaneity inside their bands, n_days/key-set/allow-list pass; any other stop means STOP.",
+  "Record the ack renewal in the CHANGELOG M575 entry with old and new values and n."
+ ],
+ "wording": [
+  "f_gen is estimated/reconstructed/model-derived, never measured.",
+  "Point estimate at or above 0.5 within an interval that contains 0.5; side of 0.5 not established. Never 'generator majority', 'confirmed', 'reversal' or 'corrected'.",
+  "Show the CI and n (391 drives, 70 days) next to the point.",
+  "No article figure without an Opus audit and Andrii's sign-off."
+ ]
+}

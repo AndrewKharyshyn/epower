@@ -80,7 +80,7 @@ assert _st["A_reproduction"]["own_matches_pipeline_slope"] is True and _st["B_sp
 _pay = _j.load(open("summary_arrays.json", encoding="utf-8"))
 for _loc in (_pay["powerFade"]["cadenceSensitivity"], _pay["fadeModes"]["power"]["trend"]["cadenceSensitivity"]):
     _e = _loc["emulation"]
-    assert _e["nFastClean"] == _st["C_emulation"]["n_fast_clean"] and _e["nFastKeepProxy"] == _st["C_emulation"]["n_fast_clean_emulated"] and _e["basis"]["nClean"] == _loc["nClean"] and _e["stale"] is False
+    assert _e["nFastClean"] == _st["C_emulation"]["n_fast_clean"] and _e["nFastKeepProxy"] == _st["C_emulation"]["n_fast_clean_emulated"] and _e["stale"] is (_e["basis"]["nClean"] != _loc["nClean"])      # M575: the emulation is a dated study; stale follows the live clean count
     for _era in ("fast1", "fast2"):
         assert _e["pairedDiffEmulatedMinusOriginal"][_era]["meanMohm"] == _st["C_emulation"]["paired_diff_" + _era]["mean_emulated_minus_original_mohm"]
 na = A._powerfade_cadence_block({"status": "not_available", "reason": "x"}, None)

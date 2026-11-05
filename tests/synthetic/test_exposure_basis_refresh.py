@@ -33,7 +33,7 @@ assert changed2 == ["/exposureBasis", "/_artifactStamps/exposureBasis"] and bad2
 # wiring
 stages = json.load(open("tools/ingest_stages.json", encoding="utf-8"))
 ids = [x["id"] for x in (stages["stages"] if isinstance(stages, dict) else stages)]
-assert ids.index("capacity_basis") < ids.index("exposure_basis_refresh") < ids.index("stamp_basis") < ids.index("leaf_guard") < ids.index("restamp_ingest")
+assert ids.index("capacity_basis") < ids.index("exposure_basis_refresh") < ids.index("stamp_basis") < ids.index("restamp_ingest") < ids.index("leaf_guard")      # M575: the lost-leaf guard checks the final payload
 import restamp_ingest as RI
 assert "exposureBasis" in RI.STAMP_POLICY
 ci = open(".github/workflows/ci.yml", encoding="utf-8").read()

@@ -333,6 +333,10 @@ if _ds:
     for _k, _t in _h407:
         _i = _t.index("Inference sensitivities (M406;") if "Inference sensitivities (M406;" in _t else -1
         _j = _t.index("Limits:", _i) if _i >= 0 and "Limits:" in _t[_i:] else -1
+        # M575 (Director): the M407 window ends at the earlier of 'Limits:' and the M410 serial-dependence block, whose classification sentence also says "the lower bound changes sign across procedures"
+        _j410 = _t.find("Serial-dependence sensitivity (M410;", _i) if _i >= 0 else -1
+        if _j410 > _i and (_j < 0 or _j410 < _j):
+            _j = _j410
         _pn = _t[_i:_j] if _i >= 0 and _j > _i else ""
         ok("A2 REQUIRED M407 %s: five procedures in the fixed order with the dependence-conservative label, for both series" % _k,
            # M572: each procedure label is rendered twice per series, once in the interval plot and once in the table beneath it (both carry the full label)
@@ -340,9 +344,13 @@ if _ds:
         _cs = _ds["trendSlopes"]["cellSpread"]
         _lows = [_cs["cr1"]["ci95T_Gminus1"][0], _cs["cr2"]["ci95T"][0], _cs["wildClusterBootstrapT"]["ci95PercentileT"][0], _cs["dayClusterPairsBootstrap"]["ci95"][0], _cs["weekBlockPairsBootstrap"]["ci95"][0]]
         _mixed = any(x <= 0 for x in _lows) and any(x > 0 for x in _lows)
+        # M575 (Director): the panel renders a sign sentence for BOTH series (DependencePanel.signSentence); the expected count is the number of series whose five lower bounds change sign
+        _rvm = _ds["trendSlopes"]["resistanceVreg"]
+        _lows_rv = [_rvm["cr1"]["ci95T_Gminus1"][0], _rvm["cr2"]["ci95T"][0], _rvm["wildClusterBootstrapT"]["ci95PercentileT"][0], _rvm["dayClusterPairsBootstrap"]["ci95"][0], _rvm["weekBlockPairsBootstrap"]["ci95"][0]]
+        _mixed_rv = any(x <= 0 for x in _lows_rv) and any(x > 0 for x in _lows_rv)
         _sp = _cs["seedSpread"]["wildPValueRange"]
         ok("A2 REQUIRED M407 %s: sign sentence follows the payload (lower bound sign change computed from the five lower bounds) and the wild p is shown with its seed range" % _k,
-           (("lower bound changes sign across procedures" in _pn) == _mixed) and ("null-imposed p about %.2f (seed range %.3f-%.3f)" % (_cs["wildClusterBootstrapT"]["pValueNullImposed"], _sp[0], _sp[1])) in _pn)
+           (_pn.count("lower bound changes sign across procedures; upper bound") == int(_mixed) + int(_mixed_rv)) and ("null-imposed p about %.2f (seed range %.3f-%.3f)" % (_cs["wildClusterBootstrapT"]["pValueNullImposed"], _sp[0], _sp[1])) in _pn)
         ok("A2 REQUIRED M407 %s: the minimum-effect label (Director wording, CR2 value bound) stands beside the zero-slope statement and not in the equivalence sentence" % _k,
            _pn.count("slope a two-sided 5 % test flags with 80 % probability at the observed SE (design-conditional)") == 2
            and len(_re407.findall(r"Zero-slope test \((?:trend not resolved|interval excludes 0)\): slope a two-sided 5 % test flags with 80 % probability at the observed SE \(design-conditional\): [\d.]+ \S+ \(CR2\)", _pn)) == 2
@@ -398,6 +406,10 @@ if _sdp:
         _sent = "procedure-dependent: %d of %d OLS-based rows exclude 0; the lower bound changes sign across procedures" % (len(_cl["rowsExcludingZero"]), len(_cl["rowsIncludingZero"]) + len(_cl["rowsExcludingZero"]))
         ok("A2 REQUIRED M412 %s: classification sentences follow the payload row lists (cell spread: counted from rowsExcludingZero; resistance proxy: its classification verbatim)" % _k,
            (_sent in _pn) == (_cl["classification"] == "procedure-dependent") and ("Reading across the OLS-based rows (M406 rows plus the five above; GLS and the control take no part): " + _rv["rowsRule"]["classification"]) in _pn)
+        # M575 (Director): the resistance proxy sentence is counted from its own payload row lists, mirroring the cell-spread check above
+        _clr = _rv["rowsRule"]
+        _sent_rv = "procedure-dependent: %d of %d OLS-based rows exclude 0; the lower bound changes sign across procedures" % (len(_clr["rowsExcludingZero"]), len(_clr["rowsIncludingZero"]) + len(_clr["rowsExcludingZero"]))
+        ok("A2 REQUIRED M412 %s: resistance proxy classification sentence counts follow its payload row lists" % _k, (_sent_rv in _pn) == (_clr["classification"] == "procedure-dependent"))
         ok("A2 REQUIRED M412 %s: five new rows in the fixed order plus GLS marked as a separate estimator outside every rule" % _k,
            # M572: each label is rendered twice per series, once in the interval plot and once in the table beneath it (both carry the full label)
            _pn.count("AR(1) GLS on day means (separate estimator, outside every rule)") == 4 and all(_pn.count(x) == 4 for x in ("HAC, 3 days", "HAC, 7 days (weekly-scale truncation)", "HAC, 14 days", "Moving-block bootstrap, 7 days", "Moving-block bootstrap, 14 days")))

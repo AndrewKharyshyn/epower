@@ -2,15 +2,15 @@
  "milestone": "M553",
  "mode": "--splice",
  "stats": {
-  "cacheHits": 606,
+  "cacheHits": 621,
   "extracted": 0,
   "noRaw": 0,
   "notOk": 14
  },
  "knownAnswer": {
   "n": {
-   "closure": 592,
-   "bounds": 592
+   "closure": 607,
+   "bounds": 607
   },
   "misses": {
    "closure": 0,
@@ -23,17 +23,17 @@
  },
  "extractorSourceHash": "4b212fbcb51020d9",
  "populations": {
-  "withPairs": 592,
+  "withPairs": 607,
   "excludedNullOrAnomaly": 0,
   "notCanonicalClean": 2,
   "noReportedSocOrThroughput": 0,
-  "eligible": 590,
+  "eligible": 605,
   "notOk": 14
  },
  "strata": {
   "fast": {
-   "nDrives": 178,
-   "nDays": 36,
+   "nDrives": 184,
+   "nDays": 38,
    "populationNote": "canonical-clean drives without energy_null_reason or sign ANOMALY with reported SoC and a pair stream",
    "referenceFree": {
     "netChargeExcursionAhUpper": {
@@ -41,52 +41,52 @@
       "value": 0.902,
       "ci95": [
        0.796,
-       1.005
+       0.998
       ],
-      "nDrives": 178,
-      "nDays": 36,
+      "nDrives": 184,
+      "nDays": 38,
       "degenerateReplicateShare": 0.0
      },
      "p90": {
-      "value": 1.386,
+      "value": 1.397,
       "ci95": [
-       1.26,
-       1.54
+       1.276,
+       1.541
       ],
-      "nDrives": 178,
-      "nDays": 36,
+      "nDrives": 184,
+      "nDays": 38,
       "degenerateReplicateShare": 0.0
      },
      "p95": {
-      "value": 1.551,
+      "value": 1.566,
       "ci95": [
-       1.407,
-       1.634
+       1.421,
+       1.637
       ],
-      "nDrives": 178,
-      "nDays": 36,
+      "nDrives": 184,
+      "nDays": 38,
       "degenerateReplicateShare": 0.0
      },
      "p99": {
-      "value": 1.68,
+      "value": 1.726,
       "ci95": null,
-      "nDrives": 178,
-      "nDays": 36
+      "nDrives": 184,
+      "nDays": 38
      }
     },
     "netChargeExcursionAhLower": {
      "p50": 0.9006,
-     "p95": 1.5511
+     "p95": 1.5656
     },
     "reportedSocExcursionPoints": {
      "p50": {
       "value": 18.5,
       "ci95": [
-       16.75,
+       17.0,
        20.5
       ],
-      "nDrives": 178,
-      "nDays": 36,
+      "nDrives": 184,
+      "nDays": 38,
       "degenerateReplicateShare": 0.0
      },
      "p90": {
@@ -95,43 +95,43 @@
        26.5,
        31.0
       ],
-      "nDrives": 178,
-      "nDays": 36,
+      "nDrives": 184,
+      "nDays": 38,
       "degenerateReplicateShare": 0.0
      },
      "p95": {
       "value": 32.0,
       "ci95": [
-       29.974,
+       30.25,
        33.5
       ],
-      "nDrives": 178,
-      "nDays": 36,
+      "nDrives": 184,
+      "nDays": 38,
       "degenerateReplicateShare": 0.0
      },
      "p99": {
-      "value": 35.845,
+      "value": 35.755,
       "ci95": null,
-      "nDrives": 178,
-      "nDays": 36
+      "nDrives": 184,
+      "nDays": 38
      }
     },
     "socExcursionShareOfObservedRange": {
-     "p50": 0.4506,
-     "p90": 0.7064,
-     "p95": 0.7794
+     "p50": 0.4515,
+     "p90": 0.7078,
+     "p95": 0.7811
     },
     "observedSocRange": {
-     "widthPoints": 41.055,
-     "lowP0_5": 43.472,
-     "highP99_5": 84.527,
+     "widthPoints": 40.97,
+     "lowP0_5": 43.5,
+     "highP99_5": 84.47,
      "label": "observed range, not a BMS limit"
     },
     "ahTwinOverRatedLead": {
      "leadAh": 5.0,
      "label": "lead, not adopted",
      "p50": 0.1804,
-     "p95": 0.3102
+     "p95": 0.3131
     },
     "upperOverLowerBracket": {
      "p50": 1.0,
@@ -152,53 +152,53 @@
        "value": 0.221,
        "ci95": [
         0.195,
-        0.257
+        0.254
        ],
-       "nDrives": 178,
-       "nDays": 36,
+       "nDrives": 184,
+       "nDays": 38,
        "degenerateReplicateShare": 0.0
       },
       "p90": {
-       "value": 0.37,
+       "value": 0.371,
        "ci95": [
-        0.341,
-        0.398
+        0.343,
+        0.4
        ],
-       "nDrives": 178,
-       "nDays": 36,
+       "nDrives": 184,
+       "nDays": 38,
        "degenerateReplicateShare": 0.0
       },
       "p95": {
-       "value": 0.405,
+       "value": 0.411,
        "ci95": [
-        0.379,
-        0.454
+        0.382,
+        0.452
        ],
-       "nDrives": 178,
-       "nDays": 36,
+       "nDrives": 184,
+       "nDays": 38,
        "degenerateReplicateShare": 0.0
       },
       "p99": {
-       "value": 0.49,
+       "value": 0.485,
        "ci95": null,
-       "nDrives": 178,
-       "nDays": 36
+       "nDrives": 184,
+       "nDays": 38
       }
      },
      "drivesWithShareAtLeast0.25": {
-      "share": 0.4157,
-      "n": 74,
+      "share": 0.413,
+      "n": 76,
       "ci95": [
-       0.3231,
-       0.5203
+       0.3229,
+       0.5103
       ]
      },
      "drivesWithShareAtLeast0.5": {
-      "share": 0.0112,
+      "share": 0.0109,
       "n": 2,
       "ci95": [
        0.0,
-       0.0291
+       0.0287
       ]
      },
      "drivesWithShareAtLeast1.0": {
@@ -211,7 +211,7 @@
      },
      "shareLowerBracket": {
       "p50": 0.221,
-      "p95": 0.405
+      "p95": 0.4114
      }
     },
     "2.1": {
@@ -222,45 +222,45 @@
        "value": 0.158,
        "ci95": [
         0.139,
-        0.183
+        0.181
        ],
-       "nDrives": 178,
-       "nDays": 36,
+       "nDrives": 184,
+       "nDays": 38,
        "degenerateReplicateShare": 0.0
       },
       "p90": {
        "value": 0.265,
        "ci95": [
-        0.244,
-        0.284
+        0.245,
+        0.286
        ],
-       "nDrives": 178,
-       "nDays": 36,
+       "nDrives": 184,
+       "nDays": 38,
        "degenerateReplicateShare": 0.0
       },
       "p95": {
-       "value": 0.289,
+       "value": 0.294,
        "ci95": [
-        0.271,
-        0.324
+        0.273,
+        0.323
        ],
-       "nDrives": 178,
-       "nDays": 36,
+       "nDrives": 184,
+       "nDays": 38,
        "degenerateReplicateShare": 0.0
       },
       "p99": {
-       "value": 0.35,
+       "value": 0.347,
        "ci95": null,
-       "nDrives": 178,
-       "nDays": 36
+       "nDrives": 184,
+       "nDays": 38
       }
      },
      "drivesWithShareAtLeast0.25": {
-      "share": 0.1348,
-      "n": 24,
+      "share": 0.1413,
+      "n": 26,
       "ci95": [
-       0.0896,
-       0.1931
+       0.0952,
+       0.1975
       ]
      },
      "drivesWithShareAtLeast0.5": {
@@ -281,7 +281,7 @@
      },
      "shareLowerBracket": {
       "p50": 0.1578,
-      "p95": 0.2893
+      "p95": 0.2939
      }
     },
     "3.0": {
@@ -292,45 +292,45 @@
        "value": 0.111,
        "ci95": [
         0.097,
-        0.128
+        0.127
        ],
-       "nDrives": 178,
-       "nDays": 36,
+       "nDrives": 184,
+       "nDays": 38,
        "degenerateReplicateShare": 0.0
       },
       "p90": {
        "value": 0.185,
        "ci95": [
-        0.171,
-        0.199
+        0.172,
+        0.2
        ],
-       "nDrives": 178,
-       "nDays": 36,
+       "nDrives": 184,
+       "nDays": 38,
        "degenerateReplicateShare": 0.0
       },
       "p95": {
-       "value": 0.203,
+       "value": 0.206,
        "ci95": [
-        0.189,
-        0.227
+        0.191,
+        0.226
        ],
-       "nDrives": 178,
-       "nDays": 36,
+       "nDrives": 184,
+       "nDays": 38,
        "degenerateReplicateShare": 0.0
       },
       "p99": {
-       "value": 0.245,
+       "value": 0.243,
        "ci95": null,
-       "nDrives": 178,
-       "nDays": 36
+       "nDrives": 184,
+       "nDays": 38
       }
      },
      "drivesWithShareAtLeast0.25": {
-      "share": 0.0112,
+      "share": 0.0109,
       "n": 2,
       "ci95": [
        0.0,
-       0.0291
+       0.0287
       ]
      },
      "drivesWithShareAtLeast0.5": {
@@ -351,37 +351,37 @@
      },
      "shareLowerBracket": {
       "p50": 0.1105,
-      "p95": 0.2025
+      "p95": 0.2057
      }
     }
    },
    "throughputOverExcursion": {
     "definition": "R = gross_throughput_kwh / terminal-energy excursion (upper bracket); CAP-free",
-    "median": 3.668,
+    "median": 3.626,
     "ci95": [
-     3.199,
-     5.115
+     3.115,
+     4.964
     ],
-    "p5": 1.382,
-    "nDrives": 178,
-    "nDays": 36,
+    "p5": 1.379,
+    "nDrives": 184,
+    "nDays": 38,
     "excludedZeroExcursion": 0,
-    "medianLowerBracket": 3.668,
+    "medianLowerBracket": 3.626,
     "verdictAtCap1.5": "consistent with buffer use",
     "verdictAtCap2.1": "consistent with buffer use",
     "rule": "consistent with buffer use iff lower 95 % bound of median R > 2.0 AND share of drives with share >= 1.0 <= 0.05; otherwise not supported"
    },
    "socVersusCharge": {
     "spearman": 0.973,
-    "partialOnDuration": 0.949,
+    "partialOnDuration": 0.953,
     "spearmanWithDuration": {
-     "ah": 0.679
+     "ah": 0.651
     }
    },
    "durationSubsets": {
     "atLeast600s": {
-     "nDrives": 93,
-     "medianR": 6.65,
+     "nDrives": 94,
+     "medianR": 6.645,
      "shareAtLeast1At2p1": 0.0
     },
     "atLeast1800s": {
@@ -392,67 +392,67 @@
    },
    "offsetSensitivity": {
     "removedOffset": {
-     "p95KwhExcursion": 0.5821,
+     "p95KwhExcursion": 0.5847,
      "classificationFlips": 0,
      "shareAtLeast1At2p1": 0.0,
      "shareAtLeast1At1p5": 0.0
     },
     "removedOffset2p": {
-     "p95KwhExcursion": 0.582,
+     "p95KwhExcursion": 0.5847,
      "classificationFlips": 0,
      "shareAtLeast1At2p1": 0.0,
      "shareAtLeast1At1p5": 0.0
     },
-    "primaryP95KwhExcursion": 0.6075,
+    "primaryP95KwhExcursion": 0.6172,
     "classificationFlipDrives": []
    }
   },
   "slow": {
-   "nDrives": 412,
-   "nDays": 85,
+   "nDrives": 421,
+   "nDays": 87,
    "populationNote": "canonical-clean drives without energy_null_reason or sign ANOMALY with reported SoC and a pair stream",
    "referenceFree": {
     "netChargeExcursionAhUpper": {
      "p50": {
-      "value": 0.938,
+      "value": 0.939,
       "ci95": [
-       0.881,
+       0.883,
        1.009
       ],
-      "nDrives": 412,
-      "nDays": 85,
+      "nDrives": 421,
+      "nDays": 87,
       "degenerateReplicateShare": 0.0
      },
      "p90": {
-      "value": 1.662,
+      "value": 1.671,
       "ci95": [
-       1.569,
+       1.571,
        1.802
       ],
-      "nDrives": 412,
-      "nDays": 85,
+      "nDrives": 421,
+      "nDays": 87,
       "degenerateReplicateShare": 0.0
      },
      "p95": {
-      "value": 1.963,
+      "value": 1.986,
       "ci95": [
        1.789,
-       2.253
+       2.237
       ],
-      "nDrives": 412,
-      "nDays": 85,
+      "nDrives": 421,
+      "nDays": 87,
       "degenerateReplicateShare": 0.0
      },
      "p99": {
-      "value": 3.063,
+      "value": 3.042,
       "ci95": null,
-      "nDrives": 412,
-      "nDays": 85
+      "nDrives": 421,
+      "nDays": 87
      }
     },
     "netChargeExcursionAhLower": {
-     "p50": 0.8956,
-     "p95": 1.6112
+     "p50": 0.8985,
+     "p95": 1.6234
     },
     "reportedSocExcursionPoints": {
      "p50": {
@@ -461,57 +461,57 @@
        18.0,
        20.5
       ],
-      "nDrives": 412,
-      "nDays": 85,
+      "nDrives": 421,
+      "nDays": 87,
       "degenerateReplicateShare": 0.0
      },
      "p90": {
       "value": 30.0,
       "ci95": [
-       29.1,
-       31.65
+       29.399,
+       32.0
       ],
-      "nDrives": 412,
-      "nDays": 85,
+      "nDrives": 421,
+      "nDays": 87,
       "degenerateReplicateShare": 0.0
      },
      "p95": {
-      "value": 32.725,
+      "value": 33.0,
       "ci95": [
-       31.5,
+       31.899,
        34.5
       ],
-      "nDrives": 412,
-      "nDays": 85,
+      "nDrives": 421,
+      "nDays": 87,
       "degenerateReplicateShare": 0.0
      },
      "p99": {
-      "value": 36.945,
+      "value": 36.9,
       "ci95": null,
-      "nDrives": 412,
-      "nDays": 85
+      "nDrives": 421,
+      "nDays": 87
      }
     },
     "socExcursionShareOfObservedRange": {
-     "p50": 0.4628,
-     "p90": 0.7307,
-     "p95": 0.7971
+     "p50": 0.4638,
+     "p90": 0.7322,
+     "p95": 0.8055
     },
     "observedSocRange": {
-     "widthPoints": 41.055,
-     "lowP0_5": 43.472,
-     "highP99_5": 84.527,
+     "widthPoints": 40.97,
+     "lowP0_5": 43.5,
+     "highP99_5": 84.47,
      "label": "observed range, not a BMS limit"
     },
     "ahTwinOverRatedLead": {
      "leadAh": 5.0,
      "label": "lead, not adopted",
-     "p50": 0.1877,
-     "p95": 0.3926
+     "p50": 0.1879,
+     "p95": 0.3972
     },
     "upperOverLowerBracket": {
      "p50": 1.0,
-     "p95": 1.833
+     "p95": 1.8
     },
     "gapShare": {
      "p50": 0.0,
@@ -525,69 +525,69 @@
      "verified": false,
      "shareUpper": {
       "p50": {
-       "value": 0.231,
+       "value": 0.23,
        "ci95": [
         0.216,
         0.254
        ],
-       "nDrives": 412,
-       "nDays": 85,
+       "nDrives": 421,
+       "nDays": 87,
        "degenerateReplicateShare": 0.0
       },
       "p90": {
        "value": 0.453,
        "ci95": [
-        0.403,
+        0.406,
         0.508
        ],
-       "nDrives": 412,
-       "nDays": 85,
+       "nDrives": 421,
+       "nDays": 87,
        "degenerateReplicateShare": 0.0
       },
       "p95": {
-       "value": 0.547,
+       "value": 0.549,
        "ci95": [
         0.501,
-        0.6
+        0.596
        ],
-       "nDrives": 412,
-       "nDays": 85,
+       "nDrives": 421,
+       "nDays": 87,
        "degenerateReplicateShare": 0.0
       },
       "p99": {
-       "value": 0.765,
+       "value": 0.762,
        "ci95": null,
-       "nDrives": 412,
-       "nDays": 85
+       "nDrives": 421,
+       "nDays": 87
       }
      },
      "drivesWithShareAtLeast0.25": {
-      "share": 0.4417,
-      "n": 182,
+      "share": 0.4418,
+      "n": 186,
       "ci95": [
-       0.3833,
-       0.5047
+       0.3836,
+       0.5039
       ]
      },
      "drivesWithShareAtLeast0.5": {
-      "share": 0.0777,
-      "n": 32,
+      "share": 0.0784,
+      "n": 33,
       "ci95": [
-       0.0518,
-       0.1073
+       0.0524,
+       0.108
       ]
      },
      "drivesWithShareAtLeast1.0": {
-      "share": 0.0049,
+      "share": 0.0048,
       "n": 2,
       "ci95": [
        0.0,
-       0.0128
+       0.0124
       ]
      },
      "shareLowerBracket": {
-      "p50": 0.2239,
-      "p95": 0.4485
+      "p50": 0.224,
+      "p95": 0.4498
      }
     },
     "2.1": {
@@ -595,56 +595,56 @@
      "verified": false,
      "shareUpper": {
       "p50": {
-       "value": 0.165,
+       "value": 0.164,
        "ci95": [
-        0.155,
+        0.154,
         0.182
        ],
-       "nDrives": 412,
-       "nDays": 85,
+       "nDrives": 421,
+       "nDays": 87,
        "degenerateReplicateShare": 0.0
       },
       "p90": {
-       "value": 0.323,
+       "value": 0.324,
        "ci95": [
-        0.288,
+        0.29,
         0.363
        ],
-       "nDrives": 412,
-       "nDays": 85,
+       "nDrives": 421,
+       "nDays": 87,
        "degenerateReplicateShare": 0.0
       },
       "p95": {
-       "value": 0.391,
+       "value": 0.392,
        "ci95": [
         0.358,
-        0.429
+        0.426
        ],
-       "nDrives": 412,
-       "nDays": 85,
+       "nDrives": 421,
+       "nDays": 87,
        "degenerateReplicateShare": 0.0
       },
       "p99": {
-       "value": 0.546,
+       "value": 0.544,
        "ci95": null,
-       "nDrives": 412,
-       "nDays": 85
+       "nDrives": 421,
+       "nDays": 87
       }
      },
      "drivesWithShareAtLeast0.25": {
-      "share": 0.2451,
-      "n": 101,
+      "share": 0.2447,
+      "n": 103,
       "ci95": [
-       0.1923,
-       0.3023
+       0.1913,
+       0.3024
       ]
      },
      "drivesWithShareAtLeast0.5": {
-      "share": 0.017,
+      "share": 0.0166,
       "n": 7,
       "ci95": [
-       0.0067,
-       0.0303
+       0.0065,
+       0.0296
       ]
      },
      "drivesWithShareAtLeast1.0": {
@@ -652,12 +652,12 @@
       "n": 1,
       "ci95": [
        0.0,
-       0.0079
+       0.0077
       ]
      },
      "shareLowerBracket": {
-      "p50": 0.1599,
-      "p95": 0.3204
+      "p50": 0.16,
+      "p95": 0.3213
      }
     },
     "3.0": {
@@ -670,51 +670,51 @@
         0.108,
         0.127
        ],
-       "nDrives": 412,
-       "nDays": 85,
+       "nDrives": 421,
+       "nDays": 87,
        "degenerateReplicateShare": 0.0
       },
       "p90": {
        "value": 0.226,
        "ci95": [
-        0.201,
+        0.203,
         0.254
        ],
-       "nDrives": 412,
-       "nDays": 85,
+       "nDrives": 421,
+       "nDays": 87,
        "degenerateReplicateShare": 0.0
       },
       "p95": {
-       "value": 0.273,
+       "value": 0.275,
        "ci95": [
-        0.25,
-        0.3
+        0.251,
+        0.298
        ],
-       "nDrives": 412,
-       "nDays": 85,
+       "nDrives": 421,
+       "nDays": 87,
        "degenerateReplicateShare": 0.0
       },
       "p99": {
-       "value": 0.382,
+       "value": 0.381,
        "ci95": null,
-       "nDrives": 412,
-       "nDays": 85
+       "nDrives": 421,
+       "nDays": 87
       }
      },
      "drivesWithShareAtLeast0.25": {
-      "share": 0.0777,
-      "n": 32,
+      "share": 0.0784,
+      "n": 33,
       "ci95": [
-       0.0518,
-       0.1073
+       0.0524,
+       0.108
       ]
      },
      "drivesWithShareAtLeast0.5": {
-      "share": 0.0049,
+      "share": 0.0048,
       "n": 2,
       "ci95": [
        0.0,
-       0.0128
+       0.0124
       ]
      },
      "drivesWithShareAtLeast1.0": {
@@ -727,38 +727,38 @@
      },
      "shareLowerBracket": {
       "p50": 0.112,
-      "p95": 0.2243
+      "p95": 0.2249
      }
     }
    },
    "throughputOverExcursion": {
     "definition": "R = gross_throughput_kwh / terminal-energy excursion (upper bracket); CAP-free",
-    "median": 3.546,
+    "median": 3.51,
     "ci95": [
-     3.226,
-     4.526
+     3.192,
+     4.321
     ],
-    "p5": 1.508,
-    "nDrives": 412,
-    "nDays": 85,
+    "p5": 1.495,
+    "nDrives": 421,
+    "nDays": 87,
     "excludedZeroExcursion": 0,
-    "medianLowerBracket": 3.825,
+    "medianLowerBracket": 3.804,
     "verdictAtCap1.5": "consistent with buffer use",
     "verdictAtCap2.1": "consistent with buffer use",
     "rule": "consistent with buffer use iff lower 95 % bound of median R > 2.0 AND share of drives with share >= 1.0 <= 0.05; otherwise not supported"
    },
    "socVersusCharge": {
-    "spearman": 0.946,
-    "partialOnDuration": 0.9,
+    "spearman": 0.947,
+    "partialOnDuration": 0.902,
     "spearmanWithDuration": {
-     "ah": 0.7
+     "ah": 0.696
     }
    },
    "durationSubsets": {
     "atLeast600s": {
-     "nDrives": 212,
-     "medianR": 6.711,
-     "shareAtLeast1At2p1": 0.0047
+     "nDrives": 216,
+     "medianR": 6.683,
+     "shareAtLeast1At2p1": 0.0046
     },
     "atLeast1800s": {
      "nDrives": 93,
@@ -771,24 +771,24 @@
      "p95KwhExcursion": 0.7599,
      "classificationFlips": 1,
      "shareAtLeast1At2p1": 0.0,
-     "shareAtLeast1At1p5": 0.0049
+     "shareAtLeast1At1p5": 0.0048
     },
     "removedOffset2p": {
-     "p95KwhExcursion": 0.7598,
+     "p95KwhExcursion": 0.76,
      "classificationFlips": 1,
      "shareAtLeast1At2p1": 0.0,
-     "shareAtLeast1At1p5": 0.0049
+     "shareAtLeast1At1p5": 0.0048
     },
-    "primaryP95KwhExcursion": 0.8204,
+    "primaryP95KwhExcursion": 0.8238,
     "classificationFlipDrives": [
      {
       "file": "20260619_122407.csv",
       "durationS": 14942.4,
       "upperKwh": 2.1344,
       "lowerKwh": 0.778,
-      "upperKwhOffsetRemoved": 2.0245,
-      "deltaKwh": 0.1099,
-      "expectedDeltaKwhFromOffset": 0.574,
+      "upperKwhOffsetRemoved": 2.0242,
+      "deltaKwh": 0.1102,
+      "expectedDeltaKwhFromOffset": 0.5758,
       "gapShare": 0.0016
      }
     ]
@@ -796,5 +796,5 @@
   }
  },
  "unknownCadenceDriveSharePct": 0.0,
- "rawListSha256": "46565d2399af5142d90039cb7f3cf18faff0615dd73b4ebaa4ed8dfef6c17ce4"
+ "rawListSha256": "45cb60755bb4788b39fe01c242a56295be356a141f36165bfd821908bd2ede42"
 }

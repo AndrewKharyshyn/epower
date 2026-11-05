@@ -1,0 +1,20 @@
+{
+ "milestone": "M575",
+ "stage": "urban_week_block (M494)",
+ "role": "research-director (Opus), brief of the main session",
+ "decision": "revise: splice allowed only after the conditions below; the verdict is a resampling sensitivity, not a finding about the vehicle",
+ "scientific_meaning": "Under the frozen rule the verdict 'depends on the resampling unit' is correct: at 3-10 km the W and WS intervals exclude zero while the day-clustered interval includes it. The day-clustered reading stays primary; the Warm-vs-Shoulder contrast is not established.",
+ "conditions": [
+  "(a) report the new 3-10 km point estimate, its shift against the previous -2.49 [-5.65, 1.21] and endpointWithinMcErrorOfZero with the MC SD for every procedure; if the point is outside the previous CI a blind audit is required",
+  "(b) check the thermal_regime of the 15 new drives and the per-cohort drive, day and week counts; say plainly if the flip comes from cohort composition rather than dependence",
+  "(c) blind audit reproduces the W/WS endpoints, week counts and drop counts with zero mismatches",
+  "(d) dashboard sentence and table bind to payload keys, no typed literals",
+  "(e) other bands unchanged; state that",
+  "a CHANGELOG entry records this ruling; no Andrii approval exists and none is implied"
+ ],
+ "wording": [
+  "Depends on the resampling unit (block sensitivity across neighbouring dates; uncertainty analysis, not a change of the point estimate): at 3-10 km the day-clustered interval includes zero; the week-block intervals (W, WS) exclude it. Narrower block intervals are not stronger evidence. Warm-vs-Shoulder contrast not established. Thermal cohorts (ambient threshold) are confounded with season, date and drift.",
+  "reject 'at the edge of zero' (add to language_gate RULES with the ledger id)",
+  "never: significant, robust, confirmed, accounts for dependence, no seasonal effect, tighter/more precise under blocks"
+ ]
+}

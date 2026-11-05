@@ -1,0 +1,393 @@
+{
+ "spec": "Director pre-merge condition, M575",
+ "master": "1e599176dafd8575dc7addede8d79358",
+ "nChecked": 35,
+ "nOutside": 0,
+ "rows": [
+  {
+   "path": "cellSpreadStep/models/M0_linear_released/est",
+   "ci": "ci95",
+   "previousCi": [
+    0.2665,
+    0.7814
+   ],
+   "previous": 0.5239,
+   "current": 0.6816,
+   "inside": true
+  },
+  {
+   "path": "cellSpreadStep/models/M1_linear_soc/est",
+   "ci": "ci95",
+   "previousCi": [
+    0.2198,
+    0.7226
+   ],
+   "previous": 0.4712,
+   "current": 0.6344,
+   "inside": true
+  },
+  {
+   "path": "cellSpreadStep/models/M2_linear_soc_rest/est",
+   "ci": "ci95",
+   "previousCi": [
+    0.1029,
+    0.6173
+   ],
+   "previous": 0.3601,
+   "current": 0.5094,
+   "inside": true
+  },
+  {
+   "path": "cellSpreadStep/models/M3_step/est",
+   "ci": "ci95",
+   "previousCi": [
+    -0.129,
+    0.4427
+   ],
+   "previous": 0.1568,
+   "current": 0.2134,
+   "inside": true
+  },
+  {
+   "path": "cellSpreadStep/models/M3_step/step_term/est",
+   "ci": "ci95",
+   "previousCi": [
+    1.1681,
+    3.3582
+   ],
+   "previous": 2.2631,
+   "current": 2.7308,
+   "inside": true
+  },
+  {
+   "path": "cellSpreadStep/models/M4_step_soc/est",
+   "ci": "ci95",
+   "previousCi": [
+    -0.1414,
+    0.4065
+   ],
+   "previous": 0.1325,
+   "current": 0.1951,
+   "inside": true
+  },
+  {
+   "path": "cellSpreadStep/models/M4_step_soc/step_term/est",
+   "ci": "ci95",
+   "previousCi": [
+    0.9473,
+    3.2387
+   ],
+   "previous": 2.093,
+   "current": 2.5643,
+   "inside": true
+  },
+  {
+   "path": "cellSpreadStep/models/M5_step_soc_rest/est",
+   "ci": "ci95",
+   "previousCi": [
+    -0.2561,
+    0.2977
+   ],
+   "previous": 0.0208,
+   "current": 0.0763,
+   "inside": true
+  },
+  {
+   "path": "cellSpreadStep/models/M5_step_soc_rest/step_term/est",
+   "ci": "ci95",
+   "previousCi": [
+    0.9556,
+    3.2128
+   ],
+   "previous": 2.0842,
+   "current": 2.5246,
+   "inside": true
+  },
+  {
+   "path": "cellSpreadStep/dependence/weekCluster_linear/est",
+   "ci": "ci95",
+   "previousCi": [
+    0.0946,
+    0.8478
+   ],
+   "previous": 0.4712,
+   "current": 0.6344,
+   "inside": true
+  },
+  {
+   "path": "cellSpreadStep/dependence/weekCluster_step/est",
+   "ci": "ci95",
+   "previousCi": [
+    -0.1162,
+    0.3813
+   ],
+   "previous": 0.1325,
+   "current": 0.1951,
+   "inside": true
+  },
+  {
+   "path": "cellSpreadStep/cadence/stepTermWithRegime/est",
+   "ci": "ci95",
+   "previousCi": [
+    1.059,
+    3.5716
+   ],
+   "previous": 2.3153,
+   "current": 2.8872,
+   "inside": true
+  },
+  {
+   "path": "cellSpreadStep/cadence/regimeTermWithStep/est",
+   "ci": "ci95",
+   "previousCi": [
+    -0.2976,
+    1.715
+   ],
+   "previous": 0.7087,
+   "current": 1.1156,
+   "inside": true
+  },
+  {
+   "path": "cellSpreadStep/cadence/slopeWithoutRegime/est",
+   "ci": "ci95",
+   "previousCi": [
+    0.2198,
+    0.7226
+   ],
+   "previous": 0.4712,
+   "current": 0.6344,
+   "inside": true
+  },
+  {
+   "path": "cellSpreadStep/cadence/slopeWithRegime/est",
+   "ci": "ci95",
+   "previousCi": [
+    0.2349,
+    0.7812
+   ],
+   "previous": 0.5081,
+   "current": 0.7126,
+   "inside": true
+  },
+  {
+   "path": "cellSpreadStep/cadence/slopeWithRegimeAndStep/est",
+   "ci": "ci95",
+   "previousCi": [
+    -0.0782,
+    0.4543
+   ],
+   "previous": 0.1881,
+   "current": 0.2784,
+   "inside": true
+  },
+  {
+   "path": "cellSpreadStep/coldStartAndSegments/wholeDriveLoadedP95_cold/lateEffect_mv",
+   "ci": "ci95",
+   "previousCi": [
+    3.03,
+    8.79
+   ],
+   "previous": 5.91,
+   "current": 5.91,
+   "inside": true
+  },
+  {
+   "path": "cellSpreadStep/coldStartAndSegments/wholeDriveLoadedP95_cold_plusPairGradient/lateEffect_mv",
+   "ci": "ci95",
+   "previousCi": [
+    1.84,
+    8.67
+   ],
+   "previous": 5.25,
+   "current": 5.25,
+   "inside": true
+  },
+  {
+   "path": "cellSpreadStep/coldStartAndSegments/earlyWindow_0_2min_median/lateEffect_mv",
+   "ci": "ci95",
+   "previousCi": [
+    -2.22,
+    0.3
+   ],
+   "previous": -0.96,
+   "current": -0.96,
+   "inside": true
+  },
+  {
+   "path": "cellSpreadStep/coldStartAndSegments/earlyWindow_0_2min_p95/lateEffect_mv",
+   "ci": "ci95",
+   "previousCi": [
+    -1.8,
+    2.52
+   ],
+   "previous": 0.36,
+   "current": 0.36,
+   "inside": true
+  },
+  {
+   "path": "cellSpreadStep/coldStartAndSegments/earlyWindow_2_10min_median/lateEffect_mv",
+   "ci": "ci95",
+   "previousCi": [
+    -1.51,
+    2.24
+   ],
+   "previous": 0.36,
+   "current": 0.36,
+   "inside": true
+  },
+  {
+   "path": "cellSpreadStep/coldStartAndSegments/earlyWindow_2_10min_p95/lateEffect_mv",
+   "ci": "ci95",
+   "previousCi": [
+    -1.61,
+    4.27
+   ],
+   "previous": 1.33,
+   "current": 1.33,
+   "inside": true
+  },
+  {
+   "path": "cellSpreadStep/coldStartAndSegments/first20min_loaded_p95_allDrives/lateEffect_mv",
+   "ci": "ci95",
+   "previousCi": [
+    1.98,
+    4.14
+   ],
+   "previous": 3.06,
+   "current": 3.06,
+   "inside": true
+  },
+  {
+   "path": "cellSpreadStep/coldStartAndSegments/first20min_loaded_p95_cold/lateEffect_mv",
+   "ci": "ci95",
+   "previousCi": [
+    1.07,
+    7.72
+   ],
+   "previous": 4.39,
+   "current": 4.39,
+   "inside": true
+  },
+  {
+   "path": "cellHealthTrend/olsSlopeMvPerMo",
+   "ci": "ci95",
+   "previousCi": [
+    0.19,
+    0.72
+   ],
+   "previous": 0.46,
+   "current": 0.58,
+   "inside": true
+  },
+  {
+   "path": "cellHealthTrend/huberSlopeMvPerMo",
+   "ci": "ci95",
+   "previousCi": [
+    0.19,
+    0.72
+   ],
+   "previous": 0.48,
+   "current": 0.56,
+   "inside": true
+  },
+  {
+   "path": "cellHealthTrend/olsSlopeMvPerMo",
+   "ci": "huberSlopeCi95",
+   "previousCi": [
+    0.21,
+    0.78
+   ],
+   "previous": 0.46,
+   "current": 0.58,
+   "inside": true
+  },
+  {
+   "path": "cellHealthTrend/huberSlopeMvPerMo",
+   "ci": "huberSlopeCi95",
+   "previousCi": [
+    0.21,
+    0.78
+   ],
+   "previous": 0.48,
+   "current": 0.56,
+   "inside": true
+  },
+  {
+   "path": "dependenceSensitivity/trendSlopes/cellSpread/cr1/slope",
+   "ci": "ci95T_Gminus1",
+   "previousCi": [
+    0.26648,
+    0.78135
+   ],
+   "previous": 0.52391,
+   "current": 0.68159,
+   "inside": true
+  },
+  {
+   "path": "dependenceSensitivity/trendSlopes/cellSpread/cr2/slope",
+   "ci": "ci95T",
+   "previousCi": [
+    0.25572,
+    0.7921
+   ],
+   "previous": 0.52391,
+   "current": 0.68159,
+   "inside": true
+  },
+  {
+   "path": "dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr1/slope",
+   "ci": "ci95T_Gminus1",
+   "previousCi": [
+    0.87669,
+    3.3316
+   ],
+   "previous": 2.10414,
+   "current": 2.14995,
+   "inside": true
+  },
+  {
+   "path": "dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr2/slope",
+   "ci": "ci95T",
+   "previousCi": [
+    0.78393,
+    3.42436
+   ],
+   "previous": 2.10414,
+   "current": 2.14995,
+   "inside": true
+  },
+  {
+   "path": "dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr1/slope",
+   "ci": "ci95T_Gminus1",
+   "previousCi": [
+    0.19332,
+    0.74416
+   ],
+   "previous": 0.46874,
+   "current": 0.66865,
+   "inside": true
+  },
+  {
+   "path": "dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr2/slope",
+   "ci": "ci95T",
+   "previousCi": [
+    0.17667,
+    0.76081
+   ],
+   "previous": 0.46874,
+   "current": 0.66865,
+   "inside": true
+  },
+  {
+   "path": "degradationTrends/cellSpread/clusterRobustOLS/slope",
+   "ci": "ci95",
+   "previousCi": [
+    0.2665,
+    0.7814
+   ],
+   "previous": 0.5239,
+   "current": 0.6816,
+   "inside": true
+  }
+ ]
+}

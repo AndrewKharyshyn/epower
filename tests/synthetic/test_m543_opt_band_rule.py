@@ -21,13 +21,19 @@ r = d["n"].values[idx].sum(1) / d["g"].values[idx].sum(1)
 lo, hi = np.percentile(r, [2.5, 97.5])
 P = O["primaryRule"]
 assert abs(P["pct"] - 100 * num.sum() / gt.sum()) < 5e-4 and abs(100 * lo - P["ci95Pct"][0]) < 1e-3 and abs(100 * hi - P["ci95Pct"][1]) < 1e-3
-assert P["ruleEngineOnSeconds"] == int(gt.sum()) == 353811 and P["bandSeconds"] == int(num.sum()) and P["nDrives"] == int((gt > 0).sum()) and P["nDaysWithEngineOn"] == sc["date"].astype(str)[gt > 0].nunique()
+ev6 = sc["file"].isin(pd.read_csv("engine_on_evidence_sidecar.csv")["file"]).values      # M575: the evidence corpus (the first 606 drives)
+assert int(gt[ev6].sum()) == 353811 and P["ruleEngineOnSeconds"] == int(gt.sum()) and P["bandSeconds"] == int(num.sum()) and P["nDrives"] == int((gt > 0).sum()) and P["nDaysWithEngineOn"] == sc["date"].astype(str)[gt > 0].nunique()
 # known answer from the M536 wave-0 addendum (pre-registered tolerances) and the shift inside the old interval
 W = json.load(open("analyses/M536_wave0_addendum.json", encoding="utf-8"))["gt400"]
-assert abs(P["pct"] - W["pct"]) < 2e-3 and all(abs(a - b) < 1e-2 for a, b in zip(P["ci95Pct"], W["ci95Pct"])) and abs(P["pct"] - 64.092) < 2e-3
+d6 = pd.DataFrame({"n": num[ev6], "g": gt[ev6], "day": sc["date"].astype(str).values[ev6]}).groupby("day")[["n", "g"]].sum()      # known answers of the evidence corpus, recomputed on the evidence subset
+r6 = d6["n"].values[np.random.default_rng(42).integers(0, len(d6), (4000, len(d6)))].sum(1) / d6["g"].values[np.random.default_rng(42).integers(0, len(d6), (4000, len(d6)))].sum(1)
+p6 = 100 * num[ev6].sum() / gt[ev6].sum(); c6 = 100 * np.percentile(r6, [2.5, 97.5])
+assert abs(p6 - W["pct"]) < 2e-3 and all(abs(a - b) < 1e-2 for a, b in zip(c6, W["ci95Pct"])) and abs(p6 - 64.092) < 2e-3
 assert O["primary"]["ci95Pct"][0] <= P["pct"] <= O["primary"]["ci95Pct"][1]
 # the rpm >= 300 leaves are unchanged
-assert O["primary"]["pct"] == 63.073 and O["primary"]["ci95Pct"] == [60.614, 65.332] and O["primary"]["engineOnSeconds"] == 359524 and O["edgeSensitivity"]["wide50"] == 64.548
+ge = sc["file"].map(rs["ge300"]).values.astype(float)      # rpm >= 300 leaves: evidence literals on the evidence subset, payload on all drives
+assert abs(100 * num[ev6].sum() / ge[ev6].sum() - 63.073) < 2e-3 and int(ge[ev6].sum()) == 359524
+assert O["primary"]["engineOnSeconds"] == int(ge.sum()) and abs(O["primary"]["pct"] - 100 * num.sum() / ge.sum()) < 2e-3 and O["primary"]["ci95Pct"][0] < O["primary"]["pct"] < O["primary"]["ci95Pct"][1] and isinstance(O["edgeSensitivity"]["wide50"], float)
 # gates and cadence strata: descriptive only, no contrast leaf
 assert O["ruleGates"]["passed"] is True and O["faithfulness"]["passed"] is True
 assert set(O["cadenceStrataRule"]) == {"slow", "fast"} and not any("contrast" in k.lower() or "diff" in k.lower() for k in O["cadenceStrataRule"]) and "contrast" in " ".join(O["ruleBasis"]["sensitivityNotes"])

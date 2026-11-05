@@ -32,7 +32,7 @@ ratio = {e: sd(lambda i: i.startswith("P_"), e) / sd(lambda i: i.startswith("S_"
 assert all(0.5 <= v <= 2 for v in ratio.values())
 for loc in (A["powerFade"]["cadenceSensitivity"], A["fadeModes"]["power"]["trend"]["cadenceSensitivity"]):
     u = loc["emulation"]["seedSensitivity"]["unionOverStudies"]
-    assert u["status"] == "ok" and u["nConfigurations"] == 41 and u["nEraConfigurations"] == 82 and u["nDuplicatesCheckedEqual"] == 5 and u["stale"] is False
+    assert u["status"] == "ok" and u["nConfigurations"] == 41 and u["nEraConfigurations"] == 82 and u["nDuplicatesCheckedEqual"] == 5 and u["stale"] is (loc["emulation"]["basis"]["nClean"] != loc["nClean"])
     assert u["sourceSha256"] == {"M532": hashlib.sha256(r32).hexdigest(), "M534": hashlib.sha256(r34).hexdigest()}
     for e in E_:
         assert abs(u["eraMeanRangeMohm"][e][0] - rng[e][0]) < 6e-4 and abs(u["eraMeanRangeMohm"][e][1] - rng[e][1]) < 6e-4 and u["intervalIncludesZeroByEra"][e] == zero[e]
@@ -48,9 +48,13 @@ for loc in (A["powerFade"]["cadenceSensitivity"], A["fadeModes"]["power"]["trend
             "the paired interval includes zero in %d of 82 era configurations (fast1 %d, fast2 %d)" % (sum(zero.values()), zero["fast1"], zero["fast2"]),
             "the spread cannot be apportioned between the pool draw and the seeds (standard-deviation ratio %.1f and %.1f, not resolved at 10 replicates per arm)" % (ratio["fast1"], ratio["fast2"]), "not a causal cadence effect")
     assert all(w in st for w in want), [w for w in want if w not in st]
-    assert "across 11 slow-pool draws and seeds (reference draw included)" not in st and "previous basis" not in st and " ;" not in st
+    assert "across 11 slow-pool draws and seeds (reference draw included)" not in st and " ;" not in st
+    if loc["emulation"]["stale"]:      # M575: the generated statement discloses the dated basis
+        assert "previous basis" in st and ("stale: the clean-drive count is now %d" % loc["nClean"]) in st
+    else:
+        assert "previous basis" not in st
 for h in (A["powerFade"], A["fadeModes"]["power"]["trend"]):
-    assert h["note"].endswith(h["cadenceSensitivity"]["statement"])
+    assert h["cadenceSensitivity"]["statement"] in h["note"]      # M575: the arrays rebuild embeds the regenerated statement and keeps the load-excited-proxy caution after it (the one-off tail splice is not an ingestion stage)
 # A2: the leaf is not an estimate
 for f in ("tools/stamp_dependencies.json", "release_check.py", "tools/stamp_dependencies_apply.py"):
     assert "unionOverStudies" not in open(f, encoding="utf-8").read(), f
@@ -87,5 +91,6 @@ def strings(o):
     elif isinstance(o, str): yield o
 assert not [s for s in strings(A) if R.hits(s)]
 import m537_cadence_splice as S
-assert S.main(["--check"]) == 0
+if not A["powerFade"]["cadenceSensitivity"]["emulation"]["stale"]:      # M575: on a dated (stale) basis the generated statement carries the stale clause and the splice stops by design (its dry run lists only the two trend-note tails)
+    assert S.main(["--check"]) == 0
 print("OK test_m537_union_spread: 41 / 82 configurations, independent recomputation, statement, negatives, rule, splice")

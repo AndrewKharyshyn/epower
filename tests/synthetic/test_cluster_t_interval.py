@@ -29,7 +29,7 @@ for k in ("cellSpread", "resistanceVreg"):
     assert abs(c["ci95"][0] - cr1["ci95T_Gminus1"][0]) < 1.5e-4 and abs(c["ci95"][1] - cr1["ci95T_Gminus1"][1]) < 1.5e-4, k       # the released interval equals the CR1 t interval
     assert cr1["ci95NormalAsReleased"][0] > c["ci95"][0] if c["ci95"][0] > 0 else cr1["ci95NormalAsReleased"][0] > c["ci95"][0]
     assert "referenceNote" in cr1 and "M473" in cr1["referenceNote"]
-assert D["cellSpread"]["clusterRobustOLS"]["ci95"][0] > 0 and D["resistanceVreg"]["clusterRobustOLS"]["ci95"][0] < 0 < D["resistanceVreg"]["clusterRobustOLS"]["ci95"][1]      # no sign conclusion changes
+assert all((D[k]["clusterRobustOLS"]["ci95"][0] > 0) == (S[k]["cr1"]["ci95NormalAsReleased"][0] > 0) for k in ("cellSpread", "resistanceVreg"))      # no sign conclusion changes by the t reference (M575: the resistance proxy interval now excludes zero under both references)
 assert D["cellSpread"]["releasedEquivalence"]["equivalent"] is False and D["cellSpread"]["releasedEquivalence"]["refDist"].startswith("t(df=")
 led = A["evidenceLedger"]["rows"][4]["checks"][0]
 assert led["ci95"] == D["resistanceVreg"]["clusterRobustOLS"]["ci95"], "the ledger restatement follows the released interval"

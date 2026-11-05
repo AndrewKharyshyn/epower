@@ -187,3 +187,60 @@ assert LG.guard(rb_prev(), c, RB)["nUnexpected"] == 2
 c = rb_cur(); del c["seasonalCharts"]["charts"]["RegenByTempMeasured"]["data"]["warm"][0]["label"]
 assert LG.guard(rb_prev(), c, RB)["nUnexpected"] >= 2
 print("test_leaf_guard field_changed_and_empty: OK")
+
+# M575: trendslope_flip_ack (classification may change only under an acknowledgement file pinning block, both classes, row union and master MD5); stage order
+import hashlib, tempfile
+FR = {"id": "flip", "rationale": "r", "milestone": "T", "pathTemplate": "serialDependence/trendSlopes/{key}/rowsRule/rowsIncludingZero/{i}", "condition": "trendslope_flip_ack",
+      "listField": "rowsIncludingZero", "complementField": "rowsExcludingZero", "ackFile": os.path.join("tests", "synthetic", "_m575_ack_tmp.json")}
+def fp(): return {"serialDependence": {"trendSlopes": {"v": {"rowsRule": {"classification": "every row includes zero", "rowsIncludingZero": ["a", "b", "c"], "rowsExcludingZero": []}}}}}
+def fc(): return {"serialDependence": {"trendSlopes": {"v": {"rowsRule": {"classification": "procedure-dependent", "rowsIncludingZero": ["a"], "rowsExcludingZero": ["b", "c"]}}}}}
+_md5 = hashlib.md5(open(os.path.join(ROOT, "drive_master.csv"), "rb").read()).hexdigest()
+_ack = {"ruling": "t", "block": "v", "prevClassification": "every row includes zero", "curClassification": "procedure-dependent", "nRows": 3, "masterMd5": _md5}
+_ap = os.path.join(ROOT, FR["ackFile"])
+def flip(ack, prev=None, cur=None):
+    if ack is None:
+        if os.path.exists(_ap): os.remove(_ap)
+    else:
+        json.dump(ack, open(_ap, "w", encoding="utf-8"))
+    return LG.guard(prev or fp(), cur or fc(), [FR])["nUnexpected"]
+try:
+    assert flip(_ack) == 0
+    assert flip(None) == 2                                                                  # no ack file: refused
+    assert flip(dict(_ack, masterMd5="0" * 32)) == 2                                        # other master
+    assert flip(dict(_ack, curClassification="x")) == 2                                     # other transition
+    assert flip(dict(_ack, block="w")) == 2                                                 # other block
+    assert flip(dict(_ack, nRows=4)) == 2                                                   # row union differs
+    assert flip(dict(_ack, ruling="")) == 2                                                 # no recorded ruling
+    c = fc(); c["serialDependence"]["trendSlopes"]["v"]["rowsRule"]["classification"] = "every row includes zero"
+    assert flip(_ack, cur=c) == 2                                                           # no flip: this rule does not apply
+    c = fc(); c["serialDependence"]["trendSlopes"]["v"]["rowsRule"]["rowsExcludingZero"] = ["b"]
+    assert flip(_ack, cur=c) == 2                                                           # a row vanished from both lists
+finally:
+    if os.path.exists(_ap): os.remove(_ap)
+st = [s["id"] for s in json.load(open(os.path.join(ROOT, "tools", "ingest_stages.json"), encoding="utf-8"))["stages"]]
+assert st.index("leaf_guard") > max(st.index("restamp_ingest"), st.index("stamp_dependencies")), "leaf_guard must check the final payload (after the stamp stages)"
+print("test_leaf_guard M575: OK")
+
+# M575: stamp_computed_at_set (computedAtNote may vanish only for the listed keys, previous computedAt null, current computedAt == XT_RUN_STARTED_AT)
+SR = {"id": "cn", "rationale": "r", "milestone": "T", "pathTemplate": "_artifactStamps/{key}/computedAtNote", "condition": "stamp_computed_at_set", "keys": ["a"]}
+def sp(k="a", at=None): return {"_artifactStamps": {k: {"computedAt": at, "computedAtNote": "n"}}}
+def sc(k="a", at="2026-11-04T18:06:05+00:00"): return {"_artifactStamps": {k: {"computedAt": at}}}
+_old = os.environ.get("XT_RUN_STARTED_AT")
+try:
+    os.environ["XT_RUN_STARTED_AT"] = "2026-11-04T18:06:05+00:00"
+    assert LG.guard(sp(), sc(), [SR])["nUnexpected"] == 0
+    assert LG.guard(sp("b"), sc("b"), [SR])["nUnexpected"] == 1                       # key not listed
+    assert LG.guard(sp(at="x"), sc(), [SR])["nUnexpected"] == 1                       # previous computedAt not null
+    assert LG.guard(sp(), sc(at="2026-11-05"), [SR])["nUnexpected"] == 1             # not the run start
+    assert LG.guard(sp(), sc(at=None), [SR])["nUnexpected"] == 1                     # no calculation time now
+    del os.environ["XT_RUN_STARTED_AT"]
+    assert LG.guard(sp(), sc(at="2031-01-01T00:00:00+00:00"), [SR])["nUnexpected"] == 1   # no run context and no recorded run with that start
+    _d = os.path.join(ROOT, "runs", "20310101T000000Z"); os.makedirs(_d, exist_ok=True)
+    try:
+        assert LG.guard(sp(), sc(at="2031-01-01T00:00:00.123456+00:00"), [SR])["nUnexpected"] == 0   # the start of a recorded earlier run (a --resume)
+    finally:
+        os.rmdir(_d)
+finally:
+    if _old is None: os.environ.pop("XT_RUN_STARTED_AT", None)
+    else: os.environ["XT_RUN_STARTED_AT"] = _old
+print("test_leaf_guard M575 computedAtNote: OK")

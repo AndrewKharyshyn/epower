@@ -12,7 +12,9 @@ The tree snapshot covers undeclared writes too (stages with no declared outputs)
 Usage: python tools/release_journal.py --status | --recover   (library use: Journal(root, run_dir).begin()/commit()/rollback())"""
 import datetime as dt, hashlib, json, os, shutil, sys, time
 
-EXCLUDE_TOP = {".git", "node_modules", "runs", "raw", "raw_only", "raw_cache", "drive_raw_cache", "capacity_cache", "audit", "tabtext", ".pytest_cache", ".claude"}   # regenerable caches, git-ignored logs, raw originals
+EXCLUDE_TOP = {".git", "node_modules", "runs", "raw", "raw_only", "raw_cache", "drive_raw_cache", "capacity_cache", "audit", "tabtext", ".pytest_cache", ".claude",
+               # M575: git-ignored, content-keyed caches (83k of the 92k journaled files; the snapshot took 27 min and every rollback/recover rescanned it); a rollback leaves their entries, which are keyed and additive
+               "bridge_cache", "cell_cache", "csr_cache", "duration_cache", "ecf_cache", "packet_cache", "pair_cache", "powerpeak_cache", "probe_cache", "regen_cache", "validity_cache", "window_cache"}   # regenerable caches, git-ignored logs, raw originals
 MAX_COPY_BYTES = 30_000_000   # larger files are hashed (changes are detected and reported) but not copied: a rollback cannot restore them and says so (rollback_failed)
 EXCLUDE_ANY = {"__pycache__"}
 EXCLUDE_SUFFIX = (".pyc",)
@@ -82,7 +84,14 @@ def _atomic_copy(src, dst):
     os.makedirs(os.path.dirname(dst), exist_ok=True)
     tmp = dst + ".rj_tmp"
     shutil.copy2(src, tmp)
-    os.replace(tmp, dst)
+    for attempt in range(10):              # M575: os.replace can fail transiently on Windows (WinError 5/32/22 while a scanner, indexer or viewer holds the target); the M575 ingestion lost a resume to one such error
+        try:
+            os.replace(tmp, dst)
+            return
+        except OSError as e:
+            if attempt == 9 or getattr(e, "winerror", None) not in (5, 32, 22) and e.errno not in (13, 22):
+                raise
+            time.sleep(0.5 * (attempt + 1))
 
 
 class Journal:

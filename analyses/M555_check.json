@@ -2,15 +2,15 @@
  "milestone": "M555",
  "mode": "--splice",
  "stats": {
-  "cacheHits": 606,
+  "cacheHits": 621,
   "extracted": 0,
   "noRaw": 0,
   "notOk": 6
  },
  "knownAnswer": {
   "n": {
-   "counts": 1732,
-   "resolutionAgrees": 351
+   "counts": 1777,
+   "resolutionAgrees": 396
   },
   "misses": {
    "counts": 0,
@@ -23,13 +23,13 @@
  },
  "extractorSourceHash": "064adf8a140c4918",
  "reconciliation": {
-  "rawFilesInRaw": 617,
-  "masterRows": 606,
-  "masterRowsWithRaw": 606,
+  "rawFilesInRaw": 632,
+  "masterRows": 621,
+  "masterRowsWithRaw": 621,
   "rawNotInMaster": 11,
   "eraCounts": {
    "maxMin": 228,
-   "maxMinG01": 369,
+   "maxMinG01": 384,
    "none": 6,
    "perCell": 3
   },
@@ -39,7 +39,7 @@
    "comparison_only (typedExclusions)": 2,
    "unexplained": 0,
    "manifestRoles": {
-    "canonical": 606,
+    "canonical": 621,
     "comparison_only": 2,
     "auxiliary": 9,
     "derived": 2
@@ -47,7 +47,7 @@
   }
  },
  "packFilter": {
-  "packSamples": 677227,
+  "packSamples": 684645,
   "removed": 4,
   "removedShare": 6e-06
  },
@@ -255,13 +255,13 @@
    "otherChannels": {}
   },
   "maxMinG01|fast": {
-   "nDrives": 178,
-   "nDays": 36,
+   "nDrives": 184,
+   "nDays": 38,
    "channels": {
     "[BMS] Max Cell Voltage (V)": {
-     "drivesWithSamples": 178,
+     "drivesWithSamples": 184,
      "coverageClassCounts": {
-      "complete": 178,
+      "complete": 184,
       "partial": 0,
       "sparse": 0
      },
@@ -279,9 +279,9 @@
      "beyondLimitShareMedianOfDrives": 0.0
     },
     "[BMS] Min Cell Voltage (V)": {
-     "drivesWithSamples": 178,
+     "drivesWithSamples": 184,
      "coverageClassCounts": {
-      "complete": 178,
+      "complete": 184,
       "partial": 0,
       "sparse": 0
      },
@@ -289,19 +289,19 @@
      "rateRatioMedianOfDrives": 1.0,
      "exactCoTimedShareMedianOfDrives": 0.0,
      "offsetMedianS": 0.06,
-     "offsetP95OfDrivesS": 0.0953,
+     "offsetP95OfDrivesS": 0.096,
      "within0p25MedianOfDrives": 1.0,
-     "ageMedianS": 0.7555,
-     "ageP95MedianOfDrivesS": 1.0097,
+     "ageMedianS": 0.755,
+     "ageP95MedianOfDrivesS": 1.0086,
      "ageCensoredShareMedianOfDrives": 0.0013,
      "driveShareWithAgeP95Over3s": 0.0,
-     "carriedForwardShareMedianOfDrives": 0.0167,
+     "carriedForwardShareMedianOfDrives": 0.0169,
      "beyondLimitShareMedianOfDrives": 0.0
     },
     "G01 Cell Voltage  (V)": {
-     "drivesWithSamples": 178,
+     "drivesWithSamples": 184,
      "coverageClassCounts": {
-      "complete": 178,
+      "complete": 184,
       "partial": 0,
       "sparse": 0
      },
@@ -322,52 +322,52 @@
    "maxMinConsistency": {
     "statistic": "day-clustered pooled share of Max < Min - resolution among paired samples",
     "polling": {
-     "share": 0.006342,
+     "share": 0.006336,
      "ci95": [
-      0.005297,
-      0.00745
+      0.005274,
+      0.007483
      ],
-     "pairs": 240001,
-     "violations": 1522,
-     "nDrives": 178,
-     "nDays": 36
+     "pairs": 243510,
+     "violations": 1543,
+     "nDrives": 184,
+     "nDays": 38
     },
-    "unmatchedMax": 31,
+    "unmatchedMax": 32,
     "unmatchedMin": 1,
     "nearest0.25": {
-     "share": 0.006339,
+     "share": 0.006334,
      "ci95": [
-      0.005293,
-      0.007446
+      0.005275,
+      0.007483
      ],
-     "pairs": 239930,
-     "violations": 1521,
-     "nDrives": 178,
-     "nDays": 36,
+     "pairs": 243438,
+     "violations": 1542,
+     "nDrives": 184,
+     "nDays": 38,
      "reuse": 0
     },
     "nearest0.5": {
-     "share": 0.006342,
+     "share": 0.006337,
      "ci95": [
-      0.005297,
-      0.007451
+      0.005274,
+      0.007484
      ],
-     "pairs": 239995,
-     "violations": 1522,
-     "nDrives": 178,
-     "nDays": 36,
+     "pairs": 243504,
+     "violations": 1543,
+     "nDrives": 184,
+     "nDays": 38,
      "reuse": 0
     },
     "nearest1.5": {
-     "share": 0.006341,
+     "share": 0.006336,
      "ci95": [
-      0.005296,
-      0.00745
+      0.005274,
+      0.007482
      ],
-     "pairs": 240027,
-     "violations": 1522,
-     "nDrives": 178,
-     "nDays": 36,
+     "pairs": 243536,
+     "violations": 1543,
+     "nDrives": 184,
+     "nDays": 38,
      "reuse": 28
     }
    },
@@ -384,26 +384,26 @@
     "G01 Cell Voltage  (V)": {
      "descriptiveAbsDiffToMaxPlusMinV": {
       "p50MedianOfDrives": 0.0,
-      "p95MedianOfDrives": 0.0236,
+      "p95MedianOfDrives": 0.0239,
       "note": "descriptive only (added in the run after the scale pre-check; not a hypothesis test): the pre-check ratio to the mid-range is close to 2"
      },
      "scaleRatioToMaxMinMidMedianOfDrives": 2.0,
      "ratioP5MedianOfDrives": 1.9961,
-     "ratioP95MedianOfDrives": 2.0037,
-     "pairs": 480029,
+     "ratioP95MedianOfDrives": 2.0038,
+     "pairs": 487047,
      "bandTestRun": false,
      "note": "values are about 2.0 times the Max / Min mid-range: no band verdict and no cell wording"
     }
    }
   },
   "maxMinG01|slow": {
-   "nDrives": 191,
-   "nDays": 31,
+   "nDrives": 200,
+   "nDays": 33,
    "channels": {
     "[BMS] Max Cell Voltage (V)": {
-     "drivesWithSamples": 191,
+     "drivesWithSamples": 200,
      "coverageClassCounts": {
-      "complete": 191,
+      "complete": 200,
       "partial": 0,
       "sparse": 0
      },
@@ -411,19 +411,19 @@
      "rateRatioMedianOfDrives": 1.0,
      "exactCoTimedShareMedianOfDrives": 0.0,
      "offsetMedianS": 0.041,
-     "offsetP95OfDrivesS": 0.0755,
+     "offsetP95OfDrivesS": 0.076,
      "within0p25MedianOfDrives": 1.0,
-     "ageMedianS": 1.385,
-     "ageP95MedianOfDrivesS": 1.8853,
+     "ageMedianS": 1.3877,
+     "ageP95MedianOfDrivesS": 1.8862,
      "ageCensoredShareMedianOfDrives": 0.0032,
      "driveShareWithAgeP95Over3s": 0.0,
-     "carriedForwardShareMedianOfDrives": 0.3327,
+     "carriedForwardShareMedianOfDrives": 0.3333,
      "beyondLimitShareMedianOfDrives": 0.0
     },
     "[BMS] Min Cell Voltage (V)": {
-     "drivesWithSamples": 191,
+     "drivesWithSamples": 200,
      "coverageClassCounts": {
-      "complete": 191,
+      "complete": 200,
       "partial": 0,
       "sparse": 0
      },
@@ -431,19 +431,19 @@
      "rateRatioMedianOfDrives": 1.0,
      "exactCoTimedShareMedianOfDrives": 0.0,
      "offsetMedianS": 0.085,
-     "offsetP95OfDrivesS": 0.1535,
-     "within0p25MedianOfDrives": 0.9976,
-     "ageMedianS": 1.34,
-     "ageP95MedianOfDrivesS": 1.8369,
+     "offsetP95OfDrivesS": 0.1546,
+     "within0p25MedianOfDrives": 0.9973,
+     "ageMedianS": 1.342,
+     "ageP95MedianOfDrivesS": 1.838,
      "ageCensoredShareMedianOfDrives": 0.0032,
      "driveShareWithAgeP95Over3s": 0.0,
-     "carriedForwardShareMedianOfDrives": 0.3327,
+     "carriedForwardShareMedianOfDrives": 0.3333,
      "beyondLimitShareMedianOfDrives": 0.0
     },
     "G01 Cell Voltage  (V)": {
-     "drivesWithSamples": 191,
+     "drivesWithSamples": 200,
      "coverageClassCounts": {
-      "complete": 191,
+      "complete": 200,
       "partial": 0,
       "sparse": 0
      },
@@ -452,64 +452,64 @@
      "exactCoTimedShareMedianOfDrives": 0.0,
      "offsetMedianS": 0.072,
      "offsetP95OfDrivesS": 0.131,
-     "within0p25MedianOfDrives": 0.9987,
-     "ageMedianS": 1.34,
-     "ageP95MedianOfDrivesS": 1.8369,
+     "within0p25MedianOfDrives": 0.9986,
+     "ageMedianS": 1.342,
+     "ageP95MedianOfDrivesS": 1.838,
      "ageCensoredShareMedianOfDrives": 0.0032,
      "driveShareWithAgeP95Over3s": 0.0,
-     "carriedForwardShareMedianOfDrives": 0.3031,
+     "carriedForwardShareMedianOfDrives": 0.3041,
      "beyondLimitShareMedianOfDrives": 0.0
     }
    },
    "maxMinConsistency": {
     "statistic": "day-clustered pooled share of Max < Min - resolution among paired samples",
     "polling": {
-     "share": 0.003957,
+     "share": 0.003962,
      "ci95": [
-      0.003234,
-      0.00465
+      0.003256,
+      0.004645
      ],
-     "pairs": 110177,
-     "violations": 436,
-     "nDrives": 191,
-     "nDays": 31
+     "pairs": 114084,
+     "violations": 452,
+     "nDrives": 200,
+     "nDays": 33
     },
-    "unmatchedMax": 6,
-    "unmatchedMin": 2,
+    "unmatchedMax": 7,
+    "unmatchedMin": 3,
     "nearest0.25": {
-     "share": 0.003958,
+     "share": 0.003963,
      "ci95": [
-      0.003234,
-      0.004651
+      0.003257,
+      0.004646
      ],
-     "pairs": 110148,
-     "violations": 436,
-     "nDrives": 191,
-     "nDays": 31,
+     "pairs": 114051,
+     "violations": 452,
+     "nDrives": 200,
+     "nDays": 33,
      "reuse": 0
     },
     "nearest0.5": {
-     "share": 0.003957,
+     "share": 0.003962,
      "ci95": [
-      0.003234,
-      0.00465
+      0.003256,
+      0.004645
      ],
-     "pairs": 110176,
-     "violations": 436,
-     "nDrives": 191,
-     "nDays": 31,
+     "pairs": 114082,
+     "violations": 452,
+     "nDrives": 200,
+     "nDays": 33,
      "reuse": 0
     },
     "nearest1.5": {
-     "share": 0.003957,
+     "share": 0.003962,
      "ci95": [
-      0.003234,
-      0.00465
+      0.003256,
+      0.004645
      ],
-     "pairs": 110178,
-     "violations": 436,
-     "nDrives": 191,
-     "nDays": 31,
+     "pairs": 114085,
+     "violations": 452,
+     "nDrives": 200,
+     "nDays": 33,
      "reuse": 1
     }
    },
@@ -526,13 +526,13 @@
     "G01 Cell Voltage  (V)": {
      "descriptiveAbsDiffToMaxPlusMinV": {
       "p50MedianOfDrives": 0.0,
-      "p95MedianOfDrives": 0.036,
+      "p95MedianOfDrives": 0.0354,
       "note": "descriptive only (added in the run after the scale pre-check; not a hypothesis test): the pre-check ratio to the mid-range is close to 2"
      },
      "scaleRatioToMaxMinMidMedianOfDrives": 2.0,
      "ratioP5MedianOfDrives": 1.9939,
      "ratioP95MedianOfDrives": 2.0059,
-     "pairs": 220357,
+     "pairs": 228171,
      "bandTestRun": false,
      "note": "values are about 2.0 times the Max / Min mid-range: no band verdict and no cell wording"
     }
@@ -583,10 +583,10 @@
    ]
   }
  ],
- "unknownCadenceDriveSharePct": 0.84,
+ "unknownCadenceDriveSharePct": 0.82,
  "resolutionCrossCheck": [
-  351,
+  396,
   0
  ],
- "rawListSha256": "46565d2399af5142d90039cb7f3cf18faff0615dd73b4ebaa4ed8dfef6c17ce4"
+ "rawListSha256": "45cb60755bb4788b39fe01c242a56295be356a141f36165bfd821908bd2ede42"
 }
