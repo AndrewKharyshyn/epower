@@ -18,7 +18,7 @@ def mk(days_post, per=3, tpost=20.0, pre_days=60):
     d['y']=20+0.3*d['T']+0.05*d['I']+np.random.default_rng(5).normal(size=5000)[:len(d)]
     d['day']=d.date.dt.strftime('%Y-%m-%d'); d['months']=(d.date-d.date.min()).dt.days/30.4375
     return d
-tmp=tempfile.mkdtemp(); L=os.path.join(tmp,'l.json'); spec=os.path.join(tmp,'s.md'); open(spec,'w').write('x')
+tmp=tempfile.mkdtemp(); L=os.path.join(tmp,'l.json'); spec=os.path.join(tmp,'s.md'); open(spec,'w',encoding='utf-8').write('x')
 def look(d,md5,**k):
     c=M.confirmatory(d); c2,led=M.apply_looks(c,d,md5,path=L,spec_path=spec); return c2,led
 d=mk(6)
