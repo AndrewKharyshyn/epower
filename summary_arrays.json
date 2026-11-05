@@ -62670,20 +62670,20 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "1e8a2a45a61c093f6c5b65537ae6dd8f",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-11-05T18:16:14.038979+00:00",
+   "generatedAt": "2026-11-05T20:45:53.842298+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72"
    },
    "computationStatus": "computed",
    "computationStatusNote": "M574: computed by tools/m573_cell_spread_step.py from the master and the raw CSVs; additive, no published value recomputed; not M299-reproducible.",
-   "includedInReleaseAt": "2026-11-05T18:16:14.038979+00:00",
-   "computedAt": "2026-11-05T18:16:14.038979+00:00",
+   "includedInReleaseAt": "2026-11-05T20:45:53.842298+00:00",
    "inputBasis": {
     "nDrives": 632,
     "masterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72",
     "source": "stamping pass: meta.totalDrives, corpusHash"
-   }
+   },
+   "computedAt": "2026-11-05T20:45:53.842298+00:00"
   },
   "channelDependency": {
    "corpusHash": "1574a8156a36c6ea4ea1dfdaafc7cc72",
@@ -89866,7 +89866,39 @@
    "preStepModel": {
     "n": 467,
     "formula": "y ~ T + I + soc"
-   }
+   },
+   "predictionMet": false,
+   "preStepTRange": {
+    "min": 12.7,
+    "p5": 16.53,
+    "max": 44.0,
+    "nFitDrives": 467
+   },
+   "preStepFitHash": "e62ccc8da486057ca958020dc8d47f5270d044d4d4fe2e725eeb3d0b5e06c15f",
+   "nBelowPreStepTmin": 6,
+   "nAbovePreStepTmax": 0,
+   "inRangeSensitivity": {
+    "n": 18,
+    "days": 4,
+    "meetsSupportFloor": false,
+    "label": "post hoc; below the floor",
+    "meanResidualMv": 7.307,
+    "meanResidualCi95": [
+     -0.952,
+     15.566
+    ]
+   },
+   "evaluationNumber": 1,
+   "terminalEvaluation": {
+    "status": "not reached",
+    "rule": "terminal = first calendar day D after the cutoff 2026-10-17 with >= 20 in-range drives on >= 10 distinct in-range days (in-range = within the pre-step fit temperature range); fallback: the drives dated <= 2027-01-31; later looks are descriptive",
+    "nInRangeDrives": 18,
+    "nInRangeDays": 4,
+    "needDrives": 20,
+    "needDays": 10,
+    "fallbackDate": "2027-01-31"
+   },
+   "lookLabel": "first evaluation at the minimum support (5 days)"
   },
   "limits": [
    "step date chosen post hoc (the data-driven scan's best date is reported); AIC and intervals ignore date selection and multiplicity",

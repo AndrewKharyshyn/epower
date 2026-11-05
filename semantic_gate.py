@@ -210,6 +210,18 @@ if _fs:
        "range over declared conventions, not a confidence interval" in _dfs and all(_fs["statement"][k_]["text"] in _dfs for k_ in _fs["headlineCells"])
        and all(("%.3f" % _fs["settings"][str(F_)][k_]["E1"]["point"]) in _dfs and ("%.3f" % _fs["settings"][str(F_)][k_]["E2"]["point"]) in _dfs for F_ in _fs["fills"] for k_ in _fs["headlineCells"] if _fs["settings"][str(F_)][k_]["supported600"])
        and ("coolant %.2f s" % _fs["sampleIntervalS"]["coolant"]["medianS"]) in _dfs and _dfs.count("Sensitivity to the forward-fill limit and the trip-end tolerance (M437)") == 1)
+# M580 (analyses/M580_spec.md Rev 1 R5): whenever the M574 confirmatory block is evaluated, its row prints both count pairs, the extrapolation count, the cause sentence and the caveat, all from the payload
+_cfm = (A.get("cellSpreadStep") or {}).get("confirmatory")
+if _cfm and _cfm.get("status") == "evaluated":
+    _K580 = "Pre-registered confirmatory test (step date fixed"
+    _rows580 = [(k, t) for k, t in T.items() if _K580 in t]
+    _row580 = lambda t: t[t.index(_K580):t.index(_K580) + 2200]
+    ok("A2 REQUIRED M580 the confirmatory row prints both count pairs, the extrapolation count, the cause sentence and the neither-established-nor-excluded caveat from the payload (%d dumps)" % len(_rows580),
+       len(_rows580) >= 1 and all(
+           ("(%d drives, %d days)" % (_cfm["nDrivesAfterCutoff"], _cfm["nDaysAfterCutoff"])) in _row580(t_) and ("(%d drives, %d days)" % (_cfm["postStepSlope"]["n"], _cfm["postStepSlope"]["G"])) in _row580(t_)
+           and ("%d of %d drives lie below the temperature range of the pre-step fit" % (_cfm["nBelowPreStepTmin"], _cfm["nDrivesAfterCutoff"])) in _row580(t_)
+           and "the cause is unidentified; degradation and imbalance growth are neither established nor excluded" in _row580(t_) and _cfm["lookLabel"] in _row580(t_)
+           and ("post hoc; below the floor" in _row580(t_) or _cfm["inRangeSensitivity"]["meetsSupportFloor"]) for k_, t_ in _rows580))
 # M438 (analyses/M438_spec.md Rev 2.1): start-temperature strata of the headline cells, produced in the ledger stage
 import os as _os, sys as _sys
 _sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "tools"))
