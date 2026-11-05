@@ -244,3 +244,14 @@ finally:
     if _old is None: os.environ.pop("XT_RUN_STARTED_AT", None)
     else: os.environ["XT_RUN_STARTED_AT"] = _old
 print("test_leaf_guard M575 computedAtNote: OK")
+
+
+# ---- M578: lodo_matches_k10 (oil S3 statement change)
+def _fq(k10, lodo, differs):
+    return {"interDriveCarryover": {"thermalDecay": {"oil": {"fitQuality": {"cells": {"g": {"statements": {"S3": {"statement": k10}}}},
+            "leaveOneDayOut": {"cells": {"g": {"statements": {"S3": lodo}, "differsFromK10": differs}}}}}}}}
+_R = [r for r in json.load(open(os.path.join(ROOT, "analyses", "leaf_guard_rules.json"), encoding="utf-8")) if r["id"] == "m578-carryover-lodo-k10"][0]
+assert LG.guard(_fq("not shown", "worse", ["S3"]), _fq("worse", "worse", []), [_R])["nUnexpected"] == 0           # k=10 statement changed and now equals the LODO one
+assert LG.guard(_fq("worse", "worse", ["S3"]), _fq("worse", "worse", []), [_R])["nUnexpected"] == 1              # k=10 statement unchanged: unexplained loss
+assert LG.guard(_fq("not shown", "worse", ["S3"]), _fq("worse", "not shown", []), [_R])["nUnexpected"] == 1      # still differs after the change: unexplained loss
+print("test_leaf_guard M578 lodo_matches_k10: OK")

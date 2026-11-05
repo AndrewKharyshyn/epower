@@ -1,0 +1,22 @@
+{
+ "milestone": "M578",
+ "date": "2026-11-05",
+ "role": "research-director (Opus), brief of the main session",
+ "decision": "revise: accept the owner amendment (threshold 1.10 s) with conditions; supersedes the 'unclassified' part of M578_cadence_gap_director_ruling",
+ "rule": "fast if I_sample_period_s < 1.10; slow if >= 1.10; guard zone 1.06 <= p < 1.135 STOPs for Director review (empty); missing period null.",
+ "text": "Moving the cut to 1.1 s changes none of the 621 older assignments; it sits near the midpoint (1.096) of the empty gap that remains on the current corpus, (1.055, 1.137). It is a post hoc relabel. 'Fast' now pools two PID-set configurations, so the period is a proxy for a polling epoch.",
+ "conditions": [
+  "M379 Rev 4 addendum (analyses/M379_rev4_addendum.md) records the owner quote verbatim, the post hoc choice, neutrality for history, whether an outcome estimate was seen, and the guard zone.",
+  "Inline 1.05 consumers: report, do not patch; list the one disagreeing drive (2026-11-04_08-01-15). A stratum estimate it enters is reported with and without it.",
+  "Fast-stratum results are reported for all drives and for drives before the PID-set change, with n drives/days.",
+  "regen_display (ev_rpm_dt_med_s < 1.0) unchanged; escalate under M446 O7 if any of the 11 drives changes stratum or comes near 1.0.",
+  "cadence_monitor text updated in the sidecar tool only.",
+  "Definitions-only blind audit before merge: regime of the 621 rows byte-identical, the 4 drives fast, counts recomputed from the master, guard zone empty, inline-disagreement list exactly one drive."
+ ],
+ "wording": [
+  "'fast (period < 1.1 s; pools two PID sets from 2026-11-03)'",
+  "'threshold amended post hoc by owner decision; historical assignments unchanged'",
+  "never 'regime identified/established', 'cadence-corrected', or any cadence effect claim"
+ ],
+ "needsAndriiSignoff": "satisfied by the owner's own chat statement quoted in the addendum"
+}

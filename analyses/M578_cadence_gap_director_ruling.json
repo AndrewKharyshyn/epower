@@ -1,0 +1,24 @@
+{
+ "milestone": "M578",
+ "date": "2026-11-05",
+ "role": "research-director (Opus), brief of the main session",
+ "decision": "revise (keep the rule, label the gap drives unclassified)",
+ "text": "The M379a binary rule rests on an empty gap in [1.0, 1.1) s that the 2026-11-03 PID-set change (owner-reported) has filled for four drives: 2026-11-04_08-01-15 (1.055), 2026-11-04_08-17-06 (1.001), 2026-11-04_08-25-16 (1.003), 2026-11-05_09-13-42 (1.004). The period alone cannot separate the post-change cadence (about 0.92-1.06 s) from the old fast regime, moving the threshold after seeing the data would be post hoc, and a third class cannot be defined from 13 post-change drives on 3 days without a spec. This ingestion keeps the rule unchanged and labels the four drives unclassified (null).",
+ "allowedCodeChange": "tools/cadence_regime.py only: allow-listed gap drives get regime null; block fields gapDrives and counts.nullMissing / counts.nullGap; STOP stays for any other gap drive; the 621 pre-batch sidecar rows must stay byte-identical.",
+ "conditions": [
+  "Consumers reading cadence_regime.csv drop the four drives from the fast/slow strata: report n per stratum and the excluded list.",
+  "Inline 1.05 thresholds in other tools (m573_cell_spread_step, timing_support, dependence_sensitivity, m480*, capacity_basis) will class the 1.00x drives as fast and 1.055 as slow: a method disagreement to report, not patch in this ingestion; for the M577 slow term report the result with the four drives excluded next to the one with them included.",
+  "regen_display strata use ev_rpm_dt_med_s < 1.0: report that value for the 11 drives and escalate any drive near 1.0 or changing stratum (M446 O7).",
+  "cadence_monitor: gap drives must not be flagged as slow.",
+  "Definitions-only blind audit in this milestone before merge: 621 rows unchanged, the four gap files and the counts recomputed from the master."
+ ],
+ "followUps": [
+  "Before the next ingestion: a spec amendment to M379 (Rev 4 addendum) and a new milestone for a PID-set/epoch covariate with a centralised regime reader that replaces the inline 1.05 thresholds."
+ ],
+ "wording": [
+  "'unclassified (inside the declared cadence gap)'; never fast or slow for those drives.",
+  "'polling cadence after the owner-reported 2026-11-03 PID-set change'; never 'third regime identified/established'.",
+  "'fast (period rule only; pools two PID sets after 2026-11-03)'.",
+  "No cadence effect claim; observational strata stay 'confounded by season, ambient, drive mix'."
+ ]
+}

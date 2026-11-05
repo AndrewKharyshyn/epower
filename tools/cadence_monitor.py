@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """M396 (analyses/M396_spec.md): REPORT-ONLY flag for the logger PID polling cadence. The owner re-activated fast polling of the HV-current channel after the app setting changed on
 2026-10-08 (from 10:15 the median interval was about 1.47 s, slower than the earlier slow regime, see M379a / M393); this monitor tells the owner as soon as a NEW drive is slow again.
-Reads the sidecar cadence_regime.csv (stage cadence_regime, M379a rule: fast = master I_sample_period_s < 1.05 s, slow otherwise, null = no HV-current samples) and keeps
+Reads the sidecar cadence_regime.csv (stage cadence_regime, M379a rule, threshold 1.10 s since M578 (1.05 s before): fast = master I_sample_period_s < 1.10 s, slow otherwise, null = no HV-current samples) and keeps
 analyses/cadence_monitor.json: the last drive seen, the expected regime, the flag history. First run BOOTSTRAPS (records the last drive, no flags); every later run looks only at drives after it:
   cadence_slow_while_fast_expected  one or more new drives are slow: first slow drive, how many of the new drives, their median interval, the reference medians of the fast and slow regimes
                                     taken from the sidecar before the batch, and whether the interval is slower than the earlier slow regime (the Oct-8 'third setting')
@@ -18,7 +18,7 @@ STATE = os.path.join(ROOT, "analyses", "cadence_monitor.json")
 SIDECAR = os.path.join(ROOT, "cadence_regime.csv")
 EXPECTED, EXPECTED_SINCE = "fast", "2026-10-09"           # owner re-activated fast polling (chat, 2026-10-09); applies to drives ingested after the bootstrap
 SLOWER_FACTOR = 1.10                                       # 'slower than the earlier slow regime' = batch median > 1.10 x the reference slow median
-RULE = ("regime per drive from the sidecar (fast: master I_sample_period_s < 1.05 s, M379a); flag = a new drive is slow while fast polling is expected (owner re-activated it 2026-10-09); "
+RULE = ("regime per drive from the sidecar (fast: master I_sample_period_s < 1.10 s since M578, 1.05 s before; M379a); flag = a new drive is slow while fast polling is expected (owner re-activated it 2026-10-09); "
         "report-only; thresholds fixed and not tuned (analyses/M396_spec.md)")
 
 

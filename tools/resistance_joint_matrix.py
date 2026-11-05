@@ -364,7 +364,8 @@ def compute(dm, side, dens, nb=NB, quick=False):
     t0s = pd.to_datetime(cc["date"]).min()
     f0 = M9.fit(s1set, "T0", t0s, (0.0, 0.0), nb)[0]
     fid = {"slope": round(f0["slope"], 4), "publishedSlope": pe["slope"], "n": f0["n"], "publishedN": pe["nDrives"], "nDays": f0["nDays"], "publishedNDays": pe["nDays"]}
-    fid["passed"] = bool(fid["slope"] == round(pe["slope"], 4) and fid["n"] == fid["publishedN"] and fid["nDays"] == fid["publishedNDays"])
+    fid.update(slopeUnrounded=float(f0["slope"]), publishedSlopeConverted=pe["slope"] * M9.SCALE_K, scaleFactor=M9.SCALE_K, slopeTolerance=M9.TOL_UNROUNDED)      # M578: months-scale-aware, see m499_temp_spec.slope_matches
+    fid["passed"] = bool(M9.slope_matches(fid) and fid["n"] == fid["publishedN"] and fid["nDays"] == fid["publishedNDays"])
     if not fid["passed"]:
         raise SystemExit("M514 STOP: the S1 refit does not reproduce the published S1: %s" % json.dumps(fid))
     if len(F) < MIN_DRIVES or F["date"].nunique() < MIN_DAYS:

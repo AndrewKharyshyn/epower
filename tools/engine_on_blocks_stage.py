@@ -27,6 +27,24 @@ SPD_COL = ["#3b82f6", "#60a5fa", "#4ade80", "#eab308", "#f97316", "#ef4444", "#d
 EOD_COL = {"urban": "#ef4444", "mixed": "#eab308", "mixed_highway": "#3b82f6", "highway": "#22c55e"}
 
 
+
+def evidence_rows_identical(live, pin, n_ev, head=None, ev_md5=None):
+    """M578 (Director): the first n_ev live master rows must equal, in order, the pinned drive-file list of the M544 evidence master (fail closed on any missing or inconsistent input);
+    when the committed (HEAD) list is given it must in addition be an exact prefix of the live list (append-only master)."""
+    try:
+        if not pin or not ev_md5 or pin.get("masterMd5") != ev_md5 or pin.get("nDrives") != n_ev:
+            return False
+        files = pin["files"]
+        if len(files) != n_ev or hashlib.sha256("\n".join(files).encode("utf-8")).hexdigest() != pin["filesSha256"]:
+            return False
+        if list(live[:n_ev]) != list(files):
+            return False
+        if head is not None and (len(head) < n_ev or list(live[:len(head)]) != list(head)):
+            return False
+        return True
+    except Exception:
+        return False
+
 def canon(o):
     return json.dumps(json.loads(json.dumps(o, default=float)), sort_keys=True)
 
@@ -276,11 +294,15 @@ def build_blocks(dm, A, rebuild=False):
         ka_res = by_cohort({fn: e for fn, e in ent.items() if fn in keep}, rows_ka)
         ka_basis = "first %d master rows (the M544 evidence corpus); %d appended drives are not covered by the pinned answers" % (n_ev, len(rows) - n_ev)
     ev_ident = True
-    if n_ev and n_ev < len(rows):          # Director (M575): the first n_ev rows must BE the evidence corpus: their drive files equal, in order, those of the committed master the evidence was derived from (byte identity does not hold, the ingestion rewrites the file)
-        import csv, io, subprocess
-        blob = subprocess.run(["git", "show", "HEAD:drive_master.csv"], cwd=ROOT, capture_output=True).stdout.decode("utf-8")
-        committed = [r_["file"] for r_ in csv.DictReader(io.StringIO(blob))]
-        ev_ident = bool(len(committed) == n_ev and committed == [r_["file"] for r_ in rows[:n_ev]])
+    if n_ev and n_ev < len(rows):          # Director (M578): anchored to the pinned ordered file list of the M544 evidence master (analyses/M544_evidence_files.json, tools/m544_evidence_pin.py), fail closed;
+        try:                               # the HEAD check below stays as an additional check, never the only one
+            import subprocess as _sp, csv as _csv, io as _io
+            pin = json.load(open(os.path.join(ROOT, "analyses", "M544_evidence_files.json"), encoding="utf-8"))
+            _md5 = json.load(open(pe, encoding="utf-8")).get("masterMd5")
+            _blob = _sp.run(["git", "show", "HEAD:drive_master.csv"], cwd=ROOT, capture_output=True, check=True).stdout.decode("utf-8")
+            ev_ident = evidence_rows_identical([r_["file"] for r_ in rows], pin, n_ev, [r_["file"] for r_ in _csv.DictReader(_io.StringIO(_blob))], _md5)
+        except Exception:
+            ev_ident = False
     gates["M544KnownAnswers"] = dict(ka_m544(ka_res), basis=ka_basis, evidenceRowsIdentical=ev_ident, nAppended=(len(rows) - n_ev) if n_ev and n_ev < len(rows) else 0)
     gates["M544KnownAnswers"]["passed"] = bool(gates["M544KnownAnswers"]["passed"] and ev_ident)
     gates["passed"] = bool(gates["E1RuleSecondsExact"]["passed"] and gates["driveSetEqualsStoredBlock"] and gates["M544KnownAnswers"]["passed"])

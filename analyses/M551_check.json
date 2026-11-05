@@ -2,13 +2,13 @@
  "milestone": "M551",
  "mode": "--splice",
  "stats": {
-  "cacheHits": 621,
+  "cacheHits": 632,
   "extracted": 0,
   "noRaw": 0,
   "notOk": 14
  },
  "reconciliation": {
-  "nCompared": 607,
+  "nCompared": 618,
   "nMisses": 0,
   "examples": [],
   "tolerance": {
@@ -18,41 +18,41 @@
  },
  "extractorSourceHash": "772068daba38f2fd",
  "populations": {
-  "withPairs": 607,
+  "withPairs": 618,
   "excludedNullOrAnomaly": 0,
-  "eligibleCanonicalClean": 605,
+  "eligibleCanonicalClean": 616,
   "notOk": 14
  },
  "strata": {
   "fast": {
-   "nDrives": 184,
-   "nDays": 38,
-   "nRunsAll": 25903,
-   "nRunsComplete": 25538,
-   "censoredRunSharePct": 1.409,
-   "censoredEnergySharePct": 3.252,
+   "nDrives": 195,
+   "nDays": 40,
+   "nRunsAll": 26948,
+   "nRunsComplete": 26561,
+   "censoredRunSharePct": 1.436,
+   "censoredEnergySharePct": 3.335,
    "hours": null,
    "overall": {
     "label": "all runs",
-    "nComplete": 25538,
-    "nAll": 25903,
+    "nComplete": 26561,
+    "nAll": 26948,
     "energyWh": {
      "completeOnly": {
       "median": {
        "value": 3.7154,
        "ci95": [
         3.0903,
-        4.6774
+        4.4668
        ],
-       "nDays": 38
+       "nDays": 40
       },
       "p90": {
        "value": 44.6684,
        "ci95": [
         40.738,
-        51.2861
+        48.9779
        ],
-       "nDays": 38
+       "nDays": 40
       },
       "p99": {
        "value": 169.8244,
@@ -60,7 +60,7 @@
         162.181,
         186.2087
        ],
-       "nDays": 38
+       "nDays": 40
       }
      },
      "allRunsCensoredAsLowerBounds": {
@@ -70,7 +70,7 @@
         3.2359,
         4.6774
        ],
-       "nDays": 38
+       "nDays": 40
       },
       "p90": {
        "value": 46.7735,
@@ -78,7 +78,7 @@
         42.658,
         51.2861
        ],
-       "nDays": 38
+       "nDays": 40
       },
       "p99": {
        "value": 169.8244,
@@ -86,7 +86,7 @@
         162.181,
         186.2087
        ],
-       "nDays": 38
+       "nDays": 40
       }
      }
     },
@@ -98,23 +98,23 @@
         2.9512,
         3.3884
        ],
-       "nDays": 38
+       "nDays": 40
       },
       "p90": {
        "value": 16.9824,
        "ci95": [
         15.4882,
-        19.4984
+        18.6209
        ],
-       "nDays": 38
+       "nDays": 40
       },
       "p99": {
        "value": 61.6595,
        "ci95": [
         56.2341,
-        67.6083
+        70.7946
        ],
-       "nDays": 38
+       "nDays": 40
       }
      },
      "allRunsCensoredAsLowerBounds": {
@@ -124,7 +124,7 @@
         2.9512,
         3.5481
        ],
-       "nDays": 38
+       "nDays": 40
       },
       "p90": {
        "value": 18.6209,
@@ -132,113 +132,113 @@
         16.9824,
         21.3796
        ],
-       "nDays": 38
+       "nDays": 40
       },
       "p99": {
-       "value": 70.7946,
+       "value": 74.131,
        "ci95": [
         64.5654,
         81.2831
        ],
-       "nDays": 38
+       "nDays": 40
       }
      }
     },
     "below0.5Wh": {
      "countSharePct": {
-      "pct": 22.938,
+      "pct": 23.222,
       "ci95Pct": [
-       20.389,
-       25.408
+       20.667,
+       25.668
       ],
-      "nDays": 38
+      "nDays": 40
      },
      "energySharePct": {
-      "pct": 0.229,
+      "pct": 0.231,
       "ci95Pct": [
-       0.185,
-       0.274
+       0.188,
+       0.276
       ],
-      "nDays": 38
+      "nDays": 40
      }
     },
     "below1Wh": {
      "countSharePct": {
-      "pct": 31.107,
+      "pct": 31.392,
       "ci95Pct": [
-       27.811,
-       34.16
+       28.169,
+       34.375
       ],
-      "nDays": 38
+      "nDays": 40
      },
      "energySharePct": {
-      "pct": 0.593,
+      "pct": 0.596,
       "ci95Pct": [
-       0.491,
-       0.697
+       0.498,
+       0.701
       ],
-      "nDays": 38
+      "nDays": 40
      }
     },
     "below2Wh": {
      "countSharePct": {
-      "pct": 40.626,
+      "pct": 40.936,
       "ci95Pct": [
-       37.127,
-       43.766
+       37.557,
+       44.023
       ],
-      "nDays": 38
+      "nDays": 40
      },
      "energySharePct": {
-      "pct": 1.443,
+      "pct": 1.454,
       "ci95Pct": [
-       1.249,
-       1.637
+       1.265,
+       1.649
       ],
-      "nDays": 38
+      "nDays": 40
      }
     },
     "bin": "0.02 decade (log10 Wh and log10 s)"
    },
    "discharge": {
     "label": "discharge runs",
-    "nComplete": 12698,
-    "nAll": 13041,
+    "nComplete": 13205,
+    "nAll": 13568,
     "energyWh": {
      "completeOnly": {
       "median": {
        "value": 5.1286,
        "ci95": [
         4.0738,
-        6.4565
+        6.166
        ],
-       "nDays": 38
+       "nDays": 40
       },
       "p90": {
        "value": 44.6684,
        "ci95": [
         40.738,
-        48.9779
+        46.7735
        ],
-       "nDays": 38
+       "nDays": 40
       },
       "p99": {
-       "value": 123.0269,
+       "value": 117.4898,
        "ci95": [
         112.2018,
         128.825
        ],
-       "nDays": 38
+       "nDays": 40
       }
      },
      "allRunsCensoredAsLowerBounds": {
       "median": {
        "value": 5.3703,
        "ci95": [
-        4.4668,
+        4.2658,
         6.7608
        ],
-       "nDays": 38
+       "nDays": 40
       },
       "p90": {
        "value": 44.6684,
@@ -246,7 +246,7 @@
         42.658,
         48.9779
        ],
-       "nDays": 38
+       "nDays": 40
       },
       "p99": {
        "value": 123.0269,
@@ -254,7 +254,7 @@
         112.2018,
         128.825
        ],
-       "nDays": 38
+       "nDays": 40
       }
      }
     },
@@ -266,7 +266,7 @@
         3.5481,
         4.2658
        ],
-       "nDays": 38
+       "nDays": 40
       },
       "p90": {
        "value": 20.4174,
@@ -274,7 +274,7 @@
         18.6209,
         22.3872
        ],
-       "nDays": 38
+       "nDays": 40
       },
       "p99": {
        "value": 64.5654,
@@ -282,17 +282,17 @@
         58.8844,
         74.131
        ],
-       "nDays": 38
+       "nDays": 40
       }
      },
      "allRunsCensoredAsLowerBounds": {
       "median": {
        "value": 4.0738,
        "ci95": [
-        3.5481,
+        3.7154,
         4.6774
        ],
-       "nDays": 38
+       "nDays": 40
       },
       "p90": {
        "value": 23.4423,
@@ -300,7 +300,7 @@
         20.4174,
         26.9153
        ],
-       "nDays": 38
+       "nDays": 40
       },
       "p99": {
        "value": 85.1138,
@@ -308,79 +308,79 @@
         74.131,
         97.7237
        ],
-       "nDays": 38
+       "nDays": 40
       }
      }
     },
     "below0.5Wh": {
      "countSharePct": {
-      "pct": 19.357,
+      "pct": 19.674,
       "ci95Pct": [
-       16.571,
-       22.09
+       16.932,
+       22.356
       ],
-      "nDays": 38
+      "nDays": 40
      },
      "energySharePct": {
-      "pct": 0.214,
+      "pct": 0.217,
       "ci95Pct": [
-       0.163,
-       0.264
+       0.168,
+       0.268
       ],
-      "nDays": 38
+      "nDays": 40
      }
     },
     "below1Wh": {
      "countSharePct": {
-      "pct": 27.13,
+      "pct": 27.391,
       "ci95Pct": [
-       23.445,
-       30.595
+       23.786,
+       30.794
       ],
-      "nDays": 38
+      "nDays": 40
      },
      "energySharePct": {
-      "pct": 0.578,
+      "pct": 0.582,
       "ci95Pct": [
-       0.46,
-       0.701
+       0.466,
+       0.706
       ],
-      "nDays": 38
+      "nDays": 40
      }
     },
     "below2Wh": {
      "countSharePct": {
-      "pct": 36.006,
+      "pct": 36.236,
       "ci95Pct": [
-       31.827,
-       39.805
+       32.217,
+       40.018
       ],
-      "nDays": 38
+      "nDays": 40
      },
      "energySharePct": {
-      "pct": 1.417,
+      "pct": 1.424,
       "ci95Pct": [
-       1.185,
-       1.652
+       1.197,
+       1.667
       ],
-      "nDays": 38
+      "nDays": 40
      }
     },
     "bin": "0.02 decade (log10 Wh and log10 s)"
    },
    "charge": {
     "label": "charge runs",
-    "nComplete": 12840,
-    "nAll": 12862,
+    "nComplete": 13356,
+    "nAll": 13380,
     "energyWh": {
      "completeOnly": {
       "median": {
        "value": 2.6915,
        "ci95": [
-        2.3442,
+        2.2387,
         3.2359
        ],
-       "nDays": 38
+       "nDays": 40
       },
       "p90": {
        "value": 46.7735,
@@ -388,33 +388,7 @@
         40.738,
         56.2341
        ],
-       "nDays": 38
-      },
-      "p99": {
-       "value": 204.1738,
-       "ci95": [
-        194.9845,
-        213.7962
-       ],
-       "nDays": 38
-      }
-     },
-     "allRunsCensoredAsLowerBounds": {
-      "median": {
-       "value": 2.8184,
-       "ci95": [
-        2.3442,
-        3.2359
-       ],
-       "nDays": 38
-      },
-      "p90": {
-       "value": 46.7735,
-       "ci95": [
-        40.738,
-        56.2341
-       ],
-       "nDays": 38
+       "nDays": 40
       },
       "p99": {
        "value": 204.1738,
@@ -422,7 +396,33 @@
         194.9845,
         223.8721
        ],
-       "nDays": 38
+       "nDays": 40
+      }
+     },
+     "allRunsCensoredAsLowerBounds": {
+      "median": {
+       "value": 2.6915,
+       "ci95": [
+        2.2387,
+        3.2359
+       ],
+       "nDays": 40
+      },
+      "p90": {
+       "value": 46.7735,
+       "ci95": [
+        40.738,
+        56.2341
+       ],
+       "nDays": 40
+      },
+      "p99": {
+       "value": 204.1738,
+       "ci95": [
+        194.9845,
+        223.8721
+       ],
+       "nDays": 40
       }
      }
     },
@@ -432,9 +432,9 @@
        "value": 2.5704,
        "ci95": [
         2.4547,
-        2.8184
+        2.6915
        ],
-       "nDays": 38
+       "nDays": 40
       },
       "p90": {
        "value": 14.1254,
@@ -442,33 +442,7 @@
         12.8825,
         15.4882
        ],
-       "nDays": 38
-      },
-      "p99": {
-       "value": 58.8844,
-       "ci95": [
-        53.7032,
-        61.6595
-       ],
-       "nDays": 38
-      }
-     },
-     "allRunsCensoredAsLowerBounds": {
-      "median": {
-       "value": 2.5704,
-       "ci95": [
-        2.4547,
-        2.8184
-       ],
-       "nDays": 38
-      },
-      "p90": {
-       "value": 14.1254,
-       "ci95": [
-        12.8825,
-        16.2181
-       ],
-       "nDays": 38
+       "nDays": 40
       },
       "p99": {
        "value": 58.8844,
@@ -476,87 +450,113 @@
         53.7032,
         64.5654
        ],
-       "nDays": 38
+       "nDays": 40
+      }
+     },
+     "allRunsCensoredAsLowerBounds": {
+      "median": {
+       "value": 2.5704,
+       "ci95": [
+        2.4547,
+        2.6915
+       ],
+       "nDays": 40
+      },
+      "p90": {
+       "value": 14.1254,
+       "ci95": [
+        13.4896,
+        15.4882
+       ],
+       "nDays": 40
+      },
+      "p99": {
+       "value": 58.8844,
+       "ci95": [
+        53.7032,
+        67.6083
+       ],
+       "nDays": 40
       }
      }
     },
     "below0.5Wh": {
      "countSharePct": {
-      "pct": 26.48,
+      "pct": 26.73,
       "ci95Pct": [
-       23.968,
-       28.811
+       24.248,
+       29.034
       ],
-      "nDays": 38
+      "nDays": 40
      },
      "energySharePct": {
       "pct": 0.243,
       "ci95Pct": [
-       0.203,
+       0.204,
        0.283
       ],
-      "nDays": 38
+      "nDays": 40
      }
     },
     "below1Wh": {
      "countSharePct": {
-      "pct": 35.039,
+      "pct": 35.347,
       "ci95Pct": [
-       31.897,
-       37.778
+       32.257,
+       38.035
       ],
-      "nDays": 38
+      "nDays": 40
      },
      "energySharePct": {
-      "pct": 0.606,
+      "pct": 0.609,
       "ci95Pct": [
-       0.515,
-       0.697
+       0.522,
+       0.699
       ],
-      "nDays": 38
+      "nDays": 40
      }
     },
     "below2Wh": {
      "countSharePct": {
-      "pct": 45.195,
+      "pct": 45.583,
       "ci95Pct": [
-       41.985,
-       47.875
+       42.47,
+       48.275
       ],
-      "nDays": 38
+      "nDays": 40
      },
      "energySharePct": {
-      "pct": 1.466,
+      "pct": 1.481,
       "ci95Pct": [
-       1.295,
-       1.643
+       1.315,
+       1.649
       ],
-      "nDays": 38
+      "nDays": 40
      }
     },
     "bin": "0.02 decade (log10 Wh and log10 s)"
    },
    "deadbandSensitivity": {
     "1A": {
-     "nComplete": 23932,
-     "below1WhCountSharePct": 27.327,
-     "below1WhEnergySharePct": 0.565,
-     "residualDischargeKwh": 0.2227,
-     "residualChargeKwh": 0.0636
+     "nComplete": 24854,
+     "below1WhCountSharePct": 27.525,
+     "below1WhEnergySharePct": 0.568,
+     "residualDischargeKwh": 0.26,
+     "residualChargeKwh": 0.0723
     },
     "2A": {
-     "nComplete": 23023,
-     "below1WhCountSharePct": 23.92,
-     "below1WhEnergySharePct": 0.544,
-     "residualDischargeKwh": 1.1465,
-     "residualChargeKwh": 0.2685
+     "nComplete": 23863,
+     "below1WhCountSharePct": 23.953,
+     "below1WhEnergySharePct": 0.546,
+     "residualDischargeKwh": 1.2664,
+     "residualChargeKwh": 0.2971
     },
     "5A": {
-     "nComplete": 22181,
-     "below1WhCountSharePct": 17.244,
-     "below1WhEnergySharePct": 0.526,
-     "residualDischargeKwh": 11.6046,
-     "residualChargeKwh": 1.9564
+     "nComplete": 22956,
+     "below1WhCountSharePct": 17.268,
+     "below1WhEnergySharePct": 0.527,
+     "residualDischargeKwh": 12.0757,
+     "residualChargeKwh": 2.0758
     }
    }
   },
@@ -1098,5 +1098,5 @@
   }
  },
  "unknownCadenceDriveSharePct": 0.0,
- "rawListSha256": "45cb60755bb4788b39fe01c242a56295be356a141f36165bfd821908bd2ede42"
+ "rawListSha256": "42d325ce4a47410c0fa23da35f0aadcd9a075fb1cb706dc87aa889ef5e518033"
 }

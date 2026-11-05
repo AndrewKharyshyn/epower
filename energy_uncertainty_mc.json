@@ -3,35 +3,35 @@
  "grossThroughputMC": {
   "nDraws": 20000,
   "seed": 20260822,
-  "nominalReleasedThroughputKwh": 1805.797,
+  "nominalReleasedThroughputKwh": 1820.9635,
   "throughputKwh": {
-   "p2_5": 1805.2277,
-   "p16": 1806.5957,
-   "p50": 1809.1183,
-   "p84": 1811.6951,
-   "p97_5": 1812.9024,
-   "meanShiftFromNominalPct": 0.1836
+   "p2_5": 1820.3971,
+   "p16": 1821.7253,
+   "p50": 1824.2532,
+   "p84": 1826.8532,
+   "p97_5": 1828.0618,
+   "meanShiftFromNominalPct": 0.1813
   },
   "gtc": {
-   "p2_5": 859.6323,
-   "p16": 860.2837,
-   "p50": 861.4849,
-   "p84": 862.7119,
-   "p97_5": 863.2868,
-   "nominal": 859.903
+   "p2_5": 866.8558,
+   "p16": 867.4883,
+   "p50": 868.692,
+   "p84": 869.9301,
+   "p97_5": 870.5056,
+   "nominal": 867.125
   },
   "fce": {
-   "p2_5": 429.8161,
-   "p16": 430.1418,
-   "p50": 430.7425,
-   "p84": 431.356,
-   "p97_5": 431.6434,
-   "nominal": 429.952
+   "p2_5": 433.4279,
+   "p16": 433.7441,
+   "p50": 434.346,
+   "p84": 434.965,
+   "p97_5": 435.2528,
+   "nominal": 433.563
   },
   "sourceBudget": {
-   "ivAlignmentToleranceOnlyPct": 0.0645,
+   "ivAlignmentToleranceOnlyPct": 0.064,
    "quantizationOnlySdPct": 9e-05,
-   "gapTruncationOnlyMaxPct": 0.4113
+   "gapTruncationOnlyMaxPct": 0.4079
   },
   "dataQualityNote": {
    "finding": "The 1500->2000 ms tolerance-widening effect (0.085 kWh corpus-wide) is concentrated in a few drives rather than spread evenly: the top 2 contributor(s) account for 66.1% of it. Per drive (current master): 20260610_094100.csv: nominal 9.905 kWh at 1500 ms, +0.0376 kWh (0.38%) at 2000 ms; 20260515_222240.csv: nominal 2.9667 kWh at 1500 ms, +0.0183 kWh (0.62%) at 2000 ms. These are tolerance sensitivities of drives that carry non-zero released energy, not zero-energy files; the cause (voltage-sample interval relative to the tolerance) is not tested here. The remaining contributors are listed below.",
@@ -73,30 +73,30 @@
  },
  "offsetGrossSensitivity": {
   "basis": "Literal raw re-integration at the released point-estimate offset (sample-level subtraction from raw current before the discharge/charge split), one extra pass per drive in Tier 1 -- not an estimate. Answers offsetUncertainty.correctionScope's own open question: \"quantifying it requires a raw re-integration pass.\"",
-  "dThroughputKwhPerOffsetA": -16.5681,
-  "atPointEstimateOffsetA": -0.3882,
-  "throughputShiftKwh": 6.4317,
-  "throughputShiftPct": 0.3562,
+  "dThroughputKwhPerOffsetA": -16.7824,
+  "atPointEstimateOffsetA": -0.3878,
+  "throughputShiftKwh": 6.5082,
+  "throughputShiftPct": 0.3574,
   "throughputShiftAcrossCi95Kwh": [
-   6.9139,
-   5.9098
+   6.9999,
+   5.9678
   ],
-  "dDischargeKwhPerOffsetA": -49.0892,
-  "dChargeKwhPerOffsetA": 32.5211,
-  "note": "A constant constant current offset does NOT cancel in a |I| integral the way it cancels in signed net draw -- shifting raw current by the released offset (-0.3882 A) INCREASES gross throughput here, it does not leave it unchanged. This is reported as a sensitivity alongside the released (offset-uncorrected) values, not applied to them: whether to extend the offset adjustment to gross metrics is a convention decision, not a data question."
+  "dDischargeKwhPerOffsetA": -49.6686,
+  "dChargeKwhPerOffsetA": 32.8863,
+  "note": "A constant constant current offset does NOT cancel in a |I| integral the way it cancels in signed net draw -- shifting raw current by the released offset (-0.3878 A) INCREASES gross throughput here, it does not leave it unchanged. This is reported as a sensitivity alongside the released (offset-uncorrected) values, not applied to them: whether to extend the offset adjustment to gross metrics is a convention decision, not a data question."
  },
  "netDrawCorrMC": {
   "nDraws": 20000,
   "seed": 20260822,
-  "nominalReleasedNetDrawCorrKwh": -23.999,
+  "nominalReleasedNetDrawCorrKwh": -24.624,
   "netDrawKwhCorr": {
-   "p2_5": -29.8141,
-   "p16": -26.7862,
-   "p50": -24.1063,
-   "p84": -21.4777,
-   "p97_5": -18.4814
+   "p2_5": -30.4914,
+   "p16": -27.4451,
+   "p50": -24.736,
+   "p84": -22.0915,
+   "p97_5": -19.1053
   },
-  "method": "Same tolerance/quantization/gap draws as grossThroughputMC (gap contribution signed, not additive-only, for net -- a capped gap's true net direction is genuinely unknown) PLUS the offset draw from its own characterized bootstrap (offsetUncertainty: Normal approximation to ci95A [-0.4173,-0.3567]), applied via the master's own validated point correction magnitude (correctionScope.netCorrectionMagnitudeKwh=31.62 kWh) linearly rescaled by the drawn offset -- reusing the released correction formula rather than re-deriving a parallel one."
+  "method": "Same tolerance/quantization/gap draws as grossThroughputMC (gap contribution signed, not additive-only, for net -- a capped gap's true net direction is genuinely unknown) PLUS the offset draw from its own characterized bootstrap (offsetUncertainty: Normal approximation to ci95A [-0.4171,-0.3556]), applied via the master's own validated point correction magnitude (correctionScope.netCorrectionMagnitudeKwh=31.96 kWh) linearly rescaled by the drawn offset -- reusing the released correction formula rather than re-deriving a parallel one."
  },
  "capacityNote": "GTC/FCE intervals above are on the legacy CAP_KWH=2.1 kWh reference (verified:false). The headline GTC/FCE are on the rated 5.0 Ah reference (Ah throughput / 5.0; exposureBasis) and carry no interval on that basis; the aggregate ratio between the two bases is exposureBasis.factor.",
  "validation": {
@@ -107,41 +107,41 @@
  },
  "independentIntegrationCheck": {
   "trueTrapezoidal": {
-   "n": 607,
+   "n": 618,
    "nSkipped": 0,
    "maxAbsDevWh": 453.02,
-   "meanAbsDevWh": 1.35,
-   "p95AbsDevWh": 1.92,
+   "meanAbsDevWh": 1.33,
+   "p95AbsDevWh": 1.87,
    "maxAbsDevPctThroughput": 245.5774,
-   "meanAbsDevPctThroughput": 0.4451,
-   "p95AbsDevPctThroughput": 0.103
+   "meanAbsDevPctThroughput": 0.4374,
+   "p95AbsDevPctThroughput": 0.1008
   },
   "midpointRule": {
-   "n": 607,
+   "n": 618,
    "nSkipped": 0,
    "maxAbsDevWh": 3042.93,
-   "meanAbsDevWh": 132.47,
-   "p95AbsDevWh": 684.72,
+   "meanAbsDevWh": 130.64,
+   "p95AbsDevWh": 667.16,
    "maxAbsDevPctThroughput": 289.7935,
-   "meanAbsDevPctThroughput": 3.6339,
-   "p95AbsDevPctThroughput": 6.8808
+   "meanAbsDevPctThroughput": 3.6047,
+   "p95AbsDevPctThroughput": 6.8101
   },
   "downsampleComparison1Hz": {
-   "n": 607,
+   "n": 618,
    "nSkipped": 0,
    "maxAbsDevWh": 1416.13,
-   "meanAbsDevWh": 88.49,
-   "p95AbsDevWh": 441.91,
+   "meanAbsDevWh": 87.48,
+   "p95AbsDevWh": 418.78,
    "maxAbsDevPctThroughput": 7.3409,
-   "meanAbsDevPctThroughput": 2.1362,
-   "p95AbsDevPctThroughput": 4.2693
+   "meanAbsDevPctThroughput": 2.1359,
+   "p95AbsDevPctThroughput": 4.2664
   },
   "coulombCrossCheck": {
-   "n": 607,
+   "n": 618,
    "nSkipped": 0,
    "maxAbsDevPp": 10.552,
-   "meanAbsDevPp": 1.96,
-   "p95AbsDevPp": 4.91
+   "meanAbsDevPp": 1.961,
+   "p95AbsDevPp": 4.907
   },
   "dataQualityNote": {
    "topContributorsTrueTrapezoidal": [
@@ -185,6 +185,6 @@
   "voltageV": 0.16
  },
  "recomputeMode": "fresh",
- "corpusSizeAtRecompute": 621,
+ "corpusSizeAtRecompute": 632,
  "recomputePolicy": "M217 (2026-09-03, Andrii decision, H-01/F-12): energyUncertaintyMC is recomputed in full on every ingestion (energy_mc_precompute.py re-integrates raw I/V per drive on the tolerance grid, then energy_uncertainty_mc.py runs a fresh 20,000-draw MC over the cached per-drive numbers) -- superseding the prior manual carry-forward-until-stale policy (M163-M216: recomputed only on ad hoc request, drifting up to the informal 0.5% build_html.js gate between refreshes). recompute_energy_mc=False reverts to carry-forward for a given call; routine ingestion never passes it."
 }

@@ -342,10 +342,25 @@ def cond_two_part_switch(prev, cur, path, bound, rule):
     return False
 
 
+def cond_lodo_matches_k10(prev, cur, path, bound, rule):
+    """M578 (Director): the leave-one-day-out list differsFromK10 loses the statement key K when the displayed k=10 statement for K changed between the previous and the current arrays AND the current
+    leave-one-day-out statement for K now equals the current k=10 statement (path: .../fitQuality/leaveOneDayOut/cells/<cell>/differsFromK10/<i>; the lost leaf value is K)."""
+    try:
+        key = get(prev, path)
+        fq = path[:path.index("leaveOneDayOut")]
+        cell = path[path.index("cells") + 1]
+        kp = get(prev, fq + ("cells", cell, "statements", key, "statement"))
+        kc = get(cur, fq + ("cells", cell, "statements", key, "statement"))
+        lodo = get(cur, fq + ("leaveOneDayOut", "cells", cell, "statements", key))
+    except (KeyError, IndexError, TypeError, ValueError):
+        return False
+    return kp != kc and kc == lodo
+
+
 CONDITIONS = {"field_changed": cond_field_changed, "stamp_hash_changed": cond_stamp_hash_changed, "parent_null_in_current": cond_parent_null_in_current, "sibling_present": cond_sibling_present,
               "field_changed_and_empty": cond_field_changed_and_empty, "cohort_min_support_crossed": cond_cohort_min_support_crossed, "placeholder_row_observed": cond_placeholder_row_observed, "moved_to_complement_list": cond_moved_to_complement_list,
               "refit_recompute_transition": cond_refit_recompute_transition, "f03_list_cleared_by_refit": cond_f03_list_cleared_by_refit, "fit_attempts_shortened_converged": cond_fit_attempts_shortened_converged,
-              "list_shortened_nonempty": cond_list_shortened_nonempty, "two_part_switch": cond_two_part_switch, "trendslope_flip_ack": cond_trendslope_flip_ack, "stamp_computed_at_set": cond_stamp_computed_at_set}
+              "list_shortened_nonempty": cond_list_shortened_nonempty, "two_part_switch": cond_two_part_switch, "trendslope_flip_ack": cond_trendslope_flip_ack, "stamp_computed_at_set": cond_stamp_computed_at_set, "lodo_matches_k10": cond_lodo_matches_k10}
 
 
 REQUIRED_PARAMS = {"sibling_present": ("sibling",), "field_changed": ("entryDepth", "field"), "field_changed_and_empty": ("entryDepth", "field"), "placeholder_row_observed": ("entryDepth", "allowedLeaves", "observedFields"),

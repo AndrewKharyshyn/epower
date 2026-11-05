@@ -58,4 +58,14 @@ assert M.fidelity_ok({**_c, "nDays": 100, "publishedNDays": 100})
 assert not M.fidelity_ok({**_c, "nDays": 99})                          # inconsistent reference still fails
 assert not M.fidelity_ok({**_c, "nDays": 99, "publishedNDays": 99, "slope": 0.7})   # other checks stay strict
 assert not M.fidelity_ok({**_c, "n": 275})
+# M578: scale-aware slope comparison (published on the 30.4375 months scale, M499 on 30.44): 1.0861 published -> 1.08619 on the M499 scale
+_k = M.SCALE_K
+assert abs(_k - 30.44 / 30.4375) < 1e-12
+_m = {"slope": 1.0862, "slopeUnrounded": 1.086179406711267, "publishedSlope": 1.0861, "n": 279, "publishedN": 279, "nDays": 102, "publishedNDays": 102, "bT": -2.985, "publishedBT": -2.985,
+      "dayCi95": [-0.1012, 2.4163], "publishedDayCi95": [-0.101, 2.416]}
+assert M.fidelity_ok(_m)                                             # the M578 case: passes, the exact 4-decimal equality failed
+assert M.fidelity_ok({k: v for k, v in _m.items() if k != "slopeUnrounded"})      # rounded T0: full-unit tolerance
+assert not M.fidelity_ok({**_m, "slopeUnrounded": 1.086179 + 3e-4})   # off by 3e-4 fails
+assert not M.fidelity_ok({**{k: v for k, v in _m.items() if k != "slopeUnrounded"}, "slope": 1.0865})      # rounded T0 off by 3e-4 fails
+assert not M.fidelity_ok({**_m, "n": 280}) and not M.fidelity_ok({**_m, "nDays": 101}) and not M.fidelity_ok({**_m, "bT": -2.9})
 print("test_m499_temp_spec (A01 fidelity guard): OK")

@@ -18,7 +18,7 @@ assert MS["faithfulness"]["passed"] and MS["descriptive"] is True and MS["displa
 P = MS["pooled"]
 assert P["intervalShown"] and P["nDaysWithMotored"] >= 10 and P["zeroNumeratorDrawShare"] < 0.025 and P["ci95Pct"][0] < P["pct"] < P["ci95Pct"][1]
 assert "gridOnlyFfillSensitivity_postHoc_auditorFound" in MS and "NOT the pipeline convention" in MS["gridOnlyFfillSensitivity_postHoc_auditorFound"]["note"]
-assert MS["allMasterDaysResampling"]["nDays"] == 124      # M575: 121 days at 606 drives and "escalates to the Director" in MS["escalationRule"]
+assert MS["allMasterDaysResampling"]["nDays"] == 126      # M578: 124 days at 621 drives, 121 at 606 and "escalates to the Director" in MS["escalationRule"]
 assert MS["cohorts"]["cold"]["intervalShown"] is False and MS["cohorts"]["cold"]["ci95Pct"] is None and MS["cohorts"]["warm"]["intervalShown"] and MS["cohorts"]["shoulder"]["intervalShown"]
 # pooled display: the pooled hours of the real payload and the pooled block
 txt = run(RD, MS, "all")

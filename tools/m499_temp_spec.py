@@ -7,6 +7,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 os.chdir(ROOT); sys.path.insert(0, ROOT); sys.path.insert(0, os.path.join(ROOT, "tools"))
 import numpy as np, pandas as pd
 import powerfade_equivalence as PE
+import degradation_trends as DT
 import day_bootstrap as DB
 
 SEED, NB_DEFAULT, MONTH_DAYS = 42, 4000, 30.44
@@ -123,10 +124,24 @@ def splice(res):
     print(json.dumps({"changed": True, "outcome": blk["decision"]["outcome"]}))
 
 
+# M578 (Director, analyses/M578 CHANGELOG entry; stated deviation from M499_spec item 1): the published S1 slope (powerFadeEquivalence.s1.slope) comes from degradation_trends._prep (days / 30.4375)
+# while M499 T0 replicates _powerfade_cadence_specs.fit (days / 30.44). The comparison converts the published value to the M499 months scale; both constants are imported, never typed.
+SCALE_K = MONTH_DAYS / DT.MONTH_DAYS
+TOL_UNROUNDED, TOL_ROUNDED = 5.5e-5, 1.1e-4
+
+
+def slope_matches(chk):
+    """T0 slope against the published slope converted to the M499 months scale: the unrounded T0 slope with half a unit of the 4th decimal, else the rounded one with a full unit."""
+    pub = chk["publishedSlope"] * SCALE_K
+    if "slopeUnrounded" in chk:
+        return abs(chk["slopeUnrounded"] - pub) <= TOL_UNROUNDED
+    return abs(chk["slope"] - pub) <= TOL_ROUNDED
+
+
 def fidelity_ok(chk):
     """T0 must reproduce the published reference (slope, n, nDays, bT, day CI). nDays is compared with the live reference
     (powerFadeEquivalence.s1.nDays), not a snapshot constant, so a grown eligible-date set passes (audit 2026-10-25 A01)."""
-    return bool(chk["slope"] == round(chk["publishedSlope"], 4) and chk["n"] == chk["publishedN"] and chk["nDays"] == chk["publishedNDays"]
+    return bool(slope_matches(chk) and chk["n"] == chk["publishedN"] and chk["nDays"] == chk["publishedNDays"]
                 and chk["bT"] == round(chk["publishedBT"], 3)
                 and [round(x, 3) for x in chk["dayCi95"]] == [round(x, 3) for x in chk["publishedDayCi95"]])
 
@@ -155,6 +170,10 @@ def main():
     chk = {"slope": round(f0["slope"], 4), "publishedSlope": pe["s1"]["slope"], "n": f0["n"], "publishedN": pf["nClean"], "nDays": f0["nDays"], "bT": round(bT, 3), "publishedBT": pf["bTMohmPerDegC"],
            "dayCi95": [round(x, 4) for x in f0["day"]["ci95"]], "publishedDayCi95": pf["ci95MohmPerMo"]}
     chk["publishedNDays"] = pe["s1"]["nDays"]
+    chk["slopeUnrounded"] = float(f0["slope"])
+    chk["publishedSlopeConverted"] = chk["publishedSlope"] * SCALE_K
+    chk["scaleFactor"] = SCALE_K
+    chk["slopeTolerance"] = TOL_UNROUNDED
     ok = fidelity_ok(chk)
     res["fidelity"] = {**chk, "passed": bool(ok)}
     if not ok:
