@@ -1,0 +1,31 @@
+{
+ "milestone": "M579",
+ "date": "2026-11-05",
+ "role": "research-director (Opus), brief of the main session",
+ "decision": "accept (script-written pre-registered outcome, with mandatory caveats)",
+ "text": "M574 confirmatory block, first evaluation (24 drives on 5 days after 2026-10-17, exactly the evaluability floor): mean residual 6.857 mV [1.499, 12.215]; post-step slope 5.2057 mV/month [0.9354, 9.4761] (n 133, G 22); the literal rule returns 'continued rise'. A blind audit (analyses/M578_audit/m574_confirmatory.json) reproduced all numbers and the label. The M573 prediction ('raised level, flat slope') is not met. The rise is confounded with seasonal cooling: 6 of 24 post-cutoff drives lie below the pre-step temperature minimum (12.7 C); restricted to the 18 in-range drives (4 days, below the floor) the residual is 7.307 [-0.952, 15.566] and spans zero. A label from the first look at the minimum support, not evidence of degradation or imbalance growth.",
+ "limits": [
+  "Evaluated exactly at the 5-day floor (t(4)); simulated coverage of day-clustered intervals with autocorrelated days is 0.83 (M577), intervals may be too narrow.",
+  "Time and temperature are collinear in Oct-Nov; 6/24 drives are outside the pre-step T range.",
+  "The in-range sensitivity is post hoc and below the floor: neither a test nor a refutation.",
+  "Step date 2026-10-01 post hoc (M573); cause unidentified; the block refreshes every ingestion, so this is one of several looks and not a terminal outcome.",
+  "The displayed note prints only the 24 drives / 5 days of the residual while the slope uses n 133 / G 22: counts must be shown separately."
+ ],
+ "allowedWording": "pre-registered confirmatory test, first evaluation at the minimum support (5 days): script label continued rise; the pre-registered prediction (raised level, flat slope) is not met; 6 of 24 drives lie below the temperature range of the pre-step fit (extrapolation); the cause is unidentified; degradation and imbalance growth are neither established nor excluded",
+ "forbiddenWording": [
+  "degradation",
+  "imbalance growing",
+  "confirmed",
+  "detected rise or trend",
+  "step confirmed",
+  "measured",
+  "rise excluded / no rise from the in-range sensitivity"
+ ],
+ "labelRule": "the label is always shown with its counts and the caveat, never alone",
+ "followUps": [
+  "New milestone (spec first): additive payload fields cellSpreadStep.confirmatory (pre-step T range and 5th percentile, nBelowPreStepTmin, in-range sensitivity labelled post hoc and below the floor, separate slope n/G) and a dashboard note that prints them and the caveat from the payload with no typed numbers; forbidden phrasings as a language_gate rule with that ledger id; known-answer test tied to analyses/M578_audit/m574_confirmatory.json.",
+  "Do not revise the evaluability floor post hoc. Pre-register before the next ingestion one terminal evaluation point (for example >= 10 days after the cutoff with a temperature-overlap condition) to end repeated looks; Director review."
+ ],
+ "article": "No article figure or claim from this block without an Opus audit and Andrii's sign-off recorded in the CHANGELOG; currently not article-eligible.",
+ "needsAndriiSignoff": false
+}
