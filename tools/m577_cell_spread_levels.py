@@ -38,8 +38,11 @@ def fit_term(d, cols, coef):
     b, se, df_sat, fl = ds.cr2(X, y, d["day"].values, k)
     G = int(d["day"].nunique())
     tc = float(stats.t.ppf(0.975, G - 1))
-    return {"est": _r(b), "se": _r(se), "ci95": [_r(b - tc * se), _r(b + tc * se)], "n": int(len(d)), "days": G, "G": G, "dfSatterthwaite": _r(df_sat, 2),
-            "mde80": _r((tc + float(stats.t.ppf(0.8, G - 1))) * se), "unitLeverageClusters": fl["clustersWithUnitLeverage"]}
+    ci = [_r(b - tc * se), _r(b + tc * se)]
+    ci_sat = sat_interval(b, se, df_sat)
+    return {"est": _r(b), "se": _r(se), "ci95": ci, "n": int(len(d)), "days": G, "G": G, "dfSatterthwaite": _r(df_sat, 2),
+            "mde80": _r((tc + float(stats.t.ppf(0.8, G - 1))) * se), "unitLeverageClusters": fl["clustersWithUnitLeverage"],
+            "ciSatterthwaite": ci_sat, "dfDependent": bool(ci_sat is not None and excl(ci) and not excl(ci_sat))}
 
 
 def day_boot(d, cols, coef, n=NBOOT, seed=SEED):
@@ -164,7 +167,7 @@ def run(dm):
     for t in ("step", "slow"):
         others = {"dayBootstrap": Ab[t]["ci95"], "splineT_B": B[t]["ci95"], "coldSubset_C": (C[t]["ci95"] if C else None), "weekBlock_E": Ae[t]["weekBlockBootstrap"]["ci95"]}
         lab, miss = label_term(A[t], others, v[t], gate_vif=(t == "slow"))
-        labels[t] = {"label": lab, "modelsNotEvaluable": miss, "mde80_A": A[t]["mde80"], "vif": v[t]}
+        labels[t] = {"label": lab, "modelsNotEvaluable": miss, "mde80_A": A[t]["mde80"], "vif": v[t], "ciSatterthwaite": A[t]["ciSatterthwaite"], "dfSatterthwaite": A[t]["dfSatterthwaite"], "G": A[t]["G"], "dfDependent": A[t]["dfDependent"]}
 
     # sensitivities
     sens = {}
@@ -186,15 +189,160 @@ def run(dm):
     return out
 
 
+# ============================================================================================ M577 Rev 2: PID-set class test (Q3), frozen in analyses/M577_spec_rev2.md
+PID_LOOKS = os.path.join(ROOT, "analyses", "M577_pid_looks.json")
+PID_TERM_DRIVES, PID_TERM_DAYS, PID_TERM_FALLBACK = 20, 10, "2027-03-31"
+FIRST_POST_STEP_B = "2026-11-03_15-07-48.csv"
+DEGENERATE_LIMIT = 0.10
+
+
+def sat_interval(est, se, df_sat):
+    """Interval with the Satterthwaite degrees of freedom (None when df is not finite)."""
+    if df_sat is None or not np.isfinite(df_sat) or df_sat <= 0:
+        return None
+    tc = float(stats.t.ppf(0.975, float(df_sat)))
+    return [_r(est - tc * se), _r(est + tc * se)]
+
+
+def wider_interval(a, b):
+    """The wider of two intervals (R6): the label for a term resting on very few clusters uses it."""
+    if a is None:
+        return b
+    if b is None:
+        return a
+    return [min(a[0], b[0]), max(a[1], b[1])]
+
+
+def pid_indicator(d, side):
+    """R3: B = 1 for class-B drives at or after the first post-step class-B drive; the early class-B drive and the class C / D drives are dropped (primary); class A = 0.
+    Returns (frame with column B, dict of the dropped drives)."""
+    m = d.merge(side[["file", "pidSetClass"]], on="file", how="left")
+    ts = m["_ts"] if "_ts" in m.columns else pd.to_datetime(m["date"])
+    first = ts[m["file"] == FIRST_POST_STEP_B]
+    first_ts = first.iloc[0] if len(first) else ts[(m["pidSetClass"] == "B") & (m["date"] >= pd.Timestamp(STEP_DATE))].min()
+    isb = (m["pidSetClass"] == "B") & (ts >= first_ts)
+    early_b = m[(m["pidSetClass"] == "B") & (ts < first_ts)]["file"].tolist()
+    other = m[m["pidSetClass"].isin(["C", "D"])]["file"].tolist()
+    keep = m["pidSetClass"].eq("A") | isb
+    m = m.assign(B=isb.astype(float))[keep].copy()
+    return m, {"earlyClassB": early_b, "classCD": other}
+
+
+def pid_floor(df, col="B", min_n=FLOOR_DRIVES, min_days=FLOOR_DAYS):
+    g = df[df[col] == 1]
+    return int(len(g)), int(g["day"].nunique()), bool(len(g) >= min_n and g["day"].nunique() >= min_days)
+
+
+def _boot_with_degenerate(d, cols, coef, group, n=NBOOT, seed=SEED):
+    """Pairs bootstrap over `group` clusters; draws without any class-B cluster (or with a singular design) are counted as degenerate and excluded."""
+    X, y = design(d, cols)
+    k = 1 + cols.index(coef)
+    keys = d[group].values
+    u = np.unique(keys)
+    idx = {x: np.flatnonzero(keys == x) for x in u}
+    hasb = {x: bool((d["B"].values[idx[x]] == 1).any()) for x in u}
+    rng = np.random.default_rng(seed)
+    out, bad = [], 0
+    for _ in range(n):
+        ch = rng.choice(u, len(u))
+        if not any(hasb[x] for x in ch):
+            bad += 1
+            continue
+        s = np.concatenate([idx[x] for x in ch])
+        beta = np.linalg.lstsq(X[s], y[s], rcond=None)[0]
+        out.append(beta[k])
+    ci = [_r(np.percentile(out, 2.5)), _r(np.percentile(out, 97.5))] if out else None
+    return {"ci95": ci, "draws": n, "degenerate": bad, "degenerateShare": _r(bad / n, 3), "evaluable": bool(bad / n <= DEGENERATE_LIMIT and ci is not None)}
+
+
+def pid_class_run(d_frame, side, readiness, master_md5, master=None, ledger_path=PID_LOOKS, write=True, spec_sha=None):
+    """R3-R9: the class-B test. d_frame: the eligible M573 frame (with y, months, T, I, soc, socr, lrest, first, step, slow, day, wk, date, file); side: pid_epoch sidecar; readiness: payload pidEpoch.q3Readiness.
+    Refuses (nothing computed) below the floors; STOPs when the payload and the sidecar disagree. Interim looks carry no ladder label."""
+    ind, dropped = pid_indicator(d_frame, side)
+    nB, daysB, ok_frame = pid_floor(ind)
+    if master is not None:
+        sm = side.merge(master[["file", "date"]], on="file")
+        n_post_b = int(((sm["pidSetClass"] == "B") & (pd.to_datetime(sm["date"]) >= pd.Timestamp(STEP_DATE))).sum())
+        if readiness.get("runDrives") is not None and int(readiness["runDrives"]) != n_post_b:
+            raise SystemExit("STOP: payload q3Readiness.runDrives (%s) differs from the sidecar / master class B drives after the step (%d)" % (readiness.get("runDrives"), n_post_b))
+    base = {"specRev2": "analyses/M577_spec_rev2.md", "specRev2Sha256": spec_sha, "masterMd5": master_md5, "payloadReadiness": readiness, "inFrame": {"classBDrives": nB, "classBDays": daysB, "floorsMet": ok_frame}, "dropped": dropped}
+    pay_ok = bool(readiness.get("runDrives", 0) >= FLOOR_DRIVES and readiness.get("runDays", 0) >= FLOOR_DAYS)
+    if not (pay_ok and ok_frame):
+        return {**base, "status": "not identified (floors not met)", "note": "nothing computed or looked at"}, None
+    led = json.load(open(ledger_path, encoding="utf-8")) if os.path.exists(ledger_path) else {"schema": 1, "looks": [], "terminal": None}
+    prim = ind[(ind["slow"] == 0) & (ind["step"] == 1)].copy()
+    lo = max(prim[prim["B"] == 0]["T"].min(), prim[prim["B"] == 1]["T"].min())
+    hi = min(prim[prim["B"] == 0]["T"].max(), prim[prim["B"] == 1]["T"].max())
+    prim = prim[(prim["T"] >= lo) & (prim["T"] <= hi)].copy()
+    pn, pdays, p_ok = pid_floor(prim)
+    cols = [c for c in ["months", "B", "T", "I", "soc", "socr", "lrest", "first"] if c == "B" or prim[c].nunique() > 1]
+    res = {"supportT": [_r(lo, 2), _r(hi, 2)], "nPrimary": int(len(prim)), "classBDrives": pn, "classBDays": pdays, "nonBDrives": int((prim["B"] == 0).sum()), "nonBDays": int(prim.loc[prim["B"] == 0, "day"].nunique())}
+    if not p_ok:
+        return {**base, "status": "not identified (primary-design floors not met)", "primary": res}, None
+    b = fit_term(prim, cols, "B")
+    b["ciSat"] = sat_interval(b["est"], b["se"], b["dfSatterthwaite"])
+    b["labelInterval"] = wider_interval(b["ci95"], b["ciSat"])
+    vif_ = {t: vif(prim, cols, t) for t in ("B", "months")}
+    vif_["corrBMonths"] = _r(float(np.corrcoef(prim["B"], prim["months"])[0, 1]), 3)
+    dboot = _boot_with_degenerate(prim, cols, "B", "day")
+    wboot = _boot_with_degenerate(prim, cols, "B", "wk")
+    weeks_with_b = sorted(prim[prim["B"] == 1]["wk"].unique().tolist())
+    sens_cols = [c for c in ["months", "step", "slow", "B", "T", "I", "soc", "socr", "lrest", "first"] if c == "B" or ind[c].nunique() > 1]      # constant columns (collinear with the intercept) are dropped
+    sens = fit_term(ind, sens_cols, "B")
+    out = {**base, "primary": res, "modelPrimary": b, "vif": vif_, "dayBootstrap": dboot, "weekBlockBootstrap": wboot, "weeksWithClassB": weeks_with_b,
+           "sensitivityFullModelAplusB": sens, "interpretation": "associated with, conditional on the stated covariates; header-derived, post hoc class; no PID-set effect and no cadence effect is claimed"}
+    rec = next((x for x in led["looks"] if x["masterMd5"] == master_md5), None)
+    if rec is None:
+        rec = {"masterMd5": master_md5, "look": 1 + len(led["looks"]), "classBDrives": pn, "classBDays": pdays}
+        led["looks"].append(rec)
+    terminal_now = bool(pn >= PID_TERM_DRIVES and pdays >= PID_TERM_DAYS) or bool(ind["date"].max() >= pd.Timestamp(PID_TERM_FALLBACK))
+    out["look"] = rec["look"]
+    if led["terminal"] is not None:
+        out["terminal"] = led["terminal"]
+        out["status"] = "after the terminal evaluation; descriptive"
+    elif not terminal_now:
+        out["status"] = "descriptive look %d; no ladder label" % rec["look"]
+    else:
+        if vif_["B"] is None or vif_["B"] > VIF_LIMIT:
+            lab = "not separable"
+        elif not (dboot["evaluable"] and wboot["evaluable"]):
+            lab = "not evaluable"
+        else:
+            A_ = {"est": b["est"], "ci95": b["labelInterval"]}
+            lab, _m = label_term(A_, {"dayBootstrap": dboot["ci95"], "weekBlock": wboot["ci95"]}, vif_["B"], gate_vif=True)
+        out["status"] = "terminal evaluation"
+        out["label"] = lab
+        led["terminal"] = {"look": rec["look"], "masterMd5": master_md5, "label": lab, "estimate": b["est"], "labelInterval": b["labelInterval"], "specRev2Sha256": spec_sha}
+        out["terminal"] = led["terminal"]
+    if write:
+        with open(ledger_path, "w", encoding="utf-8", newline="\n") as f:
+            json.dump(led, f, indent=1)
+    return out, led
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default=os.path.join(ROOT, "analyses", "M577_levels.json"))
+    ap.add_argument("--pid-class", action="store_true", help="M577 Rev 2: run the class-B test (refuses below the floors); writes analyses/M577_pid_class.json unless --out is given")
     a = ap.parse_args()
     mp = os.path.join(ROOT, "drive_master.csv")
     before = m573.md5(mp)
+    r2 = os.path.join(ROOT, "analyses", "M577_spec_rev2.md")
+    r2sha = m573.sha256(r2) if os.path.exists(r2) else None
+    if a.pid_class:
+        dm = pd.read_csv(mp, low_memory=False)
+        d_ = m573.build_frame(dm).dropna(subset=["soc", "socr", "lrest", "I_sample_period_s"]).copy()
+        side = pd.read_csv(os.path.join(ROOT, "pid_epoch.csv"))
+        ready = json.load(open(os.path.join(ROOT, "summary_arrays.json"), encoding="utf-8"))["pidEpoch"]["q3Readiness"]
+        res, _ = pid_class_run(d_, side, ready, before, master=dm[["file", "date"]], spec_sha=r2sha)
+        out_path = a.out if a.out != os.path.join(ROOT, "analyses", "M577_levels.json") else os.path.join(ROOT, "analyses", "M577_pid_class.json")
+        with open(out_path, "w", encoding="utf-8") as f:
+            json.dump(res, f, indent=1)
+        print(json.dumps({"status": res.get("status"), "inFrame": res.get("inFrame")}))
+        return
     res = run(pd.read_csv(mp))
     res = {"milestone": "M577", "spec": "analyses/M577_spec.md Rev 1", "specSha256": m573.sha256(os.path.join(ROOT, "analyses", "M577_spec.md")), "masterMd5": before, "masterMd5After": m573.md5(mp),
-           "scriptSha256": m573.sha256(os.path.abspath(__file__)), "seed": SEED, "draws": NBOOT, **res}
+           "specRev2": "analyses/M577_spec_rev2.md", "specRev2Sha256": r2sha, "scriptSha256": m573.sha256(os.path.abspath(__file__)), "seed": SEED, "draws": NBOOT, **res}
     assert res["masterMd5"] == res["masterMd5After"]
     with open(a.out, "w", encoding="utf-8") as f:
         json.dump(res, f, indent=1)
