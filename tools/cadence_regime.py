@@ -68,7 +68,7 @@ def build(dm):
     by_day = d.dropna(subset=["regime"]).groupby(d["date"].astype(str).str[:10])["regime"].nunique()
     counts = d["regime"].value_counts(dropna=False)
     n_null = int(d["regime"].isna().sum())
-    blk = {"rule": "regime = fast if I_sample_period_s < %.2f s, slow if >= %.2f s, null if missing; I_sample_period_s = median update interval of the HV-current PID per drive (master column); the distribution is bimodal with an empty gap [%.1f, %.1f) s that is asserted at every run" % (THRESHOLD_S, THRESHOLD_S, GAP[0], GAP[1]),
+    blk = {"rule": "regime = fast if I_sample_period_s < %.2f s, slow if >= %.2f s, null if missing; I_sample_period_s = median update interval of the HV-current PID per drive (master column); the distribution is bimodal with an empty gap [%g, %g) s that is asserted at every run" % (THRESHOLD_S, THRESHOLD_S, GAP[0], GAP[1]),
            "thresholdS": THRESHOLD_S, "gapS": list(GAP), "nDrives": int(len(d)),
            "amendment": "M578: threshold 1.10 s (was 1.05 s) by owner decision after the 2026-11-03 PID-set change; chosen post hoc after seeing the new periods; the 621 older assignments are unchanged; fast (period < 1.1 s) pools two PID sets from 2026-11-03; the period is a proxy for the polling epoch, not a physical regime; no cadence effect is claimed",
            "counts": {"fast": int(counts.get("fast", 0)), "slow": int(counts.get("slow", 0)), "null": n_null},

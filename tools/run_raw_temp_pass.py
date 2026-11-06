@@ -32,8 +32,23 @@ dm = pd.read_csv("drive_master.csv", usecols=["file"])
 missing = sorted(set(dm["file"]) - set(new["file"]))
 bad = 0
 if prev is not None:
-    common = prev[prev["file"].isin(new["file"])]
+    common = prev[prev["file"].isin(new["file"])].reset_index(drop=True)
     m = new.set_index("file").loc[common["file"]].reset_index()
-    bad = int((m.values != common.values).any(axis=1).sum())
-print({"rows": len(new), "missing_vs_master": missing, "preexisting_rows_changed": bad})
+    # M594 (audit D3): the ONLY allowed change to a pre-existing row is a time mean that becomes blank because the channel had zero covered
+    # seconds (the old fallback wrote a sample mean); new *_start_only columns are additive and are not compared.
+    cols_cmp = [c for c in common.columns if c in m.columns]
+    bad = 0; d3_blanked = 0
+    for i in range(len(common)):
+        row_bad = False
+        for c in cols_cmp:
+            a, b = common.at[i, c], m.at[i, c]
+            if a == b:
+                continue
+            cov = c.replace("_time_mean_c", "_cov_pct") if c.endswith("_time_mean_c") else None
+            if cov and b == "" and a != "" and cov in common.columns and common.at[i, cov] in ("0", "0.0"):
+                d3_blanked += 1
+                continue
+            row_bad = True
+        bad += int(row_bad)
+print({"rows": len(new), "missing_vs_master": missing, "preexisting_rows_changed": bad, "d3_time_means_blanked": (d3_blanked if prev is not None else None)})
 sys.exit(1 if (missing or bad) else 0)
