@@ -1,0 +1,15 @@
+{
+ "_comment": "M596 (audit D1): role registry of the two D-mode B/D comparison captures, keyed by the stable id (the canonical YYYYMMDD_HHMMSS.csv id of the capture start). The captures are not part of the corpus and enter no computation. The copies in raw/ were exported without the _comparison suffix and their sha256 differs from the original capture (lower-precision re-exports, same as the 333 files of F03 before M366); they are kept as UNVERIFIED REPLACEMENT copies and are not replaced here. The sha256-verified originals exist outside the repository (see originalLocation) and are not registered as an archive here. A manifest rebuild uses this file so a renamed copy is classified comparison_only instead of an orphan. raw_manifest.json records are not edited.",
+ "captures": {
+  "20260730_220651.csv": {
+   "originalName": "20260730_220651_B_D_comparison.csv", "mode": "D", "originalSha256": "355491d53f9bb61a60f3a4d4a6ba9e91f6599b6bc0eb07a771841a254fbb29cf", "originalRows": 58238,
+   "originalLocation": "Investigation folder, loose file '2026-07-30 22-06-51_B_D_comparison.csv' (sha256 verified 2026-11-06)",
+   "shippedCopyStatus": "unverified replacement (re-export); sha256 differs from the original"
+  },
+  "20260801_205320.csv": {
+   "originalName": "20260801_205320_D_B_comparison.csv", "mode": "D", "originalSha256": "21c0b92451467f559789dedc380a8a17265162e5a2ca7e04e240d017becb6ca9", "originalRows": 45246,
+   "originalLocation": "Investigation folder, xtrail_untouched_project_files.zip, 'untouched_files/20260801_205320_D_B_comparison.csv' (sha256 verified 2026-11-06)",
+   "shippedCopyStatus": "unverified replacement (re-export); sha256 differs from the original"
+  }
+ }
+}
