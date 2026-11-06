@@ -100,6 +100,38 @@ def proxy_all_variants(csv_bytes):
 
 
 # ------------------------------------------------------------------------------------------------ refits (released designs, proxy columns replaced by the variant's)
+def fidelity_matches(fid):
+    """M505 Rev 3 (analyses/M505_spec_rev3.md, Director): S1 (replicated M9 fit on days / 30.44) is compared with the published S1 slope (degradation_trends, days / 30.4375) after converting the published value
+    by MONTH_DAYS / degradation_trends.MONTH_DAYS (1.1e-4: the own slope is stored at 4 decimals); n and nDays exact. S0 (DT._prep on total_seconds / (30.4375 * 86400), the released fit) gets NO conversion: slope at 4 decimals, n exact."""
+    import degradation_trends as DT
+    k = MONTH_DAYS / DT.MONTH_DAYS
+    s1, s0 = fid["S1"], fid["S0"]
+    ok1 = bool(abs(float(s1["slope"]) - float(s1["publishedSlope"]) * k) <= 1.1e-4 and s1["n"] == s1["publishedN"] and s1["nDays"] == s1["publishedNDays"])
+    ok0 = bool(round(float(s0["slope"]), 4) == round(float(s0["publishedSlope"]), 4) and s0["n"] == s0["publishedN"])
+    return bool(ok1 and ok0)
+
+
+def rev2_vs_rev3(v3, rev2_path):
+    """R6: label, readings and low-precision flag per design x variant, Rev 2 file vs this run; 'changed' marks any difference (a label change goes to the Director before the splice)."""
+    rows, nchg = {}, 0
+    old = json.load(open(rev2_path, encoding="utf-8"))["verdicts"] if os.path.exists(rev2_path) else {}
+    for design, vs in v3.items():
+        for var, x in vs.items():
+            o = (old.get(design) or {}).get(var)
+            if isinstance(x, str):          # the per-design 'overall' verdict string
+                ch = bool(o is not None and o != x)
+                nchg += int(ch)
+                rows["%s/%s" % (design, var)] = {"rev2": o, "rev3": x, "labelOrReadingChanged": ch}
+                continue
+            keys = ("label", "pairedReading", "ownReading", "lowPrecision", "pairedN", "pairedSignFlip")
+            r3 = {k: x.get(k) for k in keys}
+            r2 = None if o is None else {k: o.get(k) for k in keys}
+            ch = bool(r2 is not None and (r2["label"] != r3["label"] or r2["pairedReading"] != r3["pairedReading"] or r2["ownReading"] != r3["ownReading"] or r2["lowPrecision"] != r3["lowPrecision"]))
+            nchg += int(ch)
+            rows["%s/%s" % (design, var)] = {"rev2": r2, "rev3": r3, "labelOrReadingChanged": ch}
+    return {"rows": rows, "nChanged": nchg, "note": "differences come from corpus growth (606 -> 632 drives), not from the alignment rule; no inferential contrast"}
+
+
 def refits(dm_v, dens, nb):
     """S0 (resistanceVreg design) and S1 (powerFade primary design) months coefficient with the released interval and the day / ISO-week bootstrap intervals."""
     import degradation_trends as DT, powerfade_equivalence as PE, day_bootstrap as DB, m499_temp_spec as M9
@@ -222,8 +254,9 @@ def main():
     fid = {"S1": {"slope": own["A0"]["S1"]["slope"], "publishedSlope": pe["s1"]["slope"], "n": own["A0"]["S1"]["n"], "publishedN": pf["nClean"], "nDays": own["A0"]["S1"]["nDays"], "publishedNDays": pe["s1"]["nDays"]},
            "S0": {"slope": own["A0"]["S0"]["slope"], "publishedSlope": round(float(rv["slope"]), 4), "n": own["A0"]["S0"]["n"], "publishedN": rv["nObs"]},
            "proxyColumn": "A0 equals vreg_R_pack_mohm on all %d drives (n with proxy: %d)" % (len(dm), int(dm["vreg_R_pack_mohm"].notna().sum()))}
-    ok = (round(fid["S1"]["slope"], 4) == round(float(fid["S1"]["publishedSlope"]), 4) and fid["S1"]["n"] == fid["S1"]["publishedN"] and fid["S1"]["nDays"] == fid["S1"]["publishedNDays"]
-          and round(fid["S0"]["slope"], 3) == round(float(fid["S0"]["publishedSlope"]), 3) and fid["S0"]["n"] == fid["S0"]["publishedN"])
+    assert dm["date"].astype(str).str.len().eq(10).all(), "M505 Rev 3: dates must carry no time of day (the months-scale conversion is exact only then)"
+    ok = fidelity_matches(fid)
+    fid["scaleFactorS1"] = MONTH_DAYS / __import__("degradation_trends").MONTH_DAYS
     fid["passed"] = bool(ok)
     if not ok:
         raise SystemExit("M505 STOP: A0 refits do not reproduce the published slopes: %s" % json.dumps(fid))
@@ -255,11 +288,13 @@ def main():
         shifts[v] = sh
     res = {"own": own, "paired": paired}
     res["verdicts"] = verdicts(res)
+    res["rev2VsRev3"] = rev2_vs_rev3(res["verdicts"], os.path.join(ROOT, "analyses", "M505_result.json"))
     prov = {"masterMd5": hashlib.md5(open("drive_master.csv", "rb").read()).hexdigest(), "rawManifestSha256": hashlib.sha256(open("raw_manifest.json", "rb").read()).hexdigest(),
-            "scriptSha256": hashlib.sha256(open(__file__, "rb").read()).hexdigest(), "specSha256": hashlib.sha256(open("analyses/M505_spec.md", "rb").read()).hexdigest(),
+            "scriptSha256": hashlib.sha256(open(__file__, "rb").read()).hexdigest(), "specSha256": hashlib.sha256(open("analyses/M505_spec.md", "rb").read()).hexdigest(), "specRev3": "analyses/M505_spec_rev3.md", "specRev3Sha256": hashlib.sha256(open("analyses/M505_spec_rev3.md", "rb").read()).hexdigest(),
             "basis": "raw/ = sha256-verified originals (M366)", "nCanonicalManifest": n_can, "seed": SEED, "nDraws": nb}
     out = {"spec": "analyses/M505_spec.md", "provenance": {**prov, "generatedAt": datetime.datetime.now(datetime.timezone.utc).isoformat()}, "fidelity": fid, "variantsRule": "A0 nearest 1500 ms | A1 interpolation | A2 nearest 300 ms | A3 backward | A4 forward",
            "a2BoundaryNote": A2_NOTE, "postHoc": {"label": "post-hoc blind-audit decomposition, not pre-registered, not in the verdict: A1V = voltage interpolated onto the current timestamps, SoC kept on the production nearest pairing", "A1V_own": own["A1V"]}, "asofStats": STATS, "paired": res["paired"], "own": res["own"], "proxyShiftVsA0": shifts, "verdicts": res["verdicts"],
+           "rev2VsRev3": res["rev2VsRev3"],
            "perDrive": {str(f): {v: prox[f][v].get("vreg_R_pack_mohm") for v in VARIANTS} for f in dm["file"] if any(prox[f][v].get("vreg_R_pack_mohm") is not None for v in VARIANTS)}}
     with open(out_path, "w", encoding="utf-8", newline="\n") as f:
         json.dump(out, f, indent=1)
@@ -277,18 +312,18 @@ def splice(out, prov):
     A = json.loads(raw)
     cut = lambda d: {k: {kk: v.get(kk) for kk in ("n", "nDays", "slope", "dayCi95", "weekCi95", "dayIncludesZero", "releasedCi95Crt", "nonDecisive", "estimable") if kk in v} for k, v in d.items()}
     blk = {"label": "sensitivity of the estimated resistance-proxy trend to the current-voltage alignment rule (reporting only; production stays A0 nearest within 1500 ms; estimated proxy, an association within one warm-season window, not a degradation rate; basis raw/ = sha256-verified originals (M366))",
-           "spec": "analyses/M505_spec.md", "specRevision": "Rev 2", **{k: prov[k] for k in ("specSha256", "scriptSha256", "masterMd5", "rawManifestSha256", "basis", "seed", "nDraws")},
-           "snapshot": {"nDrives": prov["nCanonicalManifest"], "a0S1Slope": out["fidelity"]["S1"]["slope"], "note": "dated snapshot; semantic_gate warns when the live powerFade slope differs from a0S1Slope"},
+           "spec": "analyses/M505_spec.md", "specRevision": "Rev 3", "specRev3": "analyses/M505_spec_rev3.md", **{k: prov[k] for k in ("specSha256", "specRev3Sha256", "scriptSha256", "masterMd5", "rawManifestSha256", "basis", "seed", "nDraws")},
+           "snapshot": {"nDrives": prov["nCanonicalManifest"], "a0S1Slope": out["fidelity"]["S1"]["slope"], "a0S1PublishedSlope": out["fidelity"]["S1"]["publishedSlope"], "note": "dated snapshot; semantic_gate warns when the live powerFade slope differs from a0S1Slope"},
            "variantsRule": out["variantsRule"], "fidelity": out["fidelity"], "own": {v: cut(out["own"][v]) for v in VARIANTS},
            "paired": {v: {"A0": cut(out["paired"][v]["A0"]), "variant": cut(out["paired"][v]["variant"])} for v in out["paired"]},
-           "proxyShiftVsA0": out["proxyShiftVsA0"], "verdicts": out["verdicts"], "asofStats": out["asofStats"], "a2BoundaryNote": out["a2BoundaryNote"],
+           "rev2VsRev3": out["rev2VsRev3"], "proxyShiftVsA0": out["proxyShiftVsA0"], "verdicts": out["verdicts"], "asofStats": out["asofStats"], "a2BoundaryNote": out["a2BoundaryNote"],
            "postHoc": {"label": out["postHoc"]["label"], "A1V_own": cut(out["postHoc"]["A1V_own"])},
            "multiplicity": "per design 4 non-A0 variants x 2 populations day intervals (+ A0 references), plus 5 ISO-week sensitivity intervals; no adjustment; the any-difference rule leans conservative"}
     blk = json.loads(json.dumps(blk))
     A["vregAlignmentSensitivity"] = blk
     st = copy.deepcopy(A["_artifactStamps"]["powerFadeEquivalence"])
     st.update(corpusHash=prov["masterMd5"], generatedAt=datetime.datetime.now(datetime.timezone.utc).isoformat(), computationStatus="computed",
-              computationStatusNote="M505: derived by tools/vreg_alignment.py from the raw files of the canonical drives (spec analyses/M505_spec.md Rev 2); a dated snapshot, no ingestion stage", upstreamHashes={"driveMasterMd5": prov["masterMd5"]})
+              computationStatusNote="M505: derived by tools/vreg_alignment.py from the raw files of the canonical drives (spec analyses/M505_spec.md Rev 2 and analyses/M505_spec_rev3.md Rev 3, 632-drive re-run); a dated snapshot, no ingestion stage", upstreamHashes={"driveMasterMd5": prov["masterMd5"]})
     st.pop("carriedForward", None)
     st["includedInReleaseAt"] = st["computedAt"] = st["generatedAt"]
     import stamp_common as _sc

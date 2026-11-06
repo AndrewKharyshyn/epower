@@ -57,3 +57,27 @@ for f in ("eligibility.py", "degradation_trends.py", "compute_drive_summary_v6.p
     t = open(f, encoding="utf-8").read()
     assert "vregAlignmentSensitivity" not in t and "vreg_alignment" not in t, f
 print("test_vreg_alignment: OK")
+
+# ---- M505 Rev 3: scale-aware S1 fidelity, exact S0 (analyses/M505_spec_rev3.md)
+import degradation_trends as _DT
+_k = VA.MONTH_DAYS / _DT.MONTH_DAYS
+assert abs(_k - 30.44 / 30.4375) < 1e-12
+_f = {"S1": {"slope": round(0.6564 * _k, 4), "publishedSlope": 0.6564, "n": 274, "publishedN": 274, "nDays": 98, "publishedNDays": 98},
+      "S0": {"slope": 0.886, "publishedSlope": 0.886, "n": 274, "publishedN": 274}}
+assert VA.fidelity_matches(_f)
+assert not VA.fidelity_matches({**_f, "S1": {**_f["S1"], "slope": _f["S1"]["slope"] + 3e-4}})            # off by 3e-4 fails
+assert not VA.fidelity_matches({**_f, "S1": {**_f["S1"], "n": 275}}) and not VA.fidelity_matches({**_f, "S1": {**_f["S1"], "nDays": 97}})
+assert not VA.fidelity_matches({**_f, "S0": {**_f["S0"], "slope": 0.8861}})                               # S0 gets no tolerance beyond the 4-decimal equality
+assert not VA.fidelity_matches({**_f, "S0": {**_f["S0"], "n": 273}})
+# Rev 2 vs Rev 3 table: a label change is flagged, an identical verdict is not
+_v = {"S0": {"A1": {"label": "reading depends on the alignment rule", "pairedReading": "a", "ownReading": "b", "lowPrecision": False, "pairedN": 271, "pairedSignFlip": False}}}
+import json as _json, tempfile as _tf
+with _tf.TemporaryDirectory() as _d:
+    _p = os.path.join(_d, "r2.json"); _json.dump({"verdicts": _v}, open(_p, "w", encoding="utf-8"))
+    _v["S0"]["overall"] = "reading depends on the alignment rule"
+    _json.dump({"verdicts": _v}, open(_p, "w", encoding="utf-8"))
+    assert VA.rev2_vs_rev3(_v, _p)["nChanged"] == 0
+    _v3 = {"S0": {"A1": {**_v["S0"]["A1"], "label": "reading unchanged"}, "overall": "reading depends on the alignment rule"}}
+    _t = VA.rev2_vs_rev3(_v3, _p)
+    assert _t["nChanged"] == 1 and _t["rows"]["S0/A1"]["labelOrReadingChanged"] is True
+print("test_vreg_alignment (M505 Rev 3): OK")
