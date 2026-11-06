@@ -21,9 +21,7 @@ def classify(period):
     return RR.regime_of(period)
 
 
-ALLOWLIST = [{"site": "compute_drive_summary_v6.py POWERFADE_FAST_S", "value": "1.05 s (old cut)",
-              "reason": "inside the full-rebuild closure of the master builder: changing it invalidates every checkpoint and the ML16 restore; the powerFade 'fast' covariate keeps the old cut until the planned checkpoint rebuild",
-              "targetMilestone": "planned full checkpoint rebuild (M582b follow-up)"}]
+ALLOWLIST = []      # M593: compute_drive_summary_v6.POWERFADE_FAST_S now equals THRESHOLD_S (1.10 s); no inline cut is allowlisted any more
 
 
 def v6_cut():
@@ -182,7 +180,8 @@ def main():
         new["_artifactStamps"]["loggerCadence"] = old_st                    # idempotent: an unchanged block keeps its stamp (generatedAt)
     else:                                                                    # every top-level key must carry an artifact stamp (build_html gate, M235)
         st = copy.deepcopy(A["_artifactStamps"]["fuelContract"])
-        st.update(corpusHash=blk["masterMd5"], generatedAt=datetime.datetime.now(datetime.timezone.utc).isoformat(), computationStatus="computed",
+        _now = datetime.datetime.now(datetime.timezone.utc).isoformat()
+        st.update(corpusHash=blk["masterMd5"], generatedAt=_now, includedInReleaseAt=_now, computedAt=_now, computationStatus="computed",      # M593: the M419 stamp-coherence gate needs includedInReleaseAt == generatedAt
                   computationStatusNote="M379a: derived by tools/cadence_regime.py from the master column I_sample_period_s; descriptive covariate, additive, no published value recomputed; not M299-reproducible.",
                   upstreamHashes={"driveMasterMd5": blk["masterMd5"]})
         st.pop("carriedForward", None)
