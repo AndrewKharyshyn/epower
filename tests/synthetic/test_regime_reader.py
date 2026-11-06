@@ -60,7 +60,6 @@ for fn in sorted(os.listdir("tools")):
                     lits.append("%s:%d %s = %s" % (fn, node.lineno, tgt.id, node.value.value))
 assert not hits, hits
 assert not lits, lits
-# the single allowlisted exception is documented in the payload constant of cadence_regime and exists in the source
-assert len(CR.ALLOWLIST) == 1 and CR.ALLOWLIST[0]["site"].startswith("compute_drive_summary_v6.py POWERFADE_FAST_S") and CR.ALLOWLIST[0]["targetMilestone"] and CR.ALLOWLIST[0]["reason"]
-assert CR.v6_cut() == 1.05
+# M593: no allowlisted exception remains; the builder constant equals the single source (read from the source text, the module is not imported)
+assert CR.ALLOWLIST == [] and CR.v6_cut() == RR.THRESHOLD_S
 print("test_regime_reader: OK")

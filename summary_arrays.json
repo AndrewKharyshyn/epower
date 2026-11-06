@@ -11499,7 +11499,7 @@
    "status": "ok",
    "rBasis": "vreg_R_pack_mohm",
    "nClean": 279,
-   "regimeRule": "fast: master I_sample_period_s < 1.05 s (M379a); slow otherwise",
+   "regimeRule": "fast: master I_sample_period_s < 1.10 s (M379a, threshold M578); slow otherwise",
    "minRunDrives": 5,
    "latestFastRunStart": "2026-11-02",
    "specs": [
@@ -11993,7 +11993,7 @@
      "status": "ok",
      "rBasis": "vreg_R_pack_mohm",
      "nClean": 279,
-     "regimeRule": "fast: master I_sample_period_s < 1.05 s (M379a); slow otherwise",
+     "regimeRule": "fast: master I_sample_period_s < 1.10 s (M379a, threshold M578); slow otherwise",
      "minRunDrives": 5,
      "latestFastRunStart": "2026-11-02",
      "specs": [
@@ -64011,20 +64011,20 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "1e8a2a45a61c093f6c5b65537ae6dd8f",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-11-06T06:16:21.885483+00:00",
+   "generatedAt": "2026-11-06T12:01:37.610187+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72"
    },
    "computationStatus": "computed",
    "computationStatusNote": "M379a: derived by tools/cadence_regime.py from the master column I_sample_period_s; descriptive covariate, additive, no published value recomputed; not M299-reproducible.",
-   "includedInReleaseAt": "2026-11-06T06:16:21.885483+00:00",
+   "includedInReleaseAt": "2026-11-06T12:01:37.610187+00:00",
    "inputBasis": {
     "nDrives": 632,
     "masterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-11-06T06:16:21.885483+00:00"
+   "computedAt": "2026-11-06T12:01:37.610187+00:00"
   },
   "masterRefitAudit": {
    "corpusHash": "1574a8156a36c6ea4ea1dfdaafc7cc72",
@@ -170847,24 +170847,8 @@
    "2026-11-02"
   ],
   "effectOnKeys": "quantified for the pipeline keys listed under sensitivity by an emulated sampling-sensitivity study (M379b), which is not a causal cadence effect; observational comparisons across regimes are confounded by season, ambient and drive mix",
-  "regimeInconsistencies": [
-   {
-    "drive": "2026-11-04_08-01-15.csv",
-    "source": "compute_drive_summary_v6.POWERFADE_FAST_S",
-    "periodS": 1.055,
-    "sidecarRegime": "fast",
-    "sourceRegime": "slow",
-    "sourceCutS": 1.05
-   }
-  ],
-  "allowlist": [
-   {
-    "site": "compute_drive_summary_v6.py POWERFADE_FAST_S",
-    "value": "1.05 s (old cut)",
-    "reason": "inside the full-rebuild closure of the master builder: changing it invalidates every checkpoint and the ML16 restore; the powerFade 'fast' covariate keeps the old cut until the planned checkpoint rebuild",
-    "targetMilestone": "planned full checkpoint rebuild (M582b follow-up)"
-   }
-  ],
+  "regimeInconsistencies": [],
+  "allowlist": [],
   "source": "drive_master.csv I_sample_period_s; sidecar cadence_regime.csv",
   "masterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72",
   "sensitivity": {

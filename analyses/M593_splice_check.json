@@ -1,0 +1,21 @@
+{
+ "milestone": "M593",
+ "masterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72",
+ "nLeavesCompared": 61,
+ "differingLeaves": [
+  "/regimeRule"
+ ],
+ "nCleanOldSpecs": 279,
+ "nCleanNewSpecs": 279,
+ "driveStratumMovers": [
+  {
+   "file": "2026-11-04_08-01-15.csv",
+   "periodS": 1.055,
+   "regimeUnderOldCut": "slow",
+   "regimeUnderNewCut": "fast",
+   "inCleanSet": false
+  }
+ ],
+ "newRegimeRule": "fast: master I_sample_period_s < 1.10 s (M379a, threshold M578); slow otherwise",
+ "oldRegimeRule": "fast: master I_sample_period_s < 1.05 s (M379a, threshold M578); slow otherwise"
+}

@@ -2044,7 +2044,7 @@ def _powerfade_trend(dm, raw_loader=None):
             'cadence_controlled': bool(cadence_controlled)}
 
 
-POWERFADE_FAST_S = 1.05          # M379a regime rule on the master column I_sample_period_s: fast below, slow at or above
+POWERFADE_FAST_S = 1.10          # regime rule on the master column I_sample_period_s: fast below, slow at or above; 1.10 s since M578 (was 1.05 s, M379a); equal to tools/regime_reader.THRESHOLD_S (tests/synthetic/test_regime_reader.py)
 POWERFADE_MIN_RUN = 5            # M395: a fast-regime run needs >= 5 consecutive drives to get its own dummy
 
 
@@ -2127,7 +2127,7 @@ def _powerfade_cadence_specs(dm, raw_loader):
     if not specs:
         return {'status': 'not_available', 'reason': 'no specification had >= 20 drives'}
     sl = [s['slope'] for s in specs]
-    return {'status': 'ok', 'rBasis': rcol, 'nClean': int(len(cc)), 'regimeRule': 'fast: master I_sample_period_s < %.2f s (M379a); slow otherwise' % POWERFADE_FAST_S,
+    return {'status': 'ok', 'rBasis': rcol, 'nClean': int(len(cc)), 'regimeRule': 'fast: master I_sample_period_s < %.2f s (M379a, threshold M578); slow otherwise' % POWERFADE_FAST_S,
             'minRunDrives': POWERFADE_MIN_RUN, 'latestFastRunStart': last_fast_start, 'specs': specs, 'nSpecs': len(specs),
             'slopeMin': min(sl), 'slopeMax': max(sl), 'allIntervalsSpanZero': bool(all(s['ci95'][0] <= 0.0 <= s['ci95'][1] for s in specs)),
             'publishedIsSpec': 'S1', 'note': 'range over the listed specifications only; not a confidence statement about the true trend'}
