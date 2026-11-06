@@ -1,0 +1,492 @@
+{
+ "milestone": "M590 (M577 Rev 3 run)",
+ "spec": "analyses/M577_spec_rev3.md",
+ "masterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72",
+ "frame": {
+  "nDrives": 559,
+  "nDays": 120
+ },
+ "seedSequence": 42,
+ "draws": 4000,
+ "streams": [
+  "pairedBootstrap",
+  "wcbRademacher",
+  "wcbWebb",
+  "wcbWeek",
+  "reserved"
+ ],
+ "specSha256": "a4ae4f37c0590d9b04253f1f898554720ef57fdf78dc6f21ce61f835c604d4f3",
+ "specRev2Sha256": "38f512b42d4ad9c11a866fc838c310b9ce3e694c9894a810cb1b6cbc8e3c4167",
+ "specRev1Sha256": "7f1e59652c3755eabe7d4cf4f00f7d7795e5da93238219768bd1ab1c16857ecc",
+ "scriptSha256": "99624e0790b8eac5a77c36f8a37053b5069021c2f3b1ab6c4e1777d7c9e58fb9",
+ "vifTable": {
+  "vif": {
+   "months": 1.933,
+   "step": 1.705,
+   "slow": 1.26,
+   "T": 1.806,
+   "I": 1.735,
+   "soc": 1.232,
+   "socr": 1.683,
+   "lrest": 5.508,
+   "first": 5.335
+  },
+  "corrLrestFirst": 0.888,
+  "conditionIndexAll": 5.01,
+  "partialR2OnLrestFirst": {
+   "step": 0.0135,
+   "slow": 0.0064
+  }
+ },
+ "fwlCheck": {
+  "maxAbsDiff": 5.329070518200751e-15,
+  "passed": true
+ },
+ "reproducesRev2CodeOnCurrentMaster": {
+  "step": true,
+  "slow": true
+ },
+ "storedRev2FileDifference": {
+  "step": {
+   "storedEst": 3.0374,
+   "storedCi95": [
+    1.5631,
+    4.5116
+   ],
+   "currentEst": 3.05,
+   "currentCi95": [
+    1.5668,
+    4.5332
+   ],
+   "storedLabel": "procedure-dependent",
+   "currentLabel": "procedure-dependent"
+  },
+  "slow": {
+   "storedEst": 1.166,
+   "storedCi95": [
+    -0.0012,
+    2.3331
+   ],
+   "currentEst": 1.1871,
+   "currentCi95": [
+    0.0178,
+    2.3563
+   ],
+   "storedLabel": "not distinguishable from zero (not equivalence)",
+   "currentLabel": "procedure-dependent"
+  }
+ },
+ "labelsRev2CodeCurrentMaster": {
+  "step": "procedure-dependent",
+  "slow": "procedure-dependent"
+ },
+ "variants": {
+  "degenerateShare": 0.0,
+  "evaluable": true,
+  "fits": {
+   "A": {
+    "step": {
+     "est": 3.05,
+     "ci95": [
+      1.5668,
+      4.5332
+     ],
+     "ciSatterthwaite": [
+      1.5316,
+      4.5685
+     ],
+     "dfSatterthwaite": 36.49,
+     "excludesZero": true
+    },
+    "slow": {
+     "est": 1.1871,
+     "ci95": [
+      0.0178,
+      2.3563
+     ],
+     "ciSatterthwaite": [
+      -0.0104,
+      2.3845
+     ],
+     "dfSatterthwaite": 36.1,
+     "excludesZero": true
+    }
+   },
+   "A-noLrest": {
+    "step": {
+     "est": 2.9823,
+     "ci95": [
+      1.503,
+      4.4616
+     ],
+     "ciSatterthwaite": [
+      1.4678,
+      4.4968
+     ],
+     "dfSatterthwaite": 36.43,
+     "excludesZero": true,
+     "paired": {
+      "pairedDiff": -0.0677,
+      "ci95": [
+       -0.1803,
+       0.028
+      ],
+      "ci90": [
+       -0.1593,
+       0.0103
+      ],
+      "margin": 2.1159,
+      "reading": "no change beyond 2.12 mV detected"
+     }
+    },
+    "slow": {
+     "est": 1.1512,
+     "ci95": [
+      -0.0093,
+      2.3116
+     ],
+     "ciSatterthwaite": [
+      -0.0373,
+      2.3397
+     ],
+     "dfSatterthwaite": 36.09,
+     "excludesZero": false,
+     "paired": {
+      "pairedDiff": -0.0359,
+      "ci95": [
+       -0.1292,
+       0.0438
+      ],
+      "ci90": [
+       -0.1103,
+       0.0304
+      ],
+      "margin": 1.668,
+      "reading": "no change beyond 1.67 mV detected"
+     }
+    }
+   },
+   "A-noFirst": {
+    "step": {
+     "est": 3.0144,
+     "ci95": [
+      1.544,
+      4.4849
+     ],
+     "ciSatterthwaite": [
+      1.5096,
+      4.5193
+     ],
+     "dfSatterthwaite": 36.88,
+     "excludesZero": true,
+     "paired": {
+      "pairedDiff": -0.0356,
+      "ci95": [
+       -0.1449,
+       0.0424
+      ],
+      "ci90": [
+       -0.1231,
+       0.0249
+      ],
+      "margin": 2.1159,
+      "reading": "no change beyond 2.12 mV detected"
+     }
+    },
+    "slow": {
+     "est": 1.1682,
+     "ci95": [
+      0.0116,
+      2.3247
+     ],
+     "ciSatterthwaite": [
+      -0.016,
+      2.3524
+     ],
+     "dfSatterthwaite": 36.32,
+     "excludesZero": true,
+     "paired": {
+      "pairedDiff": -0.0189,
+      "ci95": [
+       -0.096,
+       0.0243
+      ],
+      "ci90": [
+       -0.0795,
+       0.0146
+      ],
+      "margin": 1.668,
+      "reading": "no change beyond 1.67 mV detected"
+     }
+    }
+   },
+   "A-noBoth": {
+    "step": {
+     "est": 3.1251,
+     "ci95": [
+      1.5939,
+      4.6563
+     ],
+     "ciSatterthwaite": [
+      1.5589,
+      4.6913
+     ],
+     "dfSatterthwaite": 37.45,
+     "excludesZero": true,
+     "paired": {
+      "pairedDiff": 0.0751,
+      "ci95": [
+       -0.1038,
+       0.3026
+      ],
+      "ci90": [
+       -0.075,
+       0.2627
+      ],
+      "margin": 2.1159,
+      "reading": "no change beyond 2.12 mV detected"
+     }
+    },
+    "slow": {
+     "est": 1.2271,
+     "ci95": [
+      0.0407,
+      2.4134
+     ],
+     "ciSatterthwaite": [
+      0.0126,
+      2.4415
+     ],
+     "dfSatterthwaite": 36.59,
+     "excludesZero": true,
+     "paired": {
+      "pairedDiff": 0.04,
+      "ci95": [
+       -0.0778,
+       0.1952
+      ],
+      "ci90": [
+       -0.0589,
+       0.1634
+      ],
+      "margin": 1.668,
+      "reading": "no change beyond 1.67 mV detected"
+     }
+    }
+   }
+  }
+ },
+ "wildClusterBootstrap": {
+  "step": {
+   "cluster": "day",
+   "G": 120,
+   "estimate": 3.05,
+   "se_cr1": 0.7186,
+   "draws": 4000,
+   "rademacher": {
+    "inversion": {
+     "ci95": [
+      1.6128,
+      4.7029
+     ],
+     "gridStep": 0.0359,
+     "atGridEdge": false,
+     "contiguous": true,
+     "note": "bounds are precise to the grid step only"
+    },
+    "wcuPercentileT": [
+     1.5269,
+     4.6081
+    ],
+    "wcrPvalueZero": 0.0,
+    "mcSePvalue": "p < 1/4000 (no draw as extreme)"
+   },
+   "webb": {
+    "inversion": {
+     "ci95": [
+      1.5768,
+      4.6669
+     ],
+     "gridStep": 0.0359,
+     "atGridEdge": false,
+     "contiguous": true,
+     "note": "bounds are precise to the grid step only"
+    },
+    "wcuPercentileT": [
+     1.5207,
+     4.6166
+    ],
+    "wcrPvalueZero": 0.0,
+    "mcSePvalue": "p < 1/4000 (no draw as extreme)"
+   },
+   "cr2Ci95": [
+    1.5668,
+    4.5332
+   ],
+   "cr2CiSatterthwaite": [
+    1.5316,
+    4.5685
+   ],
+   "intervalDependent": false,
+   "dayStructure": {
+    "daysWithTerm": 21,
+    "daysWithoutTerm": 99,
+    "mixedDays": 0,
+    "betweenDayShare": 1.0
+   },
+   "weekSensitivity": {
+    "cluster": "wk",
+    "G": 25,
+    "estimate": 3.05,
+    "se_cr1": 0.7864,
+    "draws": 4000,
+    "webb": {
+     "inversion": {
+      "ci95": [
+       1.4379,
+       5.6845
+      ],
+      "gridStep": 0.0393,
+      "atGridEdge": false,
+      "contiguous": true,
+      "note": "bounds are precise to the grid step only"
+     },
+     "wcuPercentileT": [
+      0.9285,
+      5.1409
+     ],
+     "wcrPvalueZero": 0.0005,
+     "mcSePvalue": 0.0004
+    }
+   },
+   "proceduresIncludingZero": [],
+   "proceduresExcludingZero": [
+    "A-noBoth_cr2T",
+    "A-noFirst_cr2T",
+    "A-noLrest_cr2T",
+    "cr2Satterthwaite",
+    "cr2T",
+    "dayWcrInversion",
+    "dayWcuPercentileT",
+    "weekWcrInversionWebb"
+   ],
+   "note": "descriptive list, not a label"
+  },
+  "slow": {
+   "cluster": "day",
+   "G": 120,
+   "estimate": 1.1871,
+   "se_cr1": 0.5754,
+   "draws": 4000,
+   "rademacher": {
+    "inversion": {
+     "ci95": [
+      0.0362,
+      2.3667
+     ],
+     "gridStep": 0.0288,
+     "atGridEdge": false,
+     "contiguous": true,
+     "note": "bounds are precise to the grid step only"
+    },
+    "wcuPercentileT": [
+     0.0055,
+     2.3555
+    ],
+    "wcrPvalueZero": 0.0467,
+    "mcSePvalue": 0.0033
+   },
+   "webb": {
+    "inversion": {
+     "ci95": [
+      0.065,
+      2.3955
+     ],
+     "gridStep": 0.0288,
+     "atGridEdge": false,
+     "contiguous": true,
+     "note": "bounds are precise to the grid step only"
+    },
+    "wcuPercentileT": [
+     0.0532,
+     2.3819
+    ],
+    "wcrPvalueZero": 0.04,
+    "mcSePvalue": 0.0031
+   },
+   "cr2Ci95": [
+    0.0178,
+    2.3563
+   ],
+   "cr2CiSatterthwaite": [
+    -0.0104,
+    2.3845
+   ],
+   "intervalDependent": false,
+   "dayStructure": {
+    "daysWithTerm": 87,
+    "daysWithoutTerm": 33,
+    "mixedDays": 5,
+    "betweenDayShare": 0.94
+   },
+   "weekSensitivity": {
+    "cluster": "wk",
+    "G": 25,
+    "estimate": 1.1871,
+    "se_cr1": 0.6225,
+    "draws": 4000,
+    "webb": {
+     "inversion": {
+      "ci95": [
+       -0.058,
+       2.7745
+      ],
+      "gridStep": 0.0311,
+      "atGridEdge": false,
+      "contiguous": true,
+      "note": "bounds are precise to the grid step only"
+     },
+     "wcuPercentileT": [
+      -0.1247,
+      2.4243
+     ],
+     "wcrPvalueZero": 0.0707,
+     "mcSePvalue": 0.0041
+    }
+   },
+   "proceduresIncludingZero": [
+    "A-noLrest_cr2T",
+    "cr2Satterthwaite",
+    "weekWcrInversionWebb"
+   ],
+   "proceduresExcludingZero": [
+    "A-noBoth_cr2T",
+    "A-noFirst_cr2T",
+    "cr2T",
+    "dayWcrInversion",
+    "dayWcuPercentileT"
+   ],
+   "note": "descriptive list, not a label"
+  }
+ },
+ "simulation": {
+  "independentDays": {
+   "nSim": 400,
+   "G": 30,
+   "draws": 299,
+   "wcrRejectionRate": 0.033,
+   "coverageCr2T": 0.955,
+   "coverageWcrInversion": 0.953
+  },
+  "ar1Rho0.5": {
+   "nSim": 400,
+   "G": 30,
+   "draws": 299,
+   "wcrRejectionRate": 0.135,
+   "coverageCr2T": 0.835,
+   "coverageWcrInversion": 0.843
+  }
+ },
+ "multiplicity": "3 paired variants (A-noLrest, A-noFirst, A-noBoth; the spec's 4 counts the reference A) x 2 terms plus 2 terms x several interval types, reported as such, not adjusted",
+ "note": "sensitivity only: no label is changed; the day-clustered wild bootstrap assumes independent days like CR2; variant differences are omitted-covariate projections"
+}
