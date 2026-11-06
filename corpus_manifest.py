@@ -38,6 +38,16 @@ def _canonical(fn):
     y, mo, d, hh, mm, ss = m.groups()
     return f"{y}{mo}{d}_{hh}{mm}{ss}.csv"
 
+_CTRL = None
+
+def _control_registry():
+    """M596: stable-id registry of the B/D comparison captures (control_captures.json next to this file); empty when absent."""
+    global _CTRL
+    if _CTRL is None:
+        p = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'control_captures.json')
+        _CTRL = (json.load(open(p, encoding='utf-8')).get('captures') or {}) if os.path.exists(p) else {}
+    return _CTRL
+
 def _sha256_and_rows(path, _buf=1 << 20):
     """Stream the file once: sha256 over raw bytes + data-row count
     (newlines minus the header, floored at 0)."""
@@ -135,6 +145,13 @@ def build(raw_dir, master_csv=None, out_path=None, parent_snapshot=None,
             continue
         role, mode, reason = _classify(base)
         canon = _canonical(base) if role in ('canonical',) else None
+        # M596 (audit D1): a renamed copy of a registered control capture is a comparison_only capture, not an orphan (role registry keyed by the stable id).
+        if role == 'canonical' and canon not in master_files and canon in _control_registry():
+            _c = _control_registry()[canon]
+            role, mode = 'comparison_only', _c.get('mode', 'D')
+            reason = ('D-mode B/D comparison capture (registered control, control_captures.json); excluded from the primary corpus; this on-disk copy is an '
+                      'unverified replacement, the sha256-verified original is %s' % _c.get('originalSha256'))
+            canon = None
         sha, nbytes, rows = _sha256_and_rows(path)
         norm_h = _norm_hash(path)
         rec = {

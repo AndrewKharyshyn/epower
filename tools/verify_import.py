@@ -85,6 +85,7 @@ def main():
     if os.path.exists(mp):
         man = json.load(open(mp, encoding="utf-8"))
         missing, mismatch, ok = [], [], 0
+        comparison_mismatch = []
         for r in man.get("files", []):
             p = find(raw, r["raw_name"]) or (P(r["raw_name"]) if os.path.isfile(P(r["raw_name"])) else None)
             if p is None:
@@ -93,10 +94,13 @@ def main():
                 ok += 1; continue
             if sha256(p) == r["sha256"]:
                 ok += 1
+            elif r.get("role") == "comparison_only":
+                # M596 (audit D1): excluded B/D controls are not corpus members; the mismatch is still reported (listed separately), it does not fail the import check
+                comparison_mismatch.append(r["raw_name"])
             else:
                 mismatch.append(r["raw_name"])
         rep["raw"] = {"raw_dir": raw, "manifest_files": len(man.get("files", [])), "ok": ok,
-                      "missing": missing, "sha256_mismatch": mismatch, "sha_checked": not a.quick}
+                      "missing": missing, "sha256_mismatch": mismatch, "comparison_only_sha256_mismatch": comparison_mismatch, "sha_checked": not a.quick}
     # M325: optional, report-only check of the external originals inventory (never affects the exit status; absent folder = "not checked", never "ok")
     omp = P("originals_manifest.json")
     if os.path.exists(omp):
