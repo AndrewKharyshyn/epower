@@ -65780,24 +65780,22 @@
    "corpusHash": "1574a8156a36c6ea4ea1dfdaafc7cc72",
    "corpusHashSource": "file:drive_master.csv",
    "configHash": "249865eaf54afba07e65f7710d5df046",
-   "fullConfigHash": "672b0f1eae1585911a72858d732b546e",
+   "fullConfigHash": null,
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-11-05T18:28:09.988348+00:00",
+   "generatedAt": "2026-11-06T07:32:18.859377+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
-    "driveMasterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed"
+    "driveMasterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72"
    },
-   "computationStatus": "carriedForward",
-   "computationStatusNote": "M578: CARRIED FORWARD at the 606-drive basis (not recomputed on the live corpus): dated snapshot of the alignment-rule sensitivity of the resistance proxy at its drive count (M505)",
-   "includedInReleaseAt": "2026-11-05T18:28:09.988348+00:00",
+   "computationStatus": "computed",
+   "computationStatusNote": "M505: derived by tools/vreg_alignment.py from the raw files of the canonical drives (spec analyses/M505_spec.md Rev 2 and analyses/M505_spec_rev3.md Rev 3, 632-drive re-run); a dated snapshot, no ingestion stage",
+   "includedInReleaseAt": "2026-11-06T07:32:18.859377+00:00",
+   "computedAt": "2026-11-06T07:32:18.859377+00:00",
    "inputBasis": {
-    "nDrives": 606,
-    "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
-    "source": "carried stamp: basisNDrives; block masterMd5 / studyBasis / upstreamHashes.driveMasterMd5"
-   },
-   "computedAt": "2026-11-05T18:28:09.988348+00:00",
-   "carriedForward": true,
-   "basisNDrives": 606
+    "nDrives": 632,
+    "masterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   }
   },
   "windowCaveat": {
    "corpusHash": "1574a8156a36c6ea4ea1dfdaafc7cc72",
@@ -413730,70 +413728,74 @@
  "vregAlignmentSensitivity": {
   "label": "sensitivity of the estimated resistance-proxy trend to the current-voltage alignment rule (reporting only; production stays A0 nearest within 1500 ms; estimated proxy, an association within one warm-season window, not a degradation rate; basis raw/ = sha256-verified originals (M366))",
   "spec": "analyses/M505_spec.md",
-  "specRevision": "Rev 2",
+  "specRevision": "Rev 3",
+  "specRev3": "analyses/M505_spec_rev3.md",
   "specSha256": "c52a67c6cb7a257c364ca7d654a2d18145cdcb80770c7c8f071d3a7169d0258a",
-  "scriptSha256": "a4c2721953c6604ddb375c484f24ad58a1f6fb908118704d5e9f93dd1603199e",
-  "masterMd5": "5556a0c6c8bcde0f6c64b8b9655208ed",
-  "rawManifestSha256": "d6c6c5372768453728af3343877ec64c971a1f9d20f09da5b5ec1c7e274ce8df",
+  "specRev3Sha256": "ea9aeae2296bfde092a677d5497b109ced9e94eeff5c28ce0a23ffa15753cf3d",
+  "scriptSha256": "0effeccb500ca99c9889099657f8df8c5ba1edeea0ab794e1ab5982967112db9",
+  "masterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72",
+  "rawManifestSha256": "9dbacd48a9182e070ba2b7a7b80ca196a3f46d9f2294cf0ded1ba2d1689dbe02",
   "basis": "raw/ = sha256-verified originals (M366)",
   "seed": 42,
   "nDraws": 4000,
   "snapshot": {
-   "nDrives": 606,
-   "a0S1Slope": 0.6564,
+   "nDrives": 632,
+   "a0S1Slope": 1.0862,
+   "a0S1PublishedSlope": 1.0861,
    "note": "dated snapshot; semantic_gate warns when the live powerFade slope differs from a0S1Slope"
   },
   "variantsRule": "A0 nearest 1500 ms | A1 interpolation | A2 nearest 300 ms | A3 backward | A4 forward",
   "fidelity": {
    "S1": {
-    "slope": 0.6564,
-    "publishedSlope": 0.6564,
-    "n": 274,
-    "publishedN": 274,
-    "nDays": 98,
-    "publishedNDays": 98
+    "slope": 1.0862,
+    "publishedSlope": 1.0861,
+    "n": 279,
+    "publishedN": 279,
+    "nDays": 102,
+    "publishedNDays": 102
    },
    "S0": {
-    "slope": 0.886,
-    "publishedSlope": 0.886,
-    "n": 274,
-    "publishedN": 274
+    "slope": 1.1968,
+    "publishedSlope": 1.1968,
+    "n": 279,
+    "publishedN": 279
    },
-   "proxyColumn": "A0 equals vreg_R_pack_mohm on all 606 drives (n with proxy: 274)",
+   "proxyColumn": "A0 equals vreg_R_pack_mohm on all 632 drives (n with proxy: 279)",
+   "scaleFactorS1": 1.000082135523614,
    "passed": true
   },
   "own": {
    "A0": {
     "S0": {
-     "n": 274,
-     "nDays": 98,
-     "slope": 0.886,
+     "n": 279,
+     "nDays": 102,
+     "slope": 1.1968,
      "dayCi95": [
-      -0.1554,
-      1.9954
+      0.1224,
+      2.3531
      ],
      "weekCi95": [
-      -0.2643,
-      1.9191
+      0.0686,
+      2.5148
      ],
-     "dayIncludesZero": true,
+     "dayIncludesZero": false,
      "releasedCi95Crt": [
-      -0.1798,
-      1.9518
+      0.0843,
+      2.3093
      ],
      "nonDecisive": false
     },
     "S1": {
-     "n": 274,
-     "nDays": 98,
-     "slope": 0.6564,
+     "n": 279,
+     "nDays": 102,
+     "slope": 1.0862,
      "dayCi95": [
-      -0.4262,
-      1.8374
+      -0.1012,
+      2.4163
      ],
      "weekCi95": [
-      -0.399,
-      1.6518
+      -0.0465,
+      2.6625
      ],
      "dayIncludesZero": true,
      "nonDecisive": false
@@ -413801,35 +413803,35 @@
    },
    "A1": {
     "S0": {
-     "n": 271,
-     "nDays": 98,
-     "slope": 1.2021,
+     "n": 276,
+     "nDays": 102,
+     "slope": 1.5078,
      "dayCi95": [
-      0.1268,
-      2.3501
+      0.414,
+      2.7166
      ],
      "weekCi95": [
-      0.0389,
-      2.2744
+      0.3531,
+      2.9093
      ],
      "dayIncludesZero": false,
      "releasedCi95Crt": [
-      0.088,
-      2.3161
+      0.3452,
+      2.6704
      ],
      "nonDecisive": false
     },
     "S1": {
-     "n": 271,
-     "nDays": 98,
-     "slope": 0.737,
+     "n": 276,
+     "nDays": 102,
+     "slope": 1.171,
      "dayCi95": [
-      -0.3573,
-      1.9124
+      -0.0563,
+      2.5145
      ],
      "weekCi95": [
-      -0.3263,
-      1.7016
+      0.0339,
+      2.7917
      ],
      "dayIncludesZero": true,
      "nonDecisive": false
@@ -413837,35 +413839,35 @@
    },
    "A2": {
     "S0": {
-     "n": 265,
-     "nDays": 96,
-     "slope": 0.8901,
+     "n": 270,
+     "nDays": 100,
+     "slope": 1.1734,
      "dayCi95": [
-      -0.2101,
-      2.0634
+      0.0615,
+      2.3648
      ],
      "weekCi95": [
-      -0.3089,
-      2.0143
+      -0.13,
+      2.6626
      ],
-     "dayIncludesZero": true,
+     "dayIncludesZero": false,
      "releasedCi95Crt": [
-      -0.2297,
-      2.0099
+      0.0074,
+      2.3395
      ],
      "nonDecisive": false
     },
     "S1": {
-     "n": 264,
-     "nDays": 95,
-     "slope": 0.6215,
+     "n": 269,
+     "nDays": 99,
+     "slope": 1.0088,
      "dayCi95": [
-      -0.5014,
-      1.8451
+      -0.1614,
+      2.3307
      ],
      "weekCi95": [
-      -0.4979,
-      1.7215
+      -0.2021,
+      2.6532
      ],
      "dayIncludesZero": true,
      "nonDecisive": false
@@ -413873,35 +413875,35 @@
    },
    "A3": {
     "S0": {
-     "n": 274,
-     "nDays": 98,
-     "slope": 0.887,
+     "n": 279,
+     "nDays": 102,
+     "slope": 1.1996,
      "dayCi95": [
-      -0.1546,
-      1.9954
+      0.1225,
+      2.3566
      ],
      "weekCi95": [
-      -0.2641,
-      1.92
+      0.0689,
+      2.5214
      ],
-     "dayIncludesZero": true,
+     "dayIncludesZero": false,
      "releasedCi95Crt": [
-      -0.1789,
-      1.9529
+      0.0862,
+      2.313
      ],
      "nonDecisive": false
     },
     "S1": {
-     "n": 274,
-     "nDays": 98,
-     "slope": 0.6572,
+     "n": 279,
+     "nDays": 102,
+     "slope": 1.0904,
      "dayCi95": [
-      -0.4262,
-      1.8379
+      -0.0986,
+      2.4278
      ],
      "weekCi95": [
-      -0.3979,
-      1.6541
+      -0.0399,
+      2.6703
      ],
      "dayIncludesZero": true,
      "nonDecisive": false
@@ -413909,35 +413911,35 @@
    },
    "A4": {
     "S0": {
-     "n": 239,
-     "nDays": 86,
-     "slope": 1.8767,
+     "n": 244,
+     "nDays": 90,
+     "slope": 2.122,
      "dayCi95": [
-      0.3153,
-      3.5853
+      0.5263,
+      3.904
      ],
      "weekCi95": [
-      0.1989,
-      3.9265
+      0.3692,
+      4.5478
      ],
      "dayIncludesZero": false,
      "releasedCi95Crt": [
-      0.2223,
-      3.5311
+      0.439,
+      3.8051
      ],
      "nonDecisive": false
     },
     "S1": {
-     "n": 239,
-     "nDays": 86,
-     "slope": 0.8036,
+     "n": 244,
+     "nDays": 90,
+     "slope": 1.1525,
      "dayCi95": [
-      -0.6106,
-      2.5456
+      -0.282,
+      2.8293
      ],
      "weekCi95": [
-      -0.6995,
-      2.3767
+      -0.3045,
+      3.1792
      ],
      "dayIncludesZero": true,
      "nonDecisive": false
@@ -413948,35 +413950,35 @@
    "A1": {
     "A0": {
      "S0": {
-      "n": 271,
-      "nDays": 98,
-      "slope": 0.8878,
+      "n": 276,
+      "nDays": 102,
+      "slope": 1.1959,
       "dayCi95": [
-       -0.1865,
-       2.0121
+       0.112,
+       2.3632
       ],
       "weekCi95": [
-       -0.3067,
-       1.9419
+       0.0335,
+       2.5427
       ],
-      "dayIncludesZero": true,
+      "dayIncludesZero": false,
       "releasedCi95Crt": [
-       -0.1978,
-       1.9734
+       0.0637,
+       2.3281
       ],
       "nonDecisive": false
      },
      "S1": {
-      "n": 271,
-      "nDays": 98,
-      "slope": 0.6453,
+      "n": 276,
+      "nDays": 102,
+      "slope": 1.0686,
       "dayCi95": [
-       -0.4525,
-       1.8265
+       -0.1306,
+       2.3923
       ],
       "weekCi95": [
-       -0.4295,
-       1.6345
+       -0.0784,
+       2.6434
       ],
       "dayIncludesZero": true,
       "nonDecisive": false
@@ -413984,35 +413986,35 @@
     },
     "variant": {
      "S0": {
-      "n": 271,
-      "nDays": 98,
-      "slope": 1.2021,
+      "n": 276,
+      "nDays": 102,
+      "slope": 1.5078,
       "dayCi95": [
-       0.1268,
-       2.3501
+       0.414,
+       2.7166
       ],
       "weekCi95": [
-       0.0389,
-       2.2744
+       0.3531,
+       2.9093
       ],
       "dayIncludesZero": false,
       "releasedCi95Crt": [
-       0.088,
-       2.3161
+       0.3452,
+       2.6704
       ],
       "nonDecisive": false
      },
      "S1": {
-      "n": 271,
-      "nDays": 98,
-      "slope": 0.737,
+      "n": 276,
+      "nDays": 102,
+      "slope": 1.171,
       "dayCi95": [
-       -0.3573,
-       1.9124
+       -0.0563,
+       2.5145
       ],
       "weekCi95": [
-       -0.3263,
-       1.7016
+       0.0339,
+       2.7917
       ],
       "dayIncludesZero": true,
       "nonDecisive": false
@@ -414022,35 +414024,35 @@
    "A2": {
     "A0": {
      "S0": {
-      "n": 264,
-      "nDays": 95,
-      "slope": 1.0295,
+      "n": 269,
+      "nDays": 99,
+      "slope": 1.3143,
       "dayCi95": [
-       -0.0344,
-       2.1869
+       0.1865,
+       2.5612
       ],
       "weekCi95": [
-       -0.1072,
-       2.1404
+       0.0515,
+       2.824
       ],
-      "dayIncludesZero": true,
+      "dayIncludesZero": false,
       "releasedCi95Crt": [
-       -0.0897,
-       2.1487
+       0.1437,
+       2.4848
       ],
       "nonDecisive": false
      },
      "S1": {
-      "n": 264,
-      "nDays": 95,
-      "slope": 0.7423,
+      "n": 269,
+      "nDays": 99,
+      "slope": 1.1333,
       "dayCi95": [
-       -0.3667,
-       1.938
+       -0.0231,
+       2.4651
       ],
       "weekCi95": [
-       -0.3243,
-       1.7738
+       -0.0363,
+       2.7301
       ],
       "dayIncludesZero": true,
       "nonDecisive": false
@@ -414058,35 +414060,35 @@
     },
     "variant": {
      "S0": {
-      "n": 264,
-      "nDays": 95,
-      "slope": 0.8979,
+      "n": 269,
+      "nDays": 99,
+      "slope": 1.1832,
       "dayCi95": [
-       -0.1901,
-       2.0533
+       0.0539,
+       2.3963
       ],
       "weekCi95": [
-       -0.299,
-       2.0638
+       -0.1301,
+       2.7054
       ],
-      "dayIncludesZero": true,
+      "dayIncludesZero": false,
       "releasedCi95Crt": [
-       -0.239,
-       2.0348
+       -0.0008,
+       2.3672
       ],
       "nonDecisive": false
      },
      "S1": {
-      "n": 264,
-      "nDays": 95,
-      "slope": 0.6215,
+      "n": 269,
+      "nDays": 99,
+      "slope": 1.0088,
       "dayCi95": [
-       -0.5014,
-       1.8451
+       -0.1614,
+       2.3307
       ],
       "weekCi95": [
-       -0.4979,
-       1.7215
+       -0.2021,
+       2.6532
       ],
       "dayIncludesZero": true,
       "nonDecisive": false
@@ -414096,35 +414098,35 @@
    "A3": {
     "A0": {
      "S0": {
-      "n": 274,
-      "nDays": 98,
-      "slope": 0.886,
+      "n": 279,
+      "nDays": 102,
+      "slope": 1.1968,
       "dayCi95": [
-       -0.1554,
-       1.9954
+       0.1224,
+       2.3531
       ],
       "weekCi95": [
-       -0.2643,
-       1.9191
+       0.0686,
+       2.5148
       ],
-      "dayIncludesZero": true,
+      "dayIncludesZero": false,
       "releasedCi95Crt": [
-       -0.1798,
-       1.9518
+       0.0843,
+       2.3093
       ],
       "nonDecisive": false
      },
      "S1": {
-      "n": 274,
-      "nDays": 98,
-      "slope": 0.6564,
+      "n": 279,
+      "nDays": 102,
+      "slope": 1.0862,
       "dayCi95": [
-       -0.4262,
-       1.8374
+       -0.1012,
+       2.4163
       ],
       "weekCi95": [
-       -0.399,
-       1.6518
+       -0.0465,
+       2.6625
       ],
       "dayIncludesZero": true,
       "nonDecisive": false
@@ -414132,35 +414134,35 @@
     },
     "variant": {
      "S0": {
-      "n": 274,
-      "nDays": 98,
-      "slope": 0.887,
+      "n": 279,
+      "nDays": 102,
+      "slope": 1.1996,
       "dayCi95": [
-       -0.1546,
-       1.9954
+       0.1225,
+       2.3566
       ],
       "weekCi95": [
-       -0.2641,
-       1.92
+       0.0689,
+       2.5214
       ],
-      "dayIncludesZero": true,
+      "dayIncludesZero": false,
       "releasedCi95Crt": [
-       -0.1789,
-       1.9529
+       0.0862,
+       2.313
       ],
       "nonDecisive": false
      },
      "S1": {
-      "n": 274,
-      "nDays": 98,
-      "slope": 0.6572,
+      "n": 279,
+      "nDays": 102,
+      "slope": 1.0904,
       "dayCi95": [
-       -0.4262,
-       1.8379
+       -0.0986,
+       2.4278
       ],
       "weekCi95": [
-       -0.3979,
-       1.6541
+       -0.0399,
+       2.6703
       ],
       "dayIncludesZero": true,
       "nonDecisive": false
@@ -414170,35 +414172,35 @@
    "A4": {
     "A0": {
      "S0": {
-      "n": 239,
-      "nDays": 86,
-      "slope": 0.7364,
+      "n": 244,
+      "nDays": 90,
+      "slope": 1.056,
       "dayCi95": [
-       -0.2279,
-       1.7111
+       0.0393,
+       2.1838
       ],
       "weekCi95": [
-       -0.4382,
-       1.7439
+       -0.2206,
+       2.6689
       ],
-      "dayIncludesZero": true,
+      "dayIncludesZero": false,
       "releasedCi95Crt": [
-       -0.2134,
-       1.6862
+       -0.019,
+       2.131
       ],
       "nonDecisive": false
      },
      "S1": {
-      "n": 239,
-      "nDays": 86,
-      "slope": 0.549,
+      "n": 244,
+      "nDays": 90,
+      "slope": 0.8886,
       "dayCi95": [
-       -0.3935,
-       1.5392
+       -0.1198,
+       2.0716
       ],
       "weekCi95": [
-       -0.5901,
-       1.5468
+       -0.3476,
+       2.5166
       ],
       "dayIncludesZero": true,
       "nonDecisive": false
@@ -414206,35 +414208,35 @@
     },
     "variant": {
      "S0": {
-      "n": 239,
-      "nDays": 86,
-      "slope": 1.8767,
+      "n": 244,
+      "nDays": 90,
+      "slope": 2.122,
       "dayCi95": [
-       0.3153,
-       3.5853
+       0.5263,
+       3.904
       ],
       "weekCi95": [
-       0.1989,
-       3.9265
+       0.3692,
+       4.5478
       ],
       "dayIncludesZero": false,
       "releasedCi95Crt": [
-       0.2223,
-       3.5311
+       0.439,
+       3.8051
       ],
       "nonDecisive": false
      },
      "S1": {
-      "n": 239,
-      "nDays": 86,
-      "slope": 0.8036,
+      "n": 244,
+      "nDays": 90,
+      "slope": 1.1525,
       "dayCi95": [
-       -0.6106,
-       2.5456
+       -0.282,
+       2.8293
       ],
       "weekCi95": [
-       -0.6995,
-       2.3767
+       -0.3045,
+       3.1792
       ],
       "dayIncludesZero": true,
       "nonDecisive": false
@@ -414242,39 +414244,207 @@
     }
    }
   },
+  "rev2VsRev3": {
+   "rows": {
+    "S0/A1": {
+     "rev2": {
+      "label": "reading depends on the alignment rule",
+      "pairedReading": "includes zero -> excludes zero",
+      "ownReading": "includes zero -> excludes zero",
+      "lowPrecision": false,
+      "pairedN": 271,
+      "pairedSignFlip": false
+     },
+     "rev3": {
+      "label": "reading unchanged",
+      "pairedReading": "unchanged",
+      "ownReading": "unchanged",
+      "lowPrecision": false,
+      "pairedN": 276,
+      "pairedSignFlip": false
+     },
+     "labelOrReadingChanged": true
+    },
+    "S0/A2": {
+     "rev2": {
+      "label": "reading unchanged",
+      "pairedReading": "unchanged",
+      "ownReading": "unchanged",
+      "lowPrecision": false,
+      "pairedN": 264,
+      "pairedSignFlip": false
+     },
+     "rev3": {
+      "label": "reading unchanged",
+      "pairedReading": "unchanged",
+      "ownReading": "unchanged",
+      "lowPrecision": false,
+      "pairedN": 269,
+      "pairedSignFlip": false
+     },
+     "labelOrReadingChanged": false
+    },
+    "S0/A3": {
+     "rev2": {
+      "label": "reading unchanged",
+      "pairedReading": "unchanged",
+      "ownReading": "unchanged",
+      "lowPrecision": false,
+      "pairedN": 274,
+      "pairedSignFlip": false
+     },
+     "rev3": {
+      "label": "reading unchanged",
+      "pairedReading": "unchanged",
+      "ownReading": "unchanged",
+      "lowPrecision": false,
+      "pairedN": 279,
+      "pairedSignFlip": false
+     },
+     "labelOrReadingChanged": false
+    },
+    "S0/A4": {
+     "rev2": {
+      "label": "reading depends on the alignment rule; lower precision",
+      "pairedReading": "includes zero -> excludes zero",
+      "ownReading": "includes zero -> excludes zero",
+      "lowPrecision": true,
+      "pairedN": 239,
+      "pairedSignFlip": false
+     },
+     "rev3": {
+      "label": "reading unchanged",
+      "pairedReading": "unchanged",
+      "ownReading": "unchanged",
+      "lowPrecision": true,
+      "pairedN": 244,
+      "pairedSignFlip": false
+     },
+     "labelOrReadingChanged": true
+    },
+    "S0/overall": {
+     "rev2": "reading depends on the alignment rule",
+     "rev3": "reading unchanged across the five pre-registered alignment rules",
+     "labelOrReadingChanged": true
+    },
+    "S1/A1": {
+     "rev2": {
+      "label": "reading unchanged",
+      "pairedReading": "unchanged",
+      "ownReading": "unchanged",
+      "lowPrecision": false,
+      "pairedN": 271,
+      "pairedSignFlip": false
+     },
+     "rev3": {
+      "label": "reading unchanged",
+      "pairedReading": "unchanged",
+      "ownReading": "unchanged",
+      "lowPrecision": false,
+      "pairedN": 276,
+      "pairedSignFlip": false
+     },
+     "labelOrReadingChanged": false
+    },
+    "S1/A2": {
+     "rev2": {
+      "label": "reading unchanged",
+      "pairedReading": "unchanged",
+      "ownReading": "unchanged",
+      "lowPrecision": false,
+      "pairedN": 264,
+      "pairedSignFlip": false
+     },
+     "rev3": {
+      "label": "reading unchanged",
+      "pairedReading": "unchanged",
+      "ownReading": "unchanged",
+      "lowPrecision": false,
+      "pairedN": 269,
+      "pairedSignFlip": false
+     },
+     "labelOrReadingChanged": false
+    },
+    "S1/A3": {
+     "rev2": {
+      "label": "reading unchanged",
+      "pairedReading": "unchanged",
+      "ownReading": "unchanged",
+      "lowPrecision": false,
+      "pairedN": 274,
+      "pairedSignFlip": false
+     },
+     "rev3": {
+      "label": "reading unchanged",
+      "pairedReading": "unchanged",
+      "ownReading": "unchanged",
+      "lowPrecision": false,
+      "pairedN": 279,
+      "pairedSignFlip": false
+     },
+     "labelOrReadingChanged": false
+    },
+    "S1/A4": {
+     "rev2": {
+      "label": "reading unchanged",
+      "pairedReading": "unchanged",
+      "ownReading": "unchanged",
+      "lowPrecision": true,
+      "pairedN": 239,
+      "pairedSignFlip": false
+     },
+     "rev3": {
+      "label": "reading unchanged",
+      "pairedReading": "unchanged",
+      "ownReading": "unchanged",
+      "lowPrecision": false,
+      "pairedN": 244,
+      "pairedSignFlip": false
+     },
+     "labelOrReadingChanged": true
+    },
+    "S1/overall": {
+     "rev2": "reading unchanged across the five pre-registered alignment rules",
+     "rev3": "reading unchanged across the five pre-registered alignment rules",
+     "labelOrReadingChanged": false
+    }
+   },
+   "nChanged": 4,
+   "note": "differences come from corpus growth (606 -> 632 drives), not from the alignment rule; no inferential contrast"
+  },
   "proxyShiftVsA0": {
    "A1": {
-    "nBoth": 271,
+    "nBoth": 276,
     "nGain": 0,
     "nLost": 3,
-    "median": -1.39,
-    "q25": -2.215,
-    "q75": -0.61,
+    "median": -1.4,
+    "q25": -2.195,
+    "q75": -0.632,
     "medianDayCi95": [
      -1.66,
      -1.19
     ],
     "byRegime": {
      "fast": {
-      "n": 107,
-      "median": -0.54,
+      "n": 110,
+      "median": -0.575,
       "medianDayCi95": [
        -0.75,
-       -0.46
+       -0.47
       ]
      },
      "slow": {
-      "n": 164,
-      "median": -1.93,
+      "n": 166,
+      "median": -1.92,
       "medianDayCi95": [
        -2.06,
-       -1.79
+       -1.785
       ]
      }
     }
    },
    "A2": {
-    "nBoth": 264,
+    "nBoth": 269,
     "nGain": 1,
     "nLost": 10,
     "median": 0.0,
@@ -414286,7 +414456,7 @@
     ],
     "byRegime": {
      "fast": {
-      "n": 107,
+      "n": 110,
       "median": 0.0,
       "medianDayCi95": [
        0.0,
@@ -414294,17 +414464,17 @@
       ]
      },
      "slow": {
-      "n": 157,
-      "median": 0.0,
+      "n": 159,
+      "median": -0.01,
       "medianDayCi95": [
-       -0.06,
-       0.065
+       -0.07,
+       0.06
       ]
      }
     }
    },
    "A3": {
-    "nBoth": 274,
+    "nBoth": 279,
     "nGain": 0,
     "nLost": 0,
     "median": 0.0,
@@ -414316,7 +414486,7 @@
     ],
     "byRegime": {
      "fast": {
-      "n": 107,
+      "n": 110,
       "median": 0.0,
       "medianDayCi95": [
        0.0,
@@ -414324,7 +414494,7 @@
       ]
      },
      "slow": {
-      "n": 167,
+      "n": 169,
       "median": 0.0,
       "medianDayCi95": [
        0.0,
@@ -414334,31 +414504,31 @@
     }
    },
    "A4": {
-    "nBoth": 239,
+    "nBoth": 244,
     "nGain": 0,
     "nLost": 35,
-    "median": -6.25,
-    "q25": -12.665,
-    "q75": -2.29,
+    "median": -6.255,
+    "q25": -12.662,
+    "q75": -2.26,
     "medianDayCi95": [
-     -8.23,
-     -4.609
+     -8.225,
+     -4.61
     ],
     "byRegime": {
      "fast": {
-      "n": 103,
-      "median": -2.31,
+      "n": 106,
+      "median": -2.29,
       "medianDayCi95": [
-       -3.29,
+       -3.22,
        -1.87
       ]
      },
      "slow": {
-      "n": 136,
-      "median": -11.37,
+      "n": 138,
+      "median": -11.405,
       "medianDayCi95": [
-       -12.425,
-       -9.335
+       -12.36,
+       -9.38
       ]
      }
     }
@@ -414367,21 +414537,21 @@
   "verdicts": {
    "S0": {
     "A1": {
-     "pairedN": 271,
-     "pairedSlopeA0": 0.8878,
-     "pairedSlopeVariant": 1.2021,
-     "pairedWidthRatio": 1.011,
+     "pairedN": 276,
+     "pairedSlopeA0": 1.1959,
+     "pairedSlopeVariant": 1.5078,
+     "pairedWidthRatio": 1.023,
      "pairedSignFlip": false,
      "lowPrecision": false,
-     "pairedReading": "includes zero -> excludes zero",
-     "ownReading": "includes zero -> excludes zero",
-     "label": "reading depends on the alignment rule"
+     "pairedReading": "unchanged",
+     "ownReading": "unchanged",
+     "label": "reading unchanged"
     },
     "A2": {
-     "pairedN": 264,
-     "pairedSlopeA0": 1.0295,
-     "pairedSlopeVariant": 0.8979,
-     "pairedWidthRatio": 1.01,
+     "pairedN": 269,
+     "pairedSlopeA0": 1.3143,
+     "pairedSlopeVariant": 1.1832,
+     "pairedWidthRatio": 0.986,
      "pairedSignFlip": false,
      "lowPrecision": false,
      "pairedReading": "unchanged",
@@ -414389,10 +414559,10 @@
      "label": "reading unchanged"
     },
     "A3": {
-     "pairedN": 274,
-     "pairedSlopeA0": 0.886,
-     "pairedSlopeVariant": 0.887,
-     "pairedWidthRatio": 1.0,
+     "pairedN": 279,
+     "pairedSlopeA0": 1.1968,
+     "pairedSlopeVariant": 1.1996,
+     "pairedWidthRatio": 1.002,
      "pairedSignFlip": false,
      "lowPrecision": false,
      "pairedReading": "unchanged",
@@ -414400,24 +414570,24 @@
      "label": "reading unchanged"
     },
     "A4": {
-     "pairedN": 239,
-     "pairedSlopeA0": 0.7364,
-     "pairedSlopeVariant": 1.8767,
-     "pairedWidthRatio": 1.686,
+     "pairedN": 244,
+     "pairedSlopeA0": 1.056,
+     "pairedSlopeVariant": 2.122,
+     "pairedWidthRatio": 1.575,
      "pairedSignFlip": false,
      "lowPrecision": true,
-     "pairedReading": "includes zero -> excludes zero",
-     "ownReading": "includes zero -> excludes zero",
-     "label": "reading depends on the alignment rule; lower precision"
+     "pairedReading": "unchanged",
+     "ownReading": "unchanged",
+     "label": "reading unchanged"
     },
-    "overall": "reading depends on the alignment rule"
+    "overall": "reading unchanged across the five pre-registered alignment rules"
    },
    "S1": {
     "A1": {
-     "pairedN": 271,
-     "pairedSlopeA0": 0.6453,
-     "pairedSlopeVariant": 0.737,
-     "pairedWidthRatio": 0.996,
+     "pairedN": 276,
+     "pairedSlopeA0": 1.0686,
+     "pairedSlopeVariant": 1.171,
+     "pairedWidthRatio": 1.019,
      "pairedSignFlip": false,
      "lowPrecision": false,
      "pairedReading": "unchanged",
@@ -414425,10 +414595,10 @@
      "label": "reading unchanged"
     },
     "A2": {
-     "pairedN": 264,
-     "pairedSlopeA0": 0.7423,
-     "pairedSlopeVariant": 0.6215,
-     "pairedWidthRatio": 1.018,
+     "pairedN": 269,
+     "pairedSlopeA0": 1.1333,
+     "pairedSlopeVariant": 1.0088,
+     "pairedWidthRatio": 1.002,
      "pairedSignFlip": false,
      "lowPrecision": false,
      "pairedReading": "unchanged",
@@ -414436,10 +414606,10 @@
      "label": "reading unchanged"
     },
     "A3": {
-     "pairedN": 274,
-     "pairedSlopeA0": 0.6564,
-     "pairedSlopeVariant": 0.6572,
-     "pairedWidthRatio": 1.0,
+     "pairedN": 279,
+     "pairedSlopeA0": 1.0862,
+     "pairedSlopeVariant": 1.0904,
+     "pairedWidthRatio": 1.004,
      "pairedSignFlip": false,
      "lowPrecision": false,
      "pairedReading": "unchanged",
@@ -414447,12 +414617,12 @@
      "label": "reading unchanged"
     },
     "A4": {
-     "pairedN": 239,
-     "pairedSlopeA0": 0.549,
-     "pairedSlopeVariant": 0.8036,
-     "pairedWidthRatio": 1.633,
+     "pairedN": 244,
+     "pairedSlopeA0": 0.8886,
+     "pairedSlopeVariant": 1.1525,
+     "pairedWidthRatio": 1.42,
      "pairedSignFlip": false,
-     "lowPrecision": true,
+     "lowPrecision": false,
      "pairedReading": "unchanged",
      "ownReading": "unchanged",
      "label": "reading unchanged"
@@ -414462,43 +414632,43 @@
   },
   "asofStats": {
    "tiedTimestamps": 0,
-   "socRowsPaired": 667093,
-   "socRowsChanged": 191191
+   "socRowsPaired": 683858,
+   "socRowsChanged": 194559
   },
   "a2BoundaryNote": "A2 uses an inclusive 300 ms tolerance on integer-millisecond timestamps (merge_asof tolerance=300ms); a strict float boundary would drop a few more pairs (stated as a deviation of the spec, which did not name the boundary)",
   "postHoc": {
    "label": "post-hoc blind-audit decomposition, not pre-registered, not in the verdict: A1V = voltage interpolated onto the current timestamps, SoC kept on the production nearest pairing",
    "A1V_own": {
     "S0": {
-     "n": 271,
-     "nDays": 98,
-     "slope": 1.0934,
+     "n": 276,
+     "nDays": 102,
+     "slope": 1.4064,
      "dayCi95": [
-      0.0183,
-      2.2441
+      0.32,
+      2.6176
      ],
      "weekCi95": [
-      -0.0653,
-      2.1586
+      0.2575,
+      2.7961
      ],
      "dayIncludesZero": false,
      "releasedCi95Crt": [
-      -0.0153,
-      2.202
+      0.248,
+      2.5647
      ],
      "nonDecisive": false
     },
     "S1": {
-     "n": 271,
-     "nDays": 98,
-     "slope": 0.7008,
+     "n": 276,
+     "nDays": 102,
+     "slope": 1.1396,
      "dayCi95": [
-      -0.3969,
-      1.8857
+      -0.0953,
+      2.4856
      ],
      "weekCi95": [
-      -0.3806,
-      1.6743
+      -0.005,
+      2.7582
      ],
      "dayIncludesZero": true,
      "nonDecisive": false
