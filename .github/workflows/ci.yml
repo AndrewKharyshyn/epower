@@ -33,7 +33,12 @@ jobs:
         run: |
           # M563: the list is split round-robin by line over 3 parallel shards; add a new test as one line in the list, nothing else to change.
           cat > ci_python_tests.txt <<'LIST'
-          for t in test_seasonal_adjust test_seasonal test_assumptions_registry test_track4 test_cohort_rates test_post_step_idempotent; do python $t.py; done
+          python test_seasonal_adjust.py
+          python test_seasonal.py
+          python test_assumptions_registry.py
+          python test_track4.py
+          python test_cohort_rates.py
+          python test_post_step_idempotent.py
           python tests/synthetic/test_estimator_gate.py
           python tests/synthetic/test_m296_parity_additive.py
           python tests/synthetic/test_regen_v2_study_locks.py
@@ -173,6 +178,9 @@ jobs:
           python tests/synthetic/test_capacity_tests.py
           python tests/synthetic/test_dependence_sensitivity.py
           python tests/synthetic/test_m406_wording.py
+          python tests/synthetic/test_ci_list_failfast.py
+          python tests/synthetic/test_m594_wording_bindings.py
+          python tests/synthetic/test_m594_zero_support_mean.py
           python tests/synthetic/test_m408_wording.py
           python tests/synthetic/test_serial_dependence.py
           python tests/synthetic/test_thermal_support_ledger.py

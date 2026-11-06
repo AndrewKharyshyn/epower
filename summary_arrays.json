@@ -170757,7 +170757,7 @@
   ]
  },
  "loggerCadence": {
-  "rule": "regime = fast if I_sample_period_s < 1.10 s, slow if >= 1.10 s, null if missing; I_sample_period_s = median update interval of the HV-current PID per drive (master column); the distribution is bimodal with an empty gap [1.1, 1.1) s that is asserted at every run",
+  "rule": "regime = fast if I_sample_period_s < 1.10 s, slow if >= 1.10 s, null if missing; I_sample_period_s = median update interval of the HV-current PID per drive (master column); the distribution is bimodal with an empty gap [1.06, 1.135) s that is asserted at every run",
   "thresholdS": 1.1,
   "gapS": [
    1.06,

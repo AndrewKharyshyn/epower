@@ -184,8 +184,8 @@ if _tt:
         if _mode == "all" and _tt.get("startStrata"):            # M438: the class statements of the strata name the class (tables / script-written statements only)
             _exp_dep += sum(s_["classStatement"].count("depends on the censoring assumption") for c_ in _tt["startStrata"]["cells"].values() for s_ in c_["strata"])
         ok("A2 REQUIRED M435 %s: %d Kaplan-Meier tables; R1, R2 and R6 each appear once per table, R4 once per table plus the header" % (_mode, _n),
-           _n >= 1 and _d.count(_Rq["R1"]) == _n and _d.count(_Rq["R2"]) == _n and _d.count(_Rq["R6"]) == _n and _d.count(_Rq["R4"]) == _n + 1 and _d.count("Kaplan-Meier (product-limit) estimate of the time to") == _n,
-           "%s %s %s %s" % (_d.count(_Rq["R1"]), _d.count(_Rq["R2"]), _d.count(_Rq["R6"]), _d.count(_Rq["R4"])))
+           _n >= 1 and _d.count(_Rq["R1"]) == _n and len(re.findall(re.escape(_Rq["R2"]).replace(re.escape("c C"), r"\d+ °C"), _d)) == _n and _d.count(_Rq["R6"]) == _n and _d.count(_Rq["R4"]) == _n + 1 and _d.count("Kaplan-Meier (product-limit) estimate of the time to") == _n,
+           "%s %s %s %s" % (_d.count(_Rq["R1"]), len(re.findall(re.escape(_Rq["R2"]).replace(re.escape("c C"), r"\d+ °C"), _d)), _d.count(_Rq["R6"]), _d.count(_Rq["R4"])))
         ok("A2 REQUIRED M435 %s: the class 'depends on the censoring assumption' appears exactly as many times as the payload rows with that class (tables only)" % _mode, _d.count("depends on the censoring assumption") == _exp_dep, "%d vs %d" % (_d.count("depends on the censoring assumption"), _exp_dep))
         ok("A2 REQUIRED M435 %s: every supported horizon prints its observed share, Kaplan-Meier estimate and worst-case bounds equal to the payload" % _mode,
            all(("%.3f" % h_["E1"]["point"]) in _d and ("%.3f" % h_["E2"]["point"]) in _d and ("%.3f" % h_["bounds"]["high"]["point"]) in _d for _, _, c_ in _cells for h_ in c_["horizons"] if h_["supported"]))
@@ -983,8 +983,8 @@ ok("A2 REQUIRED M364 badge audit: only the three non-thesis Measured badges (AFR
 # M363 (D-13 remainder + engine-cycling section text)
 _esr = json.load(open("summary_arrays.json", encoding="utf-8"))
 _det = _esr["engineStartRate"]["detector"]
-_intro = "RPM above %s = ON; runs shorter than %s s filtered; short sensor gaps (up to %s s) carried forward" % (_det["rpmThreshold"], _det["minRunS"], _det["ffillLimitS"])
-ok("A2 REQUIRED M363 section E intro: detector parameters bound to engineStartRate.detector, descriptive-only wording, speed-zone view wording", any(all(x in t for x in (_intro, "labelled engine starts; not verified ignition or cold-start events", "descriptive only; no wear or mechanism inference", "speed and drive class are confounded, no attribution")) for k, t in T.items() if k.startswith("charts__") and k.endswith("__all")))
+_intro = "Engine speed above %s rpm counts as ON. Runs shorter than %s s are filtered out, and short sensor gaps (up to %s s) are filled with the last reading" % (_det["rpmThreshold"], _det["minRunS"], _det["ffillLimitS"])
+ok("A2 REQUIRED M363 section E intro: detector parameters bound to engineStartRate.detector, descriptive-only wording, speed-zone view wording", any(all(x in t for x in (_intro, "It is not a verified ignition or cold-start event", "The charts are descriptive, so no wear or mechanism is inferred", "so the difference between zones cannot be attributed to either one")) for k, t in T.items() if k.startswith("charts__") and k.endswith("__all")))
 ok("A2 REQUIRED M363 By Speed and ON Duration captions: observed association, controller logic not observed, no purpose inferred", any(all(x in t for x in ("the controller logic is not observed here", "with no mechanism or purpose inferred", "detector-defined ON runs")) for k, t in T.items() if k.startswith("charts__") and k.endswith("__all")))
 ok("A2 REQUIRED M363 reversal metric titled as direction reversals, not engine starts (Highway vs City and Compare dumps) and the payload leaves agree", any("Pack-current direction reversals (not an engine-start count)" in t for k, t in T.items() if k.startswith("highway_vs_city__")) and _esr["comparisonCube"]["metrics"]["starts_100km"]["label"] == "Pack-current direction reversals (not an engine-start count)" and "Urban hi" not in _esr["engineStartRate"]["publishedEngineStartsByType"]["note"])
 # M361 (intake-air channel availability, bound to meta.intakeAir)
@@ -1010,7 +1010,7 @@ _excess = _pcs(_zc["nodeExcess"]["relToGenerator"])
 for _m in ("all", "warm", "shoulder", "compare"):
     _t = T.get("fuel__" + _m, "")
     ok(f"A2 REQUIRED M360 Fuel {_m} dump: Sankey note (reconstructed not measured; node not closed with residual {_excess}; residual not distributed; f_gen includes 0.5; F03) and no reveal-button wording",
-       all(x in _t for x in ("Reconstructed (model-derived) flows, not measured", "The generator node is not closed: residual " + _excess, "the residual is shown as a hatched branch and is not distributed", "includes 0.5: neither a battery majority nor a generator majority is established", "raw/ = sha256-verified originals (M366)", "unallocated residual", "canonical-clean (ens_outlier_v2 excluded", "rest on slightly different drive sets")) and "Show allocation sketch" not in _t)
+       all(x in _t for x in ("Reconstructed (model-derived) flows, not measured", "The generator node is not closed: residual " + _excess, "is drawn as a hatched branch and is not distributed", "includes 0.5: neither a battery majority nor a generator majority is established", "raw/ = sha256-verified originals (M366)", "unallocated residual", "canonical-clean (ens_outlier_v2 excluded", "rest on slightly different drive sets")) and "Show allocation sketch" not in _t)
 # M359 (B-HandoffSequence): marginal medians are not one realised sequence; resolution band; counts bound to the payload
 _hs = json.load(open("summary_arrays.json", encoding="utf-8"))["handoffSequence"]
 _o = _hs["modalOrderings"]
@@ -1042,7 +1042,7 @@ ok("A2 REQUIRED car-age sentence is bound to the registration date and the as-of
 # W5a (M330)
 ok("A2 REQUIRED ambient-axis gap described as drives that do not enter the ambient rows", any("drives that do not enter the ambient rows" in t for t in T.values()))
 # W6a (M331)
-ok("A2 REQUIRED SoC-pattern section states the extractor is absent / panels illustrative", any("extractor script is not in this repository" in t for t in T.values()))
+ok("A2 REQUIRED SoC-pattern section states the extractor is absent / panels illustrative", any("script that produced the panels is not in the repository" in t for t in T.values()))
 # W1a (M332)
 ok("A2 REQUIRED f_gen stated as a model-derived allocation index", any("f_gen is a model-derived allocation index" in t for t in T.values()))
 ok("A2 REQUIRED section titles 'Net pack-energy recovery' and 'Observed engine-start contexts'",
@@ -1059,7 +1059,7 @@ def _keep(v, d, thr):   # M368 (R2): mirror of fmtKeep in xtrail_summary.jsx - f
 _z = (A.get("generatorTractionRecon") or {}).get("gtrClosure") or {}
 _fa = T.get("fuel__all", "").replace("  ", " ")
 ok("A2 REQUIRED M336 closure block wording (consistent within the dual bracket; not closed; CI straddles 0.5; residual; provenance)",
-   all(x in _fa for x in ["consistent within the dual bracket; not closed under the pre-registered", "straddles 0.5", "Battery → traction is a model residual", "raw/ = sha256-verified originals (M366)", "bounding cases, not calibrated intervals"]))
+   all(x in _fa for x in ["consistent within the dual bracket, but not closed under the pre-registered", "straddles 0.5", "Battery → traction is a model residual", "raw/ = sha256-verified originals (M366)", "bounding cases, not calibrated intervals"]))
 ok("A2 REQUIRED M336 closure block numbers equal the payload",
    bool(_z) and f"{_keep(_z['fGen']['est'], 2, 0.5)} ({_keep(_z['fGen']['ci95'][0], 2, 0.5)} to {_keep(_z['fGen']['ci95'][1], 2, 0.5)})" in _fa and f"{_z['scope']['nDrives']} of {_z['scope']['nCanonical']} drives" in _fa)
 # M337: Fuel analytics v1 wording and payload-bound numbers (Fuel All dump)
@@ -1069,7 +1069,7 @@ ok("A2 REQUIRED M337 FUEL-12 wording (consistency check, dt-cap dependence, same
    all(x in _fxd for x in ["internal consistency check of two logged/app-calculated series", "not a bias estimate", "Agreement does not establish independence or external accuracy (same app)",
                            "arbitrary margin fixed in advance", "raw/ = sha256-verified originals (M366)", "Not M299-reproducible"]))
 ok("A2 REQUIRED M337 FUEL-01/11 wording (descriptive, SoC not corrected, confounded, trip mix not a consumption trend)",
-   all(x in _fxd for x in ["no cause is attributed to the pattern", "Rates are not corrected for the SoC change", "short-trip bands may be biased upward",
+   all(x in _fxd for x in ["no cause is attributed to the pattern", "not corrected for the change in battery charge", "short-trip bands may be biased upward",
                            "not a consumption trend", "no trend test and no seasonal reading"]))
 if _fx:
     _a = _fx["fuel12"]["aggregate"]
@@ -1084,12 +1084,12 @@ _fw = A.get("fuelWarmup") or {}
 ok("A2 REQUIRED M339 FUEL-03 wording (temporal states, not allocations, same-bin thresholds, dwell definition, hash split not paired, speed/SoC/rpm cell-identical to the originals before M366, HV rounding of the former re-exports stated)",
    all(x in _fxd for x in ["temporal states of the logged fuel rate", "not exclusive fuel-source allocations", "thresholds of 0.5 and 1 km/h are the same bin", "dwell: a stationary run is stationary only if", "not a paired test", "cell-identical to the sha256-verified originals", "HV current and voltage in the former raw/ copies were rounded", "do not depend on the re-export rounding", "all trips are now on the sha256-verified originals", "a temporal state of the logged rate, not an allocation of fuel to the battery"]))
 ok("A2 REQUIRED M339 FUEL-02 wording (associations, pointwise CI, no zero-filled continuation, confounding, method disagreement, left-censoring)",
-   all(x in _fxd for x in ["They are associations", "pointwise 95% CI", "no zero-filled continuation", "confounded with trip length, season, speed profile and the unlogged time since the previous drive", "method disagreement of 0.1 L/100 km", "left-censored"]))
+   all(x in _fxd for x in ["The lines are associations", "pointwise 95% CI", "no zero-filled continuation", "confounded with trip length, season, speed profile and the unlogged time since the previous drive", "method disagreement of 0.1 L/100 km", "left-censored"]))
 if _fs and _fw:
     _g = _fs["groups"]["all"]
     ok("A2 REQUIRED M339 numbers equal the payload (overall stationary share and CI, trips/days, left-censored count)",
        f"{_g['nTrips']} · {_g['nDays']}" in _fxd and f"{_g['stationaryShare']['est']*100:.2f}% ({_g['stationaryShare']['ci95'][0]*100:.2f}%" in _fxd
-       and f"{_fw['excluded']['leftCensored']} trips whose engine was already running" in _fxd)
+       and f"{_fw['excluded']['leftCensored']} trips already had the engine running" in _fxd)
 # M342 (Cs-41): the engine-off (EV) traction text states that engine-off movement does not identify the energy source
 ok("A2 REQUIRED engine-off traction text says engine-off movement does not identify the energy origin", any("Engine-off movement does not identify the energy’s origin" in t for t in T.values()))
 # M343: engine-start rate (RPM onsets) wording and payload-bound numbers (Distribution/Charts tab dumps)
@@ -1110,7 +1110,7 @@ ok("A2 REQUIRED engine-off buffer-limit text says usable energy and window budge
 # M334: Fuel tab banner and scenario wording present in every mode dump
 for _m in ("all", "warm", "shoulder", "compare"):
     ok(f"A2 REQUIRED Fuel basis banner and SoC-balanced scenario wording in the Fuel {_m} dump",
-       "Fuel basis and coverage" in T.get(f"fuel__{_m}", "") and "SoC-balanced scenario" in T.get(f"fuel__{_m}", ""))
+       "What the fuel data are" in T.get(f"fuel__{_m}", "") and "SoC-balanced scenario" in T.get(f"fuel__{_m}", ""))
 ok("A2 REQUIRED fuelContract numbers in the banner equal the payload", all(x in T.get("fuel__all", "").replace("  ", " ") for x in
    [f"present in {A['fuelContract']['coverage']['rate']['columnPresent']} of {A['fuelContract']['coverage']['nCanonical']} canonical files", f"({A['fuelContract']['lhvRatioDefinition']} = {A['fuelContract']['lhvRatio']:g})"]))
 ok("A2 REQUIRED selector label reads 'Thermal cohort'", any("Thermal cohort" in t for t in T.values()))

@@ -97,7 +97,7 @@ def channel_stats(series):
     """series: list of (t_s, value) valid pairs, time-ordered. Returns
     start/time_mean/max/coverage."""
     if not series:
-        return {"start": None, "time_mean": None, "max": None,
+        return {"start": None, "time_mean": None, "start_only": False, "max": None,
                 "n_valid": 0, "covered_s": 0.0}
     t0 = series[0][0]
     window = [v for (t, v) in series if t - t0 <= START_WINDOW_S]
@@ -110,8 +110,10 @@ def channel_stats(series):
             continue
         num += ((va + vb) / 2.0) * dt
         den += dt
-    time_mean = (num / den) if den > 0 else statistics.fmean(v for _, v in series)
-    return {"start": round(start, 3), "time_mean": round(time_mean, 3),
+    # M594 (audit D3): no qualifying elapsed interval (den == 0) means NO time mean; a sample mean is not a time mean. An isolated reading is a start-only
+    # sample: keep start and sample max distinct and flag it (start_only), never carry it as a time mean.
+    time_mean = (num / den) if den > 0 else None
+    return {"start": round(start, 3), "time_mean": (round(time_mean, 3) if time_mean is not None else None), "start_only": bool(den <= 0),
             "max": round(max(v for _, v in series), 3),
             "n_valid": len(series), "covered_s": round(den, 1)}
 
@@ -183,6 +185,7 @@ def process_file(path, hold_s=10.0):
                    "motor": "motor_temp"}[c]
             out[f"{pfx}_start_c"] = st["start"]
             out[f"{pfx}_time_mean_c"] = st["time_mean"]
+            out[f"{pfx}_start_only"] = (1 if st.get("start_only") and st["n_valid"] else 0)
             out[f"{pfx}_max_c"] = st["max"]
             out[f"{pfx}_cov_pct"] = (round(100 * st["covered_s"] / dur, 1)
                                      if dur > 0 and st["n_valid"] else None)
