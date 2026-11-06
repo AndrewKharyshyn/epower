@@ -28,7 +28,8 @@ OFFSETS_MS = (50.0, 25.0, 100.0)          # primary first
 EPISODE_BREAK_S, EPISODE_K = 10.0, 5
 MIN_DRIVES, MIN_DAYS, DETECT_MIN, HALF = 100, 40, 0.8, 0.5
 CUTOFFS = ("2026-07-31", "2026-08-31", "2026-09-30")
-FAST_S = 1.05
+import regime_reader as _RR      # M585: the single source of the fast / slow rule
+FAST_S = _RR.THRESHOLD_S
 
 
 # ------------------------------------------------------------------------------------------------ the fixed-n statistic

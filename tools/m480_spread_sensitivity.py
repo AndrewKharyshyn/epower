@@ -24,7 +24,8 @@ YCOL, TCOL, ICOL = "cell_spread_loaded_p95_mv", "T_pack_mean_avg", "peak_I_disch
 S0_TOL = 0.002                            # known-answer: S0 must reproduce the released slope to this (mV/month)
 HALF, MIN_ADJ = 0.5, 3                    # frozen conventions of the decision rule
 SE_RATIO_MAX, VIF_MAX = 2.0, 10.0         # precision gate
-FAST_S = 1.05
+import regime_reader as _RR      # M585: the single source of the fast / slow rule
+FAST_S = _RR.THRESHOLD_S
 CUTOFFS = ("2026-07-31", "2026-08-31", "2026-09-30")
 SPECS = {                                  # added columns (after transforms), frozen in the spec
     "S1": ["i_dt_q50", "i_row_cov"],
@@ -56,7 +57,7 @@ def build_frame(dm, side):
     d = d.dropna(subset=list(use)).reset_index(drop=True)
     cols = ["file"] + [c for c in side.columns if c not in ("file", "date")]
     d = d.merge(side[cols], on="file", how="left", suffixes=("", "_ts"))
-    d["regime"] = d["I_sample_period_s"].map(lambda v: None if pd.isna(v) else ("fast" if v < FAST_S else "slow"))
+    d["regime"] = d["I_sample_period_s"].map(_RR.regime_of)
     return add_transforms(d)
 
 
