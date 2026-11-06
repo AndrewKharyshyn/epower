@@ -12,16 +12,38 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), 
 # M578 (owner amendment, Andrii chat 2026-11-05, Director ruling analyses/M578_cadence_threshold_director_ruling.json, analyses/M379_rev4_addendum.md): the cut moves from 1.05 s to 1.10 s after
 # the 2026-11-03 PID-set change put drives at 1.001-1.055 s into the former gap. No assignment of the 621 older drives changes (fast max 0.984 s, slow min 1.137 s). Guard zone: a drive with
 # 1.06 <= period < 1.135 s STOPs for Director review (empty today). Post hoc by construction: chosen after seeing the 11 new periods.
-THRESHOLD_S, GAP = 1.10, (1.06, 1.135)
+import regime_reader as RR              # M585: the single source of the rule
+THRESHOLD_S, GAP = RR.THRESHOLD_S, RR.GUARD_ZONE
 
 
 def classify(period):
-    """Pure: regime of one drive from its median I-PID update interval (seconds)."""
-    if period is None or period != period:
-        return None
-    if GAP[0] <= period < GAP[1]:
-        raise SystemExit("STOP: a drive lies inside the declared guard zone [%.3f, %.3f) s (period %.3f): the bimodal assumption no longer holds (Director)" % (GAP[0], GAP[1], period))
-    return "fast" if period < THRESHOLD_S else "slow"
+    """Pure: regime of one drive from its median I-PID update interval (seconds); delegates to tools/regime_reader.py."""
+    return RR.regime_of(period)
+
+
+ALLOWLIST = [{"site": "compute_drive_summary_v6.py POWERFADE_FAST_S", "value": "1.05 s (old cut)",
+              "reason": "inside the full-rebuild closure of the master builder: changing it invalidates every checkpoint and the ML16 restore; the powerFade 'fast' covariate keeps the old cut until the planned checkpoint rebuild",
+              "targetMilestone": "planned full checkpoint rebuild (M582b follow-up)"}]
+
+
+def v6_cut():
+    """The old cut of compute_drive_summary_v6.POWERFADE_FAST_S read from the source text (the module is not imported)."""
+    import re
+    m = re.search(r"^POWERFADE_FAST_S\s*=\s*([0-9.]+)", open(os.path.join(ROOT, "compute_drive_summary_v6.py"), encoding="utf-8").read(), re.M)
+    return float(m.group(1)) if m else None
+
+
+def regime_inconsistencies(d):
+    """M585: one row per (drive, source) where a remaining inline cut classes a drive differently from the sidecar (script-written; empty only when the allowlist is empty)."""
+    cut, rows = v6_cut(), []
+    if cut is not None:
+        for r in d.itertuples():
+            if r.regime is None or pd.isna(r.regime):
+                continue
+            src = "fast" if r.I_sample_period_s < cut else "slow"
+            if src != r.regime:
+                rows.append({"drive": r.file, "source": "compute_drive_summary_v6.POWERFADE_FAST_S", "periodS": round(float(r.I_sample_period_s), 3), "sidecarRegime": r.regime, "sourceRegime": src, "sourceCutS": cut})
+    return rows
 
 
 def build(dm):
@@ -55,6 +77,7 @@ def build(dm):
            "nDaysByRegime": {g: int(d[d["regime"] == g]["date"].astype(str).str[:10].nunique()) for g in ("fast", "slow")},
            "runs": runs, "daysWithBothRegimes": sorted(by_day[by_day > 1].index.tolist()),
            "effectOnKeys": "not yet quantified (emulated sampling-sensitivity study pending, M379b); observational comparisons across regimes are confounded by season, ambient and drive mix",
+           "regimeInconsistencies": regime_inconsistencies(d), "allowlist": ALLOWLIST,
            "source": "drive_master.csv I_sample_period_s; sidecar cadence_regime.csv"}
     return d.drop(columns="t"), blk
 

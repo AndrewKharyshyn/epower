@@ -1,0 +1,98 @@
+{
+ "masterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72",
+ "nDrives": 632,
+ "nMissingPeriod": 12,
+ "periodBased": {
+  "consumers": [
+   "dependence_sensitivity",
+   "m480_spread_sensitivity",
+   "m480b_pair_outcomes",
+   "m573_cell_spread_step",
+   "timing_support (drive classification)"
+  ],
+  "driveDifferenceSet": [
+   "2026-11-04_08-01-15.csv"
+  ],
+  "periodsOfDifferenceSet": {
+   "2026-11-04_08-01-15.csv": 1.055
+  },
+  "nInGuardZone": 0
+ },
+ "missingPeriodDrives": [
+  "20260511_185709.csv",
+  "20260512_111617.csv",
+  "20260512_195020.csv",
+  "20260512_215542.csv",
+  "20260513_180335.csv",
+  "20260513_224232.csv",
+  "20260514_080426.csv",
+  "20260514_093059.csv",
+  "20260514_094436.csv",
+  "20260515_074031.csv",
+  "20260816_124817.csv",
+  "20260816_144003.csv"
+ ],
+ "m573_slow_missing_old_new": {
+  "old": 0.0,
+  "new": 0.0
+ },
+ "timing_support_missing_label": "unknown (unchanged)",
+ "capacity_basis": {
+  "nRecords": 620,
+  "nWithoutRecord": 12,
+  "diagOldVsSidecarOldDisagree": [],
+  "diagOldVsSidecarNewDisagree": [
+   "2026-11-04_08-01-15.csv"
+  ],
+  "note": "the diagnostic (median of the logged HV-current intervals) is recomputed with the new rule by the capacity_basis stage; the sidecar is the rule of record"
+ },
+ "timing_support_crossFlips": {
+  "byPrefix": {
+   "i": [
+    "20260523_131019.csv",
+    "20260820_225027.csv",
+    "20260822_110317.csv",
+    "20260825_123247.csv",
+    "20260830_155318.csv",
+    "2026-10-03_16-39-03.csv",
+    "2026-10-04_11-38-19.csv",
+    "2026-10-10_15-53-26.csv",
+    "2026-10-10_21-41-35.csv",
+    "2026-10-13_20-04-05.csv",
+    "2026-10-14_09-29-12.csv",
+    "2026-11-04_19-40-19.csv",
+    "2026-11-04_21-26-25.csv"
+   ],
+   "vmax": [
+    "20260523_131019.csv",
+    "20260820_225027.csv",
+    "20260822_110317.csv",
+    "20260825_123247.csv",
+    "20260830_155318.csv",
+    "2026-10-03_16-39-03.csv",
+    "2026-10-04_11-38-19.csv",
+    "2026-10-10_15-53-26.csv",
+    "2026-10-10_21-41-35.csv",
+    "2026-10-13_20-04-05.csv",
+    "2026-11-04_21-26-25.csv"
+   ]
+  },
+  "nDrivesWithAnyFlip": 13,
+  "drivesWithAnyFlip": [
+   "2026-10-03_16-39-03.csv",
+   "2026-10-04_11-38-19.csv",
+   "2026-10-10_15-53-26.csv",
+   "2026-10-10_21-41-35.csv",
+   "2026-10-13_20-04-05.csv",
+   "2026-10-14_09-29-12.csv",
+   "2026-11-04_19-40-19.csv",
+   "2026-11-04_21-26-25.csv",
+   "20260523_131019.csv",
+   "20260820_225027.csv",
+   "20260822_110317.csv",
+   "20260825_123247.csv",
+   "20260830_155318.csv"
+  ],
+  "nWindowMediansInGuardZone": 125
+ }
+}
