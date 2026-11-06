@@ -7,7 +7,7 @@ import pandas as pd, corpus_manifest as cm
 d = tempfile.mkdtemp()
 hdr = "time,x\n"
 for name in ("2026-05-11 18-57-09.csv", "2026-07-30 22-06-51.csv", "2026-08-01 20-53-20.csv", "2026-09-30 10-00-00.csv"):
-    open(os.path.join(d, name), "w").write(hdr + "0,1\n1,2\n")
+    open(os.path.join(d, name), "w", encoding="utf-8").write(hdr + "0,1\n1,2\n")
 m = cm.build(d, master_df=pd.DataFrame({"file": ["2026-05-11 18-57-09.csv"]}), out_path=None)
 roles = {r["raw_name"]: r["role"] for r in m["files"]}
 assert roles["2026-05-11 18-57-09.csv"] == "canonical", roles
