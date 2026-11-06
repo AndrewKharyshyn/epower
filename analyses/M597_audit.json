@@ -1,0 +1,8 @@
+{"auditor": "analytical-auditor (blind: definitions and raw data path only, no author code or numbers)",
+ "reproduced": {"nDrives": 112, "nDays": 53, "J_mean": [48.88, 46.91, 50.85], "C_mean": [55.04, 52.99, 57.00], "R_mean": [88.43, 86.69, 90.04],
+                "C_minus_J_pp": [6.16, 5.20, 7.22], "pooledJ": 50.39, "pooledC": 56.06},
+ "author": {"J_mean": [48.88, 46.91, 50.85], "C_mean": [55.03, 53.02, 57.06], "R_mean": [88.43, 86.70, 90.04], "C_minus_J_pp": [6.16, 5.21, 7.26], "pooledJ": 50.39, "pooledC": 56.06},
+ "maxAbsDiffEstimatePp": 0.01, "maxAbsDiffIntervalEndPp": 0.06, "toleranceEstimatePp": 0.1, "toleranceIntervalPp": 0.3, "verdict": "reproduced",
+ "sensitivityNote": "forward-step dt instead of backward: differences <= 0.04 pp",
+ "concerns": ["auditor RNG may differ in the last hundredths", "all 112 valid drives have E >= 60 s so the floor excludes nothing", "no cross-validation, no leakage"],
+ "files": "analyses/M597_audit/"}

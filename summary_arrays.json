@@ -65860,6 +65860,63 @@
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
    "computedAt": "2026-11-05T22:05:03.457973+00:00"
+  },
+  "highwayShare": {
+   "corpusHash": "1574a8156a36c6ea4ea1dfdaafc7cc72",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": null,
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-11-06T22:45:40.240111+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72",
+    "rawManifestCorpusHash": "2bb2cfbb85e86c243872f8149d09349b8fd1ef7ae25079d84a3ff88c722d7904",
+    "rawIdentitySource": "sandbox / read-only replay at M518: the block is reproduced from the tracked sidecar, and every sidecar row's raw sha256 equals the sha256 of the same canonical file in the live raw_manifest.json (analyses/M513_replay.json rawIdentityEvidence)",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "highway_share.csv": "449f73d1063a1c498bb0cdf1a446f5a4"
+    }
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M597: derived by tools/highway_share.py from drive_master.csv and the tracked highway_share.csv (joint and conditional highway share; analyses/M597_spec.md)",
+   "includedInReleaseAt": "2026-11-06T22:45:40.240111+00:00",
+   "inputBasis": {
+    "nDrives": 632,
+    "masterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": null,
+   "declaredIdentity": {
+    "corpusHash": "1574a8156a36c6ea4ea1dfdaafc7cc72",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "highway_share.csv": "449f73d1063a1c498bb0cdf1a446f5a4"
+    },
+    "rawManifestCorpusHash": "2bb2cfbb85e86c243872f8149d09349b8fd1ef7ae25079d84a3ff88c722d7904",
+    "rawIdentitySource": "sandbox / read-only replay at M518: the block is reproduced from the tracked sidecar, and every sidecar row's raw sha256 equals the sha256 of the same canonical file in the live raw_manifest.json (analyses/M513_replay.json rawIdentityEvidence)"
+   },
+   "stampLineage": [
+    {
+     "identity": {
+      "corpusHash": "1574a8156a36c6ea4ea1dfdaafc7cc72",
+      "upstreamHashes": {
+       "driveMasterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72"
+      },
+      "fullConfigHash": "1e8a2a45a61c093f6c5b65537ae6dd8f",
+      "generatedAt": "2026-11-06T22:45:40.240111+00:00"
+     },
+     "supersededAtMilestone": "M597",
+     "supersededAt": "2026-11-06T22:54:44.265663+00:00",
+     "reason": "legacy stamp metadata (M294 raw-manifest backfill, M284 whole-config hash, fields cloned from another block) replaced by stamp metadata re-derived from declared dependencies"
+    }
+   ],
+   "fullConfigHashNote": "whole-config hash retired for declared blocks (M513): the stamp names the md5 of each computational config section it reads (upstreamHashes.configSectionHashes); the previous value is kept in stampLineage",
+   "dependencies": {
+    "declaredIn": "tools/stamp_dependencies.json",
+    "milestone": "M597"
+   },
+   "computedAtNote": "the block carries no calculation time and no ingest run record exists for it; the stamp time is the stamping pass, not the computation (M513 backfill)"
   }
  },
  "ambientTable": {
@@ -415997,5 +416054,444 @@
    "status": "not identified (floors not met)"
   },
   "source": "raw CSV headers via tools/pid_epoch.py; sidecar pid_epoch.csv; spec analyses/M582_spec.md Rev 1"
+ },
+ "highwayShare": {
+  "specRev": "analyses/M597_spec.md Rev 1",
+  "methodVersion": 1,
+  "definition": {
+   "joint": "engine turning (rpm>400) and battery discharging (Id>0) seconds / all 80-120 km/h seconds",
+   "conditional": "engine turning and battery discharging seconds / engine turning 80-120 km/h seconds",
+   "engineOnShare": "engine turning 80-120 km/h seconds / all 80-120 km/h seconds",
+   "units": "percent; logged-signal control observables, estimated, not generator saturation"
+  },
+  "bootstrap": {
+   "unit": "calendar day",
+   "draws": 4000,
+   "seed": 42,
+   "ci": "percentile 95%"
+  },
+  "primary": {
+   "joint": {
+    "perDriveMean": {
+     "est": 48.88,
+     "lo": 46.91,
+     "hi": 50.85,
+     "nDrives": 112,
+     "nDays": 53
+    },
+    "pooled": {
+     "est": 50.39,
+     "lo": 49.01,
+     "hi": 51.46,
+     "nDrives": 112,
+     "nDays": 53
+    }
+   },
+   "conditional": {
+    "perDriveMean": {
+     "est": 55.03,
+     "lo": 53.02,
+     "hi": 57.06,
+     "nDrives": 112,
+     "nDays": 53
+    },
+    "pooled": {
+     "est": 56.06,
+     "lo": 55.01,
+     "hi": 57.12,
+     "nDrives": 112,
+     "nDays": 53
+    }
+   },
+   "engineOnShare": {
+    "perDriveMean": {
+     "est": 88.43,
+     "lo": 86.7,
+     "hi": 90.04,
+     "nDrives": 112,
+     "nDays": 53
+    },
+    "pooled": {
+     "est": 89.88,
+     "lo": 88.25,
+     "hi": 91.32,
+     "nDrives": 112,
+     "nDays": 53
+    }
+   },
+   "jointOnConditionalPopulation": {
+    "perDriveMean": {
+     "est": 48.88,
+     "lo": 46.91,
+     "hi": 50.85,
+     "nDrives": 112,
+     "nDays": 53
+    },
+    "pooled": {
+     "est": 50.39,
+     "lo": 49.01,
+     "hi": 51.46,
+     "nDrives": 112,
+     "nDays": 53
+    }
+   },
+   "conditionalMinusJoint_pp": {
+    "est": 6.16,
+    "lo": 5.21,
+    "hi": 7.26,
+    "nDrives": 112,
+    "nDays": 53
+   },
+   "counts": {
+    "eligibleBand": 112,
+    "engineOffInBand(E=0)": 0,
+    "lostToFloor": 0,
+    "conditionalPopulation": 112,
+    "allBandEngineOn(R=1)": 4
+   },
+   "marginMet": true
+  },
+  "sensitivity": {
+   "floor30s": {
+    "joint": {
+     "perDriveMean": {
+      "est": 48.88,
+      "lo": 46.91,
+      "hi": 50.85,
+      "nDrives": 112,
+      "nDays": 53
+     },
+     "pooled": {
+      "est": 50.39,
+      "lo": 49.01,
+      "hi": 51.46,
+      "nDrives": 112,
+      "nDays": 53
+     }
+    },
+    "conditional": {
+     "perDriveMean": {
+      "est": 55.03,
+      "lo": 53.02,
+      "hi": 57.06,
+      "nDrives": 112,
+      "nDays": 53
+     },
+     "pooled": {
+      "est": 56.06,
+      "lo": 55.01,
+      "hi": 57.12,
+      "nDrives": 112,
+      "nDays": 53
+     }
+    },
+    "engineOnShare": {
+     "perDriveMean": {
+      "est": 88.43,
+      "lo": 86.7,
+      "hi": 90.04,
+      "nDrives": 112,
+      "nDays": 53
+     },
+     "pooled": {
+      "est": 89.88,
+      "lo": 88.25,
+      "hi": 91.32,
+      "nDrives": 112,
+      "nDays": 53
+     }
+    },
+    "jointOnConditionalPopulation": {
+     "perDriveMean": {
+      "est": 48.88,
+      "lo": 46.91,
+      "hi": 50.85,
+      "nDrives": 112,
+      "nDays": 53
+     },
+     "pooled": {
+      "est": 50.39,
+      "lo": 49.01,
+      "hi": 51.46,
+      "nDrives": 112,
+      "nDays": 53
+     }
+    },
+    "conditionalMinusJoint_pp": {
+     "est": 6.16,
+     "lo": 5.21,
+     "hi": 7.26,
+     "nDrives": 112,
+     "nDays": 53
+    },
+    "counts": {
+     "eligibleBand": 112,
+     "engineOffInBand(E=0)": 0,
+     "lostToFloor": 0,
+     "conditionalPopulation": 112,
+     "allBandEngineOn(R=1)": 4
+    },
+    "marginMet": true
+   },
+   "floor120s": {
+    "joint": {
+     "perDriveMean": {
+      "est": 48.88,
+      "lo": 46.91,
+      "hi": 50.85,
+      "nDrives": 112,
+      "nDays": 53
+     },
+     "pooled": {
+      "est": 50.39,
+      "lo": 49.01,
+      "hi": 51.46,
+      "nDrives": 112,
+      "nDays": 53
+     }
+    },
+    "conditional": {
+     "perDriveMean": {
+      "est": 55.7,
+      "lo": 53.95,
+      "hi": 57.44,
+      "nDrives": 101,
+      "nDays": 51
+     },
+     "pooled": {
+      "est": 56.14,
+      "lo": 55.12,
+      "hi": 57.22,
+      "nDrives": 101,
+      "nDays": 51
+     }
+    },
+    "engineOnShare": {
+     "perDriveMean": {
+      "est": 90.36,
+      "lo": 89.05,
+      "hi": 91.62,
+      "nDrives": 101,
+      "nDays": 51
+     },
+     "pooled": {
+      "est": 90.1,
+      "lo": 88.46,
+      "hi": 91.55,
+      "nDrives": 101,
+      "nDays": 51
+     }
+    },
+    "jointOnConditionalPopulation": {
+     "perDriveMean": {
+      "est": 50.49,
+      "lo": 48.58,
+      "hi": 52.41,
+      "nDrives": 101,
+      "nDays": 51
+     },
+     "pooled": {
+      "est": 50.58,
+      "lo": 49.24,
+      "hi": 51.65,
+      "nDrives": 101,
+      "nDays": 51
+     }
+    },
+    "conditionalMinusJoint_pp": {
+     "est": 5.21,
+     "lo": 4.53,
+     "hi": 5.94,
+     "nDrives": 101,
+     "nDays": 51
+    },
+    "counts": {
+     "eligibleBand": 112,
+     "engineOffInBand(E=0)": 0,
+     "lostToFloor": 11,
+     "conditionalPopulation": 101,
+     "allBandEngineOn(R=1)": 4
+    },
+    "marginMet": true
+   },
+   "rpm300": {
+    "joint": {
+     "perDriveMean": {
+      "est": 49.29,
+      "lo": 47.35,
+      "hi": 51.23,
+      "nDrives": 112,
+      "nDays": 53
+     },
+     "pooled": {
+      "est": 50.72,
+      "lo": 49.38,
+      "hi": 51.77,
+      "nDrives": 112,
+      "nDays": 53
+     }
+    },
+    "conditional": {
+     "perDriveMean": {
+      "est": 54.74,
+      "lo": 52.76,
+      "hi": 56.73,
+      "nDrives": 112,
+      "nDays": 53
+     },
+     "pooled": {
+      "est": 55.74,
+      "lo": 54.71,
+      "hi": 56.75,
+      "nDrives": 112,
+      "nDays": 53
+     }
+    },
+    "engineOnShare": {
+     "perDriveMean": {
+      "est": 89.68,
+      "lo": 88.01,
+      "hi": 91.21,
+      "nDrives": 112,
+      "nDays": 53
+     },
+     "pooled": {
+      "est": 90.99,
+      "lo": 89.5,
+      "hi": 92.31,
+      "nDrives": 112,
+      "nDays": 53
+     }
+    },
+    "jointOnConditionalPopulation": {
+     "perDriveMean": {
+      "est": 49.29,
+      "lo": 47.35,
+      "hi": 51.23,
+      "nDrives": 112,
+      "nDays": 53
+     },
+     "pooled": {
+      "est": 50.72,
+      "lo": 49.38,
+      "hi": 51.77,
+      "nDrives": 112,
+      "nDays": 53
+     }
+    },
+    "conditionalMinusJoint_pp": {
+     "est": 5.45,
+     "lo": 4.56,
+     "hi": 6.52,
+     "nDrives": 112,
+     "nDays": 53
+    },
+    "counts": {
+     "eligibleBand": 112,
+     "engineOffInBand(E=0)": 0,
+     "lostToFloor": 0,
+     "conditionalPopulation": 112,
+     "allBandEngineOn(R=1)": 6
+    },
+    "marginMet": true
+   },
+   "band300s": {
+    "joint": {
+     "perDriveMean": {
+      "est": 49.97,
+      "lo": 48.3,
+      "hi": 51.41,
+      "nDrives": 61,
+      "nDays": 29
+     },
+     "pooled": {
+      "est": 50.62,
+      "lo": 49.18,
+      "hi": 51.71,
+      "nDrives": 61,
+      "nDays": 29
+     }
+    },
+    "conditional": {
+     "perDriveMean": {
+      "est": 56.21,
+      "lo": 54.87,
+      "hi": 57.51,
+      "nDrives": 61,
+      "nDays": 29
+     },
+     "pooled": {
+      "est": 56.24,
+      "lo": 55.19,
+      "hi": 57.34,
+      "nDrives": 61,
+      "nDays": 29
+     }
+    },
+    "engineOnShare": {
+     "perDriveMean": {
+      "est": 88.85,
+      "lo": 86.96,
+      "hi": 90.46,
+      "nDrives": 61,
+      "nDays": 29
+     },
+     "pooled": {
+      "est": 90.0,
+      "lo": 88.24,
+      "hi": 91.48,
+      "nDrives": 61,
+      "nDays": 29
+     }
+    },
+    "jointOnConditionalPopulation": {
+     "perDriveMean": {
+      "est": 49.97,
+      "lo": 48.3,
+      "hi": 51.41,
+      "nDrives": 61,
+      "nDays": 29
+     },
+     "pooled": {
+      "est": 50.62,
+      "lo": 49.18,
+      "hi": 51.71,
+      "nDrives": 61,
+      "nDays": 29
+     }
+    },
+    "conditionalMinusJoint_pp": {
+     "est": 6.23,
+     "lo": 5.32,
+     "hi": 7.33,
+     "nDrives": 61,
+     "nDays": 29
+    },
+    "counts": {
+     "eligibleBand": 61,
+     "engineOffInBand(E=0)": 0,
+     "lostToFloor": 0,
+     "conditionalPopulation": 61,
+     "allBandEngineOn(R=1)": 0
+    },
+    "marginMet": true
+   }
+  },
+  "marginPp": 2.0,
+  "eFloorS": 60.0,
+  "marginDecisionFlipsUnder": [],
+  "reconciliation": {
+   "nCompared": 618,
+   "eligibleNotCompared": 0,
+   "mismatchBand": 0,
+   "mismatchDischarge": 0,
+   "ok": true
+  },
+  "sidecar": {
+   "file": "highway_share.csv",
+   "sha256": "d3fd5fe7ad126bb8a71dfcd7a4ca74b508dcec27adcd9923007227a00581306a",
+   "rows": 632
+  },
+  "basis": "raw/ = sha256-verified originals (M366)"
  }
 }
