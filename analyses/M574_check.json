@@ -418,19 +418,19 @@
  },
  "item5_cadence": {
   "stepTermWithRegime": {
-   "est": 2.9908,
-   "se": 0.7646,
+   "est": 3.001,
+   "se": 0.7692,
    "ci95": [
-    1.4771,
-    4.5045
+    1.4782,
+    4.5238
    ]
   },
   "regimeTermWithStep": {
-   "est": 1.0035,
-   "se": 0.6153,
+   "est": 1.0216,
+   "se": 0.6169,
    "ci95": [
-    -0.2147,
-    2.2216
+    -0.1998,
+    2.2429
    ]
   },
   "byPeriod": {
@@ -466,7 +466,7 @@
    },
    "Oct10-17": {
     "n": 73,
-    "slowShare": 0.37,
+    "slowShare": 0.36,
     "medianPeriod_s": 0.953
    }
   },
@@ -478,20 +478,20 @@
    ]
   },
   "slopeWithRegime": {
-   "est": 0.7471,
+   "est": 0.7485,
    "ci95": [
-    0.3483,
-    1.1459
+    0.3484,
+    1.1486
    ]
   },
   "slopeWithRegimeAndStep": {
-   "est": 0.2868,
+   "est": 0.2881,
    "ci95": [
-    -0.0085,
-    0.582
+    -0.0073,
+    0.5836
    ]
   },
-  "regimeRule": "slow: I_sample_period_s >= 1.05 s (M379a)"
+  "regimeRule": "slow: I_sample_period_s >= 1.10 s (M379a, amended M578, 1.10 s)"
  },
  "item4b_cold_start_and_segments": {
   "definition": "cold start = first drive after >4 h rest; late = 2026-10-10..2026-10-17 vs September; effect adjusted for start-sensor mean T and the window median |I| (day-clustered, t(G-1))",
