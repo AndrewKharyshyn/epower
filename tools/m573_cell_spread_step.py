@@ -6,6 +6,8 @@ seed 42, 4000), 4 matched-state contrast, 4b cold-start sensors and equal-length
 un-ingested files (never enters a fit). Usage: python tools/m573_cell_spread_step.py [--skip-raw] [--external DIR NAME ...] [--out PATH]
 M574 (spec analyses/M574_spec.md Rev 1): --splice runs items 1-5 and 4b (never --external), writes analyses/M574_check.json and the additive payload block cellSpreadStep (+ stamp) into summary_arrays.json."""
 import argparse, copy, datetime, hashlib, json, os, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import regime_reader as _RR      # M585: the single source of the fast / slow rule
 import numpy as np
 import pandas as pd
 import statsmodels.api as sm
@@ -109,7 +111,7 @@ def build_frame(dm):
     d["first"] = (d["rest_h"] > 4).astype(float)
     d["step"] = (d["date"] >= STEP_DATE).astype(float)
     d["wk"] = d["date"].dt.strftime("%G-%V")
-    d["slow"] = (d["I_sample_period_s"] >= 1.05).astype(float)
+    d["slow"] = d["I_sample_period_s"].map(lambda v: _RR.slow_flag(v, missing=0.0)).astype(float)      # M585: a missing period counts as fast here (unchanged behaviour)
     return d
 
 
@@ -196,7 +198,7 @@ def item_matched(dd):
 
 def item_cadence(dm, dd):
     d = dm.copy(); d["date"] = pd.to_datetime(d["date"])
-    d["slow"] = d["I_sample_period_s"] >= 1.05
+    d["slow"] = (d["I_sample_period_s"].map(_RR.regime_of) == "slow").astype(bool)      # M585: a missing period is not slow (unchanged behaviour)
     d["per"] = np.where(d["date"] >= LATE[0], "Oct10-17", d["date"].dt.strftime("%Y-%m"))
     g = d.groupby("per").agg(n=("slow", "size"), slowShare=("slow", "mean"), medianPeriod_s=("I_sample_period_s", "median"))
     cols = ["months", "T", "I", "soc", "socr"]
@@ -207,7 +209,7 @@ def item_cadence(dm, dd):
     st2 = fit_cluster(dd, cols2, coef="step")
     return {"stepTermWithRegime": {k: st2[k] for k in ("est", "se", "ci95")}, "regimeTermWithStep": {k: v for k, v in fit_cluster(dd, cols2, coef="slow").items() if k in ("est", "se", "ci95")},"byPeriod": {k: {"n": int(v.n), "slowShare": _r(v.slowShare, 2), "medianPeriod_s": _r(v.medianPeriod_s, 3)} for k, v in g.iterrows()},
             "slopeWithoutRegime": {k: r0[k] for k in ("est", "ci95")}, "slopeWithRegime": {k: r1[k] for k in ("est", "ci95")}, "slopeWithRegimeAndStep": {k: r2[k] for k in ("est", "ci95")},
-            "regimeRule": "slow: I_sample_period_s >= 1.05 s (M379a)"}
+            "regimeRule": "slow: I_sample_period_s >= 1.10 s (M379a, amended M578, 1.10 s)"}
 
 
 # ----------------------------------------------------------------------------------------------- raw-based items
@@ -294,7 +296,7 @@ def item_external(dm, dd, ext_dir, names):
         pth = os.path.join(ext_dir, n if n.endswith(".csv") else n + ".csv")
         b = open(pth, "rb").read()
         r = c.analyze_bytes(b, os.path.basename(pth))
-        row = {"file": os.path.basename(pth), "sha256": sha256(pth), "I_sample_period_s": r.get("I_sample_period_s"), "regime": None if r.get("I_sample_period_s") is None else ("slow" if r["I_sample_period_s"] >= 1.05 else "fast"),
+        row = {"file": os.path.basename(pth), "sha256": sha256(pth), "I_sample_period_s": r.get("I_sample_period_s"), "regime": _RR.regime_of(r.get("I_sample_period_s")),
                "T": r.get(TCOL), "peak_I": r.get(ICOL), "soc": r.get("rf_socmean_wtd_pct"), "loaded_p95": r.get(YCOL), "n_loaded": r.get("n_loaded_spread_samples"), "mean_spread": r.get("cell_spread_mean_mv")}
         if None not in (row["T"], row["peak_I"], row["soc"]):
             row["modelResidual_mv"] = _r(((row["loaded_p95"] - float(m.predict([[1, row["T"], row["peak_I"], row["soc"]]])[0])) if row["loaded_p95"] is not None and row["loaded_p95"] == row["loaded_p95"] else np.nan), 2)
