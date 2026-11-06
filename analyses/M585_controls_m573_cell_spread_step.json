@@ -1,0 +1,1997 @@
+{
+ "tool": "m573_cell_spread_step",
+ "args": [
+  "--splice"
+ ],
+ "driveExcluded": "2026-11-04_08-01-15.csv",
+ "stageOutputs": [
+  "summary_arrays.json",
+  "analyses/M574_check.json",
+  "analyses/M580_looks.json"
+ ],
+ "oldReturncode": 0,
+ "newReturncode": 0,
+ "newExclReturncode": 0,
+ "oldVsCommitted": {
+  "changed": [],
+  "lost": [],
+  "added": [],
+  "nLeaves": 286376,
+  "filesWithDifferentContent": []
+ },
+ "newVsCommitted": {
+  "changed": [
+   "summary_arrays.json:/cellSpreadStep/cadence/byPeriod/Oct10-17/slowShare",
+   "summary_arrays.json:/cellSpreadStep/cadence/regimeRule",
+   "summary_arrays.json:/cellSpreadStep/cadence/regimeTermWithStep/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/cadence/regimeTermWithStep/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/cadence/regimeTermWithStep/est",
+   "summary_arrays.json:/cellSpreadStep/cadence/regimeTermWithStep/se",
+   "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegime/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegime/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegime/est",
+   "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegimeAndStep/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegimeAndStep/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegimeAndStep/est",
+   "summary_arrays.json:/cellSpreadStep/cadence/stepTermWithRegime/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/cadence/stepTermWithRegime/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/cadence/stepTermWithRegime/est",
+   "summary_arrays.json:/cellSpreadStep/cadence/stepTermWithRegime/se",
+   "analyses/M574_check.json:/item5_cadence/byPeriod/Oct10-17/slowShare",
+   "analyses/M574_check.json:/item5_cadence/regimeRule",
+   "analyses/M574_check.json:/item5_cadence/regimeTermWithStep/ci95/0",
+   "analyses/M574_check.json:/item5_cadence/regimeTermWithStep/ci95/1",
+   "analyses/M574_check.json:/item5_cadence/regimeTermWithStep/est",
+   "analyses/M574_check.json:/item5_cadence/regimeTermWithStep/se",
+   "analyses/M574_check.json:/item5_cadence/slopeWithRegime/ci95/0",
+   "analyses/M574_check.json:/item5_cadence/slopeWithRegime/ci95/1",
+   "analyses/M574_check.json:/item5_cadence/slopeWithRegime/est",
+   "analyses/M574_check.json:/item5_cadence/slopeWithRegimeAndStep/ci95/0",
+   "analyses/M574_check.json:/item5_cadence/slopeWithRegimeAndStep/ci95/1",
+   "analyses/M574_check.json:/item5_cadence/slopeWithRegimeAndStep/est",
+   "analyses/M574_check.json:/item5_cadence/stepTermWithRegime/ci95/0",
+   "analyses/M574_check.json:/item5_cadence/stepTermWithRegime/ci95/1",
+   "analyses/M574_check.json:/item5_cadence/stepTermWithRegime/est",
+   "analyses/M574_check.json:/item5_cadence/stepTermWithRegime/se"
+  ],
+  "lost": [],
+  "added": [],
+  "nLeaves": 286376,
+  "filesWithDifferentContent": [
+   "analyses/M574_check.json"
+  ]
+ },
+ "newExclVsCommitted": {
+  "changed": [
+   "summary_arrays.json:/cellSpreadStep/analysisFrame/n",
+   "summary_arrays.json:/cellSpreadStep/cadence/byPeriod/Oct10-17/medianPeriod_s",
+   "summary_arrays.json:/cellSpreadStep/cadence/byPeriod/Oct10-17/n",
+   "summary_arrays.json:/cellSpreadStep/cadence/byPeriod/Oct10-17/slowShare",
+   "summary_arrays.json:/cellSpreadStep/cadence/regimeRule",
+   "summary_arrays.json:/cellSpreadStep/cadence/regimeTermWithStep/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/cadence/regimeTermWithStep/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/cadence/regimeTermWithStep/est",
+   "summary_arrays.json:/cellSpreadStep/cadence/regimeTermWithStep/se",
+   "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegime/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegime/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegime/est",
+   "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegimeAndStep/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegimeAndStep/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegimeAndStep/est",
+   "summary_arrays.json:/cellSpreadStep/cadence/slopeWithoutRegime/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/cadence/slopeWithoutRegime/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/cadence/slopeWithoutRegime/est",
+   "summary_arrays.json:/cellSpreadStep/cadence/stepTermWithRegime/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/cadence/stepTermWithRegime/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/cadence/stepTermWithRegime/est",
+   "summary_arrays.json:/cellSpreadStep/cadence/stepTermWithRegime/se",
+   "summary_arrays.json:/cellSpreadStep/changePointScan/best/0/jump_mv",
+   "summary_arrays.json:/cellSpreadStep/changePointScan/best/1/day",
+   "summary_arrays.json:/cellSpreadStep/changePointScan/best/1/jump_mv",
+   "summary_arrays.json:/cellSpreadStep/changePointScan/best/2/day",
+   "summary_arrays.json:/cellSpreadStep/changePointScan/best/2/jump_mv",
+   "summary_arrays.json:/cellSpreadStep/confirmatory/inRangeSensitivity/meanResidualCi95/0",
+   "summary_arrays.json:/cellSpreadStep/confirmatory/inRangeSensitivity/meanResidualCi95/1",
+   "summary_arrays.json:/cellSpreadStep/confirmatory/inRangeSensitivity/meanResidualMv",
+   "summary_arrays.json:/cellSpreadStep/confirmatory/inRangeSensitivity/n",
+   "summary_arrays.json:/cellSpreadStep/confirmatory/meanResidualCi95/0",
+   "summary_arrays.json:/cellSpreadStep/confirmatory/meanResidualCi95/1",
+   "summary_arrays.json:/cellSpreadStep/confirmatory/meanResidualMv",
+   "summary_arrays.json:/cellSpreadStep/confirmatory/nDrivesAfterCutoff",
+   "summary_arrays.json:/cellSpreadStep/confirmatory/postStepSlope/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/confirmatory/postStepSlope/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/confirmatory/postStepSlope/est",
+   "summary_arrays.json:/cellSpreadStep/confirmatory/postStepSlope/n",
+   "summary_arrays.json:/cellSpreadStep/confirmatory/postStepSlope/se",
+   "summary_arrays.json:/cellSpreadStep/confirmatory/terminalEvaluation/nInRangeDrives",
+   "summary_arrays.json:/cellSpreadStep/dependence/dayMeanResidualAutocorrLag1",
+   "summary_arrays.json:/cellSpreadStep/dependence/leaveOneWeekOut_range/0",
+   "summary_arrays.json:/cellSpreadStep/dependence/leaveOneWeekOut_range/1",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekBlockBootstrap_linear/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekBlockBootstrap_linear/median",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekBlockBootstrap_step/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekBlockBootstrap_step/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekBlockBootstrap_step/median",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekBlockBootstrap_step/pGt0",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekCluster_linear/aic",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekCluster_linear/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekCluster_linear/est",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekCluster_linear/n",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekCluster_linear/se",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekCluster_step/aic",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekCluster_step/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekCluster_step/n",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekCluster_step/r2",
+   "summary_arrays.json:/cellSpreadStep/models/M0_linear_released/aic",
+   "summary_arrays.json:/cellSpreadStep/models/M0_linear_released/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/models/M0_linear_released/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/models/M0_linear_released/cv_rmse_day_blocked",
+   "summary_arrays.json:/cellSpreadStep/models/M0_linear_released/est",
+   "summary_arrays.json:/cellSpreadStep/models/M0_linear_released/n",
+   "summary_arrays.json:/cellSpreadStep/models/M0_linear_released/r2",
+   "summary_arrays.json:/cellSpreadStep/models/M0_linear_released/se",
+   "summary_arrays.json:/cellSpreadStep/models/M1_linear_soc/aic",
+   "summary_arrays.json:/cellSpreadStep/models/M1_linear_soc/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/models/M1_linear_soc/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/models/M1_linear_soc/cv_rmse_day_blocked",
+   "summary_arrays.json:/cellSpreadStep/models/M1_linear_soc/est",
+   "summary_arrays.json:/cellSpreadStep/models/M1_linear_soc/n",
+   "summary_arrays.json:/cellSpreadStep/models/M1_linear_soc/se",
+   "summary_arrays.json:/cellSpreadStep/models/M2_linear_soc_rest/aic",
+   "summary_arrays.json:/cellSpreadStep/models/M2_linear_soc_rest/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/models/M2_linear_soc_rest/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/models/M2_linear_soc_rest/cv_rmse_day_blocked",
+   "summary_arrays.json:/cellSpreadStep/models/M2_linear_soc_rest/est",
+   "summary_arrays.json:/cellSpreadStep/models/M2_linear_soc_rest/n",
+   "summary_arrays.json:/cellSpreadStep/models/M2_linear_soc_rest/se",
+   "summary_arrays.json:/cellSpreadStep/models/M3_step/aic",
+   "summary_arrays.json:/cellSpreadStep/models/M3_step/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/models/M3_step/cv_rmse_day_blocked",
+   "summary_arrays.json:/cellSpreadStep/models/M3_step/est",
+   "summary_arrays.json:/cellSpreadStep/models/M3_step/n",
+   "summary_arrays.json:/cellSpreadStep/models/M3_step/se",
+   "summary_arrays.json:/cellSpreadStep/models/M3_step/step_term/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/models/M3_step/step_term/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/models/M3_step/step_term/est",
+   "summary_arrays.json:/cellSpreadStep/models/M3_step/step_term/se",
+   "summary_arrays.json:/cellSpreadStep/models/M4_step_soc/aic",
+   "summary_arrays.json:/cellSpreadStep/models/M4_step_soc/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/models/M4_step_soc/cv_rmse_day_blocked",
+   "summary_arrays.json:/cellSpreadStep/models/M4_step_soc/n",
+   "summary_arrays.json:/cellSpreadStep/models/M4_step_soc/r2",
+   "summary_arrays.json:/cellSpreadStep/models/M4_step_soc/step_term/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/models/M4_step_soc/step_term/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/models/M4_step_soc/step_term/est",
+   "summary_arrays.json:/cellSpreadStep/models/M4_step_soc/step_term/se",
+   "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/aic",
+   "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/cv_rmse_day_blocked",
+   "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/est",
+   "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/n",
+   "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/r2",
+   "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/step_term/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/step_term/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/step_term/est",
+   "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/step_term/se",
+   "summary_arrays.json:/cellSpreadStep/models/M6_month_fixed_effects/aic",
+   "summary_arrays.json:/cellSpreadStep/models/M6_month_fixed_effects/cv_rmse_day_blocked",
+   "summary_arrays.json:/cellSpreadStep/models/M6_month_fixed_effects/n",
+   "summary_arrays.json:/cellSpreadStep/models/M6_month_fixed_effects/r2",
+   "analyses/M574_check.json:/analysisFrame/n",
+   "analyses/M574_check.json:/confirmatory/inRangeSensitivity/meanResidualCi95/0",
+   "analyses/M574_check.json:/confirmatory/inRangeSensitivity/meanResidualCi95/1",
+   "analyses/M574_check.json:/confirmatory/inRangeSensitivity/meanResidualMv",
+   "analyses/M574_check.json:/confirmatory/inRangeSensitivity/n",
+   "analyses/M574_check.json:/confirmatory/meanResidualCi95/0",
+   "analyses/M574_check.json:/confirmatory/meanResidualCi95/1",
+   "analyses/M574_check.json:/confirmatory/meanResidualMv",
+   "analyses/M574_check.json:/confirmatory/nDrivesAfterCutoff",
+   "analyses/M574_check.json:/confirmatory/postStepSlope/ci95/0",
+   "analyses/M574_check.json:/confirmatory/postStepSlope/ci95/1",
+   "analyses/M574_check.json:/confirmatory/postStepSlope/est",
+   "analyses/M574_check.json:/confirmatory/postStepSlope/n",
+   "analyses/M574_check.json:/confirmatory/postStepSlope/se",
+   "analyses/M574_check.json:/confirmatory/terminalEvaluation/nInRangeDrives",
+   "analyses/M574_check.json:/item1_2_models/M0_linear_released/aic",
+   "analyses/M574_check.json:/item1_2_models/M0_linear_released/ci95/0",
+   "analyses/M574_check.json:/item1_2_models/M0_linear_released/ci95/1",
+   "analyses/M574_check.json:/item1_2_models/M0_linear_released/cv_rmse_day_blocked",
+   "analyses/M574_check.json:/item1_2_models/M0_linear_released/est",
+   "analyses/M574_check.json:/item1_2_models/M0_linear_released/n",
+   "analyses/M574_check.json:/item1_2_models/M0_linear_released/r2",
+   "analyses/M574_check.json:/item1_2_models/M0_linear_released/se",
+   "analyses/M574_check.json:/item1_2_models/M1_linear_soc/aic",
+   "analyses/M574_check.json:/item1_2_models/M1_linear_soc/ci95/0",
+   "analyses/M574_check.json:/item1_2_models/M1_linear_soc/ci95/1",
+   "analyses/M574_check.json:/item1_2_models/M1_linear_soc/cv_rmse_day_blocked",
+   "analyses/M574_check.json:/item1_2_models/M1_linear_soc/est",
+   "analyses/M574_check.json:/item1_2_models/M1_linear_soc/n",
+   "analyses/M574_check.json:/item1_2_models/M1_linear_soc/se",
+   "analyses/M574_check.json:/item1_2_models/M2_linear_soc_rest/aic",
+   "analyses/M574_check.json:/item1_2_models/M2_linear_soc_rest/ci95/0",
+   "analyses/M574_check.json:/item1_2_models/M2_linear_soc_rest/ci95/1",
+   "analyses/M574_check.json:/item1_2_models/M2_linear_soc_rest/cv_rmse_day_blocked",
+   "analyses/M574_check.json:/item1_2_models/M2_linear_soc_rest/est",
+   "analyses/M574_check.json:/item1_2_models/M2_linear_soc_rest/n",
+   "analyses/M574_check.json:/item1_2_models/M2_linear_soc_rest/se",
+   "analyses/M574_check.json:/item1_2_models/M3_step/aic",
+   "analyses/M574_check.json:/item1_2_models/M3_step/ci95/0",
+   "analyses/M574_check.json:/item1_2_models/M3_step/cv_rmse_day_blocked",
+   "analyses/M574_check.json:/item1_2_models/M3_step/est",
+   "analyses/M574_check.json:/item1_2_models/M3_step/n",
+   "analyses/M574_check.json:/item1_2_models/M3_step/se",
+   "analyses/M574_check.json:/item1_2_models/M3_step/step_term/ci95/0",
+   "analyses/M574_check.json:/item1_2_models/M3_step/step_term/ci95/1",
+   "analyses/M574_check.json:/item1_2_models/M3_step/step_term/est",
+   "analyses/M574_check.json:/item1_2_models/M3_step/step_term/se",
+   "analyses/M574_check.json:/item1_2_models/M4_step_soc/aic",
+   "analyses/M574_check.json:/item1_2_models/M4_step_soc/ci95/1",
+   "analyses/M574_check.json:/item1_2_models/M4_step_soc/cv_rmse_day_blocked",
+   "analyses/M574_check.json:/item1_2_models/M4_step_soc/n",
+   "analyses/M574_check.json:/item1_2_models/M4_step_soc/r2",
+   "analyses/M574_check.json:/item1_2_models/M4_step_soc/step_term/ci95/0",
+   "analyses/M574_check.json:/item1_2_models/M4_step_soc/step_term/ci95/1",
+   "analyses/M574_check.json:/item1_2_models/M4_step_soc/step_term/est",
+   "analyses/M574_check.json:/item1_2_models/M4_step_soc/step_term/se",
+   "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/aic",
+   "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/ci95/0",
+   "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/ci95/1",
+   "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/cv_rmse_day_blocked",
+   "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/est",
+   "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/n",
+   "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/r2",
+   "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/step_term/ci95/0",
+   "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/step_term/ci95/1",
+   "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/step_term/est",
+   "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/step_term/se",
+   "analyses/M574_check.json:/item1_2_models/M6_month_fixed_effects/aic",
+   "analyses/M574_check.json:/item1_2_models/M6_month_fixed_effects/cv_rmse_day_blocked",
+   "analyses/M574_check.json:/item1_2_models/M6_month_fixed_effects/n",
+   "analyses/M574_check.json:/item1_2_models/M6_month_fixed_effects/r2",
+   "analyses/M574_check.json:/item1_2_models/changePointScan/best/0/jump_mv",
+   "analyses/M574_check.json:/item1_2_models/changePointScan/best/1/day",
+   "analyses/M574_check.json:/item1_2_models/changePointScan/best/1/jump_mv",
+   "analyses/M574_check.json:/item1_2_models/changePointScan/best/2/day",
+   "analyses/M574_check.json:/item1_2_models/changePointScan/best/2/jump_mv",
+   "analyses/M574_check.json:/item3_dependence/dayMeanResidualAutocorrLag1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/0/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/0/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/0/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/1/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/1/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/1/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/10/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/10/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/10/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/11/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/11/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/11/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/12/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/12/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/12/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/13/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/13/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/13/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/14/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/14/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/14/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/15/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/15/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/15/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/16/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/16/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/16/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/17/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/17/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/17/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/18/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/18/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/18/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/19/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/19/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/19/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/2/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/2/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/2/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/20/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/20/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/21/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/21/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/21/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/22/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/22/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/23/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/23/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/3/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/3/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/3/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/4/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/4/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/4/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/5/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/5/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/5/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/6/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/6/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/6/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/7/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/7/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/7/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/8/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/8/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/8/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/9/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/9/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/9/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_range/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_range/1",
+   "analyses/M574_check.json:/item3_dependence/weekBlockBootstrap_linear/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/weekBlockBootstrap_linear/median",
+   "analyses/M574_check.json:/item3_dependence/weekBlockBootstrap_step/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/weekBlockBootstrap_step/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/weekBlockBootstrap_step/median",
+   "analyses/M574_check.json:/item3_dependence/weekBlockBootstrap_step/pGt0",
+   "analyses/M574_check.json:/item3_dependence/weekCluster_linear/aic",
+   "analyses/M574_check.json:/item3_dependence/weekCluster_linear/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/weekCluster_linear/est",
+   "analyses/M574_check.json:/item3_dependence/weekCluster_linear/n",
+   "analyses/M574_check.json:/item3_dependence/weekCluster_linear/se",
+   "analyses/M574_check.json:/item3_dependence/weekCluster_step/aic",
+   "analyses/M574_check.json:/item3_dependence/weekCluster_step/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/weekCluster_step/n",
+   "analyses/M574_check.json:/item3_dependence/weekCluster_step/r2",
+   "analyses/M574_check.json:/item5_cadence/byPeriod/Oct10-17/medianPeriod_s",
+   "analyses/M574_check.json:/item5_cadence/byPeriod/Oct10-17/n",
+   "analyses/M574_check.json:/item5_cadence/byPeriod/Oct10-17/slowShare",
+   "analyses/M574_check.json:/item5_cadence/regimeRule",
+   "analyses/M574_check.json:/item5_cadence/regimeTermWithStep/ci95/0",
+   "analyses/M574_check.json:/item5_cadence/regimeTermWithStep/ci95/1",
+   "analyses/M574_check.json:/item5_cadence/regimeTermWithStep/est",
+   "analyses/M574_check.json:/item5_cadence/regimeTermWithStep/se",
+   "analyses/M574_check.json:/item5_cadence/slopeWithRegime/ci95/0",
+   "analyses/M574_check.json:/item5_cadence/slopeWithRegime/ci95/1",
+   "analyses/M574_check.json:/item5_cadence/slopeWithRegime/est",
+   "analyses/M574_check.json:/item5_cadence/slopeWithRegimeAndStep/ci95/0",
+   "analyses/M574_check.json:/item5_cadence/slopeWithRegimeAndStep/ci95/1",
+   "analyses/M574_check.json:/item5_cadence/slopeWithRegimeAndStep/est",
+   "analyses/M574_check.json:/item5_cadence/slopeWithoutRegime/ci95/0",
+   "analyses/M574_check.json:/item5_cadence/slopeWithoutRegime/ci95/1",
+   "analyses/M574_check.json:/item5_cadence/slopeWithoutRegime/est",
+   "analyses/M574_check.json:/item5_cadence/stepTermWithRegime/ci95/0",
+   "analyses/M574_check.json:/item5_cadence/stepTermWithRegime/ci95/1",
+   "analyses/M574_check.json:/item5_cadence/stepTermWithRegime/est",
+   "analyses/M574_check.json:/item5_cadence/stepTermWithRegime/se",
+   "analyses/M574_check.json:/masterRows"
+  ],
+  "lost": [],
+  "added": [],
+  "nLeaves": 286376,
+  "filesWithDifferentContent": [
+   "analyses/M574_check.json"
+  ]
+ },
+ "newVsNewExcl": {
+  "changed": [
+   "summary_arrays.json:/cellSpreadStep/analysisFrame/n",
+   "summary_arrays.json:/cellSpreadStep/cadence/byPeriod/Oct10-17/medianPeriod_s",
+   "summary_arrays.json:/cellSpreadStep/cadence/byPeriod/Oct10-17/n",
+   "summary_arrays.json:/cellSpreadStep/cadence/regimeTermWithStep/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/cadence/regimeTermWithStep/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/cadence/regimeTermWithStep/est",
+   "summary_arrays.json:/cellSpreadStep/cadence/regimeTermWithStep/se",
+   "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegime/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegime/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegime/est",
+   "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegimeAndStep/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegimeAndStep/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegimeAndStep/est",
+   "summary_arrays.json:/cellSpreadStep/cadence/slopeWithoutRegime/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/cadence/slopeWithoutRegime/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/cadence/slopeWithoutRegime/est",
+   "summary_arrays.json:/cellSpreadStep/cadence/stepTermWithRegime/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/cadence/stepTermWithRegime/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/cadence/stepTermWithRegime/est",
+   "summary_arrays.json:/cellSpreadStep/cadence/stepTermWithRegime/se",
+   "summary_arrays.json:/cellSpreadStep/changePointScan/best/0/jump_mv",
+   "summary_arrays.json:/cellSpreadStep/changePointScan/best/1/day",
+   "summary_arrays.json:/cellSpreadStep/changePointScan/best/1/jump_mv",
+   "summary_arrays.json:/cellSpreadStep/changePointScan/best/2/day",
+   "summary_arrays.json:/cellSpreadStep/changePointScan/best/2/jump_mv",
+   "summary_arrays.json:/cellSpreadStep/confirmatory/inRangeSensitivity/meanResidualCi95/0",
+   "summary_arrays.json:/cellSpreadStep/confirmatory/inRangeSensitivity/meanResidualCi95/1",
+   "summary_arrays.json:/cellSpreadStep/confirmatory/inRangeSensitivity/meanResidualMv",
+   "summary_arrays.json:/cellSpreadStep/confirmatory/inRangeSensitivity/n",
+   "summary_arrays.json:/cellSpreadStep/confirmatory/meanResidualCi95/0",
+   "summary_arrays.json:/cellSpreadStep/confirmatory/meanResidualCi95/1",
+   "summary_arrays.json:/cellSpreadStep/confirmatory/meanResidualMv",
+   "summary_arrays.json:/cellSpreadStep/confirmatory/nDrivesAfterCutoff",
+   "summary_arrays.json:/cellSpreadStep/confirmatory/postStepSlope/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/confirmatory/postStepSlope/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/confirmatory/postStepSlope/est",
+   "summary_arrays.json:/cellSpreadStep/confirmatory/postStepSlope/n",
+   "summary_arrays.json:/cellSpreadStep/confirmatory/postStepSlope/se",
+   "summary_arrays.json:/cellSpreadStep/confirmatory/terminalEvaluation/nInRangeDrives",
+   "summary_arrays.json:/cellSpreadStep/dependence/dayMeanResidualAutocorrLag1",
+   "summary_arrays.json:/cellSpreadStep/dependence/leaveOneWeekOut_range/0",
+   "summary_arrays.json:/cellSpreadStep/dependence/leaveOneWeekOut_range/1",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekBlockBootstrap_linear/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekBlockBootstrap_linear/median",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekBlockBootstrap_step/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekBlockBootstrap_step/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekBlockBootstrap_step/median",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekBlockBootstrap_step/pGt0",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekCluster_linear/aic",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekCluster_linear/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekCluster_linear/est",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekCluster_linear/n",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekCluster_linear/se",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekCluster_step/aic",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekCluster_step/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekCluster_step/n",
+   "summary_arrays.json:/cellSpreadStep/dependence/weekCluster_step/r2",
+   "summary_arrays.json:/cellSpreadStep/models/M0_linear_released/aic",
+   "summary_arrays.json:/cellSpreadStep/models/M0_linear_released/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/models/M0_linear_released/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/models/M0_linear_released/cv_rmse_day_blocked",
+   "summary_arrays.json:/cellSpreadStep/models/M0_linear_released/est",
+   "summary_arrays.json:/cellSpreadStep/models/M0_linear_released/n",
+   "summary_arrays.json:/cellSpreadStep/models/M0_linear_released/r2",
+   "summary_arrays.json:/cellSpreadStep/models/M0_linear_released/se",
+   "summary_arrays.json:/cellSpreadStep/models/M1_linear_soc/aic",
+   "summary_arrays.json:/cellSpreadStep/models/M1_linear_soc/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/models/M1_linear_soc/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/models/M1_linear_soc/cv_rmse_day_blocked",
+   "summary_arrays.json:/cellSpreadStep/models/M1_linear_soc/est",
+   "summary_arrays.json:/cellSpreadStep/models/M1_linear_soc/n",
+   "summary_arrays.json:/cellSpreadStep/models/M1_linear_soc/se",
+   "summary_arrays.json:/cellSpreadStep/models/M2_linear_soc_rest/aic",
+   "summary_arrays.json:/cellSpreadStep/models/M2_linear_soc_rest/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/models/M2_linear_soc_rest/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/models/M2_linear_soc_rest/cv_rmse_day_blocked",
+   "summary_arrays.json:/cellSpreadStep/models/M2_linear_soc_rest/est",
+   "summary_arrays.json:/cellSpreadStep/models/M2_linear_soc_rest/n",
+   "summary_arrays.json:/cellSpreadStep/models/M2_linear_soc_rest/se",
+   "summary_arrays.json:/cellSpreadStep/models/M3_step/aic",
+   "summary_arrays.json:/cellSpreadStep/models/M3_step/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/models/M3_step/cv_rmse_day_blocked",
+   "summary_arrays.json:/cellSpreadStep/models/M3_step/est",
+   "summary_arrays.json:/cellSpreadStep/models/M3_step/n",
+   "summary_arrays.json:/cellSpreadStep/models/M3_step/se",
+   "summary_arrays.json:/cellSpreadStep/models/M3_step/step_term/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/models/M3_step/step_term/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/models/M3_step/step_term/est",
+   "summary_arrays.json:/cellSpreadStep/models/M3_step/step_term/se",
+   "summary_arrays.json:/cellSpreadStep/models/M4_step_soc/aic",
+   "summary_arrays.json:/cellSpreadStep/models/M4_step_soc/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/models/M4_step_soc/cv_rmse_day_blocked",
+   "summary_arrays.json:/cellSpreadStep/models/M4_step_soc/n",
+   "summary_arrays.json:/cellSpreadStep/models/M4_step_soc/r2",
+   "summary_arrays.json:/cellSpreadStep/models/M4_step_soc/step_term/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/models/M4_step_soc/step_term/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/models/M4_step_soc/step_term/est",
+   "summary_arrays.json:/cellSpreadStep/models/M4_step_soc/step_term/se",
+   "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/aic",
+   "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/cv_rmse_day_blocked",
+   "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/est",
+   "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/n",
+   "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/r2",
+   "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/step_term/ci95/0",
+   "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/step_term/ci95/1",
+   "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/step_term/est",
+   "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/step_term/se",
+   "summary_arrays.json:/cellSpreadStep/models/M6_month_fixed_effects/aic",
+   "summary_arrays.json:/cellSpreadStep/models/M6_month_fixed_effects/cv_rmse_day_blocked",
+   "summary_arrays.json:/cellSpreadStep/models/M6_month_fixed_effects/n",
+   "summary_arrays.json:/cellSpreadStep/models/M6_month_fixed_effects/r2",
+   "analyses/M574_check.json:/analysisFrame/n",
+   "analyses/M574_check.json:/confirmatory/inRangeSensitivity/meanResidualCi95/0",
+   "analyses/M574_check.json:/confirmatory/inRangeSensitivity/meanResidualCi95/1",
+   "analyses/M574_check.json:/confirmatory/inRangeSensitivity/meanResidualMv",
+   "analyses/M574_check.json:/confirmatory/inRangeSensitivity/n",
+   "analyses/M574_check.json:/confirmatory/meanResidualCi95/0",
+   "analyses/M574_check.json:/confirmatory/meanResidualCi95/1",
+   "analyses/M574_check.json:/confirmatory/meanResidualMv",
+   "analyses/M574_check.json:/confirmatory/nDrivesAfterCutoff",
+   "analyses/M574_check.json:/confirmatory/postStepSlope/ci95/0",
+   "analyses/M574_check.json:/confirmatory/postStepSlope/ci95/1",
+   "analyses/M574_check.json:/confirmatory/postStepSlope/est",
+   "analyses/M574_check.json:/confirmatory/postStepSlope/n",
+   "analyses/M574_check.json:/confirmatory/postStepSlope/se",
+   "analyses/M574_check.json:/confirmatory/terminalEvaluation/nInRangeDrives",
+   "analyses/M574_check.json:/item1_2_models/M0_linear_released/aic",
+   "analyses/M574_check.json:/item1_2_models/M0_linear_released/ci95/0",
+   "analyses/M574_check.json:/item1_2_models/M0_linear_released/ci95/1",
+   "analyses/M574_check.json:/item1_2_models/M0_linear_released/cv_rmse_day_blocked",
+   "analyses/M574_check.json:/item1_2_models/M0_linear_released/est",
+   "analyses/M574_check.json:/item1_2_models/M0_linear_released/n",
+   "analyses/M574_check.json:/item1_2_models/M0_linear_released/r2",
+   "analyses/M574_check.json:/item1_2_models/M0_linear_released/se",
+   "analyses/M574_check.json:/item1_2_models/M1_linear_soc/aic",
+   "analyses/M574_check.json:/item1_2_models/M1_linear_soc/ci95/0",
+   "analyses/M574_check.json:/item1_2_models/M1_linear_soc/ci95/1",
+   "analyses/M574_check.json:/item1_2_models/M1_linear_soc/cv_rmse_day_blocked",
+   "analyses/M574_check.json:/item1_2_models/M1_linear_soc/est",
+   "analyses/M574_check.json:/item1_2_models/M1_linear_soc/n",
+   "analyses/M574_check.json:/item1_2_models/M1_linear_soc/se",
+   "analyses/M574_check.json:/item1_2_models/M2_linear_soc_rest/aic",
+   "analyses/M574_check.json:/item1_2_models/M2_linear_soc_rest/ci95/0",
+   "analyses/M574_check.json:/item1_2_models/M2_linear_soc_rest/ci95/1",
+   "analyses/M574_check.json:/item1_2_models/M2_linear_soc_rest/cv_rmse_day_blocked",
+   "analyses/M574_check.json:/item1_2_models/M2_linear_soc_rest/est",
+   "analyses/M574_check.json:/item1_2_models/M2_linear_soc_rest/n",
+   "analyses/M574_check.json:/item1_2_models/M2_linear_soc_rest/se",
+   "analyses/M574_check.json:/item1_2_models/M3_step/aic",
+   "analyses/M574_check.json:/item1_2_models/M3_step/ci95/0",
+   "analyses/M574_check.json:/item1_2_models/M3_step/cv_rmse_day_blocked",
+   "analyses/M574_check.json:/item1_2_models/M3_step/est",
+   "analyses/M574_check.json:/item1_2_models/M3_step/n",
+   "analyses/M574_check.json:/item1_2_models/M3_step/se",
+   "analyses/M574_check.json:/item1_2_models/M3_step/step_term/ci95/0",
+   "analyses/M574_check.json:/item1_2_models/M3_step/step_term/ci95/1",
+   "analyses/M574_check.json:/item1_2_models/M3_step/step_term/est",
+   "analyses/M574_check.json:/item1_2_models/M3_step/step_term/se",
+   "analyses/M574_check.json:/item1_2_models/M4_step_soc/aic",
+   "analyses/M574_check.json:/item1_2_models/M4_step_soc/ci95/1",
+   "analyses/M574_check.json:/item1_2_models/M4_step_soc/cv_rmse_day_blocked",
+   "analyses/M574_check.json:/item1_2_models/M4_step_soc/n",
+   "analyses/M574_check.json:/item1_2_models/M4_step_soc/r2",
+   "analyses/M574_check.json:/item1_2_models/M4_step_soc/step_term/ci95/0",
+   "analyses/M574_check.json:/item1_2_models/M4_step_soc/step_term/ci95/1",
+   "analyses/M574_check.json:/item1_2_models/M4_step_soc/step_term/est",
+   "analyses/M574_check.json:/item1_2_models/M4_step_soc/step_term/se",
+   "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/aic",
+   "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/ci95/0",
+   "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/ci95/1",
+   "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/cv_rmse_day_blocked",
+   "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/est",
+   "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/n",
+   "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/r2",
+   "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/step_term/ci95/0",
+   "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/step_term/ci95/1",
+   "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/step_term/est",
+   "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/step_term/se",
+   "analyses/M574_check.json:/item1_2_models/M6_month_fixed_effects/aic",
+   "analyses/M574_check.json:/item1_2_models/M6_month_fixed_effects/cv_rmse_day_blocked",
+   "analyses/M574_check.json:/item1_2_models/M6_month_fixed_effects/n",
+   "analyses/M574_check.json:/item1_2_models/M6_month_fixed_effects/r2",
+   "analyses/M574_check.json:/item1_2_models/changePointScan/best/0/jump_mv",
+   "analyses/M574_check.json:/item1_2_models/changePointScan/best/1/day",
+   "analyses/M574_check.json:/item1_2_models/changePointScan/best/1/jump_mv",
+   "analyses/M574_check.json:/item1_2_models/changePointScan/best/2/day",
+   "analyses/M574_check.json:/item1_2_models/changePointScan/best/2/jump_mv",
+   "analyses/M574_check.json:/item3_dependence/dayMeanResidualAutocorrLag1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/0/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/0/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/0/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/1/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/1/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/1/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/10/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/10/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/10/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/11/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/11/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/11/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/12/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/12/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/12/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/13/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/13/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/13/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/14/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/14/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/14/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/15/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/15/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/15/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/16/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/16/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/16/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/17/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/17/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/17/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/18/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/18/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/18/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/19/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/19/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/19/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/2/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/2/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/2/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/20/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/20/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/21/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/21/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/21/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/22/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/22/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/23/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/23/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/3/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/3/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/3/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/4/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/4/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/4/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/5/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/5/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/5/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/6/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/6/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/6/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/7/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/7/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/7/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/8/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/8/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/8/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/9/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/9/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/9/est",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_range/0",
+   "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_range/1",
+   "analyses/M574_check.json:/item3_dependence/weekBlockBootstrap_linear/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/weekBlockBootstrap_linear/median",
+   "analyses/M574_check.json:/item3_dependence/weekBlockBootstrap_step/ci95/0",
+   "analyses/M574_check.json:/item3_dependence/weekBlockBootstrap_step/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/weekBlockBootstrap_step/median",
+   "analyses/M574_check.json:/item3_dependence/weekBlockBootstrap_step/pGt0",
+   "analyses/M574_check.json:/item3_dependence/weekCluster_linear/aic",
+   "analyses/M574_check.json:/item3_dependence/weekCluster_linear/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/weekCluster_linear/est",
+   "analyses/M574_check.json:/item3_dependence/weekCluster_linear/n",
+   "analyses/M574_check.json:/item3_dependence/weekCluster_linear/se",
+   "analyses/M574_check.json:/item3_dependence/weekCluster_step/aic",
+   "analyses/M574_check.json:/item3_dependence/weekCluster_step/ci95/1",
+   "analyses/M574_check.json:/item3_dependence/weekCluster_step/n",
+   "analyses/M574_check.json:/item3_dependence/weekCluster_step/r2",
+   "analyses/M574_check.json:/item5_cadence/byPeriod/Oct10-17/medianPeriod_s",
+   "analyses/M574_check.json:/item5_cadence/byPeriod/Oct10-17/n",
+   "analyses/M574_check.json:/item5_cadence/regimeTermWithStep/ci95/0",
+   "analyses/M574_check.json:/item5_cadence/regimeTermWithStep/ci95/1",
+   "analyses/M574_check.json:/item5_cadence/regimeTermWithStep/est",
+   "analyses/M574_check.json:/item5_cadence/regimeTermWithStep/se",
+   "analyses/M574_check.json:/item5_cadence/slopeWithRegime/ci95/0",
+   "analyses/M574_check.json:/item5_cadence/slopeWithRegime/ci95/1",
+   "analyses/M574_check.json:/item5_cadence/slopeWithRegime/est",
+   "analyses/M574_check.json:/item5_cadence/slopeWithRegimeAndStep/ci95/0",
+   "analyses/M574_check.json:/item5_cadence/slopeWithRegimeAndStep/ci95/1",
+   "analyses/M574_check.json:/item5_cadence/slopeWithRegimeAndStep/est",
+   "analyses/M574_check.json:/item5_cadence/slopeWithoutRegime/ci95/0",
+   "analyses/M574_check.json:/item5_cadence/slopeWithoutRegime/ci95/1",
+   "analyses/M574_check.json:/item5_cadence/slopeWithoutRegime/est",
+   "analyses/M574_check.json:/item5_cadence/stepTermWithRegime/ci95/0",
+   "analyses/M574_check.json:/item5_cadence/stepTermWithRegime/ci95/1",
+   "analyses/M574_check.json:/item5_cadence/stepTermWithRegime/est",
+   "analyses/M574_check.json:/item5_cadence/stepTermWithRegime/se",
+   "analyses/M574_check.json:/masterRows"
+  ],
+  "lost": [],
+  "added": [],
+  "nLeaves": 286376,
+  "filesWithDifferentContent": [
+   "analyses/M574_check.json"
+  ]
+ },
+ "newVsCommittedValues": {
+  "summary_arrays.json:/cellSpreadStep/cadence/byPeriod/Oct10-17/slowShare": [
+   0.37,
+   0.36
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/regimeRule": [
+   "slow: I_sample_period_s >= 1.05 s (M379a)",
+   "slow: I_sample_period_s >= 1.10 s (M379a, amended M578, 1.10 s)"
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/regimeTermWithStep/ci95/0": [
+   -0.2147,
+   -0.1998
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/regimeTermWithStep/ci95/1": [
+   2.2216,
+   2.2429
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/regimeTermWithStep/est": [
+   1.0035,
+   1.0216
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/regimeTermWithStep/se": [
+   0.6153,
+   0.6169
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegime/ci95/0": [
+   0.3483,
+   0.3484
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegime/ci95/1": [
+   1.1459,
+   1.1486
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegime/est": [
+   0.7471,
+   0.7485
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegimeAndStep/ci95/0": [
+   -0.0085,
+   -0.0073
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegimeAndStep/ci95/1": [
+   0.582,
+   0.5836
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegimeAndStep/est": [
+   0.2868,
+   0.2881
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/stepTermWithRegime/ci95/0": [
+   1.4771,
+   1.4782
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/stepTermWithRegime/ci95/1": [
+   4.5045,
+   4.5238
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/stepTermWithRegime/est": [
+   2.9908,
+   3.001
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/stepTermWithRegime/se": [
+   0.7646,
+   0.7692
+  ],
+  "analyses/M574_check.json:/item5_cadence/byPeriod/Oct10-17/slowShare": [
+   0.37,
+   0.36
+  ],
+  "analyses/M574_check.json:/item5_cadence/regimeRule": [
+   "slow: I_sample_period_s >= 1.05 s (M379a)",
+   "slow: I_sample_period_s >= 1.10 s (M379a, amended M578, 1.10 s)"
+  ],
+  "analyses/M574_check.json:/item5_cadence/regimeTermWithStep/ci95/0": [
+   -0.2147,
+   -0.1998
+  ],
+  "analyses/M574_check.json:/item5_cadence/regimeTermWithStep/ci95/1": [
+   2.2216,
+   2.2429
+  ],
+  "analyses/M574_check.json:/item5_cadence/regimeTermWithStep/est": [
+   1.0035,
+   1.0216
+  ],
+  "analyses/M574_check.json:/item5_cadence/regimeTermWithStep/se": [
+   0.6153,
+   0.6169
+  ],
+  "analyses/M574_check.json:/item5_cadence/slopeWithRegime/ci95/0": [
+   0.3483,
+   0.3484
+  ],
+  "analyses/M574_check.json:/item5_cadence/slopeWithRegime/ci95/1": [
+   1.1459,
+   1.1486
+  ],
+  "analyses/M574_check.json:/item5_cadence/slopeWithRegime/est": [
+   0.7471,
+   0.7485
+  ],
+  "analyses/M574_check.json:/item5_cadence/slopeWithRegimeAndStep/ci95/0": [
+   -0.0085,
+   -0.0073
+  ],
+  "analyses/M574_check.json:/item5_cadence/slopeWithRegimeAndStep/ci95/1": [
+   0.582,
+   0.5836
+  ],
+  "analyses/M574_check.json:/item5_cadence/slopeWithRegimeAndStep/est": [
+   0.2868,
+   0.2881
+  ],
+  "analyses/M574_check.json:/item5_cadence/stepTermWithRegime/ci95/0": [
+   1.4771,
+   1.4782
+  ],
+  "analyses/M574_check.json:/item5_cadence/stepTermWithRegime/ci95/1": [
+   4.5045,
+   4.5238
+  ],
+  "analyses/M574_check.json:/item5_cadence/stepTermWithRegime/est": [
+   2.9908,
+   3.001
+  ],
+  "analyses/M574_check.json:/item5_cadence/stepTermWithRegime/se": [
+   0.7646,
+   0.7692
+  ]
+ },
+ "newVsNewExclValues": {
+  "summary_arrays.json:/cellSpreadStep/analysisFrame/n": [
+   600,
+   599
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/byPeriod/Oct10-17/medianPeriod_s": [
+   0.953,
+   0.952
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/byPeriod/Oct10-17/n": [
+   73,
+   72
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/regimeTermWithStep/ci95/0": [
+   -0.1998,
+   -0.2051
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/regimeTermWithStep/ci95/1": [
+   2.2429,
+   2.2396
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/regimeTermWithStep/est": [
+   1.0216,
+   1.0173
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/regimeTermWithStep/se": [
+   0.6169,
+   0.6174
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegime/ci95/0": [
+   0.3484,
+   0.3485
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegime/ci95/1": [
+   1.1486,
+   1.1488
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegime/est": [
+   0.7485,
+   0.7487
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegimeAndStep/ci95/0": [
+   -0.0073,
+   -0.0077
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegimeAndStep/ci95/1": [
+   0.5836,
+   0.5831
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/slopeWithRegimeAndStep/est": [
+   0.2881,
+   0.2877
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/slopeWithoutRegime/ci95/0": [
+   0.3533,
+   0.3535
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/slopeWithoutRegime/ci95/1": [
+   1.0155,
+   1.0166
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/slopeWithoutRegime/est": [
+   0.6844,
+   0.685
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/stepTermWithRegime/ci95/0": [
+   1.4782,
+   1.4796
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/stepTermWithRegime/ci95/1": [
+   4.5238,
+   4.5314
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/stepTermWithRegime/est": [
+   3.001,
+   3.0055
+  ],
+  "summary_arrays.json:/cellSpreadStep/cadence/stepTermWithRegime/se": [
+   0.7692,
+   0.7707
+  ],
+  "summary_arrays.json:/cellSpreadStep/changePointScan/best/0/jump_mv": [
+   4.04,
+   4.09
+  ],
+  "summary_arrays.json:/cellSpreadStep/changePointScan/best/1/day": [
+   "2026-10-09",
+   "2026-10-11"
+  ],
+  "summary_arrays.json:/cellSpreadStep/changePointScan/best/1/jump_mv": [
+   3.84,
+   4.14
+  ],
+  "summary_arrays.json:/cellSpreadStep/changePointScan/best/2/day": [
+   "2026-10-11",
+   "2026-10-09"
+  ],
+  "summary_arrays.json:/cellSpreadStep/changePointScan/best/2/jump_mv": [
+   4.08,
+   3.89
+  ],
+  "summary_arrays.json:/cellSpreadStep/confirmatory/inRangeSensitivity/meanResidualCi95/0": [
+   -0.952,
+   -0.579
+  ],
+  "summary_arrays.json:/cellSpreadStep/confirmatory/inRangeSensitivity/meanResidualCi95/1": [
+   15.566,
+   15.888
+  ],
+  "summary_arrays.json:/cellSpreadStep/confirmatory/inRangeSensitivity/meanResidualMv": [
+   7.307,
+   7.655
+  ],
+  "summary_arrays.json:/cellSpreadStep/confirmatory/inRangeSensitivity/n": [
+   18,
+   17
+  ],
+  "summary_arrays.json:/cellSpreadStep/confirmatory/meanResidualCi95/0": [
+   1.499,
+   1.746
+  ],
+  "summary_arrays.json:/cellSpreadStep/confirmatory/meanResidualCi95/1": [
+   12.215,
+   12.443
+  ],
+  "summary_arrays.json:/cellSpreadStep/confirmatory/meanResidualMv": [
+   6.857,
+   7.094
+  ],
+  "summary_arrays.json:/cellSpreadStep/confirmatory/nDrivesAfterCutoff": [
+   24,
+   23
+  ],
+  "summary_arrays.json:/cellSpreadStep/confirmatory/postStepSlope/ci95/0": [
+   0.9354,
+   1.0438
+  ],
+  "summary_arrays.json:/cellSpreadStep/confirmatory/postStepSlope/ci95/1": [
+   9.4761,
+   9.6254
+  ],
+  "summary_arrays.json:/cellSpreadStep/confirmatory/postStepSlope/est": [
+   5.2057,
+   5.3346
+  ],
+  "summary_arrays.json:/cellSpreadStep/confirmatory/postStepSlope/n": [
+   133,
+   132
+  ],
+  "summary_arrays.json:/cellSpreadStep/confirmatory/postStepSlope/se": [
+   2.0534,
+   2.0633
+  ],
+  "summary_arrays.json:/cellSpreadStep/confirmatory/terminalEvaluation/nInRangeDrives": [
+   18,
+   17
+  ],
+  "summary_arrays.json:/cellSpreadStep/dependence/dayMeanResidualAutocorrLag1": [
+   0.347,
+   0.354
+  ],
+  "summary_arrays.json:/cellSpreadStep/dependence/leaveOneWeekOut_range/0": [
+   0.5661,
+   0.5666
+  ],
+  "summary_arrays.json:/cellSpreadStep/dependence/leaveOneWeekOut_range/1": [
+   0.7579,
+   0.7587
+  ],
+  "summary_arrays.json:/cellSpreadStep/dependence/weekBlockBootstrap_linear/ci95/1": [
+   1.1456,
+   1.1466
+  ],
+  "summary_arrays.json:/cellSpreadStep/dependence/weekBlockBootstrap_linear/median": [
+   0.6863,
+   0.6878
+  ],
+  "summary_arrays.json:/cellSpreadStep/dependence/weekBlockBootstrap_step/ci95/0": [
+   -0.1029,
+   -0.1031
+  ],
+  "summary_arrays.json:/cellSpreadStep/dependence/weekBlockBootstrap_step/ci95/1": [
+   0.5268,
+   0.5281
+  ],
+  "summary_arrays.json:/cellSpreadStep/dependence/weekBlockBootstrap_step/median": [
+   0.2191,
+   0.2194
+  ],
+  "summary_arrays.json:/cellSpreadStep/dependence/weekBlockBootstrap_step/pGt0": [
+   0.9237,
+   0.9225
+  ],
+  "summary_arrays.json:/cellSpreadStep/dependence/weekCluster_linear/aic": [
+   3358.2,
+   3353.58
+  ],
+  "summary_arrays.json:/cellSpreadStep/dependence/weekCluster_linear/ci95/1": [
+   1.1023,
+   1.1036
+  ],
+  "summary_arrays.json:/cellSpreadStep/dependence/weekCluster_linear/est": [
+   0.6844,
+   0.685
+  ],
+  "summary_arrays.json:/cellSpreadStep/dependence/weekCluster_linear/n": [
+   600,
+   599
+  ],
+  "summary_arrays.json:/cellSpreadStep/dependence/weekCluster_linear/se": [
+   0.2025,
+   0.2028
+  ],
+  "summary_arrays.json:/cellSpreadStep/dependence/weekCluster_step/aic": [
+   3330.31,
+   3325.61
+  ],
+  "summary_arrays.json:/cellSpreadStep/dependence/weekCluster_step/ci95/1": [
+   0.4762,
+   0.4761
+  ],
+  "summary_arrays.json:/cellSpreadStep/dependence/weekCluster_step/n": [
+   600,
+   599
+  ],
+  "summary_arrays.json:/cellSpreadStep/dependence/weekCluster_step/r2": [
+   0.2882,
+   0.2883
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M0_linear_released/aic": [
+   3382.1,
+   3377.35
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M0_linear_released/ci95/0": [
+   0.4128,
+   0.4104
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M0_linear_released/ci95/1": [
+   1.0665,
+   1.065
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M0_linear_released/cv_rmse_day_blocked": [
+   4.052,
+   4.055
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M0_linear_released/est": [
+   0.7396,
+   0.7377
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M0_linear_released/n": [
+   600,
+   599
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M0_linear_released/r2": [
+   0.2162,
+   0.2163
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M0_linear_released/se": [
+   0.1651,
+   0.1653
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M1_linear_soc/aic": [
+   3358.2,
+   3353.58
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M1_linear_soc/ci95/0": [
+   0.3533,
+   0.3535
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M1_linear_soc/ci95/1": [
+   1.0155,
+   1.0166
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M1_linear_soc/cv_rmse_day_blocked": [
+   3.968,
+   3.972
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M1_linear_soc/est": [
+   0.6844,
+   0.685
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M1_linear_soc/n": [
+   600,
+   599
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M1_linear_soc/se": [
+   0.1672,
+   0.1675
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M2_linear_soc_rest/aic": [
+   3345.26,
+   3340.74
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M2_linear_soc_rest/ci95/0": [
+   0.2251,
+   0.2262
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M2_linear_soc_rest/ci95/1": [
+   0.8646,
+   0.8663
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M2_linear_soc_rest/cv_rmse_day_blocked": [
+   3.926,
+   3.93
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M2_linear_soc_rest/est": [
+   0.5449,
+   0.5463
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M2_linear_soc_rest/n": [
+   600,
+   599
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M2_linear_soc_rest/se": [
+   0.1615,
+   0.1617
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M3_step/aic": [
+   3350.61,
+   3346.02
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M3_step/ci95/0": [
+   -0.0653,
+   -0.0656
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M3_step/cv_rmse_day_blocked": [
+   3.953,
+   3.956
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M3_step/est": [
+   0.2266,
+   0.2264
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M3_step/n": [
+   600,
+   599
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M3_step/se": [
+   0.1474,
+   0.1475
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M3_step/step_term/ci95/0": [
+   1.5942,
+   1.5883
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M3_step/step_term/ci95/1": [
+   4.1941,
+   4.1949
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M3_step/step_term/est": [
+   2.8941,
+   2.8916
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M3_step/step_term/se": [
+   0.6566,
+   0.6583
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M4_step_soc/aic": [
+   3330.31,
+   3325.61
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M4_step_soc/ci95/1": [
+   0.4938,
+   0.4937
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M4_step_soc/cv_rmse_day_blocked": [
+   3.885,
+   3.888
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M4_step_soc/n": [
+   600,
+   599
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M4_step_soc/r2": [
+   0.2882,
+   0.2883
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M4_step_soc/step_term/ci95/0": [
+   1.3526,
+   1.3538
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M4_step_soc/step_term/ci95/1": [
+   4.0243,
+   4.0381
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M4_step_soc/step_term/est": [
+   2.6885,
+   2.696
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M4_step_soc/step_term/se": [
+   0.6748,
+   0.6779
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/aic": [
+   3318.24,
+   3313.62
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/ci95/0": [
+   -0.2001,
+   -0.1994
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/ci95/1": [
+   0.3643,
+   0.3646
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/cv_rmse_day_blocked": [
+   3.843,
+   3.847
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/est": [
+   0.0821,
+   0.0826
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/n": [
+   600,
+   599
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/r2": [
+   0.307,
+   0.3071
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/step_term/ci95/0": [
+   1.3213,
+   1.3233
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/step_term/ci95/1": [
+   3.93,
+   3.944
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/step_term/est": [
+   2.6257,
+   2.6336
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M5_step_soc_rest/step_term/se": [
+   0.6588,
+   0.6619
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M6_month_fixed_effects/aic": [
+   3297.81,
+   3291.36
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M6_month_fixed_effects/cv_rmse_day_blocked": [
+   3.82,
+   3.815
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M6_month_fixed_effects/n": [
+   600,
+   599
+  ],
+  "summary_arrays.json:/cellSpreadStep/models/M6_month_fixed_effects/r2": [
+   0.3346,
+   0.3368
+  ],
+  "analyses/M574_check.json:/analysisFrame/n": [
+   600,
+   599
+  ],
+  "analyses/M574_check.json:/confirmatory/inRangeSensitivity/meanResidualCi95/0": [
+   -0.952,
+   -0.579
+  ],
+  "analyses/M574_check.json:/confirmatory/inRangeSensitivity/meanResidualCi95/1": [
+   15.566,
+   15.888
+  ],
+  "analyses/M574_check.json:/confirmatory/inRangeSensitivity/meanResidualMv": [
+   7.307,
+   7.655
+  ],
+  "analyses/M574_check.json:/confirmatory/inRangeSensitivity/n": [
+   18,
+   17
+  ],
+  "analyses/M574_check.json:/confirmatory/meanResidualCi95/0": [
+   1.499,
+   1.746
+  ],
+  "analyses/M574_check.json:/confirmatory/meanResidualCi95/1": [
+   12.215,
+   12.443
+  ],
+  "analyses/M574_check.json:/confirmatory/meanResidualMv": [
+   6.857,
+   7.094
+  ],
+  "analyses/M574_check.json:/confirmatory/nDrivesAfterCutoff": [
+   24,
+   23
+  ],
+  "analyses/M574_check.json:/confirmatory/postStepSlope/ci95/0": [
+   0.9354,
+   1.0438
+  ],
+  "analyses/M574_check.json:/confirmatory/postStepSlope/ci95/1": [
+   9.4761,
+   9.6254
+  ],
+  "analyses/M574_check.json:/confirmatory/postStepSlope/est": [
+   5.2057,
+   5.3346
+  ],
+  "analyses/M574_check.json:/confirmatory/postStepSlope/n": [
+   133,
+   132
+  ],
+  "analyses/M574_check.json:/confirmatory/postStepSlope/se": [
+   2.0534,
+   2.0633
+  ],
+  "analyses/M574_check.json:/confirmatory/terminalEvaluation/nInRangeDrives": [
+   18,
+   17
+  ],
+  "analyses/M574_check.json:/item1_2_models/M0_linear_released/aic": [
+   3382.1,
+   3377.35
+  ],
+  "analyses/M574_check.json:/item1_2_models/M0_linear_released/ci95/0": [
+   0.4128,
+   0.4104
+  ],
+  "analyses/M574_check.json:/item1_2_models/M0_linear_released/ci95/1": [
+   1.0665,
+   1.065
+  ],
+  "analyses/M574_check.json:/item1_2_models/M0_linear_released/cv_rmse_day_blocked": [
+   4.052,
+   4.055
+  ],
+  "analyses/M574_check.json:/item1_2_models/M0_linear_released/est": [
+   0.7396,
+   0.7377
+  ],
+  "analyses/M574_check.json:/item1_2_models/M0_linear_released/n": [
+   600,
+   599
+  ],
+  "analyses/M574_check.json:/item1_2_models/M0_linear_released/r2": [
+   0.2162,
+   0.2163
+  ],
+  "analyses/M574_check.json:/item1_2_models/M0_linear_released/se": [
+   0.1651,
+   0.1653
+  ],
+  "analyses/M574_check.json:/item1_2_models/M1_linear_soc/aic": [
+   3358.2,
+   3353.58
+  ],
+  "analyses/M574_check.json:/item1_2_models/M1_linear_soc/ci95/0": [
+   0.3533,
+   0.3535
+  ],
+  "analyses/M574_check.json:/item1_2_models/M1_linear_soc/ci95/1": [
+   1.0155,
+   1.0166
+  ],
+  "analyses/M574_check.json:/item1_2_models/M1_linear_soc/cv_rmse_day_blocked": [
+   3.968,
+   3.972
+  ],
+  "analyses/M574_check.json:/item1_2_models/M1_linear_soc/est": [
+   0.6844,
+   0.685
+  ],
+  "analyses/M574_check.json:/item1_2_models/M1_linear_soc/n": [
+   600,
+   599
+  ],
+  "analyses/M574_check.json:/item1_2_models/M1_linear_soc/se": [
+   0.1672,
+   0.1675
+  ],
+  "analyses/M574_check.json:/item1_2_models/M2_linear_soc_rest/aic": [
+   3345.26,
+   3340.74
+  ],
+  "analyses/M574_check.json:/item1_2_models/M2_linear_soc_rest/ci95/0": [
+   0.2251,
+   0.2262
+  ],
+  "analyses/M574_check.json:/item1_2_models/M2_linear_soc_rest/ci95/1": [
+   0.8646,
+   0.8663
+  ],
+  "analyses/M574_check.json:/item1_2_models/M2_linear_soc_rest/cv_rmse_day_blocked": [
+   3.926,
+   3.93
+  ],
+  "analyses/M574_check.json:/item1_2_models/M2_linear_soc_rest/est": [
+   0.5449,
+   0.5463
+  ],
+  "analyses/M574_check.json:/item1_2_models/M2_linear_soc_rest/n": [
+   600,
+   599
+  ],
+  "analyses/M574_check.json:/item1_2_models/M2_linear_soc_rest/se": [
+   0.1615,
+   0.1617
+  ],
+  "analyses/M574_check.json:/item1_2_models/M3_step/aic": [
+   3350.61,
+   3346.02
+  ],
+  "analyses/M574_check.json:/item1_2_models/M3_step/ci95/0": [
+   -0.0653,
+   -0.0656
+  ],
+  "analyses/M574_check.json:/item1_2_models/M3_step/cv_rmse_day_blocked": [
+   3.953,
+   3.956
+  ],
+  "analyses/M574_check.json:/item1_2_models/M3_step/est": [
+   0.2266,
+   0.2264
+  ],
+  "analyses/M574_check.json:/item1_2_models/M3_step/n": [
+   600,
+   599
+  ],
+  "analyses/M574_check.json:/item1_2_models/M3_step/se": [
+   0.1474,
+   0.1475
+  ],
+  "analyses/M574_check.json:/item1_2_models/M3_step/step_term/ci95/0": [
+   1.5942,
+   1.5883
+  ],
+  "analyses/M574_check.json:/item1_2_models/M3_step/step_term/ci95/1": [
+   4.1941,
+   4.1949
+  ],
+  "analyses/M574_check.json:/item1_2_models/M3_step/step_term/est": [
+   2.8941,
+   2.8916
+  ],
+  "analyses/M574_check.json:/item1_2_models/M3_step/step_term/se": [
+   0.6566,
+   0.6583
+  ],
+  "analyses/M574_check.json:/item1_2_models/M4_step_soc/aic": [
+   3330.31,
+   3325.61
+  ],
+  "analyses/M574_check.json:/item1_2_models/M4_step_soc/ci95/1": [
+   0.4938,
+   0.4937
+  ],
+  "analyses/M574_check.json:/item1_2_models/M4_step_soc/cv_rmse_day_blocked": [
+   3.885,
+   3.888
+  ],
+  "analyses/M574_check.json:/item1_2_models/M4_step_soc/n": [
+   600,
+   599
+  ],
+  "analyses/M574_check.json:/item1_2_models/M4_step_soc/r2": [
+   0.2882,
+   0.2883
+  ],
+  "analyses/M574_check.json:/item1_2_models/M4_step_soc/step_term/ci95/0": [
+   1.3526,
+   1.3538
+  ],
+  "analyses/M574_check.json:/item1_2_models/M4_step_soc/step_term/ci95/1": [
+   4.0243,
+   4.0381
+  ],
+  "analyses/M574_check.json:/item1_2_models/M4_step_soc/step_term/est": [
+   2.6885,
+   2.696
+  ],
+  "analyses/M574_check.json:/item1_2_models/M4_step_soc/step_term/se": [
+   0.6748,
+   0.6779
+  ],
+  "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/aic": [
+   3318.24,
+   3313.62
+  ],
+  "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/ci95/0": [
+   -0.2001,
+   -0.1994
+  ],
+  "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/ci95/1": [
+   0.3643,
+   0.3646
+  ],
+  "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/cv_rmse_day_blocked": [
+   3.843,
+   3.847
+  ],
+  "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/est": [
+   0.0821,
+   0.0826
+  ],
+  "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/n": [
+   600,
+   599
+  ],
+  "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/r2": [
+   0.307,
+   0.3071
+  ],
+  "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/step_term/ci95/0": [
+   1.3213,
+   1.3233
+  ],
+  "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/step_term/ci95/1": [
+   3.93,
+   3.944
+  ],
+  "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/step_term/est": [
+   2.6257,
+   2.6336
+  ],
+  "analyses/M574_check.json:/item1_2_models/M5_step_soc_rest/step_term/se": [
+   0.6588,
+   0.6619
+  ],
+  "analyses/M574_check.json:/item1_2_models/M6_month_fixed_effects/aic": [
+   3297.81,
+   3291.36
+  ],
+  "analyses/M574_check.json:/item1_2_models/M6_month_fixed_effects/cv_rmse_day_blocked": [
+   3.82,
+   3.815
+  ],
+  "analyses/M574_check.json:/item1_2_models/M6_month_fixed_effects/n": [
+   600,
+   599
+  ],
+  "analyses/M574_check.json:/item1_2_models/M6_month_fixed_effects/r2": [
+   0.3346,
+   0.3368
+  ],
+  "analyses/M574_check.json:/item1_2_models/changePointScan/best/0/jump_mv": [
+   4.04,
+   4.09
+  ],
+  "analyses/M574_check.json:/item1_2_models/changePointScan/best/1/day": [
+   "2026-10-09",
+   "2026-10-11"
+  ],
+  "analyses/M574_check.json:/item1_2_models/changePointScan/best/1/jump_mv": [
+   3.84,
+   4.14
+  ],
+  "analyses/M574_check.json:/item1_2_models/changePointScan/best/2/day": [
+   "2026-10-11",
+   "2026-10-09"
+  ],
+  "analyses/M574_check.json:/item1_2_models/changePointScan/best/2/jump_mv": [
+   4.08,
+   3.89
+  ],
+  "analyses/M574_check.json:/item3_dependence/dayMeanResidualAutocorrLag1": [
+   0.347,
+   0.354
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/0/ci95/0": [
+   0.3791,
+   0.3793
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/0/ci95/1": [
+   1.1367,
+   1.138
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/0/est": [
+   0.7579,
+   0.7587
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/1/ci95/0": [
+   0.3432,
+   0.3434
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/1/ci95/1": [
+   1.0525,
+   1.0538
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/1/est": [
+   0.6979,
+   0.6986
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/10/ci95/0": [
+   0.3621,
+   0.3622
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/10/ci95/1": [
+   1.047,
+   1.0479
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/10/est": [
+   0.7045,
+   0.705
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/11/ci95/0": [
+   0.3541,
+   0.3543
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/11/ci95/1": [
+   1.0155,
+   1.0165
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/11/est": [
+   0.6848,
+   0.6854
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/12/ci95/0": [
+   0.3404,
+   0.3405
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/12/ci95/1": [
+   0.9889,
+   0.9899
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/12/est": [
+   0.6646,
+   0.6652
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/13/ci95/0": [
+   0.3523,
+   0.3525
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/13/ci95/1": [
+   1.0111,
+   1.0122
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/13/est": [
+   0.6817,
+   0.6823
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/14/ci95/0": [
+   0.3842,
+   0.3844
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/14/ci95/1": [
+   1.0357,
+   1.0366
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/14/est": [
+   0.71,
+   0.7105
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/15/ci95/0": [
+   0.3464,
+   0.3466
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/15/ci95/1": [
+   0.9972,
+   0.9983
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/15/est": [
+   0.6718,
+   0.6724
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/16/ci95/0": [
+   0.3793,
+   0.3794
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/16/ci95/1": [
+   1.0473,
+   1.0483
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/16/est": [
+   0.7133,
+   0.7139
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/17/ci95/0": [
+   0.3884,
+   0.3885
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/17/ci95/1": [
+   1.0525,
+   1.0535
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/17/est": [
+   0.7204,
+   0.721
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/18/ci95/0": [
+   0.3902,
+   0.3903
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/18/ci95/1": [
+   1.0685,
+   1.0695
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/18/est": [
+   0.7294,
+   0.7299
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/19/ci95/0": [
+   0.3342,
+   0.3348
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/19/ci95/1": [
+   1.0153,
+   1.0172
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/19/est": [
+   0.6747,
+   0.676
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/2/ci95/0": [
+   0.3665,
+   0.3667
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/2/ci95/1": [
+   1.0339,
+   1.035
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/2/est": [
+   0.7002,
+   0.7008
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/20/ci95/1": [
+   1.0432,
+   1.0444
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/20/est": [
+   0.6808,
+   0.6815
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/21/ci95/0": [
+   0.3061,
+   0.3064
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/21/ci95/1": [
+   1.064,
+   1.0658
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/21/est": [
+   0.6851,
+   0.6861
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/22/ci95/1": [
+   0.9287,
+   0.9302
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/22/est": [
+   0.572,
+   0.5727
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/23/ci95/1": [
+   0.8159,
+   0.8169
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/23/est": [
+   0.5661,
+   0.5666
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/3/ci95/0": [
+   0.3693,
+   0.3694
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/3/ci95/1": [
+   1.0416,
+   1.0426
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/3/est": [
+   0.7054,
+   0.706
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/4/ci95/0": [
+   0.4021,
+   0.4023
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/4/ci95/1": [
+   1.1019,
+   1.1033
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/4/est": [
+   0.752,
+   0.7528
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/5/ci95/0": [
+   0.3573,
+   0.3577
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/5/ci95/1": [
+   1.0619,
+   1.0634
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/5/est": [
+   0.7096,
+   0.7105
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/6/ci95/0": [
+   0.3397,
+   0.3398
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/6/ci95/1": [
+   1.0173,
+   1.0186
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/6/est": [
+   0.6785,
+   0.6792
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/7/ci95/0": [
+   0.3399,
+   0.3401
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/7/ci95/1": [
+   1.0095,
+   1.0106
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/7/est": [
+   0.6747,
+   0.6753
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/8/ci95/0": [
+   0.3486,
+   0.3487
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/8/ci95/1": [
+   1.0164,
+   1.0176
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/8/est": [
+   0.6825,
+   0.6832
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/9/ci95/0": [
+   0.3632,
+   0.3633
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/9/ci95/1": [
+   1.0318,
+   1.0327
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_linear/9/est": [
+   0.6975,
+   0.698
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_range/0": [
+   0.5661,
+   0.5666
+  ],
+  "analyses/M574_check.json:/item3_dependence/leaveOneWeekOut_range/1": [
+   0.7579,
+   0.7587
+  ],
+  "analyses/M574_check.json:/item3_dependence/weekBlockBootstrap_linear/ci95/1": [
+   1.1456,
+   1.1466
+  ],
+  "analyses/M574_check.json:/item3_dependence/weekBlockBootstrap_linear/median": [
+   0.6863,
+   0.6878
+  ],
+  "analyses/M574_check.json:/item3_dependence/weekBlockBootstrap_step/ci95/0": [
+   -0.1029,
+   -0.1031
+  ],
+  "analyses/M574_check.json:/item3_dependence/weekBlockBootstrap_step/ci95/1": [
+   0.5268,
+   0.5281
+  ],
+  "analyses/M574_check.json:/item3_dependence/weekBlockBootstrap_step/median": [
+   0.2191,
+   0.2194
+  ],
+  "analyses/M574_check.json:/item3_dependence/weekBlockBootstrap_step/pGt0": [
+   0.9237,
+   0.9225
+  ],
+  "analyses/M574_check.json:/item3_dependence/weekCluster_linear/aic": [
+   3358.2,
+   3353.58
+  ],
+  "analyses/M574_check.json:/item3_dependence/weekCluster_linear/ci95/1": [
+   1.1023,
+   1.1036
+  ],
+  "analyses/M574_check.json:/item3_dependence/weekCluster_linear/est": [
+   0.6844,
+   0.685
+  ],
+  "analyses/M574_check.json:/item3_dependence/weekCluster_linear/n": [
+   600,
+   599
+  ],
+  "analyses/M574_check.json:/item3_dependence/weekCluster_linear/se": [
+   0.2025,
+   0.2028
+  ],
+  "analyses/M574_check.json:/item3_dependence/weekCluster_step/aic": [
+   3330.31,
+   3325.61
+  ],
+  "analyses/M574_check.json:/item3_dependence/weekCluster_step/ci95/1": [
+   0.4762,
+   0.4761
+  ],
+  "analyses/M574_check.json:/item3_dependence/weekCluster_step/n": [
+   600,
+   599
+  ],
+  "analyses/M574_check.json:/item3_dependence/weekCluster_step/r2": [
+   0.2882,
+   0.2883
+  ],
+  "analyses/M574_check.json:/item5_cadence/byPeriod/Oct10-17/medianPeriod_s": [
+   0.953,
+   0.952
+  ],
+  "analyses/M574_check.json:/item5_cadence/byPeriod/Oct10-17/n": [
+   73,
+   72
+  ],
+  "analyses/M574_check.json:/item5_cadence/regimeTermWithStep/ci95/0": [
+   -0.1998,
+   -0.2051
+  ],
+  "analyses/M574_check.json:/item5_cadence/regimeTermWithStep/ci95/1": [
+   2.2429,
+   2.2396
+  ],
+  "analyses/M574_check.json:/item5_cadence/regimeTermWithStep/est": [
+   1.0216,
+   1.0173
+  ],
+  "analyses/M574_check.json:/item5_cadence/regimeTermWithStep/se": [
+   0.6169,
+   0.6174
+  ],
+  "analyses/M574_check.json:/item5_cadence/slopeWithRegime/ci95/0": [
+   0.3484,
+   0.3485
+  ],
+  "analyses/M574_check.json:/item5_cadence/slopeWithRegime/ci95/1": [
+   1.1486,
+   1.1488
+  ],
+  "analyses/M574_check.json:/item5_cadence/slopeWithRegime/est": [
+   0.7485,
+   0.7487
+  ],
+  "analyses/M574_check.json:/item5_cadence/slopeWithRegimeAndStep/ci95/0": [
+   -0.0073,
+   -0.0077
+  ],
+  "analyses/M574_check.json:/item5_cadence/slopeWithRegimeAndStep/ci95/1": [
+   0.5836,
+   0.5831
+  ],
+  "analyses/M574_check.json:/item5_cadence/slopeWithRegimeAndStep/est": [
+   0.2881,
+   0.2877
+  ],
+  "analyses/M574_check.json:/item5_cadence/slopeWithoutRegime/ci95/0": [
+   0.3533,
+   0.3535
+  ],
+  "analyses/M574_check.json:/item5_cadence/slopeWithoutRegime/ci95/1": [
+   1.0155,
+   1.0166
+  ],
+  "analyses/M574_check.json:/item5_cadence/slopeWithoutRegime/est": [
+   0.6844,
+   0.685
+  ],
+  "analyses/M574_check.json:/item5_cadence/stepTermWithRegime/ci95/0": [
+   1.4782,
+   1.4796
+  ],
+  "analyses/M574_check.json:/item5_cadence/stepTermWithRegime/ci95/1": [
+   4.5238,
+   4.5314
+  ],
+  "analyses/M574_check.json:/item5_cadence/stepTermWithRegime/est": [
+   3.001,
+   3.0055
+  ],
+  "analyses/M574_check.json:/item5_cadence/stepTermWithRegime/se": [
+   0.7692,
+   0.7707
+  ],
+  "analyses/M574_check.json:/masterRows": [
+   632,
+   631
+  ]
+ },
+ "oldReproducesCommittedByteExact": true
+}

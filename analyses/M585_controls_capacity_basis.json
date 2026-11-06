@@ -1,0 +1,1085 @@
+{
+ "tool": "capacity_basis",
+ "args": [],
+ "driveExcluded": "2026-11-04_08-01-15.csv",
+ "stageOutputs": [
+  "summary_arrays.json"
+ ],
+ "oldReturncode": 0,
+ "newReturncode": 0,
+ "newExclReturncode": 0,
+ "oldVsCommitted": {
+  "changed": [],
+  "lost": [],
+  "added": [],
+  "nLeaves": 286376,
+  "filesWithDifferentContent": []
+ },
+ "newVsCommitted": {
+  "changed": [
+   "summary_arrays.json:/capacityBasis/ahPer100/methodRangeEntries/B_fast_regime",
+   "summary_arrays.json:/capacityBasis/levelTest/adjustedSlope/ci90/0",
+   "summary_arrays.json:/capacityBasis/levelTest/adjustedSlope/ci90/1",
+   "summary_arrays.json:/capacityBasis/levelTest/adjustedSlope/ci95/1",
+   "summary_arrays.json:/capacityBasis/levelTest/vifSoCTerm"
+  ],
+  "lost": [],
+  "added": [],
+  "nLeaves": 286376,
+  "filesWithDifferentContent": []
+ },
+ "newExclVsCommitted": {
+  "changed": [
+   "summary_arrays.json:/capacityBasis/ahPer100/methodRange/1",
+   "summary_arrays.json:/capacityBasis/ahPer100/methodRangeEntries/B_reverse",
+   "summary_arrays.json:/capacityBasis/ahPer100/methodRangeEntries/W10_literal",
+   "summary_arrays.json:/capacityBasis/ahPer100/methodRangeEntries/W5",
+   "summary_arrays.json:/capacityBasis/ahPer100/methodRangeEntries/whole_drive",
+   "summary_arrays.json:/capacityBasis/eventsB/reverseAh100",
+   "summary_arrays.json:/capacityBasis/exposure/chargeReferences/apparentSoCScale/chargeThroughputEFC",
+   "summary_arrays.json:/capacityBasis/exposure/chargeReferences/apparentSoCScale/grossTurnoverAhPerRef",
+   "summary_arrays.json:/capacityBasis/exposure/chargeReferences/rated_5.0Ah/chargeThroughputEFC",
+   "summary_arrays.json:/capacityBasis/exposure/chargeReferences/rated_5.0Ah/grossTurnoverAhPerRef",
+   "summary_arrays.json:/capacityBasis/exposure/chargeReferences/windowFractionBand_fMinEnd/chargeThroughputEFC",
+   "summary_arrays.json:/capacityBasis/exposure/chargeReferences/windowFractionBand_fMinEnd/grossTurnoverAhPerRef",
+   "summary_arrays.json:/capacityBasis/exposure/energyReferences/apparentSoCScale/bidirectionalFCE",
+   "summary_arrays.json:/capacityBasis/exposure/energyReferences/apparentSoCScale/dischargeEFC",
+   "summary_arrays.json:/capacityBasis/exposure/energyReferences/apparentSoCScale/grossTurnoverGTC",
+   "summary_arrays.json:/capacityBasis/exposure/energyReferences/legacy_2.1kWh/bidirectionalFCE",
+   "summary_arrays.json:/capacityBasis/exposure/energyReferences/legacy_2.1kWh/dischargeEFC",
+   "summary_arrays.json:/capacityBasis/exposure/energyReferences/legacy_2.1kWh/grossTurnoverGTC",
+   "summary_arrays.json:/capacityBasis/exposure/population/nDrives",
+   "summary_arrays.json:/capacityBasis/exposure/primaryRaw/chargeAh",
+   "summary_arrays.json:/capacityBasis/exposure/primaryRaw/chargeKwh",
+   "summary_arrays.json:/capacityBasis/exposure/primaryRaw/dischargeAh",
+   "summary_arrays.json:/capacityBasis/exposure/primaryRaw/dischargeKwh",
+   "summary_arrays.json:/capacityBasis/exposure/primaryRaw/throughputAh",
+   "summary_arrays.json:/capacityBasis/exposure/primaryRaw/throughputKwh",
+   "summary_arrays.json:/capacityBasis/exposure/socRainflowEFC/value",
+   "summary_arrays.json:/capacityBasis/kWhPer100/bootstrapCI95/1",
+   "summary_arrays.json:/capacityBasis/kWhPer100/methodRangeEntries/W10_literal",
+   "summary_arrays.json:/capacityBasis/kWhPer100/methodRangeEntries/whole_drive",
+   "summary_arrays.json:/capacityBasis/keyOnTest/all/interceptSoCPoints/ci90/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/all/interceptSoCPoints/ci90/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/all/interceptSoCPoints/ci95/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/all/interceptSoCPoints/ci95/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/all/interceptSoCPoints/est",
+   "summary_arrays.json:/capacityBasis/keyOnTest/all/n",
+   "summary_arrays.json:/capacityBasis/keyOnTest/all/slopeSoCPointsPerAh/ci90/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/all/slopeSoCPointsPerAh/ci90/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/all/slopeSoCPointsPerAh/ci95/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/all/slopeSoCPointsPerAh/ci95/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/all/slopeSoCPointsPerAh/est",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/interceptSoCPoints/ci90/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/interceptSoCPoints/ci90/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/interceptSoCPoints/ci95/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/interceptSoCPoints/ci95/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/interceptSoCPoints/est",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/slopeSoCPointsPerAh/ci90/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/slopeSoCPointsPerAh/ci90/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/slopeSoCPointsPerAh/ci95/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/slopeSoCPointsPerAh/ci95/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/slopeSoCPointsPerAh/est",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/interceptSoCPoints/ci90/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/interceptSoCPoints/ci90/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/interceptSoCPoints/ci95/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/interceptSoCPoints/ci95/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/interceptSoCPoints/est",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/n",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/slopeSoCPointsPerAh/ci90/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/slopeSoCPointsPerAh/ci90/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/slopeSoCPointsPerAh/ci95/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/slopeSoCPointsPerAh/ci95/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/slopeSoCPointsPerAh/est",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/interceptSoCPoints/ci90/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/interceptSoCPoints/ci90/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/interceptSoCPoints/ci95/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/interceptSoCPoints/ci95/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/interceptSoCPoints/est",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/slopeSoCPointsPerAh/ci90/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/slopeSoCPointsPerAh/ci90/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/slopeSoCPointsPerAh/ci95/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/slopeSoCPointsPerAh/ci95/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/slopeSoCPointsPerAh/est",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/interceptSoCPoints/ci90/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/interceptSoCPoints/ci90/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/interceptSoCPoints/ci95/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/interceptSoCPoints/est",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/n",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/slopeSoCPointsPerAh/ci90/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/slopeSoCPointsPerAh/ci90/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/slopeSoCPointsPerAh/ci95/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/slopeSoCPointsPerAh/ci95/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/slopeSoCPointsPerAh/est",
+   "summary_arrays.json:/capacityBasis/keyOnTest/nIntervals",
+   "summary_arrays.json:/capacityBasis/levelTest/adjustedSlope/ci90/0",
+   "summary_arrays.json:/capacityBasis/levelTest/adjustedSlope/ci90/1",
+   "summary_arrays.json:/capacityBasis/levelTest/adjustedSlope/ci95/1",
+   "summary_arrays.json:/capacityBasis/levelTest/adjustedSlope/est",
+   "summary_arrays.json:/capacityBasis/levelTest/terciles/byAhPer100/atLeast65/ci90/0",
+   "summary_arrays.json:/capacityBasis/levelTest/terciles/byAhPer100/atLeast65/ci95/1",
+   "summary_arrays.json:/capacityBasis/levelTest/terciles/byAhPer100/atLeast65/est",
+   "summary_arrays.json:/capacityBasis/levelTest/unadjustedScaleAtCentre55AhPer100/ci90/1",
+   "summary_arrays.json:/capacityBasis/levelTest/unadjustedScaleAtCentre55AhPer100/ci95/0",
+   "summary_arrays.json:/capacityBasis/levelTest/unadjustedScaleAtCentre55AhPer100/ci95/1",
+   "summary_arrays.json:/capacityBasis/levelTest/unadjustedScaleAtCentre55AhPer100/est",
+   "summary_arrays.json:/capacityBasis/levelTest/unadjustedSlope/ci90/0",
+   "summary_arrays.json:/capacityBasis/levelTest/unadjustedSlope/ci90/1",
+   "summary_arrays.json:/capacityBasis/levelTest/unadjustedSlope/ci95/1",
+   "summary_arrays.json:/capacityBasis/levelTest/unadjustedSlope/est",
+   "summary_arrays.json:/capacityBasis/levelTest/vifSoCTerm",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/chronological/earlyToLate/nTest",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/chronological/earlyToLate/rmsKwh/i2rT_est",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/chronological/earlyToLate/rmsKwh/offset_est",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/chronological/lateToEarly/nTrain",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/full/offsetA/ci90/1",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/full/offsetA/ci95/1",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/full/offsetAWithoutI2R/ci90/0",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/full/offsetAWithoutI2R/ci95/1",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/full/scaleKwhPer100/ci90/1",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/full/scaleKwhPer100/ci95/0",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/full/scaleKwhPer100/ci95/1",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/full/vif/i2Term",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/full/vif/offsetTerm",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/heldOutRmsKwh/offset_fix",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/nDrives",
+   "summary_arrays.json:/capacityBasis/population/nDrives",
+   "summary_arrays.json:/capacityBasis/population/nEvents",
+   "summary_arrays.json:/capacityBasis/shadowEligibility/legacyOffsetA",
+   "summary_arrays.json:/capacityBasis/testA_oddEvenWeeks/ci90Difference/1",
+   "summary_arrays.json:/capacityBasis/testA_oddEvenWeeks/oddWeeksAh100",
+   "summary_arrays.json:/capacityBasis/wholeDrive/E_kWh/ci90/1",
+   "summary_arrays.json:/capacityBasis/wholeDrive/E_kWh/ci95/0",
+   "summary_arrays.json:/capacityBasis/wholeDrive/E_kWh/ci95/1",
+   "summary_arrays.json:/capacityBasis/wholeDrive/E_kWh/est",
+   "summary_arrays.json:/capacityBasis/wholeDrive/Q_Ah/ci90/1",
+   "summary_arrays.json:/capacityBasis/wholeDrive/Q_Ah/ci95/0",
+   "summary_arrays.json:/capacityBasis/wholeDrive/Q_Ah/ci95/1",
+   "summary_arrays.json:/capacityBasis/wholeDrive/Q_Ah/est",
+   "summary_arrays.json:/capacityBasis/wholeDrive/bias_E_A/ci90/0",
+   "summary_arrays.json:/capacityBasis/wholeDrive/medianWindowS",
+   "summary_arrays.json:/capacityBasis/wholeDrive/n",
+   "summary_arrays.json:/capacityBasis/wholeDrive/nDrives",
+   "summary_arrays.json:/capacityBasis/windows/5/Q_Ah/ci90/0",
+   "summary_arrays.json:/capacityBasis/windows/5/Q_Ah/ci90/1",
+   "summary_arrays.json:/capacityBasis/windows/5/Q_Ah/est",
+   "summary_arrays.json:/capacityBasis/windows/5/bias_A/ci90/0",
+   "summary_arrays.json:/capacityBasis/windows/5/bias_A/ci90/1",
+   "summary_arrays.json:/capacityBasis/windows/5/bias_A/ci95/0",
+   "summary_arrays.json:/capacityBasis/windows/5/bias_A/ci95/1",
+   "summary_arrays.json:/capacityBasis/windows/5/bias_A/est",
+   "summary_arrays.json:/capacityBasis/windows/5/bias_E_A/ci90/0",
+   "summary_arrays.json:/capacityBasis/windows/5/bias_E_A/ci90/1",
+   "summary_arrays.json:/capacityBasis/windows/5/bias_E_A/ci95/0",
+   "summary_arrays.json:/capacityBasis/windows/5/bias_E_A/ci95/1",
+   "summary_arrays.json:/capacityBasis/windows/5/bias_E_A/est",
+   "summary_arrays.json:/capacityBasis/windows/5/medianWindowS",
+   "summary_arrays.json:/capacityBasis/windows/5/n",
+   "summary_arrays.json:/capacityBasis/windows/5/nDrives",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/E_kWh/ci90/1",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/E_kWh/ci95/1",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/E_kWh/est",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/Q_Ah/ci90/0",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/Q_Ah/ci90/1",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/Q_Ah/ci95/0",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/Q_Ah/ci95/1",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/Q_Ah/est",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_A/ci90/0",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_A/ci90/1",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_A/ci95/0",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_A/ci95/1",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_A/est",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_E_A/ci90/0",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_E_A/ci90/1",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_E_A/ci95/0",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_E_A/ci95/1",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_E_A/est",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/medianWindowS",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/n",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/nDrives",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/n"
+  ],
+  "lost": [],
+  "added": [],
+  "nLeaves": 286376,
+  "filesWithDifferentContent": []
+ },
+ "newVsNewExcl": {
+  "changed": [
+   "summary_arrays.json:/capacityBasis/ahPer100/methodRange/1",
+   "summary_arrays.json:/capacityBasis/ahPer100/methodRangeEntries/B_fast_regime",
+   "summary_arrays.json:/capacityBasis/ahPer100/methodRangeEntries/B_reverse",
+   "summary_arrays.json:/capacityBasis/ahPer100/methodRangeEntries/W10_literal",
+   "summary_arrays.json:/capacityBasis/ahPer100/methodRangeEntries/W5",
+   "summary_arrays.json:/capacityBasis/ahPer100/methodRangeEntries/whole_drive",
+   "summary_arrays.json:/capacityBasis/eventsB/reverseAh100",
+   "summary_arrays.json:/capacityBasis/exposure/chargeReferences/apparentSoCScale/chargeThroughputEFC",
+   "summary_arrays.json:/capacityBasis/exposure/chargeReferences/apparentSoCScale/grossTurnoverAhPerRef",
+   "summary_arrays.json:/capacityBasis/exposure/chargeReferences/rated_5.0Ah/chargeThroughputEFC",
+   "summary_arrays.json:/capacityBasis/exposure/chargeReferences/rated_5.0Ah/grossTurnoverAhPerRef",
+   "summary_arrays.json:/capacityBasis/exposure/chargeReferences/windowFractionBand_fMinEnd/chargeThroughputEFC",
+   "summary_arrays.json:/capacityBasis/exposure/chargeReferences/windowFractionBand_fMinEnd/grossTurnoverAhPerRef",
+   "summary_arrays.json:/capacityBasis/exposure/energyReferences/apparentSoCScale/bidirectionalFCE",
+   "summary_arrays.json:/capacityBasis/exposure/energyReferences/apparentSoCScale/dischargeEFC",
+   "summary_arrays.json:/capacityBasis/exposure/energyReferences/apparentSoCScale/grossTurnoverGTC",
+   "summary_arrays.json:/capacityBasis/exposure/energyReferences/legacy_2.1kWh/bidirectionalFCE",
+   "summary_arrays.json:/capacityBasis/exposure/energyReferences/legacy_2.1kWh/dischargeEFC",
+   "summary_arrays.json:/capacityBasis/exposure/energyReferences/legacy_2.1kWh/grossTurnoverGTC",
+   "summary_arrays.json:/capacityBasis/exposure/population/nDrives",
+   "summary_arrays.json:/capacityBasis/exposure/primaryRaw/chargeAh",
+   "summary_arrays.json:/capacityBasis/exposure/primaryRaw/chargeKwh",
+   "summary_arrays.json:/capacityBasis/exposure/primaryRaw/dischargeAh",
+   "summary_arrays.json:/capacityBasis/exposure/primaryRaw/dischargeKwh",
+   "summary_arrays.json:/capacityBasis/exposure/primaryRaw/throughputAh",
+   "summary_arrays.json:/capacityBasis/exposure/primaryRaw/throughputKwh",
+   "summary_arrays.json:/capacityBasis/exposure/socRainflowEFC/value",
+   "summary_arrays.json:/capacityBasis/kWhPer100/bootstrapCI95/1",
+   "summary_arrays.json:/capacityBasis/kWhPer100/methodRangeEntries/W10_literal",
+   "summary_arrays.json:/capacityBasis/kWhPer100/methodRangeEntries/whole_drive",
+   "summary_arrays.json:/capacityBasis/keyOnTest/all/interceptSoCPoints/ci90/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/all/interceptSoCPoints/ci90/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/all/interceptSoCPoints/ci95/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/all/interceptSoCPoints/ci95/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/all/interceptSoCPoints/est",
+   "summary_arrays.json:/capacityBasis/keyOnTest/all/n",
+   "summary_arrays.json:/capacityBasis/keyOnTest/all/slopeSoCPointsPerAh/ci90/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/all/slopeSoCPointsPerAh/ci90/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/all/slopeSoCPointsPerAh/ci95/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/all/slopeSoCPointsPerAh/ci95/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/all/slopeSoCPointsPerAh/est",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/interceptSoCPoints/ci90/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/interceptSoCPoints/ci90/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/interceptSoCPoints/ci95/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/interceptSoCPoints/ci95/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/interceptSoCPoints/est",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/slopeSoCPointsPerAh/ci90/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/slopeSoCPointsPerAh/ci90/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/slopeSoCPointsPerAh/ci95/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/slopeSoCPointsPerAh/ci95/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/slopeSoCPointsPerAh/est",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/interceptSoCPoints/ci90/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/interceptSoCPoints/ci90/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/interceptSoCPoints/ci95/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/interceptSoCPoints/ci95/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/interceptSoCPoints/est",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/n",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/slopeSoCPointsPerAh/ci90/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/slopeSoCPointsPerAh/ci90/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/slopeSoCPointsPerAh/ci95/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/slopeSoCPointsPerAh/ci95/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/slopeSoCPointsPerAh/est",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/interceptSoCPoints/ci90/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/interceptSoCPoints/ci90/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/interceptSoCPoints/ci95/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/interceptSoCPoints/ci95/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/interceptSoCPoints/est",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/slopeSoCPointsPerAh/ci90/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/slopeSoCPointsPerAh/ci90/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/slopeSoCPointsPerAh/ci95/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/slopeSoCPointsPerAh/ci95/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/slopeSoCPointsPerAh/est",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/interceptSoCPoints/ci90/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/interceptSoCPoints/ci90/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/interceptSoCPoints/ci95/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/interceptSoCPoints/est",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/n",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/slopeSoCPointsPerAh/ci90/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/slopeSoCPointsPerAh/ci90/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/slopeSoCPointsPerAh/ci95/0",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/slopeSoCPointsPerAh/ci95/1",
+   "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/slopeSoCPointsPerAh/est",
+   "summary_arrays.json:/capacityBasis/keyOnTest/nIntervals",
+   "summary_arrays.json:/capacityBasis/levelTest/adjustedSlope/ci90/0",
+   "summary_arrays.json:/capacityBasis/levelTest/adjustedSlope/ci90/1",
+   "summary_arrays.json:/capacityBasis/levelTest/adjustedSlope/ci95/1",
+   "summary_arrays.json:/capacityBasis/levelTest/adjustedSlope/est",
+   "summary_arrays.json:/capacityBasis/levelTest/terciles/byAhPer100/atLeast65/ci90/0",
+   "summary_arrays.json:/capacityBasis/levelTest/terciles/byAhPer100/atLeast65/ci95/1",
+   "summary_arrays.json:/capacityBasis/levelTest/terciles/byAhPer100/atLeast65/est",
+   "summary_arrays.json:/capacityBasis/levelTest/unadjustedScaleAtCentre55AhPer100/ci90/1",
+   "summary_arrays.json:/capacityBasis/levelTest/unadjustedScaleAtCentre55AhPer100/ci95/0",
+   "summary_arrays.json:/capacityBasis/levelTest/unadjustedScaleAtCentre55AhPer100/ci95/1",
+   "summary_arrays.json:/capacityBasis/levelTest/unadjustedScaleAtCentre55AhPer100/est",
+   "summary_arrays.json:/capacityBasis/levelTest/unadjustedSlope/ci90/0",
+   "summary_arrays.json:/capacityBasis/levelTest/unadjustedSlope/ci90/1",
+   "summary_arrays.json:/capacityBasis/levelTest/unadjustedSlope/ci95/1",
+   "summary_arrays.json:/capacityBasis/levelTest/unadjustedSlope/est",
+   "summary_arrays.json:/capacityBasis/levelTest/vifSoCTerm",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/chronological/earlyToLate/nTest",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/chronological/earlyToLate/rmsKwh/i2rT_est",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/chronological/earlyToLate/rmsKwh/offset_est",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/chronological/lateToEarly/nTrain",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/full/offsetA/ci90/1",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/full/offsetA/ci95/1",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/full/offsetAWithoutI2R/ci90/0",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/full/offsetAWithoutI2R/ci95/1",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/full/scaleKwhPer100/ci90/1",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/full/scaleKwhPer100/ci95/0",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/full/scaleKwhPer100/ci95/1",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/full/vif/i2Term",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/full/vif/offsetTerm",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/heldOutRmsKwh/offset_fix",
+   "summary_arrays.json:/capacityBasis/offsetModelTest/nDrives",
+   "summary_arrays.json:/capacityBasis/population/nDrives",
+   "summary_arrays.json:/capacityBasis/population/nEvents",
+   "summary_arrays.json:/capacityBasis/shadowEligibility/legacyOffsetA",
+   "summary_arrays.json:/capacityBasis/testA_oddEvenWeeks/ci90Difference/1",
+   "summary_arrays.json:/capacityBasis/testA_oddEvenWeeks/oddWeeksAh100",
+   "summary_arrays.json:/capacityBasis/wholeDrive/E_kWh/ci90/1",
+   "summary_arrays.json:/capacityBasis/wholeDrive/E_kWh/ci95/0",
+   "summary_arrays.json:/capacityBasis/wholeDrive/E_kWh/ci95/1",
+   "summary_arrays.json:/capacityBasis/wholeDrive/E_kWh/est",
+   "summary_arrays.json:/capacityBasis/wholeDrive/Q_Ah/ci90/1",
+   "summary_arrays.json:/capacityBasis/wholeDrive/Q_Ah/ci95/0",
+   "summary_arrays.json:/capacityBasis/wholeDrive/Q_Ah/ci95/1",
+   "summary_arrays.json:/capacityBasis/wholeDrive/Q_Ah/est",
+   "summary_arrays.json:/capacityBasis/wholeDrive/bias_E_A/ci90/0",
+   "summary_arrays.json:/capacityBasis/wholeDrive/medianWindowS",
+   "summary_arrays.json:/capacityBasis/wholeDrive/n",
+   "summary_arrays.json:/capacityBasis/wholeDrive/nDrives",
+   "summary_arrays.json:/capacityBasis/windows/5/Q_Ah/ci90/0",
+   "summary_arrays.json:/capacityBasis/windows/5/Q_Ah/ci90/1",
+   "summary_arrays.json:/capacityBasis/windows/5/Q_Ah/est",
+   "summary_arrays.json:/capacityBasis/windows/5/bias_A/ci90/0",
+   "summary_arrays.json:/capacityBasis/windows/5/bias_A/ci90/1",
+   "summary_arrays.json:/capacityBasis/windows/5/bias_A/ci95/0",
+   "summary_arrays.json:/capacityBasis/windows/5/bias_A/ci95/1",
+   "summary_arrays.json:/capacityBasis/windows/5/bias_A/est",
+   "summary_arrays.json:/capacityBasis/windows/5/bias_E_A/ci90/0",
+   "summary_arrays.json:/capacityBasis/windows/5/bias_E_A/ci90/1",
+   "summary_arrays.json:/capacityBasis/windows/5/bias_E_A/ci95/0",
+   "summary_arrays.json:/capacityBasis/windows/5/bias_E_A/ci95/1",
+   "summary_arrays.json:/capacityBasis/windows/5/bias_E_A/est",
+   "summary_arrays.json:/capacityBasis/windows/5/medianWindowS",
+   "summary_arrays.json:/capacityBasis/windows/5/n",
+   "summary_arrays.json:/capacityBasis/windows/5/nDrives",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/E_kWh/ci90/1",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/E_kWh/ci95/1",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/E_kWh/est",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/Q_Ah/ci90/0",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/Q_Ah/ci90/1",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/Q_Ah/ci95/0",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/Q_Ah/ci95/1",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/Q_Ah/est",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_A/ci90/0",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_A/ci90/1",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_A/ci95/0",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_A/ci95/1",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_A/est",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_E_A/ci90/0",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_E_A/ci90/1",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_E_A/ci95/0",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_E_A/ci95/1",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_E_A/est",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/medianWindowS",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/n",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/all/nDrives",
+   "summary_arrays.json:/capacityBasis/windowsLiteral10/n"
+  ],
+  "lost": [],
+  "added": [],
+  "nLeaves": 286376,
+  "filesWithDifferentContent": []
+ },
+ "newVsCommittedValues": {
+  "summary_arrays.json:/capacityBasis/ahPer100/methodRangeEntries/B_fast_regime": [
+   4.7897,
+   4.7896
+  ],
+  "summary_arrays.json:/capacityBasis/levelTest/adjustedSlope/ci90/0": [
+   0.1743,
+   0.1745
+  ],
+  "summary_arrays.json:/capacityBasis/levelTest/adjustedSlope/ci90/1": [
+   0.3634,
+   0.3635
+  ],
+  "summary_arrays.json:/capacityBasis/levelTest/adjustedSlope/ci95/1": [
+   0.3772,
+   0.3773
+  ],
+  "summary_arrays.json:/capacityBasis/levelTest/vifSoCTerm": [
+   10.6716,
+   10.6723
+  ]
+ },
+ "newVsNewExclValues": {
+  "summary_arrays.json:/capacityBasis/ahPer100/methodRange/1": [
+   5.3708,
+   5.3709
+  ],
+  "summary_arrays.json:/capacityBasis/ahPer100/methodRangeEntries/B_fast_regime": [
+   4.7896,
+   4.7897
+  ],
+  "summary_arrays.json:/capacityBasis/ahPer100/methodRangeEntries/B_reverse": [
+   5.3708,
+   5.3709
+  ],
+  "summary_arrays.json:/capacityBasis/ahPer100/methodRangeEntries/W10_literal": [
+   4.9522,
+   4.9525
+  ],
+  "summary_arrays.json:/capacityBasis/ahPer100/methodRangeEntries/W5": [
+   4.9809,
+   4.981
+  ],
+  "summary_arrays.json:/capacityBasis/ahPer100/methodRangeEntries/whole_drive": [
+   4.7131,
+   4.7134
+  ],
+  "summary_arrays.json:/capacityBasis/eventsB/reverseAh100": [
+   5.3708,
+   5.3709
+  ],
+  "summary_arrays.json:/capacityBasis/exposure/chargeReferences/apparentSoCScale/chargeThroughputEFC": [
+   512.9303,
+   512.8671
+  ],
+  "summary_arrays.json:/capacityBasis/exposure/chargeReferences/apparentSoCScale/grossTurnoverAhPerRef": [
+   1025.8605,
+   1025.7342
+  ],
+  "summary_arrays.json:/capacityBasis/exposure/chargeReferences/rated_5.0Ah/chargeThroughputEFC": [
+   502.1377,
+   502.0779
+  ],
+  "summary_arrays.json:/capacityBasis/exposure/chargeReferences/rated_5.0Ah/grossTurnoverAhPerRef": [
+   1004.2754,
+   1004.1557
+  ],
+  "summary_arrays.json:/capacityBasis/exposure/chargeReferences/windowFractionBand_fMinEnd/chargeThroughputEFC": [
+   439.4622,
+   439.4092
+  ],
+  "summary_arrays.json:/capacityBasis/exposure/chargeReferences/windowFractionBand_fMinEnd/grossTurnoverAhPerRef": [
+   878.9244,
+   878.8184
+  ],
+  "summary_arrays.json:/capacityBasis/exposure/energyReferences/apparentSoCScale/bidirectionalFCE": [
+   505.9928,
+   505.9304
+  ],
+  "summary_arrays.json:/capacityBasis/exposure/energyReferences/apparentSoCScale/dischargeEFC": [
+   490.2538,
+   490.145
+  ],
+  "summary_arrays.json:/capacityBasis/exposure/energyReferences/apparentSoCScale/grossTurnoverGTC": [
+   1011.9855,
+   1011.8608
+  ],
+  "summary_arrays.json:/capacityBasis/exposure/energyReferences/legacy_2.1kWh/bidirectionalFCE": [
+   433.5184,
+   433.466
+  ],
+  "summary_arrays.json:/capacityBasis/exposure/energyReferences/legacy_2.1kWh/dischargeEFC": [
+   420.0337,
+   419.9416
+  ],
+  "summary_arrays.json:/capacityBasis/exposure/energyReferences/legacy_2.1kWh/grossTurnoverGTC": [
+   867.0368,
+   866.9321
+  ],
+  "summary_arrays.json:/capacityBasis/exposure/population/nDrives": [
+   616,
+   615
+  ],
+  "summary_arrays.json:/capacityBasis/exposure/primaryRaw/chargeAh": [
+   2544.6803,
+   2544.6096
+  ],
+  "summary_arrays.json:/capacityBasis/exposure/primaryRaw/chargeKwh": [
+   938.7064,
+   938.68
+  ],
+  "summary_arrays.json:/capacityBasis/exposure/primaryRaw/dischargeAh": [
+   2476.6969,
+   2476.1692
+  ],
+  "summary_arrays.json:/capacityBasis/exposure/primaryRaw/dischargeKwh": [
+   882.0708,
+   881.8774
+  ],
+  "summary_arrays.json:/capacityBasis/exposure/primaryRaw/throughputAh": [
+   5021.3772,
+   5020.7787
+  ],
+  "summary_arrays.json:/capacityBasis/exposure/primaryRaw/throughputKwh": [
+   1820.7772,
+   1820.5574
+  ],
+  "summary_arrays.json:/capacityBasis/exposure/socRainflowEFC/value": [
+   456.825,
+   456.775
+  ],
+  "summary_arrays.json:/capacityBasis/kWhPer100/bootstrapCI95/1": [
+   1.8423,
+   1.8424
+  ],
+  "summary_arrays.json:/capacityBasis/kWhPer100/methodRangeEntries/W10_literal": [
+   1.8073,
+   1.8074
+  ],
+  "summary_arrays.json:/capacityBasis/kWhPer100/methodRangeEntries/whole_drive": [
+   1.7237,
+   1.7236
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/all/interceptSoCPoints/ci90/0": [
+   -2.0279,
+   -2.0362
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/all/interceptSoCPoints/ci90/1": [
+   -1.4528,
+   -1.4633
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/all/interceptSoCPoints/ci95/0": [
+   -2.0792,
+   -2.0891
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/all/interceptSoCPoints/ci95/1": [
+   -1.4072,
+   -1.4158
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/all/interceptSoCPoints/est": [
+   -1.7338,
+   -1.7421
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/all/n": [
+   611,
+   610
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/all/slopeSoCPointsPerAh/ci90/0": [
+   -1.8882,
+   -1.9884
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/all/slopeSoCPointsPerAh/ci90/1": [
+   -0.4562,
+   -0.5416
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/all/slopeSoCPointsPerAh/ci95/0": [
+   -2.0371,
+   -2.1576
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/all/slopeSoCPointsPerAh/ci95/1": [
+   -0.3644,
+   -0.4173
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/all/slopeSoCPointsPerAh/est": [
+   -1.1522,
+   -1.2447
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/interceptSoCPoints/ci90/0": [
+   -2.1908,
+   -2.1884
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/interceptSoCPoints/ci90/1": [
+   -0.9572,
+   -0.9608
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/interceptSoCPoints/ci95/0": [
+   -2.3135,
+   -2.3097
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/interceptSoCPoints/ci95/1": [
+   -0.8655,
+   -0.8654
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/interceptSoCPoints/est": [
+   -1.5493,
+   -1.5467
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/slopeSoCPointsPerAh/ci90/0": [
+   -2.2627,
+   -2.7138
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/slopeSoCPointsPerAh/ci90/1": [
+   0.4402,
+   0.2044
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/slopeSoCPointsPerAh/ci95/0": [
+   -2.5756,
+   -2.9912
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/slopeSoCPointsPerAh/ci95/1": [
+   0.6984,
+   0.4958
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentCharging/slopeSoCPointsPerAh/est": [
+   -0.8821,
+   -1.2355
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/interceptSoCPoints/ci90/0": [
+   -2.1175,
+   -2.121
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/interceptSoCPoints/ci90/1": [
+   -1.4591,
+   -1.4601
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/interceptSoCPoints/ci95/0": [
+   -2.1723,
+   -2.1775
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/interceptSoCPoints/ci95/1": [
+   -1.4014,
+   -1.4018
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/interceptSoCPoints/est": [
+   -1.7827,
+   -1.7857
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/n": [
+   465,
+   464
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/slopeSoCPointsPerAh/ci90/0": [
+   -2.3192,
+   -2.311
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/slopeSoCPointsPerAh/ci90/1": [
+   -0.51,
+   -0.4973
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/slopeSoCPointsPerAh/ci95/0": [
+   -2.522,
+   -2.5181
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/slopeSoCPointsPerAh/ci95/1": [
+   -0.3721,
+   -0.3621
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byLastCurrentDirection/lastCurrentDischarging/slopeSoCPointsPerAh/est": [
+   -1.375,
+   -1.3675
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/interceptSoCPoints/ci90/0": [
+   -1.7599,
+   -1.7816
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/interceptSoCPoints/ci90/1": [
+   -1.1429,
+   -1.1614
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/interceptSoCPoints/ci95/0": [
+   -1.8179,
+   -1.8381
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/interceptSoCPoints/ci95/1": [
+   -1.0768,
+   -1.096
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/interceptSoCPoints/est": [
+   -1.4489,
+   -1.4659
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/slopeSoCPointsPerAh/ci90/0": [
+   -0.9125,
+   -1.3184
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/slopeSoCPointsPerAh/ci90/1": [
+   0.2572,
+   0.1219
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/slopeSoCPointsPerAh/ci95/0": [
+   -1.0468,
+   -1.4662
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/slopeSoCPointsPerAh/ci95/1": [
+   0.3723,
+   0.2313
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/10-60min/slopeSoCPointsPerAh/est": [
+   -0.3152,
+   -0.5656
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/interceptSoCPoints/ci90/0": [
+   -0.9161,
+   -0.9163
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/interceptSoCPoints/ci90/1": [
+   -0.5263,
+   -0.5274
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/interceptSoCPoints/ci95/1": [
+   -0.4824,
+   -0.4838
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/interceptSoCPoints/est": [
+   -0.7255,
+   -0.7254
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/n": [
+   136,
+   135
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/slopeSoCPointsPerAh/ci90/0": [
+   -0.3582,
+   -0.3883
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/slopeSoCPointsPerAh/ci90/1": [
+   0.0968,
+   0.0787
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/slopeSoCPointsPerAh/ci95/0": [
+   -0.4175,
+   -0.4493
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/slopeSoCPointsPerAh/ci95/1": [
+   0.1317,
+   0.1146
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/byRestTime/<10min/slopeSoCPointsPerAh/est": [
+   -0.1183,
+   -0.1437
+  ],
+  "summary_arrays.json:/capacityBasis/keyOnTest/nIntervals": [
+   611,
+   610
+  ],
+  "summary_arrays.json:/capacityBasis/levelTest/adjustedSlope/ci90/0": [
+   0.1745,
+   0.1747
+  ],
+  "summary_arrays.json:/capacityBasis/levelTest/adjustedSlope/ci90/1": [
+   0.3635,
+   0.3636
+  ],
+  "summary_arrays.json:/capacityBasis/levelTest/adjustedSlope/ci95/1": [
+   0.3773,
+   0.3779
+  ],
+  "summary_arrays.json:/capacityBasis/levelTest/adjustedSlope/est": [
+   0.2653,
+   0.2656
+  ],
+  "summary_arrays.json:/capacityBasis/levelTest/terciles/byAhPer100/atLeast65/ci90/0": [
+   4.9383,
+   4.9384
+  ],
+  "summary_arrays.json:/capacityBasis/levelTest/terciles/byAhPer100/atLeast65/ci95/1": [
+   5.0409,
+   5.0411
+  ],
+  "summary_arrays.json:/capacityBasis/levelTest/terciles/byAhPer100/atLeast65/est": [
+   4.9864,
+   4.9865
+  ],
+  "summary_arrays.json:/capacityBasis/levelTest/unadjustedScaleAtCentre55AhPer100/ci90/1": [
+   4.6055,
+   4.6052
+  ],
+  "summary_arrays.json:/capacityBasis/levelTest/unadjustedScaleAtCentre55AhPer100/ci95/0": [
+   4.4132,
+   4.4131
+  ],
+  "summary_arrays.json:/capacityBasis/levelTest/unadjustedScaleAtCentre55AhPer100/ci95/1": [
+   4.627,
+   4.6266
+  ],
+  "summary_arrays.json:/capacityBasis/levelTest/unadjustedScaleAtCentre55AhPer100/est": [
+   4.5182,
+   4.5179
+  ],
+  "summary_arrays.json:/capacityBasis/levelTest/unadjustedSlope/ci90/0": [
+   0.3536,
+   0.3539
+  ],
+  "summary_arrays.json:/capacityBasis/levelTest/unadjustedSlope/ci90/1": [
+   0.4928,
+   0.4932
+  ],
+  "summary_arrays.json:/capacityBasis/levelTest/unadjustedSlope/ci95/1": [
+   0.5072,
+   0.5076
+  ],
+  "summary_arrays.json:/capacityBasis/levelTest/unadjustedSlope/est": [
+   0.4255,
+   0.4258
+  ],
+  "summary_arrays.json:/capacityBasis/levelTest/vifSoCTerm": [
+   10.6723,
+   10.6829
+  ],
+  "summary_arrays.json:/capacityBasis/offsetModelTest/chronological/earlyToLate/nTest": [
+   433,
+   432
+  ],
+  "summary_arrays.json:/capacityBasis/offsetModelTest/chronological/earlyToLate/rmsKwh/i2rT_est": [
+   0.0312,
+   0.0313
+  ],
+  "summary_arrays.json:/capacityBasis/offsetModelTest/chronological/earlyToLate/rmsKwh/offset_est": [
+   0.036,
+   0.0361
+  ],
+  "summary_arrays.json:/capacityBasis/offsetModelTest/chronological/lateToEarly/nTrain": [
+   433,
+   432
+  ],
+  "summary_arrays.json:/capacityBasis/offsetModelTest/full/offsetA/ci90/1": [
+   -0.0229,
+   -0.0228
+  ],
+  "summary_arrays.json:/capacityBasis/offsetModelTest/full/offsetA/ci95/1": [
+   -0.0083,
+   -0.0082
+  ],
+  "summary_arrays.json:/capacityBasis/offsetModelTest/full/offsetAWithoutI2R/ci90/0": [
+   -0.506,
+   -0.5061
+  ],
+  "summary_arrays.json:/capacityBasis/offsetModelTest/full/offsetAWithoutI2R/ci95/1": [
+   -0.4272,
+   -0.4273
+  ],
+  "summary_arrays.json:/capacityBasis/offsetModelTest/full/scaleKwhPer100/ci90/1": [
+   1.7355,
+   1.7356
+  ],
+  "summary_arrays.json:/capacityBasis/offsetModelTest/full/scaleKwhPer100/ci95/0": [
+   1.6684,
+   1.6683
+  ],
+  "summary_arrays.json:/capacityBasis/offsetModelTest/full/scaleKwhPer100/ci95/1": [
+   1.7402,
+   1.7403
+  ],
+  "summary_arrays.json:/capacityBasis/offsetModelTest/full/vif/i2Term": [
+   11.9525,
+   11.9475
+  ],
+  "summary_arrays.json:/capacityBasis/offsetModelTest/full/vif/offsetTerm": [
+   11.9371,
+   11.9325
+  ],
+  "summary_arrays.json:/capacityBasis/offsetModelTest/heldOutRmsKwh/offset_fix": [
+   0.0594,
+   0.0595
+  ],
+  "summary_arrays.json:/capacityBasis/offsetModelTest/nDrives": [
+   616,
+   615
+  ],
+  "summary_arrays.json:/capacityBasis/population/nDrives": [
+   618,
+   617
+  ],
+  "summary_arrays.json:/capacityBasis/population/nEvents": [
+   188409,
+   188385
+  ],
+  "summary_arrays.json:/capacityBasis/shadowEligibility/legacyOffsetA": [
+   -0.3878,
+   -0.3874
+  ],
+  "summary_arrays.json:/capacityBasis/testA_oddEvenWeeks/ci90Difference/1": [
+   0.1432,
+   0.1431
+  ],
+  "summary_arrays.json:/capacityBasis/testA_oddEvenWeeks/oddWeeksAh100": [
+   4.894,
+   4.8941
+  ],
+  "summary_arrays.json:/capacityBasis/wholeDrive/E_kWh/ci90/1": [
+   1.757,
+   1.7569
+  ],
+  "summary_arrays.json:/capacityBasis/wholeDrive/E_kWh/ci95/0": [
+   1.6814,
+   1.6813
+  ],
+  "summary_arrays.json:/capacityBasis/wholeDrive/E_kWh/ci95/1": [
+   1.763,
+   1.7629
+  ],
+  "summary_arrays.json:/capacityBasis/wholeDrive/E_kWh/est": [
+   1.7237,
+   1.7236
+  ],
+  "summary_arrays.json:/capacityBasis/wholeDrive/Q_Ah/ci90/1": [
+   4.7838,
+   4.7843
+  ],
+  "summary_arrays.json:/capacityBasis/wholeDrive/Q_Ah/ci95/0": [
+   4.6231,
+   4.6232
+  ],
+  "summary_arrays.json:/capacityBasis/wholeDrive/Q_Ah/ci95/1": [
+   4.7979,
+   4.7984
+  ],
+  "summary_arrays.json:/capacityBasis/wholeDrive/Q_Ah/est": [
+   4.7131,
+   4.7134
+  ],
+  "summary_arrays.json:/capacityBasis/wholeDrive/bias_E_A/ci90/0": [
+   0.421,
+   0.4211
+  ],
+  "summary_arrays.json:/capacityBasis/wholeDrive/medianWindowS": [
+   521.028,
+   521.272
+  ],
+  "summary_arrays.json:/capacityBasis/wholeDrive/n": [
+   519,
+   518
+  ],
+  "summary_arrays.json:/capacityBasis/wholeDrive/nDrives": [
+   519,
+   518
+  ],
+  "summary_arrays.json:/capacityBasis/windows/5/Q_Ah/ci90/0": [
+   4.9531,
+   4.9533
+  ],
+  "summary_arrays.json:/capacityBasis/windows/5/Q_Ah/ci90/1": [
+   5.0057,
+   5.0058
+  ],
+  "summary_arrays.json:/capacityBasis/windows/5/Q_Ah/est": [
+   4.9809,
+   4.981
+  ],
+  "summary_arrays.json:/capacityBasis/windows/5/bias_A/ci90/0": [
+   0.0222,
+   0.0221
+  ],
+  "summary_arrays.json:/capacityBasis/windows/5/bias_A/ci90/1": [
+   0.1151,
+   0.115
+  ],
+  "summary_arrays.json:/capacityBasis/windows/5/bias_A/ci95/0": [
+   0.0145,
+   0.0144
+  ],
+  "summary_arrays.json:/capacityBasis/windows/5/bias_A/ci95/1": [
+   0.1228,
+   0.1226
+  ],
+  "summary_arrays.json:/capacityBasis/windows/5/bias_A/est": [
+   0.0679,
+   0.0677
+  ],
+  "summary_arrays.json:/capacityBasis/windows/5/bias_E_A/ci90/0": [
+   0.3655,
+   0.3653
+  ],
+  "summary_arrays.json:/capacityBasis/windows/5/bias_E_A/ci90/1": [
+   0.4617,
+   0.4616
+  ],
+  "summary_arrays.json:/capacityBasis/windows/5/bias_E_A/ci95/0": [
+   0.3553,
+   0.355
+  ],
+  "summary_arrays.json:/capacityBasis/windows/5/bias_E_A/ci95/1": [
+   0.4712,
+   0.4711
+  ],
+  "summary_arrays.json:/capacityBasis/windows/5/bias_E_A/est": [
+   0.4133,
+   0.4132
+  ],
+  "summary_arrays.json:/capacityBasis/windows/5/medianWindowS": [
+   35.469,
+   35.458
+  ],
+  "summary_arrays.json:/capacityBasis/windows/5/n": [
+   5987,
+   5986
+  ],
+  "summary_arrays.json:/capacityBasis/windows/5/nDrives": [
+   591,
+   590
+  ],
+  "summary_arrays.json:/capacityBasis/windowsLiteral10/all/E_kWh/ci90/1": [
+   1.8196,
+   1.8197
+  ],
+  "summary_arrays.json:/capacityBasis/windowsLiteral10/all/E_kWh/ci95/1": [
+   1.822,
+   1.8222
+  ],
+  "summary_arrays.json:/capacityBasis/windowsLiteral10/all/E_kWh/est": [
+   1.8073,
+   1.8074
+  ],
+  "summary_arrays.json:/capacityBasis/windowsLiteral10/all/Q_Ah/ci90/0": [
+   4.9175,
+   4.9177
+  ],
+  "summary_arrays.json:/capacityBasis/windowsLiteral10/all/Q_Ah/ci90/1": [
+   4.9842,
+   4.985
+  ],
+  "summary_arrays.json:/capacityBasis/windowsLiteral10/all/Q_Ah/ci95/0": [
+   4.912,
+   4.9122
+  ],
+  "summary_arrays.json:/capacityBasis/windowsLiteral10/all/Q_Ah/ci95/1": [
+   4.9908,
+   4.9912
+  ],
+  "summary_arrays.json:/capacityBasis/windowsLiteral10/all/Q_Ah/est": [
+   4.9522,
+   4.9525
+  ],
+  "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_A/ci90/0": [
+   0.0588,
+   0.0585
+  ],
+  "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_A/ci90/1": [
+   0.1166,
+   0.116
+  ],
+  "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_A/ci95/0": [
+   0.0536,
+   0.0533
+  ],
+  "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_A/ci95/1": [
+   0.1229,
+   0.1222
+  ],
+  "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_A/est": [
+   0.0879,
+   0.0875
+  ],
+  "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_E_A/ci90/0": [
+   0.4519,
+   0.4516
+  ],
+  "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_E_A/ci90/1": [
+   0.523,
+   0.5228
+  ],
+  "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_E_A/ci95/0": [
+   0.4449,
+   0.4447
+  ],
+  "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_E_A/ci95/1": [
+   0.5287,
+   0.5283
+  ],
+  "summary_arrays.json:/capacityBasis/windowsLiteral10/all/bias_E_A/est": [
+   0.4875,
+   0.4872
+  ],
+  "summary_arrays.json:/capacityBasis/windowsLiteral10/all/medianWindowS": [
+   168.968,
+   168.962
+  ],
+  "summary_arrays.json:/capacityBasis/windowsLiteral10/all/n": [
+   1537,
+   1536
+  ],
+  "summary_arrays.json:/capacityBasis/windowsLiteral10/all/nDrives": [
+   496,
+   495
+  ],
+  "summary_arrays.json:/capacityBasis/windowsLiteral10/n": [
+   1537,
+   1536
+  ]
+ },
+ "oldReproducesCommittedByteExact": true
+}

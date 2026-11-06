@@ -1,0 +1,811 @@
+{
+ "tool": "dependence_sensitivity",
+ "args": [],
+ "driveExcluded": "2026-11-04_08-01-15.csv",
+ "stageOutputs": [
+  "summary_arrays.json"
+ ],
+ "oldReturncode": 0,
+ "newReturncode": 0,
+ "newExclReturncode": 0,
+ "oldVsCommitted": {
+  "changed": [],
+  "lost": [],
+  "added": [],
+  "nLeaves": 286376,
+  "filesWithDifferentContent": []
+ },
+ "newVsCommitted": {
+  "changed": [
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr1/ci95NormalAsReleased/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr1/ci95NormalAsReleased/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr1/ci95T_Gminus1/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr1/ci95T_Gminus1/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr1/se",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr1/slope",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr2/ci95T/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr2/ci95T/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr2/df",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr2/se",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr2/slope",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/dayClusterPairsBootstrap/ci95/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/dayClusterPairsBootstrap/ci95/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/minEffect80/cr1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/minEffect80/cr2",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/n",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/weekBlockPairsBootstrap/ci95/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/weekBlockPairsBootstrap/ci95/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/wildClusterBootstrapT/ci95PercentileT/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/wildClusterBootstrapT/ci95PercentileT/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr1/ci95NormalAsReleased/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr1/ci95NormalAsReleased/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr1/ci95T_Gminus1/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr1/ci95T_Gminus1/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr1/df",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr1/se",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr1/slope",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr2/ci95T/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr2/ci95T/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr2/df",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr2/se",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr2/slope",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/dayClusterPairsBootstrap/ci95/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/dayClusterPairsBootstrap/ci95/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/dayClusterPairsBootstrap/nBlocks",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/minEffect80/cr1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/minEffect80/cr2",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/n",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/nDays",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/weekBlockPairsBootstrap/ci95/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/weekBlockPairsBootstrap/ci95/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/wildClusterBootstrapT/ci95PercentileT/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/wildClusterBootstrapT/ci95PercentileT/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/wildClusterBootstrapT/pValueNullImposed"
+  ],
+  "lost": [],
+  "added": [],
+  "nLeaves": 286376,
+  "filesWithDifferentContent": []
+ },
+ "newExclVsCommitted": {
+  "changed": [
+   "summary_arrays.json:/dependenceSensitivity/kpiWidthRatioWeekOverDay/corpusRatios/0",
+   "summary_arrays.json:/dependenceSensitivity/kpiWidthRatioWeekOverDay/corpusRatios/1",
+   "summary_arrays.json:/dependenceSensitivity/kpiWidthRatioWeekOverDay/driveMedians/0",
+   "summary_arrays.json:/dependenceSensitivity/kpiWidthRatioWeekOverDay/driveMedians/1",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K1_throughputOverDischarge/dayClusterCI95/0",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K1_throughputOverDischarge/dayClusterCI95/1",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K1_throughputOverDischarge/estimate",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K1_throughputOverDischarge/n",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K1_throughputOverDischarge/weekBlockCI95/0",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K1_throughputOverDischarge/weekBlockCI95/1",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K1_throughputOverDischarge/widthRatioWeekOverDay",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2_netShare_corrected/dayClusterCI95/0",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2_netShare_corrected/dayClusterCI95/1",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2_netShare_corrected/estimate",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2_netShare_corrected/n",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2_netShare_corrected/weekBlockCI95/0",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2_netShare_corrected/weekBlockCI95/1",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2_netShare_corrected/widthRatioWeekOverDay",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2raw_netShare_uncorrected/dayClusterCI95/0",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2raw_netShare_uncorrected/dayClusterCI95/1",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2raw_netShare_uncorrected/estimate",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2raw_netShare_uncorrected/n",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2raw_netShare_uncorrected/weekBlockCI95/0",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2raw_netShare_uncorrected/weekBlockCI95/1",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2raw_netShare_uncorrected/widthRatioWeekOverDay",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K3_socBandMedianPp/n",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K4_peakDischargeMedianKw/dayClusterCI95/0",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K4_peakDischargeMedianKw/dayClusterCI95/1",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K4_peakDischargeMedianKw/estimate",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K4_peakDischargeMedianKw/n",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K4_peakDischargeMedianKw/weekBlockCI95/1",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K4_peakDischargeMedianKw/widthRatioWeekOverDay",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K5_perDriveNetShareMedian/dayClusterCI95/1",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K5_perDriveNetShareMedian/estimate",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K5_perDriveNetShareMedian/n",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K5_perDriveNetShareMedian/weekBlockCI95/1",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K5_perDriveNetShareMedian/widthRatioWeekOverDay",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr1/ci95NormalAsReleased/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr1/ci95NormalAsReleased/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr1/ci95T_Gminus1/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr1/ci95T_Gminus1/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr1/df",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr1/se",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr1/slope",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr2/ci95T/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr2/ci95T/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr2/df",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr2/se",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr2/slope",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/dayClusterPairsBootstrap/ci95/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/dayClusterPairsBootstrap/ci95/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/dayClusterPairsBootstrap/nBlocks",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/minEffect80/cr1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/minEffect80/cr2",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/n",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/nDays",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/weekBlockPairsBootstrap/ci95/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/weekBlockPairsBootstrap/ci95/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/wildClusterBootstrapT/ci95PercentileT/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/wildClusterBootstrapT/ci95PercentileT/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/wildClusterBootstrapT/pValueNullImposed",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr1/ci95NormalAsReleased/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr1/ci95NormalAsReleased/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr1/ci95T_Gminus1/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr1/ci95T_Gminus1/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr1/se",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr1/slope",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr2/ci95T/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr2/ci95T/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr2/df",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr2/se",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr2/slope",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/dayClusterPairsBootstrap/ci95/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/dayClusterPairsBootstrap/ci95/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/minEffect80/cr1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/minEffect80/cr2",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/n",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/dayPairsLowerRange/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/dayPairsLowerRange/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/dayPairsUpperRange/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/dayPairsUpperRange/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/weekBlockUpperRange/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/weekBlockUpperRange/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/wildCiLowerRange/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/wildCiLowerRange/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/wildCiUpperRange/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/wildCiUpperRange/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/tostSensitivityCR2/equivCI90/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/tostSensitivityCR2/equivCI90/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/tostSensitivityCR2/pTOST",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/weekBlockPairsBootstrap/ci95/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/weekBlockPairsBootstrap/ci95/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/wildClusterBootstrapT/ci95PercentileT/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/wildClusterBootstrapT/ci95PercentileT/1"
+  ],
+  "lost": [],
+  "added": [],
+  "nLeaves": 286376,
+  "filesWithDifferentContent": []
+ },
+ "newVsNewExcl": {
+  "changed": [
+   "summary_arrays.json:/dependenceSensitivity/kpiWidthRatioWeekOverDay/corpusRatios/0",
+   "summary_arrays.json:/dependenceSensitivity/kpiWidthRatioWeekOverDay/corpusRatios/1",
+   "summary_arrays.json:/dependenceSensitivity/kpiWidthRatioWeekOverDay/driveMedians/0",
+   "summary_arrays.json:/dependenceSensitivity/kpiWidthRatioWeekOverDay/driveMedians/1",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K1_throughputOverDischarge/dayClusterCI95/0",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K1_throughputOverDischarge/dayClusterCI95/1",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K1_throughputOverDischarge/estimate",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K1_throughputOverDischarge/n",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K1_throughputOverDischarge/weekBlockCI95/0",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K1_throughputOverDischarge/weekBlockCI95/1",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K1_throughputOverDischarge/widthRatioWeekOverDay",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2_netShare_corrected/dayClusterCI95/0",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2_netShare_corrected/dayClusterCI95/1",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2_netShare_corrected/estimate",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2_netShare_corrected/n",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2_netShare_corrected/weekBlockCI95/0",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2_netShare_corrected/weekBlockCI95/1",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2_netShare_corrected/widthRatioWeekOverDay",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2raw_netShare_uncorrected/dayClusterCI95/0",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2raw_netShare_uncorrected/dayClusterCI95/1",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2raw_netShare_uncorrected/estimate",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2raw_netShare_uncorrected/n",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2raw_netShare_uncorrected/weekBlockCI95/0",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2raw_netShare_uncorrected/weekBlockCI95/1",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2raw_netShare_uncorrected/widthRatioWeekOverDay",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K3_socBandMedianPp/n",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K4_peakDischargeMedianKw/dayClusterCI95/0",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K4_peakDischargeMedianKw/dayClusterCI95/1",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K4_peakDischargeMedianKw/estimate",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K4_peakDischargeMedianKw/n",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K4_peakDischargeMedianKw/weekBlockCI95/1",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K4_peakDischargeMedianKw/widthRatioWeekOverDay",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K5_perDriveNetShareMedian/dayClusterCI95/1",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K5_perDriveNetShareMedian/estimate",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K5_perDriveNetShareMedian/n",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K5_perDriveNetShareMedian/weekBlockCI95/1",
+   "summary_arrays.json:/dependenceSensitivity/thesisKpis/K5_perDriveNetShareMedian/widthRatioWeekOverDay",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr1/ci95NormalAsReleased/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr1/ci95NormalAsReleased/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr1/ci95T_Gminus1/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr1/ci95T_Gminus1/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr1/se",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr1/slope",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr2/ci95T/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr2/ci95T/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr2/df",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr2/se",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr2/slope",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/dayClusterPairsBootstrap/ci95/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/dayClusterPairsBootstrap/ci95/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/minEffect80/cr1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/minEffect80/cr2",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/n",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/weekBlockPairsBootstrap/ci95/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/weekBlockPairsBootstrap/ci95/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/wildClusterBootstrapT/ci95PercentileT/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/wildClusterBootstrapT/ci95PercentileT/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr1/ci95NormalAsReleased/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr1/ci95NormalAsReleased/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr1/ci95T_Gminus1/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr1/ci95T_Gminus1/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr1/se",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr1/slope",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr2/ci95T/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr2/ci95T/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr2/df",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr2/se",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr2/slope",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/dayClusterPairsBootstrap/ci95/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/dayClusterPairsBootstrap/ci95/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/minEffect80/cr1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/minEffect80/cr2",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/n",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/dayPairsLowerRange/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/dayPairsLowerRange/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/dayPairsUpperRange/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/dayPairsUpperRange/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/weekBlockUpperRange/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/weekBlockUpperRange/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/wildCiLowerRange/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/wildCiLowerRange/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/wildCiUpperRange/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/wildCiUpperRange/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/tostSensitivityCR2/equivCI90/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/tostSensitivityCR2/equivCI90/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/tostSensitivityCR2/pTOST",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/weekBlockPairsBootstrap/ci95/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/weekBlockPairsBootstrap/ci95/1",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/wildClusterBootstrapT/ci95PercentileT/0",
+   "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/wildClusterBootstrapT/ci95PercentileT/1"
+  ],
+  "lost": [],
+  "added": [],
+  "nLeaves": 286376,
+  "filesWithDifferentContent": []
+ },
+ "newVsCommittedValues": {
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr1/ci95NormalAsReleased/0": [
+   1.30361,
+   1.30019
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr1/ci95NormalAsReleased/1": [
+   3.39641,
+   3.38615
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr1/ci95T_Gminus1/0": [
+   1.27012,
+   1.26681
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr1/ci95T_Gminus1/1": [
+   3.4299,
+   3.41953
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr1/se": [
+   0.53389,
+   0.53214
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr1/slope": [
+   2.35001,
+   2.34317
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr2/ci95T/0": [
+   1.19616,
+   1.192
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr2/ci95T/1": [
+   3.50386,
+   3.49434
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr2/df": [
+   17.01666,
+   16.79336
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr2/se": [
+   0.54694,
+   0.54511
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr2/slope": [
+   2.35001,
+   2.34317
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/dayClusterPairsBootstrap/ci95/0": [
+   1.27417,
+   1.27303
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/dayClusterPairsBootstrap/ci95/1": [
+   3.4219,
+   3.41521
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/minEffect80/cr1": [
+   1.53419,
+   1.52918
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/minEffect80/cr2": [
+   1.626,
+   1.6219
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/n": [
+   184,
+   185
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/weekBlockPairsBootstrap/ci95/0": [
+   0.86077,
+   0.86419
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/weekBlockPairsBootstrap/ci95/1": [
+   3.35192,
+   3.33534
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/wildClusterBootstrapT/ci95PercentileT/0": [
+   1.19931,
+   1.1832
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/wildClusterBootstrapT/ci95PercentileT/1": [
+   3.52321,
+   3.51721
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr1/ci95NormalAsReleased/0": [
+   0.26172,
+   0.25342
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr1/ci95NormalAsReleased/1": [
+   1.08465,
+   1.08388
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr1/ci95T_Gminus1/0": [
+   0.25591,
+   0.24749
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr1/ci95T_Gminus1/1": [
+   1.09045,
+   1.08981
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr1/df": [
+   87,
+   86
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr1/se": [
+   0.20993,
+   0.21186
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr1/slope": [
+   0.67318,
+   0.66865
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr2/ci95T/0": [
+   0.23268,
+   0.22389
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr2/ci95T/1": [
+   1.11368,
+   1.11341
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr2/df": [
+   26.61263,
+   26.48487
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr2/se": [
+   0.21454,
+   0.21656
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/cr2/slope": [
+   0.67318,
+   0.66865
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/dayClusterPairsBootstrap/ci95/0": [
+   0.28381,
+   0.26889
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/dayClusterPairsBootstrap/ci95/1": [
+   1.1107,
+   1.14422
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/dayClusterPairsBootstrap/nBlocks": [
+   88,
+   87
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/minEffect80/cr1": [
+   0.59483,
+   0.60035
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/minEffect80/cr2": [
+   0.624,
+   0.63001
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/n": [
+   416,
+   415
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/nDays": [
+   88,
+   87
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/weekBlockPairsBootstrap/ci95/0": [
+   0.2432,
+   0.2348
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/weekBlockPairsBootstrap/ci95/1": [
+   1.26056,
+   1.26054
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/wildClusterBootstrapT/ci95PercentileT/0": [
+   0.26795,
+   0.26104
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/wildClusterBootstrapT/ci95PercentileT/1": [
+   1.07237,
+   1.07042
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/slow/wildClusterBootstrapT/pValueNullImposed": [
+   0.00075,
+   0.001
+  ]
+ },
+ "newVsNewExclValues": {
+  "summary_arrays.json:/dependenceSensitivity/kpiWidthRatioWeekOverDay/corpusRatios/0": [
+   1.11931,
+   1.13733
+  ],
+  "summary_arrays.json:/dependenceSensitivity/kpiWidthRatioWeekOverDay/corpusRatios/1": [
+   1.18259,
+   1.22265
+  ],
+  "summary_arrays.json:/dependenceSensitivity/kpiWidthRatioWeekOverDay/driveMedians/0": [
+   1.63331,
+   1.62856
+  ],
+  "summary_arrays.json:/dependenceSensitivity/kpiWidthRatioWeekOverDay/driveMedians/1": [
+   2.0109,
+   2.02128
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K1_throughputOverDischarge/dayClusterCI95/0": [
+   2.05787,
+   2.05803
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K1_throughputOverDischarge/dayClusterCI95/1": [
+   2.07192,
+   2.07208
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K1_throughputOverDischarge/estimate": [
+   2.06421,
+   2.06441
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K1_throughputOverDischarge/n": [
+   616,
+   615
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K1_throughputOverDischarge/weekBlockCI95/0": [
+   2.05725,
+   2.05736
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K1_throughputOverDischarge/weekBlockCI95/1": [
+   2.07387,
+   2.07454
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K1_throughputOverDischarge/widthRatioWeekOverDay": [
+   1.18259,
+   1.22265
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2_netShare_corrected/dayClusterCI95/0": [
+   0.01072,
+   0.01077
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2_netShare_corrected/dayClusterCI95/1": [
+   0.01696,
+   0.01709
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2_netShare_corrected/estimate": [
+   0.0136,
+   0.01369
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2_netShare_corrected/n": [
+   616,
+   615
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2_netShare_corrected/weekBlockCI95/0": [
+   0.01067,
+   0.01071
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2_netShare_corrected/weekBlockCI95/1": [
+   0.01765,
+   0.01791
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2_netShare_corrected/widthRatioWeekOverDay": [
+   1.11931,
+   1.13733
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2raw_netShare_uncorrected/dayClusterCI95/0": [
+   0.02812,
+   0.02819
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2raw_netShare_uncorrected/dayClusterCI95/1": [
+   0.03471,
+   0.03479
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2raw_netShare_uncorrected/estimate": [
+   0.03111,
+   0.0312
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2raw_netShare_uncorrected/n": [
+   616,
+   615
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2raw_netShare_uncorrected/weekBlockCI95/0": [
+   0.02783,
+   0.02788
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2raw_netShare_uncorrected/weekBlockCI95/1": [
+   0.03562,
+   0.03593
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K2raw_netShare_uncorrected/widthRatioWeekOverDay": [
+   1.18184,
+   1.22159
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K3_socBandMedianPp/n": [
+   628,
+   627
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K4_peakDischargeMedianKw/dayClusterCI95/0": [
+   31.15,
+   31.2
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K4_peakDischargeMedianKw/dayClusterCI95/1": [
+   35.85,
+   35.9
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K4_peakDischargeMedianKw/estimate": [
+   33.45,
+   33.5
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K4_peakDischargeMedianKw/n": [
+   616,
+   615
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K4_peakDischargeMedianKw/weekBlockCI95/1": [
+   39.85125,
+   39.9
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K4_peakDischargeMedianKw/widthRatioWeekOverDay": [
+   2.0109,
+   2.02128
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K5_perDriveNetShareMedian/dayClusterCI95/1": [
+   0.07777,
+   0.07766
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K5_perDriveNetShareMedian/estimate": [
+   0.06324,
+   0.06282
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K5_perDriveNetShareMedian/n": [
+   616,
+   615
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K5_perDriveNetShareMedian/weekBlockCI95/1": [
+   0.08768,
+   0.08738
+  ],
+  "summary_arrays.json:/dependenceSensitivity/thesisKpis/K5_perDriveNetShareMedian/widthRatioWeekOverDay": [
+   1.63331,
+   1.62856
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr1/ci95NormalAsReleased/0": [
+   1.30019,
+   1.30361
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr1/ci95NormalAsReleased/1": [
+   3.38615,
+   3.39641
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr1/ci95T_Gminus1/0": [
+   1.26681,
+   1.27012
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr1/ci95T_Gminus1/1": [
+   3.41953,
+   3.4299
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr1/se": [
+   0.53214,
+   0.53389
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr1/slope": [
+   2.34317,
+   2.35001
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr2/ci95T/0": [
+   1.192,
+   1.19616
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr2/ci95T/1": [
+   3.49434,
+   3.50386
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr2/df": [
+   16.79336,
+   17.01666
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr2/se": [
+   0.54511,
+   0.54694
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/cr2/slope": [
+   2.34317,
+   2.35001
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/dayClusterPairsBootstrap/ci95/0": [
+   1.27303,
+   1.27417
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/dayClusterPairsBootstrap/ci95/1": [
+   3.41521,
+   3.4219
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/minEffect80/cr1": [
+   1.52918,
+   1.53419
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/minEffect80/cr2": [
+   1.6219,
+   1.626
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/n": [
+   185,
+   184
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/weekBlockPairsBootstrap/ci95/0": [
+   0.86419,
+   0.86077
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/weekBlockPairsBootstrap/ci95/1": [
+   3.33534,
+   3.35192
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/wildClusterBootstrapT/ci95PercentileT/0": [
+   1.1832,
+   1.19931
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/byLoggingRegime/fast/wildClusterBootstrapT/ci95PercentileT/1": [
+   3.51721,
+   3.52321
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr1/ci95NormalAsReleased/0": [
+   0.41607,
+   0.41363
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr1/ci95NormalAsReleased/1": [
+   1.0632,
+   1.06172
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr1/ci95T_Gminus1/0": [
+   0.4128,
+   0.41035
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr1/ci95T_Gminus1/1": [
+   1.06647,
+   1.06499
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr1/se": [
+   0.16509,
+   0.16533
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr1/slope": [
+   0.73963,
+   0.73767
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr2/ci95T/0": [
+   0.40024,
+   0.39784
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr2/ci95T/1": [
+   1.07903,
+   1.07751
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr2/df": [
+   34.89173,
+   34.91502
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr2/se": [
+   0.16716,
+   0.16738
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/cr2/slope": [
+   0.73963,
+   0.73767
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/dayClusterPairsBootstrap/ci95/0": [
+   0.41175,
+   0.41008
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/dayClusterPairsBootstrap/ci95/1": [
+   1.10626,
+   1.10613
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/minEffect80/cr1": [
+   0.46627,
+   0.46696
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/minEffect80/cr2": [
+   0.48183,
+   0.48245
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/n": [
+   600,
+   599
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/dayPairsLowerRange/0": [
+   0.41175,
+   0.41008
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/dayPairsLowerRange/1": [
+   0.42864,
+   0.42713
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/dayPairsUpperRange/0": [
+   1.07799,
+   1.07672
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/dayPairsUpperRange/1": [
+   1.10626,
+   1.10613
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/weekBlockUpperRange/0": [
+   1.22024,
+   1.21951
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/weekBlockUpperRange/1": [
+   1.24409,
+   1.24432
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/wildCiLowerRange/0": [
+   0.4096,
+   0.40704
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/wildCiLowerRange/1": [
+   0.42103,
+   0.42049
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/wildCiUpperRange/0": [
+   1.05714,
+   1.05726
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/seedSpread/wildCiUpperRange/1": [
+   1.07025,
+   1.06687
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/tostSensitivityCR2/equivCI90/0": [
+   0.4572,
+   0.4549
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/tostSensitivityCR2/equivCI90/1": [
+   1.0221,
+   1.0205
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/tostSensitivityCR2/pTOST": [
+   0.9978,
+   0.9977
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/weekBlockPairsBootstrap/ci95/0": [
+   0.30919,
+   0.30888
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/weekBlockPairsBootstrap/ci95/1": [
+   1.22865,
+   1.22843
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/wildClusterBootstrapT/ci95PercentileT/0": [
+   0.41717,
+   0.4151
+  ],
+  "summary_arrays.json:/dependenceSensitivity/trendSlopes/cellSpread/wildClusterBootstrapT/ci95PercentileT/1": [
+   1.05714,
+   1.05726
+  ]
+ },
+ "oldReproducesCommittedByteExact": true
+}

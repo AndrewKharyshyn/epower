@@ -23,7 +23,8 @@ for p_ in (ROOT, os.path.dirname(os.path.abspath(__file__))):
 N_BOOT, SEED = 4000, 42
 SEED_SPREAD = (42, 43, 44, 45, 46)
 METHOD_VERSION = 1
-FAST_S = 1.05
+import regime_reader as _RR      # M585: the single source of the fast / slow rule
+FAST_S = _RR.THRESHOLD_S
 POWER = 0.8
 
 
@@ -201,7 +202,7 @@ def trend_series(dm, ycol, covars, icol, B=N_BOOT, delta=None):
     if len(dd) < 20:
         return {"evaluable": False, "n": int(len(dd))}
     out = slope_block(dd, X, y, use, B, delta=delta, spread=True)
-    reg = dd["I_sample_period_s"].map(lambda v: None if pd.isna(v) else ("fast" if v < FAST_S else "slow")) if "I_sample_period_s" in dd.columns else None
+    reg = dd["I_sample_period_s"].map(_RR.regime_of) if "I_sample_period_s" in dd.columns else None
     out["byLoggingRegime"] = {}
     if reg is not None:
         for name in ("fast", "slow"):

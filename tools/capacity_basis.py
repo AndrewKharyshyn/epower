@@ -18,6 +18,8 @@ Usage: python tools/capacity_basis.py [--dry-run] [--rebuild]"""
 import copy, glob, hashlib, json, os, pickle, re, sys
 import numpy as np
 import pandas as pd
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import regime_reader as _RR      # M585: the single source of the fast / slow rule
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if ROOT not in sys.path:
@@ -220,7 +222,7 @@ def extract_drive(csv_bytes):
     tI, Iv = sec(I)
     tS, Sv = sec(S)
     tV, Vv = sec(V) if V is not None else (np.array([]), np.array([]))
-    fast = float(np.median(np.diff(tI))) < 1.05
+    fast = _RR.regime_of(float(np.median(np.diff(tI)))) == "fast"      # M585: diagnostic from the logged intervals, same rule as the sidecar (a median inside the guard zone STOPs)
     Tc = D._series(df, t, "T1", lo=-50, hi=100) if "T1" in df.columns else None
     temp = float(np.median(Tc["v"])) if Tc is not None and len(Tc) else float("nan")
     Eng = D._series(df, t, "eng_rpm", lo=0)
@@ -597,6 +599,11 @@ def main(argv=None):
     import ah_throughput as AH
     master = pd.read_csv("drive_master.csv", low_memory=False)
     recs = load_records(master, AH.raw_loader(), AH.manifest_sha_lookup(), rebuild="--rebuild" in argv)
+    if os.path.exists("cadence_regime.csv"):          # M585 (Director R3): the sidecar regime is the rule of record; a disagreement of the diagnostic (median of the logged intervals) STOPs
+        sc = pd.read_csv("cadence_regime.csv").set_index("file")["regime"]
+        bad = [f for f, r in recs.items() if r is not None and f in sc.index and isinstance(sc[f], str) and (sc[f] == "fast") != bool(r["fast"])]
+        if bad:
+            raise SystemExit("STOP: capacity_basis fast / slow diagnostic disagrees with the cadence sidecar on %d drive(s): %s (Director)" % (len(bad), bad[:5]))
     side = pd.read_csv("ah_throughput.csv", dtype={"raw_sha256": str}, keep_default_na=False, na_values=[""]) if os.path.exists("ah_throughput.csv") else None
     blk = estimate(master, recs, side)
     raw = open("summary_arrays.json", "r", encoding="utf-8", newline="").read()

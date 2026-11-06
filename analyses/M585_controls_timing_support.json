@@ -1,0 +1,699 @@
+{
+ "tool": "timing_support",
+ "args": [],
+ "driveExcluded": "2026-11-04_08-01-15.csv",
+ "stageOutputs": [
+  "timing_support.csv",
+  "timing_support_summary.json"
+ ],
+ "oldReturncode": 0,
+ "newReturncode": 0,
+ "newExclReturncode": 0,
+ "oldVsCommitted": {
+  "changed": [],
+  "lost": [],
+  "added": [],
+  "nLeaves": 286376,
+  "filesWithDifferentContent": []
+ },
+ "newVsCommitted": {
+  "changed": [
+   "timing_support_summary.json:/byRegime/fast/cur_age_p95_ms/n",
+   "timing_support_summary.json:/byRegime/fast/cur_age_p95_ms/q05",
+   "timing_support_summary.json:/byRegime/fast/cur_age_p95_ms/q95",
+   "timing_support_summary.json:/byRegime/fast/frac_neg_loaded/n",
+   "timing_support_summary.json:/byRegime/fast/frac_neg_loaded/q95",
+   "timing_support_summary.json:/byRegime/fast/i_dt_iqr_ratio/n",
+   "timing_support_summary.json:/byRegime/fast/i_dt_iqr_ratio/q95",
+   "timing_support_summary.json:/byRegime/fast/i_dt_q50/n",
+   "timing_support_summary.json:/byRegime/fast/i_dt_q50/q95",
+   "timing_support_summary.json:/byRegime/fast/i_frac_dt_gt3s/n",
+   "timing_support_summary.json:/byRegime/fast/i_frac_dt_gt3s/q95",
+   "timing_support_summary.json:/byRegime/fast/i_gap20_s/n",
+   "timing_support_summary.json:/byRegime/fast/nDrives",
+   "timing_support_summary.json:/byRegime/fast/n_episodes/n",
+   "timing_support_summary.json:/byRegime/fast/n_episodes/q95",
+   "timing_support_summary.json:/byRegime/fast/n_loaded/n",
+   "timing_support_summary.json:/byRegime/fast/n_loaded/q50",
+   "timing_support_summary.json:/byRegime/fast/off_abs_p95_ms/n",
+   "timing_support_summary.json:/byRegime/fast/off_abs_p95_ms/q95",
+   "timing_support_summary.json:/byRegime/fast/off_med_ms/n",
+   "timing_support_summary.json:/byRegime/fast/off_med_ms/q05",
+   "timing_support_summary.json:/byRegime/slow/cur_age_p95_ms/n",
+   "timing_support_summary.json:/byRegime/slow/cur_age_p95_ms/q05",
+   "timing_support_summary.json:/byRegime/slow/cur_age_p95_ms/q50",
+   "timing_support_summary.json:/byRegime/slow/cur_age_p95_ms/q95",
+   "timing_support_summary.json:/byRegime/slow/frac_neg_loaded/n",
+   "timing_support_summary.json:/byRegime/slow/frac_neg_loaded/q95",
+   "timing_support_summary.json:/byRegime/slow/i_dt_iqr_ratio/n",
+   "timing_support_summary.json:/byRegime/slow/i_dt_iqr_ratio/q50",
+   "timing_support_summary.json:/byRegime/slow/i_dt_iqr_ratio/q95",
+   "timing_support_summary.json:/byRegime/slow/i_dt_q50/n",
+   "timing_support_summary.json:/byRegime/slow/i_dt_q50/q05",
+   "timing_support_summary.json:/byRegime/slow/i_dt_q50/q95",
+   "timing_support_summary.json:/byRegime/slow/i_frac_dt_gt3s/n",
+   "timing_support_summary.json:/byRegime/slow/i_frac_dt_gt3s/q95",
+   "timing_support_summary.json:/byRegime/slow/i_gap20_s/n",
+   "timing_support_summary.json:/byRegime/slow/i_gap20_s/q95",
+   "timing_support_summary.json:/byRegime/slow/nDrives",
+   "timing_support_summary.json:/byRegime/slow/n_episodes/n",
+   "timing_support_summary.json:/byRegime/slow/n_episodes/q95",
+   "timing_support_summary.json:/byRegime/slow/n_loaded/n",
+   "timing_support_summary.json:/byRegime/slow/n_loaded/q05",
+   "timing_support_summary.json:/byRegime/slow/n_loaded/q95",
+   "timing_support_summary.json:/byRegime/slow/off_abs_p95_ms/n",
+   "timing_support_summary.json:/byRegime/slow/off_abs_p95_ms/q95",
+   "timing_support_summary.json:/byRegime/slow/off_med_ms/n",
+   "timing_support_summary.json:/byRegime/slow/off_med_ms/q95",
+   "timing_support_summary.json:/flags/flag_regime_cross_i/false",
+   "timing_support_summary.json:/flags/flag_regime_cross_i/true",
+   "timing_support_summary.json:/flags/flag_regime_cross_vmax/false",
+   "timing_support_summary.json:/flags/flag_regime_cross_vmax/true",
+   "timing_support_summary.json:/flags/i_regime_cross/false",
+   "timing_support_summary.json:/flags/i_regime_cross/true",
+   "timing_support_summary.json:/flags/vmax_regime_cross/false",
+   "timing_support_summary.json:/flags/vmax_regime_cross/true",
+   "timing_support_summary.json:/thresholds/fastSlowS"
+  ],
+  "lost": [],
+  "added": [],
+  "nLeaves": 286376,
+  "filesWithDifferentContent": [
+   "timing_support.csv",
+   "timing_support_summary.json"
+  ]
+ },
+ "newExclVsCommitted": {
+  "changed": [
+   "timing_support_summary.json:/all/cur_age_p95_ms/n",
+   "timing_support_summary.json:/all/cur_age_p95_ms/q05",
+   "timing_support_summary.json:/all/cur_age_p95_ms/q50",
+   "timing_support_summary.json:/all/cur_age_p95_ms/q95",
+   "timing_support_summary.json:/all/frac_neg_loaded/n",
+   "timing_support_summary.json:/all/frac_neg_loaded/q50",
+   "timing_support_summary.json:/all/i_dt_iqr_ratio/n",
+   "timing_support_summary.json:/all/i_dt_iqr_ratio/q50",
+   "timing_support_summary.json:/all/i_dt_iqr_ratio/q95",
+   "timing_support_summary.json:/all/i_dt_q50/n",
+   "timing_support_summary.json:/all/i_dt_q50/q50",
+   "timing_support_summary.json:/all/i_frac_dt_gt3s/n",
+   "timing_support_summary.json:/all/i_gap20_s/n",
+   "timing_support_summary.json:/all/i_gap20_s/q95",
+   "timing_support_summary.json:/all/n_episodes/n",
+   "timing_support_summary.json:/all/n_episodes/q95",
+   "timing_support_summary.json:/all/n_loaded/n",
+   "timing_support_summary.json:/all/n_loaded/q50",
+   "timing_support_summary.json:/all/n_loaded/q95",
+   "timing_support_summary.json:/all/off_abs_p95_ms/n",
+   "timing_support_summary.json:/all/off_abs_p95_ms/q95",
+   "timing_support_summary.json:/all/off_med_ms/n",
+   "timing_support_summary.json:/all/off_med_ms/q95",
+   "timing_support_summary.json:/byRegime/slow/cur_age_p95_ms/n",
+   "timing_support_summary.json:/byRegime/slow/cur_age_p95_ms/q05",
+   "timing_support_summary.json:/byRegime/slow/cur_age_p95_ms/q50",
+   "timing_support_summary.json:/byRegime/slow/cur_age_p95_ms/q95",
+   "timing_support_summary.json:/byRegime/slow/frac_neg_loaded/n",
+   "timing_support_summary.json:/byRegime/slow/frac_neg_loaded/q95",
+   "timing_support_summary.json:/byRegime/slow/i_dt_iqr_ratio/n",
+   "timing_support_summary.json:/byRegime/slow/i_dt_iqr_ratio/q50",
+   "timing_support_summary.json:/byRegime/slow/i_dt_iqr_ratio/q95",
+   "timing_support_summary.json:/byRegime/slow/i_dt_q50/n",
+   "timing_support_summary.json:/byRegime/slow/i_dt_q50/q05",
+   "timing_support_summary.json:/byRegime/slow/i_dt_q50/q95",
+   "timing_support_summary.json:/byRegime/slow/i_frac_dt_gt3s/n",
+   "timing_support_summary.json:/byRegime/slow/i_frac_dt_gt3s/q95",
+   "timing_support_summary.json:/byRegime/slow/i_gap20_s/n",
+   "timing_support_summary.json:/byRegime/slow/i_gap20_s/q95",
+   "timing_support_summary.json:/byRegime/slow/nDrives",
+   "timing_support_summary.json:/byRegime/slow/n_episodes/n",
+   "timing_support_summary.json:/byRegime/slow/n_episodes/q95",
+   "timing_support_summary.json:/byRegime/slow/n_loaded/n",
+   "timing_support_summary.json:/byRegime/slow/n_loaded/q05",
+   "timing_support_summary.json:/byRegime/slow/n_loaded/q95",
+   "timing_support_summary.json:/byRegime/slow/off_abs_p95_ms/n",
+   "timing_support_summary.json:/byRegime/slow/off_abs_p95_ms/q95",
+   "timing_support_summary.json:/byRegime/slow/off_med_ms/n",
+   "timing_support_summary.json:/byRegime/slow/off_med_ms/q95",
+   "timing_support_summary.json:/flags/flag_gap20_i/false",
+   "timing_support_summary.json:/flags/flag_neg_loaded/false",
+   "timing_support_summary.json:/flags/flag_one_episode/true",
+   "timing_support_summary.json:/flags/flag_regime_cross_i/true",
+   "timing_support_summary.json:/flags/flag_regime_cross_vmax/true",
+   "timing_support_summary.json:/flags/flag_skew_gt50ms/true",
+   "timing_support_summary.json:/flags/flag_support_lt20/true",
+   "timing_support_summary.json:/flags/flag_support_lt30/true",
+   "timing_support_summary.json:/flags/i_regime_cross/true",
+   "timing_support_summary.json:/flags/vmax_regime_cross/true",
+   "timing_support_summary.json:/nDrives",
+   "timing_support_summary.json:/reasons/ok",
+   "timing_support_summary.json:/thresholds/fastSlowS"
+  ],
+  "lost": [],
+  "added": [],
+  "nLeaves": 286376,
+  "filesWithDifferentContent": [
+   "timing_support.csv",
+   "timing_support_summary.json"
+  ]
+ },
+ "newVsNewExcl": {
+  "changed": [
+   "timing_support_summary.json:/all/cur_age_p95_ms/n",
+   "timing_support_summary.json:/all/cur_age_p95_ms/q05",
+   "timing_support_summary.json:/all/cur_age_p95_ms/q50",
+   "timing_support_summary.json:/all/cur_age_p95_ms/q95",
+   "timing_support_summary.json:/all/frac_neg_loaded/n",
+   "timing_support_summary.json:/all/frac_neg_loaded/q50",
+   "timing_support_summary.json:/all/i_dt_iqr_ratio/n",
+   "timing_support_summary.json:/all/i_dt_iqr_ratio/q50",
+   "timing_support_summary.json:/all/i_dt_iqr_ratio/q95",
+   "timing_support_summary.json:/all/i_dt_q50/n",
+   "timing_support_summary.json:/all/i_dt_q50/q50",
+   "timing_support_summary.json:/all/i_frac_dt_gt3s/n",
+   "timing_support_summary.json:/all/i_gap20_s/n",
+   "timing_support_summary.json:/all/i_gap20_s/q95",
+   "timing_support_summary.json:/all/n_episodes/n",
+   "timing_support_summary.json:/all/n_episodes/q95",
+   "timing_support_summary.json:/all/n_loaded/n",
+   "timing_support_summary.json:/all/n_loaded/q50",
+   "timing_support_summary.json:/all/n_loaded/q95",
+   "timing_support_summary.json:/all/off_abs_p95_ms/n",
+   "timing_support_summary.json:/all/off_abs_p95_ms/q95",
+   "timing_support_summary.json:/all/off_med_ms/n",
+   "timing_support_summary.json:/all/off_med_ms/q95",
+   "timing_support_summary.json:/byRegime/fast/cur_age_p95_ms/n",
+   "timing_support_summary.json:/byRegime/fast/cur_age_p95_ms/q05",
+   "timing_support_summary.json:/byRegime/fast/cur_age_p95_ms/q95",
+   "timing_support_summary.json:/byRegime/fast/frac_neg_loaded/n",
+   "timing_support_summary.json:/byRegime/fast/frac_neg_loaded/q95",
+   "timing_support_summary.json:/byRegime/fast/i_dt_iqr_ratio/n",
+   "timing_support_summary.json:/byRegime/fast/i_dt_iqr_ratio/q95",
+   "timing_support_summary.json:/byRegime/fast/i_dt_q50/n",
+   "timing_support_summary.json:/byRegime/fast/i_dt_q50/q95",
+   "timing_support_summary.json:/byRegime/fast/i_frac_dt_gt3s/n",
+   "timing_support_summary.json:/byRegime/fast/i_frac_dt_gt3s/q95",
+   "timing_support_summary.json:/byRegime/fast/i_gap20_s/n",
+   "timing_support_summary.json:/byRegime/fast/nDrives",
+   "timing_support_summary.json:/byRegime/fast/n_episodes/n",
+   "timing_support_summary.json:/byRegime/fast/n_episodes/q95",
+   "timing_support_summary.json:/byRegime/fast/n_loaded/n",
+   "timing_support_summary.json:/byRegime/fast/n_loaded/q50",
+   "timing_support_summary.json:/byRegime/fast/off_abs_p95_ms/n",
+   "timing_support_summary.json:/byRegime/fast/off_abs_p95_ms/q95",
+   "timing_support_summary.json:/byRegime/fast/off_med_ms/n",
+   "timing_support_summary.json:/byRegime/fast/off_med_ms/q05",
+   "timing_support_summary.json:/flags/flag_gap20_i/false",
+   "timing_support_summary.json:/flags/flag_neg_loaded/false",
+   "timing_support_summary.json:/flags/flag_one_episode/true",
+   "timing_support_summary.json:/flags/flag_regime_cross_i/false",
+   "timing_support_summary.json:/flags/flag_regime_cross_i/true",
+   "timing_support_summary.json:/flags/flag_regime_cross_vmax/false",
+   "timing_support_summary.json:/flags/flag_regime_cross_vmax/true",
+   "timing_support_summary.json:/flags/flag_skew_gt50ms/true",
+   "timing_support_summary.json:/flags/flag_support_lt20/true",
+   "timing_support_summary.json:/flags/flag_support_lt30/true",
+   "timing_support_summary.json:/flags/i_regime_cross/false",
+   "timing_support_summary.json:/flags/i_regime_cross/true",
+   "timing_support_summary.json:/flags/vmax_regime_cross/false",
+   "timing_support_summary.json:/flags/vmax_regime_cross/true",
+   "timing_support_summary.json:/nDrives",
+   "timing_support_summary.json:/reasons/ok"
+  ],
+  "lost": [],
+  "added": [],
+  "nLeaves": 286376,
+  "filesWithDifferentContent": [
+   "timing_support.csv",
+   "timing_support_summary.json"
+  ]
+ },
+ "newVsCommittedValues": {
+  "timing_support_summary.json:/byRegime/fast/cur_age_p95_ms/n": [
+   184,
+   185
+  ],
+  "timing_support_summary.json:/byRegime/fast/cur_age_p95_ms/q05": [
+   71.83,
+   71.84
+  ],
+  "timing_support_summary.json:/byRegime/fast/cur_age_p95_ms/q95": [
+   134.5925,
+   134.54
+  ],
+  "timing_support_summary.json:/byRegime/fast/frac_neg_loaded/n": [
+   184,
+   185
+  ],
+  "timing_support_summary.json:/byRegime/fast/frac_neg_loaded/q95": [
+   0.0431,
+   0.0429
+  ],
+  "timing_support_summary.json:/byRegime/fast/i_dt_iqr_ratio/n": [
+   195,
+   196
+  ],
+  "timing_support_summary.json:/byRegime/fast/i_dt_iqr_ratio/q95": [
+   0.2215,
+   0.2219
+  ],
+  "timing_support_summary.json:/byRegime/fast/i_dt_q50/n": [
+   195,
+   196
+  ],
+  "timing_support_summary.json:/byRegime/fast/i_dt_q50/q95": [
+   0.9636,
+   0.9657
+  ],
+  "timing_support_summary.json:/byRegime/fast/i_frac_dt_gt3s/n": [
+   195,
+   196
+  ],
+  "timing_support_summary.json:/byRegime/fast/i_frac_dt_gt3s/q95": [
+   0.0009,
+   0.0008
+  ],
+  "timing_support_summary.json:/byRegime/fast/i_gap20_s/n": [
+   195,
+   196
+  ],
+  "timing_support_summary.json:/byRegime/fast/nDrives": [
+   195,
+   196
+  ],
+  "timing_support_summary.json:/byRegime/fast/n_episodes/n": [
+   195,
+   196
+  ],
+  "timing_support_summary.json:/byRegime/fast/n_episodes/q95": [
+   60.6,
+   60.5
+  ],
+  "timing_support_summary.json:/byRegime/fast/n_loaded/n": [
+   195,
+   196
+  ],
+  "timing_support_summary.json:/byRegime/fast/n_loaded/q50": [
+   56.0,
+   55.5
+  ],
+  "timing_support_summary.json:/byRegime/fast/off_abs_p95_ms/n": [
+   195,
+   196
+  ],
+  "timing_support_summary.json:/byRegime/fast/off_abs_p95_ms/q95": [
+   108.7,
+   108.65
+  ],
+  "timing_support_summary.json:/byRegime/fast/off_med_ms/n": [
+   195,
+   196
+  ],
+  "timing_support_summary.json:/byRegime/fast/off_med_ms/q05": [
+   46.7,
+   46.75
+  ],
+  "timing_support_summary.json:/byRegime/slow/cur_age_p95_ms/n": [
+   417,
+   416
+  ],
+  "timing_support_summary.json:/byRegime/slow/cur_age_p95_ms/q05": [
+   96.2,
+   96.6125
+  ],
+  "timing_support_summary.json:/byRegime/slow/cur_age_p95_ms/q50": [
+   140.6,
+   140.625
+  ],
+  "timing_support_summary.json:/byRegime/slow/cur_age_p95_ms/q95": [
+   256.78,
+   256.975
+  ],
+  "timing_support_summary.json:/byRegime/slow/frac_neg_loaded/n": [
+   417,
+   416
+  ],
+  "timing_support_summary.json:/byRegime/slow/frac_neg_loaded/q95": [
+   0.0491,
+   0.0492
+  ],
+  "timing_support_summary.json:/byRegime/slow/i_dt_iqr_ratio/n": [
+   425,
+   424
+  ],
+  "timing_support_summary.json:/byRegime/slow/i_dt_iqr_ratio/q50": [
+   0.1645,
+   0.1643
+  ],
+  "timing_support_summary.json:/byRegime/slow/i_dt_iqr_ratio/q95": [
+   0.4423,
+   0.4424
+  ],
+  "timing_support_summary.json:/byRegime/slow/i_dt_q50/n": [
+   425,
+   424
+  ],
+  "timing_support_summary.json:/byRegime/slow/i_dt_q50/q05": [
+   1.161,
+   1.1615
+  ],
+  "timing_support_summary.json:/byRegime/slow/i_dt_q50/q95": [
+   1.9928,
+   1.9931
+  ],
+  "timing_support_summary.json:/byRegime/slow/i_frac_dt_gt3s/n": [
+   425,
+   424
+  ],
+  "timing_support_summary.json:/byRegime/slow/i_frac_dt_gt3s/q95": [
+   0.0605,
+   0.0606
+  ],
+  "timing_support_summary.json:/byRegime/slow/i_gap20_s/n": [
+   425,
+   424
+  ],
+  "timing_support_summary.json:/byRegime/slow/i_gap20_s/q95": [
+   53.087,
+   53.4737
+  ],
+  "timing_support_summary.json:/byRegime/slow/nDrives": [
+   425,
+   424
+  ],
+  "timing_support_summary.json:/byRegime/slow/n_episodes/n": [
+   425,
+   424
+  ],
+  "timing_support_summary.json:/byRegime/slow/n_episodes/q95": [
+   112.4,
+   112.55
+  ],
+  "timing_support_summary.json:/byRegime/slow/n_loaded/n": [
+   425,
+   424
+  ],
+  "timing_support_summary.json:/byRegime/slow/n_loaded/q05": [
+   2.0,
+   2.15
+  ],
+  "timing_support_summary.json:/byRegime/slow/n_loaded/q95": [
+   696.8,
+   698.35
+  ],
+  "timing_support_summary.json:/byRegime/slow/off_abs_p95_ms/n": [
+   425,
+   424
+  ],
+  "timing_support_summary.json:/byRegime/slow/off_abs_p95_ms/q95": [
+   142.7,
+   142.725
+  ],
+  "timing_support_summary.json:/byRegime/slow/off_med_ms/n": [
+   425,
+   424
+  ],
+  "timing_support_summary.json:/byRegime/slow/off_med_ms/q95": [
+   60.4,
+   60.425
+  ],
+  "timing_support_summary.json:/flags/flag_regime_cross_i/false": [
+   596,
+   607
+  ],
+  "timing_support_summary.json:/flags/flag_regime_cross_i/true": [
+   24,
+   13
+  ],
+  "timing_support_summary.json:/flags/flag_regime_cross_vmax/false": [
+   599,
+   608
+  ],
+  "timing_support_summary.json:/flags/flag_regime_cross_vmax/true": [
+   26,
+   17
+  ],
+  "timing_support_summary.json:/flags/i_regime_cross/false": [
+   596,
+   607
+  ],
+  "timing_support_summary.json:/flags/i_regime_cross/true": [
+   24,
+   13
+  ],
+  "timing_support_summary.json:/flags/vmax_regime_cross/false": [
+   599,
+   608
+  ],
+  "timing_support_summary.json:/flags/vmax_regime_cross/true": [
+   26,
+   17
+  ],
+  "timing_support_summary.json:/thresholds/fastSlowS": [
+   1.05,
+   1.1
+  ]
+ },
+ "newVsNewExclValues": {
+  "timing_support_summary.json:/all/cur_age_p95_ms/n": [
+   601,
+   600
+  ],
+  "timing_support_summary.json:/all/cur_age_p95_ms/q05": [
+   82.0,
+   81.95
+  ],
+  "timing_support_summary.json:/all/cur_age_p95_ms/q50": [
+   123.15,
+   123.25
+  ],
+  "timing_support_summary.json:/all/cur_age_p95_ms/q95": [
+   243.9,
+   244.075
+  ],
+  "timing_support_summary.json:/all/frac_neg_loaded/n": [
+   601,
+   600
+  ],
+  "timing_support_summary.json:/all/frac_neg_loaded/q50": [
+   0.0042,
+   0.0043
+  ],
+  "timing_support_summary.json:/all/i_dt_iqr_ratio/n": [
+   621,
+   620
+  ],
+  "timing_support_summary.json:/all/i_dt_iqr_ratio/q50": [
+   0.1677,
+   0.1676
+  ],
+  "timing_support_summary.json:/all/i_dt_iqr_ratio/q95": [
+   0.3981,
+   0.3982
+  ],
+  "timing_support_summary.json:/all/i_dt_q50/n": [
+   621,
+   620
+  ],
+  "timing_support_summary.json:/all/i_dt_q50/q50": [
+   1.276,
+   1.277
+  ],
+  "timing_support_summary.json:/all/i_frac_dt_gt3s/n": [
+   621,
+   620
+  ],
+  "timing_support_summary.json:/all/i_gap20_s/n": [
+   621,
+   620
+  ],
+  "timing_support_summary.json:/all/i_gap20_s/q95": [
+   33.751,
+   33.8879
+  ],
+  "timing_support_summary.json:/all/n_episodes/n": [
+   620,
+   619
+  ],
+  "timing_support_summary.json:/all/n_episodes/q95": [
+   93.25,
+   93.5
+  ],
+  "timing_support_summary.json:/all/n_loaded/n": [
+   620,
+   619
+  ],
+  "timing_support_summary.json:/all/n_loaded/q50": [
+   39.5,
+   40.0
+  ],
+  "timing_support_summary.json:/all/n_loaded/q95": [
+   617.85,
+   618.7
+  ],
+  "timing_support_summary.json:/all/off_abs_p95_ms/n": [
+   625,
+   624
+  ],
+  "timing_support_summary.json:/all/off_abs_p95_ms/q95": [
+   130.94,
+   130.955
+  ],
+  "timing_support_summary.json:/all/off_med_ms/n": [
+   625,
+   624
+  ],
+  "timing_support_summary.json:/all/off_med_ms/q95": [
+   63.9,
+   63.925
+  ],
+  "timing_support_summary.json:/byRegime/fast/cur_age_p95_ms/n": [
+   185,
+   184
+  ],
+  "timing_support_summary.json:/byRegime/fast/cur_age_p95_ms/q05": [
+   71.84,
+   71.83
+  ],
+  "timing_support_summary.json:/byRegime/fast/cur_age_p95_ms/q95": [
+   134.54,
+   134.5925
+  ],
+  "timing_support_summary.json:/byRegime/fast/frac_neg_loaded/n": [
+   185,
+   184
+  ],
+  "timing_support_summary.json:/byRegime/fast/frac_neg_loaded/q95": [
+   0.0429,
+   0.0431
+  ],
+  "timing_support_summary.json:/byRegime/fast/i_dt_iqr_ratio/n": [
+   196,
+   195
+  ],
+  "timing_support_summary.json:/byRegime/fast/i_dt_iqr_ratio/q95": [
+   0.2219,
+   0.2215
+  ],
+  "timing_support_summary.json:/byRegime/fast/i_dt_q50/n": [
+   196,
+   195
+  ],
+  "timing_support_summary.json:/byRegime/fast/i_dt_q50/q95": [
+   0.9657,
+   0.9636
+  ],
+  "timing_support_summary.json:/byRegime/fast/i_frac_dt_gt3s/n": [
+   196,
+   195
+  ],
+  "timing_support_summary.json:/byRegime/fast/i_frac_dt_gt3s/q95": [
+   0.0008,
+   0.0009
+  ],
+  "timing_support_summary.json:/byRegime/fast/i_gap20_s/n": [
+   196,
+   195
+  ],
+  "timing_support_summary.json:/byRegime/fast/nDrives": [
+   196,
+   195
+  ],
+  "timing_support_summary.json:/byRegime/fast/n_episodes/n": [
+   196,
+   195
+  ],
+  "timing_support_summary.json:/byRegime/fast/n_episodes/q95": [
+   60.5,
+   60.6
+  ],
+  "timing_support_summary.json:/byRegime/fast/n_loaded/n": [
+   196,
+   195
+  ],
+  "timing_support_summary.json:/byRegime/fast/n_loaded/q50": [
+   55.5,
+   56.0
+  ],
+  "timing_support_summary.json:/byRegime/fast/off_abs_p95_ms/n": [
+   196,
+   195
+  ],
+  "timing_support_summary.json:/byRegime/fast/off_abs_p95_ms/q95": [
+   108.65,
+   108.7
+  ],
+  "timing_support_summary.json:/byRegime/fast/off_med_ms/n": [
+   196,
+   195
+  ],
+  "timing_support_summary.json:/byRegime/fast/off_med_ms/q05": [
+   46.75,
+   46.7
+  ],
+  "timing_support_summary.json:/flags/flag_gap20_i/false": [
+   573,
+   572
+  ],
+  "timing_support_summary.json:/flags/flag_neg_loaded/false": [
+   317,
+   316
+  ],
+  "timing_support_summary.json:/flags/flag_one_episode/true": [
+   72,
+   71
+  ],
+  "timing_support_summary.json:/flags/flag_regime_cross_i/false": [
+   607,
+   596
+  ],
+  "timing_support_summary.json:/flags/flag_regime_cross_i/true": [
+   13,
+   23
+  ],
+  "timing_support_summary.json:/flags/flag_regime_cross_vmax/false": [
+   608,
+   599
+  ],
+  "timing_support_summary.json:/flags/flag_regime_cross_vmax/true": [
+   17,
+   25
+  ],
+  "timing_support_summary.json:/flags/flag_skew_gt50ms/true": [
+   625,
+   624
+  ],
+  "timing_support_summary.json:/flags/flag_support_lt20/true": [
+   148,
+   147
+  ],
+  "timing_support_summary.json:/flags/flag_support_lt30/true": [
+   241,
+   240
+  ],
+  "timing_support_summary.json:/flags/i_regime_cross/false": [
+   607,
+   596
+  ],
+  "timing_support_summary.json:/flags/i_regime_cross/true": [
+   13,
+   23
+  ],
+  "timing_support_summary.json:/flags/vmax_regime_cross/false": [
+   608,
+   599
+  ],
+  "timing_support_summary.json:/flags/vmax_regime_cross/true": [
+   17,
+   25
+  ],
+  "timing_support_summary.json:/nDrives": [
+   632,
+   631
+  ],
+  "timing_support_summary.json:/reasons/ok": [
+   620,
+   619
+  ]
+ },
+ "oldReproducesCommittedByteExact": true
+}

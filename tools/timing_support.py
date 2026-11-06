@@ -19,7 +19,8 @@ if os.path.dirname(os.path.abspath(__file__)) not in sys.path:
 SIDECAR = os.path.join(ROOT, "timing_support.csv")
 SUMMARY = os.path.join(ROOT, "timing_support_summary.json")
 METHOD_VERSION = 1
-FAST_SLOW_S = 1.05                    # tools/cadence_regime.py THRESHOLD_S (declared midpoint of the empty gap)
+import regime_reader as _RR           # M585: the single source of the fast / slow rule
+FAST_SLOW_S = _RR.THRESHOLD_S         # tools/regime_reader.py THRESHOLD_S (M578, amended 1.10 s); also the window-median crossing test (no guard-zone STOP there)
 WIN_S, WIN_MIN_INTERVALS = 60.0, 5    # regime-stability windows (spec item 3)
 EPISODE_BREAK_S = 10.0                # descriptive grouping of loaded pairs into episodes (spec item 5)
 LOADED_A = 50.0                       # production loaded threshold |I| > 50 A
@@ -251,7 +252,7 @@ def matched_support(side, master):
 def summarize(side, master):
     """Descriptive table: flag counts and quantiles of the main columns, overall and by the declared drive-level regime. No test, no interval."""
     d = side.merge(master[["file", "I_sample_period_s"]], on="file", how="left").copy()
-    d["regime"] = np.where(d["I_sample_period_s"].isna(), "unknown", np.where(d["I_sample_period_s"] < FAST_SLOW_S, "fast", "slow"))
+    d["regime"] = d["I_sample_period_s"].map(lambda v: "unknown" if pd.isna(v) else _RR.regime_of(v))
     cols = ["i_dt_q50", "i_dt_iqr_ratio", "i_frac_dt_gt3s", "i_gap20_s", "off_med_ms", "off_abs_p95_ms", "n_loaded", "n_episodes", "cur_age_p95_ms", "frac_neg_loaded"]
 
     def qt(x):
