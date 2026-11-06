@@ -101,7 +101,7 @@ ok("A2 REQUIRED non-integrable drives are excluded from GTC, not counted as zero
 _oot = A["socHysteresisV2"].get("outOfTimeEvaluation")
 if _oot:
     _hv = {k: t for k, t in T.items() if k.startswith("highway_vs_city__") and not k.endswith("__compare")}
-    ok("A2 REQUIRED M428 out-of-time panel rendered in the hazard-model tab dumps (all / warm / shoulder)", len(_hv) >= 3 and all("Out-of-time evaluation of the frozen design (M428" in t for t in _hv.values()))
+    ok("A2 REQUIRED M428 out-of-time panel rendered in the hazard-model tab dumps (all / warm / shoulder)", len(_hv) >= 3 and all("Out-of-time evaluation of the frozen design." in t for t in _hv.values()))
     ok("A2 REQUIRED M428 each side's outcome sentence equals the payload's and the O/E point and window match",
        all((_oot[s]["outcome"] in t) and ("%.3f" % _oot[s]["OE"]["point"]) in t and ("%d / %d / %d" % (_oot[s]["later"]["nDrives"], _oot[s]["later"]["nDays"], _oot[s]["later"]["events"])) in t for t in _hv.values() for s in ("start", "stop")))
     ok("A2 REQUIRED M428 planning-threshold and conditional-on-the-fitted-basis-model disclosures are rendered", all(("declared planning choices, not validated" in t) and ("conditional on the fitted basis model" in t) and ("not equivalence" in t) for t in _hv.values()))
@@ -110,7 +110,7 @@ if _oot:
 # M512 (analyses/M512_spec.md Rev 2): the engine-hours panel renders the payload's supported / unsupported / elapsed hours and the labelled imputed figure
 _er = A.get("engineRuntime")
 if _er:
-    _erd = {k: t for k, t in T.items() if "Engine-on time on a declared time base (M512)" in t}
+    _erd = {k: t for k, t in T.items() if "Engine-on time on a declared time base." in t}
     _tt = _er["totals"]
     ok("A2 REQUIRED M512 engine-runtime panel rendered in the dumps that carry the RPM table", len(_erd) >= 3, f"{sorted(_erd)}")
     ok("A2 REQUIRED M512 the panel states the payload hours (supported on-time, supported, elapsed, unsupported, imputed) and the 'imputed' label",
@@ -125,7 +125,7 @@ if _hsc.get("soakTauGapSplit"):
        all((("[%s, %s] h" % (_lo, "unbounded" if _hi is None else _hi)) in t) and ("Pairs: %d consecutive drive pairs, %d with a recorded ambient, %d in the fit" % (_hsc["nPairs"], _hsc["nPairsAmbient"], _hsc["tauFitN"])) in t
            and ("arrival-day clusters (headline) [%s, %s] (%d clusters)" % (_lo, "unbounded" if _hi is None else _hi, _hsc["soakTauCiMethod"]["nClusters"])) in t for t in _sk.values()))
     ok("A2 REQUIRED M429 the gap split is labelled post-hoc and not pre-registered, and the method-agreement sentence reads 'weak ... not absent'",
-       all(("Post-hoc, not pre-registered (blind-audit finding)" in t) and ("between-day dependence is weak in these data, not absent" in t) and ("single-exponential model, not model error" in t) for t in _sk.values()))
+       all(("Post-hoc, not pre-registered (found in the blind audit)" in t) and ("between-day dependence is weak in these data, not absent" in t) and ("single-exponential model, not model error" in t) for t in _sk.values()))
 # M430 (analyses/M430_spec.md Rev 2): the held-out fit-quality block renders the payload (in-sample R2 per fit, the statements per cell, the exclusion counts) and no longer dismisses R2
 _fq0 = (A.get("heatSoakCarryover") or {}).get("soakFitQuality")
 if _fq0:
@@ -139,7 +139,7 @@ if _fq0:
     ok("A2 REQUIRED M430 the pooled statements of every fit equal the payload's (persistence / constant level / gap bins)",
        all(all((c.get("statements") or {}).get(k, {}).get("statement") in t for k in ("S1", "S2", "S3") if (c.get("statements") or {}).get(k, {}).get("statement")) for t in _fqd.values() for n, q in _fits for c in [q["cells"]["pooled"]]))
     ok("A2 REQUIRED M430 the text states the held-out design, the selection on the outcome and that tau stays a gap-mix-dependent summary",
-       all(("blocked cross-validation" in t) and ("selection on the outcome" in t) and ("gap-mix-dependent, model-derived summary" in t) and ("not adjusted for multiplicity" in t) for t in _fqd.values()))
+       all(("blocked cross-validation" in t) and ("selection on the outcome" in t) and ("model-derived summary that depends on the mix of gaps" in t) and ("not adjusted for multiplicity" in t) for t in _fqd.values()))
 # M432 (analyses/M432_spec.md Rev 2.1): the detector-sensitivity block is additive; its range is the min-max of the comparable CORE settings (stress rows never enter), the rendered text equals the payload and states what the range is not
 _ds = (A.get("evTraction") or {}).get("detectorSensitivity")
 if _ds:
@@ -225,7 +225,7 @@ if _cfm and _cfm.get("status") == "evaluated":
 # M582a (analyses/M582_spec.md Rev 1): the PID-set class row prints the class counts, the class B and class A period medians, the post hoc statement and the Q3 readiness from the payload
 _pe = A.get("pidEpoch")
 if _pe:
-    _K582 = "PID-set class (M582a):"
+    _K582 = "PID-set class:"
     _rows582 = [(k, t) for k, t in T.items() if _K582 in t]
     _row582 = lambda t: t[t.index(_K582):t.index(_K582) + 2500]
     _c582 = _pe["counts"]
@@ -357,13 +357,13 @@ _STAND = [(("%s; equivalence not established on this sensitivity design (S0); " 
 _cs_m427 = A["degradationTrends"]["cellSpread"]["clusterRobustOLS"]["ci95"]
 # M407 (analyses/M407_spec.md): dashboard binding of the M406 sensitivities (reporting-only); text rendered from the payload, Director wording
 _h407 = [(k, t) for k, t in T.items() if k.startswith("health__") and not k.endswith("__compare")]
-ok("A2 REQUIRED M407 inference-sensitivity panel rendered in the Health dumps (all / warm / shoulder)", len(_h407) >= 3 and all("Inference sensitivities (M406;" in t for k, t in _h407))
+ok("A2 REQUIRED M407 inference-sensitivity panel rendered in the Health dumps (all / warm / shoulder)", len(_h407) >= 3 and all("Inference sensitivities (additive:" in t for k, t in _h407))
 if _ds:
     for _k, _t in _h407:
-        _i = _t.index("Inference sensitivities (M406;") if "Inference sensitivities (M406;" in _t else -1
+        _i = _t.index("Inference sensitivities (additive:") if "Inference sensitivities (additive:" in _t else -1
         _j = _t.index("Limits:", _i) if _i >= 0 and "Limits:" in _t[_i:] else -1
         # M575 (Director): the M407 window ends at the earlier of 'Limits:' and the M410 serial-dependence block, whose classification sentence also says "the lower bound changes sign across procedures"
-        _j410 = _t.find("Serial-dependence sensitivity (M410;", _i) if _i >= 0 else -1
+        _j410 = _t.find("Serial-dependence sensitivity (pre-registered,", _i) if _i >= 0 else -1
         if _j410 > _i and (_j < 0 or _j410 < _j):
             _j = _j410
         _pn = _t[_i:_j] if _i >= 0 and _j > _i else ""
@@ -421,10 +421,10 @@ if _sd:
 # M412 (analyses/M412_spec.md): dashboard binding of the M410 serial-dependence block (reporting-only); text rendered from the payload, Director ruling analyses/M410_director_ruling_2026-10-12.md
 _sdp = A.get("serialDependence")
 _h412 = [(k, t) for k, t in T.items() if k.startswith("health__") and not k.endswith("__compare")]
-ok("A2 REQUIRED M412 serial-dependence panel rendered in the Health dumps (all / warm / shoulder)", len(_h412) >= 3 and all("Serial-dependence sensitivity (M410;" in t for k, t in _h412))
+ok("A2 REQUIRED M412 serial-dependence panel rendered in the Health dumps (all / warm / shoulder)", len(_h412) >= 3 and all("Serial-dependence sensitivity (pre-registered," in t for k, t in _h412))
 if _sdp:
     for _k, _t in _h412:
-        _i = _t.index("Serial-dependence sensitivity (M410;") if "Serial-dependence sensitivity (M410;" in _t else -1
+        _i = _t.index("Serial-dependence sensitivity (pre-registered,") if "Serial-dependence sensitivity (pre-registered," in _t else -1
         _j = _t.index("Limits:", _i) if _i >= 0 and "Limits:" in _t[_i:] else -1
         _pn = _t[_i:_j] if _i >= 0 and _j > _i else ""
         _cs, _rv = _sdp["trendSlopes"]["cellSpread"], _sdp["trendSlopes"]["resistanceVreg"]
@@ -478,7 +478,7 @@ if _wc485:
     _hd485 = [(k, t) for k, t in T.items() if "ositive conditional cell-spread slope at" in t or "ell-spread trend not resolved at" in t]
     ok("A2 REQUIRED M485 every cell-spread headline carries the window sentence generated from windowCaveat (%d dumps)" % len(_hd485), len(_hd485) >= 1 and all(_sent485 in t for k, t in _hd485))
     _h485 = [(k, t) for k, t in T.items() if k.startswith("health__") and not k.endswith("__compare")]
-    ok("A2 REQUIRED M485 the window table and sentence are rendered in the Health dumps and list every payload cutoff", len(_h485) >= 3 and all("Observation window and cutoff sensitivity (M485" in t and _sent485 in t and all(r["cutoff"] in t for r in _wc485["cutoffs"]) for k, t in _h485))
+    ok("A2 REQUIRED M485 the window table and sentence are rendered in the Health dumps and list every payload cutoff", len(_h485) >= 3 and all("Observation window and cutoff sensitivity (cell-spread" in t and _sent485 in t and all(r["cutoff"] in t for r in _wc485["cutoffs"]) for k, t in _h485))
     _ok485 = [r for r in _wc485["cutoffs"] if r["status"] == "ok"]
     _sg485 = [r["sign"] for r in _ok485]
     _rel485 = A["degradationTrends"]["cellSpread"]["clusterRobustOLS"]
@@ -528,7 +528,7 @@ for _mode in ("all", "warm", "shoulder"):
     ok("A2 REQUIRED M421 %s: the offset card says the interval is fit variability, the I2R variant is not separable from zero (not adopted), the Ready-mode current is not a zero reference, gross throughput is not offset-adjusted, and a zero-current reference is needed" % _mode,
        all(x in _card for x in ("not an uncertainty of a sensor zero", "not a confidence interval", "not separable from zero", "that variant is not adopted", "carries auxiliary load and is not a zero reference",
                                 "gross throughput is not offset-adjusted", "Calibrating a sensor zero needs a zero-current reference")))
-    _pb = _t[_t.find("Residual-balance offset, conditional on the SoC/capacity ledger (audit"):][:2200]
+    _pb = _t[_t.find("Residual-balance offset, conditional on the SoC/capacity ledger:"):][:2200]
     ok("A2 REQUIRED M421 %s: Provenance B names the model-derived residual-balance offset, its conditionality and that it is not a calibrated sensor zero; the Ready-mode current is not read as corroboration" % _mode,
        _pb.startswith("Residual-balance offset") and all(x in _pb for x in ("model-derived residual-balance offset, not a calibrated sensor zero", "not an uncertainty of a sensor zero", _band, "is not a zero reference", "not separable from zero"))
        and "excludes zero" not in _pb and "consistent in sign" not in _pb)
@@ -722,7 +722,7 @@ if _tl:
            and _tl_lag.count("cohort median not identifiable without an assumption on censoring") == sum(1 for t in ("60", "70", "80") if _W["coldStarts"] and _W["coolant"][t]["reached"] / _W["coldStarts"] < 0.5)
            + sum(1 for _fl in _tl["timeToThreshold"]["cohorts"][_mode].values() for _c in _fl.values() if not _c["median"]["shown"]))   # M435 (C8): the same sentence is the R5 sentence of the Kaplan-Meier tables
         ok("A2 REQUIRED M418 %s: the censored sentence says the observation ended before the threshold; risk-set rows are called counts; no survival wording" % _mode,
-           "observation ended before the threshold" in _tl_lag and "Risk-set rows are counts, not a time-to-event estimate" in _tl_lag and "key-off" in _tl_lag and not re.search(r"survival|Kaplan|failed to warm up", "".join(_x[_x.find("Support (M418"):_x.find("ambient 3", _x.find("Support (M418"))] for _x in (_tl_lag, _tl_cur, _tl_fuel))))
+           "observation ended before the threshold" in _tl_lag and "Risk-set rows are counts, not a time-to-event estimate" in _tl_lag and "key-off" in _tl_lag and not re.search(r"survival|Kaplan|failed to warm up", "".join(_x[_x.find("Support (ledger counts"):_x.find("ambient 3", _x.find("Support (ledger counts"))] for _x in (_tl_lag, _tl_cur, _tl_fuel))))
         ok("A2 REQUIRED M418 %s: hvcEngine80C support names the class, counts, days, warm restarts and cold-start split; the curve states its own warm-start rule" % _mode,
            all(("%s: %d of %d drives reached 80 %sC" % (k.replace("_", " ").capitalize(), a["reached"], a["n"], _deg)) in _tl_cur and (" on %d days" % a["nDays"]) in _tl_cur
                and ("cold starts: %d reached, %d did not reach it within the drive" % (a["coldStartAndReached"], a["coldStartNotReached"])) in _tl_cur for k, a in _H["accepted"].items() if a["n"] > 0)
@@ -732,7 +732,7 @@ if _tl:
            _F["candidates"] == sum(e["n"] for e in _F["excluded"]) + _F["accepted"]
            and ("Fuel-accumulator subset: %d candidates; %d cold starts in the fuel comparison on %d days" % (_F["candidates"], _F["accepted"], _F["acceptedDays"])) in _tl_fuel
            and all((str(e["n"]) + " ") in _tl_fuel for e in _F["excluded"]) and "selection on the outcome" in _tl_fuel and "logged/app-calculated" in _tl_fuel)
-    ok("A2 REQUIRED M418 no support line in the compare-mode dumps (the lines follow the cohort selector)", all("Support (M418" not in v for k, v in T.items() if k.endswith("__compare")))
+    ok("A2 REQUIRED M418 no support line in the compare-mode dumps (the lines follow the cohort selector)", all("Support (ledger counts" not in v for k, v in T.items() if k.endswith("__compare")))
 # M415 (analyses/M413_spec.md Rev 1-3): exposure basis flip (capacity commit 2). Independent recomputation from the Ah sidecar and the legacy master columns; tags, labels and rendered notes.
 import pandas as _pd415
 _xb = A.get("exposureBasis")
@@ -958,14 +958,14 @@ ok("A2 REQUIRED M379a logger-cadence disclosure bound to loggerCadence (regime c
 if _lc.get("sensitivity"):
     _gr = _lc["sensitivity"]["grossThroughputRatio"]["fastToSlow"]
     ok("A2 REQUIRED M379b sensitivity line next to the GTC / FCE / rainflow-EFC headline (emulated sampling sensitivity, bound to loggerCadence.sensitivity)",
-       any(("Emulated sampling sensitivity (M379b): thinning the fast-cadence drives to the slow-regime cadence lowers their gross throughput by %.1f–%.1f%%" % ((1 - _gr["ci95"][1]) * 100, (1 - _gr["ci95"][0]) * 100)) in t
+       any(("Emulated sampling sensitivity: thinning the fast-cadence drives to the slow-regime cadence lowers their gross throughput by %.1f–%.1f%%" % ((1 - _gr["ci95"][1]) * 100, (1 - _gr["ci95"][0]) * 100)) in t
            and "descriptive, under the emulation" in t for t in T.values()))
 if _lc.get("stratified"):
     _st = _lc["stratified"]
     _w, _sh = _st["energyIntensityByRegime"]["warm"], next(r for r in _st["cohortByRegime"] if r["cohort"] == "shoulder" and r["regime"] == "fast")
     _wf = next(r for r in _st["cohortByRegime"] if r["cohort"] == "warm" and r["regime"] == "fast")
     ok("A2 REQUIRED M380 regime-stratified view bound to loggerCadence.stratified (stratified EI, regime-period contrast, covariate re-run, flips, observational / not a cadence effect)",
-       any(all(x in t for x in ("Regime-stratified view (M380; observational, confounded by season, ambient and drive mix)",
+       any(all(x in t for x in ("Regime-stratified view (observational, confounded by season, ambient and drive mix)",
                                 "%.1f kWh/100 km in fast-cadence drives (%d drives, %d days)" % (_w["fast"]["value"], _w["fast"]["nDrives"], _w["fast"]["nDays"]),
                                 "a regime period, not a cadence effect",
                                 "with the published estimator the interval includes zero in all three variants" if all(c["ci95"][0] <= 0 <= c["ci95"][1] for c in (_st["warmVsShoulderContrast"][k] for k in ("original", "binaryRegime", "threeLevelRegime"))) else "with the published estimator the side of zero of the interval differs between variants",

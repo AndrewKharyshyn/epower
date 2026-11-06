@@ -22,7 +22,7 @@ const btnText=(re)=>[...d.querySelectorAll('button')].find(b=>re.test(b.textCont
     if(!pv){ok(`${m}: Power fade selector present`,false);continue;}
     click(pv);await sleep(500);
     const t=d.getElementById('root').textContent;
-    const i=t.indexOf('Joint instrumentation sensitivity (M514');
+    const i=t.indexOf('Joint instrumentation sensitivity (estimated proxy');
     ok(`${m}: joint-matrix sentence rendered`,i>=0);
     if(i<0)continue;
     const s=t.slice(i,i+1400);
