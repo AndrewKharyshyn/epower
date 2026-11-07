@@ -1,0 +1,8 @@
+{"milestone":"M603","auditor":"analytical-auditor (Sonnet, blind: spec + raw + pipeline loader helpers only)","tolerance":{"pointMvPerMonth":0.02,"intervalEndMvPerMonth":0.05,"counts":"exact"},
+ "reproduced":{"loadedReconciliation":"0 mismatches of 601 (p95 and pair counts)","nDrives":372,"nDays":117,"cleanDrivesWithSteadyS":372,
+  "steadyModelSlope":{"audit":0.367,"auditCi95":[0.083,0.652],"author":0.367,"authorCi95Cluster":[0.0735,0.6606],"authorCi95Cr2Satterthwaite":[0.0628,0.6713],"note":"audit CR2 with t(G-1); author primary = released cluster protocol t(G-1); ends differ by <= 0.01 vs the like-for-like interval"},
+  "loadedModelSlopeSameDrives":{"audit":0.601,"auditCi95":[0.24,0.962],"author":0.6007,"authorCi95":[0.2284,0.9729]},
+  "differenceSteadyMinusLoaded":{"audit":-0.234,"auditCi95":[-0.473,-0.021],"author":-0.2336,"authorCi95":[-0.474,-0.0212]},
+  "theilSenDayMedians":{"audit":0.246,"auditBootstrapCi95":[-0.106,0.623],"authorBeforeFix":[-0.2846,0.7478],"authorAfterFix":[-0.1062,0.6226]}},
+ "finding":"The audit found a defect in the author's Theil-Sen bootstrap: pairs with dx<0 on resampled (unsorted) days were dropped, halving the pair set and widening the E1/E3/E4 intervals. Fixed in tools/steady_load_spread.py (every unordered pair with dx != 0 counts once) and covered by a new known-answer test against scipy.stats.theilslopes; E1 day interval now equals the audit's to 4 decimals. The grade is unchanged (it uses the model slopes and the paired difference).",
+ "agrees":true}

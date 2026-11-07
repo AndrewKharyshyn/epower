@@ -213,8 +213,7 @@ def theil_sen(x, y):
     x = np.asarray(x, dtype=float); y = np.asarray(y, dtype=float)
     i, j = np.triu_indices(len(x), 1)
     dx = x[j] - x[i]
-    ok = dx > 0
-    # pairs with dx < 0 cannot occur for sorted x; resampled duplicates give dx == 0 and are skipped
+    ok = dx != 0                                  # every unordered pair counts once; resampled duplicates (dx == 0) are skipped; x need not be sorted
     if not ok.any():
         return None
     return float(np.median((y[j] - y[i])[ok] / dx[ok]))

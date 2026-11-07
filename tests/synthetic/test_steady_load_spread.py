@@ -58,6 +58,11 @@ close(S.theil_sen(x, y), 2.0)
 y2 = y.copy(); y2[4] = 100.0
 close(S.theil_sen(x, y2), 2.0, 1e-9)
 assert S.theil_sen([1.0, 1.0], [1.0, 2.0]) is None                     # no distinct x
+perm = np.array([7, 2, 9, 0, 5, 3, 8, 1, 6, 4])                          # unsorted x: same slope (the bootstrap passes resampled, unordered days)
+close(S.theil_sen(x[perm], y[perm]), 2.0)
+from scipy import stats as _st
+rr = np.random.default_rng(3); xs = rr.integers(0, 12, 30).astype(float); ys = rr.normal(size=30)
+close(S.theil_sen(xs, ys), _st.theilslopes(ys, xs)[0], 1e-12)           # agrees with scipy on tied, unsorted x
 
 # 10. day / week bootstrap on exact data: degenerate interval at the truth
 g = pd.DataFrame({"x": x, "y": y, "wk": np.repeat(["a", "b"], 5)})
