@@ -25,6 +25,7 @@ WINDOWS = {"primary": {"intake": (-40.0, 90.0), "engineCoolant": (-40.0, 150.0),
            "v6": {"intake": (-40.0, 90.0), "engineCoolant": (-40.0, 200.0), "hvCoolant": (-40.0, 200.0), "engineIntake": (-40.0, 90.0)},
            "rev0": {"intake": (-40.0, 90.0), "engineCoolant": (-40.0, 130.0), "hvCoolant": (-40.0, 100.0), "engineIntake": (-40.0, 90.0)}}
 SENS = {"cov25": {"cov_min": 0.25}, "cov75": {"cov_min": 0.75}, "gap30": {"gap_s": 30.0}, "gap120": {"gap_s": 120.0}, "windowV6": {"window": "windowV6"}, "windowRev0": {"window": "windowRev0"}}
+OWNER_STATEMENT = {"channel": "intake", "text": "HV-battery software update reported by the owner as the root cause of the intake-air outage (owner statement, chat 2026-11-07); not verifiable from the logs", "source": "owner (Andrii), chat 2026-11-07"}
 KIND_OF_MK = {"s": "single", "e": "pair", "t": "trapezoid"}
 
 
@@ -295,8 +296,8 @@ def splice(res):
              "basis": "raw bytes; sparse-wide logger files, so coverage is the share of 10 s bins of the drive span holding a valid sample; nValid counts unique valid timestamps; windows are the pipeline's own; raw/ = sha256-verified originals (M366)",
              "inputs": {"driveMasterMd5": md5, "rawListSha256": res["rawListSha256"]}, "thresholds": res["thresholds"], "windows": res["windows"], "population": res["population"],
              "channels": res["channels"], "months": res["months"], "outcomeByStratum": ob, "outcomeRule": res["outcomeRule"], "manualLedger": res["manualLedger"], "ambientPid": res["ambientPid"],
-             "reconciliation": res["reconciliation"], "extractorSourceHash": res["extractorSourceHash"], "sidecarSha256": hashlib.sha256(open(SIDECAR, "rb").read()).hexdigest(),
-             "limits": ["a dropout flag is a logging fact; its cause is not known and no hardware or logger-setting claim is made", "reading times of the driver-recorded ambient ledger are inferred, so freshness is not observable",
+             "ownerStatement": OWNER_STATEMENT, "reconciliation": res["reconciliation"], "extractorSourceHash": res["extractorSourceHash"], "sidecarSha256": hashlib.sha256(open(SIDECAR, "rb").read()).hexdigest(),
+             "limits": ["a dropout flag is a logging fact; the logs cannot show its cause, and the only cause stated for the intake-air outage is the owner's report (ownerStatement)", "reading times of the driver-recorded ambient ledger are inferred, so freshness is not observable",
                         "the source class (vehicle_uncalibrated) is assigned by the committed ambient protocol, not checked per reading", "logging-cadence groups are never pooled; the gap thresholds act differently at the two logging cadences",
                         "engine intake air is a separate exploratory channel and is never combined with the HV-battery intake air"]}
     block = json.loads(json.dumps(block, default=float))
