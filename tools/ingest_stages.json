@@ -815,6 +815,21 @@
    ]
   },
   {
+   "id": "cold_neutral_context",
+   "title": "M605: fueled, high-SoC, cold-coolant, pack-neutral engine context (SoC >= 68, coolant <= 60 C, logged rpm >= 500, app-calculated fuel >= 1.5 L/h, |I| <= 3 A, runs >= 10 s) per cadence stratum on the M559 grid; reconciles rpm > 400 seconds to the M559 rotating seconds (STOP on any mismatch); STOP (exit 2, nothing written) when any stratum is supported or a relaxed setting reaches support (Director decision before any display change); per-drive cache cnc_cache/ keyed by raw sha256 and source hash; additive payload block coldNeutralContext + stamp; sidecar engine_cold_neutral_intervals.csv; needs raw/ and runs after engine_context_fields; spec analyses/M605_spec.md Rev 1",
+   "cmd": [
+    "python3",
+    "tools/cold_neutral_context.py",
+    "--splice"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json",
+    "engine_cold_neutral_intervals.csv",
+    "analyses/M605_result.json"
+   ]
+  },
+  {
    "id": "rpm_opt_band",
    "title": "M525: observed occupancy of logged engine rpm in the closed OPT band [1850, 2150] (share of engine-on time, rpm >= 300, 1 Hz grid) on the live corpus with a day-clustered interval; faithfulness gate against the stored rpmDistribution (STOP on failure); per-drive sidecar rpm_opt_band_sidecar.csv keyed by the raw sha256 (only new or changed drives are parsed); additive payload key rpmOptBand + stamp; supersedes the numeric leaves of the one-off generatorTractionRecon.rpmFinding (left unchanged); spec analyses/M525_spec.md Rev 2",
    "cmd": [

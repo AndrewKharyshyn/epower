@@ -1261,5 +1261,18 @@ if _rd and _cmp:
     _one = T.get("charts__warm", "")
     ok("A4 M604 regen Compare table absent in single-cohort mode", "Read the cohorts side by side within this one polling group" not in _one)
 
+# ---------- M605: cold-coolant pack-neutral context line equals the payload (counts only, no rate/table) ----------
+_cn = A.get("coldNeutralContext")
+_cnt = T.get("distribution__all", "")
+if _cn:
+    _bad = []
+    for _k, _st in _cn["strata"].items():
+        _b = _st["base"]
+        _want = f"{_b['seconds']} s in {_b['intervals']} interval" + ("" if _b["intervals"] == 1 else "s") + f" ({_b['drives']} drive" + ("" if _b["drives"] == 1 else "s") + f", {_b['days']} day" + ("" if _b["days"] == 1 else "s") + f") (within \u00b12 A: {_st['i2Beside3']['i2']['seconds']} s)"
+        if _want not in _cnt:
+            _bad.append(_k)
+    ok("A5 M605 cold-coolant pack-neutral line: every stratum's seconds, intervals, drives, days and the 2 A count equal coldNeutralContext", not _bad and "Fueled (app-calculated), cold-coolant, high-SoC, pack-neutral engine context" in _cnt, f"mismatch: {_bad}")
+    ok("A5 M605 label: line states the payload label and no rate or share is rendered", all(v["finalLabel"] == "candidate, not supported" for v in _cn["strata"].values()) == ("engine context: candidate, not supported." in _cnt) and not any(v["conditionalRate"]["computed"] for v in _cn["strata"].values()))
+
 print(f"\nSEMANTIC GATE: {len(passes)} passed, {len(fails)} failed")
 sys.exit(1 if fails else 0)

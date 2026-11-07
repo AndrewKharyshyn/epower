@@ -1,0 +1,5 @@
+{"milestone":"M605","auditor":"analytical-auditor (Sonnet, blind: spec + raw + drive_master + cadence_regime only)","result":"reproduced exactly",
+ "compared":"base per stratum (seconds, intervals, fragments, fragment seconds, drives, days, label); the single interval (start 440 s, 25 s, real samples rpm 24 / fuel 24 / I 23 / SoC 23); fuel>=1.0, |I|<=2, coolant<=65, min run 5 s, drop-filled per stratum incl. fragments; rot400 sums per stratum",
+ "mismatches":0,"labels":{"fast":"candidate, not supported","slow":"candidate, not supported","slow_fuelValid":"candidate, not supported","unknown":"no intervals"},
+ "ambiguities_noted":["M559 also requires rot>0 per drive (no effect on any count)","1 s runs count as fragments (both implementations)","real = non-NaN 1 s bin before forward fill"],
+ "reconciliation":"rot400 equals M559 rotating seconds on 621 drives, 0 mismatches"}
