@@ -187,6 +187,25 @@
    ],
    "sidecar": "highway_share.csv"
   },
+  "steadyLoadSpread": {
+   "producer": "tools/steady_load_spread.py",
+   "producerStages": [
+    "steady_load_spread"
+   ],
+   "readsRaw": true,
+   "readsRawManifest": false,
+   "rawNote": "through the per-drive sidecars steady_load_spread.csv and steady_load_contexts.csv keyed by raw sha256",
+   "configSections": [],
+   "inputFiles": [
+    "steady_load_spread.csv",
+    "steady_load_contexts.csv"
+   ],
+   "checkCommand": [
+    "tools/steady_load_spread.py",
+    "--check"
+   ],
+   "sidecar": "steady_load_spread.csv"
+  },
   "resistanceJointSensitivity": {
    "producer": "tools/resistance_joint_matrix.py",
    "producerStages": [
