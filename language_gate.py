@@ -362,6 +362,8 @@ RULES = [
          rx=r"\btrue acceleration\b|\bgenuine acceleration\b|\bwild cluster bootstrap and partial dependence\b|\bnot yet run\b.{0,80}\bwild cluster\b"),
     Rule("M597-highway-share-scope", "regex", "M597/audit D2: the 80-120 km/h share is named by its denominator; the joint share (engine turning and battery discharging, over all band time) is never labelled as a share of the time the engine was turning (that is the conditional share)",
          rx=r"\bengine on discharge share \(mean\b|\bengine on discharge share only counts\b"),
+    Rule("M604-regen-compare-note", "regex", "M604/audit regen context: Compare mode no longer says only that the legacy extraction is active; the legacy charts are not comparable across cohorts and the cohorts are read inside one polling group",
+         rx=r"\blegacy extraction is active in compare mode\b|\bavailable only when a single cohort is selected\b"),
     Rule("M603-steady-load-wording", "regex", "M603/Director ruling: the steady-load check is a low-slew selection paired by nearest timestamp; it is never called a pairing artefact, pairing-free, a true slope, or simultaneous",
          rx=r"\bpairing artefact\b|\bpairing artifact\b|\bpairing free\b|\btrue slope\b|\bsimultaneous (cell|min|max)\b"),
     Rule("M599-provenance-wording", "regex", "M599/readability pass 4: the highway statistic is named the joint highway share (not an engine-on discharge statistic) and the net-current offset is explained, not called an impossible multiple of capacity",

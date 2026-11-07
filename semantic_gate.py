@@ -1229,5 +1229,37 @@ _gtr5 = ((f"gtrClosure recomputed on the live corpus ({_sc5['nDrives']} drives" 
          else (f"carried at the {_sc5['carriedAtIngestion']['milestone']} set ({_sc5['carriedAtIngestion']['basisNDrives']} drives" in _note5))
 ok("A4 G5 GTR stamp note describes the live closure scope (a refreshed closure is not described as carried; a carried one names its basis)", _gtr5)
 
+# ---------- M604: regeneration Compare table equals regenDisplayV2 (rebinding only, no arithmetic) ----------
+_rd = A.get("regenDisplayV2")
+_cmp = T.get("charts__compare", "")
+if _rd and _cmp:
+    _sl = "slow"
+    _all = _rd["cohorts"]["all"]["strata"][_sl]["views"]["speed"]
+    _bins = [l for l in _all["order"] if not (_all["bySoc"]["allSoc"]["rows"].get(l) or {}).get("payloadOnly")]
+    _miss, _nchk = [], 0
+    for _c in ("warm", "shoulder", "cold"):
+        _sb = _rd["cohorts"][_c]["strata"][_sl]
+        _rows = _sb["views"]["speed"]["bySoc"]["allSoc"]["rows"]
+        for _l in _bins:
+            _r = _rows.get(_l)
+            if not _r or _r.get("eff") is None:
+                continue
+            _nchk += 1
+            _want = f"{_r['eff']:.2f} %"
+            if _r.get("ci95"):
+                _want += f" 95% day interval [{_r['ci95'][0]:.2f}, {_r['ci95'][1]:.2f}]"
+            _want2 = f"n {_r['n']} · {_r['drives']} drives · {_r['days']} days"
+            if _want not in _cmp or _want2 not in _cmp:
+                _miss.append((_c, _l))
+        if _sb["design"]["days"] < 5:
+            _nchk += 1
+            if f"exploratory, {_sb['design']['days']} calendar day" not in _cmp:
+                _miss.append((_c, "exploratory note"))
+    ok("A4 M604 regen Compare table: every supported/thin cell (estimate, interval, n/drives/days) and the exploratory note equal regenDisplayV2 (slow-polled, all SOC, observed)", not _miss and _nchk > 0, f"{len(_miss)} mismatches of {_nchk}: {_miss[:4]}")
+    ok("A4 M604 regen Compare table: no difference or pooled column, strata never in one table",
+       "Δ" not in _cmp[_cmp.find("Logger polling"):_cmp.find("Logger polling") + 9000] and "fast-polled drives only" not in _cmp and "No difference between cohorts is computed" in _cmp)
+    _one = T.get("charts__warm", "")
+    ok("A4 M604 regen Compare table absent in single-cohort mode", "Read the cohorts side by side within this one polling group" not in _one)
+
 print(f"\nSEMANTIC GATE: {len(passes)} passed, {len(fails)} failed")
 sys.exit(1 if fails else 0)
