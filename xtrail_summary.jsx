@@ -5596,6 +5596,20 @@ function EngineContextFieldsView(){
     </Section>
   );
 }
+function ColdNeutralContextLine(){
+  const B=S.coldNeutralContext;
+  if(!B||!B.strata) return null;
+  const names={fast:"fast-polled drives",slow:"slow-polled drives",slow_fuelValid:"slow-polled drives with a valid fuel channel",unknown:"drives without a cadence label"};
+  const keys=Object.keys(B.strata);
+  const cell=(o)=>`${o.seconds} s in ${o.intervals} interval${o.intervals===1?"":"s"} (${o.drives} drive${o.drives===1?"":"s"}, ${o.days} day${o.days===1?"":"s"})`;
+  const lab=keys.every(k=>B.strata[k].finalLabel===B.strata[keys[0]].finalLabel)?B.strata[keys[0]].finalLabel:"see the per-group counts";
+  return (
+    <div style={{fontSize:9,color:"#64748b",margin:"6px 0 10px 0"}} data-cnc-line="1">
+      Fueled (app-calculated), cold-coolant, high-SoC, pack-neutral engine context: {lab}. Runs of at least {B.minInterval} s with state of charge {B.params.soc_min} % or higher, coolant {B.params.cool_max} °C or lower, logged rpm {B.params.rpm_min} or higher, app-calculated fuel rate {B.params.fuel_min} L/h or higher and net pack current within ±{B.params.i_max} A:{" "}
+      {keys.map((k,i)=>(<span key={k} data-cnc-stratum={k}>{i?"; ":""}{names[k]||k}: {cell(B.strata[k].i2Beside3.i3)} (within ±2 A: {B.strata[k].i2Beside3.i2.seconds} s)</span>))}. Support needs {B.support.seconds} s, {B.support.drives} drives and {B.support.days} days within one group; the groups are not pooled. Motive unknown; traction, auxiliary use and heat can overlap. Not a finding that the state is absent.
+    </div>
+  );
+}
 function CsrSensitivityView(){
   const B=S.cellSpreadRelaxationSensitivity;
   if(!B||!B.strata) return null;
@@ -12666,6 +12680,7 @@ export default function App() {
         <SignalValidityView/>
         <ChannelDependencyView/>
         <EngineContextFieldsView/>
+        <ColdNeutralContextLine/>
         <Section title="Mountain-Road Pattern — Grade, Buffer State and Dissipation" accent="#7c3aed"><MountainPattern/></Section>
         <Section seasonAware title="Engine-Off Travel — Distance Share &amp; Longest Engine-Off Run" accent="#059669"><EvTraction/></Section>
         {S.regimeTransition && (()=>{const RT=S.regimeTransition;

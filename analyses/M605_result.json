@@ -1,0 +1,906 @@
+{
+ "milestone": "M605",
+ "specRev": 1,
+ "stats": {
+  "cacheHits": 0,
+  "extracted": 632,
+  "noRaw": 0,
+  "notOk": 11
+ },
+ "reconciliation": {
+  "compared": 621,
+  "mismatches": 0,
+  "skippedNoM559Cache": 0,
+  "files": []
+ },
+ "extractorSourceHash": "862dc6ccad5126c7",
+ "population": {
+  "masterRows": 632,
+  "withRaw": 632,
+  "ok": 621,
+  "canonClean": 619,
+  "fuelAllZeroOrMissing": 249,
+  "noCoolant": 0
+ },
+ "support": {
+  "seconds": 200,
+  "drives": 10,
+  "days": 5
+ },
+ "base": {
+  "soc_min": 68.0,
+  "cool_max": 60.0,
+  "rpm_min": 500.0,
+  "rpm_strict": false,
+  "fuel_min": 1.5,
+  "i_max": 3.0,
+  "cool_age": 30.0,
+  "need_real": false
+ },
+ "minInterval": 10,
+ "strata": {
+  "fast": {
+   "nDrives": 195,
+   "nDays": 40,
+   "gridSeconds": 219828,
+   "drivesWithoutFuelRate": 17,
+   "base": {
+    "seconds": 25,
+    "intervals": 1,
+    "fragmentSeconds": 63,
+    "fragments": 37,
+    "drives": 1,
+    "days": 1,
+    "label": "candidate, not supported",
+    "supported": false,
+    "totalIntervalSeconds": 25,
+    "medianIntervalSeconds": 25.0,
+    "maxIntervalSeconds": 25
+   },
+   "sensitivities": {
+    "soc65": {
+     "seconds": 25,
+     "intervals": 1,
+     "fragmentSeconds": 81,
+     "fragments": 52,
+     "drives": 1,
+     "days": 1,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "soc72": {
+     "seconds": 25,
+     "intervals": 1,
+     "fragmentSeconds": 45,
+     "fragments": 24,
+     "drives": 1,
+     "days": 1,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "soc75": {
+     "seconds": 25,
+     "intervals": 1,
+     "fragmentSeconds": 42,
+     "fragments": 21,
+     "drives": 1,
+     "days": 1,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "fuel1p0": {
+     "seconds": 213,
+     "intervals": 2,
+     "fragmentSeconds": 43,
+     "fragments": 33,
+     "drives": 1,
+     "days": 1,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "fuel2p0": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 32,
+     "fragments": 26,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "rpmGt500": {
+     "seconds": 25,
+     "intervals": 1,
+     "fragmentSeconds": 63,
+     "fragments": 37,
+     "drives": 1,
+     "days": 1,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "rpmGt400": {
+     "seconds": 25,
+     "intervals": 1,
+     "fragmentSeconds": 66,
+     "fragments": 39,
+     "drives": 1,
+     "days": 1,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "rpm600": {
+     "seconds": 25,
+     "intervals": 1,
+     "fragmentSeconds": 63,
+     "fragments": 37,
+     "drives": 1,
+     "days": 1,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "i2": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 70,
+     "fragments": 33,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "i5": {
+     "seconds": 25,
+     "intervals": 1,
+     "fragmentSeconds": 105,
+     "fragments": 58,
+     "drives": 1,
+     "days": 1,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "min5": {
+     "seconds": 33,
+     "intervals": 2,
+     "fragmentSeconds": 55,
+     "fragments": 36,
+     "drives": 1,
+     "days": 1,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "min20": {
+     "seconds": 25,
+     "intervals": 1,
+     "fragmentSeconds": 63,
+     "fragments": 37,
+     "drives": 1,
+     "days": 1,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "cool55": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 12,
+     "fragments": 10,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "cool65": {
+     "seconds": 37,
+     "intervals": 2,
+     "fragmentSeconds": 269,
+     "fragments": 147,
+     "drives": 1,
+     "days": 1,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "dropFilled": {
+     "seconds": 16,
+     "intervals": 1,
+     "fragmentSeconds": 58,
+     "fragments": 40,
+     "drives": 1,
+     "days": 1,
+     "label": "candidate, not supported",
+     "supported": false
+    }
+   },
+   "labelFlips": [],
+   "finalLabel": "candidate, not supported",
+   "relaxedReachesSupport": [],
+   "overlap": {
+    "speed": {
+     "low": 10,
+     "standing": 15
+    },
+    "load": {
+     "8-30": 25
+    },
+    "rpm": {
+     "1000-2000": 25
+    },
+    "fuel": {
+     "1.5-3": 25
+    },
+    "since": {
+     ">=300": 25
+    },
+    "coolant": {
+     "40-60": 25
+    }
+   },
+   "sign": {
+    "charging": 20,
+    "zero": 0,
+    "discharging": 5
+   },
+   "realSeconds": {
+    "rpm": 24,
+    "fuel": 24,
+    "I": 23,
+    "soc": 23
+   },
+   "m559Labels": {
+    "generation_net_charge": 0,
+    "generation_with_pack_discharge": 0,
+    "thermal_context": 25,
+    "dissipation_candidate": 0,
+    "none": 0,
+    "rotatingInInterval": 25
+   },
+   "conditionalRate": {
+    "computed": false,
+    "cold": null,
+    "warm": null
+   },
+   "conditionalCounts": {
+    "coldDen": 1894,
+    "coldNum": 88,
+    "warmDen": 7709,
+    "warmNum": 317
+   }
+  },
+  "slow": {
+   "nDrives": 423,
+   "nDays": 87,
+   "gridSeconds": 614677,
+   "drivesWithoutFuelRate": 232,
+   "base": {
+    "seconds": 0,
+    "intervals": 0,
+    "fragmentSeconds": 68,
+    "fragments": 40,
+    "drives": 0,
+    "days": 0,
+    "label": "candidate, not supported",
+    "supported": false,
+    "totalIntervalSeconds": 0,
+    "medianIntervalSeconds": null,
+    "maxIntervalSeconds": null
+   },
+   "sensitivities": {
+    "soc65": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 95,
+     "fragments": 55,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "soc72": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 42,
+     "fragments": 22,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "soc75": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 32,
+     "fragments": 17,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "fuel1p0": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 70,
+     "fragments": 41,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "fuel2p0": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 60,
+     "fragments": 35,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "rpmGt500": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 68,
+     "fragments": 40,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "rpmGt400": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 68,
+     "fragments": 40,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "rpm600": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 68,
+     "fragments": 40,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "i2": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 54,
+     "fragments": 29,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "i5": {
+     "seconds": 28,
+     "intervals": 2,
+     "fragmentSeconds": 109,
+     "fragments": 61,
+     "drives": 2,
+     "days": 2,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "min5": {
+     "seconds": 6,
+     "intervals": 1,
+     "fragmentSeconds": 62,
+     "fragments": 39,
+     "drives": 1,
+     "days": 1,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "min20": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 68,
+     "fragments": 40,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "cool55": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 29,
+     "fragments": 21,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "cool65": {
+     "seconds": 10,
+     "intervals": 1,
+     "fragmentSeconds": 202,
+     "fragments": 94,
+     "drives": 1,
+     "days": 1,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "dropFilled": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 19,
+     "fragments": 19,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    }
+   },
+   "labelFlips": [],
+   "finalLabel": "candidate, not supported",
+   "relaxedReachesSupport": [],
+   "overlap": {
+    "speed": {},
+    "load": {},
+    "rpm": {},
+    "fuel": {},
+    "since": {},
+    "coolant": {}
+   },
+   "sign": {
+    "charging": 0,
+    "zero": 0,
+    "discharging": 0
+   },
+   "realSeconds": {
+    "rpm": 0,
+    "fuel": 0,
+    "I": 0,
+    "soc": 0
+   },
+   "m559Labels": {
+    "generation_net_charge": 0,
+    "generation_with_pack_discharge": 0,
+    "thermal_context": 0,
+    "dissipation_candidate": 0,
+    "none": 0,
+    "rotatingInInterval": 0
+   },
+   "conditionalRate": {
+    "computed": false,
+    "cold": null,
+    "warm": null
+   },
+   "conditionalCounts": {
+    "coldDen": 1763,
+    "coldNum": 68,
+    "warmDen": 3847,
+    "warmNum": 189
+   }
+  },
+  "slow_fuelValid": {
+   "nDrives": 191,
+   "nDays": 35,
+   "gridSeconds": 168350,
+   "drivesWithoutFuelRate": 0,
+   "base": {
+    "seconds": 0,
+    "intervals": 0,
+    "fragmentSeconds": 68,
+    "fragments": 40,
+    "drives": 0,
+    "days": 0,
+    "label": "candidate, not supported",
+    "supported": false,
+    "totalIntervalSeconds": 0,
+    "medianIntervalSeconds": null,
+    "maxIntervalSeconds": null
+   },
+   "sensitivities": {
+    "soc65": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 95,
+     "fragments": 55,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "soc72": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 42,
+     "fragments": 22,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "soc75": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 32,
+     "fragments": 17,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "fuel1p0": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 70,
+     "fragments": 41,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "fuel2p0": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 60,
+     "fragments": 35,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "rpmGt500": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 68,
+     "fragments": 40,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "rpmGt400": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 68,
+     "fragments": 40,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "rpm600": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 68,
+     "fragments": 40,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "i2": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 54,
+     "fragments": 29,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "i5": {
+     "seconds": 28,
+     "intervals": 2,
+     "fragmentSeconds": 109,
+     "fragments": 61,
+     "drives": 2,
+     "days": 2,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "min5": {
+     "seconds": 6,
+     "intervals": 1,
+     "fragmentSeconds": 62,
+     "fragments": 39,
+     "drives": 1,
+     "days": 1,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "min20": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 68,
+     "fragments": 40,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "cool55": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 29,
+     "fragments": 21,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "cool65": {
+     "seconds": 10,
+     "intervals": 1,
+     "fragmentSeconds": 202,
+     "fragments": 94,
+     "drives": 1,
+     "days": 1,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "dropFilled": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 19,
+     "fragments": 19,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    }
+   },
+   "labelFlips": [],
+   "finalLabel": "candidate, not supported",
+   "relaxedReachesSupport": [],
+   "overlap": {
+    "speed": {},
+    "load": {},
+    "rpm": {},
+    "fuel": {},
+    "since": {},
+    "coolant": {}
+   },
+   "sign": {
+    "charging": 0,
+    "zero": 0,
+    "discharging": 0
+   },
+   "realSeconds": {
+    "rpm": 0,
+    "fuel": 0,
+    "I": 0,
+    "soc": 0
+   },
+   "m559Labels": {
+    "generation_net_charge": 0,
+    "generation_with_pack_discharge": 0,
+    "thermal_context": 0,
+    "dissipation_candidate": 0,
+    "none": 0,
+    "rotatingInInterval": 0
+   },
+   "conditionalRate": {
+    "computed": false,
+    "cold": null,
+    "warm": null
+   },
+   "conditionalCounts": {
+    "coldDen": 1763,
+    "coldNum": 68,
+    "warmDen": 3847,
+    "warmNum": 189
+   }
+  },
+  "unknown": {
+   "nDrives": 1,
+   "nDays": 1,
+   "gridSeconds": 1191,
+   "drivesWithoutFuelRate": 0,
+   "base": {
+    "seconds": 0,
+    "intervals": 0,
+    "fragmentSeconds": 0,
+    "fragments": 0,
+    "drives": 0,
+    "days": 0,
+    "label": "candidate, not supported",
+    "supported": false,
+    "totalIntervalSeconds": 0,
+    "medianIntervalSeconds": null,
+    "maxIntervalSeconds": null
+   },
+   "sensitivities": {
+    "soc65": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 0,
+     "fragments": 0,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "soc72": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 0,
+     "fragments": 0,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "soc75": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 0,
+     "fragments": 0,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "fuel1p0": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 0,
+     "fragments": 0,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "fuel2p0": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 0,
+     "fragments": 0,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "rpmGt500": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 0,
+     "fragments": 0,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "rpmGt400": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 0,
+     "fragments": 0,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "rpm600": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 0,
+     "fragments": 0,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "i2": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 0,
+     "fragments": 0,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "i5": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 0,
+     "fragments": 0,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "min5": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 0,
+     "fragments": 0,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "min20": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 0,
+     "fragments": 0,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "cool55": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 0,
+     "fragments": 0,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "cool65": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 0,
+     "fragments": 0,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    },
+    "dropFilled": {
+     "seconds": 0,
+     "intervals": 0,
+     "fragmentSeconds": 0,
+     "fragments": 0,
+     "drives": 0,
+     "days": 0,
+     "label": "candidate, not supported",
+     "supported": false
+    }
+   },
+   "labelFlips": [],
+   "finalLabel": "candidate, not supported",
+   "relaxedReachesSupport": [],
+   "overlap": {
+    "speed": {},
+    "load": {},
+    "rpm": {},
+    "fuel": {},
+    "since": {},
+    "coolant": {}
+   },
+   "sign": {
+    "charging": 0,
+    "zero": 0,
+    "discharging": 0
+   },
+   "realSeconds": {
+    "rpm": 0,
+    "fuel": 0,
+    "I": 0,
+    "soc": 0
+   },
+   "m559Labels": {
+    "generation_net_charge": 0,
+    "generation_with_pack_discharge": 0,
+    "thermal_context": 0,
+    "dissipation_candidate": 0,
+    "none": 0,
+    "rotatingInInterval": 0
+   },
+   "conditionalRate": {
+    "computed": false,
+    "cold": null,
+    "warm": null
+   },
+   "conditionalCounts": {
+    "coldDen": 0,
+    "coldNum": 0,
+    "warmDen": 0,
+    "warmNum": 0
+   }
+  }
+ },
+ "sidecarRows": 1,
+ "rawListSha256": "42d325ce4a47410c0fa23da35f0aadcd9a075fb1cb706dc87aa889ef5e518033"
+}
