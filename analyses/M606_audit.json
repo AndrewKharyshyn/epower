@@ -1,0 +1,4 @@
+{"milestone":"M606","auditor":"analytical-auditor (Sonnet, blind: spec + raw + drive_master + cadence_regime only)","result":"reproduced exactly",
+ "compared":"per-channel epochs (first/last valid date, valid drives, drives after last); per channel x stratum primary flag counts, nOutOfWindow, nSentinel100; intake month x stratum matrix (14 cells); intake sensitivities (coverage 0.25/0.75, gap 30/120 s) per stratum; hvcEngine80C outcome counts overall and by stratum",
+ "mismatches":0,
+ "ambiguities_noted":["nValid counts unique valid timestamps after collapsing duplicates (spec silent; both implementations agree)","nSentinel100 is a subset of nOutOfWindow","blank cadence regime = unknown","audit did not run the meta.intakeAir reconciliation; author run: exact (4 fields) and 0 per-drive mismatches vs master T_intake; outcomes equal thermalSupportLedger (351 / 272 / 3 / 6)"]}
