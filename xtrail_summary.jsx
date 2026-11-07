@@ -3484,6 +3484,57 @@ function RegenV2Panel({D,coh,cohName,view,stratum,sel,basis}){
   );
 }
 
+/* M604 (spec analyses/M604_spec.md Rev 1, Director ruling): Compare mode. Cohorts side by side inside ONE polling stratum (slow-polled default), All-SOC rows of the chosen view, Observed or SOC-standardized basis.
+   Every value binds to S.regenDisplayV2.cohorts[c].strata[s] (design, totals, views, standardized); no arithmetic here, no difference column, no pooled row, the two strata never share a table. */
+function RegenCompareV2({D}){
+  const [stratum,setStratum]=useState("slow"), [basis,setBasis]=useState("observed"), [view,setView]=useState("efficiency");
+  const vk=REGEN_VIEW_KEY[view];
+  const btn=(on)=>({padding:"3px 9px",borderRadius:5,border:"1px solid #e2e8f0",fontSize:10,background:on?"#1e293b":"#f1f5f9",color:on?"#f8fafc":"#374151",cursor:"pointer",fontWeight:on?700:400});
+  const cols=[["warm","Warm"],["shoulder","Shoulder"],["cold","Cold"]].filter(([c])=>D.cohorts[c]&&D.cohorts[c].strata&&D.cohorts[c].strata[stratum])
+    .map(([c,n])=>({c,n,sb:D.cohorts[c].strata[stratum],pick:regenV2Pick(D.cohorts[c].strata[stratum],vk,"allSoc",basis)}));
+  const allPick=D.cohorts.all&&D.cohorts.all.strata&&D.cohorts.all.strata[stratum]?regenV2Pick(D.cohorts.all.strata[stratum],vk,"allSoc","observed"):null;
+  const order=allPick?allPick.order:((cols.find(x=>x.pick)||{pick:{order:[]}}).pick.order);
+  const b6=D.b6Reference;
+  const th={textAlign:"left",padding:"3px 6px",borderBottom:"1px solid #cbd5e1",color:"#0f172a",fontSize:9.5};
+  const td={padding:"3px 6px",borderBottom:"1px solid #f1f5f9",verticalAlign:"top",fontSize:9.5};
+  const cell=(col,l)=>{
+    const r=col.pick&&col.pick.rows[l];
+    if(!r||r.eff==null) return (<td key={col.c} style={{...td,color:"#94a3b8"}} data-cell={col.c+"|"+stratum+"|"+l}>unavailable{r&&r.statusReason?" ("+r.statusReason+")":""}</td>);
+    const thin=r.status==="thin";
+    return (<td key={col.c} style={td} data-cell={col.c+"|"+stratum+"|"+l}>
+      <strong>{thin?"~":""}{regenFmt(r.eff,2)} %</strong>{r.ci95?" 95% day interval ["+regenFmt(r.ci95[0],2)+", "+regenFmt(r.ci95[1],2)+"]":(r.ciSuppressed?" (no interval: "+r.ciSuppressed+")":"")}
+      <div style={{color:"#64748b"}}>n {r.n} · {r.drives} drives · {r.days} days{r.status!=="supported"?" · "+r.status:""}</div>
+      {r.massRange&&(<div style={{color:"#64748b"}}>assumed-mass range {regenFmt(r.massRange[0],2)}–{regenFmt(r.massRange[1],2)}{r.bNat!=null?"; resolution bracket b_nat "+regenFmt(r.bNat,2)+" pp":""}</div>)}
+    </td>);
+  };
+  return (
+    <div data-regen-compare="v2" style={{marginBottom:10}}>
+      <div data-regen-controls="compare" style={{display:"flex",flexWrap:"wrap",gap:10,alignItems:"center",justifyContent:"center",marginBottom:8,fontSize:10,color:"#475569"}}>
+        <span>Logger polling:</span>
+        {[["slow","Slow-polled"],["fast","Fast-polled"]].map(([k,l])=>(<button key={k} data-regen-compare-stratum={k} onClick={()=>setStratum(k)} style={btn(stratum===k)}>{l}</button>))}
+        <span style={{marginLeft:8}}>Rows:</span>
+        {[["efficiency","By speed"],["temp","By pack temperature"]].map(([k,l])=>(<button key={k} data-regen-compare-view={k} onClick={()=>setView(k)} style={btn(view===k)}>{l}</button>))}
+        <span style={{marginLeft:8}}>Basis:</span>
+        {[["observed","Observed"],["standardized","SOC-standardized"]].map(([k,l])=>(<button key={k} data-regen-compare-basis={k} onClick={()=>setBasis(k)} style={btn(basis===k)}>{l}</button>))}
+      </div>
+      <div style={{fontSize:10,color:"#0f172a",lineHeight:1.6,marginBottom:6}}><strong>Apparent KE recovery (assumed mass) by thermal cohort, {REGEN_STRATUM_LABEL[stratum].toLowerCase()} only, all SOC, {basis==="standardized"?"SOC-standardized":"observed"} basis.</strong> Read the cohorts side by side within this one polling group. No difference between cohorts is computed, and the two polling groups are never shown in one table. A cohort is a display band, not a temperature or season effect: the cohorts also differ in speed mix, SOC mix and route mix.</div>
+      <div style={{overflowX:"auto"}} data-regen-compare-table={stratum}>
+        <table style={{borderCollapse:"collapse",minWidth:560,width:"100%"}}>
+          <thead><tr><th style={th}>{view==="temp"?"Pack temperature":"Speed"} cell</th>{cols.map(col=>(<th key={col.c} style={th}>{col.n}</th>))}</tr></thead>
+          <tbody>
+            <tr data-regen-compare-support="1"><td style={{...td,color:"#475569"}}>Support</td>{cols.map(col=>(<td key={col.c} style={{...td,color:"#475569"}}>{col.sb.design.drives} drives · {col.sb.design.days} days · {col.sb.totals.status}{col.sb.totals.ciSuppressed?" ("+col.sb.totals.ciSuppressed+")":""}<div>median speed-sample interval {regenFmt(col.sb.stratumSpeedDtMedianS,3)} s</div></td>))}</tr>
+            {order.map(l=>(<tr key={l}><td style={td}>{l}</td>{cols.map(col=>cell(col,l))}</tr>))}
+          </tbody>
+        </table>
+      </div>
+      {cols.map(col=>col.pick&&col.pick.note?(<div key={col.c} data-regen-note="basis" style={{marginTop:6,padding:6,background:"#fffbeb",border:"1px solid #fde68a",borderRadius:6,fontSize:9.5,color:"#78350f"}}>{col.n}: {col.pick.note}</div>):null)}
+      {cols.map(col=>col.sb.design.days<5?(<div key={col.c} data-regen-note="exploratory" style={{marginTop:6,padding:6,background:"#fffbeb",border:"1px solid #fde68a",borderRadius:6,fontSize:9.5,color:"#78350f"}}>{col.n}: exploratory, {col.sb.design.days} calendar day{col.sb.design.days===1?"":"s"} and {col.sb.design.drives} drive{col.sb.design.drives===1?"":"s"} in this polling group; no interval is drawn below the support floor.</div>):null)}
+      {b6&&(<div data-regen-badge="b6" style={{marginTop:6,padding:6,background:"#fef2f2",border:"1px solid #fecaca",borderRadius:6,fontSize:9.5,color:"#7f1d1d"}}><strong>B6 cadence-invariance check FAILED</strong> ({b6.supportedCellsFailing} of {b6.nSupportedCells} supported cells failed this sampling-rate check, in which the samples within each fast-polled drive are thinned to a slower rate). The bar levels therefore depend on how finely the logger samples. The bracket b_nat shows how much, but it is a sensitivity check on data already seen, not a correction.</div>)}
+      <div style={{marginTop:6,fontSize:9.5,color:"#64748b"}}>Estimator and limits: see the single-cohort view of this section. The legacy charts below use the older extraction.</div>
+    </div>
+  );
+}
+
 /* ─── CHART: Regeneration Energy Analysis ───────────────────────────────── */
 function RegenChart() {
   const [view, setView] = useState("efficiency");
@@ -3499,7 +3550,7 @@ function RegenChart() {
   // the "no data" placeholder rather than silently showing corpus-wide numbers under its label.
   const _coh=useCohort();
   if(cohortNoData(_coh,["RegenCaptureMeasured", "RegenByTempMeasured", "RegenByType", "RegenByZone"])) return <ColdNoData chart="Regenerative Energy Analysis" cohort={_coh}/>;
-  if(_coh==="compare") return (<div><div data-regen-note="compare" style={{marginBottom:6,padding:6,background:"#fffbeb",border:"1px solid #fde68a",borderRadius:6,fontSize:9.5,color:"#78350f"}}><strong>The legacy extraction is active in Compare mode.</strong> These regeneration charts use the older method, whose results depend on how often the logger samples. The cadence-stratified display described above is available only when a single cohort is selected.</div><CompareMulti ids={["RegenCaptureMeasured","RegenByTempMeasured","RegenByType","RegenByZone"]}/></div>);
+  if(_coh==="compare") return (<div>{S.regenDisplayV2&&S.regenDisplayV2.cohorts?<RegenCompareV2 D={S.regenDisplayV2}/>:null}<div data-regen-note="compare" style={{marginBottom:6,padding:6,background:"#fffbeb",border:"1px solid #fde68a",borderRadius:6,fontSize:9.5,color:"#78350f"}}><strong>The charts below use the legacy extraction and are not comparable across cohorts.</strong> The legacy extraction depends on how often the logger samples, and the cohorts differ in logging cadence. {S.regenDisplayV2&&S.regenDisplayV2.cohorts?"Read the cohorts side by side within one polling group in the table above.":"The cadence-stratified display is available when a single cohort is selected."}</div><CompareMulti ids={["RegenCaptureMeasured","RegenByTempMeasured","RegenByType","RegenByZone"]}/></div>);
 
   // By temperature: real M22 KE-basis capture (engine-off decel steps, pooled by
   // pack temperature). Replaces a prior config-only illustrative model whose
