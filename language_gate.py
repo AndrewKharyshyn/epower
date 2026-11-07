@@ -366,6 +366,8 @@ RULES = [
          rx=r"\blegacy extraction is active in compare mode\b|\bavailable only when a single cohort is selected\b"),
     Rule("M603-steady-load-wording", "regex", "M603/Director ruling: the steady-load check is a low-slew selection paired by nearest timestamp; it is never called a pairing artefact, pairing-free, a true slope, or simultaneous",
          rx=r"\bpairing artefact\b|\bpairing artifact\b|\bpairing free\b|\btrue slope\b|\bsimultaneous (cell|min|max)\b"),
+    Rule("M606-thermal-provenance-wording", "regex", "M606/Director ruling: dropout is a logging fact with unknown cause; the driver-recorded ambient ledger has inferred reading times, so freshness is never claimed and no sensor-fault or outage-cause wording is used",
+         rx=r"\bmeasured ambient\b|\bsensor failure\b|\bsensor fault\b|\boutage cause\b|\bdropout explained\b"),
     Rule("M605-cold-neutral-wording", "regex", "M605/Director ruling: the fueled cold-coolant high-SoC pack-neutral context is a descriptive count; never a mode, warm-up, heating, idle charging, or evidence that the state is absent or refuted",
          rx=r"\bpack neutral mode\b|\bwarm up mode\b|\bheating mode\b|\bengine runs to heat\b|\bidle charging\b"),
     Rule("M599-provenance-wording", "regex", "M599/readability pass 4: the highway statistic is named the joint highway share (not an engine-on discharge statistic) and the net-current offset is explained, not called an impossible multiple of capacity",

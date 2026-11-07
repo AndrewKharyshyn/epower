@@ -4101,6 +4101,20 @@ function BmsVcmChart() {
   );
 }
 
+function ThermalProvenanceLine(){
+  const B=S.thermalProvenance;
+  if(!B||!B.channels) return null;
+  const ia=B.channels.intake.epoch, ec=B.channels.engineCoolant.byStratum, hv=B.channels.hvCoolant.byStratum;
+  const okOf=(st,s)=>`${(st[s]&&st[s].flags.ok)||0}/${(st[s]&&st[s].nDrives)||0}`;
+  const strata=Object.keys(ec);
+  const nm={fast:"fast-polled",slow:"slow-polled",unknown:"without a cadence label"};
+  const grp=(st)=>strata.map(s=>`${okOf(st,s)} ${nm[s]||s}`).join(", ");
+  return (
+    <div style={{fontSize:9,color:"#64748b",margin:"6px 0 10px 0"}} data-tprov-line="1">
+      HV-battery intake air logged on {ia.nValid} drives ({ia.firstValidDate} to {ia.lastValidDate}); empty on the {ia.nAfterLastValid} drives since (logging fact, cause unknown). Engine coolant logged continuously enough (flag ok) in {grp(ec)} drives; HV coolant in {grp(hv)} drives. Manual ambient: driver-recorded dash readings; reading times inferred, freshness not observable.
+    </div>
+  );
+}
 // M361 (spec analyses/M361_spec.md Rev 2): availability of the HV battery intake-air channel, bound to S.meta.intakeAir (tools/intake_air_block.py). Counts only; no cause language.
 function IntakeAirNote({what}){
   const I=S.meta&&S.meta.intakeAir; if(!I||I.status!=="unavailable") return null;
@@ -13052,6 +13066,7 @@ export default function App() {
       {tab==="thermal"&&(<>
         <Section seasonAware title="Battery Thermal Pattern — 4 Sensors + Intake Air" accent="#ef4444">
           <div style={{fontSize:11,color:"#64748b",marginBottom:10}}>Generalized warm-up trajectory of all four HV-battery temperature probes and the intake-air sensor, pooled over every drive with more than 60 logged rows (gate below). This replaces the earlier Sensor-1-only view used elsewhere in the dashboard.<IntakeAirNote what="The intake-air line and the pack-minus-intake gap rest only on drives with a value; the four pack probes use all drives."/></div>
+          <ThermalProvenanceLine/>
           <BatteryThermalChart/>
           <div style={{marginTop:10,display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:5}}>
             {S.sensorSummary.map(s=>(

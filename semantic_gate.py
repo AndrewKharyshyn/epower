@@ -1274,5 +1274,22 @@ if _cn:
     ok("A5 M605 cold-coolant pack-neutral line: every stratum's seconds, intervals, drives, days and the 2 A count equal coldNeutralContext", not _bad and "Fueled (app-calculated), cold-coolant, high-SoC, pack-neutral engine context" in _cnt, f"mismatch: {_bad}")
     ok("A5 M605 label: line states the payload label and no rate or share is rendered", all(v["finalLabel"] == "candidate, not supported" for v in _cn["strata"].values()) == ("engine context: candidate, not supported." in _cnt) and not any(v["conditionalRate"]["computed"] for v in _cn["strata"].values()))
 
+# ---------- M606: thermal provenance line equals the payload and its intake-air numbers equal the M361 Overview note ----------
+_tp = A.get("thermalProvenance")
+_tt = T.get("thermal__all", "")
+if _tp:
+    _ia = _tp["channels"]["intake"]["epoch"]
+    _mi = (A.get("meta") or {}).get("intakeAir") or {}
+    _want = f"HV-battery intake air logged on {_ia['nValid']} drives ({_ia['firstValidDate']} to {_ia['lastValidDate']}); empty on the {_ia['nAfterLastValid']} drives since (logging fact, cause unknown)."
+    ok("A6 M606 provenance line: intake-air counts and dates equal thermalProvenance", _want in _tt, "line missing or different")
+    ok("A6 M606 provenance line: intake-air numbers equal meta.intakeAir (M361 Overview note)", (_ia["nValid"], _ia["lastValidDate"], _ia["nAfterLastValid"]) == (_mi.get("nDrivesValid"), _mi.get("lastValidDate"), _mi.get("nDrivesAfterLastValid")))
+    _bad = []
+    for _k, _lab in (("engineCoolant", "Engine coolant"), ("hvCoolant", "HV coolant")):
+        for _s, _b in _tp["channels"][_k]["byStratum"].items():
+            if f"{_b['flags'].get('ok', 0)}/{_b['nDrives']} " + {"fast": "fast-polled", "slow": "slow-polled", "unknown": "without a cadence label"}.get(_s, _s) not in _tt:
+                _bad.append((_k, _s))
+    ok("A6 M606 provenance line: coolant ok counts per cadence group equal thermalProvenance (all groups shown)", not _bad, f"mismatch: {_bad}")
+    ok("A6 M606 provenance line: no cause or freshness claim", "freshness not observable" in _tt and "cause unknown" in _tt)
+
 print(f"\nSEMANTIC GATE: {len(passes)} passed, {len(fails)} failed")
 sys.exit(1 if fails else 0)

@@ -1,0 +1,1115 @@
+{
+ "milestone": "M606",
+ "specRev": 1,
+ "stats": {
+  "cacheHits": 632,
+  "extracted": 0,
+  "noRaw": 0,
+  "notOk": 0
+ },
+ "extractorSourceHash": "361c89946eb6d4df",
+ "windows": {
+  "primary": {
+   "intake": [
+    -40.0,
+    90.0
+   ],
+   "engineCoolant": [
+    -40.0,
+    150.0
+   ],
+   "hvCoolant": [
+    -40.0,
+    120.0
+   ],
+   "engineIntake": [
+    -40.0,
+    90.0
+   ]
+  },
+  "v6": {
+   "intake": [
+    -40.0,
+    90.0
+   ],
+   "engineCoolant": [
+    -40.0,
+    200.0
+   ],
+   "hvCoolant": [
+    -40.0,
+    200.0
+   ],
+   "engineIntake": [
+    -40.0,
+    90.0
+   ]
+  },
+  "rev0": {
+   "intake": [
+    -40.0,
+    90.0
+   ],
+   "engineCoolant": [
+    -40.0,
+    130.0
+   ],
+   "hvCoolant": [
+    -40.0,
+    100.0
+   ],
+   "engineIntake": [
+    -40.0,
+    90.0
+   ]
+  }
+ },
+ "thresholds": {
+  "covMin": 0.5,
+  "gapS": 60.0,
+  "binS": 10.0
+ },
+ "population": {
+  "drives": 632,
+  "readable": 632,
+  "days": 126
+ },
+ "channels": {
+  "intake": {
+   "epoch": {
+    "firstValidDate": "2026-05-11",
+    "lastValidDate": "2026-08-24",
+    "nValid": 270,
+    "nAfterLastValid": 354
+   },
+   "byStratum": {
+    "fast": {
+     "nDrives": 196,
+     "nDays": 41,
+     "flags": {
+      "absent": 14,
+      "ok": 41,
+      "empty": 141
+     },
+     "medianOfDriveMedianIntervalS": 7.9609999999999985,
+     "nOutOfWindow": 17526,
+     "nSentinel100": 17526
+    },
+    "slow": {
+     "nDrives": 424,
+     "nDays": 87,
+     "flags": {
+      "gappy": 19,
+      "ok": 205,
+      "empty": 200
+     },
+     "medianOfDriveMedianIntervalS": 1.2735000000000554,
+     "nOutOfWindow": 11528,
+     "nSentinel100": 11508
+    },
+    "unknown": {
+     "nDrives": 12,
+     "nDays": 6,
+     "flags": {
+      "partial": 1,
+      "absent": 7,
+      "ok": 4
+     },
+     "medianOfDriveMedianIntervalS": 1.427000000000021,
+     "nOutOfWindow": 0,
+     "nSentinel100": 0
+    }
+   },
+   "sensitivities": {
+    "cov25": {
+     "fast": {
+      "absent": 14,
+      "ok": 41,
+      "empty": 141
+     },
+     "slow": {
+      "gappy": 19,
+      "ok": 205,
+      "empty": 200
+     },
+     "unknown": {
+      "partial": 1,
+      "absent": 7,
+      "ok": 4
+     }
+    },
+    "cov75": {
+     "fast": {
+      "absent": 14,
+      "ok": 41,
+      "empty": 141
+     },
+     "slow": {
+      "gappy": 16,
+      "ok": 204,
+      "partial": 4,
+      "empty": 200
+     },
+     "unknown": {
+      "partial": 1,
+      "absent": 7,
+      "ok": 4
+     }
+    },
+    "gap30": {
+     "fast": {
+      "absent": 14,
+      "ok": 41,
+      "empty": 141
+     },
+     "slow": {
+      "gappy": 39,
+      "ok": 185,
+      "empty": 200
+     },
+     "unknown": {
+      "partial": 1,
+      "absent": 7,
+      "ok": 3,
+      "gappy": 1
+     }
+    },
+    "gap120": {
+     "fast": {
+      "absent": 14,
+      "ok": 41,
+      "empty": 141
+     },
+     "slow": {
+      "ok": 218,
+      "gappy": 6,
+      "empty": 200
+     },
+     "unknown": {
+      "partial": 1,
+      "absent": 7,
+      "ok": 4
+     }
+    },
+    "windowV6": {
+     "fast": {
+      "absent": 14,
+      "ok": 41,
+      "empty": 141
+     },
+     "slow": {
+      "gappy": 19,
+      "ok": 205,
+      "empty": 200
+     },
+     "unknown": {
+      "partial": 1,
+      "absent": 7,
+      "ok": 4
+     }
+    },
+    "windowRev0": {
+     "fast": {
+      "absent": 14,
+      "ok": 41,
+      "empty": 141
+     },
+     "slow": {
+      "gappy": 19,
+      "ok": 205,
+      "empty": 200
+     },
+     "unknown": {
+      "partial": 1,
+      "absent": 7,
+      "ok": 4
+     }
+    }
+   }
+  },
+  "engineCoolant": {
+   "epoch": {
+    "firstValidDate": "2026-05-11",
+    "lastValidDate": "2026-11-05",
+    "nValid": 625,
+    "nAfterLastValid": 0
+   },
+   "byStratum": {
+    "fast": {
+     "nDrives": 196,
+     "nDays": 41,
+     "flags": {
+      "partial": 2,
+      "ok": 194
+     },
+     "medianOfDriveMedianIntervalS": 4.140499999999989,
+     "nOutOfWindow": 0,
+     "nSentinel100": 0
+    },
+    "slow": {
+     "nDrives": 424,
+     "nDays": 87,
+     "flags": {
+      "gappy": 20,
+      "ok": 403,
+      "partial": 1
+     },
+     "medianOfDriveMedianIntervalS": 4.282000000000002,
+     "nOutOfWindow": 0,
+     "nSentinel100": 0
+    },
+    "unknown": {
+     "nDrives": 12,
+     "nDays": 6,
+     "flags": {
+      "partial": 5,
+      "absent": 7
+     },
+     "medianOfDriveMedianIntervalS": 1.5017500000000155,
+     "nOutOfWindow": 0,
+     "nSentinel100": 0
+    }
+   },
+   "sensitivities": {
+    "cov25": {
+     "fast": {
+      "partial": 2,
+      "ok": 194
+     },
+     "slow": {
+      "gappy": 20,
+      "ok": 403,
+      "partial": 1
+     },
+     "unknown": {
+      "partial": 5,
+      "absent": 7
+     }
+    },
+    "cov75": {
+     "fast": {
+      "partial": 2,
+      "ok": 194
+     },
+     "slow": {
+      "gappy": 18,
+      "ok": 402,
+      "partial": 4
+     },
+     "unknown": {
+      "partial": 5,
+      "absent": 7
+     }
+    },
+    "gap30": {
+     "fast": {
+      "partial": 2,
+      "ok": 193,
+      "gappy": 1
+     },
+     "slow": {
+      "gappy": 45,
+      "ok": 378,
+      "partial": 1
+     },
+     "unknown": {
+      "partial": 5,
+      "absent": 7
+     }
+    },
+    "gap120": {
+     "fast": {
+      "partial": 2,
+      "ok": 194
+     },
+     "slow": {
+      "gappy": 9,
+      "ok": 414,
+      "partial": 1
+     },
+     "unknown": {
+      "partial": 5,
+      "absent": 7
+     }
+    },
+    "windowV6": {
+     "fast": {
+      "partial": 2,
+      "ok": 194
+     },
+     "slow": {
+      "gappy": 20,
+      "ok": 403,
+      "partial": 1
+     },
+     "unknown": {
+      "partial": 5,
+      "absent": 7
+     }
+    },
+    "windowRev0": {
+     "fast": {
+      "partial": 2,
+      "ok": 194
+     },
+     "slow": {
+      "gappy": 20,
+      "ok": 403,
+      "partial": 1
+     },
+     "unknown": {
+      "partial": 5,
+      "absent": 7
+     }
+    }
+   }
+  },
+  "hvCoolant": {
+   "epoch": {
+    "firstValidDate": "2026-05-11",
+    "lastValidDate": "2026-11-05",
+    "nValid": 626,
+    "nAfterLastValid": 0
+   },
+   "byStratum": {
+    "fast": {
+     "nDrives": 196,
+     "nDays": 41,
+     "flags": {
+      "gappy": 1,
+      "ok": 191,
+      "partial": 4
+     },
+     "medianOfDriveMedianIntervalS": 0.8280000000000101,
+     "nOutOfWindow": 0,
+     "nSentinel100": 0
+    },
+    "slow": {
+     "nDrives": 424,
+     "nDays": 87,
+     "flags": {
+      "ok": 407,
+      "gappy": 17
+     },
+     "medianOfDriveMedianIntervalS": 2.136249999999986,
+     "nOutOfWindow": 12,
+     "nSentinel100": 0
+    },
+    "unknown": {
+     "nDrives": 12,
+     "nDays": 6,
+     "flags": {
+      "partial": 1,
+      "absent": 6,
+      "ok": 5
+     },
+     "medianOfDriveMedianIntervalS": 0.9395000000000007,
+     "nOutOfWindow": 0,
+     "nSentinel100": 0
+    }
+   },
+   "sensitivities": {
+    "cov25": {
+     "fast": {
+      "gappy": 1,
+      "ok": 191,
+      "partial": 4
+     },
+     "slow": {
+      "ok": 407,
+      "gappy": 17
+     },
+     "unknown": {
+      "partial": 1,
+      "absent": 6,
+      "ok": 5
+     }
+    },
+    "cov75": {
+     "fast": {
+      "gappy": 1,
+      "ok": 191,
+      "partial": 4
+     },
+     "slow": {
+      "ok": 402,
+      "gappy": 13,
+      "partial": 9
+     },
+     "unknown": {
+      "partial": 1,
+      "absent": 6,
+      "ok": 5
+     }
+    },
+    "gap30": {
+     "fast": {
+      "gappy": 1,
+      "ok": 191,
+      "partial": 4
+     },
+     "slow": {
+      "ok": 385,
+      "gappy": 39
+     },
+     "unknown": {
+      "partial": 1,
+      "absent": 6,
+      "ok": 4,
+      "gappy": 1
+     }
+    },
+    "gap120": {
+     "fast": {
+      "ok": 192,
+      "partial": 4
+     },
+     "slow": {
+      "ok": 417,
+      "gappy": 7
+     },
+     "unknown": {
+      "partial": 1,
+      "absent": 6,
+      "ok": 5
+     }
+    },
+    "windowV6": {
+     "fast": {
+      "gappy": 1,
+      "ok": 191,
+      "partial": 4
+     },
+     "slow": {
+      "ok": 407,
+      "gappy": 17
+     },
+     "unknown": {
+      "partial": 1,
+      "absent": 6,
+      "ok": 5
+     }
+    },
+    "windowRev0": {
+     "fast": {
+      "gappy": 1,
+      "ok": 191,
+      "partial": 4
+     },
+     "slow": {
+      "ok": 407,
+      "gappy": 17
+     },
+     "unknown": {
+      "partial": 1,
+      "absent": 6,
+      "ok": 5
+     }
+    }
+   }
+  },
+  "engineIntake": {
+   "epoch": {
+    "firstValidDate": "2026-05-11",
+    "lastValidDate": "2026-11-05",
+    "nValid": 406,
+    "nAfterLastValid": 0
+   },
+   "byStratum": {
+    "fast": {
+     "nDrives": 196,
+     "nDays": 41,
+     "flags": {
+      "partial": 2,
+      "ok": 194
+     },
+     "medianOfDriveMedianIntervalS": 0.8274999999999864,
+     "nOutOfWindow": 0,
+     "nSentinel100": 0
+    },
+    "slow": {
+     "nDrives": 424,
+     "nDays": 87,
+     "flags": {
+      "partial": 3,
+      "absent": 219,
+      "ok": 201,
+      "gappy": 1
+     },
+     "medianOfDriveMedianIntervalS": 1.4374999999999858,
+     "nOutOfWindow": 0,
+     "nSentinel100": 0
+    },
+    "unknown": {
+     "nDrives": 12,
+     "nDays": 6,
+     "flags": {
+      "partial": 5,
+      "absent": 7
+     },
+     "medianOfDriveMedianIntervalS": 0.6835000000000111,
+     "nOutOfWindow": 0,
+     "nSentinel100": 0
+    }
+   },
+   "sensitivities": {
+    "cov25": {
+     "fast": {
+      "partial": 2,
+      "ok": 194
+     },
+     "slow": {
+      "partial": 3,
+      "absent": 219,
+      "ok": 201,
+      "gappy": 1
+     },
+     "unknown": {
+      "partial": 5,
+      "absent": 7
+     }
+    },
+    "cov75": {
+     "fast": {
+      "partial": 2,
+      "ok": 194
+     },
+     "slow": {
+      "partial": 3,
+      "absent": 219,
+      "ok": 201,
+      "gappy": 1
+     },
+     "unknown": {
+      "partial": 5,
+      "absent": 7
+     }
+    },
+    "gap30": {
+     "fast": {
+      "partial": 2,
+      "ok": 193,
+      "gappy": 1
+     },
+     "slow": {
+      "partial": 3,
+      "absent": 219,
+      "gappy": 6,
+      "ok": 196
+     },
+     "unknown": {
+      "partial": 5,
+      "absent": 7
+     }
+    },
+    "gap120": {
+     "fast": {
+      "partial": 2,
+      "ok": 194
+     },
+     "slow": {
+      "partial": 3,
+      "absent": 219,
+      "ok": 201,
+      "gappy": 1
+     },
+     "unknown": {
+      "partial": 5,
+      "absent": 7
+     }
+    },
+    "windowV6": {
+     "fast": {
+      "partial": 2,
+      "ok": 194
+     },
+     "slow": {
+      "partial": 3,
+      "absent": 219,
+      "ok": 201,
+      "gappy": 1
+     },
+     "unknown": {
+      "partial": 5,
+      "absent": 7
+     }
+    },
+    "windowRev0": {
+     "fast": {
+      "partial": 2,
+      "ok": 194
+     },
+     "slow": {
+      "partial": 3,
+      "absent": 219,
+      "ok": 201,
+      "gappy": 1
+     },
+     "unknown": {
+      "partial": 5,
+      "absent": 7
+     }
+    }
+   }
+  }
+ },
+ "months": {
+  "2026-05|fast": {
+   "nDrives": 1,
+   "nDays": 1,
+   "flags": {
+    "intake": {
+     "absent": 1
+    },
+    "engineCoolant": {
+     "partial": 1
+    },
+    "hvCoolant": {
+     "gappy": 1
+    },
+    "engineIntake": {
+     "partial": 1
+    }
+   },
+   "ledgerKinds": {
+    "pair": 1
+   },
+   "outcome": {
+    "rightCensored": 1
+   }
+  },
+  "2026-05|slow": {
+   "nDrives": 27,
+   "nDays": 6,
+   "flags": {
+    "intake": {
+     "gappy": 3,
+     "ok": 24
+    },
+    "engineCoolant": {
+     "gappy": 3,
+     "ok": 24
+    },
+    "hvCoolant": {
+     "ok": 25,
+     "gappy": 2
+    },
+    "engineIntake": {
+     "partial": 1,
+     "absent": 26
+    }
+   },
+   "ledgerKinds": {
+    "pair": 26,
+    "trapezoid": 1
+   },
+   "outcome": {
+    "rightCensored": 8,
+    "reached": 19
+   }
+  },
+  "2026-05|unknown": {
+   "nDrives": 10,
+   "nDays": 5,
+   "flags": {
+    "intake": {
+     "partial": 1,
+     "absent": 5,
+     "ok": 4
+    },
+    "engineCoolant": {
+     "partial": 5,
+     "absent": 5
+    },
+    "hvCoolant": {
+     "partial": 1,
+     "absent": 4,
+     "ok": 5
+    },
+    "engineIntake": {
+     "partial": 5,
+     "absent": 5
+    }
+   },
+   "ledgerKinds": {
+    "pair": 10
+   },
+   "outcome": {
+    "notEligible:distanceNotPositive": 3,
+    "rightCensored": 3,
+    "notEligible:noValidCoolant": 4
+   }
+  },
+  "2026-06|slow": {
+   "nDrives": 63,
+   "nDays": 18,
+   "flags": {
+    "intake": {
+     "ok": 56,
+     "gappy": 7
+    },
+    "engineCoolant": {
+     "ok": 56,
+     "gappy": 7
+    },
+    "hvCoolant": {
+     "ok": 57,
+     "gappy": 6
+    },
+    "engineIntake": {
+     "partial": 1,
+     "absent": 62
+    }
+   },
+   "ledgerKinds": {
+    "pair": 54,
+    "trapezoid": 9
+   },
+   "outcome": {
+    "rightCensored": 16,
+    "reached": 47
+   }
+  },
+  "2026-07|slow": {
+   "nDrives": 93,
+   "nDays": 20,
+   "flags": {
+    "intake": {
+     "ok": 88,
+     "gappy": 5
+    },
+    "engineCoolant": {
+     "ok": 88,
+     "gappy": 5
+    },
+    "hvCoolant": {
+     "ok": 89,
+     "gappy": 4
+    },
+    "engineIntake": {
+     "absent": 93
+    }
+   },
+   "ledgerKinds": {
+    "pair": 92,
+    "trapezoid": 1
+   },
+   "outcome": {
+    "rightCensored": 16,
+    "reached": 77
+   }
+  },
+  "2026-08|fast": {
+   "nDrives": 68,
+   "nDays": 16,
+   "flags": {
+    "intake": {
+     "ok": 41,
+     "empty": 27
+    },
+    "engineCoolant": {
+     "ok": 68
+    },
+    "hvCoolant": {
+     "ok": 68
+    },
+    "engineIntake": {
+     "ok": 68
+    }
+   },
+   "ledgerKinds": {
+    "pair": 66,
+    "trapezoid": 2
+   },
+   "outcome": {
+    "rightCensored": 9,
+    "reached": 59
+   }
+  },
+  "2026-08|slow": {
+   "nDrives": 41,
+   "nDays": 10,
+   "flags": {
+    "intake": {
+     "ok": 37,
+     "gappy": 4
+    },
+    "engineCoolant": {
+     "ok": 37,
+     "gappy": 3,
+     "partial": 1
+    },
+    "hvCoolant": {
+     "ok": 37,
+     "gappy": 4
+    },
+    "engineIntake": {
+     "absent": 38,
+     "partial": 1,
+     "ok": 2
+    }
+   },
+   "ledgerKinds": {
+    "pair": 34,
+    "trapezoid": 4,
+    "single": 3
+   },
+   "outcome": {
+    "reached": 31,
+    "rightCensored": 10
+   }
+  },
+  "2026-08|unknown": {
+   "nDrives": 2,
+   "nDays": 1,
+   "flags": {
+    "intake": {
+     "absent": 2
+    },
+    "engineCoolant": {
+     "absent": 2
+    },
+    "hvCoolant": {
+     "absent": 2
+    },
+    "engineIntake": {
+     "absent": 2
+    }
+   },
+   "ledgerKinds": {
+    "pair": 2
+   },
+   "outcome": {
+    "notEligible:noValidCoolant": 2
+   }
+  },
+  "2026-09|fast": {
+   "nDrives": 32,
+   "nDays": 6,
+   "flags": {
+    "intake": {
+     "empty": 32
+    },
+    "engineCoolant": {
+     "ok": 31,
+     "partial": 1
+    },
+    "hvCoolant": {
+     "ok": 32
+    },
+    "engineIntake": {
+     "ok": 31,
+     "partial": 1
+    }
+   },
+   "ledgerKinds": {
+    "pair": 32
+   },
+   "outcome": {
+    "rightCensored": 20,
+    "reached": 12
+   }
+  },
+  "2026-09|slow": {
+   "nDrives": 154,
+   "nDays": 25,
+   "flags": {
+    "intake": {
+     "empty": 154
+    },
+    "engineCoolant": {
+     "ok": 153,
+     "gappy": 1
+    },
+    "hvCoolant": {
+     "ok": 153,
+     "gappy": 1
+    },
+    "engineIntake": {
+     "ok": 153,
+     "gappy": 1
+    }
+   },
+   "ledgerKinds": {
+    "pair": 85,
+    "single": 66,
+    "trapezoid": 3
+   },
+   "outcome": {
+    "rightCensored": 107,
+    "reached": 47
+   }
+  },
+  "2026-10|fast": {
+   "nDrives": 78,
+   "nDays": 14,
+   "flags": {
+    "intake": {
+     "empty": 78
+    },
+    "engineCoolant": {
+     "ok": 78
+    },
+    "hvCoolant": {
+     "ok": 78
+    },
+    "engineIntake": {
+     "ok": 78
+    }
+   },
+   "ledgerKinds": {
+    "pair": 74,
+    "trapezoid": 4
+   },
+   "outcome": {
+    "rightCensored": 54,
+    "reached": 24
+   }
+  },
+  "2026-10|slow": {
+   "nDrives": 37,
+   "nDays": 6,
+   "flags": {
+    "intake": {
+     "empty": 37
+    },
+    "engineCoolant": {
+     "ok": 37
+    },
+    "hvCoolant": {
+     "ok": 37
+    },
+    "engineIntake": {
+     "ok": 37
+    }
+   },
+   "ledgerKinds": {
+    "pair": 35,
+    "trapezoid": 2
+   },
+   "outcome": {
+    "rightCensored": 7,
+    "reached": 30
+   }
+  },
+  "2026-11|fast": {
+   "nDrives": 17,
+   "nDays": 4,
+   "flags": {
+    "intake": {
+     "empty": 4,
+     "absent": 13
+    },
+    "engineCoolant": {
+     "ok": 17
+    },
+    "hvCoolant": {
+     "partial": 4,
+     "ok": 13
+    },
+    "engineIntake": {
+     "ok": 17
+    }
+   },
+   "ledgerKinds": {
+    "pair": 17
+   },
+   "outcome": {
+    "rightCensored": 15,
+    "reached": 2
+   }
+  },
+  "2026-11|slow": {
+   "nDrives": 9,
+   "nDays": 2,
+   "flags": {
+    "intake": {
+     "empty": 9
+    },
+    "engineCoolant": {
+     "gappy": 1,
+     "ok": 8
+    },
+    "hvCoolant": {
+     "ok": 9
+    },
+    "engineIntake": {
+     "ok": 9
+    }
+   },
+   "ledgerKinds": {
+    "pair": 9
+   },
+   "outcome": {
+    "reached": 3,
+    "rightCensored": 6
+   }
+  }
+ },
+ "matrixTotals": {
+  "drives": 632,
+  "readable": 632
+ },
+ "manualLedger": {
+  "kinds": {
+   "trapezoidal": 26,
+   "endpointPair": 537,
+   "singleValue": 69
+  },
+  "sourceClass": {
+   "vehicle_uncalibrated": 632
+  },
+  "readingTimes": "inferred (not logged)",
+  "freshness": "not observable from the committed ledger"
+ },
+ "ambientPid": {
+  "drivesWithColumn": 114,
+  "drivesWithValid": 114,
+  "role": "coverage only"
+ },
+ "reconciliation": {
+  "outcomeVsThermalSupportLedger": {
+   "mine": {
+    "notEligible:distanceNotPositive": 3,
+    "rightCensored": 272,
+    "notEligible:noValidCoolant": 6,
+    "reached": 351
+   },
+   "ledger": {
+    "reached": 351,
+    "rightCensored": 272,
+    "notEligible:distanceNotPositive": 3,
+    "notEligible:noValidCoolant": 6
+   },
+   "equal": true
+  },
+  "metaIntakeAir": {
+   "nDrivesValid": {
+    "raw": 270,
+    "meta": 270,
+    "equal": true
+   },
+   "lastValidDate": {
+    "raw": "2026-08-24",
+    "meta": "2026-08-24",
+    "equal": true
+   },
+   "nDrivesAfterLastValid": {
+    "raw": 354,
+    "meta": 354,
+    "equal": true
+   },
+   "nDrivesNoValue": {
+    "raw": 362,
+    "meta": 362,
+    "equal": true
+   }
+  },
+  "perDriveMismatchesVsMasterTIntake": 0,
+  "files": [],
+  "ok": true
+ },
+ "outcomeRule": "M418 hvcEngine80C (tools/thermal_support_ledger.raw_record): reached = coolant >= WARM_ENGINE_C (80 C); no cold-start gate; excluded by rule = notEligible:<reason>",
+ "sidecarRows": 632,
+ "rawListSha256": "42d325ce4a47410c0fa23da35f0aadcd9a075fb1cb706dc87aa889ef5e518033"
+}
