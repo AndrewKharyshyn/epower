@@ -1280,7 +1280,7 @@ _tt = T.get("thermal__all", "")
 if _tp:
     _ia = _tp["channels"]["intake"]["epoch"]
     _mi = (A.get("meta") or {}).get("intakeAir") or {}
-    _want = f"HV-battery intake air logged on {_ia['nValid']} drives ({_ia['firstValidDate']} to {_ia['lastValidDate']}); empty on the {_ia['nAfterLastValid']} drives since (logging fact, cause unknown)."
+    _want = f"HV-battery intake air logged on {_ia['nValid']} drives ({_ia['firstValidDate']} to {_ia['lastValidDate']}); empty on the {_ia['nAfterLastValid']} drives since (logging fact; the owner reports a battery software update as the cause, which the logs cannot confirm)."
     ok("A6 M606 provenance line: intake-air counts and dates equal thermalProvenance", _want in _tt, "line missing or different")
     ok("A6 M606 provenance line: intake-air numbers equal meta.intakeAir (M361 Overview note)", (_ia["nValid"], _ia["lastValidDate"], _ia["nAfterLastValid"]) == (_mi.get("nDrivesValid"), _mi.get("lastValidDate"), _mi.get("nDrivesAfterLastValid")))
     _bad = []
@@ -1289,7 +1289,7 @@ if _tp:
             if f"{_b['flags'].get('ok', 0)}/{_b['nDrives']} " + {"fast": "fast-polled", "slow": "slow-polled", "unknown": "without a cadence label"}.get(_s, _s) not in _tt:
                 _bad.append((_k, _s))
     ok("A6 M606 provenance line: coolant ok counts per cadence group equal thermalProvenance (all groups shown)", not _bad, f"mismatch: {_bad}")
-    ok("A6 M606 provenance line: no cause or freshness claim", "freshness not observable" in _tt and "cause unknown" in _tt)
+    ok("A6 M606 provenance line: no cause or freshness claim", "freshness not observable" in _tt and "which the logs cannot confirm" in _tt and bool(_tp.get("ownerStatement")))
 
 print(f"\nSEMANTIC GATE: {len(passes)} passed, {len(fails)} failed")
 sys.exit(1 if fails else 0)

@@ -4111,7 +4111,7 @@ function ThermalProvenanceLine(){
   const grp=(st)=>strata.map(s=>`${okOf(st,s)} ${nm[s]||s}`).join(", ");
   return (
     <div style={{fontSize:9,color:"#64748b",margin:"6px 0 10px 0"}} data-tprov-line="1">
-      HV-battery intake air logged on {ia.nValid} drives ({ia.firstValidDate} to {ia.lastValidDate}); empty on the {ia.nAfterLastValid} drives since (logging fact, cause unknown). Engine coolant logged continuously enough (flag ok) in {grp(ec)} drives; HV coolant in {grp(hv)} drives. Manual ambient: driver-recorded dash readings; reading times inferred, freshness not observable.
+      HV-battery intake air logged on {ia.nValid} drives ({ia.firstValidDate} to {ia.lastValidDate}); empty on the {ia.nAfterLastValid} drives since (logging fact; the owner reports a battery software update as the cause, which the logs cannot confirm). Engine coolant logged continuously enough (flag ok) in {grp(ec)} drives; HV coolant in {grp(hv)} drives. Manual ambient: driver-recorded dash readings; reading times inferred, freshness not observable.
     </div>
   );
 }

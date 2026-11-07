@@ -66005,7 +66005,7 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "1e8a2a45a61c093f6c5b65537ae6dd8f",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-11-07T20:25:13.950767+00:00",
+   "generatedAt": "2026-11-07T21:06:25.490355+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72",
@@ -66013,13 +66013,13 @@
    },
    "computationStatus": "computed",
    "computationStatusNote": "M606: computed by tools/thermal_provenance.py from the raw bytes; additive, descriptive provenance and coverage only; not M299-reproducible.",
-   "includedInReleaseAt": "2026-11-07T20:25:13.950767+00:00",
+   "includedInReleaseAt": "2026-11-07T21:06:25.490355+00:00",
    "inputBasis": {
     "nDrives": 632,
     "masterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-11-07T20:25:13.950767+00:00"
+   "computedAt": "2026-11-07T21:06:25.490355+00:00"
   }
  },
  "ambientTable": {
@@ -419024,6 +419024,11 @@
    "drivesWithValid": 114,
    "role": "coverage only"
   },
+  "ownerStatement": {
+   "channel": "intake",
+   "text": "HV-battery software update reported by the owner as the root cause of the intake-air outage (owner statement, chat 2026-11-07); not verifiable from the logs",
+   "source": "owner (Andrii), chat 2026-11-07"
+  },
   "reconciliation": {
    "outcomeVsThermalSupportLedger": {
     "mine": {
@@ -419069,7 +419074,7 @@
   "extractorSourceHash": "361c89946eb6d4df",
   "sidecarSha256": "aad8a913834237de0a0ae3fdc5a85ab0316abcf097be4b28a9c2ab884410ca42",
   "limits": [
-   "a dropout flag is a logging fact; its cause is not known and no hardware or logger-setting claim is made",
+   "a dropout flag is a logging fact; the logs cannot show its cause, and the only cause stated for the intake-air outage is the owner's report (ownerStatement)",
    "reading times of the driver-recorded ambient ledger are inferred, so freshness is not observable",
    "the source class (vehicle_uncalibrated) is assigned by the committed ambient protocol, not checked per reading",
    "logging-cadence groups are never pooled; the gap thresholds act differently at the two logging cadences",
