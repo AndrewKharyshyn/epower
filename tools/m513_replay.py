@@ -21,9 +21,9 @@ CMDS = {
 }
 
 
-CHECKS = {"powerFadeEquivalence": [PY, "tools/powerfade_equivalence.py", "--check"], "engineRuntime": [PY, "tools/engine_runtime.py", "--check"],
+CHECKS = {"powerFadeEquivalence": [PY, "tools/powerfade_equivalence.py", "--check"], "engineRuntime": [PY, "tools/engine_runtime.py", "--check"], "highwayShare": [PY, "tools/highway_share.py", "--check"],
           "resistanceJointSensitivity": [PY, "tools/resistance_joint_matrix.py", "--check"]}      # read-only recomputation of the block from the tracked sidecar(s), compared with the payload by the tool itself
-SIDECAR_OF = {"powerFadeEquivalence": "powerfade_density.csv", "powerFadeTemperatureSpecs": "powerfade_density.csv", "engineRuntime": "engine_runtime_sidecar.csv", "resistanceJointSensitivity": "resistance_joint_sidecar.csv"}
+SIDECAR_OF = {"powerFadeEquivalence": "powerfade_density.csv", "powerFadeTemperatureSpecs": "powerfade_density.csv", "engineRuntime": "engine_runtime_sidecar.csv", "highwayShare": "highway_share.csv", "resistanceJointSensitivity": "resistance_joint_sidecar.csv"}
 
 
 def sidecar_matches_manifest(path):

@@ -564,6 +564,19 @@
    ]
   },
   {
+   "id": "highway_share",
+   "title": "M597: joint and conditional highway share (80-120 km/h): per-drive band, engine-on and engine-on-discharge seconds in highway_share.csv (raw sha256 + method version); STOP unless band and discharge seconds equal the master's band_80_120_s and deficit_80_120_s on the rounded values (zero tolerance); additive payload block highwayShare + stamp; needs raw/ like engine_runtime; spec analyses/M597_spec.md Rev 1",
+   "cmd": [
+    "python3",
+    "tools/highway_share.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json",
+    "highway_share.csv"
+   ]
+  },
+  {
    "id": "engine_on_rule",
    "title": "M540: engine-on under the project rule (rpm > 400, strict) and the closed low-rpm rotation band [300, 400] next to the stored >= 300 basis, pooled and by drive type, with day-clustered intervals; additive top-level payload block engineOnRule + stamp; per-drive sidecar engine_on_rule_sidecar.csv keyed by the raw sha256 (13 integer RPM_HIST bin counts); STOP unless round(sum/3600, 3) of the bins equals the stored rpmDistribution pooled and byClass hours exactly and ge300 == sum(bins[1:]) + n(rpm > 6000) per drive; flag-only cross-check against engineRuntime; needs raw/ like engine_runtime; spec analyses/M540_spec.md Rev 2",
    "cmd": [

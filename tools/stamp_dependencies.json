@@ -169,6 +169,24 @@
    ],
    "sidecar": "engine_runtime_sidecar.csv"
   },
+  "highwayShare": {
+   "producer": "tools/highway_share.py",
+   "producerStages": [
+    "highway_share"
+   ],
+   "readsRaw": true,
+   "readsRawManifest": false,
+   "rawNote": "through the per-drive sidecar highway_share.csv keyed by raw sha256",
+   "configSections": [],
+   "inputFiles": [
+    "highway_share.csv"
+   ],
+   "checkCommand": [
+    "tools/highway_share.py",
+    "--check"
+   ],
+   "sidecar": "highway_share.csv"
+  },
   "resistanceJointSensitivity": {
    "producer": "tools/resistance_joint_matrix.py",
    "producerStages": [
