@@ -65917,6 +65917,65 @@
     "milestone": "M597"
    },
    "computedAtNote": "the block carries no calculation time and no ingest run record exists for it; the stamp time is the stamping pass, not the computation (M513 backfill)"
+  },
+  "steadyLoadSpread": {
+   "corpusHash": "1574a8156a36c6ea4ea1dfdaafc7cc72",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": null,
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-11-07T16:01:36.814839+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72",
+    "rawManifestCorpusHash": "2bb2cfbb85e86c243872f8149d09349b8fd1ef7ae25079d84a3ff88c722d7904",
+    "rawIdentitySource": "sandbox / read-only replay at M518: the block is reproduced from the tracked sidecar, and every sidecar row's raw sha256 equals the sha256 of the same canonical file in the live raw_manifest.json (analyses/M513_replay.json rawIdentityEvidence)",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "steady_load_spread.csv": "920347c55ecfc7fce00df55af295cb8d",
+     "steady_load_contexts.csv": "f6a1fc467815590004e6666812f507eb"
+    }
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M603: derived by tools/steady_load_spread.py from drive_master.csv and the tracked steady_load_spread.csv / steady_load_contexts.csv (steady-load cell-spread check; analyses/M603_spec.md)",
+   "includedInReleaseAt": "2026-11-07T16:01:36.814839+00:00",
+   "inputBasis": {
+    "nDrives": 632,
+    "masterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": null,
+   "declaredIdentity": {
+    "corpusHash": "1574a8156a36c6ea4ea1dfdaafc7cc72",
+    "configSectionHashes": {},
+    "inputFileMd5": {
+     "steady_load_spread.csv": "920347c55ecfc7fce00df55af295cb8d",
+     "steady_load_contexts.csv": "f6a1fc467815590004e6666812f507eb"
+    },
+    "rawManifestCorpusHash": "2bb2cfbb85e86c243872f8149d09349b8fd1ef7ae25079d84a3ff88c722d7904",
+    "rawIdentitySource": "sandbox / read-only replay at M518: the block is reproduced from the tracked sidecar, and every sidecar row's raw sha256 equals the sha256 of the same canonical file in the live raw_manifest.json (analyses/M513_replay.json rawIdentityEvidence)"
+   },
+   "stampLineage": [
+    {
+     "identity": {
+      "corpusHash": "1574a8156a36c6ea4ea1dfdaafc7cc72",
+      "upstreamHashes": {
+       "driveMasterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72"
+      },
+      "fullConfigHash": "1e8a2a45a61c093f6c5b65537ae6dd8f",
+      "generatedAt": "2026-11-07T16:01:36.814839+00:00"
+     },
+     "supersededAtMilestone": "M603",
+     "supersededAt": "2026-11-07T16:02:48.888851+00:00",
+     "reason": "legacy stamp metadata (M294 raw-manifest backfill, M284 whole-config hash, fields cloned from another block) replaced by stamp metadata re-derived from declared dependencies"
+    }
+   ],
+   "fullConfigHashNote": "whole-config hash retired for declared blocks (M513): the stamp names the md5 of each computational config section it reads (upstreamHashes.configSectionHashes); the previous value is kept in stampLineage",
+   "dependencies": {
+    "declaredIn": "tools/stamp_dependencies.json",
+    "milestone": "M603"
+   },
+   "computedAtNote": "the block carries no calculation time and no ingest run record exists for it; the stamp time is the stamping pass, not the computation (M513 backfill)"
   }
  },
  "ambientTable": {
@@ -416491,6 +416550,414 @@
    "file": "highway_share.csv",
    "sha256": "d3fd5fe7ad126bb8a71dfcd7a4ca74b508dcec27adcd9923007227a00581306a",
    "rows": 632
+  },
+  "basis": "raw/ = sha256-verified originals (M366)"
+ },
+ "steadyLoadSpread": {
+  "specRev": "analyses/M603_spec.md Rev 1",
+  "methodVersion": 1,
+  "bootstrap": {
+   "unit": "calendar day (E3 week)",
+   "draws": 4000,
+   "seed": 42,
+   "ci": "percentile 95%"
+  },
+  "population": {
+   "canonicalCleanDrives": 600,
+   "withSteadyS": 372,
+   "days": 117,
+   "lostToFloor": 228,
+   "supportMet": true
+  },
+  "releasedReference": {
+   "slope": 0.7396,
+   "ci95": [
+    0.4128,
+    1.0665
+   ],
+   "nObs": 600,
+   "nDays": 122,
+   "masterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72"
+  },
+  "primary": {
+   "steadyTheilSen": {
+    "est": 0.2457,
+    "ci95Day": [
+     -0.1062,
+     0.6226
+    ],
+    "ci95Week": [
+     -0.4074,
+     0.9365
+    ],
+    "nDrives": 372,
+    "nDays": 117,
+    "nWeeks": 24
+   },
+   "loadedTheilSen": {
+    "est": -0.0,
+    "ci95Day": [
+     -0.5925,
+     0.5707
+    ],
+    "ci95Week": [
+     -0.9131,
+     0.9515
+    ],
+    "nDrives": 372,
+    "nDays": 117,
+    "nWeeks": 24
+   },
+   "steadyModel": {
+    "est": 0.367,
+    "se": 0.1482,
+    "ci95": [
+     0.0735,
+     0.6606
+    ],
+    "n": 372,
+    "G": 117,
+    "aic": 1830.82,
+    "r2": 0.1357,
+    "cr2": {
+     "est": 0.367,
+     "se": 0.1505,
+     "df": 39.4,
+     "ci95": [
+      0.0628,
+      0.6713
+     ]
+    },
+    "cr2tG1": {
+     "est": 0.367,
+     "ci95": [
+      0.069,
+      0.6651
+     ],
+     "note": "CR2 standard error with a t(G-1) interval (the spec-literal variant)"
+    },
+    "halfWidth": 0.2935,
+    "mde80": 0.415
+   },
+   "loadedModel": {
+    "est": 0.6007,
+    "se": 0.1879,
+    "ci95": [
+     0.2284,
+     0.9729
+    ],
+    "n": 372,
+    "G": 117,
+    "aic": 1993.0,
+    "r2": 0.2195,
+    "cr2": {
+     "est": 0.6007,
+     "se": 0.1906,
+     "df": 39.4,
+     "ci95": [
+      0.2152,
+      0.9861
+     ]
+    },
+    "cr2tG1": {
+     "est": 0.6007,
+     "ci95": [
+      0.2231,
+      0.9782
+     ],
+     "note": "CR2 standard error with a t(G-1) interval (the spec-literal variant)"
+    },
+    "halfWidth": 0.3722,
+    "mde80": 0.5261
+   },
+   "difference": {
+    "est": -0.2336,
+    "ci95": [
+     -0.474,
+     -0.0212
+    ],
+    "nDrives": 372,
+    "nDays": 117,
+    "slopeSteady": 0.367,
+    "slopeLoaded": 0.6007
+   },
+   "grade": "ATTENUATED"
+  },
+  "finalGrade": "UNDECIDED",
+  "pidSetCheck": {
+   "gradeWith": "ATTENUATED",
+   "gradeWithout": "CONSISTENT",
+   "fromDate": "2026-11-03"
+  },
+  "strata": {
+   "fast": {
+    "reported": true,
+    "est": 1.6795,
+    "ci95Day": [
+     0.8861,
+     2.4813
+    ],
+    "ci95Week": [
+     -0.0347,
+     3.2691
+    ],
+    "nDrives": 149,
+    "nDays": 40,
+    "nWeeks": 8
+   },
+   "slow": {
+    "reported": true,
+    "est": 0.0692,
+    "ci95Day": [
+     -0.4079,
+     0.4612
+    ],
+    "ci95Week": [
+     -0.5269,
+     0.6411
+    ],
+    "nDrives": 223,
+    "nDays": 82,
+    "nWeeks": 22
+   },
+   "beforeStep": {
+    "reported": true,
+    "est": -0.3145,
+    "ci95Day": [
+     -0.8301,
+     0.0634
+    ],
+    "ci95Week": [
+     -1.09,
+     0.2571
+    ],
+    "nDrives": 277,
+    "nDays": 95,
+    "nWeeks": 20
+   },
+   "fromStep": {
+    "reported": true,
+    "est": 3.1525,
+    "ci95Day": [
+     0.7609,
+     9.6118
+    ],
+    "ci95Week": [
+     1.6211,
+     11.4141
+    ],
+    "nDrives": 95,
+    "nDays": 22,
+    "nWeeks": 5
+   }
+  },
+  "matchedContexts": {
+   "nCommon": 6,
+   "nPositive": 5,
+   "medianDifferenceMv": 2.575,
+   "contextKeys": [
+    "slow",
+    "t1bin",
+    "socbin",
+    "iband"
+   ],
+   "floors": {
+    "drivesPerSide": 5,
+    "daysPerSide": 3,
+    "pairsPerDriveContext": 10
+   },
+   "label": "conditional on a post hoc split date (2026-10-01, M573)",
+   "medianDifferenceCi95Day": [
+    0.9,
+    4.375
+   ]
+  },
+  "leaveOneWeekOut": {
+   "min": 0.2066,
+   "max": 0.4791,
+   "nWeeks": 24
+  },
+  "qualifyingShare": {
+   "fast|2026-08": {
+    "qualifying": 9196,
+    "loaded": 13087,
+    "share": 0.7027
+   },
+   "fast|2026-09": {
+    "qualifying": 1279,
+    "loaded": 1662,
+    "share": 0.7696
+   },
+   "fast|2026-10": {
+    "qualifying": 5194,
+    "loaded": 8906,
+    "share": 0.5832
+   },
+   "fast|2026-11": {
+    "qualifying": 745,
+    "loaded": 779,
+    "share": 0.9564
+   },
+   "slow|2026-05": {
+    "qualifying": 1158,
+    "loaded": 2652,
+    "share": 0.4367
+   },
+   "slow|2026-06": {
+    "qualifying": 7212,
+    "loaded": 16421,
+    "share": 0.4392
+   },
+   "slow|2026-07": {
+    "qualifying": 9938,
+    "loaded": 23060,
+    "share": 0.431
+   },
+   "slow|2026-08": {
+    "qualifying": 3017,
+    "loaded": 6321,
+    "share": 0.4773
+   },
+   "slow|2026-09": {
+    "qualifying": 3903,
+    "loaded": 5779,
+    "share": 0.6754
+   },
+   "slow|2026-10": {
+    "qualifying": 2832,
+    "loaded": 4326,
+    "share": 0.6546
+   },
+   "slow|2026-11": {
+    "qualifying": 200,
+    "loaded": 272,
+    "share": 0.7353
+   }
+  },
+  "sensitivity": {
+   "floor10": {
+    "grade": "ATTENUATED",
+    "steadySlope": 0.4843,
+    "steadyCi95": [
+     0.2197,
+     0.7489
+    ],
+    "nDrives": 502,
+    "nDays": 121,
+    "difference": -0.2223,
+    "differenceCi95": [
+     -0.4863,
+     -0.0107
+    ]
+   },
+   "floor40": {
+    "grade": "UNINFORMATIVE",
+    "steadySlope": 0.1678,
+    "steadyCi95": [
+     -0.1831,
+     0.5187
+    ],
+    "nDrives": 223,
+    "nDays": 96,
+    "difference": -0.1695,
+    "differenceCi95": [
+     -0.4899,
+     0.1583
+    ]
+   },
+   "fixedWindowSlew": {
+    "grade": "CONSISTENT",
+    "steadySlope": 0.8362,
+    "steadyCi95": [
+     -0.0481,
+     1.7205
+    ],
+    "nDrives": 107,
+    "nDays": 48,
+    "difference": -0.5445,
+    "differenceCi95": [
+     -1.446,
+     0.0868
+    ]
+   },
+   "subsample20": {
+    "grade": "CONSISTENT",
+    "steadySlope": 0.3907,
+    "steadyCi95": [
+     0.117,
+     0.6645
+    ],
+    "nDrives": 372,
+    "nDays": 117,
+    "difference": -0.21,
+    "differenceCi95": [
+     -0.4725,
+     0.0327
+    ]
+   },
+   "lagCap0.2s": {
+    "grade": "ATTENUATED",
+    "steadySlope": 0.367,
+    "steadyCi95": [
+     0.0733,
+     0.6607
+    ],
+    "nDrives": 372,
+    "nDays": 117,
+    "difference": -0.2337,
+    "differenceCi95": [
+     -0.4737,
+     -0.0212
+    ]
+   },
+   "interpolatedPairing": {
+    "grade": "ATTENUATED",
+    "steadySlope": 0.354,
+    "steadyCi95": [
+     0.0626,
+     0.6454
+    ],
+    "nDrives": 372,
+    "nDays": 117,
+    "difference": -0.2467,
+    "differenceCi95": [
+     -0.4919,
+     -0.0345
+    ]
+   },
+   "withoutFrom2026-11-03": {
+    "grade": "CONSISTENT",
+    "steadySlope": 0.3171,
+    "steadyCi95": [
+     0.0136,
+     0.6205
+    ],
+    "nDrives": 363,
+    "nDays": 114,
+    "difference": -0.2138,
+    "differenceCi95": [
+     -0.4577,
+     0.0039
+    ]
+   }
+  },
+  "definition": {
+   "steady": "paired by nearest timestamp; 30 A <= |I| <= 100 A; slew of the native current samples around the pair midpoint <= 3 A/s (bracket gap <= 2 s); per drive the 95th percentile of the spread over >= 20 such pairs (low-slew selection)",
+   "loaded": "the pipeline selection |I| > 50 A (cell_spread_loaded_p95_mv)",
+   "units": "mV and mV/month; logged-signal quantity, a conditional association in one vehicle over a seasonal window"
+  },
+  "reconciliation": {
+   "nCompared": 601,
+   "mismatchP95": 0,
+   "mismatchN": 0,
+   "ok": true
+  },
+  "sidecar": {
+   "files": {
+    "steady_load_spread.csv": "9949b3cf5303d7c4cc7d831d87211eed51d51ec939e6171ff89c43835645baad",
+    "steady_load_contexts.csv": "86118587dd91fdf9d6847588e1a1d9d608ab7e08d7cf2404b2bf3888d5742ab4"
+   },
+   "masterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72"
   },
   "basis": "raw/ = sha256-verified originals (M366)"
  }

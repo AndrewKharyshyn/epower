@@ -5617,6 +5617,26 @@ function CellSpreadStepView(){
     </Section>
   );
 }
+// M603 (spec analyses/M603_spec.md Rev 1, Director ruling): steady-load (low-slew) check of the loaded cell-spread slope, bound to S.steadyLoadSpread only (no typed number); shown beside, never instead of, the released slope
+function SteadyLoadCheck(){
+  const B=S.steadyLoadSpread, P=B&&B.primary;
+  if(!B||!P||!P.steadyModel||!P.loadedModel) return null;
+  const f=(x)=>x==null?"n/a":Number(x).toFixed(2);
+  const iv=(c)=>Array.isArray(c)?`[${f(c[0])}, ${f(c[1])}]`:"n/a";
+  const spans=(c)=>Array.isArray(c)&&c[0]<=0&&c[1]>=0;
+  const sgn=(c)=>spans(c)?"the interval includes zero (not established)":(c[0]>0?"the interval is positive":"the interval is negative");
+  const sm=P.steadyModel, lm=P.loadedModel, d=P.difference, ts=P.steadyTheilSen, tl=P.loadedTheilSen, pc=B.pidSetCheck||{};
+  const gl=(g)=>String(g||"").toLowerCase();
+  const tsBoth=spans(ts.ci95Day)&&spans(tl.ci95Day);
+  return (
+    <div style={{fontSize:10.5,color:"#0f172a",lineHeight:1.6,margin:"8px 0",paddingTop:8,borderTop:"1px solid #e2e8f0"}} data-steady-load="1">
+      <p style={{margin:0}}><strong>Steady-load check (low-slew selection, paired by nearest timestamp). Result: undecided.</strong> The outcome is {gl(pc.gradeWith)} with all drives and {gl(pc.gradeWithout)} once drives from {pc.fromDate} onward are removed, so no verdict is drawn. The released slope above is unchanged.</p>
+      <p style={{margin:"4px 0 0"}}><strong>Scope.</strong> {B.population.withSteadyS} drives on {B.population.days} days with at least 20 pairs at 30 to 100 A and a current change of at most 3 A/s ({B.population.lostToFloor} canonical-clean drives fall below that floor); loaded selection = the published |I| &gt; 50 A.</p>
+      <p style={{margin:"4px 0 0"}}><strong>Reading.</strong> The published model (months + pack temperature + peak current, day clusters) gives {f(sm.est)} mV/month {iv(sm.ci95)} on steady pairs, and {f(lm.est)} mV/month {iv(lm.ci95)} on the loaded pairs of the same drives; for the steady slope {sgn(sm.ci95)}. The difference is {f(d.est)} mV/month {iv(d.ci95)} (day-clustered bootstrap). The unadjusted Theil-Sen slope of day medians is {f(ts.est)} mV/month, day-clustered {iv(ts.ci95Day)}, week-clustered {iv(ts.ci95Week)}: {sgn(ts.ci95Day)}{tsBoth?"; this estimator also does not establish the loaded slope ("+f(tl.est)+" "+iv(tl.ci95Day)+")":""}. The two estimators disagree and the disagreement is not resolved here.</p>
+      <p style={{margin:"4px 0 0",fontSize:9,color:"#64748b"}}>A conditional association in one vehicle over a seasonal window, confounded with cadence, season and highway share; not a capacity, state-of-health or ageing claim. {B.basis}.</p>
+    </div>
+  );
+}
 function spreadConclusion(){
   const o=S.degradationTrends?.cellSpread?.clusterRobustOLS, ci=o?.ci95, sp=ciSpansZero(ci), rr=S.serialDependence?.trendSlopes?.cellSpread?.rowsRule;
   const proc=sp===false && rr?.classification==="procedure-dependent";
@@ -13427,6 +13447,7 @@ export default function App() {
           <FewClusterNote/>
           <WindowCaveatPanel/>
           <CellSpreadStepView/>
+          <SteadyLoadCheck/>
           <div style={{fontSize:11,color:"#64748b",lineHeight:1.7}}>
             <p>Example check on four drives of Jun 19. Result: the cell spread at rest (current below 5 A) was 0.0104–0.0121 V on all four drives, within the established baseline. Under load the spread reached 0.084 V on Drive 1. That is consistent with a thermal and polarization effect rather than degradation, because the spread fell back to 0.010–0.012 V at rest within the same drive. Data note: one raw sample briefly read 0.122 V at the same moment as a single current reading of −200.25 A. That value was excluded under the artifact rule in force at the time and is not used as a cell-health result. It was a within-drive return to baseline, and one example cannot test long-term change. Reading: per-drive loaded maxima are a transient polarization measure, so they are not tracked as records, and loaded spread has gone considerably higher on later drives. The trended quantity is the adjusted p95, for which {spreadSpans()===false?"a "+spreadDir()+" conditional slope is estimated (95% interval excludes zero; season-confounded, not a capacity or SOH change)":"no directional trend is resolved (inconclusive, not shown flat)"}.</p>
           </div>

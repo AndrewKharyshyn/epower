@@ -265,6 +265,8 @@ def e2b(d, ycol):
     b, se, df, _ = ds.cr2(X, dd["y"].to_numpy(dtype=float), dd["day"].to_numpy(), 1)
     tc = float(stats.t.ppf(0.975, df)) if np.isfinite(df) and df > 1 else float("nan")
     r["cr2"] = {"est": round(b, 4), "se": round(se, 4), "df": round(df, 2), "ci95": [round(b - tc * se, 4), round(b + tc * se, 4)]}
+    G = int(dd["day"].nunique()); tg = float(stats.t.ppf(0.975, G - 1)) if G > 1 else float("nan")
+    r["cr2tG1"] = {"est": round(b, 4), "ci95": [round(b - tg * se, 4), round(b + tg * se, 4)], "note": "CR2 standard error with a t(G-1) interval (the spec-literal variant)"}
     r["halfWidth"] = round((r["ci95"][1] - r["ci95"][0]) / 2, 4)
     r["mde80"] = round(2.8 * r["se"], 4)
     return r
@@ -407,7 +409,7 @@ def run(master, side, ctx, draws=DRAWS):
     nopid = analysis_frame(master, side, None, exclude_after=PID_DATE)
     sens["withoutFrom2026-11-03"] = view(nopid, draws)
     res["sensitivity"] = sens
-    res["pidSetCheck"] = {"gradeWith": res["primary"]["grade"], "gradeWithout": sens["withoutFrom2026-11-03"]["grade"]}
+    res["pidSetCheck"] = {"gradeWith": res["primary"]["grade"], "gradeWithout": sens["withoutFrom2026-11-03"]["grade"], "fromDate": PID_DATE}
     res["finalGrade"] = res["primary"]["grade"] if res["pidSetCheck"]["gradeWith"] == res["pidSetCheck"]["gradeWithout"] else "UNDECIDED"
     wk = d.dropna(subset=["y_steady"])["wk"].unique()
     loo = [e2b(d[d["wk"] != w], "y_steady")["est"] for w in wk]
@@ -416,16 +418,77 @@ def run(master, side, ctx, draws=DRAWS):
     return res
 
 
+ALLOWED = ("/steadyLoadSpread", "/_artifactStamps/steadyLoadSpread")
+
+
+def _clean(o):
+    if isinstance(o, dict):
+        return {k: _clean(v) for k, v in o.items()}
+    if isinstance(o, (list, tuple)):
+        return [_clean(v) for v in o]
+    if isinstance(o, (np.floating, float)):
+        return None if not np.isfinite(o) else round(float(o), 4)
+    if isinstance(o, np.integer):
+        return int(o)
+    return o
+
+
+def _paths(a, b, p=""):
+    if isinstance(a, dict) and isinstance(b, dict):
+        return [x for k in sorted(set(a) | set(b)) for x in (_paths(a.get(k), b.get(k), "%s/%s" % (p, k)) if (k in a and k in b) else ["%s/%s" % (p, k)])]
+    return [] if json.dumps(a, sort_keys=True) == json.dumps(b, sort_keys=True) else [p]
+
+
+def make_block(res, rc, master_md5):
+    """Payload block: the analysis result with the sensitivities compacted to grade, steady slope and paired difference."""
+    blk = {"specRev": res["specRev"], "methodVersion": res["methodVersion"], "bootstrap": res["bootstrap"], "population": res["population"], "releasedReference": res["releasedReference"],
+           "primary": res["primary"], "finalGrade": res["finalGrade"], "pidSetCheck": res["pidSetCheck"], "strata": res["strata"], "matchedContexts": res["matchedContexts"],
+           "leaveOneWeekOut": res["leaveOneWeekOut"], "qualifyingShare": res["qualifyingShare"],
+           "sensitivity": {k: {"grade": v["grade"], "steadySlope": v["steadyModel"]["est"], "steadyCi95": v["steadyModel"]["ci95"], "nDrives": v["steadyModel"]["n"], "nDays": v["steadyModel"]["G"],
+                                "difference": v["difference"]["est"], "differenceCi95": v["difference"]["ci95"]} for k, v in res["sensitivity"].items()},
+           "definition": {"steady": "paired by nearest timestamp; 30 A <= |I| <= 100 A; slew of the native current samples around the pair midpoint <= 3 A/s (bracket gap <= 2 s); per drive the 95th percentile of the spread over >= 20 such pairs (low-slew selection)",
+                          "loaded": "the pipeline selection |I| > 50 A (cell_spread_loaded_p95_mv)", "units": "mV and mV/month; logged-signal quantity, a conditional association in one vehicle over a seasonal window"},
+           "reconciliation": {"nCompared": rc["n_compared"], "mismatchP95": len(rc["mismatch_p95"]), "mismatchN": len(rc["mismatch_n"]), "ok": bool(rc["ok"])},
+           "sidecar": {"files": {"steady_load_spread.csv": hashlib.sha256(open(SIDECAR, "rb").read()).hexdigest(), "steady_load_contexts.csv": hashlib.sha256(open(CTX_SIDECAR, "rb").read()).hexdigest()}, "masterMd5": master_md5},
+           "basis": "raw/ = sha256-verified originals (M366)"}
+    return _clean(blk)
+
+
+def splice(A, blk, master_md5="", now=None):
+    import copy, datetime
+    new = copy.deepcopy(A)
+    new["steadyLoadSpread"] = blk
+    old = (A.get("_artifactStamps") or {}).get("steadyLoadSpread")
+    coherent = old and old.get("includedInReleaseAt") == old.get("computedAt") == old.get("generatedAt")
+    if old and coherent and A.get("steadyLoadSpread") == blk and old.get("corpusHash") == master_md5:
+        new["_artifactStamps"]["steadyLoadSpread"] = old
+    else:
+        st = copy.deepcopy(A["_artifactStamps"]["fuelContract"])
+        st.update(corpusHash=master_md5, generatedAt=(now or datetime.datetime.now(datetime.timezone.utc)).isoformat(), computationStatus="computed",
+                  computationStatusNote="M603: derived by tools/steady_load_spread.py from drive_master.csv and the tracked steady_load_spread.csv / steady_load_contexts.csv (steady-load cell-spread check; analyses/M603_spec.md)",
+                  upstreamHashes={"driveMasterMd5": master_md5})
+        st.pop("carriedForward", None)
+        st["includedInReleaseAt"] = st["computedAt"] = st["generatedAt"]
+        import stamp_common as _sc
+        new["_artifactStamps"]["steadyLoadSpread"] = _sc.carry_declared(old, st)
+    ch = _paths(A, new)
+    return new, ch, [c for c in ch if not any(c == a_ or c.startswith(a_ + "/") for a_ in ALLOWED)]
+
+
 def main(argv=None):
     argv = sys.argv[1:] if argv is None else argv
     os.chdir(ROOT)
     master = pd.read_csv("drive_master.csv", low_memory=False)
     draws = int(argv[argv.index("--draws") + 1]) if "--draws" in argv else DRAWS
+    md5 = hashlib.md5(open("drive_master.csv", "rb").read()).hexdigest()
     if "--check" in argv:
         side, ctx = load_sidecars()
         rc = reconcile(side, master)
-        print(json.dumps({"check": "steadyLoadSpread", "reconciliationOk": rc["ok"], "nCompared": rc["n_compared"]}))
-        return 0 if rc["ok"] else 1
+        A0 = json.load(open("summary_arrays.json", encoding="utf-8"))
+        blk = make_block(run(master, side, ctx, draws), rc, md5)
+        same = A0.get("steadyLoadSpread") == blk
+        print(json.dumps({"check": "steadyLoadSpread", "reconciliationOk": rc["ok"], "nCompared": rc["n_compared"], "matchesPayload": same}))
+        return 0 if (rc["ok"] and same) else 1
     from ah_throughput import raw_loader
     side, ctx = build_sidecars(master, raw_loader(), rebuild="--rebuild" in argv)
     rc = reconcile(side, master)
@@ -439,6 +502,16 @@ def main(argv=None):
                        "masterMd5": hashlib.md5(open("drive_master.csv", "rb").read()).hexdigest()}
     json.dump(res, open(out, "w", encoding="utf-8", newline="\n"), indent=1, ensure_ascii=False)
     print("wrote", out, "grade", res["finalGrade"])
+    if "--payload" in argv:
+        raw = open("summary_arrays.json", "r", encoding="utf-8", newline="").read()
+        A0 = json.loads(raw)
+        new, changed, bad = splice(A0, make_block(res, rc, md5), md5)
+        print(json.dumps({"nChanged": len(changed), "outsideAllowList": bad}))
+        if bad:
+            return 1
+        if changed:
+            with open("summary_arrays.json", "w", encoding="utf-8", newline="\n") as f:
+                f.write(json.dumps(new, ensure_ascii=False, indent=1) + ("\n" if raw.endswith("\n") else ""))
     return 0
 
 

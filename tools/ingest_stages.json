@@ -577,6 +577,22 @@
    ]
   },
   {
+   "id": "steady_load_spread",
+   "title": "M603: steady-load (low-slew) cell-spread check: per-drive loaded and steady 95th-percentile spread in steady_load_spread.csv and steady_load_contexts.csv (raw sha256 + method version); STOP unless the loaded p95 and pair count equal the master's cell_spread_loaded_p95_mv and n_loaded_spread_samples (zero tolerance after rounding); additive payload block steadyLoadSpread + stamp; needs raw/; spec analyses/M603_spec.md Rev 1",
+   "cmd": [
+    "python3",
+    "tools/steady_load_spread.py",
+    "--payload"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json",
+    "steady_load_spread.csv",
+    "steady_load_contexts.csv",
+    "analyses/M603_result.json"
+   ]
+  },
+  {
    "id": "engine_on_rule",
    "title": "M540: engine-on under the project rule (rpm > 400, strict) and the closed low-rpm rotation band [300, 400] next to the stored >= 300 basis, pooled and by drive type, with day-clustered intervals; additive top-level payload block engineOnRule + stamp; per-drive sidecar engine_on_rule_sidecar.csv keyed by the raw sha256 (13 integer RPM_HIST bin counts); STOP unless round(sum/3600, 3) of the bins equals the stored rpmDistribution pooled and byClass hours exactly and ge300 == sum(bins[1:]) + n(rpm > 6000) per drive; flag-only cross-check against engineRuntime; needs raw/ like engine_runtime; spec analyses/M540_spec.md Rev 2",
    "cmd": [
