@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """M597 (analyses/M597_spec.md Rev 1, audit D2): joint vs conditional highway share, 80-120 km/h.
-Per drive: B = band seconds, E = band seconds with the engine turning (rpm > 400), D = band seconds with the engine turning AND discharge (Id > 0),
-all as sums of the same per-sample dt the pipeline uses (compute_drive_summary_v6.py lines ~653-657 and 815-819). E300/D300 repeat E/D with rpm > 300 (sensitivity).
+Per drive: B = band seconds, E = band seconds with the engine turning (logged rpm above 400), D = band seconds with the engine turning AND discharge (Id > 0),
+all as sums of the same per-sample dt the pipeline uses (compute_drive_summary_v6.py lines ~653-657 and 815-819). E300/D300 repeat E/D with the rpm threshold at 300 (sensitivity).
 J = D/B (joint share, the existing deficit_80_120_pct), C = D/E (conditional share), R = E/B. Sidecar highway_share.csv is written ONLY by this tool;
 drive_master.csv is read-only. Reconciliation gate: B and D, after round(., 1), must equal the master's band_80_120_s and deficit_80_120_s with ZERO tolerance.
 Usage: python tools/highway_share.py [--rebuild] [--check]"""
