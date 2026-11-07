@@ -81,6 +81,6 @@ for sn, f in strata.items():
         o[v] = {"secs": secs, "nint": sum(x["nint"] for a in sub.values() for x in [a["v"][v]]), "nfrag": sum(a["v"][v]["nfrag"] for a in sub.values()),
                 "fragsecs": sum(a["v"][v]["fragsecs"] for a in sub.values()), "drives": nd, "days": ny, "supported": bool(secs >= 200 and nd >= 10 and ny >= 5)}
     outj[sn] = o
-json.dump({"strata": outj}, open("analyses/M605_audit/out.json", "w"), indent=1)
+json.dump({"strata": outj}, open("analyses/M605_audit/out.json", "w", encoding="utf-8"), indent=1)
 pd.DataFrame(ivs).to_csv("analyses/M605_audit/intervals.csv", index=False)
 print(json.dumps(outj))
