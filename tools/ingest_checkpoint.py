@@ -90,6 +90,10 @@ class Checkpoints:
         return data, aux, sizes
 
     def env_identity(self):
+        return _h(*self.env_components().values())
+
+    def env_components(self):
+        """M610a: the parts of the environment identity, by name (their values joined in this order are the identity)."""
         raw = os.path.join(self.root, "raw")
         listing = sorted((f, os.path.getsize(os.path.join(raw, f)), os.stat(os.path.join(raw, f)).st_mtime_ns) for f in os.listdir(raw)) if os.path.isdir(raw) else []
         xt = {k: v for k, v in sorted(os.environ.items()) if k.startswith("XT_") and k != "XT_RAW_DIR" and not k.startswith("XT_ACK_") and k not in STAGE_ENV}      # M575: acks are consulted only by the stage that stops on them
@@ -99,7 +103,8 @@ class Checkpoints:
         except (OSError, subprocess.SubprocessError):
             head = "nogit"
         import run_fingerprint as RF
-        return _h(json.dumps(listing), json.dumps(xt), "%d.%d" % sys.version_info[:2], platform.system(), json.dumps(RF._versions(), sort_keys=True, default=str), head)
+        return {"raw listing": json.dumps(listing), "XT_* variables": json.dumps(xt), "python version": "%d.%d" % sys.version_info[:2], "platform": platform.system(),
+                "tool versions": json.dumps(RF._versions(), sort_keys=True, default=str), "git blobs of summary_arrays/summary_config/drive_master at HEAD": head}
 
     # ------------------------------------------------------------------ code hash
     def _resolve(self, name, rel_to=None):
@@ -186,7 +191,9 @@ class Checkpoints:
     def begin(self):
         data, aux, _ = self.scan()
         self.prev, self.prev_aux = data, aux
-        self.base = _h(json.dumps(sorted(data.items())), self.env_identity())
+        comps = self.env_components()
+        self.base_parts = {"data": data, "env": {k: _h(v) for k, v in comps.items()}}
+        self.base = _h(json.dumps(sorted(data.items())), _h(*comps.values()))
         self.key = self.base
         self.chain_dir = os.path.join(self.store, self.base[:16])
         return self.base
@@ -217,9 +224,14 @@ class Checkpoints:
             applied.append((name, e))
             k = i + 1
         if not k:
+            info = {"reason": "no valid checkpoint chain for this base state" if not entries else "first stage changed or chain not restorable"}
+            if not entries:
+                mr = self.miss_reason()
+                if mr:
+                    info["missReason"] = mr
             self.discard()
             self.n = 0
-            return 0, {"reason": "no valid checkpoint chain for this base state" if not entries else "first stage changed or chain not restorable"}
+            return 0, info
         for name, e in applied:
             for rel in e["deleted"]:
                 p = os.path.join(self.root, rel)
@@ -236,6 +248,28 @@ class Checkpoints:
         if k < len(entries) or k < len(self.stages):
             info["reason"] = "stage %s: code or earlier inputs changed, or no checkpoint" % (self.stages[k]["id"] if k < len(self.stages) else "-")
         return k, info
+
+    def miss_reason(self, limit=8):
+        """M610a (spec R2): why no stored chain matches the current base key: compare the current parts with the most recently written other chain (base.json). None if there is none."""
+        try:
+            others = [os.path.join(self.store, d) for d in os.listdir(self.store) if os.path.join(self.store, d) != self.chain_dir]
+            others = [d for d in others if os.path.isfile(os.path.join(d, "base.json"))]
+            if not others or not getattr(self, "base_parts", None):
+                return None
+            prev = json.load(open(os.path.join(max(others, key=lambda d: os.path.getmtime(os.path.join(d, "base.json"))), "base.json"), encoding="utf-8"))
+        except (OSError, ValueError):
+            return None
+        cur = self.base_parts
+        parts = []
+        for label, names in (("data file changed", sorted(r for r in cur["data"] if r in prev["data"] and cur["data"][r] != prev["data"][r])),
+                             ("data file added", sorted(r for r in cur["data"] if r not in prev["data"])),
+                             ("data file removed", sorted(r for r in prev["data"] if r not in cur["data"]))):
+            if names:
+                parts.append("%s: %s%s" % (label, ", ".join(names[:limit]), " (+%d more)" % (len(names) - limit) if len(names) > limit else ""))
+        env = sorted(k for k in cur["env"] if cur["env"][k] != prev["env"].get(k))
+        if env:
+            parts.append("environment differs: " + ", ".join(env))
+        return "; ".join(parts) or "base key differs from the stored chain in a way the stored parts do not show"
 
     def save(self, stage):
         """Record the files the (green) stage created / changed / deleted. Never raises: a stage that cannot be checkpointed ends the chain."""
@@ -255,6 +289,8 @@ class Checkpoints:
             self.key = _h(self.key, stage["id"], self.code_hash(stage))
             ed = self._entry_dir(i, stage["id"])
             os.makedirs(ed, exist_ok=True)
+            if i == 0 and getattr(self, "base_parts", None):                     # M610a: the parts of the base key, so a later miss can say what differed
+                json.dump(self.base_parts, open(os.path.join(self.chain_dir, "base.json"), "w", encoding="utf-8", newline="\n"))
             if restorable:
                 for r in written:
                     RJ._atomic_copy(os.path.join(self.root, r), os.path.join(ed, "files", r))

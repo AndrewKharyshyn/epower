@@ -11,7 +11,7 @@ This is opt-in (run_ingest --skip-unchanged); it is never a reason to skip the i
 import hashlib, json, os, platform, sys
 
 FP_VERSION = 2          # M405 (audit N05): raw content hashed, raw directory resolved
-ALWAYS_RUN = ("preflight", "build_html", "jsdom", "release_check", "state")
+ALWAYS_RUN = ("static_preflight", "preflight", "build_html", "jsdom", "release_check", "state")
 EXCLUDED_OUTPUTS = ("xtrail_dashboard.html",)
 SRC_EXT = (".py", ".js", ".jsx", ".sh")
 PKGS = ("numpy", "pandas", "scipy", "scikit-learn", "statsmodels", "rainflow")
