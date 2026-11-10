@@ -10,7 +10,7 @@ Preconditions: new CSVs are in `raw/` (do not modify existing files). `export XT
 1. Dispatch `data-worker`: `python tools/state.py` then `python tools/run_ingest.py --dry-run`; confirm the list of new
    files vs `raw_manifest.json` (typed roles; comparison/e4ORCE files are never canonical).
 2. Dispatch `data-worker`: `python tools/run_ingest.py` (stages in `tools/ingest_stages.json`). It stops on the first
-   failed gate and writes `runs/<ts>/failure.json`. Do not retry with changed parameters.
+   failed gate and writes `runs/<ts>/failure.json`. Do not retry with changed parameters. Since M609 a plain rerun resumes from the stage checkpoints (`--fresh` forces a full run): fix the cause, write any Director-ruled ack file, rerun. Do not redirect output to a file inside the repo other than `*.log` / `*.out` at the root, and make every data edit (ambients, ODO) before the first run.
    Since M416 the run is a journaled release: a failed gate or an interrupted run rolls every file outside `raw/` back to its pre-run bytes (`runs/<ts>/journal/`);
    if a run was killed the next start is refused (exit 5) until `python tools/run_ingest.py --recover`. `--keep-on-failure` leaves the mixed state for inspection.
 3. If a stage is `not_implemented` (first use): implement `tools/ingest_core.py` from `docs/workflow-and-tools.md`

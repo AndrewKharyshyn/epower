@@ -1,3 +1,12 @@
+## M609 (2026-11-10): Ingestion reruns resume from checkpoints: root-level run logs excluded from the data state, ack/ruling files survive rollback, resume by default
+
+**Rationale.** Root cause of the Nov 2026 full restarts: the checkpoint base key hashed every data file, and the run's own redirected log (ingest_run_*.log at the repo root) changed between runs, so no stored chain ever matched; the same file changing under the journal is a probable cause of rollback_failed, and --recover deleted ack/ruling files written after its snapshot. Fix: top-level *.log/*.out excluded from the journal snapshot and the data state, ack/ruling inputs never deleted by a rollback, resume the default (--fresh to force a full run), new test tests/synthetic/test_ingest_resume_robust.py (negative control on the old tools reproduces the full re-execution). No stage code, payload or figure changes; also documented in docs/workflow-and-tools.md.
+
+**State.** `drive_master.csv` 632 rows, MD5 `1574a8156a36c6ea4ea1dfdaafc7cc72`.
+
+**Files.** `tools/release_journal.py`, `tools/ingest_checkpoint.py`, `tools/run_ingest.py`, `tests/synthetic/test_ingest_resume_robust.py`, `.github/workflows/ci.yml`, `docs/workflow-and-tools.md`, `.claude/skills/ingest-drive/SKILL.md`.
+
+
 ## M607 (2026-11-07): Thermal provenance line: record the owner-reported cause of the intake-air outage (battery software update) as an attributed statement
 
 **Rationale.** Owner (Andrii, chat 2026-11-07) answered the Director's question: the HV-battery software was updated around 2026-08-25 and this is the root cause of the empty intake-air channel. The Thermal-tab line now says the owner reports a battery software update as the cause, which the logs cannot confirm (attributed statement, not a finding); the payload block thermalProvenance carries ownerStatement and the semantic-gate check A6 requires it. No count, flag or estimator changed. Also closed/parked by the owner in the same message: same-response cell logging (logger setup stays), regen leftovers (new parameters unavailable), HVAC/defrost annotation (data most probably unavailable).

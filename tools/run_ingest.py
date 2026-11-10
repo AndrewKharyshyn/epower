@@ -73,9 +73,12 @@ def main():
     ap.add_argument("--no-journal", action="store_true", help="M416: no snapshot/rollback (development only)")
     ap.add_argument("--keep-on-failure", action="store_true", help="M416: on failure leave the mixed state in place for inspection (the journal stays open; the next run needs --recover)")
     ap.add_argument("--resume", action="store_true", help="M464: restore the longest valid prefix of the stage checkpoints of a previous failed full run (same data state, unchanged stage code) and execute only the first changed/failed stage and later ones; the journal still snapshots first and rolls back on any failure")
+    ap.add_argument("--fresh", action="store_true", help="M609: ignore stored checkpoints and run every stage (resume is the default for a full journaled run: after a gate stop the next plain run restores the stages that already passed; the chain keys still guarantee the same data state and stage code)")
     ap.add_argument("--no-checkpoints", action="store_true", help="M464: do not save stage checkpoints (full journaled runs save them by default under runs/.checkpoints/)")
     ap.add_argument("--recover", action="store_true", help="M416: roll back an interrupted or kept release from its journal, then exit")
     a = ap.parse_args()
+    a.resume = not a.fresh                      # M609: resume is the default for a full journaled run (chain keys decide validity; an empty or invalid chain just runs every stage)
+    explicit_resume = "--resume" in sys.argv
     import release_journal as RJ
     if a.recover:
         try:
@@ -139,7 +142,7 @@ def main():
         if journal is not None and full_run and not skip_ids and not a.skip_unchanged and not a.no_checkpoints:
             import ingest_checkpoint as ICP
             cp = ICP.Checkpoints(ROOT, cfg["stages"])
-        elif a.resume:
+        elif explicit_resume:
             print("run_ingest: --resume needs a full journaled run with checkpoints (no --only/--from/--skip/--no-journal/--skip-unchanged/--no-checkpoints): running normally", file=sys.stderr)
         if cp is not None:
             cp.begin()
