@@ -1,0 +1,57 @@
+{
+ "note": "Transcription (by the agent that dispatched the audit) of the blind auditor's hand-back of 2026-11-11; the auditor's own files are result.json, result_alt_optimizer.json and audit.py in this directory. The auditor did not read the producer code, the CHANGELOG or the M614 spec.",
+ "auditor": "analytical-auditor (Sonnet)",
+ "verdict": "revise (method and language concerns; numbers reproduced)",
+ "claims": {
+  "1": {
+   "claim": "cluster-robust OLS slope 1.2486, SE 0.6162, 95% CI [0.0269, 2.4703] (t(G-1)), 294 drives, 107 days",
+   "reproduced": true,
+   "auditorValue": {
+    "slope": 1.248592,
+    "se": 0.616215,
+    "ci95": [
+     0.02689,
+     2.4703
+    ]
+   },
+   "maxDiff": "<1e-5"
+  },
+  "2": {
+   "claim": "mixed REML: slope 1.3536, SE 0.6158, group var 8.4836, residual var 150.17, variance ratio 0.0565, SE ratio 0.999, not singular",
+   "reproduced": true,
+   "auditorValue": {
+    "slope": 1.353635,
+    "se": 0.615833,
+    "groupVar": 8.4836,
+    "residVar": 150.166,
+    "ratio": 0.0565,
+    "seRatio": 0.99938
+   },
+   "maxDiff": "<1e-4"
+  },
+  "3": {
+   "claim": "(mixed slope - OLS slope) / OLS SE = 0.17",
+   "reproduced": true,
+   "auditorValue": 0.17047,
+   "maxDiff": 0.0005
+  },
+  "4": {
+   "claim": "replay: 5 ok/not-ok flips of the retired rule, max |signed diff| 0.17 at >=30 days, intervals agree on excluding zero",
+   "reproduced": "partial",
+   "detail": "max |diff| 0.17046 (lbfgs) / 0.17040 (fallback solvers) and the interval agreement reproduce; the flip count 5 reproduces only with the single-solver lbfgs fit (not converged at 17 of 21 points); with fallback solvers (bfgs, lbfgs, nm) all 21 points converge, none singular, SE ratio about 1, flips 0"
+  },
+  "5": {
+   "claim": "mixed status not ok at the 632-drive prefix, ok at 665",
+   "reproduced": "partial",
+   "detail": "632nd master row dated 2026-11-05, prefix n=280, 103 days: not ok with lbfgs only (non-converged), ok with fallback solvers (variance 0.298, SE ratio 1.06); 665th (2026-11-09, n=294): ok in both; so 'not ok at 632' is a solver-convergence artifact, not a singular or blown-up fit"
+  }
+ },
+ "method_concerns": [
+  "the flips are driven by optimiser non-convergence, not by the singular boundary or an SE blow-up; any instability claim needs a defined solver and convergence criterion",
+  "cluster OLS uses the small-sample correction with t(G-1); no row-level resampling, no leakage; eligibility as specified gives 294 drives; ordering of the 632nd row by date then file"
+ ],
+ "language_concerns": [
+  "do not describe the mixed model as 'unstable' from these flips without stating solver dependence"
+ ],
+ "consequence": "author errata E1/E2 in analyses/M614_spec.md; Director decision 2026-11-11: revise with C1-C7, option A stands"
+}

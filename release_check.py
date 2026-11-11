@@ -257,11 +257,11 @@ def payload_warnings(arrays_path):
     if bad:
         warns.append(f"malformed ISO date tokens present {bad} - fn[:8] day-key defect; source fixed "
                      f"(_day_key), clears on the next ThermalFuelPenalty raw-pass regen (also widens its CIs)")
-    # M307 (Director, F5): degenerate mixed-effects fits are reported (the released estimator is then the cluster-robust OLS).
+    # M307 (Director, F5), reworded by M614: a degenerate mixed-effects fit is reported; the headline is the cluster-robust OLS for every metric either way.
     for m, d in (sa.get("degradationTrends") or {}).items():
         if isinstance(d, dict) and (d.get("mixedEffects") or {}).get("degenerate"):
-            warns.append(f"degradationTrends.{m}: mixed-effects degenerate -> primaryEstimator={d.get('primaryEstimator')} "
-                         f"(fallback is disclosed; ingest_core aborts if it CHANGES vs the previous arrays)")
+            warns.append(f"degradationTrends.{m}: mixed-effects sensitivity fit degenerate (headline {d.get('primaryEstimator')}, rule {d.get('headlineEstimatorRule')}); "
+                         f"ingest_core aborts only if the headline estimator or rule CHANGES vs the previous arrays (M614)")
     # M300 (Director): every stamp's fullConfigHash should equal md5(summary_config.json). WARN until the
     # 5fb4cded... (stamped) vs on-disk config mismatch is investigated; then promote to FAIL.
     import hashlib

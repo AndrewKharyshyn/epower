@@ -133,7 +133,11 @@ def _mixedlm(d, covars=('T',)):
             gvar = float(np.asarray(r.cov_re)[0, 0])
         except Exception:
             gvar = None
-        return {'slope': _jround(b), 'se': _jround(se),
+        try:
+            rvar = float(r.scale)          # M614: residual variance, for the variance ratio group / residual
+        except Exception:
+            rvar = None
+        return {'slope': _jround(b), 'se': _jround(se), 'residVar': _jround(rvar, 6),
                 'ci95': [_jround(ci[0]), _jround(ci[1])],
                 'nObs': int(dd.shape[0]), 'nDays': int(dd['day'].nunique()),
                 'groupVar': _jround(gvar, 6),
@@ -198,6 +202,30 @@ def _tost(slope, se, delta, alpha=0.05, df=None):
             'refDist': 'normal' if dist is stats.norm else f't(df={int(df)})'}
 
 
+SE_BLOWUP_FACTOR = 25.0    # order-of-magnitude guard (M155): the singular case exceeds it by ~1e8, any valid fit is far under
+RE_SINGULAR_TOL = 1e-8     # day random-intercept variance at or below this is the singular boundary
+HEADLINE_RULE = 'fixed: clusterRobustOLS (M614)'
+
+
+def validity_components(mm, co):
+    """M614 (spec R2): the mixed-model validity components, reported separately. They describe the mixed fit; they never choose the headline.
+    -> ({fitted, converged, seFinitePositive, seNotBlownUp}, reCovarianceSingular or None when the day variance is not available)."""
+    mm_se, co_se = mm.get('se'), co.get('se')
+    se_ok = bool(mm_se is not None and np.isfinite(mm_se) and mm_se > 0)
+    not_blown = bool(se_ok and co_se is not None and co_se > 0 and mm_se <= SE_BLOWUP_FACTOR * co_se)
+    gv = mm.get('groupVar')
+    return ({'fitted': 'slope' in mm, 'converged': bool(mm.get('converged', False)), 'seFinitePositive': se_ok, 'seNotBlownUp': not_blown},
+            None if gv is None else bool(gv <= RE_SINGULAR_TOL))
+
+
+def legacy_primary(mm, co):
+    """The retired M155 selection rule as a PURE function (fit dicts in, (primary, me_ok) out), kept for the replay and the known-answer tests (M614 R6): the mixed model was the
+    headline iff it fitted, converged, returned a finite positive SE not blown up against the cluster-robust OLS SE. The shipped headline no longer uses it."""
+    c, _ = validity_components(mm, co)
+    me_ok = bool(c['fitted'] and c['seFinitePositive'] and c['converged'] and c['seNotBlownUp'])
+    return ('mixedEffects' if me_ok else 'clusterRobustOLS'), me_ok
+
+
 def _analyse(dm, ycol, unit, bounds, released_label, covars=('T',), icol=None):
     d = _prep(dm, ycol, icol=icol)
     if d.empty or d.shape[0] < 8:
@@ -206,60 +234,42 @@ def _analyse(dm, ycol, unit, bounds, released_label, covars=('T',), icol=None):
     co = _cluster_ols(d, covars=covars)
     # TOST uses the cluster-robust slope/SE (correct day-level inference,
     # convergence-independent). Candidate bounds only.
-    # Pick the reliable estimator: prefer the mixed model, but fall back to the
-    # cluster-robust OLS when the day random-effects covariance is singular
-    # (happens when a metric has too few drives/day to separate within-day
-    # variance, e.g. the load-excited vreg proxy).
-    # M155 (2026-08-22): harden the mixed-model acceptance gate. A finite,
-    # positive fixed-effect SE is NOT sufficient. statsmodels can report
-    # converged==True on a SINGULAR day random-effects covariance and still
-    # return a fixed-effect SE inflated by ~9 orders of magnitude (cellSpread:
-    # se=5.23e8 mV/mo, 95% CI +/-1.03e9) -- a numerical artifact, not an
-    # estimate, that the old finite-and-positive test admitted as PRIMARY and
-    # then fed into the TOST (tostSeUsed=5.23e8, equivCI90=+/-8.6e8). The mixed
-    # model is now accepted as primary only if it (a) returned a finite,
-    # positive SE, (b) converged, and (c) that SE is not blown up relative to
-    # the convergence-free cluster-robust OLS SE -- the boundary/singular tell.
-    # Otherwise the cluster-robust OLS is authoritative and the released slope
-    # inherits its slope/SE via the (b, se) selection below. (Post-P0-05 the TOST
-    # ALWAYS uses the cluster-robust OLS regardless of this selection -- see the
-    # equivalence-test block below -- so a mixed-primary metric no longer feeds a
-    # mixed slope/SE into a cluster-derived df.) This fits no new model; it stops
-    # publishing an already-computed singular one. Audit remediation, section 6
-    # "Critical released-model failure".
-    SE_BLOWUP_FACTOR = 25.0    # order-of-magnitude guard: the singular case
-                               # exceeds it by ~1e8, any valid fit is far under.
-    mm_se = mm.get('se')
-    co_se = co.get('se')
-    se_finite_pos = (mm_se is not None and np.isfinite(mm_se) and mm_se > 0)
-    se_not_blownup = (se_finite_pos and co_se is not None and co_se > 0
-                      and mm_se <= SE_BLOWUP_FACTOR * co_se)
-    me_ok = ('slope' in mm and se_finite_pos
-             and bool(mm.get('converged', False)) and se_not_blownup)
-    primary = 'mixedEffects' if me_ok else 'clusterRobustOLS'
+    # M614 (2026-11-11, spec analyses/M614_spec.md Rev 1, Director review): the HEADLINE estimator is always the day-clustered cluster-robust OLS (slope, SE and t(G-1) interval from one
+    # model, the same one the equivalence test uses). It replaces the M155 rule "prefer the mixed model when it is valid", whose outcome flipped between ingestions because
+    # the mixed fit (one lbfgs run) did not always complete or converge (blind audit M614, erratum E2: with fallback solvers every replay prefix converged and none was singular); the
+    # outcome was a property of one optimiser run, not of the vehicle. This is a stated deviation from M155 and a
+    # supersession of the M608 rule, not of the M608 figure. The mixed model is always computed and reported as a SENSITIVITY with its validity components; its status never
+    # changes the headline. legacy_primary() keeps the retired rule as a pure function for the replay and the tests.
+    comp, re_sing = validity_components(mm, co)
+    _legacy, me_ok = legacy_primary(mm, co)
+    valid = bool(me_ok and re_sing is False)
+    mm_se, co_se = mm.get('se'), co.get('se')
+    mm['valid'] = valid
+    mm['validity'] = comp
+    mm['reCovarianceSingular'] = re_sing
+    mm['seRatioToOLS'] = (_jround(mm_se / co_se, 3) if (comp['seFinitePositive'] and co_se is not None and co_se > 0) else None)
+    gv, rv = mm.get('groupVar'), mm.get('residVar')
+    mm['varianceRatio'] = _jround(gv / rv, 4) if (gv is not None and rv is not None and rv > 0) else None
     if not me_ok:
-        mm['degenerate'] = True
+        mm['degenerate'] = True                  # kept for existing readers (release_check, f03_followups, the estimator gate)
         if 'slope' not in mm:
-            reason = ('mixed model failed to fit (' + str(mm.get('error', 'unknown'))
-                      + ')')
-        elif not bool(mm.get('converged', False)):
+            reason = ('mixed model failed to fit (' + str(mm.get('error', 'unknown')) + ')')
+        elif not comp['converged']:
             reason = 'mixed-model optimiser did not converge'
-        elif not se_finite_pos:
+        elif not comp['seFinitePositive']:
             reason = 'fixed-effect SE non-finite or non-positive'
         else:
-            reason = ('singular day random-effects covariance: fixed-effect SE '
+            reason = (('singular day random-effects covariance: ' if re_sing else '') + 'fixed-effect SE '
                       f'({mm_se:.3g}) exceeds {SE_BLOWUP_FACTOR:g}x the '
                       f'convergence-free cluster-robust OLS SE ({co_se:.3g})')
         mm['degenerateNote'] = (
-            reason + '. Cluster-robust OLS is authoritative for this metric; '
-            'both the released slope and the TOST use its slope/SE. The '
-            'mixed-effects block is retained for transparency only '
-            '(M155, 2026-08-22).')
-        if mm.get('groupVar') is not None:
-            mm['reCovarianceSingular'] = bool(mm['groupVar'] <= 1e-8)
-    # Headline point estimate: prefer the mixed model when it is a valid,
-    # non-singular fit; otherwise the cluster-robust OLS (see `primary` above).
-    b, se = (mm['slope'], mm['se']) if me_ok else (co['slope'], co['se'])
+            reason + '. The mixed-effects block is a sensitivity only: the cluster-robust OLS is the headline '
+            'estimator for every metric (M614) and the TOST uses it too; the validity components above say why this fit is not valid.')
+    elif re_sing:
+        mm['degenerateNote'] = ('day random-intercept variance at the singular boundary (<= ' + f'{RE_SINGULAR_TOL:g}' + '): the fixed-effect SE is then a model-based iid SE, '
+                                'not a day-robust one; the mixed-effects block is a sensitivity only (M614).')
+    primary = 'clusterRobustOLS'
+    headline_vs_mixed = (_jround((mm['slope'] - co['slope']) / co_se, 3) if (comp['fitted'] and co_se is not None and co_se > 0) else None)
     # --- Equivalence test (TOST) estimator basis --------------------------
     # P0-05 (audit 2026-08-27): a TOST is only valid if slope, SE, AND the
     # reference distribution come from ONE coherent inferential model. The
@@ -292,10 +302,10 @@ def _analyse(dm, ycol, unit, bounds, released_label, covars=('T',), icol=None):
         'nDays': int(d['day'].nunique()),
         'windowMonths': round(float(d['months'].max()), 2),
         'primaryEstimator': primary,
-        # P0-05: the equivalence test is always the day-clustered cluster-robust
-        # OLS (slope/SE/df from one model); the headline primaryEstimator above
-        # may differ (it is the point-estimate preference). Both fits are exposed
-        # below (mixedEffects / clusterRobustOLS) for full transparency.
+        'headlineEstimatorRule': HEADLINE_RULE,
+        # M614: headline and equivalence test are the same day-clustered cluster-robust OLS (slope, SE and reference from one model, P0-05). The mixed model is the
+        # sensitivity (mixedEffects, with validity components); headlineVsMixed is the signed difference of the two slopes in OLS standard errors (null when the mixed fit failed).
+        'headlineVsMixed': headline_vs_mixed,
         'tostEstimatorBasis': 'clusterRobustOLS',
         'tostSlopeUsed': round(float(tost_b), 4),
         'tostSeUsed': round(float(tost_se), 4),
