@@ -3,7 +3,7 @@
  "specRev": 1,
  "stats": {
   "cacheHits": 632,
-  "extracted": 0,
+  "extracted": 33,
   "noRaw": 0,
   "notOk": 0
  },
@@ -70,9 +70,9 @@
   "binS": 10.0
  },
  "population": {
-  "drives": 632,
-  "readable": 632,
-  "days": 126
+  "drives": 665,
+  "readable": 665,
+  "days": 130
  },
  "channels": {
   "intake": {
@@ -80,14 +80,14 @@
     "firstValidDate": "2026-05-11",
     "lastValidDate": "2026-08-24",
     "nValid": 270,
-    "nAfterLastValid": 354
+    "nAfterLastValid": 387
    },
    "byStratum": {
     "fast": {
-     "nDrives": 196,
-     "nDays": 41,
+     "nDrives": 228,
+     "nDays": 45,
      "flags": {
-      "absent": 14,
+      "absent": 46,
       "ok": 41,
       "empty": 141
      },
@@ -96,12 +96,13 @@
      "nSentinel100": 17526
     },
     "slow": {
-     "nDrives": 424,
-     "nDays": 87,
+     "nDrives": 425,
+     "nDays": 88,
      "flags": {
       "gappy": 19,
       "ok": 205,
-      "empty": 200
+      "empty": 200,
+      "absent": 1
      },
      "medianOfDriveMedianIntervalS": 1.2735000000000554,
      "nOutOfWindow": 11528,
@@ -123,14 +124,15 @@
    "sensitivities": {
     "cov25": {
      "fast": {
-      "absent": 14,
+      "absent": 46,
       "ok": 41,
       "empty": 141
      },
      "slow": {
       "gappy": 19,
       "ok": 205,
-      "empty": 200
+      "empty": 200,
+      "absent": 1
      },
      "unknown": {
       "partial": 1,
@@ -140,7 +142,7 @@
     },
     "cov75": {
      "fast": {
-      "absent": 14,
+      "absent": 46,
       "ok": 41,
       "empty": 141
      },
@@ -148,7 +150,8 @@
       "gappy": 16,
       "ok": 204,
       "partial": 4,
-      "empty": 200
+      "empty": 200,
+      "absent": 1
      },
      "unknown": {
       "partial": 1,
@@ -158,14 +161,15 @@
     },
     "gap30": {
      "fast": {
-      "absent": 14,
+      "absent": 46,
       "ok": 41,
       "empty": 141
      },
      "slow": {
       "gappy": 39,
       "ok": 185,
-      "empty": 200
+      "empty": 200,
+      "absent": 1
      },
      "unknown": {
       "partial": 1,
@@ -176,14 +180,15 @@
     },
     "gap120": {
      "fast": {
-      "absent": 14,
+      "absent": 46,
       "ok": 41,
       "empty": 141
      },
      "slow": {
       "ok": 218,
       "gappy": 6,
-      "empty": 200
+      "empty": 200,
+      "absent": 1
      },
      "unknown": {
       "partial": 1,
@@ -193,14 +198,15 @@
     },
     "windowV6": {
      "fast": {
-      "absent": 14,
+      "absent": 46,
       "ok": 41,
       "empty": 141
      },
      "slow": {
       "gappy": 19,
       "ok": 205,
-      "empty": 200
+      "empty": 200,
+      "absent": 1
      },
      "unknown": {
       "partial": 1,
@@ -210,14 +216,15 @@
     },
     "windowRev0": {
      "fast": {
-      "absent": 14,
+      "absent": 46,
       "ok": 41,
       "empty": 141
      },
      "slow": {
       "gappy": 19,
       "ok": 205,
-      "empty": 200
+      "empty": 200,
+      "absent": 1
      },
      "unknown": {
       "partial": 1,
@@ -230,31 +237,31 @@
   "engineCoolant": {
    "epoch": {
     "firstValidDate": "2026-05-11",
-    "lastValidDate": "2026-11-05",
-    "nValid": 625,
+    "lastValidDate": "2026-11-09",
+    "nValid": 658,
     "nAfterLastValid": 0
    },
    "byStratum": {
     "fast": {
-     "nDrives": 196,
-     "nDays": 41,
+     "nDrives": 228,
+     "nDays": 45,
      "flags": {
       "partial": 2,
-      "ok": 194
+      "ok": 226
      },
-     "medianOfDriveMedianIntervalS": 4.140499999999989,
+     "medianOfDriveMedianIntervalS": 4.199000000000012,
      "nOutOfWindow": 0,
      "nSentinel100": 0
     },
     "slow": {
-     "nDrives": 424,
-     "nDays": 87,
+     "nDrives": 425,
+     "nDays": 88,
      "flags": {
       "gappy": 20,
-      "ok": 403,
+      "ok": 404,
       "partial": 1
      },
-     "medianOfDriveMedianIntervalS": 4.282000000000002,
+     "medianOfDriveMedianIntervalS": 4.301500000000004,
      "nOutOfWindow": 0,
      "nSentinel100": 0
     },
@@ -274,11 +281,11 @@
     "cov25": {
      "fast": {
       "partial": 2,
-      "ok": 194
+      "ok": 226
      },
      "slow": {
       "gappy": 20,
-      "ok": 403,
+      "ok": 404,
       "partial": 1
      },
      "unknown": {
@@ -289,11 +296,11 @@
     "cov75": {
      "fast": {
       "partial": 2,
-      "ok": 194
+      "ok": 226
      },
      "slow": {
       "gappy": 18,
-      "ok": 402,
+      "ok": 403,
       "partial": 4
      },
      "unknown": {
@@ -304,12 +311,12 @@
     "gap30": {
      "fast": {
       "partial": 2,
-      "ok": 193,
+      "ok": 225,
       "gappy": 1
      },
      "slow": {
       "gappy": 45,
-      "ok": 378,
+      "ok": 379,
       "partial": 1
      },
      "unknown": {
@@ -320,11 +327,11 @@
     "gap120": {
      "fast": {
       "partial": 2,
-      "ok": 194
+      "ok": 226
      },
      "slow": {
       "gappy": 9,
-      "ok": 414,
+      "ok": 415,
       "partial": 1
      },
      "unknown": {
@@ -335,11 +342,11 @@
     "windowV6": {
      "fast": {
       "partial": 2,
-      "ok": 194
+      "ok": 226
      },
      "slow": {
       "gappy": 20,
-      "ok": 403,
+      "ok": 404,
       "partial": 1
      },
      "unknown": {
@@ -350,11 +357,11 @@
     "windowRev0": {
      "fast": {
       "partial": 2,
-      "ok": 194
+      "ok": 226
      },
      "slow": {
       "gappy": 20,
-      "ok": 403,
+      "ok": 404,
       "partial": 1
      },
      "unknown": {
@@ -367,31 +374,31 @@
   "hvCoolant": {
    "epoch": {
     "firstValidDate": "2026-05-11",
-    "lastValidDate": "2026-11-05",
-    "nValid": 626,
+    "lastValidDate": "2026-11-09",
+    "nValid": 659,
     "nAfterLastValid": 0
    },
    "byStratum": {
     "fast": {
-     "nDrives": 196,
-     "nDays": 41,
+     "nDrives": 228,
+     "nDays": 45,
      "flags": {
       "gappy": 1,
-      "ok": 191,
+      "ok": 223,
       "partial": 4
      },
-     "medianOfDriveMedianIntervalS": 0.8280000000000101,
+     "medianOfDriveMedianIntervalS": 0.8394999999999655,
      "nOutOfWindow": 0,
      "nSentinel100": 0
     },
     "slow": {
-     "nDrives": 424,
-     "nDays": 87,
+     "nDrives": 425,
+     "nDays": 88,
      "flags": {
-      "ok": 407,
+      "ok": 408,
       "gappy": 17
      },
-     "medianOfDriveMedianIntervalS": 2.136249999999986,
+     "medianOfDriveMedianIntervalS": 2.1389999999999816,
      "nOutOfWindow": 12,
      "nSentinel100": 0
     },
@@ -412,11 +419,11 @@
     "cov25": {
      "fast": {
       "gappy": 1,
-      "ok": 191,
+      "ok": 223,
       "partial": 4
      },
      "slow": {
-      "ok": 407,
+      "ok": 408,
       "gappy": 17
      },
      "unknown": {
@@ -428,11 +435,11 @@
     "cov75": {
      "fast": {
       "gappy": 1,
-      "ok": 191,
+      "ok": 223,
       "partial": 4
      },
      "slow": {
-      "ok": 402,
+      "ok": 403,
       "gappy": 13,
       "partial": 9
      },
@@ -445,11 +452,11 @@
     "gap30": {
      "fast": {
       "gappy": 1,
-      "ok": 191,
+      "ok": 223,
       "partial": 4
      },
      "slow": {
-      "ok": 385,
+      "ok": 386,
       "gappy": 39
      },
      "unknown": {
@@ -461,11 +468,11 @@
     },
     "gap120": {
      "fast": {
-      "ok": 192,
+      "ok": 224,
       "partial": 4
      },
      "slow": {
-      "ok": 417,
+      "ok": 418,
       "gappy": 7
      },
      "unknown": {
@@ -477,11 +484,11 @@
     "windowV6": {
      "fast": {
       "gappy": 1,
-      "ok": 191,
+      "ok": 223,
       "partial": 4
      },
      "slow": {
-      "ok": 407,
+      "ok": 408,
       "gappy": 17
      },
      "unknown": {
@@ -493,11 +500,11 @@
     "windowRev0": {
      "fast": {
       "gappy": 1,
-      "ok": 191,
+      "ok": 223,
       "partial": 4
      },
      "slow": {
-      "ok": 407,
+      "ok": 408,
       "gappy": 17
      },
      "unknown": {
@@ -511,32 +518,32 @@
   "engineIntake": {
    "epoch": {
     "firstValidDate": "2026-05-11",
-    "lastValidDate": "2026-11-05",
-    "nValid": 406,
+    "lastValidDate": "2026-11-09",
+    "nValid": 439,
     "nAfterLastValid": 0
    },
    "byStratum": {
     "fast": {
-     "nDrives": 196,
-     "nDays": 41,
+     "nDrives": 228,
+     "nDays": 45,
      "flags": {
       "partial": 2,
-      "ok": 194
+      "ok": 226
      },
-     "medianOfDriveMedianIntervalS": 0.8274999999999864,
+     "medianOfDriveMedianIntervalS": 0.8372500000000027,
      "nOutOfWindow": 0,
      "nSentinel100": 0
     },
     "slow": {
-     "nDrives": 424,
-     "nDays": 87,
+     "nDrives": 425,
+     "nDays": 88,
      "flags": {
       "partial": 3,
       "absent": 219,
-      "ok": 201,
+      "ok": 202,
       "gappy": 1
      },
-     "medianOfDriveMedianIntervalS": 1.4374999999999858,
+     "medianOfDriveMedianIntervalS": 1.4367499999999964,
      "nOutOfWindow": 0,
      "nSentinel100": 0
     },
@@ -556,12 +563,12 @@
     "cov25": {
      "fast": {
       "partial": 2,
-      "ok": 194
+      "ok": 226
      },
      "slow": {
       "partial": 3,
       "absent": 219,
-      "ok": 201,
+      "ok": 202,
       "gappy": 1
      },
      "unknown": {
@@ -572,12 +579,12 @@
     "cov75": {
      "fast": {
       "partial": 2,
-      "ok": 194
+      "ok": 226
      },
      "slow": {
       "partial": 3,
       "absent": 219,
-      "ok": 201,
+      "ok": 202,
       "gappy": 1
      },
      "unknown": {
@@ -588,14 +595,14 @@
     "gap30": {
      "fast": {
       "partial": 2,
-      "ok": 193,
+      "ok": 225,
       "gappy": 1
      },
      "slow": {
       "partial": 3,
       "absent": 219,
       "gappy": 6,
-      "ok": 196
+      "ok": 197
      },
      "unknown": {
       "partial": 5,
@@ -605,12 +612,12 @@
     "gap120": {
      "fast": {
       "partial": 2,
-      "ok": 194
+      "ok": 226
      },
      "slow": {
       "partial": 3,
       "absent": 219,
-      "ok": 201,
+      "ok": 202,
       "gappy": 1
      },
      "unknown": {
@@ -621,12 +628,12 @@
     "windowV6": {
      "fast": {
       "partial": 2,
-      "ok": 194
+      "ok": 226
      },
      "slow": {
       "partial": 3,
       "absent": 219,
-      "ok": 201,
+      "ok": 202,
       "gappy": 1
      },
      "unknown": {
@@ -637,12 +644,12 @@
     "windowRev0": {
      "fast": {
       "partial": 2,
-      "ok": 194
+      "ok": 226
      },
      "slow": {
       "partial": 3,
       "absent": 219,
-      "ok": 201,
+      "ok": 202,
       "gappy": 1
      },
      "unknown": {
@@ -993,91 +1000,92 @@
    }
   },
   "2026-11|fast": {
-   "nDrives": 17,
-   "nDays": 4,
+   "nDrives": 49,
+   "nDays": 8,
    "flags": {
     "intake": {
      "empty": 4,
-     "absent": 13
+     "absent": 45
     },
     "engineCoolant": {
-     "ok": 17
+     "ok": 49
     },
     "hvCoolant": {
      "partial": 4,
-     "ok": 13
+     "ok": 45
     },
     "engineIntake": {
-     "ok": 17
+     "ok": 49
     }
    },
    "ledgerKinds": {
-    "pair": 17
+    "pair": 49
    },
    "outcome": {
-    "rightCensored": 15,
-    "reached": 2
+    "rightCensored": 42,
+    "reached": 7
    }
   },
   "2026-11|slow": {
-   "nDrives": 9,
-   "nDays": 2,
+   "nDrives": 10,
+   "nDays": 3,
    "flags": {
     "intake": {
-     "empty": 9
+     "empty": 9,
+     "absent": 1
     },
     "engineCoolant": {
      "gappy": 1,
-     "ok": 8
+     "ok": 9
     },
     "hvCoolant": {
-     "ok": 9
+     "ok": 10
     },
     "engineIntake": {
-     "ok": 9
+     "ok": 10
     }
    },
    "ledgerKinds": {
-    "pair": 9
+    "pair": 10
    },
    "outcome": {
     "reached": 3,
-    "rightCensored": 6
+    "rightCensored": 7
    }
   }
  },
  "matrixTotals": {
-  "drives": 632,
-  "readable": 632
+  "drives": 665,
+  "readable": 665
  },
  "manualLedger": {
   "kinds": {
    "trapezoidal": 26,
-   "endpointPair": 537,
+   "endpointPair": 570,
    "singleValue": 69
   },
   "sourceClass": {
-   "vehicle_uncalibrated": 632
+   "vehicle_uncalibrated": 665
   },
   "readingTimes": "inferred (not logged)",
   "freshness": "not observable from the committed ledger"
  },
  "ambientPid": {
-  "drivesWithColumn": 114,
-  "drivesWithValid": 114,
+  "drivesWithColumn": 141,
+  "drivesWithValid": 141,
   "role": "coverage only"
  },
  "reconciliation": {
   "outcomeVsThermalSupportLedger": {
    "mine": {
     "notEligible:distanceNotPositive": 3,
-    "rightCensored": 272,
+    "rightCensored": 300,
     "notEligible:noValidCoolant": 6,
-    "reached": 351
+    "reached": 356
    },
    "ledger": {
-    "reached": 351,
-    "rightCensored": 272,
+    "reached": 356,
+    "rightCensored": 300,
     "notEligible:distanceNotPositive": 3,
     "notEligible:noValidCoolant": 6
    },
@@ -1095,13 +1103,13 @@
     "equal": true
    },
    "nDrivesAfterLastValid": {
-    "raw": 354,
-    "meta": 354,
+    "raw": 387,
+    "meta": 387,
     "equal": true
    },
    "nDrivesNoValue": {
-    "raw": 362,
-    "meta": 362,
+    "raw": 395,
+    "meta": 395,
     "equal": true
    }
   },
@@ -1110,6 +1118,6 @@
   "ok": true
  },
  "outcomeRule": "M418 hvcEngine80C (tools/thermal_support_ledger.raw_record): reached = coolant >= WARM_ENGINE_C (80 C); no cold-start gate; excluded by rule = notEligible:<reason>",
- "sidecarRows": 632,
- "rawListSha256": "42d325ce4a47410c0fa23da35f0aadcd9a075fb1cb706dc87aa889ef5e518033"
+ "sidecarRows": 665,
+ "rawListSha256": "a3b166ace42a4b32f14b9d8728fd903340a6eb7bedfc3c9f9aa69d1814cb216d"
 }

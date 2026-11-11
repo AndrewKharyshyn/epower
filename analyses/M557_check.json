@@ -417,9 +417,9 @@
    "nullMechanism": "where the pack charges normally below the knee no dissipation can occur, so the diverted power the reference method reports there is the method's upward bias; it is a bias reference, not a null test of the headline",
    "observedOutcome": {
     "ceilingKw": 12.2,
-    "coastKw": 10.9,
-    "methodBiasKw": 10.9,
-    "excessKw": 1.3
+    "coastKw": 11.0,
+    "methodBiasKw": 11.0,
+    "excessKw": 1.2
    },
    "wordingFlags": [
     "the payload block text uses the word 'measured' (reported, not changed)"
@@ -608,8 +608,8 @@
    "expectedOutcome": "bias_reference",
    "nullMechanism": "a drop of the residual autocorrelation after removing a slow mean also occurs under pure AR(1) in the harness, so the control is a reference for the drop and cannot by itself identify seasonal structure",
    "observedOutcome": {
-    "rhoPre": 0.29958,
-    "rhoPost": -0.02141
+    "rhoPre": 0.32261,
+    "rhoPost": 0.02469
    },
    "settledClass": "negative_control",
    "auditNotes": [
@@ -659,8 +659,8 @@
    "expectedOutcome": "bias_reference",
    "nullMechanism": "as for the cell-spread control: the drop under pure AR(1) is the reference",
    "observedOutcome": {
-    "rhoPre": 0.08843,
-    "rhoPost": -0.06893
+    "rhoPre": 0.05172,
+    "rhoPost": -0.04301
    },
    "settledClass": "negative_control",
    "auditNotes": [
@@ -716,15 +716,15 @@
    "expectedOutcome": "bias_reference",
    "nullMechanism": "specification S0 is the cluster-robust OLS used as the reference slope; it is a specification reference, not a null control",
    "observedOutcome": {
-    "slope": 1.1968,
-    "se": 0.5608,
-    "df": 101,
-    "pTOST": 0.8765,
+    "slope": 1.2486,
+    "se": 0.6162,
+    "df": 106,
+    "pTOST": 0.8723,
     "equivalent": false,
-    "nDrives": 279,
-    "nDays": 102,
+    "nDrives": 294,
+    "nDays": 107,
     "formula": "y ~ months + T + I",
-    "seMaxForEquivalence": 0.3276,
+    "seMaxForEquivalence": 0.3278,
     "equivalenceAttainable": false
    },
    "settledClass": "negative_control",
@@ -777,7 +777,7 @@
    "observedOutcome": {
     "allSlopesWithinQuarterHalfWidth": false,
     "tippingShiftBelowQuarterHalfWidth": false,
-    "T0DayHalfWidth": 1.2587,
+    "T0DayHalfWidth": 1.3697,
     "reading": "sensitivity to temperature specification or to its coefficient is present"
    },
    "settledClass": "decision_rule",

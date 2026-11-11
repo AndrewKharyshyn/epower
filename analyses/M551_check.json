@@ -2,13 +2,13 @@
  "milestone": "M551",
  "mode": "--splice",
  "stats": {
-  "cacheHits": 632,
+  "cacheHits": 665,
   "extracted": 0,
   "noRaw": 0,
   "notOk": 14
  },
  "reconciliation": {
-  "nCompared": 618,
+  "nCompared": 651,
   "nMisses": 0,
   "examples": [],
   "tolerance": {
@@ -18,33 +18,33 @@
  },
  "extractorSourceHash": "772068daba38f2fd",
  "populations": {
-  "withPairs": 618,
+  "withPairs": 651,
   "excludedNullOrAnomaly": 0,
-  "eligibleCanonicalClean": 616,
+  "eligibleCanonicalClean": 649,
   "notOk": 14
  },
  "strata": {
   "fast": {
-   "nDrives": 195,
-   "nDays": 40,
-   "nRunsAll": 26948,
-   "nRunsComplete": 26561,
-   "censoredRunSharePct": 1.436,
-   "censoredEnergySharePct": 3.335,
+   "nDrives": 227,
+   "nDays": 44,
+   "nRunsAll": 29733,
+   "nRunsComplete": 29278,
+   "censoredRunSharePct": 1.53,
+   "censoredEnergySharePct": 3.627,
    "hours": null,
    "overall": {
     "label": "all runs",
-    "nComplete": 26561,
-    "nAll": 26948,
+    "nComplete": 29278,
+    "nAll": 29733,
     "energyWh": {
      "completeOnly": {
       "median": {
-       "value": 3.7154,
+       "value": 3.5481,
        "ci95": [
         3.0903,
-        4.4668
+        4.2658
        ],
-       "nDays": 40
+       "nDays": 44
       },
       "p90": {
        "value": 44.6684,
@@ -52,7 +52,7 @@
         40.738,
         48.9779
        ],
-       "nDays": 40
+       "nDays": 44
       },
       "p99": {
        "value": 169.8244,
@@ -60,17 +60,17 @@
         162.181,
         186.2087
        ],
-       "nDays": 40
+       "nDays": 44
       }
      },
      "allRunsCensoredAsLowerBounds": {
       "median": {
-       "value": 3.8905,
+       "value": 3.7154,
        "ci95": [
         3.2359,
-        4.6774
+        4.4668
        ],
-       "nDays": 40
+       "nDays": 44
       },
       "p90": {
        "value": 46.7735,
@@ -78,7 +78,7 @@
         42.658,
         51.2861
        ],
-       "nDays": 40
+       "nDays": 44
       },
       "p99": {
        "value": 169.8244,
@@ -86,7 +86,7 @@
         162.181,
         186.2087
        ],
-       "nDays": 40
+       "nDays": 44
       }
      }
     },
@@ -98,23 +98,23 @@
         2.9512,
         3.3884
        ],
-       "nDays": 40
+       "nDays": 44
       },
       "p90": {
        "value": 16.9824,
        "ci95": [
-        15.4882,
+        16.2181,
         18.6209
        ],
-       "nDays": 40
+       "nDays": 44
       },
       "p99": {
        "value": 61.6595,
        "ci95": [
         56.2341,
-        70.7946
+        67.6083
        ],
-       "nDays": 40
+       "nDays": 44
       }
      },
      "allRunsCensoredAsLowerBounds": {
@@ -122,9 +122,9 @@
        "value": 3.2359,
        "ci95": [
         2.9512,
-        3.5481
+        3.3884
        ],
-       "nDays": 40
+       "nDays": 44
       },
       "p90": {
        "value": 18.6209,
@@ -132,87 +132,87 @@
         16.9824,
         21.3796
        ],
-       "nDays": 40
+       "nDays": 44
       },
       "p99": {
        "value": 74.131,
        "ci95": [
-        64.5654,
-        81.2831
+        67.6083,
+        85.1138
        ],
-       "nDays": 40
+       "nDays": 44
       }
      }
     },
     "below0.5Wh": {
      "countSharePct": {
-      "pct": 23.222,
+      "pct": 23.475,
       "ci95Pct": [
-       20.667,
-       25.668
+       21.202,
+       25.72
       ],
-      "nDays": 40
+      "nDays": 44
      },
      "energySharePct": {
-      "pct": 0.231,
+      "pct": 0.235,
       "ci95Pct": [
-       0.188,
+       0.195,
        0.276
       ],
-      "nDays": 40
+      "nDays": 44
      }
     },
     "below1Wh": {
      "countSharePct": {
-      "pct": 31.392,
+      "pct": 31.682,
       "ci95Pct": [
-       28.169,
-       34.375
+       28.819,
+       34.447
       ],
-      "nDays": 40
+      "nDays": 44
      },
      "energySharePct": {
-      "pct": 0.596,
+      "pct": 0.604,
       "ci95Pct": [
-       0.498,
-       0.701
+       0.514,
+       0.7
       ],
-      "nDays": 40
+      "nDays": 44
      }
     },
     "below2Wh": {
      "countSharePct": {
-      "pct": 40.936,
+      "pct": 41.222,
       "ci95Pct": [
-       37.557,
-       44.023
+       38.201,
+       44.067
       ],
-      "nDays": 40
+      "nDays": 44
      },
      "energySharePct": {
-      "pct": 1.454,
+      "pct": 1.464,
       "ci95Pct": [
-       1.265,
+       1.291,
        1.649
       ],
-      "nDays": 40
+      "nDays": 44
      }
     },
     "bin": "0.02 decade (log10 Wh and log10 s)"
    },
    "discharge": {
     "label": "discharge runs",
-    "nComplete": 13205,
-    "nAll": 13568,
+    "nComplete": 14552,
+    "nAll": 14974,
     "energyWh": {
      "completeOnly": {
       "median": {
-       "value": 5.1286,
+       "value": 4.8978,
        "ci95": [
         4.0738,
-        6.166
+        5.8884
        ],
-       "nDays": 40
+       "nDays": 44
       },
       "p90": {
        "value": 44.6684,
@@ -220,7 +220,7 @@
         40.738,
         46.7735
        ],
-       "nDays": 40
+       "nDays": 44
       },
       "p99": {
        "value": 117.4898,
@@ -228,7 +228,7 @@
         112.2018,
         128.825
        ],
-       "nDays": 40
+       "nDays": 44
       }
      },
      "allRunsCensoredAsLowerBounds": {
@@ -236,9 +236,9 @@
        "value": 5.3703,
        "ci95": [
         4.2658,
-        6.7608
+        6.4565
        ],
-       "nDays": 40
+       "nDays": 44
       },
       "p90": {
        "value": 44.6684,
@@ -246,15 +246,15 @@
         42.658,
         48.9779
        ],
-       "nDays": 40
+       "nDays": 44
       },
       "p99": {
-       "value": 123.0269,
+       "value": 117.4898,
        "ci95": [
         112.2018,
         128.825
        ],
-       "nDays": 40
+       "nDays": 44
       }
      }
     },
@@ -266,15 +266,15 @@
         3.5481,
         4.2658
        ],
-       "nDays": 40
+       "nDays": 44
       },
       "p90": {
        "value": 20.4174,
        "ci95": [
         18.6209,
-        22.3872
+        21.3796
        ],
-       "nDays": 40
+       "nDays": 44
       },
       "p99": {
        "value": 64.5654,
@@ -282,7 +282,7 @@
         58.8844,
         74.131
        ],
-       "nDays": 40
+       "nDays": 44
       }
      },
      "allRunsCensoredAsLowerBounds": {
@@ -290,105 +290,105 @@
        "value": 4.0738,
        "ci95": [
         3.7154,
-        4.6774
+        4.4668
        ],
-       "nDays": 40
+       "nDays": 44
       },
       "p90": {
        "value": 23.4423,
        "ci95": [
-        20.4174,
+        21.3796,
         26.9153
        ],
-       "nDays": 40
+       "nDays": 44
       },
       "p99": {
-       "value": 85.1138,
+       "value": 89.1251,
        "ci95": [
-        74.131,
+        77.6247,
         97.7237
        ],
-       "nDays": 40
+       "nDays": 44
       }
      }
     },
     "below0.5Wh": {
      "countSharePct": {
-      "pct": 19.674,
+      "pct": 19.929,
       "ci95Pct": [
-       16.932,
-       22.356
+       17.501,
+       22.393
       ],
-      "nDays": 40
+      "nDays": 44
      },
      "energySharePct": {
-      "pct": 0.217,
+      "pct": 0.22,
       "ci95Pct": [
-       0.168,
-       0.268
+       0.176,
+       0.266
       ],
-      "nDays": 40
+      "nDays": 44
      }
     },
     "below1Wh": {
      "countSharePct": {
-      "pct": 27.391,
+      "pct": 27.646,
       "ci95Pct": [
-       23.786,
-       30.794
+       24.431,
+       30.811
       ],
-      "nDays": 40
+      "nDays": 44
      },
      "energySharePct": {
-      "pct": 0.582,
+      "pct": 0.589,
       "ci95Pct": [
-       0.466,
-       0.706
+       0.484,
+       0.703
       ],
-      "nDays": 40
+      "nDays": 44
      }
     },
     "below2Wh": {
      "countSharePct": {
-      "pct": 36.236,
+      "pct": 36.51,
       "ci95Pct": [
-       32.217,
-       40.018
+       32.947,
+       39.976
       ],
-      "nDays": 40
+      "nDays": 44
      },
      "energySharePct": {
-      "pct": 1.424,
+      "pct": 1.438,
       "ci95Pct": [
-       1.197,
-       1.667
+       1.232,
+       1.657
       ],
-      "nDays": 40
+      "nDays": 44
      }
     },
     "bin": "0.02 decade (log10 Wh and log10 s)"
    },
    "charge": {
     "label": "charge runs",
-    "nComplete": 13356,
-    "nAll": 13380,
+    "nComplete": 14726,
+    "nAll": 14759,
     "energyWh": {
      "completeOnly": {
       "median": {
-       "value": 2.6915,
+       "value": 2.5704,
        "ci95": [
         2.2387,
-        3.2359
+        3.0903
        ],
-       "nDays": 40
+       "nDays": 44
       },
       "p90": {
        "value": 46.7735,
        "ci95": [
         40.738,
-        56.2341
+        53.7032
        ],
-       "nDays": 40
+       "nDays": 44
       },
       "p99": {
        "value": 204.1738,
@@ -396,7 +396,7 @@
         194.9845,
         223.8721
        ],
-       "nDays": 40
+       "nDays": 44
       }
      },
      "allRunsCensoredAsLowerBounds": {
@@ -404,17 +404,17 @@
        "value": 2.6915,
        "ci95": [
         2.2387,
-        3.2359
+        3.0903
        ],
-       "nDays": 40
+       "nDays": 44
       },
       "p90": {
        "value": 46.7735,
        "ci95": [
         40.738,
-        56.2341
+        53.7032
        ],
-       "nDays": 40
+       "nDays": 44
       },
       "p99": {
        "value": 204.1738,
@@ -422,7 +422,7 @@
         194.9845,
         223.8721
        ],
-       "nDays": 40
+       "nDays": 44
       }
      }
     },
@@ -434,7 +434,7 @@
         2.4547,
         2.6915
        ],
-       "nDays": 40
+       "nDays": 44
       },
       "p90": {
        "value": 14.1254,
@@ -442,7 +442,7 @@
         12.8825,
         15.4882
        ],
-       "nDays": 40
+       "nDays": 44
       },
       "p99": {
        "value": 58.8844,
@@ -450,7 +450,7 @@
         53.7032,
         64.5654
        ],
-       "nDays": 40
+       "nDays": 44
       }
      },
      "allRunsCensoredAsLowerBounds": {
@@ -460,7 +460,7 @@
         2.4547,
         2.6915
        ],
-       "nDays": 40
+       "nDays": 44
       },
       "p90": {
        "value": 14.1254,
@@ -468,110 +468,110 @@
         13.4896,
         15.4882
        ],
-       "nDays": 40
+       "nDays": 44
       },
       "p99": {
        "value": 58.8844,
        "ci95": [
-        53.7032,
+        56.2341,
         67.6083
        ],
-       "nDays": 40
+       "nDays": 44
       }
      }
     },
     "below0.5Wh": {
      "countSharePct": {
-      "pct": 26.73,
+      "pct": 26.979,
       "ci95Pct": [
-       24.248,
-       29.034
+       24.75,
+       29.1
       ],
-      "nDays": 40
+      "nDays": 44
      },
      "energySharePct": {
-      "pct": 0.243,
+      "pct": 0.247,
       "ci95Pct": [
-       0.204,
-       0.283
+       0.212,
+       0.285
       ],
-      "nDays": 40
+      "nDays": 44
      }
     },
     "below1Wh": {
      "countSharePct": {
-      "pct": 35.347,
+      "pct": 35.672,
       "ci95Pct": [
-       32.257,
-       38.035
+       32.894,
+       38.171
       ],
-      "nDays": 40
+      "nDays": 44
      },
      "energySharePct": {
-      "pct": 0.609,
+      "pct": 0.618,
       "ci95Pct": [
-       0.522,
-       0.699
+       0.537,
+       0.702
       ],
-      "nDays": 40
+      "nDays": 44
      }
     },
     "below2Wh": {
      "countSharePct": {
-      "pct": 45.583,
+      "pct": 45.878,
       "ci95Pct": [
-       42.47,
-       48.275
+       43.092,
+       48.379
       ],
-      "nDays": 40
+      "nDays": 44
      },
      "energySharePct": {
-      "pct": 1.481,
+      "pct": 1.488,
       "ci95Pct": [
-       1.315,
-       1.649
+       1.331,
+       1.648
       ],
-      "nDays": 40
+      "nDays": 44
      }
     },
     "bin": "0.02 decade (log10 Wh and log10 s)"
    },
    "deadbandSensitivity": {
     "1A": {
-     "nComplete": 24854,
-     "below1WhCountSharePct": 27.525,
-     "below1WhEnergySharePct": 0.568,
-     "residualDischargeKwh": 0.26,
-     "residualChargeKwh": 0.0723
+     "nComplete": 27395,
+     "below1WhCountSharePct": 27.874,
+     "below1WhEnergySharePct": 0.577,
+     "residualDischargeKwh": 0.2955,
+     "residualChargeKwh": 0.0855
     },
     "2A": {
-     "nComplete": 23863,
-     "below1WhCountSharePct": 23.953,
-     "below1WhEnergySharePct": 0.546,
-     "residualDischargeKwh": 1.2664,
-     "residualChargeKwh": 0.2971
+     "nComplete": 26314,
+     "below1WhCountSharePct": 24.177,
+     "below1WhEnergySharePct": 0.553,
+     "residualDischargeKwh": 1.5422,
+     "residualChargeKwh": 0.3348
     },
     "5A": {
-     "nComplete": 22956,
-     "below1WhCountSharePct": 17.268,
-     "below1WhEnergySharePct": 0.527,
-     "residualDischargeKwh": 12.0757,
-     "residualChargeKwh": 2.0758
+     "nComplete": 25258,
+     "below1WhCountSharePct": 17.377,
+     "below1WhEnergySharePct": 0.532,
+     "residualDischargeKwh": 13.4693,
+     "residualChargeKwh": 2.3241
     }
    }
   },
   "slow": {
-   "nDrives": 421,
-   "nDays": 87,
-   "nRunsAll": 73678,
-   "nRunsComplete": 72613,
-   "censoredRunSharePct": 1.445,
-   "censoredEnergySharePct": 2.867,
+   "nDrives": 422,
+   "nDays": 88,
+   "nRunsAll": 73735,
+   "nRunsComplete": 72668,
+   "censoredRunSharePct": 1.447,
+   "censoredEnergySharePct": 2.876,
    "hours": null,
    "overall": {
     "label": "all runs",
-    "nComplete": 72613,
-    "nAll": 73678,
+    "nComplete": 72668,
+    "nAll": 73735,
     "energyWh": {
      "completeOnly": {
       "median": {
@@ -580,7 +580,7 @@
         5.1286,
         6.166
        ],
-       "nDays": 87
+       "nDays": 88
       },
       "p90": {
        "value": 51.2861,
@@ -588,7 +588,7 @@
         48.9779,
         53.7032
        ],
-       "nDays": 87
+       "nDays": 88
       },
       "p99": {
        "value": 169.8244,
@@ -596,7 +596,7 @@
         162.181,
         177.8279
        ],
-       "nDays": 87
+       "nDays": 88
       }
      },
      "allRunsCensoredAsLowerBounds": {
@@ -606,7 +606,7 @@
         5.1286,
         6.4565
        ],
-       "nDays": 87
+       "nDays": 88
       },
       "p90": {
        "value": 51.2861,
@@ -614,7 +614,7 @@
         48.9779,
         53.7032
        ],
-       "nDays": 87
+       "nDays": 88
       },
       "p99": {
        "value": 169.8244,
@@ -622,7 +622,7 @@
         162.181,
         177.8279
        ],
-       "nDays": 87
+       "nDays": 88
       }
      }
     },
@@ -634,7 +634,7 @@
         3.5481,
         3.8905
        ],
-       "nDays": 87
+       "nDays": 88
       },
       "p90": {
        "value": 16.9824,
@@ -642,7 +642,7 @@
         16.2181,
         18.6209
        ],
-       "nDays": 87
+       "nDays": 88
       },
       "p99": {
        "value": 58.8844,
@@ -650,7 +650,7 @@
         53.7032,
         61.6595
        ],
-       "nDays": 87
+       "nDays": 88
       }
      },
      "allRunsCensoredAsLowerBounds": {
@@ -660,7 +660,7 @@
         3.7154,
         4.0738
        ],
-       "nDays": 87
+       "nDays": 88
       },
       "p90": {
        "value": 18.6209,
@@ -668,7 +668,7 @@
         16.9824,
         19.4984
        ],
-       "nDays": 87
+       "nDays": 88
       },
       "p99": {
        "value": 67.6083,
@@ -676,70 +676,70 @@
         61.6595,
         74.131
        ],
-       "nDays": 87
+       "nDays": 88
       }
      }
     },
     "below0.5Wh": {
      "countSharePct": {
-      "pct": 17.851,
+      "pct": 17.854,
       "ci95Pct": [
-       16.536,
-       19.012
+       16.594,
+       18.97
       ],
-      "nDays": 87
+      "nDays": 88
      },
      "energySharePct": {
       "pct": 0.165,
       "ci95Pct": [
-       0.148,
+       0.149,
        0.181
       ],
-      "nDays": 87
+      "nDays": 88
      }
     },
     "below1Wh": {
      "countSharePct": {
-      "pct": 24.88,
+      "pct": 24.884,
       "ci95Pct": [
-       23.191,
-       26.347
+       23.26,
+       26.302
       ],
-      "nDays": 87
+      "nDays": 88
      },
      "energySharePct": {
       "pct": 0.446,
       "ci95Pct": [
-       0.405,
-       0.485
+       0.406,
+       0.484
       ],
-      "nDays": 87
+      "nDays": 88
      }
     },
     "below2Wh": {
      "countSharePct": {
-      "pct": 33.736,
+      "pct": 33.743,
       "ci95Pct": [
-       31.791,
-       35.464
+       31.864,
+       35.411
       ],
-      "nDays": 87
+      "nDays": 88
      },
      "energySharePct": {
       "pct": 1.146,
       "ci95Pct": [
-       1.056,
-       1.233
+       1.058,
+       1.23
       ],
-      "nDays": 87
+      "nDays": 88
      }
     },
     "bin": "0.02 decade (log10 Wh and log10 s)"
    },
    "discharge": {
     "label": "discharge runs",
-    "nComplete": 36123,
-    "nAll": 37079,
+    "nComplete": 36150,
+    "nAll": 37108,
     "energyWh": {
      "completeOnly": {
       "median": {
@@ -748,7 +748,7 @@
         5.8884,
         7.4131
        ],
-       "nDays": 87
+       "nDays": 88
       },
       "p90": {
        "value": 48.9779,
@@ -756,7 +756,7 @@
         46.7735,
         51.2861
        ],
-       "nDays": 87
+       "nDays": 88
       },
       "p99": {
        "value": 134.8963,
@@ -764,7 +764,7 @@
         123.0269,
         141.2538
        ],
-       "nDays": 87
+       "nDays": 88
       }
      },
      "allRunsCensoredAsLowerBounds": {
@@ -774,7 +774,7 @@
         6.166,
         7.7625
        ],
-       "nDays": 87
+       "nDays": 88
       },
       "p90": {
        "value": 51.2861,
@@ -782,7 +782,7 @@
         48.9779,
         51.2861
        ],
-       "nDays": 87
+       "nDays": 88
       },
       "p99": {
        "value": 134.8963,
@@ -790,7 +790,7 @@
         128.825,
         141.2538
        ],
-       "nDays": 87
+       "nDays": 88
       }
      }
     },
@@ -802,7 +802,7 @@
         4.0738,
         4.6774
        ],
-       "nDays": 87
+       "nDays": 88
       },
       "p90": {
        "value": 19.4984,
@@ -810,7 +810,7 @@
         18.6209,
         20.4174
        ],
-       "nDays": 87
+       "nDays": 88
       },
       "p99": {
        "value": 61.6595,
@@ -818,7 +818,7 @@
         56.2341,
         67.6083
        ],
-       "nDays": 87
+       "nDays": 88
       }
      },
      "allRunsCensoredAsLowerBounds": {
@@ -826,9 +826,9 @@
        "value": 4.4668,
        "ci95": [
         4.2658,
-        4.8978
+        4.6774
        ],
-       "nDays": 87
+       "nDays": 88
       },
       "p90": {
        "value": 22.3872,
@@ -836,7 +836,7 @@
         20.4174,
         23.4423
        ],
-       "nDays": 87
+       "nDays": 88
       },
       "p99": {
        "value": 81.2831,
@@ -844,18 +844,18 @@
         74.131,
         93.3254
        ],
-       "nDays": 87
+       "nDays": 88
       }
      }
     },
     "below0.5Wh": {
      "countSharePct": {
-      "pct": 15.37,
+      "pct": 15.364,
       "ci95Pct": [
-       14.199,
-       16.436
+       14.168,
+       16.415
       ],
-      "nDays": 87
+      "nDays": 88
      },
      "energySharePct": {
       "pct": 0.155,
@@ -863,51 +863,51 @@
        0.138,
        0.171
       ],
-      "nDays": 87
+      "nDays": 88
      }
     },
     "below1Wh": {
      "countSharePct": {
-      "pct": 21.925,
+      "pct": 21.917,
       "ci95Pct": [
-       20.302,
-       23.333
+       20.318,
+       23.328
       ],
-      "nDays": 87
+      "nDays": 88
      },
      "energySharePct": {
       "pct": 0.432,
       "ci95Pct": [
-       0.386,
-       0.475
+       0.387,
+       0.474
       ],
-      "nDays": 87
+      "nDays": 88
      }
     },
     "below2Wh": {
      "countSharePct": {
-      "pct": 30.659,
+      "pct": 30.656,
       "ci95Pct": [
-       28.59,
-       32.459
+       28.627,
+       32.428
       ],
-      "nDays": 87
+      "nDays": 88
      },
      "energySharePct": {
-      "pct": 1.157,
+      "pct": 1.158,
       "ci95Pct": [
-       1.047,
-       1.263
+       1.049,
+       1.262
       ],
-      "nDays": 87
+      "nDays": 88
      }
     },
     "bin": "0.02 decade (log10 Wh and log10 s)"
    },
    "charge": {
     "label": "charge runs",
-    "nComplete": 36490,
-    "nAll": 36599,
+    "nComplete": 36518,
+    "nAll": 36627,
     "energyWh": {
      "completeOnly": {
       "median": {
@@ -916,7 +916,7 @@
         4.2658,
         5.3703
        ],
-       "nDays": 87
+       "nDays": 88
       },
       "p90": {
        "value": 53.7032,
@@ -924,7 +924,7 @@
         51.2861,
         56.2341
        ],
-       "nDays": 87
+       "nDays": 88
       },
       "p99": {
        "value": 194.9845,
@@ -932,7 +932,7 @@
         186.2087,
         204.1738
        ],
-       "nDays": 87
+       "nDays": 88
       }
      },
      "allRunsCensoredAsLowerBounds": {
@@ -942,7 +942,7 @@
         4.2658,
         5.3703
        ],
-       "nDays": 87
+       "nDays": 88
       },
       "p90": {
        "value": 53.7032,
@@ -950,7 +950,7 @@
         51.2861,
         56.2341
        ],
-       "nDays": 87
+       "nDays": 88
       },
       "p99": {
        "value": 194.9845,
@@ -958,7 +958,7 @@
         186.2087,
         204.1738
        ],
-       "nDays": 87
+       "nDays": 88
       }
      }
     },
@@ -970,7 +970,7 @@
         3.2359,
         3.3884
        ],
-       "nDays": 87
+       "nDays": 88
       },
       "p90": {
        "value": 14.7911,
@@ -978,7 +978,7 @@
         13.4896,
         15.4882
        ],
-       "nDays": 87
+       "nDays": 88
       },
       "p99": {
        "value": 53.7032,
@@ -986,7 +986,7 @@
         51.2861,
         58.8844
        ],
-       "nDays": 87
+       "nDays": 88
       }
      },
      "allRunsCensoredAsLowerBounds": {
@@ -996,7 +996,7 @@
         3.2359,
         3.3884
        ],
-       "nDays": 87
+       "nDays": 88
       },
       "p90": {
        "value": 14.7911,
@@ -1004,7 +1004,7 @@
         14.1254,
         15.4882
        ],
-       "nDays": 87
+       "nDays": 88
       },
       "p99": {
        "value": 53.7032,
@@ -1012,18 +1012,18 @@
         51.2861,
         58.8844
        ],
-       "nDays": 87
+       "nDays": 88
       }
      }
     },
     "below0.5Wh": {
      "countSharePct": {
-      "pct": 20.307,
+      "pct": 20.319,
       "ci95Pct": [
-       18.767,
-       21.652
+       18.847,
+       21.618
       ],
-      "nDays": 87
+      "nDays": 88
      },
      "energySharePct": {
       "pct": 0.175,
@@ -1031,72 +1031,72 @@
        0.157,
        0.192
       ],
-      "nDays": 87
+      "nDays": 88
      }
     },
     "below1Wh": {
      "countSharePct": {
-      "pct": 27.805,
+      "pct": 27.822,
       "ci95Pct": [
-       25.927,
-       29.395
+       26.028,
+       29.415
       ],
-      "nDays": 87
+      "nDays": 88
      },
      "energySharePct": {
       "pct": 0.459,
       "ci95Pct": [
-       0.419,
+       0.42,
        0.496
       ],
-      "nDays": 87
+      "nDays": 88
      }
     },
     "below2Wh": {
      "countSharePct": {
-      "pct": 36.783,
+      "pct": 36.798,
       "ci95Pct": [
-       34.677,
-       38.537
+       34.81,
+       38.536
       ],
-      "nDays": 87
+      "nDays": 88
      },
      "energySharePct": {
       "pct": 1.136,
       "ci95Pct": [
        1.059,
-       1.209
+       1.208
       ],
-      "nDays": 87
+      "nDays": 88
      }
     },
     "bin": "0.02 decade (log10 Wh and log10 s)"
    },
    "deadbandSensitivity": {
     "1A": {
-     "nComplete": 68532,
-     "below1WhCountSharePct": 21.688,
+     "nComplete": 68582,
+     "below1WhCountSharePct": 21.691,
      "below1WhEnergySharePct": 0.425,
-     "residualDischargeKwh": 0.5313,
-     "residualChargeKwh": 0.1136
+     "residualDischargeKwh": 0.5316,
+     "residualChargeKwh": 0.1135
     },
     "2A": {
-     "nComplete": 65998,
+     "nComplete": 66046,
      "below1WhCountSharePct": 19.022,
      "below1WhEnergySharePct": 0.41,
-     "residualDischargeKwh": 2.7158,
-     "residualChargeKwh": 0.5715
+     "residualDischargeKwh": 2.7205,
+     "residualChargeKwh": 0.5714
     },
     "5A": {
-     "nComplete": 62224,
-     "below1WhCountSharePct": 12.543,
+     "nComplete": 62274,
+     "below1WhCountSharePct": 12.548,
      "below1WhEnergySharePct": 0.356,
-     "residualDischargeKwh": 27.6031,
-     "residualChargeKwh": 4.6613
+     "residualDischargeKwh": 27.6199,
+     "residualChargeKwh": 4.6626
     }
    }
   }
  },
  "unknownCadenceDriveSharePct": 0.0,
- "rawListSha256": "42d325ce4a47410c0fa23da35f0aadcd9a075fb1cb706dc87aa889ef5e518033"
+ "rawListSha256": "a3b166ace42a4b32f14b9d8728fd903340a6eb7bedfc3c9f9aa69d1814cb216d"
 }

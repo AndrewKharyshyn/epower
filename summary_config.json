@@ -802,11 +802,43 @@
   },
   {
    "name": "Nov 5",
-   "phase": "Routine ingestion, one leg within a short window; no PID-configuration change; ambient 1°C",
-   "drives": 1,
-   "km": 5.9,
+   "phase": "Routine ingestion, four legs across the full day; PID configuration differs from the previous drive; ambient 1–4°C",
+   "drives": 4,
+   "km": 22.5,
    "type": "urban",
-   "note": "One urban leg, 5.9km / 26.2min, 1.87 kWh gross, GTC 0.89, -0.41 kWh net corr2p sum (net-charge bias). Ambients 1°C; thermal regime (raw class): 1 cold. Largest SoC swing: D1 (09:14, 5.9km, +1°C) SoC 48→80 (+33.0pp). Longest leg: D1 (09:14, 5.9km, +1°C). 1 of 1 ens_outlier_v2-clean, 1 of 1 sign_check ok."
+   "note": "Four urban legs, 22.5km / 65.5min, 6.91 kWh gross, GTC 3.29, -0.20 kWh net corr2p sum (net-charge bias). Ambients 1–4°C; thermal regime (raw class): 4 cold. Largest SoC swing: D1 (09:14, 5.9km, +1°C) SoC 48→80 (+33.0pp). Longest leg: D4 (21:52, 12.6km, +4°C). 4 of 4 ens_outlier_v2-clean, 4 of 4 sign_check ok."
+  },
+  {
+   "name": "Nov 6",
+   "phase": "Routine ingestion, four legs across the full day; PID configuration differs from the previous drive; ambient 3–8°C",
+   "drives": 4,
+   "km": 62.8,
+   "type": "urban",
+   "note": "Four urban legs, 62.8km / 97.5min, 12.83 kWh gross, GTC 6.11, -0.26 kWh net corr2p sum (net-charge bias). Ambients 3–8°C; thermal regime (raw class): 3 cold, 1 shoulder. Largest SoC swing: D1 (07:48, 4.2km, +5°C) SoC 46→80 (+34.5pp). Longest leg: D4 (21:23, 33.6km, +3°C). 4 of 4 ens_outlier_v2-clean, 4 of 4 sign_check ok."
+  },
+  {
+   "name": "Nov 7",
+   "phase": "Routine ingestion, eleven legs within a short window; PID configuration differs from the previous drive; ambient 1–4°C",
+   "drives": 11,
+   "km": 41.3,
+   "type": "urban",
+   "note": "Eleven urban legs, 41.3km / 122.8min, 12.10 kWh gross, GTC 5.76, -0.37 kWh net corr2p sum (net-charge bias). Ambients 1–4°C; thermal regime (raw class): 11 cold. Largest SoC swing: D1 (09:50, 4.1km, +2→1°C) SoC 43→82 (+39.0pp). Longest leg: D2 (11:24, 9.0km, +1→2°C). Unwarmed starts (oil and coolant within 3°C of ambient): D1 (oil 4°C / coolant 5°C at +2°C). 11 of 11 ens_outlier_v2-clean, 11 of 11 sign_check ok."
+  },
+  {
+   "name": "Nov 8",
+   "phase": "Routine ingestion, eight legs within a short window; PID configuration differs from the previous drive; ambient 2–5°C",
+   "drives": 8,
+   "km": 32.3,
+   "type": "urban",
+   "note": "Eight urban legs, 32.3km / 107.9min, 10.38 kWh gross, GTC 4.94, -0.20 kWh net corr2p sum (net-charge bias). Ambients 2–5°C; thermal regime (raw class): 8 cold. Largest SoC swing: D1 (11:49, 2.4km, +4°C) SoC 46→80 (+34.5pp). Longest leg: D8 (18:34, 15.0km, +3→2°C). Unwarmed starts (oil and coolant within 3°C of ambient): D1 (oil 1°C / coolant 3°C at +4°C). 8 of 8 ens_outlier_v2-clean, 7 of 8 sign_check ok."
+  },
+  {
+   "name": "Nov 9",
+   "phase": "Routine ingestion, seven legs across the full day; PID configuration differs from the previous drive; ambient 0–4°C",
+   "drives": 7,
+   "km": 15.1,
+   "type": "urban",
+   "note": "Seven urban legs, 15.1km / 52.6min, 5.64 kWh gross, GTC 2.68, -0.48 kWh net corr2p sum (net-charge bias). Ambients 0–4°C; thermal regime (raw class): 7 cold. Largest SoC swing: D4 (16:19, 2.1km, +4°C) SoC 48→82 (+35.0pp). Longest leg: D2 (08:04, 2.5km, +2°C). 7 of 7 ens_outlier_v2-clean, 7 of 7 sign_check ok."
   }
  ],
  "sessions": [
@@ -1631,10 +1663,38 @@
   },
   {
    "name": "Nov 5",
-   "drives": 1,
-   "km": 5.9,
+   "drives": 4,
+   "km": 22.5,
    "type": "urban",
-   "note": "One urban leg (09:14→09:14), 5.9km / 26.2min, 1.87 kWh gross, GTC 0.89, -0.41 kWh net corr2p sum (net-charge bias). Ambients 1°C; thermal regime (raw class): 1 cold. Largest SoC swing: D1 (09:14, 5.9km, +1°C) SoC 48→80 (+33.0pp). Longest leg: D1 (09:14, 5.9km, +1°C). 1 of 1 ens_outlier_v2-clean, 1 of 1 sign_check ok."
+   "note": "Four urban legs (09:14→21:52), 22.5km / 65.5min, 6.91 kWh gross, GTC 3.29, -0.20 kWh net corr2p sum (net-charge bias). Ambients 1–4°C; thermal regime (raw class): 4 cold. Largest SoC swing: D1 (09:14, 5.9km, +1°C) SoC 48→80 (+33.0pp). Longest leg: D4 (21:52, 12.6km, +4°C). 4 of 4 ens_outlier_v2-clean, 4 of 4 sign_check ok."
+  },
+  {
+   "name": "Nov 6",
+   "drives": 4,
+   "km": 62.8,
+   "type": "urban",
+   "note": "Four urban legs (07:48→21:23), 62.8km / 97.5min, 12.83 kWh gross, GTC 6.11, -0.26 kWh net corr2p sum (net-charge bias). Ambients 3–8°C; thermal regime (raw class): 3 cold, 1 shoulder. Largest SoC swing: D1 (07:48, 4.2km, +5°C) SoC 46→80 (+34.5pp). Longest leg: D4 (21:23, 33.6km, +3°C). 4 of 4 ens_outlier_v2-clean, 4 of 4 sign_check ok."
+  },
+  {
+   "name": "Nov 7",
+   "drives": 11,
+   "km": 41.3,
+   "type": "urban",
+   "note": "Eleven urban legs (09:50→16:54), 41.3km / 122.8min, 12.10 kWh gross, GTC 5.76, -0.37 kWh net corr2p sum (net-charge bias). Ambients 1–4°C; thermal regime (raw class): 11 cold. Largest SoC swing: D1 (09:50, 4.1km, +2→1°C) SoC 43→82 (+39.0pp). Longest leg: D2 (11:24, 9.0km, +1→2°C). Unwarmed starts (oil and coolant within 3°C of ambient): D1 (oil 4°C / coolant 5°C at +2°C). 11 of 11 ens_outlier_v2-clean, 11 of 11 sign_check ok."
+  },
+  {
+   "name": "Nov 8",
+   "drives": 8,
+   "km": 32.3,
+   "type": "urban",
+   "note": "Eight urban legs (11:49→18:34), 32.3km / 107.9min, 10.38 kWh gross, GTC 4.94, -0.20 kWh net corr2p sum (net-charge bias). Ambients 2–5°C; thermal regime (raw class): 8 cold. Largest SoC swing: D1 (11:49, 2.4km, +4°C) SoC 46→80 (+34.5pp). Longest leg: D8 (18:34, 15.0km, +3→2°C). Unwarmed starts (oil and coolant within 3°C of ambient): D1 (oil 1°C / coolant 3°C at +4°C). 8 of 8 ens_outlier_v2-clean, 7 of 8 sign_check ok."
+  },
+  {
+   "name": "Nov 9",
+   "drives": 7,
+   "km": 15.1,
+   "type": "urban",
+   "note": "Seven urban legs (07:45→20:12), 15.1km / 52.6min, 5.64 kWh gross, GTC 2.68, -0.48 kWh net corr2p sum (net-charge bias). Ambients 0–4°C; thermal regime (raw class): 7 cold. Largest SoC swing: D4 (16:19, 2.1km, +4°C) SoC 48→82 (+35.0pp). Longest leg: D2 (08:04, 2.5km, +2°C). 7 of 7 ens_outlier_v2-clean, 7 of 7 sign_check ok."
   }
  ],
  "speedDist": {
@@ -1760,8 +1820,8 @@
   }
  ],
  "vehicle": {
-  "odometerKm": 47477,
-  "odometerAsOf": "2026-11-05",
+  "odometerKm": 47673,
+  "odometerAsOf": "2026-11-09",
   "registered": "2024-08-07",
   "note": "odometerKm is the real dashboard reading (external ground truth); update it when you read the dash. It is NOT derivable from the OBD logs.",
   "capacityKwh": 2.1,
@@ -4217,6 +4277,138 @@
   "2026-11-03_19-55-57.csv": [
    6.0,
    6.0
+  ],
+  "2026-11-05_19-24-15.csv": [
+   4.0,
+   4.0
+  ],
+  "2026-11-05_19-52-41.csv": [
+   4.0,
+   4.0
+  ],
+  "2026-11-05_21-52-15.csv": [
+   4.0,
+   4.0
+  ],
+  "2026-11-06_07-48-22.csv": [
+   5.0,
+   5.0
+  ],
+  "2026-11-06_14-22-59.csv": [
+   8.0,
+   8.0
+  ],
+  "2026-11-06_20-45-43.csv": [
+   4.0,
+   3.0
+  ],
+  "2026-11-06_21-23-28.csv": [
+   3.0,
+   3.0
+  ],
+  "2026-11-07_09-50-01.csv": [
+   2.0,
+   1.0
+  ],
+  "2026-11-07_11-24-19.csv": [
+   1.0,
+   2.0
+  ],
+  "2026-11-07_11-51-36.csv": [
+   2.0,
+   2.0
+  ],
+  "2026-11-07_12-10-30.csv": [
+   2.0,
+   2.0
+  ],
+  "2026-11-07_13-47-43.csv": [
+   2.0,
+   3.0
+  ],
+  "2026-11-07_14-19-49.csv": [
+   3.0,
+   4.0
+  ],
+  "2026-11-07_14-45-12.csv": [
+   4.0,
+   4.0
+  ],
+  "2026-11-07_15-01-29.csv": [
+   4.0,
+   4.0
+  ],
+  "2026-11-07_15-08-05.csv": [
+   4.0,
+   4.0
+  ],
+  "2026-11-07_15-25-29.csv": [
+   4.0,
+   4.0
+  ],
+  "2026-11-07_16-54-28.csv": [
+   3.0,
+   3.0
+  ],
+  "2026-11-08_11-49-25.csv": [
+   4.0,
+   4.0
+  ],
+  "2026-11-08_12-26-11.csv": [
+   4.0,
+   4.0
+  ],
+  "2026-11-08_12-56-29.csv": [
+   4.0,
+   4.0
+  ],
+  "2026-11-08_13-09-32.csv": [
+   4.0,
+   4.0
+  ],
+  "2026-11-08_16-27-23.csv": [
+   5.0,
+   5.0
+  ],
+  "2026-11-08_16-34-56.csv": [
+   5.0,
+   5.0
+  ],
+  "2026-11-08_16-57-01.csv": [
+   5.0,
+   4.0
+  ],
+  "2026-11-08_18-34-25.csv": [
+   3.0,
+   2.0
+  ],
+  "2026-11-09_07-45-26.csv": [
+   2.0,
+   2.0
+  ],
+  "2026-11-09_08-04-01.csv": [
+   2.0,
+   2.0
+  ],
+  "2026-11-09_16-07-41.csv": [
+   4.0,
+   4.0
+  ],
+  "2026-11-09_16-19-16.csv": [
+   4.0,
+   4.0
+  ],
+  "2026-11-09_18-32-27.csv": [
+   1.0,
+   1.0
+  ],
+  "2026-11-09_19-54-36.csv": [
+   1.0,
+   1.0
+  ],
+  "2026-11-09_20-11-42.csv": [
+   0.0,
+   0.0
   ]
  },
  "_m62Terminology": {
@@ -4293,9 +4485,9 @@
   },
   "determinism": {
    "_provenance": "GENERATED by determinism_check.py on the current master (F-14, 2026-09-02): re-authored and regenerated, replacing the stale 2026-08-10 / 219-drive block. This block is a verbatim copy of the script output; if a fresh run and this value disagree, trust the fresh run and regenerate -- do not hand-edit.",
-   "generatedAt": "2026-11-05T14:13:06.113307+00:00",
-   "nDrives": 632,
-   "canonicalN": 632,
+   "generatedAt": "2026-11-10T21:47:33.746970+00:00",
+   "nDrives": 665,
+   "canonicalN": 665,
    "withinSessionRepeatPass": true,
    "canonicalSetReproducible": true,
    "canonicalSets": {
@@ -4305,10 +4497,10 @@
      "matchesFrozenMaster": true
     },
     "ens_extreme": {
-     "n": 41,
+     "n": 38,
      "exactFileIdentityMatch": true,
      "matchesFrozenMaster": false,
-     "frozenN": 46
+     "frozenN": 47
     },
     "ens_outlier_v2": {
      "n": 2,
@@ -4347,7 +4539,7 @@
     "statsmodels": "0.15.0"
    },
    "reproducibilityScope": "Self-audit P3-1 (2026-09-03). This harness proves bit-identical seed-stability ONLY for the ML16 ensemble-outlier stage (postprocess_master: KMeans/IsolationForest/LOF/MAD -> ens_* columns), run twice from scratch on the current master. It does NOT re-execute and does NOT prove reproducibility for: (1) the statsmodels-based degradation trends (degradation_trends.py -- cluster-robust OLS, mixed-effects GLM, TOST equivalence), which depend on the pinned statsmodels version recorded in packageVersions above (a statsmodels/scipy upgrade can shift numerical optimizer paths for the mixed-effects fit even with a fixed random seed); (2) energy_uncertainty_mc.py / energy_mc_precompute.py Monte Carlo draws, which are seeded but not covered by this harness; (3) m119v2_model.py (M119-v2 socHysteresisV2), which is frozen/carried-forward and not refit by default (see socHysteresisV2.recomputePolicy), including its own M222.1 rolling-origin CV re-fits and M222.2 detector reconciliation; (4) interDriveCarryover's (M223.1) day-clustered bootstrap OLS (seeded, seed=42) and its secondary day random-intercept mixed-effects check, which shares the same statsmodels-version sensitivity as (1) and separately can fail to converge on a singular random-effects covariance at low pairs-per-day density (observed and reported as such, not a reproducibility failure of this harness); (5) regimeTransition's (M223.2) day-block-preserving permutation test (seeded, seed=42, 4000 draws) and its Dirichlet/day-clustered-bootstrap per-cell uncertainty intervals (seeded, 1000 draws), neither re-executed here; (6) dailyFingerprints' (M227.2) k-means clustering (seed=42) and its day-bootstrap adjusted-Rand-index stability check (200 resamples, seed=42), neither re-executed here. Treat this block as scoped evidence for the ML16 exclusion set only, not a whole-pipeline determinism proof.",
-   "note": "Generated live by determinism_check.py on the current 632-drive master. postprocess_master() is run twice from scratch; the ML16 ensemble (KMeans k=3 n_init=20, IsolationForest 500 trees contamination 0.06, LOF n_neighbors=15, MAD gates) is seeded (random_state=42), so the two runs are bit-identical and the canonical exclusion reproduces exactly by file identity. Validity is conditional on packageVersions. See reproducibilityScope for what this proof does and does not cover.",
+   "note": "Generated live by determinism_check.py on the current 665-drive master. postprocess_master() is run twice from scratch; the ML16 ensemble (KMeans k=3 n_init=20, IsolationForest 500 trees contamination 0.06, LOF n_neighbors=15, MAD gates) is seeded (random_state=42), so the two runs are bit-identical and the canonical exclusion reproduces exactly by file identity. Validity is conditional on packageVersions. See reproducibilityScope for what this proof does and does not cover.",
    "harness": "ml16_determinism_check",
    "scopeLabel": "ML16 ensemble-outlier labelling stage only (postprocess_master -> ens_* columns). Not a whole-pipeline determinism proof; see reproducibilityScope for what is not covered.",
    "releaseTest": "release_check.py (M284) covers clean-environment front-end rebuild, validation and derived-artefact consistency; a raw-CSV -> drive_master rebuild in a clean environment remains OPEN."

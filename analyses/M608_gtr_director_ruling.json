@@ -1,0 +1,14 @@
+{
+ "milestone": "M608",
+ "date": "2026-11-10",
+ "decider": "research-director (Opus), main-session dispatch",
+ "decision": "revise",
+ "summary": "Use the scoped M466 flip ack (XT_ACK_GTR_FLIP) after a blind audit; no one-off skip, no code bypass. Axis set corrected from 8 to 7 (P_aux low 0.4993 unrounded). Conditions: BASE point estimate inside [0.425,0.580]; gtrClosure fGen inside its previous CI; no boolean flip other than the stated one; n_days/key-set/allow-list pass; only FLIP_STOP in gtr_family_delta. CHANGELOG: set 8->7, n 402/72->435/76, BASE track 0.518->0.516->0.515->0.509, cold penalty heavy 0.0007 above 0.5.",
+ "language": "f_gen estimated/reconstructed/model-derived, never measured; '7 of 10 sensitivity variants at or above 0.5; point estimate within an interval containing 0.5; side of 0.5 not established', with CI and n (435 drives, 76 days); never generator majority, reversal, flip back, confirmed, corrected; not a statement about the buffer thesis.",
+ "followUps": [
+  "separate tooling milestone: re-specify the sensitivity reading rule as a stop on CHANGE (axis set or BASE side of 0.5 vs the previous block, or BASE leaving its previous CI) with spec, synthetic tests, blind audit",
+  "add reCovarianceSingular check to me_ok (resistanceVreg) and a hysteresis rule against estimator basis flipping"
+ ],
+ "blindAudit": "analyses/M608_blind_audit/result.json",
+ "needsAndriiSignoff": false
+}

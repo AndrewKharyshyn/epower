@@ -1,0 +1,34 @@
+{
+ "note": "Transcribed by the main session from the analytical-auditor hand-back; the auditor's script and original result.json were deleted by a journal --recover (files created after the snapshot) and are not recoverable. Re-run the audit before merge if the original files are required.",
+ "verdict": "accept",
+ "n_drives": 435,
+ "n_days": 76,
+ "base": {
+  "estimate": 0.509131,
+  "ci95": [
+   0.4196,
+   0.5694
+  ],
+  "method": "day-clustered percentile bootstrap, seed 42, 4000 draws, ratio of sums"
+ },
+ "axes_unrounded": {
+  "BASE": 0.509131,
+  "BSFC_opt": 0.5282,
+  "BSFC_cons": 0.478167,
+  "eta_gen_low": 0.489678,
+  "eta_gen_high": 0.516636,
+  "Paux_low": 0.499282,
+  "Paux_high": 0.530626,
+  "cold_off": 0.527018,
+  "cold_heavy": 0.500668,
+  "OPT_wide": 0.509613
+ },
+ "axes_at_or_above_0.5": 7,
+ "agrees_with_claim": true,
+ "caveats": [
+  "reused recon_engine/model_constants/fuel_recon model code: tests aggregation, eligibility, numerics, not model physics",
+  "P_aux low 0.0007 below and cold_heavy 0.0007 above 0.5",
+  "BASE CI contains 0.5: side of 0.5 not established",
+  "variants are correlated deterministic perturbations, not independent evidence"
+ ]
+}

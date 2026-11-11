@@ -291,6 +291,14 @@ def build():
                     drives, spec["adjustOutcome"], "thermal_regime", "warm", "cold",
                     covariates=ADJ_COVARIATES, n_boot=200),
             }
+            # M608 (Director ruling 2026-11-10): an available contrast whose covariate balance was not achieved carries a script-written exploratory label (stored, not rendered)
+            for _blk in entry["adjusted"].values():
+                _cs = _blk.get("commonSupport") or {}
+                if _blk.get("status") == "available" and _cs.get("balanceOk") is False:
+                    _smd = _cs.get("smdOverlapWeighted") or {}
+                    _mx = max(_smd, key=lambda k: abs(_smd[k])) if _smd else None
+                    _blk["label"] = ("exploratory; covariate balance not achieved (largest overlap-weighted SMD %s on %s, tolerance %s); %s valid bootstrap draws of %s requested; stored, not rendered"
+                                     % (("%.3f" % abs(_smd[_mx])) if _mx else "n/a", _mx, SA.SMD_TOL, _blk.get("nBootValid"), _blk.get("nBootRequested")))
         charts[chart] = entry
 
     # ---- WarmupCurve: per-cohort multiline warm-up trajectory (raw-derived) ----

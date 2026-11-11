@@ -357,16 +357,33 @@ def cond_lodo_matches_k10(prev, cur, path, bound, rule):
     return kp != kc and kc == lodo
 
 
+def cond_lost_leaf_ack(prev, cur, path, bound, rule):
+    """M608 (Director ruling analyses/M608_leaf_guard_director_ruling.json, G6; spec analyses/M608_lost_leaf_ack_spec.md). A leaf of a list that new data EMPTIED has no sibling in the
+    current payload to bind a rule to. It may vanish only when an acknowledgement file pins it: a recorded ruling, the live drive_master.csv MD5, and the exact leaf path together with the
+    value it had in the previous payload (the value the Director reviewed). Any other lost leaf, any other master or a different previous value is refused."""
+    try:
+        import hashlib
+        ack = json.load(open(os.path.join(ROOT, rule["ackFile"]), encoding="utf-8"))
+        md5 = hashlib.md5(open(os.path.join(ROOT, "drive_master.csv"), "rb").read()).hexdigest()
+        if not (ack.get("ruling") and ack.get("masterMd5") == md5):
+            return False
+        ent = (ack.get("leaves") or {}).get("/".join(str(x) for x in path))
+        return ent is not None and ent.get("previous") == get(prev, path)
+    except (KeyError, IndexError, TypeError, AttributeError, OSError, ValueError):
+        return False
+
+
 CONDITIONS = {"field_changed": cond_field_changed, "stamp_hash_changed": cond_stamp_hash_changed, "parent_null_in_current": cond_parent_null_in_current, "sibling_present": cond_sibling_present,
               "field_changed_and_empty": cond_field_changed_and_empty, "cohort_min_support_crossed": cond_cohort_min_support_crossed, "placeholder_row_observed": cond_placeholder_row_observed, "moved_to_complement_list": cond_moved_to_complement_list,
               "refit_recompute_transition": cond_refit_recompute_transition, "f03_list_cleared_by_refit": cond_f03_list_cleared_by_refit, "fit_attempts_shortened_converged": cond_fit_attempts_shortened_converged,
-              "list_shortened_nonempty": cond_list_shortened_nonempty, "two_part_switch": cond_two_part_switch, "trendslope_flip_ack": cond_trendslope_flip_ack, "stamp_computed_at_set": cond_stamp_computed_at_set, "lodo_matches_k10": cond_lodo_matches_k10}
+              "list_shortened_nonempty": cond_list_shortened_nonempty, "two_part_switch": cond_two_part_switch, "trendslope_flip_ack": cond_trendslope_flip_ack, "stamp_computed_at_set": cond_stamp_computed_at_set, "lodo_matches_k10": cond_lodo_matches_k10,
+              "lost_leaf_ack": cond_lost_leaf_ack}
 
 
 REQUIRED_PARAMS = {"sibling_present": ("sibling",), "field_changed": ("entryDepth", "field"), "field_changed_and_empty": ("entryDepth", "field"), "placeholder_row_observed": ("entryDepth", "allowedLeaves", "observedFields"),
                    "moved_to_complement_list": ("listField", "complementField"), "trendslope_flip_ack": ("listField", "complementField", "ackFile"), "stamp_computed_at_set": ("keys",),
                    "refit_recompute_transition": ("prevMode", "curMode", "prevCorpus", "curCorpus"), "f03_list_cleared_by_refit": ("prevMode", "curMode", "prevCorpus", "curCorpus"),
-                   "two_part_switch": ("threshold",)}
+                   "two_part_switch": ("threshold",), "lost_leaf_ack": ("ackFile",)}
 
 
 def check_rules(rules):

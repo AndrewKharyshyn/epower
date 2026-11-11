@@ -1,0 +1,5575 @@
+{
+ "prevRef": "HEAD",
+ "prevMasterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72",
+ "newMasterMd5": "77bbe275f8c22eaf62d8636867764af3",
+ "c2": {
+  "nIntervalBearingPrev": 800,
+  "nComparable": 800,
+  "nLeftPrevInterval": 0,
+  "nStatusChanged": 140,
+  "nCellsPrev": 2160,
+  "nCellsNew": 2160,
+  "cells": [
+   {
+    "cell": "all/fast/speed/band 40-50/30-40",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 61.24,
+     "ci95": null,
+     "n": 12,
+     "drives": 3,
+     "days": 3
+    },
+    "new": {
+     "status": "thin",
+     "eff": 65.6,
+     "ci95": null,
+     "n": 14,
+     "drives": 4,
+     "days": 4
+    },
+    "newDrivesOnly": {
+     "status": "failed",
+     "eff": 87.35,
+     "ci95": null,
+     "n": 2,
+     "drives": 1,
+     "days": 1,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "all/fast/temperature/allSoc/0–10°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 17.7,
+     "ci95": null,
+     "n": 60,
+     "drives": 2,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 43.91,
+     "ci95": [
+      17.7,
+      49.73
+     ],
+     "n": 349,
+     "drives": 8,
+     "days": 5
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 46.58,
+     "ci95": null,
+     "n": 289,
+     "drives": 6,
+     "days": 3,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "all/fast/temperature/band 50-55/0–10°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 3.13,
+     "ci95": null,
+     "n": 27,
+     "drives": 2,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 38.08,
+     "ci95": null,
+     "n": 75,
+     "drives": 5,
+     "days": 4
+    },
+    "newDrivesOnly": {
+     "status": "failed",
+     "eff": 47.01,
+     "ci95": null,
+     "n": 48,
+     "drives": 3,
+     "days": 2,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "all/fast/temperature/band 63-66/0–10°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 49.77,
+     "ci95": null,
+     "n": 40,
+     "drives": 3,
+     "days": 2
+    },
+    "newDrivesOnly": {
+     "status": "failed",
+     "eff": 49.77,
+     "ci95": null,
+     "n": 40,
+     "drives": 3,
+     "days": 2,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "all/fast/temperature/band 66-69/0–10°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 54.12,
+     "ci95": null,
+     "n": 33,
+     "drives": 3,
+     "days": 2
+    },
+    "newDrivesOnly": {
+     "status": "failed",
+     "eff": 54.12,
+     "ci95": null,
+     "n": 33,
+     "drives": 3,
+     "days": 2,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "all/fast/temperature/band 69-72/0–10°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 0.58,
+     "ci95": null,
+     "n": 7,
+     "drives": 2,
+     "days": 2
+    },
+    "newDrivesOnly": {
+     "status": "failed",
+     "eff": 0.58,
+     "ci95": null,
+     "n": 7,
+     "drives": 2,
+     "days": 2,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "all/fast/temperature/band 72-100/0–10°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 39.34,
+     "ci95": null,
+     "n": 68,
+     "drives": 4,
+     "days": 3
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 39.34,
+     "ci95": null,
+     "n": 68,
+     "drives": 4,
+     "days": 3,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "all/fast/zones10/band 40-50/30-60",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 61.24,
+     "ci95": null,
+     "n": 12,
+     "drives": 3,
+     "days": 3
+    },
+    "new": {
+     "status": "thin",
+     "eff": 65.6,
+     "ci95": null,
+     "n": 14,
+     "drives": 4,
+     "days": 4
+    },
+    "newDrivesOnly": {
+     "status": "failed",
+     "eff": 87.35,
+     "ci95": null,
+     "n": 2,
+     "drives": 1,
+     "days": 1,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/allSoc/0-10",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "thin",
+     "eff": 10.32,
+     "ci95": null,
+     "n": 287,
+     "drives": 13,
+     "days": 4
+    },
+    "new": {
+     "status": "supported",
+     "eff": 12.01,
+     "ci95": [
+      10.95,
+      13.4
+     ],
+     "n": 926,
+     "drives": 40,
+     "days": 9
+    },
+    "newDrivesOnly": {
+     "status": "supported",
+     "eff": 12.74,
+     "ci95": [
+      11.66,
+      14.89
+     ],
+     "n": 639,
+     "drives": 27,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/allSoc/10-20",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "thin",
+     "eff": 52.95,
+     "ci95": null,
+     "n": 330,
+     "drives": 12,
+     "days": 4
+    },
+    "new": {
+     "status": "supported",
+     "eff": 53.22,
+     "ci95": [
+      50.33,
+      56.83
+     ],
+     "n": 1159,
+     "drives": 38,
+     "days": 9
+    },
+    "newDrivesOnly": {
+     "status": "supported",
+     "eff": 53.33,
+     "ci95": [
+      49.77,
+      58.72
+     ],
+     "n": 829,
+     "drives": 26,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/allSoc/20-30",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "thin",
+     "eff": 63.85,
+     "ci95": null,
+     "n": 330,
+     "drives": 12,
+     "days": 4
+    },
+    "new": {
+     "status": "supported",
+     "eff": 63.78,
+     "ci95": [
+      60.62,
+      67.1
+     ],
+     "n": 1142,
+     "drives": 38,
+     "days": 9
+    },
+    "newDrivesOnly": {
+     "status": "supported",
+     "eff": 63.75,
+     "ci95": [
+      59.06,
+      68.65
+     ],
+     "n": 812,
+     "drives": 26,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/allSoc/30-40",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "thin",
+     "eff": 58.57,
+     "ci95": null,
+     "n": 272,
+     "drives": 10,
+     "days": 4
+    },
+    "new": {
+     "status": "supported",
+     "eff": 62.17,
+     "ci95": [
+      57.09,
+      67.05
+     ],
+     "n": 993,
+     "drives": 35,
+     "days": 9
+    },
+    "newDrivesOnly": {
+     "status": "supported",
+     "eff": 63.62,
+     "ci95": [
+      57.19,
+      69.4
+     ],
+     "n": 721,
+     "drives": 25,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/allSoc/40-50",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "thin",
+     "eff": 69.35,
+     "ci95": null,
+     "n": 103,
+     "drives": 6,
+     "days": 3
+    },
+    "new": {
+     "status": "supported",
+     "eff": 66.04,
+     "ci95": [
+      60.94,
+      68.98
+     ],
+     "n": 364,
+     "drives": 22,
+     "days": 8
+    },
+    "newDrivesOnly": {
+     "status": "supported",
+     "eff": 64.28,
+     "ci95": [
+      56.78,
+      67.12
+     ],
+     "n": 261,
+     "drives": 16,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/allSoc/50-60",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 70.28,
+     "ci95": null,
+     "n": 92,
+     "drives": 2,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 65.74,
+     "ci95": [
+      60.91,
+      70.11
+     ],
+     "n": 285,
+     "drives": 7,
+     "days": 6
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 62.15,
+     "ci95": null,
+     "n": 193,
+     "drives": 5,
+     "days": 4,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/allSoc/60-70",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 65.9,
+     "ci95": null,
+     "n": 132,
+     "drives": 2,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 65.44,
+     "ci95": [
+      62.98,
+      74.61
+     ],
+     "n": 227,
+     "drives": 7,
+     "days": 6
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 64.59,
+     "ci95": null,
+     "n": 95,
+     "drives": 5,
+     "days": 4,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/allSoc/70-80",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 56.03,
+     "ci95": null,
+     "n": 139,
+     "drives": 2,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 55.96,
+     "ci95": [
+      51.45,
+      65.85
+     ],
+     "n": 189,
+     "drives": 7,
+     "days": 6
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 55.71,
+     "ci95": null,
+     "n": 50,
+     "drives": 5,
+     "days": 4,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/allSoc/80-90",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 62.32,
+     "ci95": null,
+     "n": 67,
+     "drives": 2,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 58.84,
+     "ci95": [
+      16.86,
+      63.13
+     ],
+     "n": 79,
+     "drives": 5,
+     "days": 5
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 20.66,
+     "ci95": null,
+     "n": 12,
+     "drives": 3,
+     "days": 3,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 40-50/10-20",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 26.0,
+     "ci95": null,
+     "n": 2,
+     "drives": 1,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "failed",
+     "eff": 26.0,
+     "ci95": null,
+     "n": 2,
+     "drives": 1,
+     "days": 1,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 40-50/20-30",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 22.15,
+     "ci95": null,
+     "n": 1,
+     "drives": 1,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "failed",
+     "eff": 22.15,
+     "ci95": null,
+     "n": 1,
+     "drives": 1,
+     "days": 1,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 40-50/30-40",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 87.35,
+     "ci95": null,
+     "n": 2,
+     "drives": 1,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "failed",
+     "eff": 87.35,
+     "ci95": null,
+     "n": 2,
+     "drives": 1,
+     "days": 1,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 55-60/30-40",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "thin",
+     "eff": 54.82,
+     "ci95": null,
+     "n": 40,
+     "drives": 4,
+     "days": 3
+    },
+    "new": {
+     "status": "supported",
+     "eff": 60.68,
+     "ci95": [
+      53.66,
+      65.2
+     ],
+     "n": 210,
+     "drives": 18,
+     "days": 8
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 62.01,
+     "ci95": [
+      54.56,
+      67.27
+     ],
+     "n": 170,
+     "drives": 14,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 55-60/40-50",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 42.02,
+     "ci95": null,
+     "n": 7,
+     "drives": 2,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 31.83,
+     "ci95": [
+      21.91,
+      39.27
+     ],
+     "n": 41,
+     "drives": 10,
+     "days": 6
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 29.55,
+     "ci95": null,
+     "n": 34,
+     "drives": 8,
+     "days": 4,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 60-63/0-10",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 4.84,
+     "ci95": null,
+     "n": 53,
+     "drives": 6,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 10.24,
+     "ci95": [
+      4.9,
+      20.5
+     ],
+     "n": 99,
+     "drives": 13,
+     "days": 7
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 15.32,
+     "ci95": [
+      9.73,
+      30.48
+     ],
+     "n": 46,
+     "drives": 7,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 60-63/20-30",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 56.66,
+     "ci95": null,
+     "n": 25,
+     "drives": 4,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 64.44,
+     "ci95": [
+      58.31,
+      69.92
+     ],
+     "n": 135,
+     "drives": 19,
+     "days": 7
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 66.4,
+     "ci95": [
+      59.97,
+      71.15
+     ],
+     "n": 110,
+     "drives": 15,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 60-63/30-40",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 54.49,
+     "ci95": null,
+     "n": 36,
+     "drives": 5,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 63.27,
+     "ci95": [
+      52.7,
+      72.65
+     ],
+     "n": 135,
+     "drives": 18,
+     "days": 7
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 66.48,
+     "ci95": [
+      53.13,
+      75.89
+     ],
+     "n": 99,
+     "drives": 13,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 60-63/40-50",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 40.27,
+     "ci95": null,
+     "n": 9,
+     "drives": 2,
+     "days": 1
+    },
+    "new": {
+     "status": "thin",
+     "eff": 55.88,
+     "ci95": [
+      37.62,
+      75.25
+     ],
+     "n": 43,
+     "drives": 10,
+     "days": 6
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 59.83,
+     "ci95": [
+      37.24,
+      78.68
+     ],
+     "n": 34,
+     "drives": 8,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 60-63/50-60",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 22.02,
+     "ci95": null,
+     "n": 7,
+     "drives": 2,
+     "days": 2
+    },
+    "newDrivesOnly": {
+     "status": "failed",
+     "eff": 22.02,
+     "ci95": null,
+     "n": 7,
+     "drives": 2,
+     "days": 2,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 63-66/10-20",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 53.93,
+     "ci95": null,
+     "n": 28,
+     "drives": 5,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 53.51,
+     "ci95": [
+      48.24,
+      63.72
+     ],
+     "n": 141,
+     "drives": 22,
+     "days": 7
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 53.41,
+     "ci95": [
+      47.54,
+      67.37
+     ],
+     "n": 113,
+     "drives": 17,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 63-66/20-30",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 66.67,
+     "ci95": null,
+     "n": 35,
+     "drives": 5,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 61.48,
+     "ci95": [
+      55.38,
+      71.66
+     ],
+     "n": 142,
+     "drives": 19,
+     "days": 7
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 59.85,
+     "ci95": [
+      55.24,
+      66.28
+     ],
+     "n": 107,
+     "drives": 14,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 63-66/30-40",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 54.58,
+     "ci95": null,
+     "n": 28,
+     "drives": 3,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 60.38,
+     "ci95": [
+      50.54,
+      69.44
+     ],
+     "n": 138,
+     "drives": 17,
+     "days": 7
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 61.99,
+     "ci95": [
+      50.52,
+      70.43
+     ],
+     "n": 110,
+     "drives": 14,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 63-66/50-60",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 16.94,
+     "ci95": null,
+     "n": 1,
+     "drives": 1,
+     "days": 1
+    },
+    "new": {
+     "status": "thin",
+     "eff": 53.77,
+     "ci95": [
+      36.77,
+      58.88
+     ],
+     "n": 60,
+     "drives": 6,
+     "days": 5
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 55.36,
+     "ci95": null,
+     "n": 59,
+     "drives": 5,
+     "days": 4,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 66-69/0-10",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 4.11,
+     "ci95": null,
+     "n": 14,
+     "drives": 3,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 16.7,
+     "ci95": [
+      7.95,
+      23.99
+     ],
+     "n": 105,
+     "drives": 18,
+     "days": 7
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 18.7,
+     "ci95": [
+      11.0,
+      25.49
+     ],
+     "n": 91,
+     "drives": 15,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 66-69/40-50",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 65.33,
+     "ci95": null,
+     "n": 24,
+     "drives": 2,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 67.94,
+     "ci95": [
+      63.44,
+      73.92
+     ],
+     "n": 106,
+     "drives": 11,
+     "days": 7
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 68.93,
+     "ci95": [
+      63.48,
+      77.68
+     ],
+     "n": 82,
+     "drives": 9,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 66-69/50-60",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 65.8,
+     "ci95": null,
+     "n": 35,
+     "drives": 2,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 63.16,
+     "ci95": [
+      53.47,
+      69.18
+     ],
+     "n": 87,
+     "drives": 7,
+     "days": 6
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 60.35,
+     "ci95": null,
+     "n": 52,
+     "drives": 5,
+     "days": 4,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 66-69/60-70",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 69.51,
+     "ci95": null,
+     "n": 59,
+     "drives": 2,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 66.34,
+     "ci95": [
+      57.7,
+      74.66
+     ],
+     "n": 92,
+     "drives": 7,
+     "days": 6
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 58.71,
+     "ci95": null,
+     "n": 33,
+     "drives": 5,
+     "days": 4,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 66-69/70-80",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 52.91,
+     "ci95": null,
+     "n": 64,
+     "drives": 2,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 54.31,
+     "ci95": [
+      50.92,
+      71.85
+     ],
+     "n": 91,
+     "drives": 6,
+     "days": 5
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 57.64,
+     "ci95": null,
+     "n": 27,
+     "drives": 4,
+     "days": 3,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 66-69/80-90",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 51.45,
+     "ci95": null,
+     "n": 24,
+     "drives": 2,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 44.93,
+     "ci95": null,
+     "n": 34,
+     "drives": 4,
+     "days": 4
+    },
+    "newDrivesOnly": {
+     "status": "failed",
+     "eff": 16.36,
+     "ci95": null,
+     "n": 10,
+     "drives": 2,
+     "days": 2,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 69-72/30-40",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 71.14,
+     "ci95": null,
+     "n": 45,
+     "drives": 3,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 67.77,
+     "ci95": [
+      56.47,
+      77.38
+     ],
+     "n": 138,
+     "drives": 15,
+     "days": 7
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 65.94,
+     "ci95": [
+      50.09,
+      78.77
+     ],
+     "n": 93,
+     "drives": 12,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 69-72/40-50",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 79.96,
+     "ci95": null,
+     "n": 27,
+     "drives": 3,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 78.6,
+     "ci95": [
+      70.79,
+      88.48
+     ],
+     "n": 74,
+     "drives": 9,
+     "days": 6
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 77.6,
+     "ci95": null,
+     "n": 47,
+     "drives": 6,
+     "days": 4,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 69-72/50-60",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 68.89,
+     "ci95": null,
+     "n": 33,
+     "drives": 2,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 73.32,
+     "ci95": [
+      67.96,
+      77.77
+     ],
+     "n": 83,
+     "drives": 6,
+     "days": 5
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 77.08,
+     "ci95": null,
+     "n": 50,
+     "drives": 4,
+     "days": 3,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 69-72/60-70",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 56.32,
+     "ci95": null,
+     "n": 41,
+     "drives": 2,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 62.92,
+     "ci95": [
+      56.64,
+      81.3
+     ],
+     "n": 76,
+     "drives": 6,
+     "days": 5
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 72.05,
+     "ci95": null,
+     "n": 35,
+     "drives": 4,
+     "days": 3,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 69-72/80-90",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 59.49,
+     "ci95": null,
+     "n": 12,
+     "drives": 2,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 56.42,
+     "ci95": null,
+     "n": 13,
+     "drives": 3,
+     "days": 3
+    },
+    "newDrivesOnly": {
+     "status": "failed",
+     "eff": 0.0,
+     "ci95": null,
+     "n": 1,
+     "drives": 1,
+     "days": 1,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 72-100/0-10",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "thin",
+     "eff": 9.17,
+     "ci95": null,
+     "n": 70,
+     "drives": 8,
+     "days": 3
+    },
+    "new": {
+     "status": "supported",
+     "eff": 10.33,
+     "ci95": [
+      7.03,
+      13.94
+     ],
+     "n": 287,
+     "drives": 26,
+     "days": 8
+    },
+    "newDrivesOnly": {
+     "status": "supported",
+     "eff": 10.7,
+     "ci95": [
+      6.27,
+      15.19
+     ],
+     "n": 217,
+     "drives": 18,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 72-100/10-20",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "thin",
+     "eff": 52.67,
+     "ci95": null,
+     "n": 103,
+     "drives": 7,
+     "days": 3
+    },
+    "new": {
+     "status": "supported",
+     "eff": 50.27,
+     "ci95": [
+      44.76,
+      57.18
+     ],
+     "n": 292,
+     "drives": 25,
+     "days": 8
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 48.88,
+     "ci95": [
+      41.63,
+      59.38
+     ],
+     "n": 189,
+     "drives": 18,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 72-100/40-50",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 81.05,
+     "ci95": null,
+     "n": 20,
+     "drives": 2,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 76.17,
+     "ci95": [
+      54.33,
+      80.62
+     ],
+     "n": 40,
+     "drives": 7,
+     "days": 5
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 68.94,
+     "ci95": null,
+     "n": 20,
+     "drives": 5,
+     "days": 3,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 72-100/50-60",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 81.13,
+     "ci95": null,
+     "n": 23,
+     "drives": 2,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 71.51,
+     "ci95": null,
+     "n": 48,
+     "drives": 4,
+     "days": 4
+    },
+    "newDrivesOnly": {
+     "status": "failed",
+     "eff": 54.4,
+     "ci95": null,
+     "n": 25,
+     "drives": 2,
+     "days": 2,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 72-100/60-70",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 72.47,
+     "ci95": null,
+     "n": 21,
+     "drives": 2,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 75.06,
+     "ci95": null,
+     "n": 26,
+     "drives": 3,
+     "days": 3
+    },
+    "newDrivesOnly": {
+     "status": "failed",
+     "eff": 89.06,
+     "ci95": null,
+     "n": 5,
+     "drives": 1,
+     "days": 1,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/speed/band 72-100/70-80",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 53.07,
+     "ci95": null,
+     "n": 13,
+     "drives": 2,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 47.82,
+     "ci95": null,
+     "n": 20,
+     "drives": 4,
+     "days": 4
+    },
+    "newDrivesOnly": {
+     "status": "failed",
+     "eff": 25.62,
+     "ci95": null,
+     "n": 7,
+     "drives": 2,
+     "days": 2,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/temperature/allSoc/0–10°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 46.58,
+     "ci95": null,
+     "n": 289,
+     "drives": 6,
+     "days": 3
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 46.58,
+     "ci95": null,
+     "n": 289,
+     "drives": 6,
+     "days": 3,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/temperature/allSoc/10–20°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "thin",
+     "eff": 54.76,
+     "ci95": null,
+     "n": 515,
+     "drives": 9,
+     "days": 4
+    },
+    "new": {
+     "status": "supported",
+     "eff": 55.81,
+     "ci95": [
+      51.07,
+      59.81
+     ],
+     "n": 1892,
+     "drives": 26,
+     "days": 9
+    },
+    "newDrivesOnly": {
+     "status": "supported",
+     "eff": 56.15,
+     "ci95": [
+      49.82,
+      61.13
+     ],
+     "n": 1377,
+     "drives": 17,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/temperature/allSoc/20–30°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "thin",
+     "eff": 62.12,
+     "ci95": null,
+     "n": 762,
+     "drives": 6,
+     "days": 3
+    },
+    "new": {
+     "status": "supported",
+     "eff": 63.1,
+     "ci95": [
+      60.74,
+      65.89
+     ],
+     "n": 2260,
+     "drives": 17,
+     "days": 7
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 63.75,
+     "ci95": null,
+     "n": 1498,
+     "drives": 11,
+     "days": 4,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/temperature/band 40-50/0–10°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 0.0,
+     "ci95": null,
+     "n": 9,
+     "drives": 1,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "failed",
+     "eff": 0.0,
+     "ci95": null,
+     "n": 9,
+     "drives": 1,
+     "days": 1,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/temperature/band 40-50/20–30°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 87.35,
+     "ci95": null,
+     "n": 2,
+     "drives": 1,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "failed",
+     "eff": 87.35,
+     "ci95": null,
+     "n": 2,
+     "drives": 1,
+     "days": 1,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/temperature/band 50-55/0–10°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 47.01,
+     "ci95": null,
+     "n": 48,
+     "drives": 3,
+     "days": 2
+    },
+    "newDrivesOnly": {
+     "status": "failed",
+     "eff": 47.01,
+     "ci95": null,
+     "n": 48,
+     "drives": 3,
+     "days": 2,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/temperature/band 50-55/20–30°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 58.79,
+     "ci95": null,
+     "n": 106,
+     "drives": 3,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 57.76,
+     "ci95": [
+      46.21,
+      59.68
+     ],
+     "n": 176,
+     "drives": 7,
+     "days": 5
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 56.45,
+     "ci95": null,
+     "n": 70,
+     "drives": 4,
+     "days": 3,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/temperature/band 55-60/0–10°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 42.74,
+     "ci95": null,
+     "n": 57,
+     "drives": 4,
+     "days": 2
+    },
+    "newDrivesOnly": {
+     "status": "failed",
+     "eff": 42.74,
+     "ci95": null,
+     "n": 57,
+     "drives": 4,
+     "days": 2,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/temperature/band 55-60/10–20°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 39.39,
+     "ci95": null,
+     "n": 72,
+     "drives": 4,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 54.04,
+     "ci95": [
+      42.82,
+      58.93
+     ],
+     "n": 186,
+     "drives": 11,
+     "days": 6
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 58.02,
+     "ci95": null,
+     "n": 114,
+     "drives": 7,
+     "days": 4,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/temperature/band 55-60/20–30°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 58.0,
+     "ci95": null,
+     "n": 110,
+     "drives": 3,
+     "days": 2
+    },
+    "new": {
+     "status": "supported",
+     "eff": 60.99,
+     "ci95": [
+      54.43,
+      66.02
+     ],
+     "n": 327,
+     "drives": 11,
+     "days": 6
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 62.6,
+     "ci95": null,
+     "n": 217,
+     "drives": 8,
+     "days": 4,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/temperature/band 55-60/30–40°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 64.04,
+     "ci95": null,
+     "n": 49,
+     "drives": 1,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "failed",
+     "eff": 64.04,
+     "ci95": null,
+     "n": 49,
+     "drives": 1,
+     "days": 1,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/temperature/band 60-63/0–10°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 56.0,
+     "ci95": null,
+     "n": 27,
+     "drives": 3,
+     "days": 2
+    },
+    "newDrivesOnly": {
+     "status": "failed",
+     "eff": 56.0,
+     "ci95": null,
+     "n": 27,
+     "drives": 3,
+     "days": 2,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/temperature/band 60-63/20–30°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "thin",
+     "eff": 61.96,
+     "ci95": null,
+     "n": 90,
+     "drives": 5,
+     "days": 3
+    },
+    "new": {
+     "status": "supported",
+     "eff": 64.92,
+     "ci95": [
+      54.87,
+      75.49
+     ],
+     "n": 279,
+     "drives": 14,
+     "days": 7
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 66.46,
+     "ci95": null,
+     "n": 189,
+     "drives": 9,
+     "days": 4,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/temperature/band 63-66/0–10°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 49.77,
+     "ci95": null,
+     "n": 40,
+     "drives": 3,
+     "days": 2
+    },
+    "newDrivesOnly": {
+     "status": "failed",
+     "eff": 49.77,
+     "ci95": null,
+     "n": 40,
+     "drives": 3,
+     "days": 2,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/temperature/band 63-66/10–20°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 67.13,
+     "ci95": null,
+     "n": 60,
+     "drives": 3,
+     "days": 2
+    },
+    "new": {
+     "status": "supported",
+     "eff": 57.55,
+     "ci95": [
+      50.16,
+      62.73
+     ],
+     "n": 307,
+     "drives": 13,
+     "days": 7
+    },
+    "newDrivesOnly": {
+     "status": "supported",
+     "eff": 56.14,
+     "ci95": [
+      48.1,
+      60.47
+     ],
+     "n": 247,
+     "drives": 10,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/temperature/band 63-66/20–30°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 62.04,
+     "ci95": null,
+     "n": 73,
+     "drives": 4,
+     "days": 2
+    },
+    "new": {
+     "status": "supported",
+     "eff": 58.71,
+     "ci95": [
+      52.05,
+      66.28
+     ],
+     "n": 277,
+     "drives": 13,
+     "days": 6
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 56.71,
+     "ci95": null,
+     "n": 204,
+     "drives": 9,
+     "days": 4,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/temperature/band 66-69/0–10°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 54.12,
+     "ci95": null,
+     "n": 33,
+     "drives": 3,
+     "days": 2
+    },
+    "newDrivesOnly": {
+     "status": "failed",
+     "eff": 54.12,
+     "ci95": null,
+     "n": 33,
+     "drives": 3,
+     "days": 2,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/temperature/band 66-69/10–20°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 46.32,
+     "ci95": null,
+     "n": 44,
+     "drives": 3,
+     "days": 2
+    },
+    "new": {
+     "status": "supported",
+     "eff": 60.47,
+     "ci95": [
+      50.38,
+      66.15
+     ],
+     "n": 340,
+     "drives": 15,
+     "days": 7
+    },
+    "newDrivesOnly": {
+     "status": "supported",
+     "eff": 62.07,
+     "ci95": [
+      55.37,
+      68.62
+     ],
+     "n": 296,
+     "drives": 12,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/temperature/band 66-69/20–30°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 59.04,
+     "ci95": null,
+     "n": 126,
+     "drives": 4,
+     "days": 2
+    },
+    "new": {
+     "status": "supported",
+     "eff": 61.66,
+     "ci95": [
+      58.21,
+      68.09
+     ],
+     "n": 459,
+     "drives": 10,
+     "days": 6
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 63.24,
+     "ci95": null,
+     "n": 333,
+     "drives": 6,
+     "days": 4,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/temperature/band 69-72/0–10°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 0.58,
+     "ci95": null,
+     "n": 7,
+     "drives": 2,
+     "days": 2
+    },
+    "newDrivesOnly": {
+     "status": "failed",
+     "eff": 0.58,
+     "ci95": null,
+     "n": 7,
+     "drives": 2,
+     "days": 2,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/temperature/band 69-72/10–20°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 67.85,
+     "ci95": null,
+     "n": 45,
+     "drives": 3,
+     "days": 2
+    },
+    "new": {
+     "status": "supported",
+     "eff": 55.28,
+     "ci95": [
+      41.01,
+      64.57
+     ],
+     "n": 202,
+     "drives": 14,
+     "days": 6
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 50.24,
+     "ci95": null,
+     "n": 157,
+     "drives": 11,
+     "days": 4,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/temperature/band 69-72/20–30°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 63.63,
+     "ci95": null,
+     "n": 152,
+     "drives": 4,
+     "days": 2
+    },
+    "new": {
+     "status": "supported",
+     "eff": 67.62,
+     "ci95": [
+      60.6,
+      73.16
+     ],
+     "n": 534,
+     "drives": 12,
+     "days": 6
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 70.31,
+     "ci95": null,
+     "n": 382,
+     "drives": 8,
+     "days": 4,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/temperature/band 72-100/0–10°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 39.34,
+     "ci95": null,
+     "n": 68,
+     "drives": 4,
+     "days": 3
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 39.34,
+     "ci95": null,
+     "n": 68,
+     "drives": 4,
+     "days": 3,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/temperature/band 72-100/10–20°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 56.66,
+     "ci95": null,
+     "n": 154,
+     "drives": 5,
+     "days": 2
+    },
+    "new": {
+     "status": "supported",
+     "eff": 54.46,
+     "ci95": [
+      44.65,
+      62.39
+     ],
+     "n": 573,
+     "drives": 20,
+     "days": 6
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 53.24,
+     "ci95": null,
+     "n": 419,
+     "drives": 15,
+     "days": 4,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/temperature/band 72-100/20–30°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 69.33,
+     "ci95": null,
+     "n": 105,
+     "drives": 4,
+     "days": 2
+    },
+    "new": {
+     "status": "supported",
+     "eff": 62.11,
+     "ci95": [
+      49.21,
+      69.33
+     ],
+     "n": 206,
+     "drives": 10,
+     "days": 5
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 53.84,
+     "ci95": null,
+     "n": 101,
+     "drives": 6,
+     "days": 3,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/zones10/allSoc/10-30",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "thin",
+     "eff": 59.8,
+     "ci95": null,
+     "n": 622,
+     "drives": 12,
+     "days": 4
+    },
+    "new": {
+     "status": "supported",
+     "eff": 59.82,
+     "ci95": [
+      56.77,
+      63.25
+     ],
+     "n": 2168,
+     "drives": 38,
+     "days": 9
+    },
+    "newDrivesOnly": {
+     "status": "supported",
+     "eff": 59.83,
+     "ci95": [
+      55.58,
+      64.72
+     ],
+     "n": 1546,
+     "drives": 26,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/zones10/allSoc/30-60",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "thin",
+     "eff": 65.16,
+     "ci95": null,
+     "n": 442,
+     "drives": 10,
+     "days": 4
+    },
+    "new": {
+     "status": "supported",
+     "eff": 64.05,
+     "ci95": [
+      59.57,
+      67.57
+     ],
+     "n": 1574,
+     "drives": 35,
+     "days": 9
+    },
+    "newDrivesOnly": {
+     "status": "supported",
+     "eff": 63.47,
+     "ci95": [
+      57.07,
+      68.06
+     ],
+     "n": 1132,
+     "drives": 25,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/zones10/allSoc/60-90",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 61.3,
+     "ci95": null,
+     "n": 320,
+     "drives": 2,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 60.73,
+     "ci95": [
+      56.48,
+      68.57
+     ],
+     "n": 472,
+     "drives": 7,
+     "days": 6
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 59.09,
+     "ci95": null,
+     "n": 152,
+     "drives": 5,
+     "days": 4,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/zones10/band 40-50/10-30",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 25.06,
+     "ci95": null,
+     "n": 3,
+     "drives": 1,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "failed",
+     "eff": 25.06,
+     "ci95": null,
+     "n": 3,
+     "drives": 1,
+     "days": 1,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/zones10/band 40-50/30-60",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 87.35,
+     "ci95": null,
+     "n": 2,
+     "drives": 1,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "failed",
+     "eff": 87.35,
+     "ci95": null,
+     "n": 2,
+     "drives": 1,
+     "days": 1,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/zones10/band 50-55/10-30",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "thin",
+     "eff": 61.78,
+     "ci95": null,
+     "n": 109,
+     "drives": 6,
+     "days": 3
+    },
+    "new": {
+     "status": "supported",
+     "eff": 60.4,
+     "ci95": [
+      56.62,
+      62.36
+     ],
+     "n": 227,
+     "drives": 15,
+     "days": 8
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 59.18,
+     "ci95": [
+      51.56,
+      61.69
+     ],
+     "n": 118,
+     "drives": 9,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/zones10/band 55-60/10-30",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "thin",
+     "eff": 56.45,
+     "ci95": null,
+     "n": 106,
+     "drives": 7,
+     "days": 3
+    },
+    "new": {
+     "status": "supported",
+     "eff": 62.49,
+     "ci95": [
+      57.23,
+      68.63
+     ],
+     "n": 308,
+     "drives": 20,
+     "days": 8
+    },
+    "newDrivesOnly": {
+     "status": "supported",
+     "eff": 65.17,
+     "ci95": [
+      59.45,
+      71.75
+     ],
+     "n": 202,
+     "drives": 13,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/zones10/band 55-60/30-60",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "thin",
+     "eff": 52.97,
+     "ci95": null,
+     "n": 44,
+     "drives": 4,
+     "days": 3
+    },
+    "new": {
+     "status": "supported",
+     "eff": 56.49,
+     "ci95": [
+      50.85,
+      60.32
+     ],
+     "n": 247,
+     "drives": 20,
+     "days": 8
+    },
+    "newDrivesOnly": {
+     "status": "supported",
+     "eff": 57.28,
+     "ci95": [
+      50.38,
+      61.49
+     ],
+     "n": 203,
+     "drives": 16,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/zones10/band 60-63/10-30",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "thin",
+     "eff": 53.77,
+     "ci95": null,
+     "n": 48,
+     "drives": 6,
+     "days": 3
+    },
+    "new": {
+     "status": "supported",
+     "eff": 61.25,
+     "ci95": [
+      55.39,
+      65.42
+     ],
+     "n": 217,
+     "drives": 21,
+     "days": 8
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 63.2,
+     "ci95": [
+      57.95,
+      67.42
+     ],
+     "n": 169,
+     "drives": 15,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/zones10/band 60-63/30-60",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 51.22,
+     "ci95": null,
+     "n": 45,
+     "drives": 5,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 59.79,
+     "ci95": [
+      52.15,
+      70.62
+     ],
+     "n": 181,
+     "drives": 18,
+     "days": 7
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 62.49,
+     "ci95": [
+      53.74,
+      75.29
+     ],
+     "n": 136,
+     "drives": 13,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/zones10/band 63-66/10-30",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 62.7,
+     "ci95": null,
+     "n": 60,
+     "drives": 5,
+     "days": 2
+    },
+    "new": {
+     "status": "supported",
+     "eff": 58.56,
+     "ci95": [
+      53.44,
+      66.64
+     ],
+     "n": 266,
+     "drives": 22,
+     "days": 7
+    },
+    "newDrivesOnly": {
+     "status": "supported",
+     "eff": 57.39,
+     "ci95": [
+      52.6,
+      66.12
+     ],
+     "n": 206,
+     "drives": 17,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/zones10/band 63-66/30-60",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "thin",
+     "eff": 52.69,
+     "ci95": null,
+     "n": 40,
+     "drives": 4,
+     "days": 3
+    },
+    "new": {
+     "status": "supported",
+     "eff": 56.95,
+     "ci95": [
+      49.23,
+      61.28
+     ],
+     "n": 243,
+     "drives": 18,
+     "days": 8
+    },
+    "newDrivesOnly": {
+     "status": "supported",
+     "eff": 57.92,
+     "ci95": [
+      49.09,
+      61.59
+     ],
+     "n": 203,
+     "drives": 14,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/zones10/band 66-69/10-30",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "thin",
+     "eff": 53.91,
+     "ci95": null,
+     "n": 59,
+     "drives": 6,
+     "days": 3
+    },
+    "new": {
+     "status": "supported",
+     "eff": 61.74,
+     "ci95": [
+      54.62,
+      68.39
+     ],
+     "n": 344,
+     "drives": 23,
+     "days": 8
+    },
+    "newDrivesOnly": {
+     "status": "supported",
+     "eff": 63.29,
+     "ci95": [
+      56.41,
+      71.59
+     ],
+     "n": 285,
+     "drives": 17,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/zones10/band 66-69/30-60",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "thin",
+     "eff": 61.19,
+     "ci95": null,
+     "n": 104,
+     "drives": 4,
+     "days": 3
+    },
+    "new": {
+     "status": "supported",
+     "eff": 64.67,
+     "ci95": [
+      61.37,
+      69.37
+     ],
+     "n": 358,
+     "drives": 18,
+     "days": 8
+    },
+    "newDrivesOnly": {
+     "status": "supported",
+     "eff": 66.61,
+     "ci95": [
+      63.12,
+      72.98
+     ],
+     "n": 254,
+     "drives": 14,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/zones10/band 66-69/60-90",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 59.58,
+     "ci95": null,
+     "n": 137,
+     "drives": 2,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 57.99,
+     "ci95": [
+      53.05,
+      71.53
+     ],
+     "n": 205,
+     "drives": 7,
+     "days": 6
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 53.85,
+     "ci95": null,
+     "n": 68,
+     "drives": 5,
+     "days": 4,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/zones10/band 69-72/10-30",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "thin",
+     "eff": 62.25,
+     "ci95": null,
+     "n": 69,
+     "drives": 5,
+     "days": 3
+    },
+    "new": {
+     "status": "supported",
+     "eff": 58.06,
+     "ci95": [
+      47.24,
+      67.04
+     ],
+     "n": 342,
+     "drives": 18,
+     "days": 8
+    },
+    "newDrivesOnly": {
+     "status": "supported",
+     "eff": 56.6,
+     "ci95": [
+      38.79,
+      67.57
+     ],
+     "n": 273,
+     "drives": 13,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/zones10/band 69-72/30-60",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 73.03,
+     "ci95": null,
+     "n": 97,
+     "drives": 3,
+     "days": 2
+    },
+    "new": {
+     "status": "supported",
+     "eff": 73.0,
+     "ci95": [
+      66.16,
+      77.0
+     ],
+     "n": 274,
+     "drives": 15,
+     "days": 7
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 72.98,
+     "ci95": [
+      58.72,
+      78.43
+     ],
+     "n": 177,
+     "drives": 12,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/zones10/band 69-72/60-90",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 56.83,
+     "ci95": null,
+     "n": 86,
+     "drives": 2,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 61.03,
+     "ci95": [
+      53.69,
+      82.09
+     ],
+     "n": 126,
+     "drives": 6,
+     "days": 5
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 71.49,
+     "ci95": null,
+     "n": 40,
+     "drives": 4,
+     "days": 3,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/zones10/band 72-100/10-30",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "thin",
+     "eff": 62.13,
+     "ci95": null,
+     "n": 171,
+     "drives": 7,
+     "days": 3
+    },
+    "new": {
+     "status": "supported",
+     "eff": 57.4,
+     "ci95": [
+      50.6,
+      65.49
+     ],
+     "n": 461,
+     "drives": 26,
+     "days": 8
+    },
+    "newDrivesOnly": {
+     "status": "supported",
+     "eff": 54.35,
+     "ci95": [
+      44.69,
+      66.81
+     ],
+     "n": 290,
+     "drives": 19,
+     "days": 5,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/fast/zones10/band 72-100/60-90",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 64.79,
+     "ci95": null,
+     "n": 33,
+     "drives": 2,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 64.19,
+     "ci95": null,
+     "n": 45,
+     "drives": 4,
+     "days": 4
+    },
+    "newDrivesOnly": {
+     "status": "failed",
+     "eff": 61.15,
+     "ci95": null,
+     "n": 12,
+     "drives": 2,
+     "days": 2,
+     "ciSuppressed": null
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/allSoc/0-10",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "thin",
+     "eff": 11.65,
+     "ci95": null,
+     "n": 130,
+     "drives": 10,
+     "days": 4
+    },
+    "new": {
+     "status": "supported",
+     "eff": 11.98,
+     "ci95": [
+      8.87,
+      14.58
+     ],
+     "n": 260,
+     "drives": 15,
+     "days": 5
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 12.31,
+     "ci95": null,
+     "n": 130,
+     "drives": 5,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/allSoc/10-20",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "thin",
+     "eff": 48.25,
+     "ci95": null,
+     "n": 162,
+     "drives": 10,
+     "days": 4
+    },
+    "new": {
+     "status": "supported",
+     "eff": 49.79,
+     "ci95": [
+      45.43,
+      52.26
+     ],
+     "n": 348,
+     "drives": 15,
+     "days": 5
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 51.41,
+     "ci95": null,
+     "n": 186,
+     "drives": 5,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/allSoc/20-30",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "thin",
+     "eff": 53.02,
+     "ci95": null,
+     "n": 151,
+     "drives": 9,
+     "days": 4
+    },
+    "new": {
+     "status": "supported",
+     "eff": 60.01,
+     "ci95": [
+      45.97,
+      66.45
+     ],
+     "n": 265,
+     "drives": 14,
+     "days": 5
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 66.71,
+     "ci95": null,
+     "n": 114,
+     "drives": 5,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/allSoc/40-50",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 61.56,
+     "ci95": null,
+     "n": 53,
+     "drives": 5,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 61.56,
+     "ci95": null,
+     "n": 53,
+     "drives": 5,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/allSoc/50-60",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 71.44,
+     "ci95": null,
+     "n": 20,
+     "drives": 3,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 71.44,
+     "ci95": null,
+     "n": 20,
+     "drives": 3,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/allSoc/60-70",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 67.09,
+     "ci95": null,
+     "n": 7,
+     "drives": 2,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 67.09,
+     "ci95": null,
+     "n": 7,
+     "drives": 2,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/allSoc/70-80",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 89.32,
+     "ci95": null,
+     "n": 1,
+     "drives": 1,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 89.32,
+     "ci95": null,
+     "n": 1,
+     "drives": 1,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/band 50-55/30-40",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 61.13,
+     "ci95": null,
+     "n": 23,
+     "drives": 3,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 61.13,
+     "ci95": null,
+     "n": 23,
+     "drives": 3,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/band 50-55/40-50",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 0.0,
+     "ci95": null,
+     "n": 1,
+     "drives": 1,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 0.0,
+     "ci95": null,
+     "n": 1,
+     "drives": 1,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/band 55-60/30-40",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 60.61,
+     "ci95": null,
+     "n": 34,
+     "drives": 4,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 60.61,
+     "ci95": null,
+     "n": 34,
+     "drives": 4,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/band 55-60/40-50",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 25.57,
+     "ci95": null,
+     "n": 10,
+     "drives": 4,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 25.57,
+     "ci95": null,
+     "n": 10,
+     "drives": 4,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/band 60-63/30-40",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 51.53,
+     "ci95": null,
+     "n": 5,
+     "drives": 2,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 62.32,
+     "ci95": null,
+     "n": 10,
+     "drives": 4,
+     "days": 3
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 67.75,
+     "ci95": null,
+     "n": 5,
+     "drives": 2,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/band 60-63/40-50",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 53.64,
+     "ci95": null,
+     "n": 12,
+     "drives": 2,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 53.64,
+     "ci95": null,
+     "n": 12,
+     "drives": 2,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/band 60-63/50-60",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 4.7,
+     "ci95": null,
+     "n": 2,
+     "drives": 1,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 4.7,
+     "ci95": null,
+     "n": 2,
+     "drives": 1,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/band 63-66/0-10",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 34.64,
+     "ci95": null,
+     "n": 7,
+     "drives": 2,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 10.46,
+     "ci95": null,
+     "n": 51,
+     "drives": 6,
+     "days": 3
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 3.02,
+     "ci95": null,
+     "n": 44,
+     "drives": 4,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/band 63-66/40-50",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 84.09,
+     "ci95": null,
+     "n": 10,
+     "drives": 2,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 84.09,
+     "ci95": null,
+     "n": 10,
+     "drives": 2,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/band 63-66/50-60",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 82.11,
+     "ci95": null,
+     "n": 1,
+     "drives": 1,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 82.11,
+     "ci95": null,
+     "n": 1,
+     "drives": 1,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/band 66-69/20-30",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 54.21,
+     "ci95": null,
+     "n": 3,
+     "drives": 2,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 73.83,
+     "ci95": null,
+     "n": 23,
+     "drives": 6,
+     "days": 3
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 75.94,
+     "ci95": null,
+     "n": 20,
+     "drives": 4,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/band 66-69/40-50",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 85.8,
+     "ci95": null,
+     "n": 7,
+     "drives": 2,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 85.8,
+     "ci95": null,
+     "n": 7,
+     "drives": 2,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/band 66-69/50-60",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 71.39,
+     "ci95": null,
+     "n": 7,
+     "drives": 2,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 71.39,
+     "ci95": null,
+     "n": 7,
+     "drives": 2,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/band 69-72/0-10",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 6.66,
+     "ci95": null,
+     "n": 5,
+     "drives": 3,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 2.99,
+     "ci95": null,
+     "n": 14,
+     "drives": 4,
+     "days": 3
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 0.0,
+     "ci95": null,
+     "n": 9,
+     "drives": 1,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/band 69-72/40-50",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 0.0,
+     "ci95": null,
+     "n": 1,
+     "drives": 1,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 0.0,
+     "ci95": null,
+     "n": 1,
+     "drives": 1,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/band 69-72/50-60",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 91.12,
+     "ci95": null,
+     "n": 2,
+     "drives": 1,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 91.12,
+     "ci95": null,
+     "n": 2,
+     "drives": 1,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/band 69-72/60-70",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 67.09,
+     "ci95": null,
+     "n": 7,
+     "drives": 2,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 67.09,
+     "ci95": null,
+     "n": 7,
+     "drives": 2,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/band 69-72/70-80",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 89.32,
+     "ci95": null,
+     "n": 1,
+     "drives": 1,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 89.32,
+     "ci95": null,
+     "n": 1,
+     "drives": 1,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/band 72-100/0-10",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 12.21,
+     "ci95": null,
+     "n": 27,
+     "drives": 3,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 15.69,
+     "ci95": null,
+     "n": 35,
+     "drives": 5,
+     "days": 3
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 25.88,
+     "ci95": null,
+     "n": 8,
+     "drives": 2,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/band 72-100/10-20",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 53.58,
+     "ci95": null,
+     "n": 43,
+     "drives": 3,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 50.46,
+     "ci95": null,
+     "n": 63,
+     "drives": 5,
+     "days": 3
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 43.74,
+     "ci95": null,
+     "n": 20,
+     "drives": 2,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/band 72-100/20-30",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 66.62,
+     "ci95": null,
+     "n": 43,
+     "drives": 2,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 64.57,
+     "ci95": null,
+     "n": 53,
+     "drives": 4,
+     "days": 3
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 59.0,
+     "ci95": null,
+     "n": 10,
+     "drives": 2,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/band 72-100/40-50",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 58.85,
+     "ci95": null,
+     "n": 12,
+     "drives": 2,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 58.85,
+     "ci95": null,
+     "n": 12,
+     "drives": 2,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/speed/band 72-100/50-60",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 67.63,
+     "ci95": null,
+     "n": 8,
+     "drives": 2,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 67.63,
+     "ci95": null,
+     "n": 8,
+     "drives": 2,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/temperature/allSoc/10–20°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "thin",
+     "eff": 53.0,
+     "ci95": null,
+     "n": 349,
+     "drives": 10,
+     "days": 4
+    },
+    "new": {
+     "status": "supported",
+     "eff": 54.4,
+     "ci95": [
+      45.15,
+      63.09
+     ],
+     "n": 446,
+     "drives": 12,
+     "days": 5
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 58.16,
+     "ci95": null,
+     "n": 97,
+     "drives": 2,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/temperature/allSoc/20–30°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 61.74,
+     "ci95": null,
+     "n": 440,
+     "drives": 5,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 61.74,
+     "ci95": null,
+     "n": 440,
+     "drives": 5,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/temperature/band 50-55/20–30°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 68.14,
+     "ci95": null,
+     "n": 33,
+     "drives": 3,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 68.14,
+     "ci95": null,
+     "n": 33,
+     "drives": 3,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/temperature/band 55-60/20–30°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 59.93,
+     "ci95": null,
+     "n": 79,
+     "drives": 4,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 59.93,
+     "ci95": null,
+     "n": 79,
+     "drives": 4,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/temperature/band 60-63/20–30°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 52.9,
+     "ci95": null,
+     "n": 60,
+     "drives": 4,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 52.9,
+     "ci95": null,
+     "n": 60,
+     "drives": 4,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/temperature/band 63-66/20–30°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 60.73,
+     "ci95": null,
+     "n": 76,
+     "drives": 4,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 60.73,
+     "ci95": null,
+     "n": 76,
+     "drives": 4,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/temperature/band 66-69/20–30°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 70.97,
+     "ci95": null,
+     "n": 86,
+     "drives": 3,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 70.97,
+     "ci95": null,
+     "n": 86,
+     "drives": 3,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/temperature/band 69-72/20–30°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 60.97,
+     "ci95": null,
+     "n": 50,
+     "drives": 2,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 60.97,
+     "ci95": null,
+     "n": 50,
+     "drives": 2,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/temperature/band 72-100/20–30°C",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 59.96,
+     "ci95": null,
+     "n": 56,
+     "drives": 2,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 59.96,
+     "ci95": null,
+     "n": 56,
+     "drives": 2,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/zones10/allSoc/10-30",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "thin",
+     "eff": 50.89,
+     "ci95": null,
+     "n": 295,
+     "drives": 10,
+     "days": 4
+    },
+    "new": {
+     "status": "supported",
+     "eff": 55.58,
+     "ci95": [
+      46.03,
+      60.41
+     ],
+     "n": 579,
+     "drives": 15,
+     "days": 5
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 60.26,
+     "ci95": null,
+     "n": 284,
+     "drives": 5,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/zones10/allSoc/60-90",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 68.43,
+     "ci95": null,
+     "n": 7,
+     "drives": 2,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 68.43,
+     "ci95": null,
+     "n": 7,
+     "drives": 2,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/zones10/band 50-55/30-60",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 59.44,
+     "ci95": null,
+     "n": 24,
+     "drives": 3,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 59.44,
+     "ci95": null,
+     "n": 24,
+     "drives": 3,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/zones10/band 55-60/30-60",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 52.66,
+     "ci95": null,
+     "n": 42,
+     "drives": 4,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 52.66,
+     "ci95": null,
+     "n": 42,
+     "drives": 4,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/zones10/band 60-63/30-60",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 51.53,
+     "ci95": null,
+     "n": 5,
+     "drives": 2,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 56.03,
+     "ci95": null,
+     "n": 23,
+     "drives": 4,
+     "days": 3
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 57.12,
+     "ci95": null,
+     "n": 18,
+     "drives": 2,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/zones10/band 69-72/30-60",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 82.71,
+     "ci95": null,
+     "n": 3,
+     "drives": 2,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 82.71,
+     "ci95": null,
+     "n": 3,
+     "drives": 2,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/zones10/band 69-72/60-90",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "empty",
+     "eff": null,
+     "ci95": null,
+     "n": 0,
+     "drives": 0,
+     "days": 0
+    },
+    "new": {
+     "status": "failed",
+     "eff": 68.43,
+     "ci95": null,
+     "n": 7,
+     "drives": 2,
+     "days": 1
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 68.43,
+     "ci95": null,
+     "n": 7,
+     "drives": 2,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   },
+   {
+    "cell": "cold/slow/zones10/band 72-100/10-30",
+    "reasons": [
+     "statusChanged"
+    ],
+    "prev": {
+     "status": "failed",
+     "eff": 61.37,
+     "ci95": null,
+     "n": 82,
+     "drives": 3,
+     "days": 2
+    },
+    "new": {
+     "status": "thin",
+     "eff": 58.65,
+     "ci95": null,
+     "n": 109,
+     "drives": 5,
+     "days": 3
+    },
+    "newDrivesOnly": {
+     "status": "thin",
+     "eff": 51.99,
+     "ci95": null,
+     "n": 27,
+     "drives": 2,
+     "days": 1,
+     "ciSuppressed": "days<5"
+    },
+    "newDrivesIntervalOverlapsPrev": null
+   }
+  ],
+  "nDistinctStratumCohort": [
+   "all/fast",
+   "cold/fast",
+   "cold/slow"
+  ],
+  "standardizedBars": {
+   "nIntervalBearingPrev": 40,
+   "nLeftPrevInterval": 0,
+   "cells": []
+  },
+  "nIntervalBearingPrevTotal": 840,
+  "nLeftPrevIntervalTotal": 0
+ },
+ "c3": {
+  "cold": {
+   "cold/fast/temperature": {
+    "new": {
+     "available": false,
+     "coverage": 0.7896,
+     "droppedGroups": [],
+     "reason": "coverage 0.790 of the reference KE with 2 group(s) after dropping [] (minimum 0.80 with at least 2 groups)",
+     "nBars": 0,
+     "barStatus": {},
+     "commonSupportBands": [
+      "band 63-66",
+      "band 66-69",
+      "band 69-72",
+      "band 72-100"
+     ]
+    },
+    "prev": {
+     "available": false,
+     "coverage": 1.0,
+     "droppedGroups": [],
+     "reason": "coverage 1.000 of the reference KE with 0 group(s) after dropping [] (minimum 0.80 with at least 2 groups)",
+     "nBars": 0,
+     "barStatus": {},
+     "commonSupportBands": [
+      "band 40-50",
+      "band 50-55",
+      "band 55-60",
+      "band 60-63",
+      "band 63-66",
+      "band 66-69",
+      "band 69-72",
+      "band 72-100",
+      "below40"
+     ]
+    }
+   },
+   "cold/fast/speed": {
+    "new": {
+     "available": false,
+     "coverage": 0,
+     "droppedGroups": [
+      "40-50",
+      "20-30"
+     ],
+     "reason": "coverage 0.000 of the reference KE with 2 group(s) after dropping [4, 2] (minimum 0.80 with at least 2 groups)",
+     "nBars": 0,
+     "barStatus": {},
+     "commonSupportBands": []
+    },
+    "prev": {
+     "available": false,
+     "coverage": 1.0,
+     "droppedGroups": [],
+     "reason": "coverage 1.000 of the reference KE with 0 group(s) after dropping [] (minimum 0.80 with at least 2 groups)",
+     "nBars": 0,
+     "barStatus": {},
+     "commonSupportBands": [
+      "band 40-50",
+      "band 50-55",
+      "band 55-60",
+      "band 60-63",
+      "band 63-66",
+      "band 66-69",
+      "band 69-72",
+      "band 72-100",
+      "below40"
+     ]
+    }
+   },
+   "cold/slow/temperature": {
+    "new": {
+     "available": false,
+     "coverage": 0,
+     "droppedGroups": [],
+     "reason": "coverage 0.000 of the reference KE with 1 group(s) after dropping [] (minimum 0.80 with at least 2 groups)",
+     "nBars": 0,
+     "barStatus": {},
+     "commonSupportBands": []
+    },
+    "prev": {
+     "available": false,
+     "coverage": 1.0,
+     "droppedGroups": [],
+     "reason": "coverage 1.000 of the reference KE with 0 group(s) after dropping [] (minimum 0.80 with at least 2 groups)",
+     "nBars": 0,
+     "barStatus": {},
+     "commonSupportBands": [
+      "band 40-50",
+      "band 50-55",
+      "band 55-60",
+      "band 60-63",
+      "band 63-66",
+      "band 66-69",
+      "band 69-72",
+      "band 72-100",
+      "below40"
+     ]
+    }
+   },
+   "cold/slow/speed": {
+    "new": {
+     "available": false,
+     "coverage": 0,
+     "droppedGroups": [],
+     "reason": "coverage 0.000 of the reference KE with 2 group(s) after dropping [] (minimum 0.80 with at least 2 groups)",
+     "nBars": 0,
+     "barStatus": {},
+     "commonSupportBands": []
+    },
+    "prev": {
+     "available": false,
+     "coverage": 1.0,
+     "droppedGroups": [],
+     "reason": "coverage 1.000 of the reference KE with 0 group(s) after dropping [] (minimum 0.80 with at least 2 groups)",
+     "nBars": 0,
+     "barStatus": {},
+     "commonSupportBands": [
+      "band 40-50",
+      "band 50-55",
+      "band 55-60",
+      "band 60-63",
+      "band 63-66",
+      "band 66-69",
+      "band 69-72",
+      "band 72-100",
+      "below40"
+     ]
+    }
+   }
+  },
+  "coldCohortDiagnosis": {
+   "temperature": {
+    "groups": {
+     "0–10°C": {
+      "status": "thin",
+      "n": 318,
+      "drives": 8,
+      "days": 5,
+      "nSupportedSocStrata": 0
+     },
+     "10–20°C": {
+      "status": "supported",
+      "n": 2338,
+      "drives": 38,
+      "days": 11,
+      "nSupportedSocStrata": 6
+     },
+     "20–30°C": {
+      "status": "supported",
+      "n": 2700,
+      "drives": 22,
+      "days": 7,
+      "nSupportedSocStrata": 7
+     },
+     "30–40°C": {
+      "status": "failed",
+      "n": 464,
+      "drives": 3,
+      "days": 3,
+      "nSupportedSocStrata": 0
+     }
+    },
+    "nSupportedGroupsAllSoc": 2,
+    "reading": "coverage 0.000 arises from the rule 'fewer than 2 supported groups' when nSupportedGroupsAllSoc < 2; when >= 2 it arises from an EMPTY intersection of the SOC strata supported for every group (no group was dropped)"
+   },
+   "speed": {
+    "groups": {
+     "10-20": {
+      "status": "supported",
+      "n": 1507,
+      "drives": 53,
+      "days": 11,
+      "nSupportedSocStrata": 4
+     },
+     "20-30": {
+      "status": "supported",
+      "n": 1407,
+      "drives": 52,
+      "days": 11,
+      "nSupportedSocStrata": 3
+     },
+     "30-40": {
+      "status": "supported",
+      "n": 1142,
+      "drives": 43,
+      "days": 10,
+      "nSupportedSocStrata": 2
+     },
+     "40-50": {
+      "status": "supported",
+      "n": 417,
+      "drives": 27,
+      "days": 8,
+      "nSupportedSocStrata": 0
+     },
+     "50-60": {
+      "status": "supported",
+      "n": 305,
+      "drives": 10,
+      "days": 6,
+      "nSupportedSocStrata": 0
+     },
+     "60-70": {
+      "status": "thin",
+      "n": 234,
+      "drives": 9,
+      "days": 6,
+      "nSupportedSocStrata": 0
+     },
+     "70-80": {
+      "status": "thin",
+      "n": 190,
+      "drives": 8,
+      "days": 6,
+      "nSupportedSocStrata": 0
+     },
+     "80-90": {
+      "status": "thin",
+      "n": 79,
+      "drives": 5,
+      "days": 5,
+      "nSupportedSocStrata": 0
+     },
+     "90-100": {
+      "status": "failed",
+      "n": 24,
+      "drives": 1,
+      "days": 1,
+      "nSupportedSocStrata": 0
+     },
+     "100-110": {
+      "status": "failed",
+      "n": 6,
+      "drives": 1,
+      "days": 1,
+      "nSupportedSocStrata": 0
+     },
+     "110-120": {
+      "status": "failed",
+      "n": 1,
+      "drives": 1,
+      "days": 1,
+      "nSupportedSocStrata": 0
+     }
+    },
+    "nSupportedGroupsAllSoc": 5,
+    "reading": "coverage 0.000 arises from the rule 'fewer than 2 supported groups' when nSupportedGroupsAllSoc < 2; when >= 2 it arises from an EMPTY intersection of the SOC strata supported for every group (no group was dropped)"
+   }
+  }
+ },
+ "c4": {
+  "shoulder": {
+   "shoulder/fast/temperature": {
+    "new": {
+     "available": true,
+     "coverage": 0.9985,
+     "droppedGroups": [
+      "30–40°C"
+     ],
+     "reason": null,
+     "nBars": 2,
+     "barStatus": {
+      "10–20°C": "supported",
+      "20–30°C": "supported"
+     },
+     "commonSupportBands": [
+      "band 50-55",
+      "band 55-60",
+      "band 60-63",
+      "band 63-66",
+      "band 66-69",
+      "band 69-72",
+      "band 72-100"
+     ]
+    },
+    "prev": {
+     "available": true,
+     "coverage": 0.9985,
+     "droppedGroups": [
+      "30–40°C"
+     ],
+     "reason": null,
+     "nBars": 2,
+     "barStatus": {
+      "10–20°C": "supported",
+      "20–30°C": "supported"
+     },
+     "commonSupportBands": [
+      "band 50-55",
+      "band 55-60",
+      "band 60-63",
+      "band 63-66",
+      "band 66-69",
+      "band 69-72",
+      "band 72-100"
+     ]
+    }
+   },
+   "shoulder/fast/speed": {
+    "new": {
+     "available": true,
+     "coverage": 0.9627,
+     "droppedGroups": [
+      "70-80",
+      "60-70",
+      "50-60",
+      "40-50"
+     ],
+     "reason": null,
+     "nBars": 3,
+     "barStatus": {
+      "10-20": "supported",
+      "20-30": "supported",
+      "30-40": "supported"
+     },
+     "commonSupportBands": [
+      "band 55-60",
+      "band 60-63",
+      "band 63-66",
+      "band 66-69",
+      "band 69-72",
+      "band 72-100"
+     ]
+    },
+    "prev": {
+     "available": true,
+     "coverage": 0.9632,
+     "droppedGroups": [
+      "70-80",
+      "60-70",
+      "50-60",
+      "40-50"
+     ],
+     "reason": null,
+     "nBars": 3,
+     "barStatus": {
+      "10-20": "supported",
+      "20-30": "supported",
+      "30-40": "supported"
+     },
+     "commonSupportBands": [
+      "band 55-60",
+      "band 60-63",
+      "band 63-66",
+      "band 66-69",
+      "band 69-72",
+      "band 72-100"
+     ]
+    }
+   },
+   "shoulder/slow/temperature": {
+    "new": {
+     "available": true,
+     "coverage": 0.9627,
+     "droppedGroups": [],
+     "reason": null,
+     "nBars": 3,
+     "barStatus": {
+      "10–20°C": "supported",
+      "20–30°C": "supported",
+      "30–40°C": "supported"
+     },
+     "commonSupportBands": [
+      "band 55-60",
+      "band 60-63",
+      "band 63-66",
+      "band 66-69",
+      "band 69-72",
+      "band 72-100"
+     ]
+    },
+    "prev": {
+     "available": true,
+     "coverage": 0.9632,
+     "droppedGroups": [],
+     "reason": null,
+     "nBars": 3,
+     "barStatus": {
+      "10–20°C": "supported",
+      "20–30°C": "supported",
+      "30–40°C": "supported"
+     },
+     "commonSupportBands": [
+      "band 55-60",
+      "band 60-63",
+      "band 63-66",
+      "band 66-69",
+      "band 69-72",
+      "band 72-100"
+     ]
+    }
+   },
+   "shoulder/slow/speed": {
+    "new": {
+     "available": true,
+     "coverage": 0.9985,
+     "droppedGroups": [
+      "70-80",
+      "60-70",
+      "40-50",
+      "50-60"
+     ],
+     "reason": null,
+     "nBars": 3,
+     "barStatus": {
+      "10-20": "supported",
+      "20-30": "supported",
+      "30-40": "supported"
+     },
+     "commonSupportBands": [
+      "band 50-55",
+      "band 55-60",
+      "band 60-63",
+      "band 63-66",
+      "band 66-69",
+      "band 69-72",
+      "band 72-100"
+     ]
+    },
+    "prev": {
+     "available": true,
+     "coverage": 0.9985,
+     "droppedGroups": [
+      "70-80",
+      "60-70",
+      "40-50",
+      "50-60"
+     ],
+     "reason": null,
+     "nBars": 3,
+     "barStatus": {
+      "10-20": "supported",
+      "20-30": "supported",
+      "30-40": "supported"
+     },
+     "commonSupportBands": [
+      "band 50-55",
+      "band 55-60",
+      "band 60-63",
+      "band 63-66",
+      "band 66-69",
+      "band 69-72",
+      "band 72-100"
+     ]
+    }
+   }
+  }
+ },
+ "c5": {
+  "maxAbsChangeSstar": 0.001229999999999995,
+  "argmax": "band 55-60",
+  "nWeights": 9,
+  "shaPrev": "8c4f7c66fae884df8cb72c28475004e99e0fd0022cd8da9c52ad3f3f853bda45",
+  "shaNew": "65ed3b149788a040dc8ae935f55f9229bf7f87c573499cdceee98978d8b434ae"
+ },
+ "above100": {
+  "nNew": 14,
+  "nPrev": 14,
+  "nSupportedNew": 0,
+  "byStatus": {
+   "failed": 8,
+   "thin": 6
+  },
+  "cells": [
+   {
+    "cell": "all/fast/speed/band 69-72/100-110",
+    "status": "thin",
+    "n": 13,
+    "drives": 4,
+    "days": 4,
+    "eff": 121.14,
+    "ci95": null,
+    "conventionRange": {
+     "strictOnly": 121.14,
+     "keptPlusTrimmed": 121.14
+    },
+    "massRange": [
+     120.71,
+     121.56
+    ],
+    "bNat": 7.73,
+    "flagAbove100": true,
+    "statusReason": "below the support floors: n 13 < 200, drives 4 < 10, days 4 < 5"
+   },
+   {
+    "cell": "all/slow/speed/band 72-100/100-110",
+    "status": "failed",
+    "n": 11,
+    "drives": 3,
+    "days": 3,
+    "eff": 176.27,
+    "ci95": null,
+    "conventionRange": {
+     "strictOnly": 137.85,
+     "keptPlusTrimmed": 234.76
+    },
+    "massRange": [
+     176.27,
+     176.27
+    ],
+    "bNat": 19.122,
+    "flagAbove100": true,
+    "statusReason": "interval unidentified (more than 2.5 % of the bootstrap draws have no ratio)"
+   },
+   {
+    "cell": "all/slow/zones10/band 72-100/90-120",
+    "status": "thin",
+    "n": 78,
+    "drives": 16,
+    "days": 13,
+    "eff": 101.81,
+    "ci95": [
+     64.47,
+     151.35
+    ],
+    "conventionRange": {
+     "strictOnly": 95.77,
+     "keptPlusTrimmed": 130.23
+    },
+    "massRange": [
+     101.67,
+     101.95
+    ],
+    "bNat": 0.535,
+    "flagAbove100": true,
+    "statusReason": "below the support floors: n 78 < 200"
+   },
+   {
+    "cell": "cold/fast/speed/allSoc/110-120",
+    "status": "failed",
+    "n": 1,
+    "drives": 1,
+    "days": 1,
+    "eff": 111.69,
+    "ci95": null,
+    "conventionRange": {
+     "strictOnly": 111.69,
+     "keptPlusTrimmed": 111.69
+    },
+    "massRange": [
+     111.69,
+     111.69
+    ],
+    "bNat": 31.611,
+    "flagAbove100": true,
+    "statusReason": "interval unidentified (more than 2.5 % of the bootstrap draws have no ratio)"
+   },
+   {
+    "cell": "cold/fast/speed/band 60-63/110-120",
+    "status": "failed",
+    "n": 1,
+    "drives": 1,
+    "days": 1,
+    "eff": 111.69,
+    "ci95": null,
+    "conventionRange": {
+     "strictOnly": 111.69,
+     "keptPlusTrimmed": 111.69
+    },
+    "massRange": [
+     111.69,
+     111.69
+    ],
+    "bNat": 31.611,
+    "flagAbove100": true,
+    "statusReason": "interval unidentified (more than 2.5 % of the bootstrap draws have no ratio)"
+   },
+   {
+    "cell": "shoulder/fast/speed/band 66-69/100-110",
+    "status": "failed",
+    "n": 6,
+    "drives": 3,
+    "days": 2,
+    "eff": 100.94,
+    "ci95": null,
+    "conventionRange": {
+     "strictOnly": 100.94,
+     "keptPlusTrimmed": 119.22
+    },
+    "massRange": [
+     100.33,
+     101.56
+    ],
+    "bNat": 19.652,
+    "flagAbove100": true,
+    "statusReason": "interval unidentified (more than 2.5 % of the bootstrap draws have no ratio)"
+   },
+   {
+    "cell": "warm/fast/speed/band 69-72/100-110",
+    "status": "failed",
+    "n": 11,
+    "drives": 3,
+    "days": 3,
+    "eff": 130.37,
+    "ci95": null,
+    "conventionRange": {
+     "strictOnly": 130.37,
+     "keptPlusTrimmed": 130.37
+    },
+    "massRange": [
+     129.77,
+     130.97
+    ],
+    "bNat": 1.192,
+    "flagAbove100": true,
+    "statusReason": "interval unidentified (more than 2.5 % of the bootstrap draws have no ratio)"
+   },
+   {
+    "cell": "warm/fast/speed/band 72-100/90-100",
+    "status": "failed",
+    "n": 13,
+    "drives": 3,
+    "days": 3,
+    "eff": 113.44,
+    "ci95": null,
+    "conventionRange": {
+     "strictOnly": 113.44,
+     "keptPlusTrimmed": 113.44
+    },
+    "massRange": [
+     112.97,
+     113.92
+    ],
+    "bNat": 10.581,
+    "flagAbove100": true,
+    "statusReason": "interval unidentified (more than 2.5 % of the bootstrap draws have no ratio)"
+   },
+   {
+    "cell": "warm/fast/zones10/band 69-72/90-120",
+    "status": "thin",
+    "n": 28,
+    "drives": 7,
+    "days": 6,
+    "eff": 110.38,
+    "ci95": [
+     25.25,
+     141.23
+    ],
+    "conventionRange": {
+     "strictOnly": 94.98,
+     "keptPlusTrimmed": 119.38
+    },
+    "massRange": [
+     109.69,
+     111.08
+    ],
+    "bNat": 11.611,
+    "flagAbove100": true,
+    "statusReason": "below the support floors: n 28 < 200, drives 7 < 10"
+   },
+   {
+    "cell": "warm/fast/zones10/band 72-100/90-120",
+    "status": "thin",
+    "n": 14,
+    "drives": 4,
+    "days": 4,
+    "eff": 107.35,
+    "ci95": null,
+    "conventionRange": {
+     "strictOnly": 107.35,
+     "keptPlusTrimmed": 107.35
+    },
+    "massRange": [
+     106.83,
+     107.86
+    ],
+    "bNat": 16.675,
+    "flagAbove100": true,
+    "statusReason": "below the support floors: n 14 < 200, drives 4 < 10, days 4 < 5"
+   },
+   {
+    "cell": "warm/slow/speed/band 40-50/30-40",
+    "status": "thin",
+    "n": 12,
+    "drives": 6,
+    "days": 6,
+    "eff": 100.91,
+    "ci95": [
+     44.48,
+     144.83
+    ],
+    "conventionRange": {
+     "strictOnly": 85.83,
+     "keptPlusTrimmed": 103.04
+    },
+    "massRange": [
+     99.34,
+     102.54
+    ],
+    "bNat": 4.996,
+    "flagAbove100": true,
+    "statusReason": "below the support floors: n 12 < 200, drives 6 < 10"
+   },
+   {
+    "cell": "warm/slow/speed/band 72-100/100-110",
+    "status": "failed",
+    "n": 11,
+    "drives": 3,
+    "days": 3,
+    "eff": 176.27,
+    "ci95": null,
+    "conventionRange": {
+     "strictOnly": 137.85,
+     "keptPlusTrimmed": 234.76
+    },
+    "massRange": [
+     176.27,
+     176.27
+    ],
+    "bNat": 19.122,
+    "flagAbove100": true,
+    "statusReason": "interval unidentified (more than 2.5 % of the bootstrap draws have no ratio)"
+   },
+   {
+    "cell": "warm/slow/temperature/band 72-100/10–20°C",
+    "status": "failed",
+    "n": 69,
+    "drives": 3,
+    "days": 3,
+    "eff": 123.02,
+    "ci95": null,
+    "conventionRange": {
+     "strictOnly": 108.21,
+     "keptPlusTrimmed": 143.33
+    },
+    "massRange": [
+     122.82,
+     123.23
+    ],
+    "bNat": 4.7,
+    "flagAbove100": true,
+    "statusReason": "interval unidentified (more than 2.5 % of the bootstrap draws have no ratio)"
+   },
+   {
+    "cell": "warm/slow/zones10/band 72-100/90-120",
+    "status": "thin",
+    "n": 76,
+    "drives": 15,
+    "days": 12,
+    "eff": 104.17,
+    "ci95": [
+     68.75,
+     155.5
+    ],
+    "conventionRange": {
+     "strictOnly": 97.99,
+     "keptPlusTrimmed": 133.47
+    },
+    "massRange": [
+     104.07,
+     104.27
+    ],
+    "bNat": 0.871,
+    "flagAbove100": true,
+    "statusReason": "below the support floors: n 76 < 200"
+   }
+  ]
+ }
+}

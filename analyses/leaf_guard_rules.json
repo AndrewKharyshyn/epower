@@ -755,5 +755,159 @@
   "pathTemplate": "thermalSupportLedger/reconciliation/checks/{key}/note",
   "condition": "sibling_present",
   "sibling": "equal"
+ },
+ {
+  "id": "m608-ladder-differing-shrunk",
+  "rationale": "M608 (Director ruling, analyses/M608_leaf_guard_director_ruling.json): the list of ladder pairs that differ from the reference reading is as long as nIntervalsDiffering; it may lose entries only where that count changed (the removed pairs still exist as intervals and now agree; the reference reading is unchanged).",
+  "milestone": "M608",
+  "pathTemplate": "resistanceJointSensitivity/ladder/differing/{i}/{i}",
+  "condition": "field_changed",
+  "entryDepth": 2,
+  "field": "nIntervalsDiffering"
+ },
+ {
+  "id": "m608-regen-ciSuppressed-cleared",
+  "rationale": "M608 (Director ruling, analyses/M608_leaf_guard_director_ruling.json): the interval-suppression reason ('days<5') may vanish only where the stratum's calendar-day count changed (the pre-registered 5-day floor is now met); cold stays exploratory (owner decision analyses/M608_owner_decision_cold_intervals.json).",
+  "milestone": "M608",
+  "pathTemplate": "regenDisplayV2/cohorts/{key}/strata/{key}/totals/ciSuppressed",
+  "condition": "field_changed",
+  "entryDepth": 6,
+  "field": "days"
+ },
+ {
+  "id": "m608-regen-commonSupportBands",
+  "rationale": "M608 (Director ruling, analyses/M608_leaf_guard_director_ruling.json): a common-support band may drop out only where the view's availability reason (coverage and group count) changed with the data.",
+  "milestone": "M608",
+  "pathTemplate": "regenDisplayV2/cohorts/{key}/strata/{key}/standardized/temperature/commonSupportBands/{i}",
+  "condition": "field_changed",
+  "entryDepth": 7,
+  "field": "reason"
+ },
+ {
+  "id": "m608-mixedEffects-error",
+  "rationale": "M608 (Director ruling, analyses/M608_leaf_guard_director_ruling.json): the mixed-model failure text may vanish only where the model now converged (M155 ruling analyses/M608_estimator_change_director_ruling.json).",
+  "milestone": "M608",
+  "pathTemplate": "degradationTrends/resistanceVreg/mixedEffects/error",
+  "condition": "sibling_present",
+  "sibling": "converged"
+ },
+ {
+  "id": "m608-mixedEffects-degenerate",
+  "rationale": "M608 (Director ruling, analyses/M608_leaf_guard_director_ruling.json): the degenerate flag may vanish only where the model now converged (M155 ruling).",
+  "milestone": "M608",
+  "pathTemplate": "degradationTrends/resistanceVreg/mixedEffects/degenerate",
+  "condition": "sibling_present",
+  "sibling": "converged"
+ },
+ {
+  "id": "m608-mixedEffects-degenerateNote",
+  "rationale": "M608 (Director ruling, analyses/M608_leaf_guard_director_ruling.json): the degenerate note may vanish only where the model now converged (M155 ruling).",
+  "milestone": "M608",
+  "pathTemplate": "degradationTrends/resistanceVreg/mixedEffects/degenerateNote",
+  "condition": "sibling_present",
+  "sibling": "converged"
+ },
+ {
+  "id": "m608-trendslope-excluding-moved",
+  "rationale": "M608 (Director ruling, analyses/M608_leaf_guard_director_ruling.json): a row may leave the excluding-zero list only by moving to the including-zero list (union unchanged).",
+  "milestone": "M608",
+  "pathTemplate": "serialDependence/trendSlopes/{key}/rowsRule/rowsExcludingZero/{i}",
+  "condition": "moved_to_complement_list",
+  "listField": "rowsExcludingZero",
+  "complementField": "rowsIncludingZero"
+ },
+ {
+  "id": "m608-trendslope-flip-ack",
+  "rationale": "M608 (Director ruling, analyses/M608_leaf_guard_director_ruling.json): a classification flip of the cellSpread trend-slope rule (procedure-dependent -> no row includes zero) only under the acknowledgement that pins block, both classifications, the 10-row union and the master MD5.",
+  "milestone": "M608",
+  "pathTemplate": "serialDependence/trendSlopes/{key}/rowsRule/rowsIncludingZero/{i}",
+  "condition": "trendslope_flip_ack",
+  "listField": "rowsIncludingZero",
+  "complementField": "rowsExcludingZero",
+  "ackFile": "analyses/M608_cellSpread_ack.json"
+ },
+ {
+  "id": "m608-soakTau-note",
+  "rationale": "M608 (Director ruling, analyses/M608_leaf_guard_director_ruling.json): the row note (cluster-count wording) may vanish only where the row's nClusters changed.",
+  "milestone": "M608",
+  "pathTemplate": "heatSoakCarryover/soakTauMethodTable/{i}/note",
+  "condition": "field_changed",
+  "entryDepth": 3,
+  "field": "nClusters"
+ },
+ {
+  "id": "m608-heatSoak-differsFromDayBootstrap",
+  "rationale": "M608 (Director ruling, analyses/M608_leaf_guard_director_ruling.json): a block-bootstrap-differs flag may vanish only where the cell's displayed statements changed (old and new statements are listed in the CHANGELOG).",
+  "milestone": "M608",
+  "pathTemplate": "heatSoakCarryover/soakFitQuality/cells/{key}/blockBootstrap/differsFromDayBootstrap/{i}",
+  "condition": "field_changed",
+  "entryDepth": 4,
+  "field": "statements"
+ },
+ {
+  "id": "m608-interDrive-differsFromDayBootstrap",
+  "rationale": "M608 (Director ruling, analyses/M608_leaf_guard_director_ruling.json): a block-bootstrap-differs flag may vanish only where the cell's displayed statements changed.",
+  "milestone": "M608",
+  "pathTemplate": "interDriveCarryover/thermalDecay/{key}/fitQuality/cells/{key}/blockBootstrap/differsFromDayBootstrap/{i}",
+  "condition": "field_changed",
+  "entryDepth": 6,
+  "field": "statements"
+ },
+ {
+  "id": "m608-heatSoak-lodo-k10",
+  "rationale": "M608 (Director ruling, analyses/M608_leaf_guard_director_ruling.json): same condition as m578-carryover-lodo-k10, for the heat-soak carryover block.",
+  "milestone": "M608",
+  "pathTemplate": "heatSoakCarryover/soakFitQuality/leaveOneDayOut/cells/{key}/differsFromK10/{i}",
+  "condition": "lodo_matches_k10"
+ },
+ {
+  "id": "m608-heatSoak-metricDisagreement",
+  "rationale": "M608 (Director ruling, analyses/M608_leaf_guard_director_ruling.json): a metric-disagreement entry may vanish only because the list is now shorter and still non-empty.",
+  "milestone": "M608",
+  "pathTemplate": "heatSoakCarryover/soakFitQuality/cells/{key}/statements/{key}/metricDisagreement/{i}",
+  "condition": "list_shortened_nonempty"
+ },
+ {
+  "id": "m608-interDrive-metricDisagreement",
+  "rationale": "M608 (Director ruling, analyses/M608_leaf_guard_director_ruling.json): a metric-disagreement entry may vanish only because the list is now shorter and still non-empty.",
+  "milestone": "M608",
+  "pathTemplate": "interDriveCarryover/thermalDecay/{key}/fitQuality/cells/{key}/statements/{key}/metricDisagreement/{i}",
+  "condition": "list_shortened_nonempty"
+ },
+ {
+  "id": "m608-coldCandidates-nAtSharedEndpoint",
+  "rationale": "M608 (Director ruling, analyses/M608_leaf_guard_director_ruling.json): index shift only: a new temperature level was inserted, so the candidate at this index is a different level (the previous level still carries the counts at its new index).",
+  "milestone": "M608",
+  "pathTemplate": "socHysteresisV2/tempLadderMonitor/sides/{key}/coldCandidates/{i}/nAtSharedEndpoint/{key}",
+  "condition": "field_changed",
+  "entryDepth": 6,
+  "field": "level"
+ },
+ {
+  "id": "m608-stamp-computedAtNote",
+  "rationale": "M608 (Director ruling, analyses/M608_leaf_guard_director_ruling.json): a stamp's computedAtNote may vanish only where the previous computedAt was null and the current one is the ingest run time (M575 pattern, two more stamps).",
+  "milestone": "M608",
+  "pathTemplate": "_artifactStamps/{key}/computedAtNote",
+  "condition": "stamp_computed_at_set",
+  "keys": [
+   "highwayShare",
+   "steadyLoadSpread"
+  ]
+ },
+ {
+  "id": "m608-tempThinBins-ack",
+  "rationale": "M608 (Director ruling, analyses/M608_leaf_guard_director_ruling.json): the thin-bin list was emptied by new data; the lost leaves are pinned (path and previous value) in the acknowledgement.",
+  "milestone": "M608",
+  "pathTemplate": "regenCaptureMeta/tempThinBins/{i}/{key}",
+  "condition": "lost_leaf_ack",
+  "ackFile": "analyses/M608_lost_leaf_ack.json"
+ },
+ {
+  "id": "m608-v0-flag-ack",
+  "rationale": "M608 (Director ruling, analyses/M608_leaf_guard_director_ruling.json): the flag list was emptied by new data; the lost leaf is pinned (path and previous value) in the acknowledgement; goes with the cellSpread flip check.",
+  "milestone": "M608",
+  "pathTemplate": "cellSpreadRelaxationSensitivity/flags/{key}/variantOutsideV0Interval/{i}",
+  "condition": "lost_leaf_ack",
+  "ackFile": "analyses/M608_lost_leaf_ack.json"
  }
 ]
