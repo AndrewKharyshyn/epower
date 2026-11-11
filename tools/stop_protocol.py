@@ -75,10 +75,12 @@ def build_record(stage, gate, facts, ack_env, ack_schema, withheld, artifacts, u
 
 
 def record_stop(stage, gate, facts, ack_env, ack_schema=None, withheld=(), artifacts=(), env=None):
-    """Write the stop record; None (and nothing written) outside a valid collect pass."""
+    """Write the stop record; None (and nothing written) outside a valid collect pass. `facts` may be a function: it is called only inside a valid pass."""
     env = os.environ if env is None else env
     if not collect_active(env):
         return None
+    if callable(facts):                                    # Director R2: facts are built ONLY in a valid collect pass; the default stop path computes nothing extra
+        facts = facts()
     run_dir = env[DIR_ENV]
     existing = load_records(run_dir)
     rec = build_record(stage, gate, facts, ack_env, ack_schema, withheld, artifacts, [r["recordSha256"] for r in existing])

@@ -213,8 +213,8 @@ def main():
             f.write(json.dumps(delta, indent=1, ensure_ascii=False) + "\n")
     if problems:
         import stop_protocol as SP          # M610b: only a pure escalation (no stop of any kind) is collectable; the splice is withheld (the ack record is part of the delta file)
-        if not delta["stops"] and delta["escalations"] and SP.try_collect(
-                "gtr_closure_refresh", "closure_escalations", {"escalations": [[x["rule"], str(x["path"])] for x in delta["escalations"]][:8], "nEscalations": len(delta["escalations"])},
+        if SP.collect_active() and not delta["stops"] and delta["escalations"] and SP.try_collect(
+                "gtr_closure_refresh", "closure_escalations", lambda: {"escalations": [[x["rule"], str(x["path"])] for x in delta["escalations"]][:8], "nEscalations": len(delta["escalations"])},
                 ["XT_ACK_GTR_CLOSURE"], {"closure": "ruling, driveMasterMd5, perDriveSha256, stopsSha256, stops, escalations"},
                 withheld=["generatorTractionRecon.gtrClosure", "generatorTractionRecon.staleBlocks"], artifacts=["analyses/gtr_closure_delta.json"]):
             print("COLLECT (M610b): escalations recorded, nothing spliced: " + "; ".join(problems[:8]), file=sys.stderr)

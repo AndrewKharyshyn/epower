@@ -305,8 +305,11 @@ def main():
         f.write(json.dumps(delta, indent=1, ensure_ascii=False) + "\n")
     if stops:
         import stop_protocol as SP          # M610b: in a collect pass an acknowledgeable stop (flip or simultaneity band ONLY) is recorded and nothing is spliced; every other stop stays hard
-        if all(s in (FLIP_STOP, BAND_STOP) for s in stops) and SP.try_collect(
-                "gtr_family_refresh", "reading_flip_or_band", {"stops": stops, "changedPaths": delta.get("changedPaths")}, ["XT_ACK_GTR_FLIP", "XT_ACK_GTR_BAND"],
+        if SP.collect_active() and all(s in (FLIP_STOP, BAND_STOP) for s in stops) and SP.try_collect(
+                "gtr_family_refresh", "reading_flip_or_band", lambda: {"stops": [x[:160] for x in stops], "changedPaths": delta.get("changedPaths"), "driveMasterMd5": md5("drive_master.csv"),
+                                                                       "sensitivityAxesSha256": _axes_sha(O["sensitivity"]["rows"]), "simultaneityRowsSha256": _rows_sha(O["simultaneity"]["rows"]),
+                                                                       "flipped": [{"axis": r["axis"], "fgen": r["fgen"]} for r in O["sensitivity"]["rows"] if r["fgen"] >= 0.5][:12]},
+                ["XT_ACK_GTR_FLIP", "XT_ACK_GTR_BAND"],
                 {"flip": "ruling, driveMasterMd5, sensitivityAxesSha256, acknowledged (axis, fgen)", "band": "ruling, driveMasterMd5, simultaneityRowsSha256, acknowledged breaches"},
                 withheld=list(BLOCKS) + ["refreshedBlocks", "eligibilityAlignment", "generatorTractionRecon.staleBlocks"], artifacts=["analyses/gtr_family_delta.json"]):
             print("COLLECT (M610b): acknowledgeable stop recorded, nothing spliced: " + "; ".join(stops), file=sys.stderr)

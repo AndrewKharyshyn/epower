@@ -76,6 +76,7 @@ def main():
     ap.add_argument("--fresh", action="store_true", help="M609: ignore stored checkpoints and run every stage (resume is the default for a full journaled run: after a gate stop the next plain run restores the stages that already passed; the chain keys still guarantee the same data state and stage code)")
     ap.add_argument("--no-checkpoints", action="store_true", help="M464: do not save stage checkpoints (full journaled runs save them by default under runs/.checkpoints/)")
     ap.add_argument("--collect-stops", action="store_true", help="M610b: discovery pass: stages whose gate needs a ruling (acknowledgeable escalations) record a stop (runs/<ts>/stops/) and are treated as acknowledged with their splice withheld, so every escalation of the batch is found in one pass; any other failure still stops it. Never commits: the tree is always rolled back; exit code 6 = collect_done (tools/stop_protocol.py)")
+    ap.add_argument("--record-normalised", action="store_true", help="M610b pilot: record in status.json, per stage, the normalised hash of every declared output (tools/state_hash.py normalised_sha: pre-registered run-time stamp leaves dropped) so tools/collect_pass_compare.py can compare a collect pass with the real run; slower, never needed for an ordinary run")
     ap.add_argument("--recover", action="store_true", help="M416: roll back an interrupted or kept release from its journal, then exit")
     a = ap.parse_args()
     a.resume = not a.fresh                      # M609: resume is the default for a full journaled run (chain keys decide validity; an empty or invalid chain just runs every stage)
@@ -87,6 +88,10 @@ def main():
         except RJ.ReleaseError as ex:
             print(json.dumps({"error": str(ex)}), file=sys.stderr)
             return 4
+        import stop_protocol as SP_
+        for r_ in rep_:                                   # M610b (Director R2): the token of a recovered collect pass goes only with a successful rollback
+            if r_["state"] == "rolled_back":
+                SP_.close_token(os.path.join(ROOT, "runs", r_["run"]))
         print(json.dumps({"recovered": rep_}))
         return 0 if all(r["state"] == "rolled_back" for r in rep_) else 4
     if a.collect_stops and (a.only or a.frm or a.skip or a.skip_unchanged or a.no_journal or a.keep_on_failure or a.dry_run):
@@ -175,12 +180,14 @@ def main():
         for idx, s in enumerate(stages):
             if idx < k_restored and not s.get("rerun_on_resume"):     # rerun_on_resume: stage writes state outside the checkpointed data state (raw_only/); idempotent, re-executed after a restore
                 status["stages"].append({"id": s["id"], "rc": 0, "seconds": 0.0, "status": "restored_from_checkpoint",
-                                         "outputs": {o: sha(os.path.join(ROOT, o)) for o in s.get("outputs", [])}})
+                                         "outputs": {o: sha(os.path.join(ROOT, o)) for o in s.get("outputs", [])},
+                                         **({"outputsNormalised": {o: __import__("state_hash").normalised_sha(os.path.join(ROOT, o)) for o in s.get("outputs", [])}} if a.record_normalised else {})})
                 continue
             if s["id"] in skip_ids:
                 status["stages"].append({"id": s["id"], "rc": None, "seconds": 0.0, "status": "skipped_unchanged", "reason": skip_reason})
                 continue
             t0 = time.time()
+            n_stops0 = len(SP.load_records(rd)) if collect_token else 0
             log = os.path.join(rd, s["id"] + ".log")
             with open(log, "w") as lf:
                 senv = dict(env)
@@ -195,10 +202,15 @@ def main():
                     lf.write("run_ingest: the stage could not be launched: %s (command %r)\n" % (launch_error, s["cmd"]))
             rec = {"id": s["id"], "rc": r.returncode, "seconds": round(time.time() - t0, 1),
                    "outputs": {o: sha(os.path.join(ROOT, o)) for o in s.get("outputs", [])}}
+            if a.record_normalised:
+                import state_hash as SH
+                rec["outputsNormalised"] = {o: SH.normalised_sha(os.path.join(ROOT, o)) for o in s.get("outputs", [])}
             if r.returncode == 3 and s.get("implemented") is False:
                 rec["status"] = "not_implemented"
             else:
                 rec["status"] = "ok" if r.returncode == 0 else "gate_failed"
+            if collect_token and len(SP.load_records(rd)) > n_stops0:          # M610b (Director R2): the stage recorded a stop and withheld (or provisionally passed) its effect
+                rec["collectedStops"] = len(SP.load_records(rd)) - n_stops0
             status["stages"].append(rec)
             if rec["status"] == "ok" and cp is not None and idx >= k_restored and not a.collect_stops:      # M610b: a collect pass saves no checkpoints (its state is provisional)
                 cp.save(s)
@@ -210,15 +222,14 @@ def main():
                 rc_final = 3 if rec["status"] == "not_implemented" else 1
                 break
     except BaseException as ex:                                  # M416: exception or signal mid-run: roll back, then re-raise
-        if collect_token:
-            SP.close_token(rd)
         if journal is not None:
             rb = journal.rollback("exception: %r" % (ex,)) if not a.keep_on_failure else journal.keep_for_debug("exception: %r" % (ex,))
             print(json.dumps({"journal": rb["state"], "run": ts}), file=sys.stderr)
+            if collect_token and rb["state"] == "rolled_back":          # M610b (Director R2): the token is removed only AFTER the rollback succeeded
+                SP.close_token(rd)
         raise
     if collect_token:                                             # M610b: end of the discovery pass: export provisional artifacts and briefs, close the token, never commit
         collect_summary = SP.finish_pass(rd, ROOT)
-        SP.close_token(rd)
         status["collect"] = collect_summary
         if status["result"] == "ok":
             status["result"] = "collect_done"
@@ -235,6 +246,8 @@ def main():
             status["journal"] = {"state": jd["state"], "restored": {k: len(v) for k, v in jd["restored"].items()}, "mismatches": jd["rollbackMismatches"][:10], "rawAdded": jd["rawAdded"][:20]}
             if jd["state"] != "rolled_back":
                 rc_final = 4
+            else:
+                SP.close_token(rd)                               # M610b (Director R2): only after the rollback succeeded; a failed rollback leaves the token (release_check fails)
         elif status["result"] == "ok":
             jd = journal.commit(declared)
             status["journal"] = {"state": jd["state"], "nChanged": len(jd["writeSet"]["changed"]), "nCreated": len(jd["writeSet"]["created"]), "nDeleted": len(jd["writeSet"]["deleted"]),

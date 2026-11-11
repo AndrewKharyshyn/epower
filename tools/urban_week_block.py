@@ -215,7 +215,7 @@ def main(argv=None):
                 return 3
         else:
             import stop_protocol as SP          # M610b: the splice bytes do not depend on the ack content (it only gates), so a collect pass records the stop and splices as if acknowledged
-            if SP.try_collect("urban_week_block", "verdict_depends_on_resampling_unit", {"overallVerdict": blk["overallVerdict"], "nBands": len(blk["bands"]), "masterMd5": md5},
+            if SP.collect_active() and SP.try_collect("urban_week_block", "verdict_depends_on_resampling_unit", lambda: {"overallVerdict": blk["overallVerdict"], "nBands": len(blk["bands"]), "masterMd5": md5},
                               ["XT_ACK_URBAN_WEEK_BLOCK", "--ack-verdict-change"], {"urban": "ruling, driveMasterMd5, totalDrives, verdict (ack_ok)"}, withheld=[], artifacts=[]):
                 print("M494 COLLECT (M610b): stop recorded; splicing as if acknowledged (collect pass, rolled back)")
             else:

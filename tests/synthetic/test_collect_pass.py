@@ -7,7 +7,7 @@ tools/h_flag.txt says FAIL. Known answers:
  4. the real run with the 3 acks is ok, every stage executed, final bytes equal a conventional run acknowledged stop by stop (stop, ack, rerun x3);
  5. `--collect-stops` is refused together with --only / --no-journal / --keep-on-failure (exit 2), and a stale token variable does not switch a normal run into collect mode;
  6. release_check's guard: a leftover runs/*/collect.token exists only while a pass is open."""
-import glob, json, os, shutil, sys, tempfile
+import glob, json, os, shutil, subprocess, sys, tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -103,6 +103,22 @@ def main():
             assert rc == 1 and T.executed(L("6")) == ["stop:e1"], "a stale token variable must not switch a normal run into collect mode: %s" % T.executed(L("6"))
         finally:
             os.environ.clear(); os.environ.update(env_before)
+        # 7. a hard kill in the middle of a collect pass (Director required test): the journal stays open and the token stays; --recover restores the bytes and removes the token
+        root3 = os.path.join(tmp, "root3")
+        setup(root3)
+        T.write(os.path.join(root3, "tools", "k.py"), "import os, signal, time\nos.kill(os.getppid(), getattr(signal, 'SIGKILL', signal.SIGTERM))\ntime.sleep(30)\n")
+        stages = [{"id": i, "title": i, "cmd": ["python3", "tools/%s.py" % i], "outputs": ["data/%s.txt" % i]} for i in ("e1", "k", "e2")]
+        T.write(os.path.join(root3, "tools", "ingest_stages.json"), json.dumps({"stages": stages}))
+        pre3 = T.tree_hash(root3)
+        env3 = dict(os.environ, TOY_LOG=L("kill"), PYTHONPATH=os.path.join(root3, "tools"))
+        env3.pop("XT_RAW_DIR", None)
+        rk = subprocess.run([sys.executable, os.path.join(root3, "tools", "run_ingest.py"), "--collect-stops"], cwd=root3, env=env3, capture_output=True, text=True, timeout=120)
+        assert rk.returncode != 0 and T.executed(L("kill")) == ["collect:e1"], (rk.returncode, T.executed(L("kill")))
+        toks = glob.glob(os.path.join(root3, "runs", "*", "collect.token"))
+        assert len(toks) == 1, "the token of the killed pass is still there"
+        r2 = subprocess.run([sys.executable, os.path.join(root3, "tools", "run_ingest.py"), "--recover"], cwd=root3, env=env3, capture_output=True, text=True, timeout=120)
+        assert r2.returncode == 0, (r2.returncode, r2.stdout[-300:], r2.stderr[-300:])
+        assert not glob.glob(os.path.join(root3, "runs", "*", "collect.token")) and T.tree_hash(root3) == pre3, "recovery restores the bytes and removes the token"
         # 6. the release guard glob (leftover token exists only while a pass is open)
         assert not glob.glob(os.path.join(root, "runs", "*", "collect.token"))
         print("test_collect_pass OK")
