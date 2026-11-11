@@ -36,7 +36,7 @@ def tree_hash(root):
 
 def setup(root):
     os.makedirs(os.path.join(root, "tools"))
-    for f in ("run_ingest.py", "release_journal.py", "ingest_checkpoint.py", "run_fingerprint.py"):
+    for f in ("run_ingest.py", "release_journal.py", "ingest_checkpoint.py", "run_fingerprint.py", "stop_protocol.py"):
         shutil.copy(os.path.join(REPO, "tools", f), os.path.join(root, "tools", f))
     shutil.copytree(os.path.join(REPO, "tools", "eol_shim"), os.path.join(root, "tools", "eol_shim"))
     write(os.path.join(root, "tools", "toylib.py"), STAGE)

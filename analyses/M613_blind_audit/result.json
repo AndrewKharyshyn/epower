@@ -1,0 +1,25 @@
+{
+ "verdict": "revise",
+ "default_path": "no divergence found: without flags/token, try_collect/collect_active return False before any facts lambda runs; stop messages, exit codes, status.json keys (collect, collectedStops, outputsNormalised only when flagged), checkpoints, commit path, save_ledger unchanged. Only differences: unconditional import stop_protocol, close_token no-op in --recover, stale INGEST_COLLECT_* popped from stage env (tools ignored them on main).",
+ "findings": [
+  {
+   "n": 1,
+   "severity": "medium",
+   "where": "tools/gtr_closure_refresh.py:215-221",
+   "text": "A REFUSED acknowledgement is treated as collectable. When XT_ACK_GTR_CLOSURE is set but apply_ack refuses (wrong md5/stopsSha/mismatched lists), problems becomes the refusal text, delta['stops'] may still be empty and delta['escalations'] non-empty, so the guard `not delta['stops'] and delta['escalations']` passes and the hook records a stop and exits 0 in a collect pass instead of the hard stop (exit 3). Scenario: escalation-only delta + stale ack file -> collect pass proceeds. Fix: also require 'acknowledgementRefused' not in delta (or check problems[0] does not start with 'closure acknowledgement refused'). Gtr_family (refusal adds non-FLIP/BAND stop) and urban_week_block (return 3 on refused ack) are correct."
+  },
+  {
+   "n": 2,
+   "severity": "low",
+   "where": "tools/urban_balance.py:206",
+   "text": "Collect hook splices the changed block (withheld=[]) as if acknowledged; acceptable as the tree is rolled back, but downstream stages see provisional state; documented, no hard-stop bypass (ack flag absent only)."
+  },
+  {
+   "n": 3,
+   "severity": "info",
+   "where": "tools/run_ingest.py",
+   "text": "Collect pass never commits (journal.rollback always; commit branch is elif); token closed only after rb state rolled_back (exception path, normal path, --recover); failed rollback leaves token and rc 4; release_check.py:362 fails while any runs/*/collect.token exists. Verified; if a signal handler path kills the run the token remains (conservative)."
+  }
+ ],
+ "tests": "test_collect_hooks, test_collect_pass, test_stop_protocol, test_ingest_checkpoint, test_release_journal all OK (PYTHONUTF8=1)."
+}

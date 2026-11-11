@@ -75,6 +75,8 @@ def main():
     ap.add_argument("--resume", action="store_true", help="M464: restore the longest valid prefix of the stage checkpoints of a previous failed full run (same data state, unchanged stage code) and execute only the first changed/failed stage and later ones; the journal still snapshots first and rolls back on any failure")
     ap.add_argument("--fresh", action="store_true", help="M609: ignore stored checkpoints and run every stage (resume is the default for a full journaled run: after a gate stop the next plain run restores the stages that already passed; the chain keys still guarantee the same data state and stage code)")
     ap.add_argument("--no-checkpoints", action="store_true", help="M464: do not save stage checkpoints (full journaled runs save them by default under runs/.checkpoints/)")
+    ap.add_argument("--collect-stops", action="store_true", help="M610b: discovery pass: stages whose gate needs a ruling (acknowledgeable escalations) record a stop (runs/<ts>/stops/) and are treated as acknowledged with their splice withheld, so every escalation of the batch is found in one pass; any other failure still stops it. Never commits: the tree is always rolled back; exit code 6 = collect_done (tools/stop_protocol.py)")
+    ap.add_argument("--record-normalised", action="store_true", help="M610b pilot: record in status.json, per stage, the normalised hash of every declared output (tools/state_hash.py normalised_sha: pre-registered run-time stamp leaves dropped) so tools/collect_pass_compare.py can compare a collect pass with the real run; slower, never needed for an ordinary run")
     ap.add_argument("--recover", action="store_true", help="M416: roll back an interrupted or kept release from its journal, then exit")
     a = ap.parse_args()
     a.resume = not a.fresh                      # M609: resume is the default for a full journaled run (chain keys decide validity; an empty or invalid chain just runs every stage)
@@ -86,8 +88,15 @@ def main():
         except RJ.ReleaseError as ex:
             print(json.dumps({"error": str(ex)}), file=sys.stderr)
             return 4
+        import stop_protocol as SP_
+        for r_ in rep_:                                   # M610b (Director R2): the token of a recovered collect pass goes only with a successful rollback
+            if r_["state"] == "rolled_back":
+                SP_.close_token(os.path.join(ROOT, "runs", r_["run"]))
         print(json.dumps({"recovered": rep_}))
         return 0 if all(r["state"] == "rolled_back" for r in rep_) else 4
+    if a.collect_stops and (a.only or a.frm or a.skip or a.skip_unchanged or a.no_journal or a.keep_on_failure or a.dry_run):
+        print("run_ingest: --collect-stops needs a full journaled run (no --only/--from/--skip/--skip-unchanged/--no-journal/--keep-on-failure/--dry-run): the pass must roll back and must not commit", file=sys.stderr)
+        return 2
     cfg = json.load(open(os.path.join(ROOT, "tools", "ingest_stages.json")))
     stages = cfg["stages"]
     try:
@@ -123,7 +132,11 @@ def main():
         for _sig in ("SIGTERM", "SIGBREAK"):
             if hasattr(signal, _sig):
                 signal.signal(getattr(signal, _sig), _on_signal)
+    import stop_protocol as SP
+    collect_token = SP.issue_token(rd) if a.collect_stops else None       # M610b: a runner-issued token tied to this run's open journal (not an XT_* variable)
     env = dict(os.environ)
+    for _k in (SP.TOKEN_ENV, SP.DIR_ENV):                                   # a stale inherited token never switches a run into collect mode
+        env.pop(_k, None)
     env.setdefault("PYTHONUTF8", "1")          # repo files are UTF-8; Windows default (cp1251/cp1252) breaks open() without encoding=
     env.setdefault("PYTHONIOENCODING", "utf-8")
     shim = os.path.join(ROOT, "tools", "eol_shim")      # text-mode writes default to LF (repo canonical bytes; see tools/eol_shim/sitecustomize.py)
@@ -167,17 +180,21 @@ def main():
         for idx, s in enumerate(stages):
             if idx < k_restored and not s.get("rerun_on_resume"):     # rerun_on_resume: stage writes state outside the checkpointed data state (raw_only/); idempotent, re-executed after a restore
                 status["stages"].append({"id": s["id"], "rc": 0, "seconds": 0.0, "status": "restored_from_checkpoint",
-                                         "outputs": {o: sha(os.path.join(ROOT, o)) for o in s.get("outputs", [])}})
+                                         "outputs": {o: sha(os.path.join(ROOT, o)) for o in s.get("outputs", [])},
+                                         **({"outputsNormalised": {o: __import__("state_hash").normalised_sha(os.path.join(ROOT, o)) for o in s.get("outputs", [])}} if a.record_normalised else {})})
                 continue
             if s["id"] in skip_ids:
                 status["stages"].append({"id": s["id"], "rc": None, "seconds": 0.0, "status": "skipped_unchanged", "reason": skip_reason})
                 continue
             t0 = time.time()
+            n_stops0 = len(SP.load_records(rd)) if collect_token else 0
             log = os.path.join(rd, s["id"] + ".log")
             with open(log, "w") as lf:
                 senv = dict(env)
                 senv["XT_RUN_STAGES_OK"] = ",".join(r_["id"] for r_ in status["stages"] if r_.get("status") in ("ok", "restored_from_checkpoint"))     # M513: the run record the stamp pass reads
                 senv["XT_RUN_STARTED_AT"] = run_started_at
+                if collect_token:
+                    senv[SP.TOKEN_ENV], senv[SP.DIR_ENV] = collect_token, rd
                 for k, v in (s.get("env") or {}).items():          # per-stage env; "$ROOT" expands to the repo root
                     senv[k] = v.replace("$ROOT", ROOT)
                 r, launch_error = launch(s["cmd"], cwd=ROOT, env=senv, stdout=lf, stderr=subprocess.STDOUT)
@@ -185,12 +202,17 @@ def main():
                     lf.write("run_ingest: the stage could not be launched: %s (command %r)\n" % (launch_error, s["cmd"]))
             rec = {"id": s["id"], "rc": r.returncode, "seconds": round(time.time() - t0, 1),
                    "outputs": {o: sha(os.path.join(ROOT, o)) for o in s.get("outputs", [])}}
+            if a.record_normalised:
+                import state_hash as SH
+                rec["outputsNormalised"] = {o: SH.normalised_sha(os.path.join(ROOT, o)) for o in s.get("outputs", [])}
             if r.returncode == 3 and s.get("implemented") is False:
                 rec["status"] = "not_implemented"
             else:
                 rec["status"] = "ok" if r.returncode == 0 else "gate_failed"
+            if collect_token and len(SP.load_records(rd)) > n_stops0:          # M610b (Director R2): the stage recorded a stop and withheld (or provisionally passed) its effect
+                rec["collectedStops"] = len(SP.load_records(rd)) - n_stops0
             status["stages"].append(rec)
-            if rec["status"] == "ok" and cp is not None and idx >= k_restored:
+            if rec["status"] == "ok" and cp is not None and idx >= k_restored and not a.collect_stops:      # M610b: a collect pass saves no checkpoints (its state is provisional)
                 cp.save(s)
             if rec["status"] != "ok":
                 status["result"] = rec["status"]
@@ -203,7 +225,15 @@ def main():
         if journal is not None:
             rb = journal.rollback("exception: %r" % (ex,)) if not a.keep_on_failure else journal.keep_for_debug("exception: %r" % (ex,))
             print(json.dumps({"journal": rb["state"], "run": ts}), file=sys.stderr)
+            if collect_token and rb["state"] == "rolled_back":          # M610b (Director R2): the token is removed only AFTER the rollback succeeded
+                SP.close_token(rd)
         raise
+    if collect_token:                                             # M610b: end of the discovery pass: export provisional artifacts and briefs, close the token, never commit
+        collect_summary = SP.finish_pass(rd, ROOT)
+        status["collect"] = collect_summary
+        if status["result"] == "ok":
+            status["result"] = "collect_done"
+            rc_final = 6                                          # 4 already means a failed rollback
     if cp is not None:
         if cp.notes:
             status.setdefault("checkpoint", {})["notes"] = cp.notes[:5]
@@ -211,7 +241,14 @@ def main():
             cp.discard()                                          # a green full run needs no chain
     if journal is not None:
         declared = {o for st in cfg["stages"] for o in (st.get("outputs") or [])}
-        if status["result"] == "ok":
+        if collect_token:
+            jd = journal.rollback("collect pass: the tree is always rolled back")
+            status["journal"] = {"state": jd["state"], "restored": {k: len(v) for k, v in jd["restored"].items()}, "mismatches": jd["rollbackMismatches"][:10], "rawAdded": jd["rawAdded"][:20]}
+            if jd["state"] != "rolled_back":
+                rc_final = 4
+            else:
+                SP.close_token(rd)                               # M610b (Director R2): only after the rollback succeeded; a failed rollback leaves the token (release_check fails)
+        elif status["result"] == "ok":
             jd = journal.commit(declared)
             status["journal"] = {"state": jd["state"], "nChanged": len(jd["writeSet"]["changed"]), "nCreated": len(jd["writeSet"]["created"]), "nDeleted": len(jd["writeSet"]["deleted"]),
                                  "undeclaredWrites": jd["undeclaredWrites"][:50], "rawAdded": jd["rawAdded"][:20]}
@@ -224,7 +261,7 @@ def main():
             if jd["state"] != "rolled_back":
                 rc_final = 4
     json.dump(status, open(os.path.join(rd, "status.json"), "w"), indent=1)
-    if full_run and not skip_ids and status["result"] == "ok":
+    if full_run and not skip_ids and status["result"] == "ok" and not collect_token:
         RF.save_ledger(ROOT, RF.components(ROOT, cfg["stages"]), ts)      # M385: state left by a fully green, fully executed run
     print(json.dumps({"run": ts, "result": status["result"], "status_path": os.path.relpath(os.path.join(rd, "status.json"), ROOT)}))
     return rc_final

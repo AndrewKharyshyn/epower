@@ -359,6 +359,8 @@ def main():
         }
         # M290: content/schema assertions on the shipped payload (authoritative, not source-marker).
         checks.update(payload_checks(tmp / "summary_arrays.json"))
+        # M610b (spec R6): a collect pass (run_ingest.py --collect-stops) leaves runs/<ts>/collect.token while it is open; a release must never be cut with one open
+        checks["no collect-pass token is open (M610b)"] = not any((SRC / "runs").glob("*/collect.token")) if (SRC / "runs").is_dir() else True
         for k, v in checks.items():
             print(("PASS " if v else "FAIL ") + k)
             if not v: fails.append(k)

@@ -165,6 +165,12 @@ def allow_check(A, new):
     return [p for p in walk_paths(A, new) if not any(p == a or p.startswith(a + "/") or p.startswith(a + "[") for a in ALLOW)]
 
 
+def closure_collectable(delta):
+    """M610b (blind audit finding 1): a stop of the closure refresh may be recorded by a collect pass only when it is a PURE escalation list: no stop of any kind and no refused acknowledgement
+    (a refused ack is a hard stop even when only escalations remain)."""
+    return bool(not delta["stops"] and delta["escalations"] and "acknowledgementRefused" not in delta)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
@@ -212,6 +218,13 @@ def main():
         with open("analyses/gtr_closure_delta.json", "w", encoding="utf-8", newline="\n") as f:
             f.write(json.dumps(delta, indent=1, ensure_ascii=False) + "\n")
     if problems:
+        import stop_protocol as SP          # M610b: only a pure escalation (no stop of any kind) is collectable; the splice is withheld (the ack record is part of the delta file)
+        if SP.collect_active() and closure_collectable(delta) and SP.try_collect(
+                "gtr_closure_refresh", "closure_escalations", lambda: {"escalations": [[x["rule"], str(x["path"])] for x in delta["escalations"]][:8], "nEscalations": len(delta["escalations"])},
+                ["XT_ACK_GTR_CLOSURE"], {"closure": "ruling, driveMasterMd5, perDriveSha256, stopsSha256, stops, escalations"},
+                withheld=["generatorTractionRecon.gtrClosure", "generatorTractionRecon.staleBlocks"], artifacts=["analyses/gtr_closure_delta.json"]):
+            print("COLLECT (M610b): escalations recorded, nothing spliced: " + "; ".join(problems[:8]), file=sys.stderr)
+            return
         print("STOP (Director): " + "; ".join(problems[:8]), file=sys.stderr)
         sys.exit(3)
     if a.dry_run:
