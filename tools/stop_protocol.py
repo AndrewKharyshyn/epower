@@ -40,6 +40,13 @@ def collect_active(env=None):
 
 
 def issue_token(run_dir):
+    # a run directory is named by the second (run_ingest.py), so two passes started within one second would share it: the records of an earlier pass must never leak into this one
+    for name in ("stops", "briefs", "provisional"):
+        shutil.rmtree(os.path.join(run_dir, name), ignore_errors=True)
+    try:
+        os.remove(os.path.join(run_dir, "stops.json"))
+    except OSError:
+        pass
     tok = uuid.uuid4().hex
     with open(os.path.join(run_dir, TOKEN_FILE), "w", encoding="utf-8", newline="\n") as f:
         f.write(tok + "\n")

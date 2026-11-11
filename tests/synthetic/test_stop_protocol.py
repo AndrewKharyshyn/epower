@@ -58,6 +58,13 @@ def main():
         assert json.load(open(os.path.join(rd, "stops.json"), encoding="utf-8"))["count"] == 2
         SP.close_token(rd)
         assert not SP.collect_active(env), "a closed pass is inactive again"
+        # a second pass in the SAME run directory (run directories are named by the second) starts clean: no record of the first pass leaks into it (found by the Linux CI run of PR 296)
+        assert os.path.isdir(os.path.join(rd, "stops")) and os.path.isfile(os.path.join(rd, "stops.json"))
+        tok2 = SP.issue_token(rd)
+        assert SP.load_records(rd) == [] and not os.path.exists(os.path.join(rd, "stops.json")) and not os.path.isdir(os.path.join(rd, "briefs")) and not os.path.isdir(os.path.join(rd, "provisional"))
+        env2 = {SP.TOKEN_ENV: tok2, SP.DIR_ENV: rd}
+        assert SP.record_stop("s", "g", {"a": 1}, ["E"], env=env2)["upstream"] == [], "the first record of the new pass has no upstream"
+        SP.close_token(rd)
         # 6. gate table
         gt = json.load(open(os.path.join(REPO, "analyses", "M610_gate_table.json"), encoding="utf-8"))["gates"]
         yes = {g["tool"] for g in gt if g["collectable"]}
