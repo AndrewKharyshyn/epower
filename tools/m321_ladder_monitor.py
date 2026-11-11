@@ -239,11 +239,32 @@ def ref_resolves(ref, root=ROOT):
     return os.path.isfile(os.path.join(root, "analyses", os.path.basename(tok))) or os.path.isfile(os.path.join(root, tok))
 
 
+def stop_rule_sides(mon):
+    """M616, the standing STOP RULE of the Director (ruling 2026-11-10, recorded in the M608 acknowledgement): the sides whose OUT-OF-BASIS support (observations below or above the fit-basis
+    range: `outsideFitRange`) passes the level gate (GATE_EVENTS events on at least GATE_DAYS event days, imported from tools/m320_ladder.py) on either side. Once any side is listed, no further
+    report-only acknowledgement of the warning set is valid without a reviewed spec (ref_is_spec_file)."""
+    out = []
+    for s in SIDES:
+        o = ((mon.get("sides") or {}).get(s) or {}).get("outsideFitRange") or {}
+        if (o.get("nEvents") or 0) >= L.GATE_EVENTS and (o.get("nDays") or 0) >= L.GATE_DAYS:
+            out.append(s)
+    return out
+
+
+def ref_is_spec_file(ref, root=ROOT):
+    """A ref that names an existing analyses/<M###_spec.md> file (the pre-registered, reviewed spec), not merely a CHANGELOG heading. This tool cannot verify the Director's review: the spec
+    file and the acknowledgement note must cite it."""
+    tok = str(ref or "").strip().split()[0] if str(ref or "").strip() else ""
+    base = os.path.basename(tok)
+    return bool(base.endswith("_spec.md") and os.path.isfile(os.path.join(root, "analyses", base)))
+
+
 def ack_valid(a, mon, root=ROOT):
     """Hash + resolvable ref + the ack was written for THIS basis (selection-code hash and basis size): an ack from an old basis cannot clear a
-    recurring warning set after a rebase (Director C1). The date is typed by hand and is not checked."""
+    recurring warning set after a rebase (Director C1). The date is typed by hand and is not checked. M616: once the stop rule applies (stop_rule_sides) the ref must be a spec file."""
     return bool(a.get("warningSetHash") == mon.get("warningSetHash") and ref_resolves(a.get("ref"), root)
-                and a.get("selectionCodeSha256") == mon.get("selectionCodeSha256") and a.get("basisNDrives") == mon.get("basisNDrives"))
+                and a.get("selectionCodeSha256") == mon.get("selectionCodeSha256") and a.get("basisNDrives") == mon.get("basisNDrives")
+                and (not stop_rule_sides(mon) or ref_is_spec_file(a.get("ref"), root)))
 
 
 def gate(arrays, root=ROOT):
@@ -281,7 +302,7 @@ def gate(arrays, root=ROOT):
     if mon.get("status") == "warn-newspec":
         acks = json.load(open(os.path.join(root, "analyses", "M321_acknowledgements.json"), encoding="utf-8")) if os.path.exists(os.path.join(root, "analyses", "M321_acknowledgements.json")) else []
         if not any(ack_valid(a, mon, root) for a in acks):
-            fails.append(f"M321: W2/W3 active ({'; '.join(mon.get('warnings', []))}) without a valid acknowledgement record for warningSetHash {mon.get('warningSetHash')[:12]} "
+            fails.append(f"M321: W2/W3 active ({'; '.join(mon.get('warnings', []))}){' [STOP RULE: out-of-basis support passes the level gate on ' + ', '.join(stop_rule_sides(mon)) + ': the ref must be a reviewed analyses/M###_spec.md]' if stop_rule_sides(mon) else ''} without a valid acknowledgement record for warningSetHash {mon.get('warningSetHash')[:12]} "
                          f"(needs warningSetHash, a ref naming an existing CHANGELOG '## M###' heading or analyses/ spec file, and this basis: selectionCodeSha256 + basisNDrives)")
     for x in mon.get("warnings", []) + mon.get("information", []):
         warns.append("M321 " + x)
