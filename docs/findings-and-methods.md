@@ -58,3 +58,13 @@ Fixed-point engine operation near the best-BSFC point and battery transient supp
 - A formal claim names ONE pre-registered primary estimand per family (spec before data, blind audit, Director decision).
 - Secondary and sensitivity results are reported with their intervals and are never promoted after the fact.
 - Method disagreement (for example Path A vs Path B) is reported, not tuned away.
+
+## Degradation trend covariates (M611; source `degradation_trends.py`, blind audit M608)
+
+The payload formula `y ~ months + T + I` of `degradationTrends.*` uses these columns of `drive_master.csv` (the `formula` field names `T` and `I`, not the columns):
+
+- `months` = days since the first eligible drive / 30.4375 (`MONTH_DAYS`); eligible = `ens_outlier_v2` false and the outcome column non-null.
+- `T` = `T_pack_mean_avg` (mean pack temperature of the drive); `I` = the current covariate of the metric: `vreg_I_p95_A` for `resistanceVreg` (outcome `vreg_R_pack_mohm`), `peak_I_discharge` for the loaded cell-spread trend. A covariate is kept only if more than half of the eligible rows carry it.
+- Estimators: `mixedEffects` = REML random intercept per calendar day (Wald normal interval; `groupVar` is the day variance, a value at the boundary is a singular fit); `clusterRobustOLS` = OLS with day-clustered SE, interval t(days - 1), which is also the TOST basis.
+- `resistanceVreg` is `sensitivity_cadence_uncontrolled` (no logger-cadence covariate); a TOST outcome of "not established" is not evidence of degradation or of no degradation.
+- Reproduction check (M608 blind audit, analyses/M608_blind_audit/estimator_audit.json): the auditor had to infer `T` and `I` by matching stored values because they were not stated; this section is the record.

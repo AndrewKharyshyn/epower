@@ -135,7 +135,7 @@ def main():
         if env.get("XT_RAW_DIR") and os.path.abspath(env["XT_RAW_DIR"]) != os.path.abspath(want):
             print(f"NOTE: XT_RAW_DIR={env['XT_RAW_DIR']} overridden with {want} for run_ingest (per-stage env still applies)", file=sys.stderr)
         env["XT_RAW_DIR"] = want
-    status = {"run": ts, "stages": [], "result": "ok"}
+    status = {"run": ts, "stages": [], "result": "ok", "runStartedAt": run_started_at}
     rc_final = 0
     cp, k_restored = None, 0
     try:
@@ -146,6 +146,7 @@ def main():
             print("run_ingest: --resume needs a full journaled run with checkpoints (no --only/--from/--skip/--no-journal/--skip-unchanged/--no-checkpoints): running normally", file=sys.stderr)
         if cp is not None:
             cp.begin()
+            cp.run_started_at = run_started_at
             if a.resume:
                 try:
                     k_restored, cinfo = cp.try_restore()
@@ -156,6 +157,13 @@ def main():
                 print("run_ingest: --resume: %s" % json.dumps(status["checkpoint"]), file=sys.stderr)
                 if k_restored < 0:
                     raise RuntimeError("checkpoint restore failed: " + cinfo["reason"])
+                if k_restored > 0:                                  # M611: a resumed run carries the start of the run that began the chain (stamps: computedAt = run start)
+                    _orig = cp.chain_start()
+                    if _orig:
+                        status["resumedFromRunStart"] = _orig
+                        run_started_at = _orig
+                        status["runStartedAt"] = _orig
+                        cp.run_started_at = _orig
         for idx, s in enumerate(stages):
             if idx < k_restored and not s.get("rerun_on_resume"):     # rerun_on_resume: stage writes state outside the checkpointed data state (raw_only/); idempotent, re-executed after a restore
                 status["stages"].append({"id": s["id"], "rc": 0, "seconds": 0.0, "status": "restored_from_checkpoint",

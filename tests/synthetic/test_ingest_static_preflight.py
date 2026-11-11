@@ -35,9 +35,18 @@ def main():
         w(os.path.join(tmp, "raw_manifest.json"), json.dumps({"files": []}))
         for f in ("2026-11-09 07-45-26.csv", "2026-11-09 08-04-01.csv"):
             w(os.path.join(tmp, "raw", f), "t\n")
+        os.environ["XT_INGEST_LABEL"] = "M608"
         res = SP.run(tmp)
         assert res["ok"] and res["nNewRawFiles"] == 2 and all(c["ok"] for c in res["checks"]), res
         assert set(res["notPrerunnable"]) == set(SP.NOT_PRERUNNABLE)
+        # 9. M611: new drives without a valid XT_INGEST_LABEL fail; no new drives need none
+        assert SP.check_label(2, {}) and "not set" in SP.check_label(2, {})[0]
+        assert SP.check_label(2, {"XT_INGEST_LABEL": "ingestion"}) and not SP.check_label(2, {"XT_INGEST_LABEL": "M608"}) and not SP.check_label(2, {"XT_INGEST_LABEL": "M610b"})
+        assert not SP.check_label(0, {})
+        del os.environ["XT_INGEST_LABEL"]
+        r9 = SP.run(tmp)
+        assert not r9["ok"] and not names(r9)["ingest_label"]["ok"] and all(c["ok"] for c in r9["checks"] if c["name"] != "ingest_label"), r9
+        os.environ["XT_INGEST_LABEL"] = "M608"
         # 1. missing ambient entry
         c1 = copy.deepcopy(cfg); del c1["ambientByDrive"]["2026-11-09_08-04-01.csv"]
         w(os.path.join(tmp, "summary_config.json"), json.dumps(c1))
