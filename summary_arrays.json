@@ -59329,14 +59329,26 @@
    "nDays": 126,
    "windowMonths": 5.85,
    "primaryEstimator": "clusterRobustOLS",
+   "headlineEstimatorRule": "fixed: clusterRobustOLS (M614)",
+   "headlineVsMixed": null,
    "tostEstimatorBasis": "clusterRobustOLS",
    "tostSlopeUsed": 0.8674,
    "tostSeUsed": 0.1552,
    "mixedEffects": {
     "error": "LinAlgError('Singular matrix')",
     "formula": "y ~ months + T + I",
+    "valid": false,
+    "validity": {
+     "fitted": false,
+     "converged": false,
+     "seFinitePositive": false,
+     "seNotBlownUp": false
+    },
+    "reCovarianceSingular": null,
+    "seRatioToOLS": null,
+    "varianceRatio": null,
     "degenerate": true,
-    "degenerateNote": "mixed model failed to fit (LinAlgError('Singular matrix')). Cluster-robust OLS is authoritative for this metric; both the released slope and the TOST use its slope/SE. The mixed-effects block is retained for transparency only (M155, 2026-08-22)."
+    "degenerateNote": "mixed model failed to fit (LinAlgError('Singular matrix')). The mixed-effects block is a sensitivity only: the cluster-robust OLS is the headline estimator for every metric (M614) and the TOST uses it too; the validity components above say why this fit is not valid."
    },
    "clusterRobustOLS": {
     "slope": 0.8674,
@@ -59411,13 +59423,16 @@
    "nObs": 294,
    "nDays": 107,
    "windowMonths": 5.85,
-   "primaryEstimator": "mixedEffects",
+   "primaryEstimator": "clusterRobustOLS",
+   "headlineEstimatorRule": "fixed: clusterRobustOLS (M614)",
+   "headlineVsMixed": 0.17,
    "tostEstimatorBasis": "clusterRobustOLS",
    "tostSlopeUsed": 1.2486,
    "tostSeUsed": 0.6162,
    "mixedEffects": {
     "slope": 1.3536,
     "se": 0.6158,
+    "residVar": 150.165682,
     "ci95": [
      0.1466,
      2.5606
@@ -59426,7 +59441,17 @@
     "nDays": 107,
     "groupVar": 8.483636,
     "formula": "y ~ months + T + I",
-    "converged": true
+    "converged": true,
+    "valid": true,
+    "validity": {
+     "fitted": true,
+     "converged": true,
+     "seFinitePositive": true,
+     "seNotBlownUp": true
+    },
+    "reCovarianceSingular": false,
+    "seRatioToOLS": 0.999,
+    "varianceRatio": 0.0565
    },
    "clusterRobustOLS": {
     "slope": 1.2486,
