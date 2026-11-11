@@ -2,6 +2,20 @@
  "_note": "Stage list for tools/run_ingest.py. 'verified' = command is evidenced in release_check.py / project code; false = reconcile against the real scripts in the first Code session. A stage failing stops the run; nothing is retried automatically. M308: stage_raw..refresh_gtr_headline added (verified in a scratch chain, 2026-09-30). Open: generatorTractionRecon.speedSplit has no auto-splice (speed_split.py only writes speed_split.json); the arrays carry the previous block.",
  "stages": [
   {
+   "id": "static_preflight",
+   "title": "M610a (R3): read-only pre-run checks (stage list and needs, ambients for every new raw drive, ODO as-of date, language gate on config and jsx, ack/ruling files, leaf_guard rules); the checks that cannot be decided before the run are listed in the output",
+   "cmd": [
+    "python3",
+    "tools/ingest_static_preflight.py"
+   ],
+   "verified": true,
+   "implemented": true,
+   "rerun_on_resume": true,
+   "reads_prior_state": [
+    "*"
+   ]
+  },
+  {
    "id": "preflight",
    "title": "Import/integrity check (presence + master MD5 + raw manifest names)",
    "cmd": [
@@ -867,6 +881,9 @@
     "summary_arrays.json",
     "thermal_provenance_sidecar.csv",
     "analyses/M606_result.json"
+   ],
+   "needs": [
+    "thermal_support_ledger"
    ]
   },
   {

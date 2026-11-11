@@ -1,0 +1,1810 @@
+{
+ "runsDir": "C:/Users/AndriiKharyshyn/Downloads/X-Trail Investigation/Repo/xtrail-repo/runs",
+ "batches": [
+  {
+   "firstRun": "20260930T084144Z",
+   "lastRun": "20260930T114836Z",
+   "nRuns": 12,
+   "result": "ok",
+   "open": false,
+   "executedMin": 133.1,
+   "uniqueMin": 36.8,
+   "repeatedMin": 96.3,
+   "repeatedShare": 2.619,
+   "stops": [
+    {
+     "run": "20260930T084144Z",
+     "stage": "ingest_core",
+     "rc": 1,
+     "class": "environment",
+     "cause": "ImportError: The 'rainflow' package is a MANDATORY dependency of the X-Trail e-POWER pipeline (M17 cycle-counting; rf_* master columns are required by category_"
+    },
+    {
+     "run": "20260930T084550Z",
+     "stage": "ingest_core",
+     "rc": 1,
+     "class": "hard",
+     "cause": "}"
+    },
+    {
+     "run": "20260930T090421Z",
+     "stage": "ingest_core",
+     "rc": 1,
+     "class": "escalation",
+     "cause": "}"
+    },
+    {
+     "run": "20260930T092412Z",
+     "stage": "ingest_core",
+     "rc": 1,
+     "class": "escalation",
+     "cause": "}"
+    },
+    {
+     "run": "20260930T094129Z",
+     "stage": "ingest_core",
+     "rc": 1,
+     "class": "environment",
+     "cause": "}"
+    },
+    {
+     "run": "20260930T094535Z",
+     "stage": "ingest_core",
+     "rc": 1,
+     "class": "environment",
+     "cause": "}"
+    },
+    {
+     "run": "20260930T100028Z",
+     "stage": "ingest_core",
+     "rc": 1,
+     "class": "environment",
+     "cause": "}"
+    },
+    {
+     "run": "20260930T100045Z",
+     "stage": "ingest_core",
+     "rc": 1,
+     "class": "environment",
+     "cause": "}"
+    },
+    {
+     "run": "20260930T100408Z",
+     "stage": "ingest_core",
+     "rc": 1,
+     "class": "escalation",
+     "cause": "}"
+    },
+    {
+     "run": "20260930T104921Z",
+     "stage": "build_html",
+     "rc": 1,
+     "class": "environment",
+     "cause": "Node.js v24.14.1"
+    },
+    {
+     "run": "20260930T113251Z",
+     "stage": "build_html",
+     "rc": 1,
+     "class": "hard",
+     "cause": "Regenerate summary_arrays.json (build_summary_arrays) against the current drive_master.csv, or investigate why the stamp disagrees."
+    }
+   ],
+   "resumeAttempts": [
+    {
+     "run": "20260930T084550Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20260930T090421Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20260930T092412Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20260930T094129Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20260930T094535Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20260930T100028Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20260930T100045Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20260930T100408Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20260930T104921Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20260930T113251Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20260930T114836Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    }
+   ]
+  },
+  {
+   "firstRun": "20260930T122348Z",
+   "lastRun": "20260930T122348Z",
+   "nRuns": 1,
+   "result": "ok",
+   "open": false,
+   "executedMin": 2.1,
+   "uniqueMin": 2.1,
+   "repeatedMin": 0.0,
+   "repeatedShare": 0.0,
+   "stops": [],
+   "resumeAttempts": []
+  },
+  {
+   "firstRun": "20260930T123936Z",
+   "lastRun": "20260930T124651Z",
+   "nRuns": 2,
+   "result": "ok",
+   "open": false,
+   "executedMin": 4.2,
+   "uniqueMin": 4.2,
+   "repeatedMin": 0.0,
+   "repeatedShare": 0.0,
+   "stops": [
+    {
+     "run": "20260930T123936Z",
+     "stage": "release_check",
+     "rc": 1,
+     "class": "environment",
+     "cause": "FileNotFoundError: [WinError 2] The system cannot find the file specified"
+    }
+   ],
+   "resumeAttempts": [
+    {
+     "run": "20260930T124651Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    }
+   ]
+  },
+  {
+   "firstRun": "20260930T132533Z",
+   "lastRun": "20260930T132533Z",
+   "nRuns": 1,
+   "result": "ok",
+   "open": false,
+   "executedMin": 1.9,
+   "uniqueMin": 1.9,
+   "repeatedMin": -0.0,
+   "repeatedShare": -0.0,
+   "stops": [],
+   "resumeAttempts": []
+  },
+  {
+   "firstRun": "20260930T142615Z",
+   "lastRun": "20260930T142615Z",
+   "nRuns": 1,
+   "result": "ok",
+   "open": false,
+   "executedMin": 3.6,
+   "uniqueMin": 3.6,
+   "repeatedMin": 0.0,
+   "repeatedShare": 0.0,
+   "stops": [],
+   "resumeAttempts": []
+  },
+  {
+   "firstRun": "20261004T083340Z",
+   "lastRun": "20261004T084417Z",
+   "nRuns": 3,
+   "result": "ok",
+   "open": false,
+   "executedMin": 19.4,
+   "uniqueMin": 19.4,
+   "repeatedMin": 0.0,
+   "repeatedShare": 0.001,
+   "stops": [
+    {
+     "run": "20261004T083340Z",
+     "stage": "preflight",
+     "rc": 1,
+     "class": "hard",
+     "cause": "}"
+    },
+    {
+     "run": "20261004T083419Z",
+     "stage": "f03_provenance_build",
+     "rc": 1,
+     "class": "hard",
+     "cause": "AssertionError: originals_manifest.json does not cover every hash-failing canonical file"
+    }
+   ],
+   "resumeAttempts": [
+    {
+     "run": "20261004T083419Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261004T084417Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    }
+   ]
+  },
+  {
+   "firstRun": "20261004T215055Z",
+   "lastRun": "20261005T060623Z",
+   "nRuns": 11,
+   "result": "ok",
+   "open": false,
+   "executedMin": 102.5,
+   "uniqueMin": 55.7,
+   "repeatedMin": 46.8,
+   "repeatedShare": 0.84,
+   "stops": [
+    {
+     "run": "20261004T215055Z",
+     "stage": "ingest_core",
+     "rc": 1,
+     "class": "escalation",
+     "cause": "}"
+    },
+    {
+     "run": "20261004T220406Z",
+     "stage": "m321_ladder_monitor",
+     "rc": 1,
+     "class": "hard",
+     "cause": "KeyError: ['soc', 'speed', 'tpack', 'demand', 'durationS']"
+    },
+    {
+     "run": "20261004T224218Z",
+     "stage": "fuel_contract_build",
+     "rc": 1,
+     "class": "hard",
+     "cause": "FAIL LOUD: fuel-like headers outside the known set (schema drift): ['РњРѕРјРµРЅС‚Р°Р»СЊРЅРёР№ РјРѕРјРµРЅС‚, С‰Рѕ РєСЂСѓС‚РёС‚СЊ (РІС–Рґ РІРёС‚СЂР°С‚Рё РїР°Р»РёР"
+    },
+    {
+     "run": "20261005T043231Z",
+     "stage": "refresh_raw_seasonal",
+     "rc": 1,
+     "class": "environment",
+     "cause": "subprocess.CalledProcessError: Command '['C:\\\\Users\\\\AndriiKharyshyn\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python312\\\\python.exe', 'C:\\\\Users\\\\AndriiKharyshyn\\\\Dow"
+    },
+    {
+     "run": "20261005T050738Z",
+     "stage": "build_html",
+     "rc": 1,
+     "class": "hard",
+     "cause": "socHysteresisV2: STALE (disclosed carry-forward not waived) вЂ” basis 489 drives vs current 524 (lags 35). Recompute the block, or set block.staleWaiver=\"<reaso"
+    },
+    {
+     "run": "20261005T051045Z",
+     "stage": "build_html",
+     "rc": 1,
+     "class": "hard",
+     "cause": "Regenerate summary_arrays.json (build_summary_arrays) against the current drive_master.csv, or investigate why the stamp disagrees."
+    },
+    {
+     "run": "20261005T051206Z",
+     "stage": "release_check",
+     "rc": 1,
+     "class": "hard",
+     "cause": "RELEASE CHECK FAILED: semantic gate: forbidden wording + prose==payload + mode behaviour (M299); session ledgers cover the newest drive date and agree with the "
+    },
+    {
+     "run": "20261005T052910Z",
+     "stage": "release_check",
+     "rc": 1,
+     "class": "hard",
+     "cause": "RELEASE CHECK FAILED: semantic gate: forbidden wording + prose==payload + mode behaviour (M299)"
+    },
+    {
+     "run": "20261005T054037Z",
+     "stage": "release_check",
+     "rc": 1,
+     "class": "hard",
+     "cause": "RELEASE CHECK FAILED: semantic gate: forbidden wording + prose==payload + mode behaviour (M299)"
+    },
+    {
+     "run": "20261005T054630Z",
+     "stage": "release_check",
+     "rc": 1,
+     "class": "hard",
+     "cause": "RELEASE CHECK FAILED: semantic gate: forbidden wording + prose==payload + mode behaviour (M299)"
+    }
+   ],
+   "resumeAttempts": [
+    {
+     "run": "20261004T220406Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261004T224218Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261005T043231Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261005T050738Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261005T051045Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261005T051206Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261005T052910Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261005T054037Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261005T054630Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261005T060623Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    }
+   ]
+  },
+  {
+   "firstRun": "20261005T064736Z",
+   "lastRun": "20261005T065638Z",
+   "nRuns": 2,
+   "result": "ok",
+   "open": false,
+   "executedMin": 10.5,
+   "uniqueMin": 5.0,
+   "repeatedMin": 5.5,
+   "repeatedShare": 1.108,
+   "stops": [
+    {
+     "run": "20261005T064736Z",
+     "stage": "release_check",
+     "rc": 1,
+     "class": "environment",
+     "cause": "RELEASE CHECK FAILED: semantic gate: forbidden wording + prose==payload + mode behaviour (M299)"
+    }
+   ],
+   "resumeAttempts": [
+    {
+     "run": "20261005T065638Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    }
+   ]
+  },
+  {
+   "firstRun": "20261005T071034Z",
+   "lastRun": "20261005T082445Z",
+   "nRuns": 5,
+   "result": "ok",
+   "open": false,
+   "executedMin": 76.0,
+   "uniqueMin": 70.5,
+   "repeatedMin": 5.5,
+   "repeatedShare": 0.077,
+   "stops": [
+    {
+     "run": "20261005T071034Z",
+     "stage": "gtr_family_refresh",
+     "rc": 1,
+     "class": "hard",
+     "cause": "AssertionError: {'2026-09-30_20-12-47.csv': 'other', '2026-09-30_20-39-00.csv': 'other', '2026-10-01_07-38-47.csv': 'other', '2026-10-01_07-57-02.csv': 'other',"
+    },
+    {
+     "run": "20261005T081724Z",
+     "stage": "leaf_guard",
+     "rc": 1,
+     "class": "hard",
+     "cause": "{\"nPreviousLeaves\": 100518, \"nLost\": 335, \"expectedByRule\": {\"carryover-error-when-fit-ok\": 1, \"stamp-reissue-notes\": 138, \"stamp-reissue-notes-text\": 138, \"att"
+    },
+    {
+     "run": "20261005T081808Z",
+     "stage": "build_html",
+     "rc": 1,
+     "class": "hard",
+     "cause": "Regenerate summary_arrays.json (build_summary_arrays) against the current drive_master.csv, or investigate why the stamp disagrees."
+    },
+    {
+     "run": "20261005T081822Z",
+     "stage": "release_check",
+     "rc": 1,
+     "class": "hard",
+     "cause": "RELEASE CHECK FAILED: semantic gate: forbidden wording + prose==payload + mode behaviour (M299); C:\\Users\\AndriiKharyshyn\\AppData\\Local\\Programs\\Python\\Python31"
+    }
+   ],
+   "resumeAttempts": [
+    {
+     "run": "20261005T081724Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261005T081808Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261005T081822Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261005T082445Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    }
+   ]
+  },
+  {
+   "firstRun": "20261005T083754Z",
+   "lastRun": "20261005T083754Z",
+   "nRuns": 1,
+   "result": "ok",
+   "open": false,
+   "executedMin": 4.8,
+   "uniqueMin": 4.8,
+   "repeatedMin": 0.0,
+   "repeatedShare": 0.0,
+   "stops": [],
+   "resumeAttempts": []
+  },
+  {
+   "firstRun": "20261005T090532Z",
+   "lastRun": "20261005T090532Z",
+   "nRuns": 1,
+   "result": "ok",
+   "open": false,
+   "executedMin": 5.8,
+   "uniqueMin": 5.8,
+   "repeatedMin": 0.0,
+   "repeatedShare": 0.0,
+   "stops": [],
+   "resumeAttempts": []
+  },
+  {
+   "firstRun": "20261005T100554Z",
+   "lastRun": "20261005T100554Z",
+   "nRuns": 1,
+   "result": "ok",
+   "open": false,
+   "executedMin": 6.1,
+   "uniqueMin": 6.1,
+   "repeatedMin": -0.0,
+   "repeatedShare": -0.0,
+   "stops": [],
+   "resumeAttempts": []
+  },
+  {
+   "firstRun": "20261005T124838Z",
+   "lastRun": "20261005T124931Z",
+   "nRuns": 2,
+   "result": "ok",
+   "open": false,
+   "executedMin": 6.7,
+   "uniqueMin": 6.6,
+   "repeatedMin": 0.1,
+   "repeatedShare": 0.011,
+   "stops": [
+    {
+     "run": "20261005T124838Z",
+     "stage": "build_html",
+     "rc": 1,
+     "class": "hard",
+     "cause": "Every top-level key must be stamped by _artifact_stamp(); regenerate summary_arrays.json."
+    }
+   ],
+   "resumeAttempts": [
+    {
+     "run": "20261005T124931Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    }
+   ]
+  },
+  {
+   "firstRun": "20261005T125734Z",
+   "lastRun": "20261005T125734Z",
+   "nRuns": 1,
+   "result": "ok",
+   "open": false,
+   "executedMin": 5.4,
+   "uniqueMin": 5.4,
+   "repeatedMin": 0.0,
+   "repeatedShare": 0.0,
+   "stops": [],
+   "resumeAttempts": []
+  },
+  {
+   "firstRun": "20261005T142825Z",
+   "lastRun": "20261005T142825Z",
+   "nRuns": 1,
+   "result": "ok",
+   "open": false,
+   "executedMin": 8.8,
+   "uniqueMin": 8.8,
+   "repeatedMin": 0.0,
+   "repeatedShare": 0.0,
+   "stops": [],
+   "resumeAttempts": []
+  },
+  {
+   "firstRun": "20261005T144113Z",
+   "lastRun": "20261005T144113Z",
+   "nRuns": 1,
+   "result": "ok",
+   "open": false,
+   "executedMin": 7.1,
+   "uniqueMin": 7.1,
+   "repeatedMin": 0.0,
+   "repeatedShare": 0.0,
+   "stops": [],
+   "resumeAttempts": []
+  },
+  {
+   "firstRun": "20261005T154055Z",
+   "lastRun": "20261005T154055Z",
+   "nRuns": 1,
+   "result": "ok",
+   "open": false,
+   "executedMin": 5.9,
+   "uniqueMin": 5.9,
+   "repeatedMin": 0.0,
+   "repeatedShare": 0.0,
+   "stops": [],
+   "resumeAttempts": []
+  },
+  {
+   "firstRun": "20261005T160141Z",
+   "lastRun": "20261005T160141Z",
+   "nRuns": 1,
+   "result": "ok",
+   "open": false,
+   "executedMin": 5.2,
+   "uniqueMin": 5.2,
+   "repeatedMin": 0.0,
+   "repeatedShare": 0.0,
+   "stops": [],
+   "resumeAttempts": []
+  },
+  {
+   "firstRun": "20261009T072520Z",
+   "lastRun": "20261009T130935Z",
+   "nRuns": 11,
+   "result": "ok",
+   "open": false,
+   "executedMin": 148.4,
+   "uniqueMin": 67.2,
+   "repeatedMin": 81.2,
+   "repeatedShare": 1.209,
+   "stops": [
+    {
+     "run": "20261009T072520Z",
+     "stage": "ingest_core",
+     "rc": 1,
+     "class": "escalation",
+     "cause": "}"
+    },
+    {
+     "run": "20261009T073302Z",
+     "stage": "gtr_closure_refresh",
+     "rc": 1,
+     "class": "hard",
+     "cause": "STOP: per-drive outputs of previous closure IDs differ from the pinned file: [('g2t', 65), ('trac', 74), ('b2t', 69), ('g2b_model', 71), ('excess', 63)] (analys"
+    },
+    {
+     "run": "20261009T081959Z",
+     "stage": "leaf_guard",
+     "rc": 1,
+     "class": "hard",
+     "cause": "{\"nPreviousLeaves\": 104717, \"nLost\": 18, \"expectedByRule\": {}, \"nUnexpected\": 18}"
+    },
+    {
+     "run": "20261009T092908Z",
+     "stage": "build_html",
+     "rc": 1,
+     "class": "hard",
+     "cause": "Regenerate summary_arrays.json (build_summary_arrays) against the current drive_master.csv, or investigate why the stamp disagrees."
+    },
+    {
+     "run": "20261009T093012Z",
+     "stage": "release_check",
+     "rc": 1,
+     "class": "hard",
+     "cause": "RELEASE CHECK FAILED: semantic gate: forbidden wording + prose==payload + mode behaviour (M299); post-step changes shipped summary_arrays.json"
+    },
+    {
+     "run": "20261009T094047Z",
+     "stage": "release_check",
+     "rc": 1,
+     "class": "hard",
+     "cause": "RELEASE CHECK FAILED: semantic gate: forbidden wording + prose==payload + mode behaviour (M299)"
+    },
+    {
+     "run": "20261009T113107Z",
+     "stage": "gtr_family_refresh",
+     "rc": 1,
+     "class": "hard",
+     "cause": "AssertionError: drive_master.csv MD5"
+    },
+    {
+     "run": "20261009T113700Z",
+     "stage": "refresh_master_seasonal",
+     "rc": 1,
+     "class": "hard",
+     "cause": "PARITY FAILURE (per-cohort call path != released top-level): ['SocLevelSensitivityChart']"
+    },
+    {
+     "run": "20261009T121701Z",
+     "stage": "build_html",
+     "rc": 1,
+     "class": "hard",
+     "cause": "Regenerate summary_arrays.json (build_summary_arrays) against the current drive_master.csv, or investigate why the stamp disagrees."
+    },
+    {
+     "run": "20261009T125537Z",
+     "stage": "release_check",
+     "rc": 1,
+     "class": "hard",
+     "cause": "RELEASE CHECK FAILED: semantic gate: forbidden wording + prose==payload + mode behaviour (M299)"
+    }
+   ],
+   "resumeAttempts": [
+    {
+     "run": "20261009T073302Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261009T081959Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261009T092908Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261009T093012Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261009T094047Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261009T113107Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261009T113700Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261009T121701Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261009T125537Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261009T130935Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    }
+   ]
+  },
+  {
+   "firstRun": "20261009T164507Z",
+   "lastRun": "20261009T164507Z",
+   "nRuns": 1,
+   "result": "ok",
+   "open": false,
+   "executedMin": 38.6,
+   "uniqueMin": 38.6,
+   "repeatedMin": 0.0,
+   "repeatedShare": 0.0,
+   "stops": [],
+   "resumeAttempts": []
+  },
+  {
+   "firstRun": "20261009T224535Z",
+   "lastRun": "20261009T224535Z",
+   "nRuns": 1,
+   "result": "ok",
+   "open": false,
+   "executedMin": 36.9,
+   "uniqueMin": 36.9,
+   "repeatedMin": 0.0,
+   "repeatedShare": 0.0,
+   "stops": [],
+   "resumeAttempts": []
+  },
+  {
+   "firstRun": "20261013T054639Z",
+   "lastRun": "20261013T140639Z",
+   "nRuns": 10,
+   "result": "ok",
+   "open": false,
+   "executedMin": 479.9,
+   "uniqueMin": 68.1,
+   "repeatedMin": 411.8,
+   "repeatedShare": 6.048,
+   "stops": [
+    {
+     "run": "20261013T054639Z",
+     "stage": "gtr_family_refresh",
+     "rc": 3,
+     "class": "escalation",
+     "cause": "STOP (Director): simultaneity: a share moved by more than 5.0 pp"
+    },
+    {
+     "run": "20261013T062308Z",
+     "stage": "gtr_family_refresh",
+     "rc": 3,
+     "class": "escalation",
+     "cause": "STOP (Director): simultaneity: a share moved by more than 5.0 pp"
+    },
+    {
+     "run": "20261013T071907Z",
+     "stage": "leaf_guard",
+     "rc": 1,
+     "class": "hard",
+     "cause": "{\"nPreviousLeaves\": 112534, \"nLost\": 31, \"expectedByRule\": {}, \"nUnexpected\": 31}"
+    },
+    {
+     "run": "20261013T081900Z",
+     "stage": "leaf_guard",
+     "rc": 1,
+     "class": "hard",
+     "cause": "{\"nPreviousLeaves\": 112534, \"nLost\": 31, \"expectedByRule\": {}, \"nUnexpected\": 31}"
+    },
+    {
+     "run": "20261013T091759Z",
+     "stage": "release_check",
+     "rc": 1,
+     "class": "hard",
+     "cause": "RELEASE CHECK FAILED: node test_gtr_gate.js; node test_fuel_tab.js; semantic gate: forbidden wording + prose==payload + mode behaviour (M299); C:\\Users\\AndriiKh"
+    },
+    {
+     "run": "20261013T103505Z",
+     "stage": "thermal_support_ledger",
+     "rc": 1,
+     "class": "hard",
+     "cause": "}"
+    },
+    {
+     "run": "20261013T113926Z",
+     "stage": "jsdom",
+     "rc": 1,
+     "class": "hard",
+     "cause": "Node.js v24.14.1"
+    },
+    {
+     "run": "20261013T120542Z",
+     "stage": "restamp_ingest",
+     "rc": 1,
+     "class": "environment",
+     "cause": "{\"label\": \"M426\", \"liveMd5\": \"a641f34d7528d004b900c151cbde3d6d\", \"nDrives\": 578, \"stale\": [\"assumptionsRegistry\", \"cohortMeta\", \"crossVehicle\", \"generatorTracti"
+    },
+    {
+     "run": "20261013T130254Z",
+     "stage": "restamp_ingest",
+     "rc": 1,
+     "class": "environment",
+     "cause": "{\"label\": \"M426\", \"liveMd5\": \"a641f34d7528d004b900c151cbde3d6d\", \"nDrives\": 578, \"stale\": [\"assumptionsRegistry\", \"cohortMeta\", \"crossVehicle\", \"generatorTracti"
+    }
+   ],
+   "resumeAttempts": [
+    {
+     "run": "20261013T062308Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261013T071907Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261013T081900Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261013T091759Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261013T103505Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261013T113926Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261013T120542Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261013T130254Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261013T140639Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    }
+   ]
+  },
+  {
+   "firstRun": "20261013T153339Z",
+   "lastRun": "20261013T170834Z",
+   "nRuns": 4,
+   "result": "ok",
+   "open": false,
+   "executedMin": 99.8,
+   "uniqueMin": 31.9,
+   "repeatedMin": 67.9,
+   "repeatedShare": 2.128,
+   "stops": [
+    {
+     "run": "20261013T153339Z",
+     "stage": "gtr_family_refresh",
+     "rc": 3,
+     "class": "escalation",
+     "cause": "STOP (Director): band acknowledgement refused: the stop list is not exactly the simultaneity band stop: []; acknowledged breaches [{'block': 'simultaneity', 'ro"
+    },
+    {
+     "run": "20261013T154306Z",
+     "stage": "leaf_guard",
+     "rc": 1,
+     "class": "hard",
+     "cause": "{\"nPreviousLeaves\": 118500, \"nLost\": 1, \"expectedByRule\": {}, \"nUnexpected\": 1}"
+    },
+    {
+     "run": "20261013T164108Z",
+     "stage": "leaf_guard",
+     "rc": 1,
+     "class": "hard",
+     "cause": "{\"nPreviousLeaves\": 118500, \"nLost\": 22, \"expectedByRule\": {}, \"nUnexpected\": 22}"
+    }
+   ],
+   "resumeAttempts": [
+    {
+     "run": "20261013T154306Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261013T164108Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261013T170834Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    }
+   ]
+  },
+  {
+   "firstRun": "20261013T174559Z",
+   "lastRun": "20261013T174559Z",
+   "nRuns": 1,
+   "result": "ok",
+   "open": false,
+   "executedMin": 6.5,
+   "uniqueMin": 6.5,
+   "repeatedMin": 0.0,
+   "repeatedShare": 0.0,
+   "stops": [],
+   "resumeAttempts": []
+  },
+  {
+   "firstRun": "20261020T131335Z",
+   "lastRun": "20261020T221332Z",
+   "nRuns": 8,
+   "result": "ok",
+   "open": false,
+   "executedMin": 158.0,
+   "uniqueMin": 35.8,
+   "repeatedMin": 122.2,
+   "repeatedShare": 3.413,
+   "stops": [
+    {
+     "run": "20261020T131335Z",
+     "stage": "gtr_family_refresh",
+     "rc": 3,
+     "class": "escalation",
+     "cause": "STOP (Director): reading flip: sensitivity f_gen >= 0.5 on an axis"
+    },
+    {
+     "run": "20261020T143053Z",
+     "stage": "gtr_family_refresh",
+     "rc": 3,
+     "class": "escalation",
+     "cause": "STOP (Director): reading flip: sensitivity f_gen >= 0.5 on an axis"
+    },
+    {
+     "run": "20261020T154732Z",
+     "stage": "refresh_master_seasonal",
+     "rc": 1,
+     "class": "hard",
+     "cause": "PARITY FAILURE (per-cohort call path != released top-level): ['EvTraction']"
+    },
+    {
+     "run": "20261020T165448Z",
+     "stage": "regen_v2",
+     "rc": 1,
+     "class": "hard",
+     "cause": "analyses/M442_result.json was computed on a different master: re-run the study (needs a recorded deviation, spec C9)"
+    },
+    {
+     "run": "20261020T184144Z",
+     "stage": "regen_v2",
+     "rc": 1,
+     "class": "hard",
+     "cause": "regenDisplayV2 build gates failed: {'tolerance': 1e-09, 'strataReconcile': {'all': {'ke': 0.0, 'ch': 2.842170943040401e-14, 'n': 0}, 'warm': {'ke': 0.0, 'ch': 2"
+    },
+    {
+     "run": "20261020T203801Z",
+     "stage": "leaf_guard",
+     "rc": 1,
+     "class": "hard",
+     "cause": "{\"nPreviousLeaves\": 231476, \"nLost\": 3804, \"expectedByRule\": {\"placeholder-row-observed-DriveTypeChart\": 6, \"placeholder-row-observed-DriveDurationDist\": 6, \"pl"
+    },
+    {
+     "run": "20261020T221205Z",
+     "stage": "restamp_ingest",
+     "rc": 1,
+     "class": "hard",
+     "cause": "STOP: stale stamp(s) without a policy entry: ['regenCaptureV2', 'regenCaptureV2H', 'regenCaptureV2HStudy', 'regenCaptureV2Study', 'regenDisplayV2', 'regenLegacy"
+    }
+   ],
+   "resumeAttempts": [
+    {
+     "run": "20261020T143053Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261020T154732Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261020T165448Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261020T184144Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261020T203801Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261020T221205Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261020T221332Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    }
+   ]
+  },
+  {
+   "firstRun": "20261103T155302Z",
+   "lastRun": "20261104T225042Z",
+   "nRuns": 15,
+   "result": "ok",
+   "open": false,
+   "executedMin": 690.2,
+   "uniqueMin": 83.7,
+   "repeatedMin": 606.5,
+   "repeatedShare": 7.245,
+   "stops": [
+    {
+     "run": "20261103T155302Z",
+     "stage": "ingest_core",
+     "rc": 1,
+     "class": "escalation",
+     "cause": "}"
+    },
+    {
+     "run": "20261103T223425Z",
+     "stage": "urban_week_block",
+     "rc": 3,
+     "class": "escalation",
+     "cause": "M494 STOP before the splice: verdict 'depends on the resampling unit' goes to the Director"
+    },
+    {
+     "run": "20261104T000632Z",
+     "stage": "urban_week_block",
+     "rc": 3,
+     "class": "escalation",
+     "cause": "M494 STOP: acknowledgement refused: per-band verdicts/intervals differ from the acknowledged ones"
+    },
+    {
+     "run": "20261104T055822Z",
+     "stage": "engine_on_blocks",
+     "rc": 1,
+     "class": "hard",
+     "cause": "{\"STOP\": \"E1 / drive set / M544 known answers failed\", \"gates\": {\"E1RuleSecondsExact\": {\"nCompared\": 621, \"nDifferent\": 0, \"passed\": true}, \"driveSetEqualsStore"
+    },
+    {
+     "run": "20261104T080641Z",
+     "stage": "leaf_guard",
+     "rc": 1,
+     "class": "hard",
+     "cause": "{\"nPreviousLeaves\": 281779, \"nLost\": 224, \"expectedByRule\": {\"m466-regen-narrative-thin\": 5, \"m466-regen-row-ciSuppressed\": 1, \"cellspread-rows-moved-to-complem"
+    },
+    {
+     "run": "20261104T113503Z",
+     "stage": "leaf_guard",
+     "rc": 1,
+     "class": "hard",
+     "cause": "{\"nPreviousLeaves\": 281779, \"nLost\": 103, \"expectedByRule\": {\"m466-regen-narrative-thin\": 5, \"m466-regen-row-ciSuppressed\": 1, \"cellspread-rows-moved-to-complem"
+    },
+    {
+     "run": "20261104T163247Z",
+     "stage": "restamp_ingest",
+     "rc": 2,
+     "class": "hard",
+     "cause": "XT_INGEST_LABEL (milestone id) is required"
+    },
+    {
+     "run": "20261104T180605Z",
+     "stage": "leaf_guard",
+     "rc": 1,
+     "class": "hard",
+     "cause": "{\"nPreviousLeaves\": 281779, \"nLost\": 23, \"expectedByRule\": {\"m575-carryover-method-note\": 2, \"m575-carryover-s3-differs\": 1, \"m466-regen-narrative-thin\": 5, \"m4"
+    },
+    {
+     "run": "20261104T185712Z",
+     "stage": "build_html",
+     "rc": 1,
+     "class": "hard",
+     "cause": "socHysteresisV2: STALE (disclosed carry-forward not waived) вЂ” basis 606 drives vs current 621 (lags 15). Recompute the block, or set block.staleWaiver=\"<reaso"
+    },
+    {
+     "run": "20261104T203344Z",
+     "stage": "release_check",
+     "rc": 1,
+     "class": "escalation",
+     "cause": "RELEASE CHECK FAILED: semantic gate: forbidden wording + prose==payload + mode behaviour (M299); M321: W2/W3 active (W2 cold candidate (start): the 15 C band pa"
+    },
+    {
+     "run": "20261104T212915Z",
+     "stage": "leaf_guard",
+     "rc": 1,
+     "class": "hard",
+     "cause": "{\"nPreviousLeaves\": 281779, \"nLost\": 23, \"expectedByRule\": {\"m575-carryover-method-note\": 2, \"m575-carryover-s3-differs\": 1, \"m466-regen-narrative-thin\": 5, \"m4"
+    },
+    {
+     "run": "20261104T213220Z",
+     "stage": "release_check",
+     "rc": 1,
+     "class": "escalation",
+     "cause": "RELEASE CHECK FAILED: semantic gate: forbidden wording + prose==payload + mode behaviour (M299); M321: W2/W3 active (W2 cold candidate (start): the 15 C band pa"
+    },
+    {
+     "run": "20261104T214920Z",
+     "stage": "m483_wording_splice",
+     "rc": 1,
+     "class": "hard",
+     "cause": "AssertionError: (('fadeModes', 'capacity', 'rows', 5), 'basis', 'seasonal re-weighting of the same estimated per-class intensities over Kyiv clim')"
+    },
+    {
+     "run": "20261104T223851Z",
+     "stage": "release_check",
+     "rc": 1,
+     "class": "escalation",
+     "cause": "RELEASE CHECK FAILED: M321: W2/W3 active (W2 cold candidate (start): the 15 C band passes the support gate (157 events, 51 event days); a colder level needs a n"
+    }
+   ],
+   "resumeAttempts": [
+    {
+     "run": "20261103T223425Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261104T000632Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261104T055822Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": "no valid checkpoint chain for this base state",
+     "missReason": null
+    },
+    {
+     "run": "20261104T080641Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": "no valid checkpoint chain for this base state",
+     "missReason": null
+    },
+    {
+     "run": "20261104T113503Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": "no valid checkpoint chain for this base state",
+     "missReason": null
+    },
+    {
+     "run": "20261104T163247Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": "no valid checkpoint chain for this base state",
+     "missReason": null
+    },
+    {
+     "run": "20261104T180605Z",
+     "resumed": true,
+     "restoredStages": 15,
+     "reason": "stage gtr_family_refresh: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261104T185712Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": "no valid checkpoint chain for this base state",
+     "missReason": null
+    },
+    {
+     "run": "20261104T203344Z",
+     "resumed": true,
+     "restoredStages": 8,
+     "reason": "stage refresh_cohort_meta: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261104T212915Z",
+     "resumed": true,
+     "restoredStages": 75,
+     "reason": "stage leaf_guard: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261104T213220Z",
+     "resumed": true,
+     "restoredStages": 75,
+     "reason": "stage leaf_guard: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261104T214920Z",
+     "resumed": true,
+     "restoredStages": 8,
+     "reason": "stage refresh_cohort_meta: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261104T223851Z",
+     "resumed": true,
+     "restoredStages": 75,
+     "reason": "stage m483_wording_splice: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261104T225042Z",
+     "resumed": true,
+     "restoredStages": 77,
+     "reason": "stage leaf_guard: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    }
+   ]
+  },
+  {
+   "firstRun": "20261105T084203Z",
+   "lastRun": "20261105T173024Z",
+   "nRuns": 19,
+   "result": "ok",
+   "open": false,
+   "executedMin": 501.1,
+   "uniqueMin": 102.6,
+   "repeatedMin": 398.5,
+   "repeatedShare": 3.882,
+   "stops": [
+    {
+     "run": "20261105T084203Z",
+     "stage": "gtr_family_refresh",
+     "rc": 3,
+     "class": "escalation",
+     "cause": "STOP (Director): reading flip: sensitivity f_gen >= 0.5 on an axis"
+    },
+    {
+     "run": "20261105T092927Z",
+     "stage": "gtr_family_refresh",
+     "rc": 3,
+     "class": "escalation",
+     "cause": "STOP (Director): reading flip: sensitivity f_gen >= 0.5 on an axis"
+    },
+    {
+     "run": "20261105T093444Z",
+     "stage": "urban_week_block",
+     "rc": 3,
+     "class": "escalation",
+     "cause": "M494 STOP before the splice: verdict 'depends on the resampling unit' goes to the Director"
+    },
+    {
+     "run": "20261105T100353Z",
+     "stage": "urban_week_block",
+     "rc": 3,
+     "class": "escalation",
+     "cause": "M494 STOP before the splice: verdict 'depends on the resampling unit' goes to the Director"
+    },
+    {
+     "run": "20261105T100632Z",
+     "stage": "cadence_regime",
+     "rc": 1,
+     "class": "escalation",
+     "cause": "STOP: a drive lies inside the declared empty gap [1.0, 1.1) s (period 1.055): the bimodal assumption no longer holds (Director)"
+    },
+    {
+     "run": "20261105T100857Z",
+     "stage": "cadence_regime",
+     "rc": 1,
+     "class": "escalation",
+     "cause": "STOP: a drive lies inside the declared empty gap [1.0, 1.1) s (period 1.055): the bimodal assumption no longer holds (Director)"
+    },
+    {
+     "run": "20261105T101901Z",
+     "stage": "powerfade_temperature_specs",
+     "rc": 2,
+     "class": "hard",
+     "cause": "{\"STOP\": \"fidelity\", \"slope\": 1.0862, \"publishedSlope\": 1.0861, \"n\": 279, \"publishedN\": 279, \"nDays\": 102, \"bT\": -2.985, \"publishedBT\": -2.985, \"dayCi95\": [-0.1"
+    },
+    {
+     "run": "20261105T105105Z",
+     "stage": "powerfade_temperature_specs",
+     "rc": 2,
+     "class": "hard",
+     "cause": "{\"STOP\": \"fidelity\", \"slope\": 1.0862, \"publishedSlope\": 1.0861, \"n\": 279, \"publishedN\": 279, \"nDays\": 102, \"bT\": -2.985, \"publishedBT\": -2.985, \"dayCi95\": [-0.1"
+    },
+    {
+     "run": "20261105T105452Z",
+     "stage": "resistance_joint_matrix",
+     "rc": 1,
+     "class": "hard",
+     "cause": "M514 STOP: the S1 refit does not reproduce the published S1: {\"slope\": 1.0862, \"publishedSlope\": 1.0861, \"n\": 279, \"publishedN\": 279, \"nDays\": 102, \"publishedND"
+    },
+    {
+     "run": "20261105T112734Z",
+     "stage": "engine_on_blocks",
+     "rc": 1,
+     "class": "hard",
+     "cause": "{\"STOP\": \"E1 / drive set / M544 known answers failed\", \"gates\": {\"E1RuleSecondsExact\": {\"nCompared\": 632, \"nDifferent\": 0, \"passed\": true}, \"driveSetEqualsStore"
+    },
+    {
+     "run": "20261105T120236Z",
+     "stage": "leaf_guard",
+     "rc": 1,
+     "class": "hard",
+     "cause": "{\"nPreviousLeaves\": 284251, \"nLost\": 38, \"expectedByRule\": {\"m466-regen-narrative-thin\": 1, \"m466-regen-row-ciSuppressed-status\": 1, \"m463-crawlstopgo-twopart-s"
+    },
+    {
+     "run": "20261105T133446Z",
+     "stage": "leaf_guard",
+     "rc": 1,
+     "class": "hard",
+     "cause": "{\"nPreviousLeaves\": 284251, \"nLost\": 38, \"expectedByRule\": {\"m466-regen-narrative-thin\": 1, \"m466-regen-row-ciSuppressed-status\": 1, \"m463-crawlstopgo-twopart-s"
+    },
+    {
+     "run": "20261105T134337Z",
+     "stage": "release_check",
+     "rc": 1,
+     "class": "escalation",
+     "cause": "RELEASE CHECK FAILED: semantic gate: forbidden wording + prose==payload + mode behaviour (M299)"
+    },
+    {
+     "run": "20261105T135631Z",
+     "stage": "release_check",
+     "rc": 1,
+     "class": "escalation",
+     "cause": "RELEASE CHECK FAILED: semantic gate: forbidden wording + prose==payload + mode behaviour (M299)"
+    },
+    {
+     "run": "20261105T141048Z",
+     "stage": "release_check",
+     "rc": 1,
+     "class": "escalation",
+     "cause": "RELEASE CHECK FAILED: semantic gate: forbidden wording + prose==payload + mode behaviour (M299)"
+    },
+    {
+     "run": "20261105T155207Z",
+     "stage": "release_check",
+     "rc": 1,
+     "class": "escalation",
+     "cause": "RELEASE CHECK FAILED: semantic gate: forbidden wording + prose==payload + mode behaviour (M299)"
+    },
+    {
+     "run": "20261105T160432Z",
+     "stage": "release_check",
+     "rc": 1,
+     "class": "escalation",
+     "cause": "RELEASE CHECK FAILED: semantic gate: forbidden wording + prose==payload + mode behaviour (M299)"
+    },
+    {
+     "run": "20261105T171744Z",
+     "stage": "release_check",
+     "rc": 1,
+     "class": "escalation",
+     "cause": "RELEASE CHECK FAILED: semantic gate: forbidden wording + prose==payload + mode behaviour (M299)"
+    }
+   ],
+   "resumeAttempts": [
+    {
+     "run": "20261105T092927Z",
+     "resumed": true,
+     "restoredStages": 15,
+     "reason": "stage gtr_family_refresh: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261105T093444Z",
+     "resumed": true,
+     "restoredStages": 15,
+     "reason": "stage gtr_family_refresh: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261105T100353Z",
+     "resumed": true,
+     "restoredStages": 28,
+     "reason": "stage urban_week_block: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261105T100632Z",
+     "resumed": true,
+     "restoredStages": 28,
+     "reason": "stage urban_week_block: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261105T100857Z",
+     "resumed": true,
+     "restoredStages": 31,
+     "reason": "stage cadence_regime: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261105T101901Z",
+     "resumed": true,
+     "restoredStages": 8,
+     "reason": "stage refresh_cohort_meta: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261105T105105Z",
+     "resumed": true,
+     "restoredStages": 37,
+     "reason": "stage powerfade_temperature_specs: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261105T105452Z",
+     "resumed": true,
+     "restoredStages": 8,
+     "reason": "stage refresh_cohort_meta: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261105T112734Z",
+     "resumed": true,
+     "restoredStages": 8,
+     "reason": "stage refresh_cohort_meta: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261105T120236Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": "no valid checkpoint chain for this base state",
+     "missReason": null
+    },
+    {
+     "run": "20261105T133446Z",
+     "resumed": true,
+     "restoredStages": 77,
+     "reason": "stage leaf_guard: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261105T134337Z",
+     "resumed": true,
+     "restoredStages": 77,
+     "reason": "stage leaf_guard: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261105T135631Z",
+     "resumed": true,
+     "restoredStages": 77,
+     "reason": "stage leaf_guard: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261105T141048Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": "no valid checkpoint chain for this base state",
+     "missReason": null
+    },
+    {
+     "run": "20261105T155207Z",
+     "resumed": true,
+     "restoredStages": 77,
+     "reason": "stage leaf_guard: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261105T160432Z",
+     "resumed": true,
+     "restoredStages": 8,
+     "reason": "stage refresh_cohort_meta: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261105T171744Z",
+     "resumed": true,
+     "restoredStages": 77,
+     "reason": "stage leaf_guard: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261105T173024Z",
+     "resumed": true,
+     "restoredStages": 8,
+     "reason": "stage refresh_cohort_meta: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    }
+   ]
+  },
+  {
+   "firstRun": "20261110T092856Z",
+   "lastRun": "20261110T145518Z",
+   "nRuns": 6,
+   "result": "gate_failed",
+   "open": true,
+   "executedMin": 414.3,
+   "uniqueMin": 136.8,
+   "repeatedMin": 277.4,
+   "repeatedShare": 2.028,
+   "stops": [
+    {
+     "run": "20261110T092856Z",
+     "stage": "ingest_core",
+     "rc": 1,
+     "class": "escalation",
+     "cause": "}"
+    },
+    {
+     "run": "20261110T102519Z",
+     "stage": "gtr_family_refresh",
+     "rc": 3,
+     "class": "escalation",
+     "cause": "STOP (Director): reading flip: sensitivity f_gen >= 0.5 on an axis"
+    },
+    {
+     "run": "20261110T111722Z",
+     "stage": "gtr_family_refresh",
+     "rc": 3,
+     "class": "escalation",
+     "cause": "STOP (Director): reading flip: sensitivity f_gen >= 0.5 on an axis"
+    },
+    {
+     "run": "20261110T122206Z",
+     "stage": "gtr_family_refresh",
+     "rc": 1,
+     "class": "environment",
+     "cause": "FileNotFoundError: [Errno 2] No such file or directory: 'C:/Users/AndriiKharyshyn/Downloads/X-Trail Investigation/Repo/xtrail-repo/analyses/M608_gtr_flip_ack.js"
+    },
+    {
+     "run": "20261110T132627Z",
+     "stage": "urban_week_block",
+     "rc": 3,
+     "class": "escalation",
+     "cause": "M494 STOP before the splice: verdict 'depends on the resampling unit' goes to the Director"
+    },
+    {
+     "run": "20261110T145518Z",
+     "stage": "thermal_provenance",
+     "rc": 2,
+     "class": "hard",
+     "cause": "{\"ok\": true, \"stats\": {\"cacheHits\": 632, \"extracted\": 33, \"noRaw\": 0, \"notOk\": 0}, \"reconciliation\": {\"outcomeVsThermalSupportLedger\": {\"mine\": {\"notEligible:di"
+    }
+   ],
+   "resumeAttempts": [
+    {
+     "run": "20261110T102519Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": "no valid checkpoint chain for this base state",
+     "missReason": null
+    },
+    {
+     "run": "20261110T111722Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": "no valid checkpoint chain for this base state",
+     "missReason": null
+    },
+    {
+     "run": "20261110T122206Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": "no valid checkpoint chain for this base state",
+     "missReason": null
+    },
+    {
+     "run": "20261110T132627Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261110T145518Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    }
+   ]
+  }
+ ],
+ "totals": {
+  "stopsByClass": {
+   "environment": 12,
+   "hard": 53,
+   "escalation": 32
+  },
+  "stopsByStage": {
+   "release_check": 20,
+   "ingest_core": 13,
+   "leaf_guard": 13,
+   "gtr_family_refresh": 12,
+   "build_html": 9,
+   "urban_week_block": 5,
+   "restamp_ingest": 4,
+   "refresh_master_seasonal": 2,
+   "regen_v2": 2,
+   "engine_on_blocks": 2,
+   "cadence_regime": 2,
+   "powerfade_temperature_specs": 2,
+   "preflight": 1,
+   "f03_provenance_build": 1,
+   "m321_ladder_monitor": 1,
+   "fuel_contract_build": 1,
+   "refresh_raw_seasonal": 1,
+   "gtr_closure_refresh": 1,
+   "thermal_support_ledger": 1,
+   "jsdom": 1,
+   "m483_wording_splice": 1,
+   "resistance_joint_matrix": 1,
+   "thermal_provenance": 1
+  },
+  "lateHardStopsByCause": {
+   "build_html": {
+    "Regenerate summary_arrays.json (build_summary_arrays) against the current drive_master.csv, or investigate why the stamp disagrees.": 5,
+    "socHysteresisV2: STALE (disclosed carry-forward not waived) вЂ” basis 489 drives vs current 524 (lags 35). Recompute the block, or set block.staleWaiver=\"<reaso": 1,
+    "Every top-level key must be stamped by _artifact_stamp(); regenerate summary_arrays.json.": 1,
+    "socHysteresisV2: STALE (disclosed carry-forward not waived) вЂ” basis 606 drives vs current 621 (lags 15). Recompute the block, or set block.staleWaiver=\"<reaso": 1
+   },
+   "release_check": {
+    "RELEASE CHECK FAILED: semantic gate: forbidden wording + prose==payload + mode behaviour (M299)": 5,
+    "RELEASE CHECK FAILED: semantic gate: forbidden wording + prose==payload + mode behaviour (M299); session ledgers cover the newest drive date and agree with the ": 1,
+    "RELEASE CHECK FAILED: semantic gate: forbidden wording + prose==payload + mode behaviour (M299); C:\\Users\\AndriiKharyshyn\\AppData\\Local\\Programs\\Python\\Python31": 1,
+    "RELEASE CHECK FAILED: semantic gate: forbidden wording + prose==payload + mode behaviour (M299); post-step changes shipped summary_arrays.json": 1,
+    "RELEASE CHECK FAILED: node test_gtr_gate.js; node test_fuel_tab.js; semantic gate: forbidden wording + prose==payload + mode behaviour (M299); C:\\Users\\AndriiKh": 1
+   },
+   "leaf_guard": {
+    "{\"nPreviousLeaves\": 112534, \"nLost\": 31, \"expectedByRule\": {}, \"nUnexpected\": 31}": 2,
+    "{\"nPreviousLeaves\": 281779, \"nLost\": 23, \"expectedByRule\": {\"m575-carryover-method-note\": 2, \"m575-carryover-s3-differs\": 1, \"m466-regen-narrative-thin\": 5, \"m4": 2,
+    "{\"nPreviousLeaves\": 284251, \"nLost\": 38, \"expectedByRule\": {\"m466-regen-narrative-thin\": 1, \"m466-regen-row-ciSuppressed-status\": 1, \"m463-crawlstopgo-twopart-s": 2,
+    "{\"nPreviousLeaves\": 100518, \"nLost\": 335, \"expectedByRule\": {\"carryover-error-when-fit-ok\": 1, \"stamp-reissue-notes\": 138, \"stamp-reissue-notes-text\": 138, \"att": 1,
+    "{\"nPreviousLeaves\": 104717, \"nLost\": 18, \"expectedByRule\": {}, \"nUnexpected\": 18}": 1,
+    "{\"nPreviousLeaves\": 118500, \"nLost\": 1, \"expectedByRule\": {}, \"nUnexpected\": 1}": 1,
+    "{\"nPreviousLeaves\": 118500, \"nLost\": 22, \"expectedByRule\": {}, \"nUnexpected\": 22}": 1,
+    "{\"nPreviousLeaves\": 231476, \"nLost\": 3804, \"expectedByRule\": {\"placeholder-row-observed-DriveTypeChart\": 6, \"placeholder-row-observed-DriveDurationDist\": 6, \"pl": 1,
+    "{\"nPreviousLeaves\": 281779, \"nLost\": 224, \"expectedByRule\": {\"m466-regen-narrative-thin\": 5, \"m466-regen-row-ciSuppressed\": 1, \"cellspread-rows-moved-to-complem": 1,
+    "{\"nPreviousLeaves\": 281779, \"nLost\": 103, \"expectedByRule\": {\"m466-regen-narrative-thin\": 5, \"m466-regen-row-ciSuppressed\": 1, \"cellspread-rows-moved-to-complem": 1
+   }
+  },
+  "scopeBatches": 28,
+  "runsAllTime": 124,
+  "runsNotOkAllTime": 97
+ }
+}

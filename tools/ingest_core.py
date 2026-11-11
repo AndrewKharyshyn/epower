@@ -40,6 +40,16 @@ INHERITED_NOTES = []
 EST_CHANGES = []
 RECAL = {}
 RUN = {"dir": None}
+PHASES, _T = [], {"t0": None}
+
+
+def mark(name):
+    """M610a (spec C1): wall-clock of the phase that just ended (instrumentation only: no behaviour change). Written to the report and to runs/ingest_core_<ts>/phases.json."""
+    import time
+    now = time.time()
+    if _T["t0"] is not None:
+        PHASES.append({"phase": name, "seconds": round(now - _T["t0"], 1)})
+    _T["t0"] = now
 
 
 class Gate(Exception):
@@ -318,7 +328,9 @@ def step4_arrays(dm, raw_stage, recompute_m119v2):
         raise Gate("energyUncertaintyMC.recomputeMode != 'fresh' (recompute_energy_mc must run on every ingestion)")
     if (cfg.get("sessions") or cfg.get("sessionGroups")) and not arrays.get("sessionLedgerAudit"):
         raise Gate("sessionLedgerAudit is null although config declares sessions (P0-14)")
+    mark("step4_compute_arrays")
     EST_CHANGES[:] = estimator_gate(prev, arrays, ACK["reason"])
+    mark("estimator_gate")
     CARRIED[:] = carry_forward(arrays, prev)   # reported by main(); NOT stored in the arrays file
     return arrays
 
@@ -332,6 +344,7 @@ def main():
     ap.add_argument("--ack-estimator-change", metavar="REASON", default=os.environ.get("XT_ACK_ESTIMATOR_CHANGE") or None, help="acknowledge a changed degradation primary estimator (recorded in the report)")
     a = ap.parse_args()
     ACK["reason"] = a.ack_estimator_change
+    mark("start")
     ACK["recal"] = a.ack_recalibration
     import pandas as pd
     report = {"tool": "ingest_core", "started": dt.datetime.now(dt.timezone.utc).isoformat(), "raw_dir": a.raw_dir}
@@ -339,6 +352,7 @@ def main():
     report["rows_before"], report["md5_before"] = len(dm_old), md5(os.path.join(ROOT, "drive_master.csv"))
     new_paths = detect_new(dm_old, a.raw_dir)
     report["new_files"] = [os.path.basename(p) for p in new_paths]
+    mark("load_master_detect_new")
     rpath = os.path.join(ROOT, "tools", "ingest_core_report.json")
     if not new_paths:
         report.update(status="noop", rows_after=len(dm_old), md5_after=report["md5_before"])
@@ -355,6 +369,7 @@ def main():
     report["plausibility_partial"] = [{"file": r["file"], "untestedChannels": r["untestedChannels"]} for r in gate if r.get("partial")]   # GateA2: a channel without a usable R2 test (visibility, not a quarantine)
     for p, r in zip(new_paths, gate):
         GATED_SHA[p] = r["sha256"]
+    mark("plausibility_gate")
     if quarantined:
         report["status"] = "quarantined"
         report["note"] = "input-plausibility gate (M308) flagged new file(s); nothing ingested and no corpus file written (only this report); Andrii/Director decide"
@@ -373,11 +388,14 @@ def main():
     try:
         dm_new, g1 = step1_master(dm_old, new_paths)
         report.update(g1)
+        mark("step1_master_ml16")
         new_map = {master_key(os.path.basename(p)): p for p in new_paths}
         e4 = [f for f in os.listdir(a.raw_dir) if f.lower().startswith("e4orce_") and f.lower() not in ("e4orce_master.csv", "e4orce_ambient.csv")]
         stage = stage_raw(list(dm_old["file"].astype(str)), new_map, a.raw_dir, e4)
+        mark("stage_raw")
         man, added = step2_manifest(new_paths, dm_new["file"])
         report["manifest_records_added"] = added
+        mark("step2_manifest")
         # master written first (determinism + arrays + crosschecks read it from disk)
         _atomic(os.path.join(ROOT, "drive_master.csv"), lambda t: dm_new.to_csv(t, index=False))
         write_json(os.path.join(ROOT, "raw_manifest.json"), man, indent=1, ensure_ascii=False)
@@ -385,20 +403,25 @@ def main():
         cfg = json.load(open(os.path.join(ROOT, "summary_config.json")))
         cfg.setdefault("auditMetadata", {})["determinism"] = block
         write_json(os.path.join(ROOT, "summary_config.json"), cfg, ensure_ascii=False, indent=1)
+        mark("step3_determinism")
         dm_disk = pd.read_csv(os.path.join(ROOT, "drive_master.csv"), low_memory=False)
         # battery_temp_extremes.csv must cover the CURRENT corpus before the arrays build (else compute_summary_arrays._records()
         # silently omits the two battery-temperature-minimum rows: row count != len(dm)).
         import battery_temp_extremes as bte
         _atomic(os.path.join(ROOT, "battery_temp_extremes.csv"), lambda t: bte.raw_pass(dm_disk, stage).to_csv(t, index=False))
+        mark("battery_temp_extremes")
         # M422 (rehearsal finding): the arrays build normalises exposure on the rated 5 Ah reference (M415) and its coverage gate needs a sidecar Ah value for EVERY master drive; the
         # sidecar used to be built by the later ah_throughput stage, so a first ingestion of new drives failed here (ExposureCoverageError: 20 drives with a finite gtc and no Ah). The
         # sidecar is incremental by raw sha256, reads the staged raw_only/ view written above and the manifest written above, and the ah_throughput stage stays in the list as an idempotent re-check.
         import ah_throughput as AH
         if AH.main([]) != 0:
             raise Gate("Ah-throughput sidecar did not reach status ok for the new corpus (M422)")
+        mark("ah_throughput")
         arrays = step4_arrays(dm_disk, stage, a.recompute_m119v2)
+        mark("step4_post")
         arrays["determinism"] = block
         write_json(os.path.join(ROOT, "summary_arrays.json"), arrays, ensure_ascii=False, indent=1)
+        mark("write_arrays")
         import crosscheck_vehicles as cv, crosscheck_events as ce
         m0 = md5(os.path.join(ROOT, "drive_master.csv"))
         cv.inject(arrays_path=os.path.join(ROOT, "summary_arrays.json"), master_csv=os.path.join(ROOT, "drive_master.csv"),
@@ -407,6 +430,7 @@ def main():
                   e4_master=os.path.join(ROOT, "e4orce_master.csv"), raw_dir=stage, verbose=False)
         if md5(os.path.join(ROOT, "drive_master.csv")) != m0:
             raise Gate("crosscheck inject changed drive_master.csv")
+        mark("crosscheck_inject")
         report.update(carried_forward_keys_stale_until_stage_runs=list(CARRIED), stamp_notes_inherited=list(INHERITED_NOTES), estimator_changes_acknowledged={"changes": list(EST_CHANGES), "reason": ACK["reason"]}, recalibration=({"soft_flags": RECAL.get("soft_flags"), "hard_flags": RECAL.get("hard_flags"), "acknowledged": ACK["recal"]} if RECAL else None), status="ok", rows_after=len(dm_disk), md5_after=m0, backup=os.path.relpath(bdir, ROOT))
         # M324 GateA2: per-file signal-representation record (additive, atomic; written last so a failed earlier step leaves no orphan entry)
         import signal_representation as sr
@@ -414,6 +438,7 @@ def main():
             os.path.join(ROOT, "signal_representation.json"),
             {master_key(os.path.basename(p)): sr.build_record(read_gated(p), g) for p, g in zip(new_paths, gate)})
         report["signal_representation"] = {"added": sr_added, "unchanged": sr_same}
+        mark("signal_representation")
         rc = 0
     except BaseException as ex:   # incl. KeyboardInterrupt/SystemExit: never leave a partial write
         for f in OUT_FILES:
@@ -423,6 +448,10 @@ def main():
         rc = 1
     finally:
         shutil.rmtree(STAGING, ignore_errors=True)
+        mark("end_or_failure")
+        report["phases"] = list(PHASES)
+        if RUN["dir"] and os.path.isdir(RUN["dir"]):
+            json.dump({"phases": PHASES, "totalSeconds": round(sum(x["seconds"] for x in PHASES), 1)}, open(os.path.join(RUN["dir"], "phases.json"), "w", encoding="utf-8"), indent=1)
     json.dump(report, open(rpath, "w"), indent=1)
     print(json.dumps({k: v for k, v in report.items() if k != "trace"}, indent=1))
     return rc

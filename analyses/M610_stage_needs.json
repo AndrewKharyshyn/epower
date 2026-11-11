@@ -1,0 +1,110 @@
+{
+ "note": "M610a: file-level order findings of tools/stage_order.py present when the lint was introduced; status unreviewed = pending the Director review table (spec E3). A new finding not listed here fails the lint.",
+ "fileLevelBaseline": [
+  {
+   "stage": "preflight",
+   "file": "drive_master.csv",
+   "status": "unreviewed"
+  },
+  {
+   "stage": "preflight",
+   "file": "raw_manifest.json",
+   "status": "unreviewed"
+  },
+  {
+   "stage": "ingest_core",
+   "file": "ah_throughput.csv",
+   "status": "unreviewed"
+  },
+  {
+   "stage": "ingest_core",
+   "file": "ah_throughput_summary.json",
+   "status": "unreviewed"
+  },
+  {
+   "stage": "refresh_cohort_meta",
+   "file": "fuel_recon_master.csv",
+   "status": "unreviewed"
+  },
+  {
+   "stage": "refresh_cohort_meta",
+   "file": "fuel_recon_offset_report.json",
+   "status": "unreviewed"
+  },
+  {
+   "stage": "refresh_cohort_meta",
+   "file": "fuel_contract.json",
+   "status": "unreviewed"
+  },
+  {
+   "stage": "refresh_cohort_meta",
+   "file": "cohort_arrays.json",
+   "status": "unreviewed"
+  },
+  {
+   "stage": "refresh_cohort_meta",
+   "file": "cadence_regime.csv",
+   "status": "unreviewed"
+  },
+  {
+   "stage": "refresh_cohort_meta",
+   "file": "pid_epoch.csv",
+   "status": "unreviewed"
+  },
+  {
+   "stage": "refresh_cohort_meta",
+   "file": "powerfade_density.csv",
+   "status": "unreviewed"
+  },
+  {
+   "stage": "refresh_cohort_meta",
+   "file": "resistance_joint_sidecar.csv",
+   "status": "unreviewed"
+  },
+  {
+   "stage": "refresh_cohort_meta",
+   "file": "engine_runtime_sidecar.csv",
+   "status": "unreviewed"
+  },
+  {
+   "stage": "refresh_cohort_meta",
+   "file": "highway_share.csv",
+   "status": "unreviewed"
+  },
+  {
+   "stage": "refresh_cohort_meta",
+   "file": "steady_load_spread.csv",
+   "status": "unreviewed"
+  },
+  {
+   "stage": "refresh_cohort_meta",
+   "file": "steady_load_contexts.csv",
+   "status": "unreviewed"
+  },
+  {
+   "stage": "refresh_cohort_meta",
+   "file": "analyses/M603_result.json",
+   "status": "unreviewed"
+  },
+  {
+   "stage": "refresh_cohort_meta",
+   "file": "xtrail_dashboard.html",
+   "status": "unreviewed"
+  },
+  {
+   "stage": "rpm_mode_centres",
+   "file": "engine_on_rule_sidecar.csv",
+   "status": "unreviewed"
+  },
+  {
+   "stage": "rpm_mode_centres",
+   "file": "rpm_opt_band_sidecar.csv",
+   "status": "unreviewed"
+  },
+  {
+   "stage": "engine_on_rule",
+   "file": "rpm_opt_band_sidecar.csv",
+   "status": "unreviewed"
+  }
+ ]
+}
