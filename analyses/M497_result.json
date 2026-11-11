@@ -1,21 +1,21 @@
 {
  "spec": "analyses/M497_spec.md",
  "provenance": {
-  "masterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72",
+  "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
   "scriptSha256": "801c9a557bd256e85d03736bd8c340ba45241d3ef4515aece7be4cc572e26da5",
   "specSha256": "937653d9d53bd18d00353fccdbf8fcf0dd5d8265d37cfecee21fa663bce7b996",
   "seed": 42,
   "B": 4000,
-  "generatedAt": "2026-11-05T18:27:54.536417+00:00",
+  "generatedAt": "2026-11-11T00:10:44.717919+00:00",
   "limit": null
  },
  "fidelity": {
   "checked": true,
   "mismatches": []
  },
- "nDrivesCovered": 630,
- "nDays": 126,
- "nWeeks": 25,
+ "nDrivesCovered": 663,
+ "nDays": 130,
+ "nWeeks": 26,
  "frozenBins": [
   55.0,
   60.0,
@@ -25,22 +25,22 @@
   80.0
  ],
  "primary": {
-  "R": 40.1,
-  "kStationary": 126,
-  "kHigh": 3978,
-  "nAtRiskStationary": 96602,
-  "nAtRiskHigh": 77236,
-  "daysWithStationaryStart": 58,
-  "weeksWithStationaryStart": 19,
-  "top3DayShareOfStationaryStarts": 0.151,
+  "R": 35.7,
+  "kStationary": 149,
+  "kHigh": 3991,
+  "nAtRiskStationary": 100558,
+  "nAtRiskHigh": 77788,
+  "daysWithStationaryStart": 62,
+  "weeksWithStationaryStart": 20,
+  "top3DayShareOfStationaryStarts": 0.161,
   "dayBootstrap": {
    "nDraws": 4000,
    "nUndefined": 0,
    "nInfinite": 0,
    "infiniteShare": 0.0,
-   "lo": 31.29,
-   "median": 40.23,
-   "hi": 53.33,
+   "lo": 27.8,
+   "median": 35.75,
+   "hi": 47.19,
    "upperUnbounded": false,
    "intervalReported": true,
    "method": "percentile by order statistics over all non-undefined draws (+inf kept)"
@@ -50,30 +50,30 @@
    "nUndefined": 0,
    "nInfinite": 0,
    "infiniteShare": 0.0,
-   "lo": 30.57,
-   "median": 40.47,
-   "hi": 58.14,
+   "lo": 25.75,
+   "median": 36.49,
+   "hi": 56.77,
    "upperUnbounded": false,
    "intervalReported": true,
    "method": "percentile by order statistics over all non-undefined draws (+inf kept)",
    "coPrimary": true
   },
   "poissonClusterByDay": {
-   "ratio": 57.33,
-   "lo": 43.45,
-   "hi": 75.64,
-   "logSE": 0.1414,
-   "nClusters": 126,
-   "nCells": 860,
+   "ratio": 48.46,
+   "lo": 36.3,
+   "hi": 64.67,
+   "logSE": 0.1473,
+   "nClusters": 130,
+   "nCells": 898,
    "method": "Poisson, SoC-bin fixed effects, offset log n, CR1 by calendar day, Wald on log scale"
   }
  },
  "decision": {
-  "L": 30.57,
+  "L": 25.75,
   "widestInterval": "weekBootstrap",
   "widest": {
-   "lo": 30.57,
-   "hi": 58.14,
+   "lo": 25.75,
+   "hi": 56.77,
    "upperUnbounded": false
   },
   "wording": "at least an order of magnitude higher",
@@ -88,132 +88,132 @@
    "nUndefined": 0,
    "nInfinite": 0,
    "infiniteShare": 0.0,
-   "lo": 75.27,
-   "median": 162.33,
-   "hi": 384.71,
+   "lo": 79.01,
+   "median": 161.95,
+   "hi": 375.11,
    "upperUnbounded": false,
    "intervalReported": true,
    "method": "percentile by order statistics over all non-undefined draws (+inf kept)",
-   "ratio": 156.0
+   "ratio": 158.0
   },
   {
    "socBin": 60.0,
-   "kStationary": 14,
-   "kHigh": 1666,
+   "kStationary": 16,
+   "kHigh": 1671,
    "nDraws": 4000,
    "nUndefined": 0,
    "nInfinite": 0,
    "infiniteShare": 0.0,
-   "lo": 172.61,
-   "median": 273.47,
-   "hi": 510.11,
+   "lo": 160.97,
+   "median": 242.33,
+   "hi": 425.6,
    "upperUnbounded": false,
    "intervalReported": true,
    "method": "percentile by order statistics over all non-undefined draws (+inf kept)",
-   "ratio": 269.0
+   "ratio": 241.3
   },
   {
    "socBin": 65.0,
-   "kStationary": 29,
-   "kHigh": 2044,
+   "kStationary": 32,
+   "kHigh": 2052,
    "nDraws": 4000,
    "nUndefined": 0,
    "nInfinite": 0,
    "infiniteShare": 0.0,
-   "lo": 26.46,
-   "median": 39.12,
-   "hi": 65.86,
+   "lo": 25.74,
+   "median": 36.69,
+   "hi": 59.37,
    "upperUnbounded": false,
    "intervalReported": true,
    "method": "percentile by order statistics over all non-undefined draws (+inf kept)",
-   "ratio": 38.8
+   "ratio": 36.7
   },
   {
    "socBin": 70.0,
-   "kStationary": 26,
+   "kStationary": 31,
    "kHigh": 158,
    "nDraws": 4000,
    "nUndefined": 0,
    "nInfinite": 0,
    "infiniteShare": 0.0,
-   "lo": 2.37,
-   "median": 3.51,
-   "hi": 5.75,
+   "lo": 2.1,
+   "median": 3.15,
+   "hi": 5.16,
    "upperUnbounded": false,
    "intervalReported": true,
    "method": "percentile by order statistics over all non-undefined draws (+inf kept)",
-   "ratio": 3.5
+   "ratio": 3.1
   },
   {
    "socBin": 75.0,
-   "kStationary": 22,
+   "kStationary": 30,
    "kHigh": 68,
    "nDraws": 4000,
    "nUndefined": 0,
    "nInfinite": 0,
    "infiniteShare": 0.0,
-   "lo": 2.5,
-   "median": 4.08,
-   "hi": 7.0,
+   "lo": 2.2,
+   "median": 3.59,
+   "hi": 6.17,
    "upperUnbounded": false,
    "intervalReported": true,
    "method": "percentile by order statistics over all non-undefined draws (+inf kept)",
-   "ratio": 4.1
+   "ratio": 3.6
   },
   {
    "socBin": 80.0,
-   "kStationary": 11,
+   "kStationary": 16,
    "kHigh": 19,
    "nDraws": 4000,
    "nUndefined": 0,
-   "nInfinite": 1,
-   "infiniteShare": 0.0003,
-   "lo": 6.01,
-   "median": 14.88,
-   "hi": 49.66,
+   "nInfinite": 0,
+   "infiniteShare": 0.0,
+   "lo": 5.49,
+   "median": 12.01,
+   "hi": 30.79,
    "upperUnbounded": false,
    "intervalReported": true,
    "method": "percentile by order statistics over all non-undefined draws (+inf kept)",
-   "ratio": 14.9
+   "ratio": 12.1
   }
  ],
  "perBinRange": {
-  "min": 3.5,
-  "max": 269.0,
+  "min": 3.1,
+  "max": 241.3,
   "binsWithStationaryStart": 6,
   "eligibleBinsExcluded": 0
  },
  "sensitivities": {
-  "S1_crudeRatio": 28.11,
+  "S1_crudeRatio": 25.92,
   "S2_driveBootstrap": {
    "nDraws": 4000,
    "nUndefined": 0,
    "nInfinite": 0,
    "infiniteShare": 0.0,
-   "lo": 31.89,
-   "median": 40.14,
-   "hi": 51.38,
+   "lo": 28.72,
+   "median": 35.76,
+   "hi": 45.72,
    "upperUnbounded": false,
    "intervalReported": true,
    "method": "percentile by order statistics over all non-undefined draws (+inf kept)"
   },
   "S3_leaveOneDayOut": {
-   "min": 38.44,
-   "max": 42.46,
+   "min": 34.24,
+   "max": 37.52,
    "nInfinite": 0
   },
   "S3_dayWithMostStationaryStarts": {
-   "day": "2026-09-13",
-   "kStationary": 7,
-   "R_without": 40.21
+   "day": "2026-11-07",
+   "kStationary": 10,
+   "R_without": 37.04
   },
   "S4_leaveOneBinOut": {
-   "55.0": 39.77,
-   "60.0": 18.74,
-   "65.0": 40.87,
-   "70.0": 57.97,
-   "75.0": 48.52,
-   "80.0": 40.69
+   "55.0": 35.39,
+   "60.0": 16.86,
+   "65.0": 35.13,
+   "70.0": 51.97,
+   "75.0": 43.85,
+   "80.0": 36.3
   },
   "S5_stationaryBelow2kmh": {
    "frozenBins": [
@@ -224,16 +224,16 @@
     75.0,
     80.0
    ],
-   "R": 41.69,
-   "kStationary": 104,
+   "R": 36.72,
+   "kStationary": 123,
    "dayBootstrap": {
     "nDraws": 4000,
     "nUndefined": 0,
     "nInfinite": 0,
     "infiniteShare": 0.0,
-    "lo": 32.39,
-    "median": 41.8,
-    "hi": 57.77,
+    "lo": 28.32,
+    "median": 36.79,
+    "hi": 49.47,
     "upperUnbounded": false,
     "intervalReported": true,
     "method": "percentile by order statistics over all non-undefined draws (+inf kept)"
@@ -241,9 +241,9 @@
   },
   "S6_iidKatzOldHeadlineCell": {
    "socBin": 60.0,
-   "ratio": 269.0,
-   "lo": 159.1,
-   "hi": 455.1,
+   "ratio": 241.3,
+   "lo": 147.5,
+   "hi": 394.7,
    "label": "iid per-second; anti-conservative; comparison only"
   },
   "S7_firstStartPerDriveRemoved": {
@@ -255,16 +255,16 @@
     75.0,
     80.0
    ],
-   "R": 45.25,
-   "kStationary": 112,
+   "R": 39.96,
+   "kStationary": 134,
    "dayBootstrap": {
     "nDraws": 4000,
     "nUndefined": 0,
     "nInfinite": 0,
     "infiniteShare": 0.0,
-    "lo": 35.4,
-    "median": 45.38,
-    "hi": 60.97,
+    "lo": 31.0,
+    "median": 40.01,
+    "hi": 53.45,
     "upperUnbounded": false,
     "intervalReported": true,
     "method": "percentile by order statistics over all non-undefined draws (+inf kept)"
@@ -398,7 +398,11 @@
    "2026-11-02",
    "2026-11-03",
    "2026-11-04",
-   "2026-11-05"
+   "2026-11-05",
+   "2026-11-06",
+   "2026-11-07",
+   "2026-11-08",
+   "2026-11-09"
   ],
   "binsLower": [
    35.0,
@@ -33735,42 +33739,20 @@
     ],
     [
      [
-      0,
-      0
+      1,
+      42
      ],
      [
       0,
       0
      ],
      [
-      0,
-      0
+      1,
+      28
      ],
      [
-      0,
-      0
-     ],
-     [
-      0,
-      0
-     ]
-    ],
-    [
-     [
-      0,
-      26
-     ],
-     [
-      0,
-      0
-     ],
-     [
-      0,
-      10
-     ],
-     [
-      0,
-      26
+      1,
+      42
      ],
      [
       0,
@@ -33780,7 +33762,7 @@
     [
      [
       0,
-      0
+      49
      ],
      [
       0,
@@ -33788,33 +33770,11 @@
      ],
      [
       0,
-      0
+      30
      ],
      [
       0,
-      0
-     ],
-     [
-      0,
-      0
-     ]
-    ],
-    [
-     [
-      0,
-      0
-     ],
-     [
-      0,
-      0
-     ],
-     [
-      0,
-      0
-     ],
-     [
-      0,
-      0
+      49
      ],
      [
       0,
@@ -33824,7 +33784,7 @@
     [
      [
       0,
-      0
+      8
      ],
      [
       0,
@@ -33832,15 +33792,59 @@
      ],
      [
       0,
-      0
+      7
+     ],
+     [
+      0,
+      8
      ],
      [
       0,
       0
+     ]
+    ],
+    [
+     [
+      0,
+      225
      ],
      [
       0,
-      0
+      18
+     ],
+     [
+      0,
+      133
+     ],
+     [
+      0,
+      225
+     ],
+     [
+      0,
+      18
+     ]
+    ],
+    [
+     [
+      1,
+      123
+     ],
+     [
+      0,
+      32
+     ],
+     [
+      1,
+      100
+     ],
+     [
+      1,
+      123
+     ],
+     [
+      0,
+      32
      ]
     ],
     [
@@ -33881,6 +33885,1070 @@
      [
       0,
       19
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ]
+   ],
+   [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      134
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      86
+     ],
+     [
+      0,
+      134
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      3
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      3
+     ],
+     [
+      0,
+      3
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      77
+     ],
+     [
+      5,
+      44
+     ],
+     [
+      0,
+      64
+     ],
+     [
+      0,
+      77
+     ],
+     [
+      5,
+      44
+     ]
+    ],
+    [
+     [
+      0,
+      8
+     ],
+     [
+      8,
+      266
+     ],
+     [
+      0,
+      6
+     ],
+     [
+      0,
+      8
+     ],
+     [
+      8,
+      266
+     ]
+    ],
+    [
+     [
+      0,
+      78
+     ],
+     [
+      0,
+      56
+     ],
+     [
+      0,
+      36
+     ],
+     [
+      0,
+      78
+     ],
+     [
+      0,
+      56
+     ]
+    ],
+    [
+     [
+      1,
+      88
+     ],
+     [
+      0,
+      25
+     ],
+     [
+      1,
+      72
+     ],
+     [
+      1,
+      88
+     ],
+     [
+      0,
+      25
+     ]
+    ],
+    [
+     [
+      1,
+      7
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      6
+     ],
+     [
+      1,
+      7
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ]
+   ],
+   [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      65
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      44
+     ],
+     [
+      0,
+      64
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      88
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      78
+     ],
+     [
+      0,
+      88
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      224
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      160
+     ],
+     [
+      0,
+      224
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      468
+     ],
+     [
+      0,
+      8
+     ],
+     [
+      1,
+      410
+     ],
+     [
+      1,
+      468
+     ],
+     [
+      0,
+      8
+     ]
+    ],
+    [
+     [
+      1,
+      575
+     ],
+     [
+      0,
+      40
+     ],
+     [
+      1,
+      489
+     ],
+     [
+      1,
+      575
+     ],
+     [
+      0,
+      40
+     ]
+    ],
+    [
+     [
+      0,
+      146
+     ],
+     [
+      0,
+      13
+     ],
+     [
+      0,
+      130
+     ],
+     [
+      0,
+      146
+     ],
+     [
+      0,
+      13
+     ]
+    ],
+    [
+     [
+      5,
+      154
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      3,
+      144
+     ],
+     [
+      5,
+      154
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      3,
+      36
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      2,
+      32
+     ],
+     [
+      3,
+      36
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ]
+   ],
+   [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      10
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      7
+     ],
+     [
+      0,
+      9
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      14
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      12
+     ],
+     [
+      0,
+      14
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      14
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      13
+     ],
+     [
+      0,
+      14
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      206
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      159
+     ],
+     [
+      1,
+      206
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      298
+     ],
+     [
+      0,
+      31
+     ],
+     [
+      1,
+      241
+     ],
+     [
+      1,
+      298
+     ],
+     [
+      0,
+      31
+     ]
+    ],
+    [
+     [
+      4,
+      368
+     ],
+     [
+      0,
+      19
+     ],
+     [
+      3,
+      292
+     ],
+     [
+      4,
+      368
+     ],
+     [
+      0,
+      19
+     ]
+    ],
+    [
+     [
+      1,
+      248
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      217
+     ],
+     [
+      1,
+      248
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      13
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      13
+     ],
+     [
+      0,
+      13
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ]
+   ],
+   [
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      7
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      6
+     ],
+     [
+      0,
+      7
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      94
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      87
+     ],
+     [
+      0,
+      94
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      46
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      6
+     ],
+     [
+      0,
+      46
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      33
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      31
+     ],
+     [
+      0,
+      32
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      0,
+      99
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      56
+     ],
+     [
+      0,
+      99
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      284
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      190
+     ],
+     [
+      1,
+      284
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    [
+     [
+      1,
+      10
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      5
+     ],
+     [
+      1,
+      10
      ],
      [
       0,

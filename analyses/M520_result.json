@@ -6,7 +6,7 @@
  "spec": "analyses/M520_spec.md (Rev 2.1)",
  "specSha256": "724f92c463a9a6ebeba920f826a0b393f452d46bf20f48d0fa0bc16d836e09e7",
  "scriptSha256": "7cc066e587a54f7d295be7b70f02db0123c0e400124f381d121ee321161eea7b",
- "masterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72",
+ "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
  "m514ScriptSha256": "4eba094286023161ae8d744cfe4bd010fbba82d6ea5ea9483f626f7debd1f818",
  "seed": 42,
  "nBoot": 4000,
@@ -16,26 +16,26 @@
  },
  "populations": {
   "A0": {
-   "nDrives": 185,
-   "nDays": 78,
+   "nDrives": 193,
+   "nDays": 82,
    "nGridChangeDrives": 28,
    "nGridChangeDays": 16,
    "g2Subset": {
-    "nDrives": 157,
-    "nDays": 62
+    "nDrives": 165,
+    "nDays": 66
    },
    "gridChangeRuleMet": true,
    "g2SubsetRuleMet": true,
    "populationRuleMet": true
   },
   "A1": {
-   "nDrives": 185,
-   "nDays": 78,
+   "nDrives": 193,
+   "nDays": 82,
    "nGridChangeDrives": 28,
    "nGridChangeDays": 16,
    "g2Subset": {
-    "nDrives": 157,
-    "nDays": 62
+    "nDrives": 165,
+    "nDays": 66
    },
    "gridChangeRuleMet": true,
    "g2SubsetRuleMet": true,
@@ -45,16 +45,16 @@
  "cells": [
   {
    "id": "A0G0C1T0",
-   "slope": 1.44862,
-   "n": 185,
-   "nDays": 78,
+   "slope": 1.40551,
+   "n": 193,
+   "nDays": 82,
    "nWeeks": 23,
-   "conditionNumber": 39.27049,
+   "conditionNumber": 38.63653,
    "day": {
     "fewBlocks": false,
     "ci95": [
-     0.65827,
-     2.39872
+     0.64659,
+     2.27876
     ],
     "reading": "positive",
     "failedDraws": 0,
@@ -64,8 +64,8 @@
    "week": {
     "fewBlocks": false,
     "ci95": [
-     0.61984,
-     2.25996
+     0.63296,
+     2.20498
     ],
     "reading": "positive",
     "failedDraws": 0,
@@ -75,15 +75,15 @@
    "M7": {
     "fewBlocks": false,
     "ci95": [
-     0.61872,
-     2.36122
+     0.63948,
+     2.24759
     ],
     "reading": "positive",
     "failedDraws": 0,
     "failedShare": 0.0,
     "endpointMcSd": [
-     0.01669,
-     0.02676
+     0.01591,
+     0.01066
     ],
     "endpointWithinMcErrorOfZero": false,
     "decisive": true
@@ -91,15 +91,15 @@
    "M14": {
     "fewBlocks": false,
     "ci95": [
-     0.5644,
-     2.24255
+     0.56993,
+     2.25727
     ],
     "reading": "positive",
     "failedDraws": 0,
     "failedShare": 0.0,
     "endpointMcSd": [
-     0.01594,
-     0.02173
+     0.02379,
+     0.02904
     ],
     "endpointWithinMcErrorOfZero": false,
     "decisive": true
@@ -112,29 +112,29 @@
    },
    "sizeMatchedNull": {
     "nDraws": 2000,
-    "k": 185,
+    "k": 193,
     "nullQuantiles": {
-     "p2.5": 0.16713,
-     "p50": 1.04418,
-     "p97.5": 2.02428
+     "p2.5": 0.21158,
+     "p50": 1.13576,
+     "p97.5": 2.22092
     },
-    "observedSlope": 1.44862,
-    "fractionOfNullAtOrBelowObserved": 0.795,
+    "observedSlope": 1.40551,
+    "fractionOfNullAtOrBelowObserved": 0.6975,
     "insideCentral95": true
    }
   },
   {
    "id": "A0G1C1T0",
-   "slope": 1.6409,
-   "n": 185,
-   "nDays": 78,
+   "slope": 1.55976,
+   "n": 193,
+   "nDays": 82,
    "nWeeks": 23,
-   "conditionNumber": 39.94191,
+   "conditionNumber": 39.25708,
    "day": {
     "fewBlocks": false,
     "ci95": [
-     0.77306,
-     2.77274
+     0.76862,
+     2.54654
     ],
     "reading": "positive",
     "failedDraws": 0,
@@ -144,8 +144,8 @@
    "week": {
     "fewBlocks": false,
     "ci95": [
-     0.47819,
-     2.70976
+     0.54476,
+     2.59018
     ],
     "reading": "positive",
     "failedDraws": 2,
@@ -155,15 +155,15 @@
    "M7": {
     "fewBlocks": false,
     "ci95": [
-     0.7905,
-     2.5993
+     0.75903,
+     2.4508
     ],
     "reading": "positive",
-    "failedDraws": 12,
-    "failedShare": 0.003,
+    "failedDraws": 9,
+    "failedShare": 0.00225,
     "endpointMcSd": [
-     0.02238,
-     0.01731
+     0.02175,
+     0.01737
     ],
     "endpointWithinMcErrorOfZero": false,
     "decisive": true
@@ -171,15 +171,15 @@
    "M14": {
     "fewBlocks": false,
     "ci95": [
-     0.65701,
-     2.58017
+     0.66545,
+     2.52307
     ],
     "reading": "positive",
-    "failedDraws": 106,
-    "failedShare": 0.0265,
+    "failedDraws": 120,
+    "failedShare": 0.03,
     "endpointMcSd": [
-     0.04758,
-     0.02425
+     0.03633,
+     0.01725
     ],
     "endpointWithinMcErrorOfZero": false,
     "decisive": false
@@ -192,29 +192,29 @@
    },
    "sizeMatchedNull": {
     "nDraws": 2000,
-    "k": 185,
+    "k": 193,
     "nullQuantiles": {
-     "p2.5": 0.73178,
-     "p50": 1.5846,
-     "p97.5": 2.54046
+     "p2.5": 0.55335,
+     "p50": 1.53459,
+     "p97.5": 2.73018
     },
-    "observedSlope": 1.6409,
-    "fractionOfNullAtOrBelowObserved": 0.552,
+    "observedSlope": 1.55976,
+    "fractionOfNullAtOrBelowObserved": 0.5205,
     "insideCentral95": true
    }
   },
   {
    "id": "A0G2C1T0",
-   "slope": 1.68119,
-   "n": 157,
-   "nDays": 62,
+   "slope": 1.57324,
+   "n": 165,
+   "nDays": 66,
    "nWeeks": 19,
-   "conditionNumber": 37.82909,
+   "conditionNumber": 37.11781,
    "day": {
     "fewBlocks": false,
     "ci95": [
-     0.87505,
-     2.73441
+     0.74932,
+     2.57696
     ],
     "reading": "positive",
     "failedDraws": 0,
@@ -224,8 +224,8 @@
    "week": {
     "fewBlocks": false,
     "ci95": [
-     0.74344,
-     2.65388
+     0.739,
+     2.55997
     ],
     "reading": "positive",
     "failedDraws": 0,
@@ -235,15 +235,15 @@
    "M7": {
     "fewBlocks": false,
     "ci95": [
-     0.78188,
-     2.59714
+     0.76663,
+     2.50139
     ],
     "reading": "positive",
     "failedDraws": 0,
     "failedShare": 0.0,
     "endpointMcSd": [
-     0.02922,
-     0.0237
+     0.0262,
+     0.02546
     ],
     "endpointWithinMcErrorOfZero": false,
     "decisive": true
@@ -251,15 +251,15 @@
    "M14": {
     "fewBlocks": false,
     "ci95": [
-     0.38607,
-     2.81664
+     0.60529,
+     2.66801
     ],
     "reading": "positive",
     "failedDraws": 0,
     "failedShare": 0.0,
     "endpointMcSd": [
-     0.04593,
-     0.03748
+     0.0608,
+     0.02726
     ],
     "endpointWithinMcErrorOfZero": false,
     "decisive": true
@@ -273,29 +273,29 @@
    },
    "sizeMatchedNull": {
     "nDraws": 2000,
-    "k": 157,
+    "k": 165,
     "nullQuantiles": {
-     "p2.5": 0.51292,
-     "p50": 1.45418,
-     "p97.5": 2.55842
+     "p2.5": 0.40101,
+     "p50": 1.43004,
+     "p97.5": 2.68649
     },
-    "observedSlope": 1.68119,
-    "fractionOfNullAtOrBelowObserved": 0.6795,
+    "observedSlope": 1.57324,
+    "fractionOfNullAtOrBelowObserved": 0.6005,
     "insideCentral95": true
    }
   },
   {
    "id": "A1G0C1T0",
-   "slope": 1.52525,
-   "n": 185,
-   "nDays": 78,
+   "slope": 1.48745,
+   "n": 193,
+   "nDays": 82,
    "nWeeks": 23,
-   "conditionNumber": 39.29021,
+   "conditionNumber": 38.65378,
    "day": {
     "fewBlocks": false,
     "ci95": [
-     0.68416,
-     2.50449
+     0.70517,
+     2.39102
     ],
     "reading": "positive",
     "failedDraws": 0,
@@ -305,8 +305,8 @@
    "week": {
     "fewBlocks": false,
     "ci95": [
-     0.66626,
-     2.3778
+     0.70719,
+     2.33108
     ],
     "reading": "positive",
     "failedDraws": 0,
@@ -316,15 +316,15 @@
    "M7": {
     "fewBlocks": false,
     "ci95": [
-     0.66321,
-     2.42371
+     0.70364,
+     2.34279
     ],
     "reading": "positive",
     "failedDraws": 0,
     "failedShare": 0.0,
     "endpointMcSd": [
-     0.01977,
-     0.02101
+     0.01817,
+     0.01458
     ],
     "endpointWithinMcErrorOfZero": false,
     "decisive": true
@@ -332,15 +332,15 @@
    "M14": {
     "fewBlocks": false,
     "ci95": [
-     0.59368,
-     2.35399
+     0.63874,
+     2.35118
     ],
     "reading": "positive",
     "failedDraws": 0,
     "failedShare": 0.0,
     "endpointMcSd": [
-     0.01907,
-     0.02172
+     0.03035,
+     0.02727
     ],
     "endpointWithinMcErrorOfZero": false,
     "decisive": true
@@ -353,29 +353,29 @@
    },
    "sizeMatchedNull": {
     "nDraws": 2000,
-    "k": 185,
+    "k": 193,
     "nullQuantiles": {
-     "p2.5": 0.31518,
-     "p50": 1.15974,
-     "p97.5": 2.16802
+     "p2.5": 0.32605,
+     "p50": 1.22485,
+     "p97.5": 2.29144
     },
-    "observedSlope": 1.52525,
-    "fractionOfNullAtOrBelowObserved": 0.798,
+    "observedSlope": 1.48745,
+    "fractionOfNullAtOrBelowObserved": 0.6855,
     "insideCentral95": true
    }
   },
   {
    "id": "A1G1C1T0",
-   "slope": 1.71724,
-   "n": 185,
-   "nDays": 78,
+   "slope": 1.64198,
+   "n": 193,
+   "nDays": 82,
    "nWeeks": 23,
-   "conditionNumber": 39.96291,
+   "conditionNumber": 39.27408,
    "day": {
     "fewBlocks": false,
     "ci95": [
-     0.81615,
-     2.8882
+     0.82883,
+     2.65276
     ],
     "reading": "positive",
     "failedDraws": 0,
@@ -385,8 +385,8 @@
    "week": {
     "fewBlocks": false,
     "ci95": [
-     0.50061,
-     2.77921
+     0.60511,
+     2.68611
     ],
     "reading": "positive",
     "failedDraws": 2,
@@ -396,15 +396,15 @@
    "M7": {
     "fewBlocks": false,
     "ci95": [
-     0.8131,
-     2.67113
+     0.8305,
+     2.54722
     ],
     "reading": "positive",
-    "failedDraws": 12,
-    "failedShare": 0.003,
+    "failedDraws": 9,
+    "failedShare": 0.00225,
     "endpointMcSd": [
-     0.02992,
-     0.02103
+     0.0181,
+     0.01534
     ],
     "endpointWithinMcErrorOfZero": false,
     "decisive": true
@@ -412,15 +412,15 @@
    "M14": {
     "fewBlocks": false,
     "ci95": [
-     0.66543,
-     2.6462
+     0.72881,
+     2.61305
     ],
     "reading": "positive",
-    "failedDraws": 106,
-    "failedShare": 0.0265,
+    "failedDraws": 120,
+    "failedShare": 0.03,
     "endpointMcSd": [
-     0.05588,
-     0.02276
+     0.04274,
+     0.01839
     ],
     "endpointWithinMcErrorOfZero": false,
     "decisive": false
@@ -433,29 +433,29 @@
    },
    "sizeMatchedNull": {
     "nDraws": 2000,
-    "k": 185,
+    "k": 193,
     "nullQuantiles": {
-     "p2.5": 0.76819,
-     "p50": 1.68366,
-     "p97.5": 2.76049
+     "p2.5": 0.69865,
+     "p50": 1.67738,
+     "p97.5": 2.92348
     },
-    "observedSlope": 1.71724,
-    "fractionOfNullAtOrBelowObserved": 0.523,
+    "observedSlope": 1.64198,
+    "fractionOfNullAtOrBelowObserved": 0.472,
     "insideCentral95": true
    }
   },
   {
    "id": "A1G2C1T0",
-   "slope": 1.77516,
-   "n": 157,
-   "nDays": 62,
+   "slope": 1.67132,
+   "n": 165,
+   "nDays": 66,
    "nWeeks": 19,
-   "conditionNumber": 37.85359,
+   "conditionNumber": 37.13693,
    "day": {
     "fewBlocks": false,
     "ci95": [
-     0.93104,
-     2.84034
+     0.84559,
+     2.67854
     ],
     "reading": "positive",
     "failedDraws": 0,
@@ -465,8 +465,8 @@
    "week": {
     "fewBlocks": false,
     "ci95": [
-     0.77574,
-     2.7707
+     0.81382,
+     2.6893
     ],
     "reading": "positive",
     "failedDraws": 0,
@@ -476,15 +476,15 @@
    "M7": {
     "fewBlocks": false,
     "ci95": [
-     0.82267,
-     2.7229
+     0.84696,
+     2.63304
     ],
     "reading": "positive",
     "failedDraws": 0,
     "failedShare": 0.0,
     "endpointMcSd": [
-     0.0358,
-     0.01957
+     0.03044,
+     0.0247
     ],
     "endpointWithinMcErrorOfZero": false,
     "decisive": true
@@ -492,15 +492,15 @@
    "M14": {
     "fewBlocks": false,
     "ci95": [
-     0.41006,
-     2.89188
+     0.69394,
+     2.80214
     ],
     "reading": "positive",
     "failedDraws": 0,
     "failedShare": 0.0,
     "endpointMcSd": [
-     0.0352,
-     0.04542
+     0.0659,
+     0.02844
     ],
     "endpointWithinMcErrorOfZero": false,
     "decisive": true
@@ -514,14 +514,14 @@
    },
    "sizeMatchedNull": {
     "nDraws": 2000,
-    "k": 157,
+    "k": 165,
     "nullQuantiles": {
-     "p2.5": 0.65686,
-     "p50": 1.57521,
-     "p97.5": 2.68685
+     "p2.5": 0.50853,
+     "p50": 1.52887,
+     "p97.5": 2.77822
     },
-    "observedSlope": 1.77516,
-    "fractionOfNullAtOrBelowObserved": 0.64,
+    "observedSlope": 1.67132,
+    "fractionOfNullAtOrBelowObserved": 0.6015,
     "insideCentral95": true
    }
   }
@@ -530,8 +530,8 @@
   "nCells": 6,
   "nPositiveSlopes": 6,
   "slopeRange": [
-   1.44862,
-   1.77516
+   1.40551,
+   1.67132
   ],
   "intervalCounts": {
    "day": {
@@ -562,44 +562,44 @@
  },
  "selectionDiagnostic": {
   "A0": {
-   "nRetained": 185,
-   "nExcluded": 91,
-   "daysLost": 24,
+   "nRetained": 193,
+   "nExcluded": 98,
+   "daysLost": 25,
    "standardizedMeanDifference": {
-    "months": -0.11896,
-    "T_pack_mean_avg": 0.67868,
-    "eff_dt_s": -0.0782,
-    "coverage_frac": -0.14122,
-    "distance_km": 1.11603,
-    "duration_s": 1.41508
+    "months": -0.16055,
+    "T_pack_mean_avg": 0.67687,
+    "eff_dt_s": -0.05389,
+    "coverage_frac": -0.13528,
+    "distance_km": 1.09885,
+    "duration_s": 1.40599
    },
    "sampleCountSlopePerMonth": {
-    "slope": -102.46799,
+    "slope": -117.9455,
     "dayCi95": [
-     -253.8642,
-     42.99992
+     -242.92957,
+     2.80874
     ],
     "excludesZero": false
    },
    "flag": "no calendar trend in support detected (does not rule out confounding)"
   },
   "A1": {
-   "nRetained": 185,
-   "nExcluded": 91,
-   "daysLost": 24,
+   "nRetained": 193,
+   "nExcluded": 98,
+   "daysLost": 25,
    "standardizedMeanDifference": {
-    "months": -0.11896,
-    "T_pack_mean_avg": 0.67868,
-    "eff_dt_s": -0.0782,
-    "coverage_frac": -0.14122,
-    "distance_km": 1.11603,
-    "duration_s": 1.41508
+    "months": -0.16055,
+    "T_pack_mean_avg": 0.67687,
+    "eff_dt_s": -0.05389,
+    "coverage_frac": -0.13528,
+    "distance_km": 1.09885,
+    "duration_s": 1.40599
    },
    "sampleCountSlopePerMonth": {
-    "slope": -100.74868,
+    "slope": -116.28492,
     "dayCi95": [
-     -251.65737,
-     44.36325
+     -240.95006,
+     4.49664
     ],
     "excludesZero": false
    },

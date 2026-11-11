@@ -2,15 +2,15 @@
  "milestone": "M555",
  "mode": "--splice",
  "stats": {
-  "cacheHits": 632,
+  "cacheHits": 665,
   "extracted": 0,
   "noRaw": 0,
   "notOk": 6
  },
  "knownAnswer": {
   "n": {
-   "counts": 1800,
-   "resolutionAgrees": 419
+   "counts": 1866,
+   "resolutionAgrees": 485
   },
   "misses": {
    "counts": 0,
@@ -23,12 +23,12 @@
  },
  "extractorSourceHash": "064adf8a140c4918",
  "reconciliation": {
-  "rawFilesInRaw": 643,
-  "masterRows": 632,
-  "masterRowsWithRaw": 632,
+  "rawFilesInRaw": 676,
+  "masterRows": 665,
+  "masterRowsWithRaw": 665,
   "rawNotInMaster": 11,
   "eraCounts": {
-   "maxMin": 238,
+   "maxMin": 271,
    "maxMinG01": 385,
    "none": 6,
    "perCell": 3
@@ -39,7 +39,7 @@
    "comparison_only (typedExclusions)": 2,
    "unexplained": 0,
    "manifestRoles": {
-    "canonical": 632,
+    "canonical": 665,
     "comparison_only": 2,
     "auxiliary": 9,
     "derived": 2
@@ -47,93 +47,105 @@
   }
  },
  "packFilter": {
-  "packSamples": 694032,
+  "packSamples": 719524,
   "removed": 4,
   "removedShare": 6e-06
  },
  "strata": {
   "maxMin|fast": {
-   "nDrives": 10,
-   "nDays": 2,
+   "nDrives": 42,
+   "nDays": 6,
    "channels": {
     "[BMS] Max Cell Voltage (V)": {
-     "drivesWithSamples": 10,
+     "drivesWithSamples": 42,
      "coverageClassCounts": {
-      "complete": 10,
+      "complete": 42,
       "partial": 0,
       "sparse": 0
      },
      "coverageMedianOfDrives": 1.0,
      "rateRatioMedianOfDrives": 1.0,
      "exactCoTimedShareMedianOfDrives": 0.0,
-     "offsetMedianS": 0.046,
-     "offsetP95OfDrivesS": 0.087,
+     "offsetMedianS": 0.0435,
+     "offsetP95OfDrivesS": 0.084,
      "within0p25MedianOfDrives": 1.0,
-     "ageMedianS": 0.9375,
-     "ageP95MedianOfDrivesS": 1.3322,
-     "ageCensoredShareMedianOfDrives": 0.0023,
+     "ageMedianS": 0.912,
+     "ageP95MedianOfDrivesS": 1.2731,
+     "ageCensoredShareMedianOfDrives": 0.0021,
      "driveShareWithAgeP95Over3s": 0.0,
-     "carriedForwardShareMedianOfDrives": 0.0749,
+     "carriedForwardShareMedianOfDrives": 0.066,
      "beyondLimitShareMedianOfDrives": 0.0
     },
     "[BMS] Min Cell Voltage (V)": {
-     "drivesWithSamples": 10,
+     "drivesWithSamples": 42,
      "coverageClassCounts": {
-      "complete": 10,
+      "complete": 42,
       "partial": 0,
       "sparse": 0
      },
      "coverageMedianOfDrives": 1.0,
      "rateRatioMedianOfDrives": 1.0,
      "exactCoTimedShareMedianOfDrives": 0.0,
-     "offsetMedianS": 0.0895,
-     "offsetP95OfDrivesS": 0.166,
-     "within0p25MedianOfDrives": 0.9959,
-     "ageMedianS": 0.8875,
-     "ageP95MedianOfDrivesS": 1.2666,
-     "ageCensoredShareMedianOfDrives": 0.0023,
+     "offsetMedianS": 0.088,
+     "offsetP95OfDrivesS": 0.1582,
+     "within0p25MedianOfDrives": 0.9961,
+     "ageMedianS": 0.865,
+     "ageP95MedianOfDrivesS": 1.2219,
+     "ageCensoredShareMedianOfDrives": 0.0021,
      "driveShareWithAgeP95Over3s": 0.0,
-     "carriedForwardShareMedianOfDrives": 0.0739,
+     "carriedForwardShareMedianOfDrives": 0.0622,
      "beyondLimitShareMedianOfDrives": 0.0
     }
    },
    "maxMinConsistency": {
     "statistic": "day-clustered pooled share of Max < Min - resolution among paired samples",
     "polling": {
-     "share": 0.004667,
-     "ci95": null,
-     "pairs": 6214,
-     "violations": 29,
-     "nDrives": 10,
-     "nDays": 2
+     "share": 0.004599,
+     "ci95": [
+      0.003993,
+      0.005142
+     ],
+     "pairs": 31311,
+     "violations": 144,
+     "nDrives": 42,
+     "nDays": 6
     },
     "unmatchedMax": 1,
-    "unmatchedMin": 0,
+    "unmatchedMin": 1,
     "nearest0.25": {
-     "share": 0.004668,
-     "ci95": null,
-     "pairs": 6212,
-     "violations": 29,
-     "nDrives": 10,
-     "nDays": 2,
+     "share": 0.004601,
+     "ci95": [
+      0.003995,
+      0.005144
+     ],
+     "pairs": 31299,
+     "violations": 144,
+     "nDrives": 42,
+     "nDays": 6,
      "reuse": 0
     },
     "nearest0.5": {
-     "share": 0.004667,
-     "ci95": null,
-     "pairs": 6214,
-     "violations": 29,
-     "nDrives": 10,
-     "nDays": 2,
+     "share": 0.004599,
+     "ci95": [
+      0.003993,
+      0.005142
+     ],
+     "pairs": 31310,
+     "violations": 144,
+     "nDrives": 42,
+     "nDays": 6,
      "reuse": 0
     },
     "nearest1.5": {
-     "share": 0.004666,
-     "ci95": null,
-     "pairs": 6215,
-     "violations": 29,
-     "nDrives": 10,
-     "nDays": 2,
+     "share": 0.004599,
+     "ci95": [
+      0.003993,
+      0.005142
+     ],
+     "pairs": 31312,
+     "violations": 144,
+     "nDrives": 42,
+     "nDays": 6,
      "reuse": 1
     }
    },
@@ -148,13 +160,13 @@
    "otherChannels": {}
   },
   "maxMin|slow": {
-   "nDrives": 222,
-   "nDays": 54,
+   "nDrives": 223,
+   "nDays": 55,
    "channels": {
     "[BMS] Max Cell Voltage (V)": {
-     "drivesWithSamples": 222,
+     "drivesWithSamples": 223,
      "coverageClassCounts": {
-      "complete": 222,
+      "complete": 223,
       "partial": 0,
       "sparse": 0
      },
@@ -164,83 +176,83 @@
      "offsetMedianS": 0.047,
      "offsetP95OfDrivesS": 0.085,
      "within0p25MedianOfDrives": 0.9996,
-     "ageMedianS": 1.2273,
-     "ageP95MedianOfDrivesS": 1.8934,
+     "ageMedianS": 1.2265,
+     "ageP95MedianOfDrivesS": 1.889,
      "ageCensoredShareMedianOfDrives": 0.0015,
-     "driveShareWithAgeP95Over3s": 0.0856,
-     "carriedForwardShareMedianOfDrives": 0.2585,
+     "driveShareWithAgeP95Over3s": 0.0852,
+     "carriedForwardShareMedianOfDrives": 0.2583,
      "beyondLimitShareMedianOfDrives": 0.0
     },
     "[BMS] Min Cell Voltage (V)": {
-     "drivesWithSamples": 222,
+     "drivesWithSamples": 223,
      "coverageClassCounts": {
-      "complete": 222,
+      "complete": 223,
       "partial": 0,
       "sparse": 0
      },
      "coverageMedianOfDrives": 1.0,
      "rateRatioMedianOfDrives": 1.0,
      "exactCoTimedShareMedianOfDrives": 0.0,
-     "offsetMedianS": 0.0863,
-     "offsetP95OfDrivesS": 0.1679,
-     "within0p25MedianOfDrives": 0.9926,
-     "ageMedianS": 1.1825,
-     "ageP95MedianOfDrivesS": 1.8275,
+     "offsetMedianS": 0.0865,
+     "offsetP95OfDrivesS": 0.168,
+     "within0p25MedianOfDrives": 0.9925,
+     "ageMedianS": 1.181,
+     "ageP95MedianOfDrivesS": 1.8271,
      "ageCensoredShareMedianOfDrives": 0.0015,
-     "driveShareWithAgeP95Over3s": 0.0766,
-     "carriedForwardShareMedianOfDrives": 0.2587,
+     "driveShareWithAgeP95Over3s": 0.0762,
+     "carriedForwardShareMedianOfDrives": 0.2583,
      "beyondLimitShareMedianOfDrives": 0.0
     }
    },
    "maxMinConsistency": {
     "statistic": "day-clustered pooled share of Max < Min - resolution among paired samples",
     "polling": {
-     "share": 0.00693,
+     "share": 0.006928,
      "ci95": [
-      0.006257,
-      0.00765
+      0.006224,
+      0.007674
      ],
-     "pairs": 320484,
-     "violations": 2221,
-     "nDrives": 222,
-     "nDays": 54
+     "pairs": 320875,
+     "violations": 2223,
+     "nDrives": 223,
+     "nDays": 55
     },
     "unmatchedMax": 19,
     "unmatchedMin": 19,
     "nearest0.25": {
-     "share": 0.006915,
+     "share": 0.006913,
      "ci95": [
-      0.006236,
-      0.007635
+      0.00621,
+      0.00766
      ],
-     "pairs": 320162,
-     "violations": 2214,
-     "nDrives": 222,
-     "nDays": 54,
+     "pairs": 320552,
+     "violations": 2216,
+     "nDrives": 223,
+     "nDays": 55,
      "reuse": 6
     },
     "nearest0.5": {
-     "share": 0.006931,
+     "share": 0.006929,
      "ci95": [
-      0.006258,
-      0.007651
+      0.006225,
+      0.007675
      ],
-     "pairs": 320441,
-     "violations": 2221,
-     "nDrives": 222,
-     "nDays": 54,
+     "pairs": 320832,
+     "violations": 2223,
+     "nDrives": 223,
+     "nDays": 55,
      "reuse": 6
     },
     "nearest1.5": {
-     "share": 0.006933,
+     "share": 0.006931,
      "ci95": [
-      0.006261,
-      0.007652
+      0.006228,
+      0.007676
      ],
-     "pairs": 320491,
-     "violations": 2222,
-     "nDrives": 222,
-     "nDays": 54,
+     "pairs": 320882,
+     "violations": 2224,
+     "nDrives": 223,
+     "nDays": 55,
      "reuse": 11
     }
    },
@@ -678,10 +690,10 @@
    ]
   }
  ],
- "unknownCadenceDriveSharePct": 0.8,
+ "unknownCadenceDriveSharePct": 0.76,
  "resolutionCrossCheck": [
-  419,
+  485,
   0
  ],
- "rawListSha256": "42d325ce4a47410c0fa23da35f0aadcd9a075fb1cb706dc87aa889ef5e518033"
+ "rawListSha256": "a3b166ace42a4b32f14b9d8728fd903340a6eb7bedfc3c9f9aa69d1814cb216d"
 }

@@ -1,5 +1,5 @@
 {
- "label": "M578",
+ "label": "M608",
  "bands": {
   "speedSplitFgenAbs": 0.05,
   "simultaneityShareAbsPP": 5.0,
@@ -8,43 +8,43 @@
  "blocks": {
   "sensitivity": {
    "nDrives": {
-    "previous": 391,
-    "new": 402
+    "previous": 402,
+    "new": 435
    },
    "nDays": {
-    "previous": 70,
-    "new": 72
+    "previous": 72,
+    "new": 76
    },
-   "nDaysRelativeChange": 0.0286,
+   "nDaysRelativeChange": 0.0556,
    "maxAbsMove": {
-    "gen100": 0.06,
-    "trac100": 0.02,
-    "fgen": 0.002,
-    "etaBus": 0.001
+    "gen100": 0.12,
+    "trac100": 0.1,
+    "fgen": 0.006,
+    "etaBus": 0.002
    }
   },
   "simultaneity": {
    "nDrives": {
-    "previous": 391,
-    "new": 402
+    "previous": 402,
+    "new": 435
    },
    "nDays": {
-    "previous": 70,
-    "new": 72
+    "previous": 72,
+    "new": 76
    },
-   "nDaysRelativeChange": 0.0286,
+   "nDaysRelativeChange": 0.0556,
    "maxAbsMovePP": {
-    "genPlusBattDischarge": 0.1,
-    "chargesAndDrives": 0.1,
-    "genAloneNeutral": 0.4,
-    "fullyBanked": 0.2
+    "genPlusBattDischarge": 0.4,
+    "chargesAndDrives": 0.3,
+    "genAloneNeutral": 0.3,
+    "fullyBanked": 0.3
    },
    "rowMovePP": {
     "urban": {
-     "genPlusBattDischarge": -0.1,
-     "chargesAndDrives": -0.1,
-     "genAloneNeutral": 0.4,
-     "fullyBanked": -0.2
+     "genPlusBattDischarge": 0.4,
+     "chargesAndDrives": -0.3,
+     "genAloneNeutral": 0.3,
+     "fullyBanked": -0.3
     },
     "mixed": {
      "genPlusBattDischarge": 0.0,
@@ -59,7 +59,7 @@
      "fullyBanked": 0.0
     },
     "highway": {
-     "genPlusBattDischarge": 0.0,
+     "genPlusBattDischarge": -0.1,
      "chargesAndDrives": 0.0,
      "genAloneNeutral": 0.0,
      "fullyBanked": 0.0
@@ -68,57 +68,53 @@
   },
   "speedSplit": {
    "nDrives": {
-    "previous": 391,
-    "new": 402
+    "previous": 402,
+    "new": 435
    },
    "nDays": {
-    "previous": 70,
-    "new": 72
+    "previous": 72,
+    "new": 76
    },
-   "nDaysRelativeChange": 0.0286,
-   "maxAbsMoveFgen": 0.0062
+   "nDaysRelativeChange": 0.0556,
+   "maxAbsMoveFgen": 0.0112
   }
  },
  "flipAcknowledgement": {
-  "ruling": "analyses/M578_gtr_director_ruling.json",
-  "driveMasterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72",
-  "sensitivityAxesSha256": "cfbaea840c185878857ee752e693c9ef5e35fbc88ab66827dd3eb9eafd853b07",
+  "ruling": "analyses/M608_gtr_director_ruling.json",
+  "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3",
+  "sensitivityAxesSha256": "c8e51fc7ec455b224ad667edfef302e0e2a7076f1981644d0c477e60c7076ccd",
   "acknowledged": [
    {
     "axis": "BASE (central)",
-    "fgen": 0.515
+    "fgen": 0.509
    },
    {
     "axis": "BSFC optimistic (-6%)",
-    "fgen": 0.534
+    "fgen": 0.528
    },
    {
     "axis": "OPT band wide (1750-2250)",
-    "fgen": 0.515
+    "fgen": 0.51
    },
    {
     "axis": "P_aux high (1.2kW)",
-    "fgen": 0.536
-   },
-   {
-    "axis": "P_aux low (0.2kW)",
-    "fgen": 0.505
-   },
-   {
-    "axis": "cold penalty OFF",
     "fgen": 0.531
    },
    {
+    "axis": "cold penalty OFF",
+    "fgen": 0.527
+   },
+   {
     "axis": "cold penalty heavy (×1.45)",
-    "fgen": 0.507
+    "fgen": 0.501
    },
    {
     "axis": "η_gen high (0.97)",
-    "fgen": 0.522
+    "fgen": 0.517
    }
   ],
   "scope": "sensitivity f_gen >= 0.5 stop only; the frozen M373 flip list is unchanged"
  },
- "changedPaths": 96,
+ "changedPaths": 103,
  "stops": []
 }

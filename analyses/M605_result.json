@@ -2,24 +2,24 @@
  "milestone": "M605",
  "specRev": 1,
  "stats": {
-  "cacheHits": 0,
-  "extracted": 632,
+  "cacheHits": 632,
+  "extracted": 33,
   "noRaw": 0,
   "notOk": 11
  },
  "reconciliation": {
-  "compared": 621,
+  "compared": 654,
   "mismatches": 0,
   "skippedNoM559Cache": 0,
   "files": []
  },
  "extractorSourceHash": "862dc6ccad5126c7",
  "population": {
-  "masterRows": 632,
-  "withRaw": 632,
-  "ok": 621,
-  "canonClean": 619,
-  "fuelAllZeroOrMissing": 249,
+  "masterRows": 665,
+  "withRaw": 665,
+  "ok": 654,
+  "canonClean": 652,
+  "fuelAllZeroOrMissing": 251,
   "noCoolant": 0
  },
  "support": {
@@ -40,15 +40,15 @@
  "minInterval": 10,
  "strata": {
   "fast": {
-   "nDrives": 195,
-   "nDays": 40,
-   "gridSeconds": 219828,
-   "drivesWithoutFuelRate": 17,
+   "nDrives": 227,
+   "nDays": 44,
+   "gridSeconds": 244608,
+   "drivesWithoutFuelRate": 19,
    "base": {
     "seconds": 25,
     "intervals": 1,
-    "fragmentSeconds": 63,
-    "fragments": 37,
+    "fragmentSeconds": 99,
+    "fragments": 58,
     "drives": 1,
     "days": 1,
     "label": "candidate, not supported",
@@ -61,8 +61,8 @@
     "soc65": {
      "seconds": 25,
      "intervals": 1,
-     "fragmentSeconds": 81,
-     "fragments": 52,
+     "fragmentSeconds": 125,
+     "fragments": 79,
      "drives": 1,
      "days": 1,
      "label": "candidate, not supported",
@@ -71,8 +71,8 @@
     "soc72": {
      "seconds": 25,
      "intervals": 1,
-     "fragmentSeconds": 45,
-     "fragments": 24,
+     "fragmentSeconds": 72,
+     "fragments": 38,
      "drives": 1,
      "days": 1,
      "label": "candidate, not supported",
@@ -81,28 +81,28 @@
     "soc75": {
      "seconds": 25,
      "intervals": 1,
-     "fragmentSeconds": 42,
-     "fragments": 21,
-     "drives": 1,
-     "days": 1,
-     "label": "candidate, not supported",
-     "supported": false
-    },
-    "fuel1p0": {
-     "seconds": 213,
-     "intervals": 2,
-     "fragmentSeconds": 43,
+     "fragmentSeconds": 66,
      "fragments": 33,
      "drives": 1,
      "days": 1,
      "label": "candidate, not supported",
      "supported": false
     },
+    "fuel1p0": {
+     "seconds": 250,
+     "intervals": 3,
+     "fragmentSeconds": 88,
+     "fragments": 54,
+     "drives": 2,
+     "days": 2,
+     "label": "candidate, not supported",
+     "supported": false
+    },
     "fuel2p0": {
      "seconds": 0,
      "intervals": 0,
-     "fragmentSeconds": 32,
-     "fragments": 26,
+     "fragmentSeconds": 56,
+     "fragments": 41,
      "drives": 0,
      "days": 0,
      "label": "candidate, not supported",
@@ -111,8 +111,8 @@
     "rpmGt500": {
      "seconds": 25,
      "intervals": 1,
-     "fragmentSeconds": 63,
-     "fragments": 37,
+     "fragmentSeconds": 99,
+     "fragments": 58,
      "drives": 1,
      "days": 1,
      "label": "candidate, not supported",
@@ -121,8 +121,8 @@
     "rpmGt400": {
      "seconds": 25,
      "intervals": 1,
-     "fragmentSeconds": 66,
-     "fragments": 39,
+     "fragmentSeconds": 102,
+     "fragments": 60,
      "drives": 1,
      "days": 1,
      "label": "candidate, not supported",
@@ -131,8 +131,8 @@
     "rpm600": {
      "seconds": 25,
      "intervals": 1,
-     "fragmentSeconds": 63,
-     "fragments": 37,
+     "fragmentSeconds": 99,
+     "fragments": 58,
      "drives": 1,
      "days": 1,
      "label": "candidate, not supported",
@@ -141,8 +141,8 @@
     "i2": {
      "seconds": 0,
      "intervals": 0,
-     "fragmentSeconds": 70,
-     "fragments": 33,
+     "fragmentSeconds": 91,
+     "fragments": 48,
      "drives": 0,
      "days": 0,
      "label": "candidate, not supported",
@@ -151,28 +151,28 @@
     "i5": {
      "seconds": 25,
      "intervals": 1,
-     "fragmentSeconds": 105,
-     "fragments": 58,
+     "fragmentSeconds": 191,
+     "fragments": 105,
      "drives": 1,
      "days": 1,
      "label": "candidate, not supported",
      "supported": false
     },
     "min5": {
-     "seconds": 33,
-     "intervals": 2,
-     "fragmentSeconds": 55,
-     "fragments": 36,
-     "drives": 1,
-     "days": 1,
+     "seconds": 38,
+     "intervals": 3,
+     "fragmentSeconds": 86,
+     "fragments": 56,
+     "drives": 2,
+     "days": 2,
      "label": "candidate, not supported",
      "supported": false
     },
     "min20": {
      "seconds": 25,
      "intervals": 1,
-     "fragmentSeconds": 63,
-     "fragments": 37,
+     "fragmentSeconds": 99,
+     "fragments": 58,
      "drives": 1,
      "days": 1,
      "label": "candidate, not supported",
@@ -181,28 +181,28 @@
     "cool55": {
      "seconds": 0,
      "intervals": 0,
-     "fragmentSeconds": 12,
-     "fragments": 10,
+     "fragmentSeconds": 23,
+     "fragments": 18,
      "drives": 0,
      "days": 0,
      "label": "candidate, not supported",
      "supported": false
     },
     "cool65": {
-     "seconds": 37,
-     "intervals": 2,
-     "fragmentSeconds": 269,
-     "fragments": 147,
-     "drives": 1,
-     "days": 1,
+     "seconds": 50,
+     "intervals": 3,
+     "fragmentSeconds": 444,
+     "fragments": 242,
+     "drives": 2,
+     "days": 2,
      "label": "candidate, not supported",
      "supported": false
     },
     "dropFilled": {
      "seconds": 16,
      "intervals": 1,
-     "fragmentSeconds": 58,
-     "fragments": 40,
+     "fragmentSeconds": 87,
+     "fragments": 61,
      "drives": 1,
      "days": 1,
      "label": "candidate, not supported",
@@ -258,16 +258,16 @@
     "warm": null
    },
    "conditionalCounts": {
-    "coldDen": 1894,
-    "coldNum": 88,
-    "warmDen": 7709,
-    "warmNum": 317
+    "coldDen": 2979,
+    "coldNum": 124,
+    "warmDen": 7909,
+    "warmNum": 324
    }
   },
   "slow": {
-   "nDrives": 423,
-   "nDays": 87,
-   "gridSeconds": 614677,
+   "nDrives": 424,
+   "nDays": 88,
+   "gridSeconds": 615141,
    "drivesWithoutFuelRate": 232,
    "base": {
     "seconds": 0,
@@ -477,9 +477,9 @@
    }
   },
   "slow_fuelValid": {
-   "nDrives": 191,
-   "nDays": 35,
-   "gridSeconds": 168350,
+   "nDrives": 192,
+   "nDays": 36,
+   "gridSeconds": 168814,
    "drivesWithoutFuelRate": 0,
    "base": {
     "seconds": 0,
@@ -902,5 +902,5 @@
   }
  },
  "sidecarRows": 1,
- "rawListSha256": "42d325ce4a47410c0fa23da35f0aadcd9a075fb1cb706dc87aa889ef5e518033"
+ "rawListSha256": "a3b166ace42a4b32f14b9d8728fd903340a6eb7bedfc3c9f9aa69d1814cb216d"
 }

@@ -1,0 +1,22 @@
+{
+ "milestone": "M608",
+ "date": "2026-11-10",
+ "role": "research-director, brief of the main session (recorded here because the leaf_guard ruling found no M155 ruling on disk)",
+ "decision": "revise",
+ "text": "Under the pre-registered M155/P0-05 rule (degradation_trends.py) primaryEstimator is chosen automatically: mixedEffects whenever it converges with a finite SE no more than 25x the cluster-OLS SE; forcing clusterRobustOLS would depart from the spec. resistanceVreg is a cadence-uncontrolled sensitivity, not the powerFade estimand; the TOST always uses the cluster-robust OLS slope/SE (tostEstimatorBasis), so the equivalence outcome cannot change with the estimator.",
+ "ackReason": "M155 pre-registered rule: resistanceVreg mixed model non-degenerate at 665 drives (was singular at 632); primaryEstimator switches clusterRobustOLS->mixedEffects; TOST basis unchanged (clusterRobustOLS, df=nDays-1); Director ruling 2026-11-10; blind audit pending before merge",
+ "limits": [
+  "the mixed fit flipped from singular to non-degenerate after adding 33 drives: numerically fragile near the boundary; me_ok does not check reCovarianceSingular",
+  "the basis may flip back at the next ingestion",
+  "cadence uncontrolled: the slope is not interpretable as ageing",
+  "TOST not established is not no degradation"
+ ],
+ "language": [
+  "State: released point estimate basis changed from clusterRobustOLS to mixedEffects per pre-registered M155 rule; TOST basis unchanged",
+  "show both estimators side by side",
+  "use 'sensitivity, cadence-uncontrolled'; never degradation or ageing; never 'no degradation'"
+ ],
+ "followUps": [
+  "add reCovarianceSingular to me_ok and a hysteresis rule against estimator basis flipping"
+ ]
+}
