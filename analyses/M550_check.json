@@ -2,18 +2,18 @@
  "milestone": "M550",
  "mode": "--splice",
  "stats": {
-  "cacheHits": 632,
+  "cacheHits": 665,
   "extracted": 0,
   "noRaw": 0,
   "notOk": 14
  },
  "knownAnswer": {
   "n": {
-   "peakKw": 618,
-   "peakI": 618,
-   "t1PeakI": 449,
-   "t1PeakIFallbackSkipped": 148,
-   "peakDis": 618
+   "peakKw": 651,
+   "peakI": 651,
+   "t1PeakI": 467,
+   "t1PeakIFallbackSkipped": 162,
+   "peakDis": 651
   },
   "misses": {
    "peakKw": 0,
@@ -31,34 +31,34 @@
  "extractorSourceHash": "c20db1cb44d3b344",
  "summary": {
   "population": {
-   "akPlotted": 597,
-   "withExtraction": 597,
+   "akPlotted": 629,
+   "withExtraction": 629,
    "canonicalClean": null
   },
   "classKw": {
-   "cotimed": 302,
-   "nearby": 145,
-   "late": 150,
+   "cotimed": 307,
+   "nearby": 157,
+   "late": 165,
    "none": 0
   },
   "classI": {
-   "cotimed": 302,
-   "nearby": 147,
+   "cotimed": 308,
+   "nearby": 159,
    "late": 0,
-   "none": 148
+   "none": 162
   },
-  "nViewA": 597,
-  "nViewKw": 597,
-  "nViewKwWithin3s": 447,
+  "nViewA": 629,
+  "nViewKw": 629,
+  "nViewKwWithin3s": 464,
   "ageAbsKwS": {
-   "p50": 0.936,
-   "p90": 5.355,
-   "p99": 7.155
+   "p50": 1.073,
+   "p90": 5.253,
+   "p99": 7.146
   },
   "ageAbsIS": {
-   "p50": 0.936,
-   "p90": 5.167,
-   "p99": 7.155
+   "p50": 1.055,
+   "p90": 5.156,
+   "p99": 7.146
   },
   "vAgeKwS": {
    "p50": -0.121,
@@ -67,38 +67,38 @@
   },
   "gapS": {
    "p50": 0.0,
-   "p90": 1.019,
-   "p99": 367.022
+   "p90": 0.992,
+   "p99": 788.64
   },
-  "nGapOver3s": 46,
+  "nGapOver3s": 49,
   "noneShareByCadence": {
    "fast": {
-    "n": 185,
+    "n": 216,
     "noneShareKw": 0.0,
     "tiersKw": {
-     "cotimed": 60,
-     "nearby": 95,
-     "late": 30,
+     "cotimed": 64,
+     "nearby": 107,
+     "late": 45,
      "none": 0
     },
     "tiersI": {
-     "cotimed": 58,
-     "nearby": 96,
+     "cotimed": 63,
+     "nearby": 108,
      "late": 0,
-     "none": 31
+     "none": 45
     }
    },
    "slow": {
-    "n": 412,
+    "n": 413,
     "noneShareKw": 0.0,
     "tiersKw": {
-     "cotimed": 242,
+     "cotimed": 243,
      "nearby": 50,
      "late": 120,
      "none": 0
     },
     "tiersI": {
-     "cotimed": 244,
+     "cotimed": 245,
      "nearby": 51,
      "late": 0,
      "none": 117
@@ -112,81 +112,81 @@
     0.0,
     0.0
    ],
-   "nDrives": 438,
-   "nDays": 118
+   "nDrives": 455,
+   "nDays": 122
   },
   "absDt1": {
    "p50": 0.0,
    "p90": 0.0,
-   "p99": 1.0
+   "p99": 2.0
   },
   "sensitivityTolerance": {
    "lateTier": {
-    "n": 150,
+    "n": 165,
     "bounds": "3 s < |age| <= 10 s",
     "absDt1VsPeakI": {
      "p50": 0.0,
      "p90": 1.0,
-     "p99": 1.0
+     "p99": 1.89
     },
-    "nWithBothValues": 11,
+    "nWithBothValues": 12,
     "absAgeS": {
-     "p50": 4.9,
-     "p90": 6.722
+     "p50": 4.753,
+     "p90": 6.706
     }
    },
    "beyond10s": 0
   },
   "nTies": 0,
   "nChannel": {
-   "reg": 118,
-   "egc": 465,
+   "reg": 122,
+   "egc": 493,
    "dual": 14
   },
   "globalMinIdDiagnosticDiffers": 2,
   "dischargePeak": {
    "tiersDis": {
-    "cotimed": 298,
-    "nearby": 173,
-    "late": 126,
+    "cotimed": 305,
+    "nearby": 187,
+    "late": 137,
     "none": 0
    },
    "tiersDisByCadence": {
     "fast": {
-     "cotimed": 56,
-     "nearby": 112,
-     "late": 17,
+     "cotimed": 63,
+     "nearby": 126,
+     "late": 27,
      "none": 0
     },
     "slow": {
      "cotimed": 242,
      "nearby": 61,
-     "late": 109,
+     "late": 110,
      "none": 0
     }
    }
   },
   "tiersAC": {
-   "cotimed": 302,
-   "nearby": 147,
-   "late": 148,
+   "cotimed": 308,
+   "nearby": 159,
+   "late": 162,
    "none": 0
   },
   "tiersACByCadence": {
    "fast": {
-    "n": 185,
+    "n": 216,
     "tiersAC": {
-     "cotimed": 58,
-     "nearby": 96,
-     "late": 31,
+     "cotimed": 63,
+     "nearby": 108,
+     "late": 45,
      "none": 0
     },
     "noneShareAC": 0.0
    },
    "slow": {
-    "n": 412,
+    "n": 413,
     "tiersAC": {
-     "cotimed": 244,
+     "cotimed": 245,
      "nearby": 51,
      "late": 117,
      "none": 0
@@ -198,17 +198,17 @@
   "noneShareAC": 0.0,
   "acVsLegacy": {
    "movedFallbackDrives": {
-    "n": 148,
-    "nDays": 50,
+    "n": 162,
+    "nDays": 55,
     "signedMedian": -1.0,
     "absMedian": 1.0,
     "absP90": 4.0,
-    "nMoved": 124,
+    "nMoved": 134,
     "maxSigned": 0.0
    },
    "movedNonFallbackDrives": {
-    "n": 449,
-    "nDays": 119,
+    "n": 467,
+    "nDays": 123,
     "signedMedian": 0.0,
     "absMedian": 0.0,
     "absP90": 0.0,
@@ -218,18 +218,18 @@
    "coldZoneAndPeak": {
     "coldBelowC": 20,
     "legacy": {
-     "nPoints": 597,
-     "nCold": 102,
-     "minT": 6.0
+     "nPoints": 629,
+     "nCold": 120,
+     "minT": 3.0
     },
     "within3s": {
-     "nPoints": 449,
-     "nCold": 68,
-     "minT": 6.0
+     "nPoints": 467,
+     "nCold": 79,
+     "minT": 3.0
     },
     "late": {
-     "nPoints": 148,
-     "nCold": 42
+     "nPoints": 162,
+     "nCold": 50
     },
     "highestCratePeak": {
      "cRate": 42.6,
@@ -239,20 +239,20 @@
      "ageS": 0.169
     },
     "likeForLike": {
-     "n": 597,
-     "legacyNCold": 102,
-     "tierRuleNCold": 110,
+     "n": 629,
+     "legacyNCold": 120,
+     "tierRuleNCold": 129,
      "byCadence": {
       "fast": {
-       "n": 185,
-       "legacyNCold": 43,
-       "within3sNCold": 37,
-       "lateNCold": 9
+       "n": 216,
+       "legacyNCold": 60,
+       "within3sNCold": 47,
+       "lateNCold": 17
       },
       "slow": {
-       "n": 412,
-       "legacyNCold": 59,
-       "within3sNCold": 31,
+       "n": 413,
+       "legacyNCold": 60,
+       "within3sNCold": 32,
        "lateNCold": 33
       }
      }
@@ -263,8 +263,8 @@
    "note": "signed move = new x minus legacy x (T1_at_peak_Crate, the drive-maximum T1 for fallback drives)"
   }
  },
- "nKwViewX": 597,
- "nAcViewX": 597,
+ "nKwViewX": 629,
+ "nAcViewX": 629,
  "acConsistencyMisses": [],
- "rawListSha256": "42d325ce4a47410c0fa23da35f0aadcd9a075fb1cb706dc87aa889ef5e518033"
+ "rawListSha256": "a3b166ace42a4b32f14b9d8728fd903340a6eb7bedfc3c9f9aa69d1814cb216d"
 }

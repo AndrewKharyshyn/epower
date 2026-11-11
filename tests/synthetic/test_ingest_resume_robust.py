@@ -55,7 +55,7 @@ def main():
         assert rep["state"] == "rolled_back", rep
         assert os.path.exists(os.path.join(jroot, "analyses", "M999_x_gtr_flip_ack.json")) and os.path.exists(os.path.join(jroot, "analyses", "M999_x_director_ruling.json"))
         assert not os.path.exists(os.path.join(jroot, "data", "new.txt")), "ordinary created files are still removed"
-        assert open(os.path.join(jroot, "data", "keep.txt")).read() == "x"
+        assert open(os.path.join(jroot, "data", "keep.txt"), encoding="utf-8").read() == "x"
         assert sorted(rep["restored"]["keptAckInputs"]) == ["analyses/M999_x_director_ruling.json", "analyses/M999_x_gtr_flip_ack.json"], rep["restored"]
         assert RJ.skip_root_file(".", "a.log") and RJ.skip_root_file(".", "b.out") and not RJ.skip_root_file("analyses", "c.log") and not RJ.skip_root_file(".", "d.json")
         print("test_ingest_resume_robust OK")

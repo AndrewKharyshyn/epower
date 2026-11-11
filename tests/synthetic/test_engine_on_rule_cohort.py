@@ -27,7 +27,9 @@ for k, v in B["byCohort"].items():
     assert [round(float(x) / 3600, 3) for x in H.sum(0)] == hist
     assert (d["ge300"].values == H[:, 1:].sum(1) + d["gt6000"].values).all()
 assert sum(v["engineOnSeconds"] for v in B["byCohort"].values()) == B["pooled"]["engineOnSeconds"] == int(sc["gt400"].sum())
-assert B["byCohort"]["cold"]["exploratory"] is True and "exploratory" in B["byCohort"]["cold"]["note"] and B["byCohort"]["warm"]["exploratory"] is False
+for _c, _v in B["byCohort"].items():        # M608: the rule (exploratory iff fewer than 10 calendar days), not a fixed cold state; cold reached 11 days at 665 drives
+    assert _v["exploratory"] is bool(_v["nDays"] < 10) and ("exploratory" in _v["note"]) is _v["exploratory"], (_c, _v["nDays"])
+assert B["byCohort"]["warm"]["exploratory"] is False
 g = B["cohortGates"]
 assert g["passed"] is True and g["G1CohortPartition"] is True and g["G3MeanColumnsIdenticalToM540Sidecar"] is True and g["nValidLastEqualsNValid"] is True and B["faithfulness"]["cohortGatesPassed"] is True
 # aggregator sensitivity: last vs mean, from the sidecar columns

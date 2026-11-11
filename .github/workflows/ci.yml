@@ -27,7 +27,7 @@ jobs:
       - name: Compile all Python
         run: python -m compileall -q *.py tools
       - name: Import integrity (files present, raw names/rows, master MD5)
-        run: python tools/verify_import.py --quick --expect-master-md5 1574a8156a36c6ea4ea1dfdaafc7cc72
+        run: python tools/verify_import.py --quick --expect-master-md5 77bbe275f8c22eaf62d8636867764af3
         env: {XT_RAW_DIR: raw}
       - name: Unit tests (python, shard ${{ matrix.shard }} of 3)
         run: |
@@ -101,6 +101,8 @@ jobs:
           python tests/synthetic/test_nested_carry.py
           python tests/synthetic/test_m369_raw_cache.py
           python tests/synthetic/test_leaf_guard.py
+          python tests/synthetic/test_leaf_guard_lost_ack.py
+          python tests/synthetic/test_semantic_gate_b_format.py
           python tests/synthetic/test_cold_support_sync.py
           python tests/synthetic/test_regime_override.py
           python tests/synthetic/test_regime_override_sensitivity.py

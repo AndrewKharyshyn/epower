@@ -1,0 +1,13 @@
+{
+ "milestone": "M608",
+ "date": "2026-11-10",
+ "role": "research-director (Fable 5.2), follow-up to the leaf_guard ruling",
+ "decision": "revise",
+ "text": "The 0.00123 change (band 55-60) is in the reference-mix weights w, not in S* as the spec defines it; it is the expected per-ingestion recompute and not a stop (40/40 standardized bars and 800/800 cells inside their previous day interval). No numeric tolerance for w is pre-registered; none applied. Say 'reference mix w recomputed on the 665-drive corpus (max weight change 0.0012, band 55-60)', never 'S* changed/unchanged' for w. Newly thin 'all' cells: 'newly thin at 665 drives', no contrast. The all/fast/temperature/allSoc 0-10 C interval (5 days, thin) follows the cold ciSuppressed rule or is labelled exploratory. Cold stays exploratory; no fast-vs-slow contrast.",
+ "checks": {
+  "script": "analyses/M608_regen_std_diff.py -> analyses/M608_regen_std_diff.json",
+  "result": "non-cold views: only coverage drifted (max 0.0017); bands, dropped groups, availability flag and bar sets unchanged; 40/40 bars inside the previous day interval, max absolute point delta 0.85"
+ },
+ "blindAudit": "analyses/M608_cold_regen_audit/result.json: cold totals reproduced exactly (fast 40 drives / 9 days / n 4956 / eff 60.47 / ci [56.26,63.14]; slow 15 / 5 / 1007 / 57.21 / [42.46,61.33]); the slow stratum's 5th day (2026-11-07) has drives near the 1.0 s cadence threshold",
+ "needsAndriiSignoff": "only if cold intervals are displayed: obtained (analyses/M608_owner_decision_cold_intervals.json)"
+}
