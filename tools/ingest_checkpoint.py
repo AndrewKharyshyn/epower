@@ -28,10 +28,7 @@ class CheckpointError(RuntimeError):
     pass
 
 
-def is_ack_input(rel):
-    """M575: gate acknowledgements, Director rulings and the leaf-guard rule list are consulted only by the stage that stops on them; editing one after a gate stop must not invalidate the
-    checkpoints of the stages that already passed (the stopped stage and all later stages re-run anyway). They are hashed as code-like files, not as data."""
-    return rel in ("analyses/leaf_guard_rules.json", "analyses/M321_acknowledgements.json") or (rel.startswith("analyses/") and re.search(r"(_ack|_ruling|_director_ruling)[^/]*\.json$", rel) is not None)
+is_ack_input = RJ.is_ack_input          # M609: single definition shared with the release journal (a rollback must not delete a late-written ack)
 
 
 def is_codelike(rel):
@@ -82,7 +79,7 @@ class Checkpoints:
             else:
                 dirs[:] = [x for x in dirs if x not in RJ.EXCLUDE_ANY]
             for f in files:
-                if f.endswith(RJ.EXCLUDE_SUFFIX):
+                if f.endswith(RJ.EXCLUDE_SUFFIX) or RJ.skip_root_file(rel_d, f):
                     continue
                 p = os.path.join(d, f)
                 if os.path.islink(p) or not os.path.isfile(p):

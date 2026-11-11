@@ -10,7 +10,7 @@ runs/<run>/journal/files/ and hashed (sha256); journal.json records the state an
 raw/ is never modified by a rollback (raw originals are never deleted); raw files added during the run are listed in the report.
 The tree snapshot covers undeclared writes too (stages with no declared outputs); the committed journal lists the write set, so a stage that writes an undeclared file is visible.
 Usage: python tools/release_journal.py --status | --recover   (library use: Journal(root, run_dir).begin()/commit()/rollback())"""
-import datetime as dt, hashlib, json, os, shutil, sys, time
+import datetime as dt, hashlib, json, os, re, shutil, sys, time
 
 EXCLUDE_TOP = {".git", "node_modules", "runs", "raw", "raw_only", "raw_cache", "drive_raw_cache", "capacity_cache", "audit", "tabtext", ".pytest_cache", ".claude",
                # M575: git-ignored, content-keyed caches (83k of the 92k journaled files; the snapshot took 27 min and every rollback/recover rescanned it); a rollback leaves their entries, which are keyed and additive
@@ -18,6 +18,18 @@ EXCLUDE_TOP = {".git", "node_modules", "runs", "raw", "raw_only", "raw_cache", "
 MAX_COPY_BYTES = 30_000_000   # larger files are hashed (changes are detected and reported) but not copied: a rollback cannot restore them and says so (rollback_failed)
 EXCLUDE_ANY = {"__pycache__"}
 EXCLUDE_SUFFIX = (".pyc",)
+# M609: top-level run-output files (a shell redirect of the run's own stdout, e.g. `run_ingest.py > ingest_run.log`) are not part of the data state. They change while the run is
+# executing, so they made every --resume base key differ and could break the post-rollback re-hash (rollback_failed). Applies to files directly in the root only.
+EXCLUDE_ROOT_SUFFIX = (".log", ".out")
+
+
+def skip_root_file(rel_dir, name):
+    return rel_dir == "." and name.endswith(EXCLUDE_ROOT_SUFFIX)
+
+
+def is_ack_input(rel):
+    """M575/M609: gate acknowledgements, Director rulings and the leaf-guard rule list are human inputs, not run outputs: consulted only by the stage that stops on them."""
+    return rel in ("analyses/leaf_guard_rules.json", "analyses/M321_acknowledgements.json") or (rel.startswith("analyses/") and re.search(r"(_ack|_ruling|_director_ruling)[^/]*\.json$", rel) is not None)
 LOCK = os.path.join("runs", ".release.lock")
 
 
@@ -43,7 +55,7 @@ def tree(root):
         else:
             dirs[:] = [x for x in dirs if x not in EXCLUDE_ANY]
         for f in files:
-            if f.endswith(EXCLUDE_SUFFIX):
+            if f.endswith(EXCLUDE_SUFFIX) or skip_root_file(rel_d, f):
                 continue
             p = os.path.join(d, f)
             if os.path.islink(p) or not os.path.isfile(p):
@@ -198,16 +210,19 @@ class Journal:
                 _atomic_copy(os.path.join(self.files_dir, rel), os.path.join(self.root, rel))
             except OSError as ex:
                 errors.append("restore %s: %r" % (rel, ex))
+        kept_inputs = [r for r in created if is_ack_input(r)]       # M609: an ack / ruling written after the snapshot is a human input: a rollback must not delete it
         for rel in created:
+            if rel in kept_inputs:
+                continue
             try:
                 os.remove(os.path.join(self.root, rel))
             except OSError as ex:
                 errors.append("remove %s: %r" % (rel, ex))
         after = tree(self.root)
-        mism = sorted(r for r in set(after) | set(snap) if after.get(r, [None, None])[1] != snap.get(r, [None, None])[1])
+        mism = sorted(r for r in set(after) | set(snap) if r not in kept_inputs and after.get(r, [None, None])[1] != snap.get(r, [None, None])[1])
         ok = not errors and not mism
         self.data.update(state="rolled_back" if ok else "rollback_failed", rolledBackAt=_now(), reason=str(reason)[:500],
-                         restored={"changed": changed, "created": created, "deleted": deleted}, rollbackErrors=errors[:20], rollbackMismatches=mism[:50],
+                         restored={"changed": changed, "created": created, "deleted": deleted, "keptAckInputs": kept_inputs}, rollbackErrors=errors[:20], rollbackMismatches=mism[:50],
                          rawAdded=sorted(set(raw_listing(self.root)) - set(self.data.get("rawListing", []))))
         self._write()
         if ok:
