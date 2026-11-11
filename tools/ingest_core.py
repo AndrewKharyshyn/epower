@@ -451,7 +451,7 @@ def main():
         mark("end_or_failure")
         report["phases"] = list(PHASES)
         if RUN["dir"] and os.path.isdir(RUN["dir"]):
-            json.dump({"phases": PHASES, "totalSeconds": round(sum(x["seconds"] for x in PHASES), 1)}, open(os.path.join(RUN["dir"], "phases.json"), "w"), indent=1)
+            json.dump({"phases": PHASES, "totalSeconds": round(sum(x["seconds"] for x in PHASES), 1)}, open(os.path.join(RUN["dir"], "phases.json"), "w", encoding="utf-8"), indent=1)
     json.dump(report, open(rpath, "w"), indent=1)
     print(json.dumps({k: v for k, v in report.items() if k != "trace"}, indent=1))
     return rc

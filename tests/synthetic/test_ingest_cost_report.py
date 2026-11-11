@@ -12,9 +12,9 @@ def put(root, rid, result, stages, failure=None, checkpoint=None):
     st = {"run": rid, "result": result, "stages": [{"id": x[0], "rc": (x[3] if len(x) > 3 else (0 if x[2] in ("ok", "restored_from_checkpoint") else 3)), "seconds": x[1], "status": x[2]} for x in stages]}
     if checkpoint:
         st["checkpoint"] = checkpoint
-    json.dump(st, open(os.path.join(d, "status.json"), "w"))
+    json.dump(st, open(os.path.join(d, "status.json"), "w", encoding="utf-8"))
     if failure:
-        json.dump(failure, open(os.path.join(d, "failure.json"), "w"))
+        json.dump(failure, open(os.path.join(d, "failure.json"), "w", encoding="utf-8"))
 
 
 def main():
