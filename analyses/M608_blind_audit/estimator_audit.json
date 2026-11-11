@@ -1,0 +1,25 @@
+{
+ "n_drives": 294,
+ "n_days": 107,
+ "covariates": "y=vreg_R_pack_mohm ~ months(30.4375d)+T_pack_mean_avg+vreg_I_p95_A",
+ "mixed": {
+  "slope": 1.3536,
+  "ci95": [
+   0.1466,
+   2.5606
+  ],
+  "groupVar": 8.48,
+  "resid": 150.1686874047514,
+  "singular": false,
+  "converged": true
+ },
+ "clusterOLS": {
+  "slope": 1.2486,
+  "se": 0.6162,
+  "ci95": [
+   0.0269,
+   2.4703
+  ],
+  "ref": "t(106)"
+ }
+}
