@@ -74,8 +74,16 @@ def main():
         cd_ = json.load(open(cmon, encoding="utf-8")); cl = cd_.get("last_update", {})
         cad = {"informational": "report-only (M396): never routes to audit; report any flag to the owner first", "expected_regime": cd_.get("expected_regime"), "n_new_drives": cl.get("n_new_drives"),
                "n_flags": cl.get("n_flags"), "flags": cl.get("flags", []), "last_regime": cd_.get("last_regime")}
+    icr = P("tools", "ingest_core_report.json")     # M614 (R1): changes of the mixed-effects sensitivity validity fields are reported here, never a stop and never routed to audit
+    est_notes = []
+    if os.path.exists(icr):
+        try:
+            est_notes = json.load(open(icr, encoding="utf-8")).get("estimator_validity_notes") or []
+        except ValueError:
+            est_notes = []
+    est = {"informational": "report-only (M614): a change of the mixed-effects sensitivity validity fields does not stop an ingestion and does not route to audit; the headline is the cluster-robust OLS", "notes": est_notes}
     out = {"generated_utc": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"), "has_baseline": bool(prev),
-           "flags": flags, "route_to_audit": bool(flags), "kpis": rep, "gtrFamily": gtr, "gtrClosure": gclo, "dissipationMonitor": dis, "cadenceMonitor": cad}
+           "flags": flags, "route_to_audit": bool(flags), "kpis": rep, "gtrFamily": gtr, "gtrClosure": gclo, "dissipationMonitor": dis, "cadenceMonitor": cad, "estimatorValidity": est}
     json.dump(out, open(P("delta_report.json"), "w"), indent=1)
     print(json.dumps({"has_baseline": out["has_baseline"], "route_to_audit": out["route_to_audit"], "flags": flags}, indent=1))
     if a.commit:

@@ -38,6 +38,7 @@ GATED_SHA = {}          # path -> sha256 of the bytes the plausibility gate saw 
 CARRIED = []
 INHERITED_NOTES = []
 EST_CHANGES = []
+EST_VALIDITY_NOTES = []          # M614 (R1): changes of the mixed-model validity flags are reported here, never a stop
 RECAL = {}
 RUN = {"dir": None}
 PHASES, _T = [], {"t0": None}
@@ -287,20 +288,28 @@ def carry_forward(arrays, prev):
 
 
 def estimator_gate(prev, arrays, ack=None):
-    """M307/F5: a degradation metric whose primary estimator (or mixed-effects degenerate flag) changed vs the previous arrays
-    aborts the ingestion unless acknowledged (--ack-estimator-change "<reason>"). A silent mixedEffects->clusterRobustOLS
-    fallback changes the released slope basis (Director, 2026-09-30). Returns the list of changes (also for the report)."""
+    """M307/F5, relaxed by M614 (spec analyses/M614_spec.md Rev 1, R1): a degradation metric whose HEADLINE estimator (`primaryEstimator`) or headline rule (`headlineEstimatorRule`)
+    changed vs the previous arrays aborts the ingestion unless acknowledged (--ack-estimator-change "<reason>"). Since M614 the headline is the cluster-robust OLS for every
+    metric, so a change of the mixed-effects validity flags (`mixedEffects.degenerate`, `valid`) no longer stops an ingestion: it only describes the sensitivity fit and is
+    appended to EST_VALIDITY_NOTES for the report (RELAXATION of the M307 gate, which also stopped on a `degenerate` change). Returns the list of blocking changes."""
     changes = []
+    EST_VALIDITY_NOTES[:] = []
     pd_, ad = (prev.get("degradationTrends") or {}), (arrays.get("degradationTrends") or {})
     for m, a in ad.items():
         p = pd_.get(m)
         if not isinstance(a, dict) or not isinstance(p, dict) or "primaryEstimator" not in a:
             continue
         pe, ae = p.get("primaryEstimator"), a.get("primaryEstimator")
+        pr, ar = p.get("headlineEstimatorRule"), a.get("headlineEstimatorRule")
         pdg = bool((p.get("mixedEffects") or {}).get("degenerate", False))
         adg = bool((a.get("mixedEffects") or {}).get("degenerate", False))
-        if pe != ae or pdg != adg:
-            changes.append({"metric": m, "primaryEstimator": [pe, ae], "mixedEffectsDegenerate": [pdg, adg]})
+        if pe != ae or pr != ar:
+            changes.append({"metric": m, "primaryEstimator": [pe, ae], "headlineEstimatorRule": [pr, ar], "mixedEffectsDegenerate": [pdg, adg]})
+        else:
+            pm, am = (p.get("mixedEffects") or {}), (a.get("mixedEffects") or {})
+            fields = {"degenerate": [pdg, adg], "valid": [pm.get("valid"), am.get("valid")], "validity": [pm.get("validity"), am.get("validity")], "reCovarianceSingular": [pm.get("reCovarianceSingular"), am.get("reCovarianceSingular")]}
+            if any(v[0] != v[1] for v in fields.values()):
+                EST_VALIDITY_NOTES.append({"metric": m, "mixedEffectsDegenerate": [pdg, adg], "mixedEffectsValid": fields["valid"], "changed": sorted(k for k, v in fields.items() if v[0] != v[1]), "fields": fields})
     if changes and not ack:
         raise Gate(f"estimator fallback/change vs previous arrays (needs --ack-estimator-change \"<reason>\"): {changes}")
     return changes
@@ -431,7 +440,7 @@ def main():
         if md5(os.path.join(ROOT, "drive_master.csv")) != m0:
             raise Gate("crosscheck inject changed drive_master.csv")
         mark("crosscheck_inject")
-        report.update(carried_forward_keys_stale_until_stage_runs=list(CARRIED), stamp_notes_inherited=list(INHERITED_NOTES), estimator_changes_acknowledged={"changes": list(EST_CHANGES), "reason": ACK["reason"]}, recalibration=({"soft_flags": RECAL.get("soft_flags"), "hard_flags": RECAL.get("hard_flags"), "acknowledged": ACK["recal"]} if RECAL else None), status="ok", rows_after=len(dm_disk), md5_after=m0, backup=os.path.relpath(bdir, ROOT))
+        report.update(carried_forward_keys_stale_until_stage_runs=list(CARRIED), stamp_notes_inherited=list(INHERITED_NOTES), estimator_validity_notes=list(EST_VALIDITY_NOTES), estimator_changes_acknowledged={"changes": list(EST_CHANGES), "reason": ACK["reason"]}, recalibration=({"soft_flags": RECAL.get("soft_flags"), "hard_flags": RECAL.get("hard_flags"), "acknowledged": ACK["recal"]} if RECAL else None), status="ok", rows_after=len(dm_disk), md5_after=m0, backup=os.path.relpath(bdir, ROOT))
         # M324 GateA2: per-file signal-representation record (additive, atomic; written last so a failed earlier step leaves no orphan entry)
         import signal_representation as sr
         sr_added, sr_same, _ = sr.write_entries(
