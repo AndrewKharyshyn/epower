@@ -115,6 +115,16 @@ def check_leaf_rules(root):
         return ["leaf_guard_rules.json does not parse: %s" % ex]
 
 
+def check_label(n_new, env=None):
+    """M611: a run that ingests new drives needs XT_INGEST_LABEL=M### (restamp_ingest and gtr_carry_label stop on it; a missing label cost a 124-minute run in the Nov 2026 ingestion)."""
+    if not n_new:
+        return []
+    v = (env if env is not None else os.environ).get("XT_INGEST_LABEL", "")
+    if not re.fullmatch(r"M\d+[a-z]?", v or ""):
+        return ["%d new raw file(s) but XT_INGEST_LABEL is %s (expected the milestone id of this ingestion, e.g. M608)" % (n_new, repr(v) if v else "not set")]
+    return []
+
+
 def run(root):
     out = {"checks": [], "notPrerunnable": NOT_PRERUNNABLE}
     n_new = 0
@@ -126,6 +136,7 @@ def run(root):
             out["checks"].append({"name": name, "ok": not r, "problems": r})
         except Exception as ex:                                 # a check that cannot run is a failed check, never a silent pass
             out["checks"].append({"name": name, "ok": False, "problems": ["check could not run: %r" % (ex,)]})
+    out["checks"].append({"name": "ingest_label", "ok": not check_label(n_new), "problems": check_label(n_new)})
     out["nNewRawFiles"] = n_new
     out["ok"] = all(c["ok"] for c in out["checks"])
     return out

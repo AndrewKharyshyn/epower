@@ -300,12 +300,21 @@ class Checkpoints:
             json.dump({"id": stage["id"], "key": self.key, "post": _h(json.dumps(sorted(data.items()))), "written": written, "deleted": deleted, "restorable": restorable},
                       open(tmp, "w", encoding="utf-8", newline="\n"))
             os.replace(tmp, os.path.join(ed, "entry.json"))
+            if i == 0 and getattr(self, "run_started_at", None):                  # M611: the start of the run that began this chain; a resumed run adopts it (one coherent stamp instant)
+                json.dump({"runStartedAt": self.run_started_at}, open(os.path.join(self.chain_dir, "chain_start.json"), "w", encoding="utf-8", newline="\n"))
             self.prev, self.prev_aux, self.n = data, aux, i + 1
             if not restorable:
                 self.dead = True
         except Exception as ex:                                              # checkpoints are an optimisation; never fail the ingestion because of them
             self.notes.append("checkpoint of %s failed: %r" % (stage["id"], ex))
             self.dead = True
+
+    def chain_start(self):
+        """M611: ISO start of the run that began the stored chain, or None (no record)."""
+        try:
+            return json.load(open(os.path.join(self.chain_dir, "chain_start.json"), encoding="utf-8")).get("runStartedAt")
+        except (OSError, ValueError, AttributeError, TypeError):
+            return None
 
     def discard(self):
         if self.chain_dir:

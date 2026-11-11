@@ -24,6 +24,7 @@ def main():
         L = lambda n: os.path.join(logd, n + ".log")
         rc, st, _ = T.run(root, L("1"))
         assert rc == 1 and T.executed(L("1")) == ["a", "b", "c"]
+        start1 = st["runStartedAt"]
         # 2. a root-level run log appears and differs between the runs; the code fix of c keeps a and b restorable
         T.write(os.path.join(root, "ingest_run_1.log"), "output of the first run\n")
         T.write(os.path.join(root, "ingest_run_2.out"), "more output\n")
@@ -32,6 +33,7 @@ def main():
         assert rc == 0, (rc, st)
         assert T.executed(L("2")) == ["c"], "plain rerun must resume: %s" % T.executed(L("2"))
         assert st["checkpoint"]["resumed"] and st["checkpoint"]["restoredStages"] == 2, st["checkpoint"]
+        assert st["runStartedAt"] == start1 and st["resumedFromRunStart"] == start1, "M611: a resumed run carries the original run start: %s" % {k: st.get(k) for k in ("runStartedAt", "resumedFromRunStart")}
         # 3. --fresh runs everything (chain is not consulted)
         shutil.rmtree(os.path.join(root, "data")); T.write(os.path.join(root, "data", "in.txt"), "in")
         T.write(os.path.join(root, "tools", "c_flag.txt"), "FAIL")
@@ -40,6 +42,7 @@ def main():
         assert rc == 1
         rc, st, _ = T.run(root, L("4"), "--fresh")
         assert T.executed(L("4")) == ["a", "b", "c"], T.executed(L("4"))
+        assert st["runStartedAt"] != start1 and "resumedFromRunStart" not in st, "M611: a fresh run has its own start"
         # 4-6: journal level
         jroot = os.path.join(tmp, "jroot")
         T.write(os.path.join(jroot, "data", "keep.txt"), "x")

@@ -69,4 +69,9 @@ import json
 a = json.load(open("summary_arrays.json", encoding="utf-8"))
 assert all("reads highest" not in x["role"] and "reads lowest" not in x["role"] for x in a["sensorSummary"])
 assert a["temperatureProbeRanking"]["identities"]["nViolations"] == 0
+# M611: the cold-days limit sentence is derived from the block (known answers)
+assert P.cold_days_wording({"byCohort": {"cold": {"hot": {"nDays": 3}}}}) == "cold rests on 3 calendar days (an interval needs at least 5)"
+assert P.cold_days_wording({"byCohort": {"cold": {"hot": {"nDays": 11}}}}) == "cold rests on 11 calendar days (an interval needs at least 5)"
+assert P.cold_days_wording({"byCohort": {}}) == "cold calendar days not available" and P.cold_days_wording({"byCohort": {"cold": {"hot": {"nDays": True}}}}) == "cold calendar days not available"
+# (the shipped payload sentence is refreshed by the probe_ranking stage at the next ingestion; the producer wording above is what it will write)
 print("test_probe_ranking OK")
