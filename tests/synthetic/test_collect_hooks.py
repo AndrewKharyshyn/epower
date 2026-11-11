@@ -103,6 +103,13 @@ def main():
         hard = [GF.FLIP_STOP, "O file was produced on a different drive_master.csv"]
         code, err = run(hard, {SP.TOKEN_ENV: tok, SP.DIR_ENV: rd})
         assert code == 3 and err == msg(hard) and len(SP.load_records(rd)) == 1, (code, err)
+        # 2d. gtr_closure_refresh (blind audit finding 1): only a pure escalation list is collectable; a stop or a REFUSED acknowledgement keeps it a hard stop
+        import gtr_closure_refresh as CL
+        esc = [{"rule": "r", "path": "p"}]
+        assert CL.closure_collectable({"stops": [], "escalations": esc}) is True
+        assert CL.closure_collectable({"stops": [], "escalations": []}) is False
+        assert CL.closure_collectable({"stops": [{"rule": "s", "path": "p"}], "escalations": esc}) is False
+        assert CL.closure_collectable({"stops": [], "escalations": esc, "acknowledgementRefused": "bound to a different drive_master.csv MD5"}) is False
         # 3. changed fact: an ack bound to the first record is refused for the changed record
         ack = {"ruling": "R", "recordSha256": recs[0]["recordSha256"]}
         changed = SP.build_record("gtr_family_refresh", "reading_flip_or_band", dict(recs[0]["facts"], flipped=[{"axis": "A1", "fgen": 0.7}]), recs[0]["ackEnv"], recs[0]["ackSchema"], recs[0]["withheld"], recs[0]["artifacts"], recs[0]["upstream"])
