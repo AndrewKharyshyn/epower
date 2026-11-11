@@ -19,6 +19,10 @@ def make_record(mon, ref, note="", root=ROOT, today=None):
     if not M.ref_resolves(ref, root):
         raise ValueError(f"ref {ref!r} does not resolve: it must name an existing CHANGELOG '## M###' heading (e.g. 'M322 title') or an existing analyses/ spec file; "
                          f"write the CHANGELOG entry or spec first")
+    sides = M.stop_rule_sides(mon)
+    if sides and not M.ref_is_spec_file(ref, root):
+        raise ValueError(f"STOP RULE (Director, M608): out-of-basis support passes the level gate ({M.L.GATE_EVENTS} events on >= {M.L.GATE_DAYS} event days) on {', '.join(sides)}; "
+                         f"a report-only acknowledgement is no longer valid: ref must name a reviewed analyses/M###_spec.md (got {ref!r})")
     rec = {"warningSetHash": mon["warningSetHash"], "ref": ref, "date": today or datetime.date.today().isoformat(),
            "selectionCodeSha256": mon["selectionCodeSha256"], "basisNDrives": mon["basisNDrives"], "warningCodes": mon.get("warningCodes", []), "note": note}
     if not M.ack_valid(rec, mon, root):
