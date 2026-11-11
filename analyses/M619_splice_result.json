@@ -1,0 +1,31 @@
+{
+ "changedLeaves": 2,
+ "paths": [
+  "/degradationTrends/cellSpread/mixedEffects/agreementBasis",
+  "/degradationTrends/resistanceVreg/mixedEffects/agreementBasis"
+ ],
+ "replay": {
+  "veto": false,
+  "r9": {
+   "intervalsAgreeOnExcludingZeroBothMetrics": true,
+   "maxAbsMixedMinusOlsInOlsSeAtCurrent": 0.327
+  },
+  "versions": {
+   "statsmodels": "0.15.0",
+   "scipy": "1.17.1",
+   "numpy": "2.4.4",
+   "pandas": "3.0.2"
+  }
+ },
+ "solver": {
+  "cellSpread": [
+   "bfgs",
+   "agree"
+  ],
+  "resistanceVreg": [
+   "lbfgs",
+   "agree"
+  ]
+ },
+ "evidenceLedgerUnchanged": true
+}

@@ -114,36 +114,145 @@ def _covars_present(d, covars):
     return use
 
 
+# ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+# M619 (spec analyses/M618_spec.md Rev 1, Director review R1-R11): the mixed-effects SENSITIVITY fit is run with every solver of a fixed list, one at a time, from the statsmodels default start;
+# the reported fit is the first COUNTING solver; the counting solvers must agree to tolerance for the fit to be `valid`. The headline, the OLS block and the TOST are not touched (M615).
+# Constants fixed before any per-solver table existed, but AFTER the M614 audit aggregate was seen (not blind): see the spec.
+MIXED_SOLVERS = ('lbfgs', 'bfgs', 'nm')                       # fixed order: the shipped solver first, quasi-Newton before derivative-free
+MIXED_MAXITER = {'lbfgs': 100, 'bfgs': 100, 'nm': 100}        # the statsmodels default of each solver, passed explicitly (so the shipped lbfgs numbers reproduce) and recorded in the payload
+MIXED_LL_TOL = 1e-4                                           # absolute tolerance on the REML log-likelihood among candidate solvers (R3)
+MIXED_SCORE_NORM_MAX = 1e-3                                   # nm (a simplex criterion) counts only below this |d logLik / d log(scaled day variance)|: a 10 % change of the variance parameter then moves the objective by <= MIXED_LL_TOL
+MIXED_AGREE_SLOPE_OLS_SE = 0.05                               # counting solvers: slope difference <= this many cluster-robust OLS standard errors
+MIXED_AGREE_VAR_OVER_RESID = 0.005                            # counting solvers: |day variance difference| / residual variance <= this (R2; a relative 5 % is ill posed near the boundary)
+
+
+def _score_norm(md, fe, gv, scale):
+    """|d REML log-likelihood / d log(r)| at the estimate, r = day variance / residual variance (the parameter MixedLM optimises), by central differences on the profile log-likelihood
+    (fixed effects profiled out). None when the day variance is not positive (a boundary estimate has no interior score)."""
+    from statsmodels.regression.mixed_linear_model import MixedLMParams
+    r = gv / scale
+    if not (np.isfinite(r) and r > 0):
+        return None
+    h = 1e-4
+    ll = lambda rr: float(md.loglike(MixedLMParams.from_components(fe_params=fe, cov_re=np.array([[rr]])), profile_fe=True))
+    return abs((ll(r * (1 + h)) - ll(r * (1 - h))) / (2 * h))
+
+
+def _run_solver(md, method):
+    """One solver, alone (one method passed to fit, because fit chains a list internally), REML, the statsmodels default start, a fixed maxiter. Returns a plain dict; never raises."""
+    out = {'solver': method, 'maxiter': MIXED_MAXITER[method], 'returned': False, 'converged': None, 'error': None, 'stage': None}
+    try:
+        r = md.fit(method=method, reml=True, disp=False, maxiter=MIXED_MAXITER[method])
+    except Exception as e:
+        out.update(error=repr(e), stage='optimiser call raised')
+        return out
+    out.update(returned=True, converged=bool(r.converged), stage='optimiser returned')
+    try:
+        ci = r.conf_int().loc['months'].tolist()
+        gv, rv = float(np.asarray(r.cov_re)[0, 0]), float(r.scale)
+        out.update(slope=float(r.fe_params['months']), se=float(r.bse_fe['months']), ci95=[float(ci[0]), float(ci[1])], groupVar=gv, residVar=rv, loglike=float(r.llf), stage='fit and covariance ok')
+        try:
+            out['scoreNorm'] = _score_norm(md, np.asarray(r.fe_params), gv, rv)
+        except Exception:
+            out['scoreNorm'] = None
+    except Exception as e:
+        out.update(error=repr(e), stage='optimiser returned; covariance or SE raised')
+    return out
+
+
+def counting_solvers(results):
+    """PURE. Names of the solvers that COUNT. A solver is a candidate if it returned, reports convergence and gives a finite positive SE; `nm` (whose 'converged' is a simplex criterion) is a candidate only
+    if the day variance is at the boundary or its interior score norm is at most MIXED_SCORE_NORM_MAX. Among the candidates a solver counts if its REML log-likelihood is within MIXED_LL_TOL of the best one."""
+    cand = []
+    for r in results:
+        ok = bool(r.get('returned') and r.get('converged') and r.get('loglike') is not None and r.get('slope') is not None and r.get('se') is not None
+                  and np.isfinite(r['se']) and r['se'] > 0 and np.isfinite(r['slope']) and np.isfinite(r['loglike']))
+        if ok and r['solver'] == 'nm':
+            at_boundary = r.get('groupVar') is not None and r['groupVar'] <= RE_SINGULAR_TOL
+            ok = bool(at_boundary or (r.get('scoreNorm') is not None and r['scoreNorm'] <= MIXED_SCORE_NORM_MAX))
+        if ok:
+            cand.append(r)
+    if not cand:
+        return []
+    best = max(r['loglike'] for r in cand)
+    return [r['solver'] for r in cand if r['loglike'] >= best - MIXED_LL_TOL]
+
+
+def select_mixed(results, ols_se):
+    """PURE (injected solver results in, decision out). reported = the first counting solver in the fixed order; agreement over the counting solvers: 'agree' | 'disagree' | 'single solver' | None (none counted).
+    'disagree' if the largest slope difference exceeds MIXED_AGREE_SLOPE_OLS_SE OLS standard errors, or the largest |day variance difference| / residual variance exceeds MIXED_AGREE_VAR_OVER_RESID, or the
+    counting solvers differ on whether the day variance is at the boundary, or on whether the 95 % interval excludes zero."""
+    names = counting_solvers(results)
+    by = {r['solver']: r for r in results}
+    reported = next((s for s in MIXED_SOLVERS if s in names), None)
+    out = {'counting': names, 'reported': reported, 'agreement': None, 'maxSlopeDiffInOLSse': None, 'maxGroupVarOverResid': None}
+    if reported is None:
+        return out
+    if len(names) < 2:
+        out['agreement'] = 'single solver'
+        return out
+    sl, gv = [by[s]['slope'] for s in names], [by[s]['groupVar'] for s in names]
+    rv = by[reported]['residVar']
+    out['maxSlopeDiffInOLSse'] = (max(sl) - min(sl)) / ols_se if (ols_se is not None and ols_se > 0) else None
+    out['maxGroupVarOverResid'] = (max(gv) - min(gv)) / rv if (rv is not None and rv > 0) else None
+    boundary = {g <= RE_SINGULAR_TOL for g in gv}
+    excl = {bool(by[s]['ci95'][0] > 0 or by[s]['ci95'][1] < 0) for s in names}
+    ok = (out['maxSlopeDiffInOLSse'] is not None and out['maxSlopeDiffInOLSse'] <= MIXED_AGREE_SLOPE_OLS_SE
+          and out['maxGroupVarOverResid'] is not None and out['maxGroupVarOverResid'] <= MIXED_AGREE_VAR_OVER_RESID and len(boundary) == 1 and len(excl) == 1)
+    out['agreement'] = 'agree' if ok else 'disagree'
+    return out
+
+
+def mixed_veto(per_metric, min_days=30, max_share=0.10):
+    """PURE (spec M618 Rev 1 R7): the replay may VETO the multi-solver procedure, never tune it. per_metric = {metric: {'current': agreement at the current corpus, 'points': [(nDays, agreement), ...]}}.
+    VETO if, for ANY metric (both metrics ship or neither), the agreement at the current corpus is not 'agree' ('disagree', 'single solver' and None all veto), or the share of 'disagree' among the prefixes
+    with at least `min_days` event days exceeds `max_share` (descriptive: the prefixes are nested, no error rate is claimed). Shares of 'single solver' / None are reported, not decisive."""
+    out, reasons = {}, []
+    for m, v in per_metric.items():
+        pts = [a for (nd, a) in v.get('points', []) if nd is not None and nd >= min_days]
+        share = lambda k: (sum(1 for a in pts if a == k) / len(pts)) if pts else None
+        out[m] = {'current': v.get('current'), 'nBinding': len(pts), 'shareDisagree': share('disagree'), 'shareSingleSolver': share('single solver'), 'shareNone': share(None)}
+        if v.get('current') != 'agree':
+            reasons.append('%s: agreement at the current corpus is %r' % (m, v.get('current')))
+        if out[m]['shareDisagree'] is not None and out[m]['shareDisagree'] > max_share:
+            reasons.append('%s: %.0f %% of the prefixes with >= %d days disagree' % (m, 100 * out[m]['shareDisagree'], min_days))
+    return {'veto': bool(reasons), 'reasons': reasons, 'perMetric': out, 'criterion': {'minDays': min_days, 'maxShareDisagree': max_share}}
+
+
 def _mixedlm(d, covars=('T',)):
-    """Random-intercept-by-day mixed model. Returns slope on months + 95% CI."""
+    """Random-intercept-by-day mixed model (the SENSITIVITY fit): every solver of MIXED_SOLVERS alone; the reported fit is the first counting solver (select_mixed). The returned dict keeps the keys of
+    the former single-solver fit (slope, se, ci95, nObs, nDays, groupVar, residVar, formula, converged) for the reported solver and adds `solver`, `solversTried` (every solver's outcome and failure stage),
+    `solverAgreement`, `maxSlopeDiffInOLSse`, `maxGroupVarOverResid` and the library versions. No counting solver: an `error` text and no `slope`."""
+    import scipy, statsmodels
     use = _covars_present(d, covars)
     formula = 'y ~ months' + ''.join(' + ' + c for c in use)
     dd = d.dropna(subset=list(use)) if use else d
+    base = {'formula': formula, 'solver': None, 'solversTried': [], 'solverAgreement': None, 'maxSlopeDiffInOLSse': None, 'maxGroupVarOverResid': None,
+            'agreementBasis': ('solver order ' + ', '.join(MIXED_SOLVERS) + '; each solver alone from the statsmodels default start (maxiter ' + str(MIXED_MAXITER['lbfgs']) + '); a solver counts if it converged with a finite positive SE '
+                               'and its REML log-likelihood is within ' + format(MIXED_LL_TOL, 'g') + ' of the best candidate (nm also needs an interior score norm <= ' + format(MIXED_SCORE_NORM_MAX, 'g') + ' or a boundary estimate); '
+                               'agreement: slope difference <= ' + format(MIXED_AGREE_SLOPE_OLS_SE, 'g') + ' cluster-robust (day-clustered) OLS standard errors and day-variance difference <= ' + format(MIXED_AGREE_VAR_OVER_RESID, 'g') +
+                               ' of the residual variance, equal boundary flags, equal interval-excludes-zero; one default start only: agreement is no evidence that the optimum is global and none of model adequacy'),
+            'versions': {'statsmodels': statsmodels.__version__, 'scipy': scipy.__version__}}
     try:
         md = smf.mixedlm(formula, dd, groups=dd['day'])
-        r = md.fit(method='lbfgs', reml=True, disp=False)
-        b = float(r.fe_params['months'])
-        se = float(r.bse_fe['months'])
-        ci = r.conf_int().loc['months'].tolist()
-        # M155 (2026-08-22): expose the day random-intercept variance. A value
-        # at the boundary (~0) is the mechanistic signature of the singular RE
-        # covariance that inflates the fixed-effect SE; recorded for the gate's
-        # transparency, not gated on directly (the SE-blowup check is).
-        try:
-            gvar = float(np.asarray(r.cov_re)[0, 0])
-        except Exception:
-            gvar = None
-        try:
-            rvar = float(r.scale)          # M614: residual variance, for the variance ratio group / residual
-        except Exception:
-            rvar = None
-        return {'slope': _jround(b), 'se': _jround(se), 'residVar': _jround(rvar, 6),
-                'ci95': [_jround(ci[0]), _jround(ci[1])],
-                'nObs': int(dd.shape[0]), 'nDays': int(dd['day'].nunique()),
-                'groupVar': _jround(gvar, 6),
-                'formula': formula, 'converged': bool(r.converged)}
     except Exception as e:
-        return {'error': repr(e), 'formula': formula}
+        return dict(base, error=repr(e))
+    results = [_run_solver(md, m) for m in MIXED_SOLVERS]
+    sel = select_mixed(results, _cluster_ols(d, covars).get('se'))
+    names = set(sel['counting'])
+    base['solversTried'] = [{'solver': r['solver'], 'counts': r['solver'] in names, 'maxiter': r['maxiter'], 'returned': r['returned'], 'converged': r['converged'], 'stage': r['stage'],
+                             'error': r['error'], 'logLik': _jround(r.get('loglike'), 6) if r.get('loglike') is not None else None, 'scoreNorm': (_jround(r['scoreNorm'], 8) if r.get('scoreNorm') is not None else None),
+                             'slope': _jround(r['slope']) if r.get('slope') is not None else None, 'se': _jround(r['se']) if r.get('se') is not None else None,
+                             'groupVar': _jround(r['groupVar'], 6) if r.get('groupVar') is not None else None} for r in results]
+    base.update(solver=sel['reported'], solverAgreement=sel['agreement'],
+                maxSlopeDiffInOLSse=(_jround(sel['maxSlopeDiffInOLSse'], 5) if sel['maxSlopeDiffInOLSse'] is not None else None),
+                maxGroupVarOverResid=(_jround(sel['maxGroupVarOverResid'], 6) if sel['maxGroupVarOverResid'] is not None else None))
+    if sel['reported'] is None:
+        return dict(base, error='no solver counted: ' + '; '.join('%s: %s' % (r['solver'], r['error'] or ('did not converge' if r['returned'] and not r['converged'] else r['stage'] or 'did not count')) for r in results))
+    r = next(x for x in results if x['solver'] == sel['reported'])
+    base.update(slope=_jround(r['slope']), se=_jround(r['se']), residVar=_jround(r['residVar'], 6), ci95=[_jround(r['ci95'][0]), _jround(r['ci95'][1])],
+                nObs=int(dd.shape[0]), nDays=int(dd['day'].nunique()), groupVar=_jround(r['groupVar'], 6), converged=True)
+    return base
 
 
 def _cluster_ols(d, covars=('T',)):
@@ -242,7 +351,7 @@ def _analyse(dm, ycol, unit, bounds, released_label, covars=('T',), icol=None):
     # changes the headline. legacy_primary() keeps the retired rule as a pure function for the replay and the tests.
     comp, re_sing = validity_components(mm, co)
     _legacy, me_ok = legacy_primary(mm, co)
-    valid = bool(me_ok and re_sing is False)
+    valid = bool(me_ok and re_sing is False and mm.get('solverAgreement') == 'agree')     # M619 (spec M618 Rev 1 R6): 'single solver' and 'disagree' are never valid
     mm_se, co_se = mm.get('se'), co.get('se')
     mm['valid'] = valid
     mm['validity'] = comp
@@ -265,6 +374,10 @@ def _analyse(dm, ycol, unit, bounds, released_label, covars=('T',), icol=None):
         mm['degenerateNote'] = (
             reason + '. The mixed-effects block is a sensitivity only: the cluster-robust OLS is the headline '
             'estimator for every metric (M614) and the TOST uses it too; the validity components above say why this fit is not valid.')
+    elif mm.get('solverAgreement') == 'single solver':
+        mm['degenerateNote'] = 'only one solver counted for the mixed-effects sensitivity fit: it is shown but unverified (not valid); the headline is the cluster-robust OLS (M614, M619).'
+    elif mm.get('solverAgreement') == 'disagree':
+        mm['degenerateNote'] = 'the counting solvers do not agree to tolerance (slope, day variance, singularity or interval): the mixed-effects sensitivity fit is not reported as valid; the headline is the cluster-robust OLS (M614, M619).'
     elif re_sing:
         mm['degenerateNote'] = ('day random-intercept variance at the singular boundary (<= ' + f'{RE_SINGULAR_TOL:g}' + '): the fixed-effect SE is then a model-based iid SE, '
                                 'not a day-robust one; the mixed-effects block is a sensitivity only (M614).')

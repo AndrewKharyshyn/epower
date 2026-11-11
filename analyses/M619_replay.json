@@ -1,0 +1,4572 @@
+{
+ "milestone": "M619",
+ "spec": "analyses/M618_spec.md Rev 1",
+ "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+ "versions": {
+  "statsmodels": "0.15.0",
+  "scipy": "1.17.1",
+  "numpy": "2.4.4",
+  "pandas": "3.0.2"
+ },
+ "constants": {
+  "solvers": [
+   "lbfgs",
+   "bfgs",
+   "nm"
+  ],
+  "maxiter": {
+   "lbfgs": 100,
+   "bfgs": 100,
+   "nm": 100
+  },
+  "llTol": 0.0001,
+  "scoreNormMax": 0.001,
+  "agreeSlopeOlsSe": 0.05,
+  "agreeVarOverResid": 0.005
+ },
+ "grid": {
+  "resistanceVreg": [
+   {
+    "label": "eligible>=100",
+    "endDay": "2026-07-25",
+    "nObs": 100,
+    "nDays": 39,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 2e-05,
+    "maxGroupVarOverResid": 2.4e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -368.249598,
+      "scoreNorm": 2.774e-05,
+      "slope": 1.0739,
+      "groupVar": 7.073207
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -368.249598,
+      "scoreNorm": 3.436e-05,
+      "slope": 1.0739,
+      "groupVar": 7.075367
+     }
+    ],
+    "mixedSlope": 1.0739,
+    "olsSlope": 0.9886,
+    "mixedCI95": [
+     -1.9857,
+     4.1335
+    ],
+    "olsCI95": [
+     -1.5896,
+     3.5669
+    ],
+    "mixedMinusOlsInOlsSe": 0.067,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=110",
+    "endDay": "2026-08-02",
+    "nObs": 112,
+    "nDays": 42,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 0.0,
+    "maxGroupVarOverResid": 2.9e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -410.927259,
+      "scoreNorm": 1.1e-06,
+      "slope": 0.3572,
+      "groupVar": 15.393804
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -410.927259,
+      "scoreNorm": 0.00012077,
+      "slope": 0.3572,
+      "groupVar": 15.391483
+     }
+    ],
+    "mixedSlope": 0.3572,
+    "olsSlope": 0.2732,
+    "mixedCI95": [
+     -2.6133,
+     3.3278
+    ],
+    "olsCI95": [
+     -2.1967,
+     2.7431
+    ],
+    "mixedMinusOlsInOlsSe": 0.069,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=120",
+    "endDay": "2026-08-06",
+    "nObs": 120,
+    "nDays": 45,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 0.0,
+    "maxGroupVarOverResid": 9e-06,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -440.9318,
+      "scoreNorm": 2.33e-06,
+      "slope": -0.0543,
+      "groupVar": 9.16771
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -440.9318,
+      "scoreNorm": 2.85e-05,
+      "slope": -0.0543,
+      "groupVar": 9.168471
+     }
+    ],
+    "mixedSlope": -0.0543,
+    "olsSlope": -0.0737,
+    "mixedCI95": [
+     -2.6726,
+     2.5641
+    ],
+    "olsCI95": [
+     -2.2091,
+     2.0616
+    ],
+    "mixedMinusOlsInOlsSe": 0.018,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=130",
+    "endDay": "2026-08-16",
+    "nObs": 130,
+    "nDays": 48,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 0.0,
+    "maxGroupVarOverResid": 3.4e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -478.5414,
+      "scoreNorm": 7.182e-05,
+      "slope": 0.6545,
+      "groupVar": 4.607621
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -478.5414,
+      "scoreNorm": 3.228e-05,
+      "slope": 0.6545,
+      "groupVar": 4.604554
+     }
+    ],
+    "mixedSlope": 0.6545,
+    "olsSlope": 0.6365,
+    "mixedCI95": [
+     -1.5946,
+     2.9036
+    ],
+    "olsCI95": [
+     -1.3618,
+     2.6349
+    ],
+    "mixedMinusOlsInOlsSe": 0.018,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=140",
+    "endDay": "2026-08-19",
+    "nObs": 140,
+    "nDays": 51,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 1e-05,
+    "maxGroupVarOverResid": 1.5e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -514.311029,
+      "scoreNorm": 8.6e-06,
+      "slope": 0.7056,
+      "groupVar": 2.148955
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -514.311029,
+      "scoreNorm": 2.025e-05,
+      "slope": 0.7056,
+      "groupVar": 2.150267
+     }
+    ],
+    "mixedSlope": 0.7056,
+    "olsSlope": 0.6915,
+    "mixedCI95": [
+     -1.2628,
+     2.674
+    ],
+    "olsCI95": [
+     -1.0172,
+     2.4002
+    ],
+    "mixedMinusOlsInOlsSe": 0.017,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=150",
+    "endDay": "2026-08-22",
+    "nObs": 154,
+    "nDays": 54,
+    "reported": "nm",
+    "agreement": "single solver",
+    "maxSlopeDiffInOLSse": null,
+    "maxGroupVarOverResid": null,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": false,
+      "converged": false,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -567.079447,
+      "scoreNorm": 0.00051881,
+      "slope": 1.2837,
+      "groupVar": 0.017885
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -567.050304,
+      "scoreNorm": 1.671e-05,
+      "slope": 1.2871,
+      "groupVar": 2.114226
+     }
+    ],
+    "mixedSlope": 1.2871,
+    "olsSlope": 1.2837,
+    "mixedCI95": [
+     -0.5162,
+     3.0904
+    ],
+    "olsCI95": [
+     -0.3701,
+     2.9375
+    ],
+    "mixedMinusOlsInOlsSe": 0.004,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=160",
+    "endDay": "2026-08-24",
+    "nObs": 163,
+    "nDays": 56,
+    "reported": "nm",
+    "agreement": "single solver",
+    "maxSlopeDiffInOLSse": null,
+    "maxGroupVarOverResid": null,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": false,
+      "converged": false,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -598.661417,
+      "scoreNorm": 0.00521775,
+      "slope": 1.5704,
+      "groupVar": 0.291362
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -598.651496,
+      "scoreNorm": 6.95e-06,
+      "slope": 1.5703,
+      "groupVar": 1.422928
+     }
+    ],
+    "mixedSlope": 1.5703,
+    "olsSlope": 1.5703,
+    "mixedCI95": [
+     -0.0963,
+     3.2369
+    ],
+    "olsCI95": [
+     0.0272,
+     3.1134
+    ],
+    "mixedMinusOlsInOlsSe": 0.0,
+    "intervalsAgreeOnExcludingZero": false
+   },
+   {
+    "label": "eligible>=170",
+    "endDay": "2026-08-29",
+    "nObs": 171,
+    "nDays": 60,
+    "reported": "nm",
+    "agreement": "single solver",
+    "maxSlopeDiffInOLSse": null,
+    "maxGroupVarOverResid": null,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": false,
+      "converged": false,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -626.340309,
+      "scoreNorm": 0.00202533,
+      "slope": 1.395,
+      "groupVar": 0.15153
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -626.335511,
+      "scoreNorm": 1.155e-05,
+      "slope": 1.394,
+      "groupVar": 0.879008
+     }
+    ],
+    "mixedSlope": 1.394,
+    "olsSlope": 1.3952,
+    "mixedCI95": [
+     -0.1626,
+     2.9506
+    ],
+    "olsCI95": [
+     -0.0734,
+     2.8638
+    ],
+    "mixedMinusOlsInOlsSe": -0.002,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=180",
+    "endDay": "2026-08-31",
+    "nObs": 181,
+    "nDays": 62,
+    "reported": "lbfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 0.0,
+    "maxGroupVarOverResid": 5e-06,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -666.802427,
+      "scoreNorm": 1.131e-05,
+      "slope": 1.2386,
+      "groupVar": 0.852652
+     },
+     {
+      "solver": "bfgs",
+      "counts": false,
+      "converged": false,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -666.807321,
+      "scoreNorm": 0.0014027,
+      "slope": 1.2431,
+      "groupVar": 0.105698
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -666.802427,
+      "scoreNorm": 4.02e-06,
+      "slope": 1.2386,
+      "groupVar": 0.853159
+     }
+    ],
+    "mixedSlope": 1.2386,
+    "olsSlope": 1.2437,
+    "mixedCI95": [
+     -0.2779,
+     2.7552
+    ],
+    "olsCI95": [
+     -0.2296,
+     2.717
+    ],
+    "mixedMinusOlsInOlsSe": -0.007,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=190",
+    "endDay": "2026-09-05",
+    "nObs": 190,
+    "nDays": 66,
+    "reported": "nm",
+    "agreement": "single solver",
+    "maxSlopeDiffInOLSse": null,
+    "maxGroupVarOverResid": null,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": false,
+      "converged": false,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -701.379812,
+      "scoreNorm": 0.00139057,
+      "slope": 0.8949,
+      "groupVar": 0.082555
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -701.372168,
+      "scoreNorm": 8.5e-06,
+      "slope": 0.8866,
+      "groupVar": 1.006121
+     }
+    ],
+    "mixedSlope": 0.8866,
+    "olsSlope": 0.8956,
+    "mixedCI95": [
+     -0.5751,
+     2.3484
+    ],
+    "olsCI95": [
+     -0.5488,
+     2.34
+    ],
+    "mixedMinusOlsInOlsSe": -0.012,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=200",
+    "endDay": "2026-09-13",
+    "nObs": 201,
+    "nDays": 70,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 1e-05,
+    "maxGroupVarOverResid": 1.2e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -741.146965,
+      "scoreNorm": 2e-08,
+      "slope": 0.7205,
+      "groupVar": 1.685712
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -741.146965,
+      "scoreNorm": 3.201e-05,
+      "slope": 0.7205,
+      "groupVar": 1.686795
+     }
+    ],
+    "mixedSlope": 0.7205,
+    "olsSlope": 0.726,
+    "mixedCI95": [
+     -0.6378,
+     2.0788
+    ],
+    "olsCI95": [
+     -0.6163,
+     2.0683
+    ],
+    "mixedMinusOlsInOlsSe": -0.008,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=210",
+    "endDay": "2026-09-25",
+    "nObs": 210,
+    "nDays": 77,
+    "reported": "lbfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 1e-05,
+    "maxGroupVarOverResid": 5e-06,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -779.317507,
+      "scoreNorm": 6.71e-06,
+      "slope": 0.9959,
+      "groupVar": 0.512449
+     },
+     {
+      "solver": "bfgs",
+      "counts": false,
+      "converged": false,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -779.317697,
+      "scoreNorm": 0.000882,
+      "slope": 0.9946,
+      "groupVar": 0.357686
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -779.317507,
+      "scoreNorm": 2.77e-06,
+      "slope": 0.9959,
+      "groupVar": 0.511965
+     }
+    ],
+    "mixedSlope": 0.9959,
+    "olsSlope": 0.9916,
+    "mixedCI95": [
+     -0.302,
+     2.2939
+    ],
+    "olsCI95": [
+     -0.3467,
+     2.3299
+    ],
+    "mixedMinusOlsInOlsSe": 0.006,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=220",
+    "endDay": "2026-10-01",
+    "nObs": 221,
+    "nDays": 82,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 0.0,
+    "maxGroupVarOverResid": 6e-06,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -829.74008,
+      "scoreNorm": 3.17e-06,
+      "slope": 0.8022,
+      "groupVar": 5.939938
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -829.74008,
+      "scoreNorm": 3.488e-05,
+      "slope": 0.8022,
+      "groupVar": 5.940572
+     }
+    ],
+    "mixedSlope": 0.8022,
+    "olsSlope": 0.7733,
+    "mixedCI95": [
+     -0.5175,
+     2.122
+    ],
+    "olsCI95": [
+     -0.6645,
+     2.2111
+    ],
+    "mixedMinusOlsInOlsSe": 0.04,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=230",
+    "endDay": "2026-10-03",
+    "nObs": 230,
+    "nDays": 84,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 1e-05,
+    "maxGroupVarOverResid": 5e-06,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -882.030271,
+      "scoreNorm": 2e-08,
+      "slope": 0.9683,
+      "groupVar": 2.914669
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -882.030271,
+      "scoreNorm": 2.746e-05,
+      "slope": 0.9683,
+      "groupVar": 2.914005
+     }
+    ],
+    "mixedSlope": 0.9683,
+    "olsSlope": 0.9927,
+    "mixedCI95": [
+     -0.3702,
+     2.3068
+    ],
+    "olsCI95": [
+     -0.4464,
+     2.4319
+    ],
+    "mixedMinusOlsInOlsSe": -0.034,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=240",
+    "endDay": "2026-10-08",
+    "nObs": 242,
+    "nDays": 89,
+    "reported": "nm",
+    "agreement": "single solver",
+    "maxSlopeDiffInOLSse": null,
+    "maxGroupVarOverResid": null,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": false,
+      "converged": false,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -934.618394,
+      "scoreNorm": 0.02785311,
+      "slope": 0.9868,
+      "groupVar": 0.430791
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -934.591821,
+      "scoreNorm": 3e-07,
+      "slope": 0.9886,
+      "groupVar": 5e-06
+     }
+    ],
+    "mixedSlope": 0.9886,
+    "olsSlope": 0.9886,
+    "mixedCI95": [
+     -0.282,
+     2.2593
+    ],
+    "olsCI95": [
+     -0.2765,
+     2.2537
+    ],
+    "mixedMinusOlsInOlsSe": 0.0,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=250",
+    "endDay": "2026-10-10",
+    "nObs": 250,
+    "nDays": 91,
+    "reported": "nm",
+    "agreement": "single solver",
+    "maxSlopeDiffInOLSse": null,
+    "maxGroupVarOverResid": null,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": false,
+      "converged": false,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -964.510516,
+      "scoreNorm": 0.0464117,
+      "slope": 0.825,
+      "groupVar": 0.580654
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -964.466482,
+      "scoreNorm": 3.6e-07,
+      "slope": 0.8264,
+      "groupVar": 5e-06
+     }
+    ],
+    "mixedSlope": 0.8264,
+    "olsSlope": 0.8264,
+    "mixedCI95": [
+     -0.3748,
+     2.0276
+    ],
+    "olsCI95": [
+     -0.3364,
+     1.9893
+    ],
+    "mixedMinusOlsInOlsSe": 0.0,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=260",
+    "endDay": "2026-10-14",
+    "nObs": 262,
+    "nDays": 95,
+    "reported": "nm",
+    "agreement": "single solver",
+    "maxSlopeDiffInOLSse": null,
+    "maxGroupVarOverResid": null,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": false,
+      "converged": false,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1018.145347,
+      "scoreNorm": 0.02079045,
+      "slope": 0.9501,
+      "groupVar": 0.267998
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1018.124966,
+      "scoreNorm": 4e-07,
+      "slope": 0.9495,
+      "groupVar": 5e-06
+     }
+    ],
+    "mixedSlope": 0.9495,
+    "olsSlope": 0.9495,
+    "mixedCI95": [
+     -0.2407,
+     2.1398
+    ],
+    "olsCI95": [
+     -0.2136,
+     2.1127
+    ],
+    "mixedMinusOlsInOlsSe": 0.0,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=270",
+    "endDay": "2026-10-17",
+    "nObs": 274,
+    "nDays": 98,
+    "reported": "nm",
+    "agreement": "single solver",
+    "maxSlopeDiffInOLSse": null,
+    "maxGroupVarOverResid": null,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": false,
+      "converged": false,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1061.806546,
+      "scoreNorm": 0.03248244,
+      "slope": 0.8879,
+      "groupVar": 0.384452
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1061.774972,
+      "scoreNorm": 4.1e-07,
+      "slope": 0.886,
+      "groupVar": 5e-06
+     }
+    ],
+    "mixedSlope": 0.886,
+    "olsSlope": 0.886,
+    "mixedCI95": [
+     -0.2303,
+     2.0023
+    ],
+    "olsCI95": [
+     -0.1798,
+     1.9518
+    ],
+    "mixedMinusOlsInOlsSe": 0.0,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=280",
+    "endDay": "2026-11-05",
+    "nObs": 280,
+    "nDays": 103,
+    "reported": "nm",
+    "agreement": "single solver",
+    "maxSlopeDiffInOLSse": null,
+    "maxGroupVarOverResid": null,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": false,
+      "converged": false,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1093.981802,
+      "scoreNorm": 0.02240788,
+      "slope": 1.1677,
+      "groupVar": 0.298499
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1093.95977,
+      "scoreNorm": 4e-07,
+      "slope": 1.1644,
+      "groupVar": 6e-06
+     }
+    ],
+    "mixedSlope": 1.1644,
+    "olsSlope": 1.1644,
+    "mixedCI95": [
+     0.0137,
+     2.3151
+    ],
+    "olsCI95": [
+     0.0655,
+     2.2634
+    ],
+    "mixedMinusOlsInOlsSe": 0.0,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=290",
+    "endDay": "2026-11-08",
+    "nObs": 291,
+    "nDays": 106,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 0.0,
+    "maxGroupVarOverResid": 1e-06,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1145.97917,
+      "scoreNorm": 1.138e-05,
+      "slope": 1.14,
+      "groupVar": 3.95458
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1145.97917,
+      "scoreNorm": 3.88e-06,
+      "slope": 1.14,
+      "groupVar": 3.954762
+     }
+    ],
+    "mixedSlope": 1.14,
+    "olsSlope": 1.094,
+    "mixedCI95": [
+     -0.0297,
+     2.3097
+    ],
+    "olsCI95": [
+     -0.0852,
+     2.2732
+    ],
+    "mixedMinusOlsInOlsSe": 0.077,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=294",
+    "endDay": "2026-11-09",
+    "nObs": 294,
+    "nDays": 107,
+    "reported": "lbfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 7e-05,
+    "maxGroupVarOverResid": 2.7e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1161.246355,
+      "scoreNorm": 8.72e-06,
+      "slope": 1.3536,
+      "groupVar": 8.483636
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1161.246355,
+      "scoreNorm": 0.00025879,
+      "slope": 1.3536,
+      "groupVar": 8.480115
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1161.246355,
+      "scoreNorm": 3.087e-05,
+      "slope": 1.3536,
+      "groupVar": 8.484193
+     }
+    ],
+    "mixedSlope": 1.3536,
+    "olsSlope": 1.2486,
+    "mixedCI95": [
+     0.1466,
+     2.5606
+    ],
+    "olsCI95": [
+     0.0269,
+     2.4703
+    ],
+    "mixedMinusOlsInOlsSe": 0.17,
+    "intervalsAgreeOnExcludingZero": true
+   }
+  ],
+  "cellSpread": [
+   {
+    "label": "eligible>=100",
+    "endDay": "2026-07-12",
+    "nObs": 103,
+    "nDays": 30,
+    "reported": "nm",
+    "agreement": "single solver",
+    "maxSlopeDiffInOLSse": null,
+    "maxGroupVarOverResid": null,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": false,
+      "converged": false,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -268.695867,
+      "scoreNorm": 0.18247206,
+      "slope": -0.2905,
+      "groupVar": 0.26945
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -268.531453,
+      "scoreNorm": 2e-07,
+      "slope": -0.2729,
+      "groupVar": 0.0
+     }
+    ],
+    "mixedSlope": -0.2729,
+    "olsSlope": -0.2729,
+    "mixedCI95": [
+     -1.3899,
+     0.8442
+    ],
+    "olsCI95": [
+     -1.2104,
+     0.6647
+    ],
+    "mixedMinusOlsInOlsSe": 0.0,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=110",
+    "endDay": "2026-07-14",
+    "nObs": 116,
+    "nDays": 32,
+    "reported": "lbfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 1e-05,
+    "maxGroupVarOverResid": 5e-06,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -298.678559,
+      "scoreNorm": 8.98e-06,
+      "slope": -0.2398,
+      "groupVar": 0.1942
+     },
+     {
+      "solver": "bfgs",
+      "counts": false,
+      "converged": false,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -298.70634,
+      "scoreNorm": 3.288e-05,
+      "slope": -0.2094,
+      "groupVar": 0.000111
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -298.678559,
+      "scoreNorm": 2.8e-06,
+      "slope": -0.2398,
+      "groupVar": 0.194245
+     }
+    ],
+    "mixedSlope": -0.2398,
+    "olsSlope": -0.2094,
+    "mixedCI95": [
+     -1.2305,
+     0.7509
+    ],
+    "olsCI95": [
+     -1.1301,
+     0.7114
+    ],
+    "mixedMinusOlsInOlsSe": -0.067,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=120",
+    "endDay": "2026-07-16",
+    "nObs": 126,
+    "nDays": 34,
+    "reported": "nm",
+    "agreement": "single solver",
+    "maxSlopeDiffInOLSse": null,
+    "maxGroupVarOverResid": null,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": false,
+      "converged": false,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -322.511494,
+      "scoreNorm": 0.00127282,
+      "slope": -0.3367,
+      "groupVar": 0.004264
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -322.488209,
+      "scoreNorm": 8.88e-06,
+      "slope": -0.3649,
+      "groupVar": 0.165774
+     }
+    ],
+    "mixedSlope": -0.3649,
+    "olsSlope": -0.3359,
+    "mixedCI95": [
+     -1.2769,
+     0.5471
+    ],
+    "olsCI95": [
+     -1.1909,
+     0.5191
+    ],
+    "mixedMinusOlsInOlsSe": -0.069,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=130",
+    "endDay": "2026-07-18",
+    "nObs": 137,
+    "nDays": 36,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 1e-05,
+    "maxGroupVarOverResid": 6e-06,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -360.875748,
+      "scoreNorm": 2.99e-05,
+      "slope": -0.3133,
+      "groupVar": 0.931077
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -360.875748,
+      "scoreNorm": 2.106e-05,
+      "slope": -0.3133,
+      "groupVar": 0.931135
+     }
+    ],
+    "mixedSlope": -0.3133,
+    "olsSlope": -0.1807,
+    "mixedCI95": [
+     -1.3288,
+     0.7022
+    ],
+    "olsCI95": [
+     -1.2557,
+     0.8943
+    ],
+    "mixedMinusOlsInOlsSe": -0.25,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=140",
+    "endDay": "2026-07-19",
+    "nObs": 143,
+    "nDays": 37,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 4e-05,
+    "maxGroupVarOverResid": 2.2e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -374.930756,
+      "scoreNorm": 4.7e-07,
+      "slope": -0.2461,
+      "groupVar": 0.860618
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -374.930756,
+      "scoreNorm": 0.00018893,
+      "slope": -0.2461,
+      "groupVar": 0.860406
+     }
+    ],
+    "mixedSlope": -0.2461,
+    "olsSlope": -0.1282,
+    "mixedCI95": [
+     -1.2078,
+     0.7157
+    ],
+    "olsCI95": [
+     -1.0935,
+     0.8371
+    ],
+    "mixedMinusOlsInOlsSe": -0.248,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=150",
+    "endDay": "2026-07-21",
+    "nObs": 155,
+    "nDays": 39,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 1e-05,
+    "maxGroupVarOverResid": 1.5e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -404.502156,
+      "scoreNorm": 1.55e-06,
+      "slope": -0.1559,
+      "groupVar": 1.288785
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -404.502156,
+      "scoreNorm": 0.00016871,
+      "slope": -0.156,
+      "groupVar": 1.288923
+     }
+    ],
+    "mixedSlope": -0.1559,
+    "olsSlope": -0.0492,
+    "mixedCI95": [
+     -1.0975,
+     0.7856
+    ],
+    "olsCI95": [
+     -0.9465,
+     0.8482
+    ],
+    "mixedMinusOlsInOlsSe": -0.241,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=160",
+    "endDay": "2026-07-22",
+    "nObs": 161,
+    "nDays": 40,
+    "reported": "lbfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 1e-05,
+    "maxGroupVarOverResid": 5e-06,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -418.509312,
+      "scoreNorm": 2.487e-05,
+      "slope": -0.0326,
+      "groupVar": 1.363419
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -418.509312,
+      "scoreNorm": 2.19e-06,
+      "slope": -0.0326,
+      "groupVar": 1.363435
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -418.509312,
+      "scoreNorm": 6.31e-05,
+      "slope": -0.0326,
+      "groupVar": 1.363391
+     }
+    ],
+    "mixedSlope": -0.0326,
+    "olsSlope": 0.0942,
+    "mixedCI95": [
+     -0.9397,
+     0.8745
+    ],
+    "olsCI95": [
+     -0.741,
+     0.9294
+    ],
+    "mixedMinusOlsInOlsSe": -0.307,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=170",
+    "endDay": "2026-07-24",
+    "nObs": 173,
+    "nDays": 42,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 1e-05,
+    "maxGroupVarOverResid": 6e-06,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -455.037816,
+      "scoreNorm": 2.506e-05,
+      "slope": 0.1729,
+      "groupVar": 1.010416
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -455.037816,
+      "scoreNorm": 9.006e-05,
+      "slope": 0.1729,
+      "groupVar": 1.010474
+     }
+    ],
+    "mixedSlope": 0.1729,
+    "olsSlope": 0.2561,
+    "mixedCI95": [
+     -0.6655,
+     1.0113
+    ],
+    "olsCI95": [
+     -0.5026,
+     1.0148
+    ],
+    "mixedMinusOlsInOlsSe": -0.221,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=180",
+    "endDay": "2026-07-26",
+    "nObs": 182,
+    "nDays": 44,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 1e-05,
+    "maxGroupVarOverResid": 1.4e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -479.552316,
+      "scoreNorm": 5.58e-06,
+      "slope": 0.3459,
+      "groupVar": 0.948545
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -479.552316,
+      "scoreNorm": 0.0001437,
+      "slope": 0.3459,
+      "groupVar": 0.948687
+     }
+    ],
+    "mixedSlope": 0.3459,
+    "olsSlope": 0.395,
+    "mixedCI95": [
+     -0.4583,
+     1.15
+    ],
+    "olsCI95": [
+     -0.3247,
+     1.1147
+    ],
+    "mixedMinusOlsInOlsSe": -0.138,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=190",
+    "endDay": "2026-08-02",
+    "nObs": 191,
+    "nDays": 46,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 1e-05,
+    "maxGroupVarOverResid": 1.4e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -502.759918,
+      "scoreNorm": 6.911e-05,
+      "slope": 0.2436,
+      "groupVar": 1.039007
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -502.759918,
+      "scoreNorm": 0.00023739,
+      "slope": 0.2436,
+      "groupVar": 1.038872
+     }
+    ],
+    "mixedSlope": 0.2436,
+    "olsSlope": 0.2787,
+    "mixedCI95": [
+     -0.5312,
+     1.0184
+    ],
+    "olsCI95": [
+     -0.3986,
+     0.9559
+    ],
+    "mixedMinusOlsInOlsSe": -0.104,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=200",
+    "endDay": "2026-08-04",
+    "nObs": 201,
+    "nDays": 48,
+    "reported": "lbfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 0.0,
+    "maxGroupVarOverResid": 5e-06,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -530.913379,
+      "scoreNorm": 1.727e-05,
+      "slope": -0.0683,
+      "groupVar": 1.328624
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -530.913379,
+      "scoreNorm": 0.00010001,
+      "slope": -0.0683,
+      "groupVar": 1.328571
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -530.913379,
+      "scoreNorm": 9.209e-05,
+      "slope": -0.0683,
+      "groupVar": 1.328576
+     }
+    ],
+    "mixedSlope": -0.0683,
+    "olsSlope": -0.0134,
+    "mixedCI95": [
+     -0.8377,
+     0.701
+    ],
+    "olsCI95": [
+     -0.7296,
+     0.7029
+    ],
+    "mixedMinusOlsInOlsSe": -0.154,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=210",
+    "endDay": "2026-08-09",
+    "nObs": 214,
+    "nDays": 51,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 0.0,
+    "maxGroupVarOverResid": 1e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -563.266406,
+      "scoreNorm": 0.0001877,
+      "slope": -0.318,
+      "groupVar": 1.496573
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -563.266406,
+      "scoreNorm": 1.474e-05,
+      "slope": -0.318,
+      "groupVar": 1.496665
+     }
+    ],
+    "mixedSlope": -0.318,
+    "olsSlope": -0.271,
+    "mixedCI95": [
+     -1.0349,
+     0.399
+    ],
+    "olsCI95": [
+     -0.93,
+     0.3879
+    ],
+    "mixedMinusOlsInOlsSe": -0.143,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=220",
+    "endDay": "2026-08-14",
+    "nObs": 224,
+    "nDays": 55,
+    "reported": "lbfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 1e-05,
+    "maxGroupVarOverResid": 2.3e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -594.545904,
+      "scoreNorm": 8.08e-06,
+      "slope": -0.2315,
+      "groupVar": 1.461975
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -594.545904,
+      "scoreNorm": 5.962e-05,
+      "slope": -0.2315,
+      "groupVar": 1.461947
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -594.545904,
+      "scoreNorm": 0.00035935,
+      "slope": -0.2315,
+      "groupVar": 1.462177
+     }
+    ],
+    "mixedSlope": -0.2315,
+    "olsSlope": -0.1941,
+    "mixedCI95": [
+     -0.9019,
+     0.439
+    ],
+    "olsCI95": [
+     -0.8153,
+     0.4271
+    ],
+    "mixedMinusOlsInOlsSe": -0.121,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=230",
+    "endDay": "2026-08-17",
+    "nObs": 232,
+    "nDays": 57,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 1e-05,
+    "maxGroupVarOverResid": 1.9e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -613.417493,
+      "scoreNorm": 4.997e-05,
+      "slope": -0.2561,
+      "groupVar": 1.501665
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -613.417493,
+      "scoreNorm": 0.00032631,
+      "slope": -0.2561,
+      "groupVar": 1.501856
+     }
+    ],
+    "mixedSlope": -0.2561,
+    "olsSlope": -0.2215,
+    "mixedCI95": [
+     -0.8935,
+     0.3812
+    ],
+    "olsCI95": [
+     -0.81,
+     0.367
+    ],
+    "mixedMinusOlsInOlsSe": -0.118,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=240",
+    "endDay": "2026-08-19",
+    "nObs": 240,
+    "nDays": 59,
+    "reported": "lbfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 1e-05,
+    "maxGroupVarOverResid": 1.8e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -631.542815,
+      "scoreNorm": 1.963e-05,
+      "slope": -0.3257,
+      "groupVar": 1.479676
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -631.542815,
+      "scoreNorm": 5.071e-05,
+      "slope": -0.3257,
+      "groupVar": 1.479643
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -631.542815,
+      "scoreNorm": 0.00034508,
+      "slope": -0.3257,
+      "groupVar": 1.479506
+     }
+    ],
+    "mixedSlope": -0.3257,
+    "olsSlope": -0.2947,
+    "mixedCI95": [
+     -0.9287,
+     0.2772
+    ],
+    "olsCI95": [
+     -0.8416,
+     0.2522
+    ],
+    "mixedMinusOlsInOlsSe": -0.113,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=250",
+    "endDay": "2026-08-22",
+    "nObs": 255,
+    "nDays": 62,
+    "reported": "lbfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 0.0,
+    "maxGroupVarOverResid": 4e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -670.388834,
+      "scoreNorm": 2.918e-05,
+      "slope": -0.4296,
+      "groupVar": 1.566919
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -670.388834,
+      "scoreNorm": 9.541e-05,
+      "slope": -0.4296,
+      "groupVar": 1.566891
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -670.388834,
+      "scoreNorm": 0.00081359,
+      "slope": -0.4296,
+      "groupVar": 1.56727
+     }
+    ],
+    "mixedSlope": -0.4296,
+    "olsSlope": -0.418,
+    "mixedCI95": [
+     -0.9969,
+     0.1376
+    ],
+    "olsCI95": [
+     -0.9445,
+     0.1085
+    ],
+    "mixedMinusOlsInOlsSe": -0.044,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=260",
+    "endDay": "2026-08-24",
+    "nObs": 265,
+    "nDays": 64,
+    "reported": "lbfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 0.0,
+    "maxGroupVarOverResid": 1.5e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -693.97041,
+      "scoreNorm": 1.883e-05,
+      "slope": -0.4499,
+      "groupVar": 1.5255
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -693.97041,
+      "scoreNorm": 0.00010586,
+      "slope": -0.4499,
+      "groupVar": 1.525466
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -693.97041,
+      "scoreNorm": 0.00037713,
+      "slope": -0.4499,
+      "groupVar": 1.525359
+     }
+    ],
+    "mixedSlope": -0.4499,
+    "olsSlope": -0.4368,
+    "mixedCI95": [
+     -0.9873,
+     0.0875
+    ],
+    "olsCI95": [
+     -0.9192,
+     0.0456
+    ],
+    "mixedMinusOlsInOlsSe": -0.054,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=270",
+    "endDay": "2026-08-26",
+    "nObs": 270,
+    "nDays": 66,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 0.0,
+    "maxGroupVarOverResid": 2.6e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -705.645314,
+      "scoreNorm": 5.562e-05,
+      "slope": -0.4513,
+      "groupVar": 1.465337
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -705.645314,
+      "scoreNorm": 0.00056782,
+      "slope": -0.4513,
+      "groupVar": 1.465575
+     }
+    ],
+    "mixedSlope": -0.4513,
+    "olsSlope": -0.4428,
+    "mixedCI95": [
+     -0.9694,
+     0.0667
+    ],
+    "olsCI95": [
+     -0.9058,
+     0.0202
+    ],
+    "mixedMinusOlsInOlsSe": -0.037,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=280",
+    "endDay": "2026-08-30",
+    "nObs": 283,
+    "nDays": 69,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 0.0,
+    "maxGroupVarOverResid": 3e-06,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -743.085124,
+      "scoreNorm": 0.00013171,
+      "slope": -0.3545,
+      "groupVar": 1.738295
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -743.085124,
+      "scoreNorm": 4.911e-05,
+      "slope": -0.3545,
+      "groupVar": 1.738323
+     }
+    ],
+    "mixedSlope": -0.3545,
+    "olsSlope": -0.3037,
+    "mixedCI95": [
+     -0.8659,
+     0.1569
+    ],
+    "olsCI95": [
+     -0.8178,
+     0.2104
+    ],
+    "mixedMinusOlsInOlsSe": -0.197,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=290",
+    "endDay": "2026-09-02",
+    "nObs": 295,
+    "nDays": 72,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 2e-05,
+    "maxGroupVarOverResid": 2.2e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -776.469627,
+      "scoreNorm": 9.823e-05,
+      "slope": -0.4385,
+      "groupVar": 1.569799
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -776.469627,
+      "scoreNorm": 0.00055445,
+      "slope": -0.4385,
+      "groupVar": 1.570012
+     }
+    ],
+    "mixedSlope": -0.4385,
+    "olsSlope": -0.3761,
+    "mixedCI95": [
+     -0.9138,
+     0.0369
+    ],
+    "olsCI95": [
+     -0.8345,
+     0.0824
+    ],
+    "mixedMinusOlsInOlsSe": -0.271,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=300",
+    "endDay": "2026-09-03",
+    "nObs": 300,
+    "nDays": 73,
+    "reported": "lbfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 1e-05,
+    "maxGroupVarOverResid": 7e-06,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -789.464112,
+      "scoreNorm": 4.6e-07,
+      "slope": -0.3791,
+      "groupVar": 1.6266
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -789.464112,
+      "scoreNorm": 9.526e-05,
+      "slope": -0.3791,
+      "groupVar": 1.62657
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -789.464112,
+      "scoreNorm": 0.00011591,
+      "slope": -0.3791,
+      "groupVar": 1.626637
+     }
+    ],
+    "mixedSlope": -0.3791,
+    "olsSlope": -0.3096,
+    "mixedCI95": [
+     -0.8469,
+     0.0886
+    ],
+    "olsCI95": [
+     -0.7602,
+     0.1411
+    ],
+    "mixedMinusOlsInOlsSe": -0.307,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=310",
+    "endDay": "2026-09-05",
+    "nObs": 314,
+    "nDays": 75,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 0.0,
+    "maxGroupVarOverResid": 2e-06,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -821.332174,
+      "scoreNorm": 0.00020582,
+      "slope": -0.3946,
+      "groupVar": 1.623996
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -821.332174,
+      "scoreNorm": 0.00015453,
+      "slope": -0.3946,
+      "groupVar": 1.624011
+     }
+    ],
+    "mixedSlope": -0.3946,
+    "olsSlope": -0.3366,
+    "mixedCI95": [
+     -0.8401,
+     0.051
+    ],
+    "olsCI95": [
+     -0.7422,
+     0.069
+    ],
+    "mixedMinusOlsInOlsSe": -0.285,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=320",
+    "endDay": "2026-09-06",
+    "nObs": 321,
+    "nDays": 76,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 3e-05,
+    "maxGroupVarOverResid": 1.9e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -881.725484,
+      "scoreNorm": 5.391e-05,
+      "slope": -0.2442,
+      "groupVar": 1.424384
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -881.725484,
+      "scoreNorm": 0.00057212,
+      "slope": -0.2442,
+      "groupVar": 1.424625
+     }
+    ],
+    "mixedSlope": -0.2442,
+    "olsSlope": -0.1827,
+    "mixedCI95": [
+     -0.7104,
+     0.222
+    ],
+    "olsCI95": [
+     -0.6526,
+     0.2872
+    ],
+    "mixedMinusOlsInOlsSe": -0.261,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=330",
+    "endDay": "2026-09-08",
+    "nObs": 333,
+    "nDays": 78,
+    "reported": "lbfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 1e-05,
+    "maxGroupVarOverResid": 9e-06,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -920.636471,
+      "scoreNorm": 0.00025335,
+      "slope": -0.1169,
+      "groupVar": 1.794468
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -920.636471,
+      "scoreNorm": 7.423e-05,
+      "slope": -0.1169,
+      "groupVar": 1.794347
+     },
+     {
+      "solver": "nm",
+      "counts": false,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -920.636472,
+      "scoreNorm": 0.00111797,
+      "slope": -0.1169,
+      "groupVar": 1.793959
+     }
+    ],
+    "mixedSlope": -0.1169,
+    "olsSlope": -0.0572,
+    "mixedCI95": [
+     -0.5885,
+     0.3547
+    ],
+    "olsCI95": [
+     -0.5222,
+     0.4078
+    ],
+    "mixedMinusOlsInOlsSe": -0.256,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=340",
+    "endDay": "2026-09-09",
+    "nObs": 340,
+    "nDays": 79,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 1e-05,
+    "maxGroupVarOverResid": 5e-06,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -940.189147,
+      "scoreNorm": 0.00015431,
+      "slope": -0.1167,
+      "groupVar": 1.723438
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -940.189147,
+      "scoreNorm": 2.75e-06,
+      "slope": -0.1167,
+      "groupVar": 1.723497
+     }
+    ],
+    "mixedSlope": -0.1167,
+    "olsSlope": -0.062,
+    "mixedCI95": [
+     -0.5766,
+     0.3433
+    ],
+    "olsCI95": [
+     -0.5011,
+     0.3771
+    ],
+    "mixedMinusOlsInOlsSe": -0.248,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=350",
+    "endDay": "2026-09-11",
+    "nObs": 352,
+    "nDays": 81,
+    "reported": "bfgs",
+    "agreement": "single solver",
+    "maxSlopeDiffInOLSse": null,
+    "maxGroupVarOverResid": null,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -971.133524,
+      "scoreNorm": 0.00023469,
+      "slope": -0.1802,
+      "groupVar": 1.731818
+     },
+     {
+      "solver": "nm",
+      "counts": false,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -971.133524,
+      "scoreNorm": 0.00116529,
+      "slope": -0.1802,
+      "groupVar": 1.731491
+     }
+    ],
+    "mixedSlope": -0.1802,
+    "olsSlope": -0.1306,
+    "mixedCI95": [
+     -0.6237,
+     0.2633
+    ],
+    "olsCI95": [
+     -0.5472,
+     0.2859
+    ],
+    "mixedMinusOlsInOlsSe": -0.237,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=360",
+    "endDay": "2026-09-13",
+    "nObs": 370,
+    "nDays": 83,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 1e-05,
+    "maxGroupVarOverResid": 9e-06,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1017.272081,
+      "scoreNorm": 2e-08,
+      "slope": -0.1144,
+      "groupVar": 1.67235
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1017.272081,
+      "scoreNorm": 0.00032538,
+      "slope": -0.1144,
+      "groupVar": 1.67246
+     }
+    ],
+    "mixedSlope": -0.1144,
+    "olsSlope": -0.0599,
+    "mixedCI95": [
+     -0.5372,
+     0.3085
+    ],
+    "olsCI95": [
+     -0.436,
+     0.3162
+    ],
+    "mixedMinusOlsInOlsSe": -0.288,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=380",
+    "endDay": "2026-09-16",
+    "nObs": 387,
+    "nDays": 86,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 2e-05,
+    "maxGroupVarOverResid": 1.5e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1065.132025,
+      "scoreNorm": 6e-08,
+      "slope": -0.0207,
+      "groupVar": 1.644482
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1065.132025,
+      "scoreNorm": 0.00055865,
+      "slope": -0.0207,
+      "groupVar": 1.644295
+     }
+    ],
+    "mixedSlope": -0.0207,
+    "olsSlope": 0.0192,
+    "mixedCI95": [
+     -0.4273,
+     0.3858
+    ],
+    "olsCI95": [
+     -0.3315,
+     0.3699
+    ],
+    "mixedMinusOlsInOlsSe": -0.226,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=390",
+    "endDay": "2026-09-17",
+    "nObs": 393,
+    "nDays": 87,
+    "reported": "lbfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 3e-05,
+    "maxGroupVarOverResid": 2.1e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1082.508084,
+      "scoreNorm": 0.00014009,
+      "slope": -0.0227,
+      "groupVar": 1.561806
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1082.508084,
+      "scoreNorm": 6e-07,
+      "slope": -0.0227,
+      "groupVar": 1.561853
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1082.508084,
+      "scoreNorm": 0.00063866,
+      "slope": -0.0227,
+      "groupVar": 1.56207
+     }
+    ],
+    "mixedSlope": -0.0227,
+    "olsSlope": 0.0154,
+    "mixedCI95": [
+     -0.4212,
+     0.3757
+    ],
+    "olsCI95": [
+     -0.3249,
+     0.3557
+    ],
+    "mixedMinusOlsInOlsSe": -0.223,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=400",
+    "endDay": "2026-09-19",
+    "nObs": 403,
+    "nDays": 89,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 3e-05,
+    "maxGroupVarOverResid": 2.5e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1107.548423,
+      "scoreNorm": 1.35e-06,
+      "slope": -0.0091,
+      "groupVar": 1.47799
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1107.548423,
+      "scoreNorm": 0.00096883,
+      "slope": -0.0091,
+      "groupVar": 1.477668
+     }
+    ],
+    "mixedSlope": -0.0091,
+    "olsSlope": 0.0245,
+    "mixedCI95": [
+     -0.3944,
+     0.3761
+    ],
+    "olsCI95": [
+     -0.2981,
+     0.3472
+    ],
+    "mixedMinusOlsInOlsSe": -0.207,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=410",
+    "endDay": "2026-09-20",
+    "nObs": 411,
+    "nDays": 90,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 2e-05,
+    "maxGroupVarOverResid": 1.6e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1130.097487,
+      "scoreNorm": 4.09e-06,
+      "slope": -0.0297,
+      "groupVar": 1.414133
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1130.097487,
+      "scoreNorm": 0.00062943,
+      "slope": -0.0297,
+      "groupVar": 1.413924
+     }
+    ],
+    "mixedSlope": -0.0297,
+    "olsSlope": 0.0007,
+    "mixedCI95": [
+     -0.4073,
+     0.3478
+    ],
+    "olsCI95": [
+     -0.3149,
+     0.3163
+    ],
+    "mixedMinusOlsInOlsSe": -0.191,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=420",
+    "endDay": "2026-09-22",
+    "nObs": 423,
+    "nDays": 92,
+    "reported": "lbfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 3e-05,
+    "maxGroupVarOverResid": 2.5e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1159.56211,
+      "scoreNorm": 4.9e-06,
+      "slope": -0.0163,
+      "groupVar": 1.346279
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1159.56211,
+      "scoreNorm": 7.8e-06,
+      "slope": -0.0163,
+      "groupVar": 1.346275
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1159.56211,
+      "scoreNorm": 0.00097276,
+      "slope": -0.0163,
+      "groupVar": 1.346594
+     }
+    ],
+    "mixedSlope": -0.0163,
+    "olsSlope": 0.0115,
+    "mixedCI95": [
+     -0.382,
+     0.3495
+    ],
+    "olsCI95": [
+     -0.2933,
+     0.3163
+    ],
+    "mixedMinusOlsInOlsSe": -0.181,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=430",
+    "endDay": "2026-09-25",
+    "nObs": 433,
+    "nDays": 95,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 2e-05,
+    "maxGroupVarOverResid": 1.3e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1191.409128,
+      "scoreNorm": 1.043e-05,
+      "slope": 0.0154,
+      "groupVar": 1.183972
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1191.409128,
+      "scoreNorm": 0.00049914,
+      "slope": 0.0154,
+      "groupVar": 1.184138
+     }
+    ],
+    "mixedSlope": 0.0154,
+    "olsSlope": 0.0352,
+    "mixedCI95": [
+     -0.3406,
+     0.3715
+    ],
+    "olsCI95": [
+     -0.2616,
+     0.3321
+    ],
+    "mixedMinusOlsInOlsSe": -0.132,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=440",
+    "endDay": "2026-09-26",
+    "nObs": 442,
+    "nDays": 96,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 1e-05,
+    "maxGroupVarOverResid": 8e-06,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1213.769238,
+      "scoreNorm": 0.00047776,
+      "slope": 0.0448,
+      "groupVar": 1.202003
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1213.769238,
+      "scoreNorm": 0.00078136,
+      "slope": 0.0448,
+      "groupVar": 1.201904
+     }
+    ],
+    "mixedSlope": 0.0448,
+    "olsSlope": 0.0689,
+    "mixedCI95": [
+     -0.305,
+     0.3945
+    ],
+    "olsCI95": [
+     -0.2214,
+     0.3593
+    ],
+    "mixedMinusOlsInOlsSe": -0.165,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=450",
+    "endDay": "2026-09-27",
+    "nObs": 454,
+    "nDays": 97,
+    "reported": "lbfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 4e-05,
+    "maxGroupVarOverResid": 1.9e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1243.132416,
+      "scoreNorm": 2.063e-05,
+      "slope": 0.0875,
+      "groupVar": 1.325922
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1243.132416,
+      "scoreNorm": 2.415e-05,
+      "slope": 0.0875,
+      "groupVar": 1.325909
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1243.132416,
+      "scoreNorm": 0.00081141,
+      "slope": 0.0875,
+      "groupVar": 1.325678
+     }
+    ],
+    "mixedSlope": 0.0875,
+    "olsSlope": 0.1298,
+    "mixedCI95": [
+     -0.2592,
+     0.4341
+    ],
+    "olsCI95": [
+     -0.1662,
+     0.4259
+    ],
+    "mixedMinusOlsInOlsSe": -0.284,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=460",
+    "endDay": "2026-09-29",
+    "nObs": 461,
+    "nDays": 99,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 2e-05,
+    "maxGroupVarOverResid": 1.1e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1261.2569,
+      "scoreNorm": 2.341e-05,
+      "slope": 0.0877,
+      "groupVar": 1.314929
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1261.2569,
+      "scoreNorm": 0.00049349,
+      "slope": 0.0877,
+      "groupVar": 1.314794
+     }
+    ],
+    "mixedSlope": 0.0877,
+    "olsSlope": 0.1315,
+    "mixedCI95": [
+     -0.2538,
+     0.4291
+    ],
+    "olsCI95": [
+     -0.1581,
+     0.4212
+    ],
+    "mixedMinusOlsInOlsSe": -0.3,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=470",
+    "endDay": "2026-10-01",
+    "nObs": 475,
+    "nDays": 101,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 0.0,
+    "maxGroupVarOverResid": 1e-06,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1306.838057,
+      "scoreNorm": 5e-06,
+      "slope": 0.1599,
+      "groupVar": 1.725728
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1306.838057,
+      "scoreNorm": 6.687e-05,
+      "slope": 0.1599,
+      "groupVar": 1.725744
+     }
+    ],
+    "mixedSlope": 0.1599,
+    "olsSlope": 0.2094,
+    "mixedCI95": [
+     -0.1932,
+     0.5129
+    ],
+    "olsCI95": [
+     -0.0856,
+     0.5044
+    ],
+    "mixedMinusOlsInOlsSe": -0.333,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=480",
+    "endDay": "2026-10-03",
+    "nObs": 490,
+    "nDays": 103,
+    "reported": "bfgs",
+    "agreement": "single solver",
+    "maxSlopeDiffInOLSse": null,
+    "maxGroupVarOverResid": null,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1350.660024,
+      "scoreNorm": 1.49e-05,
+      "slope": 0.1929,
+      "groupVar": 1.691151
+     },
+     {
+      "solver": "nm",
+      "counts": false,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1350.660024,
+      "scoreNorm": 0.00122372,
+      "slope": 0.1929,
+      "groupVar": 1.691463
+     }
+    ],
+    "mixedSlope": 0.1929,
+    "olsSlope": 0.246,
+    "mixedCI95": [
+     -0.1537,
+     0.5395
+    ],
+    "olsCI95": [
+     -0.0357,
+     0.5277
+    ],
+    "mixedMinusOlsInOlsSe": -0.374,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=500",
+    "endDay": "2026-10-05",
+    "nObs": 500,
+    "nDays": 105,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 3e-05,
+    "maxGroupVarOverResid": 1.7e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1380.494858,
+      "scoreNorm": 1.582e-05,
+      "slope": 0.194,
+      "groupVar": 1.610679
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1380.494858,
+      "scoreNorm": 0.00085012,
+      "slope": 0.194,
+      "groupVar": 1.610895
+     }
+    ],
+    "mixedSlope": 0.194,
+    "olsSlope": 0.2407,
+    "mixedCI95": [
+     -0.1465,
+     0.5345
+    ],
+    "olsCI95": [
+     -0.0357,
+     0.517
+    ],
+    "mixedMinusOlsInOlsSe": -0.335,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=510",
+    "endDay": "2026-10-07",
+    "nObs": 510,
+    "nDays": 107,
+    "reported": "lbfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 2e-05,
+    "maxGroupVarOverResid": 1.3e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1404.851428,
+      "scoreNorm": 3.052e-05,
+      "slope": 0.1852,
+      "groupVar": 1.554762
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1404.851428,
+      "scoreNorm": 1.501e-05,
+      "slope": 0.1852,
+      "groupVar": 1.554773
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1404.851428,
+      "scoreNorm": 0.00061546,
+      "slope": 0.1852,
+      "groupVar": 1.554924
+     }
+    ],
+    "mixedSlope": 0.1852,
+    "olsSlope": 0.2298,
+    "mixedCI95": [
+     -0.1461,
+     0.5165
+    ],
+    "olsCI95": [
+     -0.0369,
+     0.4966
+    ],
+    "mixedMinusOlsInOlsSe": -0.332,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=520",
+    "endDay": "2026-10-08",
+    "nObs": 525,
+    "nDays": 108,
+    "reported": "bfgs",
+    "agreement": "single solver",
+    "maxSlopeDiffInOLSse": null,
+    "maxGroupVarOverResid": null,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1439.832955,
+      "scoreNorm": 5.856e-05,
+      "slope": 0.2063,
+      "groupVar": 1.568325
+     },
+     {
+      "solver": "nm",
+      "counts": false,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1439.832955,
+      "scoreNorm": 0.00104582,
+      "slope": 0.2063,
+      "groupVar": 1.568059
+     }
+    ],
+    "mixedSlope": 0.2063,
+    "olsSlope": 0.2631,
+    "mixedCI95": [
+     -0.1152,
+     0.5278
+    ],
+    "olsCI95": [
+     0.0135,
+     0.5127
+    ],
+    "mixedMinusOlsInOlsSe": -0.451,
+    "intervalsAgreeOnExcludingZero": false
+   },
+   {
+    "label": "eligible>=530",
+    "endDay": "2026-10-09",
+    "nObs": 530,
+    "nDays": 109,
+    "reported": "bfgs",
+    "agreement": "single solver",
+    "maxSlopeDiffInOLSse": null,
+    "maxGroupVarOverResid": null,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1452.292777,
+      "scoreNorm": 5.64e-05,
+      "slope": 0.2239,
+      "groupVar": 1.546055
+     },
+     {
+      "solver": "nm",
+      "counts": false,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1452.292777,
+      "scoreNorm": 0.00142318,
+      "slope": 0.2239,
+      "groupVar": 1.546381
+     }
+    ],
+    "mixedSlope": 0.2239,
+    "olsSlope": 0.2766,
+    "mixedCI95": [
+     -0.0923,
+     0.5401
+    ],
+    "olsCI95": [
+     0.0332,
+     0.5199
+    ],
+    "mixedMinusOlsInOlsSe": -0.429,
+    "intervalsAgreeOnExcludingZero": false
+   },
+   {
+    "label": "eligible>=540",
+    "endDay": "2026-10-11",
+    "nObs": 542,
+    "nDays": 111,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 1e-05,
+    "maxGroupVarOverResid": 5e-06,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1483.389945,
+      "scoreNorm": 5.451e-05,
+      "slope": 0.2981,
+      "groupVar": 1.644352
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1483.389945,
+      "scoreNorm": 0.00034172,
+      "slope": 0.2981,
+      "groupVar": 1.644418
+     }
+    ],
+    "mixedSlope": 0.2981,
+    "olsSlope": 0.3471,
+    "mixedCI95": [
+     -0.0124,
+     0.6086
+    ],
+    "olsCI95": [
+     0.1028,
+     0.5913
+    ],
+    "mixedMinusOlsInOlsSe": -0.397,
+    "intervalsAgreeOnExcludingZero": false
+   },
+   {
+    "label": "eligible>=550",
+    "endDay": "2026-10-13",
+    "nObs": 555,
+    "nDays": 113,
+    "reported": "bfgs",
+    "agreement": "single solver",
+    "maxSlopeDiffInOLSse": null,
+    "maxGroupVarOverResid": null,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1517.523974,
+      "scoreNorm": 6.484e-05,
+      "slope": 0.3457,
+      "groupVar": 1.701936
+     },
+     {
+      "solver": "nm",
+      "counts": false,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1517.523974,
+      "scoreNorm": 0.00114495,
+      "slope": 0.3457,
+      "groupVar": 1.702174
+     }
+    ],
+    "mixedSlope": 0.3457,
+    "olsSlope": 0.3929,
+    "mixedCI95": [
+     0.0387,
+     0.6527
+    ],
+    "olsCI95": [
+     0.1484,
+     0.6375
+    ],
+    "mixedMinusOlsInOlsSe": -0.382,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=560",
+    "endDay": "2026-10-15",
+    "nObs": 565,
+    "nDays": 115,
+    "reported": "bfgs",
+    "agreement": "single solver",
+    "maxSlopeDiffInOLSse": null,
+    "maxGroupVarOverResid": null,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1543.15542,
+      "scoreNorm": 7.192e-05,
+      "slope": 0.399,
+      "groupVar": 1.713095
+     },
+     {
+      "solver": "nm",
+      "counts": false,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1543.15542,
+      "scoreNorm": 0.00147869,
+      "slope": 0.399,
+      "groupVar": 1.712754
+     }
+    ],
+    "mixedSlope": 0.399,
+    "olsSlope": 0.4389,
+    "mixedCI95": [
+     0.1003,
+     0.6978
+    ],
+    "olsCI95": [
+     0.2035,
+     0.6742
+    ],
+    "mixedMinusOlsInOlsSe": -0.336,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=570",
+    "endDay": "2026-10-17",
+    "nObs": 576,
+    "nDays": 117,
+    "reported": "bfgs",
+    "agreement": "single solver",
+    "maxSlopeDiffInOLSse": null,
+    "maxGroupVarOverResid": null,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1571.886301,
+      "scoreNorm": 4.447e-05,
+      "slope": 0.4757,
+      "groupVar": 1.893835
+     },
+     {
+      "solver": "nm",
+      "counts": false,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1571.886301,
+      "scoreNorm": 0.00136936,
+      "slope": 0.4757,
+      "groupVar": 1.894113
+     }
+    ],
+    "mixedSlope": 0.4757,
+    "olsSlope": 0.5239,
+    "mixedCI95": [
+     0.1788,
+     0.7726
+    ],
+    "olsCI95": [
+     0.2665,
+     0.7814
+    ],
+    "mixedMinusOlsInOlsSe": -0.371,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=580",
+    "endDay": "2026-11-01",
+    "nObs": 582,
+    "nDays": 118,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 1e-05,
+    "maxGroupVarOverResid": 1.5e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1627.094485,
+      "scoreNorm": 9.91e-06,
+      "slope": 0.604,
+      "groupVar": 2.813889
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1627.094485,
+      "scoreNorm": 0.00090758,
+      "slope": 0.604,
+      "groupVar": 2.813685
+     }
+    ],
+    "mixedSlope": 0.604,
+    "olsSlope": 0.6505,
+    "mixedCI95": [
+     0.2746,
+     0.9334
+    ],
+    "olsCI95": [
+     0.3048,
+     0.9963
+    ],
+    "mixedMinusOlsInOlsSe": -0.266,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=590",
+    "endDay": "2026-11-03",
+    "nObs": 591,
+    "nDays": 120,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 0.0,
+    "maxGroupVarOverResid": 5e-06,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1650.523729,
+      "scoreNorm": 8.62e-06,
+      "slope": 0.6523,
+      "groupVar": 2.841489
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1650.523729,
+      "scoreNorm": 0.00031487,
+      "slope": 0.6523,
+      "groupVar": 2.841556
+     }
+    ],
+    "mixedSlope": 0.6523,
+    "olsSlope": 0.6857,
+    "mixedCI95": [
+     0.3289,
+     0.9757
+    ],
+    "olsCI95": [
+     0.3517,
+     1.0197
+    ],
+    "mixedMinusOlsInOlsSe": -0.198,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=600",
+    "endDay": "2026-11-05",
+    "nObs": 603,
+    "nDays": 122,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 1e-05,
+    "maxGroupVarOverResid": 1.1e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1688.019042,
+      "scoreNorm": 8.62e-06,
+      "slope": 0.7165,
+      "groupVar": 2.990547
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1688.019042,
+      "scoreNorm": 0.00069084,
+      "slope": 0.7165,
+      "groupVar": 2.990395
+     }
+    ],
+    "mixedSlope": 0.7165,
+    "olsSlope": 0.7472,
+    "mixedCI95": [
+     0.3959,
+     1.0372
+    ],
+    "olsCI95": [
+     0.4245,
+     1.07
+    ],
+    "mixedMinusOlsInOlsSe": -0.188,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=610",
+    "endDay": "2026-11-07",
+    "nObs": 618,
+    "nDays": 124,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 1e-05,
+    "maxGroupVarOverResid": 8e-06,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1732.833999,
+      "scoreNorm": 1.189e-05,
+      "slope": 0.7623,
+      "groupVar": 3.062146
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1732.833999,
+      "scoreNorm": 0.00051118,
+      "slope": 0.7623,
+      "groupVar": 3.062251
+     }
+    ],
+    "mixedSlope": 0.7623,
+    "olsSlope": 0.8182,
+    "mixedCI95": [
+     0.4471,
+     1.0775
+    ],
+    "olsCI95": [
+     0.498,
+     1.1384
+    ],
+    "mixedMinusOlsInOlsSe": -0.345,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=620",
+    "endDay": "2026-11-08",
+    "nObs": 626,
+    "nDays": 125,
+    "reported": "bfgs",
+    "agreement": "single solver",
+    "maxSlopeDiffInOLSse": null,
+    "maxGroupVarOverResid": null,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1757.271444,
+      "scoreNorm": 1.33e-05,
+      "slope": 0.7885,
+      "groupVar": 3.101976
+     },
+     {
+      "solver": "nm",
+      "counts": false,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1757.271444,
+      "scoreNorm": 0.00226465,
+      "slope": 0.7885,
+      "groupVar": 3.101499
+     }
+    ],
+    "mixedSlope": 0.7885,
+    "olsSlope": 0.8439,
+    "mixedCI95": [
+     0.4749,
+     1.1022
+    ],
+    "olsCI95": [
+     0.5319,
+     1.156
+    ],
+    "mixedMinusOlsInOlsSe": -0.351,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   {
+    "label": "eligible>=630",
+    "endDay": "2026-11-09",
+    "nObs": 633,
+    "nDays": 126,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 0.0,
+    "maxGroupVarOverResid": 3e-06,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1775.501407,
+      "scoreNorm": 1.323e-05,
+      "slope": 0.8167,
+      "groupVar": 3.13746
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1775.501407,
+      "scoreNorm": 0.00019086,
+      "slope": 0.8167,
+      "groupVar": 3.137497
+     }
+    ],
+    "mixedSlope": 0.8167,
+    "olsSlope": 0.8674,
+    "mixedCI95": [
+     0.5053,
+     1.128
+    ],
+    "olsCI95": [
+     0.5602,
+     1.1745
+    ],
+    "mixedMinusOlsInOlsSe": -0.327,
+    "intervalsAgreeOnExcludingZero": true
+   }
+  ]
+ },
+ "historic": {
+  "resistanceVreg": {
+   "289": {
+    "label": "master first 289 drives (to end of day)",
+    "endDay": "2026-08-26",
+    "nObs": 168,
+    "nDays": 58,
+    "reported": "nm",
+    "agreement": "single solver",
+    "maxSlopeDiffInOLSse": null,
+    "maxGroupVarOverResid": null,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": false,
+      "converged": false,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -615.851272,
+      "scoreNorm": 0.00275654,
+      "slope": 1.3927,
+      "groupVar": 0.110727
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -615.833798,
+      "scoreNorm": 1.555e-05,
+      "slope": 1.3902,
+      "groupVar": 1.557361
+     }
+    ],
+    "mixedSlope": 1.3902,
+    "olsSlope": 1.3928,
+    "mixedCI95": [
+     -0.2187,
+     2.999
+    ],
+    "olsCI95": [
+     -0.1256,
+     2.9113
+    ],
+    "mixedMinusOlsInOlsSe": -0.003,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   "632": {
+    "label": "master first 632 drives (to end of day)",
+    "endDay": "2026-11-05",
+    "nObs": 280,
+    "nDays": 103,
+    "reported": "nm",
+    "agreement": "single solver",
+    "maxSlopeDiffInOLSse": null,
+    "maxGroupVarOverResid": null,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": false,
+      "converged": false,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1093.981802,
+      "scoreNorm": 0.02240788,
+      "slope": 1.1677,
+      "groupVar": 0.298499
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1093.95977,
+      "scoreNorm": 4e-07,
+      "slope": 1.1644,
+      "groupVar": 6e-06
+     }
+    ],
+    "mixedSlope": 1.1644,
+    "olsSlope": 1.1644,
+    "mixedCI95": [
+     0.0137,
+     2.3151
+    ],
+    "olsCI95": [
+     0.0655,
+     2.2634
+    ],
+    "mixedMinusOlsInOlsSe": 0.0,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   "665": {
+    "label": "master first 665 drives (to end of day)",
+    "endDay": "2026-11-09",
+    "nObs": 294,
+    "nDays": 107,
+    "reported": "lbfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 7e-05,
+    "maxGroupVarOverResid": 2.7e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1161.246355,
+      "scoreNorm": 8.72e-06,
+      "slope": 1.3536,
+      "groupVar": 8.483636
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1161.246355,
+      "scoreNorm": 0.00025879,
+      "slope": 1.3536,
+      "groupVar": 8.480115
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1161.246355,
+      "scoreNorm": 3.087e-05,
+      "slope": 1.3536,
+      "groupVar": 8.484193
+     }
+    ],
+    "mixedSlope": 1.3536,
+    "olsSlope": 1.2486,
+    "mixedCI95": [
+     0.1466,
+     2.5606
+    ],
+    "olsCI95": [
+     0.0269,
+     2.4703
+    ],
+    "mixedMinusOlsInOlsSe": 0.17,
+    "intervalsAgreeOnExcludingZero": true
+   }
+  },
+  "cellSpread": {
+   "289": {
+    "label": "master first 289 drives (to end of day)",
+    "endDay": "2026-08-26",
+    "nObs": 270,
+    "nDays": 66,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 0.0,
+    "maxGroupVarOverResid": 2.6e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -705.645314,
+      "scoreNorm": 5.562e-05,
+      "slope": -0.4513,
+      "groupVar": 1.465337
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -705.645314,
+      "scoreNorm": 0.00056782,
+      "slope": -0.4513,
+      "groupVar": 1.465575
+     }
+    ],
+    "mixedSlope": -0.4513,
+    "olsSlope": -0.4428,
+    "mixedCI95": [
+     -0.9694,
+     0.0667
+    ],
+    "olsCI95": [
+     -0.9058,
+     0.0202
+    ],
+    "mixedMinusOlsInOlsSe": -0.037,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   "632": {
+    "label": "master first 632 drives (to end of day)",
+    "endDay": "2026-11-05",
+    "nObs": 603,
+    "nDays": 122,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 1e-05,
+    "maxGroupVarOverResid": 1.1e-05,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1688.019042,
+      "scoreNorm": 8.62e-06,
+      "slope": 0.7165,
+      "groupVar": 2.990547
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1688.019042,
+      "scoreNorm": 0.00069084,
+      "slope": 0.7165,
+      "groupVar": 2.990395
+     }
+    ],
+    "mixedSlope": 0.7165,
+    "olsSlope": 0.7472,
+    "mixedCI95": [
+     0.3959,
+     1.0372
+    ],
+    "olsCI95": [
+     0.4245,
+     1.07
+    ],
+    "mixedMinusOlsInOlsSe": -0.188,
+    "intervalsAgreeOnExcludingZero": true
+   },
+   "665": {
+    "label": "master first 665 drives (to end of day)",
+    "endDay": "2026-11-09",
+    "nObs": 633,
+    "nDays": 126,
+    "reported": "bfgs",
+    "agreement": "agree",
+    "maxSlopeDiffInOLSse": 0.0,
+    "maxGroupVarOverResid": 3e-06,
+    "solvers": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1775.501407,
+      "scoreNorm": 1.323e-05,
+      "slope": 0.8167,
+      "groupVar": 3.13746
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1775.501407,
+      "scoreNorm": 0.00019086,
+      "slope": 0.8167,
+      "groupVar": 3.137497
+     }
+    ],
+    "mixedSlope": 0.8167,
+    "olsSlope": 0.8674,
+    "mixedCI95": [
+     0.5053,
+     1.128
+    ],
+    "olsCI95": [
+     0.5602,
+     1.1745
+    ],
+    "mixedMinusOlsInOlsSe": -0.327,
+    "intervalsAgreeOnExcludingZero": true
+   }
+  }
+ },
+ "veto": {
+  "veto": false,
+  "reasons": [],
+  "perMetric": {
+   "resistanceVreg": {
+    "current": "agree",
+    "nBinding": 21,
+    "shareDisagree": 0.0,
+    "shareSingleSolver": 0.42857142857142855,
+    "shareNone": 0.0
+   },
+   "cellSpread": {
+    "current": "agree",
+    "nBinding": 52,
+    "shareDisagree": 0.0,
+    "shareSingleSolver": 0.19230769230769232,
+    "shareNone": 0.0
+   }
+  },
+  "criterion": {
+   "minDays": 30,
+   "maxShareDisagree": 0.1
+  }
+ },
+ "r9": {
+  "intervalsAgreeOnExcludingZeroBothMetrics": true,
+  "maxAbsMixedMinusOlsInOlsSeAtCurrent": 0.327
+ },
+ "noSignoffCondition": true,
+ "note": "descriptive; cumulative prefixes are not independent; the veto may stop the procedure, never retune it"
+}

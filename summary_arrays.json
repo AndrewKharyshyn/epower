@@ -59330,25 +59330,86 @@
    "windowMonths": 5.85,
    "primaryEstimator": "clusterRobustOLS",
    "headlineEstimatorRule": "fixed: clusterRobustOLS (M614)",
-   "headlineVsMixed": null,
+   "headlineVsMixed": -0.327,
    "tostEstimatorBasis": "clusterRobustOLS",
    "tostSlopeUsed": 0.8674,
    "tostSeUsed": 0.1552,
    "mixedEffects": {
-    "error": "LinAlgError('Singular matrix')",
     "formula": "y ~ months + T + I",
-    "valid": false,
-    "validity": {
-     "fitted": false,
-     "converged": false,
-     "seFinitePositive": false,
-     "seNotBlownUp": false
+    "solver": "bfgs",
+    "solversTried": [
+     {
+      "solver": "lbfgs",
+      "counts": false,
+      "maxiter": 100,
+      "returned": false,
+      "converged": null,
+      "stage": "optimiser call raised",
+      "error": "LinAlgError('Singular matrix')",
+      "logLik": null,
+      "scoreNorm": null,
+      "slope": null,
+      "se": null,
+      "groupVar": null
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "maxiter": 100,
+      "returned": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1775.501407,
+      "scoreNorm": 1.323e-05,
+      "slope": 0.8167,
+      "se": 0.1588,
+      "groupVar": 3.13746
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "maxiter": 100,
+      "returned": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1775.501407,
+      "scoreNorm": 0.00019086,
+      "slope": 0.8167,
+      "se": 0.1588,
+      "groupVar": 3.137497
+     }
+    ],
+    "solverAgreement": "agree",
+    "maxSlopeDiffInOLSse": 0.0,
+    "maxGroupVarOverResid": 3e-06,
+    "agreementBasis": "solver order lbfgs, bfgs, nm; each solver alone from the statsmodels default start (maxiter 100); a solver counts if it converged with a finite positive SE and its REML log-likelihood is within 0.0001 of the best candidate (nm also needs an interior score norm <= 0.001 or a boundary estimate); agreement: slope difference <= 0.05 cluster-robust (day-clustered) OLS standard errors and day-variance difference <= 0.005 of the residual variance, equal boundary flags, equal interval-excludes-zero; one default start only: agreement is no evidence that the optimum is global and none of model adequacy",
+    "versions": {
+     "statsmodels": "0.15.0",
+     "scipy": "1.17.1"
     },
-    "reCovarianceSingular": null,
-    "seRatioToOLS": null,
-    "varianceRatio": null,
-    "degenerate": true,
-    "degenerateNote": "mixed model failed to fit (LinAlgError('Singular matrix')). The mixed-effects block is a sensitivity only: the cluster-robust OLS is the headline estimator for every metric (M614) and the TOST uses it too; the validity components above say why this fit is not valid."
+    "slope": 0.8167,
+    "se": 0.1588,
+    "residVar": 13.530498,
+    "ci95": [
+     0.5053,
+     1.128
+    ],
+    "nObs": 633,
+    "nDays": 126,
+    "groupVar": 3.13746,
+    "converged": true,
+    "valid": true,
+    "validity": {
+     "fitted": true,
+     "converged": true,
+     "seFinitePositive": true,
+     "seNotBlownUp": true
+    },
+    "reCovarianceSingular": false,
+    "seRatioToOLS": 1.023,
+    "varianceRatio": 0.2319
    },
    "clusterRobustOLS": {
     "slope": 0.8674,
@@ -59430,6 +59491,60 @@
    "tostSlopeUsed": 1.2486,
    "tostSeUsed": 0.6162,
    "mixedEffects": {
+    "formula": "y ~ months + T + I",
+    "solver": "lbfgs",
+    "solversTried": [
+     {
+      "solver": "lbfgs",
+      "counts": true,
+      "maxiter": 100,
+      "returned": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1161.246355,
+      "scoreNorm": 8.72e-06,
+      "slope": 1.3536,
+      "se": 0.6158,
+      "groupVar": 8.483636
+     },
+     {
+      "solver": "bfgs",
+      "counts": true,
+      "maxiter": 100,
+      "returned": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1161.246355,
+      "scoreNorm": 0.00025879,
+      "slope": 1.3536,
+      "se": 0.6158,
+      "groupVar": 8.480115
+     },
+     {
+      "solver": "nm",
+      "counts": true,
+      "maxiter": 100,
+      "returned": true,
+      "converged": true,
+      "stage": "fit and covariance ok",
+      "error": null,
+      "logLik": -1161.246355,
+      "scoreNorm": 3.087e-05,
+      "slope": 1.3536,
+      "se": 0.6158,
+      "groupVar": 8.484193
+     }
+    ],
+    "solverAgreement": "agree",
+    "maxSlopeDiffInOLSse": 7e-05,
+    "maxGroupVarOverResid": 2.7e-05,
+    "agreementBasis": "solver order lbfgs, bfgs, nm; each solver alone from the statsmodels default start (maxiter 100); a solver counts if it converged with a finite positive SE and its REML log-likelihood is within 0.0001 of the best candidate (nm also needs an interior score norm <= 0.001 or a boundary estimate); agreement: slope difference <= 0.05 cluster-robust (day-clustered) OLS standard errors and day-variance difference <= 0.005 of the residual variance, equal boundary flags, equal interval-excludes-zero; one default start only: agreement is no evidence that the optimum is global and none of model adequacy",
+    "versions": {
+     "statsmodels": "0.15.0",
+     "scipy": "1.17.1"
+    },
     "slope": 1.3536,
     "se": 0.6158,
     "residVar": 150.165682,
@@ -59440,7 +59555,6 @@
     "nObs": 294,
     "nDays": 107,
     "groupVar": 8.483636,
-    "formula": "y ~ months + T + I",
     "converged": true,
     "valid": true,
     "validity": {

@@ -42,7 +42,7 @@ def analyse(dm, inject=None):
         DT._mixedlm = orig
 
 
-OK = {"slope": 1.0, "se": 0.6, "ci95": [-0.2, 2.2], "nObs": 320, "nDays": 80, "groupVar": 8.0, "residVar": 150.0, "formula": "y ~ months + T + I", "converged": True}
+OK = {"slope": 1.0, "se": 0.6, "ci95": [-0.2, 2.2], "nObs": 320, "nDays": 80, "groupVar": 8.0, "residVar": 150.0, "formula": "y ~ months + T + I", "converged": True, "solver": "lbfgs", "solverAgreement": "agree"}   # M619: the multi-solver fields an injected fit now carries
 BLOWN = dict(OK, se=5.23e8, groupVar=1e-12)
 FAILED = {"error": "LinAlgError('Singular matrix')", "formula": "y ~ months + T + I"}
 NOCONV = dict(OK, converged=False)

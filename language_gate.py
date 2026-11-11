@@ -578,6 +578,8 @@ RULES = [
          rx=r"\b(script label|confirmatory test|pre step fit)\b.{0,500}?\b(step confirmed|confirmed (rise|trend|degradation)|detected (rise|trend)|imbalance (is )?growing|rise excluded|no rise|measured (rise|degradation|imbalance)|degradation (is |was )?(detected|confirmed))\b", scope=("dom", "jsx", "payload")),
     Rule("M614-headline-estimator", "regex", "M614 (spec analyses/M614_spec.md Rev 1, Director review R12): the headline estimator of every degradation trend is the day-clustered cluster-robust OLS; the mixed-effects model is a sensitivity with validity checks, never described as the primary or headline estimator, and the retired M155 rule ('prefer the mixed model when it is non-singular') is not restated as current",
          rx=r"\bmixed(?: effects?| model)? (?:is |as |was )?(?:the )?(?:primary|headline) (?:estimator|slope)\b|\bheadline (?:slope )?(?:is|was) the (?:day )?(?:random intercept )?mixed(?: effects?| model)\b|\bprefer(?:s|red)? the mixed(?: effects?| model)\b|\bmixed effects headline\b|\bmixed primary\b"),
+    Rule("M619-solver-wording", "regex", "M619 (spec analyses/M618_spec.md Rev 1 R11): agreement of the mixed-effects solvers is 'agree to tolerance at this corpus and library version', never verified, robust, stable or a global optimum; a converged multi-solver mixed fit is never called unstable or singular unless a validity component says so",
+         rx=r"\bsolvers? (?:are |is |were )?(?:verified|robust|stable)\b|\bglobal optimum\b|\bmixed(?: effects?| model)? fit (?:is |was )?(?:unstable|singular)\b|\bverified (?:mixed|solver)"),
 ]
 
 _SCAN_CACHE = {}
