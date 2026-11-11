@@ -1123,7 +1123,7 @@ conc = T.get("conclusions__all", "")
 ok("B gross/discharge ratio in Conclusions == payload", f"= {g_over_d}× gross discharge" in conc, g_over_d)
 ep = {s["key"]: s["pct"] for s in A["energyPath"]["chargeSources"]}
 ok("B operating-state shares in Conclusions == energyPath",
-   f"engine-off braking {ep['pure_regen']}%" in conc and f"braking overlap {ep['dual']}%" in conc, str(ep))
+   f"engine-off braking {ep['pure_regen']:g}%" in conc and f"braking overlap {ep['dual']:g}%" in conc, str(ep))     # M608: JS renders 27.0 as 27 (a payload share that is an exact integer)
 cold = A["cRateRefLines"]["zones"]["coldBelowC"]
 # M567: the Health count uses the points with a T1 sample within 3 s of the current peak (tiers cotimed / nearby of powerPeakTemperature.acViewX); late points are counted separately
 _acx = A["powerPeakTemperature"]["acViewX"]
