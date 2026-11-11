@@ -1,0 +1,28 @@
+{
+ "milestone": "M608",
+ "date": "2026-11-10",
+ "role": "research-director (Fable 5.2), brief of the main session",
+ "decision": "revise",
+ "text": "leaf_guard stop, 103 unexpected lost leaves, 665-drive candidate. Rules allowed for G1 (after the cause check), G3, G4, G5, stamps; G2 (regen cold) only after checks C1-C6 and a targeted blind audit; cellSpread rowsIncludingZero 1->0 is a classification flip: ack-bound only plus the prev-CI check; the two emptied flag lists (tempThinBins, variantOutsideV0Interval) have no sibling to bind: an ack-bound condition under a short spec.",
+ "rules": "analyses/leaf_guard_rules.json, ids m608-*",
+ "conditions": [
+  "G1: the 34 removed pairs still exist as intervals and now agree; len(differing)==nIntervalsDiffering; ladder reading unchanged; cause stated",
+  "C1 blind audit of the cold totals (done, agrees)",
+  "C2 every previously displayed point inside its previous day interval (800/800)",
+  "C3 per-stratum cold standardized stays unavailable",
+  "C6 rendered tab dump check after the rebuild",
+  "cellSpread ack pins block, both classifications, row union, master MD5; prev-CI check (36 checked, 0 outside)",
+  "M155 estimator ruling recorded on disk (analyses/M608_estimator_change_director_ruling.json)",
+  "CHANGELOG M608 lists every changed displayed statement and states that no Andrii approval is implied except the cold-interval decision recorded in analyses/M608_owner_decision_cold_intervals.json"
+ ],
+ "language": [
+  "Cold stays 'exploratory' while weeks < 5",
+  "never: cold now supported/established, cold vs warm, fast vs slow, effect of temperature, disagreement resolved, methods now agree, trend confirmed/significant",
+  "cellSpread: 'no row includes zero (a count of rows, not a finding)'",
+  "resistanceVreg: 'procedure-dependent'; equivalence not established is not no degradation"
+ ],
+ "followUps": [
+  "spec for ack-bound and subset leaf_guard conditions",
+  "spec for the 12.5 C level (W2/W3)"
+ ]
+}

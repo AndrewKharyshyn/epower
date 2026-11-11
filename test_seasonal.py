@@ -368,8 +368,18 @@ def t20():
     ok("20 warm-vs-shoulder adjusted available", ws["status"] == "available")
     ok("20 adjusted carries raw + adjusted + CI",
        all(k in ws for k in ("rawDiff", "adjustedDiff", "ci95", "commonSupport")))
-    ok("20 warm-vs-cold unavailable (no cold)",
-       eff["adjusted"]["warm_vs_cold"]["status"] == "unavailable")
+    wc = eff["adjusted"]["warm_vs_cold"]                    # M608: two states (Director ruling 2026-11-10); it was 'unavailable' while the cold cohort was thin
+    _cold_all = json.load(open(os.path.join(HERE, "seasonal_arrays.json"), encoding="utf-8"))["cohorts"]["Cold"]["coverage"]["n_drives"]
+    ok("20 warm-vs-cold has a defined state (%s)" % wc["status"], wc["status"] in ("available", "unavailable"))
+    if wc["status"] == "unavailable":
+        ok("20 warm-vs-cold unavailable states its reason", bool(wc.get("reason")) and wc.get("adjustedDiff") is None and wc.get("ci95") is None)
+    else:
+        _cs = wc.get("commonSupport") or {}
+        ok("20 warm-vs-cold available: finite estimate, 95% interval, support block with balanceOk, valid-draw count, cold n within the cold cohort",
+           all(isinstance(wc.get(k), (int, float)) and not isinstance(wc.get(k), bool) for k in ("adjustedDiff", "rawDiff", "nBootValid", "nB")) and isinstance(wc.get("ci95"), list) and len(wc["ci95"]) == 2
+           and "balanceOk" in _cs and 0 < wc["nB"] <= _cold_all)
+        ok("20 warm-vs-cold available without covariate balance carries the exploratory label", _cs.get("balanceOk") is not False or "exploratory" in str(wc.get("label", "")))
+    ok("20 the adjusted contrast is not rendered by the dashboard source (a stored, exploratory figure)", "warm_vs_cold" not in open(os.path.join(HERE, "xtrail_summary.jsx"), encoding="utf-8").read())
     # standardization correctness: MODERATE overlapping confounder -> adjusted ~0, raw>0
     rng = np.random.default_rng(1); dr = []
     for i in range(400):

@@ -1,145 +1,145 @@
 {
  "milestone": "M573",
  "spec": "analyses/M573_spec.md Rev 1",
- "masterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72",
- "masterRows": 632,
+ "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+ "masterRows": 665,
  "analysisFrame": {
-  "n": 600,
-  "days": 122,
+  "n": 633,
+  "days": 126,
   "firstDate": "2026-05-15",
-  "lastDate": "2026-11-05",
+  "lastDate": "2026-11-09",
   "stepDate": "2026-10-01",
-  "windowMonths": 5.72
+  "windowMonths": 5.85
  },
  "item1_2_models": {
   "M0_linear_released": {
-   "est": 0.7396,
-   "se": 0.1651,
+   "est": 0.8674,
+   "se": 0.1552,
    "ci95": [
-    0.4128,
-    1.0665
+    0.5602,
+    1.1745
    ],
-   "n": 600,
-   "G": 122,
-   "aic": 3382.1,
-   "r2": 0.2162,
-   "cv_rmse_day_blocked": 4.052,
+   "n": 633,
+   "G": 126,
+   "aic": 3577.17,
+   "r2": 0.2259,
+   "cv_rmse_day_blocked": 4.083,
    "formula": "y ~ months + T + I"
   },
   "M1_linear_soc": {
-   "est": 0.6844,
-   "se": 0.1672,
+   "est": 0.7977,
+   "se": 0.158,
    "ci95": [
-    0.3533,
-    1.0155
+    0.485,
+    1.1104
    ],
-   "n": 600,
-   "G": 122,
-   "aic": 3358.2,
-   "r2": 0.2518,
-   "cv_rmse_day_blocked": 3.968,
+   "n": 633,
+   "G": 126,
+   "aic": 3549.44,
+   "r2": 0.2637,
+   "cv_rmse_day_blocked": 3.989,
    "formula": "y ~ months + T + I + soc + socr"
   },
   "M2_linear_soc_rest": {
-   "est": 0.5449,
-   "se": 0.1615,
+   "est": 0.6327,
+   "se": 0.1485,
    "ci95": [
-    0.2251,
-    0.8646
+    0.3388,
+    0.9266
    ],
-   "n": 600,
-   "G": 122,
-   "aic": 3345.26,
-   "r2": 0.2726,
-   "cv_rmse_day_blocked": 3.926,
+   "n": 633,
+   "G": 126,
+   "aic": 3531.04,
+   "r2": 0.2893,
+   "cv_rmse_day_blocked": 3.929,
    "formula": "y ~ months + T + I + soc + socr + lrest + first"
   },
   "M3_step": {
-   "est": 0.2266,
-   "se": 0.1474,
+   "est": 0.2657,
+   "se": 0.1442,
    "ci95": [
-    -0.0653,
-    0.5184
+    -0.0197,
+    0.5511
    ],
-   "n": 600,
-   "G": 122,
-   "aic": 3350.61,
-   "r2": 0.2587,
-   "cv_rmse_day_blocked": 3.953,
+   "n": 633,
+   "G": 126,
+   "aic": 3538.76,
+   "r2": 0.2737,
+   "cv_rmse_day_blocked": 3.965,
    "step_term": {
-    "est": 2.8941,
-    "se": 0.6566,
+    "est": 3.1333,
+    "se": 0.6387,
     "ci95": [
-     1.5942,
-     4.1941
+     1.8691,
+     4.3974
     ]
    },
    "formula": "y ~ months + step + T + I"
   },
   "M4_step_soc": {
-   "est": 0.2092,
-   "se": 0.1437,
+   "est": 0.2476,
+   "se": 0.1414,
    "ci95": [
-    -0.0753,
-    0.4938
+    -0.0322,
+    0.5274
    ],
-   "n": 600,
-   "G": 122,
-   "aic": 3330.31,
-   "r2": 0.2882,
-   "cv_rmse_day_blocked": 3.885,
+   "n": 633,
+   "G": 126,
+   "aic": 3516.06,
+   "r2": 0.3037,
+   "cv_rmse_day_blocked": 3.891,
    "step_term": {
-    "est": 2.6885,
-    "se": 0.6748,
+    "est": 2.8839,
+    "se": 0.6509,
     "ci95": [
-     1.3526,
-     4.0243
+     1.5957,
+     4.1721
     ]
    },
    "formula": "y ~ months + step + T + I + soc + socr"
   },
   "M5_step_soc_rest": {
-   "est": 0.0821,
-   "se": 0.1425,
+   "est": 0.1103,
+   "se": 0.1389,
    "ci95": [
-    -0.2001,
-    0.3643
+    -0.1646,
+    0.3853
    ],
-   "n": 600,
-   "G": 122,
-   "aic": 3318.24,
-   "r2": 0.307,
-   "cv_rmse_day_blocked": 3.843,
+   "n": 633,
+   "G": 126,
+   "aic": 3499.79,
+   "r2": 0.3257,
+   "cv_rmse_day_blocked": 3.838,
    "step_term": {
-    "est": 2.6257,
-    "se": 0.6588,
+    "est": 2.7668,
+    "se": 0.6328,
     "ci95": [
-     1.3213,
-     3.93
+     1.5144,
+     4.0191
     ]
    },
    "formula": "y ~ months + step + T + I + soc + socr + lrest + first"
   },
   "M6_month_fixed_effects": {
-   "aic": 3297.81,
-   "r2": 0.3346,
-   "n": 600,
-   "cv_rmse_day_blocked": 3.82,
+   "aic": 3482.05,
+   "r2": 0.3484,
+   "n": 633,
+   "cv_rmse_day_blocked": 3.801,
    "formula": "y ~ T + I + soc + socr + month dummies (no linear months term)"
   },
   "changePointScan": {
    "best": [
     {
      "day": "2026-10-10",
-     "jump_mv": 4.04
-    },
-    {
-     "day": "2026-10-09",
      "jump_mv": 3.84
     },
     {
+     "day": "2026-10-09",
+     "jump_mv": 3.71
+    },
+    {
      "day": "2026-10-11",
-     "jump_mv": 4.08
+     "jump_mv": 3.84
     }
    ],
    "note": "descriptive; residual of y ~ T + I + soc; not a tested date"
@@ -147,258 +147,266 @@
  },
  "item3_dependence": {
   "weekCluster_linear": {
-   "est": 0.6844,
-   "se": 0.2025,
+   "est": 0.7977,
+   "se": 0.2039,
    "ci95": [
-    0.2665,
-    1.1023
+    0.3778,
+    1.2176
    ],
-   "n": 600,
-   "G": 25,
-   "aic": 3358.2,
-   "r2": 0.2518
+   "n": 633,
+   "G": 26,
+   "aic": 3549.44,
+   "r2": 0.2637
   },
   "weekCluster_step": {
-   "est": 0.2092,
-   "se": 0.1293,
+   "est": 0.2476,
+   "se": 0.1323,
    "ci95": [
-    -0.0577,
-    0.4762
+    -0.025,
+    0.5202
    ],
-   "n": 600,
-   "G": 25,
-   "aic": 3330.31,
-   "r2": 0.2882
+   "n": 633,
+   "G": 26,
+   "aic": 3516.06,
+   "r2": 0.3037
   },
   "weekBlockBootstrap_linear": {
    "ci95": [
-    0.261,
-    1.1456
+    0.3361,
+    1.2332
    ],
-   "median": 0.6863,
-   "pGt0": 0.9978,
-   "nBlocks": 25,
+   "median": 0.7949,
+   "pGt0": 0.9985,
+   "nBlocks": 26,
    "draws": 4000,
    "seed": 42
   },
   "weekBlockBootstrap_step": {
    "ci95": [
-    -0.1029,
-    0.5268
+    -0.0657,
+    0.5869
    ],
-   "median": 0.2191,
-   "pGt0": 0.9237,
-   "nBlocks": 25,
+   "median": 0.2491,
+   "pGt0": 0.9407,
+   "nBlocks": 26,
    "draws": 4000,
    "seed": 42
   },
   "leaveOneWeekOut_linear": [
    {
     "weekDropped": "2026-20",
-    "est": 0.7579,
+    "est": 0.8823,
     "ci95": [
-     0.3791,
-     1.1367
+     0.5291,
+     1.2355
     ]
    },
    {
     "weekDropped": "2026-21",
-    "est": 0.6979,
+    "est": 0.8184,
     "ci95": [
-     0.3432,
-     1.0525
+     0.4851,
+     1.1517
     ]
    },
    {
     "weekDropped": "2026-22",
-    "est": 0.7002,
+    "est": 0.8134,
     "ci95": [
-     0.3665,
-     1.0339
+     0.4983,
+     1.1286
     ]
    },
    {
     "weekDropped": "2026-23",
-    "est": 0.7054,
+    "est": 0.8184,
     "ci95": [
-     0.3693,
-     1.0416
+     0.5006,
+     1.1362
     ]
    },
    {
     "weekDropped": "2026-24",
-    "est": 0.752,
+    "est": 0.8653,
     "ci95": [
-     0.4021,
-     1.1019
+     0.5359,
+     1.1948
     ]
    },
    {
     "weekDropped": "2026-25",
-    "est": 0.7096,
+    "est": 0.8255,
     "ci95": [
-     0.3573,
-     1.0619
+     0.491,
+     1.1601
     ]
    },
    {
     "weekDropped": "2026-26",
-    "est": 0.6785,
+    "est": 0.7968,
     "ci95": [
-     0.3397,
-     1.0173
+     0.4755,
+     1.1181
     ]
    },
    {
     "weekDropped": "2026-27",
-    "est": 0.6747,
+    "est": 0.7893,
     "ci95": [
-     0.3399,
-     1.0095
+     0.4725,
+     1.1061
     ]
    },
    {
     "weekDropped": "2026-28",
-    "est": 0.6825,
+    "est": 0.7955,
     "ci95": [
-     0.3486,
-     1.0164
+     0.4799,
+     1.1111
     ]
    },
    {
     "weekDropped": "2026-29",
-    "est": 0.6975,
+    "est": 0.811,
     "ci95": [
-     0.3632,
-     1.0318
+     0.4934,
+     1.1285
     ]
    },
    {
     "weekDropped": "2026-30",
-    "est": 0.7045,
+    "est": 0.8149,
     "ci95": [
-     0.3621,
-     1.047
+     0.4903,
+     1.1395
     ]
    },
    {
     "weekDropped": "2026-31",
-    "est": 0.6848,
+    "est": 0.797,
     "ci95": [
-     0.3541,
-     1.0155
+     0.4845,
+     1.1096
     ]
    },
    {
     "weekDropped": "2026-32",
-    "est": 0.6646,
+    "est": 0.7765,
     "ci95": [
-     0.3404,
-     0.9889
+     0.4708,
+     1.0822
     ]
    },
    {
     "weekDropped": "2026-33",
-    "est": 0.6817,
+    "est": 0.7916,
     "ci95": [
-     0.3523,
-     1.0111
+     0.4803,
+     1.1029
     ]
    },
    {
     "weekDropped": "2026-34",
-    "est": 0.71,
+    "est": 0.8171,
     "ci95": [
-     0.3842,
-     1.0357
+     0.5101,
+     1.1242
     ]
    },
    {
     "weekDropped": "2026-35",
-    "est": 0.6718,
+    "est": 0.7815,
     "ci95": [
-     0.3464,
-     0.9972
+     0.4754,
+     1.0877
     ]
    },
    {
     "weekDropped": "2026-36",
-    "est": 0.7133,
+    "est": 0.8243,
     "ci95": [
-     0.3793,
-     1.0473
+     0.5111,
+     1.1376
     ]
    },
    {
     "weekDropped": "2026-37",
-    "est": 0.7204,
+    "est": 0.828,
     "ci95": [
-     0.3884,
-     1.0525
+     0.5199,
+     1.1361
     ]
    },
    {
     "weekDropped": "2026-38",
-    "est": 0.7294,
+    "est": 0.8383,
     "ci95": [
-     0.3902,
-     1.0685
+     0.5231,
+     1.1535
     ]
    },
    {
     "weekDropped": "2026-39",
-    "est": 0.6747,
+    "est": 0.7803,
     "ci95": [
-     0.3342,
-     1.0153
+     0.4648,
+     1.0958
     ]
    },
    {
     "weekDropped": "2026-40",
-    "est": 0.6808,
+    "est": 0.8151,
     "ci95": [
-     0.3185,
-     1.0432
+     0.4822,
+     1.1481
     ]
    },
    {
     "weekDropped": "2026-41",
-    "est": 0.6851,
+    "est": 0.8076,
     "ci95": [
-     0.3061,
-     1.064
+     0.46,
+     1.1552
     ]
    },
    {
     "weekDropped": "2026-42",
-    "est": 0.572,
+    "est": 0.7181,
     "ci95": [
-     0.2152,
-     0.9287
+     0.3835,
+     1.0527
     ]
    },
    {
     "weekDropped": "2026-44",
-    "est": 0.5661,
+    "est": 0.702,
     "ci95": [
-     0.3163,
-     0.8159
+     0.4402,
+     0.9638
     ]
    },
    {
     "weekDropped": "2026-45",
-    "est": 0.6073,
+    "est": 0.6454,
     "ci95": [
-     0.2534,
-     0.9612
+     0.2983,
+     0.9924
+    ]
+   },
+   {
+    "weekDropped": "2026-46",
+    "est": 0.7792,
+    "ci95": [
+     0.4608,
+     1.0975
     ]
    }
   ],
   "leaveOneWeekOut_range": [
-   0.5661,
-   0.7579
+   0.6454,
+   0.8823
   ],
-  "dayMeanResidualAutocorrLag1": 0.347
+  "dayMeanResidualAutocorrLag1": 0.338
  },
  "item4_matched": {
   "definition": "late (2026-10-10..2026-10-17) minus September, coarsened-exact matched on pack-T class (5), peak-I class (5), SOC class (4), distance class (3); weights = late drives per cell",
@@ -418,19 +426,19 @@
  },
  "item5_cadence": {
   "stepTermWithRegime": {
-   "est": 3.001,
-   "se": 0.7692,
+   "est": 3.2114,
+   "se": 0.7565,
    "ci95": [
-    1.4782,
-    4.5238
+    1.7143,
+    4.7085
    ]
   },
   "regimeTermWithStep": {
-   "est": 1.0216,
-   "se": 0.6169,
+   "est": 0.9776,
+   "se": 0.6176,
    "ci95": [
-    -0.1998,
-    2.2429
+    -0.2447,
+    2.1999
    ]
   },
   "byPeriod": {
@@ -465,30 +473,30 @@
     "medianPeriod_s": 0.869
    },
    "Oct10-17": {
-    "n": 73,
-    "slowShare": 0.36,
-    "medianPeriod_s": 0.953
+    "n": 106,
+    "slowShare": 0.25,
+    "medianPeriod_s": 0.952
    }
   },
   "slopeWithoutRegime": {
-   "est": 0.6844,
+   "est": 0.7977,
    "ci95": [
-    0.3533,
-    1.0155
+    0.485,
+    1.1104
    ]
   },
   "slopeWithRegime": {
-   "est": 0.7485,
+   "est": 0.8496,
    "ci95": [
-    0.3484,
-    1.1486
+    0.4589,
+    1.2403
    ]
   },
   "slopeWithRegimeAndStep": {
-   "est": 0.2881,
+   "est": 0.3286,
    "ci95": [
-    -0.0073,
-    0.5836
+    0.0368,
+    0.6204
    ]
   },
   "regimeRule": "slow: I_sample_period_s >= 1.10 s (M379a, amended M578, 1.10 s)"
@@ -606,23 +614,23 @@
   "stepDate": "2026-10-01",
   "minDrives": 10,
   "minDays": 5,
-  "nDrivesAfterCutoff": 24,
-  "nDaysAfterCutoff": 5,
+  "nDrivesAfterCutoff": 57,
+  "nDaysAfterCutoff": 9,
   "status": "evaluated",
-  "meanResidualMv": 6.857,
+  "meanResidualMv": 5.863,
   "meanResidualCi95": [
-   1.499,
-   12.215
+   3.908,
+   7.819
   ],
   "postStepSlope": {
-   "est": 5.2057,
-   "se": 2.0534,
+   "est": 3.6368,
+   "se": 1.0453,
    "ci95": [
-    0.9354,
-    9.4761
+    1.484,
+    5.7896
    ],
-   "n": 133,
-   "G": 22
+   "n": 166,
+   "G": 26
   },
   "outcome": "continued rise",
   "preStepModel": {
@@ -637,30 +645,30 @@
    "nFitDrives": 467
   },
   "preStepFitHash": "e62ccc8da486057ca958020dc8d47f5270d044d4d4fe2e725eeb3d0b5e06c15f",
-  "nBelowPreStepTmin": 6,
+  "nBelowPreStepTmin": 14,
   "nAbovePreStepTmax": 0,
   "inRangeSensitivity": {
-   "n": 18,
-   "days": 4,
-   "meetsSupportFloor": false,
-   "label": "post hoc; below the floor",
-   "meanResidualMv": 7.307,
+   "n": 43,
+   "days": 9,
+   "meetsSupportFloor": true,
+   "label": "post hoc sensitivity",
+   "meanResidualMv": 5.689,
    "meanResidualCi95": [
-    -0.952,
-    15.566
+    2.984,
+    8.394
    ]
   },
-  "evaluationNumber": 1,
+  "evaluationNumber": 2,
   "terminalEvaluation": {
    "status": "not reached",
    "rule": "terminal = first calendar day D after the cutoff 2026-10-17 with >= 20 in-range drives on >= 10 distinct in-range days (in-range = within the pre-step fit temperature range); fallback: the drives dated <= 2027-01-31; later looks are descriptive",
-   "nInRangeDrives": 18,
-   "nInRangeDays": 4,
+   "nInRangeDrives": 43,
+   "nInRangeDays": 9,
    "needDrives": 20,
    "needDays": 10,
    "fallbackDate": "2027-01-31"
   },
-  "lookLabel": "first evaluation at the minimum support (5 days)"
+  "lookLabel": "interim look 2; not the terminal evaluation"
  },
- "masterMd5After": "1574a8156a36c6ea4ea1dfdaafc7cc72"
+ "masterMd5After": "77bbe275f8c22eaf62d8636867764af3"
 }

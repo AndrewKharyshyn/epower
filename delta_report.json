@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-05T18:45:04+00:00",
+ "generated_utc": "2026-11-11T00:25:54+00:00",
  "has_baseline": true,
  "flags": [
   "EnergyIntensity.shoulder: cumulative drift > baseline CI half-width"
@@ -7,22 +7,22 @@
  "route_to_audit": true,
  "kpis": {
   "meta.totalDrives": {
-   "value": 632,
+   "value": 665,
    "ci": null,
    "prev": 632,
-   "delta": 0
+   "delta": 33
   },
   "EnergyIntensity.all (kWh/100km, canonical-clean)": {
-   "value": 17.60576062131476,
+   "value": 17.761723076220452,
    "ci": [
-    16.00641589645115,
-    19.673400808687322
+    16.2337947680214,
+    19.892769329505434
    ],
    "prev": 17.60576062131476,
-   "delta": 0.0,
+   "delta": 0.1559624549056906,
    "outside_prev_ci": false,
-   "delta_over_halfwidth": 0.0,
-   "cumulative_drift": 0.015627811825414284
+   "delta_over_halfwidth": 0.08506304696551517,
+   "cumulative_drift": 0.1715902667311049
   },
   "EnergyIntensity.warm": {
    "value": 17.20496027087479,
@@ -37,59 +37,59 @@
    "cumulative_drift": 0.21396918972947176
   },
   "EnergyIntensity.shoulder": {
-   "value": 19.562009106997277,
+   "value": 19.582655422787724,
    "ci": [
-    16.345269662086498,
-    25.19964319839219
+    16.407396623351904,
+    24.806210520794796
    ],
    "prev": 19.562009106997277,
-   "delta": 0.0,
+   "delta": 0.02064631579044729,
    "outside_prev_ci": false,
-   "delta_over_halfwidth": 0.0,
-   "cumulative_drift": -7.234742020004116
+   "delta_over_halfwidth": 0.004663529431142915,
+   "cumulative_drift": -7.214095704213669
   },
   "generatorTractionRecon.corpus.fGen": {
-   "value": 0.515,
+   "value": 0.509,
    "ci": null,
    "prev": 0.515,
-   "delta": 0.0
+   "delta": -0.006000000000000005
   },
   "generatorTractionRecon.corpus.etaBus": {
-   "value": 0.328,
+   "value": 0.326,
    "ci": null,
    "prev": 0.328,
-   "delta": 0.0
+   "delta": -0.0020000000000000018
   },
   "cellSpreadStep.M0 linear slope (mV/month)": {
-   "value": 0.7396,
+   "value": 0.8674,
    "ci": [
     null,
     null
    ],
    "prev": 0.7396,
-   "delta": 0.0
+   "delta": 0.1277999999999999
   },
   "cellSpreadStep.M3 step term (mV)": {
-   "value": 2.8941,
+   "value": 3.1333,
    "ci": [
     null,
     null
    ],
    "prev": 2.8941,
-   "delta": 0.0
+   "delta": 0.2392000000000003
   },
   "degradationTrends.cellSpread slope (mV/month, CR t-ref)": {
-   "value": 0.7396,
+   "value": 0.8674,
    "ci": [
     null,
     null
    ],
    "prev": 0.7396,
-   "delta": 0.0
+   "delta": 0.1277999999999999
   }
  },
  "gtrFamily": {
-  "label": "M578",
+  "label": "M608",
   "bands": {
    "speedSplitFgenAbs": 0.05,
    "simultaneityShareAbsPP": 5.0,
@@ -98,43 +98,43 @@
   "blocks": {
    "sensitivity": {
     "nDrives": {
-     "previous": 391,
-     "new": 402
+     "previous": 402,
+     "new": 435
     },
     "nDays": {
-     "previous": 70,
-     "new": 72
+     "previous": 72,
+     "new": 76
     },
-    "nDaysRelativeChange": 0.0286,
+    "nDaysRelativeChange": 0.0556,
     "maxAbsMove": {
-     "gen100": 0.06,
-     "trac100": 0.02,
-     "fgen": 0.002,
-     "etaBus": 0.001
+     "gen100": 0.12,
+     "trac100": 0.1,
+     "fgen": 0.006,
+     "etaBus": 0.002
     }
    },
    "simultaneity": {
     "nDrives": {
-     "previous": 391,
-     "new": 402
+     "previous": 402,
+     "new": 435
     },
     "nDays": {
-     "previous": 70,
-     "new": 72
+     "previous": 72,
+     "new": 76
     },
-    "nDaysRelativeChange": 0.0286,
+    "nDaysRelativeChange": 0.0556,
     "maxAbsMovePP": {
-     "genPlusBattDischarge": 0.1,
-     "chargesAndDrives": 0.1,
-     "genAloneNeutral": 0.4,
-     "fullyBanked": 0.2
+     "genPlusBattDischarge": 0.4,
+     "chargesAndDrives": 0.3,
+     "genAloneNeutral": 0.3,
+     "fullyBanked": 0.3
     },
     "rowMovePP": {
      "urban": {
-      "genPlusBattDischarge": -0.1,
-      "chargesAndDrives": -0.1,
-      "genAloneNeutral": 0.4,
-      "fullyBanked": -0.2
+      "genPlusBattDischarge": 0.4,
+      "chargesAndDrives": -0.3,
+      "genAloneNeutral": 0.3,
+      "fullyBanked": -0.3
      },
      "mixed": {
       "genPlusBattDischarge": 0.0,
@@ -149,7 +149,7 @@
       "fullyBanked": 0.0
      },
      "highway": {
-      "genPlusBattDischarge": 0.0,
+      "genPlusBattDischarge": -0.1,
       "chargesAndDrives": 0.0,
       "genAloneNeutral": 0.0,
       "fullyBanked": 0.0
@@ -158,58 +158,54 @@
    },
    "speedSplit": {
     "nDrives": {
-     "previous": 391,
-     "new": 402
+     "previous": 402,
+     "new": 435
     },
     "nDays": {
-     "previous": 70,
-     "new": 72
+     "previous": 72,
+     "new": 76
     },
-    "nDaysRelativeChange": 0.0286,
-    "maxAbsMoveFgen": 0.0062
+    "nDaysRelativeChange": 0.0556,
+    "maxAbsMoveFgen": 0.0112
    }
   },
   "flipAcknowledgement": {
-   "ruling": "analyses/M578_gtr_director_ruling.json",
-   "driveMasterMd5": "1574a8156a36c6ea4ea1dfdaafc7cc72",
-   "sensitivityAxesSha256": "cfbaea840c185878857ee752e693c9ef5e35fbc88ab66827dd3eb9eafd853b07",
+   "ruling": "analyses/M608_gtr_director_ruling.json",
+   "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3",
+   "sensitivityAxesSha256": "c8e51fc7ec455b224ad667edfef302e0e2a7076f1981644d0c477e60c7076ccd",
    "acknowledged": [
     {
      "axis": "BASE (central)",
-     "fgen": 0.515
+     "fgen": 0.509
     },
     {
      "axis": "BSFC optimistic (-6%)",
-     "fgen": 0.534
+     "fgen": 0.528
     },
     {
      "axis": "OPT band wide (1750-2250)",
-     "fgen": 0.515
+     "fgen": 0.51
     },
     {
      "axis": "P_aux high (1.2kW)",
-     "fgen": 0.536
-    },
-    {
-     "axis": "P_aux low (0.2kW)",
-     "fgen": 0.505
-    },
-    {
-     "axis": "cold penalty OFF",
      "fgen": 0.531
     },
     {
+     "axis": "cold penalty OFF",
+     "fgen": 0.527
+    },
+    {
      "axis": "cold penalty heavy (\u00d71.45)",
-     "fgen": 0.507
+     "fgen": 0.501
     },
     {
      "axis": "\u03b7_gen high (0.97)",
-     "fgen": 0.522
+     "fgen": 0.517
     }
    ],
    "scope": "sensitivity f_gen >= 0.5 stop only; the frozen M373 flip list is unchanged"
   },
-  "changedPaths": 96,
+  "changedPaths": 103,
   "stops": []
  },
  "gtrClosure": {
@@ -218,59 +214,59 @@
    {
     "path": "/alphaStar",
     "prev": [
-     0.619,
-     [
-      0.598,
-      0.638
-     ]
-    ],
-    "new": [
      0.62,
      [
       0.6,
       0.639
      ]
     ],
+    "new": [
+     0.621,
+     [
+      0.601,
+      0.639
+     ]
+    ],
     "newEstInsidePrevCI": true,
-    "ciWidthRatio": 0.975
+    "ciWidthRatio": 0.9744
    },
    {
     "path": "/excessWithoutDual",
     "prev": [
-     -0.0891,
-     [
-      -0.1153,
-      -0.0715
-     ]
-    ],
-    "new": [
      -0.0897,
      [
       -0.116,
       -0.0729
      ]
     ],
+    "new": [
+     -0.0918,
+     [
+      -0.1189,
+      -0.0747
+     ]
+    ],
     "newEstInsidePrevCI": true,
-    "ciWidthRatio": 0.984
+    "ciWidthRatio": 1.0255
    },
    {
     "path": "/fGen",
     "prev": [
-     0.5165,
-     [
-      0.4278,
-      0.5797
-     ]
-    ],
-    "new": [
      0.5148,
      [
       0.4251,
       0.576
      ]
     ],
+    "new": [
+     0.5093,
+     [
+      0.4196,
+      0.5696
+     ]
+    ],
     "newEstInsidePrevCI": true,
-    "ciWidthRatio": 0.9934
+    "ciWidthRatio": 0.994
    },
    {
     "path": "/nodeExcess",
@@ -278,46 +274,46 @@
      0.0549,
      [
       0.043,
-      0.0735
-     ]
-    ],
-    "new": [
-     0.0549,
-     [
-      0.043,
       0.0734
      ]
     ],
+    "new": [
+     0.0561,
+     [
+      0.0441,
+      0.0746
+     ]
+    ],
     "newEstInsidePrevCI": true,
-    "ciWidthRatio": 0.9967
+    "ciWidthRatio": 1.0033
    }
   ],
   "pointOnly": [
    {
     "path": "/alphaStar/nInfeasibleDrivesBaseline",
-    "prev": 23,
-    "new": 24,
+    "prev": 24,
+    "new": 25,
     "comparedAs": "share of set size",
-    "prevShare": 0.0591,
-    "newShare": 0.06,
-    "absDiff": 0.000874,
-    "relDiff": 0.01478,
+    "prevShare": 0.06,
+    "newShare": 0.0577,
+    "absDiff": 0.002263,
+    "relDiff": 0.03772,
     "withinBand": true
    },
    {
     "path": "/alphaStar/variantMax",
-    "prev": 0.779,
+    "prev": 0.782,
     "new": 0.782,
-    "absDiff": 0.003,
-    "relDiff": 0.00385,
+    "absDiff": 0.0,
+    "relDiff": 0.0,
     "withinBand": true
    },
    {
     "path": "/alphaStar/variantMin",
-    "prev": 0.199,
-    "new": 0.203,
-    "absDiff": 0.004,
-    "relDiff": 0.0201,
+    "prev": 0.203,
+    "new": 0.211,
+    "absDiff": 0.008,
+    "relDiff": 0.03941,
     "withinBand": true
    },
    {
@@ -330,34 +326,34 @@
    },
    {
     "path": "/fGen/variantMax",
-    "prev": 0.5382,
-    "new": 0.5364,
-    "absDiff": 0.0018,
-    "relDiff": 0.00334,
+    "prev": 0.5364,
+    "new": 0.5312,
+    "absDiff": 0.0052,
+    "relDiff": 0.00969,
     "withinBand": true
    },
    {
     "path": "/fGen/variantMin",
-    "prev": 0.4743,
-    "new": 0.4726,
-    "absDiff": 0.0017,
-    "relDiff": 0.00358,
+    "prev": 0.4726,
+    "new": 0.4676,
+    "absDiff": 0.005,
+    "relDiff": 0.01058,
     "withinBand": true
    },
    {
     "path": "/interval/hi",
     "prev": 0.0549,
-    "new": 0.0549,
-    "absDiff": 0.0,
-    "relDiff": 0.0,
+    "new": 0.0561,
+    "absDiff": 0.0012,
+    "relDiff": 0.02186,
     "withinBand": true
    },
    {
     "path": "/interval/lo",
-    "prev": -0.0891,
-    "new": -0.0897,
-    "absDiff": 0.0006,
-    "relDiff": 0.00673,
+    "prev": -0.0897,
+    "new": -0.0918,
+    "absDiff": 0.0021,
+    "relDiff": 0.02341,
     "withinBand": true
    },
    {
@@ -378,58 +374,58 @@
    },
    {
     "path": "/per100km/battToTractionResidual",
-    "prev": 8.855,
-    "new": 8.891,
-    "absDiff": 0.036,
-    "relDiff": 0.00407,
+    "prev": 8.891,
+    "new": 9.013,
+    "absDiff": 0.122,
+    "relDiff": 0.01372,
     "withinBand": true
    },
    {
     "path": "/per100km/genToBattDual",
-    "prev": 2.296,
-    "new": 2.309,
-    "absDiff": 0.013,
-    "relDiff": 0.00566,
+    "prev": 2.309,
+    "new": 2.371,
+    "absDiff": 0.062,
+    "relDiff": 0.02685,
     "withinBand": true
    },
    {
     "path": "/per100km/genToBattEngineOn",
-    "prev": 5.057,
-    "new": 5.105,
-    "absDiff": 0.048,
-    "relDiff": 0.00949,
+    "prev": 5.105,
+    "new": 5.204,
+    "absDiff": 0.099,
+    "relDiff": 0.01939,
     "withinBand": true
    },
    {
     "path": "/per100km/genToBattUpper",
-    "prev": 7.353,
-    "new": 7.414,
-    "absDiff": 0.061,
-    "relDiff": 0.0083,
+    "prev": 7.414,
+    "new": 7.576,
+    "absDiff": 0.162,
+    "relDiff": 0.02185,
     "withinBand": true
    },
    {
     "path": "/per100km/genToTraction",
-    "prev": 9.46,
-    "new": 9.433,
-    "absDiff": 0.027,
-    "relDiff": 0.00285,
+    "prev": 9.433,
+    "new": 9.354,
+    "absDiff": 0.079,
+    "relDiff": 0.00837,
     "withinBand": true
    },
    {
     "path": "/per100km/generator",
-    "prev": 15.938,
-    "new": 15.971,
-    "absDiff": 0.033,
-    "relDiff": 0.00207,
+    "prev": 15.971,
+    "new": 16.03,
+    "absDiff": 0.059,
+    "relDiff": 0.00369,
     "withinBand": true
    },
    {
     "path": "/per100km/regenToBatt",
-    "prev": 2.674,
-    "new": 2.673,
-    "absDiff": 0.001,
-    "relDiff": 0.00037,
+    "prev": 2.673,
+    "new": 2.675,
+    "absDiff": 0.002,
+    "relDiff": 0.00075,
     "withinBand": true
    }
   ],
@@ -439,23 +435,23 @@
   "scopeChanges": [
    {
     "path": "/scope/km",
-    "prev": 3771.2,
-    "new": 3826.7
+    "prev": 3826.7,
+    "new": 3994.8
    },
    {
     "path": "/scope/nCanonical",
-    "prev": 621,
-    "new": 632
+    "prev": 632,
+    "new": 665
    },
    {
     "path": "/scope/nDays",
-    "prev": 70,
-    "new": 72
+    "prev": 72,
+    "new": 76
    },
    {
     "path": "/scope/nDrives",
-    "prev": 389,
-    "new": 400
+    "prev": 400,
+    "new": 433
    }
   ],
   "stringChanges": [
@@ -492,107 +488,239 @@
    "nStringChanges": 5
   },
   "set": {
-   "nDrives": 400,
-   "nDays": 72,
-   "km": 3826.7,
-   "nPrevious": 389,
-   "nNew": 11,
+   "nDrives": 433,
+   "nDays": 76,
+   "km": 3994.8,
+   "nPrevious": 400,
+   "nNew": 33,
    "newIds": [
     {
-     "file": "2026-11-03_19-55-57.csv",
-     "date": "2026-11-03",
-     "km": 19.1,
-     "type": "urban"
-    },
-    {
-     "file": "2026-11-04_07-45-12.csv",
-     "date": "2026-11-04",
-     "km": 2.5,
-     "type": "urban"
-    },
-    {
-     "file": "2026-11-04_08-01-15.csv",
-     "date": "2026-11-04",
-     "km": 0.7,
-     "type": "urban"
-    },
-    {
-     "file": "2026-11-04_08-17-06.csv",
-     "date": "2026-11-04",
-     "km": 1.1,
-     "type": "urban"
-    },
-    {
-     "file": "2026-11-04_08-25-16.csv",
-     "date": "2026-11-04",
-     "km": 1.0,
-     "type": "urban"
-    },
-    {
-     "file": "2026-11-04_19-12-25.csv",
-     "date": "2026-11-04",
-     "km": 2.0,
-     "type": "urban"
-    },
-    {
-     "file": "2026-11-04_19-23-52.csv",
-     "date": "2026-11-04",
+     "file": "2026-11-05_19-24-15.csv",
+     "date": "2026-11-05",
      "km": 2.1,
      "type": "urban"
     },
     {
-     "file": "2026-11-04_19-40-19.csv",
-     "date": "2026-11-04",
+     "file": "2026-11-05_19-52-41.csv",
+     "date": "2026-11-05",
+     "km": 1.9,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-05_21-52-15.csv",
+     "date": "2026-11-05",
+     "km": 12.6,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-06_07-48-22.csv",
+     "date": "2026-11-06",
+     "km": 4.2,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-06_14-22-59.csv",
+     "date": "2026-11-06",
+     "km": 1.9,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-06_20-45-43.csv",
+     "date": "2026-11-06",
+     "km": 23.1,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-06_21-23-28.csv",
+     "date": "2026-11-06",
+     "km": 33.6,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-07_09-50-01.csv",
+     "date": "2026-11-07",
+     "km": 4.1,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-07_11-24-19.csv",
+     "date": "2026-11-07",
+     "km": 9.0,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-07_11-51-36.csv",
+     "date": "2026-11-07",
+     "km": 3.6,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-07_12-10-30.csv",
+     "date": "2026-11-07",
+     "km": 2.0,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-07_13-47-43.csv",
+     "date": "2026-11-07",
+     "km": 6.8,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-07_14-19-49.csv",
+     "date": "2026-11-07",
+     "km": 7.5,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-07_14-45-12.csv",
+     "date": "2026-11-07",
+     "km": 1.5,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-07_15-01-29.csv",
+     "date": "2026-11-07",
+     "km": 0.9,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-07_15-08-05.csv",
+     "date": "2026-11-07",
+     "km": 0.7,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-07_15-25-29.csv",
+     "date": "2026-11-07",
+     "km": 2.1,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-07_16-54-28.csv",
+     "date": "2026-11-07",
+     "km": 3.1,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-08_11-49-25.csv",
+     "date": "2026-11-08",
+     "km": 2.4,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-08_12-26-11.csv",
+     "date": "2026-11-08",
+     "km": 2.4,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-08_12-56-29.csv",
+     "date": "2026-11-08",
+     "km": 2.2,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-08_13-09-32.csv",
+     "date": "2026-11-08",
+     "km": 2.1,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-08_16-27-23.csv",
+     "date": "2026-11-08",
+     "km": 1.1,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-08_16-34-56.csv",
+     "date": "2026-11-08",
+     "km": 1.5,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-08_16-57-01.csv",
+     "date": "2026-11-08",
+     "km": 5.6,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-08_18-34-25.csv",
+     "date": "2026-11-08",
+     "km": 15.0,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-09_07-45-26.csv",
+     "date": "2026-11-09",
      "km": 2.3,
      "type": "urban"
     },
     {
-     "file": "2026-11-04_21-26-25.csv",
-     "date": "2026-11-04",
-     "km": 0.8,
+     "file": "2026-11-09_08-04-01.csv",
+     "date": "2026-11-09",
+     "km": 2.5,
      "type": "urban"
     },
     {
-     "file": "2026-11-04_21-34-14.csv",
-     "date": "2026-11-04",
-     "km": 18.0,
+     "file": "2026-11-09_16-07-41.csv",
+     "date": "2026-11-09",
+     "km": 1.8,
      "type": "urban"
     },
     {
-     "file": "2026-11-05_09-13-42.csv",
-     "date": "2026-11-05",
-     "km": 5.9,
+     "file": "2026-11-09_16-19-16.csv",
+     "date": "2026-11-09",
+     "km": 2.1,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-09_18-32-27.csv",
+     "date": "2026-11-09",
+     "km": 1.6,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-09_19-54-36.csv",
+     "date": "2026-11-09",
+     "km": 2.4,
+     "type": "urban"
+    },
+    {
+     "file": "2026-11-09_20-11-42.csv",
+     "date": "2026-11-09",
+     "km": 2.4,
      "type": "urban"
     }
    ],
    "previousPerDrive": {
-    "path": "analyses/closure_baselines/perdrive_389drives.csv",
-    "sha256": "3d47052deff5cf7787b32ade9b043653929137011183c7e8d7fc4fc08d359879",
-    "nDrives": 389,
-    "master": "1e599176dafd8575dc7addede8d79358"
+    "path": "analyses/closure_baselines/perdrive_400drives.csv",
+    "sha256": "92a40589b61f497796fcfd9da5eba749b8550ce68b4c8b4adaab7fc3f6b09f05",
+    "nDrives": 400,
+    "master": "1574a8156a36c6ea4ea1dfdaafc7cc72"
    }
   },
   "checks": {
    "rawOriginals": {
-    "nChecked": 400,
+    "nChecked": 433,
     "nMismatch": 0
    },
    "flags": {
-    "nCompared": 620,
+    "nCompared": 653,
     "nDiverging": 0
    },
    "repin": {
     "previousPerDrive": {
-     "path": "analyses/closure_baselines/perdrive_389drives_recal_1574a815.csv",
-     "sha256": "0cf49f60ba9a1038e6bd068d50b86fbd8633a9a5e1089ad856913294053c9c0d",
-     "nDrives": 389,
-     "master": "1574a8156a36c6ea4ea1dfdaafc7cc72"
+     "path": "analyses/closure_baselines/perdrive_400drives_recal_77bbe275.csv",
+     "sha256": "3c9b8423cab9c9e6aac9e9c3b162e4466abea07b0272e19b64be03323b1a2c17",
+     "nDrives": 400,
+     "master": "77bbe275f8c22eaf62d8636867764af3"
     },
     "repinnedFrom": {
-     "path": "analyses/closure_baselines/perdrive_389drives.csv",
-     "sha256": "3d47052deff5cf7787b32ade9b043653929137011183c7e8d7fc4fc08d359879",
-     "nDrives": 389,
-     "master": "1e599176dafd8575dc7addede8d79358"
+     "path": "analyses/closure_baselines/perdrive_400drives.csv",
+     "sha256": "92a40589b61f497796fcfd9da5eba749b8550ce68b4c8b4adaab7fc3f6b09f05",
+     "nDrives": 400,
+     "master": "1574a8156a36c6ea4ea1dfdaafc7cc72"
     },
     "repinReason": "auto (M398): closure drift attributed to the recalibrated offset columns (hybrid run reproduces the pin exactly; changed columns ['I_offset_2p_A_applied', 'I_offset_A_applied', 'cell_spread_loaded_p95_adj_hub_mv', 'cell_spread_loaded_p95_adj_mv', 'energy_residual_kwh_corr', 'energy_residual_kwh_corr2p', 'net_draw_kwh_corr', 'net_draw_kwh_corr2p', 'net_draw_per100km_corr', 'net_draw_per100km_corr2p', 'offset_2p_kwh_removed', 'offset_kwh_removed'])",
     "note": "re-pinned automatically (M398): closure drift attributed to the recalibrated offset columns, hybrid run reproduces the previous pin exactly; identity stays exact (1e-5) for later runs",
@@ -615,81 +743,81 @@
      ],
      "allWithinRecalibrationColumns": true,
      "hybridRunIdentityExact": true,
-     "nPrevious": 389,
+     "nPrevious": 400,
      "tolerance": {
       "maxAbs": 0.001,
       "colSumRelChange": 0.001
      },
      "driftColumns": {
       "g2t": {
-       "nDrivesChanged": 27,
-       "maxAbs": 4e-05,
-       "colSumRelChange": 1.4e-06
+       "nDrivesChanged": 144,
+       "maxAbs": 0.00029,
+       "colSumRelChange": 1.188e-05
       },
       "trac": {
-       "nDrivesChanged": 29,
-       "maxAbs": 3e-05,
-       "colSumRelChange": 1.9e-07
+       "nDrivesChanged": 142,
+       "maxAbs": 0.00022,
+       "colSumRelChange": 1.6e-06
       },
       "b2t": {
-       "nDrivesChanged": 18,
-       "maxAbs": 2e-05,
-       "colSumRelChange": 9.6e-07
+       "nDrivesChanged": 131,
+       "maxAbs": 0.0001,
+       "colSumRelChange": 9.35e-06
       },
       "g2b_model": {
-       "nDrivesChanged": 33,
-       "maxAbs": 4e-05,
-       "colSumRelChange": 2.17e-06
+       "nDrivesChanged": 150,
+       "maxAbs": 0.00028,
+       "colSumRelChange": 1.707e-05
       },
       "excess": {
-       "nDrivesChanged": 24,
-       "maxAbs": 4e-05,
-       "colSumRelChange": 1.606e-05
+       "nDrivesChanged": 110,
+       "maxAbs": 0.00028,
+       "colSumRelChange": 0.00012733
       },
       "excess_engonly": {
-       "nDrivesChanged": 29,
-       "maxAbs": 4e-05,
-       "colSumRelChange": 9.89e-06
+       "nDrivesChanged": 131,
+       "maxAbs": 0.00028,
+       "colSumRelChange": 7.79e-05
       },
       "excess_ps": {
-       "nDrivesChanged": 24,
-       "maxAbs": 4e-05,
-       "colSumRelChange": 1.606e-05
+       "nDrivesChanged": 110,
+       "maxAbs": 0.00028,
+       "colSumRelChange": 0.00012733
       },
       "batt_resid": {
-       "nDrivesChanged": 19,
-       "maxAbs": 2e-05,
-       "colSumRelChange": 7.24e-06
+       "nDrivesChanged": 118,
+       "maxAbs": 0.0001,
+       "colSumRelChange": 6.951e-05
       },
       "batt_resid_modelg2b": {
-       "nDrivesChanged": 27,
-       "maxAbs": 3e-05,
-       "colSumRelChange": 1.786e-05
+       "nDrivesChanged": 124,
+       "maxAbs": 0.00022,
+       "colSumRelChange": 8.433e-05
       }
      },
      "nDrivesChangedConvention": "at >1e-5 on 5-dp rounded values (descriptive only; the decision uses maxAbs and colSumRelChange)",
      "cumulativeVsOriginalPin": null
     },
     "originalPin": {
-     "path": "analyses/closure_baselines/perdrive_389drives.csv",
-     "sha256": "3d47052deff5cf7787b32ade9b043653929137011183c7e8d7fc4fc08d359879",
-     "nDrives": 389,
-     "master": "1e599176dafd8575dc7addede8d79358"
+     "path": "analyses/closure_baselines/perdrive_400drives.csv",
+     "sha256": "92a40589b61f497796fcfd9da5eba749b8550ce68b4c8b4adaab7fc3f6b09f05",
+     "nDrives": 400,
+     "master": "1574a8156a36c6ea4ea1dfdaafc7cc72"
     }
    },
    "previousIdentity": {
     "attributedRecalibrationDrift": true,
     "newPin": {
-     "path": "analyses/closure_baselines/perdrive_389drives_recal_1574a815.csv",
-     "sha256": "0cf49f60ba9a1038e6bd068d50b86fbd8633a9a5e1089ad856913294053c9c0d",
-     "nDrives": 389,
-     "master": "1574a8156a36c6ea4ea1dfdaafc7cc72"
+     "path": "analyses/closure_baselines/perdrive_400drives_recal_77bbe275.csv",
+     "sha256": "3c9b8423cab9c9e6aac9e9c3b162e4466abea07b0272e19b64be03323b1a2c17",
+     "nDrives": 400,
+     "master": "77bbe275f8c22eaf62d8636867764af3"
     }
    }
   },
   "specSha256Frozen": "96b1297f047eaaf46314c797b2d32f63626b45cadbb90f20335cc1bb45c3e745",
   "infeasibleAlphaDrives": {
-   "n": 24,
+   "n": 25,
    "inPreviousSet": [
     "2026-09-14_07-50-59.csv",
     "2026-09-16_14-01-15.csv",
@@ -705,6 +833,7 @@
     "2026-10-15_10-40-56.csv",
     "2026-10-16_19-23-56.csv",
     "2026-10-17_23-13-01.csv",
+    "2026-11-04_21-26-25.csv",
     "20260515_075207.csv",
     "20260603_122008.csv",
     "20260814_101007.csv",
@@ -716,41 +845,95 @@
     "20260909_140527.csv"
    ],
    "inNewDrives": [
-    "2026-11-04_21-26-25.csv"
+    "2026-11-09_16-07-41.csv"
    ]
   }
  },
  "dissipationMonitor": {
   "informational": "report-only (M394): never routes to audit; list the flags in the CHANGELOG acknowledgement",
-  "n_new_drives": 11,
-  "n_flags": 3,
+  "n_new_drives": 33,
+  "n_flags": 9,
   "flags": [
    {
-    "band": "10-15C",
-    "dur_s": 20,
-    "file": "2026-11-04_07-45-12.csv",
+    "band": "15-25C",
+    "dur_s": 21,
+    "file": "2026-11-05_21-52-15.csv",
     "flag": "fuel_event_not_in_census",
     "note": "fuel-indicated unfuelled (unconfirmed by census; low-power fuelled generation not ruled out)",
-    "rpm_mean": 1589.3,
-    "soc_mean": 79.0
+    "rpm_mean": 1505.3,
+    "soc_mean": 77.1
    },
    {
-    "band": "15-25C",
-    "dur_s": 15,
-    "file": "2026-11-04_21-34-14.csv",
+    "band": "10-15C",
+    "dur_s": 10,
+    "file": "2026-11-06_07-48-22.csv",
     "flag": "fuel_event_not_in_census",
     "note": "fuel-indicated unfuelled (unconfirmed by census; low-power fuelled generation not ruled out)",
-    "rpm_mean": 1570.1,
+    "rpm_mean": 1625.3,
+    "soc_mean": 79.6
+   },
+   {
+    "band": "10-15C",
+    "dur_s": 14,
+    "file": "2026-11-06_07-48-22.csv",
+    "flag": "fuel_event_not_in_census",
+    "note": "fuel-indicated unfuelled (unconfirmed by census; low-power fuelled generation not ruled out)",
+    "rpm_mean": 1645.9,
     "soc_mean": 79.2
    },
    {
     "band": "10-15C",
     "dur_s": 12,
-    "file": "2026-11-05_09-13-42.csv",
+    "file": "2026-11-06_07-48-22.csv",
     "flag": "fuel_event_not_in_census",
     "note": "fuel-indicated unfuelled (unconfirmed by census; low-power fuelled generation not ruled out)",
-    "rpm_mean": 1684.9,
+    "rpm_mean": 1668.1,
     "soc_mean": 79.5
+   },
+   {
+    "band": "10-15C",
+    "dur_s": 11,
+    "file": "2026-11-07_09-50-01.csv",
+    "flag": "fuel_event_not_in_census",
+    "note": "fuel-indicated unfuelled (unconfirmed by census; low-power fuelled generation not ruled out)",
+    "rpm_mean": 1718.7,
+    "soc_mean": 79.9
+   },
+   {
+    "band": "5-10C",
+    "dur_s": 10,
+    "file": "2026-11-08_12-26-11.csv",
+    "flag": "fuel_event_not_in_census",
+    "note": "fuel-indicated unfuelled (unconfirmed by census; low-power fuelled generation not ruled out)",
+    "rpm_mean": 1527.6,
+    "soc_mean": 78.8
+   },
+   {
+    "band": "5-10C",
+    "dur_s": 10,
+    "file": "2026-11-09_07-45-26.csv",
+    "flag": "fuel_event_not_in_census",
+    "note": "fuel-indicated unfuelled (unconfirmed by census; low-power fuelled generation not ruled out)",
+    "rpm_mean": 1568.3,
+    "soc_mean": 79.6
+   },
+   {
+    "band": "10-15C",
+    "dur_s": 11,
+    "file": "2026-11-09_08-04-01.csv",
+    "flag": "fuel_event_not_in_census",
+    "note": "fuel-indicated unfuelled (unconfirmed by census; low-power fuelled generation not ruled out)",
+    "rpm_mean": 1662.5,
+    "soc_mean": 79.4
+   },
+   {
+    "band": "10-15C",
+    "dur_s": 15,
+    "file": "2026-11-09_08-04-01.csv",
+    "flag": "fuel_event_not_in_census",
+    "note": "fuel-indicated unfuelled (unconfirmed by census; low-power fuelled generation not ruled out)",
+    "rpm_mean": 1667.3,
+    "soc_mean": 79.3
    }
   ],
   "validation_gap_bands": [
@@ -760,15 +943,23 @@
  "cadenceMonitor": {
   "informational": "report-only (M396): never routes to audit; report any flag to the owner first",
   "expected_regime": "fast",
-  "n_new_drives": 11,
-  "n_flags": 0,
+  "n_new_drives": 33,
+  "n_flags": 1,
   "flags": [
    {
-    "flag": "fast_polling_confirmed",
-    "info": true,
-    "median_interval_new_s": 0.972,
-    "n_fast_new": 11,
-    "n_new": 11
+    "action": "check the app PID / polling settings (HV-current channel); fast polling was re-activated on 2026-10-09 and is expected",
+    "after_fast_in_batch_or_before": true,
+    "first_slow_date": "2026-11-07",
+    "first_slow_file": "2026-11-07_11-51-36.csv",
+    "first_slow_time": "11:51:56.609",
+    "flag": "cadence_slow_while_fast_expected",
+    "median_interval_new_slow_s": 1.145,
+    "n_fast_new": 32,
+    "n_new": 33,
+    "n_slow_new": 1,
+    "reference_fast_median_s": 0.919,
+    "reference_slow_median_s": 1.407,
+    "slower_than_reference_slow": false
    }
   ],
   "last_regime": "fast"

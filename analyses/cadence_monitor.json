@@ -50,26 +50,50 @@
    "reference_fast_median_s": 0.843,
    "reference_slow_median_s": 1.404,
    "slower_than_reference_slow": false
+  },
+  {
+   "action": "check the app PID / polling settings (HV-current channel); fast polling was re-activated on 2026-10-09 and is expected",
+   "after_fast_in_batch_or_before": true,
+   "first_slow_date": "2026-11-07",
+   "first_slow_file": "2026-11-07_11-51-36.csv",
+   "first_slow_time": "11:51:56.609",
+   "flag": "cadence_slow_while_fast_expected",
+   "median_interval_new_slow_s": 1.145,
+   "n_fast_new": 32,
+   "n_new": 33,
+   "n_slow_new": 1,
+   "recorded_with_last_file": "2026-11-09_20-11-42.csv",
+   "reference_fast_median_s": 0.919,
+   "reference_slow_median_s": 1.407,
+   "slower_than_reference_slow": false
   }
  ],
  "last_regime": "fast",
  "last_seen": [
-  "2026-11-05",
-  "09:14:02.371",
-  "2026-11-05_09-13-42.csv"
+  "2026-11-09",
+  "20:12:11.409",
+  "2026-11-09_20-11-42.csv"
  ],
  "last_update": {
   "flags": [
    {
-    "flag": "fast_polling_confirmed",
-    "info": true,
-    "median_interval_new_s": 0.972,
-    "n_fast_new": 11,
-    "n_new": 11
+    "action": "check the app PID / polling settings (HV-current channel); fast polling was re-activated on 2026-10-09 and is expected",
+    "after_fast_in_batch_or_before": true,
+    "first_slow_date": "2026-11-07",
+    "first_slow_file": "2026-11-07_11-51-36.csv",
+    "first_slow_time": "11:51:56.609",
+    "flag": "cadence_slow_while_fast_expected",
+    "median_interval_new_slow_s": 1.145,
+    "n_fast_new": 32,
+    "n_new": 33,
+    "n_slow_new": 1,
+    "reference_fast_median_s": 0.919,
+    "reference_slow_median_s": 1.407,
+    "slower_than_reference_slow": false
    }
   ],
-  "n_flags": 0,
-  "n_new_drives": 11
+  "n_flags": 1,
+  "n_new_drives": 33
  },
  "n_drives_at_bootstrap": 554,
  "rule": "regime per drive from the sidecar (fast: master I_sample_period_s < 1.05 s, M379a); flag = a new drive is slow while fast polling is expected (owner re-activated it 2026-10-09); report-only; thresholds fixed and not tuned (analyses/M396_spec.md)"

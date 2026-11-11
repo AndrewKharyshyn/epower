@@ -1,5 +1,10 @@
 {
- "lastFlags": [],
+ "lastFlags": [
+  "cold/temperature: available changed",
+  "cold/temperature: groups changed",
+  "cold/temperature: bands changed",
+  "cold/speed: bands changed"
+ ],
  "state": {
   "all": {
    "speed": {
@@ -42,13 +47,27 @@
   "cold": {
    "speed": {
     "available": false,
-    "bands": [],
+    "bands": [
+     "band 55-60",
+     "band 66-69",
+     "band 72-100"
+    ],
     "groups": []
    },
    "temperature": {
-    "available": false,
-    "bands": [],
-    "groups": []
+    "available": true,
+    "bands": [
+     "band 55-60",
+     "band 60-63",
+     "band 63-66",
+     "band 66-69",
+     "band 69-72",
+     "band 72-100"
+    ],
+    "groups": [
+     "10\u201320\u00b0C",
+     "20\u201330\u00b0C"
+    ]
    }
   },
   "shoulder": {

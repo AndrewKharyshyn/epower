@@ -1,0 +1,19 @@
+{
+ "milestone": "M608",
+ "date": "2026-11-10",
+ "role": "research-director (Opus), brief of the main session",
+ "decision": "revise",
+ "text": "M608 M494 urban week-block stop, 665 master. Overall verdict 'depends on the resampling unit' and every per-band verdict equal the published M578 state: not a verdict change. Ack may be issued on the M575/M578 basis once conditions (a)-(d) pass mechanically; if all pass no second Director round is needed.",
+ "conditions": [
+  "(a) script-written point estimate per band x procedure vs its M578 CI; any point outside its previous CI -> blind audit and back to the Director",
+  "(b) thermal_regime of the 33 new drives and per-band per-cohort drive/day/week counts vs M578; state plainly if a shift comes from composition",
+  "(c) explain why the 3-10 km joint-day interval moved (upper 0.19 -> 0.30) while W/WS did not at 2 dp (new days in the joint set vs new drives in the band); if new drives entered 3-10 km, reproduce W/WS in the blind audit",
+  "(d) ack bound to masterMd5 and nDrives=665 verified at the gate run; nChanged 9 inside the allow-list; CHANGELOG M608 states no Andrii approval exists or is implied"
+ ],
+ "wording": [
+  "Reuse the M575 wording verbatim: day-clustered reading primary; at 3-10 km the W/WS intervals exclude zero while the day-clustered interval includes it; narrower block intervals are not stronger evidence; Warm-vs-Shoulder contrast not established; thermal cohorts confounded with season, date and drift.",
+  "Never: significant, robust, confirmed, accounts for dependence, no seasonal effect, tighter, more precise, at the edge of zero, verdict confirmed by new data."
+ ],
+ "followUp": "Tooling milestone (spec first): auto-pass when verdict and deciding-band digest equal the acknowledged state.",
+ "orderingNote": "Conditions (a)-(c) were evaluated on the produced payload before commit, not before the splice (the stage output was discarded by rollback); splice is working-tree only."
+}

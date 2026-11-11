@@ -2,9 +2,9 @@
  "milestone": "M377c",
  "step": 1,
  "basis": "raw/ = sha256-verified originals (M366); canonical-clean (ens_outlier_v2 False), distance>0, fuel PID",
- "n_drives": 400,
- "n_days": 72,
- "km": 3826.74,
+ "n_drives": 433,
+ "n_days": 76,
+ "km": 3994.84,
  "skipped": {
   "no_file": 0,
   "no_fuel": 224,
@@ -13,45 +13,45 @@
   "no_battery_inputs": 3
  },
  "per100km_totals": {
-  "E_gen": 15.971,
-  "E_gen_ps": 15.971,
-  "g2t": 9.433,
-  "g2b_master": 7.414,
-  "g2b_model": 6.538,
-  "eng_only": 5.105,
-  "dual": 2.309,
-  "regen": 2.673,
-  "b2t": 8.891,
-  "trac": 18.324,
-  "excess": 0.876,
-  "excess_engonly": -1.432,
-  "excess_ps": 0.876,
+  "E_gen": 16.03,
+  "E_gen_ps": 16.03,
+  "g2t": 9.354,
+  "g2b_master": 7.576,
+  "g2b_model": 6.676,
+  "eng_only": 5.204,
+  "dual": 2.371,
+  "regen": 2.675,
+  "b2t": 9.013,
+  "trac": 18.367,
+  "excess": 0.9,
+  "excess_engonly": -1.472,
+  "excess_ps": 0.9,
   "gen_def_gap": 0.0,
-  "batt_resid": 1.196,
-  "batt_resid_modelg2b": 0.319
+  "batt_resid": 1.238,
+  "batt_resid_modelg2b": 0.338
  },
  "relative_to_generator": {
   "excess": {
-   "est": 0.0549,
+   "est": 0.0561,
    "ci95": [
-    0.043,
-    0.0734
+    0.0441,
+    0.0746
    ],
    "closed": false
   },
   "excess_engonly": {
-   "est": -0.0897,
+   "est": -0.0918,
    "ci95": [
-    -0.116,
-    -0.0729
+    -0.1189,
+    -0.0747
    ],
    "closed": false
   },
   "excess_ps": {
-   "est": 0.0549,
+   "est": 0.0561,
    "ci95": [
-    0.043,
-    0.0734
+    0.0441,
+    0.0746
    ],
    "closed": false
   },
@@ -96,128 +96,260 @@
    }
   },
   "urban": {
-   "n": 367,
-   "days": 71,
+   "n": 400,
+   "days": 75,
    "excess_rel": {
-    "est": 0.0867,
+    "est": 0.0863,
     "ci95": [
-     0.0765,
-     0.0993
+     0.0766,
+     0.0983
     ],
     "closed": false
    }
   }
  },
  "exploratory_corr_with_excess_per_km": {
-  "dual_share": 0.624,
-  "gen_per_km": 0.233,
-  "gen_def_gap": 0.056
+  "dual_share": 0.621,
+  "gen_per_km": 0.26,
+  "gen_def_gap": 0.052
  },
- "share_drives_excess_positive": 0.87,
- "share_dual_in_g2b_master": 0.3114,
+ "share_drives_excess_positive": 0.873,
+ "share_dual_in_g2b_master": 0.313,
  "m372": {
   "checks": {
    "rawOriginals": {
-    "nChecked": 400,
+    "nChecked": 433,
     "nMismatch": 0
    },
    "flags": {
-    "nCompared": 620,
+    "nCompared": 653,
     "nDiverging": 0
    },
    "expectedSet": {
-    "nDrives": 400,
-    "nDays": 72,
-    "km": 3826.7,
-    "nPrevious": 389,
-    "nNew": 11,
+    "nDrives": 433,
+    "nDays": 76,
+    "km": 3994.8,
+    "nPrevious": 400,
+    "nNew": 33,
     "newIds": [
      {
-      "file": "2026-11-03_19-55-57.csv",
-      "date": "2026-11-03",
-      "km": 19.1,
-      "type": "urban"
-     },
-     {
-      "file": "2026-11-04_07-45-12.csv",
-      "date": "2026-11-04",
-      "km": 2.5,
-      "type": "urban"
-     },
-     {
-      "file": "2026-11-04_08-01-15.csv",
-      "date": "2026-11-04",
-      "km": 0.7,
-      "type": "urban"
-     },
-     {
-      "file": "2026-11-04_08-17-06.csv",
-      "date": "2026-11-04",
-      "km": 1.1,
-      "type": "urban"
-     },
-     {
-      "file": "2026-11-04_08-25-16.csv",
-      "date": "2026-11-04",
-      "km": 1.0,
-      "type": "urban"
-     },
-     {
-      "file": "2026-11-04_19-12-25.csv",
-      "date": "2026-11-04",
-      "km": 2.0,
-      "type": "urban"
-     },
-     {
-      "file": "2026-11-04_19-23-52.csv",
-      "date": "2026-11-04",
+      "file": "2026-11-05_19-24-15.csv",
+      "date": "2026-11-05",
       "km": 2.1,
       "type": "urban"
      },
      {
-      "file": "2026-11-04_19-40-19.csv",
-      "date": "2026-11-04",
+      "file": "2026-11-05_19-52-41.csv",
+      "date": "2026-11-05",
+      "km": 1.9,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-05_21-52-15.csv",
+      "date": "2026-11-05",
+      "km": 12.6,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-06_07-48-22.csv",
+      "date": "2026-11-06",
+      "km": 4.2,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-06_14-22-59.csv",
+      "date": "2026-11-06",
+      "km": 1.9,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-06_20-45-43.csv",
+      "date": "2026-11-06",
+      "km": 23.1,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-06_21-23-28.csv",
+      "date": "2026-11-06",
+      "km": 33.6,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-07_09-50-01.csv",
+      "date": "2026-11-07",
+      "km": 4.1,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-07_11-24-19.csv",
+      "date": "2026-11-07",
+      "km": 9.0,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-07_11-51-36.csv",
+      "date": "2026-11-07",
+      "km": 3.6,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-07_12-10-30.csv",
+      "date": "2026-11-07",
+      "km": 2.0,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-07_13-47-43.csv",
+      "date": "2026-11-07",
+      "km": 6.8,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-07_14-19-49.csv",
+      "date": "2026-11-07",
+      "km": 7.5,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-07_14-45-12.csv",
+      "date": "2026-11-07",
+      "km": 1.5,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-07_15-01-29.csv",
+      "date": "2026-11-07",
+      "km": 0.9,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-07_15-08-05.csv",
+      "date": "2026-11-07",
+      "km": 0.7,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-07_15-25-29.csv",
+      "date": "2026-11-07",
+      "km": 2.1,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-07_16-54-28.csv",
+      "date": "2026-11-07",
+      "km": 3.1,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-08_11-49-25.csv",
+      "date": "2026-11-08",
+      "km": 2.4,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-08_12-26-11.csv",
+      "date": "2026-11-08",
+      "km": 2.4,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-08_12-56-29.csv",
+      "date": "2026-11-08",
+      "km": 2.2,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-08_13-09-32.csv",
+      "date": "2026-11-08",
+      "km": 2.1,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-08_16-27-23.csv",
+      "date": "2026-11-08",
+      "km": 1.1,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-08_16-34-56.csv",
+      "date": "2026-11-08",
+      "km": 1.5,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-08_16-57-01.csv",
+      "date": "2026-11-08",
+      "km": 5.6,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-08_18-34-25.csv",
+      "date": "2026-11-08",
+      "km": 15.0,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-09_07-45-26.csv",
+      "date": "2026-11-09",
       "km": 2.3,
       "type": "urban"
      },
      {
-      "file": "2026-11-04_21-26-25.csv",
-      "date": "2026-11-04",
-      "km": 0.8,
+      "file": "2026-11-09_08-04-01.csv",
+      "date": "2026-11-09",
+      "km": 2.5,
       "type": "urban"
      },
      {
-      "file": "2026-11-04_21-34-14.csv",
-      "date": "2026-11-04",
-      "km": 18.0,
+      "file": "2026-11-09_16-07-41.csv",
+      "date": "2026-11-09",
+      "km": 1.8,
       "type": "urban"
      },
      {
-      "file": "2026-11-05_09-13-42.csv",
-      "date": "2026-11-05",
-      "km": 5.9,
+      "file": "2026-11-09_16-19-16.csv",
+      "date": "2026-11-09",
+      "km": 2.1,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-09_18-32-27.csv",
+      "date": "2026-11-09",
+      "km": 1.6,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-09_19-54-36.csv",
+      "date": "2026-11-09",
+      "km": 2.4,
+      "type": "urban"
+     },
+     {
+      "file": "2026-11-09_20-11-42.csv",
+      "date": "2026-11-09",
+      "km": 2.4,
       "type": "urban"
      }
     ],
     "previousPerDrive": {
-     "path": "analyses/closure_baselines/perdrive_389drives.csv",
-     "sha256": "3d47052deff5cf7787b32ade9b043653929137011183c7e8d7fc4fc08d359879",
-     "nDrives": 389,
-     "master": "1e599176dafd8575dc7addede8d79358"
+     "path": "analyses/closure_baselines/perdrive_400drives.csv",
+     "sha256": "92a40589b61f497796fcfd9da5eba749b8550ce68b4c8b4adaab7fc3f6b09f05",
+     "nDrives": 400,
+     "master": "1574a8156a36c6ea4ea1dfdaafc7cc72"
     }
    },
    "repin": {
     "previousPerDrive": {
-     "path": "analyses/closure_baselines/perdrive_389drives_recal_1574a815.csv",
-     "sha256": "0cf49f60ba9a1038e6bd068d50b86fbd8633a9a5e1089ad856913294053c9c0d",
-     "nDrives": 389,
-     "master": "1574a8156a36c6ea4ea1dfdaafc7cc72"
+     "path": "analyses/closure_baselines/perdrive_400drives_recal_77bbe275.csv",
+     "sha256": "3c9b8423cab9c9e6aac9e9c3b162e4466abea07b0272e19b64be03323b1a2c17",
+     "nDrives": 400,
+     "master": "77bbe275f8c22eaf62d8636867764af3"
     },
     "repinnedFrom": {
-     "path": "analyses/closure_baselines/perdrive_389drives.csv",
-     "sha256": "3d47052deff5cf7787b32ade9b043653929137011183c7e8d7fc4fc08d359879",
-     "nDrives": 389,
-     "master": "1e599176dafd8575dc7addede8d79358"
+     "path": "analyses/closure_baselines/perdrive_400drives.csv",
+     "sha256": "92a40589b61f497796fcfd9da5eba749b8550ce68b4c8b4adaab7fc3f6b09f05",
+     "nDrives": 400,
+     "master": "1574a8156a36c6ea4ea1dfdaafc7cc72"
     },
     "repinReason": "auto (M398): closure drift attributed to the recalibrated offset columns (hybrid run reproduces the pin exactly; changed columns ['I_offset_2p_A_applied', 'I_offset_A_applied', 'cell_spread_loaded_p95_adj_hub_mv', 'cell_spread_loaded_p95_adj_mv', 'energy_residual_kwh_corr', 'energy_residual_kwh_corr2p', 'net_draw_kwh_corr', 'net_draw_kwh_corr2p', 'net_draw_per100km_corr', 'net_draw_per100km_corr2p', 'offset_2p_kwh_removed', 'offset_kwh_removed'])",
     "note": "re-pinned automatically (M398): closure drift attributed to the recalibrated offset columns, hybrid run reproduces the previous pin exactly; identity stays exact (1e-5) for later runs",
@@ -240,79 +372,79 @@
      ],
      "allWithinRecalibrationColumns": true,
      "hybridRunIdentityExact": true,
-     "nPrevious": 389,
+     "nPrevious": 400,
      "tolerance": {
       "maxAbs": 0.001,
       "colSumRelChange": 0.001
      },
      "driftColumns": {
       "g2t": {
-       "nDrivesChanged": 27,
-       "maxAbs": 4e-05,
-       "colSumRelChange": 1.4e-06
+       "nDrivesChanged": 144,
+       "maxAbs": 0.00029,
+       "colSumRelChange": 1.188e-05
       },
       "trac": {
-       "nDrivesChanged": 29,
-       "maxAbs": 3e-05,
-       "colSumRelChange": 1.9e-07
+       "nDrivesChanged": 142,
+       "maxAbs": 0.00022,
+       "colSumRelChange": 1.6e-06
       },
       "b2t": {
-       "nDrivesChanged": 18,
-       "maxAbs": 2e-05,
-       "colSumRelChange": 9.6e-07
+       "nDrivesChanged": 131,
+       "maxAbs": 0.0001,
+       "colSumRelChange": 9.35e-06
       },
       "g2b_model": {
-       "nDrivesChanged": 33,
-       "maxAbs": 4e-05,
-       "colSumRelChange": 2.17e-06
+       "nDrivesChanged": 150,
+       "maxAbs": 0.00028,
+       "colSumRelChange": 1.707e-05
       },
       "excess": {
-       "nDrivesChanged": 24,
-       "maxAbs": 4e-05,
-       "colSumRelChange": 1.606e-05
+       "nDrivesChanged": 110,
+       "maxAbs": 0.00028,
+       "colSumRelChange": 0.00012733
       },
       "excess_engonly": {
-       "nDrivesChanged": 29,
-       "maxAbs": 4e-05,
-       "colSumRelChange": 9.89e-06
+       "nDrivesChanged": 131,
+       "maxAbs": 0.00028,
+       "colSumRelChange": 7.79e-05
       },
       "excess_ps": {
-       "nDrivesChanged": 24,
-       "maxAbs": 4e-05,
-       "colSumRelChange": 1.606e-05
+       "nDrivesChanged": 110,
+       "maxAbs": 0.00028,
+       "colSumRelChange": 0.00012733
       },
       "batt_resid": {
-       "nDrivesChanged": 19,
-       "maxAbs": 2e-05,
-       "colSumRelChange": 7.24e-06
+       "nDrivesChanged": 118,
+       "maxAbs": 0.0001,
+       "colSumRelChange": 6.951e-05
       },
       "batt_resid_modelg2b": {
-       "nDrivesChanged": 27,
-       "maxAbs": 3e-05,
-       "colSumRelChange": 1.786e-05
+       "nDrivesChanged": 124,
+       "maxAbs": 0.00022,
+       "colSumRelChange": 8.433e-05
       }
      },
      "nDrivesChangedConvention": "at >1e-5 on 5-dp rounded values (descriptive only; the decision uses maxAbs and colSumRelChange)",
      "cumulativeVsOriginalPin": null
     },
     "originalPin": {
-     "path": "analyses/closure_baselines/perdrive_389drives.csv",
-     "sha256": "3d47052deff5cf7787b32ade9b043653929137011183c7e8d7fc4fc08d359879",
-     "nDrives": 389,
-     "master": "1e599176dafd8575dc7addede8d79358"
+     "path": "analyses/closure_baselines/perdrive_400drives.csv",
+     "sha256": "92a40589b61f497796fcfd9da5eba749b8550ce68b4c8b4adaab7fc3f6b09f05",
+     "nDrives": 400,
+     "master": "1574a8156a36c6ea4ea1dfdaafc7cc72"
     }
    },
    "previousIdentity": {
     "attributedRecalibrationDrift": true,
     "newPin": {
-     "path": "analyses/closure_baselines/perdrive_389drives_recal_1574a815.csv",
-     "sha256": "0cf49f60ba9a1038e6bd068d50b86fbd8633a9a5e1089ad856913294053c9c0d",
-     "nDrives": 389,
-     "master": "1574a8156a36c6ea4ea1dfdaafc7cc72"
+     "path": "analyses/closure_baselines/perdrive_400drives_recal_77bbe275.csv",
+     "sha256": "3c9b8423cab9c9e6aac9e9c3b162e4466abea07b0272e19b64be03323b1a2c17",
+     "nDrives": 400,
+     "master": "77bbe275f8c22eaf62d8636867764af3"
     }
    }
   },
-  "scriptGit": "5e0a5bb",
+  "scriptGit": "f34f569",
   "summaryArraysSha256Start": ""
  }
 }
