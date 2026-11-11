@@ -203,7 +203,8 @@ def splice(A, res, prov):
     if old_blk == blk and coherent and old.get("corpusHash") == prov["masterMd5"]:
         print(json.dumps({"changed": False}))
         return
-    if old_blk and old_blk.get("overallVerdict") != blk["overallVerdict"] and "--ack-verdict-change" not in sys.argv:
+    if old_blk and old_blk.get("overallVerdict") != blk["overallVerdict"] and "--ack-verdict-change" not in sys.argv and not __import__("stop_protocol").try_collect(
+            "urban_balance", "overall_verdict_changed", {"from": old_blk.get("overallVerdict"), "to": blk["overallVerdict"]}, ["--ack-verdict-change"], {"urban_balance": "flag only (Director ruling cited in the CHANGELOG)"}, withheld=[], artifacts=[]):
         print("ESCALATE (M504 spec, Escalation): the overall verdict changed from %r to %r; Director review required, rerun with --ack-verdict-change after it" % (old_blk.get("overallVerdict"), blk["overallVerdict"]))
         sys.exit(3)
     A["urbanContrastBalance"] = blk

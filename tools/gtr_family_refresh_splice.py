@@ -304,6 +304,13 @@ def main():
     with open("analyses/gtr_family_delta.json", "w", encoding="utf-8", newline="\n") as f:
         f.write(json.dumps(delta, indent=1, ensure_ascii=False) + "\n")
     if stops:
+        import stop_protocol as SP          # M610b: in a collect pass an acknowledgeable stop (flip or simultaneity band ONLY) is recorded and nothing is spliced; every other stop stays hard
+        if all(s in (FLIP_STOP, BAND_STOP) for s in stops) and SP.try_collect(
+                "gtr_family_refresh", "reading_flip_or_band", {"stops": stops, "changedPaths": delta.get("changedPaths")}, ["XT_ACK_GTR_FLIP", "XT_ACK_GTR_BAND"],
+                {"flip": "ruling, driveMasterMd5, sensitivityAxesSha256, acknowledged (axis, fgen)", "band": "ruling, driveMasterMd5, simultaneityRowsSha256, acknowledged breaches"},
+                withheld=list(BLOCKS) + ["refreshedBlocks", "eligibilityAlignment", "generatorTractionRecon.staleBlocks"], artifacts=["analyses/gtr_family_delta.json"]):
+            print("COLLECT (M610b): acknowledgeable stop recorded, nothing spliced: " + "; ".join(stops), file=sys.stderr)
+            return
         print("STOP (Director): " + "; ".join(stops), file=sys.stderr)
         sys.exit(3)
     if a.dry_run:

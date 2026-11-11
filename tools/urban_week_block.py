@@ -214,8 +214,13 @@ def main(argv=None):
                 print("M494 STOP: acknowledgement refused: " + "; ".join(why))
                 return 3
         else:
-            print("M494 STOP before the splice: verdict 'depends on the resampling unit' goes to the Director")
-            return 3
+            import stop_protocol as SP          # M610b: the splice bytes do not depend on the ack content (it only gates), so a collect pass records the stop and splices as if acknowledged
+            if SP.try_collect("urban_week_block", "verdict_depends_on_resampling_unit", {"overallVerdict": blk["overallVerdict"], "nBands": len(blk["bands"]), "masterMd5": md5},
+                              ["XT_ACK_URBAN_WEEK_BLOCK", "--ack-verdict-change"], {"urban": "ruling, driveMasterMd5, totalDrives, verdict (ack_ok)"}, withheld=[], artifacts=[]):
+                print("M494 COLLECT (M610b): stop recorded; splicing as if acknowledged (collect pass, rolled back)")
+            else:
+                print("M494 STOP before the splice: verdict 'depends on the resampling unit' goes to the Director")
+                return 3
     if "--dry-run" not in argv and changed:
         with open("summary_arrays.json", "w", encoding="utf-8", newline="\n") as f:
             f.write(json.dumps(new, ensure_ascii=False, indent=1) + ("\n" if raw.endswith("\n") else ""))

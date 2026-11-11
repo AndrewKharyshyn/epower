@@ -75,6 +75,7 @@ def main():
     ap.add_argument("--resume", action="store_true", help="M464: restore the longest valid prefix of the stage checkpoints of a previous failed full run (same data state, unchanged stage code) and execute only the first changed/failed stage and later ones; the journal still snapshots first and rolls back on any failure")
     ap.add_argument("--fresh", action="store_true", help="M609: ignore stored checkpoints and run every stage (resume is the default for a full journaled run: after a gate stop the next plain run restores the stages that already passed; the chain keys still guarantee the same data state and stage code)")
     ap.add_argument("--no-checkpoints", action="store_true", help="M464: do not save stage checkpoints (full journaled runs save them by default under runs/.checkpoints/)")
+    ap.add_argument("--collect-stops", action="store_true", help="M610b: discovery pass: stages whose gate needs a ruling (acknowledgeable escalations) record a stop (runs/<ts>/stops/) and are treated as acknowledged with their splice withheld, so every escalation of the batch is found in one pass; any other failure still stops it. Never commits: the tree is always rolled back; exit code 6 = collect_done (tools/stop_protocol.py)")
     ap.add_argument("--recover", action="store_true", help="M416: roll back an interrupted or kept release from its journal, then exit")
     a = ap.parse_args()
     a.resume = not a.fresh                      # M609: resume is the default for a full journaled run (chain keys decide validity; an empty or invalid chain just runs every stage)
@@ -88,6 +89,9 @@ def main():
             return 4
         print(json.dumps({"recovered": rep_}))
         return 0 if all(r["state"] == "rolled_back" for r in rep_) else 4
+    if a.collect_stops and (a.only or a.frm or a.skip or a.skip_unchanged or a.no_journal or a.keep_on_failure or a.dry_run):
+        print("run_ingest: --collect-stops needs a full journaled run (no --only/--from/--skip/--skip-unchanged/--no-journal/--keep-on-failure/--dry-run): the pass must roll back and must not commit", file=sys.stderr)
+        return 2
     cfg = json.load(open(os.path.join(ROOT, "tools", "ingest_stages.json")))
     stages = cfg["stages"]
     try:
@@ -123,7 +127,11 @@ def main():
         for _sig in ("SIGTERM", "SIGBREAK"):
             if hasattr(signal, _sig):
                 signal.signal(getattr(signal, _sig), _on_signal)
+    import stop_protocol as SP
+    collect_token = SP.issue_token(rd) if a.collect_stops else None       # M610b: a runner-issued token tied to this run's open journal (not an XT_* variable)
     env = dict(os.environ)
+    for _k in (SP.TOKEN_ENV, SP.DIR_ENV):                                   # a stale inherited token never switches a run into collect mode
+        env.pop(_k, None)
     env.setdefault("PYTHONUTF8", "1")          # repo files are UTF-8; Windows default (cp1251/cp1252) breaks open() without encoding=
     env.setdefault("PYTHONIOENCODING", "utf-8")
     shim = os.path.join(ROOT, "tools", "eol_shim")      # text-mode writes default to LF (repo canonical bytes; see tools/eol_shim/sitecustomize.py)
@@ -178,6 +186,8 @@ def main():
                 senv = dict(env)
                 senv["XT_RUN_STAGES_OK"] = ",".join(r_["id"] for r_ in status["stages"] if r_.get("status") in ("ok", "restored_from_checkpoint"))     # M513: the run record the stamp pass reads
                 senv["XT_RUN_STARTED_AT"] = run_started_at
+                if collect_token:
+                    senv[SP.TOKEN_ENV], senv[SP.DIR_ENV] = collect_token, rd
                 for k, v in (s.get("env") or {}).items():          # per-stage env; "$ROOT" expands to the repo root
                     senv[k] = v.replace("$ROOT", ROOT)
                 r, launch_error = launch(s["cmd"], cwd=ROOT, env=senv, stdout=lf, stderr=subprocess.STDOUT)
@@ -190,7 +200,7 @@ def main():
             else:
                 rec["status"] = "ok" if r.returncode == 0 else "gate_failed"
             status["stages"].append(rec)
-            if rec["status"] == "ok" and cp is not None and idx >= k_restored:
+            if rec["status"] == "ok" and cp is not None and idx >= k_restored and not a.collect_stops:      # M610b: a collect pass saves no checkpoints (its state is provisional)
                 cp.save(s)
             if rec["status"] != "ok":
                 status["result"] = rec["status"]
@@ -200,10 +210,19 @@ def main():
                 rc_final = 3 if rec["status"] == "not_implemented" else 1
                 break
     except BaseException as ex:                                  # M416: exception or signal mid-run: roll back, then re-raise
+        if collect_token:
+            SP.close_token(rd)
         if journal is not None:
             rb = journal.rollback("exception: %r" % (ex,)) if not a.keep_on_failure else journal.keep_for_debug("exception: %r" % (ex,))
             print(json.dumps({"journal": rb["state"], "run": ts}), file=sys.stderr)
         raise
+    if collect_token:                                             # M610b: end of the discovery pass: export provisional artifacts and briefs, close the token, never commit
+        collect_summary = SP.finish_pass(rd, ROOT)
+        SP.close_token(rd)
+        status["collect"] = collect_summary
+        if status["result"] == "ok":
+            status["result"] = "collect_done"
+            rc_final = 6                                          # 4 already means a failed rollback
     if cp is not None:
         if cp.notes:
             status.setdefault("checkpoint", {})["notes"] = cp.notes[:5]
@@ -211,7 +230,12 @@ def main():
             cp.discard()                                          # a green full run needs no chain
     if journal is not None:
         declared = {o for st in cfg["stages"] for o in (st.get("outputs") or [])}
-        if status["result"] == "ok":
+        if collect_token:
+            jd = journal.rollback("collect pass: the tree is always rolled back")
+            status["journal"] = {"state": jd["state"], "restored": {k: len(v) for k, v in jd["restored"].items()}, "mismatches": jd["rollbackMismatches"][:10], "rawAdded": jd["rawAdded"][:20]}
+            if jd["state"] != "rolled_back":
+                rc_final = 4
+        elif status["result"] == "ok":
             jd = journal.commit(declared)
             status["journal"] = {"state": jd["state"], "nChanged": len(jd["writeSet"]["changed"]), "nCreated": len(jd["writeSet"]["created"]), "nDeleted": len(jd["writeSet"]["deleted"]),
                                  "undeclaredWrites": jd["undeclaredWrites"][:50], "rawAdded": jd["rawAdded"][:20]}
@@ -224,7 +248,7 @@ def main():
             if jd["state"] != "rolled_back":
                 rc_final = 4
     json.dump(status, open(os.path.join(rd, "status.json"), "w"), indent=1)
-    if full_run and not skip_ids and status["result"] == "ok":
+    if full_run and not skip_ids and status["result"] == "ok" and not collect_token:
         RF.save_ledger(ROOT, RF.components(ROOT, cfg["stages"]), ts)      # M385: state left by a fully green, fully executed run
     print(json.dumps({"run": ts, "result": status["result"], "status_path": os.path.relpath(os.path.join(rd, "status.json"), ROOT)}))
     return rc_final
