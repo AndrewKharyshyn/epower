@@ -109,7 +109,7 @@ def main():
             out[name + "_" + tag] = dict(n=int(sub.nstrict.sum()), drives=int((sub.nstrict > 0).sum()), drives_any=int(len(sub)),
                                           days=len(days), days_clusters=D, eff=round(eff, 2), ci95=[round(ci[0], 2), round(ci[1], 2)],
                                           days_list=days)
-    json.dump(out, open("analyses/M608_cold_regen_audit/result.json", "w"), indent=1, default=str)
+    json.dump(out, open("analyses/M608_cold_regen_audit/result.json", "w", encoding="utf-8"), indent=1, default=str)
     print(json.dumps({k: {a: b for a, b in v.items() if a != "days_list"} for k, v in out.items()}, indent=1))
     print(P.groupby(["day"]).agg(ev=("ev", "median"), n=("file", "count")).tail(8))
 main()

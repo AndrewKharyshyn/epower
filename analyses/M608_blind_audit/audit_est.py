@@ -24,4 +24,4 @@ x['months']=(x.dt-x.dt.min()).dt.days/30.4375;x['T']=x.T_pack_mean_avg;x['I']=x.
 md=smf.mixedlm('y~months+T+I',x,groups=x.date).fit(reml=True)
 print('resid var',md.scale,'ratio',float(md.cov_re.iloc[0,0])/md.scale,'llf',md.llf)
 print('days with >1 drive',(x.groupby('date').size()>1).sum())
-json.dump(dict(n_drives=294,n_days=107,covariates='y=vreg_R_pack_mohm ~ months(30.4375d)+T_pack_mean_avg+vreg_I_p95_A',mixed=dict(slope=1.3536,ci95=[0.1466,2.5606],groupVar=8.480,resid=md.scale,singular=False,converged=True),clusterOLS=dict(slope=1.2486,se=0.6162,ci95=[0.0269,2.4703],ref='t(106)')),open('analyses/M608_blind_audit/estimator_audit.json','w'),indent=1)
+json.dump(dict(n_drives=294,n_days=107,covariates='y=vreg_R_pack_mohm ~ months(30.4375d)+T_pack_mean_avg+vreg_I_p95_A',mixed=dict(slope=1.3536,ci95=[0.1466,2.5606],groupVar=8.480,resid=md.scale,singular=False,converged=True),clusterOLS=dict(slope=1.2486,se=0.6162,ci95=[0.0269,2.4703],ref='t(106)')),open('analyses/M608_blind_audit/estimator_audit.json','w',encoding='utf-8'),indent=1)

@@ -22,7 +22,7 @@ def main():
         # no ack file at all: every lost leaf is unexpected
         r = LG.guard(PREV, CUR, rules)
         assert r["nLost"] == 3 and r["nUnexpected"] == 3, r
-        w = lambda a: json.dump(a, open(ackp, "w"))
+        w = lambda a: json.dump(a, open(ackp, "w", encoding="utf-8"))
         # pinned ack: all three accepted
         w(good)
         r = LG.guard(PREV, CUR, rules)
