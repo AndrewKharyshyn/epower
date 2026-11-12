@@ -6,7 +6,7 @@ import ingest_checkpoint as C
 tmp = tempfile.mkdtemp(prefix="xt_sh_")
 try:
     os.makedirs(os.path.join(tmp, "tools"))
-    w = lambda n, t: open(os.path.join(tmp, n), "w", newline="").write(t)
+    w = lambda n, t: open(os.path.join(tmp, n), "w", newline="", encoding="utf-8").write(t)
     w("tools/refresh_cohort_meta.py", "import re\nre.search('x', open('xtrail_summary.jsx').read())\nopen('CHANGELOG.md')\nopen('STATE.md')\n")
     w("tools/other.py", "open('xtrail_summary.jsx'); open('CHANGELOG.md')\n")
     w("xtrail_summary.jsx", "const COHORT_MIN_SUPPORT_DRIVES = 10;\nconst a = 1;\n"); w("CHANGELOG.md", "x"); w("STATE.md", "x")
