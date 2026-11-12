@@ -19,4 +19,4 @@ for e,r in res.items():
     o=r['off_drives']
     out[e]={'finite_samples':r['n'],'on_0.25_grid':r['on'],'share':round(r['on']/r['n'],6),
             'drives_with_off_grid':len(o),'first_date':min(o) if o else None,'last_date':max(o) if o else None}
-json.dump(out,open('analyses/M627_audit/audit_quarter_grid.json','w'),indent=1)
+json.dump(out,open('analyses/M627_audit/audit_quarter_grid.json','w',encoding='utf-8'),indent=1)
