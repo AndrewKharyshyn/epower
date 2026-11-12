@@ -229,7 +229,7 @@ def build_block(tte, days, main_block, C, meta=None):
             "cutPointsC": cuts, "cutRule": "numpy linear percentile at 33.33333 and 66.66667 of the coolant start temperature of the coolant cold starts, rounded as floor(2x + 0.5) / 2; start equal to a cut belongs to the higher stratum",
             "strataSharesOfCoolantColdStarts": [_r(x, 6) for x in shares_all], "nColdStarts": len(cold),
             "bootstrap": {"B": M.B_DRAWS, "seed": M.SEED, "cluster": "calendar day", "sharedWithM435": True, "cutsAndMembershipFixedInDraws": True, "unidentifiedMax": UNID_MAX},
-            "cells": cells_out, "checks": checks, "label": M.LABEL,
+            "cells": cells_out, "checks": checks, "label": main_block["label"],
             "required": {"R1": "assumes that ending the drive is unrelated to the remaining time to the threshold (independent censoring) within each start-temperature tercile; this cannot be checked from these data",
                          "entanglement": "start temperature is entangled with the season, the trip length and the decision to stop the drive: the strata describe, they do not identify an effect of the start temperature",
                          "contrasts": "contrasts are descriptive, no test and no p-value; standardized to the observed start-temperature mix (weights fixed)"},

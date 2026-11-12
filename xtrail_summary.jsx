@@ -9401,7 +9401,7 @@ function ThermalSupport({part}) {
   const box={fontSize:10,color:"#475569",background:"#f8fafc",border:"1px solid #e2e8f0",borderRadius:6,padding:"6px 10px",margin:"6px 0",lineHeight:1.5};
   const CL={urban:"Urban",mixed:"Mixed",mixed_highway:"Mixed highway",highway:"Highway"};
   const pl=(n,one,many)=>n+" "+(n===1?one:many);
-  const note=(rs)=><div style={{marginTop:3,color:"#64748b"}}>Censored: the drive ended (key-off) before the threshold{rs?". Risk-set rows are counts, not a time-to-event estimate; ":"; "}censoring by trip length may be informative (the time-to-threshold tables below carry the worst-case bounds and the hazard-tilt sensitivity); winter and the cold cohort stay suppressed. Single vehicle, one driver, May{"–"}October (ambient 3{"–"}38 {"°"}C).</div>;
+  const note=(rs)=><div style={{marginTop:3,color:"#64748b"}}>Censored: the drive ended (key-off) before the threshold{rs?". Risk-set rows are counts, not a time-to-event estimate; ":"; "}censoring by trip length may be informative (the time-to-threshold tables below carry the worst-case bounds and the hazard-tilt sensitivity); winter and the cold cohort stay suppressed. {(() => { const l = S.thermalSupportLedger?.timeToThreshold?.limits?.[1]; return l ? l.charAt(0).toUpperCase() + l.slice(1) + "." : "Single vehicle, one driver."; })()}</div>;
   if(part==="lag"){
     const W=E.warmupLag; if(!W) return null;
     const cold=W.coldStarts, oilN=W.nWithOil;

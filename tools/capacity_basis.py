@@ -543,7 +543,7 @@ def estimate(master, records, sidecar=None):
             {"id": "E_PER_SOC100_EST", "class": "estimated", "quantity": "apparent terminal-energy scale of the logged BMS SoC (SoC range observed)", "unit": "kWh per 100 SoC points",
              "value": _est(prim.get("B_kwh")), "source": "capacityBasis.kWhPer100.point", "automaticSwitch": False}],
         "inference": rng_note,
-        "limits": ["one vehicle, May-October data", "SoC range observed about 42-88 % (little outside 44-83 %); per-100 is an extrapolation beyond it",
+        "limits": ["one vehicle, " + (__import__("scope_label").month_span(days) or "scope not available") + " data", "SoC range observed about 42-88 % (little outside 44-83 %); per-100 is an extrapolation beyond it",
                    "shared current-sensor gain error cannot be cancelled or tested", "the BMS SoC is not a pure charge counter (key-on reset, flicker)",
                    "a gross 2.1 kWh with a hidden buffer of up to ~15 % cannot be tested from BMS data", "full vs remapped SoC window (F16c) is not identifiable from the logs"],
     }

@@ -90495,7 +90495,7 @@
   ],
   "inference": "calendar day = cluster; percentile bootstrap, seed 42, 4000 draws, per-day sufficient statistics",
   "limits": [
-   "one vehicle, May-October data",
+   "one vehicle, May-November 2026 data",
    "SoC range observed about 42-88 % (little outside 44-83 %); per-100 is an extrapolation beyond it",
    "shared current-sensor gain error cannot be cancelled or tested",
    "the BMS SoC is not a pure charge counter (key-on reset, flicker)",
@@ -107195,7 +107195,7 @@
    "week blocks address serial dependence at the weekly scale only and about 20 weeks make the block bootstrap coarse",
    "CR2 and the wild bootstrap are small-cluster corrections, not a model of dependence",
    "the trend slopes are conditional on the design y ~ months + T + I",
-   "one vehicle, May-October data"
+   "one vehicle, May-November 2026 data"
   ]
  },
  "energyPackets": {
@@ -176787,7 +176787,7 @@
    "cadence, quantisation and midpoint rows are carried from their own studies and are not on the drive set of the computed rows; the capacity rows rescale GTC and FCE only (reference scaling)"
   ],
   "limits": [
-   "single vehicle, one driver, May-October",
+   "single vehicle, one driver, May-November 2026",
    "ratios of sums are dominated by long drives; the per-drive spread is reported beside each row",
    "the shift may vary over time or with the logger cadence; a split by month and cadence regime is a follow-up, not part of this block"
   ]
@@ -401661,7 +401661,7 @@
   "reportingRule": "the new rows follow the M406 rows in this fixed order with the same format; no single interval is designated primary and no envelope is formed; the L=7 label is weekly-scale truncation, not preferred; GLS is a different estimator outside every rule",
   "reading": "sensitivities of conditional intervals to serial dependence between neighbouring days; they do not remove season, logging-regime or calendar-drift confounding and do not change the released estimators; 'not supported' is not evidence of absence",
   "limits": [
-   "one vehicle, May-October data",
+   "one vehicle, May-November 2026 data",
    "most day pairs at distance 1-3 days come from dense weeks; larger distances are imprecise",
    "a smooth drift and positive residual autocorrelation are not separable without a model of the mean; the control addresses one direction only",
    "HAC and block procedures are asymptotic with about 22 effective weeks; GLS assumes a stationary Gaussian AR(1)",
@@ -412981,10 +412981,10 @@
    "a drive that does not reach a threshold is a right-censored observation: its observation ended (key-off) before the threshold",
    "the pooled time-to-threshold medians of thermalWarmupLag are medians of the reachers only; censored drives are excluded, so the median understates the time for all cold starts; where fewer than half of the cold starts reached the threshold the cohort median is not identifiable without an assumption on censoring",
    "risk-set rows are counts at fixed times, not a time-to-event estimate; censoring by key-off may be informative: the Kaplan-Meier (product-limit) estimate in timeToThreshold assumes it is not, and carries worst-case identification bounds and a hazard-tilt sensitivity",
-   "winter stays unobserved: the cold cohort (55 drives on 11 days, ambient 3-5 C) supports a cohort view, not a winter inference; few days, so the intervals are wide"
+   "winter (December to February) stays unobserved: the cold cohort (55 drives on 11 days, driver-recorded start ambient -1 to 5 C) supports a cohort view, not a winter inference; few days, so the intervals are wide"
   ],
   "limits": [
-   "single vehicle, one driver, May-October; ambient 3-38 C",
+   "single vehicle, one driver, May-November 2026, ambient -1 to 38 C (start ambient recorded for 402 of 454 cold starts)",
    "the cold-start definitions differ by estimator on purpose (coolant <= 50 C, none, < 60 C): each ledger states its own",
    "the ledger classifies drives with the estimator's own rules and checks its accepted counts against the published n; a changed estimator rule makes the reconciliation fail until the ledger is updated"
   ],
@@ -413516,7 +413516,7 @@
   "timeToThreshold": {
    "methodVersion": "M435-r2",
    "spec": "analyses/M435_spec.md",
-   "label": "this vehicle, one driver, May-October, ambient 3-38 C",
+   "label": "this vehicle, one driver, May-November 2026, ambient -1 to 38 C",
    "horizonsS": [
     300,
     600,
@@ -421071,7 +421071,7 @@
    "requiredSentences": {
     "R1": "assumes that ending the drive is unrelated to the remaining time to the threshold (independent censoring); this cannot be checked from these data; bounds and tilt rows below",
     "R2": "describes the time to c C had the drive continued (route and load undefined); the observed share before key-off is shown beside it",
-    "R4": "this vehicle, one driver, May-October, ambient 3-38 C",
+    "R4": "this vehicle, one driver, May-November 2026, ambient -1 to 38 C",
     "R5": "cohort median not identifiable without an assumption on censoring",
     "R6": "median of reachers only (s); understates the time for all cold starts; not a cohort median"
    },
@@ -421093,7 +421093,7 @@
    },
    "limits": [
     "independent censoring cannot be tested; the bounds and the tilt measure how much it matters, they do not remove it",
-    "single vehicle, one driver, May-October, ambient 3-38 C",
+    "single vehicle, one driver, May-November 2026, ambient -1 to 38 C (start ambient recorded for 402 of 454 cold starts)",
     "the continued drive leaves route and load undefined",
     "the cold cohort and winter cannot be estimated",
     "the shares mix drives with different start temperatures"
@@ -423842,7 +423842,7 @@
      "g1PartitionAndPooledEqualsM435": true,
      "allOk": true
     },
-    "label": "this vehicle, one driver, May-October, ambient 3-38 C",
+    "label": "this vehicle, one driver, May-November 2026, ambient -1 to 38 C",
     "required": {
      "R1": "assumes that ending the drive is unrelated to the remaining time to the threshold (independent censoring) within each start-temperature tercile; this cannot be checked from these data",
      "entanglement": "start temperature is entangled with the season, the trip length and the decision to stop the drive: the strata describe, they do not identify an effect of the start temperature",
