@@ -8436,9 +8436,8 @@ function AuxLoadAmbient() {
 
       <Callout kind="method">
         Standstill draw correlates with ambient temperature at <MetricHighlight tone="derived">ρ = {C.spearmanCorr}</MetricHighlight>
-        {" "}(CI {ci(boot)}) and rises monotonically above ~15°C — from ~1.0 kW (15–20°C) to
-        {" "}~1.9 kW (30–40°C). Consistent with an <MetricHighlight tone="scenario">AC-compressor climate-load
-        proxy</MetricHighlight>, but with no HVAC state channel this is descriptive correlation only.
+        {" "}(CI {ci(boot)}). {C.interpretation} Read as an <MetricHighlight tone="scenario">climate-load
+        proxy</MetricHighlight> only.
         {" "}<EvidenceBadge status="derived" />
       </Callout>
 
@@ -8452,13 +8451,13 @@ function AuxLoadAmbient() {
               <div style={{ position: "absolute", left: `${b.p25Kw / mx * 100}%`, width: `${(b.p75Kw - b.p25Kw) / mx * 100}%`, top: 4, height: 6, background: "#fed7aa", borderRadius: 3 }} />
               <div style={{ position: "absolute", left: `calc(${b.medianKw / mx * 100}% - 3px)`, top: 2, width: 6, height: 10, background: "#ea580c", borderRadius: 2 }} />
             </div>
-            <span style={{ width: 64, fontSize: 9, color: "#ea580c", fontWeight: 700, textAlign: "right" }}>{b.medianKw} kW <span style={{ color: "#94a3b8", fontWeight: 400 }}>n={b.n}</span></span>
+            <span style={{ width: 110, fontSize: 9, color: "#ea580c", fontWeight: 700, textAlign: "right" }}>{b.medianKw} kW <span style={{ color: "#94a3b8", fontWeight: 400 }}>n={b.n} · {b.nDays} d</span></span>
           </div>))}
       </div>
 
       <Caveat kind="caution">
         Exploratory, no causality claim — there is no HVAC state channel (AC compressor on/off, fan speed,
-        cabin setpoint), so the correlation cannot be attributed to a specific mechanism. Ambient below 15 °C is limited: the 10–15 °C bin has {bins[0]?.n ?? "few"} drives, nothing below {S.ambientTable?.rangeC?.[0]} °C is logged, and the Cold class is {M294.coldNote}. Single vehicle /
+        cabin setpoint), so the correlation cannot be attributed to a specific mechanism. Ambient below 15 °C is limited: bins below 15 °C (drives, days): {bins.filter(b => ["<5", "5-10", "10-15"].includes(b.ambientBinC)).map(b => `${b.ambientBinC} °C: ${b.n}, ${b.nDays}`).join("; ") || "none reported"}; nothing below {S.ambientTable?.rangeC?.[0]} °C is logged, and the Cold class is {M294.coldNote}. Single vehicle /
         ~single driver — descriptive.
       </Caveat>
     </div>

@@ -48389,7 +48389,7 @@
     62.5,
     66.0,
     68.5,
-    81.0
+    78.0
    ],
    "oilMedianC": [
     37.0,
@@ -48400,10 +48400,54 @@
     46.0,
     50.0,
     56.0,
-    70.0
+    62.0
+   ],
+   "coolantNDrives": [
+    448,
+    450,
+    453,
+    446,
+    440,
+    419,
+    402,
+    320,
+    217
+   ],
+   "coolantNDays": [
+    125,
+    125,
+    126,
+    124,
+    124,
+    125,
+    124,
+    124,
+    113
+   ],
+   "oilNDrives": [
+    446,
+    449,
+    453,
+    447,
+    441,
+    419,
+    405,
+    320,
+    217
+   ],
+   "oilNDays": [
+    124,
+    123,
+    125,
+    124,
+    124,
+    125,
+    125,
+    124,
+    112
    ]
   },
-  "methodology": "Cold-start drives (coolant start <60 C). Per drive on a 1 Hz grid: time from start for coolant and oil to cross 60/70/80 C; the coolant->oil lag = oil_t70 - coolant_t70; the steady-state offset = median(coolant - oil) once coolant>=80 C; and the paired warm-up curves (median temp by time-from-start bin). Medians/IQR over cold-start drives; day-clustered bootstrap (seed 42, 4000 draws) on the lag. Extends warmupCurve (distance-domain coolant only) with the oil trajectory and the coolant-oil lag. Oil warms slower (more thermal mass, indirect heating), so it lags coolant. Fuel penalty (Aug-only subset) and emissions are NOT computed here. Single vehicle / ~single driver -- descriptive."
+  "methodology": "Cold-start drives (coolant start <60 C). Per drive on a 1 Hz grid: time from start for coolant and oil to cross 60/70/80 C; the coolant->oil lag = oil_t70 - coolant_t70; the steady-state offset = median(coolant - oil) once coolant>=80 C; and the paired warm-up curves (median temp by time-from-start bin). Medians/IQR over cold-start drives; day-clustered bootstrap (seed 42, 4000 draws) on the lag. Extends warmupCurve (distance-domain coolant only) with the oil trajectory and the coolant-oil lag. Oil warms slower (more thermal mass, indirect heating), so it lags coolant. Curve bins are [a, b) in seconds; samples from 900 s on are not binned (M623). Fuel penalty (Aug-only subset) and emissions are NOT computed here. Single vehicle / ~single driver -- descriptive."
  },
  "socBalancedFuel": {
   "nDrives": 383,
@@ -53093,15 +53137,33 @@
   "interceptKw": 0.648,
   "byAmbientBin": [
    {
+    "ambientBinC": "<5",
+    "n": 42,
+    "nDays": 10,
+    "medianKw": 1.08,
+    "p25Kw": 0.472,
+    "p75Kw": 1.432
+   },
+   {
+    "ambientBinC": "5-10",
+    "n": 62,
+    "nDays": 23,
+    "medianKw": 1.05,
+    "p25Kw": 0.525,
+    "p75Kw": 1.345
+   },
+   {
     "ambientBinC": "10-15",
-    "n": 200,
-    "medianKw": 0.905,
-    "p25Kw": 0.508,
-    "p75Kw": 1.25
+    "n": 96,
+    "nDays": 41,
+    "medianKw": 0.87,
+    "p25Kw": 0.655,
+    "p75Kw": 1.09
    },
    {
     "ambientBinC": "15-20",
     "n": 131,
+    "nDays": 53,
     "medianKw": 1.01,
     "p25Kw": 0.92,
     "p75Kw": 1.1
@@ -53109,6 +53171,7 @@
    {
     "ambientBinC": "20-25",
     "n": 140,
+    "nDays": 53,
     "medianKw": 1.2,
     "p25Kw": 1.07,
     "p75Kw": 1.42
@@ -53116,20 +53179,22 @@
    {
     "ambientBinC": "25-30",
     "n": 77,
+    "nDays": 28,
     "medianKw": 1.46,
     "p25Kw": 1.35,
     "p75Kw": 1.9
    },
    {
-    "ambientBinC": "30-40",
+    "ambientBinC": ">=30",
     "n": 28,
+    "nDays": 13,
     "medianKw": 1.915,
     "p25Kw": 1.692,
     "p75Kw": 2.282
    }
   ],
-  "interpretation": "Standstill draw rises monotonically with ambient temperature above ~15 C, consistent with an AC-compressor climate-load proxy, but no HVAC state channel exists (compressor on/off, fan speed, setpoint) so this is a descriptive correlation, NOT a mechanism claim. Ambient below ~15 C is thinly observed (the Cold class is thinly observed and concentrated, see cohortSupport) -- this characterises the warm end of the range only.",
-  "methodology": "Extends standstillStats (M26): per-drive standstill_draw_kw (key-on, stationary median draw, from drive_master, ens-unfiltered to match the M26 scope) paired with the drive-start ambient temperature (ambientByDrive[file][0]). Spearman rank correlation (day-clustered bootstrap, seed 42, 4000 draws); an OLS slope (kW/C) is reported as a descriptive summary, not a causal estimate. Binned median/IQR by ambient band. EXPLORATORY -- no HVAC state channel, no causality claim. Single vehicle / ~single driver."
+  "interpretation": "Across the supported bins at and above 15 C the median standstill draw increases from 1.01 kW in the 15-20 C bin to 1.92 kW in the >=30 C bin. Supported bins below 15 C: <5 C: 1.08 kW (42 drives, 10 days); 5-10 C: 1.05 kW (62 drives, 23 days); 10-15 C: 0.87 kW (96 drives, 41 days). Whether low-ambient values reflect heating load is not identified. Standstill draw is a climate-load proxy: there is no HVAC state channel (compressor on/off, fan speed, setpoint), so this is a descriptive correlation, NOT a mechanism claim; cooling and heating loads are both possible readings and neither is identified. The Cold class is thinly observed and concentrated, see cohortSupport.",
+  "methodology": "Extends standstillStats (M26): per-drive standstill_draw_kw (key-on, stationary median draw, from drive_master, ens-unfiltered to match the M26 scope) paired with the drive-start ambient temperature (ambientByDrive[file][0]). Spearman rank correlation (day-clustered bootstrap, seed 42, 4000 draws); an OLS slope (kW/C) is reported as a descriptive summary, not a causal estimate. Binned median/IQR by ambient band (right-open bins with explicit open ends, M623; a bin is reported at n >= 5 drives, the sentence compares bins with n >= 10 drives on >= 5 days). EXPLORATORY -- no HVAC state channel, no causality claim. Single vehicle / ~single driver."
  },
  "fullCellCaseStudy": {
   "caseStudyOnly": true,
@@ -382673,7 +382738,7 @@
         62.5,
         66.0,
         68.5,
-        81.0
+        78.0
        ],
        "oilMedianC": [
         37.0,
@@ -382684,10 +382749,54 @@
         46.0,
         50.0,
         56.0,
-        70.0
+        62.0
+       ],
+       "coolantNDrives": [
+        448,
+        450,
+        453,
+        446,
+        440,
+        419,
+        402,
+        320,
+        217
+       ],
+       "coolantNDays": [
+        125,
+        125,
+        126,
+        124,
+        124,
+        125,
+        124,
+        124,
+        113
+       ],
+       "oilNDrives": [
+        446,
+        449,
+        453,
+        447,
+        441,
+        419,
+        405,
+        320,
+        217
+       ],
+       "oilNDays": [
+        124,
+        123,
+        125,
+        124,
+        124,
+        125,
+        125,
+        124,
+        112
        ]
       },
-      "methodology": "Cold-start drives (coolant start <60 C). Per drive on a 1 Hz grid: time from start for coolant and oil to cross 60/70/80 C; the coolant->oil lag = oil_t70 - coolant_t70; the steady-state offset = median(coolant - oil) once coolant>=80 C; and the paired warm-up curves (median temp by time-from-start bin). Medians/IQR over cold-start drives; day-clustered bootstrap (seed 42, 4000 draws) on the lag. Extends warmupCurve (distance-domain coolant only) with the oil trajectory and the coolant-oil lag. Oil warms slower (more thermal mass, indirect heating), so it lags coolant. Fuel penalty (Aug-only subset) and emissions are NOT computed here. Single vehicle / ~single driver -- descriptive."
+      "methodology": "Cold-start drives (coolant start <60 C). Per drive on a 1 Hz grid: time from start for coolant and oil to cross 60/70/80 C; the coolant->oil lag = oil_t70 - coolant_t70; the steady-state offset = median(coolant - oil) once coolant>=80 C; and the paired warm-up curves (median temp by time-from-start bin). Medians/IQR over cold-start drives; day-clustered bootstrap (seed 42, 4000 draws) on the lag. Extends warmupCurve (distance-domain coolant only) with the oil trajectory and the coolant-oil lag. Oil warms slower (more thermal mass, indirect heating), so it lags coolant. Curve bins are [a, b) in seconds; samples from 900 s on are not binned (M623). Fuel penalty (Aug-only subset) and emissions are NOT computed here. Single vehicle / ~single driver -- descriptive."
      },
      "warm": {
       "nColdStart": 261,
@@ -382789,7 +382898,7 @@
         69.0,
         72.0,
         77.0,
-        83.0
+        81.0
        ],
        "oilMedianC": [
         37.0,
@@ -382800,10 +382909,54 @@
         50.0,
         54.0,
         59.0,
-        74.0
+        67.0
+       ],
+       "coolantNDrives": [
+        255,
+        258,
+        261,
+        255,
+        254,
+        246,
+        238,
+        193,
+        142
+       ],
+       "coolantNDays": [
+        97,
+        97,
+        98,
+        96,
+        96,
+        97,
+        96,
+        91,
+        77
+       ],
+       "oilNDrives": [
+        254,
+        256,
+        260,
+        256,
+        254,
+        246,
+        239,
+        193,
+        141
+       ],
+       "oilNDays": [
+        96,
+        95,
+        97,
+        96,
+        96,
+        97,
+        97,
+        91,
+        76
        ]
       },
-      "methodology": "Cold-start drives (coolant start <60 C). Per drive on a 1 Hz grid: time from start for coolant and oil to cross 60/70/80 C; the coolant->oil lag = oil_t70 - coolant_t70; the steady-state offset = median(coolant - oil) once coolant>=80 C; and the paired warm-up curves (median temp by time-from-start bin). Medians/IQR over cold-start drives; day-clustered bootstrap (seed 42, 4000 draws) on the lag. Extends warmupCurve (distance-domain coolant only) with the oil trajectory and the coolant-oil lag. Oil warms slower (more thermal mass, indirect heating), so it lags coolant. Fuel penalty (Aug-only subset) and emissions are NOT computed here. Single vehicle / ~single driver -- descriptive."
+      "methodology": "Cold-start drives (coolant start <60 C). Per drive on a 1 Hz grid: time from start for coolant and oil to cross 60/70/80 C; the coolant->oil lag = oil_t70 - coolant_t70; the steady-state offset = median(coolant - oil) once coolant>=80 C; and the paired warm-up curves (median temp by time-from-start bin). Medians/IQR over cold-start drives; day-clustered bootstrap (seed 42, 4000 draws) on the lag. Extends warmupCurve (distance-domain coolant only) with the oil trajectory and the coolant-oil lag. Oil warms slower (more thermal mass, indirect heating), so it lags coolant. Curve bins are [a, b) in seconds; samples from 900 s on are not binned (M623). Fuel penalty (Aug-only subset) and emissions are NOT computed here. Single vehicle / ~single driver -- descriptive."
      },
      "shoulder": {
       "nColdStart": 147,
@@ -382905,7 +383058,7 @@
         56.0,
         62.0,
         62.0,
-        68.5
+        61.8
        ],
        "oilMedianC": [
         37.0,
@@ -382916,10 +383069,54 @@
         41.5,
         47.0,
         51.0,
-        61.5
+        56.0
+       ],
+       "coolantNDrives": [
+        147,
+        146,
+        146,
+        145,
+        140,
+        130,
+        126,
+        98,
+        58
+       ],
+       "coolantNDays": [
+        51,
+        51,
+        51,
+        51,
+        51,
+        51,
+        51,
+        48,
+        38
+       ],
+       "oilNDrives": [
+        146,
+        147,
+        147,
+        145,
+        141,
+        130,
+        127,
+        98,
+        59
+       ],
+       "oilNDays": [
+        51,
+        51,
+        51,
+        51,
+        51,
+        51,
+        51,
+        48,
+        38
        ]
       },
-      "methodology": "Cold-start drives (coolant start <60 C). Per drive on a 1 Hz grid: time from start for coolant and oil to cross 60/70/80 C; the coolant->oil lag = oil_t70 - coolant_t70; the steady-state offset = median(coolant - oil) once coolant>=80 C; and the paired warm-up curves (median temp by time-from-start bin). Medians/IQR over cold-start drives; day-clustered bootstrap (seed 42, 4000 draws) on the lag. Extends warmupCurve (distance-domain coolant only) with the oil trajectory and the coolant-oil lag. Oil warms slower (more thermal mass, indirect heating), so it lags coolant. Fuel penalty (Aug-only subset) and emissions are NOT computed here. Single vehicle / ~single driver -- descriptive."
+      "methodology": "Cold-start drives (coolant start <60 C). Per drive on a 1 Hz grid: time from start for coolant and oil to cross 60/70/80 C; the coolant->oil lag = oil_t70 - coolant_t70; the steady-state offset = median(coolant - oil) once coolant>=80 C; and the paired warm-up curves (median temp by time-from-start bin). Medians/IQR over cold-start drives; day-clustered bootstrap (seed 42, 4000 draws) on the lag. Extends warmupCurve (distance-domain coolant only) with the oil trajectory and the coolant-oil lag. Oil warms slower (more thermal mass, indirect heating), so it lags coolant. Curve bins are [a, b) in seconds; samples from 900 s on are not binned (M623). Fuel penalty (Aug-only subset) and emissions are NOT computed here. Single vehicle / ~single driver -- descriptive."
      },
      "cold": {
       "nColdStart": 46,
@@ -383032,10 +383229,54 @@
         37.0,
         47.0,
         55.0,
-        60.0
+        58.0
+       ],
+       "coolantNDrives": [
+        46,
+        46,
+        46,
+        46,
+        46,
+        43,
+        38,
+        29,
+        17
+       ],
+       "coolantNDays": [
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        8,
+        7
+       ],
+       "oilNDrives": [
+        46,
+        46,
+        46,
+        46,
+        46,
+        43,
+        39,
+        29,
+        17
+       ],
+       "oilNDays": [
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        8,
+        7
        ]
       },
-      "methodology": "Cold-start drives (coolant start <60 C). Per drive on a 1 Hz grid: time from start for coolant and oil to cross 60/70/80 C; the coolant->oil lag = oil_t70 - coolant_t70; the steady-state offset = median(coolant - oil) once coolant>=80 C; and the paired warm-up curves (median temp by time-from-start bin). Medians/IQR over cold-start drives; day-clustered bootstrap (seed 42, 4000 draws) on the lag. Extends warmupCurve (distance-domain coolant only) with the oil trajectory and the coolant-oil lag. Oil warms slower (more thermal mass, indirect heating), so it lags coolant. Fuel penalty (Aug-only subset) and emissions are NOT computed here. Single vehicle / ~single driver -- descriptive."
+      "methodology": "Cold-start drives (coolant start <60 C). Per drive on a 1 Hz grid: time from start for coolant and oil to cross 60/70/80 C; the coolant->oil lag = oil_t70 - coolant_t70; the steady-state offset = median(coolant - oil) once coolant>=80 C; and the paired warm-up curves (median temp by time-from-start bin). Medians/IQR over cold-start drives; day-clustered bootstrap (seed 42, 4000 draws) on the lag. Extends warmupCurve (distance-domain coolant only) with the oil trajectory and the coolant-oil lag. Oil warms slower (more thermal mass, indirect heating), so it lags coolant. Curve bins are [a, b) in seconds; samples from 900 s on are not binned (M623). Fuel penalty (Aug-only subset) and emissions are NOT computed here. Single vehicle / ~single driver -- descriptive."
      }
     },
     "coverage": {
