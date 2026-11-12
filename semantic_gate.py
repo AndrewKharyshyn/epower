@@ -192,7 +192,7 @@ if _tt:
         _tiles = [("coolant", "80", "coolant 80 °C reached within 10 min (observed)"), ("oil", "70", "oil 70 °C reached within 10 min (observed)")]
         ok("A2 REQUIRED M435 %s: the two headline tiles show the observed share with its interval and carry no class; the reachers-only medians are labelled" % _mode,
            all((lab_ in _d) and (("%.1f" % (100 * _ttc[_mode][fl_][t_]["horizons"][1]["E1"]["point"])) in _d) for fl_, t_, lab_ in _tiles if _ttc[_mode].get(fl_, {}).get(t_) and _ttc[_mode][fl_][t_]["horizons"][1]["supported"])
-           and "MEDIAN OF REACHERS ONLY (s; understates the time for all cold starts; not a cohort median)" in _d)
+           and ("Kaplan-Meier (product-limit) estimate of the MEDIAN TIME TO THRESHOLD" in _d) and (_d.count("Median of reachers only") >= 1))      # M624: the headline panel is the Kaplan-Meier median (Director R2); reachers-only medians stay labelled in the time-to-threshold tables
         if _mode == "all":
             ok("A2 REQUIRED M435 all: the post-hoc stopping profile is labelled post-hoc, not a test of independent censoring, and equals the payload", ("post-hoc descriptive, not pre-registered" in _d) and ("not a test of independent censoring" in _d)
                and all(("%.3f" % _tt["postHoc"]["stoppingProfile"]["cells"]["coolant/80"][g_]["shareUnder5km"]) in _d for g_ in ("reached", "censored")))
@@ -722,7 +722,8 @@ if _tl:
            and _tl_lag.count("cohort median not identifiable without an assumption on censoring") == sum(1 for t in ("60", "70", "80") if _W["coldStarts"] and _W["coolant"][t]["reached"] / _W["coldStarts"] < 0.5)
            + sum(1 for _fl in _tl["timeToThreshold"]["cohorts"][_mode].values() for _c in _fl.values() if not _c["median"]["shown"]))   # M435 (C8): the same sentence is the R5 sentence of the Kaplan-Meier tables
         ok("A2 REQUIRED M418 %s: the censored sentence says the observation ended before the threshold; risk-set rows are called counts; no survival wording" % _mode,
-           "observation ended before the threshold" in _tl_lag and "Risk-set rows are counts, not a time-to-event estimate" in _tl_lag and "key-off" in _tl_lag and not re.search(r"survival|Kaplan|failed to warm up", "".join(_x[_x.find("Support (ledger counts"):_x.find("ambient 3", _x.find("Support (ledger counts"))] for _x in (_tl_lag, _tl_cur, _tl_fuel))))
+           "observation ended before the threshold" in _tl_lag and "Risk-set rows are counts, not a time-to-event estimate" in _tl_lag and "key-off" in _tl_lag and not re.search(r"survival|Kaplan|failed to warm up", "".join(_x[_x.find("Support (ledger counts"):_x.find("Single vehicle, one driver", _x.find("Support (ledger counts"))] for _x in (_tl_lag, _tl_cur, _tl_fuel)))
+           and all(("Single vehicle, one driver" in _x[_x.find("Support (ledger counts"):]) for _x in (_tl_lag, _tl_cur, _tl_fuel) if "Support (ledger counts" in _x))        # M625: fail closed: the end anchor of the slice must exist after its start
         ok("A2 REQUIRED M418 %s: hvcEngine80C support names the class, counts, days, warm restarts and cold-start split; the curve states its own warm-start rule" % _mode,
            all(("%s: %d of %d drives reached 80 %sC" % (k.replace("_", " ").capitalize(), a["reached"], a["n"], _deg)) in _tl_cur and (" on %d days" % a["nDays"]) in _tl_cur
                and ("cold starts: %d reached, %d did not reach it within the drive" % (a["coldStartAndReached"], a["coldStartNotReached"])) in _tl_cur for k, a in _H["accepted"].items() if a["n"] > 0)
@@ -979,7 +980,7 @@ _all_t = " ".join(T.values())
 ok("A2 REQUIRED M364 qualified thesis wording present (consistent with ... not a test; described as a power buffer; Pack Energy per Cycle title)", all(x in _all_t for x in ("this reading is an interpretation, not a test", "it does not by itself establish it", "it does not by itself test the power-buffer description", "Crawl & Stop-Go — Pack Energy per Cycle", "described as a power buffer", "not tested against an alternative such as a controller SoC policy")))
 ok("A2 REQUIRED M364 conclusion scope is bound (S.dateRange and observed counts from cohortMeta), no typed season", "${S.dateRange}; ${S.cohortMeta?.warm?.observed" in _src and "warm and shoulder season" not in _src)
 _meas = [i + 1 for i, ln in enumerate(_src.split(chr(10))) if 'EvidenceBadge status="measured"' in ln]
-ok("A2 REQUIRED M364 badge audit: only the three non-thesis Measured badges (AFR, oil/coolant lag, departure speed artefact) and the register legend remain (%d: %s)" % (len(_meas), _meas), len(_meas) == 4)
+ok("A2 REQUIRED M364 badge audit: only the two non-thesis Measured badges (AFR, departure speed artefact; M624: the oil/coolant lag badge is Derived because coolant and oil are logged / app-calculated) and the register legend remain (%d: %s)" % (len(_meas), _meas), len(_meas) == 3)
 # M363 (D-13 remainder + engine-cycling section text)
 _esr = json.load(open("summary_arrays.json", encoding="utf-8"))
 _det = _esr["engineStartRate"]["detector"]

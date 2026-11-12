@@ -266,7 +266,7 @@ def build(dm, raw_dir, A, workers=4):
                        "a scenario range is the spread of single-choice changes; it is not an interval or a total",
                        "the production trapezoid is a released convention; A3, B1, B2 and C1 are estimator sensitivities, not an identified ground truth; A0-A2, C2-C5 and D1-D3 are data-process sensitivities",
                        "cadence, quantisation and midpoint rows are carried from their own studies and are not on the drive set of the computed rows; the capacity rows rescale GTC and FCE only (reference scaling)"],
-           "limits": ["single vehicle, one driver, May-October", "ratios of sums are dominated by long drives; the per-drive spread is reported beside each row",
+           "limits": ["single vehicle, one driver, " + (__import__("scope_label").month_span(list(d["day"])) or "scope not available"), "ratios of sums are dominated by long drives; the per-drive spread is reported beside each row",
                       "the shift may vary over time or with the logger cadence; a split by month and cadence regime is a follow-up, not part of this block"]}
     return blk
 

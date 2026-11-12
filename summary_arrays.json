@@ -40407,35 +40407,319 @@
   "staleWaiver": "Owner decision (Andrii, chat, M575 ingestion): '7-8 hours? is so long then do not do, let's do that later on next ingestions' (M119-v2 refit on all 621 drives deferred to the next ingestions); Director ruling: carry socHysteresisV2 at its 606-drive fit (M463 basis), never refit inside an ingestion; the 15 drives added in M575 are prospective held-out data (M495 monitor), not used in the fit; basis 606 drives vs corpus 621; signed 2026-11-05."
  },
  "headroomUtilization": {
-  "nFilesScanned": 434,
-  "nFilesCovered": 253,
-  "coveragePct": 38.0,
-  "nChargeEvents": 10147,
-  "nDischargeEvents": 16984,
+  "nFilesScanned": 665,
+  "nFilesCovered": 429,
+  "coveragePct": 64.5,
+  "unit": {
+   "gridKw": 0.05,
+   "toleranceKw": 1e-06,
+   "minShare": 0.999,
+   "factorUsedHpToKw": 0.73549875,
+   "eras": {
+    "hp": {
+     "nSamples": 55657,
+     "nOnGrid": 55657,
+     "share": 1.0,
+     "shareOnQuarterKwGrid": 0.965305,
+     "filesOffQuarterKwGrid": 46,
+     "offQuarterDateFrom": "2026-08-29",
+     "offQuarterDateTo": "2026-09-30",
+     "mechanicalFactor": 0.745699872,
+     "shareMechanicalFactor": 0.0
+    },
+    "kW": {
+     "nSamples": 44361,
+     "nOnGrid": 44361,
+     "share": 1.0,
+     "shareOnQuarterKwGrid": 1.0,
+     "filesOffQuarterKwGrid": 0,
+     "offQuarterDateFrom": null,
+     "offQuarterDateTo": null
+    }
+   },
+   "passed": true
+  },
+  "coverage": {
+   "scannedDrives": 665,
+   "drivesWithChannel": 432,
+   "drivesAnalysed": 429,
+   "drivesWithoutChannel": 233,
+   "denominator": "drive_master rows (the corpus)",
+   "selection": "header (a possible-power column of either name); not by date",
+   "rawFilesNote": "counts refer to the drive_master rows; raw files outside the corpus (auxiliary and comparison-only) are not scanned",
+   "byEra": {
+    "hp": {
+     "drives": 256,
+     "dateFrom": "2026-05-15",
+     "dateTo": "2026-09-30",
+     "nChargeEvents": 10147,
+     "nDischargeEvents": 16984,
+     "medianChannelGapS": 11.42,
+     "medianMatchRate": 1.0
+    },
+    "kW": {
+     "drives": 176,
+     "dateFrom": "2026-09-30",
+     "dateTo": "2026-11-09",
+     "nChargeEvents": 8375,
+     "nDischargeEvents": 13588,
+     "medianChannelGapS": 7.57,
+     "medianMatchRate": 1.0
+    }
+   }
+  },
+  "ceiling": {
+   "valueKw": 63.75,
+   "toleranceKw": 0.05,
+   "basis": "255 x 0.25 kW (a possible one-byte saturation); not identified",
+   "byEra": {
+    "hp": {
+     "inputSamplesAtCeiling": 25340,
+     "inputSamples": 27829,
+     "outputSamplesAtCeiling": 27594,
+     "outputSamples": 27828,
+     "filesWithSamplesAtCeiling": 256
+    },
+    "kW": {
+     "inputSamplesAtCeiling": 15512,
+     "inputSamples": 22181,
+     "outputSamplesAtCeiling": 21168,
+     "outputSamples": 22180,
+     "filesWithSamplesAtCeiling": 176
+    }
+   }
+  },
+  "nChargeEvents": 18522,
+  "nDischargeEvents": 30572,
   "outputCeilingConstant": false,
   "outputCeilingRangeKw": [
-   60.58,
-   64.63
+   41.5,
+   63.75
   ],
+  "outputLimitByEra": {
+   "hp": {
+    "constant": false,
+    "rangeKw": [
+     59.75,
+     63.75
+    ]
+   },
+   "kW": {
+    "constant": false,
+    "rangeKw": [
+     41.5,
+     63.75
+    ]
+   }
+  },
   "chargeUtilization": {
-   "median": 0.135,
-   "p95": 0.44,
-   "max": 1.155,
-   "nAbove1": 3,
+   "nEvents": 18522,
+   "nDrives": 428,
+   "nDays": 73,
+   "median": 0.134,
+   "p95": 0.479,
+   "max": 1.171,
+   "nAbove1": 7,
    "maxEvent": {
     "file": "20260814_182203.csv",
     "measuredKw": 74.66,
-    "possibleKw": 64.63
+    "possibleKw": 63.75
+   },
+   "ci95DayCluster": {
+    "median": [
+     0.129,
+     0.139
+    ],
+    "p95": [
+     0.459,
+     0.498
+    ],
+    "draws": 4000,
+    "seed": 42,
+    "cluster": "calendar day"
+   },
+   "belowCeiling": {
+    "nEvents": 3708,
+    "nDrives": 214,
+    "nDays": 65,
+    "median": 0.147,
+    "p95": 0.556,
+    "label": "conditional on the reported limit being below the ceiling; descriptive, not a censoring correction"
    }
   },
   "dischargeUtilization": {
-   "median": 0.049,
-   "p95": 0.304,
-   "max": 1.07,
+   "nEvents": 30572,
+   "nDrives": 429,
+   "nDays": 73,
+   "median": 0.05,
+   "p95": 0.303,
+   "max": 1.085,
+   "nAbove1": 2,
    "maxMeasuredKw": 69.18,
-   "maxMeasuredFile": "20260825_183427.csv"
+   "maxMeasuredFile": "20260825_183427.csv",
+   "ci95DayCluster": {
+    "median": [
+     0.045,
+     0.056
+    ],
+    "p95": [
+     0.29,
+     0.314
+    ],
+    "draws": 4000,
+    "seed": 42,
+    "cluster": "calendar day"
+   },
+   "belowCeiling": {
+    "nEvents": 857,
+    "nDrives": 67,
+    "nDays": 36,
+    "median": 0.056,
+    "p95": 0.24,
+    "label": "conditional on the reported limit being below the ceiling; descriptive, not a censoring correction"
+   }
   },
-  "methodology": "M121 origin: [BMS] Input/Output possible power (hp), the BMS's own declared capability envelope, present only from the third raw-logging PID configuration onward (2026-08-13+). Coverage is sparse (253/665 corpus drives, 38.0%) and the channel itself is polled far less densely than ordinary BMS current/voltage (roughly 1-2% fill density within covered files), so alignment against the pipeline's I x V power series uses a wide 2s merge_asof(direction=\"nearest\") tolerance rather than the usual V_ALIGN_TOL=1500ms. Output possible power (max discharge capability) is a hard constant across every covered file (zero exceptions) -- this corpus's driving never moved it, so no discharge-side utilization ratio is reported as a headline figure, only the descriptive utilization-against-the-fixed-ceiling stats above. Input possible power (max charge-acceptance capability) DOES vary and is the genuinely informative direction. A small number of charge-utilization values exceed 1.0, most plausibly a stale-match artefact from the wide alignment tolerance during fast current transients rather than a real BMS-limit excursion; not clipped, reported as-is."
+  "eras": {
+   "hp": {
+    "charge": {
+     "nEvents": 10147,
+     "nDrives": 252,
+     "nDays": 47,
+     "median": 0.137,
+     "p95": 0.447,
+     "max": 1.171,
+     "nAbove1": 3,
+     "maxEvent": {
+      "file": "20260814_182203.csv",
+      "measuredKw": 74.66,
+      "possibleKw": 63.75
+     },
+     "ci95DayCluster": {
+      "median": [
+       0.131,
+       0.142
+      ],
+      "p95": [
+       0.429,
+       0.466
+      ],
+      "draws": 4000,
+      "seed": 42,
+      "cluster": "calendar day"
+     },
+     "belowCeiling": {
+      "nEvents": 991,
+      "nDrives": 107,
+      "nDays": 39,
+      "median": 0.156,
+      "p95": 0.526,
+      "label": "conditional on the reported limit being below the ceiling; descriptive, not a censoring correction"
+     }
+    },
+    "discharge": {
+     "nEvents": 16984,
+     "nDrives": 253,
+     "nDays": 47,
+     "median": 0.049,
+     "p95": 0.308,
+     "max": 1.085,
+     "nAbove1": 2,
+     "maxMeasuredKw": 69.18,
+     "maxMeasuredFile": "20260825_183427.csv",
+     "ci95DayCluster": {
+      "median": [
+       0.044,
+       0.055
+      ],
+      "p95": [
+       0.293,
+       0.321
+      ],
+      "draws": 4000,
+      "seed": 42,
+      "cluster": "calendar day"
+     },
+     "belowCeiling": {
+      "nEvents": 175,
+      "nDrives": 21,
+      "nDays": 14,
+      "median": 0.04,
+      "p95": 0.242,
+      "label": "conditional on the reported limit being below the ceiling; descriptive, not a censoring correction"
+     }
+    }
+   },
+   "kW": {
+    "charge": {
+     "nEvents": 8375,
+     "nDrives": 176,
+     "nDays": 27,
+     "median": 0.129,
+     "p95": 0.51,
+     "max": 1.155,
+     "nAbove1": 4,
+     "maxEvent": {
+      "file": "2026-10-17_18-22-49.csv",
+      "measuredKw": 73.65,
+      "possibleKw": 63.75
+     },
+     "ci95DayCluster": {
+      "median": [
+       0.122,
+       0.138
+      ],
+      "p95": [
+       0.483,
+       0.533
+      ],
+      "draws": 4000,
+      "seed": 42,
+      "cluster": "calendar day"
+     },
+     "belowCeiling": {
+      "nEvents": 2717,
+      "nDrives": 107,
+      "nDays": 27,
+      "median": 0.145,
+      "p95": 0.562,
+      "label": "conditional on the reported limit being below the ceiling; descriptive, not a censoring correction"
+     }
+    },
+    "discharge": {
+     "nEvents": 13588,
+     "nDrives": 176,
+     "nDays": 27,
+     "median": 0.052,
+     "p95": 0.297,
+     "max": 0.836,
+     "nAbove1": 0,
+     "maxMeasuredKw": 53.3,
+     "maxMeasuredFile": "2026-10-17_10-09-49.csv",
+     "ci95DayCluster": {
+      "median": [
+       0.043,
+       0.061
+      ],
+      "p95": [
+       0.273,
+       0.315
+      ],
+      "draws": 4000,
+      "seed": 42,
+      "cluster": "calendar day"
+     },
+     "belowCeiling": {
+      "nEvents": 682,
+      "nDrives": 46,
+      "nDays": 22,
+      "median": 0.058,
+      "p95": 0.237,
+      "label": "conditional on the reported limit being below the ceiling; descriptive, not a censoring correction"
+     }
+    }
+   }
+  },
+  "methodology": "Logged [BMS] Input/Output possible power, the limit the BMS reports (logged / app-calculated): the (kW) pair since 2026-09-30 and the (hp) pair before it, converted with the metric horsepower factor 0.735499 (the former mechanical factor 0.7457 put every limit 1.4 % too high); files are selected by header, not by date. Utilisation = logged I x V power (charge-positive raw, M11) aligned to the nearest possible-power sample within 2s (merge_asof nearest) divided by the BMS-reported limit; it is not a physical capability. Coverage: 432 of 665 corpus drives carry the channel (429 analysed). The channel is polled far less densely than ordinary BMS current / voltage (median gap per era in coverage.byEra), so a few utilisation values exceed 1.0, most plausibly a stale match during fast current transients; not clipped. The reported limit may be saturated at 63.75 kW (255 x 0.25 kW): 89614 of 100018 possible-power samples are at or above 63.7 kW (ceiling.byEra); this is not identified, and the statistics are also given for events with the limit below it (conditional on the denominator, not a censoring correction). Median and 95th percentile carry a day-clustered percentile bootstrap (seed 42, 4000 draws); maximum and nAbove1 are descriptive. Eras are reported side by side; no contrast between them is drawn, and nothing here shows that the limit constrained driving. Single vehicle / ~single driver."
  },
  "heatSoakCarryover": {
   "nPairs": 654,
@@ -48389,7 +48673,7 @@
     62.5,
     66.0,
     68.5,
-    81.0
+    78.0
    ],
    "oilMedianC": [
     37.0,
@@ -48400,10 +48684,120 @@
     46.0,
     50.0,
     56.0,
-    70.0
+    62.0
+   ],
+   "coolantNDrives": [
+    448,
+    450,
+    453,
+    446,
+    440,
+    419,
+    402,
+    320,
+    217
+   ],
+   "coolantNDays": [
+    125,
+    125,
+    126,
+    124,
+    124,
+    125,
+    124,
+    124,
+    113
+   ],
+   "oilNDrives": [
+    446,
+    449,
+    453,
+    447,
+    441,
+    419,
+    405,
+    320,
+    217
+   ],
+   "oilNDays": [
+    124,
+    123,
+    125,
+    124,
+    124,
+    125,
+    125,
+    124,
+    112
+   ],
+   "coolantP25C": [
+    24.0,
+    25.0,
+    26.0,
+    32.0,
+    38.0,
+    46.5,
+    60.0,
+    61.0,
+    63.0
+   ],
+   "coolantP75C": [
+    50.0,
+    49.0,
+    49.0,
+    57.9,
+    68.0,
+    72.0,
+    76.0,
+    82.0,
+    83.0
+   ],
+   "oilP25C": [
+    23.0,
+    23.0,
+    24.0,
+    26.8,
+    31.0,
+    37.0,
+    43.0,
+    49.0,
+    55.0
+   ],
+   "oilP75C": [
+    44.0,
+    45.0,
+    45.0,
+    48.0,
+    51.0,
+    55.0,
+    57.5,
+    64.0,
+    71.0
+   ],
+   "coolantSupported": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "oilSupported": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
    ]
   },
-  "methodology": "Cold-start drives (coolant start <60 C). Per drive on a 1 Hz grid: time from start for coolant and oil to cross 60/70/80 C; the coolant->oil lag = oil_t70 - coolant_t70; the steady-state offset = median(coolant - oil) once coolant>=80 C; and the paired warm-up curves (median temp by time-from-start bin). Medians/IQR over cold-start drives; day-clustered bootstrap (seed 42, 4000 draws) on the lag. Extends warmupCurve (distance-domain coolant only) with the oil trajectory and the coolant-oil lag. Oil warms slower (more thermal mass, indirect heating), so it lags coolant. Fuel penalty (Aug-only subset) and emissions are NOT computed here. Single vehicle / ~single driver -- descriptive."
+  "methodology": "Cold-start drives (coolant start <60 C). Per drive on a 1 Hz grid: time from start for coolant and oil to cross 60/70/80 C; the coolant->oil lag = oil_t70 - coolant_t70; the steady-state offset = median(coolant - oil) once coolant>=80 C; and the paired warm-up curves (median temp by time-from-start bin). Medians/IQR over cold-start drives; day-clustered bootstrap (seed 42, 4000 draws) on the lag. Extends warmupCurve (distance-domain coolant only) with the oil trajectory and the coolant-oil lag. A possible reading of the lag is the larger thermal mass of the oil and its indirect heating; this is not tested here. Curve bins are [a, b) in seconds; samples from 900 s on are not binned (M623). A drive needs at least 30 valid 1 s coolant samples to count; the 1 s grid is on wall-clock seconds of the logged time stamps and t is seconds since the first grid second. Per bin the curve is the median across drives of the per-drive medians; p25/p75 are the spread of those per-drive medians across drives (not a confidence interval); a bin counts as supported at >= 10 drives on >= 5 calendar days; later bins hold only drives that ran that long, so part of the shape of the curve is bin composition (M624). Fuel penalty (Aug-only subset) and emissions are NOT computed here. Single vehicle / ~single driver -- descriptive."
  },
  "socBalancedFuel": {
   "nDrives": 383,
@@ -53093,15 +53487,33 @@
   "interceptKw": 0.648,
   "byAmbientBin": [
    {
+    "ambientBinC": "<5",
+    "n": 42,
+    "nDays": 10,
+    "medianKw": 1.08,
+    "p25Kw": 0.472,
+    "p75Kw": 1.432
+   },
+   {
+    "ambientBinC": "5-10",
+    "n": 62,
+    "nDays": 23,
+    "medianKw": 1.05,
+    "p25Kw": 0.525,
+    "p75Kw": 1.345
+   },
+   {
     "ambientBinC": "10-15",
-    "n": 200,
-    "medianKw": 0.905,
-    "p25Kw": 0.508,
-    "p75Kw": 1.25
+    "n": 96,
+    "nDays": 41,
+    "medianKw": 0.87,
+    "p25Kw": 0.655,
+    "p75Kw": 1.09
    },
    {
     "ambientBinC": "15-20",
     "n": 131,
+    "nDays": 53,
     "medianKw": 1.01,
     "p25Kw": 0.92,
     "p75Kw": 1.1
@@ -53109,6 +53521,7 @@
    {
     "ambientBinC": "20-25",
     "n": 140,
+    "nDays": 53,
     "medianKw": 1.2,
     "p25Kw": 1.07,
     "p75Kw": 1.42
@@ -53116,20 +53529,22 @@
    {
     "ambientBinC": "25-30",
     "n": 77,
+    "nDays": 28,
     "medianKw": 1.46,
     "p25Kw": 1.35,
     "p75Kw": 1.9
    },
    {
-    "ambientBinC": "30-40",
+    "ambientBinC": ">=30",
     "n": 28,
+    "nDays": 13,
     "medianKw": 1.915,
     "p25Kw": 1.692,
     "p75Kw": 2.282
    }
   ],
-  "interpretation": "Standstill draw rises monotonically with ambient temperature above ~15 C, consistent with an AC-compressor climate-load proxy, but no HVAC state channel exists (compressor on/off, fan speed, setpoint) so this is a descriptive correlation, NOT a mechanism claim. Ambient below ~15 C is thinly observed (the Cold class is thinly observed and concentrated, see cohortSupport) -- this characterises the warm end of the range only.",
-  "methodology": "Extends standstillStats (M26): per-drive standstill_draw_kw (key-on, stationary median draw, from drive_master, ens-unfiltered to match the M26 scope) paired with the drive-start ambient temperature (ambientByDrive[file][0]). Spearman rank correlation (day-clustered bootstrap, seed 42, 4000 draws); an OLS slope (kW/C) is reported as a descriptive summary, not a causal estimate. Binned median/IQR by ambient band. EXPLORATORY -- no HVAC state channel, no causality claim. Single vehicle / ~single driver."
+  "interpretation": "Across the supported bins at and above 15 C the median standstill draw increases from 1.01 kW in the 15-20 C bin to 1.92 kW in the >=30 C bin. Supported bins below 15 C: <5 C: 1.08 kW (42 drives, 10 days); 5-10 C: 1.05 kW (62 drives, 23 days); 10-15 C: 0.87 kW (96 drives, 41 days). Whether low-ambient values reflect heating load is not identified. Standstill draw is a climate-load proxy: there is no HVAC state channel (compressor on/off, fan speed, setpoint), so this is a descriptive correlation, NOT a mechanism claim; cooling and heating loads are both possible readings and neither is identified. The Cold class is thinly observed and concentrated, see cohortSupport.",
+  "methodology": "Extends standstillStats (M26): per-drive standstill_draw_kw (key-on, stationary median draw, from drive_master, ens-unfiltered to match the M26 scope) paired with the drive-start ambient temperature (ambientByDrive[file][0]). Spearman rank correlation (day-clustered bootstrap, seed 42, 4000 draws); an OLS slope (kW/C) is reported as a descriptive summary, not a causal estimate. Binned median/IQR by ambient band (right-open bins with explicit open ends, M623; a bin is reported at n >= 5 drives, the sentence compares bins with n >= 10 drives on >= 5 days). EXPLORATORY -- no HVAC state channel, no causality claim. Single vehicle / ~single driver."
  },
  "fullCellCaseStudy": {
   "caseStudyOnly": true,
@@ -90364,7 +90779,7 @@
   ],
   "inference": "calendar day = cluster; percentile bootstrap, seed 42, 4000 draws, per-day sufficient statistics",
   "limits": [
-   "one vehicle, May-October data",
+   "one vehicle, May-November 2026 data",
    "SoC range observed about 42-88 % (little outside 44-83 %); per-100 is an extrapolation beyond it",
    "shared current-sensor gain error cannot be cancelled or tested",
    "the BMS SoC is not a pure charge counter (key-on reset, flicker)",
@@ -107064,7 +107479,7 @@
    "week blocks address serial dependence at the weekly scale only and about 20 weeks make the block bootstrap coarse",
    "CR2 and the wild bootstrap are small-cluster corrections, not a model of dependence",
    "the trend slopes are conditional on the design y ~ months + T + I",
-   "one vehicle, May-October data"
+   "one vehicle, May-November 2026 data"
   ]
  },
  "energyPackets": {
@@ -176656,7 +177071,7 @@
    "cadence, quantisation and midpoint rows are carried from their own studies and are not on the drive set of the computed rows; the capacity rows rescale GTC and FCE only (reference scaling)"
   ],
   "limits": [
-   "single vehicle, one driver, May-October",
+   "single vehicle, one driver, May-November 2026",
    "ratios of sums are dominated by long drives; the per-drive spread is reported beside each row",
    "the shift may vary over time or with the logger cadence; a split by month and cadence regime is a follow-up, not part of this block"
   ]
@@ -382673,7 +383088,7 @@
         62.5,
         66.0,
         68.5,
-        81.0
+        78.0
        ],
        "oilMedianC": [
         37.0,
@@ -382684,10 +383099,120 @@
         46.0,
         50.0,
         56.0,
-        70.0
+        62.0
+       ],
+       "coolantNDrives": [
+        448,
+        450,
+        453,
+        446,
+        440,
+        419,
+        402,
+        320,
+        217
+       ],
+       "coolantNDays": [
+        125,
+        125,
+        126,
+        124,
+        124,
+        125,
+        124,
+        124,
+        113
+       ],
+       "oilNDrives": [
+        446,
+        449,
+        453,
+        447,
+        441,
+        419,
+        405,
+        320,
+        217
+       ],
+       "oilNDays": [
+        124,
+        123,
+        125,
+        124,
+        124,
+        125,
+        125,
+        124,
+        112
+       ],
+       "coolantP25C": [
+        24.0,
+        25.0,
+        26.0,
+        32.0,
+        38.0,
+        46.5,
+        60.0,
+        61.0,
+        63.0
+       ],
+       "coolantP75C": [
+        50.0,
+        49.0,
+        49.0,
+        57.9,
+        68.0,
+        72.0,
+        76.0,
+        82.0,
+        83.0
+       ],
+       "oilP25C": [
+        23.0,
+        23.0,
+        24.0,
+        26.8,
+        31.0,
+        37.0,
+        43.0,
+        49.0,
+        55.0
+       ],
+       "oilP75C": [
+        44.0,
+        45.0,
+        45.0,
+        48.0,
+        51.0,
+        55.0,
+        57.5,
+        64.0,
+        71.0
+       ],
+       "coolantSupported": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+       ],
+       "oilSupported": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
        ]
       },
-      "methodology": "Cold-start drives (coolant start <60 C). Per drive on a 1 Hz grid: time from start for coolant and oil to cross 60/70/80 C; the coolant->oil lag = oil_t70 - coolant_t70; the steady-state offset = median(coolant - oil) once coolant>=80 C; and the paired warm-up curves (median temp by time-from-start bin). Medians/IQR over cold-start drives; day-clustered bootstrap (seed 42, 4000 draws) on the lag. Extends warmupCurve (distance-domain coolant only) with the oil trajectory and the coolant-oil lag. Oil warms slower (more thermal mass, indirect heating), so it lags coolant. Fuel penalty (Aug-only subset) and emissions are NOT computed here. Single vehicle / ~single driver -- descriptive."
+      "methodology": "Cold-start drives (coolant start <60 C). Per drive on a 1 Hz grid: time from start for coolant and oil to cross 60/70/80 C; the coolant->oil lag = oil_t70 - coolant_t70; the steady-state offset = median(coolant - oil) once coolant>=80 C; and the paired warm-up curves (median temp by time-from-start bin). Medians/IQR over cold-start drives; day-clustered bootstrap (seed 42, 4000 draws) on the lag. Extends warmupCurve (distance-domain coolant only) with the oil trajectory and the coolant-oil lag. A possible reading of the lag is the larger thermal mass of the oil and its indirect heating; this is not tested here. Curve bins are [a, b) in seconds; samples from 900 s on are not binned (M623). A drive needs at least 30 valid 1 s coolant samples to count; the 1 s grid is on wall-clock seconds of the logged time stamps and t is seconds since the first grid second. Per bin the curve is the median across drives of the per-drive medians; p25/p75 are the spread of those per-drive medians across drives (not a confidence interval); a bin counts as supported at >= 10 drives on >= 5 calendar days; later bins hold only drives that ran that long, so part of the shape of the curve is bin composition (M624). Fuel penalty (Aug-only subset) and emissions are NOT computed here. Single vehicle / ~single driver -- descriptive."
      },
      "warm": {
       "nColdStart": 261,
@@ -382789,7 +383314,7 @@
         69.0,
         72.0,
         77.0,
-        83.0
+        81.0
        ],
        "oilMedianC": [
         37.0,
@@ -382800,10 +383325,120 @@
         50.0,
         54.0,
         59.0,
-        74.0
+        67.0
+       ],
+       "coolantNDrives": [
+        255,
+        258,
+        261,
+        255,
+        254,
+        246,
+        238,
+        193,
+        142
+       ],
+       "coolantNDays": [
+        97,
+        97,
+        98,
+        96,
+        96,
+        97,
+        96,
+        91,
+        77
+       ],
+       "oilNDrives": [
+        254,
+        256,
+        260,
+        256,
+        254,
+        246,
+        239,
+        193,
+        141
+       ],
+       "oilNDays": [
+        96,
+        95,
+        97,
+        96,
+        96,
+        97,
+        97,
+        91,
+        76
+       ],
+       "coolantP25C": [
+        27.0,
+        27.0,
+        28.0,
+        36.0,
+        45.2,
+        59.0,
+        63.0,
+        67.0,
+        73.2
+       ],
+       "coolantP75C": [
+        50.0,
+        50.0,
+        52.0,
+        65.0,
+        73.0,
+        76.0,
+        80.8,
+        83.0,
+        84.0
+       ],
+       "oilP25C": [
+        25.0,
+        26.0,
+        26.0,
+        29.0,
+        35.0,
+        39.0,
+        45.0,
+        51.0,
+        60.0
+       ],
+       "oilP75C": [
+        45.0,
+        45.0,
+        45.2,
+        50.6,
+        54.0,
+        57.0,
+        61.0,
+        67.0,
+        73.0
+       ],
+       "coolantSupported": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+       ],
+       "oilSupported": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
        ]
       },
-      "methodology": "Cold-start drives (coolant start <60 C). Per drive on a 1 Hz grid: time from start for coolant and oil to cross 60/70/80 C; the coolant->oil lag = oil_t70 - coolant_t70; the steady-state offset = median(coolant - oil) once coolant>=80 C; and the paired warm-up curves (median temp by time-from-start bin). Medians/IQR over cold-start drives; day-clustered bootstrap (seed 42, 4000 draws) on the lag. Extends warmupCurve (distance-domain coolant only) with the oil trajectory and the coolant-oil lag. Oil warms slower (more thermal mass, indirect heating), so it lags coolant. Fuel penalty (Aug-only subset) and emissions are NOT computed here. Single vehicle / ~single driver -- descriptive."
+      "methodology": "Cold-start drives (coolant start <60 C). Per drive on a 1 Hz grid: time from start for coolant and oil to cross 60/70/80 C; the coolant->oil lag = oil_t70 - coolant_t70; the steady-state offset = median(coolant - oil) once coolant>=80 C; and the paired warm-up curves (median temp by time-from-start bin). Medians/IQR over cold-start drives; day-clustered bootstrap (seed 42, 4000 draws) on the lag. Extends warmupCurve (distance-domain coolant only) with the oil trajectory and the coolant-oil lag. A possible reading of the lag is the larger thermal mass of the oil and its indirect heating; this is not tested here. Curve bins are [a, b) in seconds; samples from 900 s on are not binned (M623). A drive needs at least 30 valid 1 s coolant samples to count; the 1 s grid is on wall-clock seconds of the logged time stamps and t is seconds since the first grid second. Per bin the curve is the median across drives of the per-drive medians; p25/p75 are the spread of those per-drive medians across drives (not a confidence interval); a bin counts as supported at >= 10 drives on >= 5 calendar days; later bins hold only drives that ran that long, so part of the shape of the curve is bin composition (M624). Fuel penalty (Aug-only subset) and emissions are NOT computed here. Single vehicle / ~single driver -- descriptive."
      },
      "shoulder": {
       "nColdStart": 147,
@@ -382905,7 +383540,7 @@
         56.0,
         62.0,
         62.0,
-        68.5
+        61.8
        ],
        "oilMedianC": [
         37.0,
@@ -382916,10 +383551,120 @@
         41.5,
         47.0,
         51.0,
-        61.5
+        56.0
+       ],
+       "coolantNDrives": [
+        147,
+        146,
+        146,
+        145,
+        140,
+        130,
+        126,
+        98,
+        58
+       ],
+       "coolantNDays": [
+        51,
+        51,
+        51,
+        51,
+        51,
+        51,
+        51,
+        48,
+        38
+       ],
+       "oilNDrives": [
+        146,
+        147,
+        147,
+        145,
+        141,
+        130,
+        127,
+        98,
+        59
+       ],
+       "oilNDays": [
+        51,
+        51,
+        51,
+        51,
+        51,
+        51,
+        51,
+        48,
+        38
+       ],
+       "coolantP25C": [
+        19.0,
+        20.0,
+        20.0,
+        28.5,
+        35.0,
+        38.6,
+        58.0,
+        58.0,
+        58.0
+       ],
+       "coolantP75C": [
+        51.2,
+        49.0,
+        48.0,
+        47.0,
+        58.0,
+        63.8,
+        67.0,
+        66.8,
+        76.0
+       ],
+       "oilP25C": [
+        17.2,
+        18.0,
+        19.0,
+        21.0,
+        29.0,
+        34.8,
+        41.0,
+        49.0,
+        51.0
+       ],
+       "oilP75C": [
+        44.0,
+        44.0,
+        44.0,
+        45.0,
+        46.0,
+        47.8,
+        53.0,
+        56.8,
+        62.0
+       ],
+       "coolantSupported": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+       ],
+       "oilSupported": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
        ]
       },
-      "methodology": "Cold-start drives (coolant start <60 C). Per drive on a 1 Hz grid: time from start for coolant and oil to cross 60/70/80 C; the coolant->oil lag = oil_t70 - coolant_t70; the steady-state offset = median(coolant - oil) once coolant>=80 C; and the paired warm-up curves (median temp by time-from-start bin). Medians/IQR over cold-start drives; day-clustered bootstrap (seed 42, 4000 draws) on the lag. Extends warmupCurve (distance-domain coolant only) with the oil trajectory and the coolant-oil lag. Oil warms slower (more thermal mass, indirect heating), so it lags coolant. Fuel penalty (Aug-only subset) and emissions are NOT computed here. Single vehicle / ~single driver -- descriptive."
+      "methodology": "Cold-start drives (coolant start <60 C). Per drive on a 1 Hz grid: time from start for coolant and oil to cross 60/70/80 C; the coolant->oil lag = oil_t70 - coolant_t70; the steady-state offset = median(coolant - oil) once coolant>=80 C; and the paired warm-up curves (median temp by time-from-start bin). Medians/IQR over cold-start drives; day-clustered bootstrap (seed 42, 4000 draws) on the lag. Extends warmupCurve (distance-domain coolant only) with the oil trajectory and the coolant-oil lag. A possible reading of the lag is the larger thermal mass of the oil and its indirect heating; this is not tested here. Curve bins are [a, b) in seconds; samples from 900 s on are not binned (M623). A drive needs at least 30 valid 1 s coolant samples to count; the 1 s grid is on wall-clock seconds of the logged time stamps and t is seconds since the first grid second. Per bin the curve is the median across drives of the per-drive medians; p25/p75 are the spread of those per-drive medians across drives (not a confidence interval); a bin counts as supported at >= 10 drives on >= 5 calendar days; later bins hold only drives that ran that long, so part of the shape of the curve is bin composition (M624). Fuel penalty (Aug-only subset) and emissions are NOT computed here. Single vehicle / ~single driver -- descriptive."
      },
      "cold": {
       "nColdStart": 46,
@@ -383032,10 +383777,120 @@
         37.0,
         47.0,
         55.0,
-        60.0
+        58.0
+       ],
+       "coolantNDrives": [
+        46,
+        46,
+        46,
+        46,
+        46,
+        43,
+        38,
+        29,
+        17
+       ],
+       "coolantNDays": [
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        8,
+        7
+       ],
+       "oilNDrives": [
+        46,
+        46,
+        46,
+        46,
+        46,
+        43,
+        39,
+        29,
+        17
+       ],
+       "oilNDays": [
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        11,
+        8,
+        7
+       ],
+       "coolantP25C": [
+        15.2,
+        15.2,
+        15.2,
+        29.2,
+        31.2,
+        37.0,
+        59.5,
+        60.0,
+        58.0
+       ],
+       "coolantP75C": [
+        46.8,
+        44.5,
+        44.8,
+        45.2,
+        56.2,
+        64.0,
+        66.0,
+        67.5,
+        69.0
+       ],
+       "oilP25C": [
+        12.2,
+        13.2,
+        13.2,
+        15.2,
+        26.0,
+        30.8,
+        42.0,
+        50.0,
+        54.0
+       ],
+       "oilP75C": [
+        41.0,
+        41.0,
+        41.0,
+        41.0,
+        47.0,
+        49.5,
+        54.0,
+        57.0,
+        61.0
+       ],
+       "coolantSupported": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+       ],
+       "oilSupported": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
        ]
       },
-      "methodology": "Cold-start drives (coolant start <60 C). Per drive on a 1 Hz grid: time from start for coolant and oil to cross 60/70/80 C; the coolant->oil lag = oil_t70 - coolant_t70; the steady-state offset = median(coolant - oil) once coolant>=80 C; and the paired warm-up curves (median temp by time-from-start bin). Medians/IQR over cold-start drives; day-clustered bootstrap (seed 42, 4000 draws) on the lag. Extends warmupCurve (distance-domain coolant only) with the oil trajectory and the coolant-oil lag. Oil warms slower (more thermal mass, indirect heating), so it lags coolant. Fuel penalty (Aug-only subset) and emissions are NOT computed here. Single vehicle / ~single driver -- descriptive."
+      "methodology": "Cold-start drives (coolant start <60 C). Per drive on a 1 Hz grid: time from start for coolant and oil to cross 60/70/80 C; the coolant->oil lag = oil_t70 - coolant_t70; the steady-state offset = median(coolant - oil) once coolant>=80 C; and the paired warm-up curves (median temp by time-from-start bin). Medians/IQR over cold-start drives; day-clustered bootstrap (seed 42, 4000 draws) on the lag. Extends warmupCurve (distance-domain coolant only) with the oil trajectory and the coolant-oil lag. A possible reading of the lag is the larger thermal mass of the oil and its indirect heating; this is not tested here. Curve bins are [a, b) in seconds; samples from 900 s on are not binned (M623). A drive needs at least 30 valid 1 s coolant samples to count; the 1 s grid is on wall-clock seconds of the logged time stamps and t is seconds since the first grid second. Per bin the curve is the median across drives of the per-drive medians; p25/p75 are the spread of those per-drive medians across drives (not a confidence interval); a bin counts as supported at >= 10 drives on >= 5 calendar days; later bins hold only drives that ran that long, so part of the shape of the curve is bin composition (M624). Fuel penalty (Aug-only subset) and emissions are NOT computed here. Single vehicle / ~single driver -- descriptive."
      }
     },
     "coverage": {
@@ -401090,7 +401945,7 @@
   "reportingRule": "the new rows follow the M406 rows in this fixed order with the same format; no single interval is designated primary and no envelope is formed; the L=7 label is weekly-scale truncation, not preferred; GLS is a different estimator outside every rule",
   "reading": "sensitivities of conditional intervals to serial dependence between neighbouring days; they do not remove season, logging-regime or calendar-drift confounding and do not change the released estimators; 'not supported' is not evidence of absence",
   "limits": [
-   "one vehicle, May-October data",
+   "one vehicle, May-November 2026 data",
    "most day pairs at distance 1-3 days come from dense weeks; larger distances are imprecise",
    "a smooth drift and positive residual autocorrelation are not separable without a model of the mean; the control addresses one direction only",
    "HAC and block procedures are asymptotic with about 22 effective weeks; GLS assumes a stationary Gaussian AR(1)",
@@ -412410,10 +413265,10 @@
    "a drive that does not reach a threshold is a right-censored observation: its observation ended (key-off) before the threshold",
    "the pooled time-to-threshold medians of thermalWarmupLag are medians of the reachers only; censored drives are excluded, so the median understates the time for all cold starts; where fewer than half of the cold starts reached the threshold the cohort median is not identifiable without an assumption on censoring",
    "risk-set rows are counts at fixed times, not a time-to-event estimate; censoring by key-off may be informative: the Kaplan-Meier (product-limit) estimate in timeToThreshold assumes it is not, and carries worst-case identification bounds and a hazard-tilt sensitivity",
-   "winter stays unobserved: the cold cohort (55 drives on 11 days, ambient 3-5 C) supports a cohort view, not a winter inference; few days, so the intervals are wide"
+   "winter (December to February) stays unobserved: the cold cohort (55 drives on 11 days, driver-recorded start ambient -1 to 5 C) supports a cohort view, not a winter inference; few days, so the intervals are wide"
   ],
   "limits": [
-   "single vehicle, one driver, May-October; ambient 3-38 C",
+   "single vehicle, one driver, May-November 2026, ambient -1 to 38 C (start ambient recorded for 402 of 454 cold starts)",
    "the cold-start definitions differ by estimator on purpose (coolant <= 50 C, none, < 60 C): each ledger states its own",
    "the ledger classifies drives with the estimator's own rules and checks its accepted counts against the published n; a changed estimator rule makes the reconciliation fail until the ledger is updated"
   ],
@@ -412945,7 +413800,7 @@
   "timeToThreshold": {
    "methodVersion": "M435-r2",
    "spec": "analyses/M435_spec.md",
-   "label": "this vehicle, one driver, May-October, ambient 3-38 C",
+   "label": "this vehicle, one driver, May-November 2026, ambient -1 to 38 C",
    "horizonsS": [
     300,
     600,
@@ -420500,7 +421355,7 @@
    "requiredSentences": {
     "R1": "assumes that ending the drive is unrelated to the remaining time to the threshold (independent censoring); this cannot be checked from these data; bounds and tilt rows below",
     "R2": "describes the time to c C had the drive continued (route and load undefined); the observed share before key-off is shown beside it",
-    "R4": "this vehicle, one driver, May-October, ambient 3-38 C",
+    "R4": "this vehicle, one driver, May-November 2026, ambient -1 to 38 C",
     "R5": "cohort median not identifiable without an assumption on censoring",
     "R6": "median of reachers only (s); understates the time for all cold starts; not a cohort median"
    },
@@ -420522,7 +421377,7 @@
    },
    "limits": [
     "independent censoring cannot be tested; the bounds and the tilt measure how much it matters, they do not remove it",
-    "single vehicle, one driver, May-October, ambient 3-38 C",
+    "single vehicle, one driver, May-November 2026, ambient -1 to 38 C (start ambient recorded for 402 of 454 cold starts)",
     "the continued drive leaves route and load undefined",
     "the cold cohort and winter cannot be estimated",
     "the shares mix drives with different start temperatures"
@@ -423271,7 +424126,7 @@
      "g1PartitionAndPooledEqualsM435": true,
      "allOk": true
     },
-    "label": "this vehicle, one driver, May-October, ambient 3-38 C",
+    "label": "this vehicle, one driver, May-November 2026, ambient -1 to 38 C",
     "required": {
      "R1": "assumes that ending the drive is unrelated to the remaining time to the threshold (independent censoring) within each start-temperature tercile; this cannot be checked from these data",
      "entanglement": "start temperature is entangled with the season, the trip length and the decision to stop the drive: the strata describe, they do not identify an effect of the start temperature",

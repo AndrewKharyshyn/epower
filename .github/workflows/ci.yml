@@ -242,6 +242,13 @@ jobs:
           python tests/synthetic/test_m577_pid_class.py
           python tests/synthetic/test_regime_reader.py
           python test_m573_cell_spread_step.py
+          python tests/synthetic/test_m621_release_identity.py
+          python tests/synthetic/test_m621_stage_hash.py
+          python tests/synthetic/test_m621_raw_root.py
+          python tests/synthetic/test_m623_bins.py
+          python tests/synthetic/test_m624_curves.py
+          python tests/synthetic/test_m625_scope_label.py
+          python tests/synthetic/test_m627_headroom.py
           python tests/synthetic/test_csr_wording.py
           python tests/synthetic/test_exposure_frame.py
           python tests/synthetic/test_exposure_readers.py
@@ -278,6 +285,7 @@ jobs:
           node test_gtr_gate.js
           node test_fuel_tab.js
           node test_regen_axes.js
+          node test_warmup_chart.js
           node test_power_fade_matrix.js
           node test_motored_share_view.js
           node test_probe_rank_view.js

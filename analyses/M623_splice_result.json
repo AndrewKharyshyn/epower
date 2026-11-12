@@ -1,0 +1,214 @@
+{
+ "changedLeaves": 10,
+ "paths": [
+  "/auxLoadAmbient/byAmbientBin",
+  "/auxLoadAmbient/interpretation",
+  "/auxLoadAmbient/methodology",
+  "/thermalWarmupLag/methodology",
+  "/thermalWarmupLag/warmupCurves/coolantMedianC[8]",
+  "/thermalWarmupLag/warmupCurves/coolantNDays",
+  "/thermalWarmupLag/warmupCurves/coolantNDrives",
+  "/thermalWarmupLag/warmupCurves/oilMedianC[8]",
+  "/thermalWarmupLag/warmupCurves/oilNDays",
+  "/thermalWarmupLag/warmupCurves/oilNDrives"
+ ],
+ "auxByAmbientBin": [
+  {
+   "ambientBinC": "<5",
+   "n": 42,
+   "nDays": 10,
+   "medianKw": 1.08,
+   "p25Kw": 0.472,
+   "p75Kw": 1.432
+  },
+  {
+   "ambientBinC": "5-10",
+   "n": 62,
+   "nDays": 23,
+   "medianKw": 1.05,
+   "p25Kw": 0.525,
+   "p75Kw": 1.345
+  },
+  {
+   "ambientBinC": "10-15",
+   "n": 96,
+   "nDays": 41,
+   "medianKw": 0.87,
+   "p25Kw": 0.655,
+   "p75Kw": 1.09
+  },
+  {
+   "ambientBinC": "15-20",
+   "n": 131,
+   "nDays": 53,
+   "medianKw": 1.01,
+   "p25Kw": 0.92,
+   "p75Kw": 1.1
+  },
+  {
+   "ambientBinC": "20-25",
+   "n": 140,
+   "nDays": 53,
+   "medianKw": 1.2,
+   "p25Kw": 1.07,
+   "p75Kw": 1.42
+  },
+  {
+   "ambientBinC": "25-30",
+   "n": 77,
+   "nDays": 28,
+   "medianKw": 1.46,
+   "p25Kw": 1.35,
+   "p75Kw": 1.9
+  },
+  {
+   "ambientBinC": ">=30",
+   "n": 28,
+   "nDays": 13,
+   "medianKw": 1.915,
+   "p25Kw": 1.692,
+   "p75Kw": 2.282
+  }
+ ],
+ "auxInterpretation": "Across the supported bins at and above 15 C the median standstill draw increases from 1.01 kW in the 15-20 C bin to 1.92 kW in the >=30 C bin. Supported bins below 15 C: <5 C: 1.08 kW (42 drives, 10 days); 5-10 C: 1.05 kW (62 drives, 23 days); 10-15 C: 0.87 kW (96 drives, 41 days). Whether low-ambient values reflect heating load is not identified. Standstill draw is a climate-load proxy: there is no HVAC state channel (compressor on/off, fan speed, setpoint), so this is a descriptive correlation, NOT a mechanism claim; cooling and heating loads are both possible readings and neither is identified. The Cold class is thinly observed and concentrated, see cohortSupport.",
+ "warmupCurves": {
+  "binLabels": [
+   "0-30",
+   "30-60",
+   "60-120",
+   "120-180",
+   "180-240",
+   "240-300",
+   "300-420",
+   "420-600",
+   "600-900"
+  ],
+  "coolantMedianC": [
+   40.0,
+   40.0,
+   40.0,
+   44.0,
+   54.0,
+   62.5,
+   66.0,
+   68.5,
+   78.0
+  ],
+  "oilMedianC": [
+   37.0,
+   37.0,
+   37.0,
+   39.0,
+   42.0,
+   46.0,
+   50.0,
+   56.0,
+   62.0
+  ],
+  "coolantNDrives": [
+   448,
+   450,
+   453,
+   446,
+   440,
+   419,
+   402,
+   320,
+   217
+  ],
+  "coolantNDays": [
+   125,
+   125,
+   126,
+   124,
+   124,
+   125,
+   124,
+   124,
+   113
+  ],
+  "oilNDrives": [
+   446,
+   449,
+   453,
+   447,
+   441,
+   419,
+   405,
+   320,
+   217
+  ],
+  "oilNDays": [
+   124,
+   123,
+   125,
+   124,
+   124,
+   125,
+   125,
+   124,
+   112
+  ]
+ },
+ "oldWarmupCurves": {
+  "coolantMedianC": [
+   40.0,
+   40.0,
+   40.0,
+   44.0,
+   54.0,
+   62.5,
+   66.0,
+   68.5,
+   81.0
+  ],
+  "oilMedianC": [
+   37.0,
+   37.0,
+   37.0,
+   39.0,
+   42.0,
+   46.0,
+   50.0,
+   56.0,
+   70.0
+  ]
+ },
+ "oldAuxByAmbientBin": [
+  {
+   "ambientBinC": "10-15",
+   "n": 200,
+   "medianKw": 0.905,
+   "p25Kw": 0.508,
+   "p75Kw": 1.25
+  },
+  {
+   "ambientBinC": "15-20",
+   "n": 131,
+   "medianKw": 1.01,
+   "p25Kw": 0.92,
+   "p75Kw": 1.1
+  },
+  {
+   "ambientBinC": "20-25",
+   "n": 140,
+   "medianKw": 1.2,
+   "p25Kw": 1.07,
+   "p75Kw": 1.42
+  },
+  {
+   "ambientBinC": "25-30",
+   "n": 77,
+   "medianKw": 1.46,
+   "p25Kw": 1.35,
+   "p75Kw": 1.9
+  },
+  {
+   "ambientBinC": "30-40",
+   "n": 28,
+   "medianKw": 1.915,
+   "p25Kw": 1.692,
+   "p75Kw": 2.282
+  }
+ ]
+}

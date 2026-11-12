@@ -25,7 +25,31 @@ GAP_S = 10
 B_DRAWS, SEED = 4000, 42
 FLUIDS = ("coolant", "oil")
 COHORTS = ("all", "warm", "shoulder")
-LABEL = "this vehicle, one driver, May-October, ambient 3-38 C"
+LABEL_BASE = "this vehicle, one driver"          # M625: the month span and the ambient range are derived from the analysed cold-start drives (tools/scope_label.py), never typed
+
+
+def scope_text(tte, days, files, ambient_by_drive):
+    """M625: "<month span>, <ambient span>" of the coolant cold-start drives of the headline cohort (status == cold); None parts are omitted, never typed."""
+    import scope_label as SL
+    idx = [i for i, r in enumerate(tte) if r.get("status") == "cold"]
+    amb = []
+    for i in idx:
+        a = (ambient_by_drive or {}).get(files[i]) if files is not None else None
+        if isinstance(a, list) and a and a[0] is not None:
+            amb.append(a[0])
+    parts = [SL.month_span([days[i] for i in idx]), SL.ambient_span(amb)]
+    return ", ".join(p for p in parts if p) or None
+
+
+def coverage_text(tte, files, ambient_by_drive):
+    """M625 (spec R8): how many of the analysed cold starts have a driver-recorded start ambient (list entries only)."""
+    idx = [i for i, r in enumerate(tte) if r.get("status") == "cold"]
+    n = sum(1 for i in idx if isinstance((ambient_by_drive or {}).get(files[i]), list) and (ambient_by_drive or {}).get(files[i]) and (ambient_by_drive or {}).get(files[i])[0] is not None)
+    return "start ambient recorded for %d of %d cold starts" % (n, len(idx)) if idx else None
+
+
+def label_for(scope):
+    return LABEL_BASE + ", " + (scope or "scope not available")
 
 
 # ------------------------------------------------------------------------------------------------ per-drive record
@@ -186,7 +210,7 @@ def grid_support(spans, days, grid):
 
 
 # ------------------------------------------------------------------------------------------------ block
-def build_block(tte, raw, days, regimes, C, meta=None):
+def build_block(tte, raw, days, regimes, C, meta=None, scope=None, coverage=None):
     """tte / raw: per-drive records aligned with `days` (calendar day strings) and `regimes` (thermal_regime); meta (optional): per-drive {"distanceKm", "startHour"} for the post-hoc stopping profile."""
     idx = {"all": list(range(len(tte)))}
     for c in ("warm", "shoulder"):
@@ -258,7 +282,7 @@ def build_block(tte, raw, days, regimes, C, meta=None):
             rows, end = grid_support(sp, dy, C.WARMUP_GRID)
             curve[coh][k] = {"nDrives": len(sp), "nDays": len(set(dy)), "grid": rows, "supportEndsKm": end,
                              "sentence": "beyond this point the curve averages only the drives still running" if end is not None else "support holds to the last grid point"}
-    blk = {"methodVersion": METHOD_VERSION, "spec": "analyses/M435_spec.md", "label": LABEL, "horizonsS": HORIZONS, "thresholdsC": THRESHOLDS, "thetas": THETAS, "thetaBand": list(BAND),
+    blk = {"methodVersion": METHOD_VERSION, "spec": "analyses/M435_spec.md", "label": label_for(scope), "horizonsS": HORIZONS, "thresholdsC": THRESHOLDS, "thetas": THETAS, "thetaBand": list(BAND),
            "supportRule": {"minAtRiskDrives": MIN_N, "minAtRiskDays": MIN_DAYS}, "tripEndToleranceS": TRIP_END_TOL_S, "gapS": GAP_S,
            "bootstrap": {"B": B_DRAWS, "seed": SEED, "cluster": "calendar day", "interval": "percentile 95%"},
            "assumption": "assumes that ending the drive is unrelated to the remaining time to the threshold (independent censoring); this cannot be checked from these data; bounds and tilt rows below",
@@ -268,10 +292,10 @@ def build_block(tte, raw, days, regimes, C, meta=None):
            "populationNote": "Cold starts and event times use the released 1 Hz grid with a forward fill of at most 3 s (the coolant channel is logged less often than once per second); without the fill some drives leave the cold-start population; fill and trip-end tolerance are coupled; the sensitivity to the fill limit is shown below.",
            "requiredSentences": {"R1": "assumes that ending the drive is unrelated to the remaining time to the threshold (independent censoring); this cannot be checked from these data; bounds and tilt rows below",
                                  "R2": "describes the time to c C had the drive continued (route and load undefined); the observed share before key-off is shown beside it",
-                                 "R4": LABEL, "R5": "cohort median not identifiable without an assumption on censoring",
+                                 "R4": label_for(scope), "R5": "cohort median not identifiable without an assumption on censoring",
                                  "R6": "median of reachers only (s); understates the time for all cold starts; not a cohort median"},
            "headline": {"cohort": "all", "cells": [{"fluid": "coolant", "thresholdC": 80, "h": 600}, {"fluid": "oil", "thresholdC": 70, "h": 600}], "note": "declared before any result; every other cell is descriptive; no contrasts between cohorts are claimed"},
-           "limits": ["independent censoring cannot be tested; the bounds and the tilt measure how much it matters, they do not remove it", "single vehicle, one driver, May-October, ambient 3-38 C",
+           "limits": ["independent censoring cannot be tested; the bounds and the tilt measure how much it matters, they do not remove it", "single vehicle, one driver, " + (scope or "scope not available") + (" (" + coverage + ")" if coverage else ""),
                       "the continued drive leaves route and load undefined", "the cold cohort and winter cannot be estimated", "the shares mix drives with different start temperatures"]}
     return blk
 
@@ -329,7 +353,8 @@ def main(argv):
                 if not ((np.isnan(x) and np.isnan(y)) or x == y):
                     mism += 1
     meta = [{"distanceKm": float(d_ or 0.0), "startHour": int(str(t_)[:2])} for d_, t_ in zip(dm["distance_km"], dm["time_start"])]
-    blk = build_block(tte, raw, days, regimes, C, meta)
+    _cfg = json.load(open("summary_config.json", encoding="utf-8"))
+    blk = build_block(tte, raw, days, regimes, C, meta, scope=scope_text(tte, days, list(dm["file"]), _cfg.get("ambientByDrive")))
     est = {"all": {"warmupLag": L.aggregate_lag(lag, C), "warmupCurve": L.aggregate_raw(raw, C)[1]}}
     for coh in ("warm", "shoulder"):
         ii = [i for i, r in enumerate(regimes) if r == coh]
@@ -337,7 +362,7 @@ def main(argv):
     rec = reconcile(blk, est)
     md5 = hashlib.md5(open("drive_master.csv", "rb").read()).hexdigest()
     res = {"_provenance": {"spec": "analyses/M435_spec.md", "masterMd5": md5, "script": "tools/m435_tte.py", "nDrives": len(dm), "perDriveTable": "M435_result_per_drive.csv.gz",
-                           "label": "raw/ = sha256-verified originals (M366); " + LABEL},
+                           "label": "raw/ = sha256-verified originals (M366); " + blk["label"]},
            "G1": {"driveLevelMismatches": mism, "reconciliation": {"allEqual": rec["allEqual"], "nChecks": rec["nChecks"], "failed": {k: v for k, v in rec["checks"].items() if not v["equal"]}}},
            "block": blk}
     rows = []
