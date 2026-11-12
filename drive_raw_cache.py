@@ -346,6 +346,8 @@ def check_consumer(consumer_path):
     RAW_LOADER_ONLY_EXCEPTIONS = {
         '[BMS] Input possible power (hp)',
         '[BMS] Output possible power (hp)',
+        '[BMS] Input possible power (kW)',
+        '[BMS] Output possible power (kW)',          # M627: the (kW) names since 2026-09-30 (read by the same raw_loader pass)
         '[BMS] Input/Output possible power',
         '[BMS] Input/Output possible power (hp)',
         '[BMS] Battery Cell #01 (V)',

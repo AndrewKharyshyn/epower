@@ -1,0 +1,350 @@
+{
+ "seconds": 75.9,
+ "changedLeaves": 25,
+ "old": {
+  "nFilesScanned": 434,
+  "nFilesCovered": 253,
+  "coveragePct": 38.0,
+  "nChargeEvents": 10147,
+  "nDischargeEvents": 16984,
+  "outputCeilingConstant": false,
+  "outputCeilingRangeKw": [
+   60.58,
+   64.63
+  ],
+  "chargeUtilization": {
+   "median": 0.135,
+   "p95": 0.44,
+   "max": 1.155,
+   "nAbove1": 3,
+   "maxEvent": {
+    "file": "20260814_182203.csv",
+    "measuredKw": 74.66,
+    "possibleKw": 64.63
+   }
+  },
+  "dischargeUtilization": {
+   "median": 0.049,
+   "p95": 0.304,
+   "max": 1.07,
+   "maxMeasuredKw": 69.18,
+   "maxMeasuredFile": "20260825_183427.csv"
+  },
+  "methodology": "M121 origin: [BMS] Input/Output possible power (hp), the BMS's own declared capability envelope, present only from the third raw-logging PID configuration onward (2026-08-13+). Coverage is sparse (253/665 corpus drives, 38.0%) and the channel itself is polled far less densely than ordinary BMS current/voltage (roughly 1-2% fill density within covered files), so alignment against the pipeline's I x V power series uses a wide 2s merge_asof(direction=\"nearest\") tolerance rather than the usual V_ALIGN_TOL=1500ms. Output possible power (max discharge capability) is a hard constant across every covered file (zero exceptions) -- this corpus's driving never moved it, so no discharge-side utilization ratio is reported as a headline figure, only the descriptive utilization-against-the-fixed-ceiling stats above. Input possible power (max charge-acceptance capability) DOES vary and is the genuinely informative direction. A small number of charge-utilization values exceed 1.0, most plausibly a stale-match artefact from the wide alignment tolerance during fast current transients rather than a real BMS-limit excursion; not clipped, reported as-is."
+ },
+ "new": {
+  "nFilesScanned": 665,
+  "nFilesCovered": 429,
+  "coveragePct": 64.5,
+  "unit": {
+   "gridKw": 0.05,
+   "toleranceKw": 1e-06,
+   "minShare": 0.999,
+   "factorUsedHpToKw": 0.73549875,
+   "eras": {
+    "hp": {
+     "nSamples": 55657,
+     "nOnGrid": 55657,
+     "share": 1.0,
+     "shareOnQuarterKwGrid": 0.965305,
+     "filesOffQuarterKwGrid": 46,
+     "offQuarterDateFrom": "2026-08-29",
+     "offQuarterDateTo": "2026-09-30",
+     "mechanicalFactor": 0.745699872,
+     "shareMechanicalFactor": 0.0
+    },
+    "kW": {
+     "nSamples": 44361,
+     "nOnGrid": 44361,
+     "share": 1.0,
+     "shareOnQuarterKwGrid": 1.0,
+     "filesOffQuarterKwGrid": 0,
+     "offQuarterDateFrom": null,
+     "offQuarterDateTo": null
+    }
+   },
+   "passed": true
+  },
+  "coverage": {
+   "scannedDrives": 665,
+   "drivesWithChannel": 432,
+   "drivesAnalysed": 429,
+   "drivesWithoutChannel": 233,
+   "denominator": "drive_master rows (the corpus)",
+   "selection": "header (a possible-power column of either name); not by date",
+   "rawFilesNote": "counts refer to the drive_master rows; raw files outside the corpus (auxiliary and comparison-only) are not scanned",
+   "byEra": {
+    "hp": {
+     "drives": 256,
+     "dateFrom": "2026-05-15",
+     "dateTo": "2026-09-30",
+     "nChargeEvents": 10147,
+     "nDischargeEvents": 16984,
+     "medianChannelGapS": 11.42,
+     "medianMatchRate": 1.0
+    },
+    "kW": {
+     "drives": 176,
+     "dateFrom": "2026-09-30",
+     "dateTo": "2026-11-09",
+     "nChargeEvents": 8375,
+     "nDischargeEvents": 13588,
+     "medianChannelGapS": 7.57,
+     "medianMatchRate": 1.0
+    }
+   }
+  },
+  "ceiling": {
+   "valueKw": 63.75,
+   "toleranceKw": 0.05,
+   "basis": "255 x 0.25 kW (a possible one-byte saturation); not identified",
+   "byEra": {
+    "hp": {
+     "inputSamplesAtCeiling": 25340,
+     "inputSamples": 27829,
+     "outputSamplesAtCeiling": 27594,
+     "outputSamples": 27828,
+     "filesWithSamplesAtCeiling": 256
+    },
+    "kW": {
+     "inputSamplesAtCeiling": 15512,
+     "inputSamples": 22181,
+     "outputSamplesAtCeiling": 21168,
+     "outputSamples": 22180,
+     "filesWithSamplesAtCeiling": 176
+    }
+   }
+  },
+  "nChargeEvents": 18522,
+  "nDischargeEvents": 30572,
+  "outputCeilingConstant": false,
+  "outputCeilingRangeKw": [
+   41.5,
+   63.75
+  ],
+  "outputLimitByEra": {
+   "hp": {
+    "constant": false,
+    "rangeKw": [
+     59.75,
+     63.75
+    ]
+   },
+   "kW": {
+    "constant": false,
+    "rangeKw": [
+     41.5,
+     63.75
+    ]
+   }
+  },
+  "chargeUtilization": {
+   "nEvents": 18522,
+   "nDrives": 428,
+   "nDays": 73,
+   "median": 0.134,
+   "p95": 0.479,
+   "max": 1.171,
+   "nAbove1": 7,
+   "maxEvent": {
+    "file": "20260814_182203.csv",
+    "measuredKw": 74.66,
+    "possibleKw": 63.75
+   },
+   "ci95DayCluster": {
+    "median": [
+     0.129,
+     0.139
+    ],
+    "p95": [
+     0.459,
+     0.498
+    ],
+    "draws": 4000,
+    "seed": 42,
+    "cluster": "calendar day"
+   },
+   "belowCeiling": {
+    "nEvents": 3708,
+    "nDrives": 214,
+    "nDays": 65,
+    "median": 0.147,
+    "p95": 0.556,
+    "label": "conditional on the reported limit being below the ceiling; descriptive, not a censoring correction"
+   }
+  },
+  "dischargeUtilization": {
+   "nEvents": 30572,
+   "nDrives": 429,
+   "nDays": 73,
+   "median": 0.05,
+   "p95": 0.303,
+   "max": 1.085,
+   "nAbove1": 2,
+   "maxMeasuredKw": 69.18,
+   "maxMeasuredFile": "20260825_183427.csv",
+   "ci95DayCluster": {
+    "median": [
+     0.045,
+     0.056
+    ],
+    "p95": [
+     0.29,
+     0.314
+    ],
+    "draws": 4000,
+    "seed": 42,
+    "cluster": "calendar day"
+   },
+   "belowCeiling": {
+    "nEvents": 857,
+    "nDrives": 67,
+    "nDays": 36,
+    "median": 0.056,
+    "p95": 0.24,
+    "label": "conditional on the reported limit being below the ceiling; descriptive, not a censoring correction"
+   }
+  },
+  "eras": {
+   "hp": {
+    "charge": {
+     "nEvents": 10147,
+     "nDrives": 252,
+     "nDays": 47,
+     "median": 0.137,
+     "p95": 0.447,
+     "max": 1.171,
+     "nAbove1": 3,
+     "maxEvent": {
+      "file": "20260814_182203.csv",
+      "measuredKw": 74.66,
+      "possibleKw": 63.75
+     },
+     "ci95DayCluster": {
+      "median": [
+       0.131,
+       0.142
+      ],
+      "p95": [
+       0.429,
+       0.466
+      ],
+      "draws": 4000,
+      "seed": 42,
+      "cluster": "calendar day"
+     },
+     "belowCeiling": {
+      "nEvents": 991,
+      "nDrives": 107,
+      "nDays": 39,
+      "median": 0.156,
+      "p95": 0.526,
+      "label": "conditional on the reported limit being below the ceiling; descriptive, not a censoring correction"
+     }
+    },
+    "discharge": {
+     "nEvents": 16984,
+     "nDrives": 253,
+     "nDays": 47,
+     "median": 0.049,
+     "p95": 0.308,
+     "max": 1.085,
+     "nAbove1": 2,
+     "maxMeasuredKw": 69.18,
+     "maxMeasuredFile": "20260825_183427.csv",
+     "ci95DayCluster": {
+      "median": [
+       0.044,
+       0.055
+      ],
+      "p95": [
+       0.293,
+       0.321
+      ],
+      "draws": 4000,
+      "seed": 42,
+      "cluster": "calendar day"
+     },
+     "belowCeiling": {
+      "nEvents": 175,
+      "nDrives": 21,
+      "nDays": 14,
+      "median": 0.04,
+      "p95": 0.242,
+      "label": "conditional on the reported limit being below the ceiling; descriptive, not a censoring correction"
+     }
+    }
+   },
+   "kW": {
+    "charge": {
+     "nEvents": 8375,
+     "nDrives": 176,
+     "nDays": 27,
+     "median": 0.129,
+     "p95": 0.51,
+     "max": 1.155,
+     "nAbove1": 4,
+     "maxEvent": {
+      "file": "2026-10-17_18-22-49.csv",
+      "measuredKw": 73.65,
+      "possibleKw": 63.75
+     },
+     "ci95DayCluster": {
+      "median": [
+       0.122,
+       0.138
+      ],
+      "p95": [
+       0.483,
+       0.533
+      ],
+      "draws": 4000,
+      "seed": 42,
+      "cluster": "calendar day"
+     },
+     "belowCeiling": {
+      "nEvents": 2717,
+      "nDrives": 107,
+      "nDays": 27,
+      "median": 0.145,
+      "p95": 0.562,
+      "label": "conditional on the reported limit being below the ceiling; descriptive, not a censoring correction"
+     }
+    },
+    "discharge": {
+     "nEvents": 13588,
+     "nDrives": 176,
+     "nDays": 27,
+     "median": 0.052,
+     "p95": 0.297,
+     "max": 0.836,
+     "nAbove1": 0,
+     "maxMeasuredKw": 53.3,
+     "maxMeasuredFile": "2026-10-17_10-09-49.csv",
+     "ci95DayCluster": {
+      "median": [
+       0.043,
+       0.061
+      ],
+      "p95": [
+       0.273,
+       0.315
+      ],
+      "draws": 4000,
+      "seed": 42,
+      "cluster": "calendar day"
+     },
+     "belowCeiling": {
+      "nEvents": 682,
+      "nDrives": 46,
+      "nDays": 22,
+      "median": 0.058,
+      "p95": 0.237,
+      "label": "conditional on the reported limit being below the ceiling; descriptive, not a censoring correction"
+     }
+    }
+   }
+  },
+  "methodology": "Logged [BMS] Input/Output possible power, the limit the BMS reports (logged / app-calculated): the (kW) pair since 2026-09-30 and the (hp) pair before it, converted with the metric horsepower factor 0.735499 (the former mechanical factor 0.7457 put every limit 1.4 % too high); files are selected by header, not by date. Utilisation = logged I x V power (charge-positive raw, M11) aligned to the nearest possible-power sample within 2s (merge_asof nearest) divided by the BMS-reported limit; it is not a physical capability. Coverage: 432 of 665 corpus drives carry the channel (429 analysed). The channel is polled far less densely than ordinary BMS current / voltage (median gap per era in coverage.byEra), so a few utilisation values exceed 1.0, most plausibly a stale match during fast current transients; not clipped. The reported limit may be saturated at 63.75 kW (255 x 0.25 kW): 89614 of 100018 possible-power samples are at or above 63.7 kW (ceiling.byEra); this is not identified, and the statistics are also given for events with the limit below it (conditional on the denominator, not a censoring correction). Median and 95th percentile carry a day-clustered percentile bootstrap (seed 42, 4000 draws); maximum and nAbove1 are descriptive. Eras are reported side by side; no contrast between them is drawn, and nothing here shows that the limit constrained driving. Single vehicle / ~single driver."
+ }
+}
