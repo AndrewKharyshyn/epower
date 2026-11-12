@@ -12130,6 +12130,12 @@ def _thermal_warmup_lag(dm, frame_loader=None):
     def curve(cc):
         return [round(float(_np.nanmedian(x)), 1) if x else None for x in cc]
 
+    def curve_q(cc, q):                                  # M624 (spec R5): spread of the per-drive medians across drives (np.percentile, linear), 1 decimal
+        return [round(float(_np.percentile(_np.asarray(x, float), q)), 1) if x else None for x in cc]
+
+    def supported(cc, dd):                               # M624: display support floor = the project cohort floor (>= 10 drives on >= 5 calendar days)
+        return [bool(len(x) >= 10 and len(set(dy)) >= 5) for x, dy in zip(cc, dd)]
+
     return {
         'nColdStart': nCold, 'nDrivesTotal': nTotal, 'nWithOil': nOil,
         'nDays': len(days), 'coldStartMaxC': _TWL_COLD_MAX,
@@ -12145,7 +12151,10 @@ def _thermal_warmup_lag(dm, frame_loader=None):
             'coolantMedianC': curve(cool_curve),
             'oilMedianC': curve(oil_curve),
             'coolantNDrives': [len(x) for x in cool_curve], 'coolantNDays': [len(set(x)) for x in cool_days],
-            'oilNDrives': [len(x) for x in oil_curve], 'oilNDays': [len(set(x)) for x in oil_days]},
+            'oilNDrives': [len(x) for x in oil_curve], 'oilNDays': [len(set(x)) for x in oil_days],
+            'coolantP25C': curve_q(cool_curve, 25), 'coolantP75C': curve_q(cool_curve, 75),
+            'oilP25C': curve_q(oil_curve, 25), 'oilP75C': curve_q(oil_curve, 75),
+            'coolantSupported': supported(cool_curve, cool_days), 'oilSupported': supported(oil_curve, oil_days)},
         'methodology': (
             'Cold-start drives (coolant start <%g C). Per drive on a 1 Hz grid: '
             'time from start for coolant and oil to cross %s C; the coolant->oil '
@@ -12154,8 +12163,8 @@ def _thermal_warmup_lag(dm, frame_loader=None):
             'by time-from-start bin). Medians/IQR over cold-start drives; '
             'day-clustered bootstrap (seed 42, 4000 draws) on the lag. Extends '
             'warmupCurve (distance-domain coolant only) with the oil trajectory and '
-            'the coolant-oil lag. Oil warms slower (more thermal mass, indirect '
-            'heating), so it lags coolant. Curve bins are [a, b) in seconds; samples from 900 s on are not binned (M623). Fuel penalty (Aug-only subset) and '
+            'the coolant-oil lag. A possible reading of the lag is the larger thermal mass of the oil '
+            'and its indirect heating; this is not tested here. Curve bins are [a, b) in seconds; samples from 900 s on are not binned (M623). A drive needs at least 30 valid 1 s coolant samples to count; the 1 s grid is on wall-clock seconds of the logged time stamps and t is seconds since the first grid second. Per bin the curve is the median across drives of the per-drive medians; p25/p75 are the spread of those per-drive medians across drives (not a confidence interval); a bin counts as supported at >= 10 drives on >= 5 calendar days; later bins hold only drives that ran that long, so part of the shape of the curve is bin composition (M624). Fuel penalty (Aug-only subset) and '
             'emissions are NOT computed here. Single vehicle / ~single driver -- '
             'descriptive.'
             % (_TWL_COLD_MAX, '/'.join(str(t) for t in _TWL_THR)))}

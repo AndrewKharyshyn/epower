@@ -1,0 +1,6 @@
+{
+ "auditor": "analytical-auditor (blind), analyses/M624_audit/audit_m624.py",
+ "coolant": "n drives, n days, median, support flag equal in 9/9 bins; p25/p75 equal in 16 of 18 values; p75 bin 60-120: payload 49.0 vs audit 49.5; p75 bin 120-180: 57.9 vs 58.0",
+ "cause": "1 s grid alignment: pipeline reads cached frames (drive_raw_cache), auditor re-parses the raw clock time; 74 drive-bin medians in bins 60-120 and 120-180 differ by <= ~2 C; population medians agree",
+ "oilNote": "first oil run applied the 60 C rule to the oil column (claim wording); rerun with the coolant-defined population"
+}

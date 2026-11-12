@@ -9557,11 +9557,20 @@ function ThermalWarmupLag() {
   const W = 480, H = 214, PL = 44, PR = 60, PT = 14, PB = 42;
   const pw = W - PL - PR, ph = H - PT - PB;
   // x = bin index (categorical, using bin upper edge as label)
-  const allT = cool.concat(oil).filter(v => v != null);
+  const cP25 = cw.coolantP25C || [], cP75 = cw.coolantP75C || [], oP25 = cw.oilP25C || [], oP75 = cw.oilP75C || [];
+  const cSup = cw.coolantSupported || [], oSup = cw.oilSupported || [];
+  const allT = cool.concat(oil, cP25, cP75, oP25, oP75).filter(v => v != null);          // M624 (R7): the y domain covers the whiskers
   const yMax = Math.max(90, ...allT) * 1.02, yMin = Math.min(30, ...allT) - 2;
-  const xB = i => PL + (nb > 1 ? (i / (nb - 1)) * pw : pw / 2);
+  // M624: x is elapsed time (bin mid-time over the last bin edge), not the bin index
+  const tMaxS = bins.length ? bins[bins.length - 1] : 900;
+  const midS = i => (bins[i] + bins[i + 1]) / 2;
+  const xB = i => PL + (midS(i) / tMaxS) * pw;
   const yT = v => PT + ph - ((v - yMin) / (yMax - yMin)) * ph;
-  const line = arr => arr.map((v, i) => v == null ? null : `${xB(i)},${yT(v)}`).filter(Boolean).join(" ");
+  // the polyline is split at empty bins (a gap is not drawn as a trend)
+  const segs = arr => { const out = []; let cur = []; arr.forEach((v, i) => { if (v == null) { if (cur.length) out.push(cur); cur = []; } else cur.push(`${xB(i)},${yT(v)}`); }); if (cur.length) out.push(cur); return out; };
+  const lastIdx = arr => { for (let i = arr.length - 1; i >= 0; i--) if (arr[i] != null) return i; return -1; };
+  const cLast = lastIdx(cool), oLast = lastIdx(oil);
+  const kmCoh = S.thermalSupportLedger?.timeToThreshold?.cohorts?.[_coh];
 
   const Row = ({ k, v, c }) => (
     <div style={{ display: "flex", justifyContent: "space-between", gap: 8, fontSize: 10, marginBottom: 2 }}>
@@ -9572,10 +9581,10 @@ function ThermalWarmupLag() {
     <div>
       <div style={{ fontSize: 11, color: "#64748b", lineHeight: 1.7, marginBottom: 10 }}>
         Extends the coolant warm-up analysis with the engine <strong style={{ color: "#ea580c" }}>oil</strong>
-        {" "}trajectory and the <strong style={{ color: "#0f172a" }}>coolant–oil lag</strong>. Oil carries more
-        thermal mass and is heated indirectly, so it warms well behind the coolant — the gap gates truly-warm
-        engine operation long after the coolant gauge reads normal. On {C.nColdStart} cold-start drives
-        ({C.nWithOil} with oil temp), {C.nDays} days.
+        {" "}trajectory and the <strong style={{ color: "#0f172a" }}>coolant–oil lag</strong> (time between the coolant and
+        the oil reaching 70 °C). Cold start = coolant at the start below {C.coldStartMaxC} °C, and a drive needs at least
+        30 valid 1 s coolant samples. A possible reading of the lag is the larger thermal mass of the oil; that is not tested here.
+        {" "}{C.nColdStart} cold-start drives ({C.nWithOil} with oil temperature), {C.nDays} days. Temperatures are logged / app-calculated.
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 8, marginBottom: 12 }}>
@@ -9585,35 +9594,35 @@ function ThermalWarmupLag() {
           return <Kpi key={fl} label={lab} value={(100*h.E1.point).toFixed(1)} unit="%" color={col}
             sub={`95% CI ${(100*h.E1.ci95[0]).toFixed(1)}–${(100*h.E1.ci95[1]).toFixed(1)}%; ${c.n} cold starts, ${c.days} days. Kaplan-Meier (product-limit) estimate ${(100*h.E2.point).toFixed(1)}% (independent censoring assumed); worst-case bounds ${(100*h.bounds.low.point).toFixed(1)}–${(100*h.bounds.high.point).toFixed(1)}%`}/>;
         })}
-        <Kpi label="coolant–oil lag to 70 °C" value={lag.median} unit="s" color="#dc2626"
-             sub={`95% CI ${ci(lagB)}`} />
+        <Kpi label="coolant–oil lag to 70 °C (drives where both reached 70 °C)" value={lag.median} unit="s" color="#dc2626"
+             sub={`95% CI ${ci(lagB)}; ${lagB.nDrives ?? "—"} drives, ${lagB.nDays ?? "—"} days`} />
       </div>
 
       <Callout kind="finding">
-        Oil reaches 70 °C a median <MetricHighlight tone="measured">{lag.median} s</MetricHighlight>
-        {" "}(~{Math.round((lag.median || 0) / 60)} min, CI {ci(lagB)}) after the coolant, and even once warm it
-        runs <MetricHighlight tone="derived">{off.median} °C cooler</MetricHighlight> (IQR {off.p25}–{off.p75}).
-        The coolant gauge reads "warm" while the oil is still climbing — the engine is not fully thermally
-        settled until well into the trip, which is what makes short trips thermally costly. <EvidenceBadge status="measured" />
+        Among drives where both fluids reached 70 °C ({lagB.nDrives ?? "—"} drives, {lagB.nDays ?? "—"} days), the oil reaches 70 °C a median <MetricHighlight tone="derived">{lag.median} s</MetricHighlight>
+        {" "}(~{Math.round((lag.median || 0) / 60)} min, CI {ci(lagB)}) after the coolant. While the coolant is at 80 °C or above, coolant minus oil is a
+        median <MetricHighlight tone="derived">{off.median} °C</MetricHighlight> (IQR {off.p25}–{off.p75}). Drives that never reached 70 °C are not in the lag. <EvidenceBadge status="derived" />
       </Callout>
 
       {/* paired warm-up curves */}
-      <div style={{ fontSize: 9, color: "#64748b", margin: "10px 0 2px 2px", letterSpacing: 0.3 }}>WARM-UP CURVES — coolant (blue) vs oil (orange), median °C vs time from start</div>
+      <div style={{ fontSize: 9, color: "#64748b", margin: "10px 0 2px 2px", letterSpacing: 0.3 }}>WARM-UP CURVES — coolant (blue) vs oil (orange), median °C vs elapsed time from start (cold start = coolant below {C.coldStartMaxC} °C); whiskers = spread (p25–p75) of per-drive medians across drives; hollow marker = fewer than 10 drives or 5 days</div>
       <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{ overflow: "hidden" }}>
         {[30, 50, 70, 90].map(tv => (tv >= yMin && tv <= yMax) && (
           <g key={tv}>
             <line x1={PL} y1={yT(tv)} x2={PL + pw} y2={yT(tv)} stroke={tv === 70 ? "#cbd5e1" : "#e5e7eb"} strokeWidth={1} strokeDasharray={tv === 70 ? "4 3" : ""} />
             <text x={PL - 5} y={yT(tv) + 3} textAnchor="end" fill="#94a3b8" fontSize={7}>{tv}</text>
           </g>))}
-        <polyline points={line(cool)} fill="none" stroke="#2563eb" strokeWidth={2} />
-        <polyline points={line(oil)} fill="none" stroke="#ea580c" strokeWidth={2} />
-        {cool.map((v, i) => v != null && <circle key={"c" + i} cx={xB(i)} cy={yT(v)} r={2.4} fill="#2563eb" />)}
-        {oil.map((v, i) => v != null && <circle key={"o" + i} cx={xB(i)} cy={yT(v)} r={2.4} fill="#ea580c" />)}
+        {segs(cool).map((sg, k) => <polyline key={"cl" + k} points={sg.join(" ")} fill="none" stroke="#2563eb" strokeWidth={2} />)}
+        {segs(oil).map((sg, k) => <polyline key={"ol" + k} points={sg.join(" ")} fill="none" stroke="#ea580c" strokeWidth={2} />)}
+        {cool.map((v, i) => v != null && cSup[i] && cP25[i] != null && cP75[i] != null && <line key={"cw" + i} x1={xB(i)} x2={xB(i)} y1={yT(cP25[i])} y2={yT(cP75[i])} stroke="#2563eb" strokeWidth={1} opacity={0.55} />)}
+        {oil.map((v, i) => v != null && oSup[i] && oP25[i] != null && oP75[i] != null && <line key={"ow" + i} x1={xB(i)} x2={xB(i)} y1={yT(oP25[i])} y2={yT(oP75[i])} stroke="#ea580c" strokeWidth={1} opacity={0.55} />)}
+        {cool.map((v, i) => v != null && <circle key={"c" + i} cx={xB(i)} cy={yT(v)} r={2.4} fill={cSup[i] ? "#2563eb" : "#ffffff"} stroke="#2563eb" strokeWidth={1.2} />)}
+        {oil.map((v, i) => v != null && <circle key={"o" + i} cx={xB(i)} cy={yT(v)} r={2.4} fill={oSup[i] ? "#ea580c" : "#ffffff"} stroke="#ea580c" strokeWidth={1.2} />)}
         {(cw.binLabels || []).map((lb, i) => (
           <text key={i} x={xB(i)} y={PT + ph + 12} textAnchor="middle" fill="#94a3b8" fontSize={6}
                 transform={nb > 6 ? `rotate(-35 ${xB(i)} ${PT + ph + 12})` : undefined}>{lb}</text>))}
-        <text x={PL + pw + 6} y={yT(cool[cool.length - 1]) + 3} fill="#2563eb" fontSize={8} fontWeight={700}>coolant</text>
-        <text x={PL + pw + 6} y={yT(oil.filter(v => v != null).slice(-1)[0]) + 3} fill="#ea580c" fontSize={8} fontWeight={700}>oil</text>
+        {cLast >= 0 && <text x={xB(cLast) + 6} y={yT(cool[cLast]) + 3} fill="#2563eb" fontSize={8} fontWeight={700}>coolant</text>}
+        {oLast >= 0 && <text x={xB(oLast) + 6} y={yT(oil[oLast]) + 11} fill="#ea580c" fontSize={8} fontWeight={700}>oil</text>}
         {/* M213: chart had no axis-title units at all (unlike every sibling
             chart in this file) -- added both, matching the established
             rotated-y-title convention used elsewhere. */}
@@ -9622,21 +9631,23 @@ function ThermalWarmupLag() {
               transform={`rotate(-90,10,${PT + ph / 2})`}>Temperature (°C)</text>
       </svg>
       <div style={{ fontSize: 9, color: "#94a3b8", textAlign: "center", marginTop: -2, marginBottom: 8 }}>
-        The vertical gap between the curves is the coolant–oil thermal lag (time bins in seconds)
+        Vertical gap = coolant minus oil, a temperature difference (°C), median per time bin. Later bins contain only drives that ran that long, so part of the shape of the curve is bin composition, not within-drive warm-up.
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
         <div style={{ padding: "8px 10px", background: "#f1f5f9", borderRadius: 6 }}>
-          <div style={{ fontSize: 9, color: "#64748b", marginBottom: 6 }}>MEDIAN OF REACHERS ONLY (s; understates the time for all cold starts; not a cohort median)</div>
-          {["60", "70", "80"].map(t => (
-            <Row key={t} k={`${t} °C — coolant / oil`}
-                 v={`${C.coolantTimeToThresholdS?.[t]?.median ?? "—"} / ${C.oilTimeToThresholdS?.[t]?.median ?? "—"}`} />
-          ))}
+          <div style={{ fontSize: 9, color: "#64748b", marginBottom: 6 }}>Kaplan-Meier (product-limit) estimate of the MEDIAN TIME TO THRESHOLD (s; independent censoring assumed; shares of cold starts reaching a threshold are in the time-to-threshold panel)</div>
+          {!kmCoh ? <div style={{ fontSize: 10, color: "#64748b" }}>Kaplan-Meier (product-limit) estimate of the median is not computed for this cohort.</div>
+            : ["60", "70", "80"].map(t => {
+              const km = (fl) => { const m = kmCoh?.[fl]?.[t]?.median; if (!m) return "—"; if (!m.shown) return "not shown (reason in the time-to-threshold panel)"; return `${m.point} (${m.ci95?.[0]}–${m.ci95?.[1]})`; };
+              return <Row key={t} k={`${t} °C — coolant / oil`} v={`${km("coolant")} / ${km("oil")}`} />;
+            })}
+          {kmCoh && <div style={{ fontSize: 9, color: "#94a3b8", marginTop: 4 }}>Cold starts in the ledger: {kmCoh.coolant?.["80"]?.n ?? "—"} (coolant), {kmCoh.oil?.["80"]?.n ?? "—"} (oil); days {kmCoh.coolant?.["80"]?.days ?? "—"}.</div>}
         </div>
         <div style={{ padding: "8px 10px", background: "#f1f5f9", borderRadius: 6 }}>
           <div style={{ fontSize: 9, color: "#64748b", marginBottom: 6 }}>LAG & OFFSET (median · IQR)</div>
-          <Row k="coolant→oil lag to 70 °C (s)" v={`${lag.median} · ${lag.p25}–${lag.p75}`} c="#dc2626" />
-          <Row k="steady-state offset (°C)" v={`${off.median} · ${off.p25}–${off.p75}`} c="#ea580c" />
+          <Row k="coolant→oil lag to 70 °C (s), both reached 70 °C" v={`${lag.median} · ${lag.p25}–${lag.p75}`} c="#dc2626" />
+          <Row k="coolant minus oil while coolant ≥ 80 °C (°C)" v={`${off.median} · ${off.p25}–${off.p75}`} c="#ea580c" />
           <Row k="cold-start drives" v={`${C.nColdStart} / ${C.nDrivesTotal}`} />
         </div>
       </div>
@@ -9644,7 +9655,7 @@ function ThermalWarmupLag() {
       <Caveat kind="caution">
         Cold-start drives only (coolant start &lt;{C.coldStartMaxC} °C); time-to-threshold is right-censored on
         short trips that never reach a threshold (those drives simply don't contribute to that threshold's
-        median). Logged ambient falls below 15 °C in the Shoulder class and in the Cold class ({M294.coldNote}). Nothing below {S.ambientTable?.rangeC?.[0]} °C is logged, so these are mild-ambient cold-starts. The cold-start fuel-rate
+        median). Logged ambient falls below 15 °C in the Shoulder class and in the Cold class ({M294.coldNote}); the logged start-ambient range is {S.ambientTable?.rangeC?.[0]} to {S.ambientTable?.rangeC?.[1]} °C. The cold-start fuel-rate
         association (Fuel tab) is a separate fuel-accumulator-subset analysis and is not computed here; emissions are not instrumented.
         Single vehicle / ~single driver — descriptive.
       </Caveat>
@@ -11859,9 +11870,10 @@ const COMPARE_SPECS={
     {label:"Handoffs",digits:0,get:d=>cmpDig(d,["nHandoffs"])}],
     note:"Boost involvement = boost onsets / handoffs whose event window carries a boost channel (M285d; the previous all-handoff denominator was biased low by boost-PID availability). Shoulder onsets come almost entirely from two days (Jul 23\u201324), so its interval is wide and composition-confounded."},
   ThermalWarmupLag:{kind:"kpi",title:"Coolant / oil warm-up & thermal lag",metrics:[
-    {label:"Coolant \u2192 80\u00b0C (reachers only)",unit:"s",digits:0,get:d=>cmpDig(d,["coolantTimeToThresholdS","80","median"])},
-    {label:"Oil \u2192 80\u00b0C (reachers only)",unit:"s",digits:0,get:d=>cmpDig(d,["oilTimeToThresholdS","80","median"])},
-    {label:"Coolant\u2013oil lag @70\u00b0C",unit:"s",digits:0,get:d=>cmpDig(d,["coolantOilLag70S","median"])}]},
+    {label:"Coolant \u2192 80\u00b0C, Kaplan-Meier (product-limit) estimate of the median",unit:"s",digits:0,get:(d,k)=>{const m=S.thermalSupportLedger?.timeToThreshold?.cohorts?.[k]?.coolant?.["80"]?.median; return (m&&m.shown&&typeof m.point==="number")?m.point:null;}},
+    {label:"Oil \u2192 80\u00b0C, Kaplan-Meier (product-limit) estimate of the median",unit:"s",digits:0,get:(d,k)=>{const m=S.thermalSupportLedger?.timeToThreshold?.cohorts?.[k]?.oil?.["80"]?.median; return (m&&m.shown&&typeof m.point==="number")?m.point:null;}},
+    {label:"Coolant\u2013oil lag @70\u00b0C (both reached 70\u00b0C)",unit:"s",digits:0,get:d=>cmpDig(d,["coolantOilLag70S","median"])}],
+    note:"Kaplan-Meier (product-limit) estimates of the median come from the support ledger (cohorts all, warm, shoulder); a cohort without a ledger entry (Cold) shows no value: not computed. The lag is conditioned on drives where both fluids reached 70 \u00b0C. Cohorts are not matched and no contrast is drawn."},
   ThermalFuelPenalty:{kind:"kpi",title:"Cold-start fuel-rate association (adjusted)",metrics:[
     {label:"Warm-up L/100 ratio",digits:3,get:d=>cmpDig(d,["tripLevel","ratioWarmupWarm","median"])},
     {label:"Fuel-rate ratio (adjusted association)",digits:3,get:d=>cmpDig(d,["combustionPenalty","exposureWeightedRatio"])}]},
@@ -11980,7 +11992,7 @@ function CmpKpi({id,spec,series}){
   return <div>
     {metrics.map((m,mi)=>{
       const dg=m.digits!=null?m.digits:2;
-      const vals=series.map(s=>({s,v:m.get(data[s.key])}));
+      const vals=series.map(s=>({s,v:m.get(data[s.key],s.key)}));
       if(isCount(m)){
         return <div key={mi} style={{fontSize:10,color:"#64748b",padding:"1px 6px"}}>
           <span style={{color:"#334155"}}>{m.label}:</span>
@@ -11995,7 +12007,7 @@ function CmpKpi({id,spec,series}){
       Object.keys(cis).forEach(k=>{ lo=Math.min(lo,cis[k].lo); hi=Math.max(hi,cis[k].hi); });
       if(lo>0) lo=0; if(lo===hi){lo-=1;hi+=1;} const pad=(hi-lo)*0.12; lo-=pad; hi+=pad;
       const x=v=>plotX+Math.max(0,Math.min(1,(v-lo)/(hi-lo)))*plotW;
-      const allV=hasAll?m.get(data["all"]):null; const H=23;
+      const allV=hasAll?m.get(data["all"],"all"):null; const H=23;
       return <svg key={mi} width="100%" viewBox={`0 0 ${W} ${H+6}`} style={{maxWidth:W,display:"block"}}>
         <text x={labelW-6} y={H/2} textAnchor="end" fontSize={8.5} fill="#334155" dominantBaseline="middle">{m.label}{m.unit?` (${m.unit})`:""}</text>
         <line x1={plotX} x2={plotX+plotW} y1={H/2} y2={H/2} stroke="#f1f5f9"/>
