@@ -12044,6 +12044,8 @@ def _thermal_warmup_lag(dm, frame_loader=None):
     ss_offset = []
     cool_curve = [[] for _ in range(len(_TWL_TIME_BINS) - 1)]
     oil_curve = [[] for _ in range(len(_TWL_TIME_BINS) - 1)]
+    cool_days = [[] for _ in range(len(_TWL_TIME_BINS) - 1)]      # M623 (W1-02): calendar days contributing to each bin
+    oil_days = [[] for _ in range(len(_TWL_TIME_BINS) - 1)]
     nCold = nTotal = nOil = 0
     days = set()
     for _, r in dm.iterrows():
@@ -12081,16 +12083,19 @@ def _thermal_warmup_lag(dm, frame_loader=None):
             if len(warm) >= 10:
                 ss_offset.append(float((warm['cool'] - warm['oil']).median()))
         sb = _np.digitize(tsec, _TWL_TIME_BINS[1:-1])
+        inside = tsec < _TWL_TIME_BINS[-1]            # M623 (W1-02): the last bin is [600, 900); samples from 900 s on are not binned
         for b in range(len(cool_curve)):
-            m = sb == b
+            m = (sb == b) & inside
             if m.any():
                 cv = cvals[m]
                 if _np.isfinite(cv).any():
                     cool_curve[b].append(float(_np.nanmedian(cv)))
+                    cool_days[b].append(d)
                 if has_oil:
                     ov = ovals[m]
                     if _np.isfinite(ov).any():
                         oil_curve[b].append(float(_np.nanmedian(ov)))
+                        oil_days[b].append(d)
 
     if nCold == 0:
         return None
@@ -12138,7 +12143,9 @@ def _thermal_warmup_lag(dm, frame_loader=None):
             'binLabels': ['%d-%d' % (_TWL_TIME_BINS[i], _TWL_TIME_BINS[i + 1])
                           for i in range(len(_TWL_TIME_BINS) - 1)],
             'coolantMedianC': curve(cool_curve),
-            'oilMedianC': curve(oil_curve)},
+            'oilMedianC': curve(oil_curve),
+            'coolantNDrives': [len(x) for x in cool_curve], 'coolantNDays': [len(set(x)) for x in cool_days],
+            'oilNDrives': [len(x) for x in oil_curve], 'oilNDays': [len(set(x)) for x in oil_days]},
         'methodology': (
             'Cold-start drives (coolant start <%g C). Per drive on a 1 Hz grid: '
             'time from start for coolant and oil to cross %s C; the coolant->oil '
@@ -12148,7 +12155,7 @@ def _thermal_warmup_lag(dm, frame_loader=None):
             'day-clustered bootstrap (seed 42, 4000 draws) on the lag. Extends '
             'warmupCurve (distance-domain coolant only) with the oil trajectory and '
             'the coolant-oil lag. Oil warms slower (more thermal mass, indirect '
-            'heating), so it lags coolant. Fuel penalty (Aug-only subset) and '
+            'heating), so it lags coolant. Curve bins are [a, b) in seconds; samples from 900 s on are not binned (M623). Fuel penalty (Aug-only subset) and '
             'emissions are NOT computed here. Single vehicle / ~single driver -- '
             'descriptive.'
             % (_TWL_COLD_MAX, '/'.join(str(t) for t in _TWL_THR)))}
@@ -14160,14 +14167,58 @@ def _baro_compensation(dm, raw_loader=None, raw_dir=None):
 
 
 
-# ── Module S3 (M199): HV aux/climate load proxy vs ambient (exploratory) ──────
-# Extends standstillStats (M26): correlates the per-drive standstill (key-on,
-# stationary) draw power against ambient temperature (ambientByDrive start value).
-# EXPLORATORY / no causality: there is no HVAC state channel (AC compressor
-# on/off, fan speed, cabin setpoint), so this is a descriptive correlation, not a
-# mechanism claim -- though the monotonic warm-weather rise is consistent with an
-# AC-load interpretation. No sub-15C data exists (warm-season corpus), so this
-# characterises the warm end of the range only. Single vehicle / ~single driver.
+# ── Module S3 (M199; bins M623) ───────────────────────────────────────────────
+# HV aux/climate load proxy vs ambient (exploratory). Extends standstillStats (M26): correlates the per-drive standstill (key-on,
+# stationary) draw power against ambient temperature (ambientByDrive start value). EXPLORATORY / no causality: there is no HVAC state
+# channel (AC compressor on/off, fan speed, cabin setpoint), so this is a descriptive correlation, not a mechanism claim. M623
+# (analyses/M623_spec.md Rev 1): the bins are right-open [a, b) with explicit open ends ('<5', '>=30'); before M623 every ambient value
+# below 15 C was reported in the '10-15' bin. Which ambient range is observed is read from the data (ambientRangeC), not stated here.
+_AUX_EDGES = [5, 10, 15, 20, 25, 30]          # inner edges; bins are (-inf,5) [5,10) ... [25,30) [30,+inf)
+
+
+def _aux_bin_labels(edges=None):
+    e = _AUX_EDGES if edges is None else edges
+    return ['<%g' % e[0]] + ['%g-%g' % (e[i], e[i + 1]) for i in range(len(e) - 1)] + ['>=%g' % e[-1]]
+
+
+def _aux_bin_index(x, edges=None):
+    """Bin index per value, right-open; NaN -> -1 (excluded, never binned)."""
+    import numpy as _np
+    e = _AUX_EDGES if edges is None else edges
+    x = _np.asarray(x, float)
+    idx = _np.digitize(x, e)
+    return _np.where(_np.isfinite(x), idx, -1)
+
+
+def _aux_sentence(bins, edges=None, min_n=10, min_days=5):
+    """Generated reading of the binned medians (M623 spec R3/R4). Compares only bins with n >= min_n drives on >= min_days days; no literals."""
+    e = _AUX_EDGES if edges is None else edges
+    labels = _aux_bin_labels(e)
+    low_edge = {lab: (None if i == 0 else e[i - 1]) for i, lab in enumerate(labels)}
+    ok = [b for b in bins if b['n'] >= min_n and b['nDays'] >= min_days]
+    thin = [b['ambientBinC'] for b in bins if b not in ok]
+    parts = []
+    hi = [b for b in ok if low_edge[b['ambientBinC']] is not None and low_edge[b['ambientBinC']] >= 15]
+    if len(hi) >= 2:
+        inc = all(hi[i + 1]['medianKw'] > hi[i]['medianKw'] for i in range(len(hi) - 1))
+        if inc:
+            parts.append('Across the supported bins at and above 15 C the median standstill draw increases from %.2f kW in the %s C bin to %.2f kW in the %s C bin.'
+                         % (hi[0]['medianKw'], hi[0]['ambientBinC'], hi[-1]['medianKw'], hi[-1]['ambientBinC']))
+        else:
+            parts.append('The medians of the supported bins at and above 15 C do not increase monotonically.')
+    else:
+        parts.append('Fewer than two bins at and above 15 C meet the support floor (%d drives on %d days), so no ordering is stated.' % (min_n, min_days))
+    below = [b for b in ok if low_edge[b['ambientBinC']] is None or low_edge[b['ambientBinC']] < 15]
+    if below:
+        parts.append('Supported bins below 15 C: ' + '; '.join('%s C: %.2f kW (%d drives, %d days)' % (b['ambientBinC'], b['medianKw'], b['n'], b['nDays']) for b in below)
+                     + '. Whether low-ambient values reflect heating load is not identified.')
+    else:
+        parts.append('No bin below 15 C meets the support floor.')
+    if thin:
+        parts.append('Reported but not compared (below the support floor): ' + ', '.join(thin) + ' C.')
+    return ' '.join(parts)
+
+
 def _aux_load_ambient(dm, ambient_by_drive=None):
     import numpy as _np
     if not ambient_by_drive:
@@ -14191,17 +14242,14 @@ def _aux_load_ambient(dm, ambient_by_drive=None):
     corr = (round(float(_np.corrcoef(rx, ry)[0, 1]), 3)
             if _np.std(rx) > 0 and _np.std(ry) > 0 else None)
 
-    edges = [10, 15, 20, 25, 30, 40]
-
-    def lbl(i):
-        return '%d-%d' % (edges[i], edges[i + 1])
+    labels = _aux_bin_labels()
     bins = []
-    bi = _np.digitize(x, edges[1:-1])
-    for i in range(len(edges) - 1):
+    bi = _aux_bin_index(x)
+    for i, lab in enumerate(labels):
         m = bi == i
         if m.sum() >= 5:
             v = y[m]
-            bins.append({'ambientBinC': lbl(i), 'n': int(m.sum()),
+            bins.append({'ambientBinC': lab, 'n': int(m.sum()), 'nDays': int(_np.unique(dts[m]).size),
                         'medianKw': round(float(_np.median(v)), 3),
                         'p25Kw': round(float(_np.percentile(v, 25)), 3),
                         'p75Kw': round(float(_np.percentile(v, 75)), 3)})
@@ -14244,12 +14292,9 @@ def _aux_load_ambient(dm, ambient_by_drive=None):
         'interceptKw': round(float(coef[0]), 3),
         'byAmbientBin': bins,
         'interpretation': (
-            'Standstill draw rises monotonically with ambient temperature above '
-            '~15 C, consistent with an AC-compressor climate-load proxy, but no '
-            'HVAC state channel exists (compressor on/off, fan speed, setpoint) so '
-            'this is a descriptive correlation, NOT a mechanism claim. Ambient below '
-            '~15 C is thinly observed (the Cold class is thinly observed and concentrated, see cohortSupport) -- '
-            'this characterises the warm end of the range only.'),
+            _aux_sentence(bins) + ' Standstill draw is a climate-load proxy: there is no HVAC state channel (compressor on/off, fan speed, setpoint), '
+            'so this is a descriptive correlation, NOT a mechanism claim; cooling and heating loads are both possible readings and neither is identified. '
+            'The Cold class is thinly observed and concentrated, see cohortSupport.'),
         'methodology': (
             'Extends standstillStats (M26): per-drive standstill_draw_kw (key-on, '
             'stationary median draw, from drive_master, ens-unfiltered to match '
@@ -14257,7 +14302,7 @@ def _aux_load_ambient(dm, ambient_by_drive=None):
             '(ambientByDrive[file][0]). Spearman rank correlation (day-clustered '
             'bootstrap, seed 42, 4000 draws); an OLS slope (kW/C) is reported as a '
             'descriptive summary, not a causal estimate. Binned median/IQR by '
-            'ambient band. EXPLORATORY -- no HVAC state channel, no causality claim. '
+            'ambient band (right-open bins with explicit open ends, M623; a bin is reported at n >= 5 drives, the sentence compares bins with n >= 10 drives on >= 5 days). EXPLORATORY -- no HVAC state channel, no causality claim. '
             'Single vehicle / ~single driver.')}
 
 

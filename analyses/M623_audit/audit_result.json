@@ -1,0 +1,31 @@
+{
+ "auditor": "analytical-auditor (blind)",
+ "script": "analyses/M623_audit/audit.py",
+ "auxBinsEqualPayload": true,
+ "lastWarmupBin": {
+  "coolant": [
+   78.0,
+   217,
+   113
+  ],
+  "oil": [
+   62.0,
+   217,
+   112
+  ]
+ },
+ "payloadLastBin": {
+  "coolant": [
+   78.0,
+   217,
+   113
+  ],
+  "oil": [
+   62.0,
+   217,
+   112
+  ]
+ },
+ "observation": "auditor coolant median in 30-60 s bin 39.5 vs payload 40.0 (bin unchanged by M623; definitional/population detail, not investigated here)",
+ "auditorAmbiguities": "oil header spelled '\u043e\u043b\u0456\u0457' in raw (the claim text had '\u043e\u043b\u0438\u0432\u0438'); filename matching on first 14 digits; clock-time elapsed with midnight wrap"
+}
