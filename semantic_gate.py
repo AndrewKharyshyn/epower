@@ -1115,6 +1115,10 @@ for _m in ("all", "warm", "shoulder", "compare"):
 ok("A2 REQUIRED fuelContract numbers in the banner equal the payload", all(x in T.get("fuel__all", "").replace("  ", " ") for x in
    [f"present in {A['fuelContract']['coverage']['rate']['columnPresent']} of {A['fuelContract']['coverage']['nCanonical']} canonical files", f"({A['fuelContract']['lhvRatioDefinition']} = {A['fuelContract']['lhvRatio']:g})"]))
 ok("A2 REQUIRED selector label reads 'Thermal cohort'", any("Thermal cohort" in t for t in T.values()))
+_uc = A["comparisonCube"]["urbanContrast"]["bands"]                                                   # M629 (W1-05): the Cold rows named in the Compare urban-contrast prose are the payload bands that carry a Cold value
+ok("A2 REQUIRED M629 urban Cold note: every payload band with a Cold value is named with its drives and days, and the false 'no urban trips of 3 km or longer' sentence is absent",
+   all(("%s (%d drives, %d days" % (b["band"], b["cold"]["nDrives"], b["cold"]["nDays"])) in T.get("highway_vs_city__all", "") for b in _uc if b.get("cold")) and any(b.get("cold") for b in _uc)
+   and "Cold has no urban trips of 3 km" not in T.get("highway_vs_city__all", ""))
 ok("A2 REQUIRED HVAC caveat states sub-15 C ambient is limited", any("Ambient below 15 °C is limited" in t for t in T.values()))
 
 # ---------- B. prose == payload ----------
