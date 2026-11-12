@@ -263,7 +263,7 @@ def main(argv):
     mb = M.build_block(main, [{} for _ in main], days, regimes, C)
     blk = build_block(recs_by_F, days, ints, mb, C)
     res = {"_provenance": {"spec": "analyses/M437_spec.md", "masterMd5": hashlib.md5(open("drive_master.csv", "rb").read()).hexdigest(), "script": "tools/m437_fill.py", "nDrives": len(dm),
-                           "label": "raw/ = sha256-verified originals (M366); " + M.LABEL}, "block": blk}
+                           "label": "raw/ = sha256-verified originals (M366); " + mb["label"]}, "block": blk}
     with open(out_path, "w", encoding="utf-8", newline="\n") as f:
         json.dump(res, f, indent=1, ensure_ascii=False)
     print(json.dumps({"checks": blk["checks"], "sameBothReadings": {k: s_["sameBothReadings"] for k, s_ in blk["statement"].items()}}))

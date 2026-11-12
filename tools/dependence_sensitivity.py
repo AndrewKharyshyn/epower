@@ -290,7 +290,7 @@ def build(dm, B=N_BOOT, released=None):
             "reportingRule": "all procedures are shown in this fixed order with the same format; no single interval is designated primary and no envelope is formed; disagreement between procedures is reported, not tuned away",
             "reading": "sensitivities of conditional intervals to the choice of resampling unit and to small-cluster bias; they do not remove season, logging-regime or calendar-drift confounding and do not change the released estimators",
             "limits": ["week blocks address serial dependence at the weekly scale only and about 20 weeks make the block bootstrap coarse", "CR2 and the wild bootstrap are small-cluster corrections, not a model of dependence",
-                       "the trend slopes are conditional on the design y ~ months + T + I", "one vehicle, May-October data"]}
+                       "the trend slopes are conditional on the design y ~ months + T + I", "one vehicle, " + (__import__("scope_label").month_span(list(_design(dm, "cell_spread_loaded_p95_mv", ("T", "I"), "peak_I_discharge")[0]["date"]) + list(_design(dm, "vreg_R_pack_mohm", ("T", "I"), "vreg_I_p95_A")[0]["date"])) or "scope not available") + " data"]}
 
 
 def _round(o, nd=5):

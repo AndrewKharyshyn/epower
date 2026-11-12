@@ -369,7 +369,7 @@ def build(dm, released_block=None, B=N_BOOT):
             "reportingOrder": ["hacL3", "hacL7", "hacL14", "movingBlockL7", "movingBlockL14", "gls"],
             "reportingRule": "the new rows follow the M406 rows in this fixed order with the same format; no single interval is designated primary and no envelope is formed; the L=7 label is weekly-scale truncation, not preferred; GLS is a different estimator outside every rule",
             "reading": "sensitivities of conditional intervals to serial dependence between neighbouring days; they do not remove season, logging-regime or calendar-drift confounding and do not change the released estimators; 'not supported' is not evidence of absence",
-            "limits": ["one vehicle, May-October data", "most day pairs at distance 1-3 days come from dense weeks; larger distances are imprecise",
+            "limits": ["one vehicle, " + (__import__("scope_label").month_span(list(DS._design(dm, "cell_spread_loaded_p95_mv", ("T", "I"), "peak_I_discharge")[0]["date"]) + list(DS._design(dm, "vreg_R_pack_mohm", ("T", "I"), "vreg_I_p95_A")[0]["date"])) or "scope not available") + " data", "most day pairs at distance 1-3 days come from dense weeks; larger distances are imprecise",
                        "a smooth drift and positive residual autocorrelation are not separable without a model of the mean; the control addresses one direction only",
                        "HAC and block procedures are asymptotic with about 22 effective weeks; GLS assumes a stationary Gaussian AR(1)",
                        "none of these procedures removes confounding by season, logging regime or calendar",
