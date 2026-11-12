@@ -108,6 +108,8 @@ def main():
     import run_fingerprint as RF
     full_run = not (a.only or a.frm or a.skip)
     skip_ids, skip_reason = set(), "skip-unchanged not requested"
+    if os.path.isdir(os.path.join(ROOT, "raw")):             # M621 (P-02b): the effective raw root (always raw/, forced again below) is resolved BEFORE the fingerprint plan reads it
+        os.environ["XT_RAW_DIR"] = os.path.join(ROOT, "raw")
     if a.skip_unchanged and full_run:
         skip_ids, skip_reason, _ = RF.plan(ROOT, cfg["stages"], True)
     if a.skip_unchanged:

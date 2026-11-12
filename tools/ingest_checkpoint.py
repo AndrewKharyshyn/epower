@@ -20,6 +20,8 @@ STAGE_ENV_ONLY = {"XT_ALLOW_STALE_CARRY": ("build_html",)}          # M575: read
 EXTRA_EXCLUDE_TOP = {"regen_cache"}                      # content-keyed cache: not part of the data state
 CODELIKE_PREFIX = ("docs/", "tests/", "snapshots/")
 CODELIKE_FILES = ("tools/ingest_stages.json", "CHANGELOG.md", "CLAUDE.md", "STATE.md", "state.json")
+NO_CODE_HASH = ("CHANGELOG.md", "STATE.md", "state.json")          # M621 (P-02a): documentation written every milestone; still code-like (excluded from the data state) but never part of a stage's code hash
+NARROW_VIEWS = {"refresh_cohort_meta": {"xtrail_summary.jsx": r"COHORT_MIN_SUPPORT_DRIVES\s*=\s*\d+"}}   # M621 (P-02a): stage id -> file -> the only lines of it the stage reads (a jsx wording fix must not restart at this stage)
 MAX_BYTES = RJ.MAX_COPY_BYTES
 _PATH_RE = re.compile(r"^[\w./\\-]+$")
 
@@ -152,30 +154,40 @@ class Checkpoints:
                 if r:
                     out.add(r)
         out.discard(rel)
-        return {r for r in out if is_codelike(r)}      # data files are covered by the data state, not by the code hash
+        return {r for r in out if is_codelike(r) and r not in NO_CODE_HASH}      # data files are covered by the data state, not by the code hash
 
-    def closure(self, rel):
+    def closure(self, rel, narrow=()):
         """Static closure: source files are followed for imports and named files; any other referenced file (documentation, CHANGELOG) is a leaf."""
-        if rel in self._closure:
-            return self._closure[rel]
+        key = (rel, tuple(sorted(narrow)))
+        if key in self._closure:
+            return self._closure[key]
         seen, todo = set(), [rel]
         while todo:
             r = todo.pop()
             if r in seen:
                 continue
             seen.add(r)
-            if r.endswith(SRC_EXT):
+            if r.endswith(SRC_EXT) and r not in narrow:       # a narrowed file is hashed by its read lines only and not followed
                 todo.extend(self._refs(r) - seen)
-        self._closure[rel] = sorted(seen)
-        return self._closure[rel]
+        self._closure[key] = sorted(seen)
+        return self._closure[key]
+
+    def narrow_for(self, stage):
+        """M621: files the stage reads only in part (see NARROW_VIEWS); shared with tools/stage_order.py so the lint and the hash agree."""
+        return tuple(NARROW_VIEWS.get(stage["id"], {}))
+
+    def _narrow_sha(self, rel, pattern):
+        lines = [ln.strip() for ln in open(os.path.join(self.root, rel), encoding="utf-8", errors="replace").read().splitlines() if re.search(pattern, ln)]
+        return _h(pattern, json.dumps(lines))
 
     def code_hash(self, stage):
+        narrow = NARROW_VIEWS.get(stage["id"], {})
         files = set()
         for a in stage["cmd"]:
             r = self._resolve(a.replace("\\", "/")) if _PATH_RE.match(a) else None
             if r:
-                files |= set(self.closure(r))
-        body = [(f, RJ._sha(os.path.join(self.root, f))) for f in sorted(files) if os.path.isfile(os.path.join(self.root, f))]
+                files |= set(self.closure(r, tuple(narrow)))
+        body = [(f, self._narrow_sha(f, narrow[f]) if f in narrow else RJ._sha(os.path.join(self.root, f))) for f in sorted(files) if os.path.isfile(os.path.join(self.root, f))]
         definition = {k: stage.get(k) for k in ("id", "cmd", "env", "outputs")}
         envs = []
         for v in STAGE_ENV:
