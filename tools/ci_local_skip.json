@@ -1,0 +1,6 @@
+{
+ "_note": "P-05 (M628): commands that fail on this platform for a reason that is NOT a defect (each with its reason); a skip is printed by tools/ci_local.py, never silent. Keys are the exact command lines of ci.yml.",
+ "windows": {
+  "python tests/synthetic/test_plausibility_gate.py": "os.symlink needs a privilege a normal Windows user lacks (WinError 1314); the test passes on the Linux CI"
+ }
+}
