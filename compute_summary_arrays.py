@@ -6726,58 +6726,111 @@ def _soc_hysteresis_summary(dm, frame_loader=None, min_n=30):
 # reflect a transient the live current channel already shows) rather than a
 # genuine BMS-limit excursion; NOT clipped, reported as-is with this caveat
 # attached in the block's own methodology string.
-_HDRM_PP_IN_COL = '[BMS] Input possible power (hp)'
-_HDRM_PP_OUT_COL = '[BMS] Output possible power (hp)'
+# M626 addendum (spec analyses/M626_spec.md Rev 1 and 1.1): the comment above records the M140 findings on the (hp) era only. Since 2026-09-30 the logger writes
+# the same quantity as '(kW)' columns; both names are read now (kW preferred), (hp) is converted with the METRIC horsepower factor (86.6758781031239 hp x 0.73549875 =
+# 63.750 kW; the mechanical factor 0.745699872 put every limit 1.4 % too high), Output possible power is not constant in either era, and the block is selected by
+# header, not by date. 63.75 kW (255 x 0.25 kW) is a possible one-byte saturation: flagged, not identified. 'Measured', 'capability' and 'hard constant' no longer apply.
+_HDRM_PP_COLS = {'kW': ('[BMS] Input possible power (kW)', '[BMS] Output possible power (kW)'),
+                 'hp': ('[BMS] Input possible power (hp)', '[BMS] Output possible power (hp)')}
+_HDRM_PP_IN_COL = _HDRM_PP_COLS['hp'][0]
+_HDRM_PP_OUT_COL = _HDRM_PP_COLS['hp'][1]
 _HDRM_ALIGN_TOL = '2s'
-_HDRM_HP_TO_KW = 0.745699872
+_HDRM_HP_TO_KW = 0.73549875            # metric horsepower (PS) -> kW (M626); the former 0.745699872 is the mechanical horsepower
+_HDRM_HP_MECH_TO_KW = 0.745699872      # only for the unit-gate comparison
+_HDRM_CEILING_KW = 63.75               # 255 x 0.25 kW: a possible one-byte saturation of the reported limit
+_HDRM_CEILING_TOL_KW = 0.05            # samples at or above 63.70 kW count as 'at the reported ceiling' (the 0.1 kW-grid files report 63.8)
+_HDRM_GRID_KW = 0.05                   # converted samples are expected on a multiple of 0.05 kW (the 0.25 kW and the 0.1 kW grids both are)
+_HDRM_QUARTER_KW = 0.25                # the usual grid (255 x 0.25 kW); files with samples off it are reported as a data-quality observation
+_HDRM_GRID_TOL_KW = 1e-6
+_HDRM_BOTH_TOL_KW = 0.05               # a file carrying both pairs: same-row, both non-null, must agree within this
+_HDRM_UNIT_MIN_SHARE = 0.999
+_HDRM_MIN_DRIVES, _HDRM_MIN_DAYS = 10, 5
+
+
+class HeadroomUnitError(RuntimeError):
+    """M626: the unit gate failed or a file carries both pairs that disagree: nothing is written, the Director decides."""
+
+
+def _hdrm_pp_series(df_raw, direction):
+    """(series in kW, era) for direction 0 = Input, 1 = Output; (None, None) when neither name is present. kW preferred; hp converted with the metric factor."""
+    kw_col, hp_col = _HDRM_PP_COLS['kW'][direction], _HDRM_PP_COLS['hp'][direction]
+    has_kw, has_hp = kw_col in df_raw.columns, hp_col in df_raw.columns
+    if not (has_kw or has_hp):
+        return None, None
+    if has_kw:
+        s = pd.to_numeric(df_raw[kw_col], errors='coerce')
+        if has_hp:
+            h = pd.to_numeric(df_raw[hp_col], errors='coerce') * _HDRM_HP_TO_KW
+            both = s.notna() & h.notna()
+            if both.any() and float((s[both] - h[both]).abs().max()) > _HDRM_BOTH_TOL_KW:
+                raise HeadroomUnitError('a file carries both the (kW) and the (hp) pair and they disagree by more than %g kW' % _HDRM_BOTH_TOL_KW)
+        return s, 'kW'
+    return pd.to_numeric(df_raw[hp_col], errors='coerce') * _HDRM_HP_TO_KW, 'hp'
+
+
+def _hdrm_on_grid(v, grid=None, tol=None):
+    v = np.asarray(v, float)
+    g = _HDRM_GRID_KW if grid is None else grid
+    t = _HDRM_GRID_TOL_KW if tol is None else tol
+    return int((np.abs(v / g - np.round(v / g)) * g <= t).sum())
 
 
 def _headroom_utilization_events(csv_bytes, filename):
-    """Per-drive extraction for M140. Aligns raw [BMS] Input/Output possible
-    power samples against the pipeline's own I<->V power series, reusing
-    compute_drive_summary_v6's COL_MAP/_series/_asof rather than
-    reimplementing them. Returns None if the file carries neither
-    possible-power channel or lacks a usable I<->V pairing."""
+    """Per-drive extraction for M140 / M626. Aligns raw [BMS] Input/Output possible power samples (either column name, see _hdrm_pp_series) against the pipeline's
+    own I<->V power series, reusing compute_drive_summary_v6's COL_MAP/_series/_asof. Returns None if the file carries neither possible-power channel (decided
+    from the header, before the full read) or lacks a usable I<->V pairing."""
     import compute_drive_summary_v6 as _v6
+    try:
+        head = pd.read_csv(io.BytesIO(csv_bytes), nrows=0).columns
+    except Exception:
+        return None
+    if not any(c in head for pair in _HDRM_PP_COLS.values() for c in pair):
+        return None
     try:
         df_raw = pd.read_csv(io.BytesIO(csv_bytes), low_memory=False)
     except Exception:
         return None
-    has_in = _HDRM_PP_IN_COL in df_raw.columns
-    has_out = _HDRM_PP_OUT_COL in df_raw.columns
-    if not (has_in or has_out):
-        return None
-    pp_in_raw = df_raw[_HDRM_PP_IN_COL].copy() if has_in else None
-    pp_out_raw = df_raw[_HDRM_PP_OUT_COL].copy() if has_out else None
-
-    df = df_raw.rename(columns={k: v for k, v in _v6.COL_MAP.items()
-                                 if k in df_raw.columns})
+    df = df_raw.rename(columns={k: v for k, v in _v6.COL_MAP.items() if k in df_raw.columns})
     t = _ft(df['time'], mixed=True)
     I = _v6._series(df, t, 'I')
     if I is not None:
         I = I[I['v'].abs() < 900]
     V = _v6._series(df, t, 'V', lo=200, hi=450)
-    if I is None or V is None or not len(I) or not len(V):
-        return None
-    e = _v6._asof(I.copy(), V, 'V', _v6.V_ALIGN_TOL).dropna(subset=['V'])
-    if not len(e):
-        return None
-    e['P_kw'] = e['v'] * e['V'] / 1000.0     # charge-positive raw (M11)
-    e = e[['t', 'P_kw']].sort_values('t')
+    e = None
+    if I is not None and V is not None and len(I) and len(V):
+        e = _v6._asof(I.copy(), V, 'V', _v6.V_ALIGN_TOL).dropna(subset=['V'])
+        if len(e):
+            e['P_kw'] = e['v'] * e['V'] / 1000.0     # charge-positive raw (M11)
+            e = e[['t', 'P_kw']].sort_values('t')
+        else:
+            e = None
 
-    out = {'file': filename, 'charge': [], 'discharge': []}
-    for label, pp_raw in [('charge', pp_in_raw), ('discharge', pp_out_raw)]:
-        if pp_raw is None:
+    out = {'file': filename, 'charge': [], 'discharge': [], 'unit': {}, 'noPairing': e is None}
+    for label, direction in (('charge', 0), ('discharge', 1)):
+        s, era = _hdrm_pp_series(df_raw, direction)
+        if s is None:
             continue
-        pp = pd.DataFrame({'t': t, 'pp_hp': pp_raw}).dropna().sort_values('t')
+        pp = pd.DataFrame({'t': t, 'pp_kw': s}).dropna().sort_values('t')
         if not len(pp):
             continue
-        m = pd.merge_asof(pp, e, on='t', direction='nearest',
-                           tolerance=pd.Timedelta(_HDRM_ALIGN_TOL)
-                           ).dropna(subset=['P_kw'])
+        gaps = pp['t'].diff().dt.total_seconds().dropna()
+        raw_hp = None
+        if era == 'hp':
+            raw_hp = (pp['pp_kw'] / _HDRM_HP_TO_KW).to_numpy()
+        u = {'era': era, 'nSamples': int(len(pp)), 'nOnGrid': _hdrm_on_grid(pp['pp_kw']), 'nOnQuarterGrid': _hdrm_on_grid(pp['pp_kw'], grid=_HDRM_QUARTER_KW),
+             'nAtCeiling': int((pp['pp_kw'] >= _HDRM_CEILING_KW - _HDRM_CEILING_TOL_KW).sum()),
+             'medianGapS': float(gaps.median()) if len(gaps) else None}
+        if raw_hp is not None:
+            u['nOnGridMechanical'] = _hdrm_on_grid(raw_hp * _HDRM_HP_MECH_TO_KW)
+        if e is None:
+            u['matchRate'] = None
+            out['unit'][label] = u
+            continue
+        m = pd.merge_asof(pp, e, on='t', direction='nearest', tolerance=pd.Timedelta(_HDRM_ALIGN_TOL)).dropna(subset=['P_kw'])
+        u['matchRate'] = float(len(m) / len(pp)) if len(pp) else None
+        out['unit'][label] = u
         if not len(m):
             continue
-        m['pp_kw'] = m['pp_hp'] * _HDRM_HP_TO_KW
         if label == 'charge':
             q = m[m['P_kw'] > 0.1].copy()
             q['measured_kw'] = q['P_kw']
@@ -6786,29 +6839,72 @@ def _headroom_utilization_events(csv_bytes, filename):
             q['measured_kw'] = -q['P_kw']
         if len(q):
             q['util'] = q['measured_kw'] / q['pp_kw']
-            out[label] = q[['pp_kw', 'measured_kw', 'util']].to_dict('records')
+            q['era'] = era
+            out[label] = q[['pp_kw', 'measured_kw', 'util', 'era']].to_dict('records')
     return out
 
 
+def _hdrm_day_boot(util, days, nb=4000, seed=42):
+    """Day-clustered percentile bootstrap (calendar day = cluster) of the median and the 95th percentile; None if fewer than 3 days."""
+    util = np.asarray(util, float)
+    days = np.asarray(days)
+    uniq = np.unique(days)
+    if uniq.size < 3:
+        return None
+    by = [util[days == d] for d in uniq]
+    rng = np.random.default_rng(seed)
+    med, p95 = [], []
+    for _ in range(nb):
+        idx = rng.integers(0, len(uniq), len(uniq))
+        x = np.concatenate([by[i] for i in idx])
+        med.append(float(np.median(x)))
+        p95.append(float(np.percentile(x, 95)))
+    return {'median': [round(float(np.percentile(med, 2.5)), 3), round(float(np.percentile(med, 97.5)), 3)],
+            'p95': [round(float(np.percentile(p95, 2.5)), 3), round(float(np.percentile(p95, 97.5)), 3)],
+            'draws': int(nb), 'seed': int(seed), 'cluster': 'calendar day'}
+
+
+def _hdrm_stats(ev, direction, boot=True):
+    """Utilisation statistics of one event set (charge or discharge): descriptive max / nAbove1 / maxEvent, median and p95 with a day-clustered interval, drives and days."""
+    if not ev:
+        return None
+    util = np.array([r['util'] for r in ev])
+    key = (lambda r: r['util']) if direction == 'charge' else (lambda r: r['measured_kw'])
+    mx = max(ev, key=key)
+    days = [r['day'] for r in ev]
+    o = {'nEvents': int(len(ev)), 'nDrives': int(len({r['file'] for r in ev})), 'nDays': int(len(set(days))),
+         'median': round(float(np.median(util)), 3), 'p95': round(float(np.percentile(util, 95)), 3),
+         'max': round(float(util.max()), 3), 'nAbove1': int((util > 1.0).sum())}
+    if direction == 'charge':
+        o['maxEvent'] = {'file': mx['file'], 'measuredKw': round(mx['measured_kw'], 2), 'possibleKw': round(mx['pp_kw'], 2)}
+    else:
+        o['maxMeasuredKw'] = round(mx['measured_kw'], 2)
+        o['maxMeasuredFile'] = mx['file']
+    if boot:
+        o['ci95DayCluster'] = _hdrm_day_boot(util, days)
+    below = [r for r in ev if r['pp_kw'] < _HDRM_CEILING_KW - _HDRM_CEILING_TOL_KW]
+    o['belowCeiling'] = ({'nEvents': int(len(below)), 'nDrives': int(len({r['file'] for r in below})), 'nDays': int(len({r['day'] for r in below})),
+                          'median': round(float(np.median([r['util'] for r in below])), 3),
+                          'p95': round(float(np.percentile([r['util'] for r in below], 95)), 3),
+                          'label': 'conditional on the reported limit being below the ceiling; descriptive, not a censoring correction'} if below else None)
+    return o
+
+
 def _headroom_utilization_summary(dm, raw_loader=None):
-    """M140: corpus-wide '[BMS] Input/Output possible power' headroom-
-    utilization scan. See the module comment above this function for the
-    full origin, methodology, and the constant-Output-ceiling finding.
-    raw_loader-only: the channel is not in COL_MAP / the slim frame cache,
-    so every candidate file needs a real raw-bytes read; pre-filtered to
-    date>=2026-08-13 (the confirmed first-appearance date per M121) to avoid
-    paying that cost on the ~90% of the corpus already known not to carry it."""
+    """M140 / M626: corpus-wide '[BMS] Input/Output possible power' headroom-utilization scan; see the M626 addendum above the constants for what changed.
+    raw_loader-only: the channel is not in COL_MAP / the slim frame cache. Candidates are selected by HEADER (a possible-power column of either name), not by date;
+    the header is read before the full file. Raises HeadroomUnitError if the unit gate fails (spec M626 R4)."""
     if raw_loader is None:
         return None
-    candidates = dm
-    if 'date' in dm.columns:
-        candidates = dm[dm['date'].astype(str) >= '2026-08-13']
     n_scanned = 0
-    n_covered = 0
-    charge_events = []
-    discharge_events = []
-    for _, row in candidates.iterrows():
+    ev_by = {'charge': [], 'discharge': []}
+    unit = {}                                   # era -> {nSamples, nOnGrid, nOnGridMechanical, nAtCeiling{in,out}, files}
+    era_files = {}
+    gaps, matches = {}, {}
+    n_covered = n_channel = 0
+    for _, row in dm.iterrows():
         fn = row['file']
+        day = str(row.get('date', ''))[:10]
         n_scanned += 1
         try:
             b = raw_loader(fn)
@@ -6817,74 +6913,99 @@ def _headroom_utilization_summary(dm, raw_loader=None):
         ev = _headroom_utilization_events(b, fn)
         if ev is None:
             continue
-        n_covered += 1
-        for r in ev.get('charge', []):
-            r['file'] = fn
-            charge_events.append(r)
-        for r in ev.get('discharge', []):
-            r['file'] = fn
-            discharge_events.append(r)
+        n_channel += 1                         # header-based: the drive carries a possible-power column of either name
+        eras_here = {u['era'] for u in ev['unit'].values()}
+        for lab, u in ev['unit'].items():
+            d = unit.setdefault(u['era'], {'nSamples': 0, 'nOnGrid': 0, 'nOnQuarter': 0, 'filesOffQuarter': set(), 'nOnGridMechanical': 0, 'nAtCeiling': {'charge': 0, 'discharge': 0}, 'nSamplesDir': {'charge': 0, 'discharge': 0}, 'filesWithCeiling': set()})
+            d['nSamples'] += u['nSamples']
+            d['nOnGrid'] += u['nOnGrid']
+            d['nOnQuarter'] += u['nOnQuarterGrid']
+            if u['nOnQuarterGrid'] < u['nSamples']:
+                d['filesOffQuarter'].add((fn, day))
+            d['nOnGridMechanical'] += u.get('nOnGridMechanical', 0)
+            d['nAtCeiling'][lab] += u['nAtCeiling']
+            d['nSamplesDir'][lab] += u['nSamples']
+            if u['nAtCeiling']:
+                d['filesWithCeiling'].add(fn)
+            if u['medianGapS'] is not None:
+                gaps.setdefault(u['era'], []).append(u['medianGapS'])
+            if u['matchRate'] is not None:
+                matches.setdefault(u['era'], []).append(u['matchRate'])
+        for era in eras_here:
+            era_files.setdefault(era, []).append((fn, day))
+        got = False
+        for lab in ('charge', 'discharge'):
+            for r in ev.get(lab, []):
+                r['file'] = fn
+                r['day'] = day
+                ev_by[lab].append(r)
+                got = True
+        if got:
+            n_covered += 1
 
+    out = {'nFilesScanned': int(n_scanned), 'nFilesCovered': int(n_covered), 'coveragePct': round(n_covered / len(dm) * 100, 1) if len(dm) else None}
     if n_covered == 0:
-        return {'nFilesScanned': int(n_scanned), 'nFilesCovered': 0}
-
-    out_ceiling_vals = set(round(r['pp_kw'], 3) for r in discharge_events)
-    out = {
-        'nFilesScanned': int(n_scanned), 'nFilesCovered': int(n_covered),
-        'coveragePct': round(n_covered / len(dm) * 100, 1),
-        'nChargeEvents': len(charge_events),
-        'nDischargeEvents': len(discharge_events),
-    }
-    if len(out_ceiling_vals) == 1:
-        out['outputCeilingKw'] = round(next(iter(out_ceiling_vals)), 3)
-        out['outputCeilingConstant'] = True
-    elif out_ceiling_vals:
-        out['outputCeilingConstant'] = False
-        out['outputCeilingRangeKw'] = [round(min(out_ceiling_vals), 2),
-                                        round(max(out_ceiling_vals), 2)]
-
-    if charge_events:
-        util = np.array([r['util'] for r in charge_events])
-        mx = max(charge_events, key=lambda r: r['util'])
-        out['chargeUtilization'] = {
-            'median': round(float(np.median(util)), 3),
-            'p95': round(float(np.percentile(util, 95)), 3),
-            'max': round(float(util.max()), 3),
-            'nAbove1': int((util > 1.0).sum()),
-            'maxEvent': {'file': mx['file'],
-                         'measuredKw': round(mx['measured_kw'], 2),
-                         'possibleKw': round(mx['pp_kw'], 2)},
-        }
-    if discharge_events:
-        util = np.array([r['util'] for r in discharge_events])
-        mx = max(discharge_events, key=lambda r: r['measured_kw'])
-        out['dischargeUtilization'] = {
-            'median': round(float(np.median(util)), 3),
-            'p95': round(float(np.percentile(util, 95)), 3),
-            'max': round(float(util.max()), 3),
-            'maxMeasuredKw': round(mx['measured_kw'], 2),
-            'maxMeasuredFile': mx['file'],
-        }
+        return out
+    # unit gate (R4): >= 99.9 % of the converted samples of every era lie on a 0.05 kW multiple (1e-6); the mechanical factor is computed beside it
+    gate = {'gridKw': _HDRM_GRID_KW, 'toleranceKw': _HDRM_GRID_TOL_KW, 'minShare': _HDRM_UNIT_MIN_SHARE, 'factorUsedHpToKw': _HDRM_HP_TO_KW, 'eras': {}}
+    for era, d in sorted(unit.items()):
+        share = d['nOnGrid'] / d['nSamples'] if d['nSamples'] else None
+        offd = sorted(dd for _, dd in d['filesOffQuarter'] if dd)
+        g = {'nSamples': int(d['nSamples']), 'nOnGrid': int(d['nOnGrid']), 'share': round(share, 6) if share is not None else None,
+             'shareOnQuarterKwGrid': round(d['nOnQuarter'] / d['nSamples'], 6) if d['nSamples'] else None,
+             'filesOffQuarterKwGrid': int(len({f for f, _ in d['filesOffQuarter']})), 'offQuarterDateFrom': offd[0] if offd else None, 'offQuarterDateTo': offd[-1] if offd else None}
+        if era == 'hp':
+            g['mechanicalFactor'] = _HDRM_HP_MECH_TO_KW
+            g['shareMechanicalFactor'] = round(d['nOnGridMechanical'] / d['nSamples'], 6) if d['nSamples'] else None
+        gate['eras'][era] = g
+    gate['passed'] = bool(all((g['share'] or 0) >= _HDRM_UNIT_MIN_SHARE for g in gate['eras'].values()))
+    if not gate['passed']:
+        raise HeadroomUnitError('unit gate failed: %s' % json.dumps(gate['eras']))
+    out['unit'] = gate
+    # coverage statement (R1): both denominators named
+    cov = {'scannedDrives': int(n_scanned), 'drivesWithChannel': int(n_channel), 'drivesAnalysed': int(n_covered),
+           'drivesWithoutChannel': int(n_scanned - n_channel), 'denominator': 'drive_master rows (the corpus)', 'selection': 'header (a possible-power column of either name); not by date',
+           'rawFilesNote': 'counts refer to the drive_master rows; raw files outside the corpus (auxiliary and comparison-only) are not scanned',
+           'byEra': {}}
+    for era, fl in sorted(era_files.items()):
+        ds = sorted(d for _, d in fl if d)
+        cov['byEra'][era] = {'drives': int(len({f for f, _ in fl})), 'dateFrom': ds[0] if ds else None, 'dateTo': ds[-1] if ds else None,
+                             'nChargeEvents': int(sum(1 for r in ev_by['charge'] if r['era'] == era)), 'nDischargeEvents': int(sum(1 for r in ev_by['discharge'] if r['era'] == era)),
+                             'medianChannelGapS': round(float(np.median(gaps[era])), 2) if gaps.get(era) else None,
+                             'medianMatchRate': round(float(np.median(matches[era])), 3) if matches.get(era) else None}
+    out['coverage'] = cov
+    out['ceiling'] = {'valueKw': _HDRM_CEILING_KW, 'toleranceKw': _HDRM_CEILING_TOL_KW, 'basis': '255 x 0.25 kW (a possible one-byte saturation); not identified',
+                      'byEra': {era: {'inputSamplesAtCeiling': int(d['nAtCeiling']['charge']), 'inputSamples': int(d['nSamplesDir']['charge']),
+                                       'outputSamplesAtCeiling': int(d['nAtCeiling']['discharge']), 'outputSamples': int(d['nSamplesDir']['discharge']),
+                                       'filesWithSamplesAtCeiling': int(len(d['filesWithCeiling']))} for era, d in sorted(unit.items())}}
+    out['nChargeEvents'] = len(ev_by['charge'])
+    out['nDischargeEvents'] = len(ev_by['discharge'])
+    lim = {}
+    for era in sorted(unit):
+        vals = sorted({round(r['pp_kw'], 3) for r in ev_by['discharge'] if r['era'] == era})
+        lim[era] = {'constant': bool(len(vals) == 1), 'rangeKw': [round(vals[0], 2), round(vals[-1], 2)] if vals else None}
+    allv = sorted({round(r['pp_kw'], 3) for r in ev_by['discharge']})
+    out['outputCeilingConstant'] = bool(len(allv) == 1)
+    if allv:
+        out['outputCeilingRangeKw'] = [round(allv[0], 2), round(allv[-1], 2)]
+    out['outputLimitByEra'] = lim
+    out['chargeUtilization'] = _hdrm_stats(ev_by['charge'], 'charge')
+    out['dischargeUtilization'] = _hdrm_stats(ev_by['discharge'], 'discharge')
+    out['eras'] = {era: {'charge': _hdrm_stats([r for r in ev_by['charge'] if r['era'] == era], 'charge'),
+                         'discharge': _hdrm_stats([r for r in ev_by['discharge'] if r['era'] == era], 'discharge')} for era in sorted(unit)}
+    ceil_n = sum(d['nAtCeiling']['charge'] + d['nAtCeiling']['discharge'] for d in unit.values())
+    tot_n = sum(d['nSamples'] for d in unit.values())
     out['methodology'] = (
-        'M121 origin: [BMS] Input/Output possible power (hp), the BMS\'s '
-        'own declared capability envelope, present only from the third '
-        'raw-logging PID configuration onward (2026-08-13+). Coverage is '
-        f'sparse ({n_covered}/{len(dm)} corpus drives, {out["coveragePct"]}%'
-        ') and the channel itself is polled far less densely than ordinary '
-        'BMS current/voltage (roughly 1-2% fill density within covered '
-        f'files), so alignment against the pipeline\'s I x V power series '
-        f'uses a wide {_HDRM_ALIGN_TOL} merge_asof(direction="nearest") '
-        'tolerance rather than the usual V_ALIGN_TOL=1500ms. Output '
-        'possible power (max discharge capability) is a hard constant '
-        'across every covered file (zero exceptions) -- this corpus\'s '
-        'driving never moved it, so no discharge-side utilization ratio is '
-        'reported as a headline figure, only the descriptive utilization-'
-        'against-the-fixed-ceiling stats above. Input possible power (max '
-        'charge-acceptance capability) DOES vary and is the genuinely '
-        'informative direction. A small number of charge-utilization values '
-        'exceed 1.0, most plausibly a stale-match artefact from the wide '
-        'alignment tolerance during fast current transients rather than a '
-        'real BMS-limit excursion; not clipped, reported as-is.')
+        'Logged [BMS] Input/Output possible power, the limit the BMS reports (logged / app-calculated): the (kW) pair since 2026-09-30 and the (hp) pair before it, '
+        'converted with the metric horsepower factor %g (the former mechanical factor %g put every limit 1.4 %% too high); files are selected by header, not by date. '
+        'Utilisation = logged I x V power (charge-positive raw, M11) aligned to the nearest possible-power sample within %s (merge_asof nearest) divided by the BMS-reported limit; '
+        'it is not a physical capability. Coverage: %d of %d corpus drives carry the channel (%d analysed). The channel is polled far less densely than ordinary BMS current / voltage '
+        '(median gap per era in coverage.byEra), so a few utilisation values exceed 1.0, most plausibly a stale match during fast current transients; not clipped. '
+        'The reported limit may be saturated at %g kW (255 x 0.25 kW): %d of %d possible-power samples are at or above %g kW (ceiling.byEra); this is not identified, and the statistics '
+        'are also given for events with the limit below it (conditional on the denominator, not a censoring correction). Median and 95th percentile carry a day-clustered percentile '
+        'bootstrap (seed 42, 4000 draws); maximum and nAbove1 are descriptive. Eras are reported side by side; no contrast between them is drawn, and nothing here shows that the limit '
+        'constrained driving. Single vehicle / ~single driver.'
+        % (_HDRM_HP_TO_KW, _HDRM_HP_MECH_TO_KW, _HDRM_ALIGN_TOL, n_channel, len(dm), n_covered, _HDRM_CEILING_KW, ceil_n, tot_n, _HDRM_CEILING_KW - _HDRM_CEILING_TOL_KW))
     return out
 
 
