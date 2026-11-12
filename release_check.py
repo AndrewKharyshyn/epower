@@ -329,6 +329,7 @@ def main():
         _rr = Path(__file__).resolve().parent                                          # M417 (audit F11): the sample replay reads the real raw/ (not copied into the clean tree)
         if (_rr / "tools" / "replay_master.py").exists() and (_rr / "raw").is_dir():
             run([sys.executable, "tools/replay_master.py", "--sample", "--no-write", "--raw-dir", str(_rr / "raw")], _rr, "replay: the pinned sample of drives rebuilt from the sha256-verified raw files reproduces every column the builder produces (M417, audit F11)")
+        run([sys.executable, "tools/release_identity.py", "--check"], Path(__file__).resolve().parent, "release identity (M621, P-01): release_identity.json equals master MD5, payload block count, sha256 of the shipped files and the raw snapshot id (evaluated against the repository tree; regenerate with python tools/release_identity.py after the last content change)")
         run([sys.executable, "tools/exposure_frame.py", "--check"], tmp, "exposure basis: every drive with a finite legacy gtc has a sidecar Ah value, no legacy fallback (M414, spec M413)")
         for t in PY_TESTS:
             if t == "test_seasonal.py":

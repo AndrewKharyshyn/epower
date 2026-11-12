@@ -1113,6 +1113,18 @@
    "verified": true
   },
   {
+   "id": "release_identity",
+   "title": "Release identity written from disk after the last content stage (M621, P-01); release_check verifies it",
+   "cmd": [
+    "python3",
+    "tools/release_identity.py"
+   ],
+   "verified": false,
+   "outputs": [
+    "release_identity.json"
+   ]
+  },
+  {
    "id": "release_check",
    "title": "Clean-environment release gate (authoritative)",
    "cmd": [

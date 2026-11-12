@@ -29,8 +29,13 @@ def build():
     except Exception:
         git = None
     meta = arrays.get("meta", {})
+    try:                                                    # M621 (P-01): raw-corpus fingerprint kept apart from the master CSV digest
+        rm = json.load(open(os.path.join(ROOT, "raw_manifest.json"), encoding="utf-8"))
+        raw = {"snapshotId": rm.get("snapshotId"), "manifestSha256": digest("raw_manifest.json", "sha256")}
+    except Exception:
+        raw = None
     return {"changelogHead": head, "gitHead": git, "payloadBlocks": len(arrays), "totalDrives": meta.get("totalDrives"), "dateRange": meta.get("dateRange"),
-            "masterMd5": digest("drive_master.csv", "md5"),
+            "masterMd5": digest("drive_master.csv", "md5"), "rawCorpus": raw,
             "sha256": {p: digest(p, "sha256") for p in FILES if os.path.exists(os.path.join(ROOT, p))},
             "historicalArtifacts": {"determinism_check.json": "446-drive standalone artifact, historical", "raw_manifest.json note": "describes the 446-drive snapshot, historical"}}
 
@@ -40,6 +45,6 @@ if __name__ == "__main__":
     blk = build(); out = os.path.join(ROOT, "release_identity.json")
     if a.check:
         cur = json.load(open(out, encoding="utf-8")) if os.path.exists(out) else {}
-        bad = [k for k in ("masterMd5", "payloadBlocks", "sha256") if cur.get(k) != blk[k]]
+        bad = [k for k in ("masterMd5", "payloadBlocks", "sha256", "rawCorpus") if cur.get(k) != blk[k]]
         print("release_identity stale: %s" % bad if bad else "release_identity current"); sys.exit(1 if bad else 0)
     json.dump(blk, open(out, "w", encoding="utf-8", newline="\n"), indent=1, sort_keys=True); print("wrote release_identity.json", blk["changelogHead"], blk["payloadBlocks"])

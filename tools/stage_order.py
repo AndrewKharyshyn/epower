@@ -30,7 +30,7 @@ def _script_files(stage, cp):
     for a in stage["cmd"]:
         r = cp._resolve(a.replace("\\", "/")) if _PATH_RE.match(a) else None
         if r:
-            files |= set(cp.closure(r))
+            files |= set(cp.closure(r, tuple(getattr(cp, "narrow_for", lambda s: ())(stage))))
     return sorted(f for f in files if f.endswith(".py"))
 
 
