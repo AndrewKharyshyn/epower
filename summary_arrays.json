@@ -12231,7 +12231,8 @@
    }
   ],
   "horizonBasis": "SE(slope) ~ T^-1.5 at constant logging cadence; assumes homogeneous residual variance and linear fade. Planning figure, not a measurement.",
-  "note": "M25/M56/M170/M395. Temperature- and HV-current-density-adjusted (partial, M170) V-regression resistance trend. The 95 % day-cluster interval spans zero: a trend is not resolved in this window. HV-current logging density, which changed mid-corpus with the PID configuration and biases this load-excited proxy upward, enters the trend as two covariates (M170); the adjustment is partial. HV-current-density adjustment (M170) is partial: across 7 cadence-handling specifications the slope ranges from 0.537 to 1.249 mΩ/month and not every 95% interval spans zero (the published specification is S1); no fade rate is claimed. In the reference draw, emulated slow-cadence thinning (each column thinned independently, which also alters the I-V co-timing; not attributed to sampling density) lowers the proxy by 1.6-1.8 mΩ on the 78 fast-regime drives that keep a proxy and removes it from 29 of 107 fast-regime drives; across 41 slow-pool configurations (11 coupled draws and seeds, M532; 30 single-factor and pool-size runs of 20, 40 or 80 slow drives, M534) the era-mean lowering spans 0.9-2.3 mΩ (fast1) and 0.8-3.6 mΩ (fast2) (min / max across configurations, descriptive, not an interval), the paired interval includes zero in 8 of 82 era configurations (fast1 4, fast2 4), and the spread cannot be apportioned between the pool draw and the seeds (standard-deviation ratio 1.4 and 0.9, not resolved at 10 replicates per arm), computed on the previous basis (274 clean drives) (emulated sampling sensitivity, not a causal cadence effect; M393 study on 274 clean drives, stale: the clean-drive count is now 294). Absolute level is a load-excited in-drive proxy, NOT relaxed-OCV resistance, and is available on only a selected subset of drives - use for trend, never as an absolute SOH measurement."
+  "note": "M25/M56/M170/M395. Temperature- and HV-current-density-adjusted (partial, M170) V-regression resistance trend. The 95 % day-cluster interval spans zero: a trend is not resolved in this window. HV-current logging density, which changed mid-corpus with the PID configuration and biases this load-excited proxy upward, enters the trend as two covariates (M170); the adjustment is partial. HV-current-density adjustment (M170) is partial: across 7 cadence-handling specifications the slope ranges from 0.537 to 1.249 mΩ/month and not every 95% interval spans zero (the published specification is S1); no fade rate is claimed. In the reference draw, emulated slow-cadence thinning (each column thinned independently, which also alters the I-V co-timing; not attributed to sampling density) lowers the proxy by 1.6-1.8 mΩ on the 78 fast-regime drives that keep a proxy and removes it from 29 of 107 fast-regime drives; across 41 slow-pool configurations (11 coupled draws and seeds, M532; 30 single-factor and pool-size runs of 20, 40 or 80 slow drives, M534) the era-mean lowering spans 0.9-2.3 mΩ (fast1) and 0.8-3.6 mΩ (fast2) (min / max across configurations, descriptive, not an interval), the paired interval includes zero in 8 of 82 era configurations (fast1 4, fast2 4), and the spread cannot be apportioned between the pool draw and the seeds (standard-deviation ratio 1.4 and 0.9, not resolved at 10 replicates per arm), computed on the previous basis (274 clean drives) (emulated sampling sensitivity, not a causal cadence effect; M393 study on 274 clean drives, stale: the clean-drive count is now 294). Absolute level is a load-excited in-drive proxy, NOT relaxed-OCV resistance, and is available on only a selected subset of drives - use for trend, never as an absolute SOH measurement.",
+  "mdeMohmPerMoMeaning": "CI half-width of the slope (1.96 x SE), not a power calculation; slopes smaller than it are not distinguished from zero in this window; the key name is kept until a planned schema change (M633, self-audit W1-12 e)"
  },
  "fadeModes": {
   "basis": "M61. Two-dimensional scenario sensitivity replacing the five single-threshold crossing labels, plus explicit separation of capacity-fade and power-fade mechanisms.",
@@ -174723,7 +174724,7 @@
   }
  },
  "generatorTractionRecon": {
-  "basis": "Path B (fuel flow → RPM/load-conditioned BSFC surface → generator → DC-bus balance), 435 clean / 435 fuel-instrumented drives, 4001.6 km.",
+  "basis": "Path B (fuel flow → RPM/load-conditioned BSFC surface → generator → DC-bus balance), 435 clean of 437 fuel-instrumented drives, 4001.6 km.",
   "fuelBasis": "E10 (751 g/L density, 41.15 MJ/kg LHV)",
   "nProduction": 435,
   "nDrives": 435,
@@ -400731,7 +400732,7 @@
         "fGen": 0.7897
        }
       ],
-      "basis": "Path B (fuel flow → RPM/load-conditioned BSFC surface → generator → DC-bus balance), 435 clean / 435 fuel-instrumented drives, 4001.6 km — All cohort (665 drives in cohort corpus-wide).",
+      "basis": "Path B (fuel flow → RPM/load-conditioned BSFC surface → generator → DC-bus balance), 435 clean of 437 fuel-instrumented drives, 4001.6 km — All cohort (665 drives in cohort corpus-wide).",
       "estimands": {
        "etaEng": "engine brake energy / chemical fuel energy, ratio of corpus energy totals on the drives with a per-drive engine ratio (complete case; support in commonSupport.etaEngCompleteCase); model-derived",
        "engineBrake": "etaEng x the headline fuel rate: a ratio estimator that applies the complete-case ratio to the drives with a null per-drive engine ratio; engineLoss and genpeLoss follow from it",
@@ -400831,7 +400832,7 @@
         "fGen": 0.8015
        }
       ],
-      "basis": "Path B (fuel flow → RPM/load-conditioned BSFC surface → generator → DC-bus balance), 213 clean / 213 fuel-instrumented drives, 1809.7 km — Warm cohort (423 drives in cohort corpus-wide).",
+      "basis": "Path B (fuel flow → RPM/load-conditioned BSFC surface → generator → DC-bus balance), 213 clean of 214 fuel-instrumented drives, 1809.7 km — Warm cohort (423 drives in cohort corpus-wide).",
       "estimands": {
        "etaEng": "engine brake energy / chemical fuel energy, ratio of corpus energy totals on the drives with a per-drive engine ratio (complete case; support in commonSupport.etaEngCompleteCase); model-derived",
        "engineBrake": "etaEng x the headline fuel rate: a ratio estimator that applies the complete-case ratio to the drives with a null per-drive engine ratio; engineLoss and genpeLoss follow from it",
@@ -400931,7 +400932,7 @@
         "fGen": 0.7921
        }
       ],
-      "basis": "Path B (fuel flow → RPM/load-conditioned BSFC surface → generator → DC-bus balance), 167 clean / 167 fuel-instrumented drives, 1787.7 km — Shoulder cohort (187 drives in cohort corpus-wide).",
+      "basis": "Path B (fuel flow → RPM/load-conditioned BSFC surface → generator → DC-bus balance), 167 clean of 168 fuel-instrumented drives, 1787.7 km — Shoulder cohort (187 drives in cohort corpus-wide).",
       "estimands": {
        "etaEng": "engine brake energy / chemical fuel energy, ratio of corpus energy totals on the drives with a per-drive engine ratio (complete case; support in commonSupport.etaEngCompleteCase); model-derived",
        "engineBrake": "etaEng x the headline fuel rate: a ratio estimator that applies the complete-case ratio to the drives with a null per-drive engine ratio; engineLoss and genpeLoss follow from it",
@@ -401013,7 +401014,7 @@
         "fGen": 0.7735
        }
       ],
-      "basis": "Path B (fuel flow → RPM/load-conditioned BSFC surface → generator → DC-bus balance), 55 clean / 55 fuel-instrumented drives, 404.2 km — Cold cohort (55 drives in cohort corpus-wide).",
+      "basis": "Path B (fuel flow → RPM/load-conditioned BSFC surface → generator → DC-bus balance), 55 clean of 55 fuel-instrumented drives, 404.2 km — Cold cohort (55 drives in cohort corpus-wide).",
       "estimands": {
        "etaEng": "engine brake energy / chemical fuel energy, ratio of corpus energy totals on the drives with a per-drive engine ratio (complete case; support in commonSupport.etaEngCompleteCase); model-derived",
        "engineBrake": "etaEng x the headline fuel rate: a ratio estimator that applies the complete-case ratio to the drives with a null per-drive engine ratio; engineLoss and genpeLoss follow from it",

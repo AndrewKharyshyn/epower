@@ -59,6 +59,8 @@ def aggregate(subset, cohort_label, corpus_total_n, canonical=True):
     # M375: canonical=True (default) restricts to canonical-clean fuel-instrumented drives; canonical=False reproduces the pre-M375 definition (kept for the M375 measurement only)
     if canonical:
         assert 'ens_excluded' in subset.columns, "aggregate() needs the canonical flag: build the frame with load_merged()"
+    nFuelRows = len(subset)                          # M633 (W1-12 c): all fuel-instrumented rows of the set, before the canonical exclusion
+    if canonical:
         subset = subset[~subset['ens_excluded']]
     nProduction = len(subset)
     clean = subset[subset['f_gen'].notna()].copy()
@@ -138,7 +140,7 @@ def aggregate(subset, cohort_label, corpus_total_n, canonical=True):
     dts.sort(key=lambda x: order.get(x['type'], 9))
 
     basis = (f"Path B (fuel flow \u2192 RPM/load-conditioned BSFC surface \u2192 "
-             f"generator \u2192 DC-bus balance), {nDrives} clean / {nProduction} "
+             f"generator \u2192 DC-bus balance), {nDrives} clean of {nFuelRows} "
              f"fuel-instrumented drives, {km} km \u2014 {cohort_label} cohort "
              f"({corpus_total_n} drives in cohort corpus-wide).")
 

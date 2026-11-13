@@ -38,8 +38,8 @@ def refresh(d, merged):
     R['estimands'] = data_all['estimands']            # M471 (audit F01): what each efficiency is, and the support of the battery branches
     R['commonSupport'] = data_all['commonSupport']
     R['basis'] = (f"Path B (fuel flow \u2192 RPM/load-conditioned BSFC surface \u2192 "
-                  f"generator \u2192 DC-bus balance), {data_all['nDrives']} clean / "
-                  f"{data_all['nProduction']} fuel-instrumented drives, "
+                  f"generator \u2192 DC-bus balance), {data_all['nDrives']} clean of "
+                  f"{len(merged)} fuel-instrumented drives, "
                   f"{data_all['kmProduction']} km.")
     # M349: glossary values that restate the headline f_gen are bound to the recomputed corpus (they were typed literals: 0.477 / 0.523
     # against a published 0.467 -- the release gate only tolerated the gap while it stayed inside its approximation tolerance).
