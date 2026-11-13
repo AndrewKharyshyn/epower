@@ -1,5 +1,5 @@
 {
- "_note": "Stage list for tools/run_ingest.py. 'verified' = command is evidenced in release_check.py / project code; false = reconcile against the real scripts in the first Code session. A stage failing stops the run; nothing is retried automatically. M308: stage_raw..refresh_gtr_headline added (verified in a scratch chain, 2026-09-30). Open: generatorTractionRecon.speedSplit has no auto-splice (speed_split.py only writes speed_split.json); the arrays carry the previous block.",
+ "_note": "Stage list for tools/run_ingest.py. 'verified' = the stage ran green in a full ingestion run (the latest: runs/20261110T232013Z, 87 stages) or is evidenced in release_check.py; false = new since that run (not yet run in a full ingestion: winter_temperature_controls M634, release_identity M621), reconcile on its first full run. A stage failing stops the run; nothing is retried automatically. M308: stage_raw..refresh_gtr_headline added (verified in a scratch chain, 2026-09-30). Open: generatorTractionRecon.speedSplit has no auto-splice (speed_split.py only writes speed_split.json); the arrays carry the previous block.",
  "stages": [
   {
    "id": "static_preflight",
@@ -157,7 +157,7 @@
     "tools/m321_ladder_monitor.py",
     "update"
    ],
-   "verified": false,
+   "verified": true,
    "outputs": [
     "summary_arrays.json",
     "analyses/M321_tpack_cache.json"
@@ -1008,7 +1008,7 @@
     "python3",
     "tools/m497_refresh.py"
    ],
-   "verified": false,
+   "verified": true,
    "outputs": [
     "summary_arrays.json",
     "analyses/M497_result.json"
@@ -1081,7 +1081,7 @@
     "python3",
     "tools/m432_refresh.py"
    ],
-   "verified": false,
+   "verified": true,
    "outputs": [
     "summary_arrays.json",
     "analyses/M432_result.json",
