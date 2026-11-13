@@ -3049,15 +3049,16 @@ def _official_disclosure_correlation(dm, cfg, cyc, fade_modes, power_fade):
         'ourVregPerCellMohm': (round(vreg_med / PACK_SERIES_CELLS_EST, 2)
                                if vreg_med is not None else None),
         'comparable': False,
-        'note': ('NOT a like-for-like comparison. The official figure is a '
-                 'standardized long-pulse DCIR at 80% SoC, ~25\u00b0C. our '
+        'note': ('NOT a like-for-like comparison. The official figure is the sheet\'s '
+                 '"internal resistance under SOC 80% of new battery condition"; the sheet states no test protocol, '
+                 'pulse length or temperature for it. our '
                  'vsag_R / vreg_R are instantaneous, load-excited in-drive '
                  'proxies (ohmic + fast polarization only) at ~64% SoC on a '
                  'warm pack -- a different resistance definition, not a '
                  'degraded-vs-new state. The ratio between the two levels '
-                 'must NEVER be read as a state-of-health percentage. What '
-                 'IS comparable is the estimated TREND (see powerFade / '
-                 'fadeModes.power), which is the null result reported '
+                 'must NEVER be read as a state-of-health percentage. The '
+                 'closest contrast is a relative change, assuming the in-drive proxy scales with the sheet figure (unverified); see powerFade / '
+                 'fadeModes.power for the estimated TREND, a null result reported '
                  'separately below.')}
     if power_fade and power_fade.get('mdeRisePctPerYr') is not None \
             and od.get('capacityFadeConditionKm') and cyc.get('odometer'):
@@ -3109,19 +3110,14 @@ def _official_disclosure_correlation(dm, cfg, cyc, fade_modes, power_fade):
             'officialLifeKm': life_km,
             'officialCapacityFadePct': od.get('capacityFadePct'),
             'note': (f"Nissan's {life_km:,} km / {od.get('capacityFadePct')}% "
-                     f"capacity-fade reference point maps, via this study's "
+                     f"maximum capacity fade (stated for 14 years or that mileage) maps, via this study's "
                      f"estimated gtcPerKm (from logged current; assumed capacity) per usage mix, onto {lo:,}"
                      f"\u2013{hi:,} GTC" +
-                     (f" -- a band that BRACKETS the study's assumed "
+                     (f" -- a band that includes the study's assumed "
                       f"{thr:,} GTC capacity-fade threshold" if brackets else
                       f", compared against the study's assumed {thr:,} GTC "
                       f"threshold") +
-                     '. First external anchor for a constant previously '
-                     'carried as thresholdVerified: false -- still an order-'
-                     'of-magnitude corroboration, not a calibration: '
-                     'gtcPerKm reflects this buffer\'s OWN estimated cycling '
-                     'intensity, and the disclosed percentage is a maximum '
-                     'decrease, not a defined GTC endpoint.')}
+                     '. This is an arithmetic scenario with no evidentiary weight: this study\'s own estimated gtcPerKm (from logged current; assumed capacity basis) multiplied by the sheet\'s 190,000 km. The band lies near the assumed threshold only because both rest on this study\'s own intensities and assumed capacity; it neither calibrates nor verifies the threshold (still verified:false), and the sheet gives the 34% as a maximum decrease after 14 years or 190,000 km of normal customer use in the European market, which may vary with driving style, charging behaviour and environmental factors, not as a defined GTC endpoint.')}
 
     # ---- 5. usage rate -> which limit governs ----------------------------
     odo = cyc.get('odometer')
@@ -3150,12 +3146,12 @@ def _official_disclosure_correlation(dm, cfg, cyc, fade_modes, power_fade):
 
     rows = [
         _row('Rated capacity', f"{od['ratedCapacityAh']} Ah",
-             f"{round(float(clean['cap_ah_est'].median()),2)} Ah (median, "
-             f"nameplate-derived)" if 'cap_ah_est' in clean.columns else '\u2014',
-             'consistent',
-             'Both describe a ~2 kWh-class pack. cap_ah_est is CAP_KWH / '
-             'V_pack_median, an algebraic restatement of the nameplate, not '
-             'an independent capacity measurement (see fadeModes.capacity).'),
+             f"{od['ratedCapacityAh']} Ah adopted as the throughput reference (exposureBasis.referenceAh, verified:false); no capacity is measured here",
+             'not_comparable',
+             'The sheet defines rated capacity as energy divided by the nominal battery voltage. This study adopted 5.0 Ah as its exposure reference (owner decision D-01) and estimates no capacity, '
+             'so nothing is compared. The legacy 2.1 kWh reference divided by the median pack voltage ' +
+             (f"is {round(float(clean['cap_ah_est'].median()),2)} Ah" if 'cap_ah_est' in clean.columns else 'gives a different Ah value') +
+             ', an algebraic restatement of that assumption and not an independent capacity estimate (see fadeModes.capacity).'),
         _row('Power', f"{power['officialKw']} kW @ {power['officialConditionSoc']}% SoC",
              f"{power['measuredPeakKw']} kW peak ({power['measuredPeakDrive']})",
              'not_comparable',
@@ -3176,16 +3172,13 @@ def _official_disclosure_correlation(dm, cfg, cyc, fade_modes, power_fade):
               else 'Measured trend is a null result; official life-point figures '
                    'are defined at full mileage, not at the current corpus window.')),
         _row('Round-trip efficiency',
-             f"{od['roundTripEfficiencyPct']}% (new, benign protocol)",
+             f"{od['roundTripEfficiencyPct']}% (new battery condition)",
              'not measured (gross-throughput-per-100km convention used instead)',
              'not_comparable',
-             'Lab figure at gentle current, new battery. Real buffering at '
-             '20-35C peaks incurs I\u00b2R losses this figure does not '
-             'capture, which is why the study reports gross throughput '
-             'rather than a round-trip efficiency.'),
+             'The sheet gives 99.6% for a new battery and states no current, load or protocol. Whether it applies to the current levels of in-drive buffering is not stated; this study reports gross throughput per 100 km rather than a round-trip efficiency.'),
         _row('Capacity fade', f"{od['capacityFadePct']}% @ {od['expectedLifeKm']:,} km",
              'no observable in this corpus (fadeModes.capacity: MODELED ONLY)',
-             'consistent_by_design',
+             'scenario_only',
              (capacity_fade_anchor['note'] if capacity_fade_anchor else
               'Real but unobservable for a buffer that never leaves its '
               'operating SoC window; disclosure confirms the mechanism is '
@@ -3222,16 +3215,7 @@ def _official_disclosure_correlation(dm, cfg, cyc, fade_modes, power_fade):
         'capacityFadeAnchor': capacity_fade_anchor, 'usageRate': usage_rate,
         'rows': rows,
         'verdictHeadline': (
-            'No official figure contradicts a study finding. The disclosure\'s '
-            'own structure -- large tolerated capacity fade alongside '
-            'separately tracked power fade and a large internal-resistance '
-            'increase, on a high power/energy-ratio pack -- independently '
-            'corroborates this study\'s central framing: the HV battery is a '
-            'power buffer, and internal-resistance-driven power fade, not '
-            'capacity fade, is the functionally meaningful degradation mode. '
-            'The one figure that must never be read as a direct level match '
-            'is internal resistance (see resistance.note) -- track its TREND '
-            'against ours, never its absolute value.'),
+            'No official figure contradicts a study finding, and the disclosure does not test one either. Article 10 prescribes the parameter set, so the sheet carries no evidence for or against this study\'s framing of the HV battery as a power buffer; its figures are the manufacturer\'s own maxima after 14 years or 190,000 km (a maximum capacity fade, a maximum power fade and a maximum internal-resistance increase), and the pack\'s power/energy ratio is a study estimate that assumes the capacity. The one figure that must never be read as a direct level match is internal resistance (see resistance.note); only a relative change could be contrasted, assuming the in-drive proxy scales with the sheet figure (unverified).'),
         'note': ('No warranty implication can be derived from any information '
                  'here, per the source disclosure\'s own disclaimer. Figures '
                  'transcribed from the manufacturer\'s published compliance '

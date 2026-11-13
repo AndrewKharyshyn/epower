@@ -12840,7 +12840,7 @@
  "officialDisclosureCorrelation": {
   "basis": "M79 (2026-07-31). Cross-check of the Nissan X-Trail e-POWER (T33) Article 10 (Regulation (EU) 2023/1542) battery durability disclosure against this study's own measured / modeled figures. Source disclosure and supplier identity are external reference content (cfg.officialDisclosure / cfg.batterySupplier); every comparison figure on this side is pipeline-computed from the live drive_master.csv + config, so the whole block recomputes as the corpus grows.",
   "official": {
-   "_provenance": "M79 (2026-07-31). External regulatory disclosure, NOT measured by this study. Nissan X-Trail e-POWER (T33) battery performance and durability table, filed under Article 10, Regulation (EU) 2023/1542 (the EU Batteries Regulation). Transcribed from the manufacturer's published compliance table (image source reviewed 2026-07-31; no public URL captured this session). Figures are the manufacturer's own test-protocol outputs; the source table states no warranty implication can be derived from any value in it, and this study repeats that disclaimer rather than treating any figure as a guarantee.",
+   "_provenance": "M79 (2026-07-31). External regulatory disclosure, NOT measured by this study. Nissan X-Trail e-POWER (T33) battery performance and durability table, published under Article 10, Regulation (EU) 2023/1542 (the EU Batteries Regulation). Transcribed from the manufacturer's published compliance table (image source reviewed 2026-07-31; no public URL captured; the stored copy is described below). The values are those printed in the manufacturer's table. Conditions the sheet states: power at SOC 80% of new battery condition at room temperature; internal resistance and round-trip efficiency under SOC 80% / new battery condition; the fade, increase and life values are maxima or guide values after 14 years or 190,000 km of normal customer use in the European market. It states no test protocol for any of them; a copy of the sheet (X-Trail_e-POWER.pdf, 310,365 bytes, sha256 edd2e4719e54c73feff940a2afc87733ddddce71e47579b42336bb423582b3c8) is stored outside the repository (reference_downloads/nissan_article10). The source table states no warranty implication can be derived from any value in it, and this study repeats that disclaimer rather than treating any figure as a guarantee.",
    "model": "T33",
    "regulation": "Article 10, Regulation (EU) 2023/1542",
    "ratedCapacityAh": 5.0,
@@ -12913,7 +12913,7 @@
    "ourVsagPerCellMohm": 1.32,
    "ourVregPerCellMohm": 1.37,
    "comparable": false,
-   "note": "NOT a like-for-like comparison. The official figure is a standardized long-pulse DCIR at 80% SoC, ~25°C. our vsag_R / vreg_R are instantaneous, load-excited in-drive proxies (ohmic + fast polarization only) at ~64% SoC on a warm pack -- a different resistance definition, not a degraded-vs-new state. The ratio between the two levels must NEVER be read as a state-of-health percentage. What IS comparable is the estimated TREND (see powerFade / fadeModes.power), which is the null result reported separately below.",
+   "note": "NOT a like-for-like comparison. The official figure is the sheet's \"internal resistance under SOC 80% of new battery condition\"; the sheet states no test protocol, pulse length or temperature for it. our vsag_R / vreg_R are instantaneous, load-excited in-drive proxies (ohmic + fast polarization only) at ~64% SoC on a warm pack -- a different resistance definition, not a degraded-vs-new state. The ratio between the two levels must NEVER be read as a state-of-health percentage. The closest contrast is a relative change, assuming the in-drive proxy scales with the sheet figure (unverified); see powerFade / fadeModes.power for the estimated TREND, a null result reported separately below.",
    "trendContext": {
     "kmFractionOfOfficialLifePct": 25.1,
     "expectedIncreasePctSoFar": 18.8,
@@ -12966,7 +12966,7 @@
    "bracketsThreshold": true,
    "officialLifeKm": 190000,
    "officialCapacityFadePct": 34.0,
-   "note": "Nissan's 190,000 km / 34.0% capacity-fade reference point maps, via this study's estimated gtcPerKm (from logged current; assumed capacity) per usage mix, onto 15,251–21,400 GTC -- a band that BRACKETS the study's assumed 20,000 GTC capacity-fade threshold. First external anchor for a constant previously carried as thresholdVerified: false -- still an order-of-magnitude corroboration, not a calibration: gtcPerKm reflects this buffer's OWN estimated cycling intensity, and the disclosed percentage is a maximum decrease, not a defined GTC endpoint."
+   "note": "Nissan's 190,000 km / 34.0% maximum capacity fade (stated for 14 years or that mileage) maps, via this study's estimated gtcPerKm (from logged current; assumed capacity) per usage mix, onto 15,251–21,400 GTC -- a band that includes the study's assumed 20,000 GTC capacity-fade threshold. This is an arithmetic scenario with no evidentiary weight: this study's own estimated gtcPerKm (from logged current; assumed capacity basis) multiplied by the sheet's 190,000 km. The band lies near the assumed threshold only because both rest on this study's own intensities and assumed capacity; it neither calibrates nor verifies the threshold (still verified:false), and the sheet gives the 34% as a maximum decrease after 14 years or 190,000 km of normal customer use in the European market, which may vary with driving style, charging behaviour and environmental factors, not as a defined GTC endpoint."
   },
   "usageRate": {
    "odometerKm": 47673,
@@ -12982,9 +12982,9 @@
    {
     "parameter": "Rated capacity",
     "official": "5.0 Ah",
-    "ours": "5.84 Ah (median, nameplate-derived)",
-    "verdict": "consistent",
-    "note": "Both describe a ~2 kWh-class pack. cap_ah_est is CAP_KWH / V_pack_median, an algebraic restatement of the nameplate, not an independent capacity measurement (see fadeModes.capacity)."
+    "ours": "5.0 Ah adopted as the throughput reference (exposureBasis.referenceAh, verified:false); no capacity is measured here",
+    "verdict": "not_comparable",
+    "note": "The sheet defines rated capacity as energy divided by the nominal battery voltage. This study adopted 5.0 Ah as its exposure reference (owner decision D-01) and estimates no capacity, so nothing is compared. The legacy 2.1 kWh reference divided by the median pack voltage is 5.84 Ah, an algebraic restatement of that assumption and not an independent capacity estimate (see fadeModes.capacity)."
    },
    {
     "parameter": "Power",
@@ -12998,7 +12998,7 @@
     "official": "210.0 mΩ pack (2.19 mΩ/cell est.)",
     "ours": "131.5 mΩ pack (1.37 mΩ/cell est.)",
     "verdict": "not_comparable",
-    "note": "NOT a like-for-like comparison. The official figure is a standardized long-pulse DCIR at 80% SoC, ~25°C. our vsag_R / vreg_R are instantaneous, load-excited in-drive proxies (ohmic + fast polarization only) at ~64% SoC on a warm pack -- a different resistance definition, not a degraded-vs-new state. The ratio between the two levels must NEVER be read as a state-of-health percentage. What IS comparable is the estimated TREND (see powerFade / fadeModes.power), which is the null result reported separately below."
+    "note": "NOT a like-for-like comparison. The official figure is the sheet's \"internal resistance under SOC 80% of new battery condition\"; the sheet states no test protocol, pulse length or temperature for it. our vsag_R / vreg_R are instantaneous, load-excited in-drive proxies (ohmic + fast polarization only) at ~64% SoC on a warm pack -- a different resistance definition, not a degraded-vs-new state. The ratio between the two levels must NEVER be read as a state-of-health percentage. The closest contrast is a relative change, assuming the in-drive proxy scales with the sheet figure (unverified); see powerFade / fadeModes.power for the estimated TREND, a null result reported separately below."
    },
    {
     "parameter": "Power fade / IR increase",
@@ -13009,17 +13009,17 @@
    },
    {
     "parameter": "Round-trip efficiency",
-    "official": "99.6% (new, benign protocol)",
+    "official": "99.6% (new battery condition)",
     "ours": "not measured (gross-throughput-per-100km convention used instead)",
     "verdict": "not_comparable",
-    "note": "Lab figure at gentle current, new battery. Real buffering at 20-35C peaks incurs I²R losses this figure does not capture, which is why the study reports gross throughput rather than a round-trip efficiency."
+    "note": "The sheet gives 99.6% for a new battery and states no current, load or protocol. Whether it applies to the current levels of in-drive buffering is not stated; this study reports gross throughput per 100 km rather than a round-trip efficiency."
    },
    {
     "parameter": "Capacity fade",
     "official": "34.0% @ 190,000 km",
     "ours": "no observable in this corpus (fadeModes.capacity: MODELED ONLY)",
-    "verdict": "consistent_by_design",
-    "note": "Nissan's 190,000 km / 34.0% capacity-fade reference point maps, via this study's estimated gtcPerKm (from logged current; assumed capacity) per usage mix, onto 15,251–21,400 GTC -- a band that BRACKETS the study's assumed 20,000 GTC capacity-fade threshold. First external anchor for a constant previously carried as thresholdVerified: false -- still an order-of-magnitude corroboration, not a calibration: gtcPerKm reflects this buffer's OWN estimated cycling intensity, and the disclosed percentage is a maximum decrease, not a defined GTC endpoint."
+    "verdict": "scenario_only",
+    "note": "Nissan's 190,000 km / 34.0% maximum capacity fade (stated for 14 years or that mileage) maps, via this study's estimated gtcPerKm (from logged current; assumed capacity) per usage mix, onto 15,251–21,400 GTC -- a band that includes the study's assumed 20,000 GTC capacity-fade threshold. This is an arithmetic scenario with no evidentiary weight: this study's own estimated gtcPerKm (from logged current; assumed capacity basis) multiplied by the sheet's 190,000 km. The band lies near the assumed threshold only because both rest on this study's own intensities and assumed capacity; it neither calibrates nor verifies the threshold (still verified:false), and the sheet gives the 34% as a maximum decrease after 14 years or 190,000 km of normal customer use in the European market, which may vary with driving style, charging behaviour and environmental factors, not as a defined GTC endpoint."
    },
    {
     "parameter": "Expected life-time",
@@ -13036,7 +13036,7 @@
     "note": "Series-cell count and cell-voltage window are a raw-file spot-check inference (pack-voltage extremum over the full master vs. observed max single-cell voltage on the subset of files exposing full cell telemetry), NOT a full-corpus raw scan and NOT a manufacturer-published series count -- the OBD PID set exposes only cell channels #01-#80 regardless of the true series count. The window EXCLUDES LFP and is CONSISTENT WITH a layered-oxide (NMC/NCA-class) cathode; operational voltage/current behaviour cannot uniquely identify the cathode, so this is NOT an NMC identification. OEM material discloses only lithium-ion. Pack voltage range IS a full-corpus, pipeline-computed figure (V_pack_median extrema)."
    }
   ],
-  "verdictHeadline": "No official figure contradicts a study finding. The disclosure's own structure -- large tolerated capacity fade alongside separately tracked power fade and a large internal-resistance increase, on a high power/energy-ratio pack -- independently corroborates this study's central framing: the HV battery is a power buffer, and internal-resistance-driven power fade, not capacity fade, is the functionally meaningful degradation mode. The one figure that must never be read as a direct level match is internal resistance (see resistance.note) -- track its TREND against ours, never its absolute value.",
+  "verdictHeadline": "No official figure contradicts a study finding, and the disclosure does not test one either. Article 10 prescribes the parameter set, so the sheet carries no evidence for or against this study's framing of the HV battery as a power buffer; its figures are the manufacturer's own maxima after 14 years or 190,000 km (a maximum capacity fade, a maximum power fade and a maximum internal-resistance increase), and the pack's power/energy ratio is a study estimate that assumes the capacity. The one figure that must never be read as a direct level match is internal resistance (see resistance.note); only a relative change could be contrasted, assuming the in-drive proxy scales with the sheet figure (unverified).",
   "note": "No warranty implication can be derived from any information here, per the source disclosure's own disclaimer. Figures transcribed from the manufacturer's published compliance table; this study did not independently verify the disclosure's own test protocol."
  },
  "dodSocLevelSensitivity": {
