@@ -498,6 +498,8 @@ RULES = [
          rx=r"cold has no urban trips of 3 km or longer"),
     Rule("M630-torque-chart-caption", "regex", "M630/self-audit W1-06: the torque chart axis runs from -180 to 160 N.m, so 'clipped at +-160 N.m' was wrong; the regen plateau is read from torqueBySpeed regenMin (-163 N.m in the 20-80 km/h zones, -149 in 80-100, -245 in 0-20, not 20-100 km/h); the signal is the commanded (target) torque",
          rx=r"chart clipped at 160 n m|regen plateau 163 n m 20 100 km h"),
+    Rule("M636-undated-m85-figures", "regex", "M636/self-audit W1-07: the M85 provenance strings quoted 34.2 C / 54.3 % / 67.6 % highway without saying they are the 2026-08-05 corpus (live values: 31.2 C, 37.8 %, 59.7 %); a historical figure carries its milestone and date and points at the live key.",
+         rx=r"(?<!historical )time weighted mean pack 34 2c 54 3 of drive time 35c highway thermal rise 17c above ambient|consistent with the observed logged distance mix 67 6 highway(?! at m85)"),
     Rule("M634-not-every-interval-zero", "regex", "M634/M622 spec Rev 1 section 3 and the Director decision: 'not every interval spans zero' is NOT allowed for the resistance-proxy months coefficient (the quadratic control's interval includes zero); a statement about the temperature controls must name the form and state which intervals include zero (powerFadeTemperatureControls)",
          rx=r"not every interval spans zero"),
     Rule("M500-emulation-attribution", "regex", "M500/audit CD-04: the M393 cadence emulation thins each logged column independently and therefore also alters the I-V co-timing; the former wording that sampling alone lowers the proxy, or that I-V co-timing is not emulated, is not supported",
