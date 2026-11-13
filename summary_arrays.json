@@ -60954,7 +60954,8 @@
   },
   "recomputeMode": "fresh",
   "corpusSizeAtRecompute": 665,
-  "recomputePolicy": "M217 (2026-09-03, Andrii decision, H-01/F-12): energyUncertaintyMC is recomputed in full on every ingestion (energy_mc_precompute.py re-integrates raw I/V per drive on the tolerance grid, then energy_uncertainty_mc.py runs a fresh 20,000-draw MC over the cached per-drive numbers) -- superseding the prior manual carry-forward-until-stale policy (M163-M216: recomputed only on ad hoc request, drifting up to the informal 0.5% build_html.js gate between refreshes). recompute_energy_mc=False reverts to carry-forward for a given call; routine ingestion never passes it."
+  "recomputePolicy": "M217 (2026-09-03, Andrii decision, H-01/F-12): energyUncertaintyMC is recomputed in full on every ingestion (energy_mc_precompute.py re-integrates raw I/V per drive on the tolerance grid, then energy_uncertainty_mc.py runs a fresh 20,000-draw MC over the cached per-drive numbers) -- superseding the prior manual carry-forward-until-stale policy (M163-M216: recomputed only on ad hoc request, drifting up to the informal 0.5% build_html.js gate between refreshes). recompute_energy_mc=False reverts to carry-forward for a given call; routine ingestion never passes it.",
+  "labelNumericalSensitivity": "Numerical sensitivity of the capped-rule total to alignment tolerance, ADC quantisation and a gap-truncation bound, conditional on the 5 s capped rule; it is not a coverage or confidence interval for the throughput. The dependence on the gap policy is the support-policy ladder (energySupportLadder). M641, self-audit W1-16, owner decision D-02."
  },
  "_generated": {
   "pipeline_version": 6,
@@ -68127,6 +68128,27 @@
     "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    }
+  },
+  "energySupportLadder": {
+   "corpusHash": "77bbe275f8c22eaf62d8636867764af3",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": "11a89dc0c881bd0a60e9e957ccd1936a",
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-11-13T19:11:46.237216+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3"
+   },
+   "computationStatus": "computed",
+   "includedInReleaseAt": "2026-11-13T19:11:46.237216+00:00",
+   "inputBasis": {
+    "nDrives": 665,
+    "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-11-13T19:11:46.237216+00:00",
+   "computationStatusNote": "M641: derived by tools/m641_energy_ladder.py from drive_master.csv and the raw drive files (spec analyses/M641_spec.md Rev 1); deterministic support-policy sensitivity"
   }
  },
  "ambientTable": {
@@ -429315,5 +429337,2876 @@
     }
    }
   }
+ },
+ "energySupportLadder": {
+  "policies": {
+   "cap5": {
+    "family": "cap-at-c",
+    "seconds": 5.0,
+    "grossKwh": 1866.95,
+    "dischargeKwh": 904.14,
+    "chargeKwh": 962.81,
+    "integratedHours": 235.69,
+    "shareOfPublished": 1.0,
+    "nDrives": 651,
+    "nDays": 127,
+    "role": "published rule (anchor)"
+   },
+   "cap10": {
+    "family": "cap-at-c",
+    "seconds": 10.0,
+    "grossKwh": 1867.87,
+    "dischargeKwh": 904.65,
+    "chargeKwh": 963.22,
+    "integratedHours": 235.9,
+    "shareOfPublished": 1.0005,
+    "nDrives": 651,
+    "nDays": 127
+   },
+   "capNone": {
+    "family": "cap-at-c",
+    "seconds": null,
+    "grossKwh": 1872.89,
+    "dischargeKwh": 907.33,
+    "chargeKwh": 965.56,
+    "integratedHours": 237.44,
+    "shareOfPublished": 1.0032,
+    "nDrives": 651,
+    "nDays": 127
+   },
+   "drop1.6": {
+    "family": "drop-above-g",
+    "seconds": 1.6,
+    "grossKwh": 1492.98,
+    "dischargeKwh": 718.83,
+    "chargeKwh": 774.15,
+    "integratedHours": 185.55,
+    "shareOfPublished": 0.7997,
+    "nDrives": 651,
+    "nDays": 127,
+    "note": "cadence-artefact row: zero-fills intervals longer than 1.6 s, mostly a statement about the logger cadence"
+   },
+   "drop2.5": {
+    "family": "drop-above-g",
+    "seconds": 2.5,
+    "grossKwh": 1836.4,
+    "dischargeKwh": 888.23,
+    "chargeKwh": 948.17,
+    "integratedHours": 230.67,
+    "shareOfPublished": 0.9836,
+    "nDrives": 651,
+    "nDays": 127
+   },
+   "drop3.5": {
+    "family": "drop-above-g",
+    "seconds": 3.5,
+    "grossKwh": 1860.34,
+    "dischargeKwh": 900.6,
+    "chargeKwh": 959.73,
+    "integratedHours": 234.37,
+    "shareOfPublished": 0.9965,
+    "nDrives": 651,
+    "nDays": 127
+   },
+   "drop5": {
+    "family": "drop-above-g",
+    "seconds": 5.0,
+    "grossKwh": 1865.37,
+    "dischargeKwh": 903.21,
+    "chargeKwh": 962.17,
+    "integratedHours": 235.29,
+    "shareOfPublished": 0.9992,
+    "nDrives": 651,
+    "nDays": 127
+   },
+   "drop10": {
+    "family": "drop-above-g",
+    "seconds": 10.0,
+    "grossKwh": 1866.61,
+    "dischargeKwh": 904.03,
+    "chargeKwh": 962.58,
+    "integratedHours": 235.61,
+    "shareOfPublished": 0.9998,
+    "nDrives": 651,
+    "nDays": 127
+   },
+   "drop30": {
+    "family": "drop-above-g",
+    "seconds": 30.0,
+    "grossKwh": 1868.29,
+    "dischargeKwh": 904.76,
+    "chargeKwh": 963.53,
+    "integratedHours": 235.98,
+    "shareOfPublished": 1.0007,
+    "nDrives": 651,
+    "nDays": 127
+   }
+  },
+  "anchor": "cap5",
+  "supportRule": "support share of a drive = integrated time in intervals of at most 2.5 s (uncapped) / integrated time under the published cap-5 rule; the 2.5 s threshold is adopted from the external audit (seen data, not tuned)",
+  "supportClasses": {
+   ">=0.9": 606,
+   "0.8-0.9": 19,
+   "0.7-0.8": 11,
+   "<0.7": 15
+  },
+  "perDriveTag": {
+   "20260513_182950.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260515_075207.csv": {
+    "supportShare": 0.874,
+    "class": "0.8-0.9"
+   },
+   "20260515_191551.csv": {
+    "supportShare": 0.866,
+    "class": "0.8-0.9"
+   },
+   "20260515_194744.csv": {
+    "supportShare": 0.781,
+    "class": "0.7-0.8"
+   },
+   "20260515_222240.csv": {
+    "supportShare": 0.917,
+    "class": ">=0.9"
+   },
+   "20260516_121520.csv": {
+    "supportShare": 0.31,
+    "class": "<0.7"
+   },
+   "20260516_125903.csv": {
+    "supportShare": 0.85,
+    "class": "0.8-0.9"
+   },
+   "20260516_131423.csv": {
+    "supportShare": 0.963,
+    "class": ">=0.9"
+   },
+   "20260516_134339.csv": {
+    "supportShare": 0.978,
+    "class": ">=0.9"
+   },
+   "20260516_175004.csv": {
+    "supportShare": 0.98,
+    "class": ">=0.9"
+   },
+   "20260516_182041.csv": {
+    "supportShare": 0.209,
+    "class": "<0.7"
+   },
+   "20260516_191121.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260517_112115.csv": {
+    "supportShare": 0.468,
+    "class": "<0.7"
+   },
+   "20260517_120100.csv": {
+    "supportShare": 0.964,
+    "class": ">=0.9"
+   },
+   "20260517_141712.csv": {
+    "supportShare": 0.968,
+    "class": ">=0.9"
+   },
+   "20260517_145435.csv": {
+    "supportShare": 0.896,
+    "class": "0.8-0.9"
+   },
+   "20260518_073827.csv": {
+    "supportShare": 0.757,
+    "class": "0.7-0.8"
+   },
+   "20260523_113305.csv": {
+    "supportShare": 0.97,
+    "class": ">=0.9"
+   },
+   "20260523_120859.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260523_124943.csv": {
+    "supportShare": 0.945,
+    "class": ">=0.9"
+   },
+   "20260523_131019.csv": {
+    "supportShare": 0.995,
+    "class": ">=0.9"
+   },
+   "20260523_144629.csv": {
+    "supportShare": 0.986,
+    "class": ">=0.9"
+   },
+   "20260523_183218.csv": {
+    "supportShare": 0.956,
+    "class": ">=0.9"
+   },
+   "20260523_210427.csv": {
+    "supportShare": 0.929,
+    "class": ">=0.9"
+   },
+   "20260523_213300.csv": {
+    "supportShare": 0.989,
+    "class": ">=0.9"
+   },
+   "20260523_222103.csv": {
+    "supportShare": 0.994,
+    "class": ">=0.9"
+   },
+   "20260531_183645.csv": {
+    "supportShare": 0.985,
+    "class": ">=0.9"
+   },
+   "20260531_200637.csv": {
+    "supportShare": 0.992,
+    "class": ">=0.9"
+   },
+   "20260603_122008.csv": {
+    "supportShare": 0.953,
+    "class": ">=0.9"
+   },
+   "20260603_124919.csv": {
+    "supportShare": 0.916,
+    "class": ">=0.9"
+   },
+   "20260609_132041.csv": {
+    "supportShare": 0.969,
+    "class": ">=0.9"
+   },
+   "20260609_153039.csv": {
+    "supportShare": 0.983,
+    "class": ">=0.9"
+   },
+   "20260609_164033.csv": {
+    "supportShare": 0.991,
+    "class": ">=0.9"
+   },
+   "20260609_223056.csv": {
+    "supportShare": 0.949,
+    "class": ">=0.9"
+   },
+   "20260610_094100.csv": {
+    "supportShare": 0.979,
+    "class": ">=0.9"
+   },
+   "20260610_105454.csv": {
+    "supportShare": 0.998,
+    "class": ">=0.9"
+   },
+   "20260611_061120.csv": {
+    "supportShare": 0.993,
+    "class": ">=0.9"
+   },
+   "20260611_100510.csv": {
+    "supportShare": 0.96,
+    "class": ">=0.9"
+   },
+   "20260611_134347.csv": {
+    "supportShare": 0.951,
+    "class": ">=0.9"
+   },
+   "20260611_203850.csv": {
+    "supportShare": 0.967,
+    "class": ">=0.9"
+   },
+   "20260611_215131.csv": {
+    "supportShare": 0.923,
+    "class": ">=0.9"
+   },
+   "20260612_142400.csv": {
+    "supportShare": 0.709,
+    "class": "0.7-0.8"
+   },
+   "20260612_152740.csv": {
+    "supportShare": 0.991,
+    "class": ">=0.9"
+   },
+   "20260612_170759.csv": {
+    "supportShare": 0.997,
+    "class": ">=0.9"
+   },
+   "20260613_101500.csv": {
+    "supportShare": 0.996,
+    "class": ">=0.9"
+   },
+   "20260613_181221.csv": {
+    "supportShare": 0.837,
+    "class": "0.8-0.9"
+   },
+   "20260613_195920.csv": {
+    "supportShare": 0.985,
+    "class": ">=0.9"
+   },
+   "20260614_133431.csv": {
+    "supportShare": 0.952,
+    "class": ">=0.9"
+   },
+   "20260616_160533.csv": {
+    "supportShare": 0.328,
+    "class": "<0.7"
+   },
+   "20260616_162643.csv": {
+    "supportShare": 0.744,
+    "class": "0.7-0.8"
+   },
+   "20260617_150930.csv": {
+    "supportShare": 0.862,
+    "class": "0.8-0.9"
+   },
+   "20260617_152114.csv": {
+    "supportShare": 0.935,
+    "class": ">=0.9"
+   },
+   "20260618_124611.csv": {
+    "supportShare": 0.842,
+    "class": "0.8-0.9"
+   },
+   "20260618_150516.csv": {
+    "supportShare": 0.685,
+    "class": "<0.7"
+   },
+   "20260619_122407.csv": {
+    "supportShare": 0.986,
+    "class": ">=0.9"
+   },
+   "20260619_180138.csv": {
+    "supportShare": 0.997,
+    "class": ">=0.9"
+   },
+   "20260619_190927.csv": {
+    "supportShare": 0.993,
+    "class": ">=0.9"
+   },
+   "20260619_210959.csv": {
+    "supportShare": 0.998,
+    "class": ">=0.9"
+   },
+   "20260620_090055.csv": {
+    "supportShare": 0.976,
+    "class": ">=0.9"
+   },
+   "20260620_105353.csv": {
+    "supportShare": 0.993,
+    "class": ">=0.9"
+   },
+   "20260620_135838.csv": {
+    "supportShare": 0.982,
+    "class": ">=0.9"
+   },
+   "20260620_165602.csv": {
+    "supportShare": 0.984,
+    "class": ">=0.9"
+   },
+   "20260620_180817.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260620_182933.csv": {
+    "supportShare": 0.981,
+    "class": ">=0.9"
+   },
+   "20260620_192922.csv": {
+    "supportShare": 0.985,
+    "class": ">=0.9"
+   },
+   "20260620_220001.csv": {
+    "supportShare": 0.996,
+    "class": ">=0.9"
+   },
+   "20260621_124457.csv": {
+    "supportShare": 0.969,
+    "class": ">=0.9"
+   },
+   "20260621_145249.csv": {
+    "supportShare": 0.995,
+    "class": ">=0.9"
+   },
+   "20260621_164617.csv": {
+    "supportShare": 0.993,
+    "class": ">=0.9"
+   },
+   "20260621_212214.csv": {
+    "supportShare": 0.716,
+    "class": "0.7-0.8"
+   },
+   "20260621_213241.csv": {
+    "supportShare": 0.925,
+    "class": ">=0.9"
+   },
+   "20260622_203803.csv": {
+    "supportShare": 0.943,
+    "class": ">=0.9"
+   },
+   "20260622_212051.csv": {
+    "supportShare": 0.938,
+    "class": ">=0.9"
+   },
+   "20260622_214145.csv": {
+    "supportShare": 0.706,
+    "class": "0.7-0.8"
+   },
+   "20260622_220001.csv": {
+    "supportShare": 0.818,
+    "class": "0.8-0.9"
+   },
+   "20260624_112335.csv": {
+    "supportShare": 0.935,
+    "class": ">=0.9"
+   },
+   "20260624_130757.csv": {
+    "supportShare": 0.917,
+    "class": ">=0.9"
+   },
+   "20260625_122850.csv": {
+    "supportShare": 0.661,
+    "class": "<0.7"
+   },
+   "20260625_153901.csv": {
+    "supportShare": 0.734,
+    "class": "0.7-0.8"
+   },
+   "20260625_210502.csv": {
+    "supportShare": 0.936,
+    "class": ">=0.9"
+   },
+   "20260625_212737.csv": {
+    "supportShare": 0.969,
+    "class": ">=0.9"
+   },
+   "20260627_085219.csv": {
+    "supportShare": 0.55,
+    "class": "<0.7"
+   },
+   "20260627_093529.csv": {
+    "supportShare": 0.335,
+    "class": "<0.7"
+   },
+   "20260627_111449.csv": {
+    "supportShare": 0.985,
+    "class": ">=0.9"
+   },
+   "20260627_114435.csv": {
+    "supportShare": 0.995,
+    "class": ">=0.9"
+   },
+   "20260627_144929.csv": {
+    "supportShare": 0.965,
+    "class": ">=0.9"
+   },
+   "20260627_154430.csv": {
+    "supportShare": 0.998,
+    "class": ">=0.9"
+   },
+   "20260627_175120.csv": {
+    "supportShare": 0.999,
+    "class": ">=0.9"
+   },
+   "20260629_172408.csv": {
+    "supportShare": 0.392,
+    "class": "<0.7"
+   },
+   "20260629_175248.csv": {
+    "supportShare": 0.027,
+    "class": "<0.7"
+   },
+   "20260629_180647.csv": {
+    "supportShare": 0.993,
+    "class": ">=0.9"
+   },
+   "20260702_193433.csv": {
+    "supportShare": 0.783,
+    "class": "0.7-0.8"
+   },
+   "20260702_204613.csv": {
+    "supportShare": 0.965,
+    "class": ">=0.9"
+   },
+   "20260705_105038.csv": {
+    "supportShare": 0.91,
+    "class": ">=0.9"
+   },
+   "20260705_122016.csv": {
+    "supportShare": 0.911,
+    "class": ">=0.9"
+   },
+   "20260707_213501.csv": {
+    "supportShare": 0.979,
+    "class": ">=0.9"
+   },
+   "20260707_222959.csv": {
+    "supportShare": 0.962,
+    "class": ">=0.9"
+   },
+   "20260709_215155.csv": {
+    "supportShare": 0.951,
+    "class": ">=0.9"
+   },
+   "20260711_160253.csv": {
+    "supportShare": 0.995,
+    "class": ">=0.9"
+   },
+   "20260711_174010.csv": {
+    "supportShare": 0.948,
+    "class": ">=0.9"
+   },
+   "20260711_221618.csv": {
+    "supportShare": 0.969,
+    "class": ">=0.9"
+   },
+   "20260712_105413.csv": {
+    "supportShare": 0.979,
+    "class": ">=0.9"
+   },
+   "20260712_155818.csv": {
+    "supportShare": 0.962,
+    "class": ">=0.9"
+   },
+   "20260712_174020.csv": {
+    "supportShare": 0.908,
+    "class": ">=0.9"
+   },
+   "20260712_210439.csv": {
+    "supportShare": 0.944,
+    "class": ">=0.9"
+   },
+   "20260713_132033.csv": {
+    "supportShare": 0.972,
+    "class": ">=0.9"
+   },
+   "20260713_182953.csv": {
+    "supportShare": 0.916,
+    "class": ">=0.9"
+   },
+   "20260713_203027.csv": {
+    "supportShare": 0.897,
+    "class": "0.8-0.9"
+   },
+   "20260713_214505.csv": {
+    "supportShare": 0.998,
+    "class": ">=0.9"
+   },
+   "20260714_110056.csv": {
+    "supportShare": 0.232,
+    "class": "<0.7"
+   },
+   "20260714_113619.csv": {
+    "supportShare": 0.785,
+    "class": "0.7-0.8"
+   },
+   "20260714_115210.csv": {
+    "supportShare": 0.518,
+    "class": "<0.7"
+   },
+   "20260714_123712.csv": {
+    "supportShare": 0.937,
+    "class": ">=0.9"
+   },
+   "20260714_145846.csv": {
+    "supportShare": 0.816,
+    "class": "0.8-0.9"
+   },
+   "20260714_153151.csv": {
+    "supportShare": 0.988,
+    "class": ">=0.9"
+   },
+   "20260714_161833.csv": {
+    "supportShare": 0.972,
+    "class": ">=0.9"
+   },
+   "20260714_165014.csv": {
+    "supportShare": 0.858,
+    "class": "0.8-0.9"
+   },
+   "20260714_170217.csv": {
+    "supportShare": 0.926,
+    "class": ">=0.9"
+   },
+   "20260715_160647.csv": {
+    "supportShare": 0.929,
+    "class": ">=0.9"
+   },
+   "20260715_194309.csv": {
+    "supportShare": 0.833,
+    "class": "0.8-0.9"
+   },
+   "20260716_062606.csv": {
+    "supportShare": 0.92,
+    "class": ">=0.9"
+   },
+   "20260716_065600.csv": {
+    "supportShare": 0.996,
+    "class": ">=0.9"
+   },
+   "20260716_094756.csv": {
+    "supportShare": 0.985,
+    "class": ">=0.9"
+   },
+   "20260716_115134.csv": {
+    "supportShare": 0.985,
+    "class": ">=0.9"
+   },
+   "20260716_180727.csv": {
+    "supportShare": 0.994,
+    "class": ">=0.9"
+   },
+   "20260716_194201.csv": {
+    "supportShare": 0.998,
+    "class": ">=0.9"
+   },
+   "20260716_215356.csv": {
+    "supportShare": 0.993,
+    "class": ">=0.9"
+   },
+   "20260716_224347.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260717_103448.csv": {
+    "supportShare": 0.892,
+    "class": "0.8-0.9"
+   },
+   "20260717_134302.csv": {
+    "supportShare": 0.996,
+    "class": ">=0.9"
+   },
+   "20260717_163635.csv": {
+    "supportShare": 0.991,
+    "class": ">=0.9"
+   },
+   "20260718_113222.csv": {
+    "supportShare": 0.942,
+    "class": ">=0.9"
+   },
+   "20260718_125100.csv": {
+    "supportShare": 0.936,
+    "class": ">=0.9"
+   },
+   "20260718_145814.csv": {
+    "supportShare": 0.929,
+    "class": ">=0.9"
+   },
+   "20260718_161611.csv": {
+    "supportShare": 0.913,
+    "class": ">=0.9"
+   },
+   "20260718_163414.csv": {
+    "supportShare": 0.974,
+    "class": ">=0.9"
+   },
+   "20260718_203313.csv": {
+    "supportShare": 0.956,
+    "class": ">=0.9"
+   },
+   "20260718_213832.csv": {
+    "supportShare": 0.975,
+    "class": ">=0.9"
+   },
+   "20260718_220312.csv": {
+    "supportShare": 0.93,
+    "class": ">=0.9"
+   },
+   "20260719_154351.csv": {
+    "supportShare": 0.88,
+    "class": "0.8-0.9"
+   },
+   "20260719_171252.csv": {
+    "supportShare": 0.976,
+    "class": ">=0.9"
+   },
+   "20260719_184433.csv": {
+    "supportShare": 0.997,
+    "class": ">=0.9"
+   },
+   "20260719_204958.csv": {
+    "supportShare": 0.993,
+    "class": ">=0.9"
+   },
+   "20260719_212912.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260719_214117.csv": {
+    "supportShare": 0.983,
+    "class": ">=0.9"
+   },
+   "20260720_113826.csv": {
+    "supportShare": 0.947,
+    "class": ">=0.9"
+   },
+   "20260720_134059.csv": {
+    "supportShare": 0.997,
+    "class": ">=0.9"
+   },
+   "20260720_165307.csv": {
+    "supportShare": 0.998,
+    "class": ">=0.9"
+   },
+   "20260720_174210.csv": {
+    "supportShare": 0.964,
+    "class": ">=0.9"
+   },
+   "20260720_190055.csv": {
+    "supportShare": 0.995,
+    "class": ">=0.9"
+   },
+   "20260720_204835.csv": {
+    "supportShare": 0.998,
+    "class": ">=0.9"
+   },
+   "20260721_114246.csv": {
+    "supportShare": 0.961,
+    "class": ">=0.9"
+   },
+   "20260721_122503.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260721_172632.csv": {
+    "supportShare": 0.926,
+    "class": ">=0.9"
+   },
+   "20260721_193330.csv": {
+    "supportShare": 0.963,
+    "class": ">=0.9"
+   },
+   "20260721_194652.csv": {
+    "supportShare": 0.939,
+    "class": ">=0.9"
+   },
+   "20260721_200534.csv": {
+    "supportShare": 0.978,
+    "class": ">=0.9"
+   },
+   "20260722_121252.csv": {
+    "supportShare": 0.958,
+    "class": ">=0.9"
+   },
+   "20260722_134152.csv": {
+    "supportShare": 0.983,
+    "class": ">=0.9"
+   },
+   "20260722_163339.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260722_184814.csv": {
+    "supportShare": 0.994,
+    "class": ">=0.9"
+   },
+   "20260722_204810.csv": {
+    "supportShare": 0.284,
+    "class": "<0.7"
+   },
+   "20260722_210850.csv": {
+    "supportShare": 0.843,
+    "class": "0.8-0.9"
+   },
+   "20260723_113724.csv": {
+    "supportShare": 0.991,
+    "class": ">=0.9"
+   },
+   "20260723_132356.csv": {
+    "supportShare": 0.997,
+    "class": ">=0.9"
+   },
+   "20260723_173055.csv": {
+    "supportShare": 0.994,
+    "class": ">=0.9"
+   },
+   "20260723_200033.csv": {
+    "supportShare": 0.808,
+    "class": "0.8-0.9"
+   },
+   "20260723_210016.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260723_211841.csv": {
+    "supportShare": 0.971,
+    "class": ">=0.9"
+   },
+   "20260723_215445.csv": {
+    "supportShare": 0.997,
+    "class": ">=0.9"
+   },
+   "20260724_114905.csv": {
+    "supportShare": 0.986,
+    "class": ">=0.9"
+   },
+   "20260724_144854.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260724_165858.csv": {
+    "supportShare": 0.987,
+    "class": ">=0.9"
+   },
+   "20260724_174828.csv": {
+    "supportShare": 0.979,
+    "class": ">=0.9"
+   },
+   "20260724_204259.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260725_113418.csv": {
+    "supportShare": 0.996,
+    "class": ">=0.9"
+   },
+   "20260725_125221.csv": {
+    "supportShare": 0.993,
+    "class": ">=0.9"
+   },
+   "20260725_133048.csv": {
+    "supportShare": 0.891,
+    "class": "0.8-0.9"
+   },
+   "20260725_140026.csv": {
+    "supportShare": 0.999,
+    "class": ">=0.9"
+   },
+   "20260725_163749.csv": {
+    "supportShare": 0.984,
+    "class": ">=0.9"
+   },
+   "20260726_103326.csv": {
+    "supportShare": 0.999,
+    "class": ">=0.9"
+   },
+   "20260726_141738.csv": {
+    "supportShare": 0.999,
+    "class": ">=0.9"
+   },
+   "20260726_172244.csv": {
+    "supportShare": 0.999,
+    "class": ">=0.9"
+   },
+   "20260726_200146.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260801_180617.csv": {
+    "supportShare": 0.96,
+    "class": ">=0.9"
+   },
+   "20260802_081226.csv": {
+    "supportShare": 0.99,
+    "class": ">=0.9"
+   },
+   "20260802_093339.csv": {
+    "supportShare": 0.992,
+    "class": ">=0.9"
+   },
+   "20260802_132422.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260802_153306.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260802_163037.csv": {
+    "supportShare": 0.975,
+    "class": ">=0.9"
+   },
+   "20260802_184302.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260802_193654.csv": {
+    "supportShare": 0.999,
+    "class": ">=0.9"
+   },
+   "20260802_213351.csv": {
+    "supportShare": 0.996,
+    "class": ">=0.9"
+   },
+   "20260803_181923.csv": {
+    "supportShare": 0.998,
+    "class": ">=0.9"
+   },
+   "20260803_193840.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260803_215920.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260804_153453.csv": {
+    "supportShare": 0.994,
+    "class": ">=0.9"
+   },
+   "20260804_155949.csv": {
+    "supportShare": 0.977,
+    "class": ">=0.9"
+   },
+   "20260804_191929.csv": {
+    "supportShare": 0.884,
+    "class": "0.8-0.9"
+   },
+   "20260804_194234.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260804_200003.csv": {
+    "supportShare": 0.72,
+    "class": "0.7-0.8"
+   },
+   "20260804_201351.csv": {
+    "supportShare": 0.968,
+    "class": ">=0.9"
+   },
+   "20260804_215437.csv": {
+    "supportShare": 0.692,
+    "class": "<0.7"
+   },
+   "20260806_155444.csv": {
+    "supportShare": 0.98,
+    "class": ">=0.9"
+   },
+   "20260808_122545.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260808_124714.csv": {
+    "supportShare": 0.98,
+    "class": ">=0.9"
+   },
+   "20260808_130411.csv": {
+    "supportShare": 0.988,
+    "class": ">=0.9"
+   },
+   "20260808_160215.csv": {
+    "supportShare": 0.996,
+    "class": ">=0.9"
+   },
+   "20260808_201800.csv": {
+    "supportShare": 0.999,
+    "class": ">=0.9"
+   },
+   "20260809_120000.csv": {
+    "supportShare": 0.793,
+    "class": "0.7-0.8"
+   },
+   "20260809_123655.csv": {
+    "supportShare": 0.975,
+    "class": ">=0.9"
+   },
+   "20260809_124523.csv": {
+    "supportShare": 0.986,
+    "class": ">=0.9"
+   },
+   "20260809_130557.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260809_131803.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260809_181739.csv": {
+    "supportShare": 0.99,
+    "class": ">=0.9"
+   },
+   "20260809_191254.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260809_192100.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260810_151356.csv": {
+    "supportShare": 0.975,
+    "class": ">=0.9"
+   },
+   "20260810_152212.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260812_085229.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260812_093511.csv": {
+    "supportShare": 0.987,
+    "class": ">=0.9"
+   },
+   "20260813_115220.csv": {
+    "supportShare": 0.974,
+    "class": ">=0.9"
+   },
+   "20260813_144601.csv": {
+    "supportShare": 0.422,
+    "class": "<0.7"
+   },
+   "20260814_101007.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260814_102213.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260814_121438.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260814_122308.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260814_182203.csv": {
+    "supportShare": 0.998,
+    "class": ">=0.9"
+   },
+   "20260814_213416.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260816_165356.csv": {
+    "supportShare": 0.996,
+    "class": ">=0.9"
+   },
+   "20260816_171638.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260816_173527.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260816_174235.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260817_084821.csv": {
+    "supportShare": 0.963,
+    "class": ">=0.9"
+   },
+   "20260817_175652.csv": {
+    "supportShare": 0.981,
+    "class": ">=0.9"
+   },
+   "20260817_181818.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260817_183543.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260818_092516.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260818_111200.csv": {
+    "supportShare": 0.999,
+    "class": ">=0.9"
+   },
+   "20260818_124141.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260818_140544.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260818_150110.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260819_123747.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260819_124907.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260819_135903.csv": {
+    "supportShare": 0.997,
+    "class": ">=0.9"
+   },
+   "20260820_105758.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260820_201853.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260820_214927.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260820_225027.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260821_081939.csv": {
+    "supportShare": 0.999,
+    "class": ">=0.9"
+   },
+   "20260821_193713.csv": {
+    "supportShare": 0.997,
+    "class": ">=0.9"
+   },
+   "20260821_205225.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260821_225137.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260822_102139.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260822_110317.csv": {
+    "supportShare": 0.998,
+    "class": ">=0.9"
+   },
+   "20260822_141715.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260822_173539.csv": {
+    "supportShare": 0.997,
+    "class": ">=0.9"
+   },
+   "20260822_191324.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260822_205359.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260822_215052.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260823_152957.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260823_161315.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260823_210116.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260824_081823.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260824_104612.csv": {
+    "supportShare": 0.995,
+    "class": ">=0.9"
+   },
+   "20260824_133602.csv": {
+    "supportShare": 0.997,
+    "class": ">=0.9"
+   },
+   "20260824_174511.csv": {
+    "supportShare": 0.998,
+    "class": ">=0.9"
+   },
+   "20260824_202635.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260824_212048.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260824_222425.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260825_102604.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260825_123247.csv": {
+    "supportShare": 0.997,
+    "class": ">=0.9"
+   },
+   "20260825_183427.csv": {
+    "supportShare": 0.999,
+    "class": ">=0.9"
+   },
+   "20260826_203739.csv": {
+    "supportShare": 0.998,
+    "class": ">=0.9"
+   },
+   "20260826_224518.csv": {
+    "supportShare": 0.999,
+    "class": ">=0.9"
+   },
+   "20260828_202030.csv": {
+    "supportShare": 0.998,
+    "class": ">=0.9"
+   },
+   "20260829_100447.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260829_191404.csv": {
+    "supportShare": 0.996,
+    "class": ">=0.9"
+   },
+   "20260829_193046.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260829_194121.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260830_121043.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260830_122801.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260830_125410.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260830_155318.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260830_165926.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260830_190907.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260830_192834.csv": {
+    "supportShare": 0.997,
+    "class": ">=0.9"
+   },
+   "20260830_200617.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260831_134403.csv": {
+    "supportShare": 0.994,
+    "class": ">=0.9"
+   },
+   "20260831_201658.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260831_203855.csv": {
+    "supportShare": 0.997,
+    "class": ">=0.9"
+   },
+   "20260901_074917.csv": {
+    "supportShare": 0.991,
+    "class": ">=0.9"
+   },
+   "20260901_080956.csv": {
+    "supportShare": 0.994,
+    "class": ">=0.9"
+   },
+   "20260901_111543.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260901_112814.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260902_074300.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260902_075316.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260902_201704.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260902_203318.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260902_204646.csv": {
+    "supportShare": 0.998,
+    "class": ">=0.9"
+   },
+   "20260902_211511.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260903_074822.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260903_080232.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260903_082326.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260903_200514.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260903_213855.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260904_075123.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260904_080352.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260904_203411.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260905_103157.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260905_104841.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260905_110415.csv": {
+    "supportShare": 0.993,
+    "class": ">=0.9"
+   },
+   "20260905_122311.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260905_123511.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260905_124450.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260905_162310.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260905_163145.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260905_164824.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260905_172322.csv": {
+    "supportShare": 0.997,
+    "class": ">=0.9"
+   },
+   "20260905_175245.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260905_183226.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260906_121520.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260906_122920.csv": {
+    "supportShare": 0.983,
+    "class": ">=0.9"
+   },
+   "20260906_130754.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260906_131945.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260906_134827.csv": {
+    "supportShare": 0.992,
+    "class": ">=0.9"
+   },
+   "20260906_195140.csv": {
+    "supportShare": 0.984,
+    "class": ">=0.9"
+   },
+   "20260906_201552.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260907_074534.csv": {
+    "supportShare": 0.989,
+    "class": ">=0.9"
+   },
+   "20260907_080214.csv": {
+    "supportShare": 0.952,
+    "class": ">=0.9"
+   },
+   "20260907_081855.csv": {
+    "supportShare": 0.981,
+    "class": ">=0.9"
+   },
+   "20260907_082522.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260907_165532.csv": {
+    "supportShare": 0.994,
+    "class": ">=0.9"
+   },
+   "20260907_171659.csv": {
+    "supportShare": 0.992,
+    "class": ">=0.9"
+   },
+   "20260907_172745.csv": {
+    "supportShare": 0.976,
+    "class": ">=0.9"
+   },
+   "20260907_174600.csv": {
+    "supportShare": 0.984,
+    "class": ">=0.9"
+   },
+   "20260908_074435.csv": {
+    "supportShare": 0.979,
+    "class": ">=0.9"
+   },
+   "20260908_075934.csv": {
+    "supportShare": 0.988,
+    "class": ">=0.9"
+   },
+   "20260908_085530.csv": {
+    "supportShare": 0.984,
+    "class": ">=0.9"
+   },
+   "20260908_123156.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260908_124726.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "20260909_073950.csv": {
+    "supportShare": 0.993,
+    "class": ">=0.9"
+   },
+   "20260909_075611.csv": {
+    "supportShare": 0.995,
+    "class": ">=0.9"
+   },
+   "20260909_133503.csv": {
+    "supportShare": 0.968,
+    "class": ">=0.9"
+   },
+   "20260909_140527.csv": {
+    "supportShare": 0.979,
+    "class": ">=0.9"
+   },
+   "20260909_143711.csv": {
+    "supportShare": 0.973,
+    "class": ">=0.9"
+   },
+   "20260909_153731.csv": {
+    "supportShare": 0.993,
+    "class": ">=0.9"
+   },
+   "20260909_154548.csv": {
+    "supportShare": 0.994,
+    "class": ">=0.9"
+   },
+   "20260910_074344.csv": {
+    "supportShare": 0.99,
+    "class": ">=0.9"
+   },
+   "20260910_075908.csv": {
+    "supportShare": 0.954,
+    "class": ">=0.9"
+   },
+   "20260910_081613.csv": {
+    "supportShare": 0.99,
+    "class": ">=0.9"
+   },
+   "20260910_135648.csv": {
+    "supportShare": 0.992,
+    "class": ">=0.9"
+   },
+   "20260910_143202.csv": {
+    "supportShare": 0.994,
+    "class": ">=0.9"
+   },
+   "2026-09-11_07-42-27.csv": {
+    "supportShare": 0.983,
+    "class": ">=0.9"
+   },
+   "2026-09-11_08-01-27.csv": {
+    "supportShare": 0.99,
+    "class": ">=0.9"
+   },
+   "2026-09-11_15-04-47.csv": {
+    "supportShare": 0.991,
+    "class": ">=0.9"
+   },
+   "2026-09-11_15-23-18.csv": {
+    "supportShare": 0.986,
+    "class": ">=0.9"
+   },
+   "2026-09-11_19-24-41.csv": {
+    "supportShare": 0.994,
+    "class": ">=0.9"
+   },
+   "2026-09-11_19-37-40.csv": {
+    "supportShare": 0.982,
+    "class": ">=0.9"
+   },
+   "2026-09-11_21-57-07.csv": {
+    "supportShare": 0.993,
+    "class": ">=0.9"
+   },
+   "2026-09-12_13-25-13.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-12_13-33-36.csv": {
+    "supportShare": 0.984,
+    "class": ">=0.9"
+   },
+   "2026-09-12_13-57-02.csv": {
+    "supportShare": 0.97,
+    "class": ">=0.9"
+   },
+   "2026-09-12_14-15-41.csv": {
+    "supportShare": 0.984,
+    "class": ">=0.9"
+   },
+   "2026-09-12_14-48-27.csv": {
+    "supportShare": 0.993,
+    "class": ">=0.9"
+   },
+   "2026-09-12_15-01-43.csv": {
+    "supportShare": 0.957,
+    "class": ">=0.9"
+   },
+   "2026-09-12_16-59-34.csv": {
+    "supportShare": 0.983,
+    "class": ">=0.9"
+   },
+   "2026-09-13_11-48-59.csv": {
+    "supportShare": 0.991,
+    "class": ">=0.9"
+   },
+   "2026-09-13_12-01-09.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-13_12-08-25.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-13_12-22-44.csv": {
+    "supportShare": 0.986,
+    "class": ">=0.9"
+   },
+   "2026-09-13_13-01-46.csv": {
+    "supportShare": 0.995,
+    "class": ">=0.9"
+   },
+   "2026-09-13_13-46-17.csv": {
+    "supportShare": 0.996,
+    "class": ">=0.9"
+   },
+   "2026-09-13_17-11-06.csv": {
+    "supportShare": 0.986,
+    "class": ">=0.9"
+   },
+   "2026-09-13_19-00-19.csv": {
+    "supportShare": 0.987,
+    "class": ">=0.9"
+   },
+   "2026-09-13_19-10-18.csv": {
+    "supportShare": 0.983,
+    "class": ">=0.9"
+   },
+   "2026-09-13_19-45-44.csv": {
+    "supportShare": 0.997,
+    "class": ">=0.9"
+   },
+   "2026-09-13_20-30-29.csv": {
+    "supportShare": 0.999,
+    "class": ">=0.9"
+   },
+   "2026-09-14_07-36-58.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-14_07-50-59.csv": {
+    "supportShare": 0.992,
+    "class": ">=0.9"
+   },
+   "2026-09-14_16-56-10.csv": {
+    "supportShare": 0.987,
+    "class": ">=0.9"
+   },
+   "2026-09-14_17-08-07.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-14_18-09-48.csv": {
+    "supportShare": 0.994,
+    "class": ">=0.9"
+   },
+   "2026-09-14_18-49-32.csv": {
+    "supportShare": 0.985,
+    "class": ">=0.9"
+   },
+   "2026-09-15_07-49-33.csv": {
+    "supportShare": 0.989,
+    "class": ">=0.9"
+   },
+   "2026-09-15_08-06-11.csv": {
+    "supportShare": 0.986,
+    "class": ">=0.9"
+   },
+   "2026-09-15_14-44-40.csv": {
+    "supportShare": 0.993,
+    "class": ">=0.9"
+   },
+   "2026-09-16_07-35-39.csv": {
+    "supportShare": 0.995,
+    "class": ">=0.9"
+   },
+   "2026-09-16_07-49-37.csv": {
+    "supportShare": 0.989,
+    "class": ">=0.9"
+   },
+   "2026-09-16_13-54-36.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-16_14-01-15.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-16_14-40-56.csv": {
+    "supportShare": 0.989,
+    "class": ">=0.9"
+   },
+   "2026-09-16_18-07-46.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-16_18-17-21.csv": {
+    "supportShare": 0.976,
+    "class": ">=0.9"
+   },
+   "2026-09-16_19-00-34.csv": {
+    "supportShare": 0.986,
+    "class": ">=0.9"
+   },
+   "2026-09-16_19-29-42.csv": {
+    "supportShare": 0.994,
+    "class": ">=0.9"
+   },
+   "2026-09-17_07-42-09.csv": {
+    "supportShare": 0.994,
+    "class": ">=0.9"
+   },
+   "2026-09-17_08-01-31.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-17_08-17-51.csv": {
+    "supportShare": 0.991,
+    "class": ">=0.9"
+   },
+   "2026-09-17_18-42-24.csv": {
+    "supportShare": 0.917,
+    "class": ">=0.9"
+   },
+   "2026-09-17_18-50-09.csv": {
+    "supportShare": 0.985,
+    "class": ">=0.9"
+   },
+   "2026-09-17_19-54-00.csv": {
+    "supportShare": 0.998,
+    "class": ">=0.9"
+   },
+   "2026-09-18_07-43-41.csv": {
+    "supportShare": 0.982,
+    "class": ">=0.9"
+   },
+   "2026-09-18_08-01-32.csv": {
+    "supportShare": 0.965,
+    "class": ">=0.9"
+   },
+   "2026-09-19_09-36-29.csv": {
+    "supportShare": 0.993,
+    "class": ">=0.9"
+   },
+   "2026-09-19_12-04-29.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-19_12-17-53.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-19_12-56-56.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-19_13-06-20.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-19_15-44-41.csv": {
+    "supportShare": 0.997,
+    "class": ">=0.9"
+   },
+   "2026-09-19_17-22-21.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-19_17-42-40.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-20_06-44-20.csv": {
+    "supportShare": 0.995,
+    "class": ">=0.9"
+   },
+   "2026-09-20_10-38-25.csv": {
+    "supportShare": 0.985,
+    "class": ">=0.9"
+   },
+   "2026-09-20_11-23-27.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-20_18-02-44.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-20_19-27-18.csv": {
+    "supportShare": 0.995,
+    "class": ">=0.9"
+   },
+   "2026-09-20_20-25-25.csv": {
+    "supportShare": 0.992,
+    "class": ">=0.9"
+   },
+   "2026-09-20_20-52-42.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-20_20-59-21.csv": {
+    "supportShare": 0.995,
+    "class": ">=0.9"
+   },
+   "2026-09-21_07-36-37.csv": {
+    "supportShare": 0.994,
+    "class": ">=0.9"
+   },
+   "2026-09-21_07-50-20.csv": {
+    "supportShare": 0.965,
+    "class": ">=0.9"
+   },
+   "2026-09-21_12-02-22.csv": {
+    "supportShare": 0.988,
+    "class": ">=0.9"
+   },
+   "2026-09-21_20-35-24.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-21_20-55-26.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-22_07-45-42.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-22_07-59-37.csv": {
+    "supportShare": 0.98,
+    "class": ">=0.9"
+   },
+   "2026-09-22_11-55-57.csv": {
+    "supportShare": 0.997,
+    "class": ">=0.9"
+   },
+   "2026-09-22_16-13-42.csv": {
+    "supportShare": 0.989,
+    "class": ">=0.9"
+   },
+   "2026-09-22_16-21-26.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-22_21-59-14.csv": {
+    "supportShare": 0.984,
+    "class": ">=0.9"
+   },
+   "2026-09-22_22-14-10.csv": {
+    "supportShare": 0.989,
+    "class": ">=0.9"
+   },
+   "2026-09-23_07-39-38.csv": {
+    "supportShare": 0.976,
+    "class": ">=0.9"
+   },
+   "2026-09-23_07-51-39.csv": {
+    "supportShare": 0.976,
+    "class": ">=0.9"
+   },
+   "2026-09-23_08-11-14.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-23_18-33-22.csv": {
+    "supportShare": 0.992,
+    "class": ">=0.9"
+   },
+   "2026-09-24_20-27-48.csv": {
+    "supportShare": 0.997,
+    "class": ">=0.9"
+   },
+   "2026-09-24_22-29-34.csv": {
+    "supportShare": 0.985,
+    "class": ">=0.9"
+   },
+   "2026-09-25_13-48-33.csv": {
+    "supportShare": 0.99,
+    "class": ">=0.9"
+   },
+   "2026-09-25_14-09-21.csv": {
+    "supportShare": 0.984,
+    "class": ">=0.9"
+   },
+   "2026-09-25_14-30-29.csv": {
+    "supportShare": 0.993,
+    "class": ">=0.9"
+   },
+   "2026-09-25_19-55-15.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-25_20-14-16.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-26_12-07-59.csv": {
+    "supportShare": 0.992,
+    "class": ">=0.9"
+   },
+   "2026-09-26_12-21-17.csv": {
+    "supportShare": 0.987,
+    "class": ">=0.9"
+   },
+   "2026-09-26_13-05-40.csv": {
+    "supportShare": 0.993,
+    "class": ">=0.9"
+   },
+   "2026-09-26_13-47-37.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-26_14-06-50.csv": {
+    "supportShare": 0.963,
+    "class": ">=0.9"
+   },
+   "2026-09-26_16-47-35.csv": {
+    "supportShare": 0.985,
+    "class": ">=0.9"
+   },
+   "2026-09-26_17-57-23.csv": {
+    "supportShare": 0.99,
+    "class": ">=0.9"
+   },
+   "2026-09-26_18-08-40.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-26_20-00-42.csv": {
+    "supportShare": 0.986,
+    "class": ">=0.9"
+   },
+   "2026-09-27_13-43-58.csv": {
+    "supportShare": 0.983,
+    "class": ">=0.9"
+   },
+   "2026-09-27_13-54-46.csv": {
+    "supportShare": 0.995,
+    "class": ">=0.9"
+   },
+   "2026-09-27_14-12-39.csv": {
+    "supportShare": 0.982,
+    "class": ">=0.9"
+   },
+   "2026-09-27_14-54-46.csv": {
+    "supportShare": 0.989,
+    "class": ">=0.9"
+   },
+   "2026-09-27_15-12-43.csv": {
+    "supportShare": 0.985,
+    "class": ">=0.9"
+   },
+   "2026-09-27_16-50-42.csv": {
+    "supportShare": 0.992,
+    "class": ">=0.9"
+   },
+   "2026-09-27_17-01-21.csv": {
+    "supportShare": 0.989,
+    "class": ">=0.9"
+   },
+   "2026-09-27_17-15-25.csv": {
+    "supportShare": 0.992,
+    "class": ">=0.9"
+   },
+   "2026-09-27_17-34-35.csv": {
+    "supportShare": 0.989,
+    "class": ">=0.9"
+   },
+   "2026-09-27_17-49-23.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-27_19-57-33.csv": {
+    "supportShare": 0.99,
+    "class": ">=0.9"
+   },
+   "2026-09-27_22-04-51.csv": {
+    "supportShare": 0.982,
+    "class": ">=0.9"
+   },
+   "2026-09-28_21-24-27.csv": {
+    "supportShare": 0.989,
+    "class": ">=0.9"
+   },
+   "2026-09-29_10-00-34.csv": {
+    "supportShare": 0.956,
+    "class": ">=0.9"
+   },
+   "2026-09-29_10-13-01.csv": {
+    "supportShare": 0.989,
+    "class": ">=0.9"
+   },
+   "2026-09-29_10-21-46.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-09-29_20-39-13.csv": {
+    "supportShare": 0.967,
+    "class": ">=0.9"
+   },
+   "2026-09-29_22-10-11.csv": {
+    "supportShare": 0.985,
+    "class": ">=0.9"
+   },
+   "2026-09-29_22-22-40.csv": {
+    "supportShare": 0.989,
+    "class": ">=0.9"
+   },
+   "2026-09-30_08-08-32.csv": {
+    "supportShare": 0.991,
+    "class": ">=0.9"
+   },
+   "2026-09-30_08-21-17.csv": {
+    "supportShare": 0.981,
+    "class": ">=0.9"
+   },
+   "2026-09-30_10-39-05.csv": {
+    "supportShare": 0.959,
+    "class": ">=0.9"
+   },
+   "2026-09-30_10-51-47.csv": {
+    "supportShare": 0.974,
+    "class": ">=0.9"
+   },
+   "2026-09-30_20-12-47.csv": {
+    "supportShare": 0.972,
+    "class": ">=0.9"
+   },
+   "2026-09-30_20-39-00.csv": {
+    "supportShare": 0.994,
+    "class": ">=0.9"
+   },
+   "2026-10-01_07-38-47.csv": {
+    "supportShare": 0.977,
+    "class": ">=0.9"
+   },
+   "2026-10-01_07-57-02.csv": {
+    "supportShare": 0.961,
+    "class": ">=0.9"
+   },
+   "2026-10-01_08-14-08.csv": {
+    "supportShare": 0.971,
+    "class": ">=0.9"
+   },
+   "2026-10-01_16-45-44.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-01_16-57-31.csv": {
+    "supportShare": 0.993,
+    "class": ">=0.9"
+   },
+   "2026-10-01_17-40-07.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-01_18-19-32.csv": {
+    "supportShare": 0.997,
+    "class": ">=0.9"
+   },
+   "2026-10-01_19-58-38.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-02_07-50-49.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-02_08-04-04.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-02_19-04-06.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-02_19-35-32.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-02_21-02-25.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-03_09-48-44.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-03_09-58-07.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-03_10-03-24.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-03_12-06-18.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-03_14-33-03.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-03_15-01-24.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-03_16-02-23.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-03_16-19-05.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-03_16-39-03.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-03_17-05-43.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-03_17-27-25.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-03_18-32-35.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-03_18-52-09.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-04_11-38-19.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-04_12-02-58.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-04_12-13-56.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-04_12-52-59.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-04_13-05-56.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-04_14-38-51.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-04_14-52-00.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-05_07-41-08.csv": {
+    "supportShare": 0.995,
+    "class": ">=0.9"
+   },
+   "2026-10-05_07-55-02.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-05_11-23-02.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-05_11-38-00.csv": {
+    "supportShare": 0.992,
+    "class": ">=0.9"
+   },
+   "2026-10-06_07-41-04.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-06_07-58-35.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-06_08-14-57.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-06_19-50-08.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-06_20-13-30.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-06_20-38-00.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-07_07-41-59.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-07_07-57-02.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-07_08-16-33.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-07_18-52-44.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-07_22-13-43.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-08_07-35-40.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-08_07-54-51.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-08_08-34-36.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-08_10-14-58.csv": {
+    "supportShare": 0.984,
+    "class": ">=0.9"
+   },
+   "2026-10-08_10-55-20.csv": {
+    "supportShare": 0.984,
+    "class": ">=0.9"
+   },
+   "2026-10-08_11-57-02.csv": {
+    "supportShare": 0.992,
+    "class": ">=0.9"
+   },
+   "2026-10-08_12-06-51.csv": {
+    "supportShare": 0.99,
+    "class": ">=0.9"
+   },
+   "2026-10-08_12-43-34.csv": {
+    "supportShare": 0.979,
+    "class": ">=0.9"
+   },
+   "2026-10-08_12-54-39.csv": {
+    "supportShare": 0.975,
+    "class": ">=0.9"
+   },
+   "2026-10-08_15-35-05.csv": {
+    "supportShare": 0.992,
+    "class": ">=0.9"
+   },
+   "2026-10-08_15-45-19.csv": {
+    "supportShare": 0.99,
+    "class": ">=0.9"
+   },
+   "2026-10-08_19-58-51.csv": {
+    "supportShare": 0.978,
+    "class": ">=0.9"
+   },
+   "2026-10-08_20-28-00.csv": {
+    "supportShare": 0.977,
+    "class": ">=0.9"
+   },
+   "2026-10-08_21-05-51.csv": {
+    "supportShare": 0.984,
+    "class": ">=0.9"
+   },
+   "2026-10-08_21-24-03.csv": {
+    "supportShare": 0.978,
+    "class": ">=0.9"
+   },
+   "2026-10-09_19-06-39.csv": {
+    "supportShare": 0.982,
+    "class": ">=0.9"
+   },
+   "2026-10-09_19-53-19.csv": {
+    "supportShare": 0.995,
+    "class": ">=0.9"
+   },
+   "2026-10-09_20-36-10.csv": {
+    "supportShare": 0.992,
+    "class": ">=0.9"
+   },
+   "2026-10-09_21-27-00.csv": {
+    "supportShare": 0.985,
+    "class": ">=0.9"
+   },
+   "2026-10-09_21-50-51.csv": {
+    "supportShare": 0.993,
+    "class": ">=0.9"
+   },
+   "2026-10-10_06-57-23.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-10_14-09-42.csv": {
+    "supportShare": 0.997,
+    "class": ">=0.9"
+   },
+   "2026-10-10_15-53-26.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-10_19-49-29.csv": {
+    "supportShare": 0.999,
+    "class": ">=0.9"
+   },
+   "2026-10-10_21-41-35.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-11_10-42-38.csv": {
+    "supportShare": 0.981,
+    "class": ">=0.9"
+   },
+   "2026-10-11_11-10-55.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-11_12-38-17.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-11_13-16-22.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-11_13-59-37.csv": {
+    "supportShare": 0.998,
+    "class": ">=0.9"
+   },
+   "2026-10-11_14-26-47.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-11_15-16-20.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-12_08-41-25.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-12_09-24-15.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-12_09-36-13.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-13_07-42-34.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-13_07-56-36.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-13_08-10-25.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-13_08-26-07.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-13_15-41-11.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-13_16-00-43.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-13_19-47-36.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-13_20-04-05.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-13_21-52-23.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-13_22-08-01.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-13_22-55-32.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-14_06-51-43.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-14_09-29-12.csv": {
+    "supportShare": 0.999,
+    "class": ">=0.9"
+   },
+   "2026-10-14_22-25-29.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-15_08-07-05.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-15_09-37-09.csv": {
+    "supportShare": 0.982,
+    "class": ">=0.9"
+   },
+   "2026-10-15_10-19-34.csv": {
+    "supportShare": 0.99,
+    "class": ">=0.9"
+   },
+   "2026-10-15_10-40-56.csv": {
+    "supportShare": 0.958,
+    "class": ">=0.9"
+   },
+   "2026-10-15_13-55-10.csv": {
+    "supportShare": 0.994,
+    "class": ">=0.9"
+   },
+   "2026-10-15_14-57-44.csv": {
+    "supportShare": 0.994,
+    "class": ">=0.9"
+   },
+   "2026-10-15_18-30-00.csv": {
+    "supportShare": 0.99,
+    "class": ">=0.9"
+   },
+   "2026-10-16_07-52-05.csv": {
+    "supportShare": 0.996,
+    "class": ">=0.9"
+   },
+   "2026-10-16_19-23-56.csv": {
+    "supportShare": 0.994,
+    "class": ">=0.9"
+   },
+   "2026-10-17_10-09-49.csv": {
+    "supportShare": 0.996,
+    "class": ">=0.9"
+   },
+   "2026-10-17_11-45-33.csv": {
+    "supportShare": 0.984,
+    "class": ">=0.9"
+   },
+   "2026-10-17_12-42-21.csv": {
+    "supportShare": 0.989,
+    "class": ">=0.9"
+   },
+   "2026-10-17_14-02-26.csv": {
+    "supportShare": 0.879,
+    "class": "0.8-0.9"
+   },
+   "2026-10-17_16-05-39.csv": {
+    "supportShare": 0.998,
+    "class": ">=0.9"
+   },
+   "2026-10-17_18-22-49.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-10-17_22-01-20.csv": {
+    "supportShare": 0.978,
+    "class": ">=0.9"
+   },
+   "2026-10-17_22-20-41.csv": {
+    "supportShare": 0.988,
+    "class": ">=0.9"
+   },
+   "2026-10-17_23-13-01.csv": {
+    "supportShare": 0.96,
+    "class": ">=0.9"
+   },
+   "2026-11-01_14-36-31.csv": {
+    "supportShare": 0.975,
+    "class": ">=0.9"
+   },
+   "2026-11-01_15-10-23.csv": {
+    "supportShare": 0.979,
+    "class": ">=0.9"
+   },
+   "2026-11-01_16-11-27.csv": {
+    "supportShare": 0.983,
+    "class": ">=0.9"
+   },
+   "2026-11-01_17-36-14.csv": {
+    "supportShare": 0.971,
+    "class": ">=0.9"
+   },
+   "2026-11-01_17-56-38.csv": {
+    "supportShare": 0.978,
+    "class": ">=0.9"
+   },
+   "2026-11-01_18-15-30.csv": {
+    "supportShare": 0.983,
+    "class": ">=0.9"
+   },
+   "2026-11-02_07-40-02.csv": {
+    "supportShare": 0.994,
+    "class": ">=0.9"
+   },
+   "2026-11-02_07-57-54.csv": {
+    "supportShare": 0.964,
+    "class": ">=0.9"
+   },
+   "2026-11-02_08-12-15.csv": {
+    "supportShare": 0.993,
+    "class": ">=0.9"
+   },
+   "2026-11-02_14-34-12.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-02_14-42-15.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-03_07-40-10.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-03_07-53-55.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-03_15-07-48.csv": {
+    "supportShare": 0.974,
+    "class": ">=0.9"
+   },
+   "2026-11-03_15-23-37.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-03_19-55-57.csv": {
+    "supportShare": 0.999,
+    "class": ">=0.9"
+   },
+   "2026-11-04_07-45-12.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-04_08-01-15.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-04_08-17-06.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-04_08-25-16.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-04_19-12-25.csv": {
+    "supportShare": 0.995,
+    "class": ">=0.9"
+   },
+   "2026-11-04_19-23-52.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-04_19-40-19.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-04_21-26-25.csv": {
+    "supportShare": 0.979,
+    "class": ">=0.9"
+   },
+   "2026-11-04_21-34-14.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-05_09-13-42.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-05_19-24-15.csv": {
+    "supportShare": 0.978,
+    "class": ">=0.9"
+   },
+   "2026-11-05_19-52-41.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-05_21-52-15.csv": {
+    "supportShare": 0.998,
+    "class": ">=0.9"
+   },
+   "2026-11-06_07-48-22.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-06_14-22-59.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-06_20-45-43.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-06_21-23-28.csv": {
+    "supportShare": 0.998,
+    "class": ">=0.9"
+   },
+   "2026-11-07_09-50-01.csv": {
+    "supportShare": 0.982,
+    "class": ">=0.9"
+   },
+   "2026-11-07_11-24-19.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-07_11-51-36.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-07_12-10-30.csv": {
+    "supportShare": 0.992,
+    "class": ">=0.9"
+   },
+   "2026-11-07_13-47-43.csv": {
+    "supportShare": 0.996,
+    "class": ">=0.9"
+   },
+   "2026-11-07_14-19-49.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-07_14-45-12.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-07_15-01-29.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-07_15-08-05.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-07_15-25-29.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-07_16-54-28.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-08_11-49-25.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-08_12-26-11.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-08_12-56-29.csv": {
+    "supportShare": 0.991,
+    "class": ">=0.9"
+   },
+   "2026-11-08_13-09-32.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-08_16-27-23.csv": {
+    "supportShare": 0.943,
+    "class": ">=0.9"
+   },
+   "2026-11-08_16-34-56.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-08_16-57-01.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-08_18-34-25.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-09_07-45-26.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-09_08-04-01.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-09_16-07-41.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-09_16-19-16.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-09_18-32-27.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-09_19-54-36.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   },
+   "2026-11-09_20-11-42.csv": {
+    "supportShare": 1.0,
+    "class": ">=0.9"
+   }
+  },
+  "perDriveDifferenceVsDropAbove2p5s": {
+   "unit": "Wh",
+   "medianAbs": 2.8,
+   "p95Abs": 216.4,
+   "p99Abs": 563.2
+  },
+  "largestDifferencesAbsolute": [
+   {
+    "file": "20260804_215437.csv",
+    "publishedKwh": 17.134,
+    "dropAbove2p5sKwh": 12.327,
+    "supportShare": 0.692
+   },
+   {
+    "file": "2026-10-17_14-02-26.csv",
+    "publishedKwh": 11.497,
+    "dropAbove2p5sKwh": 10.308,
+    "supportShare": 0.879
+   },
+   {
+    "file": "20260715_194309.csv",
+    "publishedKwh": 7.899,
+    "dropAbove2p5sKwh": 6.948,
+    "supportShare": 0.833
+   },
+   {
+    "file": "20260627_093529.csv",
+    "publishedKwh": 1.14,
+    "dropAbove2p5sKwh": 0.41,
+    "supportShare": 0.335
+   },
+   {
+    "file": "20260714_115210.csv",
+    "publishedKwh": 1.579,
+    "dropAbove2p5sKwh": 0.858,
+    "supportShare": 0.518
+   },
+   {
+    "file": "20260516_121520.csv",
+    "publishedKwh": 0.898,
+    "dropAbove2p5sKwh": 0.249,
+    "supportShare": 0.31
+   },
+   {
+    "file": "20260517_112115.csv",
+    "publishedKwh": 0.905,
+    "dropAbove2p5sKwh": 0.289,
+    "supportShare": 0.468
+   },
+   {
+    "file": "20260619_122407.csv",
+    "publishedKwh": 35.497,
+    "dropAbove2p5sKwh": 34.987,
+    "supportShare": 0.986
+   },
+   {
+    "file": "20260714_110056.csv",
+    "publishedKwh": 0.796,
+    "dropAbove2p5sKwh": 0.294,
+    "supportShare": 0.232
+   },
+   {
+    "file": "20260718_145814.csv",
+    "publishedKwh": 9.441,
+    "dropAbove2p5sKwh": 8.954,
+    "supportShare": 0.929
+   }
+  ],
+  "largestDifferencesRelative": [
+   {
+    "file": "20260627_093529.csv",
+    "publishedKwh": 1.14,
+    "dropAbove2p5sKwh": 0.41,
+    "supportShare": 0.335
+   },
+   {
+    "file": "20260714_115210.csv",
+    "publishedKwh": 1.579,
+    "dropAbove2p5sKwh": 0.858,
+    "supportShare": 0.518
+   },
+   {
+    "file": "20260627_085219.csv",
+    "publishedKwh": 1.249,
+    "dropAbove2p5sKwh": 0.772,
+    "supportShare": 0.55
+   },
+   {
+    "file": "20260804_200003.csv",
+    "publishedKwh": 1.2,
+    "dropAbove2p5sKwh": 0.783,
+    "supportShare": 0.72
+   },
+   {
+    "file": "20260518_073827.csv",
+    "publishedKwh": 1.101,
+    "dropAbove2p5sKwh": 0.782,
+    "supportShare": 0.757
+   },
+   {
+    "file": "20260804_215437.csv",
+    "publishedKwh": 17.134,
+    "dropAbove2p5sKwh": 12.327,
+    "supportShare": 0.692
+   },
+   {
+    "file": "20260625_153901.csv",
+    "publishedKwh": 1.182,
+    "dropAbove2p5sKwh": 0.886,
+    "supportShare": 0.734
+   },
+   {
+    "file": "20260515_194744.csv",
+    "publishedKwh": 2.619,
+    "dropAbove2p5sKwh": 2.165,
+    "supportShare": 0.781
+   },
+   {
+    "file": "20260515_191551.csv",
+    "publishedKwh": 1.206,
+    "dropAbove2p5sKwh": 1.036,
+    "supportShare": 0.866
+   },
+   {
+    "file": "20260517_145435.csv",
+    "publishedKwh": 1.706,
+    "dropAbove2p5sKwh": 1.495,
+    "supportShare": 0.896
+   }
+  ],
+  "largestDifferencesNote": "display only; the relative list is limited to drives with a published value of at least 1 kWh",
+  "eligibility": "all drives with a non-null gross_throughput_kwh in drive_master.csv (the set behind meta.totalKwh), not canonical-clean only",
+  "publishedTotalKwh": 1866.95,
+  "coverage": {
+   "drivesWithIntegral": 651,
+   "drivesWithoutIntegral": 14,
+   "kmWithoutIntegral": 207.2,
+   "kmShareOfCorpus": 0.0193,
+   "reasons": {
+    "(none recorded)": 12,
+    "no_integrable_iv_pairs": 2
+   },
+   "arithmeticScalingKwh": 36.7,
+   "arithmeticScalingLabel": "arithmetic scaling of the integrated drives' energy per km to the unintegrated km, not an estimate of their energy (the drives without an integral are not missing at random)"
+  },
+  "kind": "deterministic support-policy sensitivity; no interval is drawn and none is claimed",
+  "limits": [
+   "energy inside long gaps cannot be recovered",
+   "there is no ground truth for which policy is closer",
+   "drives with thin support are confounded with the logger cadence"
+  ],
+  "meaning": "Support-policy ladder for the integrated (estimated, offset-uncorrected) gross throughput. Each row re-integrates the same logged current and voltage under a different treatment of long inter-sample intervals; the published total uses the cap-5 rule. Drop-above-g rows zero-fill long intervals and read lower by construction. This is not an error bar or an uncertainty interval (M641, self-audit W1-16, owner decision D-02)."
  }
 }

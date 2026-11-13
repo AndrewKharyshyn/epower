@@ -545,6 +545,21 @@
    ]
   },
   {
+   "id": "energy_support_ladder",
+   "title": "M641: energy support-policy ladder (cap-at-c and drop-above-g re-integration with the pipeline's own integrator), per-drive support tag and coverage statement; per-drive known-answer against the stored discharge / charge columns (STOP on any mismatch); additive key energySupportLadder and the leaf energyUncertaintyMC.labelNumericalSensitivity (spec analyses/M641_spec.md Rev 1)",
+   "cmd": [
+    "python3",
+    "tools/m641_energy_ladder.py"
+   ],
+   "needs": [
+    "fgen_mix_standardised"
+   ],
+   "verified": false,
+   "outputs": [
+    "summary_arrays.json"
+   ]
+  },
+  {
    "id": "resistance_joint_matrix",
    "title": "M514: joint instrumentation sensitivity matrix of the resistance-proxy months coefficient (54 pre-declared cells: alignment A0/A1 x logged grid period G0/G1/G2 x cadence and support C0/C1/C2 x temperature specification T0/T1/T2; day, ISO-week and circular moving-block intervals with common random numbers; pre-registered ladder); A1 proxies and logged-grid classes cached per drive in resistance_joint_sidecar.csv by raw sha256 + closure hash; additive payload block resistanceJointSensitivity + stamp; the S1 fidelity check is a STOP; needs raw/ like ah_throughput; spec analyses/M514_spec.md Rev 2",
    "cmd": [
