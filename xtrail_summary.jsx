@@ -11946,7 +11946,7 @@ const COMPARE_SPECS={
 };
 
 function CmpFrame({title,series,note,children}){
-  return <div style={{border:"1px solid #e2e8f0",borderRadius:8,background:"#fff",padding:"10px 12px",margin:"4px 0 10px"}}>
+  return <div data-cmp-frame="1" style={{border:"1px solid #e2e8f0",borderRadius:8,background:"#fff",padding:"10px 12px",margin:"4px 0 10px"}}>
     <div style={{display:"flex",flexWrap:"wrap",alignItems:"baseline",gap:8,marginBottom:8}}>
       <div style={{fontSize:12,fontWeight:700,color:"#334155"}}>{title}</div>
       <div style={{display:"flex",gap:10,marginLeft:"auto",flexWrap:"wrap"}}>
@@ -11974,16 +11974,16 @@ function CmpBox({id,spec,series}){
   if(!isFinite(mn)) return <div style={{fontSize:11,color:"#64748b"}}>No numeric distribution values.</div>;
   const tf=v=>log?Math.log10(Math.max(v,0.1)):v;
   let a=tf(mn),b=tf(mx); if(a===b){a-=1;b+=1;} const pad=(b-a)*0.05; a-=pad; b+=pad;
-  const W=520,labelW=118,plotX=labelW,plotW=W-labelW-46;
+  const labelW=176,plotX=labelW,plotW=340,W=labelW+plotW+110;      // M644: fixed width, 9 px floor, value text to the right of each box
   const X=v=>plotX+Math.max(0,Math.min(1,(tf(v)-a)/(b-a)))*plotW;
-  const nS=per.length, boxH=6, gap=2, catPad=9, rowH=nS*(boxH+gap)+catPad, H=ref.length*rowH+22;
+  const nS=per.length, boxH=9, gap=3, catPad=10, rowH=nS*(boxH+gap)+catPad, H=ref.length*rowH+36;
   const fmt=(v,d)=>(v==null||v!==v)?"":Number(v).toLocaleString("en-US",{maximumFractionDigits:d==null?dg:d});
   const ticks= log ? [mn, Math.round(Math.sqrt(mn*mx)), mx] : [mn,(mn+mx)/2,mx];
-  return <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{maxWidth:W}}>
-    {ticks.map((t,i)=><g key={"t"+i}><line x1={X(t)} x2={X(t)} y1={16} y2={H-4} stroke="#f4f6f9"/><text x={X(t)} y={12} textAnchor="middle" fontSize={7} fill="#cbd5e1">{fmt(t,0)}</text></g>)}
+  return <div style={{overflowX:"auto"}} data-cmp-box="1"><svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{display:"block"}}>
+    {ticks.map((t,i)=><g key={"t"+i}><line x1={X(t)} x2={X(t)} y1={18} y2={H-18} stroke="#f4f6f9"/><text x={X(t)} y={13} textAnchor="middle" fontSize={9} fill="#64748b">{fmt(t,0)}</text></g>)}
     {ref.map((lb,ci)=>{ const y0=22+ci*rowH;
       return <g key={ci}>
-        <text x={labelW-6} y={y0+(nS*(boxH+gap))/2} textAnchor="end" fontSize={8} fill="#475569" dominantBaseline="middle">{lb.length>19?lb.slice(0,18)+"\u2026":lb}</text>
+        <text x={labelW-8} y={y0+(nS*(boxH+gap))/2} textAnchor="end" fontSize={10} fill="#475569" dominantBaseline="middle">{lb.length>29?lb.slice(0,28)+"\u2026":lb}<title>{lb}</title></text>
         {per.map((p,si)=>{ const c=p.cats.find(cc=>String(cc.label)===lb); const yy=y0+si*(boxH+gap);
           if(!c) return <g key={si}><line x1={plotX} x2={plotX} y1={yy+boxH/2-3} y2={yy+boxH/2+3} stroke="#cbd5e1"/><title>{p.label}: no observations</title></g>;
           const q1=X(c.q1!=null?c.q1:c.med), q3=X(c.q3!=null?c.q3:c.med), md=X(c.med);
@@ -11995,11 +11995,11 @@ function CmpBox({id,spec,series}){
             <line x1={whi} x2={whi} y1={yy+1} y2={yy+boxH-1} stroke={p.col} strokeOpacity={0.5} strokeWidth={0.7}/>
             <rect x={bx} y={yy} width={bw} height={boxH} fill={p.col} fillOpacity={0.26} stroke={p.col} strokeWidth={0.8}/>
             <line x1={md} x2={md} y1={yy} y2={yy+boxH} stroke={p.col} strokeWidth={1.5}/>
-            <text x={whi+3} y={yy+boxH-0.5} fontSize={6.5} fill="#94a3b8">{fmt(c.med)}{c.n!=null?` (n=${c.n})`:""}</text>
+            <text x={whi+4} y={yy+boxH-1} fontSize={9} fill="#64748b">{fmt(c.med)}{c.n!=null?` (n=${c.n})`:""}</text>
           </g>; })}
       </g>; })}
-    {spec.unit&&<text x={plotX} y={H-1} fontSize={7} fill="#94a3b8">{spec.unit}{log?" (log axis)":""} · box = q1–q3, line = median, whiskers = min/max</text>}
-  </svg>;
+    {spec.unit&&<text x={plotX} y={H-4} fontSize={9} fill="#64748b">{spec.unit}{log?" (log axis)":""} — box = q1 to q3, line = median, whiskers = min/max</text>}
+  </svg></div>;
 }
 function CmpKpi({id,spec,series}){
   // M275 (audit Section 9): scalar-KPI Compare rendered as a forest/dot plot
@@ -12015,12 +12015,12 @@ function CmpKpi({id,spec,series}){
   const fmt=(v,d)=>(v==null||v!==v)?"\u2014":Number(v).toLocaleString("en-US",{minimumFractionDigits:d,maximumFractionDigits:d});
   if(!metrics.length) return <div style={{fontSize:11,color:"#64748b"}}>No scalar metric is defined for this view — use the single-cohort views to compare it.</div>;
   const isCount=m=>!m.unit && /drive|sample|eligible|valid|covered|paired|count|\bn\b/i.test(m.label);
-  const W=520,labelW=152,plotX=labelW,plotW=W-labelW-72;
+  const vcolW=84, valW=series.length*vcolW, labelW=196, plotX=labelW, plotW=250, W=labelW+plotW+valW+12;      // M644: values in a right-hand column per cohort, no labels on the markers
   const mk=(marker,cx,cy,col)=>{
-    if(marker==="square") return <rect x={cx-3} y={cy-3} width={6} height={6} fill={col}/>;
-    if(marker==="diamond") return <rect x={cx-3} y={cy-3} width={6} height={6} fill={col} transform={`rotate(45 ${cx} ${cy})`}/>;
-    return <circle cx={cx} cy={cy} r={3.4} fill={col}/>; };
-  return <div>
+    if(marker==="square") return <rect x={cx-3.5} y={cy-3.5} width={7} height={7} fill={col}/>;
+    if(marker==="diamond") return <rect x={cx-3.5} y={cy-3.5} width={7} height={7} fill={col} transform={`rotate(45 ${cx} ${cy})`}/>;
+    return <circle cx={cx} cy={cy} r={4} fill={col}/>; };
+  return <div style={{overflowX:"auto"}} data-cmp-kpi="1">
     {metrics.map((m,mi)=>{
       const dg=m.digits!=null?m.digits:2;
       const vals=series.map(s=>({s,v:m.get(data[s.key],s.key)}));
@@ -12038,9 +12038,12 @@ function CmpKpi({id,spec,series}){
       Object.keys(cis).forEach(k=>{ lo=Math.min(lo,cis[k].lo); hi=Math.max(hi,cis[k].hi); });
       if(lo>0) lo=0; if(lo===hi){lo-=1;hi+=1;} const pad=(hi-lo)*0.12; lo-=pad; hi+=pad;
       const x=v=>plotX+Math.max(0,Math.min(1,(v-lo)/(hi-lo)))*plotW;
-      const allV=hasAll?m.get(data["all"],"all"):null; const H=23;
-      return <svg key={mi} width="100%" viewBox={`0 0 ${W} ${H+6}`} style={{maxWidth:W,display:"block"}}>
-        <text x={labelW-6} y={H/2} textAnchor="end" fontSize={8.5} fill="#334155" dominantBaseline="middle">{m.label}{m.unit?` (${m.unit})`:""}</text>
+      const allV=hasAll?m.get(data["all"],"all"):null;
+      const lab=m.label+(m.unit?` (${m.unit})`:""), labLines=[]; { let cur=""; lab.split(" ").forEach(w=>{ if(cur&&(cur+" "+w).length>34){ labLines.push(cur); cur=w; } else cur=cur?cur+" "+w:w; }); if(cur) labLines.push(cur); }      // M644: wrap, never truncate (a cut label can break a required phrase)
+      const H=Math.max(24,labLines.length*12+6);
+      const vxs=i=>plotX+plotW+14+i*vcolW;
+      return <svg key={mi} width={W} height={H+4} viewBox={`0 0 ${W} ${H+4}`} style={{display:"block"}}>
+        <text x={labelW-8} y={H/2-(labLines.length-1)*6} textAnchor="end" fontSize={10} fill="#334155" dominantBaseline="middle">{labLines.map((ln,k)=><tspan key={k} x={labelW-8} dy={k?12:0}>{ln+(k<labLines.length-1?" ":"")}</tspan>)}</text>
         <line x1={plotX} x2={plotX+plotW} y1={H/2} y2={H/2} stroke="#f1f5f9"/>
         {drawn.length>1&&<line x1={x(Math.min(...nums))} x2={x(Math.max(...nums))} y1={H/2} y2={H/2} stroke="#e2e8f0" strokeWidth={2}/>}
         {drawn.map(o=>{ const cx=x(o.v); const dl=(o.s.key!=="all"&&hasAll&&allV!=null)?(o.v-allV):null;
@@ -12051,9 +12054,9 @@ function CmpKpi({id,spec,series}){
               <line x1={x(ci.hi)} x2={x(ci.hi)} y1={H/2-3} y2={H/2+3} stroke={o.s.col} strokeWidth={1} opacity={0.7}/>
               <title>{o.s.label}: {fmt(o.v,dg)} [95% CI {fmt(ci.lo,dg)}–{fmt(ci.hi,dg)}], {ci.k} independent days{ci.ess!=null?`, ESS ${fmt(ci.ess,1)}`:" (day-clustered bootstrap of the median; no ESS stored; quantised signal, zero-width interval = resolution limit)"}</title></g>}
             {mk(o.s.marker,cx,H/2,o.s.col)}
-            <text x={cx} y={(drawn.indexOf(o)%2===0)?H/2-5:H/2+10} textAnchor="middle" fontSize={7} fill={o.s.col}>{fmt(o.v,dg)}{(dl!=null&&Math.abs(dl)>=Math.pow(10,-dg))?<tspan fill="#94a3b8">{` (${dl>=0?"+":""}${fmt(dl,dg)})`}</tspan>:null}</text>
+            <text x={vxs(series.indexOf(o.s))} y={H/2} fontSize={9.5} fill={o.s.col} fontWeight={600} dominantBaseline="middle" data-cmp-value="1">{fmt(o.v,dg)}{(dl!=null&&Math.abs(dl)>=Math.pow(10,-dg))?<tspan fill="#64748b" fontWeight={400}>{` (${dl>=0?"+":""}${fmt(dl,dg)})`}</tspan>:null}</text>
           </g>; })}
-        {noObs.map(o=><g key={o.s.key}><line x1={plotX} x2={plotX} y1={H/2-4} y2={H/2+4} stroke="#cbd5e1"/><title>{o.s.label}: no observations</title></g>)}
+        {noObs.map(o=><g key={o.s.key}><line x1={plotX} x2={plotX} y1={H/2-4} y2={H/2+4} stroke="#cbd5e1"/><text x={vxs(series.indexOf(o.s))} y={H/2} fontSize={9.5} fill="#94a3b8" dominantBaseline="middle">{"\u2014"}</text><title>{o.s.label}: no observations</title></g>)}
       </svg>;
     })}
     <div style={{fontSize:9,color:"#94a3b8",marginTop:3}}>{spec.note?spec.note+" ":""}Markers are cohort point estimates on a shared per-metric axis (delta vs All in grey). {metrics.some(m=>m.ci)?"Whiskers = 95% percentile-bootstrap CI with calendar day as the resampling cluster (hover for independent-day count and effective sample size). Raw-pass medians (VGT tracking error, relaxation magnitude, load-point lag) use a day-clustered bootstrap of the median on a quantised signal: a zero-width whisker reflects the resolution limit, not precision. KPIs without a whisker have no per-cohort interval.":"Per-cohort 95% CIs are not yet computed for these KPIs."}</div>
@@ -12066,7 +12069,7 @@ function NotObservedRow({x,y,w,h,label}){
     <defs><pattern id="xtHatchNO" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
       <line x1="0" y1="0" x2="0" y2="6" stroke="#cbd5e1" strokeWidth="1.2"/></pattern></defs>
     <rect x={x} y={y} width={w} height={h} fill="url(#xtHatchNO)" stroke="#e2e8f0" rx={3}/>
-    <text x={x+w/2} y={y+h/2+3} textAnchor="middle" fontSize={8} fill="#64748b">{label||"not observed in this cohort (n=0)"}</text>
+    <text x={x+w/2} y={y+h/2+3} textAnchor="middle" fontSize={9} fill="#64748b">{label||"not observed in this cohort (n=0)"}</text>
   </g>;
 }
 // M295: stable drive-class key for Compare joins (title-case and snake-case labels map to one key).
@@ -12077,6 +12080,8 @@ function CmpBars({id,spec,series}){
   // canonical category label (M267 FIX #4); cohort encoded by colour AND
   // marker shape; missing cohort/category shows an explicit 'no obs' marker
   // rather than a silent gap.
+  // M644 (self-audit UI-01): values sit in a fixed right-hand column, one column per cohort (no value label on the markers, so labels cannot collide),
+  // the category label column is 190 px, every text is at least 9 px (the svg has a fixed width inside a horizontally scrolling wrapper instead of shrinking), the column header shows each cohort's marker shape.
   const per=series.map(s=>({key:s.key,label:s.label,col:s.col,marker:s.marker||"circle",cats:(spec.cats?spec.cats(seasonalData(id,s.mode)):[])||[]}));
   const ref=(function(){
     const out=[],seen=new Set();
@@ -12089,34 +12094,36 @@ function CmpBars({id,spec,series}){
   per.forEach(p=>p.cats.forEach(c=>{ const hi=Math.max(c&&c.value||0,c&&c.hi||0); if(hi>maxV)maxV=hi; const lo=(c&&c.lo!=null)?c.lo:(c&&c.value); if(lo!=null&&lo<minV)minV=lo; }));
   if(!isFinite(minV))minV=0; if(maxV<=0)maxV=1; if(minV>0)minV=0; // anchor at 0 for magnitude reading
   const digits=spec.digits!=null?spec.digits:1;
-  const fmt=v=>(v==null||v!==v)?"\u2014":Number(v).toLocaleString("en-US",{minimumFractionDigits:digits,maximumFractionDigits:digits});
-  const W=520,labelW=140,plotX=labelW,plotW=W-labelW-58,rowH=26,H=nCat*rowH+22;
+  const fmt=v=>(v==null||v!==v)?"—":Number(v).toLocaleString("en-US",{minimumFractionDigits:digits,maximumFractionDigits:digits});
+  const colW=58, valW=per.length*colW, labelW=190, plotX=labelW, plotW=380, W=labelW+plotW+valW+16, rowH=28, H=nCat*rowH+34;
   const x=v=>plotX+Math.max(0,Math.min(1,((v||0)-minV)/(maxV-minV)))*plotW;
   const mk=(m,cx,cy,col,k,hollow)=>{ const f=hollow?"none":col, sw=hollow?1:0;
-    if(m==="square") return <rect key={k} x={cx-3} y={cy-3} width={6} height={6} fill={f} stroke={col} strokeWidth={sw||0.8}/>;
-    if(m==="diamond") return <rect key={k} x={cx-3} y={cy-3} width={6} height={6} fill={f} stroke={col} strokeWidth={sw||0.8} transform={`rotate(45 ${cx} ${cy})`}/>;
-    return <circle key={k} cx={cx} cy={cy} r={3.4} fill={f} stroke={col} strokeWidth={sw||0.8}/>; };
+    if(m==="square") return <rect key={k} x={cx-3.5} y={cy-3.5} width={7} height={7} fill={f} stroke={col} strokeWidth={sw||0.8}/>;
+    if(m==="diamond") return <rect key={k} x={cx-3.5} y={cy-3.5} width={7} height={7} fill={f} stroke={col} strokeWidth={sw||0.8} transform={`rotate(45 ${cx} ${cy})`}/>;
+    return <circle key={k} cx={cx} cy={cy} r={4} fill={f} stroke={col} strokeWidth={sw||0.8}/>; };
   const axisTicks=[minV,(minV+maxV)/2,maxV];
-  return <svg width="100%" viewBox={"0 0 "+W+" "+H} style={{maxWidth:W}}>
-    {axisTicks.map((t,i)=><g key={"ax"+i}><line x1={x(t)} x2={x(t)} y1={16} y2={H-4} stroke="#f1f5f9"/><text x={x(t)} y={12} textAnchor="middle" fontSize={7} fill="#cbd5e1">{fmt(t)}</text></g>)}
-    {ref.map((rc,ci)=>{ const cy=22+ci*rowH+rowH/2-4; const lbl=String(rc.label);
+  const vx=si=>plotX+plotW+16+si*colW;
+  return <div style={{overflowX:"auto"}} data-cmp-bars="1"><svg width={W} height={H} viewBox={"0 0 "+W+" "+H} style={{display:"block"}}>
+    {axisTicks.map((t,i)=><g key={"ax"+i}><line x1={x(t)} x2={x(t)} y1={20} y2={H-4} stroke="#f1f5f9"/><text x={x(t)} y={14} textAnchor="middle" fontSize={9} fill="#64748b">{fmt(t)}</text></g>)}
+    {per.map((p,si)=><g key={"hd"+si}>{mk(p.marker,vx(si)+4,10,p.col,"hm"+si,false)}<text x={vx(si)+11} y={14} fontSize={9} fill={p.col} fontWeight={700}>{String(p.label).slice(0,8)}</text></g>)}
+    {ref.map((rc,ci)=>{ const cy=34+ci*rowH+rowH/2-6; const lbl=String(rc.label);
       const present=per.map(p=>({p,c:p.cats.find(cc=>clsKey(cc)===rc.key)})).map(o=>({...o,v:(o.c&&typeof o.c.value==="number"&&isFinite(o.c.value))?o.c.value:null})); // M348: null/NaN/non-numeric = not observed; an all-zero array is NOT reinterpreted
       const vals=present.filter(o=>o.v!=null).map(o=>o.v);
       const x0=vals.length?x(Math.min(...vals)):null, x1=vals.length?x(Math.max(...vals)):null;
       return <g key={ci}>
-        <text x={labelW-6} y={cy} textAnchor="end" fontSize={8.5} fill="#475569" dominantBaseline="middle">{lbl.length>26?lbl.slice(0,25)+"\u2026":lbl}</text>
+        <text x={labelW-8} y={cy} textAnchor="end" fontSize={10} fill="#475569" dominantBaseline="middle">{lbl.length>31?lbl.slice(0,30)+"…":lbl}<title>{lbl}</title></text>
         {!spec.noConnector&&x0!=null&&x1!=null&&x1>x0&&<line data-cmp-connector="1" x1={x0} x2={x1} y1={cy} y2={cy} stroke="#cbd5e1" strokeWidth={2}/>}
-        {present.every(o=>o.v==null)&&<NotObservedRow x={plotX} y={cy-6} w={plotW} h={12} label="not observed in any selected cohort"/>}
-        {present.map((o,si)=>{ if(o.v==null){ // explicit no-observations marker at axis origin (hatched)
-            return <g key={si} data-not-observed="1"><rect x={plotX-2} y={cy-5+si*3} width={4} height={4} fill="none" stroke={o.p.col} strokeDasharray="1 1"/><title>{o.p.label}: not observed (n=0) — null, not zero</title></g>; }
+        {present.every(o=>o.v==null)&&<NotObservedRow x={plotX} y={cy-7} w={plotW} h={14} label="not observed in any selected cohort"/>}
+        {present.map((o,si)=>{ if(o.v==null){ // explicit no-observations marker at axis origin (hatched) and an em dash in the value column
+            return <g key={si} data-not-observed="1"><rect x={plotX-2} y={cy-5+si*3} width={4} height={4} fill="none" stroke={o.p.col} strokeDasharray="1 1"/><title>{o.p.label}: not observed (n=0) — null, not zero</title><text x={vx(si)+11} y={cy} fontSize={9.5} fill="#94a3b8" dominantBaseline="middle">{"—"}</text></g>; }
           const cx=x(o.v);
           return <g key={si}>
             {(o.c.lo!=null&&o.c.hi!=null)&&<line x1={x(o.c.lo)} x2={x(o.c.hi)} y1={cy} y2={cy} stroke={o.p.col} strokeOpacity={0.4} strokeWidth={1.5}/>}
             {mk(o.p.marker,cx,cy,o.p.col,si,false)}
-            <text x={cx} y={cy-6} textAnchor="middle" fontSize={7} fill={o.p.col}>{fmt(o.v)}</text>
+            <text x={vx(si)+11} y={cy} fontSize={9.5} fill={o.p.col} fontWeight={600} dominantBaseline="middle" data-cmp-value="1">{fmt(o.v)}</text>
           </g>; })}
       </g>; })}
-  </svg>;
+  </svg></div>;
 }
 function CmpLines({id,spec,series}){
   // M348 (audit F11): series are outer-joined by x. Numeric axes (xkind "num") are drawn at true scale; ordinal axes (bins)
@@ -12142,11 +12149,12 @@ function CmpLines({id,spec,series}){
   if(!isFinite(mn)) return <div style={{fontSize:11,color:"#64748b"}}>No numeric curve values for these cohorts.</div>;
   if(mn===mx){ mn-=1; mx+=1; } const pd=(mx-mn)*0.08; mn-=pd; mx+=pd;
   const digits=spec.digits!=null?spec.digits:1;
-  const W=520,H=210,L=46,R=12,T=14,B=28,pw=W-L-R,ph=H-T-B;
+  const lblTxt=xs.map(v=>String(v)), maxCh=Math.max(1,...lblTxt.map(q=>q.length)), cell=maxCh*5.6+8;      // M644: x labels spaced by their length; an ordinal axis is widened instead of overprinting
+  const L=46,R=12,T=16,B=32,H=222, W=Math.min(860,Math.max(520,L+R+(num?0:n*cell))), pw=W-L-R, ph=H-T-B;
   const x0=num?xs[0]:0, x1=num?xs[n-1]:n-1;
   const X=i=>L+((n<=1||x1===x0)?pw/2:(((num?xs[i]:i)-x0)/(x1-x0))*pw), Y=v=>T+(1-(v-mn)/(mx-mn))*ph;
   const ticks=[mn,(mn+mx)/2,mx];
-  const lblIdx=[]; let lastPx=-1e9; xs.forEach((_,i)=>{ if(X(i)-lastPx>=24||i===n-1&&X(i)-lastPx>=24){ lblIdx.push(i); lastPx=X(i); } });
+  const lblIdx=[]; let lastPx=-1e9; xs.forEach((_,i)=>{ if(X(i)-lastPx>=cell){ lblIdx.push(i); lastPx=X(i); } });
   const ref=spec.ref?spec.ref(seasonalData(id,"all")):null;
   const mk=(p,cx,cy,k)=>{ // M270: distinct marker shape per cohort (accessibility)
     if(p.marker==="none") return null;
@@ -12155,13 +12163,13 @@ function CmpLines({id,spec,series}){
     return <circle key={k} cx={cx} cy={cy} r={1.6} fill={p.col}/>;
   };
   const anyFb=drawn.some(p=>p.fb.some(Boolean));
-  return <><svg width="100%" viewBox={"0 0 "+W+" "+H} style={{maxWidth:W}} data-cmp-lines-x={num?"numeric":"ordinal"}>
-    {ticks.map((t,i)=><g key={"t"+i}><line x1={L} x2={W-R} y1={Y(t)} y2={Y(t)} stroke="#eef2f7"/><text x={L-4} y={Y(t)+3} textAnchor="end" fontSize={8} fill="#94a3b8">{Number(t).toLocaleString("en-US",{maximumFractionDigits:digits})}</text></g>)}
-    {lblIdx.map(i=><text key={"x"+i} x={X(i)} y={H-B+13} textAnchor="middle" fontSize={7.5} fill="#94a3b8">{String(xs[i])}</text>)}
-    {spec.xtitle&&<text x={W-R} y={H-3} textAnchor="end" fontSize={7.5} fill="#94a3b8">{spec.xtitle}</text>}
+  return <><div style={{overflowX:"auto"}}><svg width={W} height={H} viewBox={"0 0 "+W+" "+H} style={{display:"block"}} data-cmp-lines-x={num?"numeric":"ordinal"}>
+    {ticks.map((t,i)=><g key={"t"+i}><line x1={L} x2={W-R} y1={Y(t)} y2={Y(t)} stroke="#eef2f7"/><text x={L-4} y={Y(t)+3} textAnchor="end" fontSize={9} fill="#64748b">{Number(t).toLocaleString("en-US",{maximumFractionDigits:digits})}</text></g>)}
+    {lblIdx.map(i=><text key={"x"+i} x={X(i)} y={H-B+14} textAnchor="middle" fontSize={9} fill="#64748b">{String(xs[i])}</text>)}
+    {spec.xtitle&&<text x={W-R} y={H-3} textAnchor="end" fontSize={9} fill="#64748b">{spec.xtitle}</text>}
     {ref&&(function(){ const inR=ref.y>=mn&&ref.y<=mx; const ry=Y(Math.max(mn,Math.min(mx,ref.y)));
       return <g data-cmp-ref="1"><line x1={L} x2={W-R} y1={ry} y2={ry} stroke="#94a3b8" strokeWidth={1} strokeDasharray="4 3"/>
-        <text x={W-R-2} y={ry-3} textAnchor="end" fontSize={7.5} fill="#64748b">{ref.label+(inR?"":" — outside plotted range")}</text></g>; })()}
+        <text x={W-R-2} y={ry-3} textAnchor="end" fontSize={9} fill="#64748b">{ref.label+(inR?"":" — outside plotted range")}</text></g>; })()}
     {drawn.map((p,si)=>{ // M298 (audit 2026-09-24 §8): a null bin BREAKS the line into independent segments —
       // never join the remaining points across missing support; gaps get an open 'missing support' marker.
       const segs=[]; let cur=[];
@@ -12173,8 +12181,8 @@ function CmpLines({id,spec,series}){
         {p.y.map((v,i)=>fin(v)?mk(p,X(i),Y(v),i):null)}
         {p.y.map((v,i)=>(fin(v)&&p.fb[i])?<g key={"fb"+i} data-cmp-fallback-weight="1"><circle cx={X(i)} cy={Y(v)} r={3.4} fill="none" stroke={p.col}/><title>{p.label}: class weight missing at this x (fallback weight 1)</title></g>:null)}
         {gaps.map(i=><g key={"g"+i} data-missing-support="1"><circle cx={X(i)} cy={T+ph-4-si*5} r={2.2} fill="none" stroke={p.col} strokeDasharray="1 1"/><title>{p.label}: no support in this bin (gap, not interpolated)</title></g>)}</g>; })}
-    {spec.unit&&<text x={L} y={10} fontSize={8} fill="#94a3b8">{spec.unit}</text>}
-  </svg>
+    {spec.unit&&<text x={L} y={11} fontSize={9} fill="#64748b">{spec.unit}</text>}
+  </svg></div>
   {noObs.length>0&&<div style={{fontSize:9,color:"#94a3b8",marginTop:2}}>{noObs.map(p=>p.label).join(", ")}: no observations in this view (slot preserved, not blended into All).</div>}
   {anyFb&&<div style={{fontSize:9,color:"#94a3b8",marginTop:2}}>Open rings mark points where a class weight was missing (fallback weight 1).</div>}
   </>;
@@ -12197,7 +12205,7 @@ function CompareBlock({id}){
   else if(kind==="lines") body=<CmpLines id={id} spec={spec} series={series}/>;
   else if(kind==="box") body=<CmpBox id={id} spec={spec} series={series}/>;
   else body=<CmpKpi id={id} spec={spec} series={series}/>;
-  return <CmpFrame title={title} series={series} note={spec.note}>{body}{series.some(x=>x.key==="cold")&&<ColdConcentrationNote/>}</CmpFrame>;
+  return <CmpFrame title={title} series={series} note={spec.note}><div data-cmp-kind={kind}>{body}</div>{series.some(x=>x.key==="cold")&&<ColdConcentrationNote/>}</CmpFrame>;
 }
 function CmpEcdfPanel(){
   // M284 (audit Section 9): ECDF small multiples for skewed per-drive distributions (fuller shape than a box).
@@ -12224,8 +12232,8 @@ function CmpEcdfPanel(){
         return <div key={k} data-cmp-ecdf="1" style={{border:"1px solid #eef2f7",borderRadius:6,padding:4}}>
           <div style={{fontSize:10,fontWeight:700,color:"#334155"}}>{m.label} <span style={{fontWeight:400,color:"#94a3b8"}}>({m.unit})</span></div>
           <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{display:"block"}}>
-            {[0,0.5,1].map(p=><g key={p}><line x1={L} x2={W-R} y1={Y(p)} y2={Y(p)} stroke="#eef2f7"/><text x={L-4} y={Y(p)+3} textAnchor="end" fontSize={7.5} fill="#94a3b8">{p}</text></g>)}
-            {[x0,(x0+x1)/2,x1].map((t,i)=><text key={i} x={X(t)} y={H-B+11} textAnchor={i===0?"start":i===2?"end":"middle"} fontSize={7.5} fill="#94a3b8">{fmt(t)}</text>)}
+            {[0,0.5,1].map(p=><g key={p}><line x1={L} x2={W-R} y1={Y(p)} y2={Y(p)} stroke="#eef2f7"/><text x={L-4} y={Y(p)+3} textAnchor="end" fontSize={9.5} fill="#94a3b8">{p}</text></g>)}
+            {[x0,(x0+x1)/2,x1].map((t,i)=><text key={i} x={X(t)} y={H-B+11} textAnchor={i===0?"start":i===2?"end":"middle"} fontSize={9.5} fill="#94a3b8">{fmt(t)}</text>)}
             {vs.map(o=>{ if(!o.v) return null; const n=o.v.length;
               const pts=[`${X(x0)},${Y(0)}`]; o.v.forEach((v,i)=>{ if(v>x1) return; pts.push(`${X(v)},${Y(i/n)}`,`${X(v)},${Y((i+1)/n)}`); }); pts.push(`${X(x1)},${Y(o.v.filter(v=>v<=x1).length/n)}`);
               const med=q(o.v,0.5);
@@ -12250,7 +12258,7 @@ function CmpViolinPanel(){
   const CD=S.cohortDistributions;
   if(!CD||!CD.metrics||!series.length) return null;
   const keys=Object.keys(CD.metrics);
-  const W=250,H=170,L=36,R=8,T=12,B=30,pw=W-L-R,ph=H-T-B,G=48;
+  const W=250,H=184,L=36,R=8,T=12,B=44,pw=W-L-R,ph=H-T-B,G=48;
   const q=(v,p)=>{ const i=(v.length-1)*p, lo=Math.floor(i), hi=Math.ceil(i); return v[lo]+(v[hi]-v[lo])*(i-lo); };
   return <CmpFrame title="Per-drive distributions — violin (Gaussian KDE)" series={series}
     note="Kernel density estimate of per-drive values (unsmoothed inputs as in the ECDF panel). Shape is bandwidth-dependent: Silverman rule per cohort, disclosed below each panel; density is truncated at each cohort's observed min/max. No significance test is implied.">
@@ -12275,7 +12283,7 @@ function CmpViolinPanel(){
         return <div key={k} data-cmp-violin="1" style={{border:"1px solid #eef2f7",borderRadius:6,padding:4}}>
           <div style={{fontSize:10,fontWeight:700,color:"#334155"}}>{m.label} <span style={{fontWeight:400,color:"#94a3b8"}}>({m.unit})</span></div>
           <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{display:"block"}}>
-            {[y0,(y0+y1)/2,y1].map((t,i)=><g key={i}><line x1={L} x2={W-R} y1={Y(t)} y2={Y(t)} stroke="#eef2f7"/><text x={L-4} y={Y(t)+3} textAnchor="end" fontSize={7.5} fill="#94a3b8">{fmt(t)}</text></g>)}
+            {[y0,(y0+y1)/2,y1].map((t,i)=><g key={i}><line x1={L} x2={W-R} y1={Y(t)} y2={Y(t)} stroke="#eef2f7"/><text x={L-4} y={Y(t)+3} textAnchor="end" fontSize={9.5} fill="#94a3b8">{fmt(t)}</text></g>)}
             {dens.map((d,si)=>{ const cx=L+slot*(si+0.5), o=d.o, v=o.v, med=q(v,0.5), q1=q(v,0.25), q3=q(v,0.75);
               let path=null;
               if(d.g){ const R_=d.g.map(([x,dd])=>`${(cx+half*dd/dmax).toFixed(2)},${Y(x).toFixed(2)}`), L_=d.g.slice().reverse().map(([x,dd])=>`${(cx-half*dd/dmax).toFixed(2)},${Y(x).toFixed(2)}`);
@@ -12284,8 +12292,8 @@ function CmpViolinPanel(){
                 {v.filter(x=>x<=y1).map((x,i)=><line key={i} x1={cx-2.5} x2={cx+2.5} y1={Y(x)} y2={Y(x)} stroke={o.s.col} strokeOpacity={d.g?0.22:0.9} strokeWidth={0.6}/>)}
                 <line x1={cx} x2={cx} y1={Y(q1)} y2={Y(q3)} stroke="#334155" strokeWidth={3} strokeLinecap="butt"/>
                 <line x1={cx-5} x2={cx+5} y1={Y(med)} y2={Y(med)} stroke="#fff" strokeWidth={1.6}><title>{o.s.label}: n={d.n}, median {fmt(med)}, IQR {fmt(q1)}–{fmt(q3)} {m.unit}</title></line>
-                <text x={cx} y={H-B+11} textAnchor="middle" fontSize={7.5} fontWeight={700} fill={o.s.col}>{o.s.label}</text>
-                <text x={cx} y={H-B+20} textAnchor="middle" fontSize={7} fill="#94a3b8">n={d.n}</text></g>; })}
+                <text x={cx} y={H-B+13} textAnchor="middle" fontSize={9.5} fontWeight={700} fill={o.s.col}>{o.s.label}</text>
+                <text x={cx} y={H-B+27} textAnchor="middle" fontSize={9.5} fill="#64748b">n={d.n}</text></g>; })}
           </svg>
           <div style={{fontSize:8.5,color:"#64748b"}}>{dens.map(d=><span key={d.o.s.key} style={{marginRight:8}}><span style={{color:d.o.s.col,fontWeight:700}}>{d.o.s.label}</span> {d.g?("h="+Number(d.h).toPrecision(2)):"n<8: points only"}</span>)}
             {clipped>0?<span> · axis clipped at p99 ({clipped} drive{clipped>1?"s":""} beyond)</span>:null}</div>
