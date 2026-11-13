@@ -1,0 +1,21 @@
+// test_temp_controls_sentence.js (M634, spec analyses/M622_spec.md Rev 1): the dashboard sentence about the pre-registered temperature controls is generated from S.powerFadeTemperatureControls only; it names every form, marks the intervals that include zero, states the retention status and the provisional reading, and never says 'not every interval spans zero'.
+const fs=require('fs');
+const jsx=fs.readFileSync('xtrail_summary.jsx','utf8');
+const A=JSON.parse(fs.readFileSync('summary_arrays.json','utf8'));
+let fails=0;const ok=(l,c)=>{console.log((c?'PASS ':'FAIL ')+l);if(!c)fails++;};
+const i0=jsx.indexOf('function temperatureControlsSentence('), i1=jsx.indexOf('// M499 (spec analyses/M499_spec.md Rev 2, Director: accept)', i0);
+const src=jsx.slice(i0,i1);
+const fn=new Function('S', src+'; return temperatureControlsSentence();');
+const txt=fn({powerFadeTemperatureControls:A.powerFadeTemperatureControls});
+const C=A.powerFadeTemperatureControls, R=C.resistanceProxyS0;
+ok('sentence present', txt.length>400);
+ok('names the four forms where reportable (spline only if reportable) and the original-scale Arrhenius note', /linear/.test(txt)&&/quadratic/.test(txt)&&/Arrhenius/.test(txt)&&(R.specs['T-spl'].reportable? /spline/.test(txt) : /spline is not reported/.test(txt))&&/smearing/.test(txt));
+const incl=['T-lin','T-quad','T-arr'].filter(k=>R.specs[k].includesZero).length;
+ok('every resistance S0 interval that includes zero is marked', (txt.match(/\(includes zero\)/g)||[]).length>=incl);
+ok('retention status and the two-ingestion rule are stated', /day-blocked cross-validation/.test(txt)&&/two consecutive ingestions|retained/.test(txt));
+ok('provisional and not-a-formal-test wording', /provisional/.test(txt)&&/not a formal test|current-window figure/.test(txt));
+ok('month 9 descriptive, month 12 full alpha, ceiling vs current SE stated from the payload', /month 9 \(descriptive only\)/.test(txt)&&/month 12 \(full alpha\)/.test(txt)&&txt.includes(String((R.attainability.month12.seCeiling)))&&txt.includes(String(R.attainability.month12.currentSe)));
+ok('the banned phrase is absent', !/not every interval spans zero/i.test(txt));
+ok('equivalence test and locked bound stated as unchanged', /equivalence test and its locked bound are unchanged/.test(txt));
+console.log(txt.slice(0,900));
+process.exit(fails?1:0);
