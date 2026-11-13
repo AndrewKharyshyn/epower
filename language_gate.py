@@ -498,6 +498,8 @@ RULES = [
          rx=r"cold has no urban trips of 3 km or longer"),
     Rule("M630-torque-chart-caption", "regex", "M630/self-audit W1-06: the torque chart axis runs from -180 to 160 N.m, so 'clipped at +-160 N.m' was wrong; the regen plateau is read from torqueBySpeed regenMin (-163 N.m in the 20-80 km/h zones, -149 in 80-100, -245 in 0-20, not 20-100 km/h); the signal is the commanded (target) torque",
          rx=r"chart clipped at 160 n m|regen plateau 163 n m 20 100 km h"),
+    Rule("M638-hot-tail-share-wording", "regex", "M638 Director ruling (2026-11-13): the two hot-tail estimands are the drive-average share and the sample-resolved share of logged drive time, each labelled; neither is 'the hot-tail share', neither is measured exposure, and the sample-resolved one does not supersede the drive-average one.",
+         rx=r"(?<![a-z])(the hot tail share|measured (pack )?(thermal |temperature )?exposure|(sample resolved|e2) (occupancy |share )?supersedes)(?![a-z])"),
     Rule("M637-hot-tail-estimand", "regex", "M637/self-audit W1-08 and owner decision D-03: the hot-tail share is a drive-average estimand (share of drive time in drives whose average pack temperature is at or above the threshold), not the share of logged samples above it; the bare phrase 'of drive-time >=35 C' hid that.",
          rx=r"\d+ of drive time 35 c highway thermal rise"),
     Rule("M636-undated-m85-figures", "regex", "M636/self-audit W1-07: the M85 provenance strings quoted 34.2 C / 54.3 % / 67.6 % highway without saying they are the 2026-08-05 corpus (live values: 31.2 C, 37.8 %, 59.7 %); a historical figure carries its milestone and date and points at the live key.",

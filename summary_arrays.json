@@ -11683,7 +11683,110 @@
      "mixed": 14.8,
      "highway": 17.8
     },
-    "driveTimeShareGeCMeaning": "Share of drive time (duration-weighted) spent in drives whose drive-average pack temperature (T_pack_mean_avg) is at or above the threshold; a drive-average estimand. It is not the share of logged samples above the threshold; the sample-resolved occupancy is a separate quantity (M637/M638, self-audit W1-08, owner decision D-03)."
+    "driveTimeShareGeCMeaning": "Share of drive time (duration-weighted) spent in drives whose drive-average pack temperature (T_pack_mean_avg) is at or above the threshold; a drive-average estimand. It is not the share of logged samples above the threshold; the sample-resolved occupancy is a separate quantity (M637/M638, self-audit W1-08, owner decision D-03).",
+    "sampleOccupancy": {
+     "thresholdsC": [
+      30,
+      35,
+      40
+     ],
+     "share": {
+      "30": 0.6271,
+      "35": 0.3905,
+      "40": 0.1047
+     },
+     "ci95": {
+      "30": [
+       0.5501,
+       0.6883
+      ],
+      "35": [
+       0.2952,
+       0.4729
+      ],
+      "40": [
+       0.0551,
+       0.1541
+      ]
+     },
+     "draws": 4000,
+     "seed": 42,
+     "cluster": "calendar day",
+     "supportedHours": 237.1,
+     "driveHours": 238.6,
+     "coverageShare": 0.9934,
+     "nDrives": 651,
+     "nDays": 126,
+     "nExcludedDrives": 0,
+     "excludedReasons": [],
+     "probeResolutionC": 1.0,
+     "rule": "2 s midpoint grid; supported when at least 3 of the 4 pack probe channels ([BMS] HV Battery Temperature Sensor 1 (℃); [BMS] HV Battery Temperature Sensor 2 (℃); [BMS] HV Battery Temperature Sensor 3 (℃); [BMS] HV Battery Temperature Sensor 4 (℃)) hold a reading no older than 45 s (sample and hold); pack temperature = mean of the available probes; a reading equal to the threshold counts as at or above it; pooled ratio of sums over canonical-clean drives",
+     "meaning": "Share of logged drive time (supported seconds) with a mean pack-probe reading at or above the threshold (sample-resolved). Logged BMS sensor readings (an occupancy of logged readings, not an exposure measurement). A different estimand from driveTimeShareGeC (share of drive time in drives whose drive-average pack temperature is at or above the threshold), which carries no interval. Read the two side by side; neither stands alone as a hot-tail figure (M638, self-audit W1-08, owner decision D-03).",
+     "sensitivities": {
+      "hold30s": {
+       "share": {
+        "30": 0.6272,
+        "35": 0.3906,
+        "40": 0.1046
+       },
+       "supportedHours": 236.9,
+       "nDrives": 651
+      },
+      "hold60s": {
+       "share": {
+        "30": 0.6269,
+        "35": 0.3904,
+        "40": 0.1047
+       },
+       "supportedHours": 237.2,
+       "nDrives": 651
+      },
+      "grid1s": {
+       "share": {
+        "30": 0.6269,
+        "35": 0.3904,
+        "40": 0.1047
+       },
+       "supportedHours": 237.1,
+       "nDrives": 651
+      },
+      "all4probes": {
+       "share": {
+        "30": 0.627,
+        "35": 0.3905,
+        "40": 0.1046
+       },
+       "supportedHours": 237.0,
+       "nDrives": 651
+      },
+      "hottestProbe": {
+       "share": {
+        "30": 0.6771,
+        "35": 0.5224,
+        "40": 0.265
+       },
+       "supportedHours": 237.1,
+       "nDrives": 651
+      }
+     },
+     "knownAnswer": {
+      "auditEmulationAllRows": {
+       "share35": 0.3897,
+       "share40": 0.1045,
+       "supportedHours": 237.5
+      },
+      "target": {
+       "share35": 0.3897,
+       "share40": 0.1045,
+       "supportedHours": 237.5
+      },
+      "productionCanonicalCleanDelta": {
+       "share35": 0.0008,
+       "share40": 0.0002
+      },
+      "attribution": "eligibility (canonical-clean versus all master rows) and loader (repository frame reader versus the audit scan reader)"
+     }
+    }
    },
    "selected": {
     "tempThresholdC": 35.0,
