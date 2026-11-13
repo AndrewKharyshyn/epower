@@ -1115,6 +1115,13 @@ for _m in ("all", "warm", "shoulder", "compare"):
 ok("A2 REQUIRED fuelContract numbers in the banner equal the payload", all(x in T.get("fuel__all", "").replace("  ", " ") for x in
    [f"present in {A['fuelContract']['coverage']['rate']['columnPresent']} of {A['fuelContract']['coverage']['nCanonical']} canonical files", f"({A['fuelContract']['lhvRatioDefinition']} = {A['fuelContract']['lhvRatio']:g})"]))
 ok("A2 REQUIRED selector label reads 'Thermal cohort'", any("Thermal cohort" in t for t in T.values()))
+_tq = A["torqueBySpeed"]; _zc = {}                                                                     # M630 (W1-06): the torque-chart plateau label equals the regenMin plateau of the payload
+for _d in _tq:
+    _zc.setdefault(_d["regenMin"], []).append(_d["speed"])
+_pl = sorted([(v, z) for v, z in _zc.items() if len(z) >= 2], key=lambda x: -len(x[1]))[0]
+ok("A2 REQUIRED M630 torque chart: caption states the axis, the plateau label equals the payload regenMin plateau, the clipped regen minimum is labelled",
+   all(("regen minimum %s N·m in the zones %s km/h" % (_pl[0], ", ".join(_pl[1]))) in T.get("distribution__" + m, "") and "axis -180 to 160" in T.get("distribution__" + m, "") for m in ("all",))
+   and all(str(_d["regenMin"]) in T.get("distribution__all", "") for _d in _tq if _d["regenMin"] < -180))
 _uc = A["comparisonCube"]["urbanContrast"]["bands"]                                                   # M629 (W1-05): the Cold rows named in the Compare urban-contrast prose are the payload bands that carry a Cold value
 ok("A2 REQUIRED M629 urban Cold note: every payload band with a Cold value is named with its drives and days, and the false 'no urban trips of 3 km or longer' sentence is absent",
    all(("%s (%d drives, %d days" % (b["band"], b["cold"]["nDrives"], b["cold"]["nDays"])) in T.get("highway_vs_city__all", "") for b in _uc if b.get("cold")) and any(b.get("cold") for b in _uc)
