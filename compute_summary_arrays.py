@@ -3572,6 +3572,7 @@ def _seasonal_projection(dm, odometer_km, cfg, obs_mix=None):
         'packThermalMeasured': {
             'timeWeightedMeanPackC': round(pack_tw_mean, 1) if pack_tw_mean else None,
             'driveTimeShareGeC': share_ge,
+            'driveTimeShareGeCMeaning': ('Share of drive time (duration-weighted) spent in drives whose drive-average pack temperature (T_pack_mean_avg) is at or above the threshold; a drive-average estimand. It is not the share of logged samples above the threshold; the sample-resolved occupancy is a separate quantity (M637/M638, self-audit W1-08, owner decision D-03).'),
             'timeWeightedArrheniusAF': round(af_tw, 2) if af_tw else None,
             'hottestPackPeakMeanC': pack_peak_mean_max,
             'perClassRiseC': {k: round(v, 1) for k, v in rise.items()}},
