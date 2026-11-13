@@ -18742,7 +18742,14 @@ def build_summary_arrays(dm, raw_loader=None, with_raw=True, odometer_km=None,
                  'officialDisclosureCorrelation', 'observedMix',
                  'realisticBlend'):
         if isinstance(arrays.get(_blk), dict):
-            _null_life_years(arrays[_blk])
+            if _blk == 'officialDisclosureCorrelation':
+                # M632 (self-audit W1-09): 'official' holds the manufacturer's own SOURCE facts (expectedLifeYr 14, capacityFadeConditionYr 14,
+                # copied from cfg.officialDisclosure); they are not modelled life estimates and stay. Every other leaf of the block is still retracted.
+                _tmp = {_k2: _v2 for _k2, _v2 in arrays[_blk].items() if _k2 != 'official'}
+                _null_life_years(_tmp)
+                arrays[_blk].update(_tmp)
+            else:
+                _null_life_years(arrays[_blk])
     arrays['_retractedLifeEol'] = (
         'M114 (audit P0-01): implied-cycle-life and calendar-life YEAR outputs '
         'retracted (crossing years, threshold/workload/matrix spans, calendar-'
