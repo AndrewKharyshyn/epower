@@ -74,6 +74,12 @@ N_DRAWS = 20000
 SEED = 20260822
 
 
+# M641 (self-audit W1-16, owner decision D-02): what the Monte Carlo range IS. Emitted by build() so a recompute keeps it.
+NUMERICAL_SENSITIVITY_LABEL = ("Numerical sensitivity of the capped-rule total to alignment tolerance, ADC quantisation and a gap-truncation bound, conditional on the 5 s capped rule; "
+                               "it is not a coverage or confidence interval for the throughput. The dependence on the gap policy is the support-policy ladder (energySupportLadder). "
+                               "M641, self-audit W1-16, owner decision D-02.")
+
+
 def _interp_grid(grid, tol_grid_ms, key):
     """Piecewise-linear interpolation of a per-drive grid metric ('discharge'/
     'charge'/'throughput') across the tolerance grid, vectorized over a whole
@@ -329,6 +335,7 @@ def build(precompute, rng=None, offset_point_a=OFFSET_POINT_A,
         # 'validation' cannot do by construction.
         'independentIntegrationCheck': precompute['meta'].get(
             'independentIntegrationCheck'),
+        'labelNumericalSensitivity': NUMERICAL_SENSITIVITY_LABEL,
         'lsbEstimates': {'currentA': precompute['meta']['lsbCurrentA'],
                          'voltageV': precompute['meta']['lsbVoltageV']}}
 
