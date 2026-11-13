@@ -2609,6 +2609,8 @@ def _power_fade(dm, raw_loader=None):
         # --- M61 detection power ---
         'windowMo': round(window_mo, 2),
         'mdeMohmPerMo': round(mde, 3),
+        'mdeMohmPerMoMeaning': ('CI half-width of the slope (1.96 x SE), not a power calculation; slopes smaller than it are not distinguished '
+                                'from zero in this window; the key name is kept until a planned schema change (M633, self-audit W1-12 e)'),
         'mdeRisePctPerYr': round(mde * 12.0 / r_med * 100.0, 1),
         'detectionHorizon': horizon,
         'horizonBasis': ('SE(slope) ~ T^-1.5 at constant logging cadence; '
