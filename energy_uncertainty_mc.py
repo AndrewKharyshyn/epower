@@ -258,7 +258,7 @@ def build(precompute, rng=None, offset_point_a=OFFSET_POINT_A,
             round(float(d_thr_per_a.sum()) * ci_hi, 4)],
         'dDischargeKwhPerOffsetA': round(float(d_dis_per_a.sum()), 4),
         'dChargeKwhPerOffsetA': round(float(d_chg_per_a.sum()), 4),
-        'note': ('A constant constant current offset does NOT cancel in a |I| '
+        'note': ('A constant current offset does NOT cancel in a |I| '
                  'integral the way it cancels in signed net draw -- shifting '
                  f'raw current by the released offset ({offset_point_a} A) '
                  'INCREASES gross throughput here, it does not leave it '
