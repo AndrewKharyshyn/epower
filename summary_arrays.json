@@ -175368,7 +175368,168 @@
      "sha256": "319cca566b4e139f279a23b62c54aa900b7ab2d3faf25da04da0ba2ac920961c"
     }
    },
-   "_staleness": "recomputed on the live corpus at ingestion (433 drives, 76 days; expected-set rule, previous set pinned in analyses/gtr_closure_record.json; spec analyses/M377c_spec.md Rev 2) on the sha256-verified originals (M366 basis); producers tools/gtr_closure_diag.py sha256 3eb0dcfdadd7 and tools/gtr_interval_sens.py sha256 4b9aaa5472b1 (--ingest); refreshed by the gtr_closure_refresh stage at every ingestion"
+   "_staleness": "recomputed on the live corpus at ingestion (433 drives, 76 days; expected-set rule, previous set pinned in analyses/gtr_closure_record.json; spec analyses/M377c_spec.md Rev 2) on the sha256-verified originals (M366 basis); producers tools/gtr_closure_diag.py sha256 3eb0dcfdadd7 and tools/gtr_interval_sens.py sha256 4b9aaa5472b1 (--ingest); refreshed by the gtr_closure_refresh stage at every ingestion",
+   "fGenMixStandardised": {
+    "E0": {
+     "est": 0.5093,
+     "nDrives": 433,
+     "nDays": 76,
+     "source": "analyses/M377c_closure_perdrive.csv (the closure set behind gtrClosure.fGen)",
+     "definition": "sum(g2t) / sum(trac) over the closure set; the headline, unchanged"
+    },
+    "referenceSet": {
+     "definition": "canonical-clean drives of drive_master.csv (ens_outlier_v2 false) with distance_km > 0; one fixed all-corpus km mix by drive_type",
+     "nDrives": 651,
+     "nDays": 126,
+     "closureDrivesInReference": 433
+    },
+    "fourTypes": {
+     "strata": {
+      "highway": {
+       "referenceKmShare": 0.2796,
+       "referenceDrives": 22,
+       "closureDrives": 5,
+       "closureDays": 3,
+       "closureKmShare": 0.1628,
+       "supported": false,
+       "atFloor": false
+      },
+      "mixed": {
+       "referenceKmShare": 0.085,
+       "referenceDrives": 33,
+       "closureDrives": 18,
+       "closureDays": 15,
+       "closureKmShare": 0.1263,
+       "supported": true,
+       "atFloor": false
+      },
+      "mixed_highway": {
+       "referenceKmShare": 0.3119,
+       "referenceDrives": 36,
+       "closureDrives": 10,
+       "closureDays": 6,
+       "closureKmShare": 0.1867,
+       "supported": true,
+       "atFloor": true
+      },
+      "urban": {
+       "referenceKmShare": 0.3235,
+       "referenceDrives": 560,
+       "closureDrives": 400,
+       "closureDays": 75,
+       "closureKmShare": 0.5242,
+       "supported": true,
+       "atFloor": false
+      }
+     },
+     "E1": 0.5893,
+     "E2": 0.5921,
+     "unsupportedStrataAbove5pct": [
+      "highway"
+     ],
+     "label": "extrapolative: the corpus-mix share of an unsupported stratum is carried by a thin cell",
+     "joint": {
+      "ci95": {
+       "E1": [
+        0.5366,
+        0.6303
+       ],
+       "E2": [
+        0.5394,
+        0.6333
+       ]
+      },
+      "nDroppedReplicates": 198,
+      "dropRate": 0.0495,
+      "draws": 4000,
+      "seed": 42
+     },
+     "fixedWeights": {
+      "ci95": {
+       "E1": null,
+       "E2": null
+      },
+      "nDroppedReplicates": 212,
+      "dropRate": 0.053,
+      "draws": 4000,
+      "seed": 42
+     }
+    },
+    "urbanNonUrban": {
+     "strata": {
+      "non-urban": {
+       "referenceKmShare": 0.6765,
+       "referenceDrives": 91,
+       "closureDrives": 33,
+       "closureDays": 19,
+       "closureKmShare": 0.4758,
+       "supported": true,
+       "atFloor": false
+      },
+      "urban": {
+       "referenceKmShare": 0.3235,
+       "referenceDrives": 560,
+       "closureDrives": 400,
+       "closureDays": 75,
+       "closureKmShare": 0.5242,
+       "supported": true,
+       "atFloor": false
+      }
+     },
+     "E1": 0.5689,
+     "E2": 0.5741,
+     "unsupportedStrataAbove5pct": [],
+     "label": "all strata above 5 % weight meet the floor of 10 drives on 5 days",
+     "joint": {
+      "ci95": {
+       "E1": [
+        0.4903,
+        0.6119
+       ],
+       "E2": [
+        0.4947,
+        0.6168
+       ]
+      },
+      "nDroppedReplicates": 0,
+      "dropRate": 0.0,
+      "draws": 4000,
+      "seed": 42
+     },
+     "fixedWeights": {
+      "ci95": {
+       "E1": [
+        0.4948,
+        0.5986
+       ],
+       "E2": [
+        0.4991,
+        0.6038
+       ]
+      },
+      "nDroppedReplicates": 0,
+      "dropRate": 0.0,
+      "draws": 4000,
+      "seed": 42
+     }
+    },
+    "displayedPrimary": "urbanNonUrban",
+    "verdict": "not distinguished from the headline at this support: the interval includes the headline value",
+    "residualImbalanceWithinNonUrban": {
+     "closureKmShare": {
+      "mixed": 0.2655,
+      "mixed_highway": 0.3923,
+      "highway": 0.3422
+     },
+     "referenceKmShare": {
+      "mixed": 0.1256,
+      "mixed_highway": 0.4611,
+      "highway": 0.4133
+     }
+    },
+    "meaning": "Drive-type-mix-standardised (corpus km mix) f_gen, model-derived (Path B), sensitivity: the closure-set ratio re-weighted to the km mix of drive types in the canonical-clean corpus. The headline is the closure-set ratio and is unchanged. Assumes within-stratum exchangeability (fuel-PID availability does not depend on season, SoC or period given drive type). Not an article figure (Opus audit and owner sign-off required). M639, self-audit W1-14.",
+    "method": "E1 = sum_s w_s G_s / sum_s w_s T_s (G_s, T_s per-km generator-to-traction and gross traction energy in stratum s); E2 = sum_s w_s f_s (secondary). Joint day-clustered percentile bootstrap over corpus calendar days (weights and strata recomputed per replicate; seed 42; 4000 draws), the fixed-weight interval beside it; replicates with an empty stratum are dropped and counted."
+   }
   },
   "staleBlocks": {
    "blocks": [
