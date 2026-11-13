@@ -529,6 +529,22 @@
    ]
   },
   {
+   "id": "fgen_mix_standardised",
+   "title": "M639: drive-type-mix-standardised f_gen sensitivity beside the closure headline (reads analyses/M377c_closure_perdrive.csv written by gtr_closure_refresh; E0 must reproduce the published headline; sibling key generatorTractionRecon.gtrClosure.fGenMixStandardised; spec analyses/M639_spec.md Rev 1)",
+   "cmd": [
+    "python3",
+    "tools/m639_fgen_mix.py"
+   ],
+   "needs": [
+    "gtr_closure_refresh",
+    "hot_tail_sample_occupancy"
+   ],
+   "verified": false,
+   "outputs": [
+    "summary_arrays.json"
+   ]
+  },
+  {
    "id": "resistance_joint_matrix",
    "title": "M514: joint instrumentation sensitivity matrix of the resistance-proxy months coefficient (54 pre-declared cells: alignment A0/A1 x logged grid period G0/G1/G2 x cadence and support C0/C1/C2 x temperature specification T0/T1/T2; day, ISO-week and circular moving-block intervals with common random numbers; pre-registered ladder); A1 proxies and logged-grid classes cached per drive in resistance_joint_sidecar.csv by raw sha256 + closure hash; additive payload block resistanceJointSensitivity + stamp; the S1 fidelity check is a STOP; needs raw/ like ah_throughput; spec analyses/M514_spec.md Rev 2",
    "cmd": [
