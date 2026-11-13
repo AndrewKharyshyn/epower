@@ -13,8 +13,8 @@ Preconditions: new CSVs are in `raw/` (do not modify existing files). `export XT
    failed gate and writes `runs/<ts>/failure.json`. Do not retry with changed parameters. Since M609 a plain rerun resumes from the stage checkpoints (`--fresh` forces a full run): fix the cause, write any Director-ruled ack file, rerun. Do not redirect output to a file inside the repo other than `*.log` / `*.out` at the root, and make every data edit (ambients, ODO) before the first run. The first stage `static_preflight` checks ambients, the ODO as-of date, the language gate on config/jsx and the ack files in seconds: fix what it reports before anything else. After each batch run `python tools/ingest_cost_report.py` and report the repeated share and the stop classes.
    Since M416 the run is a journaled release: a failed gate or an interrupted run rolls every file outside `raw/` back to its pre-run bytes (`runs/<ts>/journal/`);
    if a run was killed the next start is refused (exit 5) until `python tools/run_ingest.py --recover`. `--keep-on-failure` leaves the mixed state for inspection.
-3. If a stage is `not_implemented` (first use): implement `tools/ingest_core.py` from `docs/workflow-and-tools.md`
-   protocol steps 1-5 by reading the real function signatures with grep (Sonnet task). Then rerun.
+3. All stages are implemented (`tools/ingest_core.py` and the stages of `tools/ingest_stages.json`). A stage reporting `not_implemented` is a defect: do not
+   re-implement it here; stop and report it. Typical full-run cost (runs/20261110T232013Z): about 3,360 s over 87 stages (regen_v2 316 s, release_check 417 s).
 4. `python tools/data_health.py` and `python tools/delta_report.py` (Haiku). Read `delta_report.json`.
 5. If `delta_report.json` has flags (KPI outside previous CI, effect-size or cumulative drift, changed method, new gate
    failure): dispatch `analytical-auditor` (blind) then `research-director` with the JSON briefs. Otherwise no audit.

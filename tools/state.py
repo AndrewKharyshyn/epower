@@ -69,7 +69,7 @@ def main():
     s = {"generated_utc": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
          "changelog_head": changelog_head(), "drive_master": master_info(), "summary_arrays": arrays_info(),
          "raw": raw_info(), "git": git_info(), "python": sys.version.split()[0]}
-    json.dump(s, open(P("state.json"), "w"), indent=1)
+    json.dump(s, open(P("state.json"), "w", encoding="utf-8", newline="\n"), indent=1)
     if "--json-only" in sys.argv:
         print(json.dumps(s, indent=1)); return
     dmi, ai = s["drive_master"] or {}, s["summary_arrays"] or {}
@@ -80,7 +80,7 @@ def main():
           f"- summary_arrays.json: {ai.get('top_level_keys')} top-level keys, meta.totalDrives={ai.get('meta_totalDrives')}, dateRange={ai.get('meta_dateRange')}",
           f"- Raw CSV files on disk ({s['raw']['raw_dir']}): {s['raw']['csv_files_on_disk']}; manifest: {s['raw']['manifest']}",
           f"- Git: {s['git']}", ""]
-    open(P("STATE.md"), "w").write("\n".join(md))
+    open(P("STATE.md"), "w", encoding="utf-8", newline="\n").write("\n".join(md))
     print("\n".join(md))
 
 
