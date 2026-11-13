@@ -64,6 +64,7 @@ function buildS(config, arrays) {
     windowCaveat: A.windowCaveat || null,
     powerFadeEquivalence: A.powerFadeEquivalence || null,
     powerFadeTemperatureSpecs: A.powerFadeTemperatureSpecs || null,
+    powerFadeTemperatureControls: A.powerFadeTemperatureControls || null,   // M634 (spec analyses/M622_spec.md Rev 1)
     resistanceJointSensitivity: A.resistanceJointSensitivity || null,   // M514
     signalResolution: A.signalResolution || null,
     urbanContrastBalance: A.urbanContrastBalance || null,
@@ -5749,7 +5750,7 @@ function primaryEquivalenceSentence(){
   const rng=cr.nSpecs?`The slope depends on how the logging cadence is handled: it ranges from ${cr.slopeMin} to ${cr.slopeMax} m\u03a9/month across ${cr.nSpecs} specifications${cr.allIntervalsSpanZero?", and every 95 % interval spans zero":""}. `:"";
   const att=e.s1.equivalenceAttainable ? `The observed standard error, ${e.s1.se.toFixed(3)}, is below the ${e.s1.seMaxForEquivalence.toFixed(3)} m\u03a9/month that equivalence needs, so the test could in principle show equivalence.` : `At this precision the test cannot show equivalence. It needs a standard error below ${e.s1.seMaxForEquivalence.toFixed(3)} m\u03a9/month (the bound divided by t0.95,df). The observed standard error is ${e.s1.se.toFixed(3)}, so even a slope of exactly 0 would not lie inside the bound.`;
   const bnd=` The locked bound takes the relative resistance rise that the manufacturer discloses, applies it to the proxy median and spreads it evenly over 14 years. It is a planning assumption, not a manufacturer limit on this proxy.`;
-  return `Result: on the primary resistance design (powerFade, specification S1, partial slope adjusted for logging density), the slope is ${e.s1.slope} m\u03a9/month with a 90 % interval of [${e.s1.ci90[0]}, ${e.s1.ci90[1]}], tested against the locked bound of \u00b1${e.bound.value} m\u03a9/month; ${word}. ${rng}This is not evidence of no change. ${att}${bnd}${temperatureSpecsSentence()}${vregAlignmentSentence()}${jointMatrixSentence()}`;
+  return `Result: on the primary resistance design (powerFade, specification S1, partial slope adjusted for logging density), the slope is ${e.s1.slope} m\u03a9/month with a 90 % interval of [${e.s1.ci90[0]}, ${e.s1.ci90[1]}], tested against the locked bound of \u00b1${e.bound.value} m\u03a9/month; ${word}. ${rng}This is not evidence of no change. ${att}${bnd}${temperatureSpecsSentence()}${temperatureControlsSentence()}${vregAlignmentSentence()}${jointMatrixSentence()}`;
 }
 // M505 (spec analyses/M505_spec.md Rev 2, Director: accept): sensitivity of the estimated resistance proxy to the current-voltage alignment rule, bound to S.vregAlignmentSensitivity only (a dated snapshot)
 function vregAlignmentSentence(){
@@ -5770,6 +5771,18 @@ function signalResolutionSentence(){
   const mp=g.modalPair.voltageStep;
   const ovTxt=(s1&&sp)?` Of the drives in the resistance-trend design ${s1.nCurrentCoarse} of ${s1.eligible}, and of the drives in the cell-spread slope ${sp.nCurrentCoarse} of ${sp.eligible}, fall in this window.`:"";
   return ` Logged step size of the HV current and pack voltage (values as logged or app-calculated, in this CSV copy; a snapshot of ${g.snapshotOfDrives} drives; ${g.basis}). Result: from ${w.first} to ${w.last} (${w.nDrives} drives, contiguous in drive order) the HV current is stored in coarser steps (${cc["1 A"]??0} drives at 1 A steps and ${cc["0.1 A"]??0} at 0.1 A steps; the other drives use the most common ${g.modalPair.currentClass} step) and the pack voltage uses a different logged step (0.1 V instead of the most common ${mp} V).${ovTxt} Reading: quantities that use HV current in this window were logged in coarser steps. The effect of the coarser steps on any result has not been estimated; this was recorded after inspecting the data.`;
+}
+// M634 (spec analyses/M622_spec.md Rev 1): the four pre-registered temperature controls (linear, quadratic, Arrhenius, support-flagged spline) for the resistance-proxy and cell-spread months coefficients, bound to S.powerFadeTemperatureControls only
+function temperatureControlsSentence(){
+  const c=S.powerFadeTemperatureControls;
+  if(!c||!c.resistanceProxyS0||!c.cellSpread) return "";
+  const nm={"T-lin":"linear","T-quad":"quadratic","T-arr":"Arrhenius","T-spl":"spline"};
+  const f=(v)=>typeof v==="number"?v.toFixed(2):"n/a";
+  const one=(blk,unit)=>Object.keys(blk.specs).filter(k=>k!=="T-spl"||blk.specs[k].reportable).map(k=>{ const r=blk.specs[k]; return `${nm[k]} ${f(r.slope)} [${f(r.dayBootstrap.ci95[0])}, ${f(r.dayBootstrap.ci95[1])}]${r.includesZero?" (includes zero)":""}`; }).join("; ");
+  const R=c.resistanceProxyS0, CS=c.cellSpread, ret=R.crossValidation.retention, m12=(R.attainability||{}).month12||{};
+  const spl=R.specs["T-spl"], splTxt=spl.reportable ? "" : ` The spline is not reported (${spl.supportReason}).`;
+  const chal=ret.challenger ? ` On the day-blocked cross-validation (K = ${R.crossValidation.K}) the ${nm[ret.challenger]} control predicts better than the Arrhenius primary on ${ret.consecutive} ingestion${ret.consecutive===1?"":"s"}; the rule switches the primary only after two consecutive ingestions (current-window figure, not a formal test).` : ` The Arrhenius primary is retained on the day-blocked cross-validation (K = ${R.crossValidation.K}).`;
+  return ` Pre-registered temperature controls (M622 spec; trend and sensitivity specifications, estimated proxy; the equivalence test and its locked bound are unchanged). Resistance-proxy months coefficient, mΩ/month with day-clustered 95 % intervals (${R.nDrives} drives, ${R.nDays} days, original scale, smearing for the Arrhenius form): ${one(R)}.${splTxt} Cell spread, mV/month (${CS.nDrives} drives, ${CS.nDays} days): ${one(CS)}.${chal} Formal looks are at month 9 (descriptive only) and month 12 (full alpha); the standard error ceiling at the month-12 look is ${m12.seCeiling} against a current ${m12.currentSe}; ${m12.attainableNow ? "attainable" : "not attainable at the current standard error"}; every figure before the month-12 look is provisional.`;
 }
 // M499 (spec analyses/M499_spec.md Rev 2, Director: accept): temperature-specification sensitivity of the resistance-proxy months coefficient, bound to S.powerFadeTemperatureSpecs only
 function temperatureSpecsSentence(){

@@ -498,6 +498,8 @@ RULES = [
          rx=r"cold has no urban trips of 3 km or longer"),
     Rule("M630-torque-chart-caption", "regex", "M630/self-audit W1-06: the torque chart axis runs from -180 to 160 N.m, so 'clipped at +-160 N.m' was wrong; the regen plateau is read from torqueBySpeed regenMin (-163 N.m in the 20-80 km/h zones, -149 in 80-100, -245 in 0-20, not 20-100 km/h); the signal is the commanded (target) torque",
          rx=r"chart clipped at 160 n m|regen plateau 163 n m 20 100 km h"),
+    Rule("M634-not-every-interval-zero", "regex", "M634/M622 spec Rev 1 section 3 and the Director decision: 'not every interval spans zero' is NOT allowed for the resistance-proxy months coefficient (the quadratic control's interval includes zero); a statement about the temperature controls must name the form and state which intervals include zero (powerFadeTemperatureControls)",
+         rx=r"not every interval spans zero"),
     Rule("M500-emulation-attribution", "regex", "M500/audit CD-04: the M393 cadence emulation thins each logged column independently and therefore also alters the I-V co-timing; the former wording that sampling alone lowers the proxy, or that I-V co-timing is not emulated, is not supported",
          rx=r"emulated slow cadence sampling lowers the proxy|i v co timing and jitter are not emulated"),
     Rule("M499-resistance-trend-wording", "regex", "M499/Director (2026-10-24): the resistance-proxy months coefficient depends on how temperature enters the model (key-on pack temperature excludes zero, five specifications include it); no specification slope may be described as a rising resistance, an established or significant trend, or a degradation rate, and the key-on result is a noisier proxy, not a trend",
