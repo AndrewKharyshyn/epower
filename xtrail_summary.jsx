@@ -6975,6 +6975,9 @@ function TorqueChart() {
   const TQ_MAX=160, TQ_MIN=-180, TQ_RNG=TQ_MAX-TQ_MIN;
   const yTq = v => BP_T + BP_H * (TQ_MAX - Math.max(Math.min(v,TQ_MAX),TQ_MIN)) / TQ_RNG;
   const zero = yTq(0);
+  // M630 (W1-06): the regen-minimum plateau is read from the payload (the regenMin value shared by the most speed zones, at least two), not typed
+  const _rmZones = {}; D.forEach(d => { if (d.regenMin != null) (_rmZones[d.regenMin] = _rmZones[d.regenMin] || []).push(d.speed); });
+  const _plat = Object.entries(_rmZones).filter(([, z]) => z.length >= 2).sort((a, b) => b[1].length - a[1].length)[0];
 
   // Area paths (P90/P10 envelope)
   const accelArea = `M${cx(0)},${zero} ` +
@@ -7053,7 +7056,7 @@ function TorqueChart() {
 
         {/* Panel separator + label */}
         <line x1={PL} y1={BP_T-18} x2={PL+pw} y2={BP_T-18} stroke="#e5e7eb" strokeWidth={1} strokeDasharray="3 3"/>
-        <text x={PL} y={BP_T-25} fill="#374151" fontSize={9} fontWeight={700}>Motor torque (N·m) · chart clipped at ±160 N·m — peaks above shown as ticks</text>
+        <text x={PL} y={BP_T-25} fill="#374151" fontSize={9} fontWeight={700}>Commanded (target) motor torque (N·m) · axis {TQ_MIN} to {TQ_MAX} N·m — values beyond it are drawn at the edge with their value</text>
 
         {/* ── BOTTOM PANEL: Torque envelope ─────────────────── */}
         <rect x={PL} y={BP_T} width={pw} height={zero-BP_T} fill="#ef444408"/>
@@ -7068,8 +7071,9 @@ function TorqueChart() {
         ))}
 
         {/* Reference lines */}
-        <line x1={PL} y1={yTq(-163)} x2={PL+pw} y2={yTq(-163)} stroke="#60a5fa" strokeWidth={1.5} strokeDasharray="5 3" opacity={0.7}/>
-        <text x={PL+pw-3} y={yTq(-163)-4} textAnchor="end" fill="#60a5fa" fontSize={7.5} opacity={0.9}>regen plateau −163 N·m (20-100 km/h)</text>
+        {_plat && <g>
+          <line x1={PL} y1={yTq(Number(_plat[0]))} x2={PL+pw} y2={yTq(Number(_plat[0]))} stroke="#60a5fa" strokeWidth={1.5} strokeDasharray="5 3" opacity={0.7}/>
+          <text x={PL+pw-3} y={yTq(Number(_plat[0]))-4} textAnchor="end" fill="#60a5fa" fontSize={7.5} opacity={0.9}>regen minimum {_plat[0]} N·m in the zones {_plat[1].join(", ")} km/h</text></g>}
 
         {/* Drag torque baseline */}
         <path d={dragLine} fill="none" stroke="#94a3b8" strokeWidth={1.5} strokeDasharray="4 3" opacity={0.7}/>
@@ -7099,8 +7103,9 @@ function TorqueChart() {
                   <text x={x} y={BP_T+13} textAnchor="middle" fill="#ef4444" fontSize={6.5} opacity={0.8}>{d.accelMax}</text>
                 </g>
               )}
-              {/* Regen min tick */}
+              {/* Regen min tick; a value below the axis is drawn at the edge with its value (M630) */}
               <line x1={x-6} y1={yTq(d.regenMin)} x2={x+6} y2={yTq(d.regenMin)} stroke="#60a5fa" strokeWidth={2} opacity={0.7}/>
+              {d.regenMin < TQ_MIN && <text x={x} y={BP_T+BP_H-4} textAnchor="middle" fill="#60a5fa" fontSize={6.5} opacity={0.9}>{d.regenMin}</text>}
               {/* Circles on medians */}
               <circle cx={x} cy={yTq(d.accelMed)} r={3.5} fill="#ef4444" stroke="#fff" strokeWidth={1}/>
               <circle cx={x} cy={yTq(d.regenMed)} r={3.5} fill="#60a5fa" stroke="#fff" strokeWidth={1}/>
@@ -7117,7 +7122,7 @@ function TorqueChart() {
             <text x={cx(i)} y={BP_T+BP_H+24} textAnchor="middle" fill="#9ca3af" fontSize={6.5}>km/h{d.sparse?" *":""}</text>
           </g>
         ))}
-        <text x={12} y={BP_T+BP_H/2} textAnchor="middle" fill="#64748b" fontSize={8.5} transform={`rotate(-90,12,${BP_T+BP_H/2})`}>Torque (N·m)</text>
+        <text x={12} y={BP_T+BP_H/2} textAnchor="middle" fill="#64748b" fontSize={8.5} transform={`rotate(-90,12,${BP_T+BP_H/2})`}>Commanded torque (N·m)</text>
         <text x={PL+pw/2} y={H-4} textAnchor="middle" fill="#64748b" fontSize={8}>shaded = p10/p90 range · line = median · tick = absolute max/min</text>
       </svg>
 
