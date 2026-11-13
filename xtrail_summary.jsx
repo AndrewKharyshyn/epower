@@ -7820,7 +7820,10 @@ function SocHysteresisV2() {
     const B = TL && TL[tag];
     if (!B || !B.profile || !B.profile.x.length) return null;
     const P = B.profile, W = 330, Hh = 124, mg = { l: 36, r: 8, t: 14, b: 30 };
-    const xmin = B.tpackMinC, xmax = B.tpackMaxC;
+    // M640 (self-audit W1-15): the fit domain is [tpackMinC, tpackMaxC]; the axis also covers the lowest pack temperature observed in the current corpus (monitor key observedRangeC) so the part outside the fit is visible
+    const fitMin = B.tpackMinC, xmax = B.tpackMaxC;
+    const obsLo = MON && MON.sides && MON.sides[tag] && MON.sides[tag].observedRangeC ? MON.sides[tag].observedRangeC[0] : null;
+    const xmin = (obsLo !== null && obsLo < fitMin) ? Math.floor(obsLo) : fitMin;
     const ymax = Math.max(...P.hi, 1e-6);
     const sx = x => mg.l + (x - xmin) / (xmax - xmin) * (W - mg.l - mg.r);
     const sy = p => Hh - mg.b - (p / ymax) * (Hh - mg.t - mg.b);
@@ -7834,7 +7837,8 @@ function SocHysteresisV2() {
       <div style={{ textAlign: "center", width: W }}>
         <svg width={W} height={Hh} style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 4 }}>
           <text x={mg.l} y={10} fontSize="8" fill="#475569" fontWeight="700">{tag === "start" ? "P(start)" : "P(stop)"} vs pack temperature (median SoC, speed, demand)</text>
-          {tailLo > xmin ? <rect x={sx(xmin)} y={mg.t} width={sx(tailLo) - sx(xmin)} height={Hh - mg.t - mg.b} fill="#fef3c7" opacity="0.7" /> : null}
+          {xmin < fitMin ? <g><rect x={sx(xmin)} y={mg.t} width={sx(fitMin) - sx(xmin)} height={Hh - mg.t - mg.b} fill="#e2e8f0" opacity="0.9"><title>{`Observed in the current corpus (down to ${obsLo}°C) but below the fit floor of ${fitMin}°C: no fitted hazard here`}</title></rect><text x={(sx(xmin) + sx(fitMin)) / 2} y={mg.t + 9} fontSize="6.5" fill="#475569" textAnchor="middle">not in fit</text></g> : null}
+          {tailLo > fitMin ? <rect x={sx(fitMin)} y={mg.t} width={sx(tailLo) - sx(fitMin)} height={Hh - mg.t - mg.b} fill="#fef3c7" opacity="0.7" /> : null}
           {tailHi < xmax ? <rect x={sx(tailHi)} y={mg.t} width={sx(xmax) - sx(tailHi)} height={Hh - mg.t - mg.b} fill="#fef3c7" opacity="0.7" /> : null}
           <path d={band} fill="#93c5fd" opacity="0.45" />
           <path d={line} fill="none" stroke="#2563eb" strokeWidth="1.6" />
@@ -7845,6 +7849,7 @@ function SocHysteresisV2() {
           <text x={mg.l} y={Hh - 3} fontSize="7" fill="#94a3b8">{xmin.toFixed(0)}</text>
           <text x={W - mg.r} y={Hh - 3} fontSize="7" fill="#94a3b8" textAnchor="end">{xmax.toFixed(0)}°C</text>
         </svg>
+        {MON ? <div style={{ fontSize: 8.5, color: "#64748b", lineHeight: 1.4, marginTop: 2 }}>Fit domain {fitMin}–{xmax}°C{xmin < fitMin ? `; grey: ${obsLo}–${fitMin}°C observed in the current corpus but outside the fit (no fitted hazard)` : ""}. {MON.newDrivesSinceBasis} of {MON.currentNDrives} drives are not in the fit (basis {MON.basisNDrives}).</div> : null}
       </div>
     );
   };
