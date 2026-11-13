@@ -3492,7 +3492,8 @@ function RegenCompareV2({D}){
   const [stratum,setStratum]=useState("slow"), [basis,setBasis]=useState("observed"), [view,setView]=useState("efficiency");
   const vk=REGEN_VIEW_KEY[view];
   const btn=(on)=>({padding:"3px 9px",borderRadius:5,border:"1px solid #e2e8f0",fontSize:10,background:on?"#1e293b":"#f1f5f9",color:on?"#f8fafc":"#374151",cursor:"pointer",fontWeight:on?700:400});
-  const cols=[["warm","Warm"],["shoulder","Shoulder"],["cold","Cold"]].filter(([c])=>D.cohorts[c]&&D.cohorts[c].strata&&D.cohorts[c].strata[stratum])
+  const _sel=React.useContext(CompareCtx);      // M643 (UI-02): the Compare filter bar decides which cohort columns are shown
+  const cols=[["warm","Warm"],["shoulder","Shoulder"],["cold","Cold"]].filter(([c])=>(!_sel||_sel[c])&&D.cohorts[c]&&D.cohorts[c].strata&&D.cohorts[c].strata[stratum])
     .map(([c,n])=>({c,n,sb:D.cohorts[c].strata[stratum],pick:regenV2Pick(D.cohorts[c].strata[stratum],vk,"allSoc",basis)}));
   const allPick=D.cohorts.all&&D.cohorts.all.strata&&D.cohorts.all.strata[stratum]?regenV2Pick(D.cohorts.all.strata[stratum],vk,"allSoc","observed"):null;
   const order=allPick?allPick.order:((cols.find(x=>x.pick)||{pick:{order:[]}}).pick.order);
@@ -3509,6 +3510,7 @@ function RegenCompareV2({D}){
       {r.massRange&&(<div style={{color:"#64748b"}}>assumed-mass range {regenFmt(r.massRange[0],2)}–{regenFmt(r.massRange[1],2)}{r.bNat!=null?"; resolution bracket b_nat "+regenFmt(r.bNat,2)+" pp":""}</div>)}
     </td>);
   };
+  if(!cols.length) return <div data-regen-compare="none" style={{fontSize:11,color:"#64748b",padding:"6px 0"}}>No cohort selected: enable at least one of Warm, Shoulder, Cold in the filter bar above.</div>;
   return (
     <div data-regen-compare="v2" style={{marginBottom:10}}>
       <div data-regen-controls="compare" style={{display:"flex",flexWrap:"wrap",gap:10,alignItems:"center",justifyContent:"center",marginBottom:8,fontSize:10,color:"#475569"}}>
@@ -6940,6 +6942,7 @@ function RpmDistributionChart() {
   const fuelledExtTot = fuelledTot + fuelledLoadProxyTot;
   return (
     <div>
+      <div data-rpm-basis="ge300" style={{textAlign:"center",fontSize:9,color:"#64748b",marginBottom:4}}>Basis of these bars: stored occupancy bins, rpm &ge; 300 (bin 0 = below 300 rpm), in every cohort and in Compare. The engine-on rule used elsewhere (rpm &gt; 400, 1&nbsp;Hz) is a different basis.</div>
       <div style={{display:"flex",gap:6,marginBottom:10,justifyContent:"center",flexWrap:"wrap"}}>
         {[["pooled","Pooled (all drives)"],["fuelled","Fuelled proxy (boost-based)"],["fuelledExtended","Fuelled proxy, extended (+load-proxy)"],["motored","Motoring candidate (boost-based)"]].map(([k,l])=>(
           <button key={k} onClick={()=>setView(k)} style={{padding:"3px 10px",borderRadius:5,border:"1px solid #e2e8f0",fontSize:10,background:view===k?"#1e293b":"#f1f5f9",color:view===k?"#f8fafc":"#374151",cursor:"pointer"}}>{l}</button>
@@ -11587,7 +11590,9 @@ function CubeCell({r,meta}){
 }
 function ComparisonCube(){
   const _coh=useCohort(); const C=S.comparisonCube; if(!C) return null;
-  const cohorts=_coh==="compare"?["warm","shoulder"].concat(cohortAvailable("cold")?["cold"]:[]):[_coh==="cold"?"cold":_coh];
+  const _sel=React.useContext(CompareCtx);      // M643 (UI-02): the Compare filter bar decides which cohort columns are shown
+  const cohorts=_coh==="compare"?["warm","shoulder"].concat(cohortAvailable("cold")?["cold"]:[]).filter(c=>_sel&&_sel[c]):[_coh==="cold"?"cold":_coh];
+  if(!cohorts.length) return <div style={{fontSize:11,color:"#64748b",padding:"6px 0"}} data-comparison-cube="none">No cohort selected: enable at least one of Warm, Shoulder, Cold in the filter bar above.</div>;
   const classes=[["urban","Urban"],["mixed","Mixed"],["mixed_highway","Mixed Highway"],["highway","Highway"]];
   const metrics=Object.entries(C.metrics).map(([id,m])=>({metricId:id,...m}));
   const get=(m,ck,co)=>C.rows.find(r=>r.m===m&&r.c===ck&&r.k===co);
@@ -11806,7 +11811,7 @@ const COMPARE_SPECS={
     cats:d=>Array.isArray(d)?d.map(b=>({label:b.label,value:b.avg,lo:b.lo,hi:b.hi})):[]},
   EngineStartsByType:{kind:"bars",title:"Engine starts (RPM onsets) /100km by drive class (median of per-drive rates; whisker P10–P90 of per-drive rates, descriptive, not a CI, shown from 10 drives)",unit:"/100km",digits:0,
     cats:d=>Array.isArray(d)?d.map(b=>(typeof b.median==="number"?{label:b.label,value:b.median,lo:b.n>=10&&b.nDays>=3?b.p10:null,hi:b.n>=10&&b.nDays>=3?b.p90:null}:{label:b.label,value:b.avg})):[]},
-  RegenByTempMeasured:{kind:"bars",title:"Apparent KE recovery proxy by pack-temperature bin (%; mean T1–T4 at the decel sample, n = 1 Hz decel samples)",unit:"%",digits:1,
+  RegenByTempMeasured:{kind:"bars",noConnector:true,title:"Apparent KE recovery proxy by pack-temperature bin (%; mean T1–T4 at the decel sample, n = 1 Hz decel samples)",unit:"%",digits:1,
     cats:d=>Array.isArray(d)?d.map(x=>({label:x.label,value:x.eff})):[]},
   DriveDurationDist:{kind:"box",title:"Trip duration by class \u2014 box: min\u00b7q1\u00b7med\u00b7q3\u00b7max (min)",unit:"min",digits:0,
     cats:d=>Array.isArray(d)?d.map(x=>({label:x.label,med:x.med,q1:x.q1,q3:x.q3,wlo:x.min,whi:x.max,n:x.n})):[]},
@@ -11934,9 +11939,9 @@ const COMPARE_SPECS={
     cats:d=>Array.isArray(d)?d.map(x=>({label:x.zone,value:x.pct})):[]},
   RegenCaptureMeasured:{kind:"lines",title:"Apparent KE recovery proxy vs speed (%)",unit:"%",digits:1,
     xlabels:d=>Array.isArray(d)?d.map(r=>String(r[0])):[], y:d=>Array.isArray(d)?d.map(r=>r[1]):[]},
-  RegenByType:{kind:"bars",title:"Pack charge by operating state (% of measured charge)",unit:"%",digits:1,note:"Four observed operating-state fractions of measured pack charge; the engine-on/braking overlap has no physical generator/regen split (no 50/50 attribution).",
+  RegenByType:{kind:"bars",noConnector:true,title:"Pack charge by operating state (% of measured charge)",unit:"%",digits:1,note:"Four observed operating-state fractions of measured pack charge; the engine-on/braking overlap has no physical generator/regen split (no 50/50 attribution).",
     cats:d=>Array.isArray(d)?d.map(x=>({label:({"Engine-only charge":"Engine-on / non-braking","Dual-channel":"Engine-on / braking overlap","Pure regen":"Engine-off / braking","Low-torque / aux":"Engine-off residual"})[x.type]||x.type,value:x.pct})):[]},
-  RegenByZone:{kind:"bars",title:"Apparent KE recovery proxy by speed zone (%)",unit:"%",digits:1,
+  RegenByZone:{kind:"bars",noConnector:true,title:"Apparent KE recovery proxy by speed zone (%)",unit:"%",digits:1,
     cats:d=>Array.isArray(d)?d.map(x=>({label:x.zone,value:x.eff})):[]},
 };
 
@@ -12100,7 +12105,7 @@ function CmpBars({id,spec,series}){
       const x0=vals.length?x(Math.min(...vals)):null, x1=vals.length?x(Math.max(...vals)):null;
       return <g key={ci}>
         <text x={labelW-6} y={cy} textAnchor="end" fontSize={8.5} fill="#475569" dominantBaseline="middle">{lbl.length>26?lbl.slice(0,25)+"\u2026":lbl}</text>
-        {x0!=null&&x1!=null&&x1>x0&&<line x1={x0} x2={x1} y1={cy} y2={cy} stroke="#cbd5e1" strokeWidth={2}/>}
+        {!spec.noConnector&&x0!=null&&x1!=null&&x1>x0&&<line data-cmp-connector="1" x1={x0} x2={x1} y1={cy} y2={cy} stroke="#cbd5e1" strokeWidth={2}/>}
         {present.every(o=>o.v==null)&&<NotObservedRow x={plotX} y={cy-6} w={plotW} h={12} label="not observed in any selected cohort"/>}
         {present.map((o,si)=>{ if(o.v==null){ // explicit no-observations marker at axis origin (hatched)
             return <g key={si} data-not-observed="1"><rect x={plotX-2} y={cy-5+si*3} width={4} height={4} fill="none" stroke={o.p.col} strokeDasharray="1 1"/><title>{o.p.label}: not observed (n=0) — null, not zero</title></g>; }
