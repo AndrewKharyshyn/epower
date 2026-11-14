@@ -68149,6 +68149,27 @@
    },
    "computedAt": "2026-11-13T19:11:46.237216+00:00",
    "computationStatusNote": "M641: derived by tools/m641_energy_ladder.py from drive_master.csv and the raw drive files (spec analyses/M641_spec.md Rev 1); deterministic support-policy sensitivity"
+  },
+  "cohortContrast": {
+   "corpusHash": "77bbe275f8c22eaf62d8636867764af3",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": "11a89dc0c881bd0a60e9e957ccd1936a",
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-11-14T00:58:49.333335+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3"
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M646: derived by tools/m646_cohort_contrast.py from drive_master.csv and seasonal_drive_master.csv (spec analyses/M646_spec.md Rev 1); descriptive contrast between thermal classes",
+   "includedInReleaseAt": "2026-11-14T00:58:49.333335+00:00",
+   "computedAt": "2026-11-14T00:58:49.333335+00:00",
+   "inputBasis": {
+    "nDrives": 665,
+    "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   }
   }
  },
  "ambientTable": {
@@ -432208,5 +432229,731 @@
    "drives with thin support are confounded with the logger cadence"
   ],
   "meaning": "Support-policy ladder for the integrated (estimated, offset-uncorrected) gross throughput. Each row re-integrates the same logged current and voltage under a different treatment of long inter-sample intervals; the published total uses the cap-5 rule. Drop-above-g rows zero-fill long intervals and read lower by construction. This is not an error bar or an uncertainty interval (M641, self-audit W1-16, owner decision D-02)."
+ },
+ "cohortContrast": {
+  "metrics": {
+   "M1": {
+    "label": "Gross pack throughput per 100 km",
+    "unit": "kWh/100 km",
+    "definition": "100 x sum(gross_throughput_kwh) / sum(distance_km), canonical-clean drives with a gross energy integral (same definition as cohortSupport.metrics.grossKwhPer100km)",
+    "contrasts": {
+     "cold": {
+      "contrast": "cold minus warm",
+      "support": {
+       "warm": {
+        "nDrives": 415,
+        "nDays": 99
+       },
+       "cold": {
+        "nDrives": 55,
+        "nDays": 11
+       }
+      },
+      "effectiveDays": {
+       "warm": 26.84,
+       "cold": 3.91
+      },
+      "calendarWindows": {
+       "warm": [
+        "2026-05-15",
+        "2026-10-10"
+       ],
+       "cold": [
+        "2026-09-30",
+        "2026-11-09"
+       ]
+      },
+      "cells": {
+       "warm": {
+        "non-urban": {
+         "nDrives": 75,
+         "nDays": 37
+        },
+        "urban": {
+         "nDrives": 340,
+         "nDays": 90
+        }
+       },
+       "cold": {
+        "non-urban": {
+         "nDrives": 1,
+         "nDays": 1
+        },
+        "urban": {
+         "nDrives": 54,
+         "nDays": 10
+        }
+       }
+      },
+      "exploratory": true,
+      "exploratoryRule": "fewer than 10 effective days in a cohort (1 / sum of squared day km shares): point and interval shown, no verdict wording",
+      "heavyStrata": [
+       "non-urban",
+       "urban"
+      ],
+      "excludedWeightShare": 0.0,
+      "weights": {
+       "non-urban": 0.6799,
+       "urban": 0.3201
+      },
+      "raw": {
+       "estimable": true,
+       "estimate": 2.6324,
+       "ci95": [
+        -4.4628,
+        16.1501
+       ],
+       "nDroppedReplicates": 0,
+       "dropRate": 0.0,
+       "draws": 4000,
+       "seed": 42,
+       "lodoRange": [
+        1.5548,
+        11.3578
+       ],
+       "relativeToWarm": 0.153
+      },
+      "adjusted": {
+       "estimable": false,
+       "reason": "route stratum non-urban is below the floor in a cohort (not estimable; the unadjusted difference is shown)"
+      },
+      "routeMixDisagreement": null,
+      "sensitivities": {
+       "physicalThresholdLabels": {
+        "raw": 1.4229,
+        "adjusted": null
+       },
+       "withoutLargestDriveOfEachCohort": {
+        "raw": 11.1862,
+        "adjusted": null
+       },
+       "fourDriveTypeStrata": {
+        "raw": 2.6324,
+        "adjusted": null
+       },
+       "missingEnsFlagNotClean": {
+        "raw": 2.6324,
+        "adjusted": null
+       },
+       "driveKmAtLeast1": {
+        "raw": 2.5132,
+        "adjusted": null
+       }
+      }
+     },
+     "shoulder": {
+      "contrast": "shoulder minus warm",
+      "support": {
+       "warm": {
+        "nDrives": 415,
+        "nDays": 99
+       },
+       "shoulder": {
+        "nDrives": 179,
+        "nDays": 51
+       }
+      },
+      "effectiveDays": {
+       "warm": 26.84,
+       "shoulder": 10.98
+      },
+      "calendarWindows": {
+       "warm": [
+        "2026-05-15",
+        "2026-10-10"
+       ],
+       "shoulder": [
+        "2026-05-15",
+        "2026-11-06"
+       ]
+      },
+      "cells": {
+       "warm": {
+        "non-urban": {
+         "nDrives": 75,
+         "nDays": 37
+        },
+        "urban": {
+         "nDrives": 340,
+         "nDays": 90
+        }
+       },
+       "shoulder": {
+        "non-urban": {
+         "nDrives": 15,
+         "nDays": 9
+        },
+        "urban": {
+         "nDrives": 164,
+         "nDays": 49
+        }
+       }
+      },
+      "exploratory": false,
+      "exploratoryRule": "fewer than 10 effective days in a cohort (1 / sum of squared day km shares): point and interval shown, no verdict wording",
+      "heavyStrata": [
+       "non-urban",
+       "urban"
+      ],
+      "excludedWeightShare": 0.0,
+      "weights": {
+       "non-urban": 0.6799,
+       "urban": 0.3201
+      },
+      "raw": {
+       "estimable": true,
+       "estimate": 2.3777,
+       "ci95": [
+        -1.6557,
+        8.0449
+       ],
+       "nDroppedReplicates": 0,
+       "dropRate": 0.0,
+       "draws": 4000,
+       "seed": 42,
+       "lodoRange": [
+        1.8713,
+        4.6788
+       ],
+       "relativeToWarm": 0.1382,
+       "reading": "interval includes zero (not distinguished at this support)"
+      },
+      "adjusted": {
+       "estimable": true,
+       "estimate": -0.8016,
+       "ci95": [
+        -2.3043,
+        2.6393
+       ],
+       "nDroppedReplicates": 1,
+       "dropRate": 0.0003,
+       "draws": 4000,
+       "seed": 42,
+       "lodoRange": [
+        -1.2253,
+        0.1038
+       ],
+       "reading": "interval includes zero (not distinguished at this support)"
+      },
+      "routeMixDisagreement": true,
+      "sensitivities": {
+       "physicalThresholdLabels": {
+        "raw": 2.7014,
+        "adjusted": -0.9849
+       },
+       "withoutLargestDriveOfEachCohort": {
+        "raw": 3.1206,
+        "adjusted": -0.4685
+       },
+       "fourDriveTypeStrata": {
+        "raw": 2.3777,
+        "adjusted": -1.6963
+       },
+       "missingEnsFlagNotClean": {
+        "raw": 2.3777,
+        "adjusted": -0.8052
+       },
+       "driveKmAtLeast1": {
+        "raw": 2.2889,
+        "adjusted": -0.8306
+       }
+      }
+     }
+    }
+   },
+   "M2": {
+    "label": "Engine-on share of time",
+    "unit": "% of time",
+    "definition": "sum(engine_on_pct x duration_s) / (100 x sum(duration_s)) x 100, canonical-clean drives with a stored engine_on_pct",
+    "contrasts": {
+     "cold": {
+      "contrast": "cold minus warm",
+      "support": {
+       "warm": {
+        "nDrives": 420,
+        "nDays": 100
+       },
+       "cold": {
+        "nDrives": 55,
+        "nDays": 11
+       }
+      },
+      "effectiveDays": {
+       "warm": 27.69,
+       "cold": 3.91
+      },
+      "calendarWindows": {
+       "warm": [
+        "2026-05-12",
+        "2026-10-10"
+       ],
+       "cold": [
+        "2026-09-30",
+        "2026-11-09"
+       ]
+      },
+      "cells": {
+       "warm": {
+        "non-urban": {
+         "nDrives": 77,
+         "nDays": 38
+        },
+        "urban": {
+         "nDrives": 343,
+         "nDays": 91
+        }
+       },
+       "cold": {
+        "non-urban": {
+         "nDrives": 1,
+         "nDays": 1
+        },
+        "urban": {
+         "nDrives": 54,
+         "nDays": 10
+        }
+       }
+      },
+      "exploratory": true,
+      "exploratoryRule": "fewer than 10 effective days in a cohort (1 / sum of squared day km shares): point and interval shown, no verdict wording",
+      "heavyStrata": [
+       "non-urban",
+       "urban"
+      ],
+      "excludedWeightShare": 0.0,
+      "weights": {
+       "non-urban": 0.6799,
+       "urban": 0.3201
+      },
+      "raw": {
+       "estimable": true,
+       "estimate": 2.2645,
+       "ci95": [
+        -9.1516,
+        17.3286
+       ],
+       "nDroppedReplicates": 0,
+       "dropRate": 0.0,
+       "draws": 4000,
+       "seed": 42,
+       "lodoRange": [
+        -5.1676,
+        4.9593
+       ],
+       "relativeToWarm": 0.0519
+      },
+      "adjusted": {
+       "estimable": false,
+       "reason": "route stratum non-urban is below the floor in a cohort (not estimable; the unadjusted difference is shown)"
+      },
+      "routeMixDisagreement": null,
+      "sensitivities": {
+       "physicalThresholdLabels": {
+        "raw": 3.9574,
+        "adjusted": null
+       },
+       "withoutLargestDriveOfEachCohort": {
+        "raw": -4.7575,
+        "adjusted": null
+       },
+       "fourDriveTypeStrata": {
+        "raw": 2.2645,
+        "adjusted": null
+       },
+       "missingEnsFlagNotClean": {
+        "raw": 2.3448,
+        "adjusted": null
+       },
+       "kmWeightedMeanOfPerDriveValues": {
+        "raw": 3.3701,
+        "adjusted": null
+       }
+      }
+     },
+     "shoulder": {
+      "contrast": "shoulder minus warm",
+      "support": {
+       "warm": {
+        "nDrives": 420,
+        "nDays": 100
+       },
+       "shoulder": {
+        "nDrives": 185,
+        "nDays": 54
+       }
+      },
+      "effectiveDays": {
+       "warm": 27.69,
+       "shoulder": 11.2
+      },
+      "calendarWindows": {
+       "warm": [
+        "2026-05-12",
+        "2026-10-10"
+       ],
+       "shoulder": [
+        "2026-05-12",
+        "2026-11-06"
+       ]
+      },
+      "cells": {
+       "warm": {
+        "non-urban": {
+         "nDrives": 77,
+         "nDays": 38
+        },
+        "urban": {
+         "nDrives": 343,
+         "nDays": 91
+        }
+       },
+       "shoulder": {
+        "non-urban": {
+         "nDrives": 15,
+         "nDays": 9
+        },
+        "urban": {
+         "nDrives": 170,
+         "nDays": 52
+        }
+       }
+      },
+      "exploratory": false,
+      "exploratoryRule": "fewer than 10 effective days in a cohort (1 / sum of squared day km shares): point and interval shown, no verdict wording",
+      "heavyStrata": [
+       "non-urban",
+       "urban"
+      ],
+      "excludedWeightShare": 0.0,
+      "weights": {
+       "non-urban": 0.6799,
+       "urban": 0.3201
+      },
+      "raw": {
+       "estimable": true,
+       "estimate": -6.668,
+       "ci95": [
+        -14.1045,
+        0.4844
+       ],
+       "nDroppedReplicates": 0,
+       "dropRate": 0.0,
+       "draws": 4000,
+       "seed": 42,
+       "lodoRange": [
+        -9.2877,
+        -5.5969
+       ],
+       "relativeToWarm": -0.1529,
+       "reading": "interval includes zero (not distinguished at this support)"
+      },
+      "adjusted": {
+       "estimable": true,
+       "estimate": -1.07,
+       "ci95": [
+        -11.3729,
+        2.3496
+       ],
+       "nDroppedReplicates": 0,
+       "dropRate": 0.0,
+       "draws": 4000,
+       "seed": 42,
+       "lodoRange": [
+        -2.481,
+        -0.4741
+       ],
+       "reading": "interval includes zero (not distinguished at this support)"
+      },
+      "routeMixDisagreement": false,
+      "sensitivities": {
+       "physicalThresholdLabels": {
+        "raw": -7.4451,
+        "adjusted": -1.3764
+       },
+       "withoutLargestDriveOfEachCohort": {
+        "raw": -7.599,
+        "adjusted": -2.3791
+       },
+       "fourDriveTypeStrata": {
+        "raw": -6.668,
+        "adjusted": 1.8699
+       },
+       "missingEnsFlagNotClean": {
+        "raw": -6.4338,
+        "adjusted": -1.1571
+       },
+       "kmWeightedMeanOfPerDriveValues": {
+        "raw": 1.1151,
+        "adjusted": 0.1496
+       }
+      }
+     }
+    }
+   },
+   "M3": {
+    "label": "EV distance share",
+    "unit": "% of distance",
+    "definition": "100 x sum(ev_dist_km) / sum(distance_km), canonical-clean drives with a defined ev_dist_km",
+    "contrasts": {
+     "cold": {
+      "contrast": "cold minus warm",
+      "support": {
+       "warm": {
+        "nDrives": 420,
+        "nDays": 100
+       },
+       "cold": {
+        "nDrives": 55,
+        "nDays": 11
+       }
+      },
+      "effectiveDays": {
+       "warm": 27.69,
+       "cold": 3.91
+      },
+      "calendarWindows": {
+       "warm": [
+        "2026-05-12",
+        "2026-10-10"
+       ],
+       "cold": [
+        "2026-09-30",
+        "2026-11-09"
+       ]
+      },
+      "cells": {
+       "warm": {
+        "non-urban": {
+         "nDrives": 77,
+         "nDays": 38
+        },
+        "urban": {
+         "nDrives": 343,
+         "nDays": 91
+        }
+       },
+       "cold": {
+        "non-urban": {
+         "nDrives": 1,
+         "nDays": 1
+        },
+        "urban": {
+         "nDrives": 54,
+         "nDays": 10
+        }
+       }
+      },
+      "exploratory": true,
+      "exploratoryRule": "fewer than 10 effective days in a cohort (1 / sum of squared day km shares): point and interval shown, no verdict wording",
+      "heavyStrata": [
+       "non-urban",
+       "urban"
+      ],
+      "excludedWeightShare": 0.0,
+      "weights": {
+       "non-urban": 0.6799,
+       "urban": 0.3201
+      },
+      "raw": {
+       "estimable": true,
+       "estimate": 2.0534,
+       "ci95": [
+        -13.7016,
+        26.7505
+       ],
+       "nDroppedReplicates": 0,
+       "dropRate": 0.0,
+       "draws": 4000,
+       "seed": 42,
+       "lodoRange": [
+        -0.6898,
+        21.0118
+       ],
+       "relativeToWarm": 0.06
+      },
+      "adjusted": {
+       "estimable": false,
+       "reason": "route stratum non-urban is below the floor in a cohort (not estimable; the unadjusted difference is shown)"
+      },
+      "routeMixDisagreement": null,
+      "sensitivities": {
+       "physicalThresholdLabels": {
+        "raw": -1.2024,
+        "adjusted": null
+       },
+       "withoutLargestDriveOfEachCohort": {
+        "raw": 20.4819,
+        "adjusted": null
+       },
+       "fourDriveTypeStrata": {
+        "raw": 2.0534,
+        "adjusted": null
+       },
+       "missingEnsFlagNotClean": {
+        "raw": 1.954,
+        "adjusted": null
+       },
+       "kmWeightedMeanOfPerDriveValues": {
+        "raw": 5.2086,
+        "adjusted": null
+       }
+      }
+     },
+     "shoulder": {
+      "contrast": "shoulder minus warm",
+      "support": {
+       "warm": {
+        "nDrives": 420,
+        "nDays": 100
+       },
+       "shoulder": {
+        "nDrives": 185,
+        "nDays": 54
+       }
+      },
+      "effectiveDays": {
+       "warm": 27.69,
+       "shoulder": 11.2
+      },
+      "calendarWindows": {
+       "warm": [
+        "2026-05-12",
+        "2026-10-10"
+       ],
+       "shoulder": [
+        "2026-05-12",
+        "2026-11-06"
+       ]
+      },
+      "cells": {
+       "warm": {
+        "non-urban": {
+         "nDrives": 77,
+         "nDays": 38
+        },
+        "urban": {
+         "nDrives": 343,
+         "nDays": 91
+        }
+       },
+       "shoulder": {
+        "non-urban": {
+         "nDrives": 15,
+         "nDays": 9
+        },
+        "urban": {
+         "nDrives": 170,
+         "nDays": 52
+        }
+       }
+      },
+      "exploratory": false,
+      "exploratoryRule": "fewer than 10 effective days in a cohort (1 / sum of squared day km shares): point and interval shown, no verdict wording",
+      "heavyStrata": [
+       "non-urban",
+       "urban"
+      ],
+      "excludedWeightShare": 0.0,
+      "weights": {
+       "non-urban": 0.6799,
+       "urban": 0.3201
+      },
+      "raw": {
+       "estimable": true,
+       "estimate": 8.028,
+       "ci95": [
+        -1.0284,
+        21.4724
+       ],
+       "nDroppedReplicates": 0,
+       "dropRate": 0.0,
+       "draws": 4000,
+       "seed": 42,
+       "lodoRange": [
+        6.9118,
+        13.1185
+       ],
+       "relativeToWarm": 0.2346,
+       "reading": "interval includes zero (not distinguished at this support)"
+      },
+      "adjusted": {
+       "estimable": true,
+       "estimate": 1.0981,
+       "ci95": [
+        -2.3478,
+        15.3567
+       ],
+       "nDroppedReplicates": 0,
+       "dropRate": 0.0,
+       "draws": 4000,
+       "seed": 42,
+       "lodoRange": [
+        0.431,
+        3.1579
+       ],
+       "reading": "interval includes zero (not distinguished at this support)"
+      },
+      "routeMixDisagreement": false,
+      "sensitivities": {
+       "physicalThresholdLabels": {
+        "raw": 9.3346,
+        "adjusted": 1.5836
+       },
+       "withoutLargestDriveOfEachCohort": {
+        "raw": 9.7332,
+        "adjusted": 1.9975
+       },
+       "fourDriveTypeStrata": {
+        "raw": 8.028,
+        "adjusted": -2.0457
+       },
+       "missingEnsFlagNotClean": {
+        "raw": 7.8352,
+        "adjusted": 1.1713
+       },
+       "kmWeightedMeanOfPerDriveValues": {
+        "raw": 3.0121,
+        "adjusted": 0.6177
+       }
+      }
+     }
+    }
+   }
+  },
+  "cohortRatios": {
+   "M1": {
+    "warm": 17.205,
+    "shoulder": 19.5827,
+    "cold": 19.8374
+   },
+   "M2": {
+    "warm": 43.6074,
+    "shoulder": 36.9394,
+    "cold": 45.8718
+   },
+   "M3": {
+    "warm": 34.2187,
+    "shoulder": 42.2467,
+    "cold": 36.2721
+   }
+  },
+  "referenceSet": {
+   "definition": "canonical-clean drives (explicit ens flags True excluded) with distance_km > 0, all cohorts; one fixed km mix by route stratum (urban / non-urban)",
+   "nDrives": 660,
+   "nDays": 129,
+   "kmShare": {
+    "non-urban": 0.6799,
+    "urban": 0.3201
+   }
+  },
+  "_provenance": {
+   "generatedBy": "tools/m646_cohort_contrast.py",
+   "spec": "analyses/M646_spec.md",
+   "specGitBlob": "eb11e5c367d9024f72d7b30b76fb4fc42a6ef794",
+   "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+   "scriptSha256": "8b1ba7fc94f8e21fe501f4c475c0c71f932c55c9eaac443a37d6a21f2b9db8c9"
+  },
+  "method": "Difference of cohort ratios of sums (cohort minus Warm), unadjusted and route-mix standardised (urban/non-urban only; fixed all-cohort km weights; strata below 5 % weight excluded with renormalisation). Day-clustered percentile bootstrap, seed 42, 4000 draws, the calendar day resampled jointly over the union of days of the two cohorts with the weights fixed; a replicate with an empty cell is dropped and counted, above 1 % dropped the row is not estimable. Floors: 10 drives on 5 days per cohort and per heavy route cell. Under 10 effective days a cohort makes the contrast exploratory (no verdict wording). The 12 intervals are descriptive: no multiplicity correction, no p-value, never the word significant.",
+  "caption": "Difference between thermal classes (season, route, load and logging period move together), not a temperature effect. Route-mix standardised (urban/non-urban only) removes only that mix. Not an article figure; article use requires the Opus audit and the owner's sign-off per the project rule."
  }
 }
