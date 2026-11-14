@@ -12974,7 +12974,7 @@
    "kmPerYr": 21132,
    "officialLifeYr": 14,
    "officialLifeKm": 190000,
-   "yearsToOfficialLifeKm": null,
+   "yearsToOfficialLifeKm": 9.0,
    "governingLimit": "mileage",
    "note": "At the current 21,132 km/yr lifetime-average pace, the 190,000 km durability envelope is reached in ~9.0 years from new -- inside the 14-year calendar limit, so the mileage clock governs for this usage pattern."
   },
@@ -61026,7 +61026,7 @@
    "seasonalLife.hotTail.observed": "M92 (2026-08-06). Companion to observedConstant -- same _hot_block() path already used for hotTail.selected/allYear."
   }
  },
- "_retractedLifeEol": "M114 (audit P0-01): implied-cycle-life and calendar-life YEAR outputs retracted (crossing years, threshold/workload/matrix spans, calendar-life ceiling, seasonal/hot-tail/plating year sensitivities, years-to-official-life). Exposure rates, accumulations, intensities, thresholds-as-flagged-constants, m(k), DoD/SoC shares, logged thermics and the power-fade proxy are retained. This study reports how hard the pack is worked and that no degradation trend is resolved in this window; it does not translate that into an end-of-life or 80% SOH date.",
+ "_retractedLifeEol": "M114 (audit P0-01): implied-cycle-life and calendar-life YEAR outputs retracted (crossing years, threshold/workload/matrix spans, calendar-life ceiling, seasonal/hot-tail/plating year sensitivities). The mileage pace (usageRate.yearsToOfficialLifeKm: disclosed mileage divided by the logged km per year, arithmetic only) is retained. Exposure rates, accumulations, intensities, thresholds-as-flagged-constants, m(k), DoD/SoC shares, logged thermics and the power-fade proxy are retained. This study reports how hard the pack is worked and that no degradation trend is resolved in this window; it does not translate that into an end-of-life or 80% SOH date.",
  "evidenceLedger": {
   "rows": [
    {
