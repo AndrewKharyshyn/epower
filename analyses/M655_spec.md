@@ -1,0 +1,6 @@
+# M655 spec Rev 1: two small follow-ups (gate T / L, no estimate changes)
+
+1. Capacity factor reconcile. `integrationScenarios.capacityReferences[G1].factor` ("read from exposureBasis") was 1.1583 while `exposureBasis.factor.aggregateRatedOverLegacy` is 1.1582 (true ratio 1.15816). Cause: stage order. `integration_scenarios` read the factor before `exposure_basis_refresh` rewrote it. Fix: `exposure_basis_refresh` now runs before `integration_scenarios`; the dependency is declared (`reads` / `writes`, enforced by the M650 stage lint); the carried leaf is set by `tools/m655_integration_factor.py` (exact-leaf edit, deep-diff guarded, idempotent). The G1 factor is the aggregate GTC ratio rated / legacy; nothing else changes.
+2. `test_compare_lines.js` (M348, 6 failing checks on main, not run in CI) revived against the current renderer: titles renamed, the Compare frame draws warm / shoulder / cold (not All), the BatteryThermalCurve series are all / warm / shoulder / cold (expected lengths and end positions are read from the payload), and the canonical-only pool check is regenerated from the current payload by `tools/m348_warmup_pool_check.py` (the frozen file described the 606-drive corpus). Added to the CI node tests.
+
+Acceptance: `tests/synthetic/test_m655_integration_factor.py`; `node test_compare_lines.js` passes; stage lint green.

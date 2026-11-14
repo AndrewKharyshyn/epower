@@ -63,20 +63,27 @@ const polys=f=>[...f.querySelectorAll('polyline')].map(p=>p.getAttribute('points
     if(pl.length){ const xs=pl[0].map(p=>p[0]); const w=xs[xs.length-1]-xs[0]; let md=0; grid.forEach((km,i)=>{md=Math.max(md,Math.abs((xs[i]-xs[0])/w-(km-grid[0])/(grid[grid.length-1]-grid[0])));});
       ok(md<1e-3,'A: x positions proportional to km (max deviation '+md.toExponential(2)+')');
       // rendered y values are an affine image of the canonical-only pooled values (script-written in the check JSON)
+      // M655: the check JSON is regenerated from the current payload first (tools/m348_warmup_pool_check.py, read-only analysis, deterministic); the frozen M348 copy described the 606-drive corpus
+      const rg=cp.spawnSync('python',['tools/m348_warmup_pool_check.py'],{encoding:'utf8'}); ok(rg.status===0,'A: pool check regenerated from the current payload');
       const chk=JSON.parse(fs.readFileSync('analyses/M348_warmup_pool_check.json','utf8')).cohorts;
       const fit=(ys,vs)=>{ const n=vs.length, mv=vs.reduce((a,b)=>a+b,0)/n, my=ys.reduce((a,b)=>a+b,0)/n; let sxy=0,sxx=0; vs.forEach((v,i)=>{sxy+=(v-mv)*(ys[i]-my);sxx+=(v-mv)**2;}); const b=sxy/sxx, a0=my-b*mv; return {b,res:Math.max(...vs.map((v,i)=>Math.abs(a0+b*v-ys[i])))}; };
-      pl.forEach((q,k)=>{ const ys=q.map(p=>p[1]); const best=Object.keys(chk).map(c=>({c,f:fit(ys,chk[c].canonicalOnly)})).sort((u,v)=>u.f.res-v.f.res)[0];
-        ok(best.f.b<0&&best.f.res<1e-6,'A: rendered polyline '+k+' = affine image of the canonical-only pooled values of cohort '+best.c+' (max residual '+best.f.res.toExponential(2)+' px)');
-        const old=fit(ys,chk[best.c].asRendered); if(best.c!=='shoulder') ok(old.res>1e-3,'A: and not of the old alias-double-counted values (residual '+old.res.toFixed(3)+' px)'); }); }
+      // M655: the Compare frame now draws more series than the two this check JSON covers (All, Cold); each covered cohort must be drawn by one polyline that is the affine image of its canonical-only values
+      Object.keys(chk).filter(c=>c!=='all').forEach(c=>{ const hit=pl.map(q=>fit(q.map(p=>p[1]),chk[c].canonicalOnly)).filter(r=>r.b<0&&r.res<1e-6);
+        ok(hit.length>=1,'A: a rendered polyline is the affine image of the canonical-only pooled values of cohort '+c+' ('+hit.length+' match)');
+        if(chk[c].maxAbsDiffDegC>1e-6){ const oldHit=pl.map(q=>fit(q.map(p=>p[1]),chk[c].asRendered)).filter(r=>r.b<0&&r.res<1e-6); ok(oldHit.length===0,'A: and none is the old alias-double-counted values of cohort '+c); } }); }
     ok(f.querySelectorAll('[data-cmp-ref]').length===1,'A: exactly one reference line');
     ok(/reference level 80 .C \(not observed data\)/.test(f.textContent),'A: reference label reads as reference, not a cohort');
     ok(!f.querySelector('[data-cmp-fallback-weight]'),'A: no fallback-weight points on the real payload');
   }
   let g=await frame(P,'Battery pack temperature vs minutes');
   if(g){ const ps=polys(g).sort((a,b)=>b.length-a.length);
-    ok(ps.length>=2&&ps[0].length===19&&ps[ps.length-1].length===6,'A: BatteryThermalCurve series of 19 and 6 points');
-    if(ps.length>=2){ const lo=ps[ps.length-1], hi=ps[0]; const span=hi[hi.length-1][0]-hi[0][0];
-      ok(Math.abs((lo[lo.length-1][0]-lo[0][0])/span-50/180)<1e-3,'A: shorter series ends at its own x (50/180 of the axis), not stretched'); } }
+    // M655: the series now are all / warm / shoulder / cold (19, 16, 14 points at the time of writing); expected lengths and end positions come from the payload, nothing is typed
+    const BT=base.seasonalCharts.charts.BatteryThermalCurve.data, mins=Object.values(BT).filter(a=>Array.isArray(a)&&a.length).map(a=>a.map(r=>r.min));
+    const gmax=Math.max(...mins.map(m=>Math.max(...m)));
+    ok(ps.length>=2&&ps[0].length===Math.max(...mins.map(m=>m.length)),'A: BatteryThermalCurve longest series has the payload point count ('+(ps[0]&&ps[0].length)+')');
+    const span=ps[0][ps[0].length-1][0]-ps[0][0][0];
+    ps.forEach((q,k)=>{ const m=mins.find(mm=>mm.length===q.length&&Math.abs(mm[mm.length-1]-Math.max(...mm))<1e-9&&Math.abs((mm[mm.length-1]-mm[0])/(gmax-Math.min(...mins.map(x=>x[0])))-(q[q.length-1][0]-q[0][0])/span)<1e-3);
+      ok(!!m,'A: series '+k+' ('+q.length+' points) ends at its own x, not stretched to the longest'); }); }
   else fails.push('A: BatteryThermalCurve frame not found');
   ok(P.errors.length===0,'A: no console errors');
   P.win.close();
@@ -100,7 +107,7 @@ const polys=f=>[...f.querySelectorAll('polyline')].map(p=>p.getAttribute('points
   console.log('D: ordinal union keeps the All payload order; missing bin = gap');
   const hpD=variant('D',a=>{ const d=a.seasonalCharts.charts.RpmDistribution.data.shoulder; d.bins.splice(1,1); d.pooledPct.splice(1,1);
     const t=a.seasonalCharts.charts.TorqueBySpeed.data.shoulder; t.splice(3,1); });
-  P=await load(hpD); f=await frame(P,'Engine-on RPM time distribution');
+  P=await load(hpD); f=await frame(P,'RPM time distribution');
   if(f){ const allBins=base.seasonalCharts.charts.RpmDistribution.data.all.bins; const labs=[...f.querySelectorAll('svg text')].map(t=>t.textContent).filter(t=>allBins.includes(t));
     const exp=allBins.filter(b=>labs.includes(b)); ok(labs.length>=6&&JSON.stringify(labs)===JSON.stringify(exp),'D: bin labels follow the All order ('+labs.length+' shown)');
     ok(f.querySelector('[data-missing-support]'),'D: missing bin in Shoulder drawn as a gap marker'); } else fails.push('D: RpmDistribution frame not found');
