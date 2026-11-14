@@ -3204,7 +3204,7 @@ def _official_disclosure_correlation(dm, cfg, cyc, fade_modes, power_fade):
         'basis': ('M79 (2026-07-31). Cross-check of the Nissan X-Trail '
                   'e-POWER (T33) Article 10 (Regulation (EU) 2023/1542) '
                   'battery durability disclosure against this study\'s own '
-                  'measured / modeled figures. Source disclosure and '
+                  'logged and estimated figures. Source disclosure and '
                   'supplier identity are external reference content '
                   '(cfg.officialDisclosure / cfg.batterySupplier); every '
                   'comparison figure on this side is pipeline-computed from '

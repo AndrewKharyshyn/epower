@@ -622,6 +622,7 @@ RULES = [
          rx=r"\b(?:winter|seasonal) penalt(?:y|ies)\b|\bdue to (?:the )?cold\b|\bcold (?:increases|raises|lowers|reduces) (?:the )?(?:energy|engine|ev|gross|consumption)|\btemperature[- ]adjusted\b|\bcontrolled for (?:season|temperature|confounding)\b|\b(?:cold|shoulder) (?:vs|versus) warm (?:difference )?(?:is|was) (?:statistically )?significant\b|\bno difference between (?:cold|shoulder) and warm\b"),
     Rule("M648-tte-cold-wording", "regex", "M648 (spec analyses/M648_spec.md Rev 1, Director review): Cold time to threshold is a descriptive level that depends on the trip-length mix, not warm-up physics, with no contrast between cohorts; the fill-limit rows are a range over declared conventions, never a confidence interval; no winter reading; no cohort median of the reachers only",
          rx=r"\bfill (?:sensitivity )?(?:range|rows?) (?:is|are|as) (?:a |the )?(?:confidence|credible) interval\b|\bcold (?:starts? )?(?:warms?|heats?) (?:up )?(?:more )?(?:slower|faster|slowly|quickly) than (?:warm|shoulder)\b|\bwinter warm[ -]?up\b|\bmedian time to (?:the )?threshold (?:of|for) (?:the )?cold"),
+    Rule("M652-official-disclosure-wording", "regex", "M652 (spec analyses/M652_spec.md): the sheet's 66 kW is a disclosed figure at 80 % SoC, not a battery cap (the logged peak exceeds it); the comparison side is logged and estimated, not measured / modeled", rx=r"\bkw battery cap\b|\bown measured\W+modeled figures\b"),
 ]
 
 _SCAN_CACHE = {}
