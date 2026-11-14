@@ -7,7 +7,7 @@ off = A["officialDisclosureCorrelation"]["official"]
 assert off["expectedLifeYr"] == cfg["expectedLifeYr"] == 14 and off["capacityFadeConditionYr"] == cfg["capacityFadeConditionYr"] == 14
 assert off["expectedLifeKm"] == off["capacityFadeConditionKm"] == 190000
 LIFE = {"yearsTotal", "yearsRemain", "yearsBand", "calendarLifeYrShaded", "matrixSpanYr", "thresholdSpanYr", "workloadSpanYr", "crossingYr", "yrPer1kGtc", "afWeightedYearsTotal",
-        "yearsToOfficialLifeKm", "expectedLifeYr", "capacityFadeConditionYr", "observedCrossingYr", "selectedCrossingYr", "thresholdSensitivity"}
+        "expectedLifeYr", "capacityFadeConditionYr", "observedCrossingYr", "selectedCrossingYr", "thresholdSensitivity"}
 bad = []
 def walk(o, path, in_official):
     if isinstance(o, dict):

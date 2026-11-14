@@ -18709,7 +18709,7 @@ def build_summary_arrays(dm, raw_loader=None, with_raw=True, odometer_km=None,
     _LIFE_YR_LEAVES = {
         'yearsTotal', 'yearsRemain', 'yearsBand', 'calendarLifeYrShaded',
         'matrixSpanYr', 'thresholdSpanYr', 'workloadSpanYr', 'crossingYr',
-        'yrPer1kGtc', 'afWeightedYearsTotal', 'yearsToOfficialLifeKm',
+        'yrPer1kGtc', 'afWeightedYearsTotal',
         'expectedLifeYr', 'capacityFadeConditionYr', 'observedCrossingYr',
         'selectedCrossingYr',
     }
@@ -18740,8 +18740,8 @@ def build_summary_arrays(dm, raw_loader=None, with_raw=True, odometer_km=None,
     arrays['_retractedLifeEol'] = (
         'M114 (audit P0-01): implied-cycle-life and calendar-life YEAR outputs '
         'retracted (crossing years, threshold/workload/matrix spans, calendar-'
-        'life ceiling, seasonal/hot-tail/plating year sensitivities, years-to-'
-        'official-life). Exposure rates, accumulations, intensities, thresholds-'
+        'life ceiling, seasonal/hot-tail/plating year sensitivities). The mileage '
+        'pace (usageRate.yearsToOfficialLifeKm: disclosed mileage divided by the logged km per year, arithmetic only) is retained. Exposure rates, accumulations, intensities, thresholds-'
         'as-flagged-constants, m(k), DoD/SoC shares, logged thermics and the '
         'power-fade proxy are retained. This study reports how hard the pack is '
         'worked and that no degradation trend is resolved in this window; it does not '

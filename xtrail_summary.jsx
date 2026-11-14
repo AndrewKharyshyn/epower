@@ -3060,7 +3060,7 @@ function CycleProjectionChart() {
             [cfa ? `${cfa.rangeLowGtc.toLocaleString("en-US")}–${cfa.rangeHighGtc.toLocaleString("en-US")}` : "—","GTC at official life point",
               cfa ? `band includes the ${cfa.scenarioThresholdGtc.toLocaleString("en-US")}-GTC scenario threshold: ${cfa.bracketsThreshold?"yes":"no"} (arithmetic scenario, no evidentiary weight)` : "",
               cfa?.bracketsThreshold ? "#22c55e" : "#eab308"],
-            [ur && ur.yearsToOfficialLifeKm != null ? `${ur.yearsToOfficialLifeKm} yr` : "—",`to ${od.expectedLifeKm.toLocaleString("en-US")} km @ current pace`,
+            [ur && ur.yearsToOfficialLifeKm != null ? `${ur.yearsToOfficialLifeKm} yr` : "—",`to ${od.expectedLifeKm.toLocaleString("en-US")} km @ current pace (arithmetic, not a battery-life estimate)`,
               ur ? `${ur.governingLimit} limit governs (vs ${ur.officialLifeYr}yr calendar)` : "","#a78bfa"],
           ].map(([v,l,n,c],i)=>(
             <div key={i} style={{background:"#f1f5f9",borderRadius:6,padding:"8px 10px",textAlign:"center"}}>
