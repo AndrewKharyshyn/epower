@@ -303,7 +303,7 @@ def build_extended(recs_by_F, days, intervals, main_block, C):
             if a_ and b_ and a_["supported600"] and b_["supported600"]:
                 move = max(move, abs(b_["E1"]["point"] - a_["E1"]["point"]))
     inert = ("the fill limits of 15 and 30 s are nearly inert on this corpus: only %.2g %% and %.2g %% of the coolant sample intervals exceed them and the observed share moves by at most %.4f, far inside its interval; "
-             "this shows the convention does not matter here, not that the estimates are robust to sampling gaps" % (100.0 * float(np.mean(allv > 15)), 100.0 * float(np.mean(allv > 30)), move))
+             "this shows the convention does not matter here, not that the estimates are unaffected by sampling gaps in general" % (100.0 * float(np.mean(allv > 15)), 100.0 * float(np.mean(allv > 30)), move))
     return {"spec": "analyses/M648_spec.md", "methodVersion": "M648-r1", "cohort": "all", "fills": list(F_ALL), "record": {"fill": S0_FILL, "toleranceS": S0_TOL}, "headlineCells": ["%s/%d" % c for c in CELLS], "h": H,
             "label": "range over declared conventions, not a confidence interval; the record stays F = 3 s; no setting is chosen",
             "settings": settings, "pairedVsRecord": paired, "reasonByToleranceEqualsFill": reason_eq_fill, "statement": statement, "ranges": ranges,
