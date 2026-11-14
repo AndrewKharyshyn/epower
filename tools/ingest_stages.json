@@ -375,7 +375,10 @@
     "python3",
     "m297_comparison_cube.py"
    ],
-   "verified": true
+   "verified": true,
+   "writes": [
+    "arrays:comparisonCube"
+   ]
   },
   {
    "id": "urban_week_block",
@@ -387,6 +390,12 @@
    "verified": true,
    "outputs": [
     "summary_arrays.json"
+   ],
+   "reads": [
+    "arrays:comparisonCube"
+   ],
+   "writes": [
+    "arrays:urbanContrastBlocks"
    ]
   },
   {
@@ -400,6 +409,12 @@
    "verified": true,
    "outputs": [
     "summary_arrays.json"
+   ],
+   "reads": [
+    "arrays:comparisonCube"
+   ],
+   "writes": [
+    "arrays:urbanContrastBalance"
    ]
   },
   {
@@ -1120,42 +1135,6 @@
    ]
   },
   {
-   "id": "stamp_basis",
-   "title": "M422: artifact-stamp basis fields (includedInReleaseAt / computedAt / inputBasis, carried-block status) derived from the blocks' own fields; must run BEFORE leaf_guard (the arrays build recreates every stamp, so the M419 fields would otherwise be reported as 743 lost leaves); idempotent, writes only /_artifactStamps; restamp_ingest runs it again after re-issuing stamps",
-   "cmd": [
-    "python3",
-    "tools/stamp_basis.py"
-   ],
-   "verified": true,
-   "outputs": [
-    "summary_arrays.json"
-   ]
-  },
-  {
-   "id": "restamp_ingest",
-   "title": "M389: re-issue the artifact stamps (regenerated / carried per tools/restamp_ingest.py STAMP_POLICY; a stale key without a policy entry STOPS), generate the GTR stamp note from the payload, re-apply the M382 F03 MC data-quality step; needs XT_INGEST_LABEL",
-   "cmd": [
-    "python3",
-    "tools/restamp_ingest.py"
-   ],
-   "verified": true,
-   "outputs": [
-    "summary_arrays.json"
-   ]
-  },
-  {
-   "id": "stamp_dependencies",
-   "title": "M513: stamps of the declared blocks (tools/stamp_dependencies.json) re-derived from their declared dependencies after restamp_ingest; the live raw identity is written only for blocks whose producer stages ran OK in this run (XT_RUN_STAGES_OK from run_ingest), the prior identity goes to the append-only stampLineage when an identity value changes; writes only /_artifactStamps of the declared blocks; spec analyses/M513_spec.md Rev 2",
-   "cmd": [
-    "python3",
-    "tools/stamp_dependencies_apply.py"
-   ],
-   "verified": true,
-   "outputs": [
-    "summary_arrays.json"
-   ]
-  },
-  {
    "id": "m483_wording_splice",
    "title": "M575: re-apply the M483 wording edit of the carried _provenance leaf seasonalLife.observedConstant (rebuilt from an untracked baseline on every ingestion); idempotent exact-string edit",
    "cmd": [
@@ -1165,6 +1144,9 @@
    "verified": true,
    "outputs": [
     "summary_arrays.json"
+   ],
+   "writes": [
+    "arrays:_provenance"
    ]
   },
   {
@@ -1182,7 +1164,49 @@
    ],
    "env": {
     "XT_RAW_DIR": "$ROOT/raw_only"
-   }
+   },
+   "writes": [
+    "arrays:evTraction"
+   ]
+  },
+  {
+   "id": "stamp_basis",
+   "title": "M422: artifact-stamp basis fields (includedInReleaseAt / computedAt / inputBasis, carried-block status) derived from the blocks' own fields; must run BEFORE leaf_guard (the arrays build recreates every stamp, so the M419 fields would otherwise be reported as 743 lost leaves); idempotent, writes only /_artifactStamps; restamp_ingest runs it again after re-issuing stamps",
+   "cmd": [
+    "python3",
+    "tools/stamp_basis.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json"
+   ],
+   "stamps": true
+  },
+  {
+   "id": "restamp_ingest",
+   "title": "M389: re-issue the artifact stamps (regenerated / carried per tools/restamp_ingest.py STAMP_POLICY; a stale key without a policy entry STOPS), generate the GTR stamp note from the payload, re-apply the M382 F03 MC data-quality step; needs XT_INGEST_LABEL",
+   "cmd": [
+    "python3",
+    "tools/restamp_ingest.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json"
+   ],
+   "stamps": true
+  },
+  {
+   "id": "stamp_dependencies",
+   "title": "M513: stamps of the declared blocks (tools/stamp_dependencies.json) re-derived from their declared dependencies after restamp_ingest; the live raw identity is written only for blocks whose producer stages ran OK in this run (XT_RUN_STAGES_OK from run_ingest), the prior identity goes to the append-only stampLineage when an identity value changes; writes only /_artifactStamps of the declared blocks; spec analyses/M513_spec.md Rev 2",
+   "cmd": [
+    "python3",
+    "tools/stamp_dependencies_apply.py"
+   ],
+   "verified": true,
+   "outputs": [
+    "summary_arrays.json"
+   ],
+   "stamps": true
   },
   {
    "id": "leaf_guard",
@@ -1222,6 +1246,9 @@
    "verified": false,
    "outputs": [
     "tabtext/_precision_leaves.json"
+   ],
+   "reads": [
+    "xtrail_dashboard.html"
    ]
   },
   {
@@ -1237,6 +1264,9 @@
    ],
    "reads_prior_state": [
     "release_identity.json"
+   ],
+   "reads": [
+    "tabtext/_precision_leaves.json"
    ]
   },
   {
@@ -1246,7 +1276,10 @@
     "node",
     "validate_jsdom.js"
    ],
-   "verified": true
+   "verified": true,
+   "reads": [
+    "xtrail_dashboard.html"
+   ]
   },
   {
    "id": "release_identity",

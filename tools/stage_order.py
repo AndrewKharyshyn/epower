@@ -11,7 +11,7 @@ A stage must run after every stage it depends on. Two kinds of dependency are ch
 Violations make the exit code 1; file-level findings already listed in the pending-review baseline (analyses/M610_stage_needs.json, key fileLevelBaseline) are reported as `baselined`, so the file-level rule is a ratchet (a NEW finding fails), while `needs` is a hard rule. `candidates` (a stage whose own source names a top-level payload key that another LATER stage's source also names) are a review aid for the
 `needs` table, never a failure.
 Usage: python tools/stage_order.py [--json PATH] [--stages PATH] [--root DIR]      Library: lint(stages, root) -> dict."""
-import argparse, ast, json, os, re, sys
+import argparse, ast, functools, json, os, re, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -34,7 +34,20 @@ def _script_files(stage, cp):
     return sorted(f for f in files if f.endswith(".py"))
 
 
+@functools.lru_cache(maxsize=None)
+def _string_constants_cached(root, rel, stamp):          # M650 (P-04): every stage closure re-parsed the same files; parse each file once per process (the key carries mtime and size, so an edited file is re-read)
+    return _string_constants_uncached(root, rel)
+
+
 def _string_constants(root, rel):
+    try:
+        st = os.stat(os.path.join(root, rel)); stamp = (st.st_mtime_ns, st.st_size)
+    except OSError:
+        stamp = None
+    return _string_constants_cached(root, rel, stamp)
+
+
+def _string_constants_uncached(root, rel):
     try:
         tree = ast.parse(open(os.path.join(root, rel), encoding="utf-8", errors="replace").read())
     except (OSError, SyntaxError):
@@ -47,6 +60,34 @@ def load_baseline(root):
     if not os.path.isfile(p):
         return set()
     return {(x["stage"], x["file"]) for x in json.load(open(p, encoding="utf-8")).get("fileLevelBaseline", [])}
+
+
+def _declared(stages, idx, out):
+    """M650 (P-04): reads / writes declared at payload-key granularity. Tokens: `arrays:<top-level key of summary_arrays.json>` or a repository file.
+    A stage that declares `reads: [token]` must come after EVERY stage that declares the token in `writes` (or, for a file token, in `outputs`), unless it lists the token in `reads_prior_state`
+    (kind declared_read_before_write). Stamping-final rule: once a stage marked `stamps: true` has run, no later stage may write the payload (`summary_arrays.json` in `outputs` or an `arrays:` token in `writes`)
+    unless it is itself marked `stamps: true` (kind payload_write_after_stamp), so the stamps describe the final payload."""
+    writers = {}
+    for s in stages:
+        for tok in list(s.get("writes") or []) + [o.replace("\\", "/") for o in (s.get("outputs") or [])]:
+            writers.setdefault(tok, []).append(s["id"])
+    for s in stages:
+        waived = set((x or "").replace("\\", "/") for x in (s.get("reads_prior_state") or []))
+        for tok in s.get("reads") or []:
+            if tok in waived or "*" in waived:
+                continue
+            ws = [w for w in writers.get(tok, []) if w != s["id"]]
+            late = [w for w in ws if idx[w] > idx[s["id"]]]
+            if late:
+                out["violations"].append({"kind": "declared_read_before_write", "stage": s["id"], "token": tok, "writers": ws, "stageIndex": idx[s["id"]], "firstLaterWriterIndex": min(idx[w] for w in late)})
+    stamp_idx = [idx[s["id"]] for s in stages if s.get("stamps")]
+    if stamp_idx:
+        first = min(stamp_idx)
+        for s in stages:
+            if idx[s["id"]] > first and not s.get("stamps"):
+                wr = [o for o in (s.get("outputs") or []) if o.replace("\\", "/") == "summary_arrays.json"] + [w for w in (s.get("writes") or []) if w.startswith("arrays:")]
+                if wr:
+                    out["violations"].append({"kind": "payload_write_after_stamp", "stage": s["id"], "writes": wr, "stageIndex": idx[s["id"]], "firstStampIndex": first})
 
 
 def lint(stages, root=ROOT_DEFAULT, payload_keys=None, file_level=True, baseline=None):
@@ -62,6 +103,7 @@ def lint(stages, root=ROOT_DEFAULT, payload_keys=None, file_level=True, baseline
                 out["violations"].append({"kind": "needs_unknown", "stage": s["id"], "needs": n})
             elif idx[n] >= idx[s["id"]]:
                 out["violations"].append({"kind": "needs_after", "stage": s["id"], "needs": n, "stageIndex": idx[s["id"]], "needsIndex": idx[n]})
+    _declared(stages, idx, out)
     if not file_level:
         out["ok"] = not out["violations"]
         return out
