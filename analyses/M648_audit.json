@@ -1,0 +1,12 @@
+{
+ "auditor": "analytical-auditor (blind: spec M648 Rev 1, M435/M437 specs, master CSVs and raw frames only)",
+ "date": "2026-11-14",
+ "result": "all compared numbers equal the payload exactly: Cold 46 cold-start drives / 11 days / 8.89 effective days (exploratory); coolant 80 C E1 0.0652 [0.0, 0.1539] (14 at risk / 5 days); oil 70 C E1 0.0435 [0.0, 0.1282] (15 at risk / 6 days); cohort all coolant 80 C F=3/15/30 n 454/456/458, E1 0.3194/0.3180/0.3166, CIs [0.2624,0.3805]/[0.2611,0.3789]/[0.2613,0.3744], added 0/2/4, dropped 0; oil 70 C E1 0.1280/0.1278/0.1278; share of coolant intervals > 15 s 0.000528, > 30 s 0.000180; partition all = cold + warm + shoulder, unassigned 0; event times unchanged",
+ "findings": [
+  "Cold-start threshold (below 60 C, >= 30 valid coolant s) is not stated in the specs the auditor could read: now stated in the block (coldNote, script-written from C._TWL_COLD_MAX)",
+  "E1 counts every trip that ended before h as not reached, so it also reflects trip length: wording added to the block and the Compare note",
+  "Cold interval lower limits are exactly 0 with 3 and 2 events by 600 s: percentile interval not informative; stated in the block",
+  "F = 15 / 30 s are nearly vacuous (0.05 % / 0.02 % of intervals above): E1 moves <= 0.003, inside the interval",
+  "Cold regime (55 drives) vs cold-start drives (46) never conflated"
+ ]
+}
