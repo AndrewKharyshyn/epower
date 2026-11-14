@@ -16,8 +16,8 @@ try:
     bad = M.ack_failure(mon, tmp)
     assert bad and "without a valid acknowledgement" in bad, bad
     assert M.ack_failure({**mon, "status": "ok"}, tmp) is None and M.ack_failure(None, tmp) is None
-    open(os.path.join(tmp, "analyses", "M777_spec.md"), "w").write("spec")
-    json.dump([{"warningSetHash": "a" * 64, "ref": "analyses/M777_spec.md", "selectionCodeSha256": "b" * 64, "basisNDrives": 7}], open(os.path.join(tmp, "analyses", "M321_acknowledgements.json"), "w"))
+    open(os.path.join(tmp, "analyses", "M777_spec.md"), "w", encoding="utf-8").write("spec")
+    json.dump([{"warningSetHash": "a" * 64, "ref": "analyses/M777_spec.md", "selectionCodeSha256": "b" * 64, "basisNDrives": 7}], open(os.path.join(tmp, "analyses", "M321_acknowledgements.json"), "w", encoding="utf-8"))
     assert M.ack_failure(mon, tmp) is None, "a valid acknowledgement must clear the stop"
     src = open(os.path.join(ROOT, "tools", "m321_ladder_monitor.py"), encoding="utf-8").read()
     assert src.count("ack_failure(block)") == 1 and "sys.exit(1)" in src.split("ack_failure(block)")[1][:400], "cmd_update must exit 1 on an unacknowledged W2/W3"
@@ -30,14 +30,14 @@ try:
     except IC.Gate:
         pass
     cand = os.path.join(tmp, "candidate_summary_arrays.json")
-    assert os.path.isfile(cand) and json.load(open(cand))["marker"] == 1
+    assert os.path.isfile(cand) and json.load(open(cand, encoding="utf-8"))["marker"] == 1
     os.remove(cand)
     assert IC.estimator_gate_keep(prev, new, "reason", tmp) and not os.path.exists(cand)
     assert IC.estimator_gate_keep(prev, prev, None, tmp) == [] and not os.path.exists(cand)
 
     # (5) leaf_guard report-only vs gate
     pv, cu, rules = [os.path.join(tmp, n) for n in ("prev.json", "cur.json", "rules.json")]
-    json.dump({"a": 1, "b": 2}, open(pv, "w")); json.dump({"a": 1}, open(cu, "w")); json.dump([], open(rules, "w"))
+    json.dump({"a": 1, "b": 2}, open(pv, "w", encoding="utf-8")); json.dump({"a": 1}, open(cu, "w", encoding="utf-8")); json.dump([], open(rules, "w", encoding="utf-8"))
     base = [sys.executable, os.path.join(ROOT, "tools", "leaf_guard.py"), "--previous", pv, "--current", cu, "--rules", rules]
     assert subprocess.run(base, capture_output=True).returncode == 1, "the final guard must still fail on a lost leaf"
     r = subprocess.run(base + ["--report-only"], capture_output=True, text=True)
