@@ -5681,6 +5681,14 @@ function CellSpreadStepView(){
       </div>);})()}
       <div style={{fontSize:10,color:"#334155",lineHeight:1.6}} data-csstep-note="1">{B.statement}</div>
       <div style={{fontSize:9,color:"#64748b",marginTop:4}} data-csstep-support="1">{af.n} drives on {af.days} days, {af.windowMonths}-month window ({af.firstDate} to {af.lastDate}); loaded p95 cell spread; cluster-robust OLS, day clusters, t(G-1) intervals; AIC from plain OLS; cross-validation holds out whole days.</div>
+      <ChartWithTable chart={<div data-csstep-forests="1">
+        <IntervalForest zero={true} xLabel="months slope, mV/month (95% interval, day clusters)" ariaLabel="Cell-spread months slope by model" lblW={230}
+          caption={`Same ${af.n} drives on ${af.days} days for every model; label order as in the table; the model with calendar-month fixed effects has no months term.`}
+          rows={Object.keys(lab).filter(k=>B.models[k]).map(k=>{const m=B.models[k]; return m.est==null?{label:lab[k],note:"no months term",sub:"AIC "+f(m.aic,1)+", CV RMSE "+f(m.cv_rmse_day_blocked)}:{label:lab[k],est:m.est,lo:Array.isArray(m.ci95)?m.ci95[0]:null,hi:Array.isArray(m.ci95)?m.ci95[1]:null,sub:"AIC "+f(m.aic,1)+", CV RMSE "+f(m.cv_rmse_day_blocked)};})}/>
+        <IntervalForest zero={true} xLabel="level step, mV (95% interval, day clusters)" ariaLabel="Cell-spread level step by model" lblW={230}
+          caption={`Models that allow a level change at ${B.stepDate}; the linear models have no step term.`}
+          rows={Object.keys(lab).filter(k=>B.models[k]&&B.models[k].step_term).map(k=>{const t=B.models[k].step_term; return {label:lab[k],est:t.est,lo:Array.isArray(t.ci95)?t.ci95[0]:null,hi:Array.isArray(t.ci95)?t.ci95[1]:null};})}/>
+      </div>}>
       <table style={{width:"100%",fontSize:9,borderCollapse:"collapse",marginTop:6}}>
         <thead><tr style={{color:"#64748b",textAlign:"left"}}><th>model</th><th>months slope, mV/month [95% interval]</th><th>level step, mV [95% interval]</th><th>AIC</th><th>day-blocked CV RMSE, mV</th></tr></thead>
         <tbody>
@@ -5688,6 +5696,7 @@ function CellSpreadStepView(){
             <tr key={k} data-csstep-model={k} style={{borderTop:"1px solid #e2e8f0"}}><td>{lab[k]}</td><td>{m.est==null?"no months term":`${f(m.est)} ${iv(m.ci95)}`}</td><td>{m.step_term?`${f(m.step_term.est)} ${iv(m.step_term.ci95)}`:"-"}</td><td>{f(m.aic,1)}</td><td>{f(m.cv_rmse_day_blocked)}</td></tr>);})}
         </tbody>
       </table>
+      </ChartWithTable>
       <div style={{fontSize:9,color:"#475569",lineHeight:1.6,marginTop:6}} data-csstep-extra="1">
         <div data-csstep-row="dependence">Calendar-week block bootstrap (seed {dp.weekBlockBootstrap_linear&&dp.weekBlockBootstrap_linear.seed}, {dp.weekBlockBootstrap_linear&&dp.weekBlockBootstrap_linear.draws} draws, {dp.weekBlockBootstrap_linear&&dp.weekBlockBootstrap_linear.nBlocks} weeks) of the months slope: linear {iv(dp.weekBlockBootstrap_linear&&dp.weekBlockBootstrap_linear.ci95)}; with the step {iv(dp.weekBlockBootstrap_step&&dp.weekBlockBootstrap_step.ci95)}. Leave-one-week-out slope range {iv(dp.leaveOneWeekOut_range)}; lag-1 autocorrelation of day-mean residuals {f(dp.dayMeanResidualAutocorrLag1)}.</div>
         <div data-csstep-row="matched">Matched contrast, {mc.definition}: {f(mc.effect_mv)} mV {iv(mc.ci95_dayclustered_bootstrap)} ({mc.lateDrivesMatched} of {mc.lateDrivesTotal} later drives matched, {mc.lateDays} and {mc.sepDays} days).</div>

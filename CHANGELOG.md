@@ -1,3 +1,16 @@
+## M656 (2026-11-14): UI-05 second slice: cell-spread step-sensitivity forests (months slope and level step per model)
+
+**Rationale.** Gate L display only. The seven-model table of the exploratory step-sensitivity panel gets two interval forests in front (months slope, level step; the model without a months term is text), the table unchanged behind ChartWithTable; test_csstep_forests.js checks every plotted value against the payload. Lag-distribution and median-curve conversions are not drawable from existing keys (no per-drive arrays); other groups remain (analyses/M656_spec.md).
+
+**State.** `drive_master.csv` 665 rows, MD5 `77bbe275f8c22eaf62d8636867764af3`.
+
+**Gates (runs/20261110T232013Z).** preflight=restored_from_checkpoint; ingest_core=restored_from_checkpoint; stage_raw=ok; ah_throughput=restored_from_checkpoint; timing_support=restored_from_checkpoint; exposure_coverage=restored_from_checkpoint; raw_temp_pass=restored_from_checkpoint; compute_seasonal=restored_from_checkpoint; refresh_cohort_meta=ok; extend_session_ledgers=ok; build_ambient_table=ok; record_spread_fit=ok; m321_ladder_monitor=ok; fuel_recon=ok; refresh_gtr_headline=ok; gtr_family_refresh=ok; gtr_closure_refresh=ok; fuel_contract_build=ok; f03_provenance_build=ok; post_steps=ok; fuel_analytics=ok; fuel_analytics2=ok; refresh_master_seasonal=ok; refresh_raw_seasonal=ok; engine_start_rate=ok; cold_support_sync=ok; cohort_arrays=ok; comparison_cube=ok; urban_week_block=ok; urban_contrast_balance=ok; post_splices=ok; cadence_regime=ok; pid_epoch=ok; capacity_basis=ok; dependence_sensitivity=ok; serial_dependence=ok; window_caveat=ok; powerfade_equivalence=ok; powerfade_temperature_specs=ok; resistance_joint_matrix=ok; resistance_support_restricted=ok; rpm_mode_centres=ok; rpm_fuel_state=ok; driving_mix=ok; engine_runtime=ok; highway_share=ok; steady_load_spread=ok; engine_on_rule=ok; engine_on_blocks=ok; engine_state_machine_rule=ok; probe_ranking=ok; power_peak_temp=ok; energy_packets=ok; power_duration=ok; power_duration_uninterrupted=ok; window_use=ok; cell_spread_step=ok; common_support=ok; cell_observability=ok; signal_validity=ok; dependency_audit=ok; csr_sensitivity=ok; engine_context_fields=ok; cold_neutral_context=ok; rpm_opt_band=ok; thermal_support_ledger=ok; thermal_provenance=ok; cohort_support=ok; highway_session_gtc=ok; regen_v2=ok; integration_scenarios=ok; cadence_monitor=ok; pcl_monitor=ok; hazard_prospective_monitor=ok; dissipation_monitor=ok; start_ratio_refresh=ok; exposure_basis_refresh=ok; stamp_basis=ok; restamp_ingest=ok; stamp_dependencies=ok; m483_wording_splice=ok; m432_refresh=ok; leaf_guard=ok; build_html=ok; jsdom=ok; release_check=ok; state=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `analyses/M656_spec.md`, `xtrail_summary.jsx`, `test_csstep_forests.js`.
+
+
 ## M655 (2026-11-14): Capacity factor reconcile (stage order) and revived Compare-lines test
 
 **Rationale.** Tooling/label. integrationScenarios G1 factor read exposureBasis before its refresh ran (1.1583 vs 1.1582): exposure_basis_refresh now precedes integration_scenarios with declared reads/writes, and the carried leaf is set from exposureBasis. test_compare_lines.js (6 stale failures, outside CI) updated to the current renderer and added to CI (analyses/M655_spec.md).
