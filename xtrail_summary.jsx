@@ -12491,7 +12491,7 @@ export default function App() {
   return (
    <CohortCtx.Provider value={cohort}>
     <CompareCtx.Provider value={cmpSel}>
-    <div style={{fontFamily:"system-ui,sans-serif",background:"#f8fafc",color:"#1e293b",minHeight:"100vh",padding:16,maxWidth:740,margin:"0 auto"}}>
+    <div style={{fontFamily:"system-ui,sans-serif",background:"#f8fafc",color:"#1e293b",minHeight:"100vh",padding:16,maxWidth:1128,margin:"0 auto"}}>
       <div style={{textAlign:"center",marginBottom:16}}>
         <div style={{fontSize:18,fontWeight:800,color:"#0f172a"}}>Nissan X-Trail e-POWER — Interim Summary</div>
         <div style={{fontSize:11,color:"#64748b"}}>2nd-gen e-POWER · 1.5 L VC-Turbo (generator only) · battery energy reference 2.1 kWh, assumed (turnover and C-rate use the separately stated 5 Ah reference) · {S.totalDrives} drives · {S.dateRange} · {S.totalKm.toFixed(0)} km logged · ODO {S.odometer.toLocaleString("en-US")} km (dash reading as of {S.odometerAsOf})</div>

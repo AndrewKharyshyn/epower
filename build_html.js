@@ -323,7 +323,7 @@ const html=`<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>X-Trail e-POWER — OBD Dashboard (${titleStats})</title>
 <script>${reactUMD}</script>\n<script>${reactDomUMD}</script>
-<style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}body{font-family:system-ui,sans-serif;background:#f8fafc;color:#1e293b;min-height:100vh}#root{max-width:760px;margin:0 auto;padding:16px}svg text{font-family:system-ui,sans-serif}button{font-family:inherit}</style>
+<style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}body{font-family:system-ui,sans-serif;background:#f8fafc;color:#1e293b;min-height:100vh}#root{max-width:1160px;margin:0 auto;padding:16px}svg text{font-family:system-ui,sans-serif}svg[width="100%"]{max-height:640px}button{font-family:inherit}</style>
 </head><body><div id="root"></div>
 <script>
 const { useState } = React;
