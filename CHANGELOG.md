@@ -1,3 +1,16 @@
+## M660 (2026-11-14): UI-05 fourth slice: warm-up fuel interval chart
+
+**Rationale.** The warm-up fuel panel printed moving-sample L/100 km per 0.5 km interval and initial-coolant band only as a table; it now also shows a point-and-interval chart bound to S.fuelWarmup groups intervalConsumption, table behind ChartWithTable, intervals without a CI as open points; presentation only, spec analyses/M660_spec.md.
+
+**State.** `drive_master.csv` 665 rows, MD5 `77bbe275f8c22eaf62d8636867764af3`.
+
+**Gates (runs/20261110T232013Z).** preflight=restored_from_checkpoint; ingest_core=restored_from_checkpoint; stage_raw=ok; ah_throughput=restored_from_checkpoint; timing_support=restored_from_checkpoint; exposure_coverage=restored_from_checkpoint; raw_temp_pass=restored_from_checkpoint; compute_seasonal=restored_from_checkpoint; refresh_cohort_meta=ok; extend_session_ledgers=ok; build_ambient_table=ok; record_spread_fit=ok; m321_ladder_monitor=ok; fuel_recon=ok; refresh_gtr_headline=ok; gtr_family_refresh=ok; gtr_closure_refresh=ok; fuel_contract_build=ok; f03_provenance_build=ok; post_steps=ok; fuel_analytics=ok; fuel_analytics2=ok; refresh_master_seasonal=ok; refresh_raw_seasonal=ok; engine_start_rate=ok; cold_support_sync=ok; cohort_arrays=ok; comparison_cube=ok; urban_week_block=ok; urban_contrast_balance=ok; post_splices=ok; cadence_regime=ok; pid_epoch=ok; capacity_basis=ok; dependence_sensitivity=ok; serial_dependence=ok; window_caveat=ok; powerfade_equivalence=ok; powerfade_temperature_specs=ok; resistance_joint_matrix=ok; resistance_support_restricted=ok; rpm_mode_centres=ok; rpm_fuel_state=ok; driving_mix=ok; engine_runtime=ok; highway_share=ok; steady_load_spread=ok; engine_on_rule=ok; engine_on_blocks=ok; engine_state_machine_rule=ok; probe_ranking=ok; power_peak_temp=ok; energy_packets=ok; power_duration=ok; power_duration_uninterrupted=ok; window_use=ok; cell_spread_step=ok; common_support=ok; cell_observability=ok; signal_validity=ok; dependency_audit=ok; csr_sensitivity=ok; engine_context_fields=ok; cold_neutral_context=ok; rpm_opt_band=ok; thermal_support_ledger=ok; thermal_provenance=ok; cohort_support=ok; highway_session_gtc=ok; regen_v2=ok; integration_scenarios=ok; cadence_monitor=ok; pcl_monitor=ok; hazard_prospective_monitor=ok; dissipation_monitor=ok; start_ratio_refresh=ok; exposure_basis_refresh=ok; stamp_basis=ok; restamp_ingest=ok; stamp_dependencies=ok; m483_wording_splice=ok; m432_refresh=ok; leaf_guard=ok; build_html=ok; jsdom=ok; release_check=ok; state=ok -> ok.
+
+**Delta flags.** EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `xtrail_summary.jsx`, `xtrail_dashboard.html`, `test_fuelinterval_chart.js`, `analyses/M660_spec.md`, `.github/workflows/ci.yml`.
+
+
 ## M659 (2026-11-14): UI-05 third slice: heat-soak carryover forest
 
 **Rationale.** The heat-soak panel printed the retained-heat result per parking-gap bin as a monospace listing; it now also shows a forest of the median retained share per gap bin with n in each label, bound to S.heatSoakCarryover.gapBins, listing behind ChartWithTable; no interval is printed in the payload so none is drawn; presentation only, spec analyses/M659_spec.md.
