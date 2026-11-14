@@ -434,6 +434,7 @@ def main():
     ap.add_argument("--current", default=os.path.join(ROOT, "summary_arrays.json"))
     ap.add_argument("--rules", default=os.path.join(ROOT, "analyses", "leaf_guard_rules.json"))
     ap.add_argument("--out")
+    ap.add_argument("--report-only", action="store_true", help="M649 (P-03): early run right after ingest_core; lists the losses but never fails (later splice stages restore known leaves; the final run stays the gate)")
     a = ap.parse_args()
     prev = load_previous(a.previous)
     cur = json.load(open(a.current, encoding="utf-8"))
@@ -445,6 +446,9 @@ def main():
         with open(a.out, "w", encoding="utf-8", newline="\n") as f:
             f.write(json.dumps(rep, indent=1, ensure_ascii=False) + "\n")
     print(json.dumps({k: rep[k] for k in ("nPreviousLeaves", "nLost", "expectedByRule", "nUnexpected")}, ensure_ascii=False))
+    if rep["nUnexpected"] and a.report_only:
+        print("EARLY REPORT (non-blocking, M649): %d unexpected losses before the splice stages; the final leaf_guard decides" % rep["nUnexpected"])
+        return
     if rep["nUnexpected"]:
         print("UNEXPECTED LOSSES (first 30):", file=sys.stderr)
         for u in rep["unexpected"][:30]:

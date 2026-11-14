@@ -42,6 +42,23 @@
    ]
   },
   {
+   "id": "leaf_guard_early",
+   "title": "M649 (P-03): early, NON-blocking lost-leaf report right after ingest_core (the splice stages restore known leaves later, so the final leaf_guard stays the gate; P-07 turns this into a blocking check)",
+   "cmd": [
+    "python3",
+    "tools/leaf_guard.py",
+    "--previous",
+    "git:HEAD",
+    "--report-only",
+    "--out",
+    "analyses/leaf_guard_early_report.json"
+   ],
+   "verified": false,
+   "outputs": [
+    "analyses/leaf_guard_early_report.json"
+   ]
+  },
+  {
    "id": "stage_raw",
    "title": "Stage raw_only/ (master-key symlinks + drive_master.csv + manifest) for the raw-pass scripts",
    "cmd": [
@@ -482,6 +499,21 @@
    "outputs": [
     "summary_arrays.json",
     "powerfade_density.csv"
+   ]
+  },
+  {
+   "id": "s1_fidelity",
+   "title": "M649 (P-03): one shared S1 fidelity check (point slope, n, nDays, temperature coefficient of the replicated T0 design vs the published powerFade S1 reference) before the temperature-specification stages; STOP on mismatch",
+   "cmd": [
+    "python3",
+    "tools/s1_fidelity.py"
+   ],
+   "verified": false,
+   "outputs": [
+    "analyses/s1_fidelity.json"
+   ],
+   "needs": [
+    "powerfade_equivalence"
    ]
   },
   {
@@ -1178,6 +1210,33 @@
    "verified": true,
    "outputs": [
     "xtrail_dashboard.html"
+   ]
+  },
+  {
+   "id": "dump_tabs",
+   "title": "M649 (P-03): render every tab x All/Warm/Shoulder/Compare to text (dump_tabs.js) right after the build, so the language gate runs at ingestion and not only at the release gate",
+   "cmd": [
+    "node",
+    "dump_tabs.js"
+   ],
+   "verified": false,
+   "outputs": [
+    "tabtext/_precision_leaves.json"
+   ]
+  },
+  {
+   "id": "semantic_gate",
+   "title": "M649 (P-03): semantic/language gate (forbidden wording, prose == payload, mode behaviour) on the rendered tab dumps, at ingestion time; the clean-environment release gate repeats it (reads_prior_state waiver: the string release_identity.json occurs in a wording rule text of language_gate.py, the gate does not read the file)",
+   "cmd": [
+    "python3",
+    "semantic_gate.py"
+   ],
+   "verified": false,
+   "needs": [
+    "dump_tabs"
+   ],
+   "reads_prior_state": [
+    "release_identity.json"
    ]
   },
   {
