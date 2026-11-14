@@ -19,6 +19,8 @@ import m435_tte as M
 import time_to_threshold as T
 
 FILLS = (0, 3, 6)
+EXT_FILLS = (15, 30)          # M648 (UI-06, spec Rev 1): longer forward-fill limits, a separate sub-block; the 0 / 3 / 6 leaves are unchanged
+ALL_FILLS = FILLS + EXT_FILLS
 TOLS = (5, 10, 30)
 S0_FILL, S0_TOL = 3, 10
 CELLS = (("coolant", 80), ("oil", 70))
@@ -237,6 +239,81 @@ def build_block(recs_by_F, days, intervals, main_block, C):
                        "reasonChanged": "drives censored in both whose trip-end / channel-loss label under the variant (F, X) differs from their label under the record (3, 10)"},
             "limits": ["the fill range of 0-6 s is below the 95th percentile of the coolant sample interval, so longer gaps stay missing in every setting: the grid does not cover the coolant gap distribution","the fill grid is a declared planning choice; a logger interval above 1 s couples fill and tolerance", "ranges are of point estimates; the bootstrap resample sets differ between settings",
                        "at F = 0 the 30 valid-second rule counts raw samples (about 78 s at the median coolant interval), so F = 0 changes the cold-start population by dropping short, sparsely sampled drives; the higher shares at F = 0 are a population effect", "informative censoring is addressed by the M435 bounds and tilt rows, not here", "headline cells of cohort all only"]}
+
+
+def build_extended(recs_by_F, days, intervals, main_block, C):
+    """M648 (UI-06, spec analyses/M648_spec.md Rev 1): native forward-fill limits F = 15 and 30 s beside the record F = 3 s, cohort all only, headline cells at h = 600 s.
+    recs_by_F must hold the record (3) and the extended fills; nothing here changes the 0 / 3 / 6 block. Raises FillCheckError on a failed check."""
+    idx_all = range(len(days))
+    F_ALL = (S0_FILL,) + EXT_FILLS
+    settings, reason_eq_fill = {}, {}
+    for F in F_ALL:
+        cold = [i for i in idx_all if recs_by_F[F][i].get("status") == "cold"]
+        uni = np.array(sorted({days[i] for i in cold}))
+        counts = T.day_counts(uni, M.B_DRAWS, M.SEED) if len(uni) else None
+        row = {}
+        for fl, thr in CELLS:
+            ents = [(i, _entry(recs_by_F[F][i], fl, thr)) for i in idx_all]
+            ents = [(i, e) for i, e in ents if e is not None]
+            if not ents:
+                continue
+            c = M.analyze_cell([e["t"] for _, e in ents], [e["e"] for _, e in ents], [days[i] for i, _ in ents], [e["reason"] for _, e in ents], [e["afterGap"] for _, e in ents],
+                               [e["startC"] for _, e in ents], [e["lag"] for _, e in ents], fl, thr, counts, uni)
+            c.pop("_cell"); c.pop("_S")
+            k = "%s/%d" % (fl, thr)
+            row[k] = _row(c)
+            reason_eq_fill.setdefault(str(F), {})[k] = {"tripEnd": sum(1 for _, e in ents if not e["e"] and _reason_at(e, F) == "tripEnd"),
+                                                       "channelLoss": sum(1 for _, e in ents if not e["e"] and _reason_at(e, F) == "channelLoss")}
+        settings[str(F)] = row
+    paired = {str(F): {"%s/%d" % (fl, thr): _paired(recs_by_F[S0_FILL], recs_by_F[F], fl, thr, F - S0_FILL) for fl, thr in CELLS} for F in EXT_FILLS}
+    ranges, statement = {}, {}
+    for fl, thr in CELLS:
+        k = "%s/%d" % (fl, thr)
+        rows = {F: settings[str(F)].get(k) for F in F_ALL}
+        rg = {}
+        for q in ("E1", "E2"):
+            vals = [(F, rows[F][q]["point"]) for F in F_ALL if rows[F] and rows[F]["supported600"]]
+            if vals:
+                lo = min(vals, key=lambda x: x[1]); hi = max(vals, key=lambda x: x[1])
+                rg[q] = {"min": lo[1], "minAtFill": lo[0], "minCi95": rows[lo[0]][q]["ci95"], "max": hi[1], "maxAtFill": hi[0], "maxCi95": rows[hi[0]][q]["ci95"]}
+        ranges[k] = rg
+        cls = {F: (rows[F]["readingClasses"] if rows[F] and rows[F]["supported600"] else None) for F in F_ALL}
+        same = all(cls[F] is not None and cls[F] == cls[S0_FILL] for F in F_ALL)
+        statement[k] = {"classByFill": {str(F): cls[F] for F in F_ALL}, "same": bool(same),
+                        "text": ("the reading classes are the same at F = 3, 15 and 30 s" if same else "the reading classes differ between F = 3, 15 and 30 s (see the classes by fill)")}
+    chk = {"eventTimeChangedZero": all(p["eventTimeChanged"] == 0 for v in paired.values() for p in v.values()),
+           "nestingDroppedZero": all(p["nDropped"] == 0 for v in paired.values() for p in v.values()),
+           "censoringShiftWithinFillDelta": all(float(p["maxCensoringShiftS"] or 0) <= p["maxAllowedShiftS"] for v in paired.values() for p in v.values())}
+    g1 = True
+    for fl, thr in CELLS:
+        m = main_block["cohorts"]["all"][fl][str(thr)]
+        r = settings[str(S0_FILL)]["%s/%d" % (fl, thr)]
+        g1 = g1 and r["n"] == m["n"] and r["reached"] == m["reached"] and r["censoredTripEnd"] == m["censoredTripEnd"] and r["censoredChannelLoss"] == m["censoredChannelLoss"]
+    chk["recordEqualsM435Block"] = bool(g1)
+    chk["allOk"] = all(chk.values())
+    if not chk["allOk"]:
+        raise FillCheckError("M648 extended-fill checks failed (%s): %s" % (STOP_NOTE, {k: v for k, v in chk.items() if v is False}))
+    allv = np.concatenate([d["coolant"] for d in intervals if "coolant" in d and len(d["coolant"])])
+    share = {str(F): _r(float(np.mean(allv > F)), 6) for F in FILLS + EXT_FILLS}
+    p95 = float(np.percentile(allv, 95))
+    move = 0.0
+    for k_ in ("%s/%d" % c for c in CELLS):
+        for F in EXT_FILLS:
+            a_, b_ = settings[str(S0_FILL)].get(k_), settings[str(F)].get(k_)
+            if a_ and b_ and a_["supported600"] and b_["supported600"]:
+                move = max(move, abs(b_["E1"]["point"] - a_["E1"]["point"]))
+    inert = ("the fill limits of 15 and 30 s are nearly inert on this corpus: only %.2g %% and %.2g %% of the coolant sample intervals exceed them and the observed share moves by at most %.4f, far inside its interval; "
+             "this shows the convention does not matter here, not that the estimates are robust to sampling gaps" % (100.0 * float(np.mean(allv > 15)), 100.0 * float(np.mean(allv > 30)), move))
+    return {"spec": "analyses/M648_spec.md", "methodVersion": "M648-r1", "cohort": "all", "fills": list(F_ALL), "record": {"fill": S0_FILL, "toleranceS": S0_TOL}, "headlineCells": ["%s/%d" % c for c in CELLS], "h": H,
+            "label": "range over declared conventions, not a confidence interval; the record stays F = 3 s; no setting is chosen",
+            "settings": settings, "pairedVsRecord": paired, "reasonByToleranceEqualsFill": reason_eq_fill, "statement": statement, "ranges": ranges,
+            "coolantIntervalShare": {"definition": "share of the pooled coolant sample intervals of all analysed drives that are strictly greater than F seconds", "byFill": share, "byFillPercent": {k_: _r(100.0 * v_, 6) for k_, v_ in share.items()}, "p95IntervalS": _r(p95, 3), "nIntervals": int(allv.size)},
+            "checks": chk, "nearlyInert": inert, "maxObservedShareMove": _r(move, 4),
+            "reading": ("Sensitivity of the observed share and the Kaplan-Meier (product-limit) estimate to forward-fill limits of 15 and 30 s beside the record (3 s); a longer fill repeats an earlier value, so event times are fixed, censoring moves later and the cold-start population can grow; "
+                        "range over declared conventions, not a confidence interval."),
+            "limits": ["the fill limit F exceeds the trip-end tolerance X = 10 s for F = 15 and 30 s, so the fill and the tolerance are coupled and the trip-end versus channel-loss split in these rows is not interpretable",
+                       "a fill of 30 s lets drives with very few real samples pass the 30-valid-second cold-start rule: it changes the population, not the timing (paired counts of added drives are in pairedVsRecord)",
+                       "the 95th percentile of the coolant sample interval is %s s; the share of intervals above F is in coolantIntervalShare" % _r(p95, 1)]}
 
 
 # ------------------------------------------------------------------------------------------------ CLI (standalone rebuild for the audit)

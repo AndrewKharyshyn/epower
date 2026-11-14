@@ -25,6 +25,8 @@ GAP_S = 10
 B_DRAWS, SEED = 4000, 42
 FLUIDS = ("coolant", "oil")
 COHORTS = ("all", "warm", "shoulder")
+EXTRA_COHORTS = ("cold",)       # M648 (UI-04, spec Rev 1): Cold cells under the same definitions; never part of the common RMST horizon (R1) and never given curve support
+EXPLORATORY_ESS_DAYS = 10.0      # a cell with fewer effective days is exploratory: no reading class, no median
 LABEL_BASE = "this vehicle, one driver"          # M625: the month span and the ambient range are derived from the analysed cold-start drives (tools/scope_label.py), never typed
 
 
@@ -213,10 +215,10 @@ def grid_support(spans, days, grid):
 def build_block(tte, raw, days, regimes, C, meta=None, scope=None, coverage=None):
     """tte / raw: per-drive records aligned with `days` (calendar day strings) and `regimes` (thermal_regime); meta (optional): per-drive {"distanceKm", "startHour"} for the post-hoc stopping profile."""
     idx = {"all": list(range(len(tte)))}
-    for c in ("warm", "shoulder"):
+    for c in ("warm", "shoulder") + EXTRA_COHORTS:
         idx[c] = [i for i, r in enumerate(regimes) if r == c]
     cells, order = {}, []
-    for coh in COHORTS:
+    for coh in COHORTS + EXTRA_COHORTS:
         uni = np.array(sorted({days[i] for i in idx[coh] if tte[i].get("status") == "cold"}))
         counts = T.day_counts(uni, B_DRAWS, SEED) if len(uni) else None            # one set of resamples per cohort, shared by all cells (C4)
         for fl in FLUIDS:
@@ -235,6 +237,8 @@ def build_block(tte, raw, days, regimes, C, meta=None, scope=None, coverage=None
                 if not t:
                     continue
                 cells[(coh, fl, thr)] = analyze_cell(t, e, d, rs, ag, sc, lg, fl, thr, counts, uni)
+                if coh in EXTRA_COHORTS:                         # M648: script-written reading of a degenerate interval (Director, item 3)
+                    cells[(coh, fl, thr)]["reachedByH600"] = int(sum(1 for tt_, ee_ in zip(t, e) if ee_ and tt_ <= 600))
                 order.append((coh, fl, thr))
     # common RMST horizon per fluid / threshold: smallest, across the cohorts, of each cohort's longest supported declared horizon
     for fl in FLUIDS:
@@ -247,6 +251,45 @@ def build_block(tte, raw, days, regimes, C, meta=None, scope=None, coverage=None
             for coh in COHORTS:
                 if (coh, fl, thr) in cells:
                     finish_rmst(cells[(coh, fl, thr)], tau)
+            for coh in EXTRA_COHORTS:                      # M648 R1: the common horizon comes from the three original cohorts; Cold gets RMST at that tau only when supported
+                c = cells.get((coh, fl, thr))
+                if c is None:
+                    continue
+                if tau is not None and tau >= 300 and c["supportedHorizons"] and max(c["supportedHorizons"]) >= tau:
+                    finish_rmst(c, tau)
+                    c["rmst"]["label"] = "mean seconds within the horizon (restricted mean time), Kaplan-Meier (product-limit) estimate; horizon common to all, warm and shoulder (deviation from M435 section 2: Cold does not enter the common horizon)"
+                else:
+                    c.pop("_cell"); c.pop("_S")
+                    c["rmst"] = {"tauS": None, "note": "restricted mean time not reported for this cohort: it has no supported horizon up to the common horizon of the other cohorts"}
+    partition = None
+    if any(r == "cold" for r in regimes):                # M648 R4: when Cold is open the cohorts partition the cold-start drives of each cell (drives only; days do not add)
+        unassigned = sum(1 for r in regimes if r not in ("warm", "shoulder", "cold"))
+        partition = {"unassignedDrives": int(unassigned), "cells": {}}
+        for fl in FLUIDS:
+            for thr in THRESHOLDS:
+                ns = {coh: (cells.get((coh, fl, thr)) or {}).get("n", 0) for coh in COHORTS + EXTRA_COHORTS}
+                partition["cells"]["%s/%d" % (fl, thr)] = ns
+                if unassigned != 0 or ns["all"] != ns["warm"] + ns["shoulder"] + ns["cold"]:
+                    raise RuntimeError("M648 partition check failed (STOP) in %s/%d: all %d != warm %d + shoulder %d + cold %d" % (fl, thr, ns["all"], ns["warm"], ns["shoulder"], ns["cold"]))
+        partition["note"] = "drives of all = cold + warm + shoulder + unassigned; STOP if any drive is unassigned or a cell does not add up; days do not add"
+    for coh in EXTRA_COHORTS:                            # exploratory cells carry no reading class and no median (Director, M648 Rev 1)
+        for fl in FLUIDS:
+            for thr in THRESHOLDS:
+                c = cells.get((coh, fl, thr))
+                if c is None:
+                    continue
+                c["exploratory"] = bool(c["essDays"] < EXPLORATORY_ESS_DAYS)
+                c["exploratoryRule"] = "fewer than %d effective days in this cell: point and interval only, no reading class, no median" % EXPLORATORY_ESS_DAYS
+                h6 = next((h_ for h_ in c["horizons"] if h_["h"] == 600 and h_["supported"]), None)
+                if h6 is not None and h6["E1"]["ci95"][0] == 0.0:
+                    c["intervalNote"] = (("the lower limit of the interval at 600 s is 0 because only %d drives reached the threshold by 600 s; this is a percentile floor and the interval is not informative" % c["reachedByH600"])
+                                         if c["reachedByH600"] > 0 else "no drive reached the threshold by 600 s; the interval is degenerate at 0 and not informative")
+                if c["exploratory"]:
+                    for h_ in c["horizons"]:
+                        for k_ in ("reading", "readingClasses", "readingClass"):
+                            h_.pop(k_, None)
+                    c["median"]["shown"] = False
+                    c["median"]["text"] = "not shown: exploratory cell"
     out = {}
     for (coh, fl, thr) in order:
         out.setdefault(coh, {}).setdefault(fl, {})[str(thr)] = cells[(coh, fl, thr)]
@@ -288,7 +331,7 @@ def build_block(tte, raw, days, regimes, C, meta=None, scope=None, coverage=None
            "assumption": "assumes that ending the drive is unrelated to the remaining time to the threshold (independent censoring); this cannot be checked from these data; bounds and tilt rows below",
            "hypothetical": "describes the time to c C had the drive continued (route and load undefined); the observed share before key-off is shown beside it",
            "reachersLabel": "median of reachers only; understates the time for all cold starts; not a cohort median",
-           "cohorts": out, "curveSupport": curve, "postHoc": {"stoppingProfile": post},
+           "cohorts": out, "partitionCheck": partition, "coldNote": "Cold cells use the cold-start drives (status cold) WITHIN the Cold-regime drives (thermal_regime): a subset, the drives whose first valid coolant sample is below %g C (with at least 30 valid coolant seconds). Cold regime is a display class and cold-start drives are a population of drives; the two are never conflated. The observed share counts a trip that ended before the horizon as not reached, so it also reflects trip length. When only a few drives reached a threshold by the horizon the percentile interval can have a lower limit at 0 and is then not informative. The RMST horizon is the common horizon of all, warm and shoulder." % C._TWL_COLD_MAX, "curveSupport": curve, "postHoc": {"stoppingProfile": post},
            "populationNote": "Cold starts and event times use the released 1 Hz grid with a forward fill of at most 3 s (the coolant channel is logged less often than once per second); without the fill some drives leave the cold-start population; fill and trip-end tolerance are coupled; the sensitivity to the fill limit is shown below.",
            "requiredSentences": {"R1": "assumes that ending the drive is unrelated to the remaining time to the threshold (independent censoring); this cannot be checked from these data; bounds and tilt rows below",
                                  "R2": "describes the time to c C had the drive continued (route and load undefined); the observed share before key-off is shown beside it",
@@ -296,7 +339,7 @@ def build_block(tte, raw, days, regimes, C, meta=None, scope=None, coverage=None
                                  "R6": "median of reachers only (s); understates the time for all cold starts; not a cohort median"},
            "headline": {"cohort": "all", "cells": [{"fluid": "coolant", "thresholdC": 80, "h": 600}, {"fluid": "oil", "thresholdC": 70, "h": 600}], "note": "declared before any result; every other cell is descriptive; no contrasts between cohorts are claimed"},
            "limits": ["independent censoring cannot be tested; the bounds and the tilt measure how much it matters, they do not remove it", "single vehicle, one driver, " + (scope or "scope not available") + (" (" + coverage + ")" if coverage else ""),
-                      "the continued drive leaves route and load undefined", "the cold cohort and winter cannot be estimated", "the shares mix drives with different start temperatures"]}
+                      "the continued drive leaves route and load undefined", "Cold is descriptive: its observed shares depend on the trip-length mix, are a level and not warm-up physics, and no contrast between cohorts is claimed; a seasonal or temperature effect cannot be estimated", "the shares mix drives with different start temperatures"]}
     return blk
 
 

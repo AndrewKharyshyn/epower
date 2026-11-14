@@ -9533,7 +9533,15 @@ function TimeToThresholdPanel() {
               return <tr key={k+F}><td style={td}>{NM[k]||k}</td><td style={td}>{F}{F===FS.record.fill?" (record)":""}</td><td style={td}>{r.n} / {r.days}</td><td style={td}>{r.reached}</td><td style={td}>{r.censoredTripEnd} / {r.censoredChannelLoss}</td><td style={td}>{r.eventsAfterGapOver10s}</td>
                 <td style={td}>{r.supported600?`${f(r.E1.point)} ${ci(r.E1.ci95)}`:"not supported"}</td><td style={td}>{r.supported600?`${f(r.E2.point)} ${ci(r.E2.ci95)}`:"not supported"}</td><td style={td}>{r.supported600?f(r.boundHigh.point):"—"}</td><td style={td}>{r.supported600?`${r.readingClasses["F<0.5"]} / ${r.readingClasses["F>=0.5"]}`:"not supported"}</td></tr>; }))}</tbody></table>
           {cells.map(k=><div key={k+"st"}>{NM[k]||k}: {FS.statement[k].text}. {FS.statement[k].fillZeroNote}. Range of the observed share over the fill settings {f(FS.ranges[k].E1.min)} (95% interval {ci(FS.ranges[k].E1.minCi95)}, fill {FS.ranges[k].E1.minAtFill} s) to {f(FS.ranges[k].E1.max)} ({ci(FS.ranges[k].E1.maxCi95)}, fill {FS.ranges[k].E1.maxAtFill} s); of the Kaplan-Meier (product-limit) estimate {f(FS.ranges[k].E2.min)} ({ci(FS.ranges[k].E2.minCi95)}, fill {FS.ranges[k].E2.minAtFill} s) to {f(FS.ranges[k].E2.max)} ({ci(FS.ranges[k].E2.maxCi95)}, fill {FS.ranges[k].E2.maxAtFill} s). Against the record: {["0","6"].map(F=>{ const p=FS.pairedVsRecord[F][k]; return `fill ${F} s drops ${p.nDropped} and adds ${p.nAdded} cold starts (dropped: ${p.dropped.reachedBy600} reached by ${FS.h} s, ${p.dropped.censoredBefore600} censored before, ${p.dropped.atRiskAt600} at risk at ${FS.h} s), moves the censoring time of ${p.censoringTimeChanged} of the drives censored in both settings by at most ${f(p.maxCensoringShiftS,1)} s and no event time (${p.eventTimeChanged}); ${p.reasonChanged} reason labels change at the record tolerance`; }).join("; ")}.</div>)}
-          <div>Reason labels changed against the record, by fill and tolerance (drives censored in both): {Object.entries(FS.reasonChangedByFillAndTolerance).map(([g,c])=>`${g.replace("_X"," s, tolerance ")} s: ${cells.map(k=>(NM[k]||k)+" "+c[k].reasonChanged).join(", ")}`).join("; ")}. The trip-end tolerance changes only this split, never the counts of reached drives, the shares or the estimates. A tolerance of 5 s is below the 95th percentile of the coolant sample interval ({f(si.coolant&&si.coolant.p95S,2)} s), so label changes at 5 s reflect the sampling, not channel loss. The fill range of 0 to 6 s is below that percentile as well: longer gaps stay missing in every setting. {FS.labels.censoringTimeChanged}.</div>
+          <div>Reason labels changed against the record, by fill and tolerance (drives censored in both): {Object.entries(FS.reasonChangedByFillAndTolerance).map(([g,c])=>`${g.replace("_X"," s, tolerance ")} s: ${cells.map(k=>(NM[k]||k)+" "+c[k].reasonChanged).join(", ")}`).join("; ")}. The trip-end tolerance changes only this split, never the counts of reached drives, the shares or the estimates. A tolerance of 5 s is below the 95th percentile of the coolant sample interval ({f(si.coolant&&si.coolant.p95S,2)} s), so label changes at 5 s reflect the sampling, not channel loss. The fill range of 0 to 6 s is below that percentile as well: longer gaps stay missing in every setting (the longer limits of 15 and 30 s are in the rows below). {FS.labels.censoringTimeChanged}.</div>
+          {FS.extendedFills&&(()=>{ const EF=FS.extendedFills, ish=EF.coolantIntervalShare||{};
+            return <div data-m648="extended-fills" style={{marginTop:6}}>
+              <strong style={{color:"#0f172a"}}>Longer fill limits (M648).</strong> {EF.reading} Cohort {EF.cohort}, headline cells at {EF.h} s; the record stays the fill of {EF.record.fill} s. Share of the pooled coolant sample intervals above F: {Object.entries(ish.byFillPercent||{}).map(([F,v])=>"F = "+F+" s "+(v>=10?String(Math.round(v)):Number(v).toPrecision(2))+" %").join(", ")} (95th percentile of the interval {f(ish.p95IntervalS,1)} s).
+              <table style={{borderCollapse:"collapse",margin:"4px 0"}}><thead><tr><th style={th}>Cell</th><th style={th}>Fill (s)</th><th style={th}>Cold starts / days</th><th style={th}>Reached</th><th style={th}>Observed share within {EF.h} s (95% CI)</th><th style={th}>Kaplan-Meier (product-limit) estimate (95% CI)</th><th style={th}>Cold starts dropped / added vs the record</th></tr></thead>
+                <tbody>{EF.headlineCells.flatMap(k=>EF.fills.map(F=>{ const r=EF.settings[String(F)][k]; if(!r) return null; const p=EF.pairedVsRecord[String(F)]&&EF.pairedVsRecord[String(F)][k];
+                  return <tr key={k+F}><td style={td}>{NM[k]||k}</td><td style={td}>{F}{F===EF.record.fill?" (record)":""}</td><td style={td}>{r.n} / {r.days}</td><td style={td}>{r.reached}</td><td style={td}>{r.supported600?`${f(r.E1.point)} ${ci(r.E1.ci95)}`:"not supported"}</td><td style={td}>{r.supported600?`${f(r.E2.point)} ${ci(r.E2.ci95)}`:"not supported"}</td><td style={td}>{p?`${p.nDropped} / ${p.nAdded}`:"\u2014"}</td></tr>; }))}</tbody></table>
+              <div style={{fontSize:9.5,color:"#64748b"}}>{EF.nearlyInert}. {EF.limits.join("; ")}.</div>
+            </div>; })()}
         </div>; })()}
       {_coh==="all"&&T_.startStrata&&(()=>{ const SS=T_.startStrata; const NM={"coolant/80":"Coolant 80 °C","oil/70":"Oil 70 °C"}; const c0=SS.cutPointsC;
         return <div data-m438="strata" style={{marginTop:8}}>
@@ -11774,6 +11782,9 @@ function CohortSelector({cohort,setCohort}){
 // M285c: CI getter for raw-pass blocks that store a day-clustered bootstrap-of-median {ci95:[lo,hi], nDays}. No ESS is stored
 // for these (ess:null); the interval is on a median of a quantised signal and can collapse to zero width by resolution.
 function cmpBootCi(key){ return d=>{ const b=d&&d[key]; return (b&&Array.isArray(b.ci95)&&b.ci95.length===2&&typeof b.ci95[0]==="number"&&typeof b.ci95[1]==="number"&&typeof b.nDays==="number")?{lo:b.ci95[0],hi:b.ci95[1],ess:(typeof b.essDays==="number"?b.essDays:null),k:b.nDays,boot:true}:null; }; }
+function cmpTteCell(k,fl,thr){ const c=S.thermalSupportLedger?.timeToThreshold?.cohorts?.[k]?.[fl]?.[thr]; const h=c&&Array.isArray(c.horizons)?c.horizons.find(x=>x.h===600):null; return (c&&h&&h.supported&&h.E1&&typeof h.E1.point==="number")?{c,h}:null; }      // M648 (UI-04)
+function cmpTteShare(k,fl,thr){ const o=cmpTteCell(k,fl,thr); return o?o.h.E1.point*100:null; }
+function cmpTteShareCi(k,fl,thr){ const o=cmpTteCell(k,fl,thr); return (o&&Array.isArray(o.h.E1.ci95)&&o.h.E1.ci95.length===2)?{lo:o.h.E1.ci95[0]*100,hi:o.h.E1.ci95[1]*100,ess:(typeof o.c.essDays==="number"?o.c.essDays:null),k:o.c.days,boot:true}:null; }
 function cmpDig(o,path){ let c=o; for(let i=0;i<path.length;i++){ if(c==null||typeof c!=="object") return null; c=c[path[i]]; } return (typeof c==="number"&&isFinite(c))?c:null; }
 const CMP_SERIES=[
   // M270 (audit Section 9): encode cohort by line style + marker in addition to
@@ -11903,10 +11914,10 @@ const COMPARE_SPECS={
     {label:"Handoffs",digits:0,get:d=>cmpDig(d,["nHandoffs"])}],
     note:"Boost involvement = boost onsets / handoffs whose event window carries a boost channel (M285d; the previous all-handoff denominator was biased low by boost-PID availability). Shoulder onsets come almost entirely from two days (Jul 23\u201324), so its interval is wide and composition-confounded."},
   ThermalWarmupLag:{kind:"kpi",title:"Coolant / oil warm-up & thermal lag",metrics:[
-    {label:"Coolant \u2192 80\u00b0C, Kaplan-Meier (product-limit) estimate of the median",unit:"s",digits:0,get:(d,k)=>{const m=S.thermalSupportLedger?.timeToThreshold?.cohorts?.[k]?.coolant?.["80"]?.median; return (m&&m.shown&&typeof m.point==="number")?m.point:null;}},
-    {label:"Oil \u2192 80\u00b0C, Kaplan-Meier (product-limit) estimate of the median",unit:"s",digits:0,get:(d,k)=>{const m=S.thermalSupportLedger?.timeToThreshold?.cohorts?.[k]?.oil?.["80"]?.median; return (m&&m.shown&&typeof m.point==="number")?m.point:null;}},
+    {label:"Coolant \u2192 80\u00b0C, share of cold starts reaching it within 600 s (observed)",unit:"%",digits:1,noContrast:true,get:(d,k)=>cmpTteShare(k,"coolant","80"),ci:(d,k)=>cmpTteShareCi(k,"coolant","80")},
+    {label:"Oil \u2192 70\u00b0C, share of cold starts reaching it within 600 s (observed)",unit:"%",digits:1,noContrast:true,get:(d,k)=>cmpTteShare(k,"oil","70"),ci:(d,k)=>cmpTteShareCi(k,"oil","70")},
     {label:"Coolant\u2013oil lag @70\u00b0C (both reached 70\u00b0C)",unit:"s",digits:0,get:d=>cmpDig(d,["coolantOilLag70S","median"])}],
-    note:"Kaplan-Meier (product-limit) estimates of the median come from the support ledger (cohorts all, warm, shoulder); a cohort without a ledger entry (Cold) shows no value: not computed. The lag is conditioned on drives where both fluids reached 70 \u00b0C. Cohorts are not matched and no contrast is drawn."},
+    note:"Observed share of cold-start trips that reached the threshold within 600 s before key-off (a trip that ended earlier counts as not reached, so the share also reflects trip length; a lower bound when a drive lost the channel), with the 95% day-clustered percentile interval, from the support ledger (cohorts all, warm, shoulder, Cold). No median is drawn here: a median of the drives that reached a threshold understates the time for all cold starts. Cold is exploratory below 10 effective days. The share depends on the trip-length mix; it is a level, not warm-up physics, and no contrast between cohorts is claimed. The lag is conditioned on drives where both fluids reached 70 \u00b0C."},
   ThermalFuelPenalty:{kind:"kpi",title:"Cold-start fuel-rate association (adjusted)",metrics:[
     {label:"Warm-up L/100 ratio",digits:3,get:d=>cmpDig(d,["tripLevel","ratioWarmupWarm","median"])},
     {label:"Fuel-rate ratio (adjusted association)",digits:3,get:d=>cmpDig(d,["combustionPenalty","exposureWeightedRatio"])}]},
@@ -12036,7 +12047,7 @@ function CmpKpi({id,spec,series}){
       const drawn=vals.filter(o=>o.v!=null&&o.v===o.v);
       const noObs=vals.filter(o=>o.v==null||o.v!==o.v);
       if(!drawn.length) return <div key={mi} style={{fontSize:10,color:"#94a3b8",padding:"2px 6px"}}>{m.label}: no data for these cohorts</div>;
-      const cis={}; if(m.ci) drawn.forEach(o=>{ const c=m.ci(data[o.s.key]); if(c) cis[o.s.key]=c; });
+      const cis={}; if(m.ci) drawn.forEach(o=>{ const c=m.ci(data[o.s.key],o.s.key); if(c) cis[o.s.key]=c; });
       const nums=drawn.map(o=>o.v); let lo=Math.min(...nums),hi=Math.max(...nums);
       Object.keys(cis).forEach(k=>{ lo=Math.min(lo,cis[k].lo); hi=Math.max(hi,cis[k].hi); });
       if(lo>0) lo=0; if(lo===hi){lo-=1;hi+=1;} const pad=(hi-lo)*0.12; lo-=pad; hi+=pad;
@@ -12048,8 +12059,8 @@ function CmpKpi({id,spec,series}){
       return <svg key={mi} width={W} height={H+4} viewBox={`0 0 ${W} ${H+4}`} style={{display:"block"}}>
         <text x={labelW-8} y={H/2-(labLines.length-1)*6} textAnchor="end" fontSize={10} fill="#334155" dominantBaseline="middle">{labLines.map((ln,k)=><tspan key={k} x={labelW-8} dy={k?12:0}>{ln+(k<labLines.length-1?" ":"")}</tspan>)}</text>
         <line x1={plotX} x2={plotX+plotW} y1={H/2} y2={H/2} stroke="#f1f5f9"/>
-        {drawn.length>1&&<line x1={x(Math.min(...nums))} x2={x(Math.max(...nums))} y1={H/2} y2={H/2} stroke="#e2e8f0" strokeWidth={2}/>}
-        {drawn.map(o=>{ const cx=x(o.v); const dl=(o.s.key!=="all"&&hasAll&&allV!=null)?(o.v-allV):null;
+        {drawn.length>1&&!m.noContrast&&<line x1={x(Math.min(...nums))} x2={x(Math.max(...nums))} y1={H/2} y2={H/2} stroke="#e2e8f0" strokeWidth={2}/>}
+        {drawn.map(o=>{ const cx=x(o.v); const dl=(!m.noContrast&&o.s.key!=="all"&&hasAll&&allV!=null)?(o.v-allV):null;
           const ci=cis[o.s.key];
           return <g key={o.s.key}>
             {ci&&<g data-kpi-ci="1"><line x1={x(ci.lo)} x2={x(ci.hi)} y1={H/2} y2={H/2} stroke={o.s.col} strokeWidth={1.4} opacity={0.55}/>
@@ -12198,6 +12209,19 @@ function ColdConcentrationNote(){
   const pc=x=>x==null?"—":(x*100).toFixed(1)+"%", f1=x=>x==null?"—":Number(x).toFixed(1);
   return <div data-cold-concentration="1" style={{fontSize:9,color:"#b45309",marginTop:3,lineHeight:1.4}}>Cold support: {c.nDrives} drives on {c.nDays} dates, {f1(c.km)} km; the largest drive holds {pc(c.largestDrive?.share)} of the km (effective number of dates {f1(c.effectiveDays)}). Distance-weighted Cold values describe that trip mix, not a cold-temperature effect.</div>;
 }
+function TteSupportNote({series}){
+  // M648 (UI-04): per cohort, the cold-start drives, days, drives at risk at 600 s and effective days of the two headline cells, read from the ledger (nothing computed here); Cold is marked exploratory inline
+  const T=S.thermalSupportLedger?.timeToThreshold; if(!T) return null;
+  const nm=(s)=>s.label;
+  return <div data-tte-support="1" style={{fontSize:9.5,color:"#475569",marginTop:3,lineHeight:1.5}}>
+    {series.map(s=>{ const C=T.cohorts&&T.cohorts[s.key];
+      if(!C) return <div key={s.key}><strong style={{color:s.col}}>{nm(s)}</strong>: no time-to-threshold entry in the ledger (below the support floor).</div>;
+      const parts=[["coolant","80","coolant 80 \u00b0C"],["oil","70","oil 70 \u00b0C"]].map(([fl,t,lb])=>{ const c=C[fl]&&C[fl][t]; if(!c) return lb+": no cell"; const h=(c.horizons||[]).find(x=>x.h===600);
+        return lb+": "+c.n+" cold-start drives on "+c.days+" days, "+(h?h.atRisk+" drives on "+h.atRiskDays+" days at risk at 600 s":"")+", "+c.essDays+" effective days"+(c.exploratory?" (exploratory: no reading class, no median)":"")+(h&&!h.supported?" (below the support floor)":"")+(c.intervalNote?"; "+c.intervalNote:""); });
+      return <div key={s.key}><strong style={{color:s.col}}>{nm(s)}</strong>: {parts.join("; ")}.</div>; })}
+    {series.some(x=>x.key==="cold")&&<div style={{color:"#b45309"}}>{T.coldNote}</div>}
+  </div>;
+}
 function CompareBlock({id}){
   const sel=React.useContext(CompareCtx);
   const series=activeCompareSeries(sel);
@@ -12209,7 +12233,7 @@ function CompareBlock({id}){
   else if(kind==="lines") body=<CmpLines id={id} spec={spec} series={series}/>;
   else if(kind==="box") body=<CmpBox id={id} spec={spec} series={series}/>;
   else body=<CmpKpi id={id} spec={spec} series={series}/>;
-  return <CmpFrame title={title} series={series} note={spec.note}><div data-cmp-kind={kind}>{body}</div>{series.some(x=>x.key==="cold")&&<ColdConcentrationNote/>}</CmpFrame>;
+  return <CmpFrame title={title} series={series} note={spec.note}><div data-cmp-kind={kind}>{body}</div>{series.some(x=>x.key==="cold")&&<ColdConcentrationNote/>}{id==="ThermalWarmupLag"&&<TteSupportNote series={series}/>}</CmpFrame>;
 }
 function CmpContrastPanel(){
   // M646 (owner decision 2026-11-14, spec analyses/M646_spec.md Rev 1): Cold / Shoulder minus Warm, raw and route-mix standardised, with a day-clustered bootstrap interval.

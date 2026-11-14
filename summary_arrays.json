@@ -67713,20 +67713,20 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "11a89dc0c881bd0a60e9e957ccd1936a",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-11-11T00:03:31.526001+00:00",
+   "generatedAt": "2026-11-14T02:36:57.743131+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3"
    },
    "computationStatus": "computed",
    "computationStatusNote": "M418: derived by tools/thermal_support_ledger.py from the frame cache and the raw files; additive thermal support ledger",
-   "includedInReleaseAt": "2026-11-11T00:03:31.526001+00:00",
-   "computedAt": "2026-11-11T00:03:31.526001+00:00",
+   "includedInReleaseAt": "2026-11-14T02:36:57.743131+00:00",
    "inputBasis": {
     "nDrives": 665,
     "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
     "source": "stamping pass: meta.totalDrives, corpusHash"
-   }
+   },
+   "computedAt": "2026-11-14T02:36:57.743131+00:00"
   },
   "turboByRpmRule": {
    "corpusHash": "77bbe275f8c22eaf62d8636867764af3",
@@ -420811,8 +420811,1439 @@
        }
       }
      }
+    },
+    "cold": {
+     "coolant": {
+      "60": {
+       "n": 46,
+       "days": 11,
+       "essDays": 8.9,
+       "reached": 37,
+       "censoredTripEnd": 9,
+       "censoredChannelLoss": 0,
+       "eventsAfterGapOver10s": 0,
+       "startC": {
+        "p25": 15.25,
+        "median": 35.0,
+        "p75": 48.5,
+        "n": 46
+       },
+       "lagToFirstValidS": {
+        "p25": 0.0,
+        "median": 0.0,
+        "p75": 0.0,
+        "n": 46
+       },
+       "reachersOnlyMedian": {
+        "seconds": 286.0,
+        "n": 37,
+        "label": "median of reachers only; understates the time for all cold starts; not a cohort median"
+       },
+       "horizons": [
+        {
+         "h": 300,
+         "atRisk": 21,
+         "atRiskDays": 9,
+         "supported": true,
+         "E1": {
+          "point": 0.413,
+          "ci95": [
+           0.2308,
+           0.5714
+          ],
+          "label": "observed share of cold-start trips reaching the threshold within h before key-off (equals the lower worst-case bound; exact if no drive was censored for channel loss, otherwise a lower bound)"
+         },
+         "E2": {
+          "point": 0.4289,
+          "ci95": [
+           0.2364,
+           0.5995
+          ],
+          "label": "Kaplan-Meier (product-limit) estimate of the share reached by h, hypothetical continued drive, independent censoring assumed"
+         },
+         "bounds": {
+          "low": {
+           "point": 0.413,
+           "ci95": [
+            0.2308,
+            0.5714
+           ]
+          },
+          "high": {
+           "point": 0.5435,
+           "ci95": [
+            0.35,
+            0.7234
+           ]
+          },
+          "outerInterval": [
+           0.2308,
+           0.7234
+          ],
+          "label": "worst-case (Manski) identification bounds with day-clustered outer interval; not confidence intervals of a parameter"
+         },
+         "tilt": {
+          "0.25": {
+           "point": 0.4173,
+           "ci95": [
+            0.2329,
+            0.5783
+           ]
+          },
+          "0.5": {
+           "point": 0.4214,
+           "ci95": [
+            0.2347,
+            0.5865
+           ]
+          },
+          "1": {
+           "point": 0.4289,
+           "ci95": [
+            0.2364,
+            0.5995
+           ]
+          },
+          "2": {
+           "point": 0.4418,
+           "ci95": [
+            0.2414,
+            0.622
+           ]
+          },
+          "4": {
+           "point": 0.4609,
+           "ci95": [
+            0.2472,
+            0.6499
+           ]
+          }
+         },
+         "tippingTheta": null,
+         "tippingThetaLimit95": null,
+         "tippingNote": "theta at which the point tilted share reached crosses 0.5, and the theta at which its upper 95% limit crosses 0.5 (bisection on log theta over [0.01, 100], limit to 0.01 in log theta); null if no crossing inside that interval"
+        },
+        {
+         "h": 600,
+         "atRisk": 0,
+         "atRiskDays": 0,
+         "supported": false
+        },
+        {
+         "h": 900,
+         "atRisk": 0,
+         "atRiskDays": 0,
+         "supported": false
+        },
+        {
+         "h": 1200,
+         "atRisk": 0,
+         "atRiskDays": 0,
+         "supported": false
+        },
+        {
+         "h": 1800,
+         "atRisk": 0,
+         "atRiskDays": 0,
+         "supported": false
+        }
+       ],
+       "supportedHorizons": [
+        300
+       ],
+       "median": {
+        "point": 322.0,
+        "ci95": [
+         249.0,
+         342.0
+        ],
+        "shareDrawsUnidentified": 0.0,
+        "atRiskAtMedian": [
+         19,
+         9
+        ],
+        "tiltedAtBand": {
+         "0.5": 328.0,
+         "2": 316.0
+        },
+        "shown": false,
+        "text": "not shown: exploratory cell"
+       },
+       "reachedByH600": 37,
+       "rmst": {
+        "tauS": 300,
+        "point": 257.2,
+        "ci95": [
+         233.2,
+         280.8
+        ],
+        "label": "mean seconds within the horizon (restricted mean time), Kaplan-Meier (product-limit) estimate; horizon common to all, warm and shoulder (deviation from M435 section 2: Cold does not enter the common horizon)"
+       },
+       "exploratory": true,
+       "exploratoryRule": "fewer than 10 effective days in this cell: point and interval only, no reading class, no median"
+      },
+      "70": {
+       "n": 46,
+       "days": 11,
+       "essDays": 8.9,
+       "reached": 21,
+       "censoredTripEnd": 25,
+       "censoredChannelLoss": 0,
+       "eventsAfterGapOver10s": 0,
+       "startC": {
+        "p25": 15.25,
+        "median": 35.0,
+        "p75": 48.5,
+        "n": 46
+       },
+       "lagToFirstValidS": {
+        "p25": 0.0,
+        "median": 0.0,
+        "p75": 0.0,
+        "n": 46
+       },
+       "reachersOnlyMedian": {
+        "seconds": 331.0,
+        "n": 21,
+        "label": "median of reachers only; understates the time for all cold starts; not a cohort median"
+       },
+       "horizons": [
+        {
+         "h": 300,
+         "atRisk": 31,
+         "atRiskDays": 10,
+         "supported": true,
+         "E1": {
+          "point": 0.1957,
+          "ci95": [
+           0.0789,
+           0.3158
+          ],
+          "label": "observed share of cold-start trips reaching the threshold within h before key-off (equals the lower worst-case bound; exact if no drive was censored for channel loss, otherwise a lower bound)"
+         },
+         "E2": {
+          "point": 0.2005,
+          "ci95": [
+           0.0805,
+           0.3269
+          ],
+          "label": "Kaplan-Meier (product-limit) estimate of the share reached by h, hypothetical continued drive, independent censoring assumed"
+         },
+         "bounds": {
+          "low": {
+           "point": 0.1957,
+           "ci95": [
+            0.0789,
+            0.3158
+           ]
+          },
+          "high": {
+           "point": 0.3261,
+           "ci95": [
+            0.186,
+            0.4762
+           ]
+          },
+          "outerInterval": [
+           0.0789,
+           0.4762
+          ],
+          "label": "worst-case (Manski) identification bounds with day-clustered outer interval; not confidence intervals of a parameter"
+         },
+         "tilt": {
+          "0.25": {
+           "point": 0.1969,
+           "ci95": [
+            0.0793,
+            0.3177
+           ]
+          },
+          "0.5": {
+           "point": 0.1981,
+           "ci95": [
+            0.0797,
+            0.3209
+           ]
+          },
+          "1": {
+           "point": 0.2005,
+           "ci95": [
+            0.0805,
+            0.3269
+           ]
+          },
+          "2": {
+           "point": 0.205,
+           "ci95": [
+            0.082,
+            0.3378
+           ]
+          },
+          "4": {
+           "point": 0.2133,
+           "ci95": [
+            0.0849,
+            0.3552
+           ]
+          }
+         },
+         "tippingTheta": null,
+         "tippingThetaLimit95": null,
+         "tippingNote": "theta at which the point tilted share reached crosses 0.5, and the theta at which its upper 95% limit crosses 0.5 (bisection on log theta over [0.01, 100], limit to 0.01 in log theta); null if no crossing inside that interval"
+        },
+        {
+         "h": 600,
+         "atRisk": 8,
+         "atRiskDays": 5,
+         "supported": false
+        },
+        {
+         "h": 900,
+         "atRisk": 3,
+         "atRiskDays": 2,
+         "supported": false
+        },
+        {
+         "h": 1200,
+         "atRisk": 1,
+         "atRiskDays": 1,
+         "supported": false
+        },
+        {
+         "h": 1800,
+         "atRisk": 0,
+         "atRiskDays": 0,
+         "supported": false
+        }
+       ],
+       "supportedHorizons": [
+        300
+       ],
+       "median": {
+        "point": 790.0,
+        "ci95": [
+         407.0,
+         "beyond supported range"
+        ],
+        "shareDrawsUnidentified": 0.029,
+        "atRiskAtMedian": [
+         8,
+         5
+        ],
+        "tiltedAtBand": {
+         "0.5": 800.0,
+         "2": 585.0
+        },
+        "shown": false,
+        "text": "not shown: exploratory cell"
+       },
+       "reachedByH600": 17,
+       "rmst": {
+        "tauS": null,
+        "note": "restricted mean time not reported for this cohort: it has no supported horizon up to the common horizon of the other cohorts"
+       },
+       "exploratory": true,
+       "exploratoryRule": "fewer than 10 effective days in this cell: point and interval only, no reading class, no median"
+      },
+      "80": {
+       "n": 46,
+       "days": 11,
+       "essDays": 8.9,
+       "reached": 6,
+       "censoredTripEnd": 40,
+       "censoredChannelLoss": 0,
+       "eventsAfterGapOver10s": 0,
+       "startC": {
+        "p25": 15.25,
+        "median": 35.0,
+        "p75": 48.5,
+        "n": 46
+       },
+       "lagToFirstValidS": {
+        "p25": 0.0,
+        "median": 0.0,
+        "p75": 0.0,
+        "n": 46
+       },
+       "reachersOnlyMedian": {
+        "seconds": 706.0,
+        "n": 6,
+        "label": "median of reachers only; understates the time for all cold starts; not a cohort median"
+       },
+       "horizons": [
+        {
+         "h": 300,
+         "atRisk": 36,
+         "atRiskDays": 11,
+         "supported": true,
+         "E1": {
+          "point": 0.0435,
+          "ci95": [
+           0.0,
+           0.1081
+          ],
+          "label": "observed share of cold-start trips reaching the threshold within h before key-off (equals the lower worst-case bound; exact if no drive was censored for channel loss, otherwise a lower bound)"
+         },
+         "E2": {
+          "point": 0.048,
+          "ci95": [
+           0.0,
+           0.1257
+          ],
+          "label": "Kaplan-Meier (product-limit) estimate of the share reached by h, hypothetical continued drive, independent censoring assumed"
+         },
+         "bounds": {
+          "low": {
+           "point": 0.0435,
+           "ci95": [
+            0.0,
+            0.1081
+           ]
+          },
+          "high": {
+           "point": 0.2174,
+           "ci95": [
+            0.0816,
+            0.3889
+           ]
+          },
+          "outerInterval": [
+           0.0,
+           0.3889
+          ],
+          "label": "worst-case (Manski) identification bounds with day-clustered outer interval; not confidence intervals of a parameter"
+         },
+         "tilt": {
+          "0.25": {
+           "point": 0.0446,
+           "ci95": [
+            0.0,
+            0.1124
+           ]
+          },
+          "0.5": {
+           "point": 0.0457,
+           "ci95": [
+            0.0,
+            0.1172
+           ]
+          },
+          "1": {
+           "point": 0.048,
+           "ci95": [
+            0.0,
+            0.1257
+           ]
+          },
+          "2": {
+           "point": 0.0523,
+           "ci95": [
+            0.0,
+            0.1398
+           ]
+          },
+          "4": {
+           "point": 0.0606,
+           "ci95": [
+            0.0,
+            0.1665
+           ]
+          }
+         },
+         "tippingTheta": null,
+         "tippingThetaLimit95": null,
+         "tippingNote": "theta at which the point tilted share reached crosses 0.5, and the theta at which its upper 95% limit crosses 0.5 (bisection on log theta over [0.01, 100], limit to 0.01 in log theta); null if no crossing inside that interval"
+        },
+        {
+         "h": 600,
+         "atRisk": 14,
+         "atRiskDays": 5,
+         "supported": true,
+         "E1": {
+          "point": 0.0652,
+          "ci95": [
+           0.0,
+           0.1539
+          ],
+          "label": "observed share of cold-start trips reaching the threshold within h before key-off (equals the lower worst-case bound; exact if no drive was censored for channel loss, otherwise a lower bound)"
+         },
+         "E2": {
+          "point": 0.0956,
+          "ci95": [
+           0.0,
+           0.2577
+          ],
+          "label": "Kaplan-Meier (product-limit) estimate of the share reached by h, hypothetical continued drive, independent censoring assumed"
+         },
+         "bounds": {
+          "low": {
+           "point": 0.0652,
+           "ci95": [
+            0.0,
+            0.1539
+           ]
+          },
+          "high": {
+           "point": 0.6957,
+           "ci95": [
+            0.5111,
+            0.8909
+           ]
+          },
+          "outerInterval": [
+           0.0,
+           0.8909
+          ],
+          "label": "worst-case (Manski) identification bounds with day-clustered outer interval; not confidence intervals of a parameter"
+         },
+         "tilt": {
+          "0.25": {
+           "point": 0.073,
+           "ci95": [
+            0.0,
+            0.1787
+           ]
+          },
+          "0.5": {
+           "point": 0.0806,
+           "ci95": [
+            0.0,
+            0.2052
+           ]
+          },
+          "1": {
+           "point": 0.0956,
+           "ci95": [
+            0.0,
+            0.2577
+           ]
+          },
+          "2": {
+           "point": 0.124,
+           "ci95": [
+            0.0,
+            0.3582
+           ]
+          },
+          "4": {
+           "point": 0.1759,
+           "ci95": [
+            0.0,
+            0.4845
+           ]
+          }
+         },
+         "tippingTheta": 31.207,
+         "tippingThetaLimit95": 4.274,
+         "tippingNote": "theta at which the point tilted share reached crosses 0.5, and the theta at which its upper 95% limit crosses 0.5 (bisection on log theta over [0.01, 100], limit to 0.01 in log theta); null if no crossing inside that interval"
+        },
+        {
+         "h": 900,
+         "atRisk": 8,
+         "atRiskDays": 4,
+         "supported": false
+        },
+        {
+         "h": 1200,
+         "atRisk": 4,
+         "atRiskDays": 2,
+         "supported": false
+        },
+        {
+         "h": 1800,
+         "atRisk": 1,
+         "atRiskDays": 1,
+         "supported": false
+        }
+       ],
+       "supportedHorizons": [
+        300,
+        600
+       ],
+       "median": {
+        "point": "+inf",
+        "ci95": [
+         984.0,
+         "beyond supported range"
+        ],
+        "shareDrawsUnidentified": 0.6352,
+        "atRiskAtMedian": [
+         0,
+         0
+        ],
+        "tiltedAtBand": {
+         "0.5": "+inf",
+         "2": 1149.0
+        },
+        "shown": false,
+        "text": "not shown: exploratory cell"
+       },
+       "reachedByH600": 3,
+       "rmst": {
+        "tauS": null,
+        "note": "restricted mean time not reported for this cohort: it has no supported horizon up to the common horizon of the other cohorts"
+       },
+       "exploratory": true,
+       "exploratoryRule": "fewer than 10 effective days in this cell: point and interval only, no reading class, no median",
+       "intervalNote": "the lower limit of the interval at 600 s is 0 because only 3 drives reached the threshold by 600 s; this is a percentile floor and the interval is not informative"
+      }
+     },
+     "oil": {
+      "60": {
+       "n": 46,
+       "days": 11,
+       "essDays": 8.9,
+       "reached": 14,
+       "censoredTripEnd": 32,
+       "censoredChannelLoss": 0,
+       "eventsAfterGapOver10s": 0,
+       "startC": {
+        "p25": 12.25,
+        "median": 33.5,
+        "p75": 41.0,
+        "n": 46
+       },
+       "lagToFirstValidS": {
+        "p25": 0.0,
+        "median": 0.0,
+        "p75": 1.0,
+        "n": 46
+       },
+       "atOrAboveAtStart": 0,
+       "atOrAboveAtStartShare": 0.0,
+       "reachersOnlyMedian": {
+        "seconds": 571.0,
+        "n": 14,
+        "label": "median of reachers only; understates the time for all cold starts; not a cohort median"
+       },
+       "horizons": [
+        {
+         "h": 300,
+         "atRisk": 34,
+         "atRiskDays": 11,
+         "supported": true,
+         "E1": {
+          "point": 0.1087,
+          "ci95": [
+           0.0256,
+           0.193
+          ],
+          "label": "observed share of cold-start trips reaching the threshold within h before key-off (equals the lower worst-case bound; exact if no drive was censored for channel loss, otherwise a lower bound)"
+         },
+         "E2": {
+          "point": 0.1127,
+          "ci95": [
+           0.0263,
+           0.2028
+          ],
+          "label": "Kaplan-Meier (product-limit) estimate of the share reached by h, hypothetical continued drive, independent censoring assumed"
+         },
+         "bounds": {
+          "low": {
+           "point": 0.1087,
+           "ci95": [
+            0.0256,
+            0.193
+           ]
+          },
+          "high": {
+           "point": 0.2609,
+           "ci95": [
+            0.1429,
+            0.3958
+           ]
+          },
+          "outerInterval": [
+           0.0256,
+           0.3958
+          ],
+          "label": "worst-case (Manski) identification bounds with day-clustered outer interval; not confidence intervals of a parameter"
+         },
+         "tilt": {
+          "0.25": {
+           "point": 0.1097,
+           "ci95": [
+            0.0256,
+            0.1953
+           ]
+          },
+          "0.5": {
+           "point": 0.1107,
+           "ci95": [
+            0.0257,
+            0.197
+           ]
+          },
+          "1": {
+           "point": 0.1127,
+           "ci95": [
+            0.0263,
+            0.2028
+           ]
+          },
+          "2": {
+           "point": 0.1165,
+           "ci95": [
+            0.0263,
+            0.2122
+           ]
+          },
+          "4": {
+           "point": 0.1236,
+           "ci95": [
+            0.0278,
+            0.2329
+           ]
+          }
+         },
+         "tippingTheta": null,
+         "tippingThetaLimit95": null,
+         "tippingNote": "theta at which the point tilted share reached crosses 0.5, and the theta at which its upper 95% limit crosses 0.5 (bisection on log theta over [0.01, 100], limit to 0.01 in log theta); null if no crossing inside that interval"
+        },
+        {
+         "h": 600,
+         "atRisk": 12,
+         "atRiskDays": 5,
+         "supported": true,
+         "E1": {
+          "point": 0.1522,
+          "ci95": [
+           0.0682,
+           0.2439
+          ],
+          "label": "observed share of cold-start trips reaching the threshold within h before key-off (equals the lower worst-case bound; exact if no drive was censored for channel loss, otherwise a lower bound)"
+         },
+         "E2": {
+          "point": 0.1959,
+          "ci95": [
+           0.0882,
+           0.3064
+          ],
+          "label": "Kaplan-Meier (product-limit) estimate of the share reached by h, hypothetical continued drive, independent censoring assumed"
+         },
+         "bounds": {
+          "low": {
+           "point": 0.1522,
+           "ci95": [
+            0.0682,
+            0.2439
+           ]
+          },
+          "high": {
+           "point": 0.7391,
+           "ci95": [
+            0.5714,
+            0.913
+           ]
+          },
+          "outerInterval": [
+           0.0682,
+           0.913
+          ],
+          "label": "worst-case (Manski) identification bounds with day-clustered outer interval; not confidence intervals of a parameter"
+         },
+         "tilt": {
+          "0.25": {
+           "point": 0.1636,
+           "ci95": [
+            0.076,
+            0.2562
+           ]
+          },
+          "0.5": {
+           "point": 0.1746,
+           "ci95": [
+            0.0814,
+            0.2706
+           ]
+          },
+          "1": {
+           "point": 0.1959,
+           "ci95": [
+            0.0882,
+            0.3064
+           ]
+          },
+          "2": {
+           "point": 0.2352,
+           "ci95": [
+            0.0978,
+            0.3802
+           ]
+          },
+          "4": {
+           "point": 0.3024,
+           "ci95": [
+            0.1041,
+            0.4893
+           ]
+          }
+         },
+         "tippingTheta": 14.9158,
+         "tippingThetaLimit95": 4.313,
+         "tippingNote": "theta at which the point tilted share reached crosses 0.5, and the theta at which its upper 95% limit crosses 0.5 (bisection on log theta over [0.01, 100], limit to 0.01 in log theta); null if no crossing inside that interval"
+        },
+        {
+         "h": 900,
+         "atRisk": 3,
+         "atRiskDays": 2,
+         "supported": false
+        },
+        {
+         "h": 1200,
+         "atRisk": 2,
+         "atRiskDays": 1,
+         "supported": false
+        },
+        {
+         "h": 1800,
+         "atRisk": 1,
+         "atRiskDays": 1,
+         "supported": false
+        }
+       ],
+       "supportedHorizons": [
+        300,
+        600
+       ],
+       "median": {
+        "point": 817.0,
+        "ci95": [
+         690.0,
+         "beyond supported range"
+        ],
+        "shareDrawsUnidentified": 0.1148,
+        "atRiskAtMedian": [
+         6,
+         3
+        ],
+        "tiltedAtBand": {
+         "0.5": 872.0,
+         "2": 738.0
+        },
+        "shown": false,
+        "text": "not shown: exploratory cell"
+       },
+       "reachedByH600": 7,
+       "rmst": {
+        "tauS": null,
+        "note": "restricted mean time not reported for this cohort: it has no supported horizon up to the common horizon of the other cohorts"
+       },
+       "exploratory": true,
+       "exploratoryRule": "fewer than 10 effective days in this cell: point and interval only, no reading class, no median"
+      },
+      "70": {
+       "n": 46,
+       "days": 11,
+       "essDays": 8.9,
+       "reached": 4,
+       "censoredTripEnd": 42,
+       "censoredChannelLoss": 0,
+       "eventsAfterGapOver10s": 0,
+       "startC": {
+        "p25": 12.25,
+        "median": 33.5,
+        "p75": 41.0,
+        "n": 46
+       },
+       "lagToFirstValidS": {
+        "p25": 0.0,
+        "median": 0.0,
+        "p75": 1.0,
+        "n": 46
+       },
+       "atOrAboveAtStart": 0,
+       "atOrAboveAtStartShare": 0.0,
+       "reachersOnlyMedian": {
+        "seconds": 612.0,
+        "n": 4,
+        "label": "median of reachers only; understates the time for all cold starts; not a cohort median"
+       },
+       "horizons": [
+        {
+         "h": 300,
+         "atRisk": 39,
+         "atRiskDays": 11,
+         "supported": true,
+         "E1": {
+          "point": 0.0,
+          "ci95": [
+           0.0,
+           0.0
+          ],
+          "label": "observed share of cold-start trips reaching the threshold within h before key-off (equals the lower worst-case bound; exact if no drive was censored for channel loss, otherwise a lower bound)"
+         },
+         "E2": {
+          "point": 0.0,
+          "ci95": [
+           0.0,
+           0.0
+          ],
+          "label": "Kaplan-Meier (product-limit) estimate of the share reached by h, hypothetical continued drive, independent censoring assumed"
+         },
+         "bounds": {
+          "low": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          },
+          "high": {
+           "point": 0.1522,
+           "ci95": [
+            0.0513,
+            0.2703
+           ]
+          },
+          "outerInterval": [
+           0.0,
+           0.2703
+          ],
+          "label": "worst-case (Manski) identification bounds with day-clustered outer interval; not confidence intervals of a parameter"
+         },
+         "tilt": {
+          "0.25": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          },
+          "0.5": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          },
+          "1": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          },
+          "2": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          },
+          "4": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          }
+         },
+         "tippingTheta": null,
+         "tippingThetaLimit95": null,
+         "tippingNote": "theta at which the point tilted share reached crosses 0.5, and the theta at which its upper 95% limit crosses 0.5 (bisection on log theta over [0.01, 100], limit to 0.01 in log theta); null if no crossing inside that interval"
+        },
+        {
+         "h": 600,
+         "atRisk": 15,
+         "atRiskDays": 6,
+         "supported": true,
+         "E1": {
+          "point": 0.0435,
+          "ci95": [
+           0.0,
+           0.1282
+          ],
+          "label": "observed share of cold-start trips reaching the threshold within h before key-off (equals the lower worst-case bound; exact if no drive was censored for channel loss, otherwise a lower bound)"
+         },
+         "E2": {
+          "point": 0.0865,
+          "ci95": [
+           0.0,
+           0.2762
+          ],
+          "label": "Kaplan-Meier (product-limit) estimate of the share reached by h, hypothetical continued drive, independent censoring assumed"
+         },
+         "bounds": {
+          "low": {
+           "point": 0.0435,
+           "ci95": [
+            0.0,
+            0.1282
+           ]
+          },
+          "high": {
+           "point": 0.6739,
+           "ci95": [
+            0.5088,
+            0.8572
+           ]
+          },
+          "outerInterval": [
+           0.0,
+           0.8572
+          ],
+          "label": "worst-case (Manski) identification bounds with day-clustered outer interval; not confidence intervals of a parameter"
+         },
+         "tilt": {
+          "0.25": {
+           "point": 0.0545,
+           "ci95": [
+            0.0,
+            0.1654
+           ]
+          },
+          "0.5": {
+           "point": 0.0654,
+           "ci95": [
+            0.0,
+            0.2021
+           ]
+          },
+          "1": {
+           "point": 0.0865,
+           "ci95": [
+            0.0,
+            0.2762
+           ]
+          },
+          "2": {
+           "point": 0.1264,
+           "ci95": [
+            0.0,
+            0.3948
+           ]
+          },
+          "4": {
+           "point": 0.1976,
+           "ci95": [
+            0.0,
+            0.5443
+           ]
+          }
+         },
+         "tippingTheta": 19.4204,
+         "tippingThetaLimit95": 3.234,
+         "tippingNote": "theta at which the point tilted share reached crosses 0.5, and the theta at which its upper 95% limit crosses 0.5 (bisection on log theta over [0.01, 100], limit to 0.01 in log theta); null if no crossing inside that interval"
+        },
+        {
+         "h": 900,
+         "atRisk": 9,
+         "atRiskDays": 4,
+         "supported": false
+        },
+        {
+         "h": 1200,
+         "atRisk": 6,
+         "atRiskDays": 4,
+         "supported": false
+        },
+        {
+         "h": 1800,
+         "atRisk": 1,
+         "atRiskDays": 1,
+         "supported": false
+        }
+       ],
+       "supportedHorizons": [
+        300,
+        600
+       ],
+       "median": {
+        "point": "+inf",
+        "ci95": [
+         1228.0,
+         "beyond supported range"
+        ],
+        "shareDrawsUnidentified": 0.8197,
+        "atRiskAtMedian": [
+         0,
+         0
+        ],
+        "tiltedAtBand": {
+         "0.5": "+inf",
+         "2": "+inf"
+        },
+        "shown": false,
+        "text": "not shown: exploratory cell"
+       },
+       "reachedByH600": 2,
+       "rmst": {
+        "tauS": null,
+        "note": "restricted mean time not reported for this cohort: it has no supported horizon up to the common horizon of the other cohorts"
+       },
+       "exploratory": true,
+       "exploratoryRule": "fewer than 10 effective days in this cell: point and interval only, no reading class, no median",
+       "intervalNote": "the lower limit of the interval at 600 s is 0 because only 2 drives reached the threshold by 600 s; this is a percentile floor and the interval is not informative"
+      },
+      "80": {
+       "n": 46,
+       "days": 11,
+       "essDays": 8.9,
+       "reached": 2,
+       "censoredTripEnd": 44,
+       "censoredChannelLoss": 0,
+       "eventsAfterGapOver10s": 0,
+       "startC": {
+        "p25": 12.25,
+        "median": 33.5,
+        "p75": 41.0,
+        "n": 46
+       },
+       "lagToFirstValidS": {
+        "p25": 0.0,
+        "median": 0.0,
+        "p75": 1.0,
+        "n": 46
+       },
+       "atOrAboveAtStart": 0,
+       "atOrAboveAtStartShare": 0.0,
+       "reachersOnlyMedian": {
+        "seconds": 1078.5,
+        "n": 2,
+        "label": "median of reachers only; understates the time for all cold starts; not a cohort median"
+       },
+       "horizons": [
+        {
+         "h": 300,
+         "atRisk": 39,
+         "atRiskDays": 11,
+         "supported": true,
+         "E1": {
+          "point": 0.0,
+          "ci95": [
+           0.0,
+           0.0
+          ],
+          "label": "observed share of cold-start trips reaching the threshold within h before key-off (equals the lower worst-case bound; exact if no drive was censored for channel loss, otherwise a lower bound)"
+         },
+         "E2": {
+          "point": 0.0,
+          "ci95": [
+           0.0,
+           0.0
+          ],
+          "label": "Kaplan-Meier (product-limit) estimate of the share reached by h, hypothetical continued drive, independent censoring assumed"
+         },
+         "bounds": {
+          "low": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          },
+          "high": {
+           "point": 0.1522,
+           "ci95": [
+            0.0513,
+            0.2703
+           ]
+          },
+          "outerInterval": [
+           0.0,
+           0.2703
+          ],
+          "label": "worst-case (Manski) identification bounds with day-clustered outer interval; not confidence intervals of a parameter"
+         },
+         "tilt": {
+          "0.25": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          },
+          "0.5": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          },
+          "1": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          },
+          "2": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          },
+          "4": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          }
+         },
+         "tippingTheta": null,
+         "tippingThetaLimit95": null,
+         "tippingNote": "theta at which the point tilted share reached crosses 0.5, and the theta at which its upper 95% limit crosses 0.5 (bisection on log theta over [0.01, 100], limit to 0.01 in log theta); null if no crossing inside that interval"
+        },
+        {
+         "h": 600,
+         "atRisk": 17,
+         "atRiskDays": 7,
+         "supported": true,
+         "E1": {
+          "point": 0.0,
+          "ci95": [
+           0.0,
+           0.0
+          ],
+          "label": "observed share of cold-start trips reaching the threshold within h before key-off (equals the lower worst-case bound; exact if no drive was censored for channel loss, otherwise a lower bound)"
+         },
+         "E2": {
+          "point": 0.0,
+          "ci95": [
+           0.0,
+           0.0
+          ],
+          "label": "Kaplan-Meier (product-limit) estimate of the share reached by h, hypothetical continued drive, independent censoring assumed"
+         },
+         "bounds": {
+          "low": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          },
+          "high": {
+           "point": 0.6304,
+           "ci95": [
+            0.439,
+            0.825
+           ]
+          },
+          "outerInterval": [
+           0.0,
+           0.825
+          ],
+          "label": "worst-case (Manski) identification bounds with day-clustered outer interval; not confidence intervals of a parameter"
+         },
+         "tilt": {
+          "0.25": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          },
+          "0.5": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          },
+          "1": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          },
+          "2": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          },
+          "4": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          }
+         },
+         "tippingTheta": null,
+         "tippingThetaLimit95": null,
+         "tippingNote": "theta at which the point tilted share reached crosses 0.5, and the theta at which its upper 95% limit crosses 0.5 (bisection on log theta over [0.01, 100], limit to 0.01 in log theta); null if no crossing inside that interval"
+        },
+        {
+         "h": 900,
+         "atRisk": 12,
+         "atRiskDays": 6,
+         "supported": true,
+         "E1": {
+          "point": 0.0,
+          "ci95": [
+           0.0,
+           0.0
+          ],
+          "label": "observed share of cold-start trips reaching the threshold within h before key-off (equals the lower worst-case bound; exact if no drive was censored for channel loss, otherwise a lower bound)"
+         },
+         "E2": {
+          "point": 0.0,
+          "ci95": [
+           0.0,
+           0.0
+          ],
+          "label": "Kaplan-Meier (product-limit) estimate of the share reached by h, hypothetical continued drive, independent censoring assumed"
+         },
+         "bounds": {
+          "low": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          },
+          "high": {
+           "point": 0.7391,
+           "ci95": [
+            0.5556,
+            0.8936
+           ]
+          },
+          "outerInterval": [
+           0.0,
+           0.8936
+          ],
+          "label": "worst-case (Manski) identification bounds with day-clustered outer interval; not confidence intervals of a parameter"
+         },
+         "tilt": {
+          "0.25": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          },
+          "0.5": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          },
+          "1": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          },
+          "2": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          },
+          "4": {
+           "point": 0.0,
+           "ci95": [
+            0.0,
+            0.0
+           ]
+          }
+         },
+         "tippingTheta": null,
+         "tippingThetaLimit95": null,
+         "tippingNote": "theta at which the point tilted share reached crosses 0.5, and the theta at which its upper 95% limit crosses 0.5 (bisection on log theta over [0.01, 100], limit to 0.01 in log theta); null if no crossing inside that interval"
+        },
+        {
+         "h": 1200,
+         "atRisk": 8,
+         "atRiskDays": 5,
+         "supported": false
+        },
+        {
+         "h": 1800,
+         "atRisk": 3,
+         "atRiskDays": 3,
+         "supported": false
+        }
+       ],
+       "supportedHorizons": [
+        300,
+        600,
+        900
+       ],
+       "median": {
+        "point": "+inf",
+        "ci95": [
+         "+inf",
+         "beyond supported range"
+        ],
+        "shareDrawsUnidentified": 0.9752,
+        "atRiskAtMedian": [
+         0,
+         0
+        ],
+        "tiltedAtBand": {
+         "0.5": "+inf",
+         "2": "+inf"
+        },
+        "shown": false,
+        "text": "not shown: exploratory cell"
+       },
+       "reachedByH600": 0,
+       "rmst": {
+        "tauS": null,
+        "note": "restricted mean time not reported for this cohort: it has no supported horizon up to the common horizon of the other cohorts"
+       },
+       "exploratory": true,
+       "exploratoryRule": "fewer than 10 effective days in this cell: point and interval only, no reading class, no median",
+       "intervalNote": "no drive reached the threshold by 600 s; the interval is degenerate at 0 and not informative"
+      }
+     }
     }
    },
+   "partitionCheck": {
+    "unassignedDrives": 0,
+    "cells": {
+     "coolant/60": {
+      "all": 454,
+      "warm": 261,
+      "shoulder": 147,
+      "cold": 46
+     },
+     "coolant/70": {
+      "all": 454,
+      "warm": 261,
+      "shoulder": 147,
+      "cold": 46
+     },
+     "coolant/80": {
+      "all": 454,
+      "warm": 261,
+      "shoulder": 147,
+      "cold": 46
+     },
+     "oil/60": {
+      "all": 453,
+      "warm": 260,
+      "shoulder": 147,
+      "cold": 46
+     },
+     "oil/70": {
+      "all": 453,
+      "warm": 260,
+      "shoulder": 147,
+      "cold": 46
+     },
+     "oil/80": {
+      "all": 453,
+      "warm": 260,
+      "shoulder": 147,
+      "cold": 46
+     }
+    },
+    "note": "drives of all = cold + warm + shoulder + unassigned; STOP if any drive is unassigned or a cell does not add up; days do not add"
+   },
+   "coldNote": "Cold cells use the cold-start drives (status cold) WITHIN the Cold-regime drives (thermal_regime): a subset, the drives whose first valid coolant sample is below 60 C (with at least 30 valid coolant seconds). Cold regime is a display class and cold-start drives are a population of drives; the two are never conflated. The observed share counts a trip that ended before the horizon as not reached, so it also reflects trip length. When only a few drives reached a threshold by the horizon the percentile interval can have a lower limit at 0 and is then not informative. The RMST horizon is the common horizon of all, warm and shoulder.",
    "curveSupport": {
     "all": {
      "urban": {
@@ -421709,12 +423140,12 @@
     "independent censoring cannot be tested; the bounds and the tilt measure how much it matters, they do not remove it",
     "single vehicle, one driver, May-November 2026, ambient -1 to 38 C (start ambient recorded for 402 of 454 cold starts)",
     "the continued drive leaves route and load undefined",
-    "the cold cohort and winter cannot be estimated",
+    "Cold is descriptive: its observed shares depend on the trip-length mix, are a level and not warm-up physics, and no contrast between cohorts is claimed; a seasonal or temperature effect cannot be estimated",
     "the shares mix drives with different start temperatures"
    ],
    "reconciliation": {
     "allEqual": true,
-    "nChecks": 30,
+    "nChecks": 36,
     "checks": {
      "all/coolant/60": {
       "equal": true,
@@ -421985,6 +423416,84 @@
      },
      "shoulder/curve/highway": {
       "equal": true
+     },
+     "cold/coolant/60": {
+      "equal": true,
+      "tte": [
+       46,
+       37,
+       9
+      ],
+      "ledger": [
+       46,
+       37,
+       9
+      ]
+     },
+     "cold/coolant/70": {
+      "equal": true,
+      "tte": [
+       46,
+       21,
+       25
+      ],
+      "ledger": [
+       46,
+       21,
+       25
+      ]
+     },
+     "cold/coolant/80": {
+      "equal": true,
+      "tte": [
+       46,
+       6,
+       40
+      ],
+      "ledger": [
+       46,
+       6,
+       40
+      ]
+     },
+     "cold/oil/60": {
+      "equal": true,
+      "tte": [
+       46,
+       14,
+       32
+      ],
+      "ledger": [
+       46,
+       14,
+       32
+      ]
+     },
+     "cold/oil/70": {
+      "equal": true,
+      "tte": [
+       46,
+       4,
+       42
+      ],
+      "ledger": [
+       46,
+       4,
+       42
+      ]
+     },
+     "cold/oil/80": {
+      "equal": true,
+      "tte": [
+       46,
+       2,
+       44
+      ],
+      "ledger": [
+       46,
+       2,
+       44
+      ]
      }
     }
    },
@@ -422845,7 +424354,671 @@
      "at F = 0 the 30 valid-second rule counts raw samples (about 78 s at the median coolant interval), so F = 0 changes the cold-start population by dropping short, sparsely sampled drives; the higher shares at F = 0 are a population effect",
      "informative censoring is addressed by the M435 bounds and tilt rows, not here",
      "headline cells of cohort all only"
-    ]
+    ],
+    "extendedFills": {
+     "spec": "analyses/M648_spec.md",
+     "methodVersion": "M648-r1",
+     "cohort": "all",
+     "fills": [
+      3,
+      15,
+      30
+     ],
+     "record": {
+      "fill": 3,
+      "toleranceS": 10
+     },
+     "headlineCells": [
+      "coolant/80",
+      "oil/70"
+     ],
+     "h": 600,
+     "label": "range over declared conventions, not a confidence interval; the record stays F = 3 s; no setting is chosen",
+     "settings": {
+      "3": {
+       "coolant/80": {
+        "n": 454,
+        "days": 126,
+        "reached": 192,
+        "censoredTripEnd": 258,
+        "censoredChannelLoss": 4,
+        "eventsAfterGapOver10s": 1,
+        "supported600": true,
+        "atRisk600": [
+         100,
+         70
+        ],
+        "median": {
+         "point": 705.0,
+         "shown": true,
+         "text": "Kaplan-Meier (product-limit) estimate of the median 705.0 s"
+        },
+        "E1": {
+         "point": 0.3194,
+         "ci95": [
+          0.2624,
+          0.3805
+         ],
+         "label": "observed share of cold-start trips reaching the threshold within h before key-off (equals the lower worst-case bound; exact if no drive was censored for channel loss, otherwise a lower bound)"
+        },
+        "E2": {
+         "point": 0.435,
+         "ci95": [
+          0.3623,
+          0.5064
+         ],
+         "label": "Kaplan-Meier (product-limit) estimate of the share reached by h, hypothetical continued drive, independent censoring assumed"
+        },
+        "boundHigh": {
+         "point": 0.7797,
+         "ci95": [
+          0.7366,
+          0.8207
+         ]
+        },
+        "tilt": {
+         "0.5": {
+          "point": 0.3823,
+          "ci95": [
+           0.3175,
+           0.4476
+          ]
+         },
+         "2": {
+          "point": 0.517,
+          "ci95": [
+           0.4354,
+           0.5935
+          ]
+         }
+        },
+        "reading": "F<0.5",
+        "readingClasses": {
+         "F<0.5": "depends on the censoring assumption",
+         "F>=0.5": "depends on the censoring assumption"
+        }
+       },
+       "oil/70": {
+        "n": 453,
+        "days": 125,
+        "reached": 132,
+        "censoredTripEnd": 317,
+        "censoredChannelLoss": 4,
+        "eventsAfterGapOver10s": 0,
+        "supported600": true,
+        "atRisk600": [
+         166,
+         98
+        ],
+        "median": {
+         "point": 1055.0,
+         "shown": true,
+         "text": "Kaplan-Meier (product-limit) estimate of the median 1055.0 s"
+        },
+        "E1": {
+         "point": 0.128,
+         "ci95": [
+          0.0909,
+          0.1701
+         ],
+         "label": "observed share of cold-start trips reaching the threshold within h before key-off (equals the lower worst-case bound; exact if no drive was censored for channel loss, otherwise a lower bound)"
+        },
+        "E2": {
+         "point": 0.1972,
+         "ci95": [
+          0.1431,
+          0.255
+         ],
+         "label": "Kaplan-Meier (product-limit) estimate of the share reached by h, hypothetical continued drive, independent censoring assumed"
+        },
+        "boundHigh": {
+         "point": 0.6358,
+         "ci95": [
+          0.5833,
+          0.6856
+         ]
+        },
+        "tilt": {
+         "0.5": {
+          "point": 0.164,
+          "ci95": [
+           0.1175,
+           0.2141
+          ]
+         },
+         "2": {
+          "point": 0.256,
+          "ci95": [
+           0.1883,
+           0.3254
+          ]
+         }
+        },
+        "reading": "F<0.5",
+        "readingClasses": {
+         "F<0.5": "holds for every theta from 0.5 to 2",
+         "F>=0.5": "depends on the censoring assumption"
+        }
+       }
+      },
+      "15": {
+       "coolant/80": {
+        "n": 456,
+        "days": 126,
+        "reached": 192,
+        "censoredTripEnd": 259,
+        "censoredChannelLoss": 5,
+        "eventsAfterGapOver10s": 1,
+        "supported600": true,
+        "atRisk600": [
+         101,
+         71
+        ],
+        "median": {
+         "point": 705.0,
+         "shown": true,
+         "text": "Kaplan-Meier (product-limit) estimate of the median 705.0 s"
+        },
+        "E1": {
+         "point": 0.318,
+         "ci95": [
+          0.2611,
+          0.3789
+         ],
+         "label": "observed share of cold-start trips reaching the threshold within h before key-off (equals the lower worst-case bound; exact if no drive was censored for channel loss, otherwise a lower bound)"
+        },
+        "E2": {
+         "point": 0.4339,
+         "ci95": [
+          0.3613,
+          0.5052
+         ],
+         "label": "Kaplan-Meier (product-limit) estimate of the share reached by h, hypothetical continued drive, independent censoring assumed"
+        },
+        "boundHigh": {
+         "point": 0.7785,
+         "ci95": [
+          0.7366,
+          0.8186
+         ]
+        },
+        "tilt": {
+         "0.5": {
+          "point": 0.381,
+          "ci95": [
+           0.3165,
+           0.4467
+          ]
+         },
+         "2": {
+          "point": 0.516,
+          "ci95": [
+           0.4352,
+           0.5918
+          ]
+         }
+        },
+        "reading": "F<0.5",
+        "readingClasses": {
+         "F<0.5": "depends on the censoring assumption",
+         "F>=0.5": "depends on the censoring assumption"
+        }
+       },
+       "oil/70": {
+        "n": 454,
+        "days": 126,
+        "reached": 132,
+        "censoredTripEnd": 319,
+        "censoredChannelLoss": 3,
+        "eventsAfterGapOver10s": 0,
+        "supported600": true,
+        "atRisk600": [
+         167,
+         99
+        ],
+        "median": {
+         "point": 1057.0,
+         "shown": true,
+         "text": "Kaplan-Meier (product-limit) estimate of the median 1057.0 s"
+        },
+        "E1": {
+         "point": 0.1278,
+         "ci95": [
+          0.0903,
+          0.1697
+         ],
+         "label": "observed share of cold-start trips reaching the threshold within h before key-off (equals the lower worst-case bound; exact if no drive was censored for channel loss, otherwise a lower bound)"
+        },
+        "E2": {
+         "point": 0.1965,
+         "ci95": [
+          0.1423,
+          0.2538
+         ],
+         "label": "Kaplan-Meier (product-limit) estimate of the share reached by h, hypothetical continued drive, independent censoring assumed"
+        },
+        "boundHigh": {
+         "point": 0.6344,
+         "ci95": [
+          0.5817,
+          0.6848
+         ]
+        },
+        "tilt": {
+         "0.5": {
+          "point": 0.1635,
+          "ci95": [
+           0.1171,
+           0.2136
+          ]
+         },
+         "2": {
+          "point": 0.2549,
+          "ci95": [
+           0.1873,
+           0.3243
+          ]
+         }
+        },
+        "reading": "F<0.5",
+        "readingClasses": {
+         "F<0.5": "holds for every theta from 0.5 to 2",
+         "F>=0.5": "depends on the censoring assumption"
+        }
+       }
+      },
+      "30": {
+       "coolant/80": {
+        "n": 458,
+        "days": 128,
+        "reached": 192,
+        "censoredTripEnd": 259,
+        "censoredChannelLoss": 7,
+        "eventsAfterGapOver10s": 1,
+        "supported600": true,
+        "atRisk600": [
+         101,
+         71
+        ],
+        "median": {
+         "point": 705.0,
+         "shown": true,
+         "text": "Kaplan-Meier (product-limit) estimate of the median 705.0 s"
+        },
+        "E1": {
+         "point": 0.3166,
+         "ci95": [
+          0.2613,
+          0.3744
+         ],
+         "label": "observed share of cold-start trips reaching the threshold within h before key-off (equals the lower worst-case bound; exact if no drive was censored for channel loss, otherwise a lower bound)"
+        },
+        "E2": {
+         "point": 0.4338,
+         "ci95": [
+          0.3646,
+          0.5055
+         ],
+         "label": "Kaplan-Meier (product-limit) estimate of the share reached by h, hypothetical continued drive, independent censoring assumed"
+        },
+        "boundHigh": {
+         "point": 0.7795,
+         "ci95": [
+          0.7389,
+          0.818
+         ]
+        },
+        "tilt": {
+         "0.5": {
+          "point": 0.3804,
+          "ci95": [
+           0.318,
+           0.4458
+          ]
+         },
+         "2": {
+          "point": 0.5166,
+          "ci95": [
+           0.4383,
+           0.5955
+          ]
+         }
+        },
+        "reading": "F<0.5",
+        "readingClasses": {
+         "F<0.5": "depends on the censoring assumption",
+         "F>=0.5": "depends on the censoring assumption"
+        }
+       },
+       "oil/70": {
+        "n": 454,
+        "days": 126,
+        "reached": 132,
+        "censoredTripEnd": 319,
+        "censoredChannelLoss": 3,
+        "eventsAfterGapOver10s": 0,
+        "supported600": true,
+        "atRisk600": [
+         167,
+         99
+        ],
+        "median": {
+         "point": 1057.0,
+         "shown": true,
+         "text": "Kaplan-Meier (product-limit) estimate of the median 1057.0 s"
+        },
+        "E1": {
+         "point": 0.1278,
+         "ci95": [
+          0.0897,
+          0.1707
+         ],
+         "label": "observed share of cold-start trips reaching the threshold within h before key-off (equals the lower worst-case bound; exact if no drive was censored for channel loss, otherwise a lower bound)"
+        },
+        "E2": {
+         "point": 0.1965,
+         "ci95": [
+          0.1427,
+          0.2554
+         ],
+         "label": "Kaplan-Meier (product-limit) estimate of the share reached by h, hypothetical continued drive, independent censoring assumed"
+        },
+        "boundHigh": {
+         "point": 0.6344,
+         "ci95": [
+          0.5816,
+          0.6847
+         ]
+        },
+        "tilt": {
+         "0.5": {
+          "point": 0.1635,
+          "ci95": [
+           0.1176,
+           0.2144
+          ]
+         },
+         "2": {
+          "point": 0.2549,
+          "ci95": [
+           0.1863,
+           0.3271
+          ]
+         }
+        },
+        "reading": "F<0.5",
+        "readingClasses": {
+         "F<0.5": "holds for every theta from 0.5 to 2",
+         "F>=0.5": "depends on the censoring assumption"
+        }
+       }
+      }
+     },
+     "pairedVsRecord": {
+      "15": {
+       "coolant/80": {
+        "dropped": {
+         "reachedBy600": 0,
+         "censoredBefore600": 0,
+         "atRiskAt600": 0
+        },
+        "added": {
+         "reachedBy600": 0,
+         "censoredBefore600": 2,
+         "atRiskAt600": 0
+        },
+        "nDropped": 0,
+        "nAdded": 2,
+        "eventTimeChanged": 0,
+        "censoringTimeChanged": 101,
+        "maxCensoringShiftS": 12.0,
+        "maxAllowedShiftS": 12,
+        "reasonChanged": 1,
+        "reasonChangedDirection": {
+         "tripEndToChannelLoss": 0,
+         "channelLossToTripEnd": 1
+        }
+       },
+       "oil/70": {
+        "dropped": {
+         "reachedBy600": 0,
+         "censoredBefore600": 0,
+         "atRiskAt600": 0
+        },
+        "added": {
+         "reachedBy600": 0,
+         "censoredBefore600": 0,
+         "atRiskAt600": 1
+        },
+        "nDropped": 0,
+        "nAdded": 1,
+        "eventTimeChanged": 0,
+        "censoringTimeChanged": 9,
+        "maxCensoringShiftS": 12.0,
+        "maxAllowedShiftS": 12,
+        "reasonChanged": 2,
+        "reasonChangedDirection": {
+         "tripEndToChannelLoss": 0,
+         "channelLossToTripEnd": 2
+        }
+       }
+      },
+      "30": {
+       "coolant/80": {
+        "dropped": {
+         "reachedBy600": 0,
+         "censoredBefore600": 0,
+         "atRiskAt600": 0
+        },
+        "added": {
+         "reachedBy600": 0,
+         "censoredBefore600": 4,
+         "atRiskAt600": 0
+        },
+        "nDropped": 0,
+        "nAdded": 4,
+        "eventTimeChanged": 0,
+        "censoringTimeChanged": 101,
+        "maxCensoringShiftS": 27.0,
+        "maxAllowedShiftS": 27,
+        "reasonChanged": 1,
+        "reasonChangedDirection": {
+         "tripEndToChannelLoss": 0,
+         "channelLossToTripEnd": 1
+        }
+       },
+       "oil/70": {
+        "dropped": {
+         "reachedBy600": 0,
+         "censoredBefore600": 0,
+         "atRiskAt600": 0
+        },
+        "added": {
+         "reachedBy600": 0,
+         "censoredBefore600": 0,
+         "atRiskAt600": 1
+        },
+        "nDropped": 0,
+        "nAdded": 1,
+        "eventTimeChanged": 0,
+        "censoringTimeChanged": 9,
+        "maxCensoringShiftS": 27.0,
+        "maxAllowedShiftS": 27,
+        "reasonChanged": 2,
+        "reasonChangedDirection": {
+         "tripEndToChannelLoss": 0,
+         "channelLossToTripEnd": 2
+        }
+       }
+      }
+     },
+     "reasonByToleranceEqualsFill": {
+      "3": {
+       "coolant/80": {
+        "tripEnd": 238,
+        "channelLoss": 24
+       },
+       "oil/70": {
+        "tripEnd": 317,
+        "channelLoss": 4
+       }
+      },
+      "15": {
+       "coolant/80": {
+        "tripEnd": 259,
+        "channelLoss": 5
+       },
+       "oil/70": {
+        "tripEnd": 319,
+        "channelLoss": 3
+       }
+      },
+      "30": {
+       "coolant/80": {
+        "tripEnd": 260,
+        "channelLoss": 6
+       },
+       "oil/70": {
+        "tripEnd": 321,
+        "channelLoss": 1
+       }
+      }
+     },
+     "statement": {
+      "coolant/80": {
+       "classByFill": {
+        "3": {
+         "F<0.5": "depends on the censoring assumption",
+         "F>=0.5": "depends on the censoring assumption"
+        },
+        "15": {
+         "F<0.5": "depends on the censoring assumption",
+         "F>=0.5": "depends on the censoring assumption"
+        },
+        "30": {
+         "F<0.5": "depends on the censoring assumption",
+         "F>=0.5": "depends on the censoring assumption"
+        }
+       },
+       "same": true,
+       "text": "the reading classes are the same at F = 3, 15 and 30 s"
+      },
+      "oil/70": {
+       "classByFill": {
+        "3": {
+         "F<0.5": "holds for every theta from 0.5 to 2",
+         "F>=0.5": "depends on the censoring assumption"
+        },
+        "15": {
+         "F<0.5": "holds for every theta from 0.5 to 2",
+         "F>=0.5": "depends on the censoring assumption"
+        },
+        "30": {
+         "F<0.5": "holds for every theta from 0.5 to 2",
+         "F>=0.5": "depends on the censoring assumption"
+        }
+       },
+       "same": true,
+       "text": "the reading classes are the same at F = 3, 15 and 30 s"
+      }
+     },
+     "ranges": {
+      "coolant/80": {
+       "E1": {
+        "min": 0.3166,
+        "minAtFill": 30,
+        "minCi95": [
+         0.2613,
+         0.3744
+        ],
+        "max": 0.3194,
+        "maxAtFill": 3,
+        "maxCi95": [
+         0.2624,
+         0.3805
+        ]
+       },
+       "E2": {
+        "min": 0.4338,
+        "minAtFill": 30,
+        "minCi95": [
+         0.3646,
+         0.5055
+        ],
+        "max": 0.435,
+        "maxAtFill": 3,
+        "maxCi95": [
+         0.3623,
+         0.5064
+        ]
+       }
+      },
+      "oil/70": {
+       "E1": {
+        "min": 0.1278,
+        "minAtFill": 15,
+        "minCi95": [
+         0.0903,
+         0.1697
+        ],
+        "max": 0.128,
+        "maxAtFill": 3,
+        "maxCi95": [
+         0.0909,
+         0.1701
+        ]
+       },
+       "E2": {
+        "min": 0.1965,
+        "minAtFill": 15,
+        "minCi95": [
+         0.1423,
+         0.2538
+        ],
+        "max": 0.1972,
+        "maxAtFill": 3,
+        "maxCi95": [
+         0.1431,
+         0.255
+        ]
+       }
+      }
+     },
+     "coolantIntervalShare": {
+      "definition": "share of the pooled coolant sample intervals of all analysed drives that are strictly greater than F seconds",
+      "byFill": {
+       "0": 1.0,
+       "3": 0.4842,
+       "6": 0.104,
+       "15": 0.0005,
+       "30": 0.0002
+      },
+      "byFillPercent": {
+       "0": 100.0,
+       "3": 48.4173,
+       "6": 10.4008,
+       "15": 0.0528,
+       "30": 0.018
+      },
+      "p95IntervalS": 7.236,
+      "nIntervals": 238702
+     },
+     "checks": {
+      "eventTimeChangedZero": true,
+      "nestingDroppedZero": true,
+      "censoringShiftWithinFillDelta": true,
+      "recordEqualsM435Block": true,
+      "allOk": true
+     },
+     "nearlyInert": "the fill limits of 15 and 30 s are nearly inert on this corpus: only 0.053 % and 0.018 % of the coolant sample intervals exceed them and the observed share moves by at most 0.0028, far inside its interval; this shows the convention does not matter here, not that the estimates are robust to sampling gaps",
+     "maxObservedShareMove": 0.0028,
+     "reading": "Sensitivity of the observed share and the Kaplan-Meier (product-limit) estimate to forward-fill limits of 15 and 30 s beside the record (3 s); a longer fill repeats an earlier value, so event times are fixed, censoring moves later and the cold-start population can grow; range over declared conventions, not a confidence interval.",
+     "limits": [
+      "the fill limit F exceeds the trip-end tolerance X = 10 s for F = 15 and 30 s, so the fill and the tolerance are coupled and the trip-end versus channel-loss split in these rows is not interpretable",
+      "a fill of 30 s lets drives with very few real samples pass the 30-valid-second cold-start rule: it changes the population, not the timing (paired counts of added drives are in pairedVsRecord)",
+      "the 95th percentile of the coolant sample interval is 7.2 s; the share of intervals above F is in coolantIntervalShare"
+     ]
+    }
    },
    "startStrata": {
     "spec": "analyses/M438_spec.md",
