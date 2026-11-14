@@ -3056,7 +3056,7 @@ function CycleProjectionChart() {
         <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:6,marginBottom:8}}>
           {[
             [`${pw.bufferedChannelDeficitKw} kW`,"buffered-channel deficit at peak",
-              `motor ${pw.motorRatedKw} kW rated vs ${pw.officialKw} kW battery cap`,"#60a5fa"],
+              `motor ${pw.motorRatedKw} kW rated vs ${pw.officialKw} kW disclosed battery figure (at ${pw.officialConditionSoc} % SoC)`,"#60a5fa"],
             [cfa ? `${cfa.rangeLowGtc.toLocaleString("en-US")}–${cfa.rangeHighGtc.toLocaleString("en-US")}` : "—","GTC at official life point",
               cfa ? `band includes the ${cfa.scenarioThresholdGtc.toLocaleString("en-US")}-GTC scenario threshold: ${cfa.bracketsThreshold?"yes":"no"} (arithmetic scenario, no evidentiary weight)` : "",
               cfa?.bracketsThreshold ? "#22c55e" : "#eab308"],
@@ -3106,7 +3106,7 @@ function CycleProjectionChart() {
           <strong style={{color:"#b45309"}}>Internal resistance — do not compare the absolute levels.</strong>{" "}
           Official new-pack DCIR is <strong>{rz.officialNewMohm} mΩ</strong> pack
           (~{rz.officialPerCellMohm} mΩ/cell at {ch.seriesCellsEst} cells est.),
-          rising {rz.officialIncreasePct}% to <strong>{rz.officialEolMohm} mΩ</strong> by {od.expectedLifeKm.toLocaleString("en-US")} km.
+          rising by up to {rz.officialIncreasePct}% (the sheet's maximum) to an implied <strong>{rz.officialEolMohm} mΩ</strong> (derived: new value x (1 + rise), not a printed figure) by {od.expectedLifeKm.toLocaleString("en-US")} km.
           This study's load-excited in-drive proxies read <strong>{rz.ourVregPackMohm} mΩ</strong> pack
           (vreg_R, ~{rz.ourVregPerCellMohm} mΩ/cell) and <strong>{rz.ourVsagPackMohm} mΩ</strong> (vsag_R).{" "}
           {rz.note} {rz.trendContext?.note}
