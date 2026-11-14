@@ -851,7 +851,7 @@ function intervalForestModel(rows, opts){
   return {rows:out,min:ticks[0],max:ticks[ticks.length-1],ticks};
 }
 /*M569-MODEL-END*/
-function IntervalForest({ rows, xLabel, zero=true, refLine, refText="zero", color="#2563eb", ariaLabel, fmt, caption, lblW=176 }) {
+function IntervalForest({ rows, xLabel, zero=true, refLine, refText="zero", color="#2563eb", ariaLabel, fmt, caption, lblW=176, intervalName="95% interval" }) {
   const M = intervalForestModel(rows, { zero, ref: refLine });
   if (!M.rows.length) return null;
   const W = 540, PL = lblW, PR = 158, PT = 6, PB = 32, rowH = 28;
@@ -896,7 +896,7 @@ function IntervalForest({ rows, xLabel, zero=true, refLine, refText="zero", colo
           );
         })}
       </svg>
-      <div style={{ fontSize: 9, color: "#94a3b8", marginTop: 2 }}>Dot = estimate, line = 95% interval{refV !== null ? `, dashed line = ${refText}` : ""}; an open dot has no interval in the table{M.rows.some(r => r.kind === "range") ? "; a line without a dot is an interval the table prints without a point estimate" : ""}. {caption}</div>
+      <div style={{ fontSize: 9, color: "#94a3b8", marginTop: 2 }}>Dot = estimate, line = {intervalName}{refV !== null ? `, dashed line = ${refText}` : ""}; an open dot has no interval in the table{M.rows.some(r => r.kind === "range") ? "; a line without a dot is an interval the table prints without a point estimate" : ""}. {caption}</div>
     </div>
   );
 }
@@ -10999,6 +10999,7 @@ function CrawlStopGo() {
       {DT.length>0 && (
         <div style={{marginBottom:10}}>
           <div style={{fontSize:9,color:"#64748b",marginBottom:6,letterSpacing:0.3}}>BY DRIVE TYPE — cycles/drive and engine starts per 10 min stop-go (median)</div>
+          <ChartWithTable chart={<div data-stopgo-dt-forest="1"><IntervalForest zero={true} intervalName="interquartile range (25th to 75th percentile of drives)" xLabel="median cycles per drive (dot), interquartile range of drives (line)" ariaLabel="median cycles per drive (dot), interquartile range of drives (line) by drive type" fmt={v=>Number(v).toFixed(1)} lblW={150} rows={DT.map(r=>{const q=BT[r.key]["cyclesPerDrive"]||{}; const fl=(C.smallDenominatorDriveTypes||[]).includes(r.key); return typeof q.median==="number"?{label:r.name+(fl?" (high-variance)":"")+" (n="+BT[r.key].nDrives+" drives)",est:q.median,lo:q.p25,hi:q.p75,color:"#0891b2"}:{label:r.name,color:"#0891b2",note:"no estimate"};})}/><IntervalForest zero={true} intervalName="interquartile range (25th to 75th percentile of drives)" xLabel="median engine starts per 10 min of stop-go (dot), interquartile range of drives (line)" ariaLabel="median engine starts per 10 min of stop-go (dot), interquartile range of drives (line) by drive type" fmt={v=>Number(v).toFixed(2)} lblW={150} rows={DT.map(r=>{const q=BT[r.key]["startsPer10minStopGo"]||{}; const fl=(C.smallDenominatorDriveTypes||[]).includes(r.key); return typeof q.median==="number"?{label:r.name+(fl?" (high-variance)":"")+" (n="+BT[r.key].nDrives+" drives)",est:q.median,lo:q.p25,hi:q.p75,color:"#0891b2"}:{label:r.name,color:"#0891b2",note:"no estimate"};})}/></div>}>
           <div style={{display:"grid",gridTemplateColumns:`repeat(${DT.length},1fr)`,gap:8}}>
             {DT.map(r=>{const b=BT[r.key];
               const flagged=(C.smallDenominatorDriveTypes||[]).includes(r.key);
@@ -11022,6 +11023,7 @@ function CrawlStopGo() {
                 <div style={{fontSize:8,color:"#94a3b8"}}>n={b.nDrives}</div>
               </div>);})}
           </div>
+          </ChartWithTable>
           {(C.smallDenominatorDriveTypes||[]).length>0 && (
             <Caveat kind="caution">
               starts/10min for {(C.smallDenominatorDriveTypes||[]).map(k=>DT.find(d=>d.key===k)?.name||k).join(", ")} divides
