@@ -318,6 +318,18 @@ def estimator_gate(prev, arrays, ack=None):
 ACK = {"reason": None, "recal": None}
 
 
+def estimator_gate_keep(prev, arrays, ack=None, run_dir=None):
+    """M649 (P-03): estimator_gate, but when it stops the freshly computed arrays are written to <run_dir>/candidate_summary_arrays.json first (NOT canonical;
+    summary_arrays.json is restored from the backup by main), so a stop on an unacknowledged estimator change no longer discards ~10 minutes of computation
+    and the change can be reviewed on the candidate. The Gate is re-raised unchanged."""
+    try:
+        return estimator_gate(prev, arrays, ack)
+    except Gate:
+        if run_dir and os.path.isdir(run_dir):
+            write_json(os.path.join(run_dir, "candidate_summary_arrays.json"), arrays)
+        raise
+
+
 def step4_arrays(dm, raw_stage, recompute_m119v2):
     import compute_summary_arrays as csa
     import drive_raw_cache as drc
@@ -338,7 +350,7 @@ def step4_arrays(dm, raw_stage, recompute_m119v2):
     if (cfg.get("sessions") or cfg.get("sessionGroups")) and not arrays.get("sessionLedgerAudit"):
         raise Gate("sessionLedgerAudit is null although config declares sessions (P0-14)")
     mark("step4_compute_arrays")
-    EST_CHANGES[:] = estimator_gate(prev, arrays, ACK["reason"])
+    EST_CHANGES[:] = estimator_gate_keep(prev, arrays, ACK["reason"], RUN["dir"])
     mark("estimator_gate")
     CARRIED[:] = carry_forward(arrays, prev)   # reported by main(); NOT stored in the arrays file
     return arrays

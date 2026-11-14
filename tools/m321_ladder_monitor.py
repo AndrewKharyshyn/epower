@@ -267,6 +267,19 @@ def ack_valid(a, mon, root=ROOT):
                 and (not stop_rule_sides(mon) or ref_is_spec_file(a.get("ref"), root)))
 
 
+def ack_failure(mon, root=ROOT):
+    """M649 (P-03): the acknowledgement part of the gate alone -> a failure text, or None. Used by `update` so a W2/W3 (new-spec trigger) without a valid
+    acknowledgement stops the ingestion at the ladder-monitor stage instead of at the final release gate. Same predicate as gate()."""
+    if not mon or mon.get("status") != "warn-newspec":
+        return None
+    path = os.path.join(root, "analyses", "M321_acknowledgements.json")
+    acks = json.load(open(path, encoding="utf-8")) if os.path.exists(path) else []
+    if any(ack_valid(a, mon, root) for a in acks):
+        return None
+    return ("M321: W2/W3 active (%s) without a valid acknowledgement record for warningSetHash %s%s" % ("; ".join(mon.get("warnings", [])), str(mon.get("warningSetHash"))[:12],
+            " [STOP RULE: the ref must be a reviewed analyses/M###_spec.md]" if stop_rule_sides(mon) else ""))
+
+
 def gate(arrays, root=ROOT):
     """-> (fails, warns). Spec item 7."""
     fails, warns = [], []
@@ -388,6 +401,10 @@ def cmd_update(a):
     sub = sorted(k for k in set(A2["socHysteresisV2"]) | set(head["socHysteresisV2"]) if A2["socHysteresisV2"].get(k) != head["socHysteresisV2"].get(k))
     print(json.dumps({"status": block["status"], "warnings": block["warnings"], "information": block["information"], "newFilesCached": len(new),
                       "arrays_keys_changed_vs_HEAD": diff, "socHysteresisV2_keys_changed_vs_HEAD": sub}))
+    bad = ack_failure(block)                    # M649 (P-03): stop here, not only at the release gate; the monitor block stays written (report-only), the ingestion halts
+    if bad:
+        print("STOP " + bad, file=sys.stderr)
+        sys.exit(1)
 
 
 def cmd_check_path(a):
