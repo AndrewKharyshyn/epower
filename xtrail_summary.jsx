@@ -11783,6 +11783,8 @@ const CMP_SERIES=[
   {key:"shoulder",label:"Shoulder",col:"#7C3AED",mode:"shoulder",dash:"6 3",marker:"square",width:1.9},
   {key:"cold",label:"Cold",col:"#0072B2",mode:"cold",dash:"1 3",marker:"diamond",width:1.9},
 ];
+// M645 (UI-01): chart domains are computed over every available cohort, never over the toggled subset, so toggling a series does not move the axis
+function domainSeries(){ return CMP_SERIES.filter(s=>s.key==="all"||cohortAvailable(s.key)); }
 function activeCompareSeries(sel){ return CMP_SERIES.filter(s=>sel&&sel[s.key]&&(s.key==="all"||cohortAvailable(s.key))); }
 function autoMetrics(id){ const d=seasonalData(id,"all"); if(!d||typeof d!=="object"||Array.isArray(d)) return []; const out=[]; const ks=Object.keys(d); for(let i=0;i<ks.length;i++){ const k=ks[i]; if(typeof d[k]==="number"&&isFinite(d[k])){ out.push({label:k,digits:2,get:x=>cmpDig(x,[k])}); if(out.length>=6) break; } } return out; }
 
@@ -11803,7 +11805,7 @@ function cmpPoolWarmup(d){
 }
 const COMPARE_SPECS={
   // ---- grouped horizontal bars (labelled numeric series) ----
-  SocBands:{kind:"box",title:"Battery operating map \u2014 SoC bands (median [lo\u2013hi] %)",unit:"% SoC",digits:1,
+  SocBands:{kind:"box",boxDef:"lo to hi as stored",whiskDef:"the same lo to hi (no separate extremes stored)",title:"Battery operating map \u2014 SoC bands (median [lo\u2013hi] %)",unit:"% SoC",digits:1,
     cats:d=>Array.isArray(d)?d.map(b=>({label:b.label,med:b.med,q1:b.lo,q3:b.hi,wlo:b.lo,whi:b.hi,n:b.n})):[]},
   EfficiencyBands:{kind:"bars",title:"Gross pack discharge per 100 km by drive class (kWh/100km; median, p10–p90)",unit:"kWh/100km",digits:1,
     cats:d=>Array.isArray(d)?d.map(b=>({label:b.label,value:b.med,lo:b.lo,hi:b.hi})):[]},
@@ -11813,7 +11815,7 @@ const COMPARE_SPECS={
     cats:d=>Array.isArray(d)?d.map(b=>(typeof b.median==="number"?{label:b.label,value:b.median,lo:b.n>=10&&b.nDays>=3?b.p10:null,hi:b.n>=10&&b.nDays>=3?b.p90:null}:{label:b.label,value:b.avg})):[]},
   RegenByTempMeasured:{kind:"bars",noConnector:true,title:"Apparent KE recovery proxy by pack-temperature bin (%; mean T1–T4 at the decel sample, n = 1 Hz decel samples)",unit:"%",digits:1,
     cats:d=>Array.isArray(d)?d.map(x=>({label:x.label,value:x.eff})):[]},
-  DriveDurationDist:{kind:"box",title:"Trip duration by class \u2014 box: min\u00b7q1\u00b7med\u00b7q3\u00b7max (min)",unit:"min",digits:0,
+  DriveDurationDist:{kind:"box",boxDef:"q1 to q3",whiskDef:"min to max",title:"Trip duration by class \u2014 box: min\u00b7q1\u00b7med\u00b7q3\u00b7max (min)",unit:"min",digits:0,
     cats:d=>Array.isArray(d)?d.map(x=>({label:x.label,med:x.med,q1:x.q1,q3:x.q3,wlo:x.min,whi:x.max,n:x.n})):[]},
   DriveTypeChart:{kind:"bars",title:"Drive-type mix (share of drives, %)",unit:"%",digits:1,
     cats:d=>{ if(!Array.isArray(d))return[]; const t=d.reduce((a,x)=>a+(x.drives||0),0)||1; return d.map(x=>({label:x.label,value:(x.drives||0)/t*100})); }},
@@ -11823,7 +11825,7 @@ const COMPARE_SPECS={
     cats:d=>Array.isArray(d)?d.map(x=>({label:x.rpm,value:x.activePct})):[]},
   TerrainTorqueDist:{kind:"bars",title:"Torque / terrain distribution (%)",unit:"%",digits:1,
     cats:d=>Array.isArray(d)?d.map(x=>({label:x.label||x.bin,value:x.pct})):[]},
-  SocBySpeed:{kind:"box",title:"SoC by speed zone \u2014 box: min\u00b7q1\u00b7med\u00b7q3\u00b7max (%)",unit:"% SoC",digits:0,
+  SocBySpeed:{kind:"box",boxDef:"q1 to q3",whiskDef:"min to max",title:"SoC by speed zone \u2014 box: min\u00b7q1\u00b7med\u00b7q3\u00b7max (%)",unit:"% SoC",digits:0,
     cats:d=>Array.isArray(d)?d.map(r=>({label:r[0],med:r[4],q1:r[3],q3:r[5],wlo:r[2],whi:r[6]})):[]},
   EngineStateMachine:{kind:"bars",title:"Engine state occupancy (% of RPM-supported 1 Hz time; stored basis, off = rpm < 400)",unit:"%",digits:1,
     cats:d=>{ if(!d||!d.occupancy)return[]; const st=["off","low","loadPoint","mid","high"],lab={off:"Off",low:"Low",loadPoint:"Load-pt",mid:"Mid",high:"High"};
@@ -11933,7 +11935,7 @@ const COMPARE_SPECS={
   // ---- multi-chart section sub-charts (C / E / R) ----
   CycleBySpeed:{kind:"bars",title:"Cycling rate by speed zone (GTC/100km)",unit:"GTC/100km",digits:1,
     cats:d=>Array.isArray(d)?d.map(x=>({label:x.zone,value:x.rate})):[]},
-  EngineOnDuration:{kind:"box",title:"Engine-on segment duration by class (stored basis, rpm > 300) \u2014 box: min\u00b7p10\u00b7med\u00b7p90\u00b7max",unit:"s",digits:0,log:true,
+  EngineOnDuration:{kind:"box",boxDef:"p10 to p90",whiskDef:"min to max",title:"Engine-on segment duration by class (stored basis, rpm > 300) \u2014 box: min\u00b7p10\u00b7med\u00b7p90\u00b7max",unit:"s",digits:0,log:true,
     cats:d=>Array.isArray(d)?d.map(x=>({label:x.label,med:x.median,q1:x.p10,q3:x.p90,wlo:x.min,whi:x.max,n:x.nSegments})):[]},
   EngineOnBySpeed:{kind:"bars",title:"Share of logged samples with rpm > 300 by speed zone (%; stored basis)",unit:"%",digits:0,
     cats:d=>Array.isArray(d)?d.map(x=>({label:x.zone,value:x.pct})):[]},
@@ -11970,7 +11972,8 @@ function CmpBox({id,spec,series}){
   per.forEach(p=>p.cats.forEach(c=>{const lb=String(c.label); if(!seen.has(lb)){seen.add(lb);ref.push(lb);}}));
   if(!ref.length) return <div style={{fontSize:11,color:"#64748b"}}>No distribution data for these cohorts.</div>;
   let mn=Infinity,mx=-Infinity;
-  per.forEach(p=>p.cats.forEach(c=>{ [c.wlo,c.q1,c.med,c.q3,c.whi].forEach(v=>{ if(typeof v==="number"&&isFinite(v)){ if(v<mn)mn=v; if(v>mx)mx=v; }});}));
+  const perDomB=domainSeries().map(s=>({cats:(spec.cats?spec.cats(seasonalData(id,s.mode)):[])||[]}));      // M645: domain over all available cohorts
+  perDomB.forEach(p=>p.cats.forEach(c=>{ [c.wlo,c.q1,c.med,c.q3,c.whi].forEach(v=>{ if(typeof v==="number"&&isFinite(v)){ if(v<mn)mn=v; if(v>mx)mx=v; }});}));
   if(!isFinite(mn)) return <div style={{fontSize:11,color:"#64748b"}}>No numeric distribution values.</div>;
   const tf=v=>log?Math.log10(Math.max(v,0.1)):v;
   let a=tf(mn),b=tf(mx); if(a===b){a-=1;b+=1;} const pad=(b-a)*0.05; a-=pad; b+=pad;
@@ -11998,7 +12001,7 @@ function CmpBox({id,spec,series}){
             <text x={whi+4} y={yy+boxH-1} fontSize={9} fill="#64748b">{fmt(c.med)}{c.n!=null?` (n=${c.n})`:""}</text>
           </g>; })}
       </g>; })}
-    {spec.unit&&<text x={plotX} y={H-4} fontSize={9} fill="#64748b">{spec.unit}{log?" (log axis)":""} — box = q1 to q3, line = median, whiskers = min/max</text>}
+    {spec.unit&&<text x={plotX} y={H-4} fontSize={9} fill="#64748b">{spec.unit}{log?" (log axis)":""} — box = {spec.boxDef||"q1 to q3"}, line = median, whiskers = {spec.whiskDef||"min to max"}; axis fixed over all cohorts</text>}
   </svg></div>;
 }
 function CmpKpi({id,spec,series}){
@@ -12091,7 +12094,8 @@ function CmpBars({id,spec,series}){
   })();
   if(!ref.length) return <div style={{fontSize:11,color:"#64748b"}}>No categorical data available for these cohorts.</div>;
   const nCat=ref.length; let maxV=0,minV=Infinity;
-  per.forEach(p=>p.cats.forEach(c=>{ const hi=Math.max(c&&c.value||0,c&&c.hi||0); if(hi>maxV)maxV=hi; const lo=(c&&c.lo!=null)?c.lo:(c&&c.value); if(lo!=null&&lo<minV)minV=lo; }));
+  const perDom=domainSeries().map(s=>({cats:(spec.cats?spec.cats(seasonalData(id,s.mode)):[])||[]}));      // M645: domain over all available cohorts
+  perDom.forEach(p=>p.cats.forEach(c=>{ const hi=Math.max(c&&c.value||0,c&&c.hi||0); if(hi>maxV)maxV=hi; const lo=(c&&c.lo!=null)?c.lo:(c&&c.value); if(lo!=null&&lo<minV)minV=lo; }));
   if(!isFinite(minV))minV=0; if(maxV<=0)maxV=1; if(minV>0)minV=0; // anchor at 0 for magnitude reading
   const digits=spec.digits!=null?spec.digits:1;
   const fmt=v=>(v==null||v!==v)?"—":Number(v).toLocaleString("en-US",{minimumFractionDigits:digits,maximumFractionDigits:digits});
@@ -12145,7 +12149,7 @@ function CmpLines({id,spec,series}){
   const n=xs.length;
   if(!n||!drawn.length) return <div style={{fontSize:11,color:"#64748b"}}>No curve data available for these cohorts.</div>;
   let mn=Infinity,mx=-Infinity;
-  drawn.forEach(p=>p.y.forEach(v=>{ if(fin(v)){ if(v<mn)mn=v; if(v>mx)mx=v; } }));
+  domainSeries().forEach(s=>((spec.pts?spec.pts(seasonalData(id,s.mode)):[])||[]).forEach(q=>{ if(q&&fin(q.y)){ if(q.y<mn)mn=q.y; if(q.y>mx)mx=q.y; } }));      // M645: y domain over all available cohorts
   if(!isFinite(mn)) return <div style={{fontSize:11,color:"#64748b"}}>No numeric curve values for these cohorts.</div>;
   if(mn===mx){ mn-=1; mx+=1; } const pd=(mx-mn)*0.08; mn-=pd; mx+=pd;
   const digits=spec.digits!=null?spec.digits:1;
@@ -12364,7 +12368,8 @@ const CMP_BTNS=[
 ];
 function CompareControls({sel,onToggle}){
   const cc=(seasonalMeta().cohortCounts)||{};
-  return <div data-cohort-compare="1" style={{position:"sticky",top:38,zIndex:49,background:"#faf5fff2",backdropFilter:"blur(2px)",border:"1px solid #e9d5ff",borderRadius:8,padding:"8px 10px",marginBottom:12,boxShadow:"0 2px 4px rgba(124,58,237,0.06)"}}>
+  const [help,setHelp]=React.useState(false);      // M645: the explanatory text is collapsed by default (the header stays short and opaque)
+  return <div data-cohort-compare="1" style={{position:"sticky",top:38,zIndex:49,background:"#faf5ff",border:"1px solid #e9d5ff",borderRadius:8,padding:"8px 10px",marginBottom:12,boxShadow:"0 2px 4px rgba(124,58,237,0.06)"}}>
     <div style={{display:"flex",flexWrap:"wrap",gap:6,alignItems:"center"}}>
       <span style={{fontSize:10,color:"#7c3aed",fontWeight:700,textTransform:"uppercase",letterSpacing:0.5,marginRight:2}}>Compare series</span>
       {CMP_BTNS.map(b=>{ const dis=!cohortAvailable(b.key); const on=dis?false:!!(sel&&sel[b.key]); const n=cc[b.key];
@@ -12385,9 +12390,10 @@ function CompareControls({sel,onToggle}){
           <strong style={{color:"#475569"}}>{b.label}:</strong> {m.n} drives · {m.km.toLocaleString("en-US")} km{m.dateFrom?` · ${m.dateFrom}→${m.dateTo}`:""}{m.routeMix&&Object.keys(m.routeMix).length?` · ${top(m.routeMix)}`:""}
         </span>)}
       </div>; })()}
-    <div style={{fontSize:9,color:"#a78bda",marginTop:6}}>
+    <div style={{marginTop:5}}><button data-cmp-help="1" aria-expanded={help} onClick={()=>setHelp(!help)} style={{fontSize:10,color:"#7c3aed",background:"transparent",border:"none",cursor:"pointer",padding:0}}>{help?"\u25BE Hide notes":"\u25B8 Notes"}</button></div>
+    {help&&<div style={{fontSize:10,color:"#6b21a8",marginTop:4}}>
       Toggle series on/off — every chart below overlays the enabled cohorts. Default is <strong>Warm vs Shoulder{cohortAvailable("cold")?" vs Cold":""}</strong>; <strong>All Data</strong> is the corpus-wide aggregate (the blend of the cohorts), added only on request. Route mix under each label shows the cohorts are not matched on duty — Shoulder is overwhelmingly urban. Cold: {cohortCount("cold")} drive{cohortCount("cold")===1?"":"s"} (sub-{String((seasonalMeta().thresholds||{}).cold||"<=5").replace("<=","")}°C); {cohortAvailable("cold")?"enabled":`disabled until \u2265${COHORT_MIN_SUPPORT_DRIVES} drives are logged`}.
-    </div>
+    </div>}
   </div>;
 }
 
