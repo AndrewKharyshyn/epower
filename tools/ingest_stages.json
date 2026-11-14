@@ -896,6 +896,21 @@
    ]
   },
   {
+   "id": "bms_power_map",
+   "title": "M658 (N-06): map of the BMS-reported possible power (input and output) against pack temperature (5 C bins anchored at 0 C) and SoC bands: time-weighted quantiles, logged-maximum share (>= 63.70 kW), support ladder, own-day day-clustered bootstrap, saturation descriptions and the logged-power-above-limit check, cadence-regime sensitivity; per-drive sufficient statistics cached by the raw sha256 and the extractor version (bms_map_cache/); additive payload block bmsPowerMap + stamp; needs raw/; spec analyses/M657_spec.md Rev 1.1",
+   "cmd": [
+    "python3",
+    "tools/n06_bms_power_map.py"
+   ],
+   "verified": false,
+   "outputs": [
+    "summary_arrays.json"
+   ],
+   "writes": [
+    "arrays:bmsPowerMap"
+   ]
+  },
+  {
    "id": "dependency_audit",
    "title": "M557: channel-dependency graph and independence audit of the evidence-ledger checks and the named negative controls (audit 2026-10-29 N08): computes the class of every claim (coding check only / circular / model adequacy / shared raw input / independent) from the hand-curated channel_dependency_graph.json and independence_claims.json, checks coverage against the evidence ledger and the payload key scan, reads each control's observed outcome from the payload and writes the additive payload block channelDependency (+ stamp); a wording conflict is reported and no validationStatus is changed; STOP on a coverage or schema miss; never edits the declarations; spec analyses/M557_spec.md Rev 2",
    "cmd": [

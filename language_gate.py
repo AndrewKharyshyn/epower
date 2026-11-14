@@ -623,6 +623,8 @@ RULES = [
     Rule("M648-tte-cold-wording", "regex", "M648 (spec analyses/M648_spec.md Rev 1, Director review): Cold time to threshold is a descriptive level that depends on the trip-length mix, not warm-up physics, with no contrast between cohorts; the fill-limit rows are a range over declared conventions, never a confidence interval; no winter reading; no cohort median of the reachers only",
          rx=r"\bfill (?:sensitivity )?(?:range|rows?) (?:is|are|as) (?:a |the )?(?:confidence|credible) interval\b|\bcold (?:starts? )?(?:warms?|heats?) (?:up )?(?:more )?(?:slower|faster|slowly|quickly) than (?:warm|shoulder)\b|\bwinter warm[ -]?up\b|\bmedian time to (?:the )?threshold (?:of|for) (?:the )?cold"),
     Rule("M652-official-disclosure-wording", "regex", "M652 (spec analyses/M652_spec.md): the sheet's 66 kW is a disclosed figure at 80 % SoC, not a battery cap (the logged peak exceeds it); the comparison side is logged and estimated, not measured / modeled", rx=r"\bkw battery cap\b|\bown measured\W+modeled figures\b"),
+    Rule("M658-bms-map-wording", "regex", "M658 (spec analyses/M657_spec.md Rev 1.1, Director review R11): the possible-power map describes the BMS-reported (logged / app-calculated) possible power; it never says the BMS limited regeneration or charging, a true limit, regenerative acceptance, that the battery limits, or that the cold caused a value",
+         rx=r"\bbms (?:limits|limited|restricts?|restricted) (?:the )?(?:regen\w*|charg\w*)\b|\btrue (?:power |charge )?limit\b|\bregenerative acceptance\b|\bthe battery limit(?:s|ed)\b|\bcaused by (?:the )?cold\b"),
 ]
 
 _SCAN_CACHE = {}
