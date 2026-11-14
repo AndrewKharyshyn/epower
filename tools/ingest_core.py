@@ -317,6 +317,38 @@ def estimator_gate(prev, arrays, ack=None):
 
 ACK = {"reason": None, "recal": None}
 
+# M651 (P-07): generic carry of previous leaves the builder does not produce (deny-list instead of the NESTED_CARRIED allow-list alone).
+# Denied: `_artifactStamps` (the stamp stages own hash / time / basis; a carried stamp would be stale) and any path containing a list index (an element of a list cannot be matched by position
+# after a rebuild; those leaves keep being restored by their own stages and stay visible in the early leaf_guard report). Leaves covered by a declared leaf_guard rule are expected losses and are not carried.
+CARRY_DENY_TOP = ("_artifactStamps",)
+CARRIED_LEAVES = []
+
+
+def carry_lost_leaves(arrays, prev, rules):
+    """Copy, from the previous payload into the fresh one, every subtree whose leaves the builder did not produce and that no declared rule expects to vanish. The copy is taken at the
+    highest missing dict node (its parent exists in the fresh payload), so a missing branch is carried whole. Returns the sorted list of carried node paths (reported, NOT stored in the arrays).
+    Carried values are the previous values (stale until the owning stage has run), like the top-level carry."""
+    import copy
+    import leaf_guard as LG
+    cur_nodes = LG.nodes(arrays)
+    carried = set()
+    for p in LG.leaves(prev):
+        if p in cur_nodes or not p or p[0] in CARRY_DENY_TOP or any(isinstance(x, int) for x in p):
+            continue
+        if any((r := LG.match(rl["pathTemplate"], p, bool(rl.get("matchPrefix")))) is not None and LG.CONDITIONS[rl["condition"]](prev, arrays, p, r, rl) for rl in rules):
+            continue
+        k = next(i for i in range(1, len(p) + 1) if p[:i] not in cur_nodes)      # shortest missing prefix
+        parent = LG.get(arrays, p[:k - 1])
+        if isinstance(parent, dict):
+            carried.add(p[:k])
+    out = []
+    for node in sorted(carried, key=len):
+        if any(node[:len(c)] == c for c in out):
+            continue
+        LG.get(arrays, node[:-1])[node[-1]] = copy.deepcopy(LG.get(prev, node))
+        out.append(node)
+    return sorted("/".join(map(str, c)) for c in out)
+
 
 def estimator_gate_keep(prev, arrays, ack=None, run_dir=None):
     """M649 (P-03): estimator_gate, but when it stops the freshly computed arrays are written to <run_dir>/candidate_summary_arrays.json first (NOT canonical;
@@ -353,6 +385,7 @@ def step4_arrays(dm, raw_stage, recompute_m119v2):
     EST_CHANGES[:] = estimator_gate_keep(prev, arrays, ACK["reason"], RUN["dir"])
     mark("estimator_gate")
     CARRIED[:] = carry_forward(arrays, prev)   # reported by main(); NOT stored in the arrays file
+    CARRIED_LEAVES[:] = carry_lost_leaves(arrays, prev, json.load(open(os.path.join(ROOT, "analyses", "leaf_guard_rules.json"), encoding="utf-8")))      # M651 (P-07)
     return arrays
 
 
@@ -452,7 +485,7 @@ def main():
         if md5(os.path.join(ROOT, "drive_master.csv")) != m0:
             raise Gate("crosscheck inject changed drive_master.csv")
         mark("crosscheck_inject")
-        report.update(carried_forward_keys_stale_until_stage_runs=list(CARRIED), stamp_notes_inherited=list(INHERITED_NOTES), estimator_validity_notes=list(EST_VALIDITY_NOTES), estimator_changes_acknowledged={"changes": list(EST_CHANGES), "reason": ACK["reason"]}, recalibration=({"soft_flags": RECAL.get("soft_flags"), "hard_flags": RECAL.get("hard_flags"), "acknowledged": ACK["recal"]} if RECAL else None), status="ok", rows_after=len(dm_disk), md5_after=m0, backup=os.path.relpath(bdir, ROOT))
+        report.update(carried_forward_keys_stale_until_stage_runs=list(CARRIED), carried_leaf_nodes_stale_until_stage_runs=list(CARRIED_LEAVES), stamp_notes_inherited=list(INHERITED_NOTES), estimator_validity_notes=list(EST_VALIDITY_NOTES), estimator_changes_acknowledged={"changes": list(EST_CHANGES), "reason": ACK["reason"]}, recalibration=({"soft_flags": RECAL.get("soft_flags"), "hard_flags": RECAL.get("hard_flags"), "acknowledged": ACK["recal"]} if RECAL else None), status="ok", rows_after=len(dm_disk), md5_after=m0, backup=os.path.relpath(bdir, ROOT))
         # M324 GateA2: per-file signal-representation record (additive, atomic; written last so a failed earlier step leaves no orphan entry)
         import signal_representation as sr
         sr_added, sr_same, _ = sr.write_entries(
