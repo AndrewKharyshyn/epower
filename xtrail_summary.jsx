@@ -9489,6 +9489,45 @@ function ThermalSupport({part}) {
 
 /* M654 (UI-05, spec analyses/M654_spec.md): forest of the observed share (E1) and the Kaplan-Meier (product-limit) estimate (E2) per setting, built from the SAME ledger values the table beside it prints.
    items: [{label, r:{supported, E1:{point,ci95}, E2:{point,ci95}}, sub}]; an unsupported row is text ("not supported"), never a zero; no interval is invented (IntervalForest rules). */
+/* M663 (2026-11-15; spec analyses/M663_spec.md): calendar heatmap of drives per calendar day, from the per-drive dates of S.ambientTable.rows (all drives, not the hand-typed ledger).
+   Pure model, tested through the rendered cells; a day without drives is an empty cell, never a value. */
+/*M663-MODEL-BEGIN*/
+function driveCalendarModel(dates){
+  const ok=d=>typeof d==="string"&&/^\d{4}-\d{2}-\d{2}$/.test(d);
+  const cnt={}; (dates||[]).forEach(d=>{ if(ok(d)) cnt[d]=(cnt[d]||0)+1; });
+  const days=Object.keys(cnt).sort(); if(!days.length) return {weeks:[],days:[],max:0,total:0};
+  const ms=d=>Date.UTC(+d.slice(0,4),+d.slice(5,7)-1,+d.slice(8,10)), DAY=86400000;
+  const dow=d=>(new Date(ms(d)).getUTCDay()+6)%7;
+  const first=ms(days[0])-dow(days[0])*DAY, last=ms(days[days.length-1]);
+  const iso=m=>new Date(m).toISOString().slice(0,10);
+  const weeks=[]; for(let w=first; w<=last; w+=7*DAY){ const col=[]; for(let i=0;i<7;i++){ const dd=iso(w+i*DAY); col.push({date:dd,n:cnt[dd]||0,inRange:w+i*DAY<=last&&w+i*DAY>=ms(days[0])}); } weeks.push(col); }
+  return {weeks,days:days.map(d=>({date:d,n:cnt[d]})),max:Math.max(...days.map(d=>cnt[d])),total:days.reduce((a,d)=>a+cnt[d],0)};
+}
+/*M663-MODEL-END*/
+function DriveCalendar({ dates }) {
+  const M = driveCalendarModel(dates);
+  if (!M.weeks.length) return null;
+  const cs = 11, gap = 2, PL = 22, PT = 14, W = PL + M.weeks.length * (cs + gap) + 4, H = PT + 7 * (cs + gap) + 2;
+  const shade = n => n === 0 ? "#f1f5f9" : `rgba(37,99,235,${(0.25 + 0.75 * n / M.max).toFixed(2)})`;
+  const th = { textAlign: "left", padding: "2px 8px", color: "#64748b", fontWeight: 600 };
+  return (
+    <ChartWithTable chart={
+      <div data-drive-calendar="1" style={{ overflowX: "auto", marginBottom: 6 }}>
+        <svg width={W} height={H} role="img" aria-label="Drives per calendar day, one square per day, weeks in columns">
+          {["Mon", "Wed", "Fri"].map((l, i) => <text key={l} x={PL - 4} y={PT + i * 2 * (cs + gap) + cs - 2} textAnchor="end" fontSize={7.5} fill="#94a3b8">{l}</text>)}
+          {M.weeks.map((col, wi) => <g key={wi}>
+            {(wi === 0 || col[0].date.slice(5, 7) !== M.weeks[wi - 1][0].date.slice(5, 7)) && <text x={PL + wi * (cs + gap)} y={9} fontSize={7.5} fill="#64748b">{col[0].date.slice(0, 7)}</text>}
+            {col.map((c, di) => c.inRange && <rect key={di} data-cal-day={c.date} data-cal-n={c.n} x={PL + wi * (cs + gap)} y={PT + di * (cs + gap)} width={cs} height={cs} rx={2} fill={shade(c.n)}><title>{`${c.date}: ${c.n} drive${c.n === 1 ? "" : "s"}`}</title></rect>)}
+          </g>)}
+        </svg>
+        <div style={{ fontSize: 9, color: "#94a3b8" }}>One square per calendar day from the first to the last logged day; darker = more drives that day (maximum {M.max}); grey = no drive logged. {M.total} drives on {M.days.length} days, from the per-drive dates of the ambient table (all drives), not from the hand-typed phase ledger below.</div>
+      </div>}>
+      <table style={{ fontSize: 10, borderCollapse: "collapse" }}><thead><tr><th style={th}>day</th><th style={th}>drives</th></tr></thead>
+        <tbody>{M.days.map(d => <tr key={d.date} style={{ borderTop: "1px solid #f1f5f9" }}><td style={{ padding: "1px 8px" }}>{d.date}</td><td style={{ padding: "1px 8px" }}>{d.n}</td></tr>)}</tbody></table>
+    </ChartWithTable>
+  );
+}
+
 function ShareForest({ items, h, ariaLabel }) {
   const rows = [];
   (items || []).forEach(it => {
@@ -12592,6 +12631,7 @@ export default function App() {
           {S.meta&&S.meta.intakeAir&&S.meta.intakeAir.status==="unavailable"&&<div data-intake-air-overview="1" style={{fontSize:10.5,color:"#64748b",lineHeight:1.55,marginBottom:8}}><strong style={{color:"#334155"}}>Data health.</strong><IntakeAirNote what="No figure uses imputed intake-air values; thermal classes are set by the logged ambient readout, not by this channel."/></div>}
         </Section>
         <Section title="Sessions (grouped by phase)">
+          {S.ambientTable&&S.ambientTable.rows&&<DriveCalendar dates={S.ambientTable.rows.map(r=>r.d)}/>}
           {xbRated() && <div data-exposure-ledger-tag="true" style={{fontSize:10,color:"#1e3a8a",background:"#eff6ff",border:"1px solid #bfdbfe",borderRadius:6,padding:"5px 8px",marginBottom:8}}>{xbLab("ledger")}.</div>}
           <div style={{fontSize:10,color:"#64748b",marginBottom:8}}>The timeline groups {S.totalDrives} drives, logged on {S.loggedDates} dates, into {S.sessionGroups.length} phases. The phase list shows changes in routes, weather and logging. Bar length shows distance; colour shows the dominant drive type.</div>
           {/* M78 (2026-07-30): the partial-timeline warning is now conditional.
