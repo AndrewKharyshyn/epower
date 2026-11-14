@@ -961,6 +961,21 @@
    ]
   },
   {
+   "id": "cohort_contrast",
+   "title": "M646: Cold-minus-Warm and Shoulder-minus-Warm contrast for the Compare charts (gross kWh/100 km, engine-on share, EV distance share; raw and route-mix standardised; joint day-clustered percentile bootstrap, seed 42, 4000 draws); the M1 cohort ratios must reproduce cohortSupport (STOP otherwise); additive key cohortContrast + stamp; descriptive difference between thermal classes, not a temperature effect (spec analyses/M646_spec.md Rev 1)",
+   "cmd": [
+    "python3",
+    "tools/m646_cohort_contrast.py"
+   ],
+   "needs": [
+    "cohort_support"
+   ],
+   "verified": false,
+   "outputs": [
+    "summary_arrays.json"
+   ]
+  },
+  {
    "id": "highway_session_gtc",
    "title": "M488: highway-session GTC over explicit inclusive dates on the unrounded Ah ledger (ah_throughput.csv); additive payload block highwaySessionGtc + stamp; hard stop if a declared date has no ledger entry",
    "cmd": [
