@@ -19,4 +19,6 @@ for m in C["metrics"].values():
         for v in ("raw", "adjusted"):
             r = e[v]
             assert r["estimable"] is False and r.get("reason") or (r["draws"] == 4000 and r["seed"] == 42 and r["dropRate"] <= 0.01)
+assert "route-mix standardised (urban/non-urban only)" in seg and 'data-cmp-contrast-caption="1"' in seg and "m.diffUnit" in seg and "exploratory, no verdict" in seg and "Dropped bootstrap replicates" in seg
+assert C["metrics"]["M2"]["diffUnit"] == "percentage points" and "unreliable" in C["method"]
 print("PASS test_m646_contrast_panel")

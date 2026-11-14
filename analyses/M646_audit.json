@@ -1,0 +1,13 @@
+{
+ "auditor": "analytical-auditor (blind, spec Rev 1 + master CSVs only)",
+ "date": "2026-11-14",
+ "verdict": "revise -> resolved",
+ "findings": {
+  "M1_1km_clause": "spec literal >=1 km vs cohortSupport reproduction: resolved as sensitivity driveKmAtLeast1; auditor point estimates equal it exactly (cold raw 2.5132 adj -2.5092; shoulder raw 2.2889 adj -0.8306)",
+  "M2_distance_filter": "author missed distance_km>0 for M2 (warm 43.4514 -> 43.6074); fixed; M2/M3 shoulder and cold point estimates then agree to displayed digits",
+  "cold_adjusted": "cold non-urban cell has 1 drive on 1 day: not estimable (auditor drop rate 0.37 conditional-interval warning); implementation shows not estimable",
+  "intervals": "auditor numpy default_rng construction differs; seed 42 and 7 intervals agree within 0.1 of interval width for every estimable row",
+  "eligibility": "explicit-True exclusion (660 drives) vs strict missing-flag (651): sensitivity missingEnsFlagNotClean",
+  "method": "joint day bootstrap over the union of days is correct; unit = calendar day; no leakage"
+ }
+}

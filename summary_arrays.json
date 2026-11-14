@@ -68156,15 +68156,15 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "11a89dc0c881bd0a60e9e957ccd1936a",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-11-14T00:58:49.333335+00:00",
+   "generatedAt": "2026-11-14T01:02:26.833122+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3"
    },
    "computationStatus": "computed",
    "computationStatusNote": "M646: derived by tools/m646_cohort_contrast.py from drive_master.csv and seasonal_drive_master.csv (spec analyses/M646_spec.md Rev 1); descriptive contrast between thermal classes",
-   "includedInReleaseAt": "2026-11-14T00:58:49.333335+00:00",
-   "computedAt": "2026-11-14T00:58:49.333335+00:00",
+   "includedInReleaseAt": "2026-11-14T01:02:26.833122+00:00",
+   "computedAt": "2026-11-14T01:02:26.833122+00:00",
    "inputBasis": {
     "nDrives": 665,
     "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
@@ -432235,6 +432235,7 @@
    "M1": {
     "label": "Gross pack throughput per 100 km",
     "unit": "kWh/100 km",
+    "diffUnit": "kWh/100 km",
     "definition": "100 x sum(gross_throughput_kwh) / sum(distance_km), canonical-clean drives with a gross energy integral (same definition as cohortSupport.metrics.grossKwhPer100km)",
     "contrasts": {
      "cold": {
@@ -432464,6 +432465,7 @@
    "M2": {
     "label": "Engine-on share of time",
     "unit": "% of time",
+    "diffUnit": "percentage points",
     "definition": "sum(engine_on_pct x duration_s) / (100 x sum(duration_s)) x 100, canonical-clean drives with a stored engine_on_pct",
     "contrasts": {
      "cold": {
@@ -432693,6 +432695,7 @@
    "M3": {
     "label": "EV distance share",
     "unit": "% of distance",
+    "diffUnit": "percentage points",
     "definition": "100 x sum(ev_dist_km) / sum(distance_km), canonical-clean drives with a defined ev_dist_km",
     "contrasts": {
      "cold": {
@@ -432949,11 +432952,11 @@
   "_provenance": {
    "generatedBy": "tools/m646_cohort_contrast.py",
    "spec": "analyses/M646_spec.md",
-   "specGitBlob": "eb11e5c367d9024f72d7b30b76fb4fc42a6ef794",
+   "specGitBlob": "1f93897773d43fdc2d5be2b0cba0b515fabc0470",
    "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
-   "scriptSha256": "8b1ba7fc94f8e21fe501f4c475c0c71f932c55c9eaac443a37d6a21f2b9db8c9"
+   "scriptSha256": "9736d431c2fd14837059dcc5452e59d9e178313230232aeea808b826cbd95075"
   },
-  "method": "Difference of cohort ratios of sums (cohort minus Warm), unadjusted and route-mix standardised (urban/non-urban only; fixed all-cohort km weights; strata below 5 % weight excluded with renormalisation). Day-clustered percentile bootstrap, seed 42, 4000 draws, the calendar day resampled jointly over the union of days of the two cohorts with the weights fixed; a replicate with an empty cell is dropped and counted, above 1 % dropped the row is not estimable. Floors: 10 drives on 5 days per cohort and per heavy route cell. Under 10 effective days a cohort makes the contrast exploratory (no verdict wording). The 12 intervals are descriptive: no multiplicity correction, no p-value, never the word significant.",
+  "method": "Difference of cohort ratios of sums (cohort minus Warm), unadjusted and route-mix standardised (urban/non-urban only; fixed all-cohort km weights; strata below 5 % weight excluded with renormalisation). Day-clustered percentile bootstrap, seed 42, 4000 draws, the calendar day resampled jointly over the union of days of the two cohorts with the weights fixed; a replicate with an empty cell is dropped and counted, above 1 % dropped the row is not estimable. Floors: 10 drives on 5 days per cohort and per heavy route cell. Under 10 effective days a cohort makes the contrast exploratory (no verdict wording). The 12 intervals are descriptive: no multiplicity correction, no p-value, never the word significant. With few day clusters the percentile interval is unreliable (a cohort under 10 effective days is exploratory); an interval that includes zero is not evidence of no difference.",
   "caption": "Difference between thermal classes (season, route, load and logging period move together), not a temperature effect. Route-mix standardised (urban/non-urban only) removes only that mix. Not an article figure; article use requires the Opus audit and the owner's sign-off per the project rule."
  }
 }

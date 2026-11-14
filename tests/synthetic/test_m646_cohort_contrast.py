@@ -48,6 +48,6 @@ import language_gate as LG
 rule = [r for r in LG.RULES if r.rid == "M646-cohort-contrast-wording"][0]
 for bad in ("a winter penalty of 2 kWh", "higher consumption due to cold", "temperature-adjusted difference", "the Cold vs Warm difference is significant", "no difference between Cold and Warm", "cold raises the energy intensity"):
     assert rule.hits(bad), bad
-for good in ("Difference between thermal classes, not a temperature effect.", "Route-mix standardised (urban/non-urban only).", "interval includes zero (not distinguished at this support)"):
+for good in ("Cold penalty OFF / x1.45 bracket the generator estimate", "Difference between thermal classes, not a temperature effect.", "Route-mix standardised (urban/non-urban only).", "interval includes zero (not distinguished at this support)"):
     assert not rule.hits(good), good
 print("PASS language rule")

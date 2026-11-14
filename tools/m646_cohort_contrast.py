@@ -19,11 +19,11 @@ MAX_DROP = 0.01                # R4: above this the row is not estimable
 CONTRASTS = ("cold", "shoulder")
 SPEC = "analyses/M646_spec.md"
 METRICS = {
-    "M1": {"label": "Gross pack throughput per 100 km", "unit": "kWh/100 km", "num": lambda d: d["gross_throughput_kwh"] * 100.0, "den": lambda d: d["distance_km"],
+    "M1": {"label": "Gross pack throughput per 100 km", "unit": "kWh/100 km", "diffUnit": "kWh/100 km", "num": lambda d: d["gross_throughput_kwh"] * 100.0, "den": lambda d: d["distance_km"],
            "defn": "100 x sum(gross_throughput_kwh) / sum(distance_km), canonical-clean drives with a gross energy integral (same definition as cohortSupport.metrics.grossKwhPer100km)", "need": ["gross_throughput_kwh", "distance_km"]},
-    "M2": {"label": "Engine-on share of time", "unit": "% of time", "num": lambda d: d["engine_on_pct"] * d["duration_s"], "den": lambda d: d["duration_s"] * 100.0,
+    "M2": {"label": "Engine-on share of time", "unit": "% of time", "diffUnit": "percentage points", "num": lambda d: d["engine_on_pct"] * d["duration_s"], "den": lambda d: d["duration_s"] * 100.0,
            "defn": "sum(engine_on_pct x duration_s) / (100 x sum(duration_s)) x 100, canonical-clean drives with a stored engine_on_pct", "need": ["engine_on_pct", "duration_s"], "scale": 100.0},
-    "M3": {"label": "EV distance share", "unit": "% of distance", "num": lambda d: d["ev_dist_km"], "den": lambda d: d["distance_km"],
+    "M3": {"label": "EV distance share", "unit": "% of distance", "diffUnit": "percentage points", "num": lambda d: d["ev_dist_km"], "den": lambda d: d["distance_km"],
            "defn": "100 x sum(ev_dist_km) / sum(distance_km), canonical-clean drives with a defined ev_dist_km", "need": ["ev_dist_km", "distance_km"], "scale": 100.0},
 }
 
@@ -230,7 +230,7 @@ def build():
                         v["adjusted"] = None
             e["sensitivities"] = sens
             cb[c] = e
-        blk["metrics"][mk] = {"label": m["label"], "unit": m["unit"], "definition": m["defn"], "contrasts": cb}
+        blk["metrics"][mk] = {"label": m["label"], "unit": m["unit"], "diffUnit": m["diffUnit"], "definition": m["defn"], "contrasts": cb}
     # reproduction of the cohort ratios (spec section 7)
     rep = {}
     for mk in METRICS:
@@ -245,7 +245,8 @@ def build():
     blk["method"] = ("Difference of cohort ratios of sums (cohort minus Warm), unadjusted and route-mix standardised (urban/non-urban only; fixed all-cohort km weights; strata below 5 % weight excluded with renormalisation). "
                      "Day-clustered percentile bootstrap, seed 42, 4000 draws, the calendar day resampled jointly over the union of days of the two cohorts with the weights fixed; a replicate with an empty cell is dropped and counted, "
                      "above 1 % dropped the row is not estimable. Floors: 10 drives on 5 days per cohort and per heavy route cell. Under 10 effective days a cohort makes the contrast exploratory (no verdict wording). "
-                     "The 12 intervals are descriptive: no multiplicity correction, no p-value, never the word significant.")
+                     "The 12 intervals are descriptive: no multiplicity correction, no p-value, never the word significant. With few day clusters the percentile interval is unreliable (a cohort under 10 effective days is exploratory); "
+                     "an interval that includes zero is not evidence of no difference.")
     blk["caption"] = ("Difference between thermal classes (season, route, load and logging period move together), not a temperature effect. "
                       "Route-mix standardised (urban/non-urban only) removes only that mix. Not an article figure; article use requires the Opus audit and the owner's sign-off per the project rule.")
     return blk
