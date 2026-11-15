@@ -226,7 +226,7 @@ def day_ratio(nums, dens, dates, nboot=NBOOT, seed=SEED):
     den = m[idx].sum(axis=1)
     ok = den > 0
     r = n[idx].sum(axis=1)[ok] / den[ok]
-    return {"est": float(n.sum() / m.sum()), "ci95": [float(np.percentile(r, 2.5)), float(np.percentile(r, 97.5))], "nDays": int(len(n)), "essDays": _ess(m)}
+    return {"est": float(n.sum() / m.sum()), "ci95": [float(np.percentile(r, 2.5)), float(np.percentile(r, 97.5))], "nDays": int(len(n)), "essDays": _ess(n), "essDaysDenominator": _ess(m)}
 
 
 SCREEN_DEF = {"S1": "charge Ah in bins below 10 C", "S2": "charge Ah in bins below 15 C", "S3": "charge Ah at a mean interval charge current of 25 A or more",
@@ -262,6 +262,7 @@ def bins_table(recs, variant):
     tot = {f: np.zeros(NB + 1) for f in FIELDS}
     nd = np.zeros(NB + 1)
     days = [set() for _ in range(NB + 1)]
+    perday = [dict() for _ in range(NB + 1)]
     for r in recs:
         a = _vec(r, variant, "ahDis")
         c = _vec(r, variant, "ahChg")
@@ -277,6 +278,7 @@ def bins_table(recs, variant):
             if a[q] + c[q] > 0:
                 nd[q] += 1
                 days[q].add(r["date"])
+                perday[q][r["date"]] = perday[q].get(r["date"], 0.0) + float(a[q] + c[q])
     thr = tot["ahDis"] + tot["ahChg"]
     total = float(thr.sum())
     rows = []
@@ -285,7 +287,8 @@ def bins_table(recs, variant):
                      "ahThroughput": round(float(thr[q]), 6), "shareOfThroughput": round(float(thr[q] / total), 8) if total > 0 else None,
                      "hours": round(float(tot["hours"][q]), 6), "meanAbsCurrentA": round(float(tot["absAh"][q] / tot["hours"][q]), 4) if tot["hours"][q] > 0 else None,
                      "i2hDischarge": round(float(tot["i2Dis"][q]), 4), "i2hCharge": round(float(tot["i2Chg"][q]), 4),
-                     "nDrives": int(nd[q]), "nDays": len(days[q]), "status": _status(int(nd[q]), len(days[q]), 99.0) if q < NB else "n/a"})
+                     "nDrives": int(nd[q]), "nDays": len(days[q]), "status": _status(int(nd[q]), len(days[q]), _ess(list(perday[q].values())) if perday[q] else 0.0) if q < NB else "n/a",
+                     "essDays": round(_ess(list(perday[q].values())), 3) if (q < NB and perday[q]) else None})
     return rows, tot
 
 
@@ -333,11 +336,11 @@ def aggregate(stats, master, regimes, ah_side, cap_kwh, cap_ah, ah_per100, md5, 
         recs.append(r)
     have = [r for r in recs if r.get("variants")]
     clean = [r for r in have if r["clean"]]
-    block = {"label": "Exposure vector of the logged driving window from the logged BMS current (estimated, offset-uncorrected; not lifetime exposure, not damage)",
+    block = {"label": "Exposure vector of the logged driving window from the logged BMS current (estimated, offset-uncorrected; not lifetime exposure, not an ageing estimate)",
              "spec": "analyses/M673_spec.md Rev 1.1", "status": "descriptive; screens carry a support ladder",
-             "reading": ["Exposure of the logged driving window only (logged drives; the logged share of the odometer is below 1), not lifetime exposure and not damage.",
+             "reading": ["Exposure of the logged driving window only (logged drives; the logged share of the odometer is below 1), not lifetime exposure and not an ageing estimate.",
                          "Ampere-hours are integrated from the logged current (estimated, offset-uncorrected), never measured at the cell; charging here is regeneration and generator charging (no plug).",
-                         "The screen thresholds (10 C, 15 C, 25 A, SOC 70 %) were adopted from an external review; they are not identified BMS or damage thresholds.",
+                         "The screen thresholds (10 C, 15 C, 25 A, SOC 70 %) were adopted from an external review; they are not identified BMS limits.",
                          "The 25 A screen and the upper charge-current quantiles depend on the logging cadence (piecewise-linear sampling cuts peaks; the cadence-invariance check B6 stays FAILED); the cold charge Ah share is open to the uncorrected current offset.",
                          "Regeneration charging is concentrated in short high-current bursts, so a large share of charge Ah at 25 A or more describes regeneration, not a charger-type load.",
                          "|I| / 5 A is a ratio to the rated reference (verified:false), not a reference-free quantity. No annualisation is made."],
@@ -372,7 +375,7 @@ def aggregate(stats, master, regimes, ah_side, cap_kwh, cap_ah, ah_per100, md5, 
             ent["Q3_p95_A_all_bins"] = qq["p95"] if qq else None
         scr["sensitivityCadence"][reg] = ent
     scr["offsetNote"] = "current offset of -0.5 and +0.5 A applied to every sample (assumed, verified:false); the primary is offset 0"
-    scr["limits"] = ["Splitting an interval at a bin crossing instead of end-sample attribution is not run (named limit).", "Screens count exposure; they do not say the exposure is harmful."]
+    scr["limits"] = ["Splitting an interval at a bin crossing instead of end-sample attribution is not run (named limit).", "Screens count exposure; they make no assessment of the effect on the pack."]
     block["Q5_screens_clean"] = scr
     dd = {r["date"] for r in have}
     tot_thr = float((all_tot["ahDis"] + all_tot["ahChg"]).sum())

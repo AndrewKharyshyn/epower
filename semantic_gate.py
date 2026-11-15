@@ -1333,5 +1333,26 @@ if _bd.get("months"):
     ok("A7 M683 between-drive logged share display: window sentence and every month row (drives, days, km, gaps, share) equal betweenDriveLogging", not _miss, f"missing: {_miss[:3]}")
     ok("A7 M683 display: states that a gap is not a measure of unlogged driving and is descriptive", "is not a measure of unlogged driving" in _ov and "(descriptive)" in _ov)
 
+# ---------- A7 (M684): the exposure-vector display equals exposureVector (every temperature bin row, the screens S1-S4, the caption figures; no share interval, S5 not shown) ----------
+_ev = A.get("exposureVector") or {}
+if _ev.get("Q1_Q2_Q4_clean"):
+    _eh2 = T.get("health__all", "")
+    _need = [f"{_ev['Q6_totals']['ahThroughputAll']:.1f} Ah throughput in {_ev['population']['nWithIvPairs']} drives on {_ev['population']['nDaysAll']} days", f"{_ev['Q6_totals']['ahThroughputPerDrivingDay']:.1f} Ah per driving day",
+             f"the {_ev['population']['nCanonicalClean']} canonical-clean drives on {_ev['population']['nDaysClean']} days"]
+    for _b in _ev["Q1_Q2_Q4_clean"]["bins"]:
+        if (_b["nDrives"] > 0 and _b["status"] != "not shown") or _b["bin"] == "unassigned":
+            _need.append(f"{_b['bin']}{_b['ahDischarge']:.1f}{_b['ahCharge']:.1f}{_b['ahThroughput']:.1f}{100 * _b['shareOfThroughput']:.1f}%{_b['hours']:.1f}{_b['nDrives']} / {_b['nDays']}{_b['status']}")
+        else:
+            _need.append(f"{_b['bin']}not shown ({_b['nDrives']} / {_b['nDays']} drives / days)" if _b["nDrives"] > 0 else f"{_b['bin']}not observed at this support")
+    for _k, _s in _ev["Q5_screens_clean"]["primary"].items():
+        if _s["status"] != "not shown":
+            _need.append(f"{_k}: {_s['definition']}{_s['ah']:.1f}{100 * _s['share']:.1f}%{_s['nDrives']} / {_s['nDays']}{_s['status']}")
+        else:
+            _need.append(f"{_k}: {_s['definition']}not shown{_s['nDrives']} / {_s['nDays']}{_s['status']}")
+    _miss = [x for x in _need if x not in _eh2]
+    ok("A7 M684 exposure-vector display: caption figures, every temperature-bin row and every screen row equal exposureVector", not _miss, f"missing: {_miss[:3]}")
+    ok("A7 M684 display: counted exposure not damage, no share interval displayed, S5 hidden when not shown",
+       "not lifetime exposure and not an ageing estimate" in _eh2 and "Intervals for the shares are not displayed (no coverage study has been run on them)" in _eh2 and "Nothing is extrapolated to colder packs" in _eh2 and "S3 reading:" in _eh2 and "|I| / 5 A" not in _eh2)
+
 print(f"\nSEMANTIC GATE: {len(passes)} passed, {len(fails)} failed")
 sys.exit(1 if fails else 0)
