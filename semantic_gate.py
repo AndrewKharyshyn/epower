@@ -1303,5 +1303,21 @@ if _tp:
     ok("A6 M606 provenance line: coolant ok counts per cadence group equal thermalProvenance (all groups shown)", not _bad, f"mismatch: {_bad}")
     ok("A6 M606 provenance line: no cause or freshness claim", "freshness not observable" in _tt and "which the logs cannot confirm" in _tt and bool(_tp.get("ownerStatement")))
 
+# ---------- A7 (M682): the early-versus-late cell-spread display equals earlyLateContrast (Y2 only; the 95 % interval only beside the 98.33 % one; nothing for Y3) ----------
+_el = A.get("earlyLateContrast") or {}
+_ely = (_el.get("outcomes") or {}).get("Y2") or {}
+_elv = _ely.get("intervalV2") or {}
+if _elv.get("status") == "interval with simulated coverage":
+    _eh = T.get("health__all", "")
+    _ea = _ely["pathA"]
+    _f1 = lambda x: f"{x:.1f}"
+    _want = [f"{_f1(_ea['estimate'])} mV", f"95% [{_f1(_elv['ci95'][0])}, {_f1(_elv['ci95'][1])}] mV", f"98.33% [{_f1(_elv['ci98_33'][0])}, {_f1(_elv['ci98_33'][1])}] mV",
+             f"{_ea['nEarlyDrives']} early drives on {_ea['nEarlyDays']} days", f"{_ea['nLateDrives']} late drives on {_ea['nLateDays']} days", f"{_ea['matchedLateDrives']} late drives matched", f"Late minus early, matched state bins: {_ea['estimate']:+.1f} mV".replace("+", "+"),
+             "weights recomputed per deletion, 98.33%", "no coverage study) " + ("excludes" if (_ely["pathB"]["primaryMatchedSupport"]["ci98_33"][0] > 0 or _ely["pathB"]["primaryMatchedSupport"]["ci98_33"][1] < 0) else "includes") + " zero at 98.33%"]
+    _miss = [w for w in _want if w not in _eh]
+    ok("A7 M682 early-versus-late cell-spread display: estimate, both intervals, window counts and matched drives equal earlyLateContrast (Y2)", not _miss, f"missing: {_miss}")
+    ok("A7 M682 display: 98.33% interval stated beside the 95% one; no display of the median pack voltage or the resistance proxy contrast",
+       "98.33%" in _eh and "Early versus Late Drives in Matched State Bins: Loaded Cell Spread" in _eh.replace("EARLY VERSUS LATE DRIVES IN MATCHED STATE BINS: LOADED CELL SPREAD", "Early versus Late Drives in Matched State Bins: Loaded Cell Spread") and "median pack voltage" not in _eh.split("Early versus Late Drives")[1][:4000].lower().replace("the median pack voltage is not displayed", ""))
+
 print(f"\nSEMANTIC GATE: {len(passes)} passed, {len(fails)} failed")
 sys.exit(1 if fails else 0)

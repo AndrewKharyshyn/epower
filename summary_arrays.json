@@ -68282,19 +68282,19 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "11a89dc0c881bd0a60e9e957ccd1936a",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-11-15T19:55:17.033301+00:00",
+   "generatedAt": "2026-11-15T20:22:03.006850+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3"
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-11-15T19:55:17.033301+00:00",
+   "includedInReleaseAt": "2026-11-15T20:22:03.006850+00:00",
    "inputBasis": {
     "nDrives": 665,
     "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-11-15T19:55:17.033301+00:00",
+   "computedAt": "2026-11-15T20:22:03.006850+00:00",
    "computationStatusNote": "M678: derived by tools/early_late_contrast.py from drive_master.csv and two sidecars (spec analyses/M677_spec.md Rev 1.1, 1.2); exploratory"
   }
  },
@@ -449793,6 +449793,13 @@
    "'persists' (Rev 1.2) needs the same sign, both paths' 98.33 % intervals excluding zero, a matched late share of at least 50 % and at most 5 % of bootstrap draws dropped; persistsRev11 applies the first two conditions only and is shown beside, the stricter rule having been added after the first run was seen. persists = false is not 'no difference'. Every other statement is descriptive and unadjusted.",
    "Path A intervals with more than 5 % of draws dropped are selected on cell survival and are not valid confidence intervals: unstable, not for display. Path B (CR1) may be shown beside. intervalV2 (M680, spec analyses/M679_spec.md Rev 1.1) is an interval with simulated coverage: the construction selected by the planted-effect coverage gate (analyses/M679_coverage.json: 400 replicates per scenario, 95 % coverage per scenario in simulatedCoverage95); it supersedes the Path A bootstrap interval, which stays as the reference construction C0 labelled unstable. The coverage holds only under the fitted variance components and a day-independent error structure (correlation across days or weeks is not modelled); the study is not re-run at each ingestion (coverageStudyRef.corpusHash names its corpus).",
    "Where 2.8 times the bootstrap standard error (twoPointEightSe, a bootstrap-width quantity, not a power calculation) exceeds the estimate (widthAboveEstimate), the contrast cannot be distinguished from zero at this support."
+  ],
+  "displayCaveats": [
+   "Exploratory; the estimate covers only the matched late drives (partial overlap: fast-polled late drives cannot match because every early drive is slow-polled).",
+   "Season, route mix, load, logger configuration and the HV-battery software update (owner-reported around 2026-08-25, in the excluded middle third) move together on one vehicle; this is a difference between early and late drives in matched state bins, not an ageing estimate, and a same-season comparison is not available in a 12-month study.",
+   "The interval keeps the late-drive weights fixed (the sensitivity with the weights recomputed per deletion is shown beside it); its simulated coverage holds only under the fitted day-variance components and independent days, not correlation across days or weeks, and the coverage study is not re-run at each ingestion.",
+   "The 98.33% level is the Bonferroni level over the three outcomes analysed; the resistance proxy has no matched cells and the median pack voltage is not displayed.",
+   "Exploratory analysis; no article use without the audit and sign-off required by the study rules."
   ],
   "validity": {
    "V2_V3_V4_V5": true
