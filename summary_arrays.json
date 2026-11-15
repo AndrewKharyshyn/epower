@@ -68212,6 +68212,27 @@
    },
    "computedAt": "2026-11-15T00:54:03.835052+00:00",
    "computationStatusNote": "M667: derived by tools/n02_seasonal_fits.py from drive_master.csv, seasonal_drive_master.csv, ah_throughput.csv and end-of-drive pack temperatures from raw (spec analyses/M666_spec.md Rev 1.2); exploratory"
+  },
+  "betweenDriveLogging": {
+   "corpusHash": "77bbe275f8c22eaf62d8636867764af3",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": "11a89dc0c881bd0a60e9e957ccd1936a",
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-11-15T10:27:32.829525+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3"
+   },
+   "computationStatus": "computed",
+   "includedInReleaseAt": "2026-11-15T10:27:32.829525+00:00",
+   "inputBasis": {
+    "nDrives": 665,
+    "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-11-15T10:27:32.829525+00:00",
+   "computationStatusNote": "M672: derived by tools/n05_between_drive_logging.py from drive_master.csv only (spec analyses/M672_spec.md Rev 1.1); descriptive"
   }
  },
  "ambientTable": {
@@ -446263,6 +446284,320 @@
    "scriptSha256": "88c52886092757be77c42065bc99c5ce2a6b936cfd49cc0920f44c127f6ccd15",
    "seed": 42,
    "nBoot": 4000
+  }
+ },
+ "betweenDriveLogging": {
+  "label": "Between-drive logged share by month (descriptive; odometer steps between consecutive logged drives; gaps hold logger start/stop latency as well as missed trips)",
+  "spec": "analyses/M672_spec.md Rev 1.1",
+  "status": "descriptive",
+  "reading": [
+   "The share is bracketed by two logged drives: a trip made before the first or after the last logged drive is invisible, and a gap is not measured unlogged driving.",
+   "drivingDayShare is the share of calendar days in the window with a logged drive, not the share of days the car was driven.",
+   "Gaps under 1 km are within logger start/stop latency and odometer resolution; only the gaps of 1 km or more can be missed trips, and one month can dominate them. The two share bases differ by the small distance-versus-odometer difference shown in the window row, so they nearly coincide.",
+   "A step excluded as an anomaly (backward step, reset regime, forward jump) or as R1-adjacent hides whatever was unlogged there; it is listed, not quantified.",
+   "The Overview KPI (total logged km / dash ODO) is unchanged and is the only statement about driving outside the logged window."
+  ],
+  "window": {
+   "firstDate": "2026-05-11",
+   "lastDate": "2026-11-09",
+   "nDrives": 665,
+   "loggedKm": 10738.84,
+   "odometerAdvanceKm": 10738.4,
+   "loggedMinusOdometerAdvanceKm": 0.44,
+   "unloggedGapKm": 83.7,
+   "nGapSteps": 13,
+   "gapUnder1km": {
+    "n": 7,
+    "km": 1.0
+   },
+   "gap1to200km": {
+    "n": 6,
+    "km": 82.7
+   },
+   "shareDistanceBasis": 0.992266,
+   "shareOdometerBasis": 0.992266,
+   "odometerResolutionKm": 0.1
+  },
+  "rules": {
+   "zeroTolKm": 0.05,
+   "smallGapKm": 1.0,
+   "largeGapKm": 200.0,
+   "boundaries": "gap in [-0.05, 0.05] is zero; (0.05, 1) gap under 1 km; [1, 200] gap; (200, 500] large gap (kept out of the sum); R2/R3/R4 steps are anomaly steps; steps next to an R1 drive are listed separately; month = month of the next drive"
+  },
+  "months": [
+   {
+    "month": "2026-05",
+    "nDrives": 38,
+    "nDrivingDays": 10,
+    "nCalendarDays": 21,
+    "drivingDayShare": 0.4762,
+    "loggedKm": 358.3,
+    "odometerAdvanceKm": 358.3,
+    "unloggedGapKm": 0.1,
+    "nGapSteps": 1,
+    "gapUnder1km": {
+     "n": 1,
+     "km": 0.1
+    },
+    "gap1to200km": {
+     "n": 0,
+     "km": 0.0
+    },
+    "largestGapKm": 0.1,
+    "shareDistanceBasis": 0.999721,
+    "shareOdometerBasis": 0.999721,
+    "nZeroSteps": 36,
+    "nSmallBackwardSteps": 0,
+    "nLargeGapSteps": 0,
+    "nAnomalySteps": 0,
+    "anomalyRules": [],
+    "nR1AdjacentSteps": 0,
+    "labels": [
+     "partial month"
+    ]
+   },
+   {
+    "month": "2026-06",
+    "nDrives": 63,
+    "nDrivingDays": 18,
+    "nCalendarDays": 30,
+    "drivingDayShare": 0.6,
+    "loggedKm": 2594.9,
+    "odometerAdvanceKm": 2594.9,
+    "unloggedGapKm": 1.9,
+    "nGapSteps": 1,
+    "gapUnder1km": {
+     "n": 0,
+     "km": 0.0
+    },
+    "gap1to200km": {
+     "n": 1,
+     "km": 1.9
+    },
+    "largestGapKm": 1.9,
+    "shareDistanceBasis": 0.999268,
+    "shareOdometerBasis": 0.999268,
+    "nZeroSteps": 62,
+    "nSmallBackwardSteps": 0,
+    "nLargeGapSteps": 0,
+    "nAnomalySteps": 0,
+    "anomalyRules": [],
+    "nR1AdjacentSteps": 0,
+    "labels": []
+   },
+   {
+    "month": "2026-07",
+    "nDrives": 93,
+    "nDrivingDays": 20,
+    "nCalendarDays": 31,
+    "drivingDayShare": 0.6452,
+    "loggedKm": 2870.3,
+    "odometerAdvanceKm": 2870.3,
+    "unloggedGapKm": 0.3,
+    "nGapSteps": 3,
+    "gapUnder1km": {
+     "n": 3,
+     "km": 0.3
+    },
+    "gap1to200km": {
+     "n": 0,
+     "km": 0.0
+    },
+    "largestGapKm": 0.1,
+    "shareDistanceBasis": 0.999895,
+    "shareOdometerBasis": 0.999895,
+    "nZeroSteps": 90,
+    "nSmallBackwardSteps": 0,
+    "nLargeGapSteps": 0,
+    "nAnomalySteps": 0,
+    "anomalyRules": [],
+    "nR1AdjacentSteps": 0,
+    "labels": []
+   },
+   {
+    "month": "2026-08",
+    "nDrives": 111,
+    "nDrivingDays": 26,
+    "nCalendarDays": 31,
+    "drivingDayShare": 0.8387,
+    "loggedKm": 2130.5,
+    "odometerAdvanceKm": 2130.5,
+    "unloggedGapKm": 74.1,
+    "nGapSteps": 6,
+    "gapUnder1km": {
+     "n": 3,
+     "km": 0.6
+    },
+    "gap1to200km": {
+     "n": 3,
+     "km": 73.5
+    },
+    "largestGapKm": 39.2,
+    "shareDistanceBasis": 0.966388,
+    "shareOdometerBasis": 0.966388,
+    "nZeroSteps": 100,
+    "nSmallBackwardSteps": 1,
+    "nLargeGapSteps": 0,
+    "nAnomalySteps": 4,
+    "anomalyRules": [
+     "R2",
+     "R3",
+     "R4"
+    ],
+    "nR1AdjacentSteps": 0,
+    "labels": []
+   },
+   {
+    "month": "2026-09",
+    "nDrives": 186,
+    "nDrivingDays": 30,
+    "nCalendarDays": 30,
+    "drivingDayShare": 1.0,
+    "loggedKm": 799.84,
+    "odometerAdvanceKm": 799.4,
+    "unloggedGapKm": 2.9,
+    "nGapSteps": 1,
+    "gapUnder1km": {
+     "n": 0,
+     "km": 0.0
+    },
+    "gap1to200km": {
+     "n": 1,
+     "km": 2.9
+    },
+    "largestGapKm": 2.9,
+    "shareDistanceBasis": 0.996387,
+    "shareOdometerBasis": 0.996385,
+    "nZeroSteps": 183,
+    "nSmallBackwardSteps": 0,
+    "nLargeGapSteps": 0,
+    "nAnomalySteps": 0,
+    "anomalyRules": [],
+    "nR1AdjacentSteps": 2,
+    "labels": []
+   },
+   {
+    "month": "2026-10",
+    "nDrives": 115,
+    "nDrivingDays": 17,
+    "nCalendarDays": 31,
+    "drivingDayShare": 0.5484,
+    "loggedKm": 1707.0,
+    "odometerAdvanceKm": 1707.0,
+    "unloggedGapKm": 0.0,
+    "nGapSteps": 0,
+    "gapUnder1km": {
+     "n": 0,
+     "km": 0.0
+    },
+    "gap1to200km": {
+     "n": 0,
+     "km": 0.0
+    },
+    "largestGapKm": 0.0,
+    "shareDistanceBasis": 1.0,
+    "shareOdometerBasis": 1.0,
+    "nZeroSteps": 115,
+    "nSmallBackwardSteps": 0,
+    "nLargeGapSteps": 0,
+    "nAnomalySteps": 0,
+    "anomalyRules": [],
+    "nR1AdjacentSteps": 0,
+    "labels": []
+   },
+   {
+    "month": "2026-11",
+    "nDrives": 59,
+    "nDrivingDays": 9,
+    "nCalendarDays": 9,
+    "drivingDayShare": 1.0,
+    "loggedKm": 278.0,
+    "odometerAdvanceKm": 278.0,
+    "unloggedGapKm": 4.4,
+    "nGapSteps": 1,
+    "gapUnder1km": {
+     "n": 0,
+     "km": 0.0
+    },
+    "gap1to200km": {
+     "n": 1,
+     "km": 4.4
+    },
+    "largestGapKm": 4.4,
+    "shareDistanceBasis": 0.984419,
+    "shareOdometerBasis": 0.984419,
+    "nZeroSteps": 58,
+    "nSmallBackwardSteps": 0,
+    "nLargeGapSteps": 0,
+    "nAnomalySteps": 0,
+    "anomalyRules": [],
+    "nR1AdjacentSteps": 0,
+    "labels": [
+     "partial month"
+    ]
+   }
+  ],
+  "anomalySteps": [
+   {
+    "file": "20260813_144601.csv",
+    "rules": [
+     "R2"
+    ],
+    "rawGapKm": -4.5
+   },
+   {
+    "file": "20260816_124817.csv",
+    "rules": [
+     "R2",
+     "R3"
+    ],
+    "rawGapKm": -6736.0
+   },
+   {
+    "file": "20260816_144003.csv",
+    "rules": [
+     "R3"
+    ],
+    "rawGapKm": 0.0
+   },
+   {
+    "file": "20260816_165356.csv",
+    "rules": [
+     "R4"
+    ],
+    "rawGapKm": 6563.8
+   }
+  ],
+  "r1AdjacentSteps": [
+   {
+    "file": "20260906_122920.csv",
+    "rawGapKm": 0.0
+   },
+   {
+    "file": "20260906_130754.csv",
+    "rawGapKm": 0.0
+   }
+  ],
+  "largeGapSteps": [],
+  "bridgedAcrossResetRegime": [
+   {
+    "file": "20260816_165356.csv",
+    "bridgedKm": 0.0,
+    "note": "R4 start minus the last end before the reset regime; one figure, never summed"
+   }
+  ],
+  "validity": {
+   "V1_drives": true,
+   "V2_loggedKm": true,
+   "V3_oneMonthEach": true,
+   "V4_ledger": true,
+   "V6_stepAccounting": true,
+   "V7_telescoping": true
+  },
+  "provenance": {
+   "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+   "scriptSha256": "404235231d133ac66d1d78cd0f2dd982f1e64a4204c8ba1601b654d280391963",
+   "nDrives": 665
   }
  }
 }

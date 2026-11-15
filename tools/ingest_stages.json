@@ -1056,6 +1056,24 @@
    ]
   },
   {
+   "id": "between_drive_logging",
+   "title": "M672 (N-05): monthly between-drive logged share from drive_master.csv only (odometer steps between consecutive logged drives classified; gaps summed by month of the next drive beside logged km and odometer advance; V1-V7 validity stops); descriptive, additive payload block betweenDriveLogging + stamp; no display; spec analyses/M672_spec.md Rev 1.1",
+   "cmd": [
+    "python3",
+    "tools/n05_between_drive_logging.py"
+   ],
+   "needs": [
+    "seasonal_fits"
+   ],
+   "verified": false,
+   "outputs": [
+    "summary_arrays.json"
+   ],
+   "writes": [
+    "arrays:betweenDriveLogging"
+   ]
+  },
+  {
    "id": "highway_session_gtc",
    "title": "M488: highway-session GTC over explicit inclusive dates on the unrounded Ah ledger (ah_throughput.csv); additive payload block highwaySessionGtc + stamp; hard stop if a declared date has no ledger entry",
    "cmd": [
