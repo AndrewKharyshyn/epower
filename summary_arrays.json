@@ -89997,12 +89997,12 @@
     "unit": "kW",
     "klass": "assumed",
     "verified": false,
-    "source": "not separable in motion; standstill median ~1.2 kW measured, in-motion value assumed",
+    "source": "not separable in motion; standstill median ~1.2 kW measured (rising with ambient; above the assumed value), in-motion value assumed; kept at the assumed value, owner decision 2026-11-15 (document only)",
     "usedBy": [
      "traction demand",
      "f_gen"
     ],
-    "sensitivity": "+/-1 kW moves traction demand by less than 1 kWh/100 km.",
+    "sensitivity": "+/-1 kW moves traction demand by less than 1 kWh/100 km; centring on the standstill value instead would raise f_gen by about 0.02 (self-audit 2026-11-11 estimate, not recomputed here), so the assumed value sits at the low end of the plausible range.",
     "band": [
      0.2,
      1.2
