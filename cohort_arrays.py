@@ -289,8 +289,10 @@ def build():
                     covariates=ADJ_COVARIATES, n_boot=2000),
                 "warm_vs_cold": SA.adjusted_contrast(
                     drives, spec["adjustOutcome"], "thermal_regime", "warm", "cold",
-                    covariates=ADJ_COVARIATES, n_boot=200),
+                    covariates=ADJ_COVARIATES, n_boot=4000),
             }
+            # M668 (W1-12 b): the raw warm-to-cold difference mixes thermal class with route/load composition; the block carries that caption beside the 4000-draw interval
+            entry["adjusted"]["warm_vs_cold"]["compositionCaption"] = "raw cold-minus-warm difference is composition-confounded (route, load and season move with the thermal class); the adjusted estimate is on the common-support population only"
             # M608 (Director ruling 2026-11-10): an available contrast whose covariate balance was not achieved carries a script-written exploratory label (stored, not rendered)
             for _blk in entry["adjusted"].values():
                 _cs = _blk.get("commonSupport") or {}
