@@ -68219,19 +68219,19 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "11a89dc0c881bd0a60e9e957ccd1936a",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-11-15T10:27:32.829525+00:00",
+   "generatedAt": "2026-11-15T21:03:40.382922+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3"
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-11-15T10:27:32.829525+00:00",
+   "includedInReleaseAt": "2026-11-15T21:03:40.382922+00:00",
    "inputBasis": {
     "nDrives": 665,
     "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-11-15T10:27:32.829525+00:00",
+   "computedAt": "2026-11-15T21:03:40.382922+00:00",
    "computationStatusNote": "M672: derived by tools/n05_between_drive_logging.py from drive_master.csv only (spec analyses/M672_spec.md Rev 1.1); descriptive"
   },
   "exposureVector": {
@@ -446355,10 +446355,10 @@
   "status": "descriptive",
   "reading": [
    "The share is bracketed by two logged drives: a trip made before the first or after the last logged drive is invisible, and a gap is not measured unlogged driving.",
-   "drivingDayShare is the share of calendar days in the window with a logged drive, not the share of days the car was driven.",
-   "Gaps under 1 km are within logger start/stop latency and odometer resolution; only the gaps of 1 km or more can be missed trips, and one month can dominate them. The two share bases differ by the small distance-versus-odometer difference shown in the window row, so they nearly coincide.",
-   "A step excluded as an anomaly (backward step, reset regime, forward jump) or as R1-adjacent hides whatever was unlogged there; it is listed, not quantified.",
-   "The Overview KPI (total logged km / dash ODO) is unchanged and is the only statement about driving outside the logged window."
+   "Driving days / calendar days counts the calendar days in the window that have at least one logged drive; it is not the share of days the car was driven.",
+   "Gaps under 1 km are within logger start/stop latency and odometer resolution; only the gaps of 1 km or more can be missed trips, and one month can dominate them. The two share bases differ by the small distance-versus-odometer difference shown in the window row (logged distance minus the odometer advance within logged drives), so they nearly coincide.",
+   "A step excluded as an anomaly (backward step, reset regime, forward jump) or as R1-adjacent hides whatever was unlogged there; such steps are counted in the payload (S.betweenDriveLogging), not quantified.",
+   "The Dataset KPI \"Logged share of lifetime odometer\" (total logged km / dash ODO) uses a different denominator, is unchanged, and is the only statement about driving outside the logged window."
   ],
   "window": {
    "firstDate": "2026-05-11",
@@ -446659,7 +446659,7 @@
   },
   "provenance": {
    "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
-   "scriptSha256": "404235231d133ac66d1d78cd0f2dd982f1e64a4204c8ba1601b654d280391963",
+   "scriptSha256": "e6183b6c543ae0b1ef0eadb107b06198a3d5db170299adbe8332fd439b0d07c2",
    "nDrives": 665
   }
  },

@@ -5709,6 +5709,40 @@ function EarlyLateContrastView(){
     </Section>
   );
 }
+// M683 (display of the M672 payload; Director check of the rendered text): between-drive logged share by month, bound to S.betweenDriveLogging only (no typed number). Descriptive; a gap is not measured unlogged driving.
+function BetweenDriveLoggingView(){
+  const B=S.betweenDriveLogging;
+  if(!B||!B.window||!Array.isArray(B.months)||!B.months.length) return null;
+  const W=B.window, f=(x,n=1)=>x==null?"n/a":Number(x).toFixed(n), pc=(x)=>x==null?"n/a":(100*Number(x)).toFixed(1)+"%";
+  const same=W.shareOdometerBasis===W.shareDistanceBasis;
+  return (
+    <Section title="Between-drive logged share by month (descriptive)" accent="#64748b">
+      <div style={{fontSize:10.5,color:"#0f172a",lineHeight:1.6,marginBottom:6}} data-bdl-caption="1">
+        Between the first and the last logged drive ({W.firstDate} to {W.lastDate}) the odometer advance within logged drives sums to {f(W.odometerAdvanceKm)} km (logged distance {f(W.loggedKm)} km); a further {f(W.unloggedGapKm)} km of odometer advance lies in {W.nGapSteps} gaps between consecutive logged drives (anomaly and R1-adjacent steps excluded), so the between-drive logged share is {pc(W.shareOdometerBasis)} on the odometer basis{same?" and on the distance basis":` and ${pc(W.shareDistanceBasis)} on the distance basis`}. A gap holds logger start/stop latency as well as missed trips and is not a measure of unlogged driving.
+      </div>
+      <div style={{fontSize:9,color:"#64748b",marginTop:2}} data-bdl-label="1">{B.label}</div>
+      <ChartWithTable chart={<div data-bdl-bars="1" style={{display:"grid",gridTemplateColumns:"70px 1fr 56px",gap:"3px 8px",alignItems:"center",fontSize:9.5,color:"#334155",marginTop:6}}>
+        {B.months.map(m=>(<React.Fragment key={m.month}>
+          <span>{m.month}</span>
+          <span style={{background:"#e2e8f0",borderRadius:3,height:10,display:"block"}} aria-hidden="true"><span style={{display:"block",height:10,borderRadius:3,background:"#64748b",width:(100*m.shareOdometerBasis).toFixed(1)+"%"}}/></span>
+          <span style={{textAlign:"right"}}>{pc(m.shareOdometerBasis)}</span>
+        </React.Fragment>))}
+        <span style={{gridColumn:"1 / span 3",fontSize:9,color:"#64748b"}}>Bars start at 0% and end at 100%; gap km and steps per month are in the table.</span>
+      </div>}>
+        <table style={{width:"100%",fontSize:9,borderCollapse:"collapse",marginTop:6}}>
+          <thead><tr style={{color:"#64748b",textAlign:"left"}}><th>month (gaps assigned to the month of the next drive)</th><th>drives</th><th>driving days / calendar days</th><th>logged km</th><th>odometer advance, km</th><th>gaps, km (steps)</th><th>between-drive share, odometer basis</th><th>between-drive share, distance basis</th></tr></thead>
+          <tbody>
+            {B.months.map(m=>(<tr key={m.month} data-bdl-row={m.month} style={{borderTop:"1px solid #e2e8f0"}}><td>{m.month}{(m.labels&&m.labels.length)?" ("+m.labels.join(", ")+")":""}</td><td>{m.nDrives}</td><td>{m.nDrivingDays} / {m.nCalendarDays}</td><td>{f(m.loggedKm)}</td><td>{f(m.odometerAdvanceKm)}</td><td>{f(m.unloggedGapKm)} ({m.nGapSteps})</td><td>{pc(m.shareOdometerBasis)}</td><td>{pc(m.shareDistanceBasis)}</td></tr>))}
+            <tr data-bdl-row="window" style={{borderTop:"2px solid #cbd5e1",fontWeight:600}}><td>window ({W.firstDate} to {W.lastDate})</td><td>{W.nDrives}</td><td>-</td><td>{f(W.loggedKm)}</td><td>{f(W.odometerAdvanceKm)}</td><td>{f(W.unloggedGapKm)} ({W.nGapSteps})</td><td>{pc(W.shareOdometerBasis)}</td><td>{pc(W.shareDistanceBasis)}</td></tr>
+          </tbody>
+        </table>
+      </ChartWithTable>
+      <div style={{fontSize:9,color:"#475569",lineHeight:1.6,marginTop:6}} data-bdl-reading="1">
+        {(B.reading||[]).map((t,i)=><p key={i} style={{margin:"2px 0"}}>{t}</p>)}
+      </div>
+    </Section>
+  );
+}
 function CellSpreadStepView(){
   const B=S.cellSpreadStep;
   if(!B||!B.models) return null;
@@ -12677,6 +12711,7 @@ export default function App() {
             </div>; })()}
           {S.meta&&S.meta.intakeAir&&S.meta.intakeAir.status==="unavailable"&&<div data-intake-air-overview="1" style={{fontSize:10.5,color:"#64748b",lineHeight:1.55,marginBottom:8}}><strong style={{color:"#334155"}}>Data health.</strong><IntakeAirNote what="No figure uses imputed intake-air values; thermal classes are set by the logged ambient readout, not by this channel."/></div>}
         </Section>
+        <BetweenDriveLoggingView/>
         <Section title="Sessions (grouped by phase)">
           {S.ambientTable&&S.ambientTable.rows&&<DriveCalendar dates={S.ambientTable.rows.map(r=>r.d)}/>}
           {xbRated() && <div data-exposure-ledger-tag="true" style={{fontSize:10,color:"#1e3a8a",background:"#eff6ff",border:"1px solid #bfdbfe",borderRadius:6,padding:"5px 8px",marginBottom:8}}>{xbLab("ledger")}.</div>}
