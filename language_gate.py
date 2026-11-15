@@ -629,6 +629,10 @@ RULES = [
          rx=r"\bequivalent years?\b|\b(?:ageing|aging) rate\b|\byears of (?:battery )?life\b|\bcaused by (?:the )?cold\b"),
     Rule("M673-exposure-wording", "regex", "M674 (spec analyses/M673_spec.md Rev 1.1, Director review): the exposure vector and the cold-charging screens count exposure of the logged driving window estimated from the logged current; never cold-charging damage, harmful or safe charging, plating that occurred, or a measured exposure",
          rx=r"\bcold[- ]charging (?:damage|harm|injury)\b|\b(?:harmful|damaging) charg\w+|\bsafe charging\b|\blithium plating (?:occurred|is occurring|has occurred)\b|\bmeasured exposure\b"),
+    Rule("M675-changepoint-wording", "regex", "M676 (spec analyses/M675_spec.md Rev 1.1, Director review): a detected change point is a statistical break (a level shift in a logged per-drive series) with a date interval conditional on K; never that it dates, detects or confirms the software update, a software-update effect, or a capacity or resistance fade, loss or increase",
+         rx=r"\b(?:dates|detects|identifies|confirms) the (?:battery |hv )?software update\b|\bsoftware[- ]update effect\b|\bchange[- ]point (?:caused|proves|confirms)\b|\b(?:detected|selected) (?:capacity|resistance) (?:fade|loss|increase|growth)\b|\bdate of the software update was (?:found|detected)\b"),
+    Rule("M676-uncalibrated-interval", "regex", "M676 (Director decision): the change-point location intervals are nominal and uncalibrated (planted-step coverage 0.62 against 0.85); never a 95 percent CI or confidence interval of a change point or break, nor a change point localised to a number of days",
+         rx=r"\b(?:95 ?%? ?(?:ci|confidence interval)|confidence interval) (?:of|for) the (?:change[- ]point|break|location)\b|\b(?:change[- ]point|break)s? (?:is |are )?localised to\b|\bthe 95 ?%? ?ci of the (?:change[- ]point|break)\b"),
 ]
 
 _SCAN_CACHE = {}
