@@ -21,7 +21,8 @@ M290 (audit 2026-09-22) hardening - "make the release tests authoritative":
     whose values disagree with generatorTractionRecon.corpus (stale f_gen 0.602 vs live 0.488), and malformed ISO
     date tokens produced by the fn[:8] day-key bug (fixed at source in compute_summary_arrays._day_key).
 """
-import hashlib, json, os, re, shutil, subprocess, sys, tempfile
+import hashlib, json, os, re, shutil, subprocess, sys, tempfile, time
+TIMINGS = []
 from pathlib import Path
 
 SRC = Path(os.environ.get("XT_WORK", Path(__file__).resolve().parent))
@@ -54,8 +55,10 @@ def run(cmd, cwd, label=None, must=True):
         shim = str(Path(__file__).resolve().parent / "tools" / "eol_shim")
         env = dict(os.environ, PYTHONPATH=shim + (os.pathsep + os.environ["PYTHONPATH"] if os.environ.get("PYTHONPATH") else ""),
                    PYTHONUTF8="1")
+    _t0 = time.monotonic()
     r = subprocess.run([exe, *cmd[1:]] if exe else cmd, cwd=cwd, capture_output=True, text=True, encoding="utf-8", errors="replace", env=env)
     ok = r.returncode == 0
+    TIMINGS.append((round(time.monotonic() - _t0, 1), (label or " ".join(map(str, cmd)))[:90]))       # M671 (P-06): wall-clock per step, printed at the end; instrumentation only
     print(("PASS " if ok else "FAIL ") + (label or " ".join(map(str, cmd))))
     if not ok:
         print((r.stdout + r.stderr)[-1500:])
@@ -380,6 +383,7 @@ def main():
 if __name__ == "__main__":
     main()
     for n in notes: print("NOTE", n)
+    print("TIMING total %.0f s over %d subprocess steps; slowest: %s" % (sum(t for t, _ in TIMINGS), len(TIMINGS), "; ".join("%.0f s %s" % x for x in sorted(TIMINGS, reverse=True)[:8])))     # M671 (P-06)
     try:                                                                                # M417: state of the on-demand full replay
         import hashlib as _h
         _rp = Path(__file__).resolve().parent / "analyses" / "replay" / "replay_report_full.json"
