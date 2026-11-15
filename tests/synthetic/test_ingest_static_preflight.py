@@ -35,6 +35,10 @@ def main():
         w(os.path.join(tmp, "raw_manifest.json"), json.dumps({"files": []}))
         for f in ("2026-11-09 07-45-26.csv", "2026-11-09 08-04-01.csv"):
             w(os.path.join(tmp, "raw", f), "t\n")
+        import hashlib
+        w(os.path.join(tmp, "drive_master.csv"), "a,b\n1,2\n")
+        md5 = hashlib.md5(open(os.path.join(tmp, "drive_master.csv"), "rb").read()).hexdigest()
+        w(os.path.join(tmp, ".github", "workflows", "ci.yml"), "run: python tools/verify_import.py --quick --expect-master-md5 %s\n" % md5)
         os.environ["XT_INGEST_LABEL"] = "M608"
         res = SP.run(tmp)
         assert res["ok"] and res["nNewRawFiles"] == 2 and all(c["ok"] for c in res["checks"]), res
@@ -102,6 +106,17 @@ def main():
         w(os.path.join(tmp, "raw_manifest.json"), json.dumps({"files": [{"canonical": "20261109_074526.csv"}, {"canonical": "20261109_080401.csv"}]}))
         r = SP.run(tmp)
         assert r["nNewRawFiles"] == 0 and names(r)["ambients"]["ok"]
+        # 10. P-08: the CI anchor must equal the master MD5 when nothing is new, a stale anchor fails; with new drives it is only a reminder
+        assert names(r)["ci_anchor"]["ok"] and not r["reminders"]
+        w(os.path.join(tmp, ".github", "workflows", "ci.yml"), "run: x --expect-master-md5 " + "0" * 32 + "\n")
+        r10 = SP.run(tmp)
+        assert not r10["ok"] and not names(r10)["ci_anchor"]["ok"] and "differs from drive_master.csv" in names(r10)["ci_anchor"]["problems"][0], r10
+        assert SP.check_ci_anchor(tmp, 2) == []
+        w(os.path.join(tmp, ".github", "workflows", "ci.yml"), "run: nothing\n")
+        assert "no --expect-master-md5" in SP.check_ci_anchor(tmp, 0)[0]
+        rem = SP.reminders(2, {})
+        assert any("expect-master-md5" in x for x in rem) and any("test_m527_display" in x for x in rem) and any("XT_RAW_DIR" in x for x in rem) and any("XT_ALLOW_STALE_CARRY" in x for x in rem) and any("test_stamp_basis" in x for x in rem)
+        assert not any("XT_RAW_DIR" in x or "XT_ALLOW_STALE_CARRY" in x for x in SP.reminders(2, {"XT_RAW_DIR": "r", "XT_ALLOW_STALE_CARRY": "1"})) and SP.reminders(0, {}) == []
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     print("test_ingest_static_preflight OK")

@@ -125,6 +125,36 @@ def check_label(n_new, env=None):
     return []
 
 
+def check_ci_anchor(root, n_new):
+    """P-08 (M670): `.github/workflows/ci.yml` pins `verify_import.py --expect-master-md5 <MD5>`. With no new drives it must equal the MD5 of drive_master.csv (a stale anchor turns release-gate red on its first step);
+    with new drives it is expected to differ now and must be updated to the post-ingestion MD5 in the ingestion PR (reminder, not a failure)."""
+    import hashlib
+    ci = open(os.path.join(root, ".github", "workflows", "ci.yml"), encoding="utf-8").read()
+    m = re.search(r"--expect-master-md5\s+([0-9a-f]{32})", ci)
+    if not m:
+        return ["ci.yml has no --expect-master-md5 anchor"]
+    if n_new:
+        return []
+    h = hashlib.md5(open(os.path.join(root, "drive_master.csv"), "rb").read()).hexdigest()
+    return [] if h == m.group(1) else ["ci.yml anchor %s differs from drive_master.csv MD5 %s" % (m.group(1), h)]
+
+
+def reminders(n_new, env=None):
+    """P-08 (M670): traps that cannot be decided before the run; printed with every preflight so none is rediscovered by a failed run (informational, never a failure)."""
+    e = env if env is not None else os.environ
+    r = []
+    if n_new:
+        r.append("update the --expect-master-md5 anchor in .github/workflows/ci.yml to the new drive_master.csv MD5 in the ingestion PR")
+        r.append("tests/synthetic/test_m527_display.py and test_m531_display.py carry corpus-dependent expected counts: rerun them and update the counts after the ingestion")
+        r.append("after any stamp or payload splice run tests/synthetic/test_stamp_basis.py and the CI python test list before pushing (release_check does not run that list); a stamp re-issue sets generatedAt, includedInReleaseAt and computedAt together")
+        r.append("restore tracked files that a local test run rewrites (cohort_arrays.json etc.) before committing; stage explicit paths")
+        if not e.get("XT_RAW_DIR"):
+            r.append("XT_RAW_DIR is not set (export XT_RAW_DIR=$PWD/raw)")
+        if e.get("XT_ALLOW_STALE_CARRY") != "1":
+            r.append("XT_ALLOW_STALE_CARRY is not 1: a frozen carried block (M119-v2) stops build_html unless the owner waiver is passed")
+    return r
+
+
 def run(root):
     out = {"checks": [], "notPrerunnable": NOT_PRERUNNABLE}
     n_new = 0
@@ -137,6 +167,12 @@ def run(root):
         except Exception as ex:                                 # a check that cannot run is a failed check, never a silent pass
             out["checks"].append({"name": name, "ok": False, "problems": ["check could not run: %r" % (ex,)]})
     out["checks"].append({"name": "ingest_label", "ok": not check_label(n_new), "problems": check_label(n_new)})
+    try:
+        _a = check_ci_anchor(root, n_new)
+    except Exception as ex:
+        _a = ["check could not run: %r" % (ex,)]
+    out["checks"].append({"name": "ci_anchor", "ok": not _a, "problems": _a})
+    out["reminders"] = reminders(n_new)
     out["nNewRawFiles"] = n_new
     out["ok"] = all(c["ok"] for c in out["checks"])
     return out
@@ -155,6 +191,8 @@ def main():
             print("%-18s %s" % (c["name"], "ok" if c["ok"] else "FAIL"))
             for p in c["problems"][:10]:
                 print("    - " + p)
+        for r in res.get("reminders", []):
+            print("  note: " + r)
         print("new raw files: %d; not decidable before the run: %s" % (res["nNewRawFiles"], ", ".join(res["notPrerunnable"])))
     sys.exit(0 if res["ok"] else 1)
 
