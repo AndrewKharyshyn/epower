@@ -5788,6 +5788,44 @@ function ExposureVectorView(){
     </Section>
   );
 }
+// M685 (display of the M667 payload; Director check of the rendered text): fitted seasonal quantities Q1 to Q3 beside the M28 priors, bound to S.seasonalFits only (no typed number). Exploratory; associations by thermal class, never temperature effects.
+// Q4 (the Arrhenius-weighted exposure index) is not displayed: it rests on an assumed climatology and activation energy and is meaningful only as the whole grid.
+function SeasonalFitsView(){
+  const B=S.seasonalFits;
+  if(!B||!B.Q1||!B.Q2||!B.Q3||!B.data) return null;
+  const D=B.data, Q1=B.Q1, Q2=B.Q2, Q3=B.Q3, f=(x,n=3)=>x==null?"n/a":Number(x).toFixed(n);
+  const iv=(c,n=3)=>Array.isArray(c)?`[${f(c[0],n)}, ${f(c[1],n)}]`:"n/a";
+  const q1=Q1.primary, q2=Q2.primary, q3=Q3.primary, pr=Q1.priorM28CompareConsumptionSlope||{}, pri=pr.prior||{}, ho=Q3.heldOut||{}, sk=ho.skillVsBetterReference||{}, rc=Q3.priorM28CompareColdSoakRetention||{}, rcp=rc.prior||{};
+  const sens=Q3.sensitivities||{}, tv=Object.keys(sens).filter(k=>k!=="projectDefinitionOutcomeFiltered").map(k=>sens[k].tauH).concat([q3.tauH]).filter(x=>x!=null);
+  const tlo=Math.min(...tv), thi=Math.max(...tv);
+  const q2v=["sensitivityRiseOnCold","sensitivityMergedClasses","sensitivityStartOnStart"].map(k=>Q2[k]&&Q2[k].estimate).filter(x=>x!=null).concat([q2.estimate]), q2lo=Math.min(...q2v), q2hi=Math.max(...q2v);
+  const hw=(c)=>Array.isArray(c)?(c[1]-c[0])/2:null;
+  const spr=(Q,p,d,u="")=>{const s=Q.spread; if(!s) return ""; const w=(s.maxMinusMin!=null?s.maxMinusMin:s.maxMinusMinH); return s.definitionDependent?` definition-dependent: spread ${f(w,d)}${u} exceeds the interval half-width ${f(hw(p.ci95),d)}${u}.`:` not definition-dependent: spread ${f(w,d)}${u}.`;};
+  const q1v=[Q1.sensitivityClassOnly,Q1.sensitivityMergedClasses].map(x=>x&&x.estimate).filter(x=>x!=null).concat([q1.estimate]), q1lo=Math.min(...q1v), q1hi=Math.max(...q1v);
+  const bs=D.bandSupport||{};
+  return (
+    <Section title="Fitted Seasonal Quantities Beside the M28 Priors (exploratory)" accent="#64748b">
+      <div style={{fontSize:10.5,color:"#0f172a",lineHeight:1.6,marginBottom:6}} data-sf-caption="1">
+        Estimated from {D.support.nDrives} drives on {D.support.nDays} days ({f(D.support.essDays,1)} effective days, {D.support.status} (support only)); the ambient is the driver-recorded dashboard reading (lowest {f(D.lowestAmbientC,1)} deg C; {D.drivesBelow5C} drives on {D.daysBelow5C} days below 5 deg C).
+      </div>
+      <table style={{width:"100%",fontSize:9,borderCollapse:"collapse",marginTop:6}}>
+        <thead><tr style={{color:"#64748b",textAlign:"left"}}><th>quantity</th><th>fitted value</th><th>day-clustered interval (sampling variability only; no coverage study)</th><th>M28 prior, printed beside (no test)</th></tr></thead>
+        <tbody>
+          <tr data-sf-row="Q1" style={{borderTop:"1px solid #e2e8f0"}}><td>Q1: {Q1.definition}. A positive value means colder drives use more battery Ah per km; a negative value means fewer. Q1 is battery Ah throughput per km, not fuel or energy consumption.</td><td>{f(q1.estimate,4)}; fractional {f(Q1.fractionalSlopePerC.estimate,4)}; across the sensitivities {f(q1lo,4)} to {f(q1hi,4)}</td><td>{iv(q1.ci95,4)}; {Q1.reading};{spr(Q1,q1,4)}</td><td>consumption slope band {f(pri.lo,3)} / {f(pri.mid,3)} / {f(pri.hi,3)}; point difference to the mid {f(pr.differenceToPriorMid,4)}; interval overlaps the prior band [{f(pri.lo,3)}, {f(pri.hi,3)}]: {pr.intervalOverlapsPriorBand?"yes":"no"} ({pr.label})</td></tr>
+          <tr data-sf-row="Q1cold" style={{borderTop:"1px solid #e2e8f0"}}><td>Q1 below 5 deg C (exploratory: {f(bs["below 5 C"]&&bs["below 5 C"].essDays,1)} effective days, largest day share {f(bs["below 5 C"]&&bs["below 5 C"].largestDayShare,2)})</td><td>{f(Q1.belowFiveC.estimate,4)}</td><td>{iv(Q1.belowFiveC.ci95,4)}{Array.isArray(Q1.belowFiveC.ci95)&&Q1.belowFiveC.ci95[0]<=0&&Q1.belowFiveC.ci95[1]>=0?"; not resolved at this support":""}</td><td>-</td></tr>
+          <tr data-sf-row="Q2" style={{borderTop:"1px solid #e2e8f0"}}><td>Q2: {Q2.definition}</td><td>{f(q2.estimate)}; across the sensitivities {f(q2lo)} to {f(q2hi)}</td><td>{iv(q2.ci95)};{spr(Q2,q2,3)}</td><td>{Q2.priorM28}</td></tr>
+          <tr data-sf-row="Q3" style={{borderTop:"1px solid #e2e8f0"}}><td>Q3: pack cool-down time constant tau on the temperature scale (hours)</td><td>{f(q3.tauH,2)} h; across the sensitivities {f(tlo,2)} to {f(thi,2)} h</td><td>{iv(q3.ci95,2)} h;{spr(Q3,q3,2," h")}</td><td>cold-soak retention band {f(rcp.lo,1)} / {f(rcp.mid,1)} / {f(rcp.hi,1)}; implied retained fraction {(rc.impliedRetainedFractionAtGapQuartiles||[]).map(x=>f(x,3)).join(" / ")} at pair gaps of {(rc.pairGapQuartilesH||[]).map(x=>f(x,2)).join(" / ")} h (quartiles)</td></tr>
+          <tr data-sf-row="Q3skill" style={{borderTop:"1px solid #e2e8f0"}}><td>Q3 held-out skill against the better of persistence and full relaxation (day-blocked folds)</td><td>{f(sk.estimate,3)}; skill = 1 - MAE model / MAE reference; MAE {f(ho.maeModelC,2)} deg C vs persistence {f(ho.maePersistenceC,2)}, full relaxation {f(ho.maeFullRelaxationC,2)}</td><td>{iv(sk.ci95,3)}; gate {ho.gatePassed?"passed (95% interval above 0)":"not passed"}</td><td>-</td></tr>
+        </tbody>
+      </table>
+      <div style={{fontSize:9,color:"#475569",lineHeight:1.6,marginTop:6}} data-sf-reading="1">
+        {(B.reading||[]).filter(x=>x.indexOf("Q4 ")!==0&&x.indexOf("the exposure index")!==0).map((x,i)=><p key={i} style={{margin:"2px 0"}}>{x}</p>)}
+        {(B.disclosures||[]).filter(x=>x.indexOf("the sensitivity tau values in the Q4 grid")!==0&&x.indexOf("owner decision D-05")!==0).map((x,i)=><p key={"d"+i} style={{margin:"2px 0"}}>{x}</p>)}
+        <p style={{margin:"2px 0"}}>The Arrhenius-weighted temperature exposure index (Q4) is not displayed: it rests on an assumed climatology, an assumed activation energy and an assumed diurnal amplitude and is meaningful only as the whole grid in the payload block.</p>
+      </div>
+    </Section>
+  );
+}
 function CellSpreadStepView(){
   const B=S.cellSpreadStep;
   if(!B||!B.models) return null;
@@ -13677,6 +13715,7 @@ export default function App() {
               The warmup time constant is <strong style={{color:"#0f172a"}}>τ ≈ {TS.tauWarmupMinMedian} min</strong> (IQR {TS.tauWarmupMinIQR?.[0]}–{TS.tauWarmupMinIQR?.[1]} min, range {TS.tauWarmupMinRange?.[0]}–{TS.tauWarmupMinRange?.[1]} min). The steady-state median is {TS.TssMedianC}°C from a {TS.T0MedianC}°C start (median rise {TS.riseMedianC}°C). Fit quality: median R² {TS.fitR2Median} (min {TS.fitR2Min}). <strong>The response to single load events cannot be resolved.</strong> The pack's thermal mass smooths out short load steps, so strongly that their effect cannot be seen at the polling interval of the pack-temperature signal (its parameter ID, or PID), about 6 s. Minute-scale load explains about 0% of the pack's temperature change rate (dT/dt). The meaningful thermal response therefore sits at the timescale of the whole warmup, not of single accelerations. The pack heats under load with τ ≈ {TS.tauWarmupMinMedian} min but cools when parked with τ ≈ {S.heatSoakCarryover?.soakTauH} h. This is an <strong>asymmetric time constant</strong> (about {S.heatSoakCarryover?.soakTauH!=null?Math.round(S.heatSoakCarryover.soakTauH*60/TS.tauWarmupMinMedian):"—"}× slower cooling): active heating from dissipation against passive loss to ambient.
             </div>
           </Section>);})()}
+        <SeasonalFitsView/>
         {S.ambientTable && S.ambientTable.rows && S.ambientTable.rows.length>0 && (
           <Section title="Ambient Temperature per Drive — Start / Interim / End" accent="#0ea5e9">
             <div style={{fontSize:10.5,color:"#64748b",lineHeight:1.6,marginBottom:10}}>
