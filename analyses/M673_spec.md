@@ -1,0 +1,58 @@
+# M673 spec (Rev 1.1): N-03 part A, reference-free exposure vector from the logged current (payload only)
+
+Status: pre-registered before any result exists. Backlog item N-03 (`analyses/self_audit_2026-11-11/backlog.json`), part A. Part B (time at temperature including parked and cool-down) is out of scope here: it needs the parked-state model (N-05 open part) and the cool-down constant (M667 Q3); it is listed in section 9.
+
+## 1. Question and non-claims
+How much charge and discharge throughput, how much driving time and how much squared-current load does the pack see at each pack temperature, and how large are the cold-charging exposures that external reviewers asked about? All quantities are reference-free: ampere-hours, hours and A^2 h from the logged current, with no capacity, SOH or life reference.
+
+Non-claims. These are exposures of the logged window (driving time only: the logger records while the car is on), not lifetime exposures and not damage. No annualisation is made: the window is one season-cycle fragment (May to November), so "Ah per year" would be an extrapolation; totals and per-driving-day values are reported instead. Ampere-hours are integrated from the logged current (estimated, offset-uncorrected, `ah_throughput.csv` method v1), not measured at the cell. A cold-charging screen counts exposure; it does not say the exposure is harmful, and the thresholds are screen thresholds from the external review, not identified BMS or damage thresholds. GTC, the 20,000 threshold and the activation energy stay `verified:false` multipliers.
+
+## 2. Data and eligibility
+Raw drive CSVs via the existing helpers (`compute_drive_summary_v6._prep_bytes`, `_series`, `_asof`), exactly as `tools/ah_throughput.py` pairs current and voltage (|I| < 900 A, voltage 200 to 450 V, `V_ALIGN_TOL`, `DT_CAP_S`, the M229 zero-crossing split). Each integration interval's discharge Ah and charge Ah are attributed to the pack-temperature bin of the **temperature sample nearest in time to the interval end** (channel: battery temperature sensor 1, the T1 of M567), accepted only within 10 s; intervals without such a sample are `unassigned` (Ah and seconds reported, never imputed). SOC for the SOC screen is the BMS state of charge as logged, nearest sample within 10 s, same rule. Canonical-clean eligibility is `ens_outlier_v2 == False` from `drive_master.csv`; "all" and "clean" are both reported.
+
+Bins (declared, display/analysis bands, not identified thresholds), pack temperature in deg C: below 0, 0 to <5, 5 to <10, 10 to <15, 15 to <20, 20 to <25, 25 to <30, 30 to <35, 35 to <40, 40 or more.
+
+## 3. Quantities
+Q1 Ah by temperature bin: discharge Ah, charge Ah, throughput Ah per bin, plus `unassigned`; share of the window total; n drives and n days contributing to each bin.
+Q2 Driving hours by temperature bin (sum of the capped dt of the integration intervals) and the mean absolute current per bin.
+Q3 Charge-current distribution by temperature band: for intervals with charge current, the quantiles (p50, p95, p99, max) of |I| in A, and as C-rate on the rated 5 Ah reference (|I| / 5 A) with the reference stated beside (`verified:false`).
+Q4 I^2 h by temperature bin: sum of I^2 dt in A^2 h, discharge and charge separately.
+Q5 Cold-charging screens on **clean charge Ah**, each defined before any number is seen:
+ S1 charge Ah in bins below 10 C;
+ S2 charge Ah in bins below 15 C;
+ S3 charge Ah at charge current of 25 A or more (any temperature), and the number of calendar days with any;
+ S4 charge Ah at SOC of 70 % or more (any temperature);
+ S5 charge Ah in bins below 10 C at charge current of 25 A or more (the joint screen, reported as a descriptive cell, with its n of drives and days).
+Each screen is reported as Ah, as a share of the clean charge Ah total, with n drives and n days, and the **day-clustered percentile bootstrap interval of the share** (seed 42, 4000 draws, calendar day as cluster). Totals are sums and carry no interval.
+Q6 Windowed totals and per driving day (no annualisation): total Ah, per driving day Ah (driving days = distinct dates with a drive), n days.
+Q7 GTC beside its references: read from the existing payload (`exposureBasis`, `metricConvention`, `constantProvenance`) the GTC on the legacy 2.1 kWh basis, on the rated 5 Ah basis, and the apparent-scale reference as published; the ratio of the references is script-computed. No new threshold language.
+
+## 4. Support ladder and labels
+A bin or screen cell is **not shown** with fewer than 10 drives or fewer than 5 days; **exploratory** with an effective day count (ESS of per-day weights) below 10; **supported** otherwise. Share intervals are shown only for exploratory and supported cells. A cold bin that is not shown stays in the table as "not observed at this support" (the lowest observed pack temperature is reported).
+
+## 5. Comparison with the external review (not a tuning target)
+The external review (audit G) reported figures for cold, high-current, high-SOC and below-15 C charge Ah. Those figures are NOT written into this repository (rule: audit figures are never typed into the repo). The report that compares them is written from the external file after the numbers exist, and the file is withheld from the blind auditor. Comparison covers S1 to S4: the difference, and whether the corpus size, temperature sensor or clean set differ. Disagreement is reported, never tuned away. The screen definitions in section 3 are fixed; the thresholds (10 C, 15 C, 25 A, SOC 70 %) were adopted from the external review and are not identified BMS or damage thresholds.
+
+## 6. Validity rules (any failure stops the build)
+V1 per drive, the sum over bins plus unassigned of discharge Ah and of charge Ah equals the `ah_throughput.csv` row to 1e-9 (the same loop, the same pairs). V2 the sum over drives equals the sidecar total. V3 every drive of the master appears (drives with no integrable I/V pairs are listed with the sidecar reason, never zero). V4 re-running is byte-identical. V5 S1 <= S2 and S5 <= min(S1, S3); the bin shares sum to 1 with unassigned.
+
+## 7. Implementation and tests
+Per-drive sufficient statistics in a git-ignored sidecar `exposure_vector_cache/` keyed by raw sha256 + method version + attribution tolerance (same pattern as the other raw-pass sidecars; aggregation never rereads raw). `tools/exposure_vector.py` (pure function `bin_drive(t, I, V, T, soc)` on arrays plus the file loader), ingestion stage `exposure_vector` after `between_drive_logging`, additive payload block `exposureVector` + stamp. Known-answer test `tests/synthetic/test_m673_exposure_vector.py` on arrays with planted currents, temperatures and SOC: exact Ah per bin by hand, a zero-crossing interval, a gap above `DT_CAP_S`, an interval without a temperature sample (unassigned), all five screens with a planted joint cell, bin edges (a value exactly on an edge goes up), V1 to V5, and the bootstrap interval covering a planted share.
+
+## 8. Display
+None in this milestone. A display (forest of screen shares, an Ah-by-temperature chart in `ChartWithTable`) is a follow-up that needs the Director's approval of the rendered text, binding to `S.exposureVector`, and the language gate; the screens never carry "damage", "harm" or "safe" wording (a language rule is added with the implementation).
+
+## 9. Out of scope and risks
+Out of scope: time at temperature including parked and cool-down (part B); calendar dose by parking class (needs parking context, open in N-05); change of any reference constant. Risks: R1 the temperature sample attribution (nearest within 10 s) is a rule fixed here, unassigned share is reported; R2 charge current at 25 A or more is rare, the cell may be thin (the ladder applies); R3 the corpus covers May to November, so the cold bins may be unobserved: the lowest observed pack temperature is stated and nothing is extrapolated; R4 attributing an interval's Ah to its end-sample bin differs from splitting at bin crossings, the difference is bounded by one interval and is not quantified here.
+
+## 10. Director review (2026-11-15, verdict revise; definitional gaps and repo-rule conflicts, no change of method) and how each is applied (Rev 1.1)
+These override the matching text above.
+1. Scope: logged drives only (the logged share of the odometer is below 1); the quantities are exposures of the logged driving window, not lifetime exposure and not damage; estimated from logged BMS current, never measured; charging here is regeneration and generator charging (no plug); `|I| / 5 A` is a ratio to a rated reference (`verified:false`), not a reference-free quantity; section 5 figures are "comparison figures", never "targets".
+2. V1: the per-drive check compares the sum over bins plus unassigned with the unrounded `ah_from_bytes` result computed in memory by the same call (tolerance 1e-9), and separately with the exported `ah_throughput.csv` row at 5e-7 (the sidecar rounds to 6 decimals).
+3. Fixed current rules: an interval counts as "25 A or more" when its mean charge current (charge Ah of the interval divided by its dt in hours) is 25 A or more; Q3 quantiles are time-weighted (weights dt) over the per-interval mean charge current, not per sample. Intervals that cross zero contribute their charge part only.
+4. Q4 I^2 rule: piecewise-linear current, integral of I^2 dt = dt (a^2 + a b + b^2) / 3 for an interval whose end currents a, b have the same sign; for a zero-crossing interval it is split at the zero (fraction f = |a| / (|a| + |b|) on the a side) into f dt a^2 / 3 on that side and (1 - f) dt b^2 / 3 on the other, assigned to discharge or charge by sign (the same split as the M229 rule).
+5. Nearest-T1 rule: the nearest sample on either side within 10 s; a tie goes to the earlier sample; the T1 resolution (smallest nonzero step) is reported; a value exactly on an edge goes to the upper bin.
+6. Pre-registered sensitivities, shown beside the primary: (a) S3 and Q3 split by logging-cadence stratum (fast-polled and slow-polled drives, as in the regeneration view; no contrast drawn); (b) S1, S2 and S5 with the minimum over the available pack temperature sensors instead of T1; (c) current offset of -0.5, 0 and +0.5 A (assumed, `verified:false`) applied to every sample, reported for S1 to S5; (d) splitting an interval at a bin crossing instead of end-sample attribution is NOT run in this milestone (named as a limit).
+7. Definitions: per-day weights for the effective day count are the day's clean charge Ah; a share is a ratio of sums over days (bootstrap resamples days and recomputes the ratio); unassigned Ah stays in the denominator of bin shares and is reported; S4 drives or intervals with no SOC sample within 10 s are counted in `socMissingAh`, stay in the denominator and are excluded from the numerator.
+8. Known-answer test: one case for each fixed rule above (mean charge current rule at 24.9 and 25.0 A, time-weighted quantile, the I^2 formula on a crossing interval, tie to the earlier T1 sample, integer-degree edge going up, missing SOC).
+9. Caveats stated in the block `reading`: S3 and the Q3 upper quantiles depend on the polling cadence (piecewise-linear sampling cuts peaks; the cadence-invariance check B6 stays FAILED) and the cold charge Ah share is open to the uncorrected current offset.
