@@ -1110,6 +1110,24 @@
    ]
   },
   {
+   "id": "early_late_contrast",
+   "title": "M678 (N-04): exploratory early-versus-late contrast of the resistance proxy, loaded p95 cell spread and median pack voltage inside matched state cells (covariate-only granularity ladder, frozen windows, late-count-weighted CEM difference, day-clustered bootstrap with fixed cells seed 42 4000 draws, Path B CR1 regression for disagreement, six sensitivities); reads drive_master.csv and two sidecars only; non-blocking; descriptive, not an M622 look; additive payload block earlyLateContrast + stamp; no display; spec analyses/M677_spec.md Rev 1.1, 1.2",
+   "cmd": [
+    "python3",
+    "tools/early_late_contrast.py"
+   ],
+   "needs": [
+    "change_points"
+   ],
+   "verified": false,
+   "outputs": [
+    "summary_arrays.json"
+   ],
+   "writes": [
+    "arrays:earlyLateContrast"
+   ]
+  },
+  {
    "id": "highway_session_gtc",
    "title": "M488: highway-session GTC over explicit inclusive dates on the unrounded Ah ledger (ah_throughput.csv); additive payload block highwaySessionGtc + stamp; hard stop if a declared date has no ledger entry",
    "cmd": [

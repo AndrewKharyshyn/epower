@@ -1,0 +1,74 @@
+{
+ "milestone": "M678",
+ "spec": "analyses/M677_spec.md Rev 1.1 and 1.2 (section 9 and 10 override; Y3 is V_pack_median, change 8 not applied)",
+ "dataPaths": [
+  "drive_master.csv",
+  "resistance_joint_sidecar.csv",
+  "cadence_regime.csv"
+ ],
+ "frozenWindows": {
+  "spanFirst": "2026-05-15",
+  "spanLast": "2026-11-09",
+  "earlyEnd": "2026-07-13",
+  "lateStart": "2026-09-11"
+ },
+ "note": "Reproduce point estimates only (not bootstrap intervals): window sizes, chosen ladder level, cells used, matched late drives/days/share, Path A estimate and percent, unadjusted late-minus-early, Path B (matched-support and all drives) estimate and df. Implementation notes: early = date <= earlyEnd, late = date >= lateStart; quantile edges use numpy default linear interpolation on the pooled early+late drives with complete covariates and a finite outcome; bins right-closed, lowest closed; cadence regime from cadence_regime.csv (drives with missing regime dropped); Path B regime term = fast indicator, CR1 by day. (claims regenerated after the first audit found a regime-coding defect in the author implementation)",
+ "claims": {
+  "Y1": {
+   "status": "not shown",
+   "level": "3x3x3x2",
+   "nEarly": 38,
+   "nLate": 58,
+   "nCellsUsed": 0,
+   "matchedLateDrives": 0,
+   "matchedLateDays": 0,
+   "matchedLateShare": 0.0
+  },
+  "Y2": {
+   "status": "weakly overlapping",
+   "level": "3x3x3x2",
+   "nEarly": 107,
+   "nLate": 288,
+   "nCellsUsed": 13,
+   "matchedLateDrives": 108,
+   "matchedLateDays": 24,
+   "matchedLateShare": 0.375,
+   "estimate": 2.023978909465021,
+   "pct": 9.561643825629588,
+   "unadjusted": 1.3561656282450656,
+   "B_matched": {
+    "estimate": 1.888632455222783,
+    "n": 204,
+    "days": 54
+   },
+   "B_all": {
+    "estimate": 1.7956278572118014,
+    "n": 395,
+    "days": 77
+   }
+  },
+  "Y3": {
+   "status": "weakly overlapping",
+   "level": "3x3x3x2",
+   "nEarly": 108,
+   "nLate": 298,
+   "nCellsUsed": 13,
+   "matchedLateDrives": 110,
+   "matchedLateDays": 24,
+   "matchedLateShare": 0.3691275167785235,
+   "estimate": 0.6054773511512607,
+   "pct": 0.16950568529861765,
+   "unadjusted": 2.6398956002983596,
+   "B_matched": {
+    "estimate": 0.36482675158996924,
+    "n": 208,
+    "days": 55
+   },
+   "B_all": {
+    "estimate": 0.07772644057699862,
+    "n": 406,
+    "days": 77
+   }
+  }
+ }
+}
