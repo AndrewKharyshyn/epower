@@ -68191,6 +68191,27 @@
    },
    "computedAt": "2026-11-14T18:22:49.399716+00:00",
    "computationStatusNote": "M658: derived by tools/n06_bms_power_map.py from the raw possible-power channels and drive_master.csv (spec analyses/M657_spec.md Rev 1.2); descriptive, exploratory"
+  },
+  "seasonalFits": {
+   "corpusHash": "77bbe275f8c22eaf62d8636867764af3",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": "11a89dc0c881bd0a60e9e957ccd1936a",
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-11-15T00:18:43.348114+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3"
+   },
+   "computationStatus": "computed",
+   "includedInReleaseAt": "2026-11-15T00:18:43.348114+00:00",
+   "inputBasis": {
+    "nDrives": 665,
+    "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-11-15T00:18:43.348114+00:00",
+   "computationStatusNote": "M667: derived by tools/n02_seasonal_fits.py from drive_master.csv, seasonal_drive_master.csv, ah_throughput.csv and end-of-drive pack temperatures from raw (spec analyses/M666_spec.md Rev 1.1); exploratory"
   }
  },
  "ambientTable": {
@@ -445694,6 +445715,523 @@
    "nCanonicalCleanDrives": 663,
    "nDrivesWithChannel": 431,
    "scriptSha256": "37f030c99fcf98fcd07d6214687624b76c2fe3ffcf01e1a6b34d30534deef532"
+  }
+ },
+ "seasonalFits": {
+  "label": "fitted seasonal quantities beside the M28 priors (exploratory; estimated, never measured; no year output)",
+  "spec": "analyses/M666_spec.md",
+  "status": "exploratory",
+  "reading": [
+   "Q1 and Q2 are associations by thermal class (season, route, load and period move together), never temperature effects",
+   "the ambient is the driver-recorded dashboard reading entered by hand; it carries reading error and whole-degree quantisation",
+   "the estimators of Q1 to Q3 were run on this corpus in the self-audit, so the current estimates are post hoc; 'supported' in the ladder means support only, not confirmatory status",
+   "a winter statement is allowed only for ambient bands that reach 'supported'; below that the block prints 'not observed at this support'",
+   "the exposure index is not a life and not a rate; every year output stays retracted (M114); the M28 block is unchanged"
+  ],
+  "data": {
+   "support": {
+    "nDrives": 638,
+    "nDays": 126,
+    "essDays": 37.48,
+    "largestDayShare": 0.066,
+    "status": "supported"
+   },
+   "lowestAmbientC": -1.0,
+   "bandSupport": {
+    "below 5 C": {
+     "nDrives": 45,
+     "nDays": 10,
+     "essDays": 3.68,
+     "largestDayShare": 0.473,
+     "status": "exploratory"
+    },
+    "5 to 15 C": {
+     "nDrives": 183,
+     "nDays": 53,
+     "essDays": 11.13,
+     "largestDayShare": 0.226,
+     "status": "supported"
+    },
+    "15 C or warmer": {
+     "nDrives": 410,
+     "nDays": 99,
+     "essDays": 26.83,
+     "largestDayShare": 0.086,
+     "status": "supported"
+    }
+   },
+   "drivesBelow5C": 45,
+   "drivesBelow0C": 2,
+   "daysBelow5C": 10,
+   "daysBelow0C": 1
+  },
+  "Q1": {
+   "definition": "d ln(Ah per km) per C below 15 C drive-time ambient (driver-recorded), OLS, drive-class dummies and log distance; association by thermal class, not a temperature effect",
+   "primary": {
+    "estimate": -0.00396,
+    "ci95": [
+     -0.00787,
+     0.00027
+    ],
+    "droppedDrawShare": 0.0,
+    "notEstimable": false
+   },
+   "sensitivityClassOnly": {
+    "estimate": -0.0006,
+    "ci95": [
+     -0.0071,
+     0.00564
+    ],
+    "droppedDrawShare": 0.0,
+    "notEstimable": false
+   },
+   "fractionalSlopePerC": {
+    "estimate": -0.00395,
+    "ci95": [
+     -0.00784,
+     0.00027
+    ],
+    "conversion": "exp(g) - 1, to compare with the M28 prior consumptionSlopePerC (fractional consumption slope)"
+   },
+   "spread": {
+    "maxMinusMin": 0.00336,
+    "definitionDependent": false
+   },
+   "reading": "not resolved at this support",
+   "belowFiveC": {
+    "estimate": -0.02755,
+    "ci95": [
+     -0.07448,
+     0.0344
+    ],
+    "droppedDrawShare": 0.0,
+    "notEstimable": false
+   },
+   "priorM28CompareConsumptionSlope": {
+    "prior": {
+     "lo": 0.006,
+     "mid": 0.01,
+     "hi": 0.016
+    },
+    "fractionalEstimate": -0.00395,
+    "differenceToPriorMid": -0.01395,
+    "intervalOverlapsPriorBand": false,
+    "note": "the prior is a band (lo, mid, hi), not an interval"
+   }
+  },
+  "Q2": {
+   "definition": "d(pack time-mean temperature) / d(driver-recorded ambient), OLS, drive-class dummies and log duration; association by thermal class",
+   "primary": {
+    "estimate": 0.53726,
+    "ci95": [
+     0.44211,
+     0.63236
+    ],
+    "droppedDrawShare": 0.0,
+    "notEstimable": false
+   },
+   "sensitivityRiseOnCold": {
+    "estimate": 0.69112,
+    "ci95": [
+     0.49023,
+     0.91312
+    ],
+    "droppedDrawShare": 0.0,
+    "notEstimable": false
+   },
+   "sensitivityStartOnStart": {
+    "estimate": 0.60542,
+    "ci95": [
+     0.49604,
+     0.70198
+    ],
+    "droppedDrawShare": 0.0,
+    "notEstimable": false
+   },
+   "spread": {
+    "maxMinusMin": 0.06816,
+    "definitionDependent": false
+   },
+   "errorsInVariablesBracket": {
+    "assumption": "the dashboard ambient is hand-entered and quantised to whole degrees; the reading-error SD below is an assumed value, not an estimate",
+    "partialAmbientVariance": 54.2516,
+    "corrected": {
+     "1.0": 0.5472,
+     "2.0": 0.5769
+    }
+   },
+   "flags": {
+    "outsidePhysicalRange0to1p5": false
+   },
+   "priorM28": "none: M28 has no pack-ambient coupling coefficient (it assumes a rise shrinkage and 1.0 for highway), so nothing is compared"
+  },
+  "Q3": {
+   "definition": "e1 = e0 exp(-gap/tau) on the temperature scale: e0 = previous drive's last pack temperature minus ambient_ref, e1 = next drive's first pack temperature minus ambient_ref, ambient_ref = mean of the previous end ambient and the next start ambient; L1 loss, no outcome-based filter; consecutive canonical-clean drives, gap 0.02 to 36 h",
+   "nPairsEligible": 638,
+   "nPairsFit": 628,
+   "pairsDropped": {
+    "missingEndpointOrAmbient": 10
+   },
+   "support": {
+    "nPairs": 628,
+    "nDays": 123,
+    "essDays": 94.17,
+    "status": "supported"
+   },
+   "byGapStratum": {
+    "below 1 h": 338,
+    "1 to 4 h": 131,
+    "4 to 12 h": 84,
+    "12 h or longer": 75
+   },
+   "byAmbientBand": {
+    "below 5 C": 42,
+    "5 to 15 C": 187,
+    "15 C or warmer": 399
+   },
+   "unloggedDrivingFlag": {
+    "rule": "next drive's estimated unlogged distance above the whole-km odometer resolution (1.0 km); unlogged driving between a pair biases tau downward",
+    "nFlagged": 4,
+    "crossDayPairs": 106,
+    "clustering": "each pair is clustered on its arrival day (the next drive's calendar day)"
+   },
+   "primary": {
+    "tauH": 7.873,
+    "ci95": [
+     7.57136,
+     8.1371
+    ],
+    "droppedDrawShare": 0.0,
+    "notEstimable": false
+   },
+   "sensitivities": {
+    "projectDefinitionOutcomeFiltered": {
+     "n": 541,
+     "tauH": 11.561
+    },
+    "previousDriveMaxProxy": {
+     "n": 631,
+     "tauH": 7.107
+    },
+    "L2Loss": {
+     "n": 628,
+     "tauH": 7.846
+    },
+    "excludingFlaggedUnloggedPairs": {
+     "n": 624,
+     "tauH": 7.88
+    },
+    "gapBelow1h": {
+     "n": 338,
+     "tauH": 8.672
+    },
+    "gap1hOrLonger": {
+     "n": 290,
+     "tauH": 7.825
+    },
+    "gap4hOrLonger": {
+     "n": 159,
+     "tauH": 7.358
+    },
+    "ambientRefShift-2C": {
+     "n": 628,
+     "tauH": 9.357
+    },
+    "ambientRefShift-1C": {
+     "n": 628,
+     "tauH": 8.642
+    },
+    "ambientRefShift+1C": {
+     "n": 628,
+     "tauH": 7.126
+    },
+    "ambientRefShift+2C": {
+     "n": 628,
+     "tauH": 6.535
+    }
+   },
+   "spread": {
+    "definition": "max minus min of tau over the primary and its sensitivities, the outcome-filtered project variant excluded",
+    "maxMinusMinH": 2.822,
+    "definitionDependent": true
+   },
+   "heldOut": {
+    "cv": "day-blocked contiguous folds over arrival days (k=10), tau fitted on the other folds; MAE of the predicted next-start temperature on the temperature scale (C)",
+    "nScoredPairs": 628,
+    "nScoredDays": 123,
+    "maeModelC": 1.103,
+    "maePersistenceC": 3.571,
+    "maeFullRelaxationC": 8.317,
+    "skillVsPersistence": {
+     "estimate": 0.6911,
+     "ci95": [
+      0.65226,
+      0.72698
+     ]
+    },
+    "skillVsFullRelaxation": {
+     "estimate": 0.8674,
+     "ci95": [
+      0.84146,
+      0.88914
+     ]
+    },
+    "skillVsBetterReference": {
+     "estimate": 0.6911,
+     "ci95": [
+      0.65226,
+      0.72698
+     ]
+    },
+    "gate": "tau is useful only if the skill against the better of the two references has an interval above zero",
+    "gatePassed": true
+   },
+   "d05": {
+    "decision": "owner decision D-05 (2026-11-12): temperature-scale definition is the forecast basis",
+    "support": "supported",
+    "ifNotSupported": null
+   },
+   "priorM28CompareColdSoakRetention": {
+    "prior": {
+     "lo": 0.4,
+     "mid": 0.6,
+     "hi": 0.8
+    },
+    "pairGapQuartilesH": [
+     0.18,
+     0.71,
+     4.06
+    ],
+    "impliedRetainedFractionAtGapQuartiles": [
+     0.977,
+     0.914,
+     0.597
+    ],
+    "note": "the prior is a band (lo, mid, hi) for an inter-drive pack cooling pattern; the implied fraction is exp(-gap/tau) at the corpus pair gaps; printed side by side, no test"
+   }
+  },
+  "Q4": {
+   "label": "Arrhenius-weighted temperature exposure index relative to constant 25 C (assumed Ea, verified:false); a dimensionless index, not a life, not a rate",
+   "climatologySource": "summary_config.json seasonalAssumptions.monthlyTempC (external, user-supplied assumption)",
+   "lowestObservedAmbientC": -1.0,
+   "monthsBelowLowestObservedAmbient": [
+    1,
+    2
+   ],
+   "assignment": "drive-time pack temperature in each month = the time-weighted corpus mean point moved along the Q2 coupling line to the climatology; months below the lowest observed ambient are extrapolated via Q2 and their share of the index is printed",
+   "inputsFromCorpus": {
+    "driveHoursPerDay": 1.332,
+    "drivesPerCalendarDay": 3.623,
+    "coolDownInitialExcessMedianC": 10.0,
+    "coolDownWindowCapH": 18.0,
+    "diurnalAmplitudeC": 4.0
+   },
+   "grid": [
+    {
+     "tauLabel": "primary L1 temperature scale",
+     "tauH": 7.873,
+     "eaEv": 0.3,
+     "parkedOffsetC": 0.0,
+     "index": 0.6183,
+     "shareOfIndex": {
+      "parked": 0.3499,
+      "drive": 0.0945,
+      "coolDown": 0.5556
+     },
+     "extrapolatedShareOfIndex": 0.0933
+    },
+    {
+     "tauLabel": "primary L1 temperature scale",
+     "tauH": 7.873,
+     "eaEv": 0.5,
+     "parkedOffsetC": 0.0,
+     "index": 0.5319,
+     "shareOfIndex": {
+      "parked": 0.2981,
+      "drive": 0.1157,
+      "coolDown": 0.5862
+     },
+     "extrapolatedShareOfIndex": 0.0624
+    },
+    {
+     "tauLabel": "primary L1 temperature scale",
+     "tauH": 7.873,
+     "eaEv": 0.5,
+     "parkedOffsetC": -3.0,
+     "index": 0.4446,
+     "shareOfIndex": {
+      "parked": 0.2883,
+      "drive": 0.1384,
+      "coolDown": 0.5732
+     },
+     "extrapolatedShareOfIndex": 0.0622
+    },
+    {
+     "tauLabel": "primary L1 temperature scale",
+     "tauH": 7.873,
+     "eaEv": 0.5,
+     "parkedOffsetC": 3.0,
+     "index": 0.6368,
+     "shareOfIndex": {
+      "parked": 0.3067,
+      "drive": 0.0967,
+      "coolDown": 0.5966
+     },
+     "extrapolatedShareOfIndex": 0.0629
+    },
+    {
+     "tauLabel": "primary L1 temperature scale",
+     "tauH": 7.873,
+     "eaEv": 0.7,
+     "parkedOffsetC": 0.0,
+     "index": 0.4849,
+     "shareOfIndex": {
+      "parked": 0.2527,
+      "drive": 0.1356,
+      "coolDown": 0.6116
+     },
+     "extrapolatedShareOfIndex": 0.0414
+    },
+    {
+     "tauLabel": "project definition (outcome-filtered)",
+     "tauH": 11.561,
+     "eaEv": 0.3,
+     "parkedOffsetC": 0.0,
+     "index": 0.624,
+     "shareOfIndex": {
+      "parked": 0.3467,
+      "drive": 0.0936,
+      "coolDown": 0.5597
+     },
+     "extrapolatedShareOfIndex": 0.0934
+    },
+    {
+     "tauLabel": "project definition (outcome-filtered)",
+     "tauH": 11.561,
+     "eaEv": 0.5,
+     "parkedOffsetC": 0.0,
+     "index": 0.54,
+     "shareOfIndex": {
+      "parked": 0.2937,
+      "drive": 0.114,
+      "coolDown": 0.5924
+     },
+     "extrapolatedShareOfIndex": 0.0625
+    },
+    {
+     "tauLabel": "project definition (outcome-filtered)",
+     "tauH": 11.561,
+     "eaEv": 0.5,
+     "parkedOffsetC": -3.0,
+     "index": 0.4513,
+     "shareOfIndex": {
+      "parked": 0.284,
+      "drive": 0.1364,
+      "coolDown": 0.5796
+     },
+     "extrapolatedShareOfIndex": 0.0622
+    },
+    {
+     "tauLabel": "project definition (outcome-filtered)",
+     "tauH": 11.561,
+     "eaEv": 0.5,
+     "parkedOffsetC": 3.0,
+     "index": 0.6465,
+     "shareOfIndex": {
+      "parked": 0.3021,
+      "drive": 0.0952,
+      "coolDown": 0.6027
+     },
+     "extrapolatedShareOfIndex": 0.0629
+    },
+    {
+     "tauLabel": "project definition (outcome-filtered)",
+     "tauH": 11.561,
+     "eaEv": 0.7,
+     "parkedOffsetC": 0.0,
+     "index": 0.495,
+     "shareOfIndex": {
+      "parked": 0.2476,
+      "drive": 0.1329,
+      "coolDown": 0.6195
+     },
+     "extrapolatedShareOfIndex": 0.0413
+    },
+    {
+     "tauLabel": "previous-drive-maximum proxy",
+     "tauH": 7.107,
+     "eaEv": 0.3,
+     "parkedOffsetC": 0.0,
+     "index": 0.6167,
+     "shareOfIndex": {
+      "parked": 0.3509,
+      "drive": 0.0947,
+      "coolDown": 0.5544
+     },
+     "extrapolatedShareOfIndex": 0.0933
+    },
+    {
+     "tauLabel": "previous-drive-maximum proxy",
+     "tauH": 7.107,
+     "eaEv": 0.5,
+     "parkedOffsetC": 0.0,
+     "index": 0.5296,
+     "shareOfIndex": {
+      "parked": 0.2994,
+      "drive": 0.1162,
+      "coolDown": 0.5844
+     },
+     "extrapolatedShareOfIndex": 0.0624
+    },
+    {
+     "tauLabel": "previous-drive-maximum proxy",
+     "tauH": 7.107,
+     "eaEv": 0.5,
+     "parkedOffsetC": -3.0,
+     "index": 0.4427,
+     "shareOfIndex": {
+      "parked": 0.2896,
+      "drive": 0.139,
+      "coolDown": 0.5714
+     },
+     "extrapolatedShareOfIndex": 0.0622
+    },
+    {
+     "tauLabel": "previous-drive-maximum proxy",
+     "tauH": 7.107,
+     "eaEv": 0.5,
+     "parkedOffsetC": 3.0,
+     "index": 0.6341,
+     "shareOfIndex": {
+      "parked": 0.308,
+      "drive": 0.0971,
+      "coolDown": 0.5949
+     },
+     "extrapolatedShareOfIndex": 0.0629
+    },
+    {
+     "tauLabel": "previous-drive-maximum proxy",
+     "tauH": 7.107,
+     "eaEv": 0.7,
+     "parkedOffsetC": 0.0,
+     "index": 0.4821,
+     "shareOfIndex": {
+      "parked": 0.2542,
+      "drive": 0.1364,
+      "coolDown": 0.6093
+     },
+     "extrapolatedShareOfIndex": 0.0414
+    }
+   ],
+   "primaryTau": "primary"
+  },
+  "provenance": {
+   "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+   "nCanonicalCleanDrives": 663,
+   "nEndpointFilesRead": 665,
+   "scriptSha256": "a1ab394a319fd014908b7454e98e068c8f21aca511acb4d0216c35f30428a68a",
+   "seed": 42,
+   "nBoot": 4000
   }
  }
 }

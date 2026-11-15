@@ -1038,6 +1038,24 @@
    ]
   },
   {
+   "id": "seasonal_fits",
+   "title": "M667 (N-02): fitted seasonal quantities beside the M28 priors (throughput cold slope, pack-ambient coupling, temperature-scale cool-down constant per D-05 with day-blocked held-out skill against persistence and full relaxation, Arrhenius-weighted exposure index with no year output); day-clustered percentile bootstrap seed 42, 4000 draws; end-of-drive pack temperatures from raw cached by sha256 (seasonal_fits_cache/); additive payload block seasonalFits + stamp; exploratory, no display; spec analyses/M666_spec.md Rev 1.1",
+   "cmd": [
+    "python3",
+    "tools/n02_seasonal_fits.py"
+   ],
+   "needs": [
+    "cohort_contrast"
+   ],
+   "verified": false,
+   "outputs": [
+    "summary_arrays.json"
+   ],
+   "writes": [
+    "arrays:seasonalFits"
+   ]
+  },
+  {
    "id": "highway_session_gtc",
    "title": "M488: highway-session GTC over explicit inclusive dates on the unrounded Ah ledger (ah_throughput.csv); additive payload block highwaySessionGtc + stamp; hard stop if a declared date has no ledger entry",
    "cmd": [
