@@ -68240,19 +68240,19 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "11a89dc0c881bd0a60e9e957ccd1936a",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-11-15T11:29:12.046284+00:00",
+   "generatedAt": "2026-11-15T21:33:35.794232+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3"
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-11-15T11:29:12.046284+00:00",
+   "includedInReleaseAt": "2026-11-15T21:33:35.794232+00:00",
    "inputBasis": {
     "nDrives": 665,
     "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-11-15T11:29:12.046284+00:00",
+   "computedAt": "2026-11-15T21:33:35.794232+00:00",
    "computationStatusNote": "M674: derived by tools/exposure_vector.py from raw drive CSVs (cached by sha256), drive_master.csv and ah_throughput.csv (spec analyses/M673_spec.md Rev 1.1); descriptive"
   },
   "changePoints": {
@@ -446664,13 +446664,13 @@
   }
  },
  "exposureVector": {
-  "label": "Exposure vector of the logged driving window from the logged BMS current (estimated, offset-uncorrected; not lifetime exposure, not damage)",
+  "label": "Exposure vector of the logged driving window from the logged BMS current (estimated, offset-uncorrected; not lifetime exposure, not an ageing estimate)",
   "spec": "analyses/M673_spec.md Rev 1.1",
   "status": "descriptive; screens carry a support ladder",
   "reading": [
-   "Exposure of the logged driving window only (logged drives; the logged share of the odometer is below 1), not lifetime exposure and not damage.",
+   "Exposure of the logged driving window only (logged drives; the logged share of the odometer is below 1), not lifetime exposure and not an ageing estimate.",
    "Ampere-hours are integrated from the logged current (estimated, offset-uncorrected), never measured at the cell; charging here is regeneration and generator charging (no plug).",
-   "The screen thresholds (10 C, 15 C, 25 A, SOC 70 %) were adopted from an external review; they are not identified BMS or damage thresholds.",
+   "The screen thresholds (10 C, 15 C, 25 A, SOC 70 %) were adopted from an external review; they are not identified BMS limits.",
    "The 25 A screen and the upper charge-current quantiles depend on the logging cadence (piecewise-linear sampling cuts peaks; the cadence-invariance check B6 stays FAILED); the cold charge Ah share is open to the uncorrected current offset.",
    "Regeneration charging is concentrated in short high-current bursts, so a large share of charge Ah at 25 A or more describes regeneration, not a charger-type load.",
    "|I| / 5 A is a ratio to the rated reference (verified:false), not a reference-free quantity. No annualisation is made."
@@ -446780,7 +446780,8 @@
      "i2hCharge": 0.0,
      "nDrives": 0,
      "nDays": 0,
-     "status": "not shown"
+     "status": "not shown",
+     "essDays": null
     },
     {
      "bin": "0-5",
@@ -446794,7 +446795,8 @@
      "i2hCharge": 72.172,
      "nDrives": 1,
      "nDays": 1,
-     "status": "not shown"
+     "status": "not shown",
+     "essDays": 1.0
     },
     {
      "bin": "5-10",
@@ -446808,7 +446810,8 @@
      "i2hCharge": 436.2774,
      "nDrives": 10,
      "nDays": 8,
-     "status": "supported"
+     "status": "exploratory",
+     "essDays": 6.681
     },
     {
      "bin": "10-15",
@@ -446822,7 +446825,8 @@
      "i2hCharge": 1955.8973,
      "nDrives": 53,
      "nDays": 30,
-     "status": "supported"
+     "status": "supported",
+     "essDays": 17.974
     },
     {
      "bin": "15-20",
@@ -446836,7 +446840,8 @@
      "i2hCharge": 5791.6597,
      "nDrives": 147,
      "nDays": 73,
-     "status": "supported"
+     "status": "supported",
+     "essDays": 53.774
     },
     {
      "bin": "20-25",
@@ -446850,7 +446855,8 @@
      "i2hCharge": 11306.1635,
      "nDrives": 216,
      "nDays": 112,
-     "status": "supported"
+     "status": "supported",
+     "essDays": 80.145
     },
     {
      "bin": "25-30",
@@ -446864,7 +446870,8 @@
      "i2hCharge": 15429.1497,
      "nDrives": 203,
      "nDays": 106,
-     "status": "supported"
+     "status": "supported",
+     "essDays": 80.539
     },
     {
      "bin": "30-35",
@@ -446878,7 +446885,8 @@
      "i2hCharge": 19231.2569,
      "nDrives": 200,
      "nDays": 89,
-     "status": "supported"
+     "status": "supported",
+     "essDays": 62.877
     },
     {
      "bin": "35-40",
@@ -446892,7 +446900,8 @@
      "i2hCharge": 31748.5754,
      "nDrives": 173,
      "nDays": 63,
-     "status": "supported"
+     "status": "supported",
+     "essDays": 36.408
     },
     {
      "bin": ">=40",
@@ -446906,7 +446915,8 @@
      "i2hCharge": 42360.4723,
      "nDrives": 112,
      "nDays": 41,
-     "status": "supported"
+     "status": "supported",
+     "essDays": 18.243
     },
     {
      "bin": "unassigned",
@@ -446920,7 +446930,8 @@
      "i2hCharge": 37.844,
      "nDrives": 87,
      "nDays": 35,
-     "status": "n/a"
+     "status": "n/a",
+     "essDays": null
     }
    ]
   },
@@ -446938,7 +446949,8 @@
      "i2hCharge": 0.0,
      "nDrives": 0,
      "nDays": 0,
-     "status": "not shown"
+     "status": "not shown",
+     "essDays": null
     },
     {
      "bin": "0-5",
@@ -446952,7 +446964,8 @@
      "i2hCharge": 72.172,
      "nDrives": 1,
      "nDays": 1,
-     "status": "not shown"
+     "status": "not shown",
+     "essDays": 1.0
     },
     {
      "bin": "5-10",
@@ -446966,7 +446979,8 @@
      "i2hCharge": 436.2774,
      "nDrives": 10,
      "nDays": 8,
-     "status": "supported"
+     "status": "exploratory",
+     "essDays": 6.681
     },
     {
      "bin": "10-15",
@@ -446980,7 +446994,8 @@
      "i2hCharge": 1955.8973,
      "nDrives": 53,
      "nDays": 30,
-     "status": "supported"
+     "status": "supported",
+     "essDays": 17.974
     },
     {
      "bin": "15-20",
@@ -446994,7 +447009,8 @@
      "i2hCharge": 5791.6597,
      "nDrives": 147,
      "nDays": 73,
-     "status": "supported"
+     "status": "supported",
+     "essDays": 53.774
     },
     {
      "bin": "20-25",
@@ -447008,7 +447024,8 @@
      "i2hCharge": 11293.7726,
      "nDrives": 214,
      "nDays": 111,
-     "status": "supported"
+     "status": "supported",
+     "essDays": 80.035
     },
     {
      "bin": "25-30",
@@ -447022,7 +447039,8 @@
      "i2hCharge": 15429.1497,
      "nDrives": 203,
      "nDays": 106,
-     "status": "supported"
+     "status": "supported",
+     "essDays": 80.539
     },
     {
      "bin": "30-35",
@@ -447036,7 +447054,8 @@
      "i2hCharge": 19231.2569,
      "nDrives": 200,
      "nDays": 89,
-     "status": "supported"
+     "status": "supported",
+     "essDays": 62.877
     },
     {
      "bin": "35-40",
@@ -447050,7 +447069,8 @@
      "i2hCharge": 31748.5754,
      "nDrives": 173,
      "nDays": 63,
-     "status": "supported"
+     "status": "supported",
+     "essDays": 36.408
     },
     {
      "bin": ">=40",
@@ -447064,7 +447084,8 @@
      "i2hCharge": 42360.4723,
      "nDrives": 112,
      "nDays": 41,
-     "status": "supported"
+     "status": "supported",
+     "essDays": 18.243
     },
     {
      "bin": "unassigned",
@@ -447078,7 +447099,8 @@
      "i2hCharge": 37.844,
      "nDrives": 87,
      "nDays": 35,
-     "status": "n/a"
+     "status": "n/a",
+     "essDays": null
     }
    ]
   },
@@ -447246,13 +447268,13 @@
      "cleanChargeAh": 2609.259779,
      "nDrives": 10,
      "nDays": 8,
-     "status": "supported",
+     "status": "exploratory",
      "share": 0.00441375,
      "shareCi95": [
       0.00149515,
       0.00839333
      ],
-     "essDays": 59.997
+     "essDays": 6.399
     },
     "S2": {
      "definition": "charge Ah in bins below 15 C",
@@ -447266,7 +447288,7 @@
       0.01335869,
       0.03516024
      ],
-     "essDays": 59.997
+     "essDays": 17.674
     },
     "S3": {
      "definition": "charge Ah at a mean interval charge current of 25 A or more",
@@ -447280,7 +447302,7 @@
       0.76017584,
       0.7772139
      ],
-     "essDays": 59.997
+     "essDays": 58.96
     },
     "S4": {
      "definition": "charge Ah at SOC of 70 % or more",
@@ -447294,7 +447316,7 @@
       0.13971454,
       0.16890621
      ],
-     "essDays": 59.997,
+     "essDays": 46.065,
      "socMissingAh": 0.0
     },
     "S5": {
@@ -447306,7 +447328,7 @@
      "status": "not shown",
      "share": 0.00341514,
      "shareCi95": null,
-     "essDays": 59.997
+     "essDays": 6.182
     }
    },
    "sensitivityTmin": {
@@ -447316,13 +447338,13 @@
      "cleanChargeAh": 2609.259779,
      "nDrives": 15,
      "nDays": 10,
-     "status": "supported",
+     "status": "exploratory",
      "share": 0.00630903,
      "shareCi95": [
       0.00255758,
       0.01135429
      ],
-     "essDays": 59.997
+     "essDays": 8.023
     },
     "S2": {
      "definition": "charge Ah in bins below 15 C",
@@ -447336,7 +447358,7 @@
       0.02122879,
       0.04899821
      ],
-     "essDays": 59.997
+     "essDays": 23.627
     },
     "S5": {
      "definition": "charge Ah below 10 C at a mean interval charge current of 25 A or more",
@@ -447344,13 +447366,13 @@
      "cleanChargeAh": 2609.259779,
      "nDrives": 14,
      "nDays": 10,
-     "status": "supported",
+     "status": "exploratory",
      "share": 0.00468023,
      "shareCi95": [
       0.00184515,
       0.00858484
      ],
-     "essDays": 59.997
+     "essDays": 7.782
     }
    },
    "sensitivityOffset": {
@@ -447361,13 +447383,13 @@
       "cleanChargeAh": 2563.058652,
       "nDrives": 10,
       "nDays": 8,
-      "status": "supported",
+      "status": "exploratory",
       "share": 0.00440974,
       "shareCi95": [
        0.00149703,
        0.00839792
       ],
-      "essDays": 59.946
+      "essDays": 6.407
      },
      "S2": {
       "definition": "charge Ah in bins below 15 C",
@@ -447381,7 +447403,7 @@
        0.01330581,
        0.03504769
       ],
-      "essDays": 59.946
+      "essDays": 17.706
      },
      "S3": {
       "definition": "charge Ah at a mean interval charge current of 25 A or more",
@@ -447395,7 +447417,7 @@
        0.75897324,
        0.77588907
       ],
-      "essDays": 59.946
+      "essDays": 58.861
      },
      "S4": {
       "definition": "charge Ah at SOC of 70 % or more",
@@ -447409,7 +447431,7 @@
        0.13961246,
        0.16879636
       ],
-      "essDays": 59.946,
+      "essDays": 45.92,
       "socMissingAh": 0.0
      },
      "S5": {
@@ -447421,7 +447443,7 @@
       "status": "not shown",
       "share": 0.00340998,
       "shareCi95": null,
-      "essDays": 59.946
+      "essDays": 6.175
      }
     },
     "+0.5 A": {
@@ -447431,13 +447453,13 @@
       "cleanChargeAh": 2656.357592,
       "nDrives": 10,
       "nDays": 8,
-      "status": "supported",
+      "status": "exploratory",
       "share": 0.00441718,
       "shareCi95": [
        0.00149327,
        0.00839471
       ],
-      "essDays": 60.045
+      "essDays": 6.39
      },
      "S2": {
       "definition": "charge Ah in bins below 15 C",
@@ -447451,7 +447473,7 @@
        0.01340688,
        0.0353131
       ],
-      "essDays": 60.045
+      "essDays": 17.641
      },
      "S3": {
       "definition": "charge Ah at a mean interval charge current of 25 A or more",
@@ -447465,7 +447487,7 @@
        0.76138878,
        0.77849091
       ],
-      "essDays": 60.045
+      "essDays": 59.034
      },
      "S4": {
       "definition": "charge Ah at SOC of 70 % or more",
@@ -447479,7 +447501,7 @@
        0.13980887,
        0.16903393
       ],
-      "essDays": 60.045,
+      "essDays": 46.212,
       "socMissingAh": 0.0
      },
      "S5": {
@@ -447491,7 +447513,7 @@
       "status": "not shown",
       "share": 0.00340645,
       "shareCi95": null,
-      "essDays": 60.045
+      "essDays": 6.18
      }
     }
    },
@@ -447510,7 +447532,7 @@
        0.74692906,
        0.77583369
       ],
-      "essDays": 27.855
+      "essDays": 27.398
      },
      "Q3_p95_A_all_bins": 70.569
     },
@@ -447528,7 +447550,7 @@
        0.76138242,
        0.78124582
       ],
-      "essDays": 38.845
+      "essDays": 38.299
      },
      "Q3_p95_A_all_bins": 73.505
     }
@@ -447536,7 +447558,7 @@
    "offsetNote": "current offset of -0.5 and +0.5 A applied to every sample (assumed, verified:false); the primary is offset 0",
    "limits": [
     "Splitting an interval at a bin crossing instead of end-sample attribution is not run (named limit).",
-    "Screens count exposure; they do not say the exposure is harmful."
+    "Screens count exposure; they make no assessment of the effect on the pack."
    ]
   },
   "Q6_totals": {
@@ -447568,7 +447590,7 @@
   },
   "provenance": {
    "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
-   "scriptSha256": "8bcd4e30f0253e869c535556efdf89e26c7b6377219d5173d19991bc7560dc7a",
+   "scriptSha256": "d4810c0f6b4f5a554f7c37e87a1b509a6ff256b1881cf62e53b0b009ffb55f8a",
    "methodVersion": 1,
    "seed": 42,
    "nBoot": 4000,

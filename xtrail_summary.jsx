@@ -5743,6 +5743,51 @@ function BetweenDriveLoggingView(){
     </Section>
   );
 }
+// M684 (display of the M674 payload): estimated charge and discharge throughput by pack temperature and the cold-charging screens, bound to S.exposureVector only (no typed number). Counted exposure of the logged window, not lifetime exposure and not damage.
+// The day-clustered share intervals stay in the payload: no coverage study has been run on them, so they are not displayed.
+function ExposureVectorView(){
+  const B=S.exposureVector;
+  if(!B||!B.Q1_Q2_Q4_clean||!B.Q5_screens_clean||!B.population) return null;
+  const P=B.population, bins=B.Q1_Q2_Q4_clean.bins||[], sc=(B.Q5_screens_clean.primary)||{}, T6=B.Q6_totals||{};
+  const f=(x,n=1)=>x==null?"n/a":Number(x).toFixed(n), pc=(x)=>x==null?"n/a":(100*Number(x)).toFixed(1)+"%";
+  const shown=(r)=>r.status!=="not shown";
+  return (
+    <Section title="Estimated Charge and Discharge Throughput by Pack Temperature (logged driving window)" accent="#64748b">
+      <div style={{fontSize:10.5,color:"#0f172a",lineHeight:1.6,marginBottom:6}} data-ev-caption="1">
+        Estimated from the logged BMS current: {f(T6.ahThroughputAll)} Ah throughput in {P.nWithIvPairs} drives on {P.nDaysAll} days ({f(T6.ahThroughputPerDrivingDay)} Ah per driving day, not annualised). The tables below use the {P.nCanonicalClean} canonical-clean drives on {P.nDaysClean} days. Pack temperature is sensor T1 (resolution {f(B.t1ResolutionC,0)} deg C), attributed to the nearest sample within 10 s. This is exposure of the logged driving window, not lifetime exposure and not an ageing estimate.
+      </div>
+      <ChartWithTable chart={<div data-ev-bars="1" style={{display:"grid",gridTemplateColumns:"70px 1fr 56px",gap:"3px 8px",alignItems:"center",fontSize:9.5,color:"#334155",marginTop:6}}>
+        {bins.filter(b=>b.bin!=="unassigned").map(b=>{const ok=b.nDrives>0&&b.status!=="not shown"; return (<React.Fragment key={b.bin}>
+          <span>{b.bin} deg C</span>
+          {ok?<span style={{background:"#e2e8f0",borderRadius:3,height:10,display:"block"}} aria-hidden="true"><span style={{display:"block",height:10,borderRadius:3,background:b.status==="exploratory"?"#94a3b8":"#64748b",width:(100*(b.shareOfThroughput||0)).toFixed(1)+"%"}}/></span>:<span style={{fontSize:9,color:"#94a3b8"}}>{b.nDrives>0?"not shown":"not observed"}</span>}
+          <span style={{textAlign:"right"}}>{ok?pc(b.shareOfThroughput):""}</span>
+        </React.Fragment>);})}
+        <span style={{gridColumn:"1 / span 3",fontSize:9,color:"#64748b"}}>Share of the Ah throughput of the clean drives by pack-temperature bin; bars start at 0%; lighter bars are exploratory; bins that are not observed or not shown have no bar.</span>
+      </div>}>
+        <table style={{width:"100%",fontSize:9,borderCollapse:"collapse",marginTop:6}}>
+          <thead><tr style={{color:"#64748b",textAlign:"left"}}><th>pack temperature bin, deg C</th><th>discharge Ah</th><th>charge Ah</th><th>throughput Ah</th><th>share of throughput</th><th>driving hours</th><th>drives / days</th><th>support</th></tr></thead>
+          <tbody>
+            {bins.map(b=>(<tr key={b.bin} data-ev-bin={b.bin} style={{borderTop:"1px solid #e2e8f0"}}><td>{b.bin}</td>{((b.nDrives>0&&b.status!=="not shown")||b.bin==="unassigned")?(<><td>{f(b.ahDischarge)}</td><td>{f(b.ahCharge)}</td><td>{f(b.ahThroughput)}</td><td>{pc(b.shareOfThroughput)}</td><td>{f(b.hours)}</td><td>{b.nDrives} / {b.nDays}</td><td>{b.status}</td></>):(<td colSpan={7}>{b.nDrives>0?`not shown (${b.nDrives} / ${b.nDays} drives / days)`:"not observed at this support"}</td>)}</tr>))}
+          </tbody>
+        </table>
+      </ChartWithTable>
+      <div style={{fontSize:10,color:"#334155",lineHeight:1.6,marginTop:8}} data-ev-screens-head="1"><strong>Cold-charging screens (counted exposure of the logged window).</strong> Each screen counts the clean charge Ah that meets its condition; the thresholds are screen thresholds adopted from an external review, not identified BMS limits. Intervals for the shares are not displayed (no coverage study has been run on them); the cadence-stratum, minimum-sensor and current-offset sensitivities are in S.exposureVector and are not displayed.
+        {(()=>{const b0=bins[0], b1=bins[1]; return b0&&b1?<> No driving time is logged in the {b0.bin} deg C bin ({b0.nDrives} drives) and the {b1.bin} deg C bin holds {b1.nDrives} drive{b1.nDrives===1?"":"s"} ({b1.status}); S1 includes that bin, and S1 and S5 describe essentially the 5-10 deg C bin. Nothing is extrapolated to colder packs.</>:null;})()}
+      </div>
+      <table style={{width:"100%",fontSize:9,borderCollapse:"collapse",marginTop:4}}>
+        <thead><tr style={{color:"#64748b",textAlign:"left"}}><th>screen</th><th>charge Ah</th><th>share of clean charge Ah</th><th>drives / days</th><th>support</th></tr></thead>
+        <tbody>
+          {Object.keys(sc).map(k=>{const r=sc[k]; return (<tr key={k} data-ev-screen={k} style={{borderTop:"1px solid #e2e8f0"}}><td>{k}: {r.definition}</td>{shown(r)?(<><td>{f(r.ah)}</td><td>{pc(r.share)}</td><td>{r.nDrives} / {r.nDays}</td><td>{r.status}</td></>):(<><td colSpan={2}>not shown</td><td>{r.nDrives} / {r.nDays}</td><td>{r.status}</td></>)}</tr>);})}
+        </tbody>
+      </table>
+      {(B.reading||[]).filter(x=>x.indexOf("Regeneration charging")===0).map((x,i)=><div key={"rg"+i} style={{fontSize:9.5,color:"#334155",lineHeight:1.6,marginTop:4}} data-ev-regen="1"><strong>S3 reading:</strong> {x}</div>)}
+      <div style={{fontSize:9,color:"#475569",lineHeight:1.6,marginTop:6}} data-ev-reading="1">
+        {(B.reading||[]).filter(x=>x.indexOf("Regeneration charging")!==0&&x.indexOf("|I| / 5 A")!==0).map((x,i)=><p key={i} style={{margin:"2px 0"}}>{x}</p>)}
+        {((B.Q5_screens_clean&&B.Q5_screens_clean.limits)||B.limits||[]).map((x,i)=><p key={"l"+i} style={{margin:"2px 0"}}>{x}</p>)}
+      </div>
+    </Section>
+  );
+}
 function CellSpreadStepView(){
   const B=S.cellSpreadStep;
   if(!B||!B.models) return null;
@@ -13825,6 +13870,7 @@ export default function App() {
           <WindowCaveatPanel/>
           <CellSpreadStepView/>
           <EarlyLateContrastView/>
+          <ExposureVectorView/>
           <SteadyLoadCheck/>
           <div style={{fontSize:11,color:"#64748b",lineHeight:1.7}}>
             <p>Example check on four drives of Jun 19. Result: the cell spread at rest (current below 5 A) was 0.0104–0.0121 V on all four drives, within the established baseline. Under load the spread reached 0.084 V on Drive 1. That is consistent with a thermal and polarization effect rather than degradation, because the spread fell back to 0.010–0.012 V at rest within the same drive. Data note: one raw sample briefly read 0.122 V at the same moment as a single current reading of −200.25 A. That value was excluded under the artifact rule in force at the time and is not used as a cell-health result. It was a within-drive return to baseline, and one example cannot test long-term change. Reading: per-drive loaded maxima are a transient polarization measure, so they are not tracked as records, and loaded spread has gone considerably higher on later drives. The trended quantity is the adjusted p95, for which {spreadSpans()===false?"a "+spreadDir()+" conditional slope is estimated (95% interval excludes zero; season-confounded, not a capacity or SOH change)":"no directional trend is resolved (inconclusive, not shown flat)"}.</p>
