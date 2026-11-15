@@ -83,6 +83,17 @@ assert abs(v["sdDay"] - 2.0) < 0.5 and abs(v["sdResid"] - 3.0) < 0.3 and not v["
 v0 = vc_for(0.0, 3.0)
 assert v0["sdDay"] < 0.6 and v0["sdDayUsedInScenarios"] >= v0["sdDay"]
 
+# ---- case 7: C2w equals C2 on a design with equal late counts per cell and day (weights never change), and differs when late counts vary ----
+Se = np.array([[5.0 * 2], [6.0 * 2], [5.5 * 2], [4.5 * 2]]); Ne = np.full((4, 1), 2.0)
+Sl = np.array([[8.0 * 2], [9.0 * 2], [7.0 * 2]]); Nl = np.full((3, 1), 2.0)
+a = C.c2_interval(Se, Ne, Sl, Nl, np.array([1.0])); b = C.c2w_interval(Se, Ne, Sl, Nl, np.array([1.0]))
+assert abs(a["se"] - b["se"]) < 1e-12                                                       # one cell: the weight is 1 whatever is deleted
+Se2 = np.array([[10.0, 4.0], [12.0, 6.0], [11.0, 5.0], [9.0, 3.0]]); Ne2 = np.full((4, 2), 2.0)
+Sl2 = np.array([[16.0, 2.0], [18.0, 12.0], [14.0, 8.0]]); Nl2 = np.array([[2.0, 1.0], [2.0, 3.0], [2.0, 2.0]])
+w2 = Nl2.sum(0) / Nl2.sum()
+a2 = C.c2_interval(Se2, Ne2, Sl2, Nl2, w2); b2 = C.c2w_interval(Se2, Ne2, Sl2, Nl2, w2)
+assert a2["estimate"] == b2["estimate"] and a2["se"] != b2["se"] and b2["df"] == a2["df"]
+
 # ---- wording rule ----
 import language_gate as G
 rule = {x.rid: x for x in G.RULES}["M679-interval-wording"]

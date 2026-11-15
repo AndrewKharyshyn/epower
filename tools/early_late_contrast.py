@@ -270,6 +270,28 @@ def c2_interval(Se, Ne, Sl, Nl, w, alphas=(0.05, ALPHA_BONF)):
     return out
 
 
+def c2w_interval(Se, Ne, Sl, Nl, w, alphas=(0.05, ALPHA_BONF)):
+    """C2w (reported-only sensitivity, Director M680): the stratified delete-one-day jackknife with the late-count weights RECOMPUTED after every deletion (a late-day deletion changes the weights; an early-day deletion does not)."""
+    est = est_from(Se, Ne, Sl, Nl, w)
+    ke = np.where(Ne.sum(1) > 0)[0]; kl = np.where(Nl.sum(1) > 0)[0]
+    se_, ne_, sl_, nl_ = Se.sum(0), Ne.sum(0), Sl.sum(0), Nl.sum(0)
+    th_e = np.array([(((sl_ / nl_) - ((se_ - Se[g]) / (ne_ - Ne[g]))) * w).sum() for g in ke])
+    th_l = []
+    for g in kl:
+        nlg = nl_ - Nl[g]
+        wg = nlg / nlg.sum()
+        th_l.append(((((sl_ - Sl[g]) / nlg) - (se_ / ne_)) * wg).sum())
+    th_l = np.array(th_l)
+    Ge, Gl = len(th_e), len(th_l)
+    var = (Ge - 1) / Ge * ((th_e - th_e.mean()) ** 2).sum() + (Gl - 1) / Gl * ((th_l - th_l.mean()) ** 2).sum()
+    se = float(np.sqrt(var)); df = Ge + Gl - 2
+    out = {"estimate": est, "se": se, "df": int(df), "Ge": int(Ge), "Gl": int(Gl), "label": "sensitivity only (weights recomputed per deletion); not the selected construction"}
+    for nm, a in (("ci95", alphas[0]), ("ci98_33", alphas[1])):
+        tq = stats.t.ppf(1 - a / 2, df)
+        out[nm] = [est - tq * se, est + tq * se]
+    return out
+
+
 def all_intervals(Se, Ne, Sl, Nl, w, B, rng):
     r = {}
     d1 = c1_draws(Se, Ne, Sl, Nl, w, B, rng)
@@ -445,7 +467,7 @@ def interval_v2(oid, e, l, pb_p, slow_only=False, seed=SEED):
     Se, Sl = day_tables(st, ye, yl)
     iv = all_intervals(Se, st["Ne"], Sl, st["Nl"], st["w"], NBOOT, np.random.default_rng(seed))
     cov = json.load(open(COVERAGE_PATH, encoding="utf-8")) if os.path.exists(COVERAGE_PATH) else None
-    rec = {"construction": None, "intervalsAllConstructions": iv, "estimate": est_from(Se, st["Ne"], Sl, st["Nl"], st["w"]), "droppedDraws": 0}
+    rec = {"construction": None, "intervalsAllConstructions": iv, "sensitivityC2w": c2w_interval(Se, st["Ne"], Sl, st["Nl"], st["w"]), "estimate": est_from(Se, st["Ne"], Sl, st["Nl"], st["w"]), "droppedDraws": 0}
     if slow_only:
         rec.update(status="interval not shown (no coverage run of its own)"); return rec, False
     if cov is None or oid not in cov.get("outcomes", {}):
