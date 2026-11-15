@@ -455,6 +455,8 @@ def aggregate(d, nb=NB):
                          "the ambient is the driver-recorded dashboard reading entered by hand; it carries reading error and whole-degree quantisation",
                          "the estimators of Q1 to Q3 were run on this corpus in the self-audit, so the current estimates are post hoc; 'supported' in the ladder means support only, not confirmatory status",
                          "a winter statement is allowed only for ambient bands that reach 'supported'; below that the block prints 'not observed at this support'",
+                         "the Q3 interval covers sampling variability only; quote tau together with its sensitivity bracket, which is set mostly by the ambient-reference shifts; the held-out skill against persistence does not choose between the tau definitions",
+                         "Q4 has no interval: the whole grid is its bracket; because its reproduction was partial, index differences below about 0.015 are not resolvable and tau-driven differences fall below that; it rests on an assumed climatology, an assumed 4 C diurnal amplitude and the corpus median initial excess, the cool-down windows carry most of the index, and the months below the lowest observed ambient are extrapolated; show the whole grid or nothing",
                          "the held-out skill is the skill of a model on a temperature scale whose ambient reference is built from the same pairs; it is not a validation of a battery property, and its interval resamples fixed held-out errors, so it excludes the variance of the fitted tau",
                          "the sensitivities are reported, not tuned, and carry no multiplicity control across the many Q1 to Q3 variants; a Q1 interval that includes 0 reads 'not resolved at this support', never 'no effect'",
                          "the exposure index is not a life and not a rate; every year output stays retracted (M114); the M28 block is unchanged"],
@@ -463,7 +465,8 @@ def aggregate(d, nb=NB):
     cfg = json.load(open(os.path.join(ROOT, "summary_config.json"), encoding="utf-8"))["seasonalAssumptions"]
     pr = cfg["consumptionSlopePerC"]
     f = r["Q1"]["fractionalSlopePerC"]
-    block["Q1"]["priorM28CompareConsumptionSlope"] = {"prior": pr, "fractionalEstimate": f["estimate"], "differenceToPriorMid": round(f["estimate"] - pr["mid"], 5),
+    block["Q1"]["belowFiveCLabel"] = "exploratory: few effective days and a large largest-day share in this band (see data.bandSupport)"
+    block["Q1"]["priorM28CompareConsumptionSlope"] = {"label": "exploratory", "prior": pr, "fractionalEstimate": f["estimate"], "differenceToPriorMid": round(f["estimate"] - pr["mid"], 5),
                                                       "intervalOverlapsPriorBand": None if f["ci95"] is None else bool(f["ci95"][0] <= pr["hi"] and f["ci95"][1] >= pr["lo"]),
                                                       "note": "the prior is a band (lo, mid, hi), not an interval"}
     taus = []
@@ -476,6 +479,10 @@ def aggregate(d, nb=NB):
     if q3blk.get("primary", {}).get("tauH") is not None and not q3blk.get("heldOut", {}).get("gatePassed"):
         taus.insert(0, ("L1 temperature scale (no primary: held-out gate not passed)", q3blk["primary"]["tauH"]))
     block["Q4"] = q4(d, c, r["Q2"], taus, base)
+    block["disclosures"] = ["the sensitivity tau values in the Q4 grid (project definition, previous-drive maximum) are refitted on the live corpus at every run, not the earlier cited constants (no snapshot constants)",
+                            "owner decision D-05 fixes the primary tau as the Q4 basis; the held-out gate supports using it; the fallback is pre-registered",
+                            "Q1 below 5 C and the comparison with the M28 consumption-slope prior are exploratory (few effective days, a large largest-day share); allowed reading: the fitted association does not overlap the prior band; never that the prior is refuted",
+                            "spec analyses/M666_spec.md Rev 1.2 (sections 8 to 10: Director review, implementation record, blind-audit reconciliation); no article use without the Opus audit and Andrii's sign-off"]
     block["Q4"]["primaryTau"] = "primary" if q3blk.get("heldOut", {}).get("gatePassed") else "none (D-05 not supported at the held-out gate; grid only)"
     return block
 
@@ -488,7 +495,7 @@ def stamp(A, md5):
     for k in ("carriedForward", "recomputeMode", "corpusSizeAtRecompute"):
         st.pop(k, None)
     st.update(corpusHash=md5, generatedAt=now, computationStatus="computed", upstreamHashes={"driveMasterMd5": md5},
-              computationStatusNote="M667: derived by tools/n02_seasonal_fits.py from drive_master.csv, seasonal_drive_master.csv, ah_throughput.csv and end-of-drive pack temperatures from raw (spec analyses/M666_spec.md Rev 1.1); exploratory")
+              computationStatusNote="M667: derived by tools/n02_seasonal_fits.py from drive_master.csv, seasonal_drive_master.csv, ah_throughput.csv and end-of-drive pack temperatures from raw (spec analyses/M666_spec.md Rev 1.2); exploratory")
     st["includedInReleaseAt"] = st["computedAt"] = st["generatedAt"]
     A["_artifactStamps"]["seasonalFits"] = _sc.carry_declared(old, st)
 

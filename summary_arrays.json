@@ -68198,20 +68198,20 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "11a89dc0c881bd0a60e9e957ccd1936a",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-11-15T00:43:58.371835+00:00",
+   "generatedAt": "2026-11-15T00:54:03.835052+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3"
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-11-15T00:43:58.371835+00:00",
+   "includedInReleaseAt": "2026-11-15T00:54:03.835052+00:00",
    "inputBasis": {
     "nDrives": 665,
     "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-11-15T00:43:58.371835+00:00",
-   "computationStatusNote": "M667: derived by tools/n02_seasonal_fits.py from drive_master.csv, seasonal_drive_master.csv, ah_throughput.csv and end-of-drive pack temperatures from raw (spec analyses/M666_spec.md Rev 1.1); exploratory"
+   "computedAt": "2026-11-15T00:54:03.835052+00:00",
+   "computationStatusNote": "M667: derived by tools/n02_seasonal_fits.py from drive_master.csv, seasonal_drive_master.csv, ah_throughput.csv and end-of-drive pack temperatures from raw (spec analyses/M666_spec.md Rev 1.2); exploratory"
   }
  },
  "ambientTable": {
@@ -445726,6 +445726,8 @@
    "the ambient is the driver-recorded dashboard reading entered by hand; it carries reading error and whole-degree quantisation",
    "the estimators of Q1 to Q3 were run on this corpus in the self-audit, so the current estimates are post hoc; 'supported' in the ladder means support only, not confirmatory status",
    "a winter statement is allowed only for ambient bands that reach 'supported'; below that the block prints 'not observed at this support'",
+   "the Q3 interval covers sampling variability only; quote tau together with its sensitivity bracket, which is set mostly by the ambient-reference shifts; the held-out skill against persistence does not choose between the tau definitions",
+   "Q4 has no interval: the whole grid is its bracket; because its reproduction was partial, index differences below about 0.015 are not resolvable and tau-driven differences fall below that; it rests on an assumed climatology, an assumed 4 C diurnal amplitude and the corpus median initial excess, the cool-down windows carry most of the index, and the months below the lowest observed ambient are extrapolated; show the whole grid or nothing",
    "the held-out skill is the skill of a model on a temperature scale whose ambient reference is built from the same pairs; it is not a validation of a battery property, and its interval resamples fixed held-out errors, so it excludes the variance of the fitted tau",
    "the sensitivities are reported, not tuned, and carry no multiplicity control across the many Q1 to Q3 variants; a Q1 interval that includes 0 reads 'not resolved at this support', never 'no effect'",
    "the exposure index is not a life and not a rate; every year output stays retracted (M114); the M28 block is unchanged"
@@ -445819,7 +445821,9 @@
     "droppedDrawShare": 0.0,
     "notEstimable": false
    },
+   "belowFiveCLabel": "exploratory: few effective days and a large largest-day share in this band (see data.bandSupport)",
    "priorM28CompareConsumptionSlope": {
+    "label": "exploratory",
     "prior": {
      "lo": 0.006,
      "mid": 0.01,
@@ -446246,11 +446250,17 @@
    ],
    "primaryTau": "primary"
   },
+  "disclosures": [
+   "the sensitivity tau values in the Q4 grid (project definition, previous-drive maximum) are refitted on the live corpus at every run, not the earlier cited constants (no snapshot constants)",
+   "owner decision D-05 fixes the primary tau as the Q4 basis; the held-out gate supports using it; the fallback is pre-registered",
+   "Q1 below 5 C and the comparison with the M28 consumption-slope prior are exploratory (few effective days, a large largest-day share); allowed reading: the fitted association does not overlap the prior band; never that the prior is refuted",
+   "spec analyses/M666_spec.md Rev 1.2 (sections 8 to 10: Director review, implementation record, blind-audit reconciliation); no article use without the Opus audit and Andrii's sign-off"
+  ],
   "provenance": {
    "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
    "nCanonicalCleanDrives": 663,
    "nEndpointFilesRead": 665,
-   "scriptSha256": "508d38203b04c29537e45cdc39df52fac504e1ba064cdda345810c2caf947cc3",
+   "scriptSha256": "88c52886092757be77c42065bc99c5ce2a6b936cfd49cc0920f44c127f6ccd15",
    "seed": 42,
    "nBoot": 4000
   }

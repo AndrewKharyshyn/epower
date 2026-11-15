@@ -1,0 +1,133 @@
+{
+ "Q1_primary": {
+  "estimate": -0.00396,
+  "ci95": [
+   -0.00787,
+   0.00027
+  ],
+  "droppedDrawShare": 0.0,
+  "notEstimable": false
+ },
+ "Q1_classOnly": -0.0006,
+ "Q1_support": {
+  "nDrives": 638,
+  "nDays": 126,
+  "essDays": 37.48,
+  "largestDayShare": 0.066,
+  "status": "supported"
+ },
+ "Q1_bands": {
+  "below 5 C": {
+   "nDrives": 45,
+   "nDays": 10,
+   "essDays": 3.68,
+   "largestDayShare": 0.473,
+   "status": "exploratory"
+  },
+  "5 to 15 C": {
+   "nDrives": 183,
+   "nDays": 53,
+   "essDays": 11.13,
+   "largestDayShare": 0.226,
+   "status": "supported"
+  },
+  "15 C or warmer": {
+   "nDrives": 410,
+   "nDays": 99,
+   "essDays": 26.83,
+   "largestDayShare": 0.086,
+   "status": "supported"
+  }
+ },
+ "Q2_primary": {
+  "estimate": 0.53726,
+  "ci95": [
+   0.44211,
+   0.63236
+  ],
+  "droppedDrawShare": 0.0,
+  "notEstimable": false
+ },
+ "Q2_riseOnCold": 0.69112,
+ "Q2_startOnStart": 0.60542,
+ "Q3_pairs": {
+  "nPairsEligible": 638,
+  "nPairsFit": 628,
+  "support": {
+   "nPairs": 628,
+   "nDays": 123,
+   "essDays": 94.17,
+   "status": "supported"
+  },
+  "byGapStratum": {
+   "below 1 h": 338,
+   "1 to 4 h": 131,
+   "4 to 12 h": 84,
+   "12 h or longer": 75
+  }
+ },
+ "Q3_primary": {
+  "tauH": 7.873,
+  "ci95": [
+   7.57136,
+   8.1371
+  ],
+  "droppedDrawShare": 0.0,
+  "notEstimable": false
+ },
+ "Q3_sens": {
+  "projectDefinitionOutcomeFiltered": 11.561,
+  "previousDriveMaxProxy": 7.107,
+  "L2Loss": 7.846,
+  "excludingFlaggedUnloggedPairs": 7.88,
+  "gapBelow1h": 8.672,
+  "gap1hOrLonger": 7.825,
+  "gap4hOrLonger": 7.358,
+  "ambientRefShift-2C": 9.357,
+  "ambientRefShift-1C": 8.642,
+  "ambientRefShift+1C": 7.126,
+  "ambientRefShift+2C": 6.535
+ },
+ "Q3_heldOut": {
+  "nScoredPairs": 628,
+  "nScoredDays": 123,
+  "maeModelC": 1.103,
+  "maePersistenceC": 3.571,
+  "maeFullRelaxationC": 8.317,
+  "skillVsPersistence": {
+   "estimate": 0.6911,
+   "ci95": [
+    0.65226,
+    0.72698
+   ]
+  },
+  "skillVsFullRelaxation": {
+   "estimate": 0.8674,
+   "ci95": [
+    0.84146,
+    0.88914
+   ]
+  },
+  "skillVsBetterReference": {
+   "estimate": 0.6911,
+   "ci95": [
+    0.65226,
+    0.72698
+   ]
+  },
+  "gatePassed": true
+ },
+ "Q4_primary_ea05_park0": {
+  "tauLabel": "primary L1 temperature scale",
+  "tauH": 7.873,
+  "eaEv": 0.5,
+  "parkedOffsetC": 0.0,
+  "index": 0.5319,
+  "shareOfIndex": {
+   "parked": 0.2981,
+   "drive": 0.1157,
+   "coolDown": 0.5862
+  },
+  "extrapolatedShareOfIndex": 0.0624
+ }
+}
