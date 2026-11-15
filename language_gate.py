@@ -637,6 +637,8 @@ RULES = [
          rx=r"(?:early|late) (?:vs|versus) (?:late|early) (?:ageing|aging|degradation|effect)|early late (?:contrast|difference) (?:is |as )?(?:an? )?(?:ageing|aging|degradation|capacity fade|capacity loss|resistance increase)|matched (?:contrast|difference) (?:is |shows )?(?:an? )?(?:ageing|aging|degradation|capacity fade|capacity loss|resistance increase)|cap ah est is (?:a |the )?(?:capacity|measured)"),
     Rule("M678-cap-ah-est-wording", "regex", "M678 (Director decision): the master column cap_ah_est is the assumed 2.1 kWh divided by the median pack voltage, a voltage proxy scaled by an assumed energy; never an apparent Ah per 100 percent SOC, a capacity or a measured Ah (the regression-based apparent SOC scale of the capacity basis is a different quantity)",
          rx=r"cap ah est (?:is |as |equals )?(?:the )?apparent ah per 100|apparent ah per 100 (?:soc )?(?:is |as )?cap ah est"),
+    Rule("M679-interval-wording", "regex", "M680 (spec analyses/M679_spec.md Rev 1.1, Director review): the early-versus-late interval is an interval with simulated coverage (planted-effect study), never a valid, proper or exact interval for the matched difference",
+         rx=r"(?:valid|proper|exact) (?:confidence )?interval (?:of|for) the (?:matched|early|late)"),
 ]
 
 _SCAN_CACHE = {}

@@ -68282,19 +68282,19 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "11a89dc0c881bd0a60e9e957ccd1936a",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-11-15T18:40:24.627721+00:00",
+   "generatedAt": "2026-11-15T19:30:23.800510+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3"
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-11-15T18:40:24.627721+00:00",
+   "includedInReleaseAt": "2026-11-15T19:30:23.800510+00:00",
    "inputBasis": {
     "nDrives": 665,
     "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-11-15T18:40:24.627721+00:00",
+   "computedAt": "2026-11-15T19:30:23.800510+00:00",
    "computationStatusNote": "M678: derived by tools/early_late_contrast.py from drive_master.csv and two sidecars (spec analyses/M677_spec.md Rev 1.1, 1.2); exploratory"
   }
  },
@@ -449128,6 +449128,7 @@
     "persists": false,
     "persistsRev11": false,
     "persistsRule": "same sign and both Path A and Path B (matched-support) 98.33 % intervals exclude zero (Bonferroni over three outcomes); sensitivities never upgrade a result. Rev 1.2 (stricter than Rev 1.1, added after the first run was seen): also requires a matched late share of at least 50 % (status computed, not weakly overlapping) and a stable interval (at most 5 % of draws dropped). persistsRev11 is the Rev 1.1 rule alone, shown beside",
+    "persistsV2": false,
     "sensitivities": {
      "a_halves": {
       "status": "not shown",
@@ -449272,6 +449273,85 @@
     "persists": false,
     "persistsRev11": true,
     "persistsRule": "same sign and both Path A and Path B (matched-support) 98.33 % intervals exclude zero (Bonferroni over three outcomes); sensitivities never upgrade a result. Rev 1.2 (stricter than Rev 1.1, added after the first run was seen): also requires a matched late share of at least 50 % (status computed, not weakly overlapping) and a stable interval (at most 5 % of draws dropped). persistsRev11 is the Rev 1.1 rule alone, shown beside",
+    "intervalV2": {
+     "construction": "C2",
+     "intervalsAllConstructions": {
+      "C1": {
+       "ci95": [
+        0.486613439418904,
+        3.4281198430336306
+       ],
+       "ci98_33": [
+        0.2143953705049281,
+        3.741702104544122
+       ],
+       "admissible": false,
+       "label": "not admissible (coverage gate), reference only"
+      },
+      "C2": {
+       "estimate": 2.023978909465021,
+       "se": 0.8987530232616783,
+       "df": 52,
+       "Ge": 30,
+       "Gl": 24,
+       "ci95": [
+        0.2204990267974416,
+        3.8274587921326004
+       ],
+       "ci98_33": [
+        -0.1994437040384347,
+        4.247401522968477
+       ],
+       "admissible": true
+      },
+      "C3": {
+       "ci95": [
+        0.7717591843773236,
+        3.3088529575716166
+       ],
+       "ci98_33": [
+        0.5849569891788998,
+        3.599868250193052
+       ],
+       "admissible": false,
+       "label": "not admissible (coverage gate), reference only"
+      }
+     },
+     "estimate": 2.023978909465021,
+     "droppedDraws": 0,
+     "coverageStudyRef": {
+      "file": "analyses/M679_coverage.json",
+      "corpusHash": "77bbe275f8c22eaf62d8636867764af3",
+      "nRep": 400,
+      "selected": "C2",
+      "usedDriveSetHash": "cf4439c5861146f0c5c39f5dd77266c7ca298e33211fc29bf6f1e931ef5d2f37",
+      "currentUsedDriveSetHash": "cf4439c5861146f0c5c39f5dd77266c7ca298e33211fc29bf6f1e931ef5d2f37",
+      "Ge": 30,
+      "Gl": 24
+     },
+     "status": "interval with simulated coverage",
+     "ci95": [
+      0.2204990267974416,
+      3.8274587921326004
+     ],
+     "ci98_33": [
+      -0.1994437040384347,
+      4.247401522968477
+     ],
+     "simulatedCoverage95": {
+      "S1": 0.9675,
+      "S2": 0.96,
+      "S3": 0.9725,
+      "S4": 0.9675,
+      "S5": 0.9725
+     }
+    },
+    "persistsV2": false,
+    "slowOnlyDescriptive": {
+     "note": "descriptive variant, not a second primary, never enters persists; interval not shown (no coverage run of its own)",
+     "status": "interval not shown (no coverage run of its own)",
+     "estimate": 2.4295744664140893
+    },
     "sensitivities": {
      "a_halves": {
       "status": "weakly overlapping",
@@ -449482,6 +449562,85 @@
     "persists": false,
     "persistsRev11": false,
     "persistsRule": "same sign and both Path A and Path B (matched-support) 98.33 % intervals exclude zero (Bonferroni over three outcomes); sensitivities never upgrade a result. Rev 1.2 (stricter than Rev 1.1, added after the first run was seen): also requires a matched late share of at least 50 % (status computed, not weakly overlapping) and a stable interval (at most 5 % of draws dropped). persistsRev11 is the Rev 1.1 rule alone, shown beside",
+    "intervalV2": {
+     "construction": "C2",
+     "intervalsAllConstructions": {
+      "C1": {
+       "ci95": [
+        -0.08146904009401444,
+        1.2836003235590447
+       ],
+       "ci98_33": [
+        -0.20029305888332813,
+        1.4249320464239608
+       ],
+       "admissible": false,
+       "label": "not admissible (coverage gate), reference only"
+      },
+      "C2": {
+       "estimate": 0.6054773511512607,
+       "se": 0.490713155088921,
+       "df": 53,
+       "Ge": 31,
+       "Gl": 24,
+       "ci95": [
+        -0.3787685945181388,
+        1.5897232968206603
+       ],
+       "ci98_33": [
+        -0.607733896384821,
+        1.8186885986873422
+       ],
+       "admissible": true
+      },
+      "C3": {
+       "ci95": [
+        -0.09561848842679822,
+        1.273689419488099
+       ],
+       "ci98_33": [
+        -0.20893015431511536,
+        1.4089614038984426
+       ],
+       "admissible": false,
+       "label": "not admissible (coverage gate), reference only"
+      }
+     },
+     "estimate": 0.6054773511512607,
+     "droppedDraws": 0,
+     "coverageStudyRef": {
+      "file": "analyses/M679_coverage.json",
+      "corpusHash": "77bbe275f8c22eaf62d8636867764af3",
+      "nRep": 400,
+      "selected": "C2",
+      "usedDriveSetHash": "4a4219f7332fb03d7b73413c8e7d48c42a148891ee661d486a612533320ababf",
+      "currentUsedDriveSetHash": "4a4219f7332fb03d7b73413c8e7d48c42a148891ee661d486a612533320ababf",
+      "Ge": 31,
+      "Gl": 24
+     },
+     "status": "interval with simulated coverage",
+     "ci95": [
+      -0.3787685945181388,
+      1.5897232968206603
+     ],
+     "ci98_33": [
+      -0.607733896384821,
+      1.8186885986873422
+     ],
+     "simulatedCoverage95": {
+      "S1": 0.965,
+      "S2": 0.965,
+      "S3": 0.9425,
+      "S4": 0.93,
+      "S5": 0.9525
+     }
+    },
+    "persistsV2": false,
+    "slowOnlyDescriptive": {
+     "note": "descriptive variant, not a second primary, never enters persists; interval not shown (no coverage run of its own)",
+     "status": "interval not shown (no coverage run of its own)",
+     "estimate": 0.4482255393416205
+    },
     "sensitivities": {
      "a_halves": {
       "status": "weakly overlapping",
@@ -449600,7 +449759,7 @@
    "Cadence is part of the cell key and all early drives of the window are slow-polled, so fast-polled late drives cannot match: the matched late share has a structural ceiling (the share of slow-polled late drives) and 'weakly overlapping' is structural, not a tuning outcome. When no ladder level reaches 50 % the coarsest level is used and the status stays 'weakly overlapping'. Path B on the matched support uses the early and late drives in the used cells.",
    "Coarse cells (the ladder falls back to 3 temperature classes of roughly 10 deg C width) leave within-cell covariate differences; Path B adjusts linearly beside it and the two are compared, never tuned to agree. Many bootstrap draws can be dropped when a used cell loses a side (droppedShare); an interval with more than 5 % dropped is flagged unstable.",
    "'persists' (Rev 1.2) needs the same sign, both paths' 98.33 % intervals excluding zero, a matched late share of at least 50 % and at most 5 % of bootstrap draws dropped; persistsRev11 applies the first two conditions only and is shown beside, the stricter rule having been added after the first run was seen. persists = false is not 'no difference'. Every other statement is descriptive and unadjusted.",
-   "Path A intervals with more than 5 % of draws dropped are selected on cell survival and are not valid confidence intervals: unstable, not for display. Path B (CR1) may be shown beside. A cell-by-side stratified day resampling must be pre-registered and audited before any display.",
+   "Path A intervals with more than 5 % of draws dropped are selected on cell survival and are not valid confidence intervals: unstable, not for display. Path B (CR1) may be shown beside. intervalV2 (M680, spec analyses/M679_spec.md Rev 1.1) is an interval with simulated coverage: the construction selected by the planted-effect coverage gate (analyses/M679_coverage.json: 400 replicates per scenario, 95 % coverage per scenario in simulatedCoverage95); it supersedes the Path A bootstrap interval, which stays as the reference construction C0 labelled unstable. The coverage holds only under the fitted variance components and a day-independent error structure (correlation across days or weeks is not modelled); the study is not re-run at each ingestion (coverageStudyRef.corpusHash names its corpus).",
    "Where 2.8 times the bootstrap standard error (twoPointEightSe, a bootstrap-width quantity, not a power calculation) exceeds the estimate (widthAboveEstimate), the contrast cannot be distinguished from zero at this support."
   ],
   "validity": {

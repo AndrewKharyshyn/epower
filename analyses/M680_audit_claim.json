@@ -1,0 +1,64 @@
+{
+ "milestone": "M680",
+ "spec": "analyses/M679_spec.md Rev 1.1 (the interval constructions) on top of analyses/M677_spec.md Rev 1.1-1.3 (the contrast)",
+ "dataPaths": [
+  "drive_master.csv",
+  "resistance_joint_sidecar.csv",
+  "cadence_regime.csv"
+ ],
+ "frozenWindows": {
+  "earlyEnd": "2026-07-13",
+  "lateStart": "2026-09-11"
+ },
+ "note": "Reproduce (a) the C2 stratified delete-one-day jackknife for Y2 and Y3 (same cells/weights/estimate as the M678 audit: Y2 estimate 2.02398, 13 cells, Y3 0.60548): SE, df, number of early/late days with a drive in a used cell (Ge, Gl), 95% and 98.33% t-intervals; (b) the REML variance components (random day intercept on residuals after removing cell-by-side means, both windows pooled): day SD, residual SD, ICC; (c) a small independent coverage check of C2 for scenario S3 (delta differing by cell: delta_c = 1.5*sd_resid*(0.5+linspace(0,1,C)), day SD = the fitted value, planted truth = late-weighted mean delta; mu_c = pooled cell mean; use 100-200 replicates; compare with the claimed coverage within about 0.05). Do not reproduce bootstrap constructions C1/C3. Slow-only: point estimate only.",
+ "claims": {
+  "Y2": {
+   "estimate": 2.023978909465021,
+   "C2": {
+    "se": 0.8987530232616783,
+    "df": 52,
+    "Ge": 30,
+    "Gl": 24,
+    "ci95": [
+     0.2204990267974416,
+     3.8274587921326004
+    ],
+    "ci98_33": [
+     -0.1994437040384347,
+     4.247401522968477
+    ]
+   },
+   "varianceComponents": {
+    "sdDay": 1.9654462501433887,
+    "sdResid": 3.641120142173647,
+    "icc": 0.22563160960137038
+   },
+   "S3_coverage95_C2": 0.9725,
+   "slowOnlyEstimate": 2.4295744664140893
+  },
+  "Y3": {
+   "estimate": 0.6054773511512607,
+   "C2": {
+    "se": 0.490713155088921,
+    "df": 53,
+    "Ge": 31,
+    "Gl": 24,
+    "ci95": [
+     -0.3787685945181388,
+     1.5897232968206603
+    ],
+    "ci98_33": [
+     -0.607733896384821,
+     1.8186885986873422
+    ]
+   },
+   "varianceComponents": {
+    "sdDay": 0.4405851906041135,
+    "sdResid": 2.0436107528435694,
+    "icc": 0.044415301922133825
+   },
+   "S3_coverage95_C2": 0.9425,
+   "slowOnlyEstimate": 0.4482255393416205
+  }
+ }
+}

@@ -66,14 +66,14 @@ def make_edges(T, I, S, level):
     return {"T": q(T, level["nT"]), "I": q(I, level["nI"]), "S": q(S, level["nS"])}
 
 
-def assign(df, edges, level, with_dist=False):
+def assign(df, edges, level, with_dist=False, reg_in_key=True):
     cols = []
     for v in ("T", "I", "S"):
         e = edges[v]
         c = pd.cut(df[v], bins=e, labels=False, include_lowest=True)
         c = np.where(df[v].values < e[0], 0, np.where(df[v].values > e[-1], len(e) - 2, c)).astype(int)
         cols.append(c)
-    cols.append((df["reg"].astype(str).values == "fast").astype(int))          # fixed coding (fast = 1, slow = 0) so the early and late frames use the same cell keys
+    cols.append((df["reg"].astype(str).values == "fast").astype(int) if reg_in_key else np.zeros(len(df), dtype=int))          # fixed coding (fast = 1, slow = 0) so the early and late frames use the same cell keys
     if with_dist:
         cols.append(pd.cut(df["dist"], DIST_EDGES, labels=False).fillna(0).astype(int).values)
     key = np.zeros(len(df), dtype=np.int64)
@@ -90,13 +90,13 @@ def used_cells(key_e, day_e, key_l, day_l):
     return list(ok.index)
 
 
-def choose_level(early, late, with_dist=False):
+def choose_level(early, late, with_dist=False, reg_in_key=True):
     """Covariate-only ladder (no outcome read): first level that matches at least 50 % of the late drives."""
     pool = pd.concat([early, late])
     best = None
     for lv in LEVELS:
         ed = make_edges(pool["T"].values, pool["I"].values, pool["S"].values, lv)
-        ke, kl = assign(early, ed, lv, with_dist), assign(late, ed, lv, with_dist)
+        ke, kl = assign(early, ed, lv, with_dist, reg_in_key), assign(late, ed, lv, with_dist, reg_in_key)
         cells = used_cells(ke, early["day"].values, kl, late["day"].values)
         share = float(np.isin(kl, cells).mean()) if len(late) else 0.0
         best = (lv, ed, ke, kl, cells, share)
@@ -189,6 +189,288 @@ def excl0(ci):
     return bool(ci[0] > 0 or ci[1] < 0)
 
 
+
+# ============================================================ M680: intervals with simulated coverage (spec analyses/M679_spec.md Rev 1.1)
+COVERAGE_PATH = os.path.join(ROOT, "analyses", "M679_coverage.json")
+CONSTRUCTIONS = ("C1", "C2", "C3")
+NREP, NB_STUDY = 400, 1000
+
+
+def setup(early, late, ycol, with_dist=False, slow_only=False):
+    """Cells and drive-to-cell/day indices exactly as path_a builds them (same ladder, floors, edges); returns None when no cell is used."""
+    ey = early.dropna(subset=[ycol]).reset_index(drop=True); ly = late.dropna(subset=[ycol]).reset_index(drop=True)
+    if slow_only:
+        ey = ey[ey["reg"].astype(str) == "slow"].reset_index(drop=True); ly = ly[ly["reg"].astype(str) == "slow"].reset_index(drop=True)
+    if len(ey) < 10 or len(ly) < 10:
+        return None
+    (lv, ed, ke, kl, cells, share), reached = choose_level(ey, ly, with_dist, reg_in_key=not slow_only)
+    if not cells:
+        return None
+    ci = {c: i for i, c in enumerate(cells)}
+    ce = np.array([ci.get(k, -1) for k in ke]); cl = np.array([ci.get(k, -1) for k in kl])
+    ude, ie = np.unique(ey["day"].values, return_inverse=True); udl, il = np.unique(ly["day"].values, return_inverse=True)
+    C = len(cells)
+    Ne = np.zeros((len(ude), C)); Nl = np.zeros((len(udl), C))
+    np.add.at(Ne, (ie[ce >= 0], ce[ce >= 0]), 1.0); np.add.at(Nl, (il[cl >= 0], cl[cl >= 0]), 1.0)
+    w = Nl.sum(0) / Nl.sum()
+    return {"ey": ey, "ly": ly, "ce": ce, "cl": cl, "ie": ie, "il": il, "Ne": Ne, "Nl": Nl, "w": w, "C": C, "level": lv["name"], "share": float(share),
+            "nde": len(ude), "ndl": len(udl)}
+
+
+def day_tables(st, ye, yl):
+    Se = np.zeros_like(st["Ne"]); Sl = np.zeros_like(st["Nl"])
+    me, ml = st["ce"] >= 0, st["cl"] >= 0
+    np.add.at(Se, (st["ie"][me], st["ce"][me]), ye[me]); np.add.at(Sl, (st["il"][ml], st["cl"][ml]), yl[ml])
+    return Se, Sl
+
+
+def est_from(Se, Ne, Sl, Nl, w):
+    return float((((Sl.sum(0) / Nl.sum(0)) - (Se.sum(0) / Ne.sum(0))) * w).sum())
+
+
+def _ci_pct(B, alpha):
+    return [float(np.percentile(B, 100 * alpha / 2)), float(np.percentile(B, 100 * (1 - alpha / 2)))]
+
+
+def c1_draws(Se, Ne, Sl, Nl, w, B, rng):
+    """Cell-by-side stratified day bootstrap: days resampled within every used cell and side; no cell loses a side."""
+    C = len(w); mean = {}
+    for side, (S, N) in (("e", (Se, Ne)), ("l", (Sl, Nl))):
+        m = np.zeros((B, C))
+        for c in range(C):
+            days = np.where(N[:, c] > 0)[0]
+            idx = rng.integers(0, len(days), size=(B, len(days)))
+            m[:, c] = S[days, c][idx].sum(1) / N[days, c][idx].sum(1)
+        mean[side] = m
+    return ((mean["l"] - mean["e"]) * w).sum(1)
+
+
+def c3_draws(Se, Ne, Sl, Nl, w, B, rng):
+    """Day-level Dirichlet (Bayesian bootstrap) weights within each side; no cell empties; cross-cell day dependence kept."""
+    ke = Ne.sum(1) > 0; kl = Nl.sum(1) > 0
+    We = rng.gamma(1.0, size=(B, int(ke.sum()))); Wl = rng.gamma(1.0, size=(B, int(kl.sum())))
+    me = (We @ Se[ke]) / (We @ Ne[ke]); ml = (Wl @ Sl[kl]) / (Wl @ Nl[kl])
+    return ((ml - me) * w).sum(1)
+
+
+def c2_interval(Se, Ne, Sl, Nl, w, alphas=(0.05, ALPHA_BONF)):
+    """Stratified delete-one-day jackknife (strata: early, late; days with at least one drive in a used cell); df = G_e + G_l - 2."""
+    est = est_from(Se, Ne, Sl, Nl, w)
+    ke = np.where(Ne.sum(1) > 0)[0]; kl = np.where(Nl.sum(1) > 0)[0]
+    se_, ne_, sl_, nl_ = Se.sum(0), Ne.sum(0), Sl.sum(0), Nl.sum(0)
+    th_e = np.array([(((sl_ / nl_) - ((se_ - Se[g]) / (ne_ - Ne[g]))) * w).sum() for g in ke])
+    th_l = np.array([((((sl_ - Sl[g]) / (nl_ - Nl[g])) - (se_ / ne_)) * w).sum() for g in kl])
+    Ge, Gl = len(th_e), len(th_l)
+    var = (Ge - 1) / Ge * ((th_e - th_e.mean()) ** 2).sum() + (Gl - 1) / Gl * ((th_l - th_l.mean()) ** 2).sum()
+    se = float(np.sqrt(var)); df = Ge + Gl - 2
+    out = {"estimate": est, "se": se, "df": int(df), "Ge": int(Ge), "Gl": int(Gl)}
+    for nm, a in (("ci95", alphas[0]), ("ci98_33", alphas[1])):
+        tq = stats.t.ppf(1 - a / 2, df)
+        out[nm] = [est - tq * se, est + tq * se]
+    return out
+
+
+def all_intervals(Se, Ne, Sl, Nl, w, B, rng):
+    r = {}
+    d1 = c1_draws(Se, Ne, Sl, Nl, w, B, rng)
+    r["C1"] = {"ci95": _ci_pct(d1, 0.05), "ci98_33": _ci_pct(d1, ALPHA_BONF)}
+    r["C2"] = c2_interval(Se, Ne, Sl, Nl, w)
+    d3 = c3_draws(Se, Ne, Sl, Nl, w, B, rng)
+    r["C3"] = {"ci95": _ci_pct(d3, 0.05), "ci98_33": _ci_pct(d3, ALPHA_BONF)}
+    return r
+
+
+def var_components(st, ye, yl, nboot=200, seed=SEED):
+    """REML random-day-intercept fit on the residuals after removing the cell-by-side means (both windows); upper 95 % limit of the day SD by a day bootstrap."""
+    rows = []
+    for side, (y, c, i) in (("e", (ye, st["ce"], st["ie"])), ("l", (yl, st["cl"], st["il"]))):
+        m = c >= 0
+        df = pd.DataFrame({"y": y[m], "c": c[m], "d": [side + str(k) for k in i[m]]})
+        df["r"] = df["y"] - df.groupby("c")["y"].transform("mean")
+        rows.append(df)
+    df = pd.concat(rows, ignore_index=True)
+
+    def fit(d):
+        """Exact REML of the one-way random-day-intercept model by the profile over lambda = var_day / var_resid (closed forms; the statsmodels optimiser failed on the boundary)."""
+        r = d["r"].values.astype(float); g = pd.factorize(d["d"].values)[0]
+        n_g = np.bincount(g).astype(float); s_g = np.bincount(g, weights=r); N = float(len(r))
+        if len(n_g) < 3 or N < 10:
+            return None
+
+        def prof(lam):
+            wg = n_g / (1.0 + lam * n_g)
+            mu = (wg * s_g / n_g).sum() / wg.sum()
+            # GLS residual sum of squares of the marginal model with compound symmetry within day
+            rss = ((r - mu) ** 2).sum() - (lam / (1.0 + lam * n_g) * (s_g - n_g * mu) ** 2).sum()
+            if rss <= 0:
+                return np.inf, mu, rss
+            sig2 = rss / (N - 1.0)
+            nll = 0.5 * (np.log1p(lam * n_g).sum() + (N - 1.0) * np.log(sig2) + np.log(wg.sum()))
+            return nll, mu, sig2
+        grid = np.concatenate([[0.0], np.logspace(-4, 3, 120)])
+        vals = [prof(x)[0] for x in grid]
+        j = int(np.argmin(vals))
+        lam = grid[j]
+        if 0 < j < len(grid) - 1:
+            from scipy.optimize import minimize_scalar
+            o = minimize_scalar(lambda x: prof(x)[0], bounds=(grid[j - 1], grid[j + 1]), method="bounded", options={"xatol": 1e-9})
+            lam = float(o.x) if prof(o.x)[0] <= vals[j] else lam
+        _, _, sig2 = prof(lam)
+        return float(np.sqrt(lam * sig2)), float(np.sqrt(sig2))
+    f = fit(df)
+    sd_d, sd_e = f if f else (0.0, float(df["r"].std()))
+    groups = [g for _, g in df.groupby("d")]
+    rng = np.random.default_rng(seed)
+    boots = []
+    for _ in range(nboot):
+        pick = rng.integers(0, len(groups), len(groups))
+        d = pd.concat([groups[k].assign(d=groups[k]["d"].iloc[0] + "_%d" % j) for j, k in enumerate(pick)], ignore_index=True)
+        fb = fit(d)
+        if fb:
+            boots.append(fb[0])
+    lo, hi = (float(np.percentile(boots, 2.5)), float(np.percentile(boots, 97.5))) if boots else (0.0, sd_d)
+    zero = sd_d < 1e-6 or lo < 1e-6
+    used = hi if zero else sd_d
+    icc = float(sd_d ** 2 / (sd_d ** 2 + sd_e ** 2)) if (sd_d + sd_e) > 0 else 0.0
+    return {"sdDay": sd_d, "sdResid": sd_e, "icc": icc, "sdDayBootstrapCi95": [lo, hi], "dayEffectIncludesZero": bool(zero), "sdDayUsedInScenarios": float(used),
+            "pool": [g["r"].values for g in groups]}
+
+
+def simulate(st, mu_c, sd_e, sd_d, delta_c, rng, pool=None):
+    def side(c, idx, nd, late):
+        de = rng.normal(0, sd_d, nd) if sd_d > 0 else np.zeros(nd)
+        n = len(c)
+        if pool is None:
+            noise = rng.normal(0, sd_e, n)
+        else:
+            noise = np.zeros(n)
+            pick = rng.integers(0, len(pool), nd)
+            cnt = np.zeros(nd, dtype=int)
+            for j in range(n):
+                v = pool[pick[idx[j]]]; noise[j] = v[cnt[idx[j]] % len(v)]; cnt[idx[j]] += 1
+        cc = np.clip(c, 0, None)
+        base = np.where(c >= 0, mu_c[cc] + (delta_c[cc] if late else 0.0), 0.0)
+        return base + de[idx] + noise
+    return side(st["ce"], st["ie"], st["nde"], False), side(st["cl"], st["il"], st["ndl"], True)
+
+
+def fingerprint(st):
+    """Design fingerprint of the used-drive set (drive ids, cells, side, late-count weights) and the used-cell day counts (days with at least one drive in a used cell)."""
+    rows = [("e", str(f), int(c)) for f, c in zip(st["ey"]["file"].values, st["ce"]) if c >= 0] + [("l", str(f), int(c)) for f, c in zip(st["ly"]["file"].values, st["cl"]) if c >= 0]
+    rows.sort()
+    h = hashlib.sha256(json.dumps({"rows": rows, "w": [round(float(x), 12) for x in st["w"]]}, sort_keys=True).encode("utf-8")).hexdigest()
+    return {"usedDriveSetHash": h, "Ge": int((st["Ne"].sum(1) > 0).sum()), "Gl": int((st["Nl"].sum(1) > 0).sum()), "nCells": int(st["C"]), "nUsedEarlyDrives": int((st["ce"] >= 0).sum()), "nUsedLateDrives": int((st["cl"] >= 0).sum()),
+            "definition": "Ge and Gl count the calendar days with at least one drive in a used cell (nEarlyDays / nLateDays count all days of the window frame)"}
+
+
+def real_setup(d, oid, fz):
+    dd = clean_cov(d.dropna(subset=[oid])); e, l = split(dd, fz["earlyEnd"], fz["lateStart"])
+    return setup(e, l, oid)
+
+
+def add_fingerprints(path=COVERAGE_PATH, root=ROOT):
+    """Writes the design fingerprint of the real used-drive set into the coverage file (same setup() as the study and the payload); asserts the study's cell and day structure equals it."""
+    d, md5 = load(root); fz, derived = windows(d, write=False)
+    cov = json.load(open(path, encoding="utf-8"))
+    for oid in ("Y2", "Y3"):
+        st = real_setup(d, oid, fz); f = fingerprint(st)
+        o = cov["outcomes"][oid]
+        assert o["nCells"] == f["nCells"] and o["nEarlyDays"] == st["nde"] and o["nLateDays"] == st["ndl"], (oid, "the study used a different design")
+        o["designFingerprint"] = f
+    cov["fingerprintNote"] = "added after the study by --fingerprint from the same setup() (no change of any number); the assertion above compares the study's cells and window-frame day counts"
+    json.dump(cov, open(path, "w", encoding="utf-8"), indent=1, default=str)
+    return {o: cov["outcomes"][o]["designFingerprint"] for o in ("Y2", "Y3")}
+
+
+def select_construction(res):
+    """Per outcome: admissible = 95 % coverage >= 0.90 in every scenario and <= 0.99 in S1; among admissible the higher minimum over S2-S4; tie -> C2; none -> None."""
+    adm = []
+    for c in CONSTRUCTIONS:
+        cv = {s: res[s][c]["coverage95"] for s in res}
+        if all(v >= 0.90 for v in cv.values()) and cv["S1"] <= 0.99:
+            adm.append((min(cv[s] for s in ("S2", "S3", "S4")), c))
+    if not adm:
+        return None
+    top = max(a[0] for a in adm)
+    tied = [c for m_, c in adm if abs(m_ - top) < 1e-12]
+    return "C2" if "C2" in tied else tied[0]
+
+
+def coverage_study(root=ROOT, nrep=NREP, nb=NB_STUDY):
+    d, md5 = load(root)
+    fz, derived = windows(d, write=False)
+    out = {"spec": "analyses/M679_spec.md Rev 1.1", "corpusHash": md5, "nRep": nrep, "nBoot": nb,
+           "scenarios": {"S1": "delta 0, no day effect", "S2": "delta 0, day effect at the fitted size (upper 95 % limit if zero)",
+                         "S3": "delta differs by cell (target = late-weighted mean), day effect fitted", "S4": "delta 0, day effect 2 x fitted",
+                         "S5": "S3 delta with non-Gaussian errors (day-blocked residual resampling)"}, "outcomes": {}}
+    for oid in ("Y2", "Y3"):
+        dd = clean_cov(d.dropna(subset=[oid])); e, l = split(dd, fz["earlyEnd"], fz["lateStart"])
+        st = setup(e, l, oid)
+        ye, yl = st["ey"][oid].values, st["ly"][oid].values
+        mu = np.zeros(st["C"])
+        for c in range(st["C"]):
+            mu[c] = np.concatenate([ye[st["ce"] == c], yl[st["cl"] == c]]).mean()
+        vc = var_components(st, ye, yl)
+        sd_e, sd_d = vc["sdResid"], vc["sdDayUsedInScenarios"]
+        dl = 1.5 * sd_e * (0.5 + np.linspace(0, 1, st["C"]))
+        zero = np.zeros(st["C"])
+        scen = {"S1": (0.0, zero, None), "S2": (sd_d, zero, None), "S3": (sd_d, dl, None), "S4": (2 * sd_d, zero, None), "S5": (sd_d, dl, vc["pool"])}
+        res = {}
+        for k, (sname, (sdd, delta_c, pool)) in enumerate(scen.items()):
+            rng = np.random.default_rng(42 + k)
+            truth = float((delta_c * st["w"]).sum())
+            cnt = {c: {"c95": 0, "c98": 0, "lo": 0, "hi": 0} for c in CONSTRUCTIONS}
+            for r in range(nrep):
+                yes, yls = simulate(st, mu, sd_e, sdd, delta_c, rng, pool)
+                Se, Sl = day_tables(st, yes, yls)
+                iv = all_intervals(Se, st["Ne"], Sl, st["Nl"], st["w"], nb, rng)
+                for c in CONSTRUCTIONS:
+                    a, b = iv[c]["ci95"]; a2, b2 = iv[c]["ci98_33"]
+                    cnt[c]["c95"] += int(a <= truth <= b); cnt[c]["c98"] += int(a2 <= truth <= b2); cnt[c]["lo"] += int(truth < a); cnt[c]["hi"] += int(truth > b)
+            res[sname] = {c: {"coverage95": cnt[c]["c95"] / nrep, "coverage98_33": cnt[c]["c98"] / nrep, "missLow": cnt[c]["lo"] / nrep, "missHigh": cnt[c]["hi"] / nrep,
+                              "mcSe": float(np.sqrt(cnt[c]["c95"] / nrep * (1 - cnt[c]["c95"] / nrep) / nrep))} for c in CONSTRUCTIONS}
+            res[sname]["truth"] = truth; res[sname]["seed"] = 42 + k
+        sel = select_construction({s: {c: res[s][c] for c in CONSTRUCTIONS} for s in res})
+        out["outcomes"][oid] = {"varianceComponents": {k: v for k, v in vc.items() if k != "pool"}, "scenarios": res, "selected": sel,
+                                "nCells": st["C"], "nEarlyDays": st["nde"], "nLateDays": st["ndl"], "matchedLateShare": st["share"], "level": st["level"], "designFingerprint": fingerprint(st)}
+    return out
+
+
+def interval_v2(oid, e, l, pb_p, slow_only=False, seed=SEED):
+    """intervalV2 for the real data: all three constructions beside, the selected one from the coverage file; persistsV2."""
+    st = setup(e, l, oid, slow_only=slow_only)
+    if st is None:
+        return {"status": "not shown"}, False
+    ye, yl = st["ey"][oid].values, st["ly"][oid].values
+    Se, Sl = day_tables(st, ye, yl)
+    iv = all_intervals(Se, st["Ne"], Sl, st["Nl"], st["w"], NBOOT, np.random.default_rng(seed))
+    cov = json.load(open(COVERAGE_PATH, encoding="utf-8")) if os.path.exists(COVERAGE_PATH) else None
+    rec = {"construction": None, "intervalsAllConstructions": iv, "estimate": est_from(Se, st["Ne"], Sl, st["Nl"], st["w"]), "droppedDraws": 0}
+    if slow_only:
+        rec.update(status="interval not shown (no coverage run of its own)"); return rec, False
+    if cov is None or oid not in cov.get("outcomes", {}):
+        rec.update(status="coverage study not run", note="interval not valid, not for display"); return rec, False
+    sel = cov["outcomes"][oid]["selected"]
+    fpr = fingerprint(st); fpc = cov["outcomes"][oid].get("designFingerprint")
+    rec["coverageStudyRef"] = {"file": "analyses/M679_coverage.json", "corpusHash": cov["corpusHash"], "nRep": cov["nRep"], "selected": sel, "usedDriveSetHash": fpc["usedDriveSetHash"] if fpc else None,
+                               "currentUsedDriveSetHash": fpr["usedDriveSetHash"], "Ge": fpr["Ge"], "Gl": fpr["Gl"]}
+    scen = cov["outcomes"][oid]["scenarios"]
+    for c in CONSTRUCTIONS:
+        ok = all(scen[x][c]["coverage95"] >= 0.90 for x in scen) and scen["S1"][c]["coverage95"] <= 0.99
+        rec["intervalsAllConstructions"][c]["admissible"] = bool(ok)
+        if not ok:
+            rec["intervalsAllConstructions"][c]["label"] = "not admissible (coverage gate), reference only"
+    if not fpc or fpc["usedDriveSetHash"] != fpr["usedDriveSetHash"]:
+        rec.update(status="coverage study stale", note="the used-drive set differs from the one the coverage study was run on; rerun the study; not for display"); return rec, False
+    if sel is None:
+        rec.update(status="no construction passed the coverage gate", note="interval not valid, not for display"); return rec, False
+    rec.update(status="interval with simulated coverage", construction=sel, ci95=iv[sel]["ci95"], ci98_33=iv[sel]["ci98_33"],
+               simulatedCoverage95={s: cov["outcomes"][oid]["scenarios"][s][sel]["coverage95"] for s in ("S1", "S2", "S3", "S4", "S5")})
+    persists = bool(pb_p and pb_p.get("status") == "computed" and np.sign(rec["estimate"]) == np.sign(pb_p["estimate"]) and excl0(rec["ci98_33"]) and excl0(pb_p["ci98_33"]))
+    return rec, persists
+
+
+
 # --------------------------------------------------------------- per outcome
 def split(d, early_end, late_start):
     e = d[d["date"] <= pd.Timestamp(early_end) + pd.Timedelta(hours=23, minutes=59)]
@@ -223,6 +505,13 @@ def outcome_block(oid, d, fz, derived, nboot):
         pa["widthAboveEstimate"] = bool(pa["twoPointEightSe"] > abs(pa["estimate"]))
     rec["persistsRule"] = ("same sign and both Path A and Path B (matched-support) 98.33 % intervals exclude zero (Bonferroni over three outcomes); sensitivities never upgrade a result. "
                            "Rev 1.2 (stricter than Rev 1.1, added after the first run was seen): also requires a matched late share of at least 50 % (status computed, not weakly overlapping) and a stable interval (at most 5 % of draws dropped). persistsRev11 is the Rev 1.1 rule alone, shown beside")
+    if shown:
+        iv2, pv2 = interval_v2(oid, e, l, pb_p)
+        rec["intervalV2"] = iv2; rec["persistsV2"] = pv2
+        slow, _ = interval_v2(oid, e, l, pb_p, slow_only=True)
+        rec["slowOnlyDescriptive"] = {"note": "descriptive variant, not a second primary, never enters persists; interval not shown (no coverage run of its own)", "status": slow.get("status"), "estimate": slow.get("estimate")}
+    else:
+        rec["persistsV2"] = False
     rec["sensitivities"] = sens(oid, dd, fz, derived, pa, nboot)
     return rec
 
@@ -292,7 +581,7 @@ def build(root=ROOT, master_path=None, nboot=NBOOT, frozen_path=None, write_froz
         "Cadence is part of the cell key and all early drives of the window are slow-polled, so fast-polled late drives cannot match: the matched late share has a structural ceiling (the share of slow-polled late drives) and 'weakly overlapping' is structural, not a tuning outcome. When no ladder level reaches 50 % the coarsest level is used and the status stays 'weakly overlapping'. Path B on the matched support uses the early and late drives in the used cells.",
         "Coarse cells (the ladder falls back to 3 temperature classes of roughly 10 deg C width) leave within-cell covariate differences; Path B adjusts linearly beside it and the two are compared, never tuned to agree. Many bootstrap draws can be dropped when a used cell loses a side (droppedShare); an interval with more than 5 % dropped is flagged unstable.",
         "'persists' (Rev 1.2) needs the same sign, both paths' 98.33 % intervals excluding zero, a matched late share of at least 50 % and at most 5 % of bootstrap draws dropped; persistsRev11 applies the first two conditions only and is shown beside, the stricter rule having been added after the first run was seen. persists = false is not 'no difference'. Every other statement is descriptive and unadjusted.",
-        "Path A intervals with more than 5 % of draws dropped are selected on cell survival and are not valid confidence intervals: unstable, not for display. Path B (CR1) may be shown beside. A cell-by-side stratified day resampling must be pre-registered and audited before any display.",
+        "Path A intervals with more than 5 % of draws dropped are selected on cell survival and are not valid confidence intervals: unstable, not for display. Path B (CR1) may be shown beside. intervalV2 (M680, spec analyses/M679_spec.md Rev 1.1) is an interval with simulated coverage: the construction selected by the planted-effect coverage gate (analyses/M679_coverage.json: 400 replicates per scenario, 95 % coverage per scenario in simulatedCoverage95); it supersedes the Path A bootstrap interval, which stays as the reference construction C0 labelled unstable. The coverage holds only under the fitted variance components and a day-independent error structure (correlation across days or weeks is not modelled); the study is not re-run at each ingestion (coverageStudyRef.corpusHash names its corpus).",
         "Where 2.8 times the bootstrap standard error (twoPointEightSe, a bootstrap-width quantity, not a power calculation) exceeds the estimate (widthAboveEstimate), the contrast cannot be distinguished from zero at this support.",
     ]
     block["validity"] = validate(block, d)
@@ -326,6 +615,12 @@ def stamp(A, md5):
 def main(argv):
     sys.path.insert(0, os.path.join(ROOT, "tools")); sys.path.insert(0, ROOT)
     nboot = int(argv[argv.index("--nboot") + 1]) if "--nboot" in argv else NBOOT
+    if "--fingerprint" in argv:
+        print(json.dumps(add_fingerprints())); return
+    if "--coverage" in argv:
+        res = coverage_study(nrep=int(argv[argv.index("--reps") + 1]) if "--reps" in argv else NREP)
+        json.dump(res, open(argv[argv.index("--coverage") + 1], "w", encoding="utf-8"), indent=1, default=str)
+        print(json.dumps({o: v["selected"] for o, v in res["outcomes"].items()})); return
     block = build(nboot=nboot)
     md5 = block["corpusHash"]
     if "--out" in argv:
