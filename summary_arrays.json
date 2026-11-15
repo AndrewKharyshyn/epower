@@ -68261,20 +68261,41 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "11a89dc0c881bd0a60e9e957ccd1936a",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-11-15T15:39:37.238621+00:00",
+   "generatedAt": "2026-11-15T18:26:45.858344+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3"
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-11-15T15:39:37.238621+00:00",
+   "includedInReleaseAt": "2026-11-15T18:26:45.858344+00:00",
    "inputBasis": {
     "nDrives": 665,
     "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-11-15T15:39:37.238621+00:00",
+   "computedAt": "2026-11-15T18:26:45.858344+00:00",
    "computationStatusNote": "M676: derived by tools/changepoints.py from drive_master.csv and four existing sidecars (spec analyses/M675_spec.md Rev 1.1); exploratory"
+  },
+  "earlyLateContrast": {
+   "corpusHash": "77bbe275f8c22eaf62d8636867764af3",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": "11a89dc0c881bd0a60e9e957ccd1936a",
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-11-15T18:40:24.627721+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3"
+   },
+   "computationStatus": "computed",
+   "includedInReleaseAt": "2026-11-15T18:40:24.627721+00:00",
+   "inputBasis": {
+    "nDrives": 665,
+    "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-11-15T18:40:24.627721+00:00",
+   "computationStatusNote": "M678: derived by tools/early_late_contrast.py from drive_master.csv and two sidecars (spec analyses/M677_spec.md Rev 1.1, 1.2); exploratory"
   }
  },
  "ambientTable": {
@@ -447851,7 +447872,7 @@
     }
    },
    "X3": {
-    "label": "apparent Ah per 100 % SOC",
+    "label": "cap_ah_est (2.1 kWh divided by the median pack voltage: a voltage proxy scaled by an assumed energy, not a capacity or an Ah-per-SOC measurement)",
     "source": "master:cap_ah_est",
     "nDrives": 649,
     "nDays": 126,
@@ -448364,7 +448385,7 @@
   "reading": [
    "A location is a statistical break in a per-drive summary, not a cause; season, route mix, load, logger configuration and the software update move together (one vehicle, one May-to-November window).",
    "Location intervals are conditional on the selected K and approximate; slow drift versus step is not identifiable here (linear-trend BIC is shown beside).",
-   "X3 is the apparent Ah per 100 % SOC, not a capacity; X1 and X4 are estimated / model-derived. X5 is a logger quantity.",
+   "X3 is cap_ah_est = 2.1 kWh / median pack voltage in the master (corrected labelling, M678): a voltage proxy and not a capacity, so its breaks are shifts in the median pack voltage (SOC-level driven); X1 and X4 are estimated / model-derived. X5 is a logger quantity.",
    "poorlyLocalised, within7dShare, the +-7 d leg of weaklySupported and the reference comparison all come from the same uncalibrated draws and are lower bounds on location uncertainty.",
    "The detection holds no reference dates; the reference comparison is a separate step run after the primary results were hashed.",
    "Planted-step study at the real drives-per-day structure: the nominal 95 % location interval covered the planted location in 62 % of replicates; read every interval as optimistic (too narrow), not as a 95 % interval."
@@ -448382,7 +448403,7 @@
   "validity": {
    "V2_V3_V4": true
   },
-  "primarySha256": "b90afe2373ff81331f45339d4169692883d9c065154b041dce41a30932cfecbb",
+  "primarySha256": "dd871f02329772df4a2251396417afbcd14a79301e7a14ee9f6ac5669ead042b",
   "referenceComparison": {
    "referenceDates": [
     {
@@ -449013,6 +449034,577 @@
    },
    "coincidesRule": "reference date inside the UNCALIBRATED nominal 95 % location interval AND |difference| <= 7 days",
    "chanceRateNote": "intervalCoverageOfWindow uses the same uncalibrated intervals (a lower bound on the chance rate)"
+  }
+ },
+ "earlyLateContrast": {
+  "spec": "analyses/M677_spec.md Rev 1.1, 1.2",
+  "exploratory": true,
+  "articleUse": false,
+  "descriptiveNotALook": "descriptive, not a look, no equivalence verdict, no alpha spent; never feeds the month-9 or month-12 looks",
+  "estimand": "late-drive-weighted matched difference on the matched late subset (late minus early), in the outcome units",
+  "seed": 42,
+  "nBoot": 4000,
+  "corpusHash": "77bbe275f8c22eaf62d8636867764af3",
+  "frozenWindows": {
+   "frozenAt": "2026-11-15T18:23:06.074721+00:00",
+   "spec": "analyses/M677_spec.md Rev 1.1",
+   "spanFirst": "2026-05-15",
+   "spanLast": "2026-11-09",
+   "earlyEnd": "2026-07-13",
+   "lateStart": "2026-09-11"
+  },
+  "updateDateInExcludedMiddle": true,
+  "outcomes": {
+   "Y1": {
+    "label": "resistance proxy a1_R (model-derived), drives with a1_n >= 600",
+    "source": "resistance_joint_sidecar.csv:a1_R",
+    "windows": {
+     "earlyEnd": "2026-07-13",
+     "lateStart": "2026-09-11"
+    },
+    "pathA": {
+     "level": "3x3x3x2",
+     "levelReachedFiftyPercent": false,
+     "nEarlyDrives": 38,
+     "nLateDrives": 58,
+     "nEarlyDays": 17,
+     "nLateDays": 28,
+     "nCellsUsed": 0,
+     "matchedLateShare": 0.0,
+     "edges": {
+      "T": [
+       14.0,
+       26.833333333333332,
+       34.2,
+       41.9
+      ],
+      "I": [
+       62.0,
+       128.8,
+       156.9,
+       205.1
+      ],
+      "S": [
+       55.04,
+       63.89666666666667,
+       65.76666666666667,
+       73.34
+      ]
+     },
+     "matchedLateDrives": 0,
+     "matchedLateDays": 0,
+     "matchedEarlyDrives": 0,
+     "matchedEarlyDays": 0,
+     "status": "not shown",
+     "reason": "fewer than 10 matched late drives or 5 matched late days"
+    },
+    "pathB": {
+     "primaryMatchedSupport": {
+      "status": "not estimable"
+     },
+     "secondaryAllDrives": {
+      "status": "computed",
+      "estimate": 3.6794990343428964,
+      "se": 1.9302049241665162,
+      "nDrives": 96,
+      "nDays": 45,
+      "df": 44,
+      "ci95": [
+       -0.21057338185398322,
+       7.569571450539776
+      ],
+      "ci98_33": [
+       -1.1247191573719508,
+       8.483717226057744
+      ]
+     },
+     "temperatureTerm": "1000/(T+273.15)"
+    },
+    "agreement": {
+     "sameSign": null,
+     "pathAExcludesZero95": null,
+     "pathBExcludesZero95": null
+    },
+    "persists": false,
+    "persistsRev11": false,
+    "persistsRule": "same sign and both Path A and Path B (matched-support) 98.33 % intervals exclude zero (Bonferroni over three outcomes); sensitivities never upgrade a result. Rev 1.2 (stricter than Rev 1.1, added after the first run was seen): also requires a matched late share of at least 50 % (status computed, not weakly overlapping) and a stable interval (at most 5 % of draws dropped). persistsRev11 is the Rev 1.1 rule alone, shown beside",
+    "sensitivities": {
+     "a_halves": {
+      "status": "not shown",
+      "reason": "fewer than 10 matched late drives or 5 matched late days"
+     },
+     "b_cadence_fast": {
+      "status": "not shown",
+      "reason": "fewer than 10 drives in a window"
+     },
+     "b_cadence_slow": {
+      "status": "not shown",
+      "reason": "fewer than 10 matched late drives or 5 matched late days"
+     },
+     "c_wider_late_narrower_early": {
+      "status": "not shown",
+      "reason": "fewer than 10 matched late drives or 5 matched late days"
+     },
+     "d_halves_excluding_update_pm7d": {
+      "status": "not shown",
+      "reason": "fewer than 10 matched late drives or 5 matched late days"
+     },
+     "e_leave_one_week_out": {
+      "n": 0,
+      "min": null,
+      "max": null
+     },
+     "f_with_distance_class": {
+      "status": "not shown",
+      "reason": "fewer than 10 matched late drives or 5 matched late days"
+     },
+     "reDerivedThirds": {
+      "windows": {
+       "earlyEnd": "2026-07-13",
+       "lateStart": "2026-09-11"
+      },
+      "status": "not shown",
+      "reason": "fewer than 10 matched late drives or 5 matched late days"
+     }
+    }
+   },
+   "Y2": {
+    "label": "loaded p95 cell spread (mV)",
+    "source": "master:cell_spread_loaded_p95_mv",
+    "windows": {
+     "earlyEnd": "2026-07-13",
+     "lateStart": "2026-09-11"
+    },
+    "pathA": {
+     "level": "3x3x3x2",
+     "levelReachedFiftyPercent": false,
+     "nEarlyDrives": 107,
+     "nLateDrives": 288,
+     "nEarlyDays": 31,
+     "nLateDays": 46,
+     "nCellsUsed": 13,
+     "matchedLateShare": 0.375,
+     "edges": {
+      "T": [
+       4.5,
+       20.4,
+       29.166666666666664,
+       41.9
+      ],
+      "I": [
+       27.0,
+       74.13333333333333,
+       103.86666666666665,
+       205.1
+      ],
+      "S": [
+       51.06,
+       59.723333333333336,
+       64.6,
+       77.82
+      ]
+     },
+     "matchedLateDrives": 108,
+     "matchedLateDays": 24,
+     "matchedEarlyDrives": 96,
+     "matchedEarlyDays": 30,
+     "status": "weakly overlapping",
+     "estimate": 2.023978909465021,
+     "pctOfEarlyMatchedMean": 9.561643825629588,
+     "ci95": [
+      0.5940110294424801,
+      3.5075955151901237
+     ],
+     "ci98_33": [
+      0.20790838184843338,
+      3.8601521340028286
+     ],
+     "bootstrapSe": 0.753961997758016,
+     "twoPointEightSe": 2.1110935937224444,
+     "nDraws": 2723,
+     "droppedDraws": 1277,
+     "droppedShare": 0.31925,
+     "unstable": true,
+     "unadjustedLateMinusEarly": 1.3561656282450656,
+     "intervalStatus": "unstable, not for display (drop-conditioned bootstrap)",
+     "widthAboveEstimate": true
+    },
+    "pathB": {
+     "primaryMatchedSupport": {
+      "status": "computed",
+      "estimate": 1.888632455222783,
+      "se": 0.6487516609998876,
+      "nDrives": 204,
+      "nDays": 54,
+      "df": 53,
+      "ci95": [
+       0.5874014092164428,
+       3.189863501229123
+      ],
+      "ci98_33": [
+       0.28469580950527607,
+       3.4925691009402895
+      ]
+     },
+     "secondaryAllDrives": {
+      "status": "computed",
+      "estimate": 1.7956278572118014,
+      "se": 0.5706999909915723,
+      "nDrives": 395,
+      "nDays": 77,
+      "df": 76,
+      "ci95": [
+       0.6589803168294301,
+       2.9322753975941724
+      ],
+      "ci98_33": [
+       0.39848394956014355,
+       3.1927717648634593
+      ]
+     },
+     "temperatureTerm": "linear"
+    },
+    "agreement": {
+     "sameSign": true,
+     "pathAExcludesZero95": true,
+     "pathBExcludesZero95": true
+    },
+    "persists": false,
+    "persistsRev11": true,
+    "persistsRule": "same sign and both Path A and Path B (matched-support) 98.33 % intervals exclude zero (Bonferroni over three outcomes); sensitivities never upgrade a result. Rev 1.2 (stricter than Rev 1.1, added after the first run was seen): also requires a matched late share of at least 50 % (status computed, not weakly overlapping) and a stable interval (at most 5 % of draws dropped). persistsRev11 is the Rev 1.1 rule alone, shown beside",
+    "sensitivities": {
+     "a_halves": {
+      "status": "weakly overlapping",
+      "estimate": 2.119168354310224,
+      "ci95": [
+       1.1155019748140835,
+       3.1621446428842415
+      ],
+      "level": "3x3x3x2",
+      "matchedLateShare": 0.3710843373493976,
+      "matchedLateDrives": 154,
+      "matchedLateDays": 33,
+      "nDraws": 1103,
+      "droppedShare": 0.4485,
+      "unstable": true
+     },
+     "b_cadence_fast": {
+      "status": "not shown",
+      "reason": "fewer than 10 drives in a window"
+     },
+     "b_cadence_slow": {
+      "status": "computed",
+      "estimate": 2.4295744664140893,
+      "ci95": [
+       0.9770128142275181,
+       4.011113667425852
+      ],
+      "level": "3x3x3x2",
+      "matchedLateShare": 0.6309523809523809,
+      "matchedLateDrives": 106,
+      "matchedLateDays": 26,
+      "nDraws": 1275,
+      "droppedShare": 0.3625,
+      "unstable": true
+     },
+     "c_wider_late_narrower_early": {
+      "status": "weakly overlapping",
+      "estimate": 1.196723211023539,
+      "ci95": [
+       -0.04415458346347839,
+       2.6529819607882428
+      ],
+      "level": "3x3x3x2",
+      "matchedLateShare": 0.34293948126801155,
+      "matchedLateDrives": 119,
+      "matchedLateDays": 29,
+      "nDraws": 1561,
+      "droppedShare": 0.2195,
+      "unstable": true
+     },
+     "d_halves_excluding_update_pm7d": {
+      "status": "weakly overlapping",
+      "estimate": 1.9855899027269899,
+      "ci95": [
+       0.860434615457712,
+       3.0975193576312856
+      ],
+      "level": "3x3x3x2",
+      "matchedLateShare": 0.44692737430167595,
+      "matchedLateDrives": 160,
+      "matchedLateDays": 34,
+      "nDraws": 913,
+      "droppedShare": 0.5435,
+      "unstable": true
+     },
+     "e_leave_one_week_out": {
+      "n": 19,
+      "min": 1.3429631242740991,
+      "max": 2.57264809063722
+     },
+     "f_with_distance_class": {
+      "status": "weakly overlapping",
+      "estimate": 2.6980210265924547,
+      "ci95": [
+       0.9923839906486003,
+       4.300808821727177
+      ],
+      "level": "3x3x3x2",
+      "matchedLateShare": 0.2673611111111111,
+      "matchedLateDrives": 77,
+      "matchedLateDays": 24,
+      "nDraws": 1080,
+      "droppedShare": 0.46,
+      "unstable": true
+     },
+     "reDerivedThirds": {
+      "windows": {
+       "earlyEnd": "2026-07-13",
+       "lateStart": "2026-09-11"
+      },
+      "status": "weakly overlapping",
+      "estimate": 2.023978909465021,
+      "ci95": [
+       0.5917997135654255,
+       3.5760138985129792
+      ],
+      "level": "3x3x3x2",
+      "matchedLateShare": 0.375,
+      "matchedLateDrives": 108,
+      "matchedLateDays": 24,
+      "nDraws": 1382,
+      "droppedShare": 0.309,
+      "unstable": true
+     }
+    }
+   },
+   "Y3": {
+    "label": "median pack voltage V_pack_median (V); cap_ah_est is 2.1 kWh divided by this value, a voltage proxy and not a capacity",
+    "source": "master:V_pack_median",
+    "windows": {
+     "earlyEnd": "2026-07-13",
+     "lateStart": "2026-09-11"
+    },
+    "pathA": {
+     "level": "3x3x3x2",
+     "levelReachedFiftyPercent": false,
+     "nEarlyDrives": 108,
+     "nLateDrives": 298,
+     "nEarlyDays": 31,
+     "nLateDays": 46,
+     "nCellsUsed": 13,
+     "matchedLateShare": 0.3691275167785235,
+     "edges": {
+      "T": [
+       4.5,
+       20.3,
+       29.0,
+       41.9
+      ],
+      "I": [
+       25.5,
+       73.0,
+       103.4,
+       205.1
+      ],
+      "S": [
+       51.06,
+       59.61,
+       64.63,
+       77.96
+      ]
+     },
+     "matchedLateDrives": 110,
+     "matchedLateDays": 24,
+     "matchedEarlyDrives": 98,
+     "matchedEarlyDays": 31,
+     "status": "weakly overlapping",
+     "estimate": 0.6054773511512607,
+     "pctOfEarlyMatchedMean": 0.16950568529861765,
+     "ci95": [
+      -0.251748493068439,
+      1.3437407396648047
+     ],
+     "ci98_33": [
+      -0.4401912637380015,
+      1.5088598829460595
+     ],
+     "bootstrapSe": 0.40469733958946597,
+     "twoPointEightSe": 1.1331525508505047,
+     "nDraws": 2824,
+     "droppedDraws": 1176,
+     "droppedShare": 0.294,
+     "unstable": true,
+     "unadjustedLateMinusEarly": 2.6398956002983596,
+     "intervalStatus": "unstable, not for display (drop-conditioned bootstrap)",
+     "widthAboveEstimate": true
+    },
+    "pathB": {
+     "primaryMatchedSupport": {
+      "status": "computed",
+      "estimate": 0.36482675158996924,
+      "se": 0.24325682736131715,
+      "nDrives": 208,
+      "nDays": 55,
+      "df": 54,
+      "ci95": [
+       -0.12287382329707319,
+       0.8525273264770117
+      ],
+      "ci98_33": [
+       -0.2362239210003283,
+       0.9658774241802668
+      ]
+     },
+     "secondaryAllDrives": {
+      "status": "computed",
+      "estimate": 0.07772644057699862,
+      "se": 0.2539370366103875,
+      "nDrives": 406,
+      "nDays": 77,
+      "df": 76,
+      "ci95": [
+       -0.4280329998142445,
+       0.5834858809682417
+      ],
+      "ci98_33": [
+       -0.5439427187494086,
+       0.6993955999034058
+      ]
+     },
+     "temperatureTerm": "linear"
+    },
+    "agreement": {
+     "sameSign": true,
+     "pathAExcludesZero95": false,
+     "pathBExcludesZero95": false
+    },
+    "persists": false,
+    "persistsRev11": false,
+    "persistsRule": "same sign and both Path A and Path B (matched-support) 98.33 % intervals exclude zero (Bonferroni over three outcomes); sensitivities never upgrade a result. Rev 1.2 (stricter than Rev 1.1, added after the first run was seen): also requires a matched late share of at least 50 % (status computed, not weakly overlapping) and a stable interval (at most 5 % of draws dropped). persistsRev11 is the Rev 1.1 rule alone, shown beside",
+    "sensitivities": {
+     "a_halves": {
+      "status": "weakly overlapping",
+      "estimate": 0.04518297407722148,
+      "ci95": [
+       -0.6451007417767295,
+       0.8126236999472594
+      ],
+      "level": "3x3x3x2",
+      "matchedLateShare": 0.36363636363636365,
+      "matchedLateDrives": 156,
+      "matchedLateDays": 33,
+      "nDraws": 1217,
+      "droppedShare": 0.3915,
+      "unstable": true
+     },
+     "b_cadence_fast": {
+      "status": "not shown",
+      "reason": "fewer than 10 drives in a window"
+     },
+     "b_cadence_slow": {
+      "status": "computed",
+      "estimate": 0.4482255393416205,
+      "ci95": [
+       -0.2867053192489347,
+       1.1390771526093046
+      ],
+      "level": "3x3x3x2",
+      "matchedLateShare": 0.6549707602339181,
+      "matchedLateDrives": 112,
+      "matchedLateDays": 26,
+      "nDraws": 1113,
+      "droppedShare": 0.4435,
+      "unstable": true
+     },
+     "c_wider_late_narrower_early": {
+      "status": "weakly overlapping",
+      "estimate": 0.3521638486312408,
+      "ci95": [
+       -0.19534574192107565,
+       0.8474022935141028
+      ],
+      "level": "3x3x3x2",
+      "matchedLateShare": 0.31666666666666665,
+      "matchedLateDrives": 114,
+      "matchedLateDays": 26,
+      "nDraws": 1586,
+      "droppedShare": 0.207,
+      "unstable": true
+     },
+     "d_halves_excluding_update_pm7d": {
+      "status": "weakly overlapping",
+      "estimate": 0.011202963702984545,
+      "ci95": [
+       -0.6487111170102782,
+       0.750739330232964
+      ],
+      "level": "3x3x3x2",
+      "matchedLateShare": 0.42048517520215634,
+      "matchedLateDrives": 156,
+      "matchedLateDays": 34,
+      "nDraws": 986,
+      "droppedShare": 0.507,
+      "unstable": true
+     },
+     "e_leave_one_week_out": {
+      "n": 19,
+      "min": 0.3390819759436634,
+      "max": 0.9858752592788804
+     },
+     "f_with_distance_class": {
+      "status": "weakly overlapping",
+      "estimate": 0.624142603850037,
+      "ci95": [
+       -0.3074789990866482,
+       1.459120015160638
+      ],
+      "level": "3x3x3x2",
+      "matchedLateShare": 0.31543624161073824,
+      "matchedLateDrives": 94,
+      "matchedLateDays": 24,
+      "nDraws": 821,
+      "droppedShare": 0.5895,
+      "unstable": true
+     },
+     "reDerivedThirds": {
+      "windows": {
+       "earlyEnd": "2026-07-13",
+       "lateStart": "2026-09-11"
+      },
+      "status": "weakly overlapping",
+      "estimate": 0.6054773511512607,
+      "ci95": [
+       -0.2563983288807049,
+       1.338625671776953
+      ],
+      "level": "3x3x3x2",
+      "matchedLateShare": 0.3691275167785235,
+      "matchedLateDrives": 110,
+      "matchedLateDays": 24,
+      "nDraws": 1442,
+      "droppedShare": 0.279,
+      "unstable": true
+     }
+    }
+   }
+  },
+  "deviations": [
+   "Y3 is the median pack voltage V_pack_median, not cap_ah_est: cap_ah_est (2.1 kWh divided by the median pack voltage) was already known to be a voltage proxy (M413), so this is a spec omission, not a new finding; the SOC-swing eligibility of Director change 8 has no object.",
+   "persists additionally requires status computed and a stable interval (Rev 1.2, added after the first run); persistsRev11 shown beside."
+  ],
+  "reading": [
+   "A difference between early and late drives in matched state bins; time, season, route mix, load, logger configuration and the HV-battery software update (owner-reported around 2026-08-25, in the excluded middle third) move together on one vehicle. Not an ageing estimate; a same-season comparison is not available in a 12-month study.",
+   "The estimand covers only the matched late subset (overlap is partial; the matched late share is reported). Drive-mean pack temperature does not describe the thermal state.",
+   "Y3 is the median pack voltage: cap_ah_est in the master is 2.1 kWh divided by the median pack voltage (a voltage proxy scaled by an assumed energy, not a capacity or an Ah-per-SOC measurement); SOC level is a matching variable.",
+   "Cadence is part of the cell key and all early drives of the window are slow-polled, so fast-polled late drives cannot match: the matched late share has a structural ceiling (the share of slow-polled late drives) and 'weakly overlapping' is structural, not a tuning outcome. When no ladder level reaches 50 % the coarsest level is used and the status stays 'weakly overlapping'. Path B on the matched support uses the early and late drives in the used cells.",
+   "Coarse cells (the ladder falls back to 3 temperature classes of roughly 10 deg C width) leave within-cell covariate differences; Path B adjusts linearly beside it and the two are compared, never tuned to agree. Many bootstrap draws can be dropped when a used cell loses a side (droppedShare); an interval with more than 5 % dropped is flagged unstable.",
+   "'persists' (Rev 1.2) needs the same sign, both paths' 98.33 % intervals excluding zero, a matched late share of at least 50 % and at most 5 % of bootstrap draws dropped; persistsRev11 applies the first two conditions only and is shown beside, the stricter rule having been added after the first run was seen. persists = false is not 'no difference'. Every other statement is descriptive and unadjusted.",
+   "Path A intervals with more than 5 % of draws dropped are selected on cell survival and are not valid confidence intervals: unstable, not for display. Path B (CR1) may be shown beside. A cell-by-side stratified day resampling must be pre-registered and audited before any display.",
+   "Where 2.8 times the bootstrap standard error (twoPointEightSe, a bootstrap-width quantity, not a power calculation) exceeds the estimate (widthAboveEstimate), the contrast cannot be distinguished from zero at this support."
+  ],
+  "validity": {
+   "V2_V3_V4_V5": true
   }
  }
 }

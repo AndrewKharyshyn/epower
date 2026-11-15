@@ -20,7 +20,7 @@ FLOOR_DRIVES, FLOOR_DAYS = 100, 30
 SERIES = {  # id -> (label, source)
     "X1": ("implied current offset (A, estimated)", "master:implied_offset_A_drive"),
     "X2": ("loaded p95 cell spread (mV)", "master:cell_spread_loaded_p95_mv"),
-    "X3": ("apparent Ah per 100 % SOC", "master:cap_ah_est"),
+    "X3": ("cap_ah_est (2.1 kWh divided by the median pack voltage: a voltage proxy scaled by an assumed energy, not a capacity or an Ah-per-SOC measurement)", "master:cap_ah_est"),
     "X4": ("resistance proxy a1_R (model-derived), a1_n >= 600", "resistance_joint_sidecar.csv:a1_R"),
     "X5": ("logged current sample period (s)", "cadence_regime.csv:I_sample_period_s"),
 }
@@ -374,7 +374,7 @@ def build(root=ROOT, master_path=None, nboot=NBOOT, seed=SEED):
     block["reading"] = [
         "A location is a statistical break in a per-drive summary, not a cause; season, route mix, load, logger configuration and the software update move together (one vehicle, one May-to-November window).",
         "Location intervals are conditional on the selected K and approximate; slow drift versus step is not identifiable here (linear-trend BIC is shown beside).",
-        "X3 is the apparent Ah per 100 % SOC, not a capacity; X1 and X4 are estimated / model-derived. X5 is a logger quantity.",
+        "X3 is cap_ah_est = 2.1 kWh / median pack voltage in the master (corrected labelling, M678): a voltage proxy and not a capacity, so its breaks are shifts in the median pack voltage (SOC-level driven); X1 and X4 are estimated / model-derived. X5 is a logger quantity.",
         "poorlyLocalised, within7dShare, the +-7 d leg of weaklySupported and the reference comparison all come from the same uncalibrated draws and are lower bounds on location uncertainty.",
         "The detection holds no reference dates; the reference comparison is a separate step run after the primary results were hashed.",
     ]

@@ -633,6 +633,10 @@ RULES = [
          rx=r"\b(?:dates|detects|identifies|confirms) the (?:battery |hv )?software update\b|\bsoftware[- ]update effect\b|\bchange[- ]point (?:caused|proves|confirms)\b|\b(?:detected|selected) (?:capacity|resistance) (?:fade|loss|increase|growth)\b|\bdate of the software update was (?:found|detected)\b"),
     Rule("M676-uncalibrated-interval", "regex", "M676 (Director decision): the change-point location intervals are nominal and uncalibrated (planted-step coverage 0.62 against 0.85); never a 95 percent CI or confidence interval of a change point or break, nor a change point localised to a number of days",
          rx=r"\b(?:95 ?%? ?(?:ci|confidence interval)|confidence interval) (?:of|for) the (?:change[- ]point|break|location)\b|\b(?:change[- ]point|break)s? (?:is |are )?localised to\b|\bthe 95 ?%? ?ci of the (?:change[- ]point|break)\b"),
+    Rule("M677-early-late-wording", "regex", "M678 (spec analyses/M677_spec.md Rev 1.1, Director review): the early-versus-late contrast is a difference between early and late drives in matched state bins, descriptive and not a look; never an ageing or degradation estimate, an ageing effect, a capacity fade or loss, a resistance increase, or cap_ah_est as a capacity",
+         rx=r"(?:early|late) (?:vs|versus) (?:late|early) (?:ageing|aging|degradation|effect)|early late (?:contrast|difference) (?:is |as )?(?:an? )?(?:ageing|aging|degradation|capacity fade|capacity loss|resistance increase)|matched (?:contrast|difference) (?:is |shows )?(?:an? )?(?:ageing|aging|degradation|capacity fade|capacity loss|resistance increase)|cap ah est is (?:a |the )?(?:capacity|measured)"),
+    Rule("M678-cap-ah-est-wording", "regex", "M678 (Director decision): the master column cap_ah_est is the assumed 2.1 kWh divided by the median pack voltage, a voltage proxy scaled by an assumed energy; never an apparent Ah per 100 percent SOC, a capacity or a measured Ah (the regression-based apparent SOC scale of the capacity basis is a different quantity)",
+         rx=r"cap ah est (?:is |as |equals )?(?:the )?apparent ah per 100|apparent ah per 100 (?:soc )?(?:is |as )?cap ah est"),
 ]
 
 _SCAN_CACHE = {}
