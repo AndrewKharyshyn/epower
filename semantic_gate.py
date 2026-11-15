@@ -1319,5 +1319,19 @@ if _elv.get("status") == "interval with simulated coverage":
     ok("A7 M682 display: 98.33% interval stated beside the 95% one; no display of the median pack voltage or the resistance proxy contrast",
        "98.33%" in _eh and "Early versus Late Drives in Matched State Bins: Loaded Cell Spread" in _eh.replace("EARLY VERSUS LATE DRIVES IN MATCHED STATE BINS: LOADED CELL SPREAD", "Early versus Late Drives in Matched State Bins: Loaded Cell Spread") and "median pack voltage" not in _eh.split("Early versus Late Drives")[1][:4000].lower().replace("the median pack voltage is not displayed", ""))
 
+# ---------- A7 (M683): the between-drive logged-share display equals betweenDriveLogging (window sentence, every month row) ----------
+_bd = A.get("betweenDriveLogging") or {}
+if _bd.get("months"):
+    _ov = T.get("overview__all", "")
+    _w = _bd["window"]
+    _need = [f"the odometer advance within logged drives sums to {_w['odometerAdvanceKm']:.1f} km (logged distance {_w['loggedKm']:.1f} km)", f"a further {_w['unloggedGapKm']:.1f} km of odometer advance lies in {_w['nGapSteps']} gaps",
+             f"the between-drive logged share is {100 * _w['shareOdometerBasis']:.1f}% on the odometer basis"]
+    for _m in _bd["months"]:
+        _lab = (" (" + ", ".join(_m["labels"]) + ")") if _m.get("labels") else ""
+        _need.append(f"{_m['month']}{_lab}{_m['nDrives']}{_m['nDrivingDays']} / {_m['nCalendarDays']}{_m['loggedKm']:.1f}{_m['odometerAdvanceKm']:.1f}{_m['unloggedGapKm']:.1f} ({_m['nGapSteps']}){100 * _m['shareOdometerBasis']:.1f}%{100 * _m['shareDistanceBasis']:.1f}%")
+    _miss = [x for x in _need if x not in _ov]
+    ok("A7 M683 between-drive logged share display: window sentence and every month row (drives, days, km, gaps, share) equal betweenDriveLogging", not _miss, f"missing: {_miss[:3]}")
+    ok("A7 M683 display: states that a gap is not a measure of unlogged driving and is descriptive", "is not a measure of unlogged driving" in _ov and "(descriptive)" in _ov)
+
 print(f"\nSEMANTIC GATE: {len(passes)} passed, {len(fails)} failed")
 sys.exit(1 if fails else 0)
