@@ -606,6 +606,13 @@ def build(root=ROOT, master_path=None, nboot=NBOOT, frozen_path=None, write_froz
         "Path A intervals with more than 5 % of draws dropped are selected on cell survival and are not valid confidence intervals: unstable, not for display. Path B (CR1) may be shown beside. intervalV2 (M680, spec analyses/M679_spec.md Rev 1.1) is an interval with simulated coverage: the construction selected by the planted-effect coverage gate (analyses/M679_coverage.json: 400 replicates per scenario, 95 % coverage per scenario in simulatedCoverage95); it supersedes the Path A bootstrap interval, which stays as the reference construction C0 labelled unstable. The coverage holds only under the fitted variance components and a day-independent error structure (correlation across days or weeks is not modelled); the study is not re-run at each ingestion (coverageStudyRef.corpusHash names its corpus).",
         "Where 2.8 times the bootstrap standard error (twoPointEightSe, a bootstrap-width quantity, not a power calculation) exceeds the estimate (widthAboveEstimate), the contrast cannot be distinguished from zero at this support.",
     ]
+    block["displayCaveats"] = [
+        "Exploratory; the estimate covers only the matched late drives (partial overlap: fast-polled late drives cannot match because every early drive is slow-polled).",
+        "Season, route mix, load, logger configuration and the HV-battery software update (owner-reported around 2026-08-25, in the excluded middle third) move together on one vehicle; this is a difference between early and late drives in matched state bins, not an ageing estimate, and a same-season comparison is not available in a 12-month study.",
+        "The interval keeps the late-drive weights fixed (the sensitivity with the weights recomputed per deletion is shown beside it); its simulated coverage holds only under the fitted day-variance components and independent days, not correlation across days or weeks, and the coverage study is not re-run at each ingestion.",
+        "The 98.33% level is the Bonferroni level over the three outcomes analysed; the resistance proxy has no matched cells and the median pack voltage is not displayed.",
+        "Exploratory analysis; no article use without the audit and sign-off required by the study rules.",
+    ]
     block["validity"] = validate(block, d)
     return block
 

@@ -5665,6 +5665,50 @@ function stepXref(){
   const f=(x)=>x==null?"n/a":Number(x).toFixed(2);
   return ` Step sensitivity (exploratory, see the panel below): with a level-shift term dated ${B.stepDate} (chosen post hoc) the months slope is ${f(m.est)} mV/month, 95% interval [${f(m.ci95[0])}, ${f(m.ci95[1])}] (${m.n} drives, ${m.G} days); the cause of the shift is unidentified.`;
 }
+// M682 (display of the M678/M680 payload, Director conditions of M680/M681): late minus early loaded p95 cell spread in matched state bins, bound to S.earlyLateContrast only (no typed number).
+// Cell spread (Y2) only: the median-pack-voltage outcome and the resistance proxy are not displayed. The 95% interval is shown only beside the 98.33% interval; the C2w sensitivity is shown beside.
+function EarlyLateContrastView(){
+  const B=S.earlyLateContrast, O=B&&B.outcomes&&B.outcomes.Y2;
+  if(!B||!O||!O.pathA||O.pathA.estimate==null||!O.intervalV2||!O.intervalV2.ci95) return null;
+  const A=O.pathA, V=O.intervalV2, W=V.sensitivityC2w, PB=O.pathB&&O.pathB.primaryMatchedSupport, ref=V.coverageStudyRef||{};
+  if(V.status!=="interval with simulated coverage") return null;
+  const f=(x,n=1)=>x==null?"n/a":Number(x).toFixed(n);
+  const iv=(c,n=1)=>Array.isArray(c)?`[${f(c[0],n)}, ${f(c[1],n)}]`:"n/a";
+  const sc=V.simulatedCoverage95||{}, scv=Object.values(sc).filter(x=>x!=null);
+  const z98=Array.isArray(V.ci98_33)&&V.ci98_33[0]<=0&&V.ci98_33[1]>=0;
+  const fw=B.frozenWindows||{};
+  return (
+    <Section title="Early versus Late Drives in Matched State Bins: Loaded Cell Spread (exploratory)" accent="#64748b">
+      <div style={{fontSize:10.5,color:"#0f172a",lineHeight:1.6,marginBottom:6}} data-elc-caption="1">
+        <strong>Late minus early, matched state bins:</strong> {A.estimate>=0?"+":"-"}{f(Math.abs(A.estimate))} mV; day-clustered interval with simulated coverage ({V.construction} jackknife, {f(Math.min(...scv),2)} to {f(Math.max(...scv),2)} at nominal 0.95 in the planted-effect study) 95% {iv(V.ci95)} mV; 98.33% {iv(V.ci98_33)} mV {z98?"includes":"excludes"} zero.
+      </div>
+      <div style={{fontSize:9,color:"#64748b",marginTop:2}} data-elc-support="1">
+        Early window to {fw.earlyEnd}, late window from {fw.lateStart} (frozen); {A.nEarlyDrives} early drives on {A.nEarlyDays} days and {A.nLateDrives} late drives on {A.nLateDays} days; {A.matchedLateDrives} late drives matched ({f(100*A.matchedLateShare,1)}%) on {A.matchedLateDays} days in {A.nCellsUsed} cells ({A.level}); cells of equal drive-mean pack temperature, peak discharge current, SOC level and logging cadence; the estimate covers only the matched late drives.
+      </div>
+      <ChartWithTable chart={<div data-elc-forest="1">
+        <IntervalForest zero={true} xLabel="late minus early, mV (interval with simulated coverage)" ariaLabel="Late minus early loaded p95 cell spread in matched state bins" lblW={230}
+          caption="Same estimate; the 95% interval is shown only beside the 98.33% interval (Bonferroni level over the three outcomes of the analysis)."
+          rows={[{label:"95% interval",est:A.estimate,lo:V.ci95[0],hi:V.ci95[1]},{label:"98.33% interval",est:A.estimate,lo:V.ci98_33[0],hi:V.ci98_33[1]},...(W&&W.ci95&&W.ci98_33?[{label:"sensitivity: weights recomputed per deletion, 95%",est:A.estimate,lo:W.ci95[0],hi:W.ci95[1]},{label:"sensitivity: weights recomputed per deletion, 98.33%",est:A.estimate,lo:W.ci98_33[0],hi:W.ci98_33[1]}]:[])]}/>
+      </div>}>
+        <table style={{width:"100%",fontSize:9,borderCollapse:"collapse",marginTop:6}}>
+          <thead><tr style={{color:"#64748b",textAlign:"left"}}><th>quantity</th><th>value, mV</th><th>interval</th></tr></thead>
+          <tbody>
+            <tr data-elc-row="main" style={{borderTop:"1px solid #e2e8f0"}}><td>matched late-drive-weighted difference (late minus early)</td><td>{f(A.estimate)}</td><td>95% {iv(V.ci95)}; 98.33% {iv(V.ci98_33)}</td></tr>
+            {PB&&PB.status==="computed"&&<tr data-elc-row="pathB" style={{borderTop:"1px solid #e2e8f0"}}><td>regression on the matched drives (temperature, peak current, SOC level, cadence; day clusters)</td><td>{f(PB.estimate)}</td><td>95% {iv(PB.ci95)}; 98.33% {iv(PB.ci98_33)}</td></tr>}
+            <tr data-elc-row="unadjusted" style={{borderTop:"1px solid #e2e8f0"}}><td>unmatched late minus early (all drives in the windows; descriptive, not matched, no interval)</td><td>{f(A.unadjustedLateMinusEarly)}</td><td>not computed</td></tr>
+          </tbody>
+        </table>
+      </ChartWithTable>
+      {PB&&PB.status==="computed"&&Array.isArray(PB.ci98_33)&&(()=>{const xb=PB.ci98_33[0]>0||PB.ci98_33[1]<0, xa=!z98; return (
+      <div style={{fontSize:9.5,color:"#334155",lineHeight:1.6,marginTop:6}} data-elc-pathb="1">
+        The regression on the matched drives (day clusters, no coverage study) {xb?"excludes":"includes"} zero at 98.33%, the matched difference {xa?"excludes":"includes"} zero; the paths {xb===xa?"agree":"disagree"}, and the pre-registered reading needs both, so no verdict is drawn.
+      </div>);})()}
+      <div style={{fontSize:9,color:"#475569",lineHeight:1.6,marginTop:6}} data-elc-reading="1">
+        {(B.displayCaveats||[]).map((t,i)=><p key={i} style={{margin:"2px 0"}}>{t}</p>)}
+      </div>
+    </Section>
+  );
+}
 function CellSpreadStepView(){
   const B=S.cellSpreadStep;
   if(!B||!B.models) return null;
@@ -13745,6 +13789,7 @@ export default function App() {
           <FewClusterNote/>
           <WindowCaveatPanel/>
           <CellSpreadStepView/>
+          <EarlyLateContrastView/>
           <SteadyLoadCheck/>
           <div style={{fontSize:11,color:"#64748b",lineHeight:1.7}}>
             <p>Example check on four drives of Jun 19. Result: the cell spread at rest (current below 5 A) was 0.0104–0.0121 V on all four drives, within the established baseline. Under load the spread reached 0.084 V on Drive 1. That is consistent with a thermal and polarization effect rather than degradation, because the spread fell back to 0.010–0.012 V at rest within the same drive. Data note: one raw sample briefly read 0.122 V at the same moment as a single current reading of −200.25 A. That value was excluded under the artifact rule in force at the time and is not used as a cell-health result. It was a within-drive return to baseline, and one example cannot test long-term change. Reading: per-drive loaded maxima are a transient polarization measure, so they are not tracked as records, and loaded spread has gone considerably higher on later drives. The trended quantity is the adjusted p95, for which {spreadSpans()===false?"a "+spreadDir()+" conditional slope is estimated (95% interval excludes zero; season-confounded, not a capacity or SOH change)":"no directional trend is resolved (inconclusive, not shown flat)"}.</p>
