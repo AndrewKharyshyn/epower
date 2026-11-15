@@ -138,8 +138,8 @@ def build(cfg, arr):
         band=[round(MC.ETA_GEN[1]*MC.ETA_PE[1], 4), round(MC.ETA_GEN[2]*MC.ETA_PE[2], 4)])
     add(id="p_aux", symbol="P_AUX_KW", label="Drive-constant auxiliary HV load", raw=MC.P_AUX_KW[0],
         value=f"{_f(MC.P_AUX_KW[0])} kW", unit="kW", klass=_klass("p_aux"), verified=False,
-        source="not separable in motion; standstill median ~1.2 kW measured, in-motion value assumed",
-        usedBy=["traction demand", "f_gen"], sensitivity="+/-1 kW moves traction demand by less than 1 kWh/100 km.", band=lo(MC.P_AUX_KW))
+        source="not separable in motion; standstill median ~1.2 kW measured (rising with ambient; above the assumed value), in-motion value assumed; kept at the assumed value, owner decision 2026-11-15 (document only)",
+        usedBy=["traction demand", "f_gen"], sensitivity="+/-1 kW moves traction demand by less than 1 kWh/100 km; centring on the standstill value instead would raise f_gen by about 0.02 (self-audit 2026-11-11 estimate, not recomputed here), so the assumed value sits at the low end of the plausible range.", band=lo(MC.P_AUX_KW))
 
     # ---- thermal gates / cohorts ------------------------------------------
     add(id="cold_gate_engine", symbol="COLD_OIL_T_C / COLD_T_C", label="Engine cold-start gate",
