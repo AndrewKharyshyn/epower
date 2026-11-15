@@ -68233,6 +68233,27 @@
    },
    "computedAt": "2026-11-15T10:27:32.829525+00:00",
    "computationStatusNote": "M672: derived by tools/n05_between_drive_logging.py from drive_master.csv only (spec analyses/M672_spec.md Rev 1.1); descriptive"
+  },
+  "exposureVector": {
+   "corpusHash": "77bbe275f8c22eaf62d8636867764af3",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": "11a89dc0c881bd0a60e9e957ccd1936a",
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-11-15T11:29:12.046284+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3"
+   },
+   "computationStatus": "computed",
+   "includedInReleaseAt": "2026-11-15T11:29:12.046284+00:00",
+   "inputBasis": {
+    "nDrives": 665,
+    "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-11-15T11:29:12.046284+00:00",
+   "computationStatusNote": "M674: derived by tools/exposure_vector.py from raw drive CSVs (cached by sha256), drive_master.csv and ah_throughput.csv (spec analyses/M673_spec.md Rev 1.1); descriptive"
   }
  },
  "ambientTable": {
@@ -446598,6 +446619,918 @@
    "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
    "scriptSha256": "404235231d133ac66d1d78cd0f2dd982f1e64a4204c8ba1601b654d280391963",
    "nDrives": 665
+  }
+ },
+ "exposureVector": {
+  "label": "Exposure vector of the logged driving window from the logged BMS current (estimated, offset-uncorrected; not lifetime exposure, not damage)",
+  "spec": "analyses/M673_spec.md Rev 1.1",
+  "status": "descriptive; screens carry a support ladder",
+  "reading": [
+   "Exposure of the logged driving window only (logged drives; the logged share of the odometer is below 1), not lifetime exposure and not damage.",
+   "Ampere-hours are integrated from the logged current (estimated, offset-uncorrected), never measured at the cell; charging here is regeneration and generator charging (no plug).",
+   "The screen thresholds (10 C, 15 C, 25 A, SOC 70 %) were adopted from an external review; they are not identified BMS or damage thresholds.",
+   "The 25 A screen and the upper charge-current quantiles depend on the logging cadence (piecewise-linear sampling cuts peaks; the cadence-invariance check B6 stays FAILED); the cold charge Ah share is open to the uncorrected current offset.",
+   "Regeneration charging is concentrated in short high-current bursts, so a large share of charge Ah at 25 A or more describes regeneration, not a charger-type load.",
+   "|I| / 5 A is a ratio to the rated reference (verified:false), not a reference-free quantity. No annualisation is made."
+  ],
+  "binEdgesC": [
+   0.0,
+   5.0,
+   10.0,
+   15.0,
+   20.0,
+   25.0,
+   30.0,
+   35.0,
+   40.0
+  ],
+  "binLabels": [
+   "<0",
+   "0-5",
+   "5-10",
+   "10-15",
+   "15-20",
+   "20-25",
+   "25-30",
+   "30-35",
+   "35-40",
+   ">=40"
+  ],
+  "attribution": "interval Ah to the bin of the T1 sample nearest the interval end within 10 s (both sides, tie to the earlier sample); no sample -> unassigned; a value on an edge goes to the upper bin",
+  "t1ResolutionC": 1.0,
+  "population": {
+   "nMasterDrives": 665,
+   "nWithIvPairs": 651,
+   "nCanonicalClean": 649,
+   "nDaysAll": 127,
+   "nDaysClean": 126,
+   "noIvDrives": [
+    {
+     "file": "20260511_185709.csv",
+     "reason": "no_iv_series"
+    },
+    {
+     "file": "20260512_111617.csv",
+     "reason": "no_iv_series"
+    },
+    {
+     "file": "20260512_195020.csv",
+     "reason": "no_iv_series"
+    },
+    {
+     "file": "20260512_215542.csv",
+     "reason": "no_iv_series"
+    },
+    {
+     "file": "20260513_180335.csv",
+     "reason": "no_iv_series"
+    },
+    {
+     "file": "20260513_224232.csv",
+     "reason": "no_iv_series"
+    },
+    {
+     "file": "20260514_080426.csv",
+     "reason": "no_iv_series"
+    },
+    {
+     "file": "20260514_093059.csv",
+     "reason": "no_iv_series"
+    },
+    {
+     "file": "20260514_094436.csv",
+     "reason": "no_iv_series"
+    },
+    {
+     "file": "20260515_074031.csv",
+     "reason": "no_iv_series"
+    },
+    {
+     "file": "20260813_145651.csv",
+     "reason": "no_integrable_iv_pairs"
+    },
+    {
+     "file": "20260813_150341.csv",
+     "reason": "no_integrable_iv_pairs"
+    },
+    {
+     "file": "20260816_124817.csv",
+     "reason": "no_iv_series"
+    },
+    {
+     "file": "20260816_144003.csv",
+     "reason": "no_iv_series"
+    }
+   ],
+   "lowestObservedPackTempBinClean": "0-5"
+  },
+  "Q1_Q2_Q4_all": {
+   "bins": [
+    {
+     "bin": "<0",
+     "ahDischarge": 0.0,
+     "ahCharge": 0.0,
+     "ahThroughput": 0.0,
+     "shareOfThroughput": 0.0,
+     "hours": 0.0,
+     "meanAbsCurrentA": null,
+     "i2hDischarge": 0.0,
+     "i2hCharge": 0.0,
+     "nDrives": 0,
+     "nDays": 0,
+     "status": "not shown"
+    },
+    {
+     "bin": "0-5",
+     "ahDischarge": 1.058304,
+     "ahCharge": 1.422694,
+     "ahThroughput": 2.480997,
+     "shareOfThroughput": 0.00048193,
+     "hours": 0.112993,
+     "meanAbsCurrentA": 21.9571,
+     "i2hDischarge": 25.3861,
+     "i2hCharge": 72.172,
+     "nDrives": 1,
+     "nDays": 1,
+     "status": "not shown"
+    },
+    {
+     "bin": "5-10",
+     "ahDischarge": 5.674915,
+     "ahCharge": 10.093933,
+     "ahThroughput": 15.768848,
+     "shareOfThroughput": 0.00306305,
+     "hours": 0.874063,
+     "meanAbsCurrentA": 18.0409,
+     "i2hDischarge": 128.0165,
+     "i2hCharge": 436.2774,
+     "nDrives": 10,
+     "nDays": 8,
+     "status": "supported"
+    },
+    {
+     "bin": "10-15",
+     "ahDischarge": 36.397645,
+     "ahCharge": 47.996317,
+     "ahThroughput": 84.393962,
+     "shareOfThroughput": 0.01639329,
+     "hours": 5.176079,
+     "meanAbsCurrentA": 16.3046,
+     "i2hDischarge": 1000.0982,
+     "i2hCharge": 1955.8973,
+     "nDrives": 53,
+     "nDays": 30,
+     "status": "supported"
+    },
+    {
+     "bin": "15-20",
+     "ahDischarge": 114.12713,
+     "ahCharge": 136.584344,
+     "ahThroughput": 250.711474,
+     "shareOfThroughput": 0.04869999,
+     "hours": 14.538099,
+     "meanAbsCurrentA": 17.2451,
+     "i2hDischarge": 3435.3891,
+     "i2hCharge": 5791.6597,
+     "nDrives": 147,
+     "nDays": 73,
+     "status": "supported"
+    },
+    {
+     "bin": "20-25",
+     "ahDischarge": 241.104371,
+     "ahCharge": 251.479948,
+     "ahThroughput": 492.584319,
+     "shareOfThroughput": 0.0956831,
+     "hours": 26.608293,
+     "meanAbsCurrentA": 18.5124,
+     "i2hDischarge": 7855.1307,
+     "i2hCharge": 11306.1635,
+     "nDrives": 216,
+     "nDays": 112,
+     "status": "supported"
+    },
+    {
+     "bin": "25-30",
+     "ahDischarge": 310.840617,
+     "ahCharge": 328.796303,
+     "ahThroughput": 639.63692,
+     "shareOfThroughput": 0.12424765,
+     "hours": 31.134548,
+     "meanAbsCurrentA": 20.5443,
+     "i2hDischarge": 11178.2826,
+     "i2hCharge": 15429.1497,
+     "nDrives": 203,
+     "nDays": 106,
+     "status": "supported"
+    },
+    {
+     "bin": "30-35",
+     "ahDischarge": 387.759911,
+     "ahCharge": 394.268043,
+     "ahThroughput": 782.027954,
+     "shareOfThroughput": 0.15190671,
+     "hours": 36.539653,
+     "meanAbsCurrentA": 21.4022,
+     "i2hDischarge": 14874.537,
+     "i2hCharge": 19231.2569,
+     "nDrives": 200,
+     "nDays": 89,
+     "status": "supported"
+    },
+    {
+     "bin": "35-40",
+     "ahDischarge": 634.347282,
+     "ahCharge": 649.45773,
+     "ahThroughput": 1283.805011,
+     "shareOfThroughput": 0.24937547,
+     "hours": 59.103316,
+     "meanAbsCurrentA": 21.7214,
+     "i2hDischarge": 24229.9165,
+     "i2hCharge": 31748.5754,
+     "nDrives": 173,
+     "nDays": 63,
+     "status": "supported"
+    },
+    {
+     "bin": ">=40",
+     "ahDischarge": 806.364707,
+     "ahCharge": 788.490919,
+     "ahThroughput": 1594.855626,
+     "shareOfThroughput": 0.30979617,
+     "hours": 61.437959,
+     "meanAbsCurrentA": 25.9588,
+     "i2hDischarge": 34626.2761,
+     "i2hCharge": 42360.4723,
+     "nDrives": 112,
+     "nDays": 41,
+     "status": "supported"
+    },
+    {
+     "bin": "unassigned",
+     "ahDischarge": 0.96401,
+     "ahCharge": 0.851393,
+     "ahThroughput": 1.815404,
+     "shareOfThroughput": 0.00035264,
+     "hours": 0.164333,
+     "meanAbsCurrentA": 11.0471,
+     "i2hDischarge": 26.1762,
+     "i2hCharge": 37.844,
+     "nDrives": 87,
+     "nDays": 35,
+     "status": "n/a"
+    }
+   ]
+  },
+  "Q1_Q2_Q4_clean": {
+   "bins": [
+    {
+     "bin": "<0",
+     "ahDischarge": 0.0,
+     "ahCharge": 0.0,
+     "ahThroughput": 0.0,
+     "shareOfThroughput": 0.0,
+     "hours": 0.0,
+     "meanAbsCurrentA": null,
+     "i2hDischarge": 0.0,
+     "i2hCharge": 0.0,
+     "nDrives": 0,
+     "nDays": 0,
+     "status": "not shown"
+    },
+    {
+     "bin": "0-5",
+     "ahDischarge": 1.058304,
+     "ahCharge": 1.422694,
+     "ahThroughput": 2.480997,
+     "shareOfThroughput": 0.00048198,
+     "hours": 0.112993,
+     "meanAbsCurrentA": 21.9571,
+     "i2hDischarge": 25.3861,
+     "i2hCharge": 72.172,
+     "nDrives": 1,
+     "nDays": 1,
+     "status": "not shown"
+    },
+    {
+     "bin": "5-10",
+     "ahDischarge": 5.674915,
+     "ahCharge": 10.093933,
+     "ahThroughput": 15.768848,
+     "shareOfThroughput": 0.00306336,
+     "hours": 0.874063,
+     "meanAbsCurrentA": 18.0409,
+     "i2hDischarge": 128.0165,
+     "i2hCharge": 436.2774,
+     "nDrives": 10,
+     "nDays": 8,
+     "status": "supported"
+    },
+    {
+     "bin": "10-15",
+     "ahDischarge": 36.397645,
+     "ahCharge": 47.996317,
+     "ahThroughput": 84.393962,
+     "shareOfThroughput": 0.01639495,
+     "hours": 5.176079,
+     "meanAbsCurrentA": 16.3046,
+     "i2hDischarge": 1000.0982,
+     "i2hCharge": 1955.8973,
+     "nDrives": 53,
+     "nDays": 30,
+     "status": "supported"
+    },
+    {
+     "bin": "15-20",
+     "ahDischarge": 114.12713,
+     "ahCharge": 136.584344,
+     "ahThroughput": 250.711474,
+     "shareOfThroughput": 0.04870492,
+     "hours": 14.538099,
+     "meanAbsCurrentA": 17.2451,
+     "i2hDischarge": 3435.3891,
+     "i2hCharge": 5791.6597,
+     "nDrives": 147,
+     "nDays": 73,
+     "status": "supported"
+    },
+    {
+     "bin": "20-25",
+     "ahDischarge": 240.765074,
+     "ahCharge": 251.298103,
+     "ahThroughput": 492.063177,
+     "shareOfThroughput": 0.09559155,
+     "hours": 26.568324,
+     "meanAbsCurrentA": 18.5207,
+     "i2hDischarge": 7846.7136,
+     "i2hCharge": 11293.7726,
+     "nDrives": 214,
+     "nDays": 111,
+     "status": "supported"
+    },
+    {
+     "bin": "25-30",
+     "ahDischarge": 310.840617,
+     "ahCharge": 328.796303,
+     "ahThroughput": 639.63692,
+     "shareOfThroughput": 0.12426023,
+     "hours": 31.134548,
+     "meanAbsCurrentA": 20.5443,
+     "i2hDischarge": 11178.2826,
+     "i2hCharge": 15429.1497,
+     "nDrives": 203,
+     "nDays": 106,
+     "status": "supported"
+    },
+    {
+     "bin": "30-35",
+     "ahDischarge": 387.759911,
+     "ahCharge": 394.268043,
+     "ahThroughput": 782.027954,
+     "shareOfThroughput": 0.15192209,
+     "hours": 36.539653,
+     "meanAbsCurrentA": 21.4022,
+     "i2hDischarge": 14874.537,
+     "i2hCharge": 19231.2569,
+     "nDrives": 200,
+     "nDays": 89,
+     "status": "supported"
+    },
+    {
+     "bin": "35-40",
+     "ahDischarge": 634.347282,
+     "ahCharge": 649.45773,
+     "ahThroughput": 1283.805011,
+     "shareOfThroughput": 0.24940072,
+     "hours": 59.103316,
+     "meanAbsCurrentA": 21.7214,
+     "i2hDischarge": 24229.9165,
+     "i2hCharge": 31748.5754,
+     "nDrives": 173,
+     "nDays": 63,
+     "status": "supported"
+    },
+    {
+     "bin": ">=40",
+     "ahDischarge": 806.364707,
+     "ahCharge": 788.490919,
+     "ahThroughput": 1594.855626,
+     "shareOfThroughput": 0.30982753,
+     "hours": 61.437959,
+     "meanAbsCurrentA": 25.9588,
+     "i2hDischarge": 34626.2761,
+     "i2hCharge": 42360.4723,
+     "nDrives": 112,
+     "nDays": 41,
+     "status": "supported"
+    },
+    {
+     "bin": "unassigned",
+     "ahDischarge": 0.96401,
+     "ahCharge": 0.851393,
+     "ahThroughput": 1.815404,
+     "shareOfThroughput": 0.00035267,
+     "hours": 0.164333,
+     "meanAbsCurrentA": 11.0471,
+     "i2hDischarge": 26.1762,
+     "i2hCharge": 37.844,
+     "nDrives": 87,
+     "nDays": 35,
+     "status": "n/a"
+    }
+   ]
+  },
+  "Q3_chargeCurrentByTemperature_clean": {
+   "unit": "A (time-weighted over intervals with charge; histogram resolution of the current classes)",
+   "rows": [
+    {
+     "bin": "<0",
+     "chargeHours": 0.0,
+     "currentA": null,
+     "cRateOnRated5Ah": null
+    },
+    {
+     "bin": "0-5",
+     "chargeHours": 0.048711,
+     "currentA": {
+      "p50": 24.814,
+      "p95": 72.869,
+      "p99": 92.098,
+      "max": 83.5
+     },
+     "cRateOnRated5Ah": {
+      "p50": 4.9628,
+      "p95": 14.5738,
+      "p99": 18.4196,
+      "max": 16.7
+     }
+    },
+    {
+     "bin": "5-10",
+     "chargeHours": 0.414687,
+     "currentA": {
+      "p50": 17.417,
+      "p95": 70.133,
+      "p99": 90.797,
+      "max": 92.075
+     },
+     "cRateOnRated5Ah": {
+      "p50": 3.4834,
+      "p95": 14.0266,
+      "p99": 18.1594,
+      "max": 18.415
+     }
+    },
+    {
+     "bin": "10-15",
+     "chargeHours": 2.406503,
+     "currentA": {
+      "p50": 13.156,
+      "p95": 65.051,
+      "p99": 84.817,
+      "max": 106.6
+     },
+     "cRateOnRated5Ah": {
+      "p50": 2.6312,
+      "p95": 13.0102,
+      "p99": 16.9634,
+      "max": 21.32
+     }
+    },
+    {
+     "bin": "15-20",
+     "chargeHours": 6.348156,
+     "currentA": {
+      "p50": 14.878,
+      "p95": 66.787,
+      "p99": 90.947,
+      "max": 124.775
+     },
+     "cRateOnRated5Ah": {
+      "p50": 2.9756,
+      "p95": 13.3574,
+      "p99": 18.1894,
+      "max": 24.955
+     }
+    },
+    {
+     "bin": "20-25",
+     "chargeHours": 11.067069,
+     "currentA": {
+      "p50": 16.642,
+      "p95": 68.975,
+      "p99": 97.253,
+      "max": 175.825
+     },
+     "cRateOnRated5Ah": {
+      "p50": 3.3284,
+      "p95": 13.795,
+      "p99": 19.4506,
+      "max": 35.165
+     }
+    },
+    {
+     "bin": "25-30",
+     "chargeHours": 13.735601,
+     "currentA": {
+      "p50": 17.94,
+      "p95": 71.866,
+      "p99": 97.775,
+      "max": 180.125
+     },
+     "cRateOnRated5Ah": {
+      "p50": 3.588,
+      "p95": 14.3732,
+      "p99": 19.555,
+      "max": 36.025
+     }
+    },
+    {
+     "bin": "30-35",
+     "chargeHours": 16.198026,
+     "currentA": {
+      "p50": 18.315,
+      "p95": 72.995,
+      "p99": 104.827,
+      "max": 193.675
+     },
+     "cRateOnRated5Ah": {
+      "p50": 3.663,
+      "p95": 14.599,
+      "p99": 20.9654,
+      "max": 38.735
+     }
+    },
+    {
+     "bin": "35-40",
+     "chargeHours": 29.114498,
+     "currentA": {
+      "p50": 15.049,
+      "p95": 71.868,
+      "p99": 98.458,
+      "max": 198.475
+     },
+     "cRateOnRated5Ah": {
+      "p50": 3.0098,
+      "p95": 14.3736,
+      "p99": 19.6916,
+      "max": 39.695
+     }
+    },
+    {
+     "bin": ">=40",
+     "chargeHours": 31.344759,
+     "currentA": {
+      "p50": 18.156,
+      "p95": 78.012,
+      "p99": 107.642,
+      "max": 197.0
+     },
+     "cRateOnRated5Ah": {
+      "p50": 3.6312,
+      "p95": 15.6024,
+      "p99": 21.5284,
+      "max": 39.4
+     }
+    }
+   ],
+   "cRateReference": "|I| / 5 A rated (verified:false)"
+  },
+  "Q5_screens_clean": {
+   "primary": {
+    "S1": {
+     "definition": "charge Ah in bins below 10 C",
+     "ah": 11.516627,
+     "cleanChargeAh": 2609.259779,
+     "nDrives": 10,
+     "nDays": 8,
+     "status": "supported",
+     "share": 0.00441375,
+     "shareCi95": [
+      0.00149515,
+      0.00839333
+     ],
+     "essDays": 59.997
+    },
+    "S2": {
+     "definition": "charge Ah in bins below 15 C",
+     "ah": 59.512944,
+     "cleanChargeAh": 2609.259779,
+     "nDrives": 55,
+     "nDays": 30,
+     "status": "supported",
+     "share": 0.02280836,
+     "shareCi95": [
+      0.01335869,
+      0.03516024
+     ],
+     "essDays": 59.997
+    },
+    "S3": {
+     "definition": "charge Ah at a mean interval charge current of 25 A or more",
+     "ah": 2006.803822,
+     "cleanChargeAh": 2609.259779,
+     "nDrives": 633,
+     "nDays": 126,
+     "status": "supported",
+     "share": 0.76910848,
+     "shareCi95": [
+      0.76017584,
+      0.7772139
+     ],
+     "essDays": 59.997
+    },
+    "S4": {
+     "definition": "charge Ah at SOC of 70 % or more",
+     "ah": 403.175627,
+     "cleanChargeAh": 2609.259779,
+     "nDrives": 350,
+     "nDays": 112,
+     "status": "supported",
+     "share": 0.15451724,
+     "shareCi95": [
+      0.13971454,
+      0.16890621
+     ],
+     "essDays": 59.997,
+     "socMissingAh": 0.0
+    },
+    "S5": {
+     "definition": "charge Ah below 10 C at a mean interval charge current of 25 A or more",
+     "ah": 8.91098,
+     "cleanChargeAh": 2609.259779,
+     "nDrives": 9,
+     "nDays": 7,
+     "status": "not shown",
+     "share": 0.00341514,
+     "shareCi95": null,
+     "essDays": 59.997
+    }
+   },
+   "sensitivityTmin": {
+    "S1": {
+     "definition": "charge Ah in bins below 10 C",
+     "ah": 16.461895,
+     "cleanChargeAh": 2609.259779,
+     "nDrives": 15,
+     "nDays": 10,
+     "status": "supported",
+     "share": 0.00630903,
+     "shareCi95": [
+      0.00255758,
+      0.01135429
+     ],
+     "essDays": 59.997
+    },
+    "S2": {
+     "definition": "charge Ah in bins below 15 C",
+     "ah": 86.573442,
+     "cleanChargeAh": 2609.259779,
+     "nDrives": 74,
+     "nDays": 36,
+     "status": "supported",
+     "share": 0.03317931,
+     "shareCi95": [
+      0.02122879,
+      0.04899821
+     ],
+     "essDays": 59.997
+    },
+    "S5": {
+     "definition": "charge Ah below 10 C at a mean interval charge current of 25 A or more",
+     "ah": 12.211931,
+     "cleanChargeAh": 2609.259779,
+     "nDrives": 14,
+     "nDays": 10,
+     "status": "supported",
+     "share": 0.00468023,
+     "shareCi95": [
+      0.00184515,
+      0.00858484
+     ],
+     "essDays": 59.997
+    }
+   },
+   "sensitivityOffset": {
+    "-0.5 A": {
+     "S1": {
+      "definition": "charge Ah in bins below 10 C",
+      "ah": 11.302427,
+      "cleanChargeAh": 2563.058652,
+      "nDrives": 10,
+      "nDays": 8,
+      "status": "supported",
+      "share": 0.00440974,
+      "shareCi95": [
+       0.00149703,
+       0.00839792
+      ],
+      "essDays": 59.946
+     },
+     "S2": {
+      "definition": "charge Ah in bins below 15 C",
+      "ah": 58.238782,
+      "cleanChargeAh": 2563.058652,
+      "nDrives": 55,
+      "nDays": 30,
+      "status": "supported",
+      "share": 0.02272238,
+      "shareCi95": [
+       0.01330581,
+       0.03504769
+      ],
+      "essDays": 59.946
+     },
+     "S3": {
+      "definition": "charge Ah at a mean interval charge current of 25 A or more",
+      "ah": 1968.042404,
+      "cleanChargeAh": 2563.058652,
+      "nDrives": 632,
+      "nDays": 126,
+      "status": "supported",
+      "share": 0.76784915,
+      "shareCi95": [
+       0.75897324,
+       0.77588907
+      ],
+      "essDays": 59.946
+     },
+     "S4": {
+      "definition": "charge Ah at SOC of 70 % or more",
+      "ah": 395.773547,
+      "cleanChargeAh": 2563.058652,
+      "nDrives": 350,
+      "nDays": 112,
+      "status": "supported",
+      "share": 0.15441455,
+      "shareCi95": [
+       0.13961246,
+       0.16879636
+      ],
+      "essDays": 59.946,
+      "socMissingAh": 0.0
+     },
+     "S5": {
+      "definition": "charge Ah below 10 C at a mean interval charge current of 25 A or more",
+      "ah": 8.739972,
+      "cleanChargeAh": 2563.058652,
+      "nDrives": 9,
+      "nDays": 7,
+      "status": "not shown",
+      "share": 0.00340998,
+      "shareCi95": null,
+      "essDays": 59.946
+     }
+    },
+    "+0.5 A": {
+     "S1": {
+      "definition": "charge Ah in bins below 10 C",
+      "ah": 11.733618,
+      "cleanChargeAh": 2656.357592,
+      "nDrives": 10,
+      "nDays": 8,
+      "status": "supported",
+      "share": 0.00441718,
+      "shareCi95": [
+       0.00149327,
+       0.00839471
+      ],
+      "essDays": 60.045
+     },
+     "S2": {
+      "definition": "charge Ah in bins below 15 C",
+      "ah": 60.822067,
+      "cleanChargeAh": 2656.357592,
+      "nDrives": 55,
+      "nDays": 30,
+      "status": "supported",
+      "share": 0.02289679,
+      "shareCi95": [
+       0.01340688,
+       0.0353131
+      ],
+      "essDays": 60.045
+     },
+     "S3": {
+      "definition": "charge Ah at a mean interval charge current of 25 A or more",
+      "ah": 2046.466174,
+      "cleanChargeAh": 2656.357592,
+      "nDrives": 634,
+      "nDays": 126,
+      "status": "supported",
+      "share": 0.77040312,
+      "shareCi95": [
+       0.76138878,
+       0.77849091
+      ],
+      "essDays": 60.045
+     },
+     "S4": {
+      "definition": "charge Ah at SOC of 70 % or more",
+      "ah": 410.710882,
+      "cleanChargeAh": 2656.357592,
+      "nDrives": 352,
+      "nDays": 112,
+      "status": "supported",
+      "share": 0.1546143,
+      "shareCi95": [
+       0.13980887,
+       0.16903393
+      ],
+      "essDays": 60.045,
+      "socMissingAh": 0.0
+     },
+     "S5": {
+      "definition": "charge Ah below 10 C at a mean interval charge current of 25 A or more",
+      "ah": 9.048749,
+      "cleanChargeAh": 2656.357592,
+      "nDrives": 9,
+      "nDays": 7,
+      "status": "not shown",
+      "share": 0.00340645,
+      "shareCi95": null,
+      "essDays": 60.045
+     }
+    }
+   },
+   "sensitivityCadence": {
+    "fast": {
+     "nDrives": 227,
+     "S3": {
+      "definition": "charge Ah at a mean interval charge current of 25 A or more",
+      "ah": 523.344891,
+      "cleanChargeAh": 687.074138,
+      "nDrives": 217,
+      "nDays": 44,
+      "status": "supported",
+      "share": 0.76170076,
+      "shareCi95": [
+       0.74692906,
+       0.77583369
+      ],
+      "essDays": 27.855
+     },
+     "Q3_p95_A_all_bins": 70.569
+    },
+    "slow": {
+     "nDrives": 422,
+     "S3": {
+      "definition": "charge Ah at a mean interval charge current of 25 A or more",
+      "ah": 1483.458931,
+      "cleanChargeAh": 1922.185641,
+      "nDrives": 416,
+      "nDays": 88,
+      "status": "supported",
+      "share": 0.77175633,
+      "shareCi95": [
+       0.76138242,
+       0.78124582
+      ],
+      "essDays": 38.845
+     },
+     "Q3_p95_A_all_bins": 73.505
+    }
+   },
+   "offsetNote": "current offset of -0.5 and +0.5 A applied to every sample (assumed, verified:false); the primary is offset 0",
+   "limits": [
+    "Splitting an interval at a bin crossing instead of end-sample attribution is not run (named limit).",
+    "Screens count exposure; they do not say the exposure is harmful."
+   ]
+  },
+  "Q6_totals": {
+   "ahThroughputAll": 5148.0805,
+   "nDrivingDays": 127,
+   "ahThroughputPerDrivingDay": 40.5361,
+   "note": "window totals and per driving day; not annualised (the window is one season-cycle fragment)"
+  },
+  "Q7_gtcBesideReferences": {
+   "sumThroughputAh": 5148.0805,
+   "sumGrossThroughputKwh": 1866.951,
+   "referenceAhRated": 5.0,
+   "referenceKwhLegacy": 2.1,
+   "apparentScaleAhPer100": 4.8952,
+   "gtcRatedBasis": 1029.616,
+   "gtcLegacyBasis": 889.024,
+   "gtcApparentScaleBasis": 1051.659,
+   "ratioRatedOverLegacy": 1.1581,
+   "note": "sums over the drives with an Ah value in ah_throughput.csv; the references (5 Ah rated, 2.1 kWh legacy, apparent SoC-scale) are verified:false and the 20,000 GTC scenario threshold stays a labelled multiplier, not a life estimate"
+  },
+  "validity": {
+   "V1_perDriveInMemory1e-9": true,
+   "V1_perDriveCsv5e-7": true,
+   "V2_totalMatchesSidecar": true,
+   "V3_everyMasterDriveAccounted": true,
+   "V5_screenOrdering": true,
+   "V5_binSharesSumToOne": true,
+   "V1_nDrivesChecked": 651
+  },
+  "provenance": {
+   "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+   "scriptSha256": "8bcd4e30f0253e869c535556efdf89e26c7b6377219d5173d19991bc7560dc7a",
+   "methodVersion": 1,
+   "seed": 42,
+   "nBoot": 4000,
+   "toleranceS": 10.0
   }
  }
 }

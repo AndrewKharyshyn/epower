@@ -1,0 +1,240 @@
+{
+ "claim": "Exposure vector per analyses/M673_spec.md Rev 1.1 (read sections 2, 3, 10). Recompute independently from the raw drive CSVs in raw/ (names with spaces map to drive_master.csv file keys by digits) and drive_master.csv (canonical clean = ens_outlier_v2 False). You may import compute_drive_summary_v6 helpers (_prep_bytes, _series, _asof) as the spec names them; do not read tools/exposure_vector.py or the exposureVector payload block.",
+ "data": "raw/*.csv, drive_master.csv (665 drives), cadence_regime.csv",
+ "claimedPopulation": {
+  "nMasterDrives": 665,
+  "nWithIvPairs": 651,
+  "nCanonicalClean": 649,
+  "nDaysClean": 126
+ },
+ "claimedCleanBins": [
+  {
+   "bin": "<0",
+   "ahDischarge": 0.0,
+   "ahCharge": 0.0,
+   "hours": 0.0,
+   "i2hDischarge": 0.0,
+   "i2hCharge": 0.0,
+   "nDrives": 0,
+   "nDays": 0
+  },
+  {
+   "bin": "0-5",
+   "ahDischarge": 1.058304,
+   "ahCharge": 1.422694,
+   "hours": 0.112993,
+   "i2hDischarge": 25.3861,
+   "i2hCharge": 72.172,
+   "nDrives": 1,
+   "nDays": 1
+  },
+  {
+   "bin": "5-10",
+   "ahDischarge": 5.674915,
+   "ahCharge": 10.093933,
+   "hours": 0.874063,
+   "i2hDischarge": 128.0165,
+   "i2hCharge": 436.2774,
+   "nDrives": 10,
+   "nDays": 8
+  },
+  {
+   "bin": "10-15",
+   "ahDischarge": 36.397645,
+   "ahCharge": 47.996317,
+   "hours": 5.176079,
+   "i2hDischarge": 1000.0982,
+   "i2hCharge": 1955.8973,
+   "nDrives": 53,
+   "nDays": 30
+  },
+  {
+   "bin": "15-20",
+   "ahDischarge": 114.12713,
+   "ahCharge": 136.584344,
+   "hours": 14.538099,
+   "i2hDischarge": 3435.3891,
+   "i2hCharge": 5791.6597,
+   "nDrives": 147,
+   "nDays": 73
+  },
+  {
+   "bin": "20-25",
+   "ahDischarge": 240.765074,
+   "ahCharge": 251.298103,
+   "hours": 26.568324,
+   "i2hDischarge": 7846.7136,
+   "i2hCharge": 11293.7726,
+   "nDrives": 214,
+   "nDays": 111
+  },
+  {
+   "bin": "25-30",
+   "ahDischarge": 310.840617,
+   "ahCharge": 328.796303,
+   "hours": 31.134548,
+   "i2hDischarge": 11178.2826,
+   "i2hCharge": 15429.1497,
+   "nDrives": 203,
+   "nDays": 106
+  },
+  {
+   "bin": "30-35",
+   "ahDischarge": 387.759911,
+   "ahCharge": 394.268043,
+   "hours": 36.539653,
+   "i2hDischarge": 14874.537,
+   "i2hCharge": 19231.2569,
+   "nDrives": 200,
+   "nDays": 89
+  },
+  {
+   "bin": "35-40",
+   "ahDischarge": 634.347282,
+   "ahCharge": 649.45773,
+   "hours": 59.103316,
+   "i2hDischarge": 24229.9165,
+   "i2hCharge": 31748.5754,
+   "nDrives": 173,
+   "nDays": 63
+  },
+  {
+   "bin": ">=40",
+   "ahDischarge": 806.364707,
+   "ahCharge": 788.490919,
+   "hours": 61.437959,
+   "i2hDischarge": 34626.2761,
+   "i2hCharge": 42360.4723,
+   "nDrives": 112,
+   "nDays": 41
+  },
+  {
+   "bin": "unassigned",
+   "ahDischarge": 0.96401,
+   "ahCharge": 0.851393,
+   "hours": 0.164333,
+   "i2hDischarge": 26.1762,
+   "i2hCharge": 37.844,
+   "nDrives": 87,
+   "nDays": 35
+  }
+ ],
+ "claimedAllBinsThroughput": [
+  {
+   "bin": "<0",
+   "ahThroughput": 0.0
+  },
+  {
+   "bin": "0-5",
+   "ahThroughput": 2.480997
+  },
+  {
+   "bin": "5-10",
+   "ahThroughput": 15.768848
+  },
+  {
+   "bin": "10-15",
+   "ahThroughput": 84.393962
+  },
+  {
+   "bin": "15-20",
+   "ahThroughput": 250.711474
+  },
+  {
+   "bin": "20-25",
+   "ahThroughput": 492.584319
+  },
+  {
+   "bin": "25-30",
+   "ahThroughput": 639.63692
+  },
+  {
+   "bin": "30-35",
+   "ahThroughput": 782.027954
+  },
+  {
+   "bin": "35-40",
+   "ahThroughput": 1283.805011
+  },
+  {
+   "bin": ">=40",
+   "ahThroughput": 1594.855626
+  },
+  {
+   "bin": "unassigned",
+   "ahThroughput": 1.815404
+  }
+ ],
+ "claimedScreensClean": {
+  "S1": {
+   "ah": 11.516627,
+   "cleanChargeAh": 2609.259779,
+   "nDrives": 10,
+   "nDays": 8,
+   "status": "supported",
+   "share": 0.00441375,
+   "shareCi95": [
+    0.00149515,
+    0.00839333
+   ]
+  },
+  "S2": {
+   "ah": 59.512944,
+   "cleanChargeAh": 2609.259779,
+   "nDrives": 55,
+   "nDays": 30,
+   "status": "supported",
+   "share": 0.02280836,
+   "shareCi95": [
+    0.01335869,
+    0.03516024
+   ]
+  },
+  "S3": {
+   "ah": 2006.618697,
+   "cleanChargeAh": 2609.259779,
+   "nDrives": 633,
+   "nDays": 126,
+   "status": "supported",
+   "share": 0.76903753,
+   "shareCi95": [
+    0.76010854,
+    0.77714371
+   ]
+  },
+  "S4": {
+   "ah": 403.175627,
+   "cleanChargeAh": 2609.259779,
+   "nDrives": 350,
+   "nDays": 112,
+   "status": "supported",
+   "share": 0.15451724,
+   "shareCi95": [
+    0.13971454,
+    0.16890621
+   ]
+  },
+  "S5": {
+   "ah": 8.91098,
+   "cleanChargeAh": 2609.259779,
+   "nDrives": 9,
+   "nDays": 7,
+   "status": "not shown",
+   "share": 0.00341514,
+   "shareCi95": null
+  }
+ },
+ "claimedGtc": {
+  "sumThroughputAh": 5148.0805,
+  "sumGrossThroughputKwh": 1866.951,
+  "gtcRatedBasis": 1029.616,
+  "gtcLegacyBasis": 889.024,
+  "gtcApparentScaleBasis": 1051.659
+ },
+ "claimedWindowTotals": {
+  "ahThroughputAll": 5148.0805,
+  "nDrivingDays": 127,
+  "ahThroughputPerDrivingDay": 40.5361,
+  "note": "window totals and per driving day; not annualised (the window is one season-cycle fragment)"
+ }
+}
