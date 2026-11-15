@@ -1818,11 +1818,12 @@
       "nDroppedNonFinite": 8,
       "nSingletonClusters": 0
      },
-     "nBootRequested": 200,
-     "nBootValid": 199,
+     "nBootRequested": 4000,
+     "nBootValid": 3980,
      "bootFailureRate": 0.005,
      "bootFailureReasons": {
-      "rank_deficient": 1
+      "rank_deficient": 17,
+      "insufficient_support": 3
      },
      "seed": 42,
      "status": "available",
@@ -1833,16 +1834,16 @@
      "estimatorGap": -0.3722,
      "modelDependent": false,
      "ci95": [
-      -3.3644,
-      1.2325
+      -3.4581,
+      1.3512
      ],
      "ci90": [
-      -3.1286,
-      0.4379
+      -3.0042,
+      0.5109
      ],
-     "bootSe": 1.4643,
-     "pBoot": 0.2211,
-     "bootBias": 0.0831,
+     "bootSe": 1.5369,
+     "pBoot": 0.1905,
+     "bootBias": 0.0474,
      "nOnSupport": {
       "A": 300,
       "B": 54
@@ -1895,7 +1896,8 @@
      ],
      "estimand": "average B-minus-A difference over the common-support population (shared strata and propensity overlap); not the pooled-corpus ATE",
      "interpretation": "seasonal operating difference standardized to the common-support composition; may include unmeasured cabin-heating/defrost demand (no HVAC telemetry)",
-     "label": "exploratory; covariate balance not achieved (largest overlap-weighted SMD 0.214 on pct_highway, tolerance 0.1); 199 valid bootstrap draws of 200 requested; stored, not rendered"
+     "compositionCaption": "raw cold-minus-warm difference is composition-confounded (route, load and season move with the thermal class); the adjusted estimate is on the common-support population only",
+     "label": "exploratory; covariate balance not achieved (largest overlap-weighted SMD 0.214 on pct_highway, tolerance 0.1); 3980 valid bootstrap draws of 4000 requested; stored, not rendered"
     }
    }
   },
