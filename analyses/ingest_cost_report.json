@@ -1,5 +1,5 @@
 {
- "runsDir": "C:/Users/AndriiKharyshyn/Downloads/X-Trail Investigation/Repo/xtrail-repo/runs",
+ "runsDir": "C:\\Users\\AndriiKharyshyn\\Downloads\\X-Trail Investigation\\Repo\\xtrail-repo\\runs",
  "batches": [
   {
    "firstRun": "20260930T084144Z",
@@ -1654,14 +1654,14 @@
   },
   {
    "firstRun": "20261110T092856Z",
-   "lastRun": "20261110T145518Z",
-   "nRuns": 6,
-   "result": "gate_failed",
-   "open": true,
-   "executedMin": 414.3,
-   "uniqueMin": 136.8,
-   "repeatedMin": 277.4,
-   "repeatedShare": 2.028,
+   "lastRun": "20261110T232013Z",
+   "nRuns": 13,
+   "result": "ok",
+   "open": false,
+   "executedMin": 750.3,
+   "uniqueMin": 89.1,
+   "repeatedMin": 661.3,
+   "repeatedShare": 7.425,
    "stops": [
     {
      "run": "20261110T092856Z",
@@ -1704,6 +1704,48 @@
      "rc": 2,
      "class": "hard",
      "cause": "{\"ok\": true, \"stats\": {\"cacheHits\": 632, \"extracted\": 33, \"noRaw\": 0, \"notOk\": 0}, \"reconciliation\": {\"outcomeVsThermalSupportLedger\": {\"mine\": {\"notEligible:di"
+    },
+    {
+     "run": "20261110T172208Z",
+     "stage": "restamp_ingest",
+     "rc": 2,
+     "class": "hard",
+     "cause": "XT_INGEST_LABEL (milestone id) is required"
+    },
+    {
+     "run": "20261110T193936Z",
+     "stage": "leaf_guard",
+     "rc": 1,
+     "class": "hard",
+     "cause": "{\"nPreviousLeaves\": 288981, \"nLost\": 187, \"expectedByRule\": {\"m578-carryover-lodo-k10\": 1, \"m466-regen-row-ciSuppressed\": 52, \"m466-regen-narrative-thin\": 13, \""
+    },
+    {
+     "run": "20261110T203559Z",
+     "stage": "leaf_guard",
+     "rc": 1,
+     "class": "hard",
+     "cause": "{\"nPreviousLeaves\": 288981, \"nLost\": 187, \"expectedByRule\": {\"m578-carryover-lodo-k10\": 1, \"m466-regen-row-ciSuppressed\": 52, \"m466-regen-narrative-thin\": 13, \""
+    },
+    {
+     "run": "20261110T210404Z",
+     "stage": "release_check",
+     "rc": 1,
+     "class": "escalation",
+     "cause": "RELEASE CHECK FAILED: semantic gate: forbidden wording + prose==payload + mode behaviour (M299); C:\\Users\\AndriiKharyshyn\\AppData\\Local\\Programs\\Python\\Python31"
+    },
+    {
+     "run": "20261110T212020Z",
+     "stage": "release_check",
+     "rc": 1,
+     "class": "escalation",
+     "cause": "RELEASE CHECK FAILED: semantic gate: forbidden wording + prose==payload + mode behaviour (M299); C:\\Users\\AndriiKharyshyn\\AppData\\Local\\Programs\\Python\\Python31"
+    },
+    {
+     "run": "20261110T214507Z",
+     "stage": "release_check",
+     "rc": 1,
+     "class": "escalation",
+     "cause": "RELEASE CHECK FAILED: C:\\Users\\AndriiKharyshyn\\AppData\\Local\\Programs\\Python\\Python312\\python.exe test_seasonal.py"
     }
    ],
    "resumeAttempts": [
@@ -1741,6 +1783,55 @@
      "restoredStages": 0,
      "reason": null,
      "missReason": null
+    },
+    {
+     "run": "20261110T172208Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": "no valid checkpoint chain for this base state",
+     "missReason": null
+    },
+    {
+     "run": "20261110T193936Z",
+     "resumed": true,
+     "restoredStages": 15,
+     "reason": "stage gtr_family_refresh: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261110T203559Z",
+     "resumed": true,
+     "restoredStages": 82,
+     "reason": "stage leaf_guard: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261110T210404Z",
+     "resumed": true,
+     "restoredStages": 82,
+     "reason": "stage leaf_guard: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261110T212020Z",
+     "resumed": true,
+     "restoredStages": 82,
+     "reason": "stage leaf_guard: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
+    },
+    {
+     "run": "20261110T214507Z",
+     "resumed": false,
+     "restoredStages": 0,
+     "reason": null,
+     "missReason": null
+    },
+    {
+     "run": "20261110T232013Z",
+     "resumed": true,
+     "restoredStages": 8,
+     "reason": "stage refresh_cohort_meta: code or earlier inputs changed, or no checkpoint",
+     "missReason": null
     }
    ]
   }
@@ -1748,17 +1839,17 @@
  "totals": {
   "stopsByClass": {
    "environment": 12,
-   "hard": 53,
-   "escalation": 32
+   "hard": 56,
+   "escalation": 35
   },
   "stopsByStage": {
-   "release_check": 20,
+   "release_check": 23,
+   "leaf_guard": 15,
    "ingest_core": 13,
-   "leaf_guard": 13,
    "gtr_family_refresh": 12,
    "build_html": 9,
+   "restamp_ingest": 5,
    "urban_week_block": 5,
-   "restamp_ingest": 4,
    "refresh_master_seasonal": 2,
    "regen_v2": 2,
    "engine_on_blocks": 2,
@@ -1794,6 +1885,7 @@
     "{\"nPreviousLeaves\": 112534, \"nLost\": 31, \"expectedByRule\": {}, \"nUnexpected\": 31}": 2,
     "{\"nPreviousLeaves\": 281779, \"nLost\": 23, \"expectedByRule\": {\"m575-carryover-method-note\": 2, \"m575-carryover-s3-differs\": 1, \"m466-regen-narrative-thin\": 5, \"m4": 2,
     "{\"nPreviousLeaves\": 284251, \"nLost\": 38, \"expectedByRule\": {\"m466-regen-narrative-thin\": 1, \"m466-regen-row-ciSuppressed-status\": 1, \"m463-crawlstopgo-twopart-s": 2,
+    "{\"nPreviousLeaves\": 288981, \"nLost\": 187, \"expectedByRule\": {\"m578-carryover-lodo-k10\": 1, \"m466-regen-row-ciSuppressed\": 52, \"m466-regen-narrative-thin\": 13, \"": 2,
     "{\"nPreviousLeaves\": 100518, \"nLost\": 335, \"expectedByRule\": {\"carryover-error-when-fit-ok\": 1, \"stamp-reissue-notes\": 138, \"stamp-reissue-notes-text\": 138, \"att": 1,
     "{\"nPreviousLeaves\": 104717, \"nLost\": 18, \"expectedByRule\": {}, \"nUnexpected\": 18}": 1,
     "{\"nPreviousLeaves\": 118500, \"nLost\": 1, \"expectedByRule\": {}, \"nUnexpected\": 1}": 1,
@@ -1804,7 +1896,7 @@
    }
   },
   "scopeBatches": 28,
-  "runsAllTime": 124,
-  "runsNotOkAllTime": 97
+  "runsAllTime": 131,
+  "runsNotOkAllTime": 103
  }
 }
