@@ -68254,6 +68254,27 @@
    },
    "computedAt": "2026-11-15T11:29:12.046284+00:00",
    "computationStatusNote": "M674: derived by tools/exposure_vector.py from raw drive CSVs (cached by sha256), drive_master.csv and ah_throughput.csv (spec analyses/M673_spec.md Rev 1.1); descriptive"
+  },
+  "changePoints": {
+   "corpusHash": "77bbe275f8c22eaf62d8636867764af3",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": "11a89dc0c881bd0a60e9e957ccd1936a",
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-11-15T15:39:37.238621+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3"
+   },
+   "computationStatus": "computed",
+   "includedInReleaseAt": "2026-11-15T15:39:37.238621+00:00",
+   "inputBasis": {
+    "nDrives": 665,
+    "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-11-15T15:39:37.238621+00:00",
+   "computationStatusNote": "M676: derived by tools/changepoints.py from drive_master.csv and four existing sidecars (spec analyses/M675_spec.md Rev 1.1); exploratory"
   }
  },
  "ambientTable": {
@@ -447531,6 +447552,1467 @@
    "seed": 42,
    "nBoot": 4000,
    "toleranceS": 10.0
+  }
+ },
+ "changePoints": {
+  "method": "segment-neighbourhood exact DP (Auger-Lawrence), mean shift, fixed BIC; day-clustered wild residual bootstrap for location intervals (conditional on K)",
+  "spec": "analyses/M675_spec.md Rev 1.1",
+  "exploratory": true,
+  "articleUse": false,
+  "seed": 42,
+  "nBoot": 4000,
+  "corpusHash": "77bbe275f8c22eaf62d8636867764af3",
+  "eligibility": "canonical-clean drives (ens_outlier_v2 == False), ordered by date, time_start, file",
+  "nCleanDrives": 651,
+  "series": {
+   "X1": {
+    "label": "implied current offset (A, estimated)",
+    "source": "master:implied_offset_A_drive",
+    "nDrives": 632,
+    "nDays": 126,
+    "status": "computed",
+    "method": "segment-neighbourhood exact DP, mean shift, BIC (2K+1) ln n",
+    "minSegmentDrives": 8,
+    "minSegmentDays": 3,
+    "bic": [
+     -105.341,
+     -94.419,
+     -90.789,
+     -80.712,
+     -73.553,
+     -63.515
+    ],
+    "rss": [
+     529.5387967325944,
+     527.8857379887872,
+     520.2018262709234,
+     517.8846178466706,
+     513.203511122189,
+     510.886302697936
+    ],
+    "selectedK": 0,
+    "rss0PopVarianceCheck": 529.538796732595,
+    "trend": {
+     "slopePerDay": 0.00023559647880865556,
+     "rss": 529.4658259638145,
+     "bic": -98.97934872939238,
+     "note": "linear-trend comparison; no verdict wording"
+    },
+    "segments": [
+     {
+      "start": 0,
+      "end": 632,
+      "nDrives": 632,
+      "nDays": 126,
+      "mean": -0.3192705696202532,
+      "ci95": [
+       -0.3729351517070852,
+       -0.2690127247328494
+      ]
+     }
+    ],
+    "changePoints": [],
+    "sensitivities": {}
+   },
+   "X2": {
+    "label": "loaded p95 cell spread (mV)",
+    "source": "master:cell_spread_loaded_p95_mv",
+    "nDrives": 633,
+    "nDays": 126,
+    "status": "computed",
+    "method": "segment-neighbourhood exact DP, mean shift, BIC (2K+1) ln n",
+    "minSegmentDrives": 8,
+    "minSegmentDays": 3,
+    "bic": [
+     1941.297,
+     1868.427,
+     1867.906,
+     1864.752,
+     1867.579,
+     1868.194
+    ],
+    "rss": [
+     13454.913680884405,
+     11749.906942099333,
+     11503.391167459835,
+     11215.29941909053,
+     11038.227620746307,
+     10826.045210075852
+    ],
+    "selectedK": 3,
+    "rss0PopVarianceCheck": 13454.913680884676,
+    "trend": {
+     "slopePerDay": 0.016603434383892182,
+     "rss": 13093.904480511517,
+     "bic": 1930.5311891728563,
+     "note": "linear-trend comparison; no verdict wording"
+    },
+    "segments": [
+     {
+      "start": 0,
+      "end": 129,
+      "nDrives": 129,
+      "nDays": 35,
+      "mean": 22.648837209302325,
+      "ci95": [
+       21.669303037438194,
+       23.609264399722417
+      ]
+     },
+     {
+      "start": 129,
+      "end": 187,
+      "nDrives": 58,
+      "nDays": 11,
+      "mean": 25.34137931034483,
+      "ci95": [
+       23.744741622078283,
+       26.81668859649123
+      ]
+     },
+     {
+      "start": 187,
+      "end": 528,
+      "nDrives": 341,
+      "nDays": 64,
+      "mean": 22.060997067448685,
+      "ci95": [
+       21.537600773228544,
+       22.60750933060205
+      ]
+     },
+     {
+      "start": 528,
+      "end": 633,
+      "nDrives": 105,
+      "nDays": 18,
+      "mean": 26.977142857142855,
+      "ci95": [
+       25.93057793847567,
+       28.111834455866717
+      ]
+     }
+    ],
+    "sameKShare": 0.665,
+    "changePoints": [
+     {
+      "driveIndex": 129,
+      "date": "2026-07-18",
+      "nominal95IntervalDaysUncalibrated": [
+       -38,
+       43
+      ],
+      "nominal95IntervalUncalibrated": [
+       "2026-06-10",
+       "2026-08-30"
+      ],
+      "intervalCalibrated": false,
+      "empiricalCoverage": 0.6243654822335025,
+      "within7dShare": 0.80275,
+      "poorlyLocalised": true,
+      "weaklySupported": false,
+      "bicGainVsK0": 76.545,
+      "conditionalOnK": true
+     },
+     {
+      "driveIndex": 187,
+      "date": "2026-08-02",
+      "nominal95IntervalDaysUncalibrated": [
+       -12,
+       49
+      ],
+      "nominal95IntervalUncalibrated": [
+       "2026-07-21",
+       "2026-09-20"
+      ],
+      "intervalCalibrated": false,
+      "empiricalCoverage": 0.6243654822335025,
+      "within7dShare": 0.67675,
+      "poorlyLocalised": true,
+      "weaklySupported": false,
+      "bicGainVsK0": 76.545,
+      "conditionalOnK": true
+     },
+     {
+      "driveIndex": 528,
+      "date": "2026-10-09",
+      "nominal95IntervalDaysUncalibrated": [
+       0,
+       0
+      ],
+      "nominal95IntervalUncalibrated": [
+       "2026-10-09",
+       "2026-10-09"
+      ],
+      "intervalCalibrated": false,
+      "empiricalCoverage": 0.6243654822335025,
+      "within7dShare": 0.98625,
+      "poorlyLocalised": false,
+      "weaklySupported": false,
+      "bicGainVsK0": 76.545,
+      "conditionalOnK": true
+     }
+    ],
+    "sensitivities": {
+     "logScale": {
+      "selectedK": 3,
+      "locations": [
+       "2026-07-18",
+       "2026-08-02",
+       "2026-10-09"
+      ]
+     },
+     "A_fixedLocations": {
+      "status": "computed",
+      "beta": 0.04279472940551443,
+      "steps": [
+       {
+        "step": 1,
+        "withoutBeta": {
+         "est": 2.692542101042502,
+         "ci95": [
+          0.8476401355710543,
+          4.5628476966873635
+         ]
+        },
+        "withBeta": {
+         "est": 2.6522640357559446,
+         "ci95": [
+          0.849120352959099,
+          4.494035707771815
+         ]
+        }
+       },
+       {
+        "step": 2,
+        "withoutBeta": {
+         "est": -3.2803822428961382,
+         "ci95": [
+          -4.966954246926315,
+          -1.5833909438177465
+         ]
+        },
+        "withBeta": {
+         "est": -3.1064510300063652,
+         "ci95": [
+          -4.782711480331187,
+          -1.4743903702843477
+         ]
+        }
+       },
+       {
+        "step": 3,
+        "withoutBeta": {
+         "est": 4.916145789694173,
+         "ci95": [
+          3.7124863603648963,
+          6.133361600614256
+         ]
+        },
+        "withBeta": {
+         "est": 5.184440834759787,
+         "ci95": [
+          4.03779561880467,
+          6.5104108006616555
+         ]
+        }
+       }
+      ],
+      "nDraws": 2000
+     },
+     "B_restrictedRange": {
+      "rangeC": [
+       16.0,
+       36.0
+      ],
+      "postDrives": 504,
+      "postRetained": 407,
+      "postRetainedShare": 0.8075396825396826,
+      "postRetainedDays": 88,
+      "status": "computed",
+      "step": 0.37150476418769074,
+      "ci95": [
+       -0.848252393917336,
+       1.5751288750158765
+      ],
+      "nPre": 123
+     },
+     "C_residualSearch": {
+      "selectedK": 3,
+      "locations": [
+       "2026-07-18",
+       "2026-08-02",
+       "2026-10-09"
+      ],
+      "beta": -0.03077849785894595,
+      "status": "secondary"
+     },
+     "verdict": "not separable from the temperature range"
+    }
+   },
+   "X3": {
+    "label": "apparent Ah per 100 % SOC",
+    "source": "master:cap_ah_est",
+    "nDrives": 649,
+    "nDays": 126,
+    "status": "computed",
+    "method": "segment-neighbourhood exact DP, mean shift, BIC (2K+1) ln n",
+    "minSegmentDrives": 8,
+    "minSegmentDays": 3,
+    "bic": [
+     -3221.853,
+     -3269.878,
+     -3268.458,
+     -3276.636,
+     -3275.817,
+     -3272.706
+    ],
+    "rss": [
+     4.486711864439712,
+     4.08436881669877,
+     4.012440328535149,
+     3.883918740830268,
+     3.8119902526666465,
+     3.75462732200765
+    ],
+    "selectedK": 3,
+    "rss0PopVarianceCheck": 4.4867118644067805,
+    "trend": {
+     "slopePerDay": -0.0003989815366786432,
+     "rss": 4.274358472316846,
+     "bic": -3246.8454847214457,
+     "note": "linear-trend comparison; no verdict wording"
+    },
+    "segments": [
+     {
+      "start": 0,
+      "end": 421,
+      "nDrives": 421,
+      "nDays": 91,
+      "mean": 5.850095011876485,
+      "ci95": [
+       5.842886813361512,
+       5.857119330934138
+      ]
+     },
+     {
+      "start": 421,
+      "end": 438,
+      "nDrives": 17,
+      "nDays": 5,
+      "mean": 5.753529411764707,
+      "ci95": [
+       5.738148148148149,
+       5.787999999999999
+      ]
+     },
+     {
+      "start": 438,
+      "end": 508,
+      "nDrives": 70,
+      "nDays": 10,
+      "mean": 5.8745714285714286,
+      "ci95": [
+       5.857313029447358,
+       5.895079464285714
+      ]
+     },
+     {
+      "start": 508,
+      "end": 649,
+      "nDrives": 141,
+      "nDays": 22,
+      "mean": 5.789858156028368,
+      "ci95": [
+       5.771823414767366,
+       5.804699283047684
+      ]
+     }
+    ],
+    "sameKShare": 0.67525,
+    "changePoints": [
+     {
+      "driveIndex": 421,
+      "date": "2026-09-21",
+      "nominal95IntervalDaysUncalibrated": [
+       -1,
+       1
+      ],
+      "nominal95IntervalUncalibrated": [
+       "2026-09-20",
+       "2026-09-22"
+      ],
+      "intervalCalibrated": false,
+      "empiricalCoverage": 0.6243654822335025,
+      "within7dShare": 0.9875,
+      "poorlyLocalised": false,
+      "weaklySupported": false,
+      "bicGainVsK0": 54.782,
+      "conditionalOnK": true
+     },
+     {
+      "driveIndex": 438,
+      "date": "2026-09-25",
+      "nominal95IntervalDaysUncalibrated": [
+       0,
+       0
+      ],
+      "nominal95IntervalUncalibrated": [
+       "2026-09-25",
+       "2026-09-25"
+      ],
+      "intervalCalibrated": false,
+      "empiricalCoverage": 0.6243654822335025,
+      "within7dShare": 0.986,
+      "poorlyLocalised": false,
+      "weaklySupported": false,
+      "bicGainVsK0": 54.782,
+      "conditionalOnK": true
+     },
+     {
+      "driveIndex": 508,
+      "date": "2026-10-05",
+      "nominal95IntervalDaysUncalibrated": [
+       -1,
+       2
+      ],
+      "nominal95IntervalUncalibrated": [
+       "2026-10-04",
+       "2026-10-07"
+      ],
+      "intervalCalibrated": false,
+      "empiricalCoverage": 0.6243654822335025,
+      "within7dShare": 0.98225,
+      "poorlyLocalised": false,
+      "weaklySupported": false,
+      "bicGainVsK0": 54.782,
+      "conditionalOnK": true
+     }
+    ],
+    "sensitivities": {}
+   },
+   "X4": {
+    "label": "resistance proxy a1_R (model-derived), a1_n >= 600",
+    "source": "resistance_joint_sidecar.csv:a1_R",
+    "nDrives": 193,
+    "nDays": 82,
+    "status": "computed",
+    "method": "segment-neighbourhood exact DP, mean shift, BIC (2K+1) ln n",
+    "minSegmentDrives": 8,
+    "minSegmentDays": 3,
+    "bic": [
+     1176.893,
+     1115.947,
+     1095.824,
+     1094.393,
+     1100.471,
+     1105.867
+    ],
+    "rss": [
+     83559.58244767133,
+     57699.05673007271,
+     49226.9160216701,
+     46269.7739833628,
+     45215.88494024446,
+     44029.91939382741
+    ],
+    "selectedK": 3,
+    "rss0PopVarianceCheck": 83559.58244766839,
+    "trend": {
+     "slopePerDay": 0.28418926299643527,
+     "rss": 54466.43055061287,
+     "bic": 1099.5567625903388,
+     "note": "linear-trend comparison; no verdict wording"
+    },
+    "segments": [
+     {
+      "start": 0,
+      "end": 84,
+      "nDrives": 84,
+      "nDays": 34,
+      "mean": 117.71416666666667,
+      "ci95": [
+       114.27083380773362,
+       121.75895390243899
+      ]
+     },
+     {
+      "start": 84,
+      "end": 143,
+      "nDrives": 59,
+      "nDays": 24,
+      "mean": 132.68101694915254,
+      "ci95": [
+       129.2902895081967,
+       136.5852047077922
+      ]
+     },
+     {
+      "start": 143,
+      "end": 184,
+      "nDrives": 41,
+      "nDays": 19,
+      "mean": 146.29829268292684,
+      "ci95": [
+       140.1442331818182,
+       153.78412760416668
+      ]
+     },
+     {
+      "start": 184,
+      "end": 193,
+      "nDrives": 9,
+      "nDays": 5,
+      "mean": 168.58555555555554,
+      "ci95": [
+       162.2671428571429,
+       172.87636363636364
+      ]
+     }
+    ],
+    "sameKShare": 0.42475,
+    "changePoints": [
+     {
+      "driveIndex": 84,
+      "date": "2026-08-14",
+      "nominal95IntervalDaysUncalibrated": [
+       -27,
+       4
+      ],
+      "nominal95IntervalUncalibrated": [
+       "2026-07-18",
+       "2026-08-18"
+      ],
+      "intervalCalibrated": false,
+      "empiricalCoverage": 0.6243654822335025,
+      "within7dShare": 0.72175,
+      "poorlyLocalised": false,
+      "weaklySupported": false,
+      "bicGainVsK0": 82.501,
+      "conditionalOnK": true
+     },
+     {
+      "driveIndex": 143,
+      "date": "2026-09-21",
+      "nominal95IntervalDaysUncalibrated": [
+       -38,
+       18
+      ],
+      "nominal95IntervalUncalibrated": [
+       "2026-08-14",
+       "2026-10-09"
+      ],
+      "intervalCalibrated": false,
+      "empiricalCoverage": 0.6243654822335025,
+      "within7dShare": 0.60575,
+      "poorlyLocalised": false,
+      "weaklySupported": false,
+      "bicGainVsK0": 82.501,
+      "conditionalOnK": true
+     },
+     {
+      "driveIndex": 184,
+      "date": "2026-11-04",
+      "nominal95IntervalDaysUncalibrated": [
+       -23,
+       0
+      ],
+      "nominal95IntervalUncalibrated": [
+       "2026-10-12",
+       "2026-11-04"
+      ],
+      "intervalCalibrated": false,
+      "empiricalCoverage": 0.6243654822335025,
+      "within7dShare": 0.48075,
+      "poorlyLocalised": false,
+      "weaklySupported": true,
+      "bicGainVsK0": 82.501,
+      "conditionalOnK": true
+     }
+    ],
+    "sensitivities": {
+     "logScale": {
+      "selectedK": 2,
+      "locations": [
+       "2026-08-14",
+       "2026-10-11"
+      ]
+     },
+     "A_fixedLocations": {
+      "status": "computed",
+      "beta": -1.7799448783577532,
+      "steps": [
+       {
+        "step": 1,
+        "withoutBeta": {
+         "est": 14.966850282485893,
+         "ci95": [
+          9.73553094758066,
+          20.34316816929092
+         ]
+        },
+        "withBeta": {
+         "est": 12.778911582131371,
+         "ci95": [
+          9.026886739081641,
+          16.31100449271571
+         ]
+        }
+       },
+       {
+        "step": 2,
+        "withoutBeta": {
+         "est": 13.617275733774278,
+         "ci95": [
+          5.919414336372873,
+          22.22491982872196
+         ]
+        },
+        "withBeta": {
+         "est": 2.808102412949438,
+         "ci95": [
+          -3.0292554896007586,
+          10.262511341675314
+         ]
+        }
+       },
+       {
+        "step": 3,
+        "withoutBeta": {
+         "est": 22.287262872628673,
+         "ci95": [
+          11.489187470138532,
+          30.463211724806243
+         ]
+        },
+        "withBeta": {
+         "est": 13.020937367682222,
+         "ci95": [
+          4.9830108389440015,
+          20.20004619359291
+         ]
+        }
+       }
+      ],
+      "nDraws": 1990
+     },
+     "A_fixedLocations_lnR_arrhenius": {
+      "status": "computed",
+      "beta": 1.170302909637852,
+      "steps": [
+       {
+        "step": 1,
+        "withoutBeta": {
+         "est": 0.12180299619785995,
+         "ci95": [
+          0.07907585629528238,
+          0.16510848425944613
+         ]
+        },
+        "withBeta": {
+         "est": 0.10655270181441123,
+         "ci95": [
+          0.07616257841498819,
+          0.13486401526250916
+         ]
+        }
+       },
+       {
+        "step": 2,
+        "withoutBeta": {
+         "est": 0.09162118832067989,
+         "ci95": [
+          0.03783707052473397,
+          0.1503991582250446
+         ]
+        },
+        "withBeta": {
+         "est": 0.010831133615526678,
+         "ci95": [
+          -0.02923244253515416,
+          0.06129127596213788
+         ]
+        }
+       },
+       {
+        "step": 3,
+        "withoutBeta": {
+         "est": 0.14661007965179973,
+         "ci95": [
+          0.07799744811300044,
+          0.19989484827439546
+         ]
+        },
+        "withBeta": {
+         "est": 0.07596121857162808,
+         "ci95": [
+          0.024636256356520652,
+          0.12344277743765583
+         ]
+        }
+       }
+      ],
+      "nDraws": 1990
+     },
+     "B_restrictedRange": {
+      "rangeC": [
+       16.075,
+       37.0
+      ],
+      "postDrives": 109,
+      "postRetained": 93,
+      "postRetainedShare": 0.8532110091743119,
+      "postRetainedDays": 45,
+      "status": "computed",
+      "step": 17.666413502109748,
+      "ci95": [
+       12.4243950717193,
+       22.631976780405058
+      ],
+      "nPre": 79
+     },
+     "C_residualSearch": {
+      "selectedK": 1,
+      "locations": [
+       "2026-08-03"
+      ],
+      "beta": -2.3288563326111236,
+      "status": "secondary"
+     },
+     "verdict": "persists under the pack-temperature control"
+    }
+   },
+   "X5": {
+    "label": "logged current sample period (s)",
+    "source": "cadence_regime.csv:I_sample_period_s",
+    "nDrives": 651,
+    "nDays": 126,
+    "status": "listed",
+    "method": "exact transitions of the categorical cadence regime in time order (no BIC; the sample period itself is continuous)",
+    "nDistinctPeriodValues": 416,
+    "periodQuantiles": {
+     "5": 0.772,
+     "25": 0.8905000000000001,
+     "50": 1.247,
+     "75": 1.4385,
+     "95": 1.8935
+    },
+    "regimeCounts": {
+     "slow": 424,
+     "fast": 227
+    },
+    "nTransitions": 9,
+    "transitions": [
+     {
+      "date": "2026-08-14",
+      "driveIndex": 223,
+      "from": "slow",
+      "to": "fast"
+     },
+     {
+      "date": "2026-09-06",
+      "driveIndex": 323,
+      "from": "fast",
+      "to": "slow"
+     },
+     {
+      "date": "2026-10-01",
+      "driveIndex": 480,
+      "from": "slow",
+      "to": "fast"
+     },
+     {
+      "date": "2026-10-08",
+      "driveIndex": 528,
+      "from": "fast",
+      "to": "slow"
+     },
+     {
+      "date": "2026-10-10",
+      "driveIndex": 545,
+      "from": "slow",
+      "to": "fast"
+     },
+     {
+      "date": "2026-10-15",
+      "driveIndex": 575,
+      "from": "fast",
+      "to": "slow"
+     },
+     {
+      "date": "2026-11-02",
+      "driveIndex": 601,
+      "from": "slow",
+      "to": "fast"
+     },
+     {
+      "date": "2026-11-07",
+      "driveIndex": 627,
+      "from": "fast",
+      "to": "slow"
+     },
+     {
+      "date": "2026-11-07",
+      "driveIndex": 628,
+      "from": "slow",
+      "to": "fast"
+     }
+    ],
+    "sensitivities": {}
+   }
+  },
+  "reading": [
+   "A location is a statistical break in a per-drive summary, not a cause; season, route mix, load, logger configuration and the software update move together (one vehicle, one May-to-November window).",
+   "Location intervals are conditional on the selected K and approximate; slow drift versus step is not identifiable here (linear-trend BIC is shown beside).",
+   "X3 is the apparent Ah per 100 % SOC, not a capacity; X1 and X4 are estimated / model-derived. X5 is a logger quantity.",
+   "poorlyLocalised, within7dShare, the +-7 d leg of weaklySupported and the reference comparison all come from the same uncalibrated draws and are lower bounds on location uncertainty.",
+   "The detection holds no reference dates; the reference comparison is a separate step run after the primary results were hashed.",
+   "Planted-step study at the real drives-per-day structure: the nominal 95 % location interval covered the planted location in 62 % of replicates; read every interval as optimistic (too narrow), not as a 95 % interval."
+  ],
+  "intervalCoverageStudy": {
+   "file": "analyses/M676_coverage.json",
+   "plantedStepSd": 1.5,
+   "reps": 200,
+   "nBoot": 400,
+   "nObs": 633,
+   "kEqualsOneRate": 0.985,
+   "empiricalCoverageOf95Interval": 0.6243654822335025,
+   "flaggedBelow0.85": true
+  },
+  "validity": {
+   "V2_V3_V4": true
+  },
+  "primarySha256": "b90afe2373ff81331f45339d4169692883d9c065154b041dce41a30932cfecbb",
+  "referenceComparison": {
+   "referenceDates": [
+    {
+     "kind": "softwareUpdate",
+     "date": "2026-08-25",
+     "provenance": "owner-reported around 2026-08-25; intake-air channel empty from 2026-08-24 10:46"
+    },
+    {
+     "kind": "pidClassTransition",
+     "date": "2026-05-15",
+     "from": "D",
+     "to": "A"
+    },
+    {
+     "kind": "pidClassTransition",
+     "date": "2026-05-31",
+     "from": "A",
+     "to": "D"
+    },
+    {
+     "kind": "pidClassTransition",
+     "date": "2026-06-03",
+     "from": "D",
+     "to": "A"
+    },
+    {
+     "kind": "pidClassTransition",
+     "date": "2026-08-13",
+     "from": "A",
+     "to": "D"
+    },
+    {
+     "kind": "pidClassTransition",
+     "date": "2026-08-14",
+     "from": "D",
+     "to": "A"
+    },
+    {
+     "kind": "pidClassTransition",
+     "date": "2026-11-03",
+     "from": "A",
+     "to": "B"
+    }
+   ],
+   "windowDays": 178,
+   "series": {
+    "X1": {
+     "comparisons": [],
+     "intervalCoverageOfWindow": 0.0
+    },
+    "X2": {
+     "comparisons": [
+      {
+       "location": "2026-07-18",
+       "reference": "softwareUpdate",
+       "referenceDate": "2026-08-25",
+       "diffDays": -38,
+       "insideUncalibratedInterval": true,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-07-18",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-05-15",
+       "diffDays": 64,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-07-18",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-05-31",
+       "diffDays": 48,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-07-18",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-06-03",
+       "diffDays": 45,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-07-18",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-08-13",
+       "diffDays": -26,
+       "insideUncalibratedInterval": true,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-07-18",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-08-14",
+       "diffDays": -27,
+       "insideUncalibratedInterval": true,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-07-18",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-11-03",
+       "diffDays": -108,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-08-02",
+       "reference": "softwareUpdate",
+       "referenceDate": "2026-08-25",
+       "diffDays": -23,
+       "insideUncalibratedInterval": true,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-08-02",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-05-15",
+       "diffDays": 79,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-08-02",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-05-31",
+       "diffDays": 63,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-08-02",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-06-03",
+       "diffDays": 60,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-08-02",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-08-13",
+       "diffDays": -11,
+       "insideUncalibratedInterval": true,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-08-02",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-08-14",
+       "diffDays": -12,
+       "insideUncalibratedInterval": true,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-08-02",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-11-03",
+       "diffDays": -93,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-10-09",
+       "reference": "softwareUpdate",
+       "referenceDate": "2026-08-25",
+       "diffDays": 45,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-10-09",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-05-15",
+       "diffDays": 147,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-10-09",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-05-31",
+       "diffDays": 131,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-10-09",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-06-03",
+       "diffDays": 128,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-10-09",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-08-13",
+       "diffDays": 57,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-10-09",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-08-14",
+       "diffDays": 56,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-10-09",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-11-03",
+       "diffDays": -25,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      }
+     ],
+     "intervalCoverageOfWindow": 0.5730337078651685
+    },
+    "X3": {
+     "comparisons": [
+      {
+       "location": "2026-09-21",
+       "reference": "softwareUpdate",
+       "referenceDate": "2026-08-25",
+       "diffDays": 27,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-09-21",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-05-15",
+       "diffDays": 129,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-09-21",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-05-31",
+       "diffDays": 113,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-09-21",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-06-03",
+       "diffDays": 110,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-09-21",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-08-13",
+       "diffDays": 39,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-09-21",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-08-14",
+       "diffDays": 38,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-09-21",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-11-03",
+       "diffDays": -43,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-09-25",
+       "reference": "softwareUpdate",
+       "referenceDate": "2026-08-25",
+       "diffDays": 31,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-09-25",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-05-15",
+       "diffDays": 133,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-09-25",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-05-31",
+       "diffDays": 117,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-09-25",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-06-03",
+       "diffDays": 114,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-09-25",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-08-13",
+       "diffDays": 43,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-09-25",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-08-14",
+       "diffDays": 42,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-09-25",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-11-03",
+       "diffDays": -39,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-10-05",
+       "reference": "softwareUpdate",
+       "referenceDate": "2026-08-25",
+       "diffDays": 41,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-10-05",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-05-15",
+       "diffDays": 143,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-10-05",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-05-31",
+       "diffDays": 127,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-10-05",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-06-03",
+       "diffDays": 124,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-10-05",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-08-13",
+       "diffDays": 53,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-10-05",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-08-14",
+       "diffDays": 52,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-10-05",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-11-03",
+       "diffDays": -29,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      }
+     ],
+     "intervalCoverageOfWindow": 0.028089887640449437
+    },
+    "X4": {
+     "comparisons": [
+      {
+       "location": "2026-08-14",
+       "reference": "softwareUpdate",
+       "referenceDate": "2026-08-25",
+       "diffDays": -11,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-08-14",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-05-15",
+       "diffDays": 91,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-08-14",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-05-31",
+       "diffDays": 75,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-08-14",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-06-03",
+       "diffDays": 72,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-08-14",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-08-13",
+       "diffDays": 1,
+       "insideUncalibratedInterval": true,
+       "coincidesAgainstUncalibratedInterval": true
+      },
+      {
+       "location": "2026-08-14",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-08-14",
+       "diffDays": 0,
+       "insideUncalibratedInterval": true,
+       "coincidesAgainstUncalibratedInterval": true
+      },
+      {
+       "location": "2026-08-14",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-11-03",
+       "diffDays": -81,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-09-21",
+       "reference": "softwareUpdate",
+       "referenceDate": "2026-08-25",
+       "diffDays": 27,
+       "insideUncalibratedInterval": true,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-09-21",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-05-15",
+       "diffDays": 129,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-09-21",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-05-31",
+       "diffDays": 113,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-09-21",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-06-03",
+       "diffDays": 110,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-09-21",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-08-13",
+       "diffDays": 39,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-09-21",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-08-14",
+       "diffDays": 38,
+       "insideUncalibratedInterval": true,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-09-21",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-11-03",
+       "diffDays": -43,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-11-04",
+       "reference": "softwareUpdate",
+       "referenceDate": "2026-08-25",
+       "diffDays": 71,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-11-04",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-05-15",
+       "diffDays": 173,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-11-04",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-05-31",
+       "diffDays": 157,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-11-04",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-06-03",
+       "diffDays": 154,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-11-04",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-08-13",
+       "diffDays": 83,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-11-04",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-08-14",
+       "diffDays": 82,
+       "insideUncalibratedInterval": false,
+       "coincidesAgainstUncalibratedInterval": false
+      },
+      {
+       "location": "2026-11-04",
+       "reference": "pidClassTransition",
+       "referenceDate": "2026-11-03",
+       "diffDays": 1,
+       "insideUncalibratedInterval": true,
+       "coincidesAgainstUncalibratedInterval": true
+      }
+     ],
+     "intervalCoverageOfWindow": 0.5955056179775281
+    },
+    "X5": {
+     "transitions": [
+      {
+       "date": "2026-08-14",
+       "driveIndex": 223,
+       "from": "slow",
+       "to": "fast"
+      },
+      {
+       "date": "2026-09-06",
+       "driveIndex": 323,
+       "from": "fast",
+       "to": "slow"
+      },
+      {
+       "date": "2026-10-01",
+       "driveIndex": 480,
+       "from": "slow",
+       "to": "fast"
+      },
+      {
+       "date": "2026-10-08",
+       "driveIndex": 528,
+       "from": "fast",
+       "to": "slow"
+      },
+      {
+       "date": "2026-10-10",
+       "driveIndex": 545,
+       "from": "slow",
+       "to": "fast"
+      },
+      {
+       "date": "2026-10-15",
+       "driveIndex": 575,
+       "from": "fast",
+       "to": "slow"
+      },
+      {
+       "date": "2026-11-02",
+       "driveIndex": 601,
+       "from": "slow",
+       "to": "fast"
+      },
+      {
+       "date": "2026-11-07",
+       "driveIndex": 627,
+       "from": "fast",
+       "to": "slow"
+      },
+      {
+       "date": "2026-11-07",
+       "driveIndex": 628,
+       "from": "slow",
+       "to": "fast"
+      }
+     ]
+    }
+   },
+   "coincidesRule": "reference date inside the UNCALIBRATED nominal 95 % location interval AND |difference| <= 7 days",
+   "chanceRateNote": "intervalCoverageOfWindow uses the same uncalibrated intervals (a lower bound on the chance rate)"
   }
  }
 }

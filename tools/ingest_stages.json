@@ -1092,6 +1092,24 @@
    ]
   },
   {
+   "id": "change_points",
+   "title": "M676 (N-07): exploratory change-point detection on per-drive series (implied offset, loaded p95 cell spread, apparent Ah per 100 % SOC, a1_R, logged sample period): exact segment-neighbourhood DP, fixed BIC, day-clustered wild residual bootstrap intervals (seed 42, 4000 draws, conditional on K), pack-temperature control, reference comparison after the primary results are hashed; reads drive_master.csv and four sidecars only; non-blocking; additive payload block changePoints + stamp; no display; spec analyses/M675_spec.md Rev 1.1",
+   "cmd": [
+    "python3",
+    "tools/changepoints.py"
+   ],
+   "needs": [
+    "exposure_vector"
+   ],
+   "verified": false,
+   "outputs": [
+    "summary_arrays.json"
+   ],
+   "writes": [
+    "arrays:changePoints"
+   ]
+  },
+  {
    "id": "highway_session_gtc",
    "title": "M488: highway-session GTC over explicit inclusive dates on the unrounded Ah ledger (ah_throughput.csv); additive payload block highwaySessionGtc + stamp; hard stop if a declared date has no ledger entry",
    "cmd": [

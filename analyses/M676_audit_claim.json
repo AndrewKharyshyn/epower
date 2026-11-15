@@ -1,0 +1,235 @@
+{
+ "milestone": "M676",
+ "spec": "analyses/M675_spec.md Rev 1.1 (section 9 overrides)",
+ "dataPaths": [
+  "drive_master.csv",
+  "resistance_joint_sidecar.csv",
+  "cadence_regime.csv",
+  "battery_temp_extremes.csv",
+  "pid_epoch.csv"
+ ],
+ "note": "Reproduce the point estimates only (K, change dates, segment means, BIC table, linear-trend slope and BIC, X5 regime transitions, sensitivity-A step estimates). Do not reproduce bootstrap intervals except as a coarse check of the X3 and X2 October location. Eligibility: ens_outlier_v2 == False; order by date, time_start, file. Series X4: a1_R where a1_n >= 600 in resistance_joint_sidecar.csv.",
+ "claims": {
+  "X1": {
+   "n": 632,
+   "nDays": 126,
+   "K": 0,
+   "bic": [
+    -105.341,
+    -94.419,
+    -90.789,
+    -80.712,
+    -73.553,
+    -63.515
+   ],
+   "locations": [],
+   "segmentMeans": [
+    -0.319271
+   ],
+   "segmentBounds": [
+    [
+     0,
+     632
+    ]
+   ],
+   "trendSlopePerDay": 0.00023559647880865556,
+   "trendBic": -98.97934872939238
+  },
+  "X2": {
+   "n": 633,
+   "nDays": 126,
+   "K": 3,
+   "bic": [
+    1941.297,
+    1868.427,
+    1867.906,
+    1864.752,
+    1867.579,
+    1868.194
+   ],
+   "locations": [
+    "2026-07-18",
+    "2026-08-02",
+    "2026-10-09"
+   ],
+   "segmentMeans": [
+    22.648837,
+    25.341379,
+    22.060997,
+    26.977143
+   ],
+   "segmentBounds": [
+    [
+     0,
+     129
+    ],
+    [
+     129,
+     187
+    ],
+    [
+     187,
+     528
+    ],
+    [
+     528,
+     633
+    ]
+   ],
+   "trendSlopePerDay": 0.016603434383892182,
+   "trendBic": 1930.5311891728563,
+   "A_steps_withBeta": [
+    2.6522640357559446,
+    -3.1064510300063652,
+    5.184440834759787
+   ],
+   "A_beta": 0.04279472940551443
+  },
+  "X3": {
+   "n": 649,
+   "nDays": 126,
+   "K": 3,
+   "bic": [
+    -3221.853,
+    -3269.878,
+    -3268.458,
+    -3276.636,
+    -3275.817,
+    -3272.706
+   ],
+   "locations": [
+    "2026-09-21",
+    "2026-09-25",
+    "2026-10-05"
+   ],
+   "segmentMeans": [
+    5.850095,
+    5.753529,
+    5.874571,
+    5.789858
+   ],
+   "segmentBounds": [
+    [
+     0,
+     421
+    ],
+    [
+     421,
+     438
+    ],
+    [
+     438,
+     508
+    ],
+    [
+     508,
+     649
+    ]
+   ],
+   "trendSlopePerDay": -0.0003989815366786432,
+   "trendBic": -3246.8454847214457
+  },
+  "X4": {
+   "n": 193,
+   "nDays": 82,
+   "K": 3,
+   "bic": [
+    1176.893,
+    1115.947,
+    1095.824,
+    1094.393,
+    1100.471,
+    1105.867
+   ],
+   "locations": [
+    "2026-08-14",
+    "2026-09-21",
+    "2026-11-04"
+   ],
+   "segmentMeans": [
+    117.714167,
+    132.681017,
+    146.298293,
+    168.585556
+   ],
+   "segmentBounds": [
+    [
+     0,
+     84
+    ],
+    [
+     84,
+     143
+    ],
+    [
+     143,
+     184
+    ],
+    [
+     184,
+     193
+    ]
+   ],
+   "trendSlopePerDay": 0.28418926299643527,
+   "trendBic": 1099.5567625903388,
+   "A_steps_withBeta": [
+    12.778911582131371,
+    2.808102412949438,
+    13.020937367682222
+   ],
+   "A_beta": -1.7799448783577532
+  },
+  "X5": {
+   "n": 651,
+   "nDays": 126,
+   "nTransitions": 9,
+   "transitions": [
+    [
+     "2026-08-14",
+     "slow",
+     "fast"
+    ],
+    [
+     "2026-09-06",
+     "fast",
+     "slow"
+    ],
+    [
+     "2026-10-01",
+     "slow",
+     "fast"
+    ],
+    [
+     "2026-10-08",
+     "fast",
+     "slow"
+    ],
+    [
+     "2026-10-10",
+     "slow",
+     "fast"
+    ],
+    [
+     "2026-10-15",
+     "fast",
+     "slow"
+    ],
+    [
+     "2026-11-02",
+     "slow",
+     "fast"
+    ],
+    [
+     "2026-11-07",
+     "fast",
+     "slow"
+    ],
+    [
+     "2026-11-07",
+     "slow",
+     "fast"
+    ]
+   ]
+  }
+ }
+}
