@@ -1,0 +1,52 @@
+{
+ "spec": "analyses/M666_spec.md Rev 1.2 (sections 8-10)",
+ "block": "summary_arrays.json seasonalFits (read this key only)",
+ "audit": "blind: Q3 exact incl. held-out skill; Q1/Q2 exact after class-coding resolution (four drive_type classes); Q4 partial (index 0.545 vs 0.532; inputs drives/day and hours/day were not fixed by spec text, now stated); project outcome-filter variant not reproducible until the filter was stated (now stated, e0>0 and e1>0.5)",
+ "q1": {
+  "estimate": -0.00381,
+  "ci95": [
+   -0.00772,
+   0.00034
+  ],
+  "droppedDrawShare": 0.0,
+  "notEstimable": false
+ },
+ "q1reading": "not resolved at this support",
+ "q2": {
+  "estimate": 0.53844,
+  "ci95": [
+   0.44412,
+   0.63412
+  ],
+  "droppedDrawShare": 0.0,
+  "notEstimable": false
+ },
+ "q3": {
+  "tauH": 7.873,
+  "ci95": [
+   7.57136,
+   8.1371
+  ],
+  "droppedDrawShare": 0.0,
+  "notEstimable": false
+ },
+ "gate": true,
+ "q3spread": {
+  "definition": "max minus min of tau over the primary and its sensitivities, the outcome-filtered project variant excluded",
+  "maxMinusMinH": 2.822,
+  "definitionDependent": true
+ },
+ "q4PrimaryEa05": {
+  "tauLabel": "primary L1 temperature scale",
+  "tauH": 7.873,
+  "eaEv": 0.5,
+  "parkedOffsetC": 0.0,
+  "index": 0.5319,
+  "shareOfIndex": {
+   "parked": 0.2981,
+   "drive": 0.1157,
+   "coolDown": 0.5862
+  },
+  "extrapolatedShareOfIndex": 0.0624
+ }
+}
