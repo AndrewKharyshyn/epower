@@ -1354,5 +1354,23 @@ if _ev.get("Q1_Q2_Q4_clean"):
     ok("A7 M684 display: counted exposure not damage, no share interval displayed, S5 hidden when not shown",
        "not lifetime exposure and not an ageing estimate" in _eh2 and "Intervals for the shares are not displayed (no coverage study has been run on them)" in _eh2 and "Nothing is extrapolated to colder packs" in _eh2 and "S3 reading:" in _eh2 and "|I| / 5 A" not in _eh2)
 
+# ---------- A7 (M685): the seasonal-fits display equals seasonalFits (Q1 to Q3 estimates, intervals, the priors printed beside, held-out skill; Q4 not displayed) ----------
+_sf = A.get("seasonalFits") or {}
+if _sf.get("Q3"):
+    _th = T.get("thermal__all", "")
+    _q1, _q2, _q3 = _sf["Q1"]["primary"], _sf["Q2"]["primary"], _sf["Q3"]["primary"]
+    _ho = _sf["Q3"]["heldOut"]; _pr = _sf["Q1"]["priorM28CompareConsumptionSlope"]["prior"]
+    _need = [f"Estimated from {_sf['data']['support']['nDrives']} drives on {_sf['data']['support']['nDays']} days",
+             f"{_q1['estimate']:.4f}; fractional {_sf['Q1']['fractionalSlopePerC']['estimate']:.4f}; across the sensitivities", f"[{_q1['ci95'][0]:.4f}, {_q1['ci95'][1]:.4f}]",
+             f"consumption slope band {_pr['lo']:.3f} / {_pr['mid']:.3f} / {_pr['hi']:.3f}",
+             f"{_q2['estimate']:.3f}; across the sensitivities", f"[{_q2['ci95'][0]:.3f}, {_q2['ci95'][1]:.3f}]",
+             f"{_q3['tauH']:.2f} h; across the sensitivities", f"[{_q3['ci95'][0]:.2f}, {_q3['ci95'][1]:.2f}] h",
+             f"{_ho['skillVsBetterReference']['estimate']:.3f}; skill = 1 - MAE model / MAE reference; MAE {_ho['maeModelC']:.2f} deg C vs persistence {_ho['maePersistenceC']:.2f}, full relaxation {_ho['maeFullRelaxationC']:.2f}",
+             "A positive value means colder drives use more battery Ah per km", "interval overlaps the prior band", "pair gaps of"]
+    _miss = [x for x in _need if x not in _th]
+    ok("A7 M685 seasonal-fits display: support counts, Q1 to Q3 estimates and intervals, the M28 prior band and the held-out skill equal seasonalFits", not _miss, f"missing: {_miss[:3]}")
+    ok("A7 M685 display: associations not effects, Q4 not displayed, sampling variability only",
+       "never temperature effects" in _th and "(Q4) is not displayed" in _th and "no coverage study" in _th and "exposure index is not a life" not in _th)
+
 print(f"\nSEMANTIC GATE: {len(passes)} passed, {len(fails)} failed")
 sys.exit(1 if fails else 0)
