@@ -1,0 +1,326 @@
+{
+ "spec": "analyses/M679_spec.md Rev 1.1",
+ "corpusHash": "77bbe275f8c22eaf62d8636867764af3",
+ "nRep": 400,
+ "nBoot": 1000,
+ "scenarios": {
+  "S1": "delta 0, no day effect",
+  "S2": "delta 0, day effect at the fitted size (upper 95 % limit if zero)",
+  "S3": "delta differs by cell (target = late-weighted mean), day effect fitted",
+  "S4": "delta 0, day effect 2 x fitted",
+  "S5": "S3 delta with non-Gaussian errors (day-blocked residual resampling)"
+ },
+ "outcomes": {
+  "Y2": {
+   "varianceComponents": {
+    "sdDay": 1.9654462501433887,
+    "sdResid": 3.641120142173647,
+    "icc": 0.22563160960137038,
+    "sdDayBootstrapCi95": [
+     0.24091107160333353,
+     2.8263494442756474
+    ],
+    "dayEffectIncludesZero": false,
+    "sdDayUsedInScenarios": 1.9654462501433887
+   },
+   "scenarios": {
+    "S1": {
+     "C1": {
+      "coverage95": 0.92,
+      "coverage98_33": 0.9575,
+      "missLow": 0.0525,
+      "missHigh": 0.0275,
+      "mcSe": 0.013564659966250532
+     },
+     "C2": {
+      "coverage95": 0.9675,
+      "coverage98_33": 0.99,
+      "missLow": 0.0225,
+      "missHigh": 0.01,
+      "mcSe": 0.008866192813152663
+     },
+     "C3": {
+      "coverage95": 0.8925,
+      "coverage98_33": 0.93,
+      "missLow": 0.0625,
+      "missHigh": 0.045,
+      "mcSe": 0.01548739406743433
+     },
+     "truth": 0.0,
+     "seed": 42
+    },
+    "S2": {
+     "C1": {
+      "coverage95": 0.8325,
+      "coverage98_33": 0.8875,
+      "missLow": 0.0925,
+      "missHigh": 0.075,
+      "mcSe": 0.018671083926756902
+     },
+     "C2": {
+      "coverage95": 0.96,
+      "coverage98_33": 0.9875,
+      "missLow": 0.015,
+      "missHigh": 0.025,
+      "mcSe": 0.009797958971132717
+     },
+     "C3": {
+      "coverage95": 0.85,
+      "coverage98_33": 0.9125,
+      "missLow": 0.085,
+      "missHigh": 0.065,
+      "mcSe": 0.017853571071357127
+     },
+     "truth": 0.0,
+     "seed": 43
+    },
+    "S3": {
+     "C1": {
+      "coverage95": 0.8625,
+      "coverage98_33": 0.93,
+      "missLow": 0.0825,
+      "missHigh": 0.055,
+      "mcSe": 0.017218721642444885
+     },
+     "C2": {
+      "coverage95": 0.9725,
+      "coverage98_33": 0.99,
+      "missLow": 0.015,
+      "missHigh": 0.0125,
+      "mcSe": 0.00817675822071314
+     },
+     "C3": {
+      "coverage95": 0.89,
+      "coverage98_33": 0.945,
+      "missLow": 0.0575,
+      "missHigh": 0.0525,
+      "mcSe": 0.015644487847162013
+     },
+     "truth": 5.5080370669224035,
+     "seed": 44
+    },
+    "S4": {
+     "C1": {
+      "coverage95": 0.735,
+      "coverage98_33": 0.81,
+      "missLow": 0.1425,
+      "missHigh": 0.1225,
+      "mcSe": 0.02206666037260736
+     },
+     "C2": {
+      "coverage95": 0.9675,
+      "coverage98_33": 0.9875,
+      "missLow": 0.0175,
+      "missHigh": 0.015,
+      "mcSe": 0.008866192813152663
+     },
+     "C3": {
+      "coverage95": 0.8225,
+      "coverage98_33": 0.8925,
+      "missLow": 0.0875,
+      "missHigh": 0.09,
+      "mcSe": 0.019104564245226847
+     },
+     "truth": 0.0,
+     "seed": 45
+    },
+    "S5": {
+     "C1": {
+      "coverage95": 0.73,
+      "coverage98_33": 0.8075,
+      "missLow": 0.1375,
+      "missHigh": 0.1325,
+      "mcSe": 0.022197972880423113
+     },
+     "C2": {
+      "coverage95": 0.9725,
+      "coverage98_33": 0.9875,
+      "missLow": 0.0125,
+      "missHigh": 0.015,
+      "mcSe": 0.00817675822071314
+     },
+     "C3": {
+      "coverage95": 0.8225,
+      "coverage98_33": 0.9225,
+      "missLow": 0.09,
+      "missHigh": 0.0875,
+      "mcSe": 0.019104564245226847
+     },
+     "truth": 5.5080370669224035,
+     "seed": 46
+    }
+   },
+   "selected": "C2",
+   "nCells": 13,
+   "nEarlyDays": 31,
+   "nLateDays": 46,
+   "matchedLateShare": 0.375,
+   "level": "3x3x3x2",
+   "designFingerprint": {
+    "usedDriveSetHash": "cf4439c5861146f0c5c39f5dd77266c7ca298e33211fc29bf6f1e931ef5d2f37",
+    "Ge": 30,
+    "Gl": 24,
+    "nCells": 13,
+    "nUsedEarlyDrives": 96,
+    "nUsedLateDrives": 108,
+    "definition": "Ge and Gl count the calendar days with at least one drive in a used cell (nEarlyDays / nLateDays count all days of the window frame)"
+   }
+  },
+  "Y3": {
+   "varianceComponents": {
+    "sdDay": 0.4405851906041135,
+    "sdResid": 2.0436107528435694,
+    "icc": 0.044415301922133825,
+    "sdDayBootstrapCi95": [
+     0.0,
+     1.324139834404353
+    ],
+    "dayEffectIncludesZero": true,
+    "sdDayUsedInScenarios": 1.324139834404353
+   },
+   "scenarios": {
+    "S1": {
+     "C1": {
+      "coverage95": 0.9,
+      "coverage98_33": 0.9525,
+      "missLow": 0.0525,
+      "missHigh": 0.0475,
+      "mcSe": 0.015
+     },
+     "C2": {
+      "coverage95": 0.965,
+      "coverage98_33": 0.9925,
+      "missLow": 0.015,
+      "missHigh": 0.02,
+      "mcSe": 0.009188987974744557
+     },
+     "C3": {
+      "coverage95": 0.8525,
+      "coverage98_33": 0.91,
+      "missLow": 0.075,
+      "missHigh": 0.0725,
+      "mcSe": 0.017730182599172518
+     },
+     "truth": 0.0,
+     "seed": 42
+    },
+    "S2": {
+     "C1": {
+      "coverage95": 0.795,
+      "coverage98_33": 0.865,
+      "missLow": 0.1,
+      "missHigh": 0.105,
+      "mcSe": 0.020185081124434453
+     },
+     "C2": {
+      "coverage95": 0.965,
+      "coverage98_33": 0.985,
+      "missLow": 0.0175,
+      "missHigh": 0.0175,
+      "mcSe": 0.009188987974744557
+     },
+     "C3": {
+      "coverage95": 0.8325,
+      "coverage98_33": 0.905,
+      "missLow": 0.08,
+      "missHigh": 0.0875,
+      "mcSe": 0.018671083926756902
+     },
+     "truth": 0.0,
+     "seed": 43
+    },
+    "S3": {
+     "C1": {
+      "coverage95": 0.7925,
+      "coverage98_33": 0.8725,
+      "missLow": 0.105,
+      "missHigh": 0.1025,
+      "mcSe": 0.02027583228871259
+     },
+     "C2": {
+      "coverage95": 0.9425,
+      "coverage98_33": 0.9775,
+      "missLow": 0.03,
+      "missHigh": 0.0275,
+      "mcSe": 0.01163977555625537
+     },
+     "C3": {
+      "coverage95": 0.85,
+      "coverage98_33": 0.8975,
+      "missLow": 0.0775,
+      "missHigh": 0.0725,
+      "mcSe": 0.017853571071357127
+     },
+     "truth": 3.0979281185151373,
+     "seed": 44
+    },
+    "S4": {
+     "C1": {
+      "coverage95": 0.6925,
+      "coverage98_33": 0.78,
+      "missLow": 0.1625,
+      "missHigh": 0.145,
+      "mcSe": 0.02307291431527452
+     },
+     "C2": {
+      "coverage95": 0.93,
+      "coverage98_33": 0.9775,
+      "missLow": 0.0425,
+      "missHigh": 0.0275,
+      "mcSe": 0.01275735082217307
+     },
+     "C3": {
+      "coverage95": 0.81,
+      "coverage98_33": 0.865,
+      "missLow": 0.0925,
+      "missHigh": 0.0975,
+      "mcSe": 0.01961504524593303
+     },
+     "truth": 0.0,
+     "seed": 45
+    },
+    "S5": {
+     "C1": {
+      "coverage95": 0.7425,
+      "coverage98_33": 0.8325,
+      "missLow": 0.125,
+      "missHigh": 0.1325,
+      "mcSe": 0.021862853770722612
+     },
+     "C2": {
+      "coverage95": 0.9525,
+      "coverage98_33": 0.9775,
+      "missLow": 0.015,
+      "missHigh": 0.0325,
+      "mcSe": 0.010635289135702893
+     },
+     "C3": {
+      "coverage95": 0.83,
+      "coverage98_33": 0.8875,
+      "missLow": 0.085,
+      "missHigh": 0.085,
+      "mcSe": 0.018781639970992952
+     },
+     "truth": 3.0979281185151373,
+     "seed": 46
+    }
+   },
+   "selected": "C2",
+   "nCells": 13,
+   "nEarlyDays": 31,
+   "nLateDays": 46,
+   "matchedLateShare": 0.3691275167785235,
+   "level": "3x3x3x2",
+   "designFingerprint": {
+    "usedDriveSetHash": "4a4219f7332fb03d7b73413c8e7d48c42a148891ee661d486a612533320ababf",
+    "Ge": 31,
+    "Gl": 24,
+    "nCells": 13,
+    "nUsedEarlyDrives": 98,
+    "nUsedLateDrives": 110,
+    "definition": "Ge and Gl count the calendar days with at least one drive in a used cell (nEarlyDays / nLateDays count all days of the window frame)"
+   }
+  }
+ },
+ "fingerprintNote": "added after the study by --fingerprint from the same setup() (no change of any number); the assertion above compares the study's cells and window-frame day counts"
+}
