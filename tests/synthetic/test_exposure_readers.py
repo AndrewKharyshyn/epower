@@ -29,6 +29,7 @@ LEGACY_BY_DESIGN = {
     "semantic_gate.py": "release gate: independent recomputation from the master and the Ah sidecar (never routed through the function it checks)",
     "tools/exposure_splice.py": "splice tool: operates on control-build outputs; exposure column names appear only in comments/labels",
     "tools/m384_parity_diag.py": "read-only diagnostic of non-exposure blocks (CrawlStopGo, EngineStartsByType)",
+    "tools/changepoints.py": "M676 (N-07): series X3 is the master column cap_ah_est as published (apparent Ah per 100 % SOC), a descriptive per-drive level for change-point detection; no exposure basis is substituted",
 }
 sys.path.insert(0, os.path.join(os.getcwd(), "tools"))
 from source_inventory import tracked_py       # M427 (audit F30): git ls-files in a checkout, a directory scan in a zip export
