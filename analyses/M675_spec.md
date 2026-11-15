@@ -1,0 +1,50 @@
+# M675 spec (Rev 1): N-07, change-point detection on per-drive series (exploratory, payload only)
+
+Status: pre-registered before any result exists. Backlog item N-07 (`analyses/self_audit_2026-11-11/backlog.json`).
+
+## 1. Question and non-claims
+Do the per-drive series show abrupt level shifts, on which dates, and do the dates coincide with the two known configuration events of the window: the HV-battery software update (owner-reported around 2026-08-25; the intake-air channel is empty from 2026-08-24 10:46, `analyses/` M319/M607) and the logger PID-set changes (`pid_epoch.csv`)? Also: does the October cell-spread step of M573/M574 survive when the comparison is limited to a common pack-temperature range?
+Non-claims. A detected change point is a statistical break in a per-drive summary, not a cause. Time, season, route mix, logger configuration and the software update move together (n = 1 vehicle, one May-to-November window); no attribution is made, and the software-update date is NOT a target: the analysis is run blind to it, the date is compared afterwards and a mismatch is reported as is. Exploratory; no article figure; no display.
+
+## 2. Series and eligibility
+Unit: one value per canonical-clean drive (`ens_outlier_v2 == False`), ordered by drive start (`time_start`; ties by file name). Series (all existing columns, none recomputed):
+ X1 `implied_offset_A_drive` (master);
+ X2 `cell_spread_loaded_p95_mv` (master);
+ X3 `cap_ah_est` (master; the apparent Ah per 100 % SOC, "Ah per SoC");
+ X4 `a1_R` (`resistance_joint_sidecar.csv`), drives with `a1_n >= 600` (the M520 support restriction) and finite `a1_R`;
+ X5 `I_sample_period_s` (`cadence_regime.csv`), the logged current sample period (a logger-step detector, not a battery quantity).
+Drives with a missing value are dropped per series and counted. PID class (`pidSetClass`) is categorical and is NOT a detection input: its observed class transitions are listed (script-derived from the headers) as the reference dates for the logger steps.
+
+## 3. Method
+Mean-shift model with piecewise-constant segments, squared-error cost. Exact optimal partitioning by dynamic programming (identical optimum to PELT for the same penalty) for K = 0 to 5 change points, minimum segment 8 drives. K is chosen by minimising BIC(K) = n ln(RSS_K / n) + (2K + 1) ln(n) [K locations plus K + 1 segment means, the common variance is the same for every K]; exactly this penalty is fixed before any result and is not tuned. Variance: segment-pooled (homoscedastic) as in the RSS formula; heteroscedastic sensitivity: the same on the log of the series for X2, X4 (positive series).
+Location uncertainty: day-block residual bootstrap (resampling unit: calendar day; seed 42; 4000 draws): keep the fitted piecewise means, resample the residuals of whole calendar days with replacement into the day slots (days of unequal length: the draw fills each slot by the residuals of a randomly drawn day truncated or recycled to the slot length, fixed rule: recycle from the start), add to the fitted means, refit K change-point locations (K fixed at the selected value), 95 % percentile interval of each location as a date. Also reported per series: the selected K, the segment means, n drives, n days, the BIC of K = 0 versus the selected K, and the share of bootstrap draws in which the location falls within +-7 days of the point estimate.
+Support ladder: a series with fewer than 100 drives or fewer than 30 days is not analysed; a location whose interval spans more than 60 days is labelled "poorly localised".
+Autocorrelation: day-block bootstrap handles within-day dependence only; slow drift is an open limit (a linear drift can be detected as a step; each series is also reported with the K = 0 linear-trend fit and its BIC, so a trend-versus-step comparison is shown, as in M573; no verdict wording from it).
+
+## 4. Covariate and season check (the October spread step)
+For X2 and X4: the series is regressed on pack minimum temperature (`battery_temp_extremes.csv` `pack_min`, deg C, linear) and the change-point search is repeated on the residuals (sensitivity A). Sensitivity B restricts to drives whose `pack_min` lies inside the central 95 % range (2.5th to 97.5th percentile) of the drives before the first selected change point of that series, and repeats the search on the restricted set; the share of post-change drives retained is reported. A step that persists in A and B is "persists under the pack-temperature control"; otherwise "not separable from the temperature range" (descriptive; no causal wording).
+
+## 5. Reference events (comparison after the fact)
+After the primary results exist: the owner-reported software-update date 2026-08-25 (intake-air gap from 2026-08-24 10:46) and the PID-class transition dates are compared with each selected location: signed difference in days and whether the date lies inside the location interval. No tuning, no re-running with the dates as inputs.
+
+## 6. Validity and tests
+V1 re-running is byte-identical (seed 42). V2 n drives per series equals the finite count after eligibility. V3 K = 0 RSS equals n times the series variance; the chosen segmentation's RSS is not larger than that of K = 0. V4 locations are strictly increasing, segments >= 8. Known-answer test `tests/synthetic/test_m675_changepoint.py`: planted single step (location recovered within +-2 drives and inside the bootstrap interval), no-step white noise (K = 0 in at least 95 % of 200 replicates at the fixed BIC), two steps (both recovered), a planted linear trend (reports the trend comparison, K behaviour recorded), day-block structure (drives sharing a day), a minimum-segment violation (rejected).
+
+## 7. Outputs
+Payload block `changePoints` (additive, stamp `_artifactStamps.changePoints`) with per series: n, nDays, K, locations (date, drive index), intervals, segment means, BIC table, trend comparison, sensitivities A and B, the reference-event comparison, caveats; the tool `tools/changepoints.py`; ingestion stage `change_points` (verified:false until a first full ingestion). No dashboard change in this milestone; a display needs the Director's approval of the rendered text. Language rule (added with the implementation): no "caused by", "software update effect", "degradation" or "ageing" for a detected shift; allowed: "level shift in the logged series", "date of a statistical break".
+
+## 8. Out of scope and risks
+Out of scope: attribution; Bayesian online detection (the exact offline partition is used; an online variant is a follow-up); multivariate joint change points; detection on raw within-drive signals. Risks: R1 slow drift versus step (trend comparison reported); R2 the summer-to-autumn temperature drift confounds X1, X2, X4 (section 4); R3 X5 is a logger quantity and the PID class is a header proxy; R4 the BIC penalty can over-segment heteroscedastic series (log sensitivity); R5 residual dependence between consecutive drives of one day beyond the day block.
+
+## 9. Director review (2026-11-15, verdict revise; no change of question) and how each is applied (Rev 1.1)
+These override the matching text above.
+1. Method name: segment-neighbourhood (Auger-Lawrence) exact dynamic programme over K = 0 to 5. The claim "identical optimum to PELT" is deleted (a BIC with ln RSS is not a linear penalty).
+2. Minimum segment: at least 8 drives AND at least 3 calendar days. If RSS_K = 0 or a segment has zero variance, BIC is undefined: X5 is not run through BIC; its transitions are listed exactly (change dates of the distinct values).
+3. Location intervals: day-clustered wild residual bootstrap replaces the truncate/recycle bootstrap. The residual vector of each calendar day from the selected fit is multiplied by one Rademacher sign per day (seed 42, 4000 draws) and added to the fitted means; the locations are refitted at the selected K; percentile date intervals are labelled "conditional on K". Also reported: the share of draws in which a free BIC refit selects the same K. Recorded as a deviation from the standard day-resampling bootstrap (resampling days would destroy the time order).
+4. Known-answer test additions at the real n and drives-per-day structure: 95 % interval coverage over 200 planted-step replicates (reported; flagged if below 0.85) and an AR(1) noise case (reported only). If the white-noise K = 0 criterion fails: stop and revise the spec, no penalty tuning.
+5. Section 4 A: the primary locations stay fixed; fit y = segment means + beta x pack_min by OLS; report the step with and without beta, each with a day-cluster interval; for X4 also ln R on 1000 / (T + 273.15). The residual search is a secondary analysis. Section 4 B needs at least 30 post-change drives on at least 5 days, otherwise "not estimable"; with K = 0, B is not run. "Persists" = same sign and the interval excludes 0 in both A and B.
+6. The October spread step was already seen (M573/M574): its check is a re-examination, not a blind test.
+7. Blindness: the detection code holds no reference dates. The primary outputs and their sha256 are written into the CHANGELOG entry before the section 5 comparison. "Coincides" = date inside the interval AND |difference| <= 7 days; the chance rate (share of the window covered by the intervals) is reported beside.
+8. Support: the series floors stay. A location is "weakly supported" if BIC(0) - BIC(K) < 10 or the +-7 d share is below 0.5. Segment means carry a day-cluster interval and n drives and n days.
+9. Deviations from backlog N-07: no Bayesian online detection; "dates the software update" is replaced by the blind comparison.
+10. Language: payload `exploratory: true`, `articleUse: false`; X3 is "apparent Ah per 100 % SOC", never capacity; X1 and X4 are estimated / model-derived. language_gate rules added for "dates/detects the software update", "capacity fade/loss", "resistance increase". V3 uses the population variance (ddof = 0). The stage is non-blocking. A location that leaves its previous interval at an ingestion is flagged in `delta_report`.
