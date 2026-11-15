@@ -112,7 +112,8 @@ def load_drives(endpoints):
     d["date"] = pd.to_datetime(d["date"]).dt.strftime("%Y-%m-%d")
     clean = lambda c: ~d[c].map(lambda x: x is True or x == "True")
     d["clean"] = clean("ens_outlier_v2") & clean("ens_invalid")
-    d["dclass"] = d["drive_type"].replace({"mixed_highway": "highway"})
+    d["dclass"] = d["drive_type"]                                       # the four master drive types (urban, mixed, mixed_highway, highway; one unknown)
+    d["dclassMerged"] = d["drive_type"].replace({"mixed_highway": "highway"})   # sensitivity coding
     d["tFirst"] = d["file"].map(lambda f: (endpoints.get(f) or {}).get("tFirst")).astype(float)
     d["tLast"] = d["file"].map(lambda f: (endpoints.get(f) or {}).get("tLast")).astype(float)
     return d
@@ -152,12 +153,12 @@ def pct(a):
     return None if len(a) == 0 else [round(float(np.percentile(a, 2.5)), 5), round(float(np.percentile(a, 97.5)), 5)], len(a)
 
 
-def design(df, controls, target):
+def design(df, controls, target, cls_col="dclass"):
     cols = [np.ones(len(df))]
     for c in controls:
         if c == "class":
-            for k in sorted(df["dclass"].unique())[1:]:
-                cols.append((df["dclass"] == k).astype(float).values)
+            for k in sorted(df[cls_col].unique())[1:]:
+                cols.append((df[cls_col] == k).astype(float).values)
         else:
             cols.append(df[c].astype(float).values)
     cols.append(df[target].astype(float).values)
@@ -169,9 +170,9 @@ def ols_slope(X, y):
     return float(b[-1])
 
 
-def fit_with_ci(df, controls, target, yname, nb):
+def fit_with_ci(df, controls, target, yname, nb, cls_col="dclass"):
     """OLS coefficient of `target` with a day-clustered percentile bootstrap."""
-    X, y = design(df, controls, target), df[yname].astype(float).values
+    X, y = design(df, controls, target, cls_col), df[yname].astype(float).values
     est = ols_slope(X, y)
     groups, _ = day_index(df["date"].values)
     rng = np.random.default_rng(SEED)
@@ -202,18 +203,19 @@ def q1_q2(d, nb):
     c["ld"] = np.log(c.distance_km)
     c["ldur"] = np.log(c.duration_s / 60.0)
     c["rise"] = c.pack_temp_time_mean_c - c.ambient_time_mean_c
-    out = {"support": support_block(c), "lowestAmbientC": round(float(c.ambient_time_mean_c.min()), 2)}
+    out = {"essBasis": "Q1 and Q2 effective days use distance-weighted day shares (inverse of the sum of squared day shares of the logged km); Q3 effective days use pair-count day shares", "support": support_block(c), "lowestAmbientC": round(float(c.ambient_time_mean_c.min()), 2)}
     out["bandSupport"] = {nm: dict(support_block(c[(c.ambient_time_mean_c >= lo) & (c.ambient_time_mean_c < hi)]) if ((c.ambient_time_mean_c >= lo) & (c.ambient_time_mean_c < hi)).any() else {"nDrives": 0, "nDays": 0, "essDays": 0.0, "status": "not shown"}) for nm, lo, hi in BANDS}
     out["drivesBelow5C"] = int((c.ambient_time_mean_c < 5).sum())
     out["drivesBelow0C"] = int((c.ambient_time_mean_c < 0).sum())
     out["daysBelow5C"] = int(c[c.ambient_time_mean_c < 5].date.nunique())
     out["daysBelow0C"] = int(c[c.ambient_time_mean_c < 0].date.nunique())
     q1 = {"definition": "d ln(Ah per km) per C below 15 C drive-time ambient (driver-recorded), OLS, drive-class dummies and log distance; association by thermal class, not a temperature effect",
-          "primary": fit_with_ci(c, ["class", "ld"], "cold", "lahkm", nb), "sensitivityClassOnly": fit_with_ci(c, ["class"], "cold", "lahkm", max(nb // 4, 400))}
+          "primary": fit_with_ci(c, ["class", "ld"], "cold", "lahkm", nb), "sensitivityClassOnly": fit_with_ci(c, ["class"], "cold", "lahkm", max(nb // 4, 400)),
+          "sensitivityMergedClasses": fit_with_ci(c, ["class", "ld"], "cold", "lahkm", max(nb // 4, 400), "dclassMerged")}
     g = q1["primary"]["estimate"]
     q1["fractionalSlopePerC"] = {"estimate": round(float(np.expm1(g)), 5), "ci95": None if q1["primary"]["ci95"] is None else [round(float(np.expm1(x)), 5) for x in q1["primary"]["ci95"]],
                                  "conversion": "exp(g) - 1, to compare with the M28 prior consumptionSlopePerC (fractional consumption slope)"}
-    spread = [q1["primary"]["estimate"], q1["sensitivityClassOnly"]["estimate"]]
+    spread = [q1["primary"]["estimate"], q1["sensitivityClassOnly"]["estimate"], q1["sensitivityMergedClasses"]["estimate"]]
     hw = (q1["primary"]["ci95"][1] - q1["primary"]["ci95"][0]) / 2.0 if q1["primary"]["ci95"] else None
     q1["spread"] = {"maxMinusMin": round(max(spread) - min(spread), 5), "definitionDependent": bool(hw is not None and (max(spread) - min(spread)) > hw)}
     q1["reading"] = "not resolved at this support" if (q1["primary"]["ci95"] is None or (q1["primary"]["ci95"][0] <= 0 <= q1["primary"]["ci95"][1])) else ("positive association by thermal class" if q1["primary"]["estimate"] > 0 else "negative association by thermal class")
@@ -224,10 +226,11 @@ def q1_q2(d, nb):
     # Q2
     beta = fit_with_ci(c, ["class", "ldur"], "ambient_time_mean_c", "pack_temp_time_mean_c", nb)
     q2 = {"definition": "d(pack time-mean temperature) / d(driver-recorded ambient), OLS, drive-class dummies and log duration; association by thermal class",
-          "primary": beta, "sensitivityRiseOnCold": fit_with_ci(c, ["class", "ldur"], "cold", "rise", max(nb // 4, 400))}
+          "primary": beta, "sensitivityRiseOnCold": fit_with_ci(c, ["class", "ldur"], "cold", "rise", max(nb // 4, 400)),
+          "sensitivityMergedClasses": fit_with_ci(c, ["class", "ldur"], "ambient_time_mean_c", "pack_temp_time_mean_c", max(nb // 4, 400), "dclassMerged")}
     cs = c.dropna(subset=["pack_temp_start_c", "ambient_start_c"])
     q2["sensitivityStartOnStart"] = fit_with_ci(cs, [], "ambient_start_c", "pack_temp_start_c", max(nb // 4, 400))
-    spread2 = [beta["estimate"], q2["sensitivityStartOnStart"]["estimate"]]
+    spread2 = [beta["estimate"], q2["sensitivityStartOnStart"]["estimate"], q2["sensitivityMergedClasses"]["estimate"]]
     hw2 = (beta["ci95"][1] - beta["ci95"][0]) / 2.0 if beta["ci95"] else None
     q2["spread"] = {"maxMinusMin": round(max(spread2) - min(spread2), 5), "definitionDependent": bool(hw2 is not None and (max(spread2) - min(spread2)) > hw2)}
     # errors-in-variables bracket: partial ambient variance after the controls; assumed reading-error SD (labelled assumption)
@@ -452,8 +455,10 @@ def aggregate(d, nb=NB):
                          "the ambient is the driver-recorded dashboard reading entered by hand; it carries reading error and whole-degree quantisation",
                          "the estimators of Q1 to Q3 were run on this corpus in the self-audit, so the current estimates are post hoc; 'supported' in the ladder means support only, not confirmatory status",
                          "a winter statement is allowed only for ambient bands that reach 'supported'; below that the block prints 'not observed at this support'",
+                         "the held-out skill is the skill of a model on a temperature scale whose ambient reference is built from the same pairs; it is not a validation of a battery property, and its interval resamples fixed held-out errors, so it excludes the variance of the fitted tau",
+                         "the sensitivities are reported, not tuned, and carry no multiplicity control across the many Q1 to Q3 variants; a Q1 interval that includes 0 reads 'not resolved at this support', never 'no effect'",
                          "the exposure index is not a life and not a rate; every year output stays retracted (M114); the M28 block is unchanged"],
-             "data": {k: r[k] for k in ("support", "lowestAmbientC", "bandSupport", "drivesBelow5C", "drivesBelow0C", "daysBelow5C", "daysBelow0C")},
+             "data": {k: r[k] for k in ("essBasis", "support", "lowestAmbientC", "bandSupport", "drivesBelow5C", "drivesBelow0C", "daysBelow5C", "daysBelow0C")},
              "Q1": r["Q1"], "Q2": r["Q2"], "Q3": q3blk}
     cfg = json.load(open(os.path.join(ROOT, "summary_config.json"), encoding="utf-8"))["seasonalAssumptions"]
     pr = cfg["consumptionSlopePerC"]

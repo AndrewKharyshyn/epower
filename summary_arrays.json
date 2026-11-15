@@ -68198,19 +68198,19 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "11a89dc0c881bd0a60e9e957ccd1936a",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-11-15T00:18:43.348114+00:00",
+   "generatedAt": "2026-11-15T00:43:58.371835+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3"
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-11-15T00:18:43.348114+00:00",
+   "includedInReleaseAt": "2026-11-15T00:43:58.371835+00:00",
    "inputBasis": {
     "nDrives": 665,
     "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-11-15T00:18:43.348114+00:00",
+   "computedAt": "2026-11-15T00:43:58.371835+00:00",
    "computationStatusNote": "M667: derived by tools/n02_seasonal_fits.py from drive_master.csv, seasonal_drive_master.csv, ah_throughput.csv and end-of-drive pack temperatures from raw (spec analyses/M666_spec.md Rev 1.1); exploratory"
   }
  },
@@ -445726,9 +445726,12 @@
    "the ambient is the driver-recorded dashboard reading entered by hand; it carries reading error and whole-degree quantisation",
    "the estimators of Q1 to Q3 were run on this corpus in the self-audit, so the current estimates are post hoc; 'supported' in the ladder means support only, not confirmatory status",
    "a winter statement is allowed only for ambient bands that reach 'supported'; below that the block prints 'not observed at this support'",
+   "the held-out skill is the skill of a model on a temperature scale whose ambient reference is built from the same pairs; it is not a validation of a battery property, and its interval resamples fixed held-out errors, so it excludes the variance of the fitted tau",
+   "the sensitivities are reported, not tuned, and carry no multiplicity control across the many Q1 to Q3 variants; a Q1 interval that includes 0 reads 'not resolved at this support', never 'no effect'",
    "the exposure index is not a life and not a rate; every year output stays retracted (M114); the M28 block is unchanged"
   ],
   "data": {
+   "essBasis": "Q1 and Q2 effective days use distance-weighted day shares (inverse of the sum of squared day shares of the logged km); Q3 effective days use pair-count day shares",
    "support": {
     "nDrives": 638,
     "nDays": 126,
@@ -445768,33 +445771,42 @@
   "Q1": {
    "definition": "d ln(Ah per km) per C below 15 C drive-time ambient (driver-recorded), OLS, drive-class dummies and log distance; association by thermal class, not a temperature effect",
    "primary": {
-    "estimate": -0.00396,
+    "estimate": -0.00381,
     "ci95": [
-     -0.00787,
-     0.00027
+     -0.00772,
+     0.00034
     ],
     "droppedDrawShare": 0.0,
     "notEstimable": false
    },
    "sensitivityClassOnly": {
-    "estimate": -0.0006,
+    "estimate": -0.00051,
     "ci95": [
-     -0.0071,
-     0.00564
+     -0.00675,
+     0.00553
+    ],
+    "droppedDrawShare": 0.0,
+    "notEstimable": false
+   },
+   "sensitivityMergedClasses": {
+    "estimate": -0.00396,
+    "ci95": [
+     -0.00769,
+     0.00013
     ],
     "droppedDrawShare": 0.0,
     "notEstimable": false
    },
    "fractionalSlopePerC": {
-    "estimate": -0.00395,
+    "estimate": -0.0038,
     "ci95": [
-     -0.00784,
-     0.00027
+     -0.00769,
+     0.00034
     ],
     "conversion": "exp(g) - 1, to compare with the M28 prior consumptionSlopePerC (fractional consumption slope)"
    },
    "spread": {
-    "maxMinusMin": 0.00336,
+    "maxMinusMin": 0.00345,
     "definitionDependent": false
    },
    "reading": "not resolved at this support",
@@ -445813,8 +445825,8 @@
      "mid": 0.01,
      "hi": 0.016
     },
-    "fractionalEstimate": -0.00395,
-    "differenceToPriorMid": -0.01395,
+    "fractionalEstimate": -0.0038,
+    "differenceToPriorMid": -0.0138,
     "intervalOverlapsPriorBand": false,
     "note": "the prior is a band (lo, mid, hi), not an interval"
    }
@@ -445822,19 +445834,28 @@
   "Q2": {
    "definition": "d(pack time-mean temperature) / d(driver-recorded ambient), OLS, drive-class dummies and log duration; association by thermal class",
    "primary": {
-    "estimate": 0.53726,
+    "estimate": 0.53844,
     "ci95": [
-     0.44211,
-     0.63236
+     0.44412,
+     0.63412
     ],
     "droppedDrawShare": 0.0,
     "notEstimable": false
    },
    "sensitivityRiseOnCold": {
-    "estimate": 0.69112,
+    "estimate": 0.69187,
     "ci95": [
-     0.49023,
-     0.91312
+     0.49005,
+     0.91268
+    ],
+    "droppedDrawShare": 0.0,
+    "notEstimable": false
+   },
+   "sensitivityMergedClasses": {
+    "estimate": 0.53726,
+    "ci95": [
+     0.44006,
+     0.63502
     ],
     "droppedDrawShare": 0.0,
     "notEstimable": false
@@ -445854,10 +445875,10 @@
    },
    "errorsInVariablesBracket": {
     "assumption": "the dashboard ambient is hand-entered and quantised to whole degrees; the reading-error SD below is an assumed value, not an estimate",
-    "partialAmbientVariance": 54.2516,
+    "partialAmbientVariance": 54.1399,
     "corrected": {
-     "1.0": 0.5472,
-     "2.0": 0.5769
+     "1.0": 0.5484,
+     "2.0": 0.5782
     }
    },
    "flags": {
@@ -446034,8 +446055,8 @@
      "parkedOffsetC": 0.0,
      "index": 0.6183,
      "shareOfIndex": {
-      "parked": 0.3499,
-      "drive": 0.0945,
+      "parked": 0.35,
+      "drive": 0.0944,
       "coolDown": 0.5556
      },
      "extrapolatedShareOfIndex": 0.0933
@@ -446060,9 +446081,9 @@
      "parkedOffsetC": -3.0,
      "index": 0.4446,
      "shareOfIndex": {
-      "parked": 0.2883,
+      "parked": 0.2884,
       "drive": 0.1384,
-      "coolDown": 0.5732
+      "coolDown": 0.5733
      },
      "extrapolatedShareOfIndex": 0.0622
     },
@@ -446074,8 +446095,8 @@
      "index": 0.6368,
      "shareOfIndex": {
       "parked": 0.3067,
-      "drive": 0.0967,
-      "coolDown": 0.5966
+      "drive": 0.0966,
+      "coolDown": 0.5967
      },
      "extrapolatedShareOfIndex": 0.0629
     },
@@ -446086,11 +446107,11 @@
      "parkedOffsetC": 0.0,
      "index": 0.4849,
      "shareOfIndex": {
-      "parked": 0.2527,
+      "parked": 0.2528,
       "drive": 0.1356,
-      "coolDown": 0.6116
+      "coolDown": 0.6117
      },
-     "extrapolatedShareOfIndex": 0.0414
+     "extrapolatedShareOfIndex": 0.0413
     },
     {
      "tauLabel": "project definition (outcome-filtered)",
@@ -446113,10 +446134,10 @@
      "index": 0.54,
      "shareOfIndex": {
       "parked": 0.2937,
-      "drive": 0.114,
+      "drive": 0.1139,
       "coolDown": 0.5924
      },
-     "extrapolatedShareOfIndex": 0.0625
+     "extrapolatedShareOfIndex": 0.0624
     },
     {
      "tauLabel": "project definition (outcome-filtered)",
@@ -446125,8 +446146,8 @@
      "parkedOffsetC": -3.0,
      "index": 0.4513,
      "shareOfIndex": {
-      "parked": 0.284,
-      "drive": 0.1364,
+      "parked": 0.2841,
+      "drive": 0.1363,
       "coolDown": 0.5796
      },
      "extrapolatedShareOfIndex": 0.0622
@@ -446136,7 +446157,7 @@
      "tauH": 11.561,
      "eaEv": 0.5,
      "parkedOffsetC": 3.0,
-     "index": 0.6465,
+     "index": 0.6464,
      "shareOfIndex": {
       "parked": 0.3021,
       "drive": 0.0952,
@@ -446152,8 +446173,8 @@
      "index": 0.495,
      "shareOfIndex": {
       "parked": 0.2476,
-      "drive": 0.1329,
-      "coolDown": 0.6195
+      "drive": 0.1328,
+      "coolDown": 0.6196
      },
      "extrapolatedShareOfIndex": 0.0413
     },
@@ -446162,7 +446183,7 @@
      "tauH": 7.107,
      "eaEv": 0.3,
      "parkedOffsetC": 0.0,
-     "index": 0.6167,
+     "index": 0.6166,
      "shareOfIndex": {
       "parked": 0.3509,
       "drive": 0.0947,
@@ -446201,24 +446222,24 @@
      "tauH": 7.107,
      "eaEv": 0.5,
      "parkedOffsetC": 3.0,
-     "index": 0.6341,
+     "index": 0.634,
      "shareOfIndex": {
       "parked": 0.308,
-      "drive": 0.0971,
+      "drive": 0.097,
       "coolDown": 0.5949
      },
-     "extrapolatedShareOfIndex": 0.0629
+     "extrapolatedShareOfIndex": 0.0628
     },
     {
      "tauLabel": "previous-drive-maximum proxy",
      "tauH": 7.107,
      "eaEv": 0.7,
      "parkedOffsetC": 0.0,
-     "index": 0.4821,
+     "index": 0.482,
      "shareOfIndex": {
-      "parked": 0.2542,
+      "parked": 0.2543,
       "drive": 0.1364,
-      "coolDown": 0.6093
+      "coolDown": 0.6094
      },
      "extrapolatedShareOfIndex": 0.0414
     }
@@ -446229,7 +446250,7 @@
    "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
    "nCanonicalCleanDrives": 663,
    "nEndpointFilesRead": 665,
-   "scriptSha256": "a1ab394a319fd014908b7454e98e068c8f21aca511acb4d0216c35f30428a68a",
+   "scriptSha256": "508d38203b04c29537e45cdc39df52fac504e1ba064cdda345810c2caf947cc3",
    "seed": 42,
    "nBoot": 4000
   }

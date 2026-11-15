@@ -46,6 +46,7 @@ def make(seed=7, decay=True, n_days=70, per_day=6):
             t = t + pd.Timedelta(seconds=dur)
             prev_end = (t_end, amb)
     d = pd.DataFrame(rows)
+    d["dclassMerged"] = d["dclass"]
     return d
 
 
