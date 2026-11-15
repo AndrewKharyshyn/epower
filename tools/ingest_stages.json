@@ -1074,6 +1074,24 @@
    ]
   },
   {
+   "id": "exposure_vector",
+   "title": "M674 (N-03 part A): reference-free exposure vector from the logged current: Ah, driving hours and I^2 h by pack-temperature bin, charge-current distribution, cold-charging screens S1-S5 with day-clustered share intervals (seed 42, 4000 draws), sensitivities (minimum pack sensor, current offset, cadence stratum), GTC beside its references; per-drive sufficient statistics cached by raw sha256 in exposure_vector_cache/; V1-V5 validity stops; descriptive, additive payload block exposureVector + stamp; no display; needs raw/ like ah_throughput; spec analyses/M673_spec.md Rev 1.1",
+   "cmd": [
+    "python3",
+    "tools/exposure_vector.py"
+   ],
+   "needs": [
+    "between_drive_logging"
+   ],
+   "verified": false,
+   "outputs": [
+    "summary_arrays.json"
+   ],
+   "writes": [
+    "arrays:exposureVector"
+   ]
+  },
+  {
    "id": "highway_session_gtc",
    "title": "M488: highway-session GTC over explicit inclusive dates on the unrounded Ah ledger (ah_throughput.csv); additive payload block highwaySessionGtc + stamp; hard stop if a declared date has no ledger entry",
    "cmd": [

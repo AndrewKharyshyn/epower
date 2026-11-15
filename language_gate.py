@@ -627,6 +627,8 @@ RULES = [
          rx=r"\bbms (?:limits|limited|restricts?|restricted) (?:the )?(?:regen\w*|charg\w*)\b|\btrue (?:power |charge )?limit\b|\bregenerative acceptance\b|\bthe battery limit(?:s|ed)\b|\bcaused by (?:the )?cold\b"),
     Rule("M666-seasonal-fits-wording", "regex", "M667 (spec analyses/M666_spec.md Rev 1.1, Director review): the fitted seasonal quantities are associations by thermal class and an exposure index; never equivalent years, an ageing rate or years of life, and nothing is caused by the cold",
          rx=r"\bequivalent years?\b|\b(?:ageing|aging) rate\b|\byears of (?:battery )?life\b|\bcaused by (?:the )?cold\b"),
+    Rule("M673-exposure-wording", "regex", "M674 (spec analyses/M673_spec.md Rev 1.1, Director review): the exposure vector and the cold-charging screens count exposure of the logged driving window estimated from the logged current; never cold-charging damage, harmful or safe charging, plating that occurred, or a measured exposure",
+         rx=r"\bcold[- ]charging (?:damage|harm|injury)\b|\b(?:harmful|damaging) charg\w+|\bsafe charging\b|\blithium plating (?:occurred|is occurring|has occurred)\b|\bmeasured exposure\b"),
 ]
 
 _SCAN_CACHE = {}
