@@ -23,12 +23,14 @@ SPEC = "analyses/M695_spec.md"
 OUT = os.path.join(ROOT, "analyses", "M698_tau0.json")
 
 
-def aligned(csv_bytes):
+def aligned(csv_bytes, source="vcm"):
     """DataFrame at the target-torque sample times: t (s from the first timestamp), torque, speed, rpm (nearest-previous within 1500 ms, NaN otherwise), plus the speed>0 transition times."""
     import compute_drive_summary_v6 as D
     df, t = D._prep_bytes(csv_bytes)
     tq = D._series(df, t, "target_torque")
     sp = D._series(df, t, "speed", lo=0, hi=260)
+    if source == "obd":          # per-source descriptive run (Rev 1.2): only drives WITHOUT the VCM speed PID, with the standard OBD vehicle speed
+        sp = D._series(df, t, "speed_obd", lo=0, hi=260) if sp is None else None
     en = D._series(df, t, "eng_rpm", lo=0)
     if tq is None or sp is None:
         return None, []
@@ -48,8 +50,8 @@ def aligned(csv_bytes):
     return base, trans
 
 
-def drive_hist(csv_bytes):
-    base, trans = aligned(csv_bytes)
+def drive_hist(csv_bytes, source="vcm"):
+    base, trans = aligned(csv_bytes, source)
     if base is None:
         return {"nRows": 0, "hist": {}, "nNoRpm": 0, "nNotStandstill": 0, "nPreTransition": 0}
     standstill = (base["speed"] == 0).to_numpy()
@@ -70,7 +72,7 @@ def drive_hist(csv_bytes):
             "torqueStep": float(d.min()) if len(d) else None}
 
 
-def corpus():
+def corpus(source="vcm"):
     import ah_throughput as AH
     m = pd.read_csv(os.path.join(ROOT, "drive_master.csv"), usecols=["file", "date", "ens_outlier_v2", "ens_invalid"], low_memory=False)
     clean = ~(m["ens_outlier_v2"].map(lambda x: x is True or x == "True") | m["ens_invalid"].map(lambda x: x is True or x == "True"))
@@ -78,7 +80,7 @@ def corpus():
     cad = pd.read_csv(os.path.join(ROOT, "cadence_regime.csv"))
     reg = {r.file: (r.regime if isinstance(r.regime, str) else "unknown") for r in cad.itertuples()}
     sha_by, loader = AH.manifest_sha_lookup(), AH.raw_loader(os.environ.get("XT_RAW_DIR") or os.path.join(ROOT, "raw"))
-    os.makedirs(CACHE_DIR, exist_ok=True)
+    os.makedirs(CACHE_DIR if source == "vcm" else CACHE_DIR + "_obd", exist_ok=True)
     code = hashlib.sha256(open(__file__, "rb").read()).hexdigest()[:8]
     rows = []
     for _, r in m.iterrows():
@@ -86,11 +88,11 @@ def corpus():
         if b is None:
             continue
         sha = sha_by(r["file"]) or hashlib.sha256(b).hexdigest()
-        cp = os.path.join(CACHE_DIR, "%s_v%d_%s.json" % (sha, VERSION, code))
+        cp = os.path.join(CACHE_DIR if source == "vcm" else CACHE_DIR + "_obd", "%s_v%d_%s.json" % (sha, VERSION, code))
         if os.path.isfile(cp):
             h = json.load(open(cp, encoding="utf-8"))
         else:
-            h = drive_hist(b)
+            h = drive_hist(b, source)
             h["sha"] = sha
             json.dump(h, open(cp, "w", encoding="utf-8"), separators=(",", ":"))
         rows.append({**h, "file": r["file"], "date": str(r["date"])[:10], "regime": reg.get(r["file"], "unknown")})
@@ -111,8 +113,9 @@ def pooled_percentile(rows, q):
     return float(v[int(np.searchsorted(cs, q / 100.0 * cs[-1]))]), int(cs[-1])
 
 
-def main():
-    rows = corpus()
+def main(argv=()):
+    source = "obd" if "--source-obd" in argv else "vcm"
+    rows = corpus(source)
     used = [r for r in rows if r.get("nUsed", 0) > 0]
     p99, n = pooled_percentile(used, 99.0)
     steps = [r["torqueStep"] for r in rows if r.get("torqueStep")]
@@ -131,9 +134,12 @@ def main():
            "rule": "speed == 0 (aligned, nearest-previous within 1500 ms), engine rpm < 300 (aligned the same way), excluding the 5 s before any speed > 0 transition; the drive start counts as standstill",
            "p99AbsTorqueNm": p99, "torqueRegisterStepNm": step, "tau0Nm": tau0, "byCadenceDescriptive": by,
            "masterMd5": md5, "scriptSha256": hashlib.sha256(open(__file__, "rb").read()).hexdigest()}
-    json.dump(out, open(OUT, "w", encoding="utf-8"), indent=1)
+    if source == "obd":
+        out["purpose"] = "per-source DESCRIPTIVE tau0 for the OBD-speed drives (Rev 1.2 condition 3); never substituted for the frozen 45.77 N.m"
+        out["speedSource"] = "standard OBD vehicle speed (ECU-reported, integer km/h, not GPS), drives without the VCM speed PID"
+    json.dump(out, open(OUT if source == "vcm" else OUT.replace("M698_tau0.json", "M698_tau0_obd.json"), "w", encoding="utf-8"), indent=1)
     print(json.dumps(out)[:1500])
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])

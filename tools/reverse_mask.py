@@ -34,13 +34,26 @@ TAU0_FILE = os.path.join(ROOT, "analyses", "M698_tau0.json")
 
 
 # ------------------------------------------------------------------------------------------------ alignment
-def aligned(csv_bytes):
+def pick_speed(D, df, t, source):
+    """Speed series by source: 'vcm' = [VCM] Vehicle Speed only; 'obd' = the standard OBD vehicle speed (ECU-reported, integer km/h, never GPS); 'auto' = VCM when present, else OBD (spec Rev 1.2)."""
+    vcm = D._series(df, t, "speed", lo=0, hi=260)
+    obd = D._series(df, t, "speed_obd", lo=0, hi=260)
+    if source == "vcm":
+        return vcm, ("VCM" if vcm is not None else None)
+    if source == "obd":
+        return obd, ("OBD" if obd is not None else None)
+    if vcm is not None:
+        return vcm, "VCM"
+    return obd, ("OBD" if obd is not None else None)
+
+
+def aligned(csv_bytes, source="auto"):
     """Torque-sample grid: ts (s from the first timestamp), T, v (speed), rpm, I (HV battery current) by nearest-previous within 1500 ms (NaN otherwise, no interpolation);
     lastPos = time of the last native speed > 0 sample at or before each torque sample."""
     import compute_drive_summary_v6 as D
     df, t = D._prep_bytes(csv_bytes)
     tq = D._series(df, t, "target_torque")
-    sp = D._series(df, t, "speed", lo=0, hi=260)
+    sp, src = pick_speed(D, df, t, source)
     if tq is None or sp is None:
         return None
     en = D._series(df, t, "eng_rpm", lo=0)
@@ -62,7 +75,7 @@ def aligned(csv_bytes):
     if len(pos):
         j = np.searchsorted(pos, ts, side="right") - 1
         last_pos = np.where(j >= 0, pos[np.clip(j, 0, len(pos) - 1)], np.nan)
-    return {"ts": ts, "T": base["T"].to_numpy(float), "v": base["v"].to_numpy(float), "rpm": base["rpm"].to_numpy(float), "I": base["I"].to_numpy(float), "lastPos": last_pos}
+    return {"speedSource": src, "ts": ts, "T": base["T"].to_numpy(float), "v": base["v"].to_numpy(float), "rpm": base["rpm"].to_numpy(float), "I": base["I"].to_numpy(float), "lastPos": last_pos}
 
 
 # ------------------------------------------------------------------------------------------------ discriminator
@@ -185,7 +198,7 @@ def drive_record(csv_bytes, tau0):
     a = aligned(csv_bytes)
     if a is None:
         return {"reason": "no_torque_or_speed"}
-    rec = {"reason": None, "nSamples": int(len(a["ts"])), "medianDt": float(np.median(np.diff(a["ts"]))) if len(a["ts"]) > 1 else None, "duration": float(a["ts"][-1]) if len(a["ts"]) else 0.0}
+    rec = {"reason": None, "speedSource": a["speedSource"], "nSamples": int(len(a["ts"])), "medianDt": float(np.median(np.diff(a["ts"]))) if len(a["ts"]) > 1 else None, "duration": float(a["ts"][-1]) if len(a["ts"]) else 0.0}
     prim = analyse(a, tau0, detail=True)
     rec["variants"] = {"primary": {k: prim[k] for k in ("labelCounts", "negCounts", "tMin", "tMinExclRev") if k in prim}}
     rec["variants"]["primary"]["nEpisodes"] = len(prim["episodes"])
