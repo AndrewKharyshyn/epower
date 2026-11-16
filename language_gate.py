@@ -649,6 +649,8 @@ RULES = [
          rx=r"reverse (?:was |is |are |were )?(?:detected|measured|identified)|\breversing\b|reverse torque|reverse share|corrected regen(?:eration)?|regen(?:eration)? corrected"),
     Rule("M699-capacity-anchor-wording", "regex", "M699 (spec analyses/M699_spec.md Rev 1, Director review): anchor-based capacity figures are an alternative anchoring of the apparent capacity of the logged SoC scale (estimated, same channels), never state of health, capacity fade, measured capacity or an independent check; a key-on voltage is not a rest voltage",
          rx=r"(?<!not )(?<!no )(?<!never )(?:measured|true) (?:rest|open[- ]circuit) (?:voltage|ocv)|anchor(?:ed|[- ]pair|[- ]based)[^.]{0,60}independent (?:check|capacity|estimate)|capacity fade (?:detected|established|observed)|state of health (?:is|of) (?:estimated|measured)"),
+    Rule("M700-k-selection-wording", "regex", "M700 (spec analyses/M700_spec.md Rev 1): the number of breaks is a selected value under a pre-registered rule with simulated performance in stated scenarios; never the true number of breaks, a validated or admissible rule where the gate failed, or a detected update",
+         rx=r"(?<!not )(?<!no )true (?:number of|K of) breaks|(?:k1|k2|k3|k4)[^.]{0,40}(?:is|was|were) (?:admissible|validated)|(?:number of )?breaks (?:was|were|is|are) (?:validated|detected the update)"),
 ]
 
 _SCAN_CACHE = {}

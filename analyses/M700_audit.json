@@ -1,0 +1,21 @@
+{
+ "claim": "M700: no admissible K rule (K1/K2 fail only (c) over-segmentation in S4 and D5b; K3 fails (a) D5b) at X2 structure, simulated scenarios",
+ "reproduced": {"n_drives": 633, "n_days": 126, "fingerprint_hash": "95d518889e5adcdd (match)", "reps": 200,
+  "table_rec_over_[audit]": {
+   "S1": {"K1": [0.975, 0.025], "K2": [0.91, 0.09]}, "S2": {"K1": [0.90, 0.10], "K2": [0.865, 0.135]},
+   "S4": {"K1": [0.91, 0.09], "K2": [0.865, 0.135]}, "D5a": {"K1": [0.915, 0.085], "K2": [0.92, 0.08]},
+   "D5b": {"K1": [0.87, 0.12], "K2": [0.885, 0.105], "K3": [0.74, 0.095]},
+   "S5": {"K1": [1.0, 0.0], "K2": [0.94, 0.06]},
+   "S5null_falseBreak": {"K1": 0.0, "K2": 0.01}, "N0_fb": {"K1": 0.015, "K2": 0.04}, "N5_fb": {"K1": 0.03, "K2": 0.045}},
+  "K3_D5b_recWilson95": [0.6751, 0.7959], "K1_D5b_overWilson95": [0.082, 0.1723], "K2_D5b_overWilson95": [0.0697, 0.1552]},
+ "agrees": true,
+ "abs_diff": 0.065,
+ "diff_note": "Author vs audit: K1 D5b over 0.145 vs 0.12; K2 D5b 0.110 vs 0.105; K3 D5b rec 0.78 vs 0.74; S5 K1 1.0/1.0, K2 0.93 vs 0.94; S5null K2 fb 0.015 vs 0.01. Max cell diff 0.065 (S2 K0 rec, earlier run). All Wilson intervals overlap.",
+ "k2_form_used": "day-level BIC n_d ln(RSSw/n_d) + (2K+1) ln n_d, n_d=126; weights 1/(sb2+sw2/m_d) normalised to mean 1; sb2 by ANOVA moments from K0 residuals. Author: sb2 = mean(dm^2 - sw2/m) (simpler MoM, same penalty n=126, unnormalised weights): compatible.",
+ "k3_audit_method": "own code: stat = RSS_K - RSS_K+1, day Rademacher on K-fit residuals, one DP per draw refits K and K+1, B=199, stop at 10 exceedances, p=(1+exc)/(b+1)<=0.05, 120 s cap (never triggered, 0 capped)",
+ "flips_to_pass": "none. K1 fails D5b (c) (0.12, upper 0.17); K2 fails S2 (0.135), S4 (0.135) and D5b (0.105) (c); K3 fails (a) D5b (0.74, and S4 untested here). K1 passes S4 (c) on my stream (0.09, author 0.135) but remains inadmissible via D5b. Verdict 'no admissible rule' reproduced; K1 is the closest, margin 0.02 over the gate in D5b.",
+ "method_concerns": ["Author K3 statistic is the RSS ratio R_K/R_K+1, not the spec's RSS reduction (spec 2); monotone-related at fixed K only, deviation undisclosed", "Author K3 cap is wall-clock under 10 parallel workers: nondeterministic across loads; capped replicates return K=0 and count under-detection/non-recovery but never over-seg, biasing K3 over-seg down; author JSON nCapped not shown in brief", "Resampling unit: day-clustered Rademacher OK; K4 folds whole days stratified by month, refit and feasibility on training drives only, no leakage seen; lambda from K0 residuals as spec; Kmax=5 consistent", "K4 not reproduced (author-only)", "(c) point gate at 0.10 with 200 reps: Monte Carlo SD ~0.02, verdicts at 0.09-0.145 are not stable across streams"],
+ "language_concerns": ["Say 'not established in the stated scenarios, 200 reps'; K1/K2 are near-admissible, not shown inadequate"],
+ "verdict": "accept_with_revision",
+ "audit_files": ["C:/Users/AndriiKharyshyn/Downloads/X-Trail Investigation/Repo/xtrail-repo/audit/m700_blind.py", "C:/Users/AndriiKharyshyn/Downloads/X-Trail Investigation/Repo/xtrail-repo/audit/m700_lib.py", "C:/Users/AndriiKharyshyn/Downloads/X-Trail Investigation/Repo/xtrail-repo/audit/m700_ext.py", "C:/Users/AndriiKharyshyn/Downloads/X-Trail Investigation/Repo/xtrail-repo/analyses/M700_audit.json"]
+}
