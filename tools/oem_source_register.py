@@ -18,8 +18,24 @@ def main(out):
     cited = {}
     for s in p1["statements"]:
         cited.setdefault(s["doc"], set()).add(s["pdfPage"])
+    p2 = json.load(open(os.path.join(ROOT, "analyses", "M704_transcription_pass2.json"), encoding="utf-8"))
+
+    def walk(o, doc=None):
+        if isinstance(o, dict):
+            doc = o.get("doc", doc)
+            if "pdfPage" in o and doc in SOURCES:
+                try:
+                    cited.setdefault(doc, set()).add(int(o["pdfPage"]))
+                except (TypeError, ValueError):
+                    pass
+            for v in o.values():
+                walk(v, doc)
+        elif isinstance(o, list):
+            for v in o:
+                walk(v, doc)
+    walk(p2)
     res = {"spec": "analyses/M703_spec.md Rev 1 item 1", "registeredAt": datetime.datetime.now(datetime.timezone.utc).isoformat(), "ownerInstruction": "URLs supplied by the owner in chat on 2026-11-16 (download approved for these two documents)",
-           "storedOutsideRepository": "reference_downloads/nissan_technical_review_89_90/", "pymupdfVersion": pymupdf.__version__, "documents": {}}
+           "storedOutsideRepository": "<Investigation folder>/reference_downloads/nissan_technical_review_89_90/ (a sibling of the repository folder, not inside it)", "pymupdfVersion": pymupdf.__version__, "documents": {}}
     for k, v in SOURCES.items():
         path = os.path.join(DIR, v["file"])
         b = open(path, "rb").read()
