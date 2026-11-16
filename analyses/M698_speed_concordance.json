@@ -1,0 +1,23 @@
+{
+ "spec": "analyses/M695_spec.md section 14 condition 4",
+ "purpose": "concordance of VCM and OBD vehicle speed on drives that log both PIDs, run before any OBD-stratum episode result",
+ "nDrivesWithBoth": 213,
+ "nDays": 56,
+ "thresholds": {
+  "zeroStateAgreementMin": 0.95,
+  "medianLagSamplesMax": 1
+ },
+ "corpus": {
+  "medianZeroStateAgreement": 0.9814,
+  "medianAbsLagSamples": 0.0,
+  "medianAbsDiffKmh": 0.0,
+  "medianShareWithin1Kmh": 0.983,
+  "medianAbsOnsetDiffS": 2.03,
+  "medianLabelConcordance": 0.9929,
+  "episodesVcmTotal": 6,
+  "episodesObdTotal": 4
+ },
+ "status": "concordant",
+ "limits": "the drives that log both PIDs are the earlier logger configuration; the OBD-only drives are later (a different configuration), so concordance on the early drives is evidence about the PID timing path, not a proof for the later drives",
+ "scriptSha256": "246307528f87150e3a808c220d694b3eaf65b73af8c54c13e91649ce77cd3f63"
+}

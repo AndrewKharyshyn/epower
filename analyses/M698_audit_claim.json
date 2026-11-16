@@ -1,0 +1,187 @@
+{
+ "claim": "Blind reproduction of the inferred reverse-consistent episode discriminator. Read analyses/M695_spec.md sections 1-4 and 11-14 only (Rev 1.2 final). Do NOT read tools/reverse_mask.py, tools/reverse_tau0.py, tools/reverse_speed_concordance.py, analyses/M698_episode_list.json or the reverseInference block of summary_arrays.json. Data: drive_master.csv (canonical clean = ens_outlier_v2 and ens_invalid not True; 663 such drives with raw files), raw/*.csv (names with spaces map to master keys by digits), cadence_regime.csv. Frozen parameters: tau0 = 45.765625 N.m, cap 15 km/h, standstill 1 s, k = 2, caps (duration <= 120 s, >= 2 moving samples, vmax >= 2 km/h), regen window 3 s, gap factor 3. Series: '[VCM] Target Motor Torque' (commanded torque) on its own sample times; speed = '[VCM] Vehicle Speed' where the column exists in the file, else the standard OBD speed column 'Швидкість автомобіля (km/h)'; both aligned to the torque sample times by nearest-previous within 1500 ms, no interpolation, speed range 0..260. Report, per speed source (VCM / OBD) the number of analysable drives, the number of REV_CAND episodes (primary rule) with the drive file and the episode start time (seconds from the first timestamp), and the REV_CAND episode count over the one-at-a-time grid: cap 10 and 20, standstill 0.5 and 2 s, k 1 and 3, tau0 x 0.5 and x 2.",
+ "claimedPrimary": {
+  "VCM": {
+   "nDrives": 229,
+   "nEpisodes": 6
+  },
+  "OBD": {
+   "nDrives": 424,
+   "nEpisodes": 7
+  }
+ },
+ "claimedEpisodes": [
+  {
+   "file": "20260620_105353.csv",
+   "speedSource": "VCM",
+   "regime": "slow",
+   "tStartS": 1294.6,
+   "durationS": 8.1,
+   "vmaxKmh": 3.0,
+   "nMoving": 6,
+   "startFrac": 0.979
+  },
+  {
+   "file": "20260624_130757.csv",
+   "speedSource": "VCM",
+   "regime": "slow",
+   "tStartS": 894.1,
+   "durationS": 5.7,
+   "vmaxKmh": 6.0,
+   "nMoving": 5,
+   "startFrac": 0.786
+  },
+  {
+   "file": "20260720_174210.csv",
+   "speedSource": "VCM",
+   "regime": "slow",
+   "tStartS": 1631.3,
+   "durationS": 4.8,
+   "vmaxKmh": 6.0,
+   "nMoving": 4,
+   "startFrac": 0.973
+  },
+  {
+   "file": "20260724_144854.csv",
+   "speedSource": "VCM",
+   "regime": "slow",
+   "tStartS": 246.3,
+   "durationS": 18.3,
+   "vmaxKmh": 4.0,
+   "nMoving": 15,
+   "startFrac": 0.907
+  },
+  {
+   "file": "20260725_140026.csv",
+   "speedSource": "VCM",
+   "regime": "slow",
+   "tStartS": 134.8,
+   "durationS": 5.0,
+   "vmaxKmh": 5.0,
+   "nMoving": 4,
+   "startFrac": 0.017
+  },
+  {
+   "file": "20260808_124714.csv",
+   "speedSource": "VCM",
+   "regime": "slow",
+   "tStartS": 18.2,
+   "durationS": 7.6,
+   "vmaxKmh": 6.0,
+   "nMoving": 6,
+   "startFrac": 0.022
+  },
+  {
+   "file": "20260814_102213.csv",
+   "speedSource": "OBD",
+   "regime": "fast",
+   "tStartS": 189.1,
+   "durationS": 3.7,
+   "vmaxKmh": 5.0,
+   "nMoving": 5,
+   "startFrac": 0.874
+  },
+  {
+   "file": "20260818_124141.csv",
+   "speedSource": "OBD",
+   "regime": "fast",
+   "tStartS": 294.9,
+   "durationS": 4.1,
+   "vmaxKmh": 5.0,
+   "nMoving": 5,
+   "startFrac": 0.902
+  },
+  {
+   "file": "20260830_165926.csv",
+   "speedSource": "OBD",
+   "regime": "fast",
+   "tStartS": 28.9,
+   "durationS": 5.1,
+   "vmaxKmh": 5.0,
+   "nMoving": 6,
+   "startFrac": 0.006
+  },
+  {
+   "file": "2026-10-01_16-45-44.csv",
+   "speedSource": "OBD",
+   "regime": "fast",
+   "tStartS": 40.2,
+   "durationS": 15.4,
+   "vmaxKmh": 7.0,
+   "nMoving": 19,
+   "startFrac": 0.114
+  },
+  {
+   "file": "2026-10-11_13-59-37.csv",
+   "speedSource": "OBD",
+   "regime": "fast",
+   "tStartS": 18.2,
+   "durationS": 16.6,
+   "vmaxKmh": 8.0,
+   "nMoving": 20,
+   "startFrac": 0.014
+  },
+  {
+   "file": "2026-10-12_09-24-15.csv",
+   "speedSource": "OBD",
+   "regime": "fast",
+   "tStartS": 16.0,
+   "durationS": 24.8,
+   "vmaxKmh": 7.0,
+   "nMoving": 25,
+   "startFrac": 0.035
+  },
+  {
+   "file": "2026-10-13_22-55-32.csv",
+   "speedSource": "OBD",
+   "regime": "fast",
+   "tStartS": 562.2,
+   "durationS": 16.3,
+   "vmaxKmh": 5.0,
+   "nMoving": 19,
+   "startFrac": 0.766
+  }
+ ],
+ "claimedGridEpisodeCounts": {
+  "VCM": {
+   "primary": 6,
+   "cap10": 6,
+   "cap20": 6,
+   "stand0.5": 6,
+   "stand2": 6,
+   "k1": 27,
+   "k3": 2,
+   "tau0x0.5": 98,
+   "tau0x2": 1
+  },
+  "OBD": {
+   "primary": 7,
+   "cap10": 7,
+   "cap20": 7,
+   "stand0.5": 7,
+   "stand2": 7,
+   "k1": 44,
+   "k3": 2,
+   "tau0x0.5": 32,
+   "tau0x2": 0
+  }
+ },
+ "claimedV3": {
+  "VCM": {
+   "onsets": 4685,
+   "hits": 12,
+   "hitRate": 0.00256,
+   "falsifierThreshold": 0.01,
+   "status": "not falsified"
+  },
+  "OBD": {
+   "onsets": 3265,
+   "hits": 0,
+   "hitRate": 0.0,
+   "falsifierThreshold": 0.01,
+   "status": "not falsified"
+  }
+ },
+ "tolerance": "episode list: same drives and start times within 2 s expected; grid counts: within 15 % or 3 episodes, whichever is larger; V3 onsets/hits within 5 %",
+ "also": "List any ambiguity of the spec that changes a number (onset sample definition, standstill duration measurement, aligned-speed zero/NaN handling, REGEN_TO_STOP interplay). Do not tune to match; report disagreements as they are."
+}

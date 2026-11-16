@@ -1,0 +1,34 @@
+{
+ "spec": "analyses/M695_spec.md Rev 1.1 section 11 item 1",
+ "purpose": "per-source DESCRIPTIVE tau0 for the OBD-speed drives (Rev 1.2 condition 3); never substituted for the frozen 45.77 N.m",
+ "population": {
+  "canonicalCleanDrives": 663,
+  "drivesWithUsedSamples": 422,
+  "nDays": 72,
+  "nSamplesUsed": 37805,
+  "excluded": {
+   "standstillWithoutAlignedRpm": 605,
+   "standstillEngineOn": 8479,
+   "standstillWithin5sBeforeATransition": 11731
+  }
+ },
+ "rule": "speed == 0 (aligned, nearest-previous within 1500 ms), engine rpm < 300 (aligned the same way), excluding the 5 s before any speed > 0 transition; the drive start counts as standstill",
+ "p99AbsTorqueNm": 45.46875,
+ "torqueRegisterStepNm": 0.015625,
+ "tau0Nm": 45.46875,
+ "byCadenceDescriptive": {
+  "fast": {
+   "nDrives": 224,
+   "nSamples": 28206,
+   "p99AbsTorque": 45.734375
+  },
+  "slow": {
+   "nDrives": 198,
+   "nSamples": 9599,
+   "p99AbsTorque": 44.640625
+  }
+ },
+ "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+ "scriptSha256": "50020dbbd9dfdb143e1f1e104b8158f353e278aebf15be3ae6250808ea30278d",
+ "speedSource": "standard OBD vehicle speed (ECU-reported, integer km/h, not GPS), drives without the VCM speed PID"
+}
