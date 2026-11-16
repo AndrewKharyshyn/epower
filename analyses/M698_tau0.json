@@ -1,0 +1,38 @@
+{
+ "spec": "analyses/M695_spec.md Rev 1.1 section 11 item 1",
+ "purpose": "standstill torque noise floor tau0, computed before any episode code exists",
+ "population": {
+  "canonicalCleanDrives": 663,
+  "drivesWithUsedSamples": 219,
+  "nDays": 57,
+  "nSamplesUsed": 15534,
+  "excluded": {
+   "standstillWithoutAlignedRpm": 6,
+   "standstillEngineOn": 2164,
+   "standstillWithin5sBeforeATransition": 4250
+  }
+ },
+ "rule": "speed == 0 (aligned, nearest-previous within 1500 ms), engine rpm < 300 (aligned the same way), excluding the 5 s before any speed > 0 transition; the drive start counts as standstill",
+ "p99AbsTorqueNm": 45.765625,
+ "torqueRegisterStepNm": 0.015625,
+ "tau0Nm": 45.765625,
+ "byCadenceDescriptive": {
+  "fast": {
+   "nDrives": 1,
+   "nSamples": 17,
+   "p99AbsTorque": 0.0
+  },
+  "slow": {
+   "nDrives": 213,
+   "nSamples": 15432,
+   "p99AbsTorque": 45.765625
+  },
+  "unknown": {
+   "nDrives": 5,
+   "nSamples": 85,
+   "p99AbsTorque": 44.4375
+  }
+ },
+ "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+ "scriptSha256": "a6aa7e09421b77f357eecc6df003b1a088d281fcd2f6ce14cafacaf98f56dfc8"
+}
