@@ -1,0 +1,39 @@
+# Open items and the next-ingestion checklist (written 2026-11-16, after M705)
+
+Owner decision (Andrii, 2026-11-16, chat): the remaining backlog items continue **with the next ingestion**. This file is the hand-over for a fresh session. Disk is ground truth: verify against `STATE.md`, the CHANGELOG head and `git log` before acting. Numbers here are pointers; every figure comes from a script-written JSON.
+
+## 1. Where things stand
+- The 2026-11-11 self-audit backlog (53 items: D-01..D-08, W1-01..W1-18, P-01..P-08, UI-01..UI-07, N-01..N-12) is implemented in some form (M621-M705, merged to `main`, tags M698-M705 added 2026-11-16). The detailed item texts live in `analyses/self_audit_2026-11-11/backlog.json` (local, NOT committed: the repository is public and the folder holds third-party audit text; ask before committing it). `analyses/self_audit_2026-11-11/OWNER_DECISIONS_2026-11-12.md` holds the owner rulings D-01..D-08.
+- Corpus at the time of writing: 665 drives (651 canonical-clean), `drive_master.csv` MD5 `77bbe275f8c22eaf62d8636867764af3`, 126 clean-drive days, window 2026-05-11 to 2026-11-09. No new raw drives existed on 2026-11-16 (676 files in `raw/` = 665 canonical + 11 other, manifest clean).
+- The committed dashboard (`xtrail_dashboard.html`) is the M688 build. M689-M705 added payload blocks only (no display). The dashboard embeds the whole payload, so a rebuild differs from the committed file without any visible change; a display needs its own spec step and a rendered-text check.
+
+## 2. At the next ingestion (order)
+1. A new raw CSV in `raw/` triggers the SessionStart hook (`tools/new_raw_files.py`): start skill `ingest-drive` BEFORE anything else. It needs the driver-recorded ambient temperatures (ask Andrii if missing) and the dash ODO ("ODO: <km>", as of the END of the newest ingested drive; set `vehicle.odometerKm` and `odometerAsOf`, do not ask).
+2. First full run of the 19 `verified:false` stages in `tools/ingest_stages.json` (leaf_guard_early, s1_fidelity, winter_temperature_controls, hot_tail_sample_occupancy, fgen_mix_standardised, energy_support_ladder, bms_power_map, cohort_contrast, seasonal_fits, between_drive_logging, exposure_vector, parked_time_budget, capacity_anchors, torque_decoder, change_points, early_late_contrast, dump_tabs, semantic_gate, release_identity). Verify each against its spec, then flip `verified`.
+3. Studies WITHOUT an ingestion stage: their design fingerprints go stale on new data and they are NOT recomputed automatically. For each, decide with the Director: add a stage, or re-run by hand under the frozen spec (never retune; keep the failed first run):
+   - M693 location sets and M700 K-selection (`changePoints.kSelectionStudy`; re-run trigger: at least 180 clean-drive days, 126 at M700; needs a NEW spec revision with a larger replicate count and a fixed K2 BIC form).
+   - M701 `engineStartHazard` (pedal logged only from mid-August; re-run when pedal-eligible days cross the season boundary so the epoch confound shrinks; pedal contrast was not established).
+   - M702 `stepResistance` (simulation gate failed because the generator null was not drift-free; optional Rev 2: gap-free null, realised ICC 0.3, observed-median base, gap covariate as a pre-registered sensitivity).
+   - M705 `oemCrossCheckC1` / `oemCrossCheckC2` (`tools/rpm_window_cache.py` rebuilds the per-drive histogram cache, `tools/oem_crosscheck.py --study` then `--splice`; cold slow cohort was not estimable; C1b is WITHHELD and can return only through a pre-registered Rev 2 with a Monte Carlo-based tolerance, a new blind audit and a Director review, recorded as a post-result deviation Andrii must acknowledge).
+   - M698 reverse mask (`tools/reverse_mask.py`).
+4. N-01 winter protocol (`analyses/M622_spec.md`, `tools/m634_winter_controls.py`): looks at about 2027-02-11 (month 9, descriptive only) and 2027-05-11 (month 12, formal, alpha 0.05); equivalence needs SE <= 0.328 (0.56 at the time of the spec).
+
+## 3. Open items and their value (judgement as of 2026-11-16)
+| Item | What is left | Value |
+|---|---|---|
+| N-01 winter looks | execute the two looks on winter data | high: the only route to the trend / equivalence question |
+| Next ingestion + stage verification | new drives; 19 unverified stages | high: gates everything else |
+| N-11 remainder | generalised controlled thinning (cadence bracket); the in-data coast-down fit is CLOSED (no road data) | medium |
+| N-12 remainder | C3 (within-vehicle direction check of the M701 speed term, "M706" planned), C4 (own spec: rpm rise rate in high-demand episodes; boost logging coverage counted first), C1b / zone-cell Rev 2 (optional) | low to medium |
+| N-08 follow-ups | E2 at parked gaps of 6 h or more when >= 10 drives on >= 5 days; reverse-regression bound | low to medium |
+| N-07 re-run | at 180 clean days | low |
+| D-07 standing rulings | owner decided yes in principle; needs its own spec before any ruling is made standing | low to medium (process only) |
+| N-09 part 2 | state-space health tracker and ageing model; first resolve the M702 gap confound; calendar and cycle terms cannot be separated on one vehicle | low |
+| N-10 later parts | pedal step or monotone model, driver-demand clustering, semi-Markov duty cycle, thermal RC, imbalance dynamics | low each |
+Not in the backlog: clean-room raw -> master rebuild (ML columns drift on a refit; medium to high for any "reproducible from raw" claim); reverse-movement ground-truth session (needs Andrii: owner-timed notes or a scripted drive at both cadences, check Car Scanner for a shift-position PID; medium); the road-load (Path A) versus fuel (Path B) cross-validation stays PARKED (no road-load data: CoC / WLTP F0 F1 F2, Cd x A, mass; do not propose it).
+
+## 4. Rules that bite when continuing
+- Every new analysis: pre-registered spec (`analyses/M###_spec.md`) committed before any result, Director review (Opus), implementation, known-answer test in `tests/synthetic/` added to the CI list, blind audit, Director decision, CHANGELOG via `python tools/changelog_draft.py`, `python tools/release_identity.py`, `python release_check.py`, then the PR (the agent opens it and, once every check including `release-gate` is green on the PR head, merges it with a merge commit; tag `M###`).
+- A pre-registered gate that fails is recorded as failed (M700, M702, M705 C1b); it is not relaxed after the results.
+- Estimated / reconstructed / model-derived, never "measured". TOST "not established" is not "no degradation". Manufacturer figures enter only from archived primary sources (Nissan Article 10 sheet M642; Technical Review No.89 and No.90 archived outside the repository, M704: `analyses/M704_sources.json`); figures of other vehicles or engines (NOTE, SERENA, KICKS, HR12DE, the dedicated 50 % engine) are never X-TRAIL targets.
+- Traps: `release_check.py` does NOT run the CI unit list: before pushing run the tripwire tests (`tools/engine_on_sites.py` exit 0, `tests/synthetic/test_language_gate.py`, `test_engine_on_rule.py`, `test_m546_state_machine_rule.py`); a new language rule must be scanned against the whole existing payload (`language_gate.scan_text` over every payload string) before it is committed; text strings that match an rpm comparison with 300 or 400 trip the engine-on site scanner; master file keys differ from raw file names (match by the digits of date and time); running `tools/state.py`, the CI test list or `node build_html.js` rewrites tracked files (restore them before committing and stage explicit paths); on Windows Bash a doubled backslash collapses, heredocs with many quotes can fail (write the file with the Write tool), `/tmp` is not usable (use the scratchpad).
