@@ -1,0 +1,70 @@
+{
+ "spec": "analyses/M690_spec.md section 10",
+ "note": "timestamps only; no torque value read; computed before any torque statistic",
+ "tolS": 0.5,
+ "byCadence": {
+  "slow": {
+   "nDrives": 421,
+   "nActualRows": 433328,
+   "nPairedAtTol": 433102,
+   "unpairedShare": 0.00052,
+   "gapSecondsQuantiles": {
+    "5": 0.036,
+    "50": 0.083,
+    "95": 0.157,
+    "99": 0.241,
+    "99.9": 0.407
+   },
+   "gapMax": 114.946,
+   "rowDistanceShare": {
+    "1": 0.26324,
+    "2": 0.73216,
+    "3": 0.00361,
+    "4": 0.00081,
+    "6": 0.00013,
+    "10": 0.0
+   }
+  },
+  "fast": {
+   "nDrives": 222,
+   "nActualRows": 273889,
+   "nPairedAtTol": 273868,
+   "unpairedShare": 8e-05,
+   "gapSecondsQuantiles": {
+    "5": 0.035,
+    "50": 0.04,
+    "95": 0.095,
+    "99": 0.143,
+    "99.9": 0.2251
+   },
+   "gapMax": 9.238,
+   "rowDistanceShare": {
+    "1": 0.87118,
+    "2": 0.12876,
+    "5": 3e-05,
+    "19": 0.0,
+    "32": 0.0,
+    "45": 0.0
+   }
+  },
+  "unknown": {
+   "nDrives": 6,
+   "nActualRows": 1309,
+   "nPairedAtTol": 1298,
+   "unpairedShare": 0.0084,
+   "gapSecondsQuantiles": {
+    "5": 0.071,
+    "50": 0.098,
+    "95": 0.313,
+    "99": 0.4707,
+    "99.9": 0.8415
+   },
+   "gapMax": 4.683,
+   "rowDistanceShare": {
+    "1": 0.00076,
+    "2": 0.95642,
+    "4": 0.04281
+   }
+  }
+ }
+}
