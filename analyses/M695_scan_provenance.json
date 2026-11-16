@@ -1,0 +1,6 @@
+{
+ "purpose": "provenance of the data facts quoted in analyses/M695_spec.md section 1 (checked 2026-11-16, before any result of M695 exists; metadata only, no torque statistic)",
+ "columnScan": {"files": "every 12th file of the sorted raw/*.csv list", "nFiles": 57, "method": "pandas read_csv(nrows=0) header union; column names matched case-insensitively against: gear, shift, range, revers, direction, drive mode, selector, P/R/N, PRND, park, rear, backward", "distinctColumns": 141, "matches": "none that denote gear, range or direction"},
+ "speedScan": {"files": "every 15th file of the sorted raw/*.csv list", "nFiles": 15, "column": "[VCM] Vehicle Speed (km/h)", "nSamples": 14193, "minimum": 0.0, "negativeSamples": 0, "note": "a first attempt of this scan read the wrong column (usecols keeps file order) and was discarded; the quoted figures are from the corrected run"},
+ "masterMd5": "77bbe275f8c22eaf62d8636867764af3"
+}

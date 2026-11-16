@@ -1,3 +1,25 @@
+## M696 (2026-11-16): M695 spec: owner answers to the reverse-movement questions recorded as inputs before any run
+
+**Rationale.** Appends section 12 to analyses/M695_spec.md (spec sha256 now 226ebfa1b0b86ae4077062753f3fdffafb459e733287e7816ac69746efc894ed) with the owner's answers of 2026-11-16: 1 to 2 reverse movements at the start and the end of a drive (zero in many drives), rarely 1 to 2 in the middle, starting from standstill at 0 to 1 km/h; the car holds on slopes at standstill; reverse speed usually not above 15 km/h and mostly not above 10 km/h; annotated held-out drives are possible (protocol and template recorded). Recorded as inputs (verified:false) before any run; no parameter changes. No code, no payload, no figure.
+
+**State.** `drive_master.csv` 665 rows, MD5 `77bbe275f8c22eaf62d8636867764af3`.
+
+**Delta flags.** EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `analyses/M695_spec.md`, `analyses/M695_owner_notes_template.csv`.
+
+
+## M695 (2026-11-16): Reverse versus regeneration: pre-registered spec for inferred reverse-consistent episodes (Rev 1.1, Director: revise, applied)
+
+**Rationale.** Origin: owner statement 2026-11-16 (verified:false) that some negative motor torque is reverse movement, not regeneration. Spec analyses/M695_spec.md Rev 1.1 (sha256 9a77f67cae5688e543ac3eba093a251113af053e98712967a717ad5a357c7d09, recorded before any run): the logger has no gear or direction PID and the speed is unsigned, so reverse is INFERRED from standstill onset, torque sign, d|speed| and battery current (discriminator parameters frozen; tau0 from the zero-speed engine-off torque distribution in a separate run before any episode code; label precedence; validation V1 to V6 each able to falsify the discriminator or the owner statement; worded 'not falsified', never 'validated'). Order: per-drive mask, additive reverseInference block, flagged reverse-excluded sensitivities of the exposed outputs (target torque minimum, torqueBySpeed, terrainTorqueDist, power_peak_temp, c1_joint_temp_crate, regen overlap check), no primary change without a Director decision, blind audit and the owner's sign-off. Questions to the owner recorded in section 10. No code, no payload, no figure.
+
+**State.** `drive_master.csv` 665 rows, MD5 `77bbe275f8c22eaf62d8636867764af3`.
+
+**Delta flags.** EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `analyses/M695_spec.md`, `analyses/M695_scan_provenance.json`.
+
+
 ## M693 (2026-11-16): N-07 follow-up F1: pre-registered spec for calibrated change-point location sets (Rev 1.1, Director: revise, applied)
 
 **Rationale.** Spec analyses/M693_spec.md Rev 1.1 (sha256 2e288d1be9451cfe69d720e91acaa17c8a237ad1d653eb7c1fe2369ba5a1c87a, recorded before any run): candidate constructions C0 reference, C1 unconditional wild bootstrap with K refit, C2 profile likelihood-ratio set (c = 7.35, day-cluster variance correction), C3 closed with a stated reason; core scenarios S1 to S5 including three steps, AR(1), a day effect and a semi-synthetic one; admissibility gate (unconditional coverage 0.90 to 0.99, conditional >= 0.90, Wilson lower bound >= 0.85, vacuity bound); negative result allowed; no subset admissions; output keys locationSet and locationSetCoverageStatus; blind audit of the coverage table before any key is written. No code, no payload, no figure.
