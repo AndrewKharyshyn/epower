@@ -1,0 +1,52 @@
+{
+ "milestone": "M699",
+ "task": "Blind reproduction of the claims below from raw CSVs (raw/, XT_RAW_DIR) and drive_master.csv; do not read tools/capacity_anchors.py. Definitions are in analyses/M699_spec.md section 11 (Rev 1) only.",
+ "definitions": {
+  "pair": "consecutive canonical-clean drives k,k+1 (ens_outlier_v2 False), parked gap before k and before k+1 each >= 2 h (clock times + file-name date, gap = next key-on minus (key-on + duration)); excluded if next-drive unlogged_distance_est_km > 1 in seasonal_drive_master.csv, if drive k current coverage (integrated segments with gaps<=10 s / current span) < 0.95, or |SoC_first(k+1)-SoC_first(k)| < 10 points; SoC_first = median of first 3 SoC samples >0; Ah = trapezoid integral of current (A, sign: positive = SoC rising) over segments of drive k",
+  "E2": "100*sum(Q_k*dS)/sum(dS^2) with dS = SoC_first(k+1)-SoC_first(k); day-clustered percentile bootstrap, seed 42, 4000 draws over calendar days",
+  "E2_withinDrive": "same with dS = SoC_last(k)-SoC_first(k), SoC_last = median of last 3 SoC samples"
+ },
+ "claims": {
+  "nPairs": 17,
+  "nDays": 16,
+  "E2_anchor": {
+   "est": 3.0661,
+   "ci95": [
+    1.8579,
+    4.5726
+   ],
+   "nDrawsUsed": 4000
+  },
+  "E2_withinDriveSoc": {
+   "est": 4.4972,
+   "ci95": [
+    3.96,
+    4.9425
+   ],
+   "nDrawsUsed": 4000
+  },
+  "gapReestimate": {
+   "medianAbsPoints": 3.5,
+   "p90AbsPoints": 16.1,
+   "note": "SoC change across the parked gap (BMS rest re-estimate); parked current is assumed zero (no logger while parked)"
+  },
+  "exclusions": {
+   "notClean": 4,
+   "gapShort": 591,
+   "unloggedGuard": 1,
+   "noRecord": 3,
+   "coverage": 4,
+   "dSocBelow": 43
+  },
+  "keyOnCurrentA": {
+   "nDrives": 653,
+   "median": -4.6,
+   "p10": -7.7,
+   "p90": -1.7,
+   "shareAbsBelowThreshold": 0.023,
+   "note": "median of the first 5 current samples of each drive; the HV battery carries an auxiliary load at key-on, so a key-on voltage is not a rest voltage when this share is small"
+  },
+  "E1": "no drive has >=120 s of key-on samples with |I|<=1 A before any |I|>1 A sample (nAnchorsWithVoltageWindow = 0)",
+  "E3": "per-quarter M403-style B_primary not part of this audit; only check quarter drive/day counts: {\"2026Q2\": [91, 25], \"2026Q3\": [388, 76], \"2026Q4\": [174, 26]}"
+ }
+}

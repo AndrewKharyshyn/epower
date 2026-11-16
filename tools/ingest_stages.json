@@ -1111,6 +1111,25 @@
    ]
   },
   {
+   "id": "capacity_anchors",
+   "title": "M699 (N-08): rest-anchored capacity indicators: anchor-pair Ah per 100 SoC points (key-on to key-on after parked gaps >= 2 h, same current and SoC channels as capacityBasis), key-on voltage relaxation check, quarterly B_primary by cadence and thermal class with the pre-set step rule; day-clustered percentile bootstrap seed 42, 4000 draws; additive payload block capacityAnchors + stamp; exploratory, no display; needs raw/; spec analyses/M699_spec.md Rev 1",
+   "cmd": [
+    "python3",
+    "tools/capacity_anchors.py"
+   ],
+   "needs": [
+    "capacity_basis",
+    "parked_time_budget"
+   ],
+   "verified": false,
+   "outputs": [
+    "summary_arrays.json"
+   ],
+   "writes": [
+    "arrays:capacityAnchors"
+   ]
+  },
+  {
    "id": "torque_decoder",
    "title": "M691 (N-11 part): does the logged actual-torque register x 256 reproduce the logged target-torque register: scale (ratio and L1 slope), tolerance shares, sign, timing, rpm-artefact sign agreement, residual by band; day-clustered percentile bootstrap seed 42, 4000 draws; pairing of adjacent log rows (spec Rev 1.2); per-drive statistics cached by raw sha256 in torque_decoder_cache/; descriptive additive payload block torqueDecoder + stamp; no display; needs raw/; spec analyses/M690_spec.md",
    "cmd": [

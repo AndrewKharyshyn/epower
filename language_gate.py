@@ -647,6 +647,8 @@ RULES = [
          rx=r"calibrated (?:confidence )?interval (?:for|of) (?:the )?(?:break|change|update|location|date)|confidence interval (?:for|of) the (?:software )?update date|(?:dates|dating|detects) the (?:software )?update"),
     Rule("M698-reverse-wording", "regex", "M698 (spec analyses/M695_spec.md Rev 1.1): a reverse-consistent episode is INFERRED from standstill onset, torque sign, d|speed| and battery current (no gear or direction channel exists); never detected, measured or identified reverse, never a reverse share, reverse torque or corrected regeneration",
          rx=r"reverse (?:was |is |are |were )?(?:detected|measured|identified)|\breversing\b|reverse torque|reverse share|corrected regen(?:eration)?|regen(?:eration)? corrected"),
+    Rule("M699-capacity-anchor-wording", "regex", "M699 (spec analyses/M699_spec.md Rev 1, Director review): anchor-based capacity figures are an alternative anchoring of the apparent capacity of the logged SoC scale (estimated, same channels), never state of health, capacity fade, measured capacity or an independent check; a key-on voltage is not a rest voltage",
+         rx=r"(?<!not )(?<!no )(?<!never )(?:measured|true) (?:rest|open[- ]circuit) (?:voltage|ocv)|anchor(?:ed|[- ]pair|[- ]based)[^.]{0,60}independent (?:check|capacity|estimate)|capacity fade (?:detected|established|observed)|state of health (?:is|of) (?:estimated|measured)"),
 ]
 
 _SCAN_CACHE = {}
