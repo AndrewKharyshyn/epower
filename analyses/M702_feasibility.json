@@ -1,0 +1,137 @@
+{
+ "spec": "analyses/M702_spec.md Rev 1 item 11",
+ "constants": {
+  "STEP_A": 20.0,
+  "PRE_BAND_A": 5.0,
+  "POST_STAB": 0.2,
+  "SKEW_MAX_S": 0.25,
+  "NEIGH_S": 10.0,
+  "EDGE_S": 20.0,
+  "GAP_FACTOR": 2.0
+ },
+ "nCleanDrives": 651,
+ "exclusionCounts": {
+  "notStep": 575542,
+  "preNotSteady": 53029,
+  "postUnstable": 9874,
+  "gap": 10,
+  "nearEdge": 90,
+  "overlap": 66,
+  "skewTooLarge": 82,
+  "noVoltage": 0,
+  "chargeDirection": 71288
+ },
+ "nEvents": 1916,
+ "supportLadder": "10 drives with >= 3 events on 5 days",
+ "strata": {
+  "fast": {
+   "drives": 227,
+   "drivesWithEvents": 158,
+   "drivesWithAtLeast3Events": 81,
+   "daysWithAtLeast3Events": 40,
+   "events": 662,
+   "gapMedianS": 0.8674999999999784,
+   "gapP90S": 1.07279999999987,
+   "plausibleShare": 0.947129909365559,
+   "byMonth": {
+    "2026-08": {
+     "drives": 43,
+     "events": 345
+    },
+    "2026-09": {
+     "drives": 7,
+     "events": 45
+    },
+    "2026-10": {
+     "drives": 19,
+     "events": 183
+    },
+    "2026-11": {
+     "drives": 12,
+     "events": 89
+    }
+   },
+   "byThermal": {
+    "cold": {
+     "drives": 12,
+     "events": 95
+    },
+    "shoulder": {
+     "drives": 17,
+     "events": 154
+    },
+    "warm": {
+     "drives": 52,
+     "events": 413
+    }
+   }
+  },
+  "slow": {
+   "drives": 424,
+   "drivesWithEvents": 298,
+   "drivesWithAtLeast3Events": 129,
+   "daysWithAtLeast3Events": 59,
+   "events": 1254,
+   "gapMedianS": 1.267499999999984,
+   "gapP90S": 1.7400000000011233,
+   "plausibleShare": 0.94896331738437,
+   "byMonth": {
+    "2026-05": {
+     "drives": 8,
+     "events": 57
+    },
+    "2026-06": {
+     "drives": 23,
+     "events": 260
+    },
+    "2026-07": {
+     "drives": 46,
+     "events": 457
+    },
+    "2026-08": {
+     "drives": 13,
+     "events": 128
+    },
+    "2026-09": {
+     "drives": 25,
+     "events": 223
+    },
+    "2026-10": {
+     "drives": 13,
+     "events": 117
+    },
+    "2026-11": {
+     "drives": 1,
+     "events": 12
+    }
+   },
+   "byThermal": {
+    "cold": {
+     "drives": 0,
+     "events": 4
+    },
+    "shoulder": {
+     "drives": 30,
+     "events": 257
+    },
+    "warm": {
+     "drives": 99,
+     "events": 993
+    }
+   }
+  },
+  "unknown": {
+   "drives": 0,
+   "drivesWithEvents": 0,
+   "drivesWithAtLeast3Events": 0,
+   "daysWithAtLeast3Events": 0,
+   "events": 0,
+   "gapMedianS": null,
+   "gapP90S": null,
+   "plausibleShare": null,
+   "byMonth": {},
+   "byThermal": {}
+  }
+ },
+ "scriptSha256": "1b0668fe351207a55b4395b95420cb50324f8571c64cb8a8d76435b9d2ce643d"
+}

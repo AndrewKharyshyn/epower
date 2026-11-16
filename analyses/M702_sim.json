@@ -1,0 +1,84 @@
+{
+ "spec": "analyses/M702_spec.md Rev 1 item 8 + errata 12",
+ "reps": 500,
+ "design": {
+  "R0_mOhm": 60.0,
+  "R1_mOhm": 80.0,
+  "tau_s": 5.0,
+  "icc": 0.3,
+  "vStepV": 0.16
+ },
+ "strata": {
+  "fast": {
+   "mdeRelPerMonth": 0.07346123076923076,
+   "null": {
+    "meanRelBias": 0.0021164343801996447,
+    "absMeanRelBias": 0.0021164343801996447,
+    "biasMcSe": 8.419614982942356e-05,
+    "maxGroupBiasSpreadMean": 0.008091100868802154,
+    "undefined": 0.0,
+    "falsePositive": 0.12,
+    "criterion": "<= 0.075",
+    "pass": false
+   },
+   "planted_MDE": {
+    "meanRelBias": 0.0019298834620054479,
+    "absMeanRelBias": 0.0019298834620054479,
+    "biasMcSe": 8.563471681106935e-05,
+    "maxGroupBiasSpreadMean": 0.007823180238132239,
+    "undefined": 0.0,
+    "coverage95": 0.914,
+    "criterion": ">= 0.90",
+    "power": 1.0,
+    "pass": true
+   },
+   "arrhenius_null_diagnostic": {
+    "meanRelBias": 0.00210466730116595,
+    "absMeanRelBias": 0.00210466730116595,
+    "biasMcSe": 9.278952214802493e-05,
+    "maxGroupBiasSpreadMean": 0.008520425501176324,
+    "undefined": 0.0,
+    "falsePositive": 0.19,
+    "diagnostic": true
+   },
+   "biasPass": true,
+   "allGatedPass": false
+  },
+  "slow": {
+   "mdeRelPerMonth": 0.029488307692307692,
+   "null": {
+    "meanRelBias": 0.0016366750350581309,
+    "absMeanRelBias": 0.0016366750350581309,
+    "biasMcSe": 6.0999162782521285e-05,
+    "maxGroupBiasSpreadMean": 0.0073788983432455215,
+    "undefined": 0.0,
+    "falsePositive": 0.124,
+    "criterion": "<= 0.075",
+    "pass": false
+   },
+   "planted_MDE": {
+    "meanRelBias": 0.0014960028471465167,
+    "absMeanRelBias": 0.0014960028471465167,
+    "biasMcSe": 5.670652533647344e-05,
+    "maxGroupBiasSpreadMean": 0.006752187589423527,
+    "undefined": 0.0,
+    "coverage95": 0.898,
+    "criterion": ">= 0.90",
+    "power": 0.994,
+    "pass": false
+   },
+   "arrhenius_null_diagnostic": {
+    "meanRelBias": 0.001852070877551867,
+    "absMeanRelBias": 0.001852070877551867,
+    "biasMcSe": 7.399715427082022e-05,
+    "maxGroupBiasSpreadMean": 0.008324931905909601,
+    "undefined": 0.0,
+    "falsePositive": 0.17,
+    "diagnostic": true
+   },
+   "biasPass": true,
+   "allGatedPass": false
+  }
+ },
+ "allGatedPass": false
+}

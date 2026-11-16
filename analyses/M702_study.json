@@ -1,0 +1,679 @@
+{
+ "spec": "analyses/M702_spec.md Rev 1 + errata 12",
+ "seed": 42,
+ "scriptSha256": "472e2421383ce39e9bd82f9fa300669e836f5401195628a2eb102f14034487eb",
+ "stepEventsSha256": "1b0668fe351207a55b4395b95420cb50324f8571c64cb8a8d76435b9d2ce643d",
+ "constants": {
+  "STEP_A": 20.0,
+  "PRE_BAND_A": 5.0,
+  "POST_STAB": 0.2,
+  "SKEW_MAX_S": 0.25
+ },
+ "strata": {
+  "fast": {
+   "nEvents": 662,
+   "eventGapMedianS": 0.8674999999999784,
+   "primary": {
+    "nDrives": 80,
+    "nDays": 40,
+    "slopeMohmPerMonthTlin": 4.4724,
+    "dayBootstrapCi95": [
+     -2.0911,
+     11.6017
+    ],
+    "cr1Ci95": [
+     -2.4265,
+     11.3712
+    ],
+    "cr1Se": 3.4107,
+    "includesZero": true,
+    "otherSpecs": {
+     "T-quad": {
+      "slope": 3.6477,
+      "dayBootstrapCi95": [
+       -3.3823,
+       10.8487
+      ]
+     },
+     "T-arr": {
+      "slope": 4.02,
+      "dayBootstrapCi95": [
+       -2.5309,
+       11.2325
+      ]
+     },
+     "T-spl": {
+      "slope": 3.0273,
+      "dayBootstrapCi95": [
+       -3.989,
+       10.6131
+      ]
+     }
+    }
+   },
+   "median_mOhm": 111.3239734927001,
+   "iqr_mOhm": [
+    99.8395378690629,
+    133.7458608959323
+   ],
+   "stepSize": {
+    "medianA": 27.800000000000068
+   },
+   "sensitivities": {
+    "cadenceBreaks": {
+     "nDrives": 80,
+     "nDays": 40,
+     "slopeMohmPerMonthTlin": 7.5411,
+     "dayBootstrapCi95": [
+      -11.8017,
+      25.1954
+     ],
+     "cr1Ci95": [
+      -10.0956,
+      25.1778
+     ],
+     "cr1Se": 8.7194,
+     "includesZero": true,
+     "otherSpecs": {
+      "T-quad": {
+       "slope": 5.5316,
+       "dayBootstrapCi95": [
+        -14.1297,
+        22.8789
+       ]
+      },
+      "T-arr": {
+       "slope": 5.5325,
+       "dayBootstrapCi95": [
+        -10.8841,
+        20.7946
+       ]
+      },
+      "T-spl": {
+       "slope": 4.4125,
+       "dayBootstrapCi95": [
+        -15.8169,
+        22.2909
+       ]
+      }
+     }
+    },
+    "softwareUpdate": {
+     "nDrives": 80,
+     "nDays": 40,
+     "slopeMohmPerMonthTlin": 5.3654,
+     "dayBootstrapCi95": [
+      -4.7548,
+      15.2756
+     ],
+     "cr1Ci95": [
+      -4.5294,
+      15.2602
+     ],
+     "cr1Se": 4.8919,
+     "includesZero": true,
+     "otherSpecs": {
+      "T-quad": {
+       "slope": 4.2098,
+       "dayBootstrapCi95": [
+        -6.4388,
+        14.1904
+       ]
+      },
+      "T-arr": {
+       "slope": 5.416,
+       "dayBootstrapCi95": [
+        -4.3741,
+        15.4547
+       ]
+      },
+      "T-spl": {
+       "slope": 3.4375,
+       "dayBootstrapCi95": [
+        -7.3965,
+        13.6029
+       ]
+      }
+     }
+    },
+    "gapBelowMedian": {
+     "nDrives": 47,
+     "nDays": 29,
+     "slopeMohmPerMonthTlin": 5.4354,
+     "dayBootstrapCi95": [
+      -12.3049,
+      23.5221
+     ],
+     "cr1Ci95": [
+      -11.1994,
+      22.0702
+     ],
+     "cr1Se": 8.1208,
+     "includesZero": true,
+     "otherSpecs": {
+      "T-quad": {
+       "slope": -0.7166,
+       "dayBootstrapCi95": [
+        -18.3403,
+        16.9544
+       ]
+      },
+      "T-arr": {
+       "slope": 0.6934,
+       "dayBootstrapCi95": [
+        -20.4261,
+        18.8941
+       ]
+      },
+      "T-spl": {
+       "slope": -1.3974,
+       "dayBootstrapCi95": [
+        -19.6896,
+        16.0591
+       ]
+      }
+     }
+    },
+    "gapAboveMedian": {
+     "nDrives": 43,
+     "nDays": 27,
+     "slopeMohmPerMonthTlin": 2.5995,
+     "dayBootstrapCi95": [
+      -6.2719,
+      14.1532
+     ],
+     "cr1Ci95": [
+      -8.3314,
+      13.5304
+     ],
+     "cr1Se": 5.3178,
+     "includesZero": true,
+     "otherSpecs": {
+      "T-quad": {
+       "slope": 2.6422,
+       "dayBootstrapCi95": [
+        -6.9936,
+        14.236
+       ]
+      },
+      "T-arr": {
+       "slope": 2.6737,
+       "dayBootstrapCi95": [
+        -6.1604,
+        14.2282
+       ]
+      },
+      "T-spl": {
+       "slope": 0.5624,
+       "dayBootstrapCi95": [
+        -7.8134,
+        12.4515
+       ]
+      }
+     }
+    }
+   },
+   "vregComparison": {
+    "sharedDrives": 70,
+    "sharedDays": 37,
+    "spearman": 0.41111013909544225,
+    "meanDifferenceMohm": -29.85499645689,
+    "dayClusteredCi95": [
+     -37.42738695997057,
+     -21.218739097670056
+    ]
+   }
+  },
+  "slow": {
+   "nEvents": 1254,
+   "eventGapMedianS": 1.267499999999984,
+   "primary": {
+    "nDrives": 127,
+    "nDays": 57,
+    "slopeMohmPerMonthTlin": 1.897,
+    "dayBootstrapCi95": [
+     -0.8971,
+     5.0563
+    ],
+    "cr1Ci95": [
+     -0.8456,
+     4.6395
+    ],
+    "cr1Se": 1.3691,
+    "includesZero": true,
+    "otherSpecs": {
+     "T-quad": {
+      "slope": 1.7158,
+      "dayBootstrapCi95": [
+       -1.0432,
+       4.5448
+      ]
+     },
+     "T-arr": {
+      "slope": 1.6623,
+      "dayBootstrapCi95": [
+       -1.1033,
+       4.6481
+      ]
+     },
+     "T-spl": {
+      "slope": 1.5068,
+      "dayBootstrapCi95": [
+       -1.2283,
+       4.4072
+      ]
+     }
+    }
+   },
+   "median_mOhm": 103.85930630190528,
+   "iqr_mOhm": [
+    88.4997530821126,
+    120.12401574803147
+   ],
+   "stepSize": {
+    "medianA": 32.05000000000018
+   },
+   "sensitivities": {
+    "cadenceBreaks": {
+     "nDrives": 127,
+     "nDays": 57,
+     "slopeMohmPerMonthTlin": 2.7153,
+     "dayBootstrapCi95": [
+      -2.7784,
+      9.9242
+     ],
+     "cr1Ci95": [
+      -2.9846,
+      8.4151
+     ],
+     "cr1Se": 2.8453,
+     "includesZero": true,
+     "otherSpecs": {
+      "T-quad": {
+       "slope": 1.8733,
+       "dayBootstrapCi95": [
+        -3.7492,
+        8.7763
+       ]
+      },
+      "T-arr": {
+       "slope": 1.6738,
+       "dayBootstrapCi95": [
+        -4.336,
+        9.4869
+       ]
+      },
+      "T-spl": {
+       "slope": 2.1896,
+       "dayBootstrapCi95": [
+        -3.0799,
+        9.132
+       ]
+      }
+     }
+    },
+    "softwareUpdate": {
+     "nDrives": 127,
+     "nDays": 57,
+     "slopeMohmPerMonthTlin": 3.143,
+     "dayBootstrapCi95": [
+      -1.9177,
+      9.5153
+     ],
+     "cr1Ci95": [
+      -2.16,
+      8.446
+     ],
+     "cr1Se": 2.6472,
+     "includesZero": true,
+     "otherSpecs": {
+      "T-quad": {
+       "slope": 2.3174,
+       "dayBootstrapCi95": [
+        -2.4562,
+        8.609
+       ]
+      },
+      "T-arr": {
+       "slope": 2.2425,
+       "dayBootstrapCi95": [
+        -3.1818,
+        9.4562
+       ]
+      },
+      "T-spl": {
+       "slope": 2.1452,
+       "dayBootstrapCi95": [
+        -2.5105,
+        8.2653
+       ]
+      }
+     }
+    },
+    "gapBelowMedian": {
+     "nDrives": 65,
+     "nDays": 33,
+     "slopeMohmPerMonthTlin": -0.8855,
+     "dayBootstrapCi95": [
+      -5.8416,
+      5.1448
+     ],
+     "cr1Ci95": [
+      -5.789,
+      4.018
+     ],
+     "cr1Se": 2.4073,
+     "includesZero": true,
+     "otherSpecs": {
+      "T-quad": {
+       "slope": -1.6502,
+       "dayBootstrapCi95": [
+        -7.4748,
+        4.8651
+       ]
+      },
+      "T-arr": {
+       "slope": -1.0246,
+       "dayBootstrapCi95": [
+        -5.472,
+        5.3833
+       ]
+      },
+      "T-spl": {
+       "slope": -1.8889,
+       "dayBootstrapCi95": [
+        -7.5133,
+        5.3345
+       ]
+      }
+     }
+    },
+    "gapAboveMedian": {
+     "nDrives": 79,
+     "nDays": 40,
+     "slopeMohmPerMonthTlin": 2.899,
+     "dayBootstrapCi95": [
+      -2.4542,
+      6.4762
+     ],
+     "cr1Ci95": [
+      -1.1461,
+      6.9441
+     ],
+     "cr1Se": 1.9999,
+     "includesZero": true,
+     "otherSpecs": {
+      "T-quad": {
+       "slope": 3.0558,
+       "dayBootstrapCi95": [
+        -2.3262,
+        6.6661
+       ]
+      },
+      "T-arr": {
+       "slope": 2.3111,
+       "dayBootstrapCi95": [
+        -3.8088,
+        6.3743
+       ]
+      },
+      "T-spl": {
+       "slope": 2.6199,
+       "dayBootstrapCi95": [
+        -2.5948,
+        6.1394
+       ]
+      }
+     }
+    }
+   },
+   "vregComparison": {
+    "sharedDrives": 116,
+    "sharedDays": 52,
+    "spearman": 0.41790803793811254,
+    "meanDifferenceMohm": -21.34557842823764,
+    "dayClusteredCi95": [
+     -27.54009104078262,
+     -15.996111039478574
+    ]
+   }
+  }
+ },
+ "stepThresholdSensitivity": {
+  "15": {
+   "fast": {
+    "nDrives": 115,
+    "nDays": 44,
+    "slopeMohmPerMonthTlin": -0.0576,
+    "dayBootstrapCi95": [
+     -5.4874,
+     4.7975
+    ],
+    "cr1Ci95": [
+     -5.163,
+     5.0477
+    ],
+    "cr1Se": 2.5315,
+    "includesZero": true,
+    "otherSpecs": {
+     "T-quad": {
+      "slope": -0.4883,
+      "dayBootstrapCi95": [
+       -5.7422,
+       4.582
+      ]
+     },
+     "T-arr": {
+      "slope": -0.9081,
+      "dayBootstrapCi95": [
+       -7.008,
+       4.0968
+      ]
+     },
+     "T-spl": {
+      "slope": -0.6425,
+      "dayBootstrapCi95": [
+       -6.5427,
+       4.4386
+      ]
+     }
+    }
+   },
+   "slow": {
+    "nDrives": 176,
+    "nDays": 75,
+    "slopeMohmPerMonthTlin": 1.9917,
+    "dayBootstrapCi95": [
+     -1.4677,
+     5.7803
+    ],
+    "cr1Ci95": [
+     -1.6002,
+     5.5836
+    ],
+    "cr1Se": 1.8027,
+    "includesZero": true,
+    "otherSpecs": {
+     "T-quad": {
+      "slope": 1.9043,
+      "dayBootstrapCi95": [
+       -1.6832,
+       5.6099
+      ]
+     },
+     "T-arr": {
+      "slope": 2.078,
+      "dayBootstrapCi95": [
+       -1.6955,
+       6.0373
+      ]
+     },
+     "T-spl": {
+      "slope": 1.6043,
+      "dayBootstrapCi95": [
+       -2.0926,
+       5.3841
+      ]
+     }
+    }
+   }
+  },
+  "30": {
+   "fast": {
+    "nDrives": 32,
+    "nDays": 21,
+    "slopeMohmPerMonthTlin": 2.83,
+    "dayBootstrapCi95": [
+     -4.8183,
+     17.7611
+    ],
+    "cr1Ci95": [
+     -6.7249,
+     12.3849
+    ],
+    "cr1Se": 4.5806,
+    "includesZero": true,
+    "otherSpecs": {
+     "T-quad": {
+      "slope": 0.2215,
+      "dayBootstrapCi95": [
+       -9.4043,
+       12.2369
+      ]
+     },
+     "T-arr": {
+      "slope": 1.5346,
+      "dayBootstrapCi95": [
+       -5.6657,
+       15.6407
+      ]
+     },
+     "T-spl": {
+      "slope": 0.1371,
+      "dayBootstrapCi95": [
+       -9.3446,
+       12.1765
+      ]
+     }
+    }
+   },
+   "slow": {
+    "nDrives": 81,
+    "nDays": 38,
+    "slopeMohmPerMonthTlin": 2.0705,
+    "dayBootstrapCi95": [
+     -2.7288,
+     6.0452
+    ],
+    "cr1Ci95": [
+     -2.2285,
+     6.3695
+    ],
+    "cr1Se": 2.1217,
+    "includesZero": true,
+    "otherSpecs": {
+     "T-quad": {
+      "slope": 1.9891,
+      "dayBootstrapCi95": [
+       -2.9406,
+       5.9549
+      ]
+     },
+     "T-arr": {
+      "slope": 1.9564,
+      "dayBootstrapCi95": [
+       -2.8417,
+       5.9096
+      ]
+     },
+     "T-spl": {
+      "slope": 1.6639,
+      "dayBootstrapCi95": [
+       -3.3711,
+       5.7584
+      ]
+     }
+    }
+   }
+  }
+ },
+ "chargeDirectionSensitivity": {
+  "fast": {
+   "nDrives": 135,
+   "nDays": 44,
+   "slopeMohmPerMonthTlin": -4.9537,
+   "dayBootstrapCi95": [
+    -12.1545,
+    3.5017
+   ],
+   "cr1Ci95": [
+    -13.125,
+    3.2177
+   ],
+   "cr1Se": 4.0518,
+   "includesZero": true,
+   "otherSpecs": {
+    "T-quad": {
+     "slope": -4.371,
+     "dayBootstrapCi95": [
+      -10.9396,
+      3.361
+     ]
+    },
+    "T-arr": {
+     "slope": -4.5859,
+     "dayBootstrapCi95": [
+      -12.8678,
+      3.4965
+     ]
+    },
+    "T-spl": {
+     "slope": -3.2851,
+     "dayBootstrapCi95": [
+      -9.5964,
+      4.1822
+     ]
+    }
+   }
+  },
+  "slow": {
+   "nDrives": 190,
+   "nDays": 76,
+   "slopeMohmPerMonthTlin": -1.1028,
+   "dayBootstrapCi95": [
+    -3.8409,
+    1.4095
+   ],
+   "cr1Ci95": [
+    -3.8618,
+    1.6562
+   ],
+   "cr1Se": 1.385,
+   "includesZero": true,
+   "otherSpecs": {
+    "T-quad": {
+     "slope": -1.1371,
+     "dayBootstrapCi95": [
+      -3.8035,
+      1.375
+     ]
+    },
+    "T-arr": {
+     "slope": -1.0736,
+     "dayBootstrapCi95": [
+      -3.9194,
+      1.5529
+     ]
+    },
+    "T-spl": {
+     "slope": -0.9961,
+     "dayBootstrapCi95": [
+      -3.7189,
+      1.4899
+     ]
+    }
+   }
+  }
+ },
+ "runtimeSeconds": 231
+}
