@@ -107,7 +107,7 @@ def test_v1_inputs_and_v3():
     assert R.validation_inputs(hi2, TAU, R.analyse(hi2, TAU, detail=True))["v3"] == {"onsets": 1, "hits": 0}
 
 
-def make_row(i, a, regime="slow", date=None):
+def make_row(i, a, regime="slow", date=None, source="VCM"):
     r = R.analyse(a, TAU, detail=True)
     prim = {k: r[k] for k in ("labelCounts", "negCounts", "tMin", "tMinExclRev")}
     prim["nEpisodes"] = len(r["episodes"])
@@ -115,7 +115,7 @@ def make_row(i, a, regime="slow", date=None):
     for name, par in R.GRID[1:]:
         rr = R.analyse(a, TAU, par)
         variants[name] = {"labelCounts": rr["labelCounts"], "nEpisodes": len(rr["episodes"])}
-    return {"file": "d%02d" % i, "date": date or "2026-06-%02d" % (1 + i % 15), "regime": regime, "nSamples": int(r["n"]), "variants": variants, "episodes": r["episodes"],
+    return {"file": "d%02d" % i, "date": date or "2026-06-%02d" % (1 + i % 15), "regime": regime, "speedSource": source, "nSamples": int(r["n"]), "variants": variants, "episodes": r["episodes"],
             "validation": R.validation_inputs(a, TAU, r), "reason": None}
 
 
@@ -135,18 +135,28 @@ def test_aggregate_supports_owner_pattern_and_verdict():
     rows = [make_row(i, drive_with_reverse(i), regime=("fast" if i % 2 else "slow")) for i in range(40)]
     R.TAU0_FILE = os.path.join(ROOT, "analyses", "M698_tau0.json")
     blk = R.aggregate(rows, nboot=300)
-    a = blk["strata"]["all"]
+    a = blk["strata"]["VCM"]["all"]
     assert a["nEpisodes"] == 80 and a["nDrivesWithEpisode"] == 40 and a["V4_startOrEndShare"]["share"] == 1.0 and a["V4_startOrEndShare"]["supportsOwnerStatement"] is True
     assert a["V1_currentSign"]["shareFailing"] == 0.0 and a["V5_stability"]["passed"] is True
-    assert "not falsified" in blk["verdict"]["text"] and "validated" not in blk["verdict"]["text"].replace("never worded as validated", "")
-    assert set(blk["strata"]) == {"all", "fast", "slow"} and a["shareOfNegativeSamplesLabelledREV_CAND"] is not None
+    assert "not falsified" in blk["verdict"]["VCM"]["text"] and "validated" not in blk["verdict"]["VCM"]["text"].replace("never worded as validated", "") and "none" in blk["verdict"]["pooledAcrossSources"]
+    assert set(blk["strata"]["VCM"]) == {"all", "fast", "slow"} and a["shareOfNegativeSamplesLabelledREV_CAND"] is not None and set(blk["strata"]) == {"VCM"}
     # V1 falsifier: reverse acceleration that CHARGES the battery in every supported episode
     rows2 = [make_row(i, drive_with_reverse(i, charging=True)) for i in range(40)]
     blk2 = R.aggregate(rows2, nboot=300)
-    assert blk2["strata"]["all"]["V1_currentSign"]["falsified"] is True and "V1" in blk2["verdict"]["discriminatorFalsifiedBy"]
+    assert blk2["strata"]["VCM"]["all"]["V1_currentSign"]["falsified"] is True and any(x.startswith("V1") for x in blk2["verdict"]["VCM"]["discriminatorFalsifiedBy"])
     # not testable with few episodes
     blk3 = R.aggregate(rows[:3], nboot=300)
-    assert "not testable" in blk3["strata"]["all"]["V1_currentSign"]["status"]
+    assert "not testable" in blk3["strata"]["VCM"]["all"]["V1_currentSign"]["status"]
+    # OBD rows form their own stratum and no pooled verdict is drawn
+    mixed = [make_row(i, drive_with_reverse(i), source=("OBD" if i % 2 else "VCM")) for i in range(40)]
+    blk4 = R.aggregate(mixed, nboot=200)
+    assert set(blk4["strata"]) == {"VCM", "OBD"} and "VCM" in blk4["verdict"] and "OBD" in blk4["verdict"] and blk4["deviation"].startswith("Rev 1.2")
+    # V5 post hoc supplement and not-applicable status
+    v5 = blk4["strata"]["VCM"]["all"]["V5_stability"]
+    assert v5["status"] == "passed" and v5["passed"] is True
+    none_ep = [make_row(i, arr([0, 0, 5, 8, 9, 7, 3, 0], [0, 0, 80, 80, 60, 20, 0, 0])) for i in range(12)]
+    v5b = R.aggregate(none_ep, nboot=100)["strata"]["VCM"]["all"]["V5_stability"]
+    assert v5b["passed"] is None and "not applicable" in v5b["status"]
 
 
 def test_splice_isolation():

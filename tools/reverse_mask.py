@@ -294,8 +294,23 @@ def stratum_block(rows, nboot):
     # V5: one-at-a-time max / min ratio of the episode count over the grid
     cnts = {name: int(sum(r["variants"][name]["nEpisodes"] for r in use)) for name, _ in GRID}
     pos = [c for c in cnts.values() if c > 0]
-    blk["V5_stability"] = {"episodeCountByVariant": cnts, "maxOverMin": round(max(pos) / min(pos), 3) if pos and len(pos) == len(cnts) else None,
-                           "passed": bool(pos and len(pos) == len(cnts) and max(pos) / min(pos) <= 1.5)}
+    v5 = {"episodeCountByVariant": cnts}
+    if cnts["primary"] == 0:
+        v5.update(status="not applicable (no primary episodes in this stratum)", passed=None)
+    else:
+        allpos = len(pos) == len(cnts)
+        v5.update(maxOverMin=round(max(pos) / min(pos), 3) if allpos else None, passed=bool(allpos and max(pos) / min(pos) <= 1.5),
+                  status="passed" if (allpos and max(pos) / min(pos) <= 1.5) else "FAILED (threshold-sensitive)")
+        if allpos or pos:
+            a_, b_ = max(cnts.values()), min(cnts.values())
+            if b_ > 0 and a_ > b_:
+                from scipy.stats import beta
+                lo = beta.ppf(0.025, a_, b_ + 1)
+                ratio_lo = lo / (1.0 - lo)
+                v5["postHocSupplement"] = {"label": "POST HOC (allowed by the Director, never overrides the pre-registered verdict)", "method": "exact Clopper-Pearson interval on max / (max + min), converted to a ratio; lower bound shown",
+                                           "ratioLowerBound95": round(float(ratio_lo), 3),
+                                           "reading": "instability not distinguishable from small n" if ratio_lo <= 1.5 else "the max / min ratio exceeds 1.5 beyond Poisson noise"}
+    blk["V5_stability"] = v5
     # V1: supported episodes, mean discharge excess > 0 (after the standstill baseline)
     sup = [(r["date"], x) for r in use for x in r["validation"]["episodes"] if x["supported"] and x["meanDischargeExcess"] is not None]
     nd = len({d for d, _ in sup})
@@ -328,29 +343,53 @@ def stratum_block(rows, nboot):
     return blk
 
 
+def source_verdict(src_block, concordant):
+    fals = []
+    for reg, st in src_block.items():
+        if reg == "all" or not isinstance(st, dict):
+            continue
+        if st.get("V1_currentSign", {}).get("falsified"):
+            fals.append("V1 (%s)" % reg)
+        if st.get("V3_negativeControlAbove40kmh", {}).get("status") == "falsified":
+            fals.append("V3 (%s)" % reg)
+        if st.get("V5_stability", {}).get("passed") is False:
+            fals.append("V5 (%s)" % reg)
+    txt = ("falsified by " + ", ".join(fals)) if fals else "not falsified by V1 to V5 (V6, the overlap with the regeneration events, is a separate step; a pass is never worded as validated)"
+    if not concordant:
+        txt += "; descriptive only, speed source not concordant"
+    return {"discriminatorFalsifiedBy": fals, "text": txt}
+
+
 def aggregate(rows, nboot=NBOOT):
     tau = json.load(open(TAU0_FILE, encoding="utf-8"))
+    tau_obd = json.load(open(TAU0_FILE.replace("M698_tau0.json", "M698_tau0_obd.json"), encoding="utf-8"))
+    conc = json.load(open(os.path.join(ROOT, "analyses", "M698_speed_concordance.json"), encoding="utf-8"))
     blk = {"label": "inferred reverse-consistent episodes versus regeneration (inferred from standstill onset, the commanded-torque sign, d|speed| and battery current; direction is never observed; the owner statement is an assumption under test)",
-           "spec": SPEC + " Rev 1.1 with section 12", "status": "exploratory", "parameters": {**PRIMARY, "tau0Nm": tau["tau0Nm"], "tau0File": "analyses/M698_tau0.json", "regenWindowS": REGEN_WINDOW_S, "maxDurationS": MAX_DURATION_S, "minMoving": MIN_MOVING, "minVmaxKmh": MIN_VMAX, "gapFactor": GAP_FACTOR},
-           "sensitivityGrid": [n for n, _ in GRID], "strata": {}}
-    blk["strata"]["all"] = stratum_block(rows, nboot)
-    for reg in ("fast", "slow", "unknown"):
-        rr = [r for r in rows if r["regime"] == reg]
-        if rr:
-            blk["strata"][reg] = stratum_block(rr, nboot)
-    a = blk["strata"]["all"]
-    fals = []
-    if a.get("V1_currentSign", {}).get("falsified"):
-        fals.append("V1")
-    if a.get("V3_negativeControlAbove40kmh", {}).get("status") == "falsified":
-        fals.append("V3")
-    if "V5_stability" in a and not a["V5_stability"]["passed"]:
-        fals.append("V5")
-    blk["verdict"] = {"discriminatorFalsifiedBy": fals, "text": ("falsified by " + ", ".join(fals)) if fals else "not falsified by V1 to V5 (V6, the overlap with the regeneration events, is a separate step; a pass is never worded as validated)",
-                      "ownerStatement": "supported by V4 only if the lower bound of the start-or-end share exceeds 0.20 (see strata.V4_startOrEndShare); the pattern expected from the owner answers is frozen in spec section 12"}
+           "spec": SPEC + " Rev 1.2 final (sections 11 to 14)", "status": "exploratory",
+           "parameters": {**PRIMARY, "tau0Nm": tau["tau0Nm"], "tau0File": "analyses/M698_tau0.json", "regenWindowS": REGEN_WINDOW_S, "maxDurationS": MAX_DURATION_S, "minMoving": MIN_MOVING, "minVmaxKmh": MIN_VMAX, "gapFactor": GAP_FACTOR},
+           "sensitivityGrid": [n for n, _ in GRID],
+           "deviation": "Rev 1.2 (disclosed): coverage prompted the extension of the speed source: VCM speed where the PID exists, else the standard OBD vehicle speed (ECU-reported, integer km/h, not GPS); 663 canonical-clean drives here against 665 master drives; the VCM stratum is the pre-registered first pass; the first-pass outcome counts were known before the extension; tau0 stays frozen",
+           "tau0PerSourceDescriptive": {"VCM": tau["tau0Nm"], "OBD": tau_obd["tau0Nm"], "obdFile": "analyses/M698_tau0_obd.json", "insideGrid": bool(0.5 * tau["tau0Nm"] <= tau_obd["tau0Nm"] <= 2.0 * tau["tau0Nm"]), "substituted": False},
+           "speedConcordance": {"file": "analyses/M698_speed_concordance.json", "status": conc["status"], "nDrivesWithBoth": conc["nDrivesWithBoth"], "corpus": conc.get("corpus"), "limits": conc["limits"]},
+           "strata": {}, "verdict": {}}
+    concordant = conc["status"] == "concordant"
+    for src in ("VCM", "OBD"):
+        rs = [r for r in rows if r.get("speedSource") == src]
+        if not rs:
+            continue
+        sb = {"all": stratum_block(rs, nboot)}
+        for reg in ("fast", "slow", "unknown"):
+            rr = [r for r in rs if r["regime"] == reg]
+            if rr:
+                sb[reg] = stratum_block(rr, nboot)
+        blk["strata"][src] = sb
+        blk["verdict"][src] = source_verdict(sb, concordant if src == "OBD" else True)
+    blk["verdict"]["pooledAcrossSources"] = "none (no pooled verdict across speed sources)"
+    blk["verdict"]["ownerStatement"] = "supported by V4 only if the lower bound of the start-or-end share exceeds 0.20 (see strata.<source>.<stratum>.V4_startOrEndShare); the pattern expected from the owner answers is frozen in spec section 12"
     blk["reading"] = ["an episode is an INFERRED reverse-consistent episode: no gear or direction channel exists and the logged speed is unsigned; the share labelled REV_CAND under the frozen rule is always shown next to the AMBIGUOUS share",
                       "the torque is the commanded / logged (app-calculated) register; tau0 is the standstill noise floor of that register fixed in a separate earlier run",
-                      "every rate is stratified by cadence regime; no pooled verdict is drawn across regimes beyond the descriptive all-drives row",
+                      "every rate is stratified by speed source and cadence regime; there is no pooled verdict across speed sources",
+                      "V5 (stability over the sensitivity grid) is applied as pre-registered; the Poisson supplement is labelled post hoc and never overrides it",
                       "the sensitivities with inferred reverse excluded for the exposed blocks and the overlap with the regeneration events (V6) are separate flagged steps; no published figure is changed here"]
     return blk
 
@@ -391,8 +430,8 @@ def main(argv):
         print("wrote block")
         return
     if "--dry-run" in argv:
-        a = block["strata"]["all"]
-        print(json.dumps({k: a.get(k) for k in ("nDrives", "nDays", "labelCounts", "nEpisodes", "nDrivesWithEpisode", "V1_currentSign", "V3_negativeControlAbove40kmh", "V4_startOrEndShare", "V5_stability")}, default=str)[:3500])
+        print(json.dumps({src: {reg: {k: st.get(k) for k in ("nDrives", "nEpisodes", "V1_currentSign", "V3_negativeControlAbove40kmh", "V4_startOrEndShare", "V5_stability")} for reg, st in sb.items()} for src, sb in block["strata"].items()}, default=str)[:6000])
+        print(json.dumps(block["verdict"]))
         return
     p = os.path.join(ROOT, "summary_arrays.json")
     raw = open(p, encoding="utf-8", newline="").read()
