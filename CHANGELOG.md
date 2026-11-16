@@ -1,3 +1,14 @@
+## M696 (2026-11-16): M695 spec: owner answers to the reverse-movement questions recorded as inputs before any run
+
+**Rationale.** Appends section 12 to analyses/M695_spec.md (spec sha256 now 226ebfa1b0b86ae4077062753f3fdffafb459e733287e7816ac69746efc894ed) with the owner's answers of 2026-11-16: 1 to 2 reverse movements at the start and the end of a drive (zero in many drives), rarely 1 to 2 in the middle, starting from standstill at 0 to 1 km/h; the car holds on slopes at standstill; reverse speed usually not above 15 km/h and mostly not above 10 km/h; annotated held-out drives are possible (protocol and template recorded). Recorded as inputs (verified:false) before any run; no parameter changes. No code, no payload, no figure.
+
+**State.** `drive_master.csv` 665 rows, MD5 `77bbe275f8c22eaf62d8636867764af3`.
+
+**Delta flags.** EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
+
+**Files.** `analyses/M695_spec.md`, `analyses/M695_owner_notes_template.csv`.
+
+
 ## M695 (2026-11-16): Reverse versus regeneration: pre-registered spec for inferred reverse-consistent episodes (Rev 1.1, Director: revise, applied)
 
 **Rationale.** Origin: owner statement 2026-11-16 (verified:false) that some negative motor torque is reverse movement, not regeneration. Spec analyses/M695_spec.md Rev 1.1 (sha256 9a77f67cae5688e543ac3eba093a251113af053e98712967a717ad5a357c7d09, recorded before any run): the logger has no gear or direction PID and the speed is unsigned, so reverse is INFERRED from standstill onset, torque sign, d|speed| and battery current (discriminator parameters frozen; tau0 from the zero-speed engine-off torque distribution in a separate run before any episode code; label precedence; validation V1 to V6 each able to falsify the discriminator or the owner statement; worded 'not falsified', never 'validated'). Order: per-drive mask, additive reverseInference block, flagged reverse-excluded sensitivities of the exposed outputs (target torque minimum, torqueBySpeed, terrainTorqueDist, power_peak_temp, c1_joint_temp_crate, regen overlap check), no primary change without a Director decision, blind audit and the owner's sign-off. Questions to the owner recorded in section 10. No code, no payload, no figure.
