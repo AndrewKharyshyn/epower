@@ -253,6 +253,20 @@
    "family": "rule-400",
    "rule": "replica of the master's own engine-on gate used only to reproduce its channel-gated current-peak pairing (M550); strict > 400, the same site as compute_drive_summary_v6.py",
    "migration": "follows the master (not an independent definition)"
+  },
+  {
+   "file": "tools/reverse_tau0.py",
+   "anchor": "RPM_OFF = 300.0",
+   "family": "regen-proxy-300",
+   "rule": "engine-off proxy rpm < 300 (owner decision 2026-10-14 (g)); used for the standstill torque noise floor tau0 and the engine-off subset of the current-sign check of the reverse-episode analysis (M698); not an engine-on definition for any published figure; NaN policy: a sample without an aligned rpm is excluded",
+   "migration": "none (decision g)"
+  },
+  {
+   "file": "tools/reverse_mask.py",
+   "anchor": "RPM_OFF = 300.0",
+   "family": "regen-proxy-300",
+   "rule": "engine-off proxy rpm < 300 (owner decision 2026-10-14 (g)); used for the standstill torque noise floor tau0 and the engine-off subset of the current-sign check of the reverse-episode analysis (M698); not an engine-on definition for any published figure; NaN policy: a sample without an aligned rpm is excluded",
+   "migration": "none (decision g)"
   }
  ],
  "knownBoundaryNotes": [

@@ -1,7 +1,7 @@
 """M698 step 1 (spec analyses/M695_spec.md Rev 1.1 section 11 item 1): the standstill torque noise floor tau0, computed in a SEPARATE run, before any episode code exists.
 
 Samples: canonical-clean drives, target-torque sample times; speed (VCM column only) == 0 on the aligned speed (nearest-previous within 1500 ms, no interpolation),
-engine rpm < 300 on the aligned rpm (same alignment; a sample without an aligned rpm is excluded and counted), excluding the 5 s before any speed > 0 transition.
+engine rpm below the 300 rpm engine-off proxy on the aligned rpm (same alignment; a sample without an aligned rpm is excluded and counted), excluding the 5 s before any speed > 0 transition.
 tau0 = max(99th percentile of |target torque| over those samples, the resolution of the torque register).
 Per-drive histograms of |torque| are cached by raw sha256 (reverse_tau0_cache/); no episode quantity is computed here.
 """
