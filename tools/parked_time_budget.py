@@ -459,18 +459,18 @@ def main(argv):
     block["validity"] = {"V1_timeAccounting": {"passed": block["accounting"]["v1Passed"], "absDifferenceH": block["accounting"]["absDifferenceH"]}, "V2_everyConsecutivePairIsAGapRow": bool(len(gaps) == len(d) - 1),
                          **(validity(gaps, prim[1]) if prim else {}), "V4_determinism": "seed 42; the grid is deterministic"}
     md5 = hashlib.md5(open(os.path.join(ROOT, "drive_master.csv"), "rb").read()).hexdigest()
-    block["reading"] = ["parked hours are MODELLED from the Q3 cool-down relaxation and the driver-recorded ambient at the two bounding drives; they are not measured and are validated only at the two ends of a gap (held-out next key-on temperature)",
+    block["reading"] = ["parked hours are MODELLED from the cool-down relaxation (seasonal quantity Q3) and the driver-recorded ambient at the two bounding drives; they are not measured and are checked only against the held-out pack temperature at the next key-on",
                         "the uncertainty is the stated grid of assumptions (min and max with their cells), not a confidence interval; a statement such as 'below 10 deg C for x hours' is allowed only with its bracket",
-                        "the ambient is read at drive times (daytime) and the dashboard sensor heat-soaks at key-on, so A is likely biased warm against the 24 h mean and the cold parked hours are likely understated",
+                        "the ambient is read at drive times (daytime) and the dashboard sensor heat-soaks at key-on, so the ambient reference is likely biased warm against the 24 h mean and the cold parked hours are likely understated",
                         "an hours-by-temperature budget of one May-to-November window; not lifetime exposure, not annualised, not an ageing estimate",
-                        "no charging occurs while parked; the cold and hot parked hours use the same temperature thresholds as the S1 and S2 screens of exposureVector",
-                        "the block does not feed or compare with the Arrhenius index Q4 or the monthly temperature table"]
+                        "no charging occurs while parked; the cold and hot parked hours use the same temperature thresholds as the S1 and S2 screens of the exposure block",
+                        "the block does not feed or compare with the Arrhenius index (Q4) or the monthly temperature table"]
     nb = [k for k, v in block["B4"].get("byClass", {}).items() if v.get("modelBeatsBetterReference") is False]
     if nb:
         block["reading"].append("at the gap-class ends the model does not beat the better of persistence and full relaxation for: " + ", ".join(nb) + "; the parked hours of those classes (%s of the parked hours) rest on the weakest part of the model" % ("%.0f%%" % (100.0 * sum(c["shareOfParkedHours"] for c in (block["B2"] or {}).get("byGapClass", []) if c["gapClass"] in nb))))
     sh = sum(c["shareOfParkedHours"] for c in (block["B2"] or {}).get("byGapClass", []) if c["gapClass"] in nb) if block["B2"] else None
     block["flags"] = {"longGapSkillNotAboveReference": bool(nb), "classes": nb, "parkedHoursShare": None if sh is None else round(sh, 3),
-                      "directionOfKnownBias": "warm: the ambient reference comes from daytime readings and the short-pair tau over-persists drive-end heat in the 12 to <36 h class; cold hours are likely understated and the hot tails likely overstated",
+                      "directionOfKnownBias": "warm: the ambient reference comes from daytime readings and the cool-down time constant fitted on mostly short pairs over-persists drive-end heat in the 12 to <36 h class, so for gaps of 12 h or longer the cold hours are likely understated and the hot tails likely overstated; in 4 to <12 h gaps the endpoint bias is negative (the model is colder than observed)",
                       "coldHoursInGapsOf36hOrLonger": None if not block["B3"] else round(block["B3"]["byGapClass"][LONG_CLS]["cold10"]["primary"], 3)}
     block["conventions"] = {"timestamps": "key-on = local_iso[:19] minus utc_offset_h (UTC, DST-aware; the window contains 2026-10-25); key-off = key-on + duration_s; drives sorted by UTC key-on; a negative gap is 'unassigned: overlap' and counts as signed hours in the time accounting",
                             "endpointBias": "signed bias = predicted minus observed next key-on pack temperature",

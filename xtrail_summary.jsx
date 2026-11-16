@@ -5788,6 +5788,61 @@ function ExposureVectorView(){
     </Section>
   );
 }
+// M688 (display of the M687 payload; Director check of the rendered text): modelled hours at pack temperature including parked hours, bound to S.parkedTimeBudget only (no typed number). Exploratory; every cold or hot figure carries its assumption-grid bracket; gaps of 12 h or longer are shown separately.
+function ParkedTimeBudgetView(){
+  const B=S.parkedTimeBudget;
+  if(!B||!B.B1||!B.B3||!B.B4||!B.accounting||!B.flags) return null;
+  const W=B.window, ac=B.accounting, bands=B.B1.bands||[], fl=B.flags, b4=(B.B4.byClass)||{};
+  const f=(x,n=1)=>x==null?"n/a":Number(x).toFixed(n);
+  const tn={primary:"primary time constant",stratum4hOrLonger:"time constant from gaps of 4 h or longer",L2:"least-squares time constant",previousDriveMax:"previous-drive-maximum time constant","ambientShift-2C(refit)":"time constant refitted at ambient shift -2 C","ambientShift+2C(refit)":"time constant refitted at ambient shift +2 C"}, rn={everyKth:"every k-th gap of 4 h or longer",coldestFirst:"coldest gaps first",hottestFirst:"hottest gaps first"};
+  const cell=(c)=>c?`${tn[c.tau]||c.tau}, ambient shift ${f(c.ambientShiftC,0)} C, offset ${f(c.offsetC,0)} C, indoor ${c.indoorFraction?`${f(100*c.indoorFraction,0)}% of parked hours (${rn[c.indoorRule]||c.indoorRule})`:"0%"}`:"n/a";
+  const br=(g)=>g?`${f(g.min)} to ${f(g.max)} h`:"n/a";
+  const qn={cold10:"modelled parked hours below 10 deg C",cold15:"modelled parked hours below 15 deg C",hot35:"modelled parked hours at 35 deg C or more",hot40:"modelled parked hours at 40 deg C or more"};
+  const qs=["cold10","cold15","hot35","hot40"];
+  const cls=(B.B3.byGapClass)||[];
+  return (
+    <Section title="Modelled Parked Pack Temperature Hours Beside Logged Driving Hours (exploratory)" accent="#64748b">
+      <div style={{fontSize:10.5,color:"#0f172a",lineHeight:1.6,marginBottom:6}} data-pt-caption="1">
+        Window of {f(ac.windowHours)} h from the first key-on to the last key-off ({W.nDrives} drives): {f(ac.drivingHours)} h of driving are logged; {f(ac.parkedAssignedHours)} h are parked time in {W.nGapsAssigned} gaps, and the pack temperature in these gaps is modelled, not measured; {f(ac.unassignedGapHours)} h in {W.nGapsUnassigned} gaps have no end-of-drive pack temperature and are not assigned. The logger records only while the car is on. Parked temperature is modelled from the cool-down relaxation fitted in the seasonal quantities above (time constant {f(B.tauAxis&&B.tauAxis[0]&&B.tauAxis[0].tauH,2)} h) and the driver-recorded ambient at the two bounding drives, with assumed outdoor parking (owner statement 2026-11-16). Endpoint-checked only: the model is compared with the observed temperature at the next key-on, never inside a gap. This is an hours-by-temperature budget of one May-to-November window, not lifetime exposure and not an ageing estimate.
+      </div>
+      <table style={{width:"100%",fontSize:9,borderCollapse:"collapse",marginTop:6}}>
+        <thead><tr style={{color:"#64748b",textAlign:"left"}}><th>pack temperature band, deg C</th><th>driving hours (logged, sensor T1)</th><th>parked hours (modelled)</th><th>range over the assumption grid</th><th>gaps / days</th><th>support</th></tr></thead>
+        <tbody>
+          {bands.map(r=>(<tr key={r.band} data-pt-band={r.band} style={{borderTop:"1px solid #e2e8f0"}}><td>{r.band}</td><td>{f(r.drivingCleanHours,2)}</td>{r.status!=="not shown"?(<><td>{f(r.parkedModelledHours)}</td><td>{br(r.grid)}</td><td>{r.nGaps} / {r.nDays}</td><td>{r.status}</td></>):(<><td>not shown</td><td>not shown (not zero)</td><td>{r.nGaps} / {r.nDays}</td><td>not shown</td></>)}</tr>))}
+        </tbody>
+      </table>
+      <div style={{fontSize:9,color:"#475569",lineHeight:1.6,marginTop:4}} data-pt-bands-note="1">
+        Driving hours (sensor T1) and parked hours (mean of the pack probes, modelled) use different sensors and are not summed into one total. The range is the pre-registered assumption grid (time constant, ambient shift, solar and shelter offset, share of indoor parking), not a confidence interval. Bands below 5 deg C are not shown: the primary assigns zero hours there, while the cold end of the assumption grid does not (the range for the bands below 10 deg C in the table below exceeds the range of the 5-10 band); the primary zero is conditional on an ambient reference that is likely warm-biased and is not a statement that the pack was never that cold. The offset between sensor T1 and the probe mean is not estimated (per-probe values are not stored); a sensor offset of +-1 deg C is assumed (verified:false) and appears only as a one-at-a-time sensitivity of the parked start temperature in the payload. Support: not shown below 10 gaps or 5 days; exploratory when the effective number of arrival days is below 10; supported otherwise; the status comes from the primary only.
+      </div>
+      <div style={{fontSize:10,color:"#334155",lineHeight:1.6,marginTop:8}} data-pt-q-head="1"><strong>Cold and hot parked hours.</strong> Same thresholds as the cold-charging screens S1 and S2; no charging occurs while parked. Each figure is shown only with its range over the assumption grid and the grid cells that give its ends.</div>
+      <table style={{width:"100%",fontSize:9,borderCollapse:"collapse",marginTop:4}}>
+        <thead><tr style={{color:"#64748b",textAlign:"left"}}><th>quantity</th><th>primary</th><th>range over the grid (low end: cell; high end: cell)</th><th>without gaps of 36 h or longer (still includes 12 to &lt;36 h, where the model does not beat full relaxation)</th><th>support</th></tr></thead>
+        <tbody>
+          {qs.map(k=>{const r=B.B3[k], n=B.B3[k+"NoLong"]; return (<tr key={k} data-pt-q={k} style={{borderTop:"1px solid #e2e8f0"}}><td>{qn[k]}</td><td>{f(r.primary)} h</td><td>{br(r.grid)}; low end: {cell(r.grid.minCell)}; high end: {cell(r.grid.maxCell)}</td><td>{f(n.primary)} h ({br(n.grid)})</td><td>{r.support}</td></tr>);})}
+        </tbody>
+      </table>
+      <div style={{fontSize:9.5,color:"#334155",lineHeight:1.6,marginTop:4}} data-pt-bias="1">
+        <strong>Known direction of error.</strong> {fl.directionOfKnownBias}. {f(100*fl.parkedHoursShare,1)}% of the parked hours lie in gaps of 12 h or longer, where the model does not beat full relaxation to the ambient reference at the next key-on; {f(fl.coldHoursInGapsOf36hOrLonger)} h of the modelled parked hours below 10 deg C lie in gaps of 36 h or longer.
+      </div>
+      <table style={{width:"100%",fontSize:9,borderCollapse:"collapse",marginTop:6}}>
+        <thead><tr style={{color:"#64748b",textAlign:"left"}}><th>gap length</th><th>below 10 deg C</th><th>below 15 deg C</th><th>35 deg C or more</th><th>40 deg C or more</th></tr></thead>
+        <tbody>
+          {cls.map(r=>(<tr key={r.gapClass} data-pt-class={r.gapClass} style={{borderTop:"1px solid #e2e8f0"}}><td>{r.gapClass}</td>{qs.map(k=>(<td key={k}>{f(r[k].primary)} h ({br(r[k].grid)})</td>))}</tr>))}
+        </tbody>
+      </table>
+      <div style={{fontSize:10,color:"#334155",lineHeight:1.6,marginTop:8}} data-pt-b4-head="1"><strong>Endpoint check.</strong> Predicted against observed pack temperature at the next key-on, day-blocked cross-validation; signed bias is predicted minus observed.</div>
+      <table style={{width:"100%",fontSize:9,borderCollapse:"collapse",marginTop:4}}>
+        <thead><tr style={{color:"#64748b",textAlign:"left"}}><th>gap length</th><th>pairs</th><th>mean absolute error, model (deg C)</th><th>persistence</th><th>full relaxation</th><th>signed bias</th><th>model beats the better reference</th><th>5th percentile of the shuffled-ambient MAE</th><th>model MAE below it</th></tr></thead>
+        <tbody>
+          {Object.keys(b4).map(k=>{const r=b4[k]; return r.maeModelC==null?null:(<tr key={k} data-pt-b4={k} style={{borderTop:"1px solid #e2e8f0"}}><td>{k}</td><td>{r.n}</td><td>{f(r.maeModelC,2)}</td><td>{f(r.maePersistenceC,2)}</td><td>{f(r.maeFullRelaxationC,2)}</td><td>{f(r.signedBiasModelC,2)}</td><td>{r.modelBeatsBetterReference?"yes":"no"}</td><td>{f(r.placeboMae5thPercentileC,2)}</td><td>{r.skillDropsUnderPlacebo?"yes":"no"}</td></tr>);})}
+        </tbody>
+      </table>
+      <div style={{fontSize:9,color:"#475569",lineHeight:1.6,marginTop:6}} data-pt-reading="1">
+        {(B.reading||[]).map((x,i)=><p key={i} style={{margin:"2px 0"}}>{x}</p>)}
+      </div>
+    </Section>
+  );
+}
 // M685 (display of the M667 payload; Director check of the rendered text): fitted seasonal quantities Q1 to Q3 beside the M28 priors, bound to S.seasonalFits only (no typed number). Exploratory; associations by thermal class, never temperature effects.
 // Q4 (the Arrhenius-weighted exposure index) is not displayed: it rests on an assumed climatology and activation energy and is meaningful only as the whole grid.
 function SeasonalFitsView(){
@@ -13716,6 +13771,7 @@ export default function App() {
             </div>
           </Section>);})()}
         <SeasonalFitsView/>
+        <ParkedTimeBudgetView/>
         {S.ambientTable && S.ambientTable.rows && S.ambientTable.rows.length>0 && (
           <Section title="Ambient Temperature per Drive — Start / Interim / End" accent="#0ea5e9">
             <div style={{fontSize:10.5,color:"#64748b",lineHeight:1.6,marginBottom:10}}>
