@@ -1372,5 +1372,27 @@ if _sf.get("Q3"):
     ok("A7 M685 display: associations not effects, Q4 not displayed, sampling variability only",
        "never temperature effects" in _th and "(Q4) is not displayed" in _th and "no coverage study" in _th and "exposure index is not a life" not in _th)
 
+# ---------- A7 (M688): the parked-time display equals parkedTimeBudget (window hours, bands, cold and hot hours with their grid ranges, gap-class rows, endpoint check, known-error sentence) ----------
+_pt = A.get("parkedTimeBudget") or {}
+if _pt.get("B3"):
+    _th = T.get("thermal__all", "")
+    _ac, _w, _b3, _fl = _pt["accounting"], _pt["window"], _pt["B3"], _pt["flags"]
+    _need = [f"Window of {_ac['windowHours']:.1f} h from the first key-on to the last key-off ({_w['nDrives']} drives): {_ac['drivingHours']:.1f} h of driving are logged; {_ac['parkedAssignedHours']:.1f} h are parked time in {_w['nGapsAssigned']} gaps",
+             f"{_ac['unassignedGapHours']:.1f} h in {_w['nGapsUnassigned']} gaps have no end-of-drive pack temperature",
+             f"{_fl['parkedHoursShare']*100:.1f}% of the parked hours lie in gaps of 12 h or longer", f"{_fl['coldHoursInGapsOf36hOrLonger']:.1f} h of the modelled parked hours below 10 deg C lie in gaps of 36 h or longer"]
+    for _k, _lab in (("cold10", "below 10 deg C"), ("cold15", "below 15 deg C"), ("hot35", "at 35 deg C or more"), ("hot40", "at 40 deg C or more")):
+        _g = _b3[_k]["grid"]
+        _need.append(f"modelled parked hours {_lab}{_b3[_k]['primary']:.1f} h{_g['min']:.1f} to {_g['max']:.1f} h; low end: ")
+    for _r in _pt["B1"]["bands"]:
+        if _r["status"] != "not shown":
+            _need.append(f"{_r['band']}{_r['drivingCleanHours']:.2f}{_r['parkedModelledHours']:.1f}{_r['grid']['min']:.1f} to {_r['grid']['max']:.1f} h{_r['nGaps']} / {_r['nDays']}{_r['status']}")
+    for _c, _v in _pt["B4"]["byClass"].items():
+        if "maeModelC" in _v:
+            _need.append(f"{_c}{_v['n']}{_v['maeModelC']:.2f}{_v['maePersistenceC']:.2f}{_v['maeFullRelaxationC']:.2f}{_v['signedBiasModelC']:.2f}{'yes' if _v['modelBeatsBetterReference'] else 'no'}{_v['placeboMae5thPercentileC']:.2f}{'yes' if _v['skillDropsUnderPlacebo'] else 'no'}")
+    _miss = [x for x in _need if x not in _th]
+    ok("A7 M688 parked-time display: window hours, bands, cold and hot hours with their grid ranges, the share in long gaps and the endpoint check equal parkedTimeBudget", not _miss, f"missing: {_miss[:3]}")
+    ok("A7 M688 display: modelled not measured, endpoint-checked only, ranges are a grid not an interval, bands below 5 C not shown (not zero) with the warm-bias caveat, mixed sensors not summed",
+       "modelled, not measured" in _th and "Endpoint-checked only" in _th and "not a confidence interval" in _th and "not a statement that the pack was never that cold" in _th and "not summed into one total" in _th and "(owner statement 2026-11-16)" in _th and "not shown (not zero)" in _th and "validated only" not in _th)
+
 print(f"\nSEMANTIC GATE: {len(passes)} passed, {len(fails)} failed")
 sys.exit(1 if fails else 0)

@@ -68303,19 +68303,19 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "11a89dc0c881bd0a60e9e957ccd1936a",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-11-16T02:31:48.462737+00:00",
+   "generatedAt": "2026-11-16T05:40:20.611315+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3"
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-11-16T02:31:48.462737+00:00",
+   "includedInReleaseAt": "2026-11-16T05:40:20.611315+00:00",
    "inputBasis": {
     "nDrives": 665,
     "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-11-16T02:31:48.462737+00:00",
+   "computedAt": "2026-11-16T05:40:20.611315+00:00",
    "computationStatusNote": "M687: derived by tools/parked_time_budget.py from drive_master.csv, seasonal_drive_master.csv, cached end-of-drive pack temperatures, seasonalFits.Q3 and exposureVector (spec analyses/M686_spec.md Rev 1.1); modelled, exploratory"
   }
  },
@@ -451213,12 +451213,12 @@
    "V4_determinism": "seed 42; the grid is deterministic"
   },
   "reading": [
-   "parked hours are MODELLED from the Q3 cool-down relaxation and the driver-recorded ambient at the two bounding drives; they are not measured and are validated only at the two ends of a gap (held-out next key-on temperature)",
+   "parked hours are MODELLED from the cool-down relaxation (seasonal quantity Q3) and the driver-recorded ambient at the two bounding drives; they are not measured and are checked only against the held-out pack temperature at the next key-on",
    "the uncertainty is the stated grid of assumptions (min and max with their cells), not a confidence interval; a statement such as 'below 10 deg C for x hours' is allowed only with its bracket",
-   "the ambient is read at drive times (daytime) and the dashboard sensor heat-soaks at key-on, so A is likely biased warm against the 24 h mean and the cold parked hours are likely understated",
+   "the ambient is read at drive times (daytime) and the dashboard sensor heat-soaks at key-on, so the ambient reference is likely biased warm against the 24 h mean and the cold parked hours are likely understated",
    "an hours-by-temperature budget of one May-to-November window; not lifetime exposure, not annualised, not an ageing estimate",
-   "no charging occurs while parked; the cold and hot parked hours use the same temperature thresholds as the S1 and S2 screens of exposureVector",
-   "the block does not feed or compare with the Arrhenius index Q4 or the monthly temperature table",
+   "no charging occurs while parked; the cold and hot parked hours use the same temperature thresholds as the S1 and S2 screens of the exposure block",
+   "the block does not feed or compare with the Arrhenius index (Q4) or the monthly temperature table",
    "at the gap-class ends the model does not beat the better of persistence and full relaxation for: 12 to <36 h, 36 h or longer; the parked hours of those classes (73% of the parked hours) rest on the weakest part of the model"
   ],
   "flags": {
@@ -451228,7 +451228,7 @@
     "36 h or longer"
    ],
    "parkedHoursShare": 0.729,
-   "directionOfKnownBias": "warm: the ambient reference comes from daytime readings and the short-pair tau over-persists drive-end heat in the 12 to <36 h class; cold hours are likely understated and the hot tails likely overstated",
+   "directionOfKnownBias": "warm: the ambient reference comes from daytime readings and the cool-down time constant fitted on mostly short pairs over-persists drive-end heat in the 12 to <36 h class, so for gaps of 12 h or longer the cold hours are likely understated and the hot tails likely overstated; in 4 to <12 h gaps the endpoint bias is negative (the model is colder than observed)",
    "coldHoursInGapsOf36hOrLonger": 330.499
   },
   "conventions": {
@@ -451240,7 +451240,7 @@
   },
   "provenance": {
    "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
-   "scriptSha256": "14d47691bce9b9ca190a8c230fa2d4cd140e5a40f7ded90f8977fa6bf86c063f",
+   "scriptSha256": "92cf6582ba6d45278cc5811ec7f498909090fe856d1a33886e951ee9baaf3a39",
    "seed": 42,
    "nPermutations": 1000,
    "nDrives": 665
