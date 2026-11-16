@@ -1,0 +1,2011 @@
+{
+ "spec": "analyses/M700_spec.md Rev 1",
+ "seed": 42,
+ "reps": 200,
+ "descriptiveReps": 100,
+ "fingerprint": {
+  "n": 633,
+  "nDays": 126,
+  "drivesPerDayHash": "95d518889e5adcdd",
+  "kMax": 5,
+  "minDrives": 8,
+  "minDays": 3
+ },
+ "scenarios": {
+  "AI": {
+   "n": 200,
+   "kTrue": 1,
+   "rules": {
+    "K0": {
+     "recovery": 0.065,
+     "recoveryWilson95": [
+      0.0384,
+      0.108
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.935,
+     "overSegWilson95": [
+      0.892,
+      0.9616
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.51,
+     "kHatDistribution": {
+      "1": 13,
+      "2": 7,
+      "3": 24,
+      "4": 54,
+      "5": 102
+     },
+     "medianSeconds": 0.073
+    },
+    "K1": {
+     "recovery": 0.905,
+     "recoveryWilson95": [
+      0.8564,
+      0.9383
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.095,
+     "overSegWilson95": [
+      0.0617,
+      0.1436
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 181,
+      "2": 13,
+      "3": 5,
+      "4": 1
+     },
+     "medianSeconds": 0.0,
+     "medianLambda": 2.4176
+    },
+    "K2": {
+     "recovery": 0.92,
+     "recoveryWilson95": [
+      0.874,
+      0.9502
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.08,
+     "overSegWilson95": [
+      0.0498,
+      0.126
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 184,
+      "2": 10,
+      "3": 4,
+      "4": 2
+     },
+     "medianSeconds": 0.002
+    },
+    "K3": {
+     "recovery": 0.93,
+     "recoveryWilson95": [
+      0.8859,
+      0.9578
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.07,
+     "overSegWilson95": [
+      0.0422,
+      0.1141
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 186,
+      "2": 13,
+      "3": 1
+     },
+     "medianSeconds": 8.51,
+     "nCapped": 0
+    },
+    "K4": {
+     "recovery": 0.965,
+     "recoveryWilson95": [
+      0.9295,
+      0.9829
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.035,
+     "overSegWilson95": [
+      0.0171,
+      0.0705
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.005,
+     "kHatDistribution": {
+      "1": 193,
+      "2": 3,
+      "3": 2,
+      "4": 1,
+      "5": 1
+     },
+     "medianSeconds": 0.39
+    }
+   }
+  },
+  "D1": {
+   "n": 100,
+   "kTrue": 1,
+   "rules": {
+    "K0": {
+     "recovery": 0.99,
+     "recoveryWilson95": [
+      0.9455,
+      0.9982
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.01,
+     "overSegWilson95": [
+      0.0018,
+      0.0545
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.037
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 99,
+      "2": 1
+     },
+     "medianSeconds": 0.073
+    },
+    "K1": {
+     "recovery": 0.99,
+     "recoveryWilson95": [
+      0.9455,
+      0.9982
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.01,
+     "overSegWilson95": [
+      0.0018,
+      0.0545
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.037
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 99,
+      "2": 1
+     },
+     "medianSeconds": 0.0,
+     "medianLambda": 1.0
+    },
+    "K2": {
+     "recovery": 0.96,
+     "recoveryWilson95": [
+      0.9016,
+      0.9843
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.04,
+     "overSegWilson95": [
+      0.0157,
+      0.0984
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.037
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 96,
+      "2": 3,
+      "3": 1
+     },
+     "medianSeconds": 0.002
+    },
+    "K3": {
+     "recovery": 0.96,
+     "recoveryWilson95": [
+      0.9016,
+      0.9843
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.04,
+     "overSegWilson95": [
+      0.0157,
+      0.0984
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.037
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 96,
+      "2": 2,
+      "3": 2
+     },
+     "medianSeconds": 8.645,
+     "nCapped": 0
+    },
+    "K4": {
+     "recovery": 0.98,
+     "recoveryWilson95": [
+      0.93,
+      0.9945
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.01,
+     "overSegWilson95": [
+      0.0018,
+      0.0545
+     ],
+     "underDetection": 0.01,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.037
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "0": 1,
+      "1": 98,
+      "2": 1
+     },
+     "medianSeconds": 0.395
+    }
+   }
+  },
+  "D2": {
+   "n": 100,
+   "kTrue": 1,
+   "rules": {
+    "K0": {
+     "recovery": 0.99,
+     "recoveryWilson95": [
+      0.9455,
+      0.9982
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.01,
+     "overSegWilson95": [
+      0.0018,
+      0.0545
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.037
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 99,
+      "2": 1
+     },
+     "medianSeconds": 0.074
+    },
+    "K1": {
+     "recovery": 0.99,
+     "recoveryWilson95": [
+      0.9455,
+      0.9982
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.01,
+     "overSegWilson95": [
+      0.0018,
+      0.0545
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.037
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 99,
+      "2": 1
+     },
+     "medianSeconds": 0.0,
+     "medianLambda": 1.0
+    },
+    "K2": {
+     "recovery": 0.88,
+     "recoveryWilson95": [
+      0.8019,
+      0.93
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.12,
+     "overSegWilson95": [
+      0.07,
+      0.1981
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.037
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 88,
+      "2": 10,
+      "3": 2
+     },
+     "medianSeconds": 0.002
+    },
+    "K3": {
+     "recovery": 0.95,
+     "recoveryWilson95": [
+      0.8882,
+      0.9785
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.05,
+     "overSegWilson95": [
+      0.0215,
+      0.1118
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.037
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 95,
+      "2": 4,
+      "3": 1
+     },
+     "medianSeconds": 8.732,
+     "nCapped": 0
+    },
+    "K4": {
+     "recovery": 1.0,
+     "recoveryWilson95": [
+      0.963,
+      1.0
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.0,
+     "overSegWilson95": [
+      0.0,
+      0.037
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.037
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 100
+     },
+     "medianSeconds": 0.396
+    }
+   }
+  },
+  "D5a": {
+   "n": 200,
+   "kTrue": 1,
+   "rules": {
+    "K0": {
+     "recovery": 0.235,
+     "recoveryWilson95": [
+      0.1816,
+      0.2984
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.765,
+     "overSegWilson95": [
+      0.7016,
+      0.8184
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.225,
+     "kHatDistribution": {
+      "1": 47,
+      "2": 28,
+      "3": 40,
+      "4": 40,
+      "5": 45
+     },
+     "medianSeconds": 0.077
+    },
+    "K1": {
+     "recovery": 0.91,
+     "recoveryWilson95": [
+      0.8622,
+      0.9423
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.09,
+     "overSegWilson95": [
+      0.0577,
+      0.1378
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 182,
+      "2": 14,
+      "3": 4
+     },
+     "medianSeconds": 0.0,
+     "medianLambda": 2.0977
+    },
+    "K2": {
+     "recovery": 0.905,
+     "recoveryWilson95": [
+      0.8564,
+      0.9383
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.095,
+     "overSegWilson95": [
+      0.0617,
+      0.1436
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 181,
+      "2": 13,
+      "3": 6
+     },
+     "medianSeconds": 0.003
+    },
+    "K3": {
+     "recovery": 0.91,
+     "recoveryWilson95": [
+      0.8622,
+      0.9423
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.09,
+     "overSegWilson95": [
+      0.0577,
+      0.1378
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 182,
+      "2": 17,
+      "3": 1
+     },
+     "medianSeconds": 9.396,
+     "nCapped": 0
+    },
+    "K4": {
+     "recovery": 0.98,
+     "recoveryWilson95": [
+      0.9497,
+      0.9922
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.02,
+     "overSegWilson95": [
+      0.0078,
+      0.0503
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 196,
+      "2": 3,
+      "3": 1
+     },
+     "medianSeconds": 0.418
+    }
+   }
+  },
+  "D5b": {
+   "n": 200,
+   "kTrue": 3,
+   "rules": {
+    "K0": {
+     "recovery": 0.245,
+     "recoveryWilson95": [
+      0.1906,
+      0.309
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.755,
+     "overSegWilson95": [
+      0.691,
+      0.8094
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.45,
+     "kHatDistribution": {
+      "3": 49,
+      "4": 61,
+      "5": 90
+     },
+     "medianSeconds": 0.073
+    },
+    "K1": {
+     "recovery": 0.82,
+     "recoveryWilson95": [
+      0.7609,
+      0.8671
+     ],
+     "kRightMisplaced": 0.01,
+     "overSegmentation": 0.145,
+     "overSegWilson95": [
+      0.1029,
+      0.2005
+     ],
+     "underDetection": 0.025,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.025,
+     "kHatDistribution": {
+      "1": 5,
+      "3": 166,
+      "4": 24,
+      "5": 5
+     },
+     "medianSeconds": 0.0,
+     "medianLambda": 2.0297
+    },
+    "K2": {
+     "recovery": 0.885,
+     "recoveryWilson95": [
+      0.8334,
+      0.9221
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.11,
+     "overSegWilson95": [
+      0.0738,
+      0.1609
+     ],
+     "underDetection": 0.005,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "2": 1,
+      "3": 177,
+      "4": 22
+     },
+     "medianSeconds": 0.002
+    },
+    "K3": {
+     "recovery": 0.78,
+     "recoveryWilson95": [
+      0.7176,
+      0.8318
+     ],
+     "kRightMisplaced": 0.005,
+     "overSegmentation": 0.085,
+     "overSegWilson95": [
+      0.0537,
+      0.1319
+     ],
+     "underDetection": 0.13,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 26,
+      "3": 157,
+      "4": 17
+     },
+     "medianSeconds": 30.201,
+     "nCapped": 0
+    },
+    "K4": {
+     "recovery": 0.48,
+     "recoveryWilson95": [
+      0.4118,
+      0.549
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.045,
+     "overSegWilson95": [
+      0.0239,
+      0.0833
+     ],
+     "underDetection": 0.475,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 53,
+      "2": 42,
+      "3": 96,
+      "4": 9
+     },
+     "medianSeconds": 0.389
+    }
+   }
+  },
+  "D6": {
+   "n": 100,
+   "kTrue": 1,
+   "rules": {
+    "K0": {
+     "recovery": 0.85,
+     "recoveryWilson95": [
+      0.7672,
+      0.9069
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.15,
+     "overSegWilson95": [
+      0.0931,
+      0.2328
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.037
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 85,
+      "2": 5,
+      "3": 10
+     },
+     "medianSeconds": 0.074
+    },
+    "K1": {
+     "recovery": 0.85,
+     "recoveryWilson95": [
+      0.7672,
+      0.9069
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.15,
+     "overSegWilson95": [
+      0.0931,
+      0.2328
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.037
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 85,
+      "2": 5,
+      "3": 10
+     },
+     "medianSeconds": 0.0,
+     "medianLambda": 1.0
+    },
+    "K2": {
+     "recovery": 0.85,
+     "recoveryWilson95": [
+      0.7672,
+      0.9069
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.15,
+     "overSegWilson95": [
+      0.0931,
+      0.2328
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.037
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 85,
+      "2": 7,
+      "3": 8
+     },
+     "medianSeconds": 0.003
+    },
+    "K3": {
+     "recovery": 0.93,
+     "recoveryWilson95": [
+      0.8625,
+      0.9657
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.07,
+     "overSegWilson95": [
+      0.0343,
+      0.1375
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.037
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 93,
+      "2": 5,
+      "3": 2
+     },
+     "medianSeconds": 8.389,
+     "nCapped": 0
+    },
+    "K4": {
+     "recovery": 0.95,
+     "recoveryWilson95": [
+      0.8882,
+      0.9785
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.0,
+     "overSegWilson95": [
+      0.0,
+      0.037
+     ],
+     "underDetection": 0.05,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.037
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "0": 5,
+      "1": 95
+     },
+     "medianSeconds": 0.396
+    }
+   }
+  },
+  "N0": {
+   "n": 200,
+   "kTrue": 0,
+   "rules": {
+    "K0": {
+     "recovery": 0.995,
+     "recoveryWilson95": [
+      0.9722,
+      0.9991
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.005,
+     "overSegWilson95": [
+      0.0009,
+      0.0278
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.005,
+     "falseBreakWilson95": [
+      0.0009,
+      0.0278
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "0": 199,
+      "1": 1
+     },
+     "medianSeconds": 0.072
+    },
+    "K1": {
+     "recovery": 0.995,
+     "recoveryWilson95": [
+      0.9722,
+      0.9991
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.005,
+     "overSegWilson95": [
+      0.0009,
+      0.0278
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.005,
+     "falseBreakWilson95": [
+      0.0009,
+      0.0278
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "0": 199,
+      "1": 1
+     },
+     "medianSeconds": 0.0,
+     "medianLambda": 1.0
+    },
+    "K2": {
+     "recovery": 0.98,
+     "recoveryWilson95": [
+      0.9497,
+      0.9922
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.02,
+     "overSegWilson95": [
+      0.0078,
+      0.0503
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.02,
+     "falseBreakWilson95": [
+      0.0078,
+      0.0503
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "0": 196,
+      "1": 4
+     },
+     "medianSeconds": 0.002
+    },
+    "K3": {
+     "recovery": 0.955,
+     "recoveryWilson95": [
+      0.9167,
+      0.9761
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.045,
+     "overSegWilson95": [
+      0.0239,
+      0.0833
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.045,
+     "falseBreakWilson95": [
+      0.0239,
+      0.0833
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "0": 191,
+      "1": 8,
+      "2": 1
+     },
+     "medianSeconds": 0.683,
+     "nCapped": 0
+    },
+    "K4": {
+     "recovery": 1.0,
+     "recoveryWilson95": [
+      0.9812,
+      1.0
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.0,
+     "overSegWilson95": [
+      0.0,
+      0.0188
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "0": 200
+     },
+     "medianSeconds": 0.382
+    }
+   }
+  },
+  "N5": {
+   "n": 200,
+   "kTrue": 0,
+   "rules": {
+    "K0": {
+     "recovery": 0.28,
+     "recoveryWilson95": [
+      0.2224,
+      0.3459
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.72,
+     "overSegWilson95": [
+      0.6541,
+      0.7776
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.72,
+     "falseBreakWilson95": [
+      0.6541,
+      0.7776
+     ],
+     "shareAtKmax": 0.125,
+     "kHatDistribution": {
+      "0": 56,
+      "1": 8,
+      "2": 49,
+      "3": 26,
+      "4": 36,
+      "5": 25
+     },
+     "medianSeconds": 0.072
+    },
+    "K1": {
+     "recovery": 0.965,
+     "recoveryWilson95": [
+      0.9295,
+      0.9829
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.035,
+     "overSegWilson95": [
+      0.0171,
+      0.0705
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.035,
+     "falseBreakWilson95": [
+      0.0171,
+      0.0705
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "0": 193,
+      "1": 3,
+      "2": 4
+     },
+     "medianSeconds": 0.0,
+     "medianLambda": 2.094
+    },
+    "K2": {
+     "recovery": 0.94,
+     "recoveryWilson95": [
+      0.8981,
+      0.9653
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.06,
+     "overSegWilson95": [
+      0.0347,
+      0.1019
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.06,
+     "falseBreakWilson95": [
+      0.0347,
+      0.1019
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "0": 188,
+      "1": 6,
+      "2": 5,
+      "3": 1
+     },
+     "medianSeconds": 0.002
+    },
+    "K3": {
+     "recovery": 0.96,
+     "recoveryWilson95": [
+      0.9231,
+      0.9796
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.04,
+     "overSegWilson95": [
+      0.0204,
+      0.0769
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.04,
+     "falseBreakWilson95": [
+      0.0204,
+      0.0769
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "0": 192,
+      "1": 7,
+      "2": 1
+     },
+     "medianSeconds": 0.804,
+     "nCapped": 0
+    },
+    "K4": {
+     "recovery": 0.99,
+     "recoveryWilson95": [
+      0.9643,
+      0.9973
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.01,
+     "overSegWilson95": [
+      0.0027,
+      0.0357
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.01,
+     "falseBreakWilson95": [
+      0.0027,
+      0.0357
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "0": 198,
+      "1": 1,
+      "2": 1
+     },
+     "medianSeconds": 0.384
+    }
+   }
+  },
+  "S1": {
+   "n": 200,
+   "kTrue": 1,
+   "rules": {
+    "K0": {
+     "recovery": 0.96,
+     "recoveryWilson95": [
+      0.9231,
+      0.9796
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.04,
+     "overSegWilson95": [
+      0.0204,
+      0.0769
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 192,
+      "2": 6,
+      "3": 2
+     },
+     "medianSeconds": 0.077
+    },
+    "K1": {
+     "recovery": 0.96,
+     "recoveryWilson95": [
+      0.9231,
+      0.9796
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.04,
+     "overSegWilson95": [
+      0.0204,
+      0.0769
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 192,
+      "2": 6,
+      "3": 2
+     },
+     "medianSeconds": 0.0,
+     "medianLambda": 1.0
+    },
+    "K2": {
+     "recovery": 0.9,
+     "recoveryWilson95": [
+      0.8506,
+      0.9343
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.1,
+     "overSegWilson95": [
+      0.0657,
+      0.1494
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 180,
+      "2": 14,
+      "3": 5,
+      "4": 1
+     },
+     "medianSeconds": 0.002
+    },
+    "K3": {
+     "recovery": 0.925,
+     "recoveryWilson95": [
+      0.88,
+      0.954
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.075,
+     "overSegWilson95": [
+      0.046,
+      0.12
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 185,
+      "2": 13,
+      "3": 2
+     },
+     "medianSeconds": 9.837,
+     "nCapped": 0
+    },
+    "K4": {
+     "recovery": 0.995,
+     "recoveryWilson95": [
+      0.9722,
+      0.9991
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.005,
+     "overSegWilson95": [
+      0.0009,
+      0.0278
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 199,
+      "2": 1
+     },
+     "medianSeconds": 0.416
+    }
+   }
+  },
+  "S2": {
+   "n": 200,
+   "kTrue": 1,
+   "rules": {
+    "K0": {
+     "recovery": 0.68,
+     "recoveryWilson95": [
+      0.6125,
+      0.7407
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.32,
+     "overSegWilson95": [
+      0.2593,
+      0.3875
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.07,
+     "kHatDistribution": {
+      "1": 136,
+      "2": 22,
+      "3": 21,
+      "4": 7,
+      "5": 14
+     },
+     "medianSeconds": 0.076
+    },
+    "K1": {
+     "recovery": 0.935,
+     "recoveryWilson95": [
+      0.892,
+      0.9616
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.065,
+     "overSegWilson95": [
+      0.0384,
+      0.108
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 187,
+      "2": 8,
+      "3": 5
+     },
+     "medianSeconds": 0.0,
+     "medianLambda": 1.5403
+    },
+    "K2": {
+     "recovery": 0.91,
+     "recoveryWilson95": [
+      0.8622,
+      0.9423
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.09,
+     "overSegWilson95": [
+      0.0577,
+      0.1378
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 182,
+      "2": 11,
+      "3": 6,
+      "4": 1
+     },
+     "medianSeconds": 0.002
+    },
+    "K3": {
+     "recovery": 0.945,
+     "recoveryWilson95": [
+      0.9042,
+      0.969
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.055,
+     "overSegWilson95": [
+      0.031,
+      0.0958
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 189,
+      "2": 9,
+      "3": 2
+     },
+     "medianSeconds": 10.363,
+     "nCapped": 0
+    },
+    "K4": {
+     "recovery": 0.975,
+     "recoveryWilson95": [
+      0.9428,
+      0.9893
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.025,
+     "overSegWilson95": [
+      0.0107,
+      0.0572
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 195,
+      "2": 2,
+      "3": 3
+     },
+     "medianSeconds": 0.42
+    }
+   }
+  },
+  "S3": {
+   "n": 200,
+   "kTrue": 3,
+   "rules": {
+    "K0": {
+     "recovery": 0.965,
+     "recoveryWilson95": [
+      0.9295,
+      0.9829
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.035,
+     "overSegWilson95": [
+      0.0171,
+      0.0705
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.005,
+     "kHatDistribution": {
+      "3": 193,
+      "4": 6,
+      "5": 1
+     },
+     "medianSeconds": 0.075
+    },
+    "K1": {
+     "recovery": 0.965,
+     "recoveryWilson95": [
+      0.9295,
+      0.9829
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.035,
+     "overSegWilson95": [
+      0.0171,
+      0.0705
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.005,
+     "kHatDistribution": {
+      "3": 193,
+      "4": 6,
+      "5": 1
+     },
+     "medianSeconds": 0.0,
+     "medianLambda": 1.0
+    },
+    "K2": {
+     "recovery": 0.91,
+     "recoveryWilson95": [
+      0.8622,
+      0.9423
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.09,
+     "overSegWilson95": [
+      0.0577,
+      0.1378
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.015,
+     "kHatDistribution": {
+      "3": 182,
+      "4": 15,
+      "5": 3
+     },
+     "medianSeconds": 0.002
+    },
+    "K3": {
+     "recovery": 0.935,
+     "recoveryWilson95": [
+      0.892,
+      0.9616
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.065,
+     "overSegWilson95": [
+      0.0384,
+      0.108
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "3": 187,
+      "4": 13
+     },
+     "medianSeconds": 33.035,
+     "nCapped": 0
+    },
+    "K4": {
+     "recovery": 0.8,
+     "recoveryWilson95": [
+      0.7391,
+      0.8495
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.01,
+     "overSegWilson95": [
+      0.0027,
+      0.0357
+     ],
+     "underDetection": 0.19,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 11,
+      "2": 27,
+      "3": 160,
+      "4": 2
+     },
+     "medianSeconds": 0.406
+    }
+   }
+  },
+  "S4": {
+   "n": 200,
+   "kTrue": 3,
+   "rules": {
+    "K0": {
+     "recovery": 0.56,
+     "recoveryWilson95": [
+      0.4907,
+      0.627
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.44,
+     "overSegWilson95": [
+      0.373,
+      0.5093
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.19,
+     "kHatDistribution": {
+      "3": 112,
+      "4": 50,
+      "5": 38
+     },
+     "medianSeconds": 0.074
+    },
+    "K1": {
+     "recovery": 0.86,
+     "recoveryWilson95": [
+      0.8051,
+      0.9013
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.135,
+     "overSegWilson95": [
+      0.0945,
+      0.1893
+     ],
+     "underDetection": 0.005,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.025,
+     "kHatDistribution": {
+      "1": 1,
+      "3": 172,
+      "4": 22,
+      "5": 5
+     },
+     "medianSeconds": 0.0,
+     "medianLambda": 1.4704
+    },
+    "K2": {
+     "recovery": 0.81,
+     "recoveryWilson95": [
+      0.75,
+      0.8583
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.185,
+     "overSegWilson95": [
+      0.1373,
+      0.2446
+     ],
+     "underDetection": 0.005,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.05,
+     "kHatDistribution": {
+      "1": 1,
+      "3": 162,
+      "4": 27,
+      "5": 10
+     },
+     "medianSeconds": 0.002
+    },
+    "K3": {
+     "recovery": 0.845,
+     "recoveryWilson95": [
+      0.7884,
+      0.8886
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.135,
+     "overSegWilson95": [
+      0.0945,
+      0.1893
+     ],
+     "underDetection": 0.02,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.02,
+     "kHatDistribution": {
+      "1": 3,
+      "2": 1,
+      "3": 169,
+      "4": 23,
+      "5": 4
+     },
+     "medianSeconds": 32.844,
+     "nCapped": 0
+    },
+    "K4": {
+     "recovery": 0.755,
+     "recoveryWilson95": [
+      0.691,
+      0.8094
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.015,
+     "overSegWilson95": [
+      0.0051,
+      0.0432
+     ],
+     "underDetection": 0.23,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.005,
+     "kHatDistribution": {
+      "1": 20,
+      "2": 26,
+      "3": 151,
+      "4": 2,
+      "5": 1
+     },
+     "medianSeconds": 0.415
+    }
+   }
+  },
+  "S5": {
+   "n": 200,
+   "kTrue": 3,
+   "rules": {
+    "K0": {
+     "recovery": 0.855,
+     "recoveryWilson95": [
+      0.7995,
+      0.8971
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.145,
+     "overSegWilson95": [
+      0.1029,
+      0.2005
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "3": 171,
+      "4": 29
+     },
+     "medianSeconds": 0.077
+    },
+    "K1": {
+     "recovery": 1.0,
+     "recoveryWilson95": [
+      0.9812,
+      1.0
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.0,
+     "overSegWilson95": [
+      0.0,
+      0.0188
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "3": 200
+     },
+     "medianSeconds": 0.0,
+     "medianLambda": 1.4617
+    },
+    "K2": {
+     "recovery": 0.93,
+     "recoveryWilson95": [
+      0.8859,
+      0.9578
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.07,
+     "overSegWilson95": [
+      0.0422,
+      0.1141
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.025,
+     "kHatDistribution": {
+      "3": 186,
+      "4": 9,
+      "5": 5
+     },
+     "medianSeconds": 0.003
+    },
+    "K3": {
+     "recovery": 0.99,
+     "recoveryWilson95": [
+      0.9643,
+      0.9973
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.01,
+     "overSegWilson95": [
+      0.0027,
+      0.0357
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "3": 198,
+      "4": 2
+     },
+     "medianSeconds": 33.52,
+     "nCapped": 0
+    },
+    "K4": {
+     "recovery": 0.35,
+     "recoveryWilson95": [
+      0.2873,
+      0.4184
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.0,
+     "overSegWilson95": [
+      0.0,
+      0.0188
+     ],
+     "underDetection": 0.65,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "1": 89,
+      "2": 41,
+      "3": 70
+     },
+     "medianSeconds": 0.414
+    }
+   }
+  },
+  "S5null": {
+   "n": 200,
+   "kTrue": 0,
+   "rules": {
+    "K0": {
+     "recovery": 1.0,
+     "recoveryWilson95": [
+      0.9812,
+      1.0
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.0,
+     "overSegWilson95": [
+      0.0,
+      0.0188
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "0": 200
+     },
+     "medianSeconds": 0.07
+    },
+    "K1": {
+     "recovery": 1.0,
+     "recoveryWilson95": [
+      0.9812,
+      1.0
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.0,
+     "overSegWilson95": [
+      0.0,
+      0.0188
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "0": 200
+     },
+     "medianSeconds": 0.0,
+     "medianLambda": 1.5542
+    },
+    "K2": {
+     "recovery": 0.985,
+     "recoveryWilson95": [
+      0.9568,
+      0.9949
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.015,
+     "overSegWilson95": [
+      0.0051,
+      0.0432
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.015,
+     "falseBreakWilson95": [
+      0.0051,
+      0.0432
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "0": 197,
+      "1": 1,
+      "2": 2
+     },
+     "medianSeconds": 0.002
+    },
+    "K3": {
+     "recovery": 1.0,
+     "recoveryWilson95": [
+      0.9812,
+      1.0
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.0,
+     "overSegWilson95": [
+      0.0,
+      0.0188
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "0": 200
+     },
+     "medianSeconds": 0.566,
+     "nCapped": 0
+    },
+    "K4": {
+     "recovery": 1.0,
+     "recoveryWilson95": [
+      0.9812,
+      1.0
+     ],
+     "kRightMisplaced": 0.0,
+     "overSegmentation": 0.0,
+     "overSegWilson95": [
+      0.0,
+      0.0188
+     ],
+     "underDetection": 0.0,
+     "falseBreakRate": 0.0,
+     "falseBreakWilson95": [
+      0.0,
+      0.0188
+     ],
+     "shareAtKmax": 0.0,
+     "kHatDistribution": {
+      "0": 200
+     },
+     "medianSeconds": 0.376
+    }
+   }
+  }
+ },
+ "admissibility": {
+  "K0": {
+   "admissible": false,
+   "reasons": [
+    "(a) S2 recovery 0.680 (Wilson lower 0.6125)",
+    "(c) S2 over-segmentation 0.320",
+    "(a) S4 recovery 0.560 (Wilson lower 0.4907)",
+    "(c) S4 over-segmentation 0.440",
+    "(c) S5 over-segmentation 0.145",
+    "(a) D5a recovery 0.235 (Wilson lower 0.1816)",
+    "(c) D5a over-segmentation 0.765",
+    "(a) D5b recovery 0.245 (Wilson lower 0.1906)",
+    "(c) D5b over-segmentation 0.755",
+    "(a) AI recovery 0.065 (Wilson lower 0.0384)",
+    "(c) AI over-segmentation 0.935",
+    "(b) N5 false-break rate 0.720 (Wilson upper 0.7776)"
+   ],
+   "minCoreRecovery": 0.065
+  },
+  "K1": {
+   "admissible": false,
+   "reasons": [
+    "(c) S4 over-segmentation 0.135",
+    "(c) D5b over-segmentation 0.145"
+   ],
+   "minCoreRecovery": 0.82
+  },
+  "K2": {
+   "admissible": false,
+   "reasons": [
+    "(c) S4 over-segmentation 0.185",
+    "(c) D5b over-segmentation 0.110"
+   ],
+   "minCoreRecovery": 0.81
+  },
+  "K3": {
+   "admissible": false,
+   "reasons": [
+    "(c) S4 over-segmentation 0.135",
+    "(a) D5b recovery 0.780 (Wilson lower 0.7176)"
+   ],
+   "minCoreRecovery": 0.78
+  },
+  "K4": {
+   "admissible": false,
+   "reasons": [
+    "(a) S4 recovery 0.755 (Wilson lower 0.691)",
+    "(a) S5 recovery 0.350 (Wilson lower 0.2873)",
+    "(a) D5b recovery 0.480 (Wilson lower 0.4118)"
+   ],
+   "minCoreRecovery": 0.35
+  }
+ },
+ "selected": null,
+ "K3": {
+  "bootstrapDrawsPerStep": 199,
+  "sequentialStopExceedances": 10,
+  "runtimeCapSecondsPerReplicate": 120.0
+ },
+ "semiSyntheticWrapStepSd": 0.2499,
+ "semiSyntheticWrapStepAbove0.5sd": false,
+ "runtimeSeconds": 4042.0,
+ "scriptSha256": "8cefdea3088f15d1bf9dbdf91105933e994b7d57647046f56f1cb69d754be372",
+ "note": "simulated performance in the stated scenarios at the real X2 structure; planted steps, not fitted ones; K0 is the reference rule and is never selected"
+}
