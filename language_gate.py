@@ -653,6 +653,8 @@ RULES = [
          rx=r"(?<!not )(?<!no )true (?:number of|K of) breaks|(?:k1|k2|k3|k4)[^.]{0,40}(?:is|was|were) (?:admissible|validated)|(?:number of )?breaks (?:was|were|is|are) (?:validated|detected the update)"),
     Rule("M701-start-hazard-wording", "regex", "M701 (spec analyses/M701_spec.md Rev 1 + errata 13-15): the pedal and torque results are a logged-channel hazard of RPM onsets (estimated), predictive value is not a demand effect and torque is a VCM output (reverse causality); never a commanded start, a VCM threshold, pedal causes or confirmation of the OEM logic where the ladder is not met",
          rx=r"commanded (?:engine )?start|vcm (?:start )?threshold|pedal (?:causes|drives) (?:the )?(?:engine )?(?:start|onset)|(?<!not )(?<!mean )no demand effect|pedal does not matter|(?:confirms?|confirmed) (?:the )?(?:demand dependence|oem (?:logic|statement))|demand effect of (?:the )?(?:target )?torque"),
+    Rule("M702-thevenin-wording", "regex", "M702 (spec analyses/M702_spec.md Rev 1 + errata 12): R_sh is an apparent short-horizon step resistance of the logged channels, dependent on the sampling gap (estimated); never a measured or internal resistance, an established trend, a stable resistance or a validation of the vreg proxy",
+         rx=r"(?<!not )(?<!not a )(?<!not an )(?<!never )(?<!a )measured (?:pack |cell )?(?:internal )?resistance|(?<!not )(?<!not an )(?<!not a )internal resistance (?:is|was) (?:measured|estimated)|(?<!not )trend (?:is |was )?established|(?<!not )(?<!no )stable resistance|validates? the vreg|(?<!not )(?<!no )degradation rate (?:is|was|of)"),
 ]
 
 _SCAN_CACHE = {}

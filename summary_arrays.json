@@ -68401,6 +68401,27 @@
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
    "computedAt": "2026-11-16T17:15:19.330289+00:00"
+  },
+  "stepResistance": {
+   "corpusHash": "77bbe275f8c22eaf62d8636867764af3",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": "11a89dc0c881bd0a60e9e957ccd1936a",
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-11-16T18:15:22.764330+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3"
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M702: derived by tools/step_events.py and tools/step_resistance.py from raw drive CSVs and drive_master.csv (spec analyses/M702_spec.md Rev 1 + errata 12); estimated, provisional, simulation gate failed",
+   "includedInReleaseAt": "2026-11-16T18:15:22.764330+00:00",
+   "inputBasis": {
+    "nDrives": 665,
+    "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-11-16T18:15:22.764330+00:00"
   }
  },
  "ambientTable": {
@@ -455023,6 +455044,326 @@
     "pedEligibleDrives": 427,
     "cleanDrivesRead": 651
    },
+   "verified": false
+  }
+ },
+ "stepResistance": {
+  "spec": "analyses/M702_spec.md Rev 1 + errata 12",
+  "provisional": true,
+  "gateStatus": "failed",
+  "files": {
+   "study": "analyses/M702_study.json",
+   "simulation": "analyses/M702_sim.json",
+   "feasibility": "analyses/M702_feasibility.json",
+   "audit": "analyses/M702_audit.json"
+  },
+  "status": "pre-registered simulation gate failed; no trend inference; the slopes below are descriptive and every interval includes zero",
+  "estimand": "apparent short-horizon step resistance (R_sh): dV/dI between co-timed pre- and post-step samples of the logged BMS current and pack voltage, discharge-direction steps; it depends on the sampling gap, is estimated, and is never pooled across the fast and slow strata",
+  "constants": {
+   "STEP_A": 20.0,
+   "PRE_BAND_A": 5.0,
+   "POST_STAB": 0.2,
+   "SKEW_MAX_S": 0.25
+  },
+  "feasibility": {
+   "nCleanDrives": 651,
+   "exclusionCounts": {
+    "notStep": 575542,
+    "preNotSteady": 53029,
+    "postUnstable": 9874,
+    "gap": 10,
+    "nearEdge": 90,
+    "overlap": 66,
+    "skewTooLarge": 82,
+    "noVoltage": 0,
+    "chargeDirection": 71288
+   }
+  },
+  "strata": {
+   "fast": {
+    "events": 662,
+    "drives": 80,
+    "days": 40,
+    "eventGapMedianS": 0.8674999999999784,
+    "medianMohm": 111.3239734927001,
+    "iqrMohm": [
+     99.8395378690629,
+     133.7458608959323
+    ],
+    "trendDescriptive": {
+     "design": "R_sh ~ months + T_pack_mean_avg + step size, calendar-day clusters (M634 T-lin)",
+     "slopeMohmPerMonth": 4.4724,
+     "cr1Ci95": [
+      -2.4265,
+      11.3712
+     ],
+     "dayBootstrapCi95": [
+      -2.0911,
+      11.6017
+     ],
+     "includesZero": true,
+     "otherTemperatureSpecs": {
+      "T-quad": {
+       "slope": 3.6477,
+       "dayBootstrapCi95": [
+        -3.3823,
+        10.8487
+       ]
+      },
+      "T-arr": {
+       "slope": 4.02,
+       "dayBootstrapCi95": [
+        -2.5309,
+        11.2325
+       ]
+      },
+      "T-spl": {
+       "slope": 3.0273,
+       "dayBootstrapCi95": [
+        -3.989,
+        10.6131
+       ]
+      }
+     }
+    },
+    "sensitivities": {
+     "cadenceBreaks": {
+      "drives": 80,
+      "slopeMohmPerMonth": 7.5411,
+      "cr1Ci95": [
+       -10.0956,
+       25.1778
+      ]
+     },
+     "softwareUpdate": {
+      "drives": 80,
+      "slopeMohmPerMonth": 5.3654,
+      "cr1Ci95": [
+       -4.5294,
+       15.2602
+      ]
+     },
+     "gapBelowMedian": {
+      "drives": 47,
+      "slopeMohmPerMonth": 5.4354,
+      "cr1Ci95": [
+       -11.1994,
+       22.0702
+      ]
+     },
+     "gapAboveMedian": {
+      "drives": 43,
+      "slopeMohmPerMonth": 2.5995,
+      "cr1Ci95": [
+       -8.3314,
+       13.5304
+      ]
+     }
+    },
+    "vregMethodDisagreement": {
+     "sharedDrives": 70,
+     "sharedDays": 37,
+     "spearman": 0.41111013909544225,
+     "meanDifferenceMohm": -29.85499645689,
+     "dayClusteredCi95": [
+      -37.42738695997057,
+      -21.218739097670056
+     ]
+    },
+    "gapDateCorrelation": 0.3239889292463646
+   },
+   "slow": {
+    "events": 1254,
+    "drives": 127,
+    "days": 57,
+    "eventGapMedianS": 1.267499999999984,
+    "medianMohm": 103.85930630190528,
+    "iqrMohm": [
+     88.4997530821126,
+     120.12401574803147
+    ],
+    "trendDescriptive": {
+     "design": "R_sh ~ months + T_pack_mean_avg + step size, calendar-day clusters (M634 T-lin)",
+     "slopeMohmPerMonth": 1.897,
+     "cr1Ci95": [
+      -0.8456,
+      4.6395
+     ],
+     "dayBootstrapCi95": [
+      -0.8971,
+      5.0563
+     ],
+     "includesZero": true,
+     "otherTemperatureSpecs": {
+      "T-quad": {
+       "slope": 1.7158,
+       "dayBootstrapCi95": [
+        -1.0432,
+        4.5448
+       ]
+      },
+      "T-arr": {
+       "slope": 1.6623,
+       "dayBootstrapCi95": [
+        -1.1033,
+        4.6481
+       ]
+      },
+      "T-spl": {
+       "slope": 1.5068,
+       "dayBootstrapCi95": [
+        -1.2283,
+        4.4072
+       ]
+      }
+     }
+    },
+    "sensitivities": {
+     "cadenceBreaks": {
+      "drives": 127,
+      "slopeMohmPerMonth": 2.7153,
+      "cr1Ci95": [
+       -2.9846,
+       8.4151
+      ]
+     },
+     "softwareUpdate": {
+      "drives": 127,
+      "slopeMohmPerMonth": 3.143,
+      "cr1Ci95": [
+       -2.16,
+       8.446
+      ]
+     },
+     "gapBelowMedian": {
+      "drives": 65,
+      "slopeMohmPerMonth": -0.8855,
+      "cr1Ci95": [
+       -5.789,
+       4.018
+      ]
+     },
+     "gapAboveMedian": {
+      "drives": 79,
+      "slopeMohmPerMonth": 2.899,
+      "cr1Ci95": [
+       -1.1461,
+       6.9441
+      ]
+     }
+    },
+    "vregMethodDisagreement": {
+     "sharedDrives": 116,
+     "sharedDays": 52,
+     "spearman": 0.41790803793811254,
+     "meanDifferenceMohm": -21.34557842823764,
+     "dayClusteredCi95": [
+      -27.54009104078262,
+      -15.996111039478574
+     ]
+    },
+    "gapDateCorrelation": 0.23646443354777238
+   }
+  },
+  "stepThresholdSensitivity": {
+   "15": {
+    "fast": {
+     "drives": 115,
+     "slopeMohmPerMonth": -0.0576,
+     "cr1Ci95": [
+      -5.163,
+      5.0477
+     ]
+    },
+    "slow": {
+     "drives": 176,
+     "slopeMohmPerMonth": 1.9917,
+     "cr1Ci95": [
+      -1.6002,
+      5.5836
+     ]
+    }
+   },
+   "30": {
+    "fast": {
+     "drives": 32,
+     "slopeMohmPerMonth": 2.83,
+     "cr1Ci95": [
+      -6.7249,
+      12.3849
+     ]
+    },
+    "slow": {
+     "drives": 81,
+     "slopeMohmPerMonth": 2.0705,
+     "cr1Ci95": [
+      -2.2285,
+      6.3695
+     ]
+    }
+   }
+  },
+  "chargeDirectionSensitivity": {
+   "fast": {
+    "drives": 135,
+    "slopeMohmPerMonth": -4.9537,
+    "cr1Ci95": [
+     -13.125,
+     3.2177
+    ]
+   },
+   "slow": {
+    "drives": 190,
+    "slopeMohmPerMonth": -1.1028,
+    "cr1Ci95": [
+     -3.8618,
+     1.6562
+    ]
+   }
+  },
+  "simulation": {
+   "reps": 500,
+   "design": {
+    "R0_mOhm": 60.0,
+    "R1_mOhm": 80.0,
+    "tau_s": 5.0,
+    "icc": 0.3,
+    "vStepV": 0.16
+   },
+   "strata": {
+    "fast": {
+     "nullFalsePositive": 0.12,
+     "plantedCoverage95": 0.914,
+     "plantedPower": 1.0,
+     "meanRelBiasNull": 0.0021164343801996447,
+     "maxGroupBiasSpread": 0.008091100868802154,
+     "biasPass": true,
+     "gatePass": false
+    },
+    "slow": {
+     "nullFalsePositive": 0.124,
+     "plantedCoverage95": 0.898,
+     "plantedPower": 0.994,
+     "meanRelBiasNull": 0.0016366750350581309,
+     "maxGroupBiasSpread": 0.0073788983432455215,
+     "biasPass": true,
+     "gatePass": false
+    }
+   },
+   "gateReading": "gate failed as pre-registered (null false-positive above 0.075 in both strata; slow coverage below 0.90); the estimator bias criterion passed"
+  },
+  "reading": [
+   "a trend in R_sh over dates can partly reflect a trend in the event sampling gap (gap-date correlation per stratum in the strata entries); this is a property of the estimand, not only of the simulation",
+   "a blind audit diagnosed three issues of the simulation generator: the null truth depended on the event gap, which trends with date (so the null carried an implied drift); the realised intraclass correlation was above the intended 0.3; the planted-drift base was fixed at 130 mOhm instead of the observed stratum median; the gate result is kept as run (not rewritten), a corrected re-run was not done because the real intervals include zero either way",
+   "method disagreement between R_sh and the vreg regression proxy (different estimands and time horizons; rank correlation and mean difference shown), not a bias claim and not a validation of either",
+   "no equivalence test, no degradation rate, no fast-versus-slow contrast; the M622 look schedule applies and the block stays provisional",
+   "estimated from logged channels; a time constant was not fitted (not identifiable at the logged cadence)"
+  ],
+  "followUps": "an optional Rev 2 (gap-free null, realised ICC 0.3, observed-median base, gap covariate as a pre-registered sensitivity) is low value-of-information; a gap-matched primary can be considered at the next M622 look",
+  "provenance": {
+   "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+   "scriptSha256": "472e2421383ce39e9bd82f9fa300669e836f5401195628a2eb102f14034487eb",
+   "stepEventsSha256": "1b0668fe351207a55b4395b95420cb50324f8571c64cb8a8d76435b9d2ce643d",
    "verified": false
   }
  }

@@ -214,11 +214,93 @@ def run_sim(out, reps=500, workers=6):
     return res
 
 
+# ---------------------------------------------------------------- payload block (additive, no display, no stage)
+KEY = "stepResistance"
+
+
+def gap_date_corr():
+    ev = pd.read_csv("analyses/M702_feasibility_events.csv")
+    out = {}
+    for c in ("fast", "slow"):
+        e = ev[ev["cadence"] == c]
+        mo = (pd.to_datetime(e["date"]) - pd.to_datetime(e["date"]).min()).dt.days / 30.44
+        out[c] = float(np.corrcoef(mo, e["gapS"])[0, 1])
+    return out
+
+
+def assemble(study, sim, feas, md5):
+    gc = gap_date_corr()
+    strata = {}
+    for c, s in study["strata"].items():
+        if "primary" not in s:
+            strata[c] = {"status": s.get("status")}; continue
+        p = s["primary"]
+        strata[c] = {"events": s["nEvents"], "drives": p["nDrives"], "days": p["nDays"], "eventGapMedianS": s["eventGapMedianS"], "medianMohm": s["median_mOhm"], "iqrMohm": s["iqr_mOhm"],
+                     "trendDescriptive": {"design": "R_sh ~ months + T_pack_mean_avg + step size, calendar-day clusters (M634 T-lin)", "slopeMohmPerMonth": p["slopeMohmPerMonthTlin"], "cr1Ci95": p["cr1Ci95"], "dayBootstrapCi95": p["dayBootstrapCi95"],
+                                          "includesZero": p["includesZero"], "otherTemperatureSpecs": p["otherSpecs"]},
+                     "sensitivities": {k: ({"status": v["status"]} if "status" in v else {"drives": v["nDrives"], "slopeMohmPerMonth": v["slopeMohmPerMonthTlin"], "cr1Ci95": v["cr1Ci95"]}) for k, v in s["sensitivities"].items()},
+                     "vregMethodDisagreement": s.get("vregComparison"), "gapDateCorrelation": gc[c]}
+    thr = {a: {c: ({"status": v["status"]} if "status" in v else {"drives": v["nDrives"], "slopeMohmPerMonth": v["slopeMohmPerMonthTlin"], "cr1Ci95": v["cr1Ci95"]}) for c, v in b.items()} for a, b in study["stepThresholdSensitivity"].items()}
+    chg = {c: ({"status": v["status"]} if "status" in v else {"drives": v["nDrives"], "slopeMohmPerMonth": v["slopeMohmPerMonthTlin"], "cr1Ci95": v["cr1Ci95"]}) for c, v in study["chargeDirectionSensitivity"].items()}
+    simb = {c: {"nullFalsePositive": v["null"]["falsePositive"], "plantedCoverage95": v["planted_MDE"]["coverage95"], "plantedPower": v["planted_MDE"]["power"], "meanRelBiasNull": v["null"]["meanRelBias"],
+                "maxGroupBiasSpread": v["null"]["maxGroupBiasSpreadMean"], "biasPass": v["biasPass"], "gatePass": v["allGatedPass"]} for c, v in sim["strata"].items()}
+    return {
+        "spec": "analyses/M702_spec.md Rev 1 + errata 12", "provisional": True, "gateStatus": "failed",
+        "files": {"study": "analyses/M702_study.json", "simulation": "analyses/M702_sim.json", "feasibility": "analyses/M702_feasibility.json", "audit": "analyses/M702_audit.json"},
+        "status": "pre-registered simulation gate failed; no trend inference; the slopes below are descriptive and every interval includes zero",
+        "estimand": "apparent short-horizon step resistance (R_sh): dV/dI between co-timed pre- and post-step samples of the logged BMS current and pack voltage, discharge-direction steps; it depends on the sampling gap, is estimated, and is never pooled across the fast and slow strata",
+        "constants": study["constants"], "feasibility": {"nCleanDrives": feas["nCleanDrives"], "exclusionCounts": feas["exclusionCounts"]},
+        "strata": strata, "stepThresholdSensitivity": thr, "chargeDirectionSensitivity": chg,
+        "simulation": {"reps": sim["reps"], "design": sim["design"], "strata": simb, "gateReading": "gate failed as pre-registered (null false-positive above 0.075 in both strata; slow coverage below 0.90); the estimator bias criterion passed"},
+        "reading": ["a trend in R_sh over dates can partly reflect a trend in the event sampling gap (gap-date correlation per stratum in the strata entries); this is a property of the estimand, not only of the simulation",
+                    "a blind audit diagnosed three issues of the simulation generator: the null truth depended on the event gap, which trends with date (so the null carried an implied drift); the realised intraclass correlation was above the intended 0.3; the planted-drift base was fixed at 130 mOhm instead of the observed stratum median; the gate result is kept as run (not rewritten), a corrected re-run was not done because the real intervals include zero either way",
+                    "method disagreement between R_sh and the vreg regression proxy (different estimands and time horizons; rank correlation and mean difference shown), not a bias claim and not a validation of either",
+                    "no equivalence test, no degradation rate, no fast-versus-slow contrast; the M622 look schedule applies and the block stays provisional",
+                    "estimated from logged channels; a time constant was not fitted (not identifiable at the logged cadence)"],
+        "followUps": "an optional Rev 2 (gap-free null, realised ICC 0.3, observed-median base, gap covariate as a pre-registered sensitivity) is low value-of-information; a gap-matched primary can be considered at the next M622 look",
+        "provenance": {"masterMd5": md5, "scriptSha256": study["scriptSha256"], "stepEventsSha256": study["stepEventsSha256"], "verified": False}}
+
+
+def splice(A, blk, md5, now=None):
+    import copy, datetime
+    import stamp_common as _sc
+    new = copy.deepcopy(A)
+    new[KEY] = blk
+    old = (A.get("_artifactStamps") or {}).get(KEY)
+    st = copy.deepcopy(A["_artifactStamps"]["fuelContract"])
+    ts = (now or datetime.datetime.now(datetime.timezone.utc)).isoformat()
+    st.update(corpusHash=md5, generatedAt=ts, computationStatus="computed", upstreamHashes={"driveMasterMd5": md5},
+              computationStatusNote="M702: derived by tools/step_events.py and tools/step_resistance.py from raw drive CSVs and drive_master.csv (spec analyses/M702_spec.md Rev 1 + errata 12); estimated, provisional, simulation gate failed")
+    st.pop("carriedForward", None)
+    st["includedInReleaseAt"] = st["computedAt"] = st["generatedAt"]
+    new["_artifactStamps"][KEY] = _sc.carry_declared(old, st)
+    bad = [k for k in set(A) | set(new) if k not in (KEY, "_artifactStamps") and A.get(k) != new.get(k)]
+    bad += [k for k in set(A["_artifactStamps"]) | set(new["_artifactStamps"]) if k != KEY and A["_artifactStamps"].get(k) != new["_artifactStamps"].get(k)]
+    return new, bad
+
+
+def do_splice(dry=False):
+    study = json.load(open("analyses/M702_study.json", encoding="utf-8")); sim = json.load(open("analyses/M702_sim.json", encoding="utf-8"))
+    feas = json.load(open("analyses/M702_feasibility.json", encoding="utf-8"))
+    md5 = hashlib.md5(open("drive_master.csv", "rb").read()).hexdigest()
+    blk = assemble(study, sim, feas, md5)
+    raw = open("summary_arrays.json", encoding="utf-8", newline="").read()
+    new, bad = splice(json.loads(raw), blk, md5)
+    print(json.dumps({"outsideKey": bad}))
+    if bad:
+        return 1
+    if not dry:
+        open("summary_arrays.json", "w", encoding="utf-8", newline="").write(json.dumps(new, ensure_ascii=False, indent=1) + ("\n" if raw.endswith("\n") else ""))
+    return 0
+
+
 def main(argv):
     if "--study" in argv:
         nb = int(argv[argv.index("--nb") + 1]) if "--nb" in argv else 4000
         r = run_study(argv[argv.index("--study") + 1], nb)
         print(json.dumps({c: {k: v.get(k) for k in ("status", "nEvents", "primary")} for c, v in r["strata"].items()}, default=str)[:2500]); return
+    if "--splice" in argv:
+        sys.exit(do_splice("--dry-run" in argv))
     if "--sim" in argv:
         reps = int(argv[argv.index("--reps") + 1]) if "--reps" in argv else 500
         w = int(argv[argv.index("--workers") + 1]) if "--workers" in argv else 6
