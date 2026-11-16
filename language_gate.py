@@ -641,6 +641,8 @@ RULES = [
          rx=r"(?:valid|proper|exact) (?:confidence )?interval (?:of|for) the (?:matched|early|late)"),
     Rule("M686-parked-time-wording", "regex", "M687 (spec analyses/M686_spec.md Rev 1.1, Director review): parked pack temperatures and hours are MODELLED from the Q3 relaxation and the driver-recorded ambient, never measured or validated in the interior of a gap; the budget is not calendar ageing, damage, an annual or lifetime figure",
          rx=r"measured parked (?:pack )?temperature|validated parked (?:pack )?temperature|calendar (?:ageing|aging) (?:of|from|while|during) (?:the )?(?:pack|parked|parking)|(?:damage|degradation) (?:while|during|from) (?:being )?(?:parked|parking)|parked (?:hours|time) (?:per year|a year|annual)|annual parked|parked lifetime exposure|lifetime exposure (?:of|from) (?:the )?parked"),
+    Rule("M690-torque-decoder-wording", "regex", "M691 (spec analyses/M690_spec.md Rev 1.1, Director review): the actual-torque and target-torque registers are logged / app-calculated PID values; the decoder status is 'consistent with' a x256 relation, never measured, true, validated, calibrated or corrected torque, and the rejected rpm PID is never a motor speed",
+         rx=r"(?<!not )(?<!not a )(?<!not an )(?<!never )(?<!never a )(?:measured|true|validated|calibrated|corrected) (?:motor |shaft )?torque|rpm (?:pid )?(?:is|as|gives|measures|reads) (?:the |a )?motor speed"),
 ]
 
 _SCAN_CACHE = {}

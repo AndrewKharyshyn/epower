@@ -1111,6 +1111,24 @@
    ]
   },
   {
+   "id": "torque_decoder",
+   "title": "M691 (N-11 part): does the logged actual-torque register x 256 reproduce the logged target-torque register: scale (ratio and L1 slope), tolerance shares, sign, timing, rpm-artefact sign agreement, residual by band; day-clustered percentile bootstrap seed 42, 4000 draws; pairing of adjacent log rows (spec Rev 1.2); per-drive statistics cached by raw sha256 in torque_decoder_cache/; descriptive additive payload block torqueDecoder + stamp; no display; needs raw/; spec analyses/M690_spec.md",
+   "cmd": [
+    "python3",
+    "tools/torque_decoder.py"
+   ],
+   "needs": [
+    "exposure_vector"
+   ],
+   "verified": false,
+   "outputs": [
+    "summary_arrays.json"
+   ],
+   "writes": [
+    "arrays:torqueDecoder"
+   ]
+  },
+  {
    "id": "change_points",
    "title": "M676 (N-07): exploratory change-point detection on per-drive series (implied offset, loaded p95 cell spread, apparent Ah per 100 % SOC, a1_R, logged sample period): exact segment-neighbourhood DP, fixed BIC, day-clustered wild residual bootstrap intervals (seed 42, 4000 draws, conditional on K), pack-temperature control, reference comparison after the primary results are hashed; reads drive_master.csv and four sidecars only; non-blocking; additive payload block changePoints + stamp; no display; spec analyses/M675_spec.md Rev 1.1",
    "cmd": [

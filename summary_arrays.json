@@ -68317,6 +68317,27 @@
    },
    "computedAt": "2026-11-16T05:40:20.611315+00:00",
    "computationStatusNote": "M687: derived by tools/parked_time_budget.py from drive_master.csv, seasonal_drive_master.csv, cached end-of-drive pack temperatures, seasonalFits.Q3 and exposureVector (spec analyses/M686_spec.md Rev 1.1); modelled, exploratory"
+  },
+  "torqueDecoder": {
+   "corpusHash": "77bbe275f8c22eaf62d8636867764af3",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": "11a89dc0c881bd0a60e9e957ccd1936a",
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-11-16T07:29:18.651478+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3"
+   },
+   "computationStatus": "computed",
+   "includedInReleaseAt": "2026-11-16T07:29:18.651478+00:00",
+   "inputBasis": {
+    "nDrives": 665,
+    "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-11-16T07:29:18.651478+00:00",
+   "computationStatusNote": "M691: derived by tools/torque_decoder.py from raw drive CSVs (cached by sha256), drive_master.csv, cadence_regime.csv and pid_epoch.csv (spec analyses/M690_spec.md Rev 1.1); descriptive"
   }
  },
  "ambientTable": {
@@ -451244,6 +451265,486 @@
    "seed": 42,
    "nPermutations": 1000,
    "nDrives": 665
+  }
+ },
+ "torqueDecoder": {
+  "label": "logged actual-torque register x 256 against the logged target-torque register (descriptive; both registers are logged / app-calculated PID values and are not shaft-torque readings)",
+  "spec": "analyses/M690_spec.md",
+  "status": "exploratory",
+  "population": {
+   "nMasterDrives": 665,
+   "nWithActualRegister": 649,
+   "nMissingActualRegister": 16,
+   "nCanonicalClean": 647,
+   "nEligible": 408,
+   "nExcludedFewActive": 239,
+   "excludedOverAllDrivesWithRegisters": {
+    "nDrivesWithRegisters": 649,
+    "nClean": 647,
+    "nNonClean": 2,
+    "eligible": 408,
+    "cleanExcludedFewActivePairs": 239,
+    "nonCleanExcluded": 2,
+    "eligibleIncludesNonCleanDrives": false,
+    "identity": "eligible + cleanExcludedFewActivePairs + nonCleanExcluded = nDrivesWithRegisters (a clean drive with an active pair but actual = 0 throughout would add a separate exclusion; none occurs)"
+   },
+   "scope": "holds only for samples with |target| >= 20 N.m; low-load behaviour is not shown",
+   "rowFormation": "Rev 1.2: each actual-register row paired with the latest preceding (or same) target-register row within 0.5 s, each target row used once; no forward fill, no interpolation, no averaging (the two PIDs are logged on adjacent rows, never on one row)",
+   "medianShareOfActualRowsPaired": 1.0
+  },
+  "D1_scale": {
+   "ratioMedian": {
+    "estimate": 260.24888,
+    "ci95": [
+     260.0,
+     260.55556
+    ],
+    "nDrives": 408,
+    "nDays": 117,
+    "essDays": 54.473,
+    "status": "supported"
+   },
+   "l1SlopeThroughOrigin": {
+    "estimate": 258.5,
+    "ci95": [
+     258.34783,
+     258.66667
+    ],
+    "nDrives": 408,
+    "nDays": 117,
+    "essDays": 54.473,
+    "status": "supported"
+   },
+   "shareActiveActualZero": 0.0,
+   "note": "ratio statistic excludes active samples with actual = 0 (their share is shown)"
+  },
+  "D2_tolerance": {
+   "within3Nm_lag0": {
+    "estimate": 0.68438,
+    "ci95": [
+     0.67751,
+     0.69207
+    ],
+    "nDrives": 408,
+    "nDays": 117,
+    "essDays": 54.473,
+    "status": "supported"
+   },
+   "within10Nm_lag0": {
+    "estimate": 0.99334,
+    "ci95": [
+     0.99138,
+     0.99511
+    ],
+    "nDrives": 408,
+    "nDays": 117,
+    "essDays": 54.473,
+    "status": "supported"
+   },
+   "withinOnePercentOfRange_lag0": {
+    "estimate": 0.32444,
+    "ci95": [
+     0.31723,
+     0.33334
+    ],
+    "nDrives": 408,
+    "nDays": 117,
+    "essDays": 54.473,
+    "status": "supported"
+   },
+   "resolutionLimited": true,
+   "quantisationOnlyShare3": 1.0
+  },
+  "D3_sign": {
+   "oppositeSignShare": {
+    "estimate": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "nDrives": 408,
+    "nDays": 117,
+    "essDays": 54.473,
+    "status": "supported"
+   },
+   "note": "samples with actual = 0 are excluded and counted in D1"
+  },
+  "D4_timing": {
+   "nDrives": 408,
+   "shareOfDrivesBestLagNotZero": 0.0,
+   "tol3AtBestLagMedian": 0.68438,
+   "tol3AtLag0Median": 0.68438,
+   "bestLagSecondsMedianByCadence": {
+    "fast": 0.0,
+    "slow": 0.0
+   },
+   "note": "descriptive; the status uses lag 0 only"
+  },
+  "D5_registerGrid": {
+   "medianActualStep": 0.015625,
+   "step256": 4.0,
+   "resolutionLimited": true
+  },
+  "D6_rpmArtefactSigns": {
+   "nDrives": 154,
+   "medianNegRpmShare": 0.28924,
+   "medianNegTargetShare": 0.29454,
+   "medianSignAgreement": 0.99029,
+   "sensitivityAllDrivesMeetingCondition": {
+    "nDrives": 211,
+    "medianNegRpmShare": 0.2963,
+    "medianNegTargetShare": 0.29787,
+    "medianSignAgreement": 0.9899,
+    "population": "every drive with the rpm PID and at least 50 pairs above 20 km/h, clean or not, with or without 200 active pairs"
+   },
+   "population": "primary = eligible drives; the all-drives variant is a sensitivity (clarification of the spec)",
+   "note": "agreement of signs between the rejected rpm PID and the target register above 20 km/h; the rpm PID is not a speed and the M102 rejection is unchanged; read inside this tool only"
+  },
+  "D7_residualByBand": {
+   "abs target 100-200": {
+    "nDrives": 342,
+    "medianOfDriveMedianResidualNm": -1.8,
+    "note": "signed residual 256 x actual - target, N.m (descriptive)"
+   },
+   "abs target 20-50": {
+    "nDrives": 408,
+    "medianOfDriveMedianResidualNm": -1.758,
+    "note": "signed residual 256 x actual - target, N.m (descriptive)"
+   },
+   "abs target 200-up": {
+    "nDrives": 2,
+    "medianOfDriveMedianResidualNm": -3.113,
+    "note": "signed residual 256 x actual - target, N.m (descriptive)"
+   },
+   "abs target 50-100": {
+    "nDrives": 408,
+    "medianOfDriveMedianResidualNm": -1.875,
+    "note": "signed residual 256 x actual - target, N.m (descriptive)"
+   },
+   "speed 0-20": {
+    "nDrives": 151,
+    "medianOfDriveMedianResidualNm": -1.625,
+    "note": "signed residual 256 x actual - target, N.m (descriptive)"
+   },
+   "speed 100-400": {
+    "nDrives": 64,
+    "medianOfDriveMedianResidualNm": -1.789,
+    "note": "signed residual 256 x actual - target, N.m (descriptive)"
+   },
+   "speed 20-60": {
+    "nDrives": 154,
+    "medianOfDriveMedianResidualNm": -1.879,
+    "note": "signed residual 256 x actual - target, N.m (descriptive)"
+   },
+   "speed 60-100": {
+    "nDrives": 109,
+    "medianOfDriveMedianResidualNm": -1.805,
+    "note": "signed residual 256 x actual - target, N.m (descriptive)"
+   }
+  },
+  "splits": {
+   "byCadence": {
+    "fast": {
+     "nDrives": 180,
+     "nDays": 42,
+     "essDays": 25.16,
+     "status": "supported",
+     "tol3Median": 0.69786,
+     "oppositeSignMedian": 0.0,
+     "ratioMedian": 259.975
+    },
+    "slow": {
+     "nDrives": 228,
+     "nDays": 79,
+     "essDays": 30.995,
+     "status": "supported",
+     "tol3Median": 0.67137,
+     "oppositeSignMedian": 0.0,
+     "ratioMedian": 260.641
+    }
+   },
+   "byPidSetClass": {
+    "A": {
+     "nDrives": 375,
+     "nDays": 110,
+     "essDays": 50.583,
+     "status": "supported",
+     "tol3Median": 0.68875,
+     "oppositeSignMedian": 0.0,
+     "ratioMedian": 260.217
+    },
+    "B": {
+     "nDrives": 33,
+     "nDays": 7,
+     "essDays": 6.389,
+     "status": "exploratory",
+     "tol3Median": 0.65888,
+     "oppositeSignMedian": 0.0,
+     "ratioMedian": 260.38
+    }
+   },
+   "bySoftwareUpdate": {
+    "before 2026-08-25": {
+     "nDrives": 193,
+     "nDays": 59,
+     "essDays": 29.22,
+     "status": "supported",
+     "tol3Median": 0.67635,
+     "oppositeSignMedian": 0.0,
+     "ratioMedian": 260.581
+    },
+    "from 2026-08-25": {
+     "nDrives": 215,
+     "nDays": 58,
+     "essDays": 26.445,
+     "status": "supported",
+     "tol3Median": 0.68875,
+     "oppositeSignMedian": 0.0,
+     "ratioMedian": 260.0
+    }
+   },
+   "byMonth": {
+    "2026-05": {
+     "nDrives": 16,
+     "nDays": 6,
+     "essDays": 2.61,
+     "status": "exploratory",
+     "tol3Median": 0.64036,
+     "oppositeSignMedian": 0.0,
+     "ratioMedian": 260.244
+    },
+    "2026-06": {
+     "nDrives": 43,
+     "nDays": 17,
+     "essDays": 7.434,
+     "status": "exploratory",
+     "tol3Median": 0.68359,
+     "oppositeSignMedian": 0.0,
+     "ratioMedian": 262.143
+    },
+    "2026-07": {
+     "nDrives": 74,
+     "nDays": 20,
+     "essDays": 9.684,
+     "status": "exploratory",
+     "tol3Median": 0.64732,
+     "oppositeSignMedian": 0.0,
+     "ratioMedian": 260.586
+    },
+    "2026-08": {
+     "nDrives": 81,
+     "nDays": 22,
+     "essDays": 14.873,
+     "status": "supported",
+     "tol3Median": 0.70909,
+     "oppositeSignMedian": 0.0,
+     "ratioMedian": 260.472
+    },
+    "2026-09": {
+     "nDrives": 78,
+     "nDays": 27,
+     "essDays": 15.476,
+     "status": "supported",
+     "tol3Median": 0.67888,
+     "oppositeSignMedian": 0.0,
+     "ratioMedian": 259.451
+    },
+    "2026-10": {
+     "nDrives": 79,
+     "nDays": 17,
+     "essDays": 9.594,
+     "status": "exploratory",
+     "tol3Median": 0.70726,
+     "oppositeSignMedian": 0.0,
+     "ratioMedian": 259.944
+    },
+    "2026-11": {
+     "nDrives": 37,
+     "nDays": 8,
+     "essDays": 7.141,
+     "status": "exploratory",
+     "tol3Median": 0.66351,
+     "oppositeSignMedian": 0.0,
+     "ratioMedian": 260.432
+    }
+   },
+   "note": "descriptive; no contrast drawn between strata"
+  },
+  "decision": {
+   "d1Passed": true,
+   "d1RatioContains256": false,
+   "d1SlopeContains256": false,
+   "d2LowerBoundPassed": true,
+   "d3UpperBoundPassed": true,
+   "status": "decoder consistent with x256",
+   "resolutionLimited": true,
+   "rule": "D1: both the ratio-scale and the L1-slope interval lie entirely within [250, 262]; D2 (within 3 N.m, lag 0): interval lower bound >= 0.60; D3: interval upper bound <= 0.05; a point value that passes with a failing bound gives 'tolerance not established'",
+   "externalFiguresKnownWhenThresholdsSet": true,
+   "scaleWindow": [
+    250.0,
+    262.0
+   ],
+   "contains256": false,
+   "empiricalScale": {
+    "ratioMedian": 260.24888,
+    "ratioCi95": [
+     260.0,
+     260.55556
+    ],
+    "l1Slope": 258.5,
+    "l1SlopeCi95": [
+     258.34783,
+     258.66667
+    ],
+    "offsetFrom256Percent": 1.66
+   },
+   "statementWhenWindowPassesButExcludes256": "within the pre-registered window around x256; the scale interval excludes 256 (about +1.7 %)",
+   "windowEvidence": "the window [250, 262] was set while an external scale figure was already known, so a pass of D1 is weak evidence; the pre-registered status string is kept as it is"
+  },
+  "sensitivities": {
+   "variants": {
+    "tol0.25s": {
+     "nDrives": 406,
+     "ratioMedian": {
+      "estimate": 260.25368,
+      "ci95": [
+       260.0,
+       260.54576
+      ],
+      "nDrives": 406,
+      "nDays": 117,
+      "essDays": 54.448,
+      "status": "supported"
+     },
+     "l1Slope": {
+      "estimate": 258.47743,
+      "ci95": [
+       258.34286,
+       258.6455
+      ],
+      "nDrives": 406,
+      "nDays": 117,
+      "essDays": 54.448,
+      "status": "supported"
+     },
+     "tol3": {
+      "estimate": 0.68497,
+      "ci95": [
+       0.67823,
+       0.69225
+      ],
+      "nDrives": 406,
+      "nDays": 117,
+      "essDays": 54.448,
+      "status": "supported"
+     },
+     "oppositeSignShare": {
+      "estimate": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "nDrives": 406,
+      "nDays": 117,
+      "essDays": 54.448,
+      "status": "supported"
+     },
+     "decision": "decoder consistent with x256"
+    },
+    "tol1.0s": {
+     "nDrives": 408,
+     "ratioMedian": {
+      "estimate": 260.24888,
+      "ci95": [
+       260.0,
+       260.55556
+      ],
+      "nDrives": 408,
+      "nDays": 117,
+      "essDays": 54.476,
+      "status": "supported"
+     },
+     "l1Slope": {
+      "estimate": 258.5,
+      "ci95": [
+       258.33333,
+       258.66667
+      ],
+      "nDrives": 408,
+      "nDays": 117,
+      "essDays": 54.476,
+      "status": "supported"
+     },
+     "tol3": {
+      "estimate": 0.68427,
+      "ci95": [
+       0.67751,
+       0.69207
+      ],
+      "nDrives": 408,
+      "nDays": 117,
+      "essDays": 54.476,
+      "status": "supported"
+     },
+     "oppositeSignShare": {
+      "estimate": 0.0,
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "nDrives": 408,
+      "nDays": 117,
+      "essDays": 54.476,
+      "status": "supported"
+     },
+     "decision": "decoder consistent with x256"
+    }
+   },
+   "notEstimable": {
+    "followingTarget": "untested (no pairs within 0.5 s for almost every drive): the next target row lies a full polling cycle after the actual row (median 1.08 s over drives), so the adjacent preceding-target pair is the within-cycle pair and the following-target pairing is not estimable under the 0.5 s tolerance"
+   },
+   "descriptiveOnly": "never changes the status; a different status is reported as method disagreement",
+   "statusDisagreement": false,
+   "tol3ByPairGapBand": {
+    "gap<=0.1s": {
+     "nDrives": 404,
+     "medianTol3": 0.69191
+    },
+    "gap>0.1s": {
+     "nDrives": 191,
+     "medianTol3": 0.60622
+    }
+   }
+  },
+  "pairGeometry": {
+   "medianPairGapS": 0.0435,
+   "medianUnpairedActualRows": 0.0,
+   "medianRpmRowsOnActualRowsShare": 1.0,
+   "timestampOnlyGeometryFile": "analyses/M691_pair_geometry.json (committed before the first torque statistic)",
+   "wording": "paired adjacent log rows (target logged before actual, median gap given above); the row order shows the logger polling sequence, not a causal response"
+  },
+  "externalComparison": {
+   "policy": "external audit figures are known-answer targets and are never typed into the repository; the comparison is qualitative",
+   "scale": "agrees with the external audit scale within the pre-registered window",
+   "toleranceShareAt3Nm": "lower than the external audit share (reported as a disagreement); this statistic is resolution-limited (see D5) and mixes scale offset with torque change inside a pair gap",
+   "negativeRpmShareAbove20kmh": "D6 reports it per drive over the eligible drives (primary) and over all drives meeting the condition (sensitivity); the external statistic is over all samples above 20 km/h and is not a drive median"
+  },
+  "reading": [
+   "both registers are logged / app-calculated PID values; the status says only that the logged actual-torque register x 256 does or does not track the logged target-torque register with the stated residual; neither register is a shaft-torque reading",
+   "holds only for |target| >= 20 N.m; the thresholds were set with the external audit figures known; the spec hash is recorded in the CHANGELOG before the first run",
+   "the rejected rpm PID is used for sign agreement only; it is not a motor speed and the M102 rejection is unchanged",
+   "strata (cadence, PID-set class, software-update period, month) are reported side by side with no contrast; no article figure",
+   "the scale intervals (ratio [260.0, 260.55556], L1 slope [258.34783, 258.66667]) lie within the pre-registered window [250, 262] but do not contain 256: the logged actual-torque register x 256 sits about 1.7 % below the logged target on adjacent-row pairs; the status is the window rule, not equality with 256",
+   "the within-3-N.m share is resolution-limited: 256 x the actual-register step exceeds 3 N.m, so agreement at 3 N.m is partly set by the register grid (see D5); the 10 N.m share is the grid-robust reading",
+   "D2 at lag 0 is the tolerance share on adjacent-row pairs and mixes scale agreement with how much the torque changes within one pair gap; the row order shows the logger polling sequence, not a causal response"
+  ],
+  "provenance": {
+   "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+   "scriptSha256": "84630ed80b06e33ed3d4287d467aa0532a9191ab9d974ed1deda3207ae434b7c",
+   "specSha256Rev1_1": "d0a261e96e7d7efab4c1855c9a9d20e8b9f29c4f8a8ee74257b25d367e7888af",
+   "specSha256Rev1_2": "13f2f9fb9d9a3baf565f0fa6ef6fe30a73cc19c17e6fa4e3480e4a24dd9d91b8",
+   "seed": 42,
+   "nBoot": 4000
   }
  }
 }
