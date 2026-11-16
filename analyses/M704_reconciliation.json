@@ -1,0 +1,13 @@
+{
+ "spec": "analyses/M703_spec.md Rev 1 item 1c (two independent passes)",
+ "passes": ["analyses/M704_transcription_pass1.json (author session)", "analyses/M704_transcription_pass2.json (independent agent, worked from the PDFs only, had not seen pass 1)"],
+ "agreed": ["S1 2000 rpm steady-state point, minimum BSFC 217 g/kWh (TR89 pdf 22; repeated pdf 19)", "S2 earlier about 2350 rpm (conventional e-POWER, 1.2 L NA engine; noise about 2 dBA lower at 2000 rpm)",
+            "S3 more than 80 % of operating time at the best-efficiency point in the WLTC plus Extra High mode (TR89 pdf 23)", "S4 engine speeds below 1500 rpm not used (TR89 pdf 16; a design statement)",
+            "S5 maximum output 106 kW at 4400 rpm, domestic market, compression ratio 8.0 (TR89 pdf 23-24)", "S6 start frequency lower at low vehicle speed and higher at high speed; against a second-generation compact car: fewer starts at 20-40 km/h, more at 40-60 km/h (TR89 pdf 17; qualitative, no counts, practical driving pattern)",
+            "S7 low-SOC start at low load and low speed (TR89 pdf 30)", "S9 battery assist coordinated with boost pressure with the turbo engine (TR90 pdf 39)", "S10 TR90 pdf 48: optimum-BSFC speed 2000-2400 rpm and maximum output at 4800 rpm belong to a different, dedicated engine concept (not the X-TRAIL VC-TURBO)"],
+ "disagreed_and_resolved": [{"id": "S8", "pass1": "0.15 G below about 30 km/h avoids engine starts (TR90 pdf 36), recorded as generic", "pass2": "this and the about 70 % fewer starts at 30 km/h or less come from Japanese-market NOTE / SERENA / KICKS data, not X-TRAIL values",
+                            "resolution": "the text of TR90 pdf 35-36 contains no X-TRAIL mention and section 3.1 there describes the original NOTE e-POWER project: pass 2 is right; the figures are other-vehicle market data and are NOT X-TRAIL values (resolved from the page text, not by averaging)"}],
+ "added_by_pass2": ["the denominator of the 80 % statement is not stated and the vehicle is not named explicitly in that sentence (TR89 pdf 23)", "the 116 kW generator rating (TR89 pdf 16, Table 1) is not the 106 kW engine output",
+                    "no SOC threshold number in either document; no acceleration threshold for the X-TRAIL", "the start-frequency figures (TR89 pdf 17, Fig. 6) have no counts: qualitative direction only", "the turbo-assist statement carries no numbers; it also states that the rate of engine rpm increase is limited (TR90 pdf 39)"],
+ "pageImageHashes": "analyses/M704_sources.json (citedPageImageSha256 for the pages of pass 1); pass 2 pages beyond those are read from the text layer and, for charts, visually"
+}

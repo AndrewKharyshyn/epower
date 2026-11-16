@@ -1,0 +1,469 @@
+{
+ "pass": 2,
+ "task": "M704 second-pass transcription (blind to pass 1)",
+ "method": "pymupdf text layer; pages rendered to PNG and read visually where noted; printedPage = pdfPage - 4 in both docs",
+ "statements": [
+  {
+   "topic": "T1",
+   "doc": "TR89",
+   "pdfPage": 22,
+   "printedPage": 18,
+   "paraphrase": "Design of the new engine took the best thermal-efficiency point as the steady-state operating point, reached after a quick-start transition.",
+   "numbers": [
+    "2000 rpm",
+    "217 g/kWh minimum BSFC"
+   ],
+   "vehicle": "X-TRAIL e-POWER, 1.5 L 3-cyl VC-TURBO",
+   "testProcedure": "none stated",
+   "source": "text",
+   "note": ""
+  },
+  {
+   "topic": "T1",
+   "doc": "TR89",
+   "pdfPage": 19,
+   "printedPage": 15,
+   "paraphrase": "Best fuel-economy point of the engine stated again, tied to class-leading vehicle fuel economy.",
+   "numbers": [
+    "BSFC 217 g/kWh @ 2000 rpm",
+    "18.4 km/L 4WD",
+    "19.7 km/L 2WD"
+   ],
+   "vehicle": "X-TRAIL e-POWER VC-TURBO",
+   "testProcedure": "WLTC (vehicle km/L)",
+   "source": "text",
+   "note": ""
+  },
+  {
+   "topic": "T1",
+   "doc": "TR89",
+   "pdfPage": 23,
+   "printedPage": 19,
+   "paraphrase": "Earlier fixed-point speed of conventional e-POWER was about 2350 rpm; the new engine moves it to 2000 rpm, with roughly 2 dBA less noise.",
+   "numbers": [
+    "around 2350 rpm",
+    "2350 -> 2000 rpm",
+    "about 2 dBA"
+   ],
+   "vehicle": "Earlier value: conventional e-POWER (HR12DE 1.2 L NA compact car); new: X-TRAIL",
+   "testProcedure": "none",
+   "source": "text",
+   "note": ""
+  },
+  {
+   "topic": "T1",
+   "doc": "TR89",
+   "pdfPage": 17,
+   "printedPage": 13,
+   "paraphrase": "Fixed-point engine speed vs vehicle speed is lower for the SUV than for the 2nd-gen compact over a wide range; speed rises in steps with vehicle speed.",
+   "numbers": [
+    "axis 1000-3000 rpm; step levels roughly 1500-2500 rpm (approx.)"
+   ],
+   "vehicle": "X-TRAIL vs 2nd-gen compact",
+   "testProcedure": "none",
+   "source": "chart (rendered and read visually, Fig. 8)",
+   "note": "reading uncertainty about +-200 rpm; no numeric labels on curves, not for quantitative use"
+  },
+  {
+   "topic": "T1",
+   "doc": "TR89",
+   "pdfPage": 16,
+   "printedPage": 12,
+   "paraphrase": "Existing e-POWER is based on fixed-point operation; high compression ratio at the fixed point, low at the output point. Fig. 4 map marks a best-thermal-efficiency point and operating-point-frequency bubbles.",
+   "numbers": [
+    "no number in text"
+   ],
+   "vehicle": "X-TRAIL VC-TURBO",
+   "testProcedure": "none",
+   "source": "text+chart",
+   "note": "Fig. 4 has no torque tick labels; speed ticks 1200-5200"
+  },
+  {
+   "topic": "T2",
+   "doc": "TR89",
+   "pdfPage": 23,
+   "printedPage": 19,
+   "paraphrase": "More than 80% of operating time is at the best fuel-efficiency point in the stated mode. Fig. 7 efficiency map shows frequency bubbles (largest near 2000 rpm, low-mid torque, read visually).",
+   "numbers": [
+    ">80% of operating time"
+   ],
+   "vehicle": "New X-TRAIL e-POWER (text does not name the vehicle explicitly)",
+   "testProcedure": "'WLTC + Extra High' mode",
+   "source": "text (80%); bubble position read visually",
+   "note": "denominator (engine-on time vs total time) not stated; ambiguity"
+  },
+  {
+   "topic": "T2",
+   "doc": "TR89",
+   "pdfPage": 17,
+   "printedPage": 13,
+   "paraphrase": "WLTC trace figure shows engine operation over the cycle with EV-drive segments and an EV ratio label.",
+   "numbers": [
+    "EV ratio 65%"
+   ],
+   "vehicle": "Presumably new X-TRAIL (caption: Engine operation time)",
+   "testProcedure": "WLTC",
+   "source": "chart label (text layer and visual)",
+   "note": "vehicle identity in caption not explicit"
+  },
+  {
+   "topic": "T3",
+   "doc": "TR89",
+   "pdfPage": 16,
+   "printedPage": 12,
+   "paraphrase": "Exhaust designed for e-POWER operating points that do not use engine speeds below a stated limit.",
+   "numbers": [
+    "no engine speed below 1500 rpm"
+   ],
+   "vehicle": "X-TRAIL e-POWER (new system)",
+   "testProcedure": "none",
+   "source": "text",
+   "note": "design statement about points used, not a measured minimum"
+  },
+  {
+   "topic": "T3",
+   "doc": "TR89",
+   "pdfPage": 32,
+   "printedPage": 28,
+   "paraphrase": "Exhaust resonance moved to the ICE idle range because e-POWER does not use the idle range (no number).",
+   "numbers": [
+    "none"
+   ],
+   "vehicle": "X-TRAIL e-POWER",
+   "testProcedure": "none",
+   "source": "text",
+   "note": "supporting only"
+  },
+  {
+   "topic": "T4",
+   "doc": "TR89",
+   "pdfPage": 23,
+   "printedPage": 19,
+   "paraphrase": "Compression ratio 8.0 chosen for maximum-output point; max output reached at 4400 rpm (domestic market). Fig. 8 chart also labels 4400 rpm.",
+   "numbers": [
+    "106 kW @ 4400 rpm",
+    "C/R 8.0",
+    "C/R range 8.0-14.0"
+   ],
+   "vehicle": "X-TRAIL VC-TURBO, domestic market",
+   "testProcedure": "none",
+   "source": "text; chart label",
+   "note": ""
+  },
+  {
+   "topic": "T4",
+   "doc": "TR89",
+   "pdfPage": 24,
+   "printedPage": 20,
+   "paraphrase": "Summary repeats 106 kW at as low as 4400 rpm.",
+   "numbers": [
+    "106 kW",
+    "4400 rpm"
+   ],
+   "vehicle": "X-TRAIL VC-TURBO",
+   "testProcedure": "none",
+   "source": "text",
+   "note": ""
+  },
+  {
+   "topic": "T4",
+   "doc": "TR89",
+   "pdfPage": 16,
+   "printedPage": 12,
+   "paraphrase": "Table 1: generator and engine specs of the new system vs 2nd-gen compact.",
+   "numbers": [
+    "Generator power 116 kW (C-seg SUV) vs 60 kW (compact)",
+    "engine 1.5 L gasoline L3 turbo vs 1.2 L NA",
+    "front motor 150 kW, rear motor 100 kW"
+   ],
+   "vehicle": "X-TRAIL vs compact",
+   "testProcedure": "none",
+   "source": "table (text layer + visual)",
+   "note": "generator rating 116 kW exceeds 106 kW engine max; they are different quantities"
+  },
+  {
+   "topic": "T5",
+   "doc": "TR89",
+   "pdfPage": 17,
+   "printedPage": 13,
+   "paraphrase": "Compared with 2nd-gen compact, the SUV starts fewer times in 20-40 km/h and more in 40-60 km/h; starts reduced at low speed where engine noise exceeds road noise, increased at high speed where it is masked.",
+   "numbers": [
+    "20-40 km/h: decrease",
+    "40-60 km/h: increase",
+    "bins 0-20, 20-40, 40-60, 60-80 km/h"
+   ],
+   "vehicle": "X-TRAIL (C-seg SUV) vs Compact 1st and 2nd gen",
+   "testProcedure": "'practical driving pattern' (no named cycle)",
+   "source": "text; Fig. 6 bar chart read visually (0-20 SUV slightly above 2nd gen; 60-80 about equal to 2nd gen)",
+   "note": "bars unlabelled, no counts; qualitative only"
+  },
+  {
+   "topic": "T5",
+   "doc": "TR89",
+   "pdfPage": 29,
+   "printedPage": 25,
+   "paraphrase": "At low speed the engine is run as little as possible depending on SOC; at high speed power is actively generated because wind noise masks it.",
+   "numbers": [
+    "none"
+   ],
+   "vehicle": "X-TRAIL e-POWER",
+   "testProcedure": "none",
+   "source": "text",
+   "note": ""
+  },
+  {
+   "topic": "T6",
+   "doc": "TR89",
+   "pdfPage": 17,
+   "printedPage": 13,
+   "paraphrase": "Engine start/stop depends on vehicle speed, battery SOC and required driving force; larger charge per generation cycle reduces starts per run.",
+   "numbers": [
+    "none"
+   ],
+   "vehicle": "X-TRAIL",
+   "testProcedure": "none",
+   "source": "text",
+   "note": ""
+  },
+  {
+   "topic": "T6",
+   "doc": "TR89",
+   "pdfPage": 10,
+   "printedPage": 6,
+   "paraphrase": "Starts minimized at low speed; control detects road surface and starts the engine when road noise is high.",
+   "numbers": [
+    "none"
+   ],
+   "vehicle": "X-TRAIL",
+   "testProcedure": "none",
+   "source": "text",
+   "note": ""
+  },
+  {
+   "topic": "T6",
+   "doc": "TR89",
+   "pdfPage": 29,
+   "printedPage": 25,
+   "paraphrase": "Road-surface detection starts engine on road noise; earlier e-POWER had to start for brake negative pressure (Fig. 2, urban driving).",
+   "numbers": [
+    "10 min time axis in Fig. 2"
+   ],
+   "vehicle": "Previous e-POWER (conventional brake)",
+   "testProcedure": "urban pattern",
+   "source": "text",
+   "note": ""
+  },
+  {
+   "topic": "T6",
+   "doc": "TR89",
+   "pdfPage": 16,
+   "printedPage": 12,
+   "paraphrase": "Electric control brake removes need to start engine for brake negative pressure; regeneration stops after full charge, avoiding engine speed-up to dissipate energy.",
+   "numbers": [
+    "none"
+   ],
+   "vehicle": "X-TRAIL",
+   "testProcedure": "none",
+   "source": "text",
+   "note": ""
+  },
+  {
+   "topic": "T6",
+   "doc": "TR89",
+   "pdfPage": 30,
+   "printedPage": 26,
+   "paraphrase": "Engine start due to SOC decrease in low-load low-speed case runs at lower speed than before; strong accelerator requests require engine power.",
+   "numbers": [
+    "none"
+   ],
+   "vehicle": "X-TRAIL",
+   "testProcedure": "none",
+   "source": "text",
+   "note": ""
+  },
+  {
+   "topic": "T6",
+   "doc": "TR90",
+   "pdfPage": 35,
+   "printedPage": 39,
+   "paraphrase": "Engine stops at low speed and EV drive uses battery; with high SOC EV drive possible at higher speed. Control keeps EV mode at lowest possible SOC; tuning factors are an upper acceleration limit and permissible SOC.",
+   "numbers": [
+    "none in this paragraph"
+   ],
+   "vehicle": "NOTE/SERENA/KICKS lineage (earlier concept, not X-TRAIL specific)",
+   "testProcedure": "none",
+   "source": "text",
+   "note": ""
+  },
+  {
+   "topic": "T6",
+   "doc": "TR90",
+   "pdfPage": 36,
+   "printedPage": 40,
+   "paraphrase": "Market data indicates starts can be avoided in normal driving by holding EV mode up to about 0.15 G below about 30 km/h. New concept cut starts at 30 km/h or less by about 70% versus conventional management.",
+   "numbers": [
+    "approx. 0.15 G",
+    "below approx. 30 km/h",
+    "approx. 70% fewer starts at <=30 km/h"
+   ],
+   "vehicle": "Japanese-market NOTE/SERENA/KICKS data (NOT the X-TRAIL e-POWER)",
+   "testProcedure": "none (market data)",
+   "source": "text; Fig. 7 histogram axis 0.03-0.18 G, peak near 0.11-0.12 G read visually",
+   "note": "see T8"
+  },
+  {
+   "topic": "T6",
+   "doc": "TR90",
+   "pdfPage": 36,
+   "printedPage": 40,
+   "paraphrase": "Start timing in conventional management set by driver operation, SOC and other offline conditions; road-noise estimation adds a trigger when road noise exceeds engine noise.",
+   "numbers": [
+    "none"
+   ],
+   "vehicle": "NOTE (2020) and earlier",
+   "testProcedure": "none",
+   "source": "text",
+   "note": ""
+  },
+  {
+   "topic": "T6",
+   "doc": "TR90",
+   "pdfPage": 39,
+   "printedPage": 43,
+   "paraphrase": "When SOC is high EV mode is held as long as possible; when SOC is low the engine starts early to avoid an acceleration drop.",
+   "numbers": [
+    "none"
+   ],
+   "vehicle": "e-POWER general",
+   "testProcedure": "none",
+   "source": "text",
+   "note": ""
+  },
+  {
+   "topic": "T7",
+   "doc": "TR90",
+   "pdfPage": 39,
+   "printedPage": 43,
+   "paraphrase": "With the turbocharged engine, battery assist is actively used for smooth strong acceleration; assist is coordinated with rising boost pressure to hide turbo lag, while the rate of engine revolution increase is limited for linear sound.",
+   "numbers": [
+    "none"
+   ],
+   "vehicle": "X-TRAIL e-POWER with VC-TURBO (first e-POWER with turbo)",
+   "testProcedure": "none",
+   "source": "text; Fig. 19 not quantified",
+   "note": ""
+  },
+  {
+   "topic": "T7",
+   "doc": "TR90",
+   "pdfPage": 35,
+   "printedPage": 39,
+   "paraphrase": "Warns that mis-set acceleration limit or SOC can deplete battery-assisted power during acceleration.",
+   "numbers": [
+    "none"
+   ],
+   "vehicle": "general e-POWER",
+   "testProcedure": "none",
+   "source": "text",
+   "note": ""
+  },
+  {
+   "topic": "T8",
+   "doc": "TR89",
+   "pdfPage": 23,
+   "printedPage": 19,
+   "paraphrase": "Comparison engine with C/R 10.5 needs max output at 5600 rpm to avoid knock (generic comparator); VC-TURBO is 1200 rpm lower and about 3.5 dBA quieter.",
+   "numbers": [
+    "C/R 10.5",
+    "5600 rpm",
+    "1200 rpm",
+    "3.5 dBA"
+   ],
+   "vehicle": "Generic comparative engine, not the product",
+   "testProcedure": "none",
+   "source": "text",
+   "note": ""
+  },
+  {
+   "topic": "T8",
+   "doc": "TR89",
+   "pdfPage": 23,
+   "printedPage": 19,
+   "paraphrase": "2350 rpm fixed point belongs to conventional e-POWER with 1.2 L NA (HR12DE) engine.",
+   "numbers": [
+    "2350 rpm",
+    "1.2 L NA"
+   ],
+   "vehicle": "2nd-gen compact e-POWER",
+   "testProcedure": "none",
+   "source": "text",
+   "note": ""
+  },
+  {
+   "topic": "T8",
+   "doc": "TR90",
+   "pdfPage": 36,
+   "printedPage": 40,
+   "paraphrase": "0.15 G, 30 km/h and 70% figures derive from Japanese-market NOTE/SERENA data and the KICKS concept.",
+   "numbers": [
+    "0.15 G",
+    "30 km/h",
+    "70%"
+   ],
+   "vehicle": "NOTE/SERENA/KICKS",
+   "testProcedure": "none",
+   "source": "text",
+   "note": ""
+  },
+  {
+   "topic": "T8",
+   "doc": "TR89",
+   "pdfPage": 19,
+   "printedPage": 15,
+   "paraphrase": "18.4/19.7 km/L are vehicle-level WLTC values, not engine BSFC.",
+   "numbers": [
+    "18.4 km/L",
+    "19.7 km/L"
+   ],
+   "vehicle": "X-TRAIL 4WD/2WD",
+   "testProcedure": "WLTC",
+   "source": "text",
+   "note": ""
+  },
+  {
+   "topic": "T8",
+   "doc": "TR89",
+   "pdfPage": 56,
+   "printedPage": 52,
+   "paraphrase": "Generic simulator article: engine starts when battery capacity falls below a preset value and stops above another; thresholds not given, not X-TRAIL specific.",
+   "numbers": [
+    "none"
+   ],
+   "vehicle": "generic test-bench model",
+   "testProcedure": "none",
+   "source": "text",
+   "note": ""
+  },
+  {
+   "topic": "T8",
+   "doc": "TR90",
+   "pdfPage": 39,
+   "printedPage": 43,
+   "paraphrase": "Other-manufacturer conventional HEV 4WD compared for engine revolutions during acceleration.",
+   "numbers": [
+    "none"
+   ],
+   "vehicle": "competitor HEV",
+   "testProcedure": "evaluator subjective",
+   "source": "text+chart",
+   "note": ""
+  }
+ ],
+ "notFound": {
+  "T1_earlier_value_other_than_2350": "not found",
+  "T3_lowest_speed_of_operating_points": "only the design statement 'no speeds below 1500 rpm'; no minimum operating-point list",
+  "T6_explicit_SOC_threshold_numbers": "NOT found in either document",
+  "T6_acceleration_threshold_X_TRAIL": "NOT found for X-TRAIL; only 0.15 G for Japanese-market NOTE/SERENA/KICKS data",
+  "T5_numeric_start_counts": "NOT found; Fig. 6 bars unlabelled"
+ }
+}
