@@ -68422,6 +68422,48 @@
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
    "computedAt": "2026-11-16T18:15:22.764330+00:00"
+  },
+  "oemCrossCheckC1": {
+   "corpusHash": "77bbe275f8c22eaf62d8636867764af3",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": "11a89dc0c881bd0a60e9e957ccd1936a",
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-11-16T20:24:12.568800+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3"
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M705: derived by tools/rpm_window_cache.py and tools/oem_crosscheck.py from raw drive CSVs and drive_master.csv (spec analyses/M705_spec.md Rev 1 + errata 13); descriptive occupancy of the logged engine speed, not blind, not an efficiency",
+   "includedInReleaseAt": "2026-11-16T20:24:12.568800+00:00",
+   "inputBasis": {
+    "nDrives": 665,
+    "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-11-16T20:24:12.568800+00:00"
+  },
+  "oemCrossCheckC2": {
+   "corpusHash": "77bbe275f8c22eaf62d8636867764af3",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": "11a89dc0c881bd0a60e9e957ccd1936a",
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-11-16T20:24:12.568800+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3"
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M705: derived by tools/rpm_window_cache.py and tools/oem_crosscheck.py from raw drive CSVs and drive_master.csv (spec analyses/M705_spec.md Rev 1 + errata 13); descriptive occupancy of the logged engine speed, not blind, not an efficiency",
+   "includedInReleaseAt": "2026-11-16T20:24:12.568800+00:00",
+   "inputBasis": {
+    "nDrives": 665,
+    "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-11-16T20:24:12.568800+00:00"
   }
  },
  "ambientTable": {
@@ -455365,6 +455407,3352 @@
    "scriptSha256": "472e2421383ce39e9bd82f9fa300669e836f5401195628a2eb102f14034487eb",
    "stepEventsSha256": "1b0668fe351207a55b4395b95420cb50324f8571c64cb8a8d76435b9d2ce643d",
    "verified": false
+  }
+ },
+ "oemCrossCheckC1": {
+  "spec": "analyses/M705_spec.md Rev 1 + errata 13 (parent: analyses/M703_spec.md Rev 2)",
+  "status": "descriptive",
+  "market": "EU market (stated by the owner in chat, 2026-11-16)",
+  "thresholds": "engine-on means strictly above 400 rpm (the rule of record) and, separately, strictly above 300 rpm (the RPM-onset threshold); both are reported, no headline",
+  "grid": "occupancy of the logged 1 s mean engine speed (state-machine grid: 1 s mean, last observation carried at most 3 s; app-logged), time-weighted ratio of sums, calendar-day clusters, day-clustered percentile bootstrap (seed 42, 4000 draws)",
+  "strata": "fast-polled and slow-polled strata are reported separately and never pooled (the B6 cadence-invariance check is failed and stays shown); 12 drives without a cadence regime are outside both strata; cohorts all, cold, shoulder, warm within each stratum; cold rows are exploratory; no contrast, no p-value, no cell selection; every pre-registered cell is listed including not estimable ones, in a fixed order",
+  "support": "a cell below 10 drives on 5 days is not estimable (counts shown); a cell with no occupancy reads 'no occupancy observed in n drives on d days'; a cell with fewer than 40 days carries the flag 'interval endpoints Monte Carlo-sensitive'",
+  "notBlind": "not blind: the engine-speed distribution (mode near 1,975 to 2,025 rpm, mode near 1,475 to 1,525 rpm) and the state-machine band occupancy were seen before the specification",
+  "reconciliation": {
+   "comparedDrives": 651,
+   "equal": 223,
+   "medianAbsDiffSeconds": 1.0,
+   "maxAbsDiffSeconds": 92,
+   "missingInSidecar": 0,
+   "reading": "disclosure, not a gate: the state-machine grid (1 s mean, carry 3 s) differs from the engine-on rule grid of the sidecar (M543 grid); thr 400, no ramp exclusion"
+  },
+  "provenance": {
+   "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+   "scriptSha256": "bb124e9c217202996f33f8189beccd096d565f2749f3214d5ca131bb559ca040",
+   "cacheCodeHash": "b96a8f18d829",
+   "nDrives": 651,
+   "verified": false
+  },
+  "output": "C1: occupancy of a window of 150 rpm either side of the quoted best-BSFC point (width and translation sensitivities)",
+  "quoted": [
+   {
+    "id": "S1",
+    "doc": "TR89",
+    "pdfPage": 22,
+    "printedPage": 18,
+    "quantity": "steady-state operation point at the best thermal efficiency",
+    "paraphrase": "2000 rpm; minimum brake specific fuel consumption 217 g/kWh",
+    "sourceSha256Prefix": "f47fa07279209267",
+    "applies": "X-TRAIL e-POWER, VC-TURBO engine"
+   }
+  ],
+  "notComparable80": {
+   "id": "S3",
+   "doc": "TR89",
+   "pdfPage": 23,
+   "printedPage": 19,
+   "quantity": "share of operating time at the best fuel-efficiency point",
+   "paraphrase": "more than 80 % of the operating time in the WLTC plus Extra High mode (Fig. 7)",
+   "sourceSha256Prefix": "f47fa07279209267",
+   "applies": "X-TRAIL e-POWER",
+   "label": "not comparable: WLTC plus Extra High test procedure, denominator not stated; never a target for an all-driving share"
+  },
+  "rows": {
+   "fast": {
+    "all": {
+     "thr300": {
+      "C1_150": {
+       "pct": 62.349562804504245,
+       "ci95": [
+        56.97336552269869,
+        66.34988561045691
+       ],
+       "drives": 208,
+       "days": 44,
+       "seconds": 92979,
+       "inWindowSeconds": 57972,
+       "windowRpm": [
+        1850,
+        2150
+       ]
+      },
+      "C1_100": {
+       "pct": 60.99764462943245,
+       "ci95": [
+        55.92035853571902,
+        64.7257523021425
+       ],
+       "drives": 208,
+       "days": 44,
+       "seconds": 92979,
+       "inWindowSeconds": 56715,
+       "windowRpm": [
+        1900,
+        2100
+       ]
+      },
+      "C1_250": {
+       "pct": 64.86733563492832,
+       "ci95": [
+        58.80387291599892,
+        69.25705542176962
+       ],
+       "drives": 208,
+       "days": 44,
+       "seconds": 92979,
+       "inWindowSeconds": 60313,
+       "windowRpm": [
+        1750,
+        2250
+       ]
+      },
+      "C1_150_shift-50": {
+       "pct": 62.18500951827832,
+       "ci95": [
+        57.19684866181225,
+        65.88203656893324
+       ],
+       "drives": 208,
+       "days": 44,
+       "seconds": 92979,
+       "inWindowSeconds": 57819,
+       "windowRpm": [
+        1800,
+        2100
+       ]
+      },
+      "C1_150_shift-25": {
+       "pct": 62.2688994289033,
+       "ci95": [
+        57.076792160165496,
+        66.09772207743742
+       ],
+       "drives": 208,
+       "days": 44,
+       "seconds": 92979,
+       "inWindowSeconds": 57897,
+       "windowRpm": [
+        1825,
+        2125
+       ]
+      },
+      "C1_150_shift+25": {
+       "pct": 62.43883027350262,
+       "ci95": [
+        56.866210674667094,
+        66.56244537213271
+       ],
+       "drives": 208,
+       "days": 44,
+       "seconds": 92979,
+       "inWindowSeconds": 58055,
+       "windowRpm": [
+        1875,
+        2175
+       ]
+      },
+      "C1_150_shift+50": {
+       "pct": 62.46464255369492,
+       "ci95": [
+        56.67090317511311,
+        66.67002547995395
+       ],
+       "drives": 208,
+       "days": 44,
+       "seconds": 92979,
+       "inWindowSeconds": 58079,
+       "windowRpm": [
+        1900,
+        2200
+       ]
+      }
+     },
+     "thr400": {
+      "C1_150": {
+       "pct": 63.278538214683344,
+       "ci95": [
+        57.80545609603073,
+        67.31619945890638
+       ],
+       "drives": 208,
+       "days": 44,
+       "seconds": 91614,
+       "inWindowSeconds": 57972,
+       "windowRpm": [
+        1850,
+        2150
+       ]
+      },
+      "C1_100": {
+       "pct": 61.90647717597747,
+       "ci95": [
+        56.76575727491184,
+        65.69738179631275
+       ],
+       "drives": 208,
+       "days": 44,
+       "seconds": 91614,
+       "inWindowSeconds": 56715,
+       "windowRpm": [
+        1900,
+        2100
+       ]
+      },
+      "C1_250": {
+       "pct": 65.83382452463597,
+       "ci95": [
+        59.664395568371546,
+        70.26551960342806
+       ],
+       "drives": 208,
+       "days": 44,
+       "seconds": 91614,
+       "inWindowSeconds": 60313,
+       "windowRpm": [
+        1750,
+        2250
+       ]
+      },
+      "C1_150_shift-50": {
+       "pct": 63.11153317178597,
+       "ci95": [
+        58.06563337202852,
+        66.88285163250916
+       ],
+       "drives": 208,
+       "days": 44,
+       "seconds": 91614,
+       "inWindowSeconds": 57819,
+       "windowRpm": [
+        1800,
+        2100
+       ]
+      },
+      "C1_150_shift-25": {
+       "pct": 63.19667299757679,
+       "ci95": [
+        57.925874868593844,
+        67.08110112230256
+       ],
+       "drives": 208,
+       "days": 44,
+       "seconds": 91614,
+       "inWindowSeconds": 57897,
+       "windowRpm": [
+        1825,
+        2125
+       ]
+      },
+      "C1_150_shift+25": {
+       "pct": 63.3691357216146,
+       "ci95": [
+        57.71839535257989,
+        67.53397581421393
+       ],
+       "drives": 208,
+       "days": 44,
+       "seconds": 91614,
+       "inWindowSeconds": 58055,
+       "windowRpm": [
+        1875,
+        2175
+       ]
+      },
+      "C1_150_shift+50": {
+       "pct": 63.395332591088696,
+       "ci95": [
+        57.47057889740183,
+        67.67499000661583
+       ],
+       "drives": 208,
+       "days": 44,
+       "seconds": 91614,
+       "inWindowSeconds": 58079,
+       "windowRpm": [
+        1900,
+        2200
+       ]
+      }
+     }
+    },
+    "cold": {
+     "thr300": {
+      "C1_150": {
+       "pct": 51.95522236855435,
+       "ci95": [
+        34.07920983821302,
+        63.740307036924825
+       ],
+       "drives": 44,
+       "days": 9,
+       "seconds": 19742,
+       "inWindowSeconds": 10257,
+       "windowRpm": [
+        1850,
+        2150
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_100": {
+       "pct": 50.557187721608756,
+       "ci95": [
+        33.495660410306755,
+        61.63466325241428
+       ],
+       "drives": 44,
+       "days": 9,
+       "seconds": 19742,
+       "inWindowSeconds": 9981,
+       "windowRpm": [
+        1900,
+        2100
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_250": {
+       "pct": 54.386586971938,
+       "ci95": [
+        35.129127027192006,
+        67.22168024340516
+       ],
+       "drives": 44,
+       "days": 9,
+       "seconds": 19742,
+       "inWindowSeconds": 10737,
+       "windowRpm": [
+        1750,
+        2250
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift-50": {
+       "pct": 51.74247796575828,
+       "ci95": [
+        34.43075026339269,
+        62.94785150254868
+       ],
+       "drives": 44,
+       "days": 9,
+       "seconds": 19742,
+       "inWindowSeconds": 10215,
+       "windowRpm": [
+        1800,
+        2100
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift-25": {
+       "pct": 51.87417688177489,
+       "ci95": [
+        34.177654043264674,
+        63.34624765618368
+       ],
+       "drives": 44,
+       "days": 9,
+       "seconds": 19742,
+       "inWindowSeconds": 10241,
+       "windowRpm": [
+        1825,
+        2125
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift+25": {
+       "pct": 51.95522236855435,
+       "ci95": [
+        33.82593949402721,
+        63.98153972102727
+       ],
+       "drives": 44,
+       "days": 9,
+       "seconds": 19742,
+       "inWindowSeconds": 10257,
+       "windowRpm": [
+        1875,
+        2175
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift+50": {
+       "pct": 52.04639854118124,
+       "ci95": [
+        33.638896344320685,
+        64.40029202531944
+       ],
+       "drives": 44,
+       "days": 9,
+       "seconds": 19742,
+       "inWindowSeconds": 10275,
+       "windowRpm": [
+        1900,
+        2200
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      }
+     },
+     "thr400": {
+      "C1_150": {
+       "pct": 52.51382346917878,
+       "ci95": [
+        34.41268771854665,
+        64.45234641396867
+       ],
+       "drives": 44,
+       "days": 9,
+       "seconds": 19532,
+       "inWindowSeconds": 10257,
+       "windowRpm": [
+        1850,
+        2150
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_100": {
+       "pct": 51.10075773090313,
+       "ci95": [
+        33.79525311402108,
+        62.39347925527275
+       ],
+       "drives": 44,
+       "days": 9,
+       "seconds": 19532,
+       "inWindowSeconds": 9981,
+       "windowRpm": [
+        1900,
+        2100
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_250": {
+       "pct": 54.97132910096252,
+       "ci95": [
+        35.43695228821811,
+        68.01637227355107
+       ],
+       "drives": 44,
+       "days": 9,
+       "seconds": 19532,
+       "inWindowSeconds": 10737,
+       "windowRpm": [
+        1750,
+        2250
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift-50": {
+       "pct": 52.29879172639771,
+       "ci95": [
+        34.73766326884336,
+        63.64368499981462
+       ],
+       "drives": 44,
+       "days": 9,
+       "seconds": 19532,
+       "inWindowSeconds": 10215,
+       "windowRpm": [
+        1800,
+        2100
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift-25": {
+       "pct": 52.431906614785994,
+       "ci95": [
+        34.49900245272937,
+        64.09231293770361
+       ],
+       "drives": 44,
+       "days": 9,
+       "seconds": 19532,
+       "inWindowSeconds": 10241,
+       "windowRpm": [
+        1825,
+        2125
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift+25": {
+       "pct": 52.51382346917878,
+       "ci95": [
+        34.143326198002306,
+        64.73581176094757
+       ],
+       "drives": 44,
+       "days": 9,
+       "seconds": 19532,
+       "inWindowSeconds": 10257,
+       "windowRpm": [
+        1875,
+        2175
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift+50": {
+       "pct": 52.60597993037067,
+       "ci95": [
+        33.92438518045353,
+        65.11909388927221
+       ],
+       "drives": 44,
+       "days": 9,
+       "seconds": 19532,
+       "inWindowSeconds": 10275,
+       "windowRpm": [
+        1900,
+        2200
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      }
+     }
+    },
+    "shoulder": {
+     "thr300": {
+      "C1_150": {
+       "pct": 58.30909226523458,
+       "ci95": [
+        48.47253173129663,
+        64.15149436546795
+       ],
+       "drives": 53,
+       "days": 20,
+       "seconds": 26814,
+       "inWindowSeconds": 15635,
+       "windowRpm": [
+        1850,
+        2150
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_100": {
+       "pct": 57.014992168270304,
+       "ci95": [
+        47.68440782770104,
+        62.82509028997598
+       ],
+       "drives": 53,
+       "days": 20,
+       "seconds": 26814,
+       "inWindowSeconds": 15288,
+       "windowRpm": [
+        1900,
+        2100
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_250": {
+       "pct": 60.964421570821216,
+       "ci95": [
+        50.04859308941818,
+        67.35028696415277
+       ],
+       "drives": 53,
+       "days": 20,
+       "seconds": 26814,
+       "inWindowSeconds": 16347,
+       "windowRpm": [
+        1750,
+        2250
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift-50": {
+       "pct": 58.1748340419184,
+       "ci95": [
+        49.06393721434298,
+        63.64581031093868
+       ],
+       "drives": 53,
+       "days": 20,
+       "seconds": 26814,
+       "inWindowSeconds": 15599,
+       "windowRpm": [
+        1800,
+        2100
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift-25": {
+       "pct": 58.271798314313415,
+       "ci95": [
+        48.788115149266,
+        63.88776963532618
+       ],
+       "drives": 53,
+       "days": 20,
+       "seconds": 26814,
+       "inWindowSeconds": 15625,
+       "windowRpm": [
+        1825,
+        2125
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift+25": {
+       "pct": 58.458268068919224,
+       "ci95": [
+        48.24186157681224,
+        64.53083717551078
+       ],
+       "drives": 53,
+       "days": 20,
+       "seconds": 26814,
+       "inWindowSeconds": 15675,
+       "windowRpm": [
+        1875,
+        2175
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift+50": {
+       "pct": 58.503020810024616,
+       "ci95": [
+        47.86851877609966,
+        64.86153489278777
+       ],
+       "drives": 53,
+       "days": 20,
+       "seconds": 26814,
+       "inWindowSeconds": 15687,
+       "windowRpm": [
+        1900,
+        2200
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      }
+     },
+     "thr400": {
+      "C1_150": {
+       "pct": 59.25266229582749,
+       "ci95": [
+        49.15566219840543,
+        64.99645002866691
+       ],
+       "drives": 53,
+       "days": 20,
+       "seconds": 26387,
+       "inWindowSeconds": 15635,
+       "windowRpm": [
+        1850,
+        2150
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_100": {
+       "pct": 57.937620798120285,
+       "ci95": [
+        48.36809023370826,
+        63.65404632931116
+       ],
+       "drives": 53,
+       "days": 20,
+       "seconds": 26387,
+       "inWindowSeconds": 15288,
+       "windowRpm": [
+        1900,
+        2100
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_250": {
+       "pct": 61.950960700344865,
+       "ci95": [
+        50.81003594333094,
+        68.27775087420538
+       ],
+       "drives": 53,
+       "days": 20,
+       "seconds": 26387,
+       "inWindowSeconds": 16347,
+       "windowRpm": [
+        1750,
+        2250
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift-50": {
+       "pct": 59.116231477621554,
+       "ci95": [
+        49.79258226321963,
+        64.56613050317681
+       ],
+       "drives": 53,
+       "days": 20,
+       "seconds": 26387,
+       "inWindowSeconds": 15599,
+       "windowRpm": [
+        1800,
+        2100
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift-25": {
+       "pct": 59.21476484632584,
+       "ci95": [
+        49.481123113117505,
+        64.77421635650275
+       ],
+       "drives": 53,
+       "days": 20,
+       "seconds": 26387,
+       "inWindowSeconds": 15625,
+       "windowRpm": [
+        1825,
+        2125
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift+25": {
+       "pct": 59.40425209383408,
+       "ci95": [
+        48.94463506267632,
+        65.3826506879735
+       ],
+       "drives": 53,
+       "days": 20,
+       "seconds": 26387,
+       "inWindowSeconds": 15675,
+       "windowRpm": [
+        1875,
+        2175
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift+50": {
+       "pct": 59.44972903323606,
+       "ci95": [
+        48.527799646165015,
+        65.7567114118791
+       ],
+       "drives": 53,
+       "days": 20,
+       "seconds": 26387,
+       "inWindowSeconds": 15687,
+       "windowRpm": [
+        1900,
+        2200
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      }
+     }
+    },
+    "warm": {
+     "thr300": {
+      "C1_150": {
+       "pct": 69.10367705663141,
+       "ci95": [
+        65.52663571108316,
+        72.01659013114808
+       ],
+       "drives": 111,
+       "days": 29,
+       "seconds": 46423,
+       "inWindowSeconds": 32080,
+       "windowRpm": [
+        1850,
+        2150
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_100": {
+       "pct": 67.73797471081146,
+       "ci95": [
+        64.43244572471622,
+        70.8956797213201
+       ],
+       "drives": 111,
+       "days": 29,
+       "seconds": 46423,
+       "inWindowSeconds": 31446,
+       "windowRpm": [
+        1900,
+        2100
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_250": {
+       "pct": 71.57874329534928,
+       "ci95": [
+        67.40461611740936,
+        74.2500083903601
+       ],
+       "drives": 111,
+       "days": 29,
+       "seconds": 46423,
+       "inWindowSeconds": 33229,
+       "windowRpm": [
+        1750,
+        2250
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift-50": {
+       "pct": 68.94211920815113,
+       "ci95": [
+        65.65692228472606,
+        72.23822599726627
+       ],
+       "drives": 111,
+       "days": 29,
+       "seconds": 46423,
+       "inWindowSeconds": 32005,
+       "windowRpm": [
+        1800,
+        2100
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift-25": {
+       "pct": 68.99812592895763,
+       "ci95": [
+        65.54919817201605,
+        72.11266079505938
+       ],
+       "drives": 111,
+       "days": 29,
+       "seconds": 46423,
+       "inWindowSeconds": 32031,
+       "windowRpm": [
+        1825,
+        2125
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift+25": {
+       "pct": 69.19630355642677,
+       "ci95": [
+        65.40572272083996,
+        71.93714015547296
+       ],
+       "drives": 111,
+       "days": 29,
+       "seconds": 46423,
+       "inWindowSeconds": 32123,
+       "windowRpm": [
+        1875,
+        2175
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift+50": {
+       "pct": 69.18337892854835,
+       "ci95": [
+        65.26300656187082,
+        71.82856749197788
+       ],
+       "drives": 111,
+       "days": 29,
+       "seconds": 46423,
+       "inWindowSeconds": 32117,
+       "windowRpm": [
+        1900,
+        2200
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      }
+     },
+     "thr400": {
+      "C1_150": {
+       "pct": 70.20461757303863,
+       "ci95": [
+        66.62166568955509,
+        73.23387013857656
+       ],
+       "drives": 111,
+       "days": 29,
+       "seconds": 45695,
+       "inWindowSeconds": 32080,
+       "windowRpm": [
+        1850,
+        2150
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_100": {
+       "pct": 68.81715723820987,
+       "ci95": [
+        65.50181472652085,
+        72.09804683176579
+       ],
+       "drives": 111,
+       "days": 29,
+       "seconds": 45695,
+       "inWindowSeconds": 31446,
+       "windowRpm": [
+        1900,
+        2100
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_250": {
+       "pct": 72.71911587701061,
+       "ci95": [
+        68.55819846404657,
+        75.40834739398545
+       ],
+       "drives": 111,
+       "days": 29,
+       "seconds": 45695,
+       "inWindowSeconds": 33229,
+       "windowRpm": [
+        1750,
+        2250
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift-50": {
+       "pct": 70.04048582995951,
+       "ci95": [
+        66.7397730980003,
+        73.46794372983096
+       ],
+       "drives": 111,
+       "days": 29,
+       "seconds": 45695,
+       "inWindowSeconds": 32005,
+       "windowRpm": [
+        1800,
+        2100
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift-25": {
+       "pct": 70.09738483422694,
+       "ci95": [
+        66.66960699397765,
+        73.33812258060529
+       ],
+       "drives": 111,
+       "days": 29,
+       "seconds": 45695,
+       "inWindowSeconds": 32031,
+       "windowRpm": [
+        1825,
+        2125
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift+25": {
+       "pct": 70.29871977240398,
+       "ci95": [
+        66.49427945995583,
+        73.15126904879507
+       ],
+       "drives": 111,
+       "days": 29,
+       "seconds": 45695,
+       "inWindowSeconds": 32123,
+       "windowRpm": [
+        1875,
+        2175
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift+50": {
+       "pct": 70.28558923295765,
+       "ci95": [
+        66.36897196093908,
+        73.02939561865375
+       ],
+       "drives": 111,
+       "days": 29,
+       "seconds": 45695,
+       "inWindowSeconds": 32117,
+       "windowRpm": [
+        1900,
+        2200
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      }
+     }
+    }
+   },
+   "slow": {
+    "all": {
+     "thr300": {
+      "C1_150": {
+       "pct": 63.78925451699578,
+       "ci95": [
+        60.79425291049252,
+        66.48779121685783
+       ],
+       "drives": 408,
+       "days": 88,
+       "seconds": 272803,
+       "inWindowSeconds": 174019,
+       "windowRpm": [
+        1850,
+        2150
+       ]
+      },
+      "C1_100": {
+       "pct": 62.23575253937823,
+       "ci95": [
+        59.2416306144599,
+        64.95173580722637
+       ],
+       "drives": 408,
+       "days": 88,
+       "seconds": 272803,
+       "inWindowSeconds": 169781,
+       "windowRpm": [
+        1900,
+        2100
+       ]
+      },
+      "C1_250": {
+       "pct": 66.59237618354636,
+       "ci95": [
+        63.60352485322835,
+        69.26266812276599
+       ],
+       "drives": 408,
+       "days": 88,
+       "seconds": 272803,
+       "inWindowSeconds": 181666,
+       "windowRpm": [
+        1750,
+        2250
+       ]
+      },
+      "C1_150_shift-50": {
+       "pct": 63.378335282236634,
+       "ci95": [
+        60.360926888057755,
+        66.1536366464924
+       ],
+       "drives": 408,
+       "days": 88,
+       "seconds": 272803,
+       "inWindowSeconds": 172898,
+       "windowRpm": [
+        1800,
+        2100
+       ]
+      },
+      "C1_150_shift-25": {
+       "pct": 63.557218945539454,
+       "ci95": [
+        60.51901159721227,
+        66.31210595482439
+       ],
+       "drives": 408,
+       "days": 88,
+       "seconds": 272803,
+       "inWindowSeconds": 173386,
+       "windowRpm": [
+        1825,
+        2125
+       ]
+      },
+      "C1_150_shift+25": {
+       "pct": 63.95017650099156,
+       "ci95": [
+        60.94380855040999,
+        66.65121795092467
+       ],
+       "drives": 408,
+       "days": 88,
+       "seconds": 272803,
+       "inWindowSeconds": 174458,
+       "windowRpm": [
+        1875,
+        2175
+       ]
+      },
+      "C1_150_shift+50": {
+       "pct": 64.09863527893755,
+       "ci95": [
+        61.10416271630593,
+        66.78585293722942
+       ],
+       "drives": 408,
+       "days": 88,
+       "seconds": 272803,
+       "inWindowSeconds": 174863,
+       "windowRpm": [
+        1900,
+        2200
+       ]
+      }
+     },
+     "thr400": {
+      "C1_150": {
+       "pct": 65.01300118056697,
+       "ci95": [
+        61.9464478873291,
+        67.82195080781851
+       ],
+       "drives": 408,
+       "days": 88,
+       "seconds": 267668,
+       "inWindowSeconds": 174019,
+       "windowRpm": [
+        1850,
+        2150
+       ]
+      },
+      "C1_100": {
+       "pct": 63.42969648968125,
+       "ci95": [
+        60.3550491445828,
+        66.23690673219518
+       ],
+       "drives": 408,
+       "days": 88,
+       "seconds": 267668,
+       "inWindowSeconds": 169781,
+       "windowRpm": [
+        1900,
+        2100
+       ]
+      },
+      "C1_250": {
+       "pct": 67.86989853101603,
+       "ci95": [
+        64.81220158188059,
+        70.64509153991692
+       ],
+       "drives": 408,
+       "days": 88,
+       "seconds": 267668,
+       "inWindowSeconds": 181666,
+       "windowRpm": [
+        1750,
+        2250
+       ]
+      },
+      "C1_150_shift-50": {
+       "pct": 64.5941987835677,
+       "ci95": [
+        61.48280576936855,
+        67.48022886333119
+       ],
+       "drives": 408,
+       "days": 88,
+       "seconds": 267668,
+       "inWindowSeconds": 172898,
+       "windowRpm": [
+        1800,
+        2100
+       ]
+      },
+      "C1_150_shift-25": {
+       "pct": 64.77651418921948,
+       "ci95": [
+        61.66977145720898,
+        67.64747857741874
+       ],
+       "drives": 408,
+       "days": 88,
+       "seconds": 267668,
+       "inWindowSeconds": 173386,
+       "windowRpm": [
+        1825,
+        2125
+       ]
+      },
+      "C1_150_shift+25": {
+       "pct": 65.17701032622503,
+       "ci95": [
+        62.11602075979095,
+        67.95471563054026
+       ],
+       "drives": 408,
+       "days": 88,
+       "seconds": 267668,
+       "inWindowSeconds": 174458,
+       "windowRpm": [
+        1875,
+        2175
+       ]
+      },
+      "C1_150_shift+50": {
+       "pct": 65.32831716903029,
+       "ci95": [
+        62.259232095953834,
+        68.07194498660567
+       ],
+       "drives": 408,
+       "days": 88,
+       "seconds": 267668,
+       "inWindowSeconds": 174863,
+       "windowRpm": [
+        1900,
+        2200
+       ]
+      }
+     }
+    },
+    "cold": {
+     "thr300": {
+      "C1_150": {
+       "status": "not estimable (below the support floor of 10 drives on 5 days)",
+       "drives": 6,
+       "days": 3,
+       "seconds": 757
+      },
+      "C1_100": {
+       "status": "not estimable (below the support floor of 10 drives on 5 days)",
+       "drives": 6,
+       "days": 3,
+       "seconds": 757
+      },
+      "C1_250": {
+       "status": "not estimable (below the support floor of 10 drives on 5 days)",
+       "drives": 6,
+       "days": 3,
+       "seconds": 757
+      },
+      "C1_150_shift-50": {
+       "status": "not estimable (below the support floor of 10 drives on 5 days)",
+       "drives": 6,
+       "days": 3,
+       "seconds": 757
+      },
+      "C1_150_shift-25": {
+       "status": "not estimable (below the support floor of 10 drives on 5 days)",
+       "drives": 6,
+       "days": 3,
+       "seconds": 757
+      },
+      "C1_150_shift+25": {
+       "status": "not estimable (below the support floor of 10 drives on 5 days)",
+       "drives": 6,
+       "days": 3,
+       "seconds": 757
+      },
+      "C1_150_shift+50": {
+       "status": "not estimable (below the support floor of 10 drives on 5 days)",
+       "drives": 6,
+       "days": 3,
+       "seconds": 757
+      }
+     },
+     "thr400": {
+      "C1_150": {
+       "status": "not estimable (below the support floor of 10 drives on 5 days)",
+       "drives": 6,
+       "days": 3,
+       "seconds": 756
+      },
+      "C1_100": {
+       "status": "not estimable (below the support floor of 10 drives on 5 days)",
+       "drives": 6,
+       "days": 3,
+       "seconds": 756
+      },
+      "C1_250": {
+       "status": "not estimable (below the support floor of 10 drives on 5 days)",
+       "drives": 6,
+       "days": 3,
+       "seconds": 756
+      },
+      "C1_150_shift-50": {
+       "status": "not estimable (below the support floor of 10 drives on 5 days)",
+       "drives": 6,
+       "days": 3,
+       "seconds": 756
+      },
+      "C1_150_shift-25": {
+       "status": "not estimable (below the support floor of 10 drives on 5 days)",
+       "drives": 6,
+       "days": 3,
+       "seconds": 756
+      },
+      "C1_150_shift+25": {
+       "status": "not estimable (below the support floor of 10 drives on 5 days)",
+       "drives": 6,
+       "days": 3,
+       "seconds": 756
+      },
+      "C1_150_shift+50": {
+       "status": "not estimable (below the support floor of 10 drives on 5 days)",
+       "drives": 6,
+       "days": 3,
+       "seconds": 756
+      }
+     }
+    },
+    "shoulder": {
+     "thr300": {
+      "C1_150": {
+       "pct": 63.32676670299271,
+       "ci95": [
+        54.86099509265562,
+        67.33511621807162
+       ],
+       "drives": 108,
+       "days": 35,
+       "seconds": 47716,
+       "inWindowSeconds": 30217,
+       "windowRpm": [
+        1850,
+        2150
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_100": {
+       "pct": 61.979210327772655,
+       "ci95": [
+        54.06510551716935,
+        65.83459010737667
+       ],
+       "drives": 108,
+       "days": 35,
+       "seconds": 47716,
+       "inWindowSeconds": 29574,
+       "windowRpm": [
+        1900,
+        2100
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_250": {
+       "pct": 65.86260373878783,
+       "ci95": [
+        56.63558176914899,
+        70.26191795027442
+       ],
+       "drives": 108,
+       "days": 35,
+       "seconds": 47716,
+       "inWindowSeconds": 31427,
+       "windowRpm": [
+        1750,
+        2250
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift-50": {
+       "pct": 63.115097661161876,
+       "ci95": [
+        55.24325812594764,
+        66.98700478799034
+       ],
+       "drives": 108,
+       "days": 35,
+       "seconds": 47716,
+       "inWindowSeconds": 30116,
+       "windowRpm": [
+        1800,
+        2100
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift-25": {
+       "pct": 63.16120378908542,
+       "ci95": [
+        55.006042667415365,
+        67.08803226791117
+       ],
+       "drives": 108,
+       "days": 35,
+       "seconds": 47716,
+       "inWindowSeconds": 30138,
+       "windowRpm": [
+        1825,
+        2125
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift+25": {
+       "pct": 63.416883225752365,
+       "ci95": [
+        54.69304576437777,
+        67.56440028644124
+       ],
+       "drives": 108,
+       "days": 35,
+       "seconds": 47716,
+       "inWindowSeconds": 30260,
+       "windowRpm": [
+        1875,
+        2175
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift+50": {
+       "pct": 63.52586134629894,
+       "ci95": [
+        54.54254094948666,
+        67.78823770090324
+       ],
+       "drives": 108,
+       "days": 35,
+       "seconds": 47716,
+       "inWindowSeconds": 30312,
+       "windowRpm": [
+        1900,
+        2200
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      }
+     },
+     "thr400": {
+      "C1_150": {
+       "pct": 64.52074391988555,
+       "ci95": [
+        55.9065964905165,
+        68.61550355326384
+       ],
+       "drives": 108,
+       "days": 35,
+       "seconds": 46833,
+       "inWindowSeconds": 30217,
+       "windowRpm": [
+        1850,
+        2150
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_100": {
+       "pct": 63.147780411248476,
+       "ci95": [
+        55.01117214882718,
+        67.0992978052943
+       ],
+       "drives": 108,
+       "days": 35,
+       "seconds": 46833,
+       "inWindowSeconds": 29574,
+       "windowRpm": [
+        1900,
+        2100
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_250": {
+       "pct": 67.10439220207974,
+       "ci95": [
+        57.61673320805564,
+        71.56876608884762
+       ],
+       "drives": 108,
+       "days": 35,
+       "seconds": 46833,
+       "inWindowSeconds": 31427,
+       "windowRpm": [
+        1750,
+        2250
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift-50": {
+       "pct": 64.30508402195034,
+       "ci95": [
+        56.29429065477,
+        68.30631764747976
+       ],
+       "drives": 108,
+       "days": 35,
+       "seconds": 46833,
+       "inWindowSeconds": 30116,
+       "windowRpm": [
+        1800,
+        2100
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift-25": {
+       "pct": 64.35205944526295,
+       "ci95": [
+        56.02752796099497,
+        68.38362236611341
+       ],
+       "drives": 108,
+       "days": 35,
+       "seconds": 46833,
+       "inWindowSeconds": 30138,
+       "windowRpm": [
+        1825,
+        2125
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift+25": {
+       "pct": 64.61255951999658,
+       "ci95": [
+        55.71484522674568,
+        68.80603540280403
+       ],
+       "drives": 108,
+       "days": 35,
+       "seconds": 46833,
+       "inWindowSeconds": 30260,
+       "windowRpm": [
+        1875,
+        2175
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C1_150_shift+50": {
+       "pct": 64.7235923387355,
+       "ci95": [
+        55.5451637149761,
+        69.07288853831977
+       ],
+       "drives": 108,
+       "days": 35,
+       "seconds": 46833,
+       "inWindowSeconds": 30312,
+       "windowRpm": [
+        1900,
+        2200
+       ],
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      }
+     }
+    },
+    "warm": {
+     "thr300": {
+      "C1_150": {
+       "pct": 64.00213970489904,
+       "ci95": [
+        60.802230873094466,
+        67.07765230492039
+       ],
+       "drives": 294,
+       "days": 70,
+       "seconds": 224330,
+       "inWindowSeconds": 143576,
+       "windowRpm": [
+        1850,
+        2150
+       ]
+      },
+      "C1_100": {
+       "pct": 62.40137297731021,
+       "ci95": [
+        59.17250578172826,
+        65.50477540733145
+       ],
+       "drives": 294,
+       "days": 70,
+       "seconds": 224330,
+       "inWindowSeconds": 139985,
+       "windowRpm": [
+        1900,
+        2100
+       ]
+      },
+      "C1_250": {
+       "pct": 66.87068158516472,
+       "ci95": [
+        63.708455343098166,
+        69.90359136186547
+       ],
+       "drives": 294,
+       "days": 70,
+       "seconds": 224330,
+       "inWindowSeconds": 150011,
+       "windowRpm": [
+        1750,
+        2250
+       ]
+      },
+      "C1_150_shift-50": {
+       "pct": 63.546560870146656,
+       "ci95": [
+        60.286499629046865,
+        66.75434344841617
+       ],
+       "drives": 294,
+       "days": 70,
+       "seconds": 224330,
+       "inWindowSeconds": 142554,
+       "windowRpm": [
+        1800,
+        2100
+       ]
+      },
+      "C1_150_shift-25": {
+       "pct": 63.75518209780235,
+       "ci95": [
+        60.51798690341125,
+        66.90520724753263
+       ],
+       "drives": 294,
+       "days": 70,
+       "seconds": 224330,
+       "inWindowSeconds": 143022,
+       "windowRpm": [
+        1825,
+        2125
+       ]
+      },
+      "C1_150_shift+25": {
+       "pct": 64.18044844648509,
+       "ci95": [
+        60.98185541036665,
+        67.24238564846017
+       ],
+       "drives": 294,
+       "days": 70,
+       "seconds": 224330,
+       "inWindowSeconds": 143976,
+       "windowRpm": [
+        1875,
+        2175
+       ]
+      },
+      "C1_150_shift+50": {
+       "pct": 64.33780591093479,
+       "ci95": [
+        61.134178402563386,
+        67.35750572567366
+       ],
+       "drives": 294,
+       "days": 70,
+       "seconds": 224330,
+       "inWindowSeconds": 144329,
+       "windowRpm": [
+        1900,
+        2200
+       ]
+      }
+     },
+     "thr400": {
+      "C1_150": {
+       "pct": 65.23839166844633,
+       "ci95": [
+        61.954187595116345,
+        68.44156357138624
+       ],
+       "drives": 294,
+       "days": 70,
+       "seconds": 220079,
+       "inWindowSeconds": 143576,
+       "windowRpm": [
+        1850,
+        2150
+       ]
+      },
+      "C1_100": {
+       "pct": 63.60670486507118,
+       "ci95": [
+        60.28267292438148,
+        66.86354242703877
+       ],
+       "drives": 294,
+       "days": 70,
+       "seconds": 220079,
+       "inWindowSeconds": 139985,
+       "windowRpm": [
+        1900,
+        2100
+       ]
+      },
+      "C1_250": {
+       "pct": 68.16234170456973,
+       "ci95": [
+        64.93793964978661,
+        71.29434009119706
+       ],
+       "drives": 294,
+       "days": 70,
+       "seconds": 220079,
+       "inWindowSeconds": 150011,
+       "windowRpm": [
+        1750,
+        2250
+       ]
+      },
+      "C1_150_shift-50": {
+       "pct": 64.77401296807055,
+       "ci95": [
+        61.43792536151342,
+        68.11287521569812
+       ],
+       "drives": 294,
+       "days": 70,
+       "seconds": 220079,
+       "inWindowSeconds": 142554,
+       "windowRpm": [
+        1800,
+        2100
+       ]
+      },
+      "C1_150_shift-25": {
+       "pct": 64.98666387978862,
+       "ci95": [
+        61.66202263658863,
+        68.28722189896577
+       ],
+       "drives": 294,
+       "days": 70,
+       "seconds": 220079,
+       "inWindowSeconds": 143022,
+       "windowRpm": [
+        1825,
+        2125
+       ]
+      },
+      "C1_150_shift+25": {
+       "pct": 65.42014458444467,
+       "ci95": [
+        62.153405647937625,
+        68.57789885883986
+       ],
+       "drives": 294,
+       "days": 70,
+       "seconds": 220079,
+       "inWindowSeconds": 143976,
+       "windowRpm": [
+        1875,
+        2175
+       ]
+      },
+      "C1_150_shift+50": {
+       "pct": 65.58054153281321,
+       "ci95": [
+        62.31545482034672,
+        68.70678959274775
+       ],
+       "drives": 294,
+       "days": 70,
+       "seconds": 220079,
+       "inWindowSeconds": 144329,
+       "windowRpm": [
+        1900,
+        2200
+       ]
+      }
+     }
+    }
+   }
+  },
+  "reading": [
+   "occupancy of a window around the quoted best-BSFC point, descriptive; occupancy is not efficiency and not an identification of an operating point",
+   "predictable from the already-seen engine-speed distribution (the mode near 2,000 rpm): not new evidence",
+   "quoted for the X-TRAIL VC-TURBO; the market calibration may differ"
+  ],
+  "audit": {
+   "status": "reproduced independently (blind audit, analyses/M705_audit.json)",
+   "result": {
+    "seconds_exact": "PASS 112/112 window cells + 128 zone cells",
+    "share_1e-9": "PASS (max 1.1e-16)",
+    "ci_0.5pp": "PASS windows (max 0.40pp); zone sub-cells FAIL 5/88 estimable (0.63-3.85pp, thin days)",
+    "drives_days": "match (fast 208/44, slow 408/88)"
+   },
+   "mismatchCause": "interval breaches are Monte Carlo noise of my independent RNG on heavy-tailed thin cells: same cell re-bootstrapped with seeds 1,2,3 (B=4000) gives upper limits 83.45, 83.02 (B=40000: 83.78) vs author 81.73. No grid, ffill, ramp or zone-assignment difference found."
+  },
+  "withheld": {
+   "zoneCells": "withheld: interval tolerance not met (the audit's endpoints differed by more than 0.5 pp in 5 of 88 estimable speed-zone cells; point shares and seconds matched exactly); zone cells stay in analyses/M705_study.json only; no point share is shown without its interval",
+   "sensitivityVariants": "the first-60-s and reverse-seconds variants were not audited and stay in analyses/M705_study.json only"
+  },
+  "c1b": {
+   "output": "C1b: share of engine-on seconds below 1,500 rpm outside the start and stop ramps",
+   "quoted": [
+    {
+     "id": "S4",
+     "doc": "TR89",
+     "pdfPage": 16,
+     "printedPage": 12,
+     "quantity": "lowest engine speed used in the e-POWER operating points",
+     "paraphrase": "engine speeds below 1500 rpm are not utilised (exhaust system designed for this)",
+     "sourceSha256Prefix": "f47fa07279209267",
+     "applies": "X-TRAIL e-POWER"
+    }
+   ],
+   "status": "withheld: audit failed (interval tolerance of 0.5 pp breached in 6 of 256 estimable cells; point shares and seconds reproduced exactly; the breach was attributed by the auditor to Monte Carlo noise, which could not be verified under the frozen gate)",
+   "audit": {
+    "result": {
+     "seconds_exact": "PASS 256/256 (r=0,3,5,10)",
+     "share_1e-9": "PASS (5.6e-17)",
+     "ci_0.5pp": "FAIL 6/256 (0.50-0.62pp, only lt1525 and 1475-1525 bands)"
+    }
+   },
+   "market": "EU market (stated by the owner in chat, 2026-11-16)",
+   "limits": "the boundary sits on a mode of the engine-speed distribution (the share changes by an order of magnitude between the below-1,475 and below-1,525 boundaries), so the estimand is ill-conditioned; it can return only through a pre-registered revision with a tolerance tied to Monte Carlo error, a new blind audit and a Director review; the figures are not shown",
+   "provenance": {
+    "scriptSha256": "bb124e9c217202996f33f8189beccd096d565f2749f3214d5ca131bb559ca040",
+    "verified": false
+   }
+  }
+ },
+ "oemCrossCheckC2": {
+  "spec": "analyses/M705_spec.md Rev 1 + errata 13 (parent: analyses/M703_spec.md Rev 2)",
+  "status": "descriptive",
+  "market": "EU market (stated by the owner in chat, 2026-11-16)",
+  "thresholds": "engine-on means strictly above 400 rpm (the rule of record) and, separately, strictly above 300 rpm (the RPM-onset threshold); both are reported, no headline",
+  "grid": "occupancy of the logged 1 s mean engine speed (state-machine grid: 1 s mean, last observation carried at most 3 s; app-logged), time-weighted ratio of sums, calendar-day clusters, day-clustered percentile bootstrap (seed 42, 4000 draws)",
+  "strata": "fast-polled and slow-polled strata are reported separately and never pooled (the B6 cadence-invariance check is failed and stays shown); 12 drives without a cadence regime are outside both strata; cohorts all, cold, shoulder, warm within each stratum; cold rows are exploratory; no contrast, no p-value, no cell selection; every pre-registered cell is listed including not estimable ones, in a fixed order",
+  "support": "a cell below 10 drives on 5 days is not estimable (counts shown); a cell with no occupancy reads 'no occupancy observed in n drives on d days'; a cell with fewer than 40 days carries the flag 'interval endpoints Monte Carlo-sensitive'",
+  "notBlind": "not blind: the engine-speed distribution (mode near 1,975 to 2,025 rpm, mode near 1,475 to 1,525 rpm) and the state-machine band occupancy were seen before the specification",
+  "reconciliation": {
+   "comparedDrives": 651,
+   "equal": 223,
+   "medianAbsDiffSeconds": 1.0,
+   "maxAbsDiffSeconds": 92,
+   "missingInSidecar": 0,
+   "reading": "disclosure, not a gate: the state-machine grid (1 s mean, carry 3 s) differs from the engine-on rule grid of the sidecar (M543 grid); thr 400, no ramp exclusion"
+  },
+  "provenance": {
+   "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+   "scriptSha256": "bb124e9c217202996f33f8189beccd096d565f2749f3214d5ca131bb559ca040",
+   "cacheCodeHash": "b96a8f18d829",
+   "nDrives": 651,
+   "verified": false
+  },
+  "output": "C2: occupancy of a window of 100 rpm either side of the quoted maximum-output point (width and translation sensitivities)",
+  "quoted": [
+   {
+    "id": "S5",
+    "doc": "TR89",
+    "pdfPage": 23,
+    "printedPage": 19,
+    "quantity": "maximum output point",
+    "paraphrase": "106 kW at 4400 rpm (domestic market), compression ratio 8.0",
+    "sourceSha256Prefix": "f47fa07279209267",
+    "applies": "X-TRAIL e-POWER"
+   }
+  ],
+  "rows": {
+   "fast": {
+    "all": {
+     "thr300": {
+      "C2_100": {
+       "pct": 0.0301143268910184,
+       "ci95": [
+        0.009245335526885484,
+        0.060444565723366296
+       ],
+       "drives": 208,
+       "days": 44,
+       "seconds": 92979,
+       "inWindowSeconds": 28,
+       "windowRpm": [
+        4300,
+        4500
+       ],
+       "drivesWithAnyOccupancy": 8
+      },
+      "C2_200": {
+       "pct": 0.150571634455092,
+       "ci95": [
+        0.04948230579199395,
+        0.2684325458189724
+       ],
+       "drives": 208,
+       "days": 44,
+       "seconds": 92979,
+       "inWindowSeconds": 140,
+       "windowRpm": [
+        4200,
+        4600
+       ],
+       "drivesWithAnyOccupancy": 10
+      },
+      "C2_100_shift-50": {
+       "pct": 0.021510233493584573,
+       "ci95": [
+        0.005579904377313708,
+        0.043090251791649735
+       ],
+       "drives": 208,
+       "days": 44,
+       "seconds": 92979,
+       "inWindowSeconds": 20,
+       "windowRpm": [
+        4250,
+        4450
+       ],
+       "drivesWithAnyOccupancy": 7
+      },
+      "C2_100_shift-25": {
+       "pct": 0.02473676851762226,
+       "ci95": [
+        0.006898725579356382,
+        0.04973347442011509
+       ],
+       "drives": 208,
+       "days": 44,
+       "seconds": 92979,
+       "inWindowSeconds": 23,
+       "windowRpm": [
+        4275,
+        4475
+       ],
+       "drivesWithAnyOccupancy": 7
+      },
+      "C2_100_shift+25": {
+       "pct": 0.031189838565697632,
+       "ci95": [
+        0.009595798868189462,
+        0.06044752168542223
+       ],
+       "drives": 208,
+       "days": 44,
+       "seconds": 92979,
+       "inWindowSeconds": 29,
+       "windowRpm": [
+        4325,
+        4525
+       ],
+       "drivesWithAnyOccupancy": 8
+      },
+      "C2_100_shift+50": {
+       "pct": 0.031189838565697632,
+       "ci95": [
+        0.009935656354452283,
+        0.06090111432284684
+       ],
+       "drives": 208,
+       "days": 44,
+       "seconds": 92979,
+       "inWindowSeconds": 29,
+       "windowRpm": [
+        4350,
+        4550
+       ],
+       "drivesWithAnyOccupancy": 8
+      }
+     },
+     "thr400": {
+      "C2_100": {
+       "pct": 0.030563014386447485,
+       "ci95": [
+        0.009381601878167233,
+        0.061444668232061794
+       ],
+       "drives": 208,
+       "days": 44,
+       "seconds": 91614,
+       "inWindowSeconds": 28,
+       "windowRpm": [
+        4300,
+        4500
+       ],
+       "drivesWithAnyOccupancy": 8
+      },
+      "C2_200": {
+       "pct": 0.15281507193223742,
+       "ci95": [
+        0.050198447321734015,
+        0.2728018958312578
+       ],
+       "drives": 208,
+       "days": 44,
+       "seconds": 91614,
+       "inWindowSeconds": 140,
+       "windowRpm": [
+        4200,
+        4600
+       ],
+       "drivesWithAnyOccupancy": 10
+      },
+      "C2_100_shift-50": {
+       "pct": 0.021830724561748203,
+       "ci95": [
+        0.005660667477774452,
+        0.04373324410479588
+       ],
+       "drives": 208,
+       "days": 44,
+       "seconds": 91614,
+       "inWindowSeconds": 20,
+       "windowRpm": [
+        4250,
+        4450
+       ],
+       "drivesWithAnyOccupancy": 7
+      },
+      "C2_100_shift-25": {
+       "pct": 0.025105333246010435,
+       "ci95": [
+        0.006995614895891013,
+        0.05047157040416375
+       ],
+       "drives": 208,
+       "days": 44,
+       "seconds": 91614,
+       "inWindowSeconds": 23,
+       "windowRpm": [
+        4275,
+        4475
+       ],
+       "drivesWithAnyOccupancy": 7
+      },
+      "C2_100_shift+25": {
+       "pct": 0.0316545506145349,
+       "ci95": [
+        0.009725765258550631,
+        0.06140479284590036
+       ],
+       "drives": 208,
+       "days": 44,
+       "seconds": 91614,
+       "inWindowSeconds": 29,
+       "windowRpm": [
+        4325,
+        4525
+       ],
+       "drivesWithAnyOccupancy": 8
+      },
+      "C2_100_shift+50": {
+       "pct": 0.0316545506145349,
+       "ci95": [
+        0.010073208783109073,
+        0.06182220066670196
+       ],
+       "drives": 208,
+       "days": 44,
+       "seconds": 91614,
+       "inWindowSeconds": 29,
+       "windowRpm": [
+        4350,
+        4550
+       ],
+       "drivesWithAnyOccupancy": 8
+      }
+     }
+    },
+    "cold": {
+     "thr300": {
+      "C2_100": {
+       "pct": 0.0,
+       "ci95": [
+        0.0,
+        0.0
+       ],
+       "drives": 44,
+       "days": 9,
+       "seconds": 19742,
+       "inWindowSeconds": 0,
+       "windowRpm": [
+        4300,
+        4500
+       ],
+       "note": "no occupancy observed in 44 drives on 9 days",
+       "drivesWithAnyOccupancy": 0,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_200": {
+       "pct": 0.0,
+       "ci95": [
+        0.0,
+        0.0
+       ],
+       "drives": 44,
+       "days": 9,
+       "seconds": 19742,
+       "inWindowSeconds": 0,
+       "windowRpm": [
+        4200,
+        4600
+       ],
+       "note": "no occupancy observed in 44 drives on 9 days",
+       "drivesWithAnyOccupancy": 0,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift-50": {
+       "pct": 0.0,
+       "ci95": [
+        0.0,
+        0.0
+       ],
+       "drives": 44,
+       "days": 9,
+       "seconds": 19742,
+       "inWindowSeconds": 0,
+       "windowRpm": [
+        4250,
+        4450
+       ],
+       "note": "no occupancy observed in 44 drives on 9 days",
+       "drivesWithAnyOccupancy": 0,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift-25": {
+       "pct": 0.0,
+       "ci95": [
+        0.0,
+        0.0
+       ],
+       "drives": 44,
+       "days": 9,
+       "seconds": 19742,
+       "inWindowSeconds": 0,
+       "windowRpm": [
+        4275,
+        4475
+       ],
+       "note": "no occupancy observed in 44 drives on 9 days",
+       "drivesWithAnyOccupancy": 0,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift+25": {
+       "pct": 0.0,
+       "ci95": [
+        0.0,
+        0.0
+       ],
+       "drives": 44,
+       "days": 9,
+       "seconds": 19742,
+       "inWindowSeconds": 0,
+       "windowRpm": [
+        4325,
+        4525
+       ],
+       "note": "no occupancy observed in 44 drives on 9 days",
+       "drivesWithAnyOccupancy": 0,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift+50": {
+       "pct": 0.0,
+       "ci95": [
+        0.0,
+        0.0
+       ],
+       "drives": 44,
+       "days": 9,
+       "seconds": 19742,
+       "inWindowSeconds": 0,
+       "windowRpm": [
+        4350,
+        4550
+       ],
+       "note": "no occupancy observed in 44 drives on 9 days",
+       "drivesWithAnyOccupancy": 0,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      }
+     },
+     "thr400": {
+      "C2_100": {
+       "pct": 0.0,
+       "ci95": [
+        0.0,
+        0.0
+       ],
+       "drives": 44,
+       "days": 9,
+       "seconds": 19532,
+       "inWindowSeconds": 0,
+       "windowRpm": [
+        4300,
+        4500
+       ],
+       "note": "no occupancy observed in 44 drives on 9 days",
+       "drivesWithAnyOccupancy": 0,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_200": {
+       "pct": 0.0,
+       "ci95": [
+        0.0,
+        0.0
+       ],
+       "drives": 44,
+       "days": 9,
+       "seconds": 19532,
+       "inWindowSeconds": 0,
+       "windowRpm": [
+        4200,
+        4600
+       ],
+       "note": "no occupancy observed in 44 drives on 9 days",
+       "drivesWithAnyOccupancy": 0,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift-50": {
+       "pct": 0.0,
+       "ci95": [
+        0.0,
+        0.0
+       ],
+       "drives": 44,
+       "days": 9,
+       "seconds": 19532,
+       "inWindowSeconds": 0,
+       "windowRpm": [
+        4250,
+        4450
+       ],
+       "note": "no occupancy observed in 44 drives on 9 days",
+       "drivesWithAnyOccupancy": 0,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift-25": {
+       "pct": 0.0,
+       "ci95": [
+        0.0,
+        0.0
+       ],
+       "drives": 44,
+       "days": 9,
+       "seconds": 19532,
+       "inWindowSeconds": 0,
+       "windowRpm": [
+        4275,
+        4475
+       ],
+       "note": "no occupancy observed in 44 drives on 9 days",
+       "drivesWithAnyOccupancy": 0,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift+25": {
+       "pct": 0.0,
+       "ci95": [
+        0.0,
+        0.0
+       ],
+       "drives": 44,
+       "days": 9,
+       "seconds": 19532,
+       "inWindowSeconds": 0,
+       "windowRpm": [
+        4325,
+        4525
+       ],
+       "note": "no occupancy observed in 44 drives on 9 days",
+       "drivesWithAnyOccupancy": 0,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift+50": {
+       "pct": 0.0,
+       "ci95": [
+        0.0,
+        0.0
+       ],
+       "drives": 44,
+       "days": 9,
+       "seconds": 19532,
+       "inWindowSeconds": 0,
+       "windowRpm": [
+        4350,
+        4550
+       ],
+       "note": "no occupancy observed in 44 drives on 9 days",
+       "drivesWithAnyOccupancy": 0,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      }
+     }
+    },
+    "shoulder": {
+     "thr300": {
+      "C2_100": {
+       "pct": 0.04848213619750876,
+       "ci95": [
+        0.007295107238526791,
+        0.12689492498832627
+       ],
+       "drives": 53,
+       "days": 20,
+       "seconds": 26814,
+       "inWindowSeconds": 13,
+       "windowRpm": [
+        4300,
+        4500
+       ],
+       "drivesWithAnyOccupancy": 4,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_200": {
+       "pct": 0.2274931006190796,
+       "ci95": [
+        0.039465701304715405,
+        0.6514217260063692
+       ],
+       "drives": 53,
+       "days": 20,
+       "seconds": 26814,
+       "inWindowSeconds": 61,
+       "windowRpm": [
+        4200,
+        4600
+       ],
+       "drivesWithAnyOccupancy": 5,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift-50": {
+       "pct": 0.037293950921160585,
+       "ci95": [
+        0.0,
+        0.08966044717818866
+       ],
+       "drives": 53,
+       "days": 20,
+       "seconds": 26814,
+       "inWindowSeconds": 10,
+       "windowRpm": [
+        4250,
+        4450
+       ],
+       "drivesWithAnyOccupancy": 3,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift-25": {
+       "pct": 0.04475274110539271,
+       "ci95": [
+        0.007295107238526791,
+        0.11601309890588507
+       ],
+       "drives": 53,
+       "days": 20,
+       "seconds": 26814,
+       "inWindowSeconds": 12,
+       "windowRpm": [
+        4275,
+        4475
+       ],
+       "drivesWithAnyOccupancy": 4,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift+25": {
+       "pct": 0.04848213619750876,
+       "ci95": [
+        0.007295107238526791,
+        0.1179472645556091
+       ],
+       "drives": 53,
+       "days": 20,
+       "seconds": 26814,
+       "inWindowSeconds": 13,
+       "windowRpm": [
+        4325,
+        4525
+       ],
+       "drivesWithAnyOccupancy": 4,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift+50": {
+       "pct": 0.04475274110539271,
+       "ci95": [
+        0.007295107238526791,
+        0.11601309890588507
+       ],
+       "drives": 53,
+       "days": 20,
+       "seconds": 26814,
+       "inWindowSeconds": 12,
+       "windowRpm": [
+        4350,
+        4550
+       ],
+       "drivesWithAnyOccupancy": 4,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      }
+     },
+     "thr400": {
+      "C2_100": {
+       "pct": 0.0492666843521431,
+       "ci95": [
+        0.007393212595103729,
+        0.12884174496686737
+       ],
+       "drives": 53,
+       "days": 20,
+       "seconds": 26387,
+       "inWindowSeconds": 13,
+       "windowRpm": [
+        4300,
+        4500
+       ],
+       "drivesWithAnyOccupancy": 4,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_200": {
+       "pct": 0.2311744419600561,
+       "ci95": [
+        0.040086433818250757,
+        0.6632498858949392
+       ],
+       "drives": 53,
+       "days": 20,
+       "seconds": 26387,
+       "inWindowSeconds": 61,
+       "windowRpm": [
+        4200,
+        4600
+       ],
+       "drivesWithAnyOccupancy": 5,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift-50": {
+       "pct": 0.03789744950164854,
+       "ci95": [
+        0.0,
+        0.09102053989313205
+       ],
+       "drives": 53,
+       "days": 20,
+       "seconds": 26387,
+       "inWindowSeconds": 10,
+       "windowRpm": [
+        4250,
+        4450
+       ],
+       "drivesWithAnyOccupancy": 3,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift-25": {
+       "pct": 0.04547693940197825,
+       "ci95": [
+        0.007393212595103729,
+        0.1176692314381491
+       ],
+       "drives": 53,
+       "days": 20,
+       "seconds": 26387,
+       "inWindowSeconds": 12,
+       "windowRpm": [
+        4275,
+        4475
+       ],
+       "drivesWithAnyOccupancy": 4,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift+25": {
+       "pct": 0.0492666843521431,
+       "ci95": [
+        0.007393212595103729,
+        0.12024277021449159
+       ],
+       "drives": 53,
+       "days": 20,
+       "seconds": 26387,
+       "inWindowSeconds": 13,
+       "windowRpm": [
+        4325,
+        4525
+       ],
+       "drivesWithAnyOccupancy": 4,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift+50": {
+       "pct": 0.04547693940197825,
+       "ci95": [
+        0.007393212595103729,
+        0.1176692314381491
+       ],
+       "drives": 53,
+       "days": 20,
+       "seconds": 26387,
+       "inWindowSeconds": 12,
+       "windowRpm": [
+        4350,
+        4550
+       ],
+       "drivesWithAnyOccupancy": 4,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      }
+     }
+    },
+    "warm": {
+     "thr300": {
+      "C2_100": {
+       "pct": 0.032311569696055836,
+       "ci95": [
+        0.0,
+        0.08584209160401295
+       ],
+       "drives": 111,
+       "days": 29,
+       "seconds": 46423,
+       "inWindowSeconds": 15,
+       "windowRpm": [
+        4300,
+        4500
+       ],
+       "drivesWithAnyOccupancy": 4,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_200": {
+       "pct": 0.17017426706589406,
+       "ci95": [
+        0.0,
+        0.3104972394981748
+       ],
+       "drives": 111,
+       "days": 29,
+       "seconds": 46423,
+       "inWindowSeconds": 79,
+       "windowRpm": [
+        4200,
+        4600
+       ],
+       "drivesWithAnyOccupancy": 5,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift-50": {
+       "pct": 0.021541046464037223,
+       "ci95": [
+        0.0,
+        0.06052264403527512
+       ],
+       "drives": 111,
+       "days": 29,
+       "seconds": 46423,
+       "inWindowSeconds": 10,
+       "windowRpm": [
+        4250,
+        4450
+       ],
+       "drivesWithAnyOccupancy": 4,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift-25": {
+       "pct": 0.023695151110440946,
+       "ci95": [
+        0.0,
+        0.06627550366784325
+       ],
+       "drives": 111,
+       "days": 29,
+       "seconds": 46423,
+       "inWindowSeconds": 11,
+       "windowRpm": [
+        4275,
+        4475
+       ],
+       "drivesWithAnyOccupancy": 3,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift+25": {
+       "pct": 0.034465674342459555,
+       "ci95": [
+        0.0,
+        0.08650665386290363
+       ],
+       "drives": 111,
+       "days": 29,
+       "seconds": 46423,
+       "inWindowSeconds": 16,
+       "windowRpm": [
+        4325,
+        4525
+       ],
+       "drivesWithAnyOccupancy": 4,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift+50": {
+       "pct": 0.03661977898886328,
+       "ci95": [
+        0.0,
+        0.09003881957248089
+       ],
+       "drives": 111,
+       "days": 29,
+       "seconds": 46423,
+       "inWindowSeconds": 17,
+       "windowRpm": [
+        4350,
+        4550
+       ],
+       "drivesWithAnyOccupancy": 4,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      }
+     },
+     "thr400": {
+      "C2_100": {
+       "pct": 0.0328263486158223,
+       "ci95": [
+        0.0,
+        0.08728699053443874
+       ],
+       "drives": 111,
+       "days": 29,
+       "seconds": 45695,
+       "inWindowSeconds": 15,
+       "windowRpm": [
+        4300,
+        4500
+       ],
+       "drivesWithAnyOccupancy": 4,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_200": {
+       "pct": 0.1728854360433308,
+       "ci95": [
+        0.0,
+        0.31517068147912575
+       ],
+       "drives": 111,
+       "days": 29,
+       "seconds": 45695,
+       "inWindowSeconds": 79,
+       "windowRpm": [
+        4200,
+        4600
+       ],
+       "drivesWithAnyOccupancy": 5,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift-50": {
+       "pct": 0.0218842324105482,
+       "ci95": [
+        0.0,
+        0.0615373797725161
+       ],
+       "drives": 111,
+       "days": 29,
+       "seconds": 45695,
+       "inWindowSeconds": 10,
+       "windowRpm": [
+        4250,
+        4450
+       ],
+       "drivesWithAnyOccupancy": 4,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift-25": {
+       "pct": 0.02407265565160302,
+       "ci95": [
+        0.0,
+        0.06738807602347419
+       ],
+       "drives": 111,
+       "days": 29,
+       "seconds": 45695,
+       "inWindowSeconds": 11,
+       "windowRpm": [
+        4275,
+        4475
+       ],
+       "drivesWithAnyOccupancy": 3,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift+25": {
+       "pct": 0.03501477185687712,
+       "ci95": [
+        0.0,
+        0.08784116842513659
+       ],
+       "drives": 111,
+       "days": 29,
+       "seconds": 45695,
+       "inWindowSeconds": 16,
+       "windowRpm": [
+        4325,
+        4525
+       ],
+       "drivesWithAnyOccupancy": 4,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift+50": {
+       "pct": 0.03720319509793194,
+       "ci95": [
+        0.0,
+        0.09148633107225071
+       ],
+       "drives": 111,
+       "days": 29,
+       "seconds": 45695,
+       "inWindowSeconds": 17,
+       "windowRpm": [
+        4350,
+        4550
+       ],
+       "drivesWithAnyOccupancy": 4,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      }
+     }
+    }
+   },
+   "slow": {
+    "all": {
+     "thr300": {
+      "C2_100": {
+       "pct": 0.06634824397092408,
+       "ci95": [
+        0.043415227414781994,
+        0.09124240897582683
+       ],
+       "drives": 408,
+       "days": 88,
+       "seconds": 272803,
+       "inWindowSeconds": 181,
+       "windowRpm": [
+        4300,
+        4500
+       ],
+       "drivesWithAnyOccupancy": 41
+      },
+      "C2_200": {
+       "pct": 0.20344351051857934,
+       "ci95": [
+        0.1382224085162831,
+        0.27333814591815164
+       ],
+       "drives": 408,
+       "days": 88,
+       "seconds": 272803,
+       "inWindowSeconds": 555,
+       "windowRpm": [
+        4200,
+        4600
+       ],
+       "drivesWithAnyOccupancy": 49
+      },
+      "C2_100_shift-50": {
+       "pct": 0.07111358746054845,
+       "ci95": [
+        0.047641051761238014,
+        0.09473025344447958
+       ],
+       "drives": 408,
+       "days": 88,
+       "seconds": 272803,
+       "inWindowSeconds": 194,
+       "windowRpm": [
+        4250,
+        4450
+       ],
+       "drivesWithAnyOccupancy": 42
+      },
+      "C2_100_shift-25": {
+       "pct": 0.07184671722818298,
+       "ci95": [
+        0.04750137894953551,
+        0.09686101294460929
+       ],
+       "drives": 408,
+       "days": 88,
+       "seconds": 272803,
+       "inWindowSeconds": 196,
+       "windowRpm": [
+        4275,
+        4475
+       ],
+       "drivesWithAnyOccupancy": 42
+      },
+      "C2_100_shift+25": {
+       "pct": 0.0689141981576449,
+       "ci95": [
+        0.0454824887743303,
+        0.0945294067380169
+       ],
+       "drives": 408,
+       "days": 88,
+       "seconds": 272803,
+       "inWindowSeconds": 188,
+       "windowRpm": [
+        4325,
+        4525
+       ],
+       "drivesWithAnyOccupancy": 41
+      },
+      "C2_100_shift+50": {
+       "pct": 0.06708137373855859,
+       "ci95": [
+        0.04200886659835334,
+        0.0946201480175145
+       ],
+       "drives": 408,
+       "days": 88,
+       "seconds": 272803,
+       "inWindowSeconds": 183,
+       "windowRpm": [
+        4350,
+        4550
+       ],
+       "drivesWithAnyOccupancy": 39
+      }
+     },
+     "thr400": {
+      "C2_100": {
+       "pct": 0.06762108283395848,
+       "ci95": [
+        0.04428564976060362,
+        0.09290020712511253
+       ],
+       "drives": 408,
+       "days": 88,
+       "seconds": 267668,
+       "inWindowSeconds": 181,
+       "windowRpm": [
+        4300,
+        4500
+       ],
+       "drivesWithAnyOccupancy": 41
+      },
+      "C2_200": {
+       "pct": 0.20734641421462408,
+       "ci95": [
+        0.14096463773848245,
+        0.279014412712828
+       ],
+       "drives": 408,
+       "days": 88,
+       "seconds": 267668,
+       "inWindowSeconds": 555,
+       "windowRpm": [
+        4200,
+        4600
+       ],
+       "drivesWithAnyOccupancy": 49
+      },
+      "C2_100_shift-50": {
+       "pct": 0.07247784568943617,
+       "ci95": [
+        0.04854685341336885,
+        0.09650732960845965
+       ],
+       "drives": 408,
+       "days": 88,
+       "seconds": 267668,
+       "inWindowSeconds": 194,
+       "windowRpm": [
+        4250,
+        4450
+       ],
+       "drivesWithAnyOccupancy": 42
+      },
+      "C2_100_shift-25": {
+       "pct": 0.07322503997489427,
+       "ci95": [
+        0.04841569090510528,
+        0.0987695459794139
+       ],
+       "drives": 408,
+       "days": 88,
+       "seconds": 267668,
+       "inWindowSeconds": 196,
+       "windowRpm": [
+        4275,
+        4475
+       ],
+       "drivesWithAnyOccupancy": 42
+      },
+      "C2_100_shift+25": {
+       "pct": 0.07023626283306185,
+       "ci95": [
+        0.04636343123846198,
+        0.09632494931668074
+       ],
+       "drives": 408,
+       "days": 88,
+       "seconds": 267668,
+       "inWindowSeconds": 188,
+       "windowRpm": [
+        4325,
+        4525
+       ],
+       "drivesWithAnyOccupancy": 41
+      },
+      "C2_100_shift+50": {
+       "pct": 0.06836827711941659,
+       "ci95": [
+        0.042864687233386156,
+        0.09643859484649848
+       ],
+       "drives": 408,
+       "days": 88,
+       "seconds": 267668,
+       "inWindowSeconds": 183,
+       "windowRpm": [
+        4350,
+        4550
+       ],
+       "drivesWithAnyOccupancy": 39
+      }
+     }
+    },
+    "cold": {
+     "thr300": {
+      "C2_100": {
+       "status": "not estimable (below the support floor of 10 drives on 5 days)",
+       "drives": 6,
+       "days": 3,
+       "seconds": 757
+      },
+      "C2_200": {
+       "status": "not estimable (below the support floor of 10 drives on 5 days)",
+       "drives": 6,
+       "days": 3,
+       "seconds": 757
+      },
+      "C2_100_shift-50": {
+       "status": "not estimable (below the support floor of 10 drives on 5 days)",
+       "drives": 6,
+       "days": 3,
+       "seconds": 757
+      },
+      "C2_100_shift-25": {
+       "status": "not estimable (below the support floor of 10 drives on 5 days)",
+       "drives": 6,
+       "days": 3,
+       "seconds": 757
+      },
+      "C2_100_shift+25": {
+       "status": "not estimable (below the support floor of 10 drives on 5 days)",
+       "drives": 6,
+       "days": 3,
+       "seconds": 757
+      },
+      "C2_100_shift+50": {
+       "status": "not estimable (below the support floor of 10 drives on 5 days)",
+       "drives": 6,
+       "days": 3,
+       "seconds": 757
+      }
+     },
+     "thr400": {
+      "C2_100": {
+       "status": "not estimable (below the support floor of 10 drives on 5 days)",
+       "drives": 6,
+       "days": 3,
+       "seconds": 756
+      },
+      "C2_200": {
+       "status": "not estimable (below the support floor of 10 drives on 5 days)",
+       "drives": 6,
+       "days": 3,
+       "seconds": 756
+      },
+      "C2_100_shift-50": {
+       "status": "not estimable (below the support floor of 10 drives on 5 days)",
+       "drives": 6,
+       "days": 3,
+       "seconds": 756
+      },
+      "C2_100_shift-25": {
+       "status": "not estimable (below the support floor of 10 drives on 5 days)",
+       "drives": 6,
+       "days": 3,
+       "seconds": 756
+      },
+      "C2_100_shift+25": {
+       "status": "not estimable (below the support floor of 10 drives on 5 days)",
+       "drives": 6,
+       "days": 3,
+       "seconds": 756
+      },
+      "C2_100_shift+50": {
+       "status": "not estimable (below the support floor of 10 drives on 5 days)",
+       "drives": 6,
+       "days": 3,
+       "seconds": 756
+      }
+     }
+    },
+    "shoulder": {
+     "thr300": {
+      "C2_100": {
+       "pct": 0.016765864699471875,
+       "ci95": [
+        0.0,
+        0.05113199230239744
+       ],
+       "drives": 108,
+       "days": 35,
+       "seconds": 47716,
+       "inWindowSeconds": 8,
+       "windowRpm": [
+        4300,
+        4500
+       ],
+       "drivesWithAnyOccupancy": 3,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_200": {
+       "pct": 0.0670634587978875,
+       "ci95": [
+        0.008984806755497772,
+        0.15676636157261867
+       ],
+       "drives": 108,
+       "days": 35,
+       "seconds": 47716,
+       "inWindowSeconds": 32,
+       "windowRpm": [
+        4200,
+        4600
+       ],
+       "drivesWithAnyOccupancy": 4,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift-50": {
+       "pct": 0.02934026322407578,
+       "ci95": [
+        0.0,
+        0.07792495266420382
+       ],
+       "drives": 108,
+       "days": 35,
+       "seconds": 47716,
+       "inWindowSeconds": 14,
+       "windowRpm": [
+        4250,
+        4450
+       ],
+       "drivesWithAnyOccupancy": 3,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift-25": {
+       "pct": 0.03143599631150976,
+       "ci95": [
+        0.0,
+        0.08374182989192851
+       ],
+       "drives": 108,
+       "days": 35,
+       "seconds": 47716,
+       "inWindowSeconds": 15,
+       "windowRpm": [
+        4275,
+        4475
+       ],
+       "drivesWithAnyOccupancy": 3,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift+25": {
+       "pct": 0.016765864699471875,
+       "ci95": [
+        0.0,
+        0.05113199230239744
+       ],
+       "drives": 108,
+       "days": 35,
+       "seconds": 47716,
+       "inWindowSeconds": 8,
+       "windowRpm": [
+        4325,
+        4525
+       ],
+       "drivesWithAnyOccupancy": 3,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift+50": {
+       "pct": 0.016765864699471875,
+       "ci95": [
+        0.0,
+        0.05113199230239744
+       ],
+       "drives": 108,
+       "days": 35,
+       "seconds": 47716,
+       "inWindowSeconds": 8,
+       "windowRpm": [
+        4350,
+        4550
+       ],
+       "drivesWithAnyOccupancy": 3,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      }
+     },
+     "thr400": {
+      "C2_100": {
+       "pct": 0.017081972113680524,
+       "ci95": [
+        0.0,
+        0.05213399334064473
+       ],
+       "drives": 108,
+       "days": 35,
+       "seconds": 46833,
+       "inWindowSeconds": 8,
+       "windowRpm": [
+        4300,
+        4500
+       ],
+       "drivesWithAnyOccupancy": 3,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_200": {
+       "pct": 0.0683278884547221,
+       "ci95": [
+        0.009158439338141264,
+        0.15973339604440293
+       ],
+       "drives": 108,
+       "days": 35,
+       "seconds": 46833,
+       "inWindowSeconds": 32,
+       "windowRpm": [
+        4200,
+        4600
+       ],
+       "drivesWithAnyOccupancy": 4,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift-50": {
+       "pct": 0.029893451198940917,
+       "ci95": [
+        0.0,
+        0.07939063347700102
+       ],
+       "drives": 108,
+       "days": 35,
+       "seconds": 46833,
+       "inWindowSeconds": 14,
+       "windowRpm": [
+        4250,
+        4450
+       ],
+       "drivesWithAnyOccupancy": 3,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift-25": {
+       "pct": 0.032028697713150985,
+       "ci95": [
+        0.0,
+        0.08536435685905316
+       ],
+       "drives": 108,
+       "days": 35,
+       "seconds": 46833,
+       "inWindowSeconds": 15,
+       "windowRpm": [
+        4275,
+        4475
+       ],
+       "drivesWithAnyOccupancy": 3,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift+25": {
+       "pct": 0.017081972113680524,
+       "ci95": [
+        0.0,
+        0.05213399334064473
+       ],
+       "drives": 108,
+       "days": 35,
+       "seconds": 46833,
+       "inWindowSeconds": 8,
+       "windowRpm": [
+        4325,
+        4525
+       ],
+       "drivesWithAnyOccupancy": 3,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      },
+      "C2_100_shift+50": {
+       "pct": 0.017081972113680524,
+       "ci95": [
+        0.0,
+        0.05213399334064473
+       ],
+       "drives": 108,
+       "days": 35,
+       "seconds": 46833,
+       "inWindowSeconds": 8,
+       "windowRpm": [
+        4350,
+        4550
+       ],
+       "drivesWithAnyOccupancy": 3,
+       "flag": "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than 40 days)"
+      }
+     }
+    },
+    "warm": {
+     "thr300": {
+      "C2_100": {
+       "pct": 0.07711853073596933,
+       "ci95": [
+        0.05236782613431341,
+        0.10568430609934915
+       ],
+       "drives": 294,
+       "days": 70,
+       "seconds": 224330,
+       "inWindowSeconds": 173,
+       "windowRpm": [
+        4300,
+        4500
+       ],
+       "drivesWithAnyOccupancy": 38
+      },
+      "C2_200": {
+       "pct": 0.23313867962376855,
+       "ci95": [
+        0.161226116463903,
+        0.31232048412973346
+       ],
+       "drives": 294,
+       "days": 70,
+       "seconds": 224330,
+       "inWindowSeconds": 523,
+       "windowRpm": [
+        4200,
+        4600
+       ],
+       "drivesWithAnyOccupancy": 45
+      },
+      "C2_100_shift-50": {
+       "pct": 0.08023893371372531,
+       "ci95": [
+        0.054625256576055645,
+        0.10582349564140629
+       ],
+       "drives": 294,
+       "days": 70,
+       "seconds": 224330,
+       "inWindowSeconds": 180,
+       "windowRpm": [
+        4250,
+        4450
+       ],
+       "drivesWithAnyOccupancy": 39
+      },
+      "C2_100_shift-25": {
+       "pct": 0.08068470556769046,
+       "ci95": [
+        0.0543537951481825,
+        0.10846030328989709
+       ],
+       "drives": 294,
+       "days": 70,
+       "seconds": 224330,
+       "inWindowSeconds": 181,
+       "windowRpm": [
+        4275,
+        4475
+       ],
+       "drivesWithAnyOccupancy": 39
+      },
+      "C2_100_shift+25": {
+       "pct": 0.08023893371372531,
+       "ci95": [
+        0.053997233803855973,
+        0.11056869633568488
+       ],
+       "drives": 294,
+       "days": 70,
+       "seconds": 224330,
+       "inWindowSeconds": 180,
+       "windowRpm": [
+        4325,
+        4525
+       ],
+       "drivesWithAnyOccupancy": 38
+      },
+      "C2_100_shift+50": {
+       "pct": 0.07801007444389961,
+       "ci95": [
+        0.04964526962501197,
+        0.10976507565274089
+       ],
+       "drives": 294,
+       "days": 70,
+       "seconds": 224330,
+       "inWindowSeconds": 175,
+       "windowRpm": [
+        4350,
+        4550
+       ],
+       "drivesWithAnyOccupancy": 36
+      }
+     },
+     "thr400": {
+      "C2_100": {
+       "pct": 0.07860813616928466,
+       "ci95": [
+        0.05347708392372118,
+        0.10775291326005418
+       ],
+       "drives": 294,
+       "days": 70,
+       "seconds": 220079,
+       "inWindowSeconds": 173,
+       "windowRpm": [
+        4300,
+        4500
+       ],
+       "drivesWithAnyOccupancy": 38
+      },
+      "C2_200": {
+       "pct": 0.23764193766783745,
+       "ci95": [
+        0.16417049481642607,
+        0.3181690032631199
+       ],
+       "drives": 294,
+       "days": 70,
+       "seconds": 220079,
+       "inWindowSeconds": 523,
+       "windowRpm": [
+        4200,
+        4600
+       ],
+       "drivesWithAnyOccupancy": 45
+      },
+      "C2_100_shift-50": {
+       "pct": 0.08178881219925573,
+       "ci95": [
+        0.05563471028267174,
+        0.10797456868392984
+       ],
+       "drives": 294,
+       "days": 70,
+       "seconds": 220079,
+       "inWindowSeconds": 180,
+       "windowRpm": [
+        4250,
+        4450
+       ],
+       "drivesWithAnyOccupancy": 39
+      },
+      "C2_100_shift-25": {
+       "pct": 0.08224319448925159,
+       "ci95": [
+        0.05544774294655858,
+        0.11057680699139316
+       ],
+       "drives": 294,
+       "days": 70,
+       "seconds": 220079,
+       "inWindowSeconds": 181,
+       "windowRpm": [
+        4275,
+        4475
+       ],
+       "drivesWithAnyOccupancy": 39
+      },
+      "C2_100_shift+25": {
+       "pct": 0.08178881219925573,
+       "ci95": [
+        0.05498520655275679,
+        0.11271715471168652
+       ],
+       "drives": 294,
+       "days": 70,
+       "seconds": 220079,
+       "inWindowSeconds": 180,
+       "windowRpm": [
+        4325,
+        4525
+       ],
+       "drivesWithAnyOccupancy": 38
+      },
+      "C2_100_shift+50": {
+       "pct": 0.07951690074927639,
+       "ci95": [
+        0.05068396916155366,
+        0.11178509444449668
+       ],
+       "drives": 294,
+       "days": 70,
+       "seconds": 220079,
+       "inWindowSeconds": 175,
+       "windowRpm": [
+        4350,
+        4550
+       ],
+       "drivesWithAnyOccupancy": 36
+      }
+     }
+    }
+   }
+  },
+  "reading": [
+   "occupancy of a window around the quoted maximum-output point, descriptive; a small share has a wide relative interval",
+   "quoted for the X-TRAIL VC-TURBO; the market calibration may differ",
+   "the generator rating quoted in the same document is not the engine output and the 4,800 rpm of the other engine concept is not used"
+  ],
+  "audit": {
+   "status": "reproduced independently (blind audit, analyses/M705_audit.json)",
+   "result": {
+    "seconds_exact": "PASS 32/32",
+    "share_1e-9": "PASS",
+    "ci_0.5pp": "PASS (0.013pp)",
+    "any_occupancy": "PASS 8/41 fast/slow (thr400,300) for 4300-4500; 10/49 for 4200-4600; all-cohort total 49/59"
+   }
+  },
+  "withheld": {
+   "sensitivityVariants": "the first-60-s and reverse-seconds variants were not audited and stay in analyses/M705_study.json only"
   }
  }
 }

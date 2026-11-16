@@ -187,6 +187,101 @@ def run_study(out):
     print(json.dumps({"drives": res["nDrives"], "reconciliation": res["reconciliation"], "C1 slow all thr400 150": {k: p.get(k) for k in ("pct", "ci95", "drives", "days")}, "C1b slow all thr400 r5": {k: q.get(k) for k in ("pct", "ci95")}}))
 
 
+# ---------------------------------------------------------------- payload blocks (additive, no display, no stage, no article use)
+K1, K2 = "oemCrossCheckC1", "oemCrossCheckC2"
+MC_DAYS = 40
+
+
+def _cell(c, window=None):
+    """Keep what the audit passed: point share, interval, counts; flag thin cells (Monte Carlo sensitivity of the interval endpoints)."""
+    if "pct" not in c:
+        return {"status": c.get("status"), "drives": c["drives"], "days": c["days"], "seconds": c["seconds"]}
+    o = {k: c[k] for k in ("pct", "ci95", "drives", "days", "seconds", "inWindowSeconds") if k in c}
+    if "windowRpm" in c:
+        o["windowRpm"] = c["windowRpm"]
+    if "note" in c:
+        o["note"] = c["note"]
+    if "drivesWithAnyOccupancy" in c:
+        o["drivesWithAnyOccupancy"] = c["drivesWithAnyOccupancy"]
+    if c["days"] < MC_DAYS:
+        o["flag"] = "interval endpoints Monte Carlo-sensitive (seed 42, B=4000; fewer than %d days)" % MC_DAYS
+    return o
+
+
+def _rows(tree, which):
+    out = {}
+    for s, cs in tree.items():
+        for c, cell in cs.items():
+            for t, tc in cell.items():
+                out.setdefault(s, {}).setdefault(c, {})[t] = {w: _cell(v) for w, v in tc["windows"].items()}
+    return out
+
+
+def assemble(study, audit, md5):
+    src = study["sources"]
+    common = {"spec": "analyses/M705_spec.md Rev 1 + errata 13 (parent: analyses/M703_spec.md Rev 2)", "status": "descriptive", "market": MARKET, "thresholds": "engine-on means strictly above 400 rpm (the rule of record) and, separately, strictly above 300 rpm (the RPM-onset threshold); both are reported, no headline",
+              "grid": "occupancy of the logged 1 s mean engine speed (state-machine grid: 1 s mean, last observation carried at most 3 s; app-logged), time-weighted ratio of sums, calendar-day clusters, day-clustered percentile bootstrap (seed 42, 4000 draws)",
+              "strata": "fast-polled and slow-polled strata are reported separately and never pooled (the B6 cadence-invariance check is failed and stays shown); 12 drives without a cadence regime are outside both strata; cohorts all, cold, shoulder, warm within each stratum; cold rows are exploratory; no contrast, no p-value, no cell selection; every pre-registered cell is listed including not estimable ones, in a fixed order",
+              "support": "a cell below 10 drives on 5 days is not estimable (counts shown); a cell with no occupancy reads 'no occupancy observed in n drives on d days'; a cell with fewer than %d days carries the flag 'interval endpoints Monte Carlo-sensitive'" % MC_DAYS,
+              "notBlind": "not blind: the engine-speed distribution (mode near 1,975 to 2,025 rpm, mode near 1,475 to 1,525 rpm) and the state-machine band occupancy were seen before the specification",
+              "reconciliation": study["reconciliation"], "provenance": {"masterMd5": md5, "scriptSha256": study["scriptSha256"], "cacheCodeHash": study["cacheCodeHash"], "nDrives": study["nDrives"], "verified": False}}
+    c1 = {**common, "output": "C1: occupancy of a window of 150 rpm either side of the quoted best-BSFC point (width and translation sensitivities)",
+          "quoted": src["C1"], "notComparable80": {**src["notComparable80"], "label": "not comparable: WLTC plus Extra High test procedure, denominator not stated; never a target for an all-driving share"},
+          "rows": _rows(study["c1"], None),
+          "reading": ["occupancy of a window around the quoted best-BSFC point, descriptive; occupancy is not efficiency and not an identification of an operating point",
+                      "predictable from the already-seen engine-speed distribution (the mode near 2,000 rpm): not new evidence", "quoted for the X-TRAIL VC-TURBO; the market calibration may differ"],
+          "audit": {"status": "reproduced independently (blind audit, analyses/M705_audit.json)", "result": audit["per_output"]["C1"], "mismatchCause": audit["mismatch_cause"]},
+          "withheld": {"zoneCells": "withheld: interval tolerance not met (the audit's endpoints differed by more than 0.5 pp in 5 of 88 estimable speed-zone cells; point shares and seconds matched exactly); zone cells stay in analyses/M705_study.json only; no point share is shown without its interval",
+                       "sensitivityVariants": "the first-60-s and reverse-seconds variants were not audited and stay in analyses/M705_study.json only"},
+          "c1b": {"output": "C1b: share of engine-on seconds below 1,500 rpm outside the start and stop ramps", "quoted": src["C1b"],
+                  "status": "withheld: audit failed (interval tolerance of 0.5 pp breached in 6 of 256 estimable cells; point shares and seconds reproduced exactly; the breach was attributed by the auditor to Monte Carlo noise, which could not be verified under the frozen gate)",
+                  "audit": {"result": audit["per_output"]["C1b"]}, "market": MARKET,
+                  "limits": "the boundary sits on a mode of the engine-speed distribution (the share changes by an order of magnitude between the below-1,475 and below-1,525 boundaries), so the estimand is ill-conditioned; it can return only through a pre-registered revision with a tolerance tied to Monte Carlo error, a new blind audit and a Director review; the figures are not shown",
+                  "provenance": {"scriptSha256": study["scriptSha256"], "verified": False}}}
+    c2 = {**common, "output": "C2: occupancy of a window of 100 rpm either side of the quoted maximum-output point (width and translation sensitivities)",
+          "quoted": src["C2"], "rows": _rows(study["c2"], None),
+          "reading": ["occupancy of a window around the quoted maximum-output point, descriptive; a small share has a wide relative interval", "quoted for the X-TRAIL VC-TURBO; the market calibration may differ",
+                      "the generator rating quoted in the same document is not the engine output and the 4,800 rpm of the other engine concept is not used"],
+          "audit": {"status": "reproduced independently (blind audit, analyses/M705_audit.json)", "result": audit["per_output"]["C2"]},
+          "withheld": {"sensitivityVariants": "the first-60-s and reverse-seconds variants were not audited and stay in analyses/M705_study.json only"}}
+    return c1, c2
+
+
+def splice(A, c1, c2, md5, now=None):
+    import copy
+    import stamp_common as _sc
+    new = copy.deepcopy(A)
+    new[K1] = c1; new[K2] = c2
+    ts = (now or datetime.datetime.now(datetime.timezone.utc)).isoformat()
+    for k in (K1, K2):
+        old = (A.get("_artifactStamps") or {}).get(k)
+        st = copy.deepcopy(A["_artifactStamps"]["fuelContract"])
+        st.update(corpusHash=md5, generatedAt=ts, computationStatus="computed", upstreamHashes={"driveMasterMd5": md5},
+                  computationStatusNote="M705: derived by tools/rpm_window_cache.py and tools/oem_crosscheck.py from raw drive CSVs and drive_master.csv (spec analyses/M705_spec.md Rev 1 + errata 13); descriptive occupancy of the logged engine speed, not blind, not an efficiency")
+        st.pop("carriedForward", None)
+        st["includedInReleaseAt"] = st["computedAt"] = st["generatedAt"]
+        new["_artifactStamps"][k] = _sc.carry_declared(old, st)
+    bad = [k for k in set(A) | set(new) if k not in (K1, K2, "_artifactStamps") and A.get(k) != new.get(k)]
+    bad += [k for k in set(A["_artifactStamps"]) | set(new["_artifactStamps"]) if k not in (K1, K2) and A["_artifactStamps"].get(k) != new["_artifactStamps"].get(k)]
+    return new, bad
+
+
+def do_splice(dry=False):
+    study = json.load(open("analyses/M705_study.json", encoding="utf-8")); audit = json.load(open("analyses/M705_audit.json", encoding="utf-8"))
+    md5 = hashlib.md5(open("drive_master.csv", "rb").read()).hexdigest()
+    c1, c2 = assemble(study, audit, md5)
+    raw = open("summary_arrays.json", encoding="utf-8", newline="").read()
+    new, bad = splice(json.loads(raw), c1, c2, md5)
+    print(json.dumps({"outsideKeys": bad, "sizeBytes": len(json.dumps(c1)) + len(json.dumps(c2))}))
+    if bad:
+        return 1
+    if not dry:
+        open("summary_arrays.json", "w", encoding="utf-8", newline="").write(json.dumps(new, ensure_ascii=False, indent=1) + ("\n" if raw.endswith("\n") else ""))
+    return 0
+
+
 if __name__ == "__main__":
+    if "--splice" in sys.argv:
+        sys.exit(do_splice("--dry-run" in sys.argv))
     if "--study" in sys.argv:
         run_study(sys.argv[sys.argv.index("--study") + 1])
