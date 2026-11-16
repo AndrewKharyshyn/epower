@@ -36,7 +36,7 @@ def load_drives():
         if e is None:
             continue
         c = cad.get(r["file"]); c = c if isinstance(c, str) else "unknown"
-        rows.append({"file": r["file"], "date": str(r["date"])[:10], "cadence": c, "cohort": coh.get(r["file"], "warm"), "H": e[0], "meta": e[1]})
+        rows.append({"file": r["file"], "date": str(r["date"])[:10], "cadence": c, "cohort": coh[r["file"]], "H": e[0], "meta": e[1]})
     return rows
 
 

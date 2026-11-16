@@ -1,0 +1,59 @@
+{
+ "claim": "M705 rpm-window occupancy C1 [1850,2150), C1b <1500 outside ramps, C2 [4300,4500); ratio of sums, day-clustered percentile bootstrap",
+ "reproduced": {
+  "n_drives": 651,
+  "n_days": 126,
+  "estimate": 0.63278538,
+  "ci95": [
+   0.57805,
+   0.67316
+  ],
+  "note": "C1 fast/all/thr400 shown (208 drives w/ engine-on, 44 days); full grid of 7488 cell values in audit/m705_blind_out.json"
+ },
+ "agrees": true,
+ "abs_diff": 1.1e-16,
+ "per_output": {
+  "C1": {
+   "seconds_exact": "PASS 112/112 window cells + 128 zone cells",
+   "share_1e-9": "PASS (max 1.1e-16)",
+   "ci_0.5pp": "PASS windows (max 0.40pp); zone sub-cells FAIL 5/88 estimable (0.63-3.85pp, thin days)",
+   "drives_days": "match (fast 208/44, slow 408/88)"
+  },
+  "C1b": {
+   "seconds_exact": "PASS 256/256 (r=0,3,5,10)",
+   "share_1e-9": "PASS (5.6e-17)",
+   "ci_0.5pp": "FAIL 6/256 (0.50-0.62pp, only lt1525 and 1475-1525 bands)"
+  },
+  "C2": {
+   "seconds_exact": "PASS 32/32",
+   "share_1e-9": "PASS",
+   "ci_0.5pp": "PASS (0.013pp)",
+   "any_occupancy": "PASS 8/41 fast/slow (thr400,300) for 4300-4500; 10/49 for 4200-4600; all-cohort total 49/59"
+  }
+ },
+ "spot_check": "40 random drives x thr{300,400} x r{0,3,5,10} x 5 windows x 8 zones vs rpm_window_cache npz: 0 mismatches (1600 window checks plus totals)",
+ "mismatch_cause": "interval breaches are Monte Carlo noise of my independent RNG on heavy-tailed thin cells: same cell re-bootstrapped with seeds 1,2,3 (B=4000) gives upper limits 83.45, 83.02 (B=40000: 83.78) vs author 81.73. No grid, ffill, ramp or zone-assignment difference found.",
+ "method_concerns": [
+  "Interval MC error is up to ~1.5-4pp in cells with <40 days and wide skew; B=4000 seed 42 is not enough to make 0.5pp tolerance meaningful there; state MC error or report as descriptive",
+  "Hundreds of unadjusted CIs (2 strata x 4 cohorts x 2 thr x windows/zones/ramps); no multiplicity control; keep fixed order, no highlighting, no inference from single cells",
+  "Same seed reused for every cell (correlated draws, benign) and draws with zero denominator silently dropped (draws field reports it)",
+  "cohort falls back to 'warm' via coh.get(file,'warm') if thermal_regime missing (hidden default; currently 0 affected since all clean drives are mapped)",
+  "reconciliation vs sidecar grid: only 223/651 drives equal, max diff 92 s; disclosed as not a gate, but two grids coexist in the repo",
+  "cadence-regime NaN drives (12) are outside the 651 clean set; no strata contrast drawn"
+ ],
+ "language_concerns": [
+  "C1b: share <1500 is 8.5% but <1475 is 0.3% and <1525 is 16%: the result is boundary-fragile (quantisation/rounding around 1500 rpm), so no wording like 'engine does not run below 1500' being confirmed or contradicted",
+  "Occupancy is of app-logged, 1 s resampled rpm (mean, 3 s carry), not measured engine speed; describe as logged",
+  "Manufacturer points are quoted EU-market figures; do not label consistent/inconsistent, no margin (spec states this)",
+  "Cold and thin zone cells below 10 drives/5 days are correctly not estimated; keep status text, do not paraphrase as no occupancy"
+ ],
+ "verdict": "accept",
+ "verdict_note": "point estimates and per-drive seconds reproduce exactly; only interval endpoints in 11 thin cells exceed the 0.5pp tolerance, attributable to bootstrap MC noise, not definitions. Add MC-error caveat.",
+ "audit_files": [
+  "audit/m705_blind.py",
+  "audit/m705_blind_agg.py",
+  "audit/m705_blind_compare.py",
+  "audit/m705_blind_out.json",
+  "analyses/M705_audit.json"
+ ]
+}
