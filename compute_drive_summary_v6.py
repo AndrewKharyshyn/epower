@@ -335,7 +335,7 @@ COL_MAP = {
     '[BMS] Min Cell Voltage (V)': 'Vcell_min',
     '[VCM] Vehicle Speed (km/h)': 'speed',
     # '[VCM] Motor RPM (rpm)' -> REJECTED in M102, see _REJECTED_CHANNELS below.
-    '[VCM] Motor Torque (N⋅m)': 'motor_torque',      # measured; ~1/256 of true N·m (M102): valid but mis-scaled and currently unused -- multiply by ~256 to recover measured N·m; cf. target_torque
+    '[VCM] Motor Torque (N⋅m)': 'motor_torque',      # logged actual-torque register, logged at ~1/256 of the target register's scale (M102): x256 tracks the target register within the M691 window (adjacent-row pairs, |target| >= 20 N·m; not a shaft-torque reading); currently unused; cf. target_torque
     '[VCM] Target Motor Torque (N⋅m)': 'target_torque',
     '[VCM] HV Coolant Temperature (℃)': 'T_coolant',
     '[VCM] Traction motor temperature (℃)': 'T_motor',
