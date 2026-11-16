@@ -68380,6 +68380,27 @@
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
    "computedAt": "2026-11-16T13:32:45.669719+00:00"
+  },
+  "engineStartHazard": {
+   "corpusHash": "77bbe275f8c22eaf62d8636867764af3",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": "11a89dc0c881bd0a60e9e957ccd1936a",
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-11-16T17:15:19.330289+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3"
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M701: derived by tools/start_hazard.py from raw drive CSVs and drive_master.csv (spec analyses/M701_spec.md Rev 1 + errata 13-15); estimated, exploratory, not established",
+   "includedInReleaseAt": "2026-11-16T17:15:19.330289+00:00",
+   "inputBasis": {
+    "nDrives": 665,
+    "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-11-16T17:15:19.330289+00:00"
   }
  },
  "ambientTable": {
@@ -454780,6 +454801,229 @@
    "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3",
    "script": "tools/capacity_anchors.py",
    "scriptSha256": "94031552db56b84efe588be2357d4e4bc5e37e78533b98f437dc49f37a48e0c0"
+  }
+ },
+ "engineStartHazard": {
+  "spec": "analyses/M701_spec.md Rev 1 + errata 13-15",
+  "files": {
+   "study": "analyses/M701_study.json",
+   "simulation": "analyses/M701_sim.json",
+   "feasibility": "analyses/M701_feasibility.json",
+   "audit": "analyses/M701_audit.json",
+   "supersededRun1": "analyses/M701_study_run1_superseded.json"
+  },
+  "status": "not established: the pedal hazard-ratio interval includes 1 and the fitted pedal curve is not monotone",
+  "estimand": "hazard of an RPM onset (> 300 rpm, run >= 2 s) per second of engine-off time, discrete time on 2 s intervals; estimated from logged channels",
+  "population": {
+   "drives": 427,
+   "days": 73,
+   "intervals": 119663,
+   "onsets": 2822,
+   "pedalLoggedFrom": "2026-08-14",
+   "eligibility": "pedal coverage > 90 % of engine-off seconds after a 15 s last-observation carry-forward (the feasibility table of the same spec is the raw coverage before the carry-forward and is smaller)"
+  },
+  "pedalContrast": {
+   "label": "log hazard ratio of the 2 s maximum pedal D, day-weighted 75th versus 25th percentile, other covariates at their medians",
+   "q25": 0.0,
+   "q75": 15.294117647058824,
+   "hazardRatio": 1.0032632313013135,
+   "sandwichCi95": [
+    0.7676264412906109,
+    1.3112329866970986
+   ],
+   "dayScoreBootstrapCi95": [
+    0.7681948318653925,
+    1.3065896817271583
+   ],
+   "draws": 4000,
+   "monotonicity": {
+    "nondecreasing": false,
+    "shareIncreasing": 0.625
+   }
+  },
+  "predictiveValue": {
+   "cvGainPerDay": 19.629517500421205,
+   "cvGainCi95": [
+    13.553160403509606,
+    26.104438844507772
+   ],
+   "aucWithPedal": 0.8504081072916874,
+   "aucWithoutPedal": 0.7765288239845178,
+   "aucGain": 0.07387928330716953,
+   "aucGainCi95": [
+    0.0632579779728127,
+    0.08659698516539795
+   ],
+   "reading": "the logged pedal channel adds out-of-sample predictive information on RPM-onset timing beyond SoC, speed, spell duration and thermal class; this is predictive value, not a demand effect, and its direction is not established"
+  },
+  "ladder": {
+   "supported": false,
+   "parts": {
+    "cvGainExcludesZero": true,
+    "hrBothIntervalsAboveOne": false,
+    "aucGainExcludesZero": true
+   }
+  },
+  "sensitivities": {
+   "lag0": {
+    "drives": 427,
+    "days": 73,
+    "hazardRatio": 0.9307322798757361,
+    "sandwichCi95": [
+     0.7302744243561885,
+     1.1862151376400516
+    ]
+   },
+   "lag5": {
+    "drives": 427,
+    "days": 73,
+    "hazardRatio": 1.0925579637607437,
+    "sandwichCi95": [
+     0.7468494824337902,
+     1.5982911312827277
+    ]
+   },
+   "thr400": {
+    "drives": 427,
+    "days": 73,
+    "hazardRatio": 0.9226187862598052,
+    "sandwichCi95": [
+     0.7243324513177292,
+     1.1751860947427373
+    ]
+   },
+   "cool60": {
+    "drives": 360,
+    "days": 73,
+    "hazardRatio": 0.8398642520831294,
+    "sandwichCi95": [
+     0.6526715146992998,
+     1.0807457442847568
+    ]
+   },
+   "withStart": {
+    "drives": 427,
+    "days": 73,
+    "hazardRatio": 0.9667502333075747,
+    "sandwichCi95": [
+     0.7357584845476396,
+     1.2702619585486212
+    ]
+   },
+   "revIncluded": {
+    "drives": 427,
+    "days": 73,
+    "hazardRatio": 1.0032632313013135,
+    "sandwichCi95": [
+     0.7676264412906109,
+     1.3112329866970986
+    ]
+   },
+   "age5": {
+    "drives": 427,
+    "days": 73,
+    "hazardRatio": 1.0034503776204635,
+    "sandwichCi95": [
+     0.7678788267594583,
+     1.311291085594773
+    ]
+   },
+   "everySecond": {
+    "drives": 427,
+    "days": 73,
+    "hazardRatio": 0.943960093513351,
+    "sandwichCi95": [
+     0.6707978143625822,
+     1.3283595132051143
+    ]
+   }
+  },
+  "cadenceStrata": {
+   "fast": {
+    "drives": 226,
+    "days": 44,
+    "hazardRatio": 0.9650608224635987,
+    "sandwichCi95": [
+     0.6760703053523135,
+     1.377582159253063
+    ]
+   },
+   "slow": {
+    "drives": 201,
+    "days": 35,
+    "hazardRatio": 1.101305311526942,
+    "sandwichCi95": [
+     0.7610583010705118,
+     1.5936668550772202
+    ]
+   }
+  },
+  "targetTorque": {
+   "intersectionSetOnly": true,
+   "drives": 423,
+   "days": 73,
+   "pedalTorqueCorrelation": 0.5562670595222403,
+   "aloneHazardRatio": 2.8312621707883023,
+   "aloneSandwichCi95": [
+    2.315945981289527,
+    3.461240264020979
+   ],
+   "besidePedalHazardRatio": 1.94032405816963,
+   "besidePedalSandwichCi95": [
+    1.6719038602903395,
+    2.251838481943611
+   ],
+   "reading": "target motor torque is a VCM output; its association with RPM onset (alone and beside pedal) may reflect reverse causality (the controller sets torque and the start together) and is not evidence of demand dependence"
+  },
+  "simulation": {
+   "reps": 500,
+   "nullFalsePositiveRate": 0.066,
+   "plantedHr1.5Coverage95": 0.93,
+   "plantedHr1.5Power": 0.582,
+   "epochConfoundNullFalsePositiveRate": 0.172,
+   "gatedCriteriaPass": true,
+   "undefinedIntervalShare": 0.0
+  },
+  "epochConfounded": true,
+  "epochCaveat": "epoch-confounded: pedal is logged only from 2026-08-14 onward; season, the battery software update and logger cadence change with it and cannot be separated; a simulated epoch confound gives a false-positive rate of 0.172 (criterion 0.075)",
+  "reading": [
+   "not established does not mean no demand effect: the power at a planted hazard ratio of 1.5 is 0.58 in simulation",
+   "the two-point contrast is fragile because pedal mass sits at 0 and the fitted curve is not monotone; a blind audit obtained a different point estimate with an interval that also includes 1; a scoped check traced the gap to the input construction (whether the raw pedal, SoC and speed columns are forward-filled before the 1 s resampling, which moves the log hazard ratio by about 0.2, roughly 1.5 standard errors) with about 0.04 log units unexplained; the fit and the quantile definition reproduce exactly on the same rows; every variant includes 1 (disclosed, not acted on: changing the construction after the result would be tuning)",
+   "winsorisation bounds are computed on all primary rows before the folds (covariates only); the AUC pools intervals of 1 s and 2 s and is secondary",
+   "estimated from logged channels, not the VCM calibration; not a threshold of the control law"
+  ],
+  "supersededRun1": "the first run used an unweighted quantile contrast (spec item 5 specifies day-weighted); kept in analyses/M701_study_run1_superseded.json and replaced after errata 15",
+  "followUps": "a new spec (not a reinterpretation) may test pedal = 0 versus > 0 or a monotone constraint; re-run when pedal-eligible days cross the season boundary",
+  "provenance": {
+   "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+   "scriptSha256": "5413737ad0963f9462a09c65034386af67dd719b5930f73162a0e48ba629a4ec",
+   "studyFingerprint": {
+    "nDrives": 427,
+    "nDays": 73,
+    "nBlocks": 119663,
+    "nEvents": 2822,
+    "winsorBounds": {
+     "soc": [
+      49.5,
+      78.0
+     ],
+     "speed": [
+      0.0,
+      82.0
+     ],
+     "dur": [
+      -1.0,
+      342.0
+     ],
+     "ped": [
+      0.0,
+      29.41176470588235
+     ]
+    },
+    "pedEligibleDrives": 427,
+    "cleanDrivesRead": 651
+   },
+   "verified": false
   }
  }
 }

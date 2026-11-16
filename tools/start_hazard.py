@@ -314,7 +314,7 @@ def run_study(out, files=None):
     cv = cv_gain(P, F1, F0)
     ok, parts = supported(cv, hr)
     res["primary"] = {"hazardRatioP75vsP25": hr, "monotonicity": monotone(r1, P), "cvGain": cv, "supported": ok, "supportParts": parts,
-                      "nonSupportNote": "supported = consistent with the OEM statement that start depends on demand; otherwise not established"}
+                      "nonSupportNote": "supported = consistent with the OEM statement that RPM onset (> 300 rpm, run >= 2 s) depends on demand and SoC; otherwise not established"}
     res["sensitivities"] = {}
     for name in ("lag0", "lag5", "thr400", "cool60", "withStart", "revIncluded", "age5", "everySecond"):
         T = tabs[name]; Q = T[T["pedEl"] & np.isfinite(T[["soc", "speed", "dur", "ped"]]).all(axis=1)].reset_index(drop=True)
@@ -395,6 +395,91 @@ def run_sim(out, reps=500, workers=6):
     return res
 
 
+# ---------------------------------------------------------------- payload block (additive, no display)
+KEY = "engineStartHazard"
+
+
+def assemble(study, sim, perdrive, md5):
+    P = study["primary"]; hr = P["hazardRatioP75vsP25"]; cv = P["cvGain"]; fp = study["fingerprint"]
+    first_ped = str(perdrive[perdrive["pedEligible"]]["date"].min())
+    tt = study.get("targetTorque", {})
+    s = sim
+    if "status" in tt:
+        ttb = {"status": tt["status"]}
+    else:
+        ttb = {"intersectionSetOnly": True, "drives": tt["nDrives"], "days": tt["nDays"], "pedalTorqueCorrelation": tt["pedalTorqueCorrelation"],
+               "aloneHazardRatio": tt["M2torque"]["hr"], "aloneSandwichCi95": tt["M2torque"]["sandwichCi95"],
+               "besidePedalHazardRatio": tt["M3bothTorque"]["hr"], "besidePedalSandwichCi95": tt["M3bothTorque"]["sandwichCi95"],
+               "reading": "target motor torque is a VCM output; its association with RPM onset (alone and beside pedal) may reflect reverse causality (the controller sets torque and the start together) and is not evidence of demand dependence"}
+
+    def sens(d):
+        return {k: ({"status": v["status"]} if "status" in v else {"drives": v["nDrives"], "days": v["nDays"], "hazardRatio": v["hazardRatioP75vsP25"]["hr"], "sandwichCi95": v["hazardRatioP75vsP25"]["sandwichCi95"]}) for k, v in d.items()}
+    blk = {
+        "spec": "analyses/M701_spec.md Rev 1 + errata 13-15",
+        "files": {"study": "analyses/M701_study.json", "simulation": "analyses/M701_sim.json", "feasibility": "analyses/M701_feasibility.json", "audit": "analyses/M701_audit.json",
+                  "supersededRun1": "analyses/M701_study_run1_superseded.json"},
+        "status": "not established: the pedal hazard-ratio interval includes 1 and the fitted pedal curve is not monotone",
+        "estimand": "hazard of an RPM onset (> 300 rpm, run >= 2 s) per second of engine-off time, discrete time on 2 s intervals; estimated from logged channels",
+        "population": {"drives": fp["nDrives"], "days": fp["nDays"], "intervals": fp["nBlocks"], "onsets": fp["nEvents"], "pedalLoggedFrom": first_ped,
+                       "eligibility": "pedal coverage > 90 % of engine-off seconds after a 15 s last-observation carry-forward (the feasibility table of the same spec is the raw coverage before the carry-forward and is smaller)"},
+        "pedalContrast": {"label": "log hazard ratio of the 2 s maximum pedal D, day-weighted 75th versus 25th percentile, other covariates at their medians", "q25": hr["q25"], "q75": hr["q75"], "hazardRatio": hr["hr"],
+                          "sandwichCi95": hr["sandwichCi95"], "dayScoreBootstrapCi95": hr["scoreBootCi95"], "draws": hr["draws"], "monotonicity": P["monotonicity"]},
+        "predictiveValue": {"cvGainPerDay": cv["gainPerDayMean"], "cvGainCi95": cv["gainPerDayCi95"], "aucWithPedal": cv["auc"]["M1"], "aucWithoutPedal": cv["auc"]["M0"], "aucGain": cv["auc"]["gain"], "aucGainCi95": cv["auc"]["gainCi95"],
+                            "reading": "the logged pedal channel adds out-of-sample predictive information on RPM-onset timing beyond SoC, speed, spell duration and thermal class; this is predictive value, not a demand effect, and its direction is not established"},
+        "ladder": {"supported": P["supported"], "parts": P["supportParts"]},
+        "sensitivities": sens(study["sensitivities"]),
+        "cadenceStrata": sens(study["cadenceStrata"]),
+        "targetTorque": ttb,
+        "simulation": {"reps": s["reps"], "nullFalsePositiveRate": s["null"]["falsePositiveRate"], "plantedHr1.5Coverage95": s["planted_HR1.5"]["coverage95"], "plantedHr1.5Power": s["planted_HR1.5"]["power"],
+                       "epochConfoundNullFalsePositiveRate": s["epoch_confound_null"]["falsePositiveRate"], "gatedCriteriaPass": s["allGatedCriteriaPass"], "undefinedIntervalShare": s["null"]["undefinedIntervalShare"]},
+        "epochConfounded": bool(s["epoch_confound_null"]["epochConfoundedCaveat"]),
+        "epochCaveat": "epoch-confounded: pedal is logged only from " + first_ped + " onward; season, the battery software update and logger cadence change with it and cannot be separated; a simulated epoch confound gives a false-positive rate of "
+                       + ("%.3f" % s["epoch_confound_null"]["falsePositiveRate"]) + " (criterion 0.075)",
+        "reading": ["not established does not mean no demand effect: the power at a planted hazard ratio of 1.5 is " + ("%.2f" % s["planted_HR1.5"]["power"]) + " in simulation",
+                    "the two-point contrast is fragile because pedal mass sits at 0 and the fitted curve is not monotone; a blind audit obtained a different point estimate with an interval that also includes 1; a scoped check traced the gap to the input construction (whether the raw pedal, SoC and speed columns are forward-filled before the 1 s resampling, which moves the log hazard ratio by about 0.2, roughly 1.5 standard errors) with about 0.04 log units unexplained; the fit and the quantile definition reproduce exactly on the same rows; every variant includes 1 (disclosed, not acted on: changing the construction after the result would be tuning)",
+                    "winsorisation bounds are computed on all primary rows before the folds (covariates only); the AUC pools intervals of 1 s and 2 s and is secondary",
+                    "estimated from logged channels, not the VCM calibration; not a threshold of the control law"],
+        "supersededRun1": "the first run used an unweighted quantile contrast (spec item 5 specifies day-weighted); kept in analyses/M701_study_run1_superseded.json and replaced after errata 15",
+        "followUps": "a new spec (not a reinterpretation) may test pedal = 0 versus > 0 or a monotone constraint; re-run when pedal-eligible days cross the season boundary",
+        "provenance": {"masterMd5": md5, "scriptSha256": study["scriptSha256"], "studyFingerprint": fp, "verified": False},
+    }
+    return blk
+
+
+def splice(A, blk, md5, now=None):
+    import copy, datetime
+    import stamp_common as _sc
+    new = copy.deepcopy(A)
+    new[KEY] = blk
+    old = (A.get("_artifactStamps") or {}).get(KEY)
+    st = copy.deepcopy(A["_artifactStamps"]["fuelContract"])
+    ts = (now or datetime.datetime.now(datetime.timezone.utc)).isoformat()
+    st.update(corpusHash=md5, generatedAt=ts, computationStatus="computed", upstreamHashes={"driveMasterMd5": md5},
+              computationStatusNote="M701: derived by tools/start_hazard.py from raw drive CSVs and drive_master.csv (spec analyses/M701_spec.md Rev 1 + errata 13-15); estimated, exploratory, not established")
+    st.pop("carriedForward", None)
+    st["includedInReleaseAt"] = st["computedAt"] = st["generatedAt"]
+    new["_artifactStamps"][KEY] = _sc.carry_declared(old, st)
+    bad = [k for k in set(A) | set(new) if k not in (KEY, "_artifactStamps") and A.get(k) != new.get(k)]
+    bad += [k for k in set(A["_artifactStamps"]) | set(new["_artifactStamps"]) if k != KEY and A["_artifactStamps"].get(k) != new["_artifactStamps"].get(k)]
+    return new, bad
+
+
+def do_splice(dry=False):
+    os.chdir(ROOT)
+    study = json.load(open("analyses/M701_study.json", encoding="utf-8")); sim = json.load(open("analyses/M701_sim.json", encoding="utf-8"))
+    pdv = pd.read_csv("analyses/M701_feasibility_perdrive.csv")
+    md5 = hashlib.md5(open("drive_master.csv", "rb").read()).hexdigest()
+    blk = assemble(study, sim, pdv, md5)
+    raw = open("summary_arrays.json", encoding="utf-8", newline="").read()
+    new, bad = splice(json.loads(raw), blk, md5)
+    print(json.dumps({"outsideKey": bad}))
+    if bad:
+        return 1
+    if not dry:
+        open("summary_arrays.json", "w", encoding="utf-8", newline="").write(json.dumps(new, ensure_ascii=False, indent=1) + ("\n" if raw.endswith("\n") else ""))
+    return 0
+
+
 def main(argv):
     if "--pilot" in argv:
         n = int(argv[argv.index("--pilot") + 1])
@@ -404,6 +489,8 @@ def main(argv):
         print(json.dumps({k: r.get(k) for k in ("fingerprint", "status", "runtimeSeconds")}, default=str)); print(json.dumps(r.get("primary"), default=str)[:1500]); return
     if "--study" in argv:
         run_study(argv[argv.index("--study") + 1]); print("done"); return
+    if "--splice" in argv:
+        sys.exit(do_splice("--dry-run" in argv))
     if "--sim" in argv:
         reps = int(argv[argv.index("--reps") + 1]) if "--reps" in argv else 500
         w = int(argv[argv.index("--workers") + 1]) if "--workers" in argv else 6
