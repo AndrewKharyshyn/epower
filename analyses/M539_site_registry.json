@@ -267,6 +267,20 @@
    "family": "regen-proxy-300",
    "rule": "engine-off proxy rpm < 300 (owner decision 2026-10-14 (g)); used for the standstill torque noise floor tau0 and the engine-off subset of the current-sign check of the reverse-episode analysis (M698); not an engine-on definition for any published figure; NaN policy: a sample without an aligned rpm is excluded",
    "migration": "none (decision g)"
+  },
+  {
+   "file": "tools/start_hazard.py",
+   "anchor": "rpm = hz[\"rpm\"].values; off = ~(np.nan_to_num(rpm) > 300)",
+   "family": "event-onset-300",
+   "rule": "RPM onset (> 300 rpm, run >= 2 s; NaN = off) is the event of the M701 hazard and engine-off (rpm <= 300) is its risk state; the detector of record (RPM onset keeps its own name); NaN seconds are not at risk",
+   "migration": "none (event detector)"
+  },
+  {
+   "file": "tools/start_hazard_feasibility.py",
+   "anchor": "engine-off seconds are those with rpm <= 300 or missing rpm",
+   "family": "doc-300",
+   "rule": "text only (docstring of the M701 feasibility count)",
+   "migration": "none"
   }
  ],
  "knownBoundaryNotes": [

@@ -1,0 +1,76 @@
+{
+ "claim": "M701 demand-aware RPM-onset hazard; pre-registered verdict supported=false (sign condition fails; CV gain and AUC gain positive)",
+ "reproduced": {
+  "n_drives": 430,
+  "n_days": 73,
+  "n_blocks": 120149,
+  "n_events": 2829,
+  "estimate": 0.234,
+  "ci95": [
+   -0.027,
+   0.495
+  ],
+  "estimate_note": "log HR pedal P75 vs P25 (day-weighted quantiles 0 vs 14.9); HR 1.26 [0.97,1.64]; score-bootstrap log CI [-0.028,0.492]",
+  "cv_gain_per_day": 16.17,
+  "cv_gain_ci95": [
+   11.16,
+   21.83
+  ],
+  "auc_m1_m0": [
+   0.8,
+   0.699
+  ],
+  "auc_gain_ci95": [
+   0.085,
+   0.119
+  ],
+  "sens": {
+   "lag0": {
+    "logHR": 0.224,
+    "ci": [
+     -0.018,
+     0.466
+    ],
+    "cv": 18.7
+   },
+   "lag5": {
+    "logHR": 0.266,
+    "ci": [
+     -0.088,
+     0.62
+    ],
+    "cv": 13.6
+   }
+  }
+ },
+ "agrees": true,
+ "abs_diff": 0.191,
+ "agreement_detail": "counts within 0.7 % (drives 430 vs 427, blocks +0.4 %, events +0.25 %, days 73=73); logHR 0.234 inside author CI (-0.22..0.31), CIs overlap; CV gain 16.2 inside author CI 13.6-26.1; AUC level differs (0.800/0.699 vs 0.850/0.777) but gain positive in both. Pre-registered verdict reproduced: both HR intervals include 0, CV gain and AUC gain intervals exclude 0.",
+ "method_concerns": [
+  "hr_scalar uses unweighted np.nanpercentile for P25/P75; spec item 5 says day-weighted. My day-weighted run gives logHR 0.234 vs author 0.043: the point estimate is quantile-definition sensitive (pedal mass at 0); verdict unaffected.",
+  "winsor bounds computed on all rows before CV (outcome-independent, covariate-only; minor fold contamination of covariate quantiles, no outcome leakage).",
+  "AUC computed on p/w (per-second hazard) pooled over blocks of width 1 or 2; my block-level AUC is lower by ~0.05-0.08; AUC is secondary, not a gate.",
+  "Eligibility: feasibility CSV pedEligible=228/44 days is computed without LOCF; the study uses post-LOCF coverage (430/73). Spec says after LOCF, consistent, but the CSV and the study disagree and the CHANGELOG feasibility count should be labelled pre-LOCF.",
+  "Leakage checked: covariates at k-1 (rollmax shift(1), at_start k-1), folds are whole days stratified by month, models refit per fold, day is cluster for sandwich, score bootstrap and CV bootstrap; no row-level resampling found. Reverse-mask alignment tolerance 1 s (disclosed). Cold-class and epoch confounding unaddressed in fit (pedal only from Aug 13 onward)."
+ ],
+ "language_concerns": [
+  "Report 'not established' for the pedal sign (HR CI spans 1), not 'no effect'.",
+  "CV gain and AUC gain are predictive value beyond SoC/speed/duration, not a pedal effect; do not call it consistent with the OEM statement (verdict is supported=false).",
+  "Say 'RPM onset', not 'engine start'; epoch/firmware/cadence confounded."
+ ],
+ "verdict": "accept",
+ "audit_files": [
+  "audit/m701_build.py",
+  "audit/m701_design.py",
+  "audit/m701_fit.py",
+  "analyses/M701_audit.json"
+ ],
+ "addendum_final_run_gap": {
+  "question": "logHR 0.234 (mine) vs 0.0033 (author final)",
+  "quantile_def": "not the cause: author wq on winsorised ped gives q25 0, q75 15.294, matching mine within 0.35",
+  "conditioning_other_covariates_class_winsor_spline": "not the cause: ped contrast is additive in cloglog (no interactions); my fit code on the author's own 119663-row table (427 drives) gives logHR 0.00326, q75 15.294 = author's 0.0033; so fit, splines, winsor, quantile and conditioning are identical",
+  "cause": "input row/covariate construction. Mine forward-filled raw ped, soc, speed (limit 15 rows) before the 1 s resample; the author fills only rpm/cool before resample. Changing only that: ped alone 0.234->0.141 (q75 15.29); ped+soc+speed 0.054; additionally restricting to the author's 427 drives 0.043",
+  "unexplained_residual": "0.043 vs 0.0033 (about 0.04 log units, SE 0.14, about 0.3 SE): remaining row differences (pipeline frame cache vs my raw read for rpm/speed, mask alignment, 3 extra drives, 14 vs 495 unmatched blocks); not further traced",
+  "implication": "the pedal log HR is sensitive to the LOCF treatment of raw channels at about 0.2 log units (1.5 SE); all variants keep CIs spanning 0, so the verdict is unchanged. Author's number reproduced exactly only on the author's rows."
+ }
+}

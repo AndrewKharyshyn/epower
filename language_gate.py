@@ -651,6 +651,8 @@ RULES = [
          rx=r"(?<!not )(?<!no )(?<!never )(?:measured|true) (?:rest|open[- ]circuit) (?:voltage|ocv)|anchor(?:ed|[- ]pair|[- ]based)[^.]{0,60}independent (?:check|capacity|estimate)|capacity fade (?:detected|established|observed)|state of health (?:is|of) (?:estimated|measured)"),
     Rule("M700-k-selection-wording", "regex", "M700 (spec analyses/M700_spec.md Rev 1): the number of breaks is a selected value under a pre-registered rule with simulated performance in stated scenarios; never the true number of breaks, a validated or admissible rule where the gate failed, or a detected update",
          rx=r"(?<!not )(?<!no )true (?:number of|K of) breaks|(?:k1|k2|k3|k4)[^.]{0,40}(?:is|was|were) (?:admissible|validated)|(?:number of )?breaks (?:was|were|is|are) (?:validated|detected the update)"),
+    Rule("M701-start-hazard-wording", "regex", "M701 (spec analyses/M701_spec.md Rev 1 + errata 13-15): the pedal and torque results are a logged-channel hazard of RPM onsets (estimated), predictive value is not a demand effect and torque is a VCM output (reverse causality); never a commanded start, a VCM threshold, pedal causes or confirmation of the OEM logic where the ladder is not met",
+         rx=r"commanded (?:engine )?start|vcm (?:start )?threshold|pedal (?:causes|drives) (?:the )?(?:engine )?(?:start|onset)|(?<!not )(?<!mean )no demand effect|pedal does not matter|(?:confirms?|confirmed) (?:the )?(?:demand dependence|oem (?:logic|statement))|demand effect of (?:the )?(?:target )?torque"),
 ]
 
 _SCAN_CACHE = {}

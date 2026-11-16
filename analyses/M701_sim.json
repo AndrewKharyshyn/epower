@@ -1,0 +1,28 @@
+{
+ "spec": "analyses/M701_spec.md Rev 1 item 12 + errata 13",
+ "reps": 500,
+ "null": {
+  "falsePositiveRate": 0.066,
+  "undefinedIntervalShare": 0.0,
+  "criterion": "<= 0.075 and undefined share <= 0.02",
+  "pass": true,
+  "medianHr": 0.9926910432376307
+ },
+ "planted_HR1.5": {
+  "coverage95": 0.93,
+  "undefinedIntervalShare": 0.0,
+  "criterion": ">= 0.90 and undefined share <= 0.02",
+  "pass": true,
+  "power": 0.582,
+  "medianHr": 1.4921657422625922,
+  "note": "truth uses the nominal IQR 10.8 of the planted pedal; the realised IQR differs slightly"
+ },
+ "epoch_confound_null": {
+  "falsePositiveRate": 0.172,
+  "undefinedIntervalShare": 0.0,
+  "diagnostic": true,
+  "caveatIfAbove": 0.075,
+  "epochConfoundedCaveat": true
+ },
+ "allGatedCriteriaPass": true
+}
