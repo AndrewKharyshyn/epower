@@ -68338,6 +68338,27 @@
    },
    "computedAt": "2026-11-16T07:29:18.651478+00:00",
    "computationStatusNote": "M691: derived by tools/torque_decoder.py from raw drive CSVs (cached by sha256), drive_master.csv, cadence_regime.csv and pid_epoch.csv (spec analyses/M690_spec.md Rev 1.1); descriptive"
+  },
+  "reverseInference": {
+   "corpusHash": "77bbe275f8c22eaf62d8636867764af3",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": "11a89dc0c881bd0a60e9e957ccd1936a",
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-11-16T10:59:54.410754+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3"
+   },
+   "computationStatus": "computed",
+   "includedInReleaseAt": "2026-11-16T10:59:54.410754+00:00",
+   "inputBasis": {
+    "nDrives": 665,
+    "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-11-16T10:59:54.410754+00:00",
+   "computationStatusNote": "M698: derived by tools/reverse_mask.py from raw drive CSVs (cached by sha256), drive_master.csv, cadence_regime.csv and analyses/M698_tau0.json (spec analyses/M695_spec.md Rev 1.2 final, sections 11 to 14); inferred, exploratory; falsified by V5 as pre-registered"
   }
  },
  "ambientTable": {
@@ -452015,6 +452036,738 @@
    "specSha256Rev1_2": "13f2f9fb9d9a3baf565f0fa6ef6fe30a73cc19c17e6fa4e3480e4a24dd9d91b8",
    "seed": 42,
    "nBoot": 4000
+  }
+ },
+ "reverseInference": {
+  "label": "inferred reverse-consistent episodes versus regeneration (inferred from standstill onset, the commanded-torque sign, d|speed| and battery current; direction is never observed; the owner statement is an assumption under test)",
+  "spec": "analyses/M695_spec.md Rev 1.2 final (sections 11 to 14)",
+  "status": "exploratory",
+  "parameters": {
+   "cap": 15.0,
+   "stand": 1.0,
+   "k": 2,
+   "tauScale": 1.0,
+   "tau0Nm": 45.765625,
+   "tau0File": "analyses/M698_tau0.json",
+   "regenWindowS": 3.0,
+   "maxDurationS": 120.0,
+   "minMoving": 2,
+   "minVmaxKmh": 2.0,
+   "gapFactor": 3.0
+  },
+  "sensitivityGrid": [
+   "primary",
+   "cap10",
+   "cap20",
+   "stand0.5",
+   "stand2",
+   "k1",
+   "k3",
+   "tau0x0.5",
+   "tau0x2"
+  ],
+  "deviation": "Rev 1.2 (disclosed): coverage prompted the extension of the speed source: VCM speed where the PID exists, else the standard OBD vehicle speed (ECU-reported, integer km/h, not GPS); 663 canonical-clean drives here against 665 master drives; the VCM stratum is the pre-registered first pass; the first-pass outcome counts were known before the extension; tau0 stays frozen",
+  "tau0PerSourceDescriptive": {
+   "VCM": 45.765625,
+   "OBD": 45.46875,
+   "obdFile": "analyses/M698_tau0_obd.json",
+   "insideGrid": true,
+   "substituted": false
+  },
+  "speedConcordance": {
+   "file": "analyses/M698_speed_concordance.json",
+   "status": "concordant",
+   "nDrivesWithBoth": 213,
+   "corpus": {
+    "medianZeroStateAgreement": 0.9814,
+    "medianAbsLagSamples": 0.0,
+    "medianAbsDiffKmh": 0.0,
+    "medianShareWithin1Kmh": 0.983,
+    "medianAbsOnsetDiffS": 2.03,
+    "medianLabelConcordance": 0.9929,
+    "episodesVcmTotal": 6,
+    "episodesObdTotal": 4
+   },
+   "limits": "the drives that log both PIDs are the earlier logger configuration; the OBD-only drives are later (a different configuration), so concordance on the early drives is evidence about the PID timing path, not a proof for the later drives"
+  },
+  "strata": {
+   "VCM": {
+    "all": {
+     "nDrives": 229,
+     "nDays": 57,
+     "essDays": 26.3,
+     "status": "supported",
+     "nSamples": 322349,
+     "labelCounts": {
+      "FORWARD": 319902,
+      "AMBIGUOUS_LOW": 1519,
+      "AMBIGUOUS_GAP": 0,
+      "REV_CAND": 31,
+      "NEG_AT_STANDSTILL": 182,
+      "REGEN_TO_STOP": 715
+     },
+     "negativeTorqueSamplesByLabel": {
+      "FORWARD": 66951,
+      "AMBIGUOUS_LOW": 1341,
+      "AMBIGUOUS_GAP": 0,
+      "REV_CAND": 29,
+      "NEG_AT_STANDSTILL": 182,
+      "REGEN_TO_STOP": 715
+     },
+     "nNegativeTorqueSamples": 69218,
+     "shareOfNegativeSamplesLabelledREV_CAND": 0.00042,
+     "shareOfNegativeSamplesAMBIGUOUS": 0.01937,
+     "shareOfNegativeSamplesNegAtStandstill": 0.00263,
+     "shareOfNegativeSamplesRegenToStop": 0.01033,
+     "nEpisodes": 6,
+     "nDrivesWithEpisode": 6,
+     "episodesPerDrive": 0.0262,
+     "V4_startOrEndShare": {
+      "share": 0.8333,
+      "ci95": [
+       0.5,
+       1.0
+      ],
+      "nEpisodes": 6,
+      "nDays": 6,
+      "nDrivesWithEpisode": 6,
+      "status": "not testable (below support ladder: fewer than 10 drives or 5 days with an episode)",
+      "supportsOwnerStatement": null
+     },
+     "V5_stability": {
+      "episodeCountByVariant": {
+       "primary": 6,
+       "cap10": 6,
+       "cap20": 6,
+       "stand0.5": 6,
+       "stand2": 3,
+       "k1": 27,
+       "k3": 2,
+       "tau0x0.5": 97,
+       "tau0x2": 1
+      },
+      "maxOverMin": 97.0,
+      "passed": false,
+      "status": "FAILED (threshold-sensitive)",
+      "postHocSupplement": {
+       "label": "POST HOC (allowed by the Director, never overrides the pre-registered verdict)",
+       "method": "exact Clopper-Pearson interval on max / (max + min), converted to a ratio; lower bound shown (the ratio is unbounded when the minimum count is 0)",
+       "ratioLowerBound95": 17.003,
+       "reading": "the max / min ratio exceeds 1.5 beyond Poisson noise"
+      }
+     },
+     "V1_currentSign": {
+      "nSupportedEpisodes": 5,
+      "nDays": 5,
+      "status": "not testable (fewer than 10 supported episodes on 5 days)"
+     },
+     "V1_matchedSpeedBins": "not testable (no speed bin with at least 10 drives in both classes)",
+     "V3_negativeControlAbove40kmh": {
+      "onsets": 4685,
+      "hits": 12,
+      "hitRate": 0.00256,
+      "falsifierThreshold": 0.01,
+      "status": "not falsified"
+     },
+     "torqueMinimumSensitivity": {
+      "nDrives": 226,
+      "nDrivesWhereMinimumIsInsideAnEpisode": 1,
+      "note": "computed under a falsified discriminator, not a sensitivity of record; per-drive minimum of the commanded torque with and without the samples inside inferred reverse-consistent episodes; the published records block is not changed"
+     }
+    },
+    "fast": {
+     "nDrives": 1,
+     "nDays": 1,
+     "essDays": 1.0,
+     "status": "not shown",
+     "nSamples": 335,
+     "labelCounts": {
+      "FORWARD": 335,
+      "AMBIGUOUS_LOW": 0,
+      "AMBIGUOUS_GAP": 0,
+      "REV_CAND": 0,
+      "NEG_AT_STANDSTILL": 0,
+      "REGEN_TO_STOP": 0
+     },
+     "negativeTorqueSamplesByLabel": {
+      "FORWARD": 0,
+      "AMBIGUOUS_LOW": 0,
+      "AMBIGUOUS_GAP": 0,
+      "REV_CAND": 0,
+      "NEG_AT_STANDSTILL": 0,
+      "REGEN_TO_STOP": 0
+     },
+     "nNegativeTorqueSamples": 0,
+     "shareOfNegativeSamplesLabelledREV_CAND": null,
+     "shareOfNegativeSamplesAMBIGUOUS": null,
+     "shareOfNegativeSamplesNegAtStandstill": null,
+     "shareOfNegativeSamplesRegenToStop": null,
+     "nEpisodes": 0,
+     "nDrivesWithEpisode": 0,
+     "episodesPerDrive": 0.0,
+     "V4_startOrEndShare": {
+      "share": null,
+      "ci95": null,
+      "nEpisodes": 0,
+      "nDays": 0,
+      "nDrivesWithEpisode": 0,
+      "status": "not testable (below support ladder: fewer than 10 drives or 5 days with an episode)",
+      "supportsOwnerStatement": null
+     },
+     "V5_stability": {
+      "episodeCountByVariant": {
+       "primary": 0,
+       "cap10": 0,
+       "cap20": 0,
+       "stand0.5": 0,
+       "stand2": 0,
+       "k1": 0,
+       "k3": 0,
+       "tau0x0.5": 0,
+       "tau0x2": 0
+      },
+      "status": "not applicable (no primary episodes in this stratum)",
+      "passed": null
+     },
+     "V1_currentSign": {
+      "nSupportedEpisodes": 0,
+      "nDays": 0,
+      "status": "not testable (fewer than 10 supported episodes on 5 days)"
+     },
+     "V1_matchedSpeedBins": "not testable (no speed bin with at least 10 drives in both classes)",
+     "V3_negativeControlAbove40kmh": {
+      "onsets": 0,
+      "hits": 0,
+      "hitRate": null,
+      "falsifierThreshold": 0.01,
+      "status": "not testable (fewer than 50 onsets)"
+     },
+     "torqueMinimumSensitivity": {
+      "nDrives": 1,
+      "nDrivesWhereMinimumIsInsideAnEpisode": 0,
+      "note": "computed under a falsified discriminator, not a sensitivity of record; per-drive minimum of the commanded torque with and without the samples inside inferred reverse-consistent episodes; the published records block is not changed"
+     }
+    },
+    "slow": {
+     "nDrives": 223,
+     "nDays": 54,
+     "essDays": 26.053,
+     "status": "supported",
+     "nSamples": 320761,
+     "labelCounts": {
+      "FORWARD": 318340,
+      "AMBIGUOUS_LOW": 1506,
+      "AMBIGUOUS_GAP": 0,
+      "REV_CAND": 31,
+      "NEG_AT_STANDSTILL": 180,
+      "REGEN_TO_STOP": 704
+     },
+     "negativeTorqueSamplesByLabel": {
+      "FORWARD": 66672,
+      "AMBIGUOUS_LOW": 1328,
+      "AMBIGUOUS_GAP": 0,
+      "REV_CAND": 29,
+      "NEG_AT_STANDSTILL": 180,
+      "REGEN_TO_STOP": 704
+     },
+     "nNegativeTorqueSamples": 68913,
+     "shareOfNegativeSamplesLabelledREV_CAND": 0.00042,
+     "shareOfNegativeSamplesAMBIGUOUS": 0.01927,
+     "shareOfNegativeSamplesNegAtStandstill": 0.00261,
+     "shareOfNegativeSamplesRegenToStop": 0.01022,
+     "nEpisodes": 6,
+     "nDrivesWithEpisode": 6,
+     "episodesPerDrive": 0.0269,
+     "V4_startOrEndShare": {
+      "share": 0.8333,
+      "ci95": [
+       0.5,
+       1.0
+      ],
+      "nEpisodes": 6,
+      "nDays": 6,
+      "nDrivesWithEpisode": 6,
+      "status": "not testable (below support ladder: fewer than 10 drives or 5 days with an episode)",
+      "supportsOwnerStatement": null
+     },
+     "V5_stability": {
+      "episodeCountByVariant": {
+       "primary": 6,
+       "cap10": 6,
+       "cap20": 6,
+       "stand0.5": 6,
+       "stand2": 3,
+       "k1": 27,
+       "k3": 2,
+       "tau0x0.5": 97,
+       "tau0x2": 1
+      },
+      "maxOverMin": 97.0,
+      "passed": false,
+      "status": "FAILED (threshold-sensitive)",
+      "postHocSupplement": {
+       "label": "POST HOC (allowed by the Director, never overrides the pre-registered verdict)",
+       "method": "exact Clopper-Pearson interval on max / (max + min), converted to a ratio; lower bound shown (the ratio is unbounded when the minimum count is 0)",
+       "ratioLowerBound95": 17.003,
+       "reading": "the max / min ratio exceeds 1.5 beyond Poisson noise"
+      }
+     },
+     "V1_currentSign": {
+      "nSupportedEpisodes": 5,
+      "nDays": 5,
+      "status": "not testable (fewer than 10 supported episodes on 5 days)"
+     },
+     "V1_matchedSpeedBins": "not testable (no speed bin with at least 10 drives in both classes)",
+     "V3_negativeControlAbove40kmh": {
+      "onsets": 4684,
+      "hits": 12,
+      "hitRate": 0.00256,
+      "falsifierThreshold": 0.01,
+      "status": "not falsified"
+     },
+     "torqueMinimumSensitivity": {
+      "nDrives": 220,
+      "nDrivesWhereMinimumIsInsideAnEpisode": 1,
+      "note": "computed under a falsified discriminator, not a sensitivity of record; per-drive minimum of the commanded torque with and without the samples inside inferred reverse-consistent episodes; the published records block is not changed"
+     }
+    },
+    "unknown": {
+     "nDrives": 5,
+     "nDays": 3,
+     "essDays": 2.314,
+     "status": "not shown",
+     "nSamples": 1253,
+     "labelCounts": {
+      "FORWARD": 1227,
+      "AMBIGUOUS_LOW": 13,
+      "AMBIGUOUS_GAP": 0,
+      "REV_CAND": 0,
+      "NEG_AT_STANDSTILL": 2,
+      "REGEN_TO_STOP": 11
+     },
+     "negativeTorqueSamplesByLabel": {
+      "FORWARD": 279,
+      "AMBIGUOUS_LOW": 13,
+      "AMBIGUOUS_GAP": 0,
+      "REV_CAND": 0,
+      "NEG_AT_STANDSTILL": 2,
+      "REGEN_TO_STOP": 11
+     },
+     "nNegativeTorqueSamples": 305,
+     "shareOfNegativeSamplesLabelledREV_CAND": 0.0,
+     "shareOfNegativeSamplesAMBIGUOUS": 0.04262,
+     "shareOfNegativeSamplesNegAtStandstill": 0.00656,
+     "shareOfNegativeSamplesRegenToStop": 0.03607,
+     "nEpisodes": 0,
+     "nDrivesWithEpisode": 0,
+     "episodesPerDrive": 0.0,
+     "V4_startOrEndShare": {
+      "share": null,
+      "ci95": null,
+      "nEpisodes": 0,
+      "nDays": 0,
+      "nDrivesWithEpisode": 0,
+      "status": "not testable (below support ladder: fewer than 10 drives or 5 days with an episode)",
+      "supportsOwnerStatement": null
+     },
+     "V5_stability": {
+      "episodeCountByVariant": {
+       "primary": 0,
+       "cap10": 0,
+       "cap20": 0,
+       "stand0.5": 0,
+       "stand2": 0,
+       "k1": 0,
+       "k3": 0,
+       "tau0x0.5": 0,
+       "tau0x2": 0
+      },
+      "status": "not applicable (no primary episodes in this stratum)",
+      "passed": null
+     },
+     "V1_currentSign": {
+      "nSupportedEpisodes": 0,
+      "nDays": 0,
+      "status": "not testable (fewer than 10 supported episodes on 5 days)"
+     },
+     "V1_matchedSpeedBins": "not testable (no speed bin with at least 10 drives in both classes)",
+     "V3_negativeControlAbove40kmh": {
+      "onsets": 1,
+      "hits": 0,
+      "hitRate": 0.0,
+      "falsifierThreshold": 0.01,
+      "status": "not testable (fewer than 50 onsets)"
+     },
+     "torqueMinimumSensitivity": {
+      "nDrives": 5,
+      "nDrivesWhereMinimumIsInsideAnEpisode": 0,
+      "note": "computed under a falsified discriminator, not a sensitivity of record; per-drive minimum of the commanded torque with and without the samples inside inferred reverse-consistent episodes; the published records block is not changed"
+     }
+    }
+   },
+   "OBD": {
+    "all": {
+     "nDrives": 424,
+     "nDays": 73,
+     "essDays": 44.804,
+     "status": "supported",
+     "nSamples": 389443,
+     "labelCounts": {
+      "FORWARD": 382481,
+      "AMBIGUOUS_LOW": 2907,
+      "AMBIGUOUS_GAP": 0,
+      "REV_CAND": 79,
+      "NEG_AT_STANDSTILL": 784,
+      "REGEN_TO_STOP": 3192
+     },
+     "negativeTorqueSamplesByLabel": {
+      "FORWARD": 91733,
+      "AMBIGUOUS_LOW": 2894,
+      "AMBIGUOUS_GAP": 0,
+      "REV_CAND": 72,
+      "NEG_AT_STANDSTILL": 784,
+      "REGEN_TO_STOP": 3192
+     },
+     "nNegativeTorqueSamples": 98675,
+     "shareOfNegativeSamplesLabelledREV_CAND": 0.00073,
+     "shareOfNegativeSamplesAMBIGUOUS": 0.02933,
+     "shareOfNegativeSamplesNegAtStandstill": 0.00795,
+     "shareOfNegativeSamplesRegenToStop": 0.03235,
+     "nEpisodes": 7,
+     "nDrivesWithEpisode": 7,
+     "episodesPerDrive": 0.0165,
+     "V4_startOrEndShare": {
+      "share": 0.5714,
+      "ci95": [
+       0.2821,
+       0.8571
+      ],
+      "nEpisodes": 7,
+      "nDays": 7,
+      "nDrivesWithEpisode": 7,
+      "status": "not testable (below support ladder: fewer than 10 drives or 5 days with an episode)",
+      "supportsOwnerStatement": null
+     },
+     "V5_stability": {
+      "episodeCountByVariant": {
+       "primary": 7,
+       "cap10": 7,
+       "cap20": 7,
+       "stand0.5": 7,
+       "stand2": 4,
+       "k1": 44,
+       "k3": 2,
+       "tau0x0.5": 29,
+       "tau0x2": 0
+      },
+      "maxOverMin": "unbounded (min = 0)",
+      "passed": false,
+      "status": "FAILED (threshold-sensitive)",
+      "postHocSupplement": {
+       "label": "POST HOC (allowed by the Director, never overrides the pre-registered verdict)",
+       "method": "exact Clopper-Pearson interval on max / (max + min), converted to a ratio; lower bound shown (the ratio is unbounded when the minimum count is 0)",
+       "ratioLowerBound95": 11.435,
+       "reading": "the max / min ratio exceeds 1.5 beyond Poisson noise"
+      }
+     },
+     "V1_currentSign": {
+      "nSupportedEpisodes": 6,
+      "nDays": 6,
+      "status": "not testable (fewer than 10 supported episodes on 5 days)"
+     },
+     "V1_matchedSpeedBins": "not testable (no speed bin with at least 10 drives in both classes)",
+     "V3_negativeControlAbove40kmh": {
+      "onsets": 3265,
+      "hits": 0,
+      "hitRate": 0.0,
+      "falsifierThreshold": 0.01,
+      "status": "not falsified"
+     },
+     "torqueMinimumSensitivity": {
+      "nDrives": 423,
+      "nDrivesWhereMinimumIsInsideAnEpisode": 0,
+      "note": "computed under a falsified discriminator, not a sensitivity of record; per-drive minimum of the commanded torque with and without the samples inside inferred reverse-consistent episodes; the published records block is not changed"
+     }
+    },
+    "fast": {
+     "nDrives": 222,
+     "nDays": 43,
+     "essDays": 30.223,
+     "status": "supported",
+     "nSamples": 274909,
+     "labelCounts": {
+      "FORWARD": 269436,
+      "AMBIGUOUS_LOW": 2275,
+      "AMBIGUOUS_GAP": 0,
+      "REV_CAND": 79,
+      "NEG_AT_STANDSTILL": 534,
+      "REGEN_TO_STOP": 2585
+     },
+     "negativeTorqueSamplesByLabel": {
+      "FORWARD": 65600,
+      "AMBIGUOUS_LOW": 2262,
+      "AMBIGUOUS_GAP": 0,
+      "REV_CAND": 72,
+      "NEG_AT_STANDSTILL": 534,
+      "REGEN_TO_STOP": 2585
+     },
+     "nNegativeTorqueSamples": 71053,
+     "shareOfNegativeSamplesLabelledREV_CAND": 0.00101,
+     "shareOfNegativeSamplesAMBIGUOUS": 0.03184,
+     "shareOfNegativeSamplesNegAtStandstill": 0.00752,
+     "shareOfNegativeSamplesRegenToStop": 0.03638,
+     "nEpisodes": 7,
+     "nDrivesWithEpisode": 7,
+     "episodesPerDrive": 0.0315,
+     "V4_startOrEndShare": {
+      "share": 0.5714,
+      "ci95": [
+       0.2821,
+       0.8571
+      ],
+      "nEpisodes": 7,
+      "nDays": 7,
+      "nDrivesWithEpisode": 7,
+      "status": "not testable (below support ladder: fewer than 10 drives or 5 days with an episode)",
+      "supportsOwnerStatement": null
+     },
+     "V5_stability": {
+      "episodeCountByVariant": {
+       "primary": 7,
+       "cap10": 7,
+       "cap20": 7,
+       "stand0.5": 7,
+       "stand2": 4,
+       "k1": 42,
+       "k3": 2,
+       "tau0x0.5": 28,
+       "tau0x2": 0
+      },
+      "maxOverMin": "unbounded (min = 0)",
+      "passed": false,
+      "status": "FAILED (threshold-sensitive)",
+      "postHocSupplement": {
+       "label": "POST HOC (allowed by the Director, never overrides the pre-registered verdict)",
+       "method": "exact Clopper-Pearson interval on max / (max + min), converted to a ratio; lower bound shown (the ratio is unbounded when the minimum count is 0)",
+       "ratioLowerBound95": 10.893,
+       "reading": "the max / min ratio exceeds 1.5 beyond Poisson noise"
+      }
+     },
+     "V1_currentSign": {
+      "nSupportedEpisodes": 6,
+      "nDays": 6,
+      "status": "not testable (fewer than 10 supported episodes on 5 days)"
+     },
+     "V1_matchedSpeedBins": "not testable (no speed bin with at least 10 drives in both classes)",
+     "V3_negativeControlAbove40kmh": {
+      "onsets": 2326,
+      "hits": 0,
+      "hitRate": 0.0,
+      "falsifierThreshold": 0.01,
+      "status": "not falsified"
+     },
+     "torqueMinimumSensitivity": {
+      "nDrives": 222,
+      "nDrivesWhereMinimumIsInsideAnEpisode": 0,
+      "note": "computed under a falsified discriminator, not a sensitivity of record; per-drive minimum of the commanded torque with and without the samples inside inferred reverse-consistent episodes; the published records block is not changed"
+     }
+    },
+    "slow": {
+     "nDrives": 201,
+     "nDays": 34,
+     "essDays": 17.396,
+     "status": "supported",
+     "nSamples": 114477,
+     "labelCounts": {
+      "FORWARD": 112988,
+      "AMBIGUOUS_LOW": 632,
+      "AMBIGUOUS_GAP": 0,
+      "REV_CAND": 0,
+      "NEG_AT_STANDSTILL": 250,
+      "REGEN_TO_STOP": 607
+     },
+     "negativeTorqueSamplesByLabel": {
+      "FORWARD": 26133,
+      "AMBIGUOUS_LOW": 632,
+      "AMBIGUOUS_GAP": 0,
+      "REV_CAND": 0,
+      "NEG_AT_STANDSTILL": 250,
+      "REGEN_TO_STOP": 607
+     },
+     "nNegativeTorqueSamples": 27622,
+     "shareOfNegativeSamplesLabelledREV_CAND": 0.0,
+     "shareOfNegativeSamplesAMBIGUOUS": 0.02288,
+     "shareOfNegativeSamplesNegAtStandstill": 0.00905,
+     "shareOfNegativeSamplesRegenToStop": 0.02198,
+     "nEpisodes": 0,
+     "nDrivesWithEpisode": 0,
+     "episodesPerDrive": 0.0,
+     "V4_startOrEndShare": {
+      "share": null,
+      "ci95": null,
+      "nEpisodes": 0,
+      "nDays": 0,
+      "nDrivesWithEpisode": 0,
+      "status": "not testable (below support ladder: fewer than 10 drives or 5 days with an episode)",
+      "supportsOwnerStatement": null
+     },
+     "V5_stability": {
+      "episodeCountByVariant": {
+       "primary": 0,
+       "cap10": 0,
+       "cap20": 0,
+       "stand0.5": 0,
+       "stand2": 0,
+       "k1": 2,
+       "k3": 0,
+       "tau0x0.5": 1,
+       "tau0x2": 0
+      },
+      "status": "not applicable (no primary episodes in this stratum)",
+      "passed": null
+     },
+     "V1_currentSign": {
+      "nSupportedEpisodes": 0,
+      "nDays": 0,
+      "status": "not testable (fewer than 10 supported episodes on 5 days)"
+     },
+     "V1_matchedSpeedBins": "not testable (no speed bin with at least 10 drives in both classes)",
+     "V3_negativeControlAbove40kmh": {
+      "onsets": 939,
+      "hits": 0,
+      "hitRate": 0.0,
+      "falsifierThreshold": 0.01,
+      "status": "not falsified"
+     },
+     "torqueMinimumSensitivity": {
+      "nDrives": 201,
+      "nDrivesWhereMinimumIsInsideAnEpisode": 0,
+      "note": "computed under a falsified discriminator, not a sensitivity of record; per-drive minimum of the commanded torque with and without the samples inside inferred reverse-consistent episodes; the published records block is not changed"
+     }
+    },
+    "unknown": {
+     "nDrives": 1,
+     "nDays": 1,
+     "essDays": 1.0,
+     "status": "not shown",
+     "nSamples": 57,
+     "labelCounts": {
+      "FORWARD": 57,
+      "AMBIGUOUS_LOW": 0,
+      "AMBIGUOUS_GAP": 0,
+      "REV_CAND": 0,
+      "NEG_AT_STANDSTILL": 0,
+      "REGEN_TO_STOP": 0
+     },
+     "negativeTorqueSamplesByLabel": {
+      "FORWARD": 0,
+      "AMBIGUOUS_LOW": 0,
+      "AMBIGUOUS_GAP": 0,
+      "REV_CAND": 0,
+      "NEG_AT_STANDSTILL": 0,
+      "REGEN_TO_STOP": 0
+     },
+     "nNegativeTorqueSamples": 0,
+     "shareOfNegativeSamplesLabelledREV_CAND": null,
+     "shareOfNegativeSamplesAMBIGUOUS": null,
+     "shareOfNegativeSamplesNegAtStandstill": null,
+     "shareOfNegativeSamplesRegenToStop": null,
+     "nEpisodes": 0,
+     "nDrivesWithEpisode": 0,
+     "episodesPerDrive": 0.0,
+     "V4_startOrEndShare": {
+      "share": null,
+      "ci95": null,
+      "nEpisodes": 0,
+      "nDays": 0,
+      "nDrivesWithEpisode": 0,
+      "status": "not testable (below support ladder: fewer than 10 drives or 5 days with an episode)",
+      "supportsOwnerStatement": null
+     },
+     "V5_stability": {
+      "episodeCountByVariant": {
+       "primary": 0,
+       "cap10": 0,
+       "cap20": 0,
+       "stand0.5": 0,
+       "stand2": 0,
+       "k1": 0,
+       "k3": 0,
+       "tau0x0.5": 0,
+       "tau0x2": 0
+      },
+      "status": "not applicable (no primary episodes in this stratum)",
+      "passed": null
+     },
+     "V1_currentSign": {
+      "nSupportedEpisodes": 0,
+      "nDays": 0,
+      "status": "not testable (fewer than 10 supported episodes on 5 days)"
+     },
+     "V1_matchedSpeedBins": "not testable (no speed bin with at least 10 drives in both classes)",
+     "V3_negativeControlAbove40kmh": {
+      "onsets": 0,
+      "hits": 0,
+      "hitRate": null,
+      "falsifierThreshold": 0.01,
+      "status": "not testable (fewer than 50 onsets)"
+     },
+     "torqueMinimumSensitivity": {
+      "nDrives": 0,
+      "nDrivesWhereMinimumIsInsideAnEpisode": 0,
+      "note": "computed under a falsified discriminator, not a sensitivity of record; per-drive minimum of the commanded torque with and without the samples inside inferred reverse-consistent episodes; the published records block is not changed"
+     }
+    }
+   }
+  },
+  "verdict": {
+   "VCM": {
+    "discriminatorFalsifiedBy": [
+     "V5 (slow)"
+    ],
+    "text": "falsified by V5 (threshold-sensitive) (slow) stratum"
+   },
+   "OBD": {
+    "discriminatorFalsifiedBy": [
+     "V5 (fast)"
+    ],
+    "text": "falsified by V5 (threshold-sensitive) (fast) stratum"
+   },
+   "pooledAcrossSources": "none (no pooled verdict across speed sources)",
+   "ownerStatement": "not testable by this instrument: V4 is below the support ladder in every stratum and the discriminator is falsified by V5; the owner statement is neither supported nor contradicted (the pattern expected from the owner answers is frozen in spec section 12)"
+  },
+  "stepsNotRun": "not run: discriminator falsified (the flagged reverse-excluded sensitivities of the exposed blocks and the V6 overlap with the regeneration events are not run on a falsified discriminator)",
+  "ownerAnswer2Check": {
+   "VCM": {
+    "shareOfNegativeTorqueSamplesNegAtStandstill": 0.00263,
+    "nNegativeTorqueSamples": 69218
+   },
+   "OBD": {
+    "shareOfNegativeTorqueSamplesNegAtStandstill": 0.00795,
+    "nNegativeTorqueSamples": 98675
+   },
+   "note": "descriptive only: owner answer 2 says the car always holds at standstill on slopes, so negative torque at speed 0 is expected to be rare; the shares above are the observed shares of negative-torque samples at standstill (hold torque or other causes are not separated)"
+  },
+  "specAmbiguities": [
+   "k = 1: the written rule asks speed(k) > speed(1), which is impossible at k = 1; the k = 1 variant here compares the second moving sample with the first (k_eff = 2 for the speed condition); a literal reading gives 0 episodes; the verdict does not depend on it (V5 fails either way)",
+   "V3 negative control: samples with an unaligned (NaN) speed are not onsets here; an independent reproduction dropped them instead and found 4969 onsets and 16 hits against 4685 and 12 in the VCM stratum (not falsified either way)",
+   "the onset sample is the first sample with torque < -tau0 in the zero-speed stretch or the first moving sample, and the standstill is measured to it; drive time starts at the first row of the file"
+  ],
+  "reading": [
+   "an episode is an INFERRED reverse-consistent episode: no gear or direction channel exists and the logged speed is unsigned; the share labelled REV_CAND under the frozen rule is always shown next to the AMBIGUOUS share",
+   "the torque is the commanded / logged (app-calculated) register; tau0 is the standstill noise floor of that register fixed in a separate earlier run",
+   "every rate is stratified by speed source and cadence regime; there is no pooled verdict across speed sources",
+   "V5 (stability over the sensitivity grid) is applied as pre-registered; the Poisson supplement is labelled post hoc and never overrides it",
+   "the sensitivities with inferred reverse excluded for the exposed blocks and the overlap with the regeneration events (V6) are separate flagged steps; no published figure is changed here"
+  ],
+  "provenance": {
+   "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+   "scriptSha256": "6e361223f405aef42aeff89bfe893a315e9df3a2b736c756369fc418237490be",
+   "tau0Sha256": "c5c777aa75f22fd8942667ff0b28d842e3ce52db4e42373ba86598730a586794",
+   "seed": 42,
+   "nBoot": 4000,
+   "specSha256": "see the CHANGELOG entries of M695 and M696",
+   "nDrivesWithRawRecord": 663
   }
  }
 }

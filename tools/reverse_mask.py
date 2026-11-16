@@ -297,7 +297,9 @@ def stratum_block(rows, nboot):
         den[d] = den.get(d, 0.0) + 1.0
     sh = sum(num.values()) / sum(den.values()) if den else None
     blk["V4_startOrEndShare"] = {"share": None if sh is None else round(sh, 4), "ci95": day_boot(num, den, nboot) if den else None, "nEpisodes": len(eps), "nDays": len(den),
-                                 "supportsOwnerStatement": bool(sh is not None and (day_boot(num, den, nboot) or [0])[0] > 0.20) if len(eps) >= 10 else None}
+                                 "nDrivesWithEpisode": int(sum(1 for r in use if r["episodes"])),
+                                 "status": "not testable (below support ladder: fewer than 10 drives or 5 days with an episode)" if (sum(1 for r in use if r["episodes"]) < MIN_DRIVES or len(den) < MIN_DAYS) else "testable",
+                                 "supportsOwnerStatement": bool(sh is not None and (day_boot(num, den, nboot) or [0])[0] > 0.20) if (sum(1 for r in use if r["episodes"]) >= MIN_DRIVES and len(den) >= MIN_DAYS) else None}
     # V5: one-at-a-time max / min ratio of the episode count over the grid
     cnts = {name: int(sum(r["variants"][name]["nEpisodes"] for r in use)) for name, _ in GRID}
     pos = [c for c in cnts.values() if c > 0]
@@ -306,17 +308,16 @@ def stratum_block(rows, nboot):
         v5.update(status="not applicable (no primary episodes in this stratum)", passed=None)
     else:
         allpos = len(pos) == len(cnts)
-        v5.update(maxOverMin=round(max(pos) / min(pos), 3) if allpos else None, passed=bool(allpos and max(pos) / min(pos) <= 1.5),
+        v5.update(maxOverMin=round(max(pos) / min(pos), 3) if allpos else "unbounded (min = 0)", passed=bool(allpos and max(pos) / min(pos) <= 1.5),
                   status="passed" if (allpos and max(pos) / min(pos) <= 1.5) else "FAILED (threshold-sensitive)")
-        if allpos or pos:
-            a_, b_ = max(cnts.values()), min(cnts.values())
-            if b_ > 0 and a_ > b_:
-                from scipy.stats import beta
-                lo = beta.ppf(0.025, a_, b_ + 1)
-                ratio_lo = lo / (1.0 - lo)
-                v5["postHocSupplement"] = {"label": "POST HOC (allowed by the Director, never overrides the pre-registered verdict)", "method": "exact Clopper-Pearson interval on max / (max + min), converted to a ratio; lower bound shown",
-                                           "ratioLowerBound95": round(float(ratio_lo), 3),
-                                           "reading": "instability not distinguishable from small n" if ratio_lo <= 1.5 else "the max / min ratio exceeds 1.5 beyond Poisson noise"}
+        a_, b_ = max(cnts.values()), min(cnts.values())
+        if a_ > b_:
+            from scipy.stats import beta
+            lo = float(0.025 ** (1.0 / a_)) if b_ == 0 else float(beta.ppf(0.025, a_, b_ + 1))      # exact Clopper-Pearson lower bound of max / (max + min)
+            ratio_lo = lo / (1.0 - lo)
+            v5["postHocSupplement"] = {"label": "POST HOC (allowed by the Director, never overrides the pre-registered verdict)", "method": "exact Clopper-Pearson interval on max / (max + min), converted to a ratio; lower bound shown (the ratio is unbounded when the minimum count is 0)",
+                                       "ratioLowerBound95": round(float(ratio_lo), 3),
+                                       "reading": "instability not distinguishable from small n" if ratio_lo <= 1.5 else "the max / min ratio exceeds 1.5 beyond Poisson noise"}
     blk["V5_stability"] = v5
     # V1: supported episodes, mean discharge excess > 0 (after the standstill baseline)
     sup = [(r["date"], x) for r in use for x in r["validation"]["episodes"] if x["supported"] and x["meanDischargeExcess"] is not None]
@@ -346,7 +347,7 @@ def stratum_block(rows, nboot):
     # torque minimum with inferred reverse excluded (flagged sensitivity input, per drive)
     tm = [(r["variants"]["primary"].get("tMin"), r["variants"]["primary"].get("tMinExclRev")) for r in use if r["variants"]["primary"].get("tMin") is not None]
     blk["torqueMinimumSensitivity"] = {"nDrives": len(tm), "nDrivesWhereMinimumIsInsideAnEpisode": int(sum(1 for a, b in tm if b is not None and b > a + 1e-9)),
-                                       "note": "per-drive minimum of the commanded torque with and without the samples inside inferred reverse-consistent episodes; the published records block is not changed"}
+                                       "note": "computed under a falsified discriminator, not a sensitivity of record; per-drive minimum of the commanded torque with and without the samples inside inferred reverse-consistent episodes; the published records block is not changed"}
     return blk
 
 
@@ -361,7 +362,7 @@ def source_verdict(src_block, concordant):
             fals.append("V3 (%s)" % reg)
         if st.get("V5_stability", {}).get("passed") is False:
             fals.append("V5 (%s)" % reg)
-    txt = ("falsified by " + ", ".join(fals)) if fals else "not falsified by V1 to V5 (V6, the overlap with the regeneration events, is a separate step; a pass is never worded as validated)"
+    txt = ("falsified by " + ", ".join(x.replace("V5", "V5 (threshold-sensitive)", 1) if x.startswith("V5") else x for x in fals) + " stratum") if fals else "not falsified by V1 to V5 (V6, the overlap with the regeneration events, is a separate step; a pass is never worded as validated)"
     if not concordant:
         txt += "; descriptive only, speed source not concordant"
     return {"discriminatorFalsifiedBy": fals, "text": txt}
@@ -392,7 +393,10 @@ def aggregate(rows, nboot=NBOOT):
         blk["strata"][src] = sb
         blk["verdict"][src] = source_verdict(sb, concordant if src == "OBD" else True)
     blk["verdict"]["pooledAcrossSources"] = "none (no pooled verdict across speed sources)"
-    blk["verdict"]["ownerStatement"] = "supported by V4 only if the lower bound of the start-or-end share exceeds 0.20 (see strata.<source>.<stratum>.V4_startOrEndShare); the pattern expected from the owner answers is frozen in spec section 12"
+    blk["stepsNotRun"] = "not run: discriminator falsified (the flagged reverse-excluded sensitivities of the exposed blocks and the V6 overlap with the regeneration events are not run on a falsified discriminator)"
+    blk["ownerAnswer2Check"] = {src: {"shareOfNegativeTorqueSamplesNegAtStandstill": blk["strata"][src]["all"].get("shareOfNegativeSamplesNegAtStandstill"), "nNegativeTorqueSamples": blk["strata"][src]["all"].get("nNegativeTorqueSamples")} for src in blk["strata"]}
+    blk["ownerAnswer2Check"]["note"] = "descriptive only: owner answer 2 says the car always holds at standstill on slopes, so negative torque at speed 0 is expected to be rare; the shares above are the observed shares of negative-torque samples at standstill (hold torque or other causes are not separated)"
+    blk["verdict"]["ownerStatement"] = "not testable by this instrument: V4 is below the support ladder in every stratum and the discriminator is falsified by V5; the owner statement is neither supported nor contradicted (the pattern expected from the owner answers is frozen in spec section 12)"
     blk["specAmbiguities"] = ["k = 1: the written rule asks speed(k) > speed(1), which is impossible at k = 1; the k = 1 variant here compares the second moving sample with the first (k_eff = 2 for the speed condition); a literal reading gives 0 episodes; the verdict does not depend on it (V5 fails either way)",
                               "V3 negative control: samples with an unaligned (NaN) speed are not onsets here; an independent reproduction dropped them instead and found 4969 onsets and 16 hits against 4685 and 12 in the VCM stratum (not falsified either way)",
                               "the onset sample is the first sample with torque < -tau0 in the zero-speed stretch or the first moving sample, and the standstill is measured to it; drive time starts at the first row of the file"]
@@ -412,7 +416,7 @@ def stamp(A, md5):
     for k in ("carriedForward", "recomputeMode", "corpusSizeAtRecompute"):
         st.pop(k, None)
     st.update(corpusHash=md5, generatedAt=now, computationStatus="computed", upstreamHashes={"driveMasterMd5": md5},
-              computationStatusNote="M698: derived by tools/reverse_mask.py from raw drive CSVs (cached by sha256), drive_master.csv, cadence_regime.csv and analyses/M698_tau0.json (spec analyses/M695_spec.md Rev 1.1); inferred, exploratory")
+              computationStatusNote="M698: derived by tools/reverse_mask.py from raw drive CSVs (cached by sha256), drive_master.csv, cadence_regime.csv and analyses/M698_tau0.json (spec analyses/M695_spec.md Rev 1.2 final, sections 11 to 14); inferred, exploratory; falsified by V5 as pre-registered")
     st["includedInReleaseAt"] = st["computedAt"] = st["generatedAt"]
     A["_artifactStamps"]["reverseInference"] = _sc.carry_declared(old, st)
 

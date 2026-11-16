@@ -171,6 +171,24 @@ def test_aggregate_supports_owner_pattern_and_verdict():
     assert v5b["passed"] is None and "not applicable" in v5b["status"]
 
 
+def test_v5_unbounded_ratio_v4_ladder_and_not_run_notes():
+    R.TAU0_FILE = os.path.join(ROOT, "analyses", "M698_tau0.json")
+    # few drives with an episode: V4 below the support ladder; one variant with zero episodes: unbounded ratio with a script-written supplement
+    tough = []
+    for i in range(12):
+        a = drive_with_reverse(i) if i < 3 else arr([0, 0, 5, 8, 9, 7, 3, 0], [0, 0, 80, 80, 60, 20, 0, 0])
+        tough.append(make_row(i, a))
+    for r in tough[:3]:
+        r["variants"]["tau0x2"]["nEpisodes"] = 0                     # a threshold-sensitive stratum
+    blk = R.aggregate(tough, nboot=100)
+    st = blk["strata"]["VCM"]["all"]
+    assert "below support ladder" in st["V4_startOrEndShare"]["status"] and st["V4_startOrEndShare"]["supportsOwnerStatement"] is None
+    v5 = st["V5_stability"]
+    assert v5["passed"] is False and v5["maxOverMin"] == "unbounded (min = 0)" and abs(v5["postHocSupplement"]["ratioLowerBound95"] - (0.025 ** (1 / 6)) / (1 - 0.025 ** (1 / 6))) < 1e-3 and "small n" in v5["postHocSupplement"]["reading"] and "POST HOC" in v5["postHocSupplement"]["label"]
+    assert "threshold-sensitive" in blk["verdict"]["VCM"]["text"] and "not run" in blk["stepsNotRun"] and "not testable" in blk["verdict"]["ownerStatement"]
+    assert "falsified discriminator" in st["torqueMinimumSensitivity"]["note"] and "shareOfNegativeTorqueSamplesNegAtStandstill" in blk["ownerAnswer2Check"]["VCM"]
+
+
 def test_splice_isolation():
     A = {"_artifactStamps": {}, "other": {"k": 1}}
     B = R.splice(copy.deepcopy(A), {"x": 1}, "abc")
