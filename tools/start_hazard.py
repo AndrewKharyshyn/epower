@@ -200,9 +200,18 @@ def design_row(res, ref):
     return np.asarray(build_design_matrices([res.model.data.orig_exog.design_info], ref)[0])
 
 
+def wq(df, var, qs):
+    """Day-weighted quantiles (spec item 5): each calendar day has weight 1, split equally over its blocks."""
+    x = df[var].values.astype(float); ok = np.isfinite(x)
+    w = (1.0 / df.groupby("date")["date"].transform("size").values.astype(float))[ok]; x = x[ok]
+    o = np.argsort(x); x, w = x[o], w[o]
+    c = (np.cumsum(w) - 0.5 * w) / w.sum()
+    return [float(np.interp(q, c, x)) for q in qs]
+
+
 def hr_scalar(res, df, var="ped", draws=NBOOT, seed=SEED, score_boot=True):
     """log hazard ratio of `var` at its 75th vs 25th percentile, other covariates at median (cls warm); sandwich (needs a clustered fit) and day-cluster score bootstrap."""
-    q25, q75 = float(np.nanpercentile(df[var], 25)), float(np.nanpercentile(df[var], 75))
+    q25, q75 = wq(df, var, (0.25, 0.75))
     base = {c: [float(np.nanmedian(df[c]))] for c in ("soc", "speed", "dur", "ped", "tt")}
     base["cls"] = ["warm"]; base["w"] = [1.0]; base["y"] = [0]
     a = pd.DataFrame(base); b = pd.DataFrame(base); a[var] = q25; b[var] = q75
@@ -225,7 +234,7 @@ def hr_scalar(res, df, var="ped", draws=NBOOT, seed=SEED, score_boot=True):
 
 
 def monotone(res, df, var="ped"):
-    lo, hi = float(np.nanpercentile(df[var], 10)), float(np.nanpercentile(df[var], 90))
+    lo, hi = wq(df, var, (0.10, 0.90))
     g = np.linspace(lo, hi, 25)
     base = {c: [float(np.nanmedian(df[c]))] * len(g) for c in ("soc", "speed", "dur", "ped", "tt")}
     base["cls"] = ["warm"] * len(g); base["w"] = [1.0] * len(g); base["y"] = [0] * len(g)
