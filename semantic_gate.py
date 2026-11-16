@@ -1319,6 +1319,14 @@ if _elv.get("status") == "interval with simulated coverage":
     ok("A7 M682 display: 98.33% interval stated beside the 95% one; no display of the median pack voltage or the resistance proxy contrast",
        "98.33%" in _eh and "Early versus Late Drives in Matched State Bins: Loaded Cell Spread" in _eh.replace("EARLY VERSUS LATE DRIVES IN MATCHED STATE BINS: LOADED CELL SPREAD", "Early versus Late Drives in Matched State Bins: Loaded Cell Spread") and "median pack voltage" not in _eh.split("Early versus Late Drives")[1][:4000].lower().replace("the median pack voltage is not displayed", ""))
 
+# ---------- A7 (M689): the early-versus-late display is HIDDEN whenever its interval is not the supported "interval with simulated coverage" (stale coverage study, no study, no admissible construction, slow-only) ----------
+if _elv and _elv.get("status") != "interval with simulated coverage":
+    _eh2 = T.get("health__all", "").lower()
+    ok("A7 M689 early-versus-late display hidden: interval status '" + str(_elv.get("status")) + "' is not the supported status, so neither the section title nor a mV estimate line is rendered",
+       "early versus late drives in matched state bins" not in _eh2 and "late minus early, matched state bins" not in _eh2)
+elif _elv:
+    ok("A7 M689 early-versus-late display shown only with the supported interval status (guard present in the rendered tab)", "late minus early, matched state bins" in T.get("health__all", "").lower())
+
 # ---------- A7 (M683): the between-drive logged-share display equals betweenDriveLogging (window sentence, every month row) ----------
 _bd = A.get("betweenDriveLogging") or {}
 if _bd.get("months"):
