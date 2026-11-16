@@ -1092,6 +1092,25 @@
    ]
   },
   {
+   "id": "parked_time_budget",
+   "title": "M687 (N-03 part B): modelled hours at pack temperature including parked hours: gaps between consecutive drives relaxed exponentially (Q3 tau, ambient = mean of the two bounding driver-recorded readings, outdoor parking assumed per the owner statement 2026-11-16), exact band hours, uncertainty as a pre-registered grid (no interval), endpoint validation with a shuffled-ambient placebo; additive payload block parkedTimeBudget + stamp; exploratory, no display; spec analyses/M686_spec.md Rev 1.1",
+   "cmd": [
+    "python3",
+    "tools/parked_time_budget.py"
+   ],
+   "needs": [
+    "seasonal_fits",
+    "exposure_vector"
+   ],
+   "verified": false,
+   "outputs": [
+    "summary_arrays.json"
+   ],
+   "writes": [
+    "arrays:parkedTimeBudget"
+   ]
+  },
+  {
    "id": "change_points",
    "title": "M676 (N-07): exploratory change-point detection on per-drive series (implied offset, loaded p95 cell spread, apparent Ah per 100 % SOC, a1_R, logged sample period): exact segment-neighbourhood DP, fixed BIC, day-clustered wild residual bootstrap intervals (seed 42, 4000 draws, conditional on K), pack-temperature control, reference comparison after the primary results are hashed; reads drive_master.csv and four sidecars only; non-blocking; additive payload block changePoints + stamp; no display; spec analyses/M675_spec.md Rev 1.1",
    "cmd": [

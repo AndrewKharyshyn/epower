@@ -1,0 +1,64 @@
+{
+ "claim": "Modelled parked-time budget per analyses/M686_spec.md Rev 1.1 (read sections 3, 4, 9). Reproduce independently from drive_master.csv, seasonal_drive_master.csv (utc_offset_h, ambient_start_c, ambient_end_c, unlogged_distance_est_km, local_iso) and the raw drive CSVs in raw/ (names with spaces map to drive_master.csv file keys by digits). Do not read tools/parked_time_budget.py or the parkedTimeBudget payload block. Pack temperature at a drive end/start = mean over probes T1..T4 of each probe's last/first valid reading (range -40..90 C) within 60 s of the drive's last/first timestamp, at least 3 of 4 probes else missing (column renames: compute_drive_summary_v6.COL_MAP). Drives sorted by UTC key-on = local_iso[:19] minus utc_offset_h; key-off = key-on + duration_s. Gap = next key-on minus previous key-off (hours); assigned when the previous end pack temperature and both ambients exist and the gap is not negative. T(t)=A+(T0-A)exp(-t/tau), A=(previous ambient_end_c + next ambient_start_c)/2, tau=7.873 h (primary). Bands <0,0-5,...,35-40,>=40 (an edge value goes to the upper band). Report the exact band hours of the assigned gaps.",
+ "data": "drive_master.csv (665 drives), seasonal_drive_master.csv, raw/*.csv",
+ "claimed": {
+  "nGaps": 664,
+  "nGapsAssigned": 652,
+  "nGapsUnassigned": 12,
+  "windowHours": 4370.3772,
+  "drivingHours": 244.8044,
+  "parkedAssignedHours": 4064.0125,
+  "unassignedGapHours": 61.5603,
+  "parkedHoursByBand": {
+   "<0": 0.0,
+   "0-5": 0.0,
+   "5-10": 386.3862,
+   "10-15": 460.9074,
+   "15-20": 839.0762,
+   "20-25": 896.1321,
+   "25-30": 778.9468,
+   "30-35": 529.52,
+   "35-40": 147.7533,
+   ">=40": 25.2906
+  },
+  "coldHours": {
+   "below10": 386.386,
+   "below15": 847.294
+  },
+  "hotHours": {
+   "atLeast35": 173.044,
+   "atLeast40": 25.291
+  },
+  "longGapShareOfParked": 0.4023,
+  "byGapClassParkedHours": {
+   "below 1 h": 95.8022,
+   "1 to <4 h": 282.2233,
+   "4 to <12 h": 723.454,
+   "12 to <36 h": 1327.6667,
+   "36 h or longer": 1634.8663
+  },
+  "gapClassEdgesH": [
+   1,
+   4,
+   12,
+   36
+  ]
+ },
+ "tolerance": {
+  "hours": 0.05,
+  "counts": 0
+ },
+ "secondClaim": "Endpoint check: for the gap classes 'below 1 h' (n 341) and '12 to <36 h' (n 75), predicted next key-on pack temperature with the primary tau 7.873 h (no cross-validation needed for this check) against the observed next-drive start pack temperature; report MAE of the model, of persistence (T0) and of full relaxation (A).",
+ "secondClaimed": {
+  "below 1 h": {
+   "n": 341
+  },
+  "12 to <36 h": {
+   "n": 75
+  }
+ },
+ "auditRecord": {
+  "pass1": "blind audit reproduced all quantities except atLeast35 (claimed 702.564, reproduced 173.044: slice started at the 30-35 band); fixed in tools/parked_time_budget.py, known-answer test added (test_threshold_slices_match_band_labels); corrected claim 173.044 equals the audited value",
+  "secondClaim": "MAE with tau 7.873 reproduced: below 1 h model 0.3015, persistence 0.4213, full relaxation 9.930; 12 to <36 h model 2.880, persistence 14.183, full relaxation 2.420 (full relaxation beats the model there)"
+ }
+}

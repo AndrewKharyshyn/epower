@@ -639,6 +639,8 @@ RULES = [
          rx=r"cap ah est (?:is |as |equals )?(?:the )?apparent ah per 100|apparent ah per 100 (?:soc )?(?:is |as )?cap ah est"),
     Rule("M679-interval-wording", "regex", "M680 (spec analyses/M679_spec.md Rev 1.1, Director review): the early-versus-late interval is an interval with simulated coverage (planted-effect study), never a valid, proper or exact interval for the matched difference",
          rx=r"(?:valid|proper|exact) (?:confidence )?interval (?:of|for) the (?:matched|early|late)"),
+    Rule("M686-parked-time-wording", "regex", "M687 (spec analyses/M686_spec.md Rev 1.1, Director review): parked pack temperatures and hours are MODELLED from the Q3 relaxation and the driver-recorded ambient, never measured or validated in the interior of a gap; the budget is not calendar ageing, damage, an annual or lifetime figure",
+         rx=r"measured parked (?:pack )?temperature|validated parked (?:pack )?temperature|calendar (?:ageing|aging) (?:of|from|while|during) (?:the )?(?:pack|parked|parking)|(?:damage|degradation) (?:while|during|from) (?:being )?(?:parked|parking)|parked (?:hours|time) (?:per year|a year|annual)|annual parked|parked lifetime exposure|lifetime exposure (?:of|from) (?:the )?parked"),
 ]
 
 _SCAN_CACHE = {}

@@ -68296,6 +68296,27 @@
    },
    "computedAt": "2026-11-15T20:22:03.006850+00:00",
    "computationStatusNote": "M678: derived by tools/early_late_contrast.py from drive_master.csv and two sidecars (spec analyses/M677_spec.md Rev 1.1, 1.2); exploratory"
+  },
+  "parkedTimeBudget": {
+   "corpusHash": "77bbe275f8c22eaf62d8636867764af3",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": "11a89dc0c881bd0a60e9e957ccd1936a",
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-11-16T02:31:48.462737+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3"
+   },
+   "computationStatus": "computed",
+   "includedInReleaseAt": "2026-11-16T02:31:48.462737+00:00",
+   "inputBasis": {
+    "nDrives": 665,
+    "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-11-16T02:31:48.462737+00:00",
+   "computationStatusNote": "M687: derived by tools/parked_time_budget.py from drive_master.csv, seasonal_drive_master.csv, cached end-of-drive pack temperatures, seasonalFits.Q3 and exposureVector (spec analyses/M686_spec.md Rev 1.1); modelled, exploratory"
   }
  },
  "ambientTable": {
@@ -449825,6 +449846,1404 @@
   ],
   "validity": {
    "V2_V3_V4_V5": true
+  }
+ },
+ "parkedTimeBudget": {
+  "label": "modelled time at pack temperature including parked hours (modelled; estimated, never measured; one May-to-November window)",
+  "spec": "analyses/M686_spec.md",
+  "status": "exploratory",
+  "assumptions": {
+   "parking": "outdoors in nearly all cases; indoor parking is a rare exception (owner statement 2026-11-16)",
+   "temperatureLogger": "none; ambient is registered at drives only (owner statement 2026-11-16)",
+   "ambientReference": "A = mean of the previous key-off ambient and the next key-on ambient (driver-recorded dashboard readings); A_eff = A + shift + offset; indoor: A_in = A_eff + (15 - A_eff) / 2",
+   "parkedModel": "T(t) = A_eff + (T0 - A_eff) exp(-t / tau); tau from seasonalFits.Q3 (owner decision D-05)",
+   "indoorTargetC": 15.0,
+   "verified": false,
+   "d05Support": true,
+   "definitionDependent": true
+  },
+  "tauAxis": [
+   {
+    "name": "primary",
+    "tauH": 7.873,
+    "ambientShiftC": 0.0
+   },
+   {
+    "name": "stratum4hOrLonger",
+    "tauH": 7.358,
+    "ambientShiftC": 0.0
+   },
+   {
+    "name": "L2",
+    "tauH": 7.846,
+    "ambientShiftC": 0.0
+   },
+   {
+    "name": "previousDriveMax",
+    "tauH": 7.107,
+    "ambientShiftC": 0.0
+   },
+   {
+    "name": "ambientShift-2C(refit)",
+    "tauH": 9.357,
+    "ambientShiftC": -2.0
+   },
+   {
+    "name": "ambientShift+2C(refit)",
+    "tauH": 6.535,
+    "ambientShiftC": 2.0
+   }
+  ],
+  "d05Fallback": null,
+  "window": {
+   "startUtc": "2026-05-11 15:57:51",
+   "endUtc": "2026-11-09 18:20:29",
+   "nDrives": 665,
+   "nGaps": 664,
+   "nGapsAssigned": 652,
+   "nGapsUnassigned": 12,
+   "unassignedByReason": {
+    "missing pack end temperature": 12
+   },
+   "nGapsAfterExcludedDrive": 0,
+   "nGapsNextDriveUnlogged": 6
+  },
+  "accounting": {
+   "drivingHours": 244.8044,
+   "parkedAssignedHours": 4064.0125,
+   "unassignedGapHours": 61.5603,
+   "overlapHoursSigned": 0,
+   "sumHours": 4370.3772,
+   "windowHours": 4370.3772,
+   "absDifferenceH": 9.094947017729282e-13,
+   "v1Passed": true
+  },
+  "B1": {
+   "bands": [
+    {
+     "band": "<0",
+     "drivingCleanHours": 0.0,
+     "drivingSensor": "T1 (exposureVector)",
+     "parkedModelledHours": 0.0,
+     "parkedShareOfWindow": 0.0,
+     "drivingShareOfWindow": 0.0,
+     "nGaps": 0,
+     "nDays": 0,
+     "essDays": 0.0,
+     "status": "not shown",
+     "grid": {
+      "min": 0.0,
+      "minCell": {
+       "tau": "primary",
+       "tauH": 7.873,
+       "ambientShiftC": 0.0,
+       "offsetC": -3.0,
+       "indoorFraction": 0.0,
+       "indoorRule": "none",
+       "realisedIndoorFraction": 0.0
+      },
+      "max": 0.0,
+      "maxCell": {
+       "tau": "primary",
+       "tauH": 7.873,
+       "ambientShiftC": 0.0,
+       "offsetC": -3.0,
+       "indoorFraction": 0.0,
+       "indoorRule": "none",
+       "realisedIndoorFraction": 0.0
+      }
+     },
+     "parkedSensor": "probe mean (modelled)"
+    },
+    {
+     "band": "0-5",
+     "drivingCleanHours": 0.113,
+     "drivingSensor": "T1 (exposureVector)",
+     "parkedModelledHours": 0.0,
+     "parkedShareOfWindow": 0.0,
+     "drivingShareOfWindow": 3e-05,
+     "nGaps": 0,
+     "nDays": 0,
+     "essDays": 0.0,
+     "status": "not shown",
+     "grid": {
+      "min": 0.0,
+      "minCell": {
+       "tau": "primary",
+       "tauH": 7.873,
+       "ambientShiftC": 0.0,
+       "offsetC": -3.0,
+       "indoorFraction": 0.05,
+       "indoorRule": "coldestFirst",
+       "realisedIndoorFraction": 0.0539
+      },
+      "max": 343.128,
+      "maxCell": {
+       "tau": "ambientShift-2C(refit)",
+       "tauH": 9.357,
+       "ambientShiftC": -2.0,
+       "offsetC": -3.0,
+       "indoorFraction": 0.0,
+       "indoorRule": "none",
+       "realisedIndoorFraction": 0.0
+      }
+     },
+     "parkedSensor": "probe mean (modelled)"
+    },
+    {
+     "band": "5-10",
+     "drivingCleanHours": 0.8741,
+     "drivingSensor": "T1 (exposureVector)",
+     "parkedModelledHours": 386.3862,
+     "parkedShareOfWindow": 0.08841,
+     "drivingShareOfWindow": 0.0002,
+     "nGaps": 16,
+     "nDays": 10,
+     "essDays": 1.361,
+     "status": "exploratory",
+     "grid": {
+      "min": 0.506,
+      "minCell": {
+       "tau": "primary",
+       "tauH": 7.873,
+       "ambientShiftC": 0.0,
+       "offsetC": 3.0,
+       "indoorFraction": 0.05,
+       "indoorRule": "coldestFirst",
+       "realisedIndoorFraction": 0.0539
+      },
+      "max": 558.978,
+      "maxCell": {
+       "tau": "ambientShift-2C(refit)",
+       "tauH": 9.357,
+       "ambientShiftC": -2.0,
+       "offsetC": -3.0,
+       "indoorFraction": 0.1,
+       "indoorRule": "coldestFirst",
+       "realisedIndoorFraction": 0.159
+      }
+     },
+     "parkedSensor": "probe mean (modelled)"
+    },
+    {
+     "band": "10-15",
+     "drivingCleanHours": 5.1761,
+     "drivingSensor": "T1 (exposureVector)",
+     "parkedModelledHours": 460.9074,
+     "parkedShareOfWindow": 0.10546,
+     "drivingShareOfWindow": 0.00118,
+     "nGaps": 83,
+     "nDays": 32,
+     "essDays": 7.01,
+     "status": "exploratory",
+     "grid": {
+      "min": 228.073,
+      "minCell": {
+       "tau": "ambientShift-2C(refit)",
+       "tauH": 9.357,
+       "ambientShiftC": -2.0,
+       "offsetC": 3.0,
+       "indoorFraction": 0.1,
+       "indoorRule": "everyKth",
+       "realisedIndoorFraction": 0.1045
+      },
+      "max": 1093.673,
+      "maxCell": {
+       "tau": "previousDriveMax",
+       "tauH": 7.107,
+       "ambientShiftC": 0.0,
+       "offsetC": -3.0,
+       "indoorFraction": 0.1,
+       "indoorRule": "coldestFirst",
+       "realisedIndoorFraction": 0.159
+      }
+     },
+     "parkedSensor": "probe mean (modelled)"
+    },
+    {
+     "band": "15-20",
+     "drivingCleanHours": 14.5381,
+     "drivingSensor": "T1 (exposureVector)",
+     "parkedModelledHours": 839.0762,
+     "parkedShareOfWindow": 0.19199,
+     "drivingShareOfWindow": 0.00333,
+     "nGaps": 166,
+     "nDays": 69,
+     "essDays": 16.309,
+     "status": "supported",
+     "grid": {
+      "min": 616.257,
+      "minCell": {
+       "tau": "ambientShift+2C(refit)",
+       "tauH": 6.535,
+       "ambientShiftC": 2.0,
+       "offsetC": 3.0,
+       "indoorFraction": 0.0,
+       "indoorRule": "none",
+       "realisedIndoorFraction": 0.0
+      },
+      "max": 1087.489,
+      "maxCell": {
+       "tau": "ambientShift+2C(refit)",
+       "tauH": 6.535,
+       "ambientShiftC": 2.0,
+       "offsetC": -3.0,
+       "indoorFraction": 0.1,
+       "indoorRule": "everyKth",
+       "realisedIndoorFraction": 0.1045
+      }
+     },
+     "parkedSensor": "probe mean (modelled)"
+    },
+    {
+     "band": "20-25",
+     "drivingCleanHours": 26.5683,
+     "drivingSensor": "T1 (exposureVector)",
+     "parkedModelledHours": 896.1321,
+     "parkedShareOfWindow": 0.20505,
+     "drivingShareOfWindow": 0.00608,
+     "nGaps": 220,
+     "nDays": 103,
+     "essDays": 45.644,
+     "status": "supported",
+     "grid": {
+      "min": 688.632,
+      "minCell": {
+       "tau": "ambientShift-2C(refit)",
+       "tauH": 9.357,
+       "ambientShiftC": -2.0,
+       "offsetC": -3.0,
+       "indoorFraction": 0.1,
+       "indoorRule": "everyKth",
+       "realisedIndoorFraction": 0.1045
+      },
+      "max": 1241.456,
+      "maxCell": {
+       "tau": "ambientShift+2C(refit)",
+       "tauH": 6.535,
+       "ambientShiftC": 2.0,
+       "offsetC": 0.0,
+       "indoorFraction": 0.1,
+       "indoorRule": "hottestFirst",
+       "realisedIndoorFraction": 0.1009
+      }
+     },
+     "parkedSensor": "probe mean (modelled)"
+    },
+    {
+     "band": "25-30",
+     "drivingCleanHours": 31.1345,
+     "drivingSensor": "T1 (exposureVector)",
+     "parkedModelledHours": 778.9468,
+     "parkedShareOfWindow": 0.17823,
+     "drivingShareOfWindow": 0.00712,
+     "nGaps": 226,
+     "nDays": 111,
+     "essDays": 26.053,
+     "status": "supported",
+     "grid": {
+      "min": 473.59,
+      "minCell": {
+       "tau": "previousDriveMax",
+       "tauH": 7.107,
+       "ambientShiftC": 0.0,
+       "offsetC": -3.0,
+       "indoorFraction": 0.1,
+       "indoorRule": "hottestFirst",
+       "realisedIndoorFraction": 0.1009
+      },
+      "max": 1213.345,
+      "maxCell": {
+       "tau": "ambientShift+2C(refit)",
+       "tauH": 6.535,
+       "ambientShiftC": 2.0,
+       "offsetC": 3.0,
+       "indoorFraction": 0.1,
+       "indoorRule": "hottestFirst",
+       "realisedIndoorFraction": 0.1009
+      }
+     },
+     "parkedSensor": "probe mean (modelled)"
+    },
+    {
+     "band": "30-35",
+     "drivingCleanHours": 36.5397,
+     "drivingSensor": "T1 (exposureVector)",
+     "parkedModelledHours": 529.52,
+     "parkedShareOfWindow": 0.12116,
+     "drivingShareOfWindow": 0.00836,
+     "nGaps": 214,
+     "nDays": 98,
+     "essDays": 25.847,
+     "status": "supported",
+     "grid": {
+      "min": 263.173,
+      "minCell": {
+       "tau": "previousDriveMax",
+       "tauH": 7.107,
+       "ambientShiftC": 0.0,
+       "offsetC": -3.0,
+       "indoorFraction": 0.1,
+       "indoorRule": "hottestFirst",
+       "realisedIndoorFraction": 0.1009
+      },
+      "max": 713.555,
+      "maxCell": {
+       "tau": "ambientShift+2C(refit)",
+       "tauH": 6.535,
+       "ambientShiftC": 2.0,
+       "offsetC": 3.0,
+       "indoorFraction": 0.1,
+       "indoorRule": "coldestFirst",
+       "realisedIndoorFraction": 0.159
+      }
+     },
+     "parkedSensor": "probe mean (modelled)"
+    },
+    {
+     "band": "35-40",
+     "drivingCleanHours": 59.1033,
+     "drivingSensor": "T1 (exposureVector)",
+     "parkedModelledHours": 147.7533,
+     "parkedShareOfWindow": 0.03381,
+     "drivingShareOfWindow": 0.01352,
+     "nGaps": 138,
+     "nDays": 67,
+     "essDays": 36.999,
+     "status": "supported",
+     "grid": {
+      "min": 107.138,
+      "minCell": {
+       "tau": "previousDriveMax",
+       "tauH": 7.107,
+       "ambientShiftC": 0.0,
+       "offsetC": -3.0,
+       "indoorFraction": 0.1,
+       "indoorRule": "hottestFirst",
+       "realisedIndoorFraction": 0.1009
+      },
+      "max": 337.286,
+      "maxCell": {
+       "tau": "ambientShift+2C(refit)",
+       "tauH": 6.535,
+       "ambientShiftC": 2.0,
+       "offsetC": 3.0,
+       "indoorFraction": 0.1,
+       "indoorRule": "coldestFirst",
+       "realisedIndoorFraction": 0.159
+      }
+     },
+     "parkedSensor": "probe mean (modelled)"
+    },
+    {
+     "band": ">=40",
+     "drivingCleanHours": 61.438,
+     "drivingSensor": "T1 (exposureVector)",
+     "parkedModelledHours": 25.2906,
+     "parkedShareOfWindow": 0.00579,
+     "drivingShareOfWindow": 0.01406,
+     "nGaps": 39,
+     "nDays": 25,
+     "essDays": 14.683,
+     "status": "supported",
+     "grid": {
+      "min": 18.992,
+      "minCell": {
+       "tau": "previousDriveMax",
+       "tauH": 7.107,
+       "ambientShiftC": 0.0,
+       "offsetC": -3.0,
+       "indoorFraction": 0.1,
+       "indoorRule": "hottestFirst",
+       "realisedIndoorFraction": 0.1009
+      },
+      "max": 30.289,
+      "maxCell": {
+       "tau": "ambientShift-2C(refit)",
+       "tauH": 9.357,
+       "ambientShiftC": -2.0,
+       "offsetC": 3.0,
+       "indoorFraction": 0.0,
+       "indoorRule": "none",
+       "realisedIndoorFraction": 0.0
+      }
+     },
+     "parkedSensor": "probe mean (modelled)"
+    }
+   ],
+   "drivingExcludedDrivesHours": 1.1366,
+   "drivingUnbandedCleanHours": 8.0184,
+   "unassignedGapHours": 61.5603,
+   "overlapHoursSigned": 0,
+   "note": "driving bands use sensor T1 and parked bands the probe mean; they are not summed into one total (a mixed-sensor sum would be labelled mixed-sensor)",
+   "sensorOffsetT1MinusProbeMean": "not estimable from the cache (per-probe values are not stored); +-1 C stays a labelled assumption, applied as a one-at-a-time shift of the parked start temperature in the sensitivities"
+  },
+  "B2": {
+   "parkedShareOfWindow": 0.9299,
+   "grid": {
+    "min": 4064.012,
+    "minCell": {
+     "tau": "primary",
+     "tauH": 7.873,
+     "ambientShiftC": 0.0,
+     "offsetC": 0.0,
+     "indoorFraction": 0.05,
+     "indoorRule": "hottestFirst",
+     "realisedIndoorFraction": 0.0501
+    },
+    "max": 4064.012,
+    "maxCell": {
+     "tau": "L2",
+     "tauH": 7.846,
+     "ambientShiftC": 0.0,
+     "offsetC": -3.0,
+     "indoorFraction": 0.0,
+     "indoorRule": "none",
+     "realisedIndoorFraction": 0.0
+    }
+   },
+   "byGapClass": [
+    {
+     "gapClass": "below 1 h",
+     "nGaps": 341,
+     "parkedHours": 95.8022,
+     "shareOfParkedHours": 0.0236
+    },
+    {
+     "gapClass": "1 to <4 h",
+     "nGaps": 132,
+     "parkedHours": 282.2233,
+     "shareOfParkedHours": 0.0694
+    },
+    {
+     "gapClass": "4 to <12 h",
+     "nGaps": 84,
+     "parkedHours": 723.454,
+     "shareOfParkedHours": 0.178
+    },
+    {
+     "gapClass": "12 to <36 h",
+     "nGaps": 76,
+     "parkedHours": 1327.6667,
+     "shareOfParkedHours": 0.3267
+    },
+    {
+     "gapClass": "36 h or longer",
+     "nGaps": 19,
+     "parkedHours": 1634.8663,
+     "shareOfParkedHours": 0.4023
+    }
+   ],
+   "longGapShareOfParkedHours": 0.4023,
+   "gapsWithNextDriveUnlogged": {
+    "nGaps": 6,
+    "hours": 255.1237
+   },
+   "gapsAfterExcludedDrive": {
+    "nGaps": 0,
+    "hours": 0.0
+   }
+  },
+  "B3": {
+   "wording": "same thresholds as S1 and S2; no charging occurs while parked",
+   "cold10": {
+    "primary": 386.386,
+    "grid": {
+     "min": 0.506,
+     "minCell": {
+      "tau": "primary",
+      "tauH": 7.873,
+      "ambientShiftC": 0.0,
+      "offsetC": 3.0,
+      "indoorFraction": 0.05,
+      "indoorRule": "coldestFirst",
+      "realisedIndoorFraction": 0.0539
+     },
+     "max": 656.152,
+     "maxCell": {
+      "tau": "ambientShift-2C(refit)",
+      "tauH": 9.357,
+      "ambientShiftC": -2.0,
+      "offsetC": -3.0,
+      "indoorFraction": 0.0,
+      "indoorRule": "none",
+      "realisedIndoorFraction": 0.0
+     }
+    },
+    "support": "exploratory",
+    "supportBasis": "weakest status among the contributing bands (a band with no contributing gap is ignored)"
+   },
+   "cold15": {
+    "primary": 847.294,
+    "grid": {
+     "min": 459.497,
+     "minCell": {
+      "tau": "ambientShift+2C(refit)",
+      "tauH": 6.535,
+      "ambientShiftC": 2.0,
+      "offsetC": 3.0,
+      "indoorFraction": 0.1,
+      "indoorRule": "coldestFirst",
+      "realisedIndoorFraction": 0.159
+     },
+     "max": 1335.042,
+     "maxCell": {
+      "tau": "ambientShift-2C(refit)",
+      "tauH": 9.357,
+      "ambientShiftC": -2.0,
+      "offsetC": -3.0,
+      "indoorFraction": 0.0,
+      "indoorRule": "none",
+      "realisedIndoorFraction": 0.0
+     }
+    },
+    "support": "exploratory",
+    "supportBasis": "weakest status among the contributing bands (a band with no contributing gap is ignored)"
+   },
+   "hot35": {
+    "primary": 173.044,
+    "grid": {
+     "min": 126.13,
+     "minCell": {
+      "tau": "previousDriveMax",
+      "tauH": 7.107,
+      "ambientShiftC": 0.0,
+      "offsetC": -3.0,
+      "indoorFraction": 0.1,
+      "indoorRule": "hottestFirst",
+      "realisedIndoorFraction": 0.1009
+     },
+     "max": 367.355,
+     "maxCell": {
+      "tau": "ambientShift+2C(refit)",
+      "tauH": 6.535,
+      "ambientShiftC": 2.0,
+      "offsetC": 3.0,
+      "indoorFraction": 0.1,
+      "indoorRule": "coldestFirst",
+      "realisedIndoorFraction": 0.159
+     }
+    },
+    "support": "supported",
+    "supportBasis": "weakest status among the contributing bands (a band with no contributing gap is ignored)"
+   },
+   "hot40": {
+    "primary": 25.291,
+    "grid": {
+     "min": 18.992,
+     "minCell": {
+      "tau": "previousDriveMax",
+      "tauH": 7.107,
+      "ambientShiftC": 0.0,
+      "offsetC": -3.0,
+      "indoorFraction": 0.1,
+      "indoorRule": "hottestFirst",
+      "realisedIndoorFraction": 0.1009
+     },
+     "max": 30.289,
+     "maxCell": {
+      "tau": "ambientShift-2C(refit)",
+      "tauH": 9.357,
+      "ambientShiftC": -2.0,
+      "offsetC": 3.0,
+      "indoorFraction": 0.0,
+      "indoorRule": "none",
+      "realisedIndoorFraction": 0.0
+     }
+    },
+    "support": "supported",
+    "supportBasis": "weakest status among the contributing bands (a band with no contributing gap is ignored)"
+   },
+   "cold10NoLong": {
+    "primary": 55.887,
+    "grid": {
+     "min": 0.506,
+     "minCell": {
+      "tau": "primary",
+      "tauH": 7.873,
+      "ambientShiftC": 0.0,
+      "offsetC": 3.0,
+      "indoorFraction": 0.05,
+      "indoorRule": "coldestFirst",
+      "realisedIndoorFraction": 0.0539
+     },
+     "max": 144.933,
+     "maxCell": {
+      "tau": "previousDriveMax",
+      "tauH": 7.107,
+      "ambientShiftC": 0.0,
+      "offsetC": -3.0,
+      "indoorFraction": 0.0,
+      "indoorRule": "none",
+      "realisedIndoorFraction": 0.0
+     }
+    }
+   },
+   "cold15NoLong": {
+    "primary": 306.266,
+    "grid": {
+     "min": 128.02,
+     "minCell": {
+      "tau": "ambientShift+2C(refit)",
+      "tauH": 6.535,
+      "ambientShiftC": 2.0,
+      "offsetC": 3.0,
+      "indoorFraction": 0.1,
+      "indoorRule": "coldestFirst",
+      "realisedIndoorFraction": 0.159
+     },
+     "max": 496.874,
+     "maxCell": {
+      "tau": "previousDriveMax",
+      "tauH": 7.107,
+      "ambientShiftC": 0.0,
+      "offsetC": -3.0,
+      "indoorFraction": 0.0,
+      "indoorRule": "none",
+      "realisedIndoorFraction": 0.0
+     }
+    }
+   },
+   "hot35NoLong": {
+    "primary": 144.339,
+    "grid": {
+     "min": 111.827,
+     "minCell": {
+      "tau": "previousDriveMax",
+      "tauH": 7.107,
+      "ambientShiftC": 0.0,
+      "offsetC": -3.0,
+      "indoorFraction": 0.1,
+      "indoorRule": "hottestFirst",
+      "realisedIndoorFraction": 0.1009
+     },
+     "max": 186.43,
+     "maxCell": {
+      "tau": "ambientShift+2C(refit)",
+      "tauH": 6.535,
+      "ambientShiftC": 2.0,
+      "offsetC": 3.0,
+      "indoorFraction": 0.1,
+      "indoorRule": "coldestFirst",
+      "realisedIndoorFraction": 0.159
+     }
+    }
+   },
+   "hot40NoLong": {
+    "primary": 20.355,
+    "grid": {
+     "min": 16.156,
+     "minCell": {
+      "tau": "previousDriveMax",
+      "tauH": 7.107,
+      "ambientShiftC": 0.0,
+      "offsetC": -3.0,
+      "indoorFraction": 0.1,
+      "indoorRule": "hottestFirst",
+      "realisedIndoorFraction": 0.1009
+     },
+     "max": 23.899,
+     "maxCell": {
+      "tau": "ambientShift-2C(refit)",
+      "tauH": 9.357,
+      "ambientShiftC": -2.0,
+      "offsetC": 3.0,
+      "indoorFraction": 0.0,
+      "indoorRule": "none",
+      "realisedIndoorFraction": 0.0
+     }
+    }
+   },
+   "byGapClass": [
+    {
+     "gapClass": "below 1 h",
+     "companionRowNotPrimary": true,
+     "cold10": {
+      "primary": 0.517,
+      "grid": {
+       "min": 0.506,
+       "minCell": {
+        "tau": "primary",
+        "tauH": 7.873,
+        "ambientShiftC": 0.0,
+        "offsetC": 3.0,
+        "indoorFraction": 0.0,
+        "indoorRule": "none",
+        "realisedIndoorFraction": 0.0
+       },
+       "max": 0.644,
+       "maxCell": {
+        "tau": "previousDriveMax",
+        "tauH": 7.107,
+        "ambientShiftC": 0.0,
+        "offsetC": -3.0,
+        "indoorFraction": 0.0,
+        "indoorRule": "none",
+        "realisedIndoorFraction": 0.0
+       }
+      }
+     },
+     "cold15": {
+      "primary": 3.75,
+      "grid": {
+       "min": 3.638,
+       "minCell": {
+        "tau": "primary",
+        "tauH": 7.873,
+        "ambientShiftC": 0.0,
+        "offsetC": 3.0,
+        "indoorFraction": 0.0,
+        "indoorRule": "none",
+        "realisedIndoorFraction": 0.0
+       },
+       "max": 3.868,
+       "maxCell": {
+        "tau": "ambientShift+2C(refit)",
+        "tauH": 6.535,
+        "ambientShiftC": 2.0,
+        "offsetC": -3.0,
+        "indoorFraction": 0.0,
+        "indoorRule": "none",
+        "realisedIndoorFraction": 0.0
+       }
+      }
+     },
+     "hot35": {
+      "primary": 22.601,
+      "grid": {
+       "min": 21.408,
+       "minCell": {
+        "tau": "previousDriveMax",
+        "tauH": 7.107,
+        "ambientShiftC": 0.0,
+        "offsetC": -3.0,
+        "indoorFraction": 0.0,
+        "indoorRule": "none",
+        "realisedIndoorFraction": 0.0
+       },
+       "max": 23.313,
+       "maxCell": {
+        "tau": "ambientShift-2C(refit)",
+        "tauH": 9.357,
+        "ambientShiftC": -2.0,
+        "offsetC": 3.0,
+        "indoorFraction": 0.0,
+        "indoorRule": "none",
+        "realisedIndoorFraction": 0.0
+       }
+      }
+     },
+     "hot40": {
+      "primary": 5.831,
+      "grid": {
+       "min": 5.545,
+       "minCell": {
+        "tau": "previousDriveMax",
+        "tauH": 7.107,
+        "ambientShiftC": 0.0,
+        "offsetC": -3.0,
+        "indoorFraction": 0.0,
+        "indoorRule": "none",
+        "realisedIndoorFraction": 0.0
+       },
+       "max": 6.118,
+       "maxCell": {
+        "tau": "ambientShift-2C(refit)",
+        "tauH": 9.357,
+        "ambientShiftC": -2.0,
+        "offsetC": 3.0,
+        "indoorFraction": 0.0,
+        "indoorRule": "none",
+        "realisedIndoorFraction": 0.0
+       }
+      }
+     }
+    },
+    {
+     "gapClass": "1 to <4 h",
+     "companionRowNotPrimary": true,
+     "cold10": {
+      "primary": 0.0,
+      "grid": {
+       "min": 0.0,
+       "minCell": {
+        "tau": "primary",
+        "tauH": 7.873,
+        "ambientShiftC": 0.0,
+        "offsetC": 0.0,
+        "indoorFraction": 0.0,
+        "indoorRule": "none",
+        "realisedIndoorFraction": 0.0
+       },
+       "max": 0.487,
+       "maxCell": {
+        "tau": "previousDriveMax",
+        "tauH": 7.107,
+        "ambientShiftC": 0.0,
+        "offsetC": -3.0,
+        "indoorFraction": 0.0,
+        "indoorRule": "none",
+        "realisedIndoorFraction": 0.0
+       }
+      }
+     },
+     "cold15": {
+      "primary": 17.857,
+      "grid": {
+       "min": 15.016,
+       "minCell": {
+        "tau": "ambientShift+2C(refit)",
+        "tauH": 6.535,
+        "ambientShiftC": 2.0,
+        "offsetC": 3.0,
+        "indoorFraction": 0.0,
+        "indoorRule": "none",
+        "realisedIndoorFraction": 0.0
+       },
+       "max": 19.972,
+       "maxCell": {
+        "tau": "previousDriveMax",
+        "tauH": 7.107,
+        "ambientShiftC": 0.0,
+        "offsetC": -3.0,
+        "indoorFraction": 0.0,
+        "indoorRule": "none",
+        "realisedIndoorFraction": 0.0
+       }
+      }
+     },
+     "hot35": {
+      "primary": 44.889,
+      "grid": {
+       "min": 39.217,
+       "minCell": {
+        "tau": "previousDriveMax",
+        "tauH": 7.107,
+        "ambientShiftC": 0.0,
+        "offsetC": -3.0,
+        "indoorFraction": 0.0,
+        "indoorRule": "none",
+        "realisedIndoorFraction": 0.0
+       },
+       "max": 53.233,
+       "maxCell": {
+        "tau": "ambientShift+2C(refit)",
+        "tauH": 6.535,
+        "ambientShiftC": 2.0,
+        "offsetC": 3.0,
+        "indoorFraction": 0.0,
+        "indoorRule": "none",
+        "realisedIndoorFraction": 0.0
+       }
+      }
+     },
+     "hot40": {
+      "primary": 7.452,
+      "grid": {
+       "min": 5.667,
+       "minCell": {
+        "tau": "previousDriveMax",
+        "tauH": 7.107,
+        "ambientShiftC": 0.0,
+        "offsetC": -3.0,
+        "indoorFraction": 0.0,
+        "indoorRule": "none",
+        "realisedIndoorFraction": 0.0
+       },
+       "max": 8.849,
+       "maxCell": {
+        "tau": "ambientShift-2C(refit)",
+        "tauH": 9.357,
+        "ambientShiftC": -2.0,
+        "offsetC": 3.0,
+        "indoorFraction": 0.0,
+        "indoorRule": "none",
+        "realisedIndoorFraction": 0.0
+       }
+      }
+     }
+    },
+    {
+     "gapClass": "4 to <12 h",
+     "companionRowNotPrimary": true,
+     "cold10": {
+      "primary": 24.707,
+      "grid": {
+       "min": 0.0,
+       "minCell": {
+        "tau": "primary",
+        "tauH": 7.873,
+        "ambientShiftC": 0.0,
+        "offsetC": 3.0,
+        "indoorFraction": 0.05,
+        "indoorRule": "coldestFirst",
+        "realisedIndoorFraction": 0.0539
+       },
+       "max": 57.623,
+       "maxCell": {
+        "tau": "previousDriveMax",
+        "tauH": 7.107,
+        "ambientShiftC": 0.0,
+        "offsetC": -3.0,
+        "indoorFraction": 0.0,
+        "indoorRule": "none",
+        "realisedIndoorFraction": 0.0
+       }
+      }
+     },
+     "cold15": {
+      "primary": 137.249,
+      "grid": {
+       "min": 72.826,
+       "minCell": {
+        "tau": "ambientShift+2C(refit)",
+        "tauH": 6.535,
+        "ambientShiftC": 2.0,
+        "offsetC": 3.0,
+        "indoorFraction": 0.1,
+        "indoorRule": "coldestFirst",
+        "realisedIndoorFraction": 0.159
+       },
+       "max": 213.522,
+       "maxCell": {
+        "tau": "previousDriveMax",
+        "tauH": 7.107,
+        "ambientShiftC": 0.0,
+        "offsetC": -3.0,
+        "indoorFraction": 0.0,
+        "indoorRule": "none",
+        "realisedIndoorFraction": 0.0
+       }
+      }
+     },
+     "hot35": {
+      "primary": 18.343,
+      "grid": {
+       "min": 13.376,
+       "minCell": {
+        "tau": "previousDriveMax",
+        "tauH": 7.107,
+        "ambientShiftC": 0.0,
+        "offsetC": -3.0,
+        "indoorFraction": 0.1,
+        "indoorRule": "hottestFirst",
+        "realisedIndoorFraction": 0.1009
+       },
+       "max": 23.389,
+       "maxCell": {
+        "tau": "ambientShift-2C(refit)",
+        "tauH": 9.357,
+        "ambientShiftC": -2.0,
+        "offsetC": 3.0,
+        "indoorFraction": 0.1,
+        "indoorRule": "coldestFirst",
+        "realisedIndoorFraction": 0.159
+       }
+      }
+     },
+     "hot40": {
+      "primary": 0.996,
+      "grid": {
+       "min": 0.786,
+       "minCell": {
+        "tau": "ambientShift+2C(refit)",
+        "tauH": 6.535,
+        "ambientShiftC": 2.0,
+        "offsetC": -3.0,
+        "indoorFraction": 0.05,
+        "indoorRule": "everyKth",
+        "realisedIndoorFraction": 0.0335
+       },
+       "max": 1.241,
+       "maxCell": {
+        "tau": "ambientShift-2C(refit)",
+        "tauH": 9.357,
+        "ambientShiftC": -2.0,
+        "offsetC": 3.0,
+        "indoorFraction": 0.0,
+        "indoorRule": "none",
+        "realisedIndoorFraction": 0.0
+       }
+      }
+     }
+    },
+    {
+     "gapClass": "12 to <36 h",
+     "companionRowNotPrimary": true,
+     "cold10": {
+      "primary": 30.663,
+      "grid": {
+       "min": 0.0,
+       "minCell": {
+        "tau": "primary",
+        "tauH": 7.873,
+        "ambientShiftC": 0.0,
+        "offsetC": 0.0,
+        "indoorFraction": 0.1,
+        "indoorRule": "coldestFirst",
+        "realisedIndoorFraction": 0.159
+       },
+       "max": 86.179,
+       "maxCell": {
+        "tau": "previousDriveMax",
+        "tauH": 7.107,
+        "ambientShiftC": 0.0,
+        "offsetC": -3.0,
+        "indoorFraction": 0.0,
+        "indoorRule": "none",
+        "realisedIndoorFraction": 0.0
+       }
+      }
+     },
+     "cold15": {
+      "primary": 147.41,
+      "grid": {
+       "min": 36.541,
+       "minCell": {
+        "tau": "ambientShift+2C(refit)",
+        "tauH": 6.535,
+        "ambientShiftC": 2.0,
+        "offsetC": 3.0,
+        "indoorFraction": 0.1,
+        "indoorRule": "coldestFirst",
+        "realisedIndoorFraction": 0.159
+       },
+       "max": 259.512,
+       "maxCell": {
+        "tau": "previousDriveMax",
+        "tauH": 7.107,
+        "ambientShiftC": 0.0,
+        "offsetC": -3.0,
+        "indoorFraction": 0.0,
+        "indoorRule": "none",
+        "realisedIndoorFraction": 0.0
+       }
+      }
+     },
+     "hot35": {
+      "primary": 58.506,
+      "grid": {
+       "min": 37.826,
+       "minCell": {
+        "tau": "previousDriveMax",
+        "tauH": 7.107,
+        "ambientShiftC": 0.0,
+        "offsetC": -3.0,
+        "indoorFraction": 0.1,
+        "indoorRule": "hottestFirst",
+        "realisedIndoorFraction": 0.1009
+       },
+       "max": 87.239,
+       "maxCell": {
+        "tau": "ambientShift+2C(refit)",
+        "tauH": 6.535,
+        "ambientShiftC": 2.0,
+        "offsetC": 3.0,
+        "indoorFraction": 0.0,
+        "indoorRule": "none",
+        "realisedIndoorFraction": 0.0
+       }
+      }
+     },
+     "hot40": {
+      "primary": 6.076,
+      "grid": {
+       "min": 4.099,
+       "minCell": {
+        "tau": "ambientShift+2C(refit)",
+        "tauH": 6.535,
+        "ambientShiftC": 2.0,
+        "offsetC": -3.0,
+        "indoorFraction": 0.1,
+        "indoorRule": "hottestFirst",
+        "realisedIndoorFraction": 0.1009
+       },
+       "max": 7.69,
+       "maxCell": {
+        "tau": "ambientShift-2C(refit)",
+        "tauH": 9.357,
+        "ambientShiftC": -2.0,
+        "offsetC": 3.0,
+        "indoorFraction": 0.0,
+        "indoorRule": "none",
+        "realisedIndoorFraction": 0.0
+       }
+      }
+     }
+    },
+    {
+     "gapClass": "36 h or longer",
+     "companionRowNotPrimary": true,
+     "cold10": {
+      "primary": 330.499,
+      "grid": {
+       "min": 0.0,
+       "minCell": {
+        "tau": "primary",
+        "tauH": 7.873,
+        "ambientShiftC": 0.0,
+        "offsetC": -3.0,
+        "indoorFraction": 0.1,
+        "indoorRule": "coldestFirst",
+        "realisedIndoorFraction": 0.159
+       },
+       "max": 524.011,
+       "maxCell": {
+        "tau": "ambientShift-2C(refit)",
+        "tauH": 9.357,
+        "ambientShiftC": -2.0,
+        "offsetC": -3.0,
+        "indoorFraction": 0.0,
+        "indoorRule": "none",
+        "realisedIndoorFraction": 0.0
+       }
+      }
+     },
+     "cold15": {
+      "primary": 541.028,
+      "grid": {
+       "min": 331.477,
+       "minCell": {
+        "tau": "ambientShift+2C(refit)",
+        "tauH": 6.535,
+        "ambientShiftC": 2.0,
+        "offsetC": 3.0,
+        "indoorFraction": 0.1,
+        "indoorRule": "coldestFirst",
+        "realisedIndoorFraction": 0.159
+       },
+       "max": 857.595,
+       "maxCell": {
+        "tau": "ambientShift-2C(refit)",
+        "tauH": 9.357,
+        "ambientShiftC": -2.0,
+        "offsetC": -3.0,
+        "indoorFraction": 0.0,
+        "indoorRule": "none",
+        "realisedIndoorFraction": 0.0
+       }
+      }
+     },
+     "hot35": {
+      "primary": 28.705,
+      "grid": {
+       "min": 14.303,
+       "minCell": {
+        "tau": "previousDriveMax",
+        "tauH": 7.107,
+        "ambientShiftC": 0.0,
+        "offsetC": -3.0,
+        "indoorFraction": 0.05,
+        "indoorRule": "hottestFirst",
+        "realisedIndoorFraction": 0.0501
+       },
+       "max": 180.925,
+       "maxCell": {
+        "tau": "ambientShift+2C(refit)",
+        "tauH": 6.535,
+        "ambientShiftC": 2.0,
+        "offsetC": 3.0,
+        "indoorFraction": 0.0,
+        "indoorRule": "none",
+        "realisedIndoorFraction": 0.0
+       }
+      }
+     },
+     "hot40": {
+      "primary": 4.936,
+      "grid": {
+       "min": 2.796,
+       "minCell": {
+        "tau": "ambientShift+2C(refit)",
+        "tauH": 6.535,
+        "ambientShiftC": 2.0,
+        "offsetC": -3.0,
+        "indoorFraction": 0.05,
+        "indoorRule": "hottestFirst",
+        "realisedIndoorFraction": 0.0501
+       },
+       "max": 7.109,
+       "maxCell": {
+        "tau": "ambientShift+2C(refit)",
+        "tauH": 6.535,
+        "ambientShiftC": 2.0,
+        "offsetC": 3.0,
+        "indoorFraction": 0.0,
+        "indoorRule": "none",
+        "realisedIndoorFraction": 0.0
+       }
+      }
+     }
+    }
+   ],
+   "identity": "the class rows sum to the primary (checked at build)"
+  },
+  "sensitivities": {
+   "nextDriveUnloggedTreatedAsUnassigned": {
+    "parkedHours": 3808.889,
+    "cold10": 386.38,
+    "cold15": 801.645,
+    "hot35": 166.567,
+    "hot40": 23.813,
+    "cold10NoLong": 55.881,
+    "cold15NoLong": 299.274
+   },
+   "longGapAmbientLinear": {
+    "parkedHours": 4064.012,
+    "cold10": 372.404,
+    "cold15": 849.429,
+    "hot35": 174.6,
+    "hot40": 24.092,
+    "cold10NoLong": 55.887,
+    "cold15NoLong": 306.266
+   },
+   "longGapAmbientDiurnal4C": {
+    "parkedHours": 4064.012,
+    "cold10": 329.246,
+    "cold15": 783.348,
+    "hot35": 169.611,
+    "hot40": 25.058,
+    "cold10NoLong": 55.887,
+    "cold15NoLong": 306.266
+   },
+   "parkedStartShiftMinus1C": {
+    "parkedHours": 4064.012,
+    "cold10": 396.859,
+    "cold15": 891.212,
+    "hot35": 131.628,
+    "hot40": 13.401,
+    "cold10NoLong": 66.021,
+    "cold15NoLong": 349.198
+   },
+   "parkedStartShiftPlus1C": {
+    "parkedHours": 4064.012,
+    "cold10": 379.836,
+    "cold15": 814.707,
+    "hot35": 219.79,
+    "hot40": 37.865,
+    "cold10NoLong": 49.661,
+    "cold15NoLong": 274.626
+   }
+  },
+  "support": {
+   "basis": "cluster = arrival day of the gap; weight = hours in the cell per gap; not shown below 10 gaps or 5 days; exploratory below 10 effective days; primary only"
+  },
+  "B4": {
+   "nPairs": 650,
+   "nDays": 127,
+   "cv": "day-blocked contiguous folds over arrival days (k=10); tau refitted on the other folds (L1, Q3 eligibility set)",
+   "byClass": {
+    "below 1 h": {
+     "n": 341,
+     "maeModelC": 0.302,
+     "signedBiasModelC": -0.178,
+     "maePersistenceC": 0.421,
+     "maeFullRelaxationC": 9.93,
+     "placeboMaeMedianC": 0.437,
+     "placeboMae5thPercentileC": 0.415,
+     "modelBeatsBetterReference": true,
+     "skillDropsUnderPlacebo": true,
+     "outOfSample": "held-out"
+    },
+    "1 to <4 h": {
+     "n": 132,
+     "maeModelC": 0.842,
+     "signedBiasModelC": -0.678,
+     "maePersistenceC": 2.297,
+     "maeFullRelaxationC": 8.759,
+     "placeboMaeMedianC": 2.098,
+     "placeboMae5thPercentileC": 1.931,
+     "modelBeatsBetterReference": true,
+     "skillDropsUnderPlacebo": true,
+     "outOfSample": "held-out"
+    },
+    "4 to <12 h": {
+     "n": 84,
+     "maeModelC": 3.16,
+     "signedBiasModelC": -2.296,
+     "maePersistenceC": 8.741,
+     "maeFullRelaxationC": 6.342,
+     "placeboMaeMedianC": 6.268,
+     "placeboMae5thPercentileC": 5.606,
+     "modelBeatsBetterReference": true,
+     "skillDropsUnderPlacebo": true,
+     "outOfSample": "held-out"
+    },
+    "12 to <36 h": {
+     "n": 75,
+     "maeModelC": 2.885,
+     "signedBiasModelC": 1.919,
+     "maePersistenceC": 14.183,
+     "maeFullRelaxationC": 2.42,
+     "placeboMaeMedianC": 5.982,
+     "placeboMae5thPercentileC": 5.399,
+     "modelBeatsBetterReference": false,
+     "skillDropsUnderPlacebo": true,
+     "outOfSample": "held-out"
+    },
+    "36 h or longer": {
+     "n": 18,
+     "maeModelC": 3.731,
+     "signedBiasModelC": 1.255,
+     "maePersistenceC": 13.597,
+     "maeFullRelaxationC": 3.719,
+     "placeboMaeMedianC": 6.571,
+     "placeboMae5thPercentileC": 5.164,
+     "modelBeatsBetterReference": false,
+     "skillDropsUnderPlacebo": true,
+     "outOfSample": "all pairs are held-out; gaps of 36 h or longer lie outside the fitted gap range (0.02 to 36 h)"
+    }
+   }
+  },
+  "grid": {
+   "nCells": 126,
+   "axes": "tau entries (ambient shift paired with its refitted tau) x offset {-3,0,3} C x indoor fraction {0, 0.05, 0.10} with rules everyKth / coldestFirst / hottestFirst; min and max with their cells; no interval"
+  },
+  "validity": {
+   "V1_timeAccounting": {
+    "passed": true,
+    "absDifferenceH": 9.094947017729282e-13
+   },
+   "V2_everyConsecutivePairIsAGapRow": true,
+   "V3_exactVsNumericMaxAbsDiffH": 4.4e-06,
+   "V3_passed": true,
+   "V5_bandHoursSumToGapMaxAbsDiffH": 0.0,
+   "V5_passed": true,
+   "nGapsChecked": 20,
+   "V4_determinism": "seed 42; the grid is deterministic"
+  },
+  "reading": [
+   "parked hours are MODELLED from the Q3 cool-down relaxation and the driver-recorded ambient at the two bounding drives; they are not measured and are validated only at the two ends of a gap (held-out next key-on temperature)",
+   "the uncertainty is the stated grid of assumptions (min and max with their cells), not a confidence interval; a statement such as 'below 10 deg C for x hours' is allowed only with its bracket",
+   "the ambient is read at drive times (daytime) and the dashboard sensor heat-soaks at key-on, so A is likely biased warm against the 24 h mean and the cold parked hours are likely understated",
+   "an hours-by-temperature budget of one May-to-November window; not lifetime exposure, not annualised, not an ageing estimate",
+   "no charging occurs while parked; the cold and hot parked hours use the same temperature thresholds as the S1 and S2 screens of exposureVector",
+   "the block does not feed or compare with the Arrhenius index Q4 or the monthly temperature table",
+   "at the gap-class ends the model does not beat the better of persistence and full relaxation for: 12 to <36 h, 36 h or longer; the parked hours of those classes (73% of the parked hours) rest on the weakest part of the model"
+  ],
+  "flags": {
+   "longGapSkillNotAboveReference": true,
+   "classes": [
+    "12 to <36 h",
+    "36 h or longer"
+   ],
+   "parkedHoursShare": 0.729,
+   "directionOfKnownBias": "warm: the ambient reference comes from daytime readings and the short-pair tau over-persists drive-end heat in the 12 to <36 h class; cold hours are likely understated and the hot tails likely overstated",
+   "coldHoursInGapsOf36hOrLonger": 330.499
+  },
+  "conventions": {
+   "timestamps": "key-on = local_iso[:19] minus utc_offset_h (UTC, DST-aware; the window contains 2026-10-25); key-off = key-on + duration_s; drives sorted by UTC key-on; a negative gap is 'unassigned: overlap' and counts as signed hours in the time accounting",
+   "endpointBias": "signed bias = predicted minus observed next key-on pack temperature",
+   "afterExcludedDrive": "the cached end temperature is used when 3 of 4 probes exist; none of the excluded drives has one, so those gaps are unassigned (see window.unassignedByReason)",
+   "unloggedDriving": "gaps whose next drive has unlogged driving above 1.0 km are assigned in the primary and listed in B2.gapsWithNextDriveUnlogged; the sensitivity treats them as unassigned",
+   "sensorOffsetBasis": "T1 minus probe mean is not estimable from the cache; +-1 C shifts of the parked start temperature are the labelled stand-in"
+  },
+  "provenance": {
+   "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+   "scriptSha256": "14d47691bce9b9ca190a8c230fa2d4cd140e5a40f7ded90f8977fa6bf86c063f",
+   "seed": 42,
+   "nPermutations": 1000,
+   "nDrives": 665
   }
  }
 }
