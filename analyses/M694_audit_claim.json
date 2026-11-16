@@ -1,0 +1,19 @@
+{
+ "claim": "Minimal blind reproduction of the M693/M694 location-set coverage record. Read analyses/M693_spec.md Rev 1.1 (sections 2 to 4 and 8) only. Do NOT read tools/location_sets.py, tools/changepoints.py (locationSetStudy), analyses/M693_coverage.json, or the changePoints block of summary_arrays.json. Implement independently: the exact segment-neighbourhood DP (K 0..5, minimum segment 8 drives and 3 distinct calendar days), BIC = n ln(RSS/n) + (2K+1) ln n, the C2 profile likelihood-ratio set (critical value 2 ln(1/(1-sqrt(0.95))), lambda from uncentred day sums with lag-1 Bartlett term floored at 1, convex hull), and the S5effect scenario: unit-variance noise = day random effect N(0, 0.3) per calendar day plus N(0, 0.7) per drive, plus ONE step of 1.5 at drive index n//2, at the real structure (n = 633 canonical-clean X2 drives, 126 days: the drives of drive_master.csv with ens_outlier_v2 False and a finite cell_spread_loaded_p95_mv, ordered by date, time_start, file). Also S1 (one step of 1.5 at n//2, iid unit noise). Use 200 replicates each with your own seed (exact random draws cannot match, so the comparison is statistical).",
+ "claimed": {
+  "S5effect": {
+   "kHatEqualsKTrueRate": 0.23,
+   "falseBreakRate": 0.77,
+   "C2UnconditionalCoverage": 0.955,
+   "C2ConditionalCoverage": 0.978,
+   "C2LambdaMedian": 1.98
+  },
+  "S1": {
+   "kHatEqualsKTrueRate": 0.96,
+   "C2UnconditionalCoverage": 0.96,
+   "C2MedianWidthDrives": 6
+  }
+ },
+ "tolerance": "binomial: rates within 0.08 of the claim (SE about 0.03 at 200 replicates); lambda median within 0.4; width within 4 drives",
+ "also": "Report: (1) whether the pre-registered admissibility verdict for C2 (not admissible because fewer than 50 replicates select the planted K in S5effect) follows from your reproduction; (2) the nonparametric reason BIC over-selects when day-level noise is present; (3) any ambiguity in the spec that changes a number. Do not tune to match; report disagreements as they are."
+}

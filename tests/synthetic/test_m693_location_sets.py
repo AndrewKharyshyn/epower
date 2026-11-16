@@ -140,6 +140,21 @@ def test_admissibility_and_selection():
     assert not L.admissibility(s, n)[0]["C1"]["admissible"]                                    # a missing core scenario blocks admission
 
 
+def test_study_record_in_the_block_and_staleness():
+    import json, copy
+    m, frames = C.load(ROOT)
+    rec = C._location_set_study(ROOT, frames)
+    cv = json.load(open(os.path.join(ROOT, "analyses", "M693_coverage.json"), encoding="utf-8"))
+    assert rec["selectedConstruction"] == cv["selected"] and rec["studyStale"] is False and set(rec["constructions"]) == {"C0", "C1", "C2"}
+    if cv["selected"] is None:
+        assert rec["closestConstruction"]["label"] == "not admissible, reference only" and "no location set is attached" in rec["status"]
+        assert not any(c["admissible"] for c in rec["constructions"].values())
+    # a different structure is detected as stale
+    fr2 = copy.deepcopy(frames)
+    fr2["X2"] = fr2["X2"].iloc[:-30].copy()
+    assert C._location_set_study(ROOT, fr2)["studyStale"] is True
+
+
 def test_small_study_is_deterministic():
     a = L.run_study(reps=1, dreps=1, B=8, workers=1)
     b = L.run_study(reps=1, dreps=1, B=8, workers=1)

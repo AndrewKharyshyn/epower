@@ -387,7 +387,44 @@ def build(root=ROOT, master_path=None, nboot=NBOOT, seed=SEED):
     block["validity"] = validate(block, m, frames)
     block["primarySha256"] = hashlib.sha256(json.dumps(block, sort_keys=True, ensure_ascii=False, default=str).encode("utf-8")).hexdigest()
     block["referenceComparison"] = compare_reference(block, m)
+    block["locationSetStudy"] = _location_set_study(root, frames)          # M694: after the primary hash, additive (spec analyses/M693_spec.md Rev 1.1)
     return block
+
+
+def _location_set_study(root, frames):
+    """Record of the offline M693/M694 coverage study of candidate location sets. No set is attached to any break unless the pre-registered gate admitted a construction."""
+    cp = os.path.join(root, "analyses", "M693_coverage.json")
+    if not os.path.exists(cp):
+        return {"status": "not run", "spec": "analyses/M693_spec.md Rev 1.1"}
+    cv = json.load(open(cp, encoding="utf-8"))
+    df = frames["X2"]; df = df[np.isfinite(df["y"].values)].reset_index(drop=True)
+    dayidx = pd.factorize(pd.to_datetime(df["date"]).dt.strftime("%Y-%m-%d").values)[0]
+    cnt = np.bincount(dayidx)
+    fp = cv["fingerprint"]
+    stale = bool(fp["n"] != len(df) or fp["nDays"] != len(cnt) or fp["drivesPerDayHash"] != hashlib.sha256(cnt.astype(np.int64).tobytes()).hexdigest()[:16])
+    rec = {"spec": cv["spec"] + " Rev 1.1", "file": "analyses/M693_coverage.json", "reps": cv["reps"], "descriptiveReps": cv["descriptiveReps"], "B": cv["B"], "fingerprint": fp, "studyStale": stale,
+           "selectedConstruction": cv["selected"], "scriptSha256": cv["scriptSha256"], "constructions": {}, "coreScenarios": {}}
+    for c, a in cv["admissibility"].items():
+        rec["constructions"][c] = {"admissible": a["admissible"], "reasons": a["reasons"], "meanOverCoreOfMedianWidthDays": a["meanOverCoreOfMedianWidthDays"]}
+    for nm in ("S1", "S2", "S3", "S4", "S5", "S5effect"):
+        sc = cv["scenarios"][nm]
+        rec["coreScenarios"][nm] = {"kTrue": sc["kTrue"], "kHatEqualsKTrueRate": sc["kHatEqualsKTrueRate"], "falseBreakRate": sc["falseBreakRate"],
+                                    **{c: {"coverageUnconditional": sc["constructions"][c]["coverageUnconditional"], "coverageConditional": sc["constructions"][c]["coverageConditional"], "nCorrectK": sc["constructions"][c]["nCorrectK"],
+                                           "medianWidthDrives": sc["constructions"][c]["medianWidthDrives"], "medianWidthDays": sc["constructions"][c]["medianWidthDays"],
+                                           "adjacentOverlapShare": sc["constructions"][c]["adjacentOverlapShare"]} for c in ("C0", "C1", "C2")}}
+    if cv["selected"] is None:
+        near = min(cv["admissibility"], key=lambda c: (len(cv["admissibility"][c]["reasons"]), c))
+        rec["status"] = "no construction admitted by the pre-registered gate; no location set is attached to any break"
+        rec["closestConstruction"] = {"construction": near, "label": "not admissible, reference only", "reasons": cv["admissibility"][near]["reasons"]}
+        rec["f1Status"] = "F1 stays open: no admissible construction (M693); a new pre-registered spec addressing the selection of the number of breaks is warranted (it is not a subset or a re-gate of M693)"
+        rec["kSelectionNote"] = "BIC at the drive level does not account for day-level dependence: the planted number of breaks is recovered in 0.68 (AR(1), one step), 0.56 (AR(1), three steps) and 0.23 (day random effect, one step) of replicates; coverage in those scenarios is inflated by over-segmentation"
+        rec["robustnessNote"] = "blind audit: an independent reproduction with other random draws obtained 56 replicates with the planted number of breaks in the day-effect scenario (46 in the pre-registered seed-42 run; the binomial standard deviation is about 6), so the pre-registered cut of 50 is seed-sensitive; the verdict as pre-registered (seed 42) stands and is not re-gated; the weakness of the selection of the number of breaks (planted number recovered in a minority of replicates, false-break rate 0.72 to 0.77) is independent of that threshold"
+        rec["overlapBoundReading"] = "the adjacent-set overlap bound of the gate is applied to the three-step scenarios S3 and S4 only (a defensible reading of the spec); under the wider reading the likelihood-ratio set would also fail the day-effect scenario on overlap"
+        rec["reading"] = ["the nominal 95 % wild-bootstrap location interval (C0) and the unconditional bootstrap (C1) did not reach the pre-registered coverage in the core scenarios; the likelihood-ratio set (C2) covered the planted breaks in 91 to 99 % of replicates in every core scenario but failed one pre-registered condition (fewer than 50 replicates with the planted number of breaks in the day-effect scenario, where BIC over-selects breaks)",
+                          "the study is simulated coverage at the real X2 structure with planted steps, not fitted ones; a subset admission would need a new spec revision and is post hoc; the M676 labels (uncalibrated, not for display) stay unchanged"]
+    else:
+        rec["status"] = "a construction was admitted; the per-break sets are a separate step"
+    return rec
 
 
 def validate(block, m, frames):
