@@ -26,10 +26,12 @@ def load_drives():
     m = m[m["ens_outlier_v2"].astype(str) == "False"].reset_index(drop=True)
     cad = pd.read_csv("cadence_regime.csv").set_index("file")["regime"]
     coh = pd.read_csv("seasonal_drive_master.csv", usecols=["file", "thermal_regime"]).set_index("file")["thermal_regime"]
-    sha_by = AH.manifest_sha_lookup()
+    sha_by = AH.manifest_sha_lookup(); loader = AH.raw_loader(os.environ.get("XT_RAW_DIR") or os.path.join(ROOT, "raw"))
     rows = []
     for _, r in m.iterrows():
         sha = sha_by(r["file"])
+        if not sha:                                                       # same fallback as the cache builder: sha256 of the raw bytes
+            b = loader(r["file"]); sha = hashlib.sha256(b).hexdigest() if b else None
         e = W.load_entry(sha) if sha else None
         if e is None:
             continue
