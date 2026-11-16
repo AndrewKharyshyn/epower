@@ -15,7 +15,7 @@ sys.path.insert(0, ROOT)
 sys.path.insert(0, HERE)
 CACHE_DIR = os.path.join(ROOT, "reverse_mask_cache")
 SPEC = "analyses/M695_spec.md"
-VERSION = 1
+VERSION = 2
 SEED, NBOOT = 42, 4000
 TOL_MS = 1500
 RPM_OFF = 300.0
@@ -60,7 +60,8 @@ def aligned(csv_bytes, source="auto"):
     cu = D._series(df, t, "I")
     if cu is not None:
         cu = cu[cu["v"].abs() < 900]
-    t0 = min(tq["t"].min(), sp["t"].min())
+    t0 = t.min()                                  # drive time starts at the first row of the file (every PID), not at the first torque or speed sample
+    dur = float((t.max() - t0).total_seconds())
     base = pd.DataFrame({"t": tq["t"].values, "T": tq["v"].values}).sort_values("t")
     tol = pd.Timedelta(milliseconds=TOL_MS)
     for name, s in (("v", sp), ("rpm", en), ("I", cu)):
@@ -75,7 +76,7 @@ def aligned(csv_bytes, source="auto"):
     if len(pos):
         j = np.searchsorted(pos, ts, side="right") - 1
         last_pos = np.where(j >= 0, pos[np.clip(j, 0, len(pos) - 1)], np.nan)
-    return {"speedSource": src, "ts": ts, "T": base["T"].to_numpy(float), "v": base["v"].to_numpy(float), "rpm": base["rpm"].to_numpy(float), "I": base["I"].to_numpy(float), "lastPos": last_pos}
+    return {"speedSource": src, "duration": dur, "ts": ts, "T": base["T"].to_numpy(float), "v": base["v"].to_numpy(float), "rpm": base["rpm"].to_numpy(float), "I": base["I"].to_numpy(float), "lastPos": last_pos}
 
 
 # ------------------------------------------------------------------------------------------------ discriminator
@@ -89,6 +90,7 @@ def analyse(a, tau0, params=None, detail=False):
     if n < 3:
         return {"n": n, "episodes": [], "labelCounts": {}, "negCounts": {}}
     med_dt = float(np.median(np.diff(ts))) if n > 1 else 0.0
+    drive_dur = float(a.get("duration", ts[-1]))
     gap_after = np.concatenate([np.diff(ts) > GAP_FACTOR * med_dt, [False]])
     ok = np.isfinite(v) & np.isfinite(T)
     # NEG_AT_STANDSTILL
@@ -112,7 +114,12 @@ def analyse(a, tau0, params=None, detail=False):
         s = j1 - 1
         while s - 1 >= 0 and ok[s - 1] and v[s - 1] == 0:
             s -= 1
-        standstill = np.inf if s == 0 else ts[j1] - ts[s - 1]       # the drive start counts as standstill
+        o = j1                                                       # onset sample: the first sample with torque < -tau0 in the zero-speed stretch, else the first moving sample
+        for q in range(s, j1 + 1):
+            if ok[q] and T[q] < -tau:
+                o = q
+                break
+        standstill = np.inf if s == 0 else ts[o] - ts[s - 1]        # the drive start counts as standstill; measured to the ONSET sample (spec Rev 1.1 item 2)
         e = j1
         while e < n and ok[e] and v[e] > 0:
             e += 1                                                   # e = first index with speed 0 (or end of data)
@@ -128,8 +135,8 @@ def analyse(a, tau0, params=None, detail=False):
             caps = vmax <= p["cap"] and dur <= MAX_DURATION_S and (e - j1) >= MIN_MOVING and vmax >= MIN_VMAX
             if dyn and caps and not has_gap:
                 lab[seg] = np.maximum(lab[seg], 3)
-                episodes.append({"j1": int(j1), "e": int(e), "tStart": float(ts[j1]), "duration": dur, "vmax": vmax, "nMoving": int(e - j1), "startFrac": float(ts[j1] / ts[-1]) if ts[-1] > 0 else None,
-                                 "endFrac": float(ts[min(e, n - 1)] / ts[-1]) if ts[-1] > 0 else None, "onsetSample": int(s)})
+                episodes.append({"j1": int(j1), "e": int(e), "tStart": float(ts[j1]), "duration": dur, "vmax": vmax, "nMoving": int(e - j1), "startFrac": float(ts[j1] / drive_dur) if drive_dur > 0 else None,
+                                 "endFrac": float(ts[min(e, n - 1)] / drive_dur) if drive_dur > 0 else None, "onsetSample": int(s)})
             elif has_gap and dyn:
                 lab[seg] = np.maximum(lab[seg], 2)
             else:
@@ -198,7 +205,7 @@ def drive_record(csv_bytes, tau0):
     a = aligned(csv_bytes)
     if a is None:
         return {"reason": "no_torque_or_speed"}
-    rec = {"reason": None, "speedSource": a["speedSource"], "nSamples": int(len(a["ts"])), "medianDt": float(np.median(np.diff(a["ts"]))) if len(a["ts"]) > 1 else None, "duration": float(a["ts"][-1]) if len(a["ts"]) else 0.0}
+    rec = {"reason": None, "speedSource": a["speedSource"], "nSamples": int(len(a["ts"])), "medianDt": float(np.median(np.diff(a["ts"]))) if len(a["ts"]) > 1 else None, "duration": float(a["duration"])}
     prim = analyse(a, tau0, detail=True)
     rec["variants"] = {"primary": {k: prim[k] for k in ("labelCounts", "negCounts", "tMin", "tMinExclRev") if k in prim}}
     rec["variants"]["primary"]["nEpisodes"] = len(prim["episodes"])
@@ -386,6 +393,9 @@ def aggregate(rows, nboot=NBOOT):
         blk["verdict"][src] = source_verdict(sb, concordant if src == "OBD" else True)
     blk["verdict"]["pooledAcrossSources"] = "none (no pooled verdict across speed sources)"
     blk["verdict"]["ownerStatement"] = "supported by V4 only if the lower bound of the start-or-end share exceeds 0.20 (see strata.<source>.<stratum>.V4_startOrEndShare); the pattern expected from the owner answers is frozen in spec section 12"
+    blk["specAmbiguities"] = ["k = 1: the written rule asks speed(k) > speed(1), which is impossible at k = 1; the k = 1 variant here compares the second moving sample with the first (k_eff = 2 for the speed condition); a literal reading gives 0 episodes; the verdict does not depend on it (V5 fails either way)",
+                              "V3 negative control: samples with an unaligned (NaN) speed are not onsets here; an independent reproduction dropped them instead and found 4969 onsets and 16 hits against 4685 and 12 in the VCM stratum (not falsified either way)",
+                              "the onset sample is the first sample with torque < -tau0 in the zero-speed stretch or the first moving sample, and the standstill is measured to it; drive time starts at the first row of the file"]
     blk["reading"] = ["an episode is an INFERRED reverse-consistent episode: no gear or direction channel exists and the logged speed is unsigned; the share labelled REV_CAND under the frozen rule is always shown next to the AMBIGUOUS share",
                       "the torque is the commanded / logged (app-calculated) register; tau0 is the standstill noise floor of that register fixed in a separate earlier run",
                       "every rate is stratified by speed source and cadence regime; there is no pooled verdict across speed sources",

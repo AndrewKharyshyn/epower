@@ -75,6 +75,18 @@ def test_standstill_onset_requirement():
     assert len(R.analyse(arr(v, T, dt=1.0), TAU)["episodes"]) == 1
 
 
+def test_standstill_is_measured_to_the_onset_sample_and_drive_time_from_the_first_row():
+    v = [5, 0, 0, 3, 6, 5, 2, 0, 0]
+    T = [20, 0, -60, -70, -70, 30, 20, 0, 0]          # the first sample below -tau0 is a STANDSTILL sample (index 2)
+    a = arr(v, T)
+    assert R.analyse(a, TAU, {"stand": 2.5})["episodes"] == []          # 2.0 s to the onset sample (3.0 s to the first moving sample would pass)
+    assert len(R.analyse(a, TAU, {"stand": 1.9})["episodes"]) == 1
+    a2 = dict(a)
+    a2["duration"] = 100.0                                              # drive time longer than the torque series: fractions use it
+    ep = R.analyse(a2, TAU)["episodes"][0]
+    assert abs(ep["startFrac"] - 3.0 / 100.0) < 1e-12 and abs(ep["endFrac"] - 7.0 / 100.0) < 1e-12
+
+
 def test_gap_gives_ambiguous_gap():
     ts = np.array([0, 1, 2, 3, 4, 5, 30, 31, 32, 33, 34], float)
     a = {"ts": ts, "T": np.array([0, 0, 0, -60, -70, -70, 30, 30, 20, 0, 0], float), "v": np.array([0, 0, 0, 2, 4, 6, 5, 3, 1, 0, 0], float),
