@@ -1,0 +1,29 @@
+{
+ "claim": "Torque-register decoder check per analyses/M690_spec.md (read sections 2, 3, 4 and especially 8-10 Rev 1.2 final). Reproduce independently from drive_master.csv and the raw CSVs in raw/ (names with spaces map to master file keys by digits). Do NOT read tools/torque_decoder.py, tools/torque_pair_geometry.py, or the torqueDecoder payload block. Registers: '[VCM] Motor Torque (N.m)' (actual) and '[VCM] Target Motor Torque (N.m)' (target); '[VCM] Motor RPM (rpm)' only for D6. They never share a raw row; a PAIR is an actual-register row together with the latest preceding (or same) row carrying a numeric target value, accepted when the timestamp gap is at most 0.5 s, each target row used at most once (time: the CSV 'time' column parsed as in compute_drive_summary_v6._prep_bytes / _parse_time_col, seconds from the first timestamp). Active pair: |target| >= 20. Eligible drive: canonical clean (ens_outlier_v2 and ens_invalid not True), at least 200 active pairs, at least one active pair with actual != 0. Per drive: ratio = median over active pairs with actual != 0 of target/actual; L1 slope = argmin_s sum |target - s*actual| over active pairs (through the origin); tol3 = share of active pairs with |256*actual - target| <= 3; tol10 the same at 10; opposite-sign share = share of active pairs with actual != 0 whose target and actual have opposite signs. D6: among pairs whose rpm value is present and whose vehicle speed (as-of nearest within 1500 ms, speed column '[VCM] Vehicle Speed (km/h)' 0..260) exceeds 20 km/h, negRpmShare = share rpm < 0, negTargetShare = share target < 0, signAgreement = share of pairs with rpm != 0 and target != 0 whose signs agree; drives need >= 50 such pairs. Report corpus medians over eligible drives (and over the drives meeting the D6 condition). Point estimates only are required (intervals optional).",
+ "data": "drive_master.csv, raw/*.csv, cadence_regime.csv",
+ "claimed": {
+  "nMasterDrives": 665,
+  "nWithActualRegister": 649,
+  "nMissingActualRegister": 16,
+  "nEligible": 408,
+  "nExcludedFewActive": 239,
+  "ratioMedianOfDrives": 260.24888,
+  "l1SlopeMedianOfDrives": 258.5,
+  "tol3MedianOfDrives": 0.68438,
+  "tol10MedianOfDrives": 0.99334,
+  "oppositeSignMedianOfDrives": 0.0,
+  "medianActualRegisterStep": 0.015625,
+  "D6": {
+   "nDrives": 154,
+   "medianNegRpmShare": 0.28924,
+   "medianNegTargetShare": 0.29454,
+   "medianSignAgreement": 0.99029
+  }
+ },
+ "tolerance": {
+  "counts": 0,
+  "ratioAndSlope": 0.05,
+  "shares": 0.002
+ },
+ "also": "Report the median over eligible drives of the share of actual rows that form a pair and the median pair gap in seconds. Do not adjust your result to match; report disagreements as they are."
+}
