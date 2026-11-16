@@ -388,6 +388,7 @@ def build(root=ROOT, master_path=None, nboot=NBOOT, seed=SEED):
     block["primarySha256"] = hashlib.sha256(json.dumps(block, sort_keys=True, ensure_ascii=False, default=str).encode("utf-8")).hexdigest()
     block["referenceComparison"] = compare_reference(block, m)
     block["locationSetStudy"] = _location_set_study(root, frames)          # M694: after the primary hash, additive (spec analyses/M693_spec.md Rev 1.1)
+    block["kSelectionStudy"] = _k_selection_study(root, frames)            # M700: after the primary hash, additive (spec analyses/M700_spec.md Rev 1)
     return block
 
 
@@ -424,6 +425,40 @@ def _location_set_study(root, frames):
                           "the study is simulated coverage at the real X2 structure with planted steps, not fitted ones; a subset admission would need a new spec revision and is post hoc; the M676 labels (uncalibrated, not for display) stay unchanged"]
     else:
         rec["status"] = "a construction was admitted; the per-break sets are a separate step"
+    return rec
+
+
+def _k_selection_study(root, frames):
+    """Record of the offline M700 study of rules for the number of breaks. Negative or positive, nothing is applied to the real series and the primary block is untouched."""
+    cp = os.path.join(root, "analyses", "M700_study.json")
+    if not os.path.exists(cp):
+        return {"status": "not run", "spec": "analyses/M700_spec.md Rev 1"}
+    cv = json.load(open(cp, encoding="utf-8"))
+    df = frames["X2"]; df = df[np.isfinite(df["y"].values)].reset_index(drop=True)
+    dayidx = pd.factorize(pd.to_datetime(df["date"]).dt.strftime("%Y-%m-%d").values)[0]
+    cnt = np.bincount(dayidx)
+    fp = cv["fingerprint"]
+    stale = bool(fp["n"] != len(df) or fp["nDays"] != len(cnt) or fp["drivesPerDayHash"] != hashlib.sha256(cnt.astype(np.int64).tobytes()).hexdigest()[:16])
+    rec = {"spec": cv["spec"], "file": "analyses/M700_study.json", "reps": cv["reps"], "descriptiveReps": cv["descriptiveReps"], "seed": cv["seed"], "fingerprint": fp, "studyStale": stale,
+           "scriptSha256": cv["scriptSha256"], "K3": cv["K3"], "selectedRule": cv["selected"], "rules": {}, "coreScenarios": {}}
+    for r, a in cv["admissibility"].items():
+        rec["rules"][r] = {"admissible": a["admissible"], "failedCriteria": a["reasons"], "minCoreRecovery": a["minCoreRecovery"]}
+    for nm in ("S1", "S2", "S3", "S4", "S5", "D5a", "D5b", "AI", "N0", "N5", "S5null"):
+        sc = cv["scenarios"][nm]
+        rec["coreScenarios"][nm] = {"kTrue": sc["kTrue"], "rules": {r: {k: v for k, v in sc["rules"][r].items() if k in ("recovery", "recoveryWilson95", "overSegmentation", "overSegWilson95", "falseBreakRate", "falseBreakWilson95", "shareAtKmax")} for r in sc["rules"]}}
+    if cv["selected"] is None:
+        near = max(cv["admissibility"], key=lambda r: (cv["admissibility"][r]["minCoreRecovery"] if r != "K0" else -1.0))
+        rec["status"] = "no admissible rule for the number of breaks at this series structure (n = 633 drives, 126 days), in the stated scenarios, 200 replicates; number of breaks not established"
+        rec["closestRule"] = {"rule": near, "label": "reference only, not selected; failed criteria within Monte Carlo error of the 0.10 over-segmentation threshold", "failedCriteria": cv["admissibility"][near]["reasons"]}
+        rec["applicationToRealSeries"] = "none (no rule admitted); the primary block and every exploratory label stay unchanged; K0 (BIC) stays the reference and carries the M693 false-break rate 0.72 to 0.77 under the day-effect null"
+        rec["f1Status"] = "F1 closed for this series length by the pre-registered gate: the open question is more data, not a different method; any rule adopted from these results is post hoc and needs a new spec revision"
+        rec["rerunTrigger"] = "re-run under a new spec revision when the clean-drive series reaches at least 180 days (126 at the time of the study) with a larger pre-registered replicate count and a fixed K2 BIC form"
+        rec["disclosures"] = ["blind audit (analyses/M700_audit.json) reproduced K0/K1/K2 in S1, S2, S4, D5a, N0, N5 and K1/K2/K3 in D5b, S5 and the semi-synthetic null within Wilson overlap; K4 is author-only",
+                              "Monte Carlo error: at 200 replicates a rate near 0.10 has a standard deviation of about 0.02; K1's S4 over-segmentation is 0.135 in the study and 0.09 on the audit stream",
+                              "K3 deviations: the statistic is an RSS ratio (spec text: RSS reduction); the 120 s per-replicate cap is wall-clock under parallel workers and capped replicates return K = 0",
+                              "K2 day-level BIC form is under-specified in the spec (penalty n and likelihood weighting); Kmax = 5 binds for K0, so its over-segmentation is a lower bound; planted noise is not the real noise"]
+    else:
+        rec["status"] = "a rule was admitted; application to X2 is a separate step"
     return rec
 
 
