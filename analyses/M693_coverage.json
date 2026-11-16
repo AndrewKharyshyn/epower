@@ -1,0 +1,856 @@
+{
+ "spec": "analyses/M693_spec.md",
+ "seed": 42,
+ "reps": 200,
+ "descriptiveReps": 100,
+ "B": 200,
+ "fingerprint": {
+  "n": 633,
+  "nDays": 126,
+  "drivesPerDayHash": "95d518889e5adcdd",
+  "feasibility": "minimum segment 8 drives and 3 distinct calendar days (M675 section 2)",
+  "kMax": 5,
+  "B": 200,
+  "critical": 7.3523
+ },
+ "scenarios": {
+  "D1": {
+   "nReps": 100,
+   "kTrue": 1,
+   "kHatEqualsKTrueRate": 0.99,
+   "falseBreakRate": 0.01,
+   "constructions": {
+    "C0": {
+     "coverageUnconditional": 0.7,
+     "wilsonUnconditional": [
+      0.6041,
+      0.7811
+     ],
+     "nCorrectK": 99,
+     "coverageConditional": 0.697,
+     "wilsonConditional": [
+      0.6005,
+      0.7787
+     ],
+     "medianWidthDrives": 28.5,
+     "medianWidthDays": 4.0,
+     "adjacentOverlapShare": 0.0,
+     "undefinedSets": 0
+    },
+    "C1": {
+     "coverageUnconditional": 0.7,
+     "wilsonUnconditional": [
+      0.6041,
+      0.7811
+     ],
+     "nCorrectK": 99,
+     "coverageConditional": 0.697,
+     "wilsonConditional": [
+      0.6005,
+      0.7787
+     ],
+     "medianWidthDrives": 26.51,
+     "medianWidthDays": 4.0,
+     "adjacentOverlapShare": 0.0,
+     "undefinedSets": 1
+    },
+    "C2": {
+     "coverageUnconditional": 0.99,
+     "wilsonUnconditional": [
+      0.9455,
+      0.9982
+     ],
+     "nCorrectK": 99,
+     "coverageConditional": 0.9899,
+     "wilsonConditional": [
+      0.945,
+      0.9982
+     ],
+     "medianWidthDrives": 30.0,
+     "medianWidthDays": 4.0,
+     "adjacentOverlapShare": 0.0,
+     "undefinedSets": 0,
+     "lambdaQuantiles": {
+      "5": 1.0,
+      "50": 1.0,
+      "95": 1.208
+     },
+     "nonContiguousShare": 0.6634
+    }
+   }
+  },
+  "D2": {
+   "nReps": 100,
+   "kTrue": 1,
+   "kHatEqualsKTrueRate": 0.99,
+   "falseBreakRate": 0.01,
+   "constructions": {
+    "C0": {
+     "coverageUnconditional": 0.93,
+     "wilsonUnconditional": [
+      0.8625,
+      0.9657
+     ],
+     "nCorrectK": 99,
+     "coverageConditional": 0.9293,
+     "wilsonConditional": [
+      0.8612,
+      0.9653
+     ],
+     "medianWidthDrives": 0.0,
+     "medianWidthDays": 0.0,
+     "adjacentOverlapShare": 0.0,
+     "undefinedSets": 0
+    },
+    "C1": {
+     "coverageUnconditional": 0.93,
+     "wilsonUnconditional": [
+      0.8625,
+      0.9657
+     ],
+     "nCorrectK": 99,
+     "coverageConditional": 0.9293,
+     "wilsonConditional": [
+      0.8612,
+      0.9653
+     ],
+     "medianWidthDrives": 0.0,
+     "medianWidthDays": 0.0,
+     "adjacentOverlapShare": 0.0,
+     "undefinedSets": 1
+    },
+    "C2": {
+     "coverageUnconditional": 0.99,
+     "wilsonUnconditional": [
+      0.9455,
+      0.9982
+     ],
+     "nCorrectK": 99,
+     "coverageConditional": 0.9899,
+     "wilsonConditional": [
+      0.945,
+      0.9982
+     ],
+     "medianWidthDrives": 1.0,
+     "medianWidthDays": 0.0,
+     "adjacentOverlapShare": 0.0,
+     "undefinedSets": 0,
+     "lambdaQuantiles": {
+      "5": 1.0,
+      "50": 1.0,
+      "95": 1.233
+     },
+     "nonContiguousShare": 0.0198
+    }
+   }
+  },
+  "D3": {
+   "nReps": 100,
+   "kTrue": 1,
+   "kHatEqualsKTrueRate": 0.98,
+   "falseBreakRate": 0.02,
+   "constructions": {
+    "C0": {
+     "coverageUnconditional": 0.67,
+     "wilsonUnconditional": [
+      0.5731,
+      0.7544
+     ],
+     "nCorrectK": 98,
+     "coverageConditional": 0.6735,
+     "wilsonConditional": [
+      0.5756,
+      0.7582
+     ],
+     "medianWidthDrives": 3.0,
+     "medianWidthDays": 0.0,
+     "adjacentOverlapShare": 0.5,
+     "undefinedSets": 0
+    },
+    "C1": {
+     "coverageUnconditional": 0.69,
+     "wilsonUnconditional": [
+      0.5937,
+      0.7722
+     ],
+     "nCorrectK": 98,
+     "coverageConditional": 0.6939,
+     "wilsonConditional": [
+      0.5968,
+      0.7764
+     ],
+     "medianWidthDrives": 2.1,
+     "medianWidthDays": 0.0,
+     "adjacentOverlapShare": 0.0,
+     "undefinedSets": 3
+    },
+    "C2": {
+     "coverageUnconditional": 1.0,
+     "wilsonUnconditional": [
+      0.963,
+      1.0
+     ],
+     "nCorrectK": 98,
+     "coverageConditional": 1.0,
+     "wilsonConditional": [
+      0.9623,
+      1.0
+     ],
+     "medianWidthDrives": 6.0,
+     "medianWidthDays": 1.0,
+     "adjacentOverlapShare": 0.0,
+     "undefinedSets": 0,
+     "lambdaQuantiles": {
+      "5": 1.0,
+      "50": 1.0,
+      "95": 1.159
+     },
+     "nonContiguousShare": 0.2816
+    }
+   }
+  },
+  "D4": {
+   "nReps": 100,
+   "kTrue": 1,
+   "kHatEqualsKTrueRate": 1.0,
+   "falseBreakRate": 0.0,
+   "constructions": {
+    "C0": {
+     "coverageUnconditional": 0.77,
+     "wilsonUnconditional": [
+      0.6785,
+      0.8416
+     ],
+     "nCorrectK": 100,
+     "coverageConditional": 0.77,
+     "wilsonConditional": [
+      0.6785,
+      0.8416
+     ],
+     "medianWidthDrives": 2.0,
+     "medianWidthDays": 1.0,
+     "adjacentOverlapShare": null,
+     "undefinedSets": 0
+    },
+    "C1": {
+     "coverageUnconditional": 0.78,
+     "wilsonUnconditional": [
+      0.6893,
+      0.85
+     ],
+     "nCorrectK": 100,
+     "coverageConditional": 0.78,
+     "wilsonConditional": [
+      0.6893,
+      0.85
+     ],
+     "medianWidthDrives": 2.0,
+     "medianWidthDays": 1.0,
+     "adjacentOverlapShare": null,
+     "undefinedSets": 0
+    },
+    "C2": {
+     "coverageUnconditional": 0.99,
+     "wilsonUnconditional": [
+      0.9455,
+      0.9982
+     ],
+     "nCorrectK": 100,
+     "coverageConditional": 0.99,
+     "wilsonConditional": [
+      0.9455,
+      0.9982
+     ],
+     "medianWidthDrives": 6.0,
+     "medianWidthDays": 1.0,
+     "adjacentOverlapShare": null,
+     "undefinedSets": 0,
+     "lambdaQuantiles": {
+      "5": 1.0,
+      "50": 1.0,
+      "95": 1.318
+     },
+     "nonContiguousShare": 0.31
+    }
+   }
+  },
+  "D6": {
+   "nReps": 100,
+   "kTrue": 1,
+   "kHatEqualsKTrueRate": 0.85,
+   "falseBreakRate": 0.15,
+   "constructions": {
+    "C0": {
+     "coverageUnconditional": 0.74,
+     "wilsonUnconditional": [
+      0.6463,
+      0.816
+     ],
+     "nCorrectK": 85,
+     "coverageConditional": 0.7294,
+     "wilsonConditional": [
+      0.6266,
+      0.8124
+     ],
+     "medianWidthDrives": 1.0,
+     "medianWidthDays": 0.0,
+     "adjacentOverlapShare": 0.5333,
+     "undefinedSets": 0
+    },
+    "C1": {
+     "coverageUnconditional": 0.72,
+     "wilsonUnconditional": [
+      0.6251,
+      0.7986
+     ],
+     "nCorrectK": 85,
+     "coverageConditional": 0.7294,
+     "wilsonConditional": [
+      0.6266,
+      0.8124
+     ],
+     "medianWidthDrives": 1.0,
+     "medianWidthDays": 0.0,
+     "adjacentOverlapShare": 0.0,
+     "undefinedSets": 24
+    },
+    "C2": {
+     "coverageUnconditional": 0.96,
+     "wilsonUnconditional": [
+      0.9016,
+      0.9843
+     ],
+     "nCorrectK": 85,
+     "coverageConditional": 0.9529,
+     "wilsonConditional": [
+      0.8852,
+      0.9816
+     ],
+     "medianWidthDrives": 5.0,
+     "medianWidthDays": 1.0,
+     "adjacentOverlapShare": 0.0,
+     "undefinedSets": 0,
+     "lambdaQuantiles": {
+      "5": 1.0,
+      "50": 1.0,
+      "95": 1.173
+     },
+     "nonContiguousShare": 0.24
+    }
+   }
+  },
+  "N0": {
+   "nReps": 100,
+   "kTrue": 0,
+   "kHatEqualsKTrueRate": 1.0,
+   "falseBreakRate": 0.0,
+   "constructions": {
+    "C0": {
+     "coverageUnconditional": null,
+     "wilsonUnconditional": [
+      null,
+      null
+     ],
+     "nCorrectK": 100,
+     "coverageConditional": null,
+     "wilsonConditional": [
+      null,
+      null
+     ],
+     "medianWidthDrives": null,
+     "medianWidthDays": null,
+     "adjacentOverlapShare": null,
+     "undefinedSets": 0
+    },
+    "C1": {
+     "coverageUnconditional": null,
+     "wilsonUnconditional": [
+      null,
+      null
+     ],
+     "nCorrectK": 100,
+     "coverageConditional": null,
+     "wilsonConditional": [
+      null,
+      null
+     ],
+     "medianWidthDrives": null,
+     "medianWidthDays": null,
+     "adjacentOverlapShare": null,
+     "undefinedSets": 0
+    },
+    "C2": {
+     "coverageUnconditional": null,
+     "wilsonUnconditional": [
+      null,
+      null
+     ],
+     "nCorrectK": 100,
+     "coverageConditional": null,
+     "wilsonConditional": [
+      null,
+      null
+     ],
+     "medianWidthDrives": null,
+     "medianWidthDays": null,
+     "adjacentOverlapShare": null,
+     "undefinedSets": 0,
+     "lambdaQuantiles": null,
+     "nonContiguousShare": null
+    }
+   }
+  },
+  "S1": {
+   "nReps": 200,
+   "kTrue": 1,
+   "kHatEqualsKTrueRate": 0.96,
+   "falseBreakRate": 0.04,
+   "constructions": {
+    "C0": {
+     "coverageUnconditional": 0.575,
+     "wilsonUnconditional": [
+      0.5057,
+      0.6415
+     ],
+     "nCorrectK": 192,
+     "coverageConditional": 0.5729,
+     "wilsonConditional": [
+      0.5022,
+      0.6408
+     ],
+     "medianWidthDrives": 2.0,
+     "medianWidthDays": 0.0,
+     "adjacentOverlapShare": 0.0,
+     "undefinedSets": 0
+    },
+    "C1": {
+     "coverageUnconditional": 0.575,
+     "wilsonUnconditional": [
+      0.5057,
+      0.6415
+     ],
+     "nCorrectK": 192,
+     "coverageConditional": 0.5729,
+     "wilsonConditional": [
+      0.5022,
+      0.6408
+     ],
+     "medianWidthDrives": 2.0,
+     "medianWidthDays": 0.0,
+     "adjacentOverlapShare": 0.0,
+     "undefinedSets": 9
+    },
+    "C2": {
+     "coverageUnconditional": 0.96,
+     "wilsonUnconditional": [
+      0.9231,
+      0.9796
+     ],
+     "nCorrectK": 192,
+     "coverageConditional": 0.9635,
+     "wilsonConditional": [
+      0.9267,
+      0.9822
+     ],
+     "medianWidthDrives": 6.0,
+     "medianWidthDays": 1.0,
+     "adjacentOverlapShare": 0.0,
+     "undefinedSets": 0,
+     "lambdaQuantiles": {
+      "5": 1.0,
+      "50": 1.0,
+      "95": 1.208
+     },
+     "nonContiguousShare": 0.3095
+    }
+   }
+  },
+  "S2": {
+   "nReps": 200,
+   "kTrue": 1,
+   "kHatEqualsKTrueRate": 0.68,
+   "falseBreakRate": 0.32,
+   "constructions": {
+    "C0": {
+     "coverageUnconditional": 0.65,
+     "wilsonUnconditional": [
+      0.5816,
+      0.7127
+     ],
+     "nCorrectK": 136,
+     "coverageConditional": 0.6103,
+     "wilsonConditional": [
+      0.5264,
+      0.6882
+     ],
+     "medianWidthDrives": 29.32,
+     "medianWidthDays": 7.0,
+     "adjacentOverlapShare": 0.7656,
+     "undefinedSets": 0
+    },
+    "C1": {
+     "coverageUnconditional": 0.605,
+     "wilsonUnconditional": [
+      0.5359,
+      0.6702
+     ],
+     "nCorrectK": 136,
+     "coverageConditional": 0.6544,
+     "wilsonConditional": [
+      0.5712,
+      0.7291
+     ],
+     "medianWidthDrives": 4.1,
+     "medianWidthDays": 1.0,
+     "adjacentOverlapShare": 0.0,
+     "undefinedSets": 148
+    },
+    "C2": {
+     "coverageUnconditional": 0.945,
+     "wilsonUnconditional": [
+      0.9042,
+      0.969
+     ],
+     "nCorrectK": 136,
+     "coverageConditional": 0.9632,
+     "wilsonConditional": [
+      0.9168,
+      0.9842
+     ],
+     "medianWidthDrives": 12.0,
+     "medianWidthDays": 2.0,
+     "adjacentOverlapShare": 0.0625,
+     "undefinedSets": 0,
+     "lambdaQuantiles": {
+      "5": 1.0,
+      "50": 1.474,
+      "95": 1.98
+     },
+     "nonContiguousShare": 0.437
+    }
+   }
+  },
+  "S3": {
+   "nReps": 200,
+   "kTrue": 3,
+   "kHatEqualsKTrueRate": 0.965,
+   "falseBreakRate": 0.035,
+   "constructions": {
+    "C0": {
+     "coverageUnconditional": 0.665,
+     "wilsonUnconditional": [
+      0.6263,
+      0.7016
+     ],
+     "nCorrectK": 193,
+     "coverageConditional": 0.6649,
+     "wilsonConditional": [
+      0.6255,
+      0.7022
+     ],
+     "medianWidthDrives": 7.0,
+     "medianWidthDays": 1.0,
+     "adjacentOverlapShare": 0.025,
+     "undefinedSets": 0
+    },
+    "C1": {
+     "coverageUnconditional": 0.66,
+     "wilsonUnconditional": [
+      0.6212,
+      0.6968
+     ],
+     "nCorrectK": 193,
+     "coverageConditional": 0.6667,
+     "wilsonConditional": [
+      0.6273,
+      0.7039
+     ],
+     "medianWidthDrives": 7.0,
+     "medianWidthDays": 1.0,
+     "adjacentOverlapShare": 0.0,
+     "undefinedSets": 9
+    },
+    "C2": {
+     "coverageUnconditional": 0.9783,
+     "wilsonUnconditional": [
+      0.9633,
+      0.9873
+     ],
+     "nCorrectK": 193,
+     "coverageConditional": 0.9793,
+     "wilsonConditional": [
+      0.9641,
+      0.9881
+     ],
+     "medianWidthDrives": 12.0,
+     "medianWidthDays": 2.0,
+     "adjacentOverlapShare": 0.0,
+     "undefinedSets": 0,
+     "lambdaQuantiles": {
+      "5": 1.0,
+      "50": 1.0,
+      "95": 1.268
+     },
+     "nonContiguousShare": 0.5049
+    }
+   }
+  },
+  "S4": {
+   "nReps": 200,
+   "kTrue": 3,
+   "kHatEqualsKTrueRate": 0.56,
+   "falseBreakRate": 0.44,
+   "constructions": {
+    "C0": {
+     "coverageUnconditional": 0.735,
+     "wilsonUnconditional": [
+      0.6983,
+      0.7687
+     ],
+     "nCorrectK": 112,
+     "coverageConditional": 0.6994,
+     "wilsonConditional": [
+      0.6483,
+      0.746
+     ],
+     "medianWidthDrives": 31.0,
+     "medianWidthDays": 5.0,
+     "adjacentOverlapShare": 0.395,
+     "undefinedSets": 0
+    },
+    "C1": {
+     "coverageUnconditional": 0.605,
+     "wilsonUnconditional": [
+      0.5653,
+      0.6433
+     ],
+     "nCorrectK": 112,
+     "coverageConditional": 0.7143,
+     "wilsonConditional": [
+      0.6638,
+      0.76
+     ],
+     "medianWidthDrives": 10.0,
+     "medianWidthDays": 2.0,
+     "adjacentOverlapShare": 0.0,
+     "undefinedSets": 192
+    },
+    "C2": {
+     "coverageUnconditional": 0.915,
+     "wilsonUnconditional": [
+      0.89,
+      0.9348
+     ],
+     "nCorrectK": 112,
+     "coverageConditional": 0.9554,
+     "wilsonConditional": [
+      0.9277,
+      0.9728
+     ],
+     "medianWidthDrives": 16.0,
+     "medianWidthDays": 2.0,
+     "adjacentOverlapShare": 0.045,
+     "undefinedSets": 0,
+     "lambdaQuantiles": {
+      "5": 1.0,
+      "50": 1.444,
+      "95": 2.074
+     },
+     "nonContiguousShare": 0.4738
+    }
+   }
+  },
+  "S5": {
+   "nReps": 200,
+   "kTrue": 3,
+   "kHatEqualsKTrueRate": 0.855,
+   "falseBreakRate": 0.145,
+   "constructions": {
+    "C0": {
+     "coverageUnconditional": 0.7017,
+     "wilsonUnconditional": [
+      0.6639,
+      0.7369
+     ],
+     "nCorrectK": 171,
+     "coverageConditional": 0.6784,
+     "wilsonConditional": [
+      0.6367,
+      0.7173
+     ],
+     "medianWidthDrives": 16.0,
+     "medianWidthDays": 3.0,
+     "adjacentOverlapShare": 0.145,
+     "undefinedSets": 0
+    },
+    "C1": {
+     "coverageUnconditional": 0.69,
+     "wilsonUnconditional": [
+      0.6519,
+      0.7257
+     ],
+     "nCorrectK": 171,
+     "coverageConditional": 0.7037,
+     "wilsonConditional": [
+      0.6628,
+      0.7416
+     ],
+     "medianWidthDrives": 11.0,
+     "medianWidthDays": 2.0,
+     "adjacentOverlapShare": 0.0,
+     "undefinedSets": 41
+    },
+    "C2": {
+     "coverageUnconditional": 0.955,
+     "wilsonUnconditional": [
+      0.9353,
+      0.9689
+     ],
+     "nCorrectK": 171,
+     "coverageConditional": 0.9513,
+     "wilsonConditional": [
+      0.929,
+      0.9668
+     ],
+     "medianWidthDrives": 16.0,
+     "medianWidthDays": 3.0,
+     "adjacentOverlapShare": 0.005,
+     "undefinedSets": 0,
+     "lambdaQuantiles": {
+      "5": 1.115,
+      "50": 1.467,
+      "95": 1.896
+     },
+     "nonContiguousShare": 0.4308
+    }
+   }
+  },
+  "S5effect": {
+   "nReps": 200,
+   "kTrue": 1,
+   "kHatEqualsKTrueRate": 0.23,
+   "falseBreakRate": 0.77,
+   "constructions": {
+    "C0": {
+     "coverageUnconditional": 0.8,
+     "wilsonUnconditional": [
+      0.7391,
+      0.8495
+     ],
+     "nCorrectK": 46,
+     "coverageConditional": 0.587,
+     "wilsonConditional": [
+      0.4434,
+      0.7171
+     ],
+     "medianWidthDrives": 220.6,
+     "medianWidthDays": 47.0,
+     "adjacentOverlapShare": 0.9481,
+     "undefinedSets": 0
+    },
+    "C1": {
+     "coverageUnconditional": 0.32,
+     "wilsonUnconditional": [
+      0.2593,
+      0.3875
+     ],
+     "nCorrectK": 46,
+     "coverageConditional": 0.6957,
+     "wilsonConditional": [
+      0.5519,
+      0.8092
+     ],
+     "medianWidthDrives": 7.18,
+     "medianWidthDays": 1.0,
+     "adjacentOverlapShare": 0.0,
+     "undefinedSets": 496
+    },
+    "C2": {
+     "coverageUnconditional": 0.955,
+     "wilsonUnconditional": [
+      0.9167,
+      0.9761
+     ],
+     "nCorrectK": 46,
+     "coverageConditional": 0.9783,
+     "wilsonConditional": [
+      0.8866,
+      0.9962
+     ],
+     "medianWidthDrives": 20.0,
+     "medianWidthDays": 4.0,
+     "adjacentOverlapShare": 0.2208,
+     "undefinedSets": 0,
+     "lambdaQuantiles": {
+      "5": 1.0,
+      "50": 1.982,
+      "95": 2.912
+     },
+     "nonContiguousShare": 0.4199
+    }
+   }
+  }
+ },
+ "admissibility": {
+  "C0": {
+   "admissible": false,
+   "reasons": [
+    "reference only (the M676 construction)",
+    "S1 unconditional coverage 0.575 outside [0.90, 0.99]",
+    "S1 unconditional Wilson lower bound 0.5057 < 0.85",
+    "S1 conditional coverage 0.5729 < 0.90",
+    "S2 unconditional coverage 0.65 outside [0.90, 0.99]",
+    "S2 unconditional Wilson lower bound 0.5816 < 0.85",
+    "S2 conditional coverage 0.6103 < 0.90",
+    "S3 unconditional coverage 0.665 outside [0.90, 0.99]",
+    "S3 unconditional Wilson lower bound 0.6263 < 0.85",
+    "S3 conditional coverage 0.6649 < 0.90",
+    "S4 unconditional coverage 0.735 outside [0.90, 0.99]",
+    "S4 unconditional Wilson lower bound 0.6983 < 0.85",
+    "S4 conditional coverage 0.6994 < 0.90",
+    "S4 adjacent sets overlap in 0.395 of replicates > 0.10",
+    "S5 unconditional coverage 0.7017 outside [0.90, 0.99]",
+    "S5 unconditional Wilson lower bound 0.6639 < 0.85",
+    "S5 conditional coverage 0.6784 < 0.90",
+    "S5effect unconditional coverage 0.8 outside [0.90, 0.99]",
+    "S5effect unconditional Wilson lower bound 0.7391 < 0.85",
+    "S5effect conditional coverage not estimable (46 replicates with the correct K)"
+   ],
+   "meanOverCoreOfMedianWidthDays": 10.5
+  },
+  "C1": {
+   "admissible": false,
+   "reasons": [
+    "S1 unconditional coverage 0.575 outside [0.90, 0.99]",
+    "S1 unconditional Wilson lower bound 0.5057 < 0.85",
+    "S1 conditional coverage 0.5729 < 0.90",
+    "S2 unconditional coverage 0.605 outside [0.90, 0.99]",
+    "S2 unconditional Wilson lower bound 0.5359 < 0.85",
+    "S2 conditional coverage 0.6544 < 0.90",
+    "S3 unconditional coverage 0.66 outside [0.90, 0.99]",
+    "S3 unconditional Wilson lower bound 0.6212 < 0.85",
+    "S3 conditional coverage 0.6667 < 0.90",
+    "S4 unconditional coverage 0.605 outside [0.90, 0.99]",
+    "S4 unconditional Wilson lower bound 0.5653 < 0.85",
+    "S4 conditional coverage 0.7143 < 0.90",
+    "S5 unconditional coverage 0.69 outside [0.90, 0.99]",
+    "S5 unconditional Wilson lower bound 0.6519 < 0.85",
+    "S5 conditional coverage 0.7037 < 0.90",
+    "S5effect unconditional coverage 0.32 outside [0.90, 0.99]",
+    "S5effect unconditional Wilson lower bound 0.2593 < 0.85",
+    "S5effect conditional coverage not estimable (46 replicates with the correct K)"
+   ],
+   "meanOverCoreOfMedianWidthDays": 1.17
+  },
+  "C2": {
+   "admissible": false,
+   "reasons": [
+    "S5effect conditional coverage not estimable (46 replicates with the correct K)"
+   ],
+   "meanOverCoreOfMedianWidthDays": 2.33
+  }
+ },
+ "selected": null,
+ "scriptSha256": "0cc5e9dca5b731fb6db854de4c81bb5f695b43d6c13bf1e6d02b3f7b37a21318",
+ "note": "simulated coverage in the stated scenarios at the real X2 structure; planted steps, not fitted ones; wilson bounds are on pooled planted-break counts (an approximation: breaks in one replicate are not independent)"
+}

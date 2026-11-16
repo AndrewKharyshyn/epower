@@ -68261,19 +68261,19 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "11a89dc0c881bd0a60e9e957ccd1936a",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-11-15T18:26:45.858344+00:00",
+   "generatedAt": "2026-11-16T10:06:47.855562+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3"
    },
    "computationStatus": "computed",
-   "includedInReleaseAt": "2026-11-15T18:26:45.858344+00:00",
+   "includedInReleaseAt": "2026-11-16T10:06:47.855562+00:00",
    "inputBasis": {
     "nDrives": 665,
     "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-11-15T18:26:45.858344+00:00",
+   "computedAt": "2026-11-16T10:06:47.855562+00:00",
    "computationStatusNote": "M676: derived by tools/changepoints.py from drive_master.csv and four existing sidecars (spec analyses/M675_spec.md Rev 1.1); exploratory"
   },
   "earlyLateContrast": {
@@ -449098,6 +449098,276 @@
    },
    "coincidesRule": "reference date inside the UNCALIBRATED nominal 95 % location interval AND |difference| <= 7 days",
    "chanceRateNote": "intervalCoverageOfWindow uses the same uncalibrated intervals (a lower bound on the chance rate)"
+  },
+  "locationSetStudy": {
+   "spec": "analyses/M693_spec.md Rev 1.1",
+   "file": "analyses/M693_coverage.json",
+   "reps": 200,
+   "descriptiveReps": 100,
+   "B": 200,
+   "fingerprint": {
+    "n": 633,
+    "nDays": 126,
+    "drivesPerDayHash": "95d518889e5adcdd",
+    "feasibility": "minimum segment 8 drives and 3 distinct calendar days (M675 section 2)",
+    "kMax": 5,
+    "B": 200,
+    "critical": 7.3523
+   },
+   "studyStale": false,
+   "selectedConstruction": null,
+   "scriptSha256": "0cc5e9dca5b731fb6db854de4c81bb5f695b43d6c13bf1e6d02b3f7b37a21318",
+   "constructions": {
+    "C0": {
+     "admissible": false,
+     "reasons": [
+      "reference only (the M676 construction)",
+      "S1 unconditional coverage 0.575 outside [0.90, 0.99]",
+      "S1 unconditional Wilson lower bound 0.5057 < 0.85",
+      "S1 conditional coverage 0.5729 < 0.90",
+      "S2 unconditional coverage 0.65 outside [0.90, 0.99]",
+      "S2 unconditional Wilson lower bound 0.5816 < 0.85",
+      "S2 conditional coverage 0.6103 < 0.90",
+      "S3 unconditional coverage 0.665 outside [0.90, 0.99]",
+      "S3 unconditional Wilson lower bound 0.6263 < 0.85",
+      "S3 conditional coverage 0.6649 < 0.90",
+      "S4 unconditional coverage 0.735 outside [0.90, 0.99]",
+      "S4 unconditional Wilson lower bound 0.6983 < 0.85",
+      "S4 conditional coverage 0.6994 < 0.90",
+      "S4 adjacent sets overlap in 0.395 of replicates > 0.10",
+      "S5 unconditional coverage 0.7017 outside [0.90, 0.99]",
+      "S5 unconditional Wilson lower bound 0.6639 < 0.85",
+      "S5 conditional coverage 0.6784 < 0.90",
+      "S5effect unconditional coverage 0.8 outside [0.90, 0.99]",
+      "S5effect unconditional Wilson lower bound 0.7391 < 0.85",
+      "S5effect conditional coverage not estimable (46 replicates with the correct K)"
+     ],
+     "meanOverCoreOfMedianWidthDays": 10.5
+    },
+    "C1": {
+     "admissible": false,
+     "reasons": [
+      "S1 unconditional coverage 0.575 outside [0.90, 0.99]",
+      "S1 unconditional Wilson lower bound 0.5057 < 0.85",
+      "S1 conditional coverage 0.5729 < 0.90",
+      "S2 unconditional coverage 0.605 outside [0.90, 0.99]",
+      "S2 unconditional Wilson lower bound 0.5359 < 0.85",
+      "S2 conditional coverage 0.6544 < 0.90",
+      "S3 unconditional coverage 0.66 outside [0.90, 0.99]",
+      "S3 unconditional Wilson lower bound 0.6212 < 0.85",
+      "S3 conditional coverage 0.6667 < 0.90",
+      "S4 unconditional coverage 0.605 outside [0.90, 0.99]",
+      "S4 unconditional Wilson lower bound 0.5653 < 0.85",
+      "S4 conditional coverage 0.7143 < 0.90",
+      "S5 unconditional coverage 0.69 outside [0.90, 0.99]",
+      "S5 unconditional Wilson lower bound 0.6519 < 0.85",
+      "S5 conditional coverage 0.7037 < 0.90",
+      "S5effect unconditional coverage 0.32 outside [0.90, 0.99]",
+      "S5effect unconditional Wilson lower bound 0.2593 < 0.85",
+      "S5effect conditional coverage not estimable (46 replicates with the correct K)"
+     ],
+     "meanOverCoreOfMedianWidthDays": 1.17
+    },
+    "C2": {
+     "admissible": false,
+     "reasons": [
+      "S5effect conditional coverage not estimable (46 replicates with the correct K)"
+     ],
+     "meanOverCoreOfMedianWidthDays": 2.33
+    }
+   },
+   "coreScenarios": {
+    "S1": {
+     "kTrue": 1,
+     "kHatEqualsKTrueRate": 0.96,
+     "falseBreakRate": 0.04,
+     "C0": {
+      "coverageUnconditional": 0.575,
+      "coverageConditional": 0.5729,
+      "nCorrectK": 192,
+      "medianWidthDrives": 2.0,
+      "medianWidthDays": 0.0,
+      "adjacentOverlapShare": 0.0
+     },
+     "C1": {
+      "coverageUnconditional": 0.575,
+      "coverageConditional": 0.5729,
+      "nCorrectK": 192,
+      "medianWidthDrives": 2.0,
+      "medianWidthDays": 0.0,
+      "adjacentOverlapShare": 0.0
+     },
+     "C2": {
+      "coverageUnconditional": 0.96,
+      "coverageConditional": 0.9635,
+      "nCorrectK": 192,
+      "medianWidthDrives": 6.0,
+      "medianWidthDays": 1.0,
+      "adjacentOverlapShare": 0.0
+     }
+    },
+    "S2": {
+     "kTrue": 1,
+     "kHatEqualsKTrueRate": 0.68,
+     "falseBreakRate": 0.32,
+     "C0": {
+      "coverageUnconditional": 0.65,
+      "coverageConditional": 0.6103,
+      "nCorrectK": 136,
+      "medianWidthDrives": 29.32,
+      "medianWidthDays": 7.0,
+      "adjacentOverlapShare": 0.7656
+     },
+     "C1": {
+      "coverageUnconditional": 0.605,
+      "coverageConditional": 0.6544,
+      "nCorrectK": 136,
+      "medianWidthDrives": 4.1,
+      "medianWidthDays": 1.0,
+      "adjacentOverlapShare": 0.0
+     },
+     "C2": {
+      "coverageUnconditional": 0.945,
+      "coverageConditional": 0.9632,
+      "nCorrectK": 136,
+      "medianWidthDrives": 12.0,
+      "medianWidthDays": 2.0,
+      "adjacentOverlapShare": 0.0625
+     }
+    },
+    "S3": {
+     "kTrue": 3,
+     "kHatEqualsKTrueRate": 0.965,
+     "falseBreakRate": 0.035,
+     "C0": {
+      "coverageUnconditional": 0.665,
+      "coverageConditional": 0.6649,
+      "nCorrectK": 193,
+      "medianWidthDrives": 7.0,
+      "medianWidthDays": 1.0,
+      "adjacentOverlapShare": 0.025
+     },
+     "C1": {
+      "coverageUnconditional": 0.66,
+      "coverageConditional": 0.6667,
+      "nCorrectK": 193,
+      "medianWidthDrives": 7.0,
+      "medianWidthDays": 1.0,
+      "adjacentOverlapShare": 0.0
+     },
+     "C2": {
+      "coverageUnconditional": 0.9783,
+      "coverageConditional": 0.9793,
+      "nCorrectK": 193,
+      "medianWidthDrives": 12.0,
+      "medianWidthDays": 2.0,
+      "adjacentOverlapShare": 0.0
+     }
+    },
+    "S4": {
+     "kTrue": 3,
+     "kHatEqualsKTrueRate": 0.56,
+     "falseBreakRate": 0.44,
+     "C0": {
+      "coverageUnconditional": 0.735,
+      "coverageConditional": 0.6994,
+      "nCorrectK": 112,
+      "medianWidthDrives": 31.0,
+      "medianWidthDays": 5.0,
+      "adjacentOverlapShare": 0.395
+     },
+     "C1": {
+      "coverageUnconditional": 0.605,
+      "coverageConditional": 0.7143,
+      "nCorrectK": 112,
+      "medianWidthDrives": 10.0,
+      "medianWidthDays": 2.0,
+      "adjacentOverlapShare": 0.0
+     },
+     "C2": {
+      "coverageUnconditional": 0.915,
+      "coverageConditional": 0.9554,
+      "nCorrectK": 112,
+      "medianWidthDrives": 16.0,
+      "medianWidthDays": 2.0,
+      "adjacentOverlapShare": 0.045
+     }
+    },
+    "S5": {
+     "kTrue": 3,
+     "kHatEqualsKTrueRate": 0.855,
+     "falseBreakRate": 0.145,
+     "C0": {
+      "coverageUnconditional": 0.7017,
+      "coverageConditional": 0.6784,
+      "nCorrectK": 171,
+      "medianWidthDrives": 16.0,
+      "medianWidthDays": 3.0,
+      "adjacentOverlapShare": 0.145
+     },
+     "C1": {
+      "coverageUnconditional": 0.69,
+      "coverageConditional": 0.7037,
+      "nCorrectK": 171,
+      "medianWidthDrives": 11.0,
+      "medianWidthDays": 2.0,
+      "adjacentOverlapShare": 0.0
+     },
+     "C2": {
+      "coverageUnconditional": 0.955,
+      "coverageConditional": 0.9513,
+      "nCorrectK": 171,
+      "medianWidthDrives": 16.0,
+      "medianWidthDays": 3.0,
+      "adjacentOverlapShare": 0.005
+     }
+    },
+    "S5effect": {
+     "kTrue": 1,
+     "kHatEqualsKTrueRate": 0.23,
+     "falseBreakRate": 0.77,
+     "C0": {
+      "coverageUnconditional": 0.8,
+      "coverageConditional": 0.587,
+      "nCorrectK": 46,
+      "medianWidthDrives": 220.6,
+      "medianWidthDays": 47.0,
+      "adjacentOverlapShare": 0.9481
+     },
+     "C1": {
+      "coverageUnconditional": 0.32,
+      "coverageConditional": 0.6957,
+      "nCorrectK": 46,
+      "medianWidthDrives": 7.18,
+      "medianWidthDays": 1.0,
+      "adjacentOverlapShare": 0.0
+     },
+     "C2": {
+      "coverageUnconditional": 0.955,
+      "coverageConditional": 0.9783,
+      "nCorrectK": 46,
+      "medianWidthDrives": 20.0,
+      "medianWidthDays": 4.0,
+      "adjacentOverlapShare": 0.2208
+     }
+    }
+   },
+   "status": "no construction admitted by the pre-registered gate; no location set is attached to any break",
+   "closestConstruction": {
+    "construction": "C2",
+    "label": "not admissible, reference only",
+    "reasons": [
+     "S5effect conditional coverage not estimable (46 replicates with the correct K)"
+    ]
+   },
+   "f1Status": "F1 stays open: no admissible construction (M693); a new pre-registered spec addressing the selection of the number of breaks is warranted (it is not a subset or a re-gate of M693)",
+   "kSelectionNote": "BIC at the drive level does not account for day-level dependence: the planted number of breaks is recovered in 0.68 (AR(1), one step), 0.56 (AR(1), three steps) and 0.23 (day random effect, one step) of replicates; coverage in those scenarios is inflated by over-segmentation",
+   "robustnessNote": "blind audit: an independent reproduction with other random draws obtained 56 replicates with the planted number of breaks in the day-effect scenario (46 in the pre-registered seed-42 run; the binomial standard deviation is about 6), so the pre-registered cut of 50 is seed-sensitive; the verdict as pre-registered (seed 42) stands and is not re-gated; the weakness of the selection of the number of breaks (planted number recovered in a minority of replicates, false-break rate 0.72 to 0.77) is independent of that threshold",
+   "overlapBoundReading": "the adjacent-set overlap bound of the gate is applied to the three-step scenarios S3 and S4 only (a defensible reading of the spec); under the wider reading the likelihood-ratio set would also fail the day-effect scenario on overlap",
+   "reading": [
+    "the nominal 95 % wild-bootstrap location interval (C0) and the unconditional bootstrap (C1) did not reach the pre-registered coverage in the core scenarios; the likelihood-ratio set (C2) covered the planted breaks in 91 to 99 % of replicates in every core scenario but failed one pre-registered condition (fewer than 50 replicates with the planted number of breaks in the day-effect scenario, where BIC over-selects breaks)",
+    "the study is simulated coverage at the real X2 structure with planted steps, not fitted ones; a subset admission would need a new spec revision and is post hoc; the M676 labels (uncalibrated, not for display) stay unchanged"
+   ]
   }
  },
  "earlyLateContrast": {

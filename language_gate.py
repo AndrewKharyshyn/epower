@@ -643,6 +643,8 @@ RULES = [
          rx=r"measured parked (?:pack )?temperature|validated parked (?:pack )?temperature|calendar (?:ageing|aging) (?:of|from|while|during) (?:the )?(?:pack|parked|parking)|(?:damage|degradation) (?:while|during|from) (?:being )?(?:parked|parking)|parked (?:hours|time) (?:per year|a year|annual)|annual parked|parked lifetime exposure|lifetime exposure (?:of|from) (?:the )?parked"),
     Rule("M690-torque-decoder-wording", "regex", "M691 (spec analyses/M690_spec.md Rev 1.1, Director review): the actual-torque and target-torque registers are logged / app-calculated PID values; the decoder status is 'consistent with' a x256 relation, never measured, true, validated, calibrated or corrected torque, and the rejected rpm PID is never a motor speed",
          rx=r"(?<!not )(?<!not a )(?<!not an )(?<!never )(?<!never a )(?:measured|true|validated|calibrated|corrected) (?:motor |shaft )?torque|rpm (?:pid )?(?:is|as|gives|measures|reads) (?:the |a )?motor speed"),
+    Rule("M693-location-set-wording", "regex", "M694 (spec analyses/M693_spec.md Rev 1.1, Director review): a location set is a set with simulated coverage in stated scenarios at the studied structure; never a calibrated or valid confidence interval for a break, never the date of the software update or of an event",
+         rx=r"calibrated (?:confidence )?interval (?:for|of) (?:the )?(?:break|change|update|location|date)|confidence interval (?:for|of) the (?:software )?update date|(?:dates|dating|detects) the (?:software )?update"),
 ]
 
 _SCAN_CACHE = {}
