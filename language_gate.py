@@ -645,6 +645,8 @@ RULES = [
          rx=r"(?<!not )(?<!not a )(?<!not an )(?<!never )(?<!never a )(?:measured|true|validated|calibrated|corrected) (?:motor |shaft )?torque|rpm (?:pid )?(?:is|as|gives|measures|reads) (?:the |a )?motor speed"),
     Rule("M693-location-set-wording", "regex", "M694 (spec analyses/M693_spec.md Rev 1.1, Director review): a location set is a set with simulated coverage in stated scenarios at the studied structure; never a calibrated or valid confidence interval for a break, never the date of the software update or of an event",
          rx=r"calibrated (?:confidence )?interval (?:for|of) (?:the )?(?:break|change|update|location|date)|confidence interval (?:for|of) the (?:software )?update date|(?:dates|dating|detects) the (?:software )?update"),
+    Rule("M698-reverse-wording", "regex", "M698 (spec analyses/M695_spec.md Rev 1.1): a reverse-consistent episode is INFERRED from standstill onset, torque sign, d|speed| and battery current (no gear or direction channel exists); never detected, measured or identified reverse, never a reverse share, reverse torque or corrected regeneration",
+         rx=r"reverse (?:was |is |are |were )?(?:detected|measured|identified)|\breversing\b|reverse torque|reverse share|corrected regen(?:eration)?|regen(?:eration)? corrected"),
 ]
 
 _SCAN_CACHE = {}
