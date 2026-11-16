@@ -8,7 +8,7 @@
 
 **Delta flags.** EnergyIntensity.shoulder: cumulative drift > baseline CI half-width.
 
-**Files.** `analyses/M701_spec.md`, `tools/start_hazard.py`, `tools/start_hazard_feasibility.py`, `analyses/M701_study.json`, `analyses/M701_sim.json`, `analyses/M701_audit.json`, `tests/synthetic/test_m701_start_hazard.py`, `language_gate.py`, `summary_arrays.json`, `.github/workflows/ci.yml`.
+**Files.** `analyses/M701_spec.md`, `tools/start_hazard.py`, `tools/start_hazard_feasibility.py`, `analyses/M701_study.json`, `analyses/M701_sim.json`, `analyses/M701_audit.json`, `tests/synthetic/test_m701_start_hazard.py`, `language_gate.py`, `analyses/M539_site_registry.json` (two M701 sites registered: the RPM-onset event and a docstring), `summary_arrays.json`, `.github/workflows/ci.yml`.
 
 
 ## M700 (2026-11-16): Selection of the number of breaks under day-level dependence (F1 follow-up of M693): no admissible rule, negative block changePoints.kSelectionStudy
