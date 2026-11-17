@@ -68471,20 +68471,20 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "11a89dc0c881bd0a60e9e957ccd1936a",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-11-17T15:01:12.540026+00:00",
+   "generatedAt": "2026-11-17T15:12:43.068396+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3"
    },
    "computationStatus": "computed",
    "computationStatusNote": "M714: assembled by tools/exposure_scenarios_block.py from the M713 result files (tools/scenario_*.py, exposure_state.py, exposure_odometer.py; spec analyses/M712_spec.md Rev 1.1); model-derived exposure scenarios, cold outputs not supported",
-   "includedInReleaseAt": "2026-11-17T15:01:12.540026+00:00",
+   "includedInReleaseAt": "2026-11-17T15:12:43.068396+00:00",
    "inputBasis": {
     "nDrives": 665,
     "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-11-17T15:01:12.540026+00:00"
+   "computedAt": "2026-11-17T15:12:43.068396+00:00"
   }
  },
  "ambientTable": {
@@ -458779,13 +458779,13 @@
  "exposureScenarios": {
   "milestone": "M714",
   "spec": "analyses/M712_spec.md",
-  "specSha256": "ece7df8ee27d7f0932ade6fd877e0f07905c2e219d12b4b4a6ddcc82a5cb9f4b",
+  "specSha256": "009fcb9548b8bdf700bfc6f4dd3ae41ee1478f4faa7089ddb794f25b00e94240",
   "rangesFile": "analyses/M712_ranges.json",
   "rangesSha256": "770a8f008e1e9e0e2965ea96c3819c09e0c838071871d9fa2402a430d1562f57",
   "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
   "nDrives": 665,
   "basisNDrives": 665,
-  "scriptSha256": "c858f36c2fe005aac4982b54f7341a7611c8789e3982c4089ebe3d52d4c4ca78",
+  "scriptSha256": "e4a2531d5a25af4d45d5cf2be1590bfb3bb918e11fe78f487d18fc94a040d012",
   "label": "exposure scenarios of one vehicle-year from a day-block replay with a pack-temperature state model: ESTIMATED, model-derived exposure indices (Ah, GTC, FCE, temperature, dose); not measured, not an ageing or end-of-life estimate; capacity bases 5 Ah rated and 2.1 kWh legacy, both unverified",
   "supportStatus": {
    "ruling": "Director ruling of M713 (option A): the pre-registered one-offset park model stays the baseline, the offset bracket 0 to 2.7 C is an assumption range, the failed gates are never relaxed",
@@ -465448,7 +465448,8 @@
    "no sub-zero pack data: cold behaviour is an extrapolation",
    "parked pack temperature is never logged: the park model is estimated on restart pairs; the climate normal is an external assumption",
    "the hold-out is not clean",
-   "calendar and cycle terms cannot be separated on one vehicle"
+   "calendar and cycle terms cannot be separated on one vehicle",
+   "one odometer interval (2026-10-08 to 2026-10-13) has logged km above the dashboard km: the dash readings carry a reading-time ambiguity and are not error-free ground truth"
   ],
   "refresh": "on demand (about 2.5 h: tools/scenario_frame.py, exposure_state.py, exposure_odometer.py, scenario_engine.py, scenario_validation.py, scenario_sensitivity.py, scenario_gates.py, then this tool with --splice); each ingestion carries the block forward at its basis",
   "sources": {

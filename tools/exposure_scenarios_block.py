@@ -96,7 +96,7 @@ def assemble(md5=None):
         "sensitivity": {"rangesSha256": S["rangesSha256"], "sobolN": S["sobol"]["N"], "outputs": sens, "tornado": tor, "reading": "the ranking follows the chosen ranges: it describes this table, it is not a finding about the vehicle"},
         "influence": G["leaveOneDayOut"],
         "limits": ["one vehicle, a half-year window of logged days; annual distance is anchored on the dash odometer, not identified by the window", "no sub-zero pack data: cold behaviour is an extrapolation",
-                   "parked pack temperature is never logged: the park model is estimated on restart pairs; the climate normal is an external assumption", "the hold-out is not clean", "calendar and cycle terms cannot be separated on one vehicle"],
+                   "parked pack temperature is never logged: the park model is estimated on restart pairs; the climate normal is an external assumption", "the hold-out is not clean", "calendar and cycle terms cannot be separated on one vehicle", "one odometer interval (2026-10-08 to 2026-10-13) has logged km above the dashboard km: the dash readings carry a reading-time ambiguity and are not error-free ground truth"],
         "refresh": "on demand (about 2.5 h: tools/scenario_frame.py, exposure_state.py, exposure_odometer.py, scenario_engine.py, scenario_validation.py, scenario_sensitivity.py, scenario_gates.py, then this tool with --splice); each ingestion carries the block forward at its basis",
         "sources": {n: sha(os.path.join(DIR, n)) for n in SOURCES},
     }
