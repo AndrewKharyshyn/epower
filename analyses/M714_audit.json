@@ -1,0 +1,69 @@
+{
+ "milestone": "M714",
+ "kind": "blind reproduction (analytical-auditor, claim + data paths + method text only; no tools/ or analyses/ code read)",
+ "verdict": "accept",
+ "tolerance": "0.5 % per figure",
+ "claim": {
+  "pools": [
+   77,
+   55
+  ],
+  "f_s": 1.0791,
+  "f_a": 1.1965,
+  "totalShare": 0.836,
+  "tiltPer100km": -0.1827,
+  "expectedAnnualDrives": 2293,
+  "expectedAnnualAh": 12608,
+  "gtc5Ah": 2521.5,
+  "expectedAnnualKwh": 4567,
+  "gtc2p1kWh": 2174.9,
+  "expectedAnnualKm": 21131.75
+ },
+ "auditor": {
+  "pools": [
+   77,
+   55
+  ],
+  "intervalShares": [
+   0.9431,
+   0.9536,
+   0.9038,
+   0.8175,
+   0.8515,
+   0.7863,
+   1.1193,
+   0.7868,
+   0.1537,
+   0.6617,
+   0.7726
+  ],
+  "totalShare": 0.8355,
+  "f_s": 1.07911,
+  "f_a": 1.19643,
+  "tiltPer100km": -0.18227,
+  "annualKm": 21131.75,
+  "drives": 2293.15,
+  "Ah": 12642.75,
+  "gtc5Ah": 2528.55,
+  "kwh": 4570.96,
+  "gtc2p1kWh": 2176.65
+ },
+ "deviationsPct": {
+  "f_a": -0.01,
+  "tilt": -0.25,
+  "drives": 0.01,
+  "Ah": 0.28,
+  "gtc5Ah": 0.28,
+  "kwh": 0.09,
+  "gtc2p1": 0.08,
+  "share": -0.05,
+  "f_s": 0.0
+ },
+ "concerns": [
+  "'no odometer cover' must mean EMPTY days on or before the first reading or after the last reading; excluding every day before the first reading gives a summer pool of 36 (spec wording made explicit in analyses/M712_spec.md section 4)",
+  "km must come from the speed channel even where HV current / voltage are absent (2026-08-16, 172 km); zeroing it gives f_s 1.140",
+  "interval 2026-10-08..2026-10-13 has logged km above the dash km (share 1.12, -44.6 km unlogged): reading-time ambiguity; the readings are not error-free ground truth (added to the block limits)",
+  "residual +0.28 % on Ah is probably the auditor's own 1 Hz gridding details; the auditor's per-drive kWh sum differs from the master gross_throughput_kwh because the definitions differ (zero-order hold vs the project rule)"
+ ],
+ "scope": "non-thermal figures only (pools, odometer factors, tilt, expected annual km / drives / Ah / kWh); the thermal and cold outputs rest on the state model and are NOT SUPPORTED (M713 ruling), so they are outside this audit"
+}
