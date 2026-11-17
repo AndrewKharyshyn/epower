@@ -16,6 +16,7 @@ Owner decision (Andrii, 2026-11-16, chat): the remaining backlog items continue 
    - M702 `stepResistance` (simulation gate failed because the generator null was not drift-free; optional Rev 2: gap-free null, realised ICC 0.3, observed-median base, gap covariate as a pre-registered sensitivity).
    - M705 `oemCrossCheckC1` / `oemCrossCheckC2` (`tools/rpm_window_cache.py` rebuilds the per-drive histogram cache, `tools/oem_crosscheck.py --study` then `--splice`; cold slow cohort was not estimable; C1b is WITHHELD and can return only through a pre-registered Rev 2 with a Monte Carlo-based tolerance, a new blind audit and a Director review, recorded as a post-result deviation Andrii must acknowledge).
    - M698 reverse mask (`tools/reverse_mask.py`).
+   - Stamp policy rule (M716): every on-demand payload block WITHOUT an ingestion stage needs a `carried` entry in `tools/restamp_ingest.STAMP_POLICY` and a line in `tests/synthetic/test_stamp_policy_ondemand.py` (ON_DEMAND); otherwise the first ingestion stops at restamp_ingest. Covered now: reverseInference, engineStartHazard, stepResistance, oemCrossCheckC1, oemCrossCheckC2, exposureScenarios. A block that later gets a stage must be removed from that list and its policy reconsidered.
 4. N-01 winter protocol (`analyses/M622_spec.md`, `tools/m634_winter_controls.py`): looks at about 2027-02-11 (month 9, descriptive only) and 2027-05-11 (month 12, formal, alpha 0.05); equivalence needs SE <= 0.328 (0.56 at the time of the spec).
 
 ## 3. Open items and their value (judgement as of 2026-11-16)

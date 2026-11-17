@@ -51,6 +51,12 @@ STAMP_POLICY = {
     "regenSocStandardizedStudy": ("carried", "run-once study block, carried at its own basis"),
     "regenDisplayV2": ("regen", "refreshed by the regen_v2 stage on the {n}-drive corpus (M466: O7 conditions c1-c6 discharged)"),
     "regenLegacySensitivity": ("carried", "legacy regen sensitivity, carried with the regen blocks"),
+    # stamp policy gap (found at the M714 hand-over): on-demand blocks WITHOUT an ingestion stage. Their stamps go stale at every ingestion; without an entry here restamp_ingest stops ("stale stamp(s) without a policy entry").
+    "reverseInference": ("carried", "M698: reverse-movement inference mask (tools/reverse_mask.py), on-demand study carried at its own basis; a refresh needs the reverse-movement ground-truth session (open item)"),
+    "engineStartHazard": ("carried", "M701: engine-start hazard model (tools/start_hazard.py), on-demand study carried at its own basis; re-run when the pedal-eligible days cross the season boundary (docs/open_items.md)"),
+    "stepResistance": ("carried", "M702: step-event resistance study (tools/step_events.py, tools/step_resistance.py), on-demand, simulation gate failed, carried at its own basis (docs/open_items.md)"),
+    "oemCrossCheckC1": ("carried", "M705: rpm-window occupancy C1 (tools/rpm_window_cache.py, tools/oem_crosscheck.py), on-demand descriptive study carried at its own basis"),
+    "oemCrossCheckC2": ("carried", "M705: rpm-window occupancy C2 (tools/rpm_window_cache.py, tools/oem_crosscheck.py), on-demand descriptive study carried at its own basis"),
     "exposureScenarios": ("carried", "M714: exposure scenarios computed on demand (tools/exposure_scenarios_block.py, about 2.5 h); each ingestion carries the block at its basis; cold outputs not supported (M713 ruling)"),
 }
 
