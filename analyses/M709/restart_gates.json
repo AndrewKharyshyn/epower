@@ -1,0 +1,92 @@
+{
+ "P-R0": {
+  "pass": true,
+  "eligible": [
+   639,
+   639
+  ],
+  "days": [
+   126,
+   126
+  ],
+  "onlyInProduction": [],
+  "onlyInExploratory": [],
+  "exclusionsProduction": {
+   "odoStepAbsGt1km_appCounter": 9,
+   "noFreshProbeAtAnEndpoint": 14,
+   "gapOver168h": 2
+  },
+  "exclusionsTarget": {
+   "odoStepAbsGt1km_appCounter": 9,
+   "noFreshProbeAtAnEndpoint": 14,
+   "gapOver168h": 2
+  }
+ },
+ "P-R1": {
+  "pass": true,
+  "classes": {
+   "<10 min": {
+    "production": 0.0889,
+    "target": 0.0889,
+    "absDiff": 0.0,
+    "n": 149
+   },
+   "10-60 min": {
+    "production": -0.375,
+    "target": -0.375,
+    "absDiff": 0.0,
+    "n": 190
+   },
+   "1-4 h": {
+    "production": -1.7137,
+    "target": -1.7137,
+    "absDiff": 0.0,
+    "n": 131
+   },
+   "4-12 h": {
+    "production": -6.2317,
+    "target": -6.2317,
+    "absDiff": 0.0,
+    "n": 82
+   },
+   ">=12 h": {
+    "production": -13.3534,
+    "target": -13.3534,
+    "absDiff": 0.0,
+    "n": 87
+   },
+   "<1 h": {
+    "production": -0.1711,
+    "target": -0.1711,
+    "absDiff": 0.0,
+    "n": 339
+   },
+   "all gaps": {
+    "production": -3.0599,
+    "target": -3.0599,
+    "absDiff": 0.0,
+    "n": 639
+   }
+  },
+  "pairsBelow1hWithRiseGe2C": 0,
+  "nIntersection": 639
+ },
+ "P-R5": {
+  "pass": true,
+  "fast": {
+   "mean": 0.0416,
+   "n": 439,
+   "target": 0.04
+  },
+  "slow": {
+   "mean": 0.6254,
+   "ci": [
+    0.474,
+    0.787
+   ],
+   "n": 214,
+   "target": 0.625
+  },
+  "note": "drive counts follow the production per-drive period rule on the 665-drive master (the exploratory run counted 444 fast-polled drives)"
+ }
+}
