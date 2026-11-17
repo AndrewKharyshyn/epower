@@ -144,7 +144,7 @@ def reminders(n_new, env=None):
     e = env if env is not None else os.environ
     r = []
     if n_new:
-        r.append("update the --expect-master-md5 anchor in .github/workflows/ci.yml to the new drive_master.csv MD5 in the ingestion PR")
+        r.append("the stage ci_anchor (M707) sets the --expect-master-md5 anchor in .github/workflows/ci.yml to the new drive_master.csv MD5 inside the run; verify the ci.yml diff in the ingestion PR")
         r.append("tests/synthetic/test_m527_display.py and test_m531_display.py carry corpus-dependent expected counts: rerun them and update the counts after the ingestion")
         r.append("after any stamp or payload splice run tests/synthetic/test_stamp_basis.py and the CI python test list before pushing (release_check does not run that list); a stamp re-issue sets generatedAt, includedInReleaseAt and computedAt together")
         r.append("restore tracked files that a local test run rewrites (cohort_arrays.json etc.) before committing; stage explicit paths")

@@ -42,6 +42,19 @@
    ]
   },
   {
+   "id": "ci_anchor",
+   "title": "M707 (B2): set the --expect-master-md5 anchor in .github/workflows/ci.yml to the MD5 of the staged drive_master.csv inside the ingestion transaction (only ingest_core writes the master; the journal restores ci.yml on a rollback)",
+   "cmd": [
+    "python3",
+    "tools/ci_anchor.py"
+   ],
+   "verified": false,
+   "implemented": true,
+   "outputs": [
+    ".github/workflows/ci.yml"
+   ]
+  },
+  {
    "id": "leaf_guard_early",
    "title": "M649 (P-03): early, NON-blocking lost-leaf report right after ingest_core (the splice stages restore known leaves later, so the final leaf_guard stays the gate; P-07 turns this into a blocking check)",
    "cmd": [
