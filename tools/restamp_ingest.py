@@ -51,6 +51,7 @@ STAMP_POLICY = {
     "regenSocStandardizedStudy": ("carried", "run-once study block, carried at its own basis"),
     "regenDisplayV2": ("regen", "refreshed by the regen_v2 stage on the {n}-drive corpus (M466: O7 conditions c1-c6 discharged)"),
     "regenLegacySensitivity": ("carried", "legacy regen sensitivity, carried with the regen blocks"),
+    "exposureScenarios": ("carried", "M714: exposure scenarios computed on demand (tools/exposure_scenarios_block.py, about 2.5 h); each ingestion carries the block at its basis; cold outputs not supported (M713 ruling)"),
 }
 
 
