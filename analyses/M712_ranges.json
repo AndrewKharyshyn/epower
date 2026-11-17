@@ -1,0 +1,111 @@
+{
+ "milestone": "M712",
+ "note": "Pre-registered assumption ranges for the Sobol / tornado analysis (spec analyses/M712_spec.md Rev 1 section 6) and the scenario shift table; hashed by the spec; prototype ranges from analyses/exposure_scenarios_2026-11-16/results/sensitivity.json except tau_p and off_w (re-centred on M709)",
+ "ranges": {
+  "Ea_age": {
+   "lo": 40.0,
+   "default": 50.0,
+   "hi": 60.0,
+   "meaning": "Arrhenius activation energy of the ageing dose, kJ/mol (literature range, not identified here)"
+  },
+  "winter_shift": {
+   "lo": -12.0,
+   "default": 0.0,
+   "hi": 4.0,
+   "meaning": "Dec-Feb ambient shift vs the repo normal, C (Nov and Mar half): severe to mild winter"
+  },
+  "off_w": {
+   "lo": 0.0,
+   "default": 0.469,
+   "hi": 2.7,
+   "meaning": "parked pack above ambient, one offset all seasons, C; M709 fit 0.469 C [-0.578, 1.407]; bracket lower bound 0 (owner prior: parked at or above ambient), upper bound 2.7 (autumn upper limit +1.8 [0.8, 2.7] of the restart-temperature handoff)"
+  },
+  "tau_p": {
+   "lo": 6.0,
+   "default": 9.105,
+   "hi": 11.0,
+   "meaning": "parked cool-down time constant, h; re-centred on the M709 fit (analyses/M709/park_model.json: 9.105 h [8.19, 10.16]); upper range wide for wind / snow"
+  },
+  "w_off": {
+   "lo": 0.0,
+   "default": 0.0,
+   "hi": 0.3,
+   "meaning": "share of summer-pattern (long-trip) days in Oct-Apr: gap / trip-pattern assumption"
+  },
+  "EaR": {
+   "lo": 12.0,
+   "default": 17.58,
+   "hi": 30.0,
+   "meaning": "activation energy of the resistance proxy used for I^2R heat below the observed range, kJ/mol (fit 17.6)"
+  },
+  "der": {
+   "lo": 0.5,
+   "default": 1.0,
+   "hi": 3.0,
+   "meaning": "multiplier on the linearly extrapolated BMS charge limit below 20 C (3 = effectively no derating)"
+  },
+  "kappa": {
+   "lo": -0.005,
+   "default": 0.0,
+   "hi": 0.016,
+   "meaning": "Ah-throughput increase per C of cooling below 15 C (data: not distinguishable from 0; M28: 0.006-0.016)"
+  },
+  "c1": {
+   "lo": 0.1,
+   "default": 0.2201,
+   "hi": 0.5,
+   "meaning": "slope of the in-drive coolant-air temperature on ambient (fit 0.22 [0.17, 0.28])"
+  },
+  "f_a": {
+   "lo": 1.0,
+   "default": 1.1965,
+   "hi": 1.25,
+   "meaning": "unlogged-distance factor of AUTUMN-pattern days (odometer / logged); summer-pattern days use f_s, derived from the odometer of the summer window and held fixed (not ranged)"
+  },
+  "amp_w_scale": {
+   "lo": 0.4,
+   "default": 0.7,
+   "hi": 1.0,
+   "meaning": "winter diurnal ambient amplitude relative to autumn"
+  },
+  "gamma": {
+   "lo": 0.0,
+   "default": 1.0,
+   "hi": 2.0,
+   "meaning": "SoC weighting exponent of the parked calendar term exp(gamma (SoC-50)/100)"
+  }
+ },
+ "scenarioShiftsC": {
+  "S3a_mild_winter": {
+   "Dec-Feb": 4,
+   "Nov": 2,
+   "Mar": 2
+  },
+  "S3b_cold_winter": {
+   "Dec-Feb": -6,
+   "Nov": -3,
+   "Mar": -3
+  },
+  "S3c_severe_winter": {
+   "Dec-Feb": -12,
+   "Nov": -6,
+   "Mar": -6
+  },
+  "S4_hot_summer": {
+   "Jun-Aug": 3
+  }
+ },
+ "seasonMapPrimary": {
+  "summerPattern": "Jun-Aug",
+  "halfHalf": [
+   "May",
+   "Sep"
+  ],
+  "autumnPattern": "Oct-Apr"
+ },
+ "targetsDistanceTilt": {
+  "S5_kmPerYear": 25000,
+  "S6_kmPerYear": 12000,
+  "S2": "odometer lifetime mean from the dash odometer at the latest ingestion"
+ }
+}
