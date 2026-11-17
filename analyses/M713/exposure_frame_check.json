@@ -9,10 +9,10 @@
  "kwhPerDrive_vs_masterProjectRule_p95AbsRelDiff": 0.0706,
  "sliceAhConservation_maxAbsDiff": 1.4210854715202004e-14,
  "sliceChargeBinConservation_maxAbsDiff": 7.105427357601002e-15,
- "scriptSha256": "56f7dab6948db44e0d70818b6c2342bf79194b5c1ffd37868863204c467a4b1d",
+ "scriptSha256": "8aa8dd75905a3f4aa171bd7ff1149b99ed08a9daab9824ee5fd5241a583945aa",
  "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
  "rule": "zero-order-hold 1 Hz grid (prototype rule), about 4.4 % above the project linear sign-aware rule; the project rule is gross_throughput_kwh of the master (spec M712 Rev 1.1 C2)",
  "prototypeComparison": {
-  "note": "comparison-only against analyses/exposure_scenarios_2026-11-16/results (untracked prototype): drives.csv 157 shared columns over 665 drives identical (max abs diff 0 beyond 1e-6, same NaN pattern); slices.npz i2, ahc, ahd, soc, Tobs, ahc_cb, ahcC_cb, ep10c, icov identical (max abs diff 0.0)"
+  "note": "comparison-only against analyses/exposure_scenarios_2026-11-16/results (untracked prototype): drives.csv 157 shared columns over 665 drives identical (max abs diff <= 1e-6, same NaN pattern); slices.npz arrays identical; the M713b additions (pulse and charge-limit statistics) have no prototype counterpart in drives.csv"
  }
 }

@@ -204,6 +204,29 @@ def drive_row(key, d):
     for thr in (35, 40, 45):
         mk = np.isfinite(Tm) & (Tm >= thr)
         r[f"ahc_ge{thr}"] = ch[mk].sum() / 3600; r[f"ah_ge{thr}"] = (ch + di)[mk].sum() / 3600; r[f"h_ge{thr}"] = mk.sum() / 3600
+    # pulse-resistance proxy (M713b): slope of dV on dI between consecutive seconds with |dI| >= 20 A (reconstructed, not a DCIR measurement) -> R(T) activation energy of the heating model
+    dI, dV, nI = np.diff(I), np.diff(V), d["nI"].values
+    okp = np.isfinite(dI) & np.isfinite(dV) & (np.abs(dI) >= 20) & (nI[1:] > 0) & (nI[:-1] > 0)
+    if okp.sum() >= 30:
+        x, y = dI[okp], dV[okp]
+        Tpf = d["Tm"].ffill().bfill().values[1:][okp]
+        Spf = d["soc"].ffill().bfill().values[1:][okp]
+        up = x > 0
+        r["R_pulse_mohm"] = float(np.sum(x * y) / np.sum(x * x)) * 1000.0
+        r["R_up_mohm"] = float(np.sum(x[up] * y[up]) / np.sum(x[up] ** 2)) * 1000 if up.sum() >= 15 else np.nan
+        r["R_down_mohm"] = float(np.sum(x[~up] * y[~up]) / np.sum(x[~up] ** 2)) * 1000 if (~up).sum() >= 15 else np.nan
+        r["pulse_n_pairs"] = int(okp.sum()); r["T_pulse"] = float(np.nanmean(Tpf)); r["soc_pulse"] = float(np.nanmean(Spf)); r["dI_med"] = float(np.median(np.abs(x)))
+    # BMS charge-limit register ("input possible power", kW) vs coldest probe and SoC: per-drive normal-equation sufficient statistics of Pin ~ 1 + Tmin + (SoC - 60) over seconds with Tmin < 20 C
+    pin, tmin, sc = d["Pin"].values.astype(float), d["Tmin"].values.astype(float), d["soc"].values.astype(float)
+    mp = np.isfinite(pin) & np.isfinite(tmin) & (tmin < 20) & np.isfinite(sc)
+    r["pin_n"] = int(mp.sum())
+    if mp.any():
+        X = np.column_stack([np.ones(mp.sum()), tmin[mp], sc[mp] - 60.0])
+        XtX, Xty = X.T @ X, X.T @ pin[mp]
+        for i in range(3):
+            r["pin_xty_%d" % i] = float(Xty[i])
+            for j in range(3):
+                r["pin_xtx_%d%d" % (i, j)] = float(XtX[i, j])
     r["t0_s"], r["t1_s"] = float(d["sec"].iloc[0]), float(d["sec"].iloc[-1])
     return r
 
