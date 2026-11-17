@@ -30,8 +30,13 @@ stage = os.path.join(ROOT, "raw_only")
 if os.path.isdir(stage):
     shutil.rmtree(stage)
 os.makedirs(stage)
-dig = lambda n: re.sub(r"\D", "", n.rsplit(".", 1)[0])
-idx = {dig(f): f for f in os.listdir(raw) if f.lower().endswith(".csv")}
+sys.path.insert(0, os.path.join(ROOT, "tools"))
+import raw_resolver as RR   # M707 (B3)
+dig = RR.key_of
+try:
+    idx = {k: os.path.basename(p) for k, p in RR.resolve(raw, os.path.join(ROOT, "raw_manifest.json")).index.items()}
+except RR.RawConflict as ex:
+    print("STOP stage_raw:", ex); sys.exit(1)
 dm = pd.read_csv(os.path.join(ROOT, "drive_master.csv"), usecols=["file"])
 missing = []
 for f in dm["file"].astype(str):

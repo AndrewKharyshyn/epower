@@ -28,7 +28,7 @@ for bad in ("no anchor here\n", "--expect-master-md5 %s\n--expect-master-md5 %s\
         assert CA.main(["--root", td]) == 2, "missing or duplicated anchor is a stop"
 st = json.load(open(os.path.join(ROOT, "tools", "ingest_stages.json"), encoding="utf-8"))["stages"]
 ids = [s["id"] for s in st]
-assert ids[ids.index("ingest_core") + 1] == "ci_anchor"
+assert ids[ids.index("ingest_core") + 2] == "ci_anchor" and ids[ids.index("ingest_core") + 1] == "leaf_guard_early", "right after ingest_core and its early leaf report (M649 keeps that report directly behind ingest_core)"
 assert [s["id"] for s in st if "drive_master.csv" in (s.get("outputs") or [])] == ["ingest_core"], "a later stage writing the master would stale the anchor"
 assert st[ids.index("ci_anchor")]["outputs"] == [".github/workflows/ci.yml"]
 print("test_ci_anchor: ok")

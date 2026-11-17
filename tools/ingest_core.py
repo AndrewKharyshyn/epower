@@ -34,6 +34,7 @@ OUT_FILES = ["drive_master.csv", "raw_manifest.json", "summary_config.json", "su
 STAGING = os.path.join(ROOT, "raw_only")
 
 
+RESOLUTION = {}         # M707 (B3): raw_resolver summary (aliases, digests) of this run, copied into the report
 GATED_SHA = {}          # path -> sha256 of the bytes the plausibility gate saw (TOCTOU guard: ingest must read the same bytes)
 CARRIED = []
 INHERITED_NOTES = []
@@ -85,7 +86,9 @@ def master_key(basename):
 
 
 def raw_index(raw_dir):
-    return {digits(f): os.path.join(raw_dir, f) for f in os.listdir(raw_dir) if f.lower().endswith(".csv")}
+    """M707 (B3): through the one typed resolver (byte-identical aliases accepted and recorded, differing bytes under one timestamp key raise RawConflict)."""
+    import raw_resolver as RR
+    return RR.resolve(raw_dir, os.path.join(ROOT, "raw_manifest.json")).index
 
 
 def _link(src, dst):
@@ -125,6 +128,11 @@ def stage_raw(dm_files, new_map, raw_dir, e4_files):
 
 
 def detect_new(dm, raw_dir):
+    import raw_resolver as RR
+    try:
+        RESOLUTION["summary"] = RR.resolve(raw_dir, os.path.join(ROOT, "raw_manifest.json")).summary()    # M707 (B3): a timestamp key with different bytes is a STOP, never a silent pick
+    except RR.RawConflict as ex:
+        raise Gate(str(ex))
     import compute_drive_summary_v6 as v6
     import corpus_manifest as cm
     files = sorted(glob.glob(os.path.join(raw_dir, cm.RAW_GLOB)))
@@ -405,6 +413,7 @@ def main():
     dm_old = pd.read_csv(os.path.join(ROOT, "drive_master.csv"), low_memory=False)
     report["rows_before"], report["md5_before"] = len(dm_old), md5(os.path.join(ROOT, "drive_master.csv"))
     new_paths = detect_new(dm_old, a.raw_dir)
+    report["rawResolution"] = RESOLUTION.get("summary")
     report["new_files"] = [os.path.basename(p) for p in new_paths]
     mark("load_master_detect_new")
     rpath = os.path.join(ROOT, "tools", "ingest_core_report.json")
