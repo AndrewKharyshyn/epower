@@ -1,0 +1,95 @@
+{
+ "note": "diagnostic only (NOT gates): in-sample replay of the observed eligible days with alternative park constants; the pre-registered gate G-S2 uses the M709 default and FAILED on starts below 15 C",
+ "variants": {
+  "M709_park_default (tau 9.105, offset 0.469)": {
+   "startsBelow15C": {
+    "sim": 82.0,
+    "obs": 64,
+    "relError": 0.2812
+   },
+   "ahShare_ge35": {
+    "sim": 0.3943,
+    "obs": 0.4522,
+    "diffPoints": -5.79,
+    "relError": -0.128
+   },
+   "arrCycleAF_Ea50": {
+    "sim": 1.7739,
+    "obs": 1.7658,
+    "relError": 0.0046
+   }
+  },
+  "M709_park_offset_2.7 (upper bracket)": {
+   "startsBelow15C": {
+    "sim": 59.0,
+    "obs": 64,
+    "relError": -0.0781
+   },
+   "ahShare_ge35": {
+    "sim": 0.4193,
+    "obs": 0.4522,
+    "diffPoints": -3.29,
+    "relError": -0.0727
+   },
+   "arrCycleAF_Ea50": {
+    "sim": 1.8326,
+    "obs": 1.7658,
+    "relError": 0.0379
+   }
+  },
+  "M709_park_offset_0 (lower bracket)": {
+   "startsBelow15C": {
+    "sim": 91.0,
+    "obs": 64,
+    "relError": 0.4219
+   },
+   "ahShare_ge35": {
+    "sim": 0.3908,
+    "obs": 0.4522,
+    "diffPoints": -6.14,
+    "relError": -0.1359
+   },
+   "arrCycleAF_Ea50": {
+    "sim": 1.762,
+    "obs": 1.7658,
+    "relError": -0.0021
+   }
+  },
+  "prototype_park (tau 7.554, off 1.163/3.405)": {
+   "startsBelow15C": {
+    "sim": 66.0,
+    "obs": 64,
+    "relError": 0.0312
+   },
+   "ahShare_ge35": {
+    "sim": 0.3925,
+    "obs": 0.4522,
+    "diffPoints": -5.97,
+    "relError": -0.1321
+   },
+   "arrCycleAF_Ea50": {
+    "sim": 1.7832,
+    "obs": 1.7658,
+    "relError": 0.0099
+   }
+  },
+  "M709_tau_9.105_offset_3.405 (prototype autumn offset)": {
+   "startsBelow15C": {
+    "sim": 48.0,
+    "obs": 64,
+    "relError": -0.25
+   },
+   "ahShare_ge35": {
+    "sim": 0.4285,
+    "obs": 0.4522,
+    "diffPoints": -2.37,
+    "relError": -0.0525
+   },
+   "arrCycleAF_Ea50": {
+    "sim": 1.852,
+    "obs": 1.7658,
+    "relError": 0.0488
+   }
+  }
+ }
+}

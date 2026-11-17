@@ -1,0 +1,1610 @@
+{
+ "milestone": "M713d",
+ "spec": "analyses/M712_spec.md",
+ "rangesSha256": "770a8f008e1e9e0e2965ea96c3819c09e0c838071871d9fa2402a430d1562f57",
+ "label": "sensitivity of the S2 primary scenario to assumptions; ranges are ASSUMPTIONS (uniform), outputs deterministic given one fixed day sequence; the ranking follows the chosen ranges (reported, not gated)",
+ "ranges": {
+  "Ea_age": {
+   "lo": 40.0,
+   "default": 50.0,
+   "hi": 60.0,
+   "meaning": "Arrhenius activation energy of the ageing dose, kJ/mol (literature range, not identified here)"
+  },
+  "winter_shift": {
+   "lo": -12.0,
+   "default": 0.0,
+   "hi": 4.0,
+   "meaning": "Dec-Feb ambient shift vs the repo normal, C (Nov and Mar half): severe to mild winter"
+  },
+  "off_w": {
+   "lo": 0.0,
+   "default": 0.469,
+   "hi": 2.7,
+   "meaning": "parked pack above ambient, one offset all seasons, C; M709 fit 0.469 C [-0.578, 1.407]; bracket lower bound 0 (owner prior: parked at or above ambient), upper bound 2.7 (autumn upper limit +1.8 [0.8, 2.7] of the restart-temperature handoff)"
+  },
+  "tau_p": {
+   "lo": 6.0,
+   "default": 9.105,
+   "hi": 11.0,
+   "meaning": "parked cool-down time constant, h; re-centred on the M709 fit (analyses/M709/park_model.json: 9.105 h [8.19, 10.16]); upper range wide for wind / snow"
+  },
+  "w_off": {
+   "lo": 0.0,
+   "default": 0.0,
+   "hi": 0.3,
+   "meaning": "share of summer-pattern (long-trip) days in Oct-Apr: gap / trip-pattern assumption"
+  },
+  "EaR": {
+   "lo": 12.0,
+   "default": 17.58,
+   "hi": 30.0,
+   "meaning": "activation energy of the resistance proxy used for I^2R heat below the observed range, kJ/mol (fit 17.6)"
+  },
+  "der": {
+   "lo": 0.5,
+   "default": 1.0,
+   "hi": 3.0,
+   "meaning": "multiplier on the linearly extrapolated BMS charge limit below 20 C (3 = effectively no derating)"
+  },
+  "kappa": {
+   "lo": -0.005,
+   "default": 0.0,
+   "hi": 0.016,
+   "meaning": "Ah-throughput increase per C of cooling below 15 C (data: not distinguishable from 0; M28: 0.006-0.016)"
+  },
+  "c1": {
+   "lo": 0.1,
+   "default": 0.2201,
+   "hi": 0.5,
+   "meaning": "slope of the in-drive coolant-air temperature on ambient (fit 0.22 [0.17, 0.28])"
+  },
+  "f_a": {
+   "lo": 1.0,
+   "default": 1.1965,
+   "hi": 1.25,
+   "meaning": "unlogged-distance factor of AUTUMN-pattern days (odometer / logged); summer-pattern days use f_s, derived from the odometer of the summer window and held fixed (not ranged)"
+  },
+  "amp_w_scale": {
+   "lo": 0.4,
+   "default": 0.7,
+   "hi": 1.0,
+   "meaning": "winter diurnal ambient amplitude relative to autumn"
+  },
+  "gamma": {
+   "lo": 0.0,
+   "default": 1.0,
+   "hi": 2.0,
+   "meaning": "SoC weighting exponent of the parked calendar term exp(gamma (SoC-50)/100)"
+  }
+ },
+ "tornado": {
+  "gtc_5Ah_rated": {
+   "base": 2534.016,
+   "bars": [
+    {
+     "param": "f_a",
+     "atLo": 2294.6391,
+     "atHi": 2599.1898,
+     "relLo": -0.0945,
+     "relHi": 0.0257,
+     "span": 304.5507
+    },
+    {
+     "param": "kappa",
+     "atLo": 2493.8231,
+     "atHi": 2680.6901,
+     "relLo": -0.0159,
+     "relHi": 0.0579,
+     "span": 186.867
+    },
+    {
+     "param": "w_off",
+     "atLo": 2534.016,
+     "atHi": 2661.0325,
+     "relLo": 0.0,
+     "relHi": 0.0501,
+     "span": 127.0165
+    },
+    {
+     "param": "Ea_age",
+     "atLo": 2534.016,
+     "atHi": 2534.016,
+     "relLo": 0.0,
+     "relHi": 0.0,
+     "span": 0.0
+    },
+    {
+     "param": "winter_shift",
+     "atLo": 2534.016,
+     "atHi": 2534.016,
+     "relLo": 0.0,
+     "relHi": 0.0,
+     "span": 0.0
+    },
+    {
+     "param": "off_w",
+     "atLo": 2534.016,
+     "atHi": 2534.016,
+     "relLo": 0.0,
+     "relHi": 0.0,
+     "span": 0.0
+    },
+    {
+     "param": "tau_p",
+     "atLo": 2534.016,
+     "atHi": 2534.016,
+     "relLo": 0.0,
+     "relHi": 0.0,
+     "span": 0.0
+    },
+    {
+     "param": "EaR",
+     "atLo": 2534.016,
+     "atHi": 2534.016,
+     "relLo": 0.0,
+     "relHi": 0.0,
+     "span": 0.0
+    },
+    {
+     "param": "der",
+     "atLo": 2534.016,
+     "atHi": 2534.016,
+     "relLo": 0.0,
+     "relHi": 0.0,
+     "span": 0.0
+    },
+    {
+     "param": "c1",
+     "atLo": 2534.016,
+     "atHi": 2534.016,
+     "relLo": 0.0,
+     "relHi": 0.0,
+     "span": 0.0
+    },
+    {
+     "param": "amp_w_scale",
+     "atLo": 2534.016,
+     "atHi": 2534.016,
+     "relLo": 0.0,
+     "relHi": 0.0,
+     "span": 0.0
+    },
+    {
+     "param": "gamma",
+     "atLo": 2534.016,
+     "atHi": 2534.016,
+     "relLo": 0.0,
+     "relHi": 0.0,
+     "span": 0.0
+    }
+   ]
+  },
+  "calendarDose_hEq": {
+   "base": 6394.1749,
+   "bars": [
+    {
+     "param": "tau_p",
+     "atLo": 5690.4699,
+     "atHi": 6788.1626,
+     "relLo": -0.1101,
+     "relHi": 0.0616,
+     "span": 1097.6927
+    },
+    {
+     "param": "c1",
+     "atLo": 6142.8043,
+     "atHi": 7059.3368,
+     "relLo": -0.0393,
+     "relHi": 0.104,
+     "span": 916.5325
+    },
+    {
+     "param": "winter_shift",
+     "atLo": 5879.1507,
+     "atHi": 6629.4983,
+     "relLo": -0.0805,
+     "relHi": 0.0368,
+     "span": 750.3476
+    },
+    {
+     "param": "off_w",
+     "atLo": 6275.5047,
+     "atHi": 6994.0501,
+     "relLo": -0.0186,
+     "relHi": 0.0938,
+     "span": 718.5454
+    },
+    {
+     "param": "Ea_age",
+     "atLo": 6609.3691,
+     "atHi": 6277.4671,
+     "relLo": 0.0337,
+     "relHi": -0.0183,
+     "span": 331.9021
+    },
+    {
+     "param": "kappa",
+     "atLo": 6358.9105,
+     "atHi": 6545.7733,
+     "relLo": -0.0055,
+     "relHi": 0.0237,
+     "span": 186.8628
+    },
+    {
+     "param": "w_off",
+     "atLo": 6394.1749,
+     "atHi": 6553.6263,
+     "relLo": 0.0,
+     "relHi": 0.0249,
+     "span": 159.4514
+    },
+    {
+     "param": "EaR",
+     "atLo": 6429.065,
+     "atHi": 6354.7918,
+     "relLo": 0.0055,
+     "relHi": -0.0062,
+     "span": 74.2732
+    },
+    {
+     "param": "f_a",
+     "atLo": 6344.3362,
+     "atHi": 6407.7442,
+     "relLo": -0.0078,
+     "relHi": 0.0021,
+     "span": 63.408
+    },
+    {
+     "param": "amp_w_scale",
+     "atLo": 6393.7118,
+     "atHi": 6395.3603,
+     "relLo": -0.0001,
+     "relHi": 0.0002,
+     "span": 1.6485
+    },
+    {
+     "param": "der",
+     "atLo": 6394.1749,
+     "atHi": 6394.1749,
+     "relLo": 0.0,
+     "relHi": 0.0,
+     "span": 0.0
+    },
+    {
+     "param": "gamma",
+     "atLo": 6394.1749,
+     "atHi": 6394.1749,
+     "relLo": 0.0,
+     "relHi": 0.0,
+     "span": 0.0
+    }
+   ]
+  },
+  "calendarDose_SoCweighted_hEq": {
+   "base": 6355.0705,
+   "bars": [
+    {
+     "param": "gamma",
+     "atLo": 5686.0583,
+     "atHi": 7131.7253,
+     "relLo": -0.1053,
+     "relHi": 0.1222,
+     "span": 1445.667
+    },
+    {
+     "param": "tau_p",
+     "atLo": 5607.2528,
+     "atHi": 6774.1526,
+     "relLo": -0.1177,
+     "relHi": 0.0659,
+     "span": 1166.8998
+    },
+    {
+     "param": "c1",
+     "atLo": 6125.1422,
+     "atHi": 6958.1333,
+     "relLo": -0.0362,
+     "relHi": 0.0949,
+     "span": 832.9912
+    },
+    {
+     "param": "winter_shift",
+     "atLo": 5823.9467,
+     "atHi": 6599.2489,
+     "relLo": -0.0836,
+     "relHi": 0.0384,
+     "span": 775.3022
+    },
+    {
+     "param": "off_w",
+     "atLo": 6229.7174,
+     "atHi": 6989.4175,
+     "relLo": -0.0197,
+     "relHi": 0.0998,
+     "span": 759.7002
+    },
+    {
+     "param": "Ea_age",
+     "atLo": 6568.9488,
+     "atHi": 6239.0765,
+     "relLo": 0.0337,
+     "relHi": -0.0183,
+     "span": 329.8723
+    },
+    {
+     "param": "kappa",
+     "atLo": 6322.1707,
+     "atHi": 6496.1375,
+     "relLo": -0.0052,
+     "relHi": 0.0222,
+     "span": 173.9667
+    },
+    {
+     "param": "w_off",
+     "atLo": 6355.0705,
+     "atHi": 6447.0606,
+     "relLo": 0.0,
+     "relHi": 0.0145,
+     "span": 91.99
+    },
+    {
+     "param": "EaR",
+     "atLo": 6381.3962,
+     "atHi": 6329.7979,
+     "relLo": 0.0041,
+     "relHi": -0.004,
+     "span": 51.5983
+    },
+    {
+     "param": "amp_w_scale",
+     "atLo": 6354.9511,
+     "atHi": 6355.9415,
+     "relLo": -0.0,
+     "relHi": 0.0001,
+     "span": 0.9904
+    },
+    {
+     "param": "der",
+     "atLo": 6355.0705,
+     "atHi": 6355.0705,
+     "relLo": 0.0,
+     "relHi": 0.0,
+     "span": 0.0
+    },
+    {
+     "param": "f_a",
+     "atLo": 6355.0705,
+     "atHi": 6355.0705,
+     "relLo": -0.0,
+     "relHi": -0.0,
+     "span": 0.0
+    }
+   ]
+  },
+  "cycleDose_AhEq": {
+   "base": 15856.5737,
+   "bars": [
+    {
+     "param": "c1",
+     "atLo": 14802.7242,
+     "atHi": 18765.609,
+     "relLo": -0.0665,
+     "relHi": 0.1835,
+     "span": 3962.8849
+    },
+    {
+     "param": "Ea_age",
+     "atLo": 14733.1169,
+     "atHi": 17268.3727,
+     "relLo": -0.0709,
+     "relHi": 0.089,
+     "span": 2535.2557
+    },
+    {
+     "param": "w_off",
+     "atLo": 15856.5737,
+     "atHi": 17500.2647,
+     "relLo": 0.0,
+     "relHi": 0.1037,
+     "span": 1643.6909
+    },
+    {
+     "param": "kappa",
+     "atLo": 15609.5022,
+     "atHi": 16980.0199,
+     "relLo": -0.0156,
+     "relHi": 0.0709,
+     "span": 1370.5177
+    },
+    {
+     "param": "f_a",
+     "atLo": 14856.3111,
+     "atHi": 16128.9099,
+     "relLo": -0.0631,
+     "relHi": 0.0172,
+     "span": 1272.5988
+    },
+    {
+     "param": "winter_shift",
+     "atLo": 15039.5954,
+     "atHi": 16204.3421,
+     "relLo": -0.0515,
+     "relHi": 0.0219,
+     "span": 1164.7466
+    },
+    {
+     "param": "tau_p",
+     "atLo": 15132.7666,
+     "atHi": 16261.4038,
+     "relLo": -0.0456,
+     "relHi": 0.0255,
+     "span": 1128.6372
+    },
+    {
+     "param": "off_w",
+     "atLo": 15716.3231,
+     "atHi": 16552.7216,
+     "relLo": -0.0088,
+     "relHi": 0.0439,
+     "span": 836.3985
+    },
+    {
+     "param": "EaR",
+     "atLo": 16157.7134,
+     "atHi": 15408.9581,
+     "relLo": 0.019,
+     "relHi": -0.0282,
+     "span": 748.7552
+    },
+    {
+     "param": "amp_w_scale",
+     "atLo": 15845.2329,
+     "atHi": 15868.8415,
+     "relLo": -0.0007,
+     "relHi": 0.0008,
+     "span": 23.6085
+    },
+    {
+     "param": "der",
+     "atLo": 15856.5737,
+     "atHi": 15856.5737,
+     "relLo": 0.0,
+     "relHi": 0.0,
+     "span": 0.0
+    },
+    {
+     "param": "gamma",
+     "atLo": 15856.5737,
+     "atHi": 15856.5737,
+     "relLo": 0.0,
+     "relHi": 0.0,
+     "span": 0.0
+    }
+   ]
+  },
+  "coldChargeIndex_AhxC_lt10": {
+   "base": 4440.2494,
+   "bars": [
+    {
+     "param": "winter_shift",
+     "atLo": 8530.6126,
+     "atHi": 2501.3527,
+     "relLo": 0.9212,
+     "relHi": -0.4367,
+     "span": 6029.2599
+    },
+    {
+     "param": "tau_p",
+     "atLo": 6128.8623,
+     "atHi": 3487.2942,
+     "relLo": 0.3803,
+     "relHi": -0.2146,
+     "span": 2641.568
+    },
+    {
+     "param": "off_w",
+     "atLo": 4721.7091,
+     "atHi": 3267.106,
+     "relLo": 0.0634,
+     "relHi": -0.2642,
+     "span": 1454.6031
+    },
+    {
+     "param": "EaR",
+     "atLo": 4759.532,
+     "atHi": 3805.5956,
+     "relLo": 0.0719,
+     "relHi": -0.1429,
+     "span": 953.9363
+    },
+    {
+     "param": "f_a",
+     "atLo": 3711.0317,
+     "atHi": 4638.7896,
+     "relLo": -0.1642,
+     "relHi": 0.0447,
+     "span": 927.7579
+    },
+    {
+     "param": "kappa",
+     "atLo": 4211.1622,
+     "atHi": 5089.0586,
+     "relLo": -0.0516,
+     "relHi": 0.1461,
+     "span": 877.8964
+    },
+    {
+     "param": "der",
+     "atLo": 3972.1567,
+     "atHi": 4452.8667,
+     "relLo": -0.1054,
+     "relHi": 0.0028,
+     "span": 480.7101
+    },
+    {
+     "param": "w_off",
+     "atLo": 4440.2494,
+     "atHi": 3989.1942,
+     "relLo": 0.0,
+     "relHi": -0.1016,
+     "span": 451.0552
+    },
+    {
+     "param": "amp_w_scale",
+     "atLo": 4458.2409,
+     "atHi": 4421.4458,
+     "relLo": 0.0041,
+     "relHi": -0.0042,
+     "span": 36.7951
+    },
+    {
+     "param": "c1",
+     "atLo": 4451.5634,
+     "atHi": 4474.1426,
+     "relLo": 0.0025,
+     "relHi": 0.0076,
+     "span": 22.5792
+    },
+    {
+     "param": "Ea_age",
+     "atLo": 4440.2494,
+     "atHi": 4440.2494,
+     "relLo": 0.0,
+     "relHi": 0.0,
+     "span": 0.0
+    },
+    {
+     "param": "gamma",
+     "atLo": 4440.2494,
+     "atHi": 4440.2494,
+     "relLo": 0.0,
+     "relHi": 0.0,
+     "span": 0.0
+    }
+   ]
+  },
+  "coldCharge_ah_lt0": {
+   "base": 12.0493,
+   "bars": [
+    {
+     "param": "winter_shift",
+     "atLo": 319.3805,
+     "atHi": 0.0542,
+     "relLo": 25.5062,
+     "relHi": -0.9955,
+     "span": 319.3263
+    },
+    {
+     "param": "tau_p",
+     "atLo": 49.7259,
+     "atHi": 3.896,
+     "relLo": 3.1269,
+     "relHi": -0.6767,
+     "span": 45.8299
+    },
+    {
+     "param": "off_w",
+     "atLo": 15.8281,
+     "atHi": 1.698,
+     "relLo": 0.3136,
+     "relHi": -0.8591,
+     "span": 14.13
+    },
+    {
+     "param": "amp_w_scale",
+     "atLo": 8.483,
+     "atHi": 17.3145,
+     "relLo": -0.296,
+     "relHi": 0.437,
+     "span": 8.8314
+    },
+    {
+     "param": "EaR",
+     "atLo": 13.8968,
+     "atHi": 6.3331,
+     "relLo": 0.1533,
+     "relHi": -0.4744,
+     "span": 7.5637
+    },
+    {
+     "param": "kappa",
+     "atLo": 12.5409,
+     "atHi": 6.9782,
+     "relLo": 0.0408,
+     "relHi": -0.4209,
+     "span": 5.5627
+    },
+    {
+     "param": "w_off",
+     "atLo": 12.0493,
+     "atHi": 15.0302,
+     "relLo": 0.0,
+     "relHi": 0.2474,
+     "span": 2.9809
+    },
+    {
+     "param": "c1",
+     "atLo": 10.4921,
+     "atHi": 13.3907,
+     "relLo": -0.1292,
+     "relHi": 0.1113,
+     "span": 2.8985
+    },
+    {
+     "param": "f_a",
+     "atLo": 10.0705,
+     "atHi": 12.5881,
+     "relLo": -0.1642,
+     "relHi": 0.0447,
+     "span": 2.5176
+    },
+    {
+     "param": "Ea_age",
+     "atLo": 12.0493,
+     "atHi": 12.0493,
+     "relLo": 0.0,
+     "relHi": 0.0,
+     "span": 0.0
+    },
+    {
+     "param": "der",
+     "atLo": 12.0493,
+     "atHi": 12.0493,
+     "relLo": 0.0,
+     "relHi": 0.0,
+     "span": 0.0
+    },
+    {
+     "param": "gamma",
+     "atLo": 12.0493,
+     "atHi": 12.0493,
+     "relLo": 0.0,
+     "relHi": 0.0,
+     "span": 0.0
+    }
+   ]
+  },
+  "ahShare_T_lt10": {
+   "base": 0.0773,
+   "bars": [
+    {
+     "param": "winter_shift",
+     "atLo": 0.1545,
+     "atHi": 0.043,
+     "relLo": 0.9986,
+     "relHi": -0.4433,
+     "span": 0.1115
+    },
+    {
+     "param": "tau_p",
+     "atLo": 0.1088,
+     "atHi": 0.0594,
+     "relLo": 0.407,
+     "relHi": -0.2314,
+     "span": 0.0493
+    },
+    {
+     "param": "off_w",
+     "atLo": 0.082,
+     "atHi": 0.0552,
+     "relLo": 0.061,
+     "relHi": -0.2855,
+     "span": 0.0268
+    },
+    {
+     "param": "EaR",
+     "atLo": 0.0831,
+     "atHi": 0.0649,
+     "relLo": 0.0753,
+     "relHi": -0.161,
+     "span": 0.0183
+    },
+    {
+     "param": "w_off",
+     "atLo": 0.0773,
+     "atHi": 0.0649,
+     "relLo": 0.0,
+     "relHi": -0.1604,
+     "span": 0.0124
+    },
+    {
+     "param": "kappa",
+     "atLo": 0.0789,
+     "atHi": 0.0691,
+     "relLo": 0.0203,
+     "relHi": -0.1056,
+     "span": 0.0097
+    },
+    {
+     "param": "f_a",
+     "atLo": 0.0713,
+     "atHi": 0.0787,
+     "relLo": -0.077,
+     "relHi": 0.0185,
+     "span": 0.0074
+    },
+    {
+     "param": "c1",
+     "atLo": 0.0773,
+     "atHi": 0.078,
+     "relLo": -0.0002,
+     "relHi": 0.0086,
+     "span": 0.0007
+    },
+    {
+     "param": "amp_w_scale",
+     "atLo": 0.0773,
+     "atHi": 0.0775,
+     "relLo": 0.0002,
+     "relHi": 0.0027,
+     "span": 0.0002
+    },
+    {
+     "param": "Ea_age",
+     "atLo": 0.0773,
+     "atHi": 0.0773,
+     "relLo": 0.0,
+     "relHi": 0.0,
+     "span": 0.0
+    },
+    {
+     "param": "der",
+     "atLo": 0.0773,
+     "atHi": 0.0773,
+     "relLo": 0.0,
+     "relHi": 0.0,
+     "span": 0.0
+    },
+    {
+     "param": "gamma",
+     "atLo": 0.0773,
+     "atHi": 0.0773,
+     "relLo": 0.0,
+     "relHi": 0.0,
+     "span": 0.0
+    }
+   ]
+  },
+  "ahShare_T_ge35": {
+   "base": 0.1863,
+   "bars": [
+    {
+     "param": "c1",
+     "atLo": 0.1369,
+     "atHi": 0.2863,
+     "relLo": -0.2651,
+     "relHi": 0.5367,
+     "span": 0.1494
+    },
+    {
+     "param": "EaR",
+     "atLo": 0.1985,
+     "atHi": 0.1596,
+     "relLo": 0.0655,
+     "relHi": -0.1435,
+     "span": 0.0389
+    },
+    {
+     "param": "f_a",
+     "atLo": 0.2037,
+     "atHi": 0.1821,
+     "relLo": 0.0932,
+     "relHi": -0.0224,
+     "span": 0.0215
+    },
+    {
+     "param": "off_w",
+     "atLo": 0.1833,
+     "atHi": 0.2046,
+     "relLo": -0.0158,
+     "relHi": 0.0984,
+     "span": 0.0213
+    },
+    {
+     "param": "tau_p",
+     "atLo": 0.1725,
+     "atHi": 0.1936,
+     "relLo": -0.0739,
+     "relHi": 0.039,
+     "span": 0.021
+    },
+    {
+     "param": "w_off",
+     "atLo": 0.1863,
+     "atHi": 0.1985,
+     "relLo": 0.0,
+     "relHi": 0.0653,
+     "span": 0.0122
+    },
+    {
+     "param": "winter_shift",
+     "atLo": 0.1831,
+     "atHi": 0.1873,
+     "relLo": -0.017,
+     "relHi": 0.0052,
+     "span": 0.0041
+    },
+    {
+     "param": "kappa",
+     "atLo": 0.1875,
+     "atHi": 0.1867,
+     "relLo": 0.0065,
+     "relHi": 0.0023,
+     "span": 0.0008
+    },
+    {
+     "param": "amp_w_scale",
+     "atLo": 0.1859,
+     "atHi": 0.1863,
+     "relLo": -0.0022,
+     "relHi": 0.0,
+     "span": 0.0004
+    },
+    {
+     "param": "Ea_age",
+     "atLo": 0.1863,
+     "atHi": 0.1863,
+     "relLo": 0.0,
+     "relHi": 0.0,
+     "span": 0.0
+    },
+    {
+     "param": "der",
+     "atLo": 0.1863,
+     "atHi": 0.1863,
+     "relLo": 0.0,
+     "relHi": 0.0,
+     "span": 0.0
+    },
+    {
+     "param": "gamma",
+     "atLo": 0.1863,
+     "atHi": 0.1863,
+     "relLo": 0.0,
+     "relHi": 0.0,
+     "span": 0.0
+    }
+   ]
+  },
+  "warmups_Tstart_lt15": {
+   "base": 993.9393,
+   "bars": [
+    {
+     "param": "winter_shift",
+     "atLo": 1126.7508,
+     "atHi": 913.7738,
+     "relLo": 0.1336,
+     "relHi": -0.0807,
+     "span": 212.977
+    },
+    {
+     "param": "f_a",
+     "atLo": 831.2373,
+     "atHi": 1038.2373,
+     "relLo": -0.1637,
+     "relHi": 0.0446,
+     "span": 207.0
+    },
+    {
+     "param": "w_off",
+     "atLo": 993.9393,
+     "atHi": 790.2222,
+     "relLo": 0.0,
+     "relHi": -0.205,
+     "span": 203.7171
+    },
+    {
+     "param": "tau_p",
+     "atLo": 1109.0606,
+     "atHi": 907.9087,
+     "relLo": 0.1158,
+     "relHi": -0.0866,
+     "span": 201.1519
+    },
+    {
+     "param": "off_w",
+     "atLo": 1021.224,
+     "atHi": 871.052,
+     "relLo": 0.0275,
+     "relHi": -0.1236,
+     "span": 150.172
+    },
+    {
+     "param": "EaR",
+     "atLo": 1013.0833,
+     "atHi": 951.9444,
+     "relLo": 0.0193,
+     "relHi": -0.0423,
+     "span": 61.1389
+    },
+    {
+     "param": "kappa",
+     "atLo": 1007.1008,
+     "atHi": 945.9619,
+     "relLo": 0.0132,
+     "relHi": -0.0483,
+     "span": 61.1389
+    },
+    {
+     "param": "c1",
+     "atLo": 1016.438,
+     "atHi": 961.6338,
+     "relLo": 0.0226,
+     "relHi": -0.0325,
+     "span": 54.8042
+    },
+    {
+     "param": "amp_w_scale",
+     "atLo": 993.9393,
+     "atHi": 991.5463,
+     "relLo": 0.0,
+     "relHi": -0.0024,
+     "span": 2.393
+    },
+    {
+     "param": "Ea_age",
+     "atLo": 993.9393,
+     "atHi": 993.9393,
+     "relLo": 0.0,
+     "relHi": 0.0,
+     "span": 0.0
+    },
+    {
+     "param": "der",
+     "atLo": 993.9393,
+     "atHi": 993.9393,
+     "relLo": 0.0,
+     "relHi": 0.0,
+     "span": 0.0
+    },
+    {
+     "param": "gamma",
+     "atLo": 993.9393,
+     "atHi": 993.9393,
+     "relLo": 0.0,
+     "relHi": 0.0,
+     "span": 0.0
+    }
+   ]
+  }
+ },
+ "sobol": {
+  "N": 384,
+  "evaluations": 5376,
+  "estimators": "first order Saltelli 2010, total order Jansen",
+  "outputs": {
+   "gtc_5Ah_rated": {
+    "mean": 2559.2717,
+    "p2.5": 2340.5929,
+    "p97.5": 2834.0602,
+    "cv": 0.049,
+    "indices": [
+     {
+      "param": "f_a",
+      "S1": 0.226,
+      "ST": 0.438
+     },
+     {
+      "param": "kappa",
+      "S1": 0.633,
+      "ST": 0.367
+     },
+     {
+      "param": "w_off",
+      "S1": -0.577,
+      "ST": 0.12
+     },
+     {
+      "param": "winter_shift",
+      "S1": -0.265,
+      "ST": 0.05
+     },
+     {
+      "param": "Ea_age",
+      "S1": 0.0,
+      "ST": 0.0
+     },
+     {
+      "param": "off_w",
+      "S1": 0.0,
+      "ST": 0.0
+     },
+     {
+      "param": "tau_p",
+      "S1": 0.0,
+      "ST": 0.0
+     },
+     {
+      "param": "EaR",
+      "S1": 0.0,
+      "ST": 0.0
+     },
+     {
+      "param": "der",
+      "S1": 0.0,
+      "ST": 0.0
+     },
+     {
+      "param": "c1",
+      "S1": 0.0,
+      "ST": 0.0
+     },
+     {
+      "param": "amp_w_scale",
+      "S1": 0.0,
+      "ST": 0.0
+     },
+     {
+      "param": "gamma",
+      "S1": 0.0,
+      "ST": 0.0
+     }
+    ]
+   },
+   "calendarDose_hEq": {
+    "mean": 6572.9457,
+    "p2.5": 5622.8333,
+    "p97.5": 7589.8137,
+    "cv": 0.0788,
+    "indices": [
+     {
+      "param": "tau_p",
+      "S1": -0.303,
+      "ST": 0.408
+     },
+     {
+      "param": "c1",
+      "S1": -0.327,
+      "ST": 0.241
+     },
+     {
+      "param": "off_w",
+      "S1": 0.486,
+      "ST": 0.157
+     },
+     {
+      "param": "winter_shift",
+      "S1": -0.022,
+      "ST": 0.138
+     },
+     {
+      "param": "kappa",
+      "S1": 0.11,
+      "ST": 0.021
+     },
+     {
+      "param": "Ea_age",
+      "S1": -0.077,
+      "ST": 0.019
+     },
+     {
+      "param": "w_off",
+      "S1": -0.111,
+      "ST": 0.01
+     },
+     {
+      "param": "EaR",
+      "S1": -0.052,
+      "ST": 0.005
+     },
+     {
+      "param": "f_a",
+      "S1": -0.004,
+      "ST": 0.001
+     },
+     {
+      "param": "der",
+      "S1": 0.0,
+      "ST": 0.0
+     },
+     {
+      "param": "amp_w_scale",
+      "S1": -0.0,
+      "ST": 0.0
+     },
+     {
+      "param": "gamma",
+      "S1": 0.0,
+      "ST": 0.0
+     }
+    ]
+   },
+   "calendarDose_SoCweighted_hEq": {
+    "mean": 6529.3581,
+    "p2.5": 5280.3895,
+    "p97.5": 7974.0547,
+    "cv": 0.1068,
+    "indices": [
+     {
+      "param": "gamma",
+      "S1": 0.652,
+      "ST": 0.338
+     },
+     {
+      "param": "tau_p",
+      "S1": -0.164,
+      "ST": 0.258
+     },
+     {
+      "param": "c1",
+      "S1": -0.183,
+      "ST": 0.11
+     },
+     {
+      "param": "off_w",
+      "S1": 0.274,
+      "ST": 0.098
+     },
+     {
+      "param": "winter_shift",
+      "S1": -0.01,
+      "ST": 0.083
+     },
+     {
+      "param": "Ea_age",
+      "S1": -0.038,
+      "ST": 0.01
+     },
+     {
+      "param": "kappa",
+      "S1": 0.071,
+      "ST": 0.01
+     },
+     {
+      "param": "w_off",
+      "S1": -0.034,
+      "ST": 0.002
+     },
+     {
+      "param": "EaR",
+      "S1": -0.015,
+      "ST": 0.002
+     },
+     {
+      "param": "der",
+      "S1": 0.0,
+      "ST": 0.0
+     },
+     {
+      "param": "f_a",
+      "S1": 0.0,
+      "ST": 0.0
+     },
+     {
+      "param": "amp_w_scale",
+      "S1": -0.0,
+      "ST": 0.0
+     }
+    ]
+   },
+   "cycleDose_AhEq": {
+    "mean": 17127.8119,
+    "p2.5": 14176.9588,
+    "p97.5": 20926.6601,
+    "cv": 0.1031,
+    "indices": [
+     {
+      "param": "c1",
+      "S1": -0.215,
+      "ST": 0.405
+     },
+     {
+      "param": "Ea_age",
+      "S1": 0.705,
+      "ST": 0.315
+     },
+     {
+      "param": "kappa",
+      "S1": 0.184,
+      "ST": 0.113
+     },
+     {
+      "param": "w_off",
+      "S1": -0.236,
+      "ST": 0.109
+     },
+     {
+      "param": "f_a",
+      "S1": 0.016,
+      "ST": 0.041
+     },
+     {
+      "param": "tau_p",
+      "S1": -0.108,
+      "ST": 0.039
+     },
+     {
+      "param": "EaR",
+      "S1": -0.115,
+      "ST": 0.027
+     },
+     {
+      "param": "winter_shift",
+      "S1": -0.108,
+      "ST": 0.021
+     },
+     {
+      "param": "off_w",
+      "S1": 0.104,
+      "ST": 0.019
+     },
+     {
+      "param": "der",
+      "S1": 0.0,
+      "ST": 0.0
+     },
+     {
+      "param": "amp_w_scale",
+      "S1": -0.001,
+      "ST": 0.0
+     },
+     {
+      "param": "gamma",
+      "S1": 0.0,
+      "ST": 0.0
+     }
+    ]
+   },
+   "coldChargeIndex_AhxC_lt10": {
+    "mean": 5450.3416,
+    "p2.5": 1652.3245,
+    "p97.5": 9996.4496,
+    "cv": 0.4104,
+    "indices": [
+     {
+      "param": "winter_shift",
+      "S1": 0.594,
+      "ST": 0.586
+     },
+     {
+      "param": "tau_p",
+      "S1": 0.112,
+      "ST": 0.087
+     },
+     {
+      "param": "kappa",
+      "S1": 0.004,
+      "ST": 0.064
+     },
+     {
+      "param": "EaR",
+      "S1": -0.007,
+      "ST": 0.036
+     },
+     {
+      "param": "off_w",
+      "S1": -0.008,
+      "ST": 0.027
+     },
+     {
+      "param": "f_a",
+      "S1": 0.001,
+      "ST": 0.025
+     },
+     {
+      "param": "der",
+      "S1": 0.017,
+      "ST": 0.018
+     },
+     {
+      "param": "w_off",
+      "S1": 0.025,
+      "ST": 0.012
+     },
+     {
+      "param": "c1",
+      "S1": -0.001,
+      "ST": 0.002
+     },
+     {
+      "param": "Ea_age",
+      "S1": 0.0,
+      "ST": 0.0
+     },
+     {
+      "param": "amp_w_scale",
+      "S1": 0.005,
+      "ST": 0.0
+     },
+     {
+      "param": "gamma",
+      "S1": 0.0,
+      "ST": 0.0
+     }
+    ]
+   },
+   "coldCharge_ah_lt0": {
+    "mean": 83.9259,
+    "p2.5": 0.0183,
+    "p97.5": 293.6088,
+    "cv": 1.0512,
+    "indices": [
+     {
+      "param": "winter_shift",
+      "S1": 0.644,
+      "ST": 0.728
+     },
+     {
+      "param": "tau_p",
+      "S1": 0.067,
+      "ST": 0.164
+     },
+     {
+      "param": "EaR",
+      "S1": 0.012,
+      "ST": 0.036
+     },
+     {
+      "param": "off_w",
+      "S1": -0.012,
+      "ST": 0.034
+     },
+     {
+      "param": "kappa",
+      "S1": 0.02,
+      "ST": 0.008
+     },
+     {
+      "param": "f_a",
+      "S1": -0.004,
+      "ST": 0.007
+     },
+     {
+      "param": "w_off",
+      "S1": 0.006,
+      "ST": 0.004
+     },
+     {
+      "param": "c1",
+      "S1": -0.0,
+      "ST": 0.004
+     },
+     {
+      "param": "amp_w_scale",
+      "S1": -0.001,
+      "ST": 0.001
+     },
+     {
+      "param": "Ea_age",
+      "S1": 0.0,
+      "ST": 0.0
+     },
+     {
+      "param": "der",
+      "S1": 0.0,
+      "ST": 0.0
+     },
+     {
+      "param": "gamma",
+      "S1": 0.0,
+      "ST": 0.0
+     }
+    ]
+   },
+   "ahShare_T_lt10": {
+    "mean": 0.0869,
+    "p2.5": 0.0269,
+    "p97.5": 0.144,
+    "cv": 0.3753,
+    "indices": [
+     {
+      "param": "winter_shift",
+      "S1": 0.692,
+      "ST": 0.641
+     },
+     {
+      "param": "tau_p",
+      "S1": 0.164,
+      "ST": 0.117
+     },
+     {
+      "param": "EaR",
+      "S1": -0.001,
+      "ST": 0.041
+     },
+     {
+      "param": "off_w",
+      "S1": -0.02,
+      "ST": 0.034
+     },
+     {
+      "param": "w_off",
+      "S1": 0.051,
+      "ST": 0.028
+     },
+     {
+      "param": "kappa",
+      "S1": 0.007,
+      "ST": 0.011
+     },
+     {
+      "param": "f_a",
+      "S1": -0.008,
+      "ST": 0.006
+     },
+     {
+      "param": "c1",
+      "S1": -0.003,
+      "ST": 0.002
+     },
+     {
+      "param": "Ea_age",
+      "S1": 0.0,
+      "ST": 0.0
+     },
+     {
+      "param": "der",
+      "S1": 0.0,
+      "ST": 0.0
+     },
+     {
+      "param": "amp_w_scale",
+      "S1": 0.004,
+      "ST": 0.0
+     },
+     {
+      "param": "gamma",
+      "S1": 0.0,
+      "ST": 0.0
+     }
+    ]
+   },
+   "ahShare_T_ge35": {
+    "mean": 0.2201,
+    "p2.5": 0.1377,
+    "p97.5": 0.303,
+    "cv": 0.2066,
+    "indices": [
+     {
+      "param": "c1",
+      "S1": 0.51,
+      "ST": 0.927
+     },
+     {
+      "param": "EaR",
+      "S1": -0.078,
+      "ST": 0.063
+     },
+     {
+      "param": "tau_p",
+      "S1": -0.043,
+      "ST": 0.036
+     },
+     {
+      "param": "w_off",
+      "S1": -0.058,
+      "ST": 0.024
+     },
+     {
+      "param": "off_w",
+      "S1": 0.076,
+      "ST": 0.02
+     },
+     {
+      "param": "f_a",
+      "S1": 0.04,
+      "ST": 0.02
+     },
+     {
+      "param": "kappa",
+      "S1": 0.004,
+      "ST": 0.007
+     },
+     {
+      "param": "winter_shift",
+      "S1": 0.019,
+      "ST": 0.003
+     },
+     {
+      "param": "Ea_age",
+      "S1": 0.0,
+      "ST": 0.0
+     },
+     {
+      "param": "der",
+      "S1": 0.0,
+      "ST": 0.0
+     },
+     {
+      "param": "amp_w_scale",
+      "S1": 0.001,
+      "ST": 0.0
+     },
+     {
+      "param": "gamma",
+      "S1": 0.0,
+      "ST": 0.0
+     }
+    ]
+   },
+   "warmups_Tstart_lt15": {
+    "mean": 825.7895,
+    "p2.5": 624.034,
+    "p97.5": 1039.6267,
+    "cv": 0.1358,
+    "indices": [
+     {
+      "param": "w_off",
+      "S1": 0.506,
+      "ST": 0.267
+     },
+     {
+      "param": "winter_shift",
+      "S1": 0.385,
+      "ST": 0.211
+     },
+     {
+      "param": "f_a",
+      "S1": 0.051,
+      "ST": 0.208
+     },
+     {
+      "param": "tau_p",
+      "S1": 0.542,
+      "ST": 0.206
+     },
+     {
+      "param": "off_w",
+      "S1": -0.031,
+      "ST": 0.098
+     },
+     {
+      "param": "kappa",
+      "S1": 0.003,
+      "ST": 0.039
+     },
+     {
+      "param": "EaR",
+      "S1": -0.067,
+      "ST": 0.021
+     },
+     {
+      "param": "c1",
+      "S1": 0.027,
+      "ST": 0.005
+     },
+     {
+      "param": "Ea_age",
+      "S1": 0.0,
+      "ST": 0.0
+     },
+     {
+      "param": "der",
+      "S1": 0.0,
+      "ST": 0.0
+     },
+     {
+      "param": "amp_w_scale",
+      "S1": -0.004,
+      "ST": 0.0
+     },
+     {
+      "param": "gamma",
+      "S1": 0.0,
+      "ST": 0.0
+     }
+    ]
+   }
+  }
+ }
+}

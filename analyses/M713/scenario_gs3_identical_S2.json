@@ -1,0 +1,464 @@
+{
+ "milestone": "M713c",
+ "spec": "analyses/M712_spec.md",
+ "mode": "prototype",
+ "draws": 4000,
+ "seed": 42,
+ "odoKmTarget": 21132.0,
+ "pools": {
+  "summer": 85,
+  "autumn": 55,
+  "all": 140,
+  "window": 183
+ },
+ "excludedDays": {
+  "ambiguous logging": 21,
+  "missing channels": 8,
+  "unlogged (odometer)": 14
+ },
+ "defaults": {
+  "tau_p": 7.55396,
+  "off_s": 1.1633,
+  "off_a": 3.40501,
+  "off_w": 3.40501,
+  "alpha": 0.01309,
+  "tau_d": 0.98687,
+  "c0": 23.87691,
+  "c1": 0.22011,
+  "EaR": 17.582,
+  "amp_s": 6.656,
+  "hpk_s": 15.936,
+  "amp_a": 5.8,
+  "hpk_a": 15.543,
+  "amp_w_scale": 0.7,
+  "kappa": 0.0,
+  "der": 1.0,
+  "pin_b0": 33.9221,
+  "pin_bT": 1.55294,
+  "pin_bS": -1.00965,
+  "tlo_off": 1.5,
+  "f_s": 1.0791,
+  "f_a": 1.1965,
+  "gamma": 1.0,
+  "w_off": 0.0
+ },
+ "intervalMeaning": {
+  "E-real": "predictive distribution of single replayed-year totals (one day-pool bootstrap + one synthetic year per draw)",
+  "E-exp": "day-pool bootstrap of the mean of N_INNER replayed years per pool"
+ },
+ "identity": {
+  "km": [
+   10253.664722222227,
+   10253.664722222222
+  ],
+  "ah": [
+   5180.477910688569,
+   5180.477910688571
+  ],
+  "kwh": [
+   1878.608377162392,
+   1878.6083771623926
+  ],
+  "eng_starts": [
+   8107.0,
+   8107.0
+  ],
+  "drives": [
+   620.0,
+   620.0
+  ],
+  "maxAbsRelDiff": 5.321968640939637e-16
+ },
+ "scriptSha256": "64cc9cf805bdf42ae41192632b245940374bd1c521f281aaf0c6cb6659ebcd07",
+ "S2_balanced_owner_expected": {
+  "note": "PRIMARY: Jun-Aug summer pattern, May and Sep half and half, Oct-Apr autumn pattern, repo monthly normals, unlogged-distance factors, day draw tilted to the odometer lifetime mean",
+  "tilt_per100km": -0.1335,
+  "E_real": {
+   "annual_km": [
+    21099.9078,
+    15442.0998,
+    27815.4785
+   ],
+   "drives": [
+    2239.6901,
+    1980.7317,
+    2515.5503
+   ],
+   "ah_throughput": [
+    12374.0731,
+    10068.4236,
+    14974.0334
+   ],
+   "ah_charge": [
+    6289.1027,
+    5135.3552,
+    7588.6452
+   ],
+   "gtc_5Ah_rated": [
+    2474.8146,
+    2013.6847,
+    2994.8067
+   ],
+   "fce_5Ah_rated": [
+    1237.4073,
+    1006.8424,
+    1497.4033
+   ],
+   "gtc_2p1kWh_legacy": [
+    2134.9276,
+    1737.8307,
+    2584.8015
+   ],
+   "fce_2p1kWh_legacy": [
+    1067.4638,
+    868.9154,
+    1292.4007
+   ],
+   "gtc_5Ah_per_km": [
+    0.1183,
+    0.1041,
+    0.1339
+   ],
+   "ah_T_<0": [
+    6.6722,
+    1.3453,
+    14.2381
+   ],
+   "ah_T_0-5": [
+    143.3288,
+    100.9945,
+    187.44
+   ],
+   "ah_T_5-10": [
+    608.5186,
+    530.3419,
+    688.7467
+   ],
+   "ah_T_10-15": [
+    1074.0336,
+    969.9335,
+    1176.3511
+   ],
+   "ah_T_15-20": [
+    1460.2807,
+    1275.837,
+    1638.1719
+   ],
+   "ah_T_20-25": [
+    1986.8987,
+    1616.1812,
+    2369.6573
+   ],
+   "ah_T_25-30": [
+    2294.1793,
+    1676.0134,
+    3041.2244
+   ],
+   "ah_T_30-35": [
+    2391.2109,
+    1515.9478,
+    3497.8781
+   ],
+   "ah_T_35-40": [
+    1443.5116,
+    803.5554,
+    2207.8886
+   ],
+   "ah_T_40-45": [
+    869.6675,
+    307.6398,
+    1593.5138
+   ],
+   "ah_T_>=45": [
+    95.7711,
+    7.529,
+    227.0147
+   ],
+   "ah_SoC_<45": [
+    4.3357,
+    1.5793,
+    8.0598
+   ],
+   "ah_SoC_45-50": [
+    292.8941,
+    251.7177,
+    335.4096
+   ],
+   "ah_SoC_50-55": [
+    1145.6203,
+    990.8909,
+    1304.8381
+   ],
+   "ah_SoC_55-60": [
+    1890.0605,
+    1628.1992,
+    2160.7407
+   ],
+   "ah_SoC_60-65": [
+    3478.5902,
+    2673.3909,
+    4408.2673
+   ],
+   "ah_SoC_65-70": [
+    3729.5591,
+    2784.7957,
+    4845.3673
+   ],
+   "ah_SoC_70-75": [
+    1374.5351,
+    1050.725,
+    1750.3902
+   ],
+   "ah_SoC_>=75": [
+    458.4782,
+    337.8226,
+    588.3174
+   ],
+   "ahShare_T_lt10": [
+    0.0621,
+    0.0467,
+    0.0803
+   ],
+   "ahShare_T_lt0": [
+    0.0005,
+    0.0001,
+    0.0012
+   ],
+   "ahShare_T_ge35": [
+    0.1929,
+    0.1168,
+    0.2757
+   ],
+   "ahShare_T_ge40": [
+    0.0773,
+    0.0298,
+    0.1357
+   ],
+   "hotTail_ah_ge35": [
+    2408.9503,
+    1271.7713,
+    3786.7443
+   ],
+   "hotTail_ah_ge40": [
+    965.4387,
+    342.3401,
+    1793.9928
+   ],
+   "coldCharge_ah_lt10": [
+    420.5595,
+    361.4261,
+    478.0091
+   ],
+   "coldCharge_ah_lt5": [
+    89.596,
+    61.1311,
+    119.3046
+   ],
+   "coldCharge_ah_lt0": [
+    2.7547,
+    0.1217,
+    6.8901
+   ],
+   "coldCharge_ah_lt-10": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "coldChargeIndex_AhxC_lt10": [
+    3486.0225,
+    3002.629,
+    3953.2728
+   ],
+   "coldChargeIndex_AhxC_lt0": [
+    21.7367,
+    0.4032,
+    57.3121
+   ],
+   "coldChargeIndex_AhxC_lt10_noDerating": [
+    3492.7507,
+    3011.6237,
+    3960.4468
+   ],
+   "coldChargeIndex_AhxC_lt0_noDerating": [
+    21.7659,
+    0.4032,
+    57.3715
+   ],
+   "chargeAh_aboveExtrapolatedLimit_lt10": [
+    3.7407,
+    1.7339,
+    6.358
+   ],
+   "warmups_Tstart_lt15": [
+    876.7821,
+    763.1293,
+    993.7074
+   ],
+   "warmups_Tstart_lt10": [
+    468.7614,
+    391.2526,
+    545.604
+   ],
+   "starts_Tstart_lt0": [
+    14.1519,
+    4.786,
+    25.1265
+   ],
+   "ah_in_warmup_lt15": [
+    1832.5532,
+    1661.7374,
+    1998.802
+   ],
+   "arrCycleDose_AhEq_Ea40": [
+    14802.074,
+    11011.4853,
+    19087.5863
+   ],
+   "arrCycleAF_Ea40": [
+    1.1922,
+    1.0784,
+    1.307
+   ],
+   "arrCalendar_driveHoursEq_Ea40": [
+    660.4661,
+    509.3741,
+    832.4971
+   ],
+   "arrCalendar_parkedHoursEq_Ea40": [
+    6125.5476,
+    5884.5088,
+    6376.5584
+   ],
+   "arrCalendarAF_year_Ea40": [
+    0.7688,
+    0.7311,
+    0.8087
+   ],
+   "parkedShareOfCalendarDose_Ea40": [
+    0.9029,
+    0.8819,
+    0.9219
+   ],
+   "arrCycleDose_AhEq_Ea50": [
+    16043.948,
+    11689.4224,
+    21052.2214
+   ],
+   "arrCycleAF_Ea50": [
+    1.2913,
+    1.1367,
+    1.4492
+   ],
+   "arrCalendar_driveHoursEq_Ea50": [
+    703.9273,
+    531.1148,
+    900.1566
+   ],
+   "arrCalendar_parkedHoursEq_Ea50": [
+    5882.4849,
+    5583.7326,
+    6194.784
+   ],
+   "arrCalendarAF_year_Ea50": [
+    0.7462,
+    0.6998,
+    0.7959
+   ],
+   "parkedShareOfCalendarDose_Ea50": [
+    0.8934,
+    0.8696,
+    0.915
+   ],
+   "arrCycleDose_AhEq_Ea60": [
+    17603.6406,
+    12553.4862,
+    23496.7005
+   ],
+   "arrCycleAF_Ea60": [
+    1.416,
+    1.2127,
+    1.6252
+   ],
+   "arrCalendar_driveHoursEq_Ea60": [
+    760.0176,
+    561.5057,
+    988.7163
+   ],
+   "arrCalendar_parkedHoursEq_Ea60": [
+    5720.3319,
+    5360.6095,
+    6103.072
+   ],
+   "arrCalendarAF_year_Ea60": [
+    0.7342,
+    0.6784,
+    0.7945
+   ],
+   "parkedShareOfCalendarDose_Ea60": [
+    0.8831,
+    0.8559,
+    0.908
+   ],
+   "arrCalendar_parked_SoCweighted_hoursEq_Ea50": [
+    6562.8663,
+    6225.7524,
+    6923.5662
+   ],
+   "parked_meanPackT": [
+    17.9096,
+    17.1563,
+    18.7187
+   ],
+   "parked_hours_lt0": [
+    54.4454,
+    14.9252,
+    111.1864
+   ],
+   "parked_hours_ge30": [
+    615.7723,
+    449.1342,
+    801.7142
+   ],
+   "parked_hours_lt10": [
+    1651.8975,
+    1398.8064,
+    1893.4568
+   ],
+   "drive_hours": [
+    594.3263,
+    498.0509,
+    700.8578
+   ],
+   "engine_starts": [
+    17531.3289,
+    13304.8823,
+    22404.9381
+   ],
+   "episodes_chg_gt10C": [
+    41168.2245,
+    31688.8248,
+    51914.3693
+   ],
+   "episodes_chg_gt20C": [
+    5003.2176,
+    3380.2765,
+    7062.2207
+   ],
+   "episodes_dis_gt10C": [
+    31433.9573,
+    23512.3645,
+    40398.607
+   ],
+   "episodes_dis_gt20C": [
+    3769.4293,
+    2627.9463,
+    5121.3348
+   ],
+   "coldest_start_T": [
+    -2.9057,
+    -4.3364,
+    -1.3023
+   ]
+  }
+ }
+}

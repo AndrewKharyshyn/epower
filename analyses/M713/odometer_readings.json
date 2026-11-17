@@ -1,0 +1,87 @@
+{
+ "note": "Dashboard odometer readings (km, as of the END of the newest ingested drive of the batch; CLAUDE.md ODO rule). Seeded from the CHANGELOG, the prototype odometer check and the git history of summary_config.json (--backfill-git); extended at every ingestion (--extend).",
+ "readings": [
+  {
+   "asOf": "2026-07-24",
+   "km": 40680,
+   "source": "CHANGELOG (dashboard reading as of 2026-07-24, external ground truth)"
+  },
+  {
+   "asOf": "2026-08-02",
+   "km": 41927,
+   "source": "CHANGELOG (dashboard reading)"
+  },
+  {
+   "asOf": "2026-08-14",
+   "km": 42545,
+   "source": "derived: 41927 + 618 km interval of the prototype odometer check (analyses/exposure_scenarios_2026-11-16/results/odo_check.json); consistent with the readings on both sides"
+  },
+  {
+   "asOf": "2026-09-09",
+   "km": 44161,
+   "source": "derived: 44699 - 538 km interval of the prototype odometer check; consistent with the 44699 reading and the 42545 + 1616 chain"
+  },
+  {
+   "asOf": "2026-09-22",
+   "km": 44699,
+   "source": "git history of summary_config.json (23d0397)"
+  },
+  {
+   "asOf": "2026-10-04",
+   "km": 45028,
+   "source": "git history of summary_config.json (3431d08)"
+  },
+  {
+   "asOf": "2026-10-08",
+   "km": 45202,
+   "source": "git history of summary_config.json (533000e)"
+  },
+  {
+   "asOf": "2026-10-13",
+   "km": 45576,
+   "source": "git history of summary_config.json (7904824)"
+  },
+  {
+   "asOf": "2026-10-17",
+   "km": 46930,
+   "source": "git history of summary_config.json (3eb3f3c)"
+  },
+  {
+   "asOf": "2026-11-03",
+   "km": 47397,
+   "source": "git history of summary_config.json (6d8f399)"
+  },
+  {
+   "asOf": "2026-11-05",
+   "km": 47477,
+   "source": "git history of summary_config.json (fd4b2a2)"
+  },
+  {
+   "asOf": "2026-11-09",
+   "km": 47673,
+   "source": "git history of summary_config.json (c7dd8ab)"
+  }
+ ],
+ "notUsed": [
+  {
+   "asOf": "2026-07-23",
+   "km": 40559,
+   "source": "CHANGELOG (previous reading, before the 07-24 reading)"
+  },
+  {
+   "asOf": "2026-07-26",
+   "km": 41601,
+   "source": "CHANGELOG; conflicts in order with the 07-24 and 08-02 readings (reading-time ambiguity), not used by the prototype"
+  },
+  {
+   "asOf": "2026-08-02",
+   "km": 41703,
+   "source": "CHANGELOG; second reading of the same date (41927 used)"
+  },
+  {
+   "asOf": "2026-09-30",
+   "km": 44912,
+   "source": "CHANGELOG (43-drive batch 2026-09-23..30); not used by the prototype intervals"
+  }
+ ]
+}

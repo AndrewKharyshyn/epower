@@ -1,0 +1,151 @@
+{
+ "G-S2": {
+  "nDays": 132,
+  "ahShare_ge35": {
+   "sim": 0.3943,
+   "obs": 0.4522,
+   "diffPoints": -5.79,
+   "relError": -0.128
+  },
+  "ahShare_lt15": {
+   "sim": 0.0266,
+   "obs": 0.0252
+  },
+  "arrCycleAF_Ea50": {
+   "sim": 1.7739,
+   "obs": 1.7658,
+   "relError": 0.0046
+  },
+  "startsBelow15C": {
+   "sim": 82.0,
+   "obs": 64,
+   "relError": 0.2812
+  },
+  "ahByTbin": {
+   "sim": [
+    0.0,
+    1.76,
+    16.75,
+    123.06,
+    335.9,
+    602.59,
+    863.83,
+    1274.24,
+    1136.87,
+    858.75,
+    99.4
+   ],
+   "obs": [
+    0.0,
+    2.53,
+    21.8,
+    109.69,
+    313.02,
+    533.98,
+    726.53,
+    1202.91,
+    1700.13,
+    695.64,
+    6.91
+   ]
+  },
+  "gate": {
+   "name": "G-S2 consistency check (in-sample)",
+   "pass": false
+  }
+ },
+ "G-S2b": {
+  "nDays": 55,
+  "ahShare_ge35": {
+   "sim": 0.0985,
+   "obs": 0.1316,
+   "diffPoints": -3.31,
+   "relError": -0.2512
+  },
+  "ahShare_lt15": {
+   "sim": 0.0698,
+   "obs": 0.0795
+  },
+  "arrCycleAF_Ea50": {
+   "sim": 1.1923,
+   "obs": 1.2137,
+   "relError": -0.0176
+  },
+  "startsBelow15C": {
+   "sim": 82.0,
+   "obs": 62,
+   "relError": 0.3226
+  },
+  "ahByTbin": {
+   "sim": [
+    0.0,
+    1.21,
+    14.13,
+    99.93,
+    252.55,
+    330.17,
+    388.5,
+    401.62,
+    154.46,
+    8.22,
+    0.0
+   ],
+   "obs": [
+    0.0,
+    2.53,
+    21.8,
+    106.85,
+    243.63,
+    318.27,
+    304.74,
+    435.74,
+    217.24,
+    0.0,
+    0.0
+   ]
+  },
+  "fit": {
+   "driveParams_MayAug": {
+    "alpha": 0.011792,
+    "tau_d": 0.8402,
+    "c0": 27.624,
+    "c1": 0.1364,
+    "nDrives": 285
+   },
+   "park_MayAug": {
+    "tau_h": 9.223,
+    "offset_C": -0.248,
+    "source": "analyses/M709/park_model.json validation_fitMayAug_testSepNov"
+   }
+  },
+  "hotShareBracket": {
+   "holdoutBiasPoints": -3.31,
+   "note": "the hot-share bias bound is taken from this hold-out (spec Rev 1.1 R5), not from the in-sample 6 points"
+  },
+  "parameterCheck": {
+   "fullSample": {
+    "startsBelow15C_sim": 81.0,
+    "ahShare_ge35_sim": 0.0686
+   },
+   "driveParamsMayAugOnly": {
+    "startsBelow15C_sim": 72.0,
+    "ahShare_ge35_sim": 0.099
+   },
+   "parkMayAugOnly": {
+    "startsBelow15C_sim": 94.0,
+    "ahShare_ge35_sim": 0.0666
+   },
+   "allMayAug": {
+    "startsBelow15C_sim": 82.0,
+    "ahShare_ge35_sim": 0.0985
+   }
+  },
+  "gate": {
+   "name": "G-S2b month-blocked hold-out",
+   "pass": false,
+   "tolerance": "|hot share diff| <= 8 points and |starts below 15 C relative error| <= 15 %",
+   "relativeHotShareError": -0.2512,
+   "cleanHoldout": false
+  }
+ }
+}
