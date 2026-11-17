@@ -311,7 +311,7 @@ def summarise(acc):
 
 
 # ----------------------------------------------------------------------------------------- draws, tilt, scenarios -------------------------------------
-def draw_days(M, Bn, w_sum, rng, tilt=0.0, pools=("summer", "autumn"), counts=None):
+def draw_days(M, Bn, w_sum, rng, tilt=0.0, pools=("summer", "autumn"), counts=None, w_off=None):
     """Whole-day block draws. counts: optional {pool: [Bn, n] day multiplicities} (a given bootstrap pool per simulation); else a fresh multinomial pool resample per simulation. Returns src [B,365], is_summer_pool [B,365]."""
     mo = month_of_doy()
     src = np.zeros((Bn, 365), int)
@@ -326,7 +326,7 @@ def draw_days(M, Bn, w_sum, rng, tilt=0.0, pools=("summer", "autumn"), counts=No
     u1 = rng.random((Bn, 365))
     u2 = rng.random((Bn, 365))
     for d in range(365):
-        ws = w_sum[mo[d]]
+        ws = w_sum[mo[d]] if w_off is None else np.where(w_sum[mo[d]] > 0, w_sum[mo[d]], w_off)       # w_off: share of summer-pattern (long-trip) days in the autumn-pattern months (assumption range)
         pick_s = (u1[:, d] < ws) if len(pools) > 1 else np.full(Bn, pools[0] == "summer")
         for nm, flag in (("summer", True), ("autumn", False)) if len(pools) > 1 else ((pools[0], pools[0] == "summer"),):
             cdf, pl = cdfs[nm]
@@ -434,12 +434,45 @@ def replay_identity(M):
 
 
 # ----------------------------------------------------------------------------------------- loading ---------------------------------------------------------
-def load_model(dir_, mode="production", ambient_csv=None, prototype_park=None):
+def project_rule_ratios(D):
+    """Per-drive ratios of the PROJECT integration rule to the engine's zero-order-hold frame: Ah from the Ah sidecar (ah_throughput.csv), kWh from the master gross_throughput_kwh; drives without a project
+    value keep the zero-order-hold value (ratio 1)."""
+    sc = pd.read_csv(os.path.join(ROOT, "ah_throughput.csv"), usecols=["file", "ah_throughput"])
+    sc["key"] = sc["file"].map(SF.key14)
+    m = pd.read_csv(os.path.join(ROOT, "drive_master.csv"), usecols=["file", "gross_throughput_kwh"], low_memory=False)
+    m["key"] = m["file"].map(SF.key14)
+    X = D[["key", "ah", "kwh"]].merge(sc[["key", "ah_throughput"]], on="key", how="left").merge(m[["key", "gross_throughput_kwh"]], on="key", how="left")
+    r_ah = np.where(np.isfinite(X["ah_throughput"]) & (X["ah"] > 0), X["ah_throughput"] / X["ah"].where(X["ah"] > 0), 1.0)
+    kwh_proj = np.where(np.isfinite(X["gross_throughput_kwh"]), X["gross_throughput_kwh"], X["kwh"] * r_ah)
+    return r_ah, kwh_proj
+
+
+def apply_project_rule(D, Z):
+    """Rescale a frame to the project integration rule (spec Rev 1.1 C2): drive Ah, kWh, slice Ah and charge-by-C-rate Ah scale with the per-drive ratio; currents and temperatures are unchanged."""
+    r_ah, kwh_proj = project_rule_ratios(D)
+    D = D.copy()
+    D["ah"] = D["ah"] * r_ah
+    D["kwh"] = kwh_proj
+    for l in SOCLAB:
+        D["ah_S_%s" % l] = D["ah_S_%s" % l] * r_ah
+    Z = {k: Z[k] for k in Z.files}
+    for k in ("ahc", "ahd"):
+        Z[k] = Z[k] * r_ah[:, None]
+    for k in ("ahc_cb", "ahcC_cb"):
+        Z[k] = Z[k] * r_ah[:, None, None]
+    return D, Z
+
+
+def load_model(dir_, mode="production", ambient_csv=None, prototype_park=None, integration="zoh", pool_rule=None):
     """mode 'production': data pool rule (Q5), one offset (M709), the production ambient reconstruction, odometer target derived from the dash odometer.
     mode 'prototype': the prototype pool rule (assumption window 2026-05-19..06-08), odometer target 21,132 km, optional prototype ambient CSV (comparison-only) and prototype park constants."""
     D = pd.read_csv(os.path.join(dir_, "exposure_drives.csv"), dtype={"key": str}, parse_dates=["start", "end"], low_memory=False)
     Z = np.load(os.path.join(dir_, "exposure_slices.npz"), allow_pickle=True)
     assert list(Z["keys"]) == list(D["key"])
+    if integration == "project":
+        D, Z = apply_project_rule(D, Z)
+    else:
+        Z = {k: Z[k] for k in Z.files}
     state = json.load(open(os.path.join(dir_, "state_params.json"), encoding="utf-8"))
     odo = json.load(open(os.path.join(dir_, "odometer_check.json"), encoding="utf-8"))
     E = pd.DataFrame({"key": D["key"], "local0": D["start"], "day": D["day"], "dur_s": D["dur_h"] * 3600})
@@ -453,7 +486,7 @@ def load_model(dir_, mode="production", ambient_csv=None, prototype_park=None):
     years = (pd.Timestamp(cfg["odometerAsOf"]) - pd.Timestamp(cfg["registered"])).days / 365.25
     odo_km = 21132.0 if mode == "prototype" else cfg["odometerKm"] / years
     params = default_params(state, odo, prototype_park=prototype_park)
-    M = Model(D, Z, AR, amb, normals, odo, params, pool_rule="prototype" if mode == "prototype" else "data", odo_km=odo_km)
+    M = Model(D, Z, AR, amb, normals, odo, params, pool_rule=pool_rule or ("prototype" if mode == "prototype" else "data"), odo_km=odo_km)
     M.state = state
     return M
 
@@ -467,15 +500,17 @@ def main(argv=None):
     ap.add_argument("--out", default=None)
     ap.add_argument("--ambient-csv", default=None)
     ap.add_argument("--prototype-park", action="store_true")
+    ap.add_argument("--integration", default="zoh", choices=["zoh", "project"])
+    ap.add_argument("--pool-rule", default=None, choices=[None, "data", "prototype"])
     a = ap.parse_args(argv)
     pp = {"tau": 7.553961890995577, "off_s": 1.1632995967688304, "off_a": 3.4050103071067173} if a.prototype_park else None
-    M = load_model(a.dir, a.mode, a.ambient_csv, pp)
+    M = load_model(a.dir, a.mode, a.ambient_csv, pp, a.integration, a.pool_rule)
     sc_all = scenarios(M.ODO_KM)
     names = [n for n in sc_all if not a.scenarios or any(n.startswith(x) for x in a.scenarios.split(","))]
     res = {"milestone": "M713c", "spec": "analyses/M712_spec.md", "mode": a.mode, "draws": a.draws, "seed": SEED, "odoKmTarget": M.ODO_KM, "pools": {k: int(len(v)) for k, v in M.POOL.items()},
            "excludedDays": M.cal[M.cal["excl"] != ""].groupby("excl").size().to_dict(), "defaults": {k: round(float(v), 5) for k, v in M.params.items()},
            "intervalMeaning": {"E-real": "predictive distribution of single replayed-year totals (one day-pool bootstrap + one synthetic year per draw)", "E-exp": "day-pool bootstrap of the mean of N_INNER replayed years per pool"},
-           "identity": replay_identity(M), "scriptSha256": hashlib.sha256(open(os.path.abspath(__file__), "rb").read()).hexdigest()}
+           "integration": a.integration, "identity": replay_identity(M), "scriptSha256": hashlib.sha256(open(os.path.abspath(__file__), "rb").read()).hexdigest()}
     for nm in names:
         sc = sc_all[nm]
         o, tilt = run_scenario(M, sc, a.draws)
