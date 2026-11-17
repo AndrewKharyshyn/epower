@@ -1402,5 +1402,22 @@ if _pt.get("B3"):
     ok("A7 M688 display: modelled not measured, endpoint-checked only, ranges are a grid not an interval, bands below 5 C not shown (not zero) with the warm-bias caveat, mixed sensors not summed",
        "modelled, not measured" in _th and "Endpoint-checked only" in _th and "not a confidence interval" in _th and "not a statement that the pack was never that cold" in _th and "not summed into one total" in _th and "(owner statement 2026-11-16)" in _th and "not shown (not zero)" in _th and "validated only" not in _th)
 
+# ---------- A7 (M715): the legacy-scenario note and the Thermal time-constant wording equal the payload blocks exposureScenarios and restartTemperature ----------
+_xs, _rt = A.get("exposureScenarios") or {}, A.get("restartTemperature") or {}
+if _xs and _rt:
+    _co, _th2 = T.get("conclusions__all", ""), T.get("thermal__all", "")
+    _fmt = lambda v: f"{int(v + 0.5):,}"                                               # JS Math.round + toLocaleString("en-US")
+    _pr = _xs["integrationRule"]["S2_projectRule"]
+    _g, _km = _pr["gtc_5Ah_rated"], _pr["annual_km"]
+    _m2 = _rt["parkModel"]["M2_fullSample_nonFlagged"]
+    _tau = f"τ ≈ {_m2['tau_h']} h (95% interval [{_m2['tauCi'][0]}, {_m2['tauCi'][1]}] h"
+    ok("A7 M715 legacy-scenario note: the day-block figures equal exposureScenarios (project integration rule), the cold results are stated as NOT SUPPORTED, no ageing claim",
+       f"for a balanced year of about {_fmt(_km[0])} km" in _co and f"are about {_fmt(_g[0])} [{_fmt(_g[1])}, {_fmt(_g[2])}] for one realised year" in _co and "Legacy scenario basis." in _co and "NOT SUPPORTED" in _co
+       and "not an ageing or end-of-life estimate" in _co and "assumption spread not included" in _co)
+    ok("A7 M715 Thermal wording: the parked-cooling time constant equals restartTemperature (one-state model), no heating-versus-cooling asymmetry or ratio is claimed",
+       _tau in _th2 and "no ratio between them is drawn" in _th2 and "asymmetric time constant" not in _th2 and "slower cooling" not in _th2)
+    ok("A7 M715 parked-time note: the restart-pair time constant equals restartTemperature and the primary is attributed to the seasonal fit (D-05)",
+       f"gives τ ≈ {_m2['tau_h']} h (95% interval [{_m2['tauCi'][0]}, {_m2['tauCi'][1]}] h; modelled, one window)" in _th2 and "owner decision D-05" in _th2)
+
 print(f"\nSEMANTIC GATE: {len(passes)} passed, {len(fails)} failed")
 sys.exit(1 if fails else 0)
