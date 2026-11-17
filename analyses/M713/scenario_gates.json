@@ -527,7 +527,54 @@
    "obs": 62,
    "relError": 0.3226
   },
-  "nDays": 55
+  "nDays": 55,
+  "fit": {
+   "driveParams_MayAug": {
+    "alpha": 0.011792,
+    "tau_d": 0.8402,
+    "c0": 27.624,
+    "c1": 0.1364,
+    "nDrives": 285
+   },
+   "park_MayAug": {
+    "tau_h": 9.223,
+    "offset_C": -0.248,
+    "source": "analyses/M709/park_model.json validation_fitMayAug_testSepNov"
+   }
+  },
+  "parameterCheck": {
+   "fullSample": {
+    "startsBelow15C_sim": 81.0,
+    "ahShare_ge35_sim": 0.0686
+   },
+   "driveParamsMayAugOnly": {
+    "startsBelow15C_sim": 72.0,
+    "ahShare_ge35_sim": 0.099
+   },
+   "parkMayAugOnly": {
+    "startsBelow15C_sim": 94.0,
+    "ahShare_ge35_sim": 0.0666
+   },
+   "allMayAug": {
+    "startsBelow15C_sim": 82.0,
+    "ahShare_ge35_sim": 0.0985
+   }
+  },
+  "hotShareBracket": {
+   "holdoutBiasPoints": -3.31,
+   "note": "the hot-share bias bound is taken from this hold-out (spec Rev 1.1 R5), not from the in-sample 6 points"
+  }
+ },
+ "supportStatus": {
+  "ruling": "Director M713: option A (keep the M709 one offset, offset bracket [0, 2.7] C as an ASSUMPTION range, G-S2 / G-S2b shown beside every cold figure); option B only as a pre-registered M708 Rev 3 post-result deviation acknowledged by Andrii; option C rejected as baseline (sensitivity only)",
+  "failedGates": [
+   "G-S2",
+   "G-S2b"
+  ],
+  "nonThermal (annual km, drives, Ah, GTC, FCE, engine starts)": "supported: pass G-S0, G-S1, G-S3, unaffected by the park step",
+  "cold outputs (Ah and charge Ah below 10 / 0 C, cold-charge index, starts and Ah while pack < 15 C, coldest start)": "NOT SUPPORTED (model-derived; G-S2 / G-S2b failed on starts below 15 C: simulated +28 % / +32 %); not displayed, not used in the article",
+  "hot share (Ah at or above 35 / 40 C, pack mean)": "reported as a BRACKET: biased low by -5.8 points in-sample (-13 %) and -3.3 points (-25 %) in the hold-out; bias bound from the hold-out",
+  "calendar and cycle dose indices": "exposure-weighted indices; sensitive to the parked temperature (offset bracket reported); not ageing"
  },
  "G-S4": {
   "pass": null,

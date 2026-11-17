@@ -85,6 +85,14 @@ def holdout(M):
     sc["fit"] = {"driveParams_MayAug": {"alpha": round(float(xs[0]), 6), "tau_d": round(float(xs[1]), 4), "c0": round(float(xs[2]), 3), "c1": round(float(xs[3]), 4), "nDrives": int(len(ix))},
                  "park_MayAug": {"tau_h": pk["tau_h"], "offset_C": pk["offset_C"], "source": "analyses/M709/park_model.json validation_fitMayAug_testSepNov"}}
     sc["hotShareBracket"] = {"holdoutBiasPoints": ge["diffPoints"], "note": "the hot-share bias bound is taken from this hold-out (spec Rev 1.1 R5), not from the in-sample 6 points"}
+    # parameter check (Director M713 ruling): the hold-out scores really use the May-August parameters; the same autumn replay with the full-sample, drive-only and park-only parameter sets gives different counts
+    chk = {}
+    for lab, ov in (("fullSample", M.params), ("driveParamsMayAugOnly", dict(M.params, alpha=float(xs[0]), tau_d=float(xs[1]), c0=float(xs[2]), c1=float(xs[3]))),
+                    ("parkMayAugOnly", dict(M.params, tau_p=pk["tau_h"], off_s=pk["offset_C"], off_a=pk["offset_C"], off_w=pk["offset_C"])), ("allMayAug", par)):
+        a_, n2, d2 = _replay(M, ov, month >= 9)
+        s2 = _scores(M, a_, d2)
+        chk[lab] = {"startsBelow15C_sim": s2["startsBelow15C"]["sim"], "ahShare_ge35_sim": s2["ahShare_ge35"]["sim"]}
+    sc["parameterCheck"] = chk
     st = sc["startsBelow15C"]["relError"]
     sc["gate"] = {"name": "G-S2b month-blocked hold-out", "pass": bool(abs(ge["diffPoints"]) <= 8.0 and st is not None and abs(st) <= 0.15), "tolerance": "|hot share diff| <= 8 points and |starts below 15 C relative error| <= 15 %",
                   "relativeHotShareError": ge["relError"], "cleanHoldout": False}

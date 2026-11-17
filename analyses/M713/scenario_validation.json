@@ -122,6 +122,24 @@
    "holdoutBiasPoints": -3.31,
    "note": "the hot-share bias bound is taken from this hold-out (spec Rev 1.1 R5), not from the in-sample 6 points"
   },
+  "parameterCheck": {
+   "fullSample": {
+    "startsBelow15C_sim": 81.0,
+    "ahShare_ge35_sim": 0.0686
+   },
+   "driveParamsMayAugOnly": {
+    "startsBelow15C_sim": 72.0,
+    "ahShare_ge35_sim": 0.099
+   },
+   "parkMayAugOnly": {
+    "startsBelow15C_sim": 94.0,
+    "ahShare_ge35_sim": 0.0666
+   },
+   "allMayAug": {
+    "startsBelow15C_sim": 82.0,
+    "ahShare_ge35_sim": 0.0985
+   }
+  },
   "gate": {
    "name": "G-S2b month-blocked hold-out",
    "pass": false,

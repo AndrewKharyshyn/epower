@@ -73,6 +73,17 @@ def main(argv=None):
         for k in ("G-S2", "G-S2b"):
             if k in V:
                 g[k] = {"pass": V[k]["gate"]["pass"], "gate": V[k]["gate"], "ahShare_ge35": V[k]["ahShare_ge35"], "arrCycleAF_Ea50": V[k]["arrCycleAF_Ea50"], "startsBelow15C": V[k]["startsBelow15C"], "nDays": V[k]["nDays"]}
+                for extra in ("fit", "parameterCheck", "hotShareBracket"):
+                    if extra in V[k]:
+                        g[k][extra] = V[k][extra]
+        failed = [k for k in ("G-S2", "G-S2b") if k in g and g[k]["pass"] is False]
+        # Director ruling (M713, option A): the baseline stays the pre-registered M709 one-offset park model; the failed gates are never relaxed; support status per metric group
+        g["supportStatus"] = {"ruling": "Director M713: option A (keep the M709 one offset, offset bracket [0, 2.7] C as an ASSUMPTION range, G-S2 / G-S2b shown beside every cold figure); option B only as a pre-registered M708 Rev 3 post-result deviation acknowledged by Andrii; option C rejected as baseline (sensitivity only)",
+                              "failedGates": failed,
+                              "nonThermal (annual km, drives, Ah, GTC, FCE, engine starts)": "supported: pass G-S0, G-S1, G-S3, unaffected by the park step",
+                              "cold outputs (Ah and charge Ah below 10 / 0 C, cold-charge index, starts and Ah while pack < 15 C, coldest start)": "NOT SUPPORTED (model-derived; G-S2 / G-S2b failed on starts below 15 C: simulated +28 % / +32 %); not displayed, not used in the article",
+                              "hot share (Ah at or above 35 / 40 C, pack mean)": "reported as a BRACKET: biased low by -5.8 points in-sample (-13 %) and -3.3 points (-25 %) in the hold-out; bias bound from the hold-out",
+                              "calendar and cycle dose indices": "exposure-weighted indices; sensitive to the parked temperature (offset bracket reported); not ageing"}
     sp = os.path.join(a.dir, "scenario_sensitivity.json")
     if os.path.exists(sp):
         S = json.load(open(sp, encoding="utf-8"))
