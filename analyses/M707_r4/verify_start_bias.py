@@ -35,5 +35,5 @@ X["slow"] = X["date"] >= "2026-09-06"  # logger polling change window named in t
 def summ(g):
     return {"n": int(len(g)), "meanDiff": round(float(g.d.mean()), 3), "share>=1C": round(float((g.d >= 1).mean()), 3), "max": round(float(g.d.max()), 2)}
 out = {"slow": summ(X[X.slow]), "fast": summ(X[~X.slow])}
-json.dump(out, open(os.path.join(os.path.dirname(__file__), "start_bias.json"), "w"), indent=1)
+json.dump(out, open(os.path.join(os.path.dirname(__file__), "start_bias.json"), "w", encoding="utf-8"), indent=1)
 print(json.dumps(out, indent=1))

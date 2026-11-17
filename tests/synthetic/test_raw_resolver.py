@@ -14,7 +14,7 @@ def raises(fn):
 
 assert RR.key_of("2026-09-13_10-11-12.csv") == RR.key_of("20260913_101112.csv") == "20260913101112" and RR.key_of("e4ORCE_20260807_073756.csv") == "420260807073756"
 with tempfile.TemporaryDirectory() as d:
-    man = os.path.join(d, "m.json"); json.dump({"files": [{"canonical": "2026-09-13 10-11-12.csv"}]}, open(man, "w"))
+    man = os.path.join(d, "m.json"); json.dump({"files": [{"canonical": "2026-09-13 10-11-12.csv"}]}, open(man, "w", encoding="utf-8"))
     w(d, "20260913_101112.csv"); w(d, "2026-09-13 10-11-12.csv"); w(d, "20260913_235959.csv"); w(d, "20260914_000000.csv"); w(d, "notes.txt")
     r = RR.resolve(d, man)
     assert len(r.index) == 3 and os.path.basename(r.index["20260913101112"]) == "2026-09-13 10-11-12.csv", "byte-identical alias accepted, the manifest name is chosen"
