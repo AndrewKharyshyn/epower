@@ -1,0 +1,244 @@
+{
+ "G-S0": {
+  "pass": true,
+  "maxAbsRelDiff": 1.0397505878796861e-15,
+  "nEligibleDays": 132,
+  "totals": {
+   "km": [
+    10496.686944444456,
+    10496.686944444446
+   ],
+   "ah": [
+    5313.143813519158,
+    5313.143813519161
+   ],
+   "kwh": [
+    1926.6739570081097,
+    1926.6739570081104
+   ],
+   "eng_starts": [
+    8349.0,
+    8349.0
+   ],
+   "drives": [
+    633.0,
+    633.0
+   ]
+  }
+ },
+ "G-S1": {
+  "pass": true,
+  "targetKm": 21131.75,
+  "expectedKmAtTilt": 21131.75,
+  "tilt_per100km": -0.18265,
+  "relError": 3.443139868615922e-16,
+  "odometerTarget": "latest dash odometer / years since registration (summary_config.json), not typed"
+ },
+ "G-S3": {
+  "pass": true,
+  "maxRelDiffOfMeans": 0.001613,
+  "identicalInputs": {
+   "poolRule": "prototype assumption window 2026-05-19..06-08",
+   "ambient": "prototype drive_ambient_recon.csv (comparison-only)",
+   "park": "superseded prototype constants (tau 7.554 h, offsets 1.163 / 3.405 C)",
+   "odoKm": 21132.0,
+   "seed": 42,
+   "draws": 4000
+  },
+  "identityOnPrototypeModel": {
+   "km": [
+    10253.664722222227,
+    10253.664722222222
+   ],
+   "ah": [
+    5180.477910688569,
+    5180.477910688571
+   ],
+   "kwh": [
+    1878.608377162392,
+    1878.6083771623926
+   ],
+   "eng_starts": [
+    8107.0,
+    8107.0
+   ],
+   "drives": [
+    620.0,
+    620.0
+   ],
+   "maxAbsRelDiff": 5.321968640939637e-16
+  },
+  "metrics": {
+   "annual_km": {
+    "production": 21099.9078,
+    "prototype": 21099.7695,
+    "prototypeInterval": [
+     15441.8401,
+     27815.1793
+    ],
+    "inside": true,
+    "relDiff": 7e-06
+   },
+   "drives": {
+    "production": 2239.6901,
+    "prototype": 2239.6445,
+    "prototypeInterval": [
+     1980.6829,
+     2515.8689
+    ],
+    "inside": true,
+    "relDiff": 2e-05
+   },
+   "ah_throughput": {
+    "production": 12374.0731,
+    "prototype": 12373.9516,
+    "prototypeInterval": [
+     10068.2761,
+     14973.7628
+    ],
+    "inside": true,
+    "relDiff": 1e-05
+   },
+   "gtc_5Ah_rated": {
+    "production": 2474.8146,
+    "prototype": 2474.7903,
+    "prototypeInterval": [
+     2013.6552,
+     2994.7526
+    ],
+    "inside": true,
+    "relDiff": 1e-05
+   },
+   "gtc_2p1kWh_legacy": {
+    "production": 2134.9276,
+    "prototype": 2134.9067,
+    "prototypeInterval": [
+     1737.8052,
+     2584.7591
+    ],
+    "inside": true,
+    "relDiff": 1e-05
+   },
+   "fce_5Ah_rated": {
+    "production": 1237.4073,
+    "prototype": 1237.3952,
+    "prototypeInterval": [
+     1006.8276,
+     1497.3763
+    ],
+    "inside": true,
+    "relDiff": 1e-05
+   },
+   "ahShare_T_lt10": {
+    "production": 0.0621,
+    "prototype": 0.062,
+    "prototypeInterval": [
+     0.0466,
+     0.0802
+    ],
+    "inside": true,
+    "relDiff": 0.001613
+   },
+   "ahShare_T_ge35": {
+    "production": 0.1929,
+    "prototype": 0.1929,
+    "prototypeInterval": [
+     0.1167,
+     0.2756
+    ],
+    "inside": true,
+    "relDiff": 0.0
+   },
+   "ahShare_T_ge40": {
+    "production": 0.0773,
+    "prototype": 0.0773,
+    "prototypeInterval": [
+     0.0298,
+     0.136
+    ],
+    "inside": true,
+    "relDiff": 0.0
+   },
+   "hotTail_ah_ge35": {
+    "production": 2408.9503,
+    "prototype": 2408.3359,
+    "prototypeInterval": [
+     1271.1372,
+     3786.0286
+    ],
+    "inside": true,
+    "relDiff": 0.000255
+   },
+   "coldChargeIndex_AhxC_lt10": {
+    "production": 3486.0225,
+    "prototype": 3485.2212,
+    "prototypeInterval": [
+     3000.334,
+     3953.362
+    ],
+    "inside": true,
+    "relDiff": 0.00023
+   },
+   "warmups_Tstart_lt15": {
+    "production": 876.7821,
+    "prototype": 876.5441,
+    "prototypeInterval": [
+     762.9888,
+     993.4428
+    ],
+    "inside": true,
+    "relDiff": 0.000272
+   },
+   "arrCycleAF_Ea50": {
+    "production": 1.2913,
+    "prototype": 1.2913,
+    "prototypeInterval": [
+     1.1367,
+     1.4492
+    ],
+    "inside": true,
+    "relDiff": 0.0
+   },
+   "arrCalendarAF_year_Ea50": {
+    "production": 0.7462,
+    "prototype": 0.7462,
+    "prototypeInterval": [
+     0.6998,
+     0.7959
+    ],
+    "inside": true,
+    "relDiff": 0.0
+   },
+   "parkedShareOfCalendarDose_Ea50": {
+    "production": 0.8934,
+    "prototype": 0.8934,
+    "prototypeInterval": [
+     0.8696,
+     0.915
+    ],
+    "inside": true,
+    "relDiff": 0.0
+   },
+   "parked_meanPackT": {
+    "production": 17.9096,
+    "prototype": 17.9095,
+    "prototypeInterval": [
+     17.1562,
+     18.7183
+    ],
+    "inside": true,
+    "relDiff": 6e-06
+   },
+   "engine_starts": {
+    "production": 17531.3289,
+    "prototype": 17531.1858,
+    "prototypeInterval": [
+     13304.7662,
+     22404.559
+    ],
+    "inside": true,
+    "relDiff": 8e-06
+   }
+  }
+ }
+}
