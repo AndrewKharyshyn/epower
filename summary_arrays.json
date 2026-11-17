@@ -68485,6 +68485,27 @@
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
    "computedAt": "2026-11-17T15:12:43.068396+00:00"
+  },
+  "restartTemperature": {
+   "corpusHash": "77bbe275f8c22eaf62d8636867764af3",
+   "corpusHashSource": "file:drive_master.csv",
+   "configHash": "249865eaf54afba07e65f7710d5df046",
+   "fullConfigHash": "11a89dc0c881bd0a60e9e957ccd1936a",
+   "fullConfigHashSource": "file:summary_config.json",
+   "generatedAt": "2026-11-17T16:25:02.385409+00:00",
+   "pipelineVersion": 6,
+   "upstreamHashes": {
+    "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3"
+   },
+   "computationStatus": "computed",
+   "computationStatusNote": "M711: derived by tools/restart_stage.py (tools/restart_census.py, tools/park_model.py) from raw drive CSVs, drive_master.csv and summary_config.json ambientByDrive (spec analyses/M708_spec.md Rev 2); logged probe readings, model-derived park model",
+   "includedInReleaseAt": "2026-11-17T16:25:02.385409+00:00",
+   "inputBasis": {
+    "nDrives": 665,
+    "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+    "source": "stamping pass: meta.totalDrives, corpusHash"
+   },
+   "computedAt": "2026-11-17T16:25:02.385409+00:00"
   }
  },
  "ambientTable": {
@@ -465467,5 +465488,1921 @@
    "exposure_frame_check.json": "38d556323e543f7755366afec48ba32ee18904d2af27f477e4d9c830f461d185",
    "odometer_readings.json": "7aadd2d7743d44d75cfba5c6a2a34868c53318593a6bba9ba131b9466da24f06"
   }
+ },
+ "restartTemperature": {
+  "milestone": "M711",
+  "spec": "analyses/M708_spec.md",
+  "specSha256": "3871e159aadeb5322666be3da92ae9b62ba841f46edb54358d06cd385b65a0ac",
+  "targetsSha256": "5aabcc38be7f9433169c9e3edd7fd8fd922313b464f99b20ea0a8924005d6a89",
+  "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+  "nDrives": 665,
+  "scriptSha256": {
+   "restart_stage": "102248e7522682f83e7f95a47d75b4be34855e9f8b90cb2a2b0a41c12dd01217",
+   "restart_census": "b655d9ce0009a96fb1aaf42ef3f2ca0190ede370310b7f27bb8593e3393a63d7",
+   "park_model": "c0cb3cc530f213edca6d1af4aa3f38a93d269eaf6a7899c860fb7e36b5115a2b"
+  },
+  "bootstrap": {
+   "B": 4000,
+   "seed": 42,
+   "cluster": "calendar day of the next drive"
+  },
+  "label": "logged BMS probe readings (whole degrees); same-probe mean of next start minus previous end; rise shares are a resolution artefact, not an event rate",
+  "endpointRule": "start reading of a probe = earliest native reading at or before first movement (speed > 0.5 km/h) and within 60 s of log start, else the first reading within 30 s; end reading = last native reading within 60 s of log end; no forward fill, no averaging in time",
+  "exclusions": {
+   "pairsTotal": 664,
+   "overlap_gapNegative": 0,
+   "duplicateStart": 0,
+   "odoStepAbsGt1km_appCounter": 9,
+   "noFreshProbeAtAnEndpoint": 14,
+   "gapOver168h": 2,
+   "eligible": 639,
+   "eligibleDays": 126,
+   "flaggedUnloggedUseAmongEligible": 43,
+   "flagBreakdownAmongEligible": {
+    "mp_soc": 23,
+    "mp_coolHot": 25,
+    "mp_coolUp": 2
+   },
+   "longGapPairIds": [
+    "20260523222103|20260531183645",
+    "20261017231301|20261101143631"
+   ]
+  },
+  "E1_primary_flaggedKept": {
+   "<10 min": {
+    "meanChange": {
+     "est": 0.08892617449664429,
+     "lo": 0.026663407821229054,
+     "hi": 0.15354401012373453,
+     "n": 149,
+     "nDays": 78
+    },
+    "T1meanChange": {
+     "est": 0.20134228187919462,
+     "lo": 0.10738160239639025,
+     "hi": 0.30070061517429936,
+     "n": 149,
+     "nDays": 78
+    },
+    "shareGt0": {
+     "est": 36.91,
+     "lo": 29.34,
+     "hi": 44.76,
+     "n": 149,
+     "nDays": 78
+    },
+    "shareGe1": {
+     "est": 2.68,
+     "lo": 0.62,
+     "hi": 5.67,
+     "n": 149,
+     "nDays": 78
+    },
+    "shareGe2": {
+     "est": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 149,
+     "nDays": 78
+    },
+    "nGe2Pairs": 0
+   },
+   "10-60 min": {
+    "meanChange": {
+     "est": -0.375,
+     "lo": -0.5159984988562715,
+     "hi": -0.24616496598639453,
+     "n": 190,
+     "nDays": 86
+    },
+    "T1meanChange": {
+     "est": -0.3157894736842105,
+     "lo": -0.4798030303030303,
+     "hi": -0.15998773006134964,
+     "n": 190,
+     "nDays": 86
+    },
+    "shareGt0": {
+     "est": 17.89,
+     "lo": 12.09,
+     "hi": 24.21,
+     "n": 190,
+     "nDays": 86
+    },
+    "shareGe1": {
+     "est": 1.05,
+     "lo": 0.0,
+     "hi": 2.66,
+     "n": 190,
+     "nDays": 86
+    },
+    "shareGe2": {
+     "est": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 190,
+     "nDays": 86
+    },
+    "nGe2Pairs": 0
+   },
+   "1-4 h": {
+    "meanChange": {
+     "est": -1.713740458015267,
+     "lo": -2.156018650793651,
+     "hi": -1.2956134506041221,
+     "n": 131,
+     "nDays": 78
+    },
+    "T1meanChange": {
+     "est": -2.1068702290076335,
+     "lo": -2.625,
+     "hi": -1.6110815602836879,
+     "n": 131,
+     "nDays": 78
+    },
+    "shareGt0": {
+     "est": 13.74,
+     "lo": 7.97,
+     "hi": 20.14,
+     "n": 131,
+     "nDays": 78
+    },
+    "shareGe1": {
+     "est": 9.16,
+     "lo": 3.97,
+     "hi": 14.88,
+     "n": 131,
+     "nDays": 78
+    },
+    "shareGe2": {
+     "est": 3.05,
+     "lo": 0.71,
+     "hi": 6.3,
+     "n": 131,
+     "nDays": 78
+    },
+    "nGe2Pairs": 4
+   },
+   "4-12 h": {
+    "meanChange": {
+     "est": -6.2317073170731705,
+     "lo": -7.86946158008658,
+     "hi": -4.691519480519481,
+     "n": 82,
+     "nDays": 59
+    },
+    "T1meanChange": {
+     "est": -7.170731707317073,
+     "lo": -8.964306478405314,
+     "hi": -5.4805064935064935,
+     "n": 82,
+     "nDays": 59
+    },
+    "shareGt0": {
+     "est": 24.39,
+     "lo": 15.66,
+     "hi": 33.77,
+     "n": 82,
+     "nDays": 59
+    },
+    "shareGe1": {
+     "est": 19.51,
+     "lo": 11.63,
+     "hi": 27.91,
+     "n": 82,
+     "nDays": 59
+    },
+    "shareGe2": {
+     "est": 18.29,
+     "lo": 10.53,
+     "hi": 26.44,
+     "n": 82,
+     "nDays": 59
+    },
+    "nGe2Pairs": 15
+   },
+   ">=12 h": {
+    "meanChange": {
+     "est": -13.35344827586207,
+     "lo": -14.652442528735632,
+     "hi": -12.031609195402298,
+     "n": 87,
+     "nDays": 87
+    },
+    "T1meanChange": {
+     "est": -15.149425287356323,
+     "lo": -16.643965517241377,
+     "hi": -13.60919540229885,
+     "n": 87,
+     "nDays": 87
+    },
+    "shareGt0": {
+     "est": 3.45,
+     "lo": 0.0,
+     "hi": 8.05,
+     "n": 87,
+     "nDays": 87
+    },
+    "shareGe1": {
+     "est": 3.45,
+     "lo": 0.0,
+     "hi": 8.05,
+     "n": 87,
+     "nDays": 87
+    },
+    "shareGe2": {
+     "est": 2.3,
+     "lo": 0.0,
+     "hi": 5.75,
+     "n": 87,
+     "nDays": 87
+    },
+    "nGe2Pairs": 2
+   },
+   "<1 h": {
+    "meanChange": {
+     "est": -0.1710914454277286,
+     "lo": -0.2712941292447578,
+     "hi": -0.08185597205988757,
+     "n": 339,
+     "nDays": 106
+    },
+    "T1meanChange": {
+     "est": -0.08849557522123894,
+     "lo": -0.20809545200277998,
+     "hi": 0.02058975360055527,
+     "n": 339,
+     "nDays": 106
+    },
+    "shareGt0": {
+     "est": 26.25,
+     "lo": 21.04,
+     "hi": 31.65,
+     "n": 339,
+     "nDays": 106
+    },
+    "shareGe1": {
+     "est": 1.77,
+     "lo": 0.56,
+     "hi": 3.32,
+     "n": 339,
+     "nDays": 106
+    },
+    "shareGe2": {
+     "est": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 339,
+     "nDays": 106
+    },
+    "nGe2Pairs": 0
+   },
+   "all gaps": {
+    "meanChange": {
+     "est": -3.0598591549295775,
+     "lo": -3.445516607186361,
+     "hi": -2.7242833742833743,
+     "n": 639,
+     "nDays": 126
+    },
+    "T1meanChange": {
+     "est": -3.461658841940532,
+     "lo": -3.9085260040605108,
+     "hi": -3.0768939393939396,
+     "n": 639,
+     "nDays": 126
+    },
+    "shareGt0": {
+     "est": 20.34,
+     "lo": 16.85,
+     "hi": 24.06,
+     "n": 639,
+     "nDays": 126
+    },
+    "shareGe1": {
+     "est": 5.79,
+     "lo": 4.07,
+     "hi": 7.73,
+     "n": 639,
+     "nDays": 126
+    },
+    "shareGe2": {
+     "est": 3.29,
+     "lo": 2.01,
+     "hi": 4.65,
+     "n": 639,
+     "nDays": 126
+    },
+    "nGe2Pairs": 21
+   }
+  },
+  "E1_secondary_flaggedDropped": {
+   "<10 min": {
+    "meanChange": {
+     "est": 0.0706896551724138,
+     "lo": 0.004869344365312107,
+     "hi": 0.13576428879930896,
+     "n": 145,
+     "nDays": 76
+    },
+    "T1meanChange": {
+     "est": 0.18620689655172415,
+     "lo": 0.08860328941703263,
+     "hi": 0.28777553956834534,
+     "n": 145,
+     "nDays": 76
+    },
+    "shareGt0": {
+     "est": 35.17,
+     "lo": 27.4,
+     "hi": 43.26,
+     "n": 145,
+     "nDays": 76
+    },
+    "shareGe1": {
+     "est": 2.07,
+     "lo": 0.0,
+     "hi": 4.76,
+     "n": 145,
+     "nDays": 76
+    },
+    "shareGe2": {
+     "est": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 145,
+     "nDays": 76
+    },
+    "nGe2Pairs": 0
+   },
+   "10-60 min": {
+    "meanChange": {
+     "est": -0.38235294117647056,
+     "lo": -0.5295738884045336,
+     "hi": -0.2554245411841818,
+     "n": 187,
+     "nDays": 85
+    },
+    "T1meanChange": {
+     "est": -0.32085561497326204,
+     "lo": -0.48744637823262654,
+     "hi": -0.16565777972027965,
+     "n": 187,
+     "nDays": 85
+    },
+    "shareGt0": {
+     "est": 17.65,
+     "lo": 11.66,
+     "hi": 23.94,
+     "n": 187,
+     "nDays": 85
+    },
+    "shareGe1": {
+     "est": 1.07,
+     "lo": 0.0,
+     "hi": 2.72,
+     "n": 187,
+     "nDays": 85
+    },
+    "shareGe2": {
+     "est": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 187,
+     "nDays": 85
+    },
+    "nGe2Pairs": 0
+   },
+   "1-4 h": {
+    "meanChange": {
+     "est": -1.8943089430894309,
+     "lo": -2.319105691056911,
+     "hi": -1.5068587155963302,
+     "n": 123,
+     "nDays": 76
+    },
+    "T1meanChange": {
+     "est": -2.3252032520325203,
+     "lo": -2.827287630402384,
+     "hi": -1.86550756302521,
+     "n": 123,
+     "nDays": 76
+    },
+    "shareGt0": {
+     "est": 12.2,
+     "lo": 6.82,
+     "hi": 18.52,
+     "n": 123,
+     "nDays": 76
+    },
+    "shareGe1": {
+     "est": 7.32,
+     "lo": 2.59,
+     "hi": 13.04,
+     "n": 123,
+     "nDays": 76
+    },
+    "shareGe2": {
+     "est": 1.63,
+     "lo": 0.0,
+     "hi": 4.13,
+     "n": 123,
+     "nDays": 76
+    },
+    "nGe2Pairs": 2
+   },
+   "4-12 h": {
+    "meanChange": {
+     "est": -8.76171875,
+     "lo": -10.454166666666667,
+     "hi": -7.0904306020066885,
+     "n": 64,
+     "nDays": 52
+    },
+    "T1meanChange": {
+     "est": -9.828125,
+     "lo": -11.59390625,
+     "hi": -8.060340909090908,
+     "n": 64,
+     "nDays": 52
+    },
+    "shareGt0": {
+     "est": 10.94,
+     "lo": 4.35,
+     "hi": 19.67,
+     "n": 64,
+     "nDays": 52
+    },
+    "shareGe1": {
+     "est": 4.69,
+     "lo": 0.0,
+     "hi": 10.71,
+     "n": 64,
+     "nDays": 52
+    },
+    "shareGe2": {
+     "est": 3.12,
+     "lo": 0.0,
+     "hi": 8.2,
+     "n": 64,
+     "nDays": 52
+    },
+    "nGe2Pairs": 2
+   },
+   ">=12 h": {
+    "meanChange": {
+     "est": -14.087662337662337,
+     "lo": -15.347483766233767,
+     "hi": -12.915584415584416,
+     "n": 77,
+     "nDays": 77
+    },
+    "T1meanChange": {
+     "est": -15.96103896103896,
+     "lo": -17.4025974025974,
+     "hi": -14.584415584415584,
+     "n": 77,
+     "nDays": 77
+    },
+    "shareGt0": {
+     "est": 1.3,
+     "lo": 0.0,
+     "hi": 3.9,
+     "n": 77,
+     "nDays": 77
+    },
+    "shareGe1": {
+     "est": 1.3,
+     "lo": 0.0,
+     "hi": 3.9,
+     "n": 77,
+     "nDays": 77
+    },
+    "shareGe2": {
+     "est": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 77,
+     "nDays": 77
+    },
+    "nGe2Pairs": 0
+   },
+   "<1 h": {
+    "meanChange": {
+     "est": -0.1844879518072289,
+     "lo": -0.2861590909090909,
+     "hi": -0.09090519925280198,
+     "n": 332,
+     "nDays": 105
+    },
+    "T1meanChange": {
+     "est": -0.09939759036144578,
+     "lo": -0.21937944231820666,
+     "hi": 0.015633736022364248,
+     "n": 332,
+     "nDays": 105
+    },
+    "shareGt0": {
+     "est": 25.3,
+     "lo": 19.94,
+     "hi": 30.86,
+     "n": 332,
+     "nDays": 105
+    },
+    "shareGe1": {
+     "est": 1.51,
+     "lo": 0.3,
+     "hi": 2.95,
+     "n": 332,
+     "nDays": 105
+    },
+    "shareGe2": {
+     "est": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 332,
+     "nDays": 105
+    },
+    "nGe2Pairs": 0
+   },
+   "all gaps": {
+    "meanChange": {
+     "est": -3.2546140939597317,
+     "lo": -3.6506932429617014,
+     "hi": -2.8987707320524354,
+     "n": 596,
+     "nDays": 125
+    },
+    "T1meanChange": {
+     "est": -3.652684563758389,
+     "lo": -4.110924133420537,
+     "hi": -3.2491774822019743,
+     "n": 596,
+     "nDays": 125
+    },
+    "shareGt0": {
+     "est": 17.95,
+     "lo": 14.36,
+     "hi": 21.69,
+     "n": 596,
+     "nDays": 125
+    },
+    "shareGe1": {
+     "est": 3.02,
+     "lo": 1.74,
+     "hi": 4.52,
+     "n": 596,
+     "nDays": 125
+    },
+    "shareGe2": {
+     "est": 0.67,
+     "lo": 0.16,
+     "hi": 1.41,
+     "n": 596,
+     "nDays": 125
+    },
+    "nGe2Pairs": 4
+   }
+  },
+  "E1_sensitivity_previousDayCluster": {
+   "<10 min": {
+    "meanChange": {
+     "est": 0.08892617449664429,
+     "lo": 0.026663407821229054,
+     "hi": 0.15354401012373453,
+     "n": 149,
+     "nDays": 78
+    },
+    "T1meanChange": {
+     "est": 0.20134228187919462,
+     "lo": 0.10738160239639025,
+     "hi": 0.30070061517429936,
+     "n": 149,
+     "nDays": 78
+    },
+    "shareGt0": {
+     "est": 36.91,
+     "lo": 29.34,
+     "hi": 44.76,
+     "n": 149,
+     "nDays": 78
+    },
+    "shareGe1": {
+     "est": 2.68,
+     "lo": 0.62,
+     "hi": 5.67,
+     "n": 149,
+     "nDays": 78
+    },
+    "shareGe2": {
+     "est": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 149,
+     "nDays": 78
+    },
+    "nGe2Pairs": 0
+   },
+   "10-60 min": {
+    "meanChange": {
+     "est": -0.375,
+     "lo": -0.5159984988562715,
+     "hi": -0.24616496598639453,
+     "n": 190,
+     "nDays": 86
+    },
+    "T1meanChange": {
+     "est": -0.3157894736842105,
+     "lo": -0.4798030303030303,
+     "hi": -0.15998773006134964,
+     "n": 190,
+     "nDays": 86
+    },
+    "shareGt0": {
+     "est": 17.89,
+     "lo": 12.09,
+     "hi": 24.21,
+     "n": 190,
+     "nDays": 86
+    },
+    "shareGe1": {
+     "est": 1.05,
+     "lo": 0.0,
+     "hi": 2.66,
+     "n": 190,
+     "nDays": 86
+    },
+    "shareGe2": {
+     "est": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 190,
+     "nDays": 86
+    },
+    "nGe2Pairs": 0
+   },
+   "1-4 h": {
+    "meanChange": {
+     "est": -1.713740458015267,
+     "lo": -2.156018650793651,
+     "hi": -1.2956134506041221,
+     "n": 131,
+     "nDays": 78
+    },
+    "T1meanChange": {
+     "est": -2.1068702290076335,
+     "lo": -2.625,
+     "hi": -1.6110815602836879,
+     "n": 131,
+     "nDays": 78
+    },
+    "shareGt0": {
+     "est": 13.74,
+     "lo": 7.97,
+     "hi": 20.14,
+     "n": 131,
+     "nDays": 78
+    },
+    "shareGe1": {
+     "est": 9.16,
+     "lo": 3.97,
+     "hi": 14.88,
+     "n": 131,
+     "nDays": 78
+    },
+    "shareGe2": {
+     "est": 3.05,
+     "lo": 0.71,
+     "hi": 6.3,
+     "n": 131,
+     "nDays": 78
+    },
+    "nGe2Pairs": 4
+   },
+   "4-12 h": {
+    "meanChange": {
+     "est": -6.2317073170731705,
+     "lo": -7.679123157248157,
+     "hi": -4.753116319444445,
+     "n": 82,
+     "nDays": 57
+    },
+    "T1meanChange": {
+     "est": -7.170731707317073,
+     "lo": -8.750073529411765,
+     "hi": -5.562326388888888,
+     "n": 82,
+     "nDays": 57
+    },
+    "shareGt0": {
+     "est": 24.39,
+     "lo": 16.0,
+     "hi": 32.56,
+     "n": 82,
+     "nDays": 57
+    },
+    "shareGe1": {
+     "est": 19.51,
+     "lo": 11.84,
+     "hi": 27.27,
+     "n": 82,
+     "nDays": 57
+    },
+    "shareGe2": {
+     "est": 18.29,
+     "lo": 10.84,
+     "hi": 25.88,
+     "n": 82,
+     "nDays": 57
+    },
+    "nGe2Pairs": 15
+   },
+   ">=12 h": {
+    "meanChange": {
+     "est": -13.35344827586207,
+     "lo": -14.697747093023255,
+     "hi": -12.025186510813096,
+     "n": 87,
+     "nDays": 86
+    },
+    "T1meanChange": {
+     "est": -15.149425287356323,
+     "lo": -16.74719827586207,
+     "hi": -13.65097567495322,
+     "n": 87,
+     "nDays": 86
+    },
+    "shareGt0": {
+     "est": 3.45,
+     "lo": 0.0,
+     "hi": 7.87,
+     "n": 87,
+     "nDays": 86
+    },
+    "shareGe1": {
+     "est": 3.45,
+     "lo": 0.0,
+     "hi": 7.87,
+     "n": 87,
+     "nDays": 86
+    },
+    "shareGe2": {
+     "est": 2.3,
+     "lo": 0.0,
+     "hi": 5.68,
+     "n": 87,
+     "nDays": 86
+    },
+    "nGe2Pairs": 2
+   },
+   "<1 h": {
+    "meanChange": {
+     "est": -0.1710914454277286,
+     "lo": -0.2712941292447578,
+     "hi": -0.08185597205988757,
+     "n": 339,
+     "nDays": 106
+    },
+    "T1meanChange": {
+     "est": -0.08849557522123894,
+     "lo": -0.20809545200277998,
+     "hi": 0.02058975360055527,
+     "n": 339,
+     "nDays": 106
+    },
+    "shareGt0": {
+     "est": 26.25,
+     "lo": 21.04,
+     "hi": 31.65,
+     "n": 339,
+     "nDays": 106
+    },
+    "shareGe1": {
+     "est": 1.77,
+     "lo": 0.56,
+     "hi": 3.32,
+     "n": 339,
+     "nDays": 106
+    },
+    "shareGe2": {
+     "est": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 339,
+     "nDays": 106
+    },
+    "nGe2Pairs": 0
+   },
+   "all gaps": {
+    "meanChange": {
+     "est": -3.0598591549295775,
+     "lo": -3.4067787857966882,
+     "hi": -2.7496486487306933,
+     "n": 639,
+     "nDays": 126
+    },
+    "T1meanChange": {
+     "est": -3.461658841940532,
+     "lo": -3.867195023593991,
+     "hi": -3.099802646227338,
+     "n": 639,
+     "nDays": 126
+    },
+    "shareGt0": {
+     "est": 20.34,
+     "lo": 16.77,
+     "hi": 24.08,
+     "n": 639,
+     "nDays": 126
+    },
+    "shareGe1": {
+     "est": 5.79,
+     "lo": 4.06,
+     "hi": 7.73,
+     "n": 639,
+     "nDays": 126
+    },
+    "shareGe2": {
+     "est": 3.29,
+     "lo": 1.99,
+     "hi": 4.67,
+     "n": 639,
+     "nDays": 126
+    },
+    "nGe2Pairs": 21
+   }
+  },
+  "conditionTables": {
+   "winterOnly": {
+    "condition": "restart ambient below 10 C: reconstructed day-mean ambient of the restart day, or the recorded vehicle-sensor reading at the restart after a gap of 4 h or more (uncalibrated)",
+    "flaggedKept": {
+     "<10 min": {
+      "meanChange": {
+       "est": 0.125,
+       "lo": 0.0,
+       "hi": 0.2692307692307692,
+       "n": 40,
+       "nDays": 21
+      },
+      "T1meanChange": {
+       "est": 0.25,
+       "lo": 0.0784313725490196,
+       "hi": 0.45454545454545453,
+       "n": 40,
+       "nDays": 21
+      },
+      "shareGt0": {
+       "est": 37.5,
+       "lo": 20.83,
+       "hi": 55.56,
+       "n": 40,
+       "nDays": 21
+      },
+      "shareGe1": {
+       "est": 2.5,
+       "lo": 0.0,
+       "hi": 8.33,
+       "n": 40,
+       "nDays": 21
+      },
+      "shareGe2": {
+       "est": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n": 40,
+       "nDays": 21
+      },
+      "nGe2Pairs": 0
+     },
+     "10-60 min": {
+      "meanChange": {
+       "est": -0.4523809523809524,
+       "lo": -0.7606382978723404,
+       "hi": -0.19116679566563463,
+       "n": 42,
+       "nDays": 23
+      },
+      "T1meanChange": {
+       "est": -0.40476190476190477,
+       "lo": -0.7333333333333333,
+       "hi": -0.11105072463768094,
+       "n": 42,
+       "nDays": 23
+      },
+      "shareGt0": {
+       "est": 9.52,
+       "lo": 2.22,
+       "hi": 20.0,
+       "n": 42,
+       "nDays": 23
+      },
+      "shareGe1": {
+       "est": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n": 42,
+       "nDays": 23
+      },
+      "shareGe2": {
+       "est": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n": 42,
+       "nDays": 23
+      },
+      "nGe2Pairs": 0
+     },
+     "1-4 h": {
+      "meanChange": {
+       "est": -2.0357142857142856,
+       "lo": -3.432932692307692,
+       "hi": -0.8070535714285711,
+       "n": 28,
+       "nDays": 20
+      },
+      "T1meanChange": {
+       "est": -2.0357142857142856,
+       "lo": -3.6666666666666665,
+       "hi": -0.6071428571428571,
+       "n": 28,
+       "nDays": 20
+      },
+      "shareGt0": {
+       "est": 10.71,
+       "lo": 0.0,
+       "hi": 25.0,
+       "n": 28,
+       "nDays": 20
+      },
+      "shareGe1": {
+       "est": 10.71,
+       "lo": 0.0,
+       "hi": 25.0,
+       "n": 28,
+       "nDays": 20
+      },
+      "shareGe2": {
+       "est": 7.14,
+       "lo": 0.0,
+       "hi": 16.13,
+       "n": 28,
+       "nDays": 20
+      },
+      "nGe2Pairs": 2
+     },
+     "4-12 h": {
+      "meanChange": {
+       "est": -8.46774193548387,
+       "lo": -11.26727330779055,
+       "hi": -5.911216397849462,
+       "n": 31,
+       "nDays": 22
+      },
+      "T1meanChange": {
+       "est": -9.064516129032258,
+       "lo": -12.080173913043478,
+       "hi": -6.321428571428571,
+       "n": 31,
+       "nDays": 22
+      },
+      "shareGt0": {
+       "est": 16.13,
+       "lo": 5.26,
+       "hi": 29.63,
+       "n": 31,
+       "nDays": 22
+      },
+      "shareGe1": {
+       "est": 16.13,
+       "lo": 5.26,
+       "hi": 29.63,
+       "n": 31,
+       "nDays": 22
+      },
+      "shareGe2": {
+       "est": 16.13,
+       "lo": 5.26,
+       "hi": 29.63,
+       "n": 31,
+       "nDays": 22
+      },
+      "nGe2Pairs": 5
+     },
+     ">=12 h": {
+      "meanChange": {
+       "est": -13.766666666666667,
+       "lo": -16.650416666666665,
+       "hi": -11.066666666666666,
+       "n": 15,
+       "nDays": 15
+      },
+      "T1meanChange": {
+       "est": -14.866666666666667,
+       "lo": -18.066666666666666,
+       "hi": -11.933333333333334,
+       "n": 15,
+       "nDays": 15
+      },
+      "shareGt0": {
+       "est": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n": 15,
+       "nDays": 15
+      },
+      "shareGe1": {
+       "est": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n": 15,
+       "nDays": 15
+      },
+      "shareGe2": {
+       "est": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n": 15,
+       "nDays": 15
+      },
+      "nGe2Pairs": 0
+     },
+     "<1 h": {
+      "meanChange": {
+       "est": -0.17073170731707318,
+       "lo": -0.38823529411764707,
+       "hi": 0.0026352339181286684,
+       "n": 82,
+       "nDays": 27
+      },
+      "T1meanChange": {
+       "est": -0.08536585365853659,
+       "lo": -0.32001282051282054,
+       "hi": 0.11904761904761904,
+       "n": 82,
+       "nDays": 27
+      },
+      "shareGt0": {
+       "est": 23.17,
+       "lo": 13.04,
+       "hi": 34.25,
+       "n": 82,
+       "nDays": 27
+      },
+      "shareGe1": {
+       "est": 1.22,
+       "lo": 0.0,
+       "hi": 3.85,
+       "n": 82,
+       "nDays": 27
+      },
+      "shareGe2": {
+       "est": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n": 82,
+       "nDays": 27
+      },
+      "nGe2Pairs": 0
+     },
+     "all gaps": {
+      "meanChange": {
+       "est": -3.4615384615384617,
+       "lo": -4.400060975609756,
+       "hi": -2.7037357943674905,
+       "n": 156,
+       "nDays": 39
+      },
+      "T1meanChange": {
+       "est": -3.641025641025641,
+       "lo": -4.678312544547398,
+       "hi": -2.815062151192288,
+       "n": 156,
+       "nDays": 39
+      },
+      "shareGt0": {
+       "est": 17.31,
+       "lo": 10.43,
+       "hi": 24.48,
+       "n": 156,
+       "nDays": 39
+      },
+      "shareGe1": {
+       "est": 5.77,
+       "lo": 2.31,
+       "hi": 9.94,
+       "n": 156,
+       "nDays": 39
+      },
+      "shareGe2": {
+       "est": 4.49,
+       "lo": 1.71,
+       "hi": 7.69,
+       "n": 156,
+       "nDays": 39
+      },
+      "nGe2Pairs": 7
+     }
+    },
+    "flaggedDropped": {
+     "<10 min": {
+      "meanChange": {
+       "est": 0.09210526315789473,
+       "lo": -0.020273717595146165,
+       "hi": 0.22060924369747906,
+       "n": 38,
+       "nDays": 19
+      },
+      "T1meanChange": {
+       "est": 0.21052631578947367,
+       "lo": 0.05128205128205128,
+       "hi": 0.4,
+       "n": 38,
+       "nDays": 19
+      },
+      "shareGt0": {
+       "est": 34.21,
+       "lo": 18.6,
+       "hi": 51.87,
+       "n": 38,
+       "nDays": 19
+      },
+      "shareGe1": {
+       "est": 2.63,
+       "lo": 0.0,
+       "hi": 8.83,
+       "n": 38,
+       "nDays": 19
+      },
+      "shareGe2": {
+       "est": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n": 38,
+       "nDays": 19
+      },
+      "nGe2Pairs": 0
+     },
+     "10-60 min": {
+      "meanChange": {
+       "est": -0.4523809523809524,
+       "lo": -0.7606382978723404,
+       "hi": -0.19116679566563463,
+       "n": 42,
+       "nDays": 23
+      },
+      "T1meanChange": {
+       "est": -0.40476190476190477,
+       "lo": -0.7333333333333333,
+       "hi": -0.11105072463768094,
+       "n": 42,
+       "nDays": 23
+      },
+      "shareGt0": {
+       "est": 9.52,
+       "lo": 2.22,
+       "hi": 20.0,
+       "n": 42,
+       "nDays": 23
+      },
+      "shareGe1": {
+       "est": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n": 42,
+       "nDays": 23
+      },
+      "shareGe2": {
+       "est": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n": 42,
+       "nDays": 23
+      },
+      "nGe2Pairs": 0
+     },
+     "1-4 h": {
+      "meanChange": {
+       "est": -2.5,
+       "lo": -3.646551724137931,
+       "hi": -1.5802712912087908,
+       "n": 27,
+       "nDays": 20
+      },
+      "T1meanChange": {
+       "est": -2.5925925925925926,
+       "lo": -3.961574074074074,
+       "hi": -1.48,
+       "n": 27,
+       "nDays": 20
+      },
+      "shareGt0": {
+       "est": 7.41,
+       "lo": 0.0,
+       "hi": 17.24,
+       "n": 27,
+       "nDays": 20
+      },
+      "shareGe1": {
+       "est": 7.41,
+       "lo": 0.0,
+       "hi": 17.24,
+       "n": 27,
+       "nDays": 20
+      },
+      "shareGe2": {
+       "est": 3.7,
+       "lo": 0.0,
+       "hi": 11.54,
+       "n": 27,
+       "nDays": 20
+      },
+      "nGe2Pairs": 1
+     },
+     "4-12 h": {
+      "meanChange": {
+       "est": -10.947916666666666,
+       "lo": -14.08025,
+       "hi": -7.913784814323607,
+       "n": 24,
+       "nDays": 20
+      },
+      "T1meanChange": {
+       "est": -11.625,
+       "lo": -14.950113636363636,
+       "hi": -8.439869565217391,
+       "n": 24,
+       "nDays": 20
+      },
+      "shareGt0": {
+       "est": 4.17,
+       "lo": 0.0,
+       "hi": 13.64,
+       "n": 24,
+       "nDays": 20
+      },
+      "shareGe1": {
+       "est": 4.17,
+       "lo": 0.0,
+       "hi": 13.64,
+       "n": 24,
+       "nDays": 20
+      },
+      "shareGe2": {
+       "est": 4.17,
+       "lo": 0.0,
+       "hi": 13.64,
+       "n": 24,
+       "nDays": 20
+      },
+      "nGe2Pairs": 1
+     },
+     ">=12 h": {
+      "meanChange": {
+       "est": -13.946428571428571,
+       "lo": -16.803571428571427,
+       "hi": -11.107142857142858,
+       "n": 14,
+       "nDays": 14
+      },
+      "T1meanChange": {
+       "est": -15.071428571428571,
+       "lo": -18.214285714285715,
+       "hi": -12.0,
+       "n": 14,
+       "nDays": 14
+      },
+      "shareGt0": {
+       "est": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n": 14,
+       "nDays": 14
+      },
+      "shareGe1": {
+       "est": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n": 14,
+       "nDays": 14
+      },
+      "shareGe2": {
+       "est": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n": 14,
+       "nDays": 14
+      },
+      "nGe2Pairs": 0
+     },
+     "<1 h": {
+      "meanChange": {
+       "est": -0.19375,
+       "lo": -0.41568775100401606,
+       "hi": -0.02351683436532503,
+       "n": 80,
+       "nDays": 27
+      },
+      "T1meanChange": {
+       "est": -0.1125,
+       "lo": -0.35294117647058826,
+       "hi": 0.09375,
+       "n": 80,
+       "nDays": 27
+      },
+      "shareGt0": {
+       "est": 21.25,
+       "lo": 11.11,
+       "hi": 32.47,
+       "n": 80,
+       "nDays": 27
+      },
+      "shareGe1": {
+       "est": 1.25,
+       "lo": 0.0,
+       "hi": 3.95,
+       "n": 80,
+       "nDays": 27
+      },
+      "shareGe2": {
+       "est": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n": 80,
+       "nDays": 27
+      },
+      "nGe2Pairs": 0
+     },
+     "all gaps": {
+      "meanChange": {
+       "est": -3.731034482758621,
+       "lo": -4.748183731294014,
+       "hi": -2.913881172839506,
+       "n": 145,
+       "nDays": 39
+      },
+      "T1meanChange": {
+       "est": -3.924137931034483,
+       "lo": -5.035432391983342,
+       "hi": -3.045397318508829,
+       "n": 145,
+       "nDays": 39
+      },
+      "shareGt0": {
+       "est": 13.79,
+       "lo": 7.14,
+       "hi": 20.73,
+       "n": 145,
+       "nDays": 39
+      },
+      "shareGe1": {
+       "est": 2.76,
+       "lo": 0.63,
+       "hi": 5.52,
+       "n": 145,
+       "nDays": 39
+      },
+      "shareGe2": {
+       "est": 1.38,
+       "lo": 0.0,
+       "hi": 3.47,
+       "n": 145,
+       "nDays": 39
+      },
+      "nGe2Pairs": 2
+     }
+    }
+   },
+   "gap4to12h": {
+    "condition": "gap class 4-12 h (the class with the largest share of pairs carrying evidence of unlogged use)",
+    "flaggedKept": {
+     "<10 min": {
+      "notEvaluable": true,
+      "n": 0,
+      "nDays": 0,
+      "floor": "10 pairs on 5 days"
+     },
+     "10-60 min": {
+      "notEvaluable": true,
+      "n": 0,
+      "nDays": 0,
+      "floor": "10 pairs on 5 days"
+     },
+     "1-4 h": {
+      "notEvaluable": true,
+      "n": 0,
+      "nDays": 0,
+      "floor": "10 pairs on 5 days"
+     },
+     "4-12 h": {
+      "meanChange": {
+       "est": -6.2317073170731705,
+       "lo": -7.86946158008658,
+       "hi": -4.691519480519481,
+       "n": 82,
+       "nDays": 59
+      },
+      "T1meanChange": {
+       "est": -7.170731707317073,
+       "lo": -8.964306478405314,
+       "hi": -5.4805064935064935,
+       "n": 82,
+       "nDays": 59
+      },
+      "shareGt0": {
+       "est": 24.39,
+       "lo": 15.66,
+       "hi": 33.77,
+       "n": 82,
+       "nDays": 59
+      },
+      "shareGe1": {
+       "est": 19.51,
+       "lo": 11.63,
+       "hi": 27.91,
+       "n": 82,
+       "nDays": 59
+      },
+      "shareGe2": {
+       "est": 18.29,
+       "lo": 10.53,
+       "hi": 26.44,
+       "n": 82,
+       "nDays": 59
+      },
+      "nGe2Pairs": 15
+     },
+     ">=12 h": {
+      "notEvaluable": true,
+      "n": 0,
+      "nDays": 0,
+      "floor": "10 pairs on 5 days"
+     },
+     "<1 h": {
+      "notEvaluable": true,
+      "n": 0,
+      "nDays": 0,
+      "floor": "10 pairs on 5 days"
+     },
+     "all gaps": {
+      "meanChange": {
+       "est": -6.2317073170731705,
+       "lo": -7.86946158008658,
+       "hi": -4.691519480519481,
+       "n": 82,
+       "nDays": 59
+      },
+      "T1meanChange": {
+       "est": -7.170731707317073,
+       "lo": -8.964306478405314,
+       "hi": -5.4805064935064935,
+       "n": 82,
+       "nDays": 59
+      },
+      "shareGt0": {
+       "est": 24.39,
+       "lo": 15.66,
+       "hi": 33.77,
+       "n": 82,
+       "nDays": 59
+      },
+      "shareGe1": {
+       "est": 19.51,
+       "lo": 11.63,
+       "hi": 27.91,
+       "n": 82,
+       "nDays": 59
+      },
+      "shareGe2": {
+       "est": 18.29,
+       "lo": 10.53,
+       "hi": 26.44,
+       "n": 82,
+       "nDays": 59
+      },
+      "nGe2Pairs": 15
+     }
+    },
+    "flaggedDropped": {
+     "<10 min": {
+      "notEvaluable": true,
+      "n": 0,
+      "nDays": 0,
+      "floor": "10 pairs on 5 days"
+     },
+     "10-60 min": {
+      "notEvaluable": true,
+      "n": 0,
+      "nDays": 0,
+      "floor": "10 pairs on 5 days"
+     },
+     "1-4 h": {
+      "notEvaluable": true,
+      "n": 0,
+      "nDays": 0,
+      "floor": "10 pairs on 5 days"
+     },
+     "4-12 h": {
+      "meanChange": {
+       "est": -8.76171875,
+       "lo": -10.454166666666667,
+       "hi": -7.0904306020066885,
+       "n": 64,
+       "nDays": 52
+      },
+      "T1meanChange": {
+       "est": -9.828125,
+       "lo": -11.59390625,
+       "hi": -8.060340909090908,
+       "n": 64,
+       "nDays": 52
+      },
+      "shareGt0": {
+       "est": 10.94,
+       "lo": 4.35,
+       "hi": 19.67,
+       "n": 64,
+       "nDays": 52
+      },
+      "shareGe1": {
+       "est": 4.69,
+       "lo": 0.0,
+       "hi": 10.71,
+       "n": 64,
+       "nDays": 52
+      },
+      "shareGe2": {
+       "est": 3.12,
+       "lo": 0.0,
+       "hi": 8.2,
+       "n": 64,
+       "nDays": 52
+      },
+      "nGe2Pairs": 2
+     },
+     ">=12 h": {
+      "notEvaluable": true,
+      "n": 0,
+      "nDays": 0,
+      "floor": "10 pairs on 5 days"
+     },
+     "<1 h": {
+      "notEvaluable": true,
+      "n": 0,
+      "nDays": 0,
+      "floor": "10 pairs on 5 days"
+     },
+     "all gaps": {
+      "meanChange": {
+       "est": -8.76171875,
+       "lo": -10.454166666666667,
+       "hi": -7.0904306020066885,
+       "n": 64,
+       "nDays": 52
+      },
+      "T1meanChange": {
+       "est": -9.828125,
+       "lo": -11.59390625,
+       "hi": -8.060340909090908,
+       "n": 64,
+       "nDays": 52
+      },
+      "shareGt0": {
+       "est": 10.94,
+       "lo": 4.35,
+       "hi": 19.67,
+       "n": 64,
+       "nDays": 52
+      },
+      "shareGe1": {
+       "est": 4.69,
+       "lo": 0.0,
+       "hi": 10.71,
+       "n": 64,
+       "nDays": 52
+      },
+      "shareGe2": {
+       "est": 3.12,
+       "lo": 0.0,
+       "hi": 8.2,
+       "n": 64,
+       "nDays": 52
+      },
+      "nGe2Pairs": 2
+     }
+    }
+   }
+  },
+  "E5_startColumn": {
+   "rule": "slow-polled = per-drive median T2-T4 polling period strictly above 10 s",
+   "perDrivePeriodMedianS": {
+    "all": 8.267500000001746
+   },
+   "slowPerDrive": {
+    "est": 0.6253831775700934,
+    "lo": 0.474319996903951,
+    "hi": 0.7869672049689441,
+    "n": 214,
+    "nDays": 39,
+    "shareGe1C": 0.2243,
+    "max": 2.3329999999999984
+   },
+   "fastPerDrive": {
+    "est": 0.04157630979498863,
+    "lo": 0.019069674649388635,
+    "hi": 0.07054419058866285,
+    "n": 439,
+    "nDays": 99,
+    "shareGe1C": 0.0114,
+    "max": 2.0
+   },
+   "slowCalendar>=2026-09-06": {
+    "est": 0.4452030303030303,
+    "lo": 0.3269169381787803,
+    "hi": 0.5768567910532227,
+    "n": 330,
+    "nDays": 51,
+    "shareGe1C": 0.1576,
+    "max": 2.3329999999999984
+   },
+   "beforeCalendar": {
+    "est": 0.015996904024767805,
+    "lo": 0.004079510703363924,
+    "hi": 0.031157747608289408,
+    "n": 323,
+    "nDays": 76,
+    "shareGe1C": 0.0031,
+    "max": 2.0
+   },
+   "period8to12s": {
+    "est": 0.12575903614457834,
+    "lo": 0.03769206133540373,
+    "hi": 0.22398105141864072,
+    "n": 166,
+    "nDays": 40,
+    "shareGe1C": 0.0301,
+    "max": 1.25
+   }
+  },
+  "parkModel": {
+   "ambientReconstruction": {
+    "autumn": {
+     "amp": 5.8,
+     "hpk": 15.543
+    },
+    "summer": {
+     "amp": 6.656,
+     "hpk": 15.936
+    }
+   },
+   "support": {
+    "pairsEligible": 639,
+    "flaggedUnloggedUseAmongEligible": 43,
+    "removedNoAmbientOrInput": 0,
+    "modelPairs": 596,
+    "modelDays": 125,
+    "byGapClass": {
+     "1-4 h": 123,
+     "10-60 min": 187,
+     "4-12 h": 64,
+     "<10 min": 145,
+     ">=12 h": 77
+    }
+   },
+   "M2_fullSample_nonFlagged": {
+    "tau_h": 9.105,
+    "tauCi": [
+     8.19,
+     10.162
+    ],
+    "offset_C": 0.469,
+    "offsetCi": [
+     -0.578,
+     1.407
+    ],
+    "nPairs": 596,
+    "nDays": 125,
+    "bootDraws": 4000
+   },
+   "M2_flaggedKept": {
+    "tau_h": 7.532,
+    "offset_C": 2.45,
+    "nPairs": 639,
+    "nDays": 126
+   },
+   "validation_fitMayAug_testSepNov": {
+    "tau_h": 9.223,
+    "offset_C": -0.248,
+    "nTrain": 269,
+    "nTest": 327,
+    "nTestDays": 55,
+    "MAE_M2": {
+     "<10 min": 0.2804,
+     "10-60 min": 0.289,
+     "1-4 h": 0.5648,
+     "4-12 h": 1.3543,
+     ">=12 h": 2.0784,
+     "<1 h": 0.2847,
+     "n": {
+      "<10 min": 101,
+      "10-60 min": 102,
+      "1-4 h": 51,
+      "4-12 h": 44,
+      ">=12 h": 29
+     }
+    },
+    "MAE_persistence": {
+     "<10 min": 0.2401,
+     "10-60 min": 0.4828,
+     "1-4 h": 2.3971,
+     "4-12 h": 9.8636,
+     ">=12 h": 14.1121,
+     "<1 h": 0.3621,
+     "n": {
+      "<10 min": 101,
+      "10-60 min": 102,
+      "1-4 h": 51,
+      "4-12 h": 44,
+      ">=12 h": 29
+     }
+    },
+    "M2_minus_persistence_lt1h": {
+     "est": -0.0773,
+     "lo": -0.175,
+     "hi": -0.0018,
+     "n": 203,
+     "nDays": 52
+    },
+    "note": "not a clean hold-out: ambient amp/hpk fitted on the whole corpus; model form and gap classes chosen after full-sample results; split confounded with slow polling and the software update"
+   },
+   "E4_coldStartCounts": {
+    "below15C": {
+     "predicted": 71,
+     "logged": 65
+    },
+    "below10C": {
+     "predicted": 9,
+     "logged": 11
+    },
+    "atOrAbove35C": {
+     "predicted": 74,
+     "logged": 78
+    },
+    "biasNear15C_C": -0.269
+   }
+  },
+  "parkGates": {
+   "P-R3b": {
+    "reductionVsPersistence": {
+     "1-4 h": 0.764,
+     "4-12 h": 0.863,
+     ">=12 h": 0.853
+    },
+    "lt1h": {
+     "M2": 0.2847,
+     "persistence": 0.3621
+    },
+    "pass": true
+   },
+   "P-R4": {
+    "contaminationDirection": {
+     "pass": true,
+     "nonFlagged": [
+      9.105,
+      0.469
+     ],
+     "flaggedKept": [
+      7.532,
+      2.45
+     ]
+    },
+    "tauBand8to10.5h": {
+     "pass": null,
+     "tau_h": 9.105,
+     "binding": false
+    }
+   },
+   "P-R2": {
+    "pass": null,
+    "note": "two-state model M3 not implemented in this module yet; gate not evaluated"
+   },
+   "note": "P-R3a and the tau band are binding only when the production ambient reconstruction matches the exploratory file; not evaluated in the stage"
+  },
+  "reproductionGates": {
+   "basis": "analyses/M708_targets.json (665-drive basis, exploratory targets, unaudited)",
+   "evaluated": true,
+   "gates": {
+    "P-R0": {
+     "pass": true
+    },
+    "P-R1": {
+     "pass": true
+    },
+    "P-R5": {
+     "pass": true
+    }
+   },
+   "detail": {
+    "P-R0": {
+     "pass": true,
+     "eligible": [
+      639,
+      639
+     ],
+     "days": [
+      126,
+      126
+     ],
+     "onlyInProduction": [],
+     "onlyInExploratory": [],
+     "exclusionsProduction": {
+      "odoStepAbsGt1km_appCounter": 9,
+      "noFreshProbeAtAnEndpoint": 14,
+      "gapOver168h": 2
+     },
+     "exclusionsTarget": {
+      "odoStepAbsGt1km_appCounter": 9,
+      "noFreshProbeAtAnEndpoint": 14,
+      "gapOver168h": 2
+     }
+    },
+    "P-R1": {
+     "pass": true,
+     "classes": {
+      "<10 min": {
+       "production": 0.0889,
+       "target": 0.0889,
+       "absDiff": 0.0,
+       "n": 149
+      },
+      "10-60 min": {
+       "production": -0.375,
+       "target": -0.375,
+       "absDiff": 0.0,
+       "n": 190
+      },
+      "1-4 h": {
+       "production": -1.7137,
+       "target": -1.7137,
+       "absDiff": 0.0,
+       "n": 131
+      },
+      "4-12 h": {
+       "production": -6.2317,
+       "target": -6.2317,
+       "absDiff": 0.0,
+       "n": 82
+      },
+      ">=12 h": {
+       "production": -13.3534,
+       "target": -13.3534,
+       "absDiff": 0.0,
+       "n": 87
+      },
+      "<1 h": {
+       "production": -0.1711,
+       "target": -0.1711,
+       "absDiff": 0.0,
+       "n": 339
+      },
+      "all gaps": {
+       "production": -3.0599,
+       "target": -3.0599,
+       "absDiff": 0.0,
+       "n": 639
+      }
+     },
+     "pairsBelow1hWithRiseGe2C": 0,
+     "nIntersection": 639
+    },
+    "P-R5": {
+     "pass": true,
+     "fast": {
+      "mean": 0.0416,
+      "n": 439,
+      "target": 0.04
+     },
+     "slow": {
+      "mean": 0.6254,
+      "ci": [
+       0.474,
+       0.787
+      ],
+      "n": 214,
+      "target": 0.625
+     },
+     "note": "drive counts follow the production per-drive period rule on the 665-drive master (the exploratory run counted 444 fast-polled drives)"
+    }
+   }
+  },
+  "deltaFlags": [],
+  "reading": "Restart change = next start minus previous end of the logged pack-probe readings (whole degrees), by gap class. A one-step rise of a single probe is a resolution artefact of whole-degree readings, not an event rate. Pairs with evidence of use inside the gap (state of charge up, engine coolant warm) are flagged and kept in the primary table; the park model fits drop them.",
+  "limits": [
+   "whole-degree probe readings; no sub-zero pack data yet",
+   "the hold-out is not clean (ambient amplitude and peak hour fitted on the whole corpus; split confounded with slow polling and the battery software update)",
+   "ambient is the vehicle sensor read only while driving (uncalibrated, heat-soaked after parking)",
+   "the unlogged-use flags miss short unlogged legs",
+   "the two-state model is not evaluated (open item)"
+  ],
+  "refresh": "recomputed at every ingestion by the stage restart_census; reproduction gates only on the 665-drive basis, new data fall under the outside-previous-interval flag"
  }
 }

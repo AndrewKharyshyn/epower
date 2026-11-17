@@ -218,6 +218,27 @@ def e1_table(P, rows_mask=None, cluster_col="day"):
     return out
 
 
+SUPPORT_MIN_PAIRS, SUPPORT_MIN_DAYS = 10, 5
+
+
+def supported(n, days):
+    """Support floor of the winter protocol (spec M708 section 9): at least 10 pairs on at least 5 days, else the cell is 'not evaluable' (never pooled across thermal classes to reach it)."""
+    return bool(n >= SUPPORT_MIN_PAIRS and days >= SUPPORT_MIN_DAYS)
+
+
+def condition_table(P, mask, label):
+    """E1 per gap class under a condition mask over the pair frame (flagged pairs kept; the without-flags version beside it). Cells below the support floor are reported as not evaluable without numbers."""
+    out = {"condition": label}
+    for name, m in (("flaggedKept", mask & P["elig"]), ("flaggedDropped", mask & P["elig"] & ~P["flagged"])):
+        t = e1_table(P, m)
+        res = {}
+        for cls, v in t.items():
+            n, dd = v["meanChange"]["n"], v["meanChange"]["nDays"]
+            res[cls] = v if supported(n, dd) else {"notEvaluable": True, "n": int(n), "nDays": int(dd), "floor": "%d pairs on %d days" % (SUPPORT_MIN_PAIRS, SUPPORT_MIN_DAYS)}
+        out[name] = res
+    return out
+
+
 def e5_start_bias(E, ledger_path, seed=SEED):
     """E5: ledger pack_temp_start_c minus the native 4-probe start, per drive, by regime (per-drive T2-T4 median period > 10 s = slow-polled; calendar rule and 8-12 s as sensitivities)."""
     L = pd.read_csv(ledger_path, usecols=["file", "pack_temp_start_c"], low_memory=False)
@@ -249,16 +270,8 @@ def ambient_start_map():
     return out
 
 
-def main(argv=None):
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--raw-dir", default=os.environ.get("XT_RAW_DIR") or os.path.join(ROOT, "raw"))
-    ap.add_argument("--out", default=os.path.join(ROOT, "analyses", "M709"))
-    ap.add_argument("--workers", type=int, default=6)
-    ap.add_argument("--drives-cache", default=None, help="pickle of the per-drive records (development speed-up; delete when raw or code changes)")
-    a = ap.parse_args(argv)
-    os.makedirs(a.out, exist_ok=True)
-    E = load_endpoints(a.raw_dir, a.workers, a.drives_cache)
-    P = build_pairs(E, ambient_start_map())
+def build_result(E, P):
+    """The census result dict (exclusions, E1 tables, E5) and the E5 per-drive frame, from the endpoints and the pair table."""
     e5, E5 = e5_start_bias(E, os.path.join(ROOT, "seasonal_drive_master.csv"))
     res = {"milestone": "M709", "spec": "analyses/M708_spec.md", "specSha256": hashlib.sha256(open(os.path.join(ROOT, "analyses", "M708_spec.md"), "rb").read()).hexdigest(),
            "masterMd5": hashlib.md5(open(os.path.join(ROOT, "drive_master.csv"), "rb").read()).hexdigest(), "scriptSha256": hashlib.sha256(open(os.path.abspath(__file__), "rb").read()).hexdigest(),
@@ -267,10 +280,28 @@ def main(argv=None):
            "E1_primary_flaggedKept": e1_table(P), "E1_secondary_flaggedDropped": e1_table(P, P["elig"] & ~P["flagged"]),
            "E1_sensitivity_previousDayCluster": e1_table(P, None, "p_day"), "E5": e5,
            "label": "logged BMS probe readings (whole degrees); same-probe mean of next start minus previous end; rise shares are a resolution artefact, not an event rate"}
-    E.to_csv(os.path.join(a.out, "restart_endpoints.csv"), index=False)
-    P.drop(columns=[c for c in P.columns if c.startswith(("p_", "n_")) and c not in ("p_key", "n_key", "p_day", "n_day", "n_amb_s")]).to_csv(os.path.join(a.out, "restart_pairs.csv"), index=False)
-    E5.to_csv(os.path.join(a.out, "restart_e5_start.csv"), index=False)
-    json.dump(res, open(os.path.join(a.out, "restart_census.json"), "w", encoding="utf-8"), indent=1)
+    return res, E5
+
+
+def write_outputs(out, E, P, res, E5):
+    os.makedirs(out, exist_ok=True)
+    E.to_csv(os.path.join(out, "restart_endpoints.csv"), index=False)
+    P.drop(columns=[c for c in P.columns if c.startswith(("p_", "n_")) and c not in ("p_key", "n_key", "p_day", "n_day", "n_amb_s")]).to_csv(os.path.join(out, "restart_pairs.csv"), index=False)
+    E5.to_csv(os.path.join(out, "restart_e5_start.csv"), index=False)
+    json.dump(res, open(os.path.join(out, "restart_census.json"), "w", encoding="utf-8"), indent=1)
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--raw-dir", default=os.environ.get("XT_RAW_DIR") or os.path.join(ROOT, "raw"))
+    ap.add_argument("--out", default=os.path.join(ROOT, "analyses", "M709"))
+    ap.add_argument("--workers", type=int, default=6)
+    ap.add_argument("--drives-cache", default=None, help="pickle of the per-drive records (development speed-up; delete when raw or code changes)")
+    a = ap.parse_args(argv)
+    E = load_endpoints(a.raw_dir, a.workers, a.drives_cache)
+    P = build_pairs(E, ambient_start_map())
+    res, E5 = build_result(E, P)
+    write_outputs(a.out, E, P, res, E5)
     print(json.dumps({"nDrives": res["nDrives"], "exclusions": res["exclusions"], "lt1h": res["E1_primary_flaggedKept"]["<1 h"]["meanChange"]}, indent=1))
     return 0
 

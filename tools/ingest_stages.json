@@ -171,6 +171,25 @@
    "verified": true
   },
   {
+   "id": "restart_census",
+   "title": "M711 (spec analyses/M708_spec.md Rev 2): restart / post-drive pack-temperature census (E1 by gap class, winter-only and 4-12 h tables with the support floor, E5 start-column check), one-state park model with and without the flagged legs; additive payload key restartTemperature; reproduction gates only on the 665-drive basis, new data fall under the outside-previous-interval flag (printed and recorded, never a stop)",
+   "cmd": [
+    "python3",
+    "tools/restart_stage.py"
+   ],
+   "needs": [
+    "build_ambient_table"
+   ],
+   "verified": false,
+   "implemented": true,
+   "outputs": [
+    "summary_arrays.json"
+   ],
+   "writes": [
+    "arrays:restartTemperature"
+   ]
+  },
+  {
    "id": "record_spread_fit",
    "title": "Append the M19b Huber fit record to spread_fit_history.json and publish spreadFitProvenance (incl. Part B intervals, bT stability flag) (M317)",
    "cmd": [
