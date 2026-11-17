@@ -32,6 +32,9 @@ ALIASES = {
     "motor": ["[VCM] Traction motor temperature (℃)"],
     "eng_oil": ["Температура олії у двигуні (℃)"],
     "eng_coolant": ["Температура охолодної рідини (℃)"],
+    # M710 (R4): vehicle speed, used ONLY to find the first movement for the native start rule (pack_temp_start_native_c)
+    "spd_vcm": ["[VCM] Vehicle Speed (km/h)"],
+    "spd_obd": ["Швидкість автомобіля (km/h)"],
 }
 # NOTE: the raw vehicle-ambient PID ("Температура оточуючого повітря") is intentionally
 # NOT extracted as an ambient source. Ambient is supplied manually per drive
@@ -42,6 +45,7 @@ DOMAIN = {
     "T1": (-40, 80), "T2": (-40, 80), "T3": (-40, 80), "T4": (-40, 80),
     "batt_intake": (-40, 80), "vcm_coolant": (-40, 150), "motor": (-40, 180),
     "eng_oil": (-40, 160), "eng_coolant": (-40, 130), "veh_ambient": (-50, 60),
+    "spd_vcm": (0, 260), "spd_obd": (0, 260),
 }
 
 def parse_tod(s):
@@ -92,6 +96,37 @@ def trajectory(series, bins_s):
 
 WARMUP_BINS = [30, 60, 120, 300, 600]
 
+# M710 (R4, spec analyses/M708_spec.md Rev 2 section 2): NATIVE start rule for the pack probes, no composite, no hold: the start reading of a probe is its EARLIEST valid reading
+# provided it is at or before the first movement (speed > 0.5 km/h) and within 60 s of log start; if none qualifies, the first reading within 30 s of log start (flag after_move).
+NATIVE_START_WIN_S, NATIVE_START_WIN_MOVING_S, NATIVE_MOVE_KMH = 60.0, 30.0, 0.5
+
+
+def first_move_rel(spd_vcm, spd_obd, first_t):
+    """Seconds from log start to the first speed > 0.5 km/h. VCM speed is used when the file has >= 20 valid VCM samples (gaps filled from the OBD speed at the same row), else the OBD speed;
+    None when the log never moves."""
+    if len(spd_vcm) >= 20:
+        vt = {t for t, _ in spd_vcm}
+        ev = [t for t, v in spd_vcm if v > NATIVE_MOVE_KMH] + [t for t, v in spd_obd if t not in vt and v > NATIVE_MOVE_KMH]
+    else:
+        ev = [t for t, v in spd_obd if v > NATIVE_MOVE_KMH]
+    return (min(ev) - first_t) if ev else None
+
+
+def native_pack_start(probe_first, t_move_rel):
+    """probe_first: {probe: (t_rel_of_first_valid_reading, value) or None}. Returns (mean of the available native start readings, number of probes, 1 if any used the after-move fallback else 0);
+    (None, 0, 0) when no probe has a start reading."""
+    vals, am = [], 0
+    for ph in probe_first.values():
+        if ph is None:
+            continue
+        t, v = ph
+        pre = t <= NATIVE_START_WIN_S and (t_move_rel is None or t <= t_move_rel)
+        if pre:
+            vals.append(v)
+        elif t <= NATIVE_START_WIN_MOVING_S:
+            vals.append(v); am = 1
+    return ((round(statistics.fmean(vals), 3) if vals else None), len(vals), am if vals else 0)
+
 
 def channel_stats(series):
     """series: list of (t_s, value) valid pairs, time-ordered. Returns
@@ -131,6 +166,7 @@ def process_file(path, hold_s=10.0):
         pack_spread_series = [] # (t, max-min of fresh valid T1-4, >=2 probes)
         probe_max = {p: None for p in ("T1", "T2", "T3", "T4")}
         probe_hold = {p: None for p in ("T1", "T2", "T3", "T4")}  # (t_last, v_last)
+        probe_first = {p: None for p in ("T1", "T2", "T3", "T4")}  # M710: (t_abs, v) of the earliest valid reading
         first_t = last_t = None
         base = 0.0
         prev_raw = None
@@ -155,6 +191,8 @@ def process_file(path, hold_s=10.0):
                     if c in probe_max:
                         probe_max[c] = v if probe_max[c] is None else max(probe_max[c], v)
                         probe_hold[c] = (tt, v)
+                        if probe_first[c] is None:
+                            probe_first[c] = (tt, v)
                         probe_updated = True
             if probe_updated:
                 fresh = [pv for ph in probe_hold.values() if ph is not None
@@ -177,6 +215,11 @@ def process_file(path, hold_s=10.0):
         out.update({"pack_spread_time_mean_c": sp["time_mean"],
                     "pack_spread_max_c": sp["max"]})
         out["pack_probe_max_c"] = max([v for v in probe_max.values() if v is not None], default=None)
+        # M710 (R4): native start of the pack probes (additive columns; pack_temp_start_c above is the legacy 10 s-hold composite and is unchanged)
+        tm = first_move_rel(chan_series.get("spd_vcm", []), chan_series.get("spd_obd", []), first_t) if first_t is not None else None
+        pf = {p: ((ph[0] - first_t, ph[1]) if ph is not None else None) for p, ph in probe_first.items()}
+        nat, nn, nam = native_pack_start(pf, tm)
+        out.update({"pack_temp_start_native_c": nat, "pack_temp_start_native_n": nn, "pack_temp_start_after_move": nam})
         # single channels
         for c in ("eng_oil", "eng_coolant", "vcm_coolant", "batt_intake", "motor"):
             st = channel_stats(chan_series.get(c, []))
