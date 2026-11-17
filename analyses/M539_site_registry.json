@@ -281,6 +281,20 @@
    "family": "doc-300",
    "rule": "text only (docstring of the M701 feasibility count)",
    "migration": "none"
+  },
+  {
+   "file": "tools/scenario_frame.py",
+   "anchor": "on = np.where(np.isfinite(rpm), rpm > 400, False)",
+   "family": "rule-400",
+   "rule": "engine-on rule rpm > 400 (strict; unknown rpm = not on) on the 1 Hz grid of the exposure scenario frame (M713a): engine starts, charge Ah engine-on / off, engine share per slice; same rule as tools/engine_on_rule.THRESHOLD_RPM",
+   "migration": "none (the frame uses the M540 rule, option A > 400)"
+  },
+  {
+   "file": "tools/scenario_frame.py",
+   "anchor": "A[\"engon\"][k] = np.nanmean(rpm[mk] > 400)",
+   "family": "rule-400",
+   "rule": "engine-on rule rpm > 400 (strict; unknown rpm = not on) on the 1 Hz grid of the exposure scenario frame (M713a): engine starts, charge Ah engine-on / off, engine share per slice; same rule as tools/engine_on_rule.THRESHOLD_RPM",
+   "migration": "none (the frame uses the M540 rule, option A > 400)"
   }
  ],
  "knownBoundaryNotes": [
