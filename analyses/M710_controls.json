@@ -1,0 +1,32 @@
+{
+ "milestone": "M710",
+ "note": "Controls measured in this session by running tools/stage_raw.py + tools/run_raw_temp_pass.py + compute_seasonal.py with the M710 code on the 665-drive corpus (inline comparison against git HEAD and against analyses/M709/restart_endpoints.csv); the regenerated CSVs are NOT committed (see CHANGELOG M710: materialised at the next ingestion).",
+ "triplets": {
+  "rows": 665,
+  "columnsBefore": 45,
+  "columnsAfter": 48,
+  "newColumns": [
+   "pack_temp_start_native_c",
+   "pack_temp_start_native_n",
+   "pack_temp_start_after_move"
+  ],
+  "legacyCellsChanged": 0
+ },
+ "seasonalMaster": {
+  "columnsBefore": 97,
+  "columnsAfter": 100,
+  "legacyColumnsChanged": 0
+ },
+ "seasonalArraysJson": "content identical (line endings only)",
+ "nativeVsCensusNative4": {
+  "drivesCompared": 653,
+  "maxAbsDiff": 0.0
+ },
+ "coverage": {
+  "nativeN4": 653,
+  "nativeN0": 11,
+  "nativeN1": 1,
+  "afterMoveFlag": 19
+ },
+ "incidentalFinding": "re-running the nine producer stages of the 11 declared-input stamps WITHOUT the rest of the ingestion chain loses additive leaves (seasonalCharts coverage/cold/*, EngineStartsByType ...) that later stages (cold_support_sync, engine_start_rate) add: a changed seasonal master or triplets file must be refreshed by the full stage chain, never by a subset"
+}
