@@ -13,6 +13,7 @@ import pandas as pd
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 sys.path.insert(0, ROOT)
+import eligibility as EL  # M707 (B1): explicit-True exclusion, missing flag kept
 
 PROBE_COLS = ['[BMS] HV Battery Temperature Sensor %d (℃)' % i for i in (1, 2, 3, 4)]
 THRESH = (30, 35, 40)
@@ -119,7 +120,7 @@ def summarise(rows, excluded, nb=4000, seed=42):
 
 def run(dm, raw_loader, eligibility='canonical', **kw):
     """eligibility 'canonical' = ens_outlier_v2 false (production); 'all' = every master row (audit-emulation mode, known-answer only)."""
-    d = dm if eligibility == 'all' else dm[~dm['ens_outlier_v2'].astype(bool)]
+    d = dm if eligibility == 'all' else dm[EL.keep_mask(dm)]
     rows, excluded = [], []
     for fn, day in zip(d['file'], d['date']):
         r = extract(raw_loader(fn), **kw)

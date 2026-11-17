@@ -14,6 +14,8 @@ import numpy as np
 import pandas as pd
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+sys.path.insert(0, ROOT)
+import eligibility as EL  # M707 (B1)
 NB, SEED = 4000, 42
 FLOOR_DRIVES, FLOOR_DAYS, WEIGHT_CUT = 10, 5, 0.05
 TYPES = ["urban", "mixed", "mixed_highway", "highway"]
@@ -88,7 +90,7 @@ def support(fuel, col):
 
 
 def build(closure, dm):
-    ref = dm[(~dm["ens_outlier_v2"].astype(bool)) & (dm["distance_km"] > 0)][["file", "date", "drive_type", "distance_km"]].rename(columns={"distance_km": "km"}).copy()
+    ref = dm[EL.keep_mask(dm) & (dm["distance_km"] > 0)][["file", "date", "drive_type", "distance_km"]].rename(columns={"distance_km": "km"}).copy()
     ref["date"] = ref["date"].astype(str)
     fuel = closure.copy()
     fuel["date"] = fuel["date"].astype(str)

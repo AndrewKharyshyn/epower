@@ -5,6 +5,7 @@ Usage: python tools/new_raw_files.py [--json] [--raw-dir DIR] [--manifest FILE] 
 import json, os, re, sys
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+sys.path.insert(0, os.path.join(ROOT, "tools"))
 
 
 def digits(name):
@@ -18,11 +19,9 @@ def new_files(raw_dir, manifest_path):
         for k in ("canonical", "raw_name", "record_id"):
             if r.get(k):
                 known.add(digits(r[k]))
-    out = []
-    for f in sorted(os.listdir(raw_dir)):
-        if f.lower().endswith(".csv") and digits(f) and digits(f) not in known:
-            out.append(f)
-    return out
+    import raw_resolver as RR   # M707 (B3): one file per timestamp key; byte-identical aliases are one drive, differing bytes raise RawConflict (reported by main, never silently picked)
+    res = RR.resolve(raw_dir, manifest_path)
+    return [os.path.basename(p) for k, p in sorted(res.index.items(), key=lambda kv: os.path.basename(kv[1])) if k not in known]
 
 
 def message(files):
@@ -39,6 +38,9 @@ def main(argv=None):
     try:
         files = new_files(raw_dir, manifest)
     except Exception as e:          # never block a session
+        if type(e).__name__ == "RawConflict":                   # M707 (B3): a conflict must be visible, not a silent "nothing new"
+            print("RAW FILE CONFLICT in raw/: " + str(e) + ". Do not ingest until the owner decides which file is the drive (identical bytes are accepted as aliases automatically).")
+            return 0
         print("new_raw_files: check skipped (%r)" % (e,), file=sys.stderr)
         return 0
     if "--json" in argv:
