@@ -13,6 +13,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 for p_ in (ROOT, os.path.join(ROOT, "tools")):
     if p_ not in sys.path:
         sys.path.insert(0, p_)
+import eligibility as EL  # M707 (B1)
 import regen_v2 as R
 import regen_v2_agg as G
 
@@ -412,7 +413,7 @@ def run(workers=5, study=True):
     co_t.strict = ~co_t.d["iv_plateau"]
     sens["allInEpisodeIncludingTrimmedPlateaus"] = table(co_t)
     if "ens_outlier_v2" in dm:
-        sens["ensCleanDrives"] = table(cohort("all", extra_mask=(~dm["ens_outlier_v2"].astype(bool)).values))
+        sens["ensCleanDrives"] = table(cohort("all", extra_mask=EL.keep_mask(dm).values))
     days_a = list(co_all.days)
     cwa, _ = week_counts(co_all, days_a)
     wia, _ = week_index(days_a)

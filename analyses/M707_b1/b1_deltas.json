@@ -1,0 +1,49 @@
+{
+ "milestone": "M707",
+ "item": "B1",
+ "change": "eligibility.keep_mask (explicit True excludes; NaN kept) at 6 sites",
+ "nanFlagDrives": 12,
+ "m638": {
+  "published": {
+   "nDrives": 651,
+   "nExcluded": 0,
+   "share35": 0.3905,
+   "ci35": [
+    0.2952,
+    0.4729
+   ]
+  },
+  "withFix": {
+   "nDrives": 656,
+   "nExcluded": 7,
+   "share35": 0.3899,
+   "ci35": [
+    0.297,
+    0.4759
+   ],
+   "reason": "7 early drives lack probe channels"
+  }
+ },
+ "m639": {
+  "published": {
+   "refDrives": 651,
+   "refDays": 126,
+   "E1": 0.5893,
+   "E2": 0.5921
+  },
+  "withFix": {
+   "refDrives": 660,
+   "refDays": 129,
+   "E1": 0.5907,
+   "E2": 0.5935,
+   "ciE1": [
+    0.5402,
+    0.6318
+   ]
+  },
+  "supportStatusChanged": false,
+  "E0Unchanged": true
+ },
+ "escalation": "none: no support status change, every point inside its previous CI",
+ "payloadSpliced": false
+}

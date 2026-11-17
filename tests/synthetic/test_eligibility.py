@@ -70,4 +70,18 @@ with tempfile.TemporaryDirectory() as td:
     assert (G["nProduction"], G["nDrives"], G["kmProduction"]) == (a["nProduction"], a["nDrives"], a["kmProduction"]), "the ingestion stage lost the canonical-clean definition"
     E = json.load(open(os.path.join(td, "summary_arrays.json"), encoding="utf-8"))["seasonalCharts"]["charts"]["GeneratorTractionRecon"]
     assert {k: E[k] for k in W.ENTRY_META} == W.ENTRY_META
+
+# ---- M707 (B1): a missing flag is NOT an exclusion; every production site must agree on a frame with NaN ----
+import numpy as np
+DMN = pd.DataFrame({"file": list("abcdef"), "ens_outlier_v2": pd.Series([False, np.nan, True, "True", None, False], dtype=object)})
+assert EL.keep_mask(DMN).tolist() == [True, True, False, False, True, True], "explicit True excludes, NaN/None/False kept"
+assert bool(DMN["ens_outlier_v2"].astype(bool).iloc[1]), "premise: astype(bool) maps NaN to True (the B1 bug)"
+sys.path.insert(0, os.path.join(ROOT, "tools"))
+import m638_sample_occupancy as M638, m639_fgen_mix as M639
+src = lambda f: open(os.path.join(ROOT, "tools", f), encoding="utf-8").read()
+for f in ("m638_sample_occupancy.py", "m639_fgen_mix.py", "regen_v2_agg.py", "regen_std.py", "pcl_gate.py", "pcl_monitor.py"):
+    t = src(f)
+    assert "EL.keep_mask(" in t and 'ens_outlier_v2"].astype(bool)' not in t and "ens_outlier_v2'].astype(bool)" not in t, f + ": must use eligibility.keep_mask"
+DMR = DMN.assign(distance_km=1.0, date="2026-01-01", drive_type="urban")
+assert len(M638.run.__code__.co_varnames) and len(DMR[EL.keep_mask(DMR)]) == 4
 print("test_eligibility: ok")

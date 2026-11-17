@@ -20,6 +20,7 @@ os.chdir(ROOT)
 for p_ in (ROOT, os.path.join(ROOT, "tools")):
     if p_ not in sys.path:
         sys.path.insert(0, p_)
+import eligibility as EL  # M707 (B1)
 import regen_v2_agg as G
 import m441_study as S
 import m442_gate as MG
@@ -115,7 +116,7 @@ def arm_arrays(dm, start, design, table, keep):
     ev = d["ev_rpm_dt_med_s"].values
     el = (d["date"] >= start.isoformat()).values & keep & np.isfinite(ev)
     if "ens_outlier_v2" in d:
-        el &= ~d["ens_outlier_v2"].astype(bool).values
+        el &= EL.keep_mask(d).values
     asg = np.array([PS.assigned_arm(design, table, a, t, ts) for a, t, ts in zip(d["date"], d["trip"], d["time_start"])])
     return d["date"].values, el & (ev < 1.0), el & (ev >= 1.0), el & (asg == "fast"), el & (asg == "slow"), asg
 

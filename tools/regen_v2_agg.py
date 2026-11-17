@@ -12,6 +12,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 for p_ in (ROOT, os.path.join(ROOT, "tools")):
     if p_ not in sys.path:
         sys.path.insert(0, p_)
+import eligibility as EL  # M707 (B1)
 import regen_v2 as R
 import regen_v2_cache as K
 
@@ -332,7 +333,7 @@ def run(variant="base", cohorts=("all", "warm", "shoulder", "cold"), workers=5, 
         res["cohorts"][c] = cohort_block(co, hdrs, [f for f, m in zip(files, mask) if m])
     # ens-clean sensitivity (totals only, cohort all)
     if ens_clean and "ens_outlier_v2" in dm:
-        clean = (~dm["ens_outlier_v2"].astype(bool)).values & keep_drive
+        clean = EL.keep_mask(dm).values & keep_drive
         co = Cohort(T, dm, clean, "all-ensClean")
         res["sensitivityEnsClean"] = {"nDrives": int(clean.sum()), "totals": co.cell_block("all", np.ones(len(co.drive), bool))["all"], "temperature": co.view_by_soc("temperature", sels=["noSocCondition"])["noSocCondition"]}
     res = strip(res)

@@ -49,3 +49,14 @@ def canonical_clean(files, flags=None, path="drive_master.csv"):
     files = list(files)
     ex = excluded_files(flags, files)
     return [x for x in files if x not in ex]
+
+
+def flag_true(series):
+    """M707 (B1): True only where the flag is explicitly True (bool True or the string 'True', any case). A missing value (NaN/None) is NOT True.
+    Never use `series.astype(bool)` on a master flag column: astype(bool) maps NaN to True and silently drops the drives with a missing flag."""
+    return series.map(lambda x: x is True or str(x).strip().lower() == "true").astype(bool)
+
+
+def keep_mask(dm, col="ens_outlier_v2"):
+    """M707 (B1): boolean Series, True for drives NOT excluded by the canonical flag `col` (explicit True excludes; a missing flag is kept, as in cohort_arrays.py / compute_summary_arrays._as_bool)."""
+    return ~flag_true(dm[col])

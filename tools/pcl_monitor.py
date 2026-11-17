@@ -13,6 +13,8 @@ import pandas as pd
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
+sys.path.insert(0, ROOT)
+import eligibility as EL  # M707 (B1)
 import pcl_schedule as PS
 
 ESCALATE_BELOW = 0.90
@@ -39,7 +41,7 @@ def report(dm, schedule_path):
         return {"protocol": "PCL-1", "started": False, "note": "no schedule file: the protocol has not started (the owner chooses the START DATE)"}
     start, seed, design, table, sha = PS.read(schedule_path)
     d = protocol_frame(dm, start, design, table)
-    clean = ~d["ens_outlier_v2"].astype(bool) if "ens_outlier_v2" in d else pd.Series(True, index=d.index)
+    clean = EL.keep_mask(d) if "ens_outlier_v2" in d else pd.Series(True, index=d.index)
     e = d[clean]
     both = e[e["observed"].isin(["fast", "slow"])]
     per_day = both.groupby(["date", "observed"]).size().unstack(fill_value=0)
