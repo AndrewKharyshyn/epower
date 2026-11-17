@@ -224,6 +224,8 @@ def build(master_path=None, out_dir=None):
             "pack_temp_max_c": pack_max,
             "pack_probe_max_c": probe_max,
             "pack_temp_start_c": pack_start,
+            # M710 (R4): NATIVE start (no composite, no hold; raw_temp_pass.native_pack_start). pack_temp_start_c above is the legacy 10 s-hold composite, kept unchanged and labelled legacy.
+            "pack_temp_start_native_c": _tv("pack_temp_start_native_c"), "pack_temp_start_native_n": _tv("pack_temp_start_native_n"), "pack_temp_start_after_move": _tv("pack_temp_start_after_move"),
             "pack_spread_time_mean_c": _tv("pack_spread_time_mean_c"),
             "pack_spread_max_c": _tv("pack_spread_max_c") or _f(r.get("cell_spread_max_mv")),
             "oil_temp_max_c": oil_max, "oil_temp_start_c": oil_start,
