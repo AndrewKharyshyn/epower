@@ -1,0 +1,235 @@
+{
+ "milestone": "M717",
+ "status": "FROZEN before 2026-12-01 and before the first winter drive; scored before any refit; a refit is a NEW VERSION and the old predictions are kept",
+ "language": "model-derived; logged readings are 'logged', never 'measured'; no end-of-life; cold outputs NOT SUPPORTED until P1 and P2 hold on winter data",
+ "evaluation": {
+  "cells": "each evaluation cell needs >= 10 drives (pairs) on >= 5 days, else 'not evaluable'",
+  "cluster": "calendar day, percentile bootstrap, seed 42, 4000 draws",
+  "looks": [
+   "2027-02-11 descriptive",
+   "2027-05-11 formal (N-01, equivalence needs SE <= 0.328)"
+  ],
+  "updateTriggers": [
+   "a prediction outside its band on >= 10 drives / 5 days",
+   "any pack reading below 0 C (first sub-zero data: refit R(T) and the limit map with a curvature term, as a new version)",
+   "a change of the logged-share factor by more than 5 points"
+  ],
+  "decisionRule": "predictions are scored before any refit; refits are reported as new versions with the old predictions kept"
+ },
+ "prototypeInputs": {
+  "eng": {
+   "slopePerC": -0.00812,
+   "ci": [
+    -0.01061,
+    -0.00566
+   ],
+   "n": 375,
+   "nDays": 89
+  },
+  "lnahkm": {
+   "slopePerC": 0.00153,
+   "ci": [
+    -0.00193,
+    0.00515
+   ],
+   "n": 375,
+   "nDays": 89
+  },
+  "sha256": "8b3aba1f86a82fc740a41ca3cc80df056ec722d6dda40bfa9443ebb7912502a9"
+ },
+ "params": {
+  "R_T": {
+   "EaR_kJmol": 17.582,
+   "EaR_ci": [
+    16.418,
+    18.665
+   ],
+   "R25_mohm": 111.97
+  },
+  "driveHeating": {
+   "alpha_C_per_A2h": 0.013093,
+   "tau_d_h": 0.986873,
+   "c0_C": 23.87691,
+   "c1": 0.220106
+  },
+  "limitMap": {
+   "b0_kW_at_0C_soc60": 33.9221,
+   "bT_kW_perC": 1.5529,
+   "bS_kW_perSocPt": -1.0097,
+   "extrapolatedBelowObservedRange": true
+  },
+  "diurnalAmbient": {
+   "autumn": {
+    "amp": 5.8,
+    "hpk": 15.543
+   },
+   "summer": {
+    "amp": 6.656,
+    "hpk": 15.936
+   }
+  },
+  "park": {
+   "tau_h": 9.105,
+   "tauCi": [
+    8.19,
+    10.162
+   ],
+   "offset_C": 0.469,
+   "offsetCi": [
+    -0.578,
+    1.407
+   ],
+   "offsetBracketForSensitivity": [
+    0.0,
+    2.7
+   ],
+   "oneOffsetAllSeasons": true
+  },
+  "scenarioDefaults": {
+   "tau_p": 9.105,
+   "off_s": 0.469,
+   "off_a": 0.469,
+   "off_w": 0.469,
+   "alpha": 0.01309,
+   "tau_d": 0.98687,
+   "c0": 23.87691,
+   "c1": 0.22011,
+   "EaR": 17.582,
+   "amp_s": 6.656,
+   "hpk_s": 15.936,
+   "amp_a": 5.8,
+   "hpk_a": 15.543,
+   "amp_w_scale": 0.7,
+   "kappa": 0.0,
+   "der": 1.0,
+   "pin_b0": 33.9221,
+   "pin_bT": 1.55294,
+   "pin_bS": -1.00965,
+   "tlo_off": 1.5,
+   "f_s": 1.0791,
+   "f_a": 1.1965,
+   "gamma": 1.0,
+   "w_off": 0.0
+  },
+  "climateNormalSource": "summary_arrays.json seasonalLife.assumptions.monthlyTempC (external, user-supplied, not measured by this study)",
+  "assumptionRanges": {
+   "file": "analyses/M712_ranges.json",
+   "sha256": "770a8f008e1e9e0e2965ea96c3819c09e0c838071871d9fa2402a430d1562f57"
+  }
+ },
+ "predictions": {
+  "P1": {
+   "name": "start-temperature accuracy of the state-model chain on winter drives",
+   "rule": "free-run MAE of the simulated start temperature <= 3 C and |bias| <= 2 C; park model: held-out bias within +-1 C at gaps >= 12 h and within +-0.5 C around the 10 and 15 C thresholds on winter restart pairs",
+   "frozenParameters": [
+    "params.park",
+    "params.driveHeating",
+    "params.diurnalAmbient"
+   ],
+   "scoredBefore": "any refit"
+  },
+  "P2": {
+   "name": "Ah share below 10 C inside the scenario band for the realised ambient",
+   "bandAhShareBelow10C": [
+    0.0316,
+    0.1476
+   ],
+   "source": "analyses/M713/scenario_results_production.json E_real 95 % intervals of S3a, S2, S3b (union)",
+   "rule": "the day-clustered 95 % interval of the realised winter Ah share below 10 C lies inside the band (computed for the REALISED ambient when it is known); cold outputs are NOT SUPPORTED until this and P1 hold"
+  },
+  "P3": {
+   "name": "resistance proxy ratio at 0 C",
+   "ratio_R_0C_vs_25C": 1.914,
+   "interval": [
+    1.833,
+    1.992
+   ],
+   "ratio_R_minus10C_vs_25C": 2.569,
+   "formula": "exp(EaR/Rgas (1/T - 1/298.15 K)) with EaR and its bootstrap interval from the state parameters",
+   "expected": "expected to fail HIGH if the slope steepens below the observed range (one activation energy is an extrapolation)",
+   "rule": "the winter pulse-resistance proxy at 0 C over its 25 C value lies inside the interval; below the observed range the single-Ea form is an assumption"
+  },
+  "P4": {
+   "name": "BMS charge-limit register at the coldest probe, SoC 60 %",
+   "kW_at_0C": [
+    33.92,
+    32.72,
+    35.47
+   ],
+   "kW_at_minus10C": 18.39,
+   "envelope_at_minus10C": [
+    16.43,
+    20.97
+   ],
+   "formula": "b0 + bT * T (SoC 60) with the fitted map; envelope from the interval ends (conservative)",
+   "label": "BMS-reported register, not delivered power; linear extrapolation below the observed range",
+   "rule": "the logged register at 0 C and SoC 60 % lies inside the 0 C interval; at -10 C inside the envelope"
+  },
+  "P5": {
+   "name": "Ah per km in the cold, no increase against autumn",
+   "dataSlope_lnAhPerKm_perC_ambientBelow20C": {
+    "slopePerC": 0.00153,
+    "ci": [
+     -0.00193,
+     0.00515
+    ],
+    "n": 375,
+    "nDays": 89
+   },
+   "M28_alternative": "+6 to +16 % per 10 C of cooling",
+   "rule": "one-sided: at matched trip-length and speed class, winter Ah per km is NOT higher than autumn; the hypothesis is rejected when the day-clustered lower 95 % bound of the winter-minus-autumn increase exceeds +6 % scaled to the realised temperature difference"
+  },
+  "P6": {
+   "name": "peak charge C-rate below 0 C within the limit map",
+   "C_at_0C_soc60": 18.85,
+   "formula": "limit kW * 1000 / 360 V / 5 Ah (rated basis, verified:false)",
+   "rule": "the peak charge C-rate below 0 C does not exceed the limit-map C-rate at the logged temperature and SoC"
+  },
+  "P7": {
+   "name": "engine-on share rises with cooling",
+   "points_per_C_cooling_ambientBelow20C": [
+    0.812,
+    0.566,
+    1.061
+   ],
+   "source": "prototype thermal_params.json ambientEffects.ambient_lt20.eng (per-drive regression with trip-length and mean-speed controls; association, not a temperature effect)",
+   "rule": "the winter slope of the engine-on share on ambient (below 20 C) lies inside the interval (points per C)"
+  }
+ },
+ "sources": {
+  "stateParams": {
+   "path": "analyses/M713/state_params.json",
+   "sha256": "0dda8c93f54ee222eb698d9cf326f274275e7d505732f67774a05f0992e6fdda"
+  },
+  "parkModel": {
+   "path": "analyses/M709/park_model.json",
+   "sha256": "3677301a392590757d5c66bb3acc7cc75596c641519d4d39cb7308a06de2ab18"
+  },
+  "scenarioResults": {
+   "path": "analyses/M713/scenario_results_production.json",
+   "sha256": "bf03c721ae44905572a3c1ec908dd66dde9ac5c86099bca0864b0705bf2d6f6c"
+  },
+  "scenarioGates": {
+   "path": "analyses/M713/scenario_gates.json",
+   "sha256": "94eb2b40ee4182706f2aa99a2b2ec5783b055679ac615d10a294061c30627085"
+  },
+  "rangesFile": {
+   "path": "analyses/M712_ranges.json",
+   "sha256": "770a8f008e1e9e0e2965ea96c3819c09e0c838071871d9fa2402a430d1562f57"
+  },
+  "specM712": {
+   "path": "analyses/M712_spec.md",
+   "sha256": "009fcb9548b8bdf700bfc6f4dd3ae41ee1478f4faa7089ddb794f25b00e94240"
+  },
+  "specM708": {
+   "path": "analyses/M708_spec.md",
+   "sha256": "3871e159aadeb5322666be3da92ae9b62ba841f46edb54358d06cd385b65a0ac"
+  },
+  "prototypeThermalParams": {
+   "path": "analyses/exposure_scenarios_2026-11-16/results/thermal_params.json",
+   "sha256": "8b3aba1f86a82fc740a41ca3cc80df056ec722d6dda40bfa9443ebb7912502a9"
+  }
+ },
+ "derivedBy": "tools/winter_freeze.py",
+ "scriptSha256": "62675473cedd6869467b535a7c836504b5e6e26d6271fd084363adc11ffc14e9"
+}
