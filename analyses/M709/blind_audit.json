@@ -1,0 +1,89 @@
+{
+ "milestone": "M709",
+ "kind": "blind reproduction (analytical-auditor, claim + data paths only, no tools/ or analyses/ read)",
+ "script": "audit/blind_restart.py (untracked, outside the journal)",
+ "claim": "restart change per gap class; no <1 h rise >= 2 C; slow-polled start offset about +0.6 C",
+ "auditor": {
+  "nPairsEligible": 642,
+  "nDays": 126,
+  "classMeans": {
+   "<10 min": {
+    "n": 150,
+    "days": 78,
+    "mean": 0.093,
+    "ci": [
+     0.026,
+     0.16
+    ]
+   },
+   "10-60 min": {
+    "n": 192,
+    "days": 86,
+    "mean": -0.376,
+    "ci": [
+     -0.519,
+     -0.246
+    ]
+   },
+   "<1 h": {
+    "n": 342,
+    "days": 106,
+    "mean": -0.171,
+    "ci": [
+     -0.272,
+     -0.082
+    ]
+   },
+   "1-4 h": {
+    "n": 131,
+    "days": 78,
+    "mean": -1.714,
+    "ci": [
+     -2.157,
+     -1.278
+    ]
+   },
+   "4-12 h": {
+    "n": 82,
+    "days": 59,
+    "mean": -6.232,
+    "ci": [
+     -7.839,
+     -4.676
+    ]
+   },
+   ">=12 h": {
+    "n": 87,
+    "days": 87,
+    "mean": -13.353,
+    "ci": [
+     -14.638,
+     -12.017
+    ]
+   }
+  },
+  "pairsBelow1hWithRiseGe2C": 0,
+  "maxRiseBelow1h": 1.75,
+  "slowPerDrive": {
+   "n": 214,
+   "mean": 0.625,
+   "median": 0.583
+  },
+  "fastPerDrive": {
+   "n": 442,
+   "mean": 0.041
+  }
+ },
+ "production": {
+  "nPairsEligible": 639,
+  "<1 h": -0.1711,
+  "slowPerDrive": 0.6254,
+  "fastPerDrive": 0.0416
+ },
+ "verdict": "agrees (max abs class-mean difference 0.004 C)",
+ "deviations": [
+  "auditor counts 642 pairs vs 639 (+3, inside the P-R0 tolerance): it averages over probes present at both ends, production additionally requires a T1 reading at both ends",
+  "9 drives have no start reading in the auditor's run (raw files without T1-T4 columns)",
+  "fast-polled drive count 442 vs 439 (same cause)"
+ ]
+}
