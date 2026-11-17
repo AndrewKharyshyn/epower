@@ -9,10 +9,11 @@
  "kwhPerDrive_vs_masterProjectRule_p95AbsRelDiff": 0.0706,
  "sliceAhConservation_maxAbsDiff": 1.4210854715202004e-14,
  "sliceChargeBinConservation_maxAbsDiff": 7.105427357601002e-15,
- "scriptSha256": "8aa8dd75905a3f4aa171bd7ff1149b99ed08a9daab9824ee5fd5241a583945aa",
+ "scriptSha256": "9ea3435e7c6bf3dce4b267df45d235d0ba88d242125b2a505975391a44f14770",
  "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
  "rule": "zero-order-hold 1 Hz grid (prototype rule), about 4.4 % above the project linear sign-aware rule; the project rule is gross_throughput_kwh of the master (spec M712 Rev 1.1 C2)",
  "prototypeComparison": {
   "note": "comparison-only against analyses/exposure_scenarios_2026-11-16/results (untracked prototype): drives.csv 157 shared columns over 665 drives identical (max abs diff <= 1e-6, same NaN pattern); slices.npz arrays identical; the M713b additions (pulse and charge-limit statistics) have no prototype counterpart in drives.csv"
- }
+ },
+ "tool": "tools/scenario_frame.py"
 }
