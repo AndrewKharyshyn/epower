@@ -1,0 +1,260 @@
+{
+ "milestone": "M719",
+ "purpose": "control build of the park-model propagation (no payload change)",
+ "gridCells": 126,
+ "tauAxis": [
+  {
+   "name": "primary",
+   "tauH": 7.873,
+   "ambientShiftC": 0.0
+  },
+  {
+   "name": "stratum4hOrLonger",
+   "tauH": 7.358,
+   "ambientShiftC": 0.0
+  },
+  {
+   "name": "L2",
+   "tauH": 7.846,
+   "ambientShiftC": 0.0
+  },
+  {
+   "name": "previousDriveMax",
+   "tauH": 7.107,
+   "ambientShiftC": 0.0
+  },
+  {
+   "name": "ambientShift-2C(refit)",
+   "tauH": 9.357,
+   "ambientShiftC": -2.0
+  },
+  {
+   "name": "ambientShift+2C(refit)",
+   "tauH": 6.535,
+   "ambientShiftC": 2.0
+  }
+ ],
+ "variants": {
+  "displayedPrimary (tau 7.873, offset 0)": {
+   "parkedHours": 4064.012,
+   "cold10": 386.386,
+   "cold15": 847.294,
+   "hot35": 173.044,
+   "hot40": 25.291,
+   "cold10NoLong": 55.887,
+   "cold15NoLong": 306.266,
+   "hot35NoLong": 144.339,
+   "hot40NoLong": 20.355
+  },
+  "M709 default (tau 9.105, offset 0.469)": {
+   "parkedHours": 4064.012,
+   "cold10": 363.441,
+   "cold15": 768.632,
+   "hot35": 199.435,
+   "hot40": 28.797,
+   "cold10NoLong": 39.577,
+   "cold15NoLong": 252.417,
+   "hot35NoLong": 164.054,
+   "hot40NoLong": 22.861
+  },
+  "M709 tau lower end (8.190), offset 0.469": {
+   "parkedHours": 4064.012,
+   "cold10": 373.756,
+   "cold15": 803.935,
+   "hot35": 183.999,
+   "hot40": 26.648,
+   "cold10NoLong": 47.04,
+   "cold15NoLong": 278.936,
+   "hot35NoLong": 152.174,
+   "hot40NoLong": 21.309
+  },
+  "M709 tau upper end (10.162), offset 0.469": {
+   "parkedHours": 4064.012,
+   "cold10": 351.955,
+   "cold15": 734.664,
+   "hot35": 217.148,
+   "hot40": 31.278,
+   "cold10NoLong": 31.385,
+   "cold15NoLong": 228.596,
+   "hot35NoLong": 177.66,
+   "hot40NoLong": 24.653
+  },
+  "M709 tau, offset bracket lower (0)": {
+   "parkedHours": 4064.012,
+   "cold10": 370.865,
+   "cold15": 800.256,
+   "hot35": 193.016,
+   "hot40": 28.087,
+   "cold10NoLong": 43.769,
+   "cold15NoLong": 269.023,
+   "hot35NoLong": 159.82,
+   "hot40NoLong": 22.379
+  },
+  "M709 tau, offset bracket upper (2.7)": {
+   "parkedHours": 4064.012,
+   "cold10": 16.681,
+   "cold15": 525.377,
+   "hot35": 247.066,
+   "hot40": 32.591,
+   "cold10NoLong": 16.681,
+   "cold15NoLong": 188.719,
+   "hot35NoLong": 191.299,
+   "hot40NoLong": 25.236
+  }
+ },
+ "metrics": {
+  "parkedHours": {
+   "displayedPrimary": 4064.012,
+   "M709default": 4064.012,
+   "relDelta": 0.0,
+   "displayedGridMin": 4064.012,
+   "displayedGridMax": 4064.012,
+   "M709InsideGridEnvelope": true
+  },
+  "cold10": {
+   "displayedPrimary": 386.386,
+   "M709default": 363.441,
+   "relDelta": -0.0594,
+   "displayedGridMin": 0.506,
+   "displayedGridMax": 656.152,
+   "M709InsideGridEnvelope": true
+  },
+  "cold15": {
+   "displayedPrimary": 847.294,
+   "M709default": 768.632,
+   "relDelta": -0.0928,
+   "displayedGridMin": 459.497,
+   "displayedGridMax": 1335.042,
+   "M709InsideGridEnvelope": true
+  },
+  "hot35": {
+   "displayedPrimary": 173.044,
+   "M709default": 199.435,
+   "relDelta": 0.1525,
+   "displayedGridMin": 126.13,
+   "displayedGridMax": 367.355,
+   "M709InsideGridEnvelope": true
+  },
+  "hot40": {
+   "displayedPrimary": 25.291,
+   "M709default": 28.797,
+   "relDelta": 0.1386,
+   "displayedGridMin": 18.992,
+   "displayedGridMax": 30.289,
+   "M709InsideGridEnvelope": true
+  },
+  "cold10NoLong": {
+   "displayedPrimary": 55.887,
+   "M709default": 39.577,
+   "relDelta": -0.2918,
+   "displayedGridMin": 0.506,
+   "displayedGridMax": 144.933,
+   "M709InsideGridEnvelope": true
+  },
+  "cold15NoLong": {
+   "displayedPrimary": 306.266,
+   "M709default": 252.417,
+   "relDelta": -0.1758,
+   "displayedGridMin": 128.02,
+   "displayedGridMax": 496.874,
+   "M709InsideGridEnvelope": true
+  },
+  "hot35NoLong": {
+   "displayedPrimary": 144.339,
+   "M709default": 164.054,
+   "relDelta": 0.1366,
+   "displayedGridMin": 111.827,
+   "displayedGridMax": 186.43,
+   "M709InsideGridEnvelope": true
+  },
+  "hot40NoLong": {
+   "displayedPrimary": 20.355,
+   "M709default": 22.861,
+   "relDelta": 0.1231,
+   "displayedGridMin": 16.156,
+   "displayedGridMax": 23.899,
+   "M709InsideGridEnvelope": true
+  }
+ },
+ "bands": {
+  "<0": {
+   "displayedPrimary": 0.0,
+   "M709default": 0.0,
+   "gridMin": 0.0,
+   "gridMax": 0.0,
+   "M709InsideGridEnvelope": true
+  },
+  "0-5": {
+   "displayedPrimary": 0.0,
+   "M709default": 0.0,
+   "gridMin": 0.0,
+   "gridMax": 343.128,
+   "M709InsideGridEnvelope": true
+  },
+  "5-10": {
+   "displayedPrimary": 386.386,
+   "M709default": 363.441,
+   "gridMin": 0.506,
+   "gridMax": 558.978,
+   "M709InsideGridEnvelope": true
+  },
+  "10-15": {
+   "displayedPrimary": 460.907,
+   "M709default": 405.191,
+   "gridMin": 228.073,
+   "gridMax": 1093.673,
+   "M709InsideGridEnvelope": true
+  },
+  "15-20": {
+   "displayedPrimary": 839.076,
+   "M709default": 827.51,
+   "gridMin": 616.257,
+   "gridMax": 1087.489,
+   "M709InsideGridEnvelope": true
+  },
+  "20-25": {
+   "displayedPrimary": 896.132,
+   "M709default": 859.148,
+   "gridMin": 688.632,
+   "gridMax": 1241.456,
+   "M709InsideGridEnvelope": true
+  },
+  "25-30": {
+   "displayedPrimary": 778.947,
+   "M709default": 815.417,
+   "gridMin": 473.59,
+   "gridMax": 1213.345,
+   "M709InsideGridEnvelope": true
+  },
+  "30-35": {
+   "displayedPrimary": 529.52,
+   "M709default": 593.87,
+   "gridMin": 263.173,
+   "gridMax": 713.555,
+   "M709InsideGridEnvelope": true
+  },
+  "35-40": {
+   "displayedPrimary": 147.753,
+   "M709default": 170.639,
+   "gridMin": 107.138,
+   "gridMax": 337.286,
+   "M709InsideGridEnvelope": true
+  },
+  ">=40": {
+   "displayedPrimary": 25.291,
+   "M709default": 28.797,
+   "gridMin": 18.992,
+   "gridMax": 30.289,
+   "M709InsideGridEnvelope": true
+  }
+ },
+ "flags": [],
+ "displayedInDashboard": {
+  "parkedTimeBudget": 2
+ },
+ "otherBlocks": {
+  "exposureVector": "uses a CURRENT offset sensitivity (-0.5 / +0.5 A), not the park model: unaffected",
+  "thermalSupportLedger": "tools/thermal_support_ledger.py contains no park-model or tau reference: unaffected"
+ },
+ "reading": "the tau of parkedTimeBudget comes from seasonalFits.Q3 (owner decision D-05), an exponential to the mean of the two ambient readings without offset and without the unlogged-use flags of M708; the M709 model (diurnal boundary, one offset, flagged legs excluded) gives a longer time constant (9.105 vs 7.873 h)"
+}
