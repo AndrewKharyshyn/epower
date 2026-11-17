@@ -68492,20 +68492,20 @@
    "configHash": "249865eaf54afba07e65f7710d5df046",
    "fullConfigHash": "11a89dc0c881bd0a60e9e957ccd1936a",
    "fullConfigHashSource": "file:summary_config.json",
-   "generatedAt": "2026-11-17T16:25:02.385409+00:00",
+   "generatedAt": "2026-11-17T17:34:15.556398+00:00",
    "pipelineVersion": 6,
    "upstreamHashes": {
     "driveMasterMd5": "77bbe275f8c22eaf62d8636867764af3"
    },
    "computationStatus": "computed",
    "computationStatusNote": "M711: derived by tools/restart_stage.py (tools/restart_census.py, tools/park_model.py) from raw drive CSVs, drive_master.csv and summary_config.json ambientByDrive (spec analyses/M708_spec.md Rev 2); logged probe readings, model-derived park model",
-   "includedInReleaseAt": "2026-11-17T16:25:02.385409+00:00",
+   "includedInReleaseAt": "2026-11-17T17:34:15.556398+00:00",
    "inputBasis": {
     "nDrives": 665,
     "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
     "source": "stamping pass: meta.totalDrives, corpusHash"
    },
-   "computedAt": "2026-11-17T16:25:02.385409+00:00"
+   "computedAt": "2026-11-17T17:34:15.556398+00:00"
   }
  },
  "ambientTable": {
@@ -465497,7 +465497,7 @@
   "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
   "nDrives": 665,
   "scriptSha256": {
-   "restart_stage": "102248e7522682f83e7f95a47d75b4be34855e9f8b90cb2a2b0a41c12dd01217",
+   "restart_stage": "3fc86185195121d9c3084ae706a568e84934770583edfe03f246bf798290a0af",
    "restart_census": "b655d9ce0009a96fb1aaf42ef3f2ca0190ede370310b7f27bb8593e3393a63d7",
    "park_model": "c0cb3cc530f213edca6d1af4aa3f38a93d269eaf6a7899c860fb7e36b5115a2b"
   },
@@ -467282,8 +467282,70 @@
     }
    },
    "P-R2": {
-    "pass": null,
-    "note": "two-state model M3 not implemented in this module yet; gate not evaluated"
+    "pass": false,
+    "evaluatedOnDrives": 665,
+    "sha256": "ff7415d28aaff607672a16d64bd96e0fe18536a3c3b2e69e3f339b3f2a33688c",
+    "milestone": "M718",
+    "evaluatedOnce": true,
+    "verdict": "second state NOT justified by these data (the one-state model stays the model of record); not justified is not 'two states do not exist'",
+    "fullSample": {
+     "tau_tot_h": 9.073,
+     "tau_ip_h": 0.01,
+     "r_Ci_over_Cp": 0.02,
+     "alpha_C_per_A2h": 2.239871,
+     "offset_C": 0.447,
+     "interiorToBounds": false
+    },
+    "holdoutGainOneMinusTwoC": {
+     "<10 min": [
+      0.064,
+      0.045,
+      0.084
+     ],
+     "10-60 min": [
+      0.028,
+      0.011,
+      0.045
+     ],
+     "1-4 h": [
+      0.007,
+      -0.013,
+      0.024
+     ],
+     "4-12 h": [
+      -0.004,
+      -0.014,
+      0.005
+     ],
+     ">=12 h": [
+      -0.012,
+      -0.021,
+      -0.001
+     ],
+     "<1 h": [
+      0.046,
+      0.033,
+      0.058
+     ],
+     "all": [
+      0.028,
+      0.018,
+      0.037
+     ]
+    },
+    "rule": {
+     "classesOf1hOrMore": ">= 0.25 C",
+     "below1h": ">= 0.50 C",
+     "pairedIntervalExcludesZero": true
+    },
+    "classMeetsGain": {
+     "1-4 h": false,
+     "4-12 h": false,
+     ">=12 h": false,
+     "<1 h": false
+    },
+    "parametersInterior": false,
+    "profileNarrowerThanOneDecade": false
    },
    "note": "P-R3a and the tau band are binding only when the production ambient reconstruction matches the exploratory file; not evaluated in the stage"
   },
@@ -467401,7 +467463,7 @@
    "the hold-out is not clean (ambient amplitude and peak hour fitted on the whole corpus; split confounded with slow polling and the battery software update)",
    "ambient is the vehicle sensor read only while driving (uncalibrated, heat-soaked after parking)",
    "the unlogged-use flags miss short unlogged legs",
-   "the two-state model is not evaluated (open item)"
+   "the two-state model was evaluated once (M718) and is not justified by these data; it is not re-run at ingestion"
   ],
   "refresh": "recomputed at every ingestion by the stage restart_census; reproduction gates only on the 665-drive basis, new data fall under the outside-previous-interval flag"
  }

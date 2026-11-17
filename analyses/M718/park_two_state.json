@@ -1,0 +1,258 @@
+{
+ "nPairsModel": 596,
+ "nDays": 125,
+ "fullSample": {
+  "tau_tot_h": 9.073,
+  "tau_ip_h": 0.01,
+  "r_Ci_over_Cp": 0.02,
+  "alpha_C_per_A2h": 2.239871,
+  "offset_C": 0.447,
+  "SSE": 811.57,
+  "boundsOfProfiledParameters": {
+   "tau_ip_h": [
+    0.010000000000000004,
+    19.999999999999996
+   ],
+   "r": [
+    0.02,
+    49.99999999999999
+   ]
+  },
+  "interiorToBounds": false,
+  "oneState": {
+   "tau_h": 9.105,
+   "offset_C": 0.469,
+   "SSE": 823.94,
+   "deltaAIC_twoMinusOne_nominal": -3.02,
+   "note": "nominal AIC overstates the evidence under day clustering; the held-out comparison is the test"
+  }
+ },
+ "profile": {
+  "tau_ip_h": {
+   "grid": [
+    {
+     "value": 0.02,
+     "dev": 1.53,
+     "SSE": 813.66
+    },
+    {
+     "value": 0.05,
+     "dev": 7.57,
+     "SSE": 821.94
+    },
+    {
+     "value": 0.1,
+     "dev": 10.95,
+     "SSE": 826.62
+    },
+    {
+     "value": 0.2,
+     "dev": 11.25,
+     "SSE": 827.03
+    },
+    {
+     "value": 0.4,
+     "dev": 10.86,
+     "SSE": 826.49
+    },
+    {
+     "value": 0.8,
+     "dev": 10.04,
+     "SSE": 825.36
+    },
+    {
+     "value": 1.5,
+     "dev": 9.19,
+     "SSE": 824.18
+    },
+    {
+     "value": 3.0,
+     "dev": 8.65,
+     "SSE": 823.43
+    },
+    {
+     "value": 6.0,
+     "dev": 8.07,
+     "SSE": 822.63
+    },
+    {
+     "value": 12.0,
+     "dev": 5.53,
+     "SSE": 819.14
+    }
+   ],
+   "nominalSet": [
+    0.02
+   ],
+   "ratioMaxOverMin": 1.0
+  },
+  "r_Ci_over_Cp": {
+   "grid": [
+    {
+     "value": 0.02,
+     "dev": -0.0,
+     "SSE": 811.57
+    },
+    {
+     "value": 0.05,
+     "dev": 0.27,
+     "SSE": 811.93
+    },
+    {
+     "value": 0.1,
+     "dev": 0.75,
+     "SSE": 812.59
+    },
+    {
+     "value": 0.25,
+     "dev": 2.4,
+     "SSE": 814.84
+    },
+    {
+     "value": 0.5,
+     "dev": 5.72,
+     "SSE": 819.39
+    },
+    {
+     "value": 1.0,
+     "dev": 13.87,
+     "SSE": 830.67
+    },
+    {
+     "value": 2.0,
+     "dev": 33.64,
+     "SSE": 858.7
+    },
+    {
+     "value": 5.0,
+     "dev": 108.07,
+     "SSE": 972.91
+    },
+    {
+     "value": 10.0,
+     "dev": 250.98,
+     "SSE": 1236.55
+    },
+    {
+     "value": 30.0,
+     "dev": 660.49,
+     "SSE": 2458.16
+    }
+   ],
+   "nominalSet": [
+    0.02,
+    0.05,
+    0.1,
+    0.25
+   ],
+   "ratioMaxOverMin": 12.5
+  },
+  "note": "dev = n log(SSE/SSE_min); a nominal 95 % set is dev < 3.84 (too narrow under day clustering); the pre-registered rule asks for a set narrower than one decade for both parameters"
+ },
+ "holdout_fitMayAug_testSepNov": {
+  "nTrain": 269,
+  "nTest": 327,
+  "twoStateParams": {
+   "tau_tot_h": 9.181,
+   "tau_ip_h": 0.01,
+   "r": 0.02,
+   "alpha": 1.692407,
+   "offset_C": -0.257
+  },
+  "oneStateParams": {
+   "tau_h": 9.223,
+   "offset_C": -0.248
+  },
+  "gainOneMinusTwo_byClass": {
+   "<10 min": {
+    "est": 0.06370627790140541,
+    "lo": 0.04544103016446905,
+    "hi": 0.08414479699683267,
+    "n": 101,
+    "nDays": 47,
+    "MAE_oneState": 0.28044161100753406,
+    "MAE_twoState": 0.2167353331061286
+   },
+   "10-60 min": {
+    "est": 0.028188057851154913,
+    "lo": 0.011391121386110212,
+    "hi": 0.044699835899266786,
+    "n": 102,
+    "nDays": 43,
+    "MAE_oneState": 0.28898124634602834,
+    "MAE_twoState": 0.2607931884948734
+   },
+   "1-4 h": {
+    "est": 0.007214973556356069,
+    "lo": -0.012721716161291896,
+    "hi": 0.02431185212469897,
+    "n": 51,
+    "nDays": 34,
+    "MAE_oneState": 0.5648442995384478,
+    "MAE_twoState": 0.5576293259820918
+   },
+   "4-12 h": {
+    "est": -0.0042491722080820644,
+    "lo": -0.01351929653444947,
+    "hi": 0.0051277553248766814,
+    "n": 44,
+    "nDays": 35,
+    "MAE_oneState": 1.3542608687663966,
+    "MAE_twoState": 1.3585100409744788
+   },
+   ">=12 h": {
+    "est": -0.011798176638035254,
+    "lo": -0.021449532213658716,
+    "hi": -0.0007744336045066007,
+    "n": 29,
+    "nDays": 29,
+    "MAE_oneState": 2.078386099232779,
+    "MAE_twoState": 2.0901842758708145
+   },
+   "<1 h": {
+    "est": 0.04585968457566378,
+    "lo": 0.03327940427211923,
+    "hi": 0.058331310841856956,
+    "n": 203,
+    "nDays": 52,
+    "MAE_oneState": 0.28473246226135873,
+    "MAE_twoState": 0.23887277768569498
+   },
+   "all": {
+    "est": 0.027976663365673626,
+    "lo": 0.01825511993285753,
+    "hi": 0.03698634023692945,
+    "n": 327,
+    "nDays": 55,
+    "MAE_oneState": 0.6314019089265709,
+    "MAE_twoState": 0.6034252455608973
+   }
+  },
+  "note": "gain = MAE(one-state M2) - MAE(two-state); positive = the two-state model is better; day-clustered percentile interval, seed 42, 4000 draws; the hold-out is not clean (spec M708 section 3)"
+ },
+ "gate_P-R2": {
+  "gainRule": {
+   "classesOf1hOrMore": ">= 0.25 C",
+   "below1h": ">= 0.50 C",
+   "pairedIntervalExcludesZero": true
+  },
+  "classMeetsGain": {
+   "1-4 h": false,
+   "4-12 h": false,
+   ">=12 h": false,
+   "<1 h": false
+  },
+  "gainOk": false,
+  "parametersInterior": false,
+  "profileNarrowerThanOneDecade": false,
+  "pass": false,
+  "profileEvaluated": true
+ },
+ "milestone": "M718",
+ "spec": "analyses/M708_spec.md",
+ "specSha256": "3871e159aadeb5322666be3da92ae9b62ba841f46edb54358d06cd385b65a0ac",
+ "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+ "scriptSha256": "9b1846bb43e4e809969e535610eab451b54de6092ab887930a480fd495c2b6a9",
+ "nDrives": 665,
+ "label": "two-state (interior / probe) park model: estimated, model-derived; logged probe readings; not justified is not 'two states do not exist'"
+}

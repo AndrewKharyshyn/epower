@@ -58,7 +58,7 @@ assert b["reproductionGates"]["evaluated"] and all(v["pass"] for v in b["reprodu
 T = json.load(open("analyses/M708_targets.json", encoding="utf-8"))["E1"]
 for cls, tv in T.items():
     assert abs(b["E1_primary_flaggedKept"][cls]["meanChange"]["est"] - tv["meanChange"]) <= 0.02, cls
-assert set(b["conditionTables"]) == {"winterOnly", "gap4to12h"} and b["parkGates"]["P-R2"]["pass"] is None
+assert set(b["conditionTables"]) == {"winterOnly", "gap4to12h"} and b["parkGates"]["P-R2"]["pass"] is False and b["parkGates"]["P-R2"]["milestone"] == "M718" and b["parkGates"]["P-R2"]["evaluatedOnDrives"] == 665
 assert b["parkGates"]["P-R3b"]["pass"] is True and b["parkGates"]["P-R4"]["contaminationDirection"]["pass"] is True
 assert abs(b["parkModel"]["M2_fullSample_nonFlagged"]["tau_h"] - 9.105) < 0.01
 def strings(o):
