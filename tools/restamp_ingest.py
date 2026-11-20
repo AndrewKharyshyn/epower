@@ -58,7 +58,7 @@ STAMP_POLICY = {
     "stepResistance": ("carried", "M702: step-event resistance study (tools/step_events.py, tools/step_resistance.py), on-demand, simulation gate failed, carried at its own basis (docs/open_items.md)"),
     "oemCrossCheckC1": ("carried", "M705: rpm-window occupancy C1 (tools/rpm_window_cache.py, tools/oem_crosscheck.py), on-demand descriptive study carried at its own basis"),
     "oemCrossCheckC2": ("carried", "M705: rpm-window occupancy C2 (tools/rpm_window_cache.py, tools/oem_crosscheck.py), on-demand descriptive study carried at its own basis"),
-    "exposureScenarios": ("carried", "M714: exposure scenarios computed on demand (tools/exposure_scenarios_block.py, about 2.5 h); each ingestion carries the block at its basis; cold outputs not supported (M713 ruling)"),
+    "exposureScenarios": ("carried", "M714/M720: exposure scenarios; the stage scenario_refresh (tools/scenario_refresh.py) recomputes and splices the block after this restamp step, this entry is the fallback until it runs; cold outputs not supported (M713 ruling)"),
 }
 
 
