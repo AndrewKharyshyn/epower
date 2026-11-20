@@ -270,12 +270,53 @@ def slices(d):
     return A
 
 
+CACHE_DIR = os.environ.get("XT_SCENARIO_CACHE_DIR") or os.path.join(ROOT, "scenario_cache")      # M720: git-ignored per-drive cache; an environment override reaches the pool workers
+_EXTRACTOR_SRC = None
+
+
+def extractor_hash():
+    """SHA-256 of the extraction source (grid, per-drive row, slices) and its constants: any change invalidates every cache entry."""
+    global _EXTRACTOR_SRC
+    if _EXTRACTOR_SRC is None:
+        import inspect
+        parts = [inspect.getsource(f) for f in (extract_drive, _read, drive_row, slices, key14, arrh)]
+        parts.append(repr((CAP_AH_RATED, CAP_KWH_LEGACY, K, CB, TBINS, SOCBINS, SPB, sorted(C.items()), FAST, MEAN, COLS)))
+        _EXTRACTOR_SRC = hashlib.sha256(chr(10).join(parts).encode("utf-8")).hexdigest()
+    return _EXTRACTOR_SRC
+
+
+def _cache_path(path):
+    return os.path.join(CACHE_DIR, key14(path) + ".pkl")
+
+
+def _file_sha(path):
+    return hashlib.sha256(open(path, "rb").read()).hexdigest()
+
+
 def _all(path):
+    """One drive: (row, slices, error). With the cache on (XT_SCENARIO_CACHE != 0) an entry is reused only if the raw-file SHA-256 and the extractor hash both match; a miss computes and stores it."""
+    use = os.environ.get("XT_SCENARIO_CACHE", "1") != "0"
+    if use:
+        import pickle
+        cp, fs, eh = _cache_path(path), _file_sha(path), extractor_hash()
+        if os.path.exists(cp):
+            try:
+                e = pickle.load(open(cp, "rb"))
+                if e.get("sha256") == fs and e.get("extractor") == eh:
+                    return e["row"], e["slices"], None
+            except Exception:
+                pass
     g, err = _read(path)
     if g is None:
         return None, None, err
     key = key14(path)
-    return drive_row(key, g), slices(g), None
+    row, sl = drive_row(key, g), slices(g)
+    if use:
+        os.makedirs(CACHE_DIR, exist_ok=True)
+        tmp = cp + ".tmp%d" % os.getpid()
+        pickle.dump({"sha256": fs, "extractor": eh, "row": row, "slices": sl}, open(tmp, "wb"))
+        os.replace(tmp, cp)
+    return row, sl, None
 
 
 def build(raw_dir, workers=1):

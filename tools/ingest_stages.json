@@ -475,6 +475,27 @@
    ]
   },
   {
+   "id": "scenario_refresh",
+   "title": "M720: block-refresh stage of the additive payload block exposureScenarios: per-drive cached frame (scenario_cache/, raw SHA-256 + extractor hash), dash-odometer reading, state-model fits, day-block engine (production and project integration rule), validation (G-S2, G-S2b, leave-one-day-out, E-exp), sensitivity, gates, block splice and check (tools/scenario_refresh.py). Multi-hour when the inputs changed (master MD5, dash odometer, tool hashes), a block check only when they equal the recorded state (analyses/M713/refresh_state.json). Gate failures and a changed support status are recorded and printed, never relaxed; the prototype-comparison files stay carried",
+   "cmd": [
+    "python3",
+    "tools/scenario_refresh.py"
+   ],
+   "needs": [
+    "build_ambient_table",
+    "restart_census",
+    "cadence_regime"
+   ],
+   "verified": false,
+   "implemented": true,
+   "outputs": [
+    "summary_arrays.json"
+   ],
+   "writes": [
+    "arrays:exposureScenarios"
+   ]
+  },
+  {
    "id": "pid_epoch",
    "title": "M582a: header-derived PID-set class per drive (reads only the raw CSV headers and the non-null fraction of two named columns; sidecar pid_epoch.csv + additive payload block pidEpoch; post hoc, descriptive, no cadence effect claimed; spec analyses/M582_spec.md Rev 1)",
    "cmd": [
