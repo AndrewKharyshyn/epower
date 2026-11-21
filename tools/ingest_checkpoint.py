@@ -22,6 +22,9 @@ CODELIKE_PREFIX = ("docs/", "tests/", "snapshots/")
 CODELIKE_FILES = ("tools/ingest_stages.json", "CHANGELOG.md", "CLAUDE.md", "STATE.md", "state.json")
 NO_CODE_HASH = ("CHANGELOG.md", "STATE.md", "state.json")          # M621 (P-02a): documentation written every milestone; still code-like (excluded from the data state) but never part of a stage's code hash
 NARROW_VIEWS = {"refresh_cohort_meta": {"xtrail_summary.jsx": r"COHORT_MIN_SUPPORT_DRIVES\s*=\s*\d+"}}   # M621 (P-02a): stage id -> file -> the only lines of it the stage reads (a jsx wording fix must not restart at this stage)
+CI_YML = ".github/workflows/ci.yml"
+UNTRACKED = {CI_YML}      # M722: outside the data state and the code-like state: an edit of ci.yml between runs (a new test line) must not discard the whole chain. It is tracked through the code hash of the stage that reads/writes it (MASKED_INPUTS), and that stage is rerun_on_resume so its anchor is rewritten after a restore
+MASKED_INPUTS = {"ci_anchor": {CI_YML: r"(--expect-master-md5\s+)[0-9a-f]{32}"}}      # stage id -> file -> regex whose group 1 is kept and the rest of the match masked (the stage rewrites exactly that value, so it differs before and after the stage)
 MAX_BYTES = RJ.MAX_COPY_BYTES
 _PATH_RE = re.compile(r"^[\w./\\-]+$")
 
@@ -87,6 +90,8 @@ class Checkpoints:
                 if os.path.islink(p) or not os.path.isfile(p):
                     continue
                 rel = os.path.relpath(p, self.root).replace(os.sep, "/")
+                if rel in UNTRACKED:
+                    continue
                 (aux if is_codelike(rel) else data)[rel] = self._sha(p)
                 sizes[rel] = os.path.getsize(p)
         return data, aux, sizes
@@ -180,14 +185,21 @@ class Checkpoints:
         lines = [ln.strip() for ln in open(os.path.join(self.root, rel), encoding="utf-8", errors="replace").read().splitlines() if re.search(pattern, ln)]
         return _h(pattern, json.dumps(lines))
 
+    def _masked_sha(self, rel, pattern):
+        text = open(os.path.join(self.root, rel), encoding="utf-8", errors="replace", newline="").read()
+        return _h(pattern, re.sub(pattern, r"\g<1><masked>", text))
+
     def code_hash(self, stage):
         narrow = NARROW_VIEWS.get(stage["id"], {})
         files = set()
         for a in stage["cmd"]:
             r = self._resolve(a.replace("\\", "/")) if _PATH_RE.match(a) else None
-            if r:
+            if r and is_codelike(r) and r not in NO_CODE_HASH:           # M722: a data file named on the command line (`--out analyses/x.json`, an input) is covered by the data state; hashing its content made the key of a stage that writes its own named output differ before and after the stage ran, so the chain broke at that stage
                 files |= set(self.closure(r, tuple(narrow)))
         body = [(f, self._narrow_sha(f, narrow[f]) if f in narrow else RJ._sha(os.path.join(self.root, f))) for f in sorted(files) if os.path.isfile(os.path.join(self.root, f))]
+        masked = [(f, self._masked_sha(f, pat)) for f, pat in sorted(MASKED_INPUTS.get(stage["id"], {}).items()) if os.path.isfile(os.path.join(self.root, f))]
+        if masked:
+            body = body + masked
         definition = {k: stage.get(k) for k in ("id", "cmd", "env", "outputs")}
         envs = []
         for v in STAGE_ENV:

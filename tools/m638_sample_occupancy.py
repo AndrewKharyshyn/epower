@@ -154,6 +154,13 @@ def build_block(dm, raw_loader, nb=4000):
     return blk, rows
 
 
+def anchored_ok(dm, kc):
+    """True when the first nRows master rows carry exactly the recorded anchored file names (M721 conformance fix to spec R1(i))."""
+    import hashlib
+    a = dm.iloc[:kc['nRows']]
+    return len(a) == kc['nRows'] and hashlib.sha256(chr(10).join(a['file'].astype(str)).encode()).hexdigest() == kc['fileNamesSha256']
+
+
 def main(argv):
     import copy
     dry = '--dry-run' in argv
@@ -163,21 +170,31 @@ def main(argv):
         with open(os.path.join(ROOT, 'raw_only', fn), 'rb') as f:
             return f.read()
 
-    # known-answer, mode (i): audit emulation over all master rows must reproduce the self-audit scan within 0.2 pp / 1 h
-    ra, ea = run(dm, loader, eligibility='all')
+    # known-answer, mode (i): audit emulation over the ANCHORED corpus (spec R1(i): all master rows at the anchor MD5, i.e. the first nRows rows whose names equal the recorded list)
+    # must reproduce the self-audit scan within 0.2 pp / 1 h; targets are read from the audit file, never typed
+    import hashlib
+    kc = json.load(open(os.path.join(ROOT, 'analyses', 'M638_known_answer_corpus.json'), encoding='utf-8'))
+    anch = dm.iloc[:kc['nRows']]
+    if not anchored_ok(dm, kc):
+        print('STOP: the first %d master rows do not equal the anchored corpus list (reordered or edited master); nothing written' % kc['nRows'])
+        return 3
+    tg = json.load(open(os.path.join(ROOT, 'analyses', 'self_audit_2026-11-11', 'G', 'g2_agg.json'), encoding='utf-8'))['hotTail']
+    T35, T40, TH = tg['ge35'], tg['ge40'], tg['supH']
+    ra, ea = run(anch, loader, eligibility='all')
     sa = summarise(ra, ea, nb=200)
-    ka = {'allRows': {'share35': sa['share']['35'], 'share40': sa['share']['40'], 'supportedHours': sa['supportedHours']},
-          'target': {'share35': 0.3897, 'share40': 0.1045, 'supportedHours': 237.5}}
-    ok = abs(sa['share']['35'] - 0.3897) <= 0.002 and abs(sa['share']['40'] - 0.1045) <= 0.002 and abs(sa['supportedHours'] - 237.5) <= 1.0
+    ka = {'population': 'anchored corpus: first %d master rows (anchor MD5 %s); the production block uses the canonical-clean rows of the current master' % (kc['nRows'], kc['anchorMasterMd5']),
+          'allRows': {'share35': sa['share']['35'], 'share40': sa['share']['40'], 'supportedHours': sa['supportedHours']},
+          'target': {'share35': T35, 'share40': T40, 'supportedHours': TH}}
+    ok = abs(sa['share']['35'] - T35) <= 0.002 and abs(sa['share']['40'] - T40) <= 0.002 and abs(sa['supportedHours'] - TH) <= 1.0
     ka['pass'] = bool(ok)
     print(json.dumps(ka))
     if not ok:
         print('STOP: known-answer mismatch (spec section 3 R1); nothing written')
         return 3
     blk, rows = build_block(dm, loader)
-    blk['knownAnswer'] = {'auditEmulationAllRows': ka['allRows'], 'target': ka['target'], 'productionCanonicalCleanDelta': {
+    blk['knownAnswer'] = {'population': ka['population'], 'auditEmulationAllRows': ka['allRows'], 'target': ka['target'], 'productionCanonicalCleanDelta': {
         'share35': round(blk['share']['35'] - ka['allRows']['share35'], 4), 'share40': round(blk['share']['40'] - ka['allRows']['share40'], 4)},
-        'attribution': 'eligibility (canonical-clean versus all master rows) and loader (repository frame reader versus the audit scan reader)'}
+        'attribution': 'corpus (717 current master rows versus the anchored 665), eligibility (canonical-clean versus all master rows) and loader (repository frame reader versus the audit scan reader)'}
     print(json.dumps(blk, indent=1)[:3000])
     if dry:
         return 0

@@ -57,3 +57,15 @@ assert o["ci95"]["35"][0] < o["share"]["35"] < o["ci95"]["35"][1] and "driveTime
 J = open(os.path.join(REPO, "xtrail_summary.jsx"), encoding="utf-8").read()
 assert "S.hotTail?.packThermalMeasured?.sampleOccupancy" in J and "sample-resolved; 95% CI" in J
 print("PASS test_m638_sample_occupancy")
+
+
+# M721: the known-answer population is the anchored corpus; a reordered, edited or truncated master stops
+import hashlib as _h
+import pandas as _pd
+_names = ["f%03d.csv" % i for i in range(5)]
+_kc = {"nRows": 5, "fileNamesSha256": _h.sha256(chr(10).join(_names).encode()).hexdigest()}
+assert O.anchored_ok(_pd.DataFrame({"file": _names + ["new1.csv", "new2.csv"]}), _kc)          # appended drives are fine
+assert not O.anchored_ok(_pd.DataFrame({"file": [_names[1], _names[0]] + _names[2:]}), _kc)   # reordered
+assert not O.anchored_ok(_pd.DataFrame({"file": _names[:4] + ["x.csv"]}), _kc)                # edited
+assert not O.anchored_ok(_pd.DataFrame({"file": _names[:4]}), _kc)                            # truncated
+print("anchored population checks ok")

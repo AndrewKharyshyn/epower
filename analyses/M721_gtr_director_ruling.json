@@ -1,0 +1,19 @@
+{
+ "milestone": "M721",
+ "date": "2026-11-20",
+ "role": "research-director (Opus), brief of the main session",
+ "decision": "accept (conditional scoped ack)",
+ "text": "M721 GTR family refresh (487 canonical-clean fuel drives, 87 days; master 717 rows). The M466/M575 scoped ack is bound to a former master MD5, so the FLIP_STOP fires. The f_gen >= 0.5 axis set is now 6 axes, a strict subset of the 8 acknowledged at M575; P_aux low (0.2kW) and cold penalty heavy (x1.45) are now just below 0.5; no axis crossed upward. Recorded deviation: M575 condition (i) 'set equals the M466 set' is replaced by 'subset of the M466 8-axis set' for M721 only; the frozen M373 flip list stays unamended. No blind audit under M466 section B (no method change, BASE inside the M466 CI [0.425, 0.580]), conditional on condition (c).",
+ "conditions": [
+  "Ack axis strings and fgen values byte-exact from analyses/M377_O_blocks.json; bound to master MD5 and O axes sha256; acknowledged = exactly the 6 axes.",
+  "Ack is CONDITIONAL: do not open or merge the PR until (c) passes.",
+  "(c) gtrClosure BASE day-clustered CI (seed 42, 4000 draws) read from the payload: STOP and re-brief if 0.5 not inside it, BASE leaves [0.425, 0.580], or closure f_gen leaves its last published gtrClosure CI.",
+  "Any other stop STOPS (new bool flip, speedSplit or simultaneity outside bands, n_days/key-set/allow-list).",
+  "CHANGELOG M721 records old and new value per axis, the two axes below 0.5, n (487 drives, 87 days), the CI and this deviation."
+ ],
+ "wording": [
+  "f_gen is estimated/reconstructed/model-derived, never measured.",
+  "Point estimate near 0.5 within an interval that contains 0.5; side of 0.5 not established. Show CI and n.",
+  "Never 'generator majority', 'confirmed', 'reversal', 'corrected', 'error', 'flip back'."
+ ]
+}

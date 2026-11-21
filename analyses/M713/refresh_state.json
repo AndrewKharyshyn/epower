@@ -1,0 +1,31 @@
+{
+ "milestone": "M720",
+ "inputs": {
+  "driveMasterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+  "odometerKm": 48110,
+  "odometerAsOf": "2026-11-20",
+  "toolSha256": {
+   "scenario_frame.py": "fc3949625f544a37e5f6b70d4137145818f6db9d684913dc40eac4514ea2d643",
+   "exposure_odometer.py": "ceb32a7aa9f20026a9fe1f506dbe4eddf7fbe1ffe5dc229d0bf58c605b3633f2",
+   "exposure_state.py": "9d55f6c9c0ac5db8b5ddd94cfeb50558c624160ce67e068192fe88fc8c2b3c39",
+   "scenario_engine.py": "e6bcc75551a6ea6c84f06c0522321f599f13bd9a036822c35746184d1d14bcb3",
+   "scenario_validation.py": "f598bb5d8ed87a9e59ced8e2c0c8a008ed437800dc3b5ee238d4b84f4ba420ca",
+   "scenario_sensitivity.py": "06ba68f41014437aaed39fbffa08119c4a2dc8d75e2118df642e5da71b4a7630",
+   "scenario_gates.py": "744f1e97e0cfe75cf5ed088ba566e5157fe7f7b34ecb958161e6ab857f9e79a9",
+   "exposure_scenarios_block.py": "e4a2531d5a25af4d45d5cf2be1590bfb3bb918e11fe78f487d18fc94a040d012"
+  },
+  "rangesSha256": "770a8f008e1e9e0e2965ea96c3819c09e0c838071871d9fa2402a430d1562f57"
+ },
+ "steps": [
+  "frame",
+  "odometer",
+  "state",
+  "engine_production",
+  "engine_projectrule",
+  "validation",
+  "sensitivity",
+  "gates",
+  "splice",
+  "check"
+ ]
+}

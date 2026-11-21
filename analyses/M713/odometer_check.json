@@ -87,6 +87,14 @@
    "loggedKm": 151.4,
    "share": 0.773,
    "unloggedKm": 44.6
+  },
+  {
+   "from": "2026-11-09",
+   "to": "2026-11-20",
+   "odoKm": 437,
+   "loggedKm": 323.4,
+   "share": 0.74,
+   "unloggedKm": 113.6
   }
  ],
  "unloggedIntervals": [
@@ -156,14 +164,14 @@
  ],
  "factors": {
   "f_s_summerWindow": 1.0791,
-  "f_a_laterIntervalsWithoutUnlogged": 1.1965,
+  "f_a_laterIntervalsWithoutUnlogged": 1.2139,
   "summerIntervals": 3,
-  "laterIntervals": 7
+  "laterIntervals": 8
  },
  "total": {
-  "odoKm": 6993,
-  "loggedKm": 5844.3,
-  "share": 0.836
+  "odoKm": 7430,
+  "loggedKm": 6167.7,
+  "share": 0.83
  },
  "rule": "interval share < 0.50 -> days without a logged drive inside it are UNLOGGED; other empty days are true zero-drive days",
  "label": "dashboard odometer readings (owner, as of end of day) against speed-integral km of the exposure frame; the logger-app counter is NOT used"

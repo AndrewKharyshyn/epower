@@ -2,16 +2,16 @@
  "milestone": "M554",
  "mode": "--splice",
  "stats": {
-  "cacheHits": 665,
+  "cacheHits": 717,
   "extracted": 0,
   "noRaw": 0,
   "notOk": 12
  },
  "knownAnswer": {
   "n": {
-   "ka4": 651,
-   "stepsVsNoBridge": 651,
-   "uNetLeGross": 653
+   "ka4": 703,
+   "stepsVsNoBridge": 703,
+   "uNetLeGross": 705
   },
   "misses": {
    "ka4": 0,
@@ -26,33 +26,33 @@
  },
  "extractorSourceHash": "0064111bbcbcd685",
  "populations": {
-  "withIv": 653,
-  "eligibleCanonicalClean": 651,
+  "withIv": 705,
+  "eligibleCanonicalClean": 703,
   "notOk": 12,
   "pNullUFinite": 2
  },
  "strata": {
   "fast": {
-   "nDrivesTotal": 227,
-   "nIntersectionDrives": 227,
-   "nIntersectionDays": 44,
+   "nDrivesTotal": 279,
+   "nIntersectionDrives": 279,
+   "nIntersectionDays": 55,
    "primaryCommonSupport": {
     "definition": "per drive, both methods evaluated on the time intersection of their supported intervals; ratio of sums U / P of the gross throughput",
     "grossThroughput": {
-     "ratio": 0.999976,
+     "ratio": 0.999975,
      "ci95": [
       0.999956,
-      0.999997
+      0.999996
      ],
-     "nDrives": 227,
-     "nDays": 44
+     "nDrives": 279,
+     "nDays": 55
     },
-    "netDrawShiftKwh": 0.27336,
-    "commonSeconds": 241879.3,
+    "netDrawShiftKwh": 0.32632,
+    "commonSeconds": 283967.7,
     "perDriveRatio": {
-     "nDrives": 226,
+     "nDrives": 278,
      "p5": 0.99988,
-     "p50": 0.99999,
+     "p50": 1.0,
      "p95": 1.00017,
      "shareOutside1Pct": 0.0,
      "minCommonKwh": 0.1
@@ -61,11 +61,11 @@
    "withinDriveSupport": {
     "uOnlySeconds": 0.0,
     "uOnlyKwh": 0.0,
-    "pOnlySeconds": 20.9,
-    "pOnlyKwh": 0.00641,
-    "uSecondsBelowPSecondsDriveShare": 0.8414
+    "pOnlySeconds": 27.6,
+    "pOnlyKwh": 0.00862,
+    "uSecondsBelowPSecondsDriveShare": 0.8351
    },
-   "pThroughputKwhIntersection": 490.04972,
+   "pThroughputKwhIntersection": 569.28561,
    "addedDrivesNullP": {
     "nDrives": 0,
     "uKwh": 0.0
@@ -73,43 +73,43 @@
    "gapInfluence": {
     "removedTopPGapDrives": {
      "1": {
-      "ratio": 0.999976,
-      "ci95": [
-       0.999956,
-       0.999997
-      ],
-      "nDrives": 226,
-      "nDays": 44
-     },
-     "5": {
       "ratio": 0.999975,
       "ci95": [
-       0.999955,
-       0.999997
+       0.999956,
+       0.999996
       ],
-      "nDrives": 222,
-      "nDays": 44
+      "nDrives": 278,
+      "nDays": 55
+     },
+     "5": {
+      "ratio": 0.999974,
+      "ci95": [
+       0.999955,
+       0.999995
+      ],
+      "nDrives": 274,
+      "nDays": 55
      },
      "10": {
-      "ratio": 0.999976,
+      "ratio": 0.999974,
       "ci95": [
        0.999955,
-       0.999997
+       0.999996
       ],
-      "nDrives": 217,
-      "nDays": 44
+      "nDrives": 269,
+      "nDays": 54
      },
      "decile": {
-      "ratio": 0.999969,
+      "ratio": 0.999973,
       "ci95": [
-       0.999949,
-       0.99999
+       0.999952,
+       0.999994
       ],
-      "nDrives": 204,
-      "nDays": 43
+      "nDrives": 251,
+      "nDays": 51
      }
     },
-    "spearmanDiffVsGapSeconds": 0.064,
+    "spearmanDiffVsGapSeconds": 0.053,
     "driveSpearmanNote": "per-drive U - P on the common support versus P gap seconds"
    },
    "ladderDriveLevel": {
@@ -120,8 +120,8 @@
       1.0,
       1.0
      ],
-     "nDrives": 227,
-     "nDays": 44
+     "nDrives": 279,
+     "nDays": 55
     },
     "Ptol5000": {
      "ratio": 1.0,
@@ -129,46 +129,46 @@
       1.0,
       1.0
      ],
-     "nDrives": 227,
-     "nDays": 44
+     "nDrives": 279,
+     "nDays": 55
     },
     "U5s": {
-     "ratio": 0.99995,
+     "ratio": 0.999948,
      "ci95": [
       0.999928,
-      0.999972
+      0.999968
      ],
-     "nDrives": 227,
-     "nDays": 44
+     "nDrives": 279,
+     "nDays": 55
     },
     "Ugap1.5": {
-     "ratio": 0.988386,
+     "ratio": 0.986382,
      "ci95": [
-      0.984451,
-      0.991391
+      0.982467,
+      0.989635
      ],
-     "nDrives": 227,
-     "nDays": 44,
-     "supportSecondsShareOfU5s": 0.9842
+     "nDrives": 279,
+     "nDays": 55,
+     "supportSecondsShareOfU5s": 0.9819
     },
     "Ugap3.0": {
-     "ratio": 0.999739,
+     "ratio": 0.999752,
      "ci95": [
-      0.999505,
-      0.999873
+      0.999565,
+      0.99987
      ],
-     "nDrives": 227,
-     "nDays": 44,
+     "nDrives": 279,
+     "nDays": 55,
      "supportSecondsShareOfU5s": 0.9995
     },
     "Ugap10.0": {
-     "ratio": 0.999951,
+     "ratio": 0.999949,
      "ci95": [
       0.999931,
-      0.999972
+      0.999969
      ],
-     "nDrives": 227,
-     "nDays": 44,
+     "nDrives": 279,
+     "nDays": 55,
      "supportSecondsShareOfU5s": 1.0
     }
    },
@@ -176,15 +176,15 @@
    "signConsistentRev3": true,
    "signRev3Rows": [],
    "supportDeficit": {
-    "p50": 0.072,
-    "p95": 0.231,
+    "p50": 0.083,
+    "p95": 0.242,
     "max": 0.564,
     "driveShareOver2sOr1Pct": 0.0,
     "drivesBeyondBoundaryBound": 0,
     "boundaryKnownAnswer": {
      "rule": "Rev 3 (the Rev 2 bound of 1.5 s per boundary was too tight): with the per-channel maximum gap raised to 10 s the deficit is <= 3 s per contiguous P run + 1e-6; drives beyond the bound at 5 s are P steps lying in a 5-10 s gap of one channel, which the nearest-match rule bridges and U does not",
      "nViolations": 0,
-     "nDrives": 227
+     "nDrives": 279
     }
    }
   },
@@ -375,5 +375,5 @@
    "enters": "no rate, total, ens eligibility, headline or other payload key"
   }
  ],
- "rawListSha256": "a3b166ace42a4b32f14b9d8728fd903340a6eb7bedfc3c9f9aa69d1814cb216d"
+ "rawListSha256": "2ef43c7fd16c480aad20caa12e8753f8ca0eb7f9b8a11db50b39888ca0f9f704"
 }

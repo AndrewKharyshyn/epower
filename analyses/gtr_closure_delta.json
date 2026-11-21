@@ -1,109 +1,111 @@
 {
- "keyDiffs": [],
+ "keyDiffs": [
+  "/fGenMixStandardised"
+ ],
  "ciChecks": [
   {
    "path": "/alphaStar",
    "prev": [
-    0.62,
-    [
-     0.6,
-     0.639
-    ]
-   ],
-   "new": [
     0.621,
     [
      0.601,
      0.639
     ]
    ],
+   "new": [
+    0.624,
+    [
+     0.606,
+     0.64
+    ]
+   ],
    "newEstInsidePrevCI": true,
-   "ciWidthRatio": 0.9744
+   "ciWidthRatio": 0.8947
   },
   {
    "path": "/excessWithoutDual",
    "prev": [
-    -0.0897,
-    [
-     -0.116,
-     -0.0729
-    ]
-   ],
-   "new": [
     -0.0918,
     [
      -0.1189,
      -0.0747
     ]
    ],
+   "new": [
+    -0.0931,
+    [
+     -0.117,
+     -0.0766
+    ]
+   ],
    "newEstInsidePrevCI": true,
-   "ciWidthRatio": 1.0255
+   "ciWidthRatio": 0.914
   },
   {
    "path": "/fGen",
    "prev": [
-    0.5148,
-    [
-     0.4251,
-     0.576
-    ]
-   ],
-   "new": [
     0.5093,
     [
      0.4196,
      0.5696
     ]
    ],
+   "new": [
+    0.507,
+    [
+     0.4271,
+     0.5647
+    ]
+   ],
    "newEstInsidePrevCI": true,
-   "ciWidthRatio": 0.994
+   "ciWidthRatio": 0.9173
   },
   {
    "path": "/nodeExcess",
    "prev": [
-    0.0549,
-    [
-     0.043,
-     0.0734
-    ]
-   ],
-   "new": [
     0.0561,
     [
      0.0441,
      0.0746
     ]
    ],
+   "new": [
+    0.0561,
+    [
+     0.045,
+     0.0722
+    ]
+   ],
    "newEstInsidePrevCI": true,
-   "ciWidthRatio": 1.0033
+   "ciWidthRatio": 0.8918
   }
  ],
  "pointOnly": [
   {
    "path": "/alphaStar/nInfeasibleDrivesBaseline",
-   "prev": 24,
-   "new": 25,
+   "prev": 25,
+   "new": 30,
    "comparedAs": "share of set size",
-   "prevShare": 0.06,
-   "newShare": 0.0577,
-   "absDiff": 0.002263,
-   "relDiff": 0.03772,
+   "prevShare": 0.0577,
+   "newShare": 0.0619,
+   "absDiff": 0.004119,
+   "relDiff": 0.07134,
    "withinBand": true
   },
   {
    "path": "/alphaStar/variantMax",
    "prev": 0.782,
-   "new": 0.782,
-   "absDiff": 0.0,
-   "relDiff": 0.0,
+   "new": 0.787,
+   "absDiff": 0.005,
+   "relDiff": 0.00639,
    "withinBand": true
   },
   {
    "path": "/alphaStar/variantMin",
-   "prev": 0.203,
-   "new": 0.211,
-   "absDiff": 0.008,
-   "relDiff": 0.03941,
+   "prev": 0.211,
+   "new": 0.218,
+   "absDiff": 0.007,
+   "relDiff": 0.03318,
    "withinBand": true
   },
   {
@@ -116,34 +118,34 @@
   },
   {
    "path": "/fGen/variantMax",
-   "prev": 0.5364,
-   "new": 0.5312,
-   "absDiff": 0.0052,
-   "relDiff": 0.00969,
+   "prev": 0.5312,
+   "new": 0.5291,
+   "absDiff": 0.0021,
+   "relDiff": 0.00395,
    "withinBand": true
   },
   {
    "path": "/fGen/variantMin",
-   "prev": 0.4726,
-   "new": 0.4676,
-   "absDiff": 0.005,
-   "relDiff": 0.01058,
+   "prev": 0.4676,
+   "new": 0.4652,
+   "absDiff": 0.0024,
+   "relDiff": 0.00513,
    "withinBand": true
   },
   {
    "path": "/interval/hi",
-   "prev": 0.0549,
+   "prev": 0.0561,
    "new": 0.0561,
-   "absDiff": 0.0012,
-   "relDiff": 0.02186,
+   "absDiff": 0.0,
+   "relDiff": 0.0,
    "withinBand": true
   },
   {
    "path": "/interval/lo",
-   "prev": -0.0897,
-   "new": -0.0918,
-   "absDiff": 0.0021,
-   "relDiff": 0.02341,
+   "prev": -0.0918,
+   "new": -0.0931,
+   "absDiff": 0.0013,
+   "relDiff": 0.01416,
    "withinBand": true
   },
   {
@@ -164,58 +166,58 @@
   },
   {
    "path": "/per100km/battToTractionResidual",
-   "prev": 8.891,
-   "new": 9.013,
-   "absDiff": 0.122,
-   "relDiff": 0.01372,
+   "prev": 9.013,
+   "new": 9.128,
+   "absDiff": 0.115,
+   "relDiff": 0.01276,
    "withinBand": true
   },
   {
    "path": "/per100km/genToBattDual",
-   "prev": 2.309,
-   "new": 2.371,
-   "absDiff": 0.062,
-   "relDiff": 0.02685,
+   "prev": 2.371,
+   "new": 2.42,
+   "absDiff": 0.049,
+   "relDiff": 0.02067,
    "withinBand": true
   },
   {
    "path": "/per100km/genToBattEngineOn",
-   "prev": 5.105,
-   "new": 5.204,
-   "absDiff": 0.099,
-   "relDiff": 0.01939,
+   "prev": 5.204,
+   "new": 5.317,
+   "absDiff": 0.113,
+   "relDiff": 0.02171,
    "withinBand": true
   },
   {
    "path": "/per100km/genToBattUpper",
-   "prev": 7.414,
-   "new": 7.576,
-   "absDiff": 0.162,
-   "relDiff": 0.02185,
+   "prev": 7.576,
+   "new": 7.737,
+   "absDiff": 0.161,
+   "relDiff": 0.02125,
    "withinBand": true
   },
   {
    "path": "/per100km/genToTraction",
-   "prev": 9.433,
-   "new": 9.354,
-   "absDiff": 0.079,
-   "relDiff": 0.00837,
+   "prev": 9.354,
+   "new": 9.386,
+   "absDiff": 0.032,
+   "relDiff": 0.00342,
    "withinBand": true
   },
   {
    "path": "/per100km/generator",
-   "prev": 15.971,
-   "new": 16.03,
-   "absDiff": 0.059,
-   "relDiff": 0.00369,
+   "prev": 16.03,
+   "new": 16.213,
+   "absDiff": 0.183,
+   "relDiff": 0.01142,
    "withinBand": true
   },
   {
    "path": "/per100km/regenToBatt",
-   "prev": 2.673,
-   "new": 2.675,
-   "absDiff": 0.002,
-   "relDiff": 0.00075,
+   "prev": 2.675,
+   "new": 2.685,
+   "absDiff": 0.01,
+   "relDiff": 0.00374,
    "withinBand": true
   }
  ],
@@ -225,23 +227,23 @@
  "scopeChanges": [
   {
    "path": "/scope/km",
-   "prev": 3826.7,
-   "new": 3994.8
+   "prev": 3994.8,
+   "new": 4318.2
   },
   {
    "path": "/scope/nCanonical",
-   "prev": 632,
-   "new": 665
+   "prev": 665,
+   "new": 717
   },
   {
    "path": "/scope/nDays",
-   "prev": 72,
-   "new": 76
+   "prev": 76,
+   "new": 87
   },
   {
    "path": "/scope/nDrives",
-   "prev": 400,
-   "new": 433
+   "prev": 433,
+   "new": 485
   }
  ],
  "stringChanges": [
@@ -261,7 +263,12 @@
    "path": "/sources/step2/sha256"
   }
  ],
- "stops": [],
+ "stops": [
+  {
+   "rule": "key-set difference",
+   "path": "/fGenMixStandardised"
+  }
+ ],
  "escalations": [],
  "units": {
   "fractions": "0-1 unless the leaf name ends in Pct",
@@ -273,244 +280,358 @@
   "nInsidePreviousCI": 4,
   "nPointOnly": 17,
   "nPointOnlyWithinBand": 17,
-  "nStops": 0,
+  "nStops": 1,
   "nEscalations": 0,
   "nStringChanges": 5
  },
  "set": {
-  "nDrives": 433,
-  "nDays": 76,
-  "km": 3994.8,
-  "nPrevious": 400,
-  "nNew": 33,
+  "nDrives": 485,
+  "nDays": 87,
+  "km": 4318.2,
+  "nPrevious": 433,
+  "nNew": 52,
   "newIds": [
    {
-    "file": "2026-11-05_19-24-15.csv",
-    "date": "2026-11-05",
-    "km": 2.1,
+    "file": "2026-11-10_18-37-20.csv",
+    "date": "2026-11-10",
+    "km": 4.4,
     "type": "urban"
    },
    {
-    "file": "2026-11-05_19-52-41.csv",
-    "date": "2026-11-05",
-    "km": 1.9,
+    "file": "2026-11-10_19-50-35.csv",
+    "date": "2026-11-10",
+    "km": 4.9,
     "type": "urban"
    },
    {
-    "file": "2026-11-05_21-52-15.csv",
-    "date": "2026-11-05",
-    "km": 12.6,
+    "file": "2026-11-11_07-39-56.csv",
+    "date": "2026-11-11",
+    "km": 2.4,
     "type": "urban"
    },
    {
-    "file": "2026-11-06_07-48-22.csv",
-    "date": "2026-11-06",
+    "file": "2026-11-11_07-58-19.csv",
+    "date": "2026-11-11",
+    "km": 0.6,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-11_08-11-53.csv",
+    "date": "2026-11-11",
     "km": 4.2,
     "type": "urban"
    },
    {
-    "file": "2026-11-06_14-22-59.csv",
-    "date": "2026-11-06",
-    "km": 1.9,
-    "type": "urban"
-   },
-   {
-    "file": "2026-11-06_20-45-43.csv",
-    "date": "2026-11-06",
-    "km": 23.1,
-    "type": "urban"
-   },
-   {
-    "file": "2026-11-06_21-23-28.csv",
-    "date": "2026-11-06",
-    "km": 33.6,
-    "type": "urban"
-   },
-   {
-    "file": "2026-11-07_09-50-01.csv",
-    "date": "2026-11-07",
-    "km": 4.1,
-    "type": "urban"
-   },
-   {
-    "file": "2026-11-07_11-24-19.csv",
-    "date": "2026-11-07",
-    "km": 9.0,
-    "type": "urban"
-   },
-   {
-    "file": "2026-11-07_11-51-36.csv",
-    "date": "2026-11-07",
-    "km": 3.6,
-    "type": "urban"
-   },
-   {
-    "file": "2026-11-07_12-10-30.csv",
-    "date": "2026-11-07",
-    "km": 2.0,
-    "type": "urban"
-   },
-   {
-    "file": "2026-11-07_13-47-43.csv",
-    "date": "2026-11-07",
-    "km": 6.8,
-    "type": "urban"
-   },
-   {
-    "file": "2026-11-07_14-19-49.csv",
-    "date": "2026-11-07",
-    "km": 7.5,
-    "type": "urban"
-   },
-   {
-    "file": "2026-11-07_14-45-12.csv",
-    "date": "2026-11-07",
-    "km": 1.5,
-    "type": "urban"
-   },
-   {
-    "file": "2026-11-07_15-01-29.csv",
-    "date": "2026-11-07",
-    "km": 0.9,
-    "type": "urban"
-   },
-   {
-    "file": "2026-11-07_15-08-05.csv",
-    "date": "2026-11-07",
-    "km": 0.7,
-    "type": "urban"
-   },
-   {
-    "file": "2026-11-07_15-25-29.csv",
-    "date": "2026-11-07",
-    "km": 2.1,
-    "type": "urban"
-   },
-   {
-    "file": "2026-11-07_16-54-28.csv",
-    "date": "2026-11-07",
-    "km": 3.1,
-    "type": "urban"
-   },
-   {
-    "file": "2026-11-08_11-49-25.csv",
-    "date": "2026-11-08",
-    "km": 2.4,
-    "type": "urban"
-   },
-   {
-    "file": "2026-11-08_12-26-11.csv",
-    "date": "2026-11-08",
-    "km": 2.4,
-    "type": "urban"
-   },
-   {
-    "file": "2026-11-08_12-56-29.csv",
-    "date": "2026-11-08",
-    "km": 2.2,
-    "type": "urban"
-   },
-   {
-    "file": "2026-11-08_13-09-32.csv",
-    "date": "2026-11-08",
-    "km": 2.1,
-    "type": "urban"
-   },
-   {
-    "file": "2026-11-08_16-27-23.csv",
-    "date": "2026-11-08",
-    "km": 1.1,
-    "type": "urban"
-   },
-   {
-    "file": "2026-11-08_16-34-56.csv",
-    "date": "2026-11-08",
-    "km": 1.5,
-    "type": "urban"
-   },
-   {
-    "file": "2026-11-08_16-57-01.csv",
-    "date": "2026-11-08",
-    "km": 5.6,
-    "type": "urban"
-   },
-   {
-    "file": "2026-11-08_18-34-25.csv",
-    "date": "2026-11-08",
-    "km": 15.0,
-    "type": "urban"
-   },
-   {
-    "file": "2026-11-09_07-45-26.csv",
-    "date": "2026-11-09",
-    "km": 2.3,
-    "type": "urban"
-   },
-   {
-    "file": "2026-11-09_08-04-01.csv",
-    "date": "2026-11-09",
+    "file": "2026-11-11_21-31-01.csv",
+    "date": "2026-11-11",
     "km": 2.5,
     "type": "urban"
    },
    {
-    "file": "2026-11-09_16-07-41.csv",
-    "date": "2026-11-09",
+    "file": "2026-11-12_07-41-46.csv",
+    "date": "2026-11-12",
+    "km": 2.4,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-12_07-59-30.csv",
+    "date": "2026-11-12",
+    "km": 0.8,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-12_08-15-52.csv",
+    "date": "2026-11-12",
     "km": 1.8,
     "type": "urban"
    },
    {
-    "file": "2026-11-09_16-19-16.csv",
-    "date": "2026-11-09",
-    "km": 2.1,
+    "file": "2026-11-13_07-42-29.csv",
+    "date": "2026-11-13",
+    "km": 2.5,
     "type": "urban"
    },
    {
-    "file": "2026-11-09_18-32-27.csv",
-    "date": "2026-11-09",
-    "km": 1.6,
+    "file": "2026-11-13_08-00-59.csv",
+    "date": "2026-11-13",
+    "km": 1.3,
     "type": "urban"
    },
    {
-    "file": "2026-11-09_19-54-36.csv",
-    "date": "2026-11-09",
+    "file": "2026-11-13_08-08-59.csv",
+    "date": "2026-11-13",
+    "km": 2.5,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-13_14-48-59.csv",
+    "date": "2026-11-13",
+    "km": 2.8,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-13_15-11-13.csv",
+    "date": "2026-11-13",
+    "km": 2.0,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-13_15-21-54.csv",
+    "date": "2026-11-13",
+    "km": 3.7,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-13_19-30-07.csv",
+    "date": "2026-11-13",
+    "km": 2.5,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-13_19-47-07.csv",
+    "date": "2026-11-13",
+    "km": 0.3,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-13_19-53-24.csv",
+    "date": "2026-11-13",
+    "km": 2.7,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-14_12-01-16.csv",
+    "date": "2026-11-14",
+    "km": 4.6,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-14_12-16-15.csv",
+    "date": "2026-11-14",
+    "km": 2.2,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-14_14-17-28.csv",
+    "date": "2026-11-14",
+    "km": 1.8,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-14_14-59-42.csv",
+    "date": "2026-11-14",
+    "km": 1.7,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-14_15-14-59.csv",
+    "date": "2026-11-14",
+    "km": 5.0,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-14_16-17-50.csv",
+    "date": "2026-11-14",
+    "km": 1.9,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-15_11-51-48.csv",
+    "date": "2026-11-15",
+    "km": 2.5,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-15_12-10-30.csv",
+    "date": "2026-11-15",
+    "km": 3.1,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-15_13-03-41.csv",
+    "date": "2026-11-15",
+    "km": 2.2,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-15_13-19-44.csv",
+    "date": "2026-11-15",
+    "km": 84.5,
+    "type": "mixed_highway"
+   },
+   {
+    "file": "2026-11-15_14-58-00.csv",
+    "date": "2026-11-15",
+    "km": 3.2,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-15_17-30-10.csv",
+    "date": "2026-11-15",
+    "km": 5.8,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-15_18-19-13.csv",
+    "date": "2026-11-15",
+    "km": 65.0,
+    "type": "mixed_highway"
+   },
+   {
+    "file": "2026-11-15_19-25-52.csv",
+    "date": "2026-11-15",
+    "km": 29.1,
+    "type": "mixed"
+   },
+   {
+    "file": "2026-11-16_07-42-22.csv",
+    "date": "2026-11-16",
     "km": 2.4,
     "type": "urban"
    },
    {
-    "file": "2026-11-09_20-11-42.csv",
-    "date": "2026-11-09",
+    "file": "2026-11-16_07-59-52.csv",
+    "date": "2026-11-16",
+    "km": 4.0,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-16_13-44-16.csv",
+    "date": "2026-11-16",
+    "km": 1.7,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-16_13-55-34.csv",
+    "date": "2026-11-16",
+    "km": 5.5,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-16_14-19-33.csv",
+    "date": "2026-11-16",
+    "km": 8.1,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-17_18-19-16.csv",
+    "date": "2026-11-17",
+    "km": 1.0,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-17_18-27-50.csv",
+    "date": "2026-11-17",
+    "km": 1.5,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-17_19-46-57.csv",
+    "date": "2026-11-17",
+    "km": 3.3,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-17_20-11-10.csv",
+    "date": "2026-11-17",
+    "km": 17.3,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-18_07-55-13.csv",
+    "date": "2026-11-18",
+    "km": 2.3,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-18_08-13-18.csv",
+    "date": "2026-11-18",
+    "km": 1.2,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-18_09-05-34.csv",
+    "date": "2026-11-18",
+    "km": 2.9,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-18_20-12-38.csv",
+    "date": "2026-11-18",
+    "km": 2.6,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-19_07-36-43.csv",
+    "date": "2026-11-19",
     "km": 2.4,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-19_07-51-36.csv",
+    "date": "2026-11-19",
+    "km": 2.8,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-19_08-19-42.csv",
+    "date": "2026-11-19",
+    "km": 1.9,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-20_08-45-35.csv",
+    "date": "2026-11-20",
+    "km": 2.4,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-20_09-02-32.csv",
+    "date": "2026-11-20",
+    "km": 1.5,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-20_09-17-51.csv",
+    "date": "2026-11-20",
+    "km": 0.6,
+    "type": "urban"
+   },
+   {
+    "file": "2026-11-20_09-29-36.csv",
+    "date": "2026-11-20",
+    "km": 1.1,
     "type": "urban"
    }
   ],
   "previousPerDrive": {
-   "path": "analyses/closure_baselines/perdrive_400drives.csv",
-   "sha256": "92a40589b61f497796fcfd9da5eba749b8550ce68b4c8b4adaab7fc3f6b09f05",
-   "nDrives": 400,
-   "master": "1574a8156a36c6ea4ea1dfdaafc7cc72"
+   "path": "analyses/closure_baselines/perdrive_433drives.csv",
+   "sha256": "83f82964028e75dad62d25153fae9c027eeaab6399a09b34e9663156251b2c9b",
+   "nDrives": 433,
+   "master": "77bbe275f8c22eaf62d8636867764af3"
   }
  },
  "checks": {
   "rawOriginals": {
-   "nChecked": 433,
+   "nChecked": 485,
    "nMismatch": 0
   },
   "flags": {
-   "nCompared": 653,
+   "nCompared": 705,
    "nDiverging": 0
   },
   "repin": {
    "previousPerDrive": {
-    "path": "analyses/closure_baselines/perdrive_400drives_recal_77bbe275.csv",
-    "sha256": "3c9b8423cab9c9e6aac9e9c3b162e4466abea07b0272e19b64be03323b1a2c17",
-    "nDrives": 400,
-    "master": "77bbe275f8c22eaf62d8636867764af3"
+    "path": "analyses/closure_baselines/perdrive_433drives_recal_d514d600.csv",
+    "sha256": "ed9bb676b7081cc0ae8748f7ba9a7a7b4d67418817fdb54204683d25bf468e34",
+    "nDrives": 433,
+    "master": "d514d6009d6d9a0a168ad4fb09b9bb98"
    },
    "repinnedFrom": {
-    "path": "analyses/closure_baselines/perdrive_400drives.csv",
-    "sha256": "92a40589b61f497796fcfd9da5eba749b8550ce68b4c8b4adaab7fc3f6b09f05",
-    "nDrives": 400,
-    "master": "1574a8156a36c6ea4ea1dfdaafc7cc72"
+    "path": "analyses/closure_baselines/perdrive_433drives.csv",
+    "sha256": "83f82964028e75dad62d25153fae9c027eeaab6399a09b34e9663156251b2c9b",
+    "nDrives": 433,
+    "master": "77bbe275f8c22eaf62d8636867764af3"
    },
    "repinReason": "auto (M398): closure drift attributed to the recalibrated offset columns (hybrid run reproduces the pin exactly; changed columns ['I_offset_2p_A_applied', 'I_offset_A_applied', 'cell_spread_loaded_p95_adj_hub_mv', 'cell_spread_loaded_p95_adj_mv', 'energy_residual_kwh_corr', 'energy_residual_kwh_corr2p', 'net_draw_kwh_corr', 'net_draw_kwh_corr2p', 'net_draw_per100km_corr', 'net_draw_per100km_corr2p', 'offset_2p_kwh_removed', 'offset_kwh_removed'])",
    "note": "re-pinned automatically (M398): closure drift attributed to the recalibrated offset columns, hybrid run reproduces the previous pin exactly; identity stays exact (1e-5) for later runs",
@@ -533,81 +654,81 @@
     ],
     "allWithinRecalibrationColumns": true,
     "hybridRunIdentityExact": true,
-    "nPrevious": 400,
+    "nPrevious": 433,
     "tolerance": {
      "maxAbs": 0.001,
      "colSumRelChange": 0.001
     },
     "driftColumns": {
      "g2t": {
-      "nDrivesChanged": 144,
-      "maxAbs": 0.00029,
-      "colSumRelChange": 1.188e-05
+      "nDrivesChanged": 109,
+      "maxAbs": 0.00018,
+      "colSumRelChange": 7.36e-06
      },
      "trac": {
-      "nDrivesChanged": 142,
-      "maxAbs": 0.00022,
-      "colSumRelChange": 1.6e-06
+      "nDrivesChanged": 108,
+      "maxAbs": 0.00013,
+      "colSumRelChange": 1.04e-06
      },
      "b2t": {
-      "nDrivesChanged": 131,
-      "maxAbs": 0.0001,
-      "colSumRelChange": 9.35e-06
+      "nDrivesChanged": 109,
+      "maxAbs": 6e-05,
+      "colSumRelChange": 5.94e-06
      },
      "g2b_model": {
-      "nDrivesChanged": 150,
-      "maxAbs": 0.00028,
-      "colSumRelChange": 1.707e-05
+      "nDrivesChanged": 117,
+      "maxAbs": 0.00019,
+      "colSumRelChange": 1.08e-05
      },
      "excess": {
-      "nDrivesChanged": 110,
-      "maxAbs": 0.00028,
-      "colSumRelChange": 0.00012733
+      "nDrivesChanged": 98,
+      "maxAbs": 0.00019,
+      "colSumRelChange": 8.015e-05
      },
      "excess_engonly": {
-      "nDrivesChanged": 131,
-      "maxAbs": 0.00028,
-      "colSumRelChange": 7.79e-05
+      "nDrivesChanged": 106,
+      "maxAbs": 0.00019,
+      "colSumRelChange": 4.898e-05
      },
      "excess_ps": {
-      "nDrivesChanged": 110,
-      "maxAbs": 0.00028,
-      "colSumRelChange": 0.00012733
+      "nDrivesChanged": 98,
+      "maxAbs": 0.00019,
+      "colSumRelChange": 8.015e-05
      },
      "batt_resid": {
-      "nDrivesChanged": 118,
-      "maxAbs": 0.0001,
-      "colSumRelChange": 6.951e-05
+      "nDrivesChanged": 91,
+      "maxAbs": 6e-05,
+      "colSumRelChange": 4.328e-05
      },
      "batt_resid_modelg2b": {
-      "nDrivesChanged": 124,
-      "maxAbs": 0.00022,
-      "colSumRelChange": 8.433e-05
+      "nDrivesChanged": 88,
+      "maxAbs": 0.00014,
+      "colSumRelChange": 5.331e-05
      }
     },
     "nDrivesChangedConvention": "at >1e-5 on 5-dp rounded values (descriptive only; the decision uses maxAbs and colSumRelChange)",
     "cumulativeVsOriginalPin": null
    },
    "originalPin": {
-    "path": "analyses/closure_baselines/perdrive_400drives.csv",
-    "sha256": "92a40589b61f497796fcfd9da5eba749b8550ce68b4c8b4adaab7fc3f6b09f05",
-    "nDrives": 400,
-    "master": "1574a8156a36c6ea4ea1dfdaafc7cc72"
+    "path": "analyses/closure_baselines/perdrive_433drives.csv",
+    "sha256": "83f82964028e75dad62d25153fae9c027eeaab6399a09b34e9663156251b2c9b",
+    "nDrives": 433,
+    "master": "77bbe275f8c22eaf62d8636867764af3"
    }
   },
   "previousIdentity": {
    "attributedRecalibrationDrift": true,
    "newPin": {
-    "path": "analyses/closure_baselines/perdrive_400drives_recal_77bbe275.csv",
-    "sha256": "3c9b8423cab9c9e6aac9e9c3b162e4466abea07b0272e19b64be03323b1a2c17",
-    "nDrives": 400,
-    "master": "77bbe275f8c22eaf62d8636867764af3"
+    "path": "analyses/closure_baselines/perdrive_433drives_recal_d514d600.csv",
+    "sha256": "ed9bb676b7081cc0ae8748f7ba9a7a7b4d67418817fdb54204683d25bf468e34",
+    "nDrives": 433,
+    "master": "d514d6009d6d9a0a168ad4fb09b9bb98"
    }
   }
  },
  "specSha256Frozen": "96b1297f047eaaf46314c797b2d32f63626b45cadbb90f20335cc1bb45c3e745",
  "infeasibleAlphaDrives": {
-  "n": 25,
+  "n": 30,
   "inPreviousSet": [
    "2026-09-14_07-50-59.csv",
    "2026-09-16_14-01-15.csv",
@@ -624,6 +745,7 @@
    "2026-10-16_19-23-56.csv",
    "2026-10-17_23-13-01.csv",
    "2026-11-04_21-26-25.csv",
+   "2026-11-09_16-07-41.csv",
    "20260515_075207.csv",
    "20260603_122008.csv",
    "20260814_101007.csv",
@@ -635,7 +757,25 @@
    "20260909_140527.csv"
   ],
   "inNewDrives": [
-   "2026-11-09_16-07-41.csv"
+   "2026-11-11_08-11-53.csv",
+   "2026-11-12_08-15-52.csv",
+   "2026-11-18_08-13-18.csv",
+   "2026-11-19_08-19-42.csv",
+   "2026-11-20_09-02-32.csv"
   ]
+ },
+ "acknowledgement": {
+  "ruling": "analyses/M721_gtr_closure_director_ruling.json",
+  "driveMasterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+  "perDriveSha256": "a4ee4a65d61be26f430cf876492e1b98ba4b92212d81307002f44abdf8c23d4e",
+  "stopsSha256": "1ab17a80035b1888ca88c8cd4d023667303c71dd8f7f9cb88981c3a1669967dc",
+  "stops": [
+   {
+    "rule": "key-set difference",
+    "path": "/fGenMixStandardised"
+   }
+  ],
+  "escalations": [],
+  "scope": "exactly the listed stops and escalations; every other stop stays unacknowledgeable"
  }
 }

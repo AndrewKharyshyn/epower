@@ -18,9 +18,60 @@
    "outcome": "continued rise",
    "nDrivesAfterCutoff": 57,
    "nDaysAfterCutoff": 9
+  },
+  {
+   "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+   "nDrivesFrame": 683,
+   "dataThrough": "2026-11-20",
+   "evaluationNumber": 3,
+   "outcome": "continued rise",
+   "nDrivesAfterCutoff": 107,
+   "nDaysAfterCutoff": 20
   }
  ],
- "terminal": null,
+ "terminal": {
+  "frozen": true,
+  "rule": "terminal = first calendar day D after the cutoff 2026-10-17 with >= 20 in-range drives on >= 10 distinct in-range days (in-range = within the pre-step fit temperature range); fallback: the drives dated <= 2027-01-31; later looks are descriptive",
+  "how": "primary",
+  "D": "2026-11-10",
+  "dataThrough": "2026-11-10",
+  "evaluationNumber": 3,
+  "specSha256": "5273f4ef23532975394c3783d999d49e4670e15226bed12d9d016b6f02dc977e",
+  "n": 59,
+  "days": 10,
+  "outcome": "continued rise",
+  "values": {
+   "meanResidualMv": 5.815,
+   "meanResidualCi95": [
+    3.967,
+    7.663
+   ],
+   "postStepSlope": {
+    "est": 3.6101,
+    "se": 1.0355,
+    "ci95": [
+     1.4815,
+     5.7387
+    ],
+    "n": 168,
+    "G": 27
+   },
+   "predictionMet": false,
+   "inRangeSensitivity": {
+    "n": 44,
+    "days": 10,
+    "meetsSupportFloor": true,
+    "label": "post hoc sensitivity",
+    "meanResidualMv": 5.697,
+    "meanResidualCi95": [
+     3.12,
+     8.274
+    ]
+   },
+   "nBelowPreStepTmin": 15,
+   "nAbovePreStepTmax": 0
+  }
+ },
  "preStepFit": {
   "n": 467,
   "hash": "e62ccc8da486057ca958020dc8d47f5270d044d4d4fe2e725eeb3d0b5e06c15f"

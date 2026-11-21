@@ -1,19 +1,15 @@
 {
- "nDrives": 665,
- "nDays": 130,
- "ahTotal_zohGrid": 5375.15,
- "kwhTotal_zohGrid": 1948.83,
- "kmTotal_speedIntegral": 10795.41,
- "kmTotal_master": 10738.84,
- "kwhPerDrive_vs_masterProjectRule_medianRelDiff": 0.0265,
- "kwhPerDrive_vs_masterProjectRule_p95AbsRelDiff": 0.0706,
+ "nDrives": 717,
+ "nDays": 141,
+ "ahTotal_zohGrid": 5598.26,
+ "kwhTotal_zohGrid": 2030.15,
+ "kmTotal_speedIntegral": 11118.81,
+ "kmTotal_master": 11062.24,
+ "kwhPerDrive_vs_masterProjectRule_medianRelDiff": 0.0253,
+ "kwhPerDrive_vs_masterProjectRule_p95AbsRelDiff": 0.0699,
  "sliceAhConservation_maxAbsDiff": 1.4210854715202004e-14,
  "sliceChargeBinConservation_maxAbsDiff": 7.105427357601002e-15,
- "scriptSha256": "9ea3435e7c6bf3dce4b267df45d235d0ba88d242125b2a505975391a44f14770",
- "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
- "rule": "zero-order-hold 1 Hz grid (prototype rule), about 4.4 % above the project linear sign-aware rule; the project rule is gross_throughput_kwh of the master (spec M712 Rev 1.1 C2)",
- "prototypeComparison": {
-  "note": "comparison-only against analyses/exposure_scenarios_2026-11-16/results (untracked prototype): drives.csv 157 shared columns over 665 drives identical (max abs diff <= 1e-6, same NaN pattern); slices.npz arrays identical; the M713b additions (pulse and charge-limit statistics) have no prototype counterpart in drives.csv"
- },
- "tool": "tools/scenario_frame.py"
+ "scriptSha256": "fc3949625f544a37e5f6b70d4137145818f6db9d684913dc40eac4514ea2d643",
+ "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+ "rule": "zero-order-hold 1 Hz grid (prototype rule), about 4.4 % above the project linear sign-aware rule; the project rule is gross_throughput_kwh of the master (spec M712 Rev 1.1 C2)"
 }

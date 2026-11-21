@@ -1,0 +1,19 @@
+{
+ "milestone": "M721",
+ "stage": "urban_week_block (M494)",
+ "date": "2026-11-20",
+ "role": "research-director (Opus), brief of the main session",
+ "decision": "revise (conditional accept: renew the scoped ack once (a)-(d) pass mechanically; no second Director round if all pass)",
+ "scientific_meaning": "Overall verdict 'depends on the resampling unit' and all four band verdicts equal the published M608 state; method unchanged; not a verdict change. Renewal without a blind audit only if no point estimate leaves its previous CI.",
+ "conditions": [
+  "(a) script-written point estimate per band x procedure (jointDay/W/WS/M7) vs its M608 CI; any point outside -> blind audit, back to Director",
+  "(b) thermal_regime of the 52 new drives and per-band per-cohort drive/day/week counts vs M608; say plainly if the shift toward zero comes from composition",
+  "(c) 3-10 km: if new drives entered this band, reproduce W/WS in a blind audit before the ack takes effect",
+  "(d) ack bound to masterMd5 and nDrives=717; nChanged 9, outsideAllowList []; CHANGELOG M721 states that no Andrii approval exists or is implied"
+ ],
+ "wording": [
+  "Reuse M575 wording: day-clustered reading primary; at 3-10 km W/WS exclude zero while the day-clustered interval includes it; narrower block intervals are not stronger evidence; Warm-vs-Shoulder contrast not established; cohorts confounded with season, date, route and drift; a resampling sensitivity, never a temperature effect",
+  "Never: significant, robust, confirmed, accounts for dependence, no seasonal effect, tighter, more precise, at the edge of zero, verdict confirmed by new data, shrinking/vanishing effect"
+ ],
+ "note": "The ack file is written before checks (a)-(c) can be computed (the inputs exist only in the run's state); nothing is committed, pushed or merged until they pass."
+}

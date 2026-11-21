@@ -7,7 +7,7 @@ G-S3  reproduction, binding on the IDENTICAL inputs of the prototype (prototype 
       reported with the per-metric delta (attribution per input is the sensitivity work of M713d). A failed gate is recorded as failed and never relaxed.
 G-S2 / G-S2b (consistency check and month-blocked hold-out; tools/scenario_validation.py) and G-S4 (assumption table, reported; tools/scenario_sensitivity.py) are aggregated here with the attribution, leave-one-day-out, integration-rule and E-exp results (M713d).
 Usage: python tools/scenario_gates.py [--dir analyses/M713]   writes <dir>/scenario_gates.json"""
-import argparse, json, os, sys
+import argparse, hashlib, json, os, sys
 import numpy as np
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
@@ -17,6 +17,55 @@ import scenario_engine as SE
 HEADLINE = ["annual_km", "drives", "ah_throughput", "gtc_5Ah_rated", "gtc_2p1kWh_legacy", "fce_5Ah_rated", "ahShare_T_lt10", "ahShare_T_ge35", "ahShare_T_ge40", "hotTail_ah_ge35",
             "coldChargeIndex_AhxC_lt10", "warmups_Tstart_lt15", "arrCycleAF_Ea50", "arrCalendarAF_year_Ea50", "parkedShareOfCalendarDose_Ea50", "parked_meanPackT", "engine_starts"]
 PROTO_NAME = {"coldChargeIndex_AhxC_lt10": "coldChargeStress_AhxC_lt10", "coldChargeIndex_AhxC_lt0": "coldChargeStress_AhxC_lt0"}
+
+
+def accepted_pattern(g, d):
+    """Wrapper: any missing key or None value is a stop with a printed reason, never an uncaught exception."""
+    try:
+        return _accepted_pattern(g, d)
+    except (KeyError, TypeError, ValueError) as e:
+        return False, ["malformed gate record: %s %s" % (type(e).__name__, e)]
+
+
+def _accepted_pattern(g, d):
+    """(True, []) only for the Director-accepted failure pattern (analyses/M713/accepted_failure_pattern.json); otherwise (False, reasons)."""
+    pp = os.path.join(d, "accepted_failure_pattern.json")
+    fails = sorted(k for k, v in g.items() if isinstance(v, dict) and v.get("pass") is False)
+    if not fails or not os.path.exists(pp):
+        return False, []
+    P = json.load(open(pp, encoding="utf-8"))
+    why = []
+    if fails != sorted(P["gates"]):
+        why.append("false gates %s differ from the accepted set %s" % (fails, P["gates"]))
+    for k in ("G-S0", "G-S1", "G-S3"):
+        if g.get(k, {}).get("pass") is not True:
+            why.append("%s is not true" % k)
+    if g.get("G-S4", {}).get("pass") is not None:
+        why.append("G-S4 is not null")
+    if why:
+        return False, why
+    sf = (g.get("supportStatus") or {}).get("failedGates")
+    if sorted(sf or []) != fails:
+        why.append("supportStatus.failedGates differs from the false gates")
+    for k in P["gates"]:
+        r, b = g[k], P["baseline"][k]
+        st, hs = r["startsBelow15C"]["relError"], r["ahShare_ge35"]["relError"]
+        if st is None or not st > 0:
+            why.append("%s starts below 15 C no longer an overestimate" % k)
+        if hs is None or not hs < 0:
+            why.append("%s hot share no longer biased low" % k)
+        if abs(r["arrCycleAF_Ea50"]["relError"]) > P["arrCycleAF_tolerance"]:
+            why.append("%s arrCycleAF_Ea50 outside tolerance" % k)
+        for nm, x in (("startsBelow15C", st), ("ahShare_ge35", hs)):
+            if x is None:
+                continue
+            bb = b[nm + "_relError"]
+            toward = (x * bb > 0) and abs(x) <= abs(bb)     # Director M721: same sign, not larger: accepted against the FIXED M713 baseline
+            if not toward and abs(x - bb) > P["maxMovement"] + 1e-9:
+                why.append("%s %s relError %.4f moved away from or across the M713 baseline %.4f by more than %.2f" % (k, nm, x, bb, P["maxMovement"]))
+    if g["G-S2b"]["gate"].get("cleanHoldout") != P["baseline"]["G-S2b"]["cleanHoldout"]:
+        why.append("G-S2b cleanHoldout changed")
+    return (not why), why
 
 
 def main(argv=None):
@@ -78,11 +127,14 @@ def main(argv=None):
                         g[k][extra] = V[k][extra]
         failed = [k for k in ("G-S2", "G-S2b") if k in g and g[k]["pass"] is False]
         # Director ruling (M713, option A): the baseline stays the pre-registered M709 one-offset park model; the failed gates are never relaxed; support status per metric group
+        # (all figures below are generated from the computed gate records, none typed)
+        pc = lambda x: "%+.0f %%" % (100 * x)
+        s2, s2b = g.get("G-S2", {}), g.get("G-S2b", {})
         g["supportStatus"] = {"ruling": "Director M713: option A (keep the M709 one offset, offset bracket [0, 2.7] C as an ASSUMPTION range, G-S2 / G-S2b shown beside every cold figure); option B only as a pre-registered M708 Rev 3 post-result deviation acknowledged by Andrii; option C rejected as baseline (sensitivity only)",
                               "failedGates": failed,
                               "nonThermal (annual km, drives, Ah, GTC, FCE, engine starts)": "supported: pass G-S0, G-S1, G-S3, unaffected by the park step",
-                              "cold outputs (Ah and charge Ah below 10 / 0 C, cold-charge index, starts and Ah while pack < 15 C, coldest start)": "NOT SUPPORTED (model-derived; G-S2 / G-S2b failed on starts below 15 C: simulated +28 % / +32 %); not displayed, not used in the article",
-                              "hot share (Ah at or above 35 / 40 C, pack mean)": "reported as a BRACKET: biased low by -5.8 points in-sample (-13 %) and -3.3 points (-25 %) in the hold-out; bias bound from the hold-out",
+                              "cold outputs (Ah and charge Ah below 10 / 0 C, cold-charge index, starts and Ah while pack < 15 C, coldest start)": "NOT SUPPORTED (model-derived; G-S2 / G-S2b failed on starts below 15 C: simulated %s / %s); not displayed, not used in the article" % (pc(s2.get("startsBelow15C", {}).get("relError") or 0), pc(s2b.get("startsBelow15C", {}).get("relError") or 0)),
+                              "hot share (Ah at or above 35 / 40 C, pack mean)": "reported as a BRACKET: biased low by %+.1f points (%s) in-sample and %+.1f points (%s) in the hold-out; bias bound from the hold-out" % (s2.get("ahShare_ge35", {}).get("diffPoints", 0), pc(s2.get("ahShare_ge35", {}).get("relError") or 0), s2b.get("ahShare_ge35", {}).get("diffPoints", 0), pc(s2b.get("ahShare_ge35", {}).get("relError") or 0)),
                               "calendar and cycle dose indices": "exposure-weighted indices; sensitive to the parked temperature (offset bracket reported); not ageing"}
     sp = os.path.join(a.dir, "scenario_sensitivity.json")
     if os.path.exists(sp):
@@ -111,7 +163,19 @@ def main(argv=None):
         g["E_exp_vs_E_real_S2"] = {k: {"E_exp": Ex["S2_balanced_owner_expected"]["E_exp"][k], "E_real": json.load(open(prod, encoding="utf-8"))["S2_balanced_owner_expected"]["E_real"][k]} for k in ("annual_km", "gtc_5Ah_rated", "coldChargeIndex_AhxC_lt10")}
     json.dump(g, open(os.path.join(a.dir, "scenario_gates.json"), "w", encoding="utf-8"), indent=1)
     print(json.dumps({k: v.get("pass") for k, v in g.items() if isinstance(v, dict) and "pass" in v}))
-    return 0 if all(v.get("pass") in (True, None) for v in g.values() if isinstance(v, dict) and "pass" in v) else 1
+    ok, why = accepted_pattern(g, a.dir)
+    if ok:
+        BASE = json.load(open(os.path.join(a.dir, "accepted_failure_pattern.json"), encoding="utf-8"))["baseline"]
+        g["acceptedFailures"] = {"ruling": "Director M713 option A; gate exit code accepts the pre-ruled failure pattern, gate results unchanged", "gates": sorted(k for k in ("G-S2", "G-S2b") if g[k]["pass"] is False),
+                                 "relErrors": {k: {nm: {"x": g[k][nm]["relError"], "baseline": BASE[k][nm + "_relError"], "diff": round(g[k][nm]["relError"] - BASE[k][nm + "_relError"], 4), "direction": "toward zero" if abs(g[k][nm]["relError"]) < abs(BASE[k][nm + "_relError"]) else "away from zero or equal"} for nm in ("startsBelow15C", "ahShare_ge35")} for k in ("G-S2", "G-S2b")}, "masterMd5": hashlib.md5(open(os.path.join(ROOT, "drive_master.csv"), "rb").read()).hexdigest()}
+        json.dump(g, open(os.path.join(a.dir, "scenario_gates.json"), "w", encoding="utf-8"), indent=1)
+        print("[scenario_gates] failure pattern equals the accepted M713 pattern: exit 0 (G-S2 / G-S2b stay FAILED)")
+        return 0
+    fails = [k for k, v in g.items() if isinstance(v, dict) and v.get("pass") is False]
+    if not fails:
+        return 0 if not (g.get("G-S2", {}).get("pass") is True or g.get("G-S2b", {}).get("pass") is True) else (print("[scenario_gates] STOP, escalate to the Director: G-S2 or G-S2b passed (pass flip; no automatic SUPPORTED)") or 1)
+    print("[scenario_gates] STOP, escalate to the Director: " + ("; ".join(why) if why else "false gates outside the accepted set or no accepted-pattern file"))
+    return 1
 
 
 if __name__ == "__main__":

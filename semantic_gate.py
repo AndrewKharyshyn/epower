@@ -358,6 +358,17 @@ _cs_m427 = A["degradationTrends"]["cellSpread"]["clusterRobustOLS"]["ci95"]
 # M407 (analyses/M407_spec.md): dashboard binding of the M406 sensitivities (reporting-only); text rendered from the payload, Director wording
 _h407 = [(k, t) for k, t in T.items() if k.startswith("health__") and not k.endswith("__compare")]
 ok("A2 REQUIRED M407 inference-sensitivity panel rendered in the Health dumps (all / warm / shoulder)", len(_h407) >= 3 and all("Inference sensitivities (additive:" in t for k, t in _h407))
+def _few407(*objs):
+    """M721: the 'fewer than 10 blocks' flag is rendered only when the payload says so (any fewBlocks true under the M406 series); the earlier check required the phrase unconditionally, a data-conditioned requirement that went stale once the week-block count reached 10."""
+    def walk(o):
+        if isinstance(o, dict):
+            return any((k == "fewBlocks" and v is True) or walk(v) for k, v in o.items())
+        if isinstance(o, list):
+            return any(walk(v) for v in o)
+        return False
+    return any(walk(o) for o in objs)
+
+
 if _ds:
     for _k, _t in _h407:
         _i = _t.index("Inference sensitivities (additive:") if "Inference sensitivities (additive:" in _t else -1
@@ -387,7 +398,7 @@ if _ds:
         ok("A2 REQUIRED M407 %s: the equivalence sentence is the CR2 TOST sensitivity (same frozen bound, released decision unchanged) and standing statements are repeated" % _k,
            _pn.count("the released decision is unchanged") == 2 and all(_pn.count(x_) == _STAND.count(x_) for x_ in set(_STAND)))
         ok("A2 REQUIRED M407 %s: regimes labelled imprecise / not a regime comparison; fewer-than-10-blocks flag shown for the fast regime" % _k,
-           _pn.count("imprecise; not a regime comparison") == 2 and "fewer than 10" in _pn)
+           _pn.count("imprecise; not a regime comparison") == 2 and ("fewer than 10" in _pn) == _few407(_cs, _rvm))
         ok("A2 REQUIRED M407 %s: KPI table has K2 corrected and raw, throughput 'integrated from logged current, estimated', the M366 raw label and the width-ratio sentence bound to the payload" % _k,
            "Net share of throughput, offset-adjusted" in _pn and "Net share of throughput, before the offset adjustment" in _pn and "integrated from logged current, estimated" in _pn
            and "raw/ = sha256-verified originals (M366)" in _pn and ("%.2f-%.2f times wider" % tuple(_ds["kpiWidthRatioWeekOverDay"]["driveMedians"])) in _pn
