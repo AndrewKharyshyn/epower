@@ -73,3 +73,12 @@ _f = P.descriptive_facts(_res, [42, 43, 44, 45])
 assert _f["e0LowerEndpointBelowZero"] == {**_f["e0LowerEndpointBelowZero"], "nSeeds": 2, "ofSeeds": 4} and _f["acrossSpecifications"]["slopeMin"] == 1.0 and _f["acrossSpecifications"]["lowerEndpointMinSeed42"] == -0.3
 assert _f["plainPercentileReadingSeed42"] == {"E0": "excludesZero", "A2": "includesZero"} and "permissive" in _f["bandPermissiveness"]
 print("OK test_powerfade_covariates (facts)")
+
+# (g) M724: the significance clause carries the seed facts when present and is unchanged when absent or when the interval spans zero
+import compute_summary_arrays as _C
+_cs = {"status": "ok", "nSpecsSpanZero": 5, "nSpecs": 7}
+_base = _C._powerfade_sig_clause(0.008, 2.6, _cs)
+_with = _C._powerfade_sig_clause(0.008, 2.6, _cs, {"nSeeds": 8, "ofSeeds": 9, "seed42LowerEndpoint": 0.0081})
+assert "pre-listed seeds" not in _base and "seed 42 is the published seed and the lower endpoint is below zero in 8 of 9 pre-listed seeds" in _with
+assert _C._powerfade_sig_clause(-0.1, 2.6, _cs, {"nSeeds": 8, "ofSeeds": 9, "seed42LowerEndpoint": 0.0081}) == "The 95 % day-cluster interval spans zero: a trend is not resolved in this window."
+print("OK test_powerfade_covariates (qualifier)")

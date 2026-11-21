@@ -25,6 +25,9 @@ else:
     assert "a fade trend is not established in this window and no fade rate is claimed" in _pf["note"] and "depends on the bootstrap seed" in _pf["note"]
     assert "(%d of %d cadence specifications span zero)" % (_cs["nSpecsSpanZero"], _cs["nSpecs"]) in _pf["note"]
     assert "excludes zero on this build" not in _pf["note"] and "before treating it as fade" not in _pf["note"]
+    _sf = (_pf.get("cadenceCovariates") or {}).get("specificationSensitivity", {}).get("descriptiveFacts", {}).get("e0LowerEndpointBelowZero")
+    if _sf:      # M724 (Andrii sign-off): the note states that seed 42 is the published seed and in how many pre-listed seeds the lower endpoint is below zero
+        assert "seed 42 is the published seed and the lower endpoint is below zero in %d of %d pre-listed seeds" % (_sf["nSeeds"], _sf["ofSeeds"]) in _pf["note"]
 assert _pf["note"] == a["fadeModes"]["power"]["trend"]["note"]
 assert "estimated trend is not resolved from zero" in a["fadeModes"]["power"]["whyNotProjected"]
 assert "estimated TREND" in a["officialDisclosureCorrelation"]["resistance"]["note"] and "estimated TREND" in a["officialDisclosureCorrelation"]["rows"][2]["note"]

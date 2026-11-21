@@ -30,7 +30,7 @@ BAND_FLOOR = 0.1
 SPEC_IDS = ["E0", "A0", "A1", "A2", "A3", "A4", "A5"]
 LABELS = {"E0": "published S1 (median interval + coverage_frac)", "A0": "both cadence covariates dropped (anchor)", "A1": "coverage replaced by n_I / duration_s",
           "A2": "coverage replaced by n_I x eff_dt_s / duration_s", "A3": "reduced: coverage_frac only", "A4": "reduced: eff_dt_s only", "A5": "fast / slow regime indicator instead of both"}
-ALLOWED = ["/powerFade/cadenceCovariates"]
+ALLOWED = ["/powerFade/cadenceCovariates", "/powerFade/note", "/fadeModes/power/trend/note"]
 
 
 # ------------------------------------------------------------------------------------------------ alternative densities (from the raw bytes, same reader as the production function)
@@ -284,9 +284,26 @@ def _paths(a, b, p=""):
     return out
 
 
+NOTE_HEAD, NOTE_TAIL = "resistance trend. ", " HV-current logging density, which changed"
+
+
+def refresh_notes(new, blk):
+    """M724 (Andrii sign-off): the significance clause of powerFade.note and fadeModes.power.trend.note carries the seed facts of this block (seed 42 is the published seed; in how many pre-listed seeds the lower endpoint is below zero).
+    Regenerated from the interval leaves by compute_summary_arrays._powerfade_sig_clause; nothing else in the note changes."""
+    import compute_summary_arrays as C
+    facts = blk["specificationSensitivity"]["descriptiveFacts"]["e0LowerEndpointBelowZero"]
+    for h in (new["powerFade"], new["fadeModes"]["power"]["trend"]):
+        lo, hi = h["ci95MohmPerMo"]
+        i, j = h["note"].find(NOTE_HEAD), h["note"].find(NOTE_TAIL)
+        if i < 0 or j < i:
+            raise SystemExit("STOP: the note anchors are not found")
+        h["note"] = h["note"][:i + len(NOTE_HEAD)] + C._powerfade_sig_clause(lo, hi, h["cadenceSensitivity"], facts) + h["note"][j:]
+
+
 def splice(A, blk):
     new = copy.deepcopy(A)
     new["powerFade"]["cadenceCovariates"] = blk
+    refresh_notes(new, blk)
     ch = _paths(A, new)
     return new, ch, [c for c in ch if not any(c == a_ or c.startswith(a_ + "/") for a_ in ALLOWED)]
 
