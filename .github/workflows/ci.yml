@@ -76,6 +76,8 @@ jobs:
           python tests/synthetic/test_restart_stage.py
           python tests/synthetic/test_winter_freeze.py
           python tests/synthetic/test_winter_guards.py
+          python tests/synthetic/test_winter_extractors.py
+          python tools/winter_extractors_freeze.py --check
           python tests/synthetic/test_park_two_state.py
           python tests/synthetic/test_park_propagation_control.py
           python tests/synthetic/test_ingest_preflight.py

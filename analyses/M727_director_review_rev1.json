@@ -1,0 +1,33 @@
+{
+ "milestone": "M727",
+ "role": "research-director (Opus), brief of the main session",
+ "reviewed": "analyses/M727_spec.md Rev 1",
+ "decision": "revise",
+ "requiredChanges": [
+  "P7: use the exact prototype specification (filters km>0.5, ah>0, spd_s>60; A=(ambient_start_c+ambient_end_c)/2; y=eng_on_s/rpm_s x100; controls ln km and vmean=km/dur_h; not engine_on_pct, speed_mean_moving or ambient_time_mean_c); minimum winter ambient spread (IQR>=3 C) else not evaluable",
+  "P5: autumn set = season autumn (Sep-Nov, before F) on the same filters and the same A; bound ln(1.06)/10 = 0.005827 per C; pre-register the 2.5th percentile; bootstrap days independently per set; statistic dln - 0.005827 x dT; >=3 drives per cell in both sets; report the dropped share of winter drives",
+  "pre-register the comparison rule per prediction (P2 CI inside the band; P3 and P7 point inside the frozen interval, report the CI beside)",
+  "P3: main window [-2,+2] C with [-5,+3] a sensitivity; report the uncorrected ratio and the ratio by T bin; pulses below 1.0 C labelled extrapolation test; kelvin; unit is the drive with equal weights; confirm the R25 / Ea definition",
+  "P2: specify the period of the band and align the scoring window; same Ah definition and pack-temperature source as E_real",
+  "pre-register tolerances of the frozen-basis consistency check before running it (P7 -0.00812 and CI within 1e-5; P5 placebo Sep vs Oct-Nov, no tolerance; P3 ratio at 25 C within +-0.05 of 1; P2 basis share vs the prototype observed share); allow one revision limited to an implementation mismatch with a diff and a new spec Rev; windows, classes, weights, thresholds frozen",
+  "registry per prediction id (function name, version, columns, freeze sha256, spec sha256, winter_score v2 sha256); registry and extractor module join the read-only set; v2 behaviour tests; the build masks post-F rows"
+ ],
+ "answers": {
+  "P2FrozenBand": "acceptable if disclosed; union band is lenient: label optimistic-leaning",
+  "P3": "not circular (second-order correction), restrict the window; the test also covers the frozen R25 with ageing confounded",
+  "split": "right; no claim that the cold outputs are supported until P1 is scored (M728)",
+  "signoff": "inform Andrii; none needed (tooling); record the P2 deviation in the CHANGELOG"
+ },
+ "language": [
+  "model-derived; associations, not temperature effects (P5, P7)",
+  "logged / app-calculated, never measured",
+  "scored against the frozen band, not the realised-ambient band",
+  "not evaluable is not no effect; not rejected is not no increase",
+  "never validated / confirmed / robust / proven"
+ ],
+ "followUps": [
+  "M728: realised-ambient P2 band from a frozen scenario-engine copy as a secondary"
+ ],
+ "needsAndriiSignoff": false,
+ "adoptedIn": "analyses/M727_spec.md Rev 2"
+}

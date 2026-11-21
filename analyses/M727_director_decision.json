@@ -1,0 +1,25 @@
+{
+ "milestone": "M727",
+ "role": "research-director (Opus), brief of the main session",
+ "reviewed": "analyses/M727_consistency_check.json run 1 and the blind audit",
+ "decision": "revise",
+ "decisions": [
+  "P2, P3, P7 meet their criteria and were reproduced blind; P5 fails A3 on the bootstrap scheme (spec gap)",
+  "Q1: Rev 3 before any re-run: per-draw recomputation of cell eligibility and weights; undefined draws dropped and counted (>1 % -> not evaluable); dT < 3 C rule on observed data only; fixed-cell variant reported beside; re-run only C-P5 as run 2; repeat the blind reproduction of P5; P2, P3, P7 byte-identical regression only",
+  "Q2: freeze P3 as specified; add the labelled sensitivity against the frame's own 25 C level (never changes status)",
+  "Q3: freeze all four in one registry after P5 is done; if P5 fails, freeze P2, P3, P7",
+  "Q4: scoring filter ens_outlier_v2 correct; C-P7 tests fidelity on the unfiltered prototype set; report the clean-filtered slope as descriptive, disclose the frozen interval came from the unfiltered basis",
+  "units: scoring output = -100 x coefficient, enforced by a known-answer test"
+ ],
+ "language": [
+  "model-derived; logged / app-calculated, never measured",
+  "association, not a temperature effect (P5, P7)",
+  "not rejected is not no increase; not evaluable is not no effect",
+  "P2 scored against the frozen band, not the realised-ambient band, optimistic-leaning",
+  "P3 passed at the edge of the criterion",
+  "P5 scheme clarified in Rev 3 after the first run (spec gap), placebo seen",
+  "never validated, confirmed, robust, proven"
+ ],
+ "needsAndriiSignoff": false,
+ "informAndrii": true
+}

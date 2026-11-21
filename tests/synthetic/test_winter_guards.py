@@ -52,35 +52,49 @@ try:
 except WS.Refused:
     pass
 
-# ---- G2: cells
-c = WS.evaluate_cell("P4", 9, 9)
-assert c["status"] == "not evaluable" and "estimate" not in c and "ci95" not in c               # below the drive rule: no number
-c = WS.evaluate_cell("P4", 12, 4)
-assert c["status"] == "not evaluable" and "estimate" not in c                                   # below the day rule
-c = WS.evaluate_cell("P4", 12, 6)
-assert c["status"] == "not evaluable" and c["reason"].startswith("extractor not frozen")
-# no extractor registry exists: even a full cell with an estimate prints NO number (Director M726 decision)
-assert WS.extractors_frozen()[0] is False
-c = WS.evaluate_cell("P3", 12, 6, 0.5, [0.4, 0.6], [0.3, 0.7], cell_min=1.0, basis_min=1.0)
-assert c["status"] == "not evaluable" and "estimate" not in c and "no extractor registry" in c["reason"]
-# with a registry whose sha256 is recorded in the CHANGELOG and whose modules match, the comparison runs (simulated)
-_orig = WS.extractors_frozen
-WS.extractors_frozen = lambda changelog_text=None: (True, "frozen")
-c = WS.evaluate_cell("P3", 12, 6, 0.5, [0.4, 0.6], [0.3, 0.7], cell_min=1.0, basis_min=1.0)
-assert c["status"] == "within the band" and c["region"] == "interpolation check"
-c = WS.evaluate_cell("P3", 12, 6, 1.5, [1.4, 1.6], [0.3, 0.7], cell_min=-3.0, basis_min=1.0)
-assert c["status"] == "outside the band" and c["region"] == "extrapolation test"
-assert WS.evaluate_cell("P3", 12, 6, 0.5, [0.2, 0.9], [0.3, 0.7])["status"] == "inconclusive"
-WS.extractors_frozen = _orig
-# registry rules: a registry whose hash is not in the CHANGELOG, or whose module differs, is not frozen
-import tempfile as _t
-_reg = os.path.join(ROOT, WS.REGISTRY)
+# ---- G2: cells (M727 v2: registry per prediction id; the registry path is a TEMP file here, the real registry is never touched)
+import tempfile
+tmpd = tempfile.mkdtemp()
+fake = os.path.join(tmpd, "registry.json")
+real_reg = WS.REGISTRY
+WS.REGISTRY = fake                                                         # an absolute path: os.path.join(ROOT, abs) is abs
 try:
-    json.dump({"modules": {"tools/winter_score.py": "0" * 64}}, open(_reg, "w", encoding="utf-8"))
-    assert WS.extractors_frozen(changelog_text="")[1].startswith("the extractor registry sha256 is not recorded")
-    assert WS.extractors_frozen(changelog_text=WS.sha(WS.REGISTRY))[1].startswith("an extractor module differs")
+    assert WS.extractors_frozen("P3")[0] is False and "no extractor registry" in WS.extractors_frozen("P3")[1]
+    c = WS.evaluate_cell("P4", 9, 9)
+    assert c["status"] == "not evaluable" and "estimate" not in c and "ci95" not in c               # below the drive rule: no number
+    c = WS.evaluate_cell("P4", 12, 4)
+    assert c["status"] == "not evaluable" and "estimate" not in c                                   # below the day rule
+    c = WS.evaluate_cell("P3", 12, 6, 0.5, [0.4, 0.6], [0.3, 0.7], cell_min=1.0, basis_min=1.0, rule="point")
+    assert c["status"] == "not evaluable" and "estimate" not in c and "no extractor registry" in c["reason"]       # no registry: no number
+    # a registry covering P3 and P7 only, with a module that matches, and its sha256 recorded in a (simulated) CHANGELOG
+    mod = "tools/winter_score.py"
+    json.dump({"predictions": ["P3", "P7"], "modules": {mod: WS.sha(mod)}}, open(fake, "w", encoding="utf-8"))
+    h = WS.sha(fake)
+    assert WS.extractors_frozen("P3", changelog_text="")[1].startswith("the extractor registry sha256 is not recorded")
+    assert WS.extractors_frozen("P3", changelog_text=h) == (True, "frozen") and WS.extractors_frozen("P7", changelog_text=h)[0] is True
+    assert WS.extractors_frozen("P4", changelog_text=h) == (False, "prediction P4 is not covered by the extractor registry")          # P1, P4, P6 stay not evaluable
+    _orig = WS.extractors_frozen
+    WS.extractors_frozen = lambda pid=None, changelog_text=None: _orig(pid, changelog_text=h)
+    assert WS.evaluate_cell("P4", 12, 6, 0.5, [0.4, 0.6], [0.3, 0.7], rule="point")["status"] == "not evaluable"           # not covered
+    c = WS.evaluate_cell("P3", 12, 6, 1.9, [1.7, 2.1], [1.833, 1.992], cell_min=1.0, basis_min=1.0, rule="point")
+    assert c["status"] == "within the band" and c["ciInside"] is False and c["region"] == "interpolation check"      # the point is inside, the interval is not: both reported
+    c = WS.evaluate_cell("P7", 12, 6, 1.5, [1.4, 1.6], [0.566, 1.061], cell_min=-3.0, basis_min=-1.0, rule="point")
+    assert c["status"] == "outside the band" and c["region"] == "extrapolation test"
+    json.dump({"predictions": ["P3"], "modules": {mod: "0" * 64}}, open(fake, "w", encoding="utf-8"))
+    assert _orig("P3", changelog_text=WS.sha(fake))[1].startswith("an extractor module differs")             # a module sha256 mismatch is refused
+    WS.extractors_frozen = _orig
+    # rule 'ci' (P2): the interval inside the band
+    json.dump({"predictions": ["P2"], "modules": {mod: WS.sha(mod)}}, open(fake, "w", encoding="utf-8"))
+    h = WS.sha(fake)
+    WS.extractors_frozen = lambda pid=None, changelog_text=None: _orig(pid, changelog_text=h)
+    assert WS.evaluate_cell("P2", 12, 6, 0.05, [0.04, 0.06], [0.0316, 0.1476], rule="ci")["status"] == "within the band"
+    assert WS.evaluate_cell("P2", 12, 6, 0.3, [0.25, 0.35], [0.0316, 0.1476], rule="ci")["status"] == "outside the band"
+    assert WS.evaluate_cell("P2", 12, 6, 0.1, [0.02, 0.2], [0.0316, 0.1476], rule="ci")["status"] == "inconclusive"
+    WS.extractors_frozen = _orig
 finally:
-    os.remove(_reg)
+    WS.REGISTRY = real_reg
+    import shutil
+    shutil.rmtree(tmpd, ignore_errors=True)
 
 # ---- G3: sets, events, counts (synthetic frame)
 rows = []
