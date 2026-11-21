@@ -3021,6 +3021,14 @@ function CycleProjectionChart() {
               <strong style={{color:"#334155"}}>Estimand and adjustment (M482).</strong> This slope is the primary resistance-proxy estimand (specification {cs.publishedIsSpec}{pub ? `, n = ${pub.n} drives on ${pub.nDays} days` : ""}: temperature, load current and two HV-current-density covariates; the adjustment is partial). Across the {cs.nSpecs} cadence-handling specifications the slope ranges from {cs.slopeMin ?? "n/a"} to {cs.slopeMax ?? "n/a"} m&Omega;/month and {cs.allIntervalsSpanZero ? "every 95% interval spans zero, which is not evidence of no change" : "not every 95% interval spans zero"}. The equivalence test and the serial-dependence rows in the Health tab are computed on the sensitivity design without the density term (S0). {primaryEquivalenceSentence() || "No equivalence test exists for the primary design."} Window {t.windowMo} months. An estimated proxy trend, not a measured resistance and not a degradation rate.
             </div>
           ); })()}
+          {t.cadenceCovariates?.specificationSensitivity?.sentence && (() => { const cc = t.cadenceCovariates, ss = cc.specificationSensitivity, f = ss.descriptiveFacts, e0 = ss.specs?.E0; return (
+            <div data-power-fade-covariates="true" style={{fontSize:8.5,color:"#64748b",marginTop:5,lineHeight:1.5}}>
+              <strong style={{color:"#334155"}}>Covariate definitions and specification sensitivity (M723).</strong> The two HV-current-density covariates are: effective interval = {cc.definitions?.effDtS?.formula}; coverage = {cc.definitions?.coverageFrac?.formula}. {ss.sentence}{" "}
+              {f?.e0LowerEndpointBelowZero ? `For the published specification the lower endpoint is ${f.e0LowerEndpointBelowZero.seed42LowerEndpoint} mΩ/month at seed 42 (the published seed) and below zero in ${f.e0LowerEndpointBelowZero.nSeeds} of ${f.e0LowerEndpointBelowZero.ofSeeds} pre-listed seeds` : ""}
+              {f?.acrossSpecifications ? `; across the seven specifications the slope runs from ${f.acrossSpecifications.slopeMin} to ${f.acrossSpecifications.slopeMax} and the seed-42 lower endpoint from ${f.acrossSpecifications.lowerEndpointMinSeed42} to ${f.acrossSpecifications.lowerEndpointMaxSeed42} mΩ/month.` : "."}{" "}
+              This is a sensitivity of an estimated resistance proxy trend: an interval that includes zero means the trend is not established; the published specification stays the only reading and no fade rate is claimed. {f?.bandPermissiveness}
+            </div>
+          ); })()}
         </div>
       </div>
     );

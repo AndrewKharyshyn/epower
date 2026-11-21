@@ -42,3 +42,6 @@ No change to E0, to the published S1 design, seeds or draws. One generated sente
 
 ## 7. Provenance
 Master MD5 `d514d6009d6d9a0a168ad4fb09b9bb98` (717 drives) at the time of writing; the spec hash is recorded in the CHANGELOG entry; results reference it.
+
+## 8. Post-result record (appended after the result; sections 1-7 are unchanged and frozen)
+Result (script-written, `summary_arrays.json` powerFade.cadenceCovariates): all seven specifications read 'withinSeedNoiseOfZero' under the frozen rule (k = 0 of K = 6). Blind reproduction (A3) matched every slope and seed-42 endpoint to 4 decimals and every reading: A3 passed. Director decision (accept): ship the block, the monitor and the display sentence. Stated deviations, added after the result, descriptive only, no change to the frozen rule or the reading labels: (i) the R2 sentence is the frozen template without a parenthetical; (ii) leaf additions `descriptiveFacts` (number of the nine pre-listed seeds with a lower endpoint below zero for the published specification, across-specification ranges of the slope and of the seed-42 lower endpoint, the plain percentile reading at seed 42 per specification, and a note that the band is permissive and resolves Monte Carlo error only). Informed per R2: the published seed (42) gives the most favourable of the nine lower endpoints; the M721 sentence is left unedited.
