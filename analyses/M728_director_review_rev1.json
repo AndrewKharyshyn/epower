@@ -1,0 +1,34 @@
+{
+ "milestone": "M728",
+ "role": "research-director (Opus), brief of the main session",
+ "reviewed": "analyses/M728_spec.md Rev 1",
+ "decision": "revise",
+ "requiredChanges": [
+  "1 park inputs Abar_s/Abar_e with the diurnal term removed, slope and clock; A = (start+end)/2 only for Tc (P1)",
+  "2 apply the M709 unlogged-use pair flag and the gap eligibility (>= 0.05 h) to P1b pairs; report flagged-kept beside (P1)",
+  "3 diurnal: primary the freeze-listed autumn pair; the 0.7 winter scaling beside; report a verdict disagreement (P1)",
+  "4 free run through all logged post-F+1h drives, metrics on clean drives, exclude the first and re-anchored drives with a pre-registered maximum re-anchor share (P1)",
+  "5 C-P1 on the prototype metric convention and the exact 665-key list (hash) with Tend as well; frozen copies and sha256 of the untracked prototype files before the check (P1)",
+  "6 C-P1b: the pair builder reproduces the M709 M2 by-gap MAE and n = 596 / 125 days (P1)",
+  "7 C-P4: the 665-key basis, n_s, nDays, hp to kW before 2026-09-30, a fixed day order for deterministic endpoints or a stated Monte Carlo tolerance",
+  "8 P4: condition-number limit -> not evaluable; Tlo_min is a proxy for the regression seconds, report the pin-weighted mean Tmin per cell",
+  "9 a check still failing after the one allowed revision -> not evaluable (extractor not frozen)",
+  "10 v3 regression: P2, P3, P5, P7 outputs byte-identical to M727; the registry records the superseded M727 registry sha256"
+ ],
+ "answers": {
+  "b": "the P4 re-fit is a model-derived intercept, not the logged register at 0 C; even with data to -5 C the -10 C value is extrapolated 5 C; point-inside matches the freeze, report the interval beside",
+  "d": "accept the new-module and registry-v2 mechanics; the vendored copy must be byte-identical; guard_paths addition is correct",
+  "e": "accept the split; until M731 P2 is the frozen-band reading with the realised-ambient band owed; no cold outputs supported statement; M731 must be frozen before 2027-02-11"
+ },
+ "scopeDecisionByMainSession": "P1 split off to M732 because it needs the production park-model pair builder (restart census, ambient reconstruction, unlogged-use flag) vendored and verified; this milestone is P4 only; Rev 2 is strictly narrower and adopts changes 7-10",
+ "language": [
+  "model-derived / reconstructed, never measured",
+  "BMS-reported register, not delivered power",
+  "within is not validated",
+  "not evaluable is not no effect",
+  "no confirmed / robust / proven"
+ ],
+ "needsAndriiSignoff": false,
+ "informAndrii": true,
+ "adoptedIn": "analyses/M728_spec.md Rev 2"
+}
