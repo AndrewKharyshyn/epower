@@ -6,7 +6,7 @@ os.chdir(ROOT); sys.path.insert(0, ROOT)
 import language_gate as G
 
 A = json.load(open("summary_arrays.json", encoding="utf-8")); M = A["rpmModeCentres"]
-assert M["faithfulness"]["passed"] and M["descriptive"] is True and M["rpmChannelResolution"]["gridStepCounts"] == {"1.0": 158}      # M608: 127 at 632 drives; M578: 118 at 621 drives, 104 at 606
+assert M["faithfulness"]["passed"] and M["descriptive"] is True and M["rpmChannelResolution"]["gridStepCounts"] == {"1.0": 204}      # M721: 158 at 665 drives; M608: 127 at 632 drives; M578: 118 at 621 drives, 104 at 606
 jsx = open("xtrail_summary.jsx", encoding="utf-8").read()
 NL = chr(10)
 def _fn(n):

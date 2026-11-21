@@ -227,13 +227,13 @@ def main():
             if rec["status"] == "ok" and cp is not None and idx >= k_restored and not a.collect_stops:      # M610b: a collect pass saves no checkpoints (its state is provisional)
                 cp.save(s)
             if rec["status"] == "gate_failed" and collect_token and a.continue_on_gate_failure and s["id"] not in COLLECT_HARD_STOPS:      # M722: a discovery pass records a plain gate failure and goes on, so every stop of the batch is found in one pass (later stages may fail only as a consequence: flagged)
-                tail_ = open(log, errors="replace").read().splitlines()[-12:]
+                tail_ = open(log, errors="replace", encoding="utf-8").read().splitlines()[-12:]
                 gate_failures.append({"stage": s["id"], "returncode": r.returncode, "log": os.path.relpath(log, ROOT), "afterEarlierFailure": bool(gate_failures), "lastLines": [x[:300] for x in tail_]})
                 rec["status"] = "gate_failed_collected"
                 continue
             if rec["status"] != "ok":
                 status["result"] = rec["status"]
-                tail = open(log, errors="replace").read().splitlines()[-50:]
+                tail = open(log, errors="replace", encoding="utf-8").read().splitlines()[-50:]
                 json.dump({"stage": s["id"], "title": s["title"], "returncode": r.returncode, "status": rec["status"],
                            "log": os.path.relpath(log, ROOT), "last_lines": tail}, open(os.path.join(rd, "failure.json"), "w"), indent=1)
                 rc_final = 3 if rec["status"] == "not_implemented" else 1

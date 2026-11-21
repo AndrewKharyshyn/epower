@@ -145,7 +145,7 @@ def test_study_record_in_the_block_and_staleness():
     m, frames = C.load(ROOT)
     rec = C._location_set_study(ROOT, frames)
     cv = json.load(open(os.path.join(ROOT, "analyses", "M693_coverage.json"), encoding="utf-8"))
-    assert rec["selectedConstruction"] == cv["selected"] and rec["studyStale"] is False and set(rec["constructions"]) == {"C0", "C1", "C2"}
+    assert rec["selectedConstruction"] == cv["selected"] and rec["studyStale"] == (cv["fingerprint"]["n"] != int(np.isfinite(frames["X2"]["y"].values).sum())) and set(rec["constructions"]) == {"C0", "C1", "C2"}
     if cv["selected"] is None:
         assert rec["closestConstruction"]["label"] == "not admissible, reference only" and "no location set is attached" in rec["status"]
         assert not any(c["admissible"] for c in rec["constructions"].values())

@@ -1,0 +1,193 @@
+{
+ "milestone": "M713b",
+ "spec": "analyses/M712_spec.md",
+ "specSha256": "ece7df8ee27d7f0932ade6fd877e0f07905c2e219d12b4b4a6ddcc82a5cb9f4b",
+ "frame": {
+  "exposure_drives.csv": "e5a6c3cf2fac6e281cc69ec406133c12ce94a9340613524918aa57f983330cc2",
+  "exposure_slices.npz": "610cfb8712416bdaec759d2144fb8abcd7ae658c31a554c4270b97952b9fe880"
+ },
+ "scriptSha256": "9d55f6c9c0ac5db8b5ddd94cfeb50558c624160ce67e068192fe88fc8c2b3c39",
+ "masterMd5": "77bbe275f8c22eaf62d8636867764af3",
+ "R_T": {
+  "EaR_kJmol": 17.582,
+  "EaR_ci": [
+   16.418,
+   18.665
+  ],
+  "n": 385,
+  "nDays": 120,
+  "R25_mohm": 111.97,
+  "ratio_R_0C_vs_25C": 1.914,
+  "ratio_R_minus10C_vs_25C": 2.569,
+  "label": "own pulse-resistance proxy (dV/dI slope, |dI| >= 20 A), reconstructed, not a DCIR measurement; extrapolation below the observed range assumes one activation energy"
+ },
+ "drive": {
+  "alpha_C_per_A2h": [
+   0.013093,
+   0.011856,
+   0.014602
+  ],
+  "tau_d_h": [
+   0.986873,
+   0.922984,
+   1.069464
+  ],
+  "c0_C": [
+   23.87691,
+   22.003821,
+   25.310057
+  ],
+  "c1": [
+   0.220106,
+   0.168945,
+   0.276902
+  ],
+  "n": 644,
+  "nDays": 126,
+  "bootDraws": 1000,
+  "mae_Tend_C": 0.73,
+  "bias_Tend_C": -0.052,
+  "mae_persistence_C": 3.213,
+  "label": "in-drive pack thermal model per slice: I^2 heating x fR(T) plus relaxation to Tc = c0 + c1 x ambient (cabin-air side not logged: effective parameters)"
+ },
+ "limitMap": {
+  "b0_kW_at_0C_soc60": [
+   33.9221,
+   32.7216,
+   35.4667
+  ],
+  "bT_kW_perC": [
+   1.5529,
+   1.4496,
+   1.6292
+  ],
+  "bS_kW_perSocPt": [
+   -1.0097,
+   -1.0478,
+   -0.9622
+  ],
+  "n_s": 89334,
+  "nDays": 60,
+  "zeroCrossing_C_soc60": -21.84,
+  "label": "BMS-reported charge-limit register (not delivered power) below 20 C; the logged range ends near the observed minimum, below that the map is a linear EXTRAPOLATION"
+ },
+ "diurnalAmbient": {
+  "autumn": {
+   "amp": 5.8,
+   "hpk": 15.543
+  },
+  "summer": {
+   "amp": 6.656,
+   "hpk": 15.936
+  }
+ },
+ "park": {
+  "source": "analyses/M709/park_model.json",
+  "sha256": "3677301a392590757d5c66bb3acc7cc75596c641519d4d39cb7308a06de2ab18",
+  "tau_h": 9.105,
+  "tauCi": [
+   8.19,
+   10.162
+  ],
+  "offset_C": 0.469,
+  "offsetCi": [
+   -0.578,
+   1.407
+  ],
+  "offsetBracketForSensitivity": [
+   0.0,
+   2.7
+  ],
+  "nPairs": 596,
+  "nDays": 125
+ },
+ "params_for_scenarios": {
+  "EaR": 17.582,
+  "park": {
+   "tau": 9.105,
+   "off": 0.469
+  },
+  "drive": {
+   "alpha": 0.013092911030918433,
+   "tau_d": 0.9868730236682578,
+   "c0": 23.876909742694508,
+   "c1": 0.22010558949535547
+  },
+  "diurnal": {
+   "autumn": [
+    5.8,
+    15.543
+   ],
+   "summer": [
+    6.656,
+    15.936
+   ]
+  },
+  "pin": {
+   "b0": 33.922099127759914,
+   "bT": 1.5529405996000778,
+   "bS": -1.0096520783208087
+  }
+ },
+ "prototypeComparison": {
+  "note": "comparison-only against the untracked prototype thermal_params.json (park constants there are SUPERSEDED by M709)",
+  "EaR": [
+   17.58,
+   17.582
+  ],
+  "drive": {
+   "alpha": [
+    0.013092616533440916,
+    0.013092911030918433
+   ],
+   "tau_d": [
+    0.9868421268108802,
+    0.9868730236682578
+   ],
+   "c0": [
+    23.87718030153828,
+    23.876909742694508
+   ],
+   "c1": [
+    0.22009957278334358,
+    0.22010558949535547
+   ]
+  },
+  "pin": {
+   "b0": [
+    33.92209912775893,
+    33.922099127759914
+   ],
+   "bT": [
+    1.5529405996001375,
+    1.5529405996000778
+   ],
+   "bS": [
+    -1.0096520783208103,
+    -1.0096520783208087
+   ]
+  },
+  "diurnal": {
+   "summer": [
+    [
+     6.61,
+     15.93
+    ],
+    [
+     6.656,
+     15.936
+    ]
+   ],
+   "autumn": [
+    [
+     5.81,
+     15.53
+    ],
+    [
+     5.8,
+     15.543
+    ]
+   ]
+  }
+ }
+}

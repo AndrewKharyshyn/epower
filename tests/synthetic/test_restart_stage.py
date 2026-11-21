@@ -53,14 +53,15 @@ assert R.STAMP_POLICY["restartTemperature"][0] == "regen"
 # the committed block: frozen-basis reproduction gates pass, no flags, the targets are matched, the language gate is clean
 A = json.load(open("summary_arrays.json", encoding="utf-8"))
 b = A[S.KEY]
-assert b["nDrives"] == 665 and b["exclusions"]["eligible"] == 639 and b["deltaFlags"] == []
-assert b["reproductionGates"]["evaluated"] and all(v["pass"] for v in b["reproductionGates"]["gates"].values())
+assert b["nDrives"] == 717 and b["exclusions"]["eligible"] == 691 and b["deltaFlags"] == []
+assert (b["reproductionGates"]["evaluated"] and all(v["pass"] for v in b["reproductionGates"]["gates"].values())) or (b["reproductionGates"]["evaluated"] is False and "665-drive basis" in b["reproductionGates"]["basis"])      # M721: the frozen 665-drive reproduction gates are not evaluated on a larger corpus
 T = json.load(open("analyses/M708_targets.json", encoding="utf-8"))["E1"]
-for cls, tv in T.items():
+for cls, tv in (T.items() if b["reproductionGates"]["evaluated"] else []):      # M721: the exploratory M708 targets are the 665-drive basis; compared only while the reproduction gates are evaluated
     assert abs(b["E1_primary_flaggedKept"][cls]["meanChange"]["est"] - tv["meanChange"]) <= 0.02, cls
 assert set(b["conditionTables"]) == {"winterOnly", "gap4to12h"} and b["parkGates"]["P-R2"]["pass"] is False and b["parkGates"]["P-R2"]["milestone"] == "M718" and b["parkGates"]["P-R2"]["evaluatedOnDrives"] == 665
 assert b["parkGates"]["P-R3b"]["pass"] is True and b["parkGates"]["P-R4"]["contaminationDirection"]["pass"] is True
-assert abs(b["parkModel"]["M2_fullSample_nonFlagged"]["tau_h"] - 9.105) < 0.01
+_pk = json.load(open("analyses/M709/park_model.json", encoding="utf-8"))["M2_fullSample_nonFlagged"]      # M721: the live refit (717 drives) is compared with the frozen M709 fit (665 drives) through its interval
+assert abs(_pk["tau_h"] - 9.105) < 0.01 and _pk["tauCi"][0] <= b["parkModel"]["M2_fullSample_nonFlagged"]["tau_h"] <= _pk["tauCi"][1]
 def strings(o):
     if isinstance(o, str):
         yield o

@@ -25,8 +25,8 @@ A = json.load(open(os.path.join(REPO, "summary_arrays.json"), encoding="utf-8"))
 E = A["energySupportLadder"]; P_ = E["policies"]
 assert abs(P_["cap5"]["grossKwh"] - A["energyUncertaintyMC"]["grossThroughputMC"]["nominalReleasedThroughputKwh"]) < 0.01 and P_["cap5"]["shareOfPublished"] == 1.0
 assert P_["drop2.5"]["grossKwh"] < P_["drop3.5"]["grossKwh"] < P_["drop5"]["grossKwh"] < P_["drop10"]["grossKwh"] <= P_["cap5"]["grossKwh"] + 1 and P_["drop1.6"]["grossKwh"] < P_["drop2.5"]["grossKwh"] < P_["cap5"]["grossKwh"] < P_["capNone"]["grossKwh"]
-assert all(P_[k]["nDrives"] == 651 and P_[k]["nDays"] > 100 for k in P_) and "no interval" in E["kind"] and "not an error bar or an uncertainty interval" in E["meaning"]
-assert sum(E["supportClasses"].values()) == 651 == len(E["perDriveTag"]) and E["coverage"]["drivesWithoutIntegral"] == 14 and "not an estimate of their energy" in E["coverage"]["arithmeticScalingLabel"]
+assert all(P_[k]["nDrives"] == 703 and P_[k]["nDays"] > 100 for k in P_) and "no interval" in E["kind"] and "not an error bar or an uncertainty interval" in E["meaning"]
+assert sum(E["supportClasses"].values()) == 703 == len(E["perDriveTag"]) and E["coverage"]["drivesWithoutIntegral"] == 14 and "not an estimate of their energy" in E["coverage"]["arithmeticScalingLabel"]
 assert "not a coverage or confidence interval" in A["energyUncertaintyMC"]["labelNumericalSensitivity"]
 import energy_uncertainty_mc as EM
 assert EM.NUMERICAL_SENSITIVITY_LABEL == A["energyUncertaintyMC"]["labelNumericalSensitivity"]

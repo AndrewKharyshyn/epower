@@ -1,0 +1,867 @@
+{
+ "G-S0": {
+  "pass": true,
+  "maxAbsRelDiff": 1.0397505878796861e-15,
+  "nEligibleDays": 132,
+  "totals": {
+   "km": [
+    10496.686944444456,
+    10496.686944444446
+   ],
+   "ah": [
+    5313.143813519158,
+    5313.143813519161
+   ],
+   "kwh": [
+    1926.6739570081097,
+    1926.6739570081104
+   ],
+   "eng_starts": [
+    8349.0,
+    8349.0
+   ],
+   "drives": [
+    633.0,
+    633.0
+   ]
+  }
+ },
+ "G-S1": {
+  "pass": true,
+  "targetKm": 21131.75,
+  "expectedKmAtTilt": 21131.75,
+  "tilt_per100km": -0.18265,
+  "relError": 3.443139868615922e-16,
+  "odometerTarget": "latest dash odometer / years since registration (summary_config.json), not typed"
+ },
+ "G-S3": {
+  "pass": true,
+  "maxRelDiffOfMeans": 0.001613,
+  "identicalInputs": {
+   "poolRule": "prototype assumption window 2026-05-19..06-08",
+   "ambient": "prototype drive_ambient_recon.csv (comparison-only)",
+   "park": "superseded prototype constants (tau 7.554 h, offsets 1.163 / 3.405 C)",
+   "odoKm": 21132.0,
+   "seed": 42,
+   "draws": 4000
+  },
+  "identityOnPrototypeModel": {
+   "km": [
+    10253.664722222227,
+    10253.664722222222
+   ],
+   "ah": [
+    5180.477910688569,
+    5180.477910688571
+   ],
+   "kwh": [
+    1878.608377162392,
+    1878.6083771623926
+   ],
+   "eng_starts": [
+    8107.0,
+    8107.0
+   ],
+   "drives": [
+    620.0,
+    620.0
+   ],
+   "maxAbsRelDiff": 5.321968640939637e-16
+  },
+  "metrics": {
+   "annual_km": {
+    "production": 21099.9078,
+    "prototype": 21099.7695,
+    "prototypeInterval": [
+     15441.8401,
+     27815.1793
+    ],
+    "inside": true,
+    "relDiff": 7e-06
+   },
+   "drives": {
+    "production": 2239.6901,
+    "prototype": 2239.6445,
+    "prototypeInterval": [
+     1980.6829,
+     2515.8689
+    ],
+    "inside": true,
+    "relDiff": 2e-05
+   },
+   "ah_throughput": {
+    "production": 12374.0731,
+    "prototype": 12373.9516,
+    "prototypeInterval": [
+     10068.2761,
+     14973.7628
+    ],
+    "inside": true,
+    "relDiff": 1e-05
+   },
+   "gtc_5Ah_rated": {
+    "production": 2474.8146,
+    "prototype": 2474.7903,
+    "prototypeInterval": [
+     2013.6552,
+     2994.7526
+    ],
+    "inside": true,
+    "relDiff": 1e-05
+   },
+   "gtc_2p1kWh_legacy": {
+    "production": 2134.9276,
+    "prototype": 2134.9067,
+    "prototypeInterval": [
+     1737.8052,
+     2584.7591
+    ],
+    "inside": true,
+    "relDiff": 1e-05
+   },
+   "fce_5Ah_rated": {
+    "production": 1237.4073,
+    "prototype": 1237.3952,
+    "prototypeInterval": [
+     1006.8276,
+     1497.3763
+    ],
+    "inside": true,
+    "relDiff": 1e-05
+   },
+   "ahShare_T_lt10": {
+    "production": 0.0621,
+    "prototype": 0.062,
+    "prototypeInterval": [
+     0.0466,
+     0.0802
+    ],
+    "inside": true,
+    "relDiff": 0.001613
+   },
+   "ahShare_T_ge35": {
+    "production": 0.1929,
+    "prototype": 0.1929,
+    "prototypeInterval": [
+     0.1167,
+     0.2756
+    ],
+    "inside": true,
+    "relDiff": 0.0
+   },
+   "ahShare_T_ge40": {
+    "production": 0.0773,
+    "prototype": 0.0773,
+    "prototypeInterval": [
+     0.0298,
+     0.136
+    ],
+    "inside": true,
+    "relDiff": 0.0
+   },
+   "hotTail_ah_ge35": {
+    "production": 2408.9503,
+    "prototype": 2408.3359,
+    "prototypeInterval": [
+     1271.1372,
+     3786.0286
+    ],
+    "inside": true,
+    "relDiff": 0.000255
+   },
+   "coldChargeIndex_AhxC_lt10": {
+    "production": 3486.0225,
+    "prototype": 3485.2212,
+    "prototypeInterval": [
+     3000.334,
+     3953.362
+    ],
+    "inside": true,
+    "relDiff": 0.00023
+   },
+   "warmups_Tstart_lt15": {
+    "production": 876.7821,
+    "prototype": 876.5441,
+    "prototypeInterval": [
+     762.9888,
+     993.4428
+    ],
+    "inside": true,
+    "relDiff": 0.000272
+   },
+   "arrCycleAF_Ea50": {
+    "production": 1.2913,
+    "prototype": 1.2913,
+    "prototypeInterval": [
+     1.1367,
+     1.4492
+    ],
+    "inside": true,
+    "relDiff": 0.0
+   },
+   "arrCalendarAF_year_Ea50": {
+    "production": 0.7462,
+    "prototype": 0.7462,
+    "prototypeInterval": [
+     0.6998,
+     0.7959
+    ],
+    "inside": true,
+    "relDiff": 0.0
+   },
+   "parkedShareOfCalendarDose_Ea50": {
+    "production": 0.8934,
+    "prototype": 0.8934,
+    "prototypeInterval": [
+     0.8696,
+     0.915
+    ],
+    "inside": true,
+    "relDiff": 0.0
+   },
+   "parked_meanPackT": {
+    "production": 17.9096,
+    "prototype": 17.9095,
+    "prototypeInterval": [
+     17.1562,
+     18.7183
+    ],
+    "inside": true,
+    "relDiff": 6e-06
+   },
+   "engine_starts": {
+    "production": 17531.3289,
+    "prototype": 17531.1858,
+    "prototypeInterval": [
+     13304.7662,
+     22404.559
+    ],
+    "inside": true,
+    "relDiff": 8e-06
+   }
+  },
+  "productionVersionDelta": {
+   "inputs": "data pool rule (Q5), M709 park (one offset), production ambient reconstruction, project integration rule NOT yet applied to the engine (prototype zero-order-hold Ah/kWh)",
+   "excludedDays": {
+    "missing channels": 8,
+    "no odometer cover": 29,
+    "unlogged (odometer)": 14
+   },
+   "pools": {
+    "summer": 77,
+    "autumn": 55,
+    "all": 132,
+    "window": 183
+   },
+   "metrics": {
+    "annual_km": {
+     "production": [
+      21181.1227,
+      16049.0547,
+      27399.4529
+     ],
+     "prototype": [
+      21099.7695,
+      15441.8401,
+      27815.1793
+     ],
+     "relDiffOfMean": 0.0039
+    },
+    "drives": {
+     "production": [
+      2295.1139,
+      2033.8129,
+      2580.0238
+     ],
+     "prototype": [
+      2239.6445,
+      1980.6829,
+      2515.8689
+     ],
+     "relDiffOfMean": 0.0248
+    },
+    "ah_throughput": {
+     "production": [
+      12625.5187,
+      10443.7376,
+      15107.4506
+     ],
+     "prototype": [
+      12373.9516,
+      10068.2761,
+      14973.7628
+     ],
+     "relDiffOfMean": 0.0203
+    },
+    "gtc_5Ah_rated": {
+     "production": [
+      2525.1037,
+      2088.7475,
+      3021.4901
+     ],
+     "prototype": [
+      2474.7903,
+      2013.6552,
+      2994.7526
+     ],
+     "relDiffOfMean": 0.0203
+    },
+    "gtc_2p1kWh_legacy": {
+     "production": [
+      2178.0437,
+      1801.004,
+      2607.8013
+     ],
+     "prototype": [
+      2134.9067,
+      1737.8052,
+      2584.7591
+     ],
+     "relDiffOfMean": 0.0202
+    },
+    "fce_5Ah_rated": {
+     "production": [
+      1262.5519,
+      1044.3738,
+      1510.7451
+     ],
+     "prototype": [
+      1237.3952,
+      1006.8276,
+      1497.3763
+     ],
+     "relDiffOfMean": 0.0203
+    },
+    "ahShare_T_lt10": {
+     "production": [
+      0.0762,
+      0.0582,
+      0.0977
+     ],
+     "prototype": [
+      0.062,
+      0.0466,
+      0.0802
+     ],
+     "relDiffOfMean": 0.229
+    },
+    "ahShare_T_ge35": {
+     "production": [
+      0.1917,
+      0.1196,
+      0.2695
+     ],
+     "prototype": [
+      0.1929,
+      0.1167,
+      0.2756
+     ],
+     "relDiffOfMean": -0.0062
+    },
+    "ahShare_T_ge40": {
+     "production": [
+      0.0739,
+      0.0293,
+      0.1283
+     ],
+     "prototype": [
+      0.0773,
+      0.0298,
+      0.136
+     ],
+     "relDiffOfMean": -0.044
+    },
+    "hotTail_ah_ge35": {
+     "production": [
+      2439.701,
+      1329.2634,
+      3778.5373
+     ],
+     "prototype": [
+      2408.3359,
+      1271.1372,
+      3786.0286
+     ],
+     "relDiffOfMean": 0.013
+    },
+    "coldChargeIndex_AhxC_lt10": {
+     "production": [
+      4345.2073,
+      3803.9537,
+      4903.3003
+     ],
+     "prototype": [
+      3485.2212,
+      3000.334,
+      3953.362
+     ],
+     "relDiffOfMean": 0.2468
+    },
+    "warmups_Tstart_lt15": {
+     "production": [
+      983.1307,
+      859.2146,
+      1110.2776
+     ],
+     "prototype": [
+      876.5441,
+      762.9888,
+      993.4428
+     ],
+     "relDiffOfMean": 0.1216
+    },
+    "arrCycleAF_Ea50": {
+     "production": [
+      1.2701,
+      1.119,
+      1.4205
+     ],
+     "prototype": [
+      1.2913,
+      1.1367,
+      1.4492
+     ],
+     "relDiffOfMean": -0.0164
+    },
+    "arrCalendarAF_year_Ea50": {
+     "production": [
+      0.7275,
+      0.6799,
+      0.7777
+     ],
+     "prototype": [
+      0.7462,
+      0.6998,
+      0.7959
+     ],
+     "relDiffOfMean": -0.0251
+    },
+    "parkedShareOfCalendarDose_Ea50": {
+     "production": [
+      0.8907,
+      0.8674,
+      0.911
+     ],
+     "prototype": [
+      0.8934,
+      0.8696,
+      0.915
+     ],
+     "relDiffOfMean": -0.003
+    },
+    "parked_meanPackT": {
+     "production": [
+      17.2695,
+      16.4506,
+      18.0975
+     ],
+     "prototype": [
+      17.9095,
+      17.1562,
+      18.7183
+     ],
+     "relDiffOfMean": -0.0357
+    },
+    "engine_starts": {
+     "production": [
+      17856.0956,
+      13838.3081,
+      22413.2594
+     ],
+     "prototype": [
+      17531.1858,
+      13304.7662,
+      22404.559
+     ],
+     "relDiffOfMean": 0.0185
+    }
+   }
+  }
+ },
+ "G-S2": {
+  "pass": false,
+  "gate": {
+   "name": "G-S2 consistency check (in-sample)",
+   "pass": false
+  },
+  "ahShare_ge35": {
+   "sim": 0.3943,
+   "obs": 0.4522,
+   "diffPoints": -5.79,
+   "relError": -0.128
+  },
+  "arrCycleAF_Ea50": {
+   "sim": 1.7739,
+   "obs": 1.7658,
+   "relError": 0.0046
+  },
+  "startsBelow15C": {
+   "sim": 82.0,
+   "obs": 64,
+   "relError": 0.2812
+  },
+  "nDays": 132
+ },
+ "G-S2b": {
+  "pass": false,
+  "gate": {
+   "name": "G-S2b month-blocked hold-out",
+   "pass": false,
+   "tolerance": "|hot share diff| <= 8 points and |starts below 15 C relative error| <= 15 %",
+   "relativeHotShareError": -0.2512,
+   "cleanHoldout": false
+  },
+  "ahShare_ge35": {
+   "sim": 0.0985,
+   "obs": 0.1316,
+   "diffPoints": -3.31,
+   "relError": -0.2512
+  },
+  "arrCycleAF_Ea50": {
+   "sim": 1.1923,
+   "obs": 1.2137,
+   "relError": -0.0176
+  },
+  "startsBelow15C": {
+   "sim": 82.0,
+   "obs": 62,
+   "relError": 0.3226
+  },
+  "nDays": 55,
+  "fit": {
+   "driveParams_MayAug": {
+    "alpha": 0.011792,
+    "tau_d": 0.8402,
+    "c0": 27.624,
+    "c1": 0.1364,
+    "nDrives": 285
+   },
+   "park_MayAug": {
+    "tau_h": 9.223,
+    "offset_C": -0.248,
+    "source": "analyses/M709/park_model.json validation_fitMayAug_testSepNov"
+   }
+  },
+  "parameterCheck": {
+   "fullSample": {
+    "startsBelow15C_sim": 81.0,
+    "ahShare_ge35_sim": 0.0686
+   },
+   "driveParamsMayAugOnly": {
+    "startsBelow15C_sim": 72.0,
+    "ahShare_ge35_sim": 0.099
+   },
+   "parkMayAugOnly": {
+    "startsBelow15C_sim": 94.0,
+    "ahShare_ge35_sim": 0.0666
+   },
+   "allMayAug": {
+    "startsBelow15C_sim": 82.0,
+    "ahShare_ge35_sim": 0.0985
+   }
+  },
+  "hotShareBracket": {
+   "holdoutBiasPoints": -3.31,
+   "note": "the hot-share bias bound is taken from this hold-out (spec Rev 1.1 R5), not from the in-sample 6 points"
+  }
+ },
+ "supportStatus": {
+  "ruling": "Director M713: option A (keep the M709 one offset, offset bracket [0, 2.7] C as an ASSUMPTION range, G-S2 / G-S2b shown beside every cold figure); option B only as a pre-registered M708 Rev 3 post-result deviation acknowledged by Andrii; option C rejected as baseline (sensitivity only)",
+  "failedGates": [
+   "G-S2",
+   "G-S2b"
+  ],
+  "nonThermal (annual km, drives, Ah, GTC, FCE, engine starts)": "supported: pass G-S0, G-S1, G-S3, unaffected by the park step",
+  "cold outputs (Ah and charge Ah below 10 / 0 C, cold-charge index, starts and Ah while pack < 15 C, coldest start)": "NOT SUPPORTED (model-derived; G-S2 / G-S2b failed on starts below 15 C: simulated +28 % / +32 %); not displayed, not used in the article",
+  "hot share (Ah at or above 35 / 40 C, pack mean)": "reported as a BRACKET: biased low by -5.8 points in-sample (-13 %) and -3.3 points (-25 %) in the hold-out; bias bound from the hold-out",
+  "calendar and cycle dose indices": "exposure-weighted indices; sensitive to the parked temperature (offset bracket reported); not ageing"
+ },
+ "G-S4": {
+  "pass": null,
+  "reportedNotGated": true,
+  "rangesSha256": "770a8f008e1e9e0e2965ea96c3819c09e0c838071871d9fa2402a430d1562f57",
+  "sobolN": 384,
+  "topTotalOrder": {
+   "gtc_5Ah_rated": [
+    [
+     "f_a",
+     0.438
+    ],
+    [
+     "kappa",
+     0.367
+    ],
+    [
+     "w_off",
+     0.12
+    ],
+    [
+     "winter_shift",
+     0.05
+    ]
+   ],
+   "calendarDose_hEq": [
+    [
+     "tau_p",
+     0.408
+    ],
+    [
+     "c1",
+     0.241
+    ],
+    [
+     "off_w",
+     0.157
+    ],
+    [
+     "winter_shift",
+     0.138
+    ]
+   ],
+   "calendarDose_SoCweighted_hEq": [
+    [
+     "gamma",
+     0.338
+    ],
+    [
+     "tau_p",
+     0.258
+    ],
+    [
+     "c1",
+     0.11
+    ],
+    [
+     "off_w",
+     0.098
+    ]
+   ],
+   "cycleDose_AhEq": [
+    [
+     "c1",
+     0.405
+    ],
+    [
+     "Ea_age",
+     0.315
+    ],
+    [
+     "kappa",
+     0.113
+    ],
+    [
+     "w_off",
+     0.109
+    ]
+   ],
+   "coldChargeIndex_AhxC_lt10": [
+    [
+     "winter_shift",
+     0.586
+    ],
+    [
+     "tau_p",
+     0.087
+    ],
+    [
+     "kappa",
+     0.064
+    ],
+    [
+     "EaR",
+     0.036
+    ]
+   ],
+   "coldCharge_ah_lt0": [
+    [
+     "winter_shift",
+     0.728
+    ],
+    [
+     "tau_p",
+     0.164
+    ],
+    [
+     "EaR",
+     0.036
+    ],
+    [
+     "off_w",
+     0.034
+    ]
+   ],
+   "ahShare_T_lt10": [
+    [
+     "winter_shift",
+     0.641
+    ],
+    [
+     "tau_p",
+     0.117
+    ],
+    [
+     "EaR",
+     0.041
+    ],
+    [
+     "off_w",
+     0.034
+    ]
+   ],
+   "ahShare_T_ge35": [
+    [
+     "c1",
+     0.927
+    ],
+    [
+     "EaR",
+     0.063
+    ],
+    [
+     "tau_p",
+     0.036
+    ],
+    [
+     "w_off",
+     0.024
+    ]
+   ],
+   "warmups_Tstart_lt15": [
+    [
+     "w_off",
+     0.267
+    ],
+    [
+     "winter_shift",
+     0.211
+    ],
+    [
+     "f_a",
+     0.208
+    ],
+    [
+     "tau_p",
+     0.206
+    ]
+   ]
+  }
+ },
+ "attribution": {
+  "stepNames": [
+   "data pool rule",
+   "M709 park model (one offset, tau about 9.1 h)",
+   "production ambient reconstruction"
+  ],
+  "stepRelativeDeltasOfMeans": {
+   "annual_km": [
+    0.0038,
+    0.0,
+    0.0
+   ],
+   "gtc_5Ah_rated": [
+    0.0203,
+    0.0,
+    0.0
+   ],
+   "ahShare_T_lt10": [
+    -0.0177,
+    0.2525,
+    -0.0026
+   ],
+   "ahShare_T_ge35": [
+    0.0057,
+    -0.0119,
+    0.0
+   ],
+   "coldChargeIndex_AhxC_lt10": [
+    0.0042,
+    0.2443,
+    -0.0024
+   ],
+   "warmups_Tstart_lt15": [
+    0.007,
+    0.1147,
+    -0.0011
+   ],
+   "arrCalendarAF_year_Ea50": [
+    0.0076,
+    -0.0327,
+    0.0003
+   ]
+  }
+ },
+ "leaveOneDayOut": {
+  "draws": 120,
+  "nDays": 132,
+  "daysMovingAMetricBeyondItsEexpHalfWidth": [],
+  "maxInfluenceOverHalfWidth": 0.246
+ },
+ "integrationRule": {
+  "note": "S2 on the PROJECT integration rule (Ah sidecar, master kWh) against the zero-order-hold frame (prototype rule)",
+  "relDiffOfMeans": {
+   "ah_throughput": -0.0346,
+   "gtc_5Ah_rated": -0.0346,
+   "gtc_2p1kWh_legacy": -0.0345
+  },
+  "projectRuleS2": {
+   "ah_throughput": [
+    12189.1107,
+    10089.6051,
+    14557.0406
+   ],
+   "gtc_5Ah_rated": [
+    2437.8221,
+    2017.921,
+    2911.4081
+   ],
+   "gtc_2p1kWh_legacy": [
+    2102.9948,
+    1739.8244,
+    2512.3388
+   ],
+   "annual_km": [
+    21181.1227,
+    16049.0547,
+    27399.4529
+   ]
+  }
+ },
+ "E_exp_vs_E_real_S2": {
+  "annual_km": {
+   "E_exp": [
+    21210.9128,
+    17041.6902,
+    25835.0123
+   ],
+   "E_real": [
+    21181.1227,
+    16049.0547,
+    27399.4529
+   ]
+  },
+  "gtc_5Ah_rated": {
+   "E_exp": [
+    2523.5627,
+    2168.8143,
+    2896.4126
+   ],
+   "E_real": [
+    2525.1037,
+    2088.7475,
+    3021.4901
+   ]
+  },
+  "coldChargeIndex_AhxC_lt10": {
+   "E_exp": [
+    4343.9967,
+    3896.7737,
+    4793.6716
+   ],
+   "E_real": [
+    4345.2073,
+    3803.9537,
+    4903.3003
+   ]
+  }
+ }
+}

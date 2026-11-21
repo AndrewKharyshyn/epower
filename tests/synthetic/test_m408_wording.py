@@ -15,7 +15,17 @@ for good in ("a trend is not resolved in this window", "the estimated trend is n
     assert not r.hits(good), good
 assert R["W3-mde"].hits("the minimum detectable effect")
 a = json.load(open("summary_arrays.json", encoding="utf-8"))
-assert "a trend is not resolved in this window" in a["powerFade"]["note"] and a["powerFade"]["note"] == a["fadeModes"]["power"]["trend"]["note"]
+_pf = a["powerFade"]
+_lo, _hi = _pf["ci95MohmPerMo"]
+_cs = _pf["cadenceSensitivity"]
+if _lo <= 0.0 <= _hi:
+    assert "a trend is not resolved in this window" in _pf["note"]
+else:
+    # M721 (Director ruling, Andrii sign-off): the published-specification interval does not span zero: the note says where it lies, that it depends on seed, cadence and temperature handling, that a fade trend is not established and that no fade rate is claimed
+    assert "a fade trend is not established in this window and no fade rate is claimed" in _pf["note"] and "depends on the bootstrap seed" in _pf["note"]
+    assert "(%d of %d cadence specifications span zero)" % (_cs["nSpecsSpanZero"], _cs["nSpecs"]) in _pf["note"]
+    assert "excludes zero on this build" not in _pf["note"] and "before treating it as fade" not in _pf["note"]
+assert _pf["note"] == a["fadeModes"]["power"]["trend"]["note"]
 assert "estimated trend is not resolved from zero" in a["fadeModes"]["power"]["whyNotProjected"]
 assert "estimated TREND" in a["officialDisclosureCorrelation"]["resistance"]["note"] and "estimated TREND" in a["officialDisclosureCorrelation"]["rows"][2]["note"]
 assert "no degradation trend is resolved in this window" in a["_retractedLifeEol"]

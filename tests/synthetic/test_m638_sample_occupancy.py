@@ -52,7 +52,8 @@ import json
 A = json.load(open(os.path.join(REPO, "summary_arrays.json"), encoding="utf-8"))
 b = A["seasonalLife"]["hotTail"]["packThermalMeasured"]
 o = b["sampleOccupancy"]
-assert o["nExcludedDrives"] == 0 and o["coverageShare"] > 0.9 and o["probeResolutionC"] > 0 and o["knownAnswer"]["auditEmulationAllRows"]["share35"] == 0.3897
+# M721: 7 early-logger files without pack probe channels; eligibility is the M707 B1 keep_mask (a missing flag is kept), 708 drives; 0 excluded and 651 drives in the earlier hand-run block
+assert o["nExcludedDrives"] == 7 and o["excludedReasons"] == ["fewer than 3 pack probe channels in the header (0)"] and o["coverageShare"] > 0.9 and o["probeResolutionC"] > 0 and o["knownAnswer"]["auditEmulationAllRows"]["share35"] == 0.3897
 assert o["ci95"]["35"][0] < o["share"]["35"] < o["ci95"]["35"][1] and "driveTimeShareGeC" in b and "interval" in o["meaning"] or "no interval" in o["meaning"] or "carries no interval" in o["meaning"]
 J = open(os.path.join(REPO, "xtrail_summary.jsx"), encoding="utf-8").read()
 assert "S.hotTail?.packThermalMeasured?.sampleOccupancy" in J and "sample-resolved; 95% CI" in J

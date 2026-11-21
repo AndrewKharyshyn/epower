@@ -64,13 +64,13 @@ def main():
         T.write(os.path.join(root, "tools", "c.py"), "import toylib\nfail = open('tools/c_flag.txt').read().strip() == 'FAIL'\ntoylib.run('c', 'data/b.txt', 'data/c.txt', fail)\n")
         rc, st, _ = T.run(root, L("9"))
         assert rc == 1 and T.executed(L("9")) == ["a", "b", "c"], (rc, T.executed(L("9")))
-        assert open(ci).read() == "run: verify --expect-master-md5 " + "0" * 32 + "\n# t1\n", "rolled back"
+        assert open(ci, encoding="utf-8").read() == "run: verify --expect-master-md5 " + "0" * 32 + "\n# t1\n", "rolled back"
         T.write(ci, "run: verify --expect-master-md5 " + "0" * 32 + "\n# t1\n# a new test line\n")
         rc, st, _ = T.run(root, L("10"))
         assert rc == 1 and T.executed(L("10")) == ["b", "c"] and st["checkpoint"]["restoredStages"] == 1, (T.executed(L("10")), st["checkpoint"])
         T.write(os.path.join(root, "tools", "c_flag.txt"), "OK")        # data change: whole chain invalid, fine; now a green run keeps the user's edit and sets the anchor
         rc, st, _ = T.run(root, L("10b"))
-        assert rc == 0 and "# a new test line" in open(ci).read() and "1" * 32 in open(ci).read()
+        assert rc == 0 and "# a new test line" in open(ci, encoding="utf-8").read() and "1" * 32 in open(ci, encoding="utf-8").read()
         # a discovery pass records a plain gate failure and goes on to the next stage, never commits
         T.write(os.path.join(root, "tools", "c_flag.txt"), "FAIL")
         stages.append({"id": "d", "title": "d", "cmd": ["python3", "tools/d.py"], "outputs": ["data/d.txt"]})
