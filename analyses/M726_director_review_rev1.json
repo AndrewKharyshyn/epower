@@ -1,0 +1,32 @@
+{
+ "milestone": "M726",
+ "role": "research-director (Opus), brief of the main session",
+ "reviewed": "analyses/M726_spec.md Rev 1",
+ "decision": "revise",
+ "requiredChanges": [
+  "pre-register the scoring set: drives that start after the freeze commit timestamp (split 2026-11-17 by start time or exclude); 2026-11-10..16 a separate stratum, never primary",
+  "per-prediction trigger variable and support (P3/P4/P6 fixed probe window near and below 0 C; P5/P7 ambient; P1/P2 restart pairs and realised ambient)",
+  "freeze scoring code and the observed-quantity definitions in the CHANGELOG before the first E2 event (G5)",
+  "disclose the overlap region as interpolation check and the extrapolation region separately, per prediction",
+  "E1 needs persistence (N samples plus the GateA2 resolution flag); a single sample is flagged only",
+  "G3 counts exposure and support only, never prediction metrics",
+  "name the script behind the section 1 numbers or mark them provisional pending A3"
+ ],
+ "risks": [
+  "freeze status 'before the first winter drive' disputable (15 drives below 10 C in the basis)",
+  "optional stopping through ad hoc looks",
+  "P2 band computed with live state_params or scenario code",
+  "a v2 refit or dashboard cold outputs seen before v1 is scored",
+  "exclusion / restamp / ML16 drift in the observed master"
+ ],
+ "language": [
+  "model-derived",
+  "'not evaluable' is not 'no effect'",
+  "overlap results: interpolation check",
+  "never validated / confirmed / robust / measured",
+  "2026-12-01 = freeze deadline, not a winter boundary"
+ ],
+ "needsAndriiSignoff": false,
+ "informAndrii": "the 12-01 correction and the scoring-set operationalisation; at E1 tell him and route to the Director (refit as v2)",
+ "adoptedIn": "analyses/M726_spec.md Rev 2"
+}
