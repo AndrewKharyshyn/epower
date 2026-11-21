@@ -917,7 +917,8 @@
   "pathTemplate": "changePoints/series/{key}/segments/{i}",
   "condition": "ancestor_list_shortened_nonempty",
   "matchPrefix": true,
-  "listDepth": 4
+  "listDepth": 4,
+  "audit": "M725 independent audit; conditions tightened where the audit found them vacuous"
  },
  {
   "id": "m721-cp-reference-comparisons",
@@ -926,7 +927,8 @@
   "pathTemplate": "changePoints/referenceComparison/series/{key}/comparisons/{i}",
   "condition": "ancestor_list_shortened_nonempty",
   "matchPrefix": true,
-  "listDepth": 5
+  "listDepth": 5,
+  "audit": "M725 independent audit; conditions tightened where the audit found them vacuous"
  },
  {
   "id": "m721-restart-gates-evaluated",
@@ -936,7 +938,10 @@
   "condition": "field_changed",
   "matchPrefix": true,
   "entryDepth": 2,
-  "field": "evaluated"
+  "field": "evaluated",
+  "prevValue": true,
+  "curValue": false,
+  "audit": "M725 independent audit; conditions tightened where the audit found them vacuous"
  },
  {
   "id": "m721-restart-detail-evaluated",
@@ -946,17 +951,23 @@
   "condition": "field_changed",
   "matchPrefix": true,
   "entryDepth": 2,
-  "field": "evaluated"
+  "field": "evaluated",
+  "prevValue": true,
+  "curValue": false,
+  "audit": "M725 independent audit; conditions tightened where the audit found them vacuous"
  },
  {
   "id": "m721-earlylate-intervalV2",
-  "rationale": "M721: the early-late contrast interval construction selected by the pre-registered rule changed with the added drives (construction field differs); the previous construction's interval leaves are not produced.",
+  "rationale": "M721/M725: the selected location-set construction of the early-late contrast went from C2 to none (null) with the added drives; the interval leaves of the dropped construction vanish.",
   "milestone": "M721",
   "pathTemplate": "earlyLateContrast/outcomes/{key}/intervalV2",
   "condition": "field_changed",
   "matchPrefix": true,
   "entryDepth": 4,
-  "field": "construction"
+  "field": "construction",
+  "prevValue": "C2",
+  "curIsNull": true,
+  "audit": "M725 independent audit; conditions tightened where the audit found them vacuous"
  },
  {
   "id": "m721-bms-cell-reason",
@@ -965,16 +976,27 @@
   "pathTemplate": "bmsPowerMap/eras/{key}/{key}/cells/{key}/reason",
   "condition": "field_changed",
   "entryDepth": 6,
-  "field": "status"
+  "field": "status",
+  "prevValue": "not shown",
+  "curValueNot": "not shown",
+  "audit": "M725 independent audit; conditions tightened where the audit found them vacuous"
  },
  {
   "id": "m721-cellspread-terminal",
-  "rationale": "M721: the pre-registered terminal evaluation of the cell-spread step confirmatory test was reached (status not reached replaced by the frozen evaluation); the not-reached leaves are not produced.",
+  "rationale": "M721/M725: the terminal evaluation of the confirmatory cell-spread step went from 'not reached' to frozen (first evaluation after the cutoff); the placeholder fields of the not-reached state vanish.",
   "milestone": "M721",
   "pathTemplate": "cellSpreadStep/confirmatory/terminalEvaluation/{key}",
-  "condition": "field_changed",
-  "entryDepth": 2,
-  "field": "terminalEvaluation"
+  "condition": "entry_state_pinned",
+  "entryDepth": 3,
+  "prevPath": [
+   "status"
+  ],
+  "prevValue": "not reached",
+  "curPath": [
+   "frozen"
+  ],
+  "curValue": true,
+  "audit": "M725 independent audit; conditions tightened where the audit found them vacuous"
  },
  {
   "id": "m721-powerfade-spl-retention",
@@ -983,7 +1005,10 @@
   "pathTemplate": "powerFadeTemperatureControls/cellSpread/crossValidation/retention/bySpec/{key}/{key}",
   "condition": "field_changed",
   "entryDepth": 6,
-  "field": "nFolds"
+  "field": "nFolds",
+  "prevValue": 0,
+  "curValueNot": 0,
+  "audit": "M725 independent audit; conditions tightened where the audit found them vacuous"
  },
  {
   "id": "m721-thermal-rmst-note",
@@ -992,7 +1017,10 @@
   "pathTemplate": "thermalSupportLedger/timeToThreshold/cohorts/{key}/{key}/{key}/rmst/note",
   "condition": "field_changed",
   "entryDepth": 7,
-  "field": "tauS"
+  "field": "tauS",
+  "prevIsNull": true,
+  "curNotNull": true,
+  "audit": "M725 independent audit; conditions tightened where the audit found them vacuous"
  },
  {
   "id": "m721-thermal-interval-note",
@@ -1001,14 +1029,21 @@
   "pathTemplate": "thermalSupportLedger/timeToThreshold/cohorts/{key}/{key}/{key}/intervalNote",
   "condition": "field_changed",
   "entryDepth": 6,
-  "field": "rmst"
+  "field": [
+   "rmst",
+   "tauS"
+  ],
+  "prevIsNull": true,
+  "curNotNull": true,
+  "audit": "M725 independent audit; conditions tightened where the audit found them vacuous"
  },
  {
   "id": "m721-staleness-keys-shortened",
   "rationale": "M721: the list of refreshed raw-chart keys is shorter by one entry after the refresh; the lost index is past the end of the shorter, non-empty list.",
   "milestone": "M721",
   "pathTemplate": "seasonalCharts/_staleness/refreshedRawCharts/keys/{i}",
-  "condition": "list_shortened_nonempty"
+  "condition": "list_shortened_nonempty",
+  "audit": "M725 independent audit; conditions tightened where the audit found them vacuous"
  },
  {
   "id": "m721-cp-changepoints",
@@ -1017,7 +1052,8 @@
   "pathTemplate": "changePoints/series/{key}/changePoints/{i}",
   "condition": "ancestor_list_shortened_nonempty",
   "matchPrefix": true,
-  "listDepth": 4
+  "listDepth": 4,
+  "audit": "M725 independent audit; conditions tightened where the audit found them vacuous"
  },
  {
   "id": "m721-cp-sensitivity-steps",
@@ -1026,7 +1062,8 @@
   "pathTemplate": "changePoints/series/{key}/sensitivities/{key}/steps/{i}",
   "condition": "ancestor_list_shortened_nonempty",
   "matchPrefix": true,
-  "listDepth": 6
+  "listDepth": 6,
+  "audit": "M725 independent audit; conditions tightened where the audit found them vacuous"
  },
  {
   "id": "m721-bms-degenerate-intervals",
@@ -1035,6 +1072,9 @@
   "pathTemplate": "bmsPowerMap/eras/{key}/{key}/cells/{key}/degenerateIntervals/{i}",
   "condition": "field_changed",
   "entryDepth": 6,
-  "field": "degenerateIntervals"
+  "field": "degenerateIntervals",
+  "prevNonEmpty": true,
+  "curValue": [],
+  "audit": "M725 independent audit; conditions tightened where the audit found them vacuous"
  }
 ]

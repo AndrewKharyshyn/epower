@@ -94,10 +94,40 @@ def cond_sibling_present(prev, cur, path, bound, rule):
 
 
 def cond_field_changed(prev, cur, path, bound, rule):
-    """The entry n levels up from the lost leaf (entryDepth = its length as a path prefix) has a field whose value differs between the previous and the current arrays."""
+    """The entry n levels up from the lost leaf (entryDepth = its length as a path prefix) has a field whose value differs between the previous and the current arrays.
+    M725 (independent audit of the M721 rules): `field` may be a list (a nested path below the entry), and optional pins make the transition specific: prevValue / curValue (equality), curValueNot (the current value differs from it),
+    prevIsNull / curIsNull / curNotNull (None tests) and prevNonEmpty (the previous value is a non-empty list). Without pins the behaviour is unchanged."""
+    ent = path[:rule["entryDepth"]]
+    f = tuple(rule["field"]) if isinstance(rule["field"], (list, tuple)) else (rule["field"],)
+    try:
+        pv, cv = get(prev, ent + f), get(cur, ent + f)
+    except (KeyError, IndexError, TypeError):
+        return False
+    if pv == cv:
+        return False
+    if "prevValue" in rule and not (pv == rule["prevValue"] and type(pv) is type(rule["prevValue"])):
+        return False
+    if "curValue" in rule and not (cv == rule["curValue"] and type(cv) is type(rule["curValue"])):
+        return False
+    if "curValueNot" in rule and cv == rule["curValueNot"]:
+        return False
+    if rule.get("prevIsNull") and pv is not None:
+        return False
+    if rule.get("curIsNull") and cv is not None:
+        return False
+    if rule.get("curNotNull") and cv is None:
+        return False
+    if rule.get("prevNonEmpty") and not (isinstance(pv, list) and len(pv) > 0):
+        return False
+    return True
+
+
+def cond_entry_state_pinned(prev, cur, path, bound, rule):
+    """M725: the entry (the first entryDepth path elements of the lost leaf) was in one stated state before and is in another stated state now: prev[entry + prevPath] == prevValue and cur[entry + curPath] == curValue.
+    A lost leaf under an entry whose container merely differs does not qualify (the audit of M721 found the plain field_changed vacuous when the field is the container of the lost leaf)."""
     ent = path[:rule["entryDepth"]]
     try:
-        return get(prev, ent + (rule["field"],)) != get(cur, ent + (rule["field"],))
+        return (get(prev, ent + tuple(rule["prevPath"])) == rule["prevValue"] and get(cur, ent + tuple(rule["curPath"])) == rule["curValue"])
     except (KeyError, IndexError, TypeError):
         return False
 
@@ -385,14 +415,14 @@ def cond_lost_leaf_ack(prev, cur, path, bound, rule):
         return False
 
 
-CONDITIONS = {"field_changed": cond_field_changed, "stamp_hash_changed": cond_stamp_hash_changed, "parent_null_in_current": cond_parent_null_in_current, "sibling_present": cond_sibling_present,
+CONDITIONS = {"entry_state_pinned": cond_entry_state_pinned, "field_changed": cond_field_changed, "stamp_hash_changed": cond_stamp_hash_changed, "parent_null_in_current": cond_parent_null_in_current, "sibling_present": cond_sibling_present,
               "field_changed_and_empty": cond_field_changed_and_empty, "cohort_min_support_crossed": cond_cohort_min_support_crossed, "placeholder_row_observed": cond_placeholder_row_observed, "moved_to_complement_list": cond_moved_to_complement_list,
               "refit_recompute_transition": cond_refit_recompute_transition, "f03_list_cleared_by_refit": cond_f03_list_cleared_by_refit, "fit_attempts_shortened_converged": cond_fit_attempts_shortened_converged,
               "list_shortened_nonempty": cond_list_shortened_nonempty, "ancestor_list_shortened_nonempty": cond_ancestor_list_shortened_nonempty, "two_part_switch": cond_two_part_switch, "trendslope_flip_ack": cond_trendslope_flip_ack, "stamp_computed_at_set": cond_stamp_computed_at_set, "lodo_matches_k10": cond_lodo_matches_k10,
               "lost_leaf_ack": cond_lost_leaf_ack}
 
 
-REQUIRED_PARAMS = {"sibling_present": ("sibling",), "field_changed": ("entryDepth", "field"), "field_changed_and_empty": ("entryDepth", "field"), "placeholder_row_observed": ("entryDepth", "allowedLeaves", "observedFields"),
+REQUIRED_PARAMS = {"entry_state_pinned": ("entryDepth", "prevPath", "prevValue", "curPath", "curValue"), "sibling_present": ("sibling",), "field_changed": ("entryDepth", "field"), "field_changed_and_empty": ("entryDepth", "field"), "placeholder_row_observed": ("entryDepth", "allowedLeaves", "observedFields"),
                    "moved_to_complement_list": ("listField", "complementField"), "trendslope_flip_ack": ("listField", "complementField", "ackFile"), "stamp_computed_at_set": ("keys",),
                    "refit_recompute_transition": ("prevMode", "curMode", "prevCorpus", "curCorpus"), "f03_list_cleared_by_refit": ("prevMode", "curMode", "prevCorpus", "curCorpus"),
                    "two_part_switch": ("threshold",), "ancestor_list_shortened_nonempty": ("listDepth",), "lost_leaf_ack": ("ackFile",)}
