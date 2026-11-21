@@ -1,0 +1,85 @@
+{
+ "milestone": "M726",
+ "spec": "analyses/M726_spec.md",
+ "note": "report-only exposure and support log of the M717 winter freeze (one record per master MD5); counts only, no prediction metric",
+ "records": [
+  {
+   "masterMd5": "d514d6009d6d9a0a168ad4fb09b9bb98",
+   "nDrivesMaster": 717,
+   "nDrivesFrame": 717,
+   "spec": "analyses/M726_spec.md",
+   "freezeTimestampLocal": "2026-11-17 19:01:29",
+   "guardHours": 1,
+   "clockAssumption": "logger clock = Europe/Kyiv local time",
+   "frozenBasis": {
+    "throughDay": "2026-11-09",
+    "nDrives": 665,
+    "hours": {
+     "below0": 0.0,
+     "below5": 0.1153,
+     "below10": 1.75
+    },
+    "coldest": {
+     "probeMinC": 1.0,
+     "day": "2026-11-08"
+    },
+    "tStartMinC": 1.5,
+    "ambientRangeC": [
+     -1.0,
+     37.0
+    ]
+   },
+   "postBasisPreFreeze": {
+    "nDrives": 37,
+    "hours": {
+     "below0": 0.0,
+     "below5": 0.0872,
+     "below10": 1.7056
+    },
+    "coldest": {
+     "probeMinC": 2.0,
+     "day": "2026-11-15"
+    },
+    "nProbeMinBelow5": 1
+   },
+   "scoringSet": {
+    "nDrives": 12,
+    "nDaysFirst": "2026-11-17",
+    "hours": {
+     "below0": 0.0,
+     "below5": 0.0,
+     "below10": 0.0892
+    },
+    "coldest": {
+     "probeMinC": 8.0,
+     "day": "2026-11-20"
+    },
+    "nProbeMinBelow5": 0,
+    "nProbeMinBelow0": 0
+   },
+   "support": {
+    "P3_P4_P6_probeWindow": {
+     "nDrives": 0,
+     "nDays": 0,
+     "meetsSupportRule": false
+    },
+    "P5_P7_ambientBelow20": {
+     "nDrives": 12,
+     "nDays": 4,
+     "meetsSupportRule": false
+    },
+    "P1_P2_restartPairs": null,
+    "P1_P2_note": "restart pairs and the realised ambient are not counted by this monitor"
+   },
+   "events": {
+    "E1_firstSubZero": false,
+    "E1_driveDays": [],
+    "E1_singleSampleFlagOnly": false,
+    "probeResolutionC": 1.0,
+    "E2_postFreezeColdDrives": 0,
+    "E3_liveRefitAfterF": true
+   },
+   "reading": "exposure and support counts only; no prediction metric; model-derived frame; not evaluable is not no effect"
+  }
+ ]
+}

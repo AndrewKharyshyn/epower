@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""PreToolUse hook: block Edit/Write on integrity-anchored files (raw drive CSVs, drive_master.csv, raw_manifest.json).
+"""PreToolUse hook: block Edit/Write on integrity-anchored files (raw drive CSVs, drive_master.csv, raw_manifest.json; M726: the frozen winter predictions and their frozen input copies).
 Reads the hook JSON from stdin. Exit 2 = block (message on stderr). Pipeline scripts write these files via Bash, not via Edit."""
 import json, re, sys
 
@@ -9,6 +9,8 @@ PROTECTED = [
     r"(^|/)e4ORCE_[^/]+\.csv$",
     r"(^|/)drive_master\.csv$",
     r"(^|/)raw_manifest\.json$",
+    r"(^|/)analyses/M717_frozen_sources/",              # M726 (G1): the frozen inputs of the winter freeze
+    r"(^|/)analyses/M717_winter_predictions\.json$",    # M726 (G1): the frozen winter predictions
 ]
 
 def main():
@@ -20,7 +22,7 @@ def main():
     for pat in PROTECTED:
         if re.search(pat, path):
             sys.stderr.write(
-                f"BLOCKED: {path} is integrity-anchored (raw data / drive_master.csv / raw_manifest.json). "
+                f"BLOCKED: {path} is integrity-anchored (raw data / drive_master.csv / raw_manifest.json / frozen winter freeze files). "
                 "Only pipeline scripts may write it; edit scripts, not data.\n")
             return 2
     return 0

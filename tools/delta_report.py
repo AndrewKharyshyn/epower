@@ -89,6 +89,22 @@ def main():
         dis = {"informational": "report-only (M394): never routes to audit; list the flags in the CHANGELOG acknowledgement", "n_new_drives": lu.get("n_new_drives"),
                "n_flags": lu.get("n_flags"), "flags": [x for x in lu.get("flags", []) if not x.get("info")],
                "validation_gap_bands": (dd.get("summary") or {}).get("validation_gap_bands_without_sustained_event")}
+    wlog = P("analyses/M717_winter_exposure_log.json")     # M726 (G3): report-only winter-freeze exposure monitor; E1 (first sub-zero pack reading) is a flag that routes to the Director, E2 is informational
+    winter = None
+    if os.path.exists(wlog):
+        try:
+            recs = json.load(open(wlog, encoding="utf-8")).get("records") or []
+            if recs:
+                ev = recs[-1].get("events", {})
+                winter = {"informational": "report-only (M726): exposure and support counts of the winter freeze; E1 routes to the Director and is reported to Andrii (refit as a new version)", "events": ev,
+                          "scoringSetDrives": recs[-1].get("scoringSet", {}).get("nDrives"), "coldestProbeMinCInScoringSet": (recs[-1].get("scoringSet", {}).get("coldest") or {}).get("probeMinC")}
+                _sup = recs[-1].get("support", {})
+                if any(isinstance(v, dict) and v.get("meetsSupportRule") for v in _sup.values()) and not os.path.exists(P("analyses", "M726_extractor_registry.json")):
+                    flags.append("winterFreeze: a prediction cell reached the support rule while the extractors are not frozen: route to the Director")      # Director M726 decision
+                if ev.get("E1_firstSubZero"):
+                    flags.append("winterFreeze: first sub-zero pack reading (E1): refit as a NEW VERSION, route to the Director")
+        except ValueError:
+            winter = None
     cmon = P("analyses/cadence_monitor.json")     # M396: report-only PID polling-cadence flag; INFORMATIONAL, never in flags / route_to_audit; report any FLAG to the owner first
     cad = None
     if os.path.exists(cmon):
@@ -104,7 +120,7 @@ def main():
             est_notes = []
     est = {"informational": "report-only (M614): a change of the mixed-effects sensitivity validity fields does not stop an ingestion and does not route to audit; the headline is the cluster-robust OLS", "notes": est_notes}
     out = {"generated_utc": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"), "has_baseline": bool(prev),
-           "flags": flags, "route_to_audit": bool(flags), "kpis": rep, "gtrFamily": gtr, "gtrClosure": gclo, "dissipationMonitor": dis, "cadenceMonitor": cad, "estimatorValidity": est}
+           "flags": flags, "route_to_audit": bool(flags), "kpis": rep, "gtrFamily": gtr, "gtrClosure": gclo, "dissipationMonitor": dis, "cadenceMonitor": cad, "winterFreezeMonitor": winter, "estimatorValidity": est}
     json.dump(out, open(P("delta_report.json"), "w"), indent=1)
     print(json.dumps({"has_baseline": out["has_baseline"], "route_to_audit": out["route_to_audit"], "flags": flags}, indent=1))
     if a.commit:

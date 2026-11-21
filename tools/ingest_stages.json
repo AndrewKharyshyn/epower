@@ -497,6 +497,22 @@
    ]
   },
   {
+   "id": "winter_exposure_monitor",
+   "title": "M726 (G3): report-only exposure and support monitor of the M717 winter freeze: one record per master MD5 in analyses/M717_winter_exposure_log.json (hours below 0 / 5 / 10 C, drives after the freeze timestamp, coldest probe minimum, support counts per prediction cell, events E1 first sub-zero reading / E2 post-freeze cold drive / E3 live refit); counts exposure and support only, never a prediction metric; never stops an ingestion; spec analyses/M726_spec.md Rev 2",
+   "cmd": [
+    "python3",
+    "tools/winter_exposure_monitor.py"
+   ],
+   "needs": [
+    "scenario_refresh"
+   ],
+   "verified": false,
+   "implemented": true,
+   "outputs": [
+    "analyses/M717_winter_exposure_log.json"
+   ]
+  },
+  {
    "id": "pid_epoch",
    "title": "M582a: header-derived PID-set class per drive (reads only the raw CSV headers and the non-null fraction of two named columns; sidecar pid_epoch.csv + additive payload block pidEpoch; post hoc, descriptive, no cadence effect claimed; spec analyses/M582_spec.md Rev 1)",
    "cmd": [
