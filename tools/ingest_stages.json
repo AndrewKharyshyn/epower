@@ -571,6 +571,19 @@
    ]
   },
   {
+   "id": "powerfade_covariates",
+   "title": "M723: cadence covariates of the power-fade design S1 written into the payload (formula, source hashes, counts, per-regime medians) and the specification sensitivity of the S1 interval (E0 and A0-A5 on one common drive set, day-cluster bootstrap seed 42, seeds 43-50 for the endpoint spread, three-state reading); additive payload block powerFade.cadenceCovariates; tracked sidecar powerfade_density_alt.csv keyed by raw sha256; needs raw/ like powerfade_equivalence; the published S1 numbers must not move; spec analyses/M723_spec.md Rev 2",
+   "cmd": [
+    "python3",
+    "tools/powerfade_covariates.py"
+   ],
+   "verified": false,
+   "outputs": [
+    "summary_arrays.json",
+    "powerfade_density_alt.csv"
+   ]
+  },
+  {
    "id": "s1_fidelity",
    "title": "M649 (P-03): one shared S1 fidelity check (point slope, n, nDays, temperature coefficient of the replicated T0 design vs the published powerFade S1 reference) before the temperature-specification stages; STOP on mismatch",
    "cmd": [

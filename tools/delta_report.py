@@ -20,6 +20,25 @@ def dig(d, path):
     return d
 
 
+def readings_of(arr):
+    """M723 (analyses/M723_spec.md C3): the three-state readings (includesZero / excludesZero / withinSeedNoiseOfZero) of the published power-fade specification E0 and of A0-A5 by name, and the outcome of
+    powerFadeTemperatureSpecs.decision. Read-only: never changes a published number."""
+    out = {}
+    sens = dig(arr, ["powerFade", "cadenceCovariates", "specificationSensitivity", "specs"]) or {}
+    for sid, r in sens.items():
+        if isinstance(r, dict) and r.get("reading"):
+            out["powerFade." + sid] = r["reading"]
+    oc = dig(arr, ["powerFadeTemperatureSpecs", "decision", "outcome"])
+    if oc:
+        out["powerFadeTemperatureSpecs.decision"] = oc
+    return out
+
+
+def reading_flags(prev, cur):
+    """A flag per name whose reading differs from the previous published block; a name absent in either is not a change. A move inside the seed-noise band is the reading 'withinSeedNoiseOfZero' on both sides, hence not a change."""
+    return ["powerFade: reading changed (%s: %s -> %s)" % (k, prev[k], cur[k]) for k in sorted(cur) if k in (prev or {}) and prev[k] != cur[k]]
+
+
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--commit", action="store_true"); a = ap.parse_args()
     arr = json.load(open(P("summary_arrays.json"), encoding="utf-8"))
@@ -34,6 +53,8 @@ def main():
     prev = hist[-1]["kpis"] if hist else None
     first = hist[0]["kpis"] if hist else None
     rep, flags = {}, []
+    cur_readings = readings_of(arr)
+    flags += reading_flags((hist[-1].get("readings") if hist else None) or {}, cur_readings)      # M723 C3
     for name, c in cur.items():
         r = {"value": c["value"], "ci": c["ci"]}
         if prev and name in prev and isinstance(c["value"], (int, float)) and isinstance(prev[name]["value"], (int, float)):
@@ -89,7 +110,7 @@ def main():
     if a.commit:
         os.makedirs(P("snapshots"), exist_ok=True)
         with open(hist_p, "a") as f:
-            f.write(json.dumps({"utc": out["generated_utc"], "kpis": cur}) + "\n")
+            f.write(json.dumps({"utc": out["generated_utc"], "kpis": cur, "readings": cur_readings}) + "\n")
 
 
 if __name__ == "__main__":
