@@ -17,6 +17,8 @@ try:
     shutil.copy("tools/winter_freeze.py", os.path.join(_td, "tools")); shutil.copy(WF.OUT, os.path.join(_td, WF.OUT))
     _live_differs = []
     for _k, _v in _F0["sources"].items():
+        if _k == "prototypeThermalParams" and not os.path.exists(_v["path"]):
+            continue                                  # untracked prototype output, absent in a clean checkout: winter_freeze.py reads its two used regressions from prototypeInputs
         _dst = os.path.join(_td, _v["path"]); os.makedirs(os.path.dirname(_dst), exist_ok=True)
         if os.path.exists(_v["path"]) and hashlib.sha256(open(_v["path"], "rb").read()).hexdigest() == _v["sha256"]:
             shutil.copy(_v["path"], _dst)
