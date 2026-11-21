@@ -1,0 +1,107 @@
+{
+ "milestone": "M728",
+ "spec": "analyses/M728_spec.md",
+ "note": "extractors of P2, P3, P4, P5, P7 frozen; P1 (M732), P6 and the realised-ambient P2 band (M731) not covered",
+ "predictions": [
+  "P2",
+  "P3",
+  "P4",
+  "P5",
+  "P7"
+ ],
+ "perPrediction": {
+  "P2": {
+   "function": "tools/winter_extractors.py::extract_p2",
+   "version": 1,
+   "columns": [
+    "ahc_T_<0",
+    "ahc_T_0-5",
+    "ahc_T_5-10",
+    "ahd_T_<0",
+    "ahd_T_0-5",
+    "ahd_T_5-10"
+   ],
+   "freezeFileSha256": "be114a313161f2d4035b39e5f02173c8ed27e2f260d487af437152b8d2971d55",
+   "specSha256": "9094e06d915eb688b8b4a60fe1cd50fd7f9b3194fb0b577975c5ed65713df943",
+   "winterScoreV3Sha256": "6aa3d2e0e0ae23c89b98452bfdd57d8563990c79d4bf805e5417a8b083cabd51"
+  },
+  "P3": {
+   "function": "tools/winter_extractors.py::extract_p3",
+   "version": 1,
+   "columns": [
+    "R_pulse_mohm",
+    "T_pulse"
+   ],
+   "freezeFileSha256": "be114a313161f2d4035b39e5f02173c8ed27e2f260d487af437152b8d2971d55",
+   "specSha256": "9094e06d915eb688b8b4a60fe1cd50fd7f9b3194fb0b577975c5ed65713df943",
+   "winterScoreV3Sha256": "6aa3d2e0e0ae23c89b98452bfdd57d8563990c79d4bf805e5417a8b083cabd51"
+  },
+  "P5": {
+   "function": "tools/winter_extractors.py::extract_p5",
+   "version": 1,
+   "columns": [
+    "km",
+    "ah",
+    "spd_s",
+    "dur_h",
+    "ambient_start_c",
+    "ambient_end_c",
+    "month",
+    "start"
+   ],
+   "freezeFileSha256": "be114a313161f2d4035b39e5f02173c8ed27e2f260d487af437152b8d2971d55",
+   "specSha256": "9094e06d915eb688b8b4a60fe1cd50fd7f9b3194fb0b577975c5ed65713df943",
+   "winterScoreV3Sha256": "6aa3d2e0e0ae23c89b98452bfdd57d8563990c79d4bf805e5417a8b083cabd51"
+  },
+  "P7": {
+   "function": "tools/winter_extractors.py::extract_p7",
+   "version": 1,
+   "columns": [
+    "km",
+    "ah",
+    "spd_s",
+    "dur_h",
+    "eng_on_s",
+    "rpm_s",
+    "ambient_start_c",
+    "ambient_end_c"
+   ],
+   "freezeFileSha256": "be114a313161f2d4035b39e5f02173c8ed27e2f260d487af437152b8d2971d55",
+   "specSha256": "9094e06d915eb688b8b4a60fe1cd50fd7f9b3194fb0b577975c5ed65713df943",
+   "winterScoreV3Sha256": "6aa3d2e0e0ae23c89b98452bfdd57d8563990c79d4bf805e5417a8b083cabd51"
+  },
+  "P4": {
+   "function": "tools/winter_extractors_b.py::extract_p4",
+   "version": 1,
+   "columns": [
+    "Tlo_min",
+    "pin_n",
+    "pin_xty_0",
+    "pin_xty_1",
+    "pin_xty_2",
+    "pin_xtx_00",
+    "pin_xtx_01",
+    "pin_xtx_02",
+    "pin_xtx_10",
+    "pin_xtx_11",
+    "pin_xtx_12",
+    "pin_xtx_20",
+    "pin_xtx_21",
+    "pin_xtx_22"
+   ],
+   "freezeFileSha256": "be114a313161f2d4035b39e5f02173c8ed27e2f260d487af437152b8d2971d55",
+   "specSha256": "7ccdbccb6504c8e37bd2e0842747a4f4a0d810bfc431a363a91f25a5b8779452",
+   "winterScoreV3Sha256": "6aa3d2e0e0ae23c89b98452bfdd57d8563990c79d4bf805e5417a8b083cabd51"
+  }
+ },
+ "bootstrap": "numpy.random.default_rng(42).integers; day-clustered percentile; 4000 draws; days in ascending date order",
+ "modules": {
+  "tools/winter_extractors.py": "7d8ae215e9316cb6d9bc198130e5ebcaeb37145308493ee2c7296a17c2e4b4f6",
+  "tools/winter_extractors_b.py": "78c27c6efdca32973483a490e58aeb5b9486f301ac8c6103d1e2ea953818ed3c",
+  "tools/winter_score.py": "6aa3d2e0e0ae23c89b98452bfdd57d8563990c79d4bf805e5417a8b083cabd51"
+ },
+ "supersedes": {
+  "registry": "analyses/M726_extractor_registry.json",
+  "sha256": "b2e5d315e10797550e7544b05c22eb2189976d924f5bed8e8eaac8d2dfff0e96"
+ }
+}

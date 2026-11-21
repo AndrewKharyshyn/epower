@@ -1,0 +1,40 @@
+{
+ "milestone": "M728",
+ "role": "analytical-auditor (blind, independent code; definitions in words only)",
+ "claim": "P4 extractor on the frozen basis (day <= 2026-11-09, 665 drives)",
+ "reproduced": {
+  "regressionSeconds": 89334,
+  "nDays": 60,
+  "nDrivesWithRegisterStatistics": 184,
+  "b0": 33.92209913,
+  "bT": 1.5529406,
+  "bS": -1.00965208,
+  "conditionNumber": 6265.29,
+  "b0Ci95Seed42": [
+   32.72159673,
+   35.46672672
+  ],
+  "allFrameDrives": {
+   "nDrives": 232,
+   "nDays": 71,
+   "regressionSeconds": 116870,
+   "b0": 34.0365899
+  },
+  "pinWeightedMeanTminC": 15.271968
+ },
+ "agreement": "point values agree below 1e-6; interval matches with numpy default_rng(42).integers; the legacy RandomState(42).randint differs by about 0.05 kW at the lower end and 0.03 at the upper (Monte Carlo spread about 0.09 and 0.15)",
+ "cellTloMinBelow5FrozenBasis": {
+  "nDrives": 1,
+  "nDays": 1,
+  "seconds": 806,
+  "note": "one drive on one day: no usable interval; illustrates the support rule"
+ },
+ "ambiguities": [
+  "percentile method (linear interpolation assumed)",
+  "days in ascending order as sorted ISO date strings",
+  "NaN sums treated as 0 (only pin_n = 0 rows)",
+  "day taken from the day column"
+ ],
+ "verdict": "accept",
+ "storedBy": "main session, from the auditor hand-back; the auditor script lived in its scratch directory"
+}
