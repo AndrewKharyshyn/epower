@@ -1,0 +1,44 @@
+# M723 spec Rev 2 (pre-registered before any result): pin the power-fade coverage-covariate definition; specification sensitivity of the S1 interval; delta_report reading-change flag
+
+Status: Rev 2 after Director review of Rev 1 (decision "revise", nine changes, all adopted below; record in `analyses/M723_director_review_rev1.json` is the brief returned by the review). No result of this spec exists. Author: main session. Origin: M721 finding (S1 lower endpoint moved from -0.094 to +0.008 mOhm/month; the blind audit could not read the covariate definition from the payload, rebuilt it two ways and obtained lower endpoints -0.035 and +0.135; Director follow-up "pin the coverage formula in the payload").
+Disclosure (post-hoc choice): the alternatives A1-A2 below were chosen AFTER seeing the auditor's two rebuilds (events x period / duration gave -0.035; events / duration gave +0.135); A2 is the former and A1 the latter. A0, A3, A4, A5 were added to anchor the set and are not tied to a result.
+
+## 1. Problem
+The published resistance-proxy trend S1 (`powerFade`, vreg_R_pack_mohm ~ months + T_pack_mean_avg + vreg_I_p95_A + eff_dt_s + coverage_frac, day-cluster percentile bootstrap, 4000 draws, seed 42) uses two logging-density covariates that exist only in the sidecar `powerfade_density.csv` (producer `tools/powerfade_equivalence.py`, production function `compute_drive_summary_v6._density_of_bytes`, `method_version` 1): `eff_dt_s` = median inter-sample interval of the HV-current channel; `coverage_frac` = fraction of logged rows carrying a current sample. Neither the definition nor the sidecar identity is in the payload, and the master has no such column. A reader cannot reproduce S1 from the payload and the master alone, and the lower endpoint is within seed noise (about 0.06) of zero.
+
+## 2. Estimands and populations
+E0 (unchanged, published): the S1 slope in mOhm/month and its day-cluster 95 % interval on the canonical-clean drives with finite vreg_R_pack_mohm, T_pack_mean_avg, vreg_I_p95_A, eff_dt_s, coverage_frac. E0 stays the ONLY published reading; no alternative may replace it. M723 does not change E0, its eligibility, seed or draws: the published S1 numbers stay byte-identical (A1 below).
+
+## 3. Components
+C1 (documentation, no new estimate). Additive payload block `powerFade.cadenceCovariates`, script-written by a new tool `tools/powerfade_covariates.py` from the production function and the sidecar: for each covariate the formula in words (read from the function docstring, checked by a known-answer test), the unit, the source function name and sha256, `method_version`, the sidecar path and sha256, counts (finite / missing / reasons), median and interquartile range, per-regime (fast / slow, M379a) medians. No typed numbers.
+
+C2 (specification sensitivity, report-only). Reduced and alternative specifications, from the raw file by the same reader as the production function (cached in a new sidecar `powerfade_density_alt.csv`, keyed by raw sha256, method_version 1; the production sidecar is not touched). All are fitted with the S1 design otherwise unchanged (months, T_pack_mean_avg, vreg_I_p95_A kept):
+- A0 (anchor): both cadence covariates dropped.
+- A1: coverage replaced by current samples per second of logged duration, n_I / duration_s.
+- A2: coverage replaced by n_I x eff_dt_s / duration_s (share of logged time covered by current samples).
+- A3 (reduced): coverage_frac only (eff_dt_s dropped).
+- A4 (reduced): eff_dt_s only (coverage_frac dropped).
+- A5: both cadence covariates replaced by the M379a fast / slow regime indicator.
+Rules: (i) all six specifications (E0, A0-A5) are fitted on ONE common drive set, the intersection of the finite rows of every covariate; if its n or nDays differs from E0's, E0 is also refitted on the common set and the difference in n and nDays is reported next to both. (ii) Same day-cluster percentile bootstrap, 4000 draws, seed 42 for the reading; the 8 extra seeds are PRE-LISTED as 43, 44, 45, 46, 47, 48, 49, 50, used only to report the lower-endpoint spread (range) per specification; a seed minimum or maximum is never reported as an interval and the seed sweep never chooses a seed. (iii) Collinearity of the replaced covariates with eff_dt_s is reported (variance inflation factor of each covariate in each design and the design condition number); A1 is approximately 1 / eff_dt_s and the report says so with the correlation. (iv) Output: additive block `powerFade.cadenceCovariates.specificationSensitivity` with slope, interval, n, nDays, three-state reading, lower-endpoint 9-seed range per specification.
+
+C3 (monitor, report-only, explicit exception to the scope of section 6). `tools/delta_report.py` gains a flag with the neutral wording `powerFade: reading changed` when the three-state reading (below) of the published specification, of E0 or of A0-A5 by name, or the outcome of `powerFadeTemperatureSpecs.decision`, differs from the previous published block. It reads and never changes a published number; it routes to audit like the other delta flags. A change inside the seed-noise band (below) is not a change.
+
+## 4. Decision rules (pre-registered, frozen now)
+Three-state reading of an interval [lo, hi]: "includes zero" (lo <= 0 <= hi and neither endpoint within the band), "excludes zero" (0 < lo or hi < 0 and the nearer endpoint is outside the band), "within seed noise of zero" (the endpoint nearest to zero is within the band). The band is max(0.1 mOhm/month, 2 x the 9-seed range of that endpoint); the 0.1 floor is frozen here.
+R1 (identity): E0 numbers byte-identical before and after the splice.
+R2 (sentence, generated from the counts, never typed): if K is the number of specifications A0-A5 fitted: when none differs in three-state reading from E0, "all K alternative or reduced specifications have the same reading as the published specification"; otherwise "the reading of the published specification is definition-dependent (k of K alternative or reduced specifications differ)". k counts only differences in three-state reading; a pair within the seed-noise band does not count as differing. In both branches the M721 wording stays in force; nothing is upgraded to a detection and no fade rate is claimed. The template is sent to Andrii for information because the second branch qualifies the M721 sentence he signed off.
+R3 (what would falsify "the published reading is definition-stable"): k >= 1. That outcome is a result, not a failure.
+R4 (seed noise): see the band above.
+
+## 5. Acceptance criteria
+A1: `powerFade` and `fadeModes.power.trend` slope, interval, nClean, nDays, note and cadenceSensitivity unchanged (deep-diff: only the new block is added).
+A2: known-answer tests: (a) the covariate block on a synthetic raw file with known current-sample count and interval reproduces the formulas; (b) A1-A2 on that file; (c) the alternative-design OLS slope on a synthetic frame with a planted slope reproduces closed-form OLS within 1e-9; (d) the three-state reading on planted intervals (inside, outside, band); (e) delta_report flags a planted reading change, not a change inside the band, not an unchanged block.
+A3: blind reproduction by `analytical-auditor` (claim and data path only; definitions given in words from section 3, not the code) of E0 and A0-A5: endpoints within 0.15 mOhm/month AND the same three-state reading; a reproduction that agrees on endpoints but not on the three-state reading FAILS A3. A failed A3 blocks the display sentence (the payload block and the monitor may still ship).
+A4: language gate clean (estimated resistance proxy; includes zero = trend not established, never "no fade"; never measured, detected, confirmed, robust, validated; "definition-stable" and "definition-dependent" are the permitted terms).
+A5: `release_check.py` and the CI python/js lists green; ingestion stage `powerfade_covariates` (after `powerfade_equivalence`) regenerates the block and the sidecar at every ingestion, registered in `tools/ingest_stages.json` and `docs/script_index.md`.
+
+## 6. Scope and non-goals
+No change to E0, to the published S1 design, seeds or draws. One generated sentence under the existing power-fade note (display; payload keys `S.powerFade.cadenceCovariates.*`). No article figure (an article figure needs the Opus audit and Andrii's sign-off). Window length, season confounding and the temperature specification (M499) are out of scope, except that C3 monitors the outcome of `powerFadeTemperatureSpecs.decision` (monitor-only, no estimate).
+
+## 7. Provenance
+Master MD5 `d514d6009d6d9a0a168ad4fb09b9bb98` (717 drives) at the time of writing; the spec hash is recorded in the CHANGELOG entry; results reference it.

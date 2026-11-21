@@ -1,0 +1,32 @@
+{
+ "milestone": "M723",
+ "role": "research-director (Opus), brief of the main session",
+ "reviewed": "analyses/M723_spec.md Rev 1",
+ "decision": "revise",
+ "requiredChanges": [
+  "three-state reading for R2/R3/C3 (includes zero / excludes zero / within seed noise of zero); k counts only state changes",
+  "pre-list the 8 extra seeds and freeze the 0.1 floor; never report a seed min/max as an interval",
+  "fit all specifications on one common drive set; refit E0 on it if n differs",
+  "call A3/A4 reduced specifications; add A0 anchor (optional A5 regime indicator)",
+  "disclose the post-hoc choice of alternatives; map the auditor's rebuilds to A1/A2",
+  "report collinearity of A1/A2 with eff_dt_s",
+  "R2 template 'all K'; replace 'robust' by 'definition-stable'",
+  "A3: matching endpoints but a different three-state reading fails; failed A3 blocks the display sentence",
+  "state C3 monitoring of M499 as an explicit monitor-only exception"
+ ],
+ "risks": [
+  "forking paths across 5 specifications x 9 seeds: E0 stays the only published reading",
+  "seed sweep misused as a seed choice",
+  "C3 flag may flip often near zero"
+ ],
+ "needsAndriiSignoff": false,
+ "signoffNote": "not required (no article figure); inform Andrii of the sentence template because branch 2 qualifies the M721 wording he signed off",
+ "language": [
+  "estimated resistance proxy",
+  "includes zero = trend not established, never no fade",
+  "never measured/detected/confirmed/robust/validated",
+  "no fade rate",
+  "CHANGELOG states the post-hoc choice of alternatives"
+ ],
+ "adoptedIn": "analyses/M723_spec.md Rev 2"
+}
