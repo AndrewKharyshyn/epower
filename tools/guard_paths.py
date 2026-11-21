@@ -11,6 +11,8 @@ PROTECTED = [
     r"(^|/)raw_manifest\.json$",
     r"(^|/)analyses/M717_frozen_sources/",              # M726 (G1): the frozen inputs of the winter freeze
     r"(^|/)analyses/M717_winter_predictions\.json$",    # M726 (G1): the frozen winter predictions
+    r"(^|/)analyses/M726_extractor_registry\.json$",     # M727: the extractor registry of the winter freeze
+    r"(^|/)tools/winter_extractors\.py$",                # M727: the frozen extractors
 ]
 
 def main():
